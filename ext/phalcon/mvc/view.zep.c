@@ -1392,7 +1392,7 @@ PHP_METHOD(Phalcon_Mvc_View, pick) {
 		array_init_size(pickView, 2);
 		zephir_array_fast_append(pickView, renderView);
 		if (Z_TYPE_P(layout) != IS_NULL) {
-			zephir_array_append(&pickView, layout, PH_SEPARATE);
+			zephir_array_append(&pickView, layout, PH_SEPARATE, "phalcon/mvc/view.zep", 1025);
 		}
 	}
 	zephir_update_property_this(this_ptr, SL("_pickView"), pickView TSRMLS_CC);

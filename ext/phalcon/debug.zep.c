@@ -369,7 +369,7 @@ PHP_METHOD(Phalcon_Debug, _getArrayDump) {
 							zephir_check_call_status();
 							ZEPHIR_CONCAT_SVSV(varDump, "[", k, "] =&gt; ", _5);
 						}
-						zephir_array_append(&dump, varDump, PH_SEPARATE);
+						zephir_array_append(&dump, varDump, PH_SEPARATE, "phalcon/debug.zep", 195);
 					} else {
 						if (Z_TYPE_P(v) == IS_ARRAY) {
 							ZEPHIR_INIT_NVAR(_6);
@@ -378,7 +378,7 @@ PHP_METHOD(Phalcon_Debug, _getArrayDump) {
 							zephir_check_call_status();
 							ZEPHIR_INIT_LNVAR(_7);
 							ZEPHIR_CONCAT_SVSVS(_7, "[", k, "] =&gt; Array(", _5, ")");
-							zephir_array_append(&dump, _7, PH_SEPARATE);
+							zephir_array_append(&dump, _7, PH_SEPARATE, "phalcon/debug.zep", 199);
 							continue;
 						}
 						if (Z_TYPE_P(v) == IS_OBJECT) {
@@ -386,18 +386,18 @@ PHP_METHOD(Phalcon_Debug, _getArrayDump) {
 							zephir_get_class(_6, v, 0 TSRMLS_CC);
 							ZEPHIR_INIT_LNVAR(_7);
 							ZEPHIR_CONCAT_SVSVS(_7, "[", k, "] =&gt; Object(", _6, ")");
-							zephir_array_append(&dump, _7, PH_SEPARATE);
+							zephir_array_append(&dump, _7, PH_SEPARATE, "phalcon/debug.zep", 204);
 							continue;
 						}
 						if (Z_TYPE_P(v) == IS_NULL) {
 							ZEPHIR_INIT_LNVAR(_7);
 							ZEPHIR_CONCAT_SVS(_7, "[", k, "] =&gt; null");
-							zephir_array_append(&dump, _7, PH_SEPARATE);
+							zephir_array_append(&dump, _7, PH_SEPARATE, "phalcon/debug.zep", 209);
 							continue;
 						}
 						ZEPHIR_INIT_LNVAR(_7);
 						ZEPHIR_CONCAT_SVSV(_7, "[", k, "] =&gt; ", v);
-						zephir_array_append(&dump, _7, PH_SEPARATE);
+						zephir_array_append(&dump, _7, PH_SEPARATE, "phalcon/debug.zep", 213);
 					}
 				}
 				zephir_fast_join_str(return_value, SL(", "), dump TSRMLS_CC);
@@ -686,7 +686,7 @@ PHP_METHOD(Phalcon_Debug, showTraceItem) {
 				zephir_check_call_status();
 				ZEPHIR_INIT_LNVAR(_3);
 				ZEPHIR_CONCAT_SVS(_3, "<span class=\"error-parameter\">", _1, "</span>");
-				zephir_array_append(&arguments, _3, PH_SEPARATE);
+				zephir_array_append(&arguments, _3, PH_SEPARATE, "phalcon/debug.zep", 483);
 			}
 			ZEPHIR_INIT_NVAR(_6);
 			zephir_fast_join_str(_6, SL(", "), arguments TSRMLS_CC);

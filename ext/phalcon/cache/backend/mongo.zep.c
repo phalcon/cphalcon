@@ -466,7 +466,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, queryKeys) {
 		ZEPHIR_GET_HMKEY(index, _8, _7);
 		ZEPHIR_GET_HVALUE(key, _9);
 		if (ZEPHIR_IS_STRING(index, "key")) {
-			zephir_array_append(&keys, key, PH_SEPARATE);
+			zephir_array_append(&keys, key, PH_SEPARATE, "phalcon/cache/backend/mongo.zep", 296);
 		}
 	}
 	RETURN_CCTOR(keys);

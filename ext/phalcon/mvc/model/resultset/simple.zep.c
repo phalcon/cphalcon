@@ -309,7 +309,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, toArray) {
 					}
 					zephir_array_update_zval(&renamed, renamedKey, &value, PH_COPY | PH_SEPARATE);
 				}
-				zephir_array_append(&renamedRecords, renamed, PH_SEPARATE);
+				zephir_array_append(&renamedRecords, renamed, PH_SEPARATE, "phalcon/mvc/model/resultset/simple.zep", 268);
 			}
 		}
 		RETURN_CCTOR(renamedRecords);

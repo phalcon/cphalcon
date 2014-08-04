@@ -183,7 +183,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, connect) {
 			ZEPHIR_GET_HVALUE(value, _2);
 			ZEPHIR_INIT_LNVAR(_3);
 			ZEPHIR_CONCAT_VSV(_3, key, "=", value);
-			zephir_array_append(&dsnParts, _3, PH_SEPARATE);
+			zephir_array_append(&dsnParts, _3, PH_SEPARATE, "phalcon/db/adapter/pdo.zep", 126);
 		}
 		ZEPHIR_INIT_BNVAR(dsnAttributes);
 		zephir_fast_join_str(dsnAttributes, SL(";"), dsnParts TSRMLS_CC);
@@ -697,7 +697,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, convertBoundParams) {
 					return;
 				}
 			}
-			zephir_array_append(&placeHolders, value, PH_SEPARATE);
+			zephir_array_append(&placeHolders, value, PH_SEPARATE, "phalcon/db/adapter/pdo.zep", 448);
 		}
 		ZEPHIR_SINIT_VAR(_8);
 		ZVAL_STRING(&_8, "?", 0);

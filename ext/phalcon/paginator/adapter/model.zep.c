@@ -186,7 +186,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, getPaginate) {
 			}
 			ZEPHIR_CALL_METHOD(&_6, items, "current",  NULL);
 			zephir_check_call_status();
-			zephir_array_append(&pageItems, _6, PH_SEPARATE);
+			zephir_array_append(&pageItems, _6, PH_SEPARATE, "phalcon/paginator/adapter/model.zep", 141);
 			if (i >= show) {
 				break;
 			}

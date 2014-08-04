@@ -1125,7 +1125,7 @@ int zephir_update_property_array_multi(zval *object, const char *property, zend_
 								break;
 						}
 					}
-					zephir_array_append(&p, *value, 0);
+					zephir_array_append(&p, *value, 0 ZEPHIR_DEBUG_PARAMS_DUMMY);
 					break;
 			}
 		}
@@ -1634,7 +1634,7 @@ int zephir_update_static_property_array_multi_ce(zend_class_entry *ce, const cha
 				break;
 
 			case 'a':
-				zephir_array_append(&p, *value, PH_SEPARATE);
+				zephir_array_append(&p, *value, PH_SEPARATE ZEPHIR_DEBUG_PARAMS_DUMMY);
 				break;
 		}
 	}

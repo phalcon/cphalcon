@@ -114,7 +114,7 @@ PHP_METHOD(Phalcon_Annotations_Collection, __construct) {
 			object_init_ex(_4, phalcon_annotations_annotation_ce);
 			ZEPHIR_CALL_METHOD(NULL, _4, "__construct", &_5, annotationData);
 			zephir_check_call_status();
-			zephir_array_append(&annotations, _4, PH_SEPARATE);
+			zephir_array_append(&annotations, _4, PH_SEPARATE, "phalcon/annotations/collection.zep", 66);
 		}
 	}
 	zephir_update_property_this(this_ptr, SL("_annotations"), annotations TSRMLS_CC);
@@ -303,7 +303,7 @@ PHP_METHOD(Phalcon_Annotations_Collection, getAll) {
 			ZEPHIR_CALL_METHOD(&_3, annotation, "getname",  NULL);
 			zephir_check_call_status();
 			if (ZEPHIR_IS_EQUAL(name, _3)) {
-				zephir_array_append(&found, annotation, PH_SEPARATE);
+				zephir_array_append(&found, annotation, PH_SEPARATE, "phalcon/annotations/collection.zep", 179);
 			}
 		}
 	}

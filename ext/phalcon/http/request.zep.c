@@ -1291,10 +1291,10 @@ PHP_METHOD(Phalcon_Http_Request, getUploadedFiles) {
 							object_init_ex(_7, phalcon_http_request_file_ce);
 							ZEPHIR_CALL_METHOD(NULL, _7, "__construct", &_8, subFile);
 							zephir_check_call_status();
-							zephir_array_append(&subFiles, _7, PH_SEPARATE);
+							zephir_array_append(&subFiles, _7, PH_SEPARATE, "phalcon/http/request.zep", 754);
 						}
 					}
-					zephir_array_append(&files, subFiles, PH_SEPARATE);
+					zephir_array_append(&files, subFiles, PH_SEPARATE, "phalcon/http/request.zep", 757);
 				} else {
 					ZEPHIR_OBS_NVAR(error);
 					if (!(zephir_array_isset_string_fetch(&error, file, SS("error"), 0 TSRMLS_CC))) {
@@ -1306,7 +1306,7 @@ PHP_METHOD(Phalcon_Http_Request, getUploadedFiles) {
 						object_init_ex(_7, phalcon_http_request_file_ce);
 						ZEPHIR_CALL_METHOD(NULL, _7, "__construct", &_8, file);
 						zephir_check_call_status();
-						zephir_array_append(&files, _7, PH_SEPARATE);
+						zephir_array_append(&files, _7, PH_SEPARATE, "phalcon/http/request.zep", 763);
 					}
 				}
 			} else {
@@ -1325,15 +1325,15 @@ PHP_METHOD(Phalcon_Http_Request, getUploadedFiles) {
 						object_init_ex(_12, phalcon_http_request_file_ce);
 						ZEPHIR_CALL_METHOD(NULL, _12, "__construct", &_8, subFile);
 						zephir_check_call_status();
-						zephir_array_append(&subFiles, _12, PH_SEPARATE);
+						zephir_array_append(&subFiles, _12, PH_SEPARATE, "phalcon/http/request.zep", 770);
 					}
-					zephir_array_append(&files, subFiles, PH_SEPARATE);
+					zephir_array_append(&files, subFiles, PH_SEPARATE, "phalcon/http/request.zep", 772);
 				} else {
 					ZEPHIR_INIT_LNVAR(_12);
 					object_init_ex(_12, phalcon_http_request_file_ce);
 					ZEPHIR_CALL_METHOD(NULL, _12, "__construct", &_8, file);
 					zephir_check_call_status();
-					zephir_array_append(&files, _12, PH_SEPARATE);
+					zephir_array_append(&files, _12, PH_SEPARATE, "phalcon/http/request.zep", 774);
 				}
 			}
 		}
@@ -1478,7 +1478,7 @@ PHP_METHOD(Phalcon_Http_Request, _getQualityHeader) {
 		ZEPHIR_INIT_NVAR(_11);
 		ZVAL_DOUBLE(_11, quality);
 		zephir_array_update_string(&_9, SL("quality"), &_11, PH_COPY | PH_SEPARATE);
-		zephir_array_append(&returnedParts, _9, PH_SEPARATE);
+		zephir_array_append(&returnedParts, _9, PH_SEPARATE, "phalcon/http/request.zep", 840);
 		//missing empty
 	}
 	RETURN_CCTOR(returnedParts);

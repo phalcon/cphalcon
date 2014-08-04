@@ -566,7 +566,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, _collectTransaction) {
 		) {
 			ZEPHIR_GET_HVALUE(managedTransaction, _2);
 			if (ZEPHIR_IS_EQUAL(managedTransaction, transaction)) {
-				zephir_array_append(&newTransactions, transaction, PH_SEPARATE);
+				zephir_array_append(&newTransactions, transaction, PH_SEPARATE, "phalcon/mvc/model/transaction/manager.zep", 313);
 				RETURN_ON_FAILURE(zephir_property_decr(this_ptr, SL("_number") TSRMLS_CC));
 			}
 		}

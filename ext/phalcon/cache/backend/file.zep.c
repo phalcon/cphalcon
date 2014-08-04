@@ -369,10 +369,10 @@ PHP_METHOD(Phalcon_Cache_Backend_File, queryKeys) {
 			zephir_check_call_status();
 			if (Z_TYPE_P(prefix) != IS_NULL) {
 				if (zephir_start_with(key, prefix, 0)) {
-					zephir_array_append(&ret, key, PH_SEPARATE);
+					zephir_array_append(&ret, key, PH_SEPARATE, "phalcon/cache/backend/file.zep", 250);
 				}
 			} else {
-				zephir_array_append(&ret, key, PH_SEPARATE);
+				zephir_array_append(&ret, key, PH_SEPARATE, "phalcon/cache/backend/file.zep", 253);
 			}
 		}
 	}

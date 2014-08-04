@@ -345,10 +345,10 @@ int ZEPHIR_FASTCALL zephir_array_unset_long(zval **arr, unsigned long index, int
  * @retval @c SUCCESS Success
  * @throw @c E_WARNING if @a is not an array
  */
-int zephir_array_append(zval **arr, zval *value, int flags) {
+int zephir_array_append(zval **arr, zval *value, int flags ZEPHIR_DEBUG_PARAMS) {
 
 	if (Z_TYPE_PP(arr) != IS_ARRAY) {
-		zend_error(E_WARNING, "Cannot use a scalar value as an array");
+		zend_error(E_WARNING, "Cannot use a scalar value as an array in %s on line %d", file, line);
 		return FAILURE;
 	}
 
@@ -381,7 +381,7 @@ int zephir_array_append_long(zval **arr, long value, int separate) {
 	Z_SET_REFCOUNT_P(zvalue, 0);
 	ZVAL_LONG(zvalue, value);
 
-	return zephir_array_append(arr, zvalue, separate);
+	return zephir_array_append(arr, zvalue, separate ZEPHIR_DEBUG_PARAMS_DUMMY);
 }
 
 /**
@@ -406,7 +406,7 @@ int zephir_array_append_string(zval **arr, char *value, uint value_length, int s
 	Z_SET_REFCOUNT_P(zvalue, 0);
 	ZVAL_STRINGL(zvalue, value, value_length, 1);
 
-	return zephir_array_append(arr, zvalue, separate);
+	return zephir_array_append(arr, zvalue, separate ZEPHIR_DEBUG_PARAMS_DUMMY);
 }
 
 /**
@@ -952,12 +952,12 @@ int zephir_array_fetch_long(zval **return_value, zval *arr, unsigned long index,
 		}
 
 		if ((flags & PH_NOISY) == PH_NOISY) {
-			zend_error(E_NOTICE, "Undefined index: %lu", index);
+			zend_error(E_NOTICE, "Undefined index: %lu in %s on line %d", index, file, line);
 		}
 	}
 	else {
 		if ((flags & PH_NOISY) == PH_NOISY) {
-			zend_error(E_NOTICE, "Cannot use a scalar value as an array");
+			zend_error(E_NOTICE, "Cannot use a scalar value as an array in %s on line %d", file, line);
 		}
 	}
 
@@ -1344,7 +1344,7 @@ int zephir_array_update_multi(zval **arr, zval **value TSRMLS_DC, const char *ty
 				break;
 
 			case 'a':
-				zephir_array_append(&p, *value, PH_SEPARATE);
+				zephir_array_append(&p, *value, PH_SEPARATE ZEPHIR_DEBUG_PARAMS_DUMMY);
 				break;
 		}
 	}

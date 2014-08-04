@@ -41,7 +41,7 @@ int ZEPHIR_FASTCALL zephir_array_unset_long(zval **arr, unsigned long index, int
 int ZEPHIR_FASTCALL zephir_array_unset_string(zval **arr, const char *index, uint index_length, int flags);
 
 /** Append elements to arrays */
-int zephir_array_append(zval **arr, zval *value, int separate);
+int zephir_array_append(zval **arr, zval *value, int separate ZEPHIR_DEBUG_PARAMS);
 int zephir_array_append_long(zval **arr, long value, int separate);
 int zephir_array_append_string(zval **arr, char *value, uint value_length, int separate);
 

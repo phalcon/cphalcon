@@ -114,7 +114,7 @@ PHP_METHOD(Phalcon_Annotations_Annotation, __construct) {
 			if (zephir_array_isset_string_fetch(&name, argument, SS("name"), 1 TSRMLS_CC)) {
 				zephir_array_update_zval(&arguments, name, &resolvedArgument, PH_COPY | PH_SEPARATE);
 			} else {
-				zephir_array_append(&arguments, resolvedArgument, PH_SEPARATE);
+				zephir_array_append(&arguments, resolvedArgument, PH_SEPARATE, "phalcon/annotations/annotation.zep", 72);
 			}
 		}
 		zephir_update_property_this(this_ptr, SL("_arguments"), arguments TSRMLS_CC);
@@ -202,7 +202,7 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getExpression) {
 				if (zephir_array_isset_string_fetch(&name, item, SS("name"), 0 TSRMLS_CC)) {
 					zephir_array_update_zval(&arrayValue, name, &resolvedItem, PH_COPY | PH_SEPARATE);
 				} else {
-					zephir_array_append(&arrayValue, resolvedItem, PH_SEPARATE);
+					zephir_array_append(&arrayValue, resolvedItem, PH_SEPARATE, "phalcon/annotations/annotation.zep", 129);
 				}
 			}
 			RETURN_CCTOR(arrayValue);

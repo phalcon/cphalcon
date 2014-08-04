@@ -137,7 +137,7 @@ PHP_METHOD(Phalcon_Events_Manager, attach) {
 		ZEPHIR_CALL_METHOD(NULL, priorityQueue, "insert", NULL, handler, _2);
 		zephir_check_call_status();
 	} else {
-		zephir_array_append(&priorityQueue, handler, PH_SEPARATE);
+		zephir_array_append(&priorityQueue, handler, PH_SEPARATE, "phalcon/events/manager.zep", 79);
 		zephir_update_property_array(this_ptr, SL("_events"), eventType, priorityQueue TSRMLS_CC);
 	}
 	ZEPHIR_MM_RESTORE();

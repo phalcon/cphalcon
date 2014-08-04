@@ -243,7 +243,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Memory, queryKeys) {
 			) {
 				ZEPHIR_GET_HMKEY(index, _1, _0);
 				ZEPHIR_GET_HVALUE(value, _2);
-				zephir_array_append(&keys, index, PH_SEPARATE);
+				zephir_array_append(&keys, index, PH_SEPARATE, "phalcon/cache/backend/memory.zep", 155);
 			}
 		}
 	}

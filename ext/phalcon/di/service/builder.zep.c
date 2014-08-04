@@ -229,7 +229,7 @@ PHP_METHOD(Phalcon_Di_Service_Builder, _buildParameters) {
 		ZEPHIR_GET_HVALUE(argument, _2);
 		ZEPHIR_CALL_METHOD(&_3, this_ptr, "_buildparameter", NULL, dependencyInjector, position, argument);
 		zephir_check_call_status();
-		zephir_array_append(&buildArguments, _3, PH_SEPARATE);
+		zephir_array_append(&buildArguments, _3, PH_SEPARATE, "phalcon/di/service/builder.zep", 134);
 	}
 	RETURN_CCTOR(buildArguments);
 

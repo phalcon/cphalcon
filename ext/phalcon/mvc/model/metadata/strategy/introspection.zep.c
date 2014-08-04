@@ -153,13 +153,13 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getMetaData) {
 		ZEPHIR_GET_HVALUE(column, _6);
 		ZEPHIR_CALL_METHOD(&fieldName, column, "getname",  NULL);
 		zephir_check_call_status();
-		zephir_array_append(&attributes, fieldName, PH_SEPARATE);
+		zephir_array_append(&attributes, fieldName, PH_SEPARATE, "phalcon/mvc/model/metadata/strategy/introspection.zep", 99);
 		ZEPHIR_CALL_METHOD(&_7, column, "isprimary",  NULL);
 		zephir_check_call_status();
 		if (ZEPHIR_IS_TRUE_IDENTICAL(_7)) {
-			zephir_array_append(&primaryKeys, fieldName, PH_SEPARATE);
+			zephir_array_append(&primaryKeys, fieldName, PH_SEPARATE, "phalcon/mvc/model/metadata/strategy/introspection.zep", 105);
 		} else {
-			zephir_array_append(&nonPrimaryKeys, fieldName, PH_SEPARATE);
+			zephir_array_append(&nonPrimaryKeys, fieldName, PH_SEPARATE, "phalcon/mvc/model/metadata/strategy/introspection.zep", 107);
 		}
 		ZEPHIR_CALL_METHOD(&_8, column, "isnumeric",  NULL);
 		zephir_check_call_status();
@@ -169,7 +169,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getMetaData) {
 		ZEPHIR_CALL_METHOD(&_9, column, "isnotnull",  NULL);
 		zephir_check_call_status();
 		if (ZEPHIR_IS_TRUE_IDENTICAL(_9)) {
-			zephir_array_append(&notNull, fieldName, PH_SEPARATE);
+			zephir_array_append(&notNull, fieldName, PH_SEPARATE, "phalcon/mvc/model/metadata/strategy/introspection.zep", 121);
 		}
 		ZEPHIR_CALL_METHOD(&_10, column, "isautoincrement",  NULL);
 		zephir_check_call_status();

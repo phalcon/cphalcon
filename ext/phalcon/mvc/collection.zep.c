@@ -702,7 +702,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, _getResultset) {
 		ZEPHIR_GET_HVALUE(document, _3);
 		ZEPHIR_CALL_SELF(&_4, "cloneresult", &_5, base, document);
 		zephir_check_call_status();
-		zephir_array_append(&collections, _4, PH_SEPARATE);
+		zephir_array_append(&collections, _4, PH_SEPARATE, "phalcon/mvc/collection.zep", 453);
 	}
 	RETURN_CCTOR(collections);
 

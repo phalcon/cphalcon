@@ -306,7 +306,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, toArray) {
 		_0->funcs->get_current_data(_0, &tmp TSRMLS_CC);
 		current = *tmp;
 		}
-		zephir_array_append(&records, current, PH_SEPARATE);
+		zephir_array_append(&records, current, PH_SEPARATE, "phalcon/mvc/model/resultset/complex.zep", 286);
 	}
 	_0->funcs->dtor(_0 TSRMLS_CC);
 	RETURN_CCTOR(records);

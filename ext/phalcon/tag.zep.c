@@ -689,7 +689,7 @@ PHP_METHOD(Phalcon_Tag, _inputField) {
 	ZEPHIR_INIT_VAR(params);
 	array_init(params);
 	if (Z_TYPE_P(parameters) != IS_ARRAY) {
-		zephir_array_append(&params, parameters, PH_SEPARATE);
+		zephir_array_append(&params, parameters, PH_SEPARATE, "phalcon/tag.zep", 418);
 	} else {
 		ZEPHIR_CPY_WRT(params, parameters);
 	}

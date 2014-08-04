@@ -347,7 +347,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Xcache, queryKeys) {
 			ZVAL_LONG(&_4, 0);
 			ZEPHIR_CALL_FUNCTION(&realKey, "substr", &_5, key, &_3, &_4);
 			zephir_check_call_status();
-			zephir_array_append(&retval, realKey, PH_SEPARATE);
+			zephir_array_append(&retval, realKey, PH_SEPARATE, "phalcon/cache/backend/xcache.zep", 242);
 		}
 	}
 	RETURN_CCTOR(retval);

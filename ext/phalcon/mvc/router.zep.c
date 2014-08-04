@@ -151,7 +151,7 @@ PHP_METHOD(Phalcon_Mvc_Router, __construct) {
 		ZEPHIR_CALL_METHOD(NULL, _0, "__construct", &_3, _2, _1);
 		zephir_check_temp_parameter(_2);
 		zephir_check_call_status();
-		zephir_array_append(&routes, _0, PH_SEPARATE);
+		zephir_array_append(&routes, _0, PH_SEPARATE, "phalcon/mvc/router.zep", 110);
 		ZEPHIR_INIT_VAR(_4);
 		object_init_ex(_4, phalcon_mvc_router_route_ce);
 		ZEPHIR_INIT_VAR(_5);
@@ -164,7 +164,7 @@ PHP_METHOD(Phalcon_Mvc_Router, __construct) {
 		ZEPHIR_CALL_METHOD(NULL, _4, "__construct", &_3, _2, _5);
 		zephir_check_temp_parameter(_2);
 		zephir_check_call_status();
-		zephir_array_append(&routes, _4, PH_SEPARATE);
+		zephir_array_append(&routes, _4, PH_SEPARATE, "phalcon/mvc/router.zep", 116);
 	}
 	ZEPHIR_INIT_NVAR(_2);
 	array_init(_2);

@@ -282,7 +282,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Oracle, describeColumns) {
 		object_init_ex(_11, phalcon_db_column_ce);
 		ZEPHIR_CALL_METHOD(NULL, _11, "__construct", &_12, columnName, definition);
 		zephir_check_call_status();
-		zephir_array_append(&columns, _11, PH_SEPARATE);
+		zephir_array_append(&columns, _11, PH_SEPARATE, "phalcon/db/adapter/pdo/oracle.zep", 200);
 		ZEPHIR_CPY_WRT(oldColumn, columnName);
 	}
 	RETURN_CCTOR(columns);

@@ -331,7 +331,7 @@ PHP_METHOD(Phalcon_Validation_Message_Group, filter) {
 				ZEPHIR_CALL_METHOD(&_3, message, "getfield",  NULL);
 				zephir_check_call_status();
 				if (ZEPHIR_IS_EQUAL(fieldName, _3)) {
-					zephir_array_append(&filtered, message, PH_SEPARATE);
+					zephir_array_append(&filtered, message, PH_SEPARATE, "phalcon/validation/message/group.zep", 197);
 				}
 			}
 		}

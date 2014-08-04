@@ -167,11 +167,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate) {
 			ZVAL_LONG(&_7, number);
 			ZEPHIR_INIT_LNVAR(_4);
 			ZEPHIR_CONCAT_SVSV(_4, "[", composeField, "] = ?", &_7);
-			zephir_array_append(&conditions, _4, PH_SEPARATE);
+			zephir_array_append(&conditions, _4, PH_SEPARATE, "phalcon/mvc/model/validator/uniqueness.zep", 112);
 			ZEPHIR_CALL_METHOD(&_8, record, "readattribute", NULL, composeField);
 			zephir_check_call_status();
-			zephir_array_append(&bindParams, _8, PH_SEPARATE);
-			zephir_array_append(&bindTypes, bindType, PH_SEPARATE);
+			zephir_array_append(&bindParams, _8, PH_SEPARATE, "phalcon/mvc/model/validator/uniqueness.zep", 113);
+			zephir_array_append(&bindTypes, bindType, PH_SEPARATE, "phalcon/mvc/model/validator/uniqueness.zep", 114);
 			number++;
 		}
 	} else {
@@ -205,11 +205,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate) {
 		}
 		ZEPHIR_INIT_LNVAR(_9);
 		ZEPHIR_CONCAT_SVS(_9, "[", field, "] = ?0");
-		zephir_array_append(&conditions, _9, PH_SEPARATE);
+		zephir_array_append(&conditions, _9, PH_SEPARATE, "phalcon/mvc/model/validator/uniqueness.zep", 142);
 		ZEPHIR_CALL_METHOD(&_8, record, "readattribute", NULL, field);
 		zephir_check_call_status();
-		zephir_array_append(&bindParams, _8, PH_SEPARATE);
-		zephir_array_append(&bindTypes, bindType, PH_SEPARATE);
+		zephir_array_append(&bindParams, _8, PH_SEPARATE, "phalcon/mvc/model/validator/uniqueness.zep", 143);
+		zephir_array_append(&bindTypes, bindType, PH_SEPARATE, "phalcon/mvc/model/validator/uniqueness.zep", 144);
 		number++;
 	}
 	ZEPHIR_CALL_METHOD(&_11, record, "getoperationmade",  NULL);
@@ -262,11 +262,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate) {
 			ZVAL_LONG(&_7, number);
 			ZEPHIR_INIT_LNVAR(_4);
 			ZEPHIR_CONCAT_SVSV(_4, "[", attributeField, "] <> ?", &_7);
-			zephir_array_append(&conditions, _4, PH_SEPARATE);
+			zephir_array_append(&conditions, _4, PH_SEPARATE, "phalcon/mvc/model/validator/uniqueness.zep", 183);
 			ZEPHIR_CALL_METHOD(&_17, record, "readattribute", NULL, primaryField);
 			zephir_check_call_status();
-			zephir_array_append(&bindParams, _17, PH_SEPARATE);
-			zephir_array_append(&bindTypes, bindType, PH_SEPARATE);
+			zephir_array_append(&bindParams, _17, PH_SEPARATE, "phalcon/mvc/model/validator/uniqueness.zep", 184);
+			zephir_array_append(&bindTypes, bindType, PH_SEPARATE, "phalcon/mvc/model/validator/uniqueness.zep", 185);
 			number++;
 		}
 	}

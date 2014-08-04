@@ -959,7 +959,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, inWhere) {
 		ZEPHIR_CONCAT_SV(key, "phi", hiddenParam);
 		ZEPHIR_INIT_NVAR(queryKey);
 		ZEPHIR_CONCAT_SVS(queryKey, ":", key, ":");
-		zephir_array_append(&bindKeys, queryKey, PH_SEPARATE);
+		zephir_array_append(&bindKeys, queryKey, PH_SEPARATE, "phalcon/mvc/model/criteria.zep", 545);
 		zephir_array_update_zval(&bindParams, key, &value, PH_COPY | PH_SEPARATE);
 		ZEPHIR_SEPARATE(hiddenParam);
 		zephir_increment(hiddenParam);
@@ -1034,7 +1034,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, notInWhere) {
 		ZEPHIR_CONCAT_SV(key, "phi", hiddenParam);
 		ZEPHIR_INIT_LNVAR(_3);
 		ZEPHIR_CONCAT_SVS(_3, ":", key, ":");
-		zephir_array_append(&bindKeys, _3, PH_SEPARATE);
+		zephir_array_append(&bindKeys, _3, PH_SEPARATE, "phalcon/mvc/model/criteria.zep", 585);
 		zephir_array_update_zval(&bindParams, key, &value, PH_COPY | PH_SEPARATE);
 		ZEPHIR_SEPARATE(hiddenParam);
 		zephir_increment(hiddenParam);
@@ -1439,14 +1439,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, fromInput) {
 					if (ZEPHIR_IS_LONG(type, 2)) {
 						ZEPHIR_INIT_LNVAR(_6);
 						ZEPHIR_CONCAT_VSVS(_6, field, " LIKE :", field, ":");
-						zephir_array_append(&conditions, _6, PH_SEPARATE);
+						zephir_array_append(&conditions, _6, PH_SEPARATE, "phalcon/mvc/model/criteria.zep", 791);
 						ZEPHIR_INIT_LNVAR(_7);
 						ZEPHIR_CONCAT_SVS(_7, "%", value, "%");
 						zephir_array_update_zval(&bind, field, &_7, PH_COPY | PH_SEPARATE);
 					} else {
 						ZEPHIR_INIT_LNVAR(_6);
 						ZEPHIR_CONCAT_VSVS(_6, field, "=:", field, ":");
-						zephir_array_append(&conditions, _6, PH_SEPARATE);
+						zephir_array_append(&conditions, _6, PH_SEPARATE, "phalcon/mvc/model/criteria.zep", 796);
 						zephir_array_update_zval(&bind, field, &value, PH_COPY | PH_SEPARATE);
 					}
 				}

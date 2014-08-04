@@ -17,6 +17,7 @@
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
 #include "kernel/operators.h"
+#include "ext/spl/spl_exceptions.h"
 #include "kernel/exception.h"
 #include "kernel/iterator.h"
 #include "kernel/array.h"
@@ -81,11 +82,23 @@ ZEPHIR_INIT_CLASS(Phalcon_Cache_Backend_Apc) {
 PHP_METHOD(Phalcon_Cache_Backend_Apc, get) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *keyName, *lifetime = NULL, *prefixedKey, *cachedContent = NULL, *_0, *_1;
+	zval *keyName_param = NULL, *lifetime = NULL, *prefixedKey, *cachedContent = NULL, *_0, *_1;
+	zval *keyName = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 1, &keyName, &lifetime);
+	zephir_fetch_params(1, 1, 1, &keyName_param, &lifetime);
 
+	if (unlikely(Z_TYPE_P(keyName_param) != IS_STRING && Z_TYPE_P(keyName_param) != IS_NULL)) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'keyName' must be a string") TSRMLS_CC);
+		RETURN_MM_NULL();
+	}
+
+	if (unlikely(Z_TYPE_P(keyName_param) == IS_STRING)) {
+		keyName = keyName_param;
+	} else {
+		ZEPHIR_INIT_VAR(keyName);
+		ZVAL_EMPTY_STRING(keyName);
+	}
 	if (!lifetime) {
 		lifetime = ZEPHIR_GLOBAL(global_null);
 	}
@@ -118,10 +131,11 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, get) {
 PHP_METHOD(Phalcon_Cache_Backend_Apc, save) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *keyName = NULL, *content = NULL, *lifetime = NULL, *stopBuffer = NULL, *lastKey = NULL, *frontend, *cachedContent = NULL, *preparedContent = NULL, *ttl = NULL, *isBuffering = NULL, *_0;
+	zend_bool stopBuffer;
+	zval *keyName = NULL, *content = NULL, *lifetime = NULL, *stopBuffer_param = NULL, *lastKey = NULL, *frontend, *cachedContent = NULL, *preparedContent = NULL, *ttl = NULL, *isBuffering = NULL, *_0;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 0, 4, &keyName, &content, &lifetime, &stopBuffer);
+	zephir_fetch_params(1, 0, 4, &keyName, &content, &lifetime, &stopBuffer_param);
 
 	if (!keyName) {
 		keyName = ZEPHIR_GLOBAL(global_null);
@@ -134,8 +148,10 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, save) {
 	} else {
 		ZEPHIR_SEPARATE_PARAM(lifetime);
 	}
-	if (!stopBuffer) {
-		stopBuffer = ZEPHIR_GLOBAL(global_true);
+	if (!stopBuffer_param) {
+		stopBuffer = 1;
+	} else {
+		stopBuffer = zephir_get_boolval(stopBuffer_param);
 	}
 
 
@@ -148,7 +164,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, save) {
 		ZEPHIR_CONCAT_SVV(lastKey, "_PHCA", _0, keyName);
 	}
 	if (!(zephir_is_true(lastKey))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_cache_exception_ce, "The cache must be started first", "phalcon/cache/backend/apc.zep", 89);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_cache_exception_ce, "The cache must be started first", "phalcon/cache/backend/apc.zep", 91);
 		return;
 	}
 	ZEPHIR_OBS_VAR(frontend);
@@ -177,7 +193,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, save) {
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&isBuffering, frontend, "isbuffering",  NULL);
 	zephir_check_call_status();
-	if (ZEPHIR_IS_TRUE_IDENTICAL(stopBuffer)) {
+	if (stopBuffer == 1) {
 		ZEPHIR_CALL_METHOD(NULL, frontend, "stop", NULL);
 		zephir_check_call_status();
 	}
@@ -204,7 +220,17 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, delete) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &keyName_param);
 
-	zephir_get_strval(keyName, keyName_param);
+	if (unlikely(Z_TYPE_P(keyName_param) != IS_STRING && Z_TYPE_P(keyName_param) != IS_NULL)) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'keyName' must be a string") TSRMLS_CC);
+		RETURN_MM_NULL();
+	}
+
+	if (unlikely(Z_TYPE_P(keyName_param) == IS_STRING)) {
+		keyName = keyName_param;
+	} else {
+		ZEPHIR_INIT_VAR(keyName);
+		ZVAL_EMPTY_STRING(keyName);
+	}
 
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_prefix"), PH_NOISY_CC);
@@ -273,7 +299,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, queryKeys) {
 		ZVAL_LONG(&_4, 5);
 		ZEPHIR_CALL_FUNCTION(&_5, "substr", &_6, key, &_4);
 		zephir_check_call_status();
-		zephir_array_append(&keys, _5, PH_SEPARATE);
+		zephir_array_append(&keys, _5, PH_SEPARATE, "phalcon/cache/backend/apc.zep", 166);
 	}
 	_3->funcs->dtor(_3 TSRMLS_CC);
 	RETURN_CCTOR(keys);

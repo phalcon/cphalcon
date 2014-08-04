@@ -713,7 +713,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, filter) {
 				continue;
 			}
 		}
-		zephir_array_append(&records, processedRecord, PH_SEPARATE);
+		zephir_array_append(&records, processedRecord, PH_SEPARATE, "phalcon/mvc/model/resultset.zep", 525);
 	}
 	_0->funcs->dtor(_0 TSRMLS_CC);
 	RETURN_CCTOR(records);
