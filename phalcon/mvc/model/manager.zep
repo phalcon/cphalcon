@@ -23,6 +23,7 @@ use Phalcon\Mvc\Model\Relation;
 use Phalcon\Mvc\Model\RelationInterface;
 use Phalcon\Mvc\Model\Exception;
 use Phalcon\Mvc\ModelInterface;
+use Phalcon\Mvc\Model\ResultsetInterface;
 
 /**
  * Phalcon\Mvc\Model\Manager
@@ -730,7 +731,7 @@ class Manager implements \Phalcon\Mvc\Model\ManagerInterface, \Phalcon\Di\Inject
 	 * @return  Phalcon\Mvc\Model\Relation
 	 */
 	public function addHasOne(<ModelInterface> model, var fields, string! referencedModel,
-		var referencedFields, var options=null) -> <\Phalcon\Mvc\Model\Relation>
+		var referencedFields, var options=null) -> <Relation>
 	{
 		var entityName, referencedEntity, relation,
 			keyRelation, relations, alias, lowerAlias, singleRelations;
@@ -813,7 +814,7 @@ class Manager implements \Phalcon\Mvc\Model\ManagerInterface, \Phalcon\Di\Inject
 	 * @return  Phalcon\Mvc\Model\Relation
 	 */
 	public function addBelongsTo(<ModelInterface> model, var fields, string! referencedModel,
-		var referencedFields, var options=null) -> <\Phalcon\Mvc\Model\Relation>
+		var referencedFields, var options = null) -> <Relation>
 	{
 		var entityName, referencedEntity, relation, keyRelation, relations, alias, lowerAlias, singleRelations;
 
@@ -839,7 +840,7 @@ class Manager implements \Phalcon\Mvc\Model\ManagerInterface, \Phalcon\Di\Inject
 		 * Create a relationship instance
 		 */
 		let relation = new Relation(
-			\Phalcon\Mvc\Model\Relation::BELONGS_TO,
+			Relation::BELONGS_TO,
 			referencedModel,
 			fields,
 			referencedFields,
@@ -894,7 +895,7 @@ class Manager implements \Phalcon\Mvc\Model\ManagerInterface, \Phalcon\Di\Inject
 	 * @param	array options
 	 */
 	public function addHasMany(<ModelInterface> model, var fields, string! referencedModel,
-		var referencedFields, var options=null) -> <\Phalcon\Mvc\Model\Relation>
+		var referencedFields, var options = null) -> <Relation>
 	{
 		var entityName, referencedEntity, hasMany, relation,
 			keyRelation, relations, alias, lowerAlias, singleRelations;
@@ -980,7 +981,7 @@ class Manager implements \Phalcon\Mvc\Model\ManagerInterface, \Phalcon\Di\Inject
 	 * @return  Phalcon\Mvc\Model\Relation
 	 */
 	public function addHasManyToMany(<ModelInterface> model, var fields, string! intermediateModel,
-		var intermediateFields, var intermediateReferencedFields, string! referencedModel, var referencedFields, var options=null) -> <\Phalcon\Mvc\Model\Relation>
+		var intermediateFields, var intermediateReferencedFields, string! referencedModel, var referencedFields, var options = null) -> <Relation>
 	{
 		var entityName, referencedEntity, hasManyToMany, relation,
 			keyRelation, relations, alias, lowerAlias, singleRelations, intermediateEntity;
@@ -1056,7 +1057,7 @@ class Manager implements \Phalcon\Mvc\Model\ManagerInterface, \Phalcon\Di\Inject
 		/**
 		 * Get existing relations by model
 		 */
-		if fetch singleRelations, this->_hasManyToManySingle[entityName] {
+		if !fetch singleRelations, this->_hasManyToManySingle[entityName] {
 			let singleRelations = [];
 		}
 
@@ -1275,7 +1276,7 @@ class Manager implements \Phalcon\Mvc\Model\ManagerInterface, \Phalcon\Di\Inject
 			 * Appends conditions created from the fields defined in the relation
 			 */
 			let fields = relation->getFields();
-			if typeof fields == "array" {
+			if typeof fields != "array" {
 				let conditions[] = "[" . intermediateModel . "].[" . intermediateFields . "] = ?0",
 					placeholders[] = record->readAttribute(fields);
 			} else {
@@ -1458,9 +1459,8 @@ class Manager implements \Phalcon\Mvc\Model\ManagerInterface, \Phalcon\Di\Inject
 	 * @param array parameters
 	 * @return Phalcon\Mvc\Model\ResultsetInterface
 	 */
-	public function getBelongsToRecords(string! method, string! modelName,
-		<ModelInterface> modelRelation, record, parameters=null)
-		-> <\Phalcon\Mvc\Model\ResultsetInterface> | boolean
+	public function getBelongsToRecords(string! method, string! modelName, <ModelInterface> modelRelation, record, parameters = null)
+		-> <ResultsetInterface> | boolean
 	{
 
 		var belongsTo, keyRelation, relations;
@@ -1497,8 +1497,8 @@ class Manager implements \Phalcon\Mvc\Model\ManagerInterface, \Phalcon\Di\Inject
 	 * @param array parameters
 	 * @return Phalcon\Mvc\Model\ResultsetInterface
 	 */
-	public function getHasManyRecords(string! method, string! modelName, <ModelInterface> modelRelation, record, parameters=null)
-		-> <\Phalcon\Mvc\Model\ResultsetInterface> | boolean
+	public function getHasManyRecords(string! method, string! modelName, <ModelInterface> modelRelation, record, parameters = null)
+		-> <ResultsetInterface> | boolean
 	{
 
 		var hasMany, keyRelation, relations;
@@ -1535,7 +1535,7 @@ class Manager implements \Phalcon\Mvc\Model\ManagerInterface, \Phalcon\Di\Inject
 	 * @param array parameters
 	 * @return Phalcon\Mvc\ModelInterface
 	 */
-	public function getHasOneRecords(string! method, string! modelName, <ModelInterface> modelRelation, record, parameters=null)
+	public function getHasOneRecords(string! method, string! modelName, <ModelInterface> modelRelation, record, parameters = null)
 		-> <ModelInterface> | boolean
 	{
 		var hasOne, keyRelation, relations;
@@ -1811,7 +1811,7 @@ class Manager implements \Phalcon\Mvc\Model\ManagerInterface, \Phalcon\Di\Inject
 	 * @param string|array params
 	 * @return Phalcon\Mvc\Model\Query\BuilderInterface
 	 */
-	public function createBuilder(var params=null) -> <\Phalcon\Mvc\Model\Query\BuilderInterface>
+	public function createBuilder(var params = null) -> <\Phalcon\Mvc\Model\Query\BuilderInterface>
 	{
 		var dependencyInjector;
 

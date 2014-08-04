@@ -19,6 +19,8 @@
 
 namespace Phalcon\Cache\Backend;
 
+use Phalcon\Cache\Exception;
+
 /**
  * Phalcon\Cache\Backend\Apc
  *
@@ -52,7 +54,7 @@ class Apc extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendInterf
 	 * @param   long lifetime
 	 * @return  mixed
 	 */
-	public function get(keyName, lifetime=null)
+	public function get(string! keyName, var lifetime = null)
 	{
 		var prefixedKey, cachedContent;
 
@@ -75,18 +77,18 @@ class Apc extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendInterf
 	 * @param long lifetime
 	 * @param boolean stopBuffer
 	 */
-	public function save(keyName=null, content=null, lifetime=null, stopBuffer=true)
+	public function save(var keyName = null, var content = null, var lifetime = null, boolean stopBuffer = true)
 	{
 		var lastKey, frontend, cachedContent, preparedContent, ttl, isBuffering;
 
-		if keyName === null{
+		if keyName === null {
 			let lastKey = this->_lastKey;
 		} else {
 			let lastKey = "_PHCA" . this->_prefix . keyName;
 		}
 
 		if !lastKey {
-			throw new \Phalcon\Cache\Exception("The cache must be started first");
+			throw new Exception("The cache must be started first");
 		}
 
 		let frontend = this->_frontend;
@@ -136,7 +138,7 @@ class Apc extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendInterf
 	 * @param string keyName
 	 * @return boolean
 	 */
-	public function delete(string keyName) -> boolean
+	public function delete(string! keyName) -> boolean
 	{
 		return apc_delete("_PHCA" . this->_prefix . keyName);
 	}
@@ -174,7 +176,7 @@ class Apc extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendInterf
 	 * @param  long lifetime
 	 * @return boolean
 	 */
-	public function exists(keyName=null, lifetime=null) -> boolean
+	public function exists(keyName = null, lifetime = null) -> boolean
 	{
 		var lastKey;
 
