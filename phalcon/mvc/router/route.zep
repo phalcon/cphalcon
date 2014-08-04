@@ -45,6 +45,8 @@ class Route
 
 	protected _beforeMatch;
 
+	protected _group;
+
 	protected static _uniqueId;
 
 	/**
@@ -574,6 +576,28 @@ class Route
 	public function getHostname() -> string
 	{
 		return this->_hostname;
+	}
+
+	/**
+	 * Sets the group associated with the route
+	 *
+	 * @param Phalcon\Mvc\Router\Group $group
+	 * @return Phalcon\Mvc\RouteInterface
+	 */
+	public function setGroup(group) -> <Route>
+	{
+		let this->_group = group;
+		return this;
+	}
+
+	/**
+	 * Returns the group associated with the route
+	 *
+	 * @return Phalcon\Mvc\Router\Group|null
+	 */
+	public function getGroup()
+	{
+		return this->_group;
 	}
 
 	/**

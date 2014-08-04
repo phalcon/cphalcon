@@ -78,7 +78,7 @@ class Group
 	 *
 	 * @param array paths
 	 */
-	public function __construct(paths=null)
+	public function __construct(paths = null)
 	{
 
 		if typeof paths == "array" {
@@ -200,7 +200,7 @@ class Group
 	 * @param array httpMethods
 	 * @return Phalcon\Mvc\Router\Route
 	 */
-	private function _addRoute(string! pattern, paths=null, httpMethods=null) -> <Route>
+	private function _addRoute(string! pattern, paths = null, httpMethods = null) -> <Route>
 	{
 		var mergedPaths, route, defaultPaths;
 
@@ -226,6 +226,7 @@ class Group
 		 */
 		let route = new Route(this->_prefix . pattern, mergedPaths, httpMethods),
 			this->_routes[] = route;
+		route->setGroup(this);
 		return route;
 	}
 
@@ -241,7 +242,7 @@ class Group
 	 * @param string httpMethods
 	 * @return Phalcon\Mvc\Router\Route
 	 */
-	public function add(string! pattern, paths=null, httpMethods=null) -> <Route>
+	public function add(string! pattern, paths = null, httpMethods = null) -> <Route>
 	{
 		return this->_addRoute(pattern, paths, httpMethods);
 	}
@@ -253,7 +254,7 @@ class Group
 	 * @param string/array paths
 	 * @return Phalcon\Mvc\Router\Route
 	 */
-	public function addGet(string! pattern, paths=null) -> <Route>
+	public function addGet(string! pattern, paths = null) -> <Route>
 	{
 		return this->_addRoute(pattern, paths, "GET");
 	}
@@ -265,7 +266,7 @@ class Group
 	 * @param string/array paths
 	 * @return Phalcon\Mvc\Router\Route
 	 */
-	public function addPost(string! pattern, paths=null) -> <Route>
+	public function addPost(string! pattern, paths = null) -> <Route>
 	{
 		return this->_addRoute(pattern, paths, "POST");
 	}
@@ -277,7 +278,7 @@ class Group
 	 * @param string/array paths
 	 * @return Phalcon\Mvc\Router\Route
 	 */
-	public function addPut(string! pattern, paths=null) -> <Route>
+	public function addPut(string! pattern, paths = null) -> <Route>
 	{
 		return this->_addRoute(pattern, paths, "PUT");
 	}
@@ -289,7 +290,7 @@ class Group
 	 * @param string/array paths
 	 * @return Phalcon\Mvc\Router\Route
 	 */
-	public function addPatch(string! pattern, paths=null) -> <Route>
+	public function addPatch(string! pattern, paths = null) -> <Route>
 	{
 		return this->_addRoute(pattern, paths, "PATCH");
 	}
@@ -301,7 +302,7 @@ class Group
 	 * @param string/array paths
 	 * @return Phalcon\Mvc\Router\Route
 	 */
-	public function addDelete(string! pattern, paths=null) -> <Route>
+	public function addDelete(string! pattern, paths = null) -> <Route>
 	{
 		return this->_addRoute(pattern, paths, "DELETE");
 	}
@@ -313,7 +314,7 @@ class Group
 	 * @param string/array paths
 	 * @return Phalcon\Mvc\Router\Route
 	 */
-	public function addOptions(string! pattern, paths=null) -> <Route>
+	public function addOptions(string! pattern, paths = null) -> <Route>
 	{
 		return this->_addRoute(pattern, paths, "OPTIONS");
 	}
@@ -325,7 +326,7 @@ class Group
 	 * @param string/array paths
 	 * @return Phalcon\Mvc\Router\Route
 	 */
-	public function addHead(string pattern, paths=null) -> <Route>
+	public function addHead(string pattern, paths = null) -> <Route>
 	{
 		return this->_addRoute(pattern, paths, "HEAD");
 	}
