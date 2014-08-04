@@ -36,7 +36,7 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_modelinterface_cloneresultmap, 0, 0, 3)
 	ZEND_ARG_INFO(0, base)
 	ZEND_ARG_INFO(0, data)
-	ZEND_ARG_INFO(0, columnMap)
+	ZEND_ARG_ARRAY_INFO(0, columnMap, 0)
 	ZEND_ARG_INFO(0, dirtyState)
 	ZEND_ARG_INFO(0, keepSnapshots)
 ZEND_END_ARG_INFO()
@@ -131,7 +131,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_modelinterface_getrelated, 0, 0, 1)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_modelinterface_setsnapshotdata, 0, 0, 1)
-	ZEND_ARG_INFO(0, data)
+	ZEND_ARG_ARRAY_INFO(0, data, 0)
 	ZEND_ARG_INFO(0, columnMap)
 ZEND_END_ARG_INFO()
 
@@ -177,6 +177,5 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_modelinterface_method_entry) {
 	PHP_ABSTRACT_ME(Phalcon_Mvc_ModelInterface, writeAttribute, arginfo_phalcon_mvc_modelinterface_writeattribute)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_ModelInterface, getRelated, arginfo_phalcon_mvc_modelinterface_getrelated)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_ModelInterface, setSnapshotData, arginfo_phalcon_mvc_modelinterface_setsnapshotdata)
-	PHP_ABSTRACT_ME(Phalcon_Mvc_ModelInterface, getDI, NULL)
   PHP_FE_END
 };

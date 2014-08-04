@@ -46,12 +46,13 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 
 	public function modelsAutoloader($className)
 	{
-		if (file_exists('unit-tests/models/'.$className.'.php')) {
-			require 'unit-tests/models/'.$className.'.php';
+		if (file_exists('unit-tests/models/' . $className . '.php')) {
+			require 'unit-tests/models/' . $className . '.php';
 		}
 	}
 
-	protected function _prepareDb($db){
+	protected function _prepareDb($db)
+	{
 		$db->delete("personas", "estado='X'");
 		$db->delete("personas", "cedula LIKE 'CELL%'");
 	}
@@ -63,11 +64,11 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 
 		$di = new Phalcon\DI();
 
-		$di->set('modelsManager', function(){
+		$di->set('modelsManager', function() {
 			return new Phalcon\Mvc\Model\Manager();
 		});
 
-		$di->set('modelsMetadata', function(){
+		$di->set('modelsMetadata', function() {
 			return new Phalcon\Mvc\Model\Metadata\Memory();
 		});
 
@@ -494,8 +495,6 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 			'estado' => 'A',
 			'notField' => 'SOME VALUE'
 		));
-
-		echo $persona->getDirtyState();
 
 		$persona->refresh();
 		$this->assertEquals($personaData, $persona->toArray());
