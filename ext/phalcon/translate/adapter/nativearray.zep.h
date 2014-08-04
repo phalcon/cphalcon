@@ -8,7 +8,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, query);
 PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, exists);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_translate_adapter_nativearray___construct, 0, 0, 1)
-	ZEND_ARG_INFO(0, options)
+	ZEND_ARG_ARRAY_INFO(0, options, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_translate_adapter_nativearray_query, 0, 0, 1)

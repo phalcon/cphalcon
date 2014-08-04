@@ -26,7 +26,7 @@ use Phalcon\Translate\Exception;
  *
  * Base class for Phalcon\Translate adapters
  */
-class Adapter
+abstract class Adapter
 {
 
 	/**
@@ -36,7 +36,19 @@ class Adapter
 	 * @param array   placeholders
 	 * @return string
 	 */
-	public function  t(string! translateKey, placeholders=null)
+	public function  t(string! translateKey, placeholders = null)
+	{
+		return this->{"query"}(translateKey, placeholders);
+	}
+
+	/**
+	 * Returns the translation string of the given key (alias of method 't')
+	 *
+	 * @param string  translateKey
+	 * @param array   placeholders
+	 * @return string
+	 */
+	public function  _(string! translateKey, placeholders = null)
 	{
 		return this->{"query"}(translateKey, placeholders);
 	}
@@ -47,7 +59,7 @@ class Adapter
 	 * @param         string offset
 	 * @param         string value
 	 */
-	public function offsetSet(offset, value)
+	public function offsetSet(var offset, var value)
 	{
 		throw new Exception("Translate is an immutable ArrayAccess object");
 	}
@@ -68,7 +80,7 @@ class Adapter
 	 *
 	 * @param string offset
 	 */
-	public function offsetUnset()
+	public function offsetUnset(var offset)
 	{
 		throw new Exception("Translate is an immutable ArrayAccess object");
 	}
