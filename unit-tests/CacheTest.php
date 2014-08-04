@@ -4,7 +4,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2012 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -157,7 +157,7 @@ class CacheTest extends PHPUnit_Framework_TestCase
 		$this->assertTrue($cache->delete('test-data'));
 
 	}
-	
+
 	public function testDataFileCacheIncrement()
 	{
 		$frontCache = new Phalcon\Cache\Frontend\Data();
@@ -247,7 +247,7 @@ class CacheTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($s1, $string);
 		//echo $r1, ' ', $r2, ' ', $r3, ' ', $r4, "\n";
 	}
-	
+
 	public function testMemoryCacheIncrAndDecr()
 	{
 		$frontCache = new Phalcon\Cache\Frontend\Output(array(
@@ -429,7 +429,7 @@ class CacheTest extends PHPUnit_Framework_TestCase
 		$memcache->close();
 
 	}
-	
+
 	public function testIncrAndDecrMemcacheCache()
 	{
 		$memcache = $this->_prepareMemcached();
@@ -516,7 +516,7 @@ class CacheTest extends PHPUnit_Framework_TestCase
 		if (!$ready) {
 			return false;
 		}
-		
+
 		$frontCache = new Phalcon\Cache\Frontend\Data(array('lifetime' => 20));
 		$cache = new Phalcon\Cache\Backend\Apc($frontCache);
 		$cache->delete('increment');
@@ -533,7 +533,7 @@ class CacheTest extends PHPUnit_Framework_TestCase
 		if (!$ready) {
 			return false;
 		}
-		
+
 		$frontCache = new Phalcon\Cache\Frontend\Data(array('lifetime' => 20));
 		$cache = new Phalcon\Cache\Backend\Apc($frontCache);
 		$cache->delete('decrement');
@@ -757,7 +757,7 @@ class CacheTest extends PHPUnit_Framework_TestCase
 
 		$this->assertTrue($cache->delete('test-data'));
 	}
-	
+
 	public function testMongoIncrement()
 	{
 		$ready = $this->_prepareMongo();
@@ -811,12 +811,12 @@ class CacheTest extends PHPUnit_Framework_TestCase
 		if (function_exists('xcache_emulation')) {
 			return true;
 		}
-			
+
 		if (!extension_loaded('xcache') || 'cli' == PHP_SAPI) {
 			$this->markTestSkipped('xcache extension is not loaded');
 			return false;
 		}
-		
+
 		return true;
 	}
 
@@ -902,7 +902,7 @@ class CacheTest extends PHPUnit_Framework_TestCase
 
 		$this->assertTrue($cache->delete('test-data'));
 	}
-	
+
 	public function testXcacheIncrement()
 	{
 		$ready = $this->_prepareXcache();
@@ -923,11 +923,11 @@ class CacheTest extends PHPUnit_Framework_TestCase
 
 		$newValue = $cache->increment('foo');
 		$this->assertEquals('3', $newValue);
-	
+
 		$newValue = $cache->increment('foo', 4);
 		$this->assertEquals('7', $newValue);
 	}
-    
+
 	public function testXcacheDecr()
 	{
 		$ready = $this->_prepareXcache();
@@ -1049,7 +1049,7 @@ class CacheTest extends PHPUnit_Framework_TestCase
 		if (!$memcache) {
 			return false;
 		}
-		
+
 		// Travis can be slow, especially when Valgrind is used
 		$frontCache = new Phalcon\Cache\Frontend\Data(array('lifetime' => 900));
 
@@ -1070,13 +1070,13 @@ class CacheTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(14, $cache->get('foo'));
 		$cache->delete('foo');
 	}
-	
+
 	public function testLibMemcachedDecrement() {
 		$memcache = $this->_prepareLibmemcached();
 		if (!$memcache) {
 			return false;
 		}
-		
+
 		// Travis can be slow, especially when Valgrind is used
 		$frontCache = new Phalcon\Cache\Frontend\Data(array('lifetime' => 900));
 
@@ -1410,7 +1410,7 @@ class CacheTest extends PHPUnit_Framework_TestCase
 		if (!$redis) {
 			return false;
 		}
-		
+
 		$frontCache = new Phalcon\Cache\Frontend\Data(array('lifetime' => 20));
 		$cache = new Phalcon\Cache\Backend\Redis($frontCache, array(
 			'host' => 'localhost',
@@ -1432,7 +1432,7 @@ class CacheTest extends PHPUnit_Framework_TestCase
 		if (!$ready) {
 			return false;
 		}
-		
+
 		$frontCache = new Phalcon\Cache\Frontend\Data(array('lifetime' => 20));
 		$cache = new Phalcon\Cache\Backend\Redis($frontCache, array(
 			'host' => 'localhost',

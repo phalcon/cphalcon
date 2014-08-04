@@ -4,7 +4,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2012 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -27,7 +27,7 @@ class LeDummyComponent
 	{
 		$this->_eventsManager = $eventsManager;
 	}
-	
+
 	public function getEventsManager()
 	{
 		return $this->_eventsManager;
@@ -224,18 +224,18 @@ class EventsTest extends PHPUnit_Framework_TestCase
 
 		$this->assertEquals($data, "show first listener\n");
 	}
-	
+
 	/**
 	 * "Attaching event listeners by event name fails if preceded by
 	 * detachment of all listeners for that type."
-	 * 
+	 *
 	 * Test contains 4 steps:
 	 * - assigning event manager to dummy service with single log event
 	 *   listener attached
 	 * - attaching second log listener
 	 * - detaching all log listeners
 	 * - attaching different listener
-	 * 
+	 *
 	 * @see https://github.com/phalcon/cphalcon/issues/1331
 	 */
 	public function testBug1331()
@@ -248,63 +248,63 @@ class EventsTest extends PHPUnit_Framework_TestCase
 			$component->setEventsManager($eventsManager);
 			return $component;
 		});
-		
+
 		$di->set('firstListener', 'MyFirstWeakrefListener');
 		$di->set('secondListener', 'MySecondWeakrefListener');
-		
-		// ----- TESTING STEP 1 - SIGNLE 'LOG' LISTENER ATTACHED		
-		
+
+		// ----- TESTING STEP 1 - SIGNLE 'LOG' LISTENER ATTACHED
+
 		$component = $di->get('componentX');
 
 		$logListeners = $component->getEventsManager()->getListeners('log');
-		
+
 		$this->assertInstanceOf('MyFirstWeakrefListener', $logListeners[0]);
 		$this->assertCount(1, $logListeners);
-		
+
 		// ----- TESTING STEP 2 - SECOND 'LOG' LISTENER ATTACHED
 
 		$component->getEventsManager()->attach('log', $di->get('MySecondWeakrefListener'));
 
-		$logListeners = $component->getEventsManager()->getListeners('log');		
+		$logListeners = $component->getEventsManager()->getListeners('log');
 
 		$this->assertCount(2, $logListeners);
 		$firstLister  = array_shift($logListeners);
-		$secondLister = array_shift($logListeners);		
+		$secondLister = array_shift($logListeners);
 		$this->assertInstanceOf('MyFirstWeakrefListener', $firstLister);
-		$this->assertInstanceOf('MySecondWeakrefListener', $secondLister);		
-		
+		$this->assertInstanceOf('MySecondWeakrefListener', $secondLister);
+
 		// ----- TESTING STEP 3 - ALL 'LOG' LISTENER DETACHED
-		
+
 		$component->getEventsManager()->detachAll('log');
-		
+
 		$logListeners = $component->getEventsManager()->getListeners('log');
 		$this->assertEmpty($logListeners);
-		
+
 		// ----- TESTING STEP 4 - SINGLE 'LOG' LISTENER ATTACHED SECOND TIME
-		
+
 		$component->getEventsManager()->attach('log', $di->get('MySecondWeakrefListener'));
-		
+
 		$logListeners = $component->getEventsManager()->getListeners('log');
-				
+
 		$this->assertInstanceOf('MySecondWeakrefListener', $logListeners[0]);
-		$this->assertCount(1, $logListeners);		
+		$this->assertCount(1, $logListeners);
 	}
-	
+
 	/**
 	 * "Attaching event listeners by event name fails if preceded by
 	 * detachment of all listeners for that type."
-	 * 
+	 *
 	 * Test contains 4 steps:
 	 * - assigning event manager to dummy service with single log event
 	 *   listener attached
 	 * - attaching second log listener
 	 * - detaching all log listeners
 	 * - attaching different listener
-	 * 
+	 *
 	 * NOTE: This test looks the same as above but it checks dettachAll()
 	 * instead of detachAll() method. To be DELETED when dettachAll()
 	 * will not supported any more.
-	 * 
+	 *
 	 * @see https://github.com/phalcon/cphalcon/issues/1331
 	 */
 	public function testBug1331BackwardCompatibility()
@@ -317,49 +317,49 @@ class EventsTest extends PHPUnit_Framework_TestCase
 			$component->setEventsManager($eventsManager);
 			return $component;
 		});
-		
+
 		$di->set('firstListener', 'MyFirstWeakrefListener');
 		$di->set('secondListener', 'MySecondWeakrefListener');
-		
-		// ----- TESTING STEP 1 - SIGNLE 'LOG' LISTENER ATTACHED		
-		
+
+		// ----- TESTING STEP 1 - SIGNLE 'LOG' LISTENER ATTACHED
+
 		$component = $di->get('componentX');
 
 		$logListeners = $component->getEventsManager()->getListeners('log');
-		
+
 		$this->assertInstanceOf('MyFirstWeakrefListener', $logListeners[0]);
 		$this->assertCount(1, $logListeners);
-		
+
 		// ----- TESTING STEP 2 - SECOND 'LOG' LISTENER ATTACHED
 
 		$component->getEventsManager()->attach('log', $di->get('MySecondWeakrefListener'));
 
-		$logListeners = $component->getEventsManager()->getListeners('log');		
+		$logListeners = $component->getEventsManager()->getListeners('log');
 
 		$this->assertCount(2, $logListeners);
 		$firstLister  = array_shift($logListeners);
-		$secondLister = array_shift($logListeners);		
+		$secondLister = array_shift($logListeners);
 		$this->assertInstanceOf('MyFirstWeakrefListener', $firstLister);
-		$this->assertInstanceOf('MySecondWeakrefListener', $secondLister);		
-		
+		$this->assertInstanceOf('MySecondWeakrefListener', $secondLister);
+
 		// ----- TESTING STEP 3 - ALL 'LOG' LISTENER DETACHED
-		
+
 		$oldErrorLevel = error_reporting(E_ALL & ~E_DEPRECATED);
-		
+
 		@$component->getEventsManager()->dettachAll('log');
 
 		error_reporting($oldErrorLevel);
-		
+
 		$logListeners = $component->getEventsManager()->getListeners('log');
 		$this->assertEmpty($logListeners);
-		
+
 		// ----- TESTING STEP 4 - SINGLE 'LOG' LISTENER ATTACHED SECOND TIME
-		
+
 		$component->getEventsManager()->attach('log', $di->get('MySecondWeakrefListener'));
-		
+
 		$logListeners = $component->getEventsManager()->getListeners('log');
-				
+
 		$this->assertInstanceOf('MySecondWeakrefListener', $logListeners[0]);
-		$this->assertCount(1, $logListeners);		
-	}	
+		$this->assertCount(1, $logListeners);
+	}
 }

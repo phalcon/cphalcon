@@ -4,7 +4,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2012 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -44,7 +44,7 @@ class AclTest extends PHPUnit_Framework_TestCase
 		foreach ($resources as $resource => $actions) {
 			$acl->addResource(new \Phalcon\Acl\Resource($resource), $actions);
 		}
-/*		
+/*
 		$this->assertFalse($acl->isAllowed('Admin', 'welcome', 'index'));
 		$this->assertFalse($acl->isAllowed('Admin', 'welcome', 'about'));
 
@@ -56,7 +56,7 @@ class AclTest extends PHPUnit_Framework_TestCase
 		$this->assertFalse($acl->isAllowed('Admin', 'account', 'index'));
 		$this->assertFalse($acl->isAllowed('Admin', 'account', 'about'));
 
-		$acl->allow('Admin', '*', '*');	
+		$acl->allow('Admin', '*', '*');
 
 		$this->assertTrue($acl->isAllowed('Admin', 'welcome', 'index'));
 		$this->assertTrue($acl->isAllowed('Admin', 'welcome', 'about'));
@@ -64,7 +64,7 @@ class AclTest extends PHPUnit_Framework_TestCase
 		$this->assertTrue($acl->isAllowed('Admin', 'account', 'index'));
 		$this->assertTrue($acl->isAllowed('Admin', 'account', 'about'));
 
-		$acl->deny('Admin', '*', '*');	
+		$acl->deny('Admin', '*', '*');
 
 		foreach ($roles as $role => $object) {
 			$this->assertFalse($acl->isAllowed($role, 'welcome', 'about'));
@@ -81,7 +81,7 @@ class AclTest extends PHPUnit_Framework_TestCase
 		foreach ($roles as $role => $object) {
 			$this->assertFalse($acl->isAllowed($role, 'welcome', 'index'));
 		}
-/*		
+/*
 		$acl->allow('Admin', '*', 'index');
 
 		foreach ($resources as $resource => $actions) {

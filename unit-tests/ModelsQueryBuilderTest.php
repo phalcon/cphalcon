@@ -4,7 +4,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2012 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -348,7 +348,7 @@ class ModelsQueryBuilderTest extends PHPUnit_Framework_TestCase
 			->getPhql();
 		$this->assertEquals($phql, 'SELECT Robots.name FROM [Robots]');
 	}
-	
+
 	/**
 	 * Test checks passing query params and dependency injector into
 	 * constructor
@@ -366,12 +366,12 @@ class ModelsQueryBuilderTest extends PHPUnit_Framework_TestCase
 		$params = array(
 			'models'     => 'Robots',
 			'columns'    => array('id', 'name', 'status'),
-			'conditions' => "a > 5",			
+			'conditions' => "a > 5",
 			'group'      => array('type', 'source'),
 			'having'     => "b < 5",
 			'order'      => array('name', 'created'),
 			'limit'      => 10,
-			'offset'     => 15, 
+			'offset'     => 15,
 		);
 
 		$builder = new Builder($params, $di);
@@ -382,9 +382,9 @@ class ModelsQueryBuilderTest extends PHPUnit_Framework_TestCase
 			. "LIMIT 10 OFFSET 15";
 
 		$this->assertEquals($expectedPhql, $builder->getPhql());
-		$this->assertEquals($di, $builder->getDI());		
+		$this->assertEquals($di, $builder->getDI());
 	}
-	
+
 	/**
 	 * Test checks passing 'limit'/'offset' query param into constructor.
 	 * limit key can take:
@@ -404,26 +404,26 @@ class ModelsQueryBuilderTest extends PHPUnit_Framework_TestCase
 		$params = array(
 			'models' => 'Robots',
 			'limit'  => 10,
-			'offset' => 15, 
+			'offset' => 15,
 		);
 
 		$builderLimitAndOffset = new Builder($params);
-		
+
 		// separate limit with offset
 
 		$params = array(
 			'models' => 'Robots',
-			'limit'  => array(10, 15), 
+			'limit'  => array(10, 15),
 		);
 
 		$builderLimitWithOffset = new Builder($params);
-		
+
 		$expectedPhql = "SELECT [Robots].* FROM [Robots] "
 			. "LIMIT 10 OFFSET 15";
-		
+
 		$this->assertEquals($expectedPhql, $builderLimitAndOffset->getPhql());
 		$this->assertEquals($expectedPhql, $builderLimitWithOffset->getPhql());
-	}	
+	}
 
 	/**
 	 * Test checks passing 'condition' query param into constructor.
@@ -432,7 +432,7 @@ class ModelsQueryBuilderTest extends PHPUnit_Framework_TestCase
 	 * - condition string for example "age > :age: AND created > :created:"
 	 * - bind params for example array('age' => 18, 'created' => '2013-09-01')
 	 * - bind types for example array('age' => PDO::PARAM_INT, 'created' => PDO::PARAM_STR)
-	 * 
+	 *
 	 * First two params are REQUIRED, bind types are optional.
 	 */
 	public function testConstructorConditions()
@@ -444,7 +444,7 @@ class ModelsQueryBuilderTest extends PHPUnit_Framework_TestCase
 		}
 
 		// ------------- test for setters(classic) way ----------------
-		
+
 		$standardBuilder = new Builder();
 		$standardBuilder->from('Robots')
 			->where(
@@ -468,7 +468,7 @@ class ModelsQueryBuilderTest extends PHPUnit_Framework_TestCase
 		);
 
 		$builderWithSingleCondition = new Builder($params);
-		$singleConditionResult      = $builderWithSingleCondition->getQuery()->execute();		
+		$singleConditionResult      = $builderWithSingleCondition->getQuery()->execute();
 
 		// ------------- test for multiple conditions ----------------
 
@@ -484,13 +484,13 @@ class ModelsQueryBuilderTest extends PHPUnit_Framework_TestCase
 					"year < :max:",
 					array('max' => '2100-01-01'),
 					array("max" => PDO::PARAM_STR),
-				),				
+				),
 			),
-		);		
-		
+		);
+
 		// conditions are merged!
 		$builderMultipleConditions = new Builder($params);
-		$multipleConditionResult   = $builderMultipleConditions->getQuery()->execute();				
+		$multipleConditionResult   = $builderMultipleConditions->getQuery()->execute();
 
 		$expectedPhql = "SELECT [Robots].* FROM [Robots] "
 			. "WHERE year > :min: AND year < :max:";
@@ -504,7 +504,7 @@ class ModelsQueryBuilderTest extends PHPUnit_Framework_TestCase
 		$this->assertInstanceOf("Phalcon\Mvc\Model\Resultset\Simple", $singleConditionResult);
 
 		$this->assertEquals($expectedPhql, $builderMultipleConditions->getPhql());
-		$this->assertInstanceOf("Phalcon\Mvc\Model\Resultset\Simple", $multipleConditionResult);		
+		$this->assertInstanceOf("Phalcon\Mvc\Model\Resultset\Simple", $multipleConditionResult);
 	}
 
 	public function testGroup()
