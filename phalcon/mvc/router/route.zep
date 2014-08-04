@@ -628,7 +628,7 @@ class Route
 	 */
 	public static function reset()
 	{
-		let self::_uniqueId = 0;
+		let self::_uniqueId = null;
 	}
 
 }

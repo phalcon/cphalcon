@@ -906,12 +906,8 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, getConverters) {
  */
 PHP_METHOD(Phalcon_Mvc_Router_Route, reset) {
 
-	zval *_0;
 
-
-	ZEPHIR_INIT_ZVAL_NREF(_0);
-	ZVAL_LONG(_0, 0);
-	zephir_update_static_property_ce(phalcon_mvc_router_route_ce, SL("_uniqueId"), _0 TSRMLS_CC);
+	zephir_update_static_property_ce(phalcon_mvc_router_route_ce, SL("_uniqueId"), ZEPHIR_GLOBAL(global_null) TSRMLS_CC);
 
 }
 
