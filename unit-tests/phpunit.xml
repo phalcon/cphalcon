@@ -64,13 +64,13 @@
 			<!--<file>unit-tests/ModelsQueryExecuteTest.php</file>-->
 			<!--<file>unit-tests/ModelsQueryParsingTest.php</file>-->
 			<!--<file>unit-tests/ModelsRelationsMagicTest.php</file>-->
-			<!--<file>unit-tests/ModelsRelationsTest.php</file>-->
+			<file>unit-tests/ModelsRelationsTest.php</file>
 			<!--<file>unit-tests/ModelsResultsetCacheStaticTest.php</file>-->
 			<!--<file>unit-tests/ModelsResultsetCacheTest.php</file>-->
 			<!--<file>unit-tests/ModelsResultsetTest.php</file>-->
 			<!--<file>unit-tests/ModelsSerializeTest.php</file>-->
 			<!--<file>unit-tests/ModelsSnapshotsTest.php</file>-->
-			<!--<file>unit-tests/ModelsTest.php</file>-->
+			<file>unit-tests/ModelsTest.php</file>
 			<!--<file>unit-tests/ModelsTransactionsTest.php</file>-->
 			<!--<file>unit-tests/ModelsValidatorsTest.php</file>-->
 			<!--<file>unit-tests/PaginatorTest.php</file>-->
