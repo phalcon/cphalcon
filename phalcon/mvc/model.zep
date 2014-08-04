@@ -995,10 +995,10 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 			uniqueTypes
 		);
 		if num["rowcount"] {
-			let this->_dirtyState = 0;
+			let this->_dirtyState = self::DIRTY_STATE_PERSISTENT;
 			return true;
 		} else {
-			let this->_dirtyState = 1;
+			let this->_dirtyState = self::DIRTY_STATE_TRANSIENT;
 		}
 
 		return false;
@@ -3199,7 +3199,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 		var metaData, readConnection, schema, source, table,
 			uniqueKey, uniqueParams, dialect, row, fields, attribute;
 
-		if this->_dirtyState != 0 {
+		if this->_dirtyState != self::DIRTY_STATE_PERSISTENT {
 			throw new Exception("The record cannot be refreshed because it does not exist or is deleted");
 		}
 
@@ -3221,7 +3221,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 			/**
 			 * We need to check if the record exists
 			 */
-			if this->_exists(metaData, readConnection, table) {
+			if !this->_exists(metaData, readConnection, table) {
 				throw new Exception("The record cannot be refreshed because it does not exist or is deleted");
 			}
 
@@ -4112,7 +4112,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 		 * Values are probably relationships if they are objects
 		 */
 		if typeof value == "object" {
-			if value instanceof \Phalcon\Mvc\ModelInterface {
+			if value instanceof ModelInterface {
 				let lowerProperty = strtolower(property),
 					this->{lowerProperty} = value,
 					this->_related[lowerProperty] = value,
@@ -4133,7 +4133,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 			let related = [];
 			for key, item in value {
 				if typeof item == "object" {
-					if item instanceof \Phalcon\Mvc\ModelInterface {
+					if item instanceof ModelInterface {
 						let related[] = value;
 					}
 				} else {

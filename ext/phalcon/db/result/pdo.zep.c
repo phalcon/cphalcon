@@ -72,7 +72,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Result_Pdo) {
 	/**
 	 * Internal resultset
 	 *
-	 * @var PDOStatement
+	 * @var \PDOStatement
 	 */
 	zend_declare_property_null(phalcon_db_result_pdo_ce, SL("_pdoStatement"), ZEND_ACC_PROTECTED TSRMLS_CC);
 

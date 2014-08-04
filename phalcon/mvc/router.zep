@@ -95,7 +95,7 @@ class Router
 	 *
 	 * @param boolean defaultRoutes
 	 */
-	public function __construct(boolean defaultRoutes=true)
+	public function __construct(boolean defaultRoutes = true)
 	{
 		var routes;
 
@@ -313,7 +313,7 @@ class Router
 	 *
 	 * @param string uri
 	 */
-	public function handle(uri=null)
+	public function handle(uri = null)
 	{
 		var realUri, request, currentHostName, routeFound, parts,
 			params, matches, notFoundPaths,
@@ -322,7 +322,7 @@ class Router
 			hostname, regexHostName, matched, pattern, handledUri, beforeMatch,
 			paths, converters, part, position, matchPosition, converter;
 
-		if !uri {
+		if uri === null {
 			/**
 			 * If 'uri' isn't passed as parameter it reads _GET['_url']
 			 */

@@ -3961,7 +3961,7 @@ PHP_METHOD(Phalcon_Mvc_Model, refresh) {
 	if (!(zephir_is_true(uniqueKey))) {
 		ZEPHIR_CALL_METHOD(&_1, this_ptr, "_exists", NULL, metaData, readConnection, table);
 		zephir_check_call_status();
-		if (zephir_is_true(_1)) {
+		if (!(zephir_is_true(_1))) {
 			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "The record cannot be refreshed because it does not exist or is deleted", "phalcon/mvc/model.zep", 3225);
 			return;
 		}

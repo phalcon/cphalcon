@@ -183,6 +183,7 @@ try {
 }
 catch(Exception $e){
 	echo $e->getMessage(), PHP_EOL;
+	echo $e->getFile(), ' ', $e->getLine(), PHP_EOL;
 	echo $e->getTraceAsString(), PHP_EOL;
 	//print_r($e->getTrace());
 }

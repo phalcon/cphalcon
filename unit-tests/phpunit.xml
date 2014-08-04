@@ -30,7 +30,7 @@
 			<file>unit-tests/DbBindTest.php</file>
 			<file>unit-tests/DbDescribeTest.php</file>
 			<file>unit-tests/DbDialectTest.php</file>
-			<!--<file>unit-tests/DbProfilerTest.php</file>-->
+			<file>unit-tests/DbProfilerTest.php</file>
 			<file>unit-tests/DbTest.php</file>
 			<file>unit-tests/DispatcherCliTest.php</file>
 			<file>unit-tests/DispatcherMvcEventsTest.php</file>
