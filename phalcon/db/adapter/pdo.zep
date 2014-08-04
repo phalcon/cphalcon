@@ -81,7 +81,7 @@ abstract class Pdo extends \Phalcon\Db\Adapter
 	 * @param 	array descriptor
 	 * @return 	boolean
 	 */
-	public function connect(descriptor=null)
+	public function connect(descriptor = null)
 	{
 		var username, password, dsnParts, dsnAttributes,
 			persistent, options, key, value;
@@ -257,7 +257,7 @@ abstract class Pdo extends \Phalcon\Db\Adapter
 			let this->_sqlStatement = sqlStatement,
 				this->_sqlVariables = bindParams,
 				this->_sqlBindTypes = bindTypes;
-			if eventsManager->fire("db:beforeQuery", this, bindParams) == false {
+			if eventsManager->fire("db:beforeQuery", this, bindParams) === false {
 				return false;
 			}
 		}

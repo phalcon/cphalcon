@@ -105,7 +105,7 @@ class Micro extends \Phalcon\Di\Injectable implements \ArrayAccess
 	 * @param callable handler
 	 * @return Phalcon\Mvc\Router\RouteInterface
 	 */
-	public function map(routePattern, handler) -> <\>
+	public function map(routePattern, handler) -> <RouteInterface>
 	{
 		var router, route;
 
@@ -571,7 +571,7 @@ class Micro extends \Phalcon\Di\Injectable implements \ArrayAccess
 	 * @param string uri
 	 * @return mixed
 	 */
-	public function handle(uri=null)
+	public function handle(uri = null)
 	{
 		var dependencyInjector, eventsManager, status = null, router, matchedRoute,
 			handler, beforeHandlers, params, returnedValue,
@@ -940,7 +940,7 @@ class Micro extends \Phalcon\Di\Injectable implements \ArrayAccess
 	 * @param callable handler
 	 * @return Phalcon\Mvc\Micro
 	 */
-	public function before(handler) -> <\Phalcon\Mvc\Micro>
+	public function before(handler) -> <Micro>
 	{
 		let this->_beforeHandlers[] = handler;
 		return this;
@@ -952,7 +952,7 @@ class Micro extends \Phalcon\Di\Injectable implements \ArrayAccess
 	 * @param callable handler
 	 * @return Phalcon\Mvc\Micro
 	 */
-	public function after(handler) -> <\Phalcon\Mvc\Micro>
+	public function after(handler) -> <Micro>
 	{
 		let this->_afterHandlers[] = handler;
 		return this;
@@ -964,7 +964,7 @@ class Micro extends \Phalcon\Di\Injectable implements \ArrayAccess
 	 * @param callable handler
 	 * @return Phalcon\Mvc\Micro
 	 */
-	public function finish(handler) -> <\Phalcon\Mvc\Micro>
+	public function finish(handler) -> <Micro>
 	{
 		let this->_finishHandlers[] = handler;
 		return this;

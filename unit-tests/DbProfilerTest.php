@@ -45,7 +45,8 @@ class DbProfilerListener
 
 	protected $_profiler;
 
-	public function __construct(){
+	public function __construct()
+	{
 		$this->_profiler = new DbProfiler();
 	}
 
@@ -59,7 +60,8 @@ class DbProfilerListener
 		$this->_profiler->stopProfile();
 	}
 
-	public function getProfiler(){
+	public function getProfiler()
+	{
 		return $this->_profiler;
 	}
 

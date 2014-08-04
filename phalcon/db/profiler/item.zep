@@ -36,6 +36,20 @@ class Item
 	protected _sqlStatement { set, get };
 
 	/**
+	 * SQL variables related to the profile
+	 *
+	 * @var array
+	 */
+	protected _sqlVariables { set, get };
+
+	/**
+	 * SQL bind types related to the profile
+	 *
+	 * @var array
+	 */
+	protected _sqlBindTypes { set, get };
+
+	/**
 	 * Timestamp when the profile started
 	 *
 	 * @var double

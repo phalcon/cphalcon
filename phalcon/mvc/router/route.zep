@@ -56,7 +56,7 @@ class Route
 	 * @param array paths
 	 * @param array|string httpMethods
 	 */
-	public function __construct(string! pattern, paths=null, httpMethods=null)
+	public function __construct(string! pattern, paths=null, httpMethods = null)
 	{
 		var routeId, uniqueId;
 

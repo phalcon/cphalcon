@@ -13,6 +13,8 @@ PHP_METHOD(Phalcon_Db_Profiler, getLastProfile);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_profiler_startprofile, 0, 0, 1)
 	ZEND_ARG_INFO(0, sqlStatement)
+	ZEND_ARG_INFO(0, sqlVariables)
+	ZEND_ARG_INFO(0, sqlBindTypes)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_db_profiler_method_entry) {

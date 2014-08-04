@@ -387,7 +387,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, query) {
 		ZEPHIR_CALL_METHOD(&_1, eventsManager, "fire", NULL, _2, this_ptr, bindParams);
 		zephir_check_temp_parameter(_2);
 		zephir_check_call_status();
-		if (ZEPHIR_IS_FALSE(_1)) {
+		if (ZEPHIR_IS_FALSE_IDENTICAL(_1)) {
 			RETURN_MM_BOOL(0);
 		}
 	}
