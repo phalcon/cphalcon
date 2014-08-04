@@ -5594,9 +5594,7 @@ PHP_METHOD(Phalcon_Mvc_Model, toArray) {
  */
 PHP_METHOD(Phalcon_Mvc_Model, setup) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
-	zephir_fcall_cache_entry *_1 = NULL;
-	zval *options_param = NULL, *disableEvents, *columnRenaming, *notNullValidations, *exceptionOnFailedSave, *phqlLiterals, *virtualForeignKeys, *_0 = NULL;
+	zval *options_param = NULL, *disableEvents, *columnRenaming, *notNullValidations, *exceptionOnFailedSave, *phqlLiterals, *virtualForeignKeys;
 	zval *options = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -5613,51 +5611,21 @@ PHP_METHOD(Phalcon_Mvc_Model, setup) {
 
 	ZEPHIR_OBS_VAR(disableEvents);
 	if (zephir_array_isset_string_fetch(&disableEvents, options, SS("events"), 0 TSRMLS_CC)) {
-		ZEPHIR_INIT_VAR(_0);
-		ZVAL_STRING(_0, "orm.events", 0);
-		ZEPHIR_CALL_FUNCTION(NULL, "globals_set", &_1, _0, disableEvents);
-		zephir_check_temp_parameter(_0);
-		zephir_check_call_status();
 	}
 	ZEPHIR_OBS_VAR(virtualForeignKeys);
 	if (zephir_array_isset_string_fetch(&virtualForeignKeys, options, SS("virtualForeignKeys"), 0 TSRMLS_CC)) {
-		ZEPHIR_INIT_NVAR(_0);
-		ZVAL_STRING(_0, "orm.virtual_foreign_keys", 0);
-		ZEPHIR_CALL_FUNCTION(NULL, "globals_set", &_1, _0, virtualForeignKeys);
-		zephir_check_temp_parameter(_0);
-		zephir_check_call_status();
 	}
 	ZEPHIR_OBS_VAR(columnRenaming);
 	if (zephir_array_isset_string_fetch(&columnRenaming, options, SS("columnRenaming"), 0 TSRMLS_CC)) {
-		ZEPHIR_INIT_NVAR(_0);
-		ZVAL_STRING(_0, "orm.column_renaming", 0);
-		ZEPHIR_CALL_FUNCTION(NULL, "globals_set", &_1, _0, columnRenaming);
-		zephir_check_temp_parameter(_0);
-		zephir_check_call_status();
 	}
 	ZEPHIR_OBS_VAR(notNullValidations);
 	if (zephir_array_isset_string_fetch(&notNullValidations, options, SS("notNullValidations"), 0 TSRMLS_CC)) {
-		ZEPHIR_INIT_NVAR(_0);
-		ZVAL_STRING(_0, "orm.not_null_validations", 0);
-		ZEPHIR_CALL_FUNCTION(NULL, "globals_set", &_1, _0, notNullValidations);
-		zephir_check_temp_parameter(_0);
-		zephir_check_call_status();
 	}
 	ZEPHIR_OBS_VAR(exceptionOnFailedSave);
 	if (zephir_array_isset_string_fetch(&exceptionOnFailedSave, options, SS("exceptionOnFailedSave"), 0 TSRMLS_CC)) {
-		ZEPHIR_INIT_NVAR(_0);
-		ZVAL_STRING(_0, "orm.exception_on_failed_save", 0);
-		ZEPHIR_CALL_FUNCTION(NULL, "globals_set", &_1, _0, exceptionOnFailedSave);
-		zephir_check_temp_parameter(_0);
-		zephir_check_call_status();
 	}
 	ZEPHIR_OBS_VAR(phqlLiterals);
 	if (zephir_array_isset_string_fetch(&phqlLiterals, options, SS("phqlLiterals"), 0 TSRMLS_CC)) {
-		ZEPHIR_INIT_NVAR(_0);
-		ZVAL_STRING(_0, "orm.enable_literals", 0);
-		ZEPHIR_CALL_FUNCTION(NULL, "globals_set", &_1, _0, phqlLiterals);
-		zephir_check_temp_parameter(_0);
-		zephir_check_call_status();
 	}
 	ZEPHIR_MM_RESTORE();
 

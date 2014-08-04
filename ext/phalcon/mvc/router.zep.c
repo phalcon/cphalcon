@@ -493,7 +493,7 @@ PHP_METHOD(Phalcon_Mvc_Router, handle) {
 	}
 
 
-	if (Z_TYPE_P(uri) == IS_NULL) {
+	if (!(zephir_is_true(uri))) {
 		ZEPHIR_CALL_METHOD(&realUri, this_ptr, "getrewriteuri",  NULL);
 		zephir_check_call_status();
 	} else {
