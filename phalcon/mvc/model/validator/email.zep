@@ -19,6 +19,9 @@
 
 namespace Phalcon\Mvc\Model\Validator;
 
+use Phalcon\Mvc\Model\Exception;
+use Phalcon\Mvc\Model\Validator;
+
 /**
  * Phalcon\Mvc\Model\Validator\Email
  *
@@ -44,7 +47,7 @@ namespace Phalcon\Mvc\Model\Validator;
  *</code>
  *
  */
-class Email extends \Phalcon\Mvc\Model\Validator implements \Phalcon\Mvc\Model\ValidatorInterface
+class Email extends Validator implements \Phalcon\Mvc\Model\ValidatorInterface
 {
 
 	/**
@@ -60,7 +63,7 @@ class Email extends \Phalcon\Mvc\Model\Validator implements \Phalcon\Mvc\Model\V
 
 		let field = this->getOption("field");
 		if typeof field != "string" {
-			throw new \Phalcon\Mvc\Model\Exception("Field name must be a string");
+			throw new Exception("Field name must be a string");
 		}
 
 		let value = record->readAttribute(field);
@@ -76,7 +79,7 @@ class Email extends \Phalcon\Mvc\Model\Validator implements \Phalcon\Mvc\Model\V
 
 			let message = this->getOption("message");
 			if empty message {
-				let message = "Value of field :field must have a valid e-mail format";
+				let message = "Value of field ':field' must have a valid e-mail format";
 			}
 
 			this->appendMessage(strtr(message, [":field": field]), field, "Email");
@@ -84,6 +87,5 @@ class Email extends \Phalcon\Mvc\Model\Validator implements \Phalcon\Mvc\Model\V
 		}
 
 		return true;
-
 	}
 }

@@ -94,7 +94,7 @@ class Exclusionin extends Validator implements ValidatorInterface
 			 */
 			let message = this->getOption("message");
 			if empty message {
-				let message = "Value of field :field must not be part of list: :domain";
+				let message = "Value of field ':field' must not be part of list: :domain";
 			}
 
 			this->appendMessage(strtr(message, [":field": field, ":domain":  join(", ", domain)]), field, "Exclusion");

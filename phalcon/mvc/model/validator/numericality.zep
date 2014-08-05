@@ -19,6 +19,8 @@
 
 namespace Phalcon\Mvc\Model\Validator;
 
+use Phalcon\Mvc\Model\Exception;
+
 /**
  * Phalcon\Mvc\Model\Validator\Numericality
  *
@@ -58,7 +60,7 @@ class Numericality extends \Phalcon\Mvc\Model\Validator implements \Phalcon\Mvc\
 
 		let field = this->getOption("field");
 		if typeof field != "string" {
-			throw new \Phalcon\Mvc\Model\Exception("Field name must be a string");
+			throw new Exception("Field name must be a string");
 		}
 
 		let value = record->readAttribute(field);
