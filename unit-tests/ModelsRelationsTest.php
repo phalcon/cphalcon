@@ -97,7 +97,7 @@ class ModelsRelationsTest extends PHPUnit_Framework_TestCase
 
 	}
 
-	public function testModelsSqlite()
+	public function _testModelsSqlite()
 	{
 		require 'unit-tests/config.db.php';
 		if (empty($configSqlite)) {

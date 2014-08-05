@@ -47,7 +47,7 @@
 			<file>unit-tests/MicroMvcMiddlewareTest.php</file>
 			<file>unit-tests/MicroMvcTest.php</file>
 			<!--<file>unit-tests/ModelsBehaviorsTest.php</file>-->
-			<!--<file>unit-tests/ModelsCalculationsTest.php</file>-->
+			<file>unit-tests/ModelsCalculationsTest.php</file>
 			<!--<file>unit-tests/ModelsCriteriaTest.php</file>-->
 			<!--<file>unit-tests/ModelsDynamicOperationsTest.php</file>-->
 			<file>unit-tests/ModelsEventsTest.php</file>
@@ -68,7 +68,7 @@
 			<!--<file>unit-tests/ModelsResultsetCacheStaticTest.php</file>-->
 			<!--<file>unit-tests/ModelsResultsetCacheTest.php</file>-->
 			<!--<file>unit-tests/ModelsResultsetTest.php</file>-->
-			<!--<file>unit-tests/ModelsSerializeTest.php</file>-->
+			<file>unit-tests/ModelsSerializeTest.php</file>
 			<!--<file>unit-tests/ModelsSnapshotsTest.php</file>-->
 			<file>unit-tests/ModelsTest.php</file>
 			<!--<file>unit-tests/ModelsTransactionsTest.php</file>-->
