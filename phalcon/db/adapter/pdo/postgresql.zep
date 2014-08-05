@@ -101,7 +101,7 @@ class Postgresql extends \Phalcon\Db\Adapter\Pdo implements \Phalcon\Db\AdapterI
 
 		/**
 		 * We're using FETCH_NUM to fetch the columns
-		 * 0:name, 1:type, 2:size, 3:numericsize, 4: null, 5: key, 6: extra, 7: position
+		 * 0:name, 1:type, 2:size, 3:numericsize, 4: numericscale, 5: null, 6: key, 7: extra, 8: position, 9 default
 		 */
 		for field in this->fetchAll(this->_dialect->describeColumns(table, schema), \Phalcon\Db::FETCH_NUM) {
 
@@ -269,6 +269,16 @@ class Postgresql extends \Phalcon\Db\Adapter\Pdo implements \Phalcon\Db\AdapterI
 			 */
 			if field[7] == "auto_increment" {
 				let definition["autoIncrement"] = true;
+			}
+
+			/**
+			 * Check if the column is default values
+			 */
+			if typeof field[9] != "null" {
+				let definition["default"] = preg_replace("/^'|'?::[[:alnum:][:space:]]+$/", "", field[9]);
+				if strcasecmp(definition["default"], "null") == 0 {
+					let definition["default"] = null;
+				}
 			}
 
 			/**
