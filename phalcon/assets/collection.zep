@@ -27,27 +27,27 @@ namespace Phalcon\Assets;
 class Collection implements \Countable, \Iterator
 {
 
-	protected _prefix { get, set };
+	protected _prefix { get };
 
-	protected _local = true { get, set };
+	protected _local = true { get };
 
-	protected _resources { get, set };
+	protected _resources { get };
 
-	protected _position { get, set };
+	protected _position { get };
 
-	protected _filters { get, set };
+	protected _filters { get };
 
-	protected _attributes { get, set };
+	protected _attributes { get };
 
-	protected _join = true { get, set };
+	protected _join = true { get };
 
-	protected _targetUri { get, set };
+	protected _targetUri { get };
 
-	protected _targetPath { get, set };
+	protected _targetPath { get };
 
-	protected _targetLocal = true { get, set };
+	protected _targetLocal = true { get };
 
-	protected _sourcePath { get, set };
+	protected _sourcePath { get };
 
 	/**
 	 * Adds a resource to the collection
@@ -70,7 +70,7 @@ class Collection implements \Countable, \Iterator
 	 * @param array attributes
 	 * @return Phalcon\Assets\Collection
 	 */
-	public function addCss(string! path, var local = false, boolean filter = false, attributes = null) -> <\Phalcon\Assets\Collection>
+	public function addCss(string! path, var local = null, boolean filter = false, attributes = null) -> <\Phalcon\Assets\Collection>
 	{
 		var collectionLocal, collectionAttributes;
 
@@ -78,7 +78,7 @@ class Collection implements \Countable, \Iterator
 			let filter = true;
 		}
 
-		if typeof local == "bool" {
+		if typeof local == "boolean" {
 			let collectionLocal = local;
 		} else {
 			let collectionLocal = this->_local;
@@ -104,7 +104,7 @@ class Collection implements \Countable, \Iterator
 	 * @param array attributes
 	 * @return Phalcon\Assets\Collection
 	 */
-	public function addJs(string! path, boolean local = false, boolean filter = false, attributes = null) -> <\Phalcon\Assets\Collection>
+	public function addJs(string! path, var local = null, boolean filter = false, attributes = null) -> <\Phalcon\Assets\Collection>
 	{
 		var collectionLocal, collectionAttributes;
 
@@ -112,7 +112,7 @@ class Collection implements \Countable, \Iterator
 			let filter = true;
 		}
 
-		if typeof local == "bool" {
+		if typeof local == "boolean" {
 			let collectionLocal = local;
 		} else {
 			let collectionLocal = this->_local;
@@ -186,6 +186,102 @@ class Collection implements \Countable, \Iterator
 	public function valid() -> boolean
 	{
 		return isset this->_resources[this->_position];
+	}
+
+	/**
+	 * Sets the target path of the file for the filtered/join output
+	 *
+	 * @param string $targetPath
+	 * @return Phalcon\Assets\Collection
+	 */
+	public function setTargetPath(string! targetPath) -> <\Phalcon\Assets\Collection>
+	{
+		let this->_targetPath = targetPath;
+		return this;
+	}
+
+	/**
+	 * Sets a base source path for all the resources in this collection
+	 *
+	 * @param string $sourcePath
+	 * @return Phalcon\Assets\Collection
+	 */
+	public function setSourcePath(string! sourcePath) -> <\Phalcon\Assets\Collection>
+	{
+		let this->_sourcePath = sourcePath;
+		return this;
+	}
+
+	/**
+	 * Sets a target uri for the generated HTML
+	 *
+	 * @param string $targetUri
+	 * @return Phalcon\Assets\Collection
+	 */
+	public function setTargetUri(string! targetUri) -> <\Phalcon\Assets\Collection>
+	{
+		let this->_targetUri = targetUri;
+		return this;
+	}
+
+	/**
+	 * Sets a common prefix for all the resources
+	 *
+	 * @param string $prefix
+	 * @return Phalcon\Assets\Collection
+	 */
+	public function setPrefix(string! prefix) -> <\Phalcon\Assets\Collection>
+	{
+		let this->_prefix = prefix;
+		return this;
+	}
+
+	/**
+	 * Sets if the collection uses local resources by default
+	 *
+	 * @param boolean $local
+	 * @return Phalcon\Assets\Collection
+	 */
+	public function setLocal(boolean! local) -> <\Phalcon\Assets\Collection>
+	{
+		let this->_local = local;
+		return this;
+	}
+
+	/**
+	 * Sets extra HTML attributes
+	 *
+	 * @param array $attributes
+	 * @return $this
+	 */
+	public function setAttributes(array! attributes) -> <\Phalcon\Assets\Collection>
+	{
+		let this->_attributes = attributes;
+		return this;
+	}
+
+	/**
+	 * Sets an array of filters in the collection
+	 *
+	 * @param array $filters
+	 * @return Phalcon\Assets\Collection
+	 */
+	public function setFilters(array! filters) -> <\Phalcon\Assets\Collection>
+	{
+		let this->_filters = filters;
+		return this;
+	}
+
+	/**
+	 * Sets the target local
+	 *
+	 * @param boolean $targetLocal
+	 * @return Phalcon\Assets\Collection
+	 */
+	public function setTargetLocal(boolean! targetLocal) -> <\Phalcon\Assets\Collection>
+	{
+		let this->_targetLocal = targetLocal;
+		return this;
 	}
 
 	/**

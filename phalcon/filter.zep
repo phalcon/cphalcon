@@ -83,18 +83,19 @@ class Filter implements \Phalcon\FilterInterface
 						for itemKey, itemValue in value {
 							let arrayValue[itemKey] = this->_sanitize(itemValue, filter);
 						}
-						return arrayValue;
+						let value = arrayValue;
+					} else {
+						let value = this->_sanitize(value, filter);
 					}
-					return this->_sanitize(value, filter);
 				}
 			}
-			return null;
+			return value;
 		}
 
 		/**
 		 * Apply a single filter value
 		 */
-		if typeof value == "array" {
+		if typeof value == "array" && !noRecursive{
 			let sanitizedValue = [];
 			for itemKey, itemValue in value {
 				let sanitizedValue[itemKey] = this->_sanitize(itemValue, filters);
