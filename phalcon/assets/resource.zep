@@ -31,21 +31,21 @@ namespace Phalcon\Assets;
  class $Resource
 {
 
-	protected _type;
+	protected _type { get };
 
-	protected _path;
+	protected _path { get };
 
-	protected _local;
+	protected _local { get };
 
-	protected _filter;
+	protected _filter { get };
 
-	protected _attributes;
+	protected _attributes { get };
 
-	protected _sourcePath;
+	protected _sourcePath { get };
 
-	protected _targetPath;
+	protected _targetPath { get };
 
-	protected _targetUri;
+	protected _targetUri { get };
 
 	/**
 	 * Phalcon\Assets\Resource constructor
@@ -56,7 +56,7 @@ namespace Phalcon\Assets;
 	 * @param boolean filter
 	 * @param array attributes
 	 */
-	public function __construct(string type, string path, boolean local=true, boolean filter=true, attributes=null)
+	public function __construct(string type, string path, boolean local = true, boolean filter = true, attributes = null)
 	{
 		let this->_type = type,
 			this->_path = path,
@@ -73,20 +73,10 @@ namespace Phalcon\Assets;
 	 * @param string type
 	 * @return Phalcon\Assets\Resource
 	 */
-	public function setType(string type) -> <\Phalcon\Assets\Resource>
+	public function setType(string type) -> <$Resource>
 	{
 		let this->_type = type;
 		return this;
-	}
-
-	/**
-	 * Returns the type of resource
-	 *
-	 * @return string
-	 */
-	public function getType() -> string
-	{
-		return this->_type;
 	}
 
 	/**
@@ -95,20 +85,10 @@ namespace Phalcon\Assets;
 	 * @param string path
 	 * @return Phalcon\Assets\Resource
 	 */
-	public function setPath(string path) -> <\Phalcon\Assets\Resource>
+	public function setPath(string path) -> <$Resource>
 	{
 		let this->_path = path;
 		return this;
-	}
-
-	/**
-	 * Returns the URI/URL path to the resource
-	 *
-	 * @return string
-	 */
-	public function getPath() -> string
-	{
-		return this->_path;
 	}
 
 	/**
@@ -117,20 +97,10 @@ namespace Phalcon\Assets;
 	 * @param boolean local
 	 * @return Phalcon\Assets\Resource
 	 */
-	public function setLocal(boolean local) -> <\Phalcon\Assets\Resource>
+	public function setLocal(boolean local) -> <$Resource>
 	{
 		let this->_local = local;
 		return this;
-	}
-
-	/**
-	 * Returns whether the resource is local or external
-	 *
-	 * @return boolean
-	 */
-	public function getLocal() -> boolean
-	{
-		return this->_local;
 	}
 
 	/**
@@ -139,20 +109,10 @@ namespace Phalcon\Assets;
 	 * @param boolean filter
 	 * @return Phalcon\Assets\Resource
 	 */
-	public function setFilter(boolean filter) -> <\Phalcon\Assets\Resource>
+	public function setFilter(boolean filter) -> <$Resource>
 	{
 		let this->_filter = filter;
 		return this;
-	}
-
-	/**
-	 * Returns whether the resource must be filtered or not
-	 *
-	 * @return boolean
-	 */
-	public function getFilter() -> boolean
-	{
-		return this->_filter;
 	}
 
 	/**
@@ -161,20 +121,10 @@ namespace Phalcon\Assets;
 	 * @param array attributes
 	 * @return Phalcon\Assets\Resource
 	 */
-	public function setAttributes(attributes) -> <\Phalcon\Assets\Resource>
+	public function setAttributes(array attributes) -> <$Resource>
 	{
 		let this->_attributes = attributes;
 		return this;
-	}
-
-	/**
-	 * Returns extra HTML attributes set in the resource
-	 *
-	 * @return array
-	 */
-	public function getAttributes()
-	{
-		return this->_attributes;
 	}
 
 	/**
@@ -183,20 +133,10 @@ namespace Phalcon\Assets;
 	 * @param string targetUri
 	 * @return Phalcon\Assets\Resource
 	 */
-	public function setTargetUri(string targetUri) -> <\Phalcon\Assets\Resource>
+	public function setTargetUri(string targetUri) -> <$Resource>
 	{
 		let this->_targetUri = targetUri;
 		return this;
-	}
-
-	/**
-	 * Returns the target uri for the generated HTML
-	 *
-	 * @return string
-	 */
-	public function getTargetUri() -> string
-	{
-		return this->_targetUri;
 	}
 
 	/**
@@ -205,20 +145,10 @@ namespace Phalcon\Assets;
 	 * @param string sourcePath
 	 * @return Phalcon\Assets\Resource
 	 */
-	public function setSourcePath(string sourcePath) -> <\Phalcon\Assets\Resource>
+	public function setSourcePath(string sourcePath) -> <$Resource>
 	{
 		let this->_sourcePath = sourcePath;
 		return this;
-	}
-
-	/**
-	 * Returns the resource's target path
-	 *
-	 * @return string
-	 */
-	public function getSourcePath() -> string
-	{
-		return this->_sourcePath;
 	}
 
 	/**
@@ -227,20 +157,10 @@ namespace Phalcon\Assets;
 	 * @param string targetPath
 	 * @return Phalcon\Assets\Resource
 	 */
-	public function setTargetPath(string targetPath) -> <\Phalcon\Assets\Resource>
+	public function setTargetPath(string targetPath) -> <$Resource>
 	{
 		let this->_targetPath = targetPath;
 		return this;
-	}
-
-	/**
-	 * Returns the resource's target path
-	 *
-	 * @return string
-	 */
-	public function getTargetPath() -> string
-	{
-		return this->_targetPath;
 	}
 
 	/**
@@ -250,7 +170,7 @@ namespace Phalcon\Assets;
 	 * @param string basePath
 	 * @return string
 	 */
-	public function getContent(string basePath=null) -> string
+	public function getContent(string basePath = null) -> string
 	{
 		var sourcePath, completePath, content;
 
@@ -273,7 +193,7 @@ namespace Phalcon\Assets;
 			 * Check first if the file is readable
 			 */
 			if !file_exists(completePath) {
-				throw new \Phalcon\Assets\Exception("Resource's content for '" . completePath . "' cannot be read");
+				throw new Exception("Resource's content for '" . completePath . "' cannot be read");
 			}
 
 		}
@@ -283,7 +203,7 @@ namespace Phalcon\Assets;
 		 */
 		let content = file_get_contents(completePath);
 		if content === false {
-			throw new \Phalcon\Assets\Exception("Resource's content for '" . completePath . "' cannot be read");
+			throw new Exception("Resource's content for '" . completePath . "' cannot be read");
 		}
 
 		return content;
@@ -311,7 +231,7 @@ namespace Phalcon\Assets;
 	 * @param string basePath
 	 * @return string
 	 */
-	public function getRealSourcePath(string basePath=null) -> string
+	public function getRealSourcePath(string basePath = null) -> string
 	{
 		var sourcePath;
 
@@ -336,7 +256,7 @@ namespace Phalcon\Assets;
 	 * @param string basePath
 	 * @return string
 	 */
-	public function getRealTargetPath(string basePath=null) -> string
+	public function getRealTargetPath(string basePath = null) -> string
 	{
 		var targetPath, completePath;
 
