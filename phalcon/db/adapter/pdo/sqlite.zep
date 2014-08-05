@@ -262,6 +262,13 @@ class Sqlite extends \Phalcon\Db\Adapter\Pdo implements \Phalcon\Db\AdapterInter
 			}
 
 			/**
+			 * Check if the column is default values
+			 */
+			if strcasecmp(field[4], "null") != 0 {
+				let definition["default"] = preg_replace("/^'|'$/", "", field[4]);
+			}
+
+			/**
 			 * Every route is stored as a Phalcon\Db\Column
 			 */
 			let columnName = field[1],

@@ -252,6 +252,13 @@ class Mysql extends \Phalcon\Db\Adapter\Pdo implements \Phalcon\Db\AdapterInterf
 			}
 
 			/**
+			 * Check if the column is default values
+			 */
+			if typeof field[4] != "null" {
+				let definition["default"] = field[4];
+			}
+
+			/**
 			 * Every route is stored as a Phalcon\Db\Column
 			 */
 			let columnName = field[0],
