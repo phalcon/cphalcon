@@ -555,6 +555,12 @@ int zephir_call_class_method_aparams(zval **return_value_ptr, zend_class_entry *
 	}
 #endif
 
+	if (object) {
+		if (Z_TYPE_P(object) != IS_OBJECT) {
+			zend_error(E_ERROR, "Trying to call method %s on a non-object", method_name);
+		}
+	}
+
 	if (!cache_entry || !*cache_entry) {
 
 		array_init_size(&fn, 2);

@@ -77,7 +77,7 @@
 			<!--<file>unit-tests/RequestTest.php</file>-->
 			<file>unit-tests/ResponseTest.php</file>
 			<file>unit-tests/RouterCliTest.php</file>
-			<!--<file>unit-tests/RouterMvcAnnotationsTest.php</file>-->
+			<file>unit-tests/RouterMvcAnnotationsTest.php</file>
 			<file>unit-tests/RouterMvcTest.php</file>
 			<!--<file>unit-tests/SecurityTest.php</file>-->
 			<!--<file>unit-tests/SessionBagTest.php</file>-->

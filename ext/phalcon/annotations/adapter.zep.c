@@ -17,8 +17,8 @@
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
 #include "kernel/array.h"
-#include "kernel/hash.h"
 #include "kernel/operators.h"
+#include "kernel/hash.h"
 
 
 /*
@@ -73,7 +73,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter, setReader) {
 		return;
 	}
 	if (Z_TYPE_P(reader) != IS_OBJECT) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_annotations_exception_ce, "Invalid annotations reader", "phalcon/annotations/adapter.zep", 46);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_annotations_exception_ce, "Invalid annotations reader", "phalcon/annotations/adapter.zep", 47);
 		return;
 	}
 	zephir_update_property_this(this_ptr, SL("_reader"), reader TSRMLS_CC);
@@ -115,6 +115,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter, getReader) {
  */
 PHP_METHOD(Phalcon_Annotations_Adapter, get) {
 
+	zend_bool _1;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *className, *annotations, *classAnnotations = NULL, *parsedAnnotations = NULL, *realClassName = NULL, *reader = NULL, *_0;
 
@@ -133,13 +134,17 @@ PHP_METHOD(Phalcon_Annotations_Adapter, get) {
 	zephir_read_property_this(&annotations, this_ptr, SL("_annotations"), PH_NOISY_CC);
 	if (Z_TYPE_P(annotations) == IS_ARRAY) {
 		if (zephir_array_isset(annotations, realClassName)) {
-			zephir_array_fetch(&_0, annotations, realClassName, PH_NOISY | PH_READONLY, "phalcon/annotations/adapter.zep", 90 TSRMLS_CC);
+			zephir_array_fetch(&_0, annotations, realClassName, PH_NOISY | PH_READONLY, "phalcon/annotations/adapter.zep", 91 TSRMLS_CC);
 			RETURN_CTOR(_0);
 		}
 	}
 	ZEPHIR_CALL_METHOD(&classAnnotations, this_ptr, "read", NULL, realClassName);
 	zephir_check_call_status();
-	if (Z_TYPE_P(classAnnotations) == IS_NULL) {
+	_1 = Z_TYPE_P(classAnnotations) == IS_NULL;
+	if (!(_1)) {
+		_1 = ZEPHIR_IS_FALSE_IDENTICAL(classAnnotations);
+	}
+	if (_1) {
 		ZEPHIR_CALL_METHOD(&reader, this_ptr, "getreader",  NULL);
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(&parsedAnnotations, reader, "parse", NULL, realClassName);

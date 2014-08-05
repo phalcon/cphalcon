@@ -22,6 +22,7 @@ namespace Phalcon\Annotations;
 use Phalcon\Annotations\ReaderInterface;
 use Phalcon\Annotations\Exception;
 use Phalcon\Annotations\Collection;
+use Phalcon\Annotations\Reflection;
 
 /**
  * Phalcon\Annotations\Adapter
@@ -70,7 +71,7 @@ abstract class Adapter
 	 * @param string|object className
 	 * @return Phalcon\Annotations\Reflection
 	 */
-	public function get(var className) -> <\Phalcon\Annotations\Reflection>
+	public function get(var className) -> <Reflection>
 	{
 
 		var annotations, classAnnotations, parsedAnnotations, realClassName, reader;
@@ -95,7 +96,7 @@ abstract class Adapter
 		 * Try to read the annotations from the adapter
 		 */
 		let classAnnotations = this->{"read"}(realClassName);
-		if typeof classAnnotations == "null" {
+		if classAnnotations === null || classAnnotations === false {
 
 			/**
 			 * Get the annotations reader
@@ -107,7 +108,7 @@ abstract class Adapter
 			 * If the reader returns a
 			 */
 			if typeof parsedAnnotations == "array" {
-				let classAnnotations = new \Phalcon\Annotations\Reflection(parsedAnnotations),
+				let classAnnotations = new Reflection(parsedAnnotations),
 					this->_annotations[realClassName] = classAnnotations;
 					this->{"write"}(realClassName, classAnnotations);
 			}

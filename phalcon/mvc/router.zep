@@ -940,4 +940,14 @@ class Router
 		return false;
 	}
 
+	/**
+	 * Returns whether controller name should not be mangled
+	 *
+	 * @return boolean
+	 */
+	public function isExactControllerName() -> boolean
+	{
+		return true;
+	}
+
 }

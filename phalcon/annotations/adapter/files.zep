@@ -19,6 +19,11 @@
 
 namespace Phalcon\Annotations\Adapter;
 
+use Phalcon\Annotations\Adapter;
+use Phalcon\Annotations\AdapterInterface;
+use Phalcon\Annotations\Reflection;
+use Phalcon\Annotations\Exception;
+
 /**
  * Phalcon\Annotations\Adapter\Files
  *
@@ -30,7 +35,7 @@ namespace Phalcon\Annotations\Adapter;
  * ));
  *</code>
  */
-class Files extends \Phalcon\Annotations\Adapter implements \Phalcon\Annotations\AdapterInterface
+class Files extends Adapter implements AdapterInterface
 {
 	protected _annotationsDir = "./";
 
@@ -39,7 +44,7 @@ class Files extends \Phalcon\Annotations\Adapter implements \Phalcon\Annotations
 	 *
 	 * @param array options
 	 */
-	public function __construct(options=null)
+	public function __construct(options = null)
 	{
 		var annotationsDir;
 		if typeof options != "array" {
@@ -55,7 +60,7 @@ class Files extends \Phalcon\Annotations\Adapter implements \Phalcon\Annotations
 	 * @param string key
 	 * @return Phalcon\Annotations\Reflection
 	 */
-	public function read(string key) -> <\Phalcon\Annotations\Reflection> | boolean | int
+	public function read(string key) -> <Reflection> | boolean | int
 	{
 		var path;
 
@@ -77,7 +82,7 @@ class Files extends \Phalcon\Annotations\Adapter implements \Phalcon\Annotations
 	 * @param string key
 	 * @param Phalcon\Annotations\Reflection data
 	 */
-	public function write(string! key, <\Phalcon\Annotations\Reflection> data)
+	public function write(string! key, <Reflection> data)
 	{
 		var path;
 
@@ -87,7 +92,7 @@ class Files extends \Phalcon\Annotations\Adapter implements \Phalcon\Annotations
 		let path = this->_annotationsDir . prepare_virtual_path(key, "_") . ".php";
 
 		if (file_put_contents(path, "<?php return " . var_export(data, true) . "; ") === false) {
-	  		throw new \Phalcon\Annotations\Exception("Annotations directory cannot be written");
+	  		throw new Exception("Annotations directory cannot be written");
 		}
 	}
 

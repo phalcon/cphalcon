@@ -1405,3 +1405,15 @@ PHP_METHOD(Phalcon_Mvc_Router, getRouteByName) {
 
 }
 
+/**
+ * Returns whether controller name should not be mangled
+ *
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Mvc_Router, isExactControllerName) {
+
+
+	RETURN_BOOL(1);
+
+}
+
