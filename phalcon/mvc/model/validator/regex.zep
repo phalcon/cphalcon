@@ -19,6 +19,8 @@
 
 namespace Phalcon\Mvc\Model\Validator;
 
+use Phalcon\Mvc\Model\Exception;
+
 /**
  * Phalcon\Mvc\Model\Validator\Regex
  *
@@ -59,14 +61,14 @@ class Regex extends \Phalcon\Mvc\Model\Validator implements \Phalcon\Mvc\Model\V
 
 		let field = this->getOption("field");
 		if typeof field != "string" {
-			throw new \Phalcon\Mvc\Model\Exception("Field name must be a string");
+			throw new Exception("Field name must be a string");
 		}
 
 		/**
 		 * The 'pattern' option must be a valid regular expression
 		 */
 		if !this->isSetOption("pattern") {
-			throw new \Phalcon\Mvc\Model\Exception("Validator requires a perl-compatible regex pattern");
+			throw new Exception("Validator requires a perl-compatible regex pattern");
 		}
 
 		let value = record->readAttribute(field);

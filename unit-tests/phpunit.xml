@@ -71,7 +71,7 @@
 			<file>unit-tests/ModelsSerializeTest.php</file>
 			<!--<file>unit-tests/ModelsSnapshotsTest.php</file>-->
 			<file>unit-tests/ModelsTest.php</file>
-			<!--<file>unit-tests/ModelsTransactionsTest.php</file>-->
+			<file>unit-tests/ModelsTransactionsTest.php</file>
 			<!--<file>unit-tests/ModelsValidatorsTest.php</file>-->
 			<!--<file>unit-tests/PaginatorTest.php</file>-->
 			<!--<file>unit-tests/RequestTest.php</file>-->

@@ -134,7 +134,10 @@ class ModelsValidatorsTest extends PHPUnit_Framework_TestCase
 		$subscriptor->email = 'fuego@hotmail.com';
 		$subscriptor->created_at = $createdAt;
 		$subscriptor->status = 'P';
-		$this->assertTrue($subscriptor->save());
+		//$this->assertTrue($subscriptor->save());
+
+		$subscriptor->save();
+		var_dump($subscriptor->getMessages());
 
 		//PresenceOf
 		$subscriptor = new Subscriptores();
