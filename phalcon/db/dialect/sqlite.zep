@@ -24,13 +24,15 @@ namespace Phalcon\Db\Dialect;
 use Phalcon\Db\Column;
 use Phalcon\Db\Exception;
 use Phalcon\Db\IndexInterface;
+use Phalcon\Db\Dialect;
+use Phalcon\Db\DialectInterface;
 
 /**
  * Phalcon\Db\Dialect\Sqlite
  *
  * Generates database specific SQL for the Sqlite RBDM
  */
-class Sqlite extends \Phalcon\Db\Dialect //implements Phalcon\Db\DialectInterface
+class Sqlite extends Dialect implements DialectInterface
 {
 
 	protected _escapeChar = "\"";

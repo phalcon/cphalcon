@@ -58,7 +58,7 @@ interface DialectInterface
 	 * @param array definition
 	 * @return string
 	 */
-	public function select(definition);
+	public function select(array! definition);
 
 	/**
 	 * Gets a list of columns
@@ -66,7 +66,7 @@ interface DialectInterface
 	 * @param	array columnList
 	 * @return	string
 	 */
-	public function getColumnList(columnList);
+	public function getColumnList(array! columnList);
 
 	/**
 	 * Gets the column name in MySQL
@@ -171,7 +171,7 @@ interface DialectInterface
 	 * @param	array definition
 	 * @return 	string
 	 */
-	public function createTable(tableName, schemaName, definition);
+	public function createTable(tableName, schemaName, array! definition);
 
 	/**
 	 * Generates SQL to drop a table

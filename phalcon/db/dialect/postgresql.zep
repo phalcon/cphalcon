@@ -20,15 +20,19 @@
 
 namespace Phalcon\Db\Dialect;
 
+use Phalcon\Db\Exception;
+use Phalcon\Db\Dialect;
+use Phalcon\Db\DialectInterface;
+
 /**
  * Phalcon\Db\Dialect\Postgresql
  *
  * Generates database specific SQL for the PostgreSQL RBDM
  */
-class Postgresql extends \Phalcon\Db\Dialect //implements Phalcon\Db\DialectInterface
+class Postgresql extends Dialect implements DialectInterface
 {
 
-	protected _escapeChar = "'";
+	protected _escapeChar = "\"";
 
 	/**
 	 * Gets the column name in PostgreSQL
@@ -41,7 +45,7 @@ class Postgresql extends \Phalcon\Db\Dialect //implements Phalcon\Db\DialectInte
  		var size, columnType, columnSql;
 
 		if typeof column != "object" {
-			throw new \Phalcon\Db\Exception("Column definition must be an object compatible with Phalcon\\Db\\ColumnInterface");
+			throw new Exception("Column definition must be an object compatible with Phalcon\\Db\\ColumnInterface");
 		}
 
 		let size = column->getSize();
@@ -76,7 +80,7 @@ class Postgresql extends \Phalcon\Db\Dialect //implements Phalcon\Db\DialectInte
 				let columnSql = "SMALLINT(1)";
 				break;
 			default:
-				throw new \Phalcon\Db\Exception("Unrecognized PostgreSQL data type");
+				throw new Exception("Unrecognized PostgreSQL data type");
 		}
 
 		return columnSql;
@@ -92,7 +96,7 @@ class Postgresql extends \Phalcon\Db\Dialect //implements Phalcon\Db\DialectInte
 	 */
 	public function addColumn(tableName, schemaName, column)
 	{
-		throw new \Phalcon\Db\Exception("Not implemented yet");
+		throw new Exception("Not implemented yet");
 	}
 
 	/**
@@ -105,7 +109,7 @@ class Postgresql extends \Phalcon\Db\Dialect //implements Phalcon\Db\DialectInte
 	 */
 	public function modifyColumn(tableName, schemaName, column)
 	{
-		throw new \Phalcon\Db\Exception("Not implemented yet");
+		throw new Exception("Not implemented yet");
 	}
 
 	/**
@@ -118,7 +122,7 @@ class Postgresql extends \Phalcon\Db\Dialect //implements Phalcon\Db\DialectInte
 	 */
 	public function dropColumn(tableName, schemaName, columnName)
 	{
-		throw new \Phalcon\Db\Exception("Not implemented yet");
+		throw new Exception("Not implemented yet");
 	}
 
 	/**
@@ -131,7 +135,7 @@ class Postgresql extends \Phalcon\Db\Dialect //implements Phalcon\Db\DialectInte
 	 */
 	public function addIndex(tableName, schemaName, index)
 	{
-		throw new \Phalcon\Db\Exception("Not implemented yet");
+		throw new Exception("Not implemented yet");
 	}
 
 	/**
@@ -157,7 +161,7 @@ class Postgresql extends \Phalcon\Db\Dialect //implements Phalcon\Db\DialectInte
 	 */
 	public function addPrimaryKey(tableName, schemaName, index)
 	{
-		throw new \Phalcon\Db\Exception("Not implemented yet");
+		throw new Exception("Not implemented yet");
 	}
 
 	/**
@@ -169,7 +173,7 @@ class Postgresql extends \Phalcon\Db\Dialect //implements Phalcon\Db\DialectInte
 	 */
 	public function dropPrimaryKey(tableName, schemaName)
 	{
-		throw new \Phalcon\Db\Exception("Not implemented yet");
+		throw new Exception("Not implemented yet");
 	}
 
 	/**
@@ -195,7 +199,7 @@ class Postgresql extends \Phalcon\Db\Dialect //implements Phalcon\Db\DialectInte
 	 */
 	public function dropForeignKey(tableName, schemaName, referenceName)
 	{
-		throw new \Phalcon\Db\Exception("Not implemented yet");
+		throw new Exception("Not implemented yet");
 	}
 
 	/**
@@ -259,11 +263,9 @@ class Postgresql extends \Phalcon\Db\Dialect //implements Phalcon\Db\DialectInte
 	{
 		var viewSql, view;
 
-		if !isset definition["sql"] {
-			throw new \Phalcon\Db\Exception("The index 'sql' is required in the definition array");
+		if !fetch viewSql, definition["sql"] {
+			throw new Exception("The index 'sql' is required in the definition array");
 		}
-
-		let viewSql = definition["sql"];
 
 		if schemaName {
 			let view = viewName . "." . schemaName;
@@ -282,7 +284,7 @@ class Postgresql extends \Phalcon\Db\Dialect //implements Phalcon\Db\DialectInte
 	 * @param boolean ifExists
 	 * @return string
 	 */
-	public function dropView(viewName, schemaName, ifExists=true) -> string
+	public function dropView(viewName, schemaName, ifExists = true) -> string
 	{
  		var view, sql;
 
@@ -311,7 +313,7 @@ class Postgresql extends \Phalcon\Db\Dialect //implements Phalcon\Db\DialectInte
 	 * @param string schemaName
 	 * @return string
 	 */
-	public function tableExists(tableName, schemaName=null) -> string
+	public function tableExists(tableName, schemaName = null) -> string
 	{
 		var sql;
 		if schemaName {
@@ -329,7 +331,7 @@ class Postgresql extends \Phalcon\Db\Dialect //implements Phalcon\Db\DialectInte
 	 * @param string schemaName
 	 * @return string
 	 */
-	public function viewExists(viewName, schemaName=null) -> string
+	public function viewExists(viewName, schemaName = null) -> string
 	{
 		var sql;
 		if schemaName {
@@ -349,7 +351,7 @@ class Postgresql extends \Phalcon\Db\Dialect //implements Phalcon\Db\DialectInte
 	 * @param string schema
 	 * @return string
 	 */
-	public function describeColumns(table, schema=null) -> string
+	public function describeColumns(table, schema = null) -> string
 	{
 		var sql;
 		if schema {
@@ -370,7 +372,7 @@ class Postgresql extends \Phalcon\Db\Dialect //implements Phalcon\Db\DialectInte
 	 * @param       string schemaName
 	 * @return      array
 	 */
-	public function listTables(schemaName=null) -> string
+	public function listTables(schemaName = null) -> string
 	{
 		var sql;
 		if schemaName {
@@ -387,7 +389,7 @@ class Postgresql extends \Phalcon\Db\Dialect //implements Phalcon\Db\DialectInte
 	 * @param string schemaName
 	 * @return string
 	 */
-	public function listViews(schemaName=null) -> string
+	public function listViews(schemaName = null) -> string
 	{
 		var sql;
 		if schemaName {
@@ -406,7 +408,7 @@ class Postgresql extends \Phalcon\Db\Dialect //implements Phalcon\Db\DialectInte
 	 * @param	string schema
 	 * @return	string
 	 */
-	public function describeIndexes(table, schema=null) -> string
+	public function describeIndexes(table, schema = null) -> string
 	{
 		return "SELECT 0 as c0, t.relname as table_name, i.relname as key_name, 3 as c3, a.attname as column_name FROM pg_class t, pg_class i, pg_index ix, pg_attribute a WHERE t.oid = ix.indrelid AND i.oid = ix.indexrelid AND a.attrelid = t.oid AND a.attnum = ANY(ix.indkey) AND t.relkind = 'r' AND t.relname = '" . table . "' ORDER BY t.relname, i.relname;";
 	}
@@ -418,7 +420,7 @@ class Postgresql extends \Phalcon\Db\Dialect //implements Phalcon\Db\DialectInte
 	 * @param	string schema
 	 * @return	string
 	 */
-	public function describeReferences(table, schema=null) -> string
+	public function describeReferences(table, schema = null) -> string
 	{
 		var sql;
 		let sql = "SELECT tc.table_name as TABLE_NAME, kcu.column_name as COLUMN_NAME, tc.constraint_name as CONSTRAINT_NAME, tc.table_catalog as REFERENCED_TABLE_SCHEMA, ccu.table_name AS REFERENCED_TABLE_NAME, ccu.column_name AS REFERENCED_COLUMN_NAME FROM information_schema.table_constraints AS tc JOIN information_schema.key_column_usage AS kcu ON tc.constraint_name = kcu.constraint_name JOIN information_schema.constraint_column_usage AS ccu ON ccu.constraint_name = tc.constraint_name WHERE constraint_type = 'FOREIGN KEY' AND ";
@@ -437,7 +439,7 @@ class Postgresql extends \Phalcon\Db\Dialect //implements Phalcon\Db\DialectInte
 	 * @param	string schema
 	 * @return	string
 	 */
-	public function tableOptions(table, schema=null) -> string
+	public function tableOptions(table, schema = null) -> string
 	{
 		return "";
 	}
