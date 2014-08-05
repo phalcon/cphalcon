@@ -554,7 +554,8 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 			'albums',
 			'artists',
 			'customers',
-			//'issue_1534',
+			'issue_1534',
+			'issue_2019',
 			'm2m_parts',
 			'm2m_robots',
 			'm2m_robots_parts',
@@ -770,6 +771,8 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 		);
 
 		$tables = $connection->listTables();
+
+		var_export($tables);
 		$this->assertEquals($tables, $expectedTables);
 
 		$tables = $connection->listTables('public');
