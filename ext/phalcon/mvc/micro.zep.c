@@ -417,7 +417,8 @@ PHP_METHOD(Phalcon_Mvc_Micro, options) {
  */
 PHP_METHOD(Phalcon_Mvc_Micro, mount) {
 
-	zend_bool _4;
+	zend_bool _5;
+	zephir_fcall_cache_entry *_4 = NULL;
 	HashTable *_2;
 	HashPosition _1;
 	int ZEPHIR_LAST_CALL_STATUS;
@@ -493,13 +494,13 @@ PHP_METHOD(Phalcon_Mvc_Micro, mount) {
 			} else {
 				ZEPHIR_CPY_WRT(prefixedPattern, pattern);
 			}
-			ZEPHIR_CALL_METHOD(&route, this_ptr, "map", NULL, prefixedPattern, realHandler);
+			ZEPHIR_CALL_METHOD(&route, this_ptr, "map", &_4, prefixedPattern, realHandler);
 			zephir_check_call_status();
-			_4 = Z_TYPE_P(methods) == IS_STRING;
-			if (!(_4)) {
-				_4 = Z_TYPE_P(methods) == IS_ARRAY;
+			_5 = Z_TYPE_P(methods) == IS_STRING;
+			if (!(_5)) {
+				_5 = Z_TYPE_P(methods) == IS_ARRAY;
 			}
-			if (_4) {
+			if (_5) {
 				ZEPHIR_CALL_METHOD(NULL, route, "via", NULL, methods);
 				zephir_check_call_status();
 			}

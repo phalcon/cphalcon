@@ -1849,7 +1849,7 @@ PHP_METHOD(Phalcon_Tag, stylesheetLink) {
 	}
 	if (Z_TYPE_P(local) != IS_BOOL) {
 		ZEPHIR_INIT_NVAR(local);
-		ZVAL_BOOL(local, 0);
+		ZVAL_BOOL(local, 1);
 	}
 	if (zephir_array_isset_long(params, 1)) {
 		ZEPHIR_OBS_NVAR(local);
@@ -1958,7 +1958,7 @@ PHP_METHOD(Phalcon_Tag, javascriptInclude) {
 	}
 	if (Z_TYPE_P(local) != IS_BOOL) {
 		ZEPHIR_INIT_NVAR(local);
-		ZVAL_BOOL(local, 0);
+		ZVAL_BOOL(local, 1);
 	}
 	if (zephir_array_isset_long(params, 1)) {
 		ZEPHIR_OBS_NVAR(local);

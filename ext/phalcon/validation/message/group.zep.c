@@ -244,6 +244,7 @@ PHP_METHOD(Phalcon_Validation_Message_Group, appendMessage) {
  */
 PHP_METHOD(Phalcon_Validation_Message_Group, appendMessages) {
 
+	zephir_fcall_cache_entry *_1 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zend_object_iterator *_0;
 	zval *messages, *currentMessages, *finalMessages = NULL, *message = NULL;
@@ -277,7 +278,7 @@ PHP_METHOD(Phalcon_Validation_Message_Group, appendMessages) {
 			_0->funcs->get_current_data(_0, &tmp TSRMLS_CC);
 			message = *tmp;
 			}
-			ZEPHIR_CALL_METHOD(NULL, this_ptr, "appendmessage", NULL, message);
+			ZEPHIR_CALL_METHOD(NULL, this_ptr, "appendmessage", &_1, message);
 			zephir_check_call_status();
 		}
 		_0->funcs->dtor(_0 TSRMLS_CC);

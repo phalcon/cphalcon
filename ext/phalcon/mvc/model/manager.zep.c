@@ -389,10 +389,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getLastInitialized) {
 PHP_METHOD(Phalcon_Mvc_Model_Manager, load) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zend_class_entry *_2;
+	zend_class_entry *_2, *_4;
 	zend_bool newInstance;
-	zval *modelName_param = NULL, *newInstance_param = NULL, *model, *_0, *_1, *_3, *_4;
-	zval *modelName = NULL, *_5;
+	zval *modelName_param = NULL, *newInstance_param = NULL, *model, *_0, *_1, *_3, *_5;
+	zval *modelName = NULL, *_6;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &modelName_param, &newInstance_param);
@@ -421,16 +421,20 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, load) {
 	zephir_fast_strtolower(_1, modelName);
 	if (zephir_array_isset_fetch(&model, _0, _1, 0 TSRMLS_CC)) {
 		if (newInstance) {
-			if (zephir_clone(return_value, model TSRMLS_CC) == FAILURE) {
-				RETURN_MM();
+			_2 = zend_fetch_class(Z_STRVAL_P(modelName), Z_STRLEN_P(modelName), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
+			object_init_ex(return_value, _2);
+			if (zephir_has_constructor(return_value TSRMLS_CC)) {
+				_3 = zephir_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+				ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, _3, this_ptr);
+				zephir_check_call_status();
 			}
 			RETURN_MM();
 		}
 		RETURN_CCTOR(model);
 	}
 	if (zephir_class_exists(modelName, 1 TSRMLS_CC)) {
-		_2 = zend_fetch_class(Z_STRVAL_P(modelName), Z_STRLEN_P(modelName), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
-		object_init_ex(return_value, _2);
+		_4 = zend_fetch_class(Z_STRVAL_P(modelName), Z_STRLEN_P(modelName), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
+		object_init_ex(return_value, _4);
 		if (zephir_has_constructor(return_value TSRMLS_CC)) {
 			_3 = zephir_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 			ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, _3, this_ptr);
@@ -438,13 +442,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, load) {
 		}
 		RETURN_MM();
 	}
-	ZEPHIR_INIT_VAR(_4);
-	object_init_ex(_4, phalcon_mvc_model_exception_ce);
 	ZEPHIR_INIT_VAR(_5);
-	ZEPHIR_CONCAT_SVS(_5, "Model '", modelName, "' could not be loaded");
-	ZEPHIR_CALL_METHOD(NULL, _4, "__construct", NULL, _5);
+	object_init_ex(_5, phalcon_mvc_model_exception_ce);
+	ZEPHIR_INIT_VAR(_6);
+	ZEPHIR_CONCAT_SVS(_6, "Model '", modelName, "' could not be loaded");
+	ZEPHIR_CALL_METHOD(NULL, _5, "__construct", NULL, _6);
 	zephir_check_call_status();
-	zephir_throw_exception_debug(_4, "phalcon/mvc/model/manager.zep", 308 TSRMLS_CC);
+	zephir_throw_exception_debug(_5, "phalcon/mvc/model/manager.zep", 308 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 	return;
 

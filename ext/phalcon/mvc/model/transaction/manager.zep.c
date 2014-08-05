@@ -442,6 +442,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, commit) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, rollback) {
 
+	zephir_fcall_cache_entry *_4 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
 	HashTable *_1;
 	HashPosition _0;
@@ -475,7 +476,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, rollback) {
 				zephir_check_call_status();
 			}
 			if (zephir_is_true(collect)) {
-				ZEPHIR_CALL_METHOD(NULL, this_ptr, "_collecttransaction", NULL, transaction);
+				ZEPHIR_CALL_METHOD(NULL, this_ptr, "_collecttransaction", &_4, transaction);
 				zephir_check_call_status();
 			}
 		}

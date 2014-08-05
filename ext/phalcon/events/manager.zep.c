@@ -497,6 +497,7 @@ PHP_METHOD(Phalcon_Events_Manager, fireQueue) {
  */
 PHP_METHOD(Phalcon_Events_Manager, fire) {
 
+	zephir_nts_static zephir_fcall_cache_entry *_5 = NULL;
 	zephir_fcall_cache_entry *_4 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zend_bool cancelable, _3;
@@ -568,7 +569,7 @@ PHP_METHOD(Phalcon_Events_Manager, fire) {
 			object_init_ex(event, phalcon_events_event_ce);
 			ZEPHIR_CALL_METHOD(NULL, event, "__construct", &_4, eventName, source, data, (cancelable ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)));
 			zephir_check_call_status();
-			ZEPHIR_CALL_METHOD(&status, this_ptr, "firequeue", NULL, fireEvents, event);
+			ZEPHIR_CALL_METHOD(&status, this_ptr, "firequeue", &_5, fireEvents, event);
 			zephir_check_call_status();
 		}
 	}
@@ -585,7 +586,7 @@ PHP_METHOD(Phalcon_Events_Manager, fire) {
 				ZEPHIR_CALL_METHOD(NULL, event, "__construct", &_4, eventName, source, data, (cancelable ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)));
 				zephir_check_call_status();
 			}
-			ZEPHIR_CALL_METHOD(&status, this_ptr, "firequeue", NULL, fireEvents, event);
+			ZEPHIR_CALL_METHOD(&status, this_ptr, "firequeue", &_5, fireEvents, event);
 			zephir_check_call_status();
 		}
 	}

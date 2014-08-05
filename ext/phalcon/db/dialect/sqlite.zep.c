@@ -323,6 +323,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, dropColumn) {
  */
 PHP_METHOD(Phalcon_Db_Dialect_Sqlite, addIndex) {
 
+	zephir_nts_static zephir_fcall_cache_entry *_3 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *tableName_param = NULL, *schemaName_param = NULL, *index, *sql, *indexType = NULL, *_0 = NULL, *_1 = NULL, *_2 = NULL;
 	zval *tableName = NULL, *schemaName = NULL;
@@ -385,7 +386,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, addIndex) {
 	}
 	ZEPHIR_CALL_METHOD(&_2, index, "getcolumns",  NULL);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getcolumnlist", NULL, _2);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getcolumnlist", &_3, _2);
 	zephir_check_call_status();
 	ZEPHIR_INIT_LNVAR(_1);
 	ZEPHIR_CONCAT_VS(_1, _0, ")");
