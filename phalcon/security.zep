@@ -179,7 +179,7 @@ class Security implements \Phalcon\Di\InjectionAwareInterface
 	 * @param int numberBytes
 	 * @return string
 	 */
-	public function getTokenKey(int numberBytes=null) -> string
+	public function getTokenKey(int numberBytes = null) -> string
 	{
 		var safeBytes, dependencyInjector, session;
 
@@ -209,7 +209,7 @@ class Security implements \Phalcon\Di\InjectionAwareInterface
 	 * @param int numberBytes
 	 * @return string
 	 */
-	public function getToken(int numberBytes=null) -> string
+	public function getToken(int numberBytes = null) -> string
 	{
 		var token, dependencyInjector, session;
 
@@ -241,7 +241,7 @@ class Security implements \Phalcon\Di\InjectionAwareInterface
 	 * @param string tokenValue
 	 * @return boolean
 	 */
-	public function checkToken(tokenKey=null, tokenValue=null)
+	public function checkToken(tokenKey = null, tokenValue = null)
 	{
 		var dependencyInjector, session, request, token, sessionToken;
 
@@ -298,11 +298,11 @@ class Security implements \Phalcon\Di\InjectionAwareInterface
 	/**
 	 * string \Phalcon\Security::computeHmac(string $data, string $key, string $algo, bool $raw = false)
 	 */
-	public function computeHmac(data, key, algo, raw=false)
+	public function computeHmac(data, key, algo, raw = false)
 	{
 		var ops;
 
-		let ops = hash_hmac(algo, algo, key, raw);
+		let ops = hash_hmac(algo, data, key, raw);
 		if !ops {
 			throw new Exception("Unknown hashing algorithm: %s" . algo);
 		}
