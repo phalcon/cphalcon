@@ -25,6 +25,8 @@ use Phalcon\Mvc\Model\Exception;
 use Phalcon\Mvc\ModelInterface;
 use Phalcon\Mvc\Model\ResultsetInterface;
 use Phalcon\Mvc\Model\ManagerInterface;
+use Phalcon\Di\InjectionAwareInterface;
+use Phalcon\Events\ManagerInterface as EventsManagerInterface;
 
 /**
  * Phalcon\Mvc\Model\Manager
@@ -44,7 +46,7 @@ use Phalcon\Mvc\Model\ManagerInterface;
  * $robot = new Robots($di);
  * </code>
  */
-class Manager implements ManagerInterface, \Phalcon\Di\InjectionAwareInterface, \Phalcon\Events\EventsAwareInterface
+class Manager implements ManagerInterface, InjectionAwareInterface, \Phalcon\Events\EventsAwareInterface
 {
 
 	protected _dependencyInjector;
@@ -162,7 +164,7 @@ class Manager implements ManagerInterface, \Phalcon\Di\InjectionAwareInterface, 
 	 *
 	 * @param Phalcon\Events\ManagerInterface eventsManager
 	 */
-	public function setEventsManager(<ManagerInterface> eventsManager) -> <Manager>
+	public function setEventsManager(<EventsManagerInterface> eventsManager) -> <Manager>
 	{
 		let this->_eventsManager = eventsManager;
 		return this;
@@ -173,7 +175,7 @@ class Manager implements ManagerInterface, \Phalcon\Di\InjectionAwareInterface, 
 	 *
 	 * @return Phalcon\Events\ManagerInterface
 	 */
-	public function getEventsManager() -> <ManagerInterface>
+	public function getEventsManager() -> <EventsManagerInterface>
 	{
 		return this->_eventsManager;
 	}
@@ -184,7 +186,7 @@ class Manager implements ManagerInterface, \Phalcon\Di\InjectionAwareInterface, 
 	 * @param Phalcon\Mvc\ModelInterface model
 	 * @param Phalcon\Events\ManagerInterface eventsManager
 	 */
-	public function setCustomEventsManager(<ModelInterface> model, <ManagerInterface> eventsManager)
+	public function setCustomEventsManager(<ModelInterface> model, <EventsManagerInterface> eventsManager)
 	{
 		let this->_customEventsManager[get_class_lower(model)] = eventsManager;
 	}
@@ -195,7 +197,7 @@ class Manager implements ManagerInterface, \Phalcon\Di\InjectionAwareInterface, 
 	 * @param Phalcon\Mvc\ModelInterface model
 	 * @return Phalcon\Events\ManagerInterface
 	 */
-	public function getCustomEventsManager(<ModelInterface> model) -> <ManagerInterface> | boolean
+	public function getCustomEventsManager(<ModelInterface> model) -> <EventsManagerInterface> | boolean
 	{
 		var customEventsManager, eventsManager;
 		let customEventsManager = this->_customEventsManager;
@@ -246,7 +248,7 @@ class Manager implements ManagerInterface, \Phalcon\Di\InjectionAwareInterface, 
 		/**
 		 * If an EventsManager is available we pass to it every initialized model
 		 */
-		let eventsManager = <ManagerInterface> this->_eventsManager;
+		let eventsManager = <EventsManagerInterface> this->_eventsManager;
 		if typeof eventsManager == "object" {
 			eventsManager->fire("modelsManager:afterInitialize", this, model);
 		}

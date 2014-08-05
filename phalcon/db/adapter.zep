@@ -110,9 +110,11 @@ abstract class Adapter implements EventsAwareInterface
 	 */
 	public function __construct(array! descriptor)
 	{
-		var dialectClass;
+		var dialectClass, connectionId;
 
-		let this->_connectionId = 0;
+		let connectionId = self::_connectionConsecutive,
+			this->_connectionId = connectionId,
+			self::_connectionConsecutive = connectionId + 1;
 
 		/**
 		 * Dialect class can override the default dialect
