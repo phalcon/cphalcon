@@ -172,6 +172,11 @@ class Column implements \Phalcon\Db\ColumnInterface
 	protected _scale = 0 { get };
 
 	/**
+	 * Default column value
+	 */
+	protected _default = null { get };
+
+	/**
 	 * Integer column unsigned?
 	 *
 	 * @var boolean
@@ -225,7 +230,7 @@ class Column implements \Phalcon\Db\ColumnInterface
 	public function __construct(string! name, var definition)
 	{
 		var type, notNull, primary, size, scale, dunsigned, first,
-			after, bindType, isNumeric, autoIncrement;
+			after, bindType, isNumeric, autoIncrement, defaultValue;
 
 		let this->_name = name;
 
@@ -265,6 +270,13 @@ class Column implements \Phalcon\Db\ColumnInterface
 			} else {
 				throw new Exception("Column type does not support scale parameter");
 			}
+		}
+
+		/**
+		 * Check if the column is default value
+		 */
+		if fetch defaultValue, definition["default"] {
+			let this->_default = defaultValue;
 		}
 
 		/**
@@ -404,7 +416,8 @@ class Column implements \Phalcon\Db\ColumnInterface
 	public static function __set_state(data) -> <\Phalcon\Db\Column>
 	{
 		var definition, columnType, notNull, size, dunsigned, after,
-			isNumeric, first, bindType, primary, columnName, scale;
+			isNumeric, first, bindType, primary, columnName, scale,
+			defaultValue;
 
 		if typeof data != "array" {
 			throw new Exception("Column state must be an array");
@@ -438,6 +451,10 @@ class Column implements \Phalcon\Db\ColumnInterface
 			if definition["type"] == self::TYPE_INTEGER || definition["type"] == self::TYPE_FLOAT || definition["type"] == self::TYPE_DECIMAL {
 				let definition["scale"] = scale;
 			}
+		}
+
+		if fetch defaultValue, data["_default"] {
+			let definition["default"] = defaultValue;
 		}
 
 		if fetch dunsigned, data["_unsigned"] {
