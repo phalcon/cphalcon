@@ -50,7 +50,7 @@
 			<!--<file>unit-tests/ModelsCalculationsTest.php</file>-->
 			<!--<file>unit-tests/ModelsCriteriaTest.php</file>-->
 			<!--<file>unit-tests/ModelsDynamicOperationsTest.php</file>-->
-			<!--<file>unit-tests/ModelsEventsTest.php</file>-->
+			<file>unit-tests/ModelsEventsTest.php</file>
 			<!--<file>unit-tests/ModelsFindersTest.php</file>-->
 			<!--<file>unit-tests/ModelsForeignKeysTest.php</file>-->
 			<!--<file>unit-tests/ModelsHydrationTest.php</file>-->

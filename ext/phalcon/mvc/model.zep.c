@@ -2414,7 +2414,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _preSave) {
 		if (ZEPHIR_IS_FALSE_IDENTICAL(_0)) {
 			RETURN_MM_BOOL(0);
 		}
-		if (exists) {
+		if (!(exists)) {
 			ZEPHIR_INIT_NVAR(_1);
 			ZVAL_STRING(_1, "beforeValidationOnCreate", 0);
 			ZEPHIR_CALL_METHOD(&_2, this_ptr, "fireeventcancel", NULL, _1);

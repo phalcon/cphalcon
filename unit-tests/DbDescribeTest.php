@@ -771,8 +771,6 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 		);
 
 		$tables = $connection->listTables();
-
-		var_export($tables);
 		$this->assertEquals($tables, $expectedTables);
 
 		$tables = $connection->listTables('public');

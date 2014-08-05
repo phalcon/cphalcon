@@ -128,7 +128,7 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 		$this->issue886($di);
 	}
 
-	public function testModelsSqlite()
+	public function _testModelsSqlite()
 	{
 		require 'unit-tests/config.db.php';
 		if (empty($configSqlite)) {

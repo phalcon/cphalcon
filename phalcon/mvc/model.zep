@@ -1777,7 +1777,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 			/**
 			 * Call the specific beforeValidation event for the current action
 			 */
-			if exists {
+			if !exists {
 				if this->fireEventCancel("beforeValidationOnCreate") === false {
 					return false;
 				}
