@@ -17,6 +17,7 @@
 #include "kernel/operators.h"
 #include "kernel/memory.h"
 #include "kernel/concat.h"
+#include "ext/spl/spl_exceptions.h"
 #include "kernel/array.h"
 
 
@@ -351,9 +352,17 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, _getTableOptions) {
  */
 PHP_METHOD(Phalcon_Db_Dialect_Postgresql, createTable) {
 
-	zval *tableName, *schemaName, *definition;
+	zval *definition = NULL;
+	zval *tableName, *schemaName, *definition_param = NULL;
 
-	zephir_fetch_params(0, 3, 0, &tableName, &schemaName, &definition);
+	zephir_fetch_params(0, 3, 0, &tableName, &schemaName, &definition_param);
+
+	if (unlikely(Z_TYPE_P(definition_param) != IS_ARRAY)) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'definition' must be an array") TSRMLS_CC);
+		RETURN_NULL();
+	}
+
+		definition = definition_param;
 
 
 

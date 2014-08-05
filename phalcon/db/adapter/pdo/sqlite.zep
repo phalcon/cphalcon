@@ -22,6 +22,10 @@ namespace Phalcon\Db\Adapter\Pdo;
 
 use Phalcon\Db\Column;
 use Phalcon\Db\Exception;
+use Phalcon\Db\Reference;
+use Phalcon\Db\ReferenceInterface;
+use Phalcon\Db\Index;
+use Phalcon\Db\IndexInterface;
 
 /**
  * Phalcon\Db\Adapter\Pdo\Sqlite
@@ -286,7 +290,7 @@ class Sqlite extends \Phalcon\Db\Adapter\Pdo implements \Phalcon\Db\AdapterInter
 	 * @param	string schema
 	 * @return	Phalcon\Db\IndexInterface[]
 	 */
-	public function describeIndexes(table, schema=null)
+	public function describeIndexes(table, schema = null) -> <IndexInterface>
 	{
 		var indexes, index, keyName, indexObjects, name, indexColumns, columns,
 			describe_index;
@@ -310,7 +314,7 @@ class Sqlite extends \Phalcon\Db\Adapter\Pdo implements \Phalcon\Db\AdapterInter
 
 		let indexObjects = [];
 		for name, indexColumns in indexes {
-			let indexObjects[name] = new \Phalcon\Db\Index(name, indexColumns);
+			let indexObjects[name] = new Index(name, indexColumns);
 		}
 
 		return indexObjects;
@@ -323,7 +327,7 @@ class Sqlite extends \Phalcon\Db\Adapter\Pdo implements \Phalcon\Db\AdapterInter
 	 * @param	string schema
 	 * @return	Phalcon\Db\ReferenceInterface[]
 	 */
-	public function describeReferences(table, schema=null)
+	public function describeReferences(table, schema=null) -> <ReferenceInterface[]>
 	{
 		var references, reference,
 			arrayReference, constraintName, referenceObjects, name,
@@ -360,7 +364,7 @@ class Sqlite extends \Phalcon\Db\Adapter\Pdo implements \Phalcon\Db\AdapterInter
 
 		let referenceObjects = [];
 		for name, arrayReference in references {
-			let referenceObjects[name] = new \Phalcon\Db\Reference(name, [
+			let referenceObjects[name] = new Reference(name, [
 				"referencedSchema"	: arrayReference["referencedSchema"],
 				"referencedTable"	: arrayReference["referencedTable"],
 				"columns"			: arrayReference["columns"],
