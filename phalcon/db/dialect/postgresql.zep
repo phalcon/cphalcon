@@ -148,7 +148,7 @@ class Postgresql extends Dialect implements DialectInterface
 	 */
 	public function dropIndex(tableName, schemaName, indexName)
 	{
-		throw new \Phalcon\Db\Exception("Not implemented yet");
+		throw new Exception("Not implemented yet");
 	}
 
 	/**
@@ -186,7 +186,7 @@ class Postgresql extends Dialect implements DialectInterface
 	 */
 	public function addForeignKey(tableName, schemaName, reference)
 	{
-		throw new \Phalcon\Db\Exception("Not implemented yet");
+		throw new Exception("Not implemented yet");
 	}
 
 	/**

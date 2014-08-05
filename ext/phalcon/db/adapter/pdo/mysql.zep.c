@@ -119,12 +119,12 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, escapeIdentifier) {
  */
 PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns) {
 
-	zephir_fcall_cache_entry *_16 = NULL;
+	zephir_fcall_cache_entry *_18 = NULL;
 	zephir_nts_static zephir_fcall_cache_entry *_10 = NULL;
 	HashTable *_5;
 	HashPosition _4;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *table_param = NULL, *schema_param = NULL, *columns, *columnType = NULL, *field = NULL, *definition = NULL, *oldColumn = NULL, *sizePattern, *matches = NULL, *matchOne = NULL, *matchTwo = NULL, *columnName, *_0 = NULL, *_1, *_2 = NULL, *_3 = NULL, **_6, *_7 = NULL, *_8 = NULL, *_9 = NULL, *_11 = NULL, *_12, *_13, *_14, *_15 = NULL;
+	zval *table_param = NULL, *schema_param = NULL, *columns, *columnType = NULL, *field = NULL, *definition = NULL, *oldColumn = NULL, *sizePattern, *matches = NULL, *matchOne = NULL, *matchTwo = NULL, *columnName, *_0 = NULL, *_1, *_2 = NULL, *_3 = NULL, **_6, *_7 = NULL, *_8 = NULL, *_9 = NULL, *_11 = NULL, *_12, *_13, *_14, *_15 = NULL, *_16, *_17 = NULL;
 	zval *table = NULL, *schema = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -277,12 +277,18 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns) {
 		if (ZEPHIR_IS_STRING(_14, "auto_increment")) {
 			zephir_array_update_string(&definition, SL("autoIncrement"), &ZEPHIR_GLOBAL(global_true), PH_COPY | PH_SEPARATE);
 		}
-		zephir_array_fetch_long(&columnName, field, 0, PH_NOISY | PH_READONLY, "phalcon/db/adapter/pdo/mysql.zep", 257 TSRMLS_CC);
-		ZEPHIR_INIT_LNVAR(_15);
-		object_init_ex(_15, phalcon_db_column_ce);
-		ZEPHIR_CALL_METHOD(NULL, _15, "__construct", &_16, columnName, definition);
+		ZEPHIR_OBS_NVAR(_15);
+		zephir_array_fetch_long(&_15, field, 4, PH_NOISY, "phalcon/db/adapter/pdo/mysql.zep", 257 TSRMLS_CC);
+		if (Z_TYPE_P(_15) != IS_NULL) {
+			zephir_array_fetch_long(&_16, field, 4, PH_NOISY | PH_READONLY, "phalcon/db/adapter/pdo/mysql.zep", 258 TSRMLS_CC);
+			zephir_array_update_string(&definition, SL("default"), &_16, PH_COPY | PH_SEPARATE);
+		}
+		zephir_array_fetch_long(&columnName, field, 0, PH_NOISY | PH_READONLY, "phalcon/db/adapter/pdo/mysql.zep", 264 TSRMLS_CC);
+		ZEPHIR_INIT_LNVAR(_17);
+		object_init_ex(_17, phalcon_db_column_ce);
+		ZEPHIR_CALL_METHOD(NULL, _17, "__construct", &_18, columnName, definition);
 		zephir_check_call_status();
-		zephir_array_append(&columns, _15, PH_SEPARATE, "phalcon/db/adapter/pdo/mysql.zep", 258);
+		zephir_array_append(&columns, _17, PH_SEPARATE, "phalcon/db/adapter/pdo/mysql.zep", 265);
 		ZEPHIR_CPY_WRT(oldColumn, columnName);
 	}
 	RETURN_CCTOR(columns);
