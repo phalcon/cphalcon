@@ -2527,7 +2527,7 @@ class Compiler implements \Phalcon\Di\InjectionAwareInterface
 			 */
 			if isset options["compileAlways"] {
 				let compileAlways = options["compileAlways"];
-				if typeof compileAlways != "bool" {
+				if typeof compileAlways != "boolean" {
 					throw new \Phalcon\Mvc\View\Exception("compileAlways must be a bool value");
 				}
 			}

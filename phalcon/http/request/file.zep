@@ -54,14 +54,20 @@ class File implements \Phalcon\Http\Request\FileInterface
 
 	protected _realType;
 
+	protected _error { get };
+
+	protected _key { get };
+
+	protected _extension { get };
+
 	/**
 	 * Phalcon\Http\Request\File constructor
 	 *
 	 * @param array file
 	 */
-	public function __construct(var file)
+	public function __construct(var file, key=null)
 	{
-		var name, tempName, size, type;
+		var name, tempName, size, type, error;
 
 		if typeof file != "array" {
 			throw new \Phalcon\Http\Request\Exception("Phalcon\\Http\\Request\\File requires a valid uploaded file");
@@ -69,6 +75,10 @@ class File implements \Phalcon\Http\Request\FileInterface
 
 		if fetch name, file["name"] {
 			let this->_name = name;
+
+			if constant(PATHINFO_EXTENSION) {
+				let this->_extension = pathinfo(name, PATHINFO_EXTENSION);
+			}
 		}
 
 		if fetch tempName, file["tmp_name"] {
@@ -81,6 +91,14 @@ class File implements \Phalcon\Http\Request\FileInterface
 
 		if fetch type, file["type"] {
 			let this->_type = type;
+		}
+
+		if fetch error, file["error"] {
+			let this->_error = error;
+		}
+
+		if key {
+			let this->_key = key;
 		}
 	}
 
@@ -143,6 +161,24 @@ class File implements \Phalcon\Http\Request\FileInterface
         finfo_close(finfo);
 
         return mime;
+	}
+
+	/**
+	 * Checks whether the file has been uploaded via Post.
+	 *
+	 * @return boolean
+	 */
+	public function isUploadedFile() -> boolean
+	{
+		var tmp;
+
+		let tmp = this->getTempName();
+
+		if typeof tmp == "string" && is_uploaded_file(tmp) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	/**

@@ -131,6 +131,64 @@ class Apc extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendInterf
 	}
 
 	/**
+	 * Increment of a given key, by number $value
+	 *
+	 * @param  string keyName
+	 * @param  long value
+	 * @return mixed
+	 */
+	public function increment(keyName=null, int value=1)
+	{
+		var lastKey, cachedContent, result;
+
+		let lastKey = "_PHCA" . this->_prefix . keyName,
+			this->_lastKey = lastKey;
+
+		if function_exists("apc_inc") {
+			return apc_inc(lastKey, value);
+		} else {
+			let cachedContent = apc_fetch(lastKey);
+
+			if is_numeric(cachedContent) {
+				let result = cachedContent + value;
+				this->save(keyName, result);
+				return result;
+			} else {
+				return false;
+			}
+		}
+	}
+
+	/**
+	 * Decrement of a given key, by number $value
+	 *
+	 * @param  string keyName
+	 * @param  long value
+	 * @return mixed
+	 */
+	public function decrement(keyName=null, int value=1)
+	{
+		var lastKey, cachedContent, result;
+
+		let lastKey = "_PHCA" . this->_prefix . keyName,
+			this->_lastKey = lastKey;
+
+		if function_exists("apc_dec") {
+			return apc_dec(lastKey, value);
+		} else {
+			let cachedContent = apc_fetch(lastKey);
+
+			if is_numeric(cachedContent) {
+				let result = cachedContent - value;
+				this->save(keyName, result);
+				return result;
+			} else {
+				return false;
+			}
+		}
+	}
+
+	/**
 	 * Deletes a value from the cache by its key
 	 *
 	 * @param string keyName
