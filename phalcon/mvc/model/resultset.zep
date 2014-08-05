@@ -19,6 +19,11 @@
 
 namespace Phalcon\Mvc\Model;
 
+use Phalcon\Mvc\Model;
+use Phalcon\Mvc\ModelInterface;
+use Phalcon\Mvc\Model\Exception;
+use Phalcon\Mvc\Model\ResultsetInterface;
+
 /**
  * Phalcon\Mvc\Model\Resultset
  *
@@ -47,7 +52,7 @@ namespace Phalcon\Mvc\Model;
  *
  */
 abstract class Resultset
-	implements \Phalcon\Mvc\Model\ResultsetInterface, \Iterator, \SeekableIterator, \Countable, \ArrayAccess, \Serializable
+	implements ResultsetInterface, \Iterator, \SeekableIterator, \Countable, \ArrayAccess, \Serializable
 {
 
 	protected _type = 0;
@@ -60,9 +65,9 @@ abstract class Resultset
 
 	protected _pointer = -1;
 
-	protected _count = null;
+	protected _count;
 
-	protected _activeRow = null;
+	protected _activeRow;
 
 	protected _rows;
 
@@ -103,7 +108,7 @@ abstract class Resultset
 	 * Rewinds resultset to its beginning
 	 *
 	 */
-	public function rewind()
+	public final function rewind()
 	{
 		var rows, result;
 
@@ -145,7 +150,7 @@ abstract class Resultset
 	 *
 	 * @param int position
 	 */
-	public function seek(int position)
+	public final function seek(int position)
 	{
 		var result, rows; int i;
 
@@ -176,6 +181,7 @@ abstract class Resultset
 
 				if typeof rows == "array" {
 					let i = 0;
+					reset(rows);
 					while i < position {
 						next(rows);
 						let i++;
@@ -192,7 +198,7 @@ abstract class Resultset
 	 *
 	 * @return int
 	 */
-	public function count()
+	public final function count()
 	{
 		var count, result, rows;
 
@@ -238,7 +244,7 @@ abstract class Resultset
 	 * @param int index
 	 * @return boolean
 	 */
-	public function offsetExists(int index)
+	public function offsetExists(int index) -> boolean
 	{
 		return index < this->count();
 	}
@@ -249,7 +255,7 @@ abstract class Resultset
 	 * @param int index
 	 * @return Phalcon\Mvc\ModelInterface
 	 */
-	public function offsetGet(int! index) -> <\Phalcon\Mvc\ModelInterface> | boolean
+	public function offsetGet(int! index) -> <ModelInterface> | boolean
 	{
 		if index < this->count() {
 
@@ -274,7 +280,7 @@ abstract class Resultset
 
 			return false;
 		}
-		throw new \Phalcon\Mvc\Model\Exception("The index does not exist in the cursor");
+		throw new Exception("The index does not exist in the cursor");
 	}
 
 	/**
@@ -283,9 +289,9 @@ abstract class Resultset
 	 * @param int index
 	 * @param Phalcon\Mvc\ModelInterface value
 	 */
-	public function offsetSet(var index, <\Phalcon\Mvc\ModelInterface> value)
+	public function offsetSet(var index, <ModelInterface> value)
 	{
-		throw new \Phalcon\Mvc\Model\Exception("Cursor is an immutable ArrayAccess object");
+		throw new Exception("Cursor is an immutable ArrayAccess object");
 	}
 
 	/**
@@ -295,7 +301,7 @@ abstract class Resultset
 	 */
 	public function offsetUnset(int offset)
 	{
-		throw new \Phalcon\Mvc\Model\Exception("Cursor is an immutable ArrayAccess object");
+		throw new Exception("Cursor is an immutable ArrayAccess object");
 	}
 
 	/**
@@ -313,7 +319,7 @@ abstract class Resultset
 	 *
 	 * @return Phalcon\Mvc\ModelInterface|boolean
 	 */
-	public function getFirst() -> <\Phalcon\Mvc\ModelInterface> | boolean
+	public function getFirst() -> <ModelInterface> | boolean
 	{
 
 		/**
@@ -338,7 +344,7 @@ abstract class Resultset
 	 *
 	 * @return Phalcon\Mvc\ModelInterface| boolean
 	 */
-	public function getLast() -> <\Phalcon\Mvc\ModelInterface> | boolean
+	public function getLast() -> <ModelInterface> | boolean
 	{
 		this->seek(this->count() - 1);
 		if this->{"valid"}() !== false {
@@ -353,7 +359,7 @@ abstract class Resultset
 	 * @param boolean isFresh
 	 * @return Phalcon\Mvc\Model\Resultset
 	 */
-	public function setIsFresh(boolean isFresh) -> <\Phalcon\Mvc\Model\Resultset>
+	public function setIsFresh(boolean isFresh) -> <Resultset>
 	{
 		let this->_isFresh = isFresh;
 		return this;
@@ -375,7 +381,7 @@ abstract class Resultset
 	 * @param int hydrateMode
 	 * @return Phalcon\Mvc\Model\Resultset
 	 */
-	public function setHydrateMode(int hydrateMode) -> <\Phalcon\Mvc\Model\Resultset>
+	public function setHydrateMode(int hydrateMode) -> <Resultset>
 	{
 		let this->_hydrateMode = hydrateMode;
 		return this;
@@ -406,7 +412,7 @@ abstract class Resultset
 	 *
 	 * @return Phalcon\Mvc\ModelInterface
 	 */
-	public function current() -> <\Phalcon\Mvc\ModelInterface>
+	public final function current() -> <ModelInterface>
 	{
 		return this->_activeRow;
 	}
@@ -441,7 +447,7 @@ abstract class Resultset
 				 * We only can delete resultsets if every element is a complete object
 				 */
 				if !method_exists(record, "getWriteConnection") {
-					throw new \Phalcon\Mvc\Model\Exception("The returned record is not valid");
+					throw new Exception("The returned record is not valid");
 				}
 
 				let connection = record->getWriteConnection(),

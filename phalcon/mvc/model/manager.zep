@@ -281,7 +281,7 @@ class Manager implements \Phalcon\Mvc\Model\ManagerInterface, \Phalcon\Di\Inject
 	 * @param  boolean newInstance
 	 * @return Phalcon\Mvc\ModelInterface
 	 */
-	public function load(string! modelName, boolean newInstance=false) -> <ModelInterface>
+	public function load(string! modelName, boolean newInstance = false) -> <ModelInterface>
 	{
 		var model;
 
@@ -290,7 +290,7 @@ class Manager implements \Phalcon\Mvc\Model\ManagerInterface, \Phalcon\Di\Inject
 		 */
 		if fetch model, this->_initialized[strtolower(modelName)] {
 			if newInstance {
-				return clone model;
+				return new {modelName}(this->_dependencyInjector, this);
 			}
 			return model;
 		}

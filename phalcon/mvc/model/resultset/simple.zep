@@ -19,13 +19,18 @@
 
 namespace Phalcon\Mvc\Model\Resultset;
 
+use Phalcon\Mvc\Model;
+use Phalcon\Mvc\Model\Resultset;
+use Phalcon\Mvc\Model\Exception;
+use Phalcon\Cache\BackendInterface;
+
 /**
  * Phalcon\Mvc\Model\Resultset\Simple
  *
  * Simple resultsets only contains a complete objects
  * This class builds every complete object as it is required
  */
-class Simple extends \Phalcon\Mvc\Model\Resultset
+class Simple extends Resultset
 	implements \Iterator, \SeekableIterator, \Countable, \ArrayAccess, \Serializable
 {
 
@@ -44,7 +49,7 @@ class Simple extends \Phalcon\Mvc\Model\Resultset
 	 * @param Phalcon\Cache\BackendInterface cache
 	 * @param boolean keepSnapshots
 	 */
-	public function __construct(var columnMap, var model, result, <\Phalcon\Cache\BackendInterface> cache=null, keepSnapshots=null)
+	public function __construct(var columnMap, var model, result, <BackendInterface> cache=null, keepSnapshots = null)
 	{
 		var rowCount;
 
@@ -107,8 +112,7 @@ class Simple extends \Phalcon\Mvc\Model\Resultset
 			if typeof rows != "array" {
 				let result = this->_result;
 				if typeof result == "object" {
-					let this->_rows = result->fetchAll();
-					let rows = this->_rows;
+					let this->_rows = result->fetchAll(), rows = this->_rows;
 				}
 			}
 
@@ -140,23 +144,23 @@ class Simple extends \Phalcon\Mvc\Model\Resultset
 		/**
 		 * Hydrate based on the current hydration
 		 */
-		if hydrateMode == 0 {
+		if hydrateMode == Resultset::HYDRATE_RECORDS {
 			/**
 			 * Set records as dirty state PERSISTENT by default
 			 * Performs the standard hydration based on objects
 			 */
-			let activeRow = \Phalcon\Mvc\Model::cloneResultMap(
+			let activeRow = Model::cloneResultMap(
 				this->_model,
 				row,
 				columnMap,
-				\Phalcon\Mvc\Model::DIRTY_STATE_PERSISTENT,
+				Model::DIRTY_STATE_PERSISTENT,
 				this->_keepSnapshots
 			);
 		} else {
 			/**
 			 * Other kinds of hydrations
 			 */
-			let activeRow = \Phalcon\Mvc\Model::cloneResultMapHydrate(row, columnMap, hydrateMode);
+			let activeRow = Model::cloneResultMapHydrate(row, columnMap, hydrateMode);
 		}
 
 		let this->_activeRow = activeRow;
@@ -171,7 +175,7 @@ class Simple extends \Phalcon\Mvc\Model\Resultset
 	 * @param boolean renameColumns
 	 * @return array
 	 */
-	public function toArray(boolean renameColumns=true)
+	public function toArray(boolean renameColumns = true) -> array
 	{
 		var result, activeRow, records, record, renamed, renamedKey,
 			key, value, renamedRecords, columnMap;
@@ -253,7 +257,7 @@ class Simple extends \Phalcon\Mvc\Model\Resultset
 						 * Check if the key is part of the column map
 						 */
 						if fetch renamedKey, columnMap[key] {
-							throw new \Phalcon\Mvc\Model\Exception("Column '" . key . "' is not part of the column map");
+							throw new Exception("Column '" . key . "' is not part of the column map");
 						}
 
 						/**
@@ -313,7 +317,7 @@ class Simple extends \Phalcon\Mvc\Model\Resultset
 
 		let resultset = unserialize(data);
 		if typeof resultset != "array" {
-			throw new \Phalcon\Mvc\Model\Exception("Invalid serialization data");
+			throw new Exception("Invalid serialization data");
 		}
 
 		let this->_model = resultset["model"],
