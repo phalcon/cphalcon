@@ -19,6 +19,21 @@
 
 namespace Phalcon\Image\Adapter;
 
+use Phalcon\Image\Exception;
+
+/**
+ * Phalcon\Image\Adapter\GD
+ *
+ * Image manipulation support. Allows images to be resized, cropped, etc.
+ *
+ *<code>
+ *	$image = new Phalcon\Image\Adapter\GD("upload/test.jpg");
+ *	$image->resize(200, 200)->rotate(90)->crop(100, 100);
+ *	if ($image->save()) {
+ *		echo 'success';
+ *	}
+ *</code>
+ */
 class Gd extends \Phalcon\Image\Adapter implements \Phalcon\Image\AdapterInterface
 {
 	public static function check()
@@ -30,7 +45,7 @@ class Gd extends \Phalcon\Image\Adapter implements \Phalcon\Image\AdapterInterfa
 		}
 
 		if !function_exists("gd_info") {
-			throw new \Phalcon\Image\Exception("GD is either not installed or not enabled, check your configuration");
+			throw new Exception("GD is either not installed or not enabled, check your configuration");
 		}
 
 		let version = null;
@@ -44,7 +59,7 @@ class Gd extends \Phalcon\Image\Adapter implements \Phalcon\Image\AdapterInterfa
 		}
 
 		if !version_compare(version, "2.0.1", ">=") {
-			throw new \Phalcon\Image\Exception("Phalcon\\Image\\Adapter\\GD requires GD version '2.0.1' or greater, you have " . version);
+			throw new Exception("Phalcon\\Image\\Adapter\\GD requires GD version '2.0.1' or greater, you have " . version);
 		}
 
 		let self::_checked = true;
@@ -92,9 +107,9 @@ class Gd extends \Phalcon\Image\Adapter implements \Phalcon\Image\AdapterInterfa
 					break;
 				default:
 					if this->_mime {
-						throw new \Phalcon\Image\Exception("Installed GD does not support " . this->_mime . " images");
+						throw new Exception("Installed GD does not support " . this->_mime . " images");
 					} else {
-						throw new \Phalcon\Image\Exception("Installed GD does not support such images");
+						throw new Exception("Installed GD does not support such images");
 					}
 					break;
 			}
@@ -103,7 +118,7 @@ class Gd extends \Phalcon\Image\Adapter implements \Phalcon\Image\AdapterInterfa
 
 		} else {
 			if !width || !height {
-				throw new \Phalcon\Image\Exception("Failed to create image from file " . this->_file);
+				throw new Exception("Failed to create image from file " . this->_file);
 			}
 
 			let this->_image = imagecreatetruecolor(width, height);
@@ -185,22 +200,21 @@ class Gd extends \Phalcon\Image\Adapter implements \Phalcon\Image\AdapterInterfa
 
 	protected function _rotate(int degrees)
 	{
-		var image, transparent, width, height;
+		var image, transparent;
 
-		let transparent = imagecolorallocatealpha(this->_image, 0, 0, 0, 127);
-		let image = imagerotate(this->_image, 360 - degrees, transparent, 1);
+        if !function_exists("imagerotate") {
+			throw new Exception("The imagerotate() function doesn't exists");
+		}
+
+		let transparent = imagecolorallocatealpha(this->_image, 0, 0, 0, 127),
+			image = imagerotate(this->_image, 360 - degrees, transparent, 1);
 
 		imagesavealpha(image, TRUE);
+		imagedestroy(this->_image);
 
-		let width  = imagesx(image);
-		let height = imagesy(image);
-
-		if imagecopymerge(this->_image, image, 0, 0, 0, 0, width, height, 100) {
-			imagedestroy(this->_image);
-			let this->_image = image;
-			let this->_width  = width;
-			let this->_height = height;
-		}
+		let this->_image = image,
+			this->_width  = imagesx(image),
+			this->_height = imagesy(image);
 	}
 
 	protected function _flip(int direction)
@@ -349,7 +363,7 @@ class Gd extends \Phalcon\Image\Adapter implements \Phalcon\Image\AdapterInterfa
 			}
 
 			if !s0 || !s1 || !s4 || !s5 {
-				throw new \Phalcon\Image\Exception("Call to imagettfbbox() failed");
+				throw new Exception("Call to imagettfbbox() failed");
 			}
 
 			let width  = abs(s4 - s0) + 10;
@@ -528,7 +542,7 @@ class Gd extends \Phalcon\Image\Adapter implements \Phalcon\Image\AdapterInterfa
 			return true;
 		}
 
-		throw new \Phalcon\Image\Exception("Installed GD does not support '" . ext . "' images");
+		throw new Exception("Installed GD does not support '" . ext . "' images");
 	}
 
 	protected function _render(string ext, int quality)
@@ -555,7 +569,7 @@ class Gd extends \Phalcon\Image\Adapter implements \Phalcon\Image\AdapterInterfa
 			return ob_get_clean();
 		}
 
-		throw new \Phalcon\Image\Exception("Installed GD does not support '" . ext . "' images");
+		throw new Exception("Installed GD does not support '" . ext . "' images");
 	}
 
 	protected function _create(int width, int height)
