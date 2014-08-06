@@ -584,7 +584,8 @@ class Compiler implements \Phalcon\Di\InjectionAwareInterface
 						"text_area": true,
 						"text_field": true,
 						"date_field": true,
-						"numeric_field": true
+						"numeric_field": true,
+						"image_input": true
 					];
 					let this->_arrayHelpers = arrayHelpers;
 				}
