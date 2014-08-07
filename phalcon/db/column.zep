@@ -297,10 +297,14 @@ class Column implements \Phalcon\Db\ColumnInterface
 		 * Check if the field is auto-increment/serial
 		 */
 		if fetch autoIncrement, definition["autoIncrement"] {
-			if type == self::TYPE_INTEGER {
-				let this->_autoIncrement = autoIncrement;
+			if autoIncrement {
+				if type == self::TYPE_INTEGER {
+					let this->_autoIncrement = true;
+				} else {
+					throw new Exception("Column type cannot be auto-increment");
+				}
 			} else {
-				throw new Exception("Column type cannot be auto-increment");
+				let this->_autoIncrement = false;
 			}
 		}
 

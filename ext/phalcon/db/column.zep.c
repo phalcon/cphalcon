@@ -393,11 +393,15 @@ PHP_METHOD(Phalcon_Db_Column, __construct) {
 	}
 	ZEPHIR_OBS_VAR(autoIncrement);
 	if (zephir_array_isset_string_fetch(&autoIncrement, definition, SS("autoIncrement"), 0 TSRMLS_CC)) {
-		if (ZEPHIR_IS_LONG(type, 0)) {
-			zephir_update_property_this(this_ptr, SL("_autoIncrement"), autoIncrement TSRMLS_CC);
+		if (zephir_is_true(autoIncrement)) {
+			if (ZEPHIR_IS_LONG(type, 0)) {
+				zephir_update_property_this(this_ptr, SL("_autoIncrement"), (1) ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+			} else {
+				ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Column type cannot be auto-increment", "phalcon/db/column.zep", 304);
+				return;
+			}
 		} else {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Column type cannot be auto-increment", "phalcon/db/column.zep", 303);
-			return;
+			zephir_update_property_this(this_ptr, SL("_autoIncrement"), (0) ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
 		}
 	}
 	if (zephir_array_isset_string_fetch(&first, definition, SS("first"), 1 TSRMLS_CC)) {
@@ -538,7 +542,7 @@ PHP_METHOD(Phalcon_Db_Column, __set_state) {
 	if (!(zephir_array_isset_string_fetch(&columnName, data, SS("_columnName"), 0 TSRMLS_CC))) {
 		ZEPHIR_OBS_NVAR(columnName);
 		if (!(zephir_array_isset_string_fetch(&columnName, data, SS("_name"), 0 TSRMLS_CC))) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Column name is required", "phalcon/db/column.zep", 424);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Column name is required", "phalcon/db/column.zep", 428);
 			return;
 		}
 	}
@@ -557,15 +561,15 @@ PHP_METHOD(Phalcon_Db_Column, __set_state) {
 		zephir_array_update_string(&definition, SL("size"), &size, PH_COPY | PH_SEPARATE);
 	}
 	if (zephir_array_isset_string_fetch(&scale, data, SS("_scale"), 1 TSRMLS_CC)) {
-		zephir_array_fetch_string(&_0, definition, SL("type"), PH_NOISY | PH_READONLY, "phalcon/db/column.zep", 447 TSRMLS_CC);
+		zephir_array_fetch_string(&_0, definition, SL("type"), PH_NOISY | PH_READONLY, "phalcon/db/column.zep", 451 TSRMLS_CC);
 		_1 = ZEPHIR_IS_LONG(_0, 0);
 		if (!(_1)) {
-			zephir_array_fetch_string(&_2, definition, SL("type"), PH_NOISY | PH_READONLY, "phalcon/db/column.zep", 447 TSRMLS_CC);
+			zephir_array_fetch_string(&_2, definition, SL("type"), PH_NOISY | PH_READONLY, "phalcon/db/column.zep", 451 TSRMLS_CC);
 			_1 = ZEPHIR_IS_LONG(_2, 7);
 		}
 		_3 = _1;
 		if (!(_3)) {
-			zephir_array_fetch_string(&_4, definition, SL("type"), PH_NOISY | PH_READONLY, "phalcon/db/column.zep", 447 TSRMLS_CC);
+			zephir_array_fetch_string(&_4, definition, SL("type"), PH_NOISY | PH_READONLY, "phalcon/db/column.zep", 451 TSRMLS_CC);
 			_3 = ZEPHIR_IS_LONG(_4, 3);
 		}
 		if (_3) {
