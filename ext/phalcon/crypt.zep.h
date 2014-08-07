@@ -10,6 +10,8 @@ PHP_METHOD(Phalcon_Crypt, setMode);
 PHP_METHOD(Phalcon_Crypt, getMode);
 PHP_METHOD(Phalcon_Crypt, setKey);
 PHP_METHOD(Phalcon_Crypt, getKey);
+PHP_METHOD(Phalcon_Crypt, _cryptPadText);
+PHP_METHOD(Phalcon_Crypt, _cryptUnpadText);
 PHP_METHOD(Phalcon_Crypt, encrypt);
 PHP_METHOD(Phalcon_Crypt, decrypt);
 PHP_METHOD(Phalcon_Crypt, encryptBase64);
@@ -31,6 +33,20 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_crypt_setkey, 0, 0, 1)
 	ZEND_ARG_INFO(0, key)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_crypt__cryptpadtext, 0, 0, 4)
+	ZEND_ARG_INFO(0, text)
+	ZEND_ARG_INFO(0, mode)
+	ZEND_ARG_INFO(0, blockSize)
+	ZEND_ARG_INFO(0, paddingType)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_crypt__cryptunpadtext, 0, 0, 4)
+	ZEND_ARG_INFO(0, text)
+	ZEND_ARG_INFO(0, mode)
+	ZEND_ARG_INFO(0, blockSize)
+	ZEND_ARG_INFO(0, paddingType)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_crypt_encrypt, 0, 0, 1)
@@ -61,6 +77,8 @@ ZEPHIR_INIT_FUNCS(phalcon_crypt_method_entry) {
 	PHP_ME(Phalcon_Crypt, getMode, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Crypt, setKey, arginfo_phalcon_crypt_setkey, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Crypt, getKey, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Crypt, _cryptPadText, arginfo_phalcon_crypt__cryptpadtext, ZEND_ACC_PRIVATE)
+	PHP_ME(Phalcon_Crypt, _cryptUnpadText, arginfo_phalcon_crypt__cryptunpadtext, ZEND_ACC_PRIVATE)
 	PHP_ME(Phalcon_Crypt, encrypt, arginfo_phalcon_crypt_encrypt, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Crypt, decrypt, arginfo_phalcon_crypt_decrypt, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Crypt, encryptBase64, arginfo_phalcon_crypt_encryptbase64, ZEND_ACC_PUBLIC)

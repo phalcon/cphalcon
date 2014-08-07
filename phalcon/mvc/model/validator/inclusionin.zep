@@ -20,6 +20,8 @@
 namespace Phalcon\Mvc\Model\Validator;
 
 use Phalcon\Mvc\Model\Exception;
+use Phalcon\Mvc\Model\Validator;
+use Phalcon\Mvc\Model\ValidatorInterface;
 
 /**
  * Phalcon\Mvc\Model\Validator\InclusionIn
@@ -46,7 +48,7 @@ use Phalcon\Mvc\Model\Exception;
  *	}
  *</code>
  */
-class Inclusionin extends \Phalcon\Mvc\Model\Validator implements \Phalcon\Mvc\Model\ValidatorInterface
+class Inclusionin extends Validator implements ValidatorInterface
 {
 	/**
 	 * Executes validator
