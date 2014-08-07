@@ -23,6 +23,7 @@ use Phalcon\Mvc\Model\Relation;
 use Phalcon\Mvc\Model\RelationInterface;
 use Phalcon\Mvc\Model\Exception;
 use Phalcon\Mvc\ModelInterface;
+use Phalcon\Db\AdapterInterface;
 use Phalcon\Mvc\Model\ResultsetInterface;
 use Phalcon\Mvc\Model\ManagerInterface;
 use Phalcon\Di\InjectionAwareInterface;
@@ -417,7 +418,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, \Phalcon\Eve
 	 * @param Phalcon\Mvc\ModelInterface model
 	 * @return Phalcon\Db\AdapterInterface
 	 */
-	public function getReadConnection(<ModelInterface> model) -> <\Phalcon\Db\AdapterInterface>
+	public function getReadConnection(<ModelInterface> model) -> <AdapterInterface>
 	{
 		var connectionServices, dependencyInjector, service = null, connection;
 
@@ -439,9 +440,9 @@ class Manager implements ManagerInterface, InjectionAwareInterface, \Phalcon\Eve
 		 * Request the connection service from the DI
 		 */
 		if service {
-			let connection = <\Phalcon\Db\AdapterInterface> dependencyInjector->getShared(service);
+			let connection = <AdapterInterface> dependencyInjector->getShared(service);
 		} else {
-			let connection = <\Phalcon\Db\AdapterInterface> dependencyInjector->getShared("db");
+			let connection = <AdapterInterface> dependencyInjector->getShared("db");
 		}
 		if typeof connection != "object" {
 			throw new Exception("Invalid injected connection service");
@@ -456,7 +457,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, \Phalcon\Eve
 	 * @param Phalcon\Mvc\ModelInterface model
 	 * @return Phalcon\Db\AdapterInterface
 	 */
-	public function getWriteConnection(<ModelInterface> model) -> <\Phalcon\Db\AdapterInterface>
+	public function getWriteConnection(<ModelInterface> model) -> <AdapterInterface>
 	{
 		var connectionServices, dependencyInjector, service = null, connection;
 
@@ -478,9 +479,9 @@ class Manager implements ManagerInterface, InjectionAwareInterface, \Phalcon\Eve
 		 * Request the connection service from the DI
 		 */
 		if service {
-			let connection = <\Phalcon\Db\AdapterInterface> dependencyInjector->getShared(service);
+			let connection = <AdapterInterface> dependencyInjector->getShared(service);
 		} else {
-			let connection = <\Phalcon\Db\AdapterInterface> dependencyInjector->getShared("db");
+			let connection = <AdapterInterface> dependencyInjector->getShared("db");
 		}
 		if typeof connection != "object" {
 			throw new Exception("Invalid injected connection service");

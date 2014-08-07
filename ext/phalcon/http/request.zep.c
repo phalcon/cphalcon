@@ -914,7 +914,7 @@ PHP_METHOD(Phalcon_Http_Request, getClientAddress) {
 
 
 	if (trustForwardedHeader) {
-		ZEPHIR_OBS_VAR(address);
+		ZEPHIR_OBS_NVAR(address);
 		zephir_get_global(&_SERVER, SS("_SERVER") TSRMLS_CC);
 		zephir_array_isset_string_fetch(&address, _SERVER, SS("HTTP_X_FORWARDED_FOR"), 0 TSRMLS_CC);
 	}

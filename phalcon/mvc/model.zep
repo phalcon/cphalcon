@@ -346,7 +346,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 * @param string connectionService
 	 * @return Phalcon\Mvc\Model
 	 */
-	public function setConnectionService(string! connectionService) -> <\Phalcon\Mvc\Model>
+	public function setConnectionService(string! connectionService) -> <Model>
 	{
 		(<ManagerInterface> this->_modelsManager)->setConnectionService(this, connectionService);
 		return this;
@@ -358,7 +358,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 * @param string connectionService
 	 * @return Phalcon\Mvc\Model
 	 */
-	public function setReadConnectionService(string! connectionService) -> <\Phalcon\Mvc\Model>
+	public function setReadConnectionService(string! connectionService) -> <Model>
 	{
 		(<ManagerInterface> this->_modelsManager)->setReadConnectionService(this, connectionService);
 		return this;
@@ -370,7 +370,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 * @param string connectionService
 	 * @return Phalcon\Mvc\Model
 	 */
-	public function setWriteConnectionService(string! connectionService) -> <\Phalcon\Mvc\Model>
+	public function setWriteConnectionService(string! connectionService) -> <Model>
 	{
 		return (<ManagerInterface> this->_modelsManager)->setWriteConnectionService(this, connectionService);
 	}

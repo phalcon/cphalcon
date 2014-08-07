@@ -328,7 +328,7 @@ PHP_METHOD(Phalcon_Crypt, _cryptPadText) {
 				ZVAL_LONG(&_1, paddingSize);
 				ZEPHIR_CALL_FUNCTION(&_6, "chr", &_3, &_1);
 				zephir_check_call_status();
-				ZEPHIR_INIT_VAR(padding);
+				ZEPHIR_INIT_NVAR(padding);
 				ZEPHIR_CONCAT_VV(padding, _4, _6);
 				break;
 			}

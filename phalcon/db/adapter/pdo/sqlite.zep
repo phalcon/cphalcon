@@ -89,7 +89,7 @@ class Sqlite extends \Phalcon\Db\Adapter\Pdo implements AdapterInterface
 	public function describeColumns(string table, string schema = null)
 	{
 		var columns, columnType, field, definition,
-			oldColumn, sizePattern, matches, matchOne, matchTwo, columnName, data;
+			oldColumn, sizePattern, matches, matchOne, matchTwo, columnName;
 
 		let oldColumn = null,
 			sizePattern = "#\\(([0-9]+)(?:,\\s*([0-9]+))*\\)#";
