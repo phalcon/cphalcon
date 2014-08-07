@@ -46,11 +46,7 @@ class ModelsMultipleSourcesTest extends PHPUnit_Framework_TestCase
 		$di = new Phalcon\DI();
 
 		$di->set('modelsManager', function() {
-			$e = new Phalcon\Mvc\Model\Manager();
-			//register_shutdown_function(function() use ($e) {
-			//	print_r($e);
-			//});
-			return $e;
+			return new Phalcon\Mvc\Model\Manager();
 		}, true);
 
 		$di->set('modelsMetadata', function() {
