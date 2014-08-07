@@ -234,7 +234,7 @@ PHP_METHOD(Phalcon_Flash_Session, getMessages) {
 	if (Z_TYPE_P(messages) == IS_ARRAY) {
 		if (Z_TYPE_P(type) == IS_STRING) {
 			if (zephir_array_isset_fetch(&returnMessages, messages, type, 1 TSRMLS_CC)) {
-				zephir_array_fetch(&_0, messages, type, PH_NOISY | PH_READONLY TSRMLS_CC);
+				zephir_array_fetch(&_0, messages, type, PH_NOISY | PH_READONLY, "phalcon/flash/session.zep", 133 TSRMLS_CC);
 				RETURN_CTOR(_0);
 			}
 		}

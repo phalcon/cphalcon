@@ -25,7 +25,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_text_increment, 0, 0, 1)
 	ZEND_ARG_INFO(0, separator)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_text_random, 0, 0, 1)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_text_random, 0, 0, 0)
 	ZEND_ARG_INFO(0, type)
 	ZEND_ARG_INFO(0, length)
 ZEND_END_ARG_INFO()

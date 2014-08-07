@@ -89,12 +89,13 @@ class Syslog extends \Phalcon\Logger\Adapter implements \Phalcon\Logger\AdapterI
 	 * @param string message
 	 * @param int type
 	 * @param int time
+	 * @param array $context
 	 */
-	public function logInternal(message, int type, int time)
+	public function logInternal(string message, int type, int time, array context)
 	{
 		var appliedFormat;
 
-		let appliedFormat = this->getFormatter()->format(message, type, time);
+		let appliedFormat = this->getFormatter()->format(message, type, time, context);
 		if typeof appliedFormat != "array" {
 			throw new Exception("The formatted message is not valid");
 		}

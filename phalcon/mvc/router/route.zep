@@ -45,6 +45,8 @@ class Route
 
 	protected _beforeMatch;
 
+	protected _group;
+
 	protected static _uniqueId;
 
 	/**
@@ -54,13 +56,26 @@ class Route
 	 * @param array paths
 	 * @param array|string httpMethods
 	 */
-	public function __construct(string! pattern, paths=null, httpMethods=null)
+	public function __construct(string! pattern, paths=null, httpMethods = null)
 	{
+		var routeId, uniqueId;
+
 		// Configure the route (extract parameters, paths, etc)
 		this->reConfigure(pattern, paths);
 
 		// Update the HTTP method constraints
 		let this->_methods = httpMethods;
+
+        // Get the unique Id from the static member _uniqueId
+		let uniqueId = self::_uniqueId;
+		if uniqueId === null {
+			let uniqueId = 0;
+		}
+
+		// TODO: Add a function that increase static members
+		let routeId = uniqueId,
+			this->_id = routeId,
+			self::_uniqueId = uniqueId + 1;
 	}
 
 	/**
@@ -564,6 +579,28 @@ class Route
 	}
 
 	/**
+	 * Sets the group associated with the route
+	 *
+	 * @param Phalcon\Mvc\Router\Group $group
+	 * @return Phalcon\Mvc\RouteInterface
+	 */
+	public function setGroup(group) -> <Route>
+	{
+		let this->_group = group;
+		return this;
+	}
+
+	/**
+	 * Returns the group associated with the route
+	 *
+	 * @return Phalcon\Mvc\Router\Group|null
+	 */
+	public function getGroup()
+	{
+		return this->_group;
+	}
+
+	/**
 	 * Adds a converter to perform an additional transformation for certain parameter
 	 *
 	 * @param string name
@@ -591,7 +628,7 @@ class Route
 	 */
 	public static function reset()
 	{
-		let self::_uniqueId = 0;
+		let self::_uniqueId = null;
 	}
 
 }

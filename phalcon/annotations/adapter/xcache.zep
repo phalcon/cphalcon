@@ -19,6 +19,10 @@
 
 namespace Phalcon\Annotations\Adapter;
 
+use Phalcon\Annotations\Adapter;
+use Phalcon\Annotations\AdapterInterface;
+use Phalcon\Annotations\Reflection;
+
 /**
  * Phalcon\Annotations\Adapter\Xcache
  *
@@ -28,7 +32,7 @@ namespace Phalcon\Annotations\Adapter;
  * $annotations = new \Phalcon\Annotations\Adapter\Xcache();
  *</code>
  */
-class Xcache extends \Phalcon\Annotations\Adapter implements \Phalcon\Annotations\AdapterInterface
+class Xcache extends Adapter implements AdapterInterface
 {
 	/**
 	 * Reads parsed annotations from XCache
@@ -36,7 +40,7 @@ class Xcache extends \Phalcon\Annotations\Adapter implements \Phalcon\Annotation
 	 * @param string key
 	 * @return Phalcon\Annotations\Reflection
 	 */
-	public function read(string! key) -> <\Phalcon\Annotations\Reflection> | boolean
+	public function read(string! key) -> <Reflection> | boolean
 	{
 		var serialized, data;
 		let serialized = xcache_get(strtolower("_PHAN" . key));
@@ -55,7 +59,7 @@ class Xcache extends \Phalcon\Annotations\Adapter implements \Phalcon\Annotation
 	* @param string key
 	* @param Phalcon\Annotations\Reflection $data
 	*/
-	public function write(string! key, <\Phalcon\Annotations\Reflection> data)
+	public function write(string! key, <Reflection> data)
 	{
 		xcache_set(strtolower("_PHAN" . key), serialize(data));
 	}

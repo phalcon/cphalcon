@@ -14,8 +14,8 @@
 #include "kernel/main.h"
 #include "kernel/object.h"
 #include "kernel/array.h"
-#include "kernel/memory.h"
 #include "kernel/operators.h"
+#include "kernel/memory.h"
 #include "kernel/exception.h"
 #include "kernel/fcall.h"
 
@@ -90,10 +90,13 @@ ZEPHIR_INIT_CLASS(Phalcon_Paginator_Adapter_NativeArray) {
  */
 PHP_METHOD(Phalcon_Paginator_Adapter_NativeArray, __construct) {
 
-	zval *config, *page, *limit;
+	zval *config_param = NULL, *page, *limit;
+	zval *config = NULL;
 
-	zephir_fetch_params(0, 1, 0, &config);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &config_param);
 
+	zephir_get_arrval(config, config_param);
 
 
 	zephir_update_property_this(this_ptr, SL("_config"), config TSRMLS_CC);
@@ -103,6 +106,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_NativeArray, __construct) {
 	if (zephir_array_isset_string_fetch(&page, config, SS("page"), 1 TSRMLS_CC)) {
 		zephir_update_property_this(this_ptr, SL("_page"), page TSRMLS_CC);
 	}
+	ZEPHIR_MM_RESTORE();
 
 }
 
@@ -144,7 +148,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_NativeArray, getPaginate) {
 	ZEPHIR_OBS_VAR(config);
 	zephir_read_property_this(&config, this_ptr, SL("_config"), PH_NOISY_CC);
 	ZEPHIR_OBS_VAR(items);
-	zephir_array_fetch_string(&items, config, SL("data"), PH_NOISY TSRMLS_CC);
+	zephir_array_fetch_string(&items, config, SL("data"), PH_NOISY, "phalcon/paginator/adapter/nativearray.zep", 108 TSRMLS_CC);
 	if (Z_TYPE_P(items) != IS_ARRAY) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_paginator_exception_ce, "Invalid data for paginator", "phalcon/paginator/adapter/nativearray.zep", 111);
 		return;

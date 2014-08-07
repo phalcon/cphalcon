@@ -41,7 +41,7 @@ int ZEPHIR_FASTCALL zephir_array_unset_long(zval **arr, unsigned long index, int
 int ZEPHIR_FASTCALL zephir_array_unset_string(zval **arr, const char *index, uint index_length, int flags);
 
 /** Append elements to arrays */
-int zephir_array_append(zval **arr, zval *value, int separate);
+int zephir_array_append(zval **arr, zval *value, int separate ZEPHIR_DEBUG_PARAMS);
 int zephir_array_append_long(zval **arr, long value, int separate);
 int zephir_array_append_string(zval **arr, char *value, uint value_length, int separate);
 
@@ -51,9 +51,9 @@ int zephir_array_update_string(zval **arr, const char *index, uint index_length,
 int zephir_array_update_long(zval **arr, unsigned long index, zval **value, int flags ZEPHIR_DEBUG_PARAMS);
 
 /** Fetch items from arrays */
-int zephir_array_fetch(zval **return_value, zval *arr, zval *index, int flags TSRMLS_DC);
-int zephir_array_fetch_string(zval **return_value, zval *arr, const char *index, uint index_length, int flags TSRMLS_DC);
-int zephir_array_fetch_long(zval **return_value, zval *arr, unsigned long index, int flags TSRMLS_DC);
+int zephir_array_fetch(zval **return_value, zval *arr, zval *index, int flags ZEPHIR_DEBUG_PARAMS TSRMLS_DC);
+int zephir_array_fetch_string(zval **return_value, zval *arr, const char *index, uint index_length, int flags ZEPHIR_DEBUG_PARAMS TSRMLS_DC);
+int zephir_array_fetch_long(zval **return_value, zval *arr, unsigned long index, int flags ZEPHIR_DEBUG_PARAMS TSRMLS_DC);
 
 /** Merge+Append */
 void zephir_merge_append(zval *left, zval *values);

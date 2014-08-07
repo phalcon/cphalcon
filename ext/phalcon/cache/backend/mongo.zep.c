@@ -148,7 +148,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, _getCollection) {
 			}
 		} else {
 			ZEPHIR_OBS_VAR(server);
-			zephir_array_fetch_string(&server, options, SL("server"), PH_NOISY TSRMLS_CC);
+			zephir_array_fetch_string(&server, options, SL("server"), PH_NOISY, "phalcon/cache/backend/mongo.zep", 104 TSRMLS_CC);
 			_0 = !zephir_is_true(server);
 			if (!(_0)) {
 				_0 = Z_TYPE_P(server) != IS_STRING;
@@ -166,7 +166,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, _getCollection) {
 			}
 		}
 		ZEPHIR_OBS_VAR(database);
-		zephir_array_fetch_string(&database, options, SL("db"), PH_NOISY TSRMLS_CC);
+		zephir_array_fetch_string(&database, options, SL("db"), PH_NOISY, "phalcon/cache/backend/mongo.zep", 114 TSRMLS_CC);
 		_0 = !zephir_is_true(database);
 		if (!(_0)) {
 			_0 = Z_TYPE_P(database) != IS_STRING;
@@ -176,7 +176,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, _getCollection) {
 			return;
 		}
 		ZEPHIR_OBS_VAR(collection);
-		zephir_array_fetch_string(&collection, options, SL("collection"), PH_NOISY TSRMLS_CC);
+		zephir_array_fetch_string(&collection, options, SL("collection"), PH_NOISY, "phalcon/cache/backend/mongo.zep", 122 TSRMLS_CC);
 		_0 = !zephir_is_true(collection);
 		if (!(_0)) {
 			_0 = Z_TYPE_P(collection) != IS_STRING;
@@ -466,7 +466,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, queryKeys) {
 		ZEPHIR_GET_HMKEY(index, _8, _7);
 		ZEPHIR_GET_HVALUE(key, _9);
 		if (ZEPHIR_IS_STRING(index, "key")) {
-			zephir_array_append(&keys, key, PH_SEPARATE);
+			zephir_array_append(&keys, key, PH_SEPARATE, "phalcon/cache/backend/mongo.zep", 296);
 		}
 	}
 	RETURN_CCTOR(keys);

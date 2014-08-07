@@ -19,6 +19,10 @@
 
 namespace Phalcon\Mvc\Model\Validator;
 
+use Phalcon\Mvc\Model\Exception;
+use Phalcon\Mvc\Model\Validator;
+use Phalcon\Mvc\Model\ValidatorInterface;
+
 /**
  * Phalcon\Mvc\Model\Validator\InclusionIn
  *
@@ -44,7 +48,7 @@ namespace Phalcon\Mvc\Model\Validator;
  *	}
  *</code>
  */
-class Inclusionin extends \Phalcon\Mvc\Model\Validator implements \Phalcon\Mvc\Model\ValidatorInterface
+class Inclusionin extends Validator implements ValidatorInterface
 {
 	/**
 	 * Executes validator
@@ -58,19 +62,19 @@ class Inclusionin extends \Phalcon\Mvc\Model\Validator implements \Phalcon\Mvc\M
 
 		let field = this->getOption("field");
 		if typeof field != "string" {
-			throw new \Phalcon\Mvc\Model\Exception("Field name must be a string");
+			throw new Exception("Field name must be a string");
 		}
 
 		/**
 		 * The 'domain' option must be a valid array of not allowed values
 		 */
 		if this->isSetOption("domain") === false {
-			throw new \Phalcon\Mvc\Model\Exception("The option 'domain' is required for this validator");
+			throw new Exception("The option 'domain' is required for this validator");
 		}
 
 		let domain = this->getOption("domain");
 		if typeof domain != "array" {
-			throw new \Phalcon\Mvc\Model\Exception("Option 'domain' must be an array");
+			throw new Exception("Option 'domain' must be an array");
 		}
 
 		let value = record->readAttribute(field);
@@ -89,7 +93,7 @@ class Inclusionin extends \Phalcon\Mvc\Model\Validator implements \Phalcon\Mvc\M
 			 */
 			let message = this->getOption("message");
 			if empty message {
-				let message = "Value of field :field must be part of list: :domain";
+				let message = "Value of field ':field' must be part of list: :domain";
 			}
 
 			this->appendMessage(strtr(message, [":field": field, ":domain":  join(", ", domain)]), field, "Inclusion");

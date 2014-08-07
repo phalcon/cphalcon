@@ -121,9 +121,9 @@ PHP_METHOD(Phalcon_Validation_Validator_Between, validate) {
 	if (_2) {
 		RETURN_MM_BOOL(1);
 	}
-	_3 = ZEPHIR_GE(value, minimum);
+	_3 = ZEPHIR_LT(value, minimum);
 	if (!(_3)) {
-		_3 = ZEPHIR_LE(value, maximum);
+		_3 = ZEPHIR_GT(value, maximum);
 	}
 	if (_3) {
 		ZEPHIR_INIT_BNVAR(_0);
@@ -134,9 +134,6 @@ PHP_METHOD(Phalcon_Validation_Validator_Between, validate) {
 		if (ZEPHIR_IS_EMPTY(label)) {
 			ZEPHIR_CALL_METHOD(&label, validation, "getlabel", NULL, field);
 			zephir_check_call_status();
-			if (ZEPHIR_IS_EMPTY(label)) {
-				ZEPHIR_CPY_WRT(label, field);
-			}
 		}
 		ZEPHIR_INIT_BNVAR(_0);
 		ZVAL_STRING(_0, "message", 0);
@@ -144,7 +141,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Between, validate) {
 		zephir_check_temp_parameter(_0);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(replacePairs);
-		array_init_size(replacePairs, 4);
+		array_init_size(replacePairs, 5);
 		zephir_array_update_string(&replacePairs, SL(":field"), &label, PH_COPY | PH_SEPARATE);
 		zephir_array_update_string(&replacePairs, SL(":min"), &minimum, PH_COPY | PH_SEPARATE);
 		zephir_array_update_string(&replacePairs, SL(":max"), &maximum, PH_COPY | PH_SEPARATE);

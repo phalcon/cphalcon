@@ -107,11 +107,17 @@ PHP_METHOD(Phalcon_Db_Profiler, startProfile) {
 
 	zephir_nts_static zephir_fcall_cache_entry *_1 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *sqlStatement, *activeProfile, *_0 = NULL;
+	zval *sqlStatement, *sqlVariables = NULL, *sqlBindTypes = NULL, *activeProfile, *_0 = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &sqlStatement);
+	zephir_fetch_params(1, 1, 2, &sqlStatement, &sqlVariables, &sqlBindTypes);
 
+	if (!sqlVariables) {
+		sqlVariables = ZEPHIR_GLOBAL(global_null);
+	}
+	if (!sqlBindTypes) {
+		sqlBindTypes = ZEPHIR_GLOBAL(global_null);
+	}
 
 
 	ZEPHIR_INIT_VAR(activeProfile);
@@ -122,6 +128,14 @@ PHP_METHOD(Phalcon_Db_Profiler, startProfile) {
 	}
 	ZEPHIR_CALL_METHOD(NULL, activeProfile, "setsqlstatement", NULL, sqlStatement);
 	zephir_check_call_status();
+	if (Z_TYPE_P(sqlVariables) == IS_ARRAY) {
+		ZEPHIR_CALL_METHOD(NULL, activeProfile, "setsqlvariables", NULL, sqlVariables);
+		zephir_check_call_status();
+	}
+	if (Z_TYPE_P(sqlBindTypes) == IS_ARRAY) {
+		ZEPHIR_CALL_METHOD(NULL, activeProfile, "setsqlbindtypes", NULL, sqlBindTypes);
+		zephir_check_call_status();
+	}
 	ZEPHIR_CALL_FUNCTION(&_0, "microtime", &_1, ZEPHIR_GLOBAL(global_true));
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(NULL, activeProfile, "setinitialtime", NULL, _0);

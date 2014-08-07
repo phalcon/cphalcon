@@ -79,12 +79,12 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_Uniqueness) {
  */
 PHP_METHOD(Phalcon_Validation_Validator_Uniqueness, validate) {
 
-	zephir_nts_static zephir_fcall_cache_entry *_6 = NULL;
-	zend_class_entry *_4;
-	zval *_1, *_3;
+	zephir_nts_static zephir_fcall_cache_entry *_7 = NULL;
+	zend_class_entry *_4, *_5;
+	zval *_1 = NULL, *_3 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *field = NULL;
-	zval *validation, *field_param = NULL, *attribute = NULL, *value = NULL, *model = NULL, *number = NULL, *message = NULL, *label = NULL, *replacePairs, *_0, *_2 = NULL, *_5 = NULL;
+	zval *validation, *field_param = NULL, *attribute = NULL, *value = NULL, *model = NULL, *except = NULL, *number = NULL, *message = NULL, *label = NULL, *replacePairs, *_0, *_2 = NULL, *_6 = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &validation, &field_param);
@@ -118,25 +118,46 @@ PHP_METHOD(Phalcon_Validation_Validator_Uniqueness, validate) {
 	ZEPHIR_CALL_METHOD(&attribute, this_ptr, "getoption", NULL, _0);
 	zephir_check_temp_parameter(_0);
 	zephir_check_call_status();
+	ZEPHIR_INIT_BNVAR(_0);
+	ZVAL_STRING(_0, "except", 0);
+	ZEPHIR_CALL_METHOD(&except, this_ptr, "getoption", NULL, _0);
+	zephir_check_temp_parameter(_0);
+	zephir_check_call_status();
 	if (ZEPHIR_IS_EMPTY(model)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_validation_exception_ce, "Model must be set", "phalcon/validation/validator/uniqueness.zep", 63);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_validation_exception_ce, "Model must be set", "phalcon/validation/validator/uniqueness.zep", 64);
 		return;
 	}
 	if (ZEPHIR_IS_EMPTY(attribute)) {
 		ZEPHIR_CPY_WRT(attribute, field);
 	}
-	ZEPHIR_INIT_VAR(_1);
-	array_init_size(_1, 3);
-	ZEPHIR_INIT_VAR(_2);
-	ZEPHIR_CONCAT_VS(_2, attribute, "=:value:");
-	zephir_array_fast_append(_1, _2);
-	ZEPHIR_INIT_VAR(_3);
-	array_init_size(_3, 2);
-	zephir_array_update_string(&_3, SL("value"), &value, PH_COPY | PH_SEPARATE);
-	zephir_array_update_string(&_1, SL("bind"), &_3, PH_COPY | PH_SEPARATE);
-	_4 = zend_fetch_class(Z_STRVAL_P(model), Z_STRLEN_P(model), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
-	ZEPHIR_CALL_CE_STATIC(&number, _4, "count", NULL, _1);
-	zephir_check_call_status();
+	if (zephir_is_true(except)) {
+		ZEPHIR_INIT_VAR(_1);
+		array_init_size(_1, 3);
+		ZEPHIR_INIT_VAR(_2);
+		ZEPHIR_CONCAT_VSVS(_2, attribute, "=:value: AND ", attribute, "!= :except:");
+		zephir_array_fast_append(_1, _2);
+		ZEPHIR_INIT_VAR(_3);
+		array_init_size(_3, 3);
+		zephir_array_update_string(&_3, SL("value"), &value, PH_COPY | PH_SEPARATE);
+		zephir_array_update_string(&_3, SL("except"), &except, PH_COPY | PH_SEPARATE);
+		zephir_array_update_string(&_1, SL("bind"), &_3, PH_COPY | PH_SEPARATE);
+		_4 = zend_fetch_class(Z_STRVAL_P(model), Z_STRLEN_P(model), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
+		ZEPHIR_CALL_CE_STATIC(&number, _4, "count", NULL, _1);
+		zephir_check_call_status();
+	} else {
+		ZEPHIR_INIT_NVAR(_1);
+		array_init_size(_1, 3);
+		ZEPHIR_INIT_LNVAR(_2);
+		ZEPHIR_CONCAT_VS(_2, attribute, "=:value:");
+		zephir_array_fast_append(_1, _2);
+		ZEPHIR_INIT_NVAR(_3);
+		array_init_size(_3, 2);
+		zephir_array_update_string(&_3, SL("value"), &value, PH_COPY | PH_SEPARATE);
+		zephir_array_update_string(&_1, SL("bind"), &_3, PH_COPY | PH_SEPARATE);
+		_5 = zend_fetch_class(Z_STRVAL_P(model), Z_STRLEN_P(model), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
+		ZEPHIR_CALL_CE_STATIC(&number, _5, "count", NULL, _1);
+		zephir_check_call_status();
+	}
 	if (zephir_is_true(number)) {
 		ZEPHIR_INIT_BNVAR(_0);
 		ZVAL_STRING(_0, "label", 0);
@@ -146,9 +167,6 @@ PHP_METHOD(Phalcon_Validation_Validator_Uniqueness, validate) {
 		if (ZEPHIR_IS_EMPTY(label)) {
 			ZEPHIR_CALL_METHOD(&label, validation, "getlabel", NULL, field);
 			zephir_check_call_status();
-			if (ZEPHIR_IS_EMPTY(label)) {
-				ZEPHIR_CPY_WRT(label, field);
-			}
 		}
 		ZEPHIR_INIT_BNVAR(_0);
 		ZVAL_STRING(_0, "message", 0);
@@ -167,11 +185,11 @@ PHP_METHOD(Phalcon_Validation_Validator_Uniqueness, validate) {
 		}
 		ZEPHIR_INIT_LNVAR(_2);
 		object_init_ex(_2, phalcon_validation_message_ce);
-		ZEPHIR_CALL_FUNCTION(&_5, "strtr", &_6, message, replacePairs);
+		ZEPHIR_CALL_FUNCTION(&_6, "strtr", &_7, message, replacePairs);
 		zephir_check_call_status();
 		ZEPHIR_INIT_BNVAR(_0);
 		ZVAL_STRING(_0, "Uniqueness", 0);
-		ZEPHIR_CALL_METHOD(NULL, _2, "__construct", NULL, _5, field, _0);
+		ZEPHIR_CALL_METHOD(NULL, _2, "__construct", NULL, _6, field, _0);
 		zephir_check_temp_parameter(_0);
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, _2);

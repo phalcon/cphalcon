@@ -112,7 +112,7 @@ abstract class Dialect
 	 * @param string escapeChar
 	 * @return string
 	 */
-	public final function getSqlExpression(array! expression, string escapeChar=null) -> string
+	public final function getSqlExpression(array! expression, string escapeChar = null) -> string
 	{
 		var type, domain, operator, left, right, name, sqlItems,
 			escapedName, sqlArguments, arguments, argument, item;
@@ -189,8 +189,10 @@ abstract class Dialect
 			 * ...Others uses the right operand
 			 */
 			if fetch right, expression["right"] {
-				return this->getSqlExpression(right, escapeChar) . operator;
+				return  operator . this->getSqlExpression(right, escapeChar);
 			}
+
+			throw new Exception("Invalid SQL-unary expression");
 		}
 
 		/**
@@ -218,9 +220,8 @@ abstract class Dialect
 					let sqlArguments[] = this->getSqlExpression(argument, escapeChar);
 				}
 				return name . "(" . join(", ", sqlArguments) . ")";
-			} else {
-				return name . "()";
 			}
+			return name . "()";
 		}
 
 		/**

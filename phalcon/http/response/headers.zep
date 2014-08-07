@@ -62,7 +62,21 @@ class Headers implements \Phalcon\Http\Response\HeadersInterface
 	 */
 	public function setRaw(var header)
 	{
-		let this->_headers[header] = "";
+		let this->_headers[header] = null;
+	}
+
+	/**
+	 * Removes a header to be sent at the end of the request
+	 *
+	 * @param string $header Header name
+	 */
+	public function remove(string header)
+	{
+		var headers;
+
+		let headers = this->_headers;
+		unset(headers[header]);
+		let this->_headers = headers;
 	}
 
 	/**
@@ -93,6 +107,16 @@ class Headers implements \Phalcon\Http\Response\HeadersInterface
 	public function reset()
 	{
 		let this->_headers = [];
+	}
+
+	/**
+	 * Returns the current headers as an array
+	 *
+	 * @return array
+	 */
+	public function toArray()
+	{
+		return this->_headers;
 	}
 
 	/**

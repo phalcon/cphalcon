@@ -3,9 +3,12 @@ extern zend_class_entry *phalcon_validation_ce;
 
 ZEPHIR_INIT_CLASS(Phalcon_Validation);
 
+PHP_METHOD(Phalcon_Validation, setValidators);
 PHP_METHOD(Phalcon_Validation, __construct);
 PHP_METHOD(Phalcon_Validation, validate);
 PHP_METHOD(Phalcon_Validation, add);
+PHP_METHOD(Phalcon_Validation, rule);
+PHP_METHOD(Phalcon_Validation, rules);
 PHP_METHOD(Phalcon_Validation, setFilters);
 PHP_METHOD(Phalcon_Validation, getFilters);
 PHP_METHOD(Phalcon_Validation, getValidators);
@@ -19,6 +22,10 @@ PHP_METHOD(Phalcon_Validation, appendMessage);
 PHP_METHOD(Phalcon_Validation, bind);
 PHP_METHOD(Phalcon_Validation, getValue);
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_validation_setvalidators, 0, 0, 1)
+	ZEND_ARG_INFO(0, validators)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_validation___construct, 0, 0, 0)
 	ZEND_ARG_INFO(0, validators)
 ZEND_END_ARG_INFO()
@@ -31,6 +38,16 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_validation_add, 0, 0, 2)
 	ZEND_ARG_INFO(0, field)
 	ZEND_ARG_INFO(0, validator)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_validation_rule, 0, 0, 2)
+	ZEND_ARG_INFO(0, field)
+	ZEND_ARG_INFO(0, validator)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_validation_rules, 0, 0, 2)
+	ZEND_ARG_INFO(0, field)
+	ZEND_ARG_ARRAY_INFO(0, validators, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_validation_setfilters, 0, 0, 2)
@@ -72,9 +89,12 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_validation_getvalue, 0, 0, 1)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_validation_method_entry) {
+	PHP_ME(Phalcon_Validation, setValidators, arginfo_phalcon_validation_setvalidators, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Validation, __construct, arginfo_phalcon_validation___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_ME(Phalcon_Validation, validate, arginfo_phalcon_validation_validate, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Validation, add, arginfo_phalcon_validation_add, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Validation, rule, arginfo_phalcon_validation_rule, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Validation, rules, arginfo_phalcon_validation_rules, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Validation, setFilters, arginfo_phalcon_validation_setfilters, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Validation, getFilters, arginfo_phalcon_validation_getfilters, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Validation, getValidators, NULL, ZEND_ACC_PUBLIC)

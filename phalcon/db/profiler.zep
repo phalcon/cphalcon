@@ -19,6 +19,8 @@
 
 namespace Phalcon\Db;
 
+use Phalcon\Db\Profiler\Item;
+
 /**
  * Phalcon\Db\Profiler
  *
@@ -82,12 +84,22 @@ class Profiler
 	 * @param string sqlStatement
 	 * @return Phalcon\Db\Profiler
 	 */
-	public function startProfile(sqlStatement) -> <\Phalcon\Db\Profiler>
+	public function startProfile(var sqlStatement, var sqlVariables = null, var sqlBindTypes = null) -> <Profiler>
 	{
 		var activeProfile;
 
-		let activeProfile = new \Phalcon\Db\Profiler\Item();
+		let activeProfile = new Item();
+
 		activeProfile->setSqlStatement(sqlStatement);
+
+		if typeof sqlVariables == "array" {
+			activeProfile->setSqlVariables(sqlVariables);
+		}
+
+		if typeof sqlBindTypes == "array" {
+			activeProfile->setSqlBindTypes(sqlBindTypes);
+		}
+
 		activeProfile->setInitialTime(microtime(true));
 
 		if method_exists(this, "beforeStartProfile") {
@@ -95,6 +107,7 @@ class Profiler
 		}
 
 		let this->_activeProfile = activeProfile;
+
 		return this;
 	}
 
@@ -103,12 +116,12 @@ class Profiler
 	 *
 	 * @return Phalcon\Db\Profiler
 	 */
-	public function stopProfile() -> <\Phalcon\Db\Profiler>
+	public function stopProfile() -> <Profiler>
 	{
 		var finalTime, initialTime, activeProfile;
 
 		let finalTime = microtime(true),
-			activeProfile = <\Phalcon\Db\Profiler\Item> this->_activeProfile;
+			activeProfile = <Item> this->_activeProfile;
 
 		activeProfile->setFinalTime(finalTime);
 
@@ -148,7 +161,7 @@ class Profiler
 	 *
 	 * @return Phalcon\Db\Profiler\Item[]
 	 */
-	public function getProfiles()
+	public function getProfiles() -> <Item[]>
 	{
 		return this->_allProfiles;
 	}
@@ -158,7 +171,7 @@ class Profiler
 	 *
 	 * @return Phalcon\Db\Profiler
 	 */
-	public function reset() -> <\Phalcon\Db\Profiler>
+	public function reset() -> <Profiler>
 	{
 		let this->_allProfiles = [];
 		return this;
@@ -169,7 +182,7 @@ class Profiler
 	 *
 	 * @return	Phalcon\Db\Profiler\Item
 	 */
-	public function getLastProfile() -> <\Phalcon\Db\Profiler\Item>
+	public function getLastProfile() -> <Item>
 	{
 		return this->_activeProfile;
 	}

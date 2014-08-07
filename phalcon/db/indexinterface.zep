@@ -34,7 +34,7 @@ interface IndexInterface
 	 * @param array columns
 	 * @param string type
 	 */
-	public function __construct(indexName, columns, type);
+	public function __construct(string! indexName, array! columns, type=null);
 
 	/**
 	 * Gets the index name
@@ -63,6 +63,6 @@ interface IndexInterface
 	 * @param array data
 	 * @return Phalcon\Db\IndexInterface
 	 */
-	public static function __set_state(data);
+	public static function __set_state(array! data);
 
 }

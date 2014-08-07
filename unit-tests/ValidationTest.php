@@ -4,7 +4,7 @@
 	+------------------------------------------------------------------------+
 	| Phalcon Framework                                                      |
 	+------------------------------------------------------------------------+
-	| Copyright (c) 2011-2012 Phalcon Team (http://www.phalconphp.com)       |
+	| Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
 	+------------------------------------------------------------------------+
 	| This source file is subject to the New BSD License that is bundled     |
 	| with this package in the file docs/LICENSE.txt.                        |
@@ -963,7 +963,7 @@ class ValidationTest extends PHPUnit_Framework_TestCase
 		)));
 
 		$validation->setLabels(array('firstname' => 'First name'));
-                
+
 		$messages = $validation->validate($_POST);
 
 		$expectedMessages = Phalcon\Validation\Message\Group::__set_state(array(

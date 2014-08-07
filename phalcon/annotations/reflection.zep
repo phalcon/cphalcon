@@ -19,6 +19,8 @@
 
 namespace Phalcon\Annotations;
 
+use Phalcon\Annotations\Collection;
+
 /**
  * Phalcon\Annotations\Reflection
  *
@@ -52,7 +54,7 @@ class Reflection
 	 *
 	 * @param array reflectionData
 	 */
-	public function __construct(reflectionData=null)
+	public function __construct(reflectionData = null)
 	{
 		if typeof reflectionData == "array" {
 			let this->_reflectionData = reflectionData;
@@ -64,16 +66,15 @@ class Reflection
 	 *
 	 * @return Phalcon\Annotations\Collection|false
 	 */
-	public function getClassAnnotations() -> <\Phalcon\Annotations\Collection> | boolean
+	public function getClassAnnotations() -> <Collection> | boolean
 	{
 
-		var annotations, reflectionData, reflectionClass, collection;
+		var annotations, reflectionClass, collection;
 
 		let annotations = this->_classAnnotations;
 		if typeof annotations != "object" {
-			let reflectionData = this->_reflectionData;
-			if fetch reflectionClass, reflectionData["class"] {
-				let collection = new \Phalcon\Annotations\Collection(reflectionClass),
+			if fetch reflectionClass, this->_reflectionData["class"] {
+				let collection = new Collection(reflectionClass),
 					this->_classAnnotations = collection;
 				return collection;
 			}
@@ -99,7 +100,7 @@ class Reflection
 				if count(reflectionMethods) {
 					let collections = [];
 					for methodName, reflectionMethod in reflectionMethods {
-						let collections[methodName] = new \Phalcon\Annotations\Collection(reflectionMethod);
+						let collections[methodName] = new Collection(reflectionMethod);
 					}
 					let this->_methodAnnotations = collections;
 					return collections;
@@ -127,7 +128,7 @@ class Reflection
 				if count(reflectionProperties) {
 					let collections = [];
 					for property, reflectionProperty in reflectionProperties {
-						let collections[property] = new \Phalcon\Annotations\Collection(reflectionProperty);
+						let collections[property] = new Collection(reflectionProperty);
 					}
 					let this->_propertyAnnotations = collections;
 					return collections;

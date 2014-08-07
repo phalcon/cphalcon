@@ -421,7 +421,7 @@ int zephir_call_user_function(zval **object_pp, zend_class_entry *obj_ce, zephir
 	EG(scope) = old_scope;
 
 	if (!cache_entry || !*cache_entry) {
-		if (EXPECTED(status != FAILURE) && fcall_key && !temp_cache_entry && fcic.initialized) {
+		if (EXPECTED(status != FAILURE) && fcall_key && !temp_cache_entry) {
 	#ifndef ZEPHIR_RELEASE
 			zephir_fcall_cache_entry *temp_cache_entry = malloc(sizeof(zephir_fcall_cache_entry));
 			cache_entry->f     = fcic.function_handler;
@@ -440,6 +440,12 @@ int zephir_call_user_function(zval **object_pp, zend_class_entry *obj_ce, zephir
 			}
 		}
 	}
+
+	//#ifndef ZEPHIR_RELEASE
+	//if (Z_ISREF_P(zephir_globals_ptr->global_null)) {
+	//	fprintf(stderr, "F=%s\n", fcall_key);
+	//}
+	//#endif
 
 	if (fcall_key) {
 		efree(fcall_key);
@@ -548,6 +554,12 @@ int zephir_call_class_method_aparams(zval **return_value_ptr, zend_class_entry *
 		abort();
 	}
 #endif
+
+	if (object) {
+		if (Z_TYPE_P(object) != IS_OBJECT) {
+			zend_error(E_ERROR, "Trying to call method %s on a non-object", method_name);
+		}
+	}
 
 	if (!cache_entry || !*cache_entry) {
 

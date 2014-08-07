@@ -4,7 +4,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2012 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -33,8 +33,8 @@ class ModelsMetadataManualTest extends PHPUnit_Framework_TestCase
 
 	public function modelsAutoloader($className)
 	{
-		if (file_exists('unit-tests/models/'.$className.'.php')) {
-			require 'unit-tests/models/'.$className.'.php';
+		if (file_exists('unit-tests/models/' . $className . '.php')) {
+			require 'unit-tests/models/' . $className . '.php';
 		}
 	}
 

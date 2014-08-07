@@ -458,8 +458,10 @@ int zephir_fetch_parameters(int num_args TSRMLS_DC, int required_args, int optio
 
 #ifndef ZEPHIR_RELEASE
 #define ZEPHIR_DEBUG_PARAMS , const char *file, int line
+#define ZEPHIR_DEBUG_PARAMS_DUMMY , "", 0
 #else
 #define ZEPHIR_DEBUG_PARAMS , const char *file, int line
+#define ZEPHIR_DEBUG_PARAMS_DUMMY , "", 0
 #endif
 
 #define ZEPHIR_CHECK_POINTER(v) if (!v) fprintf(stderr, "%s:%d\n", __PRETTY_FUNCTION__, __LINE__);

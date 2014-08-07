@@ -234,7 +234,7 @@ PHP_METHOD(Phalcon_Http_Cookie, getValue) {
 	ZEPHIR_INIT_VAR(dependencyInjector);
 	ZVAL_NULL(dependencyInjector);
 	_1 = zephir_fetch_nproperty_this(this_ptr, SL("_readed"), PH_NOISY_CC);
-	if (ZEPHIR_IS_FALSE(_1)) {
+	if (ZEPHIR_IS_FALSE_IDENTICAL(_1)) {
 		ZEPHIR_OBS_VAR(value);
 		zephir_get_global(&_COOKIE, SS("_COOKIE") TSRMLS_CC);
 		_2 = zephir_fetch_nproperty_this(this_ptr, SL("_name"), PH_NOISY_CC);

@@ -298,11 +298,8 @@ abstract class Element
 	 * @param array attributes
 	 * @return Phalcon\Forms\ElementInterface
 	 */
-	public function setAttributes(attributes) -> <ElementInterface>
+	public function setAttributes(array! attributes) -> <ElementInterface>
 	{
-		if typeof attributes != "array" {
-			throw new Exception("Parameter 'attributes' must be an array");
-		}
 		let this->_attributes = attributes;
 		return this;
 	}
@@ -344,9 +341,8 @@ abstract class Element
 	 */
 	public function getUserOption(option, defaultValue=null)
 	{
-		var value, options;
-		let options = this->_options;
-		if fetch value, options[option] {
+		var value;
+		if fetch value, this->_options[option] {
 			return value;
 		}
 		return defaultValue;
@@ -403,24 +399,36 @@ abstract class Element
 	 */
 	public function label() -> string
 	{
-		var attributes, label, name;
+		var attributes, label, name, code;
 
 		/**
 		 * Check if there is an "id" attribute defined
 		 */
-		let attributes = this->_attributes;
-		if fetch name, attributes["id"] {
+		let attributes = this->getAttributes();
+
+		if !fetch name, attributes["id"] {
 			let name = this->_name;
+		} else {
+			unset attributes["id"];
 		}
+
+		if !isset attributes["for"] {
+			let attributes["for"] = name;
+		}
+
+		let code = \Phalcon\Tag::renderAttributes("<label", attributes);
 
 		/**
 		 * Use the default label or leave the same name as label
 		 */
 		let label = this->_label;
 		if label {
-			return "<label for=\"" .name . "\">" . label . "</label>";
+			let code .= ">" . label . "</label>";
+		} else {
+			let code .= ">" . name . "</label>";
 		}
-		return "<label for=\"" . name . "\">" . name . "</label>";
+
+		return code;
 	}
 
 	/**

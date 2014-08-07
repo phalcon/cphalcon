@@ -3,6 +3,9 @@ extern zend_class_entry *phalcon_mvc_view_ce;
 
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_View);
 
+PHP_METHOD(Phalcon_Mvc_View, getRenderLevel);
+PHP_METHOD(Phalcon_Mvc_View, getCurrentRenderLevel);
+PHP_METHOD(Phalcon_Mvc_View, getRegisteredEngines);
 PHP_METHOD(Phalcon_Mvc_View, __construct);
 PHP_METHOD(Phalcon_Mvc_View, setViewsDir);
 PHP_METHOD(Phalcon_Mvc_View, getViewsDir);
@@ -33,6 +36,7 @@ PHP_METHOD(Phalcon_Mvc_View, start);
 PHP_METHOD(Phalcon_Mvc_View, _loadTemplateEngines);
 PHP_METHOD(Phalcon_Mvc_View, _engineRender);
 PHP_METHOD(Phalcon_Mvc_View, registerEngines);
+PHP_METHOD(Phalcon_Mvc_View, exists);
 PHP_METHOD(Phalcon_Mvc_View, render);
 PHP_METHOD(Phalcon_Mvc_View, pick);
 PHP_METHOD(Phalcon_Mvc_View, partial);
@@ -119,10 +123,15 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view__enginerender, 0, 0, 4)
 	ZEND_ARG_INFO(0, viewPath)
 	ZEND_ARG_INFO(0, silence)
 	ZEND_ARG_INFO(0, mustClean)
+	ZEND_ARG_INFO(0, cache)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_registerengines, 0, 0, 1)
 	ZEND_ARG_INFO(0, engines)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_exists, 0, 0, 1)
+	ZEND_ARG_INFO(0, view)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_render, 0, 0, 2)
@@ -165,6 +174,9 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view___get, 0, 0, 1)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_mvc_view_method_entry) {
+	PHP_ME(Phalcon_Mvc_View, getRenderLevel, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_View, getCurrentRenderLevel, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_View, getRegisteredEngines, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_View, __construct, arginfo_phalcon_mvc_view___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_ME(Phalcon_Mvc_View, setViewsDir, arginfo_phalcon_mvc_view_setviewsdir, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_View, getViewsDir, NULL, ZEND_ACC_PUBLIC)
@@ -195,6 +207,7 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_view_method_entry) {
 	PHP_ME(Phalcon_Mvc_View, _loadTemplateEngines, NULL, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Mvc_View, _engineRender, arginfo_phalcon_mvc_view__enginerender, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Mvc_View, registerEngines, arginfo_phalcon_mvc_view_registerengines, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_View, exists, arginfo_phalcon_mvc_view_exists, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_View, render, arginfo_phalcon_mvc_view_render, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_View, pick, arginfo_phalcon_mvc_view_pick, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_View, partial, arginfo_phalcon_mvc_view_partial, ZEND_ACC_PUBLIC)

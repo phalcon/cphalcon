@@ -328,7 +328,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, save) {
 		return;
 	}
 	ZEPHIR_OBS_VAR(specialKey);
-	zephir_array_fetch_string(&specialKey, options, SL("statsKey"), PH_NOISY TSRMLS_CC);
+	zephir_array_fetch_string(&specialKey, options, SL("statsKey"), PH_NOISY, "phalcon/cache/backend/memcache.zep", 225 TSRMLS_CC);
 	ZEPHIR_CALL_METHOD(&keys, memcache, "get", NULL, specialKey);
 	zephir_check_call_status();
 	if (Z_TYPE_P(keys) != IS_ARRAY) {
@@ -389,7 +389,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, delete) {
 		return;
 	}
 	ZEPHIR_OBS_VAR(specialKey);
-	zephir_array_fetch_string(&specialKey, options, SL("statsKey"), PH_NOISY TSRMLS_CC);
+	zephir_array_fetch_string(&specialKey, options, SL("statsKey"), PH_NOISY, "phalcon/cache/backend/memcache.zep", 277 TSRMLS_CC);
 	ZEPHIR_CALL_METHOD(&keys, memcache, "get", NULL, specialKey);
 	zephir_check_call_status();
 	if (Z_TYPE_P(keys) == IS_ARRAY) {
@@ -440,7 +440,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, queryKeys) {
 		return;
 	}
 	ZEPHIR_OBS_VAR(specialKey);
-	zephir_array_fetch_string(&specialKey, options, SL("statsKey"), PH_NOISY TSRMLS_CC);
+	zephir_array_fetch_string(&specialKey, options, SL("statsKey"), PH_NOISY, "phalcon/cache/backend/memcache.zep", 314 TSRMLS_CC);
 	ZEPHIR_CALL_METHOD(&keys, memcache, "get", NULL, specialKey);
 	zephir_check_call_status();
 	if (Z_TYPE_P(keys) == IS_ARRAY) {
@@ -450,16 +450,16 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, queryKeys) {
 		  ; zephir_hash_move_forward_ex(_1, &_0)
 		) {
 			ZEPHIR_GET_HVALUE(key, _2);
-			_3 = !zephir_is_true(prefix);
-			if (!(_3)) {
-				_3 = zephir_start_with(key, prefix, 0);
+			_3 = zephir_is_true(prefix);
+			if (_3) {
+				_3 = !zephir_start_with(key, prefix, 0);
 			}
 			if (_3) {
-				RETURN_CCTOR(key);
+				zephir_array_unset(&keys, key, PH_SEPARATE);
 			}
 		}
 	}
-	ZEPHIR_MM_RESTORE();
+	RETURN_CCTOR(keys);
 
 }
 
@@ -512,6 +512,160 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, exists) {
 		RETURN_MM_BOOL(1);
 	}
 	RETURN_MM_BOOL(0);
+
+}
+
+/**
+ * Increment of given $keyName by $value
+ *
+ * @param  string keyName
+ * @param  long lifetime
+ * @return long
+ */
+PHP_METHOD(Phalcon_Cache_Backend_Memcache, increment) {
+
+	int ZEPHIR_LAST_CALL_STATUS;
+	zval *keyName = NULL, *value = NULL, *memcache = NULL, *prefix, *lastKey = NULL;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 0, 2, &keyName, &value);
+
+	if (!keyName) {
+		keyName = ZEPHIR_GLOBAL(global_null);
+	}
+	if (!value) {
+		ZEPHIR_CPY_WRT(value, ZEPHIR_GLOBAL(global_null));
+	} else {
+		ZEPHIR_SEPARATE_PARAM(value);
+	}
+
+
+	ZEPHIR_OBS_VAR(memcache);
+	zephir_read_property_this(&memcache, this_ptr, SL("_memcache"), PH_NOISY_CC);
+	if (Z_TYPE_P(memcache) != IS_OBJECT) {
+		ZEPHIR_CALL_METHOD(NULL, this_ptr, "_connect", NULL);
+		zephir_check_call_status();
+		ZEPHIR_OBS_NVAR(memcache);
+		zephir_read_property_this(&memcache, this_ptr, SL("_memcache"), PH_NOISY_CC);
+	}
+	if (!(zephir_is_true(keyName))) {
+		ZEPHIR_OBS_VAR(lastKey);
+		zephir_read_property_this(&lastKey, this_ptr, SL("_lastKey"), PH_NOISY_CC);
+	} else {
+		ZEPHIR_OBS_VAR(prefix);
+		zephir_read_property_this(&prefix, this_ptr, SL("_prefix"), PH_NOISY_CC);
+		ZEPHIR_INIT_NVAR(lastKey);
+		ZEPHIR_CONCAT_VV(lastKey, prefix, keyName);
+		zephir_update_property_this(this_ptr, SL("_lastKey"), lastKey TSRMLS_CC);
+	}
+	if (!(zephir_is_true(value))) {
+		ZEPHIR_INIT_NVAR(value);
+		ZVAL_LONG(value, 1);
+	}
+	ZEPHIR_RETURN_CALL_METHOD(memcache, "increment", NULL, lastKey, value);
+	zephir_check_call_status();
+	RETURN_MM();
+
+}
+
+/**
+ * Decrement of $keyName by given $value
+ *
+ * @param  string keyName
+ * @param  long value
+ * @return long
+ */
+PHP_METHOD(Phalcon_Cache_Backend_Memcache, decrement) {
+
+	int ZEPHIR_LAST_CALL_STATUS;
+	zval *keyName = NULL, *value = NULL, *memcache = NULL, *prefix, *lastKey = NULL;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 0, 2, &keyName, &value);
+
+	if (!keyName) {
+		keyName = ZEPHIR_GLOBAL(global_null);
+	}
+	if (!value) {
+		ZEPHIR_CPY_WRT(value, ZEPHIR_GLOBAL(global_null));
+	} else {
+		ZEPHIR_SEPARATE_PARAM(value);
+	}
+
+
+	ZEPHIR_OBS_VAR(memcache);
+	zephir_read_property_this(&memcache, this_ptr, SL("_memcache"), PH_NOISY_CC);
+	if (Z_TYPE_P(memcache) != IS_OBJECT) {
+		ZEPHIR_CALL_METHOD(NULL, this_ptr, "_connect", NULL);
+		zephir_check_call_status();
+		ZEPHIR_OBS_NVAR(memcache);
+		zephir_read_property_this(&memcache, this_ptr, SL("_memcache"), PH_NOISY_CC);
+	}
+	if (!(zephir_is_true(keyName))) {
+		ZEPHIR_OBS_VAR(lastKey);
+		zephir_read_property_this(&lastKey, this_ptr, SL("_lastKey"), PH_NOISY_CC);
+	} else {
+		ZEPHIR_OBS_VAR(prefix);
+		zephir_read_property_this(&prefix, this_ptr, SL("_prefix"), PH_NOISY_CC);
+		ZEPHIR_INIT_NVAR(lastKey);
+		ZEPHIR_CONCAT_VV(lastKey, prefix, keyName);
+		zephir_update_property_this(this_ptr, SL("_lastKey"), lastKey TSRMLS_CC);
+	}
+	if (!(zephir_is_true(value))) {
+		ZEPHIR_INIT_NVAR(value);
+		ZVAL_LONG(value, 1);
+	}
+	ZEPHIR_RETURN_CALL_METHOD(memcache, "decrement", NULL, lastKey, value);
+	zephir_check_call_status();
+	RETURN_MM();
+
+}
+
+/**
+ * Immediately invalidates all existing items.
+ *
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Cache_Backend_Memcache, flush) {
+
+	HashTable *_1;
+	HashPosition _0;
+	int ZEPHIR_LAST_CALL_STATUS;
+	zval *memcache = NULL, *options, *keys = NULL, *specialKey, *key = NULL, **_2;
+
+	ZEPHIR_MM_GROW();
+
+	ZEPHIR_OBS_VAR(memcache);
+	zephir_read_property_this(&memcache, this_ptr, SL("_memcache"), PH_NOISY_CC);
+	if (Z_TYPE_P(memcache) != IS_OBJECT) {
+		ZEPHIR_CALL_METHOD(NULL, this_ptr, "_connect", NULL);
+		zephir_check_call_status();
+		ZEPHIR_OBS_NVAR(memcache);
+		zephir_read_property_this(&memcache, this_ptr, SL("_memcache"), PH_NOISY_CC);
+	}
+	ZEPHIR_OBS_VAR(options);
+	zephir_read_property_this(&options, this_ptr, SL("_options"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(specialKey);
+	if (!(zephir_array_isset_string_fetch(&specialKey, options, SS("statsKey"), 0 TSRMLS_CC))) {
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_cache_exception_ce, "Unexpected inconsistency in options", "phalcon/cache/backend/memcache.zep", 451);
+		return;
+	}
+	ZEPHIR_CALL_METHOD(&keys, memcache, "get", NULL, specialKey);
+	zephir_check_call_status();
+	if (Z_TYPE_P(keys) == IS_ARRAY) {
+		zephir_is_iterable(keys, &_1, &_0, 0, 0);
+		for (
+		  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
+		  ; zephir_hash_move_forward_ex(_1, &_0)
+		) {
+			ZEPHIR_GET_HVALUE(key, _2);
+			ZEPHIR_CALL_METHOD(NULL, memcache, "delete", NULL, key);
+			zephir_check_call_status();
+		}
+		ZEPHIR_CALL_METHOD(NULL, memcache, "set", NULL, specialKey, keys);
+		zephir_check_call_status();
+	}
+	RETURN_MM_BOOL(1);
 
 }
 

@@ -20,6 +20,8 @@
 
 namespace Phalcon\Db\Adapter\Pdo;
 
+use Phalcon\Db\Column;
+
 /**
  * Phalcon\Db\Adapter\Pdo\Postgresql
  *
@@ -37,12 +39,296 @@ namespace Phalcon\Db\Adapter\Pdo;
  *
  * </code>
  */
-class Postgresql extends \Phalcon\Db\Adapter\Pdo
-	//implements Phalcon\Db\AdapterInterface
+class Postgresql extends \Phalcon\Db\Adapter\Pdo implements \Phalcon\Db\AdapterInterface
 {
 
 	protected _type = "pgsql";
 
 	protected _dialectType = "postgresql";
+
+	/**
+	 * This method is automatically called in Phalcon\Db\Adapter\Pdo constructor.
+	 * Call it when you need to restore a database connection.
+	 *
+	 * @param array $descriptor
+	 * @return boolean
+	 */
+	public function connect(descriptor=null)
+	{
+		var schema, sql;
+
+		if descriptor === null {
+			let descriptor = this->_descriptor;
+		}
+
+		if fetch schema, descriptor["schema"] {
+			unset descriptor["schema"];
+		} else {
+			let schema = "";
+		}
+
+		if isset descriptor["password"] {
+			if typeof descriptor["password"] == "string" && strlen(descriptor["password"]) == 0 {
+				let descriptor["password"] = null;
+			}
+		}
+
+		parent::connect(descriptor);
+
+		if ! empty schema {
+			let sql = "SET search_path TO '" . schema . "'";
+			this->execute(sql);
+		}
+	}
+
+	/**
+	 * Returns an array of Phalcon\Db\Column objects describing a table
+	 *
+	 * <code>
+	 * print_r($connection->describeColumns("posts"));
+	 * </code>
+	 *
+	 * @param string table
+	 * @param string schema
+	 * @return Phalcon\Db\Column[]
+	 */
+	public function describeColumns(string table, string schema=null)
+	{
+		var columns, columnType, field, definition,
+			oldColumn, columnName, charSize, numericSize, numericScale;
+
+		let oldColumn = null, columns = [];
+
+		/**
+		 * We're using FETCH_NUM to fetch the columns
+		 * 0:name, 1:type, 2:size, 3:numericsize, 4: numericscale, 5: null, 6: key, 7: extra, 8: position, 9 default
+		 */
+		for field in this->fetchAll(this->_dialect->describeColumns(table, schema), \Phalcon\Db::FETCH_NUM) {
+
+			/**
+			 * By default the bind types is two
+			 */
+			let definition = ["bindType": Column::BIND_PARAM_STR];
+
+			/**
+			 * By checking every column type we convert it to a Phalcon\Db\Column
+			 */
+			let columnType = field[1],
+				charSize = field[2],
+				numericSize = field[3],
+				numericScale = field[4];
+
+			loop {
+
+				/**
+				 * Smallint(1) is boolean
+				 */
+				if memstr(columnType, "smallint(1)") {
+					let definition["type"] = Column::TYPE_BOOLEAN,
+						definition["bindType"] = Column::BIND_PARAM_BOOL;
+					break;
+				}
+
+				/**
+				 * Int
+				 */
+				if memstr(columnType, "int") {
+					let definition["type"] = Column::TYPE_INTEGER,
+						definition["isNumeric"] = true,
+						definition["size"] = numericSize,
+						definition["bindType"] = Column::BIND_PARAM_INT;
+					break;
+				}
+
+				/**
+				 * Varchar
+				 */
+				if memstr(columnType, "varying") {
+					let definition["type"] = Column::TYPE_VARCHAR,
+						definition["size"] = charSize;
+					break;
+				}
+
+				/**
+				 * Special type for datetime
+				 */
+				if memstr(columnType, "date") {
+					let definition["type"] = Column::TYPE_DATE,
+						definition["size"] = 0;
+					break;
+				}
+
+				/**
+				 * Numeric
+				 */
+				if memstr(columnType, "numeric") {
+					let definition["type"] = Column::TYPE_DECIMAL,
+						definition["isNumeric"] = true,
+						definition["size"] = numericSize,
+						definition["scale"] = numericScale,
+						definition["bindType"] = Column::BIND_PARAM_DECIMAL;
+					break;
+				}
+
+				/**
+				 * Chars are chars
+				 */
+				if memstr(columnType, "char") {
+					let definition["type"] = Column::TYPE_CHAR,
+						definition["size"] = charSize;
+					break;
+				}
+
+				/**
+				 * Date
+				 */
+				if memstr(columnType, "timestamp") {
+					let definition["type"] = Column::TYPE_DATETIME,
+						definition["size"] = 0;
+					break;
+				}
+
+				/**
+				 * Text are varchars
+				 */
+				if memstr(columnType, "text") {
+					let definition["type"] = Column::TYPE_TEXT,
+						definition["size"] = charSize;
+					break;
+				}
+
+				/**
+				 * Float/Smallfloats/Decimals are float
+				 */
+				if memstr(columnType, "float") {
+					let definition["type"] = Column::TYPE_FLOAT,
+						definition["isNumeric"] = true,
+						definition["size"] = numericSize,
+						definition["bindType"] = Column::BIND_PARAM_DECIMAL;
+					break;
+				}
+
+				/**
+				 * Boolean
+				 */
+				if memstr(columnType, "bool") {
+					let definition["type"] = Column::TYPE_BOOLEAN,
+						definition["size"] = 0,
+						definition["bindType"] = Column::BIND_PARAM_BOOL;
+					break;
+				}
+
+				/**
+				 * UUID
+				 */
+				if memstr(columnType, "uuid") {
+					let definition["type"] = Column::TYPE_CHAR,
+						definition["size"] = 36;
+					break;
+				}
+
+				/**
+				 * By default is string
+				 */
+				let definition["type"] = Column::TYPE_VARCHAR;
+				break;
+			}
+
+			/**
+			 * Check if the column is unsigned, only MySQL support this
+			 */
+			if memstr(columnType, "unsigned") {
+				let definition["unsigned"] = true;
+			}
+
+			/**
+			 * Positions
+			 */
+			if oldColumn == null {
+				let definition["first"] = true;
+			} else {
+				let definition["after"] = oldColumn;
+			}
+
+			/**
+			 * Check if the field is primary key
+			 */
+			if field[6] == "PRI" {
+				let definition["primary"] = true;
+			}
+
+			/**
+			 * Check if the column allows null values
+			 */
+			if field[5] == "NO" {
+				let definition["notNull"] = true;
+			}
+
+			/**
+			 * Check if the column is auto increment
+			 */
+			if field[7] == "auto_increment" {
+				let definition["autoIncrement"] = true;
+			}
+
+			/**
+			 * Check if the column is default values
+			 */
+			if typeof field[9] != "null" {
+				let definition["default"] = preg_replace("/^'|'?::[[:alnum:][:space:]]+$/", "", field[9]);
+				if strcasecmp(definition["default"], "null") == 0 {
+					let definition["default"] = null;
+				}
+			}
+
+			/**
+			 * Every route is stored as a Phalcon\Db\Column
+			 */
+			let columnName = field[0],
+				columns[] = new Column(columnName, definition),
+				oldColumn = columnName;
+		}
+
+		return columns;
+	}
+
+	/**
+	 * Check whether the database system requires an explicit value for identity columns
+	 *
+	 * @return boolean
+	 */
+	public function useExplicitIdValue() -> boolean
+	{
+		return true;
+	}
+
+	/**
+	 * Returns the default identity value to be inserted in an identity column
+	 *
+	 *<code>
+	 * //Inserting a new robot with a valid default value for the column 'id'
+	 * $success = $connection->insert(
+	 *     "robots",
+	 *     array($connection->getDefaultIdValue(), "Astro Boy", 1952),
+	 *     array("id", "name", "year")
+	 * );
+	 *</code>
+	 *
+	 * @return Phalcon\Db\RawValue
+	 */
+	public function getDefaultIdValue() -> <\Phalcon\Db\RawValue>
+	{
+		return new \Phalcon\Db\RawValue("default");
+	}
+
+	/**
+	 * Check whether the database system requires a sequence to produce auto-numeric values
+	 *
+	 * @return boolean
+	 */
+	public function supportSequences() -> boolean
+	{
+		return true;
+	}
 
 }

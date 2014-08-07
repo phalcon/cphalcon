@@ -19,7 +19,9 @@
 
 namespace Phalcon\Mvc\Router;
 
-use Phalcon\Mvc\Router\Annotations;
+use Phalcon\Mvc\Router;
+use Phalcon\Annotations\Annotation;
+use Phalcon\Mvc\Router\Exception;
 
 /**
  * Phalcon\Mvc\Router\Annotations
@@ -39,7 +41,7 @@ use Phalcon\Mvc\Router\Annotations;
  *	};
  *</code>
  */
-class Annotations extends \Phalcon\Mvc\Router
+class Annotations extends Router
 {
 	protected _handlers;
 
@@ -59,7 +61,7 @@ class Annotations extends \Phalcon\Mvc\Router
 	 * @param string prefix
 	 * @return Phalcon\Mvc\Router\Annotations
 	 */
-	public function addResource(string! handler, string! prefix=null) -> <Annotations>
+	public function addResource(string! handler, string! prefix = null) -> <Annotations>
 	{
 
 		let this->_handlers[] = [prefix, handler],
@@ -77,7 +79,7 @@ class Annotations extends \Phalcon\Mvc\Router
 	 * @param string prefix
 	 * @return Phalcon\Mvc\Router\Annotations
 	 */
-	public function addModuleResource(string! module, string! handler, string! prefix=null) -> <Annotations>
+	public function addModuleResource(string! module, string! handler, string! prefix = null) -> <Annotations>
 	{
 
 		let this->_handlers[] = [prefix, handler, module],
@@ -91,7 +93,7 @@ class Annotations extends \Phalcon\Mvc\Router
 	 *
 	 * @param string uri
 	 */
-	public function handle(string! uri=null)
+	public function handle(string! uri = null)
 	{
 		var realUri, annotationsService, handlers, controllerSuffix,
 			scope, prefix, dependencyInjector, handler, controllerName,
@@ -132,11 +134,11 @@ class Annotations extends \Phalcon\Mvc\Router
 							}
 						}
 
-						if typeof annotationsService == "object" {
+						if typeof annotationsService != "object" {
 
 							let dependencyInjector = <\Phalcon\DiInterface> this->_dependencyInjector;
 							if typeof dependencyInjector != "object" {
-								throw new \Phalcon\Mvc\Router\Exception("A dependency injection container is required to access the 'annotations' service");
+								throw new Exception("A dependency injection container is required to access the 'annotations' service");
 							}
 
 							let annotationsService = dependencyInjector->getShared("annotations");
@@ -169,9 +171,7 @@ class Annotations extends \Phalcon\Mvc\Router
 						/**
 						 * Check if the scope has a module associated
 						 */
-						if !fetch moduleName, scope[2] {
-							let moduleName = null;
-						}
+						fetch moduleName, scope[2];
 
 						let sufixed = handler . controllerSuffix;
 
@@ -183,30 +183,33 @@ class Annotations extends \Phalcon\Mvc\Router
 						/**
 						 * Process class annotations
 						 */
-						let classAnnotations = handlerAnnotations->getClassAnnotations();
-						if typeof classAnnotations == "object" {
+						if typeof handlerAnnotations == "object" {
 
-							/**
-							 * Process class annotations
-							 */
-							let annotations = classAnnotations->getAnnotations();
-							if typeof annotations == "array" {
-								for annotation in annotations {
-									this->processControllerAnnotation(controllerName, annotation);
+							let classAnnotations = handlerAnnotations->getClassAnnotations();
+							if typeof classAnnotations == "object" {
+
+								/**
+								 * Process class annotations
+								 */
+								let annotations = classAnnotations->getAnnotations();
+								if typeof annotations == "array" {
+									for annotation in annotations {
+										this->processControllerAnnotation(controllerName, annotation);
+									}
 								}
 							}
-						}
 
-						/**
-						 * Process method annotations
-						 */
-						let methodAnnotations = handlerAnnotations->getMethodsAnnotations();
-						if typeof methodAnnotations == "array" {
-							let lowercased = uncamelize(handler);
-							for method, collection in methodAnnotations {
-								if typeof collection == "object" {
-									for annotation in collection->getAnnotations() {
-										this->processActionAnnotation(moduleName, namespaceName, lowerControllerName, method, annotation);
+							/**
+							 * Process method annotations
+							 */
+							let methodAnnotations = handlerAnnotations->getMethodsAnnotations();
+							if typeof methodAnnotations == "array" {
+								let lowercased = uncamelize(handler);
+								for method, collection in methodAnnotations {
+									if typeof collection == "object" {
+										for annotation in collection->getAnnotations() {
+											this->processActionAnnotation(moduleName, namespaceName, lowerControllerName, method, annotation);
+										}
 									}
 								}
 							}
@@ -231,7 +234,7 @@ class Annotations extends \Phalcon\Mvc\Router
 	 * @param string handler
 	 * @param Phalcon\Annotations\Annotation
 	 */
-	public function processControllerAnnotation(string! handler, <\Phalcon\Annotations\Annotation> annotation)
+	public function processControllerAnnotation(string! handler, <Annotation> annotation)
 	{
 		/**
 		 * @RoutePrefix add a prefix for all the routes defined in the model
@@ -251,7 +254,7 @@ class Annotations extends \Phalcon\Mvc\Router
 	 * @param Phalcon\Annotations\Annotation annotation
 	 */
 	public function processActionAnnotation(string! module, string! namespaceName, string! controller, string! action,
-		<\Phalcon\Annotations\Annotation> annotation)
+		<Annotation> annotation)
 	{
 		var isRoute, name, actionName, routePrefix, paths, value, uri,
 			route, methods, converts, param, convert, conversorParam, routeName;

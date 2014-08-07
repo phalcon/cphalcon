@@ -45,7 +45,7 @@ class File extends \Phalcon\Logger\Adapter implements \Phalcon\Logger\AdapterInt
 	/**
 	 * File Path
 	 */
-	protected _path;
+	protected _path { get };
 
 	/**
 	 * Path options
@@ -76,7 +76,7 @@ class File extends \Phalcon\Logger\Adapter implements \Phalcon\Logger\AdapterInt
 		 * We use 'fopen' to respect to open-basedir directive
 		 */
 		let handler = fopen(name, mode);
-		if !handler {
+		if typeof handler != "resource" {
 			throw new \Phalcon\Logger\Exception("Can't open log file at '" . name . "'");
 		}
 
@@ -108,18 +108,19 @@ class File extends \Phalcon\Logger\Adapter implements \Phalcon\Logger\AdapterInt
 	 * @param string message
 	 * @param int type
 	 * @param int time
+	  * @param array $context
 	 */
-	public function logInternal(string! message, int type, int time)
+	public function logInternal(string message, int type, int time, array context)
 	{
 		var fileHandler, formatter;
 
 		let fileHandler = this->_fileHandler;
-		if !fileHandler {
+		if typeof fileHandler != "resource" {
 			throw new \Phalcon\Logger\Exception("Cannot send message to the log because it is invalid");
 		}
 
 		let formatter = this->getFormatter();
-		fwrite(fileHandler, formatter->format(message, type, time));
+		fwrite(fileHandler, formatter->format(message, type, time, context) . PHP_EOL);
 	}
 
 	/**

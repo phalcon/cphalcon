@@ -69,9 +69,6 @@ class StringLength extends \Phalcon\Validation\Validator implements \Phalcon\Val
 		let label = this->getOption("label");
 		if empty label {
 			let label = validation->getLabel(field);
-			if empty label {
-				let label = field;
-			}
 		}
 
 		/**

@@ -540,9 +540,26 @@ abstract class Dispatcher implements \Phalcon\DispatcherInterface, \Phalcon\Di\I
 				}
 			}
 
+			/**
+			 * Call the 'initialize' method just once per request
+			 */
 			if wasFresh === true {
 				if method_exists(handler, "initialize") {
 					handler->initialize();
+				}
+
+				/**
+				 * Calling afterInitialize
+				 */
+				if eventsManager {
+					if eventsManager->fire("dispatch:afterInitialize", this) === false {
+						continue;
+					}
+
+					// Check if the user made a forward in the listener
+					if this->_finished === false {
+						continue;
+					}
 				}
 			}
 
@@ -553,8 +570,11 @@ abstract class Dispatcher implements \Phalcon\DispatcherInterface, \Phalcon\Di\I
 					this->_lastHandler = handler;
 
 			} catch \Exception, e {
-				this->{"_throwDispatchException"}(e->getMessage()); // create a method that receives the exception itself?
-				return null;
+				if this->{"_handleException"}(e) === false {
+					if this->_finished === false {
+						continue;
+					}
+				}
 			}
 
 			// Calling afterExecuteRoute

@@ -19,6 +19,8 @@
 
 namespace Phalcon\Validation\Message;
 
+use Phalcon\Validation\Exception;
+
 /**
  * Phalcon\Validation\Message\Group
  *
@@ -75,7 +77,7 @@ class Group implements \Countable, \ArrayAccess, \Iterator
 	public function offsetSet(int! index, <\Phalcon\Validation\Message> message)
 	{
 		if typeof message != "object" {
-			throw new \Phalcon\Validation\Exception("The message must be an object");
+			throw new Exception("The message must be an object");
 		}
 		let this->_messages[index] = message;
 	}
@@ -141,7 +143,7 @@ class Group implements \Countable, \ArrayAccess, \Iterator
 
 		if typeof messages != "array" {
 			if typeof messages != "object" {
-				throw new \Phalcon\Validation\Exception("The messages must be array or object");
+				throw new Exception("The messages must be array or object");
 			}
 		}
 

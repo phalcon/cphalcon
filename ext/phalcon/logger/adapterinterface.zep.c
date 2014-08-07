@@ -75,8 +75,9 @@ ZEPHIR_DOC_METHOD(Phalcon_Logger_AdapterInterface, getLogLevel);
 /**
  * Sends/Writes messages to the file log
  *
- * @param string message
- * @param int type
+ * @param int|string $type
+ * @param string $message
+ * @param array $context
  * @return Phalcon\Logger\Adapter
  */
 ZEPHIR_DOC_METHOD(Phalcon_Logger_AdapterInterface, log);
@@ -113,7 +114,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Logger_AdapterInterface, close);
  * Sends/Writes a debug message to the log
  *
  * @param string message
- * @param ing type
+ * @param array $context
  * @return Phalcon\Logger\Adapter
  */
 ZEPHIR_DOC_METHOD(Phalcon_Logger_AdapterInterface, debug);
@@ -122,7 +123,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Logger_AdapterInterface, debug);
  * Sends/Writes an error message to the log
  *
  * @param string message
- * @param ing type
+ * @param array $context
  * @return Phalcon\Logger\Adapter
  */
 ZEPHIR_DOC_METHOD(Phalcon_Logger_AdapterInterface, error);
@@ -131,7 +132,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Logger_AdapterInterface, error);
  * Sends/Writes an info message to the log
  *
  * @param string message
- * @param ing type
+ * @param array $context
  * @return Phalcon\Logger\Adapter
  */
 ZEPHIR_DOC_METHOD(Phalcon_Logger_AdapterInterface, info);
@@ -140,7 +141,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Logger_AdapterInterface, info);
  * Sends/Writes a notice message to the log
  *
  * @param string message
- * @param ing type
+ * @param array $context
  * @return Phalcon\Logger\Adapter
  */
 ZEPHIR_DOC_METHOD(Phalcon_Logger_AdapterInterface, notice);
@@ -149,7 +150,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Logger_AdapterInterface, notice);
  * Sends/Writes a warning message to the log
  *
  * @param string message
- * @param ing type
+ * @param array $context
  * @return Phalcon\Logger\Adapter
  */
 ZEPHIR_DOC_METHOD(Phalcon_Logger_AdapterInterface, warning);
@@ -158,8 +159,17 @@ ZEPHIR_DOC_METHOD(Phalcon_Logger_AdapterInterface, warning);
  * Sends/Writes an alert message to the log
  *
  * @param string message
- * @param ing type
+ * @param array $context
  * @return Phalcon\Logger\Adapter
  */
 ZEPHIR_DOC_METHOD(Phalcon_Logger_AdapterInterface, alert);
+
+/**
+ * Sends/Writes an emergency message to the log
+ *
+ * @param string message
+ * @param array $context
+ * @return Phalcon\Logger\Adapter
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Logger_AdapterInterface, emergency);
 

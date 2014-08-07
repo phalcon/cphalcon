@@ -19,12 +19,16 @@
 
 namespace Phalcon\Annotations\Adapter;
 
+use Phalcon\Annotations\Adapter;
+use Phalcon\Annotations\AdapterInterface;
+use Phalcon\Annotations\Reflection;
+
 /**
 * Phalcon\Annotations\Adapter\Memory
 *
 * Stores the parsed annotations in memory. This adapter is the suitable development/testing
 */
-class Memory extends \Phalcon\Annotations\Adapter implements \Phalcon\Annotations\AdapterInterface
+class Memory extends Adapter implements AdapterInterface
 {
 	/**
 	* Data
@@ -38,14 +42,12 @@ class Memory extends \Phalcon\Annotations\Adapter implements \Phalcon\Annotation
 	* @param string key
 	* @return Phalcon\Annotations\Reflection
 	*/
-	public function read(string! key) -> <\Phalcon\Annotations\Reflection> | boolean
+	public function read(string! key) -> <Reflection> | boolean
 	{
-		var data, lowercasedKey;
+		var data;
 
-		let data = this->_data;
-		let lowercasedKey = strtolower(key);
-		if isset data[lowercasedKey] {
-			return data[lowercasedKey];
+		if fetch data, this->_data[strtolower(key)] {
+			return data;
 		}
 		return false;
 	}
@@ -56,7 +58,7 @@ class Memory extends \Phalcon\Annotations\Adapter implements \Phalcon\Annotation
 	* @param string key
 	* @param Phalcon\Annotations\Reflection data
 	*/
-	public function write(string! key, <\Phalcon\Annotations\Reflection> data)
+	public function write(string! key, <Reflection> data)
 	{
 		var lowercasedKey;
 

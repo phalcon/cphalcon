@@ -119,7 +119,7 @@ class Dispatcher extends \Phalcon\Dispatcher implements \Phalcon\Mvc\DispatcherI
 	 */
 	protected function _throwDispatchException(string! message, int exceptionCode=0)
 	{
-		var eventsManager, dependencyInjector, response, exception;
+		var dependencyInjector, response, exception;
 
 		let dependencyInjector = this->_dependencyInjector;
 		if typeof dependencyInjector != "object" {
@@ -141,11 +141,8 @@ class Dispatcher extends \Phalcon\Dispatcher implements \Phalcon\Mvc\DispatcherI
 		 */
 		let exception = new \Phalcon\Mvc\Dispatcher\Exception(message, exceptionCode);
 
-		let eventsManager = <\Phalcon\Events\Manager> this->_eventsManager;
-		if typeof eventsManager == "object" {
-			if eventsManager->fire("dispatch:beforeException", this, exception) === false {
-				return false;
-			}
+		if this->_handleException(exception) === false {
+			return false;
 		}
 
 		/**
@@ -159,16 +156,15 @@ class Dispatcher extends \Phalcon\Dispatcher implements \Phalcon\Mvc\DispatcherI
 	 *
 	 * @param \Exception exception
 	 */
-	protected function _handleException(<Exception> exception)
+	protected function _handleException(<\Exception> exception)
 	{
 		var eventsManager;
-		let eventsManager = this->_eventsManager;
+		let eventsManager = <\Phalcon\Events\Manager> this->_eventsManager;
 		if typeof eventsManager == "object" {
 			if eventsManager->fire("dispatch:beforeException", this, exception) === false {
 				return false;
 			}
 		}
-
 	}
 
 	/**

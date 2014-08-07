@@ -272,7 +272,7 @@ class Manager
 	public function output(<\Phalcon\Assets\Collection> collection, callback, type)
 	{
 		var output, resources, filters, prefix, sourceBasePath = null,
-			targetBasePath, options, collectionSourcePath, completeSourcePath,
+			targetBasePath = null, options, collectionSourcePath, completeSourcePath,
 			collectionTargetPath, completeTargetPath, filteredJoinedContent, join,
 			$resource, filterNeeded, local, sourcePath, targetPath, path, prefixedPath,
 			attributes, parameters, html, useImplicitOutput, content, mustFilter,
@@ -315,72 +315,67 @@ class Manager
 				/**
 				 * The source base path is a global location where all resources are located
 				 */
-				if isset options["sourceBasePath"] {
-					let sourceBasePath = options["sourceBasePath"];
-				}
+				fetch sourceBasePath, options["sourceBasePath"];
 
 				/**
 				 * The target base path is a global location where all resources are written
 				 */
-				if isset options["targetBasePath"] {
-					let targetBasePath = options["targetBasePath"];
-				}
+				fetch targetBasePath, options["targetBasePath"];
 			}
 
-                        /**
-                         * Check if the collection have its own source base path
-                         */
-                        let collectionSourcePath = collection->getSourcePath();
+			/**
+			 * Check if the collection have its own source base path
+			 */
+			let collectionSourcePath = collection->getSourcePath();
 
-                        /**
-                         * Concatenate the global base source path with the collection one
-                         */
-                        if collectionSourcePath {
-                                let completeSourcePath = sourceBasePath . collectionSourcePath;
-                        } else {
-                                let completeSourcePath = sourceBasePath;
-                        }
+			/**
+			 * Concatenate the global base source path with the collection one
+			 */
+			if collectionSourcePath {
+				let completeSourcePath = sourceBasePath . collectionSourcePath;
+			} else {
+				let completeSourcePath = sourceBasePath;
+			}
 
-                        /**
-                         * Check if the collection have its own target base path
-                         */
-                        let collectionTargetPath = collection->getTargetPath();
+			/**
+			 * Check if the collection have its own target base path
+			 */
+			let collectionTargetPath = collection->getTargetPath();
 
-                        /**
-                         * Concatenate the global base source path with the collection one
-                         */
-                        if collectionTargetPath {
-                                let completeTargetPath = targetBasePath . collectionTargetPath;
-                        } else {
-                                let completeTargetPath = targetBasePath;
-                        }
+			/**
+			 * Concatenate the global base source path with the collection one
+			 */
+			if collectionTargetPath {
+				let completeTargetPath = targetBasePath . collectionTargetPath;
+			} else {
+				let completeTargetPath = targetBasePath;
+			}
 
-                        /**
-                         * Global filtered content
-                         */
-                        let filteredJoinedContent = null;
+			/**
+			 * Global filtered content
+			 */
+			let filteredJoinedContent = null;
 
-                        /**
-                         * Check if the collection have its own target base path
-                         */
-                        let join = collection->getJoin();
+			/**
+			 * Check if the collection have its own target base path
+			 */
+			let join = collection->getJoin();
 
-                        /**
-                         * Check for valid target paths if the collection must be joined
-                         */
-                        if join {
+			/**
+			 * Check for valid target paths if the collection must be joined
+			 */
+			if join {
+				/**
+				* We need a valid final target path
+				*/
+				if !completeTargetPath {
+					throw new \Phalcon\Assets\Exception("Path '". completeTargetPath. "' is not a valid target path (1)");
+				}
 
-                                /**
-                                * We need a valid final target path
-                                */
-                                if !completeTargetPath {
-                                        throw new \Phalcon\Assets\Exception("Path '". completeTargetPath. "' is not a valid target path (1)");
-                                }
-
-                                if is_dir(completeTargetPath) {
-                                        throw new \Phalcon\Assets\Exception("Path '". completeTargetPath. "' is not a valid target path (2), is dir.");
-                                }
-                        }
+				if is_dir(completeTargetPath) {
+					throw new \Phalcon\Assets\Exception("Path '". completeTargetPath. "' is not a valid target path (2), is dir.");
+				}
+			}
 		}
 
 		/**
@@ -531,24 +526,24 @@ class Manager
 						/**
 						 * Calls the method 'filter' which must return a filtered version of the content
 						 */
-						let filteredContent = filter->filter(content);
-
-						/**
-						 * Update the joined filtered content
-						 */
-						if join == true {
-							if type == typeCss {
-								if filteredJoinedContent==null {
-									let filteredJoinedContent = filteredContent;
-								} else {
-									let filteredJoinedContent .= filteredContent;
-								}
+						let filteredContent = filter->filter(content),
+							content = filteredContent;
+					}
+					/**
+					 * Update the joined filtered content
+					 */
+					if join == true {
+						if type == typeCss {
+							if filteredJoinedContent == null {
+								let filteredJoinedContent = filteredContent;
 							} else {
-								if filteredJoinedContent==null {
-									let filteredJoinedContent = filteredContent . ";";
-								} else {
-									let filteredJoinedContent .= filteredContent. ";";
-								}
+								let filteredJoinedContent .= filteredContent;
+							}
+						} else {
+							if filteredJoinedContent == null {
+								let filteredJoinedContent = filteredContent . ";";
+							} else {
+								let filteredJoinedContent .= filteredContent. ";";
 							}
 						}
 					}
@@ -558,13 +553,13 @@ class Manager
 					 * Update the joined filtered content
 					 */
 					if join == true {
-
-					} else {
 						if filteredJoinedContent == null {
 							let filteredJoinedContent = content;
 						} else {
-							let filteredContent = content;
+							let filteredJoinedContent .= content;
 						}
+					} else {
+						let filteredContent = content;
 					}
 				}
 

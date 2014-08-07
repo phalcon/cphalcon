@@ -91,7 +91,7 @@ class Libmemcached extends \Phalcon\Cache\Backend implements \Phalcon\Cache\Back
 	*/
 	public function _connect()
 	{
-		var options, memcache, client, servers, option, res;
+		var options, memcache, client, servers;
 
 		let options = this->_options;
 		let memcache = new \Memcached();
@@ -110,16 +110,9 @@ class Libmemcached extends \Phalcon\Cache\Backend implements \Phalcon\Cache\Back
 
 		let client = options["client"];
 		if typeof client == "array" {
-			for option in client {
-				if typeof option == "string" {
-					let res = constant(option);
-					if res {
-						memcache->setOption(res);
-					}
-				} else {
-					memcache->setOption(option);
-				}
-			}
+			memcache->setOptions(client);
+		} else {
+			throw new \Phalcon\Cache\Exception("Client options must be instance of array");
 		}
 
 		let this->_memcache = memcache;
@@ -259,70 +252,6 @@ class Libmemcached extends \Phalcon\Cache\Backend implements \Phalcon\Cache\Back
 	}
 
 	/**
-	 * Increment of a given key, by number $value
-	 *
-	 * @param  string $keyName
-	 * @param  long $value
-	 * @return mixed
-	 */
-	public function increment(keyName=null, value=null)
-	{
-		var memcache, prefixedKey, cachedContent;
-
-		if !value {
-			let value = 1;
-		}
-
-		let memcache = this->_memcache;
-		if typeof memcache != "object" {
-			this->_connect();
-			let memcache = this->_memcache;
-		}
-
-		let prefixedKey = this->_prefix . keyName;
-		let this->_lastKey = prefixedKey;
-		let cachedContent = memcache->increment(prefixedKey, value);
-
-		if !cachedContent {
-			return null;
-		}
-
-		return cachedContent;
-	}
-
-	/**
-	 * Decrement of a given key, by number $value
-	 *
-	 * @param  string keyName
-	 * @param  long value
-	 * @return mixed
-	 */
-	public function decrement(keyName=null, value=null)
-	{
-		var memcache, prefixedKey, cachedContent;
-
-		if !value {
-			let value = 1;
-		}
-
-		let memcache = this->_memcache;
-		if typeof memcache != "object" {
-			this->_connect();
-			let memcache = this->_memcache;
-		}
-
-		let prefixedKey = this->_prefix . keyName;
-		let this->_lastKey = prefixedKey;
-		let cachedContent = memcache->decrement(prefixedKey, value);
-
-		if !cachedContent {
-			return null;
-		}
-
-		return cachedContent;
-	}
-
-	/**
 	 * Deletes a value from the cache by its key
 	 *
 	 * @param int|string keyName
@@ -386,11 +315,13 @@ class Libmemcached extends \Phalcon\Cache\Backend implements \Phalcon\Cache\Back
 		let keys = memcache->get(specialKey);
 		if typeof keys == "array" {
 			for key in keys {
-				if !prefix || starts_with(key, prefix) {
-					return key;
+				if prefix && !starts_with(key, prefix) {
+					unset(keys[key]);
 				}
 			}
 		}
+
+		return keys;
 	}
 
 	/**
@@ -424,6 +355,72 @@ class Libmemcached extends \Phalcon\Cache\Backend implements \Phalcon\Cache\Back
 		}
 
 		return false;
+	}
+
+	/**
+	 * Increment of given $keyName by $value
+	 *
+	 * @param  string keyName
+	 * @param  long lifetime
+	 * @return long
+	 */
+	public function increment(keyName=null, value=null)
+	{
+		var memcache, prefix, lastKey;
+
+		let memcache = this->_memcache;
+
+		if typeof memcache != "object" {
+			this->_connect();
+			let memcache = this->_memcache;
+		}
+
+		if !keyName {
+			let lastKey = this->_lastKey;
+		} else {
+			let prefix = this->_prefix;
+			let lastKey = prefix . keyName;
+			let this->_lastKey = lastKey;
+		}
+
+		if !value {
+			let value = 1;
+		}
+
+		return memcache->increment(lastKey, value);
+	}
+
+	/**
+	 * Decrement of $keyName by given $value
+	 *
+	 * @param  string keyName
+	 * @param  long value
+	 * @return long
+	 */
+	public function decrement(keyName=null, value=null)
+	{
+		var memcache, prefix, lastKey;
+
+		let memcache = this->_memcache;
+
+		if typeof memcache != "object" {
+			this->_connect();
+			let memcache = this->_memcache;
+		}
+
+		if !keyName {
+			let lastKey = this->_lastKey;
+		} else {
+			let prefix = this->_prefix;
+			let lastKey = prefix . keyName;
+			let this->_lastKey = lastKey;
+		}
+
+		if !value {
+			let value = 1;
+		}
+
+		return memcache->decrement(lastKey, value);
 	}
 
 	/**

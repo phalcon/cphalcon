@@ -81,13 +81,13 @@ class Multiple
 	}
 
 	/**
- 	 * Sends/Writes an emergence message to the log
+ 	 * Sends/Writes an emergency message to the log
  	 *
  	 * @param string message
  	 */
-	public function emergence(string message)
+	public function emergency(string message)
 	{
-		this->log(message, \Phalcon\Logger::EMERGENCE);
+		this->log(message, \Phalcon\Logger::EMERGENCY);
 	}
 
 	/**

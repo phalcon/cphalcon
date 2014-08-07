@@ -4,7 +4,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2012 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -95,6 +95,25 @@ class DbDialectTest extends PHPUnit_Framework_TestCase
 				'referencedTable' => 'ref_table',
 				'columns' => array('column3', 'column4'),
 				'referencedColumns' => array('column5', 'column6')
+			)),
+			'fk3' => new Reference("fk3", array(
+				'referencedTable' => 'ref_table',
+				'columns' => array('column1'),
+				'referencedColumns' => array('column2'),
+				'onDelete' => 'CASCADE',
+			)),
+			'fk4' => new Reference("fk4", array(
+				'referencedTable' => 'ref_table',
+				'columns' => array('column1'),
+				'referencedColumns' => array('column2'),
+				'onUpdate' => 'SET NULL',
+			)),
+			'fk5' => new Reference("fk5", array(
+				'referencedTable' => 'ref_table',
+				'columns' => array('column1'),
+				'referencedColumns' => array('column2'),
+				'onDelete' => 'CASCADE',
+				'onUpdate' => 'NO ACTION',
 			)),
 		);
 	}
@@ -219,12 +238,40 @@ class DbDialectTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($reference1->getColumns(), array('column1'));
 		$this->assertEquals($reference1->getReferencedTable(), 'ref_table');
 		$this->assertEquals($reference1->getReferencedColumns(), array('column2'));
+		$this->assertEquals($reference1->getOnDelete(), NULL);
+		$this->assertEquals($reference1->getOnUpdate(), NULL);
 
 		$reference2 = $references['fk2'];
 		$this->assertEquals($reference2->getName(), 'fk2');
 		$this->assertEquals($reference2->getColumns(), array('column3', 'column4'));
 		$this->assertEquals($reference2->getReferencedTable(), 'ref_table');
 		$this->assertEquals($reference2->getReferencedColumns(), array('column5', 'column6'));
+		$this->assertEquals($reference1->getOnDelete(), NULL);
+		$this->assertEquals($reference1->getOnUpdate(), NULL);
+
+		$reference3 = $references['fk3'];
+		$this->assertEquals($reference3->getName(), 'fk3');
+		$this->assertEquals($reference3->getColumns(), array('column1'));
+		$this->assertEquals($reference3->getReferencedTable(), 'ref_table');
+		$this->assertEquals($reference3->getReferencedColumns(), array('column2'));
+		$this->assertEquals($reference3->getOnDelete(), 'CASCADE');
+		$this->assertEquals($reference3->getOnUpdate(), NULL);
+
+		$reference4 = $references['fk4'];
+		$this->assertEquals($reference4->getName(), 'fk4');
+		$this->assertEquals($reference4->getColumns(), array('column1'));
+		$this->assertEquals($reference4->getReferencedTable(), 'ref_table');
+		$this->assertEquals($reference4->getReferencedColumns(), array('column2'));
+		$this->assertEquals($reference4->getOnDelete(), NULL);
+		$this->assertEquals($reference4->getOnUpdate(), 'SET NULL');
+
+		$reference5 = $references['fk5'];
+		$this->assertEquals($reference5->getName(), 'fk5');
+		$this->assertEquals($reference5->getColumns(), array('column1'));
+		$this->assertEquals($reference5->getReferencedTable(), 'ref_table');
+		$this->assertEquals($reference5->getReferencedColumns(), array('column2'));
+		$this->assertEquals($reference5->getOnDelete(), 'CASCADE');
+		$this->assertEquals($reference5->getOnUpdate(), 'NO ACTION');
 
 	}
 
@@ -340,6 +387,13 @@ class DbDialectTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($dialect->addForeignKey('table', null, $references['fk2']), 'ALTER TABLE `table` ADD FOREIGN KEY `fk2`(`column3`, `column4`) REFERENCES `ref_table`(`column5`, `column6`)');
 		$this->assertEquals($dialect->addForeignKey('table', 'schema', $references['fk2']), 'ALTER TABLE `schema`.`table` ADD FOREIGN KEY `fk2`(`column3`, `column4`) REFERENCES `ref_table`(`column5`, `column6`)');
 
+		$this->assertEquals($dialect->addForeignKey('table', null, $references['fk3']), 'ALTER TABLE `table` ADD FOREIGN KEY `fk3`(`column1`) REFERENCES `ref_table`(`column2`) ON DELETE CASCADE');
+		$this->assertEquals($dialect->addForeignKey('table', 'schema', $references['fk3']), 'ALTER TABLE `schema`.`table` ADD FOREIGN KEY `fk3`(`column1`) REFERENCES `ref_table`(`column2`) ON DELETE CASCADE');
+		$this->assertEquals($dialect->addForeignKey('table', null, $references['fk4']), 'ALTER TABLE `table` ADD FOREIGN KEY `fk4`(`column1`) REFERENCES `ref_table`(`column2`) ON UPDATE SET NULL');
+		$this->assertEquals($dialect->addForeignKey('table', 'schema', $references['fk4']), 'ALTER TABLE `schema`.`table` ADD FOREIGN KEY `fk4`(`column1`) REFERENCES `ref_table`(`column2`) ON UPDATE SET NULL');
+		$this->assertEquals($dialect->addForeignKey('table', null, $references['fk5']), 'ALTER TABLE `table` ADD FOREIGN KEY `fk5`(`column1`) REFERENCES `ref_table`(`column2`) ON DELETE CASCADE ON UPDATE NO ACTION');
+		$this->assertEquals($dialect->addForeignKey('table', 'schema', $references['fk5']), 'ALTER TABLE `schema`.`table` ADD FOREIGN KEY `fk5`(`column1`) REFERENCES `ref_table`(`column2`) ON DELETE CASCADE ON UPDATE NO ACTION');
+
 		$this->assertEquals($dialect->dropForeignKey('table', null, 'fk1'), 'ALTER TABLE `table` DROP FOREIGN KEY `fk1`');
 		$this->assertEquals($dialect->dropForeignKey('table', 'schema', 'fk1'), 'ALTER TABLE `schema`.`table` DROP FOREIGN KEY `fk1`');
 
@@ -373,6 +427,19 @@ class DbDialectTest extends PHPUnit_Framework_TestCase
 		$expected .= "	`column3` DECIMAL(10,2) NOT NULL,\n";
 		$expected .= "	`column1` VARCHAR(10),\n";
 		$expected .= "	PRIMARY KEY (`column3`)\n";
+		$expected .= ")";
+		$this->assertEquals($dialect->createTable('table', null, $definition), $expected);
+
+		$definition['references'] = array(
+			$references['fk3']
+		);
+
+		$expected  = "CREATE TABLE `table` (\n";
+		$expected .= "	`column2` INT(18) UNSIGNED,\n";
+		$expected .= "	`column3` DECIMAL(10,2) NOT NULL,\n";
+		$expected .= "	`column1` VARCHAR(10),\n";
+		$expected .= "	PRIMARY KEY (`column3`),\n";
+		$expected .= "	CONSTRAINT `fk3` FOREIGN KEY (`column1`) REFERENCES `ref_table`(`column2`) ON DELETE CASCADE\n";
 		$expected .= ")";
 		$this->assertEquals($dialect->createTable('table', null, $definition), $expected);
 

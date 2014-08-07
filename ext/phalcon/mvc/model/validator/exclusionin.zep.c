@@ -100,8 +100,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Exclusionin, validate) {
 	ZEPHIR_CALL_METHOD(&field, this_ptr, "getoption", NULL, _0);
 	zephir_check_temp_parameter(_0);
 	zephir_check_call_status();
-	if (!ZEPHIR_IS_STRING(field, "string")) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "Field name must be a string", "phalcon/mvc/model/validator/exclusionin.zep", 63);
+	if (Z_TYPE_P(field) != IS_STRING) {
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "Field name must be a string", "phalcon/mvc/model/validator/exclusionin.zep", 67);
 		return;
 	}
 	ZEPHIR_INIT_BNVAR(_0);
@@ -109,8 +109,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Exclusionin, validate) {
 	ZEPHIR_CALL_METHOD(&_1, this_ptr, "issetoption", NULL, _0);
 	zephir_check_temp_parameter(_0);
 	zephir_check_call_status();
-	if (ZEPHIR_IS_FALSE(_1)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "The option 'domain' is required by this validator", "phalcon/mvc/model/validator/exclusionin.zep", 70);
+	if (ZEPHIR_IS_FALSE_IDENTICAL(_1)) {
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "The option 'domain' is required by this validator", "phalcon/mvc/model/validator/exclusionin.zep", 74);
 		return;
 	}
 	ZEPHIR_INIT_BNVAR(_0);
@@ -119,7 +119,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Exclusionin, validate) {
 	zephir_check_temp_parameter(_0);
 	zephir_check_call_status();
 	if (Z_TYPE_P(domain) != IS_ARRAY) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "Option 'domain' must be an array", "phalcon/mvc/model/validator/exclusionin.zep", 75);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "Option 'domain' must be an array", "phalcon/mvc/model/validator/exclusionin.zep", 79);
 		return;
 	}
 	ZEPHIR_CALL_METHOD(&value, record, "readattribute", NULL, field);
@@ -144,7 +144,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Exclusionin, validate) {
 		zephir_check_call_status();
 		if (ZEPHIR_IS_EMPTY(message)) {
 			ZEPHIR_INIT_NVAR(message);
-			ZVAL_STRING(message, "Value of field :field must not be part of list: :domain", 1);
+			ZVAL_STRING(message, "Value of field ':field' must not be part of list: :domain", 1);
 		}
 		ZEPHIR_INIT_VAR(_4);
 		array_init_size(_4, 3);

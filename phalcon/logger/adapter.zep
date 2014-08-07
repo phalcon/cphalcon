@@ -121,7 +121,7 @@ abstract class Adapter
 		let queue = this->_queue;
 		if typeof queue == "array" {
 			for message in queue {
-				this->{"logInternal"}(message->getMessage(), message->getType(), message->getTime());
+				this->{"logInternal"}(message->getMessage(), message->getType(), message->getTime(), message->getContext());
 			}
 		}
 
@@ -149,14 +149,15 @@ abstract class Adapter
 	}
 
 	/**
- 	 * Sends/Writes an emergence message to the log
+ 	 * Sends/Writes an emergency message to the log
  	 *
  	 * @param string message
+ 	 * @param array $context
  	 * @return Phalcon\Logger\AdapterInterface
  	 */
-	public function emergence(string! message) -> <\Phalcon\Logger\AdapterInterface>
+	public function emergency(string! message, array context=null) -> <\Phalcon\Logger\AdapterInterface>
 	{
-		this->log(message, \Phalcon\Logger::EMERGENCE);
+		this->log(\Phalcon\Logger::EMERGENCY, message, context);
 		return this;
 	}
 
@@ -164,11 +165,12 @@ abstract class Adapter
  	 * Sends/Writes a debug message to the log
  	 *
  	 * @param string message
+ 	 * @param array $context
  	 * @return Phalcon\Logger\AdapterInterface
  	 */
-	public function debug(string! message) -> <\Phalcon\Logger\AdapterInterface>
+	public function debug(string! message, array context=null) -> <\Phalcon\Logger\AdapterInterface>
 	{
-		this->log(message, \Phalcon\Logger::DEBUG);
+		this->log(\Phalcon\Logger::DEBUG, message, context);
 		return this;
 	}
 
@@ -176,11 +178,12 @@ abstract class Adapter
  	 * Sends/Writes an error message to the log
  	 *
  	 * @param string message
+ 	 * @param array $context
  	 * @return Phalcon\Logger\AdapterInterface
  	 */
-	public function error(string! message) -> <\Phalcon\Logger\AdapterInterface>
+	public function error(string! message, array context=null) -> <\Phalcon\Logger\AdapterInterface>
 	{
-		this->log(message, \Phalcon\Logger::ERROR);
+		this->log(\Phalcon\Logger::ERROR, message, context);
 		return this;
 	}
 
@@ -188,11 +191,12 @@ abstract class Adapter
  	 * Sends/Writes an info message to the log
  	 *
  	 * @param string message
+ 	 * @param array $context
  	 * @return Phalcon\Logger\AdapterInterface
  	 */
-	public function info(string! message) -> <\Phalcon\Logger\AdapterInterface>
+	public function info(string! message, array context=null) -> <\Phalcon\Logger\AdapterInterface>
 	{
-		this->log(message, \Phalcon\Logger::INFO);
+		this->log(\Phalcon\Logger::INFO, message, context);
 		return this;
 	}
 
@@ -200,11 +204,12 @@ abstract class Adapter
  	 * Sends/Writes a notice message to the log
  	 *
  	 * @param string message
+ 	 * @param array $context
  	 * @return Phalcon\Logger\AdapterInterface
  	 */
-	public function notice(string! message) -> <\Phalcon\Logger\AdapterInterface>
+	public function notice(string! message, array context=null) -> <\Phalcon\Logger\AdapterInterface>
 	{
-		this->log(message, \Phalcon\Logger::NOTICE);
+		this->log(\Phalcon\Logger::NOTICE, message, context);
 		return this;
 	}
 
@@ -212,11 +217,12 @@ abstract class Adapter
  	 * Sends/Writes a warning message to the log
  	 *
  	 * @param string message
+ 	 * @param array $context
  	 * @return Phalcon\Logger\AdapterInterface
  	 */
-	public function warning(string! message) -> <\Phalcon\Logger\AdapterInterface>
+	public function warning(string! message, array context=null) -> <\Phalcon\Logger\AdapterInterface>
 	{
-		this->log(message, \Phalcon\Logger::WARNING);
+		this->log(\Phalcon\Logger::WARNING, message, context);
 		return this;
 	}
 
@@ -224,38 +230,68 @@ abstract class Adapter
  	 * Sends/Writes an alert message to the log
  	 *
  	 * @param string message
+ 	 * @param array $context
  	 * @return Phalcon\Logger\AdapterInterface
  	 */
-	public function alert(string! message) -> <\Phalcon\Logger\AdapterInterface>
+	public function alert(string! message, array context = null) -> <\Phalcon\Logger\AdapterInterface>
 	{
-		this->log(message, \Phalcon\Logger::ALERT);
+		this->log(\Phalcon\Logger::ALERT, message, context);
 		return this;
 	}
 
 	/**
 	 * Logs messages to the internal loggger. Appends logs to the
 	 *
+	 * @param mixed type
 	 * @param string message
-	 * @param int type
+	 * @param array $context
 	 * @return Phalcon\Logger\AdapterInterface
 	 */
-	public function log(string! message, int type=7) -> <\Phalcon\Logger\AdapterInterface>
+	public function log(type, string message = null, array context = null) -> <\Phalcon\Logger\AdapterInterface>
 	{
-		var timestamp, transaction;
+		var timestamp, transaction, tmp;
 
-		let timestamp = time();
+		/*
+		 * Backwards compatibility.
+		 *
+		 * PSR-3 says:
+		 *
+		 * public function log($level, $message, array $context = array());
+		 *
+		 * Our old definition:
+		 *
+		 * public function log($message, $level = null)
+		 *
+		 * Now we want to implement PSR-3
+		 * Thus:
+		 *   - when $message === null, $level is $message and $level is DEBUG
+		 *   - when typeof($message) == 'int' && typeof($level) == 'string', then
+		 *     $message is $level and $level is $message.
+		 */
 
-		let transaction = this->_transaction;
-		if transaction {
-			let this->_queue[] = new \Phalcon\Logger\Item(message, type, timestamp);
-			return this;
+		if message === null {
+			let message = type,
+				type = \Phalcon\Logger::DEBUG;
+		} else {
+			if typeof message == "int" && typeof type == "string" {
+				let tmp = message,
+					message = type,
+					type = (int) tmp;
+			}
 		}
 
 		/**
 		 * Checks if the log is valid respecting the current log level
 		 */
 		if this->_logLevel >= type {
-			this->{"logInternal"}(message, type, timestamp);
+			let timestamp = time();
+
+			let transaction = this->_transaction;
+			if transaction {
+				let this->_queue[] = new \Phalcon\Logger\Item(message, type, timestamp, context);
+			} else {
+				this->{"logInternal"}(message, type, timestamp, context);
+			}
 		}
 
 		return this;

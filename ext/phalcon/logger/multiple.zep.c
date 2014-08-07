@@ -177,11 +177,11 @@ PHP_METHOD(Phalcon_Logger_Multiple, log) {
 }
 
 /**
- * Sends/Writes an emergence message to the log
+ * Sends/Writes an emergency message to the log
  *
  * @param string message
  */
-PHP_METHOD(Phalcon_Logger_Multiple, emergence) {
+PHP_METHOD(Phalcon_Logger_Multiple, emergency) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *message_param = NULL, *_0;

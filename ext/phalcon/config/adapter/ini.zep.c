@@ -83,7 +83,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct) {
 	array_init(config);
 	ZEPHIR_CALL_FUNCTION(&iniConfig, "parse_ini_file", &_0, filePath, ZEPHIR_GLOBAL(global_true));
 	zephir_check_call_status();
-	if (ZEPHIR_IS_FALSE(iniConfig)) {
+	if (ZEPHIR_IS_FALSE_IDENTICAL(iniConfig)) {
 		ZEPHIR_INIT_VAR(_1);
 		object_init_ex(_1, phalcon_config_exception_ce);
 		ZEPHIR_INIT_VAR(_2);
@@ -113,8 +113,8 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct) {
 			if (zephir_memnstr_str(key, SL("."), "phalcon/config/adapter/ini.zep", 43)) {
 				ZEPHIR_INIT_NVAR(directiveParts);
 				zephir_fast_explode_str(directiveParts, SL("."), key, LONG_MAX TSRMLS_CC);
-				zephir_array_fetch_long(&_10, directiveParts, 0, PH_NOISY | PH_READONLY TSRMLS_CC);
-				zephir_array_fetch_long(&_11, directiveParts, 1, PH_NOISY | PH_READONLY TSRMLS_CC);
+				zephir_array_fetch_long(&_10, directiveParts, 0, PH_NOISY | PH_READONLY, "phalcon/config/adapter/ini.zep", 45 TSRMLS_CC);
+				zephir_array_fetch_long(&_11, directiveParts, 1, PH_NOISY | PH_READONLY, "phalcon/config/adapter/ini.zep", 45 TSRMLS_CC);
 				zephir_array_update_multi(&config, &value TSRMLS_CC, SL("zzz"), 3, section, _10, _11);
 			} else {
 				zephir_array_update_multi(&config, &value TSRMLS_CC, SL("zz"), 2, section, key);

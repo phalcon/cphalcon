@@ -4,7 +4,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2012 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -134,7 +134,10 @@ class ModelsValidatorsTest extends PHPUnit_Framework_TestCase
 		$subscriptor->email = 'fuego@hotmail.com';
 		$subscriptor->created_at = $createdAt;
 		$subscriptor->status = 'P';
-		$this->assertTrue($subscriptor->save());
+		//$this->assertTrue($subscriptor->save());
+
+		var_dump($subscriptor->save());
+		var_dump($subscriptor->getMessages());
 
 		//PresenceOf
 		$subscriptor = new Subscriptores();

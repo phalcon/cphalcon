@@ -21,6 +21,7 @@ namespace Phalcon\Db;
 
 use Phalcon\Db\Exception;
 use Phalcon\Events\EventsAwareInterface;
+use Phalcon\Events\ManagerInterface;
 
 /**
  * Phalcon\Db\Adapter
@@ -109,9 +110,11 @@ abstract class Adapter implements EventsAwareInterface
 	 */
 	public function __construct(array! descriptor)
 	{
-		var dialectClass;
+		var dialectClass, connectionId;
 
-		let this->_connectionId = 0;
+		let connectionId = self::_connectionConsecutive,
+			this->_connectionId = connectionId,
+			self::_connectionConsecutive = connectionId + 1;
 
 		/**
 		 * Dialect class can override the default dialect
@@ -135,7 +138,7 @@ abstract class Adapter implements EventsAwareInterface
 	 *
 	 * @param Phalcon\Events\ManagerInterface eventsManager
 	 */
-	public function setEventsManager(<\Phalcon\Events\ManagerInterface> eventsManager)
+	public function setEventsManager(<ManagerInterface> eventsManager)
 	{
 		let this->_eventsManager = eventsManager;
 	}
@@ -145,7 +148,7 @@ abstract class Adapter implements EventsAwareInterface
 	 *
 	 * @return Phalcon\Events\ManagerInterface
 	 */
-	public function getEventsManager() -> <\Phalcon\Events\ManagerInterface>
+	public function getEventsManager() -> <ManagerInterface>
 	{
 		return this->_eventsManager;
 	}
@@ -865,17 +868,20 @@ abstract class Adapter implements EventsAwareInterface
 	 */
 	public function describeIndexes(string! table, schema=null)
 	{
-		var indexes, index, keyName, indexObjects, name, indexColumns;
+		var indexes, index, keyName, indexObjects, name, indexColumns, columns;
 
 		let indexes = [];
 		for index in this->fetchAll(this->_dialect->describeIndexes(table, schema), \Phalcon\Db::FETCH_NUM) {
 
 			let keyName = index[2];
 			if !isset indexes[keyName] {
-				let indexes[keyName] = [];
+				let columns = [];
+			} else {
+				let columns = indexes[keyName];
 			}
 
-			let indexes[keyName][] = index[4];
+			let columns[] = index[4];
+			let indexes[keyName] = columns;
 		}
 
 		let indexObjects = [];
@@ -904,7 +910,8 @@ abstract class Adapter implements EventsAwareInterface
 	public function describeReferences(string! table, string! schema=null)
 	{
 		var references, reference,
-			arrayReference, constraintName, referenceObjects, name;
+			arrayReference, constraintName, referenceObjects, name,
+			referencedSchema, referencedTable, columns, referencedColumns;
 
 		let references = [];
 
@@ -912,16 +919,26 @@ abstract class Adapter implements EventsAwareInterface
 
 			let constraintName = reference[2];
 			if !isset references[constraintName] {
-				let references[constraintName] = [
-					"referencedSchema"  : reference[3],
-					"referencedTable"   : reference[4],
-					"columns"           : [],
-					"referencedColumns" : []
-				];
+				let referencedSchema = reference[3];
+				let referencedTable = reference[4];
+				let columns = [];
+				let referencedColumns = [];
+			} else {
+				let referencedSchema = references[constraintName]["referencedSchema"];
+				let referencedTable = references[constraintName]["referencedTable"];
+				let columns = references[constraintName]["columns"];
+				let referencedColumns = references[constraintName]["referencedColumns"];
 			}
 
-			let references[constraintName]["columns"][] = reference[1],
-				references[constraintName]["referencedColumns"][] = reference[5];
+			let columns[] = reference[1],
+				referencedColumns[] = reference[5];
+
+			let references[constraintName] = [
+				"referencedSchema"  : referencedSchema,
+				"referencedTable"   : referencedTable,
+				"columns"           : columns,
+				"referencedColumns" : referencedColumns
+			];
 		}
 
 		let referenceObjects = [];
@@ -954,7 +971,7 @@ abstract class Adapter implements EventsAwareInterface
 
 		let sql = this->_dialect->tableOptions(tableName, schemaName);
 		if sql {
-			return this->fetchAll(sql, \Phalcon\DB::FETCH_NUM)[0];
+			return this->fetchAll(sql, \Phalcon\DB::FETCH_ASSOC)[0];
 		}
 		return [];
 	}

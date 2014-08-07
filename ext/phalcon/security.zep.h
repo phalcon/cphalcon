@@ -47,7 +47,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_security_islegacyhash, 0, 0, 2)
 	ZEND_ARG_INFO(0, passwordHash)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_security_gettokenkey, 0, 0, 1)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_security_gettokenkey, 0, 0, 0)
 	ZEND_ARG_INFO(0, numberBytes)
 ZEND_END_ARG_INFO()
 

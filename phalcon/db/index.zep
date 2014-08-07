@@ -19,6 +19,9 @@
 
 namespace Phalcon\Db;
 
+use Phalcon\Db\Exception;
+use Phalcon\Db\IndexInterface;
+
 /**
  * Phalcon\Db\Index
  *
@@ -26,7 +29,7 @@ namespace Phalcon\Db;
  * to enhance database performance. An index allows the database server to find
  * and retrieve specific rows much faster than it could do without an index
  */
-class Index implements \Phalcon\Db\IndexInterface
+class Index implements IndexInterface
 {
 
 	/**
@@ -56,7 +59,7 @@ class Index implements \Phalcon\Db\IndexInterface
 	 * @param string name
 	 * @param array columns
 	 */
-	public function __construct(string! name, array! columns, type=null)
+	public function __construct(string! name, array! columns, type = null)
 	{
 		let this->_name = name;
 		let this->_columns = columns;
@@ -68,28 +71,26 @@ class Index implements \Phalcon\Db\IndexInterface
 	 *
 	 * @param array data
 	 */
-	public static function __set_state(array! data) -> <\Phalcon\Db\Index>
+	public static function __set_state(array! data) -> <Index>
 	{
 		var indexName, columns, type;
 
 		if !fetch indexName, data["_indexName"] {
-			throw new \Phalcon\Db\Exception("_indexName parameter is required");
+			throw new Exception("_indexName parameter is required");
 		}
 
 		if !fetch columns, data["_columns"] {
-			throw new \Phalcon\Db\Exception("_columns parameter is required");
+			throw new Exception("_columns parameter is required");
 		}
 
-		if isset data["_type"] {
-			let type = data["_type"];
-		} else {
+		if !fetch type, data["_type"] {
 			let type = "";
 		}
 
 		/**
 		 * Return a Phalcon\Db\Index as part of the returning state
 		 */
-		return new \Phalcon\Db\Index(indexName, columns, type);
+		return new Index(indexName, columns, type);
 	}
 
 }

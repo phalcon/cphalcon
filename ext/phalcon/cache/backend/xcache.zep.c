@@ -241,7 +241,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Xcache, save) {
 			return;
 		}
 		ZEPHIR_OBS_VAR(specialKey);
-		zephir_array_fetch_string(&specialKey, options, SL("statsKey"), PH_NOISY TSRMLS_CC);
+		zephir_array_fetch_string(&specialKey, options, SL("statsKey"), PH_NOISY, "phalcon/cache/backend/xcache.zep", 167 TSRMLS_CC);
 		ZEPHIR_CALL_FUNCTION(&keys, "xcache_get", NULL, specialKey);
 		zephir_check_call_status();
 		if (Z_TYPE_P(keys) != IS_ARRAY) {
@@ -329,7 +329,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Xcache, queryKeys) {
 		return;
 	}
 	ZEPHIR_OBS_VAR(specialKey);
-	zephir_array_fetch_string(&specialKey, options, SL("statsKey"), PH_NOISY TSRMLS_CC);
+	zephir_array_fetch_string(&specialKey, options, SL("statsKey"), PH_NOISY, "phalcon/cache/backend/xcache.zep", 230 TSRMLS_CC);
 	ZEPHIR_INIT_VAR(retval);
 	array_init(retval);
 	ZEPHIR_CALL_FUNCTION(&keys, "xcache_get", NULL, specialKey);
@@ -347,7 +347,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Xcache, queryKeys) {
 			ZVAL_LONG(&_4, 0);
 			ZEPHIR_CALL_FUNCTION(&realKey, "substr", &_5, key, &_3, &_4);
 			zephir_check_call_status();
-			zephir_array_append(&retval, realKey, PH_SEPARATE);
+			zephir_array_append(&retval, realKey, PH_SEPARATE, "phalcon/cache/backend/xcache.zep", 242);
 		}
 	}
 	RETURN_CCTOR(retval);

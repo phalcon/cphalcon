@@ -19,6 +19,9 @@
 
 namespace Phalcon\Annotations;
 
+use Phalcon\Annotations\Annotation;
+use Phalcon\Annotations\Exception;
+
 /**
 * Phalcon\Annotations\Annotation
 *
@@ -60,12 +63,13 @@ class Annotation
 		 * Process annotation arguments
 		 */
 		if fetch exprArguments, reflectionData["arguments"] {
+			let arguments = [];
 			for argument in exprArguments {
 				let resolvedArgument =  this->getExpression(argument["expr"]);
 				if fetch name, argument["name"] {
-					let arguments = name[resolvedArgument];
+					let arguments[name] = resolvedArgument;
 				} else {
-					let arguments = resolvedArgument;
+					let arguments[] = resolvedArgument;
 				}
 			}
 			let this->_arguments = arguments;
@@ -116,11 +120,11 @@ class Annotation
 				break;
 
 			case PHANNOT_T_ARRAY:
-				let arrayValue = null;
+				let arrayValue = [];
 				for item in expr["items"] {
 					let resolvedItem = this->getExpression(item["expr"]);
 					if fetch name, item["name"] {
-						let arrayValue = name[resolvedItem];
+						let arrayValue[name] = resolvedItem;
 					} else {
 						let arrayValue[] = resolvedItem;
 					}
@@ -128,10 +132,10 @@ class Annotation
 				return arrayValue;
 
 			case PHANNOT_T_ANNOTATION:
-				return new \Phalcon\Annotations\Annotation(expr);
+				return new Annotation(expr);
 
 			default:
-				throw new \Phalcon\Annotations\Exception("The expression ". type. " is unknown");
+				throw new Exception("The expression ". type. " is unknown");
 		}
 
 		return value;
@@ -170,10 +174,10 @@ class Annotation
 	/**
 	 * Returns an argument in a specific position
 	 *
-	 * @param int position
+	 * @param int|string position
 	 * @return mixed
 	 */
-	public function getArgument(int position)
+	public function getArgument(var position)
 	{
 		var argument;
 		if fetch argument, this->_arguments[position] {
@@ -184,10 +188,10 @@ class Annotation
 	/**
 	 * Returns an argument in a specific position
 	 *
-	 * @param int position
+	 * @param int|string position
 	 * @return boolean
 	 */
-	public function hasArgument(int position) -> boolean
+	public function hasArgument(var position) -> boolean
 	{
 		return isset this->_arguments[position];
 	}

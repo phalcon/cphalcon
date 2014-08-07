@@ -259,7 +259,7 @@ PHP_METHOD(Phalcon_Debug, debugVar) {
 
 
 	ZEPHIR_INIT_VAR(_0);
-	array_init_size(_0, 4);
+	array_init_size(_0, 5);
 	zephir_array_fast_append(_0, varz);
 	ZEPHIR_CALL_FUNCTION(&_1, "debug_backtrace", &_2);
 	zephir_check_call_status();
@@ -370,7 +370,7 @@ PHP_METHOD(Phalcon_Debug, _getArrayDump) {
 							zephir_check_call_status();
 							ZEPHIR_CONCAT_SVSV(varDump, "[", k, "] =&gt; ", _5);
 						}
-						zephir_array_append(&dump, varDump, PH_SEPARATE);
+						zephir_array_append(&dump, varDump, PH_SEPARATE, "phalcon/debug.zep", 195);
 					} else {
 						if (Z_TYPE_P(v) == IS_ARRAY) {
 							ZEPHIR_INIT_NVAR(_7);
@@ -379,7 +379,7 @@ PHP_METHOD(Phalcon_Debug, _getArrayDump) {
 							zephir_check_call_status();
 							ZEPHIR_INIT_LNVAR(_9);
 							ZEPHIR_CONCAT_SVSVS(_9, "[", k, "] =&gt; Array(", _5, ")");
-							zephir_array_append(&dump, _9, PH_SEPARATE);
+							zephir_array_append(&dump, _9, PH_SEPARATE, "phalcon/debug.zep", 199);
 							continue;
 						}
 						if (Z_TYPE_P(v) == IS_OBJECT) {
@@ -387,18 +387,18 @@ PHP_METHOD(Phalcon_Debug, _getArrayDump) {
 							zephir_get_class(_7, v, 0 TSRMLS_CC);
 							ZEPHIR_INIT_LNVAR(_9);
 							ZEPHIR_CONCAT_SVSVS(_9, "[", k, "] =&gt; Object(", _7, ")");
-							zephir_array_append(&dump, _9, PH_SEPARATE);
+							zephir_array_append(&dump, _9, PH_SEPARATE, "phalcon/debug.zep", 204);
 							continue;
 						}
 						if (Z_TYPE_P(v) == IS_NULL) {
 							ZEPHIR_INIT_LNVAR(_9);
 							ZEPHIR_CONCAT_SVS(_9, "[", k, "] =&gt; null");
-							zephir_array_append(&dump, _9, PH_SEPARATE);
+							zephir_array_append(&dump, _9, PH_SEPARATE, "phalcon/debug.zep", 209);
 							continue;
 						}
 						ZEPHIR_INIT_LNVAR(_9);
 						ZEPHIR_CONCAT_SVSV(_9, "[", k, "] =&gt; ", v);
-						zephir_array_append(&dump, _9, PH_SEPARATE);
+						zephir_array_append(&dump, _9, PH_SEPARATE, "phalcon/debug.zep", 213);
 					}
 				}
 				zephir_fast_join_str(return_value, SL(", "), dump TSRMLS_CC);
@@ -491,7 +491,7 @@ PHP_METHOD(Phalcon_Debug, getMajorVersion) {
 	ZEPHIR_CALL_CE_STATIC(&_0, phalcon_version_ce, "get", &_1);
 	zephir_check_call_status();
 	zephir_fast_explode_str(parts, SL(" "), _0, LONG_MAX TSRMLS_CC);
-	zephir_array_fetch_long(&_2, parts, 0, PH_NOISY | PH_READONLY TSRMLS_CC);
+	zephir_array_fetch_long(&_2, parts, 0, PH_NOISY | PH_READONLY, "phalcon/debug.zep", 317 TSRMLS_CC);
 	RETURN_CTOR(_2);
 
 }
@@ -602,7 +602,7 @@ PHP_METHOD(Phalcon_Debug, showTraceItem) {
 	ZEPHIR_CONCAT_SVS(html, "<tr><td align=\"right\" valign=\"top\" class=\"error-number\">#", n, "</td><td>");
 	if (zephir_array_isset_string(trace, SS("class"))) {
 		ZEPHIR_OBS_VAR(className);
-		zephir_array_fetch_string(&className, trace, SL("class"), PH_NOISY TSRMLS_CC);
+		zephir_array_fetch_string(&className, trace, SL("class"), PH_NOISY, "phalcon/debug.zep", 393 TSRMLS_CC);
 		ZEPHIR_SINIT_VAR(_0);
 		ZVAL_STRING(&_0, "/^Phalcon/", 0);
 		ZEPHIR_CALL_FUNCTION(&_1, "preg_match", &_2, &_0, className);
@@ -637,11 +637,11 @@ PHP_METHOD(Phalcon_Debug, showTraceItem) {
 				zephir_concat_self(&html, _7 TSRMLS_CC);
 			}
 		}
-		zephir_array_fetch_string(&_8, trace, SL("type"), PH_NOISY | PH_READONLY TSRMLS_CC);
+		zephir_array_fetch_string(&_8, trace, SL("type"), PH_NOISY | PH_READONLY, "phalcon/debug.zep", 434 TSRMLS_CC);
 		zephir_concat_self(&html, _8 TSRMLS_CC);
 	}
 	ZEPHIR_OBS_VAR(functionName);
-	zephir_array_fetch_string(&functionName, trace, SL("function"), PH_NOISY TSRMLS_CC);
+	zephir_array_fetch_string(&functionName, trace, SL("function"), PH_NOISY, "phalcon/debug.zep", 440 TSRMLS_CC);
 	if (zephir_array_isset_string(trace, SS("class"))) {
 		ZEPHIR_INIT_LNVAR(_3);
 		ZEPHIR_CONCAT_SVS(_3, "<span class=\"error-function\">", functionName, "</span>");
@@ -674,7 +674,7 @@ PHP_METHOD(Phalcon_Debug, showTraceItem) {
 	}
 	if (zephir_array_isset_string(trace, SS("args"))) {
 		ZEPHIR_OBS_VAR(traceArgs);
-		zephir_array_fetch_string(&traceArgs, trace, SL("args"), PH_NOISY TSRMLS_CC);
+		zephir_array_fetch_string(&traceArgs, trace, SL("args"), PH_NOISY, "phalcon/debug.zep", 474 TSRMLS_CC);
 		if (zephir_fast_count_int(traceArgs TSRMLS_CC)) {
 			ZEPHIR_INIT_VAR(arguments);
 			array_init(arguments);
@@ -688,7 +688,7 @@ PHP_METHOD(Phalcon_Debug, showTraceItem) {
 				zephir_check_call_status();
 				ZEPHIR_INIT_LNVAR(_3);
 				ZEPHIR_CONCAT_SVS(_3, "<span class=\"error-parameter\">", _1, "</span>");
-				zephir_array_append(&arguments, _3, PH_SEPARATE);
+				zephir_array_append(&arguments, _3, PH_SEPARATE, "phalcon/debug.zep", 483);
 			}
 			ZEPHIR_INIT_NVAR(_6);
 			zephir_fast_join_str(_6, SL(", "), arguments TSRMLS_CC);
@@ -702,7 +702,7 @@ PHP_METHOD(Phalcon_Debug, showTraceItem) {
 	ZEPHIR_OBS_VAR(filez);
 	if (zephir_array_isset_string_fetch(&filez, trace, SS("file"), 0 TSRMLS_CC)) {
 		ZEPHIR_OBS_VAR(line);
-		zephir_array_fetch_string(&line, trace, SL("line"), PH_NOISY TSRMLS_CC);
+		zephir_array_fetch_string(&line, trace, SL("line"), PH_NOISY, "phalcon/debug.zep", 500 TSRMLS_CC);
 		ZEPHIR_INIT_LNVAR(_3);
 		ZEPHIR_CONCAT_SVSVS(_3, "<br/><div class=\"error-file\">", filez, " (", line, ")</div>");
 		zephir_concat_self(&html, _3 TSRMLS_CC);
@@ -764,7 +764,7 @@ PHP_METHOD(Phalcon_Debug, showTraceItem) {
 				ZEPHIR_SINIT_NVAR(linePosition);
 				ZVAL_LONG(&linePosition, (i - 1));
 				ZEPHIR_OBS_NVAR(currentLine);
-				zephir_array_fetch(&currentLine, lines, &linePosition, PH_NOISY TSRMLS_CC);
+				zephir_array_fetch(&currentLine, lines, &linePosition, PH_NOISY, "phalcon/debug.zep", 588 TSRMLS_CC);
 				if (zephir_is_true(showFileFragment)) {
 					if (i == firstLine) {
 						ZEPHIR_INIT_NVAR(_6);
@@ -954,7 +954,7 @@ PHP_METHOD(Phalcon_Debug, onUncaughtException) {
 			) {
 				ZEPHIR_GET_HMKEY(keyVar, _29, _28);
 				ZEPHIR_GET_HVALUE(dataVar, _30);
-				zephir_array_fetch_long(&_32, dataVar, 0, PH_NOISY | PH_READONLY TSRMLS_CC);
+				zephir_array_fetch_long(&_32, dataVar, 0, PH_NOISY | PH_READONLY, "phalcon/debug.zep", 765 TSRMLS_CC);
 				ZEPHIR_CALL_METHOD(&_31, this_ptr, "_getvardump", &_33, _32);
 				zephir_check_call_status();
 				ZEPHIR_INIT_LNVAR(_34);

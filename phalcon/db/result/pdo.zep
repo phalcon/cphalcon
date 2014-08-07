@@ -51,7 +51,7 @@ class Pdo
 	/**
 	 * Internal resultset
 	 *
-	 * @var PDOStatement
+	 * @var \PDOStatement
 	 */
 	protected _pdoStatement;
 

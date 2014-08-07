@@ -236,7 +236,7 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, set) {
 		zephir_check_call_status();
 	}
 	_2 = zephir_fetch_nproperty_this(this_ptr, SL("_registered"), PH_NOISY_CC);
-	if (ZEPHIR_IS_FALSE(_2)) {
+	if (ZEPHIR_IS_FALSE_IDENTICAL(_2)) {
 		ZEPHIR_OBS_VAR(dependencyInjector);
 		zephir_read_property_this(&dependencyInjector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 		if (Z_TYPE_P(dependencyInjector) != IS_OBJECT) {

@@ -52,6 +52,20 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Profiler_Item) {
 	zend_declare_property_null(phalcon_db_profiler_item_ce, SL("_sqlStatement"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	/**
+	 * SQL variables related to the profile
+	 *
+	 * @var array
+	 */
+	zend_declare_property_null(phalcon_db_profiler_item_ce, SL("_sqlVariables"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
+	/**
+	 * SQL bind types related to the profile
+	 *
+	 * @var array
+	 */
+	zend_declare_property_null(phalcon_db_profiler_item_ce, SL("_sqlBindTypes"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
+	/**
 	 * Timestamp when the profile started
 	 *
 	 * @var double
@@ -95,6 +109,64 @@ PHP_METHOD(Phalcon_Db_Profiler_Item, getSqlStatement) {
 
 
 	RETURN_MEMBER(this_ptr, "_sqlStatement");
+
+}
+
+/**
+ * SQL variables related to the profile
+ *
+ * @var array
+ */
+PHP_METHOD(Phalcon_Db_Profiler_Item, setSqlVariables) {
+
+	zval *sqlVariables;
+
+	zephir_fetch_params(0, 1, 0, &sqlVariables);
+
+
+
+	zephir_update_property_this(this_ptr, SL("_sqlVariables"), sqlVariables TSRMLS_CC);
+
+}
+
+/**
+ * SQL variables related to the profile
+ *
+ * @var array
+ */
+PHP_METHOD(Phalcon_Db_Profiler_Item, getSqlVariables) {
+
+
+	RETURN_MEMBER(this_ptr, "_sqlVariables");
+
+}
+
+/**
+ * SQL bind types related to the profile
+ *
+ * @var array
+ */
+PHP_METHOD(Phalcon_Db_Profiler_Item, setSqlBindTypes) {
+
+	zval *sqlBindTypes;
+
+	zephir_fetch_params(0, 1, 0, &sqlBindTypes);
+
+
+
+	zephir_update_property_this(this_ptr, SL("_sqlBindTypes"), sqlBindTypes TSRMLS_CC);
+
+}
+
+/**
+ * SQL bind types related to the profile
+ *
+ * @var array
+ */
+PHP_METHOD(Phalcon_Db_Profiler_Item, getSqlBindTypes) {
+
+
+	RETURN_MEMBER(this_ptr, "_sqlBindTypes");
 
 }
 

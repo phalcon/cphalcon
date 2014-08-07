@@ -19,6 +19,9 @@
 
 namespace Phalcon\Annotations;
 
+use Phalcon\Annotations\Annotation;
+use Phalcon\Annotations\Exception;
+
 /**
  * Phalcon\Annotations\Collection
  *
@@ -49,22 +52,21 @@ class Collection implements \Iterator, \Countable
 	 *
 	 * @param array reflectionData
 	 */
-	public function __construct(reflectionData=null)
+	public function __construct(var reflectionData = null)
 	{
 		var annotations, annotationData;
 
-		if typeof reflectionData != "null" {
-			if typeof reflectionData != "array" {
-				throw new \Phalcon\Annotations\Exception("Reflection data must be an array");
-			}
+		if typeof reflectionData != "null" && typeof reflectionData != "array" {
+			throw new Exception("Reflection data must be an array");
 		}
+
+		let annotations = [];
 		if typeof reflectionData == "array" {
-			let annotations = [];
 			for annotationData in reflectionData {
-				let annotations[] = new \Phalcon\Annotations\Annotation(annotationData);
+				let annotations[] = new Annotation(annotationData);
 			}
-			let this->_annotations = annotations;
 		}
+		let this->_annotations = annotations;
 	}
 
 	/**
@@ -90,7 +92,7 @@ class Collection implements \Iterator, \Countable
 	 *
 	 * @return Phalcon\Annotations\Annotation
 	 */
-	public function current() -> <\Phalcon\Annotations\Annotation> | boolean
+	public function current() -> <Annotation> | boolean
 	{
 		var annotation;
 		if fetch annotation, this->_annotations[this->_position] {
@@ -125,7 +127,7 @@ class Collection implements \Iterator, \Countable
 	 */
 	public function valid() -> boolean
 	{
-		return this->_annotations[this->_position];
+		return isset this->_annotations[this->_position];
 	}
 
 	/**
@@ -133,7 +135,7 @@ class Collection implements \Iterator, \Countable
 	 *
 	 * @return Phalcon\Annotations\Annotation[]
 	 */
-	public function getAnnotations() -> <\Phalcon\Annotations\Annotation[]>
+	public function getAnnotations() -> <Annotation[]>
 	{
 		return this->_annotations;
 	}
@@ -144,7 +146,7 @@ class Collection implements \Iterator, \Countable
 	 * @param string name
 	 * @return Phalcon\Annotations\Annotation
 	 */
-	public function get(string name) -> <\Phalcon\Annotations\Annotation>
+	public function get(string name) -> <Annotation>
 	{
 		var annotation, annotations;
 		let annotations = this->_annotations;
@@ -156,7 +158,7 @@ class Collection implements \Iterator, \Countable
 			}
 		}
 
-		throw new \Phalcon\Annotations\Exception("The collection doesn't have an annotation called '" . name . "'");
+		throw new Exception("Collection doesn't have an annotation called '" . name . "'");
 	}
 
 	/**
@@ -165,7 +167,7 @@ class Collection implements \Iterator, \Countable
 	 * @param string name
 	 * @return Phalcon\Annotations\Annotation[]
 	 */
-	public function getAll(string name) -> <\Phalcon\Annotations\Annotation[]>
+	public function getAll(string name) -> <Annotation[]>
 	{
 		var annotations, found, annotation;
 

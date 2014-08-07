@@ -30,11 +30,11 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_dialect_sharedlock, 0, 0, 1)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_dialect_getcolumnlist, 0, 0, 1)
-	ZEND_ARG_INFO(0, columnList)
+	ZEND_ARG_ARRAY_INFO(0, columnList, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_dialect_getsqlexpression, 0, 0, 1)
-	ZEND_ARG_INFO(0, expression)
+	ZEND_ARG_ARRAY_INFO(0, expression, 0)
 	ZEND_ARG_INFO(0, escapeChar)
 ZEND_END_ARG_INFO()
 
@@ -44,7 +44,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_dialect_getsqltable, 0, 0, 1)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_dialect_select, 0, 0, 1)
-	ZEND_ARG_INFO(0, definition)
+	ZEND_ARG_ARRAY_INFO(0, definition, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_dialect_createsavepoint, 0, 0, 1)

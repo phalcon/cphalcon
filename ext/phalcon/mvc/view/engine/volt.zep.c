@@ -390,7 +390,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, slice) {
 			if (ZEPHIR_LT_LONG(start, position)) {
 				ZEPHIR_CALL_METHOD(&_1, value, "current",  NULL);
 				zephir_check_call_status();
-				zephir_array_append(&slice, _1, PH_SEPARATE);
+				zephir_array_append(&slice, _1, PH_SEPARATE, "phalcon/mvc/view/engine/volt.zep", 263);
 			}
 			ZEPHIR_CALL_METHOD(NULL, value, "next", NULL);
 			zephir_check_call_status();

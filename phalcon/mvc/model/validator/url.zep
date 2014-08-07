@@ -19,6 +19,9 @@
 
 namespace Phalcon\Mvc\Model\Validator;
 
+use Phalcon\Mvc\Model\Exception;
+use Phalcon\Mvc\Model\ValidatorInterface;
+
 /**
  * Phalcon\Mvc\Model\Validator\Url
  *
@@ -44,7 +47,7 @@ namespace Phalcon\Mvc\Model\Validator;
  *</code>
  *
  */
-class Url extends \Phalcon\Mvc\Model\Validator implements \Phalcon\Mvc\Model\ValidatorInterface
+class Url extends \Phalcon\Mvc\Model\Validator implements ValidatorInterface
 {
 	/**
 	 * Executes the validator
@@ -58,7 +61,7 @@ class Url extends \Phalcon\Mvc\Model\Validator implements \Phalcon\Mvc\Model\Val
 
 		let field = this->getOption("field");
 		if typeof field == "string" {
-			throw new \Phalcon\Mvc\Model\Exception("Field name must be a string");
+			throw new Exception("Field name must be a string");
 		}
 
 		let value = record->readAttribute(field);

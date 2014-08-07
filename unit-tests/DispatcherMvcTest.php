@@ -4,7 +4,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2012 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -43,13 +43,13 @@ class DispatcherMvcTest extends PHPUnit_Framework_TestCase
 
 		Phalcon\DI::reset();
 
-		$di = new Phalcon\DI();
+		$di = new Phalcon\Di();
 
 		$di->set('response', new \Phalcon\Http\Response());
 
 		$dispatcher = new Phalcon\Mvc\Dispatcher();
 		$dispatcher->setDI($di);
-		$this->assertInstanceOf('Phalcon\DI', $dispatcher->getDI());
+		$this->assertInstanceOf('Phalcon\Di', $dispatcher->getDI());
 
 		$di->set('dispatcher', $dispatcher);
 
@@ -60,8 +60,7 @@ class DispatcherMvcTest extends PHPUnit_Framework_TestCase
 		try {
 			$dispatcher->dispatch();
 			$this->assertTrue(FALSE, 'oh, Why?');
-		}
-		catch(Phalcon\Exception $e){
+		} catch (Phalcon\Exception $e) {
 			$this->assertEquals($e->getMessage(), "IndexController handler class cannot be loaded");
 			$this->assertInstanceOf('Phalcon\Mvc\Dispatcher\Exception', $e);
 		}
@@ -73,8 +72,7 @@ class DispatcherMvcTest extends PHPUnit_Framework_TestCase
 		try {
 			$dispatcher->dispatch();
 			$this->assertTrue(FALSE, 'oh, Why?');
-		}
-		catch(Phalcon\Exception $e){
+		} catch (Phalcon\Exception $e){
 			$this->assertEquals($e->getMessage(), "EssaiController handler class cannot be loaded");
 			$this->assertInstanceOf('Phalcon\Mvc\Dispatcher\Exception', $e);
 		}
@@ -86,8 +84,7 @@ class DispatcherMvcTest extends PHPUnit_Framework_TestCase
 		try {
 			$dispatcher->dispatch();
 			$this->assertTrue(FALSE, 'oh, Why?');
-		}
-		catch(Phalcon\Exception $e){
+		} catch(Phalcon\Exception $e) {
 			$this->assertEquals($e->getMessage(), "Test0Controller handler class cannot be loaded");
 			$this->assertInstanceOf('Phalcon\Mvc\Dispatcher\Exception', $e);
 		}
@@ -99,8 +96,7 @@ class DispatcherMvcTest extends PHPUnit_Framework_TestCase
 		try {
 			$dispatcher->dispatch();
 			$this->assertTrue(FALSE, 'oh, Why?');
-		}
-		catch(Phalcon\Exception $e){
+		} catch (Phalcon\Exception $e) {
 			$this->assertEquals($e->getMessage(), "Action 'index' was not found on handler 'test1'");
 		}
 
@@ -117,8 +113,7 @@ class DispatcherMvcTest extends PHPUnit_Framework_TestCase
 		try {
 			$dispatcher->dispatch();
 			$this->assertTrue(FALSE, 'oh, Why?');
-		}
-		catch(Phalcon\Exception $e){
+		} catch (Phalcon\Exception $e) {
 			$this->assertEquals($e->getMessage(), "Action 'essai' was not found on handler 'test2'");
 		}
 

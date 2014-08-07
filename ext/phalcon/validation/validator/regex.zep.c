@@ -109,7 +109,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Regex, validate) {
 	Z_UNSET_ISREF_P(matches);
 	zephir_check_call_status();
 	if (zephir_is_true(_4)) {
-		zephir_array_fetch_long(&_6, matches, 0, PH_NOISY | PH_READONLY TSRMLS_CC);
+		zephir_array_fetch_long(&_6, matches, 0, PH_NOISY | PH_READONLY, "phalcon/validation/validator/regex.zep", 62 TSRMLS_CC);
 		failed = !ZEPHIR_IS_EQUAL(_6, value);
 	} else {
 		failed = 1;
@@ -123,9 +123,6 @@ PHP_METHOD(Phalcon_Validation_Validator_Regex, validate) {
 		if (ZEPHIR_IS_EMPTY(label)) {
 			ZEPHIR_CALL_METHOD(&label, validation, "getlabel", NULL, field);
 			zephir_check_call_status();
-			if (ZEPHIR_IS_EMPTY(label)) {
-				ZEPHIR_CPY_WRT(label, field);
-			}
 		}
 		ZEPHIR_INIT_BNVAR(_1);
 		ZVAL_STRING(_1, "message", 0);

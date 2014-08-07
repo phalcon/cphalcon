@@ -33,10 +33,15 @@ class Json extends \Phalcon\Logger\Formatter implements \Phalcon\Logger\Formatte
 	 * @param string message
 	 * @param int type
 	 * @param int timestamp
+	 * @param array $context
 	 * @return string
 	 */
-	public function format(string message, int type, int timestamp) -> string
+	public function format(string message, int type, int timestamp, array context=null) -> string
 	{
+		if typeof context == "array" {
+			let message = this->interpolate(message, context);
+		}
+
 		return json_encode([
 			"type": this->getTypeString(type),
 			"message": message,

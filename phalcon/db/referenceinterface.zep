@@ -33,7 +33,7 @@ interface ReferenceInterface
 	 * @param string referenceName
 	 * @param array definition
 	 */
-	public function __construct(referenceName, definition);
+	public function __construct(string! referenceName, array! definition);
 
 	/**
 	 * Gets the index name
@@ -78,11 +78,25 @@ interface ReferenceInterface
 	public function getReferencedColumns();
 
 	/**
+	 * Gets the referenced on delete
+	 *
+	 * @return string
+	 */
+	public function getOnDelete();
+
+	/**
+	 * Gets the referenced on update
+	 *
+	 * @return string
+	 */
+	public function getOnUpdate();
+
+	/**
 	 * Restore a Phalcon\Db\Reference object from export
 	 *
 	 * @param array data
 	 * @return Phalcon\Db\ReferenceInterface
 	 */
-	public static function __set_state(data);
+	public static function __set_state(array! data);
 
 }

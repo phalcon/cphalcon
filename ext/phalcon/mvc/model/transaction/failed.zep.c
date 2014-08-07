@@ -61,11 +61,12 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Transaction_Failed) {
 PHP_METHOD(Phalcon_Mvc_Model_Transaction_Failed, __construct) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *message_param = NULL, *record;
+	zend_bool _0;
+	zval *message_param = NULL, *record = NULL;
 	zval *message = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 2, 0, &message_param, &record);
+	zephir_fetch_params(1, 1, 1, &message_param, &record);
 
 	if (unlikely(Z_TYPE_P(message_param) != IS_STRING && Z_TYPE_P(message_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'message' must be a string") TSRMLS_CC);
@@ -78,9 +79,16 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Failed, __construct) {
 		ZEPHIR_INIT_VAR(message);
 		ZVAL_EMPTY_STRING(message);
 	}
+	if (!record) {
+		record = ZEPHIR_GLOBAL(global_null);
+	}
 
 
-	if (!(zephir_instance_of_ev(record, phalcon_mvc_modelinterface_ce TSRMLS_CC))) {
+	_0 = Z_TYPE_P(record) != IS_NULL;
+	if (_0) {
+		_0 = !zephir_instance_of_ev(record, phalcon_mvc_modelinterface_ce TSRMLS_CC);
+	}
+	if (_0) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'record' must be an instance of 'Phalcon\\Mvc\\ModelInterface'", "", 0);
 		return;
 	}

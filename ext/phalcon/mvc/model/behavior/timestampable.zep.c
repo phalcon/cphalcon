@@ -92,7 +92,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior_Timestampable, notify) {
 	}
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "musttakeaction", NULL, type);
 	zephir_check_call_status();
-	if (!ZEPHIR_IS_TRUE(_0)) {
+	if (!ZEPHIR_IS_TRUE_IDENTICAL(_0)) {
 		RETURN_MM_NULL();
 	}
 	ZEPHIR_CALL_METHOD(&options, this_ptr, "getoptions", NULL, type);

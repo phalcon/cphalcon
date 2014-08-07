@@ -93,7 +93,9 @@ class View extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewInterface
 
 	protected _content = "";
 
-	protected _renderLevel = 5;
+	protected _renderLevel = 5 { get };
+
+	protected _currentRenderLevel = 0 { get };
 
 	protected _disabledLevels;
 
@@ -113,7 +115,7 @@ class View extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewInterface
 
 	protected _engines = false;
 
-	protected _registeredEngines;
+	protected _registeredEngines { get };
 
 	protected _mainView = "index";
 
@@ -128,8 +130,6 @@ class View extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewInterface
 	protected _cache;
 
 	protected _cacheLevel = 0;
-
-	protected _cacheMode = 0;
 
 	protected _activeRenderPath;
 
@@ -251,7 +251,7 @@ class View extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewInterface
 	public function setRenderLevel(int level) -> <\Phalcon\Mvc\View>
 	{
 		let this->_renderLevel = level;
-		return $this;
+		return this;
 	}
 
 	/**
@@ -396,7 +396,7 @@ class View extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewInterface
 	public function setParamToView(string! key, value) -> <\Phalcon\Mvc\View>
 	{
 		let this->_viewParams[key] = value;
-		return $this;
+		return this;
 	}
 
 	/**
@@ -591,30 +591,15 @@ class View extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewInterface
 	 * @param string viewPath
 	 * @param boolean silence
 	 * @param boolean mustClean
+	 * @param Phalcon\Cache\BackendInterface $cache
 	 */
-	protected function _engineRender(engines, string viewPath, boolean silence, boolean mustClean)
+	protected function _engineRender(engines, string viewPath, boolean silence, boolean mustClean, <\Phalcon\Cache\BackendInterface> cache=null)
 	{
 		boolean notExists;
-		int renderLevel, cacheLevel, cacheMode;
+		int renderLevel, cacheLevel;
 		var key, lifetime, viewsDir, basePath, viewsDirPath,
 			viewOptions, cacheOptions, cachedView, viewParams, eventsManager,
-			extension, engine, viewEnginePath, cache;
-
-		let renderLevel = (int) this->_renderLevel,
-			cacheLevel = (int) this->_cacheLevel,
-			cacheMode = (int) this->_cacheMode;
-
-		if cacheLevel {
-			if cacheMode {
-				if renderLevel <= cacheLevel {
-					let cache = this->getCache();
-				}
-			} else {
-				if renderLevel >= cacheLevel {
-					let cache = this->getCache();
-				}
-			}
-		}
+			extension, engine, viewEnginePath;
 
 		let notExists = true,
 			viewsDir = this->_viewsDir,
@@ -622,43 +607,60 @@ class View extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewInterface
 			viewsDirPath = basePath . viewsDir . viewPath;
 
 		if typeof cache == "object" {
+			let renderLevel = (int) this->_renderLevel,
+				cacheLevel = (int) this->_cacheLevel;
 
-			let key = null,
-				lifetime = null;
+			if renderLevel >= cacheLevel {
+				/** 
+				 * Check if the cache is started, the first time a cache is started we start the
+				 * cache
+				 */
+				if cache->isstarted() === false {
+					let key = null,
+						lifetime = null;
 
-			let viewOptions = this->_options;
+					let viewOptions = this->_options;
 
-			/**
-			 * Check if the user has defined a different options to the default
-			 */
-			if typeof viewOptions == "array" {
-				if fetch cacheOptions, viewOptions["cache"] {
-					if typeof cacheOptions == "array" {
-						fetch key, cacheOptions["key"];
-						fetch lifetime, cacheOptions["lifetime"];
+					/**
+					 * Check if the user has defined a different options to the default
+					 */
+					if typeof viewOptions == "array" {
+						if fetch cacheOptions, viewOptions["cache"] {
+							if typeof cacheOptions == "array" {
+								fetch key, cacheOptions["key"];
+								fetch lifetime, cacheOptions["lifetime"];
+							}
+						}
+					}
+
+					/**
+					 * If a cache key is not set we create one using a md5
+					 */
+					if key === null {
+						let key = md5(viewPath);
+					}
+
+					/**
+					 * We start the cache using the key set
+					 */
+					let cachedView = cache->start(key, lifetime);
+					if cachedView !== null {
+						let this->_content = cachedView;
+						return null;
 					}
 				}
-			}
 
-			/**
-			 * If a cache key is not set we create one using a md5
-			 */
-			if key === null {
-				let key = md5(viewPath);
-			}
-
-			/**
-			 * We start the cache using the key set
-			 */
-			let cachedView = cache->start(key, lifetime);
-			if cachedView !== null {
-				let this->_content = cachedView;
-				return null;
+				/** 
+				 * This method only returns true if the cache has not expired
+				 */
+				if cache->isfresh() !== true {
+					return null;
+				}
 			}
 		}
 
 		let viewParams = this->_viewParams,
-			eventsManager = <\Phalcon\Events\Manager> this->_eventsManager;;
+			eventsManager = <\Phalcon\Events\Manager> this->_eventsManager;
 
 		/**
 		 * Views are rendered in each engine
@@ -705,13 +707,6 @@ class View extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewInterface
 				throw new Exception("View '" . viewsDirPath . "' was not found in the views directory");
 			}
 		}
-
-		/** 
-		 * Store the data in the cache
-		 */
-		if typeof cache == "object" {
-			cache->save();
-		}
 	}
 
 	/**
@@ -738,6 +733,38 @@ class View extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewInterface
 	}
 
 	/**
+	 * Checks whether view exists
+	 *
+	 * @param string view
+	 * @return bolean
+	 */
+	public function exists(string! view) -> boolean
+	{
+		var basePath, viewsDir, engines, engine, extension, path, exists;
+
+		let basePath = this->_basePath,
+			viewsDir = this->_viewsDir,
+			engines = this->_registeredEngines;
+
+		if typeof engines != "array" {
+			let engines = [], 
+				engines[".phtml"] = "Phalcon\\Mvc\\View\\Engine\\Php",
+				this->_registeredEngines = engines;
+		}
+
+		for extension, engine in engines {
+			let path = basePath . viewsDir . view . extension,
+				exists = file_exists(path);
+
+				if exists {
+					break;
+				}
+		}
+
+		return exists;
+	}
+
+	/**
 	 * Executes render process from dispatching data
 	 *
 	 *<code>
@@ -751,21 +778,23 @@ class View extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewInterface
 	 * @return Phalcon\Mvc\View
 	 */
 	public function render(string! controllerName, string! actionName, params=null)
-		-> <\Phalcon\Mvc\View>
+		-> <\Phalcon\Mvc\View>|boolean
 	{
 		boolean silence, mustClean;
 		int renderLevel;
 		var layoutsDir, layout, pickView, layoutName,
 			engines, renderView, pickViewAction, eventsManager,
 			disabledLevels, templatesBefore, templatesAfter,
-			templateBefore, templateAfter;
+			templateBefore, templateAfter, cache;
+
+		let this->_currentRenderLevel = 0;
 
 		/**
 		 * If the view is disabled we simply update the buffer from any output produced in the controller
 		 */
 		if this->_disabled !== false {
 			let this->_content = ob_get_contents();
-			return this;
+			return false;
 		}
 
 		let this->_controllerName = controllerName,
@@ -813,6 +842,15 @@ class View extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewInterface
 			}
 		}
 
+		/** 
+		 * Start the cache if there is a cache level enabled
+		 */
+		if this->_cacheLevel === true {
+			let cache = this->getCache();
+		} else {
+			let cache = null;
+		}
+
 		let eventsManager = this->_eventsManager;
 
 		/**
@@ -825,7 +863,7 @@ class View extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewInterface
 		 */
 		if typeof eventsManager == "object" {
 			if eventsManager->fire("view:beforeRender", this) === false {
-				return this;
+				return false;
 			}
 		}
 
@@ -853,7 +891,8 @@ class View extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewInterface
 			 */
 			if renderLevel >= self::LEVEL_ACTION_VIEW {
 				if !isset disabledLevels[self::LEVEL_ACTION_VIEW] {
-					this->_engineRender(engines, renderView, silence, mustClean);
+					let this->_currentRenderLevel = self::LEVEL_ACTION_VIEW;
+					this->_engineRender(engines, renderView, silence, mustClean, cache);
 				}
 			}
 
@@ -862,8 +901,8 @@ class View extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewInterface
 			 */
 			if renderLevel >= self::LEVEL_BEFORE_TEMPLATE  {
 				if !isset disabledLevels[self::LEVEL_BEFORE_TEMPLATE] {
-
-					let templatesBefore = this->_templatesBefore;
+					let this->_currentRenderLevel = self::LEVEL_BEFORE_TEMPLATE,
+						templatesBefore = this->_templatesBefore;
 
 					/**
 					 * Templates before must be an array
@@ -871,7 +910,7 @@ class View extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewInterface
 					if typeof templatesBefore == "array" {
 						let silence = false;
 						for templateBefore in templatesBefore {
-							this->_engineRender(engines, layoutsDir . templateBefore, silence, mustClean);
+							this->_engineRender(engines, layoutsDir . templateBefore, silence, mustClean, cache);
 						}
 						let silence = true;
 					}
@@ -883,7 +922,8 @@ class View extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewInterface
 			 */
 			if renderLevel >= self::LEVEL_LAYOUT {
 				if !isset disabledLevels[self::LEVEL_LAYOUT] {
-					this->_engineRender(engines, layoutsDir . layoutName, silence, mustClean);
+					let this->_currentRenderLevel = self::LEVEL_LAYOUT;
+					this->_engineRender(engines, layoutsDir . layoutName, silence, mustClean, cache);
 				}
 			}
 
@@ -892,6 +932,7 @@ class View extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewInterface
 			 */
 			if renderLevel >= self::LEVEL_AFTER_TEMPLATE {
 				if !isset disabledLevels[self::LEVEL_AFTER_TEMPLATE] {
+					let this->_currentRenderLevel = self::LEVEL_AFTER_TEMPLATE;
 
 					/**
 					 * Templates after must be an array
@@ -900,7 +941,7 @@ class View extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewInterface
 					if typeof templatesAfter == "array" {
 						let silence = false;
 						for templateAfter in templatesAfter {
-							this->_engineRender(engines, layoutsDir . templateAfter, silence, mustClean);
+							this->_engineRender(engines, layoutsDir . templateAfter, silence, mustClean, cache);
 						}
 						let silence = true;
 					}
@@ -912,10 +953,27 @@ class View extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewInterface
 			 */
 			if renderLevel >= self::LEVEL_MAIN_LAYOUT {
 				if !isset disabledLevels[self::LEVEL_MAIN_LAYOUT] {
-					this->_engineRender(engines, this->_mainView, silence, mustClean);
+					let this->_currentRenderLevel = self::LEVEL_MAIN_LAYOUT;
+					this->_engineRender(engines, this->_mainView, silence, mustClean, cache);
 				}
 			}
 
+			let this->_currentRenderLevel = 0;
+
+			/** 
+			 * Store the data in the cache
+			 */
+			if typeof cache == "object" {
+				if cache->isstarted() === true {
+					if cache->isfresh === true {
+						cache->save();
+					} else {
+						cache->stop();
+					}
+				} else {
+					cache->stop();
+				}
+			}
 		}
 
 		/**

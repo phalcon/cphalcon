@@ -57,9 +57,6 @@ class Email extends \Phalcon\Validation\Validator implements \Phalcon\Validation
 			let label = this->getOption("label");
 			if empty label {
 				let label = validation->getLabel(field);
-				if empty label {
-					let label = field;
-				}
 			}
 
 			let message = this->getOption("message");

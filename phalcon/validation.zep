@@ -30,7 +30,7 @@ class Validation extends \Phalcon\Di\Injectable
 
 	protected _entity;
 
-	protected _validators;
+	protected _validators { set };
 
 	protected _filters;
 
@@ -161,6 +161,37 @@ class Validation extends \Phalcon\Di\Injectable
 		}
 
 		let this->_validators[] = [field, validator];
+		return this;
+	}
+
+	/**
+	 * Alias of `add` method
+	 *
+	 * @param string field
+	 * @param Phalcon\Validation\ValidatorInterface validator
+	 * @return Phalcon\Validation
+	 */
+	public function rule(string field, <\Phalcon\Validation\ValidatorInterface> validator) -> <\Phalcon\Validation>
+	{
+		return this->add(field, validator);
+	}
+
+	/**
+	 * Adds the validators to a field
+	 *
+	 * @param string field
+	 * @param array validators
+	 * @return Phalcon\Validation
+	 */
+	public function rules(string! field, array! validators) -> <\Phalcon\Validation>
+	{
+		var validator;
+
+		for validator in validators {
+			if validator instanceof \Phalcon\Validation\ValidatorInterface {
+				let this->_validators[] = [field, validator];
+			}
+		}
 		return this;
 	}
 
@@ -301,7 +332,7 @@ class Validation extends \Phalcon\Di\Injectable
 	 * Get label for field
 	 *
 	 * @param string field
-	 * @return mixed
+	 * @return string
 	 */
 	public function getLabel(string! field)
 	{
@@ -312,7 +343,7 @@ class Validation extends \Phalcon\Di\Injectable
 				return value;
 			}
 		}
-		return null;
+		return field;
 	}
 
 	/**

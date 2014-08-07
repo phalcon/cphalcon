@@ -59,9 +59,11 @@ interface UrlInterface
 	 * Generates a URL
 	 *
 	 * @param string|array uri
+	 * @param array|object args Optional arguments to be appended to the query string
+	 * @param bool $local
 	 * @return string
 	 */
-	public function get(uri=null);
+	public function get(uri=null, args=null, boolean local=null);
 
 	/**
 	 * Generates a local path

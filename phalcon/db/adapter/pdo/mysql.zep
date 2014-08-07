@@ -87,10 +87,10 @@ class Mysql extends \Phalcon\Db\Adapter\Pdo implements \Phalcon\Db\AdapterInterf
 	public function describeColumns(string table, string schema=null)
 	{
 		var columns, columnType, field, definition,
-			oldColumn, sizePattern, matches, matchOne, columnName;
+			oldColumn, sizePattern, matches, matchOne, matchTwo, columnName;
 
 		let oldColumn = null,
-			sizePattern = "#\\(([0-9]+)(,[0-9]+)*\\)#";
+			sizePattern = "#\\(([0-9]+)(?:,\\s*([0-9]+))*\\)#";
 
 		let columns = [];
 
@@ -118,7 +118,7 @@ class Mysql extends \Phalcon\Db\Adapter\Pdo implements \Phalcon\Db\AdapterInterf
 				 * Enum are treated as char
 				 */
 				if memstr(columnType, "enum") {
-					let definition["type"] = Column::BIND_PARAM_STR;
+					let definition["type"] = Column::TYPE_CHAR;
 					break;
 				}
 
@@ -126,7 +126,7 @@ class Mysql extends \Phalcon\Db\Adapter\Pdo implements \Phalcon\Db\AdapterInterf
 				 * Smallint/Bigint/Integers/Int are int
 				 */
 				if memstr(columnType, "int") {
-					let definition["type"] = 0,
+					let definition["type"] = Column::TYPE_INTEGER,
 						definition["isNumeric"] = true,
 						definition["bindType"] = Column::BIND_PARAM_INT;
 					break;
@@ -136,7 +136,7 @@ class Mysql extends \Phalcon\Db\Adapter\Pdo implements \Phalcon\Db\AdapterInterf
 				 * Varchar are varchars
 				 */
 				if memstr(columnType, "varchar") {
-					let definition["type"] = Column::BIND_PARAM_STR;
+					let definition["type"] = Column::TYPE_VARCHAR;
 					break;
 				}
 
@@ -206,7 +206,10 @@ class Mysql extends \Phalcon\Db\Adapter\Pdo implements \Phalcon\Db\AdapterInterf
 				let matches = null;
 				if preg_match(sizePattern, columnType, matches) {
 					if fetch matchOne, matches[1] {
-						let definition["size"] = matchOne;
+						let definition["size"] = (int)matchOne;
+					}
+					if fetch matchTwo, matches[2] {
+						let definition["scale"] = (int)matchTwo;
 					}
 				}
 			}
@@ -221,7 +224,7 @@ class Mysql extends \Phalcon\Db\Adapter\Pdo implements \Phalcon\Db\AdapterInterf
 			/**
 			 * Positions
 			 */
-			if !oldColumn {
+			if oldColumn == null {
 				let definition["first"] = true;
 			} else {
 				let definition["after"] = oldColumn;
@@ -246,6 +249,13 @@ class Mysql extends \Phalcon\Db\Adapter\Pdo implements \Phalcon\Db\AdapterInterf
 			 */
 			if field[5] == "auto_increment" {
 				let definition["autoIncrement"] = true;
+			}
+
+			/**
+			 * Check if the column is default values
+			 */
+			if typeof field[4] != "null" {
+				let definition["default"] = field[4];
 			}
 
 			/**

@@ -19,6 +19,9 @@
 
 namespace Phalcon\Mvc\Model\Validator;
 
+use Phalcon\Mvc\Model\Exception;
+use Phalcon\Mvc\ModelInterface;
+
 /**
  * Phalcon\Mvc\Model\Validator\PresenceOf
  *
@@ -53,13 +56,13 @@ class PresenceOf extends \Phalcon\Mvc\Model\Validator implements \Phalcon\Mvc\Mo
 	 * @param Phalcon\Mvc\ModelInterface record
 	 * @return boolean
 	 */
-	public function validate(<\Phalcon\Mvc\ModelInterface> record) -> boolean
+	public function validate(<ModelInterface> record) -> boolean
 	{
 		var field, value, message;
 
 		let field = this->getOption("field");
 		if typeof field != "string" {
-			throw new \Phalcon\Mvc\Model\Exception("Field name must be a string");
+			throw new Exception("Field name must be a string");
 		}
 
 		/**
@@ -73,7 +76,7 @@ class PresenceOf extends \Phalcon\Mvc\Model\Validator implements \Phalcon\Mvc\Mo
 			 */
 			let message = this->getOption("message");
 			if empty message {
-				let message = ":field is required";
+				let message = "':field' is required";
 			}
 
 			this->appendMessage(strtr(message, [":field": field]), field, "PresenceOf");

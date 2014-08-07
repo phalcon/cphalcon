@@ -99,7 +99,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Libmemcached, __construct) {
 	zephir_nts_static zephir_fcall_cache_entry *_13 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *_3, *_5, *_6, *_8, *_9, *_10, *_11, *_12;
-	zval *options = NULL, *servers = NULL, *client = NULL, *lifetime, *prefix = NULL, *_0, *_1, *_2, *_4, *_7;
+	zval *options = NULL, *servers, *client = NULL, *lifetime, *prefix = NULL, *_0, *_1, *_2, *_4, *_7;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &options);
@@ -118,15 +118,13 @@ PHP_METHOD(Phalcon_Session_Adapter_Libmemcached, __construct) {
 		return;
 	}
 	ZEPHIR_OBS_VAR(servers);
-	zephir_array_fetch_string(&servers, options, SL("servers"), PH_NOISY TSRMLS_CC);
-	ZEPHIR_OBS_NVAR(servers);
-	zephir_array_fetch_string(&servers, options, SL("servers"), PH_NOISY TSRMLS_CC);
+	zephir_array_fetch_string(&servers, options, SL("servers"), PH_NOISY, "phalcon/session/adapter/libmemcached.zep", 71 TSRMLS_CC);
 	if (!(zephir_array_isset_string(options, SS("client")))) {
 		ZEPHIR_INIT_VAR(client);
 		ZVAL_NULL(client);
 	} else {
 		ZEPHIR_OBS_NVAR(client);
-		zephir_array_fetch_string(&client, options, SL("client"), PH_NOISY TSRMLS_CC);
+		zephir_array_fetch_string(&client, options, SL("client"), PH_NOISY, "phalcon/session/adapter/libmemcached.zep", 76 TSRMLS_CC);
 	}
 	ZEPHIR_OBS_VAR(lifetime);
 	if (zephir_array_isset_string_fetch(&lifetime, options, SS("lifetime"), 0 TSRMLS_CC)) {
@@ -142,7 +140,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Libmemcached, __construct) {
 		ZVAL_NULL(prefix);
 	} else {
 		ZEPHIR_OBS_NVAR(prefix);
-		zephir_array_fetch_string(&prefix, options, SL("prefix"), PH_NOISY TSRMLS_CC);
+		zephir_array_fetch_string(&prefix, options, SL("prefix"), PH_NOISY, "phalcon/session/adapter/libmemcached.zep", 88 TSRMLS_CC);
 	}
 	ZEPHIR_INIT_VAR(_1);
 	object_init_ex(_1, phalcon_cache_backend_libmemcached_ce);
@@ -156,7 +154,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Libmemcached, __construct) {
 	ZEPHIR_CALL_METHOD(NULL, _2, "__construct", NULL, _3);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(_5);
-	array_init_size(_5, 4);
+	array_init_size(_5, 5);
 	zephir_array_update_string(&_5, SL("servers"), &servers, PH_COPY | PH_SEPARATE);
 	zephir_array_update_string(&_5, SL("client"), &client, PH_COPY | PH_SEPARATE);
 	zephir_array_update_string(&_5, SL("prefix"), &prefix, PH_COPY | PH_SEPARATE);

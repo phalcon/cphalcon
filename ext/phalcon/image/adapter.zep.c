@@ -683,7 +683,7 @@ PHP_METHOD(Phalcon_Image_Adapter, text) {
 		ZVAL_LONG(&_2, 1);
 		ZEPHIR_CALL_FUNCTION(&_3, "substr", &_4, color, &_1, &_2);
 		zephir_check_call_status();
-		_0 = ZEPHIR_IS_STRING(_3, "#");
+		_0 = ZEPHIR_IS_STRING_IDENTICAL(_3, "#");
 	}
 	if (_0) {
 		ZEPHIR_SINIT_NVAR(_1);
@@ -709,9 +709,9 @@ PHP_METHOD(Phalcon_Image_Adapter, text) {
 	ZVAL_STRING(&_1, "hexdec", 0);
 	ZEPHIR_CALL_FUNCTION(&colors, "array_map", &_8, &_1, _5);
 	zephir_check_call_status();
-	zephir_array_fetch_long(&_9, colors, 0, PH_NOISY | PH_READONLY TSRMLS_CC);
-	zephir_array_fetch_long(&_10, colors, 1, PH_NOISY | PH_READONLY TSRMLS_CC);
-	zephir_array_fetch_long(&_11, colors, 2, PH_NOISY | PH_READONLY TSRMLS_CC);
+	zephir_array_fetch_long(&_9, colors, 0, PH_NOISY | PH_READONLY, "phalcon/image/adapter.zep", 346 TSRMLS_CC);
+	zephir_array_fetch_long(&_10, colors, 1, PH_NOISY | PH_READONLY, "phalcon/image/adapter.zep", 346 TSRMLS_CC);
+	zephir_array_fetch_long(&_11, colors, 2, PH_NOISY | PH_READONLY, "phalcon/image/adapter.zep", 346 TSRMLS_CC);
 	ZEPHIR_INIT_VAR(_12);
 	ZVAL_LONG(_12, offset_x);
 	ZEPHIR_INIT_VAR(_13);
@@ -787,7 +787,7 @@ PHP_METHOD(Phalcon_Image_Adapter, background) {
 		ZVAL_LONG(&_2, 1);
 		ZEPHIR_CALL_FUNCTION(&_3, "substr", &_4, color, &_1, &_2);
 		zephir_check_call_status();
-		_0 = ZEPHIR_IS_STRING(_3, "#");
+		_0 = ZEPHIR_IS_STRING_IDENTICAL(_3, "#");
 	}
 	if (_0) {
 		ZEPHIR_SINIT_NVAR(_1);
@@ -813,9 +813,9 @@ PHP_METHOD(Phalcon_Image_Adapter, background) {
 	ZVAL_STRING(&_1, "hexdec", 0);
 	ZEPHIR_CALL_FUNCTION(&colors, "array_map", &_8, &_1, _5);
 	zephir_check_call_status();
-	zephir_array_fetch_long(&_9, colors, 0, PH_NOISY | PH_READONLY TSRMLS_CC);
-	zephir_array_fetch_long(&_10, colors, 1, PH_NOISY | PH_READONLY TSRMLS_CC);
-	zephir_array_fetch_long(&_11, colors, 2, PH_NOISY | PH_READONLY TSRMLS_CC);
+	zephir_array_fetch_long(&_9, colors, 0, PH_NOISY | PH_READONLY, "phalcon/image/adapter.zep", 384 TSRMLS_CC);
+	zephir_array_fetch_long(&_10, colors, 1, PH_NOISY | PH_READONLY, "phalcon/image/adapter.zep", 384 TSRMLS_CC);
+	zephir_array_fetch_long(&_11, colors, 2, PH_NOISY | PH_READONLY, "phalcon/image/adapter.zep", 384 TSRMLS_CC);
 	ZEPHIR_INIT_VAR(_12);
 	ZVAL_LONG(_12, opacity);
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "_background", NULL, _9, _10, _11, _12);

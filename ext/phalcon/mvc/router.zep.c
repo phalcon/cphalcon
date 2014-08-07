@@ -151,11 +151,11 @@ PHP_METHOD(Phalcon_Mvc_Router, __construct) {
 		ZEPHIR_CALL_METHOD(NULL, _0, "__construct", &_3, _2, _1);
 		zephir_check_temp_parameter(_2);
 		zephir_check_call_status();
-		zephir_array_append(&routes, _0, PH_SEPARATE);
+		zephir_array_append(&routes, _0, PH_SEPARATE, "phalcon/mvc/router.zep", 110);
 		ZEPHIR_INIT_VAR(_4);
 		object_init_ex(_4, phalcon_mvc_router_route_ce);
 		ZEPHIR_INIT_VAR(_5);
-		array_init_size(_5, 4);
+		array_init_size(_5, 5);
 		add_assoc_long_ex(_5, SS("controller"), 1);
 		add_assoc_long_ex(_5, SS("action"), 2);
 		add_assoc_long_ex(_5, SS("params"), 3);
@@ -164,7 +164,7 @@ PHP_METHOD(Phalcon_Mvc_Router, __construct) {
 		ZEPHIR_CALL_METHOD(NULL, _4, "__construct", &_3, _2, _5);
 		zephir_check_temp_parameter(_2);
 		zephir_check_call_status();
-		zephir_array_append(&routes, _4, PH_SEPARATE);
+		zephir_array_append(&routes, _4, PH_SEPARATE, "phalcon/mvc/router.zep", 116);
 	}
 	ZEPHIR_INIT_NVAR(_2);
 	array_init(_2);
@@ -236,7 +236,7 @@ PHP_METHOD(Phalcon_Mvc_Router, getRewriteUri) {
 		if (zephir_array_isset_string_fetch(&url, _SERVER, SS("REQUEST_URI"), 0 TSRMLS_CC)) {
 			ZEPHIR_INIT_VAR(urlParts);
 			zephir_fast_explode_str(urlParts, SL("?"), url, LONG_MAX TSRMLS_CC);
-			zephir_array_fetch_long(&realUri, urlParts, 0, PH_NOISY | PH_READONLY TSRMLS_CC);
+			zephir_array_fetch_long(&realUri, urlParts, 0, PH_NOISY | PH_READONLY, "phalcon/mvc/router.zep", 168 TSRMLS_CC);
 			if (!(ZEPHIR_IS_EMPTY(realUri))) {
 				RETURN_CTOR(realUri);
 			}
@@ -552,7 +552,7 @@ PHP_METHOD(Phalcon_Mvc_Router, handle) {
 			}
 			ZEPHIR_CALL_METHOD(&_7, request, "ismethod", NULL, methods);
 			zephir_check_call_status();
-			if (ZEPHIR_IS_FALSE(_7)) {
+			if (ZEPHIR_IS_FALSE_IDENTICAL(_7)) {
 				continue;
 			}
 		}
@@ -618,7 +618,7 @@ PHP_METHOD(Phalcon_Mvc_Router, handle) {
 				}
 				ZEPHIR_INIT_NVAR(routeFound);
 				ZEPHIR_INIT_NVAR(_10);
-				array_init_size(_10, 4);
+				array_init_size(_10, 5);
 				zephir_array_fast_append(_10, handledUri);
 				zephir_array_fast_append(_10, route);
 				zephir_array_fast_append(_10, this_ptr);
@@ -1402,6 +1402,18 @@ PHP_METHOD(Phalcon_Mvc_Router, getRouteByName) {
 		}
 	}
 	RETURN_MM_BOOL(0);
+
+}
+
+/**
+ * Returns whether controller name should not be mangled
+ *
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Mvc_Router, isExactControllerName) {
+
+
+	RETURN_BOOL(1);
 
 }
 

@@ -99,14 +99,14 @@ PHP_METHOD(Phalcon_Annotations_Reflection, __construct) {
 PHP_METHOD(Phalcon_Annotations_Reflection, getClassAnnotations) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *annotations, *reflectionData, *reflectionClass, *collection;
+	zval *annotations, *reflectionClass, *collection, *_0;
 
 	ZEPHIR_MM_GROW();
 
 	annotations = zephir_fetch_nproperty_this(this_ptr, SL("_classAnnotations"), PH_NOISY_CC);
 	if (Z_TYPE_P(annotations) != IS_OBJECT) {
-		reflectionData = zephir_fetch_nproperty_this(this_ptr, SL("_reflectionData"), PH_NOISY_CC);
-		if (zephir_array_isset_string_fetch(&reflectionClass, reflectionData, SS("class"), 1 TSRMLS_CC)) {
+		_0 = zephir_fetch_nproperty_this(this_ptr, SL("_reflectionData"), PH_NOISY_CC);
+		if (zephir_array_isset_string_fetch(&reflectionClass, _0, SS("class"), 1 TSRMLS_CC)) {
 			ZEPHIR_INIT_VAR(collection);
 			object_init_ex(collection, phalcon_annotations_collection_ce);
 			ZEPHIR_CALL_METHOD(NULL, collection, "__construct", NULL, reflectionClass);

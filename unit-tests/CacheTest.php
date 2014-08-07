@@ -4,7 +4,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2012 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -157,7 +157,7 @@ class CacheTest extends PHPUnit_Framework_TestCase
 		$this->assertTrue($cache->delete('test-data'));
 
 	}
-	
+
 	public function testDataFileCacheIncrement()
 	{
 		$frontCache = new Phalcon\Cache\Frontend\Data();
@@ -247,7 +247,7 @@ class CacheTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($s1, $string);
 		//echo $r1, ' ', $r2, ' ', $r3, ' ', $r4, "\n";
 	}
-	
+
 	public function testMemoryCacheIncrAndDecr()
 	{
 		$frontCache = new Phalcon\Cache\Frontend\Output(array(
@@ -429,7 +429,7 @@ class CacheTest extends PHPUnit_Framework_TestCase
 		$memcache->close();
 
 	}
-	
+
 	public function testIncrAndDecrMemcacheCache()
 	{
 		$memcache = $this->_prepareMemcached();
@@ -516,7 +516,7 @@ class CacheTest extends PHPUnit_Framework_TestCase
 		if (!$ready) {
 			return false;
 		}
-		
+
 		$frontCache = new Phalcon\Cache\Frontend\Data(array('lifetime' => 20));
 		$cache = new Phalcon\Cache\Backend\Apc($frontCache);
 		$cache->delete('increment');
@@ -533,7 +533,7 @@ class CacheTest extends PHPUnit_Framework_TestCase
 		if (!$ready) {
 			return false;
 		}
-		
+
 		$frontCache = new Phalcon\Cache\Frontend\Data(array('lifetime' => 20));
 		$cache = new Phalcon\Cache\Backend\Apc($frontCache);
 		$cache->delete('decrement');
@@ -757,7 +757,7 @@ class CacheTest extends PHPUnit_Framework_TestCase
 
 		$this->assertTrue($cache->delete('test-data'));
 	}
-	
+
 	public function testMongoIncrement()
 	{
 		$ready = $this->_prepareMongo();
@@ -811,12 +811,12 @@ class CacheTest extends PHPUnit_Framework_TestCase
 		if (function_exists('xcache_emulation')) {
 			return true;
 		}
-			
+
 		if (!extension_loaded('xcache') || 'cli' == PHP_SAPI) {
 			$this->markTestSkipped('xcache extension is not loaded');
 			return false;
 		}
-		
+
 		return true;
 	}
 
@@ -902,7 +902,7 @@ class CacheTest extends PHPUnit_Framework_TestCase
 
 		$this->assertTrue($cache->delete('test-data'));
 	}
-	
+
 	public function testXcacheIncrement()
 	{
 		$ready = $this->_prepareXcache();
@@ -923,11 +923,11 @@ class CacheTest extends PHPUnit_Framework_TestCase
 
 		$newValue = $cache->increment('foo');
 		$this->assertEquals('3', $newValue);
-	
+
 		$newValue = $cache->increment('foo', 4);
 		$this->assertEquals('7', $newValue);
 	}
-    
+
 	public function testXcacheDecr()
 	{
 		$ready = $this->_prepareXcache();
@@ -1049,7 +1049,7 @@ class CacheTest extends PHPUnit_Framework_TestCase
 		if (!$memcache) {
 			return false;
 		}
-		
+
 		// Travis can be slow, especially when Valgrind is used
 		$frontCache = new Phalcon\Cache\Frontend\Data(array('lifetime' => 900));
 
@@ -1070,13 +1070,13 @@ class CacheTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(14, $cache->get('foo'));
 		$cache->delete('foo');
 	}
-	
+
 	public function testLibMemcachedDecrement() {
 		$memcache = $this->_prepareLibmemcached();
 		if (!$memcache) {
 			return false;
 		}
-		
+
 		// Travis can be slow, especially when Valgrind is used
 		$frontCache = new Phalcon\Cache\Frontend\Data(array('lifetime' => 900));
 
@@ -1383,6 +1383,188 @@ class CacheTest extends PHPUnit_Framework_TestCase
 
 		$cache->save('data', "1");
 		$cache->save('data2', "2");
+
+		$this->assertTrue($cache->flush());
+
+		$this->assertFalse($cache->exists('data'));
+		$this->assertFalse($cache->exists('data2'));
+	}
+
+	protected function _prepareRedis()
+	{
+
+		if (!extension_loaded('redis')) {
+			$this->markTestSkipped('Warning: redis extension is not loaded');
+			return false;
+		}
+
+		$redis = new Redis();
+		$redis->connect('127.0.0.1', 6379);
+		//$redis->flushDB();
+		return $redis;
+	}
+
+	public function testRedisIncrement()
+	{
+		$redis = $this->_prepareRedis();
+		if (!$redis) {
+			return false;
+		}
+
+		$frontCache = new Phalcon\Cache\Frontend\Data(array('lifetime' => 20));
+		$cache = new Phalcon\Cache\Backend\Redis($frontCache, array(
+			'host' => 'localhost',
+			'port' => 6379,
+			// 'auth' => 'foobared',
+			// 'persistent' => false
+		));
+		$cache->delete('increment');
+
+		$cache->save('increment', 1);
+		$this->assertEquals(2, $cache->increment('increment'));
+		$this->assertEquals(4, $cache->increment('increment', 2));
+		$this->assertEquals(14, $cache->increment('increment', 10));
+	}
+
+	public function testRedisDecrement()
+	{
+		$ready = $this->_prepareRedis();
+		if (!$ready) {
+			return false;
+		}
+
+		$frontCache = new Phalcon\Cache\Frontend\Data(array('lifetime' => 20));
+		$cache = new Phalcon\Cache\Backend\Redis($frontCache, array(
+			'host' => 'localhost',
+			'port' => 6379
+		));
+		$cache->delete('decrement');
+
+		$cache->save('decrement', 100);
+		$this->assertEquals(99, $cache->decrement('decrement'));
+		$this->assertEquals(97, $cache->decrement('decrement', 2));
+		$this->assertEquals(87, $cache->decrement('decrement', 10));
+	}
+
+	public function testOutputRedisCache()
+	{
+
+		$redis = $this->_prepareRedis();
+		if (!$redis) {
+			return false;
+		}
+
+		$redis->delete('_PHCRtest-output');
+
+		$time = date('H:i:s');
+
+		$frontCache = new Phalcon\Cache\Frontend\Output(array('lifetime' => 2));
+		$cache = new Phalcon\Cache\Backend\Redis($frontCache, array(
+			'host' => 'localhost',
+			'port' => 6379
+		));
+
+		ob_start();
+
+		//First time cache
+		$content = $cache->start('test-output');
+		if ($content !== null) {
+			$this->assertTrue(false);
+		}
+
+		echo $time;
+
+		$cache->save(null, null, null, true);
+
+		$obContent = ob_get_contents();
+		ob_end_clean();
+
+		$this->assertEquals($time, $obContent);
+		$this->assertEquals($time, $redis->get('_PHCRtest-output'));
+
+		//Expect same cache
+		$content = $cache->start('test-output');
+		if ($content === null) {
+			$this->assertTrue(false);
+		}
+
+		$this->assertEquals($content, $obContent);
+		$this->assertEquals($content, $redis->get('_PHCRtest-output'));
+
+		//Query keys
+		$keys = $cache->queryKeys();
+		$this->assertEquals($keys, array(
+			0 => 'test-output',
+			1 => 'decrement',
+			2 => 'increment'
+		));
+
+		//Delete entry from cache
+		$this->assertTrue($cache->delete('test-output'));
+	}
+
+	public function testDataRedisCache()
+	{
+		$redis = $this->_prepareRedis();
+		if (!$redis) {
+			return false;
+		}
+
+		$redis->delete('test-data');
+
+		$frontCache = new Phalcon\Cache\Frontend\Data();
+		$cache = new Phalcon\Cache\Backend\Redis($frontCache, array(
+			'host' => 'localhost',
+			'port' => 6379
+		));
+
+		$data = array(1, 2, 3, 4, 5);
+
+		$cache->save('test-data', $data);
+
+		$cachedContent = $cache->get('test-data');
+		$this->assertEquals($cachedContent, $data);
+
+		$cache->save('test-data', "sure, nothing interesting");
+
+		$cachedContent = $cache->get('test-data');
+		$this->assertEquals($cachedContent, "sure, nothing interesting");
+
+		$this->assertTrue($cache->delete('test-data'));
+
+		$cache->save('a', 1);
+		$cache->save('long-key', 'long-val');
+		$cache->save('bcd', 3);
+		$keys = $cache->queryKeys();
+		sort($keys);
+		$this->assertEquals($keys, array('a', 'bcd', 'decrement', 'increment', 'long-key'));
+		$this->assertEquals($cache->queryKeys('long'), array('long-key'));
+
+		$this->assertTrue($cache->delete('a'));
+		$this->assertTrue($cache->delete('long-key'));
+		$this->assertTrue($cache->delete('bcd'));
+	}
+
+	public function testCacheRedisFlush()
+	{
+		$frontCache = new Phalcon\Cache\Frontend\Data(array('lifetime' => 10));
+
+		$redis = $this->_prepareRedis();
+		if (!$redis) {
+			return false;
+		}
+
+		$frontCache = new Phalcon\Cache\Frontend\Data();
+		$cache = new Phalcon\Cache\Backend\Redis($frontCache, array(
+			'host' => 'localhost',
+			'port' => 6379
+		));
+
+		$cache->save('data', "1");
+		$cache->save('data2', "2");
+
+		$this->assertTrue($cache->exists('data'));
+		$this->assertTrue($cache->exists('data2'));
 
 		$this->assertTrue($cache->flush());
 

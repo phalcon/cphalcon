@@ -94,17 +94,18 @@ class Stream extends \Phalcon\Logger\Adapter implements \Phalcon\Logger\AdapterI
 	 * @param string message
 	 * @param int type
 	 * @param int time
+	 * @param array $context
 	 */
-	public function logInternal(message, int type, int time)
+	public function logInternal(string message, int type, int time, array context)
 	{
 		var stream;
 
 		let stream = this->_stream;
-		if !stream {
+		if typeof stream != "resource" {
 			throw new Exception("Cannot send message to the log because it is invalid");
 		}
 
-		fwrite(stream, this->getFormatter()->format(message, type, time));
+		fwrite(stream, this->getFormatter()->format(message, type, time, context));
 	}
 
 	/**

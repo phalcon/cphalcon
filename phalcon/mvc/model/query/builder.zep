@@ -1140,7 +1140,13 @@ class Builder implements \Phalcon\Mvc\Model\Query\BuilderInterface, \Phalcon\Di\
 					if memstr(group, ".") {
 						let phql .= " GROUP BY ".group;
 					} else {
-						let phql .= " GROUP BY [".group."]";
+						if memstr(group, ",") {
+							let group = str_replace(" ", "", group);
+							let groupItems = explode(",", group);
+							let phql .= " GROUP BY [".join("], [", groupItems)."]";
+						} else {
+							let phql .= " GROUP BY [".group."]";
+						}
 					}
 				}
 			}

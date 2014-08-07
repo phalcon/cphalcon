@@ -95,7 +95,7 @@ class Router
 	 *
 	 * @param boolean defaultRoutes
 	 */
-	public function __construct(boolean defaultRoutes=true)
+	public function __construct(boolean defaultRoutes = true)
 	{
 		var routes;
 
@@ -313,7 +313,7 @@ class Router
 	 *
 	 * @param string uri
 	 */
-	public function handle(uri=null)
+	public function handle(uri = null)
 	{
 		var realUri, request, currentHostName, routeFound, parts,
 			params, matches, notFoundPaths,
@@ -642,7 +642,7 @@ class Router
 	 * @param string httpMethods
 	 * @return Phalcon\Mvc\Router\Route
 	 */
-	public function add(string! pattern, paths=null, httpMethods=null) -> <Route>
+	public function add(string! pattern, paths = null, httpMethods = null) -> <Route>
 	{
 		var route;
 
@@ -661,7 +661,7 @@ class Router
 	 * @param string/array paths
 	 * @return Phalcon\Mvc\Router\Route
 	 */
-	public function addGet(string! pattern, paths=null) -> <Route>
+	public function addGet(string! pattern, paths = null) -> <Route>
 	{
 		return this->add(pattern, paths, "GET");
 	}
@@ -673,7 +673,7 @@ class Router
 	 * @param string/array paths
 	 * @return Phalcon\Mvc\Router\Route
 	 */
-	public function addPost(string! pattern, paths=null) -> <Route>
+	public function addPost(string! pattern, paths = null) -> <Route>
 	{
 		return this->add(pattern, paths, "POST");
 	}
@@ -685,7 +685,7 @@ class Router
 	 * @param string/array paths
 	 * @return Phalcon\Mvc\Router\Route
 	 */
-	public function addPut(string! pattern, paths=null) -> <Route>
+	public function addPut(string! pattern, paths = null) -> <Route>
 	{
 		return this->add(pattern, paths, "PUT");
 	}
@@ -697,7 +697,7 @@ class Router
 	 * @param string/array paths
 	 * @return Phalcon\Mvc\Router\Route
 	 */
-	public function addPatch(string! pattern, paths=null)
+	public function addPatch(string! pattern, paths = null)
 	{
 		return this->add(pattern, paths, "PATCH");
 	}
@@ -709,7 +709,7 @@ class Router
 	 * @param string/array paths
 	 * @return Phalcon\Mvc\Router\Route
 	 */
-	public function addDelete(string! pattern, paths=null) -> <Route>
+	public function addDelete(string! pattern, paths = null) -> <Route>
 	{
 		return this->add(pattern, paths, "DELETE");
 	}
@@ -721,7 +721,7 @@ class Router
 	 * @param string/array paths
 	 * @return Phalcon\Mvc\Router\Route
 	 */
-	public function addOptions(string! pattern, paths=null) -> <Route>
+	public function addOptions(string! pattern, paths = null) -> <Route>
 	{
 		return this->add(pattern, paths, "OPTIONS");
 	}
@@ -733,7 +733,7 @@ class Router
 	 * @param string/array paths
 	 * @return Phalcon\Mvc\Router\Route
 	 */
-	public function addHead(string! pattern, paths=null) -> <Route>
+	public function addHead(string! pattern, paths = null) -> <Route>
 	{
 		return this->add(pattern, paths, "HEAD");
 	}
@@ -938,6 +938,16 @@ class Router
 			}
 		}
 		return false;
+	}
+
+	/**
+	 * Returns whether controller name should not be mangled
+	 *
+	 * @return boolean
+	 */
+	public function isExactControllerName() -> boolean
+	{
+		return true;
 	}
 
 }

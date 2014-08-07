@@ -20,6 +20,10 @@
 
 namespace Phalcon\Mvc\Model\Validator;
 
+use Phalcon\Mvc\Model\Validator;
+use Phalcon\Mvc\Model\ValidatorInterface;
+use Phalcon\Mvc\Model\Exception;
+
 /**
  * Phalcon\Mvc\Model\Validator\StringLength
  *
@@ -49,7 +53,7 @@ namespace Phalcon\Mvc\Model\Validator;
  *</code>
  *
  */
-class StringLength extends \Phalcon\Mvc\Model\Validator implements \Phalcon\Mvc\Model\ValidatorInterface
+class StringLength extends Validator implements ValidatorInterface
 {
 	/**
 	 * Executes the validator
@@ -64,7 +68,7 @@ class StringLength extends \Phalcon\Mvc\Model\Validator implements \Phalcon\Mvc\
 
 		let field = this->getOption("field");
 		if typeof field != "string" {
-			throw new \Phalcon\Mvc\Model\Exception("Field name must be a string");
+			throw new Exception("Field name must be a string");
 		}
 
 		/**
@@ -74,10 +78,10 @@ class StringLength extends \Phalcon\Mvc\Model\Validator implements \Phalcon\Mvc\
 		let isSetMax = this->isSetOption("max");
 
 		if !isSetMin && !isSetMax {
-			throw new \Phalcon\Mvc\Model\Exception("A minimum or maximum must be set");
+			throw new Exception("A minimum or maximum must be set");
 		}
 
-		let value = record->readAttribute("field");
+		let value = record->readAttribute(field);
 
 		if this->isSetOption("allowEmpty") && empty value {
 			return true;
@@ -108,7 +112,7 @@ class StringLength extends \Phalcon\Mvc\Model\Validator implements \Phalcon\Mvc\
 				 */
 				let message = this->getOption("messageMaximum");
 				if empty message {
-					let message = "Value of field :field exceeds the maximum :max characters";
+					let message = "Value of field ':field' exceeds the maximum :max characters";
 				}
 
 				this->appendMessage(strtr(message, [":field": field, ":max":  maximum]), field, "TooLong");
@@ -129,7 +133,7 @@ class StringLength extends \Phalcon\Mvc\Model\Validator implements \Phalcon\Mvc\
 				 */
 				let message = this->getOption("messageMinimum");
 				if empty message {
-					let message = "Value of field :field is less than the minimum :min characters";
+					let message = "Value of field ':field' is less than the minimum :min characters";
 				}
 
 				this->appendMessage(strtr(message, [":field": field, ":min":  minimum]), field, "TooShort");

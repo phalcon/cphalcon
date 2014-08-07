@@ -64,7 +64,7 @@ interface CollectionInterface
 	 * @param boolean lazy
 	 * @return Phalcon\Mvc\Micro\Collection
 	 */
-	public function setLazy(lazy);
+	public function setLazy(boolean! lazy);
 
 	/**
 	 * Returns if the main handler must be lazy loaded
@@ -83,73 +83,81 @@ interface CollectionInterface
 	/**
 	 * Maps a route to a handler
 	 *
-	 * @param string routePattern
-	 * @param callable handler
+	 * @param  string routePattern
+	 * @param  callable handler
+	 * @param  string name
 	 * @return Phalcon\Mvc\Router\RouteInterface
 	 */
-	public function map(routePattern, handler);
+	public function map(routePattern, handler, name = null);
 
 	/**
 	 * Maps a route to a handler that only matches if the HTTP method is GET
 	 *
-	 * @param string routePattern
-	 * @param callable handler
+	 * @param  string routePattern
+	 * @param  callable handler
+	 * @param  string name
 	 * @return Phalcon\Mvc\Router\RouteInterface
 	 */
-	public function get(routePattern, handler);
+	public function get(routePattern, handler, name = null);
 
 	/**
 	 * Maps a route to a handler that only matches if the HTTP method is POST
 	 *
-	 * @param string routePattern
-	 * @param callable handler
+	 * @param  string routePattern
+	 * @param  callable handler
+	 * @param  string name
 	 * @return Phalcon\Mvc\Router\RouteInterface
 	 */
-	public function post(routePattern, handler);
+	public function post(routePattern, handler, name = null);
 
 	/**
 	 * Maps a route to a handler that only matches if the HTTP method is PUT
 	 *
-	 * @param string routePattern
-	 * @param callable handler
+	 * @param  string routePattern
+	 * @param  callable handler
+	 * @param  string name
 	 * @return Phalcon\Mvc\Router\RouteInterface
 	 */
-	public function put(routePattern, handler);
+	public function put(routePattern, handler, name = null);
 
 	/**
 	 * Maps a route to a handler that only matches if the HTTP method is PATCH
 	 *
-	 * @param string routePattern
-	 * @param callable handler
+	 * @param  string routePattern
+	 * @param  callable handler
+	 * @param  string name
 	 * @return Phalcon\Mvc\Router\RouteInterface
 	 */
-	public function patch(routePattern, handler);
+	public function patch(routePattern, handler, name = null);
 
 	/**
 	 * Maps a route to a handler that only matches if the HTTP method is HEAD
 	 *
-	 * @param string routePattern
-	 * @param callable handler
+	 * @param  string routePattern
+	 * @param  callable handler
+	 * @param  string name
 	 * @return Phalcon\Mvc\Router\RouteInterface
 	 */
-	public function head(routePattern, handler);
+	public function head(routePattern, handler, name = null);
 
 	/**
 	 * Maps a route to a handler that only matches if the HTTP method is DELETE
 	 *
-	 * @param string routePattern
-	 * @param callable handler
+	 * @param  string routePattern
+	 * @param  callable handler
+	 * @param  string name
 	 * @return Phalcon\Mvc\Router\RouteInterface
 	 */
-	public function delete(routePattern, handler);
+	public function delete(routePattern, handler, name = null);
 
 	/**
 	 * Maps a route to a handler that only matches if the HTTP method is OPTIONS
 	 *
-	 * @param string routePattern
-	 * @param callable handler
+	 * @param  string routePattern
+	 * @param  callable handler
+	 * @param  string name
 	 * @return Phalcon\Mvc\Router\RouteInterface
 	 */
-	public function options(routePattern, handler);
+	public function options(routePattern, handler, name = null);
 
 }
