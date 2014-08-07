@@ -2020,45 +2020,36 @@ PHP_METHOD(Phalcon_Mvc_Model, validationHasFailed) {
 PHP_METHOD(Phalcon_Mvc_Model, getMessages) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	HashTable *_2;
-	HashPosition _1;
-	zval *filter_param = NULL, *filtered, *message = NULL, *_0, **_3, *_4 = NULL;
-	zval *filter = NULL;
+	HashTable *_3;
+	HashPosition _2;
+	zend_bool _0;
+	zval *filter = NULL, *filtered, *message = NULL, *_1, **_4, *_5 = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 0, 1, &filter_param);
+	zephir_fetch_params(1, 0, 1, &filter);
 
-	if (!filter_param) {
-		ZEPHIR_INIT_VAR(filter);
-		ZVAL_EMPTY_STRING(filter);
-	} else {
-	if (unlikely(Z_TYPE_P(filter_param) != IS_STRING && Z_TYPE_P(filter_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'filter' must be a string") TSRMLS_CC);
-		RETURN_MM_NULL();
-	}
-
-	if (unlikely(Z_TYPE_P(filter_param) == IS_STRING)) {
-		filter = filter_param;
-	} else {
-		ZEPHIR_INIT_VAR(filter);
-		ZVAL_EMPTY_STRING(filter);
-	}
+	if (!filter) {
+		filter = ZEPHIR_GLOBAL(global_null);
 	}
 
 
-	if (filter && Z_STRLEN_P(filter)) {
+	_0 = Z_TYPE_P(filter) == IS_STRING;
+	if (_0) {
+		_0 = !ZEPHIR_IS_EMPTY(filter);
+	}
+	if (_0) {
 		ZEPHIR_INIT_VAR(filtered);
 		array_init(filtered);
-		_0 = zephir_fetch_nproperty_this(this_ptr, SL("_errorMessages"), PH_NOISY_CC);
-		zephir_is_iterable(_0, &_2, &_1, 0, 0);
+		_1 = zephir_fetch_nproperty_this(this_ptr, SL("_errorMessages"), PH_NOISY_CC);
+		zephir_is_iterable(_1, &_3, &_2, 0, 0);
 		for (
-		  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
-		  ; zephir_hash_move_forward_ex(_2, &_1)
+		  ; zephir_hash_get_current_data_ex(_3, (void**) &_4, &_2) == SUCCESS
+		  ; zephir_hash_move_forward_ex(_3, &_2)
 		) {
-			ZEPHIR_GET_HVALUE(message, _3);
-			ZEPHIR_CALL_METHOD(&_4, message, "getfield",  NULL);
+			ZEPHIR_GET_HVALUE(message, _4);
+			ZEPHIR_CALL_METHOD(&_5, message, "getfield",  NULL);
 			zephir_check_call_status();
-			if (ZEPHIR_IS_EQUAL(_4, filter)) {
+			if (ZEPHIR_IS_EQUAL(_5, filter)) {
 				zephir_array_append(&filtered, message, PH_SEPARATE, "phalcon/mvc/model.zep", 1398);
 			}
 		}

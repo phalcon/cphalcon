@@ -134,7 +134,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_metadata_hasattribute, 0, 0, 2)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_mvc_model_metadata_method_entry) {
-	PHP_ME(Phalcon_Mvc_Model_MetaData, _initialize, arginfo_phalcon_mvc_model_metadata__initialize, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Mvc_Model_MetaData, _initialize, arginfo_phalcon_mvc_model_metadata__initialize, ZEND_ACC_PROTECTED|ZEND_ACC_FINAL)
 	PHP_ME(Phalcon_Mvc_Model_MetaData, setDI, arginfo_phalcon_mvc_model_metadata_setdi, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_MetaData, getDI, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_MetaData, setStrategy, arginfo_phalcon_mvc_model_metadata_setstrategy, ZEND_ACC_PUBLIC)

@@ -332,7 +332,7 @@ class Column implements \Phalcon\Db\ColumnInterface
 	 *
 	 * @return boolean
 	 */
-	public function isUnsigned()
+	public function isUnsigned() -> boolean
 	{
 		return this->_unsigned;
 	}
@@ -342,7 +342,7 @@ class Column implements \Phalcon\Db\ColumnInterface
 	 *
 	 * @return boolean
 	 */
-	public function isNotNull()
+	public function isNotNull() -> boolean
 	{
 		return this->_notNull;
 	}
@@ -352,7 +352,7 @@ class Column implements \Phalcon\Db\ColumnInterface
 	 *
 	 * @return boolean
 	 */
-	public function isPrimary()
+	public function isPrimary() -> boolean
 	{
 		return this->_primary;
 	}
@@ -362,7 +362,7 @@ class Column implements \Phalcon\Db\ColumnInterface
 	 *
 	 * @return boolean
 	 */
-	public function isAutoIncrement()
+	public function isAutoIncrement() -> boolean
 	{
 		return this->_autoIncrement;
 	}
@@ -372,7 +372,7 @@ class Column implements \Phalcon\Db\ColumnInterface
 	 *
 	 * @return boolean
 	 */
-	public function isNumeric()
+	public function isNumeric() -> boolean
 	{
 		return this->_isNumeric;
 	}
@@ -382,7 +382,7 @@ class Column implements \Phalcon\Db\ColumnInterface
 	 *
 	 * @return boolean
 	 */
-	public function isFirst()
+	public function isFirst() -> boolean
 	{
 		return this->_first;
 	}
@@ -413,15 +413,11 @@ class Column implements \Phalcon\Db\ColumnInterface
 	 * @param array data
 	 * @return \Phalcon\Db\Column
 	 */
-	public static function __set_state(data) -> <\Phalcon\Db\Column>
+	public static function __set_state(array! data) -> <Column>
 	{
 		var definition, columnType, notNull, size, dunsigned, after,
 			isNumeric, first, bindType, primary, columnName, scale,
-			defaultValue;
-
-		if typeof data != "array" {
-			throw new Exception("Column state must be an array");
-		}
+			defaultValue, autoIncrement;
 
 		if !fetch columnName, data["_columnName"] {
 			if !fetch columnName, data["_name"] {
@@ -461,8 +457,8 @@ class Column implements \Phalcon\Db\ColumnInterface
 			let definition["unsigned"] = dunsigned;
 		}
 
-		if fetch after, data["_after"] {
-			let definition["after"] = after;
+		if fetch autoIncrement, data["_autoIncrement"] {
+			let definition["autoIncrement"] = autoIncrement;
 		}
 
 		if fetch isNumeric, data["_isNumeric"] {
@@ -471,6 +467,10 @@ class Column implements \Phalcon\Db\ColumnInterface
 
 		if fetch first, data["_first"] {
 			let definition["first"] = first;
+		}
+
+		if fetch after, data["_after"] {
+			let definition["after"] = after;
 		}
 
 		if fetch bindType, data["_bindType"] {

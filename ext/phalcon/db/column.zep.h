@@ -26,7 +26,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_column___construct, 0, 0, 2)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_column___set_state, 0, 0, 1)
-	ZEND_ARG_INFO(0, data)
+	ZEND_ARG_ARRAY_INFO(0, data, 0)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_db_column_method_entry) {

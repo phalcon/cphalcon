@@ -132,6 +132,6 @@ interface ColumnInterface
 	 * @param array data
 	 * @return \Phalcon\Db\ColumnInterface
 	 */
-	public static function __set_state(data) -> <\Phalcon\Db\ColumnInterface>;
+	public static function __set_state(array! data) -> <ColumnInterface>;
 
 }

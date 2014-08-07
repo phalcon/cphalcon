@@ -26,6 +26,7 @@ use Phalcon\Db\Reference;
 use Phalcon\Db\ReferenceInterface;
 use Phalcon\Db\Index;
 use Phalcon\Db\IndexInterface;
+use Phalcon\Db\AdapterInterface;
 
 /**
  * Phalcon\Db\Adapter\Pdo\Sqlite
@@ -41,7 +42,7 @@ use Phalcon\Db\IndexInterface;
  *
  * </code>
  */
-class Sqlite extends \Phalcon\Db\Adapter\Pdo implements \Phalcon\Db\AdapterInterface
+class Sqlite extends \Phalcon\Db\Adapter\Pdo implements AdapterInterface
 {
 
 	protected _type = "sqlite";
@@ -55,7 +56,7 @@ class Sqlite extends \Phalcon\Db\Adapter\Pdo implements \Phalcon\Db\AdapterInter
 	 * @param array $descriptor
 	 * @return boolean
 	 */
-	public function connect(descriptor=null)
+	public function connect(descriptor = null)
 	{
 		var dbname;
 
@@ -85,11 +86,10 @@ class Sqlite extends \Phalcon\Db\Adapter\Pdo implements \Phalcon\Db\AdapterInter
 	 * @param string schema
 	 * @return Phalcon\Db\Column[]
 	 */
-	public function describeColumns(string table, string schema=null)
+	public function describeColumns(string table, string schema = null)
 	{
 		var columns, columnType, field, definition,
-			oldColumn, sizePattern, matches, matchOne, matchTwo, columnName,
-			attribute;
+			oldColumn, sizePattern, matches, matchOne, matchTwo, columnName, data;
 
 		let oldColumn = null,
 			sizePattern = "#\\(([0-9]+)(?:,\\s*([0-9]+))*\\)#";
@@ -126,13 +126,14 @@ class Sqlite extends \Phalcon\Db\Adapter\Pdo implements \Phalcon\Db\AdapterInter
 				/**
 				 * Smallint/Bigint/Integers/Int are int
 				 */
-				if memstr(columnType, "int") {
+				if memstr(columnType, "int") || memstr(columnType, "INT") {
+
 					let definition["type"] = Column::TYPE_INTEGER,
 						definition["isNumeric"] = true,
-						definition["bindType"] = Column::BIND_PARAM_INT,
-						attribute = field[5];
-					if attribute === true {
-							let definition["autoIncrement"] = true;
+						definition["bindType"] = Column::BIND_PARAM_INT;
+
+					if field[5] {
+						let definition["autoIncrement"] = true;
 					}
 					break;
 				}
@@ -227,10 +228,10 @@ class Sqlite extends \Phalcon\Db\Adapter\Pdo implements \Phalcon\Db\AdapterInter
 				let matches = null;
 				if preg_match(sizePattern, columnType, matches) {
 					if fetch matchOne, matches[1] {
-						let definition["size"] = (int)matchOne;
+						let definition["size"] = (int) matchOne;
 					}
 					if fetch matchTwo, matches[2] {
-						let definition["scale"] = (int)matchTwo;
+						let definition["scale"] = (int) matchTwo;
 					}
 				}
 			}
