@@ -158,9 +158,7 @@ abstract class Pdo extends \Phalcon\Db\Adapter
 	 */
 	public function prepare(string! sqlStatement) -> <\PDOStatement>
 	{
-		var pdo;
-		let pdo = this->_pdo;
-		return pdo->prepare(sqlStatement);
+		return this->_pdo->prepare(sqlStatement);
 	}
 
 	/**
@@ -456,7 +454,8 @@ abstract class Pdo extends \Phalcon\Db\Adapter
 
 		return [
 			"sql"    : boundSql,
-			"params" : placeHolders ];
+			"params" : placeHolders
+		];
 	}
 
 	/**
@@ -477,7 +476,7 @@ abstract class Pdo extends \Phalcon\Db\Adapter
 	 * @param string sequenceName
 	 * @return int|boolean
 	 */
-	public function lastInsertId(sequenceName=null) -> int | boolean
+	public function lastInsertId(sequenceName = null) -> int | boolean
 	{
 		var pdo;
 		let pdo = this->_pdo;
@@ -493,7 +492,7 @@ abstract class Pdo extends \Phalcon\Db\Adapter
 	 * @param boolean nesting
 	 * @return boolean
 	 */
-	public function begin(boolean nesting=true) -> boolean
+	public function begin(boolean nesting = true) -> boolean
 	{
 		var pdo, transactionLevel, eventsManager, savepointName;
 
@@ -554,7 +553,7 @@ abstract class Pdo extends \Phalcon\Db\Adapter
 	 * @param boolean nesting
 	 * @return boolean
 	 */
-	public function rollback(boolean nesting=true) -> boolean
+	public function rollback(boolean nesting = true) -> boolean
 	{
 		var pdo, transactionLevel, eventsManager, savepointName;
 
@@ -631,7 +630,7 @@ abstract class Pdo extends \Phalcon\Db\Adapter
 	 * @param boolean nesting
 	 * @return boolean
 	 */
-	public function commit(boolean nesting=true) -> boolean
+	public function commit(boolean nesting = true) -> boolean
 	{
 		var pdo, transactionLevel, eventsManager, savepointName;
 

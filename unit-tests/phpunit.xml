@@ -50,6 +50,7 @@
 			<file>unit-tests/ModelsCalculationsTest.php</file>
 			<!--<file>unit-tests/ModelsCriteriaTest.php</file>-->
 			<!--<file>unit-tests/ModelsDynamicOperationsTest.php</file>-->
+			<file>unit-tests/ModelsTest.php</file>
 			<file>unit-tests/ModelsEventsTest.php</file>
 			<!--<file>unit-tests/ModelsFindersTest.php</file>-->
 			<!--<file>unit-tests/ModelsForeignKeysTest.php</file>-->
@@ -70,7 +71,6 @@
 			<!--<file>unit-tests/ModelsResultsetTest.php</file>-->
 			<file>unit-tests/ModelsSerializeTest.php</file>
 			<!--<file>unit-tests/ModelsSnapshotsTest.php</file>-->
-			<file>unit-tests/ModelsTest.php</file>
 			<file>unit-tests/ModelsTransactionsTest.php</file>
 			<!--<file>unit-tests/ModelsValidatorsTest.php</file>-->
 			<!--<file>unit-tests/PaginatorTest.php</file>-->
