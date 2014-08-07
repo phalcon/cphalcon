@@ -57,7 +57,7 @@
 			<!--<file>unit-tests/ModelsHydrationTest.php</file>-->
 			<!--<file>unit-tests/ModelsMassAssigmentTest.php</file>-->
 			<!--<file>unit-tests/ModelsMetadataAdaptersTest.php</file>-->
-			<!--<file>unit-tests/ModelsMetadataManualTest.php</file>-->
+			<file>unit-tests/ModelsMetadataManualTest.php</file>
 			<!--<file>unit-tests/ModelsMetadataStrategyTest.php</file>-->
 			<file>unit-tests/ModelsMetadataTest.php</file>
 			<!--<file>unit-tests/ModelsMultipleSourcesTest.php</file>-->
