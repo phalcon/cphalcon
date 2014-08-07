@@ -112,7 +112,7 @@ class StringLength extends Validator implements ValidatorInterface
 				 */
 				let message = this->getOption("messageMaximum");
 				if empty message {
-					let message = "Value of field :field exceeds the maximum :max characters";
+					let message = "Value of field ':field' exceeds the maximum :max characters";
 				}
 
 				this->appendMessage(strtr(message, [":field": field, ":max":  maximum]), field, "TooLong");
@@ -133,7 +133,7 @@ class StringLength extends Validator implements ValidatorInterface
 				 */
 				let message = this->getOption("messageMinimum");
 				if empty message {
-					let message = "Value of field :field is less than the minimum :min characters";
+					let message = "Value of field ':field' is less than the minimum :min characters";
 				}
 
 				this->appendMessage(strtr(message, [":field": field, ":min":  minimum]), field, "TooShort");

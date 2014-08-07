@@ -1309,7 +1309,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 * @param object validator
 	 * @return Phalcon\Mvc\Model
 	 */
-	protected function validate(validator) -> <\Phalcon\Mvc\Model>
+	protected function validate(validator) -> <Model>
 	{
 		var message;
 
@@ -1387,8 +1387,19 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 *
 	 * @return Phalcon\Mvc\Model\MessageInterface[]
 	 */
-	public function getMessages()
+	public function getMessages(var filter = null)
 	{
+		var filtered, message;
+
+		if typeof filter == "string" && !empty filter {
+			let filtered = [];
+			for message in this->_errorMessages {
+				if message->getField() == filter {
+					let filtered[] = message;
+				}
+			}
+			return filtered;
+		}
 		return this->_errorMessages;
 	}
 

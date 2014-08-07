@@ -164,7 +164,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_StringLength, validate) {
 			zephir_check_call_status();
 			if (ZEPHIR_IS_EMPTY(message)) {
 				ZEPHIR_INIT_NVAR(message);
-				ZVAL_STRING(message, "Value of field :field exceeds the maximum :max characters", 1);
+				ZVAL_STRING(message, "Value of field ':field' exceeds the maximum :max characters", 1);
 			}
 			ZEPHIR_INIT_VAR(_4);
 			array_init_size(_4, 3);
@@ -194,7 +194,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_StringLength, validate) {
 			zephir_check_call_status();
 			if (ZEPHIR_IS_EMPTY(message)) {
 				ZEPHIR_INIT_NVAR(message);
-				ZVAL_STRING(message, "Value of field :field is less than the minimum :min characters", 1);
+				ZVAL_STRING(message, "Value of field ':field' is less than the minimum :min characters", 1);
 			}
 			ZEPHIR_INIT_NVAR(_4);
 			array_init_size(_4, 3);
