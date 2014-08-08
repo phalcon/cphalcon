@@ -116,13 +116,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, __construct) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, valid) {
 
-	zephir_fcall_cache_entry *_12 = NULL;
+	zephir_fcall_cache_entry *_12 = NULL, *_15 = NULL;
 	HashTable *_6, *_9;
 	HashPosition _5, _8;
 	zend_bool _3;
 	zephir_nts_static zephir_fcall_cache_entry *_1 = NULL, *_2 = NULL;
 	int dirtyState, ZEPHIR_LAST_CALL_STATUS;
-	zval *result, *rows, *row = NULL, *underscore, *emptyStr, *hydrateMode, *alias = NULL, *activeRow = NULL, *type = NULL, *columnTypes, *column = NULL, *columnValue = NULL, *value = NULL, *attribute = NULL, *source = NULL, *attributes = NULL, *columnMap = NULL, *rowModel = NULL, *keepSnapshots = NULL, *sqlAlias = NULL, *_0, *_4, **_7, **_10, *_11 = NULL, *_13, *_14 = NULL, _15 = zval_used_for_init;
+	zval *result, *rows, *row = NULL, *underscore, *emptyStr, *hydrateMode, *alias = NULL, *activeRow = NULL, *type = NULL, *columnTypes, *column = NULL, *columnValue = NULL, *value = NULL, *attribute = NULL, *source = NULL, *attributes = NULL, *columnMap = NULL, *rowModel = NULL, *keepSnapshots = NULL, *sqlAlias = NULL, *_0, *_4, **_7, **_10, *_11 = NULL, *_13, *_14 = NULL, _16 = zval_used_for_init;
 
 	ZEPHIR_MM_GROW();
 
@@ -238,7 +238,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, valid) {
 							zephir_check_call_status();
 							break;
 						}
-						ZEPHIR_CALL_CE_STATIC(&value, phalcon_mvc_model_ce, "cloneresultmaphydrate", &_12, rowModel, columnMap, hydrateMode);
+						ZEPHIR_CALL_CE_STATIC(&value, phalcon_mvc_model_ce, "cloneresultmaphydrate", &_15, rowModel, columnMap, hydrateMode);
 						zephir_check_call_status();
 						break;
 					} while(0);
@@ -258,9 +258,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, valid) {
 						ZEPHIR_CPY_WRT(attribute, alias);
 					} else {
 						ZEPHIR_INIT_NVAR(attribute);
-						ZEPHIR_SINIT_NVAR(_15);
-						ZVAL_STRING(&_15, "", 0);
-						zephir_fast_str_replace(attribute, underscore, &_15, alias);
+						ZEPHIR_SINIT_NVAR(_16);
+						ZVAL_STRING(&_16, "", 0);
+						zephir_fast_str_replace(attribute, underscore, &_16, alias);
 					}
 				}
 				do {

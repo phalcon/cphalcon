@@ -222,6 +222,7 @@
 #include "phalcon/mvc/model/metadata/session.zep.h"
 #include "phalcon/mvc/model/metadata/strategy/annotations.zep.h"
 #include "phalcon/mvc/model/metadata/strategy/introspection.zep.h"
+#include "phalcon/mvc/model/metadata/strategyinterface.zep.h"
 #include "phalcon/mvc/model/metadata/xcache.zep.h"
 #include "phalcon/mvc/model/metadatainterface.zep.h"
 #include "phalcon/mvc/model/query.zep.h"

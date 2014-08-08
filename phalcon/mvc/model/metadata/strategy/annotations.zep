@@ -20,8 +20,11 @@
 namespace Phalcon\Mvc\Model\MetaData\Strategy;
 
 use Phalcon\Db\Column;
+use Phalcon\Mvc\ModelInterface;
+use Phalcon\Mvc\Model\MetaData\StrategyInterface;
+use Phalcon\Mvc\Model\Exception;
 
-class Annotations
+class Annotations implements StrategyInterface
 {
 	/**
 	 * The meta-data is obtained by reading the column descriptions from the database information schema
@@ -30,7 +33,7 @@ class Annotations
 	 * @param Phalcon\DiInterface dependencyInjector
 	 * @return array
 	 */
-	public function getMetaData(<\Phalcon\Mvc\ModelInterface> model, <\Phalcon\DiInterface> dependencyInjector)
+	public final function getMetaData(<ModelInterface> model, <\Phalcon\DiInterface> dependencyInjector)
 	{
 		var annotations, className, reflection, propertiesAnnotations;
 		var property, propAnnotations, columnAnnotation, feature;
@@ -38,14 +41,14 @@ class Annotations
 			notNull, attributes, automaticDefault;
 
 		if typeof dependencyInjector != "object" {
-			throw new \Phalcon\Mvc\Model\Exception("The dependency injector is invalid");
+			throw new Exception("The dependency injector is invalid");
 		}
 
 		let annotations = dependencyInjector->get("annotations");
 
 		let className = get_class(model), reflection = annotations->get(className);
 		if typeof reflection != "object" {
-			throw new \Phalcon\Mvc\Model\Exception("No annotations were found in class " . className);
+			throw new Exception("No annotations were found in class " . className);
 		}
 
 		/**
@@ -53,7 +56,7 @@ class Annotations
 		 */
 		let propertiesAnnotations = reflection->getPropertiesAnnotations();
 		if !count(propertiesAnnotations) {
-			throw new \Phalcon\Mvc\Model\Exception("No properties with annotations were found in class " . className);
+			throw new Exception("No properties with annotations were found in class " . className);
 		}
 
 		/**
@@ -90,12 +93,12 @@ class Annotations
 
 			if feature == "integer" {
 				let fieldTypes[property] = Column::TYPE_INTEGER,
-					fieldBindTypes[property] = 1,
+					fieldBindTypes[property] = Column::BIND_PARAM_INT,
 					numericTyped[property] = true;
 			} else {
 				if feature == "decimal" {
-					let fieldTypes[property] = 3,
-						fieldBindTypes[property] = 32,
+					let fieldTypes[property] = Column::TYPE_DECIMAL,
+						fieldBindTypes[property] = Column::BIND_PARAM_DECIMAL,
 						numericTyped[property] = true;
 				} else {
 					if feature == "boolean" {
@@ -110,7 +113,7 @@ class Annotations
 							 */
 							let fieldTypes[property] = Column::TYPE_VARCHAR;
 						}
-						let fieldBindTypes[property] = Column::TYPE_VARCHAR;
+						let fieldBindTypes[property] = Column::BIND_PARAM_STR;
 					}
 				}
 			}
@@ -166,7 +169,7 @@ class Annotations
 	 * @return array
 	 * @todo Not implemented
 	 */
-	public function getColumnMaps(<\Phalcon\Mvc\ModelInterface> model, <\Phalcon\DiInterface> dependencyInjector)
+	public final function getColumnMaps(<ModelInterface> model, <\Phalcon\DiInterface> dependencyInjector)
 	{
 	}
 

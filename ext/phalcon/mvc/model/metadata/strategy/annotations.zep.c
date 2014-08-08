@@ -43,6 +43,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_MetaData_Strategy_Annotations) {
 
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Mvc\\Model\\MetaData\\Strategy, Annotations, phalcon, mvc_model_metadata_strategy_annotations, phalcon_mvc_model_metadata_strategy_annotations_method_entry, 0);
 
+	zend_class_implements(phalcon_mvc_model_metadata_strategy_annotations_ce TSRMLS_CC, 1, phalcon_mvc_model_metadata_strategyinterface_ce);
 	return SUCCESS;
 
 }
@@ -75,7 +76,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getMetaData) {
 		return;
 	}
 	if (Z_TYPE_P(dependencyInjector) != IS_OBJECT) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "The dependency injector is invalid", "phalcon/mvc/model/metadata/strategy/annotations.zep", 41);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "The dependency injector is invalid", "phalcon/mvc/model/metadata/strategy/annotations.zep", 44);
 		return;
 	}
 	ZEPHIR_INIT_VAR(_0);
@@ -94,7 +95,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getMetaData) {
 		ZEPHIR_CONCAT_SV(_2, "No annotations were found in class ", className);
 		ZEPHIR_CALL_METHOD(NULL, _1, "__construct", NULL, _2);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(_1, "phalcon/mvc/model/metadata/strategy/annotations.zep", 48 TSRMLS_CC);
+		zephir_throw_exception_debug(_1, "phalcon/mvc/model/metadata/strategy/annotations.zep", 51 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -107,7 +108,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getMetaData) {
 		ZEPHIR_CONCAT_SV(_2, "No properties with annotations were found in class ", className);
 		ZEPHIR_CALL_METHOD(NULL, _1, "__construct", NULL, _2);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(_1, "phalcon/mvc/model/metadata/strategy/annotations.zep", 56 TSRMLS_CC);
+		zephir_throw_exception_debug(_1, "phalcon/mvc/model/metadata/strategy/annotations.zep", 59 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -201,9 +202,9 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getMetaData) {
 		zephir_check_temp_parameter(_7);
 		zephir_check_call_status();
 		if (zephir_is_true(_11)) {
-			zephir_array_append(&primaryKeys, property, PH_SEPARATE, "phalcon/mvc/model/metadata/strategy/annotations.zep", 122);
+			zephir_array_append(&primaryKeys, property, PH_SEPARATE, "phalcon/mvc/model/metadata/strategy/annotations.zep", 125);
 		} else {
-			zephir_array_append(&nonPrimaryKeys, property, PH_SEPARATE, "phalcon/mvc/model/metadata/strategy/annotations.zep", 124);
+			zephir_array_append(&nonPrimaryKeys, property, PH_SEPARATE, "phalcon/mvc/model/metadata/strategy/annotations.zep", 127);
 		}
 		ZEPHIR_INIT_NVAR(_7);
 		ZVAL_STRING(_7, "Identity", 0);
@@ -219,21 +220,21 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getMetaData) {
 		zephir_check_temp_parameter(_7);
 		zephir_check_call_status();
 		if (!(zephir_is_true(_13))) {
-			zephir_array_append(&notNull, property, PH_SEPARATE, "phalcon/mvc/model/metadata/strategy/annotations.zep", 138);
+			zephir_array_append(&notNull, property, PH_SEPARATE, "phalcon/mvc/model/metadata/strategy/annotations.zep", 141);
 		}
-		zephir_array_append(&attributes, property, PH_SEPARATE, "phalcon/mvc/model/metadata/strategy/annotations.zep", 141);
+		zephir_array_append(&attributes, property, PH_SEPARATE, "phalcon/mvc/model/metadata/strategy/annotations.zep", 144);
 	}
 	array_init_size(return_value, 13);
-	zephir_array_update_long(&return_value, 0, &attributes, PH_COPY, "phalcon/mvc/model/metadata/strategy/annotations.zep", 158);
-	zephir_array_update_long(&return_value, 1, &primaryKeys, PH_COPY, "phalcon/mvc/model/metadata/strategy/annotations.zep", 158);
-	zephir_array_update_long(&return_value, 2, &nonPrimaryKeys, PH_COPY, "phalcon/mvc/model/metadata/strategy/annotations.zep", 158);
-	zephir_array_update_long(&return_value, 3, &notNull, PH_COPY, "phalcon/mvc/model/metadata/strategy/annotations.zep", 158);
-	zephir_array_update_long(&return_value, 4, &fieldTypes, PH_COPY, "phalcon/mvc/model/metadata/strategy/annotations.zep", 158);
-	zephir_array_update_long(&return_value, 5, &numericTyped, PH_COPY, "phalcon/mvc/model/metadata/strategy/annotations.zep", 158);
-	zephir_array_update_long(&return_value, 8, &identityField, PH_COPY, "phalcon/mvc/model/metadata/strategy/annotations.zep", 158);
-	zephir_array_update_long(&return_value, 9, &fieldBindTypes, PH_COPY, "phalcon/mvc/model/metadata/strategy/annotations.zep", 158);
-	zephir_array_update_long(&return_value, 10, &automaticDefault, PH_COPY, "phalcon/mvc/model/metadata/strategy/annotations.zep", 158);
-	zephir_array_update_long(&return_value, 11, &automaticDefault, PH_COPY, "phalcon/mvc/model/metadata/strategy/annotations.zep", 158);
+	zephir_array_update_long(&return_value, 0, &attributes, PH_COPY, "phalcon/mvc/model/metadata/strategy/annotations.zep", 161);
+	zephir_array_update_long(&return_value, 1, &primaryKeys, PH_COPY, "phalcon/mvc/model/metadata/strategy/annotations.zep", 161);
+	zephir_array_update_long(&return_value, 2, &nonPrimaryKeys, PH_COPY, "phalcon/mvc/model/metadata/strategy/annotations.zep", 161);
+	zephir_array_update_long(&return_value, 3, &notNull, PH_COPY, "phalcon/mvc/model/metadata/strategy/annotations.zep", 161);
+	zephir_array_update_long(&return_value, 4, &fieldTypes, PH_COPY, "phalcon/mvc/model/metadata/strategy/annotations.zep", 161);
+	zephir_array_update_long(&return_value, 5, &numericTyped, PH_COPY, "phalcon/mvc/model/metadata/strategy/annotations.zep", 161);
+	zephir_array_update_long(&return_value, 8, &identityField, PH_COPY, "phalcon/mvc/model/metadata/strategy/annotations.zep", 161);
+	zephir_array_update_long(&return_value, 9, &fieldBindTypes, PH_COPY, "phalcon/mvc/model/metadata/strategy/annotations.zep", 161);
+	zephir_array_update_long(&return_value, 10, &automaticDefault, PH_COPY, "phalcon/mvc/model/metadata/strategy/annotations.zep", 161);
+	zephir_array_update_long(&return_value, 11, &automaticDefault, PH_COPY, "phalcon/mvc/model/metadata/strategy/annotations.zep", 161);
 	RETURN_MM();
 
 }

@@ -23,6 +23,7 @@ use Phalcon\Mvc\ModelInterface;
 use Phalcon\Mvc\Model\Exception;
 use Phalcon\Di\InjectionAwareInterface;
 use Phalcon\Mvc\Model\MetaData\Strategy\Introspection;
+use Phalcon\Mvc\Model\MetaData\StrategyInterface;
 
 /**
  * Phalcon\Mvc\Model\MetaData
@@ -217,7 +218,7 @@ abstract class MetaData implements InjectionAwareInterface
 	 *
 	 * @param Phalcon\Mvc\Model\MetaData\Strategy\Introspection strategy
 	 */
-	public function setStrategy(<Introspection> strategy) -> void
+	public function setStrategy(<StrategyInterface> strategy) -> void
 	{
 		let this->_strategy = strategy;
 	}
@@ -225,9 +226,9 @@ abstract class MetaData implements InjectionAwareInterface
 	/**
 	 * Return the strategy to obtain the meta-data
 	 *
-	 * @return Phalcon\Mvc\Model\MetaData\Strategy\Introspection
+	 * @return Phalcon\Mvc\Model\MetaData\Strategy\StrategyInterface
 	 */
-	public function getStrategy() -> <Introspection>
+	public function getStrategy() -> <StrategyInterface>
 	{
 		var strategy;
 		let strategy = this->_strategy;

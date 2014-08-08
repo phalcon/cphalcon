@@ -524,7 +524,7 @@ PHP_METHOD(Phalcon_Security, computeHmac) {
 	}
 
 
-	ZEPHIR_CALL_FUNCTION(&ops, "hash_hmac", NULL, algo, algo, key, raw);
+	ZEPHIR_CALL_FUNCTION(&ops, "hash_hmac", NULL, algo, data, key, raw);
 	zephir_check_call_status();
 	if (!(zephir_is_true(ops))) {
 		ZEPHIR_INIT_VAR(_0);

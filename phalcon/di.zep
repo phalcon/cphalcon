@@ -20,7 +20,9 @@
 
 namespace Phalcon;
 
+use Phalcon\Di\Service;
 use Phalcon\Di\ServiceInterface;
+use Phalcon\Di\Exception;
 
 /**
  * Phalcon\Di
@@ -87,7 +89,7 @@ class Di implements \Phalcon\DiInterface
 	 * @param boolean shared
 	 * @return Phalcon\Di\ServiceInterface
 	 */
-	public function set(string! name, definition, shared=false) -> <ServiceInterface>
+	public function set(string! name, definition, shared = false) -> <ServiceInterface>
 	{
 		var service;
 		let service = new \Phalcon\Di\Service(name, definition, shared),
@@ -105,7 +107,7 @@ class Di implements \Phalcon\DiInterface
 	public function setShared(string! name, definition) -> <ServiceInterface>
 	{
 		var service;
-		let service = new \Phalcon\Di\Service(name, definition, true),
+		let service = new Service(name, definition, true),
 			this->_services[name] = service;
 		return service;
 	}
@@ -130,12 +132,12 @@ class Di implements \Phalcon\DiInterface
 	 * @param boolean shared
 	 * @return Phalcon\Di\ServiceInterface|false
 	 */
-	public function attempt(string! name, definition, boolean shared=false) -> <ServiceInterface> | boolean
+	public function attempt(string! name, definition, boolean shared = false) -> <ServiceInterface> | boolean
 	{
 		var service;
 
 		if !isset this->_services[name] {
-			let service = new \Phalcon\Di\Service(name, definition, shared),
+			let service = new Service(name, definition, shared),
 				this->_services[name] = service;
 			return service;
 		}
@@ -170,7 +172,7 @@ class Di implements \Phalcon\DiInterface
 			return service->getDefinition();
 		}
 
-		throw new \Phalcon\Di\Exception("Service '" . name . "' wasn't found in the dependency injection container");
+		throw new Exception("Service '" . name . "' wasn't found in the dependency injection container");
 	}
 
 	/**
@@ -187,7 +189,7 @@ class Di implements \Phalcon\DiInterface
 			return service;
 		}
 
-		throw new \Phalcon\Di\Exception("Service '" . name . "' wasn't found in the dependency injection container");
+		throw new Exception("Service '" . name . "' wasn't found in the dependency injection container");
 	}
 
 	/**
@@ -197,7 +199,7 @@ class Di implements \Phalcon\DiInterface
 	 * @param array parameters
 	 * @return mixed
 	 */
-	public function get(string! name, parameters=null)
+	public function get(string! name, parameters = null)
 	{
 		var service, instance;
 
@@ -221,7 +223,7 @@ class Di implements \Phalcon\DiInterface
 					let instance = create_instance(name);
 				}
 			} else {
-				throw new \Phalcon\Di\Exception("Service '" . name . "' wasn't found in the dependency injection container");
+				throw new Exception("Service '" . name . "' wasn't found in the dependency injection container");
 			}
 		}
 
@@ -244,7 +246,7 @@ class Di implements \Phalcon\DiInterface
 	 * @param array parameters
 	 * @return mixed
 	 */
-	public function getShared(string! name, parameters=null)
+	public function getShared(string! name, parameters = null)
 	{
 		var instance;
 
@@ -296,7 +298,7 @@ class Di implements \Phalcon\DiInterface
 	 *
 	 * @return Phalcon\Di\Service[]
 	 */
-	public function getServices() -> <\Phalcon\Di\Service[]>
+	public function getServices() -> <Service[]>
 	{
 		return this->_services;
 	}
@@ -361,7 +363,7 @@ class Di implements \Phalcon\DiInterface
 	 * @param array arguments
 	 * @return mixed
 	 */
-	public function __call(string! method, arguments=null)
+	public function __call(string! method, arguments = null)
 	{
 		var instance, possibleService, services, definition;
 
@@ -394,7 +396,7 @@ class Di implements \Phalcon\DiInterface
 		/**
 		 * The method doesn't start with set/get throw an exception
 		 */
-		throw new \Phalcon\Di\Exception("Call to undefined method or service '" . method . "'");
+		throw new Exception("Call to undefined method or service '" . method . "'");
 	}
 
 	/**
