@@ -12,7 +12,7 @@
 	<testsuites>
 
 		<testsuite name="stable">
-			<!--<file>unit-tests/AclTest.php</file>-->
+			<file>unit-tests/AclTest.php</file>
 			<!--<file>unit-tests/AnnotationsAdaptersTest.php</file>-->
 			<file>unit-tests/AnnotationsTest.php</file>
 			<file>unit-tests/ApplicationMvcTest.php</file>
