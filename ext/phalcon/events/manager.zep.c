@@ -431,7 +431,7 @@ PHP_METHOD(Phalcon_Events_Manager, fireQueue) {
 			}
 		}
 	} else {
-		zephir_is_iterable(queue, &_9, &_8, 0, 0);
+		zephir_is_iterable(queue, &_9, &_8, 0, 0, "phalcon/events/manager.zep", 332);
 		for (
 		  ; zephir_hash_get_current_data_ex(_9, (void**) &_10, &_8) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_9, &_8)

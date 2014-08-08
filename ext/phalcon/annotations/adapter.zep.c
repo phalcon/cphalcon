@@ -219,7 +219,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter, getMethod) {
 		ZEPHIR_CALL_METHOD(&methods, classAnnotations, "getmethodsannotations",  NULL);
 		zephir_check_call_status();
 		if (Z_TYPE_P(methods) == IS_ARRAY) {
-			zephir_is_iterable(methods, &_1, &_0, 0, 0);
+			zephir_is_iterable(methods, &_1, &_0, 0, 0, "phalcon/annotations/adapter.zep", 172);
 			for (
 			  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
 			  ; zephir_hash_move_forward_ex(_1, &_0)
@@ -297,7 +297,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter, getProperty) {
 		ZEPHIR_CALL_METHOD(&properties, classAnnotations, "getpropertiesannotations",  NULL);
 		zephir_check_call_status();
 		if (Z_TYPE_P(properties) == IS_ARRAY) {
-			zephir_is_iterable(properties, &_1, &_0, 0, 0);
+			zephir_is_iterable(properties, &_1, &_0, 0, 0, "phalcon/annotations/adapter.zep", 233);
 			for (
 			  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
 			  ; zephir_hash_move_forward_ex(_1, &_0)

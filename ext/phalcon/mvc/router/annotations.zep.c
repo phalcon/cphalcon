@@ -254,7 +254,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, handle) {
 		if (Z_TYPE_P(handlers) == IS_ARRAY) {
 			ZEPHIR_OBS_VAR(controllerSuffix);
 			zephir_read_property_this(&controllerSuffix, this_ptr, SL("_controllerSuffix"), PH_NOISY_CC);
-			zephir_is_iterable(handlers, &_2, &_1, 0, 0);
+			zephir_is_iterable(handlers, &_2, &_1, 0, 0, "phalcon/mvc/router/annotations.zep", 220);
 			for (
 			  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
 			  ; zephir_hash_move_forward_ex(_2, &_1)
@@ -311,7 +311,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, handle) {
 							ZEPHIR_CALL_METHOD(&annotations, classAnnotations, "getannotations",  NULL);
 							zephir_check_call_status();
 							if (Z_TYPE_P(annotations) == IS_ARRAY) {
-								zephir_is_iterable(annotations, &_7, &_6, 0, 0);
+								zephir_is_iterable(annotations, &_7, &_6, 0, 0, "phalcon/mvc/router/annotations.zep", 199);
 								for (
 								  ; zephir_hash_get_current_data_ex(_7, (void**) &_8, &_6) == SUCCESS
 								  ; zephir_hash_move_forward_ex(_7, &_6)
@@ -327,7 +327,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, handle) {
 						if (Z_TYPE_P(methodAnnotations) == IS_ARRAY) {
 							ZEPHIR_INIT_NVAR(lowercased);
 							zephir_uncamelize(lowercased, handler);
-							zephir_is_iterable(methodAnnotations, &_11, &_10, 0, 0);
+							zephir_is_iterable(methodAnnotations, &_11, &_10, 0, 0, "phalcon/mvc/router/annotations.zep", 215);
 							for (
 							  ; zephir_hash_get_current_data_ex(_11, (void**) &_12, &_10) == SUCCESS
 							  ; zephir_hash_move_forward_ex(_11, &_10)
@@ -337,7 +337,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, handle) {
 								if (Z_TYPE_P(collection) == IS_OBJECT) {
 									ZEPHIR_CALL_METHOD(&_13, collection, "getannotations",  NULL);
 									zephir_check_call_status();
-									zephir_is_iterable(_13, &_15, &_14, 0, 0);
+									zephir_is_iterable(_13, &_15, &_14, 0, 0, "phalcon/mvc/router/annotations.zep", 213);
 									for (
 									  ; zephir_hash_get_current_data_ex(_15, (void**) &_16, &_14) == SUCCESS
 									  ; zephir_hash_move_forward_ex(_15, &_14)
@@ -579,7 +579,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, processActionAnnotation) {
 		zephir_check_temp_parameter(_3);
 		zephir_check_call_status();
 		if (Z_TYPE_P(converts) == IS_ARRAY) {
-			zephir_is_iterable(converts, &_5, &_4, 0, 0);
+			zephir_is_iterable(converts, &_5, &_4, 0, 0, "phalcon/mvc/router/annotations.zep", 363);
 			for (
 			  ; zephir_hash_get_current_data_ex(_5, (void**) &_6, &_4) == SUCCESS
 			  ; zephir_hash_move_forward_ex(_5, &_4)
@@ -596,7 +596,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, processActionAnnotation) {
 		zephir_check_temp_parameter(_3);
 		zephir_check_call_status();
 		if (Z_TYPE_P(converts) == IS_ARRAY) {
-			zephir_is_iterable(converts, &_9, &_8, 0, 0);
+			zephir_is_iterable(converts, &_9, &_8, 0, 0, "phalcon/mvc/router/annotations.zep", 373);
 			for (
 			  ; zephir_hash_get_current_data_ex(_9, (void**) &_10, &_8) == SUCCESS
 			  ; zephir_hash_move_forward_ex(_9, &_8)

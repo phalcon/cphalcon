@@ -96,14 +96,14 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct) {
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	zephir_is_iterable(iniConfig, &_5, &_4, 0, 0);
+	zephir_is_iterable(iniConfig, &_5, &_4, 0, 0, "phalcon/config/adapter/ini.zep", 52);
 	for (
 	  ; zephir_hash_get_current_data_ex(_5, (void**) &_6, &_4) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_5, &_4)
 	) {
 		ZEPHIR_GET_HMKEY(section, _5, _4);
 		ZEPHIR_GET_HVALUE(directives, _6);
-		zephir_is_iterable(directives, &_8, &_7, 0, 0);
+		zephir_is_iterable(directives, &_8, &_7, 0, 0, "phalcon/config/adapter/ini.zep", 50);
 		for (
 		  ; zephir_hash_get_current_data_ex(_8, (void**) &_9, &_7) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_8, &_7)

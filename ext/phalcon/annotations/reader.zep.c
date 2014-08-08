@@ -101,7 +101,7 @@ PHP_METHOD(Phalcon_Annotations_Reader, parse) {
 		line = 1;
 		ZEPHIR_INIT_VAR(annotationsProperties);
 		array_init(annotationsProperties);
-		zephir_is_iterable(properties, &_4, &_3, 0, 0);
+		zephir_is_iterable(properties, &_4, &_3, 0, 0, "phalcon/annotations/reader.zep", 100);
 		for (
 		  ; zephir_hash_get_current_data_ex(_4, (void**) &_5, &_3) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_4, &_3)
@@ -132,7 +132,7 @@ PHP_METHOD(Phalcon_Annotations_Reader, parse) {
 	if (zephir_fast_count_int(methods TSRMLS_CC)) {
 		ZEPHIR_INIT_VAR(annotationsMethods);
 		array_init(annotationsMethods);
-		zephir_is_iterable(methods, &_10, &_9, 0, 0);
+		zephir_is_iterable(methods, &_10, &_9, 0, 0, "phalcon/annotations/reader.zep", 130);
 		for (
 		  ; zephir_hash_get_current_data_ex(_10, (void**) &_11, &_9) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_10, &_9)

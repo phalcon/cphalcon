@@ -211,7 +211,7 @@ PHP_METHOD(Phalcon_Db_Dialect, getColumnList) {
 	array_init(strList);
 	ZEPHIR_OBS_VAR(escapeChar);
 	zephir_read_property_this(&escapeChar, this_ptr, SL("_escapeChar"), PH_NOISY_CC);
-	zephir_is_iterable(columnList, &_1, &_0, 0, 0);
+	zephir_is_iterable(columnList, &_1, &_0, 0, 0, "phalcon/db/dialect.zep", 105);
 	for (
 	  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_1, &_0)
@@ -348,7 +348,7 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpression) {
 		array_init(sqlArguments);
 		ZEPHIR_OBS_VAR(arguments);
 		if (zephir_array_isset_string_fetch(&arguments, expression, SS("arguments"), 0 TSRMLS_CC)) {
-			zephir_is_iterable(arguments, &_8, &_7, 0, 0);
+			zephir_is_iterable(arguments, &_8, &_7, 0, 0, "phalcon/db/dialect.zep", 222);
 			for (
 			  ; zephir_hash_get_current_data_ex(_8, (void**) &_9, &_7) == SUCCESS
 			  ; zephir_hash_move_forward_ex(_8, &_7)
@@ -370,7 +370,7 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpression) {
 		ZEPHIR_INIT_VAR(sqlItems);
 		array_init(sqlItems);
 		zephir_array_fetch_long(&_2, expression, 0, PH_NOISY | PH_READONLY, "phalcon/db/dialect.zep", 232 TSRMLS_CC);
-		zephir_is_iterable(_2, &_13, &_12, 0, 0);
+		zephir_is_iterable(_2, &_13, &_12, 0, 0, "phalcon/db/dialect.zep", 235);
 		for (
 		  ; zephir_hash_get_current_data_ex(_13, (void**) &_14, &_12) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_13, &_12)
@@ -545,7 +545,7 @@ PHP_METHOD(Phalcon_Db_Dialect, select) {
 	if (Z_TYPE_P(columns) == IS_ARRAY) {
 		ZEPHIR_INIT_VAR(selectedColumns);
 		array_init(selectedColumns);
-		zephir_is_iterable(columns, &_1, &_0, 0, 0);
+		zephir_is_iterable(columns, &_1, &_0, 0, 0, "phalcon/db/dialect.zep", 430);
 		for (
 		  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_1, &_0)
@@ -608,7 +608,7 @@ PHP_METHOD(Phalcon_Db_Dialect, select) {
 	if (Z_TYPE_P(tables) == IS_ARRAY) {
 		ZEPHIR_INIT_VAR(selectedTables);
 		array_init(selectedTables);
-		zephir_is_iterable(tables, &_5, &_4, 0, 0);
+		zephir_is_iterable(tables, &_5, &_4, 0, 0, "phalcon/db/dialect.zep", 443);
 		for (
 		  ; zephir_hash_get_current_data_ex(_5, (void**) &_6, &_4) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_5, &_4)
@@ -627,7 +627,7 @@ PHP_METHOD(Phalcon_Db_Dialect, select) {
 	ZEPHIR_CONCAT_SVSV(sql, "SELECT ", columnsSql, " FROM ", tablesSql);
 	ZEPHIR_OBS_VAR(joins);
 	if (zephir_array_isset_string_fetch(&joins, definition, SS("joins"), 0 TSRMLS_CC)) {
-		zephir_is_iterable(joins, &_10, &_9, 0, 0);
+		zephir_is_iterable(joins, &_10, &_9, 0, 0, "phalcon/db/dialect.zep", 474);
 		for (
 		  ; zephir_hash_get_current_data_ex(_10, (void**) &_11, &_9) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_10, &_9)
@@ -645,7 +645,7 @@ PHP_METHOD(Phalcon_Db_Dialect, select) {
 				if (zephir_fast_count_int(joinConditionsArray TSRMLS_CC)) {
 					ZEPHIR_INIT_NVAR(joinExpressions);
 					array_init(joinExpressions);
-					zephir_is_iterable(joinConditionsArray, &_15, &_14, 0, 0);
+					zephir_is_iterable(joinConditionsArray, &_15, &_14, 0, 0, "phalcon/db/dialect.zep", 469);
 					for (
 					  ; zephir_hash_get_current_data_ex(_15, (void**) &_16, &_14) == SUCCESS
 					  ; zephir_hash_move_forward_ex(_15, &_14)
@@ -683,7 +683,7 @@ PHP_METHOD(Phalcon_Db_Dialect, select) {
 	if (zephir_array_isset_string_fetch(&groupFields, definition, SS("group"), 0 TSRMLS_CC)) {
 		ZEPHIR_INIT_VAR(groupItems);
 		array_init(groupItems);
-		zephir_is_iterable(groupFields, &_21, &_20, 0, 0);
+		zephir_is_iterable(groupFields, &_21, &_20, 0, 0, "phalcon/db/dialect.zep", 496);
 		for (
 		  ; zephir_hash_get_current_data_ex(_21, (void**) &_22, &_20) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_21, &_20)
@@ -711,7 +711,7 @@ PHP_METHOD(Phalcon_Db_Dialect, select) {
 	if (zephir_array_isset_string_fetch(&orderFields, definition, SS("order"), 0 TSRMLS_CC)) {
 		ZEPHIR_INIT_VAR(orderItems);
 		array_init(orderItems);
-		zephir_is_iterable(orderFields, &_25, &_24, 0, 0);
+		zephir_is_iterable(orderFields, &_25, &_24, 0, 0, "phalcon/db/dialect.zep", 526);
 		for (
 		  ; zephir_hash_get_current_data_ex(_25, (void**) &_26, &_24) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_25, &_24)

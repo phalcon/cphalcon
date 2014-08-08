@@ -458,7 +458,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, queryKeys) {
 	zephir_check_call_status();
 	ZEPHIR_CALL_FUNCTION(&_6, "iterator_to_array", NULL, _5);
 	zephir_check_call_status();
-	zephir_is_iterable(_6, &_8, &_7, 0, 0);
+	zephir_is_iterable(_6, &_8, &_7, 0, 0, "phalcon/cache/backend/mongo.zep", 300);
 	for (
 	  ; zephir_hash_get_current_data_ex(_8, (void**) &_9, &_7) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_8, &_7)

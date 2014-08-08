@@ -997,7 +997,7 @@ PHP_METHOD(Phalcon_Http_Request, isMethod) {
 		RETURN_MM_BOOL(ZEPHIR_IS_EQUAL(methods, httpMethod));
 	} else {
 		if (Z_TYPE_P(methods) == IS_ARRAY) {
-			zephir_is_iterable(methods, &_2, &_1, 0, 0);
+			zephir_is_iterable(methods, &_2, &_1, 0, 0, "phalcon/http/request.zep", 597);
 			for (
 			  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
 			  ; zephir_hash_move_forward_ex(_2, &_1)
@@ -1177,7 +1177,7 @@ PHP_METHOD(Phalcon_Http_Request, hasFiles) {
 	if (Z_TYPE_P(files) != IS_ARRAY) {
 		RETURN_MM_LONG(0);
 	}
-	zephir_is_iterable(files, &_1, &_0, 0, 0);
+	zephir_is_iterable(files, &_1, &_0, 0, 0, "phalcon/http/request.zep", 705);
 	for (
 	  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_1, &_0)
@@ -1223,7 +1223,7 @@ PHP_METHOD(Phalcon_Http_Request, hasFileHelper) {
 	if (Z_TYPE_P(data) != IS_ARRAY) {
 		RETURN_MM_LONG(1);
 	}
-	zephir_is_iterable(data, &_1, &_0, 0, 0);
+	zephir_is_iterable(data, &_1, &_0, 0, 0, "phalcon/http/request.zep", 729);
 	for (
 	  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_1, &_0)
@@ -1278,7 +1278,7 @@ PHP_METHOD(Phalcon_Http_Request, getUploadedFiles) {
 	if (zephir_fast_count_int(superFiles TSRMLS_CC)) {
 		ZEPHIR_INIT_VAR(files);
 		array_init(files);
-		zephir_is_iterable(superFiles, &_1, &_0, 0, 0);
+		zephir_is_iterable(superFiles, &_1, &_0, 0, 0, "phalcon/http/request.zep", 778);
 		for (
 		  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_1, &_0)
@@ -1290,7 +1290,7 @@ PHP_METHOD(Phalcon_Http_Request, getUploadedFiles) {
 				if (Z_TYPE_P(_3) == IS_ARRAY) {
 					ZEPHIR_INIT_NVAR(subFiles);
 					array_init(subFiles);
-					zephir_is_iterable(file, &_5, &_4, 0, 0);
+					zephir_is_iterable(file, &_5, &_4, 0, 0, "phalcon/http/request.zep", 757);
 					for (
 					  ; zephir_hash_get_current_data_ex(_5, (void**) &_6, &_4) == SUCCESS
 					  ; zephir_hash_move_forward_ex(_5, &_4)
@@ -1330,7 +1330,7 @@ PHP_METHOD(Phalcon_Http_Request, getUploadedFiles) {
 				if (Z_TYPE_P(_3) == IS_ARRAY) {
 					ZEPHIR_INIT_NVAR(subFiles);
 					array_init(subFiles);
-					zephir_is_iterable(file, &_10, &_9, 0, 0);
+					zephir_is_iterable(file, &_10, &_9, 0, 0, "phalcon/http/request.zep", 772);
 					for (
 					  ; zephir_hash_get_current_data_ex(_10, (void**) &_11, &_9) == SUCCESS
 					  ; zephir_hash_move_forward_ex(_10, &_9)
@@ -1375,7 +1375,7 @@ PHP_METHOD(Phalcon_Http_Request, getHeaders) {
 	ZEPHIR_INIT_VAR(headers);
 	array_init(headers);
 	zephir_get_global(&_SERVER, SS("_SERVER") TSRMLS_CC);
-	zephir_is_iterable(_SERVER, &_1, &_0, 0, 0);
+	zephir_is_iterable(_SERVER, &_1, &_0, 0, 0, "phalcon/http/request.zep", 798);
 	for (
 	  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_1, &_0)
@@ -1467,7 +1467,7 @@ PHP_METHOD(Phalcon_Http_Request, _getQualityHeader) {
 	ZVAL_STRING(&_1, "/,\\s*/", 0);
 	ZEPHIR_CALL_FUNCTION(&_2, "preg_split", &_3, &_1, _0);
 	zephir_check_call_status();
-	zephir_is_iterable(_2, &_5, &_4, 0, 0);
+	zephir_is_iterable(_2, &_5, &_4, 0, 0, "phalcon/http/request.zep", 842);
 	for (
 	  ; zephir_hash_get_current_data_ex(_5, (void**) &_6, &_4) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_5, &_4)
@@ -1536,7 +1536,7 @@ PHP_METHOD(Phalcon_Http_Request, _getBestQuality) {
 	quality = 0.0;
 	ZEPHIR_INIT_VAR(selectedName);
 	ZVAL_STRING(selectedName, "", 1);
-	zephir_is_iterable(qualityParts, &_1, &_0, 0, 0);
+	zephir_is_iterable(qualityParts, &_1, &_0, 0, 0, "phalcon/http/request.zep", 875);
 	for (
 	  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_1, &_0)
@@ -1771,7 +1771,7 @@ PHP_METHOD(Phalcon_Http_Request, getDigestAuth) {
 			RETURN_CTOR(auth);
 		}
 		if (Z_TYPE_P(matches) == IS_ARRAY) {
-			zephir_is_iterable(matches, &_5, &_4, 0, 0);
+			zephir_is_iterable(matches, &_5, &_4, 0, 0, "phalcon/http/request.zep", 978);
 			for (
 			  ; zephir_hash_get_current_data_ex(_5, (void**) &_6, &_4) == SUCCESS
 			  ; zephir_hash_move_forward_ex(_5, &_4)

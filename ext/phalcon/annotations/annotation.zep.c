@@ -103,7 +103,7 @@ PHP_METHOD(Phalcon_Annotations_Annotation, __construct) {
 	if (zephir_array_isset_string_fetch(&exprArguments, reflectionData, SS("arguments"), 0 TSRMLS_CC)) {
 		ZEPHIR_INIT_VAR(arguments);
 		array_init(arguments);
-		zephir_is_iterable(exprArguments, &_2, &_1, 0, 0);
+		zephir_is_iterable(exprArguments, &_2, &_1, 0, 0, "phalcon/annotations/annotation.zep", 75);
 		for (
 		  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_2, &_1)
@@ -191,7 +191,7 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getExpression) {
 			ZEPHIR_INIT_VAR(arrayValue);
 			array_init(arrayValue);
 			zephir_array_fetch_string(&_0, expr, SL("items"), PH_NOISY | PH_READONLY, "phalcon/annotations/annotation.zep", 124 TSRMLS_CC);
-			zephir_is_iterable(_0, &_2, &_1, 0, 0);
+			zephir_is_iterable(_0, &_2, &_1, 0, 0, "phalcon/annotations/annotation.zep", 132);
 			for (
 			  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
 			  ; zephir_hash_move_forward_ex(_2, &_1)

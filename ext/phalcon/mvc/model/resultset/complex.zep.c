@@ -194,7 +194,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, valid) {
 			ZEPHIR_OBS_VAR(columnTypes);
 			zephir_read_property_this(&columnTypes, this_ptr, SL("_columnTypes"), PH_NOISY_CC);
 			dirtyState = 0;
-			zephir_is_iterable(columnTypes, &_6, &_5, 0, 0);
+			zephir_is_iterable(columnTypes, &_6, &_5, 0, 0, "phalcon/mvc/model/resultset/complex.zep", 256);
 			for (
 			  ; zephir_hash_get_current_data_ex(_6, (void**) &_7, &_5) == SUCCESS
 			  ; zephir_hash_move_forward_ex(_6, &_5)
@@ -212,7 +212,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, valid) {
 					zephir_array_fetch_string(&columnMap, column, SL("columnMap"), PH_NOISY, "phalcon/mvc/model/resultset/complex.zep", 169 TSRMLS_CC);
 					ZEPHIR_INIT_NVAR(rowModel);
 					array_init(rowModel);
-					zephir_is_iterable(attributes, &_9, &_8, 0, 0);
+					zephir_is_iterable(attributes, &_9, &_8, 0, 0, "phalcon/mvc/model/resultset/complex.zep", 186);
 					for (
 					  ; zephir_hash_get_current_data_ex(_9, (void**) &_10, &_8) == SUCCESS
 					  ; zephir_hash_move_forward_ex(_9, &_8)

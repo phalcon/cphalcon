@@ -167,7 +167,7 @@ PHP_METHOD(Phalcon_Validation, validate) {
 			zephir_update_property_this(this_ptr, SL("_data"), data TSRMLS_CC);
 		}
 	}
-	zephir_is_iterable(validators, &_2, &_1, 0, 0);
+	zephir_is_iterable(validators, &_2, &_1, 0, 0, "phalcon/validation.zep", 141);
 	for (
 	  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_2, &_1)
@@ -311,7 +311,7 @@ PHP_METHOD(Phalcon_Validation, rules) {
 
 
 
-	zephir_is_iterable(validators, &_1, &_0, 0, 0);
+	zephir_is_iterable(validators, &_1, &_0, 0, 0, "phalcon/validation.zep", 195);
 	for (
 	  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_1, &_0)

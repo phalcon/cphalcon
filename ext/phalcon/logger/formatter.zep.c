@@ -143,7 +143,7 @@ PHP_METHOD(Phalcon_Logger_Formatter, interpolate) {
 	if (_1) {
 		ZEPHIR_INIT_VAR(replace);
 		array_init(replace);
-		zephir_is_iterable(context, &_3, &_2, 0, 0);
+		zephir_is_iterable(context, &_3, &_2, 0, 0, "phalcon/logger/formatter.zep", 93);
 		for (
 		  ; zephir_hash_get_current_data_ex(_3, (void**) &_4, &_2) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_3, &_2)

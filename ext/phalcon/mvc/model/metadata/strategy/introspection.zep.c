@@ -146,7 +146,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getMetaData) {
 	array_init(automaticDefault);
 	ZEPHIR_INIT_VAR(identityField);
 	ZVAL_BOOL(identityField, 0);
-	zephir_is_iterable(columns, &_5, &_4, 0, 0);
+	zephir_is_iterable(columns, &_5, &_4, 0, 0, "phalcon/mvc/model/metadata/strategy/introspection.zep", 149);
 	for (
 	  ; zephir_hash_get_current_data_ex(_5, (void**) &_6, &_4) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_5, &_4)
@@ -240,7 +240,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getColumnMaps) {
 		ZEPHIR_INIT_BNVAR(reversedColumnMap);
 		array_init(reversedColumnMap);
 		ZEPHIR_CPY_WRT(orderedColumnMap, userColumnMap);
-		zephir_is_iterable(userColumnMap, &_1, &_0, 0, 0);
+		zephir_is_iterable(userColumnMap, &_1, &_0, 0, 0, "phalcon/mvc/model/metadata/strategy/introspection.zep", 191);
 		for (
 		  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_1, &_0)

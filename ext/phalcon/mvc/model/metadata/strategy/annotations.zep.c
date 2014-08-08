@@ -130,7 +130,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getMetaData) {
 	array_init(automaticDefault);
 	ZEPHIR_INIT_VAR(identityField);
 	ZVAL_BOOL(identityField, 0);
-	zephir_is_iterable(propertiesAnnotations, &_4, &_3, 0, 0);
+	zephir_is_iterable(propertiesAnnotations, &_4, &_3, 0, 0, "phalcon/mvc/model/metadata/strategy/annotations.zep", 150);
 	for (
 	  ; zephir_hash_get_current_data_ex(_4, (void**) &_5, &_3) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_4, &_3)

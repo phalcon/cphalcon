@@ -462,7 +462,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, mount) {
 		}
 		ZEPHIR_CALL_METHOD(&prefix, collection, "getprefix",  NULL);
 		zephir_check_call_status();
-		zephir_is_iterable(handlers, &_2, &_1, 0, 0);
+		zephir_is_iterable(handlers, &_2, &_1, 0, 0, "phalcon/mvc/micro.zep", 440);
 		for (
 		  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_2, &_1)
@@ -770,7 +770,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle) {
 		zephir_read_property_this(&beforeHandlers, this_ptr, SL("_beforeHandlers"), PH_NOISY_CC);
 		if (Z_TYPE_P(beforeHandlers) == IS_ARRAY) {
 			zephir_update_property_this(this_ptr, SL("_stopped"), (0) ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
-			zephir_is_iterable(beforeHandlers, &_5, &_4, 0, 0);
+			zephir_is_iterable(beforeHandlers, &_5, &_4, 0, 0, "phalcon/mvc/micro.zep", 679);
 			for (
 			  ; zephir_hash_get_current_data_ex(_5, (void**) &_6, &_4) == SUCCESS
 			  ; zephir_hash_move_forward_ex(_5, &_4)
@@ -819,7 +819,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle) {
 		zephir_read_property_this(&afterHandlers, this_ptr, SL("_afterHandlers"), PH_NOISY_CC);
 		if (Z_TYPE_P(afterHandlers) == IS_ARRAY) {
 			zephir_update_property_this(this_ptr, SL("_stopped"), (0) ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
-			zephir_is_iterable(afterHandlers, &_10, &_9, 0, 0);
+			zephir_is_iterable(afterHandlers, &_10, &_9, 0, 0, "phalcon/mvc/micro.zep", 734);
 			for (
 			  ; zephir_hash_get_current_data_ex(_10, (void**) &_11, &_9) == SUCCESS
 			  ; zephir_hash_move_forward_ex(_10, &_9)
@@ -881,7 +881,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle) {
 		zephir_update_property_this(this_ptr, SL("_stopped"), (0) ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
 		ZEPHIR_INIT_NVAR(params);
 		ZVAL_NULL(params);
-		zephir_is_iterable(finishHandlers, &_14, &_13, 0, 0);
+		zephir_is_iterable(finishHandlers, &_14, &_13, 0, 0, "phalcon/mvc/micro.zep", 831);
 		for (
 		  ; zephir_hash_get_current_data_ex(_14, (void**) &_15, &_13) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_14, &_13)
