@@ -182,9 +182,7 @@ class Bag implements InjectionAwareInterface, BagInterface
 		 * Retrieve the data
 		 */
 		if fetch value, this->_data[property] {
-			if !empty value {
-				return value;
-			}
+			return value;
 		}
 
 		return defaultValue;
