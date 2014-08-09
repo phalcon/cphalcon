@@ -405,6 +405,8 @@
 #include "chart/qrcode.h"
 #include "chart/exception.h"
 
+#include "scws.h"
+
 #include "version.h"
 
 #endif /* PHALCON_H */
