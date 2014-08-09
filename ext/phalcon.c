@@ -266,6 +266,7 @@ static PHP_MINIT_FUNCTION(phalcon)
 	PHALCON_INIT(Phalcon_Mvc_Micro_Exception);
 	PHALCON_INIT(Phalcon_Mvc_JsonRpc_Exception);
 	PHALCON_INIT(Phalcon_JsonRpc_Client_Exception);
+	PHALCON_INIT(Phalcon_Chart_Exception);
 
 	/* 2. Register interfaces */
 	PHALCON_INIT(Phalcon_DiInterface);
@@ -595,6 +596,7 @@ static PHP_MINIT_FUNCTION(phalcon)
 	PHALCON_INIT(Phalcon_Registry);
 	PHALCON_INIT(Phalcon_Mvc_Model_Validator_Json);
 	PHALCON_INIT(Phalcon_Arr);
+	PHALCON_INIT(Phalcon_Chart_QRcode);
 
 #if PHP_VERSION_ID < 50500
 	setlocale(LC_ALL, old_lc_all);
