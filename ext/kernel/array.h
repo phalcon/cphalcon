@@ -434,6 +434,31 @@ PHALCON_ATTR_NONNULL static inline int phalcon_array_update_string_long(zval **a
 }
 
 /**
+ * @brief Updates value in @a arr at position @a index with double @a value
+ * @param[in,out] arr Array
+ * @param index Index
+ * @param index_length Length of the index, should include the trailing zero
+ * @param value Value
+ * @param flags Flags (@c PH_SEPARATE: separate @a arr if its reference count is greater than 1; @c *arr will contain the separated version)
+ * @return Whether the operation succeeded
+ * @retval @c FAILURE Failure, @a arr is not an array
+ * @retval @c SUCCESS Success
+ * @throw @c E_WARNING if @a arr is not an array
+ * @see phalcon_array_update_string()
+ *
+ * Equivalent to <tt>$arr[$index] = $value</tt> in PHP, where @c $index is a string key and $value is an double.
+ */
+PHALCON_ATTR_NONNULL static inline int phalcon_array_update_string_double(zval **arr, const char *index, uint index_length, double value, int flags)
+{
+	zval *zvalue;
+
+	MAKE_STD_ZVAL(zvalue);
+	ZVAL_DOUBLE(zvalue, value);
+
+	return phalcon_array_update_string(arr, index, index_length, zvalue, flags & PH_SEPARATE);
+}
+
+/**
  * @brief Updates value in @a arr at position @a index with string @a value
  * @param[in,out] arr Array
  * @param index Index

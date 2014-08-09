@@ -396,6 +396,7 @@ psr/log/loglevel.c \
 psr/log/nulllogger.c \
 chart/qrcode.c \
 chart/exception.c \
+scws.c \
 registry.c"
 
 	PHP_NEW_EXTENSION(phalcon, $phalcon_sources, $ext_shared)
@@ -559,6 +560,31 @@ registry.c"
 			fi
 		done
 	fi
+
+	AC_MSG_CHECKING([for scws.h])
+	for i in /usr/local /usr /usr/local/include/scws; do
+		if test -r $i/include/scws/scws.h; then
+			AC_MSG_RESULT([yes, found in $i])
+
+			PHP_ADD_INCLUDE($i/include)
+
+			PHP_CHECK_LIBRARY(scws, scws_new,
+			[
+				PHP_ADD_LIBRARY_WITH_PATH(scws, $i/lib, PHALCON_SHARED_LIBADD)
+				PHP_SUBST(PHALCON_SHARED_LIBADD)
+
+				AC_DEFINE(PHALCON_USE_SCWS,1,[Have libscws support])
+			],[
+				AC_MSG_ERROR([Incorrect scws library])
+			],[
+				-L$i/lib -lm
+			])
+
+			break
+		else
+			AC_MSG_RESULT([no, found in $i])
+		fi
+	done
 
 	PHP_ADD_MAKEFILE_FRAGMENT([Makefile.frag])
 fi
