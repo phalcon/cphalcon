@@ -74,7 +74,6 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_chart_qrcode_generate, 0, 0, 1)
 	ZEND_ARG_INFO(0, level)
 	ZEND_ARG_INFO(0, mode)
 	ZEND_ARG_INFO(0, casesensitive)
-	ZEND_ARG_INFO(0, micro)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_chart_qrcode_scan, 0, 0, 1)
@@ -130,7 +129,6 @@ static void qr_dtor(zend_rsrc_list_entry *rsrc TSRMLS_DC)
         QRcode_free (qr->c);
     efree (qr);
 }
-#endif
 
 static int color_set(unsigned int color[4], const char *value)
 {
@@ -152,6 +150,7 @@ static int color_set(unsigned int color[4], const char *value)
         }
         return 0;
 }
+#endif
 
 /**
  * Phalcon\Chart\QRcode initializer
@@ -211,50 +210,28 @@ PHP_METHOD(Phalcon_Chart_QRcode, __construct){
  * @param int $level
  * @param int $mode
  * @param boolean $casesensitive
- * @param boolean $micro
  * @return boolean
  */
 PHP_METHOD(Phalcon_Chart_QRcode, generate){
 
 #ifdef PHALCON_USE_QRENCODE
-	zval *text = NULL, *version = NULL, *level = NULL, *mode = NULL, *casesensitive = NULL, *micro = NULL;
+	zval *text = NULL, *version = NULL, *level = NULL, *mode = NULL, *casesensitive = NULL;
 	zval *zid;
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 1, 5, &text, &version, &level, &mode, &casesensitive, &micro);
+	phalcon_fetch_params(1, 1, 4, &text, &version, &level, &mode, &casesensitive);
 
-	if (!micro) {
-		PHALCON_INIT_VAR(micro);
-		ZVAL_FALSE(micro);
-	}
+	PHALCON_SEPARATE_PARAM(text);
+	convert_to_string(text);
 
-	if (text) {
-		PHALCON_SEPARATE_PARAM(text);
-		convert_to_string(text);
-
-		if (zend_is_true(micro)) {
-			if (!phalcon_is_numeric(text)) {
-				PHALCON_THROW_EXCEPTION_STR(phalcon_chart_exception_ce, "Micro QR Code text parameter must contain only numbers");
-				return;
-			} else if (Z_STRLEN_P(text) > 5) {
-				PHALCON_THROW_EXCEPTION_STR(phalcon_chart_exception_ce, "Micro QR Code text parameter ust not exceed 5 characters long");
-				return;
-			}
-		}
-	}
 	phalcon_update_property_this(this_ptr, SL("_text"), text TSRMLS_CC);
 	
 	if (version) {
 		PHALCON_SEPARATE_PARAM(version);
 		convert_to_long(version);
 
-		if (zend_is_true(micro)) {
-			if (Z_LVAL_P(version) < 1 || Z_LVAL_P(version) > 4) {
-				PHALCON_THROW_EXCEPTION_STR(phalcon_chart_exception_ce, "Micro QR Code version must be within the range of 1 to 4");
-				return;
-			}
-		} else if (Z_LVAL_P(version) < 1 || Z_LVAL_P(version) > 40) {
+		if (Z_LVAL_P(version) < 1 || Z_LVAL_P(version) > 40) {
 			PHALCON_THROW_EXCEPTION_STR(phalcon_chart_exception_ce, "version must be within the range of 1 to 40");
 			return;
 		}
@@ -282,10 +259,7 @@ PHP_METHOD(Phalcon_Chart_QRcode, generate){
 		PHALCON_SEPARATE_PARAM(mode);
 		convert_to_long(mode);
 
-		if (zend_is_true(micro) && Z_LVAL_P(mode) != QR_MODE_KANJI) {
-			PHALCON_THROW_EXCEPTION_STR(phalcon_chart_exception_ce, "Micro QR Code mode must be MODE_KANJI");
-			return;
-		} else if (Z_LVAL_P(mode) != QR_MODE_NUL && Z_LVAL_P(mode) != QR_MODE_NUM && Z_LVAL_P(mode) != QR_MODE_8 && Z_LVAL_P(mode) != QR_MODE_KANJI) {
+		if (Z_LVAL_P(mode) != QR_MODE_NUL && Z_LVAL_P(mode) != QR_MODE_NUM && Z_LVAL_P(mode) != QR_MODE_8 && Z_LVAL_P(mode) != QR_MODE_KANJI) {
 			PHALCON_THROW_EXCEPTION_STR(phalcon_chart_exception_ce, "Error mode. there are 4 values: MODE_NUL, MODE_NUM, MODE_8, MODE_KANJI");
 			return;
 		}
@@ -311,17 +285,9 @@ PHP_METHOD(Phalcon_Chart_QRcode, generate){
 	qr = (php_qrcode *) emalloc (sizeof (php_qrcode));
 
 	if (Z_LVAL_P(mode) == QR_MODE_8) {
-		if (zend_is_true(micro)) {
-			qr->c = QRcode_encodeString8bitMQR(Z_STRVAL_P(text), Z_LVAL_P(version), Z_LVAL_P(level));
-		} else {
-			qr->c = QRcode_encodeString8bit(Z_STRVAL_P(text), Z_LVAL_P(version), Z_LVAL_P(level));
-		}
+		qr->c = QRcode_encodeString8bit(Z_STRVAL_P(text), Z_LVAL_P(version), Z_LVAL_P(level));
 	} else {
-		if (zend_is_true(micro)) {
-			qr->c = QRcode_encodeStringMQR(Z_STRVAL_P(text), Z_LVAL_P(version), Z_LVAL_P(level), Z_LVAL_P(mode), Z_BVAL_P(casesensitive));
-		} else {
-			qr->c = QRcode_encodeString(Z_STRVAL_P(text), Z_LVAL_P(version), Z_LVAL_P(level), Z_LVAL_P(mode), Z_BVAL_P(casesensitive));
-		}
+		qr->c = QRcode_encodeString(Z_STRVAL_P(text), Z_LVAL_P(version), Z_LVAL_P(level), Z_LVAL_P(mode), Z_BVAL_P(casesensitive));
 	}
 
 	if (qr->c == NULL)  {
@@ -778,9 +744,9 @@ static zbar_image_t *_php_zbarcode_get_page(MagickWand *wand)
 	return _php_zbarcode_image_create(width, height, image_data);
 }
 
-static void *_php_zbarcode_scan_page(zbar_image_scanner_t *scanner, zbar_image_t *image, zend_bool extended, zval *return_array TSRMLS_DC)
+static void _php_zbarcode_scan_page(zbar_image_scanner_t *scanner, zbar_image_t *image, zend_bool extended, zval *return_array TSRMLS_DC)
 {
-	zval *fromtext = NULL, *totext = NULL, *from = NULL, *to = NULL, *symbol_array = NULL, *loc_array = NULL, *coords = NULL;
+	zval *params[3], *fromtext = NULL, *totext = NULL, *from = NULL, *to = NULL, *symbol_array = NULL, *loc_array = NULL, *coords = NULL;
 	const zbar_symbol_t *symbol;
 
 	PHALCON_MM_GROW();
@@ -823,7 +789,13 @@ static void *_php_zbarcode_scan_page(zbar_image_scanner_t *scanner, zbar_image_t
 			PHALCON_INIT_NVAR(fromtext);
 			ZVAL_STRING(fromtext, data, 1);
 
-			PHALCON_CALL_FUNCTION(&totext, "mb_convert_encoding", fromtext, from, to);
+			params[0] = fromtext;
+			params[1] = from;
+			params[2] = to;
+			uint32_t result = phalcon_call_func_aparams(&totext, SL("mb_convert_encoding"), 3, params TSRMLS_CC);
+			if (result) {
+				RETURN_MM();
+			}
 			phalcon_array_update_string(&symbol_array, SL("data"), totext, PH_COPY | PH_SEPARATE);                
         } else {
 			phalcon_array_update_string_string(&symbol_array, SL("data"), (char *)data, strlen(data), PH_COPY | PH_SEPARATE);
@@ -851,7 +823,7 @@ static void *_php_zbarcode_scan_page(zbar_image_scanner_t *scanner, zbar_image_t
 		phalcon_array_append(&return_array, symbol_array, PH_COPY | PH_SEPARATE);
 	}
 
-	PHALCON_MM_RESTORE();
+	RETURN_MM();
 }
 #endif
 
@@ -867,7 +839,7 @@ static void *_php_zbarcode_scan_page(zbar_image_scanner_t *scanner, zbar_image_t
 PHP_METHOD(Phalcon_Chart_QRcode, scan){
 
 #ifdef PHALCON_USE_ZBAR
-	zval *filename, *enhance = NULL, *page = NULL, *extended = NULL;
+	zval *filename, *enhance = NULL, *extended = NULL;
 	MagickWand *magick_wand;
 	zbar_image_scanner_t *zbar_scanner;
 	zbar_image_t *zbar_page;

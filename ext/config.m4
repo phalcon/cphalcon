@@ -491,6 +491,8 @@ registry.c"
 			PNG_CFLAGS=`pkg-config --cflags libpng`
 			PNG_LDFLAGS=`pkg-config --libs libpng`
 
+			PHP_ADD_INCLUDE($i/include)
+
 			CPPFLAGS="${CPPFLAGS} ${PNG_CFLAGS}"
 			EXTRA_LDFLAGS="${EXTRA_LDFLAGS} ${PNG_LDFLAGS}"
 
@@ -506,6 +508,8 @@ registry.c"
 			if test -r $i/include/qrencode.h; then
 				QR_CFLAGS=`pkg-config --cflags libqrencode`
 				QR_LDFLAGS=`pkg-config --libs libqrencode`
+
+				PHP_ADD_INCLUDE($i/include)
 
 				CPPFLAGS="${CPPFLAGS} ${QR_CFLAGS}"
 				EXTRA_LDFLAGS="${EXTRA_LDFLAGS} ${QR_LDFLAGS}"
@@ -527,6 +531,8 @@ registry.c"
 			WAND_CFLAGS=`$WAND_BINARY --cflags`
 			WAND_LDFLAGS=`$WAND_BINARY --libs`
 
+			PHP_ADD_INCLUDE($i/include)
+
 			CPPFLAGS="${CPPFLAGS} ${WAND_CFLAGS}"
 			EXTRA_LDFLAGS="${EXTRA_LDFLAGS} ${WAND_LDFLAGS}"
 
@@ -540,6 +546,8 @@ registry.c"
 			if test -r $i/include/zbar.h; then
 				ZBAR_CFLAGS=`pkg-config --cflags zbar`
 				ZBAR_LDFLAGS=`pkg-config --libs zbar`
+
+				PHP_ADD_INCLUDE($i/include)
 
 				CPPFLAGS="${CPPFLAGS} ${ZBAR_CFLAGS}"
 				EXTRA_LDFLAGS="${EXTRA_LDFLAGS} ${ZBAR_LDFLAGS}"
