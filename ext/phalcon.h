@@ -402,6 +402,9 @@
 #include "validation/validator/url.h"
 #include "validation/validator/file.h"
 
+#include "chart/qrcode.h"
+#include "chart/exception.h"
+
 #include "version.h"
 
 #endif /* PHALCON_H */

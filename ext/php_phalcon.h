@@ -167,10 +167,10 @@ extern int nusphere_dbg_present;
 
 
 #define PHALCON_INIT_CLASS(name) \
-	int phalcon_ ##name## _init(TSRMLS_D)
+	int phalcon_ ##name## _init(int module_number TSRMLS_DC)
 
 #define PHALCON_INIT(name) \
-	if (phalcon_ ##name## _init(TSRMLS_C) == FAILURE) { \
+	if (phalcon_ ##name## _init(module_number TSRMLS_CC) == FAILURE) { \
 		return FAILURE; \
 	}
 
