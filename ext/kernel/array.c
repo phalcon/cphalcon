@@ -432,7 +432,7 @@ int zephir_array_update_zval(zval **arr, zval *index, zval **value, int flags) {
 	HashTable *ht;
 
 	if (Z_TYPE_PP(arr) != IS_ARRAY) {
-		zend_error(E_WARNING, "Cannot use a scalar value as an array");
+		zend_error(E_WARNING, "Cannot use a scalar value as an array (2)");
 		return FAILURE;
 	}
 
@@ -590,7 +590,7 @@ int zephir_array_update_zval_long(zval **arr, zval *index, long value, int flags
 int zephir_array_update_quick_string(zval **arr, const char *index, uint index_length, unsigned long key, zval **value, int flags){
 
 	if (Z_TYPE_PP(arr) != IS_ARRAY) {
-		zend_error(E_WARNING, "Cannot use a scalar value as an array");
+		zend_error(E_WARNING, "Cannot use a scalar value as an array (3)");
 		return FAILURE;
 	}
 
@@ -875,7 +875,7 @@ int zephir_array_fetch(zval **return_value, zval *arr, zval *index, int flags ZE
  * @throw @c E_NOTICE if @c index does not exist and @c silent = @c PH_NOISY
  * @warning @c *return_value should be either @c NULL (preferred) or point to not initialized memory; if @c *return_value points to a valid variable, mmemory leak is possible
  */
-int zephir_array_fetch_quick_string(zval **return_value, zval *arr, const char *index, uint index_length, unsigned long key, int flags TSRMLS_DC){
+int zephir_array_fetch_quick_string(zval **return_value, zval *arr, const char *index, uint index_length, unsigned long key, int flags ZEPHIR_DEBUG_PARAMS TSRMLS_DC){
 
 	zval **zv;
 
@@ -892,7 +892,7 @@ int zephir_array_fetch_quick_string(zval **return_value, zval *arr, const char *
 		}
 	} else {
 		if ((flags & PH_NOISY) == PH_NOISY) {
-			zend_error(E_NOTICE, "Cannot use a scalar value as an array");
+			zend_error(E_NOTICE, "Cannot use a scalar value as an array in %s on line %d", file, line);
 		}
 	}
 
@@ -922,7 +922,7 @@ int zephir_array_fetch_quick_string(zval **return_value, zval *arr, const char *
  */
 int zephir_array_fetch_string(zval **return_value, zval *arr, const char *index, uint index_length, int flags ZEPHIR_DEBUG_PARAMS TSRMLS_DC){
 
-	return zephir_array_fetch_quick_string(return_value, arr, index, index_length + 1, zend_inline_hash_func(index, index_length + 1), flags TSRMLS_CC);
+	return zephir_array_fetch_quick_string(return_value, arr, index, index_length + 1, zend_inline_hash_func(index, index_length + 1), flags, file, line TSRMLS_CC);
 }
 
 /**
@@ -1268,6 +1268,8 @@ int zephir_array_update_multi(zval **arr, zval **value TSRMLS_DC, const char *ty
 	int i, l, ll; char *s;
 	va_list ap;
 	zval *fetched, *tmp, *p, *item;
+
+	SEPARATE_ZVAL_IF_NOT_REF(arr);
 
 	va_start(ap, types_count);
 

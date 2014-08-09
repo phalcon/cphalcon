@@ -24,7 +24,7 @@ class CryptTest extends PHPUnit_Framework_TestCase
 	/**
 	 * @requires extension mcrypt
 	 */
-	public function ytestEncryption()
+	public function testEncryption()
 	{
 
 		$tests = array(
@@ -55,15 +55,18 @@ class CryptTest extends PHPUnit_Framework_TestCase
 	 * @requires extension mcrypt
 	 * @medium
 	 */
-	public function xtestPadding()
+	public function testPadding()
 	{
 		$texts = array('');
 		$key   = '0123456789ABCDEF0123456789ABCDEF';
 		$modes = array('ecb', 'cbc', 'cfb');
 		$pads  = array(
-			Phalcon\Crypt::PADDING_ANSI_X_923, Phalcon\Crypt::PADDING_PKCS7,
-			Phalcon\Crypt::PADDING_ISO_10126, Phalcon\Crypt::PADDING_ISO_IEC_7816_4,
-			Phalcon\Crypt::PADDING_ZERO, Phalcon\Crypt::PADDING_SPACE
+			//OK//Phalcon\Crypt::PADDING_ANSI_X_923, 
+			//OK//Phalcon\Crypt::PADDING_PKCS7,
+			//OK//Phalcon\Crypt::PADDING_ISO_10126, 
+			//OK//Phalcon\Crypt::PADDING_ISO_IEC_7816_4,
+			Phalcon\Crypt::PADDING_ZERO, 
+			Phalcon\Crypt::PADDING_SPACE
 		);
 
 		for ($i=1; $i<128; ++$i) {
@@ -81,7 +84,11 @@ class CryptTest extends PHPUnit_Framework_TestCase
 				foreach ($texts as $text) {
 					$encrypted = $crypt->encrypt($text);
 					$actual    = $crypt->decrypt($encrypted);
-
+					print PHP_EOL . "text: ";
+					var_dump($text);
+					print PHP_EOL . "encrypted: " . $encrypted;
+					print PHP_EOL . "actual: ";
+					var_dump($actual);
 					$this->assertEquals($actual, $text);
 				}
 			}
