@@ -288,7 +288,7 @@ PHP_METHOD(Phalcon_Debug_Dump, output) {
 		ZEPHIR_CALL_FUNCTION(&_1, "strtr", &_4, &_3, _0);
 		zephir_check_call_status();
 		zephir_concat_self(&output, _1 TSRMLS_CC);
-		zephir_is_iterable(variable, &_6, &_5, 0, 0);
+		zephir_is_iterable(variable, &_6, &_5, 0, 0, "phalcon/debug/dump.zep", 161);
 		for (
 		  ; zephir_hash_get_current_data_ex(_6, (void**) &_7, &_5) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_6, &_5)
@@ -391,7 +391,7 @@ PHP_METHOD(Phalcon_Debug_Dump, output) {
 		if (!(zephir_is_true(_24))) {
 			ZEPHIR_CALL_FUNCTION(&_8, "get_object_vars", &_25, variable);
 			zephir_check_call_status();
-			zephir_is_iterable(_8, &_27, &_26, 0, 0);
+			zephir_is_iterable(_8, &_27, &_26, 0, 0, "phalcon/debug/dump.zep", 177);
 			for (
 			  ; zephir_hash_get_current_data_ex(_27, (void**) &_28, &_26) == SUCCESS
 			  ; zephir_hash_move_forward_ex(_27, &_26)
@@ -532,7 +532,7 @@ PHP_METHOD(Phalcon_Debug_Dump, output) {
 			ZEPHIR_CONCAT_VS(_22, _16, "[already listed]\n");
 			zephir_concat_self(&output, _22 TSRMLS_CC);
 		} else {
-			zephir_is_iterable(attr, &_38, &_37, 0, 0);
+			zephir_is_iterable(attr, &_38, &_37, 0, 0, "phalcon/debug/dump.zep", 220);
 			for (
 			  ; zephir_hash_get_current_data_ex(_38, (void**) &_39, &_37) == SUCCESS
 			  ; zephir_hash_move_forward_ex(_38, &_37)
@@ -805,7 +805,7 @@ PHP_METHOD(Phalcon_Debug_Dump, vars) {
 	ZVAL_STRING(output, "", 1);
 	ZEPHIR_CALL_FUNCTION(&_0, "func_get_args", &_1);
 	zephir_check_call_status();
-	zephir_is_iterable(_0, &_3, &_2, 0, 0);
+	zephir_is_iterable(_0, &_3, &_2, 0, 0, "phalcon/debug/dump.zep", 288);
 	for (
 	  ; zephir_hash_get_current_data_ex(_3, (void**) &_4, &_2) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_3, &_2)

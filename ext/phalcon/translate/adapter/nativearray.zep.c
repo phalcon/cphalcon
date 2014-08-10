@@ -130,7 +130,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, query) {
 	if (zephir_array_isset_fetch(&traslation, _0, index, 0 TSRMLS_CC)) {
 		if (Z_TYPE_P(placeholders) == IS_ARRAY) {
 			if (zephir_fast_count_int(placeholders TSRMLS_CC)) {
-				zephir_is_iterable(placeholders, &_2, &_1, 0, 0);
+				zephir_is_iterable(placeholders, &_2, &_1, 0, 0, "phalcon/translate/adapter/nativearray.zep", 73);
 				for (
 				  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
 				  ; zephir_hash_move_forward_ex(_2, &_1)

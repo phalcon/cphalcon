@@ -21,13 +21,14 @@ namespace Phalcon\Mvc\Model\MetaData\Strategy;
 
 use Phalcon\Mvc\ModelInterface;
 use Phalcon\Mvc\Model\Exception;
+use Phalcon\Mvc\Model\MetaData\StrategyInterface;
 
 /**
  * Phalcon\Mvc\Model\MetaData\Strategy\Instrospection
  *
  * Queries the table meta-data in order to instrospect the model's metadata
  */
-class Introspection
+class Introspection implements StrategyInterface
 {
 
 	/**

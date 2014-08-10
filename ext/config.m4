@@ -220,6 +220,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/mvc/model/metadata/session.zep.c
 	phalcon/mvc/model/metadata/strategy/annotations.zep.c
 	phalcon/mvc/model/metadata/strategy/introspection.zep.c
+	phalcon/mvc/model/metadata/strategyinterface.zep.c
 	phalcon/mvc/model/metadata/xcache.zep.c
 	phalcon/mvc/model/metadatainterface.zep.c
 	phalcon/mvc/model/query.zep.c

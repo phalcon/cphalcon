@@ -352,7 +352,7 @@ PHP_METHOD(Phalcon_Debug, _getArrayDump) {
 			if (ZEPHIR_LT_LONG(numberArguments, 10)) {
 				ZEPHIR_INIT_VAR(dump);
 				array_init(dump);
-				zephir_is_iterable(argument, &_1, &_0, 0, 0);
+				zephir_is_iterable(argument, &_1, &_0, 0, 0, "phalcon/debug.zep", 217);
 				for (
 				  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
 				  ; zephir_hash_move_forward_ex(_1, &_0)
@@ -678,7 +678,7 @@ PHP_METHOD(Phalcon_Debug, showTraceItem) {
 		if (zephir_fast_count_int(traceArgs TSRMLS_CC)) {
 			ZEPHIR_INIT_VAR(arguments);
 			array_init(arguments);
-			zephir_is_iterable(traceArgs, &_11, &_10, 0, 0);
+			zephir_is_iterable(traceArgs, &_11, &_10, 0, 0, "phalcon/debug.zep", 489);
 			for (
 			  ; zephir_hash_get_current_data_ex(_11, (void**) &_12, &_10) == SUCCESS
 			  ; zephir_hash_move_forward_ex(_11, &_10)
@@ -879,7 +879,7 @@ PHP_METHOD(Phalcon_Debug, onUncaughtException) {
 		zephir_concat_self_str(&html, SL("<div id=\"error-tabs-1\"><table cellspacing=\"0\" align=\"center\" width=\"100%\">") TSRMLS_CC);
 		ZEPHIR_CALL_METHOD(&_10, exception, "gettrace",  NULL);
 		zephir_check_call_status();
-		zephir_is_iterable(_10, &_12, &_11, 0, 0);
+		zephir_is_iterable(_10, &_12, &_11, 0, 0, "phalcon/debug.zep", 718);
 		for (
 		  ; zephir_hash_get_current_data_ex(_12, (void**) &_13, &_11) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_12, &_11)
@@ -894,7 +894,7 @@ PHP_METHOD(Phalcon_Debug, onUncaughtException) {
 		zephir_concat_self_str(&html, SL("<div id=\"error-tabs-2\"><table cellspacing=\"0\" align=\"center\" class=\"superglobal-detail\">") TSRMLS_CC);
 		zephir_concat_self_str(&html, SL("<tr><th>Key</th><th>Value</th></tr>") TSRMLS_CC);
 		zephir_get_global(&_REQUEST, SS("_REQUEST") TSRMLS_CC);
-		zephir_is_iterable(_REQUEST, &_17, &_16, 0, 0);
+		zephir_is_iterable(_REQUEST, &_17, &_16, 0, 0, "phalcon/debug.zep", 728);
 		for (
 		  ; zephir_hash_get_current_data_ex(_17, (void**) &_18, &_16) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_17, &_16)
@@ -909,7 +909,7 @@ PHP_METHOD(Phalcon_Debug, onUncaughtException) {
 		zephir_concat_self_str(&html, SL("<div id=\"error-tabs-3\"><table cellspacing=\"0\" align=\"center\" class=\"superglobal-detail\">") TSRMLS_CC);
 		zephir_concat_self_str(&html, SL("<tr><th>Key</th><th>Value</th></tr>") TSRMLS_CC);
 		zephir_get_global(&_SERVER, SS("_SERVER") TSRMLS_CC);
-		zephir_is_iterable(_SERVER, &_21, &_20, 0, 0);
+		zephir_is_iterable(_SERVER, &_21, &_20, 0, 0, "phalcon/debug.zep", 738);
 		for (
 		  ; zephir_hash_get_current_data_ex(_21, (void**) &_22, &_20) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_21, &_20)
@@ -925,7 +925,7 @@ PHP_METHOD(Phalcon_Debug, onUncaughtException) {
 		zephir_concat_self_str(&html, SL("<tr><th>#</th><th>Path</th></tr>") TSRMLS_CC);
 		ZEPHIR_CALL_FUNCTION(&_14, "get_included_files", &_23);
 		zephir_check_call_status();
-		zephir_is_iterable(_14, &_25, &_24, 0, 0);
+		zephir_is_iterable(_14, &_25, &_24, 0, 0, "phalcon/debug.zep", 749);
 		for (
 		  ; zephir_hash_get_current_data_ex(_25, (void**) &_26, &_24) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_25, &_24)
@@ -947,7 +947,7 @@ PHP_METHOD(Phalcon_Debug, onUncaughtException) {
 		if (Z_TYPE_P(dataVars) == IS_ARRAY) {
 			zephir_concat_self_str(&html, SL("<div id=\"error-tabs-6\"><table cellspacing=\"0\" align=\"center\" class=\"superglobal-detail\">") TSRMLS_CC);
 			zephir_concat_self_str(&html, SL("<tr><th>Key</th><th>Value</th></tr>") TSRMLS_CC);
-			zephir_is_iterable(dataVars, &_29, &_28, 0, 0);
+			zephir_is_iterable(dataVars, &_29, &_28, 0, 0, "phalcon/debug.zep", 767);
 			for (
 			  ; zephir_hash_get_current_data_ex(_29, (void**) &_30, &_28) == SUCCESS
 			  ; zephir_hash_move_forward_ex(_29, &_28)

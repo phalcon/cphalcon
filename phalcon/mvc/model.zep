@@ -48,7 +48,7 @@ use Phalcon\Events\ManagerInterface as EventsManagerInterface;
  * <p>A model represents the information (data) of the application and the rules to manipulate that data.
  * Models are primarily used for managing the rules of interaction with a corresponding database table.
  * In most cases, each table in your database will correspond to one model in your application.
- * The bulk of your application’s business logic will be concentrated in the models.</p>
+ * The bulk of your application's business logic will be concentrated in the models.</p>
  *
  * <p>Phalcon\Mvc\Model is the first ORM written in C-language for PHP, giving to developers high performance
  * when interacting with databases while is also easy to use.</p>
@@ -2662,7 +2662,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 			 * Get the reversed column map for future renamings
 			 */
 			let attributes = metaData->getColumnMap(this);
-			if typeof attributes == "array" {
+			if typeof attributes != "array" {
 				/**
 				 * Use the standard column map if there are no renamings
 				 */

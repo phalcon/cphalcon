@@ -221,7 +221,7 @@ PHP_METHOD(Phalcon_Di_Service_Builder, _buildParameters) {
 	}
 	ZEPHIR_INIT_VAR(buildArguments);
 	array_init(buildArguments);
-	zephir_is_iterable(arguments, &_1, &_0, 0, 0);
+	zephir_is_iterable(arguments, &_1, &_0, 0, 0, "phalcon/di/service/builder.zep", 136);
 	for (
 	  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_1, &_0)
@@ -308,7 +308,7 @@ PHP_METHOD(Phalcon_Di_Service_Builder, build) {
 			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_di_exception_ce, "Setter injection parameters must be an array", "phalcon/di/service/builder.zep", 202);
 			return;
 		}
-		zephir_is_iterable(paramCalls, &_3, &_2, 0, 0);
+		zephir_is_iterable(paramCalls, &_3, &_2, 0, 0, "phalcon/di/service/builder.zep", 256);
 		for (
 		  ; zephir_hash_get_current_data_ex(_3, (void**) &_4, &_2) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_3, &_2)
@@ -378,7 +378,7 @@ PHP_METHOD(Phalcon_Di_Service_Builder, build) {
 			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_di_exception_ce, "Setter injection parameters must be an array", "phalcon/di/service/builder.zep", 268);
 			return;
 		}
-		zephir_is_iterable(paramCalls, &_11, &_10, 0, 0);
+		zephir_is_iterable(paramCalls, &_11, &_10, 0, 0, "phalcon/di/service/builder.zep", 303);
 		for (
 		  ; zephir_hash_get_current_data_ex(_11, (void**) &_12, &_10) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_11, &_10)

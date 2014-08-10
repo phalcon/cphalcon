@@ -68,6 +68,7 @@ zend_class_entry *phalcon_mvc_model_behaviorinterface_ce;
 zend_class_entry *phalcon_mvc_model_criteriainterface_ce;
 zend_class_entry *phalcon_mvc_model_managerinterface_ce;
 zend_class_entry *phalcon_mvc_model_messageinterface_ce;
+zend_class_entry *phalcon_mvc_model_metadata_strategyinterface_ce;
 zend_class_entry *phalcon_mvc_model_metadatainterface_ce;
 zend_class_entry *phalcon_mvc_model_query_builderinterface_ce;
 zend_class_entry *phalcon_mvc_model_query_statusinterface_ce;
@@ -563,6 +564,7 @@ static PHP_MINIT_FUNCTION(phalcon)
 	ZEPHIR_INIT(Phalcon_Mvc_Model_ManagerInterface);
 	ZEPHIR_INIT(Phalcon_Mvc_Model_MessageInterface);
 	ZEPHIR_INIT(Phalcon_Mvc_Model_MetaDataInterface);
+	ZEPHIR_INIT(Phalcon_Mvc_Model_MetaData_StrategyInterface);
 	ZEPHIR_INIT(Phalcon_Mvc_Model_QueryInterface);
 	ZEPHIR_INIT(Phalcon_Mvc_Model_Query_BuilderInterface);
 	ZEPHIR_INIT(Phalcon_Mvc_Model_Query_StatusInterface);

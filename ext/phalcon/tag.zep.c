@@ -208,7 +208,7 @@ PHP_METHOD(Phalcon_Tag, renderAttributes) {
 	ZEPHIR_INIT_VAR(attrs);
 	zephir_fast_array_merge(attrs, &(keys), &(attributes) TSRMLS_CC);
 	zephir_array_unset_string(&attrs, SS("escape"), PH_SEPARATE);
-	zephir_is_iterable(attrs, &_5, &_4, 0, 0);
+	zephir_is_iterable(attrs, &_5, &_4, 0, 0, "phalcon/tag.zep", 123);
 	for (
 	  ; zephir_hash_get_current_data_ex(_5, (void**) &_6, &_4) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_5, &_4)
@@ -547,7 +547,7 @@ PHP_METHOD(Phalcon_Tag, resetInput) {
 	array_init(_0);
 	zephir_update_static_property_ce(phalcon_tag_ce, SL("_displayValues"), _0 TSRMLS_CC);
 	zephir_get_global(&_POST, SS("_POST") TSRMLS_CC);
-	zephir_is_iterable(_POST, &_2, &_1, 0, 0);
+	zephir_is_iterable(_POST, &_2, &_1, 0, 0, "phalcon/tag.zep", 336);
 	for (
 	  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_2, &_1)

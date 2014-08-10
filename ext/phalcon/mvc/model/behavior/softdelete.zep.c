@@ -117,7 +117,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior_SoftDelete, notify) {
 			if (!(zephir_is_true(_1))) {
 				ZEPHIR_CALL_METHOD(&_2, updateModel, "getmessages",  NULL);
 				zephir_check_call_status();
-				zephir_is_iterable(_2, &_4, &_3, 0, 0);
+				zephir_is_iterable(_2, &_4, &_3, 0, 0, "phalcon/mvc/model/behavior/softdelete.zep", 88);
 				for (
 				  ; zephir_hash_get_current_data_ex(_4, (void**) &_5, &_3) == SUCCESS
 				  ; zephir_hash_move_forward_ex(_4, &_3)

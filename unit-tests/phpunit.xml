@@ -12,7 +12,7 @@
 	<testsuites>
 
 		<testsuite name="stable">
-			<!--<file>unit-tests/AclTest.php</file>-->
+			<file>unit-tests/AclTest.php</file>
 			<!--<file>unit-tests/AnnotationsAdaptersTest.php</file>-->
 			<file>unit-tests/AnnotationsTest.php</file>
 			<file>unit-tests/ApplicationMvcTest.php</file>
@@ -55,10 +55,10 @@
 			<file>unit-tests/ModelsFindersTest.php</file>
 			<!--<file>unit-tests/ModelsForeignKeysTest.php</file>-->
 			<!--<file>unit-tests/ModelsHydrationTest.php</file>-->
-			<!--<file>unit-tests/ModelsMassAssigmentTest.php</file>-->
+			<file>unit-tests/ModelsMassAssigmentTest.php</file>
 			<!--<file>unit-tests/ModelsMetadataAdaptersTest.php</file>-->
 			<file>unit-tests/ModelsMetadataManualTest.php</file>
-			<!--<file>unit-tests/ModelsMetadataStrategyTest.php</file>-->
+			<file>unit-tests/ModelsMetadataStrategyTest.php</file>
 			<file>unit-tests/ModelsMetadataTest.php</file>
 			<file>unit-tests/ModelsMultipleSourcesTest.php</file>
 			<!--<file>unit-tests/ModelsQueryBuilderTest.php</file>-->
@@ -79,7 +79,7 @@
 			<file>unit-tests/RouterCliTest.php</file>
 			<file>unit-tests/RouterMvcAnnotationsTest.php</file>
 			<file>unit-tests/RouterMvcTest.php</file>
-			<!--<file>unit-tests/SecurityTest.php</file>-->
+			<file>unit-tests/SecurityTest.php</file>
 			<!--<file>unit-tests/SessionBagTest.php</file>-->
 			<file>unit-tests/SessionTest.php</file>
 			<file>unit-tests/TagTest.php</file>
