@@ -247,13 +247,26 @@ class Tag
 	 * </code>
 	 *
 	 * @param array values
+	 * @param boolean merge
 	 */
-	public static function setDefaults(values)
+	public static function setDefaults(values, boolean merge = false)
 	{
+		var displayValues;
+
 		if typeof values != "array" {
 			throw new Exception("An array is required as default values");
 		}
-		let self::_displayValues = values;
+
+		if merge {
+			let displayValues = self::_displayValues;
+			if typeof displayValues == "array" {
+				let self::_displayValues = array_merge(displayValues, values);
+			} else {
+				let self::_displayValues = values;
+			}
+		} else {
+			let self::_displayValues = values;
+		}
 	}
 
 	/**
