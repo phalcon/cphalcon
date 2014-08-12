@@ -39,7 +39,7 @@ namespace Phalcon\Debug;
 class Dump
 {
 
-	public detailed = false { get, set };
+	protected _detailed = false { get, set };
 
 	protected _methods = null;
 
@@ -58,7 +58,7 @@ class Dump
 		}
 		this->setStyles(styles);
 		let this->_methods = [],
-			this->detailed = detailed;
+			this->_detailed = detailed;
 	}
 
 
@@ -179,7 +179,7 @@ class Dump
 			}
 			let output .= " (\n";
 
-			if !this->detailed {
+			if !this->_detailed {
 				for key, value in get_object_vars(variable) {
 					let output .= str_repeat(space, tab) . strtr("-><span style=':style'>:key</span> (<span style=':style'>:type</span>) = ", [":style": this->getStyle("obj"), ":key": key, ":type": "public"]);
 					let output .= this->output(value, "", tab + 1) . "\n";
