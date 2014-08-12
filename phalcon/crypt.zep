@@ -263,14 +263,6 @@ class Crypt implements \Phalcon\CryptInterface
 					break;
 
 				case self::PADDING_ISO_IEC_7816_4:
-					/*i = text_len - 1;
-					while (i > 0 && str_text[i] == 0x00 && padding_size < block_size) {
-						++padding_size;
-						--i;
-					}
-
-					padding_size = ((unsigned char)str_text[i] == 0x80) ? (padding_size + 1) : 0;*/
-					
 					let i = length - 1;
 					while i > 0 && text[i] == 0x00 && paddingSize < blockSize {
 						let paddingSize++, i--;
@@ -283,12 +275,10 @@ class Crypt implements \Phalcon\CryptInterface
 					break;
 
 				case self::PADDING_ZERO:
-					/*i = text_len - 1;
-					while (i >= 0 && str_text[i] == 0x00 && padding_size <= block_size) {
-						++padding_size;
-						--i;
-					}*/
-
+					let i = length - 1;
+					while i >= 0 && text[i] == 0x00 && paddingSize <= blockSize {
+						let paddingSize++, i--;
+					}
 					break;
 
 				case self::PADDING_SPACE:
@@ -297,7 +287,10 @@ class Crypt implements \Phalcon\CryptInterface
 						++padding_size;
 						--i;
 					}*/
-
+					let i = length - 1;
+					while i >= 0 && text[i] == 0x20 && paddingSize <= blockSize {
+						let paddingSize++, i--;
+					}
 					break;
 
 				default:

@@ -61,10 +61,10 @@ class CryptTest extends PHPUnit_Framework_TestCase
 		$key   = '0123456789ABCDEF0123456789ABCDEF';
 		$modes = array('ecb', 'cbc', 'cfb');
 		$pads  = array(
-			//OK//Phalcon\Crypt::PADDING_ANSI_X_923, 
-			//OK//Phalcon\Crypt::PADDING_PKCS7,
-			//OK//Phalcon\Crypt::PADDING_ISO_10126, 
-			//OK//Phalcon\Crypt::PADDING_ISO_IEC_7816_4,
+			Phalcon\Crypt::PADDING_ANSI_X_923, 
+			Phalcon\Crypt::PADDING_PKCS7,
+			Phalcon\Crypt::PADDING_ISO_10126, 
+			Phalcon\Crypt::PADDING_ISO_IEC_7816_4,
 			Phalcon\Crypt::PADDING_ZERO, 
 			Phalcon\Crypt::PADDING_SPACE
 		);
@@ -80,15 +80,9 @@ class CryptTest extends PHPUnit_Framework_TestCase
 			$crypt->setPadding($padding);
 			foreach ($modes as $mode) {
 				$crypt->setMode($mode);
-
 				foreach ($texts as $text) {
 					$encrypted = $crypt->encrypt($text);
 					$actual    = $crypt->decrypt($encrypted);
-					print PHP_EOL . "text: ";
-					var_dump($text);
-					print PHP_EOL . "encrypted: " . $encrypted;
-					print PHP_EOL . "actual: ";
-					var_dump($actual);
 					$this->assertEquals($actual, $text);
 				}
 			}
