@@ -2751,7 +2751,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect) {
 	array_init(simpleColumnMap);
 	ZEPHIR_OBS_VAR(metaData);
 	zephir_read_property_this(&metaData, this_ptr, SL("_metaData"), PH_NOISY_CC);
-	zephir_is_iterable(columns, &_10, &_9, 0, 0, "phalcon/mvc/model/query.zep", 2435);
+	zephir_is_iterable(columns, &_10, &_9, 1, 0, "phalcon/mvc/model/query.zep", 2435);
 	for (
 	  ; zephir_hash_get_current_data_ex(_10, (void**) &_11, &_9) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_10, &_9)

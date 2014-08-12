@@ -1313,15 +1313,47 @@ class Tag
 	 * @param string text
 	 * @param string separator
 	 * @param boolean lowercase
+	 * @param mixed replace
 	 * @return text
 	 */
-	public static function friendlyTitle(text, separator="-", lowercase=true) -> string
+	public static function friendlyTitle(string text, string separator = "-", boolean lowercase = true, replace = null) -> string
 	{
-		var friendly;
+		var friendly, locale, search;
 
-		let friendly = preg_replace("~[^a-z0-9A-Z]+~", separator, text);
-		if !empty lowercase {
-			return strtolower(friendly);
+		if extension_loaded("iconv") {
+			/**
+			 * Save the old locale and set the new locale to UTF-8
+			 */
+			let locale = setlocale(LC_ALL, "en_US.UTF-8"),
+				text = iconv("UTF-8", "ASCII//TRANSLIT", text);
+		}
+
+		if replace {
+			if typeof replace != "array" && typeof replace != "string"{
+				throw new Exception("Parameter replace must be an array or a string");
+			}
+			if typeof replace == "array" {
+				for search in replace {
+					let text = str_replace(search, " ", text);		
+				}
+			} else {
+				let text = str_replace(replace, " ", text);
+			}
+		}
+
+		let friendly = preg_replace("/[^a-zA-Z0-9\\/_|+ -]/", "", text);
+		if lowercase {
+			let friendly = strtolower(friendly);
+		}
+
+		let friendly = preg_replace("/[\\/_|+ -]+/", separator, friendly),
+			friendly = trim(friendly, separator);
+
+		if extension_loaded("iconv") {
+			/**
+			 * Revert back to the old locale
+			 */
+			setlocale(LC_ALL, locale);
 		}
 		return friendly;
 	}

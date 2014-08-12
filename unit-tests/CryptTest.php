@@ -24,7 +24,7 @@ class CryptTest extends PHPUnit_Framework_TestCase
 	/**
 	 * @requires extension mcrypt
 	 */
-	public function ytestEncryption()
+	public function testEncryption()
 	{
 
 		$tests = array(
@@ -55,15 +55,18 @@ class CryptTest extends PHPUnit_Framework_TestCase
 	 * @requires extension mcrypt
 	 * @medium
 	 */
-	public function xtestPadding()
+	public function testPadding()
 	{
 		$texts = array('');
 		$key   = '0123456789ABCDEF0123456789ABCDEF';
 		$modes = array('ecb', 'cbc', 'cfb');
 		$pads  = array(
-			Phalcon\Crypt::PADDING_ANSI_X_923, Phalcon\Crypt::PADDING_PKCS7,
-			Phalcon\Crypt::PADDING_ISO_10126, Phalcon\Crypt::PADDING_ISO_IEC_7816_4,
-			Phalcon\Crypt::PADDING_ZERO, Phalcon\Crypt::PADDING_SPACE
+			Phalcon\Crypt::PADDING_ANSI_X_923, 
+			Phalcon\Crypt::PADDING_PKCS7,
+			Phalcon\Crypt::PADDING_ISO_10126, 
+			Phalcon\Crypt::PADDING_ISO_IEC_7816_4,
+			Phalcon\Crypt::PADDING_ZERO, 
+			Phalcon\Crypt::PADDING_SPACE
 		);
 
 		for ($i=1; $i<128; ++$i) {
@@ -77,11 +80,9 @@ class CryptTest extends PHPUnit_Framework_TestCase
 			$crypt->setPadding($padding);
 			foreach ($modes as $mode) {
 				$crypt->setMode($mode);
-
 				foreach ($texts as $text) {
 					$encrypted = $crypt->encrypt($text);
 					$actual    = $crypt->decrypt($encrypted);
-
 					$this->assertEquals($actual, $text);
 				}
 			}
