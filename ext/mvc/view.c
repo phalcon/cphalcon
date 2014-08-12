@@ -325,7 +325,7 @@ PHP_METHOD(Phalcon_Mvc_View, setLayoutsDir){
 
 	phalcon_fetch_params_ex(1, 1, &layouts_dir, &absolute_path);
 	phalcon_add_trailing_slash(layouts_dir);
-	absolute = absolute_path ? zend_is_true(*absolute_path) : 0
+	absolute = absolute_path ? zend_is_true(*absolute_path) : 0;
 	phalcon_update_property_this(this_ptr, SL("_layoutsDir"), *layouts_dir TSRMLS_CC);
 	phalcon_update_property_bool(this_ptr, SL("_enableLayoutsAbsolutePath"), absolute TSRMLS_CC);
 	RETURN_THISW();
@@ -359,7 +359,7 @@ PHP_METHOD(Phalcon_Mvc_View, setPartialsDir){
 
 	phalcon_fetch_params_ex(1, 1, &partials_dir, &absolute_path);
 	phalcon_add_trailing_slash(partials_dir);
-	absolute = absolute_path ? zend_is_true(*absolute_path) : 0
+	absolute = absolute_path ? zend_is_true(*absolute_path) : 0;
 	phalcon_update_property_this(this_ptr, SL("_partialsDir"), *partials_dir TSRMLS_CC);
 	phalcon_update_property_bool(this_ptr, SL("_enablePartialsAbsolutePath"), absolute TSRMLS_CC);
 	RETURN_THISW();
