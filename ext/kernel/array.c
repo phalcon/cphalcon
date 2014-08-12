@@ -1279,12 +1279,12 @@ int zephir_array_update_multi(zval **arr, zval **value TSRMLS_DC, const char *ty
 
 	va_start(ap, types_count);
 
-//#ifndef ZEPHIR_RELEASE
+/*
 	memset(old_type, '\0', ZEPHIR_MAX_ARRAY_LEVELS);
 	memset(old_s, '\0', ZEPHIR_MAX_ARRAY_LEVELS);
 	memset(old_p, '\0', ZEPHIR_MAX_ARRAY_LEVELS);
 	memset(old_item, '\0', ZEPHIR_MAX_ARRAY_LEVELS);
-//#endif
+*/
 
 	p = *arr;
 
@@ -1393,16 +1393,16 @@ int zephir_array_update_multi(zval **arr, zval **value TSRMLS_DC, const char *ty
 				re_update = Z_REFCOUNT_P(old_p[j]) > 1;
 				switch (old_type[j]) {
 
+					case 's':
+						zephir_array_update_string(&(old_p[j]), old_s[j], old_l[j], p, PH_SEPARATE);
+						break;
+
 					case 'l':
-						zephir_array_update_long(&(old_p[j]), old_ll[i], p, PH_SEPARATE ZEPHIR_DEBUG_PARAMS_DUMMY);
+						zephir_array_update_long(&(old_p[j]), old_ll[j], p, PH_SEPARATE ZEPHIR_DEBUG_PARAMS_DUMMY);
 						break;
 
 					case 'z':
 						zephir_array_update_zval(&(old_p[j]), old_item[j], &p, PH_SEPARATE);
-						break;
-
-					default:
-						fprintf(stderr, "%c\n", old_type[j]);
 						break;
 				}
 
