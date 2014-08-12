@@ -227,6 +227,8 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_View){
 	zend_declare_property_null(phalcon_mvc_view_ce, SL("_layout"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_string(phalcon_mvc_view_ce, SL("_layoutsDir"), "", ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_string(phalcon_mvc_view_ce, SL("_partialsDir"), "", ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_bool(phalcon_mvc_view_ce, SL("_enableLayoutsAbsolutePath"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_bool(phalcon_mvc_view_ce, SL("_enablePartialsAbsolutePath"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_view_ce, SL("_viewsDir"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_bool(phalcon_mvc_view_ce, SL("_enableNamespaceView"), 1, ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_view_ce, SL("_templatesBefore"), ZEND_ACC_PROTECTED TSRMLS_CC);
@@ -318,11 +320,14 @@ PHP_METHOD(Phalcon_Mvc_View, getViewsDir){
  */
 PHP_METHOD(Phalcon_Mvc_View, setLayoutsDir){
 
-	zval **layouts_dir;
+	zval **layouts_dir, **absolute_path = NULL;
+	int absolute = 0;
 
-	phalcon_fetch_params_ex(1, 0, &layouts_dir);
+	phalcon_fetch_params_ex(1, 1, &layouts_dir, &absolute_path);
 	phalcon_add_trailing_slash(layouts_dir);
+	absolute = absolute_path ? zend_is_true(*absolute_path) : 0
 	phalcon_update_property_this(this_ptr, SL("_layoutsDir"), *layouts_dir TSRMLS_CC);
+	phalcon_update_property_bool(this_ptr, SL("_enableLayoutsAbsolutePath"), absolute TSRMLS_CC);
 	RETURN_THISW();
 }
 
@@ -349,11 +354,14 @@ PHP_METHOD(Phalcon_Mvc_View, getLayoutsDir){
  */
 PHP_METHOD(Phalcon_Mvc_View, setPartialsDir){
 
-	zval **partials_dir;
+	zval **partials_dir, **absolute_path = NULL;
+	int absolute = 0;
 
-	phalcon_fetch_params_ex(1, 0, &partials_dir);
+	phalcon_fetch_params_ex(1, 1, &partials_dir, &absolute_path);
 	phalcon_add_trailing_slash(partials_dir);
+	absolute = absolute_path ? zend_is_true(*absolute_path) : 0
 	phalcon_update_property_this(this_ptr, SL("_partialsDir"), *partials_dir TSRMLS_CC);
+	phalcon_update_property_bool(this_ptr, SL("_enablePartialsAbsolutePath"), absolute TSRMLS_CC);
 	RETURN_THISW();
 }
 
@@ -879,7 +887,7 @@ PHP_METHOD(Phalcon_Mvc_View, _loadTemplateEngines){
  */
 PHP_METHOD(Phalcon_Mvc_View, _engineRender){
 
-	zval *engines, *view_path, *silence, *must_clean;
+	zval *engines, *view_path, *silence, *must_clean, *absolute_path = NULL;
 	zval *cache = NULL, *not_exists = NULL, *views_dir, *base_path;
 	zval *views_dir_path, *render_level, *cache_level, *cache_mode;
 	zval *key = NULL, *lifetime = NULL, *view_options;
@@ -893,7 +901,11 @@ PHP_METHOD(Phalcon_Mvc_View, _engineRender){
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 4, 0, &engines, &view_path, &silence, &must_clean);
+	phalcon_fetch_params(1, 4, 1, &engines, &view_path, &silence, &must_clean, &absolute_path);
+
+	if (absolute_path == NULL) {
+		absolute_path = PHALCON_GLOBAL(z_false);
+	}
 
 	/** 
 	 * Start the cache if there is a cache level enabled
@@ -928,14 +940,18 @@ PHP_METHOD(Phalcon_Mvc_View, _engineRender){
 	PHALCON_INIT_VAR(not_exists);
 	ZVAL_TRUE(not_exists);
 	
-	PHALCON_OBS_VAR(views_dir);
-	phalcon_read_property_this(&views_dir, this_ptr, SL("_viewsDir"), PH_NOISY TSRMLS_CC);
-	
-	PHALCON_OBS_VAR(base_path);
-	phalcon_read_property_this(&base_path, this_ptr, SL("_basePath"), PH_NOISY TSRMLS_CC);
-	
-	PHALCON_INIT_VAR(views_dir_path);
-	PHALCON_CONCAT_VVV(views_dir_path, base_path, views_dir, view_path);
+	if (zend_is_true(absolute_path)) {
+		PHALCON_CPY_WRT(views_dir_path, view_path);
+	} else {
+		PHALCON_OBS_VAR(views_dir);
+		phalcon_read_property_this(&views_dir, this_ptr, SL("_viewsDir"), PH_NOISY TSRMLS_CC);
+		
+		PHALCON_OBS_VAR(base_path);
+		phalcon_read_property_this(&base_path, this_ptr, SL("_basePath"), PH_NOISY TSRMLS_CC);
+		
+		PHALCON_INIT_VAR(views_dir_path);
+		PHALCON_CONCAT_VVV(views_dir_path, base_path, views_dir, view_path);
+	}
 	
 	if (Z_TYPE_P(cache) == IS_OBJECT) {
 	
@@ -1195,7 +1211,7 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 	zval *layout_name = NULL, *layout_namespace = NULL, *engines = NULL, *pick_view, *render_view = NULL;
 	zval *pick_view_action;
 	zval *events_manager, *event_name = NULL, *status = NULL;
-	zval *silence = NULL, *disabled_levels, *render_level;
+	zval *silence = NULL, *disabled_levels, *render_level, *enable_layouts_absolute_path;
 	zval *templates_before, *template_before = NULL;
 	zval *view_temp_path = NULL, *templates_after, *template_after = NULL;
 	zval *main_view;
@@ -1364,6 +1380,8 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 	PHALCON_OBS_VAR(render_level);
 	phalcon_read_property_this(&render_level, this_ptr, SL("_renderLevel"), PH_NOISY TSRMLS_CC);
 	if (zend_is_true(render_level)) {
+		PHALCON_OBS_VAR(enable_layouts_absolute_path);
+		phalcon_read_property_this(&enable_layouts_absolute_path, this_ptr, SL("_enableLayoutsAbsolutePath"), PH_NOISY TSRMLS_CC);
 	
 		/** 
 		 * Inserts view related to action
@@ -1400,7 +1418,7 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 	
 						PHALCON_INIT_NVAR(view_temp_path);
 						PHALCON_CONCAT_VV(view_temp_path, layouts_dir, template_before);
-						PHALCON_CALL_METHOD(NULL, this_ptr, "_enginerender", engines, view_temp_path, silence, PHALCON_GLOBAL(z_true));
+						PHALCON_CALL_METHOD(NULL, this_ptr, "_enginerender", engines, view_temp_path, silence, PHALCON_GLOBAL(z_true), enable_layouts_absolute_path);
 	
 						zend_hash_move_forward_ex(ah0, &hp0);
 					}
@@ -1420,7 +1438,7 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 
 				PHALCON_INIT_NVAR(view_temp_path);
 				PHALCON_CONCAT_VV(view_temp_path, layouts_dir, layout_name);
-				PHALCON_CALL_METHOD(NULL, this_ptr, "_enginerender", engines, view_temp_path, silence, PHALCON_GLOBAL(z_true));
+				PHALCON_CALL_METHOD(NULL, this_ptr, "_enginerender", engines, view_temp_path, silence, PHALCON_GLOBAL(z_true), enable_layouts_absolute_path);
 			}
 		}
 	
@@ -1433,7 +1451,7 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 
 				PHALCON_INIT_NVAR(view_temp_path);
 				PHALCON_CONCAT_VV(view_temp_path, layouts_dir, layout_namespace);
-				PHALCON_CALL_METHOD(NULL, this_ptr, "_enginerender", engines, view_temp_path, silence, PHALCON_GLOBAL(z_true));
+				PHALCON_CALL_METHOD(NULL, this_ptr, "_enginerender", engines, view_temp_path, silence, PHALCON_GLOBAL(z_true), enable_layouts_absolute_path);
 			}
 		}
 	
@@ -1462,7 +1480,7 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 	
 						PHALCON_INIT_NVAR(view_temp_path);
 						PHALCON_CONCAT_VV(view_temp_path, layouts_dir, template_after);
-						PHALCON_CALL_METHOD(NULL, this_ptr, "_enginerender", engines, view_temp_path, silence, PHALCON_GLOBAL(z_true));
+						PHALCON_CALL_METHOD(NULL, this_ptr, "_enginerender", engines, view_temp_path, silence, PHALCON_GLOBAL(z_true), enable_layouts_absolute_path);
 	
 						zend_hash_move_forward_ex(ah1, &hp1);
 					}
@@ -1574,7 +1592,7 @@ PHP_METHOD(Phalcon_Mvc_View, pick){
 PHP_METHOD(Phalcon_Mvc_View, partial){
 
 	zval *partial_path, *params = NULL, *autorender = NULL, *view_params, *new_params = NULL;
-	zval *partials_dir, *real_path, *engines = NULL;
+	zval *partials_dir, *enable_partials_absolute_path, *real_path, *engines = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -1621,6 +1639,9 @@ PHP_METHOD(Phalcon_Mvc_View, partial){
 	PHALCON_OBS_VAR(partials_dir);
 	phalcon_read_property_this(&partials_dir, this_ptr, SL("_partialsDir"), PH_NOISY TSRMLS_CC);
 	
+	PHALCON_OBS_VAR(enable_partials_absolute_path);
+	phalcon_read_property_this(&enable_partials_absolute_path, this_ptr, SL("_enablePartialsAbsolutePath"), PH_NOISY TSRMLS_CC);
+	
 	/** 
 	 * Partials are looked up under the partials directory
 	 */
@@ -1636,7 +1657,7 @@ PHP_METHOD(Phalcon_Mvc_View, partial){
 	/** 
 	 * Call engine render, this checks in every registered engine for the partial
 	 */
-	PHALCON_CALL_METHOD(NULL, this_ptr, "_enginerender", engines, real_path, PHALCON_GLOBAL(z_false), PHALCON_GLOBAL(z_false));
+	PHALCON_CALL_METHOD(NULL, this_ptr, "_enginerender", engines, real_path, PHALCON_GLOBAL(z_false), PHALCON_GLOBAL(z_false), enable_partials_absolute_path);
 	
 	/** 
 	 * Now we need to restore the original view parameters
