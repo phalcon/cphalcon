@@ -188,6 +188,7 @@ PHP_METHOD(Phalcon_Http_Cookie, __construct){
 
 	if (value && Z_TYPE_PP(value) != IS_NULL) {
 		phalcon_update_property_this(this_ptr, SL("_value"), *value TSRMLS_CC);
+		phalcon_update_property_bool(this_ptr, SL("_readed"), 1 TSRMLS_CC);
 	}
 	
 	phalcon_update_property_this(this_ptr, SL("_expire"), *expire TSRMLS_CC);
