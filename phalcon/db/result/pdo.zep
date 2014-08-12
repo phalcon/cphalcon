@@ -19,6 +19,9 @@
 
 namespace Phalcon\Db\Result;
 
+use Phalcon\Db;
+use Phalcon\Db\ResultInterface;
+
 %{
 #include <ext/pdo/php_pdo_driver.h>
 }%
@@ -36,7 +39,7 @@ namespace Phalcon\Db\Result;
  *	}
  * </code>
  */
-class Pdo
+class Pdo implements ResultInterface
 {
 
 	protected _connection;
@@ -72,7 +75,7 @@ class Pdo
 	 * @param array bindParams
 	 * @param array bindTypes
 	 */
-	public function __construct(<\Phalcon\Db\AdapterInterface> connection, <\PDOStatement> result,
+	public function __construct(<Db\AdapterInterface> connection, <\PDOStatement> result,
 		sqlStatement=null, bindParams=null, bindTypes=null)
 	{
 
@@ -308,22 +311,22 @@ class Pdo
 		let pdoStatement = this->_pdoStatement;
 		switch fetchMode {
 
-			case \Phalcon\Db::FETCH_BOTH:
+			case Db::FETCH_BOTH:
 				pdoStatement->setFetchMode(\Pdo::FETCH_BOTH);
 				let this->_fetchMode = \Pdo::FETCH_BOTH;
 				break;
 
-			case \Phalcon\Db::FETCH_ASSOC:
+			case Db::FETCH_ASSOC:
 				pdoStatement->setFetchMode(\Pdo::FETCH_ASSOC);
 				let this->_fetchMode = \Pdo::FETCH_ASSOC;
 				break;
 
-			case \Phalcon\Db::FETCH_NUM:
+			case Db::FETCH_NUM:
 				pdoStatement->setFetchMode(\Pdo::FETCH_NUM);
 				let this->_fetchMode = \Pdo::FETCH_NUM;
 				break;
 
-			case \Phalcon\Db::FETCH_OBJ:
+			case Db::FETCH_OBJ:
 				pdoStatement->setFetchMode(\Pdo::FETCH_OBJ);
 				let this->_fetchMode = \Pdo::FETCH_OBJ;
 				break;

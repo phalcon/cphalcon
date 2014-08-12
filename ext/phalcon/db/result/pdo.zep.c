@@ -84,6 +84,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Result_Pdo) {
 
 	zend_declare_property_bool(phalcon_db_result_pdo_ce, SL("_rowCount"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
 
+	zend_class_implements(phalcon_db_result_pdo_ce TSRMLS_CC, 1, phalcon_db_resultinterface_ce);
 	return SUCCESS;
 
 }
@@ -287,7 +288,7 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, numRows) {
 				Z_UNSET_ISREF_P(matches);
 				zephir_check_call_status();
 				if (zephir_is_true(_2)) {
-					zephir_array_fetch_long(&_4, matches, 1, PH_NOISY | PH_READONLY, "phalcon/db/result/pdo.zep", 203 TSRMLS_CC);
+					zephir_array_fetch_long(&_4, matches, 1, PH_NOISY | PH_READONLY, "phalcon/db/result/pdo.zep", 206 TSRMLS_CC);
 					ZEPHIR_INIT_VAR(_5);
 					ZEPHIR_CONCAT_SVS(_5, "SELECT COUNT(*) \"numrows\" FROM (SELECT ", _4, ")");
 					_6 = zephir_fetch_nproperty_this(this_ptr, SL("_bindParams"), PH_NOISY_CC);
@@ -297,7 +298,7 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, numRows) {
 					ZEPHIR_CALL_METHOD(&row, result, "fetch",  NULL);
 					zephir_check_call_status();
 					ZEPHIR_OBS_NVAR(rowCount);
-					zephir_array_fetch_string(&rowCount, row, SL("numrows"), PH_NOISY, "phalcon/db/result/pdo.zep", 205 TSRMLS_CC);
+					zephir_array_fetch_string(&rowCount, row, SL("numrows"), PH_NOISY, "phalcon/db/result/pdo.zep", 208 TSRMLS_CC);
 				}
 			} else {
 				ZEPHIR_INIT_BNVAR(rowCount);

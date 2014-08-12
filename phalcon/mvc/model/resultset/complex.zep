@@ -23,6 +23,7 @@ use Phalcon\Mvc\Model;
 use Phalcon\Mvc\Model\Resultset;
 use Phalcon\Mvc\Model\ResultsetInterface;
 use Phalcon\Mvc\Model\Exception;
+use Phalcon\Cache\BackendInterface;
 
 /**
  * Phalcon\Mvc\Model\Resultset\Complex
@@ -41,8 +42,9 @@ class Complex extends Resultset implements ResultsetInterface
 	 * @param Phalcon\Db\ResultInterface result
 	 * @param Phalcon\Cache\BackendInterface cache
 	 */
-	public function __construct(var columnTypes, <\Phalcon\Db\ResultInterface> result, <\Phalcon\Cache\BackendInterface> cache=null)
+	public function __construct(var columnTypes, <\Phalcon\Db\ResultInterface> result, <BackendInterface> cache=null)
 	{
+
 		/**
 		 * Column types, tell the resultset how to build the result
 		 */
@@ -83,9 +85,11 @@ class Complex extends Resultset implements ResultsetInterface
 		var result, rows, row, underscore, emptyStr, hydrateMode,
 			dirtyState, alias, activeRow, type, columnTypes,
 			column, columnValue, value, attribute, source, attributes,
-			columnMap, rowModel, keepSnapshots, sqlAlias;
+			columnMap, rowModel, keepSnapshots, sqlAlias, isPartial;
 
-		if this->_type {
+		let isPartial = this->_type;
+
+		if isPartial {
 
 			/**
 			 * The result is bigger than 32 rows so it's retrieved one by one
@@ -119,7 +123,7 @@ class Complex extends Resultset implements ResultsetInterface
 			/**
 			 * The result type=1 so we need to build every row
 			 */
-			if this->_type {
+			if isPartial {
 
 				/**
 				 * Get current hydration mode
@@ -142,6 +146,7 @@ class Complex extends Resultset implements ResultsetInterface
 						break;
 
 					case Resultset::HYDRATE_OBJECTS:
+					default:
 						let activeRow = new \stdClass();
 						break;
 				}
@@ -157,6 +162,13 @@ class Complex extends Resultset implements ResultsetInterface
 				let dirtyState = 0;
 
 				for alias, column in columnTypes {
+
+					//var_dump(alias);
+					//var_dump(typeof column);
+
+					if typeof column != "array" {
+						throw new Exception("Column type is corrupt");
+					}
 
 					let type = column["type"];
 					if typeof type == "object" {
@@ -185,7 +197,7 @@ class Complex extends Resultset implements ResultsetInterface
 						 */
 						switch hydrateMode {
 
-							case 0:
+							case Resultset::HYDRATE_RECORDS:
 
 								/**
 								 * Check if the resultset must keep snapshots
@@ -222,7 +234,7 @@ class Complex extends Resultset implements ResultsetInterface
 						if fetch sqlAlias, column["sqlAlias"] {
 							let value = row[sqlAlias];
 						} else {
-							let value = row[alias];
+							fetch value, row[alias];
 						}
 
 						/**

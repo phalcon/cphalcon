@@ -3426,7 +3426,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 * @param   array options
 	 * @return  Phalcon\Mvc\Model\Relation
 	 */
-	protected function hasOne(fields, string! referenceModel, referencedFields, options = null) -> <Relation>
+	protected function hasOne(var fields, string! referenceModel, var referencedFields, options = null) -> <Relation>
 	{
 		return (<ManagerInterface> this->_modelsManager)->addHasOne(this, fields, referenceModel, referencedFields, options);
 	}
@@ -3454,7 +3454,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 * @param   array options
 	 * @return  Phalcon\Mvc\Model\Relation
 	 */
-	protected function belongsTo(fields, string! referenceModel, referencedFields, options = null) -> <Relation>
+	protected function belongsTo(var fields, string! referenceModel, var referencedFields, options = null) -> <Relation>
 	{
 		return (<ManagerInterface> this->_modelsManager)->addBelongsTo(this, fields, referenceModel, referencedFields, options);
 	}
@@ -3482,7 +3482,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 * @param   array options
 	 * @return  Phalcon\Mvc\Model\Relation
 	 */
-	protected function hasMany(fields, string! referenceModel, referencedFields, options = null) -> <Relation>
+	protected function hasMany(var fields, string! referenceModel, var referencedFields, options = null) -> <Relation>
 	{
 		return (<ManagerInterface> this->_modelsManager)->addHasMany(this, fields, referenceModel, referencedFields, options);
 	}
@@ -3521,8 +3521,8 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 * @param   array options
 	 * @return  Phalcon\Mvc\Model\Relation
 	 */
-	protected function hasManyToMany(fields, string! intermediateModel, intermediateFields, intermediateReferencedFields,
-		string referenceModel, referencedFields, options = null) -> <Relation>
+	protected function hasManyToMany(var fields, string! intermediateModel, var intermediateFields, var intermediateReferencedFields,
+		string! referenceModel, var referencedFields, options = null) -> <Relation>
 	{
 		return (<ManagerInterface> this->_modelsManager)->addHasManyToMany(
 			this,
@@ -3704,7 +3704,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 		/**
 		 * If a field was specified we only check it
 		 */
-		if typeof fieldName == "array" {
+		if typeof fieldName == "string" {
 
 			/**
 			 * We only make this validation over valid fields

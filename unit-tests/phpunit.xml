@@ -26,7 +26,7 @@
 			<!--<file>unit-tests/ConfigTest.php</file>-->
 			<file>unit-tests/ConsoleCliTest.php</file>
 			<file>unit-tests/ControllersTest.php</file>
-			<!--<file>unit-tests/CryptTest.php</file>-->
+			<file>unit-tests/CryptTest.php</file>
 			<file>unit-tests/DbBindTest.php</file>
 			<file>unit-tests/DbDescribeTest.php</file>
 			<file>unit-tests/DbDialectTest.php</file>

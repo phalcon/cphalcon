@@ -4550,7 +4550,17 @@ PHP_METHOD(Phalcon_Mvc_Model, hasManyToMany) {
 		ZEPHIR_INIT_VAR(intermediateModel);
 		ZVAL_EMPTY_STRING(intermediateModel);
 	}
-	zephir_get_strval(referenceModel, referenceModel_param);
+	if (unlikely(Z_TYPE_P(referenceModel_param) != IS_STRING && Z_TYPE_P(referenceModel_param) != IS_NULL)) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'referenceModel' must be a string") TSRMLS_CC);
+		RETURN_MM_NULL();
+	}
+
+	if (unlikely(Z_TYPE_P(referenceModel_param) == IS_STRING)) {
+		referenceModel = referenceModel_param;
+	} else {
+		ZEPHIR_INIT_VAR(referenceModel);
+		ZVAL_EMPTY_STRING(referenceModel);
+	}
 	if (!options) {
 		options = ZEPHIR_GLOBAL(global_null);
 	}
@@ -4786,7 +4796,7 @@ PHP_METHOD(Phalcon_Mvc_Model, hasChanged) {
 	} else {
 		ZEPHIR_CPY_WRT(allAttributes, columnMap);
 	}
-	if (Z_TYPE_P(fieldName) == IS_ARRAY) {
+	if (Z_TYPE_P(fieldName) == IS_STRING) {
 		if (Z_TYPE_P(columnMap) == IS_ARRAY) {
 			if (!(zephir_array_isset(columnMap, fieldName))) {
 				ZEPHIR_INIT_VAR(_1);

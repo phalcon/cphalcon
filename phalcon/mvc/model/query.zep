@@ -24,6 +24,11 @@ use Phalcon\Mvc\Model\Exception;
 use Phalcon\Mvc\Model\ManagerInterface;
 use Phalcon\Mvc\Model\QueryInterface;
 use Phalcon\Mvc\Model\Query\Status;
+use Phalcon\Mvc\Model\Resultset\Complex;
+use Phalcon\Mvc\Model\Query\StatusInterface;
+use Phalcon\Mvc\Model\ResultsetInterface;
+use Phalcon\Mvc\ModelInterface;
+use Phalcon\Mvc\Model\Resultset\Simple;
 
 /**
  * Phalcon\Mvc\Model\Query
@@ -2222,16 +2227,16 @@ class Query implements QueryInterface, \Phalcon\Di\InjectionAwareInterface
 	 * @param array bindTypes
 	 * @return Phalcon\Mvc\Model\ResultsetInterface
 	 */
-	protected final function _executeSelect(intermediate, bindParams, bindTypes) -> <\Phalcon\Mvc\Model\ResultsetInterface>
+	protected final function _executeSelect(intermediate, bindParams, bindTypes) -> <ResultsetInterface>
 	{
 
 		var manager, modelName, models, model, connection, connections,
 			columns, column, selectColumns, simpleColumnMap, metaData, aliasCopy,
 			sqlColumn, attributes, instance, columnMap, attribute,
-			isKeepingSnapshots, columnAlias, sqlAlias, dialect, sqlSelect,
+			columnAlias, sqlAlias, dialect, sqlSelect,
 			processed, wildcard, value, processedTypes, typeWildcard, result,
-			resultData, cache, resultObject;
-		boolean haveObjects, haveScalars, isComplex, isSimpleStd;
+			resultData, cache, resultObject, columns1;
+		boolean haveObjects, haveScalars, isComplex, isSimpleStd, isKeepingSnapshots;
 		int numberObjects;
 
 		let manager = this->_manager;
@@ -2305,6 +2310,7 @@ class Query implements QueryInterface, \Phalcon\Di\InjectionAwareInterface
 		 * Check if the resultset have objects and how many of them have
 		 */
 		let numberObjects = 0;
+		let columns1 = columns;
 		for column in columns {
 
 			if column["type"] == "scalar" {
@@ -2384,16 +2390,16 @@ class Query implements QueryInterface, \Phalcon\Di\InjectionAwareInterface
 					/**
 					 * We cache required meta-data to make its future access faster
 					 */
-					let columns[aliasCopy]["instance"] = instance,
-						columns[aliasCopy]["attributes"] = attributes,
-						columns[aliasCopy]["columnMap"] = columnMap;
+					let columns1[aliasCopy]["instance"] = instance,
+						columns1[aliasCopy]["attributes"] = attributes,
+						columns1[aliasCopy]["columnMap"] = columnMap;
 
 					/**
 					 * Check if the model keeps snapshots
 					 */
-					let isKeepingSnapshots = manager->isKeepingSnapshots(instance);
+					let isKeepingSnapshots = (boolean) manager->isKeepingSnapshots(instance);
 					if isKeepingSnapshots {
-						let columns[aliasCopy]["keepSnapshots"] = isKeepingSnapshots;
+						let columns1[aliasCopy]["keepSnapshots"] = isKeepingSnapshots;
 					}
 
 				} else {
@@ -2519,19 +2525,19 @@ class Query implements QueryInterface, \Phalcon\Di\InjectionAwareInterface
 				/**
 				 * Check if the model keeps snapshots
 				 */
-				let isKeepingSnapshots = manager->isKeepingSnapshots(model);
+				let isKeepingSnapshots = (boolean) manager->isKeepingSnapshots(model);
 			}
 
 			/**
 			 * Simple resultsets contains only complete objects
 			 */
-			return new \Phalcon\Mvc\Model\Resultset\Simple(simpleColumnMap, resultObject, resultData, cache, isKeepingSnapshots);
+			return new Simple(simpleColumnMap, resultObject, resultData, cache, isKeepingSnapshots);
 		}
 
 		/**
 		 * Complex resultsets may contain complete objects and scalars
 		 */
-		return new \Phalcon\Mvc\Model\Resultset\Complex(columns, resultData, cache);
+		return new Complex(columns1, resultData, cache);
 	}
 
 	/**
@@ -2542,7 +2548,7 @@ class Query implements QueryInterface, \Phalcon\Di\InjectionAwareInterface
 	 * @param array bindTypes
 	 * @return Phalcon\Mvc\Model\Query\StatusInterface
 	 */
-	protected final function _executeInsert(intermediate, bindParams, bindTypes) -> <\Phalcon\Mvc\Model\Query\StatusInterface>
+	protected final function _executeInsert(intermediate, bindParams, bindTypes) -> <StatusInterface>
 	{
 		var modelName, manager, connection, metaData, attributes,
 			fields, columnMap, dialect, insertValues, number, value, model,
@@ -2676,7 +2682,7 @@ class Query implements QueryInterface, \Phalcon\Di\InjectionAwareInterface
 	 * @param array bindTypes
 	 * @return Phalcon\Mvc\Model\Query\StatusInterface
 	 */
-	protected final function _executeUpdate(intermediate, bindParams, bindTypes) -> <\Phalcon\Mvc\Model\Query\StatusInterface>
+	protected final function _executeUpdate(intermediate, bindParams, bindTypes) -> <StatusInterface>
 	{
 		var models, modelName, model, connection, dialect,
 			fields, values, updateValues, fieldName, value,
@@ -2823,7 +2829,7 @@ class Query implements QueryInterface, \Phalcon\Di\InjectionAwareInterface
 	 * @param array bindTypes
 	 * @return Phalcon\Mvc\Model\Query\StatusInterface
 	 */
-	protected final function _executeDelete(intermediate, bindParams, bindTypes) -> <\Phalcon\Mvc\Model\Query\StatusInterface>
+	protected final function _executeDelete(intermediate, bindParams, bindTypes) -> <StatusInterface>
 	{
 		var models, modelName, model, records, connection, record;
 
@@ -2905,8 +2911,8 @@ class Query implements QueryInterface, \Phalcon\Di\InjectionAwareInterface
 	 * @param array bindTypes
 	 * @return Phalcon\Mvc\Model\ResultsetInterface
 	 */
-	protected final function _getRelatedRecords(<\Phalcon\Mvc\ModelInterface> model, intermediate, bindParams, bindTypes)
-	 -> <\Phalcon\Mvc\Model\ResultsetInterface>
+	protected final function _getRelatedRecords(<ModelInterface> model, intermediate, bindParams, bindTypes)
+	 -> <ResultsetInterface>
 	{
 		var selectIr, whereConditions, limitConditions, query;
 
@@ -2955,7 +2961,7 @@ class Query implements QueryInterface, \Phalcon\Di\InjectionAwareInterface
 	 * @param array bindTypes
 	 * @return mixed
 	 */
-	public function execute(bindParams=null, bindTypes=null)
+	public function execute(bindParams = null, bindTypes = null)
 	{
 		var uniqueRow, cacheOptions, key, cacheService,
 			cache, result, preparedResult, defaultBindParams, mergedParams,
@@ -3129,7 +3135,7 @@ class Query implements QueryInterface, \Phalcon\Di\InjectionAwareInterface
 	 * @param int type
 	 * @return Phalcon\Mvc\Model\Query
 	 */
-	public function setType(int type) -> <\Phalcon\Mvc\Model\Query>
+	public function setType(int type) -> <Query>
 	{
 		let this->_type = type;
 		return this;
@@ -3151,7 +3157,7 @@ class Query implements QueryInterface, \Phalcon\Di\InjectionAwareInterface
 	 * @param array bindParams
 	 * @return Phalcon\Mvc\Model\Query
 	 */
-	public function setBindParams(bindParams) -> <\Phalcon\Mvc\Model\Query>
+	public function setBindParams(array! bindParams) -> <Query>
 	{
 		let this->_bindParams = bindParams;
 		return this;
@@ -3173,7 +3179,7 @@ class Query implements QueryInterface, \Phalcon\Di\InjectionAwareInterface
 	 * @param array bindTypes
 	 * @return Phalcon\Mvc\Model\Query
 	 */
-	public function setBindTypes(bindTypes)
+	public function setBindTypes(array! bindTypes)
 	{
 		let this->_bindTypes = bindTypes;
 		return this;
@@ -3195,7 +3201,7 @@ class Query implements QueryInterface, \Phalcon\Di\InjectionAwareInterface
 	 * @param array intermediate
 	 * @return Phalcon\Mvc\Model\Query
 	 */
-	public function setIntermediate(intermediate) -> <\Phalcon\Mvc\Model\Query>
+	public function setIntermediate(array! intermediate) -> <Query>
 	{
 		let this->_intermediate = intermediate;
 		return this;
@@ -3217,7 +3223,7 @@ class Query implements QueryInterface, \Phalcon\Di\InjectionAwareInterface
 	 * @param array cacheOptions
 	 * @return Phalcon\Mvc\Model\Query
 	 */
-	public function cache(cacheOptions) -> <\Phalcon\Mvc\Model\Query>
+	public function cache(cacheOptions) -> <Query>
 	{
 		let this->_cacheOptions = cacheOptions;
 		return this;
