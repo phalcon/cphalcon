@@ -297,9 +297,7 @@ PHP_METHOD(Phalcon_Session_Bag, get) {
 	}
 	_1 = zephir_fetch_nproperty_this(this_ptr, SL("_data"), PH_NOISY_CC);
 	if (zephir_array_isset_fetch(&value, _1, property, 1 TSRMLS_CC)) {
-		if (!(ZEPHIR_IS_EMPTY(value))) {
-			RETURN_CTOR(value);
-		}
+		RETURN_CTOR(value);
 	}
 	RETURN_CCTOR(defaultValue);
 
@@ -357,7 +355,7 @@ PHP_METHOD(Phalcon_Session_Bag, has) {
 		zephir_check_call_status();
 	}
 	_1 = zephir_fetch_nproperty_this(this_ptr, SL("_data"), PH_NOISY_CC);
-	zephir_array_fetch(&_2, _1, property, PH_NOISY | PH_READONLY, "phalcon/session/bag.zep", 224 TSRMLS_CC);
+	zephir_array_fetch(&_2, _1, property, PH_NOISY | PH_READONLY, "phalcon/session/bag.zep", 222 TSRMLS_CC);
 	RETURN_CTOR(_2);
 
 }

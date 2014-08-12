@@ -102,7 +102,7 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_router_group_method_entry) {
 	PHP_ME(Phalcon_Mvc_Router_Group, setPaths, arginfo_phalcon_mvc_router_group_setpaths, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Router_Group, getPaths, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Router_Group, getRoutes, NULL, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Mvc_Router_Group, _addRoute, arginfo_phalcon_mvc_router_group__addroute, ZEND_ACC_PRIVATE)
+	PHP_ME(Phalcon_Mvc_Router_Group, _addRoute, arginfo_phalcon_mvc_router_group__addroute, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Mvc_Router_Group, add, arginfo_phalcon_mvc_router_group_add, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Router_Group, addGet, arginfo_phalcon_mvc_router_group_addget, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Router_Group, addPost, arginfo_phalcon_mvc_router_group_addpost, ZEND_ACC_PUBLIC)

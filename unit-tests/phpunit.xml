@@ -46,7 +46,7 @@
 			<file>unit-tests/MicroMvcEventsTest.php</file>
 			<file>unit-tests/MicroMvcMiddlewareTest.php</file>
 			<file>unit-tests/MicroMvcTest.php</file>
-			<!--<file>unit-tests/ModelsBehaviorsTest.php</file>-->
+			<file>unit-tests/ModelsBehaviorsTest.php</file>
 			<file>unit-tests/ModelsCalculationsTest.php</file>
 			<!--<file>unit-tests/ModelsCriteriaTest.php</file>-->
 			<!--<file>unit-tests/ModelsDynamicOperationsTest.php</file>-->
