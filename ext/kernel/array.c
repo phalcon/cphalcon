@@ -1394,11 +1394,11 @@ int zephir_array_update_multi(zval **arr, zval **value TSRMLS_DC, const char *ty
 				switch (old_type[j]) {
 
 					case 's':
-						zephir_array_update_string(&(old_p[j]), old_s[j], old_l[j], p, PH_SEPARATE);
+						zephir_array_update_string(&(old_p[j]), old_s[j], old_l[j], &p, PH_SEPARATE);
 						break;
 
 					case 'l':
-						zephir_array_update_long(&(old_p[j]), old_ll[j], p, PH_SEPARATE ZEPHIR_DEBUG_PARAMS_DUMMY);
+						zephir_array_update_long(&(old_p[j]), old_ll[j], &p, PH_SEPARATE ZEPHIR_DEBUG_PARAMS_DUMMY);
 						break;
 
 					case 'z':
