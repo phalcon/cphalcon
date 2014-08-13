@@ -122,7 +122,7 @@ class Memcache extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendI
 	 */
 	public function get(keyName, lifetime = null)
 	{
-		var memcache, frontend, prefix, prefixedKey, cachedContent;
+		var memcache, prefixedKey, cachedContent, retrieve;
 
 		let memcache = this->_memcache;
 		if typeof memcache != "object" {
@@ -130,13 +130,11 @@ class Memcache extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendI
 			let memcache = this->_memcache;
 		}
 
-		let frontend = this->_frontend;
-		let prefix = this->_prefix;
-		let prefixedKey = prefix . keyName;
+		let prefixedKey = this->_prefix . keyName;
 		let this->_lastKey = prefixedKey;
 		let cachedContent = memcache->get(prefixedKey);
 
-		if !cachedContent {
+		if cachedContent === false {
 			return null;
 		}
 
@@ -144,7 +142,8 @@ class Memcache extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendI
 			return cachedContent;
 		}
 
-		frontend->afterRetrieve(cachedContent);
+		let retrieve = this->_frontend->afterRetrieve(cachedContent);
+		return retrieve;
 	}
 
 	/**
@@ -157,14 +156,13 @@ class Memcache extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendI
 	 */
 	public function save(keyName = null, content = null, lifetime = null, stopBuffer = true)
 	{
-		var lastKey, prefix, frontend, memcache, cachedContent, preparedContent, tmp, tt1, success, options,
+		var lastKey, prefix, frontend, memcache, cachedContent, preparedContent, tmp, ttl, success, options,
 			specialKey, keys, isBuffering;
 
 		if !keyName {
 			let lastKey = this->_lastKey;
 		} else {
-			let prefix = this->_prefix;
-			let lastKey = prefix . keyName;
+			let lastKey = this->_prefix . keyName;
 		}
 
 		if !lastKey {
@@ -182,7 +180,7 @@ class Memcache extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendI
 			let memcache = this->_memcache;
 		}
 
-		if !content {
+		if typeof content == "null" {
 			let cachedContent = frontend->getContent();
 		} else {
 			let cachedContent = content;
@@ -193,25 +191,25 @@ class Memcache extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendI
 		 */
 		let preparedContent = frontend->beforeStore(cachedContent);
 		
-		if !lifetime {
+		if typeof lifetime == "null" {
 			let tmp = this->_lastLifetime;
 
 			if !tmp {
-				let tt1 = frontend->getLifetime();
+				let ttl = frontend->getLifetime();
 			} else {
-				let tt1 = tmp;
+				let ttl = tmp;
 			}
 		} else {
-			let tt1 = lifetime;
+			let ttl = lifetime;
 		}
 
 		/**
 		* We store without flags
 		*/
 		if is_numeric(cachedContent) {
-			let success = memcache->set(lastKey, cachedContent, 0, tt1);
+			let success = memcache->set(lastKey, cachedContent, 0, ttl);
 		} else {
-			let success = memcache->set(lastKey, preparedContent, 0, tt1);
+			let success = memcache->set(lastKey, preparedContent, 0, ttl);
 		}
 
 		if !success {
@@ -225,7 +223,7 @@ class Memcache extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendI
 		}
 		let specialKey = options["statsKey"];
 
-		if specialKey {
+		if typeof specialKey != "null" {
 			/**
 			 * Update the stats key
 			 */
@@ -235,14 +233,14 @@ class Memcache extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendI
 			}
 
 			if !isset keys[lastKey] {
-				let keys[lastKey] = tt1;
+				let keys[lastKey] = ttl;
 				memcache->set(specialKey, keys);
 			}
 		}
 
 		let isBuffering = frontend->isBuffering();
 
-		if !stopBuffer || stopBuffer==true {
+		if stopBuffer == true {
 			frontend->stop();
 		}
 
@@ -261,7 +259,7 @@ class Memcache extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendI
 	 */
 	public function delete(keyName)
 	{
-		var memcache, prefix, prefixedKey, options, keys, specialKey;
+		var memcache, prefix, prefixedKey, options, keys, specialKey, ret;
 
 		let memcache = this->_memcache;
 		if typeof memcache != "object" {
@@ -269,15 +267,13 @@ class Memcache extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendI
 			let memcache = this->_memcache;
 		}
 
-		let prefix = this->_prefix;
-		let prefixedKey = prefix . keyName;
+		let prefixedKey = this->_prefix . keyName;
 		let options = this->_options;
 
-		if !isset options["statsKey"] {
+		if !fetch specialKey, options["statsKey"] {
 			throw new Exception("Unexpected inconsistency in options");
-		}
+		} 
 
-		let specialKey = options["statsKey"];
 		let keys = memcache->get(specialKey);
 
 		if typeof keys == "array" {
@@ -288,7 +284,8 @@ class Memcache extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendI
 		/**
 		* Delete the key from memcached
 		*/
-		memcache->delete(prefixedKey);
+		let ret = memcache->delete(prefixedKey);
+		return ret;
 	}
 
 	/**
@@ -297,9 +294,9 @@ class Memcache extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendI
 	 * @param string prefix
 	 * @return array
 	 */
-	public function queryKeys(prefix=null)
+	public function queryKeys(prefix = null)
 	{
-		var memcache, options, keys, specialKey, key;
+		var memcache, options, keys, specialKey, key, value, realKey;
 
 		let memcache = this->_memcache;
 
@@ -310,25 +307,24 @@ class Memcache extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendI
 
 		let options = this->_options;
 
-		if !isset options["statsKey"] {
+		if !fetch specialKey, options["statsKey"] {
 			throw new Exception("Unexpected inconsistency in options");
 		}
-
-		let specialKey = options["statsKey"];
 
 		/**
 		* Get the key from memcached
 		*/
+		let realKey = [];
 		let keys = memcache->get(specialKey);
 		if typeof keys == "array" {
-			for key in keys {
-				if prefix && !starts_with(key, prefix) {
-					unset(keys[key]);
+			for key, value in keys {
+				if !prefix || starts_with(key, prefix) {
+					let realKey[] = key;
 				}
 			}
 		}
 
-		return keys;
+		return realKey;
 	}
 
 	/**

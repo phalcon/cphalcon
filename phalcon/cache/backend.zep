@@ -69,7 +69,7 @@ abstract class Backend
 	 * @param   long lifetime
 	 * @return  mixed
 	 */
-	public function start(var keyName, lifetime=null)
+	public function start(var keyName, lifetime = null)
 	{
 		var existingCache, fresh;
 

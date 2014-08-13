@@ -363,8 +363,6 @@ class CacheTest extends PHPUnit_Framework_TestCase
 			return false;
 		}
 
-		$memcache->delete('test-output');
-
 		$time = date('H:i:s');
 
 		$frontCache = new Phalcon\Cache\Frontend\Output(array(
@@ -397,7 +395,7 @@ class CacheTest extends PHPUnit_Framework_TestCase
 			$this->assertTrue(false);
 		}
 
-		//$this->assertEquals($time, $obContent);
+		$this->assertEquals($time, $obContent);
 
 		//Refresh cache
 		sleep(3);
@@ -416,21 +414,21 @@ class CacheTest extends PHPUnit_Framework_TestCase
 		$obContent2 = ob_get_contents();
 		ob_end_clean();
 
-		//$this->assertNotEquals($time, $obContent2);
-		//$this->assertEquals($time2, $obContent2);
-		//$this->assertEquals($time2, $memcache->get('test-output'));
+		$this->assertNotEquals($time, $obContent2);
+		$this->assertEquals($time2, $obContent2);
+		$this->assertEquals($time2, $memcache->get('test-output'));
 
 		//Check if exists
-		//$this->assertTrue($cache->exists('test-output'));
+		$this->assertTrue($cache->exists('test-output'));
 
 		//Delete entry from cache
-		//$this->assertTrue($cache->delete('test-output'));
+		$this->assertTrue($cache->delete('test-output'));
 
 		$memcache->close();
 
 	}
 
-	public function xtestIncrAndDecrMemcacheCache()
+	public function testIncrAndDecrMemcacheCache()
 	{
 		$memcache = $this->_prepareMemcached();
 		if (!$memcache) {
@@ -453,7 +451,7 @@ class CacheTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals('3', $newValue);
 	}
 
-	public function xtestDataMemcachedCache()
+	public function testDataMemcachedCache()
 	{
 
 		$memcache = $this->_prepareMemcached();
@@ -1225,7 +1223,7 @@ class CacheTest extends PHPUnit_Framework_TestCase
 		$memcache->quit();
 	}
 
-	public function testCacheFileFlush()
+	public function xtestCacheFileFlush()
 	{
 		$frontCache = new Phalcon\Cache\Frontend\Data(array('lifetime' => 10));
 
