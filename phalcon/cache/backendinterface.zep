@@ -34,14 +34,14 @@ interface BackendInterface
 	 * @param   long lifetime
 	 * @return  mixed
 	 */
-	public function start(keyName, lifetime=null);
+	public function start(keyName, lifetime = null);
 
 	/**
 	 * Stops the frontend without store any cached content
 	 *
 	 * @param boolean stopBuffer
 	 */
-	public function stop(stopBuffer=true);
+	public function stop(stopBuffer = true);
 
 	/**
 	 * Returns front-end instance adapter related to the back-end
@@ -92,7 +92,7 @@ interface BackendInterface
 	 * @param   long lifetime
 	 * @return  mixed
 	 */
-	public function get(keyName, lifetime=null);
+	public function get(keyName, lifetime = null);
 
 	/**
 	 * Stores cached content into the file backend and stops the frontend
@@ -102,7 +102,7 @@ interface BackendInterface
 	 * @param long lifetime
 	 * @param boolean stopBuffer
 	 */
-	public function save(keyName=null, content=null, lifetime=null, stopBuffer=true);
+	public function save(keyName = null, content = null, lifetime = null, stopBuffer = true);
 
 	/**
 	 * Deletes a value from the cache by its key
@@ -118,7 +118,7 @@ interface BackendInterface
 	 * @param string prefix
 	 * @return array
 	 */
-	public function queryKeys(prefix=null);
+	public function queryKeys(prefix = null);
 
 	/**
 	 * Checks if cache exists and it hasn't expired
@@ -127,6 +127,6 @@ interface BackendInterface
 	 * @param  long lifetime
 	 * @return boolean
 	 */
-	public function exists(keyName=null, lifetime=null);
+	public function exists(keyName = null, lifetime = null);
 
 }

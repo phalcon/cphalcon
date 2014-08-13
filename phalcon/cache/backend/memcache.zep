@@ -61,7 +61,7 @@ class Memcache extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendI
 	 * @param	Phalcon\Cache\FrontendInterface frontend
 	 * @param	array options
 	 */
-	public function __construct(<\Phalcon\Cache\FrontendInterface> frontend, options=null)
+	public function __construct(<\Phalcon\Cache\FrontendInterface> frontend, options = null)
 	{
 		if typeof options != "array" {
 			let options = [];
@@ -120,7 +120,7 @@ class Memcache extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendI
 	 * @param   long lifetime
 	 * @return  mixed
 	 */
-	public function get(keyName, lifetime=null)
+	public function get(keyName, lifetime = null)
 	{
 		var memcache, frontend, prefix, prefixedKey, cachedContent;
 
@@ -155,7 +155,7 @@ class Memcache extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendI
 	 * @param long lifetime
 	 * @param boolean stopBuffer
 	 */
-	public function save(keyName=null, content=null, lifetime=null, stopBuffer=true)
+	public function save(keyName = null, content = null, lifetime = null, stopBuffer = true)
 	{
 		var lastKey, prefix, frontend, memcache, cachedContent, preparedContent, tmp, tt1, success, options,
 			specialKey, keys, isBuffering;
@@ -191,10 +191,8 @@ class Memcache extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendI
 		/**
 		 * Prepare the content in the frontend
 		 */
-		if !is_numeric(cachedContent) {
-			let preparedContent = frontend->beforeStore(cachedContent);
-		}
-
+		let preparedContent = frontend->beforeStore(cachedContent);
+		
 		if !lifetime {
 			let tmp = this->_lastLifetime;
 
@@ -207,10 +205,13 @@ class Memcache extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendI
 			let tt1 = lifetime;
 		}
 
+		/**
+		* We store without flags
+		*/
 		if is_numeric(cachedContent) {
-			let success = memcache->set(lastKey, cachedContent, tt1);
+			let success = memcache->set(lastKey, cachedContent, 0, tt1);
 		} else {
-			let success = memcache->set(lastKey, preparedContent, tt1);
+			let success = memcache->set(lastKey, preparedContent, 0, tt1);
 		}
 
 		if !success {
@@ -224,22 +225,24 @@ class Memcache extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendI
 		}
 		let specialKey = options["statsKey"];
 
-		/**
-		 * Update the stats key
-		 */
-		let keys = memcache->get(specialKey);
-		if typeof keys != "array" {
-			let keys = [];
-		}
+		if specialKey {
+			/**
+			 * Update the stats key
+			 */
+			let keys = memcache->get(specialKey);
+			if typeof keys != "array" {
+				let keys = [];
+			}
 
-		if !isset keys[lastKey] {
-			let keys[lastKey] = tt1;
-			memcache->set(specialKey,keys);
+			if !isset keys[lastKey] {
+				let keys[lastKey] = tt1;
+				memcache->set(specialKey, keys);
+			}
 		}
 
 		let isBuffering = frontend->isBuffering();
 
-		if !stopBuffer {
+		if !stopBuffer || stopBuffer==true {
 			frontend->stop();
 		}
 
@@ -335,7 +338,7 @@ class Memcache extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendI
 	 * @param   long lifetime
 	 * @return boolean
 	 */
-	public function exists(keyName=null, lifetime=null) -> boolean
+	public function exists(keyName = null, lifetime = null) -> boolean
 	{
 		var lastKey, memcache, prefix;
 
@@ -370,7 +373,7 @@ class Memcache extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendI
 	 * @param  long lifetime
 	 * @return long
 	 */
-	public function increment(keyName=null, value=null)
+	public function increment(keyName = null, value = null)
 	{
 		var memcache, prefix, lastKey;
 
@@ -403,7 +406,7 @@ class Memcache extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendI
 	 * @param  long value
 	 * @return long
 	 */
-	public function decrement(keyName=null, value=null)
+	public function decrement(keyName = null, value = null)
 	{
 		var memcache, prefix, lastKey;
 
