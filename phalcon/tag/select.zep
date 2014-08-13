@@ -35,10 +35,10 @@ abstract class Select
 	 * @param array parameters
 	 * @param array data
 	 */
-	public static function selectField(parameters, data=null)
+	public static function selectField(parameters, data = null)
 	{
 		var params, name, id, value, useEmpty, code, emptyValue, emptyText,
-			options, closeOption, using;
+			options, using;
 
 		if typeof parameters != "array" {
 			let params = [parameters, data];
@@ -73,7 +73,6 @@ abstract class Select
 			unset params["value"];
 		}
 
-		let useEmpty = false;
 		if fetch useEmpty, params["useEmpty"] {
 
 			if !fetch emptyValue, params["emptyValue"] {
@@ -89,18 +88,6 @@ abstract class Select
 			}
 
 			unset params["useEmpty"];
-		}
-
-		let code = \Phalcon\Tag::renderAttributes("<select", params);
-		let code .= ">" . PHP_EOL;
-
-		let closeOption = "</option>" . PHP_EOL;
-
-		if useEmpty {
-			/**
-			 * Create an empty value
-			 */
-			let code .= "\t<option value=\"" . emptyValue . "\">" . emptyText . closeOption;
 		}
 
 		if !fetch options, params[1] {
@@ -120,17 +107,32 @@ abstract class Select
 				}
 			}
 
+			unset params["using"];
+		}
+
+		let code = \Phalcon\Tag::renderAttributes("<select", params) . ">" . PHP_EOL;
+
+		if useEmpty {
+			/**
+			 * Create an empty value
+			 */
+			let code .= "\t<option value=\"" . emptyValue . "\">" . emptyText . "</option>" . PHP_EOL;
+		}
+
+		if typeof options == "object" {
+
 			/**
 			 * Create the SELECT's option from a resultset
 			 */
-			let code .= self::_optionsFromResultset(options, using, value, closeOption);
+			let code .= self::_optionsFromResultset(options, using, value, "</option>" . PHP_EOL);
+
 		} else {
 			if typeof options == "array" {
 
 				/**
 				 * Create the SELECT's option from an array
 				 */
-				let code .= self::_optionsFromArray(options, value, closeOption);
+				let code .= self::_optionsFromArray(options, value, "</option>" . PHP_EOL);
 			} else {
 				throw new Exception("Invalid data provided to SELECT helper");
 			}
@@ -144,7 +146,7 @@ abstract class Select
 	/**
 	 * Generate the OPTION tags based on a resulset
 	 *
-	 * @param Phalcon\Mvc\Model resultset
+	 * @param Phalcon\Mvc\Model\Resultset resultset
 	 * @param array using
 	 * @param mixed value
 	 * @param string closeOption
@@ -156,12 +158,13 @@ abstract class Select
 		let code = "";
 		let params = null;
 
+		if typeof using == "array" {
+			let usingZero = using[0], usingOne = using[1];
+		}
 
 		for option in iterator(resultset) {
 
 			if typeof using == "array" {
-
-				let usingZero = using[0], usingOne = using[1];
 
 				if typeof option == "object" {
 					if method_exists(option, "readAttribute") {

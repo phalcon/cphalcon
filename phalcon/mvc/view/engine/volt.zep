@@ -19,12 +19,17 @@
 
 namespace Phalcon\Mvc\View\Engine;
 
+use Phalcon\Mvc\View\Engine;
+use Phalcon\Mvc\View\EngineInterface;
+use Phalcon\Mvc\View\Engine\Volt\Compiler;
+use Phalcon\Mvc\View\Exception;
+
 /**
  * Phalcon\Mvc\View\Engine\Volt
  *
  * Designer friendly and fast template engine for PHP written in C
  */
-class Volt extends \Phalcon\Mvc\View\Engine implements \Phalcon\Mvc\View\EngineInterface
+class Volt extends Engine implements EngineInterface
 {
 
 	protected _options;
@@ -36,11 +41,8 @@ class Volt extends \Phalcon\Mvc\View\Engine implements \Phalcon\Mvc\View\EngineI
 	 *
 	 * @param array options
 	 */
-	public function setOptions(options)
+	public function setOptions(array! options)
 	{
-		if typeof options != "array" {
-			throw new \Phalcon\Mvc\View\Exception("Options parameter must be an array");
-		}
 		let this->_options = options;
 	}
 
@@ -59,19 +61,19 @@ class Volt extends \Phalcon\Mvc\View\Engine implements \Phalcon\Mvc\View\EngineI
 	 *
 	 * @return Phalcon\Mvc\View\Engine\Volt\Compiler
 	 */
-	public function getCompiler()  -> <\Phalcon\Mvc\View\Engine\Volt\Compiler>
+	public function getCompiler() -> <Compiler>
 	{
 		var compiler, dependencyInjector, options;
 
 		let compiler = this->_compiler;
 		if typeof compiler != "object" {
 
-			let compiler = new \Phalcon\Mvc\View\Engine\Volt\Compiler(this->_view);
+			let compiler = new Compiler(this->_view);
 
 			/**
 			 * Pass the IoC to the compiler only of it's an object
 			 */
-			let dependencyInjector = this->_dependencyInjector;
+			let dependencyInjector = <\Phalcon\Di> this->_dependencyInjector;
 			if typeof dependencyInjector == "object" {
 				compiler->setDi(dependencyInjector);
 			}
@@ -100,7 +102,7 @@ class Volt extends \Phalcon\Mvc\View\Engine implements \Phalcon\Mvc\View\EngineI
 	{
 		var compiler, compiledTemplatePath, key, value;
 
-		if (mustClean) {
+		if mustClean {
 			ob_start();
 		}
 
@@ -124,7 +126,7 @@ class Volt extends \Phalcon\Mvc\View\Engine implements \Phalcon\Mvc\View\EngineI
 
 		require compiledTemplatePath;
 
-		if (mustClean) {
+		if mustClean {
 			this->_view->setContent(ob_get_contents());
 			ob_clean();
 		}
@@ -179,7 +181,7 @@ class Volt extends \Phalcon\Mvc\View\Engine implements \Phalcon\Mvc\View\EngineI
 			return strpos(haystack, needle);
 		}
 
-		throw new \Phalcon\Mvc\View\Exception("Invalid haystack");
+		throw new Exception("Invalid haystack");
 	}
 
 	/**
@@ -196,19 +198,15 @@ class Volt extends \Phalcon\Mvc\View\Engine implements \Phalcon\Mvc\View\EngineI
 		/**
 		 * Try to use utf8_encode if conversion is 'latin1' to 'utf8'
 		 */
-		if from == "latin1" {
-			if to == "utf8" {
-				return utf8_encode(text);
-			}
+		if from == "latin1" || to == "utf8" {
+			return utf8_encode(text);
 		}
 
 		/**
 		 * Try to use utf8_decode if conversion is 'utf8' to 'latin1'
 		 */
-		if to == "latin1" {
-			if from == "utf8" {
-				return utf8_decode(text);
-			}
+		if to == "latin1" || from == "utf8" {
+			return utf8_decode(text);
 		}
 
 		/**
@@ -228,7 +226,7 @@ class Volt extends \Phalcon\Mvc\View\Engine implements \Phalcon\Mvc\View\EngineI
 		/**
 		 * There are no enough extensions available
 		 */
-		throw new \Phalcon\Mvc\View\Exception("Any of 'mbstring' or 'iconv' is required to perform the charset conversion");
+		throw new Exception("Any of 'mbstring' or 'iconv' is required to perform the charset conversion");
 	}
 
 	/**

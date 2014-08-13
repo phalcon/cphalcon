@@ -3920,7 +3920,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	{
 		var manager, relation, queryMethod, extraArgs;
 
-		let manager = this->_modelsManager;
+		let manager = <ManagerInterface> this->_modelsManager;
 
 		let relation = false,
 			queryMethod = null;
@@ -4224,17 +4224,13 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 		var modelName, manager, relation;
 
 		let modelName = get_class(this),
-			manager = this->getModelsManager();
+			manager = <ManagerInterface> this->getModelsManager();
 
 		/**
 		 * Check if the property is a relationship
 		 */
 		let relation = <RelationInterface> manager->getRelationByAlias(modelName, property);
-		if typeof relation == "object" {
-			return true;
-		}
-
-		return false;
+		return typeof relation == "object";
 	}
 
 	/**
@@ -4291,7 +4287,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 				/**
 				 * Gets the default modelsManager service
 				 */
-				let manager = dependencyInjector->getShared("modelsManager");
+				let manager = <ManagerInterface> dependencyInjector->getShared("modelsManager");
 				if typeof manager != "object" {
 					throw new Exception("The injected service 'modelsManager' is not valid");
 				}
@@ -4342,7 +4338,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 *
 	 * @return array
 	 */
-	public function toArray()
+	public function toArray() -> array
 	{
 		var data, metaData, columnMap, attribute,
 			attributeField, value;
@@ -4378,7 +4374,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 *
 	 * @param array options
 	 */
-	public static function setup(array! options)
+	public static function setup(array! options) -> void
 	{
 		var disableEvents, columnRenaming, notNullValidations,
 			exceptionOnFailedSave, phqlLiterals, virtualForeignKeys;
