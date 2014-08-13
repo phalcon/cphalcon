@@ -158,13 +158,10 @@ class Crypt implements \Phalcon\CryptInterface
 			switch paddingType {
 
 				case self::PADDING_ANSI_X_923:
-					//memset(padding, 0, padding_size - 1);
-					//padding[padding_size-1] = (unsigned char)padding_size;
 					let padding = str_repeat(chr(0), paddingSize - 1) . chr(paddingSize);
 					break;
 
 				case self::PADDING_PKCS7:
-					//memset(padding, padding_size, padding_size);
 					let padding = str_repeat(chr(paddingSize), paddingSize);
 					break;
 
@@ -177,23 +174,18 @@ class Crypt implements \Phalcon\CryptInterface
 					break;
 
 				case self::PADDING_ISO_IEC_7816_4:
-					//padding[0] = 0x80;
-					//memset(padding + 1, 0, padding_size - 1);
 					let padding = chr(0x80) . str_repeat(chr(0), paddingSize - 1);
 					break;
 
 				case self::PADDING_ZERO:
-					//memset(padding, 0, padding_size);
 					let padding = str_repeat(chr(0), paddingSize);
 					break;
 
 				case self::PADDING_SPACE:
-					//memset(padding, 0x20, padding_size);
 					let padding = str_repeat(" ", paddingSize);
 					break;
 
 				default:
-					//padding_size = 0;
 					let paddingSize = 0;
 					break;
 
@@ -257,7 +249,6 @@ class Crypt implements \Phalcon\CryptInterface
 					break;	
 
 				case self::PADDING_ISO_10126:
-					//padding_size = str_text[text_len-1];
 					let last = substr(text, length - 1, 1);
 					let paddingSize = (int) ord(last);
 					break;
@@ -282,11 +273,6 @@ class Crypt implements \Phalcon\CryptInterface
 					break;
 
 				case self::PADDING_SPACE:
-					/*i = text_len - 1;
-					while (i >= 0 && str_text[i] == 0x20 && padding_size <= block_size) {
-						++padding_size;
-						--i;
-					}*/
 					let i = length - 1;
 					while i >= 0 && text[i] == 0x20 && paddingSize <= blockSize {
 						let paddingSize++, i--;
@@ -296,20 +282,6 @@ class Crypt implements \Phalcon\CryptInterface
 				default:
 					break;
 			}
-
-
-			/*if (padding_size && padding_size <= block_size) {
-				assert(padding_size <= text_len);
-				if (padding_size < text_len) {
-					phalcon_substr(return_value, text, 0, text_len - padding_size);
-				}
-				else {
-					ZVAL_EMPTY_STRING(return_value);
-				}
-			}
-			else {
-				padding_size = 0;
-			}*/
 
 			if paddingSize && paddingSize <= blockSize {
 				if paddingSize < length {
@@ -322,10 +294,6 @@ class Crypt implements \Phalcon\CryptInterface
 			}
 
 		}
-
-		/*if (!padding_size) {
-			ZVAL_ZVAL(return_value, text, 1, 0);
-		}*/
 
 		if !paddingSize {
 			return text;

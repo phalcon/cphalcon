@@ -74,8 +74,7 @@ class Libmemcached extends \Phalcon\Cache\Backend implements \Phalcon\Cache\Back
 		}
 
 		if !isset options["servers"] {
-                        let servers = [0: ["host": "127.0.0.1", "port": 11211, "weigth": 1]];
-
+            let servers = [0: ["host": "127.0.0.1", "port": 11211, "weigth": 1]];
 			let options["servers"] = servers;
 		}
 
