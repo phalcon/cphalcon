@@ -211,9 +211,6 @@ class Gd extends \Phalcon\Image\Adapter implements \Phalcon\Image\AdapterInterfa
 			maxy = h - 1;
 
 		switch degrees {
-			case 0:
-			case 360:
-				return img;
 			case 90:
 				let newImg = imagecreatetruecolor(h, w),
 					x = 0;
@@ -257,7 +254,7 @@ class Gd extends \Phalcon\Image\Adapter implements \Phalcon\Image\AdapterInterfa
 				}
 				break;
 			default:
-				return false;
+				return img;
 		}
 		return newImg;
 	}
