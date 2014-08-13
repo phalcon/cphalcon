@@ -204,7 +204,7 @@ PHP_METHOD(Phalcon_Translate_Adapter, offsetUnset) {
 PHP_METHOD(Phalcon_Translate_Adapter, offsetGet) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *translateKey_param = NULL;
+	zval *translateKey_param = NULL, *_0;
 	zval *translateKey = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -223,7 +223,9 @@ PHP_METHOD(Phalcon_Translate_Adapter, offsetGet) {
 	}
 
 
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "query", NULL, translateKey, ZEPHIR_GLOBAL(global_null));
+	ZEPHIR_INIT_VAR(_0);
+	ZVAL_NULL(_0);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "query", NULL, translateKey, _0);
 	zephir_check_call_status();
 	RETURN_MM();
 

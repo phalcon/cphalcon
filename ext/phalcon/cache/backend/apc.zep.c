@@ -215,7 +215,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, save) {
 PHP_METHOD(Phalcon_Cache_Backend_Apc, increment) {
 
 	int value, ZEPHIR_LAST_CALL_STATUS;
-	zval *keyName = NULL, *value_param = NULL, *lastKey, *cachedContent = NULL, *result, *_0, _1;
+	zval *keyName = NULL, *value_param = NULL, *lastKey, *cachedContent = NULL, *result, *_0, *_1;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 2, &keyName, &value_param);
@@ -235,9 +235,9 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, increment) {
 	ZEPHIR_CONCAT_SVV(lastKey, "_PHCA", _0, keyName);
 	zephir_update_property_this(this_ptr, SL("_lastKey"), lastKey TSRMLS_CC);
 	if ((zephir_function_exists_ex(SS("apc_inc") TSRMLS_CC) == SUCCESS)) {
-		ZEPHIR_SINIT_VAR(_1);
-		ZVAL_LONG(&_1, value);
-		ZEPHIR_RETURN_CALL_FUNCTION("apc_inc", NULL, lastKey, &_1);
+		ZEPHIR_INIT_VAR(_1);
+		ZVAL_LONG(_1, value);
+		ZEPHIR_RETURN_CALL_FUNCTION("apc_inc", NULL, lastKey, _1);
 		zephir_check_call_status();
 		RETURN_MM();
 	} else {
@@ -267,7 +267,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, increment) {
 PHP_METHOD(Phalcon_Cache_Backend_Apc, decrement) {
 
 	int value, ZEPHIR_LAST_CALL_STATUS;
-	zval *keyName = NULL, *value_param = NULL, *lastKey, *cachedContent = NULL, *result, *_0, _1;
+	zval *keyName = NULL, *value_param = NULL, *lastKey, *cachedContent = NULL, *result, *_0, *_1;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 2, &keyName, &value_param);
@@ -287,9 +287,9 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, decrement) {
 	ZEPHIR_CONCAT_SVV(lastKey, "_PHCA", _0, keyName);
 	zephir_update_property_this(this_ptr, SL("_lastKey"), lastKey TSRMLS_CC);
 	if ((zephir_function_exists_ex(SS("apc_dec") TSRMLS_CC) == SUCCESS)) {
-		ZEPHIR_SINIT_VAR(_1);
-		ZVAL_LONG(&_1, value);
-		ZEPHIR_RETURN_CALL_FUNCTION("apc_dec", NULL, lastKey, &_1);
+		ZEPHIR_INIT_VAR(_1);
+		ZVAL_LONG(_1, value);
+		ZEPHIR_RETURN_CALL_FUNCTION("apc_dec", NULL, lastKey, _1);
 		zephir_check_call_status();
 		RETURN_MM();
 	} else {

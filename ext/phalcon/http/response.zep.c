@@ -584,10 +584,10 @@ PHP_METHOD(Phalcon_Http_Response, setEtag) {
  */
 PHP_METHOD(Phalcon_Http_Response, redirect) {
 
-	zephir_nts_static zephir_fcall_cache_entry *_3 = NULL, *_4 = NULL;
+	zephir_nts_static zephir_fcall_cache_entry *_3 = NULL, *_5 = NULL;
 	zend_bool _0;
 	int statusCode, ZEPHIR_LAST_CALL_STATUS;
-	zval *location = NULL, *externalRedirect = NULL, *statusCode_param = NULL, *header = NULL, *url = NULL, *dependencyInjector = NULL, *messages, *matched = NULL, *message = NULL, _1 = zval_used_for_init, *_2 = NULL, *_5 = NULL;
+	zval *location = NULL, *externalRedirect = NULL, *statusCode_param = NULL, *header = NULL, *url = NULL, *dependencyInjector = NULL, *messages, *matched = NULL, *message = NULL, _1, *_2 = NULL, *_4 = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 3, &location, &externalRedirect, &statusCode_param);
@@ -634,9 +634,10 @@ PHP_METHOD(Phalcon_Http_Response, redirect) {
 			_0 = zephir_is_true(_2);
 		}
 		if (_0) {
-			ZEPHIR_SINIT_NVAR(_1);
-			ZVAL_STRING(&_1, "/^[^:\\/?#]++:/", 0);
-			ZEPHIR_CALL_FUNCTION(&matched, "preg_match", &_4, &_1, location);
+			ZEPHIR_INIT_VAR(_4);
+			ZVAL_STRING(_4, "/^[^:\\/?#]++:/", 0);
+			ZEPHIR_CALL_FUNCTION(&matched, "preg_match", &_5, _4, location);
+			zephir_check_temp_parameter(_4);
 			zephir_check_call_status();
 			if (zephir_is_true(matched)) {
 				ZEPHIR_CPY_WRT(header, location);
@@ -652,10 +653,10 @@ PHP_METHOD(Phalcon_Http_Response, redirect) {
 	if (!(zephir_is_true(header))) {
 		ZEPHIR_CALL_METHOD(&dependencyInjector, this_ptr, "getdi",  NULL);
 		zephir_check_call_status();
-		ZEPHIR_INIT_VAR(_5);
-		ZVAL_STRING(_5, "url", 0);
-		ZEPHIR_CALL_METHOD(&_2, dependencyInjector, "getshared", NULL, _5);
-		zephir_check_temp_parameter(_5);
+		ZEPHIR_INIT_NVAR(_4);
+		ZVAL_STRING(_4, "url", 0);
+		ZEPHIR_CALL_METHOD(&_2, dependencyInjector, "getshared", NULL, _4);
+		zephir_check_temp_parameter(_4);
 		zephir_check_call_status();
 		ZEPHIR_CPY_WRT(url, _2);
 		ZEPHIR_CALL_METHOD(&header, url, "get", NULL, location);
@@ -673,14 +674,14 @@ PHP_METHOD(Phalcon_Http_Response, redirect) {
 		ZEPHIR_OBS_NVAR(message);
 		zephir_array_fetch_long(&message, messages, statusCode, PH_NOISY, "phalcon/http/response.zep", 399 TSRMLS_CC);
 	}
-	ZEPHIR_INIT_NVAR(_5);
-	ZVAL_LONG(_5, statusCode);
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "setstatuscode", NULL, _5, message);
+	ZEPHIR_INIT_NVAR(_4);
+	ZVAL_LONG(_4, statusCode);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "setstatuscode", NULL, _4, message);
 	zephir_check_call_status();
-	ZEPHIR_INIT_NVAR(_5);
-	ZVAL_STRING(_5, "Location", 0);
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "setheader", NULL, _5, header);
-	zephir_check_temp_parameter(_5);
+	ZEPHIR_INIT_NVAR(_4);
+	ZVAL_STRING(_4, "Location", 0);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "setheader", NULL, _4, header);
+	zephir_check_temp_parameter(_4);
 	zephir_check_call_status();
 	RETURN_THIS();
 

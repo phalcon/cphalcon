@@ -331,7 +331,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, getOrCreateTransaction) {
 	int ZEPHIR_LAST_CALL_STATUS;
 	HashTable *_2;
 	HashPosition _1;
-	zval *autoBegin_param = NULL, *dependencyInjector = NULL, *transaction = NULL, *transactions, *_0, **_3, *_4;
+	zval *autoBegin_param = NULL, *dependencyInjector = NULL, *transaction = NULL, *transactions, *_0, **_3, *_4 = NULL, *_5;
 	zend_bool autoBegin;
 
 	ZEPHIR_MM_GROW();
@@ -362,7 +362,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, getOrCreateTransaction) {
 			) {
 				ZEPHIR_GET_HVALUE(transaction, _3);
 				if (Z_TYPE_P(transaction) == IS_OBJECT) {
-					ZEPHIR_CALL_METHOD(NULL, transaction, "setisnewtransaction", NULL, ZEPHIR_GLOBAL(global_false));
+					ZEPHIR_INIT_NVAR(_4);
+					ZVAL_BOOL(_4, 0);
+					ZEPHIR_CALL_METHOD(NULL, transaction, "setisnewtransaction", NULL, _4);
 					zephir_check_call_status();
 					RETURN_CCTOR(transaction);
 				}
@@ -371,8 +373,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, getOrCreateTransaction) {
 	}
 	ZEPHIR_INIT_VAR(transaction);
 	object_init_ex(transaction, phalcon_mvc_model_transaction_ce);
-	_4 = zephir_fetch_nproperty_this(this_ptr, SL("_service"), PH_NOISY_CC);
-	ZEPHIR_CALL_METHOD(NULL, transaction, "__construct", NULL, dependencyInjector, (autoBegin ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)), _4);
+	_5 = zephir_fetch_nproperty_this(this_ptr, SL("_service"), PH_NOISY_CC);
+	ZEPHIR_CALL_METHOD(NULL, transaction, "__construct", NULL, dependencyInjector, (autoBegin ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)), _5);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(NULL, transaction, "settransactionmanager", NULL, this_ptr);
 	zephir_check_call_status();

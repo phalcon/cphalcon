@@ -1384,7 +1384,7 @@ PHP_METHOD(Phalcon_Tag, radioField) {
 PHP_METHOD(Phalcon_Tag, imageInput) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *parameters, *_0;
+	zval *parameters, *_0, *_1;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &parameters);
@@ -1393,7 +1393,9 @@ PHP_METHOD(Phalcon_Tag, imageInput) {
 
 	ZEPHIR_INIT_VAR(_0);
 	ZVAL_STRING(_0, "image", 0);
-	ZEPHIR_RETURN_CALL_SELF("_inputfield", NULL, _0, parameters, ZEPHIR_GLOBAL(global_true));
+	ZEPHIR_INIT_VAR(_1);
+	ZVAL_BOOL(_1, 1);
+	ZEPHIR_RETURN_CALL_SELF("_inputfield", NULL, _0, parameters, _1);
 	zephir_check_temp_parameter(_0);
 	zephir_check_call_status();
 	RETURN_MM();
@@ -1418,7 +1420,7 @@ PHP_METHOD(Phalcon_Tag, imageInput) {
 PHP_METHOD(Phalcon_Tag, submitButton) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *parameters, *_0;
+	zval *parameters, *_0, *_1;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &parameters);
@@ -1427,7 +1429,9 @@ PHP_METHOD(Phalcon_Tag, submitButton) {
 
 	ZEPHIR_INIT_VAR(_0);
 	ZVAL_STRING(_0, "submit", 0);
-	ZEPHIR_RETURN_CALL_SELF("_inputfield", NULL, _0, parameters, ZEPHIR_GLOBAL(global_true));
+	ZEPHIR_INIT_VAR(_1);
+	ZVAL_BOOL(_1, 1);
+	ZEPHIR_RETURN_CALL_SELF("_inputfield", NULL, _0, parameters, _1);
 	zephir_check_temp_parameter(_0);
 	zephir_check_call_status();
 	RETURN_MM();
@@ -2121,9 +2125,9 @@ PHP_METHOD(Phalcon_Tag, friendlyTitle) {
 	HashTable *_8;
 	HashPosition _7;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zephir_nts_static zephir_fcall_cache_entry *_2 = NULL, *_4 = NULL, *_12 = NULL;
+	zephir_nts_static zephir_fcall_cache_entry *_2 = NULL, *_4 = NULL, *_13 = NULL;
 	zend_bool lowercase, _6;
-	zval *text_param = NULL, *separator_param = NULL, *lowercase_param = NULL, *replace = NULL, *friendly = NULL, *locale = NULL, *search = NULL, _0 = zval_used_for_init, *_1 = NULL, _3 = zval_used_for_init, *_5 = NULL, **_9, *_10 = NULL, _11, *_13 = NULL;
+	zval *text_param = NULL, *separator_param = NULL, *lowercase_param = NULL, *replace = NULL, *friendly = NULL, *locale = NULL, *search = NULL, _0 = zval_used_for_init, *_1 = NULL, _3 = zval_used_for_init, *_5 = NULL, **_9, *_10 = NULL, *_11, *_12;
 	zval *text = NULL, *separator = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -2196,25 +2200,28 @@ PHP_METHOD(Phalcon_Tag, friendlyTitle) {
 			zephir_get_strval(text, _10);
 		}
 	}
-	ZEPHIR_SINIT_NVAR(_3);
-	ZVAL_STRING(&_3, "/[^a-zA-Z0-9\\/_|+ -]/", 0);
-	ZEPHIR_SINIT_VAR(_11);
-	ZVAL_STRING(&_11, "", 0);
-	ZEPHIR_CALL_FUNCTION(&friendly, "preg_replace", &_12, &_3, &_11, text);
+	ZEPHIR_INIT_VAR(_11);
+	ZVAL_STRING(_11, "/[^a-zA-Z0-9\\/_|+ -]/", 0);
+	ZEPHIR_INIT_VAR(_12);
+	ZVAL_STRING(_12, "", 0);
+	ZEPHIR_CALL_FUNCTION(&friendly, "preg_replace", &_13, _11, _12, text);
+	zephir_check_temp_parameter(_11);
+	zephir_check_temp_parameter(_12);
 	zephir_check_call_status();
 	if (lowercase) {
-		ZEPHIR_INIT_VAR(_13);
-		zephir_fast_strtolower(_13, friendly);
-		ZEPHIR_CPY_WRT(friendly, _13);
+		ZEPHIR_INIT_BNVAR(_11);
+		zephir_fast_strtolower(_11, friendly);
+		ZEPHIR_CPY_WRT(friendly, _11);
 	}
-	ZEPHIR_SINIT_NVAR(_3);
-	ZVAL_STRING(&_3, "/[\\/_|+ -]+/", 0);
-	ZEPHIR_CALL_FUNCTION(&_5, "preg_replace", &_12, &_3, separator, friendly);
+	ZEPHIR_INIT_BNVAR(_11);
+	ZVAL_STRING(_11, "/[\\/_|+ -]+/", 0);
+	ZEPHIR_CALL_FUNCTION(&_5, "preg_replace", &_13, _11, separator, friendly);
+	zephir_check_temp_parameter(_11);
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(friendly, _5);
-	ZEPHIR_INIT_NVAR(_13);
-	zephir_fast_trim(_13, friendly, separator, ZEPHIR_TRIM_BOTH TSRMLS_CC);
-	ZEPHIR_CPY_WRT(friendly, _13);
+	ZEPHIR_INIT_BNVAR(_11);
+	zephir_fast_trim(_11, friendly, separator, ZEPHIR_TRIM_BOTH TSRMLS_CC);
+	ZEPHIR_CPY_WRT(friendly, _11);
 	ZEPHIR_SINIT_NVAR(_3);
 	ZVAL_STRING(&_3, "iconv", 0);
 	ZEPHIR_CALL_FUNCTION(&_5, "extension_loaded", &_2, &_3);

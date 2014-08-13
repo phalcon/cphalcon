@@ -1477,7 +1477,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, findFirst) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
 	zend_class_entry *_0;
-	zval *parameters = NULL, *className, *collection, *connection = NULL;
+	zval *parameters = NULL, *className, *collection, *connection = NULL, *_1;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &parameters);
@@ -1504,7 +1504,9 @@ PHP_METHOD(Phalcon_Mvc_Collection, findFirst) {
 	}
 	ZEPHIR_CALL_METHOD(&connection, collection, "getconnection",  NULL);
 	zephir_check_call_status();
-	ZEPHIR_RETURN_CALL_SELF("_getresultset", NULL, parameters, collection, connection, ZEPHIR_GLOBAL(global_true));
+	ZEPHIR_INIT_VAR(_1);
+	ZVAL_BOOL(_1, 1);
+	ZEPHIR_RETURN_CALL_SELF("_getresultset", NULL, parameters, collection, connection, _1);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -1552,7 +1554,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, find) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
 	zend_class_entry *_0;
-	zval *parameters = NULL, *className, *collection, *_1 = NULL;
+	zval *parameters = NULL, *className, *collection, *_1 = NULL, *_2;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &parameters);
@@ -1579,7 +1581,9 @@ PHP_METHOD(Phalcon_Mvc_Collection, find) {
 	}
 	ZEPHIR_CALL_METHOD(&_1, collection, "getconnection",  NULL);
 	zephir_check_call_status();
-	ZEPHIR_RETURN_CALL_SELF("_getresultset", NULL, parameters, collection, _1, ZEPHIR_GLOBAL(global_false));
+	ZEPHIR_INIT_VAR(_2);
+	ZVAL_BOOL(_2, 0);
+	ZEPHIR_RETURN_CALL_SELF("_getresultset", NULL, parameters, collection, _1, _2);
 	zephir_check_call_status();
 	RETURN_MM();
 

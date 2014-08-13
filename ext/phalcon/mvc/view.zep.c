@@ -1420,7 +1420,7 @@ PHP_METHOD(Phalcon_Mvc_View, pick) {
 PHP_METHOD(Phalcon_Mvc_View, partial) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *partialPath_param = NULL, *params = NULL, *viewParams, *_0, *_1 = NULL, *_2, *_3;
+	zval *partialPath_param = NULL, *params = NULL, *viewParams, *_0 = NULL, *_1 = NULL, *_2, *_3, *_4;
 	zval *partialPath = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -1460,7 +1460,11 @@ PHP_METHOD(Phalcon_Mvc_View, partial) {
 	_2 = zephir_fetch_nproperty_this(this_ptr, SL("_partialsDir"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(_3);
 	ZEPHIR_CONCAT_VV(_3, _2, partialPath);
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "_enginerender", NULL, _1, _3, ZEPHIR_GLOBAL(global_false), ZEPHIR_GLOBAL(global_false));
+	ZEPHIR_INIT_NVAR(_0);
+	ZVAL_BOOL(_0, 0);
+	ZEPHIR_INIT_VAR(_4);
+	ZVAL_BOOL(_4, 0);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "_enginerender", NULL, _1, _3, _0, _4);
 	zephir_check_call_status();
 	if (Z_TYPE_P(params) == IS_ARRAY) {
 		zephir_update_property_this(this_ptr, SL("_viewParams"), viewParams TSRMLS_CC);

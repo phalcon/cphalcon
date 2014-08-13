@@ -161,7 +161,7 @@ PHP_METHOD(Phalcon_Di, set) {
 PHP_METHOD(Phalcon_Di, setShared) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *name_param = NULL, *definition, *service;
+	zval *name_param = NULL, *definition, *service, *_0;
 	zval *name = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -182,7 +182,9 @@ PHP_METHOD(Phalcon_Di, setShared) {
 
 	ZEPHIR_INIT_VAR(service);
 	object_init_ex(service, phalcon_di_service_ce);
-	ZEPHIR_CALL_METHOD(NULL, service, "__construct", NULL, name, definition, ZEPHIR_GLOBAL(global_true));
+	ZEPHIR_INIT_VAR(_0);
+	ZVAL_BOOL(_0, 1);
+	ZEPHIR_CALL_METHOD(NULL, service, "__construct", NULL, name, definition, _0);
 	zephir_check_call_status();
 	zephir_update_property_array(this_ptr, SL("_services"), name, service TSRMLS_CC);
 	RETURN_CCTOR(service);

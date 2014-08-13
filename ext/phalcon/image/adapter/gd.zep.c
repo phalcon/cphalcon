@@ -1537,8 +1537,8 @@ PHP_METHOD(Phalcon_Image_Adapter_Gd, _render) {
 	zend_bool _8;
 	zephir_nts_static zephir_fcall_cache_entry *_0 = NULL, *_3 = NULL, *_5 = NULL, *_7 = NULL;
 	int quality, ZEPHIR_LAST_CALL_STATUS;
-	zval *ext_param = NULL, *quality_param = NULL, _1 = zval_used_for_init, *_2 = NULL, *_4, *_6 = NULL, *_9 = NULL, *_10, *_11 = NULL, *_12 = NULL, *_13 = NULL, *_14;
-	zval *ext = NULL, *_15;
+	zval *ext_param = NULL, *quality_param = NULL, _1 = zval_used_for_init, *_2 = NULL, *_4, *_6 = NULL, *_9 = NULL, *_10, *_11, *_12 = NULL, *_13 = NULL, *_14 = NULL, *_15;
+	zval *ext = NULL, *_16;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &ext_param, &quality_param);
@@ -1576,8 +1576,10 @@ PHP_METHOD(Phalcon_Image_Adapter_Gd, _render) {
 	if (_8) {
 		_4 = zephir_fetch_nproperty_this(this_ptr, SL("_image"), PH_NOISY_CC);
 		ZEPHIR_INIT_VAR(_10);
-		ZVAL_LONG(_10, quality);
-		ZEPHIR_CALL_FUNCTION(NULL, "imagejpeg", NULL, _4, ZEPHIR_GLOBAL(global_null), _10);
+		ZVAL_NULL(_10);
+		ZEPHIR_INIT_VAR(_11);
+		ZVAL_LONG(_11, quality);
+		ZEPHIR_CALL_FUNCTION(NULL, "imagejpeg", NULL, _4, _10, _11);
 		zephir_check_call_status();
 		ZEPHIR_RETURN_CALL_FUNCTION("ob_get_clean", &_5);
 		zephir_check_call_status();
@@ -1585,9 +1587,9 @@ PHP_METHOD(Phalcon_Image_Adapter_Gd, _render) {
 	}
 	ZEPHIR_SINIT_NVAR(_1);
 	ZVAL_STRING(&_1, "png", 0);
-	ZEPHIR_CALL_FUNCTION(&_11, "strcmp", &_7, ext, &_1);
+	ZEPHIR_CALL_FUNCTION(&_12, "strcmp", &_7, ext, &_1);
 	zephir_check_call_status();
-	if (ZEPHIR_IS_LONG(_11, 0)) {
+	if (ZEPHIR_IS_LONG(_12, 0)) {
 		_4 = zephir_fetch_nproperty_this(this_ptr, SL("_image"), PH_NOISY_CC);
 		ZEPHIR_CALL_FUNCTION(NULL, "imagejpeg", NULL, _4);
 		zephir_check_call_status();
@@ -1597,9 +1599,9 @@ PHP_METHOD(Phalcon_Image_Adapter_Gd, _render) {
 	}
 	ZEPHIR_SINIT_NVAR(_1);
 	ZVAL_STRING(&_1, "wbmp", 0);
-	ZEPHIR_CALL_FUNCTION(&_12, "strcmp", &_7, ext, &_1);
+	ZEPHIR_CALL_FUNCTION(&_13, "strcmp", &_7, ext, &_1);
 	zephir_check_call_status();
-	if (ZEPHIR_IS_LONG(_12, 0)) {
+	if (ZEPHIR_IS_LONG(_13, 0)) {
 		_4 = zephir_fetch_nproperty_this(this_ptr, SL("_image"), PH_NOISY_CC);
 		ZEPHIR_CALL_FUNCTION(NULL, "imagewbmp", NULL, _4);
 		zephir_check_call_status();
@@ -1609,9 +1611,9 @@ PHP_METHOD(Phalcon_Image_Adapter_Gd, _render) {
 	}
 	ZEPHIR_SINIT_NVAR(_1);
 	ZVAL_STRING(&_1, "xbm", 0);
-	ZEPHIR_CALL_FUNCTION(&_13, "strcmp", &_7, ext, &_1);
+	ZEPHIR_CALL_FUNCTION(&_14, "strcmp", &_7, ext, &_1);
 	zephir_check_call_status();
-	if (ZEPHIR_IS_LONG(_13, 0)) {
+	if (ZEPHIR_IS_LONG(_14, 0)) {
 		_4 = zephir_fetch_nproperty_this(this_ptr, SL("_image"), PH_NOISY_CC);
 		ZEPHIR_CALL_FUNCTION(NULL, "imagexbm", NULL, _4, ZEPHIR_GLOBAL(global_null));
 		zephir_check_call_status();
@@ -1619,13 +1621,13 @@ PHP_METHOD(Phalcon_Image_Adapter_Gd, _render) {
 		zephir_check_call_status();
 		RETURN_MM();
 	}
-	ZEPHIR_INIT_VAR(_14);
-	object_init_ex(_14, phalcon_image_exception_ce);
 	ZEPHIR_INIT_VAR(_15);
-	ZEPHIR_CONCAT_SVS(_15, "Installed GD does not support '", ext, "' images");
-	ZEPHIR_CALL_METHOD(NULL, _14, "__construct", NULL, _15);
+	object_init_ex(_15, phalcon_image_exception_ce);
+	ZEPHIR_INIT_VAR(_16);
+	ZEPHIR_CONCAT_SVS(_16, "Installed GD does not support '", ext, "' images");
+	ZEPHIR_CALL_METHOD(NULL, _15, "__construct", NULL, _16);
 	zephir_check_call_status();
-	zephir_throw_exception_debug(_14, "phalcon/image/adapter/gd.zep", 558 TSRMLS_CC);
+	zephir_throw_exception_debug(_15, "phalcon/image/adapter/gd.zep", 558 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 	return;
 

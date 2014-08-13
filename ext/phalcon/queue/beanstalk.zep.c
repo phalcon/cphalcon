@@ -100,9 +100,9 @@ PHP_METHOD(Phalcon_Queue_Beanstalk, __construct) {
 
 PHP_METHOD(Phalcon_Queue_Beanstalk, connect) {
 
-	zephir_nts_static zephir_fcall_cache_entry *_2 = NULL, *_4 = NULL;
+	zephir_nts_static zephir_fcall_cache_entry *_4 = NULL, *_6 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *connection = NULL, *parameters, *_0, *_1, _3;
+	zval *connection = NULL, *parameters, *_0, *_1, *_2, *_3, _5;
 
 	ZEPHIR_MM_GROW();
 
@@ -116,15 +116,21 @@ PHP_METHOD(Phalcon_Queue_Beanstalk, connect) {
 	zephir_read_property_this(&parameters, this_ptr, SL("_parameters"), PH_NOISY_CC);
 	zephir_array_fetch_string(&_0, parameters, SL("host"), PH_NOISY | PH_READONLY, "phalcon/queue/beanstalk.zep", 74 TSRMLS_CC);
 	zephir_array_fetch_string(&_1, parameters, SL("port"), PH_NOISY | PH_READONLY, "phalcon/queue/beanstalk.zep", 74 TSRMLS_CC);
-	ZEPHIR_CALL_FUNCTION(&connection, "fsockopen", &_2, _0, _1, ZEPHIR_GLOBAL(global_null), ZEPHIR_GLOBAL(global_null));
+	ZEPHIR_INIT_VAR(_2);
+	ZVAL_NULL(_2);
+	ZEPHIR_INIT_VAR(_3);
+	ZVAL_NULL(_3);
+	Z_SET_ISREF_P(_2);
+	ZEPHIR_CALL_FUNCTION(&connection, "fsockopen", &_4, _0, _1, _2, _3);
+	Z_UNSET_ISREF_P(_2);
 	zephir_check_call_status();
 	if (Z_TYPE_P(connection) != IS_RESOURCE) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_exception_ce, "Can't connect to Beanstalk server", "phalcon/queue/beanstalk.zep", 76);
 		return;
 	}
-	ZEPHIR_SINIT_VAR(_3);
-	ZVAL_LONG(&_3, -1);
-	ZEPHIR_CALL_FUNCTION(NULL, "stream_set_timeout", &_4, connection, &_3, ZEPHIR_GLOBAL(global_null));
+	ZEPHIR_SINIT_VAR(_5);
+	ZVAL_LONG(&_5, -1);
+	ZEPHIR_CALL_FUNCTION(NULL, "stream_set_timeout", &_6, connection, &_5, ZEPHIR_GLOBAL(global_null));
 	zephir_check_call_status();
 	zephir_update_property_this(this_ptr, SL("_connection"), connection TSRMLS_CC);
 	RETURN_CCTOR(connection);

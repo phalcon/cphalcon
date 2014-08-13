@@ -825,13 +825,15 @@ PHP_METHOD(Phalcon_Forms_Element, appendMessage) {
 PHP_METHOD(Phalcon_Forms_Element, clear) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *_1;
+	zval *_1, *_2;
 	zephir_nts_static zephir_fcall_cache_entry *_0 = NULL;
 
 	ZEPHIR_MM_GROW();
 
 	_1 = zephir_fetch_nproperty_this(this_ptr, SL("_name"), PH_NOISY_CC);
-	ZEPHIR_CALL_CE_STATIC(NULL, phalcon_tag_ce, "setdefault", &_0, _1, ZEPHIR_GLOBAL(global_null));
+	ZEPHIR_INIT_VAR(_2);
+	ZVAL_NULL(_2);
+	ZEPHIR_CALL_CE_STATIC(NULL, phalcon_tag_ce, "setdefault", &_0, _1, _2);
 	zephir_check_call_status();
 	RETURN_THIS();
 

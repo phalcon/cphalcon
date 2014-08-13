@@ -207,7 +207,9 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, getPaginate) {
 	ZEPHIR_CALL_METHOD(NULL, totalBuilder, "columns", NULL, _2);
 	zephir_check_temp_parameter(_2);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, totalBuilder, "orderby", NULL, ZEPHIR_GLOBAL(global_null));
+	ZEPHIR_INIT_BNVAR(_2);
+	ZVAL_NULL(_2);
+	ZEPHIR_CALL_METHOD(NULL, totalBuilder, "orderby", NULL, _2);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&totalQuery, totalBuilder, "getquery",  NULL);
 	zephir_check_call_status();

@@ -541,7 +541,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, notFound) {
 PHP_METHOD(Phalcon_Mvc_Micro, getRouter) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *router = NULL, *_0;
+	zval *router = NULL, *_0 = NULL;
 
 	ZEPHIR_MM_GROW();
 
@@ -555,7 +555,9 @@ PHP_METHOD(Phalcon_Mvc_Micro, getRouter) {
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, router, "clear", NULL);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(NULL, router, "removeextraslashes", NULL, ZEPHIR_GLOBAL(global_true));
+		ZEPHIR_INIT_NVAR(_0);
+		ZVAL_BOOL(_0, 1);
+		ZEPHIR_CALL_METHOD(NULL, router, "removeextraslashes", NULL, _0);
 		zephir_check_call_status();
 		zephir_update_property_this(this_ptr, SL("_router"), router TSRMLS_CC);
 	}

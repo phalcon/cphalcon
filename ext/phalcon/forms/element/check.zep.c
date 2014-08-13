@@ -57,7 +57,7 @@ PHP_METHOD(Phalcon_Forms_Element_Check, render) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
 	zephir_nts_static zephir_fcall_cache_entry *_0 = NULL;
-	zval *attributes = NULL, *_1 = NULL;
+	zval *attributes = NULL, *_1 = NULL, *_2;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &attributes);
@@ -67,7 +67,9 @@ PHP_METHOD(Phalcon_Forms_Element_Check, render) {
 	}
 
 
-	ZEPHIR_CALL_METHOD(&_1, this_ptr, "prepareattributes", NULL, attributes, ZEPHIR_GLOBAL(global_true));
+	ZEPHIR_INIT_VAR(_2);
+	ZVAL_BOOL(_2, 1);
+	ZEPHIR_CALL_METHOD(&_1, this_ptr, "prepareattributes", NULL, attributes, _2);
 	zephir_check_call_status();
 	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_tag_ce, "checkfield", &_0, _1);
 	zephir_check_call_status();

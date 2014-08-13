@@ -325,9 +325,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, toArray) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, serialize) {
 
-	zephir_nts_static zephir_fcall_cache_entry *_3 = NULL;
+	zephir_nts_static zephir_fcall_cache_entry *_4 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *_1 = NULL, *_2 = NULL;
+	zval *_1 = NULL, *_2 = NULL, *_3;
 	zval *_0;
 
 	ZEPHIR_MM_GROW();
@@ -341,7 +341,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, serialize) {
 	ZEPHIR_OBS_NVAR(_1);
 	zephir_read_property_this(&_1, this_ptr, SL("_cache"), PH_NOISY_CC);
 	zephir_array_update_string(&_0, SL("cache"), &_1, PH_COPY | PH_SEPARATE);
-	ZEPHIR_CALL_METHOD(&_2, this_ptr, "toarray", NULL, ZEPHIR_GLOBAL(global_false));
+	ZEPHIR_INIT_VAR(_3);
+	ZVAL_BOOL(_3, 0);
+	ZEPHIR_CALL_METHOD(&_2, this_ptr, "toarray", NULL, _3);
 	zephir_check_call_status();
 	zephir_array_update_string(&_0, SL("rows"), &_2, PH_COPY | PH_SEPARATE);
 	ZEPHIR_OBS_NVAR(_1);
@@ -350,7 +352,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, serialize) {
 	ZEPHIR_OBS_NVAR(_1);
 	zephir_read_property_this(&_1, this_ptr, SL("_hydrateMode"), PH_NOISY_CC);
 	zephir_array_update_string(&_0, SL("hydrateMode"), &_1, PH_COPY | PH_SEPARATE);
-	ZEPHIR_RETURN_CALL_FUNCTION("serialize", &_3, _0);
+	ZEPHIR_RETURN_CALL_FUNCTION("serialize", &_4, _0);
 	zephir_check_call_status();
 	RETURN_MM();
 

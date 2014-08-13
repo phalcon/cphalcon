@@ -446,9 +446,9 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, writeMetaDataIndex) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, readColumnMap) {
 
-	zephir_nts_static zephir_fcall_cache_entry *_1 = NULL;
+	zephir_nts_static zephir_fcall_cache_entry *_4 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *model, *keyName, *data = NULL, *_0, *_2;
+	zval *model, *keyName, *data = NULL, *_0, *_1, *_2, *_3, *_5;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &model);
@@ -464,11 +464,17 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, readColumnMap) {
 	ZEPHIR_OBS_VAR(data);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_columnMap"), PH_NOISY_CC);
 	if (!(zephir_array_isset_fetch(&data, _0, keyName, 0 TSRMLS_CC))) {
-		ZEPHIR_CALL_METHOD(NULL, this_ptr, "_initialize", &_1, model, ZEPHIR_GLOBAL(global_null), ZEPHIR_GLOBAL(global_null), ZEPHIR_GLOBAL(global_null));
+		ZEPHIR_INIT_VAR(_1);
+		ZVAL_NULL(_1);
+		ZEPHIR_INIT_VAR(_2);
+		ZVAL_NULL(_2);
+		ZEPHIR_INIT_VAR(_3);
+		ZVAL_NULL(_3);
+		ZEPHIR_CALL_METHOD(NULL, this_ptr, "_initialize", &_4, model, _1, _2, _3);
 		zephir_check_call_status();
-		_2 = zephir_fetch_nproperty_this(this_ptr, SL("_columnMap"), PH_NOISY_CC);
+		_5 = zephir_fetch_nproperty_this(this_ptr, SL("_columnMap"), PH_NOISY_CC);
 		ZEPHIR_OBS_NVAR(data);
-		zephir_array_fetch(&data, _2, keyName, PH_NOISY, "phalcon/mvc/model/metadata.zep", 352 TSRMLS_CC);
+		zephir_array_fetch(&data, _5, keyName, PH_NOISY, "phalcon/mvc/model/metadata.zep", 352 TSRMLS_CC);
 	}
 	RETURN_CCTOR(data);
 
@@ -486,9 +492,9 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, readColumnMap) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, readColumnMapIndex) {
 
-	zephir_nts_static zephir_fcall_cache_entry *_1 = NULL;
+	zephir_nts_static zephir_fcall_cache_entry *_4 = NULL;
 	int index, ZEPHIR_LAST_CALL_STATUS;
-	zval *model, *index_param = NULL, *keyName, *columnMapModel = NULL, *_0, *_2, *_3;
+	zval *model, *index_param = NULL, *keyName, *columnMapModel = NULL, *_0, *_1, *_2, *_3, *_5, *_6;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &model, &index_param);
@@ -505,14 +511,20 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, readColumnMapIndex) {
 	ZEPHIR_OBS_VAR(columnMapModel);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_columnMap"), PH_NOISY_CC);
 	if (!(zephir_array_isset_fetch(&columnMapModel, _0, keyName, 0 TSRMLS_CC))) {
-		ZEPHIR_CALL_METHOD(NULL, this_ptr, "_initialize", &_1, model, ZEPHIR_GLOBAL(global_null), ZEPHIR_GLOBAL(global_null), ZEPHIR_GLOBAL(global_null));
+		ZEPHIR_INIT_VAR(_1);
+		ZVAL_NULL(_1);
+		ZEPHIR_INIT_VAR(_2);
+		ZVAL_NULL(_2);
+		ZEPHIR_INIT_VAR(_3);
+		ZVAL_NULL(_3);
+		ZEPHIR_CALL_METHOD(NULL, this_ptr, "_initialize", &_4, model, _1, _2, _3);
 		zephir_check_call_status();
-		_2 = zephir_fetch_nproperty_this(this_ptr, SL("_columnMap"), PH_NOISY_CC);
+		_5 = zephir_fetch_nproperty_this(this_ptr, SL("_columnMap"), PH_NOISY_CC);
 		ZEPHIR_OBS_NVAR(columnMapModel);
-		zephir_array_fetch(&columnMapModel, _2, keyName, PH_NOISY, "phalcon/mvc/model/metadata.zep", 376 TSRMLS_CC);
+		zephir_array_fetch(&columnMapModel, _5, keyName, PH_NOISY, "phalcon/mvc/model/metadata.zep", 376 TSRMLS_CC);
 	}
-	zephir_array_fetch_long(&_3, columnMapModel, index, PH_NOISY | PH_READONLY, "phalcon/mvc/model/metadata.zep", 379 TSRMLS_CC);
-	RETURN_CTOR(_3);
+	zephir_array_fetch_long(&_6, columnMapModel, index, PH_NOISY | PH_READONLY, "phalcon/mvc/model/metadata.zep", 379 TSRMLS_CC);
+	RETURN_CTOR(_6);
 
 }
 

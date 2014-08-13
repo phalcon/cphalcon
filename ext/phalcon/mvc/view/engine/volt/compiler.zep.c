@@ -2193,9 +2193,9 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileEcho) {
  */
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileInclude) {
 
-	zephir_nts_static zephir_fcall_cache_entry *_2 = NULL;
+	zephir_nts_static zephir_fcall_cache_entry *_3 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *statement, *pathExpr, *path = NULL, *view, *subCompiler, *finalPath = NULL, *compilation = NULL, *params, *_0, *_1 = NULL;
+	zval *statement, *pathExpr, *path = NULL, *view, *subCompiler, *finalPath = NULL, *compilation = NULL, *params, *_0, *_1 = NULL, *_2;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &statement);
@@ -2226,7 +2226,9 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileInclude) {
 			if (zephir_clone(subCompiler, this_ptr TSRMLS_CC) == FAILURE) {
 				RETURN_MM();
 			}
-			ZEPHIR_CALL_METHOD(&compilation, subCompiler, "compile", NULL, finalPath, ZEPHIR_GLOBAL(global_false));
+			ZEPHIR_INIT_VAR(_2);
+			ZVAL_BOOL(_2, 0);
+			ZEPHIR_CALL_METHOD(&compilation, subCompiler, "compile", NULL, finalPath, _2);
 			zephir_check_call_status();
 			if (Z_TYPE_P(compilation) == IS_NULL) {
 				ZEPHIR_INIT_NVAR(compilation);
@@ -2237,14 +2239,14 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileInclude) {
 			RETURN_CCTOR(compilation);
 		}
 	}
-	ZEPHIR_CALL_METHOD(&path, this_ptr, "expression", &_2, pathExpr);
+	ZEPHIR_CALL_METHOD(&path, this_ptr, "expression", &_3, pathExpr);
 	zephir_check_call_status();
 	ZEPHIR_OBS_VAR(params);
 	if (!(zephir_array_isset_string_fetch(&params, statement, SS("params"), 0 TSRMLS_CC))) {
 		ZEPHIR_CONCAT_SVS(return_value, "<?php $this->partial(", path, "); ?>");
 		RETURN_MM();
 	}
-	ZEPHIR_CALL_METHOD(&_1, this_ptr, "expression", &_2, params);
+	ZEPHIR_CALL_METHOD(&_1, this_ptr, "expression", &_3, params);
 	zephir_check_call_status();
 	ZEPHIR_CONCAT_SVSVS(return_value, "<?php $this->partial(", path, ", ", _1, "); ?>");
 	RETURN_MM();
