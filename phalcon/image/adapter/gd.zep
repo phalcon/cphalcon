@@ -198,16 +198,81 @@ class Gd extends \Phalcon\Image\Adapter implements \Phalcon\Image\AdapterInterfa
 		}
 	}
 
+	private function imagerotate(img, int degrees, bgColor, ignoreTransparent = 0)
+	{
+		var w, h, newImg;
+		int x, y, maxx, maxy;
+
+		let degrees = (360 - degrees) % 360;
+
+		let w = imagesx(img),
+			h = imagesy(img),
+			maxx = w - 1,
+			maxy = h - 1;
+
+		switch degrees {
+			case 0:
+			case 360:
+				return img;
+			case 90:
+				let newImg = imagecreatetruecolor(h, w),
+					x = 0;
+
+				while x < w {
+					let y = 0;
+
+					while y < h {
+						imagecopy(newImg, img, maxy - y, x, x, y, 1, 1);
+						let y++;
+					}
+					let x++;
+				}
+				break;
+			case 180:
+				let newImg = imagecreatetruecolor(w, h),
+					x = 0;
+
+				while x < w {
+					let y = 0;
+
+					while y < h {
+						imagecopy(newImg, img, maxx - x, maxy - y, x, y, 1, 1);
+						let y++;
+					}
+					let x++;
+				}
+				break;
+			case 270:
+				let newImg = imagecreatetruecolor(h, w),
+					x = 0;
+
+				while x < w {
+					let y = 0;
+
+					while y < h {
+						imagecopy(newImg, img, y, maxx - x, x, y, 1, 1);
+						let y++;
+					}
+					let x++;
+				}
+				break;
+			default:
+				return false;
+		}
+		return newImg;
+	}
+
 	protected function _rotate(int degrees)
 	{
 		var image, transparent;
 
-        if !function_exists("imagerotate") {
-			throw new Exception("The imagerotate() function doesn't exists");
-		}
+		let transparent = imagecolorallocatealpha(this->_image, 0, 0, 0, 127);
 
-		let transparent = imagecolorallocatealpha(this->_image, 0, 0, 0, 127),
-			image = imagerotate(this->_image, 360 - degrees, transparent, 1);
+		if version_compare(PHP_VERSION, "5.4.0") < 0 {
+			let image = this->imagerotate(this->_image, 360 - degrees, transparent, 1);
+		} else {
+			let image = imagerotate(this->_image, 360 - degrees, transparent, 1);
+		}
 
 		imagesavealpha(image, TRUE);
 		imagedestroy(this->_image);
