@@ -1413,7 +1413,8 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	{
 		var manager, belongsTo, foreignKey, relation, conditions,
 			position, bindParams, extraConditions, message, fields,
-			referencedFields, field, action, referencedModel, value;
+			referencedFields, field, referencedModel, value;
+		int action;
 		boolean error;
 
 		/**
@@ -1442,7 +1443,9 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 					 * Try to find a different action in the foreign key's options
 					 */
 					if typeof foreignKey == "array" {
-						fetch action, foreignKey["action"];
+						if isset foreignKey["action"] {
+							let action = (int) foreignKey["action"];
+						}
 					}
 
 					/**
@@ -1496,9 +1499,9 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 							 */
 							if !fetch message, foreignKey["message"] {
 								if typeof fields == "array" {
-									let message = "Value of fields '" . join(", ", fields) . "' does not exist on referenced table";
+									let message = "Value of fields \"" . join(", ", fields) . "\" does not exist on referenced table";
 								} else {
-									let message = "Value of field '" . fields . "' does not exist on referenced table";
+									let message = "Value of field \"" . fields . "\" does not exist on referenced table";
 								}
 							}
 
@@ -1539,8 +1542,9 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 
 		var manager, relations, relation, foreignKey,
 			resulset, conditions, bindParams, referencedModel,
-			referencedFields, action, fields, field, position, value,
+			referencedFields, fields, field, position, value,
 			extraConditions;
+		int action;
 
 		/**
 		 * Get the models manager
@@ -1571,7 +1575,9 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 					 * Try to find a different action in the foreign key's options
 					 */
 					if typeof foreignKey == "array" {
-						fetch action, foreignKey["action"];
+						if isset foreignKey["action"] {
+							let action = (int) foreignKey["action"];
+						}
 					}
 
 					/**
@@ -1644,15 +1650,16 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	protected function _checkForeignKeysReverseRestrict() -> boolean
 	{
 		boolean error;
-		var manager, relations, foreignKey, action, relation,
+		var manager, relations, foreignKey, relation,
 			relationClass, referencedModel, fields, referencedFields,
 			conditions, bindParams,position, field,
 			value, extraConditions, message;
+		int action;
 
 		/**
 		 * Get the models manager
 		 */
-		let manager = this->_modelsManager;
+		let manager = <ManagerInterface> this->_modelsManager;
 
 		/**
 		 * We check if some of the hasOne/hasMany relations is a foreign key
@@ -1672,19 +1679,21 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 					/**
 					 * By default action is restrict
 					 */
-					let action = 1;
+					let action = Relation::ACTION_RESTRICT;
 
 					/**
 					 * Try to find a different action in the foreign key's options
 					 */
 					if typeof foreignKey == "array" {
-						fetch action, foreignKey["action"];
+						if isset foreignKey["action"] {
+							let action = (int) foreignKey["action"];
+						}
 					}
 
 					/**
 					 * Check only if the operation is restrict
 					 */
-					if action == 1 {
+					if action == Relation::ACTION_RESTRICT {
 
 						let relationClass = relation->getReferencedModel();
 
@@ -2187,7 +2196,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 			fields = [],
 			values = [],
 			bindTypes = [],
-			manager = this->_modelsManager;
+			manager = <ManagerInterface> this->_modelsManager;
 
 		/**
 		 * Check if the model must use dynamic update
@@ -2353,7 +2362,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 		connection->begin(nesting);
 
 		let className = get_class(this),
-			manager = this->getModelsManager();
+			manager = <ManagerInterface> this->getModelsManager();
 
 		for name, record in related {
 
@@ -2447,7 +2456,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 
 		let nesting = false,
 			className = get_class(this),
-			manager = this->getModelsManager();
+			manager = <ManagerInterface> this->getModelsManager();
 
 		for name, record in related {
 

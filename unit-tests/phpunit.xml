@@ -53,7 +53,7 @@
 			<file>unit-tests/ModelsTest.php</file>
 			<file>unit-tests/ModelsEventsTest.php</file>
 			<file>unit-tests/ModelsFindersTest.php</file>
-			<!--<file>unit-tests/ModelsForeignKeysTest.php</file>-->
+			<file>unit-tests/ModelsForeignKeysTest.php</file>
 			<!--<file>unit-tests/ModelsHydrationTest.php</file>-->
 			<file>unit-tests/ModelsMassAssigmentTest.php</file>
 			<!--<file>unit-tests/ModelsMetadataAdaptersTest.php</file>-->
