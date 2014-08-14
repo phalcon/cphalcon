@@ -243,6 +243,7 @@ unit-tests/cache/meta-robots.php
 unit-tests/cache/map-robots.php
 unit-tests/views/test10/children.extends.volt.php
 unit-tests/views/test10/children2.volt.php
+unit-tests/views/test10/children.volt.php
 build/gccarch
 build/32bits/.deps
 build/32bits/.libs/

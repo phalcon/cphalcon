@@ -145,7 +145,6 @@ class Output implements \Phalcon\Cache\FrontendInterface
 		}
 
 		let this->_buffering = false;
-
 		return null;
 	}
 

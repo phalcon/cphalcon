@@ -102,7 +102,7 @@ abstract class Backend
 	 *
 	 * @param boolean stopBuffer
 	 */
-	public function stop(boolean stopBuffer=true)
+	public function stop(boolean stopBuffer = true)
 	{
 		if stopBuffer === true {
 			this->_frontend->stop();
@@ -115,7 +115,7 @@ abstract class Backend
 	 *
 	 * @return boolean
 	 */
-	public function isFresh()
+	public function isFresh() -> boolean
 	{
 		return this->_fresh;
 	}
@@ -125,7 +125,7 @@ abstract class Backend
 	 *
 	 * @return boolean
 	 */
-	public function isStarted()
+	public function isStarted() -> boolean
 	{
 		return this->_started;
 	}

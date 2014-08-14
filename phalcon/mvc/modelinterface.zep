@@ -19,6 +19,8 @@
 
 namespace Phalcon\Mvc;
 
+use Phalcon\Mvc\Model\TransactionInterface;
+
 /**
  * Phalcon\Mvc\ModelInterface
  *
@@ -28,20 +30,12 @@ interface ModelInterface
 {
 
 	/**
-	 * Phalcon\Mvc\Model constructor
-	 *
-	 * @param Phalcon\DiInterface dependencyInjector
-	 * @param Phalcon\Mvc\Model\ManagerInterface modelsManager
-	 */
-	public function __construct(dependencyInjector=null, modelsManager=null);
-
-	/**
 	 * Sets a transaction related to the Model instance
 	 *
 	 * @param Phalcon\Mvc\Model\TransactionInterface transaction
 	 * @return Phalcon\Mvc\ModelInterface
 	 */
-	public function setTransaction(<\Phalcon\Mvc\Model\TransactionInterface> transaction) -> <\Phalcon\Mvc\ModelInterface>;
+	public function setTransaction(<TransactionInterface> transaction) -> <ModelInterface>;
 
 	/**
 	 * Returns table name mapped in the model

@@ -191,7 +191,7 @@ interface ViewInterface
 	 *
 	 * @param array engines
 	 */
-	public function registerEngines(engines);
+	public function registerEngines(array! engines);
 
 	/**
 	 * Executes render process from dispatching data
@@ -200,7 +200,7 @@ interface ViewInterface
 	 * @param string actionName
 	 * @param array params
 	 */
-	public function render(controllerName, actionName, params=null);
+	public function render(controllerName, actionName, params = null);
 
 	/**
 	 * Choose a view different to render than last-controller/last-action

@@ -43,14 +43,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_ModelInterface) {
 }
 
 /**
- * Phalcon\Mvc\Model constructor
- *
- * @param Phalcon\DiInterface dependencyInjector
- * @param Phalcon\Mvc\Model\ManagerInterface modelsManager
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, __construct);
-
-/**
  * Sets a transaction related to the Model instance
  *
  * @param Phalcon\Mvc\Model\TransactionInterface transaction

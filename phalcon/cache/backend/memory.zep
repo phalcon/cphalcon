@@ -50,7 +50,7 @@ class Memory extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendInt
 	 * @param   long lifetime
 	 * @return  mixed
 	 */
-	public function get(var keyName, lifetime=null)
+	public function get(var keyName, lifetime = null)
 	{
 		var lastKey, cachedContent;
 

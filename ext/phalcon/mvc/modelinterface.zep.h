@@ -3,11 +3,6 @@ extern zend_class_entry *phalcon_mvc_modelinterface_ce;
 
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_ModelInterface);
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_modelinterface___construct, 0, 0, 0)
-	ZEND_ARG_INFO(0, dependencyInjector)
-	ZEND_ARG_INFO(0, modelsManager)
-ZEND_END_ARG_INFO()
-
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_modelinterface_settransaction, 0, 0, 1)
 	ZEND_ARG_INFO(0, transaction)
 ZEND_END_ARG_INFO()
@@ -136,7 +131,6 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_modelinterface_setsnapshotdata, 0, 0,
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_mvc_modelinterface_method_entry) {
-	PHP_ABSTRACT_ME(Phalcon_Mvc_ModelInterface, __construct, arginfo_phalcon_mvc_modelinterface___construct)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_ModelInterface, setTransaction, arginfo_phalcon_mvc_modelinterface_settransaction)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_ModelInterface, getSource, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_ModelInterface, getSchema, NULL)
