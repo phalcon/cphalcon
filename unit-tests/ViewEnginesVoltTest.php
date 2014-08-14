@@ -890,19 +890,19 @@ class ViewEnginesVoltTest extends PHPUnit_Framework_TestCase
 
 		//Phalcon\Tag helpers
 		$compilation = $volt->compileString("{{ link_to('hello', 'some-link') }}");
-		$this->assertEquals($compilation, '<?php echo Phalcon\Tag::linkTo(array(\'hello\', \'some-link\')); ?>');
+		$this->assertEquals($compilation, '<?php echo $this->tag->linkTo(array(\'hello\', \'some-link\')); ?>');
 
 		$compilation = $volt->compileString("{{ form('action': 'save/products', 'method': 'post') }}");
-		$this->assertEquals($compilation, '<?php echo Phalcon\Tag::form(array(\'action\' => \'save/products\', \'method\' => \'post\')); ?>');
+		$this->assertEquals($compilation, '<?php echo $this->tag->form(array(\'action\' => \'save/products\', \'method\' => \'post\')); ?>');
 
 		$compilation = $volt->compileString("{{ stylesheet_link(config.cdn.css.bootstrap, config.cdn.local) }}");
-		$this->assertEquals($compilation, '<?php echo Phalcon\Tag::stylesheetLink($config->cdn->css->bootstrap, $config->cdn->local); ?>');
+		$this->assertEquals($compilation, '<?php echo $this->tag->stylesheetLink($config->cdn->css->bootstrap, $config->cdn->local); ?>');
 
 		$compilation = $volt->compileString("{{ javascript_include('js/some.js') }}");
-		$this->assertEquals($compilation, '<?php echo Phalcon\Tag::javascriptInclude(\'js/some.js\'); ?>');
+		$this->assertEquals($compilation, '<?php echo $this->tag->javascriptInclude(\'js/some.js\'); ?>');
 
 		$compilation = $volt->compileString("{{ image('img/logo.png', 'width': 80) }}");
-		$this->assertEquals($compilation, "<?php echo Phalcon\Tag::image(array('img/logo.png', 'width' => 80)); ?>");
+		$this->assertEquals($compilation, "<?php echo \$this->tag->image(array('img/logo.png', 'width' => 80)); ?>");
 
 		//Filters
 		$compilation = $volt->compileString('{{ "hello"|e }}');
@@ -1097,7 +1097,7 @@ class ViewEnginesVoltTest extends PHPUnit_Framework_TestCase
 
 		//Function with closure
 		$volt->addFunction('shuffle', function($arguments, $exprArguments){
-			return 'str_shuffle('.$arguments.')';
+			return 'str_shuffle(' . $arguments . ')';
 		});
 
 		$compilation = $volt->compileString('{{ random() }}');
@@ -1158,7 +1158,7 @@ Clearly, the song is: <?php echo $this->getContent(); ?>.
 		$compilation = file_get_contents('unit-tests/views/test10/children.volt.php');
 		$this->assertEquals($compilation, '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"><html lang="en"><html xmlns="http://www.w3.org/1999/xhtml"><head><style type="text/css">.important { color: #336699; }</style><title>Index - My Webpage</title></head><body><div id="content"><h1>Index</h1><p class="important">Welcome on my awesome homepage.</p></div><div id="footer">&copy; Copyright 2012 by <a href="http://domain.invalid/">you</a>.</div></body>');
 
-		//with blocks and two-ways blocks
+		//with blocks and two-way blocks
 		$volt->compile('unit-tests/views/test10/children2.volt');
 
 		$compilation = file_get_contents('unit-tests/views/test10/children2.volt.php');
@@ -1264,7 +1264,7 @@ Clearly, the song is: <?php echo $this->getContent(); ?>.
 		$volt->render('unit-tests/views/test10/index.volt', array('song' => 'Lights'), true);
 		$view->finish();
 
-		$path = 'unit-tests/cache/'.phalcon_prepare_virtual_path(realpath("unit-tests/"), ".").'.views.test10.index.volt.compiled';
+		$path = 'unit-tests/cache/' . phalcon_prepare_virtual_path(realpath("unit-tests/"), ".") . '.views.test10.index.volt.compiled';
 
 		$this->assertTrue(file_exists($path));
 		$this->assertEquals(file_get_contents($path), 'Hello <?php echo $song; ?>!');
@@ -1357,7 +1357,7 @@ Clearly, the song is: <?php echo $this->getContent(); ?>.
 		$view->render('test11', 'index');
 		$view->finish();
 
-		$this->assertEquals($view->getContent(), 'Length Array: 4Length Object: 4Length String: 5Length No String: 4Slice Array: 1,2,3,4Slice Array: 2,3Slice Array: 1,2,3Slice Object: 2,3,4Slice Object: 2,3Slice Object: 1,2Slice String: helSlice String: elSlice String: lloSlice No String: 123Slice No String: 23Slice No String: 34');
+		$this->assertEquals($view->getContent(), 'Length Array: 4Length Object: 4Length String: 5Length No String: 4Slice Array: 1,2,3,4Slice Array: 2,3Slice Array: 1,2,3Slice Object: 2,3,4Slice Object: 2Slice Object: 1Slice String: helSlice String: elSlice String: lloSlice No String: 123Slice No String: 23Slice No String: 34');
 	}
 
 }

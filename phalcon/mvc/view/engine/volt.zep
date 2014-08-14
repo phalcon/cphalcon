@@ -237,7 +237,8 @@ class Volt extends Engine implements EngineInterface
 	public function slice(value, start, end=null)
 	{
 
-		var length, position, slice;
+		var length, slice;
+		int position;
 
 		/**
 		 * Objects must implement a Traversable interface
@@ -250,14 +251,16 @@ class Volt extends Engine implements EngineInterface
 				let length = end;
 			}
 
-			let position = 0, slice = [];
+			let position = 1, slice = [];
+
+			value->rewind();
 			loop {
 
 				if !value->valid() {
 					break;
 				}
 
-				if position >= start {
+				if position >= start && position <= length {
 					let slice[] = value->current();
 				}
 
