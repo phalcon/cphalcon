@@ -308,20 +308,16 @@ PHP_METHOD(Phalcon_Text, random) {
  */
 PHP_METHOD(Phalcon_Text, startsWith) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
 	zval *str, *start, *ignoreCase = NULL;
 
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 2, 1, &str, &start, &ignoreCase);
+	zephir_fetch_params(0, 2, 1, &str, &start, &ignoreCase);
 
 	if (!ignoreCase) {
 		ignoreCase = ZEPHIR_GLOBAL(global_true);
 	}
 
 
-	ZEPHIR_RETURN_CALL_FUNCTION("starts_with", NULL, str, start, ignoreCase);
-	zephir_check_call_status();
-	RETURN_MM();
+	RETURN_BOOL(zephir_start_with(str, start, zend_is_true(ignoreCase)));
 
 }
 

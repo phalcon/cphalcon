@@ -98,19 +98,25 @@ class Tag
 		return result;
 	}
 
-	public static function renderAttributes(string! code, array! attributes)
+	/**
+	 * Renders parameters keeping order in html attributes
+	 *
+	 * @param string code
+	 * @param array attributes
+	 */
+	public static function renderAttributes(string! code, array! attributes) -> string
 	{
 		var order, keys, escaper, attrs, value, escaped, key;
 
 		let order = ["rel", "type", "for", "src", "href", "action", "id", "name", "value", "class"],
-			escaper = self::getEscaper(attributes),
+			escaper = <\Phalcon\EscaperInterface> self::getEscaper(attributes),
 			keys = array_intersect_key(array_flip(order), attributes),
         	attrs = array_merge(keys, attributes);
 
 		unset attrs["escape"];
 
-		for key, value in attrs {			
-			if typeof key == "string" && value != null {
+		for key, value in attrs {
+			if typeof key == "string" && value !== null {
 				if escaper {
 					let escaped = escaper->escapeHtmlAttr(value);
 				} else {
@@ -206,7 +212,7 @@ class Tag
 	 *
 	 * @param boolean autoescape
 	 */
-	public static function setAutoescape(boolean autoescape)
+	public static function setAutoescape(boolean autoescape) -> void
 	{
 		let self::_autoEscape = autoescape;
 	}
@@ -225,7 +231,7 @@ class Tag
 	 * @param string id
 	 * @param string value
 	 */
-	public static function setDefault(string id, value)
+	public static function setDefault(string! id, value) -> void
 	{
 		if value !== null {
 			if typeof value == "array" || typeof value == "object" {
@@ -249,7 +255,7 @@ class Tag
 	 * @param array values
 	 * @param boolean merge
 	 */
-	public static function setDefaults(values, boolean merge = false)
+	public static function setDefaults(values, boolean merge = false) -> void
 	{
 		var displayValues;
 
@@ -286,7 +292,7 @@ class Tag
 	 * @param string name
 	 * @return boolean
 	 */
-	public static function hasValue(name) -> boolean
+	public static function hasValue(var name) -> boolean
 	{
 		/**
 		 * Check if there is a predefined value for it
@@ -313,10 +319,9 @@ class Tag
 	 * @param array params
 	 * @return mixed
 	 */
-	public static function getValue(name, params=null)
+	public static function getValue(var name, params = null)
 	{
 		var value;
-
 
 		if !params || !fetch value, params["value"] {
 			/**
@@ -1347,7 +1352,7 @@ class Tag
 			}
 			if typeof replace == "array" {
 				for search in replace {
-					let text = str_replace(search, " ", text);		
+					let text = str_replace(search, " ", text);
 				}
 			} else {
 				let text = str_replace(replace, " ", text);

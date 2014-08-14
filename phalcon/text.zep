@@ -114,17 +114,17 @@ abstract class Text
 		var pool, str = "";
 		int end;
 
-		switch (type) {
-			case \Phalcon\Text::RANDOM_ALPHA:
+		switch type {
+			case Text::RANDOM_ALPHA:
 				let pool = array_merge(range("a", "z"), range("A", "Z"));
 				break;
-			case \Phalcon\Text::RANDOM_HEXDEC:
+			case Text::RANDOM_HEXDEC:
 				let pool = array_merge(range(0, 9), range("a", "f"));
 				break;
-			case \Phalcon\Text::RANDOM_NUMERIC:
+			case Text::RANDOM_NUMERIC:
 				let pool = range(0, 9);
 				break;
-			case \Phalcon\Text::RANDOM_NOZERO:
+			case Text::RANDOM_NOZERO:
 				let pool = range(1, 9);
 				break;
 			default:
@@ -156,7 +156,7 @@ abstract class Text
 	 * @param boolean ignoreCase
 	 * @return boolean
 	 */
-	static public function startsWith(str, start, ignoreCase=true) -> boolean
+	static public function startsWith(str, start, ignoreCase = true) -> boolean
 	{
 		return starts_with(str, start, ignoreCase);
 	}

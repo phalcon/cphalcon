@@ -7,7 +7,7 @@
  *
  * PhalconPHP Framework
  *
- * @copyright (c) 2011-2013 Phalcon Team
+ * @copyright (c) 2011-2014 Phalcon Team
  * @link      http://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>
@@ -49,8 +49,8 @@ class UnitTest extends PhTestUnitTestCase
             $actual,
             'String filter with latin does not return correct data'
         );
-    	
-		
+
+
 		$source = 'this is a string>{';
 
         $expected = 'this is a string';
@@ -61,8 +61,8 @@ class UnitTest extends PhTestUnitTestCase
             $actual,
             'String filter with latin does not return correct data'
         );
-		
-		
+
+
 		$source = '{[<<whitin french quotes>>]}';
 
         $expected = 'whitin french quotes';
@@ -95,8 +95,8 @@ class UnitTest extends PhTestUnitTestCase
             $actual,
             'String filter with UTF8 does not return correct data'
         );
-    	
-		
+
+
 		$source = 'buenos días 123 καλημέρα! 早安>';
 
         $expected = 'buenos días 123 καλημέρα! 早安';
@@ -107,8 +107,8 @@ class UnitTest extends PhTestUnitTestCase
             $actual,
             'String filter with latin does not return correct data'
         );
-		
-		
+
+
 		$source = '{[<<buenos días 123 καλημέρα! 早安>>]}';
 
 		$expected = 'buenos días 123 καλημέρα! 早安';
@@ -574,8 +574,8 @@ class UnitTest extends PhTestUnitTestCase
             $actual,
             'Email is not correct'
         );
-		
-	
+
+
 	$expected = 'first.guy@my-domain.com.rx';
         $actual   = $filter->sanitize('!(first.guy)
 		@*my-domain**##.com.rx//', 'email');
@@ -585,7 +585,7 @@ class UnitTest extends PhTestUnitTestCase
             $actual,
             'Email is not correct'
         );
-		
+
     }
 
     /**

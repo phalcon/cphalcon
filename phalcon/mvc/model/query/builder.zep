@@ -19,6 +19,8 @@
 
 namespace Phalcon\Mvc\Model\Query;
 
+use Phalcon\Mvc\Model\Exception;
+
 /**
  * Phalcon\Mvc\Model\Query\Builder
  *
@@ -77,6 +79,8 @@ class Builder implements \Phalcon\Mvc\Model\Query\BuilderInterface, \Phalcon\Di\
 
 	protected _bindTypes;
 
+	protected _distinct;
+
 	protected _hiddenParamNumber = 0;
 
 	/**
@@ -85,7 +89,7 @@ class Builder implements \Phalcon\Mvc\Model\Query\BuilderInterface, \Phalcon\Di\
 	 * @param array params
 	 * @param Phalcon\DiInterface dependencyInjector
 	 */
-	public function __construct(params=null, <\Phalcon\DiInterface> dependencyInjector=null)
+	public function __construct(params = null, <\Phalcon\DiInterface> dependencyInjector = null)
 	{
 		var conditions, columns, groupClause, havingClause, limitClause,
 			forUpdate, sharedLock, orderClause, offsetClause, joinsClause,
@@ -248,6 +252,28 @@ class Builder implements \Phalcon\Mvc\Model\Query\BuilderInterface, \Phalcon\Di\
 	}
 
 	/**
+	 * Sets SELECT DISTINCT / SELECT ALL flag
+	 *
+	 * @param bool|null distinct
+	 * @return Phalcon\Mvc\Model\Query\BuilderInterface
+	 */
+	 public function distinct(distinct) -> <Builder>
+	 {
+	 	let this->_distinct = distinct;
+	 	return this;
+	 }
+
+	/**
+	 * Returns SELECT DISTINCT / SELECT ALL flag
+	 *
+	 * @return bool
+	 */
+	public function getDistinct() -> boolean
+	{
+		return this->_distinct;
+	}
+
+	/**
 	 * Sets the columns to be queried
 	 *
 	 *<code>
@@ -257,7 +283,7 @@ class Builder implements \Phalcon\Mvc\Model\Query\BuilderInterface, \Phalcon\Di\
 	 * @param string|array columns
 	 * @return Phalcon\Mvc\Model\Query\Builder
 	 */
-	public function columns(columns) -> <\Phalcon\Mvc\Model\Query\Builder>
+	public function columns(columns) -> <Builder>
 	{
 		let this->_columns = columns;
 		return this;
@@ -284,7 +310,7 @@ class Builder implements \Phalcon\Mvc\Model\Query\BuilderInterface, \Phalcon\Di\
 	 * @param string|array models
 	 * @return Phalcon\Mvc\Model\Query\Builder
 	 */
-	public function from(var models) -> <\Phalcon\Mvc\Model\Query\Builder>
+	public function from(var models) -> <Builder>
 	{
 		let this->_models = models;
 		return this;
@@ -301,7 +327,7 @@ class Builder implements \Phalcon\Mvc\Model\Query\BuilderInterface, \Phalcon\Di\
 	 * @param string alias
 	 * @return Phalcon\Mvc\Model\Query\Builder
 	 */
-	public function addFrom(model, alias=null) -> <\Phalcon\Mvc\Model\Query\Builder>
+	public function addFrom(model, alias = null) -> <Builder>
 	{
 		var models, currentModel;
 
@@ -351,7 +377,7 @@ class Builder implements \Phalcon\Mvc\Model\Query\BuilderInterface, \Phalcon\Di\
 	 * @param string type
 	 * @return Phalcon\Mvc\Model\Query\Builder
 	 */
-	public function join(string! model, conditions=null, alias=null, type=null) -> <\Phalcon\Mvc\Model\Query\Builder>
+	public function join(string! model, conditions = null, alias = null, type = null) -> <Builder>
 	{
 		let this->_joins[] = [model, conditions, alias, type];
 		return this;
@@ -373,7 +399,7 @@ class Builder implements \Phalcon\Mvc\Model\Query\BuilderInterface, \Phalcon\Di\
 	 * @param string type
 	 * @return Phalcon\Mvc\Model\Query\Builder
 	 */
-	public function innerJoin(string! model, conditions=null, alias=null) -> <\Phalcon\Mvc\Model\Query\Builder>
+	public function innerJoin(string! model, conditions = null, alias = null) -> <Builder>
 	{
 		let this->_joins[] = [model, conditions, alias, "INNER"];
 		return this;
@@ -391,7 +417,7 @@ class Builder implements \Phalcon\Mvc\Model\Query\BuilderInterface, \Phalcon\Di\
 	 * @param string alias
 	 * @return Phalcon\Mvc\Model\Query\Builder
 	 */
-	public function leftJoin(string! model, conditions=null, alias=null) -> <\Phalcon\Mvc\Model\Query\Builder>
+	public function leftJoin(string! model, conditions = null, alias = null) -> <Builder>
 	{
 		let this->_joins[] = [model, conditions, alias, "LEFT"];
 		return this;
@@ -409,7 +435,7 @@ class Builder implements \Phalcon\Mvc\Model\Query\BuilderInterface, \Phalcon\Di\
 	 * @param string alias
 	 * @return Phalcon\Mvc\Model\Query\Builder
 	 */
-	public function rightJoin(model, conditions=null, alias=null) -> <\Phalcon\Mvc\Model\Query\Builder>
+	public function rightJoin(model, conditions = null, alias = null) -> <Builder>
 	{
 		let this->_joins = [model, conditions, alias, "RIGHT"];
 		return this;
@@ -428,7 +454,7 @@ class Builder implements \Phalcon\Mvc\Model\Query\BuilderInterface, \Phalcon\Di\
 	 * @param array bindTypes
 	 * @return Phalcon\Mvc\Model\Query\Builder
 	 */
-	public function where(conditions, bindParams=null, bindTypes=null) -> <\Phalcon\Mvc\Model\Query\Builder>
+	public function where(conditions, bindParams = null, bindTypes = null) -> <Builder>
 	{
 		var currentBindParams, currentBindTypes, mergedParams, mergedTypes;
 
@@ -476,7 +502,7 @@ class Builder implements \Phalcon\Mvc\Model\Query\BuilderInterface, \Phalcon\Di\
 	 * @param array bindTypes
 	 * @return Phalcon\Mvc\Model\Query\Builder
 	 */
-	public function andWhere(string! conditions, bindParams=null, bindTypes=null) -> <\Phalcon\Mvc\Model\Query\Builder>
+	public function andWhere(string! conditions, bindParams = null, bindTypes = null) -> <Builder>
 	{
 		var currentBindParams, currentBindTypes, mergedParams,
 			mergedTypes, currentConditions, newConditions;
@@ -535,7 +561,7 @@ class Builder implements \Phalcon\Mvc\Model\Query\BuilderInterface, \Phalcon\Di\
 	 * @param array bindTypes
 	 * @return Phalcon\Mvc\Model\Query\Builder
 	 */
-	public function orWhere(string! conditions, bindParams=null, bindTypes=null) -> <\Phalcon\Mvc\Model\Query\Builder>
+	public function orWhere(string! conditions, bindParams = null, bindTypes = null) -> <Builder>
 	{
 		var currentBindParams, currentBindTypes, mergedParams,
 			mergedTypes, currentConditions;
@@ -775,7 +801,7 @@ class Builder implements \Phalcon\Mvc\Model\Query\BuilderInterface, \Phalcon\Di\
 	 * @param string orderBy
 	 * @return Phalcon\Mvc\Model\Query\Builder
 	 */
-	public function orderBy(orderBy) -> <\Phalcon\Mvc\Model\Query\Builder>
+	public function orderBy(orderBy) -> <Builder>
 	{
 		let this->_order = orderBy;
 		return this;
@@ -801,7 +827,7 @@ class Builder implements \Phalcon\Mvc\Model\Query\BuilderInterface, \Phalcon\Di\
 	 * @param string having
 	 * @return Phalcon\Mvc\Model\Query\Builder
 	 */
-	public function having(having) -> <\Phalcon\Mvc\Model\Query\Builder>
+	public function having(having) -> <Builder>
 	{
 		let this->_having = having;
 		return this;
@@ -829,7 +855,7 @@ class Builder implements \Phalcon\Mvc\Model\Query\BuilderInterface, \Phalcon\Di\
 	 * @param int offset
 	 * @return Phalcon\Mvc\Model\Query\Builder
 	 */
-	public function limit(int limit, int offset=null) -> <\Phalcon\Mvc\Model\Query\Builder>
+	public function limit(int limit, int offset = null) -> <Builder>
 	{
 		let this->_limit = limit;
 		if offset >= 0 {
@@ -859,7 +885,7 @@ class Builder implements \Phalcon\Mvc\Model\Query\BuilderInterface, \Phalcon\Di\
 	 * @param int offset
 	 * @return Phalcon\Mvc\Model\Query\Builder
 	 */
-	public function offset(offset) -> <\Phalcon\Mvc\Model\Query\Builder>
+	public function offset(offset) -> <Builder>
 	{
 		let this->_offset = offset;
 		return this;
@@ -914,7 +940,7 @@ class Builder implements \Phalcon\Mvc\Model\Query\BuilderInterface, \Phalcon\Di\
 			selectedModel, selectedModels, columnAlias, modelColumnAlias,
 			joins, join, joinModel, joinConditions, joinAlias, joinType, group,
 			groupItems, groupItem, having, order, orderItems, orderItem,
-			limit, number, offset;
+			limit, number, offset, distinct;
 		boolean noPrimary;
 
 		let dependencyInjector = this->_dependencyInjector;
@@ -926,11 +952,11 @@ class Builder implements \Phalcon\Mvc\Model\Query\BuilderInterface, \Phalcon\Di\
 		let models = this->_models;
 		if typeof models == "array" {
 			if !count(models) {
-				throw new \Phalcon\Mvc\Model\Exception("At least one model is required to build the query");
+				throw new Exception("At least one model is required to build the query");
 			}
 		} else {
 			if !models {
-				throw new \Phalcon\Mvc\Model\Exception("At least one model is required to build the query");
+				throw new Exception("At least one model is required to build the query");
 			}
 		}
 
@@ -942,7 +968,7 @@ class Builder implements \Phalcon\Mvc\Model\Query\BuilderInterface, \Phalcon\Di\
 			 */
 			if typeof models == "array" {
 				if count(models) > 1 {
-					throw new \Phalcon\Mvc\Model\Exception("Cannot build the query. Invalid condition");
+					throw new Exception("Cannot build the query. Invalid condition");
 				}
 				let model = models[0];
 			} else {
@@ -972,7 +998,7 @@ class Builder implements \Phalcon\Mvc\Model\Query\BuilderInterface, \Phalcon\Di\
 
 					if typeof columnMap == "array" {
 						if !fetch attributeField, columnMap[firstPrimaryKey] {
-							throw new \Phalcon\Mvc\Model\Exception("Column '" . firstPrimaryKey . "' isn't part of the column map");
+							throw new Exception("Column '" . firstPrimaryKey . "' isn't part of the column map");
 						}
 					} else {
 						let attributeField = firstPrimaryKey;
@@ -987,11 +1013,20 @@ class Builder implements \Phalcon\Mvc\Model\Query\BuilderInterface, \Phalcon\Di\
 			 * A primary key is mandatory in these cases
 			 */
 			if noPrimary === true {
-				throw new \Phalcon\Mvc\Model\Exception("Source related to this model does not have a primary key defined");
+				throw new Exception("Source related to this model does not have a primary key defined");
 			}
 		}
 
-		let phql = "SELECT ";
+		let distinct = this->_distinct;
+		if typeof distinct != "null" && typeof distinct == "bool" {
+			if distinct {
+				let phql = "SELECT DISTINCT ";
+			} else {
+				let phql = "SELECT ALL ";
+			}
+		} else {
+			let phql = "SELECT ";
+		}
 
 		let columns = this->_columns;
 		if typeof columns !== "null" {

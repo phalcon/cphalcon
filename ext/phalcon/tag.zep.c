@@ -199,8 +199,9 @@ PHP_METHOD(Phalcon_Tag, renderAttributes) {
 	ZEPHIR_INIT_BNVAR(_0);
 	ZVAL_STRING(_0, "class", 1);
 	zephir_array_fast_append(order, _0);
-	ZEPHIR_CALL_SELF(&escaper, "getescaper", NULL, attributes);
+	ZEPHIR_CALL_SELF(&_1, "getescaper", NULL, attributes);
 	zephir_check_call_status();
+	ZEPHIR_CPY_WRT(escaper, _1);
 	ZEPHIR_CALL_FUNCTION(&_1, "array_flip", &_2, order);
 	zephir_check_call_status();
 	ZEPHIR_CALL_FUNCTION(&keys, "array_intersect_key", &_3, _1, attributes);
