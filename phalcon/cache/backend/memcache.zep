@@ -120,7 +120,7 @@ class Memcache extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendI
 	 * @param   long lifetime
 	 * @return  mixed
 	 */
-	public function get(keyName, lifetime = null)
+	public function get(var keyName, var lifetime = null)
 	{
 		var memcache, prefixedKey, cachedContent, retrieve;
 
@@ -154,9 +154,9 @@ class Memcache extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendI
 	 * @param long lifetime
 	 * @param boolean stopBuffer
 	 */
-	public function save(keyName = null, content = null, lifetime = null, stopBuffer = true)
+	public function save(var keyName = null, var content = null, var lifetime = null, var stopBuffer = true)
 	{
-		var lastKey, prefix, frontend, memcache, cachedContent, preparedContent, tmp, ttl, success, options,
+		var lastKey, frontend, memcache, cachedContent, preparedContent, tmp, ttl, success, options,
 			specialKey, keys, isBuffering;
 
 		if !keyName {
@@ -257,9 +257,9 @@ class Memcache extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendI
 	 * @param int|string keyName
 	 * @return boolean
 	 */
-	public function delete(keyName)
+	public function delete(var keyName)
 	{
-		var memcache, prefix, prefixedKey, options, keys, specialKey, ret;
+		var memcache, prefixedKey, options, keys, specialKey, ret;
 
 		let memcache = this->_memcache;
 		if typeof memcache != "object" {
