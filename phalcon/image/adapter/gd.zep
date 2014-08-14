@@ -198,7 +198,7 @@ class Gd extends \Phalcon\Image\Adapter implements \Phalcon\Image\AdapterInterfa
 		}
 	}
 
-	private function imagerotate(img, int degrees, bgColor, ignoreTransparent = 0)
+	private function imagerotate(img, int degrees, bgColor, ignoreTransparent = 0) -> resource
 	{
 		var w, h, newImg;
 		int x, y, maxx, maxy;
@@ -265,14 +265,15 @@ class Gd extends \Phalcon\Image\Adapter implements \Phalcon\Image\AdapterInterfa
 
 		let transparent = imagecolorallocatealpha(this->_image, 0, 0, 0, 127);
 
-		if version_compare(PHP_VERSION, "5.4.0") < 0 {
-			let image = this->imagerotate(this->_image, 360 - degrees, transparent, 1);
+		if version_compare(PHP_VERSION, "5.3.3") < 0 {
+			let image = this->_image;
+			let image = this->imagerotate(this->_image, degrees, transparent, 1);
 		} else {
 			let image = imagerotate(this->_image, 360 - degrees, transparent, 1);
+			imagedestroy(this->_image);
 		}
 
 		imagesavealpha(image, TRUE);
-		imagedestroy(this->_image);
 
 		let this->_image = image,
 			this->_width  = imagesx(image),
