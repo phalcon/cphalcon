@@ -317,7 +317,7 @@ PHP_METHOD(Phalcon_Text, startsWith) {
 	}
 
 
-	RETURN_BOOL(zephir_start_with(str, start, zend_is_true(ignoreCase)));
+	RETURN_BOOL(zephir_start_with(str, start, ignoreCase));
 
 }
 

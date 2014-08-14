@@ -534,7 +534,7 @@ PHP_METHOD(Phalcon_Loader, autoLoad) {
 		) {
 			ZEPHIR_GET_HMKEY(nsPrefix, _2, _1);
 			ZEPHIR_GET_HVALUE(directory, _3);
-			if (zephir_start_with(className, nsPrefix, 0)) {
+			if (zephir_start_with(className, nsPrefix, NULL)) {
 				ZEPHIR_INIT_NVAR(fileName);
 				ZEPHIR_INIT_LNVAR(_4);
 				ZEPHIR_CONCAT_VV(_4, nsPrefix, namespaceSeparator);
@@ -596,7 +596,7 @@ PHP_METHOD(Phalcon_Loader, autoLoad) {
 		) {
 			ZEPHIR_GET_HMKEY(prefix, _13, _12);
 			ZEPHIR_GET_HVALUE(directory, _14);
-			if (zephir_start_with(className, prefix, 0)) {
+			if (zephir_start_with(className, prefix, NULL)) {
 				ZEPHIR_INIT_NVAR(fileName);
 				ZEPHIR_INIT_LNVAR(_4);
 				ZEPHIR_CONCAT_VV(_4, prefix, namespaceSeparator);

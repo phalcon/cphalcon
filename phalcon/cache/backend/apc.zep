@@ -139,17 +139,18 @@ class Apc extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendInterf
 	 * @param  long value
 	 * @return mixed
 	 */
-	public function increment(keyName=null, int value=1)
+	public function increment(keyName = null, int value = 1)
 	{
-		var lastKey, cachedContent, result;
+		var prefixedKey, cachedContent, result;
 
-		let lastKey = "_PHCA" . this->_prefix . keyName,
-			this->_lastKey = lastKey;
+		let prefixedKey = "_PHCA" . this->_prefix . keyName;
+		let this->_lastKey = prefixedKey;
 
 		if function_exists("apc_inc") {
-			return apc_inc(lastKey, value);
+			let result = apc_inc(prefixedKey, value);
+			return result;
 		} else {
-			let cachedContent = apc_fetch(lastKey);
+			let cachedContent = apc_fetch(prefixedKey);
 
 			if is_numeric(cachedContent) {
 				let result = cachedContent + value;

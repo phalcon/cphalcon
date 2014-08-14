@@ -368,7 +368,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, queryKeys) {
 			ZEPHIR_CALL_METHOD(&key, item, "getfilename",  NULL);
 			zephir_check_call_status();
 			if (Z_TYPE_P(prefix) != IS_NULL) {
-				if (zephir_start_with(key, prefix, 0)) {
+				if (zephir_start_with(key, prefix, NULL)) {
 					zephir_array_append(&ret, key, PH_SEPARATE, "phalcon/cache/backend/file.zep", 251);
 				}
 			} else {
@@ -646,7 +646,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, flush) {
 			zephir_check_call_status();
 			_4 = ZEPHIR_IS_EMPTY(prefix);
 			if (!(_4)) {
-				_4 = zephir_start_with(key, prefix, 0);
+				_4 = zephir_start_with(key, prefix, NULL);
 			}
 			if (_4) {
 				ZEPHIR_CALL_FUNCTION(&_5, "unlink", &_6, cacheFile);

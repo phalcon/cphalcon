@@ -103,14 +103,14 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, __construct) {
 	zephir_update_property_this(this_ptr, SL("_config"), config TSRMLS_CC);
 	ZEPHIR_OBS_VAR(builder);
 	if (!(zephir_array_isset_string_fetch(&builder, config, SS("builder"), 0 TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_paginator_exception_ce, "Parameter 'builder' is required", "phalcon/paginator/adapter/querybuilder.zep", 76);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_paginator_exception_ce, "Parameter 'builder' is required", "phalcon/paginator/adapter/querybuilder.zep", 77);
 		return;
 	} else {
 		zephir_update_property_this(this_ptr, SL("_builder"), builder TSRMLS_CC);
 	}
 	ZEPHIR_OBS_VAR(limit);
 	if (!(zephir_array_isset_string_fetch(&limit, config, SS("limit"), 0 TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_paginator_exception_ce, "Parameter 'limit' is required", "phalcon/paginator/adapter/querybuilder.zep", 82);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_paginator_exception_ce, "Parameter 'limit' is required", "phalcon/paginator/adapter/querybuilder.zep", 83);
 		return;
 	} else {
 		zephir_update_property_this(this_ptr, SL("_limitRows"), limit TSRMLS_CC);
@@ -141,6 +141,90 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, setCurrentPage) {
 	ZVAL_LONG(_0, currentPage);
 	zephir_update_property_this(this_ptr, SL("_page"), _0 TSRMLS_CC);
 	RETURN_THISW();
+
+}
+
+/**
+ * Get the current page number
+ *
+ * @return int page
+ */
+PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, getCurrentPage) {
+
+
+	RETURN_MEMBER(this_ptr, "_page");
+
+}
+
+/**
+ * Set current rows limit
+ *
+ * @param int $limit
+ *
+ * @return Phalcon\Paginator\Adapter\QueryBuilder $this Fluent interface
+ */
+PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, setLimit) {
+
+	zval *limitRows_param = NULL, *_0;
+	int limitRows;
+
+	zephir_fetch_params(0, 1, 0, &limitRows_param);
+
+	limitRows = zephir_get_intval(limitRows_param);
+
+
+	ZEPHIR_INIT_ZVAL_NREF(_0);
+	ZVAL_LONG(_0, limitRows);
+	zephir_update_property_this(this_ptr, SL("_limitRows"), _0 TSRMLS_CC);
+	RETURN_THISW();
+
+}
+
+/**
+ * Get current rows limit
+ *
+ * @return int $limit
+ */
+PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, getLimit) {
+
+
+	RETURN_MEMBER(this_ptr, "_limitRows");
+
+}
+
+/**
+ * Set query builder object
+ *
+ * @param Phalcon\Mvc\Model\Query\BuilderInterface $builder
+ *
+ * @return Phalcon\Paginator\Adapter\QueryBuilder $this Fluent interface
+ */
+PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, setQueryBuilder) {
+
+	zval *builder;
+
+	zephir_fetch_params(0, 1, 0, &builder);
+
+
+
+	if (!(zephir_instance_of_ev(builder, phalcon_mvc_model_query_builder_ce TSRMLS_CC))) {
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(spl_ce_InvalidArgumentException, "Parameter 'builder' must be an instance of 'Phalcon\\Mvc\\Model\\Query\\Builder'", "", 0);
+		return;
+	}
+	zephir_update_property_this(this_ptr, SL("_builder"), builder TSRMLS_CC);
+	RETURN_THISW();
+
+}
+
+/**
+ * Get query builder object
+ *
+ * @return Phalcon\Mvc\Model\Query\BuilderInterface $builder
+ */
+PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, getQueryBuilder) {
+
+
+	RETURN_MEMBER(this_ptr, "_builder");
 
 }
 

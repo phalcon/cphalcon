@@ -154,7 +154,7 @@ class Output implements \Phalcon\Cache\FrontendInterface
 	 * @param mixed data
 	 * @return string
 	 */
-	public function beforeStore(data)
+	public function beforeStore(data) -> string
 	{
 		return data;
 	}

@@ -16,7 +16,7 @@ PHP_METHOD(Phalcon_Http_Request_File, isUploadedFile);
 PHP_METHOD(Phalcon_Http_Request_File, moveTo);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_request_file___construct, 0, 0, 1)
-	ZEND_ARG_INFO(0, file)
+	ZEND_ARG_ARRAY_INFO(0, file, 0)
 	ZEND_ARG_INFO(0, key)
 ZEND_END_ARG_INFO()
 

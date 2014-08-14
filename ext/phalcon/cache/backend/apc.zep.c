@@ -215,7 +215,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, save) {
 PHP_METHOD(Phalcon_Cache_Backend_Apc, increment) {
 
 	int value, ZEPHIR_LAST_CALL_STATUS;
-	zval *keyName = NULL, *value_param = NULL, *lastKey, *cachedContent = NULL, *result, *_0, *_1;
+	zval *keyName = NULL, *value_param = NULL, *prefixedKey, *cachedContent = NULL, *result = NULL, *_0, *_1;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 2, &keyName, &value_param);
@@ -231,20 +231,20 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, increment) {
 
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_prefix"), PH_NOISY_CC);
-	ZEPHIR_INIT_VAR(lastKey);
-	ZEPHIR_CONCAT_SVV(lastKey, "_PHCA", _0, keyName);
-	zephir_update_property_this(this_ptr, SL("_lastKey"), lastKey TSRMLS_CC);
+	ZEPHIR_INIT_VAR(prefixedKey);
+	ZEPHIR_CONCAT_SVV(prefixedKey, "_PHCA", _0, keyName);
+	zephir_update_property_this(this_ptr, SL("_lastKey"), prefixedKey TSRMLS_CC);
 	if ((zephir_function_exists_ex(SS("apc_inc") TSRMLS_CC) == SUCCESS)) {
 		ZEPHIR_INIT_VAR(_1);
 		ZVAL_LONG(_1, value);
-		ZEPHIR_RETURN_CALL_FUNCTION("apc_inc", NULL, lastKey, _1);
+		ZEPHIR_CALL_FUNCTION(&result, "apc_inc", NULL, prefixedKey, _1);
 		zephir_check_call_status();
-		RETURN_MM();
+		RETURN_CCTOR(result);
 	} else {
-		ZEPHIR_CALL_FUNCTION(&cachedContent, "apc_fetch", NULL, lastKey);
+		ZEPHIR_CALL_FUNCTION(&cachedContent, "apc_fetch", NULL, prefixedKey);
 		zephir_check_call_status();
 		if (zephir_is_numeric(cachedContent)) {
-			ZEPHIR_INIT_VAR(result);
+			ZEPHIR_INIT_NVAR(result);
 			ZVAL_LONG(result, (zephir_get_numberval(cachedContent) + value));
 			ZEPHIR_CALL_METHOD(NULL, this_ptr, "save", NULL, keyName, result);
 			zephir_check_call_status();
@@ -385,13 +385,11 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, queryKeys) {
 	ZEPHIR_INIT_VAR(apc);
 	_1 = zend_fetch_class(SL("APCIterator"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 	object_init_ex(apc, _1);
-	if (zephir_has_constructor(apc TSRMLS_CC)) {
-		ZEPHIR_INIT_VAR(_2);
-		ZVAL_STRING(_2, "user", 0);
-		ZEPHIR_CALL_METHOD(NULL, apc, "__construct", NULL, _2, prefixPattern);
-		zephir_check_temp_parameter(_2);
-		zephir_check_call_status();
-	}
+	ZEPHIR_INIT_VAR(_2);
+	ZVAL_STRING(_2, "user", 0);
+	ZEPHIR_CALL_METHOD(NULL, apc, "__construct", NULL, _2, prefixPattern);
+	zephir_check_temp_parameter(_2);
+	zephir_check_call_status();
 	_3 = zephir_get_iterator(apc TSRMLS_CC);
 	_3->funcs->rewind(_3 TSRMLS_CC);
 	for (;_3->funcs->valid(_3 TSRMLS_CC) == SUCCESS && !EG(exception); _3->funcs->move_forward(_3 TSRMLS_CC)) {
@@ -403,7 +401,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, queryKeys) {
 		ZVAL_LONG(&_4, 5);
 		ZEPHIR_CALL_FUNCTION(&_5, "substr", &_6, key, &_4);
 		zephir_check_call_status();
-		zephir_array_append(&keys, _5, PH_SEPARATE, "phalcon/cache/backend/apc.zep", 224);
+		zephir_array_append(&keys, _5, PH_SEPARATE, "phalcon/cache/backend/apc.zep", 225);
 	}
 	_3->funcs->dtor(_3 TSRMLS_CC);
 	RETURN_CCTOR(keys);

@@ -504,11 +504,15 @@ class CacheTest extends PHPUnit_Framework_TestCase
 			$this->markTestSkipped('apc.enable_cli must be set to 1');
 			return false;
 		}
+		
+		foreach (new APCIterator('user') as $counter) {
+			apc_delete($counter['key']);
+		}
 
 		return true;
 	}
 
-	public function xtestApcIncrement()
+	public function testApcIncrement()
 	{
 		$ready = $this->_prepareApc();
 		if (!$ready) {
@@ -519,13 +523,13 @@ class CacheTest extends PHPUnit_Framework_TestCase
 		$cache = new Phalcon\Cache\Backend\Apc($frontCache);
 		$cache->delete('increment');
 
-		$cache->save('increment', 1);
+		apc_store('_PHCAincrement', 1);
 		$this->assertEquals(2, $cache->increment('increment'));
 		$this->assertEquals(4, $cache->increment('increment', 2));
 		$this->assertEquals(14, $cache->increment('increment', 10));
 	}
 
-	public function xtestApcDecrement()
+	public function testApcDecrement()
 	{
 		$ready = $this->_prepareApc();
 		if (!$ready) {
@@ -536,13 +540,13 @@ class CacheTest extends PHPUnit_Framework_TestCase
 		$cache = new Phalcon\Cache\Backend\Apc($frontCache);
 		$cache->delete('decrement');
 
-		$cache->save('decrement', 100);
+		apc_store('_PHCAdecrement', 100);
 		$this->assertEquals(99, $cache->decrement('decrement'));
 		$this->assertEquals(97, $cache->decrement('decrement', 2));
 		$this->assertEquals(87, $cache->decrement('decrement', 10));
 	}
 
-	public function xtestOutputApcCache()
+	public function testOutputApcCache()
 	{
 
 		$ready = $this->_prepareApc();

@@ -4,7 +4,8 @@ extern zend_class_entry *phalcon_http_request_fileinterface_ce;
 ZEPHIR_INIT_CLASS(Phalcon_Http_Request_FileInterface);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_request_fileinterface___construct, 0, 0, 1)
-	ZEND_ARG_INFO(0, file)
+	ZEND_ARG_ARRAY_INFO(0, file, 0)
+	ZEND_ARG_INFO(0, key)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_request_fileinterface_moveto, 0, 0, 1)

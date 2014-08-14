@@ -264,7 +264,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, handle) {
 					ZEPHIR_OBS_NVAR(prefix);
 					zephir_array_fetch_long(&prefix, scope, 0, PH_NOISY, "phalcon/mvc/router/annotations.zep", 129 TSRMLS_CC);
 					if (Z_TYPE_P(prefix) == IS_STRING) {
-						if (zephir_start_with(realUri, prefix, 0)) {
+						if (zephir_start_with(realUri, prefix, NULL)) {
 							continue;
 						}
 					}

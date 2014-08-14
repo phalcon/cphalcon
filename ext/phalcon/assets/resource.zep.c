@@ -346,7 +346,7 @@ PHP_METHOD(Phalcon_Assets_Resource, setSourcePath) {
 PHP_METHOD(Phalcon_Assets_Resource, getSourcePath) {
 
 
-	RETURN_MEMBER(this_ptr, "_targetPath");
+	RETURN_MEMBER(this_ptr, "_sourcePath");
 
 }
 
@@ -380,7 +380,7 @@ PHP_METHOD(Phalcon_Assets_Resource, setTargetPath) {
 PHP_METHOD(Phalcon_Assets_Resource, getTargetPath) {
 
 
-	RETURN_MEMBER(this_ptr, "_sourcePath");
+	RETURN_MEMBER(this_ptr, "_targetPath");
 
 }
 

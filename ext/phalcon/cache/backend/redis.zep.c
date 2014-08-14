@@ -465,7 +465,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Redis, queryKeys) {
 			ZEPHIR_GET_HVALUE(key, _2);
 			_3 = zephir_is_true(prefix);
 			if (_3) {
-				_3 = !zephir_start_with(key, prefix, 0);
+				_3 = !zephir_start_with(key, prefix, NULL);
 			}
 			if (_3) {
 				zephir_array_unset(&keys, key, PH_SEPARATE);
