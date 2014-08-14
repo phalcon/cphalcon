@@ -508,6 +508,7 @@ class Compiler implements InjectionAwareInterface
 			if name == "super" {
 				let extendedBlocks = this->_extendedBlocks;
 				if typeof extendedBlocks == "array" {
+
 					let currentBlock = this->_currentBlock;
 					if fetch block, extendedBlocks[currentBlock] {
 
@@ -528,7 +529,7 @@ class Compiler implements InjectionAwareInterface
 						}
 
 						/**
-						 * If the super() is the first level we don"t escape it
+						 * If the super() is the first level we don't escape it
 						 */
 						if exprLevel == 1 {
 							return escapedCode;
@@ -1332,7 +1333,7 @@ class Compiler implements InjectionAwareInterface
 	 * @param array statements
 	 * @return string|array
 	 */
-	final protected function _statementListOrExtends(statements)
+	final protected function _statementListOrExtends(var statements)
 	{
 		var statement;
 		boolean isStatementList;
@@ -1340,7 +1341,7 @@ class Compiler implements InjectionAwareInterface
 		/**
 		 * Resolve the statement list as normal
 		 */
-		if typeof statements == "array" {
+		if typeof statements != "array" {
 			return statements;
 		}
 
@@ -1807,7 +1808,7 @@ class Compiler implements InjectionAwareInterface
 	 * @param boolean extendsMode
 	 * @return string
 	 */
-	public function compileEcho(statement)
+	public function compileEcho(array! statement)
 	{
 		var expr, exprCode, name;
 
@@ -1815,7 +1816,7 @@ class Compiler implements InjectionAwareInterface
 		 * A valid expression is required
 		 */
 		if !fetch expr, statement["expr"] {
-			throw new Exception("Corrupted statement");
+			throw new Exception("Corrupt statement");
 		}
 
 		/**
@@ -1823,7 +1824,7 @@ class Compiler implements InjectionAwareInterface
 		 */
 		let exprCode = this->expression(expr);
 
-		if expr["type"] == 350  {
+		if expr["type"] == PHVOLT_T_FCALL  {
 
 			let name = expr["name"];
 
@@ -1844,6 +1845,7 @@ class Compiler implements InjectionAwareInterface
 		if this->_autoescape {
 			return "<?php echo $this->escaper->escapeHtml(" . exprCode . "); ?>";
 		}
+
 		return "<?php echo " . exprCode . "; ?>";
 	}
 
@@ -2269,7 +2271,7 @@ class Compiler implements InjectionAwareInterface
 	 * @param boolean extendsMode
 	 * @return string
 	 */
-	final protected function _compileSource(string! viewCode, boolean extendsMode=false) -> string
+	final protected function _compileSource(string! viewCode, boolean extendsMode = false) -> string
 	{
 		var currentPath, intermediate, extended,
 			finalCompilation, blocks, extendedBlocks, name, block,
@@ -2303,6 +2305,7 @@ class Compiler implements InjectionAwareInterface
 
 				let blocks = this->_blocks;
 				let extendedBlocks = this->_extendedBlocks;
+
 				for name, block in extendedBlocks {
 
 					/**
@@ -2337,12 +2340,21 @@ class Compiler implements InjectionAwareInterface
 							}
 						}
 
+						if typeof blockCompilation == "array" {
+							print_r(blockCompilation);
+						}
+
 						if extendsMode === true {
 							let finalCompilation[name] = blockCompilation;
 						} else {
 							let finalCompilation .= blockCompilation;
 						}
 					} else {
+
+						if typeof block == "array" {
+							print_r(block);
+						}
+
 						/**
 						 * Here the block is an already compiled text
 						 */
@@ -2353,6 +2365,7 @@ class Compiler implements InjectionAwareInterface
 						}
 					}
 				}
+
 				return finalCompilation;
 			}
 
@@ -2397,7 +2410,7 @@ class Compiler implements InjectionAwareInterface
 	 * @param boolean extendsMode
 	 * @return string|array
 	 */
-	public function compileFile(string! path, string! compiledPath, boolean extendsMode=false)
+	public function compileFile(string! path, string! compiledPath, boolean extendsMode = false)
 	{
 		var viewCode, compilation, finalCompilation;
 
