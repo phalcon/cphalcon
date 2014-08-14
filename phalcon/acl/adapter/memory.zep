@@ -20,6 +20,7 @@
 namespace Phalcon\Acl\Adapter;
 
 use Phalcon\Acl\Adapter;
+use Phalcon\Acl\Exception;
 
 /**
  * Phalcon\Acl\Adapter\Memory
@@ -153,7 +154,7 @@ class Memory extends Adapter
 	 * @param  array|string accessInherits
 	 * @return boolean
 	 */
-	public function addRole(role, accessInherits=null) -> boolean
+	public function addRole(var role, accessInherits = null) -> boolean
 	{
 		var roleName, roleObject;
 
@@ -186,13 +187,13 @@ class Memory extends Adapter
 	 * @param string roleName
 	 * @param string roleToInherit
 	 */
-	public function addInherit(roleName, roleToInherit)
+	public function addInherit(var roleName, var roleToInherit)
 	{
 		var roleInheritName, rolesNames;
 
 		let rolesNames = this->_rolesNames;
 		if !isset rolesNames[roleName] {
-			throw new \Phalcon\Acl\Exception("Role '" . roleName . "' does not exist in the role list");
+			throw new Exception("Role '" . roleName . "' does not exist in the role list");
 		}
 
 		if typeof roleToInherit == "object" {
@@ -205,7 +206,7 @@ class Memory extends Adapter
 		 * Check if the role to inherit is valid
 		 */
 		if !isset rolesNames[roleInheritName] {
-			throw new \Phalcon\Acl\Exception("Role '" . roleInheritName . "' (to inherit) does not exist in the role list");
+			throw new Exception("Role '" . roleInheritName . "' (to inherit) does not exist in the role list");
 		}
 
 		if roleName == roleInheritName {
@@ -227,7 +228,7 @@ class Memory extends Adapter
 	 * @param  string roleName
 	 * @return boolean
 	 */
-	public function isRole(roleName) -> boolean
+	public function isRole(var roleName) -> boolean
 	{
 		return isset this->_rolesNames[roleName];
 	}
@@ -238,7 +239,7 @@ class Memory extends Adapter
 	 * @param  string resourceName
 	 * @return boolean
 	 */
-	public function isResource(resourceName)
+	public function isResource(var resourceName)
 	{
 		return isset this->_resourcesNames[resourceName];
 	}
@@ -264,7 +265,7 @@ class Memory extends Adapter
 	 * @param   array accessList
 	 * @return  boolean
 	 */
-	public function addResource(resourceValue, accessList)
+	public function addResource(var resourceValue, var accessList)
 	{
 		var resourceName, resourceObject;
 
@@ -290,12 +291,12 @@ class Memory extends Adapter
 	 * @param string resourceName
 	 * @param mixed accessList
 	 */
-	public function addResourceAccess(resourceName, accessList)
+	public function addResourceAccess(var resourceName, var accessList)
 	{
 		var accessName, accessKey, exists;
 
 		if !isset this->_resourcesNames[resourceName] {
-			throw new \Phalcon\Acl\Exception("Resource '" . resourceName . "' does not exist in ACL");
+			throw new Exception("Resource '" . resourceName . "' does not exist in ACL");
 		}
 
 		let exists = true;
@@ -322,7 +323,7 @@ class Memory extends Adapter
 	 * @param string resourceName
 	 * @param mixed accessList
 	 */
-	public function dropResourceAccess(resourceName, accessList)
+	public function dropResourceAccess(var resourceName, var accessList)
 	{
 		var accessName, accessKey;
 
@@ -351,16 +352,16 @@ class Memory extends Adapter
 	 * @param string access
 	 * @param string action
 	 */
-	public function _allowOrDeny(roleName, resourceName, access, action)
+	private function _allowOrDeny(var roleName, var resourceName, var access, var action)
 	{
 		var defaultAccess, accessList, accessName, accessKey, accessKeyAll, internalAccess;
 
 		if !isset this->_rolesNames[roleName] {
-			throw new \Phalcon\Acl\Exception("Role '" . roleName . "' does not exist in ACL");
+			throw new Exception("Role '" . roleName . "' does not exist in ACL");
 		}
 
 		if !isset this->_resourcesNames[resourceName] {
-			throw new \Phalcon\Acl\Exception("Resource '" . resourceName . "' does not exist in ACL");
+			throw new Exception("Resource '" . resourceName . "' does not exist in ACL");
 		}
 
 		let defaultAccess = this->_defaultAccess;
@@ -372,7 +373,7 @@ class Memory extends Adapter
 			for accessName in access {
 				let accessKey = resourceName . "!" . accessName;
 				if !isset accessList[accessKey] {
-					throw new \Phalcon\Acl\Exception("Acccess '" . accessName . "' does not exist in resource '" . resourceName . "'");
+					throw new Exception("Acccess '" . accessName . "' does not exist in resource '" . resourceName . "'");
 				}
 			}
 
@@ -394,7 +395,7 @@ class Memory extends Adapter
 			if access != "*" {
 				let accessKey = resourceName . "!" . access;
 				if !isset accessList[accessKey] {
-					throw new \Phalcon\Acl\Exception("Acccess '" . access . "' does not exist in resource '" . resourceName . "'");
+					throw new Exception("Acccess '" . access . "' does not exist in resource '" . resourceName . "'");
 				}
 			}
 
@@ -444,15 +445,14 @@ class Memory extends Adapter
 	 * @param string resourceName
 	 * @param mixed  access
 	 */
-	public function allow(roleName, resourceName, access)
+	public function allow(var roleName, var resourceName, var access)
 	{
-		var rolesNames, tmp;
+		var tmp;
 
 		if roleName != "*" {
 			return this->_allowordeny(roleName, resourceName, access, \Phalcon\Acl::ALLOW);
 		} else {
-			let rolesNames = this->_rolesNames;
-			for roleName, tmp in rolesNames {
+			for roleName, tmp in this->_rolesNames {
 				this->_allowordeny(roleName, resourceName, access, \Phalcon\Acl::ALLOW);
 			}
 		}
@@ -483,15 +483,14 @@ class Memory extends Adapter
 	 * @param  mixed  access
 	 * @return boolean
 	 */
-	public function deny(roleName, resourceName, access)
+	public function deny(var roleName, var resourceName, var access)
 	{
-		var rolesNames, tmp;
+		var tmp;
 
 		if roleName != "*" {
 			return this->_allowordeny(roleName, resourceName, access, \Phalcon\Acl::DENY);
 		} else {
-			let rolesNames = this->_rolesNames;
-			for roleName, tmp in rolesNames {
+			for roleName, tmp in this->_rolesNames {
 				this->_allowordeny(roleName, resourceName, access, \Phalcon\Acl::DENY);
 			}
 		}
@@ -511,9 +510,9 @@ class Memory extends Adapter
 	  * @param  string roleName
 	  * @param  string resourceName
 	  * @param  string access
-	  * @return boolean
+	  * @return int|boolean
 	  */
-	public function isAllowed(roleName, resourceName, access)
+	public function isAllowed(var roleName, var resourceName, var access) -> int|boolean
 	{
 		var eventsManager, accessList, accessKey,
 			haveAccess = null, roleInherits, inheritedRole, rolesNames,

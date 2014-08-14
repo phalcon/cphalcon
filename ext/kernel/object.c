@@ -1328,7 +1328,7 @@ int zephir_unset_property_array(zval *object, char *property, unsigned int prope
 int zephir_method_exists(const zval *object, const zval *method_name TSRMLS_DC){
 
 	char *lcname = zend_str_tolower_dup(Z_STRVAL_P(method_name), Z_STRLEN_P(method_name));
-	int res = zephir_method_exists_ex(object, lcname, Z_STRLEN_P(method_name)+1 TSRMLS_CC);
+	int res = zephir_method_exists_ex(object, lcname, Z_STRLEN_P(method_name) + 1 TSRMLS_CC);
 	efree(lcname);
 	return res;
 }
@@ -1726,6 +1726,7 @@ int zephir_create_instance_params(zval *return_value, const zval *class_name, zv
 	outcome = SUCCESS;
 
 	if (zephir_has_constructor_ce(ce)) {
+
 		int param_count = zend_hash_num_elements(Z_ARRVAL_P(params));
 		zval *static_params[10];
 		zval **params_ptr, **params_arr = NULL;

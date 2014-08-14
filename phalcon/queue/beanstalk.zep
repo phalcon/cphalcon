@@ -19,6 +19,8 @@
 
 namespace Phalcon\Queue;
 
+use Phalcon\Queue\Beanstalk\Job;
+
 /**
 * Phalcon\Queue\Beanstalk
 *
@@ -34,11 +36,11 @@ class Beanstalk
 	protected _parameters;
 
 	/**
-	* Phalcon\Queue\Beanstalk
-	*
-	* @param array options
-	*/
-	public function __construct(options=null)
+	 * Phalcon\Queue\Beanstalk
+	 *
+	 * @param array options
+	 */
+	public function __construct(var options = null)
 	{
 
 		var parameters;
@@ -60,7 +62,12 @@ class Beanstalk
 		let this->_parameters = parameters;
 	}
 
-	public function connect()
+	/**
+	 * Makes a connection to the Beanstalkd server
+	 *
+	 * @return resource
+	 */
+	public function connect() -> resource
 	{
  		var connection, parameters;
 
@@ -89,28 +96,22 @@ class Beanstalk
 	 * @param string data
 	 * @param array options
 	 */
-	public function put(data, options=null)
+	public function put(var data, var options = null) -> string|boolean
 	{
  		var priority, delay, ttr, serialized, response, status, length;
 
 		/**
 		 * Priority is 100 by default
 		 */
-		if isset options["priority"] {
-			let priority = options["priority"];
-		} else {
+		if !fetch priority, options["priority"] {
 			let priority = "100";
 		}
 
-		if isset options["delay"] {
-			let delay = options["delay"];
-		} else {
+		if !fetch delay, options["delay"] {
 			let delay = "0";
 		}
 
-		if isset options["ttr"] {
-			let ttr = options["ttr"];
-		} else {
+		if !fetch ttr, options["ttr"] {
 			let ttr = "86400";
 		}
 
@@ -132,11 +133,11 @@ class Beanstalk
 		if status == "INSERTED" {
 			return response[1];
 		}
+
 		if status == "BURIED" {
 			return response[1];
 		}
 
-		//throw new \Phalcon\Exception(status);
 		return false;
 	}
 
@@ -145,12 +146,12 @@ class Beanstalk
 	 *
 	 * @return boolean|Phalcon\Queue\Beanstalk\Job
 	 */
-	public function reserve(timeout=null)
+	public function reserve(timeout = null) -> boolean|<Job>
 	{
- 		var command, response, jobId, length;
+ 		var command, response;
 
-		if timeout {
-			let command = "reserve-with-timeout ".timeout;
+		if typeof timeout != "null" {
+			let command = "reserve-with-timeout " . timeout;
 		} else {
 			let command = "reserve";
 		}
@@ -162,19 +163,11 @@ class Beanstalk
 
 			/**
 			 * The job is in the first position
-			 */
-			let jobId = response[1];
-
-			/**
 			 * Next is the job length
-			 */
-			let length = response[2];
-
-			/**
 			 * The body is serialized
 			 * Create a beanstalk job abstraction
 			 */
-			return new \Phalcon\Queue\Beanstalk\Job(this, jobId, unserialize(this->read(length)));
+			return new Job(this, response[1], unserialize(this->read(response[2])));
 		}
 
 		return false;
@@ -186,7 +179,7 @@ class Beanstalk
 	 * @param string tube
 	 * @return string|boolean
 	 */
-	public function choose(tube)
+	public function choose(string! tube) -> boolean|string
 	{
  		var response;
 
@@ -206,14 +199,14 @@ class Beanstalk
 	 * @param string tube
 	 * @return string|boolean
 	 */
-	public function watch(tube)
+	public function watch(string! tube) -> boolean|string
 	{
  		var response;
 
 		this->write("watch " . tube);
 
 		let response = this->readStatus();
-		if response[0] == "WATCH" {
+		if response[0] == "WATCHING" {
 			return response[1];
 		}
 
@@ -225,7 +218,7 @@ class Beanstalk
 	 *
 	 * @return boolean|Phalcon\Queue\Beanstalk\Job
 	 */
-	public function peekReady() -> boolean|<Phalcon\Queue\Beanstalk\Job>
+	public function peekReady() -> boolean|<Job>
 	{
  		var response;
 
@@ -233,7 +226,26 @@ class Beanstalk
 
 		let response = this->readStatus();
 		if response[0] == "FOUND" {
-			return new \Phalcon\Queue\Beanstalk\Job(this, response[1], unserialize(this->read(response[2])));
+			return new Job(this, response[1], unserialize(this->read(response[2])));
+		}
+
+		return false;
+	}
+
+	/**
+	 * Return the next job in the list of buried jobs
+	 *
+	 * @return boolean|Phalcon\Queue\Beanstalk\Job
+	 */
+	public function peekBuried() -> boolean|<Job>
+	{
+ 		var response;
+
+		this->write("peek-buried");
+
+		let response = this->readStatus();
+		if response[0] == "FOUND" {
+			return new Job(this, response[1], unserialize(this->read(response[2])));
 		}
 
 		return false;
@@ -244,7 +256,7 @@ class Beanstalk
 	 *
 	 * @return array
 	 */
-	protected function readStatus()
+	final public function readStatus() -> array
 	{
 		return explode(" ", this->read());
 	}
@@ -256,9 +268,9 @@ class Beanstalk
 	 * @param int length Number of bytes to read.
 	 * @return string|boolean Data or `false` on error.
 	 */
-	public function read(length=null)
+	public function read(int length = 0) -> boolean|string
 	{
- 		var connection, data, meta, packet;
+ 		var connection, data;
 
 		let connection = this->_connection;
 		if typeof connection != "resource" {
@@ -275,18 +287,14 @@ class Beanstalk
 			}
 
 			let data = fread(connection, length + 2);
-			let meta = stream_get_meta_data(connection);
-
-			if meta["timed_out"] {
+			if stream_get_meta_data(connection)["timed_out"] {
 				throw new \Phalcon\Exception("Connection timed out");
 			}
 
-			let packet = rtrim(data, "\r\n");
-		} else {
-			let packet = stream_get_line(connection, 16384, "\r\n");
+			return rtrim(data, "\r\n");
 		}
 
-		return packet;
+		return stream_get_line(connection, 16384, "\r\n");
 	}
 
 	/**
@@ -295,7 +303,7 @@ class Beanstalk
 	 * @param string data
 	 * @return integer|boolean
 	 */
-	protected function write(data)
+	protected function write(data) -> boolean|int
 	{
  		var connection, packet;
 
@@ -316,7 +324,7 @@ class Beanstalk
 	 *
 	 * @return boolean
 	 */
-	public function disconnect()
+	public function disconnect() -> boolean
 	{
 		var connection;
 

@@ -17,7 +17,7 @@
 			<file>unit-tests/AnnotationsTest.php</file>
 			<file>unit-tests/ApplicationMvcTest.php</file>
 			<file>unit-tests/AssetsTest.php</file>
-			<!--<file>unit-tests/BeanstalkTest.php</file>-->
+			<file>unit-tests/BeanstalkTest.php</file>
 			<!--<file>unit-tests/CacheResultsetTest.php</file>-->
 			<!--<file>unit-tests/CacheTest.php</file>-->
 			<!--<file>unit-tests/CollectionsEventsTest.php</file>-->
