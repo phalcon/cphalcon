@@ -19,6 +19,7 @@
 
 namespace Phalcon\Paginator\Adapter;
 
+use Phalcon\Mvc\Model\Query\Builder;
 use Phalcon\Paginator\Exception;
 
 /**
@@ -100,6 +101,40 @@ class QueryBuilder implements \Phalcon\Paginator\AdapterInterface
 		return this;
 	}
 
+	/**
+	 * Get the current page number
+	 *
+	 * @return int page
+	 */
+	public function getCurrentPage () -> int
+	{
+		return this->_page;
+	}
+	
+	public function setLimit(int limitRows) -> <QueryBuilder>
+	{
+		let this->_limitRows = limitRows;
+		
+		return this;
+	}
+	
+	public function getLimit() -> int
+	{
+		return this->_limitRows;
+	}
+	
+	public function setQueryBuilder(<Builder> builder) -> <QueryBuilder>
+	{
+		let this->_builder = builder;
+		
+		return this;
+	}
+	
+	public function getQueryBuilder() -> <Builder>
+	{
+		return this->_builder;
+	}
+	
 	/**
 	 * Returns a slice of the resultset to show in the pagination
 	 *
