@@ -111,6 +111,13 @@ class QueryBuilder implements \Phalcon\Paginator\AdapterInterface
 		return this->_page;
 	}
 	
+	/**
+	 * Set current rows limit
+	 *
+	 * @param int $limit
+	 *
+	 * @return Phalcon\Paginator\Adapter\QueryBuilder $this Fluent interface
+	 */
 	public function setLimit(int limitRows) -> <QueryBuilder>
 	{
 		let this->_limitRows = limitRows;
@@ -118,11 +125,23 @@ class QueryBuilder implements \Phalcon\Paginator\AdapterInterface
 		return this;
 	}
 	
+	/**
+	 * Get current rows limit
+	 *
+	 * @return int $limit
+	 */
 	public function getLimit() -> int
 	{
 		return this->_limitRows;
 	}
 	
+	/**
+	 * Set query builder object
+	 *
+	 * @param Phalcon\Mvc\Model\Query\BuilderInterface $builder
+	 *
+	 * @return Phalcon\Paginator\Adapter\QueryBuilder $this Fluent interface
+	 */
 	public function setQueryBuilder(<Builder> builder) -> <QueryBuilder>
 	{
 		let this->_builder = builder;
@@ -130,6 +149,11 @@ class QueryBuilder implements \Phalcon\Paginator\AdapterInterface
 		return this;
 	}
 	
+	/**
+	 * Get query builder object
+	 *
+	 * @return Phalcon\Mvc\Model\Query\BuilderInterface $builder
+	 */
 	public function getQueryBuilder() -> <Builder>
 	{
 		return this->_builder;
