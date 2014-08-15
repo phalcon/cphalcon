@@ -33,7 +33,7 @@ interface FileInterface
 	 *
 	 * @param array file
 	 */
-	public function __construct(file);
+	public function __construct(array! file, key = null);
 
 	/**
 	 * Returns the file size of the uploaded file
