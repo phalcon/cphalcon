@@ -758,53 +758,56 @@ class Manager
 	 */
 	public function outputInline(<\Phalcon\Assets\Collection> collection, type)
 	{
-		var output, html, filters, filter, code, attributes, content, join, joinedContent;
+		var output, html, codes, filters, filter, code, attributes, content, join, joinedContent;
 
 		let output = "",
 			html = "",
 			joinedContent = "";
 
-		let filters = collection->getFilters(),
+		let codes = collection->getCodes(),
+			filters = collection->getFilters(),
 			join = collection->getJoin() ;
 
-		for code in collection->getCodes() {
-			let attributes = code->getAttributes(),
-				content = code->getContent();
+		if count(codes) {
+			for code in codes {
+				let attributes = code->getAttributes(),
+					content = code->getContent();
 
-			if count(filters) {
-				for filter in filters {
-					/**
-					 * Filters must be valid objects
-					 */
-					if typeof filter != "object" {
-						throw new \Phalcon\Assets\Exception("Filter is invalid");
+				if count(filters) {
+					for filter in filters {
+						/**
+						 * Filters must be valid objects
+						 */
+						if typeof filter != "object" {
+							throw new \Phalcon\Assets\Exception("Filter is invalid");
+						}
+
+						/**
+						 * Calls the method 'filter' which must return a filtered version of the content
+						 */
+						let content = filter->filter(content);
 					}
+				}
 
-					/**
-					 * Calls the method 'filter' which must return a filtered version of the content
-					 */
-					let content = filter->filter(content);
+				if join {
+					let joinedContent .= content;
+				} else {
+					let html .= Tag::tagHtml(type, attributes, false, true) . content . Tag::tagHtmlClose(type, true);
 				}
 			}
 
 			if join {
-				let joinedContent .= content;
-			} else {
-				let html .= Tag::tagHtml(type, attributes, false, true) . content . Tag::tagHtmlClose(type, true);
+				let html .= Tag::tagHtml(type, attributes, false, true) . joinedContent . Tag::tagHtmlClose(type, true);
 			}
-		}
 
-		if join {
-			let html .= Tag::tagHtml(type, attributes, false, true) . joinedContent . Tag::tagHtmlClose(type, true);
-		}
-
-		/**
-		 * Implicit output prints the content directly
-		 */
-		if this->_implicitOutput == true {
-			echo html;
-		} else {
-			let output .= html;
+			/**
+			 * Implicit output prints the content directly
+			 */
+			if this->_implicitOutput == true {
+				echo html;
+			} else {
+				let output .= html;
+			}
 		}
 
 		return output;
