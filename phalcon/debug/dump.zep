@@ -22,32 +22,43 @@ namespace Phalcon\Debug;
 /**
  * Phalcon\Debug\Dump
  *
- * Dumps information about a variable
+ * Dumps information about a variable(s)
+ *
+ *<code>
+ *	$foo = 123;
+ *	echo (new \Phalcon\Debug\Dump())->var($foo, "foo");
+ *</code>
+ * 
+ *<code>
+ *	$foo = "string";
+ *	$bar = ["key" => "value"];
+ *	$baz = new stdClass();
+ *	echo (new \Phalcon\Debug\Dump())->vars($foo, $bar, $baz);
+ *</code>
  */
 class Dump
 {
 
-	public detailed = false;
+	protected _detailed = false { get, set };
 
-	protected methods = null;
+	protected _methods = null;
 
-	protected styles;
+	protected _styles;
 
 	/**
 	 * Phalcon\Debug\Dump constructor
 	 *
 	 * @param array styles
-	 * @param boolean detailed
+	 * @param boolean detailed debug object's private and protected properties
 	 */
-	public function __construct(styles=null, detailed=false)
+	public function __construct(array styles = null, boolean detailed = false)
 	{
-		if typeof styles != "array" {
-			if typeof styles != "null" {
-				throw new \Phalcon\Debug\Exception("The styles must be an array");
-			}
+		if styles && typeof styles != "array" {
+			throw new Exception("The styles must be an array");
 		}
 		this->setStyles(styles);
-		let this->methods = [];
+		let this->_methods = [],
+			this->_detailed = detailed;
 	}
 
 
@@ -58,9 +69,9 @@ class Dump
 	 * @param ...
 	 * @return string
 	 */
-	public function all()
+	public function all() -> string
 	{
-		return call_user_func_array([this, "variables"], func_get_args());
+		return call_user_func_array([this, "vars"], func_get_args());
 	}
 
 	/**
@@ -69,12 +80,11 @@ class Dump
 	 * @param string type
 	 * @return string
 	 */
-	protected function getStyle(string! type)
+	protected function getStyle(string! type) -> string
 	{
-		var style, styles;
-		let styles = this->styles;
+		var style;
 
-		if fetch style, styles[type] {
+		if fetch style, this->_styles[type] {
 			return style;
 		} else {
 			return "color:gray";
@@ -87,7 +97,7 @@ class Dump
 	 * @param array styles
 	 * @return array
 	 */
-	public function setStyles(styles)
+	public function setStyles(array styles = null) -> array
 	{
 		var defaultStyles;
 
@@ -95,7 +105,7 @@ class Dump
 			let styles = [];
 		}
 		if typeof styles != "array" {
-			throw new \Phalcon\Debug\Exception("Styles must be an array");
+			throw new Exception("The styles must be an array");
 		}
 
 		let defaultStyles = [
@@ -112,8 +122,8 @@ class Dump
 		 	"str": "color:teal"
 		];
 
-		let this->styles = array_merge(defaultStyles, styles);
-		return this->styles;
+		let this->_styles = array_merge(defaultStyles, styles);
+		return this->_styles;
 	}
 
 	/**
@@ -123,7 +133,7 @@ class Dump
 	 * @param string name
 	 * @return string
 	 */
-	public function one(variable, name=null)
+	public function one(variable, string name = null) -> string
 	{
 		return this->$var(variable, name);
 	}	
@@ -136,7 +146,7 @@ class Dump
 	 * @param intiger tab
 	 * @return  string
 	 */
-	protected function output(variable, name=null, tab=1)
+	protected function output(variable, name = null, tab = 1) -> string
 	{
 		var key, value, output, space, type, attr;
 		let space = "  ", 
@@ -169,7 +179,7 @@ class Dump
 			}
 			let output .= " (\n";
 
-			if !this->detailed {
+			if !this->_detailed {
 				for key, value in get_object_vars(variable) {
 					let output .= str_repeat(space, tab) . strtr("-><span style=':style'>:key</span> (<span style=':style'>:type</span>) = ", [":style": this->getStyle("obj"), ":key": key, ":type": "public"]);
 					let output .= this->output(value, "", tab + 1) . "\n";
@@ -205,11 +215,11 @@ class Dump
 			let attr = get_class_methods(variable);
 			let output .= str_repeat(space, tab) . strtr(":class <b style=':style'>methods</b>: (<span style=':style'>:count</span>) (\n", [":style": this->getStyle("obj"), ":class": get_class(variable), ":count": count(attr)]);
 
-			if (in_array(get_class(variable), this->methods)) {
+			if (in_array(get_class(variable), this->_methods)) {
 				let output .= str_repeat(space, tab) . "[already listed]\n";
 			} else {
 				for key, value in attr {
-					let this->methods[] = get_class(variable);
+					let this->_methods[] = get_class(variable);
 
 					if value == "__construct" {
 						let output .= str_repeat(space, tab + 1) . strtr("-><span style=':style'>:method</span>(); [<b style=':style'>constructor</b>]\n", [":style": this->getStyle("obj"), ":method": value]);
@@ -252,14 +262,14 @@ class Dump
 	 * Returns an HTML string of information about a single variable.
 	 *
 	 *<code>
-	 *echo (new \Phalcon\Debug\Dump())->var($foo, "foo");
+	 *	echo (new \Phalcon\Debug\Dump())->var($foo, "foo");
 	 *</code>
 	 *
 	 * @param mixed variable
 	 * @param string name
 	 * @return string
 	 */
-	public function $var(variable, name=null)
+	public function $var(variable, string name = null) -> string
 	{
 		return strtr("<pre style=':style'>:output</pre>", [":style": this->getStyle("pre"), ":output": this->output(variable, name)]);
 	}
@@ -269,14 +279,17 @@ class Dump
 	 * variables, each wrapped in a "pre" tag.
 	 *
 	 *<code>
-	 *echo (new \Phalcon\Debug\Dump())->vars($foo, $bar, $baz);
+	 *	$foo = "string";
+	 *	$bar = ["key" => "value"];
+	 *	$baz = new stdClass();
+	 *	echo (new \Phalcon\Debug\Dump())->vars($foo, $bar, $baz);
 	 *</code>
 	 *
 	 * @param mixed variable
 	 * @param ...
 	 * @return string
 	 */
-	public function vars()
+	public function vars() -> string
 	{
 		var key, value, output;
 
