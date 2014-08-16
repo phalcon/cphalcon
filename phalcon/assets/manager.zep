@@ -461,61 +461,59 @@ class Manager
 			 * If the collection must not be joined we must print a HTML for each one
 			 */
 			if typeof filters == "array" {
-				if !join {
-					if local {
+				if local {
 
-						/**
-						 * Get the complete path
-						 */
-						let sourcePath = $resource->getRealSourcePath();
+					/**
+					 * Get the complete path
+					 */
+					let sourcePath = $resource->getRealSourcePath();
 
-						/**
-						 * We need a valid source path
-						 */
-						if !sourcePath {
-							let sourcePath = $resource->getPath();
-							throw new \Phalcon\Assets\Exception("Resource '". sourcePath. "' does not have a valid source path");
-						}
-					} else {
-
-						/**
-						 * Get the complete source path
-						 */
+					/**
+					 * We need a valid source path
+					 */
+					if !sourcePath {
 						let sourcePath = $resource->getPath();
-
-						/**
-						 * resources paths are always filtered
-						 */
-						let filterNeeded = true;
+						throw new \Phalcon\Assets\Exception("Resource '". sourcePath. "' does not have a valid source path");
 					}
+				} else {
 
 					/**
-					 * Get the target path, we need to write the filtered content to a file
+					 * Get the complete source path
 					 */
-					let targetPath = $resource->getRealTargetPath(completeTargetPath);
+					let sourcePath = $resource->getPath();
 
 					/**
-					 * We need a valid final target path
+					 * resources paths are always filtered
 					 */
-					if !targetPath {
-						throw new \Phalcon\Assets\Exception("Resource '". sourcePath. "' does not have a valid target path");
+					let filterNeeded = true;
+				}
+
+				/**
+				 * Get the target path, we need to write the filtered content to a file
+				 */
+				let targetPath = $resource->getRealTargetPath(completeTargetPath);
+
+				/**
+				 * We need a valid final target path
+				 */
+				if !targetPath {
+					throw new \Phalcon\Assets\Exception("Resource '". sourcePath. "' does not have a valid target path");
+				}
+
+				if local {
+					/**
+					 * Make sure the target path is not the same source path
+					 */
+					if targetPath == sourcePath {
+						throw new \Phalcon\Assets\Exception("Resource '". targetPath. "' have the same source and target paths");
 					}
 
-					if local {
-						/**
-						 * Make sure the target path is not the same source path
-						 */
-						if targetPath == sourcePath {
-							throw new \Phalcon\Assets\Exception("Resource '". targetPath. "' have the same source and target paths");
-						}
-
-						if file_exists(targetPath) {
-							if compare_mtime(targetPath, sourcePath) {
-								let filterNeeded = true;
-							}
-						} else {
+					if file_exists(targetPath) {
+						if compare_mtime(targetPath, sourcePath) {
 							let filterNeeded = true;
 						}
+					} else {
+						let filterNeeded = true;
 					}
 				}
 			} else {
