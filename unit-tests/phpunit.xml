@@ -73,8 +73,8 @@
 			<!--<file>unit-tests/ModelsSnapshotsTest.php</file>-->
 			<file>unit-tests/ModelsTransactionsTest.php</file>
 			<file>unit-tests/ModelsValidatorsTest.php</file>
-			<!--<file>unit-tests/PaginatorTest.php</file>-->
-			<!--<file>unit-tests/RequestTest.php</file>-->
+			<file>unit-tests/PaginatorTest.php</file>
+			<file>unit-tests/RequestTest.php</file>
 			<file>unit-tests/ResponseTest.php</file>
 			<file>unit-tests/RouterCliTest.php</file>
 			<file>unit-tests/RouterMvcAnnotationsTest.php</file>
