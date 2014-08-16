@@ -33,6 +33,8 @@ class Collection implements \Countable, \Iterator
 
 	protected _resources { get };
 
+	protected _codes { get };
+
 	protected _position { get };
 
 	protected _filters { get };
@@ -58,6 +60,18 @@ class Collection implements \Countable, \Iterator
 	public function add(<\Phalcon\Assets\Resource> $resource) -> <\Phalcon\Assets\Collection>
 	{
 		let this->_resources[] = $resource;
+		return this;
+	}
+
+	/**
+	 * Adds a inline code to the collection
+	 *
+	 * @param Phalcon\Assets\Inline code
+	 * @return Phalcon\Assets\Collection
+	 */
+	public function addInline(<\Phalcon\Assets\Inline> code) -> <\Phalcon\Assets\Collection>
+	{
+		let this->_codes[] = code;
 		return this;
 	}
 
@@ -96,6 +110,32 @@ class Collection implements \Countable, \Iterator
 	}
 
 	/**
+	 * Adds a inline CSS to the collection
+	 *
+	 * @param string content
+	 * @param boolean filter
+	 * @param array attributes
+	 * @return Phalcon\Assets\Collection
+	 */
+	public function addInlineCss(string content, boolean filter = false, attributes = null) -> <\Phalcon\Assets\Collection>
+	{
+		var collectionAttributes;
+
+		if !filter {
+			let filter = true;
+		}
+
+		if typeof attributes == "array" {
+			let collectionAttributes = attributes;
+		} else {
+			let collectionAttributes = this->_attributes;
+		}
+
+		let this->_codes[] = new \Phalcon\Assets\Inline\Css(content, filter, collectionAttributes);
+		return this;
+	}
+
+	/**
 	 * Adds a javascript resource to the collection
 	 *
 	 * @param string path
@@ -125,6 +165,34 @@ class Collection implements \Countable, \Iterator
 		}
 
 		let this->_resources[] = new \Phalcon\Assets\Resource\Js(path, collectionLocal, filter, collectionAttributes);
+
+		return this;
+	}
+
+	/**
+	 * Adds a inline javascript to the collection
+	 *
+	 * @param string content
+	 * @param boolean filter
+	 * @param array attributes
+	 * @return Phalcon\Assets\Collection
+	 */
+	public function addInlineJs(string content, boolean filter = false, attributes = null) -> <\Phalcon\Assets\Collection>
+	{
+		var collectionAttributes;
+
+		if !filter {
+			let filter = true;
+		}
+
+
+		if typeof attributes == "array" {
+			let collectionAttributes = attributes;
+		} else {
+			let collectionAttributes = this->_attributes;
+		}
+
+		let this->_codes[] = new \Phalcon\Assets\Inline\Js(content, filter, collectionAttributes);
 
 		return this;
 	}
