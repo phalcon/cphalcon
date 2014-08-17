@@ -737,49 +737,84 @@ class Request implements \Phalcon\Http\RequestInterface, \Phalcon\Di\InjectionAw
 	 */
 	public function getUploadedFiles(boolean notErrored=false) -> <Phalcon\Http\Request\File[]>
 	{
-		var superFiles, file, files, error, subFiles, subFile;
+		var superFiles, prefix, input, smoothInput, files, file, dataFile;
 
 		let superFiles = _FILES;
-		if count(superFiles) {
-			let files = [];
-			for file in superFiles {
-				if notErrored {
-					if typeof file["name"] == "array" {
-						let subFiles = [];
-						for subFile in file {
-							if !fetch error, subFile["error"] {
-								let error = true;
-							}
-							if !error {
-								let subFiles[] = new \Phalcon\Http\Request\File(subFile);
-							}
-						}
-						let files[] = subFiles;
-					} else {
-						if !fetch error, file["error"] {
-							let error = true;
-						}
-						if !error {
-							let files[] = new \Phalcon\Http\Request\File(file);
+
+		let files = [];
+		
+		if (count(superFiles) > 0) {
+			
+			for prefix, input in superFiles {
+				if (typeof input["name"] == "array") {
+					let smoothInput = this->smoothFiles(input["name"], input["type"], input["tmp_name"], input["size"], input["error"], prefix);
+					
+					for file in smoothInput {
+						if (notErrored == false || file["error"] == UPLOAD_ERR_OK) {
+							let dataFile = [
+								"name": file["name"],
+								"type": file["type"],
+								"tmp_name": file["tmp_name"],
+								"size": file["size"],
+								"error": file["error"]
+							];
+							
+							let files[] = new \Phalcon\Http\Request\File(dataFile, file["key"]);
 						}
 					}
 				} else {
-					if typeof file["name"] == "array" {
-						let subFiles = [];
-						for subFile in file {
-							let subFiles[] = new \Phalcon\Http\Request\File(subFile);
-						}
-						let files[] = subFiles;
-					} else {
-						let files[] = new \Phalcon\Http\Request\File(file);
+					if (notErrored == false || input["error"] == UPLOAD_ERR_OK) {
+						let files[] = new \Phalcon\Http\Request\File(input, prefix);
 					}
 				}
 			}
-			return files;
 		}
-		return [];
+
+		return files;
 	}
 
+	/**
+	 * smooth out $_FILES to have plain array with all files uploaded
+	 * 
+	 * @param array names
+	 * @param array types
+	 * @param array tmp_names
+	 * @param array sizes
+	 * @param array errors
+	 * @return array
+	 */
+	protected function smoothFiles(array! names, array! types, array! tmp_names, array! sizes, array! errors, string prefix) -> array
+	{
+		var idx, name, file, files, parentFiles, p;
+		
+		let files = [];
+		
+		for idx, name in names {
+			let p = prefix . "." . idx;
+			
+			if typeof name == "string" {
+				
+				let files[] = [
+					"name": name,
+					"type": types[idx],
+					"tmp_name": tmp_names[idx],
+					"size": sizes[idx],
+					"error": errors[idx],
+					"key": p
+				];
+			}
+			
+			if typeof name == "array" {
+				let parentFiles = this->smoothFiles(names[idx], types[idx], tmp_names[idx], sizes[idx], errors[idx], p);
+				
+				for file in parentFiles {
+					let files[] = file;
+				}
+			}
+		}
+		
+		return files;
+	}
 	/**
 	 * Returns the available headers in the request
 	 *

@@ -65,18 +65,14 @@ class File implements \Phalcon\Http\Request\FileInterface
 	 *
 	 * @param array file
 	 */
-	public function __construct(var file, key=null)
+	public function __construct(array! file, key = null)
 	{
 		var name, tempName, size, type, error;
-
-		if typeof file != "array" {
-			throw new \Phalcon\Http\Request\Exception("Phalcon\\Http\\Request\\File requires a valid uploaded file");
-		}
 
 		if fetch name, file["name"] {
 			let this->_name = name;
 
-			if constant(PATHINFO_EXTENSION) {
+			if defined(PATHINFO_EXTENSION) {
 				let this->_extension = pathinfo(name, PATHINFO_EXTENSION);
 			}
 		}
