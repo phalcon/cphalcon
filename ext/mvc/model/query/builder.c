@@ -1392,7 +1392,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql){
 	zval *join = NULL, *join_model = NULL, *join_conditions = NULL, *join_alias = NULL;
 	zval *join_type = NULL, *group, *group_items, *group_item = NULL;
 	zval *escaped_item = NULL, *joined_items = NULL, *having, *order;
-	zval *order_items, *order_item = NULL, *limit, *number;
+	zval *order_items, *order_item = NULL, *limit, *number, *for_update;
 	HashTable *ah0, *ah1, *ah2, *ah3, *ah4, *ah5;
 	HashPosition hp0, hp1, hp2, hp3, hp4, hp5;
 	zval **hd;
@@ -1744,6 +1744,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql){
 				PHALCON_SCONCAT_SV(phql, " OFFSET ", offset);
 			}
 		}
+	}
+	
+	/** 
+	 * Process FOR UPDATE clause
+	 */
+	for_update = phalcon_fetch_nproperty_this(this_ptr, SL("_forUpdate"), PH_NOISY TSRMLS_CC);
+	if (zend_is_true(for_update)) {
+		phalcon_concat_self_str(&phql, SL(" FOR UPDATE") TSRMLS_CC);
 	}
 	
 	RETURN_CTOR(phql);
