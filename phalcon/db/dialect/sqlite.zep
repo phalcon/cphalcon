@@ -101,7 +101,7 @@ class Sqlite extends Dialect implements DialectInterface
 	 */
 	public function addColumn(string! tableName, string! schemaName, <\Phalcon\Db\ColumnInterface> column) -> string
 	{
-		var sql;
+		var sql, defaultValue;
 
 		if typeof column != "object" {
 			throw new Exception("Column definition must be an object compatible with Phalcon\\Db\\ColumnInterface");
@@ -114,6 +114,11 @@ class Sqlite extends Dialect implements DialectInterface
 		}
 
 		let sql .= "\"" . column->getName() . "\" " . this->getColumnDefinition(column);
+
+		let defaultValue = column->getDefault();
+		if ! empty defaultValue {
+			let sql .= " DEFAULT \"" . defaultValue . "\"";
+		}
 
 		if column->isNotNull() {
 			let sql .= " NOT NULL";
