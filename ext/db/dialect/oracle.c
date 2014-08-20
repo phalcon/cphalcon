@@ -988,6 +988,8 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, select){
 		ZVAL_STRING(sql, "SELECT ", 1);
 	}
 
+	PHALCON_SCONCAT_VSV(sql, columns_sql, " FROM ", tables_sql);
+
 	/**
 	 * Check for joins
 	 */
