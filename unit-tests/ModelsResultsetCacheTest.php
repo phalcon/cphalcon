@@ -127,6 +127,7 @@ class ModelsResultsetCacheTest extends PHPUnit_Framework_TestCase
 			));
 		}, true);
 
+		//Find
 		$robots = Robots::find(array(
 			'cache' => array('key' => 'some'),
 			'order' => 'id'
@@ -141,6 +142,36 @@ class ModelsResultsetCacheTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(count($robots), 3);
 		$this->assertFalse($robots->isFresh());
 
+
+		//TODO: I really can't understand why postgresql fails on inserting a simple record
+		//The error is "Object not in prerequisite state: 7 ERROR:  
+		//currval of sequence "robots_id_seq" is not yet defined in this session"
+		//Is the ORM working with postgresql, is the database structure incorrect or 
+		//I'm using the wrong code?
+		//Skip this test until someone can shed some light on this
+		if (!$di->get("db") instanceof Phalcon\Db\Adapter\Pdo\Postgresql)
+		{
+			//Aggregate functions like sum, count, etc
+			$robotscount = Robots::count(array(
+				'cache' => array('key' => 'some-count'),
+			));
+			$this->assertEquals($robotscount, 3);
+			
+			//Create a temporary robot to test if the count is cached or fresh
+			$newrobot = new Robots();
+			$newrobot->name = "Not cached robot";
+			$newrobot->type = "notcached";
+			$newrobot->year = 2014;
+			$newrobot->create();
+
+			$robotscount = Robots::count(array(
+				'cache' => array('key' => 'some-count'),
+			));
+			$this->assertEquals($robotscount, 3);
+
+			//Delete the temp robot
+			Robots::findFirst("type = 'notcached'")->delete();
+		}
 	}
 
 	protected function _testCacheDefaultDIBindings($di)
