@@ -639,17 +639,6 @@ PHP_METHOD(Phalcon_Cache_Backend_Libmemcached, flush){
 	HashPosition pos;
 	zval **value;
 
-	options = phalcon_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY TSRMLS_CC);
-
-	if (unlikely(!phalcon_array_isset_string_fetch(&special_key, options, SS("statsKey")))) {
-		zend_throw_exception_ex(phalcon_cache_exception_ce, 0 TSRMLS_CC, "Unexpected inconsistency in options");
-		return;
-	}
-
-	if (Z_TYPE_P(special_key) == IS_NULL) {
-		RETURN_FALSE;
-	}
-
 	PHALCON_MM_GROW();
 
 	memcache = phalcon_fetch_nproperty_this(this_ptr, SL("_memcache"), PH_NOISY TSRMLS_CC);
@@ -658,22 +647,33 @@ PHP_METHOD(Phalcon_Cache_Backend_Libmemcached, flush){
 		memcache = phalcon_fetch_nproperty_this(this_ptr, SL("_memcache"), PH_NOISY TSRMLS_CC);
 	}
 
-	/* Get the key from memcached */
-	PHALCON_CALL_METHOD(&keys, memcache, "get", special_key);
-	if (Z_TYPE_P(keys) == IS_ARRAY) {
+	options = phalcon_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY TSRMLS_CC);
 
-		for (
-			zend_hash_internal_pointer_reset_ex(Z_ARRVAL_P(keys), &pos);
-			zend_hash_get_current_data_ex(Z_ARRVAL_P(keys), (void**)&value, &pos) == SUCCESS;
-			zend_hash_move_forward_ex(Z_ARRVAL_P(keys), &pos)
-		) {
-			zval key = phalcon_get_current_key_w(Z_ARRVAL_P(keys), &pos);
+	if (unlikely(!phalcon_array_isset_string_fetch(&special_key, options, SS("statsKey")))) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "Unexpected inconsistency in options");
+		return;
+	}
+
+	/* Get the key from memcached */
+	if (Z_TYPE_P(special_key) != IS_NULL) {
+		PHALCON_CALL_METHOD(&keys, memcache, "get", special_key);
+		if (Z_TYPE_P(keys) == IS_ARRAY) {
+
+			for (
+				zend_hash_internal_pointer_reset_ex(Z_ARRVAL_P(keys), &pos);
+				zend_hash_get_current_data_ex(Z_ARRVAL_P(keys), (void**)&value, &pos) == SUCCESS;
+				zend_hash_move_forward_ex(Z_ARRVAL_P(keys), &pos)
+			) {
+				zval key = phalcon_get_current_key_w(Z_ARRVAL_P(keys), &pos);
+				
+				PHALCON_CALL_METHOD(NULL, memcache, "delete", &key);
+			}
 			
-			PHALCON_CALL_METHOD(NULL, memcache, "delete", &key);
-		}
-		
-		zend_hash_clean(Z_ARRVAL_P(keys));
-		PHALCON_CALL_METHOD(NULL, memcache, "set", special_key, keys);
+			zend_hash_clean(Z_ARRVAL_P(keys));
+			PHALCON_CALL_METHOD(NULL, memcache, "set", special_key, keys);
+		}		
+	} else {
+		PHALCON_CALL_METHOD(&keys, memcache, "flush");
 	}
 
 	RETURN_MM_TRUE;

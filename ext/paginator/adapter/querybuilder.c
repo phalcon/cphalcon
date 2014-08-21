@@ -236,8 +236,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, getPaginate){
 	zval *limit, *number_page;
 	zval *query = NULL, *items = NULL;
 	zval *total_query = NULL, *result = NULL, *row = NULL, *rowcount;
-	zval *dependency_injector = NULL, *class_name, *connection = NULL;
-	zval *bind_params = NULL, *bind_types = NULL, *processed = NULL;
+	zval *connection = NULL, *bind_params = NULL, *bind_types = NULL, *processed = NULL;
 	zval *value = NULL, *wildcard = NULL, *string_wildcard = NULL, *processed_types = NULL;
 	zval *intermediate = NULL, *dialect = NULL, *sql_select = NULL, *sql;
 	HashTable *ah0;
@@ -299,17 +298,9 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, getPaginate){
 	PHALCON_CALL_METHOD(NULL, total_builder, "orderby", PHALCON_GLOBAL(z_null));
 	
 	/* Obtain the PHQL for the total query */
-	PHALCON_CALL_METHOD(&total_query, total_builder, "getquery");
+	PHALCON_CALL_METHOD(&total_query, total_builder, "getquery");	
 
-	PHALCON_CALL_METHOD(&dependency_injector, total_query, "getdi");
-	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_paginator_exception_ce, "A dependency injection object is required to access internal services");
-		return;
-	}
-
-	PHALCON_INIT_VAR(class_name);
-	ZVAL_STRING(class_name, "db", 1);
-	PHALCON_CALL_METHOD(&connection, dependency_injector, "get", class_name);
+	PHALCON_CALL_METHOD(&connection, total_query, "getconnection");
 
 	PHALCON_CALL_METHOD(&intermediate, total_query, "parse");
 
