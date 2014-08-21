@@ -91,6 +91,7 @@ PHP_METHOD(Phalcon_Mvc_Model, getEventsManager);
 PHP_METHOD(Phalcon_Mvc_Model, getModelsMetaData);
 PHP_METHOD(Phalcon_Mvc_Model, getModelsManager);
 PHP_METHOD(Phalcon_Mvc_Model, setTransaction);
+PHP_METHOD(Phalcon_Mvc_Model, getTransaction);
 PHP_METHOD(Phalcon_Mvc_Model, setSource);
 PHP_METHOD(Phalcon_Mvc_Model, getSource);
 PHP_METHOD(Phalcon_Mvc_Model, setSchema);
@@ -308,6 +309,7 @@ static const zend_function_entry phalcon_mvc_model_method_entry[] = {
 	PHP_ME(Phalcon_Mvc_Model, getModelsMetaData, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model, getModelsManager, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model, setTransaction, arginfo_phalcon_mvc_modelinterface_settransaction, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model, getTransaction, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model, setSource, arginfo_phalcon_mvc_model_setsource, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Mvc_Model, getSource, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model, setSchema, arginfo_phalcon_mvc_model_setschema, ZEND_ACC_PROTECTED)
@@ -733,6 +735,16 @@ PHP_METHOD(Phalcon_Mvc_Model, setTransaction){
 }
 
 /**
+ * Returns a transaction related in the Model instance
+ *
+ * @return Phalcon\Mvc\Model\TransactionInterface
+ */
+PHP_METHOD(Phalcon_Mvc_Model, getTransaction){
+
+	RETURN_MEMBER(this_ptr, "_transaction");
+}
+
+/**
  * Sets table name which model should be mapped
  *
  * @param string $source
@@ -934,9 +946,16 @@ PHP_METHOD(Phalcon_Mvc_Model, getDirtyState){
  */
 PHP_METHOD(Phalcon_Mvc_Model, getReadConnection){
 
-	zval *models_manager;
+	zval *transaction, *models_manager;
 
 	PHALCON_MM_GROW();
+
+	PHALCON_OBS_VAR(transaction);
+	phalcon_read_property_this(&transaction, this_ptr, SL("_transaction"), PH_NOISY TSRMLS_CC);
+	if (Z_TYPE_P(transaction) == IS_OBJECT) {
+		PHALCON_RETURN_CALL_METHOD(transaction, "getconnection");
+		RETURN_MM();
+	}
 
 	PHALCON_OBS_VAR(models_manager);
 	phalcon_read_property_this(&models_manager, this_ptr, SL("_modelsManager"), PH_NOISY TSRMLS_CC);
