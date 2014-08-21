@@ -1512,7 +1512,9 @@ PHP_METHOD(Phalcon_Mvc_Model, findFirst){
 
 	ZVAL_LONG(&tmp, zend_hash_num_elements(Z_ARRVAL_P(bind_params)) + 1);
 	PHALCON_INIT_VAR(index);
-	PHALCON_CONCAT_SV(index, "?", &tmp);
+	/*PHALCON_CONCAT_SV(index, "?", &tmp);*/
+	ZVAL_LONG(index, 1);
+    
 
 	/**
 	 * We only want the first record
@@ -1520,8 +1522,8 @@ PHP_METHOD(Phalcon_Mvc_Model, findFirst){
 	PHALCON_CALL_METHOD(NULL, builder, "limit", index);
 	PHALCON_CALL_METHOD(&query, builder, "getquery");
 
-	add_index_long(bind_params, Z_LVAL(tmp), 1);
-	add_index_long(bind_types, Z_LVAL(tmp), 1 /* BIND_PARAM_INT */);
+	/*add_index_long(bind_params, Z_LVAL(tmp), 1);*/
+	/*add_index_long(bind_types, Z_LVAL(tmp), 1 [> BIND_PARAM_INT <]);*/
 
 	/** 
 	 * Pass the cache options to the query
