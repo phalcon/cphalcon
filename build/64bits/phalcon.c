@@ -43628,6 +43628,8 @@ static PHP_METHOD(Phalcon_Db_Dialect_Oracle, select){
 		ZVAL_STRING(sql, "SELECT ", 1);
 	}
 
+	PHALCON_SCONCAT_VSV(sql, columns_sql, " FROM ", tables_sql);
+
 	if (phalcon_array_isset_quick_string(definition, SS("joins"), 6953673027048UL)) {
 
 		PHALCON_OBS_VAR(joins);
