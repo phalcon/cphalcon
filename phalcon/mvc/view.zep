@@ -21,6 +21,8 @@ namespace Phalcon\Mvc;
 
 use Phalcon\Mvc\View\Exception;
 
+use Phalcon\Cache\BackendInterface;
+
 /**
  * Phalcon\Mvc\View
  *
@@ -593,7 +595,7 @@ class View extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewInterface
 	 * @param boolean mustClean
 	 * @param Phalcon\Cache\BackendInterface $cache
 	 */
-	protected function _engineRender(engines, string viewPath, boolean silence, boolean mustClean, <\Phalcon\Cache\BackendInterface> cache=null)
+	protected function _engineRender(engines, string viewPath, boolean silence, boolean mustClean, <BackendInterface> cache = null)
 	{
 		boolean notExists;
 		int renderLevel, cacheLevel;
@@ -1163,7 +1165,7 @@ class View extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewInterface
 	 *
 	 * @return Phalcon\Cache\BackendInterface
 	 */
-	protected function _createCache() -> <\Phalcon\Cache\BackendInterface>
+	protected function _createCache() -> <BackendInterface>
 	{
 		var dependencyInjector, cacheService, viewCache,
 			viewOptions, cacheOptions;
@@ -1187,7 +1189,7 @@ class View extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewInterface
 		/**
 		 * The injected service must be an object
 		 */
-		let viewCache = <\Phalcon\Cache\BackendInterface> dependencyInjector->getShared(cacheService);
+		let viewCache = <BackendInterface> dependencyInjector->getShared(cacheService);
 		if typeof viewCache != "object" {
 			throw new Exception("The injected caching service is invalid");
 		}
@@ -1210,7 +1212,7 @@ class View extends \Phalcon\Di\Injectable implements \Phalcon\Mvc\ViewInterface
 	 *
 	 * @return Phalcon\Cache\BackendInterface
 	 */
-	public function getCache() -> <\Phalcon\Cache\BackendInterface>
+	public function getCache() -> <BackendInterface>
 	{
 		var cache;
 		let cache = this->_cache;

@@ -35,7 +35,7 @@ interface RequestInterface
 	 * @param mixed defaultValue
 	 * @return mixed
 	 */
-	public function get(name=null, filters=null, defaultValue=null);
+	public function get(name = null, filters = null, defaultValue = null);
 
 	/**
 	 * Gets a variable from the $_POST superglobal applying filters if needed
@@ -45,7 +45,7 @@ interface RequestInterface
 	 * @param mixed defaultValue
 	 * @return mixed
 	 */
-	public function getPost(name=null, filters=null, defaultValue=null);
+	public function getPost(name = null, filters = null, defaultValue = null);
 
 	/**
 	 * Gets variable from $_GET superglobal applying filters if needed
@@ -55,7 +55,7 @@ interface RequestInterface
 	 * @param mixed defaultValue
 	 * @return mixed
 	 */
-	public function getQuery(name=null, filters=null, defaultValue=null);
+	public function getQuery(name = null, filters = null, defaultValue = null);
 
 	/**
 	 * Gets variable from $_SERVER superglobal
@@ -167,7 +167,7 @@ interface RequestInterface
 	 * @param boolean trustForwardedHeader
 	 * @return string
 	 */
-	public function getClientAddress(trustForwardedHeader=false);
+	public function getClientAddress(trustForwardedHeader = false);
 
 	/**
 	 * Gets HTTP method which request has been made
@@ -240,7 +240,7 @@ interface RequestInterface
 	 * @param boolean notErrored
 	 * @return boolean
 	 */
-	public function hasFiles(notErrored=false);
+	public function hasFiles(notErrored = false);
 
 	/**
 	 * Gets attached files as Phalcon\Http\Request\FileInterface compatible instances
@@ -248,7 +248,7 @@ interface RequestInterface
 	 * @param boolean notErrored
 	 * @return Phalcon\Http\Request\FileInterface[]
 	 */
-	public function getUploadedFiles(notErrored=false);
+	public function getUploadedFiles(notErrored = false);
 
 	/**
 	 * Gets web page that refers active request. ie: http://www.google.com

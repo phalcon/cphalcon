@@ -31,6 +31,7 @@ before_script:
 
 script:
  - ZEND_DONT_UNLOAD_MODULES=1 $(phpenv which php) ./unit-tests/ci/phpunit.php --debug -c unit-tests/phpunit.xml --testsuite=stable
+ - ZEND_DONT_UNLOAD_MODULES=1 $(phpenv which php) ./unit-tests/ci/phpunit.php --debug -c php-tests/tests/phpunit.xml --testsuite=stable
 
 after_failure:
  - sudo apt-get -qq install gdb

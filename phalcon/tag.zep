@@ -20,7 +20,9 @@
 
 namespace Phalcon;
 
+use Phalcon\Tag\Select;
 use Phalcon\Tag\Exception;
+use Phalcon\Mvc\UrlInterface;
 
 /**
  * Phalcon\Tag
@@ -80,7 +82,11 @@ class Tag
 
 	const XHTML5 = 11;
 
-
+	/**
+	 * Obtains the 'escaper' service if required
+	 *
+	 * @param array params
+	 */
 	public static function getEscaper(params)
 	{
 		var result, autoescape;
@@ -136,9 +142,6 @@ class Tag
 	 */
 	public static function setDI(<\Phalcon\DiInterface> dependencyInjector)
 	{
-		if typeof dependencyInjector != "object" {
-			throw new Exception("Parameter dependencyInjector must be an Object");
-		}
 		let self::_dependencyInjector = dependencyInjector;
 	}
 
@@ -157,7 +160,7 @@ class Tag
 	 *
 	 * @return Phalcon\Mvc\UrlInterface
 	 */
-	public static function getUrlService() -> <\Phalcon\Mvc\UrlInterface>
+	public static function getUrlService() -> <UrlInterface>
 	{
 		var url, dependencyInjector;
 
@@ -173,7 +176,7 @@ class Tag
 				throw new Exception("A dependency injector container is required to obtain the 'url' service");
 			}
 
-			let url = <\Phalcon\Mvc\UrlInterface> dependencyInjector->getShared("url"),
+			let url = <UrlInterface> dependencyInjector->getShared("url"),
 				self::_urlService = url;
 		}
 		return url;
@@ -299,16 +302,12 @@ class Tag
 		 */
 		if isset self::_displayValues[name] {
 			return true;
-		} else {
-			/**
-			 * Check if there is a post value for the item
-			 */
-			if isset _POST[name] {
-				return true;
-			}
 		}
 
-		return false;
+		/**
+		 * Check if there is a post value for the item
+		 */
+		return isset _POST[name];
 	}
 
 	/**
@@ -343,14 +342,9 @@ class Tag
 	/**
 	 * Resets the request and internal values to avoid those fields will have any default value
 	 */
-	public static function resetInput()
+	public static function resetInput() -> void
 	{
-		var key, value;
-
-		let self::_displayValues = [];
-		for key, value in _POST {
-			unset _POST[key];
-		}
+		let self::_displayValues = [], {"_POST"} = [];
 	}
 
 	/**
@@ -370,7 +364,7 @@ class Tag
 	 * @param boolean local
 	 * @return string
 	 */
-	public static function linkTo(parameters, text=null, local=true)
+	public static function linkTo(parameters, text = null, local = true) -> string
 	{
 		var params, action, query, url, code;
 
@@ -426,7 +420,7 @@ class Tag
 	 * @param 	boolean asValue
 	 * @return	string
 	 */
-	static protected function _inputField(string type, parameters, boolean asValue=false) -> string
+	static protected function _inputField(string type, parameters, boolean asValue = false) -> string
 	{
 		var params, id, value, code, name;
 
@@ -871,9 +865,9 @@ class Tag
 	 * @param   array data
 	 * @return	string
 	 */
-	public static function selectStatic(parameters, data=null) -> string
+	public static function selectStatic(parameters, data = null) -> string
 	{
-		return \Phalcon\Tag\Select::selectField(parameters, data);
+		return Select::selectField(parameters, data);
 	}
 
 	/**
@@ -896,9 +890,9 @@ class Tag
 	 * @param   array data
 	 * @return	string
 	 */
-	public static function select(parameters, data=null) -> string
+	public static function select(parameters, data = null) -> string
 	{
-		return \Phalcon\Tag\Select::selectField(parameters, data);
+		return Select::selectField(parameters, data);
 	}
 
 	/**
@@ -1215,7 +1209,7 @@ class Tag
 	 * @param   boolean local
 	 * @return string
 	 */
-	public static function javascriptInclude(parameters=null, local=true)
+	public static function javascriptInclude(parameters = null, local = true) -> string
 	{
 		var params, code;
 

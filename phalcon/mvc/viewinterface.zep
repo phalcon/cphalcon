@@ -234,7 +234,7 @@ interface ViewInterface
 	 *
 	 * @param boolean|array options
 	 */
-	public function cache(options=true);
+	public function cache(options = true);
 
 	/**
 	 * Externally sets the view content

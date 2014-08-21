@@ -345,3 +345,4 @@ ext/mvc/view/engine/volt/lemon
 .temp/
 /vendor/
 composer.lock
+php-tests/tests/var/logs/*.log
