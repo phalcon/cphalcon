@@ -1051,16 +1051,16 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 		}
 
 		/**
-		 * Execute the query
-		 */
-		let resultset = query->execute(bindParams, bindTypes);
-
-		/**
 		 * Pass the cache options to the query
 		 */
 		if fetch cache, params["cache"] {
 			query->cache(cache);
 		}
+
+		/**
+		 * Execute the query
+		 */
+		let resultset = query->execute(bindParams, bindTypes);
 
 		/**
 		 * Return the full resultset if the query is grouped
