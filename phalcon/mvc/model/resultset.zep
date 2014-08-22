@@ -436,7 +436,7 @@ abstract class Resultset
 	public function delete(<\Closure> conditionCallback=null) -> boolean
 	{
 		boolean transaction;
-		var record, connection;
+		var record, connection = null;
 
 		let transaction = false;
 		for record in iterator(this) {
