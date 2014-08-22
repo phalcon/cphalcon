@@ -312,6 +312,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, getPaginate){
 	PHALCON_CALL_METHOD(&connection, dependency_injector, "get", class_name);
 
 	PHALCON_CALL_METHOD(&intermediate, total_query, "parse");
+	phalcon_array_update_string_string(&intermediate, SL("columns"), SL("*"), PH_SEPARATE);
 
 	PHALCON_CALL_METHOD(&dialect, connection, "getdialect");
 	PHALCON_CALL_METHOD(&sql_select, dialect, "select", intermediate);
