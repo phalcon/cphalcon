@@ -6198,6 +6198,18 @@ PHALCON_INIT_CLASS(Phalcon_Translate_Exception);
 #endif /* PHALCON_TRANSLATE_EXCEPTION_H */
 
 
+#ifndef PHALCON_TRANSLATE_ADAPTER_GETTEXT_H
+#define PHALCON_TRANSLATE_ADAPTER_GETTEXT_H
+
+#include "php_phalcon.h"
+
+zend_class_entry *phalcon_translate_adapter_gettext_ce;
+
+PHALCON_INIT_CLASS(Phalcon_Translate_Adapter_Gettext);
+
+#endif /* PHALCON_TRANSLATE_ADAPTER_GETTEXT_H */
+
+
 
 #ifndef PHALCON_TEXT_H
 #define PHALCON_TEXT_H

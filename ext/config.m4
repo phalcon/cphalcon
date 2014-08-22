@@ -323,6 +323,7 @@ translate/adapter/nativearray.c \
 translate/exception.c \
 translate/adapterinterface.c \
 translate/adapter.c \
+translate/adapter/gettext.c \
 validation/validatorinterface.c \
 validation/message/group.c \
 validation/exception.c \
