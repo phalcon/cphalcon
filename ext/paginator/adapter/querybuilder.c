@@ -298,7 +298,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, getPaginate){
 	PHALCON_CALL_METHOD(NULL, total_builder, "orderby", PHALCON_GLOBAL(z_null));
 	
 	/* Obtain the PHQL for the total query */
-	PHALCON_CALL_METHOD(&total_query, total_builder, "getquery");	
+	PHALCON_CALL_METHOD(&total_query, total_builder, "getquery");
 
 	PHALCON_CALL_METHOD(&connection, total_query, "getconnection");
 
