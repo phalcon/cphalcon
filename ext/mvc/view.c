@@ -121,6 +121,8 @@ PHP_METHOD(Phalcon_Mvc_View, __get);
 PHP_METHOD(Phalcon_Mvc_View, __isset);
 PHP_METHOD(Phalcon_Mvc_View, enableNamespaceView);
 PHP_METHOD(Phalcon_Mvc_View, disableNamespaceView);
+PHP_METHOD(Phalcon_Mvc_View, enableLowerCase);
+PHP_METHOD(Phalcon_Mvc_View, disableLowerCase);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view___construct, 0, 0, 0)
 	ZEND_ARG_INFO(0, options)
@@ -207,6 +209,8 @@ static const zend_function_entry phalcon_mvc_view_method_entry[] = {
 	PHP_ME(Phalcon_Mvc_View, __isset, arginfo___isset, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_View, enableNamespaceView, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_View, disableNamespaceView, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_View, enableLowerCase, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_View, disableLowerCase, NULL, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };
 
@@ -246,6 +250,7 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_View){
 	zend_declare_property_bool(phalcon_mvc_view_ce, SL("_cacheMode"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_view_ce, SL("_activeRenderPath"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_bool(phalcon_mvc_view_ce, SL("_disabled"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_bool(phalcon_mvc_view_ce, SL("_lowerCase"), 1, ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	zend_declare_class_constant_long(phalcon_mvc_view_ce, SL("LEVEL_MAIN_LAYOUT"), 6 TSRMLS_CC);
 	zend_declare_class_constant_long(phalcon_mvc_view_ce, SL("LEVEL_AFTER_TEMPLATE"), 5 TSRMLS_CC);
@@ -1207,7 +1212,7 @@ PHP_METHOD(Phalcon_Mvc_View, exists) {
 PHP_METHOD(Phalcon_Mvc_View, render){
 
 	zval *controller_name, *action_name, *params = NULL;
-	zval *disabled, *contents = NULL, *layouts_dir = NULL, *layout, *namespace_view;
+	zval *disabled, *contents = NULL, *layouts_dir = NULL, *layout, *enable_namespace_view, *lower_case;
 	zval *layout_name = NULL, *layout_namespace = NULL, *engines = NULL, *pick_view, *render_view = NULL;
 	zval *pick_view_action;
 	zval *events_manager, *event_name = NULL, *status = NULL;
@@ -1260,11 +1265,19 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 	phalcon_update_property_this(this_ptr, SL("_params"), params TSRMLS_CC);
 	phalcon_update_property_this(this_ptr, SL("_namespaceName"), namespace_name TSRMLS_CC);
 
-	PHALCON_INIT_VAR(lower_controller_name);
-	phalcon_fast_strtolower(lower_controller_name, controller_name);
+	PHALCON_OBS_VAR(lower_case);
+	phalcon_read_property_this(&lower_case, this_ptr, SL("_lowerCase"), PH_NOISY TSRMLS_CC);
 
-	PHALCON_INIT_VAR(lower_action_name);
-	phalcon_fast_strtolower(lower_action_name, action_name);
+	if (zend_is_true(lower_case)) {
+		PHALCON_INIT_VAR(lower_controller_name);
+		phalcon_fast_strtolower(lower_controller_name, controller_name);
+
+		PHALCON_INIT_VAR(lower_action_name);
+		phalcon_fast_strtolower(lower_action_name, action_name);
+	} else {
+		PHALCON_CPY_WRT(lower_controller_name, controller_name);
+		PHALCON_CPY_WRT(lower_action_name, action_name);
+	}
 
 	/** 
 	 * Check if there is a layouts directory set
@@ -1276,12 +1289,16 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 		ZVAL_STRING(layouts_dir, "layouts/", 1);
 	}
 
-	PHALCON_OBS_VAR(namespace_view);
-	phalcon_read_property_this(&namespace_view, this_ptr, SL("_enableNamespaceView"), PH_NOISY TSRMLS_CC);
+	PHALCON_OBS_VAR(enable_namespace_view);
+	phalcon_read_property_this(&enable_namespace_view, this_ptr, SL("_enableNamespaceView"), PH_NOISY TSRMLS_CC);
 
-	if (PHALCON_IS_TRUE(namespace_view) && zend_is_true(namespace_name)) {
+	if (zend_is_true(enable_namespace_view)) {
 		PHALCON_INIT_VAR(lower_namespace_name);
-		phalcon_fast_strtolower(lower_namespace_name, namespace_name);
+		if (zend_is_true(lower_case)) {
+			phalcon_fast_strtolower(lower_namespace_name, namespace_name);
+		} else {
+			PHALCON_CPY_WRT(lower_namespace_name, namespace_name);
+		}
 
 		PHALCON_INIT_VAR(ds_lower_namespace_name);
 		phalcon_fast_str_replace(ds_lower_namespace_name, namespace_separator, ds, lower_namespace_name);
@@ -2153,5 +2170,27 @@ PHP_METHOD(Phalcon_Mvc_View, enableNamespaceView){
 PHP_METHOD(Phalcon_Mvc_View, disableNamespaceView){
 
 	phalcon_update_property_bool(this_ptr, SL("_enableNamespaceView"), 0 TSRMLS_CC);
+	RETURN_THISW();
+}
+
+/**
+ * Enables to lower case view path
+ *
+ * @return Phalcon\Mvc\View
+ */
+PHP_METHOD(Phalcon_Mvc_View, enableLowerCase){
+
+	phalcon_update_property_bool(this_ptr, SL("_lowerCase"), 1 TSRMLS_CC);
+	RETURN_THISW();
+}
+
+/**
+ * Whether to lower case view path
+ *
+ * @return bool
+ */
+PHP_METHOD(Phalcon_Mvc_View, disableLowerCase){
+
+	phalcon_update_property_bool(this_ptr, SL("_lowerCase"), 0 TSRMLS_CC);
 	RETURN_THISW();
 }
