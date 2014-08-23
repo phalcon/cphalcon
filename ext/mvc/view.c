@@ -1400,8 +1400,8 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 		PHALCON_INIT_VAR(lower_action_name);
 		phalcon_fast_strtolower(lower_action_name, action_name);
 	} else {
-		PHALCON_CPY_WRT(lower_controller_name, controller_name);
-		PHALCON_CPY_WRT(lower_action_name, action_name);
+		PHALCON_CPY_WRT_CTOR(lower_controller_name, controller_name);
+		PHALCON_CPY_WRT_CTOR(lower_action_name, action_name);
 	}
 
 	/** 
@@ -1422,7 +1422,7 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 		if (zend_is_true(lower_case)) {
 			phalcon_fast_strtolower(lower_namespace_name, namespace_name);
 		} else {
-			PHALCON_CPY_WRT(lower_namespace_name, namespace_name);
+			PHALCON_CPY_WRT_CTOR(lower_namespace_name, namespace_name);
 		}
 
 		PHALCON_INIT_VAR(ds_lower_namespace_name);
