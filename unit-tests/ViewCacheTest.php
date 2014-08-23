@@ -29,8 +29,12 @@ class ViewCacheTest extends PHPUnit_Framework_TestCase
 
 	public function setUp()
 	{
-		foreach (new DirectoryIterator('unit-tests/cache/') as $item) {
-			$item->isDir() or unlink($item->getPathname());
+		if (file_exists('unit-tests/cache/')) {
+			foreach (new DirectoryIterator('unit-tests/cache/') as $item) {
+				$item->isDir() or unlink($item->getPathname());
+			}
+		} else {
+			mkdir('unit-tests/cache');
 		}
 	}
 
@@ -176,8 +180,12 @@ class ViewCacheTest extends PHPUnit_Framework_TestCase
 
 	public static function tearDownAfterClass()
 	{
-		foreach (new DirectoryIterator('unit-tests/cache/') as $item) {
-			$item->isDir() or unlink($item->getPathname());
+		if (file_exists('unit-tests/cache/')) {
+			foreach (new DirectoryIterator('unit-tests/cache/') as $item) {
+				$item->isDir() or unlink($item->getPathname());
+			}
+		} else {
+			mkdir('unit-tests/cache');
 		}
 	}
 

@@ -119,6 +119,7 @@ PHP_METHOD(Phalcon_Di, __construct) {
  */
 PHP_METHOD(Phalcon_Di, set) {
 
+	zephir_nts_static zephir_fcall_cache_entry *_0 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *name_param = NULL, *definition, *shared = NULL, *service;
 	zval *name = NULL;
@@ -144,7 +145,7 @@ PHP_METHOD(Phalcon_Di, set) {
 
 	ZEPHIR_INIT_VAR(service);
 	object_init_ex(service, phalcon_di_service_ce);
-	ZEPHIR_CALL_METHOD(NULL, service, "__construct", NULL, name, definition, shared);
+	ZEPHIR_CALL_METHOD(NULL, service, "__construct", &_0, name, definition, shared);
 	zephir_check_call_status();
 	zephir_update_property_array(this_ptr, SL("_services"), name, service TSRMLS_CC);
 	RETURN_CCTOR(service);
@@ -160,8 +161,9 @@ PHP_METHOD(Phalcon_Di, set) {
  */
 PHP_METHOD(Phalcon_Di, setShared) {
 
+	zephir_nts_static zephir_fcall_cache_entry *_1 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *name_param = NULL, *definition, *service, *_0;
+	zval *name_param = NULL, *definition, *service, _0;
 	zval *name = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -182,9 +184,9 @@ PHP_METHOD(Phalcon_Di, setShared) {
 
 	ZEPHIR_INIT_VAR(service);
 	object_init_ex(service, phalcon_di_service_ce);
-	ZEPHIR_INIT_VAR(_0);
-	ZVAL_BOOL(_0, 1);
-	ZEPHIR_CALL_METHOD(NULL, service, "__construct", NULL, name, definition, _0);
+	ZEPHIR_SINIT_VAR(_0);
+	ZVAL_BOOL(&_0, 1);
+	ZEPHIR_CALL_METHOD(NULL, service, "__construct", &_1, name, definition, &_0);
 	zephir_check_call_status();
 	zephir_update_property_array(this_ptr, SL("_services"), name, service TSRMLS_CC);
 	RETURN_CCTOR(service);
@@ -235,6 +237,7 @@ PHP_METHOD(Phalcon_Di, remove) {
  */
 PHP_METHOD(Phalcon_Di, attempt) {
 
+	zephir_nts_static zephir_fcall_cache_entry *_1 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zend_bool shared;
 	zval *name_param = NULL, *definition, *shared_param = NULL, *service, *_0;
@@ -265,7 +268,7 @@ PHP_METHOD(Phalcon_Di, attempt) {
 	if (!(zephir_array_isset(_0, name))) {
 		ZEPHIR_INIT_VAR(service);
 		object_init_ex(service, phalcon_di_service_ce);
-		ZEPHIR_CALL_METHOD(NULL, service, "__construct", NULL, name, definition, (shared ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)));
+		ZEPHIR_CALL_METHOD(NULL, service, "__construct", &_1, name, definition, (shared ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)));
 		zephir_check_call_status();
 		zephir_update_property_array(this_ptr, SL("_services"), name, service TSRMLS_CC);
 		RETURN_CCTOR(service);
