@@ -1355,7 +1355,7 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 		array_init_size(parameters, 1);
 		phalcon_array_append(&parameters, controller_name, 0);
 
-		controller_name = NULL;
+		PHALCON_SEPARATE_PARAM(controller_name);
 		PHALCON_INIT_NVAR(controller_name);
 		PHALCON_CALL_USER_FUNC_ARRAY(controller_name, converter, parameters);
 	}
@@ -1370,7 +1370,7 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 		array_init_size(parameters, 1);
 		phalcon_array_append(&parameters, action_name, 0);
 
-		action_name = NULL;
+		PHALCON_SEPARATE_PARAM(action_name);
 		PHALCON_INIT_NVAR(action_name);
 		PHALCON_CALL_USER_FUNC_ARRAY(action_name, converter, parameters);
 	}
@@ -1385,7 +1385,7 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 		array_init_size(parameters, 1);
 		phalcon_array_append(&parameters, namespace_name, 0);
 
-		namespace_name = NULL;
+		PHALCON_SEPARATE_PARAM(namespace_name);
 		PHALCON_INIT_NVAR(namespace_name);
 		PHALCON_CALL_USER_FUNC_ARRAY(namespace_name, converter, parameters);
 	}
