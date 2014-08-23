@@ -597,6 +597,7 @@ static PHP_MINIT_FUNCTION(phalcon)
 	PHALCON_INIT(Phalcon_Mvc_Model_Validator_Json);
 	PHALCON_INIT(Phalcon_Arr);
 	PHALCON_INIT(Phalcon_Chart_QRcode);
+	PHALCON_INIT(Phalcon_Chart_Captcha);
 	PHALCON_INIT(Phalcon_Scws);
 
 #if PHP_VERSION_ID < 50500
