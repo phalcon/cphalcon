@@ -91,9 +91,14 @@ PHP_METHOD(Phalcon_Mvc_View, setVars);
 PHP_METHOD(Phalcon_Mvc_View, setVar);
 PHP_METHOD(Phalcon_Mvc_View, getVar);
 PHP_METHOD(Phalcon_Mvc_View, getParamsToView);
+PHP_METHOD(Phalcon_Mvc_View, setControllerName);
 PHP_METHOD(Phalcon_Mvc_View, getControllerName);
+PHP_METHOD(Phalcon_Mvc_View, setActionName);
 PHP_METHOD(Phalcon_Mvc_View, getActionName);
+PHP_METHOD(Phalcon_Mvc_View, setParams);
 PHP_METHOD(Phalcon_Mvc_View, getParams);
+PHP_METHOD(Phalcon_Mvc_View, setNamespaceName);
+PHP_METHOD(Phalcon_Mvc_View, getNamespaceName);
 PHP_METHOD(Phalcon_Mvc_View, start);
 PHP_METHOD(Phalcon_Mvc_View, _loadTemplateEngines);
 PHP_METHOD(Phalcon_Mvc_View, _engineRender);
@@ -123,6 +128,8 @@ PHP_METHOD(Phalcon_Mvc_View, enableNamespaceView);
 PHP_METHOD(Phalcon_Mvc_View, disableNamespaceView);
 PHP_METHOD(Phalcon_Mvc_View, enableLowerCase);
 PHP_METHOD(Phalcon_Mvc_View, disableLowerCase);
+PHP_METHOD(Phalcon_Mvc_View, setConverter);
+PHP_METHOD(Phalcon_Mvc_View, getConverter);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view___construct, 0, 0, 0)
 	ZEND_ARG_INFO(0, options)
@@ -179,9 +186,14 @@ static const zend_function_entry phalcon_mvc_view_method_entry[] = {
 	PHP_ME(Phalcon_Mvc_View, setVar, arginfo_phalcon_mvc_viewinterface_setvar, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_View, getVar, arginfo_phalcon_mvc_view_getvar, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_View, getParamsToView, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_View, setControllerName, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_View, getControllerName, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_View, setActionName, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_View, getActionName, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_View, setParams, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_View, getParams, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_View, setNamespaceName, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_View, getNamespaceName, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_View, start, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_View, _loadTemplateEngines, NULL, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Mvc_View, _engineRender, NULL, ZEND_ACC_PROTECTED)
@@ -211,6 +223,8 @@ static const zend_function_entry phalcon_mvc_view_method_entry[] = {
 	PHP_ME(Phalcon_Mvc_View, disableNamespaceView, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_View, enableLowerCase, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_View, disableLowerCase, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_View, setConverter, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_View, getConverter, NULL, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };
 
@@ -251,6 +265,7 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_View){
 	zend_declare_property_null(phalcon_mvc_view_ce, SL("_activeRenderPath"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_bool(phalcon_mvc_view_ce, SL("_disabled"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_bool(phalcon_mvc_view_ce, SL("_lowerCase"), 1, ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_view_ce, SL("_converters"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	zend_declare_class_constant_long(phalcon_mvc_view_ce, SL("LEVEL_MAIN_LAYOUT"), 6 TSRMLS_CC);
 	zend_declare_class_constant_long(phalcon_mvc_view_ce, SL("LEVEL_AFTER_TEMPLATE"), 5 TSRMLS_CC);
@@ -283,6 +298,8 @@ PHP_METHOD(Phalcon_Mvc_View, __construct){
 	if (options && Z_TYPE_P(options) == IS_ARRAY) {
 		phalcon_update_property_this(this_ptr, SL("_options"), options TSRMLS_CC);
 	}
+
+	phalcon_update_property_empty_array(this_ptr, SL("_converters") TSRMLS_CC);
 }
 
 /**
@@ -738,6 +755,22 @@ PHP_METHOD(Phalcon_Mvc_View, getParamsToView){
 }
 
 /**
+ * Sets the controller name to be view
+ *
+ * @param string $controllerName
+ * @return Phalcon\Mvc\View
+ */
+PHP_METHOD(Phalcon_Mvc_View, setControllerName){
+
+	zval *controller_name;
+
+	phalcon_fetch_params(0, 1, 0, &controller_name);
+	
+	phalcon_update_property_this(this_ptr, SL("_controllerName"), controller_name TSRMLS_CC);
+	RETURN_THISW();
+}
+
+/**
  * Gets the name of the controller rendered
  *
  * @return string
@@ -746,6 +779,22 @@ PHP_METHOD(Phalcon_Mvc_View, getControllerName){
 
 
 	RETURN_MEMBER(this_ptr, "_controllerName");
+}
+
+/**
+ * Sets the action name to be view
+ *
+ * @param string $actionName
+ * @return Phalcon\Mvc\View
+ */
+PHP_METHOD(Phalcon_Mvc_View, setActionName){
+
+	zval *action_name;
+
+	phalcon_fetch_params(0, 1, 0, &action_name);
+	
+	phalcon_update_property_this(this_ptr, SL("_actionName"), action_name TSRMLS_CC);
+	RETURN_THISW();
 }
 
 /**
@@ -760,6 +809,22 @@ PHP_METHOD(Phalcon_Mvc_View, getActionName){
 }
 
 /**
+ * Sets the extra parameters to be view
+ *
+ * @param array $params
+ * @return Phalcon\Mvc\View
+ */
+PHP_METHOD(Phalcon_Mvc_View, setParams){
+
+	zval *params;
+
+	phalcon_fetch_params(0, 1, 0, &params);
+	
+	phalcon_update_property_this(this_ptr, SL("_params"), params TSRMLS_CC);
+	RETURN_THISW();
+}
+
+/**
  * Gets extra parameters of the action rendered
  *
  * @return array
@@ -768,6 +833,22 @@ PHP_METHOD(Phalcon_Mvc_View, getParams){
 
 
 	RETURN_MEMBER(this_ptr, "_params");
+}
+
+PHP_METHOD(Phalcon_Mvc_View, setNamespaceName){
+
+	zval *namespace_name;
+
+	phalcon_fetch_params(0, 1, 0, &namespace_name);
+	
+	phalcon_update_property_this(this_ptr, SL("_namespaceName"), namespace_name TSRMLS_CC);
+	RETURN_THISW();
+}
+
+PHP_METHOD(Phalcon_Mvc_View, getNamespaceName){
+
+
+	RETURN_MEMBER(this_ptr, "_namespaceName");
 }
 
 /**
@@ -1218,9 +1299,8 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 	zval *events_manager, *event_name = NULL, *status = NULL;
 	zval *silence = NULL, *disabled_levels, *render_level, *enable_layouts_absolute_path;
 	zval *templates_before, *template_before = NULL;
-	zval *view_temp_path = NULL, *templates_after, *template_after = NULL;
-	zval *main_view;
-	zval *namespace_name = NULL, *lower_controller_name, *lower_action_name, *lower_namespace_name;
+	zval *view_temp_path = NULL, *templates_after, *template_after = NULL, *main_view;
+	zval *namespace_name = NULL, *converter_key, *converter = NULL, *parameters = NULL, *lower_controller_name, *lower_action_name, *lower_namespace_name;
 	zval *ds, *namespace_separator, *ds_lower_namespace_name = NULL;
 	HashTable *ah0, *ah1;
 	HashPosition hp0, hp1;
@@ -1264,6 +1344,51 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 	phalcon_update_property_this(this_ptr, SL("_actionName"), action_name TSRMLS_CC);
 	phalcon_update_property_this(this_ptr, SL("_params"), params TSRMLS_CC);
 	phalcon_update_property_this(this_ptr, SL("_namespaceName"), namespace_name TSRMLS_CC);
+
+	PHALCON_INIT_VAR(converter_key);
+	ZVAL_STRING(converter_key, "controller", 1);
+
+	PHALCON_CALL_SELF(&converter, "getconverter", converter_key);
+
+	if (phalcon_is_callable(converter TSRMLS_CC)) {
+		PHALCON_INIT_NVAR(parameters);
+		array_init_size(parameters, 1);
+		phalcon_array_append(&parameters, controller_name, 0);
+
+		controller_name = NULL;
+		PHALCON_INIT_NVAR(controller_name);
+		PHALCON_CALL_USER_FUNC_ARRAY(controller_name, converter, parameters);
+	}
+
+	PHALCON_INIT_NVAR(converter_key);
+	ZVAL_STRING(converter_key, "action", 1);
+
+	PHALCON_CALL_SELF(&converter, "getconverter", converter_key);
+
+	if (phalcon_is_callable(converter TSRMLS_CC)) {
+		PHALCON_INIT_NVAR(parameters);
+		array_init_size(parameters, 1);
+		phalcon_array_append(&parameters, action_name, 0);
+
+		action_name = NULL;
+		PHALCON_INIT_NVAR(action_name);
+		PHALCON_CALL_USER_FUNC_ARRAY(action_name, converter, parameters);
+	}
+
+	PHALCON_INIT_NVAR(converter_key);
+	ZVAL_STRING(converter_key, "namespace", 1);
+
+	PHALCON_CALL_SELF(&converter, "getconverter", converter_key);
+
+	if (phalcon_is_callable(converter TSRMLS_CC)) {
+		PHALCON_INIT_NVAR(parameters);
+		array_init_size(parameters, 1);
+		phalcon_array_append(&parameters, namespace_name, 0);
+
+		namespace_name = NULL;
+		PHALCON_INIT_NVAR(namespace_name);
+		PHALCON_CALL_USER_FUNC_ARRAY(namespace_name, converter, parameters);
+	}
 
 	PHALCON_OBS_VAR(lower_case);
 	phalcon_read_property_this(&lower_case, this_ptr, SL("_lowerCase"), PH_NOISY TSRMLS_CC);
@@ -2135,7 +2260,7 @@ PHP_METHOD(Phalcon_Mvc_View, __get){
  *</code>
  *
  * @param string $key
- * @return mixed
+ * @return boolean
  */
 PHP_METHOD(Phalcon_Mvc_View, __isset){
 
@@ -2165,7 +2290,7 @@ PHP_METHOD(Phalcon_Mvc_View, enableNamespaceView){
 /**
  * Whether automatic rendering is enabled
  *
- * @return bool
+ * @return Phalcon\Mvc\View
  */
 PHP_METHOD(Phalcon_Mvc_View, disableNamespaceView){
 
@@ -2187,10 +2312,58 @@ PHP_METHOD(Phalcon_Mvc_View, enableLowerCase){
 /**
  * Whether to lower case view path
  *
- * @return bool
+ * @return Phalcon\Mvc\View
  */
 PHP_METHOD(Phalcon_Mvc_View, disableLowerCase){
 
 	phalcon_update_property_bool(this_ptr, SL("_lowerCase"), 0 TSRMLS_CC);
 	RETURN_THISW();
+}
+
+/**
+ * Adds a converter
+ *
+ * @param string $name
+ * @param callable $converter
+ * @return Phalcon\Mvc\Router\Group
+ */
+PHP_METHOD(Phalcon_Mvc_View, setConverter){
+
+	zval **name, **converter;
+
+	phalcon_fetch_params_ex(2, 0, &name, &converter);	
+
+	if (!phalcon_is_callable(*converter TSRMLS_CC)) {
+		PHALCON_THROW_EXCEPTION_STRW(phalcon_mvc_view_exception_ce, "The paramter `converter` is not callable");
+		return;
+	}
+
+	phalcon_update_property_array(this_ptr, SL("_converters"), *name, *converter TSRMLS_CC);
+	RETURN_THISW();
+}
+
+/**
+ * Returns the router converter
+ *
+ * @return callable|null
+ */
+PHP_METHOD(Phalcon_Mvc_View, getConverter) {
+
+	zval *name, *converters, *converter;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 1, 0, &name);
+
+	PHALCON_OBS_VAR(converters);
+	phalcon_read_property_this(&converters, this_ptr, SL("_converters"), PH_NOISY TSRMLS_CC);
+
+	if (phalcon_array_isset(converters, name)) {
+		PHALCON_OBS_VAR(converter);
+		phalcon_array_fetch(&converter, converters, name, PH_NOISY);
+
+		RETURN_CTOR(converter);
+	}
+
+	RETURN_MM_NULL();
 }
