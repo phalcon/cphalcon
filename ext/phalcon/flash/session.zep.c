@@ -166,7 +166,8 @@ PHP_METHOD(Phalcon_Flash_Session, _setSessionMessages) {
 	ZEPHIR_CALL_METHOD(NULL, session, "set", NULL, _1, messages);
 	zephir_check_temp_parameter(_1);
 	zephir_check_call_status();
-	RETURN_CCTOR(messages);
+	RETVAL_ZVAL(messages, 1, 0);
+	RETURN_MM();
 
 }
 

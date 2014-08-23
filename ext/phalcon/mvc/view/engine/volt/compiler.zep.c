@@ -1611,7 +1611,8 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _statementListOrExtends) {
 
 
 	if (Z_TYPE_P(statements) != IS_ARRAY) {
-		RETURN_CCTOR(statements);
+		RETVAL_ZVAL(statements, 1, 0);
+		RETURN_MM();
 	}
 	isStatementList = 1;
 	if (!(zephir_array_isset_string(statements, SS("type")))) {
@@ -1632,7 +1633,8 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _statementListOrExtends) {
 		zephir_check_call_status();
 		RETURN_MM();
 	}
-	RETURN_CCTOR(statements);
+	RETVAL_ZVAL(statements, 1, 0);
+	RETURN_MM();
 
 }
 

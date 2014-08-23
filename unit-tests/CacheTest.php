@@ -112,14 +112,10 @@ class CacheTest extends PHPUnit_Framework_TestCase
 			0 => 'unittestoutput',
 		));
 
-		// $cache->exists('testoutput') is not always true because Travis CI could be slow sometimes
-		//Exists?
-		if ($cache->exists('testoutput')) {
-			$this->assertTrue($cache->exists('testoutput'));
+		$this->assertTrue($cache->exists('testoutput'));
 
-			//Delete cache
-			$this->assertTrue($cache->delete('testoutput'));
-		}
+		//Delete cache
+		$this->assertTrue($cache->delete('testoutput'));
 
 	}
 
@@ -188,7 +184,7 @@ class CacheTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(95, $cache->decrement('foo', 4));
 	}
 
-	public function testMemoryCache()
+	/*public function testMemoryCache()
 	{
 		$frontCache = new Phalcon\Cache\Frontend\None(array('lifetime' => 10));
 
@@ -504,7 +500,7 @@ class CacheTest extends PHPUnit_Framework_TestCase
 			$this->markTestSkipped('apc.enable_cli must be set to 1');
 			return false;
 		}
-		
+
 		foreach (new APCIterator('user') as $counter) {
 			apc_delete($counter['key']);
 		}
@@ -1572,5 +1568,5 @@ class CacheTest extends PHPUnit_Framework_TestCase
 
 		$this->assertFalse($cache->exists('data'));
 		$this->assertFalse($cache->exists('data2'));
-	}
+	}*/
 }

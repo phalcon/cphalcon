@@ -1066,7 +1066,8 @@ PHP_METHOD(Phalcon_Mvc_Micro, offsetUnset) {
 
 
 
-	RETURN_CCTORW(alias);
+	RETVAL_ZVAL(alias, 1, 0);
+	return;
 
 }
 

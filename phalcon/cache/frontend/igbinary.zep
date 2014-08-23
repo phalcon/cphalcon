@@ -20,6 +20,9 @@
 
 namespace Phalcon\Cache\Frontend;
 
+use Phalcon\Cache\Frontend\Data;
+use Phalcon\Cache\FrontendInterface;
+
 /**
  * Phalcon\Cache\Frontend\Igbinary
  *
@@ -58,7 +61,7 @@ namespace Phalcon\Cache\Frontend;
  *	}
  *</code>
  */
-class Igbinary extends \Phalcon\Cache\Frontend\Data implements \Phalcon\Cache\FrontendInterface
+class Igbinary extends Data implements FrontendInterface
 {
 
 	/**
@@ -66,7 +69,7 @@ class Igbinary extends \Phalcon\Cache\Frontend\Data implements \Phalcon\Cache\Fr
 	 *
 	 * @param array frontendOptions
 	 */
-	public function __construct(frontendOptions=null)
+	public function __construct(frontendOptions = null)
 	{
 		let this->_frontendOptions = frontendOptions;
 	}
@@ -93,7 +96,7 @@ class Igbinary extends \Phalcon\Cache\Frontend\Data implements \Phalcon\Cache\Fr
 	 *
 	 * @return boolean
 	 */
-	public function isBuffering()
+	public function isBuffering() -> boolean
 	{
 		return false;
 	}
@@ -111,7 +114,8 @@ class Igbinary extends \Phalcon\Cache\Frontend\Data implements \Phalcon\Cache\Fr
 	 *
 	 * @return string
 	 */
-	public function getContent(){
+	public function getContent()
+	{
 		return null;
 	}
 
@@ -129,7 +133,7 @@ class Igbinary extends \Phalcon\Cache\Frontend\Data implements \Phalcon\Cache\Fr
 	 * @param mixed data
 	 * @return string
 	 */
-	public function beforeStore(data)
+	public function beforeStore(data) -> string
 	{
 		return igbinary_serialize(data);
 	}
@@ -140,7 +144,7 @@ class Igbinary extends \Phalcon\Cache\Frontend\Data implements \Phalcon\Cache\Fr
 	 * @param mixed data
 	 * @return mixed
 	 */
-	public function afterRetrieve(data)
+	public function afterRetrieve(data) -> string
 	{
 		return igbinary_unserialize(data);
 	}

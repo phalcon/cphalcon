@@ -203,7 +203,8 @@ PHP_METHOD(Phalcon_Http_Request, get) {
 					_4 = ZEPHIR_IS_FALSE_IDENTICAL(value);
 				}
 				if (_4) {
-					RETURN_CCTOR(defaultValue);
+					RETVAL_ZVAL(defaultValue, 1, 0);
+					RETURN_MM();
 				}
 				RETURN_CCTOR(value);
 			} else {
@@ -212,12 +213,14 @@ PHP_METHOD(Phalcon_Http_Request, get) {
 					_3 = ZEPHIR_IS_TRUE_IDENTICAL(notAllowEmpty);
 				}
 				if (_3) {
-					RETURN_CCTOR(defaultValue);
+					RETVAL_ZVAL(defaultValue, 1, 0);
+					RETURN_MM();
 				}
 				RETURN_CCTOR(value);
 			}
 		}
-		RETURN_CCTOR(defaultValue);
+		RETVAL_ZVAL(defaultValue, 1, 0);
+		RETURN_MM();
 	}
 	RETURN_CCTOR(request);
 
@@ -313,7 +316,8 @@ PHP_METHOD(Phalcon_Http_Request, getPost) {
 					_3 = ZEPHIR_IS_TRUE_IDENTICAL(notAllowEmpty);
 				}
 				if (_3) {
-					RETURN_CCTOR(defaultValue);
+					RETVAL_ZVAL(defaultValue, 1, 0);
+					RETURN_MM();
 				}
 				RETURN_CCTOR(value);
 			} else {
@@ -322,12 +326,14 @@ PHP_METHOD(Phalcon_Http_Request, getPost) {
 					_3 = ZEPHIR_IS_TRUE_IDENTICAL(notAllowEmpty);
 				}
 				if (_3) {
-					RETURN_CCTOR(defaultValue);
+					RETVAL_ZVAL(defaultValue, 1, 0);
+					RETURN_MM();
 				}
 				RETURN_CCTOR(value);
 			}
 		}
-		RETURN_CCTOR(defaultValue);
+		RETVAL_ZVAL(defaultValue, 1, 0);
+		RETURN_MM();
 	}
 	RETURN_CCTOR(post);
 
@@ -426,7 +432,8 @@ PHP_METHOD(Phalcon_Http_Request, getQuery) {
 					_3 = ZEPHIR_IS_TRUE_IDENTICAL(notAllowEmpty);
 				}
 				if (_3) {
-					RETURN_CCTOR(defaultValue);
+					RETVAL_ZVAL(defaultValue, 1, 0);
+					RETURN_MM();
 				}
 				RETURN_CCTOR(value);
 			} else {
@@ -435,12 +442,14 @@ PHP_METHOD(Phalcon_Http_Request, getQuery) {
 					_3 = ZEPHIR_IS_TRUE_IDENTICAL(notAllowEmpty);
 				}
 				if (_3) {
-					RETURN_CCTOR(defaultValue);
+					RETVAL_ZVAL(defaultValue, 1, 0);
+					RETURN_MM();
 				}
 				RETURN_CCTOR(value);
 			}
 		}
-		RETURN_CCTOR(defaultValue);
+		RETVAL_ZVAL(defaultValue, 1, 0);
+		RETURN_MM();
 	}
 	RETURN_CCTOR(get);
 

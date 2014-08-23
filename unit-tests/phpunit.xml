@@ -87,7 +87,7 @@
 			<file>unit-tests/TasksCliTest.php</file>
 			<file>unit-tests/TranslateTest.php</file>
 			<file>unit-tests/ValidationTest.php</file>
-			<!--<file>unit-tests/ViewCacheTest.php</file>-->
+			<file>unit-tests/ViewCacheTest.php</file>
 			<file>unit-tests/ViewEnginesTest.php</file>
 			<!--<file>unit-tests/ViewEnginesVoltTest.php</file>-->
 			<file>unit-tests/ViewSimpleTest.php</file>

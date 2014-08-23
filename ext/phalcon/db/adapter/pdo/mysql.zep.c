@@ -102,7 +102,8 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, escapeIdentifier) {
 		ZEPHIR_CONCAT_SVS(return_value, "`", identifier, "`");
 		RETURN_MM();
 	}
-	RETURN_CCTOR(identifier);
+	RETVAL_ZVAL(identifier, 1, 0);
+	RETURN_MM();
 
 }
 

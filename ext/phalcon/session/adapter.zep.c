@@ -188,7 +188,8 @@ PHP_METHOD(Phalcon_Session_Adapter, get) {
 			RETURN_CCTOR(value);
 		}
 	}
-	RETURN_CCTOR(defaultValue);
+	RETVAL_ZVAL(defaultValue, 1, 0);
+	RETURN_MM();
 
 }
 

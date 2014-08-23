@@ -153,7 +153,7 @@ PHP_METHOD(Phalcon_Cache_Backend, __construct) {
 /**
  * Starts a cache. The keyname allows to identify the created fragment
  *
- * @param int|string keyName
+ * @param   int|string keyName
  * @param   long lifetime
  * @return  mixed
  */

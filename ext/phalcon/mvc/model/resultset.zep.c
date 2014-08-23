@@ -615,6 +615,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, delete) {
 	if (!conditionCallback) {
 		conditionCallback = ZEPHIR_GLOBAL(global_null);
 	}
+	ZEPHIR_INIT_VAR(connection);
+	ZVAL_NULL(connection);
 
 
 	_0 = Z_TYPE_P(conditionCallback) != IS_NULL;

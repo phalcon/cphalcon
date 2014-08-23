@@ -476,7 +476,8 @@ PHP_METHOD(Phalcon_Dispatcher, getParam) {
 			RETURN_CCTOR(paramValue);
 		}
 	}
-	RETURN_CCTOR(defaultValue);
+	RETVAL_ZVAL(defaultValue, 1, 0);
+	RETURN_MM();
 
 }
 

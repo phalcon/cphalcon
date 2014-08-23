@@ -143,7 +143,8 @@ PHP_METHOD(Phalcon_Cache_Frontend_None, beforeStore) {
 
 
 
-	RETURN_CCTORW(data);
+	RETVAL_ZVAL(data, 1, 0);
+	return;
 
 }
 
@@ -160,7 +161,8 @@ PHP_METHOD(Phalcon_Cache_Frontend_None, afterRetrieve) {
 
 
 
-	RETURN_CCTORW(data);
+	RETVAL_ZVAL(data, 1, 0);
+	return;
 
 }
 

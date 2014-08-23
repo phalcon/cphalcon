@@ -299,7 +299,8 @@ PHP_METHOD(Phalcon_Session_Bag, get) {
 	if (zephir_array_isset_fetch(&value, _1, property, 1 TSRMLS_CC)) {
 		RETURN_CTOR(value);
 	}
-	RETURN_CCTOR(defaultValue);
+	RETVAL_ZVAL(defaultValue, 1, 0);
+	RETURN_MM();
 
 }
 

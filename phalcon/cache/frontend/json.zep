@@ -19,6 +19,8 @@
 
 namespace Phalcon\Cache\Frontend;
 
+use Phalcon\Cache\FrontendInterface;
+
 /**
  * Phalcon\Cache\Frontend\Json
  *
@@ -51,7 +53,7 @@ namespace Phalcon\Cache\Frontend;
  * $data = $cache->get('my-data');
  *</code>
  */
-class Json implements \Phalcon\Cache\FrontendInterface
+class Json implements FrontendInterface
 {
 
 	protected _frontendOptions;
@@ -61,7 +63,7 @@ class Json implements \Phalcon\Cache\FrontendInterface
 	 *
 	 * @param array frontendOptions
 	 */
-	public function __construct(frontendOptions=null)
+	public function __construct(frontendOptions = null)
 	{
 		let this->_frontendOptions = frontendOptions;
 	}
@@ -88,7 +90,7 @@ class Json implements \Phalcon\Cache\FrontendInterface
 	 *
 	 * @return boolean
 	 */
-	public function isBuffering()
+	public function isBuffering() -> boolean
 	{
 		return false;
 	}
@@ -106,7 +108,8 @@ class Json implements \Phalcon\Cache\FrontendInterface
 	 *
 	 * @return string
 	 */
-	public function getContent(){
+	public function getContent()
+	{
 		return null;
 	}
 
@@ -124,7 +127,7 @@ class Json implements \Phalcon\Cache\FrontendInterface
 	 * @param mixed data
 	 * @return string
 	 */
-	public function beforeStore(data)
+	public function beforeStore(data) -> string
 	{
 		return json_encode(data);
 	}

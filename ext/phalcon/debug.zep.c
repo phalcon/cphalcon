@@ -317,7 +317,8 @@ PHP_METHOD(Phalcon_Debug, _escapeString) {
 		zephir_check_call_status();
 		RETURN_MM();
 	}
-	RETURN_CCTOR(value);
+	RETVAL_ZVAL(value, 1, 0);
+	RETURN_MM();
 
 }
 
@@ -443,7 +444,8 @@ PHP_METHOD(Phalcon_Debug, _getVarDump) {
 			zephir_check_call_status();
 			RETURN_MM();
 		}
-		RETURN_CCTOR(variable);
+		RETVAL_ZVAL(variable, 1, 0);
+		RETURN_MM();
 	}
 	if (Z_TYPE_P(variable) == IS_OBJECT) {
 		ZEPHIR_INIT_VAR(className);

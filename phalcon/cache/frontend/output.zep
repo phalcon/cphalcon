@@ -19,6 +19,8 @@
 
 namespace Phalcon\Cache\Frontend;
 
+use Phalcon\Cache\FrontendInterface;
+
 /**
  * Phalcon\Cache\Frontend\Output
  *
@@ -67,7 +69,7 @@ namespace Phalcon\Cache\Frontend;
  * }
  *</code>
  */
-class Output implements \Phalcon\Cache\FrontendInterface
+class Output implements FrontendInterface
 {
 
 	protected _buffering = false;
@@ -79,7 +81,7 @@ class Output implements \Phalcon\Cache\FrontendInterface
 	 *
 	 * @param array frontendOptions
 	 */
-	public function __construct(frontendOptions=null)
+	public function __construct(frontendOptions = null)
 	{
 		let this->_frontendOptions = frontendOptions;
 	}
@@ -106,15 +108,15 @@ class Output implements \Phalcon\Cache\FrontendInterface
 	 *
 	 * @return boolean
 	 */
-	public function isBuffering()
+	public function isBuffering() -> boolean
 	{
 		return this->_buffering;
 	}
 
 	/**
-	 * Starts output frontend. Actually, does nothing
+	 * Starts output frontend. Currently, does nothing
 	 */
-	public function start()
+	public function start() -> void
 	{
 		let this->_buffering = true;
 		ob_start();
@@ -138,14 +140,13 @@ class Output implements \Phalcon\Cache\FrontendInterface
 	/**
 	 * Stops output frontend
 	 */
-	public function stop()
+	public function stop() -> void
 	{
 		if this->_buffering {
-			return ob_end_clean();
+			ob_end_clean();
 		}
 
 		let this->_buffering = false;
-		return null;
 	}
 
 	/**

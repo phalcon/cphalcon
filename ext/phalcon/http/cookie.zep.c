@@ -283,7 +283,8 @@ PHP_METHOD(Phalcon_Http_Cookie, getValue) {
 			}
 			RETURN_CCTOR(decryptedValue);
 		}
-		RETURN_CCTOR(defaultValue);
+		RETVAL_ZVAL(defaultValue, 1, 0);
+		RETURN_MM();
 	}
 	RETURN_MM_MEMBER(this_ptr, "_value");
 

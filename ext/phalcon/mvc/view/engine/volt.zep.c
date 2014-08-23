@@ -469,7 +469,8 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, sort) {
 	ZEPHIR_CALL_FUNCTION(NULL, "asort", &_0, value);
 	Z_UNSET_ISREF_P(value);
 	zephir_check_call_status();
-	RETURN_CCTOR(value);
+	RETVAL_ZVAL(value, 1, 0);
+	RETURN_MM();
 
 }
 

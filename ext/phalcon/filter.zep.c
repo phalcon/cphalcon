@@ -168,7 +168,8 @@ PHP_METHOD(Phalcon_Filter, sanitize) {
 				}
 			}
 		}
-		RETURN_CCTOR(value);
+		RETVAL_ZVAL(value, 1, 0);
+		RETURN_MM();
 	}
 	_3 = Z_TYPE_P(value) == IS_ARRAY;
 	if (_3) {

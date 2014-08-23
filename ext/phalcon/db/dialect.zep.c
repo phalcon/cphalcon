@@ -491,7 +491,8 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlTable) {
 		ZEPHIR_CONCAT_VVV(return_value, escapeChar, table, escapeChar);
 		RETURN_MM();
 	}
-	RETURN_CCTOR(table);
+	RETVAL_ZVAL(table, 1, 0);
+	RETURN_MM();
 
 }
 

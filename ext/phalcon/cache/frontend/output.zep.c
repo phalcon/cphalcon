@@ -150,7 +150,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Output, isBuffering) {
 }
 
 /**
- * Starts output frontend. Actually, does nothing
+ * Starts output frontend. Currently, does nothing
  */
 PHP_METHOD(Phalcon_Cache_Frontend_Output, start) {
 
@@ -202,12 +202,11 @@ PHP_METHOD(Phalcon_Cache_Frontend_Output, stop) {
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_buffering"), PH_NOISY_CC);
 	if (zephir_is_true(_0)) {
-		ZEPHIR_RETURN_CALL_FUNCTION("ob_end_clean", &_1);
+		ZEPHIR_CALL_FUNCTION(NULL, "ob_end_clean", &_1);
 		zephir_check_call_status();
-		RETURN_MM();
 	}
 	zephir_update_property_this(this_ptr, SL("_buffering"), (0) ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
-	RETURN_MM_NULL();
+	ZEPHIR_MM_RESTORE();
 
 }
 
@@ -225,7 +224,8 @@ PHP_METHOD(Phalcon_Cache_Frontend_Output, beforeStore) {
 
 
 
-	RETURN_CCTORW(data);
+	RETVAL_ZVAL(data, 1, 0);
+	return;
 
 }
 
@@ -243,7 +243,8 @@ PHP_METHOD(Phalcon_Cache_Frontend_Output, afterRetrieve) {
 
 
 
-	RETURN_CCTORW(data);
+	RETVAL_ZVAL(data, 1, 0);
+	return;
 
 }
 

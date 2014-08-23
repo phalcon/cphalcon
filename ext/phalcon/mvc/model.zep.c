@@ -5357,7 +5357,8 @@ PHP_METHOD(Phalcon_Mvc_Model, __set) {
 			ZEPHIR_INIT_ZVAL_NREF(_0);
 			ZVAL_LONG(_0, 1);
 			zephir_update_property_this(this_ptr, SL("_dirtyState"), _0 TSRMLS_CC);
-			RETURN_CCTOR(value);
+			RETVAL_ZVAL(value, 1, 0);
+			RETURN_MM();
 		}
 	}
 	if (Z_TYPE_P(value) == IS_ARRAY) {
@@ -5403,10 +5404,12 @@ PHP_METHOD(Phalcon_Mvc_Model, __set) {
 			ZVAL_LONG(_0, 1);
 			zephir_update_property_this(this_ptr, SL("_dirtyState"), _0 TSRMLS_CC);
 		}
-		RETURN_CCTOR(value);
+		RETVAL_ZVAL(value, 1, 0);
+		RETURN_MM();
 	}
 	zephir_update_property_zval_zval(this_ptr, property, value TSRMLS_CC);
-	RETURN_CCTOR(value);
+	RETVAL_ZVAL(value, 1, 0);
+	RETURN_MM();
 
 }
 

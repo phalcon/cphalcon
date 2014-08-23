@@ -235,7 +235,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, save) {
 		ZEPHIR_CONCAT_VV(lastKey, _0, keyName);
 	}
 	if (!(zephir_is_true(lastKey))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_cache_exception_ce, "The cache must be started first", "phalcon/cache/backend/file.zep", 160);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_cache_exception_ce, "Cache must be started first", "phalcon/cache/backend/file.zep", 160);
 		return;
 	}
 	ZEPHIR_OBS_VAR(frontend);
@@ -263,7 +263,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, save) {
 		ZEPHIR_INIT_NVAR(status);
 		zephir_file_put_contents(status, cacheFile, cachedContent TSRMLS_CC);
 	}
-	if (ZEPHIR_IS_FALSE(status)) {
+	if (ZEPHIR_IS_FALSE_IDENTICAL(status)) {
 		ZEPHIR_INIT_VAR(_1);
 		object_init_ex(_1, phalcon_cache_exception_ce);
 		ZEPHIR_INIT_VAR(_2);
@@ -512,7 +512,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, increment) {
 				ZEPHIR_INIT_VAR(_7);
 				zephir_file_put_contents(_7, cacheFile, result TSRMLS_CC);
 				if (ZEPHIR_IS_FALSE_IDENTICAL(_7)) {
-					ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_cache_exception_ce, "Cache directory can't be written", "phalcon/cache/backend/file.zep", 358);
+					ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_cache_exception_ce, "Cache directory could not be written", "phalcon/cache/backend/file.zep", 358);
 					return;
 				}
 				RETURN_CCTOR(result);

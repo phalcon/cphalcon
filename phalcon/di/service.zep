@@ -20,6 +20,7 @@
 namespace Phalcon\Di;
 
 use Phalcon\Di\Exception;
+use Phalcon\Di\ServiceInterface;
 
 /**
  * Phalcon\Di\Service
@@ -32,7 +33,7 @@ use Phalcon\Di\Exception;
  *<code>
  *
  */
-class Service implements \Phalcon\Di\ServiceInterface
+class Service implements ServiceInterface
 {
 
 	protected _name;
@@ -52,7 +53,7 @@ class Service implements \Phalcon\Di\ServiceInterface
 	 * @param mixed definition
 	 * @param boolean shared
 	 */
-	public function __construct(string! name, definition, boolean shared=false)
+	public final function __construct(string! name, definition, boolean shared = false)
 	{
 		let this->_name = name,
 			this->_definition = definition,
@@ -126,7 +127,7 @@ class Service implements \Phalcon\Di\ServiceInterface
 	 * @param Phalcon\DiInterface dependencyInjector
 	 * @return mixed
 	 */
-	public function resolve(parameters=null, <\Phalcon\DiInterface> dependencyInjector=null)
+	public function resolve(parameters = null, <\Phalcon\DiInterface> dependencyInjector = null)
 	{
 
 		boolean found;
@@ -283,7 +284,7 @@ class Service implements \Phalcon\Di\ServiceInterface
 	 *
 	 * @return bool
 	 */
-	public function isResolved()
+	public function isResolved() -> boolean
 	{
 		return this->_resolved;
 	}
@@ -294,7 +295,7 @@ class Service implements \Phalcon\Di\ServiceInterface
 	 * @param array attributes
 	 * @return Phalcon\Di\Service
 	 */
-	public static function __set_state(array! attributes) -> <\Phalcon\Di\Service>
+	public static function __set_state(array! attributes) -> <Service>
 	{
 		var name, definition, shared;
 

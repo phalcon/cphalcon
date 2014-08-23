@@ -328,7 +328,8 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, executePrepared) {
 	}
 	ZEPHIR_CALL_METHOD(NULL, statement, "execute", NULL);
 	zephir_check_call_status();
-	RETURN_CCTOR(statement);
+	RETVAL_ZVAL(statement, 1, 0);
+	RETURN_MM();
 
 }
 

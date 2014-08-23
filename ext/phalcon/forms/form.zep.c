@@ -205,7 +205,8 @@ PHP_METHOD(Phalcon_Forms_Form, getUserOption) {
 	if (zephir_array_isset_fetch(&value, _0, option, 1 TSRMLS_CC)) {
 		RETURN_CTORW(value);
 	}
-	RETURN_CCTORW(defaultValue);
+	RETVAL_ZVAL(defaultValue, 1, 0);
+	return;
 
 }
 

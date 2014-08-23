@@ -434,7 +434,8 @@ PHP_METHOD(Phalcon_Mvc_Url, get) {
 			}
 		}
 	}
-	RETURN_CCTOR(uri);
+	RETVAL_ZVAL(uri, 1, 0);
+	RETURN_MM();
 
 }
 
