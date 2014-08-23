@@ -414,7 +414,6 @@ PHP_METHOD(Phalcon_Di_Service, isResolved) {
  */
 PHP_METHOD(Phalcon_Di_Service, __set_state) {
 
-	zephir_nts_static zephir_fcall_cache_entry *_0 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *attributes_param = NULL, *name, *definition, *shared;
 	zval *attributes = NULL;
@@ -447,7 +446,7 @@ PHP_METHOD(Phalcon_Di_Service, __set_state) {
 		return;
 	}
 	object_init_ex(return_value, phalcon_di_service_ce);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", &_0, name, definition, shared);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, name, definition, shared);
 	zephir_check_call_status();
 	RETURN_MM();
 

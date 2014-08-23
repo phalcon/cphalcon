@@ -342,7 +342,7 @@ int zephir_fetch_parameters(int num_args TSRMLS_DC, int required_args, int optio
 #define ZEPHIR_GET_IMKEY(var, it) \
 	{\
 		int key_type, str_key_len; \
-		long int_key; \
+		ulong int_key; \
 		char *str_key; \
 		\
 		ZEPHIR_INIT_NVAR(var); \
@@ -365,6 +365,8 @@ int zephir_fetch_parameters(int num_args TSRMLS_DC, int required_args, int optio
 		ZEPHIR_INIT_NVAR(var); \
 		it->funcs->get_current_key(it, var TSRMLS_CC); \
 	}
+
+#endif
 
 /** Foreach */
 #define ZEPHIR_GET_FOREACH_KEY(var, hash, hash_pointer) ZEPHIR_GET_HMKEY(var, hash, hash_pointer)
