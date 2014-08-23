@@ -53,7 +53,7 @@ class Service implements ServiceInterface
 	 * @param mixed definition
 	 * @param boolean shared
 	 */
-	public function __construct(string! name, definition, boolean shared = false)
+	public final function __construct(string! name, definition, boolean shared = false)
 	{
 		let this->_name = name,
 			this->_definition = definition,
