@@ -157,7 +157,7 @@ class File extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendInter
 		}
 
 		if !lastKey {
-			throw new Exception("The cache must be started first");
+			throw new Exception("Cache must be started first");
 		}
 
 		let frontend = this->_frontend;
@@ -185,8 +185,8 @@ class File extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendInter
 			let status = file_put_contents(cacheFile, cachedContent);
 		}
 
-		if status == false {
-			throw new Exception("Cache file ". cacheFile. " could not be written");
+		if status === false {
+			throw new Exception("Cache file ". cacheFile . " could not be written");
 		}
 
 		let isBuffering = frontend->isBuffering();
@@ -355,7 +355,7 @@ class File extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendInter
 
 					let result = cachedContent + value;
 					if file_put_contents(cacheFile, result) === false {
-						throw new Exception("Cache directory can't be written");
+						throw new Exception("Cache directory could not be written");
 					}
 
 					return result;
