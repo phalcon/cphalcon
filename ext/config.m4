@@ -395,6 +395,7 @@ psr/log/loggertrait.c \
 psr/log/loglevel.c \
 psr/log/nulllogger.c \
 chart/qrcode.c \
+chart/captcha.c \
 chart/exception.c \
 scws.c \
 registry.c"
