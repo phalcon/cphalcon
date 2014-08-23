@@ -33083,17 +33083,6 @@ static PHP_METHOD(Phalcon_Cache_Backend_Libmemcached, flush){
 	HashPosition pos;
 	zval **value;
 
-	options = phalcon_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY TSRMLS_CC);
-
-	if (unlikely(!phalcon_array_isset_string_fetch(&special_key, options, SS("statsKey")))) {
-		zend_throw_exception_ex(phalcon_cache_exception_ce, 0 TSRMLS_CC, "Unexpected inconsistency in options");
-		return;
-	}
-
-	if (Z_TYPE_P(special_key) == IS_NULL) {
-		RETURN_FALSE;
-	}
-
 	PHALCON_MM_GROW();
 
 	memcache = phalcon_fetch_nproperty_this(this_ptr, SL("_memcache"), PH_NOISY TSRMLS_CC);
@@ -33102,22 +33091,33 @@ static PHP_METHOD(Phalcon_Cache_Backend_Libmemcached, flush){
 		memcache = phalcon_fetch_nproperty_this(this_ptr, SL("_memcache"), PH_NOISY TSRMLS_CC);
 	}
 
-	/* Get the key from memcached */
-	PHALCON_CALL_METHOD(&keys, memcache, "get", special_key);
-	if (Z_TYPE_P(keys) == IS_ARRAY) {
+	options = phalcon_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY TSRMLS_CC);
 
-		for (
-			zend_hash_internal_pointer_reset_ex(Z_ARRVAL_P(keys), &pos);
-			zend_hash_get_current_data_ex(Z_ARRVAL_P(keys), (void**)&value, &pos) == SUCCESS;
-			zend_hash_move_forward_ex(Z_ARRVAL_P(keys), &pos)
-		) {
-			zval key = phalcon_get_current_key_w(Z_ARRVAL_P(keys), &pos);
+	if (unlikely(!phalcon_array_isset_string_fetch(&special_key, options, SS("statsKey")))) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "Unexpected inconsistency in options");
+		return;
+	}
+
+	/* Get the key from memcached */
+	if (Z_TYPE_P(special_key) != IS_NULL) {
+		PHALCON_CALL_METHOD(&keys, memcache, "get", special_key);
+		if (Z_TYPE_P(keys) == IS_ARRAY) {
+
+			for (
+				zend_hash_internal_pointer_reset_ex(Z_ARRVAL_P(keys), &pos);
+				zend_hash_get_current_data_ex(Z_ARRVAL_P(keys), (void**)&value, &pos) == SUCCESS;
+				zend_hash_move_forward_ex(Z_ARRVAL_P(keys), &pos)
+			) {
+				zval key = phalcon_get_current_key_w(Z_ARRVAL_P(keys), &pos);
+				
+				PHALCON_CALL_METHOD(NULL, memcache, "delete", &key);
+			}
 			
-			PHALCON_CALL_METHOD(NULL, memcache, "delete", &key);
-		}
-		
-		zend_hash_clean(Z_ARRVAL_P(keys));
-		PHALCON_CALL_METHOD(NULL, memcache, "set", special_key, keys);
+			zend_hash_clean(Z_ARRVAL_P(keys));
+			PHALCON_CALL_METHOD(NULL, memcache, "set", special_key, keys);
+		}		
+	} else {
+		PHALCON_CALL_METHOD(&keys, memcache, "flush");
 	}
 
 	RETURN_MM_TRUE;
@@ -33629,20 +33629,10 @@ static PHP_METHOD(Phalcon_Cache_Backend_Memcache, decrement){
 static PHP_METHOD(Phalcon_Cache_Backend_Memcache, flush){
 
 	zval *memcache, *options, *special_key;
-	zval *keys = NULL;
-	HashPosition pos;
-	zval **value;
-
-	options = phalcon_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY TSRMLS_CC);
-	
-	if (unlikely(!phalcon_array_isset_string_fetch(&special_key, options, SS("statsKey")))) {
-		zend_throw_exception_ex(phalcon_cache_exception_ce, 0 TSRMLS_CC, "Unexpected inconsistency in options");
-		return;
-	}
-
-	if (Z_TYPE_P(special_key) == IS_NULL) {
-		RETURN_FALSE;
-	}
+	zval *keys = NULL, *key = NULL, *param, *all_slabs = NULL, *slabs = NULL, *slabid = NULL, *cachedump = NULL;
+	HashTable *ah0, *ah1, *ah2, *ah3;
+	HashPosition hp0, hp1, hp2, hp3;
+	zval **hd;
 
 	PHALCON_MM_GROW();
 
@@ -33651,22 +33641,83 @@ static PHP_METHOD(Phalcon_Cache_Backend_Memcache, flush){
 		memcache = NULL;
 		PHALCON_CALL_METHOD(&memcache, this_ptr, "_connect");
 	}
+
+	options = phalcon_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY TSRMLS_CC);
+	
+	if (unlikely(!phalcon_array_isset_string_fetch(&special_key, options, SS("statsKey")))) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "Unexpected inconsistency in options");
+		return;
+	}
 	
 	/* Get the key from memcached */
-	PHALCON_CALL_METHOD(&keys, memcache, "get", special_key);
-	if (Z_TYPE_P(keys) == IS_ARRAY) {
-		for (
-			zend_hash_internal_pointer_reset_ex(Z_ARRVAL_P(keys), &pos);
-			zend_hash_get_current_data_ex(Z_ARRVAL_P(keys), (void**)&value, &pos) == SUCCESS;
-			zend_hash_move_forward_ex(Z_ARRVAL_P(keys), &pos)
-		) {
-			zval key = phalcon_get_current_key_w(Z_ARRVAL_P(keys), &pos);
+	if (Z_TYPE_P(special_key) != IS_NULL) {
+		PHALCON_CALL_METHOD(&keys, memcache, "get", special_key);
+		if (Z_TYPE_P(keys) == IS_ARRAY) {
+			phalcon_is_iterable(keys, &ah0, &hp0, 0, 0);
 	
-			PHALCON_CALL_METHOD(NULL, memcache, "delete", &key);
+			while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
+				PHALCON_GET_HKEY(key, ah0, hp0);
+
+				PHALCON_CALL_METHOD(NULL, memcache, "delete", key);
+
+				zend_hash_move_forward_ex(ah0, &hp0);
+			}
+			
+			zend_hash_clean(Z_ARRVAL_P(keys));
+			PHALCON_CALL_METHOD(NULL, memcache, "set", special_key, keys);
 		}
-		
-		zend_hash_clean(Z_ARRVAL_P(keys));
-		PHALCON_CALL_METHOD(NULL, memcache, "set", special_key, keys);
+	} else {
+		PHALCON_INIT_VAR(param);
+		ZVAL_STRING(param, "slabs", 1);
+
+		PHALCON_CALL_METHOD(&all_slabs, memcache, "getextendedstats", param);
+
+		if (Z_TYPE_P(all_slabs) != IS_ARRAY) {
+			RETURN_MM_FALSE;
+		}
+
+		phalcon_is_iterable(all_slabs, &ah0, &hp0, 0, 0);
+
+		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
+			PHALCON_GET_HVALUE(slabs);
+
+			phalcon_is_iterable(slabs, &ah1, &hp1, 0, 0);
+
+			while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
+				PHALCON_GET_HKEY(slabid, ah1, hp1);
+
+				PHALCON_CALL_METHOD(&cachedump, memcache, "cachedump", slabid);
+				if (Z_TYPE_P(cachedump) != IS_ARRAY) {
+					continue;
+				}
+
+				phalcon_is_iterable(cachedump, &ah2, &hp2, 0, 0);
+
+				while (zend_hash_get_current_data_ex(ah2, (void**) &hd, &hp2) == SUCCESS) {
+					PHALCON_GET_HVALUE(keys);
+
+					if (Z_TYPE_P(keys) != IS_ARRAY) {
+						continue;
+					}
+
+					phalcon_is_iterable(keys, &ah3, &hp3, 0, 0);
+
+					while (zend_hash_get_current_data_ex(ah3, (void**) &hd, &hp3) == SUCCESS) {
+						PHALCON_GET_HKEY(key, ah3, hp3);
+
+						PHALCON_CALL_METHOD(NULL, memcache, "delete", key);
+
+						zend_hash_move_forward_ex(ah3, &hp3);
+					}
+
+					zend_hash_move_forward_ex(ah2, &hp2);
+				}
+
+				zend_hash_move_forward_ex(ah1, &hp1);
+			}
+
+			zend_hash_move_forward_ex(ah0, &hp0);
+		}
 	}
 	
 	RETURN_MM_TRUE;
@@ -62206,7 +62257,7 @@ static PHP_METHOD(Phalcon_Mvc_Dispatcher, _handleException){
 
 static PHP_METHOD(Phalcon_Mvc_Dispatcher, getControllerClass)
 {
-	PHALCON_RETURN_CALL_METHODW(this_ptr, "gethandlername");
+	PHALCON_RETURN_CALL_METHODW(this_ptr, "gethandlerclass");
 }
 
 static PHP_METHOD(Phalcon_Mvc_Dispatcher, getLastController){
@@ -64521,13 +64572,13 @@ static PHP_METHOD(Phalcon_Mvc_Model, _groupResult){
 		}
 	}
 	
-	PHALCON_CALL_METHOD(&resultset, query, "execute", bind_params, bind_types);
-	
 	if (phalcon_array_isset_quick_string(params, SS("cache"), 6953382253785UL)) {
 		PHALCON_OBS_VAR(cache);
 		phalcon_array_fetch_quick_string(&cache, params, SS("cache"), 6953382253785UL, PH_NOISY);
 		PHALCON_CALL_METHOD(NULL, query, "cache", cache);
 	}
+	
+	PHALCON_CALL_METHOD(&resultset, query, "execute", bind_params, bind_types);
 	
 	if (phalcon_array_isset_quick_string(params, SS("group"), 6953559401778UL)) {
 		RETURN_CTOR(resultset);
@@ -84511,7 +84562,7 @@ static PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql){
 	zval *join = NULL, *join_model = NULL, *join_conditions = NULL, *join_alias = NULL;
 	zval *join_type = NULL, *group, *group_items, *group_item = NULL;
 	zval *escaped_item = NULL, *joined_items = NULL, *having, *order;
-	zval *order_items, *order_item = NULL, *limit, *number;
+	zval *order_items, *order_item = NULL, *limit, *number, *for_update;
 	HashTable *ah0, *ah1, *ah2, *ah3, *ah4, *ah5;
 	HashPosition hp0, hp1, hp2, hp3, hp4, hp5;
 	zval **hd;
@@ -84898,6 +84949,11 @@ static PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql){
 				PHALCON_SCONCAT_SV(phql, " OFFSET ", offset);
 			}
 		}
+	}
+	
+	for_update = phalcon_fetch_nproperty_this(this_ptr, SL("_forUpdate"), PH_NOISY TSRMLS_CC);
+	if (zend_is_true(for_update)) {
+		phalcon_concat_self_str(&phql, SL(" FOR UPDATE") TSRMLS_CC);
 	}
 	
 	RETURN_CTOR(phql);
