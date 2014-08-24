@@ -19,6 +19,10 @@
 
 namespace Phalcon\Mvc\Model\MetaData;
 
+use Phalcon\Mvc\Model\MetaData;
+use Phalcon\Mvc\Model\MetaDataInterface;
+use Phalcon\Mvc\Model\Exception;
+
 /**
  * Phalcon\Mvc\Model\MetaData\Apc
  *
@@ -35,7 +39,7 @@ namespace Phalcon\Mvc\Model\MetaData;
  *	));
  *</code>
  */
-class Apc extends \Phalcon\Mvc\Model\MetaData implements \Phalcon\Mvc\Model\MetaDataInterface
+class Apc extends MetaData implements MetaDataInterface
 {
 
 	protected _prefix = "";
@@ -47,7 +51,7 @@ class Apc extends \Phalcon\Mvc\Model\MetaData implements \Phalcon\Mvc\Model\Meta
 	 *
 	 * @param array options
 	 */
-	public function __construct(options=null)
+	public function __construct(options = null)
 	{
 		var prefix, ttl;
 
@@ -86,7 +90,7 @@ class Apc extends \Phalcon\Mvc\Model\MetaData implements \Phalcon\Mvc\Model\Meta
 	 * @param string key
 	 * @param array data
 	 */
-	public function write(string! key, data)
+	public function write(string! key, data) -> void
 	{
 		apc_store("$PMM$" . this->_prefix . key, data, this->_ttl);
 	}

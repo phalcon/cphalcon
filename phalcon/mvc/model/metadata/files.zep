@@ -19,6 +19,10 @@
 
 namespace Phalcon\Mvc\Model\MetaData;
 
+use Phalcon\Mvc\Model\MetaData;
+use Phalcon\Mvc\Model\MetaDataInterface;
+use Phalcon\Mvc\Model\Exception;
+
 /**
  * Phalcon\Mvc\Model\MetaData\Files
  *
@@ -30,7 +34,7 @@ namespace Phalcon\Mvc\Model\MetaData;
  * ));
  *</code>
  */
-class Files extends \Phalcon\Mvc\Model\MetaData implements \Phalcon\Mvc\Model\MetaDataInterface
+class Files extends MetaData implements MetaDataInterface
 {
 
 	protected _metaDataDir = "./";
@@ -40,7 +44,7 @@ class Files extends \Phalcon\Mvc\Model\MetaData implements \Phalcon\Mvc\Model\Me
 	 *
 	 * @param array options
 	 */
-	public function __construct($options=null)
+	public function __construct($options = null)
 	{
 		var metaDataDir;
 		if typeof options == "array" {
@@ -55,7 +59,7 @@ class Files extends \Phalcon\Mvc\Model\MetaData implements \Phalcon\Mvc\Model\Me
 	 * Reads meta-data from files
 	 *
 	 * @param string key
-	 * @return array
+	 * @return mixed
 	 */
 	public function read(string! key)
 	{
@@ -73,13 +77,13 @@ class Files extends \Phalcon\Mvc\Model\MetaData implements \Phalcon\Mvc\Model\Me
 	 * @param string key
 	 * @param array data
 	 */
-	public function write(string! key, var data)
+	public function write(string! key, var data) -> void
 	{
 		var path;
 
 		let path = this->_metaDataDir . prepare_virtual_path(key, "_") . ".php";
 		if file_put_contents(path, "<?php return " . var_export(data, true) . "; ") === false {
-			throw new \Phalcon\Mvc\Model\Exception("Meta-Data directory cannot be written");
+			throw new Exception("Meta-Data directory cannot be written");
 		}
 	}
 

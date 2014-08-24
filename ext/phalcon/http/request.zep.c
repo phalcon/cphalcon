@@ -1363,7 +1363,7 @@ PHP_METHOD(Phalcon_Http_Request, getUploadedFiles) {
 
 /**
  * smooth out $_FILES to have plain array with all files uploaded
- * 
+ *
  * @param array names
  * @param array types
  * @param array tmp_names
@@ -1604,12 +1604,11 @@ PHP_METHOD(Phalcon_Http_Request, _getQualityHeader) {
 		array_init_size(_9, 3);
 		ZEPHIR_OBS_NVAR(_10);
 		zephir_array_fetch_long(&_10, headerParts, 0, PH_NOISY, "phalcon/http/request.zep", 873 TSRMLS_CC);
-		zephir_array_update_string(&_9, SL("name"), &_10, PH_COPY);
+		zephir_array_update_string(&_9, Z_STRVAL_P(name), Z_STRLEN_P(name), &_10, PH_COPY);
 		ZEPHIR_INIT_NVAR(_11);
 		ZVAL_DOUBLE(_11, quality);
 		zephir_array_update_string(&_9, SL("quality"), &_11, PH_COPY | PH_SEPARATE);
 		zephir_array_append(&returnedParts, _9, PH_SEPARATE, "phalcon/http/request.zep", 875);
-		//missing empty
 	}
 	RETURN_CCTOR(returnedParts);
 
@@ -1706,7 +1705,7 @@ PHP_METHOD(Phalcon_Http_Request, getAcceptableContent) {
 /**
  * Gets best mime/type accepted by the browser/client from _SERVER["HTTP_ACCEPT"]
  *
- * @return array
+ * @return string
  */
 PHP_METHOD(Phalcon_Http_Request, getBestAccept) {
 

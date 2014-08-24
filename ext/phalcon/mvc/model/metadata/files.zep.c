@@ -96,7 +96,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Files, __construct) {
  * Reads meta-data from files
  *
  * @param string key
- * @return array
+ * @return mixed
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Files, read) {
 
@@ -180,7 +180,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Files, write) {
 	ZEPHIR_CONCAT_SVS(_6, "<?php return ", _4, "; ");
 	zephir_file_put_contents(_3, path, _6 TSRMLS_CC);
 	if (ZEPHIR_IS_FALSE_IDENTICAL(_3)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "Meta-Data directory cannot be written", "phalcon/mvc/model/metadata/files.zep", 82);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "Meta-Data directory cannot be written", "phalcon/mvc/model/metadata/files.zep", 86);
 		return;
 	}
 	ZEPHIR_MM_RESTORE();

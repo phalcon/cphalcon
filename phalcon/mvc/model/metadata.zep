@@ -275,7 +275,7 @@ abstract class MetaData implements InjectionAwareInterface
 	 *
 	 * @param Phalcon\Mvc\ModelInterface model
 	 * @param int index
-	 * @return array
+	 * @return mixed
 	 */
 	public function readMetaDataIndex(<ModelInterface> model, int index)
 	{
@@ -291,7 +291,6 @@ abstract class MetaData implements InjectionAwareInterface
 
 		if !isset this->_metaData[key] {
 			this->_initialize(model, key, source, schema);
-			return this->_metaData[key][index];
 		}
 
 		return this->_metaData[key][index];

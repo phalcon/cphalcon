@@ -742,13 +742,13 @@ class Request implements \Phalcon\Http\RequestInterface, \Phalcon\Di\InjectionAw
 		let superFiles = _FILES;
 
 		let files = [];
-		
+
 		if (count(superFiles) > 0) {
-			
+
 			for prefix, input in superFiles {
 				if (typeof input["name"] == "array") {
 					let smoothInput = this->smoothFiles(input["name"], input["type"], input["tmp_name"], input["size"], input["error"], prefix);
-					
+
 					for file in smoothInput {
 						if (notErrored == false || file["error"] == UPLOAD_ERR_OK) {
 							let dataFile = [
@@ -758,7 +758,7 @@ class Request implements \Phalcon\Http\RequestInterface, \Phalcon\Di\InjectionAw
 								"size": file["size"],
 								"error": file["error"]
 							];
-							
+
 							let files[] = new \Phalcon\Http\Request\File(dataFile, file["key"]);
 						}
 					}
@@ -775,7 +775,7 @@ class Request implements \Phalcon\Http\RequestInterface, \Phalcon\Di\InjectionAw
 
 	/**
 	 * smooth out $_FILES to have plain array with all files uploaded
-	 * 
+	 *
 	 * @param array names
 	 * @param array types
 	 * @param array tmp_names
@@ -786,14 +786,14 @@ class Request implements \Phalcon\Http\RequestInterface, \Phalcon\Di\InjectionAw
 	protected function smoothFiles(array! names, array! types, array! tmp_names, array! sizes, array! errors, string prefix) -> array
 	{
 		var idx, name, file, files, parentFiles, p;
-		
+
 		let files = [];
-		
+
 		for idx, name in names {
 			let p = prefix . "." . idx;
-			
+
 			if typeof name == "string" {
-				
+
 				let files[] = [
 					"name": name,
 					"type": types[idx],
@@ -803,16 +803,16 @@ class Request implements \Phalcon\Http\RequestInterface, \Phalcon\Di\InjectionAw
 					"key": p
 				];
 			}
-			
+
 			if typeof name == "array" {
 				let parentFiles = this->smoothFiles(names[idx], types[idx], tmp_names[idx], sizes[idx], errors[idx], p);
-				
+
 				for file in parentFiles {
 					let files[] = file;
 				}
 			}
 		}
-		
+
 		return files;
 	}
 	/**
@@ -854,7 +854,7 @@ class Request implements \Phalcon\Http\RequestInterface, \Phalcon\Di\InjectionAw
 	 * @param string name
 	 * @return array
 	 */
-	protected function _getQualityHeader(string! serverIndex, string! name) -> string
+	protected function _getQualityHeader(string! serverIndex, string! name) -> array
 	{
 		double quality;
 		var returnedParts, part, headerParts, qualityPart;
@@ -872,7 +872,7 @@ class Request implements \Phalcon\Http\RequestInterface, \Phalcon\Di\InjectionAw
 			let returnedParts[] = [
 				name      : headerParts[0],
 				"quality" : quality
-			];;
+			];
 		}
 		return returnedParts;
 	}
@@ -923,9 +923,9 @@ class Request implements \Phalcon\Http\RequestInterface, \Phalcon\Di\InjectionAw
 	/**
 	 * Gets best mime/type accepted by the browser/client from _SERVER["HTTP_ACCEPT"]
 	 *
-	 * @return array
+	 * @return string
 	 */
-	public function getBestAccept()
+	public function getBestAccept() -> string
 	{
 		return this->_getBestQuality(this->getAcceptableContent(), "accept");
 	}
@@ -955,7 +955,7 @@ class Request implements \Phalcon\Http\RequestInterface, \Phalcon\Di\InjectionAw
 	 *
 	 * @return array
 	 */
-	public function getLanguages()
+	public function getLanguages() -> array
 	{
 		return this->_getQualityHeader("HTTP_ACCEPT_LANGUAGE", "language");
 	}
