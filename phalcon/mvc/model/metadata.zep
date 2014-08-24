@@ -90,7 +90,7 @@ abstract class MetaData implements InjectionAwareInterface
 	 */
 	protected final function _initialize(<ModelInterface> model, var key, var table, var schema)
 	{
-		var strategy, className, metaData, data, modelMetadata,
+		var strategy, className, metaData, data, modelMetadata, modelColumnMap,
 			dependencyInjector, columnMap, keyName, prefixKey;
 
 		let strategy = null,
@@ -150,8 +150,7 @@ abstract class MetaData implements InjectionAwareInterface
 			return null;
 		}
 
-		let keyName = strtolower(className),
-			columnMap = this->_columnMap;
+		let keyName = strtolower(className), columnMap = this->_columnMap;
 		if isset columnMap[keyName] {
 			return null;
 		}
@@ -185,12 +184,12 @@ abstract class MetaData implements InjectionAwareInterface
 		 * Get the meta-data
 		 * Update the column map locally
 		 */
-		let this->_columnMap[keyName] = strategy->getColumnMaps(model, dependencyInjector);
+		let modelColumnMap = strategy->getColumnMaps(model, dependencyInjector), this->_columnMap[keyName] = modelColumnMap;
 
 		/**
 		 * Write the data to the adapter
 		 */
-		this->{"write"}(prefixKey, this->_columnMap);
+		this->{"write"}(prefixKey, modelColumnMap);
 	}
 
 	/**
@@ -342,7 +341,7 @@ abstract class MetaData implements InjectionAwareInterface
 	 * @param Phalcon\Mvc\ModelInterface model
 	 * @return array
 	 */
-	public function readColumnMap(<ModelInterface> model)
+	public final function readColumnMap(<ModelInterface> model)
 	{
 		var keyName, data;
 
@@ -365,7 +364,7 @@ abstract class MetaData implements InjectionAwareInterface
 	 * @param Phalcon\Mvc\ModelInterface model
 	 * @param int index
 	 */
-	public function readColumnMapIndex(<ModelInterface> model, int index)
+	public final function readColumnMapIndex(<ModelInterface> model, int index)
 	{
 		var keyName, columnMapModel;
 
@@ -614,7 +613,7 @@ abstract class MetaData implements InjectionAwareInterface
      * @param	Phalcon\Mvc\ModelInterface model
 	 * @return array
 	 */
-	public function getColumnMap(<ModelInterface> model)
+	public function getColumnMap(<ModelInterface> model) -> array
 	{
 		var data;
 
@@ -635,7 +634,7 @@ abstract class MetaData implements InjectionAwareInterface
      * @param	Phalcon\Mvc\ModelInterface model
 	 * @return array
 	 */
-	public function getReverseColumnMap(<ModelInterface> model)
+	public function getReverseColumnMap(<ModelInterface> model) -> array
 	{
 		var data;
 
@@ -659,14 +658,13 @@ abstract class MetaData implements InjectionAwareInterface
 	 */
 	public function hasAttribute(<ModelInterface> model, string attribute) -> boolean
 	{
-		var columnMap, metaData;
+		var columnMap;
 
 		let columnMap = this->getReverseColumnMap(model);
 		if typeof columnMap == "array" {
 			return isset columnMap[attribute];
 		} else {
-			let metaData = this->readMetaData(model);
-			return isset metaData[self::MODELS_DATA_TYPES][attribute];
+			return isset this->readMetaData(model)[self::MODELS_DATA_TYPES][attribute];
 		}
 
 		return false;
@@ -693,7 +691,7 @@ abstract class MetaData implements InjectionAwareInterface
 	 *	$metaData->reset();
 	 *</code>
 	 */
-	public function reset()
+	public function reset() -> void
 	{
 		let this->_metaData = [],
 			this->_columnMap = [];

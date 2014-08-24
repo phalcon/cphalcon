@@ -180,7 +180,7 @@ PHP_METHOD(Phalcon_Flash_Session, _setSessionMessages) {
 PHP_METHOD(Phalcon_Flash_Session, message) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *type_param = NULL, *message_param = NULL, *messages = NULL, *_0, *_1;
+	zval *type_param = NULL, *message_param = NULL, *messages = NULL, *_0;
 	zval *type = NULL, *message = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -199,9 +199,9 @@ PHP_METHOD(Phalcon_Flash_Session, message) {
 		array_init(messages);
 	}
 	if (!(zephir_array_isset(messages, type))) {
-		ZEPHIR_INIT_VAR(_1);
-		array_init(_1);
-		zephir_array_update_zval(&messages, type, &_1, PH_COPY | PH_SEPARATE);
+		ZEPHIR_INIT_BNVAR(_0);
+		array_init(_0);
+		zephir_array_update_zval(&messages, type, &_0, PH_COPY | PH_SEPARATE);
 	}
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "_setsessionmessages", NULL, messages);
 	zephir_check_call_status();

@@ -28,13 +28,6 @@ interface AdapterInterface
 {
 
 	/**
-	 * Phalcon\Session construtor
-	 *
-	 * @param array options
-	 */
-	public function __construct(options=null);
-
-	/**
 	 * Starts session, optionally using an adapter
 	 *
 	 * @param array options
@@ -62,7 +55,7 @@ interface AdapterInterface
 	 * @param mixed defaultValue
 	 * @return mixed
 	 */
-	public function get(index, defaultValue=null);
+	public function get(index, defaultValue = null);
 
 	/**
 	 * Sets a session variable in an application context

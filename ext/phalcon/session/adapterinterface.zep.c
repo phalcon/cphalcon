@@ -43,13 +43,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Session_AdapterInterface) {
 }
 
 /**
- * Phalcon\Session construtor
- *
- * @param array options
- */
-ZEPHIR_DOC_METHOD(Phalcon_Session_AdapterInterface, __construct);
-
-/**
  * Starts session, optionally using an adapter
  *
  * @param array options

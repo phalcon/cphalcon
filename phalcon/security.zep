@@ -21,6 +21,8 @@ namespace Phalcon;
 
 use Phalcon\DiInterface;
 use Phalcon\Security\Exception;
+use Phalcon\Di\InjectionAwareInterface;
+use Phalcon\Session\AdapterInterface as SessionInterface;
 
 /**
  * Phalcon\Security
@@ -39,7 +41,7 @@ use Phalcon\Security\Exception;
  *	}
  *</code>
  */
-class Security implements \Phalcon\Di\InjectionAwareInterface
+class Security implements InjectionAwareInterface
 {
 
 	protected _dependencyInjector;
@@ -134,10 +136,10 @@ class Security implements \Phalcon\Di\InjectionAwareInterface
 	 * @param int workFactor
 	 * @return string
 	 */
-	public function hash(string password, workFactor) -> string
+	public function hash(string password, int workFactor) -> string
 	{
 		if !workFactor {
-			let workFactor = this->_workFactor;
+			let workFactor = (int) this->_workFactor;
 		}
 		return crypt(password, "$2a$" . sprintf("%02s", workFactor) . "$" . this->getSaltBytes());
 	}
@@ -150,7 +152,7 @@ class Security implements \Phalcon\Di\InjectionAwareInterface
 	 * @param int maxPasswordLength
 	 * @return boolean
 	 */
-	public function checkHash(string password, string passwordHash, int maxPassLength)
+	public function checkHash(string password, string passwordHash, int maxPassLength = 0) -> boolean
 	{
 		if maxPassLength {
 			if maxPassLength > 0 && strlen(password) > maxPassLength {
@@ -168,7 +170,7 @@ class Security implements \Phalcon\Di\InjectionAwareInterface
 	 * @param string passwordHash
 	 * @return boolean
 	 */
-	public function isLegacyHash(string password, string passwordHash)
+	public function isLegacyHash(string password, string passwordHash) -> boolean
 	{
 		return starts_with(passwordHash, "$2a$");
 	}
@@ -191,13 +193,13 @@ class Security implements \Phalcon\Di\InjectionAwareInterface
 			throw new Exception("Openssl extension must be loaded");
 		}
 
-		let dependencyInjector = this->_dependencyInjector;
+		let dependencyInjector = <DiInterface> this->_dependencyInjector;
 		if typeof dependencyInjector != "object" {
 			throw new Exception("A dependency injection container is required to access the 'session' service");
 		}
 
 		let safeBytes = phalcon_filter_alphanum(base64_encode(openssl_random_pseudo_bytes(numberBytes)));
-		let session = dependencyInjector->getShared("session");
+		let session = <SessionInterface> dependencyInjector->getShared("session");
 		session->set("$PHALCON/CSRF/KEY$", safeBytes);
 
 		return safeBytes;
@@ -222,13 +224,13 @@ class Security implements \Phalcon\Di\InjectionAwareInterface
 		}
 
 		let token = openssl_random_pseudo_bytes(numberBytes);
-		let dependencyInjector = this->_dependencyInjector;
+		let dependencyInjector = <DiInterface> this->_dependencyInjector;
 
 		if typeof dependencyInjector != "object" {
 			throw new Exception("A dependency injection container is required to access the 'session' service");
 		}
 
-		let session = dependencyInjector->getShared("session");
+		let session = <SessionInterface> dependencyInjector->getShared("session");
 		session->set("$PHALCON/CSRF$", token);
 
 		return token;
@@ -241,17 +243,17 @@ class Security implements \Phalcon\Di\InjectionAwareInterface
 	 * @param string tokenValue
 	 * @return boolean
 	 */
-	public function checkToken(tokenKey = null, tokenValue = null)
+	public function checkToken(tokenKey = null, tokenValue = null) -> boolean
 	{
-		var dependencyInjector, session, request, token, sessionToken;
+		var dependencyInjector, session, request, token;
 
-		let dependencyInjector = this->_dependencyInjector;
+		let dependencyInjector = <DiInterface> this->_dependencyInjector;
 
 		if typeof dependencyInjector != "object" {
 			throw new Exception("A dependency injection container is required to access the 'session' service");
 		}
 
-		let session = dependencyInjector->getShared("session");
+		let session = <SessionInterface> dependencyInjector->getShared("session");
 
 		if !tokenKey {
 			let tokenKey = session->get("$PHALCON/CSRF/KEY$");
@@ -268,12 +270,10 @@ class Security implements \Phalcon\Di\InjectionAwareInterface
 			let token = tokenValue;
 		}
 
-		let sessionToken = session->get("$PHALCON/CSRF$");
-
 		/**
         * The value is the same?
         */
-        return token == sessionToken;
+        return token == session->get("$PHALCON/CSRF$");
     }
 
     /**
@@ -285,18 +285,24 @@ class Security implements \Phalcon\Di\InjectionAwareInterface
 	{
 		var dependencyInjector, session;
 
-		let dependencyInjector = this->_dependencyInjector;
+		let dependencyInjector = <DiInterface> this->_dependencyInjector;
 
 		if typeof dependencyInjector != "object" {
 			throw new Exception("A dependency injection container is required to access the 'session' service");
 		}
 
-		let session = dependencyInjector->getShared("session");
+		let session = <SessionInterface> dependencyInjector->getShared("session");
 		return session->get("$PHALCON/CSRF$");
 	}
 
 	/**
 	 * string \Phalcon\Security::computeHmac(string $data, string $key, string $algo, bool $raw = false)
+	 *
+	 *
+	 * @param string data
+	 * @param string key
+	 * @param string algo
+	 * @param boolean raw
 	 */
 	public function computeHmac(data, key, algo, raw = false)
 	{
