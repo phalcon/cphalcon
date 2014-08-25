@@ -54,7 +54,7 @@ class Session extends MetaData implements MetaDataInterface
 			if fetch prefix, options["prefix"] {
 				let this->_prefix = prefix;
 			}
-		}	l
+		}
 	}
 
 	/**
