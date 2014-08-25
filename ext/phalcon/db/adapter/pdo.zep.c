@@ -683,11 +683,11 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, convertBoundParams) {
 		) {
 			ZEPHIR_GET_HVALUE(placeMatch, _5);
 			ZEPHIR_OBS_NVAR(value);
-			zephir_array_fetch_long(&_6, placeMatch, 1, PH_NOISY | PH_READONLY, "phalcon/db/adapter/pdo.zep", 436 TSRMLS_CC);
+			zephir_array_fetch_long(&_6, placeMatch, 1, PH_READONLY, "phalcon/db/adapter/pdo.zep", 436 TSRMLS_CC);
 			if (!(zephir_array_isset_fetch(&value, params, _6, 0 TSRMLS_CC))) {
 				if (zephir_array_isset_long(placeMatch, 2)) {
 					ZEPHIR_OBS_NVAR(value);
-					zephir_array_fetch_long(&_7, placeMatch, 2, PH_NOISY | PH_READONLY, "phalcon/db/adapter/pdo.zep", 438 TSRMLS_CC);
+					zephir_array_fetch_long(&_7, placeMatch, 2, PH_READONLY, "phalcon/db/adapter/pdo.zep", 438 TSRMLS_CC);
 					if (!(zephir_array_isset_fetch(&value, params, _7, 0 TSRMLS_CC))) {
 						ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Matched parameter wasn't found in parameters list", "phalcon/db/adapter/pdo.zep", 439);
 						return;

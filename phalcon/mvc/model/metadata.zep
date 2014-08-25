@@ -107,7 +107,7 @@ abstract class MetaData implements InjectionAwareInterface
 				let prefixKey = "meta-" . key,
 					data = this->{"read"}(prefixKey);
 				if data !== null {
-					let this->_metaData[key] = metaData;
+					let this->_metaData[key] = data;
 				} else {
 
 					/**
@@ -150,13 +150,9 @@ abstract class MetaData implements InjectionAwareInterface
 			return null;
 		}
 
-		let keyName = strtolower(className), columnMap = this->_columnMap;
-		if isset columnMap[keyName] {
+		let keyName = strtolower(className);
+		if isset this->_columnMap[keyName] {
 			return null;
-		}
-
-		if typeof columnMap != "array" {
-			let columnMap = [];
 		}
 
 		/**
@@ -167,8 +163,7 @@ abstract class MetaData implements InjectionAwareInterface
 			data = this->{"read"}(prefixKey);
 
 		if data !== null {
-			let columnMap[keyName] = data,
-				this->_columnMap = columnMap;
+			let this->_columnMap[keyName] = data;
 			return null;
 		}
 
@@ -279,7 +274,7 @@ abstract class MetaData implements InjectionAwareInterface
 	 */
 	public function readMetaDataIndex(<ModelInterface> model, int index)
 	{
-		var source, schema, key;
+		var source, schema, key, metaData;
 
 		let source = model->getSource(),
 			schema = model->getSchema();
@@ -289,10 +284,11 @@ abstract class MetaData implements InjectionAwareInterface
 		 */
 		let key = get_class_lower(model) . "-" . schema . source;
 
-		if !isset this->_metaData[key] {
-			this->_initialize(model, key, source, schema);
+		if fetch metaData, this->_metaData[key][index] {
+			return metaData;
 		}
 
+		this->_initialize(model, key, source, schema);
 		return this->_metaData[key][index];
 	}
 
@@ -387,7 +383,7 @@ abstract class MetaData implements InjectionAwareInterface
      * @param	Phalcon\Mvc\ModelInterface $model
 	 * @return 	array
 	 */
-	public function getAttributes(<\Phalcon\Mvc\ModelInterface> model)
+	public function getAttributes(<ModelInterface> model)
 	{
 		var data;
 		let data = this->readMetaDataIndex(model, self::MODELS_ATTRIBUTES);
@@ -680,7 +676,7 @@ abstract class MetaData implements InjectionAwareInterface
 	 */
 	public function isEmpty() -> boolean
 	{
-		return count(this->_metaData) > 0;
+		return count(this->_metaData) == 0;
 	}
 
 	/**

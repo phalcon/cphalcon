@@ -19,6 +19,10 @@
 
 namespace Phalcon\Mvc\Model\MetaData;
 
+use Phalcon\Mvc\Model\MetaData;
+use Phalcon\Mvc\Model\MetaDataInterface;
+use Phalcon\Mvc\Model\Exception;
+
 /**
  * Phalcon\Mvc\Model\MetaData\Session
  *
@@ -33,7 +37,7 @@ namespace Phalcon\Mvc\Model\MetaData;
  * ));
  *</code>
  */
-class Session extends \Phalcon\Mvc\Model\MetaData implements \Phalcon\Mvc\Model\MetaDataInterface
+class Session extends MetaData implements MetaDataInterface
 {
 
 	protected _prefix = "";
@@ -43,15 +47,14 @@ class Session extends \Phalcon\Mvc\Model\MetaData implements \Phalcon\Mvc\Model\
 	 *
 	 * @param array options
 	 */
-	public function __construct($options=null)
+	public function __construct(options = null)
 	{
 		var prefix;
 		if typeof options == "array" {
 			if fetch prefix, options["prefix"] {
 				let this->_prefix = prefix;
 			}
-		}
-		let this->_metaData = [];
+		}	l
 	}
 
 	/**
@@ -62,15 +65,12 @@ class Session extends \Phalcon\Mvc\Model\MetaData implements \Phalcon\Mvc\Model\
 	 */
 	public function read(string! key)
 	{
-		var session, prefixKey, metaData;
+		var metaData;
 
-		let session = _SESSION,
-			prefixKey = "$PMM$" . this->_prefix;
-		if isset session[prefixKey] {
-			if fetch metaData, session[prefixKey][key] {
-				return metaData;
-			}
+		if fetch metaData, _SESSION["$PMM$" . this->_prefix][key] {
+			return metaData;
 		}
+
 		return null;
 	}
 
@@ -80,7 +80,7 @@ class Session extends \Phalcon\Mvc\Model\MetaData implements \Phalcon\Mvc\Model\
 	 * @param string key
 	 * @param array data
 	 */
-	public function write(string! key, data)
+	public function write(string! key, var data) -> void
 	{
 		let _SESSION["$PMM$" . this->_prefix][key] = data;
 	}
