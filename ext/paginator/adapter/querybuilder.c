@@ -238,7 +238,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, getPaginate){
 	zval *total_query = NULL, *result = NULL, *row = NULL, *rowcount;
 	zval *connection = NULL, *bind_params = NULL, *bind_types = NULL, *processed = NULL;
 	zval *value = NULL, *wildcard = NULL, *string_wildcard = NULL, *processed_types = NULL;
-	zval *intermediate = NULL, *dialect = NULL, *sql_select = NULL, *sql;
+	zval *intermediate = NULL, *tables, *table, *table_name = NULL, *select_column, *dialect = NULL, *sql_select = NULL, *sql;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -303,15 +303,35 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, getPaginate){
 	PHALCON_CALL_METHOD(&connection, total_query, "getconnection");
 
 	PHALCON_CALL_METHOD(&intermediate, total_query, "parse");
-	phalcon_array_update_string_string(&intermediate, SL("columns"), SL("*"), PH_SEPARATE);
+
+	PHALCON_OBS_VAR(tables);
+	phalcon_array_fetch_string(&tables, intermediate, SL("tables"), PH_NOISY);
+	
+	PHALCON_OBS_VAR(table);
+	phalcon_array_fetch_long(&table, tables, 0, PH_NOISY);
+
+	if (Z_TYPE_P(table) == IS_ARRAY) {
+		if (phalcon_array_isset_long(table, 2)) {
+			PHALCON_OBS_VAR(table_name);
+			phalcon_array_fetch_long(&table_name, table, 2, PH_NOISY);
+		} else {
+			PHALCON_OBS_VAR(table_name);
+			phalcon_array_fetch_long(&table_name, table, 0, PH_NOISY);
+		}
+	} else {
+		PHALCON_CPY_WRT(table_name, table);
+	}
+
+	PHALCON_INIT_VAR(select_column);
+	PHALCON_CONCAT_VS(select_column, table_name, ".*");	
+
+	phalcon_array_update_string(&intermediate, SL("columns"), select_column, PH_COPY | PH_SEPARATE);
 
 	PHALCON_CALL_METHOD(&dialect, connection, "getdialect");
 	PHALCON_CALL_METHOD(&sql_select, dialect, "select", intermediate);
 
-
 	PHALCON_CALL_METHOD(&bind_params, total_query, "getbindparams");
 	PHALCON_CALL_METHOD(&bind_types, total_query, "getbindtypes");
-	
 
 	PHALCON_INIT_VAR(sql);
 	PHALCON_CONCAT_SVS(sql, "SELECT COUNT(*) \"rowcount\" FROM (", sql_select, ") AS T");
