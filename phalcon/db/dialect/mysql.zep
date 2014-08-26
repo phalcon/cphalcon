@@ -116,7 +116,7 @@ class MySQL extends \Phalcon\Db\Dialect //implements Phalcon\Db\DialectInterface
 	 */
 	public function addColumn(string! tableName, string! schemaName, <\Phalcon\Db\ColumnInterface> column) -> string
 	{
-		var afterPosition, sql;
+		var afterPosition, sql, defaultValue;
 
 		if typeof column != "object" {
 			throw new Exception("Column definition must be an object compatible with Phalcon\\Db\\ColumnInterface");
@@ -129,6 +129,11 @@ class MySQL extends \Phalcon\Db\Dialect //implements Phalcon\Db\DialectInterface
 		}
 
 		let sql .= "`" . column->getName() . "` " . this->getColumnDefinition(column);
+
+		let defaultValue = column->getDefault();
+		if ! empty defaultValue {
+			let sql .= " DEFAULT \"" . defaultValue . "\"";
+		}
 
 		if column->isNotNull() {
 			let sql .= " NOT NULL";
@@ -155,7 +160,7 @@ class MySQL extends \Phalcon\Db\Dialect //implements Phalcon\Db\DialectInterface
 	 */
 	public function modifyColumn(string! tableName, string! schemaName, <\Phalcon\Db\ColumnInterface> column) -> string
 	{
-		var sql;
+		var sql, defaultValue;
 
 		if typeof column != "object" {
 			throw new Exception("Column definition must be an object compatible with Phalcon\\Db\\ColumnInterface");
@@ -168,6 +173,12 @@ class MySQL extends \Phalcon\Db\Dialect //implements Phalcon\Db\DialectInterface
 		}
 
 		let sql .= "`" . column->getName() . "` " . this->getColumnDefinition(column);
+
+		let defaultValue = column->getDefault();
+		if ! empty defaultValue {
+			let sql .= " DEFAULT \"" . defaultValue . "\"";
+		}
+
 		if column->isNotNull() {
 			let sql .= " NOT NULL";
 		}
@@ -424,7 +435,7 @@ class MySQL extends \Phalcon\Db\Dialect //implements Phalcon\Db\DialectInterface
 		var temporary, options, table, createLines, columns,
 			column, indexes, index, reference, references, indexName,
 			indexSql, sql, columnLine, indexType,
-			referenceSql, onDelete, onUpdate;
+			referenceSql, onDelete, onUpdate, defaultValue;
 
 		if !fetch columns, definition["columns"] {
 			throw new Exception("The index 'columns' is required in the definition array");
@@ -454,6 +465,14 @@ class MySQL extends \Phalcon\Db\Dialect //implements Phalcon\Db\DialectInterface
 		for column in columns {
 
 			let columnLine = "`" . column->getName() . "` " . this->getColumnDefinition(column);
+
+			/**
+			 * Add a Default clause
+			 */
+			let defaultValue = column->getDefault();
+			if ! empty defaultValue {
+				let columnLine .= " DEFAULT \"" . defaultValue . "\"";
+			}
 
 			/**
 			 * Add a NOT NULL clause
