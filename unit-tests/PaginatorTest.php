@@ -449,4 +449,30 @@ class PaginatorTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($page->current, 1);
 		$this->assertEquals($page->total_pages, 2);
 	}
+
+	public function testIssue2739()
+	{
+		require 'unit-tests/config.db.php';
+		if (empty($configMysql)) {
+			$this->markTestSkipped('Test skipped');
+			return;
+		}
+
+		$di = $this->_loadDI();
+
+		$builder = $di['modelsManager']->createBuilder()
+					->columns('Robots.name')
+					->from('Robots')
+					->join('RobotsParts', 'Robots.id = p.robots_id', 'p');
+
+		$paginator = new Phalcon\Paginator\Adapter\QueryBuilder(array(
+			"builder" => $builder,
+			"limit"=> 10,
+			"page" => 1
+		));
+
+		$page = $paginator->getPaginate();
+
+		$this->assertEquals(get_class($page), 'stdClass');
+	}
 }
