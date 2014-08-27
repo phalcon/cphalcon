@@ -193,14 +193,13 @@ class Generator_Optimized
     {
         echo 'Generating builds, optimized for 32-bit and 64-bit platforms... ';
 
-        $this->cleanBuildDirectories();
-
         if (!extension_loaded('phalcon')) {
             echo "SKIPPED - Phalcon extension is required to be already loaded in PHP\n";
             // You need to compile safe Phalcon extension, enable it in PHP, and then you can compile optimized version
             return;
         }
 
+        $this->cleanBuildDirectories();
         $this->copyFilesFromSourceBuildDir();
         $this->copyAndOptimizePhalconC();
 
