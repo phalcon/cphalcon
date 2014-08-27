@@ -257,7 +257,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter, getMethod){
 	 * Get the full annotations from the class
 	 */
 	PHALCON_CALL_METHOD(&class_annotations, this_ptr, "get", class_name);
-	
+
 	/** 
 	 * A valid annotations reflection is an object
 	 */
