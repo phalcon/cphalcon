@@ -190,6 +190,21 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 				'_first' => false,
 				'_after' => 'cupo',
 				'_bindType' => 2,
+			)),
+			11 => Phalcon\Db\Column::__set_state(array(
+				'_columnName' => 'activo',
+				'_schemaName' => NULL,
+				'_type' => 8,
+				'_isNumeric' => false,
+				'_size' => 1,
+				'_scale' => 0,
+				'_default' => "b'0'",
+				'_unsigned' => false,
+				'_notNull' => true,
+				'_autoIncrement' => false,
+				'_first' => false,
+				'_after' => 'estado',
+				'_bindType' => 5,
 			))
 		);
 	}

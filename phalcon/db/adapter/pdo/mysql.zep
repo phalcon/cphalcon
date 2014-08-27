@@ -113,6 +113,16 @@ class Mysql extends \Phalcon\Db\Adapter\Pdo implements \Phalcon\Db\AdapterInterf
 			let columnType = field[1];
 
 			loop {
+				
+				/**
+				 * Bit is boolean
+				 * @todo Boolean only if size equals to 1?
+				 */
+				if memstr(columnType, "bit") {
+					let definition["type"] = Column::TYPE_BOOLEAN,
+						definition["bindType"] = Column::BIND_PARAM_BOOL;
+					break;
+				}
 
 				/**
 				 * Enum are treated as char
