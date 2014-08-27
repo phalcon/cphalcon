@@ -31,6 +31,7 @@
 #include "diinterface.h"
 #include "di/injectionawareinterface.h"
 #include "db/rawvalue.h"
+#include "db/exception.h"
 
 #include <ext/pdo/php_pdo_driver.h>
 
@@ -427,17 +428,17 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model){
 
 /**
  * <code>
- * 	private function getMessagesFromModel($model, $target)
- * 	{
- * 		$messages = $model->getMessages();
- * 		foreach ($messages as $message) {
- * 			if (is_object($message)) {
- * 				$message->setModel($target);
- * 			}
+ *	private function getMessagesFromModel($model, $target)
+ *	{
+ *		$messages = $model->getMessages();
+ *		foreach ($messages as $message) {
+ *			if (is_object($message)) {
+ *				$message->setModel($target);
+ *			}
  *
- * 			$this->appendMessage($message);
- * 		}
- * 	}
+ *			$this->appendMessage($message);
+ *		}
+ *	}
  * </code>
  */
 static int phalcon_mvc_model_get_messages_from_model(zval *this_ptr, zval *model, zval *target TSRMLS_DC)
@@ -1334,7 +1335,7 @@ PHP_METHOD(Phalcon_Mvc_Model, cloneResult){
  * }
  * </code>
  *
- * @param 	array $parameters
+ * @param	array $parameters
  * @return  Phalcon\Mvc\Model\ResultsetInterface
  */
 PHP_METHOD(Phalcon_Mvc_Model, find){
@@ -1684,7 +1685,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _exists){
 	
 				PHALCON_OBS_NVAR(value);
 				phalcon_read_property_zval(&value, this_ptr, attribute_field, PH_NOISY TSRMLS_CC);
-	
+
 				/** 
 				 * We count how many fields are empty, if all fields are empty we don't perform an
 				 * 'exist' check
@@ -2255,8 +2256,8 @@ PHP_METHOD(Phalcon_Mvc_Model, _cancelOperation){
  *   public function beforeSave()
  *   {
  *     if ($this->name == 'Peter') {
- *        $message = new Message("Sorry, but a robot cannot be named Peter");
- *        $this->appendMessage($message);
+ *	  $message = new Message("Sorry, but a robot cannot be named Peter");
+ *	  $this->appendMessage($message);
  *     }
  *   }
  * }
@@ -2298,7 +2299,7 @@ PHP_METHOD(Phalcon_Mvc_Model, appendMessage){
  *
  *	public function validation()
  *  {
- * 		$this->validate(new ExclusionIn(array(
+ *		$this->validate(new ExclusionIn(array(
  *			'field' => 'status',
  *			'domain' => array('A', 'I')
  *		)));
@@ -2374,7 +2375,7 @@ PHP_METHOD(Phalcon_Mvc_Model, validate){
  *
  *	public function validation()
  *  {
- * 		$this->validate(new ExclusionIn(array(
+ *		$this->validate(new ExclusionIn(array(
  *			'field' => 'status',
  *			'domain' => array('A', 'I')
  *		)));
@@ -2409,12 +2410,12 @@ PHP_METHOD(Phalcon_Mvc_Model, validationHasFailed){
  *	$robot->name = 'Astro Boy';
  *	$robot->year = 1952;
  *	if ($robot->save() == false) {
- *  	echo "Umh, We can't store robots right now ";
- *  	foreach ($robot->getMessages() as $message) {
+ *	echo "Umh, We can't store robots right now ";
+ *	foreach ($robot->getMessages() as $message) {
  *			echo $message;
  *		}
  *	} else {
- *  	echo "Great, a new robot was saved successfully!";
+ *	echo "Great, a new robot was saved successfully!";
  *	}
  * </code>
  *
@@ -3624,7 +3625,8 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowInsert){
  */
 PHP_METHOD(Phalcon_Mvc_Model, _doLowUpdate){
 
-	zval *meta_data, *connection, *table, *null_value;
+        zval *meta_data, *connection, *table, *null_value;
+	zval *where_condition = NULL, *where_conditions, *where_bind, *where_types;
 	zval *bind_skip, *fields, *values, *bind_types;
 	zval *manager, *use_dynamic_update = NULL, *snapshot;
 	zval *bind_data_types = NULL, *non_primary = NULL, *automatic_attributes = NULL;
@@ -3639,7 +3641,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowUpdate){
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 3, 0, &meta_data, &connection, &table);
+	phalcon_fetch_params(1, 3, 1, &meta_data, &connection, &table, &where_condition);
 	
 	PHALCON_INIT_VAR(null_value);
 	
@@ -3654,10 +3656,14 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowUpdate){
 	
 	PHALCON_INIT_VAR(bind_types);
 	array_init(bind_types);
-	
+
 	PHALCON_OBS_VAR(manager);
 	phalcon_read_property_this(&manager, this_ptr, SL("_modelsManager"), PH_NOISY TSRMLS_CC);
 	
+        if (!where_condition) {
+            where_condition = PHALCON_GLOBAL(z_null);
+	}
+
 	/** 
 	 * Check if the model must use dynamic update
 	 */
@@ -3692,7 +3698,6 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowUpdate){
 		PHALCON_GET_HVALUE(field);
 	
 		if (!phalcon_array_isset(automatic_attributes, field)) {
-	
 			/** 
 			 * Check a bind type for field to update
 			 */
@@ -3724,13 +3729,12 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowUpdate){
 			 * If a field isn't set we pass a null value
 			 */
 			if (phalcon_isset_property_zval(this_ptr, attribute_field TSRMLS_CC)) {
-	
 				/** 
 				 * Get the field's value
 				 */
 				PHALCON_OBS_NVAR(value);
 				phalcon_read_property_zval(&value, this_ptr, attribute_field, PH_NOISY TSRMLS_CC);
-	
+
 				/** 
 				 * When dynamic update is not used we pass every field to the update
 				 */
@@ -3781,33 +3785,33 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowUpdate){
 	
 		zend_hash_move_forward_ex(ah0, &hp0);
 	}
-	
+
 	/** 
 	 * If there is no fields to update we return true
 	 */
 	if (!phalcon_fast_count_ev(fields TSRMLS_CC)) {
 		RETURN_MM_TRUE;
 	}
-	
+
 	PHALCON_OBS_VAR(unique_key);
 	phalcon_read_property_this(&unique_key, this_ptr, SL("_uniqueKey"), PH_NOISY TSRMLS_CC);
 	
 	PHALCON_OBS_VAR(unique_params);
 	phalcon_read_property_this(&unique_params, this_ptr, SL("_uniqueParams"), PH_NOISY TSRMLS_CC);
-	
+
 	PHALCON_OBS_VAR(unique_types);
 	phalcon_read_property_this(&unique_types, this_ptr, SL("_uniqueTypes"), PH_NOISY TSRMLS_CC);
-	
+
 	/** 
 	 * When unique params is null we need to rebuild the bind params
 	 */
 	if (Z_TYPE_P(unique_params) != IS_ARRAY) { 
-	
+
 		PHALCON_INIT_NVAR(unique_params);
 		array_init(unique_params);
-	
+
 		PHALCON_CALL_METHOD(&primary_keys, meta_data, "getprimarykeyattributes", this_ptr);
-	
+
 		/** 
 		 * We can't create dynamic SQL without a primary key
 		 */
@@ -3815,9 +3819,9 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowUpdate){
 			PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "A primary key must be defined in the model in order to perform the operation");
 			return;
 		}
-	
+
 		phalcon_is_iterable(primary_keys, &ah1, &hp1, 0, 0);
-	
+
 		while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
 	
 			PHALCON_GET_HVALUE(field);
@@ -3845,12 +3849,63 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowUpdate){
 			} else {
 				phalcon_array_append(&unique_params, null_value, PH_SEPARATE);
 			}
-	
+
 			zend_hash_move_forward_ex(ah1, &hp1);
 		}
-	
+
 	}
+
+        if (Z_TYPE_P(where_condition) != IS_NULL) {
 	
+                /** 
+		 * String conditions are simply appended to the SQL
+		 */
+		if (Z_TYPE_P(where_condition) == IS_STRING) {
+                        PHALCON_OBS_NVAR(where_conditions);
+                        phalcon_array_fetch_string(&where_conditions, where_condition, SL("conditions"), PH_NOISY);
+                        phalcon_concat_self_str(&unique_key, SL(" AND ") TSRMLS_CC);
+			phalcon_concat_self(&unique_key, where_conditions TSRMLS_CC);
+		} else {
+			/** 
+			 * Array conditions may have bound params and bound types
+			 */
+			if (unlikely(Z_TYPE_P(where_condition) != IS_ARRAY)) { 
+				PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Invalid WHERE clause conditions");
+				return;
+			}
+	
+			/** 
+			 * If an index 'conditions' is present it contains string where conditions that are
+			 * appended to the UPDATE sql
+			 */
+			if (phalcon_array_isset_string(where_condition, SS("conditions"))) {
+				PHALCON_OBS_VAR(where_conditions);
+				phalcon_array_fetch_string(&where_conditions, where_condition, SL("conditions"), PH_NOISY);
+                                phalcon_concat_self_str(&unique_key, SL(" AND ") TSRMLS_CC);
+				phalcon_concat_self(&unique_key, where_conditions TSRMLS_CC);
+			}
+	
+			/** 
+			 * Bound parameters are arbitrary values that are passed by separate
+			 */
+			if (phalcon_array_isset_string(where_condition, SS("bind"))) {
+				PHALCON_OBS_VAR(where_bind);
+				phalcon_array_fetch_string(&where_bind, where_condition, SL("bind"), PH_NOISY);
+				phalcon_merge_append(unique_params, where_bind);
+			}
+	
+			/** 
+			 * Bind types is how the bound parameters must be casted before be sent to the
+			 * database system
+			 */
+			if (phalcon_array_isset_string(where_condition, SS("bindTypes"))) {
+				PHALCON_OBS_VAR(where_types);
+				phalcon_array_fetch_string(&where_types, where_condition, SL("bindTypes"), PH_NOISY);
+				phalcon_merge_append(unique_types, where_types);
+			}
+		}
+	}
+
 	/** 
 	 * We build the conditions as an array
 	 */
@@ -4218,7 +4273,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _postSaveRelatedRecords){
  */
 PHP_METHOD(Phalcon_Mvc_Model, save){
 
-	zval *data = NULL, *white_list = NULL, *meta_data = NULL, *attributes = NULL;
+	zval *data = NULL, *white_list = NULL, *meta_data = NULL, *attributes = NULL, *condition = NULL;
 	zval *attribute = NULL, *value = NULL, *possible_setter = NULL, *write_connection = NULL;
 	zval *related, *status = NULL, *schema = NULL, *source = NULL, *table = NULL, *read_connection = NULL;
 	zval *exists = NULL, *error_messages = NULL, *identity_field = NULL;
@@ -4229,7 +4284,7 @@ PHP_METHOD(Phalcon_Mvc_Model, save){
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 0, 2, &data, &white_list);
+	phalcon_fetch_params(1, 0, 3, &data, &white_list, &condition);
 	
 	if (!data) {
 		data = PHALCON_GLOBAL(z_null);
@@ -4346,7 +4401,7 @@ PHP_METHOD(Phalcon_Mvc_Model, save){
 	} else {
 		phalcon_update_property_long(this_ptr, SL("_operationMade"), 1 TSRMLS_CC);
 	}
-	
+
 	/** 
 	 * Clean the messages
 	 */
@@ -4399,7 +4454,7 @@ PHP_METHOD(Phalcon_Mvc_Model, save){
 	 * Depending if the record exists we do an update or an insert operation
 	 */
 	if (zend_is_true(exists)) {
-		PHALCON_CALL_METHOD(&success, this_ptr, "_dolowupdate", meta_data, write_connection, table);
+		PHALCON_CALL_METHOD(&success, this_ptr, "_dolowupdate", meta_data, write_connection, table, condition);
 	} else {
 		PHALCON_CALL_METHOD(&success, this_ptr, "_dolowinsert", meta_data, write_connection, table, identity_field);
 	}
