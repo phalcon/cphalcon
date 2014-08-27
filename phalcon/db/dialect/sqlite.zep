@@ -160,7 +160,7 @@ class Sqlite extends Dialect implements DialectInterface
 
 		let defaultValue = column->getDefault();
 		if ! empty defaultValue {
-			let sql .= " DEFAULT \"" . defaultValue . "\"";
+			let sql .= " DEFAULT \"" . addcslashes(defaultValue, "\"") . "\"";
 		}
 
 		if column->isNotNull() {

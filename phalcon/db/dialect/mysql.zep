@@ -176,7 +176,7 @@ class MySQL extends \Phalcon\Db\Dialect //implements Phalcon\Db\DialectInterface
 
 		let defaultValue = column->getDefault();
 		if ! empty defaultValue {
-			let sql .= " DEFAULT \"" . defaultValue . "\"";
+			let sql .= " DEFAULT \"" . addcslashes(defaultValue, "\"") . "\"";
 		}
 
 		if column->isNotNull() {
@@ -220,7 +220,7 @@ class MySQL extends \Phalcon\Db\Dialect //implements Phalcon\Db\DialectInterface
 
 		let defaultValue = column->getDefault();
 		if ! empty defaultValue {
-			let sql .= " DEFAULT \"" . defaultValue . "\"";
+			let sql .= " DEFAULT \"" . addcslashes(defaultValue, "\"") . "\"";
 		}
 
 		if column->isNotNull() {
@@ -515,7 +515,7 @@ class MySQL extends \Phalcon\Db\Dialect //implements Phalcon\Db\DialectInterface
 			 */
 			let defaultValue = column->getDefault();
 			if ! empty defaultValue {
-				let columnLine .= " DEFAULT \"" . defaultValue . "\"";
+				let columnLine .= " DEFAULT \"" . addcslashes(defaultValue, "\"") . "\"";
 			}
 
 			/**
