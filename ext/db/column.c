@@ -70,6 +70,7 @@ PHP_METHOD(Phalcon_Db_Column, isNumeric);
 PHP_METHOD(Phalcon_Db_Column, isFirst);
 PHP_METHOD(Phalcon_Db_Column, getAfterPosition);
 PHP_METHOD(Phalcon_Db_Column, getBindType);
+PHP_METHOD(Phalcon_Db_Column, getDefaultValue);
 PHP_METHOD(Phalcon_Db_Column, __set_state);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_column___construct, 0, 0, 2)
@@ -92,6 +93,7 @@ static const zend_function_entry phalcon_db_column_method_entry[] = {
 	PHP_ME(Phalcon_Db_Column, isFirst, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Column, getAfterPosition, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Column, getBindType, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Column, getDefaultValue, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Column, __set_state, arginfo___set_state, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_FE_END
 };
@@ -116,6 +118,7 @@ PHALCON_INIT_CLASS(Phalcon_Db_Column){
 	zend_declare_property_bool(phalcon_db_column_ce, SL("_first"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_db_column_ce, SL("_after"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_long(phalcon_db_column_ce, SL("_bindType"), 2, ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_db_column_ce, SL("_default"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	zend_declare_class_constant_long(phalcon_db_column_ce, SL("TYPE_INTEGER"), 0 TSRMLS_CC);
 	zend_declare_class_constant_long(phalcon_db_column_ce, SL("TYPE_DATE"), 1 TSRMLS_CC);
@@ -149,7 +152,7 @@ PHP_METHOD(Phalcon_Db_Column, __construct){
 
 	zval *column_name, *definition, *type, *not_null;
 	zval *primary, *size, *scale, *dunsigned, *is_numeric;
-	zval *auto_increment, *first, *after, *bind_type;
+	zval *auto_increment, *first, *after, *bind_type, *default_value;
 
 	phalcon_fetch_params(0, 2, 0, &column_name, &definition);
 	
@@ -240,6 +243,13 @@ PHP_METHOD(Phalcon_Db_Column, __construct){
 	 */
 	if (phalcon_array_isset_string_fetch(&bind_type, definition, SS("bindType"))) {
 		phalcon_update_property_this(this_ptr, SL("_bindType"), bind_type TSRMLS_CC);
+	}
+	
+	/** 
+	 * Default values
+	 */
+	if (phalcon_array_isset_string_fetch(&default_value, definition, SS("default"))) {
+		phalcon_update_property_this(this_ptr, SL("_default"), default_value TSRMLS_CC);
 	}
 }
 
@@ -387,6 +397,17 @@ PHP_METHOD(Phalcon_Db_Column, getBindType){
 }
 
 /**
+ * Returns the field default values
+ *
+ * @return string
+ */
+PHP_METHOD(Phalcon_Db_Column, getDefaultValue){
+
+
+	RETURN_MEMBER(this_ptr, "_default");
+}
+
+/**
  * Restores the internal state of a Phalcon\Db\Column object
  *
  * @param array $data
@@ -396,7 +417,7 @@ PHP_METHOD(Phalcon_Db_Column, __set_state){
 
 	zval *data, *definition, *column_name, *column_type = NULL;
 	zval *not_null, *primary, *size, *scale, *dunsigned, *after;
-	zval *is_numeric, *first, *bind_type;
+	zval *is_numeric, *first, *bind_type, *default_value;
 
 	PHALCON_MM_GROW();
 
@@ -453,6 +474,10 @@ PHP_METHOD(Phalcon_Db_Column, __set_state){
 	
 	if (phalcon_array_isset_string_fetch(&bind_type, data, SS("_bindType"))) {
 		phalcon_array_update_string(&definition, SL("bindType"), bind_type, PH_COPY);
+	}
+	
+	if (phalcon_array_isset_string_fetch(&default_value, data, SS("_default"))) {
+		phalcon_array_update_string(&definition, SL("default"), default_value, PH_COPY);
 	}
 	
 	object_init_ex(return_value, phalcon_db_column_ce);

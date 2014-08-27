@@ -25,3 +25,7 @@ sudo apt-get -qq install beanstalkd
 echo 'DAEMON_OPTS="-l 127.0.0.1 -p 11300"' | sudo tee -a /etc/default/beanstalkd > /dev/null
 echo 'START=yes' | sudo tee -a /etc/default/beanstalkd > /dev/null
 sudo service beanstalkd restart
+
+sudo apt-get -qq install libpng12-dev
+sudo apt-get -qq install libqrencode-dev
+sudo apt-get -qq install libzbar-dev

@@ -42,6 +42,8 @@ static const zend_function_entry phalcon_mvc_collectioninterface_method_entry[] 
 	ZEND_FENTRY(findFirst, NULL, arginfo_phalcon_mvc_collectioninterface_findfirst, ZEND_ACC_STATIC|ZEND_ACC_ABSTRACT|ZEND_ACC_PUBLIC)
 	ZEND_FENTRY(find, NULL, arginfo_phalcon_mvc_collectioninterface_find, ZEND_ACC_STATIC|ZEND_ACC_ABSTRACT|ZEND_ACC_PUBLIC)
 	ZEND_FENTRY(count, NULL, arginfo_phalcon_mvc_collectioninterface_count, ZEND_ACC_STATIC|ZEND_ACC_ABSTRACT|ZEND_ACC_PUBLIC)
+	PHP_ABSTRACT_ME(Phalcon_Mvc_CollectionInterface, create, NULL)
+	PHP_ABSTRACT_ME(Phalcon_Mvc_CollectionInterface, update, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_CollectionInterface, delete, NULL)
 	PHP_FE_END
 };
@@ -199,6 +201,20 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_CollectionInterface, find);
  * @return array
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_CollectionInterface, count);
+
+/**
+ * Creates a model instance. Returning true on success or false otherwise
+ *
+ * @return boolean
+ */
+PHALCON_DOC_METHOD(Phalcon_Mvc_CollectionInterface, create);
+
+/**
+ * Updates a model instance. Returning true on success or false otherwise
+ *
+ * @return boolean
+ */
+PHALCON_DOC_METHOD(Phalcon_Mvc_CollectionInterface, update);
 
 /**
  * Deletes a model instance. Returning true on success or false otherwise
