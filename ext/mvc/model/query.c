@@ -3450,7 +3450,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, parse){
 					PHALCON_OBS_NVAR(ir_phql);
 					phalcon_array_fetch(&ir_phql, ir_phql_cache, unique_id, PH_NOISY);
 					if (Z_TYPE_P(ir_phql) == IS_ARRAY) {
-						if (phalcon_array_isset_string_fetch(&model_names, ir_phql, SL("models")) && phalcon_array_isset_string_fetch(&tables, ir_phql, SL("tables"))) {
+						if (phalcon_array_isset_string_fetch(&model_names, ir_phql, SS("models")) && phalcon_array_isset_string_fetch(&tables, ir_phql, SS("tables"))) {
 							// Obtain the real source including the schema again
 							manager = phalcon_fetch_nproperty_this(this_ptr, SL("_manager"), PH_NOISY TSRMLS_CC);
 
@@ -3481,18 +3481,16 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, parse){
 								if (Z_TYPE_P(table) == IS_ARRAY) {
 									PHALCON_CALL_METHOD(&schema, model, "getschema");
 
-									phalcon_array_update_zval(&table, key_schema, schema, 1);
-									phalcon_array_update_zval(&table, key_source, source, 1);
+									phalcon_array_update_zval(&table, key_schema, schema, PH_COPY);
+									phalcon_array_update_zval(&table, key_source, source, PH_COPY);
 								} else if (Z_TYPE_P(table) == IS_STRING) {
-									ZVAL_ZVAL(table, source, 1, 0);
+									phalcon_array_update_zval(&tables, key, source, PH_COPY);
 								}
-
-								phalcon_array_update_zval(&tables, key, table, 1);
 
 								zend_hash_move_forward_ex(ah0, &hp0);
 							}
 
-							phalcon_array_update_string(&ir_phql, SL("tables"), tables, 1);
+							phalcon_array_update_string(&ir_phql, SL("tables"), tables, PH_COPY);
 						}
 
 						/** 
