@@ -48,6 +48,10 @@ static const zend_function_entry phalcon_mvc_model_criteriainterface_method_entr
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_CriteriaInterface, getParams, NULL)
 	ZEND_FENTRY(fromInput, NULL, arginfo_phalcon_mvc_model_criteriainterface_frominput, ZEND_ACC_STATIC|ZEND_ACC_ABSTRACT|ZEND_ACC_PUBLIC)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_CriteriaInterface, execute, NULL)
+	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_CriteriaInterface, insert, NULL)
+	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_CriteriaInterface, update, NULL)
+	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_CriteriaInterface, delete, NULL)
+	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_CriteriaInterface, getPhql, NULL)
 	PHP_FE_END
 };
 
@@ -297,3 +301,42 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, columns);
  * @return Phalcon\Mvc\Model\CriteriaInterface
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, join)
+
+/**
+ * Set columns for an insert
+ *
+ *<code>
+ *	$criteria->insert(array('name', 'type'), array(array('phalcon', 1), array('zephir', 2)));
+ *</code>
+ *
+ * @param array $columns
+ * @param array $values
+ * @return Phalcon\Mvc\Model\CriteriaInterface
+ */
+PHALCON_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, insert);
+
+/**
+ * Set columns for an update
+ *
+ *<code>
+ *	$criteria->update(array('name' => 'phalcon'));
+ *</code>
+ *
+ * @param array $columns
+ * @return Phalcon\Mvc\Model\CriteriaInterface
+ */
+PHALCON_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, update);
+
+/**
+ * Set the table for a delete.
+ *
+ * @return Phalcon\Mvc\Model\CriteriaInterface
+ */
+PHALCON_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, delete);
+
+/**
+ * Returns a PHQL statement built with the criteria
+ *
+ * @return String
+ */
+PHALCON_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, getPhql);

@@ -3026,7 +3026,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, executeQuery){
 	
 	PHALCON_CALL_METHOD(NULL, query, "setdi", dependency_injector);
 	phalcon_update_property_this(this_ptr, SL("_lastQuery"), query TSRMLS_CC);
-	
+
 	/** 
 	 * Execute the query
 	 */

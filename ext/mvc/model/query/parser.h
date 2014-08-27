@@ -38,11 +38,11 @@
 #define PHQL_RIGHT                          38
 #define PHQL_FULL                           39
 #define PHQL_ON                             40
-#define PHQL_INSERT                         41
-#define PHQL_INTO                           42
-#define PHQL_VALUES                         43
-#define PHQL_PARENTHESES_OPEN               44
-#define PHQL_PARENTHESES_CLOSE              45
+#define PHQL_PARENTHESES_OPEN               41
+#define PHQL_PARENTHESES_CLOSE              42
+#define PHQL_INSERT                         43
+#define PHQL_INTO                           44
+#define PHQL_VALUES                         45
 #define PHQL_UPDATE                         46
 #define PHQL_SET                            47
 #define PHQL_DELETE                         48
