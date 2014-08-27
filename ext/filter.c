@@ -94,8 +94,8 @@ PHP_METHOD(Phalcon_Filter, add){
 
 	PHALCON_ENSURE_IS_STRING(name);
 	
-	if (Z_TYPE_PP(handler) != IS_OBJECT) {
-		PHALCON_THROW_EXCEPTION_STRW(phalcon_filter_exception_ce, "Filter must be an object");
+	if (Z_TYPE_PP(handler) != IS_OBJECT && !phalcon_is_callable(*handler TSRMLS_CC)) {
+		PHALCON_THROW_EXCEPTION_STRW(phalcon_filter_exception_ce, "Filter must be an object or callable");
 		return;
 	}
 	
@@ -222,11 +222,19 @@ PHP_METHOD(Phalcon_Filter, _sanitize){
 	
 	PHALCON_OBS_VAR(filters);
 	phalcon_read_property_this(&filters, this_ptr, SL("_filters"), PH_NOISY TSRMLS_CC);
-	if (phalcon_array_isset_fetch(&filter_object, filters, filter) && Z_TYPE_P(filter_object) == IS_OBJECT) {
+	if (phalcon_array_isset_fetch(&filter_object, filters, filter) && (Z_TYPE_P(filter_object) == IS_OBJECT || phalcon_is_callable(filter_object TSRMLS_CC))) {
 	
 		/** 
 		 * If the filter is a closure we call it in the PHP userland
 		 */
+		if (phalcon_is_callable(filter_object TSRMLS_CC)) {
+			PHALCON_INIT_VAR(arguments);
+			array_init_size(arguments, 1);
+			phalcon_array_append(&arguments, value, 0);
+			PHALCON_CALL_USER_FUNC_ARRAY(return_value, filter_object, arguments);
+			RETURN_MM();
+		}
+
 		if (instanceof_function(Z_OBJCE_P(filter_object), zend_ce_closure TSRMLS_CC)) {
 			PHALCON_INIT_VAR(arguments);
 			array_init_size(arguments, 1);
