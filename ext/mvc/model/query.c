@@ -4901,7 +4901,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, execute){
  *
  * @param array $bindParams
  * @param array $bindTypes
- * @return Ṕhalcon\Mvc\ModelInterface
+ * @return Phalcon\Mvc\ModelInterface
  */
 PHP_METHOD(Phalcon_Mvc_Model_Query, getSingleResult){
 
@@ -4930,8 +4930,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, getSingleResult){
 		RETURN_MM();
 	}
 	
-	PHALCON_RETURN_CALL_METHOD(this_ptr, "execute", bind_params, bind_types);
-	PHALCON_CALL_METHOD(&first_result, return_value, "getfirst"); /* @todo is this correct? */
+	PHALCON_INIT_NVAR(first_result);
+	PHALCON_CALL_METHOD(&first_result, this_ptr, "execute", bind_params, bind_types);
+	PHALCON_RETURN_CALL_METHOD(first_result, "getfirst");
 	RETURN_MM();
 }
 
