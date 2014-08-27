@@ -99,6 +99,7 @@ const char *phalcon_interned_url            = NULL;
 const char *phalcon_interned_value          = NULL;
 const char *phalcon_interned_values         = NULL;
 const char *phalcon_interned_where          = NULL;
+const char *phalcon_interned_rows           = NULL;
 
 PHALCON_STATIC void phalcon_init_interned_strings(TSRMLS_D)
 {
@@ -179,4 +180,5 @@ PHALCON_STATIC void phalcon_init_interned_strings(TSRMLS_D)
 	phalcon_interned_value          = zend_new_interned_string(ZEND_STRS("value"), 0 TSRMLS_CC);
 	phalcon_interned_values         = zend_new_interned_string(ZEND_STRS("values"), 0 TSRMLS_CC);
 	phalcon_interned_where          = zend_new_interned_string(ZEND_STRS("where"), 0 TSRMLS_CC);
+	phalcon_interned_rows           = zend_new_interned_string(ZEND_STRS("rows"), 0 TSRMLS_CC);
 }
