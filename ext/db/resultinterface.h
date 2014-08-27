@@ -34,6 +34,9 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_resultinterface_execute, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_resultinterface_fetch, 0, 0, 0)
+	ZEND_ARG_INFO(0, fetchMode)
+	ZEND_ARG_INFO(0, fetchArgument)
+	ZEND_ARG_INFO(0, ctorArgs)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_resultinterface_fetcharray, 0, 0, 0)

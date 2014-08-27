@@ -199,36 +199,25 @@ class LoaderTest extends PHPUnit_Framework_TestCase
 			"Avec_" => "unit-tests/vendor/example/other/Avec/"
 		));
 
-		$loader->register();
-
 		$eventsManager = new Phalcon\Events\Manager();
 
 		$trace = array();
 
 		$eventsManager->attach('loader', function($event, $loader) use (&$trace) {
-			if(!isset($trace[$event->getType()])){
-				$trace[$event->getType()] = array();
-			}
-			$trace[$event->getType()][] = $loader->getCheckedPath();
+			$trace[$event->getType()] = $loader->getCheckedPath();
 		});
 
 		$loader->setEventsManager($eventsManager);
 
 		$loader->register();
 
-		$test = new VousTest();
-		$this->assertEquals(get_class($test), 'VousTest');
+		$test = new VousTest3();
+		$this->assertEquals(get_class($test), 'VousTest3');
 
 		$this->assertEquals($trace, array(
-			'beforeCheckClass' => array(
-				0 => NULL,
-			),
-			'beforeCheckPath' => array(
-				0 => 'unit-tests/vendor/example/other/VousTest.php',
-			),
-			'pathFound' => array(
-				0 => 'unit-tests/vendor/example/other/VousTest.php',
-			),
+			'beforeCheckClass' => NULL,
+			'beforeCheckPath' => 'unit-tests/vendor/example/other/VousTest3.php',
+			'pathFound' => 'unit-tests/vendor/example/other/VousTest3.php',
 		));
 
 		$loader->unregister();

@@ -843,31 +843,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, setReadConnectionService){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Manager, getWriteConnection){
 
-	zval *model, *service = NULL, *connection_services;
-	zval *entity_name, *dependency_injector, *connection = NULL;
+	zval *model, *service = NULL;
+	zval *dependency_injector, *connection = NULL;
 
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 1, 0, &model);
-	
-	PHALCON_INIT_VAR(service);
-	ZVAL_STRING(service, "db", 1);
-	
-	PHALCON_OBS_VAR(connection_services);
-	phalcon_read_property_this(&connection_services, this_ptr, SL("_writeConnectionServices"), PH_NOISY TSRMLS_CC);
-	if (Z_TYPE_P(connection_services) == IS_ARRAY) { 
-	
-		PHALCON_INIT_VAR(entity_name);
-		phalcon_get_class(entity_name, model, 1 TSRMLS_CC);
-	
-		/** 
-		 * Check if the model has a custom connection service
-		 */
-		if (phalcon_array_isset(connection_services, entity_name)) {
-			PHALCON_OBS_NVAR(service);
-			phalcon_array_fetch(&service, connection_services, entity_name, PH_NOISY);
-		}
-	}
+
+	PHALCON_CALL_SELF(&service, "getwriteconnectionservice", model);
 	
 	PHALCON_OBS_VAR(dependency_injector);
 	phalcon_read_property_this(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY TSRMLS_CC);
@@ -897,31 +880,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getWriteConnection){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Manager, getReadConnection){
 
-	zval *model, *service = NULL, *connection_services;
-	zval *entity_name, *dependency_injector, *connection = NULL;
+	zval *model, *service = NULL;
+	zval *dependency_injector, *connection = NULL;
 
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 1, 0, &model);
-	
-	PHALCON_INIT_VAR(service);
-	ZVAL_STRING(service, "db", 1);
-	
-	PHALCON_OBS_VAR(connection_services);
-	phalcon_read_property_this(&connection_services, this_ptr, SL("_readConnectionServices"), PH_NOISY TSRMLS_CC);
-	if (Z_TYPE_P(connection_services) == IS_ARRAY) { 
-	
-		PHALCON_INIT_VAR(entity_name);
-		phalcon_get_class(entity_name, model, 1 TSRMLS_CC);
-	
-		/** 
-		 * Check if the model has a custom connection service
-		 */
-		if (phalcon_array_isset(connection_services, entity_name)) {
-			PHALCON_OBS_NVAR(service);
-			phalcon_array_fetch(&service, connection_services, entity_name, PH_NOISY);
-		}
-	}
+
+	PHALCON_CALL_SELF(&service, "getreadconnectionservice", model);
 	
 	PHALCON_OBS_VAR(dependency_injector);
 	phalcon_read_property_this(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY TSRMLS_CC);

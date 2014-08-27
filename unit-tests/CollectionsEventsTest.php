@@ -43,8 +43,8 @@ class CollectionsEventsTest extends PHPUnit_Framework_TestCase
 
 	public function testCollectionsEvents()
 	{
-		if (!class_exists('Mongo')) {
-			$this->markTestSkipped("Mongo class does not exist, test skipped");
+		if (!class_exists('MongoClient')) {
+			$this->markTestSkipped("MongoClient class does not exist, test skipped");
 			return;
 		}
 

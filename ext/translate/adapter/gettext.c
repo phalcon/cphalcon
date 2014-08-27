@@ -45,13 +45,14 @@ static zend_object_handlers phalcon_translate_adapter_gettext_object_handlers;
 static zval* phalcon_translate_adapter_gettext_read_dimension(zval *object, zval *offset, int type TSRMLS_DC)
 {
 	zval *translation = NULL, *params[1];
+	uint32_t result;
 
 	if (!is_phalcon_class(Z_OBJCE_P(object))) {
 		return zend_get_std_object_handlers()->read_dimension(object, offset, type TSRMLS_CC);
 	}
 
 	params[0] = offset;
-	uint32_t result = phalcon_call_func_aparams(&translation, SL("gettext"), 1, params TSRMLS_CC);
+	result = phalcon_call_func_aparams(&translation, SL("gettext"), 1, params TSRMLS_CC);
 
 	if (result) {
 		MAKE_STD_ZVAL(translation);
@@ -64,13 +65,14 @@ static zval* phalcon_translate_adapter_gettext_read_dimension(zval *object, zval
 static int phalcon_translate_adapter_gettext_has_dimension(zval *object, zval *offset, int check_empty TSRMLS_DC)
 {
 	zval *translation = NULL, *params[1];
+	uint32_t result;
 
 	if (!is_phalcon_class(Z_OBJCE_P(object))) {
 		return zend_get_std_object_handlers()->has_dimension(object, offset, check_empty TSRMLS_CC);
 	}
 
 	params[0] = offset;
-	uint32_t result = phalcon_call_func_aparams(&translation, SL("gettext"), 1, params TSRMLS_CC);
+	result = phalcon_call_func_aparams(&translation, SL("gettext"), 1, params TSRMLS_CC);
 
 	if (result) {
 		return 0;
