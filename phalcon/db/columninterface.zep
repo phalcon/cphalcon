@@ -57,6 +57,20 @@ interface ColumnInterface
 	public function getType();
 
 	/**
+	 * Returns column type reference
+	 *
+	 * @return int
+	 */
+	public function getTypeReference();
+
+	/**
+	 * Returns column type values
+	 *
+	 * @return int
+	 */
+	public function getTypeValues();
+
+	/**
 	 * Returns column size
 	 *
 	 * @return int

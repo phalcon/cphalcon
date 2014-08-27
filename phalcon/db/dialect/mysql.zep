@@ -41,51 +41,79 @@ class MySQL extends \Phalcon\Db\Dialect //implements Phalcon\Db\DialectInterface
 	 */
 	public function getColumnDefinition(<\Phalcon\Db\ColumnInterface> column) -> string
 	{
-		var columnSql, size, scale;
+		var columnSql, size, scale, type, typeValues;
 
 		if typeof column != "object" {
 			throw new Exception("Column definition must be an object compatible with Phalcon\\Db\\ColumnInterface");
 		}
 
-		switch column->getType() {
+		let columnSql = "";
+
+		let type = column->getType();
+		if typeof type == "string" {
+			let columnSql .= type;
+			let type = column->getTypeReference();
+		}
+
+		switch type {
 
 			case Column::TYPE_INTEGER:
-				let columnSql = "INT(" . column->getSize() . ")";
+				if empty columnSql {
+					let columnSql .= "INT";
+				}
+				let columnSql .= "(" . column->getSize() . ")";
 				if column->isUnsigned() {
 					let columnSql .= " UNSIGNED";
 				}
 				break;
 
 			case Column::TYPE_DATE:
-				let columnSql = "DATE";
+				if empty columnSql {
+					let columnSql .= "DATE";
+				}
 				break;
 
 			case Column::TYPE_VARCHAR:
-				let columnSql = "VARCHAR(" . column->getSize() . ")";
+				if empty columnSql {
+					let columnSql .= "VARCHAR";
+				}
+				let columnSql .= "(" . column->getSize() . ")";
 				break;
 
 			case Column::TYPE_DECIMAL:
-				let columnSql = "DECIMAL(" . column->getSize() . "," . column->getScale() . ")";
+				if empty columnSql {
+					let columnSql .= "DECIMAL";
+				}
+				let columnSql .= "(" . column->getSize() . "," . column->getScale() . ")";
 				if column->isUnsigned() {
 					let columnSql .= " UNSIGNED";
 				}
 				break;
 
 			case Column::TYPE_DATETIME:
-				let columnSql = "DATETIME";
+				if empty columnSql {
+					let columnSql .= "DATETIME";
+				}
 				break;
 
 			case Column::TYPE_CHAR:
-				let columnSql = "CHAR(" . column->getSize() . ")";
+				if empty columnSql {
+					let columnSql .= "CHAR";
+				}
+				let columnSql .= "(" . column->getSize() . ")";
 				break;
 
 			case Column::TYPE_TEXT:
-				let columnSql = "TEXT";
+				if empty columnSql {
+					let columnSql .= "TEXT";
+				}
 				break;
 
 			case Column::TYPE_FLOAT:
-				let columnSql = "FLOAT",
-					size = column->getSize();
+				if empty columnSql {
+					let columnSql .= "FLOAT";
+				}
+				let size = column->getSize();
 				if size {
 					let scale = column->getScale(),
 						columnSql .= "(" . size;
@@ -101,7 +129,23 @@ class MySQL extends \Phalcon\Db\Dialect //implements Phalcon\Db\DialectInterface
 				break;
 
 			default:
-				throw new Exception("Unrecognized MySQL data type");
+				if empty columnSql {
+					throw new Exception("Unrecognized MySQL data type");
+				}
+
+				let typeValues = column->getTypeValues();
+				if !empty typeValues {
+					if typeof typeValues == "array" {
+						var value, valueSql;
+						let valueSql = "";
+						for value in typeValues {
+							let valueSql .= "\"" . addcslashes(value, "\"") . "\", ";
+						}
+						let columnSql .= "(" . substr(valueSql, 0, -2) . ")";
+					} else {
+						let columnSql .= "(\"" . addcslashes(typeValues, "\"") . "\")";
+					}
+				}
 		}
 
 		return columnSql;
