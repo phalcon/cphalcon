@@ -28,6 +28,7 @@
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
 #include "kernel/concat.h"
+#include "kernel/operators.h"
 
 #include "interned-strings.h"
 
@@ -47,9 +48,11 @@
 zend_class_entry *phalcon_validation_validator_email_ce;
 
 PHP_METHOD(Phalcon_Validation_Validator_Email, validate);
+PHP_METHOD(Phalcon_Validation_Validator_Email, valid);
 
 static const zend_function_entry phalcon_validation_validator_email_method_entry[] = {
 	PHP_ME(Phalcon_Validation_Validator_Email, validate, arginfo_phalcon_validation_validatorinterface_validate, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Validation_Validator_Email, valid, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_FE_END
 };
 
@@ -74,9 +77,9 @@ PHALCON_INIT_CLASS(Phalcon_Validation_Validator_Email){
  */
 PHP_METHOD(Phalcon_Validation_Validator_Email, validate){
 
-	zval *validator, *attribute, *value = NULL, *validate_email;
-	zval *validation = NULL, *message_str, *message, *code;
-	zval *allow_empty, *label, *pairs, *prepared = NULL;
+	zval *validator, *attribute, *value = NULL, *allow_empty;
+	zval *valid = NULL, *message_str, *message, *code;
+	zval *label, *pairs, *prepared = NULL;
 	zend_class_entry *ce = Z_OBJCE_P(getThis());
 
 	PHALCON_MM_GROW();
@@ -92,12 +95,10 @@ PHP_METHOD(Phalcon_Validation_Validator_Email, validate){
 	if (zend_is_true(allow_empty) && phalcon_validation_validator_isempty_helper(value)) {
 		RETURN_MM_TRUE;
 	}
-
-	PHALCON_ALLOC_GHOST_ZVAL(validate_email);
-	ZVAL_LONG(validate_email, 274);
 	
-	PHALCON_CALL_FUNCTION(&validation, "filter_var", value, validate_email);
-	if (!zend_is_true(validation)) {
+	PHALCON_CALL_SELF(&valid, "valid", value);
+	
+	if (PHALCON_IS_FALSE(valid)) {
 		PHALCON_OBS_VAR(label);
 		RETURN_MM_ON_FAILURE(phalcon_validation_validator_getoption_helper(ce, &label, getThis(), phalcon_interned_label TSRMLS_CC));
 		if (!zend_is_true(label)) {
@@ -130,6 +131,31 @@ PHP_METHOD(Phalcon_Validation_Validator_Email, validate){
 		Z_DELREF_P(message);
 	
 		PHALCON_CALL_METHOD(NULL, validator, "appendmessage", message);
+		RETURN_MM_FALSE;
+	}
+	
+	RETURN_MM_TRUE;
+}
+
+/**
+ * Executes the validation
+ *
+ * @param string $value
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Validation_Validator_Email, valid){
+
+	zval *value, *validate_email, *valid = NULL;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 1, 0, &value);
+
+	PHALCON_ALLOC_GHOST_ZVAL(validate_email);
+	ZVAL_LONG(validate_email, 274);
+	
+	PHALCON_CALL_FUNCTION(&valid, "filter_var", value, validate_email);
+	if (PHALCON_IS_FALSE(valid)) {
 		RETURN_MM_FALSE;
 	}
 	

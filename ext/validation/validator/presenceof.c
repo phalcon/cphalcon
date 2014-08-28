@@ -48,9 +48,11 @@
 zend_class_entry *phalcon_validation_validator_presenceof_ce;
 
 PHP_METHOD(Phalcon_Validation_Validator_PresenceOf, validate);
+PHP_METHOD(Phalcon_Validation_Validator_PresenceOf, valid);
 
 static const zend_function_entry phalcon_validation_validator_presenceof_method_entry[] = {
 	PHP_ME(Phalcon_Validation_Validator_PresenceOf, validate, arginfo_phalcon_validation_validatorinterface_validate, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Validation_Validator_PresenceOf, valid, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_FE_END
 };
 
@@ -75,7 +77,7 @@ PHALCON_INIT_CLASS(Phalcon_Validation_Validator_PresenceOf){
  */
 PHP_METHOD(Phalcon_Validation_Validator_PresenceOf, validate){
 
-	zval *validator, *attribute, *value = NULL, *code, *message_str, *message;
+	zval *validator, *attribute, *value = NULL, *valid = NULL, *code, *message_str, *message;
 	zval *label, *pairs, *prepared = NULL;
 	zend_class_entry *ce = Z_OBJCE_P(getThis());
 
@@ -87,7 +89,9 @@ PHP_METHOD(Phalcon_Validation_Validator_PresenceOf, validate){
 
 	PHALCON_CALL_METHOD(&value, validator, "getvalue", attribute);
 
-	if (PHALCON_IS_EMPTY(value)) {
+	PHALCON_CALL_SELF(&valid, "valid", value);
+
+	if (PHALCON_IS_FALSE(valid)) {
 		PHALCON_OBS_VAR(label);
 		RETURN_MM_ON_FAILURE(phalcon_validation_validator_getoption_helper(ce, &label, getThis(), phalcon_interned_label TSRMLS_CC));
 		if (!zend_is_true(label)) {
@@ -120,6 +124,27 @@ PHP_METHOD(Phalcon_Validation_Validator_PresenceOf, validate){
 		Z_DELREF_P(message);
 	
 		PHALCON_CALL_METHOD(NULL, validator, "appendmessage", message);
+		RETURN_MM_FALSE;
+	}
+	
+	RETURN_MM_TRUE;
+}
+
+/**
+ * Executes the validation
+ *
+ * @param string $value
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Validation_Validator_PresenceOf, valid){
+
+	zval *value;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 1, 0, &value);
+
+	if (PHALCON_IS_EMPTY(value)) {
 		RETURN_MM_FALSE;
 	}
 	

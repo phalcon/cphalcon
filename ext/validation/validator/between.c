@@ -50,9 +50,11 @@
 zend_class_entry *phalcon_validation_validator_between_ce;
 
 PHP_METHOD(Phalcon_Validation_Validator_Between, validate);
+PHP_METHOD(Phalcon_Validation_Validator_Between, valid);
 
 static const zend_function_entry phalcon_validation_validator_between_method_entry[] = {
 	PHP_ME(Phalcon_Validation_Validator_Between, validate, arginfo_phalcon_validation_validatorinterface_validate, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Validation_Validator_Between, valid, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_FE_END
 };
 
@@ -77,8 +79,8 @@ PHALCON_INIT_CLASS(Phalcon_Validation_Validator_Between){
  */
 PHP_METHOD(Phalcon_Validation_Validator_Between, validate){
 
-	zval *validator, *attribute, *value = NULL, *allow_empty, *minimum;
-	zval *maximum, *label, *pairs, *valid, *message_str, *prepared = NULL, *message, *code;
+	zval *validator, *attribute, *value = NULL, *allow_empty, *minimum, *maximum, *label;
+	zval *pairs, *valid = NULL, *message_str, *prepared = NULL, *message, *code;
 	zend_class_entry *ce = Z_OBJCE_P(getThis());
 
 	PHALCON_MM_GROW();
@@ -101,11 +103,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Between, validate){
 	PHALCON_OBS_VAR(maximum);
 	RETURN_MM_ON_FAILURE(phalcon_validation_validator_getoption_helper(ce, &maximum, getThis(), "maximum" TSRMLS_CC));
 
-	PHALCON_INIT_VAR(valid);
-	is_smaller_or_equal_function(valid, minimum, value TSRMLS_CC);
-	if (zend_is_true(valid)) {
-		is_smaller_or_equal_function(valid, value, maximum TSRMLS_CC);
-	}
+	PHALCON_CALL_SELF(&valid, "valid", value, minimum, maximum);
 	
 	if (PHALCON_IS_FALSE(valid)) {
 		PHALCON_OBS_VAR(label);
@@ -142,6 +140,32 @@ PHP_METHOD(Phalcon_Validation_Validator_Between, validate){
 		Z_DELREF_P(message);
 	
 		PHALCON_CALL_METHOD(NULL, validator, "appendmessage", message);
+		RETURN_MM_FALSE;
+	}
+	
+	RETURN_MM_TRUE;
+}
+
+/**
+ * Executes the validation
+ *
+ * @param string $value
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Validation_Validator_Between, valid){
+
+	zval *value, *minimum = NULL, *maximum = NULL, *valid;
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 3, 0, &value, &minimum, &maximum);
+
+	PHALCON_INIT_VAR(valid);
+	is_smaller_or_equal_function(valid, minimum, value TSRMLS_CC);
+	if (zend_is_true(valid)) {
+		is_smaller_or_equal_function(valid, value, maximum TSRMLS_CC);
+	}
+	
+	if (PHALCON_IS_FALSE(valid)) {
 		RETURN_MM_FALSE;
 	}
 	

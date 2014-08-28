@@ -31,6 +31,7 @@
 #include "kernel/array.h"
 #include "kernel/string.h"
 #include "kernel/concat.h"
+#include "kernel/operators.h"
 
 #include "interned-strings.h"
 
@@ -51,9 +52,11 @@
 zend_class_entry *phalcon_validation_validator_inclusionin_ce;
 
 PHP_METHOD(Phalcon_Validation_Validator_InclusionIn, validate);
+PHP_METHOD(Phalcon_Validation_Validator_InclusionIn, valid);
 
 static const zend_function_entry phalcon_validation_validator_inclusionin_method_entry[] = {
 	PHP_ME(Phalcon_Validation_Validator_InclusionIn, validate, arginfo_phalcon_validation_validatorinterface_validate, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Validation_Validator_InclusionIn, valid, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_FE_END
 };
 
@@ -78,15 +81,15 @@ PHALCON_INIT_CLASS(Phalcon_Validation_Validator_InclusionIn){
  */
 PHP_METHOD(Phalcon_Validation_Validator_InclusionIn, validate){
 
-	zval *validator, *attribute, *value = NULL, *domain;
-	zval *message_str, *joined_domain, *message, *code;
-	zval *allow_empty, *label, *pairs, *prepared = NULL;
+	zval *validator, *attribute, *value = NULL, *allow_empty, *valid = NULL;
+	zval *label, *domain, *joined_domain, *pairs, *message_str, *message, *code;
+	zval *prepared = NULL;
 	zend_class_entry *ce = Z_OBJCE_P(getThis());
 
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 2, 0, &validator, &attribute);
-	
+
 	PHALCON_VERIFY_CLASS_EX(validator, phalcon_validation_ce, phalcon_validation_exception_ce, 1);
 
 	PHALCON_CALL_METHOD(&value, validator, "getvalue", attribute);
@@ -104,11 +107,10 @@ PHP_METHOD(Phalcon_Validation_Validator_InclusionIn, validate){
 		PHALCON_THROW_EXCEPTION_STR(phalcon_validation_exception_ce, "Option 'domain' must be an array");
 		return;
 	}
-	
-	/** 
-	 * Check if the value is contained by the array
-	 */
-	if (!phalcon_fast_in_array(value, domain TSRMLS_CC)) {
+
+	PHALCON_CALL_SELF(&valid, "valid", value, domain);
+
+	if (PHALCON_IS_FALSE(valid)) {
 		PHALCON_OBS_VAR(label);
 		RETURN_MM_ON_FAILURE(phalcon_validation_validator_getoption_helper(ce, &label, getThis(), phalcon_interned_label TSRMLS_CC));
 		if (!zend_is_true(label)) {
@@ -143,8 +145,32 @@ PHP_METHOD(Phalcon_Validation_Validator_InclusionIn, validate){
 
 		message = phalcon_validation_message_construct_helper(prepared, attribute, "InclusionIn", code TSRMLS_CC);
 		Z_DELREF_P(message);
-	
+
 		PHALCON_CALL_METHOD(NULL, validator, "appendmessage", message);
+		RETURN_MM_FALSE;
+	}
+
+	RETURN_MM_TRUE;
+}
+
+/**
+ * Executes the validation
+ *
+ * @param string $value
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Validation_Validator_InclusionIn, valid){
+
+	zval *value, *domain;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 2, 0, &value, &domain);
+	
+	/** 
+	 * Check if the value is contained by the array
+	 */
+	if (!phalcon_fast_in_array(value, domain TSRMLS_CC)) {
 		RETURN_MM_FALSE;
 	}
 	

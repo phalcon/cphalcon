@@ -51,9 +51,11 @@
 zend_class_entry *phalcon_validation_validator_regex_ce;
 
 PHP_METHOD(Phalcon_Validation_Validator_Regex, validate);
+PHP_METHOD(Phalcon_Validation_Validator_Regex, valid);
 
 static const zend_function_entry phalcon_validation_validator_regex_method_entry[] = {
 	PHP_ME(Phalcon_Validation_Validator_Regex, validate, arginfo_phalcon_validation_validatorinterface_validate, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Validation_Validator_Regex, valid, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_FE_END
 };
 
@@ -78,10 +80,8 @@ PHALCON_INIT_CLASS(Phalcon_Validation_Validator_Regex){
  */
 PHP_METHOD(Phalcon_Validation_Validator_Regex, validate){
 
-	zval *validator, *attribute, *value = NULL, *pattern;
-	zval *matches, *match_pattern, *match_zero, *failed;
-	zval *message_str, *message, *code;
-	zval *allow_empty, *label, *pairs, *prepared = NULL;
+	zval *validator, *attribute, *value = NULL, *allow_empty, *pattern, *valid = NULL, *label, *pairs;
+	zval *message_str, *code, *prepared = NULL, *message;
 	zend_class_entry *ce = Z_OBJCE_P(getThis());
 
 	PHALCON_MM_GROW();
@@ -97,28 +97,14 @@ PHP_METHOD(Phalcon_Validation_Validator_Regex, validate){
 	if (zend_is_true(allow_empty) && phalcon_validation_validator_isempty_helper(value)) {
 		RETURN_MM_TRUE;
 	}
-	
+
 	/* The regular expression is set in the option 'pattern' */
 	PHALCON_OBS_VAR(pattern);
 	RETURN_MM_ON_FAILURE(phalcon_validation_validator_getoption_helper(ce, &pattern, getThis(), "pattern" TSRMLS_CC));
-	
-	PHALCON_INIT_VAR(matches);
-	
-	/* Check if the value match using preg_match in the PHP userland */
-	PHALCON_INIT_VAR(match_pattern);
-	RETURN_MM_ON_FAILURE(phalcon_preg_match(match_pattern, pattern, value, matches TSRMLS_CC));
-	
-	PHALCON_INIT_VAR(failed);
-	if (zend_is_true(match_pattern)) {
-		PHALCON_OBS_VAR(match_zero);
-		phalcon_array_fetch_long(&match_zero, matches, 0, PH_NOISY);
 
-		is_not_equal_function(failed, match_zero, value TSRMLS_CC);
-	} else {
-		ZVAL_TRUE(failed);
-	}
+	PHALCON_CALL_SELF(&valid, "valid", value, pattern);
 	
-	if (PHALCON_IS_TRUE(failed)) {
+	if (PHALCON_IS_FALSE(valid)) {
 		PHALCON_OBS_VAR(label);
 		RETURN_MM_ON_FAILURE(phalcon_validation_validator_getoption_helper(ce, &label, getThis(), phalcon_interned_label TSRMLS_CC));
 		if (!zend_is_true(label)) {
@@ -155,4 +141,40 @@ PHP_METHOD(Phalcon_Validation_Validator_Regex, validate){
 	}
 	
 	RETURN_MM_TRUE;
+}
+
+/**
+ * Executes the validation
+ *
+ * @param string $value
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Validation_Validator_Regex, valid){
+
+	zval *value, *pattern;
+	zval *matches, *match_pattern, *match_zero, *valid;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 2, 0, &value, &pattern);
+	
+	PHALCON_INIT_VAR(matches);
+
+	/* Check if the value match using preg_match in the PHP userland */
+	PHALCON_INIT_VAR(match_pattern);
+	RETURN_MM_ON_FAILURE(phalcon_preg_match(match_pattern, pattern, value, matches TSRMLS_CC));
+
+	if (zend_is_true(match_pattern)) {
+		PHALCON_OBS_VAR(match_zero);
+		phalcon_array_fetch_long(&match_zero, matches, 0, PH_NOISY);
+
+		PHALCON_INIT_VAR(valid);
+		is_not_equal_function(valid, match_zero, value TSRMLS_CC);
+
+		if (PHALCON_IS_FALSE(valid)) {
+			RETURN_MM_TRUE;
+		}
+	}
+	
+	RETURN_MM_FALSE;
 }

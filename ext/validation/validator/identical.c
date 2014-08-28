@@ -50,9 +50,11 @@
 zend_class_entry *phalcon_validation_validator_identical_ce;
 
 PHP_METHOD(Phalcon_Validation_Validator_Identical, validate);
+PHP_METHOD(Phalcon_Validation_Validator_Identical, valid);
 
 static const zend_function_entry phalcon_validation_validator_identical_method_entry[] = {
 	PHP_ME(Phalcon_Validation_Validator_Identical, validate, arginfo_phalcon_validation_validatorinterface_validate, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Validation_Validator_Identical, valid, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_FE_END
 };
 
@@ -77,7 +79,7 @@ PHALCON_INIT_CLASS(Phalcon_Validation_Validator_Identical){
  */
 PHP_METHOD(Phalcon_Validation_Validator_Identical, validate){
 
-	zval *validator, *attribute, *value = NULL, *identical_value;
+	zval *validator, *attribute, *value = NULL, *identical_value, *valid = NULL;
 	zval *message_str, *message, *code;
 	zval *label, *pairs, *prepared = NULL;
 	zend_class_entry *ce = Z_OBJCE_P(getThis());
@@ -93,7 +95,9 @@ PHP_METHOD(Phalcon_Validation_Validator_Identical, validate){
 	PHALCON_OBS_VAR(identical_value);
 	RETURN_MM_ON_FAILURE(phalcon_validation_validator_getoption_helper(ce, &identical_value, getThis(), phalcon_interned_value TSRMLS_CC));
 
-	if (!PHALCON_IS_EQUAL(value, identical_value)) {
+	PHALCON_CALL_SELF(&valid, "valid", value, identical_value);
+	
+	if (PHALCON_IS_FALSE(valid)) {
 		PHALCON_OBS_VAR(label);
 		RETURN_MM_ON_FAILURE(phalcon_validation_validator_getoption_helper(ce, &label, getThis(), phalcon_interned_label TSRMLS_CC));
 		if (!zend_is_true(label)) {
@@ -126,6 +130,27 @@ PHP_METHOD(Phalcon_Validation_Validator_Identical, validate){
 		Z_DELREF_P(message);
 	
 		PHALCON_CALL_METHOD(NULL, validator, "appendmessage", message);
+		RETURN_MM_FALSE;
+	}
+	
+	RETURN_MM_TRUE;
+}
+
+/**
+ * Executes the validation
+ *
+ * @param string $value
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Validation_Validator_Identical, valid){
+
+	zval *value, *identical_value;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 2, 0, &value, &identical_value);
+
+	if (!PHALCON_IS_EQUAL(value, identical_value)) {
 		RETURN_MM_FALSE;
 	}
 	

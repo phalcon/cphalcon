@@ -31,6 +31,7 @@
 #include "kernel/array.h"
 #include "kernel/string.h"
 #include "kernel/concat.h"
+#include "kernel/operators.h"
 
 #include "interned-strings.h"
 
@@ -51,9 +52,11 @@
 zend_class_entry *phalcon_validation_validator_exclusionin_ce;
 
 PHP_METHOD(Phalcon_Validation_Validator_ExclusionIn, validate);
+PHP_METHOD(Phalcon_Validation_Validator_ExclusionIn, valid);
 
 static const zend_function_entry phalcon_validation_validator_exclusionin_method_entry[] = {
 	PHP_ME(Phalcon_Validation_Validator_ExclusionIn, validate, arginfo_phalcon_validation_validatorinterface_validate, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Validation_Validator_ExclusionIn, valid, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_FE_END
 };
 
@@ -78,9 +81,9 @@ PHALCON_INIT_CLASS(Phalcon_Validation_Validator_ExclusionIn){
  */
 PHP_METHOD(Phalcon_Validation_Validator_ExclusionIn, validate){
 
-	zval *validator, *attribute, *value = NULL, *domain;
-	zval *message_str, *joined_domain, *message, *code;
-	zval *allow_empty, *label, *pairs, *prepared = NULL;
+	zval *validator, *attribute, *value = NULL, *allow_empty, *domain, *valid = NULL;
+	zval *label, *joined_domain, *pairs;
+	zval *message_str, *code, *prepared = NULL, *message;
 	zend_class_entry *ce = Z_OBJCE_P(getThis());
 
 	PHALCON_MM_GROW();
@@ -104,11 +107,10 @@ PHP_METHOD(Phalcon_Validation_Validator_ExclusionIn, validate){
 		PHALCON_THROW_EXCEPTION_STR(phalcon_validation_exception_ce, "Option 'domain' must be an array");
 		return;
 	}
+
+	PHALCON_CALL_SELF(&valid, "valid", value, domain);
 	
-	/** 
-	 * Check if the value is contained by the array
-	 */
-	if (phalcon_fast_in_array(value, domain TSRMLS_CC)) {
+	if (PHALCON_IS_FALSE(valid)) {
 		PHALCON_OBS_VAR(label);
 		RETURN_MM_ON_FAILURE(phalcon_validation_validator_getoption_helper(ce, &label, getThis(), phalcon_interned_label TSRMLS_CC));
 		if (!zend_is_true(label)) {
@@ -145,6 +147,30 @@ PHP_METHOD(Phalcon_Validation_Validator_ExclusionIn, validate){
 		Z_DELREF_P(message);
 	
 		PHALCON_CALL_METHOD(NULL, validator, "appendmessage", message);
+		RETURN_MM_FALSE;
+	}
+	
+	RETURN_MM_TRUE;
+}
+
+/**
+ * Executes the validation
+ *
+ * @param string $value
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Validation_Validator_ExclusionIn, valid){
+
+	zval *value, *domain;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 2, 0, &value, &domain);
+	
+	/** 
+	 * Check if the value is contained by the array
+	 */
+	if (phalcon_fast_in_array(value, domain TSRMLS_CC)) {
 		RETURN_MM_FALSE;
 	}
 	
