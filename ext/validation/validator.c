@@ -40,6 +40,7 @@ PHP_METHOD(Phalcon_Validation_Validator, __construct);
 PHP_METHOD(Phalcon_Validation_Validator, isSetOption);
 PHP_METHOD(Phalcon_Validation_Validator, getOption);
 PHP_METHOD(Phalcon_Validation_Validator, setOption);
+PHP_METHOD(Phalcon_Validation_Validator, getType);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_validation_validator___construct, 0, 0, 0)
 	ZEND_ARG_INFO(0, options)
@@ -50,6 +51,7 @@ static const zend_function_entry phalcon_validation_validator_method_entry[] = {
 	PHP_ME(Phalcon_Validation_Validator, isSetOption, arginfo_phalcon_validation_validatorinterface_issetoption, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Validation_Validator, getOption, arginfo_phalcon_validation_validatorinterface_getoption, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Validation_Validator, setOption, arginfo_phalcon_validation_validatorinterface_setoption, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Validation_Validator, getType, NULL, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };
 
@@ -61,6 +63,7 @@ PHALCON_INIT_CLASS(Phalcon_Validation_Validator){
 	PHALCON_REGISTER_CLASS(Phalcon\\Validation, Validator, validation_validator, phalcon_validation_validator_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
 
 	zend_declare_property_null(phalcon_validation_validator_ce, SL("_options"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_validation_validator_ce, SL("_type"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	zend_class_implements(phalcon_validation_validator_ce TSRMLS_CC, 1, phalcon_validation_validatorinterface_ce);
 
@@ -168,4 +171,15 @@ PHP_METHOD(Phalcon_Validation_Validator, setOption){
 	
 	phalcon_update_property_array(this_ptr, SL("_options"), key, value TSRMLS_CC);
 	
+}
+
+/**
+ * Gets an type in the validator
+ *
+ * @return mixed
+ */
+PHP_METHOD(Phalcon_Validation_Validator, getType){
+
+
+	RETURN_MEMBER(this_ptr, "_type");
 }
