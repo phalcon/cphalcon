@@ -195,6 +195,7 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_validate, 0, 0, 1)
 	ZEND_ARG_INFO(0, validator)
+	ZEND_ARG_INFO(0, allow_empty)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_skipoperation, 0, 0, 1)
@@ -2378,19 +2379,108 @@ PHP_METHOD(Phalcon_Mvc_Model, appendMessage){
  *}
  *</code>
  *
- * @param Phalcon\Mvc\Model\ValidatorInterface $validator
+ * @param array|Phalcon\Mvc\Model\ValidatorInterface $validator
  * @param boolean $allow_empty
  * @return Phalcon\Mvc\Model
  */
 PHP_METHOD(Phalcon_Mvc_Model, validate){
 
-	zval *validator, *allow_empty = NULL, *status = NULL, *messages = NULL, *errors, *new_errors;
-	zval *option, *field_name = NULL, *value = NULL;
+	zval *validator, *allow_empty = NULL, *field = NULL, *handler;
+	zval *arguments, *type, *code, *pairs, *message_str, *message = NULL;
+	zval *model_message;
+	zval *status = NULL, *messages = NULL, *errors, *new_errors;
+	zval *option, *value = NULL;
 
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 1, 1, &validator, &allow_empty);
 	
+	if (Z_TYPE_P(validator) == IS_ARRAY) {
+		if (!phalcon_array_isset_string(validator, SS("field"))) {
+			PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Invalid field");
+			return;
+		}
+
+		if (!phalcon_array_isset_string(validator, SS("validator"))) {
+			PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Invalid validator");
+			return;
+		}
+
+		PHALCON_OBS_NVAR(field);
+		phalcon_array_fetch_string(&field, validator, SL("field"), PH_NOISY);
+
+		PHALCON_OBS_VAR(handler);
+		phalcon_array_fetch_string(&handler, validator, SL("validator"), PH_NOISY);
+
+		if (!phalcon_is_callable(handler TSRMLS_CC)) {
+			PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Validator must be an callable");
+			return;
+		}
+
+		PHALCON_CALL_METHOD(&value, this_ptr, "readattribute", field);
+
+		if (allow_empty && zend_is_true(allow_empty)) {
+			if (PHALCON_IS_EMPTY(value)) {
+				RETURN_THIS();
+			}
+		}
+
+		PHALCON_INIT_VAR(arguments);
+		array_init_size(arguments, 1);
+		phalcon_array_append(&arguments, value, 0);
+
+		PHALCON_INIT_NVAR(status);
+		PHALCON_CALL_USER_FUNC_ARRAY(status, handler, arguments);
+
+		if (PHALCON_IS_FALSE(status)) {
+			if (phalcon_array_isset_string(validator, SS("message"))) {
+				PHALCON_OBS_VAR(message_str);
+				phalcon_array_fetch_string(&message_str, validator, SL("message"), PH_NOISY);
+
+				PHALCON_ALLOC_GHOST_ZVAL(pairs);
+				array_init_size(pairs, 1);
+				Z_ADDREF_P(field); add_assoc_zval_ex(pairs, SS(":field"), field);
+
+				PHALCON_CALL_FUNCTION(&message, "strtr", message_str, pairs);
+			} else {
+				PHALCON_INIT_NVAR(message);
+				PHALCON_CONCAT_SVS(message, "Invalid '", field, "' format");
+			}
+
+			if (phalcon_array_isset_string(validator, SS("type"))) {
+				PHALCON_OBS_VAR(type);
+				phalcon_array_fetch_string(&type, validator, SL("type"), PH_NOISY);
+			} else {
+				PHALCON_INIT_VAR(type);
+				ZVAL_STRING(type, "Validator", 1);
+			}
+
+			if (phalcon_array_isset_string(validator, SS("code"))) {
+				PHALCON_OBS_VAR(code);
+				phalcon_array_fetch_string(&code, validator, SL("code"), PH_NOISY);
+			} else {
+				code = PHALCON_GLOBAL(z_zero);
+			}
+
+			PHALCON_INIT_VAR(model_message);
+			object_init_ex(model_message, phalcon_mvc_model_message_ce);
+			PHALCON_CALL_METHOD(NULL, model_message, "__construct", message, field, type, code);
+
+			PHALCON_INIT_VAR(new_errors);
+			errors = phalcon_fetch_nproperty_this(this_ptr, SL("_errorMessages"), PH_NOISY TSRMLS_CC);
+			if (Z_TYPE_P(errors) != IS_ARRAY) {
+				PHALCON_INIT_VAR(errors);
+				array_init_size(errors, 1);
+			}
+
+			phalcon_array_append(&errors, model_message, PH_SEPARATE);
+
+			phalcon_update_property_this(this_ptr, SL("_errorMessages"), errors TSRMLS_CC);
+		}
+
+		RETURN_THIS();
+	}
+
 	/** 
 	 * Valid validators are objects
 	 */
@@ -2400,8 +2490,8 @@ PHP_METHOD(Phalcon_Mvc_Model, validate){
 		PHALCON_INIT_VAR(option);
 		ZVAL_STRING(option, "field", 1);
 
-		PHALCON_CALL_METHOD(&field_name, validator, "getoption", option);
-		PHALCON_CALL_METHOD(&value, this_ptr, "readattribute", field_name);
+		PHALCON_CALL_METHOD(&field, validator, "getoption", option);
+		PHALCON_CALL_METHOD(&value, this_ptr, "readattribute", field);
 
 		if (PHALCON_IS_EMPTY(value)) {
 			RETURN_THIS();
