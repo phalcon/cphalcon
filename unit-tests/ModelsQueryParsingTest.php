@@ -8084,6 +8084,9 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 		$query = new Query('DELETE FROM Robots r WHERE r.id > 100 LIMIT :limit:');
 		$query->setDI($di);
 		$this->assertEquals($query->parse(), $expected);
+		$query = new Query('DELETE FROM Robots r WHERE r.id > 100 LIMIT :limit:');
+		$query->setDI($di);
+		$this->assertEquals($query->parse(), $expected);
 	}
 
 }

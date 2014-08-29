@@ -1655,7 +1655,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getMultiJoin){
 	
 	manager = phalcon_fetch_nproperty_this(this_ptr, SL("_manager"), PH_NOISY TSRMLS_CC);
 	if (Z_TYPE_P(manager) != IS_OBJECT) {
-		zend_throw_exception_ex(phalcon_mvc_model_exception_ce, 0 TSRMLS_CC, "dependency Injector is required to get '%s' service", "modelsManager");
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "dependency Injector is required to get 'modelsManager' service");
+		return;
 	}
 	
 	/** 
@@ -1922,7 +1923,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getJoins){
 	
 	manager = phalcon_fetch_nproperty_this(this_ptr, SL("_manager"), PH_NOISY TSRMLS_CC);
 	if (Z_TYPE_P(manager) != IS_OBJECT) {
-		zend_throw_exception_ex(phalcon_mvc_model_exception_ce, 0 TSRMLS_CC, "dependency Injector is required to get '%s' service", "modelsManager");
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "dependency Injector is required to get 'modelsManager' service");
+		return;
 	}
 
 	PHALCON_OBS_VAR(joins);
@@ -2520,7 +2522,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareSelect){
 	
 	manager = phalcon_fetch_nproperty_this(this_ptr, SL("_manager"), PH_NOISY TSRMLS_CC);
 	if (Z_TYPE_P(manager) != IS_OBJECT) {
-		zend_throw_exception_ex(phalcon_mvc_model_exception_ce, 0 TSRMLS_CC, "dependency Injector is required to get '%s' service", "modelsManager");
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "dependency Injector is required to get 'modelsManager' service");
+		return;
 	}
 
 	/** 
@@ -2843,7 +2846,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareInsert){
 	
 	manager = phalcon_fetch_nproperty_this(this_ptr, SL("_manager"), PH_NOISY TSRMLS_CC);
 	if (Z_TYPE_P(manager) != IS_OBJECT) {
-		zend_throw_exception_ex(phalcon_mvc_model_exception_ce, 0 TSRMLS_CC, "dependency Injector is required to get '%s' service", "modelsManager");
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "dependency Injector is required to get 'modelsManager' service");
+		return;
 	}
 
 	PHALCON_OBS_VAR(model_name);
@@ -3023,7 +3027,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareUpdate){
 	
 	manager = phalcon_fetch_nproperty_this(this_ptr, SL("_manager"), PH_NOISY TSRMLS_CC);
 	if (Z_TYPE_P(manager) != IS_OBJECT) {
-		zend_throw_exception_ex(phalcon_mvc_model_exception_ce, 0 TSRMLS_CC, "dependency Injector is required to get '%s' service", "modelsManager");
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "dependency Injector is required to get 'modelsManager' service");
+		return;
 	}
 	
 	phalcon_is_iterable(update_tables, &ah0, &hp0, 0, 0);
@@ -3251,7 +3256,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareDelete){
 	
 	manager = phalcon_fetch_nproperty_this(this_ptr, SL("_manager"), PH_NOISY TSRMLS_CC);
 	if (Z_TYPE_P(manager) != IS_OBJECT) {
-		zend_throw_exception_ex(phalcon_mvc_model_exception_ce, 0 TSRMLS_CC, "dependency Injector is required to get '%s' service", "modelsManager");
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "dependency Injector is required to get 'modelsManager' service");
+		return;
 	}
 
 	phalcon_is_iterable(delete_tables, &ah0, &hp0, 0, 0);
@@ -3363,6 +3369,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, parse){
 
 	zval *intermediate, *phql, *ast, *ir_phql = NULL, *ir_phql_cache = NULL;
 	zval *unique_id = NULL, *type = NULL, *exception_message;
+	zval *manager, *model_names = NULL, *tables = NULL, *key_schema, *key_source, *key = NULL, *model_name = NULL, *model = NULL, *table = NULL;
+	zval *schema = NULL, *source = NULL;	
+	HashTable *ah0;
+	HashPosition hp0;
+	zval **hd;
 
 	PHALCON_MM_GROW();
 
@@ -3387,33 +3398,79 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, parse){
 	
 	PHALCON_INIT_VAR(unique_id);
 	
-	if (Z_TYPE_P(ast) == IS_ARRAY) { 
-	
-		/** 
-		 * Check if the prepared PHQL is already cached
-		 */
-		if (phalcon_array_isset_string(ast, SS("id"))) {
-	
+	if (Z_TYPE_P(ast) == IS_ARRAY) {
+		if (PHALCON_GLOBAL(orm).enable_ast_cache) {
 			/** 
-			 * Parsed ASTs have a unique id
+			 * Check if the prepared PHQL is already cached
 			 */
-			PHALCON_OBS_NVAR(unique_id);
-			phalcon_array_fetch_string(&unique_id, ast, SL("id"), PH_NOISY);
-	
-			PHALCON_OBS_NVAR(ir_phql_cache);
-			phalcon_read_static_property(&ir_phql_cache, SL("phalcon\\mvc\\model\\query"), SL("_irPhqlCache") TSRMLS_CC);
-			if (phalcon_array_isset(ir_phql_cache, unique_id)) {
-	
-				PHALCON_OBS_NVAR(ir_phql);
-				phalcon_array_fetch(&ir_phql, ir_phql_cache, unique_id, PH_NOISY);
-				if (Z_TYPE_P(ir_phql) == IS_ARRAY) { 
-					/** 
-					 * Assign the type to the query
-					 */
-					PHALCON_OBS_VAR(type);
-					phalcon_array_fetch_string(&type, ast, ISL(type), PH_NOISY);
-					phalcon_update_property_this(this_ptr, SL("_type"), type TSRMLS_CC);
-					RETURN_CTOR(ir_phql);
+			if (phalcon_array_isset_string(ast, SS("id"))) {
+		
+				/** 
+				 * Parsed ASTs have a unique id
+				 */
+				PHALCON_OBS_NVAR(unique_id);
+				phalcon_array_fetch_string(&unique_id, ast, SL("id"), PH_NOISY);
+		
+				PHALCON_OBS_NVAR(ir_phql_cache);
+				phalcon_read_static_property(&ir_phql_cache, SL("phalcon\\mvc\\model\\query"), SL("_irPhqlCache") TSRMLS_CC);
+				if (phalcon_array_isset(ir_phql_cache, unique_id)) {
+		
+					PHALCON_OBS_NVAR(ir_phql);
+					phalcon_array_fetch(&ir_phql, ir_phql_cache, unique_id, PH_NOISY);
+					if (Z_TYPE_P(ir_phql) == IS_ARRAY) {
+						if (phalcon_array_isset_string_fetch(&model_names, ir_phql, SL("models")) && phalcon_array_isset_string_fetch(&tables, ir_phql, SL("tables"))) {
+							// Obtain the real source including the schema again
+							manager = phalcon_fetch_nproperty_this(this_ptr, SL("_manager"), PH_NOISY TSRMLS_CC);
+
+							if (Z_TYPE_P(manager) != IS_OBJECT) {
+								PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "dependency Injector is required to get 'modelsManager' service");
+								return;
+							}
+
+							PHALCON_INIT_VAR(key_schema);
+							ZVAL_LONG(key_schema, 1);
+
+							PHALCON_INIT_VAR(key_source);
+							ZVAL_LONG(key_source, 0);
+
+							phalcon_is_iterable(model_names, &ah0, &hp0, 0, 0);
+		
+							while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
+								PHALCON_GET_HKEY(key, ah0, hp0);
+								PHALCON_GET_HVALUE(model_name);
+
+								PHALCON_OBS_NVAR(table);
+								phalcon_array_fetch(&table, tables, key, PH_NOISY);
+
+								PHALCON_CALL_METHOD(&model, manager, "load", model_name);
+
+								PHALCON_CALL_METHOD(&source, model, "getsource");
+
+								if (Z_TYPE_P(table) == IS_ARRAY) {
+									PHALCON_CALL_METHOD(&schema, model, "getschema");
+
+									phalcon_array_update_zval(&table, key_schema, schema, 1);
+									phalcon_array_update_zval(&table, key_source, source, 1);
+								} else if (Z_TYPE_P(table) == IS_STRING) {
+									ZVAL_ZVAL(table, source, 1, 0);
+								}
+
+								phalcon_array_update_zval(&tables, key, table, 1);
+
+								zend_hash_move_forward_ex(ah0, &hp0);
+							}
+
+							phalcon_array_update_string(&ir_phql, SL("tables"), tables, 1);
+						}
+
+						/** 
+						 * Assign the type to the query
+						 */
+						PHALCON_OBS_VAR(type);
+						phalcon_array_fetch_string(&type, ast, ISL(type), PH_NOISY);
+						phalcon_update_property_this(this_ptr, SL("_type"), type TSRMLS_CC);
+						RETURN_CTOR(ir_phql);
+					}
 				}
 			}
 		}
@@ -3466,13 +3523,15 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, parse){
 	/** 
 	 * Store the prepared AST in the cache
 	 */
-	if (Z_TYPE_P(unique_id) == IS_LONG) {
-		if (Z_TYPE_P(ir_phql_cache) != IS_ARRAY) { 
-			PHALCON_INIT_NVAR(ir_phql_cache);
-			array_init(ir_phql_cache);
+	if (PHALCON_GLOBAL(orm).enable_ast_cache) {
+		if (Z_TYPE_P(unique_id) == IS_LONG) {
+			if (Z_TYPE_P(ir_phql_cache) != IS_ARRAY) { 
+				PHALCON_INIT_NVAR(ir_phql_cache);
+				array_init(ir_phql_cache);
+			}
+			phalcon_array_update_zval(&ir_phql_cache, unique_id, ir_phql, PH_COPY | PH_SEPARATE);
+			phalcon_update_static_property_ce(phalcon_mvc_model_query_ce, SL("_irPhqlCache"), ir_phql_cache TSRMLS_CC);
 		}
-		phalcon_array_update_zval(&ir_phql_cache, unique_id, ir_phql, PH_COPY | PH_SEPARATE);
-		phalcon_update_static_property_ce(phalcon_mvc_model_query_ce, SL("_irPhqlCache"), ir_phql_cache TSRMLS_CC);
 	}
 	
 	phalcon_update_property_this(this_ptr, SL("_intermediate"), ir_phql TSRMLS_CC);
@@ -3555,7 +3614,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect){
 	
 	manager = phalcon_fetch_nproperty_this(this_ptr, SL("_manager"), PH_NOISY TSRMLS_CC);
 	if (Z_TYPE_P(manager) != IS_OBJECT) {
-		zend_throw_exception_ex(phalcon_mvc_model_exception_ce, 0 TSRMLS_CC, "Dependency Injector is required to get '%s' service", "modelsManager");
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Dependency Injector is required to get 'modelsManager' service");
+		return;
 	}
 
 	/** 
@@ -4024,7 +4084,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeInsert){
 	
 	manager = phalcon_fetch_nproperty_this(this_ptr, SL("_manager"), PH_NOISY TSRMLS_CC);
 	if (Z_TYPE_P(manager) != IS_OBJECT) {
-		zend_throw_exception_ex(phalcon_mvc_model_exception_ce, 0 TSRMLS_CC, "Dependency Injector is required to get '%s' service", "modelsManager");
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Dependency Injector is required to get 'modelsManager' service");
+		return;
 	}
 
 	PHALCON_OBS_VAR(models_instances);
@@ -4371,7 +4432,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeUpdate){
 	} else {
 		manager = phalcon_fetch_nproperty_this(this_ptr, SL("_manager"), PH_NOISY TSRMLS_CC);
 		if (Z_TYPE_P(manager) != IS_OBJECT) {
-			zend_throw_exception_ex(phalcon_mvc_model_exception_ce, 0 TSRMLS_CC, "dependency Injector is required to get '%s' service", "modelsManager");
+			PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "dependency Injector is required to get 'modelsManager' service");
+			return;
 		}
 
 		PHALCON_CALL_METHOD(&model, manager, "load", model_name);
@@ -4599,7 +4661,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeDelete){
 	} else {
 		manager = phalcon_fetch_nproperty_this(this_ptr, SL("_manager"), PH_NOISY TSRMLS_CC);
 		if (Z_TYPE_P(manager) != IS_OBJECT) {
-			zend_throw_exception_ex(phalcon_mvc_model_exception_ce, 0 TSRMLS_CC, "dependency Injector is required to get '%s' service", "modelsManager");
+			PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "dependency Injector is required to get 'modelsManager' service");
+			return;
 		}
 
 		PHALCON_CALL_METHOD(&model, manager, "load", model_name);
