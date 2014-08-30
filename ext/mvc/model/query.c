@@ -3403,10 +3403,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, parse){
 	zval *intermediate, *phql, *ast, *ir_phql = NULL, *ir_phql_cache = NULL;
 	zval *unique_id = NULL, *type = NULL, *exception_message;
 	zval *manager, *model_names = NULL, *tables = NULL, *key_schema, *key_source, *key = NULL, *model_name = NULL, *model = NULL, *table = NULL;
-	zval *schema = NULL, *source = NULL;	
+	zval *old_schema = NULL, *old_source = NULL, *schema = NULL, *source = NULL;	
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
+	int i_cache = 1;
 
 	PHALCON_MM_GROW();
 
@@ -3479,27 +3480,41 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, parse){
 								PHALCON_CALL_METHOD(&source, model, "getsource");
 
 								if (Z_TYPE_P(table) == IS_ARRAY) {
+									PHALCON_OBS_NVAR(old_schema);
+									phalcon_array_fetch(&old_schema, table, key_schema, PH_NOISY);
+
 									PHALCON_CALL_METHOD(&schema, model, "getschema");
 
-									phalcon_array_update_zval(&table, key_schema, schema, PH_COPY);
-									phalcon_array_update_zval(&table, key_source, source, PH_COPY);
-								} else if (Z_TYPE_P(table) == IS_STRING) {
-									phalcon_array_update_zval(&tables, key, source, PH_COPY);
+									if (!phalcon_is_equal(old_schema, schema TSRMLS_CC)) {
+										i_cache = 0;
+										break;
+									}
+
+									PHALCON_OBS_NVAR(old_source);
+									phalcon_array_fetch(&old_source, table, key_source, PH_NOISY);
+
+									if (!phalcon_is_equal(old_source, source TSRMLS_CC)) {
+										i_cache = 0;
+										break;
+									}
+								} else if (!phalcon_is_equal(table, source TSRMLS_CC)) {
+									i_cache = 0;
+									break;
 								}
 
 								zend_hash_move_forward_ex(ah0, &hp0);
 							}
-
-							phalcon_array_update_string(&ir_phql, SL("tables"), tables, PH_COPY);
 						}
 
-						/** 
-						 * Assign the type to the query
-						 */
-						PHALCON_OBS_VAR(type);
-						phalcon_array_fetch_string(&type, ast, ISL(type), PH_NOISY);
-						phalcon_update_property_this(this_ptr, SL("_type"), type TSRMLS_CC);
-						RETURN_CTOR(ir_phql);
+						if (i_cache) {
+							/** 
+							 * Assign the type to the query
+							 */
+							PHALCON_OBS_VAR(type);
+							phalcon_array_fetch_string(&type, ast, ISL(type), PH_NOISY);
+							phalcon_update_property_this(this_ptr, SL("_type"), type TSRMLS_CC);
+							RETURN_CTOR(ir_phql);
+						}
 					}
 				}
 			}
