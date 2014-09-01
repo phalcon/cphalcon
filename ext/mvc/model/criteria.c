@@ -89,6 +89,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, getLimit);
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, getOrder);
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, getParams);
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, fromInput);
+PHP_METHOD(Phalcon_Mvc_Model_Criteria, groupBy);
+PHP_METHOD(Phalcon_Mvc_Model_Criteria, having);
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, execute);
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, cache);
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, insert);
@@ -119,8 +121,16 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_criteria_rightjoin, 0, 0, 1)
 	ZEND_ARG_INFO(0, alias)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_criteria_groupby, 0, 0, 1)
+	ZEND_ARG_INFO(0, group)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_criteria_having, 0, 0, 1)
+	ZEND_ARG_INFO(0, group)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_criteria_cache, 0, 0, 1)
-	ZEND_ARG_INFO(0, option)
+	ZEND_ARG_INFO(0, having)
 ZEND_END_ARG_INFO()
 
 static const zend_function_entry phalcon_mvc_model_criteria_method_entry[] = {
@@ -157,6 +167,8 @@ static const zend_function_entry phalcon_mvc_model_criteria_method_entry[] = {
 	PHP_ME(Phalcon_Mvc_Model_Criteria, getOrder, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Criteria, getParams, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Criteria, fromInput, arginfo_phalcon_mvc_model_criteriainterface_frominput, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Mvc_Model_Criteria, groupBy, arginfo_phalcon_mvc_model_criteria_groupby, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Mvc_Model_Criteria, having, arginfo_phalcon_mvc_model_criteria_having, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Criteria, execute, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Criteria, cache, arginfo_phalcon_mvc_model_criteria_cache, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Criteria, insert, NULL, ZEND_ACC_PUBLIC)
@@ -193,6 +205,8 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Criteria){
 	zend_declare_property_null(phalcon_mvc_model_criteria_ce, SL("_sharedLock"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_long(phalcon_mvc_model_criteria_ce, SL("_hiddenParamNumber"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_model_criteria_ce, SL("_params"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_model_criteria_ce, SL("_group"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_model_criteria_ce, SL("_having"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	zend_class_implements(phalcon_mvc_model_criteria_ce TSRMLS_CC, 2, phalcon_mvc_model_criteriainterface_ce, phalcon_di_injectionawareinterface_ce);
 
@@ -1348,6 +1362,38 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, fromInput){
 }
 
 /**
+ * Sets a GROUP BY clause
+ *
+ * @param string $group
+ * @return Phalcon\Mvc\Model\Criteria
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Criteria, groupBy){
+
+	zval *group;
+
+	phalcon_fetch_params(0, 1, 0, &group);
+	
+	phalcon_update_property_this(this_ptr, SL("_group"), group TSRMLS_CC);
+	RETURN_THISW();
+}
+
+/**
+ * Sets a HAVING condition clause. You need to escape PHQL reserved words using [ and ] delimiters
+ *
+ * @param string $having
+ * @return Phalcon\Mvc\Model\Criteria
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Criteria, having){
+
+	zval *having;
+
+	phalcon_fetch_params(0, 1, 0, &having);
+	
+	phalcon_update_property_this(this_ptr, SL("_having"), having TSRMLS_CC);
+	RETURN_THISW();
+}
+
+/**
  * Executes a find using the parameters built with the criteria
  *
  * @return Phalcon\Mvc\Model\ResultsetInterface
@@ -1570,11 +1616,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, _generateSelect){
 	zval *selected_columns = NULL, *column = NULL, *column_alias = NULL;
 	zval *aliased_column = NULL, *joined_columns = NULL;
 	zval *joins, *join = NULL, *join_model = NULL, *join_conditions = NULL, *join_alias = NULL;
-	zval *join_type = NULL;
-	zval *escaped_item = NULL, *joined_items = NULL, *order;
+	zval *join_type = NULL, *group, *group_items, *group_item = NULL;
+	zval *escaped_item = NULL, *joined_items = NULL, *having, *order;
 	zval *order_items, *order_item = NULL, *limit, *number, *for_update;
-	HashTable *ah0, *ah1, *ah2;
-	HashPosition hp0, hp1, hp2;
+	HashTable *ah0, *ah1, *ah2, *ah3;
+	HashPosition hp0, hp1, hp2, hp3;
 	zval **hd;
 	zend_class_entry *ce0;
 
@@ -1791,6 +1837,71 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, _generateSelect){
 	}
 
 	/** 
+	 * Process group parameters
+	 */
+	PHALCON_OBS_VAR(group);
+	phalcon_read_property_this(&group, this_ptr, SL("_group"), PH_NOISY TSRMLS_CC);
+	if (Z_TYPE_P(group) != IS_NULL) {
+		if (Z_TYPE_P(group) == IS_ARRAY) { 
+	
+			PHALCON_INIT_VAR(group_items);
+			array_init(group_items);
+	
+			phalcon_is_iterable(group, &ah2, &hp2, 0, 0);
+	
+			while (zend_hash_get_current_data_ex(ah2, (void**) &hd, &hp2) == SUCCESS) {
+	
+				PHALCON_GET_HVALUE(group_item);
+	
+				if (phalcon_is_numeric(group_item)) {
+					phalcon_array_append(&group_items, group_item, PH_SEPARATE);
+				} else {
+					if (phalcon_memnstr_str(group_item, SL("."))) {
+						phalcon_array_append(&group_items, group_item, PH_SEPARATE);
+					} else {
+						PHALCON_INIT_NVAR(escaped_item);
+						PHALCON_CONCAT_SVS(escaped_item, "[", group_item, "]");
+						phalcon_array_append(&group_items, escaped_item, PH_SEPARATE);
+					}
+				}
+	
+				zend_hash_move_forward_ex(ah2, &hp2);
+			}
+	
+			PHALCON_INIT_VAR(joined_items);
+			phalcon_fast_join_str(joined_items, SL(", "), group_items TSRMLS_CC);
+			PHALCON_SCONCAT_SV(phql, " GROUP BY ", joined_items);
+		} else {
+			if (phalcon_is_numeric(group)) {
+				PHALCON_SCONCAT_SV(phql, " GROUP BY ", group);
+			} else {
+				if (phalcon_memnstr_str(group, SL("."))) {
+					PHALCON_SCONCAT_SV(phql, " GROUP BY ", group);
+				} else if (phalcon_memnstr_str(group, SL(","))) {
+					PHALCON_INIT_VAR(group_items);
+					phalcon_fast_explode_str(group_items, SL(", "), group);
+
+					PHALCON_INIT_VAR(joined_items);
+					phalcon_fast_join_str(joined_items, SL("], ["), group_items TSRMLS_CC);
+
+					PHALCON_SCONCAT_SVS(phql, " GROUP BY [", joined_items, "]");
+				} else {
+					PHALCON_SCONCAT_SVS(phql, " GROUP BY [", group, "]");
+				}
+			}
+		}
+	}
+	
+	/* Process HAVING clause */
+	PHALCON_OBS_VAR(having);
+	phalcon_read_property_this(&having, this_ptr, SL("_having"), PH_NOISY TSRMLS_CC);
+	if (Z_TYPE_P(having) != IS_NULL) {
+		if (PHALCON_IS_NOT_EMPTY(having)) {
+			PHALCON_SCONCAT_SV(phql, " HAVING ", having);
+		}
+	}
+
+	/** 
 	 * Process order clause
 	 */
 	PHALCON_OBS_VAR(order);
@@ -1801,9 +1912,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, _generateSelect){
 			PHALCON_INIT_VAR(order_items);
 			array_init(order_items);
 	
-			phalcon_is_iterable(order, &ah2, &hp2, 0, 0);
+			phalcon_is_iterable(order, &ah3, &hp3, 0, 0);
 	
-			while (zend_hash_get_current_data_ex(ah2, (void**) &hd, &hp2) == SUCCESS) {
+			while (zend_hash_get_current_data_ex(ah3, (void**) &hd, &hp3) == SUCCESS) {
 	
 				PHALCON_GET_HVALUE(order_item);
 	
@@ -1819,7 +1930,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, _generateSelect){
 					}
 				}
 	
-				zend_hash_move_forward_ex(ah2, &hp2);
+				zend_hash_move_forward_ex(ah3, &hp3);
 			}
 	
 			PHALCON_INIT_NVAR(joined_items);
