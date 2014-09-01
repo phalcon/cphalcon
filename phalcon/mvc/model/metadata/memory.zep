@@ -19,13 +19,17 @@
 
 namespace Phalcon\Mvc\Model\MetaData;
 
+use Phalcon\Mvc\Model\MetaData;
+use Phalcon\Mvc\Model\MetaDataInterface;
+use Phalcon\Mvc\Model\Exception;
+
 /**
  * Phalcon\Mvc\Model\MetaData\Memory
  *
  * Stores model meta-data in memory. Data will be erased when the request finishes
  *
  */
-class Memory extends \Phalcon\Mvc\Model\MetaData implements \Phalcon\Mvc\Model\MetaDataInterface
+class Memory extends MetaData implements MetaDataInterface
 {
 
 	/**
@@ -33,7 +37,7 @@ class Memory extends \Phalcon\Mvc\Model\MetaData implements \Phalcon\Mvc\Model\M
 	 *
 	 * @param array options
 	 */
-	public function __construct(var options=null)
+	public function __construct(var options = null)
 	{
 		let this->_metaData = [];
 	}
@@ -55,9 +59,9 @@ class Memory extends \Phalcon\Mvc\Model\MetaData implements \Phalcon\Mvc\Model\M
 	 * @param string key
 	 * @param array data
 	 */
-	public function write(string! key, var data)
+	public function write(string! key, var data) -> void
 	{
-		return null;
+		return;
 	}
 
 }

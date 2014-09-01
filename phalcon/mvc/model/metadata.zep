@@ -91,7 +91,7 @@ abstract class MetaData implements InjectionAwareInterface
 	protected final function _initialize(<ModelInterface> model, var key, var table, var schema)
 	{
 		var strategy, className, metaData, data, modelMetadata, modelColumnMap,
-			dependencyInjector, columnMap, keyName, prefixKey;
+			dependencyInjector, keyName, prefixKey;
 
 		let strategy = null,
 			className = get_class(model);
@@ -243,7 +243,7 @@ abstract class MetaData implements InjectionAwareInterface
 	 * @param Phalcon\Mvc\ModelInterface model
 	 * @return array
 	 */
-	public function readMetaData(<ModelInterface> model)
+	public final function readMetaData(<ModelInterface> model)
 	{
 		var source, schema, key;
 
@@ -272,7 +272,7 @@ abstract class MetaData implements InjectionAwareInterface
 	 * @param int index
 	 * @return mixed
 	 */
-	public function readMetaDataIndex(<ModelInterface> model, int index)
+	public final function readMetaDataIndex(<ModelInterface> model, int index)
 	{
 		var source, schema, key, metaData;
 
@@ -303,7 +303,7 @@ abstract class MetaData implements InjectionAwareInterface
 	 * @param int index
 	 * @param mixed data
 	 */
-	public function writeMetaDataIndex(<ModelInterface> model, int index, var data) -> void
+	public final function writeMetaDataIndex(<ModelInterface> model, int index, var data) -> void
 	{
 		var source, schema, key;
 

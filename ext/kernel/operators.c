@@ -86,6 +86,8 @@ void zephir_concat_self(zval **left, zval *right TSRMLS_DC){
 		}
 	}
 
+	assert(!IS_INTERNED(Z_STRVAL_PP(left)));
+
 	length = Z_STRLEN_PP(left) + Z_STRLEN_P(right);
 	Z_STRVAL_PP(left) = erealloc(Z_STRVAL_PP(left), length + 1);
 
@@ -131,6 +133,8 @@ void zephir_concat_self_str(zval **left, const char *right, int right_length TSR
 	}
 
 	length = Z_STRLEN_PP(left) + right_length;
+
+	assert(!IS_INTERNED(Z_STRVAL_PP(left)));
 	Z_STRVAL_PP(left) = erealloc(Z_STRVAL_PP(left), length + 1);
 
 	memcpy(Z_STRVAL_PP(left) + Z_STRLEN_PP(left), right, right_length);
@@ -176,6 +180,9 @@ void zephir_concat_self_long(zval **left, const long right TSRMLS_DC) {
 	}
 
 	if (right_length > 0) {
+
+		assert(!IS_INTERNED(Z_STRVAL_PP(left)));
+
 		length = Z_STRLEN_PP(left) + right_length;
 		Z_STRVAL_PP(left) = erealloc(Z_STRVAL_PP(left), length + 1);
 		memcpy(Z_STRVAL_PP(left) + Z_STRLEN_PP(left), right_char, right_length);

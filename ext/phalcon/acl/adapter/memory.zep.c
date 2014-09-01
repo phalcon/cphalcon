@@ -773,7 +773,6 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, isAllowed) {
 	zephir_read_property_this(&accessList, this_ptr, SL("_access"), PH_NOISY_CC);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_eventsManager"), PH_NOISY_CC);
 	ZEPHIR_CPY_WRT(eventsManager, _0);
-	//missing empty
 	if (Z_TYPE_P(eventsManager) == IS_OBJECT) {
 		ZEPHIR_INIT_VAR(_2);
 		ZVAL_STRING(_2, "acl:beforeCheckAccess", 0);
