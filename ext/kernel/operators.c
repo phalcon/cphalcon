@@ -196,6 +196,7 @@ void zephir_concat_self_char(zval **left, unsigned char right TSRMLS_DC) {
 
 	zval left_copy;
 	int use_copy = 0;
+	char *tmp;
 
 	if (Z_TYPE_PP(left) == IS_NULL) {
 		Z_STRVAL_PP(left) = emalloc(2);
@@ -214,7 +215,13 @@ void zephir_concat_self_char(zval **left, unsigned char right TSRMLS_DC) {
 	}
 
 	Z_STRLEN_PP(left)++;
-	Z_STRVAL_PP(left) = erealloc(Z_STRVAL_PP(left), Z_STRLEN_PP(left) + 1);
+	if (IS_INTERNED(Z_STRVAL_PP(left))) {
+		tmp = emalloc(Z_STRLEN_PP(left) + 1);
+		memcpy(tmp, Z_STRVAL_PP(left), Z_STRLEN_PP(left) - 1);
+		Z_STRVAL_PP(left) = tmp;
+	} else {
+		Z_STRVAL_PP(left) = erealloc(Z_STRVAL_PP(left), Z_STRLEN_PP(left) + 1);
+	}
 	Z_STRVAL_PP(left)[Z_STRLEN_PP(left) - 1] = right;
 	Z_STRVAL_PP(left)[Z_STRLEN_PP(left)] = 0;
 	Z_TYPE_PP(left) = IS_STRING;

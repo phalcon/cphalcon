@@ -822,6 +822,10 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch) {
 					if (ZEPHIR_IS_FALSE_IDENTICAL(_5)) {
 						continue;
 					}
+				} else {
+					zephir_throw_exception_debug(e, "phalcon/dispatcher.zep", 578 TSRMLS_CC);
+					ZEPHIR_MM_RESTORE();
+					return;
 				}
 			}
 		}

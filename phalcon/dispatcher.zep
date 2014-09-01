@@ -574,6 +574,8 @@ abstract class Dispatcher implements \Phalcon\DispatcherInterface, \Phalcon\Di\I
 					if this->_finished === false {
 						continue;
 					}
+				} else {
+					throw e;
 				}
 			}
 
