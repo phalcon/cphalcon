@@ -90,6 +90,105 @@ if test "$PHP_PHALCON" = "yes"; then
 
 	CPPFLAGS=$old_CPPFLAGS
 
+	for i in /usr /usr/local; do
+		if test -r $i/include/png.h; then
+			PNG_CFLAGS=`pkg-config --cflags libpng`
+			PNG_LDFLAGS=`pkg-config --libs libpng`
+
+			PHP_ADD_INCLUDE($i/include)
+
+			CPPFLAGS="${CPPFLAGS} ${PNG_CFLAGS}"
+			EXTRA_LDFLAGS="${EXTRA_LDFLAGS} ${PNG_LDFLAGS}"
+
+			AC_MSG_RESULT("libpng found")
+
+			AC_DEFINE([PHALCON_USE_PNG], [1], [Have libpng support])
+			break
+		fi
+	done
+
+	if test -n "$PNG_CFLAGS"; then
+		for i in /usr /usr/local; do
+			if test -r $i/include/qrencode.h; then
+				QR_CFLAGS=`pkg-config --cflags libqrencode`
+				QR_LDFLAGS=`pkg-config --libs libqrencode`
+
+				PHP_ADD_INCLUDE($i/include)
+
+				CPPFLAGS="${CPPFLAGS} ${QR_CFLAGS}"
+				EXTRA_LDFLAGS="${EXTRA_LDFLAGS} ${QR_LDFLAGS}"
+
+				AC_MSG_RESULT("libqrencode found")
+
+				AC_DEFINE([PHALCON_USE_QRENCODE], [1], [Have libqrencode support])
+				break
+			fi
+		done
+	else
+		AC_MSG_RESULT([libpng not found])
+	fi
+
+	for i in /usr /usr/local; do
+		if test -r $i/bin/MagickWand-config; then
+			WAND_BINARY=$i/bin/MagickWand-config
+
+			WAND_CFLAGS=`$WAND_BINARY --cflags`
+			WAND_LDFLAGS=`$WAND_BINARY --libs`
+
+			PHP_ADD_INCLUDE($i/include)
+
+			CPPFLAGS="${CPPFLAGS} ${WAND_CFLAGS}"
+			EXTRA_LDFLAGS="${EXTRA_LDFLAGS} ${WAND_LDFLAGS}"
+
+			AC_DEFINE([PHALCON_USE_MAGICKWAND], [1], [Have ImageMagick MagickWand support])
+			break
+		fi
+	done
+
+	if test -r "$WAND_BINARY"; then
+		for i in /usr /usr/local; do
+			if test -r $i/include/zbar.h; then
+				ZBAR_CFLAGS=`pkg-config --cflags zbar`
+				ZBAR_LDFLAGS=`pkg-config --libs zbar`
+
+				PHP_ADD_INCLUDE($i/include)
+
+				CPPFLAGS="${CPPFLAGS} ${ZBAR_CFLAGS}"
+				EXTRA_LDFLAGS="${EXTRA_LDFLAGS} ${ZBAR_LDFLAGS}"
+
+				AC_MSG_RESULT("libzbar found")
+
+				AC_DEFINE([PHALCON_USE_ZBAR], [1], [Have libzbar support])
+				break
+			fi
+		done
+	fi
+
+	AC_MSG_CHECKING([for scws.h])
+	for i in /usr/local /usr /usr/local/include/scws; do
+		if test -r $i/include/scws/scws.h; then
+			AC_MSG_RESULT([yes, found in $i])
+
+			PHP_ADD_INCLUDE($i/include)
+
+			PHP_CHECK_LIBRARY(scws, scws_new,
+			[
+				PHP_ADD_LIBRARY_WITH_PATH(scws, $i/lib, PHALCON_SHARED_LIBADD)
+				PHP_SUBST(PHALCON_SHARED_LIBADD)
+
+				AC_DEFINE(PHALCON_USE_SCWS,1,[Have libscws support])
+			],[
+				AC_MSG_ERROR([Incorrect scws library])
+			],[
+				-L$i/lib -lm
+			])
+
+			break
+		else
+			AC_MSG_RESULT([no, found in $i])
+		fi
+	done
+
 	PHP_ADD_MAKEFILE_FRAGMENT([Makefile.frag])
 fi
 

@@ -29,7 +29,7 @@
 #include <TSRM/TSRM.h>
 #endif
 
-#define PHP_PHALCON_VERSION "1.3.2"
+#define PHP_PHALCON_VERSION "Dao-1.3.3"
 #define PHP_PHALCON_EXTNAME "phalcon"
 
 #define PHALCON_NUM_PREALLOCATED_FRAMES 25
@@ -69,6 +69,7 @@ typedef struct _phalcon_orm_options {
 	zend_bool not_null_validations;
 	zend_bool exception_on_failed_save;
 	zend_bool enable_literals;
+	zend_bool enable_ast_cache;
 } phalcon_orm_options;
 
 /** DB options */
@@ -166,10 +167,10 @@ extern int nusphere_dbg_present;
 
 
 #define PHALCON_INIT_CLASS(name) \
-	int phalcon_ ##name## _init(TSRMLS_D)
+	int phalcon_ ##name## _init(int module_number TSRMLS_DC)
 
 #define PHALCON_INIT(name) \
-	if (phalcon_ ##name## _init(TSRMLS_C) == FAILURE) { \
+	if (phalcon_ ##name## _init(module_number TSRMLS_CC) == FAILURE) { \
 		return FAILURE; \
 	}
 
