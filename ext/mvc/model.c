@@ -4961,7 +4961,6 @@ PHP_METHOD(Phalcon_Mvc_Model, delete){
 	
 		PHALCON_OBS_NVAR(value);
 		phalcon_read_property_zval(&value, this_ptr, attribute_field, PH_NOISY TSRMLS_CC);
-		phalcon_array_append(&values, value, PH_SEPARATE);
 
 		phalcon_array_update_zval(&bind_params, attribute_field, value, PH_COPY);
 	
@@ -5037,7 +5036,7 @@ PHP_METHOD(Phalcon_Mvc_Model, delete){
 			}
 		}
 	}
-	
+
 	PHALCON_CALL_METHOD(&schema, this_ptr, "getschema");
 	PHALCON_CALL_METHOD(&source, this_ptr, "getsource");
 	if (zend_is_true(schema)) {
@@ -5048,7 +5047,6 @@ PHP_METHOD(Phalcon_Mvc_Model, delete){
 	} else {
 		PHALCON_CPY_WRT(table, source);
 	}
-	
 	/** 
 	 * Do the deletion
 	 */
