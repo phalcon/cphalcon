@@ -4503,7 +4503,8 @@ PHP_METHOD(Phalcon_Mvc_Model, _postSaveRelatedRecords){
  */
 PHP_METHOD(Phalcon_Mvc_Model, save){
 
-	zval *data = NULL, *white_list = NULL, *exists = NULL, *exists_check = NULL, *meta_data = NULL, *attributes = NULL;
+	zval *data = NULL, *white_list = NULL, *exists = NULL, *exists_check = NULL, *exists2 = NULL;
+	zval *type, *message, *model_message, *messages, *meta_data = NULL, *attributes = NULL;
 	zval *attribute = NULL, *value = NULL, *possible_setter = NULL, *bind_params, *write_connection = NULL;
 	zval *related, *status = NULL, *schema = NULL, *source = NULL, *table = NULL, *read_connection = NULL;
 	zval *error_messages = NULL, *identity_field = NULL;
@@ -4522,6 +4523,10 @@ PHP_METHOD(Phalcon_Mvc_Model, save){
 
 	if (!white_list) {
 		white_list = PHALCON_GLOBAL(z_null);
+	}
+
+	if (!exists_check) {
+		exists_check = PHALCON_GLOBAL(z_true);
 	}
 
 	PHALCON_CALL_METHOD(&meta_data, this_ptr, "getmodelsmetadata");
@@ -4603,7 +4608,44 @@ PHP_METHOD(Phalcon_Mvc_Model, save){
 	if (!exists) {
 		PHALCON_CALL_METHOD(&exists, this_ptr, "_exists", meta_data, read_connection);
 	} else {
-		PHALCON_CALL_METHOD(NULL, this_ptr, "_rebuild", meta_data, read_connection);
+		if (zend_is_true(exists_check)) {
+			PHALCON_CALL_METHOD(&exists2, this_ptr, "_exists", meta_data, read_connection);
+			if (!zend_is_true(exists) && zend_is_true(exists2)) {
+				PHALCON_INIT_VAR(type);
+				ZVAL_STRING(type, "InvalidCreateAttempt", 1);
+
+				PHALCON_INIT_VAR(message);
+				ZVAL_STRING(message, "Record cannot be created because it already exists", 1);
+
+				PHALCON_INIT_VAR(model_message);
+				object_init_ex(model_message, phalcon_mvc_model_message_ce);
+				PHALCON_CALL_METHOD(NULL, model_message, "__construct", message, PHALCON_GLOBAL(z_null), type);
+
+				PHALCON_INIT_VAR(messages);
+				array_init_size(messages, 1);
+				phalcon_array_append(&messages, model_message, PH_SEPARATE);
+				phalcon_update_property_this(this_ptr, SL("_errorMessages"), messages TSRMLS_CC);
+				RETURN_MM_FALSE;
+			} else if (zend_is_true(exists) && !zend_is_true(exists2)) {
+				PHALCON_INIT_VAR(type);
+				ZVAL_STRING(type, "InvalidUpdateAttempt", 1);
+
+				PHALCON_INIT_VAR(message);
+				ZVAL_STRING(message, "Record cannot be updated because it does not exist", 1);
+
+				PHALCON_INIT_VAR(model_message);
+				object_init_ex(model_message, phalcon_mvc_model_message_ce);
+				PHALCON_CALL_METHOD(NULL, model_message, "__construct", message, PHALCON_GLOBAL(z_null), type);
+
+				PHALCON_INIT_VAR(messages);
+				array_init_size(messages, 1);
+				phalcon_array_append(&messages, model_message, PH_SEPARATE);
+				phalcon_update_property_this(this_ptr, SL("_errorMessages"), messages TSRMLS_CC);
+				RETURN_MM_FALSE;
+			}
+		} else {
+			PHALCON_CALL_METHOD(NULL, this_ptr, "_rebuild", meta_data, read_connection);
+		}
 	}
 
 	if (zend_is_true(exists)) {
@@ -5047,6 +5089,7 @@ PHP_METHOD(Phalcon_Mvc_Model, delete){
 	} else {
 		PHALCON_CPY_WRT(table, source);
 	}
+
 	/** 
 	 * Do the deletion
 	 */
