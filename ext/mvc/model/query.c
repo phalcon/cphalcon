@@ -3692,23 +3692,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect){
 			PHALCON_OBS_NVAR(model);
 			phalcon_array_fetch(&model, models_instances, model_name, PH_NOISY);
 		}
-	
+
 		/** 
-		 * The 'selectConnection' method could be implemented in a 
+		 * Get the current connection to the model
 		 */
-		if (phalcon_method_exists_ex(model, SS("selectreadconnection") TSRMLS_CC) == SUCCESS) {
-	
-			PHALCON_CALL_METHOD(&connection, model, "selectreadconnection", intermediate, bind_params, bind_types);
-			if (Z_TYPE_P(connection) != IS_OBJECT) {
-				PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "'selectReadConnection' didn't returned a valid connection");
-				return;
-			}
-		} else {
-			/** 
-			 * Get the current connection to the model
-			 */
-			PHALCON_CALL_METHOD(&connection, model, "getreadconnection");
-		}
+		PHALCON_CALL_METHOD(&connection, model, "getreadconnection", intermediate, bind_params, bind_types);
 	} else {
 		/** 
 		 * Check if all the models belongs to the same connection
@@ -4146,15 +4134,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeInsert){
 	/** 
 	 * Get the model connection
 	 */
-	if (phalcon_method_exists_ex(model, SS("selectwriteconnection") TSRMLS_CC) == SUCCESS) {
-		PHALCON_CALL_METHOD(&connection, model, "selectwriteconnection", intermediate, bind_params, bind_types);
-		if (Z_TYPE_P(connection) != IS_OBJECT) {
-			PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "'selectWriteConnection' didn't returned a valid connection");
-			return;
-		}
-	} else {
-		PHALCON_CALL_METHOD(&connection, model, "getwriteconnection");
-	}
+	PHALCON_CALL_METHOD(&connection, model, "getwriteconnection", intermediate, bind_params, bind_types);
 
 	PHALCON_OBS_VAR(meta_data);
 	phalcon_read_property_this(&meta_data, this_ptr, SL("_metaData"), PH_NOISY TSRMLS_CC);
@@ -4538,15 +4518,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeUpdate){
 		PHALCON_CALL_METHOD(&model, manager, "load", model_name);
 	}
 	
-	if (phalcon_method_exists_ex(model, SS("selectwriteconnection") TSRMLS_CC) == SUCCESS) {
-		PHALCON_CALL_METHOD(&connection, model, "selectwriteconnection", intermediate, bind_params, bind_types);
-		if (Z_TYPE_P(connection) != IS_OBJECT) {
-			PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "'selectWriteConnection' didn't returned a valid connection");
-			return;
-		}
-	} else {
-		PHALCON_CALL_METHOD(&connection, model, "getwriteconnection");
-	}
+	PHALCON_CALL_METHOD(&connection, model, "getwriteconnection", intermediate, bind_params, bind_types);
 	
 	PHALCON_CALL_METHOD(&dialect, connection, "getdialect");
 	
@@ -4684,7 +4656,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeUpdate){
 		 * Get the current record in the iterator
 		 */
 		PHALCON_CALL_METHOD(&record, records, "current");
-	
+
+		PHALCON_CALL_METHOD(&success, record, "settransaction", connection);
+
 		/** 
 		 * We apply the executed values to every record found
 		 */
@@ -4786,15 +4760,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeDelete){
 		RETURN_MM();
 	}
 	
-	if (phalcon_method_exists_ex(model, SS("selectwriteconnection") TSRMLS_CC) == SUCCESS) {
-		PHALCON_CALL_METHOD(&connection, model, "selectwriteconnection", intermediate, bind_params, bind_types);
-		if (Z_TYPE_P(connection) != IS_OBJECT) {
-			PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "'selectWriteConnection' didn't returned a valid connection");
-			return;
-		}
-	} else {
-		PHALCON_CALL_METHOD(&connection, model, "getwriteconnection");
-	}
+	PHALCON_CALL_METHOD(&connection, model, "getwriteconnection", intermediate, bind_params, bind_types);
 	
 	/** 
 	 * Create a transaction in the write connection
@@ -4811,6 +4777,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeDelete){
 		}
 	
 		PHALCON_CALL_METHOD(&record, records, "current");
+
+		PHALCON_CALL_METHOD(&success, record, "settransaction", connection);
 	
 		/** 
 		 * We delete every record found
@@ -5263,6 +5231,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, getConnection){
 
 	phalcon_fetch_params(1, 0, 2, &bind_params, &bind_types);
 
+	if (!bind_params) {
+		bind_params = PHALCON_GLOBAL(z_null);
+	}
+
+	if (!bind_types) {
+		bind_types = PHALCON_GLOBAL(z_null);
+	}
+
 	PHALCON_CALL_METHOD(&intermediate, this_ptr, "parse");
 	
 	PHALCON_OBS_VAR(type);
@@ -5297,25 +5273,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, getConnection){
 		}
 
 		if (phalcon_get_intval(type) == PHQL_T_SELECT) {
-			if (phalcon_method_exists_ex(model, SS("selectreadconnection") TSRMLS_CC) == SUCCESS) {		
-				PHALCON_CALL_METHOD(&connection, model, "selectreadconnection", intermediate, bind_params, bind_types);
-				if (Z_TYPE_P(connection) != IS_OBJECT) {
-					PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "'selectReadConnection' didn't returned a valid connection");
-					return;
-				}
-			} else {
-				PHALCON_CALL_METHOD(&connection, model, "getreadconnection");
-			}
+			PHALCON_CALL_METHOD(&connection, model, "getreadconnection", intermediate, bind_params, bind_types);
 		} else {
-			if (phalcon_method_exists_ex(model, SS("selectwriteconnection") TSRMLS_CC) == SUCCESS) {		
-				PHALCON_CALL_METHOD(&connection, model, "selectwriteconnection", intermediate, bind_params, bind_types);
-				if (Z_TYPE_P(connection) != IS_OBJECT) {
-					PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "'selectWriteConnection' didn't returned a valid connection");
-					return;
-				}
-			} else {
-				PHALCON_CALL_METHOD(&connection, model, "getwriteconnection");
-			}
+			PHALCON_CALL_METHOD(&connection, model, "getwriteconnection", intermediate, bind_params, bind_types);
 		}
 	} else {
 		PHALCON_INIT_VAR(connections);

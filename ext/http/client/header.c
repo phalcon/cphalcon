@@ -279,7 +279,7 @@ PHP_METHOD(Phalcon_Http_Client_Header, remove){
 
 PHP_METHOD(Phalcon_Http_Client_Header, parse){
 
-	zval *content, *content_parts, *key = NULL, *header = NULL, *header_parts = NULL, *name = NULL, *value = NULL, *trimmed = NULL;
+	zval *content, *content_parts = NULL, *key = NULL, *header = NULL, *header_parts = NULL, *name = NULL, *value = NULL, *trimmed = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
