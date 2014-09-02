@@ -4837,7 +4837,7 @@ PHP_METHOD(Phalcon_Mvc_Model, create){
 	/** 
 	 * Using save() anyways
 	 */
-	PHALCON_RETURN_CALL_METHOD(this_ptr, "save", PHALCON_GLOBAL(z_null), PHALCON_GLOBAL(z_null), PHALCON_GLOBAL(z_false), exists_check);
+	PHALCON_RETURN_CALL_METHOD(this_ptr, "save", data, white_list, PHALCON_GLOBAL(z_false), exists_check);
 	RETURN_MM();
 }
 
@@ -4880,7 +4880,7 @@ PHP_METHOD(Phalcon_Mvc_Model, update){
 	/** 
 	 * Call save() anyways
 	 */
-	PHALCON_RETURN_CALL_METHOD(this_ptr, "save", PHALCON_GLOBAL(z_null), PHALCON_GLOBAL(z_null), PHALCON_GLOBAL(z_true), exists_check);
+	PHALCON_RETURN_CALL_METHOD(this_ptr, "save", data, white_list, PHALCON_GLOBAL(z_true), exists_check);
 	RETURN_MM();
 }
 

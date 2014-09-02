@@ -5231,6 +5231,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, getConnection){
 
 	phalcon_fetch_params(1, 0, 2, &bind_params, &bind_types);
 
+	if (!bind_params) {
+		bind_params = PHALCON_GLOBAL(z_null);
+	}
+
+	if (!bind_types) {
+		bind_types = PHALCON_GLOBAL(z_null);
+	}
+
 	PHALCON_CALL_METHOD(&intermediate, this_ptr, "parse");
 	
 	PHALCON_OBS_VAR(type);
