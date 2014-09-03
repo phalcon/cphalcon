@@ -47,10 +47,10 @@ interface ValidatorInterface
 	/**
 	 * Executes the validation
 	 *
-	 * @param Phalcon\Validator validator
+	 * @param Phalcon\Validation validator
 	 * @param string attribute
 	 * @return boolean
 	 */
-	public function validate(<\Phalcon\Validator> validator, attribute) -> boolean;
+	public function validate(<\Phalcon\Validation> validator, string! attribute) -> boolean;
 
 }

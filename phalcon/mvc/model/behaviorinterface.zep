@@ -49,6 +49,6 @@ interface BehaviorInterface
 	 * @param string method
 	 * @param array arguments
 	 */
-	public function missingMethod(string !model, string !method, arguments=null);
+	public function missingMethod(<\Phalcon\Mvc\ModelInterface> model, string !method, arguments=null);
 
 }
