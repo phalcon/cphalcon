@@ -73,7 +73,7 @@ interface DialectInterface
 	 *
 	 * @param Phalcon\Db\ColumnInterface column
 	 */
-	public function getColumnDefinition(column);
+	public function getColumnDefinition(<\Phalcon\Db\ColumnInterface> column);
 
 	/**
 	 * Generates SQL to add a column to a table
@@ -83,7 +83,7 @@ interface DialectInterface
 	 * @param	Phalcon\Db\ColumnInterface column
 	 * @return	string
 	 */
-	public function addColumn(tableName, schemaName, column);
+	public function addColumn(tableName, schemaName, <\Phalcon\Db\ColumnInterface> column);
 
 	/**
 	 * Generates SQL to modify a column in a table
@@ -93,7 +93,7 @@ interface DialectInterface
 	 * @param	Phalcon\Db\ColumnInterface column
 	 * @return	string
 	 */
-	public function modifyColumn(tableName, schemaName, column);
+	public function modifyColumn(tableName, schemaName, <\Phalcon\Db\ColumnInterface> column);
 	/**
 	 * Generates SQL to delete a column from a table
 	 *
@@ -112,7 +112,7 @@ interface DialectInterface
 	 * @param	Phalcon\Db\IndexInterface index
 	 * @return	string
 	 */
-	public function addIndex(tableName, schemaName, index);
+	public function addIndex(tableName, schemaName, <\Phalcon\Db\IndexInterface> index);
 
 	/**
  	 * Generates SQL to delete an index from a table
@@ -132,7 +132,7 @@ interface DialectInterface
 	 * @param	Phalcon\Db\IndexInterface index
 	 * @return	string
 	 */
-	public function addPrimaryKey(tableName, schemaName, index);
+	public function addPrimaryKey(tableName, schemaName, <\Phalcon\Db\IndexInterface> index);
 
 	/**
 	 * Generates SQL to delete primary key from a table
@@ -151,7 +151,7 @@ interface DialectInterface
 	 * @param	Phalcon\Db\ReferenceInterface reference
 	 * @return	string
 	 */
-	public function addForeignKey(tableName, schemaName, reference);
+	public function addForeignKey(tableName, schemaName, <\Phalcon\Db\ReferenceInterface> reference);
 
 	/**
 	 * Generates SQL to delete a foreign key from a table

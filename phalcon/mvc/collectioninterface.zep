@@ -99,7 +99,7 @@ interface CollectionInterface
 	 * @param array document
 	 * @return Phalcon\Mvc\Collection
 	 */
-	public static function cloneResult(collection, document);
+	public static function cloneResult(<\Phalcon\Mvc\Collection> collection, document);
 
 	/**
 	 * Fires an event, implicitly calls behaviors and listeners in the events manager are notified

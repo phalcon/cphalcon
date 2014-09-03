@@ -32,15 +32,15 @@ interface ManagerInterface
 	 *
 	 * @param Phalcon\Mvc\ModelInterface model
 	 */
-	public function initialize(model);
+	public function initialize(<\Phalcon\Mvc\ModelInterface> model);
 
 	/**
 	 * Sets the mapped source for a model
 	 *
-	 * @param Phalcon\Mvc\Model model
+	 * @param Phalcon\Mvc\ModelInterface model
 	 * @param string source
 	 */
-	public function setModelSource(<\Phalcon\Mvc\Model> model, string! source) -> void;
+	public function setModelSource(<\Phalcon\Mvc\ModelInterface> model, string! source) -> void;
 
 	/**
 	 * Returns the mapped source for a model
@@ -157,7 +157,7 @@ interface ManagerInterface
 	 * @param	array options
 	 * @return  Phalcon\Mvc\Model\RelationInterface
 	 */
-	public function addHasOne(model, fields, referencedModel, referencedFields, options=null);
+	public function addHasOne(<\Phalcon\Mvc\ModelInterface> model, fields, referencedModel, referencedFields, options=null);
 
 	/**
 	 * Setup a relation reverse 1-1  between two models
@@ -169,7 +169,7 @@ interface ManagerInterface
 	 * @param	array options
 	 * @return 	Phalcon\Mvc\Model\RelationInterface
 	 */
-	public function addBelongsTo(model, fields, referencedModel, referencedFields, options=null);
+	public function addBelongsTo(<\Phalcon\Mvc\ModelInterface> model, fields, referencedModel, referencedFields, options=null);
 
 	/**
 	 * Setup a relation 1-n between two models
@@ -181,7 +181,7 @@ interface ManagerInterface
 	 * @param	array options
 	 * @return 	Phalcon\Mvc\Model\RelationInterface
 	 */
-	public function addHasMany(model, fields, referencedModel, referencedFields, options=null);
+	public function addHasMany(<\Phalcon\Mvc\ModelInterface> model, fields, referencedModel, referencedFields, options=null);
 
 	/**
 	 * Checks whether a model has a belongsTo relation with another model
@@ -220,7 +220,7 @@ interface ManagerInterface
 	 * @param array parameters
 	 * @return Phalcon\Mvc\Model\ResultsetInterface
 	 */
-	public function getBelongsToRecords(method, modelName, modelRelation, record, parameters=null);
+	public function getBelongsToRecords(method, modelName, modelRelation, <\Phalcon\Mvc\ModelInterface> record, parameters=null);
 
 	/**
 	 * Gets hasMany related records from a model
@@ -232,7 +232,7 @@ interface ManagerInterface
 	 * @param array parameters
 	 * @return Phalcon\Mvc\Model\ResultsetInterface
 	 */
-	public function getHasManyRecords(method, modelName, modelRelation, record, parameters=null);
+	public function getHasManyRecords(method, modelName, modelRelation, <\Phalcon\Mvc\ModelInterface> record, parameters=null);
 
 	/**
 	 * Gets belongsTo related records from a model
@@ -244,7 +244,7 @@ interface ManagerInterface
 	 * @param array parameters
 	 * @return Phalcon\Mvc\Model\ResultsetInterface
 	 */
-	public function getHasOneRecords(method, modelName, modelRelation, record, parameters=null);
+	public function getHasOneRecords(method, modelName, modelRelation, <\Phalcon\Mvc\ModelInterface> record, parameters=null);
 
 	/**
 	 * Gets belongsTo relations defined on a model
@@ -252,7 +252,7 @@ interface ManagerInterface
 	 * @param  Phalcon\Mvc\ModelInterface model
 	 * @return array
 	 */
-	public function getBelongsTo(model);
+	public function getBelongsTo(<\Phalcon\Mvc\ModelInterface> model);
 
 	/**
 	 * Gets hasMany relations defined on a model
@@ -260,7 +260,7 @@ interface ManagerInterface
 	 * @param  Phalcon\Mvc\ModelInterface model
 	 * @return array
 	 */
-	public function getHasMany(model);
+	public function getHasMany(<\Phalcon\Mvc\ModelInterface> model);
 
 	/**
 	 * Gets hasOne relations defined on a model
@@ -268,7 +268,7 @@ interface ManagerInterface
 	 * @param  Phalcon\Mvc\ModelInterface model
 	 * @return array
 	 */
-	public function getHasOne(model);
+	public function getHasOne(<\Phalcon\Mvc\ModelInterface> model);
 
 	/**
 	 * Gets hasOne relations defined on a model
@@ -276,7 +276,7 @@ interface ManagerInterface
 	 * @param  Phalcon\Mvc\ModelInterface model
 	 * @return array
 	 */
-	public function getHasOneAndHasMany(model);
+	public function getHasOneAndHasMany(<\Phalcon\Mvc\ModelInterface> model);
 
 	/**
 	 * Query all the relationships defined on a model
@@ -326,7 +326,7 @@ interface ManagerInterface
 	 * @param Phalcon\Mvc\ModelInterface model
 	 * @param Phalcon\Mvc\Model\BehaviorInterface behavior
 	 */
-	public function addBehavior(model, behavior);
+	public function addBehavior(<\Phalcon\Mvc\ModelInterface> model, <\Phalcon\Mvc\Model\BehaviorInterface> behavior);
 
 	/**
 	 * Receives events generated in the models and dispatches them to a events-manager if available
@@ -335,7 +335,7 @@ interface ManagerInterface
 	 * @param string eventName
 	 * @param Phalcon\Mvc\ModelInterface model
 	 */
-	public function notifyEvent(eventName, model);
+	public function notifyEvent(eventName, <\Phalcon\Mvc\ModelInterface> model);
 
 	/**
 	 * Dispatch a event to the listeners and behaviors
@@ -347,7 +347,7 @@ interface ManagerInterface
 	 * @param array data
 	 * @return boolean
 	 */
-	public function missingMethod(model, eventName, data);
+	public function missingMethod(<\Phalcon\Mvc\ModelInterface> model, eventName, data);
 
 	/**
 	 * Returns the last query created or executed in the

@@ -246,7 +246,7 @@ interface ElementInterface
 	 * @param Phalcon\Validation\Message\Group group
 	 * @return Phalcon\Forms\ElementInterface
 	 */
-	public function setMessages(group);
+	public function setMessages(<\Phalcon\Validation\Message\Group> group);
 
 	/**
 	 * Appends a message to the internal message list
@@ -254,7 +254,7 @@ interface ElementInterface
 	 * @param Phalcon\Validation\Message message
 	 * @return Phalcon\Forms\ElementInterface
 	 */
-	public function appendMessage(message);
+	public function appendMessage(<\Phalcon\Validation\Message> message);
 
 	/**
 	 * Clears every element in the form to its default value

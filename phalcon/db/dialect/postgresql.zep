@@ -23,6 +23,8 @@ namespace Phalcon\Db\Dialect;
 use Phalcon\Db\Exception;
 use Phalcon\Db\Dialect;
 use Phalcon\Db\DialectInterface;
+use Phalcon\Db\ColumnInterface;
+use Phalcon\Db\ReferenceInterface;
 
 /**
  * Phalcon\Db\Dialect\Postgresql
@@ -40,7 +42,7 @@ class Postgresql extends Dialect implements DialectInterface
 	 * @param Phalcon\Db\ColumnInterface column
 	 * @return string
 	 */
-	public function getColumnDefinition(column) -> string
+	public function getColumnDefinition(<ColumnInterface> column) -> string
 	{
  		var size, columnType, columnSql;
 
@@ -94,7 +96,7 @@ class Postgresql extends Dialect implements DialectInterface
 	 * @param	Phalcon\Db\ColumnInterface column
 	 * @return	string
 	 */
-	public function addColumn(tableName, schemaName, column)
+	public function addColumn(tableName, schemaName, <ColumnInterface> column)
 	{
 		throw new Exception("Not implemented yet");
 	}
@@ -107,7 +109,7 @@ class Postgresql extends Dialect implements DialectInterface
 	 * @param	Phalcon\Db\ColumnInterface column
 	 * @return	string
 	 */
-	public function modifyColumn(tableName, schemaName, column)
+	public function modifyColumn(tableName, schemaName, <ColumnInterface> column)
 	{
 		throw new Exception("Not implemented yet");
 	}
@@ -130,10 +132,10 @@ class Postgresql extends Dialect implements DialectInterface
 	 *
 	 * @param	string tableName
 	 * @param	string schemaName
-	 * @param	Phalcon\Db\Index index
+	 * @param	Phalcon\Db\IndexInterface index
 	 * @return	string
 	 */
-	public function addIndex(tableName, schemaName, index)
+	public function addIndex(tableName, schemaName, <\Phalcon\Db\IndexInterface> index)
 	{
 		throw new Exception("Not implemented yet");
 	}
@@ -156,10 +158,10 @@ class Postgresql extends Dialect implements DialectInterface
 	 *
 	 * @param	string tableName
 	 * @param	string schemaName
-	 * @param	Phalcon\Db\Index index
+	 * @param	Phalcon\Db\IndexInterface index
 	 * @return	string
 	 */
-	public function addPrimaryKey(tableName, schemaName, index)
+	public function addPrimaryKey(tableName, schemaName, <\Phalcon\Db\IndexInterface> index)
 	{
 		throw new Exception("Not implemented yet");
 	}
@@ -184,7 +186,7 @@ class Postgresql extends Dialect implements DialectInterface
 	 * @param	Phalcon\Db\ReferenceInterface reference
 	 * @return	string
 	 */
-	public function addForeignKey(tableName, schemaName, reference)
+	public function addForeignKey(tableName, schemaName, <ReferenceInterface> reference)
 	{
 		throw new Exception("Not implemented yet");
 	}
