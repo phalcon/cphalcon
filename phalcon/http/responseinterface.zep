@@ -73,7 +73,7 @@ interface ResponseInterface
 	 * @param DateTime datetime
 	 * @return Phalcon\Http\ResponseInterface
 	 */
-	public function setExpires(datetime);
+	public function setExpires(<\DateTime> datetime);
 	/**
 	 * Sends a Not-Modified response
 	 *

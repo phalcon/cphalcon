@@ -187,7 +187,7 @@ interface AdapterInterface
 	 * @param	Phalcon\Db\ColumnInterface column
 	 * @return	boolean
 	 */
-	public function addColumn(tableName, schemaName, column);
+	public function addColumn(tableName, schemaName, <\Phalcon\Db\ColumnInterface> column);
 
 	/**
 	 * Modifies a table column based on a definition
@@ -197,7 +197,7 @@ interface AdapterInterface
 	 * @param	Phalcon\Db\ColumnInterface column
 	 * @return 	boolean
 	 */
-	public function modifyColumn(tableName, schemaName, column);
+	public function modifyColumn(tableName, schemaName, <\Phalcon\Db\ColumnInterface> column);
 
 	/**
 	 * Drops a column from a table
@@ -217,7 +217,7 @@ interface AdapterInterface
 	 * @param	Phalcon\Db\IndexInterface index
 	 * @return 	boolean
 	 */
-	public function addIndex(tableName, schemaName, index);
+	public function addIndex(tableName, schemaName, <\Phalcon\Db\IndexInterface> index);
 
 	/**
 	 * Drop an index from a table
@@ -237,7 +237,7 @@ interface AdapterInterface
 	 * @param	Phalcon\Db\IndexInterface index
 	 * @return 	boolean
 	 */
-	public function addPrimaryKey(tableName, schemaName, index);
+	public function addPrimaryKey(tableName, schemaName, <\Phalcon\Db\IndexInterface> index);
 
 	/**
 	 * Drops primary key from a table
@@ -256,7 +256,7 @@ interface AdapterInterface
 	 * @param	Phalcon\Db\ReferenceInterface reference
 	 * @return	boolean true
 	 */
-	public function addForeignKey(tableName, schemaName, reference);
+	public function addForeignKey(tableName, schemaName, <\Phalcon\Db\ReferenceInterface> reference);
 
 	/**
 	 * Drops a foreign key from a table
@@ -274,7 +274,7 @@ interface AdapterInterface
 	 * @param	Phalcon\Db\ColumnInterface column
 	 * @return	string
 	 */
-	public function getColumnDefinition(column);
+	public function getColumnDefinition(<\Phalcon\Db\ColumnInterface> column);
 
 	 /**
 	 * List all tables on a database

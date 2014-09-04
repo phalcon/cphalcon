@@ -74,7 +74,7 @@ class Row implements \ArrayAccess, ResultInterface
 	 * @param string|int index
 	 * @param Phalcon\Mvc\ModelInterface value
 	 */
-	public function offsetSet(var index, <ModelInterface> value)
+	public function offsetSet(var index, var value)
 	{
 		throw new Exception("Row is an immutable ArrayAccess object");
 	}
