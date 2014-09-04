@@ -1,7 +1,7 @@
 <?php
 /**
  * UnitTest.php
- * \Phalcon\Url\UnitTest
+ * \Phalcon\Url
  *
  * Tests the \Phalcon\Url component
  *
@@ -20,26 +20,28 @@
  * so that we can send you a copy immediately.
  */
 
-namespace Phalcon\Test\Url;
-
-use \Phalcon\Test\UnitTestCase as PhTestUnitTestCase;
-
+use \Phalcon\DI as PhDI;
 use \Phalcon\Mvc\Router as PhRouter;
 use \Phalcon\Mvc\Url as PhUrl;
+use \Codeception\TestCase\Test as CdTest;
 
-class UnitTest extends PhTestUnitTestCase
+class UrlUnitTest extends CdTest
 {
+    private $di;
+
     /**
      * Sets the environment
      */
-    public function setUp()
+    protected function _before()
     {
-        parent::setUp();
+        parent::_before();
+
+        PhDI::reset();
+        $this->di = new PhDI();
 
         $this->di->set(
             'router',
             function () {
-
                 $router = new PhRouter(false);
 
                 $router->add(
@@ -82,8 +84,8 @@ class UnitTest extends PhTestUnitTestCase
     /**
      * Tests the base url
      *
-     * @author Nikos Dimopoulos <nikos@phalconphp.com>
-     * @since  2012-11-29
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-09-04
      */
     public function testUrlBase()
     {
@@ -94,14 +96,14 @@ class UnitTest extends PhTestUnitTestCase
         $expected = '/';
         $actual   = $url->get();
 
-        $this->assertEquals($expected, $actual, 'Base Url not correct');
+        expect($actual)->equals($expected);
     }
 
     /**
      * Tests a different url
      *
-     * @author Nikos Dimopoulos <nikos@phalconphp.com>
-     * @since  2012-11-29
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-09-04
      */
     public function testUrlOther()
     {
@@ -112,14 +114,14 @@ class UnitTest extends PhTestUnitTestCase
         $expected = '/classes/api/Some';
         $actual   = $url->get('classes/api/Some');
 
-        $this->assertEquals($expected, $actual, 'Base Url not correct');
+        expect($actual)->equals($expected);
     }
 
     /**
      * Tests the url with a controller and action
      *
-     * @author Nikos Dimopoulos <nikos@phalconphp.com>
-     * @since  2012-11-29
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-09-04
      */
     public function testUrlForControllerAction()
     {
@@ -135,15 +137,14 @@ class UnitTest extends PhTestUnitTestCase
         $expected = '/admin/products/p/index';
         $actual   = $url->get($params);
 
-        $this->assertEquals($expected, $actual, 'Controller/Action Url not correct');
-
+        expect($actual)->equals($expected);
     }
 
     /**
      * Tests the url with a controller
      *
-     * @author Nikos Dimopoulos <nikos@phalconphp.com>
-     * @since  2012-11-29
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-09-04
      */
     public function testUrlForController()
     {
@@ -158,15 +159,14 @@ class UnitTest extends PhTestUnitTestCase
         $expected = '/api/classes/Some';
         $actual   = $url->get($params);
 
-        $this->assertEquals($expected, $actual, 'Class Url not correct');
-
+        expect($actual)->equals($expected);
     }
 
     /**
      * Tests the url with a year/month/title
      *
-     * @author Nikos Dimopoulos <nikos@phalconphp.com>
-     * @since  2012-11-29
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-09-04
      */
     public function testUrlForBlogMixedParameters()
     {
@@ -182,15 +182,14 @@ class UnitTest extends PhTestUnitTestCase
         $expected = '/de/index';
         $actual   = $url->get($params);
 
-        $this->assertEquals($expected, $actual, 'Language Url not correct');
-
+        expect($actual)->equals($expected);
     }
 
     /**
      * Tests the url with a year/month/title
      *
-     * @author Nikos Dimopoulos <nikos@phalconphp.com>
-     * @since  2012-11-29
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-09-04
      */
     public function testUrlForDifferentLanguage()
     {
@@ -207,15 +206,14 @@ class UnitTest extends PhTestUnitTestCase
         $expected = '/2010/10/cloudflare-anade-recursos-a-tu-servidor';
         $actual   = $url->get($params);
 
-        $this->assertEquals($expected, $actual, 'Mixed Parameters Url not correct');
-
+        expect($actual)->equals($expected);
     }
 
     /**
      * Tests the url with external website
      *
-     * @author Nikos Dimopoulos <nikos@phalconphp.com>
-     * @since  2012-11-29
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-09-04
      */
     public function testUrlForExternalSite()
     {
@@ -230,7 +228,6 @@ class UnitTest extends PhTestUnitTestCase
         $expected = '/wiki/Television_news';
         $actual   = $url->get($params);
 
-        $this->assertEquals($expected, $actual, 'External Site Url not correct');
-
+        expect($actual)->equals($expected);
     }
 }
