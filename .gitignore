@@ -346,3 +346,5 @@ ext/mvc/view/engine/volt/lemon
 /vendor/
 composer.lock
 php-tests/tests/var/logs/*.log
+.vagrant
+Vagrantfile
