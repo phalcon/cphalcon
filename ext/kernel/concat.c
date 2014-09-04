@@ -47,7 +47,7 @@ void phalcon_concat_sv(zval **result, const char *op1, zend_uint op1_len, zval *
 
 		offset = Z_STRLEN_PP(result);
 		length += offset;
-		Z_STRVAL_PP(result) = (char *) erealloc(Z_STRVAL_PP(result), length + 1);
+		Z_STRVAL_PP(result) = (char *) str_erealloc(Z_STRVAL_PP(result), length + 1);
 
 	} else {
 		Z_STRVAL_PP(result) = (char *) emalloc(length + 1);
@@ -94,7 +94,7 @@ void phalcon_concat_svs(zval **result, const char *op1, zend_uint op1_len, zval 
 
 		offset = Z_STRLEN_PP(result);
 		length += offset;
-		Z_STRVAL_PP(result) = (char *) erealloc(Z_STRVAL_PP(result), length + 1);
+		Z_STRVAL_PP(result) = (char *) str_erealloc(Z_STRVAL_PP(result), length + 1);
 
 	} else {
 		Z_STRVAL_PP(result) = (char *) emalloc(length + 1);
@@ -149,7 +149,7 @@ void phalcon_concat_svsv(zval **result, const char *op1, zend_uint op1_len, zval
 
 		offset = Z_STRLEN_PP(result);
 		length += offset;
-		Z_STRVAL_PP(result) = (char *) erealloc(Z_STRVAL_PP(result), length + 1);
+		Z_STRVAL_PP(result) = (char *) str_erealloc(Z_STRVAL_PP(result), length + 1);
 
 	} else {
 		Z_STRVAL_PP(result) = (char *) emalloc(length + 1);
@@ -209,7 +209,7 @@ void phalcon_concat_svsvs(zval **result, const char *op1, zend_uint op1_len, zva
 
 		offset = Z_STRLEN_PP(result);
 		length += offset;
-		Z_STRVAL_PP(result) = (char *) erealloc(Z_STRVAL_PP(result), length + 1);
+		Z_STRVAL_PP(result) = (char *) str_erealloc(Z_STRVAL_PP(result), length + 1);
 
 	} else {
 		Z_STRVAL_PP(result) = (char *) emalloc(length + 1);
@@ -277,7 +277,7 @@ void phalcon_concat_svsvsv(zval **result, const char *op1, zend_uint op1_len, zv
 
 		offset = Z_STRLEN_PP(result);
 		length += offset;
-		Z_STRVAL_PP(result) = (char *) erealloc(Z_STRVAL_PP(result), length + 1);
+		Z_STRVAL_PP(result) = (char *) str_erealloc(Z_STRVAL_PP(result), length + 1);
 
 	} else {
 		Z_STRVAL_PP(result) = (char *) emalloc(length + 1);
@@ -350,7 +350,7 @@ void phalcon_concat_svsvsvs(zval **result, const char *op1, zend_uint op1_len, z
 
 		offset = Z_STRLEN_PP(result);
 		length += offset;
-		Z_STRVAL_PP(result) = (char *) erealloc(Z_STRVAL_PP(result), length + 1);
+		Z_STRVAL_PP(result) = (char *) str_erealloc(Z_STRVAL_PP(result), length + 1);
 
 	} else {
 		Z_STRVAL_PP(result) = (char *) emalloc(length + 1);
@@ -431,7 +431,7 @@ void phalcon_concat_svsvsvsvs(zval **result, const char *op1, zend_uint op1_len,
 
 		offset = Z_STRLEN_PP(result);
 		length += offset;
-		Z_STRVAL_PP(result) = (char *) erealloc(Z_STRVAL_PP(result), length + 1);
+		Z_STRVAL_PP(result) = (char *) str_erealloc(Z_STRVAL_PP(result), length + 1);
 
 	} else {
 		Z_STRVAL_PP(result) = (char *) emalloc(length + 1);
@@ -512,7 +512,7 @@ void phalcon_concat_svsvv(zval **result, const char *op1, zend_uint op1_len, zva
 
 		offset = Z_STRLEN_PP(result);
 		length += offset;
-		Z_STRVAL_PP(result) = (char *) erealloc(Z_STRVAL_PP(result), length + 1);
+		Z_STRVAL_PP(result) = (char *) str_erealloc(Z_STRVAL_PP(result), length + 1);
 
 	} else {
 		Z_STRVAL_PP(result) = (char *) emalloc(length + 1);
@@ -577,7 +577,7 @@ void phalcon_concat_svv(zval **result, const char *op1, zend_uint op1_len, zval 
 
 		offset = Z_STRLEN_PP(result);
 		length += offset;
-		Z_STRVAL_PP(result) = (char *) erealloc(Z_STRVAL_PP(result), length + 1);
+		Z_STRVAL_PP(result) = (char *) str_erealloc(Z_STRVAL_PP(result), length + 1);
 
 	} else {
 		Z_STRVAL_PP(result) = (char *) emalloc(length + 1);
@@ -636,7 +636,7 @@ void phalcon_concat_svvs(zval **result, const char *op1, zend_uint op1_len, zval
 
 		offset = Z_STRLEN_PP(result);
 		length += offset;
-		Z_STRVAL_PP(result) = (char *) erealloc(Z_STRVAL_PP(result), length + 1);
+		Z_STRVAL_PP(result) = (char *) str_erealloc(Z_STRVAL_PP(result), length + 1);
 
 	} else {
 		Z_STRVAL_PP(result) = (char *) emalloc(length + 1);
@@ -689,7 +689,7 @@ void phalcon_concat_vs(zval **result, zval *op1, const char *op2, zend_uint op2_
 
 		offset = Z_STRLEN_PP(result);
 		length += offset;
-		Z_STRVAL_PP(result) = (char *) erealloc(Z_STRVAL_PP(result), length + 1);
+		Z_STRVAL_PP(result) = (char *) str_erealloc(Z_STRVAL_PP(result), length + 1);
 
 	} else {
 		Z_STRVAL_PP(result) = (char *) emalloc(length + 1);
@@ -743,7 +743,7 @@ void phalcon_concat_vsv(zval **result, zval *op1, const char *op2, zend_uint op2
 
 		offset = Z_STRLEN_PP(result);
 		length += offset;
-		Z_STRVAL_PP(result) = (char *) erealloc(Z_STRVAL_PP(result), length + 1);
+		Z_STRVAL_PP(result) = (char *) str_erealloc(Z_STRVAL_PP(result), length + 1);
 
 	} else {
 		Z_STRVAL_PP(result) = (char *) emalloc(length + 1);
@@ -802,7 +802,7 @@ void phalcon_concat_vsvs(zval **result, zval *op1, const char *op2, zend_uint op
 
 		offset = Z_STRLEN_PP(result);
 		length += offset;
-		Z_STRVAL_PP(result) = (char *) erealloc(Z_STRVAL_PP(result), length + 1);
+		Z_STRVAL_PP(result) = (char *) str_erealloc(Z_STRVAL_PP(result), length + 1);
 
 	} else {
 		Z_STRVAL_PP(result) = (char *) emalloc(length + 1);
@@ -869,7 +869,7 @@ void phalcon_concat_vsvsv(zval **result, zval *op1, const char *op2, zend_uint o
 
 		offset = Z_STRLEN_PP(result);
 		length += offset;
-		Z_STRVAL_PP(result) = (char *) erealloc(Z_STRVAL_PP(result), length + 1);
+		Z_STRVAL_PP(result) = (char *) str_erealloc(Z_STRVAL_PP(result), length + 1);
 
 	} else {
 		Z_STRVAL_PP(result) = (char *) emalloc(length + 1);
@@ -941,7 +941,7 @@ void phalcon_concat_vsvsvs(zval **result, zval *op1, const char *op2, zend_uint 
 
 		offset = Z_STRLEN_PP(result);
 		length += offset;
-		Z_STRVAL_PP(result) = (char *) erealloc(Z_STRVAL_PP(result), length + 1);
+		Z_STRVAL_PP(result) = (char *) str_erealloc(Z_STRVAL_PP(result), length + 1);
 
 	} else {
 		Z_STRVAL_PP(result) = (char *) emalloc(length + 1);
@@ -1021,7 +1021,7 @@ void phalcon_concat_vsvsvsv(zval **result, zval *op1, const char *op2, zend_uint
 
 		offset = Z_STRLEN_PP(result);
 		length += offset;
-		Z_STRVAL_PP(result) = (char *) erealloc(Z_STRVAL_PP(result), length + 1);
+		Z_STRVAL_PP(result) = (char *) str_erealloc(Z_STRVAL_PP(result), length + 1);
 
 	} else {
 		Z_STRVAL_PP(result) = (char *) emalloc(length + 1);
@@ -1099,7 +1099,7 @@ void phalcon_concat_vsvv(zval **result, zval *op1, const char *op2, zend_uint op
 
 		offset = Z_STRLEN_PP(result);
 		length += offset;
-		Z_STRVAL_PP(result) = (char *) erealloc(Z_STRVAL_PP(result), length + 1);
+		Z_STRVAL_PP(result) = (char *) str_erealloc(Z_STRVAL_PP(result), length + 1);
 
 	} else {
 		Z_STRVAL_PP(result) = (char *) emalloc(length + 1);
@@ -1177,7 +1177,7 @@ void phalcon_concat_vsvvv(zval **result, zval *op1, const char *op2, zend_uint o
 
 		offset = Z_STRLEN_PP(result);
 		length += offset;
-		Z_STRVAL_PP(result) = (char *) erealloc(Z_STRVAL_PP(result), length + 1);
+		Z_STRVAL_PP(result) = (char *) str_erealloc(Z_STRVAL_PP(result), length + 1);
 
 	} else {
 		Z_STRVAL_PP(result) = (char *) emalloc(length + 1);
@@ -1246,7 +1246,7 @@ void phalcon_concat_vv(zval **result, zval *op1, zval *op2, int self_var TSRMLS_
 
 		offset = Z_STRLEN_PP(result);
 		length += offset;
-		Z_STRVAL_PP(result) = (char *) erealloc(Z_STRVAL_PP(result), length + 1);
+		Z_STRVAL_PP(result) = (char *) str_erealloc(Z_STRVAL_PP(result), length + 1);
 
 	} else {
 		Z_STRVAL_PP(result) = (char *) emalloc(length + 1);
@@ -1304,7 +1304,7 @@ void phalcon_concat_vvs(zval **result, zval *op1, zval *op2, const char *op3, ze
 
 		offset = Z_STRLEN_PP(result);
 		length += offset;
-		Z_STRVAL_PP(result) = (char *) erealloc(Z_STRVAL_PP(result), length + 1);
+		Z_STRVAL_PP(result) = (char *) str_erealloc(Z_STRVAL_PP(result), length + 1);
 
 	} else {
 		Z_STRVAL_PP(result) = (char *) emalloc(length + 1);
@@ -1370,7 +1370,7 @@ void phalcon_concat_vvsv(zval **result, zval *op1, zval *op2, const char *op3, z
 
 		offset = Z_STRLEN_PP(result);
 		length += offset;
-		Z_STRVAL_PP(result) = (char *) erealloc(Z_STRVAL_PP(result), length + 1);
+		Z_STRVAL_PP(result) = (char *) str_erealloc(Z_STRVAL_PP(result), length + 1);
 
 	} else {
 		Z_STRVAL_PP(result) = (char *) emalloc(length + 1);
@@ -1441,7 +1441,7 @@ void phalcon_concat_vvv(zval **result, zval *op1, zval *op2, zval *op3, int self
 
 		offset = Z_STRLEN_PP(result);
 		length += offset;
-		Z_STRVAL_PP(result) = (char *) erealloc(Z_STRVAL_PP(result), length + 1);
+		Z_STRVAL_PP(result) = (char *) str_erealloc(Z_STRVAL_PP(result), length + 1);
 
 	} else {
 		Z_STRVAL_PP(result) = (char *) emalloc(length + 1);
@@ -1518,7 +1518,7 @@ void phalcon_concat_vvvsv(zval **result, zval *op1, zval *op2, zval *op3, const 
 
 		offset = Z_STRLEN_PP(result);
 		length += offset;
-		Z_STRVAL_PP(result) = (char *) erealloc(Z_STRVAL_PP(result), length + 1);
+		Z_STRVAL_PP(result) = (char *) str_erealloc(Z_STRVAL_PP(result), length + 1);
 
 	} else {
 		Z_STRVAL_PP(result) = (char *) emalloc(length + 1);
@@ -1601,7 +1601,7 @@ void phalcon_concat_vvvv(zval **result, zval *op1, zval *op2, zval *op3, zval *o
 
 		offset = Z_STRLEN_PP(result);
 		length += offset;
-		Z_STRVAL_PP(result) = (char *) erealloc(Z_STRVAL_PP(result), length + 1);
+		Z_STRVAL_PP(result) = (char *) str_erealloc(Z_STRVAL_PP(result), length + 1);
 
 	} else {
 		Z_STRVAL_PP(result) = (char *) emalloc(length + 1);
@@ -1697,7 +1697,7 @@ void phalcon_concat_vvvvsvv(zval **result, zval *op1, zval *op2, zval *op3, zval
 
 		offset = Z_STRLEN_PP(result);
 		length += offset;
-		Z_STRVAL_PP(result) = (char *) erealloc(Z_STRVAL_PP(result), length + 1);
+		Z_STRVAL_PP(result) = (char *) str_erealloc(Z_STRVAL_PP(result), length + 1);
 
 	} else {
 		Z_STRVAL_PP(result) = (char *) emalloc(length + 1);
@@ -1797,7 +1797,7 @@ void phalcon_concat_vvvvv(zval **result, zval *op1, zval *op2, zval *op3, zval *
 
 		offset = Z_STRLEN_PP(result);
 		length += offset;
-		Z_STRVAL_PP(result) = (char *) erealloc(Z_STRVAL_PP(result), length + 1);
+		Z_STRVAL_PP(result) = (char *) str_erealloc(Z_STRVAL_PP(result), length + 1);
 
 	} else {
 		Z_STRVAL_PP(result) = (char *) emalloc(length + 1);
