@@ -31,12 +31,12 @@ interface ResultInterface
 	 * Phalcon\Db\Result\Pdo constructor
 	 *
 	 * @param Phalcon\Db\AdapterInterface connection
+	 * @param \PDOStatement result
 	 * @param string sqlStatement
 	 * @param array bindParams
 	 * @param array bindTypes
-	 * @param \PDOStatement result
 	 */
-	public function __construct(connection, result, sqlStatement=null, bindParams=null, bindTypes=null);
+	public function __construct(<\Phalcon\Db\AdapterInterface> connection, <\PDOStatement> result, sqlStatement=null, bindParams=null, bindTypes=null);
 
 	/**
 	 * Allows to executes the statement again. Some database systems don't support scrollable cursors,

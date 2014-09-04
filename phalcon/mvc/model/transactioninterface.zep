@@ -34,14 +34,14 @@ interface TransactionInterface
 	 * @param boolean autoBegin
 	 * @param string service
 	 */
-	public function __construct(dependencyInjector, autoBegin=false, service=null);
+	public function __construct(<\Phalcon\DiInterface> dependencyInjector, autoBegin=false, service=null);
 
 	/**
 	 * Sets transaction manager related to the transaction
 	 *
 	 * @param Phalcon\Mvc\Model\Transaction\ManagerInterface manager
 	 */
-	public function setTransactionManager(manager);
+	public function setTransactionManager(<\Phalcon\Mvc\Model\Transaction\ManagerInterface> manager);
 
 	/**
 	 * Starts the transaction
@@ -113,6 +113,6 @@ interface TransactionInterface
 	 *
 	 * @param Phalcon\Mvc\ModelInterface record
 	 */
-	public function setRollbackedRecord(record);
+	public function setRollbackedRecord(<\Phalcon\Mvc\ModelInterface> record);
 
 }

@@ -40,6 +40,6 @@ interface ValidatorInterface
 	 * @param Phalcon\Mvc\ModelInterface record
 	 * @return boolean
 	 */
-	public function validate(record);
+	public function validate(<\Phalcon\Mvc\ModelInterface> record);
 
 }

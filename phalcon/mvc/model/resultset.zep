@@ -289,7 +289,7 @@ abstract class Resultset
 	 * @param int index
 	 * @param Phalcon\Mvc\ModelInterface value
 	 */
-	public function offsetSet(var index, <ModelInterface> value)
+	public function offsetSet(var index, var value)
 	{
 		throw new Exception("Cursor is an immutable ArrayAccess object");
 	}

@@ -315,7 +315,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, \Phalcon\Eve
 	/**
 	 * Sets the mapped source for a model
 	 *
-	 * @param Phalcon\Mvc\Model model
+	 * @param Phalcon\Mvc\ModelInterface model
 	 * @param string source
 	 */
 	public function setModelSource(<ModelInterface> model, string! source) -> void
@@ -1463,7 +1463,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, \Phalcon\Eve
 	 * @param array parameters
 	 * @return Phalcon\Mvc\Model\ResultsetInterface
 	 */
-	public function getBelongsToRecords(string! method, string! modelName, <ModelInterface> modelRelation, record, parameters = null)
+	public function getBelongsToRecords(string! method, string! modelName, modelRelation, <ModelInterface> record, parameters = null)
 		-> <ResultsetInterface> | boolean
 	{
 
@@ -1501,7 +1501,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, \Phalcon\Eve
 	 * @param array parameters
 	 * @return Phalcon\Mvc\Model\ResultsetInterface
 	 */
-	public function getHasManyRecords(string! method, string! modelName, <ModelInterface> modelRelation, record, parameters = null)
+	public function getHasManyRecords(string! method, string! modelName, modelRelation, <ModelInterface> record, parameters = null)
 		-> <ResultsetInterface> | boolean
 	{
 
@@ -1539,7 +1539,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, \Phalcon\Eve
 	 * @param array parameters
 	 * @return Phalcon\Mvc\ModelInterface
 	 */
-	public function getHasOneRecords(string! method, string! modelName, <ModelInterface> modelRelation, record, parameters = null)
+	public function getHasOneRecords(string! method, string! modelName, modelRelation, <ModelInterface> record, parameters = null)
 		-> <ModelInterface> | boolean
 	{
 		var hasOne, keyRelation, relations;

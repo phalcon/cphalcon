@@ -19,6 +19,7 @@
 
 namespace Phalcon\Mvc\Model;
 
+use Phalcon\DiInterface;
 use Phalcon\Mvc\ModelInterface;
 use Phalcon\Mvc\Model\Exception;
 use Phalcon\Di\InjectionAwareInterface;
@@ -192,7 +193,7 @@ abstract class MetaData implements InjectionAwareInterface
 	 *
 	 * @param Phalcon\DiInterface dependencyInjector
 	 */
-	public function setDI(dependencyInjector)
+	public function setDI(<DiInterface> dependencyInjector)
 	{
 		let this->_dependencyInjector = dependencyInjector;
 	}
@@ -210,7 +211,7 @@ abstract class MetaData implements InjectionAwareInterface
 	/**
 	 * Set the meta-data extraction strategy
 	 *
-	 * @param Phalcon\Mvc\Model\MetaData\Strategy\Introspection strategy
+	 * @param Phalcon\Mvc\Model\MetaData\StrategyInterface strategy
 	 */
 	public function setStrategy(<StrategyInterface> strategy) -> void
 	{
@@ -220,7 +221,7 @@ abstract class MetaData implements InjectionAwareInterface
 	/**
 	 * Return the strategy to obtain the meta-data
 	 *
-	 * @return Phalcon\Mvc\Model\MetaData\Strategy\StrategyInterface
+	 * @return Phalcon\Mvc\Model\MetaData\StrategyInterface
 	 */
 	public function getStrategy() -> <StrategyInterface>
 	{

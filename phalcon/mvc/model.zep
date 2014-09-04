@@ -624,10 +624,10 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 *));
 	 *</code>
 	 *
-	 * @param Phalcon\Mvc\Model $base
+	 * @param Phalcon\Mvc\ModelInterface $base
 	 * @param array data
 	 * @param int dirtyState
-	 * @return Phalcon\Mvc\Model
+	 * @return Phalcon\Mvc\ModelInterface
 	 */
 	public static function cloneResult(<ModelInterface> base, var data, int dirtyState=0)
 	{

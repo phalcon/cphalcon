@@ -19,6 +19,8 @@
 
 namespace Phalcon\Annotations;
 
+use Phalcon\Annotations\ReaderInterface;
+
 /**
  * Phalcon\Annotations\AdapterInterface
  *
@@ -32,7 +34,7 @@ interface AdapterInterface
 	 *
 	 * @param Phalcon\Annotations\ReaderInterface reader
 	 */
-	public function setReader(reader);
+	public function setReader(<ReaderInterface> reader);
 
 	/**
 	 * Returns the annotation reader

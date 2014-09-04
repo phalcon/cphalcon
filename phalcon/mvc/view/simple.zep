@@ -54,7 +54,7 @@ class Simple extends \Phalcon\Di\Injectable
 	protected _cacheOptions;
 
 	/**
-	 * Phalcon\Mvc\View constructor
+	 * Phalcon\Mvc\View\Simple constructor
 	 *
 	 * @param array options
 	 */
