@@ -252,6 +252,8 @@ abstract class Adapter implements EventsAwareInterface
 		return results;
 	}
 
+    
+
 	/**
 	 * Inserts data into a table using custom RBDM SQL syntax
 	 *
