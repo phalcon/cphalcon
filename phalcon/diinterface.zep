@@ -19,6 +19,9 @@
 
 namespace Phalcon;
 
+use Phalcon\DiInterface;
+use Phalcon\Di\ServiceInterface;
+
 /**
  * Phalcon\DiInterface
  *
@@ -90,7 +93,7 @@ interface DiInterface extends \ArrayAccess
 	 * @param Phalcon\Di\ServiceInterface rawDefinition
 	 * @return Phalcon\Di\ServiceInterface
 	 */
-	public function setRaw(name, rawDefinition);
+	public function setRaw(name, <ServiceInterface> rawDefinition);
 
 	/**
 	 * Returns a service definition without resolving
@@ -135,7 +138,7 @@ interface DiInterface extends \ArrayAccess
 	 *
 	 * @param Phalcon\DiInterface dependencyInjector
 	 */
-	public static function setDefault(dependencyInjector);
+	public static function setDefault(<DiInterface> dependencyInjector);
 
 	/**
 	 * Return the last DI created

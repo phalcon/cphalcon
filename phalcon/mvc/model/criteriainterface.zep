@@ -19,6 +19,8 @@
 
 namespace Phalcon\Mvc\Model;
 
+use Phalcon\DiInterface;
+
 /**
  * Phalcon\Mvc\Model\CriteriaInterface
  *
@@ -225,7 +227,7 @@ interface CriteriaInterface
 	 * @param array data
 	 * @return static
 	 */
-	public static function fromInput(<\Phalcon\DiInterfac> dependencyInjector, string modelName, array! data);
+	public static function fromInput(<DiInterface> dependencyInjector, string modelName, array! data);
 
 	/**
 	 * Executes a find using the parameters built with the criteria

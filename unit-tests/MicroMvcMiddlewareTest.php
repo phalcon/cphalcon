@@ -22,7 +22,7 @@ class MyMiddleware implements Phalcon\Mvc\Micro\MiddlewareInterface
 {
 	protected $_number = 0;
 
-	public function call($application)
+	public function call(\Phalcon\Mvc\Micro $application)
 	{
 		$this->_number++;
 	}
@@ -37,7 +37,7 @@ class MyMiddlewareStop implements Phalcon\Mvc\Micro\MiddlewareInterface
 {
 	protected $_number = 0;
 
-	public function call($application)
+	public function call(\Phalcon\Mvc\Micro $application)
 	{
 		$application->stop();
 		$this->_number++;

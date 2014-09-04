@@ -19,7 +19,10 @@
 
 namespace Phalcon\Mvc;
 
+use Phalcon\DiInterface;
+use Phalcon\Mvc\ModelInterface;
 use Phalcon\Mvc\Model\TransactionInterface;
+use Phalcon\Mvc\Model\MessageInterface;
 
 /**
  * Phalcon\Mvc\ModelInterface
@@ -140,12 +143,12 @@ interface ModelInterface
 	/**
 	 * Assigns values to a model from an array returning a new model
 	 *
-	 * @param Phalcon\Mvc\Model base
+	 * @param Phalcon\Mvc\ModelInterface base
 	 * @param array data
 	 * @param int dirtyState
-	 * @return Phalcon\Mvc\Model
+	 * @return Phalcon\Mvc\ModelInterface
 	 */
-	public static function cloneResult(base, data, dirtyState = 0);
+	public static function cloneResult(<ModelInterface> base, data, dirtyState = 0);
 
 	/**
 	 * Returns an hydrated result based on the data and the column map
@@ -178,7 +181,7 @@ interface ModelInterface
 	 * @param Phalcon\DiInterface dependencyInjector
 	 * @return Phalcon\Mvc\Model\CriteriaInterface
 	 */
-	public static function query(dependencyInjector = null);
+	public static function query(<DiInterface> dependencyInjector = null);
 
 	/**
 	 * Allows to count how many records match the specified conditions
@@ -242,7 +245,7 @@ interface ModelInterface
 	 *
 	 * @param Phalcon\Mvc\Model\MessageInterface message
 	 */
-	public function appendMessage(message);
+	public function appendMessage(<MessageInterface> message);
 
 	/**
 	 * Check whether validation process has generated any messages

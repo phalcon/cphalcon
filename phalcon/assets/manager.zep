@@ -101,6 +101,7 @@ class Manager
 	public function addCss(string! path, local=true, filter=true, attributes=null)
 	{
 		this->addResourceByType("css", new \Phalcon\Assets\Resource\Css(path, local, filter, attributes));
+		return this;
 	}
 
 	/**
@@ -120,6 +121,7 @@ class Manager
 	public function addJs(string! path, local=true, filter=true, attributes=null)
 	{
 		this->addResourceByType("js", new \Phalcon\Assets\Resource\Js(path, local, filter, attributes));
+		return this;
 	}
 
 	/**

@@ -74,7 +74,7 @@ class Group implements \Countable, \ArrayAccess, \Iterator
 	 * @param int index
 	 * @param Phalcon\Validation\Message message
 	 */
-	public function offsetSet(int! index, <\Phalcon\Validation\Message> message)
+	public function offsetSet(int! index, var message)
 	{
 		if typeof message != "object" {
 			throw new Exception("The message must be an object");
