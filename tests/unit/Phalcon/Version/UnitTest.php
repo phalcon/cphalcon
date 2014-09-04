@@ -1,7 +1,7 @@
 <?php
 /**
  * UnitTest.php
- * \Phalcon\Version\UnitTest
+ * \Phalcon\Version
  *
  * Tests the \Phalcon\Version component
  *
@@ -20,45 +20,43 @@
  * so that we can send you a copy immediately.
  */
 
-namespace Phalcon\Test\Version;
-
-use \Phalcon\Test\UnitTestCase as PhTestUnitTestCase;
 
 use \Phalcon\Version as Version;
+use \Codeception\TestCase\Test as CdTest;
 
-class UnitTest extends PhTestUnitTestCase
+class VersionUnitTest extends CdTest
 {
     /**
      * Tests the get
      *
-     * @author Nikos Dimopoulos <nikos@phalconphp.com>
-     * @since  2012-11-29
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-09-04
      */
     public function testGet()
     {
         $actual = Version::get();
 
-        $this->assertTrue(is_string($actual));
+        expect(is_string($actual))->true();
     }
 
     /**
      * Tests the getId()
      *
-     * @author Nikos Dimopoulos <nikos@phalconphp.com>
-     * @since  2012-11-29
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-09-04
      */
     public function testGetId()
     {
         $actual = Version::getId();
 
-        $this->assertTrue(is_string($actual));
+        expect(is_string($actual))->true();
     }
 
     /**
      * Tests the get() translation to getId()
      *
-     * @author Nikos Dimopoulos <nikos@phalconphp.com>
-     * @since  2012-11-29
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-09-04
      */
     public function testGetToGetId()
     {
@@ -84,18 +82,14 @@ class UnitTest extends PhTestUnitTestCase
         $expected = "{$major}{$med}{$min}{$special}{$specialNo}";
         $actual   = Version::getId();
 
-        $this->assertEquals(
-            $expected,
-            $actual,
-            "Version get to getId does not translate properly"
-        );
+        expect($expected)->equals($actual);
     }
 
     /**
      * Tests the getId() translation to get()
      *
-     * @author Nikos Dimopoulos <nikos@phalconphp.com>
-     * @since  2012-11-29
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-09-04
      */
     public function testGetIdToGet()
     {
@@ -109,36 +103,46 @@ class UnitTest extends PhTestUnitTestCase
         $expected = trim("{$major}.{$med}.{$min} {$special} {$specialNo}");
         $actual   = Version::get();
 
-        $this->assertEquals(
-            $actual,
-            $expected,
-            "Version getId to get does not translate properly"
-        );
+        expect($expected)->equals($actual);
+    }
+
+    /**
+     * Tests the constants of the class
+     *
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-09-04
+     */
+    public function testConstants()
+    {
+        expect(Version::VERSION_MAJOR)->equals(0);
+        expect(Version::VERSION_MEDIUM)->equals(1);
+        expect(Version::VERSION_MINOR)->equals(2);
+        expect(Version::VERSION_SPECIAL)->equals(3);
+        expect(Version::VERSION_SPECIAL_NUMBER)->equals(4);
     }
 
     public function testGetPart()
     {
         $id        = Version::getId();
-        $major     = intval($id[0]);
-        $med       = intval($id[1] . $id[2]);
-        $min       = intval($id[3] . $id[4]);
+        $major     = intval($id[Version::VERSION_MAJOR]);
+        $med       = intval($id[Version::VERSION_MEDIUM] . $id[Version::VERSION_MINOR]);
+        $min       = intval($id[Version::VERSION_SPECIAL] . $id[Version::VERSION_SPECIAL_NUMBER]);
         $special   = $this->_numberToSpecial($id[5]);
         $specialNo = ($special) ? $id[6] : '';
 
-        $this->assertEquals($major, Version::getPart(Version::MAJOR));
-        $this->assertEquals($med, Version::getPart(Version::MEDIUM));
-        $this->assertEquals($min, Version::getPart(Version::MINOR));
-        $this->assertEquals($special, Version::getPart(Version::SPECIAL));
-        $this->assertEquals($specialNo, Version::getPart(Version::SPECIAL_NUMBER));
-        $this->assertEquals(Version::get(), Version::getPart(7));
-
+        expect($major)->equals(Version::getPart(Version::VERSION_MAJOR));
+        expect($med)->equals(Version::getPart(Version::VERSION_MEDIUM));
+        expect($min)->equals(Version::getPart(Version::VERSION_MINOR));
+        expect($special)->equals(Version::getPart(Version::VERSION_SPECIAL));
+        expect($specialNo)->equals(Version::getPart(Version::VERSION_SPECIAL_NUMBER));
+        expect(Version::get())->equals(Version::getPart(7));
     }
 
     /**
      * Translates a special version (ALPHA, BETA, RC) to a version number
      *
-     * @author Nikos Dimopoulos <nikos@phalconphp.com>
-     * @since  2012-11-29
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-09-04
      *
      * @param $input
      *
@@ -168,8 +172,8 @@ class UnitTest extends PhTestUnitTestCase
     /**
      * Translates a number to a special version string (ALPHA, BETA, RC)
      *
-     * @author Nikos Dimopoulos <nikos@phalconphp.com>
-     * @since  2012-11-29
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-09-04
      *
      * @param $number
      *
