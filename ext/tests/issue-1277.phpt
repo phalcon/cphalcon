@@ -10,12 +10,12 @@ $c2 = clone $c1;
 var_dump($c1);
 var_dump($c2);
 ?>
---EXPECT--
-object(Phalcon\Config)#1 (1) {
+--EXPECTF--
+object(Phalcon\Config)#%d (1) {
   ["test"]=>
   int(1)
 }
-object(Phalcon\Config)#2 (1) {
+object(Phalcon\Config)#%d (1) {
   ["test"]=>
   int(1)
 }
