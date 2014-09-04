@@ -252,6 +252,7 @@ abstract class Adapter implements EventsAwareInterface
 		return results;
 	}
 
+
     
 
 	/**
