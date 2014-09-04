@@ -252,8 +252,34 @@ abstract class Adapter implements EventsAwareInterface
 		return results;
 	}
 
-
-    
+    /**
+     * Returns the n'th field of first row in a SQL query result
+     *
+     *<code>
+     *    //Getting count of robots
+     *    $robotsCount = $connection->fetchColumn("SELECT count(*) FROM robots");
+     *    print_r($robotsCount);
+     *
+     *    //Getting name of last edited robot
+     *    $robot = $connection->fetchColumn("SELECT id, name FROM robots order by modified desc");
+     *    print_r($robot);
+     *</code>
+     *
+     * @param  string sqlQuery
+     * @param  array placeholders
+     * @param  int|string column
+     * @return string|
+     */
+    public function fetchColumn(var sqlQuery, placeholders=null, column=0) -> string|bool
+    {
+        var row;
+        let row = this->fetchOne(sqlQuery, \Phalcon\Db::FETCH_BOTH, placeholders);
+        if(!empty row && isset row[column]) {
+            return row[column];
+        } else {
+            return false;
+        }
+    }
 
 	/**
 	 * Inserts data into a table using custom RBDM SQL syntax

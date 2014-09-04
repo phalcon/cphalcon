@@ -224,6 +224,15 @@ class DbTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(count($rows), 10);
 		$this->assertEquals(count($rows[0]), 11);
 
+        $id = $connection->fetchColumn("SELECT id FROM robots ORDER BY `year` DESC");
+        $this->assertEquals($id, 2029);
+
+        $type = $connection->fetchColumn("SELECT * FROM robots where id=?", [1], 2);
+        $this->assertEquals($type, 'mechanical');
+
+        $type = $connection->fetchColumn("SELECT * FROM robots where id=?", [1], 'type');
+        $this->assertEquals($type, 'mechanical');
+
 		//Auto-Increment/Serial Columns
 		$sql = 'INSERT INTO subscriptores(id, email, created_at, status) VALUES ('.$connection->getDefaultIdValue().', ?, ?, ?)';
 		$success = $connection->execute($sql, array('shirley@garbage.com', "2011-01-01 12:59:13", "P"));
