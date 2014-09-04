@@ -45,6 +45,10 @@
 #define ISL(str)  (phalcon_interned_##str), (sizeof(#str)-1)
 #define ISS(str)  (phalcon_interned_##str), (sizeof(#str))
 
+/* str_erealloc is PHP 5.6 only */
+#ifndef str_erealloc
+#define str_erealloc erealloc
+#endif
 
 /* Startup functions */
 void php_phalcon_init_globals(zend_phalcon_globals *phalcon_globals TSRMLS_DC);
