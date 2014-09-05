@@ -409,13 +409,14 @@ abstract class Adapter implements EventsAwareInterface
      * @param 	array dataTypes
      * @return 	boolean
      */
-    public function insertAsDict(string table, array data, array dataTypes=null) -> boolean
+    public function insertAsDict(var table, data, dataTypes=null) -> boolean
     {
-        if empty data {
+        if typeOf data != "array" || empty data {
             return false;
         }
 
-        array values = [], fields = [];
+        var values = [], fields = [];
+        var field, value;
         for field, value in data {
             let fields[] = field;
             let values[] = value;
@@ -580,13 +581,14 @@ abstract class Adapter implements EventsAwareInterface
      * @param 	array dataTypes
      * @return 	boolean
      */
-    public function updateAsDict(string table, array data, string whereCondition=null, array dataTypes=null) -> boolean
+    public function updateAsDict(var table, data, whereCondition=null, dataTypes=null) -> boolean
     {
-        if empty data {
+        if typeOf data != "array" || empty data {
             return false;
         }
 
-        array values = [], fields = [];
+        var values = [], fields = [];
+        var field, value;
         for field, value in data {
             let fields[] = field;
             let values[] = value;
