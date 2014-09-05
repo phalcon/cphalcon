@@ -30,8 +30,7 @@ before_script:
  - ulimit -c unlimited || true
 
 script:
- - ZEND_DONT_UNLOAD_MODULES=1 $(phpenv which php) ./unit-tests/ci/phpunit.php --debug -c unit-tests/phpunit.xml --testsuite=stable
- - '[[ "$TRAVIS_PHP_VERSION" == "5.4" ]] || [[ "$TRAVIS_PHP_VERSION" == "5.5" ]] || [[ "$TRAVIS_PHP_VERSION" == "5.6" ]] || ZEND_DONT_UNLOAD_MODULES=1 $(phpenv which php) codecept run'
+ - ./runTests.sh
 
 after_failure:
  - sudo apt-get -qq install gdb
