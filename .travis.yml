@@ -31,7 +31,6 @@ before_script:
 
 script:
  - ZEND_DONT_UNLOAD_MODULES=1 $(phpenv which php) ./unit-tests/ci/phpunit.php --debug -c unit-tests/phpunit.xml --testsuite=stable
- - '[[ "$TRAVIS_PHP_VERSION" == "5.3" ]] || [[ "$TRAVIS_PHP_VERSION" == "5.3.3" ]] || (ZEND_DONT_UNLOAD_MODULES=1 $(phpenv which php) ./codecept53.phar run)'
  - '[[ "$TRAVIS_PHP_VERSION" == "5.4" ]] || [[ "$TRAVIS_PHP_VERSION" == "5.5" ]] || [[ "$TRAVIS_PHP_VERSION" == "5.6" ]] || (ZEND_DONT_UNLOAD_MODULES=1 $(phpenv which php) ./codecept.phar run)'
 
 after_failure:
