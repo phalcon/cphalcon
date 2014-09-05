@@ -252,6 +252,35 @@ abstract class Adapter implements EventsAwareInterface
 		return results;
 	}
 
+    /**
+     * Returns the n'th field of first row in a SQL query result
+     *
+     *<code>
+     *    //Getting count of robots
+     *    $robotsCount = $connection->fetchColumn("SELECT count(*) FROM robots");
+     *    print_r($robotsCount);
+     *
+     *    //Getting name of last edited robot
+     *    $robot = $connection->fetchColumn("SELECT id, name FROM robots order by modified desc");
+     *    print_r($robot);
+     *</code>
+     *
+     * @param  string sqlQuery
+     * @param  array placeholders
+     * @param  int|string column
+     * @return string|
+     */
+    public function fetchColumn(var sqlQuery, placeholders=null, column=0) -> string|bool
+    {
+        var row;
+        let row = this->fetchOne(sqlQuery, \Phalcon\Db::FETCH_BOTH, placeholders);
+        if(!empty row && isset row[column]) {
+            return row[column];
+        } else {
+            return false;
+        }
+    }
+
 	/**
 	 * Inserts data into a table using custom RBDM SQL syntax
 	 *
@@ -356,6 +385,45 @@ abstract class Adapter implements EventsAwareInterface
 
 		return this->{"execute"}(insertSql, insertValues, bindDataTypes);
 	}
+
+    /**
+     * Inserts data into a table using custom RBDM SQL syntax
+     * Another, more convenient syntax
+     *
+     * <code>
+     * //Inserting a new robot
+     * $success = $connection->insert(
+     *     "robots",
+     *     array(
+     *          "name" => "Astro Boy",
+     *          "year" => 1952
+     *      )
+     * );
+     *
+     * //Next SQL sentence is sent to the database system
+     * INSERT INTO `robots` (`name`, `year`) VALUES ("Astro boy", 1952);
+     * </code>
+     *
+     * @param 	string table
+     * @param 	array data
+     * @param 	array dataTypes
+     * @return 	boolean
+     */
+    public function insertAsDict(var table, data, dataTypes=null) -> boolean
+    {
+        if typeOf data != "array" || empty data {
+            return false;
+        }
+
+        var values = [], fields = [];
+        var field, value;
+        for field, value in data {
+            let fields[] = field;
+            let values[] = value;
+        }
+
+        return this->insert(table, values, fields, dataTypes);
+    }
 
 	/**
 	 * Updates data on a table using custom RBDM SQL syntax
@@ -488,6 +556,46 @@ abstract class Adapter implements EventsAwareInterface
 
 		return this->{"execute"}(updateSql, updateValues, bindDataTypes);
 	}
+
+    /**
+     * Updates data on a table using custom RBDM SQL syntax
+     * Another, more convenient syntax
+     *
+     * <code>
+     * //Updating existing robot
+     * $success = $connection->update(
+     *     "robots",
+     *     array(
+     *          "name" => "New Astro Boy"
+     *      ),
+     *     "id = 101"
+     * );
+     *
+     * //Next SQL sentence is sent to the database system
+     * UPDATE `robots` SET `name` = "Astro boy" WHERE id = 101
+     * </code>
+     *
+     * @param 	string table
+     * @param 	array data
+     * @param 	string whereCondition
+     * @param 	array dataTypes
+     * @return 	boolean
+     */
+    public function updateAsDict(var table, data, whereCondition=null, dataTypes=null) -> boolean
+    {
+        if typeOf data != "array" || empty data {
+            return false;
+        }
+
+        var values = [], fields = [];
+        var field, value;
+        for field, value in data {
+            let fields[] = field;
+            let values[] = value;
+        }
+
+        return this->update(table, fields, values, whereCondition, dataTypes);
+    }
 
 	/**
 	 * Deletes data from a table using custom RBDM SQL syntax
