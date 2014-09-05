@@ -5028,6 +5028,18 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_MetaData_Libmemcached);
 #endif /* PHALCON_MVC_MODEL_METADATA_LIBMEMCACHED_H */
 
 
+#ifndef PHALCON_MVC_MODEL_METADATA_REDIS_H
+#define PHALCON_MVC_MODEL_METADATA_REDIS_H
+
+#include "php_phalcon.h"
+
+zend_class_entry *phalcon_mvc_model_metadata_redis_ce;
+
+PHALCON_INIT_CLASS(Phalcon_Mvc_Model_MetaData_Redis);
+
+#endif /* PHALCON_MVC_MODEL_METADATA_REDIS_H */
+
+
 #ifndef PHALCON_MVC_MODEL_METADATA_STRATEGY_ANNOTATIONS_H
 #define PHALCON_MVC_MODEL_METADATA_STRATEGY_ANNOTATIONS_H
 
