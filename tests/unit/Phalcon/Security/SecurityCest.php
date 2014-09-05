@@ -1,6 +1,6 @@
 <?php
 /**
- * UnitTest.php
+ * SecurityCest.php
  * \Phalcon\Security
  *
  * Tests the \Phalcon\Security component
@@ -20,10 +20,10 @@
  * so that we can send you a copy immediately.
  */
 
+use \CodeGuy;
 use \Phalcon\Security as PhSecurity;
-use \Codeception\TestCase\Test as CdTest;
 
-class SecurityUnitTest extends CdTest
+class SecurityCest
 {
     /**
      * Tests the HMAC computation
@@ -31,7 +31,7 @@ class SecurityUnitTest extends CdTest
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-04
      */
-    public function testComputeHMAC()
+    public function testComputeHMAC(CodeGuy $I)
     {
         $security = new PhSecurity;
         $key      = md5('test', true);
@@ -50,7 +50,7 @@ class SecurityUnitTest extends CdTest
             foreach ($data as $text) {
                 $actual   = $security->computeHmac($text, $key, 'md5');
                 $expected = hash_hmac('md5', $text, $key);
-                expect($actual)->equals($expected);
+                $I->assertEquals($expected, $actual, 'Key values not identical');
             }
         }
     }

@@ -1,6 +1,6 @@
 <?php
 /**
- * UnitTest.php
+ * VersionCest.php
  * \Phalcon\Version
  *
  * Tests the \Phalcon\Version component
@@ -20,23 +20,27 @@
  * so that we can send you a copy immediately.
  */
 
-
+use \CodeGuy;
 use \Phalcon\Version as Version;
-use \Codeception\TestCase\Test as CdTest;
 
-class VersionUnitTest extends CdTest
+class VersionCest
 {
     /**
      * Tests the get
      *
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-04
+     *
+     * @param CodeGuy $I
      */
-    public function testGet()
+    public function testGet(CodeGuy $I)
     {
         $actual = Version::get();
 
-        expect(is_string($actual))->true();
+        $I->assertTrue(
+            is_string($actual),
+            'get() does not return a string'
+        );
     }
 
     /**
@@ -44,12 +48,17 @@ class VersionUnitTest extends CdTest
      *
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-04
+     *
+     * @param CodeGuy $I
      */
-    public function testGetId()
+    public function testGetId(CodeGuy $I)
     {
         $actual = Version::getId();
 
-        expect(is_string($actual))->true();
+        $I->assertTrue(
+            is_string($actual),
+            'getId() does not return a string'
+        );
     }
 
     /**
@@ -57,8 +66,10 @@ class VersionUnitTest extends CdTest
      *
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-04
+     *
+     * @param CodeGuy $I
      */
-    public function testGetToGetId()
+    public function testGetToGetId(CodeGuy $I)
     {
         $version = Version::get();
         $chunks  = explode(' ', $version);
@@ -82,7 +93,7 @@ class VersionUnitTest extends CdTest
         $expected = "{$major}{$med}{$min}{$special}{$specialNo}";
         $actual   = Version::getId();
 
-        expect($expected)->equals($actual);
+        $I->assertEquals($expected, $actual, 'get() to getId() failed');
     }
 
     /**
@@ -90,8 +101,10 @@ class VersionUnitTest extends CdTest
      *
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-04
+     *
+     * @param CodeGuy $I
      */
-    public function testGetIdToGet()
+    public function testGetIdToGet(CodeGuy $I)
     {
         $id        = Version::getId();
         $major     = intval($id[0]);
@@ -103,7 +116,7 @@ class VersionUnitTest extends CdTest
         $expected = trim("{$major}.{$med}.{$min} {$special} {$specialNo}");
         $actual   = Version::get();
 
-        expect($expected)->equals($actual);
+        $I->assertEquals($expected, $actual, 'getId() to get() failed');
     }
 
     /**
@@ -111,17 +124,27 @@ class VersionUnitTest extends CdTest
      *
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-04
+     *
+     * @param CodeGuy $I
      */
-    public function testConstants()
+    public function testConstants(CodeGuy $I)
     {
-        expect(Version::VERSION_MAJOR)->equals(0);
-        expect(Version::VERSION_MEDIUM)->equals(1);
-        expect(Version::VERSION_MINOR)->equals(2);
-        expect(Version::VERSION_SPECIAL)->equals(3);
-        expect(Version::VERSION_SPECIAL_NUMBER)->equals(4);
+        $I->assertEquals(Version::VERSION_MAJOR, 0, 'VERSION_MAJOR is not 0');
+        $I->assertEquals(Version::VERSION_MEDIUM, 1, 'VERSION_MEDIUM is not 1');
+        $I->assertEquals(Version::VERSION_MINOR, 2, 'VERSION_MINOR is not 2');
+        $I->assertEquals(Version::VERSION_SPECIAL, 3, 'VERSION_SPECIAL is not 3');
+        $I->assertEquals(Version::VERSION_SPECIAL_NUMBER, 4, 'VERSION_SPECIAL_NUMBER is not 4');
     }
 
-    public function testGetPart()
+    /**
+     * Tests the getPart with variable parameters passed, valid or not
+     *
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-09-04
+     *
+     * @param CodeGuy $I
+     */
+    public function testGetPart(CodeGuy $I)
     {
         $id        = Version::getId();
         $major     = intval($id[Version::VERSION_MAJOR]);
@@ -130,12 +153,41 @@ class VersionUnitTest extends CdTest
         $special   = $this->_numberToSpecial($id[5]);
         $specialNo = ($special) ? $id[6] : '';
 
-        expect($major)->equals(Version::getPart(Version::VERSION_MAJOR));
-        expect($med)->equals(Version::getPart(Version::VERSION_MEDIUM));
-        expect($min)->equals(Version::getPart(Version::VERSION_MINOR));
-        expect($special)->equals(Version::getPart(Version::VERSION_SPECIAL));
-        expect($specialNo)->equals(Version::getPart(Version::VERSION_SPECIAL_NUMBER));
-        expect(Version::get())->equals(Version::getPart(7));
+        $I->assertEquals(
+            $major,
+            Version::getPart(Version::VERSION_MAJOR),
+            'Major version does not match'
+        );
+
+        $I->assertEquals(
+            $med,
+            Version::getPart(Version::VERSION_MEDIUM),
+            'Medium version does not match'
+        );
+
+        $I->assertEquals(
+            $min,
+            Version::getPart(Version::VERSION_MINOR),
+            'Minor version does not match'
+        );
+
+        $I->assertEquals(
+            $special,
+            Version::getPart(Version::VERSION_SPECIAL),
+            'Special version does not match'
+        );
+
+        $I->assertEquals(
+            $specialNo,
+            Version::getPart(Version::VERSION_SPECIAL_NUMBER),
+            'Special number does not match'
+        );
+
+        $I->assertEquals(
+            Version::get(),
+            Version::getPart(7),
+            'Invalid parameter does not return get()'
+        );
     }
 
     /**

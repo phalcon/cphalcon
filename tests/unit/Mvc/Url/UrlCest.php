@@ -1,6 +1,6 @@
 <?php
 /**
- * UnitTest.php
+ * UrlCest.php
  * \Phalcon\Url
  *
  * Tests the \Phalcon\Url component
@@ -20,22 +20,20 @@
  * so that we can send you a copy immediately.
  */
 
+use \CodeGuy;
 use \Phalcon\DI as PhDI;
 use \Phalcon\Mvc\Router as PhRouter;
 use \Phalcon\Mvc\Url as PhUrl;
-use \Codeception\TestCase\Test as CdTest;
 
-class UrlUnitTest extends CdTest
+class UrlCest
 {
     private $di;
 
     /**
      * Sets the environment
      */
-    protected function _before()
+    public function _before(CodeGuy $I)
     {
-        parent::_before();
-
         PhDI::reset();
         $this->di = new PhDI();
 
@@ -86,8 +84,10 @@ class UrlUnitTest extends CdTest
      *
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-04
+     *
+     * @param CodeGuy $I
      */
-    public function testUrlBase()
+    public function testUrlBase(CodeGuy $I)
     {
         $_SERVER['PHP_SELF'] = '/index.php';
 
@@ -96,7 +96,7 @@ class UrlUnitTest extends CdTest
         $expected = '/';
         $actual   = $url->get();
 
-        expect($actual)->equals($expected);
+        $I->assertEquals($expected, $actual, 'Base URL not correct');
     }
 
     /**
@@ -104,8 +104,10 @@ class UrlUnitTest extends CdTest
      *
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-04
+     *
+     * @param CodeGuy $I
      */
-    public function testUrlOther()
+    public function testUrlOther(CodeGuy $I)
     {
         $_SERVER['PHP_SELF'] = '/index.php';
 
@@ -114,7 +116,7 @@ class UrlUnitTest extends CdTest
         $expected = '/classes/api/Some';
         $actual   = $url->get('classes/api/Some');
 
-        expect($actual)->equals($expected);
+        $I->assertEquals($expected, $actual, 'Different URL not correct');
     }
 
     /**
@@ -122,8 +124,10 @@ class UrlUnitTest extends CdTest
      *
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-04
+     *
+     * @param CodeGuy $I
      */
-    public function testUrlForControllerAction()
+    public function testUrlForControllerAction(CodeGuy $I)
     {
         $url = new PhUrl();
 
@@ -137,7 +141,7 @@ class UrlUnitTest extends CdTest
         $expected = '/admin/products/p/index';
         $actual   = $url->get($params);
 
-        expect($actual)->equals($expected);
+        $I->assertEquals($expected, $actual, 'URL with controller/action not correct');
     }
 
     /**
@@ -145,8 +149,10 @@ class UrlUnitTest extends CdTest
      *
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-04
+     *
+     * @param CodeGuy $I
      */
-    public function testUrlForController()
+    public function testUrlForController(CodeGuy $I)
     {
         $url = new PhUrl();
 
@@ -159,7 +165,7 @@ class UrlUnitTest extends CdTest
         $expected = '/api/classes/Some';
         $actual   = $url->get($params);
 
-        expect($actual)->equals($expected);
+        $I->assertEquals($expected, $actual, 'URL for controller not correct');
     }
 
     /**
@@ -167,8 +173,10 @@ class UrlUnitTest extends CdTest
      *
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-04
+     *
+     * @param CodeGuy $I
      */
-    public function testUrlForBlogMixedParameters()
+    public function testUrlForBlogMixedParameters(CodeGuy $I)
     {
         $url = new PhUrl();
 
@@ -182,16 +190,18 @@ class UrlUnitTest extends CdTest
         $expected = '/de/index';
         $actual   = $url->get($params);
 
-        expect($actual)->equals($expected);
+        $I->assertEquals($expected, $actual, 'URL with year/month/title not correct');
     }
 
     /**
-     * Tests the url with a year/month/title
+     * Tests the url for a different language
      *
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-04
+     *
+     * @param CodeGuy $I
      */
-    public function testUrlForDifferentLanguage()
+    public function testUrlForDifferentLanguage(CodeGuy $I)
     {
         $url = new PhUrl();
 
@@ -206,7 +216,7 @@ class UrlUnitTest extends CdTest
         $expected = '/2010/10/cloudflare-anade-recursos-a-tu-servidor';
         $actual   = $url->get($params);
 
-        expect($actual)->equals($expected);
+        $I->assertEquals($expected, $actual, 'URL for a different language not correct');
     }
 
     /**
@@ -214,8 +224,10 @@ class UrlUnitTest extends CdTest
      *
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-04
+     *
+     * @param CodeGuy $I
      */
-    public function testUrlForExternalSite()
+    public function testUrlForExternalSite(CodeGuy $I)
     {
         $url = new PhUrl();
 
@@ -228,6 +240,6 @@ class UrlUnitTest extends CdTest
         $expected = '/wiki/Television_news';
         $actual   = $url->get($params);
 
-        expect($actual)->equals($expected);
+        $I->assertEquals($expected, $actual, 'URL for external site not correct');
     }
 }
