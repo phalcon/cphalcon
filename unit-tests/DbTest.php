@@ -216,7 +216,7 @@ class DbTest extends PHPUnit_Framework_TestCase
                 'nombre' => "LOL updateAsDict",
                 'estado' => "X"
             ),
-            "nombre='insertAsDict' and estado = 'E'"
+            "nombre='LOL insertAsDict' and estado = 'E'"
         );
         $this->assertTrue($success);
         $row = $connection->fetchOne('select count(*) as cnt from prueba where nombre=? and estado=?', Phalcon\Db::FETCH_ASSOC, array("LOL updateAsDict", "X"));
