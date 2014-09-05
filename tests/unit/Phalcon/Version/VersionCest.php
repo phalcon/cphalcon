@@ -35,7 +35,7 @@ class VersionCest
      */
     public function testGet(CodeGuy $I)
     {
-        $actual = Version::get();
+        $actual = PhVersion::get();
 
         $I->assertTrue(
             is_string($actual),
@@ -53,7 +53,7 @@ class VersionCest
      */
     public function testGetId(CodeGuy $I)
     {
-        $actual = Version::getId();
+        $actual = PhVersion::getId();
 
         $I->assertTrue(
             is_string($actual),
@@ -71,7 +71,7 @@ class VersionCest
      */
     public function testGetToGetId(CodeGuy $I)
     {
-        $version = Version::get();
+        $version = PhVersion::get();
         $chunks  = explode(' ', $version);
 
         $special   = '4';
@@ -91,7 +91,7 @@ class VersionCest
         $min   = substr("00" . intval($verChunks[2]), -2);
 
         $expected = "{$major}{$med}{$min}{$special}{$specialNo}";
-        $actual   = Version::getId();
+        $actual   = PhVersion::getId();
 
         $I->assertEquals($expected, $actual, 'get() to getId() failed');
     }
@@ -106,7 +106,7 @@ class VersionCest
      */
     public function testGetIdToGet(CodeGuy $I)
     {
-        $id        = Version::getId();
+        $id        = PhVersion::getId();
         $major     = intval($id[0]);
         $med       = intval($id[1] . $id[2]);
         $min       = intval($id[3] . $id[4]);
@@ -114,7 +114,7 @@ class VersionCest
         $specialNo = ($special) ? $id[6] : '';
 
         $expected = trim("{$major}.{$med}.{$min} {$special} {$specialNo}");
-        $actual   = Version::get();
+        $actual   = PhVersion::get();
 
         $I->assertEquals($expected, $actual, 'getId() to get() failed');
     }
@@ -129,11 +129,11 @@ class VersionCest
      */
     public function testConstants(CodeGuy $I)
     {
-        $I->assertEquals(Version::VERSION_MAJOR, 0, 'VERSION_MAJOR is not 0');
-        $I->assertEquals(Version::VERSION_MEDIUM, 1, 'VERSION_MEDIUM is not 1');
-        $I->assertEquals(Version::VERSION_MINOR, 2, 'VERSION_MINOR is not 2');
-        $I->assertEquals(Version::VERSION_SPECIAL, 3, 'VERSION_SPECIAL is not 3');
-        $I->assertEquals(Version::VERSION_SPECIAL_NUMBER, 4, 'VERSION_SPECIAL_NUMBER is not 4');
+        $I->assertEquals(PhVersion::VERSION_MAJOR, 0, 'VERSION_MAJOR is not 0');
+        $I->assertEquals(PhVersion::VERSION_MEDIUM, 1, 'VERSION_MEDIUM is not 1');
+        $I->assertEquals(PhVersion::VERSION_MINOR, 2, 'VERSION_MINOR is not 2');
+        $I->assertEquals(PhVersion::VERSION_SPECIAL, 3, 'VERSION_SPECIAL is not 3');
+        $I->assertEquals(PhVersion::VERSION_SPECIAL_NUMBER, 4, 'VERSION_SPECIAL_NUMBER is not 4');
     }
 
     /**
@@ -146,46 +146,46 @@ class VersionCest
      */
     public function testGetPart(CodeGuy $I)
     {
-        $id        = Version::getId();
-        $major     = intval($id[Version::VERSION_MAJOR]);
-        $med       = intval($id[Version::VERSION_MEDIUM] . $id[Version::VERSION_MINOR]);
-        $min       = intval($id[Version::VERSION_SPECIAL] . $id[Version::VERSION_SPECIAL_NUMBER]);
+        $id        = PhVersion::getId();
+        $major     = intval($id[PhVersion::VERSION_MAJOR]);
+        $med       = intval($id[PhVersion::VERSION_MEDIUM] . $id[PhVersion::VERSION_MINOR]);
+        $min       = intval($id[PhVersion::VERSION_SPECIAL] . $id[PhVersion::VERSION_SPECIAL_NUMBER]);
         $special   = $this->_numberToSpecial($id[5]);
         $specialNo = ($special) ? $id[6] : '';
 
         $I->assertEquals(
             $major,
-            Version::getPart(Version::VERSION_MAJOR),
+            PhVersion::getPart(PhVersion::VERSION_MAJOR),
             'Major version does not match'
         );
 
         $I->assertEquals(
             $med,
-            Version::getPart(Version::VERSION_MEDIUM),
+            PhVersion::getPart(PhVersion::VERSION_MEDIUM),
             'Medium version does not match'
         );
 
         $I->assertEquals(
             $min,
-            Version::getPart(Version::VERSION_MINOR),
+            PhVersion::getPart(PhVersion::VERSION_MINOR),
             'Minor version does not match'
         );
 
         $I->assertEquals(
             $special,
-            Version::getPart(Version::VERSION_SPECIAL),
+            PhVersion::getPart(PhVersion::VERSION_SPECIAL),
             'Special version does not match'
         );
 
         $I->assertEquals(
             $specialNo,
-            Version::getPart(Version::VERSION_SPECIAL_NUMBER),
+            PhVersion::getPart(PhVersion::VERSION_SPECIAL_NUMBER),
             'Special number does not match'
         );
 
         $I->assertEquals(
-            Version::get(),
-            Version::getPart(7),
+            PhVersion::get(),
+            PhVersion::getPart(7),
             'Invalid parameter does not return get()'
         );
     }
