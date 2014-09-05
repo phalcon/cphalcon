@@ -411,7 +411,9 @@ abstract class Adapter implements EventsAwareInterface
      */
     public function insertAsDict(string table, array data, array dataTypes=null) -> boolean
     {
-        if(empty data) return false;
+        if empty data {
+            return false;
+        }
 
         array values = [], fields = [];
         for field, value in data {
@@ -580,7 +582,9 @@ abstract class Adapter implements EventsAwareInterface
      */
     public function updateAsDict(string table, array data, string whereCondition=null, array dataTypes=null) -> boolean
     {
-        if(empty data) return false;
+        if empty data {
+            return false;
+        }
 
         array values = [], fields = [];
         for field, value in data {
