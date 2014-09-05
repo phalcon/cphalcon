@@ -227,10 +227,10 @@ class DbTest extends PHPUnit_Framework_TestCase
         $id = $connection->fetchColumn("SELECT id FROM robots ORDER BY year DESC");
         $this->assertEquals($id, 3);
 
-        $type = $connection->fetchColumn("SELECT * FROM robots where id=?", [1], 2);
+        $type = $connection->fetchColumn("SELECT * FROM robots where id=?", array(1), 2);
         $this->assertEquals($type, 'mechanical');
 
-        $type = $connection->fetchColumn("SELECT * FROM robots where id=?", [1], 'type');
+        $type = $connection->fetchColumn("SELECT * FROM robots where id=?", array(1), 'type');
         $this->assertEquals($type, 'mechanical');
 
 		//Auto-Increment/Serial Columns
