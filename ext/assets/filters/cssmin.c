@@ -18,7 +18,11 @@
 */
 
 #include "assets/filters/cssmin.h"
+#ifdef PHALCON_NON_FREE
 #include "assets/filters/cssminifier.h"
+#else
+#include "assets/filters/nocssminifier.h"
+#endif
 #include "assets/filterinterface.h"
 
 #include "kernel/main.h"

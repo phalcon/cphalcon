@@ -5,7 +5,7 @@ report_memleaks=1
 --SKIPIF--
 <?php
 include('skipif.inc');
-if (!function_exists('apc_store')) {
+if (!class_exists('APCIterator', false)) {
 	die('skip APC or APCu is required');
 }
 ?>
