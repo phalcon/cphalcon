@@ -195,6 +195,14 @@ class DbTest extends PHPUnit_Framework_TestCase
 			$this->assertTrue($success);
 		}
 
+        $success = $connection->insertAsDict('prueba', array(
+            'nombre' => "LOL insertAsDict",
+            'estado' => "E"
+        ));
+        $this->assertTrue($success);
+        $row = $connection->fetchOne('select count(*) as cnt from prueba where nombre=? and estado=?', array("LOL insertAsDict", "E"));
+        $this->assertEquals($row['cnt'], 1);
+
 		$success = $connection->update('prueba', array("nombre", "estado"), array("LOL 1000", "X"), "estado='E'");
 		$this->assertTrue($success);
 
@@ -203,6 +211,16 @@ class DbTest extends PHPUnit_Framework_TestCase
 
 		$success = $connection->update('prueba', array("nombre"), array(new Phalcon\Db\RawValue('current_date')), "estado='X'");
 		$this->assertTrue($success);
+
+        $success = $connection->updateAsDict('prueba', array(
+                'nombre' => "LOL updateAsDict",
+                'estado' => "X"
+            ),
+            "nombre='insertAsDict' and estado = 'E'"
+        );
+        $this->assertTrue($success);
+        $row = $connection->fetchOne('select count(*) as cnt from prueba where nombre=? and estado=?', array("LOL updateAsDict", "X"));
+        $this->assertEquals($row['cnt'], 1);
 
 		$connection->delete("prueba", "estado='X'");
 		$this->assertTrue($success);
