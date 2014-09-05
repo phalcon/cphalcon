@@ -200,7 +200,7 @@ class DbTest extends PHPUnit_Framework_TestCase
             'estado' => "E"
         ));
         $this->assertTrue($success);
-        $row = $connection->fetchOne('select count(*) as cnt from prueba where nombre=? and estado=?', array("LOL insertAsDict", "E"));
+        $row = $connection->fetchOne('select count(*) as cnt from prueba where nombre=? and estado=?', Phalcon\Db::FETCH_ASSOC, array("LOL insertAsDict", "E"));
         $this->assertEquals($row['cnt'], 1);
 
 		$success = $connection->update('prueba', array("nombre", "estado"), array("LOL 1000", "X"), "estado='E'");
@@ -219,7 +219,7 @@ class DbTest extends PHPUnit_Framework_TestCase
             "nombre='insertAsDict' and estado = 'E'"
         );
         $this->assertTrue($success);
-        $row = $connection->fetchOne('select count(*) as cnt from prueba where nombre=? and estado=?', array("LOL updateAsDict", "X"));
+        $row = $connection->fetchOne('select count(*) as cnt from prueba where nombre=? and estado=?', Phalcon\Db::FETCH_ASSOC, array("LOL updateAsDict", "X"));
         $this->assertEquals($row['cnt'], 1);
 
 		$connection->delete("prueba", "estado='X'");
