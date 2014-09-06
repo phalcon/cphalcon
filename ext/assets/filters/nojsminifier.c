@@ -17,6 +17,7 @@
 
 /* placeholder for non-free jsminifier.c */
 
+#ifndef PHALCON_NON_FREE
 
 #include "php_phalcon.h"
 
@@ -29,3 +30,5 @@ int phalcon_jsmin(zval *return_value, zval *script TSRMLS_DC) {
 	PHALCON_THROW_EXCEPTION_STRW(phalcon_assets_exception_ce, "Non-free jsminifier not available");
 	return FAILURE;
 }
+
+#endif
