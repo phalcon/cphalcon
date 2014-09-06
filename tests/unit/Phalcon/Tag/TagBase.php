@@ -20,6 +20,8 @@
  * so that we can send you a copy immediately.
  */
 
+namespace Phalcon\Tests\unit\Phalcon\Tag;
+
 use \Phalcon\DI\FactoryDefault as PhDI;
 use \Phalcon\Tag as PhTag;
 
