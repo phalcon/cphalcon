@@ -20,7 +20,7 @@
  * so that we can send you a copy immediately.
  */
 
-require_once ROOT_PATH . '/unit/Phalcon/Tag/TagBase.php';
+namespace Phalcon\Tests\unit\Phalcon\Tag;
 
 use \CodeGuy;
 use \Phalcon\Tag as PhTag;
