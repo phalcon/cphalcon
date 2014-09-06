@@ -247,7 +247,17 @@ class TagDoctypeCest
         );
     }
 
-	private function docTypeToString($doctype)
+    /**
+     * Converts a doctype code to a string output
+     * 
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-09-04
+     *
+     * @param $doctype
+     *
+     * @return string
+     */
+    private function docTypeToString($doctype)
 	{
         $tab = "\t";
 
