@@ -21,7 +21,7 @@
  */
 
 use \CodeGuy;
-use \Phalcon\Version as Version;
+use \Phalcon\Version as PhVersion;
 
 class VersionCest
 {
