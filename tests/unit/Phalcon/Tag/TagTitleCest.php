@@ -107,7 +107,37 @@ class TagTitleCest
         );
     }
 
+    /**
+     * Tests titleSeparator
+     *
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2012-09-05
+     *
+     * @param CodeGuy $I
+     */
     public function testSetTitleSeparator(CodeGuy $I)
+    {
+        PhTag::setTitleSeparator('-');
+
+        $expected = "-";
+        $actual   = PhTag::getTitleSeparator();
+
+        $I->assertEquals(
+            $expected,
+            $actual,
+            sprintf($this->message, 'titleSeparator')
+        );
+    }
+
+    /**
+     * Tests titleSeparator with append
+     *
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2012-09-05
+     *
+     * @param CodeGuy $I
+     */
+    public function testSetTitleSeparatorAppend(CodeGuy $I)
     {
 
         $value = 'This is my title';
@@ -125,6 +155,21 @@ class TagTitleCest
             $actual,
             sprintf($this->message, 'titleSeparator append')
         );
+    }
+
+    /**
+     * Tests titleSeparator prepend
+     *
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2012-09-05
+     *
+     * @param CodeGuy $I
+     */
+    public function testSetTitleSeparatorPrepend(CodeGuy $I)
+    {
+
+        $value = 'This is my title';
+        $addon = 'PhalconPHP';
 
         PhTag::setTitle($value);
         PhTag::setTitleSeparator('-');
