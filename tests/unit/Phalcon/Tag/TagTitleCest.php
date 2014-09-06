@@ -20,12 +20,13 @@
  * so that we can send you a copy immediately.
  */
 
+require_once ROOT_PATH . '/unit/Phalcon/Tag/TagBase.php';
+
 use \CodeGuy;
 use \Phalcon\Tag as PhTag;
 
-class TagTitleCest
+class TagTitleCest extends TagBase
 {
-    private $message = "%s does not return proper html element";
 
     /**
      * Tests setTitle

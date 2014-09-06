@@ -20,21 +20,13 @@
  * so that we can send you a copy immediately.
  */
 
+require_once ROOT_PATH . '/unit/Phalcon/Tag/TagBase.php';
+
 use \CodeGuy;
-use \Phalcon\DI\FactoryDefault as PhDI;
 use \Phalcon\Tag as PhTag;
 
-class TagTagHtmlCest
+class TagTagHtmlCest extends TagBase
 {
-    private $message = "%s does not return proper html element";
-
-    public function _before()
-    {
-        $di = new PhDI();
-        PhDI::reset();
-        PhTag::setDI($di);
-    }
-
     /**
      * Tests the tagHtml with name parameter
      *
@@ -66,14 +58,14 @@ class TagTagHtmlCest
      */
     public function testTagHtmlNameSelfClose(CodeGuy $I)
     {
-        $name     = 'img';
-        $expected = '<img />';
+        $name     = 'strong';
+        $expected = '<strong></strong>';
         $actual   = PhTag::tagHtml($name, null, true);
 
         $I->assertEquals(
             $expected,
             $actual,
-            sprintf($this->message, 'tagHtml bare')
+            sprintf($this->message, 'tagHtml with self close bare')
         );
     }
 
@@ -96,7 +88,7 @@ class TagTagHtmlCest
         $I->assertEquals(
             $expected,
             $actual,
-            sprintf($this->message, 'tagHtml bare')
+            sprintf($this->message, 'tagHtml with self close XHTML')
         );
     }
 

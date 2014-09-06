@@ -20,13 +20,13 @@
  * so that we can send you a copy immediately.
  */
 
+require_once ROOT_PATH . '/unit/Phalcon/Tag/TagBase.php';
+
 use \CodeGuy;
 use \Phalcon\Tag as PhTag;
 
-class TagDoctypeCest
+class TagDoctypeCest extends TagBase
 {
-    private $message = "%s does not return proper html element";
-
     /**
      * Tests the setting the doctype 3.2
      *

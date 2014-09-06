@@ -20,20 +20,13 @@
  * so that we can send you a copy immediately.
  */
 
+require_once ROOT_PATH . '/unit/Phalcon/Tag/TagBase.php';
+
 use \CodeGuy;
-use \Phalcon\DI\FactoryDefault as PhDI;
 use \Phalcon\Tag as PhTag;
 
-class TagCheckFieldCest
+class TagCheckFieldCest extends TagBase
 {
-    private $message = "%s does not return proper html element";
-
-    public function _before()
-    {
-        $di = new PhDI();
-        PhDI::reset();
-        PhTag::setDI($di);
-    }
 
     /**
      * Tests checkField with string as a parameter
