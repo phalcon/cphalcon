@@ -37,15 +37,20 @@ class TagTagHtmlCest extends TagBase
      */
     public function testTagHtmlName(CodeGuy $I)
     {
-        $name     = 'aside';
-        $expected = '<aside>';
-        $actual   = PhTag::tagHtml($name);
+        $this->tagHtmlName($I, false);
+    }
 
-        $I->assertEquals(
-            $expected,
-            $actual,
-            sprintf($this->message, 'tagHtml bare')
-        );
+    /**
+     * Tests the tagHtml with name parameter XHTML
+     *
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-09-05
+     *
+     * @param CodeGuy $I
+     */
+    public function testTagHtmlNameXHTML(CodeGuy $I)
+    {
+        $this->tagHtmlName($I, true);
     }
 
     /**
@@ -58,38 +63,20 @@ class TagTagHtmlCest extends TagBase
      */
     public function testTagHtmlNameSelfClose(CodeGuy $I)
     {
-        $name     = 'strong';
-        $expected = '<strong></strong>';
-        $actual   = PhTag::tagHtml($name, null, true);
-
-        $I->assertEquals(
-            $expected,
-            $actual,
-            sprintf($this->message, 'tagHtml with self close bare')
-        );
+        $this->tagHtmlNameSelfClose($I, false);
     }
 
     /**
-     * Tests the tagHtml with name parameter and self close
+     * Tests the tagHtml with name parameter and self close XHTML
      *
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-05
      *
      * @param CodeGuy $I
      */
-    public function testTagHtmlNameSelfCloseXhtml(CodeGuy $I)
+    public function testTagHtmlNameSelfCloseXHTML(CodeGuy $I)
     {
-        PhTag::setDoctype(PhTag::XHTML10_STRICT);
-        $name     = 'img';
-        $expected = '<img />';
-        $actual   = PhTag::tagHtml($name, null, true);
-        PhTag::setDoctype('');
-
-        $I->assertEquals(
-            $expected,
-            $actual,
-            sprintf($this->message, 'tagHtml with self close XHTML')
-        );
+        $this->tagHtmlNameSelfClose($I, true);
     }
 
     /**
@@ -102,15 +89,20 @@ class TagTagHtmlCest extends TagBase
      */
     public function testTagHtmlNameOnlyStart(CodeGuy $I)
     {
-        $name     = 'aside';
-        $expected = '<aside>';
-        $actual   = PhTag::tagHtml($name, null, null, true);
+        $this->tagHtmlNameOnlyStart($I, false);
+    }
 
-        $I->assertEquals(
-            $expected,
-            $actual,
-            sprintf($this->message, 'tagHtml bare')
-        );
+    /**
+     * Tests the tagHtml with name parameter and only start XHTML
+     *
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-09-05
+     *
+     * @param CodeGuy $I
+     */
+    public function testTagHtmlNameOnlyStartXHTML(CodeGuy $I)
+    {
+        $this->tagHtmlNameOnlyStart($I, true);
     }
 
     /**
@@ -123,19 +115,24 @@ class TagTagHtmlCest extends TagBase
      */
     public function testTagHtmlNameEol(CodeGuy $I)
     {
-        $name     = 'aside';
-        $expected = '<aside></aside>' . PHP_EOL;
-        $actual   = PhTag::tagHtml($name, null, null, null, true);
-
-        $I->assertEquals(
-            $expected,
-            $actual,
-            sprintf($this->message, 'tagHtml bare')
-        );
+        $this->tagHtmlNameEol($I, false);
     }
 
     /**
-     * Tests the tagHtml with name parameter
+     * Tests the tagHtml with name parameter XHTML
+     *
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-09-05
+     *
+     * @param CodeGuy $I
+     */
+    public function testTagHtmlNameEolXHTML(CodeGuy $I)
+    {
+        $this->tagHtmlNameEol($I, true);
+    }
+
+    /**
+     * Tests the tagHtml with array parameters
      *
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-05
@@ -144,21 +141,20 @@ class TagTagHtmlCest extends TagBase
      */
     public function testTagHtmlWithArray(CodeGuy $I)
     {
-        $name     = 'canvas';
-        $options  = array(
-            'id'     => 'canvas1',
-            'width'  => 300,
-            'height' => 300,
-        );
+        $this->tagHtmlWithArray($I, false);
+    }
 
-        $expected = '<canvas id="canvas1" width="300" height="300"></canvas>';
-        $actual   = PhTag::tagHtml($name, $options);
-
-        $I->assertEquals(
-            $expected,
-            $actual,
-            sprintf($this->message, 'tagHtml with options array')
-        );
+    /**
+     * Tests the tagHtml with array parameters XHTML
+     *
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-09-05
+     *
+     * @param CodeGuy $I
+     */
+    public function testTagHtmlWithArrayXHTML(CodeGuy $I)
+    {
+        $this->tagHtmlWithArray($I, true);
     }
 
     /**
@@ -171,16 +167,20 @@ class TagTagHtmlCest extends TagBase
      */
     public function testTagHtmlClose(CodeGuy $I)
     {
-        $name     = 'canvas';
+        $this->tagHtmlClose($I, false);
+    }
 
-        $expected = '</canvas>';
-        $actual   = PhTag::tagHtmlClose($name);
-
-        $I->assertEquals(
-            $expected,
-            $actual,
-            sprintf($this->message, 'tagHtml with options array')
-        );
+    /**
+     * Tests the tagHtmlClose XHTML
+     *
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-09-05
+     *
+     * @param CodeGuy $I
+     */
+    public function testTagHtmlCloseXHTML(CodeGuy $I)
+    {
+        $this->tagHtmlClose($I, true);
     }
 
     /**
@@ -193,15 +193,237 @@ class TagTagHtmlCest extends TagBase
      */
     public function testTagHtmlCloseEol(CodeGuy $I)
     {
-        $name     = 'canvas';
+        $this->tagHtmlCloseEol($I, false);
+    }
 
+    /**
+     * Tests the tagHtmlClose with EOL XHTML
+     *
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-09-05
+     *
+     * @param CodeGuy $I
+     */
+    public function testTagHtmlCloseEolXHTML(CodeGuy $I)
+    {
+        $this->tagHtmlCloseEol($I, true);
+    }
+
+    /**
+     * PRIVATE METHODS
+     */
+
+    /**
+     * Runs the test for tagHtml with name parameter for XHTML or not
+     *
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-09-05
+     *
+     * @param CodeGuy $I
+     * @param Boolean $xhtml
+     */
+    private function tagHtmlName(CodeGuy $I, $xhtml)
+    {
+        if ($xhtml) {
+            PhTag::setDocType(PhTag::XHTML10_STRICT);
+        } else {
+            PhTag::setDocType('');
+        }
+
+        $name     = 'aside';
+        $expected = ($xhtml) ? '<aside>' : '<aside></aside>';
+        $message  = ($xhtml) ? ' XHTML'  : '';
+        $actual   = PhTag::tagHtml($name);
+        if ($xhtml) {
+            PhTag::setDocType('');
+        }
+
+        $I->assertEquals(
+            $expected,
+            $actual,
+            sprintf($this->message, 'tagHtml bare' . $message)
+        );
+    }
+
+    /**
+     * Runs the test for tagHtml with name parameter and self close for XHTML or not
+     *
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-09-05
+     *
+     * @param CodeGuy $I
+     * @param Boolean $xhtml
+     */
+    private function tagHtmlNameSelfClose(CodeGuy $I, $xhtml)
+    {
+        if ($xhtml) {
+            PhTag::setDocType(PhTag::XHTML10_STRICT);
+        } else {
+            PhTag::setDocType('');
+        }
+
+        $name     = 'aside';
+        $expected = ($xhtml) ? '<aside />' : '<aside></aside>';
+        $message  = ($xhtml) ? ' XHTML'    : '';
+        $actual   = PhTag::tagHtml($name, null, true);
+
+        $I->assertEquals(
+            $expected,
+            $actual,
+            sprintf($this->message, 'tagHtml with self close bare' . $message)
+        );
+    }
+
+    /**
+     * Runs the test for tagHtml with name parameter and only start for XHTML or not
+     *
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-09-05
+     *
+     * @param CodeGuy $I
+     * @param Boolean $xhtml
+     */
+    private function tagHtmlNameOnlyStart(CodeGuy $I, $xhtml)
+    {
+        if ($xhtml) {
+            PhTag::setDocType(PhTag::XHTML10_STRICT);
+        } else {
+            PhTag::setDocType('');
+        }
+
+        $name     = 'aside';
+        $expected = '<aside>';
+        $message  = ($xhtml) ? ' XHTML' : '';
+        $actual   = PhTag::tagHtml($name, null, null, true);
+
+        $I->assertEquals(
+            $expected,
+            $actual,
+            sprintf($this->message, 'tagHtml bare only start' . $message)
+        );
+    }
+
+    /**
+     * Runs the test for tagHtml with name parameter for XHTML or not
+     *
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-09-05
+     *
+     * @param CodeGuy $I
+     * @param Boolean $xhtml
+     */
+    private function tagHtmlNameEol(CodeGuy $I, $xhtml)
+    {
+        if ($xhtml) {
+            PhTag::setDocType(PhTag::XHTML10_STRICT);
+        } else {
+            PhTag::setDocType('');
+        }
+
+        $name     = 'aside';
+        $expected = (($xhtml) ? '<aside>' : '<aside></aside>') . PHP_EOL;
+        $message  =  ($xhtml) ? ' XHTML'  : '';
+        $actual   = PhTag::tagHtml($name, null, null, null, true);
+
+        $I->assertEquals(
+            $expected,
+            $actual,
+            sprintf($this->message, 'tagHtml bare with EOL' . $message)
+        );
+    }
+
+    /**
+     * Runs the test for tagHtml with name parameter for XHTML or not
+     *
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-09-05
+     *
+     * @param CodeGuy $I
+     * @param Boolean $xhtml
+     */
+    private function tagHtmlWithArray(CodeGuy $I, $xhtml)
+    {
+        if ($xhtml) {
+            PhTag::setDocType(PhTag::XHTML10_STRICT);
+        } else {
+            PhTag::setDocType('');
+        }
+
+        $name     = 'canvas';
+        $options  = array(
+            'id'     => 'canvas1',
+            'width'  => 300,
+            'height' => 300,
+        );
+
+        $expected  = '<canvas id="canvas1" width="300" height="300">';
+        $expected .= ($xhtml) ? '' : '</canvas>';
+        $message   = ($xhtml) ? ' XHTML'  : '';
+        $actual    = PhTag::tagHtml($name, $options);
+
+        $I->assertEquals(
+            $expected,
+            $actual,
+            sprintf($this->message, 'tagHtml with options array' . $message)
+        );
+    }
+
+    /**
+     * Runs the test for tagHtmlClose for XHTML or not
+     *
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-09-05
+     *
+     * @param CodeGuy $I
+     * @param Boolean $xhtml
+     */
+    private function tagHtmlClose(CodeGuy $I, $xhtml)
+    {
+        if ($xhtml) {
+            PhTag::setDocType(PhTag::XHTML10_STRICT);
+        } else {
+            PhTag::setDocType('');
+        }
+
+        $name     = 'canvas';
+        $expected = '</canvas>';
+        $message  = ($xhtml) ? ' XHTML' : '';
+        $actual   = PhTag::tagHtmlClose($name);
+
+        $I->assertEquals(
+            $expected,
+            $actual,
+            sprintf($this->message, 'tagHtmlClose' . $message)
+        );
+    }
+
+    /**
+     * Runs the test for tagHtmlClose with EOL for XHTML or not
+     *
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-09-05
+     *
+     * @param CodeGuy $I
+     * @param Boolean $xhtml
+     */
+    private function tagHtmlCloseEol(CodeGuy $I, $xhtml)
+    {
+        if ($xhtml) {
+            PhTag::setDocType(PhTag::XHTML10_STRICT);
+        } else {
+            PhTag::setDocType('');
+        }
+
+        $name     = 'canvas';
         $expected = '</canvas>' . PHP_EOL;
+        $message  = ($xhtml) ? ' XHTML' : '';
         $actual   = PhTag::tagHtmlClose($name, true);
 
         $I->assertEquals(
             $expected,
             $actual,
-            sprintf($this->message, 'tagHtml with options array')
+            sprintf($this->message, 'tagHtmlClose with EOL' . $message)
         );
     }
+
 }
