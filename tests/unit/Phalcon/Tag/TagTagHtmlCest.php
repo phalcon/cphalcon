@@ -234,9 +234,6 @@ class TagTagHtmlCest extends TagBase
         $expected = ($xhtml) ? '<aside>' : '<aside></aside>';
         $message  = ($xhtml) ? ' XHTML'  : '';
         $actual   = PhTag::tagHtml($name);
-        if ($xhtml) {
-            PhTag::setDocType('');
-        }
 
         $I->assertEquals(
             $expected,
