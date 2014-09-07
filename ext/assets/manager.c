@@ -706,7 +706,7 @@ PHP_METHOD(Phalcon_Assets_Manager, output){
 				 * resources paths are always filtered
 				 */
 				PHALCON_INIT_NVAR(filter_needed);
-				ZVAL_TRUE(filter_needed);
+				PHALCON_CALL_METHOD(&filter_needed, resource, "getfilter");
 			}
 
 			/** 
