@@ -11,4 +11,9 @@ return array(
     'annotations/base.c',
     'mvc/model/query/base.c',
     'mvc/view/engine/volt/base.c',
+    // Placeholders for non-free minifiers
+    'assets/filters/nojsminifier.h',
+    'assets/filters/nojsminifier.c',
+    'assets/filters/nocssminifier.h',
+    'assets/filters/nocssminifier.c',
 );
