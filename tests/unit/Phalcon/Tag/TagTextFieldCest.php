@@ -249,26 +249,11 @@ class TagTextFieldCest extends TagBase
      */
     private function textFieldBasic(CodeGuy $I, $xhtml)
     {
-        if ($xhtml) {
-            PhTag::setDoctype(PhTag::XHTML10_STRICT);
-        } else {
-            PhTag::setDoctype('');
-        }
-
-        $suffix   = ($xhtml) ? ' />'    : ">";
-        $message  = ($xhtml) ? ' XHTML' : '';
-
         $options  = 'some_field_name';
         $expected = '<input type="text" id="some_field_name" '
-                  . 'name="some_field_name"'
-                  . $suffix;
-        $actual   = PhTag::textField($options);
+                  . 'name="some_field_name"';
 
-        $I->assertEquals(
-            $expected,
-            $actual,
-            sprintf($this->message, 'textField basic' . $message)
-        );
+        $this->runBasic('textField', $I, $options, $expected, $xhtml);
     }
 
     /**
@@ -282,29 +267,14 @@ class TagTextFieldCest extends TagBase
      */
     private function textFieldWithArrayBasic(CodeGuy $I, $xhtml)
     {
-        if ($xhtml) {
-            PhTag::setDoctype(PhTag::XHTML10_STRICT);
-        } else {
-            PhTag::setDoctype('');
-        }
-
-        $suffix   = ($xhtml) ? ' />'    : ">";
-        $message  = ($xhtml) ? ' XHTML' : '';
-
         $options = array(
             'some_field_name',
             'class' => 'some_class',
         );
         $expected = '<input type="text" id="some_field_name" '
-                  . 'name="some_field_name" class="some_class"'
-                  . $suffix;
-        $actual   = PhTag::textField($options);
+                  . 'name="some_field_name" class="some_class"';
 
-        $I->assertEquals(
-            $expected,
-            $actual,
-            sprintf($this->message, 'textField with array basic' . $message)
-        );
+        $this->runWithArrayBasic('textField', $I, $options, $expected, $xhtml);
     }
 
     /**
@@ -318,15 +288,6 @@ class TagTextFieldCest extends TagBase
      */
     private function textFieldWithIdInParameters(CodeGuy $I, $xhtml)
     {
-        if ($xhtml) {
-            PhTag::setDoctype(PhTag::XHTML10_STRICT);
-        } else {
-            PhTag::setDoctype('');
-        }
-
-        $suffix   = ($xhtml) ? ' />'    : ">";
-        $message  = ($xhtml) ? ' XHTML' : '';
-
         $options = array(
             'some_field_name',
             'id'    => 'some_id',
@@ -334,14 +295,14 @@ class TagTextFieldCest extends TagBase
             'size'  => '10',
         );
         $expected = '<input type="text" id="some_id" name="some_field_name" '
-                  . 'class="some_class" size="10"'
-                  . $suffix;
-        $actual   = PhTag::textField($options);
+                  . 'class="some_class" size="10"';
 
-        $I->assertEquals(
+        $this->runWithIdInParameters(
+            'textField',
+            $I,
+            $options,
             $expected,
-            $actual,
-            sprintf($this->message, 'textField with id in parameters' . $message)
+            $xhtml
         );
     }
 
@@ -356,15 +317,6 @@ class TagTextFieldCest extends TagBase
      */
     private function textFieldWithNameAndNotIdInParameters(CodeGuy $I, $xhtml)
     {
-        if ($xhtml) {
-            PhTag::setDoctype(PhTag::XHTML10_STRICT);
-        } else {
-            PhTag::setDoctype('');
-        }
-
-        $suffix   = ($xhtml) ? ' />'    : ">";
-        $message  = ($xhtml) ? ' XHTML' : '';
-
         $options = array(
             'some_field_name',
             'name'  => 'some_other_name',
@@ -372,17 +324,14 @@ class TagTextFieldCest extends TagBase
             'size'  => '10',
         );
         $expected = '<input type="text" id="some_field_name" '
-                  . 'name="some_other_name" class="some_class" size="10"'
-                  . $suffix;
-        $actual   = PhTag::textField($options);
+                  . 'name="some_other_name" class="some_class" size="10"';
 
-        $I->assertEquals(
+        $this->runWithNameAndNotIdInParameters(
+            'textField',
+            $I,
+            $options,
             $expected,
-            $actual,
-            sprintf(
-                $this->message,
-                'textField with name and id in parameters' . $message
-            )
+            $xhtml
         );
     }
 
@@ -397,32 +346,22 @@ class TagTextFieldCest extends TagBase
      */
     private function textFieldSetDefault(CodeGuy $I, $xhtml)
     {
-        if ($xhtml) {
-            PhTag::setDoctype(PhTag::XHTML10_STRICT);
-        } else {
-            PhTag::setDoctype('');
-        }
-
-        $suffix   = ($xhtml) ? ' />'    : ">";
-        $message  = ($xhtml) ? ' XHTML' : '';
-
         $options = array(
             'some_field_name',
             'class' => 'some_class',
             'size'  => '10',
         );
-        PhTag::setDefault('some_field_name', 'some_default_value');
+
         $expected = '<input type="text" id="some_field_name" '
                   . 'name="some_field_name" value="some_default_value" '
-                  . 'class="some_class" size="10"'
-                  . $suffix;
-        $actual   = PhTag::textField($options);
-        PhTag::setDefault('some_field_name', '');
+                  . 'class="some_class" size="10"';
 
-        $I->assertEquals(
+        $this->runSetDefault(
+            'textField',
+            $I,
+            $options,
             $expected,
-            $actual,
-            sprintf($this->message, 'textField with setDefault' . $message)
+            $xhtml
         );
     }
 
@@ -437,32 +376,21 @@ class TagTextFieldCest extends TagBase
      */
     private function textFieldDisplayTo(CodeGuy $I, $xhtml)
     {
-        if ($xhtml) {
-            PhTag::setDoctype(PhTag::XHTML10_STRICT);
-        } else {
-            PhTag::setDoctype('');
-        }
-
-        $suffix   = ($xhtml) ? ' />'    : ">";
-        $message  = ($xhtml) ? ' XHTML' : '';
-
         $options = array(
             'some_field_name',
             'class' => 'some_class',
             'size'  => '10',
         );
-        PhTag::displayTo('some_field_name', 'some_default_value');
         $expected = '<input type="text" id="some_field_name" '
                   . 'name="some_field_name" value="some_default_value" '
-                  . 'class="some_class" size="10"'
-                  . $suffix;
-        $actual   = PhTag::textField($options);
-        PhTag::displayTo('some_field_name', '');
+                  . 'class="some_class" size="10"';
 
-        $I->assertEquals(
+        $this->runDisplayTo(
+            'textField',
+            $I,
+            $options,
             $expected,
-            $actual,
-            sprintf($this->message, 'textField with displayTo' . $message)
+            $xhtml
         );
     }
 
@@ -477,35 +405,21 @@ class TagTextFieldCest extends TagBase
      */
     private function textFieldSetDefaultElementNotPresent(CodeGuy $I, $xhtml)
     {
-        if ($xhtml) {
-            PhTag::setDoctype(PhTag::XHTML10_STRICT);
-        } else {
-            PhTag::setDoctype('');
-        }
-
-        $suffix   = ($xhtml) ? ' />'    : ">";
-        $message  = ($xhtml) ? ' XHTML' : '';
-
         $options = array(
             'some_field_name',
             'class' => 'some_class',
             'size'  => '10',
         );
-        PhTag::setDefault('some_field', 'some_default_value');
         $expected = '<input type="text" id="some_field_name" '
                   . 'name="some_field_name" value="" class="some_class" '
-                  . 'size="10"'
-                  . $suffix;
-        $actual   = PhTag::textField($options);
-        PhTag::setDefault('some_field', '');
+                  . 'size="10"';
 
-        $I->assertEquals(
+        $this->runSetDefault(
+            'textField',
+            $I,
+            $options,
             $expected,
-            $actual,
-            sprintf(
-                $this->message,
-                'textField with setDefault element not present' . $message
-            )
+            $xhtml
         );
     }
 
@@ -520,32 +434,21 @@ class TagTextFieldCest extends TagBase
      */
     private function textFieldDisplayToElementNotPresent(CodeGuy $I, $xhtml)
     {
-        if ($xhtml) {
-            PhTag::setDoctype(PhTag::XHTML10_STRICT);
-        } else {
-            PhTag::setDoctype('');
-        }
-
-        $suffix   = ($xhtml) ? ' />'    : ">";
-        $message  = ($xhtml) ? ' XHTML' : '';
-
         $options = array(
-            'some_field_name',
+            'some_field',
             'class' => 'some_class',
             'size'  => '10',
         );
-        PhTag::displayTo('some_field', 'some_default_value');
-        $expected = '<input type="text" id="some_field_name" '
-                  . 'name="some_field_name" value="" class="some_class" '
-                  . 'size="10"'
-                  . $suffix;
-        $actual   = PhTag::textField($options);
-        PhTag::displayTo('some_field', '');
+        $expected = '<input type="text" id="some_field" '
+                  . 'name="some_field" class="some_class" '
+                  . 'size="10"';
 
-        $I->assertEquals(
+        $this->runDisplayTo(
+            'textField',
+            $I,
+            $options,
             $expected,
-            $actual,
-            sprintf($this->message, 'textField with displayTo' . $message)
+            $xhtml
         );
     }
 }

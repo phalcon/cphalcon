@@ -119,24 +119,10 @@ class TagImageCest extends TagBase
      */
     private function imageBasic(CodeGuy $I, $xhtml)
     {
-        if ($xhtml) {
-            PhTag::setDocType(PhTag::XHTML10_STRICT);
-        } else {
-            PhTag::setDocType('');
-        }
-
-        $suffix   = ($xhtml) ? ' />'    : '>';
-        $message  = ($xhtml) ? ' XHTML' : '';
-
         $options  = 'img/hello.gif';
-        $expected = '<img src="/img/hello.gif"' . $suffix;
-        $actual   = PhTag::image($options);
+        $expected = '<img src="/img/hello.gif"';
 
-        $I->assertEquals(
-            $expected,
-            $actual,
-            sprintf($this->message, 'Image basic' . $message)
-        );
+        $this->runBasic('image', $I, $options, $expected, $xhtml);
     }
 
     /**
@@ -150,27 +136,13 @@ class TagImageCest extends TagBase
      */
     private function imageWithArrayBasic(CodeGuy $I, $xhtml)
     {
-        if ($xhtml) {
-            PhTag::setDocType(PhTag::XHTML10_STRICT);
-        } else {
-            PhTag::setDocType('');
-        }
-
-        $suffix   = ($xhtml) ? ' />'    : '>';
-        $message  = ($xhtml) ? ' XHTML' : '';
-
         $options  = array(
             'img/hello.gif',
             'class' => 'some_class',
         );
-        $expected = '<img src="/img/hello.gif" class="some_class"' . $suffix;
-        $actual   = PhTag::image($options);
+        $expected = '<img src="/img/hello.gif" class="some_class"';
 
-        $I->assertEquals(
-            $expected,
-            $actual,
-            sprintf($this->message, 'Image basic with array' . $message)
-        );
+        $this->runWithArrayBasic('image', $I, $options, $expected, $xhtml);
     }
 
     /**
@@ -184,32 +156,13 @@ class TagImageCest extends TagBase
      */
     private function imageWithSrcInParameters(CodeGuy $I, $xhtml)
     {
-        if ($xhtml) {
-            PhTag::setDocType(PhTag::XHTML10_STRICT);
-        } else {
-            PhTag::setDocType('');
-        }
-
-        $suffix   = ($xhtml) ? ' />'    : '>';
-        $message  = ($xhtml) ? ' XHTML' : '';
-
         $options  = array(
             'img/hello.gif',
             'src'   => 'img/goodbye.gif',
             'class' => 'some_class',
         );
-        $expected = '<img src="/img/goodbye.gif" class="some_class"' . $suffix;
-        $actual   = PhTag::image($options);
+        $expected = '<img src="/img/goodbye.gif" class="some_class"';
 
-        $I->assertEquals(
-            $expected,
-            $actual,
-            sprintf(
-                $this->message,
-                'Image basic with src in parameters' . $message
-            )
-        );
+        $this->runWithIdInParameters('image', $I, $options, $expected, $xhtml);
     }
-
-
 }

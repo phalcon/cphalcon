@@ -250,26 +250,11 @@ class TagHiddenFieldCest extends TagBase
      */
     private function hiddenFieldBasic(CodeGuy $I, $xhtml)
     {
-        if ($xhtml) {
-            PhTag::setDocType(PhTag::XHTML10_STRICT);
-        } else {
-            PhTag::setDocType('');
-        }
-
-        $suffix   = ($xhtml) ? ' />'    : '>';
-        $message  = ($xhtml) ? ' XHTML' : '';
-
         $options  = 'some_field_name';
         $expected = '<input type="hidden" id="some_field_name" '
-                  . 'name="some_field_name"'
-                  . $suffix;
-        $actual   = PhTag::hiddenField($options);
+                  . 'name="some_field_name"';
 
-        $I->assertEquals(
-            $expected,
-            $actual,
-            sprintf($this->message, 'hiddenField basic' . $message)
-        );
+        $this->runBasic('hiddenField', $I, $options, $expected, $xhtml);
     }
 
     /**
@@ -283,28 +268,14 @@ class TagHiddenFieldCest extends TagBase
      */
     private function hiddenFieldWithArrayBasic(CodeGuy $I, $xhtml)
     {
-        if ($xhtml) {
-            PhTag::setDocType(PhTag::XHTML10_STRICT);
-        } else {
-            PhTag::setDocType('');
-        }
-
-        $suffix  = ($xhtml) ? ' />'    : '>';
-        $message = ($xhtml) ? ' XHTML' : '';
         $options = array(
             'some_field_name',
             'class' => 'some_class',
         );
         $expected = '<input type="hidden" id="some_field_name" '
-                  . 'name="some_field_name" class="some_class"'
-                  . $suffix;
-        $actual   = PhTag::hiddenField($options);
+                  . 'name="some_field_name" class="some_class"';
 
-        $I->assertEquals(
-            $expected,
-            $actual,
-            sprintf($this->message, 'hiddenField basic with array' . $message)
-        );
+        $this->runWithArrayBasic('hiddenField', $I, $options, $expected, $xhtml);
     }
 
     /**
@@ -318,15 +289,6 @@ class TagHiddenFieldCest extends TagBase
      */
     private function hiddenFieldWithIdInParameters(CodeGuy $I, $xhtml)
     {
-        if ($xhtml) {
-            PhTag::setDocType(PhTag::XHTML10_STRICT);
-        } else {
-            PhTag::setDocType('');
-        }
-
-        $suffix   = ($xhtml) ? ' />'    : '>';
-        $message  = ($xhtml) ? ' XHTML' : '';
-
         $options = array(
             'some_field_name',
             'id'    => 'some_id',
@@ -334,15 +296,9 @@ class TagHiddenFieldCest extends TagBase
             'size'  => '10',
         );
         $expected = '<input type="hidden" id="some_id" name="some_field_name" '
-                  . 'class="some_class" size="10"'
-                  . $suffix;
-        $actual   = PhTag::hiddenField($options);
+                  . 'class="some_class" size="10"';
 
-        $I->assertEquals(
-            $expected,
-            $actual,
-            sprintf($this->message, 'hiddenField with id in parameters' . $message)
-        );
+        $this->runWithIdInParameters('hiddenField', $I, $options, $expected, $xhtml);
     }
 
     /**
@@ -356,15 +312,6 @@ class TagHiddenFieldCest extends TagBase
      */
     private function hiddenFieldWithNameAndNotIdInParameters(CodeGuy $I, $xhtml)
     {
-        if ($xhtml) {
-            PhTag::setDocType(PhTag::XHTML10_STRICT);
-        } else {
-            PhTag::setDocType('');
-        }
-
-        $suffix   = ($xhtml) ? ' />'    : '>';
-        $message  = ($xhtml) ? ' XHTML' : '';
-
         $options = array(
             'some_field_name',
             'name'  => 'some_other_name',
@@ -372,17 +319,14 @@ class TagHiddenFieldCest extends TagBase
             'size'  => '10',
         );
         $expected = '<input type="hidden" id="some_field_name" '
-                  . 'name="some_other_name" class="some_class" size="10"'
-                  . $suffix;
-        $actual   = PhTag::hiddenField($options);
+                  . 'name="some_other_name" class="some_class" size="10"';
 
-        $I->assertEquals(
+        $this->runWithNameAndNotIdInParameters(
+            'hiddenField',
+            $I,
+            $options,
             $expected,
-            $actual,
-            sprintf(
-                $this->message,
-                'hiddenField with name and id in parameters' . $message
-            )
+            $xhtml
         );
     }
 
@@ -397,32 +341,21 @@ class TagHiddenFieldCest extends TagBase
      */
     private function hiddenFieldSetDefault(CodeGuy $I, $xhtml)
     {
-        if ($xhtml) {
-            PhTag::setDocType(PhTag::XHTML10_STRICT);
-        } else {
-            PhTag::setDocType('');
-        }
-
-        $suffix   = ($xhtml) ? ' />'    : '>';
-        $message  = ($xhtml) ? ' XHTML' : '';
-
         $options = array(
             'some_field_name',
             'class' => 'some_class',
             'size'  => '10',
         );
-        PhTag::setDefault('some_field_name', 'some_default_value');
         $expected = '<input type="hidden" id="some_field_name" '
                   . 'name="some_field_name" value="some_default_value" '
-                  . 'class="some_class" size="10"'
-                  . $suffix;
-        $actual   = PhTag::hiddenField($options);
-        PhTag::setDefault('some_field_name', '');
+                  . 'class="some_class" size="10"';
 
-        $I->assertEquals(
+        $this->runSetDefault(
+            'hiddenField',
+            $I,
+            $options,
             $expected,
-            $actual,
-            sprintf($this->message, 'hiddenField with setDefault' . $message)
+            $xhtml
         );
     }
 
@@ -437,32 +370,21 @@ class TagHiddenFieldCest extends TagBase
      */
     private function hiddenFieldDisplayTo(CodeGuy $I, $xhtml)
     {
-        if ($xhtml) {
-            PhTag::setDocType(PhTag::XHTML10_STRICT);
-        } else {
-            PhTag::setDocType('');
-        }
-
-        $suffix   = ($xhtml) ? ' />'    : '>';
-        $message  = ($xhtml) ? ' XHTML' : '';
-
         $options = array(
             'some_field_name',
             'class' => 'some_class',
             'size'  => '10',
         );
-        PhTag::displayTo('some_field_name', 'some_default_value');
         $expected = '<input type="hidden" id="some_field_name" '
                   . 'name="some_field_name" value="some_default_value" '
-                  . 'class="some_class" size="10"'
-                  . $suffix;
-        $actual   = PhTag::hiddenField($options);
-        PhTag::displayTo('some_field_name', '');
+                  . 'class="some_class" size="10"';
 
-        $I->assertEquals(
+        $this->runDisplayTo(
+            'hiddenField',
+            $I,
+            $options,
             $expected,
-            $actual,
-            sprintf($this->message, 'hiddenField with displayTo' . $message)
+            $xhtml
         );
     }
 
@@ -477,32 +399,21 @@ class TagHiddenFieldCest extends TagBase
      */
     private function hiddenFieldSetDefaultElementNotPresent(CodeGuy $I, $xhtml)
     {
-        if ($xhtml) {
-            PhTag::setDocType(PhTag::XHTML10_STRICT);
-        } else {
-            PhTag::setDocType('');
-        }
-
-        $suffix   = ($xhtml) ? ' />'    : '>';
-        $message  = ($xhtml) ? ' XHTML' : '';
-
         $options = array(
-            'some_field_name',
+            'some_field',
             'class' => 'some_class',
             'size'  => '10',
         );
-        PhTag::setDefault('some_field', 'some_default_value');
-        $expected = '<input type="hidden" id="some_field_name" '
-                  . 'name="some_field_name" value="" class="some_class" '
-                  . 'size="10"'
-                  . $suffix;
-        $actual   = PhTag::hiddenField($options);
-        PhTag::setDefault('some_field', '');
+        $expected = '<input type="hidden" id="some_field" '
+                  . 'name="some_field" class="some_class" '
+                  . 'size="10"';
 
-        $I->assertEquals(
+        $this->runSetDefault(
+            'hiddenField',
+            $I,
+            $options,
             $expected,
-            $actual,
-            sprintf($this->message, 'hiddenField with setDefault' . $message)
+            $xhtml
         );
     }
 
@@ -517,32 +428,21 @@ class TagHiddenFieldCest extends TagBase
      */
     private function hiddenFieldDisplayToElementNotPresent(CodeGuy $I, $xhtml)
     {
-        if ($xhtml) {
-            PhTag::setDocType(PhTag::XHTML10_STRICT);
-        } else {
-            PhTag::setDocType('');
-        }
-
-        $suffix   = ($xhtml) ? ' />'    : '>';
-        $message  = ($xhtml) ? ' XHTML' : '';
-
         $options = array(
-            'some_field_name',
+            'some_field',
             'class' => 'some_class',
             'size'  => '10',
         );
-        PhTag::displayTo('some_field', 'some_default_value');
-        $expected = '<input type="hidden" id="some_field_name" '
-                  . 'name="some_field_name" value="" class="some_class" '
-                  . 'size="10"'
-                  . $suffix;
-        $actual   = PhTag::hiddenField($options);
-        PhTag::displayTo('some_field', '');
+        $expected = '<input type="hidden" id="some_field" '
+                  . 'name="some_field" class="some_class" '
+                  . 'size="10"';
 
-        $I->assertEquals(
+        $this->runDisplayTo(
+            'hiddenField',
+            $I,
+            $options,
             $expected,
-            $actual,
-            sprintf($this->message, 'hiddenField with displayTo' . $message)
+            $xhtml
         );
     }
 }
