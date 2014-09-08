@@ -11,4 +11,6 @@ return array(
     'annotations/base.c',
     'mvc/model/query/base.c',
     'mvc/view/engine/volt/base.c',
+    'assets/filters/jsminifier.h',
+    'assets/filters/cssminifier.h',
 );
