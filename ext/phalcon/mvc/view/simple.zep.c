@@ -82,7 +82,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_View_Simple) {
 }
 
 /**
- * Phalcon\Mvc\View constructor
+ * Phalcon\Mvc\View\Simple constructor
  *
  * @param array options
  */

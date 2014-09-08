@@ -55,6 +55,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Assets_Collection) {
 
 	zend_declare_property_null(phalcon_assets_collection_ce, SL("_resources"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
+	zend_declare_property_null(phalcon_assets_collection_ce, SL("_codes"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_declare_property_null(phalcon_assets_collection_ce, SL("_position"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	zend_declare_property_null(phalcon_assets_collection_ce, SL("_filters"), ZEND_ACC_PROTECTED TSRMLS_CC);
@@ -95,6 +97,13 @@ PHP_METHOD(Phalcon_Assets_Collection, getResources) {
 
 
 	RETURN_MEMBER(this_ptr, "_resources");
+
+}
+
+PHP_METHOD(Phalcon_Assets_Collection, getCodes) {
+
+
+	RETURN_MEMBER(this_ptr, "_codes");
 
 }
 
@@ -178,6 +187,29 @@ PHP_METHOD(Phalcon_Assets_Collection, add) {
 }
 
 /**
+ * Adds a inline code to the collection
+ *
+ * @param Phalcon\Assets\Inline code
+ * @return Phalcon\Assets\Collection
+ */
+PHP_METHOD(Phalcon_Assets_Collection, addInline) {
+
+	zval *code;
+
+	zephir_fetch_params(0, 1, 0, &code);
+
+
+
+	if (!(zephir_instance_of_ev(code, phalcon_assets_inline_ce TSRMLS_CC))) {
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(spl_ce_InvalidArgumentException, "Parameter 'code' must be an instance of 'Phalcon\\Assets\\Inline'", "", 0);
+		return;
+	}
+	zephir_update_property_array_append(this_ptr, SL("_codes"), code TSRMLS_CC);
+	RETURN_THISW();
+
+}
+
+/**
  * Adds a CSS resource to the collection
  *
  * @param string path
@@ -245,6 +277,53 @@ PHP_METHOD(Phalcon_Assets_Collection, addCss) {
 }
 
 /**
+ * Adds a inline CSS to the collection
+ *
+ * @param string content
+ * @param boolean filter
+ * @param array attributes
+ * @return Phalcon\Assets\Collection
+ */
+PHP_METHOD(Phalcon_Assets_Collection, addInlineCss) {
+
+	int ZEPHIR_LAST_CALL_STATUS;
+	zend_bool filter;
+	zval *content_param = NULL, *filter_param = NULL, *attributes = NULL, *collectionAttributes = NULL, *_0;
+	zval *content = NULL;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 2, &content_param, &filter_param, &attributes);
+
+	zephir_get_strval(content, content_param);
+	if (!filter_param) {
+		filter = 0;
+	} else {
+		filter = zephir_get_boolval(filter_param);
+	}
+	if (!attributes) {
+		attributes = ZEPHIR_GLOBAL(global_null);
+	}
+
+
+	if (!(filter)) {
+		filter = 1;
+	}
+	if (Z_TYPE_P(attributes) == IS_ARRAY) {
+		ZEPHIR_CPY_WRT(collectionAttributes, attributes);
+	} else {
+		ZEPHIR_OBS_VAR(collectionAttributes);
+		zephir_read_property_this(&collectionAttributes, this_ptr, SL("_attributes"), PH_NOISY_CC);
+	}
+	ZEPHIR_INIT_VAR(_0);
+	object_init_ex(_0, phalcon_assets_inline_css_ce);
+	ZEPHIR_CALL_METHOD(NULL, _0, "__construct", NULL, content, (filter ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)), collectionAttributes);
+	zephir_check_call_status();
+	zephir_update_property_array_append(this_ptr, SL("_codes"), _0 TSRMLS_CC);
+	RETURN_THIS();
+
+}
+
+/**
  * Adds a javascript resource to the collection
  *
  * @param string path
@@ -307,6 +386,53 @@ PHP_METHOD(Phalcon_Assets_Collection, addJs) {
 	ZEPHIR_CALL_METHOD(NULL, _0, "__construct", NULL, path, collectionLocal, (filter ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)), collectionAttributes);
 	zephir_check_call_status();
 	zephir_update_property_array_append(this_ptr, SL("_resources"), _0 TSRMLS_CC);
+	RETURN_THIS();
+
+}
+
+/**
+ * Adds a inline javascript to the collection
+ *
+ * @param string content
+ * @param boolean filter
+ * @param array attributes
+ * @return Phalcon\Assets\Collection
+ */
+PHP_METHOD(Phalcon_Assets_Collection, addInlineJs) {
+
+	int ZEPHIR_LAST_CALL_STATUS;
+	zend_bool filter;
+	zval *content_param = NULL, *filter_param = NULL, *attributes = NULL, *collectionAttributes = NULL, *_0;
+	zval *content = NULL;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 2, &content_param, &filter_param, &attributes);
+
+	zephir_get_strval(content, content_param);
+	if (!filter_param) {
+		filter = 0;
+	} else {
+		filter = zephir_get_boolval(filter_param);
+	}
+	if (!attributes) {
+		attributes = ZEPHIR_GLOBAL(global_null);
+	}
+
+
+	if (!(filter)) {
+		filter = 1;
+	}
+	if (Z_TYPE_P(attributes) == IS_ARRAY) {
+		ZEPHIR_CPY_WRT(collectionAttributes, attributes);
+	} else {
+		ZEPHIR_OBS_VAR(collectionAttributes);
+		zephir_read_property_this(&collectionAttributes, this_ptr, SL("_attributes"), PH_NOISY_CC);
+	}
+	ZEPHIR_INIT_VAR(_0);
+	object_init_ex(_0, phalcon_assets_inline_js_ce);
+	ZEPHIR_CALL_METHOD(NULL, _0, "__construct", NULL, content, (filter ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)), collectionAttributes);
+	zephir_check_call_status();
+	zephir_update_property_array_append(this_ptr, SL("_codes"), _0 TSRMLS_CC);
 	RETURN_THIS();
 
 }

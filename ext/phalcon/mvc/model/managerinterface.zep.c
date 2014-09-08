@@ -52,7 +52,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, initialize);
 /**
  * Sets the mapped source for a model
  *
- * @param Phalcon\Mvc\Model model
+ * @param Phalcon\Mvc\ModelInterface model
  * @param string source
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, setModelSource);

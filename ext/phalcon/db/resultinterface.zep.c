@@ -46,10 +46,10 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_ResultInterface) {
  * Phalcon\Db\Result\Pdo constructor
  *
  * @param Phalcon\Db\AdapterInterface connection
+ * @param \PDOStatement result
  * @param string sqlStatement
  * @param array bindParams
  * @param array bindTypes
- * @param \PDOStatement result
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_ResultInterface, __construct);
 

@@ -153,10 +153,10 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, cloneResultMap);
 /**
  * Assigns values to a model from an array returning a new model
  *
- * @param Phalcon\Mvc\Model base
+ * @param Phalcon\Mvc\ModelInterface base
  * @param array data
  * @param int dirtyState
- * @return Phalcon\Mvc\Model
+ * @return Phalcon\Mvc\ModelInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, cloneResult);
 

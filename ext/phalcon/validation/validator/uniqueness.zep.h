@@ -6,7 +6,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_Uniqueness);
 PHP_METHOD(Phalcon_Validation_Validator_Uniqueness, validate);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_validation_validator_uniqueness_validate, 0, 0, 2)
-	ZEND_ARG_INFO(0, validation)
+	ZEND_ARG_OBJ_INFO(0, validation, Phalcon\\Validation, 0)
 	ZEND_ARG_INFO(0, field)
 ZEND_END_ARG_INFO()
 

@@ -71,6 +71,62 @@ ZEPHIR_INIT_CLASS(Phalcon_Assets_Resource) {
 
 }
 
+PHP_METHOD(Phalcon_Assets_Resource, getType) {
+
+
+	RETURN_MEMBER(this_ptr, "_type");
+
+}
+
+PHP_METHOD(Phalcon_Assets_Resource, getPath) {
+
+
+	RETURN_MEMBER(this_ptr, "_path");
+
+}
+
+PHP_METHOD(Phalcon_Assets_Resource, getLocal) {
+
+
+	RETURN_MEMBER(this_ptr, "_local");
+
+}
+
+PHP_METHOD(Phalcon_Assets_Resource, getFilter) {
+
+
+	RETURN_MEMBER(this_ptr, "_filter");
+
+}
+
+PHP_METHOD(Phalcon_Assets_Resource, getAttributes) {
+
+
+	RETURN_MEMBER(this_ptr, "_attributes");
+
+}
+
+PHP_METHOD(Phalcon_Assets_Resource, getSourcePath) {
+
+
+	RETURN_MEMBER(this_ptr, "_sourcePath");
+
+}
+
+PHP_METHOD(Phalcon_Assets_Resource, getTargetPath) {
+
+
+	RETURN_MEMBER(this_ptr, "_targetPath");
+
+}
+
+PHP_METHOD(Phalcon_Assets_Resource, getTargetUri) {
+
+
+	RETURN_MEMBER(this_ptr, "_targetUri");
+
+}
+
 /**
  * Phalcon\Assets\Resource constructor
  *
@@ -140,18 +196,6 @@ PHP_METHOD(Phalcon_Assets_Resource, setType) {
 }
 
 /**
- * Returns the type of resource
- *
- * @return string
- */
-PHP_METHOD(Phalcon_Assets_Resource, getType) {
-
-
-	RETURN_MEMBER(this_ptr, "_type");
-
-}
-
-/**
  * Sets the resource's path
  *
  * @param string path
@@ -170,18 +214,6 @@ PHP_METHOD(Phalcon_Assets_Resource, setPath) {
 
 	zephir_update_property_this(this_ptr, SL("_path"), path TSRMLS_CC);
 	RETURN_THIS();
-
-}
-
-/**
- * Returns the URI/URL path to the resource
- *
- * @return string
- */
-PHP_METHOD(Phalcon_Assets_Resource, getPath) {
-
-
-	RETURN_MEMBER(this_ptr, "_path");
 
 }
 
@@ -207,18 +239,6 @@ PHP_METHOD(Phalcon_Assets_Resource, setLocal) {
 }
 
 /**
- * Returns whether the resource is local or external
- *
- * @return boolean
- */
-PHP_METHOD(Phalcon_Assets_Resource, getLocal) {
-
-
-	RETURN_MEMBER(this_ptr, "_local");
-
-}
-
-/**
  * Sets if the resource must be filtered or not
  *
  * @param boolean filter
@@ -240,18 +260,6 @@ PHP_METHOD(Phalcon_Assets_Resource, setFilter) {
 }
 
 /**
- * Returns whether the resource must be filtered or not
- *
- * @return boolean
- */
-PHP_METHOD(Phalcon_Assets_Resource, getFilter) {
-
-
-	RETURN_MEMBER(this_ptr, "_filter");
-
-}
-
-/**
  * Sets extra HTML attributes
  *
  * @param array attributes
@@ -259,26 +267,17 @@ PHP_METHOD(Phalcon_Assets_Resource, getFilter) {
  */
 PHP_METHOD(Phalcon_Assets_Resource, setAttributes) {
 
-	zval *attributes;
+	zval *attributes_param = NULL;
+	zval *attributes = NULL;
 
-	zephir_fetch_params(0, 1, 0, &attributes);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &attributes_param);
 
+	zephir_get_arrval(attributes, attributes_param);
 
 
 	zephir_update_property_this(this_ptr, SL("_attributes"), attributes TSRMLS_CC);
-	RETURN_THISW();
-
-}
-
-/**
- * Returns extra HTML attributes set in the resource
- *
- * @return array
- */
-PHP_METHOD(Phalcon_Assets_Resource, getAttributes) {
-
-
-	RETURN_MEMBER(this_ptr, "_attributes");
+	RETURN_THIS();
 
 }
 
@@ -305,18 +304,6 @@ PHP_METHOD(Phalcon_Assets_Resource, setTargetUri) {
 }
 
 /**
- * Returns the target uri for the generated HTML
- *
- * @return string
- */
-PHP_METHOD(Phalcon_Assets_Resource, getTargetUri) {
-
-
-	RETURN_MEMBER(this_ptr, "_targetUri");
-
-}
-
-/**
  * Sets the resource's source path
  *
  * @param string sourcePath
@@ -339,18 +326,6 @@ PHP_METHOD(Phalcon_Assets_Resource, setSourcePath) {
 }
 
 /**
- * Returns the resource's target path
- *
- * @return string
- */
-PHP_METHOD(Phalcon_Assets_Resource, getSourcePath) {
-
-
-	RETURN_MEMBER(this_ptr, "_sourcePath");
-
-}
-
-/**
  * Sets the resource's target path
  *
  * @param string targetPath
@@ -369,18 +344,6 @@ PHP_METHOD(Phalcon_Assets_Resource, setTargetPath) {
 
 	zephir_update_property_this(this_ptr, SL("_targetPath"), targetPath TSRMLS_CC);
 	RETURN_THIS();
-
-}
-
-/**
- * Returns the resource's target path
- *
- * @return string
- */
-PHP_METHOD(Phalcon_Assets_Resource, getTargetPath) {
-
-
-	RETURN_MEMBER(this_ptr, "_targetPath");
 
 }
 
@@ -425,7 +388,7 @@ PHP_METHOD(Phalcon_Assets_Resource, getContent) {
 			ZEPHIR_CONCAT_SVS(_2, "Resource's content for '", completePath, "' cannot be read");
 			ZEPHIR_CALL_METHOD(NULL, _1, "__construct", NULL, _2);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(_1, "phalcon/assets/resource.zep", 276 TSRMLS_CC);
+			zephir_throw_exception_debug(_1, "phalcon/assets/resource.zep", 196 TSRMLS_CC);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
@@ -439,7 +402,7 @@ PHP_METHOD(Phalcon_Assets_Resource, getContent) {
 		ZEPHIR_CONCAT_SVS(_2, "Resource's content for '", completePath, "' cannot be read");
 		ZEPHIR_CALL_METHOD(NULL, _1, "__construct", NULL, _2);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(_1, "phalcon/assets/resource.zep", 286 TSRMLS_CC);
+		zephir_throw_exception_debug(_1, "phalcon/assets/resource.zep", 206 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}

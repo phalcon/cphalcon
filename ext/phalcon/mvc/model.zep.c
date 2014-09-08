@@ -969,10 +969,10 @@ PHP_METHOD(Phalcon_Mvc_Model, cloneResultMapHydrate) {
  *));
  *</code>
  *
- * @param Phalcon\Mvc\Model $base
+ * @param Phalcon\Mvc\ModelInterface $base
  * @param array data
  * @param int dirtyState
- * @return Phalcon\Mvc\Model
+ * @return Phalcon\Mvc\ModelInterface
  */
 PHP_METHOD(Phalcon_Mvc_Model, cloneResult) {
 
