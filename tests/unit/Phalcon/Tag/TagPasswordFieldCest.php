@@ -1,6 +1,6 @@
 <?php
 /**
- * TagCest.php
+ * TagPasswordFieldCest.php
  * \Phalcon\Tag
  *
  * Tests the \Phalcon\Tag component
@@ -20,80 +20,274 @@
  * so that we can send you a copy immediately.
  */
 
+namespace Phalcon\Tests\unit\Phalcon\Tag;
+
 use \CodeGuy;
 use \Phalcon\Tag as PhTag;
 
-class TagCest
+class TagPasswordFieldCest extends TagBase
 {
     /**
-     * Tests the get
+     * Tests passwordField with string as a parameter
      *
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
-     * @since  2014-09-04
+     * @since  2014-09-05
      *
      * @param CodeGuy $I
      */
-    public function testGet(CodeGuy $I)
+    public function testPasswordFieldBasic(CodeGuy $I)
     {
-        $actual = Version::get();
-
-        $I->assertTrue(
-            is_string($actual),
-            'get() does not return a string'
-        );
+        $this->passwordFieldBasic($I, false);
     }
 
-    // -------------------------------------------------------------------------
-    // passwordField
-    // -------------------------------------------------------------------------
     /**
-     * Tests passwordField with string as a parameter
+     * Tests passwordField with string as a parameter XHTML
      *
-     * @author Nikos Dimopoulos <nikos@phalconphp.com>
-     * @since  2012-11-29
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-09-05
+     *
+     * @param CodeGuy $I
      */
-    public function testPasswordFieldBasic()
+    public function testPasswordFieldBasicXHTML(CodeGuy $I)
     {
-        $options  = 'some_field_name';
-        $expected = '<input type="password" id="some_field_name" name="some_field_name" value="">';
-        $actual   = \Phalcon\Tag::passwordField($options);
-
-        $this->assertEquals(
-            $expected,
-            $actual,
-            sprintf($this->message, 'passwordField basic')
-        );
+        $this->passwordFieldBasic($I, true);
     }
 
     /**
      * Tests passwordField with array as parameters
      *
-     * @author Nikos Dimopoulos <nikos@phalconphp.com>
-     * @since  2012-11-29
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-09-05
+     *
+     * @param CodeGuy $I
      */
-    public function testPasswordFieldWithArrayBasic()
+    public function testPasswordFieldWithArrayBasic(CodeGuy $I)
     {
-        $options = array(
-            'some_field_name',
-            'class' => 'some_class',
-        );
-        $expected = '<input type="password" id="some_field_name" name="some_field_name" value="" class="some_class">';
-        $actual   = \Phalcon\Tag::passwordField($options);
+        $this->passwordFieldWithArrayBasic($I, false);
+    }
 
-        $this->assertEquals(
-            $expected,
-            $actual,
-            sprintf($this->message, 'passwordField basic with array')
-        );
+    /**
+     * Tests passwordField with array as parameters XHTML
+     *
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-09-05
+     *
+     * @param CodeGuy $I
+     */
+    public function testPasswordFieldWithArrayBasicXHTML(CodeGuy $I)
+    {
+        $this->passwordFieldWithArrayBasic($I, true);
     }
 
     /**
      * Tests passwordField with id in parameters
      *
-     * @author Nikos Dimopoulos <nikos@phalconphp.com>
-     * @since  2012-11-29
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-09-05
+     *
+     * @param CodeGuy $I
      */
-    public function testPasswordFieldWithIdInParameters()
+    public function testPasswordFieldWithIdInParameters(CodeGuy $I)
+    {
+        $this->passwordFieldWithIdInParameters($I, false);
+    }
+
+    /**
+     * Tests passwordField with id in parameters XHTML
+     *
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-09-05
+     *
+     * @param CodeGuy $I
+     */
+    public function testPasswordFieldWithIdInParametersXHTML(CodeGuy $I)
+    {
+        $this->passwordFieldWithIdInParameters($I, true);
+    }
+
+    /**
+     * Tests passwordField with name and no id in parameters
+     *
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-09-05
+     *
+     * @param CodeGuy $I
+     */
+    public function testPasswordFieldWithNameAndNotIdInParameters(CodeGuy $I)
+    {
+        $this->passwordFieldWithNameAndNotIdInParameters($I, false);
+    }
+
+    /**
+     * Tests passwordField with name and no id in parameters XHTML
+     *
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-09-05
+     *
+     * @param CodeGuy $I
+     */
+    public function testPasswordFieldWithNameAndNotIdInParametersXHTML(CodeGuy $I)
+    {
+        $this->passwordFieldWithNameAndNotIdInParameters($I, true);
+    }
+
+    /**
+     * Tests passwordField with setDefault
+     *
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-09-05
+     *
+     * @param CodeGuy $I
+     */
+    public function testPasswordFieldSetDefault(CodeGuy $I)
+    {
+        $this->passwordFieldSetDefault($I, false);
+    }
+
+    /**
+     * Tests passwordField with setDefault XHTML
+     *
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-09-05
+     *
+     * @param CodeGuy $I
+     */
+    public function testPasswordFieldSetDefaultXHTML(CodeGuy $I)
+    {
+        $this->passwordFieldSetDefault($I, true);
+    }
+
+    /**
+     * Tests passwordField with displayTo
+     *
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-09-05
+     *
+     * @param CodeGuy $I
+     */
+    public function testPasswordFieldDisplayTo(CodeGuy $I)
+    {
+        $this->passwordFieldDisplayTo($I, false);
+    }
+
+    /**
+     * Tests passwordField with displayTo XHTML
+     *
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-09-05
+     *
+     * @param CodeGuy $I
+     */
+    public function testPasswordFieldDisplayToXHTML(CodeGuy $I)
+    {
+        $this->passwordFieldDisplayTo($I, true);
+    }
+
+    /**
+     * Tests passwordField with setDefault to an non existent element
+     *
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-09-05
+     *
+     * @param CodeGuy $I
+     */
+    public function testPasswordFieldSetDefaultElementNotPresent(CodeGuy $I)
+    {
+        $this->passwordFieldSetDefaultElementNotPresent($I, false);
+    }
+
+    /**
+     * Tests passwordField with setDefault to an non existent element XHTML
+     *
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-09-05
+     *
+     * @param CodeGuy $I
+     */
+    public function testPasswordFieldSetDefaultElementNotPresentXHTML(CodeGuy $I)
+    {
+        $this->passwordFieldSetDefaultElementNotPresent($I, true);
+    }
+
+    /**
+     * Tests passwordField with displayTo to an non existent element
+     *
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-09-05
+     *
+     * @param CodeGuy $I
+     */
+    public function testPasswordFieldDisplayToElementNotPresent(CodeGuy $I)
+    {
+        $this->passwordFieldDisplayToElementNotPresent($I, false);
+    }
+
+    /**
+     * Tests passwordField with displayTo to an non existent element XHTML
+     *
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-09-05
+     *
+     * @param CodeGuy $I
+     */
+    public function testPasswordFieldDisplayToElementNotPresentXHTML(CodeGuy $I)
+    {
+        $this->passwordFieldDisplayToElementNotPresent($I, true);
+    }
+
+
+    /**
+     * PRIVATE METHODS
+     */
+    /**
+     * Runs tests with string as a parameter for XHTML or not
+     *
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-09-05
+     *
+     * @param CodeGuy $I
+     * @param Boolean $xhtml
+     */
+    private function passwordFieldBasic(CodeGuy $I, $xhtml)
+    {
+        $options  = 'some_field_name';
+        $expected = '<input type="password" id="some_field_name" '
+                  . 'name="some_field_name"';
+
+        $this->runBasic('passwordField', $I, $options, $expected, $xhtml);
+    }
+
+    /**
+     * Runs tests with array as parameters for XHTML or not
+     *
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-09-05
+     *
+     * @param CodeGuy $I
+     * @param Boolean $xhtml
+     */
+    private function passwordFieldWithArrayBasic(CodeGuy $I, $xhtml)
+    {
+        $options = array(
+            'some_field_name',
+            'class' => 'some_class',
+        );
+        $expected = '<input type="password" id="some_field_name" '
+                  . 'name="some_field_name" class="some_class"';
+
+        $this->runWithArrayBasic('passwordField', $I, $options, $expected, $xhtml);
+    }
+
+    /**
+     * Runs tests with id in parameters for XHTML or not
+     *
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-09-05
+     *
+     * @param CodeGuy $I
+     * @param Boolean $xhtml
+     */
+    private function passwordFieldWithIdInParameters(CodeGuy $I, $xhtml)
     {
         $options = array(
             'some_field_name',
@@ -101,23 +295,22 @@ class TagCest
             'class' => 'some_class',
             'size'  => '10',
         );
-        $expected = '<input type="password" id="some_id" name="some_field_name" value="" class="some_class" size="10">';
-        $actual   = \Phalcon\Tag::passwordField($options);
+        $expected = '<input type="password" id="some_id" name="some_field_name" '
+                  . 'class="some_class" size="10"';
 
-        $this->assertEquals(
-            $expected,
-            $actual,
-            sprintf($this->message, 'passwordField with id in parameters')
-        );
+        $this->runWithIdInParameters('passwordField', $I, $options, $expected, $xhtml);
     }
 
     /**
-     * Tests passwordField with name and not id in parameters
+     * Runs tests with name and no id in parameters for XHTML or not
      *
-     * @author Nikos Dimopoulos <nikos@phalconphp.com>
-     * @since  2012-11-29
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-09-05
+     *
+     * @param CodeGuy $I
+     * @param Boolean $xhtml
      */
-    public function testPasswordFieldWithNameAndNotIdInParameters()
+    private function passwordFieldWithNameAndNotIdInParameters(CodeGuy $I, $xhtml)
     {
         $options = array(
             'some_field_name',
@@ -125,325 +318,131 @@ class TagCest
             'class' => 'some_class',
             'size'  => '10',
         );
-        $expected = '<input type="password" id="some_field_name" name="some_other_name" value="" class="some_class" size="10">';
-        $actual   = \Phalcon\Tag::passwordField($options);
+        $expected = '<input type="password" id="some_field_name" '
+                  . 'name="some_other_name" class="some_class" size="10"';
 
-        $this->assertEquals(
+        $this->runWithNameAndNotIdInParameters(
+            'passwordField',
+            $I,
+            $options,
             $expected,
-            $actual,
-            sprintf(
-                $this->message,
-                'passwordField with name and id in parameters'
-            )
+            $xhtml
         );
     }
 
     /**
-     * Tests passwordField with setDefault
+     * Runs tests with setDefault for XHTML or not
      *
-     * @author Nikos Dimopoulos <nikos@phalconphp.com>
-     * @since  2012-11-29
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-09-05
+     *
+     * @param CodeGuy $I
+     * @param Boolean $xhtml
      */
-    public function testPasswordFieldSetDefault()
+    private function passwordFieldSetDefault(CodeGuy $I, $xhtml)
     {
         $options = array(
             'some_field_name',
             'class' => 'some_class',
             'size'  => '10',
         );
-        \Phalcon\Tag::setDefault('some_field_name', 'some_default_value');
-        $expected = '<input type="password" id="some_field_name" name="some_field_name" value="some_default_value" class="some_class" size="10">';
-        $actual   = \Phalcon\Tag::passwordField($options);
-        \Phalcon\Tag::setDefault('some_field_name', '');
+        $expected = '<input type="password" id="some_field_name" '
+                  . 'name="some_field_name" value="some_default_value" '
+                  . 'class="some_class" size="10"';
 
-        $this->assertEquals(
+        $this->runSetDefault(
+            'passwordField',
+            $I,
+            $options,
             $expected,
-            $actual,
-            sprintf($this->message, 'passwordField with setDefault')
+            $xhtml
         );
     }
 
     /**
-     * Tests passwordField with displayTo
+     * Runs tests with displayTo for XHTML or not
      *
-     * @author Nikos Dimopoulos <nikos@phalconphp.com>
-     * @since  2012-11-29
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-09-05
+     *
+     * @param CodeGuy $I
+     * @param Boolean $xhtml
      */
-    public function testPasswordFieldDisplayTo()
+    private function passwordFieldDisplayTo(CodeGuy $I, $xhtml)
     {
         $options = array(
             'some_field_name',
             'class' => 'some_class',
             'size'  => '10',
         );
-        \Phalcon\Tag::displayTo('some_field_name', 'some_default_value');
-        $expected = '<input type="password" id="some_field_name" name="some_field_name" value="some_default_value" class="some_class" size="10">';
-        $actual   = \Phalcon\Tag::passwordField($options);
-        \Phalcon\Tag::displayTo('some_field_name', '');
+        $expected = '<input type="password" id="some_field_name" '
+                  . 'name="some_field_name" value="some_default_value" '
+                  . 'class="some_class" size="10"';
 
-        $this->assertEquals(
+        $this->runDisplayTo(
+            'passwordField',
+            $I,
+            $options,
             $expected,
-            $actual,
-            sprintf($this->message, 'passwordField with displayTo')
+            $xhtml
         );
     }
 
     /**
-     * Tests passwordField with setDefault to an non existent element
+     * Runs tests with setDefault to an non existent element for XHTML or not
      *
-     * @author Nikos Dimopoulos <nikos@phalconphp.com>
-     * @since  2012-11-29
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-09-05
+     *
+     * @param CodeGuy $I
+     * @param Boolean $xhtml
      */
-    public function testPasswordFieldSetDefaultElementNotPresent()
+    private function passwordFieldSetDefaultElementNotPresent(CodeGuy $I, $xhtml)
     {
         $options = array(
-            'some_field_name',
+            'some_field',
             'class' => 'some_class',
             'size'  => '10',
         );
-        \Phalcon\Tag::setDefault('some_field', 'some_default_value');
-        $expected = '<input type="password" id="some_field_name" name="some_field_name" value="" class="some_class" size="10">';
-        $actual   = \Phalcon\Tag::passwordField($options);
-        \Phalcon\Tag::setDefault('some_field', '');
+        $expected = '<input type="password" id="some_field" '
+                  . 'name="some_field" class="some_class" '
+                  . 'size="10"';
 
-        $this->assertEquals(
+        $this->runSetDefault(
+            'passwordField',
+            $I,
+            $options,
             $expected,
-            $actual,
-            sprintf($this->message, 'passwordField with setDefault')
+            $xhtml
         );
     }
 
     /**
-     * Tests passwordField with displayTo to an non existent element
+     * Runs tests with displayTo to an non existent element for XHTML or not
      *
-     * @author Nikos Dimopoulos <nikos@phalconphp.com>
-     * @since  2012-11-29
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-09-05
+     *
+     * @param CodeGuy $I
+     * @param Boolean $xhtml
      */
-    public function testPasswordFieldDisplayToElementNotPresent()
+    private function passwordFieldDisplayToElementNotPresent(CodeGuy $I, $xhtml)
     {
         $options = array(
-            'some_field_name',
+            'some_field',
             'class' => 'some_class',
             'size'  => '10',
         );
-        \Phalcon\Tag::displayTo('some_field', 'some_default_value');
-        $expected = '<input type="password" id="some_field_name" name="some_field_name" value="" class="some_class" size="10">';
-        $actual   = \Phalcon\Tag::passwordField($options);
-        \Phalcon\Tag::displayTo('some_field', '');
+        $expected = '<input type="password" id="some_field" '
+                  . 'name="some_field" class="some_class" '
+                  . 'size="10"';
 
-        $this->assertEquals(
+        $this->runDisplayTo(
+            'passwordField',
+            $I,
+            $options,
             $expected,
-            $actual,
-            sprintf($this->message, 'passwordField with displayTo')
+            $xhtml
         );
     }
-
-    /**
-     * Tests passwordField with string as a parameter
-     *
-     * @author Nikos Dimopoulos <nikos@phalconphp.com>
-     * @since  2012-10-26
-     */
-    public function testPasswordFieldBasicXHTML()
-    {
-        \Phalcon\Tag::setDoctype(\Phalcon\Tag::XHTML10_STRICT);
-        $options  = 'some_field_name';
-        $expected = '<input type="password" id="some_field_name" name="some_field_name" value="" />';
-        $actual   = \Phalcon\Tag::passwordField($options);
-        \Phalcon\Tag::setDoctype('');
-
-        $this->assertEquals(
-            $expected,
-            $actual,
-            sprintf($this->message, 'XHTML passwordField basic')
-        );
-    }
-
-    /**
-     * Tests passwordField with array as parameters
-     *
-     * @author Nikos Dimopoulos <nikos@phalconphp.com>
-     * @since  2012-10-26
-     */
-    public function testPasswordFieldWithArrayBasicXHTML()
-    {
-        \Phalcon\Tag::setDoctype(\Phalcon\Tag::XHTML10_STRICT);
-        $options = array(
-            'some_field_name',
-            'class' => 'some_class',
-        );
-        $expected = '<input type="password" id="some_field_name" name="some_field_name" value="" class="some_class" />';
-        $actual   = \Phalcon\Tag::passwordField($options);
-        \Phalcon\Tag::setDoctype('');
-
-        $this->assertEquals(
-            $expected,
-            $actual,
-            sprintf($this->message, 'XHTML passwordField basic with array')
-        );
-    }
-
-    /**
-     * Tests passwordField with id in parameters
-     *
-     * @author Nikos Dimopoulos <nikos@phalconphp.com>
-     * @since  2012-10-26
-     */
-    public function testPasswordFieldWithIdInParametersXHTML()
-    {
-        \Phalcon\Tag::setDoctype(\Phalcon\Tag::XHTML10_STRICT);
-        $options = array(
-            'some_field_name',
-            'id'    => 'some_id',
-            'class' => 'some_class',
-            'size'  => '10',
-        );
-        $expected = '<input type="password" id="some_id" name="some_field_name" value="" class="some_class" size="10" />';
-        $actual   = \Phalcon\Tag::passwordField($options);
-        \Phalcon\Tag::setDoctype('');
-
-        $this->assertEquals(
-            $expected,
-            $actual,
-            sprintf($this->message, 'XHTML passwordField with id in parameters')
-        );
-    }
-
-    /**
-     * Tests passwordField with name and not id in parameters
-     *
-     * @author Nikos Dimopoulos <nikos@phalconphp.com>
-     * @since  2012-10-26
-     */
-    public function testPasswordFieldWithNameAndNotIdInParametersXHTML()
-    {
-        \Phalcon\Tag::setDoctype(\Phalcon\Tag::XHTML10_STRICT);
-        $options = array(
-            'some_field_name',
-            'name'  => 'some_other_name',
-            'class' => 'some_class',
-            'size'  => '10',
-        );
-        $expected = '<input type="password" id="some_field_name" name="some_other_name" value="" class="some_class" size="10" />';
-        $actual   = \Phalcon\Tag::passwordField($options);
-        \Phalcon\Tag::setDoctype('');
-
-        $this->assertEquals(
-            $expected,
-            $actual,
-            sprintf(
-                $this->message,
-                'passwordField with name and id in parameters'
-            )
-        );
-    }
-
-    /**
-     * Tests passwordField with setDefault
-     *
-     * @author Nikos Dimopoulos <nikos@phalconphp.com>
-     * @since  2012-10-26
-     */
-    public function testPasswordFieldSetDefaultXHTML()
-    {
-        \Phalcon\Tag::setDoctype(\Phalcon\Tag::XHTML10_STRICT);
-        $options = array(
-            'some_field_name',
-            'class' => 'some_class',
-            'size'  => '10',
-        );
-        \Phalcon\Tag::setDefault('some_field_name', 'some_default_value');
-        $expected = '<input type="password" id="some_field_name" name="some_field_name" value="some_default_value" class="some_class" size="10" />';
-        $actual   = \Phalcon\Tag::passwordField($options);
-        \Phalcon\Tag::setDefault('some_field_name', '');
-        \Phalcon\Tag::setDoctype('');
-
-        $this->assertEquals(
-            $expected,
-            $actual,
-            sprintf($this->message, 'XHTML passwordField with setDefault')
-        );
-    }
-
-    /**
-     * Tests passwordField with displayTo
-     *
-     * @author Nikos Dimopoulos <nikos@phalconphp.com>
-     * @since  2012-10-26
-     */
-    public function testPasswordFieldDisplayToXHTML()
-    {
-        \Phalcon\Tag::setDoctype(\Phalcon\Tag::XHTML10_STRICT);
-        $options = array(
-            'some_field_name',
-            'class' => 'some_class',
-            'size'  => '10',
-        );
-        \Phalcon\Tag::displayTo('some_field_name', 'some_default_value');
-        $expected = '<input type="password" id="some_field_name" name="some_field_name" value="some_default_value" class="some_class" size="10" />';
-        $actual   = \Phalcon\Tag::passwordField($options);
-        \Phalcon\Tag::displayTo('some_field_name', '');
-        \Phalcon\Tag::setDoctype('');
-
-        $this->assertEquals(
-            $expected,
-            $actual,
-            sprintf($this->message, 'XHTML passwordField with displayTo')
-        );
-    }
-
-    /**
-     * Tests passwordField with setDefault to an non existent element
-     *
-     * @author Nikos Dimopoulos <nikos@phalconphp.com>
-     * @since  2012-10-26
-     */
-    public function testPasswordFieldSetDefaultElementNotPresentXHTML()
-    {
-        \Phalcon\Tag::setDoctype(\Phalcon\Tag::XHTML10_STRICT);
-        $options = array(
-            'some_field_name',
-            'class' => 'some_class',
-            'size'  => '10',
-        );
-        \Phalcon\Tag::setDefault('some_field', 'some_default_value');
-        $expected = '<input type="password" id="some_field_name" name="some_field_name" value="" class="some_class" size="10" />';
-        $actual   = \Phalcon\Tag::passwordField($options);
-        \Phalcon\Tag::setDefault('some_field', '');
-        \Phalcon\Tag::setDoctype('');
-
-        $this->assertEquals(
-            $expected,
-            $actual,
-            sprintf($this->message, 'XHTML passwordField with setDefault')
-        );
-    }
-
-    /**
-     * Tests passwordField with displayTo to an non existent element
-     *
-     * @author Nikos Dimopoulos <nikos@phalconphp.com>
-     * @since  2012-10-26
-     */
-    public function testPasswordFieldDisplayToElementNotPresentXHTML()
-    {
-        \Phalcon\Tag::setDoctype(\Phalcon\Tag::XHTML10_STRICT);
-        $options = array(
-            'some_field_name',
-            'class' => 'some_class',
-            'size'  => '10',
-        );
-        \Phalcon\Tag::displayTo('some_field', 'some_default_value');
-        $expected = '<input type="password" id="some_field_name" name="some_field_name" value="" class="some_class" size="10" />';
-        $actual   = \Phalcon\Tag::passwordField($options);
-        \Phalcon\Tag::displayTo('some_field', '');
-        \Phalcon\Tag::setDoctype('');
-
-        $this->assertEquals(
-            $expected,
-            $actual,
-            sprintf($this->message, 'XHTML passwordField with displayTo')
-        );
-    }
-
 }
