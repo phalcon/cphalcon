@@ -20,80 +20,274 @@
  * so that we can send you a copy immediately.
  */
 
+namespace Phalcon\Tests\unit\Phalcon\Tag;
+
 use \CodeGuy;
 use \Phalcon\Tag as PhTag;
 
-class TagCest
+class TagRadioFieldCest extends TagBase
 {
     /**
-     * Tests the get
+     * Tests radioField with string as a parameter
      *
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
-     * @since  2014-09-04
+     * @since  2014-09-05
      *
      * @param CodeGuy $I
      */
-    public function testGet(CodeGuy $I)
+    public function testRadioFieldBasic(CodeGuy $I)
     {
-        $actual = Version::get();
-
-        $I->assertTrue(
-            is_string($actual),
-            'get() does not return a string'
-        );
+        $this->radioFieldBasic($I, false);
     }
 
-    // -------------------------------------------------------------------------
-    // radioField
-    // -------------------------------------------------------------------------
     /**
-     * Tests radioField with string as a parameter
+     * Tests radioField with string as a parameter XHTML
      *
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
-     * @since  2012-09-15
+     * @since  2014-09-05
+     *
+     * @param CodeGuy $I
      */
-    public function testRadioFieldBasic()
+    public function testRadioFieldBasicXHTML(CodeGuy $I)
     {
-        $options  = 'some_field_name';
-        $expected = '<input type="radio" id="some_field_name" name="some_field_name" value="">';
-        $actual   = PhTag::radioField($options);
-
-        $this->assertEquals(
-            $expected,
-            $actual,
-            sprintf($this->message, 'radioField basic')
-        );
+        $this->radioFieldBasic($I, true);
     }
 
     /**
      * Tests radioField with array as parameters
      *
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
-     * @since  2012-09-15
+     * @since  2014-09-05
+     *
+     * @param CodeGuy $I
      */
-    public function testRadioFieldWithArrayBasic()
+    public function testRadioFieldWithArrayBasic(CodeGuy $I)
     {
-        $options = array(
-            'some_field_name',
-            'class' => 'some_class',
-        );
-        $expected = '<input type="radio" id="some_field_name" name="some_field_name" value="" class="some_class">';
-        $actual   = PhTag::radioField($options);
+        $this->radioFieldWithArrayBasic($I, false);
+    }
 
-        $this->assertEquals(
-            $expected,
-            $actual,
-            sprintf($this->message, 'radioField basic with array')
-        );
+    /**
+     * Tests radioField with array as parameters XHTML
+     *
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-09-05
+     *
+     * @param CodeGuy $I
+     */
+    public function testRadioFieldWithArrayBasicXHTML(CodeGuy $I)
+    {
+        $this->radioFieldWithArrayBasic($I, true);
     }
 
     /**
      * Tests radioField with id in parameters
      *
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
-     * @since  2012-09-15
+     * @since  2014-09-05
+     *
+     * @param CodeGuy $I
      */
-    public function testRadioFieldWithIdInParameters()
+    public function testRadioFieldWithIdInParameters(CodeGuy $I)
+    {
+        $this->radioFieldWithIdInParameters($I, false);
+    }
+
+    /**
+     * Tests radioField with id in parameters XHTML
+     *
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-09-05
+     *
+     * @param CodeGuy $I
+     */
+    public function testRadioFieldWithIdInParametersXHTML(CodeGuy $I)
+    {
+        $this->radioFieldWithIdInParameters($I, true);
+    }
+
+    /**
+     * Tests radioField with name and no id in parameters
+     *
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-09-05
+     *
+     * @param CodeGuy $I
+     */
+    public function testRadioFieldWithNameAndNotIdInParameters(CodeGuy $I)
+    {
+        $this->radioFieldWithNameAndNotIdInParameters($I, false);
+    }
+
+    /**
+     * Tests radioField with name and no id in parameters XHTML
+     *
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-09-05
+     *
+     * @param CodeGuy $I
+     */
+    public function testRadioFieldWithNameAndNotIdInParametersXHTML(CodeGuy $I)
+    {
+        $this->radioFieldWithNameAndNotIdInParameters($I, true);
+    }
+
+    /**
+     * Tests radioField with setDefault
+     *
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-09-05
+     *
+     * @param CodeGuy $I
+     */
+    public function testRadioFieldSetDefault(CodeGuy $I)
+    {
+        $this->radioFieldSetDefault($I, false);
+    }
+
+    /**
+     * Tests radioField with setDefault XHTML
+     *
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-09-05
+     *
+     * @param CodeGuy $I
+     */
+    public function testRadioFieldSetDefaultXHTML(CodeGuy $I)
+    {
+        $this->radioFieldSetDefault($I, true);
+    }
+
+    /**
+     * Tests radioField with displayTo
+     *
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-09-05
+     *
+     * @param CodeGuy $I
+     */
+    public function testRadioFieldDisplayTo(CodeGuy $I)
+    {
+        $this->radioFieldDisplayTo($I, false);
+    }
+
+    /**
+     * Tests radioField with displayTo XHTML
+     *
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-09-05
+     *
+     * @param CodeGuy $I
+     */
+    public function testRadioFieldDisplayToXHTML(CodeGuy $I)
+    {
+        $this->radioFieldDisplayTo($I, true);
+    }
+
+    /**
+     * Tests radioField with setDefault to an non existent element
+     *
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-09-05
+     *
+     * @param CodeGuy $I
+     */
+    public function testRadioFieldSetDefaultElementNotPresent(CodeGuy $I)
+    {
+        $this->radioFieldSetDefaultElementNotPresent($I, false);
+    }
+
+    /**
+     * Tests radioField with setDefault to an non existent element XHTML
+     *
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-09-05
+     *
+     * @param CodeGuy $I
+     */
+    public function testRadioFieldSetDefaultElementNotPresentXHTML(CodeGuy $I)
+    {
+        $this->radioFieldSetDefaultElementNotPresent($I, true);
+    }
+
+    /**
+     * Tests radioField with displayTo to an non existent element
+     *
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-09-05
+     *
+     * @param CodeGuy $I
+     */
+    public function testRadioFieldDisplayToElementNotPresent(CodeGuy $I)
+    {
+        $this->radioFieldDisplayToElementNotPresent($I, false);
+    }
+
+    /**
+     * Tests radioField with displayTo to an non existent element XHTML
+     *
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-09-05
+     *
+     * @param CodeGuy $I
+     */
+    public function testRadioFieldDisplayToElementNotPresentXHTML(CodeGuy $I)
+    {
+        $this->radioFieldDisplayToElementNotPresent($I, true);
+    }
+
+
+    /**
+     * PRIVATE METHODS
+     */
+    /**
+     * Runs tests with string as a parameter for XHTML or not
+     *
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-09-05
+     *
+     * @param CodeGuy $I
+     * @param Boolean $xhtml
+     */
+    private function radioFieldBasic(CodeGuy $I, $xhtml)
+    {
+        $options  = 'some_field_name';
+        $expected = '<input type="radio" id="some_field_name" '
+                  . 'name="some_field_name"';
+
+        $this->runBasic('radioField', $I, $options, $expected, $xhtml);
+    }
+
+    /**
+     * Runs tests with array as parameters for XHTML or not
+     *
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-09-05
+     *
+     * @param CodeGuy $I
+     * @param Boolean $xhtml
+     */
+    private function radioFieldWithArrayBasic(CodeGuy $I, $xhtml)
+    {
+        $options = array(
+            'some_field_name',
+            'class' => 'some_class',
+        );
+        $expected = '<input type="radio" id="some_field_name" '
+                  . 'name="some_field_name" class="some_class"';
+
+        $this->runWithArrayBasic('radioField', $I, $options, $expected, $xhtml);
+    }
+
+    /**
+     * Runs tests with id in parameters for XHTML or not
+     *
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-09-05
+     *
+     * @param CodeGuy $I
+     * @param Boolean $xhtml
+     */
+    private function radioFieldWithIdInParameters(CodeGuy $I, $xhtml)
     {
         $options = array(
             'some_field_name',
@@ -101,23 +295,22 @@ class TagCest
             'class' => 'some_class',
             'size'  => '10',
         );
-        $expected = '<input type="radio" id="some_id" name="some_field_name" value="" class="some_class" size="10">';
-        $actual   = PhTag::radioField($options);
+        $expected = '<input type="radio" id="some_id" name="some_field_name" '
+                  . 'class="some_class" size="10"';
 
-        $this->assertEquals(
-            $expected,
-            $actual,
-            sprintf($this->message, 'radioField with id in parameters')
-        );
+        $this->runWithIdInParameters('radioField', $I, $options, $expected, $xhtml);
     }
 
     /**
-     * Tests radioField with name and not id in parameters
+     * Runs tests with name and no id in parameters for XHTML or not
      *
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
-     * @since  2012-09-15
+     * @since  2014-09-05
+     *
+     * @param CodeGuy $I
+     * @param Boolean $xhtml
      */
-    public function testRadioFieldWithNameAndNotIdInParameters()
+    private function radioFieldWithNameAndNotIdInParameters(CodeGuy $I, $xhtml)
     {
         $options = array(
             'some_field_name',
@@ -125,324 +318,132 @@ class TagCest
             'class' => 'some_class',
             'size'  => '10',
         );
-        $expected = '<input type="radio" id="some_field_name" name="some_other_name" value="" class="some_class" size="10">';
-        $actual   = PhTag::radioField($options);
+        $expected = '<input type="radio" id="some_field_name" '
+                  . 'name="some_other_name" class="some_class" size="10"';
 
-        $this->assertEquals(
+        $this->runWithNameAndNotIdInParameters(
+            'radioField',
+            $I,
+            $options,
             $expected,
-            $actual,
-            sprintf(
-                $this->message,
-                'radioField with name and id in parameters'
-            )
+            $xhtml
         );
     }
 
     /**
-     * Tests radioField with setDefault
+     * Runs tests with setDefault for XHTML or not
      *
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
-     * @since  2012-09-15
+     * @since  2014-09-05
+     *
+     * @param CodeGuy $I
+     * @param Boolean $xhtml
      */
-    public function testRadioFieldSetDefault()
+    private function radioFieldSetDefault(CodeGuy $I, $xhtml)
     {
         $options = array(
             'some_field_name',
             'class' => 'some_class',
             'size'  => '10',
         );
-        PhTag::setDefault('some_field_name', 'some_default_value');
-        $expected = '<input type="radio" id="some_field_name" name="some_field_name" value="some_default_value" class="some_class" size="10" checked="checked">';
-        $actual   = PhTag::radioField($options);
-        PhTag::setDefault('some_field_name', '');
+        $expected = '<input type="radio" id="some_field_name" '
+                  . 'name="some_field_name" value="some_default_value" '
+                  . 'class="some_class" size="10"';
 
-        $this->assertEquals(
+        $this->runSetDefault(
+            'radioField',
+            $I,
+            $options,
             $expected,
-            $actual,
-            sprintf($this->message, 'radioField with setDefault')
+            $xhtml
         );
     }
 
     /**
-     * Tests radioField with displayTo
+     * Runs tests with displayTo for XHTML or not
      *
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
-     * @since  2012-09-15
+     * @since  2014-09-05
+     *
+     * @param CodeGuy $I
+     * @param Boolean $xhtml
      */
-    public function testRadioFieldDisplayTo()
+    private function radioFieldDisplayTo(CodeGuy $I, $xhtml)
     {
         $options = array(
             'some_field_name',
             'class' => 'some_class',
             'size'  => '10',
         );
-        PhTag::displayTo('some_field_name', 'some_default_value');
-        $expected = '<input type="radio" id="some_field_name" name="some_field_name" value="some_default_value" class="some_class" size="10" checked="checked">';
-        $actual   = PhTag::radioField($options);
-        PhTag::displayTo('some_field_name', '');
+        $expected = '<input type="radio" id="some_field_name" '
+                  . 'name="some_field_name" value="some_default_value" '
+                  . 'class="some_class" size="10"';
 
-        $this->assertEquals(
+        $this->runDisplayTo(
+            'radioField',
+            $I,
+            $options,
             $expected,
-            $actual,
-            sprintf($this->message, 'radioField with displayTo')
+            $xhtml
         );
     }
 
     /**
-     * Tests radioField with setDefault to an non existent element
+     * Runs tests with setDefault to an non existent element for XHTML or not
      *
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
-     * @since  2012-09-15
+     * @since  2014-09-05
+     *
+     * @param CodeGuy $I
+     * @param Boolean $xhtml
      */
-    public function testRadioFieldSetDefaultElementNotPresent()
+    private function radioFieldSetDefaultElementNotPresent(CodeGuy $I, $xhtml)
     {
         $options = array(
-            'some_field_name',
+            'some_field',
             'class' => 'some_class',
             'size'  => '10',
         );
-        PhTag::setDefault('some_field', 'some_default_value');
-        $expected = '<input type="radio" id="some_field_name" name="some_field_name" value="" class="some_class" size="10">';
-        $actual   = PhTag::radioField($options);
-        PhTag::setDefault('some_field', '');
+        $expected = '<input type="radio" id="some_field" '
+                  . 'name="some_field" class="some_class" '
+                  . 'size="10"';
 
-        $this->assertEquals(
+        $this->runSetDefault(
+            'radioField',
+            $I,
+            $options,
             $expected,
-            $actual,
-            sprintf($this->message, 'radioField with setDefault')
+            $xhtml
         );
     }
 
     /**
-     * Tests radioField with displayTo
+     * Runs tests with displayTo to an non existent element for XHTML or not
      *
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
-     * @since  2012-09-15
+     * @since  2014-09-05
+     *
+     * @param CodeGuy $I
+     * @param Boolean $xhtml
      */
-    public function testRadioFieldDisplayToElementNotPresent()
+    private function radioFieldDisplayToElementNotPresent(CodeGuy $I, $xhtml)
     {
         $options = array(
-            'some_field_name',
+            'some_field',
             'class' => 'some_class',
             'size'  => '10',
         );
-        PhTag::displayTo('some_field', 'some_default_value');
-        $expected = '<input type="radio" id="some_field_name" name="some_field_name" value="" class="some_class" size="10">';
-        $actual   = PhTag::radioField($options);
-        PhTag::displayTo('some_field', '');
+        $expected = '<input type="radio" id="some_field" '
+                  . 'name="some_field" class="some_class" '
+                  . 'size="10"';
 
-        $this->assertEquals(
+        $this->runDisplayTo(
+            'radioField',
+            $I,
+            $options,
             $expected,
-            $actual,
-            sprintf($this->message, 'radioField with displayTo')
-        );
-    }
-
-    /**
-     * Tests radioField with string as a parameter
-     *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
-     * @since  2012-09-15
-     */
-    public function testRadioFieldBasicXHTML()
-    {
-        PhTag::setDoctype(PhTag::XHTML10_STRICT);
-        $options  = 'some_field_name';
-        $expected = '<input type="radio" id="some_field_name" name="some_field_name" value="" />';
-        $actual   = PhTag::radioField($options);
-        PhTag::setDoctype('');
-
-        $this->assertEquals(
-            $expected,
-            $actual,
-            sprintf($this->message, 'XHTML radioField basic')
-        );
-    }
-
-    /**
-     * Tests radioField with array as parameters
-     *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
-     * @since  2012-09-15
-     */
-    public function testRadioFieldWithArrayBasicXHTML()
-    {
-        PhTag::setDoctype(PhTag::XHTML10_STRICT);
-        $options = array(
-            'some_field_name',
-            'class' => 'some_class',
-        );
-        $expected = '<input type="radio" id="some_field_name" name="some_field_name" value="" class="some_class" />';
-        $actual   = PhTag::radioField($options);
-        PhTag::setDoctype('');
-
-        $this->assertEquals(
-            $expected,
-            $actual,
-            sprintf($this->message, 'XHTML radioField basic with array')
-        );
-    }
-
-    /**
-     * Tests radioField with id in parameters
-     *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
-     * @since  2012-09-15
-     */
-    public function testRadioFieldWithIdInParametersXHTML()
-    {
-        PhTag::setDoctype(PhTag::XHTML10_STRICT);
-        $options = array(
-            'some_field_name',
-            'id'    => 'some_id',
-            'class' => 'some_class',
-            'size'  => '10',
-        );
-        $expected = '<input type="radio" id="some_id" name="some_field_name" value="" class="some_class" size="10" />';
-        $actual   = PhTag::radioField($options);
-        PhTag::setDoctype('');
-
-        $this->assertEquals(
-            $expected,
-            $actual,
-            sprintf($this->message, 'XHTML radioField with id in parameters')
-        );
-    }
-
-    /**
-     * Tests radioField with name and not id in parameters
-     *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
-     * @since  2012-09-15
-     */
-    public function testRadioFieldWithNameAndNotIdInParametersXHTML()
-    {
-        PhTag::setDoctype(PhTag::XHTML10_STRICT);
-        $options = array(
-            'some_field_name',
-            'name'  => 'some_other_name',
-            'class' => 'some_class',
-            'size'  => '10',
-        );
-        $expected = '<input type="radio" id="some_field_name" name="some_other_name" value="" class="some_class" size="10" />';
-        $actual   = PhTag::radioField($options);
-        PhTag::setDoctype('');
-
-        $this->assertEquals(
-            $expected,
-            $actual,
-            sprintf(
-                $this->message,
-                'radioField with name and id in parameters'
-            )
-        );
-    }
-
-    /**
-     * Tests radioField with setDefault
-     *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
-     * @since  2012-09-15
-     */
-    public function testRadioFieldSetDefaultXHTML()
-    {
-        PhTag::setDoctype(PhTag::XHTML10_STRICT);
-        $options = array(
-            'some_field_name',
-            'class' => 'some_class',
-            'size'  => '10',
-        );
-        PhTag::setDefault('some_field_name', 'some_default_value');
-        $expected = '<input type="radio" id="some_field_name" name="some_field_name" value="some_default_value" class="some_class" size="10" checked="checked" />';
-        $actual   = PhTag::radioField($options);
-        PhTag::setDefault('some_field_name', '');
-        PhTag::setDoctype('');
-
-        $this->assertEquals(
-            $expected,
-            $actual,
-            sprintf($this->message, 'XHTML radioField with setDefault')
-        );
-    }
-
-    /**
-     * Tests radioField with displayTo
-     *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
-     * @since  2012-09-15
-     */
-    public function testRadioFieldDisplayToXHTML()
-    {
-        PhTag::setDoctype(PhTag::XHTML10_STRICT);
-        $options = array(
-            'some_field_name',
-            'class' => 'some_class',
-            'size'  => '10',
-        );
-        PhTag::displayTo('some_field_name', 'some_default_value');
-        $expected = '<input type="radio" id="some_field_name" name="some_field_name" value="some_default_value" class="some_class" size="10" checked="checked" />';
-        $actual   = PhTag::radioField($options);
-        PhTag::displayTo('some_field_name', '');
-        PhTag::setDoctype('');
-
-        $this->assertEquals(
-            $expected,
-            $actual,
-            sprintf($this->message, 'XHTML radioField with displayTo')
-        );
-    }
-
-    /**
-     * Tests radioField with setDefault to an non existent element
-     *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
-     * @since  2012-09-15
-     */
-    public function testRadioFieldSetDefaultElementNotPresentXHTML()
-    {
-        PhTag::setDoctype(PhTag::XHTML10_STRICT);
-        $options = array(
-            'some_field_name',
-            'class' => 'some_class',
-            'size'  => '10',
-        );
-        PhTag::setDefault('some_field', 'some_default_value');
-        $expected = '<input type="radio" id="some_field_name" name="some_field_name" value="" class="some_class" size="10" />';
-        $actual   = PhTag::radioField($options);
-        PhTag::setDefault('some_field', '');
-        PhTag::setDoctype('');
-
-        $this->assertEquals(
-            $expected,
-            $actual,
-            sprintf($this->message, 'XHTML radioField with setDefault')
-        );
-    }
-
-    /**
-     * Tests radioField with displayTo
-     *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
-     * @since  2012-09-15
-     */
-    public function testRadioFieldDisplayToElementNotPresentXHTML()
-    {
-        PhTag::setDoctype(PhTag::XHTML10_STRICT);
-        $options = array(
-            'some_field_name',
-            'class' => 'some_class',
-            'size'  => '10',
-        );
-        PhTag::displayTo('some_field', 'some_default_value');
-        $expected = '<input type="radio" id="some_field_name" name="some_field_name" value="" class="some_class" size="10" />';
-        $actual   = PhTag::radioField($options);
-        PhTag::displayTo('some_field', '');
-        PhTag::setDoctype('');
-
-        $this->assertEquals(
-            $expected,
-            $actual,
-            sprintf($this->message, 'XHTML radioField with displayTo')
+            $xhtml
         );
     }
 }
+
