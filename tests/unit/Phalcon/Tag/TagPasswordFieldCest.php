@@ -252,7 +252,7 @@ class TagPasswordFieldCest extends TagBase
     {
         $options  = 'some_field_name';
         $expected = '<input type="password" id="some_field_name" '
-                  . 'name="some_field_name"';
+                  . 'name="some_field_name" value=""';
 
         $this->runBasic('passwordField', $I, $options, $expected, $xhtml);
     }
@@ -273,7 +273,7 @@ class TagPasswordFieldCest extends TagBase
             'class' => 'some_class',
         );
         $expected = '<input type="password" id="some_field_name" '
-                  . 'name="some_field_name" class="some_class"';
+                  . 'name="some_field_name" value="" class="some_class"';
 
         $this->runWithArrayBasic('passwordField', $I, $options, $expected, $xhtml);
     }
@@ -296,7 +296,7 @@ class TagPasswordFieldCest extends TagBase
             'size'  => '10',
         );
         $expected = '<input type="password" id="some_id" name="some_field_name" '
-                  . 'class="some_class" size="10"';
+                  . 'value="" class="some_class" size="10"';
 
         $this->runWithIdInParameters('passwordField', $I, $options, $expected, $xhtml);
     }
@@ -319,7 +319,8 @@ class TagPasswordFieldCest extends TagBase
             'size'  => '10',
         );
         $expected = '<input type="password" id="some_field_name" '
-                  . 'name="some_other_name" class="some_class" size="10"';
+                  . 'name="some_other_name" value="" class="some_class" '
+                  . 'size="10"';
 
         $this->runWithNameAndNotIdInParameters(
             'passwordField',
@@ -405,7 +406,7 @@ class TagPasswordFieldCest extends TagBase
             'size'  => '10',
         );
         $expected = '<input type="password" id="some_field" '
-                  . 'name="some_field" class="some_class" '
+                  . 'name="some_field" value="" class="some_class" '
                   . 'size="10"';
 
         $this->runSetDefault(
@@ -434,7 +435,7 @@ class TagPasswordFieldCest extends TagBase
             'size'  => '10',
         );
         $expected = '<input type="password" id="some_field" '
-                  . 'name="some_field" class="some_class" '
+                  . 'name="some_field" value="" class="some_class" '
                   . 'size="10"';
 
         $this->runDisplayTo(

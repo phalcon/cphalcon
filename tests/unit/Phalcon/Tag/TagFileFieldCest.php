@@ -252,7 +252,7 @@ class TagFileFieldCest extends TagBase
     {
         $options  = 'some_field_name';
         $expected = '<input type="file" id="some_field_name" '
-                  . 'name="some_field_name"';
+                  . 'name="some_field_name" value=""';
 
         $this->runBasic('fileField', $I, $options, $expected, $xhtml);
     }
@@ -273,7 +273,7 @@ class TagFileFieldCest extends TagBase
             'class' => 'some_class',
         );
         $expected = '<input type="file" id="some_field_name" '
-                  . 'name="some_field_name" class="some_class"';
+                  . 'name="some_field_name" value="" class="some_class"';
 
         $this->runWithArrayBasic('fileField', $I, $options, $expected, $xhtml);
     }
@@ -296,7 +296,7 @@ class TagFileFieldCest extends TagBase
             'size'  => '10',
         );
         $expected = '<input type="file" id="some_id" name="some_field_name" '
-                  . 'class="some_class" size="10"';
+                  . 'value="" class="some_class" size="10"';
 
         $this->runWithIdInParameters('fileField', $I, $options, $expected, $xhtml);
     }
@@ -319,7 +319,8 @@ class TagFileFieldCest extends TagBase
             'size'  => '10',
         );
         $expected = '<input type="file" id="some_field_name" '
-                  . 'name="some_other_name" class="some_class" size="10"';
+                  . 'name="some_other_name" value="" class="some_class" '
+                  . 'size="10"';
 
         $this->runWithNameAndNotIdInParameters(
             'fileField',
@@ -405,7 +406,7 @@ class TagFileFieldCest extends TagBase
             'size'  => '10',
         );
         $expected = '<input type="file" id="some_field" '
-                  . 'name="some_field" class="some_class" '
+                  . 'name="some_field" value="" class="some_class" '
                   . 'size="10"';
 
         $this->runSetDefault(
@@ -434,7 +435,7 @@ class TagFileFieldCest extends TagBase
             'size'  => '10',
         );
         $expected = '<input type="file" id="some_field" '
-                  . 'name="some_field" class="some_class" '
+                  . 'name="some_field" value="" class="some_class" '
                   . 'size="10"';
 
         $this->runDisplayTo(

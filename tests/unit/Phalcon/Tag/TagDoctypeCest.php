@@ -28,6 +28,14 @@ use \Phalcon\Tag as PhTag;
 class TagDoctypeCest extends TagBase
 {
     /**
+     * Setting the doctype to HTML5 for other tests to run smoothly
+     */
+    public function _after()
+    {
+        PhTag::setDocType(PhTag::HTML5);
+    }
+
+    /**
      * Tests the setting the doctype 3.2
      *
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
@@ -37,14 +45,7 @@ class TagDoctypeCest extends TagBase
      */
     public function testDoctypeSet32Final(CodeGuy $I)
     {
-        $doctype  = PhTag::HTML32;
-        PhTag::setDocType($doctype);
-        
-        $I->assertEquals(
-            $this->docTypeToString($doctype),
-            PhTag::getDocType(),
-            sprintf($this->message, 'Doctype (3.2 Final)')
-        );
+        $this->runDoctypeTest($I, PhTag::HTML32);
     }
 
     /**
@@ -57,14 +58,7 @@ class TagDoctypeCest extends TagBase
      */
     public function testDoctypeSet401(CodeGuy $I)
     {
-        $doctype  = PhTag::HTML401_STRICT;
-        PhTag::setDocType($doctype);
-        
-        $I->assertEquals(
-            $this->docTypeToString($doctype),
-            PhTag::getDocType(),
-            sprintf($this->message, 'Doctype (401 Strict)')
-        );
+        $this->runDoctypeTest($I, PhTag::HTML401_STRICT);
     }
 
     /**
@@ -77,14 +71,7 @@ class TagDoctypeCest extends TagBase
      */
     public function testDoctypeSet401Transitional(CodeGuy $I)
     {
-        $doctype  = PhTag::HTML401_TRANSITIONAL;
-        PhTag::setDocType($doctype);
-        
-        $I->assertEquals(
-            $this->docTypeToString($doctype),
-            PhTag::getDocType(),
-            sprintf($this->message, 'Doctype (401 Transitional)')
-        );
+        $this->runDoctypeTest($I, PhTag::HTML401_TRANSITIONAL);
     }
 
     /**
@@ -97,14 +84,7 @@ class TagDoctypeCest extends TagBase
      */
     public function testDoctypeSet401Frameset(CodeGuy $I)
     {
-        $doctype  = PhTag::HTML401_FRAMESET;
-        PhTag::setDocType($doctype);
-
-        $I->assertEquals(
-            $this->docTypeToString($doctype),
-            PhTag::getDocType(),
-            sprintf($this->message, 'Doctype (401 Frameset)')
-        );
+        $this->runDoctypeTest($I, PhTag::HTML401_FRAMESET);
     }
 
     /**
@@ -117,14 +97,7 @@ class TagDoctypeCest extends TagBase
      */
     public function testDoctypeSet5(CodeGuy $I)
     {
-        $doctype  = PhTag::HTML5;
-        PhTag::setDocType($doctype);
-
-        $I->assertEquals(
-            $this->docTypeToString($doctype),
-            PhTag::getDocType(),
-            sprintf($this->message, 'Doctype (5)')
-        );
+        $this->runDoctypeTest($I, PhTag::HTML5);
     }
 
     /**
@@ -137,14 +110,7 @@ class TagDoctypeCest extends TagBase
      */
     public function testDoctypeSet10Strict(CodeGuy $I)
     {
-        $doctype  = PhTag::XHTML10_STRICT;
-        PhTag::setDocType($doctype);
-
-        $I->assertEquals(
-            $this->docTypeToString($doctype),
-            PhTag::getDocType(),
-            sprintf($this->message, 'Doctype (1.0 Strict)')
-        );
+        $this->runDoctypeTest($I, PhTag::XHTML10_STRICT);
     }
 
     /**
@@ -157,14 +123,7 @@ class TagDoctypeCest extends TagBase
      */
     public function testDoctypeSet10Transitional(CodeGuy $I)
     {
-        $doctype  = PhTag::XHTML10_TRANSITIONAL;
-        PhTag::setDocType($doctype);
-
-        $I->assertEquals(
-            $this->docTypeToString($doctype),
-            PhTag::getDocType(),
-            sprintf($this->message, 'Doctype (1.0 Transitional)')
-        );
+        $this->runDoctypeTest($I, PhTag::XHTML10_TRANSITIONAL);
     }
 
     /**
@@ -177,14 +136,7 @@ class TagDoctypeCest extends TagBase
      */
     public function testDoctypeSet10Frameset(CodeGuy $I)
     {
-        $doctype  = PhTag::XHTML10_FRAMESET;
-        PhTag::setDocType($doctype);
-
-        $I->assertEquals(
-            $this->docTypeToString($doctype),
-            PhTag::getDocType(),
-            sprintf($this->message, 'Doctype (1.0 Frameset)')
-        );
+        $this->runDoctypeTest($I, PhTag::XHTML10_FRAMESET);
     }
 
     /**
@@ -197,14 +149,7 @@ class TagDoctypeCest extends TagBase
      */
     public function testDoctypeSet11(CodeGuy $I)
     {
-        $doctype  = PhTag::XHTML11;
-        PhTag::setDocType($doctype);
-
-        $I->assertEquals(
-            $this->docTypeToString($doctype),
-            PhTag::getDocType(),
-            sprintf($this->message, 'Doctype (1.1)')
-        );
+        $this->runDoctypeTest($I, PhTag::XHTML11);
     }
 
     /**
@@ -217,14 +162,7 @@ class TagDoctypeCest extends TagBase
      */
     public function testDoctypeSet20(CodeGuy $I)
     {
-        $doctype  = PhTag::XHTML20;
-        PhTag::setDocType($doctype);
-
-        $I->assertEquals(
-            $this->docTypeToString($doctype),
-            PhTag::getDocType(),
-            sprintf($this->message, 'Doctype (2.0)')
-        );
+        $this->runDoctypeTest($I, PhTag::XHTML20);
     }
 
     /**
@@ -237,13 +175,28 @@ class TagDoctypeCest extends TagBase
      */
     public function testDoctypeSetWrongParameter(CodeGuy $I)
     {
-        $doctype  = 99;
+        $this->runDoctypeTest($I, 99);
+    }
+
+    /**
+     * Runs a doctype test, one for each doctype
+     *
+     * @param CodeGuy $I
+     * @param integer $doctype
+     */
+    private function runDoctypeTest(\CodeGuy $I, $doctype)
+    {
         PhTag::setDocType($doctype);
 
-        $I->assertEmpty(
-            $this->docTypeToString($doctype),
-            PhTag::getDocType(),
-            sprintf($this->message, 'Doctype wrong parameter')
+        $expected = $this->docTypeToString($doctype);
+        $actual   = PhTag::getDocType();
+
+        PhTag::setDocType('');
+
+        $I->assertEquals(
+            $expected,
+            $actual,
+            sprintf($this->message, 'Doctype (' . $expected . ')')
         );
     }
 

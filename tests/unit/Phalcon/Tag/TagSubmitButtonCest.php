@@ -1,6 +1,6 @@
 <?php
 /**
- * TagCest.php
+ * TagSubmitButtonCest.php
  * \Phalcon\Tag
  *
  * Tests the \Phalcon\Tag component
@@ -20,49 +20,37 @@
  * so that we can send you a copy immediately.
  */
 
+namespace Phalcon\Tests\unit\Phalcon\Tag;
+
 use \CodeGuy;
 use \Phalcon\Tag as PhTag;
 
-class TagCest
+class TagSubmitButtonCest extends TagBase
 {
     /**
-     * Tests the get
+     * Tests submitButton with string as a parameter
      *
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
-     * @since  2014-09-04
+     * @since  2014-09-05
      *
      * @param CodeGuy $I
      */
-    public function testGet(CodeGuy $I)
+    public function testSubmitButtonBasic(CodeGuy $I)
     {
-        $actual = Version::get();
-
-        $I->assertTrue(
-            is_string($actual),
-            'get() does not return a string'
-        );
+        $this->submitButtonBasic($I, false);
     }
 
-    // -------------------------------------------------------------------------
-    // submitButton
-    // -------------------------------------------------------------------------
     /**
-     * Tests submitButton with string as a parameter
+     * Tests submitButton with string as a parameter XHTML
      *
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-05
+     *
+     * @param CodeGuy $I
      */
-    public function testSubmitButtonBasic()
+    public function testSubmitButtonBasicXHTML(CodeGuy $I)
     {
-        $options  = 'some_field_name';
-        $expected = '<input type="submit" value="some_field_name">';
-        $actual   = PhTag::submitButton($options);
-
-        $this->assertEquals(
-            $expected,
-            $actual,
-            sprintf($this->message, 'submitButton basic')
-        );
+        $this->submitButtonBasic($I, true);
     }
 
     /**
@@ -70,24 +58,25 @@ class TagCest
      *
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-05
-     * @todo   Fix the order
+     *
+     * @param CodeGuy $I
      */
-    public function testSubmitButtonWithArrayBasic()
+    public function testSubmitButtonWithArrayBasic(CodeGuy $I)
     {
-        $options = array(
-            'some_field_name',
-            'class' => 'some_class',
-        );
-//        $expected = '<input type="submit" value="some_field_name" '
-//                  . 'class="some_class">';
-        $expected = '<input type="submit" value="some_field_name" class="some_class">';
-        $actual   = PhTag::submitButton($options);
+        $this->submitButtonWithArrayBasic($I, false);
+    }
 
-        $this->assertEquals(
-            $expected,
-            $actual,
-            sprintf($this->message, 'submitButton basic with array')
-        );
+    /**
+     * Tests submitButton with array as parameters XHTML
+     *
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-09-05
+     *
+     * @param CodeGuy $I
+     */
+    public function testSubmitButtonWithArrayBasicXHTML(CodeGuy $I)
+    {
+        $this->submitButtonWithArrayBasic($I, true);
     }
 
     /**
@@ -95,52 +84,51 @@ class TagCest
      *
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-05
-     * @todo   Fix the order
+     *
+     * @param CodeGuy $I
      */
-    public function testSubmitButtonWithIdInParameters()
+    public function testSubmitButtonWithIdInParameters(CodeGuy $I)
     {
-        $options = array(
-            'some_field_name',
-            'id'    => 'some_id',
-            'class' => 'some_class',
-            'size'  => '10',
-        );
-        $expected = '<input type="submit" id="some_id" value="some_field_name" class="some_class" size="10">';
-        $actual   = PhTag::submitButton($options);
-
-        $this->assertEquals(
-            $expected,
-            $actual,
-            sprintf($this->message, 'submitButton with id in parameters')
-        );
+        $this->submitButtonWithIdInParameters($I, false);
     }
 
     /**
-     * Tests submitButton with name and not id in parameters
+     * Tests submitButton with id in parameters XHTML
      *
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-05
-     * @todo   Fix the order
+     *
+     * @param CodeGuy $I
      */
-    public function testSubmitButtonWithNameAndNotIdInParameters()
+    public function testSubmitButtonWithIdInParametersXHTML(CodeGuy $I)
     {
-        $options = array(
-            'some_field_name',
-            'name'  => 'some_other_name',
-            'class' => 'some_class',
-            'size'  => '10',
-        );
-        $expected = '<input type="submit" name="some_other_name" value="some_field_name" class="some_class" size="10">';
-        $actual   = PhTag::submitButton($options);
+        $this->submitButtonWithIdInParameters($I, true);
+    }
 
-        $this->assertEquals(
-            $expected,
-            $actual,
-            sprintf(
-                $this->message,
-                'submitButton with name and id in parameters'
-            )
-        );
+    /**
+     * Tests submitButton with name and no id in parameters
+     *
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-09-05
+     *
+     * @param CodeGuy $I
+     */
+    public function testSubmitButtonWithNameAndNotIdInParameters(CodeGuy $I)
+    {
+        $this->submitButtonWithNameAndNotIdInParameters($I, false);
+    }
+
+    /**
+     * Tests submitButton with name and no id in parameters XHTML
+     *
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-09-05
+     *
+     * @param CodeGuy $I
+     */
+    public function testSubmitButtonWithNameAndNotIdInParametersXHTML(CodeGuy $I)
+    {
+        $this->submitButtonWithNameAndNotIdInParameters($I, true);
     }
 
     /**
@@ -148,25 +136,25 @@ class TagCest
      *
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-05
-     * @todo   Fix the order
+     *
+     * @param CodeGuy $I
      */
-    public function testSubmitButtonSetDefault()
+    public function testSubmitButtonSetDefault(CodeGuy $I)
     {
-        $options = array(
-            'some_field_name',
-            'class' => 'some_class',
-            'size'  => '10',
-        );
-        PhTag::setDefault('some_field_name', 'some_default_value');
-        $expected = '<input type="submit" value="some_field_name" class="some_class" size="10">';
-        $actual   = PhTag::submitButton($options);
-        PhTag::setDefault('some_field_name', '');
+        $this->submitButtonSetDefault($I, false);
+    }
 
-        $this->assertEquals(
-            $expected,
-            $actual,
-            sprintf($this->message, 'submitButton with setDefault')
-        );
+    /**
+     * Tests submitButton with setDefault XHTML
+     *
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-09-05
+     *
+     * @param CodeGuy $I
+     */
+    public function testSubmitButtonSetDefaultXHTML(CodeGuy $I)
+    {
+        $this->submitButtonSetDefault($I, true);
     }
 
     /**
@@ -174,25 +162,25 @@ class TagCest
      *
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-05
-     * @todo   Fix the order
+     *
+     * @param CodeGuy $I
      */
-    public function testSubmitButtonDisplayTo()
+    public function testSubmitButtonDisplayTo(CodeGuy $I)
     {
-        $options = array(
-            'some_field_name',
-            'class' => 'some_class',
-            'size'  => '10',
-        );
-        PhTag::displayTo('some_field_name', 'some_default_value');
-        $expected = '<input type="submit" value="some_field_name" class="some_class" size="10">';
-        $actual   = PhTag::submitButton($options);
-        PhTag::displayTo('some_field_name', '');
+        $this->submitButtonDisplayTo($I, false);
+    }
 
-        $this->assertEquals(
-            $expected,
-            $actual,
-            sprintf($this->message, 'submitButton with displayTo')
-        );
+    /**
+     * Tests submitButton with displayTo XHTML
+     *
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-09-05
+     *
+     * @param CodeGuy $I
+     */
+    public function testSubmitButtonDisplayToXHTML(CodeGuy $I)
+    {
+        $this->submitButtonDisplayTo($I, true);
     }
 
     /**
@@ -200,25 +188,25 @@ class TagCest
      *
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-05
-     * @todo   Fix the order
+     *
+     * @param CodeGuy $I
      */
-    public function testSubmitButtonSetDefaultElementNotPresent()
+    public function testSubmitButtonSetDefaultElementNotPresent(CodeGuy $I)
     {
-        $options = array(
-            'some_field_name',
-            'class' => 'some_class',
-            'size'  => '10',
-        );
-        PhTag::setDefault('some_field', 'some_default_value');
-        $expected = '<input type="submit" value="some_field_name" class="some_class" size="10">';
-        $actual   = PhTag::submitButton($options);
-        PhTag::setDefault('some_field', '');
+        $this->submitButtonSetDefaultElementNotPresent($I, false);
+    }
 
-        $this->assertEquals(
-            $expected,
-            $actual,
-            sprintf($this->message, 'submitButton with setDefault')
-        );
+    /**
+     * Tests submitButton with setDefault to an non existent element XHTML
+     *
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-09-05
+     *
+     * @param CodeGuy $I
+     */
+    public function testSubmitButtonSetDefaultElementNotPresentXHTML(CodeGuy $I)
+    {
+        $this->submitButtonSetDefaultElementNotPresent($I, true);
     }
 
     /**
@@ -226,240 +214,234 @@ class TagCest
      *
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-05
-     * @todo   Fix the order
+     *
+     * @param CodeGuy $I
      */
-    public function testSubmitButtonDisplayToElementNotPresent()
+    public function testSubmitButtonDisplayToElementNotPresent(CodeGuy $I)
     {
-        $options = array(
-            'some_field_name',
-            'class' => 'some_class',
-            'size'  => '10',
-        );
-        PhTag::displayTo('some_field', 'some_default_value');
-        $expected = '<input type="submit" value="some_field_name" class="some_class" size="10">';
-        $actual   = PhTag::submitButton($options);
-        PhTag::displayTo('some_field', '');
-
-        $this->assertEquals(
-            $expected,
-            $actual,
-            sprintf($this->message, 'submitButton with displayTo')
-        );
+        $this->submitButtonDisplayToElementNotPresent($I, false);
     }
 
     /**
-     * Tests submitButton with string as a parameter
+     * Tests submitButton with displayTo to an non existent element XHTML
      *
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-05
+     *
+     * @param CodeGuy $I
      */
-    public function testSubmitButtonBasicXHTML()
+    public function testSubmitButtonDisplayToElementNotPresentXHTML(CodeGuy $I)
     {
-        PhTag::setDoctype(PhTag::XHTML10_STRICT);
+        $this->submitButtonDisplayToElementNotPresent($I, true);
+    }
+
+
+    /**
+     * PRIVATE METHODS
+     */
+    /**
+     * Runs tests with string as a parameter for XHTML or not
+     *
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-09-05
+     *
+     * @param CodeGuy $I
+     * @param Boolean $xhtml
+     */
+    private function submitButtonBasic(CodeGuy $I, $xhtml)
+    {
         $options  = 'some_field_name';
-        $expected = '<input type="submit" value="some_field_name" />';
-        $actual   = PhTag::submitButton($options);
-        PhTag::setDoctype('');
+        $expected = '<input type="submit" id="some_field_name" '
+                  . 'name="some_field_name" value=""';
 
-        $this->assertEquals(
-            $expected,
-            $actual,
-            sprintf($this->message, 'XHTML submitButton basic')
-        );
+        $this->runBasic('submitButton', $I, $options, $expected, $xhtml);
     }
 
     /**
-     * Tests submitButton with array as parameters
+     * Runs tests with array as parameters for XHTML or not
      *
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-05
-     * @todo   Fix the order
+     *
+     * @param CodeGuy $I
+     * @param Boolean $xhtml
      */
-    public function testSubmitButtonWithArrayBasicXHTML()
+    private function submitButtonWithArrayBasic(CodeGuy $I, $xhtml)
     {
-        PhTag::setDoctype(PhTag::XHTML10_STRICT);
         $options = array(
             'some_field_name',
             'class' => 'some_class',
         );
+        $expected = '<input type="submit" id="some_field_name" '
+                  . 'name="some_field_name" value="" class="some_class"';
 
-        $expected = '<input type="submit" value="some_field_name" class="some_class" />';
-        $actual   = PhTag::submitButton($options);
-        PhTag::setDoctype('');
-
-        $this->assertEquals(
-            $expected,
-            $actual,
-            sprintf($this->message, 'XHTML submitButton basic with array')
-        );
+        $this->runWithArrayBasic('submitButton', $I, $options, $expected, $xhtml);
     }
 
     /**
-     * Tests submitButton with id in parameters
+     * Runs tests with id in parameters for XHTML or not
      *
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-05
-     * @todo   Fix the order
+     *
+     * @param CodeGuy $I
+     * @param Boolean $xhtml
      */
-    public function testSubmitButtonWithIdInParametersXHTML()
+    private function submitButtonWithIdInParameters(CodeGuy $I, $xhtml)
     {
-        PhTag::setDoctype(PhTag::XHTML10_STRICT);
         $options = array(
             'some_field_name',
             'id'    => 'some_id',
             'class' => 'some_class',
             'size'  => '10',
         );
-        $expected = '<input type="submit" id="some_id" value="some_field_name" class="some_class" size="10" />';
-        $actual   = PhTag::submitButton($options);
-        PhTag::setDoctype('');
+        $expected = '<input type="submit" id="some_id" name="some_field_name" '
+                  . 'value="" class="some_class" size="10"';
 
-        $this->assertEquals(
-            $expected,
-            $actual,
-            sprintf($this->message, 'XHTML submitButton with id in parameters')
-        );
+        $this->runWithIdInParameters('submitButton', $I, $options, $expected, $xhtml);
     }
 
     /**
-     * Tests submitButton with name and not id in parameters
+     * Runs tests with name and no id in parameters for XHTML or not
      *
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-05
-     * @todo   Fix the order
+     *
+     * @param CodeGuy $I
+     * @param Boolean $xhtml
      */
-    public function testSubmitButtonWithNameAndNotIdInParametersXHTML()
+    private function submitButtonWithNameAndNotIdInParameters(CodeGuy $I, $xhtml)
     {
-        PhTag::setDoctype(PhTag::XHTML10_STRICT);
         $options = array(
             'some_field_name',
             'name'  => 'some_other_name',
             'class' => 'some_class',
             'size'  => '10',
         );
-        $expected = '<input type="submit" name="some_other_name" value="some_field_name" class="some_class" size="10" />';
-        $actual   = PhTag::submitButton($options);
-        PhTag::setDoctype('');
+        $expected = '<input type="submit" id="some_field_name" '
+                  . 'name="some_other_name" value="" class="some_class" '
+                  . 'size="10"';
 
-        $this->assertEquals(
+        $this->runWithNameAndNotIdInParameters(
+            'submitButton',
+            $I,
+            $options,
             $expected,
-            $actual,
-            sprintf(
-                $this->message,
-                'submitButton with name and id in parameters'
-            )
+            $xhtml
         );
     }
 
     /**
-     * Tests submitButton with setDefault
+     * Runs tests with setDefault for XHTML or not
      *
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-05
-     * @todo   Fix the order
+     *
+     * @param CodeGuy $I
+     * @param Boolean $xhtml
      */
-    public function testSubmitButtonSetDefaultXHTML()
+    private function submitButtonSetDefault(CodeGuy $I, $xhtml)
     {
-        PhTag::setDoctype(PhTag::XHTML10_STRICT);
         $options = array(
             'some_field_name',
             'class' => 'some_class',
             'size'  => '10',
         );
-        PhTag::setDefault('some_field_name', 'some_default_value');
-        $expected = '<input type="submit" value="some_field_name" class="some_class" size="10" />';
-        $actual   = PhTag::submitButton($options);
-        PhTag::setDefault('some_field_name', '');
-        PhTag::setDoctype('');
+        $expected = '<input type="submit" id="some_field_name" '
+                  . 'name="some_field_name" value="some_default_value" '
+                  . 'class="some_class" size="10"';
 
-        $this->assertEquals(
+        $this->runSetDefault(
+            'submitButton',
+            $I,
+            $options,
             $expected,
-            $actual,
-            sprintf($this->message, 'XHTML submitButton with setDefault')
+            $xhtml
         );
     }
 
     /**
-     * Tests submitButton with displayTo
+     * Runs tests with displayTo for XHTML or not
      *
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-05
-     * @todo   Fix the order
+     *
+     * @param CodeGuy $I
+     * @param Boolean $xhtml
      */
-    public function testSubmitButtonDisplayToXHTML()
+    private function submitButtonDisplayTo(CodeGuy $I, $xhtml)
     {
-        PhTag::setDoctype(PhTag::XHTML10_STRICT);
         $options = array(
             'some_field_name',
             'class' => 'some_class',
             'size'  => '10',
         );
-        PhTag::displayTo('some_field_name', 'some_default_value');
-        $expected = '<input type="submit" value="some_field_name" class="some_class" size="10" />';
-        $actual   = PhTag::submitButton($options);
-        PhTag::displayTo('some_field_name', '');
-        PhTag::setDoctype('');
+        $expected = '<input type="submit" id="some_field_name" '
+                  . 'name="some_field_name" value="some_default_value" '
+                  . 'class="some_class" size="10"';
 
-        $this->assertEquals(
+        $this->runDisplayTo(
+            'submitButton',
+            $I,
+            $options,
             $expected,
-            $actual,
-            sprintf($this->message, 'XHTML submitButton with displayTo')
+            $xhtml
         );
     }
 
     /**
-     * Tests submitButton with setDefault to an non existent element
+     * Runs tests with setDefault to an non existent element for XHTML or not
      *
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-05
-     * @todo   Fix the order
+     *
+     * @param CodeGuy $I
+     * @param Boolean $xhtml
      */
-    public function testSubmitButtonSetDefaultElementNotPresentXHTML()
+    private function submitButtonSetDefaultElementNotPresent(CodeGuy $I, $xhtml)
     {
-        PhTag::setDoctype(PhTag::XHTML10_STRICT);
         $options = array(
-            'some_field_name',
+            'some_field',
             'class' => 'some_class',
             'size'  => '10',
         );
-        PhTag::setDefault('some_field', 'some_default_value');
-        $expected = '<input type="submit" value="some_field_name" class="some_class" size="10" />';
-        $actual   = PhTag::submitButton($options);
-        PhTag::setDefault('some_field', '');
-        PhTag::setDoctype('');
+        $expected = '<input type="submit" value="some_field" '
+                  . 'value="" class="some_class" size="10"';
 
-        $this->assertEquals(
+        $this->runSetDefault(
+            'submitButton',
+            $I,
+            $options,
             $expected,
-            $actual,
-            sprintf($this->message, 'XHTML submitButton with setDefault')
+            $xhtml
         );
     }
 
     /**
-     * Tests submitButton with displayTo to an non existent element
+     * Runs tests with displayTo to an non existent element for XHTML or not
      *
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-05
-     * @todo   Fix the order
+     *
+     * @param CodeGuy $I
+     * @param Boolean $xhtml
      */
-    public function testSubmitButtonDisplayToElementNotPresentXHTML()
+    private function submitButtonDisplayToElementNotPresent(CodeGuy $I, $xhtml)
     {
-        PhTag::setDoctype(PhTag::XHTML10_STRICT);
         $options = array(
-            'some_field_name',
+            'some_field',
             'class' => 'some_class',
             'size'  => '10',
         );
-        PhTag::displayTo('some_field', 'some_default_value');
-        $expected = '<input type="submit" value="some_field_name" class="some_class" size="10" />';
-        $actual   = PhTag::submitButton($options);
-        PhTag::displayTo('some_field', '');
-        PhTag::setDoctype('');
+        $expected = '<input type="submit" value="some_field" '
+                  . 'value="" class="some_class" size="10"';
 
-        $this->assertEquals(
+        $this->runDisplayTo(
+            'submitButton',
+            $I,
+            $options,
             $expected,
-            $actual,
-            sprintf($this->message, 'XHTML submitButton with displayTo')
+            $xhtml
         );
     }
 }

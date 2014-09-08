@@ -410,8 +410,8 @@ class TagTextFieldCest extends TagBase
             'class' => 'some_class',
             'size'  => '10',
         );
-        $expected = '<input type="text" id="some_field_name" '
-                  . 'name="some_field_name" value="" class="some_class" '
+        $expected = '<input type="text" id="some_field" '
+                  . 'name="some_field" value="" class="some_class" '
                   . 'size="10"';
 
         $this->runSetDefault(
@@ -440,7 +440,7 @@ class TagTextFieldCest extends TagBase
             'size'  => '10',
         );
         $expected = '<input type="text" id="some_field" '
-                  . 'name="some_field" class="some_class" '
+                  . 'name="some_field" value="" class="some_class" '
                   . 'size="10"';
 
         $this->runDisplayTo(
