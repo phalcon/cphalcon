@@ -34,7 +34,7 @@ use Phalcon\Mvc\UrlInterface;
 class Tag
 {
 	/**
-	 * Pre-asigned values for components
+	 * Pre-assigned values for components
 	 */
 	protected static _displayValues;
 
@@ -798,7 +798,7 @@ class Tag
 	 * Builds a HTML input[type="radio"] tag
 	 *
 	 *<code>
-	 * echo Phalcon\Tag::radioField(array("wheather", "value" => "hot"))
+	 * echo Phalcon\Tag::radioField(array("weather", "value" => "hot"))
 	 *</code>
 	 *
 	 * Volt syntax:
@@ -1373,11 +1373,15 @@ class Tag
 	/**
 	 * Set the document type of content
 	 *
-	 * @param string doctype
+	 * @param integer doctype
 	 */
-	public static function setDocType(doctype) -> void
+	public static function setDocType(int doctype) -> void
 	{
-		let self::_documentType = doctype;
+	    if (doctype < self::HTML32 || doctype > self::XHTML5) {
+	        let self::_documentType = self::HTML5;
+	    } else {
+		    let self::_documentType = doctype;
+        }
 	}
 
 	/**
@@ -1387,7 +1391,6 @@ class Tag
 	 */
 	public static function getDocType() -> string
 	{
-
 		switch self::_documentType
 		{
 			case 1:  return "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 3.2 Final//EN\">" . PHP_EOL;
@@ -1398,8 +1401,6 @@ class Tag
 			/* no break */
 			case 4:  return "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Frameset//EN\"" . PHP_EOL . "\t\"http://www.w3.org/TR/html4/frameset.dtd\">" . PHP_EOL;
 			/* no break */
-			case 5:  return "<!DOCTYPE html>" . PHP_EOL;
-			/* no break */
 			case 6:  return "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\"" . PHP_EOL . "\t\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">" . PHP_EOL;
 			/* no break */
 			case 7:  return "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\"" . PHP_EOL."\t\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">" . PHP_EOL;
@@ -1409,6 +1410,9 @@ class Tag
 			case 9:  return "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.1//EN\"" . PHP_EOL . "\t\"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd\">" . PHP_EOL;
 			/* no break */
 			case 10: return "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 2.0//EN\"" . PHP_EOL . "\t\"http://www.w3.org/MarkUp/DTD/xhtml2.dtd\">" . PHP_EOL;
+			case 5:
+			case 11: return "<!DOCTYPE html>" . PHP_EOL;
+			/* no break */
 		}
 
 		return "";
