@@ -25,27 +25,9 @@ namespace Phalcon\Tests\unit\Phalcon\Tag;
 use \CodeGuy;
 use \Phalcon\Tag as PhTag;
 
-class TagFileFieldCest
+class TagFileFieldCest extends TagBase
 {
     /**
-     * Tests the get
-     *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
-     * @since  2014-09-04
-     *
-     * @param CodeGuy $I
-     */
-    public function testGet(CodeGuy $I)
-    {
-        $actual = Version::get();
-
-        $I->assertTrue(
-            is_string($actual),
-            'get() does not return a string'
-        );
-    }
-
-    /**
      * Tests fileField with string as a parameter
      *
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
@@ -53,17 +35,22 @@ class TagFileFieldCest
      *
      * @param CodeGuy $I
      */
-    public function testFileFieldBasic()
+    public function testFileFieldBasic(CodeGuy $I)
     {
-        $options  = 'some_field_name';
-        $expected = '<input type="file" id="some_field_name" name="some_field_name" value="">';
-        $actual   = PhTag::fileField($options);
+        $this->fileFieldBasic($I, false);
+    }
 
-        $this->assertEquals(
-            $expected,
-            $actual,
-            sprintf($this->message, 'fileField basic')
-        );
+    /**
+     * Tests fileField with string as a parameter XHTML
+     *
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-09-05
+     *
+     * @param CodeGuy $I
+     */
+    public function testFileFieldBasicXHTML(CodeGuy $I)
+    {
+        $this->fileFieldBasic($I, true);
     }
 
     /**
@@ -74,20 +61,22 @@ class TagFileFieldCest
      *
      * @param CodeGuy $I
      */
-    public function testFileFieldWithArrayBasic()
+    public function testFileFieldWithArrayBasic(CodeGuy $I)
     {
-        $options = array(
-            'some_field_name',
-            'class' => 'some_class',
-        );
-        $expected = '<input type="file" id="some_field_name" name="some_field_name" value="" class="some_class">';
-        $actual   = PhTag::fileField($options);
+        $this->fileFieldWithArrayBasic($I, false);
+    }
 
-        $this->assertEquals(
-            $expected,
-            $actual,
-            sprintf($this->message, 'fileField basic with array')
-        );
+    /**
+     * Tests fileField with array as parameters XHTML
+     *
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-09-05
+     *
+     * @param CodeGuy $I
+     */
+    public function testFileFieldWithArrayBasicXHTML(CodeGuy $I)
+    {
+        $this->fileFieldWithArrayBasic($I, true);
     }
 
     /**
@@ -98,51 +87,48 @@ class TagFileFieldCest
      *
      * @param CodeGuy $I
      */
-    public function testFileFieldWithIdInParameters()
+    public function testFileFieldWithIdInParameters(CodeGuy $I)
     {
-        $options = array(
-            'some_field_name',
-            'id'    => 'some_id',
-            'class' => 'some_class',
-            'size'  => '10',
-        );
-        $expected = '<input type="file" id="some_id" name="some_field_name" value="" class="some_class" size="10">';
-        $actual   = PhTag::fileField($options);
-
-        $this->assertEquals(
-            $expected,
-            $actual,
-            sprintf($this->message, 'fileField with id in parameters')
-        );
+        $this->fileFieldWithIdInParameters($I, false);
     }
 
     /**
-     * Tests fileField with name and not id in parameters
+     * Tests fileField with id in parameters XHTML
      *
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-05
      *
      * @param CodeGuy $I
      */
-    public function testFileFieldWithNameAndNotIdInParameters()
+    public function testFileFieldWithIdInParametersXHTML(CodeGuy $I)
     {
-        $options = array(
-            'some_field_name',
-            'name'  => 'some_other_name',
-            'class' => 'some_class',
-            'size'  => '10',
-        );
-        $expected = '<input type="file" id="some_field_name" name="some_other_name" value="" class="some_class" size="10">';
-        $actual   = PhTag::fileField($options);
+        $this->fileFieldWithIdInParameters($I, true);
+    }
 
-        $this->assertEquals(
-            $expected,
-            $actual,
-            sprintf(
-                $this->message,
-                'fileField with name and id in parameters'
-            )
-        );
+    /**
+     * Tests fileField with name and no id in parameters
+     *
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-09-05
+     *
+     * @param CodeGuy $I
+     */
+    public function testFileFieldWithNameAndNotIdInParameters(CodeGuy $I)
+    {
+        $this->fileFieldWithNameAndNotIdInParameters($I, false);
+    }
+
+    /**
+     * Tests fileField with name and no id in parameters XHTML
+     *
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-09-05
+     *
+     * @param CodeGuy $I
+     */
+    public function testFileFieldWithNameAndNotIdInParametersXHTML(CodeGuy $I)
+    {
+        $this->fileFieldWithNameAndNotIdInParameters($I, true);
     }
 
     /**
@@ -153,23 +139,22 @@ class TagFileFieldCest
      *
      * @param CodeGuy $I
      */
-    public function testFileFieldSetDefault()
+    public function testFileFieldSetDefault(CodeGuy $I)
     {
-        $options = array(
-            'some_field_name',
-            'class' => 'some_class',
-            'size'  => '10',
-        );
-        PhTag::setDefault('some_field_name', 'some_default_value');
-        $expected = '<input type="file" id="some_field_name" name="some_field_name" value="some_default_value" class="some_class" size="10">';
-        $actual   = PhTag::fileField($options);
-        PhTag::setDefault('some_field_name', '');
+        $this->fileFieldSetDefault($I, false);
+    }
 
-        $this->assertEquals(
-            $expected,
-            $actual,
-            sprintf($this->message, 'fileField with setDefault')
-        );
+    /**
+     * Tests fileField with setDefault XHTML
+     *
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-09-05
+     *
+     * @param CodeGuy $I
+     */
+    public function testFileFieldSetDefaultXHTML(CodeGuy $I)
+    {
+        $this->fileFieldSetDefault($I, true);
     }
 
     /**
@@ -177,24 +162,25 @@ class TagFileFieldCest
      *
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-05
+     *
+     * @param CodeGuy $I
      */
-    public function testFileFieldDisplayTo()
+    public function testFileFieldDisplayTo(CodeGuy $I)
     {
-        $options = array(
-            'some_field_name',
-            'class' => 'some_class',
-            'size'  => '10',
-        );
-        PhTag::displayTo('some_field_name', 'some_default_value');
-        $expected = '<input type="file" id="some_field_name" name="some_field_name" value="some_default_value" class="some_class" size="10">';
-        $actual   = PhTag::fileField($options);
-        PhTag::displayTo('some_field_name', '');
+        $this->fileFieldDisplayTo($I, false);
+    }
 
-        $this->assertEquals(
-            $expected,
-            $actual,
-            sprintf($this->message, 'fileField with displayTo')
-        );
+    /**
+     * Tests fileField with displayTo XHTML
+     *
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-09-05
+     *
+     * @param CodeGuy $I
+     */
+    public function testFileFieldDisplayToXHTML(CodeGuy $I)
+    {
+        $this->fileFieldDisplayTo($I, true);
     }
 
     /**
@@ -202,24 +188,25 @@ class TagFileFieldCest
      *
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-05
+     *
+     * @param CodeGuy $I
      */
-    public function testFileFieldSetDefaultElementNotPresent()
+    public function testFileFieldSetDefaultElementNotPresent(CodeGuy $I)
     {
-        $options = array(
-            'some_field_name',
-            'class' => 'some_class',
-            'size'  => '10',
-        );
-        PhTag::setDefault('some_field', 'some_default_value');
-        $expected = '<input type="file" id="some_field_name" name="some_field_name" value="" class="some_class" size="10">';
-        $actual   = PhTag::fileField($options);
-        PhTag::setDefault('some_field', '');
+        $this->fileFieldSetDefaultElementNotPresent($I, false);
+    }
 
-        $this->assertEquals(
-            $expected,
-            $actual,
-            sprintf($this->message, 'fileField with setDefault')
-        );
+    /**
+     * Tests fileField with setDefault to an non existent element XHTML
+     *
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-09-05
+     *
+     * @param CodeGuy $I
+     */
+    public function testFileFieldSetDefaultElementNotPresentXHTML(CodeGuy $I)
+    {
+        $this->fileFieldSetDefaultElementNotPresent($I, true);
     }
 
     /**
@@ -227,231 +214,235 @@ class TagFileFieldCest
      *
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-05
+     *
+     * @param CodeGuy $I
      */
-    public function testFileFieldDisplayToElementNotPresent()
+    public function testFileFieldDisplayToElementNotPresent(CodeGuy $I)
     {
-        $options = array(
-            'some_field_name',
-            'class' => 'some_class',
-            'size'  => '10',
-        );
-        PhTag::displayTo('some_field', 'some_default_value');
-        $expected = '<input type="file" id="some_field_name" name="some_field_name" value="" class="some_class" size="10">';
-        $actual   = PhTag::fileField($options);
-        PhTag::displayTo('some_field', '');
-
-        $this->assertEquals(
-            $expected,
-            $actual,
-            sprintf($this->message, 'fileField with displayTo')
-        );
+        $this->fileFieldDisplayToElementNotPresent($I, false);
     }
 
     /**
-     * Tests fileField with string as a parameter
+     * Tests fileField with displayTo to an non existent element XHTML
      *
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-05
+     *
+     * @param CodeGuy $I
      */
-    public function testFileFieldBasicXHTML()
+    public function testFileFieldDisplayToElementNotPresentXHTML(CodeGuy $I)
     {
-        PhTag::setDoctype(PhTag::XHTML10_STRICT);
+        $this->fileFieldDisplayToElementNotPresent($I, true);
+    }
+
+
+    /**
+     * PRIVATE METHODS
+     */
+    /**
+     * Runs tests with string as a parameter for XHTML or not
+     *
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-09-05
+     *
+     * @param CodeGuy $I
+     * @param Boolean $xhtml
+     */
+    private function fileFieldBasic(CodeGuy $I, $xhtml)
+    {
         $options  = 'some_field_name';
-        $expected = '<input type="file" id="some_field_name" name="some_field_name" value="" />';
-        $actual   = PhTag::fileField($options);
-        PhTag::setDoctype('');
+        $expected = '<input type="file" id="some_field_name" '
+                  . 'name="some_field_name"';
 
-        $this->assertEquals(
-            $expected,
-            $actual,
-            sprintf($this->message, 'XHTML fileField basic')
-        );
+        $this->runBasic('fileField', $I, $options, $expected, $xhtml);
     }
 
     /**
-     * Tests fileField with array as parameters
+     * Runs tests with array as parameters for XHTML or not
      *
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-05
+     *
+     * @param CodeGuy $I
+     * @param Boolean $xhtml
      */
-    public function testFileFieldWithArrayBasicXHTML()
+    private function fileFieldWithArrayBasic(CodeGuy $I, $xhtml)
     {
-        PhTag::setDoctype(PhTag::XHTML10_STRICT);
         $options = array(
             'some_field_name',
             'class' => 'some_class',
         );
-        $expected = '<input type="file" id="some_field_name" name="some_field_name" value="" class="some_class" />';
-        $actual   = PhTag::fileField($options);
-        PhTag::setDoctype('');
+        $expected = '<input type="file" id="some_field_name" '
+                  . 'name="some_field_name" class="some_class"';
 
-        $this->assertEquals(
-            $expected,
-            $actual,
-            sprintf($this->message, 'XHTML fileField basic with array')
-        );
+        $this->runWithArrayBasic('fileField', $I, $options, $expected, $xhtml);
     }
 
     /**
-     * Tests fileField with id in parameters
+     * Runs tests with id in parameters for XHTML or not
      *
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-05
+     *
+     * @param CodeGuy $I
+     * @param Boolean $xhtml
      */
-    public function testFileFieldWithIdInParametersXHTML()
+    private function fileFieldWithIdInParameters(CodeGuy $I, $xhtml)
     {
-        PhTag::setDoctype(PhTag::XHTML10_STRICT);
         $options = array(
             'some_field_name',
             'id'    => 'some_id',
             'class' => 'some_class',
             'size'  => '10',
         );
-        $expected = '<input type="file" id="some_id" name="some_field_name" value="" class="some_class" size="10" />';
-        $actual   = PhTag::fileField($options);
-        PhTag::setDoctype('');
+        $expected = '<input type="file" id="some_id" name="some_field_name" '
+                  . 'class="some_class" size="10"';
 
-        $this->assertEquals(
-            $expected,
-            $actual,
-            sprintf($this->message, 'XHTML fileField with id in parameters')
-        );
+        $this->runWithIdInParameters('fileField', $I, $options, $expected, $xhtml);
     }
 
     /**
-     * Tests fileField with name and not id in parameters
+     * Runs tests with name and no id in parameters for XHTML or not
      *
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-05
+     *
+     * @param CodeGuy $I
+     * @param Boolean $xhtml
      */
-    public function testFileFieldWithNameAndNotIdInParametersXHTML()
+    private function fileFieldWithNameAndNotIdInParameters(CodeGuy $I, $xhtml)
     {
-        PhTag::setDoctype(PhTag::XHTML10_STRICT);
         $options = array(
             'some_field_name',
             'name'  => 'some_other_name',
             'class' => 'some_class',
             'size'  => '10',
         );
-        $expected = '<input type="file" id="some_field_name" name="some_other_name" value="" class="some_class" size="10" />';
-        $actual   = PhTag::fileField($options);
-        PhTag::setDoctype('');
+        $expected = '<input type="file" id="some_field_name" '
+                  . 'name="some_other_name" class="some_class" size="10"';
 
-        $this->assertEquals(
+        $this->runWithNameAndNotIdInParameters(
+            'fileField',
+            $I,
+            $options,
             $expected,
-            $actual,
-            sprintf(
-                $this->message,
-                'fileField with name and id in parameters'
-            )
+            $xhtml
         );
     }
 
     /**
-     * Tests fileField with setDefault
+     * Runs tests with setDefault for XHTML or not
      *
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-05
+     *
+     * @param CodeGuy $I
+     * @param Boolean $xhtml
      */
-    public function testFileFieldSetDefaultXHTML()
+    private function fileFieldSetDefault(CodeGuy $I, $xhtml)
     {
-        PhTag::setDoctype(PhTag::XHTML10_STRICT);
         $options = array(
             'some_field_name',
             'class' => 'some_class',
             'size'  => '10',
         );
-        PhTag::setDefault('some_field_name', 'some_default_value');
-        $expected = '<input type="file" id="some_field_name" name="some_field_name" value="some_default_value" class="some_class" size="10" />';
-        $actual   = PhTag::fileField($options);
-        PhTag::setDefault('some_field_name', '');
-        PhTag::setDoctype('');
+        $expected = '<input type="file" id="some_field_name" '
+                  . 'name="some_field_name" value="some_default_value" '
+                  . 'class="some_class" size="10"';
 
-        $this->assertEquals(
+        $this->runSetDefault(
+            'fileField',
+            $I,
+            $options,
             $expected,
-            $actual,
-            sprintf($this->message, 'XHTML fileField with setDefault')
+            $xhtml
         );
     }
 
     /**
-     * Tests fileField with displayTo
+     * Runs tests with displayTo for XHTML or not
      *
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-05
+     *
+     * @param CodeGuy $I
+     * @param Boolean $xhtml
      */
-    public function testFileFieldDisplayToXHTML()
+    private function fileFieldDisplayTo(CodeGuy $I, $xhtml)
     {
-        PhTag::setDoctype(PhTag::XHTML10_STRICT);
         $options = array(
             'some_field_name',
             'class' => 'some_class',
             'size'  => '10',
         );
-        PhTag::displayTo('some_field_name', 'some_default_value');
-        $expected = '<input type="file" id="some_field_name" name="some_field_name" value="some_default_value" class="some_class" size="10" />';
-        $actual   = PhTag::fileField($options);
-        PhTag::displayTo('some_field_name', '');
-        PhTag::setDoctype('');
+        $expected = '<input type="file" id="some_field_name" '
+                  . 'name="some_field_name" value="some_default_value" '
+                  . 'class="some_class" size="10"';
 
-        $this->assertEquals(
+        $this->runDisplayTo(
+            'fileField',
+            $I,
+            $options,
             $expected,
-            $actual,
-            sprintf($this->message, 'XHTML fileField with displayTo')
+            $xhtml
         );
     }
 
     /**
-     * Tests fileField with setDefault to an non existent element
+     * Runs tests with setDefault to an non existent element for XHTML or not
      *
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-05
+     *
+     * @param CodeGuy $I
+     * @param Boolean $xhtml
      */
-    public function testFileFieldSetDefaultElementNotPresentXHTML()
+    private function fileFieldSetDefaultElementNotPresent(CodeGuy $I, $xhtml)
     {
-        PhTag::setDoctype(PhTag::XHTML10_STRICT);
         $options = array(
-            'some_field_name',
+            'some_field',
             'class' => 'some_class',
             'size'  => '10',
         );
-        PhTag::setDefault('some_field', 'some_default_value');
-        $expected = '<input type="file" id="some_field_name" name="some_field_name" value="" class="some_class" size="10" />';
-        $actual   = PhTag::fileField($options);
-        PhTag::setDefault('some_field', '');
-        PhTag::setDoctype('');
+        $expected = '<input type="file" id="some_field" '
+                  . 'name="some_field" class="some_class" '
+                  . 'size="10"';
 
-        $this->assertEquals(
+        $this->runSetDefault(
+            'fileField',
+            $I,
+            $options,
             $expected,
-            $actual,
-            sprintf($this->message, 'XHTML fileField with setDefault')
+            $xhtml
         );
     }
 
     /**
-     * Tests fileField with displayTo to an non existent element
+     * Runs tests with displayTo to an non existent element for XHTML or not
      *
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-05
+     *
+     * @param CodeGuy $I
+     * @param Boolean $xhtml
      */
-    public function testFileFieldDisplayToElementNotPresentXHTML()
+    private function fileFieldDisplayToElementNotPresent(CodeGuy $I, $xhtml)
     {
-        PhTag::setDoctype(PhTag::XHTML10_STRICT);
         $options = array(
-            'some_field_name',
+            'some_field',
             'class' => 'some_class',
             'size'  => '10',
         );
-        PhTag::displayTo('some_field', 'some_default_value');
-        $expected = '<input type="file" id="some_field_name" name="some_field_name" value="" class="some_class" size="10" />';
-        $actual   = PhTag::fileField($options);
-        PhTag::displayTo('some_field', '');
-        PhTag::setDoctype('');
+        $expected = '<input type="file" id="some_field" '
+                  . 'name="some_field" class="some_class" '
+                  . 'size="10"';
 
-        $this->assertEquals(
+        $this->runDisplayTo(
+            'fileField',
+            $I,
+            $options,
             $expected,
-            $actual,
-            sprintf($this->message, 'XHTML fileField with displayTo')
+            $xhtml
         );
     }
 }
