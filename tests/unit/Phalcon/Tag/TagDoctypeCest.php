@@ -191,7 +191,7 @@ class TagDoctypeCest extends TagBase
         $expected = $this->docTypeToString($doctype);
         $actual   = PhTag::getDocType();
 
-        PhTag::setDocType('');
+        PhTag::setDocType(PhTag::HTML5);
 
         $I->assertEquals(
             $expected,
@@ -237,8 +237,6 @@ class TagDoctypeCest extends TagBase
                        $tab .
                        '"http://www.w3.org/TR/html4/frameset.dtd">' .
                        PHP_EOL;
-			case 5:
-                return '<!DOCTYPE html>' . PHP_EOL;
 			case 6:
                 return '<!DOCTYPE html ' .
                        'PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"' .
@@ -275,7 +273,7 @@ class TagDoctypeCest extends TagBase
                        '"http://www.w3.org/MarkUp/DTD/xhtml2.dtd">' .
                        PHP_EOL;
             default:
-                return '';
+                return '<!DOCTYPE html>' . PHP_EOL;
 		}
     }
 }
