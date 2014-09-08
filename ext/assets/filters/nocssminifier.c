@@ -17,9 +17,9 @@
 
 /* placeholder for non-free csssminifier.c */
 
-#ifndef PHALCON_NON_FREE
-
 #include "php_phalcon.h"
+
+#ifndef PHALCON_NON_FREE
 
 #include "assets/filters/nocssminifier.h"
 #include "assets/exception.h"

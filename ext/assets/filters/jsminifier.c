@@ -24,9 +24,9 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-#ifdef PHALCON_NON_FREE
-
 #include "php_phalcon.h"
+
+#ifdef PHALCON_NON_FREE
 
 #include <ext/standard/php_smart_str.h>
 
