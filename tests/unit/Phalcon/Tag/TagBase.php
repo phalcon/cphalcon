@@ -56,7 +56,7 @@ class TagBase
         if ($xhtml) {
             PhTag::setDocType(PhTag::XHTML10_STRICT);
         } else {
-            PhTag::setDocType('');
+            PhTag::setDocType(PhTag::HTML5);
         }
 
         $suffix   = ($xhtml) ? ' />'    : '>';
@@ -86,7 +86,7 @@ class TagBase
         if ($xhtml) {
             PhTag::setDoctype(PhTag::XHTML10_STRICT);
         } else {
-            PhTag::setDoctype('');
+            PhTag::setDocType(PhTag::HTML5);
         }
 
         $suffix  = ($xhtml) ? ' />'    : ">";
@@ -116,7 +116,7 @@ class TagBase
         if ($xhtml) {
             PhTag::setDoctype(PhTag::XHTML10_STRICT);
         } else {
-            PhTag::setDoctype('');
+            PhTag::setDocType(PhTag::HTML5);
         }
 
         $suffix  = ($xhtml) ? ' />'    : ">";
@@ -146,7 +146,7 @@ class TagBase
         if ($xhtml) {
             PhTag::setDocType(PhTag::XHTML10_STRICT);
         } else {
-            PhTag::setDocType('');
+            PhTag::setDocType(PhTag::HTML5);
         }
 
         $suffix  = ($xhtml) ? ' />'    : '>';
@@ -176,7 +176,7 @@ class TagBase
         if ($xhtml) {
             PhTag::setDocType(PhTag::XHTML10_STRICT);
         } else {
-            PhTag::setDocType('');
+            PhTag::setDocType(PhTag::HTML5);
         }
 
         $suffix  = ($xhtml) ? ' />'    : '>';
@@ -208,7 +208,7 @@ class TagBase
         if ($xhtml) {
             PhTag::setDocType(PhTag::XHTML10_STRICT);
         } else {
-            PhTag::setDocType('');
+            PhTag::setDocType(PhTag::HTML5);
         }
 
         $suffix  = ($xhtml) ? ' />'    : '>';
