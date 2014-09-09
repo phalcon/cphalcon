@@ -303,6 +303,36 @@ PHP_METHOD(Phalcon_Http_Request, get){
 		}
 	
 		RETURN_CTOR(default_value);
+	} else if (Z_TYPE_P(filters) != IS_NULL) {
+		PHALCON_OBS_VAR(filter);
+		phalcon_read_property_this(&filter, this_ptr, SL("_filter"), PH_NOISY TSRMLS_CC);
+		if (Z_TYPE_P(filter) != IS_OBJECT) {
+			PHALCON_OBS_VAR(dependency_injector);
+			phalcon_read_property_this(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY TSRMLS_CC);
+			if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
+				PHALCON_THROW_EXCEPTION_STR(phalcon_http_request_exception_ce, "A dependency injection object is required to access the 'filter' service");
+				return;
+			}
+
+			PHALCON_INIT_VAR(service);
+			PHALCON_ZVAL_MAYBE_INTERNED_STRING(service, phalcon_interned_filter);
+
+			PHALCON_CALL_METHOD(&filter, dependency_injector, "getshared", service);
+			PHALCON_VERIFY_INTERFACE(filter, phalcon_filterinterface_ce);
+			phalcon_update_property_this(this_ptr, SL("_filter"), filter TSRMLS_CC);
+		}
+
+		PHALCON_RETURN_CALL_METHOD(filter, "sanitize", request, filters, norecursive);
+		if (return_value_ptr) {
+			return_value = *return_value_ptr;
+		}
+
+		if ((PHALCON_IS_EMPTY(return_value) && zend_is_true(not_allow_empty)) || PHALCON_IS_FALSE(return_value)) {
+			zval_dtor(return_value);
+			RETURN_CTOR(default_value);
+		} else {
+			RETURN_MM();
+		}
 	}
 	
 	RETURN_CTOR(request);
@@ -404,6 +434,36 @@ PHP_METHOD(Phalcon_Http_Request, getPost){
 		}
 	
 		RETURN_CTOR(default_value);
+	} else if (Z_TYPE_P(filters) != IS_NULL) {
+		PHALCON_OBS_VAR(filter);
+		phalcon_read_property_this(&filter, this_ptr, SL("_filter"), PH_NOISY TSRMLS_CC);
+		if (Z_TYPE_P(filter) != IS_OBJECT) {
+			PHALCON_OBS_VAR(dependency_injector);
+			phalcon_read_property_this(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY TSRMLS_CC);
+			if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
+				PHALCON_THROW_EXCEPTION_STR(phalcon_http_request_exception_ce, "A dependency injection object is required to access the 'filter' service");
+				return;
+			}
+
+			PHALCON_INIT_VAR(service);
+			PHALCON_ZVAL_MAYBE_INTERNED_STRING(service, phalcon_interned_filter);
+
+			PHALCON_CALL_METHOD(&filter, dependency_injector, "getshared", service);
+			PHALCON_VERIFY_INTERFACE(filter, phalcon_filterinterface_ce);
+			phalcon_update_property_this(this_ptr, SL("_filter"), filter TSRMLS_CC);
+		}
+
+		PHALCON_RETURN_CALL_METHOD(filter, "sanitize", post, filters, norecursive);
+		if (return_value_ptr) {
+			return_value = *return_value_ptr;
+		}
+
+		if ((PHALCON_IS_EMPTY(return_value) && zend_is_true(not_allow_empty)) || PHALCON_IS_FALSE(return_value)) {
+			zval_dtor(return_value);
+			RETURN_CTOR(default_value);
+		} else {
+			RETURN_MM();
+		}
 	}
 	
 	RETURN_CTOR(post);
@@ -524,6 +584,36 @@ PHP_METHOD(Phalcon_Http_Request, getPut){
 		}
 	
 		RETURN_CTOR(default_value);
+	} else if (Z_TYPE_P(filters) != IS_NULL) {
+		PHALCON_OBS_VAR(filter);
+		phalcon_read_property_this(&filter, this_ptr, SL("_filter"), PH_NOISY TSRMLS_CC);
+		if (Z_TYPE_P(filter) != IS_OBJECT) {
+			PHALCON_OBS_VAR(dependency_injector);
+			phalcon_read_property_this(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY TSRMLS_CC);
+			if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
+				PHALCON_THROW_EXCEPTION_STR(phalcon_http_request_exception_ce, "A dependency injection object is required to access the 'filter' service");
+				return;
+			}
+
+			PHALCON_INIT_VAR(service);
+			PHALCON_ZVAL_MAYBE_INTERNED_STRING(service, phalcon_interned_filter);
+
+			PHALCON_CALL_METHOD(&filter, dependency_injector, "getshared", service);
+			PHALCON_VERIFY_INTERFACE(filter, phalcon_filterinterface_ce);
+			phalcon_update_property_this(this_ptr, SL("_filter"), filter TSRMLS_CC);
+		}
+
+		PHALCON_RETURN_CALL_METHOD(filter, "sanitize", put, filters, norecursive);
+		if (return_value_ptr) {
+			return_value = *return_value_ptr;
+		}
+
+		if ((PHALCON_IS_EMPTY(return_value) && zend_is_true(not_allow_empty)) || PHALCON_IS_FALSE(return_value)) {
+			zval_dtor(return_value);
+			RETURN_CTOR(default_value);
+		} else {
+			RETURN_MM();
+		}
 	}
 	
 	RETURN_CTOR(put);
@@ -628,6 +718,36 @@ PHP_METHOD(Phalcon_Http_Request, getQuery){
 		}
 	
 		RETURN_CTOR(default_value);
+	} else if (Z_TYPE_P(filters) != IS_NULL) {
+		PHALCON_OBS_VAR(filter);
+		phalcon_read_property_this(&filter, this_ptr, SL("_filter"), PH_NOISY TSRMLS_CC);
+		if (Z_TYPE_P(filter) != IS_OBJECT) {
+			PHALCON_OBS_VAR(dependency_injector);
+			phalcon_read_property_this(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY TSRMLS_CC);
+			if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
+				PHALCON_THROW_EXCEPTION_STR(phalcon_http_request_exception_ce, "A dependency injection object is required to access the 'filter' service");
+				return;
+			}
+
+			PHALCON_INIT_VAR(service);
+			PHALCON_ZVAL_MAYBE_INTERNED_STRING(service, phalcon_interned_filter);
+
+			PHALCON_CALL_METHOD(&filter, dependency_injector, "getshared", service);
+			PHALCON_VERIFY_INTERFACE(filter, phalcon_filterinterface_ce);
+			phalcon_update_property_this(this_ptr, SL("_filter"), filter TSRMLS_CC);
+		}
+
+		PHALCON_RETURN_CALL_METHOD(filter, "sanitize", get, filters, norecursive);
+		if (return_value_ptr) {
+			return_value = *return_value_ptr;
+		}
+
+		if ((PHALCON_IS_EMPTY(return_value) && zend_is_true(not_allow_empty)) || PHALCON_IS_FALSE(return_value)) {
+			zval_dtor(return_value);
+			RETURN_CTOR(default_value);
+		} else {
+			RETURN_MM();
+		}
 	}
 	
 	RETURN_CTOR(get);
