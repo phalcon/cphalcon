@@ -459,7 +459,7 @@ class Tag
 
 		} else {
 			/**
-			 * Use the "id" as value if the user hadn"t set it
+			 * Use the "id" as value if the user hadn't set it
 			 */
 			if !isset params["value"] {
 				if fetch value, params[0] {
