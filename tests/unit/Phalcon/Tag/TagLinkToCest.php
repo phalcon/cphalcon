@@ -1,6 +1,6 @@
 <?php
 /**
- * TagCest.php
+ * TagLinkToCest.php
  * \Phalcon\Tag
  *
  * Tests the \Phalcon\Tag component
@@ -20,10 +20,12 @@
  * so that we can send you a copy immediately.
  */
 
+namespace Phalcon\Tests\unit\Phalcon\Tag;
+
 use \CodeGuy;
 use \Phalcon\Tag as PhTag;
 
-class TagCest
+class TagLinkToCest extends TagBase
 {
     /**
      * Tests the get
@@ -33,15 +35,15 @@ class TagCest
      *
      * @param CodeGuy $I
      */
-    public function testGet(CodeGuy $I)
-    {
-        $actual = Version::get();
-
-        $I->assertTrue(
-            is_string($actual),
-            'get() does not return a string'
-        );
-    }
+//    public function testGet(CodeGuy $I)
+//    {
+//        $actual = Version::get();
+//
+//        $I->assertTrue(
+//            is_string($actual),
+//            'get() does not return a string'
+//        );
+//    }
 
     // -------------------------------------------------------------------------
     // linkTo
@@ -52,7 +54,7 @@ class TagCest
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-09-08
      */
-    public function testLinkToWithStringAsURLAndName()
+    public function testLinkToWithStringAsURLAndName(CodeGuy $I)
     {
         $url  = 'some_url';
         $name = 'some_name';
@@ -60,7 +62,7 @@ class TagCest
         $expected = '<a href="/some_url">some_name</a>';
         $actual   = PhTag::linkTo($url, $name);
 
-        $this->assertEquals(
+        $I->assertEquals(
             $expected,
             $actual,
             sprintf($this->message, 'linkTo with strings as parameters')
@@ -73,7 +75,7 @@ class TagCest
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-09-08
      */
-    public function testLinkToWithEmptyStringAsURLAndStringAsName()
+    public function testLinkToWithEmptyStringAsURLAndStringAsName(CodeGuy $I)
     {
         $url  = '';
         $name = 'some_name';
@@ -81,7 +83,7 @@ class TagCest
         $expected = '<a href="/">some_name</a>';
         $actual   = PhTag::linkTo($url, $name);
 
-        $this->assertEquals(
+        $I->assertEquals(
             $expected,
             $actual,
             sprintf($this->message, 'linkTo with empty URL and string as name')
@@ -94,7 +96,7 @@ class TagCest
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-09-08
      */
-    public function testLinkToWithArrayBasic()
+    public function testLinkToWithArrayBasic(CodeGuy $I)
     {
         $params = array(
             'some_url',
@@ -103,7 +105,7 @@ class TagCest
         $expected = '<a href="/some_url">some_name</a>';
         $actual   = PhTag::linkTo($params);
 
-        $this->assertEquals(
+        $I->assertEquals(
             $expected,
             $actual,
             sprintf($this->message, 'linkTo with array as parameters')
@@ -116,7 +118,7 @@ class TagCest
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-09-08
      */
-    public function testLinkToWithArrayNamedBasic()
+    public function testLinkToWithArrayNamedBasic(CodeGuy $I)
     {
         $params = array(
             'action' => 'some_url',
@@ -125,7 +127,7 @@ class TagCest
         $expected = '<a href="/some_url">some_name</a>';
         $actual   = PhTag::linkTo($params);
 
-        $this->assertEquals(
+        $I->assertEquals(
             $expected,
             $actual,
             sprintf(
@@ -141,7 +143,7 @@ class TagCest
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-09-08
      */
-    public function testLinkToWithArrayNamed()
+    public function testLinkToWithArrayNamed(CodeGuy $I)
     {
         $params = array(
             'action' => 'some_url',
@@ -151,7 +153,7 @@ class TagCest
         $expected = '<a href="/some_url" class="btn btn-primary">some_name</a>';
         $actual   = PhTag::linkTo($params);
 
-        $this->assertEquals(
+        $I->assertEquals(
             $expected,
             $actual,
             sprintf(
@@ -162,33 +164,29 @@ class TagCest
     }
 
 
-    public function testIssue1679()
+    public function testIssue1679(CodeGuy $I)
     {
-        $di = new Phalcon\DI\FactoryDefault();
-        $di->getshared('url')->setBaseUri('/');
-        PhTag::setDI($di);
-
         // local
-        $html = Phalcon\Tag::linkTo('signup/register', 'Register Here!');
-        $this->assertEquals($html, '<a href="/signup/register">Register Here!</a>');
+        $html = PhTag::linkTo('signup/register', 'Register Here!');
+        $I->assertEquals($html, '<a href="/signup/register">Register Here!</a>');
 
-        $html = Phalcon\Tag::linkTo(array('signup/register', 'Register Here!'));
-        $this->assertEquals($html, '<a href="/signup/register">Register Here!</a>');
+        $html = PhTag::linkTo(array('signup/register', 'Register Here!'));
+        $I->assertEquals($html, '<a href="/signup/register">Register Here!</a>');
 
-        $html = Phalcon\Tag::linkTo(array('signup/register', 'Register Here!', 'class' => 'btn-primary'));
-        $this->assertEquals($html, '<a href="/signup/register" class="btn-primary">Register Here!</a>');
+        $html = PhTag::linkTo(array('signup/register', 'Register Here!', 'class' => 'btn-primary'));
+        $I->assertEquals($html, '<a href="/signup/register" class="btn-primary">Register Here!</a>');
 
         // remote
-        $html = Phalcon\Tag::linkTo('http://phalconphp.com/en/', 'Phalcon Home', FALSE);
-        $this->assertEquals($html, '<a href="http://phalconphp.com/en/">Phalcon Home</a>');
+        $html = PhTag::linkTo('http://phalconphp.com/en/', 'Phalcon Home', FALSE);
+        $I->assertEquals($html, '<a href="http://phalconphp.com/en/">Phalcon Home</a>');
 
-        $html = Phalcon\Tag::linkTo(array('http://phalconphp.com/en/', 'Phalcon Home', FALSE));
-        $this->assertEquals($html, '<a href="http://phalconphp.com/en/">Phalcon Home</a>');
+        $html = PhTag::linkTo(array('http://phalconphp.com/en/', 'Phalcon Home', FALSE));
+        $I->assertEquals($html, '<a href="http://phalconphp.com/en/">Phalcon Home</a>');
 
-        $html = Phalcon\Tag::linkTo(array('http://phalconphp.com/en/', 'text' => 'Phalcon Home', 'local' => FALSE));
-        $this->assertEquals($html, '<a href="http://phalconphp.com/en/">Phalcon Home</a>');
+        $html = PhTag::linkTo(array('http://phalconphp.com/en/', 'text' => 'Phalcon Home', 'local' => FALSE));
+        $I->assertEquals($html, '<a href="http://phalconphp.com/en/">Phalcon Home</a>');
 
-        $html = Phalcon\Tag::linkTo('mailto:dreamsxin@gmail.com', 'dreamsxin@gmail.com', FALSE);
-        $this->assertEquals($html, '<a href="mailto:dreamsxin@gmail.com">dreamsxin@gmail.com</a>');
+        $html = PhTag::linkTo('mailto:dreamsxin@gmail.com', 'dreamsxin@gmail.com', FALSE);
+        $I->assertEquals($html, '<a href="mailto:dreamsxin@gmail.com">dreamsxin@gmail.com</a>');
     }
 }

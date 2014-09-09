@@ -251,8 +251,7 @@ class TagSubmitButtonCest extends TagBase
     private function submitButtonBasic(CodeGuy $I, $xhtml)
     {
         $options  = 'some_field_name';
-        $expected = '<input type="submit" id="some_field_name" '
-                  . 'name="some_field_name" value=""';
+        $expected = '<input type="submit" value="some_field_name"';
 
         $this->runBasic('submitButton', $I, $options, $expected, $xhtml);
     }
@@ -272,8 +271,8 @@ class TagSubmitButtonCest extends TagBase
             'some_field_name',
             'class' => 'some_class',
         );
-        $expected = '<input type="submit" id="some_field_name" '
-                  . 'name="some_field_name" value="" class="some_class"';
+        $expected = '<input type="submit" value="some_field_name" '
+                  . 'class="some_class"';
 
         $this->runWithArrayBasic('submitButton', $I, $options, $expected, $xhtml);
     }
@@ -295,8 +294,8 @@ class TagSubmitButtonCest extends TagBase
             'class' => 'some_class',
             'size'  => '10',
         );
-        $expected = '<input type="submit" id="some_id" name="some_field_name" '
-                  . 'value="" class="some_class" size="10"';
+        $expected = '<input type="submit" id="some_id" '
+                  . 'value="some_field_name" class="some_class" size="10"';
 
         $this->runWithIdInParameters('submitButton', $I, $options, $expected, $xhtml);
     }
@@ -318,8 +317,8 @@ class TagSubmitButtonCest extends TagBase
             'class' => 'some_class',
             'size'  => '10',
         );
-        $expected = '<input type="submit" id="some_field_name" '
-                  . 'name="some_other_name" value="" class="some_class" '
+        $expected = '<input type="submit" name="some_other_name" '
+                  . 'value="some_field_name" class="some_class" '
                   . 'size="10"';
 
         $this->runWithNameAndNotIdInParameters(
@@ -347,8 +346,7 @@ class TagSubmitButtonCest extends TagBase
             'class' => 'some_class',
             'size'  => '10',
         );
-        $expected = '<input type="submit" id="some_field_name" '
-                  . 'name="some_field_name" value="some_default_value" '
+        $expected = '<input type="submit" value="some_field_name" '
                   . 'class="some_class" size="10"';
 
         $this->runSetDefault(
@@ -376,8 +374,7 @@ class TagSubmitButtonCest extends TagBase
             'class' => 'some_class',
             'size'  => '10',
         );
-        $expected = '<input type="submit" id="some_field_name" '
-                  . 'name="some_field_name" value="some_default_value" '
+        $expected = '<input type="submit" value="some_field_name" '
                   . 'class="some_class" size="10"';
 
         $this->runDisplayTo(
@@ -406,7 +403,7 @@ class TagSubmitButtonCest extends TagBase
             'size'  => '10',
         );
         $expected = '<input type="submit" value="some_field" '
-                  . 'value="" class="some_class" size="10"';
+                  . 'class="some_class" size="10"';
 
         $this->runSetDefault(
             'submitButton',
@@ -434,7 +431,7 @@ class TagSubmitButtonCest extends TagBase
             'size'  => '10',
         );
         $expected = '<input type="submit" value="some_field" '
-                  . 'value="" class="some_class" size="10"';
+                  . 'class="some_class" size="10"';
 
         $this->runDisplayTo(
             'submitButton',

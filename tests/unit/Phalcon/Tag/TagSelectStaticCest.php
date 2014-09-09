@@ -20,10 +20,12 @@
  * so that we can send you a copy immediately.
  */
 
+namespace Phalcon\Tests\unit\Phalcon\Tag;
+
 use \CodeGuy;
 use \Phalcon\Tag as PhTag;
 
-class TagCest
+class TagSelectStaticCest extends TagBase
 {
     /**
      * Tests the get
@@ -33,50 +35,26 @@ class TagCest
      *
      * @param CodeGuy $I
      */
-    public function testGet(CodeGuy $I)
-    {
-        $actual = Version::get();
-
-        $I->assertTrue(
-            is_string($actual),
-            'get() does not return a string'
-        );
-    }
+//    public function testGet(CodeGuy $I)
+//    {
+//        $actual = Version::get();
+//
+//        $I->assertTrue(
+//            is_string($actual),
+//            'get() does not return a string'
+//        );
+//    }
 
     // -------------------------------------------------------------------------
     // selectStatic
     // -------------------------------------------------------------------------
-    /**
-     * Tests selectStatic with string as a parameter throws exception
-     *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
-     * @since  2014-09-05
-     */
-    public function testSelectStaticStringThrowsException()
-    {
-        $name    = 'some_field_name';
-        $options = 'some_values';
-
-        try {
-            $actual   = PhTag::selectStatic($name, $options);
-        } catch (\Phalcon\Tag\Exception $e) {
-            // This is where we need to be
-        }
-
-        $this->assertInstanceOf(
-            'Phalcon\Tag\Exception',
-            $e,
-            'selectStatic does not throw correct exception with wrong parameters'
-        );
-    }
-
     /**
      * Tests selectStatic with array as parameters
      *
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-05
      */
-    public function testSelectStaticWithArrayBasic()
+    public function testSelectStaticWithArrayBasic(CodeGuy $I)
     {
         $name    = 'some_field_name';
         $options = array(
@@ -89,7 +67,7 @@ class TagCest
             . '</select>';
         $actual   = PhTag::selectStatic($name, $options);
 
-        $this->assertEquals(
+        $I->assertEquals(
             $expected,
             $actual,
             sprintf($this->message, 'selectStatic basic with array')
@@ -103,7 +81,7 @@ class TagCest
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-05
      */
-    public function testSelectStaticWithIdInParameters_T54()
+    public function testSelectStaticWithIdInParameters_T54(CodeGuy $I)
     {
         $params = array(
             'some_field_name',
@@ -120,7 +98,7 @@ class TagCest
             . '</select>';
         $actual   = PhTag::selectStatic($params, $options);
 
-        $this->assertEquals(
+        $I->assertEquals(
             $expected,
             $actual,
             sprintf(
@@ -137,7 +115,7 @@ class TagCest
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-05
      */
-    public function testSelectStaticWithNameAndNotIdInParameters_T54()
+    public function testSelectStaticWithNameAndNotIdInParameters_T54(CodeGuy $I)
     {
         $params = array(
             'some_field_name',
@@ -154,7 +132,7 @@ class TagCest
             . '</select>';
         $actual   = PhTag::selectStatic($params, $options);
 
-        $this->assertEquals(
+        $I->assertEquals(
             $expected,
             $actual,
             sprintf(
@@ -170,7 +148,7 @@ class TagCest
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-05
      */
-    public function testSelectStaticWithValueInParameters()
+    public function testSelectStaticWithValueInParameters(CodeGuy $I)
     {
         $params = array(
             'some_field_name',
@@ -187,7 +165,7 @@ class TagCest
             . '</select>';
         $actual   = PhTag::selectStatic($params, $options);
 
-        $this->assertEquals(
+        $I->assertEquals(
             $expected,
             $actual,
             sprintf(
@@ -203,7 +181,7 @@ class TagCest
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-05
      */
-    public function testSelectStaticSetDefault()
+    public function testSelectStaticSetDefault(CodeGuy $I)
     {
         $params = array(
             'some_field_name',
@@ -222,7 +200,7 @@ class TagCest
         $actual   = PhTag::selectStatic($params, $options);
         PhTag::setDefault('some_field_name', '');
 
-        $this->assertEquals(
+        $I->assertEquals(
             $expected,
             $actual,
             sprintf($this->message, 'selectStatic with setDefault')
@@ -235,7 +213,7 @@ class TagCest
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-05
      */
-    public function testSelectStaticDisplayTo()
+    public function testSelectStaticDisplayTo(CodeGuy $I)
     {
         $params = array(
             'some_field_name',
@@ -254,7 +232,7 @@ class TagCest
         $actual   = PhTag::selectStatic($params, $options);
         PhTag::displayTo('some_field_name', '');
 
-        $this->assertEquals(
+        $I->assertEquals(
             $expected,
             $actual,
             sprintf($this->message, 'selectStatic with setDefault')
@@ -267,7 +245,7 @@ class TagCest
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-05
      */
-    public function testSelectStaticSetDefaultElementNotPresent()
+    public function testSelectStaticSetDefaultElementNotPresent(CodeGuy $I)
     {
         $params = array(
             'some_field_name',
@@ -286,7 +264,7 @@ class TagCest
         $actual   = PhTag::selectStatic($params, $options);
         PhTag::setDefault('some_field', '');
 
-        $this->assertEquals(
+        $I->assertEquals(
             $expected,
             $actual,
             sprintf($this->message, 'selectStatic with setDefault')
@@ -299,7 +277,7 @@ class TagCest
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-05
      */
-    public function testSelectStaticDisplayToElementNotPresent()
+    public function testSelectStaticDisplayToElementNotPresent(CodeGuy $I)
     {
         $params = array(
             'some_field_name',
@@ -318,34 +296,10 @@ class TagCest
         $actual   = PhTag::selectStatic($params, $options);
         PhTag::displayTo('some_field', '');
 
-        $this->assertEquals(
+        $I->assertEquals(
             $expected,
             $actual,
             sprintf($this->message, 'selectStatic with setDefault')
-        );
-    }
-
-    /**
-     * Tests selectStatic with string as a parameter throws exception
-     *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
-     * @since  2014-09-05
-     */
-    public function testSelectStaticStringThrowsExceptionXHTML()
-    {
-        $name    = 'some_field_name';
-        $options = 'some_values';
-
-        try {
-            $actual   = PhTag::selectStatic($name, $options);
-        } catch (\Phalcon\Tag\Exception $e) {
-            // This is where we need to be
-        }
-
-        $this->assertInstanceOf(
-            'Phalcon\Tag\Exception',
-            $e,
-            'selectStatic does not throw correct exception with wrong parameters'
         );
     }
 
@@ -355,7 +309,7 @@ class TagCest
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-05
      */
-    public function testSelectStaticWithArrayBasicXHTML()
+    public function testSelectStaticWithArrayBasicXHTML(CodeGuy $I)
     {
         $name    = 'some_field_name';
         $options = array(
@@ -368,7 +322,7 @@ class TagCest
             . '</select>';
         $actual   = PhTag::selectStatic($name, $options);
 
-        $this->assertEquals(
+        $I->assertEquals(
             $expected,
             $actual,
             sprintf($this->message, 'XHTML selectStatic basic with array')
@@ -382,7 +336,7 @@ class TagCest
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-05
      */
-    public function testSelectStaticWithIdInParameters_T54XHTML()
+    public function testSelectStaticWithIdInParameters_T54XHTML(CodeGuy $I)
     {
         $params = array(
             'some_field_name',
@@ -399,7 +353,7 @@ class TagCest
             . '</select>';
         $actual   = PhTag::selectStatic($params, $options);
 
-        $this->assertEquals(
+        $I->assertEquals(
             $expected,
             $actual,
             sprintf(
@@ -416,7 +370,7 @@ class TagCest
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-05
      */
-    public function testSelectStaticWithNameAndNotIdInParameters_T54XHTML()
+    public function testSelectStaticWithNameAndNotIdInParameters_T54XHTML(CodeGuy $I)
     {
         $params = array(
             'some_field_name',
@@ -433,7 +387,7 @@ class TagCest
             . '</select>';
         $actual   = PhTag::selectStatic($params, $options);
 
-        $this->assertEquals(
+        $I->assertEquals(
             $expected,
             $actual,
             sprintf(
@@ -449,7 +403,7 @@ class TagCest
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-05
      */
-    public function testSelectStaticWithValueInParametersXHTML()
+    public function testSelectStaticWithValueInParametersXHTML(CodeGuy $I)
     {
         $params = array(
             'some_field_name',
@@ -466,7 +420,7 @@ class TagCest
             . '</select>';
         $actual   = PhTag::selectStatic($params, $options);
 
-        $this->assertEquals(
+        $I->assertEquals(
             $expected,
             $actual,
             sprintf(
@@ -482,7 +436,7 @@ class TagCest
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-05
      */
-    public function testSelectStaticSetDefaultXHTML()
+    public function testSelectStaticSetDefaultXHTML(CodeGuy $I)
     {
         $params = array(
             'some_field_name',
@@ -501,7 +455,7 @@ class TagCest
         $actual   = PhTag::selectStatic($params, $options);
         PhTag::setDefault('some_field_name', '');
 
-        $this->assertEquals(
+        $I->assertEquals(
             $expected,
             $actual,
             sprintf($this->message, 'XHTML selectStatic with setDefault')
@@ -514,7 +468,7 @@ class TagCest
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-05
      */
-    public function testSelectStaticDisplayToXHTML()
+    public function testSelectStaticDisplayToXHTML(CodeGuy $I)
     {
         $params = array(
             'some_field_name',
@@ -533,7 +487,7 @@ class TagCest
         $actual   = PhTag::selectStatic($params, $options);
         PhTag::displayTo('some_field_name', '');
 
-        $this->assertEquals(
+        $I->assertEquals(
             $expected,
             $actual,
             sprintf($this->message, 'XHTML selectStatic with setDefault')
@@ -546,7 +500,7 @@ class TagCest
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-05
      */
-    public function testSelectStaticSetDefaultElementNotPresentXHTML()
+    public function testSelectStaticSetDefaultElementNotPresentXHTML(CodeGuy $I)
     {
         $params = array(
             'some_field_name',
@@ -565,7 +519,7 @@ class TagCest
         $actual   = PhTag::selectStatic($params, $options);
         PhTag::setDefault('some_field', '');
 
-        $this->assertEquals(
+        $I->assertEquals(
             $expected,
             $actual,
             sprintf($this->message, 'XHTML selectStatic with setDefault')
@@ -578,7 +532,7 @@ class TagCest
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-05
      */
-    public function testSelectStaticDisplayToElementNotPresentXHTML()
+    public function testSelectStaticDisplayToElementNotPresentXHTML(CodeGuy $I)
     {
         $params = array(
             'some_field_name',
@@ -597,7 +551,7 @@ class TagCest
         $actual   = PhTag::selectStatic($params, $options);
         PhTag::displayTo('some_field', '');
 
-        $this->assertEquals(
+        $I->assertEquals(
             $expected,
             $actual,
             sprintf($this->message, 'XHTML selectStatic with setDefault')
@@ -605,7 +559,7 @@ class TagCest
     }
 
 
-    public function testSelect()
+    public function testSelect(CodeGuy $I)
     {
         $data = array(
             "status",
@@ -622,11 +576,9 @@ class TagCest
 </select>
 HTML;
 
-        $di = new Phalcon\DI\FactoryDefault();
-        Tag::setDI($di);
-        $ret = Tag::selectStatic($data);
+        $ret = PhTag::selectStatic($data);
 
-        $this->assertEquals($ret, $html);
+        $I->assertEquals($ret, $html);
 
         $html = <<<HTML
 <select id="status" name="status">
@@ -637,11 +589,11 @@ HTML;
 	<option value="B">B One</option>
 </select>
 HTML;
-        Tag::setDefault("status", "A1");
+        PhTag::setDefault("status", "A1");
 
-        $ret = Tag::selectStatic($data);
+        $ret = PhTag::selectStatic($data);
 
-        $this->assertEquals($ret, $html);
+        $I->assertEquals($ret, $html);
     }
 
 

@@ -1,6 +1,6 @@
 <?php
 /**
- * TagCest.php
+ * TagJavascriptIncludeCest.php
  * \Phalcon\Tag
  *
  * Tests the \Phalcon\Tag component
@@ -20,10 +20,12 @@
  * so that we can send you a copy immediately.
  */
 
+namespace Phalcon\Tests\unit\Phalcon\Tag;
+
 use \CodeGuy;
 use \Phalcon\Tag as PhTag;
 
-class TagCest
+class TagJavascriptIncludeCest extends TagBase
 {
     /**
      * Tests the get
@@ -33,15 +35,15 @@ class TagCest
      *
      * @param CodeGuy $I
      */
-    public function testGet(CodeGuy $I)
-    {
-        $actual = Version::get();
-
-        $I->assertTrue(
-            is_string($actual),
-            'get() does not return a string'
-        );
-    }
+//    public function testGet(CodeGuy $I)
+//    {
+//        $actual = Version::get();
+//
+//        $I->assertTrue(
+//            is_string($actual),
+//            'get() does not return a string'
+//        );
+//    }
     // -------------------------------------------------------------------------
     // javascriptInclude
     // -------------------------------------------------------------------------
@@ -51,13 +53,13 @@ class TagCest
      * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-29
      */
-    public function testJavascriptIncludeLocal()
+    public function testJavascriptIncludeLocal(CodeGuy $I)
     {
         $options  = 'js/phalcon.js';
         $expected = '<script type="text/javascript" src="/js/phalcon.js"></script>' . PHP_EOL;
-        $actual   = \Phalcon\Tag::javascriptInclude($options);
+        $actual   = PhTag::javascriptInclude($options);
 
-        $this->assertEquals(
+        $I->assertEquals(
             $expected,
             $actual,
             sprintf($this->message, 'JavascriptInclude local')
@@ -70,13 +72,13 @@ class TagCest
      * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-29
      */
-    public function testJavascriptIncludeWithArrayLocal()
+    public function testJavascriptIncludeWithArrayLocal(CodeGuy $I)
     {
         $options  = array('js/phalcon.js');
         $expected = '<script type="text/javascript" src="/js/phalcon.js"></script>' . PHP_EOL;
-        $actual   = \Phalcon\Tag::javascriptInclude($options);
+        $actual   = PhTag::javascriptInclude($options);
 
-        $this->assertEquals(
+        $I->assertEquals(
             $expected,
             $actual,
             sprintf($this->message, 'JavascriptInclude local with Array')
@@ -89,13 +91,13 @@ class TagCest
      * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-29
      */
-    public function testJavascriptIncludeWithStringAsSecondParameterLocal()
+    public function testJavascriptIncludeWithStringAsSecondParameterLocal(CodeGuy $I)
     {
         $options  = 'js/phalcon.js';
-        $expected = '<script type="text/javascript" src="/js/phalcon.js"></script>' . PHP_EOL;
-        $actual   = \Phalcon\Tag::javascriptInclude($options, 'hello');
+        $expected = '<script type="text/javascript" src="js/phalcon.js"></script>' . PHP_EOL;
+        $actual   = PhTag::javascriptInclude($options, 'hello');
 
-        $this->assertEquals(
+        $I->assertEquals(
             $expected,
             $actual,
             sprintf(
@@ -111,13 +113,13 @@ class TagCest
      * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-29
      */
-    public function testJavascriptIncludeRemote()
+    public function testJavascriptIncludeRemote(CodeGuy $I)
     {
         $options  = 'http://my.local.com/js/phalcon.js';
         $expected = '<script type="text/javascript" src="http://my.local.com/js/phalcon.js"></script>' . PHP_EOL;
-        $actual   = \Phalcon\Tag::javascriptInclude($options, false);
+        $actual   = PhTag::javascriptInclude($options, false);
 
-        $this->assertEquals(
+        $I->assertEquals(
             $expected,
             $actual,
             sprintf($this->message, 'JavascriptInclude remote')
@@ -130,13 +132,13 @@ class TagCest
      * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-29
      */
-    public function testJavascriptIncludeWithArrayRemote()
+    public function testJavascriptIncludeWithArrayRemote(CodeGuy $I)
     {
         $options  = array('http://my.local.com/js/phalcon.js');
         $expected = '<script type="text/javascript" src="http://my.local.com/js/phalcon.js"></script>' . PHP_EOL;
-        $actual   = \Phalcon\Tag::javascriptInclude($options, false);
+        $actual   = PhTag::javascriptInclude($options, false);
 
-        $this->assertEquals(
+        $I->assertEquals(
             $expected,
             $actual,
             sprintf($this->message, 'JavascriptInclude remote with Array')
@@ -149,13 +151,13 @@ class TagCest
      * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-29
      */
-    public function testJavascriptIncludeWithStringAsSecondParameterRemote()
+    public function testJavascriptIncludeWithStringAsSecondParameterRemote(CodeGuy $I)
     {
         $options  = 'http://my.local.com/js/phalcon.js';
         $expected = '<script type="text/javascript" src="http://my.local.com/js/phalcon.js"></script>' . PHP_EOL;
-        $actual   = \Phalcon\Tag::javascriptInclude($options, '0');
+        $actual   = PhTag::javascriptInclude($options, '0');
 
-        $this->assertEquals(
+        $I->assertEquals(
             $expected,
             $actual,
             sprintf(
@@ -171,15 +173,15 @@ class TagCest
      * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-10-26
      */
-    public function testJavascriptIncludeLocalXHTML()
+    public function testJavascriptIncludeLocalXHTML(CodeGuy $I)
     {
-        \Phalcon\Tag::setDoctype(\Phalcon\Tag::XHTML10_STRICT);
+        PhTag::setDoctype(PhTag::XHTML10_STRICT);
         $options  = 'js/phalcon.js';
         $expected = '<script type="text/javascript" src="/js/phalcon.js"></script>' . PHP_EOL;
-        $actual   = \Phalcon\Tag::javascriptInclude($options);
-        \Phalcon\Tag::setDoctype('');
+        $actual   = PhTag::javascriptInclude($options);
+        PhTag::setDoctype('');
 
-        $this->assertEquals(
+        $I->assertEquals(
             $expected,
             $actual,
             sprintf($this->message, 'XHTML JavascriptInclude local')
@@ -192,15 +194,15 @@ class TagCest
      * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-10-26
      */
-    public function testJavascriptIncludeWithArrayLocalXHTML()
+    public function testJavascriptIncludeWithArrayLocalXHTML(CodeGuy $I)
     {
-        \Phalcon\Tag::setDoctype(\Phalcon\Tag::XHTML10_STRICT);
+        PhTag::setDoctype(PhTag::XHTML10_STRICT);
         $options  = array('js/phalcon.js');
         $expected = '<script type="text/javascript" src="/js/phalcon.js"></script>' . PHP_EOL;
-        $actual   = \Phalcon\Tag::javascriptInclude($options);
-        \Phalcon\Tag::setDoctype('');
+        $actual   = PhTag::javascriptInclude($options);
+        PhTag::setDoctype('');
 
-        $this->assertEquals(
+        $I->assertEquals(
             $expected,
             $actual,
             sprintf($this->message, 'XHTML JavascriptInclude local with Array')
@@ -213,15 +215,15 @@ class TagCest
      * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-10-26
      */
-    public function testJavascriptIncludeWithStringAsSecondParameterLocalXHTML()
+    public function testJavascriptIncludeWithStringAsSecondParameterLocalXHTML(CodeGuy $I)
     {
-        \Phalcon\Tag::setDoctype(\Phalcon\Tag::XHTML10_STRICT);
+        PhTag::setDoctype(PhTag::XHTML10_STRICT);
         $options  = 'js/phalcon.js';
-        $expected = '<script type="text/javascript" src="/js/phalcon.js"></script>' . PHP_EOL;
-        $actual   = \Phalcon\Tag::javascriptInclude($options, 'hello');
-        \Phalcon\Tag::setDoctype('');
+        $expected = '<script type="text/javascript" src="js/phalcon.js"></script>' . PHP_EOL;
+        $actual   = PhTag::javascriptInclude($options, 'hello');
+        PhTag::setDoctype('');
 
-        $this->assertEquals(
+        $I->assertEquals(
             $expected,
             $actual,
             sprintf(
@@ -237,15 +239,15 @@ class TagCest
      * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-10-26
      */
-    public function testJavascriptIncludeRemoteXHTML()
+    public function testJavascriptIncludeRemoteXHTML(CodeGuy $I)
     {
-        \Phalcon\Tag::setDoctype(\Phalcon\Tag::XHTML10_STRICT);
+        PhTag::setDoctype(PhTag::XHTML10_STRICT);
         $options  = 'http://my.local.com/js/phalcon.js';
         $expected = '<script type="text/javascript" src="http://my.local.com/js/phalcon.js"></script>' . PHP_EOL;
-        $actual   = \Phalcon\Tag::javascriptInclude($options, false);
-        \Phalcon\Tag::setDoctype('');
+        $actual   = PhTag::javascriptInclude($options, false);
+        PhTag::setDoctype('');
 
-        $this->assertEquals(
+        $I->assertEquals(
             $expected,
             $actual,
             sprintf($this->message, 'XHTML JavascriptInclude remote')
@@ -258,15 +260,15 @@ class TagCest
      * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-10-26
      */
-    public function testJavascriptIncludeWithArrayRemoteXHTML()
+    public function testJavascriptIncludeWithArrayRemoteXHTML(CodeGuy $I)
     {
-        \Phalcon\Tag::setDoctype(\Phalcon\Tag::XHTML10_STRICT);
+        PhTag::setDoctype(PhTag::XHTML10_STRICT);
         $options  = array('http://my.local.com/js/phalcon.js');
         $expected = '<script type="text/javascript" src="http://my.local.com/js/phalcon.js"></script>' . PHP_EOL;
-        $actual   = \Phalcon\Tag::javascriptInclude($options, false);
-        \Phalcon\Tag::setDoctype('');
+        $actual   = PhTag::javascriptInclude($options, false);
+        PhTag::setDoctype('');
 
-        $this->assertEquals(
+        $I->assertEquals(
             $expected,
             $actual,
             sprintf($this->message, 'XHTML JavascriptInclude remote with Array')
@@ -279,15 +281,15 @@ class TagCest
      * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-10-26
      */
-    public function testJavascriptIncludeWithStringAsSecondParameterRemoteXHTML()
+    public function testJavascriptIncludeWithStringAsSecondParameterRemoteXHTML(CodeGuy $I)
     {
-        \Phalcon\Tag::setDoctype(\Phalcon\Tag::XHTML10_STRICT);
+        PhTag::setDoctype(PhTag::XHTML10_STRICT);
         $options  = 'http://my.local.com/js/phalcon.js';
         $expected = '<script type="text/javascript" src="http://my.local.com/js/phalcon.js"></script>' . PHP_EOL;
-        $actual   = \Phalcon\Tag::javascriptInclude($options, '0');
-        \Phalcon\Tag::setDoctype('');
+        $actual   = PhTag::javascriptInclude($options, '0');
+        PhTag::setDoctype('');
 
-        $this->assertEquals(
+        $I->assertEquals(
             $expected,
             $actual,
             sprintf(
