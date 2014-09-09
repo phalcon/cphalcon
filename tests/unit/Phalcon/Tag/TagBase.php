@@ -237,7 +237,7 @@ class TagBase
         $I->assertEquals(
             $expected,
             $actual,
-            sprintf($this->message, $function . $message)
+            sprintf($this->message, $function .' ' . $message)
         );
     }
 }
