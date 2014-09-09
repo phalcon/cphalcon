@@ -251,7 +251,7 @@ class TagTextFieldCest extends TagBase
     {
         $options  = 'some_field_name';
         $expected = '<input type="text" id="some_field_name" '
-                  . 'name="some_field_name"';
+                  . 'name="some_field_name" value=""';
 
         $this->runBasic('textField', $I, $options, $expected, $xhtml);
     }
@@ -272,7 +272,7 @@ class TagTextFieldCest extends TagBase
             'class' => 'some_class',
         );
         $expected = '<input type="text" id="some_field_name" '
-                  . 'name="some_field_name" class="some_class"';
+                  . 'name="some_field_name" value="" class="some_class"';
 
         $this->runWithArrayBasic('textField', $I, $options, $expected, $xhtml);
     }
@@ -295,7 +295,7 @@ class TagTextFieldCest extends TagBase
             'size'  => '10',
         );
         $expected = '<input type="text" id="some_id" name="some_field_name" '
-                  . 'class="some_class" size="10"';
+                  . 'value="" class="some_class" size="10"';
 
         $this->runWithIdInParameters(
             'textField',
@@ -324,7 +324,8 @@ class TagTextFieldCest extends TagBase
             'size'  => '10',
         );
         $expected = '<input type="text" id="some_field_name" '
-                  . 'name="some_other_name" class="some_class" size="10"';
+                  . 'name="some_other_name" value="" class="some_class" '
+                  . 'size="10"';
 
         $this->runWithNameAndNotIdInParameters(
             'textField',
@@ -406,7 +407,7 @@ class TagTextFieldCest extends TagBase
     private function textFieldSetDefaultElementNotPresent(CodeGuy $I, $xhtml)
     {
         $options = array(
-            'some_field_name',
+            'some_field',
             'class' => 'some_class',
             'size'  => '10',
         );
