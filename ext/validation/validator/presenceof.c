@@ -52,7 +52,7 @@ PHP_METHOD(Phalcon_Validation_Validator_PresenceOf, valid);
 
 static const zend_function_entry phalcon_validation_validator_presenceof_method_entry[] = {
 	PHP_ME(Phalcon_Validation_Validator_PresenceOf, validate, arginfo_phalcon_validation_validatorinterface_validate, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Validation_Validator_PresenceOf, valid, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Validation_Validator_PresenceOf, valid, NULL, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };
 
