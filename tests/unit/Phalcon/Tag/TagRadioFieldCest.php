@@ -349,7 +349,7 @@ class TagRadioFieldCest extends TagBase
         );
         $expected = '<input type="radio" id="some_field_name" '
                   . 'name="some_field_name" value="some_default_value" '
-                  . 'class="some_class" size="10"';
+                  . 'class="some_class" size="10" checked="checked"';
 
         $this->runSetDefault(
             'radioField',
@@ -378,7 +378,7 @@ class TagRadioFieldCest extends TagBase
         );
         $expected = '<input type="radio" id="some_field_name" '
                   . 'name="some_field_name" value="some_default_value" '
-                  . 'class="some_class" size="10"';
+                  . 'class="some_class" size="10" checked="checked"';
 
         $this->runDisplayTo(
             'radioField',
