@@ -38,7 +38,7 @@ class Multiple
 	 */
 	public function push(<\Phalcon\Logger\AdapterInterface> logger)
 	{
-		if typeof logger == "object" {
+		if typeof logger != "object" {
 			throw new \Phalcon\Logger\Exception("The logger is invalid");
 		}
 		let this->_loggers[] = logger;
