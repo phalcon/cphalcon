@@ -20,154 +20,114 @@
  * so that we can send you a copy immediately.
  */
 
+namespace Phalcon\Tests\unit\Phalcon\Tag;
+
 use \CodeGuy;
 use \Phalcon\Tag as PhTag;
 
-class TagCest
+class TagResetInputCest extends TagBase
 {
     /**
-     * Tests the get
+     * Tests resetInput (after a displayTo)
      *
+     * @issue 53
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
-     * @since  2014-09-04
+     * @since  2014-09-08
      *
      * @param CodeGuy $I
      */
-    public function testGet(CodeGuy $I)
+    public function testResetInputDisplayTo(CodeGuy $I)
     {
-        $actual = Version::get();
-
-        $I->assertTrue(
-            is_string($actual),
-            'get() does not return a string'
-        );
-    }
-
-    // -------------------------------------------------------------------------
-    // resetInput
-    // -------------------------------------------------------------------------
-    /**
-     * Tests resetInput (after a setDefault)
-     *
-     * @issue 53
-     * @author Nikos Dimopoulos <nikos@phalconphp.com>
-     * @since  2012-11-29
-     */
-    public function testResetInputSetDefaultT53()
-    {
-        $options  = 'some_field_name';
-        $expected = '<input type="text" id="some_field_name" name="some_field_name" value="Wall-E">';
-        \Phalcon\Tag::setDefault('some_field_name', 'Wall-E');
-        $actual   = \Phalcon\Tag::textField($options);
-
-        $this->assertEquals(
-            $expected,
-            $actual,
-            sprintf($this->message, 'resetInput before contains a value')
-        );
-        \Phalcon\Tag::resetInput();
-
-        $expected = '<input type="text" id="some_field_name" name="some_field_name" value="">';
-        $actual   = \Phalcon\Tag::textField($options);
-        $this->assertEquals(
-            $expected,
-            $actual,
-            sprintf($this->message, 'resetInput after contains a value')
-        );
+        $this->resetInput($I, 'displayTo', false);
     }
 
     /**
-     * Tests resetInput (after a displayTo)
+     * Tests resetInput (after a displayTo) XHTML
      *
      * @issue 53
-     * @author Nikos Dimopoulos <nikos@phalconphp.com>
-     * @since  2012-11-29
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-09-08
+     *
+     * @param CodeGuy $I
      */
-    public function testResetInputDisplayToT53()
+    public function testResetInputDisplayToXHTML(CodeGuy $I)
     {
-        $options  = 'some_field_name';
-        $expected = '<input type="text" id="some_field_name" name="some_field_name" value="Wall-E">';
-        \Phalcon\Tag::displayTo('some_field_name', 'Wall-E');
-        $actual   = \Phalcon\Tag::textField($options);
-
-        $this->assertEquals(
-            $expected,
-            $actual,
-            sprintf($this->message, 'resetInput before contains a value')
-        );
-        \Phalcon\Tag::resetInput();
-
-        $expected = '<input type="text" id="some_field_name" name="some_field_name" value="">';
-        $actual   = \Phalcon\Tag::textField($options);
-        $this->assertEquals(
-            $expected,
-            $actual,
-            sprintf($this->message, 'resetInput after contains a value')
-        );
+        $this->resetInput($I, 'displayTo', true);
     }
 
     /**
      * Tests resetInput (after a setDefault)
      *
      * @issue 53
-     * @author Nikos Dimopoulos <nikos@phalconphp.com>
-     * @since  2012-10-26
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-09-08
+     *
+     * @param CodeGuy $I
      */
-    public function testResetInputSetDefaultXHTMLT53()
+    public function testResetInputSetDefault(CodeGuy $I)
     {
-        \Phalcon\Tag::setDoctype(\Phalcon\Tag::XHTML10_STRICT);
-        $options  = 'some_field_name';
-        $expected = '<input type="text" id="some_field_name" name="some_field_name" value="Wall-E" />';
-        \Phalcon\Tag::setDefault('some_field_name', 'Wall-E');
-        $actual   = \Phalcon\Tag::textField($options);
-
-        $this->assertEquals(
-            $expected,
-            $actual,
-            sprintf($this->message, 'XHTML resetInput before contains a value')
-        );
-        \Phalcon\Tag::resetInput();
-
-        $expected = '<input type="text" id="some_field_name" name="some_field_name" value="" />';
-        $actual   = \Phalcon\Tag::textField($options);
-        \Phalcon\Tag::setDoctype('');
-        $this->assertEquals(
-            $expected,
-            $actual,
-            sprintf($this->message, 'XHTML resetInput after contains a value')
-        );
+        $this->resetInput($I, 'setDefault', false);
     }
 
     /**
-     * Tests resetInput (after a displayTo)
+     * Tests resetInput (after a setDefault) XHTML
      *
      * @issue 53
-     * @author Nikos Dimopoulos <nikos@phalconphp.com>
-     * @since  2012-10-26
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-09-08
+     *
+     * @param CodeGuy $I
      */
-    public function testResetInputDisplayToXHTMLT53()
+    public function testResetInputSetDefaultXHTML(CodeGuy $I)
     {
-        \Phalcon\Tag::setDoctype(\Phalcon\Tag::XHTML10_STRICT);
-        $options  = 'some_field_name';
-        $expected = '<input type="text" id="some_field_name" name="some_field_name" value="Wall-E" />';
-        \Phalcon\Tag::displayTo('some_field_name', 'Wall-E');
-        $actual   = \Phalcon\Tag::textField($options);
-
-        $this->assertEquals(
-            $expected,
-            $actual,
-            sprintf($this->message, 'XHTML resetInput before contains a value')
-        );
-        \Phalcon\Tag::resetInput();
-
-        $expected = '<input type="text" id="some_field_name" name="some_field_name" value="" />';
-        $actual   = \Phalcon\Tag::textField($options);
-        \Phalcon\Tag::setDoctype('');
-        $this->assertEquals(
-            $expected,
-            $actual,
-            sprintf($this->message, 'XHTML resetInput after contains a value')
-        );
+        $this->resetInput($I, 'setDefault', true);
     }
 
+    /**
+     * Runs tests with resetInput for displayTo/setDefault for XHTML or not
+     *
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-09-05
+     *
+     * @param CodeGuy $I
+     * @param string  $function
+     * @param boolean $xhtml
+     */
+    private function resetInput(CodeGuy $I, $function, $xhtml)
+    {
+        if ($xhtml) {
+            PhTag::setDoctype(PhTag::XHTML10_STRICT);
+        } else {
+            PhTag::setDocType(PhTag::HTML5);
+        }
+
+        $suffix  = ($xhtml) ? ' />'    : ">";
+        $message = ($xhtml) ? ' XHTML' : '';
+        $message = $function . ' for displayTo' . $message;
+
+        $options  = 'some_field_name';
+        $expected = '<input type="text" id="some_field_name" '
+                  . 'name="some_field_name" value="Wall-E"'
+                  . $suffix;
+        PhTag::$function('some_field_name', 'Wall-E');
+        $actual   = PhTag::textField($options);
+
+        $I->assertEquals(
+            $expected,
+            $actual,
+            sprintf($this->message, $message . ' before')
+        );
+        PhTag::resetInput();
+
+        $expected = '<input type="text" id="some_field_name" '
+                  . 'name="some_field_name"'
+                  . $suffix;
+        $actual   = PhTag::textField($options);
+        PhTag::setDoctype(PhTag::HTML5);
+        $I->assertEquals(
+            $expected,
+            $actual,
+            sprintf($this->message, $message . ' after')
+        );
+    }
 }
