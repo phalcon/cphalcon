@@ -85,7 +85,7 @@ PHP_METHOD(Phalcon_Logger_Multiple, push) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(spl_ce_InvalidArgumentException, "Parameter 'logger' must be an instance of 'Phalcon\\Logger\\AdapterInterface'", "", 0);
 		return;
 	}
-	if (Z_TYPE_P(logger) == IS_OBJECT) {
+	if (Z_TYPE_P(logger) != IS_OBJECT) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_logger_exception_ce, "The logger is invalid", "phalcon/logger/multiple.zep", 42);
 		return;
 	}

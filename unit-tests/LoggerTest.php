@@ -52,4 +52,27 @@ class LoggerTest extends PHPUnit_Framework_TestCase
 		$lines = file($logfile);
 		$this->assertEquals(count($lines), 3);
 	}
+
+  public function testIssues2798()
+  {
+    $logfile1 = "unit-tests/logs/file.log";
+    $logfile2 = "unit-tests/logs/multiple.log";
+
+    @unlink($logfile1);
+    @unlink($logfile2);
+
+    $logger = new \Phalcon\Logger\Multiple();
+    $logger->push(new \Phalcon\Logger\Adapter\File($logfile1));
+    $logger->push(new \Phalcon\Logger\Adapter\File($logfile2));
+		$logger->log('This is a message');
+		$logger->log("This is an error", \Phalcon\Logger::ERROR);
+		$logger->error("This is another error");
+
+    $lines = file($logfile1);
+    $this->assertEquals(count($lines), 3);
+
+    unset($lines);
+    $lines = file($logfile2);
+    $this->assertEquals(count($lines), 3);
+  }
 }
