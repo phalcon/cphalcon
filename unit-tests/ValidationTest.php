@@ -959,7 +959,7 @@ class ValidationTest extends PHPUnit_Framework_TestCase
 		$expectedMessages = Phalcon\Validation\Message\Group::__set_state(array(
 			'_messages' => array(
 				0 => Phalcon\Validation\Message::__set_state(array(
-					'_type' => 'File',
+					'_type' => 'TooLarge',
 					'_message' => 'File file the size must not exceed 30720',
 					'_field' => 'file',
 					'_code' => 0,
