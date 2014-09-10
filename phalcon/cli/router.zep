@@ -208,7 +208,7 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
 		var moduleName, taskName, actionName,
 			params, route, parts, pattern, routeFound, matches, paths,
 			beforeMatch, converters, converter, part, position, matchPosition,
-			paramsStr, strParams;
+			strParams;
 
 		let routeFound = false,
 			parts = [],
@@ -372,10 +372,14 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
 		/**
 		 * Check for an parameters
 		 */
-		if fetch paramsStr, parts["params"] {
-			let strParams = substr(paramsStr, 1);
-			if strParams {
-				let params = explode(Route::getDelimiter(), strParams);
+		if fetch params, parts["params"] {
+			if typeof params != "array" {
+				let strParams = substr((string)params, 1);
+				if strParams {
+					let params = explode(Route::getDelimiter(), strParams);
+				} else {
+					let params = [];
+				}
 			}
 			unset parts["params"];
 		}
