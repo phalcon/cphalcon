@@ -372,19 +372,23 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
 		/**
 		 * Check for an parameters
 		 */
-		if fetch params, parts["params"] {
-			if typeof params != "array" {
-				let strParams = substr((string)params, 1);
-				if strParams {
-					let params = explode(Route::getDelimiter(), strParams);
-				} else {
-					let params = [];
+		if routeFound {
+			if fetch params, parts["params"] {
+				if typeof params != "array" {
+					let strParams = substr((string)params, 1);
+					if strParams {
+						let params = explode(Route::getDelimiter(), strParams);
+					} else {
+						let params = [];
+					}
 				}
+				unset parts["params"];
 			}
-			unset parts["params"];
-		}
-		if count(params) {
-			let params = array_merge(params, parts);
+			if count(params) {
+				let params = array_merge(params, parts);
+			} else {
+				let params = parts;
+			}
 		} else {
 			let params = parts;
 		}
@@ -517,7 +521,7 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
 	 * Returns a route object by its name
 	 *
 	 * @param string name
-	 * @return Phalcon\Mvc\Router\Route | boolean
+	 * @return Phalcon\Cli\Router\Route | boolean
 	 */
 	public function getRouteByName(string! name) -> <Route> | boolean
 	{
@@ -530,4 +534,5 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
 		}
 		return false;
 	}
+
 }
