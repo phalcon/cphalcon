@@ -75,7 +75,7 @@ class Multiple
 		let loggers = this->_loggers;
 		if typeof loggers == "array" {
 			for logger in loggers {
-				logger->log(message, type);
+				logger->log(type, message);
 			}
 		}
 	}

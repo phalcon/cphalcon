@@ -64,15 +64,29 @@ class LoggerTest extends PHPUnit_Framework_TestCase
     $logger = new \Phalcon\Logger\Multiple();
     $logger->push(new \Phalcon\Logger\Adapter\File($logfile1));
     $logger->push(new \Phalcon\Logger\Adapter\File($logfile2));
+    $logger->setFormatter(new \Phalcon\Logger\Formatter\Json());
 		$logger->log('This is a message');
 		$logger->log("This is an error", \Phalcon\Logger::ERROR);
 		$logger->error("This is another error");
 
+    $loggerType = array('DEBUG', 'ERROR', 'ERROR');
+    $loggerMessage = array('This is a message', 'This is an error', 'This is another error');
+
     $lines = file($logfile1);
     $this->assertEquals(count($lines), 3);
+    foreach($lines as $key => $line) {
+      $line = json_decode($line, true);
+      $this->assertEquals($line['type'], $loggerType[$key]);
+      $this->assertEquals($line['message'], $loggerMessage[$key]);
+    }
 
     unset($lines);
     $lines = file($logfile2);
     $this->assertEquals(count($lines), 3);
+    foreach($lines as $key => $line) {
+      $line = json_decode($line, true);
+      $this->assertEquals($line['type'], $loggerType[$key]);
+      $this->assertEquals($line['message'], $loggerMessage[$key]);
+    }
   }
 }

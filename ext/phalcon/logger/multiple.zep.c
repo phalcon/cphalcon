@@ -168,7 +168,7 @@ PHP_METHOD(Phalcon_Logger_Multiple, log) {
 			ZEPHIR_GET_HVALUE(logger, _2);
 			ZEPHIR_INIT_NVAR(_3);
 			ZVAL_LONG(_3, type);
-			ZEPHIR_CALL_METHOD(NULL, logger, "log", NULL, message, _3);
+			ZEPHIR_CALL_METHOD(NULL, logger, "log", NULL, _3, message);
 			zephir_check_call_status();
 		}
 	}
