@@ -28,6 +28,7 @@ define('PATH_TASKS', $root . '/tests/app/tasks/');
 // loading verify assert BDD style assert
 require_once ROOT_PATH . '/_support/Verify.php';
 
+ini_set('output_buffering', 'Off');
 error_reporting(E_ALL);
 set_include_path(
     ROOT_PATH . PATH_SEPARATOR . get_include_path()
