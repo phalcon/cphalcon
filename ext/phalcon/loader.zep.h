@@ -23,7 +23,7 @@ PHP_METHOD(Phalcon_Loader, getFoundPath);
 PHP_METHOD(Phalcon_Loader, getCheckedPath);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_loader_seteventsmanager, 0, 0, 1)
-	ZEND_ARG_INFO(0, eventsManager)
+	ZEND_ARG_OBJ_INFO(0, eventsManager, Phalcon\\Events\\ManagerInterface, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_loader_setextensions, 0, 0, 1)

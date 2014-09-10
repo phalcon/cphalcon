@@ -123,7 +123,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view__enginerender, 0, 0, 4)
 	ZEND_ARG_INFO(0, viewPath)
 	ZEND_ARG_INFO(0, silence)
 	ZEND_ARG_INFO(0, mustClean)
-	ZEND_ARG_INFO(0, cache)
+	ZEND_ARG_OBJ_INFO(0, cache, Phalcon\\Cache\\BackendInterface, 1)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_registerengines, 0, 0, 1)

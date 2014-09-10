@@ -4,7 +4,7 @@ extern zend_class_entry *phalcon_forms_elementinterface_ce;
 ZEPHIR_INIT_CLASS(Phalcon_Forms_ElementInterface);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_elementinterface_setform, 0, 0, 1)
-	ZEND_ARG_INFO(0, form)
+	ZEND_ARG_OBJ_INFO(0, form, Phalcon\\Forms\\Form, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_elementinterface_setname, 0, 0, 1)
@@ -25,7 +25,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_elementinterface_addvalidators, 0, 
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_elementinterface_addvalidator, 0, 0, 1)
-	ZEND_ARG_INFO(0, validator)
+	ZEND_ARG_OBJ_INFO(0, validator, Phalcon\\Validation\\ValidatorInterface, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_elementinterface_prepareattributes, 0, 0, 0)
@@ -70,11 +70,11 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_elementinterface_setdefault, 0, 0, 
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_elementinterface_setmessages, 0, 0, 1)
-	ZEND_ARG_INFO(0, group)
+	ZEND_ARG_OBJ_INFO(0, group, Phalcon\\Validation\\Message\\Group, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_elementinterface_appendmessage, 0, 0, 1)
-	ZEND_ARG_INFO(0, message)
+	ZEND_ARG_OBJ_INFO(0, message, Phalcon\\Validation\\Message, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_elementinterface_render, 0, 0, 0)

@@ -23,11 +23,11 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_behavior_notify, 0, 0, 2)
 	ZEND_ARG_INFO(0, type)
-	ZEND_ARG_INFO(0, model)
+	ZEND_ARG_OBJ_INFO(0, model, Phalcon\\Mvc\\ModelInterface, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_behavior_missingmethod, 0, 0, 2)
-	ZEND_ARG_INFO(0, model)
+	ZEND_ARG_OBJ_INFO(0, model, Phalcon\\Mvc\\ModelInterface, 0)
 	ZEND_ARG_INFO(0, method)
 	ZEND_ARG_INFO(0, arguments)
 ZEND_END_ARG_INFO()

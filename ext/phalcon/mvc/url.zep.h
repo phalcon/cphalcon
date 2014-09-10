@@ -16,7 +16,7 @@ PHP_METHOD(Phalcon_Mvc_Url, getStatic);
 PHP_METHOD(Phalcon_Mvc_Url, path);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_url_setdi, 0, 0, 1)
-	ZEND_ARG_INFO(0, dependencyInjector)
+	ZEND_ARG_OBJ_INFO(0, dependencyInjector, Phalcon\\DiInterface, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_url_setbaseuri, 0, 0, 1)

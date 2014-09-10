@@ -46,8 +46,8 @@ PHP_METHOD(Phalcon_Mvc_Collection, serialize);
 PHP_METHOD(Phalcon_Mvc_Collection, unserialize);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_collection___construct, 0, 0, 0)
-	ZEND_ARG_INFO(0, dependencyInjector)
-	ZEND_ARG_INFO(0, modelsManager)
+	ZEND_ARG_OBJ_INFO(0, dependencyInjector, Phalcon\\DiInterface, 1)
+	ZEND_ARG_OBJ_INFO(0, modelsManager, Phalcon\\Mvc\\Collection\\ManagerInterface, 1)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_collection_setid, 0, 0, 1)
@@ -55,11 +55,11 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_collection_setid, 0, 0, 1)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_collection_setdi, 0, 0, 1)
-	ZEND_ARG_INFO(0, dependencyInjector)
+	ZEND_ARG_OBJ_INFO(0, dependencyInjector, Phalcon\\DiInterface, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_collection_seteventsmanager, 0, 0, 1)
-	ZEND_ARG_INFO(0, eventsManager)
+	ZEND_ARG_OBJ_INFO(0, eventsManager, Phalcon\\Events\\ManagerInterface, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_collection_useimplicitobjectids, 0, 0, 1)
@@ -84,20 +84,20 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_collection_writeattribute, 0, 0, 2)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_collection_cloneresult, 0, 0, 2)
-	ZEND_ARG_INFO(0, collection)
+	ZEND_ARG_OBJ_INFO(0, collection, Phalcon\\Mvc\\Collection, 0)
 	ZEND_ARG_INFO(0, document)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_collection__getresultset, 0, 0, 4)
 	ZEND_ARG_INFO(0, params)
-	ZEND_ARG_INFO(0, collection)
+	ZEND_ARG_OBJ_INFO(0, collection, Phalcon\\Mvc\\CollectionInterface, 0)
 	ZEND_ARG_INFO(0, connection)
 	ZEND_ARG_INFO(0, unique)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_collection__getgroupresultset, 0, 0, 3)
 	ZEND_ARG_INFO(0, params)
-	ZEND_ARG_INFO(0, collection)
+	ZEND_ARG_OBJ_INFO(0, collection, Phalcon\\Mvc\\Collection, 0)
 	ZEND_ARG_INFO(0, connection)
 ZEND_END_ARG_INFO()
 
@@ -134,7 +134,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_collection__exists, 0, 0, 1)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_collection_appendmessage, 0, 0, 1)
-	ZEND_ARG_INFO(0, message)
+	ZEND_ARG_OBJ_INFO(0, message, Phalcon\\Mvc\\Model\\MessageInterface, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_collection_findbyid, 0, 0, 1)

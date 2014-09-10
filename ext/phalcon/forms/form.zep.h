@@ -91,7 +91,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_form_hasmessagesfor, 0, 0, 1)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_form_add, 0, 0, 1)
-	ZEND_ARG_INFO(0, element)
+	ZEND_ARG_OBJ_INFO(0, element, Phalcon\\Forms\\ElementInterface, 0)
 	ZEND_ARG_INFO(0, postion)
 	ZEND_ARG_INFO(0, type)
 ZEND_END_ARG_INFO()

@@ -14,8 +14,8 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, setFetchMode);
 PHP_METHOD(Phalcon_Db_Result_Pdo, getInternalResult);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_result_pdo___construct, 0, 0, 2)
-	ZEND_ARG_INFO(0, connection)
-	ZEND_ARG_INFO(0, result)
+	ZEND_ARG_OBJ_INFO(0, connection, Phalcon\\Db\\AdapterInterface, 0)
+	ZEND_ARG_OBJ_INFO(0, result, PDOStatement, 0)
 	ZEND_ARG_INFO(0, sqlStatement)
 	ZEND_ARG_INFO(0, bindParams)
 	ZEND_ARG_INFO(0, bindTypes)

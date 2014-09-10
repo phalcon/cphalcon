@@ -23,7 +23,7 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_manager_set, 0, 0, 2)
 	ZEND_ARG_INFO(0, name)
-	ZEND_ARG_INFO(0, form)
+	ZEND_ARG_OBJ_INFO(0, form, Phalcon\\Forms\\Form, 0)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_forms_manager_method_entry) {

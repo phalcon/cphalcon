@@ -62,7 +62,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Validation_ValidatorInterface, getOption);
 /**
  * Executes the validation
  *
- * @param Phalcon\Validator validator
+ * @param Phalcon\Validation validator
  * @param string attribute
  * @return boolean
  */

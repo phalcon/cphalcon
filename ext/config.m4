@@ -29,6 +29,9 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/assets/filters/cssmin.zep.c
 	phalcon/assets/filters/jsmin.zep.c
 	phalcon/assets/filters/none.zep.c
+	phalcon/assets/inline.zep.c
+	phalcon/assets/inline/css.zep.c
+	phalcon/assets/inline/js.zep.c
 	phalcon/assets/manager.zep.c
 	phalcon/assets/resource.zep.c
 	phalcon/assets/resource/css.zep.c

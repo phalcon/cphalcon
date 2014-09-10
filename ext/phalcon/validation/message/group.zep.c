@@ -141,10 +141,6 @@ PHP_METHOD(Phalcon_Validation_Message_Group, offsetSet) {
 	index = Z_LVAL_P(index_param);
 
 
-	if (!(zephir_instance_of_ev(message, phalcon_validation_message_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'message' must be an instance of 'Phalcon\\Validation\\Message'", "", 0);
-		return;
-	}
 	if (Z_TYPE_P(message) != IS_OBJECT) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_validation_exception_ce, "The message must be an object", "phalcon/validation/message/group.zep", 80);
 		return;

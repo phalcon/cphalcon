@@ -58,7 +58,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_image_adapter_imagick__reflection, 0, 0, 
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_image_adapter_imagick__watermark, 0, 0, 4)
-	ZEND_ARG_INFO(0, image)
+	ZEND_ARG_OBJ_INFO(0, image, Phalcon\\Image\\Adapter, 0)
 	ZEND_ARG_INFO(0, offset_x)
 	ZEND_ARG_INFO(0, offset_y)
 	ZEND_ARG_INFO(0, opacity)
@@ -77,7 +77,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_image_adapter_imagick__text, 0, 0, 9)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_image_adapter_imagick__mask, 0, 0, 1)
-	ZEND_ARG_INFO(0, image)
+	ZEND_ARG_OBJ_INFO(0, image, Phalcon\\Image\\Adapter, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_image_adapter_imagick__background, 0, 0, 4)

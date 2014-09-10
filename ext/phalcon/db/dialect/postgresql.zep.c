@@ -12,6 +12,7 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
+#include "kernel/object.h"
 #include "kernel/exception.h"
 #include "kernel/fcall.h"
 #include "kernel/operators.h"
@@ -71,8 +72,12 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, getColumnDefinition) {
 
 
 
+	if (!(zephir_instance_of_ev(column, phalcon_db_columninterface_ce TSRMLS_CC))) {
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'column' must be an instance of 'Phalcon\\Db\\ColumnInterface'", "", 0);
+		return;
+	}
 	if (Z_TYPE_P(column) != IS_OBJECT) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Column definition must be an object compatible with Phalcon\\Db\\ColumnInterface", "phalcon/db/dialect/postgresql.zep", 48);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Column definition must be an object compatible with Phalcon\\Db\\ColumnInterface", "phalcon/db/dialect/postgresql.zep", 50);
 		return;
 	}
 	ZEPHIR_CALL_METHOD(&size, column, "getsize",  NULL);
@@ -127,7 +132,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, getColumnDefinition) {
 			ZVAL_STRING(columnSql, "SMALLINT(1)", 1);
 			break;
 		}
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Unrecognized PostgreSQL data type", "phalcon/db/dialect/postgresql.zep", 83);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Unrecognized PostgreSQL data type", "phalcon/db/dialect/postgresql.zep", 85);
 		return;
 	} while(0);
 
@@ -151,7 +156,11 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, addColumn) {
 
 
 
-	ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_db_exception_ce, "Not implemented yet", "phalcon/db/dialect/postgresql.zep", 99);
+	if (!(zephir_instance_of_ev(column, phalcon_db_columninterface_ce TSRMLS_CC))) {
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(spl_ce_InvalidArgumentException, "Parameter 'column' must be an instance of 'Phalcon\\Db\\ColumnInterface'", "", 0);
+		return;
+	}
+	ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_db_exception_ce, "Not implemented yet", "phalcon/db/dialect/postgresql.zep", 101);
 	return;
 
 }
@@ -172,7 +181,11 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, modifyColumn) {
 
 
 
-	ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_db_exception_ce, "Not implemented yet", "phalcon/db/dialect/postgresql.zep", 112);
+	if (!(zephir_instance_of_ev(column, phalcon_db_columninterface_ce TSRMLS_CC))) {
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(spl_ce_InvalidArgumentException, "Parameter 'column' must be an instance of 'Phalcon\\Db\\ColumnInterface'", "", 0);
+		return;
+	}
+	ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_db_exception_ce, "Not implemented yet", "phalcon/db/dialect/postgresql.zep", 114);
 	return;
 
 }
@@ -193,7 +206,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, dropColumn) {
 
 
 
-	ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_db_exception_ce, "Not implemented yet", "phalcon/db/dialect/postgresql.zep", 125);
+	ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_db_exception_ce, "Not implemented yet", "phalcon/db/dialect/postgresql.zep", 127);
 	return;
 
 }
@@ -203,7 +216,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, dropColumn) {
  *
  * @param	string tableName
  * @param	string schemaName
- * @param	Phalcon\Db\Index index
+ * @param	Phalcon\Db\IndexInterface index
  * @return	string
  */
 PHP_METHOD(Phalcon_Db_Dialect_Postgresql, addIndex) {
@@ -214,7 +227,11 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, addIndex) {
 
 
 
-	ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_db_exception_ce, "Not implemented yet", "phalcon/db/dialect/postgresql.zep", 138);
+	if (!(zephir_instance_of_ev(index, phalcon_db_indexinterface_ce TSRMLS_CC))) {
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(spl_ce_InvalidArgumentException, "Parameter 'index' must be an instance of 'Phalcon\\Db\\IndexInterface'", "", 0);
+		return;
+	}
+	ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_db_exception_ce, "Not implemented yet", "phalcon/db/dialect/postgresql.zep", 140);
 	return;
 
 }
@@ -235,7 +252,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, dropIndex) {
 
 
 
-	ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_db_exception_ce, "Not implemented yet", "phalcon/db/dialect/postgresql.zep", 151);
+	ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_db_exception_ce, "Not implemented yet", "phalcon/db/dialect/postgresql.zep", 153);
 	return;
 
 }
@@ -245,7 +262,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, dropIndex) {
  *
  * @param	string tableName
  * @param	string schemaName
- * @param	Phalcon\Db\Index index
+ * @param	Phalcon\Db\IndexInterface index
  * @return	string
  */
 PHP_METHOD(Phalcon_Db_Dialect_Postgresql, addPrimaryKey) {
@@ -256,7 +273,11 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, addPrimaryKey) {
 
 
 
-	ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_db_exception_ce, "Not implemented yet", "phalcon/db/dialect/postgresql.zep", 164);
+	if (!(zephir_instance_of_ev(index, phalcon_db_indexinterface_ce TSRMLS_CC))) {
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(spl_ce_InvalidArgumentException, "Parameter 'index' must be an instance of 'Phalcon\\Db\\IndexInterface'", "", 0);
+		return;
+	}
+	ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_db_exception_ce, "Not implemented yet", "phalcon/db/dialect/postgresql.zep", 166);
 	return;
 
 }
@@ -276,7 +297,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, dropPrimaryKey) {
 
 
 
-	ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_db_exception_ce, "Not implemented yet", "phalcon/db/dialect/postgresql.zep", 176);
+	ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_db_exception_ce, "Not implemented yet", "phalcon/db/dialect/postgresql.zep", 178);
 	return;
 
 }
@@ -297,7 +318,11 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, addForeignKey) {
 
 
 
-	ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_db_exception_ce, "Not implemented yet", "phalcon/db/dialect/postgresql.zep", 189);
+	if (!(zephir_instance_of_ev(reference, phalcon_db_referenceinterface_ce TSRMLS_CC))) {
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(spl_ce_InvalidArgumentException, "Parameter 'reference' must be an instance of 'Phalcon\\Db\\ReferenceInterface'", "", 0);
+		return;
+	}
+	ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_db_exception_ce, "Not implemented yet", "phalcon/db/dialect/postgresql.zep", 191);
 	return;
 
 }
@@ -318,7 +343,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, dropForeignKey) {
 
 
 
-	ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_db_exception_ce, "Not implemented yet", "phalcon/db/dialect/postgresql.zep", 202);
+	ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_db_exception_ce, "Not implemented yet", "phalcon/db/dialect/postgresql.zep", 204);
 	return;
 
 }
@@ -366,7 +391,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, createTable) {
 
 
 
-	ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_db_exception_ce, "Not implemented yet", "phalcon/db/dialect/postgresql.zep", 226);
+	ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_db_exception_ce, "Not implemented yet", "phalcon/db/dialect/postgresql.zep", 228);
 	return;
 
 }
@@ -426,7 +451,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, createView) {
 
 	ZEPHIR_OBS_VAR(viewSql);
 	if (!(zephir_array_isset_string_fetch(&viewSql, definition, SS("sql"), 0 TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "The index 'sql' is required in the definition array", "phalcon/db/dialect/postgresql.zep", 267);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "The index 'sql' is required in the definition array", "phalcon/db/dialect/postgresql.zep", 269);
 		return;
 	}
 	if (zephir_is_true(schemaName)) {

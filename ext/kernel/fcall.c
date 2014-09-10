@@ -366,6 +366,7 @@ int zephir_call_user_function(zval **object_pp, zend_class_entry *obj_ce, zephir
 	fci.symbol_table   = NULL;
 
 	fcic.initialized = 0;
+	fcic.function_handler = NULL;
 	if (!cache_entry || !*cache_entry) {
 		if (fcall_key && zend_hash_quick_find(zephir_globals_ptr->fcache, fcall_key, fcall_key_len, fcall_key_hash, (void**)&temp_cache_entry) != FAILURE) {
 			zephir_fcall_populate_fci_cache(&fcic, &fci, type TSRMLS_CC);
@@ -387,6 +388,13 @@ int zephir_call_user_function(zval **object_pp, zend_class_entry *obj_ce, zephir
 		fcic.function_handler = *cache_entry;
 #endif
 	}
+
+	/* Xdebug fix */
+	//if (fcic.function_handler && fcic.function_handler->type == ZEND_INTERNAL_FUNCTION && fcic.function_handler->op_array) {
+	//	fcic.function_handler->op_array.filename = "?";
+	//	fcic.function_handler->op_array.line_start = 0;
+	//	fcic.function_handler->op_array.line_end = 0;
+	//}
 
 	/* fcic.initialized = 0; */
 	status = ZEPHIR_ZEND_CALL_FUNCTION_WRAPPER(&fci, &fcic TSRMLS_CC);
@@ -952,6 +960,7 @@ int zephir_call_function(zend_fcall_info *fci, zend_fcall_info_cache *fci_cache 
 		if (EX(function_state).function->common.scope) {
 			EG(scope) = EX(function_state).function->common.scope;
 		}
+
 		((zend_internal_function *) EX(function_state).function)->handler(fci->param_count, *fci->retval_ptr_ptr, fci->retval_ptr_ptr, fci->object_ptr, 1 TSRMLS_CC);
 		/*  We shouldn't fix bad extensions here,
 			because it can break proper ones (Bug #34045)
@@ -988,6 +997,7 @@ int zephir_call_function(zend_fcall_info *fci, zend_fcall_info_cache *fci_cache 
 			*fci->retval_ptr_ptr = NULL;
 		}
 	}
+
 	#if PHP_VERSION_ID <= 50500
 	zend_vm_stack_clear_multiple(TSRMLS_C);
 	#else

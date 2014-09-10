@@ -30,7 +30,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cli_dispatcher__throwdispatchexception, 0
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cli_dispatcher__handleexception, 0, 0, 1)
-	ZEND_ARG_INFO(0, exception)
+	ZEND_ARG_OBJ_INFO(0, exception, Exception, 0)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_cli_dispatcher_method_entry) {

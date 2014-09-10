@@ -17,11 +17,11 @@ PHP_METHOD(Phalcon_Logger_Multiple, warning);
 PHP_METHOD(Phalcon_Logger_Multiple, alert);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_logger_multiple_push, 0, 0, 1)
-	ZEND_ARG_INFO(0, logger)
+	ZEND_ARG_OBJ_INFO(0, logger, Phalcon\\Logger\\AdapterInterface, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_logger_multiple_setformatter, 0, 0, 1)
-	ZEND_ARG_INFO(0, formatter)
+	ZEND_ARG_OBJ_INFO(0, formatter, Phalcon\\Logger\\FormatterInterface, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_logger_multiple_log, 0, 0, 1)
