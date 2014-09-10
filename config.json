@@ -10,7 +10,7 @@
     "name": "",
     "description": "",
     "author": "Phalcon Team",
-    "version": "2.0.0a",
+    "version": "2.0.0b2",
     "verbose": false,
     "optimizer-dirs": [
         "optimizers"
