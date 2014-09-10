@@ -49,7 +49,7 @@ class Route
 
 	protected static _delimiterPath;
 
-	const DEFAULT_DELIMITER = "/";
+	const DEFAULT_DELIMITER = " ";
 
 	/**
 	 * Phalcon\Cli\Router\Route constructor
