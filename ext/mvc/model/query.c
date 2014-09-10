@@ -1116,6 +1116,60 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getExpression){
 				PHALCON_RETURN_CALL_METHOD(this_ptr, "_getfunctioncall", expr);
 				break;
 	
+			case PHQL_T_TS_MATCHES:
+				assert(left != NULL && right != NULL);
+				array_init_size(return_value, 4);
+				add_assoc_stringl_ex(return_value, ISS(type), SL("binary-op"), 1);
+				add_assoc_stringl_ex(return_value, ISS(op), SL("@@"), 1);
+				phalcon_array_update_string(&return_value, ISL(left), left, PH_COPY);
+				phalcon_array_update_string(&return_value, ISL(right), right, PH_COPY);
+				break;
+	
+			case PHQL_T_TS_OR:
+				assert(left != NULL && right != NULL);
+				array_init_size(return_value, 4);
+				add_assoc_stringl_ex(return_value, ISS(type), SL("binary-op"), 1);
+				add_assoc_stringl_ex(return_value, ISS(op), SL("||"), 1);
+				phalcon_array_update_string(&return_value, ISL(left), left, PH_COPY);
+				phalcon_array_update_string(&return_value, ISL(right), right, PH_COPY);
+				break;
+	
+			case PHQL_T_TS_AND:
+				assert(left != NULL && right != NULL);
+				array_init_size(return_value, 4);
+				add_assoc_stringl_ex(return_value, ISS(type), SL("binary-op"), 1);
+				add_assoc_stringl_ex(return_value, ISS(op), SL("||"), 1);
+				phalcon_array_update_string(&return_value, ISL(left), left, PH_COPY);
+				phalcon_array_update_string(&return_value, ISL(right), right, PH_COPY);
+				break;
+	
+			case PHQL_T_TS_NEGATE:
+				assert(left != NULL && right != NULL);
+				array_init_size(return_value, 4);
+				add_assoc_stringl_ex(return_value, ISS(type), SL("binary-op"), 1);
+				add_assoc_stringl_ex(return_value, ISS(op), SL("!!"), 1);
+				phalcon_array_update_string(&return_value, ISL(left), left, PH_COPY);
+				phalcon_array_update_string(&return_value, ISL(right), right, PH_COPY);
+				break;
+	
+			case PHQL_T_TS_CONTAINS_ANOTHER:
+				assert(left != NULL && right != NULL);
+				array_init_size(return_value, 4);
+				add_assoc_stringl_ex(return_value, ISS(type), SL("binary-op"), 1);
+				add_assoc_stringl_ex(return_value, ISS(op), SL("@>"), 1);
+				phalcon_array_update_string(&return_value, ISL(left), left, PH_COPY);
+				phalcon_array_update_string(&return_value, ISL(right), right, PH_COPY);
+				break;
+	
+			case PHQL_T_TS_CONTAINS_IN:
+				assert(left != NULL && right != NULL);
+				array_init_size(return_value, 4);
+				add_assoc_stringl_ex(return_value, ISS(type), SL("binary-op"), 1);
+				add_assoc_stringl_ex(return_value, ISS(op), SL("<@"), 1);
+				phalcon_array_update_string(&return_value, ISL(left), left, PH_COPY);
+				phalcon_array_update_string(&return_value, ISL(right), right, PH_COPY);
+				break;
+	
 			default:
 				PHALCON_INIT_VAR(exception_message);
 				PHALCON_CONCAT_SV(exception_message, "Unknown expression type ", expr_type);

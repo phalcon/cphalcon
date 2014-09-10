@@ -410,6 +410,36 @@ int phql_get_token(phql_scanner_state *s, phql_scanner_token *token) {
 			return 0;
 		}
 
+		'@@' {
+			token->opcode = PHQL_T_TS_MATCHES;
+			return 0;
+		}
+
+		"||" {
+			token->opcode = PHQL_T_TS_OR;
+			return 0;
+		}
+
+		"&&" {
+			token->opcode = PHQL_T_TS_AND;
+			return 0;
+		}
+
+		"!!" {
+			token->opcode = PHQL_T_TS_NEGATE;
+			return 0;
+		}
+
+		"@>" {
+			token->opcode = PHQL_T_TS_CONTAINS_ANOTHER;
+			return 0;
+		}
+
+		"@>" {
+			token->opcode = PHQL_T_TS_CONTAINS_IN;
+			return 0;
+		}
+
 		"!" {
 			token->opcode = PHQL_T_NOT;
 			return 0;
