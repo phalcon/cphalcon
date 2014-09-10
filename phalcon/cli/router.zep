@@ -83,14 +83,14 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
 		let routes = [];
 		if defaultRoutes === true {
 
-			// Two routes are added by default to match /:task/:action and
-			// /:task/:action/:params
+			// Two routes are added by default to match
+			// /:task/:action and /:task/:action/:params
 
-			let routes[] = new Route("#^/([a-zA-Z0-9\\_\\-]+)[/]{0,1}$#", [
+			let routes[] = new Route("#^(?::delimiter)?([a-zA-Z0-9\\_\\-]+)[:delimiter]{0,1}$#", [
 				"task": 1
 			]);
 
-			let routes[] = new Route("#^/([a-zA-Z0-9\\_\\-]+)/([a-zA-Z0-9\\.\\_]+)(/.*)*$#", [
+			let routes[] = new Route("#^(?::delimiter)?([a-zA-Z0-9\\_\\-]+):delimiter([a-zA-Z0-9\\.\\_]+)(:delimiter.*)*$#", [
 				"task": 1,
 				"action": 2,
 				"params": 3
@@ -219,99 +219,101 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
 
 		if typeof arguments != "array" {
 
-			if arguments {
-				for route in reverse this->_routes {
+			if typeof arguments != "string" && typeof arguments != "null" {
+				throw new Exception("Arguments must be an array or string");
+			}
 
-					/**
-					 * If the route has parentheses use preg_match
-					 */
-					let pattern = route->getCompiledPattern();
+			for route in reverse this->_routes {
 
-					if memstr(pattern, "^") {
-						let routeFound = preg_match(pattern, arguments, matches);
-					} else {
-						let routeFound = pattern == arguments;
-					}
+				/**
+				 * If the route has parentheses use preg_match
+				 */
+				let pattern = route->getCompiledPattern();
 
-					/**
-					 * Check for beforeMatch conditions
-					 */
-					if routeFound {
+				if memstr(pattern, "^") {
+					let routeFound = preg_match(pattern, arguments, matches);
+				} else {
+					let routeFound = pattern == arguments;
+				}
 
-						let beforeMatch = route->getBeforeMatch();
-						if beforeMatch !== null {
+				/**
+				 * Check for beforeMatch conditions
+				 */
+				if routeFound {
 
-							/**
-							 * Check first if the callback is callable
-							 */
-							if !is_callable(beforeMatch) {
-								throw new Exception("Before-Match callback is not callable in matched route");
-							}
+					let beforeMatch = route->getBeforeMatch();
+					if beforeMatch !== null {
 
-							/**
-							 * Check first if the callback is callable
-							 */
-							let routeFound = call_user_func_array(beforeMatch, [arguments, route, this]);
+						/**
+						 * Check first if the callback is callable
+						 */
+						if !is_callable(beforeMatch) {
+							throw new Exception("Before-Match callback is not callable in matched route");
 						}
+
+						/**
+						 * Check first if the callback is callable
+						 */
+						let routeFound = call_user_func_array(beforeMatch, [arguments, route, this]);
 					}
+				}
 
-					if routeFound {
+				if routeFound {
+
+					/**
+					 * Start from the default paths
+					 */
+					let paths = route->getPaths(), parts = paths;
+
+					/**
+					 * Check if the matches has variables
+					 */
+					if typeof matches == "array" {
 
 						/**
-						 * Start from the default paths
+						 * Get the route converters if any
 						 */
-						let paths = route->getPaths(), parts = paths;
+						let converters = route->getConverters();
 
-						/**
-						 * Check if the matches has variables
-						 */
-						if typeof matches == "array" {
+						for part, position in paths {
 
-							/**
-							 * Get the route converters if any
-							 */
-							let converters = route->getConverters();
+							if fetch matchPosition, matches[position] {
 
-							for part, position in paths {
-
-								if fetch matchPosition, matches[position] {
-
-									/**
-									 * Check if the part has a converter
-									 */
-									if typeof converters == "array" {
-										if fetch converter, converters[part] {
-											let parts[part] = call_user_func_array(converter, [matchPosition]);
-											continue;
-										}
+								/**
+								 * Check if the part has a converter
+								 */
+								if typeof converters == "array" {
+									if fetch converter, converters[part] {
+										let parts[part] = call_user_func_array(converter, [matchPosition]);
+										continue;
 									}
+								}
 
-									/**
-									 * Update the parts if there is no converter
-									 */
-									let parts[part] = matchPosition;
-								} else {
+								/**
+								 * Update the parts if there is no converter
+								 */
+								let parts[part] = matchPosition;
+							} else {
 
-									/**
-									 * Apply the converters anyway
-									 */
-									if typeof converters == "array" {
-										if fetch converter, converters[part] {
-											let parts[part] = call_user_func_array(converter, [position]);
-										}
+								/**
+								 * Apply the converters anyway
+								 */
+								if typeof converters == "array" {
+									if fetch converter, converters[part] {
+										let parts[part] = call_user_func_array(converter, [position]);
 									}
 								}
 							}
-
-							/**
-							 * Update the matches generated by preg_match
-							 */
-							let this->_matches = matches;
 						}
 
-						let this->_matchedRoute = route;
-						break;
+						/**
+						 * Update the matches generated by preg_match
+						 */
+						let this->_matches = matches;
 					}
+
+					let this->_matchedRoute = route;
+					break;
 				}
 			}
 
@@ -373,7 +375,7 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
 		if fetch paramsStr, parts["params"] {
 			let strParams = substr(paramsStr, 1);
 			if strParams {
-				let params = explode("/", strParams);
+				let params = explode(Route::getDelimiter(), strParams);
 			}
 			unset parts["params"];
 		}

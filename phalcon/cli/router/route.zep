@@ -43,7 +43,13 @@ class Route
 
 	protected _beforeMatch;
 
+	protected _delimiter;
+
 	protected static _uniqueId;
+
+	protected static _delimiterPath;
+
+	const DEFAULT_DELIMITER = "/";
 
 	/**
 	 * Phalcon\Cli\Router\Route constructor
@@ -53,7 +59,14 @@ class Route
 	 */
 	public function __construct(string! pattern, paths=null)
 	{
-		var routeId, uniqueId;
+		var routeId, uniqueId, delimiter;
+
+		// Get the delimiter from the static member _delimiterPath
+		let delimiter = self::_delimiterPath;
+		if !delimiter {
+			let delimiter = self::DEFAULT_DELIMITER;
+		}
+		let this->_delimiter = delimiter;
 
 		// Configure the route (extract parameters, paths, etc)
 		this->reConfigure(pattern, paths);
@@ -78,42 +91,53 @@ class Route
 	 */
 	public function compilePattern(string! pattern)
 	{
-		var idPattern;
+		var idPattern, part;
 
 		// If a pattern contains ':', maybe there are placeholders to replace
 		if memstr(pattern, ":") {
 
 			// This is a pattern for valid identifiers
-			let idPattern = "/([a-zA-Z0-9\\_\\-]+)";
+			let idPattern = this->_delimiter . "([a-zA-Z0-9\\_\\-]+)";
+
+			// Replace the delimiter part
+			if memstr(pattern, ":delimiter") {
+				let pattern = str_replace(":delimiter", this->_delimiter, pattern);
+			}
 
 			// Replace the module part
-			if memstr(pattern, "/:module") {
-				let pattern = str_replace("/:module", idPattern, pattern);
+			let part = this->_delimiter . ":module";
+			if memstr(pattern, part) {
+				let pattern = str_replace(part, idPattern, pattern);
 			}
 
 			// Replace the task placeholder
-			if memstr(pattern, "/:task") {
-				let pattern = str_replace("/:task", idPattern, pattern);
+			let part = this->_delimiter . ":task";
+			if memstr(pattern, part) {
+				let pattern = str_replace(part, idPattern, pattern);
 			}
 
 			// Replace the namespace placeholder
-			if memstr(pattern, "/:namespace") {
-				let pattern = str_replace("/:namespace", idPattern, pattern);
+			let part = this->_delimiter . ":namespace";
+			if memstr(pattern, part) {
+				let pattern = str_replace(part, idPattern, pattern);
 			}
 
 			// Replace the action placeholder
-			if memstr(pattern, "/:action") {
-				let pattern = str_replace("/:action", idPattern, pattern);
+			let part = this->_delimiter . ":action";
+			if memstr(pattern, part) {
+				let pattern = str_replace(part, idPattern, pattern);
 			}
 
 			// Replace the params placeholder
-			if memstr(pattern, "/:params") {
-				let pattern = str_replace("/:params", "(/.*)*", pattern);
+			let part = this->_delimiter . ":params";
+			if memstr(pattern, part) {
+				let pattern = str_replace(part, "(" . this->_delimiter . ".*)*", pattern);
 			}
 
 			// Replace the int placeholder
-			if memstr(pattern, "/:int") {
-				let pattern = str_replace("/:int", "/([0-9]+)", pattern);
+			let part = this->_delimiter . ":int";
+			if memstr(pattern, part) {
+				let pattern = str_replace(part, this->_delimiter . "([0-9]+)", pattern);
 			}
 		}
 
@@ -230,7 +254,7 @@ class Route
 										}
 										let matches[variable] = tmp;
 									} else {
-										let route .= "([^/]*)",
+										let route .= "([^" . this->_delimiter . "]*)",
 											matches[item] = tmp;
 									}
 								} else {
@@ -374,6 +398,10 @@ class Route
 			 */
 			let compiledPattern = this->compilePattern(pcrePattern);
 		} else {
+			// Replace the delimiter part
+			if memstr(pattern, ":delimiter") {
+				let pattern = str_replace(":delimiter", this->_delimiter, pattern);
+			}
 			let compiledPattern = pattern;
 		}
 
@@ -530,6 +558,31 @@ class Route
 	public static function reset()
 	{
 		let self::_uniqueId = null;
+	}
+
+	/**
+	 * Set the routing delimiter
+	 */
+	public static function delimiter(string! delimiter = null)
+	{
+		let self::_delimiterPath = delimiter;
+	}
+
+	/**
+	 * Get routing delimiter
+	 *
+	 * @return string
+	 */
+	public static function getDelimiter() -> string
+	{
+		var delimiter;
+
+		let delimiter = self::_delimiterPath;
+		if !delimiter {
+			let delimiter = self::DEFAULT_DELIMITER;
+		}
+
+		return delimiter;
 	}
 
 }
