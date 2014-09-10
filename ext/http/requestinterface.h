@@ -92,6 +92,7 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_requestinterface_getuploadedfiles, 0, 0, 0)
 	ZEND_ARG_INFO(0, notErrored)
+	ZEND_ARG_INFO(0, index)
 ZEND_END_ARG_INFO()
 
 #endif /* PHALCON_HTTP_REQUESTINTERFACE_H */
