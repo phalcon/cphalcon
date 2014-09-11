@@ -252,7 +252,7 @@ class TagSearchFieldCest extends TagBase
     {
         $options  = 'some_field_name';
         $expected = '<input type="search" id="some_field_name" '
-                  . 'name="some_field_name" value=""';
+                  . 'name="some_field_name"';
 
         $this->runBasic('searchField', $I, $options, $expected, $xhtml);
     }
@@ -273,7 +273,7 @@ class TagSearchFieldCest extends TagBase
             'class' => 'some_class',
         );
         $expected = '<input type="search" id="some_field_name" '
-                  . 'name="some_field_name" value="" class="some_class"';
+                  . 'name="some_field_name" class="some_class"';
 
         $this->runWithArrayBasic('searchField', $I, $options, $expected, $xhtml);
     }
@@ -296,7 +296,7 @@ class TagSearchFieldCest extends TagBase
             'size'  => '10',
         );
         $expected = '<input type="search" id="some_id" name="some_field_name" '
-                  . 'value="" class="some_class" size="10"';
+                  . 'class="some_class" size="10"';
 
         $this->runWithIdInParameters('searchField', $I, $options, $expected, $xhtml);
     }
@@ -319,7 +319,7 @@ class TagSearchFieldCest extends TagBase
             'size'  => '10',
         );
         $expected = '<input type="search" id="some_field_name" '
-                  . 'name="some_other_name" value="" class="some_class" '
+                  . 'name="some_other_name" class="some_class" '
                   . 'size="10"';
 
         $this->runWithNameAndNotIdInParameters(
@@ -406,7 +406,7 @@ class TagSearchFieldCest extends TagBase
             'size'  => '10',
         );
         $expected = '<input type="search" id="some_field" '
-                  . 'name="some_field" value="" class="some_class" '
+                  . 'name="some_field" class="some_class" '
                   . 'size="10"';
 
         $this->runSetDefault(
@@ -435,7 +435,7 @@ class TagSearchFieldCest extends TagBase
             'size'  => '10',
         );
         $expected = '<input type="search" id="some_field" '
-                  . 'name="some_field" value="" class="some_class" '
+                  . 'name="some_field" class="some_class" '
                   . 'size="10"';
 
         $this->runDisplayTo(
