@@ -398,7 +398,8 @@ PHP_METHOD(Phalcon_Text, bytes){
 		si = PHALCON_GLOBAL(z_true);
 	}
 
-	if (!zend_is_true(si)) {
+	if (!zend_is_true(si) || (!PHALCON_IS_EMPTY(z_force_unit) && phalcon_memnstr_str(z_force_unit, SL("i")))) {
+		zend_printf("%d\n", __LINE__);
 		units = units2;
 		mod = 1024;
 	} else {
