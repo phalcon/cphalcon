@@ -26,6 +26,7 @@
 %right AGAINST .
 %left BETWEEN .
 %left EQUALS NOTEQUALS LESS GREATER GREATEREQUAL LESSEQUAL .
+%left TS_MATCHES TS_OR TS_AND TS_NEGATE TS_CONTAINS_ANOTHER TS_CONTAINS_IN .
 %left AND OR .
 %left LIKE ILIKE .
 %left BITWISE_AND BITWISE_OR BITWISE_XOR .
@@ -1043,6 +1044,30 @@ expr(R) ::= expr(O1) GREATER expr(O2) . {
 
 expr(R) ::= expr(O1) GREATEREQUAL expr(O2) . {
 	R = phql_ret_expr(PHQL_T_GREATEREQUAL, O1, O2);
+}
+
+expr(R) ::= expr(O1) TS_MATCHES expr(O2) . {
+	R = phql_ret_expr(PHQL_T_TS_MATCHES, O1, O2);
+}
+
+expr(R) ::= expr(O1) TS_OR expr(O2) . {
+	R = phql_ret_expr(PHQL_T_TS_OR, O1, O2);
+}
+
+expr(R) ::= expr(O1) TS_AND expr(O2) . {
+	R = phql_ret_expr(PHQL_T_TS_AND, O1, O2);
+}
+
+expr(R) ::= expr(O1) TS_NEGATE expr(O2) . {
+	R = phql_ret_expr(PHQL_T_TS_NEGATE, O1, O2);
+}
+
+expr(R) ::= expr(O1) TS_CONTAINS_ANOTHER expr(O2) . {
+	R = phql_ret_expr(PHQL_T_TS_CONTAINS_ANOTHER, O1, O2);
+}
+
+expr(R) ::= expr(O1) TS_CONTAINS_IN expr(O2) . {
+	R = phql_ret_expr(PHQL_T_TS_CONTAINS_IN, O1, O2);
 }
 
 expr(R) ::= expr(O1) LESSEQUAL expr(O2) . {
