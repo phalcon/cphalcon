@@ -42,6 +42,7 @@ PHP_METHOD(Phalcon_Text, startsWith);
 PHP_METHOD(Phalcon_Text, endsWith);
 PHP_METHOD(Phalcon_Text, lower);
 PHP_METHOD(Phalcon_Text, upper);
+PHP_METHOD(Phalcon_Text, bytes);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_text_camelize, 0, 0, 1)
 	ZEND_ARG_INFO(0, str)
@@ -81,6 +82,13 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_text_upper, 0, 0, 1)
 	ZEND_ARG_INFO(0, str)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_text_bytes, 0, 0, 1)
+	ZEND_ARG_INFO(0, size)
+	ZEND_ARG_INFO(0, forceUnit)
+	ZEND_ARG_INFO(0, format)
+	ZEND_ARG_INFO(0, si)
+ZEND_END_ARG_INFO()
+
 static const zend_function_entry phalcon_text_method_entry[] = {
 	PHP_ME(Phalcon_Text, camelize, arginfo_phalcon_text_camelize, ZEND_ACC_STATIC|ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Text, uncamelize, arginfo_phalcon_text_uncamelize, ZEND_ACC_STATIC|ZEND_ACC_PUBLIC)
@@ -90,6 +98,7 @@ static const zend_function_entry phalcon_text_method_entry[] = {
 	PHP_ME(Phalcon_Text, endsWith, arginfo_phalcon_text_endswith, ZEND_ACC_STATIC|ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Text, lower, arginfo_phalcon_text_lower, ZEND_ACC_STATIC|ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Text, upper, arginfo_phalcon_text_upper, ZEND_ACC_STATIC|ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Text, bytes, arginfo_phalcon_text_bytes, ZEND_ACC_STATIC|ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };
 
@@ -336,4 +345,99 @@ PHP_METHOD(Phalcon_Text, upper){
 	}
 
 	phalcon_fast_strtoupper(return_value, str);
+}
+
+/**
+ * Returns human readable sizes
+ *
+ * @param int $size
+ * @param string $forceUnit
+ * @param string $format
+ * @param boolean $si
+ * @return string
+ */
+PHP_METHOD(Phalcon_Text, bytes){
+
+	zval *z_size, *z_force_unit = NULL, *format = NULL, *si = NULL;
+	char *force_unit;
+	const char **units;
+	const char *units1[] = {"B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"};
+	const char *units2[] = {"B", "KiB", "MiB", "GiB", "TiB", "PiB", "EiB", "ZiB", "YiB"};
+	double size;
+	int mod, power = 0, found = 0, i, j = 0;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 1, 3, &z_size, &z_force_unit, &format, &si);
+
+	PHALCON_SEPARATE_PARAM(z_size);
+	convert_to_double(z_size);
+
+	size = Z_DVAL_P(z_size);
+
+	if (!z_force_unit) {
+		PHALCON_INIT_VAR(z_force_unit);
+	} else {
+		PHALCON_SEPARATE_PARAM(z_force_unit);
+		convert_to_string(z_force_unit);
+	}
+
+	if (!format) {
+		PHALCON_INIT_VAR(format);
+	} else {
+		PHALCON_SEPARATE_PARAM(format);
+		convert_to_string(format);
+	}
+		
+	if (PHALCON_IS_EMPTY(format)) {
+		PHALCON_INIT_NVAR(format);
+		ZVAL_STRING(format, "%01.2f %s", 1);
+	}
+
+	if (!si) {
+		si = PHALCON_GLOBAL(z_true);
+	}
+
+	if (!zend_is_true(si) || (!PHALCON_IS_EMPTY(z_force_unit) && phalcon_memnstr_str(z_force_unit, SL("i")))) {
+		zend_printf("%d\n", __LINE__);
+		units = units2;
+		mod = 1024;
+	} else {
+		units = units1;
+		mod = 1000;
+	}
+
+	if (!PHALCON_IS_EMPTY(z_force_unit)) {
+		force_unit = Z_STRVAL_P(z_force_unit);
+		for (i = 0; i < sizeof(units); i++)
+		{
+			if (strcasecmp(force_unit, units[i]) == 0) {
+				found = 1;
+				power = i;
+				break;
+			}
+		}
+	}
+
+	if (found) {
+		while(j < power) {
+			size /= mod;
+			j++;
+		}
+	} else {
+		while(size > mod) {
+			size /= mod;
+			power++;
+		}
+	}
+
+	PHALCON_INIT_NVAR(z_size);
+	ZVAL_DOUBLE(z_size, size);
+
+	PHALCON_INIT_NVAR(z_force_unit);
+	ZVAL_STRING(z_force_unit, units[power], 1);
+
+	PHALCON_RETURN_CALL_FUNCTION("sprintf", format, z_size, z_force_unit);
+
+	RETURN_MM();
 }

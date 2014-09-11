@@ -38,6 +38,8 @@ SOFTWARE.
 
 #include "php_phalcon.h"
 
+#ifdef PHALCON_NON_FREE
+
 #include <ext/standard/php_smart_str.h>
 
 #include "assets/filters/cssminifier.h"
@@ -296,3 +298,4 @@ int phalcon_cssmin(zval *return_value, zval *style TSRMLS_DC) {
 
 	return SUCCESS;
 }
+#endif

@@ -17,8 +17,9 @@
 
 /* placeholder for non-free csssminifier.c */
 
-
 #include "php_phalcon.h"
+
+#ifndef PHALCON_NON_FREE
 
 #include "assets/filters/nocssminifier.h"
 #include "assets/exception.h"
@@ -29,3 +30,4 @@ int phalcon_cssmin(zval *return_value, zval *style TSRMLS_DC) {
 	PHALCON_THROW_EXCEPTION_STRW(phalcon_assets_exception_ce, "Non-free csssminifier not available");
 	return FAILURE;
 }
+#endif

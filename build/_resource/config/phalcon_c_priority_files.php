@@ -3,8 +3,8 @@
 
 return array(
     // Header files
-    'assets/filters/jsminifier.h',
-    'assets/filters/cssminifier.h',
+    'assets/filters/nojsminifier.h',
+    'assets/filters/nocssminifier.h',
     'mvc/model/query/parser.h',
     'mvc/model/query/scanner.h',
     'mvc/model/query/phql.h',
