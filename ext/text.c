@@ -361,9 +361,9 @@ PHP_METHOD(Phalcon_Text, bytes){
 	zval *z_size, *z_force_unit = NULL, *format = NULL, *si = NULL;
 	zval *z_mod;
 	char *force_unit;
-	char **units;
-	char *units1[] = {"B", "kB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"};
-	char *units2[] = {"B", "kiB", "MiB", "GiB", "TiB", "PiB", "EiB", "ZiB", "YiB"};
+	const char **units;
+	const char *units1[] = {"B", "kB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"};
+	const char *units2[] = {"B", "kiB", "MiB", "GiB", "TiB", "PiB", "EiB", "ZiB", "YiB"};
 	double size;
 	int mod, power = 0, found = 0, i, j = 0;
 
