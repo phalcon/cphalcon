@@ -241,8 +241,7 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 		state->start_length = (phql + phql_length - state->start);
 
 		state->active_token = token.opcode;
-		
-		zend_printf("\ntag:%d,PHQL_T_TS_MATCHES:%d,%d\n", token.opcode, PHQL_T_TS_MATCHES, __LINE__);
+
 		/* Parse the token found */
 		switch (token.opcode) {
 
