@@ -52,6 +52,19 @@ class Dispatcher extends \Phalcon\Dispatcher
 
 	protected _defaultAction = "main";
 
+	protected _options;
+
+	/**
+	 * Phalcon\Cli\Dispatcher constructor
+	 *
+	 */
+	public function __construct()
+	{
+		let this->_options = [];
+
+		parent::__construct();
+	}
+
 	/**
 	 * Sets the default task suffix
 	 *
@@ -145,6 +158,26 @@ class Dispatcher extends \Phalcon\Dispatcher
 	public function getActiveTask() -> <\Phalcon\CLI\Task>
 	{
 		return this->_activeHandler;
+	}
+
+	/**
+	 * Set the options to be dispatched
+	 *
+	 * @param array options
+	 */
+	public function setOptions(array options)
+	{
+		let this->_options = options;
+	}
+
+	/**
+	 * Get dispatched options
+	 *
+	 * @return array
+	 */
+	public function getOptions() -> array
+	{
+		return this->_options;
 	}
 
 }

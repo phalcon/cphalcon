@@ -36,6 +36,10 @@ class Console implements \Phalcon\Di\InjectionAwareInterface, \Phalcon\Events\Ev
 
 	protected _moduleObject;
 
+	protected _arguments;
+
+	protected _options;
+
 	/**
 	 * Phalcon\Cli\Console constructor
 	 *
@@ -46,6 +50,9 @@ class Console implements \Phalcon\Di\InjectionAwareInterface, \Phalcon\Events\Ev
 		if typeof dependencyInjector == "object" {
 			let this->_dependencyInjector = dependencyInjector;
 		}
+
+		let this->_arguments = [],
+			this->_options = [];
 	}
 
 	/**
@@ -166,7 +173,12 @@ class Console implements \Phalcon\Di\InjectionAwareInterface, \Phalcon\Events\Ev
 		let eventsManager = <\Phalcon\Events\Manager> this->_eventsManager;
 
 		let router = <\Phalcon\Cli\Router> dependencyInjector->getShared("router");
-		router->handle(arguments);
+
+		if !arguments && this->_arguments {
+			router->handle(this->_arguments);
+		} else {
+			router->handle(arguments);
+		}
 
 		let moduleName = router->getModuleName();
 		if moduleName {
@@ -217,6 +229,7 @@ class Console implements \Phalcon\Di\InjectionAwareInterface, \Phalcon\Events\Ev
 		dispatcher->setTaskName(router->getTaskName());
 		dispatcher->setActionName(router->getActionName());
 		dispatcher->setParams(router->getParams());
+		dispatcher->setOptions(this->_options);
 
 		if typeof eventsManager == "object" {
 			if eventsManager->fire("console:beforeHandleTask", this, dispatcher) === false {
@@ -231,6 +244,59 @@ class Console implements \Phalcon\Di\InjectionAwareInterface, \Phalcon\Events\Ev
 		}
 
 		return task;
+	}
+
+	public function setArgument(arguments=null, boolean! str=true, boolean! shift=true) -> <Console>
+	{
+		var arg, pos, args, opts, handleArgs;
+
+		let args = [],
+			opts = [],
+			handleArgs = [];
+
+		if typeof arguments != "array" {
+			throw new \Phalcon\Cli\Console\Exception("Arguments must be an array");
+		}
+
+		if shift {
+			array_shift(arguments);
+		}
+
+		for arg in arguments {
+			if strncmp(arg, "--", 2) == 0 {
+				let pos = strpos(arg, "=");
+				if pos {
+					let opts[trim(substr(arg, 2, pos - 2))] = trim(substr(arg, pos + 1));
+				} else {
+					let opts[trim(substr(arg, 2))] = true;
+				}
+			} else {
+				if strncmp(arg, "-", 1) == 0 {
+					let opts[substr(arg, 1)] = true;
+				} else {
+					let args[] = arg;
+				}
+			}
+		}
+
+		if str {
+			let this->_arguments = implode(\Phalcon\Cli\Router\Route::getDelimiter(), args);
+		} else {
+			if count(args) {
+				let handleArgs["task"] = array_shift(args);
+			}
+			if count(args) {
+				let handleArgs["action"] = array_shift(args);
+			}
+			if count(args) {
+				let handleArgs = array_merge(handleArgs, args);
+			}
+			let this->_arguments = handleArgs;
+		}
+
+		let this->_options = opts;
+
+		return this;
 	}
 
 }
