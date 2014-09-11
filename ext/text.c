@@ -359,11 +359,10 @@ PHP_METHOD(Phalcon_Text, upper){
 PHP_METHOD(Phalcon_Text, bytes){
 
 	zval *z_size, *z_force_unit = NULL, *format = NULL, *si = NULL;
-	zval *z_mod;
 	char *force_unit;
 	const char **units;
-	const char *units1[] = {"B", "kB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"};
-	const char *units2[] = {"B", "kiB", "MiB", "GiB", "TiB", "PiB", "EiB", "ZiB", "YiB"};
+	const char *units1[] = {"B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"};
+	const char *units2[] = {"B", "KiB", "MiB", "GiB", "TiB", "PiB", "EiB", "ZiB", "YiB"};
 	double size;
 	int mod, power = 0, found = 0, i, j = 0;
 
@@ -382,7 +381,7 @@ PHP_METHOD(Phalcon_Text, bytes){
 		PHALCON_SEPARATE_PARAM(z_force_unit);
 		convert_to_string(z_force_unit);
 	}
-	
+
 	if (!format) {
 		PHALCON_INIT_VAR(format);
 	} else {
@@ -406,9 +405,6 @@ PHP_METHOD(Phalcon_Text, bytes){
 		units = units1;
 		mod = 1000;
 	}
-
-	PHALCON_INIT_VAR(z_mod);
-	ZVAL_LONG(z_mod, mod);
 
 	if (!PHALCON_IS_EMPTY(z_force_unit)) {
 		force_unit = Z_STRVAL_P(z_force_unit);
@@ -434,7 +430,10 @@ PHP_METHOD(Phalcon_Text, bytes){
 		}
 	}
 
+	PHALCON_INIT_NVAR(z_size);
 	ZVAL_DOUBLE(z_size, size);
+
+	PHALCON_INIT_NVAR(z_force_unit);
 	ZVAL_STRING(z_force_unit, units[power], 1);
 
 	PHALCON_RETURN_CALL_FUNCTION("sprintf", format, z_size, z_force_unit);
