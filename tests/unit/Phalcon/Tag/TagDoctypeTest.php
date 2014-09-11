@@ -1,6 +1,6 @@
 <?php
 /**
- * TagDoctypeCest.php
+ * TagDoctypeTest.php
  * \Phalcon\Tag
  *
  * Tests the \Phalcon\Tag component
@@ -22,10 +22,9 @@
 
 namespace Phalcon\Tests\unit\Phalcon\Tag;
 
-use \CodeGuy;
 use \Phalcon\Tag as PhTag;
 
-class TagDoctypeCest extends TagBase
+class TagDoctypeTest extends TagBase
 {
     /**
      * Setting the doctype to HTML5 for other tests to run smoothly
@@ -39,13 +38,16 @@ class TagDoctypeCest extends TagBase
      * Tests the setting the doctype 3.2
      *
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
-     * @since  2014-09-04
-     *
-     * @param CodeGuy $I
+     * @since  2014-09-05
      */
-    public function testDoctypeSet32Final(CodeGuy $I)
+    public function testDoctypeSet32Final()
     {
-        $this->runDoctypeTest($I, PhTag::HTML32);
+        $this->specify(
+            "setDoctype to 3.2 is not correct",
+            function () {
+                $this->runDoctypeTest(PhTag::HTML32);
+            }
+        );
     }
 
     /**
@@ -53,12 +55,15 @@ class TagDoctypeCest extends TagBase
      *
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-04
-     *
-     * @param CodeGuy $I
      */
-    public function testDoctypeSet401(CodeGuy $I)
+    public function testDoctypeSet401()
     {
-        $this->runDoctypeTest($I, PhTag::HTML401_STRICT);
+        $this->specify(
+            "setDoctype to HTML 4.01 Strict is not correct",
+            function () {
+                $this->runDoctypeTest(PhTag::HTML401_STRICT);
+            }
+        );
     }
 
     /**
@@ -66,12 +71,15 @@ class TagDoctypeCest extends TagBase
      *
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-04
-     *
-     * @param CodeGuy $I
      */
-    public function testDoctypeSet401Transitional(CodeGuy $I)
+    public function testDoctypeSet401Transitional()
     {
-        $this->runDoctypeTest($I, PhTag::HTML401_TRANSITIONAL);
+        $this->specify(
+            "setDoctype to HTML 4.01 Transitional is not correct",
+            function () {
+                $this->runDoctypeTest(PhTag::HTML401_TRANSITIONAL);
+            }
+        );
     }
 
     /**
@@ -79,12 +87,15 @@ class TagDoctypeCest extends TagBase
      *
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-04
-     *
-     * @param CodeGuy $I
      */
-    public function testDoctypeSet401Frameset(CodeGuy $I)
+    public function testDoctypeSet401Frameset()
     {
-        $this->runDoctypeTest($I, PhTag::HTML401_FRAMESET);
+        $this->specify(
+            "setDoctype to HTML 4.01 Frameset is not correct",
+            function () {
+                $this->runDoctypeTest(PhTag::HTML401_FRAMESET);
+            }
+        );
     }
 
     /**
@@ -92,12 +103,15 @@ class TagDoctypeCest extends TagBase
      *
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-04
-     *
-     * @param CodeGuy $I
      */
-    public function testDoctypeSet5(CodeGuy $I)
+    public function testDoctypeSet5()
     {
-        $this->runDoctypeTest($I, PhTag::HTML5);
+        $this->specify(
+            "setDoctype to HTLM5 is not correct",
+            function () {
+                $this->runDoctypeTest(PhTag::HTML5);
+            }
+        );
     }
 
     /**
@@ -105,12 +119,15 @@ class TagDoctypeCest extends TagBase
      *
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-04
-     *
-     * @param CodeGuy $I
      */
-    public function testDoctypeSet10Strict(CodeGuy $I)
+    public function testDoctypeSet10Strict()
     {
-        $this->runDoctypeTest($I, PhTag::XHTML10_STRICT);
+        $this->specify(
+            "setDoctype to XHTML 1.0 Strict is not correct",
+            function () {
+                $this->runDoctypeTest(PhTag::XHTML10_STRICT);
+            }
+        );
     }
 
     /**
@@ -118,12 +135,15 @@ class TagDoctypeCest extends TagBase
      *
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-04
-     *
-     * @param CodeGuy $I
      */
-    public function testDoctypeSet10Transitional(CodeGuy $I)
+    public function testDoctypeSet10Transitional()
     {
-        $this->runDoctypeTest($I, PhTag::XHTML10_TRANSITIONAL);
+        $this->specify(
+            "setDoctype to XHTML 1.0 Transitional is not correct",
+            function () {
+                $this->runDoctypeTest(PhTag::XHTML10_TRANSITIONAL);
+            }
+        );
     }
 
     /**
@@ -131,12 +151,15 @@ class TagDoctypeCest extends TagBase
      *
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-04
-     *
-     * @param CodeGuy $I
      */
-    public function testDoctypeSet10Frameset(CodeGuy $I)
+    public function testDoctypeSet10Frameset()
     {
-        $this->runDoctypeTest($I, PhTag::XHTML10_FRAMESET);
+        $this->specify(
+            "setDoctype to XHTML 1.0 Frameset is not correct",
+            function () {
+                $this->runDoctypeTest(PhTag::XHTML10_FRAMESET);
+            }
+        );
     }
 
     /**
@@ -144,12 +167,15 @@ class TagDoctypeCest extends TagBase
      *
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-04
-     *
-     * @param CodeGuy $I
      */
-    public function testDoctypeSet11(CodeGuy $I)
+    public function testDoctypeSet11()
     {
-        $this->runDoctypeTest($I, PhTag::XHTML11);
+        $this->specify(
+            "setDoctype to XHTML 1.1 is not correct",
+            function () {
+                $this->runDoctypeTest(PhTag::XHTML11);
+            }
+        );
     }
 
     /**
@@ -157,12 +183,15 @@ class TagDoctypeCest extends TagBase
      *
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-04
-     *
-     * @param CodeGuy $I
      */
-    public function testDoctypeSet20(CodeGuy $I)
+    public function testDoctypeSet20()
     {
-        $this->runDoctypeTest($I, PhTag::XHTML20);
+        $this->specify(
+            "setDoctype to XHTML 2.0 is not correct",
+            function () {
+                $this->runDoctypeTest(PhTag::XHTML20);
+            }
+        );
     }
 
     /**
@@ -170,21 +199,23 @@ class TagDoctypeCest extends TagBase
      *
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-04
-     *
-     * @param CodeGuy $I
      */
-    public function testDoctypeSetWrongParameter(CodeGuy $I)
+    public function testDoctypeSetWrongParameter()
     {
-        $this->runDoctypeTest($I, 99);
+        $this->specify(
+            "setDoctype to a wrong setting is not correct",
+            function () {
+                $this->runDoctypeTest(99);
+            }
+        );
     }
 
     /**
      * Runs a doctype test, one for each doctype
      *
-     * @param CodeGuy $I
      * @param integer $doctype
      */
-    private function runDoctypeTest(\CodeGuy $I, $doctype)
+    protected function runDoctypeTest($doctype)
     {
         PhTag::setDocType($doctype);
 
@@ -192,12 +223,8 @@ class TagDoctypeCest extends TagBase
         $actual   = PhTag::getDocType();
 
         PhTag::setDocType(PhTag::HTML5);
-
-        $I->assertEquals(
-            $expected,
-            $actual,
-            sprintf($this->message, 'Doctype (' . $expected . ')')
-        );
+        
+        expect($actual)->equals($expected);
     }
 
     /**
