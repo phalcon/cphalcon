@@ -79,10 +79,10 @@ class TagCheckFieldTest extends TagBase
             "checkField with array parameter returns invalid HTML Strict",
             function () {
 
-                $options = array(
+                $options = [
                     'x_name',
                     'class' => 'x_class',
-                );
+                ];
                 $expected = '<input type="checkbox" id="x_name" name="x_name" '
                           . 'class="x_class"';
 
@@ -99,10 +99,10 @@ class TagCheckFieldTest extends TagBase
             "checkField with array parameter returns invalid HTML XHTML",
             function () {
 
-                $options = array(
+                $options = [
                     'x_name',
                     'class' => 'x_class',
-                );
+                ];
                 $expected = '<input type="checkbox" id="x_name" name="x_name" '
                           . 'class="x_class"';
 
@@ -128,12 +128,12 @@ class TagCheckFieldTest extends TagBase
             "checkField with array parameter with id returns invalid HTML Strict",
             function () {
 
-                $options = array(
+                $options = [
                     'x_name',
                     'id'    => 'x_id',
                     'class' => 'x_class',
                     'size'  => '10'
-                );
+                ];
                 $expected = '<input type="checkbox" id="x_id" name="x_name" '
                           . 'class="x_class" size="10"';
 
@@ -150,12 +150,12 @@ class TagCheckFieldTest extends TagBase
             "checkField with array parameter with id returns invalid HTML XHTML",
             function () {
 
-                $options = array(
+                $options = [
                     'x_name',
                     'id'    => 'x_id',
                     'class' => 'x_class',
                     'size'  => '10'
-                );
+                ];
                 $expected = '<input type="checkbox" id="x_id" name="x_name" '
                           . 'class="x_class" size="10"';
 
@@ -181,12 +181,12 @@ class TagCheckFieldTest extends TagBase
             "checkField with array parameter with name no id returns invalid HTML Strict",
             function () {
 
-                $options = array(
+                $options = [
                     'x_name',
                     'name'  => 'x_other',
                     'class' => 'x_class',
                     'size'  => '10',
-                );
+                ];
                 $expected = '<input type="checkbox" id="x_name" name="x_other" '
                           . 'class="x_class" size="10"';
 
@@ -203,12 +203,12 @@ class TagCheckFieldTest extends TagBase
             "checkField with array parameter with name no id returns invalid HTML XHTML",
             function () {
 
-                $options = array(
+                $options = [
                     'x_name',
                     'name'  => 'x_other',
                     'class' => 'x_class',
                     'size'  => '10',
-                );
+                ];
                 $expected = '<input type="checkbox" id="x_name" name="x_other" '
                           . 'class="x_class" size="10"';
 
@@ -234,12 +234,12 @@ class TagCheckFieldTest extends TagBase
             "checkField with setDefault returns invalid HTML Strict",
             function () {
 
-                $options = array(
+                $options = [
                     'x_name',
                     'name'  => 'x_other',
                     'class' => 'x_class',
                     'size'  => '10',
-                );
+                ];
                 $expected = '<input type="checkbox" id="x_name" '
                           . 'name="x_other" value="x_value" class="x_class" '
                           . 'size="10" checked="checked"';
@@ -258,12 +258,12 @@ class TagCheckFieldTest extends TagBase
             "checkField with setDefault returns invalid HTML XHTML",
             function () {
 
-                $options = array(
+                $options = [
                     'x_name',
                     'name'  => 'x_other',
                     'class' => 'x_class',
                     'size'  => '10',
-                );
+                ];
                 $expected = '<input type="checkbox" id="x_name" '
                           . 'name="x_other" value="x_value" class="x_class" '
                           . 'size="10" checked="checked"';
@@ -291,12 +291,12 @@ class TagCheckFieldTest extends TagBase
             "checkField with displayTo returns invalid HTML Strict",
             function () {
 
-                $options = array(
+                $options = [
                     'x_name',
                     'name'  => 'x_other',
                     'class' => 'x_class',
                     'size'  => '10',
-                );
+                ];
                 $expected = '<input type="checkbox" id="x_name" '
                           . 'name="x_other" value="x_value" class="x_class" '
                           . 'size="10" checked="checked"';
@@ -315,12 +315,12 @@ class TagCheckFieldTest extends TagBase
             "checkField with displayTo returns invalid HTML XHTML",
             function () {
 
-                $options = array(
+                $options = [
                     'x_name',
                     'name'  => 'x_other',
                     'class' => 'x_class',
                     'size'  => '10',
-                );
+                ];
                 $expected = '<input type="checkbox" id="x_name" '
                           . 'name="x_other" value="x_value" class="x_class" '
                           . 'size="10" checked="checked"';
@@ -348,12 +348,12 @@ class TagCheckFieldTest extends TagBase
             "checkField with setDefault and element not present returns invalid HTML Strict",
             function () {
 
-                $options = array(
+                $options = [
                     'x_name',
                     'name'  => 'x_other',
                     'class' => 'x_class',
                     'size'  => '10',
-                );
+                ];
                 $expected = '<input type="checkbox" id="x_name" name="x_other" '
                           . 'value="x_value" class="x_class" size="10" '
                           . 'checked="checked"';
@@ -372,12 +372,12 @@ class TagCheckFieldTest extends TagBase
             "checkField with setDefault and element not present returns invalid HTML XHTML",
             function () {
 
-                $options = array(
+                $options = [
                     'x_name',
                     'name'  => 'x_other',
                     'class' => 'x_class',
                     'size'  => '10',
-                );
+                ];
                 $expected = '<input type="checkbox" id="x_name" name="x_other" '
                           . 'value="x_value" class="x_class" size="10" '
                           . 'checked="checked"';
@@ -405,12 +405,12 @@ class TagCheckFieldTest extends TagBase
             "checkField with displayTo and element not present returns invalid HTML Strict",
             function () {
 
-                $options = array(
+                $options = [
                     'x_name',
                     'name'  => 'x_other',
                     'class' => 'x_class',
                     'size'  => '10',
-                );
+                ];
                 $expected = '<input type="checkbox" id="x_name" name="x_other" '
                           . 'value="x_value" class="x_class" size="10" '
                           . 'checked="checked"';
@@ -429,12 +429,12 @@ class TagCheckFieldTest extends TagBase
             "checkField with displayTo and element not present returns invalid HTML XHTML",
             function () {
 
-                $options = array(
+                $options = [
                     'x_name',
                     'name'  => 'x_other',
                     'class' => 'x_class',
                     'size'  => '10',
-                );
+                ];
                 $expected = '<input type="checkbox" id="x_name" name="x_other" '
                           . 'value="x_value" class="x_class" size="10" '
                           . 'checked="checked"';

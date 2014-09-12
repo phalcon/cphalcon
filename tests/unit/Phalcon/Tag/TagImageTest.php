@@ -79,10 +79,10 @@ class TagImageTest extends TagBase
             "image with array parameter returns invalid HTML Strict",
             function () {
 
-                $options  = array(
+                $options  = [
                     'img/hello.gif',
                     'class' => 'x_class',
-                );
+                ];
                 $expected = '<img src="/img/hello.gif" class="x_class"';
 
                 $this->fieldParameter(
@@ -98,10 +98,10 @@ class TagImageTest extends TagBase
             "image with array parameter returns invalid HTML XHTML",
             function () {
 
-                $options  = array(
+                $options  = [
                     'img/hello.gif',
                     'class' => 'x_class',
-                );
+                ];
                 $expected = '<img src="/img/hello.gif" class="x_class"';
 
                 $this->fieldParameter(
@@ -126,11 +126,11 @@ class TagImageTest extends TagBase
             "image with array parameter with src returns invalid HTML Strict",
             function () {
 
-                $options  = array(
+                $options  = [
                     'img/hello.gif',
                     'src'   => 'img/goodbye.gif',
                     'class' => 'x_class',
-                );
+                ];
                 $expected = '<img src="/img/goodbye.gif" class="x_class"';
 
                 $this->fieldParameter(
@@ -146,11 +146,11 @@ class TagImageTest extends TagBase
             "image with array parameter with src returns invalid HTML XHTML",
             function () {
 
-                $options  = array(
+                $options  = [
                     'img/hello.gif',
                     'src'   => 'img/goodbye.gif',
                     'class' => 'x_class',
-                );
+                ];
                 $expected = '<img src="/img/goodbye.gif" class="x_class"';
 
                 $this->fieldParameter(
@@ -175,10 +175,10 @@ class TagImageTest extends TagBase
             "image with array parameter with name no src returns invalid HTML Strict",
             function () {
 
-                $options  = array(
+                $options  = [
                     'img/hello.gif',
                     'class' => 'x_class',
-                );
+                ];
                 $expected = '<img src="/img/hello.gif" class="x_class"';
 
                 $this->fieldParameter(
@@ -194,10 +194,10 @@ class TagImageTest extends TagBase
             "image with array parameter with name no src returns invalid HTML XHTML",
             function () {
 
-                $options  = array(
+                $options  = [
                     'img/hello.gif',
                     'class' => 'x_class',
-                );
+                ];
                 $expected = '<img src="/img/hello.gif" class="x_class"';
 
                 $this->fieldParameter(
@@ -222,10 +222,10 @@ class TagImageTest extends TagBase
             "image with setDefault returns invalid HTML Strict",
             function () {
 
-                $options  = array(
+                $options  = [
                     'img/hello.gif',
                     'class' => 'x_class',
-                );
+                ];
                 $expected = '<img src="/img/hello.gif" class="x_class"';
 
                 $this->fieldParameter(
@@ -242,10 +242,10 @@ class TagImageTest extends TagBase
             "image with setDefault returns invalid HTML XHTML",
             function () {
 
-                $options  = array(
+                $options  = [
                     'img/hello.gif',
                     'class' => 'x_class',
-                );
+                ];
                 $expected = '<img src="/img/hello.gif" class="x_class"';
 
                 $this->fieldParameter(
@@ -271,10 +271,10 @@ class TagImageTest extends TagBase
             "image with displayTo returns invalid HTML Strict",
             function () {
 
-                $options  = array(
+                $options  = [
                     'img/hello.gif',
                     'class' => 'x_class',
-                );
+                ];
                 $expected = '<img src="/img/hello.gif" class="x_class"';
 
                 $this->fieldParameter(
@@ -291,10 +291,10 @@ class TagImageTest extends TagBase
             "image with displayTo returns invalid HTML XHTML",
             function () {
 
-                $options  = array(
+                $options  = [
                     'img/hello.gif',
                     'class' => 'x_class',
-                );
+                ];
                 $expected = '<img src="/img/hello.gif" class="x_class"';
 
                 $this->fieldParameter(
@@ -320,10 +320,10 @@ class TagImageTest extends TagBase
             "image with setDefault and element not present returns invalid HTML Strict",
             function () {
 
-                $options  = array(
+                $options  = [
                     'img/hello.gif',
                     'class' => 'x_class',
-                );
+                ];
                 $expected = '<img src="/img/hello.gif" class="x_class"';
 
                 $this->fieldParameter(
@@ -340,10 +340,10 @@ class TagImageTest extends TagBase
             "image with setDefault and element not present returns invalid HTML XHTML",
             function () {
 
-                $options  = array(
+                $options  = [
                     'img/hello.gif',
                     'class' => 'x_class',
-                );
+                ];
                 $expected = '<img src="/img/hello.gif" class="x_class"';
 
                 $this->fieldParameter(
@@ -369,10 +369,10 @@ class TagImageTest extends TagBase
             "image with displayTo and element not present returns invalid HTML Strict",
             function () {
 
-                $options  = array(
+                $options  = [
                     'img/hello.gif',
                     'class' => 'x_class',
-                );
+                ];
                 $expected = '<img src="/img/hello.gif" class="x_class"';
 
                 $this->fieldParameter(
@@ -389,10 +389,10 @@ class TagImageTest extends TagBase
             "image with displayTo and element not present returns invalid HTML XHTML",
             function () {
 
-                $options  = array(
+                $options  = [
                     'img/hello.gif',
                     'class' => 'x_class',
-                );
+                ];
                 $expected = '<img src="/img/hello.gif" class="x_class"';
 
                 $this->fieldParameter(

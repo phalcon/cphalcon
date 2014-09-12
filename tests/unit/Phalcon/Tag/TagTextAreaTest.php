@@ -64,10 +64,10 @@ class TagTextAreaTest extends TagBase
             "textArea with array parameter returns invalid",
             function () {
 
-                $options = array(
+                $options = [
                     'x_name',
                     'class' => 'x_class',
-                );
+                ];
                 $expected = '<textarea id="x_name" name="x_name" '
                           . 'class="x_class"></textarea';
 
@@ -93,12 +93,12 @@ class TagTextAreaTest extends TagBase
             "textArea with array parameter with id returns invalid",
             function () {
 
-                $options = array(
+                $options = [
                     'x_name',
                     'id'    => 'x_id',
                     'class' => 'x_class',
                     'size'  => '10'
-                );
+                ];
                 $expected = '<textarea id="x_id" name="x_name" '
                           . 'class="x_class" size="10"></textarea';
 
@@ -124,12 +124,12 @@ class TagTextAreaTest extends TagBase
             "textArea with array parameter with name no id returns invalid",
             function () {
 
-                $options = array(
+                $options = [
                     'x_name',
                     'name'  => 'x_other',
                     'class' => 'x_class',
                     'size'  => '10',
-                );
+                ];
                 $expected = '<textarea id="x_name" name="x_other" '
                           . 'class="x_class" size="10"></textarea';
 
@@ -155,12 +155,12 @@ class TagTextAreaTest extends TagBase
             "textArea with setDefault returns invalid",
             function () {
 
-                $options = array(
+                $options = [
                     'x_name',
                     'name'  => 'x_other',
                     'class' => 'x_class',
                     'size'  => '10',
-                );
+                ];
                 $expected = '<textarea id="x_name" name="x_other" '
                           . 'class="x_class" size="10">x_value</textarea';
 
@@ -187,12 +187,12 @@ class TagTextAreaTest extends TagBase
             "textArea with displayTo returns invalid",
             function () {
 
-                $options = array(
+                $options = [
                     'x_name',
                     'name'  => 'x_other',
                     'class' => 'x_class',
                     'size'  => '10',
-                );
+                ];
                 $expected = '<textarea id="x_name" name="x_other" '
                           . 'class="x_class" size="10">x_value</textarea';
 
@@ -219,12 +219,12 @@ class TagTextAreaTest extends TagBase
             "textArea with setDefault and element not present returns invalid",
             function () {
 
-                $options = array(
+                $options = [
                     'x_name',
                     'name'  => 'x_other',
                     'class' => 'x_class',
                     'size'  => '10',
-                );
+                ];
                 $expected = '<textarea id="x_name" name="x_other" '
                           . 'class="x_class" size="10">x_value</textarea';
 
@@ -251,12 +251,12 @@ class TagTextAreaTest extends TagBase
             "textArea with displayTo and element not present returns invalid",
             function () {
 
-                $options = array(
+                $options = [
                     'x_name',
                     'name'  => 'x_other',
                     'class' => 'x_class',
                     'size'  => '10',
-                );
+                ];
                 $expected = '<textarea id="x_name" name="x_other" '
                           . 'class="x_class" size="10">x_value</textarea';
 

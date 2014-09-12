@@ -150,7 +150,7 @@ class TagFriendlyTitleTest extends TagBase
                     $options,
                     '_',
                     true,
-                    array('i', 'h')
+                    ['i', 'h']
                 );
 
                 expect($actual)->equals($expected);
