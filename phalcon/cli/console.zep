@@ -263,19 +263,23 @@ class Console implements \Phalcon\Di\InjectionAwareInterface, \Phalcon\Events\Ev
 		}
 
 		for arg in arguments {
-			if strncmp(arg, "--", 2) == 0 {
-				let pos = strpos(arg, "=");
-				if pos {
-					let opts[trim(substr(arg, 2, pos - 2))] = trim(substr(arg, pos + 1));
+			if typeof arg == "string" {
+				if strncmp(arg, "--", 2) == 0 {
+					let pos = strpos(arg, "=");
+					if pos {
+						let opts[trim(substr(arg, 2, pos - 2))] = trim(substr(arg, pos + 1));
+					} else {
+						let opts[trim(substr(arg, 2))] = true;
+					}
 				} else {
-					let opts[trim(substr(arg, 2))] = true;
+					if strncmp(arg, "-", 1) == 0 {
+						let opts[substr(arg, 1)] = true;
+					} else {
+						let args[] = arg;
+					}
 				}
 			} else {
-				if strncmp(arg, "-", 1) == 0 {
-					let opts[substr(arg, 1)] = true;
-				} else {
-					let args[] = arg;
-				}
+				let args[] = arg;
 			}
 		}
 
