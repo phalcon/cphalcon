@@ -1,6 +1,6 @@
 <?php
 /**
- * SecurityCest.php
+ * SecurityTest.php
  * \Phalcon\Security
  *
  * Tests the \Phalcon\Security component
@@ -20,38 +20,47 @@
  * so that we can send you a copy immediately.
  */
 
-use \CodeGuy;
+namespace Phalcon\Tests\unit\Phalcon\Security;
+
 use \Phalcon\Security as PhSecurity;
 
-class SecurityCest
+class SecurityTest extends \Codeception\TestCase\Test
 {
+    use \Codeception\Specify;
+
     /**
      * Tests the HMAC computation
      *
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
-     * @since  2014-09-04
+     * @since  2014-09-12
      */
-    public function testComputeHMAC(CodeGuy $I)
+    public function testComputeHMAC()
     {
-        $security = new PhSecurity;
-        $key      = md5('test', true);
-        $keys     = array(
-            substr($key, 0, strlen($key) / 2),
-            $key,
-            $key . $key
-        );
+        $this->specify(
+            "The HMAC computation values are not identical",
+            function () {
 
-        $data = array();
-        for ($i = 1; $i < 256; ++$i) {
-            $data[] = str_repeat('a', $i);
-        }
+                $security = new PhSecurity;
+                $key      = md5('test', true);
+                $keys     = array(
+                    substr($key, 0, strlen($key) / 2),
+                    $key,
+                    $key . $key
+                );
 
-        foreach ($keys as $key) {
-            foreach ($data as $text) {
-                $actual   = $security->computeHmac($text, $key, 'md5');
-                $expected = hash_hmac('md5', $text, $key);
-                $I->assertEquals($expected, $actual, 'Key values not identical');
+                $data = array();
+                for ($i = 1; $i < 256; ++$i) {
+                    $data[] = str_repeat('a', $i);
+                }
+
+                foreach ($keys as $key) {
+                    foreach ($data as $text) {
+                        $actual   = $security->computeHmac($text, $key, 'md5');
+                        $expected = hash_hmac('md5', $text, $key);
+                        expect($actual)->equals($actual);
+                    }
+                }
             }
-        }
+        );
     }
 }

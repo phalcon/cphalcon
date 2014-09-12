@@ -28,8 +28,6 @@ class EscaperTest extends \Codeception\TestCase\Test
 {
     use \Codeception\Specify;
 
-    private $config = null;
-
     /**
      * Tests whether a key exists in the array
      *
