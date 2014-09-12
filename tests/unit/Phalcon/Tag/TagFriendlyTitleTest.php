@@ -159,6 +159,76 @@ class TagFriendlyTitleTest extends TagBase
     }
 
     /**
+     * Tests friendlyTitle with special characters and escaping
+     *
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-09-11
+     */
+    public function testFriendlyTitleWithSpecialCharactersAndEscaping()
+    {
+        $this->specify(
+            "friendlyTitle with special characters and escaping returns incorrect text",
+            function () {
+
+                $options  = "Mess'd up --text-- just (to) stress /test/ ?our! "
+                          . "`little` \\clean\\ url fun.ction!?-->";
+                $expected = 'messd-up-text-just-to-stress-test-our-little-'
+                          . 'clean-url-function';
+                $actual   = PhTag::friendlyTitle($options);
+
+                expect($actual)->equals($expected);
+            }
+        );
+    }
+
+    /**
+     * Tests friendlyTitle with accented characters and replace string
+     *
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-09-11
+     */
+    public function testFriendlyTitleWithAccentedCharactersAndReplaceString()
+    {
+        $this->specify(
+            "friendlyTitle with accented characters and replace string returns incorrect text",
+            function () {
+
+                $options  = "Perché l'erba è verde?";
+                $expected = 'perche-l-erba-e-verde';
+                $actual   = PhTag::friendlyTitle($options, "-", true, "'");
+
+                expect($actual)->equals($expected);
+            }
+        );
+    }
+
+    /**
+     * Tests friendlyTitle with accented characters and replace array
+     *
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-09-11
+     */
+    public function testFriendlyTitleWithAccentedCharactersAndReplaceArray()
+    {
+        $this->specify(
+            "friendlyTitle with accented characters and replace array returns incorrect text",
+            function () {
+
+                $options  = "Perché l'erba è verde?";
+                $expected = 'P_rch_l_rb_v_rd';
+                $actual   = PhTag::friendlyTitle(
+                    $options,
+                    "_",
+                    false,
+                    ['e', 'a']
+                );
+
+                expect($actual)->equals($expected);
+            }
+        );
+    }
+
+    /**
      * Tests friendlyTitle with string as a parameter with replace as boolean
      *
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>

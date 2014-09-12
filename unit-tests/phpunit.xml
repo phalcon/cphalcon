@@ -82,7 +82,6 @@
 			<file>unit-tests/SecurityTest.php</file>
 			<file>unit-tests/SessionBagTest.php</file>
 			<file>unit-tests/SessionTest.php</file>
-			<file>unit-tests/TagSlugTest.php</file>
 			<file>unit-tests/TagTest.php</file>
 			<file>unit-tests/TasksCliTest.php</file>
 			<file>unit-tests/TranslateTest.php</file>
