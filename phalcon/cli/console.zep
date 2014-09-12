@@ -258,7 +258,7 @@ class Console implements \Phalcon\Di\InjectionAwareInterface, \Phalcon\Events\Ev
 			throw new \Phalcon\Cli\Console\Exception("Arguments must be an array");
 		}
 
-		if shift {
+		if shift && count(arguments) {
 			array_shift(arguments);
 		}
 
