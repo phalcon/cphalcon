@@ -57,7 +57,7 @@ class SecurityTest extends \Codeception\TestCase\Test
                     foreach ($data as $text) {
                         $actual   = $security->computeHmac($text, $key, 'md5');
                         $expected = hash_hmac('md5', $text, $key);
-                         
+
                         expect($actual)->equals($expected);
                     }
                 }
