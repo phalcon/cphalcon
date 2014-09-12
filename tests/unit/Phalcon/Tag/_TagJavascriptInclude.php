@@ -1,6 +1,6 @@
 <?php
 /**
- * TagJavascriptIncludeCest.php
+ * _TagJavascriptInclude.php
  * \Phalcon\Tag
  *
  * Tests the \Phalcon\Tag component

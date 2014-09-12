@@ -1,6 +1,6 @@
 <?php
 /**
- * TagStylesheetlinkCest.php
+ * _TagStylesheetlink.php
  * \Phalcon\Tag
  *
  * Tests the \Phalcon\Tag component
