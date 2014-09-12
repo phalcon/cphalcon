@@ -405,4 +405,167 @@ class TagImageTest extends TagBase
             }
         );
     }
+
+    /**
+     * Tests image with string parameter and local link
+     *
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-09-05
+     */
+    public function testImageStringParameterLocalLink()
+    {
+        $this->specify(
+            "image with string parameter and local link returns invalid HTML Strict",
+            function () {
+
+                $options  = 'img/hello.gif';
+                $expected = '<img src="/img/hello.gif" />';
+
+                PhTag::setDocType(PhTag::XHTML10_STRICT);
+                $actual   = PhTag::image($options, true);
+
+                expect($actual)->equals($expected);
+            }
+        );
+
+        $this->specify(
+            "image with string parameter and local link returns invalid HTML XHTML",
+            function () {
+
+                $options  = 'img/hello.gif';
+                $expected = '<img src="/img/hello.gif">';
+
+                PhTag::setDocType(PhTag::HTML5);
+                $actual   = PhTag::image($options, true);
+
+                expect($actual)->equals($expected);
+            }
+        );
+    }
+
+    /**
+     * Tests image with string parameter and remote link
+     *
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-09-05
+     */
+    public function testImageStringParameterRemoteLink()
+    {
+        $this->specify(
+            "image with string parameter and remote link returns invalid HTML Strict",
+            function () {
+
+                $options  = 'http://phalconphp.com/img/hello.gif';
+                $expected = '<img src="http://phalconphp.com/img/hello.gif" />';
+
+                PhTag::setDocType(PhTag::XHTML10_STRICT);
+                $actual   = PhTag::image($options, false);
+
+                expect($actual)->equals($expected);
+            }
+        );
+
+        $this->specify(
+            "image with string parameter and local link returns invalid HTML XHTML",
+            function () {
+
+                $options  = 'http://phalconphp.com/img/hello.gif';
+                $expected = '<img src="http://phalconphp.com/img/hello.gif">';
+
+                PhTag::setDocType(PhTag::HTML5);
+                $actual   = PhTag::image($options, false);
+
+                expect($actual)->equals($expected);
+            }
+        );
+    }
+
+    /**
+     * Tests image with array parameter and local link
+     *
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-09-05
+     */
+    public function testImageArrayParameterLocalLink()
+    {
+        $this->specify(
+            "image with array parameter and local link returns invalid HTML Strict",
+            function () {
+
+                $options  = [
+                    'img/hello.gif',
+                    'alt' => 'Hello'
+                ];
+                $expected = '<img src="/img/hello.gif" alt="Hello" />';
+
+                PhTag::setDocType(PhTag::XHTML10_STRICT);
+                $actual   = PhTag::image($options, true);
+
+                expect($actual)->equals($expected);
+            }
+        );
+
+        $this->specify(
+            "image with array parameter and local link returns invalid HTML XHTML",
+            function () {
+
+                $options  = [
+                    'img/hello.gif',
+                    'alt' => 'Hello'
+                ];
+                $expected = '<img src="/img/hello.gif" alt="Hello">';
+
+                PhTag::setDocType(PhTag::HTML5);
+                $actual   = PhTag::image($options, true);
+
+                expect($actual)->equals($expected);
+            }
+        );
+    }
+
+    /**
+     * Tests image with array parameter and remote link
+     *
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-09-05
+     */
+    public function testImageArrayParameterRemoteLink()
+    {
+        $this->specify(
+            "image with array parameter and remote link returns invalid HTML Strict",
+            function () {
+
+                $options  = [
+                    'http://phalconphp.com/img/hello.gif',
+                    'alt' => 'Hello'
+                ];
+                $expected = '<img src="http://phalconphp.com/img/hello.gif" '
+                          . 'alt="Hello" />';
+
+                PhTag::setDocType(PhTag::XHTML10_STRICT);
+                $actual   = PhTag::image($options, false);
+
+                expect($actual)->equals($expected);
+            }
+        );
+
+        $this->specify(
+            "image with array parameter and local link returns invalid HTML XHTML",
+            function () {
+
+                $options  = [
+                    'http://phalconphp.com/img/hello.gif',
+                    'alt' => 'Hello'
+                ];
+                $expected = '<img src="http://phalconphp.com/img/hello.gif" '
+                          . 'alt="Hello">';
+
+                PhTag::setDocType(PhTag::HTML5);
+                $actual   = PhTag::image($options, false);
+
+                expect($actual)->equals($expected);
+            }
+        );
+    }
+
 }
