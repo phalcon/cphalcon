@@ -55,6 +55,10 @@ class TranslateNativeArrayTest extends \Codeception\TestCase\Test
                 'hello-key' => 'Bonjour %name%',
                 'song-key'  => 'La chanson est %song% (%artist%)',
             ],
+            'ru' => [
+                'Hello!'                         => 'Привет!',
+                'Hello %fname% %mname% %lname%!' => 'Привет, %fname% %mname% %lname%!',
+            ],
         ];
     }
     
@@ -506,4 +510,59 @@ class TranslateNativeArrayTest extends \Codeception\TestCase\Test
         );
     }
 
+    /**
+     * Tests translator with array access
+     *
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-09-12
+     */
+    public function testWithArrayAccess()
+    {
+        $this->specify(
+            "Translator with array access",
+            function () {
+
+                $language   = $this->config['ru'];
+                $params     = ['content' => $language];
+                $translator = new PhTranslateAdapterNativeArray($params);
+
+                $expected = $language['Hello!'];
+                $actual   = $translator['Hello!'];
+
+                expect(isset($translator['Hello!']))->true();
+                expect(isset($translator['Hi there!']))->false();
+                expect($actual)->equals($expected);
+            }
+        );
+    }
+
+    /**
+     * Tests translator with array access and UTF8 strings
+     *
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-09-12
+     */
+    public function testWithArrayAccessAndUTF8Strings()
+    {
+        $this->specify(
+            "Translator with array access and UTF8 strings",
+            function () {
+
+                $language   = $this->config['ru'];
+                $params     = ['content' => $language];
+                $translator = new PhTranslateAdapterNativeArray($params);
+
+                $expected = 'Привет, John D. Doe!';
+                $actual = $translator->_(
+                    'Hello %fname% %mname% %lname%!',
+                    [
+                        'fname' => 'John',
+                        'lname' => 'Doe',
+                        'mname' => 'D.',
+                    ]
+                );
+                expect($actual)->equals($expected);
+            }
+        );
+    }
 }
