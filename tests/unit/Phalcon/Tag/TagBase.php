@@ -32,7 +32,7 @@ class TagBase extends \Codeception\TestCase\Test
     public function _before()
     {
         $di = new PhDI();
-        PhDI::reset();
+        $di::reset();
         PhTag::setDI($di);
     }
 
