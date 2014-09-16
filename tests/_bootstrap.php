@@ -6,12 +6,12 @@ define('UNIT_TESTING', true);
 $root = realpath(dirname(__FILE__));
 
 define('ROOT_PATH', $root);
+define('PATH_CACHE', $root . '/_output/tests/cache/');
+define('PATH_LOGS', $root . '/_output/tests/logs/');
 
 /**
-define('PATH_CONFIG', $root . '/tests/var/config/');
-define('PATH_CACHE', $root . '/tests/var/cache/');
-define('PATH_LOGS', $root . '/tests/var/logs/');
 
+define('PATH_CONFIG', $root . '/_output/tests/var/config/');
 define('PATH_MICRO', $root . '/tests/app_micro/');
 define('PATH_SINGLE', $root . '/tests/app_single/');
 define('PATH_MULTI', $root . '/tests/app_multi/');
@@ -27,9 +27,6 @@ define('PATH_TASKS', $root . '/tests/app/tasks/');
 
 // loading verify assert BDD style assert
 require_once ROOT_PATH . '/_support/Verify.php';
-
-ini_set('output_buffering', 65536);
-ini_set('zend.enable_gc', 'Off');
 
 error_reporting(E_ALL);
 set_include_path(

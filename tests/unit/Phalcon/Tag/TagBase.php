@@ -31,9 +31,16 @@ class TagBase extends \Codeception\TestCase\Test
 
     public function _before()
     {
+        gc_enable();
+
         $di = new PhDI();
         $di::reset();
         PhTag::setDI($di);
+    }
+
+    public function _after()
+    {
+        gc_collect_cycles();
     }
 
     /**

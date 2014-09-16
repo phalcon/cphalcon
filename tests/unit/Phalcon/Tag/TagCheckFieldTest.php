@@ -26,6 +26,8 @@ use \Phalcon\Tag as PhTag;
 
 class TagCheckFieldTest extends TagBase
 {
+    use \Codeception\Specify;
+
     /**
      * Tests checkField with string as a parameter
      *
