@@ -257,7 +257,7 @@ class EscaperTest extends \Codeception\TestCase\Test
     public function testEscapeJs()
     {
         $this->specify(
-            'The escaper with escapeCss does not return the correct result ',
+            'The escaper with escapeJs does not return the correct result ',
             function () {
 
                 $escaper = new PhEscaper();
@@ -285,12 +285,28 @@ class EscaperTest extends \Codeception\TestCase\Test
             }
         );
     }
-/*
-     * Escape javascript strings by replacing non-alphanumeric chars by their hexadecimal escaped representation
-	* public function escapeJs(string js) -> string
-     * Escapes a URL. Internally uses rawurlencode
-	* public function escapeUrl(string url) -> string
- */
 
+    /**
+     * Tests the escapeUrl
+     *
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-09-16
+     */
+    public function testEscapeUrl()
+    {
+        $this->specify(
+            'The escaper with escapeCss does not return the correct result ',
+            function () {
 
+                $escaper = new PhEscaper();
+
+                $source   = "http://phalconphp.com/a.php?c=d&e=f";
+                $expected = 'http%3A%2F%2Fphalconphp.com%2Fa.php%3Fc%3Dd%26e%3Df';
+                $actual   = $escaper->escapeUrl($source);
+
+                expect($actual)->equals($expected);
+
+            }
+        );
+    }
 }
