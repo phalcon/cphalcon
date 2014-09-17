@@ -197,29 +197,29 @@ class EscaperTest extends \Codeception\TestCase\Test
         );
     }
 
-//    /**
-//     * Tests the normalizeEncoding
-//     *
-//     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
-//     * @since  2014-09-16
-//     */
-//    public function testNormalizeEncoding()
-//    {
-//        $this->specify(
-//            'The escaper with normalizeEncoding does not return the correct result ',
-//            function () {
-//
-//                $escaper = new PhEscaper();
-//
-//                $expected = base_convert('0x00000048000000650000006c0000006c0000006f', 16, 32);
-//                $source   = 'Hello';
-//                $actual   = $escaper->normalizeEncoding($source);
-//
-//                expect($actual)->equals($expected);
-//
-//            }
-//        );
-//    }
+    /**
+     * Tests the normalizeEncoding
+     *
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-09-16
+     */
+    public function testNormalizeEncoding()
+    {
+        $this->specify(
+            'The escaper with normalizeEncoding does not return the correct result ',
+            function () {
+
+                $escaper = new PhEscaper();
+
+                $source   = 'Hello';
+                $expected = mb_convert_encoding($source, 'UTF-32', 'UTF-8');
+                $actual   = $escaper->normalizeEncoding($source);
+
+                expect($actual)->equals($expected);
+
+            }
+        );
+    }
 /*
 	* public function escapeCss(string css) -> string
      * Escape javascript strings by replacing non-alphanumeric chars by their hexadecimal escaped representation
