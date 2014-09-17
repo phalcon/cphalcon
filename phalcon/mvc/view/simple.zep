@@ -223,11 +223,11 @@ class Simple extends Injectable
 		 */
 		for extension, engine in engines {
 
-			if(file_exists(viewsDirPath . extension)) {
+			if file_exists(viewsDirPath . extension) {
 				let viewEnginePath = viewsDirPath . extension;
 			} else {
 				//if passed filename with engine extension
-				if(extension && substr(viewsDirPath, -strlen(extension)) == extension && file_exists(viewsDirPath)) {
+				if extension && substr(viewsDirPath, -strlen(extension)) == extension && file_exists(viewsDirPath) {
 					let viewEnginePath = viewsDirPath;
 				} else {
 					let viewEnginePath = "";
