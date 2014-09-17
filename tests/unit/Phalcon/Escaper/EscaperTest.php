@@ -220,8 +220,72 @@ class EscaperTest extends \Codeception\TestCase\Test
             }
         );
     }
+
+    /**
+     * Tests the escapeCss
+     *
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-09-16
+     */
+    public function testEscapeCss()
+    {
+        $this->specify(
+            'The escaper with escapeCss does not return the correct result ',
+            function () {
+
+                $escaper = new PhEscaper();
+
+                $source   = ".émotion { background: "
+                          . "url('http://phalconphp.com/a.php?c=d&e=f'); }";
+                $expected = '\2e \e9 motion\20 \7b \20 background\3a \20 url\28 '
+                          . '\27 http\3a \2f \2f phalconphp\2e com\2f a\2e php'
+                          . '\3f c\3d d\26 e\3d f\27 \29 \3b \20 \7d ';
+                $actual   = $escaper->escapeCss($source);
+
+                expect($actual)->equals($expected);
+
+            }
+        );
+    }
+
+    /**
+     * Tests the escapeJs
+     *
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-09-16
+     */
+    public function testEscapeJs()
+    {
+        $this->specify(
+            'The escaper with escapeCss does not return the correct result ',
+            function () {
+
+                $escaper = new PhEscaper();
+
+                $source   = "function createtoc () {"
+                          . "var h2s = document.getElementsByTagName('H2');"
+                          . "l = toc.appendChild(document.createElement('ol'));"
+                          . "for (var i=0; i<h2s.length; i++) {"
+                          . "var h2 = h2s[i].firstChild.innerHTML;"
+                          . "var h = document.createElement('li');"
+                          . "l.appendChild(h);"
+                          . "}}";
+                $expected = 'function createtoc () {'
+                          . 'var h2s \x3d document.getElementsByTagName(\x27H2\x27);'
+                          . 'l \x3d toc.appendChild(document.createElement(\x27ol\x27));'
+                          . 'for (var i\x3d0; i\x3ch2s.length; i++) {'
+                          . 'var h2 \x3d h2s[i].firstChild.innerHTML;'
+                          . 'var h \x3d document.createElement(\x27li\x27);'
+                          . 'l.appendChild(h);'
+                          . '}}';
+                $actual   = $escaper->escapeJs($source);
+
+                expect($actual)->equals($expected);
+
+            }
+        );
+    }
 /*
-	* public function escapeCss(string css) -> string
      * Escape javascript strings by replacing non-alphanumeric chars by their hexadecimal escaped representation
 	* public function escapeJs(string js) -> string
      * Escapes a URL. Internally uses rawurlencode
