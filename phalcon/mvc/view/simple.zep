@@ -32,6 +32,8 @@ use Phalcon\Mvc\View\Engine\Php as PhpEngine;
  *<code>
  * $view = new \Phalcon\Mvc\View\Simple();
  * echo $view->render('templates/my-view', array('content' => $html));
+ * //or with filename with extension
+ * echo $view->render('templates/my-view.volt', array('content' => $html));
  *</code>
  *
  */
@@ -221,8 +223,18 @@ class Simple extends Injectable
 		 */
 		for extension, engine in engines {
 
-			let viewEnginePath = viewsDirPath . extension;
-			if file_exists(viewEnginePath) {
+			if(file_exists(viewsDirPath . extension)) {
+				let viewEnginePath = viewsDirPath . extension;
+			} else {
+				//if passed filename with engine extension
+				if(extension && substr(viewsDirPath, -strlen(extension)) == extension && file_exists(viewsDirPath)) {
+					let viewEnginePath = viewsDirPath;
+				} else {
+					let viewEnginePath = "";
+				}
+			}
+
+			if viewEnginePath {
 
 				/**
 				 * Call beforeRenderView if there is a events manager available

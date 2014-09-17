@@ -161,6 +161,31 @@ class ViewSimpleTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals("<p></p>", @$view->render('test3/coolVar'));
 	}
 
+	public function testRenderWithFilenameWithEngineExtension()
+	{
+		$view = new View;
+		$view->setDI(new Di);
+
+		$view->registerEngines(array('.mhtml' => 'Phalcon\\Mvc\\View\\Engine\\Volt'));
+		$view->setViewsDir('unit-tests/views/');
+		$view->setParamToView('name', 'FooBar');
+
+		$this->assertEquals('Hello FooBar', $view->render('test4/index.mhtml'));
+	}
+
+	public function testRenderWithFilenameWithEngineWithoutEngineRegistered()
+	{
+		$this->setExpectedException('Phalcon\Mvc\View\Exception');
+
+		$view = new View;
+		$view->setDI(new Di);
+
+		$view->setViewsDir('unit-tests/views/');
+		$view->setParamToView('name', 'FooBar');
+
+		$this->assertEquals('Hello FooBar', $view->render('test4/index.mhtml'));
+	}
+
 	// Setup viewCache service and DI
 	private function _getDI()
 	{
