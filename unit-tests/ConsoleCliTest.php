@@ -201,4 +201,249 @@ class ConsoleCliTest extends PHPUnit_Framework_TestCase
 		$expected = "beforeExecuteRoute".PHP_EOL."initialize".PHP_EOL;
 		$this->assertEquals($actual, $expected);
 	}
+
+	public function testArgumentArray()
+	{
+		$di = new Phalcon\DI\FactoryDefault\CLI();
+
+		$console = new \Phalcon\CLI\Console();
+		$console->setDI($di);
+		$dispatcher = $console->getDI()->getShared('dispatcher');
+
+		$console->setArgument(array(
+			'php',
+		), false)->handle();
+		$this->assertEquals($dispatcher->getTaskName(), 'main');
+		$this->assertEquals($dispatcher->getActionName(), 'main');
+		$this->assertEquals($dispatcher->getParams(), array());
+		$this->assertEquals($dispatcher->getReturnedValue(), 'mainAction');
+
+		$console->setArgument(array(
+			'php',
+			'echo'
+		), false)->handle();
+		$this->assertEquals($dispatcher->getTaskName(), 'echo');
+		$this->assertEquals($dispatcher->getActionName(), 'main');
+		$this->assertEquals($dispatcher->getParams(), array());
+		$this->assertEquals($dispatcher->getReturnedValue(), 'echoMainAction');
+
+		$console->setArgument(array(
+			'php',
+			'main',
+			'hello'
+		), false)->handle();
+		$this->assertEquals($dispatcher->getTaskName(), 'main');
+		$this->assertEquals($dispatcher->getActionName(), 'hello');
+		$this->assertEquals($dispatcher->getParams(), array());
+		$this->assertEquals($dispatcher->getReturnedValue(), 'Hello !');
+
+		$console->setArgument(array(
+			'php',
+			'main',
+			'hello',
+			'World',
+			'######'
+		), false)->handle();
+		$this->assertEquals($dispatcher->getTaskName(), 'main');
+		$this->assertEquals($dispatcher->getActionName(), 'hello');
+		$this->assertEquals($dispatcher->getParams(), array('World', '######'));
+		$this->assertEquals($dispatcher->getReturnedValue(), 'Hello World######');
+
+		// testing namespace
+		try {
+			$dispatcher->setDefaultNamespace('Dummy\\');
+			$console->setArgument(array(
+				'php',
+				'main',
+				'hello',
+				'World',
+				'!'
+			), false)->handle();
+			$this->assertEquals($dispatcher->getTaskName(), 'main');
+			$this->assertEquals($dispatcher->getActionName(), 'hello');
+			$this->assertEquals($dispatcher->getParams(), array('World'));
+			$this->assertEquals($dispatcher->getReturnedValue(), 'Hello World!');
+		} catch (Exception $e) {
+			$this->assertEquals($e->getMessage(), 'Dummy\MainTask handler class cannot be loaded');
+		}
+	}
+
+	public function testArgumentNoShift()
+	{
+		$di = new Phalcon\DI\FactoryDefault\CLI();
+
+		$console = new \Phalcon\CLI\Console();
+		$console->setDI($di);
+		$dispatcher = $console->getDI()->getShared('dispatcher');
+
+		$console->setArgument(array(), false, false)->handle();
+		$this->assertEquals($dispatcher->getTaskName(), 'main');
+		$this->assertEquals($dispatcher->getActionName(), 'main');
+		$this->assertEquals($dispatcher->getParams(), array());
+		$this->assertEquals($dispatcher->getReturnedValue(), 'mainAction');
+
+		$console->setArgument(array(
+			'echo'
+		), false, false)->handle();
+		$this->assertEquals($dispatcher->getTaskName(), 'echo');
+		$this->assertEquals($dispatcher->getActionName(), 'main');
+		$this->assertEquals($dispatcher->getParams(), array());
+		$this->assertEquals($dispatcher->getReturnedValue(), 'echoMainAction');
+
+		$console->setArgument(array(
+			'main',
+			'hello'
+		), false, false)->handle();
+		$this->assertEquals($dispatcher->getTaskName(), 'main');
+		$this->assertEquals($dispatcher->getActionName(), 'hello');
+		$this->assertEquals($dispatcher->getParams(), array());
+		$this->assertEquals($dispatcher->getReturnedValue(), 'Hello !');
+
+		$console->setArgument(array(
+			'main',
+			'hello',
+			'World',
+			'######'
+		), false, false)->handle();
+		$this->assertEquals($dispatcher->getTaskName(), 'main');
+		$this->assertEquals($dispatcher->getActionName(), 'hello');
+		$this->assertEquals($dispatcher->getParams(), array('World', '######'));
+		$this->assertEquals($dispatcher->getReturnedValue(), 'Hello World######');
+
+		// testing namespace
+		try {
+			$dispatcher->setDefaultNamespace('Dummy\\');
+			$console->setArgument(array(
+				'main',
+				'hello',
+				'World',
+				'!'
+			), false, false)->handle();
+			$this->assertEquals($dispatcher->getTaskName(), 'main');
+			$this->assertEquals($dispatcher->getActionName(), 'hello');
+			$this->assertEquals($dispatcher->getParams(), array('World'));
+			$this->assertEquals($dispatcher->getReturnedValue(), 'Hello World!');
+		} catch (Exception $e) {
+			$this->assertEquals($e->getMessage(), 'Dummy\MainTask handler class cannot be loaded');
+		}
+	}
+
+	public function testArgumentRouter()
+	{
+		$di = new Phalcon\DI\FactoryDefault\CLI();
+
+		$di->setShared('router', function() {
+			$router = new \Phalcon\Cli\Router(true);
+			return $router;
+		});
+
+		$console = new \Phalcon\CLI\Console();
+		$console->setDI($di);
+		$dispatcher = $console->getDI()->getShared('dispatcher');
+
+		$console->setArgument(array(
+			'php'
+		))->handle();
+		$this->assertEquals($dispatcher->getTaskName(), 'main');
+		$this->assertEquals($dispatcher->getActionName(), 'main');
+		$this->assertEquals($dispatcher->getParams(), array());
+		$this->assertEquals($dispatcher->getReturnedValue(), 'mainAction');
+
+		$console->setArgument(array(
+			'php',
+			'echo'
+		))->handle();
+		$this->assertEquals($dispatcher->getTaskName(), 'echo');
+		$this->assertEquals($dispatcher->getActionName(), 'main');
+		$this->assertEquals($dispatcher->getParams(), array());
+		$this->assertEquals($dispatcher->getReturnedValue(), 'echoMainAction');
+
+		$console->setArgument(array(
+			'php',
+			'main',
+			'hello'
+		))->handle();
+		$this->assertEquals($dispatcher->getTaskName(), 'main');
+		$this->assertEquals($dispatcher->getActionName(), 'hello');
+		$this->assertEquals($dispatcher->getParams(), array());
+		$this->assertEquals($dispatcher->getReturnedValue(), 'Hello !');
+
+		$console->setArgument(array(
+			'php',
+			'main',
+			'hello',
+			'World',
+			'######'
+		))->handle();
+		$this->assertEquals($dispatcher->getTaskName(), 'main');
+		$this->assertEquals($dispatcher->getActionName(), 'hello');
+		$this->assertEquals($dispatcher->getParams(), array('World', '######'));
+		$this->assertEquals($dispatcher->getReturnedValue(), 'Hello World######');
+
+		// testing namespace
+		try {
+			$dispatcher->setDefaultNamespace('Dummy\\');
+			$console->setArgument(array(
+				'php',
+				'main',
+				'hello',
+				'World',
+				'!'
+			))->handle();
+			$this->assertEquals($dispatcher->getTaskName(), 'main');
+			$this->assertEquals($dispatcher->getActionName(), 'hello');
+			$this->assertEquals($dispatcher->getParams(), array('World'));
+			$this->assertEquals($dispatcher->getReturnedValue(), 'Hello World!');
+		} catch (Exception $e) {
+			$this->assertEquals($e->getMessage(), 'Dummy\MainTask handler class cannot be loaded');
+		}
+
+	}
+
+	public function testArgumentOptions()
+	{
+		$di = new Phalcon\DI\FactoryDefault\CLI();
+
+		$di->setShared('router', function() {
+			$router = new \Phalcon\Cli\Router(true);
+			return $router;
+		});
+
+		$console = new \Phalcon\CLI\Console();
+		$console->setDI($di);
+		$dispatcher = $console->getDI()->getShared('dispatcher');
+
+		$console->setArgument(array(
+			'php',
+			'-opt1',
+			'--option2',
+			'--option3=hoge',
+			'main',
+			'hello',
+			'World',
+			'######'
+		))->handle();
+		$this->assertEquals($dispatcher->getTaskName(), 'main');
+		$this->assertEquals($dispatcher->getActionName(), 'hello');
+		$this->assertEquals($dispatcher->getParams(), array('World', '######'));
+		$this->assertEquals($dispatcher->getReturnedValue(), 'Hello World######');
+		$this->assertEquals($dispatcher->getOptions(), array('opt1' => true, 'option2' => true, 'option3' => 'hoge'));
+
+		$console->setArgument(array(
+			'php',
+			'main',
+			'-opt1',
+			'hello',
+			'--option2',
+			'World',
+			'--option3=hoge',
+			'######'
+		))->handle();
+		$this->assertEquals($dispatcher->getTaskName(), 'main');
+		$this->assertEquals($dispatcher->getActionName(), 'hello');
+		$this->assertEquals($dispatcher->getParams(), array('World', '######'));
+		$this->assertEquals($dispatcher->getReturnedValue(), 'Hello World######');
+		$this->assertEquals($dispatcher->getOptions(), array('opt1' => true, 'option2' => true, 'option3' => 'hoge'));
+	}
+
 }
