@@ -3578,7 +3578,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 
 	/**
 	 * Sets if the model must keep the original record snapshot in memory
-     *
+	 *
 	 *<code>
 	 *<?php
 	 *
@@ -3856,7 +3856,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 
 	/**
 	 * Sets if a model must use dynamic update instead of the all-field update
-     *
+	 *
 	 *<code>
 	 *<?php
 	 *
@@ -4165,8 +4165,14 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 */
 	public function __get(string! property)
 	{
-		var modelName, manager, lowerProperty, relation, result;
+		var modelName, manager, lowerProperty, relation, result, method;
 
+		let method = "get" . ucfirst(property);
+
+		if method_exists(this, method) {
+			return this->{method}();
+		}
+	
 		let modelName = get_class(this),
 			manager = this->getModelsManager(),
 			lowerProperty = strtolower(property);
