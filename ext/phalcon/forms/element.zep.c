@@ -113,7 +113,7 @@ PHP_METHOD(Phalcon_Forms_Element, setForm) {
 
 
 	if (!(zephir_instance_of_ev(form, phalcon_forms_form_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(spl_ce_InvalidArgumentException, "Parameter 'form' must be an instance of 'Phalcon\\Forms\\Form'", "", 0);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(spl_ce_InvalidArgumentException, "Parameter 'form' must be an instance of 'Phalcon\\\\Forms\\\\Form'", "", 0);
 		return;
 	}
 	zephir_update_property_this(this_ptr, SL("_form"), form TSRMLS_CC);
@@ -295,7 +295,7 @@ PHP_METHOD(Phalcon_Forms_Element, addValidator) {
 
 
 	if (!(zephir_instance_of_ev(validator, phalcon_validation_validatorinterface_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(spl_ce_InvalidArgumentException, "Parameter 'validator' must be an instance of 'Phalcon\\Validation\\ValidatorInterface'", "", 0);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(spl_ce_InvalidArgumentException, "Parameter 'validator' must be an instance of 'Phalcon\\\\Validation\\\\ValidatorInterface'", "", 0);
 		return;
 	}
 	if (Z_TYPE_P(validator) != IS_OBJECT) {
@@ -776,7 +776,7 @@ PHP_METHOD(Phalcon_Forms_Element, setMessages) {
 
 
 	if (!(zephir_instance_of_ev(group, phalcon_validation_message_group_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(spl_ce_InvalidArgumentException, "Parameter 'group' must be an instance of 'Phalcon\\Validation\\Message\\Group'", "", 0);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(spl_ce_InvalidArgumentException, "Parameter 'group' must be an instance of 'Phalcon\\\\Validation\\\\Message\\\\Group'", "", 0);
 		return;
 	}
 	zephir_update_property_this(this_ptr, SL("_messages"), group TSRMLS_CC);
@@ -801,7 +801,7 @@ PHP_METHOD(Phalcon_Forms_Element, appendMessage) {
 
 
 	if (!(zephir_instance_of_ev(message, phalcon_validation_message_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'message' must be an instance of 'Phalcon\\Validation\\Message'", "", 0);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'message' must be an instance of 'Phalcon\\\\Validation\\\\Message'", "", 0);
 		return;
 	}
 	ZEPHIR_OBS_VAR(messages);

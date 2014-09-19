@@ -178,7 +178,7 @@ PHP_METHOD(Phalcon_Assets_Collection, add) {
 
 
 	if (!(zephir_instance_of_ev(resource, phalcon_assets_resource_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(spl_ce_InvalidArgumentException, "Parameter 'resource' must be an instance of 'Phalcon\\Assets\\Resource'", "", 0);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(spl_ce_InvalidArgumentException, "Parameter 'resource' must be an instance of 'Phalcon\\\\Assets\\\\Resource'", "", 0);
 		return;
 	}
 	zephir_update_property_array_append(this_ptr, SL("_resources"), resource TSRMLS_CC);
@@ -201,7 +201,7 @@ PHP_METHOD(Phalcon_Assets_Collection, addInline) {
 
 
 	if (!(zephir_instance_of_ev(code, phalcon_assets_inline_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(spl_ce_InvalidArgumentException, "Parameter 'code' must be an instance of 'Phalcon\\Assets\\Inline'", "", 0);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(spl_ce_InvalidArgumentException, "Parameter 'code' must be an instance of 'Phalcon\\\\Assets\\\\Inline'", "", 0);
 		return;
 	}
 	zephir_update_property_array_append(this_ptr, SL("_codes"), code TSRMLS_CC);
@@ -834,7 +834,7 @@ PHP_METHOD(Phalcon_Assets_Collection, addFilter) {
 
 
 	if (!(zephir_instance_of_ev(filter, phalcon_assets_filterinterface_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(spl_ce_InvalidArgumentException, "Parameter 'filter' must be an instance of 'Phalcon\\Assets\\FilterInterface'", "", 0);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(spl_ce_InvalidArgumentException, "Parameter 'filter' must be an instance of 'Phalcon\\\\Assets\\\\FilterInterface'", "", 0);
 		return;
 	}
 	zephir_update_property_array_append(this_ptr, SL("_filters"), filter TSRMLS_CC);

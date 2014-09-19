@@ -168,6 +168,7 @@ zend_class_entry *phalcon_cli_dispatcher_ce;
 zend_class_entry *phalcon_cli_dispatcher_exception_ce;
 zend_class_entry *phalcon_cli_router_ce;
 zend_class_entry *phalcon_cli_router_exception_ce;
+zend_class_entry *phalcon_cli_router_route_ce;
 zend_class_entry *phalcon_cli_task_ce;
 zend_class_entry *phalcon_config_adapter_ini_ce;
 zend_class_entry *phalcon_config_adapter_json_ce;
@@ -665,6 +666,7 @@ static PHP_MINIT_FUNCTION(phalcon)
 	ZEPHIR_INIT(Phalcon_Cli_Dispatcher_Exception);
 	ZEPHIR_INIT(Phalcon_Cli_Router);
 	ZEPHIR_INIT(Phalcon_Cli_Router_Exception);
+	ZEPHIR_INIT(Phalcon_Cli_Router_Route);
 	ZEPHIR_INIT(Phalcon_Cli_Task);
 	ZEPHIR_INIT(Phalcon_Config_Adapter_Ini);
 	ZEPHIR_INIT(Phalcon_Config_Adapter_Json);

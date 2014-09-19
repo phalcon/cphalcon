@@ -153,7 +153,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, __construct) {
 		_0 = !zephir_instance_of_ev(dependencyInjector, phalcon_diinterface_ce TSRMLS_CC);
 	}
 	if (_0) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'dependencyInjector' must be an instance of 'Phalcon\\DiInterface'", "", 0);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'dependencyInjector' must be an instance of 'Phalcon\\\\DiInterface'", "", 0);
 		return;
 	}
 	if (Z_TYPE_P(phql) != IS_NULL) {
@@ -183,7 +183,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, setDI) {
 
 
 	if (!(zephir_instance_of_ev(dependencyInjector, phalcon_diinterface_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'dependencyInjector' must be an instance of 'Phalcon\\DiInterface'", "", 0);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'dependencyInjector' must be an instance of 'Phalcon\\\\DiInterface'", "", 0);
 		return;
 	}
 	ZEPHIR_INIT_VAR(_0);
@@ -1137,7 +1137,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getTable) {
 
 
 	if (!(zephir_instance_of_ev(manager, phalcon_mvc_model_managerinterface_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'manager' must be an instance of 'Phalcon\\Mvc\\Model\\ManagerInterface'", "", 0);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'manager' must be an instance of 'Phalcon\\\\Mvc\\\\Model\\\\ManagerInterface'", "", 0);
 		return;
 	}
 	ZEPHIR_OBS_VAR(modelName);
@@ -1179,7 +1179,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getJoin) {
 
 
 	if (!(zephir_instance_of_ev(manager, phalcon_mvc_model_managerinterface_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'manager' must be an instance of 'Phalcon\\Mvc\\Model\\ManagerInterface'", "", 0);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'manager' must be an instance of 'Phalcon\\\\Mvc\\\\Model\\\\ManagerInterface'", "", 0);
 		return;
 	}
 	ZEPHIR_OBS_VAR(qualified);
@@ -1297,7 +1297,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getSingleJoin) {
 
 
 	if (!(zephir_instance_of_ev(relation, phalcon_mvc_model_relationinterface_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'relation' must be an instance of 'Phalcon\\Mvc\\Model\\RelationInterface'", "", 0);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'relation' must be an instance of 'Phalcon\\\\Mvc\\\\Model\\\\RelationInterface'", "", 0);
 		return;
 	}
 	ZEPHIR_CALL_METHOD(&fields, relation, "getfields",  NULL);
@@ -1405,7 +1405,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getMultiJoin) {
 
 
 	if (!(zephir_instance_of_ev(relation, phalcon_mvc_model_relationinterface_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'relation' must be an instance of 'Phalcon\\Mvc\\Model\\RelationInterface'", "", 0);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'relation' must be an instance of 'Phalcon\\\\Mvc\\\\Model\\\\RelationInterface'", "", 0);
 		return;
 	}
 	ZEPHIR_INIT_VAR(sqlJoins);
@@ -3405,7 +3405,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getRelatedRecords) {
 
 
 	if (!(zephir_instance_of_ev(model, phalcon_mvc_modelinterface_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'model' must be an instance of 'Phalcon\\Mvc\\ModelInterface'", "", 0);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'model' must be an instance of 'Phalcon\\\\Mvc\\\\ModelInterface'", "", 0);
 		return;
 	}
 	ZEPHIR_INIT_VAR(selectIr);
