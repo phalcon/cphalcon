@@ -224,6 +224,9 @@ class Security implements InjectionAwareInterface
 		}
 
 		let token = openssl_random_pseudo_bytes(numberBytes);
+		let token = base64_encode(token);
+		let token = phalcon_filter_alphanum(token);
+
 		let dependencyInjector = <DiInterface> this->_dependencyInjector;
 
 		if typeof dependencyInjector != "object" {
@@ -263,20 +266,20 @@ class Security implements InjectionAwareInterface
 			let request = dependencyInjector->getShared("request");
 
 			/**
-            * We always check if the value is correct in post
-            */
-            let token = request->getPost(tokenKey);
+			 * We always check if the value is correct in post
+			 */
+			let token = request->getPost(tokenKey);
 		} else {
 			let token = tokenValue;
 		}
 
 		/**
-        * The value is the same?
-        */
-        return token == session->get("$PHALCON/CSRF$");
-    }
+		 * The value is the same?
+		 */
+		return token == session->get("$PHALCON/CSRF$");
+	}
 
-    /**
+	/**
 	 * Returns the value of the CSRF token in session
 	 *
 	 * @return string
