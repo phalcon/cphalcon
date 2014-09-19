@@ -306,7 +306,7 @@ PHP_METHOD(Phalcon_Di, setRaw) {
 
 
 	if (!(zephir_instance_of_ev(rawDefinition, phalcon_di_serviceinterface_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'rawDefinition' must be an instance of 'Phalcon\\Di\\ServiceInterface'", "", 0);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'rawDefinition' must be an instance of 'Phalcon\\\\Di\\\\ServiceInterface'", "", 0);
 		return;
 	}
 	zephir_update_property_array(this_ptr, SL("_services"), name, rawDefinition TSRMLS_CC);
@@ -819,7 +819,7 @@ PHP_METHOD(Phalcon_Di, setDefault) {
 
 
 	if (!(zephir_instance_of_ev(dependencyInjector, phalcon_diinterface_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(spl_ce_InvalidArgumentException, "Parameter 'dependencyInjector' must be an instance of 'Phalcon\\DiInterface'", "", 0);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(spl_ce_InvalidArgumentException, "Parameter 'dependencyInjector' must be an instance of 'Phalcon\\\\DiInterface'", "", 0);
 		return;
 	}
 	zephir_update_static_property_ce(phalcon_di_ce, SL("_default"), dependencyInjector TSRMLS_CC);

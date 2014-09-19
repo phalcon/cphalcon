@@ -896,7 +896,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Gd, _watermark) {
 
 
 	if (!(zephir_instance_of_ev(watermark, phalcon_image_adapter_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'watermark' must be an instance of 'Phalcon\\Image\\Adapter'", "", 0);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'watermark' must be an instance of 'Phalcon\\\\Image\\\\Adapter'", "", 0);
 		return;
 	}
 	ZEPHIR_CALL_METHOD(&_0, watermark, "render",  NULL);
@@ -1135,7 +1135,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Gd, _mask) {
 
 
 	if (!(zephir_instance_of_ev(mask, phalcon_image_adapter_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'mask' must be an instance of 'Phalcon\\Image\\Adapter'", "", 0);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'mask' must be an instance of 'Phalcon\\\\Image\\\\Adapter'", "", 0);
 		return;
 	}
 	ZEPHIR_CALL_METHOD(&_0, mask, "render",  NULL);

@@ -12,10 +12,10 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
-#include "kernel/object.h"
-#include "kernel/operators.h"
 #include "kernel/memory.h"
+#include "kernel/object.h"
 #include "kernel/fcall.h"
+#include "kernel/operators.h"
 #include "kernel/exception.h"
 
 
@@ -70,7 +70,30 @@ ZEPHIR_INIT_CLASS(Phalcon_Cli_Dispatcher) {
 
 	zend_declare_property_string(phalcon_cli_dispatcher_ce, SL("_defaultAction"), "main", ZEND_ACC_PROTECTED TSRMLS_CC);
 
+	zend_declare_property_null(phalcon_cli_dispatcher_ce, SL("_options"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	return SUCCESS;
+
+}
+
+/**
+ * Phalcon\Cli\Dispatcher constructor
+ *
+ */
+PHP_METHOD(Phalcon_Cli_Dispatcher, __construct) {
+
+	int ZEPHIR_LAST_CALL_STATUS;
+	zephir_nts_static zephir_fcall_cache_entry *_1 = NULL;
+	zval *_0;
+
+	ZEPHIR_MM_GROW();
+
+	ZEPHIR_INIT_VAR(_0);
+	array_init(_0);
+	zephir_update_property_this(this_ptr, SL("_options"), _0 TSRMLS_CC);
+	ZEPHIR_CALL_PARENT(NULL, phalcon_cli_dispatcher_ce, this_ptr, "__construct", &_1);
+	zephir_check_call_status();
+	ZEPHIR_MM_RESTORE();
 
 }
 
@@ -179,7 +202,7 @@ PHP_METHOD(Phalcon_Cli_Dispatcher, _throwDispatchException) {
 	if (ZEPHIR_IS_FALSE_IDENTICAL(_1)) {
 		RETURN_MM_BOOL(0);
 	}
-	zephir_throw_exception_debug(exception, "phalcon/cli/dispatcher.zep", 111 TSRMLS_CC);
+	zephir_throw_exception_debug(exception, "phalcon/cli/dispatcher.zep", 124 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 	return;
 
@@ -241,6 +264,39 @@ PHP_METHOD(Phalcon_Cli_Dispatcher, getActiveTask) {
 
 
 	RETURN_MEMBER(this_ptr, "_activeHandler");
+
+}
+
+/**
+ * Set the options to be dispatched
+ *
+ * @param array options
+ */
+PHP_METHOD(Phalcon_Cli_Dispatcher, setOptions) {
+
+	zval *options_param = NULL;
+	zval *options = NULL;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &options_param);
+
+	zephir_get_arrval(options, options_param);
+
+
+	zephir_update_property_this(this_ptr, SL("_options"), options TSRMLS_CC);
+	ZEPHIR_MM_RESTORE();
+
+}
+
+/**
+ * Get dispatched options
+ *
+ * @return array
+ */
+PHP_METHOD(Phalcon_Cli_Dispatcher, getOptions) {
+
+
+	RETURN_MEMBER(this_ptr, "_options");
 
 }
 

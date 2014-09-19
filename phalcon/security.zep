@@ -136,7 +136,7 @@ class Security implements InjectionAwareInterface
 	 * @param int workFactor
 	 * @return string
 	 */
-	public function hash(string password, int workFactor) -> string
+	public function hash(string password, int workFactor = 0) -> string
 	{
 		if !workFactor {
 			let workFactor = (int) this->_workFactor;

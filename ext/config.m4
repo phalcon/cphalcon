@@ -61,6 +61,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/cli/dispatcher/exception.zep.c
 	phalcon/cli/router.zep.c
 	phalcon/cli/router/exception.zep.c
+	phalcon/cli/router/route.zep.c
 	phalcon/cli/task.zep.c
 	phalcon/config.zep.c
 	phalcon/config/adapter/ini.zep.c

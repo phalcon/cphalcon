@@ -385,13 +385,11 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, queryKeys) {
 	ZEPHIR_INIT_VAR(apc);
 	_1 = zend_fetch_class(SL("APCIterator"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 	object_init_ex(apc, _1);
-	if (zephir_has_constructor(apc TSRMLS_CC)) {
-		ZEPHIR_INIT_VAR(_2);
-		ZVAL_STRING(_2, "user", 0);
-		ZEPHIR_CALL_METHOD(NULL, apc, "__construct", NULL, _2, prefixPattern);
-		zephir_check_temp_parameter(_2);
-		zephir_check_call_status();
-	}
+	ZEPHIR_INIT_VAR(_2);
+	ZVAL_STRING(_2, "user", 0);
+	ZEPHIR_CALL_METHOD(NULL, apc, "__construct", NULL, _2, prefixPattern);
+	zephir_check_temp_parameter(_2);
+	zephir_check_call_status();
 	_3 = zephir_get_iterator(apc TSRMLS_CC);
 	_3->funcs->rewind(_3 TSRMLS_CC);
 	for (;_3->funcs->valid(_3 TSRMLS_CC) == SUCCESS && !EG(exception); _3->funcs->move_forward(_3 TSRMLS_CC)) {

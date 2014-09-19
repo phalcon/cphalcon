@@ -256,7 +256,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, __wakeup) {
 	ZEPHIR_OBS_VAR(path);
 	zephir_read_property_this(&path, this_ptr, SL("_path"), PH_NOISY_CC);
 	if (Z_TYPE_P(path) != IS_STRING) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_logger_exception_ce, "Invalid data passed to Phalcon\\Logger\\Adapter\\File::__wakeup()", "phalcon/logger/adapter/file.zep", 146);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_logger_exception_ce, "Invalid data passed to Phalcon\\\\Logger\\\\Adapter\\\\File::__wakeup()", "phalcon/logger/adapter/file.zep", 146);
 		return;
 	}
 	ZEPHIR_OBS_VAR(mode);
@@ -266,7 +266,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, __wakeup) {
 		ZVAL_STRING(mode, "ab", 1);
 	}
 	if (Z_TYPE_P(mode) != IS_STRING) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_logger_exception_ce, "Invalid data passed to Phalcon\\Logger\\Adapter\\File::__wakeup()", "phalcon/logger/adapter/file.zep", 154);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_logger_exception_ce, "Invalid data passed to Phalcon\\\\Logger\\\\Adapter\\\\File::__wakeup()", "phalcon/logger/adapter/file.zep", 154);
 		return;
 	}
 	if (zephir_memnstr_str(mode, SL("r"), "phalcon/logger/adapter/file.zep", 157)) {

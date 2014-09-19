@@ -63,6 +63,7 @@
 #include "phalcon/cli/dispatcher/exception.zep.h"
 #include "phalcon/cli/router.zep.h"
 #include "phalcon/cli/router/exception.zep.h"
+#include "phalcon/cli/router/route.zep.h"
 #include "phalcon/cli/task.zep.h"
 #include "phalcon/config.zep.h"
 #include "phalcon/config/adapter/ini.zep.h"
