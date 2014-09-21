@@ -139,7 +139,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, getColumnDefinition){
 	
 		case 0:
 			PHALCON_INIT_VAR(column_sql);
-			ZVAL_STRING(column_sql, "INT", 1);
+			ZVAL_STRING(column_sql, "INTEGER", 1);
 			break;
 	
 		case 1:
@@ -409,11 +409,211 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, _getTableOptions){
 PHP_METHOD(Phalcon_Db_Dialect_Sqlite, createTable){
 
 	zval *table_name, *schema_name, *definition;
+	zval *table = NULL, *temporary = NULL, *options = NULL, *sql = NULL, *create_lines;
+	zval *columns = NULL, *column = NULL, *column_name = NULL, *column_definition = NULL;
+	zval *column_line = NULL, *attribute = NULL, *attribute2 = NULL, *attribute3 = NULL, *indexes, *index = NULL, *index_lines;
+	zval *index_name = NULL, *column_list = NULL, *referenced_column_list = NULL, *index_sql = NULL, *references;
+	zval *reference = NULL, *name = NULL, *referenced_table = NULL, *referenced_columns = NULL;
+	zval *constaint_sql = NULL, *reference_sql = NULL, *joined_lines;
+	zval *index_type = NULL;
+	zval *autocolumn = NULL;
+	HashTable *ah0, *ah1, *ah2;
+	HashPosition hp0, hp1, hp2;
+	zval **hd;
+	long int number_columns;
 
-	phalcon_fetch_params(0, 3, 0, &table_name, &schema_name, &definition);
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 3, 0, &table_name, &schema_name, &definition);
+
+	if (!phalcon_array_isset_string(definition, SS("columns"))) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "The index 'columns' is required in the definition array");
+		return;
+	}
+	if (zend_is_true(schema_name)) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "No schema support");
+		return;
+	} else {
+		PHALCON_INIT_NVAR(table);
+		PHALCON_CONCAT_SVS(table, "\"", table_name, "\"");
+	}
+
+	PHALCON_INIT_VAR(temporary);
+	ZVAL_BOOL(temporary, 0);
+	if (phalcon_array_isset_string(definition, SS("options"))) {
+		PHALCON_OBS_VAR(options);
+		phalcon_array_fetch_string(&options, definition, SL("options"), PH_NOISY);
+		phalcon_array_isset_string_fetch(&temporary, options, SS("temporary"));
+	}
+
+	/**
+	 * Create a temporary or normal table
+	 */
+	if (zend_is_true(temporary)) {
+		PHALCON_INIT_VAR(sql);
+		PHALCON_CONCAT_SVSVS(sql, "SAVEPOINT ", table, ";\nCREATE TEMPORARY TABLE ", table, " (\n\t");
+	} else {
+		PHALCON_INIT_NVAR(sql);
+		PHALCON_CONCAT_SVSVS(sql, "SAVEPOINT ", table, ";\nCREATE TABLE ", table, " (\n\t");
+	}
+
+	PHALCON_INIT_VAR(create_lines);
+	array_init(create_lines);
+
+	PHALCON_OBS_VAR(columns);
+	phalcon_array_fetch_string(&columns, definition, SL("columns"), PH_NOISY);
+
+	phalcon_is_iterable(columns, &ah0, &hp0, 0, 0);
 	
-	PHALCON_THROW_EXCEPTION_STRW(phalcon_db_exception_ce, "Not implemented yet");
-	return;
+	PHALCON_INIT_VAR(autocolumn);
+
+	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
+
+		PHALCON_GET_HVALUE(column);
+
+		PHALCON_CALL_METHOD(&column_name, column, "getname");
+		PHALCON_CALL_METHOD(&column_definition, this_ptr, "getcolumndefinition", column);
+
+		PHALCON_INIT_NVAR(column_line);
+		PHALCON_CONCAT_SVSV(column_line, "\"", column_name, "\" ", column_definition);
+
+		PHALCON_CALL_METHOD(&attribute2, column, "isautoincrement");
+		PHALCON_CALL_METHOD(&attribute3, column, "isprimary");
+
+		/**
+		 * Add a NOT NULL clause
+		 *
+		 * Sqlite does not support with auto increment
+		 * Because Sqlite does not follow SQL standard, add for primary key
+		 */
+		PHALCON_CALL_METHOD(&attribute, column, "isnotnull");
+		if (!zend_is_true(attribute2) && (zend_is_true(attribute) || zend_is_true(attribute3))) {
+			phalcon_concat_self_str(&column_line, SL(" NOT NULL") TSRMLS_CC);
+		}
+
+		/**
+		 * Mark the column as primary key
+		 *
+		 * Sqlite requires primary key on auto increment
+		 */
+		PHALCON_CALL_METHOD(&attribute, column, "isprimary");
+		if (zend_is_true(attribute2) || zend_is_true(attribute)) {
+			phalcon_concat_self_str(&column_line, SL(" PRIMARY KEY") TSRMLS_CC);
+		}
+
+		/**
+		 * Add an AUTOINCREMENT clause
+		 */
+		PHALCON_CALL_METHOD(&attribute, column, "isautoincrement");
+		if (zend_is_true(attribute)) {
+			ZVAL_COPY_VALUE(autocolumn, column);
+			phalcon_concat_self_str(&column_line, SL(" AUTOINCREMENT") TSRMLS_CC);
+		}
+
+		phalcon_array_append(&create_lines, column_line, PH_SEPARATE);
+
+		zend_hash_move_forward_ex(ah0, &hp0);
+	}
+
+	/**
+	 * Create related indexes
+	 */
+
+	PHALCON_INIT_VAR(index_lines);
+	array_init(index_lines);
+
+	if (phalcon_array_isset_string(definition, SS("indexes"))) {
+
+		PHALCON_OBS_VAR(indexes);
+		phalcon_array_fetch_string(&indexes, definition, SL("indexes"), PH_NOISY);
+
+		phalcon_is_iterable(indexes, &ah1, &hp1, 0, 0);
+
+		while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
+
+			PHALCON_GET_HVALUE(index);
+
+			PHALCON_CALL_METHOD(&index_name, index, "getname");
+			PHALCON_CALL_METHOD(&columns, index, "getcolumns");
+			PHALCON_CALL_METHOD(&column_list, this_ptr, "getcolumnlist", columns);
+			PHALCON_CALL_METHOD(&index_type, index, "gettype");
+
+			/**
+			 * If the index name is primary we add a primary key
+			 */
+			PHALCON_INIT_NVAR(index_sql);
+			if (PHALCON_IS_STRING(index_name, "PRIMARY") && (Z_TYPE_P(autocolumn) == IS_NULL)) {
+				PHALCON_CONCAT_SVS(index_sql, "PRIMARY KEY (", column_list, ")");
+				phalcon_array_append(&create_lines, index_sql, PH_SEPARATE);
+			} else {
+				if (PHALCON_IS_STRING(index_name, "PRIMARY")) {
+					number_columns = phalcon_fast_count_int(columns TSRMLS_CC);
+					if (number_columns == 1) {
+						// FIXME: check column actually equals autocolumn
+						// Skip, automatic
+					} else {
+						PHALCON_CONCAT_SVSVS(index_sql, "CREATE UNIQUE INDEX \"PRIMARY\" ON ", table, " (", column_list, ")");
+					}
+				} else if (index_type && Z_TYPE_P(index_type) == IS_STRING && Z_STRLEN_P(index_type) > 0) {
+					PHALCON_CONCAT_SVSVSVSVS(index_sql, "CREATE ", index_type, " INDEX \"", index_name, "\" ON ", table, " (", column_list, ")");
+				} else {
+					PHALCON_CONCAT_SVSVSVS(index_sql, "CREATE INDEX \"", index_name, "\" ON ", table, " (", column_list, ")");
+				}
+				phalcon_array_append(&index_lines, index_sql, PH_SEPARATE);
+			}
+
+			zend_hash_move_forward_ex(ah1, &hp1);
+		}
+
+	}
+
+	/**
+	 * Create related references
+	 */
+
+	if (phalcon_array_isset_string(definition, SS("references"))) {
+
+		PHALCON_OBS_VAR(references);
+		phalcon_array_fetch_string(&references, definition, SL("references"), PH_NOISY);
+
+		phalcon_is_iterable(references, &ah2, &hp2, 0, 0);
+
+		while (zend_hash_get_current_data_ex(ah2, (void**) &hd, &hp2) == SUCCESS) {
+
+			PHALCON_GET_HVALUE(reference);
+
+			PHALCON_CALL_METHOD(&name, reference, "getname");
+			PHALCON_CALL_METHOD(&columns, reference, "getcolumns");
+			PHALCON_CALL_METHOD(&column_list, this_ptr, "getcolumnlist", columns);
+			PHALCON_CALL_METHOD(&referenced_table, reference, "getreferencedtable");
+			PHALCON_CALL_METHOD(&referenced_columns, reference, "getreferencedcolumns");
+			PHALCON_CALL_METHOD(&referenced_column_list, this_ptr, "getcolumnlist", referenced_columns);
+
+			PHALCON_INIT_NVAR(constaint_sql);
+			PHALCON_CONCAT_SVSVS(constaint_sql, "CONSTRAINT \"", name, "\" FOREIGN KEY (", column_list, ")");
+
+			PHALCON_INIT_NVAR(reference_sql);
+			PHALCON_CONCAT_VSVSVS(reference_sql, constaint_sql, " REFERENCES \"", referenced_table, "\" (", referenced_column_list, ")");
+			phalcon_array_append(&create_lines, reference_sql, PH_SEPARATE);
+
+			zend_hash_move_forward_ex(ah2, &hp2);
+		}
+
+	}
+
+	PHALCON_INIT_VAR(joined_lines);
+	phalcon_fast_join_str(joined_lines, SL(",\n\t"), create_lines TSRMLS_CC);
+	PHALCON_SCONCAT_VS(sql, joined_lines, "\n);\n");
+	phalcon_fast_join_str(joined_lines, SL(";\n"), index_lines TSRMLS_CC);
+	PHALCON_SCONCAT_VSVS(sql, joined_lines, ";\nRELEASE ", table, ";");
+	/**
+	 * table options not supported
+	 */
+	if (phalcon_array_isset_string(definition, SS("options"))) {
+		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Create table options not supported");
+	}
+
+	RETURN_CTOR(sql);
 }
 
 /**
@@ -591,7 +791,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, listTables){
 
 	phalcon_fetch_params(0, 0, 1, &schema_name);
 	
-	RETURN_STRING("SELECT tbl_name FROM sqlite_master WHERE type = 'table' ORDER BY tbl_name", 1);
+	RETURN_STRING("SELECT tbl_name FROM sqlite_master WHERE type = 'table' and name NOT LIKE 'sqlite_\%' ORDER BY tbl_name", 1);
 }
 
 /**
