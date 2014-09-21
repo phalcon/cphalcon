@@ -1,4 +1,4 @@
-﻿I am learning GIT, this is a test change
+﻿I am learning GIT, this is a test change 2
 1.3.2
  - fix inverted test in Model/setSnapshotData() (issue #2466)
  - Updated Phalcon\Queue\Beanstalk\Job::touch comment
