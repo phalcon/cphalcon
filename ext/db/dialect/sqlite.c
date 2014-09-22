@@ -482,6 +482,14 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, createTable){
 		PHALCON_INIT_NVAR(column_line);
 		PHALCON_CONCAT_SVSV(column_line, "\"", column_name, "\" ", column_definition);
 
+		/**
+		 * Add a NOT NULL clause
+		 */
+		PHALCON_CALL_METHOD(&attribute, column, "isnotnull");
+		if (zend_is_true(attribute)) {
+			phalcon_concat_self_str(&column_line, SL(" NOT NULL") TSRMLS_CC);
+		}
+
 		/*
 		 * See http://www.sqlite.org/syntaxdiagrams.html#column-constraint
 		 */
@@ -496,14 +504,6 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, createTable){
 			PHALCON_CALL_METHOD(&attribute, column, "isprimary");
 			if (zend_is_true(attribute)) {
 				phalcon_concat_self_str(&column_line, SL(" PRIMARY KEY") TSRMLS_CC);
-			}
-
-			/**
-			 * Add a NOT NULL clause
-			 */
-			PHALCON_CALL_METHOD(&attribute, column, "isnotnull");
-			if (zend_is_true(attribute)) {
-				phalcon_concat_self_str(&column_line, SL(" NOT NULL") TSRMLS_CC);
 			}
 		}
 
