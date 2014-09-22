@@ -124,6 +124,8 @@ mvc/collection/managerinterface.c \
 mvc/collection/manager.c \
 mvc/collection/exception.c \
 mvc/collection/document.c \
+mvc/collection/messageinterface.c \
+mvc/collection/message.c \
 mvc/routerinterface.c \
 mvc/urlinterface.c \
 mvc/user/component.c \

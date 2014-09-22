@@ -299,6 +299,7 @@ static PHP_MINIT_FUNCTION(phalcon)
 	PHALCON_INIT(Phalcon_Logger_FormatterInterface);
 	PHALCON_INIT(Phalcon_Mvc_CollectionInterface);
 	PHALCON_INIT(Phalcon_Mvc_Collection_ManagerInterface);
+	PHALCON_INIT(Phalcon_Mvc_Collection_MessageInterface);
 	PHALCON_INIT(Phalcon_Mvc_ControllerInterface);
 	PHALCON_INIT(Phalcon_Mvc_DispatcherInterface);
 	PHALCON_INIT(Phalcon_Mvc_Micro_CollectionInterface);
@@ -506,6 +507,7 @@ static PHP_MINIT_FUNCTION(phalcon)
 	PHALCON_INIT(Phalcon_Mvc_Controller);
 	PHALCON_INIT(Phalcon_Mvc_Collection_Document);
 	PHALCON_INIT(Phalcon_Mvc_Collection_Manager);
+	PHALCON_INIT(Phalcon_Mvc_Collection_Message);
 	PHALCON_INIT(Phalcon_Mvc_Dispatcher);
 	PHALCON_INIT(Phalcon_Mvc_Model_Row);
 	PHALCON_INIT(Phalcon_Mvc_Model_Query);
