@@ -229,31 +229,8 @@ PHP includes the Zend Engine, freely available at
 #include <Zend/zend_extensions.h>
 #include <Zend/zend_builtin_functions.h>
 #include <Zend/zend_closures.h>
-/* jsmin.c
-   2013-03-29
 
-Copyright (c) 2002 Douglas Crockford  (www.crockford.com)
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of
-this software and associated documentation files (the "Software"), to deal in
-the Software without restriction, including without limitation the rights to
-use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
-of the Software, and to permit persons to whom the Software is furnished to do
-so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-The Software shall be used for Good, not Evil.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-*/
+/* placeholder for non-free jsminifier.h */
 
 #ifndef PHALCON_ASSETS_FILTERS_JSMINIFIER_H
 #define PHALCON_ASSETS_FILTERS_JSMINIFIER_H
@@ -265,31 +242,8 @@ static int phalcon_jsmin(zval *return_value, zval *script TSRMLS_DC);
 #endif /* PHALCON_ASSETS_FILTERS_JSMINIFIER_H */
 
 
-/* jsmin.c
-   2013-03-29
 
-Copyright (c) 2002 Douglas Crockford  (www.crockford.com)
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of
-this software and associated documentation files (the "Software"), to deal in
-the Software without restriction, including without limitation the rights to
-use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
-of the Software, and to permit persons to whom the Software is furnished to do
-so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-The Software shall be used for Good, not Evil.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-*/
+/* placeholder for non-free csssminifier.h */
 
 #ifndef PHALCON_ASSETS_FILTERS_CSSMINIFIER_H
 #define PHALCON_ASSETS_FILTERS_CSSMINIFIER_H
@@ -18259,8 +18213,8 @@ static PHP_METHOD(Phalcon_Filter, add){
 
 	PHALCON_ENSURE_IS_STRING(name);
 	
-	if (Z_TYPE_PP(handler) != IS_OBJECT) {
-		PHALCON_THROW_EXCEPTION_STRW(phalcon_filter_exception_ce, "Filter must be an object");
+	if (Z_TYPE_PP(handler) != IS_OBJECT && !phalcon_is_callable(*handler TSRMLS_CC)) {
+		PHALCON_THROW_EXCEPTION_STRW(phalcon_filter_exception_ce, "Filter must be an object or callable");
 		return;
 	}
 	
@@ -18364,8 +18318,16 @@ static PHP_METHOD(Phalcon_Filter, _sanitize){
 	
 	PHALCON_OBS_VAR(filters);
 	phalcon_read_property_this(&filters, this_ptr, SL("_filters"), PH_NOISY TSRMLS_CC);
-	if (phalcon_array_isset_fetch(&filter_object, filters, filter) && Z_TYPE_P(filter_object) == IS_OBJECT) {
+	if (phalcon_array_isset_fetch(&filter_object, filters, filter) && (Z_TYPE_P(filter_object) == IS_OBJECT || phalcon_is_callable(filter_object TSRMLS_CC))) {
 	
+		if (phalcon_is_callable(filter_object TSRMLS_CC)) {
+			PHALCON_INIT_VAR(arguments);
+			array_init_size(arguments, 1);
+			phalcon_array_append(&arguments, value, 0);
+			PHALCON_CALL_USER_FUNC_ARRAY(return_value, filter_object, arguments);
+			RETURN_MM();
+		}
+
 		if (instanceof_function(Z_OBJCE_P(filter_object), zend_ce_closure TSRMLS_CC)) {
 			PHALCON_INIT_VAR(arguments);
 			array_init_size(arguments, 1);
@@ -23547,7 +23509,7 @@ static PHP_METHOD(Phalcon_Validation, setDefaultMessages)
 	phalcon_fetch_params(1, 0, 1, &messages);
 
 	if (messages && Z_TYPE_P(messages) != IS_NULL && Z_TYPE_P(messages) != IS_ARRAY) {
-		zend_throw_exception_ex(phalcon_validation_exception_ce, 0 TSRMLS_CC, "Messages must be an array");
+		PHALCON_THROW_EXCEPTION_STR(phalcon_validation_exception_ce, "Messages must be an array");
 		return;
 	}
 
@@ -30139,6 +30101,9 @@ static PHP_METHOD(Phalcon_Assets_Resource, getRealTargetPath){
 
 
 
+#ifdef PHALCON_NON_FREE
+#else
+#endif
 
 
 zend_class_entry *phalcon_assets_filters_cssmin_ce;
@@ -30212,6 +30177,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+
+#ifdef PHALCON_NON_FREE
 
 #include <ext/standard/php_smart_str.h>
 
@@ -30450,10 +30417,14 @@ static int phalcon_cssmin(zval *return_value, zval *style TSRMLS_DC) {
 
 	return SUCCESS;
 }
+#endif
 
 
 
 
+#ifdef PHALCON_NON_FREE
+#else
+#endif
 
 
 zend_class_entry *phalcon_assets_filters_jsmin_ce;
@@ -30516,6 +30487,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+
+#ifdef PHALCON_NON_FREE
 
 #include <ext/standard/php_smart_str.h>
 
@@ -30887,6 +30860,38 @@ static int phalcon_jsmin(zval *return_value, zval *script TSRMLS_DC) {
 
 	return SUCCESS;
 }
+#endif
+
+
+
+/* placeholder for non-free csssminifier.c */
+
+
+#ifndef PHALCON_NON_FREE
+
+
+static int phalcon_cssmin(zval *return_value, zval *style TSRMLS_DC) {
+
+	PHALCON_THROW_EXCEPTION_STRW(phalcon_assets_exception_ce, "Non-free csssminifier not available");
+	return FAILURE;
+}
+#endif
+
+
+
+/* placeholder for non-free jsminifier.c */
+
+
+#ifndef PHALCON_NON_FREE
+
+
+static int phalcon_jsmin(zval *return_value, zval *script TSRMLS_DC) {
+
+	PHALCON_THROW_EXCEPTION_STRW(phalcon_assets_exception_ce, "Non-free jsminifier not available");
+	return FAILURE;
+}
+
+#endif
 
 
 
@@ -52518,6 +52523,10 @@ static PHP_METHOD(Phalcon_Http_Request, getBasicAuth){
 		RETURN_NULL();
 	}
 	
+	if (!auth_password) {
+		auth_password = "";
+	}
+
 	array_init_size(return_value, 2);
 	add_assoc_stringl_ex(return_value, SS("username"), auth_user, strlen(auth_user), 1);
 	add_assoc_stringl_ex(return_value, SS("password"), auth_password, strlen(auth_password), 1);
@@ -58696,20 +58705,24 @@ static PHP_METHOD(Phalcon_Logger_Multiple, getFormatter){
 
 static PHP_METHOD(Phalcon_Logger_Multiple, log){
 
-	zval *message, *type = NULL, *loggers, *logger = NULL;
+	zval *message, *type = NULL, *context = NULL, *loggers, *logger = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 1, 1, &message, &type);
+	phalcon_fetch_params(1, 1, 2, &message, &type, &context);
 	
 	if (!type) {
 		PHALCON_INIT_VAR(type);
 		ZVAL_LONG(type, PHALCON_LOGGER_DEBUG);
 	}
-	
+
+	if (!context) {
+		context = PHALCON_GLOBAL(z_null);
+	}
+
 	PHALCON_OBS_VAR(loggers);
 	phalcon_read_property_this(&loggers, this_ptr, SL("_loggers"), PH_NOISY TSRMLS_CC);
 	if (Z_TYPE_P(loggers) == IS_ARRAY) { 
@@ -58720,7 +58733,7 @@ static PHP_METHOD(Phalcon_Logger_Multiple, log){
 	
 			PHALCON_GET_HVALUE(logger);
 	
-			PHALCON_CALL_METHOD(NULL, logger, "log", message, type);
+			PHALCON_CALL_METHOD(NULL, logger, "log", message, type, context);
 	
 			zend_hash_move_forward_ex(ah0, &hp0);
 		}
@@ -58732,120 +58745,152 @@ static PHP_METHOD(Phalcon_Logger_Multiple, log){
 
 static PHP_METHOD(Phalcon_Logger_Multiple, emergency){
 
-	zval *message, *type;
+	zval *message, *type, *context = NULL;
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 1, 0, &message);
+	phalcon_fetch_params(1, 1, 1, &message, &context);
+
+	if (!context) {
+		context = PHALCON_GLOBAL(z_null);
+	}
 	
 	PHALCON_ALLOC_GHOST_ZVAL(type);
 	ZVAL_LONG(type, PHALCON_LOGGER_EMERGENCY);
-	PHALCON_CALL_METHOD(NULL, this_ptr, "log", message, type);
+	PHALCON_CALL_METHOD(NULL, this_ptr, "log", message, type, context);
 	
 	PHALCON_MM_RESTORE();
 }
 
 static PHP_METHOD(Phalcon_Logger_Multiple, debug){
 
-	zval *message, *type;
+	zval *message, *type, *context = NULL;
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 1, 0, &message);
+	phalcon_fetch_params(1, 1, 1, &message, &context);
+
+	if (!context) {
+		context = PHALCON_GLOBAL(z_null);
+	}
 	
 	PHALCON_ALLOC_GHOST_ZVAL(type);
 	ZVAL_LONG(type, PHALCON_LOGGER_DEBUG);
-	PHALCON_CALL_METHOD(NULL, this_ptr, "log", message, type);
+	PHALCON_CALL_METHOD(NULL, this_ptr, "log", message, type, context);
 	
 	PHALCON_MM_RESTORE();
 }
 
 static PHP_METHOD(Phalcon_Logger_Multiple, error){
 
-	zval *message, *type;
+	zval *message, *type, *context = NULL;
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 1, 0, &message);
+	phalcon_fetch_params(1, 1, 1, &message, &context);
+
+	if (!context) {
+		context = PHALCON_GLOBAL(z_null);
+	}
 	
 	PHALCON_ALLOC_GHOST_ZVAL(type);
 	ZVAL_LONG(type, PHALCON_LOGGER_ERROR);
-	PHALCON_CALL_METHOD(NULL, this_ptr, "log", message, type);
+	PHALCON_CALL_METHOD(NULL, this_ptr, "log", message, type, context);
 	
 	PHALCON_MM_RESTORE();
 }
 
 static PHP_METHOD(Phalcon_Logger_Multiple, info){
 
-	zval *message, *type;
+	zval *message, *type, *context = NULL;
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 1, 0, &message);
+	phalcon_fetch_params(1, 1, 1, &message, &context);
+
+	if (!context) {
+		context = PHALCON_GLOBAL(z_null);
+	}
 	
 	PHALCON_ALLOC_GHOST_ZVAL(type);
 	ZVAL_LONG(type, PHALCON_LOGGER_INFO);
-	PHALCON_CALL_METHOD(NULL, this_ptr, "log", message, type);
+	PHALCON_CALL_METHOD(NULL, this_ptr, "log", message, type, context);
 	
 	PHALCON_MM_RESTORE();
 }
 
 static PHP_METHOD(Phalcon_Logger_Multiple, notice){
 
-	zval *message, *type;
+	zval *message, *type, *context = NULL;
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 1, 0, &message);
+	phalcon_fetch_params(1, 1, 1, &message, &context);
+
+	if (!context) {
+		context = PHALCON_GLOBAL(z_null);
+	}
 	
 	PHALCON_ALLOC_GHOST_ZVAL(type);
 	ZVAL_LONG(type, PHALCON_LOGGER_NOTICE);
-	PHALCON_CALL_METHOD(NULL, this_ptr, "log", message, type);
+	PHALCON_CALL_METHOD(NULL, this_ptr, "log", message, type, context);
 	
 	PHALCON_MM_RESTORE();
 }
 
 static PHP_METHOD(Phalcon_Logger_Multiple, warning){
 
-	zval *message, *type;
+	zval *message, *type, *context = NULL;
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 1, 0, &message);
+	phalcon_fetch_params(1, 1, 1, &message, &context);
+
+	if (!context) {
+		context = PHALCON_GLOBAL(z_null);
+	}
 	
 	PHALCON_ALLOC_GHOST_ZVAL(type);
 	ZVAL_LONG(type, PHALCON_LOGGER_WARNING);
-	PHALCON_CALL_METHOD(NULL, this_ptr, "log", message, type);
+	PHALCON_CALL_METHOD(NULL, this_ptr, "log", message, type, context);
 	
 	PHALCON_MM_RESTORE();
 }
 
 static PHP_METHOD(Phalcon_Logger_Multiple, alert){
 
-	zval *message, *type;
+	zval *message, *type, *context = NULL;
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 1, 0, &message);
+	phalcon_fetch_params(1, 1, 1, &message, &context);
+
+	if (!context) {
+		context = PHALCON_GLOBAL(z_null);
+	}
 	
 	PHALCON_ALLOC_GHOST_ZVAL(type);
 	ZVAL_LONG(type, PHALCON_LOGGER_ALERT);
-	PHALCON_CALL_METHOD(NULL, this_ptr, "log", message, type);
+	PHALCON_CALL_METHOD(NULL, this_ptr, "log", message, type, context);
 	
 	PHALCON_MM_RESTORE();
 }
 
 static PHP_METHOD(Phalcon_Logger_Multiple, critical){
 
-	zval *message, *type;
+	zval *message, *type, *context = NULL;
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 1, 0, &message);
+	phalcon_fetch_params(1, 1, 1, &message, &context);
+
+	if (!context) {
+		context = PHALCON_GLOBAL(z_null);
+	}
 	
 	PHALCON_ALLOC_GHOST_ZVAL(type);
 	ZVAL_LONG(type, PHALCON_LOGGER_CRITICAL);
-	PHALCON_CALL_METHOD(NULL, this_ptr, "log", message, type);
+	PHALCON_CALL_METHOD(NULL, this_ptr, "log", message, type, context);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -78274,7 +78319,8 @@ static PHP_METHOD(Phalcon_Mvc_Model_Query, _getMultiJoin){
 	
 	manager = phalcon_fetch_nproperty_this(this_ptr, SL("_manager"), PH_NOISY TSRMLS_CC);
 	if (Z_TYPE_P(manager) != IS_OBJECT) {
-		zend_throw_exception_ex(phalcon_mvc_model_exception_ce, 0 TSRMLS_CC, "dependency Injector is required to get '%s' service", "modelsManager");
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "dependency Injector is required to get 'modelsManager' service");
+		return;
 	}
 	
 	PHALCON_CALL_METHOD(&intermediate_model, manager, "load", intermediate_model_name);
@@ -78478,7 +78524,8 @@ static PHP_METHOD(Phalcon_Mvc_Model_Query, _getJoins){
 	
 	manager = phalcon_fetch_nproperty_this(this_ptr, SL("_manager"), PH_NOISY TSRMLS_CC);
 	if (Z_TYPE_P(manager) != IS_OBJECT) {
-		zend_throw_exception_ex(phalcon_mvc_model_exception_ce, 0 TSRMLS_CC, "dependency Injector is required to get '%s' service", "modelsManager");
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "dependency Injector is required to get 'modelsManager' service");
+		return;
 	}
 
 	PHALCON_OBS_VAR(joins);
@@ -78902,7 +78949,8 @@ static PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareSelect){
 	
 	manager = phalcon_fetch_nproperty_this(this_ptr, SL("_manager"), PH_NOISY TSRMLS_CC);
 	if (Z_TYPE_P(manager) != IS_OBJECT) {
-		zend_throw_exception_ex(phalcon_mvc_model_exception_ce, 0 TSRMLS_CC, "dependency Injector is required to get '%s' service", "modelsManager");
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "dependency Injector is required to get 'modelsManager' service");
+		return;
 	}
 
 	phalcon_is_iterable(selected_models, &ah0, &hp0, 0, 0);
@@ -79147,7 +79195,8 @@ static PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareInsert){
 	
 	manager = phalcon_fetch_nproperty_this(this_ptr, SL("_manager"), PH_NOISY TSRMLS_CC);
 	if (Z_TYPE_P(manager) != IS_OBJECT) {
-		zend_throw_exception_ex(phalcon_mvc_model_exception_ce, 0 TSRMLS_CC, "dependency Injector is required to get '%s' service", "modelsManager");
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "dependency Injector is required to get 'modelsManager' service");
+		return;
 	}
 
 	PHALCON_OBS_VAR(model_name);
@@ -79309,7 +79358,8 @@ static PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareUpdate){
 	
 	manager = phalcon_fetch_nproperty_this(this_ptr, SL("_manager"), PH_NOISY TSRMLS_CC);
 	if (Z_TYPE_P(manager) != IS_OBJECT) {
-		zend_throw_exception_ex(phalcon_mvc_model_exception_ce, 0 TSRMLS_CC, "dependency Injector is required to get '%s' service", "modelsManager");
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "dependency Injector is required to get 'modelsManager' service");
+		return;
 	}
 	
 	phalcon_is_iterable(update_tables, &ah0, &hp0, 0, 0);
@@ -79507,7 +79557,8 @@ static PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareDelete){
 	
 	manager = phalcon_fetch_nproperty_this(this_ptr, SL("_manager"), PH_NOISY TSRMLS_CC);
 	if (Z_TYPE_P(manager) != IS_OBJECT) {
-		zend_throw_exception_ex(phalcon_mvc_model_exception_ce, 0 TSRMLS_CC, "dependency Injector is required to get '%s' service", "modelsManager");
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "dependency Injector is required to get 'modelsManager' service");
+		return;
 	}
 
 	phalcon_is_iterable(delete_tables, &ah0, &hp0, 0, 0);
@@ -79745,7 +79796,8 @@ static PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect){
 	
 	manager = phalcon_fetch_nproperty_this(this_ptr, SL("_manager"), PH_NOISY TSRMLS_CC);
 	if (Z_TYPE_P(manager) != IS_OBJECT) {
-		zend_throw_exception_ex(phalcon_mvc_model_exception_ce, 0 TSRMLS_CC, "Dependency Injector is required to get '%s' service", "modelsManager");
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "dependency Injector is required to get 'modelsManager' service");
+		return;
 	}
 
 	PHALCON_OBS_VAR(models_instances);
@@ -80103,7 +80155,8 @@ static PHP_METHOD(Phalcon_Mvc_Model_Query, _executeInsert){
 	
 	manager = phalcon_fetch_nproperty_this(this_ptr, SL("_manager"), PH_NOISY TSRMLS_CC);
 	if (Z_TYPE_P(manager) != IS_OBJECT) {
-		zend_throw_exception_ex(phalcon_mvc_model_exception_ce, 0 TSRMLS_CC, "Dependency Injector is required to get '%s' service", "modelsManager");
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "dependency Injector is required to get 'modelsManager' service");
+		return;
 	}
 
 	PHALCON_OBS_VAR(models_instances);
@@ -80388,7 +80441,8 @@ static PHP_METHOD(Phalcon_Mvc_Model_Query, _executeUpdate){
 	} else {
 		manager = phalcon_fetch_nproperty_this(this_ptr, SL("_manager"), PH_NOISY TSRMLS_CC);
 		if (Z_TYPE_P(manager) != IS_OBJECT) {
-			zend_throw_exception_ex(phalcon_mvc_model_exception_ce, 0 TSRMLS_CC, "dependency Injector is required to get '%s' service", "modelsManager");
+			PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "dependency Injector is required to get 'modelsManager' service");
+			return;
 		}
 
 		PHALCON_CALL_METHOD(&model, manager, "load", model_name);
@@ -80574,7 +80628,8 @@ static PHP_METHOD(Phalcon_Mvc_Model_Query, _executeDelete){
 	} else {
 		manager = phalcon_fetch_nproperty_this(this_ptr, SL("_manager"), PH_NOISY TSRMLS_CC);
 		if (Z_TYPE_P(manager) != IS_OBJECT) {
-			zend_throw_exception_ex(phalcon_mvc_model_exception_ce, 0 TSRMLS_CC, "dependency Injector is required to get '%s' service", "modelsManager");
+			PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "dependency Injector is required to get 'modelsManager' service");
+			return;
 		}
 
 		PHALCON_CALL_METHOD(&model, manager, "load", model_name);
@@ -105152,7 +105207,8 @@ static PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, getPaginate){
 	zval *limit, *number_page;
 	zval *query = NULL, *items = NULL;
 	zval *total_query = NULL, *result = NULL, *row = NULL, *rowcount;
-	zval *dependency_injector = NULL, *class_name, *connection = NULL;
+	zval *dependency_injector = NULL, *service_name, *models_manager = NULL;
+	zval *models = NULL, *model_name = NULL, *model = NULL, *connection = NULL;
 	zval *bind_params = NULL, *bind_types = NULL, *processed = NULL;
 	zval *value = NULL, *wildcard = NULL, *string_wildcard = NULL, *processed_types = NULL;
 	zval *intermediate = NULL, *tables, *table, *table_name = NULL, *select_column, *dialect = NULL, *sql_select = NULL, *sql;
@@ -105223,9 +105279,30 @@ static PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, getPaginate){
 		return;
 	}
 
-	PHALCON_INIT_VAR(class_name);
-	ZVAL_STRING(class_name, "db", 1);
-	PHALCON_CALL_METHOD(&connection, dependency_injector, "get", class_name);
+	/* Get the connection through the model */
+	PHALCON_INIT_VAR(service_name);
+	ZVAL_STRING(service_name, "modelsManager", 1);
+
+	PHALCON_CALL_METHOD(&models_manager, dependency_injector, "getshared", service_name);
+	if (Z_TYPE_P(models_manager) != IS_OBJECT) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_paginator_exception_ce, "The injected service 'modelsManager' is not valid");
+		return;
+	}
+
+	PHALCON_VERIFY_INTERFACE(models_manager, phalcon_mvc_model_managerinterface_ce);
+
+	PHALCON_CALL_METHOD(&models, builder, "getfrom");
+
+	if (Z_TYPE_P(models) == IS_ARRAY) {
+		PHALCON_OBS_VAR(model_name);
+		phalcon_array_fetch_long(&model_name, models, 0, PH_NOISY);
+	} else {
+		PHALCON_CPY_WRT(model_name, models);
+	}
+
+	PHALCON_CALL_METHOD(&model, models_manager, "load", model_name);
+
+	PHALCON_CALL_METHOD(&connection, model, "getreadconnection");
 
 	PHALCON_CALL_METHOD(&intermediate, total_query, "parse");
 
@@ -111449,41 +111526,6 @@ static PHP_GSHUTDOWN_FUNCTION(phalcon)
 	phalcon_deinitialize_memory(TSRMLS_C);
 }
 
-static ZEND_MODULE_POST_ZEND_DEACTIVATE_D(phalcon)
-{
-	TSRMLS_FETCH();
-
-#ifndef PHALCON_RELEASE
-	if (!CG(unclean_shutdown)) {
-		//phalcon_verify_permanent_zvals(1 TSRMLS_CC);
-	}
-#endif
-
-	if (CG(unclean_shutdown)) {
-		zend_phalcon_globals *pg = PHALCON_VGLOBAL;
-
-		INIT_ZVAL(*pg->z_null);
-		Z_ADDREF_P(pg->z_null);
-
-		INIT_PZVAL(pg->z_false);
-		Z_ADDREF_P(pg->z_false);
-		ZVAL_FALSE(pg->z_false);
-
-		INIT_PZVAL(pg->z_true);
-		Z_ADDREF_P(pg->z_true);
-		ZVAL_TRUE(pg->z_true);
-
-		INIT_PZVAL(pg->z_zero);
-		Z_ADDREF_P(pg->z_zero);
-		ZVAL_LONG(pg->z_zero, 0);
-
-		INIT_PZVAL(pg->z_one);
-		Z_ADDREF_P(pg->z_one);
-		ZVAL_LONG(pg->z_one, 1);
-	}
-
-	return SUCCESS;
-}
 
 static
 #if ZEND_MODULE_API_NO > 20060613
@@ -111545,7 +111587,7 @@ zend_module_entry phalcon_module_entry = {
 	ZEND_MODULE_GLOBALS(phalcon),
 	PHP_GINIT(phalcon),
 	PHP_GSHUTDOWN(phalcon),
-	ZEND_MODULE_POST_ZEND_DEACTIVATE_N(phalcon),
+	NULL, /* ZEND_MODULE_POST_ZEND_DEACTIVATE_N(phalcon), */
 	STANDARD_MODULE_PROPERTIES_EX
 };
 
