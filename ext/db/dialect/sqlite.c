@@ -33,6 +33,7 @@
 #include "kernel/fcall.h"
 #include "kernel/concat.h"
 #include "kernel/array.h"
+#include "kernel/string.h"
 
 /**
  * Phalcon\Db\Dialect\Sqlite
