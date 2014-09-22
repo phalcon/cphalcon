@@ -45,6 +45,12 @@ const phql_token_names phql_tokens[] =
   { SL("<="),            PHQL_T_LESSEQUAL },
   { SL(">"),             PHQL_T_GREATER },
   { SL(">="),            PHQL_T_GREATEREQUAL },
+  { SL("@@"),            PHQL_T_TS_MATCHES },
+  { SL("||"),            PHQL_T_TS_OR },
+  { SL("&&"),            PHQL_T_TS_AND },
+  { SL("!!"),            PHQL_T_TS_NEGATE },
+  { SL("@>"),            PHQL_T_TS_CONTAINS_ANOTHER },
+  { SL("<@"),            PHQL_T_TS_CONTAINS_IN },
   { SL("("),             PHQL_T_PARENTHESES_OPEN },
   { SL(")"),             PHQL_T_PARENTHESES_CLOSE },
   { SL("NUMERIC PLACEHOLDER"), PHQL_T_NPLACEHOLDER },
@@ -482,6 +488,24 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 				break;
 			case PHQL_T_USING:
 				phql_(phql_parser, PHQL_USING, NULL, parser_status);
+				break;
+			case PHQL_T_TS_MATCHES:
+				phql_(phql_parser, PHQL_TS_MATCHES, NULL, parser_status);
+				break;
+			case PHQL_T_TS_OR:
+				phql_(phql_parser, PHQL_TS_OR, NULL, parser_status);
+				break;
+			case PHQL_T_TS_AND:
+				phql_(phql_parser, PHQL_TS_AND, NULL, parser_status);
+				break;
+			case PHQL_T_TS_NEGATE:
+				phql_(phql_parser, PHQL_TS_NEGATE, NULL, parser_status);
+				break;
+			case PHQL_T_TS_CONTAINS_ANOTHER:
+				phql_(phql_parser, PHQL_TS_CONTAINS_ANOTHER, NULL, parser_status);
+				break;
+			case PHQL_T_TS_CONTAINS_IN:
+				phql_(phql_parser, PHQL_TS_CONTAINS_IN, NULL, parser_status);
 				break;
 			default:
 				parser_status->status = PHQL_PARSING_FAILED;

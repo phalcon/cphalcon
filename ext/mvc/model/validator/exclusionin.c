@@ -87,9 +87,8 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Validator_Exclusionin){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Validator_Exclusionin, validate){
 
-	zval *record, *option = NULL, *field_name = NULL, *is_set = NULL, *domain = NULL;
+	zval *record, *option = NULL, *field_name = NULL, *allow_empty = NULL, *is_set = NULL, *domain = NULL;
 	zval *value = NULL, *message = NULL, *joined_domain, *type, *is_set_code = NULL, *code = NULL;
-	zval *allow_empty = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -136,6 +135,20 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Exclusionin, validate){
 	PHALCON_CALL_METHOD(&allow_empty, this_ptr, "getoption", option);
 	if (allow_empty && zend_is_true(allow_empty) && PHALCON_IS_EMPTY(value)) {
 		RETURN_MM_TRUE;
+	}
+	
+	/*
+	 * Allow empty
+	 */
+	PHALCON_INIT_NVAR(option);
+	ZVAL_STRING(option, "allowEmpty", 1);
+
+	PHALCON_CALL_METHOD(&allow_empty, this_ptr, "getoption", option);
+
+	if (allow_empty && zend_is_true(allow_empty)) {
+		if (PHALCON_IS_EMPTY(value)) {
+			RETURN_MM_TRUE;
+		}
 	}
 	
 	/** 

@@ -121,55 +121,6 @@ class ModelsEventsTest extends PHPUnit_Framework_TestCase
 
 	}
 
-	public function testEventsUpdate()
-	{
-		require 'unit-tests/config.db.php';
-		if (empty($configMysql)) {
-			$this->markTestSkipped('Test skipped');
-			return;
-		}
-
-		$trace = array();
-
-		$this->_prepareDI($trace);
-
-		$robot = GossipRobots::findFirst();
-
-		$robot->trace = &$trace;
-
-		$robot->save();
-
-		$this->assertEquals($trace, array(
-			'beforeValidation' => array(
-				'GossipRobots' => 2,
-			),
-			'beforeValidationOnUpdate' => array(
-				'GossipRobots' => 2,
-			),
-			'validation' => array(
-				'GossipRobots' => 2,
-			),
-			'afterValidationOnUpdate' => array(
-				'GossipRobots' => 2,
-			),
-			'afterValidation' => array(
-				'GossipRobots' => 2,
-			),
-			'beforeSave' => array(
-				'GossipRobots' => 2,
-			),
-			'beforeUpdate' => array(
-				'GossipRobots' => 2,
-			),
-			'afterUpdate' => array(
-				'GossipRobots' => 2,
-			),
-			'afterSave' => array(
-				'GossipRobots' => 2,
-			),
-		));
-
-	}
 
 	public function testEventsDelete()
 	{

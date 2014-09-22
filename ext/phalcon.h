@@ -51,6 +51,7 @@
 #include "cache/backend/memory.h"
 #include "cache/backend/mongo.h"
 #include "cache/backend/xcache.h"
+#include "cache/backend/redis.h"
 #include "cache/exception.h"
 #include "cache/frontendinterface.h"
 #include "cache/frontend/base64.h"
@@ -178,6 +179,14 @@
 #include "http/response/exception.h"
 #include "http/response/headers.h"
 #include "http/response/headersinterface.h"
+#include "http/uri.h"
+#include "http/client/exception.h"
+#include "http/client/header.h"
+#include "http/client/response.h"
+#include "http/client/adapter.h"
+#include "http/client/adapterinterface.h"
+#include "http/client/adapter/curl.h"
+#include "http/client/adapter/stream.h"
 
 #include "image.h"
 #include "image/adapter.h"
@@ -185,6 +194,16 @@
 #include "image/adapter/gd.h"
 #include "image/adapter/imagick.h"
 #include "image/exception.h"
+
+#include "amf.h"
+#include "amf/header.h"
+#include "amf/message.h"
+#include "amf/packet.h"
+#include "amf/deserializer.h"
+#include "amf/serializer.h"
+#include "amf/exception.h"
+#include "mvc/amf.h"
+#include "mvc/amf/exception.h"
 
 #include "kernel.h"
 
@@ -214,6 +233,8 @@
 #include "mvc/collectioninterface.h"
 #include "mvc/collection/document.h"
 #include "mvc/collection/exception.h"
+#include "mvc/collection/messageinterface.h"
+#include "mvc/collection/message.h"
 #include "mvc/collection/manager.h"
 #include "mvc/collection/managerinterface.h"
 #include "mvc/controller.h"
@@ -247,6 +268,9 @@
 #include "mvc/model/metadata/memory.h"
 #include "mvc/model/metadata/xcache.h"
 #include "mvc/model/metadata/session.h"
+#include "mvc/model/metadata/memcache.h"
+#include "mvc/model/metadata/libmemcached.h"
+#include "mvc/model/metadata/redis.h"
 #include "mvc/model/metadata/strategy/annotations.h"
 #include "mvc/model/metadata/strategy/introspection.h"
 #include "mvc/model/query.h"
@@ -282,6 +306,7 @@
 #include "mvc/model/validator/stringlength.h"
 #include "mvc/model/validator/uniqueness.h"
 #include "mvc/model/validator/url.h"
+#include "mvc/model/validator/json.h"
 #include "mvc/moduledefinitioninterface.h"
 #include "mvc/router.h"
 #include "mvc/routerinterface.h"
@@ -305,11 +330,17 @@
 #include "mvc/view/engine/volt/compiler.h"
 #include "mvc/view/exception.h"
 #include "mvc/view/simple.h"
+#include "mvc/jsonrpc.h"
+#include "mvc/jsonrpc/exception.h"
+#include "jsonrpc/client.h"
+#include "jsonrpc/client/exception.h"
+#include "jsonrpc/client/response.h"
 
 #include "paginator/adapterinterface.h"
 #include "paginator/adapter/model.h"
 #include "paginator/adapter/nativearray.h"
 #include "paginator/adapter/querybuilder.h"
+#include "paginator/adapter/sql.h"
 #include "paginator/exception.h"
 
 #include "psr/log/abstractlogger.h"
@@ -349,6 +380,9 @@
 #include "translate/adapter/gettext.h"
 
 #include "text.h"
+#include "arr.h"
+
+#include "date.h"
 
 #include "validation.h"
 #include "validation/exception.h"
@@ -367,6 +401,13 @@
 #include "validation/validator/regex.h"
 #include "validation/validator/stringlength.h"
 #include "validation/validator/url.h"
+#include "validation/validator/file.h"
+
+#include "chart/qrcode.h"
+#include "chart/captcha.h"
+#include "chart/exception.h"
+
+#include "scws.h"
 
 #include "version.h"
 

@@ -26,6 +26,7 @@
 %right AGAINST .
 %left BETWEEN .
 %left EQUALS NOTEQUALS LESS GREATER GREATEREQUAL LESSEQUAL .
+%left TS_MATCHES TS_OR TS_AND TS_NEGATE TS_CONTAINS_ANOTHER TS_CONTAINS_IN .
 %left AND OR .
 %left LIKE ILIKE .
 %left BITWISE_AND BITWISE_OR BITWISE_XOR .
@@ -49,6 +50,7 @@
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
 #include "kernel/exception.h"
+#include "kernel/array.h"
 
 #include "interned-strings.h"
 
@@ -237,6 +239,34 @@ static zval *phql_ret_insert_statement(zval *Q, zval *F, zval *V)
 		add_assoc_zval(ret, phalcon_interned_fields, F);
 	}
 	add_assoc_zval(ret, phalcon_interned_values, V);
+
+	return ret;
+}
+
+static zval *phql_ret_insert_statement2(zval *ret, zval *F, zval *V)
+{
+	zval *key1, *key2, *rows, *values;
+
+	MAKE_STD_ZVAL(key1);
+	ZVAL_STRING(key1, phalcon_interned_rows, 1);
+
+	MAKE_STD_ZVAL(rows);
+	if (!phalcon_array_isset_fetch(&rows, ret, key1)) {
+		array_init_size(rows, 1);		
+
+		MAKE_STD_ZVAL(key2);
+		ZVAL_STRING(key2, phalcon_interned_values, 1);
+
+		MAKE_STD_ZVAL(values);
+		if (phalcon_array_isset_fetch(&values, ret, key2)) {
+			Z_ADDREF_P(values);
+			add_next_index_zval(rows, values);	
+		}
+	}
+
+	add_next_index_zval(rows, V);
+	Z_ADDREF_P(rows);
+	add_assoc_zval(ret, phalcon_interned_rows, rows);
 
 	return ret;
 }
@@ -720,6 +750,10 @@ join_conditions(R) ::= . {
 %destructor insert_statement { zval_ptr_dtor(&$$); }
 
 /* Insert */
+insert_statement(R) ::= insert_statement(Q) COMMA PARENTHESES_OPEN values_list(V) PARENTHESES_CLOSE . {
+	R = phql_ret_insert_statement2(Q, NULL, V);
+}
+
 insert_statement(R) ::= INSERT INTO aliased_or_qualified_name(Q) VALUES PARENTHESES_OPEN values_list(V) PARENTHESES_CLOSE . {
 	R = phql_ret_insert_statement(Q, NULL, V);
 }
@@ -1010,6 +1044,30 @@ expr(R) ::= expr(O1) GREATER expr(O2) . {
 
 expr(R) ::= expr(O1) GREATEREQUAL expr(O2) . {
 	R = phql_ret_expr(PHQL_T_GREATEREQUAL, O1, O2);
+}
+
+expr(R) ::= expr(O1) TS_MATCHES expr(O2) . {
+	R = phql_ret_expr(PHQL_T_TS_MATCHES, O1, O2);
+}
+
+expr(R) ::= expr(O1) TS_OR expr(O2) . {
+	R = phql_ret_expr(PHQL_T_TS_OR, O1, O2);
+}
+
+expr(R) ::= expr(O1) TS_AND expr(O2) . {
+	R = phql_ret_expr(PHQL_T_TS_AND, O1, O2);
+}
+
+expr(R) ::= expr(O1) TS_NEGATE expr(O2) . {
+	R = phql_ret_expr(PHQL_T_TS_NEGATE, O1, O2);
+}
+
+expr(R) ::= expr(O1) TS_CONTAINS_ANOTHER expr(O2) . {
+	R = phql_ret_expr(PHQL_T_TS_CONTAINS_ANOTHER, O1, O2);
+}
+
+expr(R) ::= expr(O1) TS_CONTAINS_IN expr(O2) . {
+	R = phql_ret_expr(PHQL_T_TS_CONTAINS_IN, O1, O2);
 }
 
 expr(R) ::= expr(O1) LESSEQUAL expr(O2) . {

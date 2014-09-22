@@ -61,6 +61,7 @@ class ModelsMetadataStrategyTest extends PHPUnit_Framework_TestCase
 		),
 		10 => array(),
 		11 => array(),
+		12 => array(),
 	);
 
 	public function __construct()

@@ -121,10 +121,10 @@ HTML;
 
 		$html = \Phalcon\Tag::javascriptInclude(array('js/phalcon.js'));
 		$this->assertEquals($html, '<script type="text/javascript" src="/js/phalcon.js"></script>'.PHP_EOL);
-	 }
+	}
 
 	public function testIssue1679()
-    {
+	{
 		$di = new Phalcon\DI\FactoryDefault();
 		$di->getshared('url')->setBaseUri('/');
 		\Phalcon\Tag::setDI($di);
@@ -161,6 +161,19 @@ HTML;
 
 		$html = \Phalcon\Tag::stylesheetLink(array('css/phalcon.css', 'rel' => 'stylesheet/less'));
 		$this->assertEquals($html, '<link rel="stylesheet/less" type="text/css" href="/css/phalcon.css" />'.PHP_EOL);
+	}
+
+	public function testDefault()
+	{
+		Tag::setDefault('username', 'dreamsxin');
+
+		$this->assertEquals(Tag::getDefault('username'), 'dreamsxin');
+
+		$data = array('username' => 'dreamsxin', 'email' => 'dreamsxin@qq.com');
+
+		Tag::setDefaults($data);
+
+		$this->assertEquals(Tag::getDefaults(), $data);
 	}
 
 	public function testIssue2002()

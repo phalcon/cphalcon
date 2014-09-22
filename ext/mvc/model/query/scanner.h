@@ -127,6 +127,14 @@
 #define PHQL_T_ISNOTNULL 366
 #define PHQL_T_MINUS 367
 
+/** Postgresql Text Search Operators */
+#define PHQL_T_TS_MATCHES 401
+#define PHQL_T_TS_OR 402
+#define PHQL_T_TS_AND 403
+#define PHQL_T_TS_NEGATE 404
+#define PHQL_T_TS_CONTAINS_ANOTHER 405
+#define PHQL_T_TS_CONTAINS_IN 406
+
 /* list of tokens and their names */
 typedef struct _phql_token_names {
 	char *name;

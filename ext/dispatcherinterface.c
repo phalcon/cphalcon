@@ -36,6 +36,7 @@ static const zend_function_entry phalcon_dispatcherinterface_method_entry[] = {
 	PHP_ABSTRACT_ME(Phalcon_DispatcherInterface, getReturnedValue, NULL)
 	PHP_ABSTRACT_ME(Phalcon_DispatcherInterface, dispatch, NULL)
 	PHP_ABSTRACT_ME(Phalcon_DispatcherInterface, forward, arginfo_phalcon_dispatcherinterface_forward)
+	PHP_ABSTRACT_ME(Phalcon_DispatcherInterface, camelizeNamespace, arginfo_phalcon_dispatcherinterface_camelizenamespace)
 	PHP_FE_END
 };
 
@@ -142,3 +143,10 @@ PHALCON_DOC_METHOD(Phalcon_DispatcherInterface, dispatch);
  * @param array $forward
  */
 PHALCON_DOC_METHOD(Phalcon_DispatcherInterface, forward);
+
+/**
+ * Forwards the execution flow to another controller/action
+ *
+ * @param array $forward
+ */
+PHALCON_DOC_METHOD(Phalcon_DispatcherInterface, camelizeNamespace);

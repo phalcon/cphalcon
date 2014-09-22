@@ -99,6 +99,7 @@ extern const char *phalcon_interned_url;
 extern const char *phalcon_interned_value;
 extern const char *phalcon_interned_values;
 extern const char *phalcon_interned_where;
+extern const char *phalcon_interned_rows;
 
 void phalcon_init_interned_strings(TSRMLS_D);
 
