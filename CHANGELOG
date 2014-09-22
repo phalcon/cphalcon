@@ -1,5 +1,6 @@
-1.3.3
+1.3.4
  - Fix segmentation fault in zim_Phalcon_Http_Request_getBasicAuth (#2819)
+ - Fix memory corruption on unclean shutdown (#2829)
 
 1.3.1
  - Fixed segfault in Phalcon\Di\Service::resolve when string class does not exist (#2205)
