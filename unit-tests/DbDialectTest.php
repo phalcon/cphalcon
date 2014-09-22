@@ -378,7 +378,7 @@ class DbDialectTest extends PHPUnit_Framework_TestCase
 
 	}
 
-	public function testSQLiteDialect()
+	public function testSqliteDialect()
 	{
 
 		$dialect = new \Phalcon\Db\Dialect\Sqlite();
@@ -390,7 +390,7 @@ class DbDialectTest extends PHPUnit_Framework_TestCase
 
 		//Column definitions
 		$this->assertEquals($dialect->getColumnDefinition($columns['column1']), 'VARCHAR(10)');
-		$this->assertEquals($dialect->getColumnDefinition($columns['column2']), 'INT');
+		$this->assertEquals($dialect->getColumnDefinition($columns['column2']), 'INTEGER');
 		$this->assertEquals($dialect->getColumnDefinition($columns['column3']), 'NUMERIC(10,2)');
 		$this->assertEquals($dialect->getColumnDefinition($columns['column4']), 'CHARACTER(100)');
 		$this->assertEquals($dialect->getColumnDefinition($columns['column5']), 'DATE');
@@ -401,8 +401,8 @@ class DbDialectTest extends PHPUnit_Framework_TestCase
 		//Add Columns
 		$this->assertEquals($dialect->addColumn('table', null,     $columns['column1']), 'ALTER TABLE "table" ADD COLUMN "column1" VARCHAR(10)');
 		$this->assertEquals($dialect->addColumn('table', 'schema', $columns['column1']), 'ALTER TABLE "schema"."table" ADD COLUMN "column1" VARCHAR(10)');
-		$this->assertEquals($dialect->addColumn('table', null,     $columns['column2']), 'ALTER TABLE "table" ADD COLUMN "column2" INT');
-		$this->assertEquals($dialect->addColumn('table', 'schema', $columns['column2']), 'ALTER TABLE "schema"."table" ADD COLUMN "column2" INT');
+		$this->assertEquals($dialect->addColumn('table', null,     $columns['column2']), 'ALTER TABLE "table" ADD COLUMN "column2" INTEGER');
+		$this->assertEquals($dialect->addColumn('table', 'schema', $columns['column2']), 'ALTER TABLE "schema"."table" ADD COLUMN "column2" INTEGER');
 		$this->assertEquals($dialect->addColumn('table', null,     $columns['column3']), 'ALTER TABLE "table" ADD COLUMN "column3" NUMERIC(10,2) NOT NULL');
 		$this->assertEquals($dialect->addColumn('table', 'schema', $columns['column3']), 'ALTER TABLE "schema"."table" ADD COLUMN "column3" NUMERIC(10,2) NOT NULL');
 		$this->assertEquals($dialect->addColumn('table', null,     $columns['column4']), 'ALTER TABLE "table" ADD COLUMN "column4" CHARACTER(100) NOT NULL');
@@ -447,6 +447,8 @@ class DbDialectTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($dialect->addIndex('table', 'schema', $indexes['index1']),  'CREATE INDEX "schema"."index1" ON "table" ("column1")');
 		$this->assertEquals($dialect->addIndex('table', null,     $indexes['index2']),  'CREATE INDEX "index2" ON "table" ("column1", "column2")');
 		$this->assertEquals($dialect->addIndex('table', 'schema', $indexes['index2']),  'CREATE INDEX "schema"."index2" ON "table" ("column1", "column2")');
+		$this->assertEquals($dialect->addIndex('table', null,     $indexes['index4']),  'CREATE UNIQUE INDEX "index4" ON "table" ("column4")');
+		$this->assertEquals($dialect->addIndex('table', 'schema', $indexes['index4']),  'CREATE UNIQUE INDEX "schema"."index4" ON "table" ("column4")');
 
 		//Drop Index
 		$this->assertEquals($dialect->dropIndex('table', null, 'index1'), 'DROP INDEX "index1"');
@@ -502,7 +504,43 @@ class DbDialectTest extends PHPUnit_Framework_TestCase
 		}
 
 		//Create tables
-		// Not implemented yet
+		$definition = array(
+			'columns' => array(
+				$columns['column1'],
+				$columns['column2'],
+			)
+		);
+
+		$expected  = "SAVEPOINT \"table\";\n";
+		$expected .= "CREATE TABLE \"table\" (\n";
+		$expected .= "	\"column1\" VARCHAR(10),\n";
+		$expected .= "	\"column2\" INTEGER\n";
+		$expected .= ");\n";
+		$expected .= "RELEASE \"table\";";
+		$this->assertEquals($dialect->createTable('table', null, $definition), $expected);
+
+		$definition = array(
+			'columns' => array(
+				$columns['column2'],
+				$columns['column3'],
+				$columns['column1'],
+			),
+			'indexes' => array(
+				$indexes['PRIMARY'],
+				$indexes['index4']
+			)
+		);
+
+		$expected  = "SAVEPOINT \"table\";\n";
+		$expected .= "CREATE TABLE \"table\" (\n";
+		$expected .= "	\"column2\" INTEGER,\n";
+		$expected .= "	\"column3\" NUMERIC(10,2) NOT NULL,\n";
+		$expected .= "	\"column1\" VARCHAR(10),\n";
+		$expected .= "	PRIMARY KEY (\"column3\")\n";
+		$expected .= ");\n";
+		$expected .= "CREATE UNIQUE INDEX \"index4\" ON \"table\" (\"column4\");\n";
+		$expected .= "RELEASE \"table\";";
+		$this->assertEquals($dialect->createTable('table', null, $definition), $expected);
 	}
 
 	public function testViews()

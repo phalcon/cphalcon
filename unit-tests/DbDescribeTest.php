@@ -732,9 +732,8 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 			7 => 'prueba',
 			8 => 'robots',
 			9 => 'robots_parts',
-			10 => 'sqlite_sequence',
-			11 => 'subscriptores',
-			12 => 'tipo_documento',
+			10 => 'subscriptores',
+			11 => 'tipo_documento',
 		);
 
 		$tables = $connection->listTables();
