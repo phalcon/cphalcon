@@ -140,6 +140,10 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, getColumnDefinition){
 	
 		case 0:
 			PHALCON_INIT_VAR(column_sql);
+			/**
+			 * Sqlite only supports INTEGER (not INT) with auto increment
+			 * for simplicity, always use it
+			 */
 			ZVAL_STRING(column_sql, "INTEGER", 1);
 			break;
 	
@@ -412,7 +416,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, createTable){
 	zval *table_name, *schema_name, *definition;
 	zval *table = NULL, *temporary = NULL, *options = NULL, *sql = NULL, *create_lines;
 	zval *columns = NULL, *column = NULL, *column_name = NULL, *column_definition = NULL;
-	zval *column_line = NULL, *attribute = NULL, *attribute2 = NULL, *attribute3 = NULL, *indexes, *index = NULL, *index_lines;
+	zval *column_line = NULL, *attribute = NULL, *indexes, *index = NULL, *index_lines;
 	zval *index_name = NULL, *column_list = NULL, *referenced_column_list = NULL, *index_sql = NULL, *references;
 	zval *reference = NULL, *name = NULL, *referenced_table = NULL, *referenced_columns = NULL;
 	zval *constaint_sql = NULL, *reference_sql = NULL, *joined_lines;
@@ -421,7 +425,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, createTable){
 	HashTable *ah0, *ah1, *ah2;
 	HashPosition hp0, hp1, hp2;
 	zval **hd;
-	long int number_columns;
+	long int count;
 
 	PHALCON_MM_GROW();
 
@@ -478,37 +482,29 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, createTable){
 		PHALCON_INIT_NVAR(column_line);
 		PHALCON_CONCAT_SVSV(column_line, "\"", column_name, "\" ", column_definition);
 
-		PHALCON_CALL_METHOD(&attribute2, column, "isautoincrement");
-		PHALCON_CALL_METHOD(&attribute3, column, "isprimary");
-
-		/**
-		 * Add a NOT NULL clause
-		 *
-		 * Sqlite does not support with auto increment
-		 * Because Sqlite does not follow SQL standard, add for primary key
-		 */
-		PHALCON_CALL_METHOD(&attribute, column, "isnotnull");
-		if (!zend_is_true(attribute2) && (zend_is_true(attribute) || zend_is_true(attribute3))) {
-			phalcon_concat_self_str(&column_line, SL(" NOT NULL") TSRMLS_CC);
-		}
-
-		/**
-		 * Mark the column as primary key
-		 *
-		 * Sqlite requires primary key on auto increment
-		 */
-		PHALCON_CALL_METHOD(&attribute, column, "isprimary");
-		if (zend_is_true(attribute2) || zend_is_true(attribute)) {
-			phalcon_concat_self_str(&column_line, SL(" PRIMARY KEY") TSRMLS_CC);
-		}
-
-		/**
-		 * Add an AUTOINCREMENT clause
+		/*
+		 * See http://www.sqlite.org/syntaxdiagrams.html#column-constraint
 		 */
 		PHALCON_CALL_METHOD(&attribute, column, "isautoincrement");
 		if (zend_is_true(attribute)) {
+			phalcon_concat_self_str(&column_line, SL(" PRIMARY KEY AUTOINCREMENT") TSRMLS_CC);
 			ZVAL_COPY_VALUE(autocolumn, column);
-			phalcon_concat_self_str(&column_line, SL(" AUTOINCREMENT") TSRMLS_CC);
+		} else {
+			/**
+			 * Mark the column as primary key
+			 */
+			PHALCON_CALL_METHOD(&attribute, column, "isprimary");
+			if (zend_is_true(attribute)) {
+				phalcon_concat_self_str(&column_line, SL(" PRIMARY KEY") TSRMLS_CC);
+			}
+
+			/**
+			 * Add a NOT NULL clause
+			 */
+			PHALCON_CALL_METHOD(&attribute, column, "isnotnull");
+			if (zend_is_true(attribute)) {
+				phalcon_concat_self_str(&column_line, SL(" NOT NULL") TSRMLS_CC);
+			}
 		}
 
 		phalcon_array_append(&create_lines, column_line, PH_SEPARATE);
@@ -548,11 +544,12 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, createTable){
 				phalcon_array_append(&create_lines, index_sql, PH_SEPARATE);
 			} else {
 				if (PHALCON_IS_STRING(index_name, "PRIMARY")) {
-					number_columns = phalcon_fast_count_int(columns TSRMLS_CC);
-					if (number_columns == 1) {
+					count = phalcon_fast_count_int(columns TSRMLS_CC);
+					if (count == 1) {
 						// FIXME: check column actually equals autocolumn
-						// Skip, automatic
+						// Skip, added to column definition already
 					} else {
+						// TODO: Better way to handle this?
 						PHALCON_CONCAT_SVSVS(index_sql, "CREATE UNIQUE INDEX \"PRIMARY\" ON ", table, " (", column_list, ")");
 					}
 				} else if (index_type && Z_TYPE_P(index_type) == IS_STRING && Z_STRLEN_P(index_type) > 0) {
@@ -605,8 +602,11 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, createTable){
 	PHALCON_INIT_VAR(joined_lines);
 	phalcon_fast_join_str(joined_lines, SL(",\n\t"), create_lines TSRMLS_CC);
 	PHALCON_SCONCAT_VS(sql, joined_lines, "\n);\n");
-	phalcon_fast_join_str(joined_lines, SL(";\n"), index_lines TSRMLS_CC);
-	PHALCON_SCONCAT_VSVS(sql, joined_lines, ";\nRELEASE ", table, ";");
+	if (phalcon_fast_count_ev(index_lines TSRMLS_CC)) {
+		phalcon_fast_join_str(joined_lines, SL(";\n"), index_lines TSRMLS_CC);
+		PHALCON_SCONCAT_VS(sql, joined_lines, ";\n");
+	}
+	PHALCON_SCONCAT_SVS(sql, "RELEASE ", table, ";");
 	/**
 	 * table options not supported
 	 */
