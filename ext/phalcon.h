@@ -214,6 +214,8 @@
 #include "mvc/collectioninterface.h"
 #include "mvc/collection/document.h"
 #include "mvc/collection/exception.h"
+#include "mvc/collection/messageinterface.h"
+#include "mvc/collection/message.h"
 #include "mvc/collection/manager.h"
 #include "mvc/collection/managerinterface.h"
 #include "mvc/controller.h"

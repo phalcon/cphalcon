@@ -170,6 +170,7 @@ PHP_METHOD(Phalcon_Mvc_Model, unserialize);
 PHP_METHOD(Phalcon_Mvc_Model, dump);
 PHP_METHOD(Phalcon_Mvc_Model, toArray);
 PHP_METHOD(Phalcon_Mvc_Model, setup);
+PHP_METHOD(Phalcon_Mvc_Model, reset);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model___construct, 0, 0, 0)
 	ZEND_ARG_INFO(0, dependencyInjector)
@@ -386,6 +387,7 @@ static const zend_function_entry phalcon_mvc_model_method_entry[] = {
 	PHP_ME(Phalcon_Mvc_Model, dump, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model, toArray, arginfo_phalcon_mvc_model_toarray, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model, setup, arginfo_phalcon_mvc_model_setup, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Mvc_Model, reset, NULL, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };
 
@@ -1510,7 +1512,9 @@ PHP_METHOD(Phalcon_Mvc_Model, findFirst){
 
 	ZVAL_LONG(&tmp, zend_hash_num_elements(Z_ARRVAL_P(bind_params)) + 1);
 	PHALCON_INIT_VAR(index);
-	PHALCON_CONCAT_SV(index, "?", &tmp);
+	/*PHALCON_CONCAT_SV(index, "?", &tmp);*/
+	ZVAL_LONG(index, 1);
+    
 
 	/**
 	 * We only want the first record
@@ -1518,8 +1522,8 @@ PHP_METHOD(Phalcon_Mvc_Model, findFirst){
 	PHALCON_CALL_METHOD(NULL, builder, "limit", index);
 	PHALCON_CALL_METHOD(&query, builder, "getquery");
 
-	add_index_long(bind_params, Z_LVAL(tmp), 1);
-	add_index_long(bind_types, Z_LVAL(tmp), 1 /* BIND_PARAM_INT */);
+	/*add_index_long(bind_params, Z_LVAL(tmp), 1);*/
+	/*add_index_long(bind_types, Z_LVAL(tmp), 1 [> BIND_PARAM_INT <]);*/
 
 	/** 
 	 * Pass the cache options to the query
@@ -1903,11 +1907,6 @@ PHP_METHOD(Phalcon_Mvc_Model, _groupResult){
 	}
 	
 	/** 
-	 * Execute the query
-	 */
-	PHALCON_CALL_METHOD(&resultset, query, "execute", bind_params, bind_types);
-	
-	/** 
 	 * Pass the cache options to the query
 	 */
 	if (phalcon_array_isset_string(params, SS("cache"))) {
@@ -1915,6 +1914,11 @@ PHP_METHOD(Phalcon_Mvc_Model, _groupResult){
 		phalcon_array_fetch_string(&cache, params, SL("cache"), PH_NOISY);
 		PHALCON_CALL_METHOD(NULL, query, "cache", cache);
 	}
+	
+	/** 
+	 * Execute the query
+	 */
+	PHALCON_CALL_METHOD(&resultset, query, "execute", bind_params, bind_types);
 	
 	/** 
 	 * Return the full resultset if the query is grouped
@@ -6388,7 +6392,7 @@ PHP_METHOD(Phalcon_Mvc_Model, __set){
 	zval *property, *value, *lower_property = NULL;
 	zval *meta_data = NULL, *column_map = NULL, *attributes = NULL;
 	zval *related, *key = NULL, *lower_key = NULL, *item = NULL, *model_name, *manager = NULL;
-	zval *relation = NULL, *new_instance, *referenced_model_name = NULL, *referenced_model = NULL;
+	zval *relation = NULL, *referenced_model_name = NULL, *referenced_model = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -6458,19 +6462,16 @@ PHP_METHOD(Phalcon_Mvc_Model, __set){
 					i++;
 					phalcon_array_append(&related, item, 0);
 				}
-			} else {
+			} else if (Z_TYPE_P(key) == IS_STRING) {
 				PHALCON_INIT_NVAR(lower_key);
 				phalcon_fast_strtolower(lower_key, key);
 
 				phalcon_update_property_zval_zval(this_ptr, lower_key, item TSRMLS_CC);
 
 				PHALCON_CALL_METHOD(&relation, manager, "getrelationbyalias", model_name, lower_property);
-				if (Z_TYPE_P(relation) == IS_OBJECT) {					
-					PHALCON_INIT_VAR(new_instance);
-					ZVAL_FALSE(new_instance);
-
+				if (Z_TYPE_P(relation) == IS_OBJECT) {
 					PHALCON_CALL_METHOD(&referenced_model_name, relation, "getreferencedmodel");
-					PHALCON_CALL_METHOD(&referenced_model, manager, "load", referenced_model_name, new_instance);
+					PHALCON_CALL_METHOD(&referenced_model, manager, "load", referenced_model_name, PHALCON_GLOBAL(z_false));
 					PHALCON_CALL_METHOD(NULL, referenced_model, "writeattribute", lower_key, item);	
 				}
 			}
@@ -6916,3 +6917,16 @@ PHP_METHOD(Phalcon_Mvc_Model, setup){
 	PHALCON_MM_RESTORE();
 }
 
+/**
+ * Reset the model data
+ *
+ * <code>
+ * $robot = Robots::findFirst();
+ * $robot->reset();
+ * </code>
+ */
+PHP_METHOD(Phalcon_Mvc_Model, reset){
+
+	phalcon_update_property_null(this_ptr, SL("_uniqueParams") TSRMLS_CC);
+	phalcon_update_property_null(this_ptr, SL("_snapshot") TSRMLS_CC);
+}

@@ -299,6 +299,7 @@ static PHP_MINIT_FUNCTION(phalcon)
 	PHALCON_INIT(Phalcon_Logger_FormatterInterface);
 	PHALCON_INIT(Phalcon_Mvc_CollectionInterface);
 	PHALCON_INIT(Phalcon_Mvc_Collection_ManagerInterface);
+	PHALCON_INIT(Phalcon_Mvc_Collection_MessageInterface);
 	PHALCON_INIT(Phalcon_Mvc_ControllerInterface);
 	PHALCON_INIT(Phalcon_Mvc_DispatcherInterface);
 	PHALCON_INIT(Phalcon_Mvc_Micro_CollectionInterface);
@@ -506,6 +507,7 @@ static PHP_MINIT_FUNCTION(phalcon)
 	PHALCON_INIT(Phalcon_Mvc_Controller);
 	PHALCON_INIT(Phalcon_Mvc_Collection_Document);
 	PHALCON_INIT(Phalcon_Mvc_Collection_Manager);
+	PHALCON_INIT(Phalcon_Mvc_Collection_Message);
 	PHALCON_INIT(Phalcon_Mvc_Dispatcher);
 	PHALCON_INIT(Phalcon_Mvc_Model_Row);
 	PHALCON_INIT(Phalcon_Mvc_Model_Query);
@@ -637,13 +639,14 @@ static PHP_GSHUTDOWN_FUNCTION(phalcon)
 	phalcon_deinitialize_memory(TSRMLS_C);
 }
 
+/*
 static ZEND_MODULE_POST_ZEND_DEACTIVATE_D(phalcon)
 {
 	TSRMLS_FETCH();
 
 #ifndef PHALCON_RELEASE
 	if (!CG(unclean_shutdown)) {
-		//phalcon_verify_permanent_zvals(1 TSRMLS_CC);
+		phalcon_verify_permanent_zvals(1 TSRMLS_CC);
 	}
 #endif
 
@@ -672,6 +675,7 @@ static ZEND_MODULE_POST_ZEND_DEACTIVATE_D(phalcon)
 
 	return SUCCESS;
 }
+*/
 
 static
 #if ZEND_MODULE_API_NO > 20060613
@@ -733,7 +737,7 @@ zend_module_entry phalcon_module_entry = {
 	ZEND_MODULE_GLOBALS(phalcon),
 	PHP_GINIT(phalcon),
 	PHP_GSHUTDOWN(phalcon),
-	ZEND_MODULE_POST_ZEND_DEACTIVATE_N(phalcon),
+	NULL, /* ZEND_MODULE_POST_ZEND_DEACTIVATE_N(phalcon), */
 	STANDARD_MODULE_PROPERTIES_EX
 };
 
