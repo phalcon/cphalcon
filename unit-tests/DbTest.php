@@ -204,6 +204,28 @@ class DbTest extends PHPUnit_Framework_TestCase
 		$success = $connection->update('prueba', array("nombre"), array(new Phalcon\Db\RawValue('current_date')), "estado='X'");
 		$this->assertTrue($success);
 
+		//test array syntax for $whereCondition
+		$success = $connection->insert('prueba', array("LOL array syntax", "E"), array('nombre', 'estado'));
+		$this->assertTrue($success);
+		$success = $connection->update('prueba', array("nombre", 'estado'), array("LOL array syntax 2", 'X'), array(
+				'conditions' => "nombre=? and estado = ?",
+				'bind' => array("LOL array syntax", "E"),
+				'bindTypes' => array(PDO::PARAM_STR, PDO::PARAM_STR)
+			),
+			array(PDO::PARAM_STR, PDO::PARAM_STR)
+		);
+		$this->assertTrue($success);
+		$row = $connection->fetchOne('select count(*) as cnt from prueba where nombre=? and estado=?', Phalcon\Db::FETCH_ASSOC, array("LOL array syntax 2", "X"));
+		$this->assertEquals($row['cnt'], 1);
+		$success = $connection->update('prueba', array("nombre", 'estado'), array("LOL array syntax 3", 'E'), array(
+			'conditions' => "nombre=? and estado = ?",
+			'bind' => array("LOL array syntax 2", "X"),
+		));
+		$this->assertTrue($success);
+		$row = $connection->fetchOne('select count(*) as cnt from prueba where nombre=? and estado=?', Phalcon\Db::FETCH_ASSOC, array("LOL array syntax 3", "E"));
+		$this->assertEquals($row['cnt'], 1);
+
+        //test insertAsDict and updateAsDict
         $success = $connection->insertAsDict('prueba', array(
                 'nombre' => "LOL insertAsDict",
                 'estado' => "E"
@@ -211,7 +233,6 @@ class DbTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($success);
         $row = $connection->fetchOne('select count(*) as cnt from prueba where nombre=? and estado=?', Phalcon\Db::FETCH_ASSOC, array("LOL insertAsDict", "E"));
         $this->assertEquals($row['cnt'], 1);
-
         $success = $connection->updateAsDict('prueba', array(
                 'nombre' => "LOL updateAsDict",
                 'estado' => "X"
@@ -227,7 +248,7 @@ class DbTest extends PHPUnit_Framework_TestCase
 
 		$connection->delete("prueba");
 		$this->assertTrue($success);
-		$this->assertEquals($connection->affectedRows(), 53);
+		$this->assertEquals($connection->affectedRows(), 54);
 
 		$row = $connection->fetchOne("SELECT * FROM personas");
 		$this->assertEquals(count($row), 22);

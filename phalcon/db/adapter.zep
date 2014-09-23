@@ -439,12 +439,28 @@ abstract class Adapter implements EventsAwareInterface
 	 *
 	 * //Next SQL sentence is sent to the database system
 	 * UPDATE `robots` SET `name` = "Astro boy" WHERE id = 101
+	 *
+	 * //Updating existing robot with array condition and $dataTypes
+	 * $success = $connection->update(
+	 *     "robots",
+	 *     array("name"),
+	 *     array("New Astro Boy"),
+	 *     array(
+	 *         'conditions' => "id = ?",
+	 *         'bind' => array($some_unsafe_id),
+	 *         'bindTypes' => array(PDO::PARAM_INT) //use only if you use $dataTypes param
+	 *     ),
+	 *     array(PDO::PARAM_STR)
+	 * );
+	 *
 	 * </code>
+	 *
+	 * Warning! If $whereCondition is string it not escaped.
 	 *
 	 * @param   string|array table
 	 * @param 	array fields
 	 * @param 	array values
-	 * @param 	string whereCondition
+	 * @param 	string|array whereCondition
 	 * @param 	array dataTypes
 	 * @return 	boolean
 	 */

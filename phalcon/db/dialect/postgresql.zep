@@ -44,7 +44,7 @@ class Postgresql extends Dialect implements DialectInterface
 	 */
 	public function getColumnDefinition(<ColumnInterface> column) -> string
 	{
- 		var size, columnType, columnSql;
+		var size, columnType, columnSql, typeValues;
 
 		if typeof column != "object" {
 			throw new Exception("Column definition must be an object compatible with Phalcon\\Db\\ColumnInterface");
@@ -52,37 +52,79 @@ class Postgresql extends Dialect implements DialectInterface
 
 		let size = column->getSize();
 		let columnType = column->getType();
+		let columnSql = "";
+		if typeof columnType == "string" {
+			let columnSql .= columnType;
+			let columnType = column->getTypeReference();
+		}
 
 		switch columnType {
 			case 0:
-				let columnSql = "INT";
+				if empty columnSql {
+					let columnSql .= "INT";
+				}
 				break;
 			case 1:
-				let columnSql = "DATE";
+				if empty columnSql {
+					let columnSql .= "DATE";
+				}
 				break;
 			case 2:
-				let columnSql = "CHARACTER VARYING(" . size . ")";
+				if empty columnSql {
+					let columnSql .= "CHARACTER VARYING";
+				}
+				let columnSql .= "(" . size . ")";
 				break;
 			case 3:
-				let columnSql = "NUMERIC(" . size . "," . column->getScale() . ")";
+				if empty columnSql {
+					let columnSql .= "NUMERIC";
+				}
+				let columnSql .= "(" . size . "," . column->getScale() . ")";
 				break;
 			case 4:
-				let columnSql = "TIMESTAMP";
+				if empty columnSql {
+					let columnSql .= "TIMESTAMP";
+				}
 				break;
 			case 5:
-				let columnSql = "CHARACTER(" . size . ")";
+				if empty columnSql {
+					let columnSql .= "CHARACTER";
+				}
+				let columnSql .= "(" . size . ")";
 				break;
 			case 6:
-				let columnSql = "TEXT";
+				if empty columnSql {
+					let columnSql .= "TEXT";
+				}
 				break;
 			case 7:
-				let columnSql = "FLOAT";
+				if empty columnSql {
+					let columnSql .= "FLOAT";
+				}
 				break;
 			case 8:
-				let columnSql = "SMALLINT(1)";
+				if empty columnSql {
+					let columnSql .= "SMALLINT(1)";
+				}
 				break;
 			default:
-				throw new Exception("Unrecognized PostgreSQL data type");
+				if empty columnSql {
+					throw new Exception("Unrecognized PostgreSQL data type");
+				}
+
+				let typeValues = column->getTypeValues();
+				if !empty typeValues {
+					if typeof typeValues == "array" {
+						var value, valueSql;
+						let valueSql = "";
+						for value in typeValues {
+							let valueSql .= "\"" . addcslashes(value, "\"") . "\", ";
+						}
+						let columnSql .= "(" . substr(valueSql, 0, -2) . ")";
+					} else {
+						let columnSql .= "(\"" . addcslashes(typeValues, "\"") . "\")";
+					}
+				}
 		}
 
 		return columnSql;

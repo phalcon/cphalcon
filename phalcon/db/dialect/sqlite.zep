@@ -45,48 +45,91 @@ class Sqlite extends Dialect implements DialectInterface
 	 */
 	public function getColumnDefinition(<\Phalcon\Db\ColumnInterface> column) -> string
 	{
-		var columnSql;
+		var columnSql, type, typeValues;
 
 		if typeof column != "object" {
 			throw new Exception("Column definition must be an object compatible with Phalcon\\Db\\ColumnInterface");
 		}
 
-		switch column->getType() {
+		let columnSql = "";
+
+		let type = column->getType();
+		if typeof type == "string" {
+			let columnSql .= type;
+			let type = column->getTypeReference();
+		}
+
+		switch type {
 
 			case Column::TYPE_INTEGER:
-				let columnSql = "INT";
+				if empty columnSql {
+					let columnSql .= "INT";
+				}
 				break;
 
 			case Column::TYPE_DATE:
-				let columnSql = "DATE";
+				if empty columnSql {
+					let columnSql .= "DATE";
+				}
 				break;
 
 			case Column::TYPE_VARCHAR:
-				let columnSql = "VARCHAR(" . column->getSize() . ")";
+				if empty columnSql {
+					let columnSql .= "VARCHAR";
+				}
+				let columnSql .= "(" . column->getSize() . ")";
 				break;
 
 			case Column::TYPE_DECIMAL:
-				let columnSql = "NUMERIC(" . column->getSize() . "," . column->getScale() . ")";
+				if empty columnSql {
+					let columnSql .= "NUMERIC";
+				}
+				let columnSql .= "(" . column->getSize() . "," . column->getScale() . ")";
 				break;
 
 			case Column::TYPE_DATETIME:
-				let columnSql = "TIMESTAMP";
+				if empty columnSql {
+					let columnSql .= "TIMESTAMP";
+				}
 				break;
 
 			case Column::TYPE_CHAR:
-				let columnSql = "CHARACTER(" . column->getSize() . ")";
+				if empty columnSql {
+					let columnSql .= "CHARACTER";
+				}
+				let columnSql .= "(" . column->getSize() . ")";
 				break;
 
 			case Column::TYPE_TEXT:
-				let columnSql = "TEXT";
+				if empty columnSql {
+					let columnSql .= "TEXT";
+				}
 				break;
 
 			case Column::TYPE_FLOAT:
-				let columnSql = "FLOAT";
+				if empty columnSql {
+					let columnSql .= "FLOAT";
+				}
 				break;
 
 			default:
-				throw new Exception("Unrecognized SQLite data type");
+				if empty columnSql {
+					throw new Exception("Unrecognized SQLite data type");
+				}
+
+				let typeValues = column->getTypeValues();
+				if !empty typeValues {
+					if typeof typeValues == "array" {
+						var value, valueSql;
+						let valueSql = "";
+						for value in typeValues {
+							let valueSql .= "\"" . addcslashes(value, "\"") . "\", ";
+						}
+						let columnSql .= "(" . substr(valueSql, 0, -2) . ")";
+					} else {
+						let columnSql .= "(\"" . addcslashes(typeValues, "\"") . "\")";
+					}
+				}
 		}
 
 		return columnSql;
@@ -117,7 +160,7 @@ class Sqlite extends Dialect implements DialectInterface
 
 		let defaultValue = column->getDefault();
 		if ! empty defaultValue {
-			let sql .= " DEFAULT \"" . defaultValue . "\"";
+			let sql .= " DEFAULT \"" . addcslashes(defaultValue, "\"") . "\"";
 		}
 
 		if column->isNotNull() {

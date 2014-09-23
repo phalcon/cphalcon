@@ -148,9 +148,23 @@ class Column implements \Phalcon\Db\ColumnInterface
 	/**
 	 * Column data type
 	 *
-	 * @var int
+	 * @var int|string
 	 */
 	protected _type { get };
+
+	/**
+	 * Column data type reference
+	 *
+	 * @var int
+	 */
+	protected _typeReference { get };
+
+	/**
+	 * Column data type values
+	 *
+	 * @var array|string
+	 */
+	protected _typeValues { get };
 
 	/**
 	 * The column have some numeric type?
@@ -230,7 +244,8 @@ class Column implements \Phalcon\Db\ColumnInterface
 	public function __construct(string! name, var definition)
 	{
 		var type, notNull, primary, size, scale, dunsigned, first,
-			after, bindType, isNumeric, autoIncrement, defaultValue;
+			after, bindType, isNumeric, autoIncrement, defaultValue,
+			typeReference, typeValues;
 
 		let this->_name = name;
 
@@ -241,6 +256,16 @@ class Column implements \Phalcon\Db\ColumnInterface
 			let this->_type = type;
 		} else {
 			throw new Exception("Column type is required");
+		}
+
+		if fetch typeReference, definition["typeReference"] {
+			let this->_typeReference = typeReference;
+		} else {
+			let this->_typeReference = -1;
+		}
+
+		if fetch typeValues, definition["typeValues"] {
+			let this->_typeValues = typeValues;
 		}
 
 		/**
@@ -421,7 +446,8 @@ class Column implements \Phalcon\Db\ColumnInterface
 	{
 		var definition, columnType, notNull, size, dunsigned, after,
 			isNumeric, first, bindType, primary, columnName, scale,
-			defaultValue, autoIncrement;
+			defaultValue, autoIncrement,
+			columnTypeReference, columnTypeValues;
 
 		if !fetch columnName, data["_columnName"] {
 			if !fetch columnName, data["_name"] {
@@ -433,6 +459,16 @@ class Column implements \Phalcon\Db\ColumnInterface
 
 		if fetch columnType,  data["_type"] {
 			let definition["type"] = columnType;
+		}
+
+		if fetch columnTypeReference,  data["_typeReference"] {
+			let definition["typeReference"] = columnTypeReference;
+		} else {
+			let definition["typeReference"] = -1;
+		}
+
+		if fetch columnTypeValues,  data["_typeValues"] {
+			let definition["typeValeus"] = columnTypeValues;
 		}
 
 		if fetch notNull, data["_notNull"] {
