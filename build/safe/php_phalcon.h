@@ -29,11 +29,7 @@
 #include <TSRM/TSRM.h>
 #endif
 
-<<<<<<< HEAD
-#define PHP_PHALCON_VERSION "Dao-1.3.3"
-=======
-#define PHP_PHALCON_VERSION "1.3.3"
->>>>>>> phalcon/1.3.3
+#define PHP_PHALCON_VERSION "Dao-1.3.4"
 #define PHP_PHALCON_EXTNAME "phalcon"
 
 #define PHALCON_NUM_PREALLOCATED_FRAMES 25

@@ -1,5 +1,76 @@
 1.3.3
  - Fix segmentation fault in zim_Phalcon_Http_Request_getBasicAuth (#2819)
+ - Fix memory corruption on unclean shutdown (#2829)
+
+1.3.2
+ - fix inverted test in Model/setSnapshotData() (issue #2466)
+ - Updated Phalcon\Queue\Beanstalk\Job::touch comment
+ - Fixed use columns as referenced columns in mysql createTable() reference...
+ - #2414  - Removed check for DBG in session/adapter
+ - Updated Model::__set
+ - #1989 Supported \Phaclon\Db\Index: TYPE
+ - Updated Phalcon\Mvc\Model\Query\Builder::groupBy
+ - Validation, setDefaultMessages fix
+ - Fix pagination nativeArray test-unit failed
+ - Add Phalcon\Translate\Adapter\Gettext
+ - Add Phalcon\Config\Adapter\Yaml
+ - #1803 Bug join alias
+ - Fix valid function for the first call
+ - Acl bug
+ - #2402 issue
+ - Ignore "value" attribute in TextArea.
+ - #2394 Add Phalcon\Validation\MessageInterface
+ - Relative namespace
+ - #2386
+ - Fixing a typo
+ - #2375 Add check messages is object in Phalcon\Validation::appendMess...
+ - Update affected rows for selects.
+ - #2196: Declare missing functions
+ - Fix broken condition
+ - Add Phalcon\Mvc\Model\MetaData\Strategy
+ - Fix offsetUnset
+ - Changing "file_exists" funciton for "is_file".
+ - Fix bug about updated property for Phalcon\Session\*
+ - #2291 Middlewares do not stop operation when before event triggered in Micro as documented http://docs.…
+ - #1608 about Phalcon\Mvc\Router\Annotations
+ - #2019 and added tests
+ - model: added methods arg infos
+ - #2319 In `Model::_postSaveRelatedRecords` add check whether value is object
+ - #2321: Fixed the null value for position
+ - #2313 about Phalcon\Annotations\Annotation
+ - #2229 (cast and convert not working)
+ - Add method Phalcon\Assets\Collection::addFilter
+ - Add Phalcon\Session\Adapter\memcache and Phalcon\Session\Adapter\Libmemcached
+ - Add class Phalcon\Session\Adapter\Libemcached
+ - Add class Phalcon\Session\Adapter\Memcache
+ - \Phalcon\Tag::XHTML5 was returning empty string
+ - #2278 add Phalcon\Logger\Multiple::CRITICAL
+ - Tag, add title separator to append/prepend title
+ - #2250 Updated Phalcon\Db\Dialect::select
+ - #2270 updated phalcon_camelize
+ - Add namespace support for view
+ - #2259 Updated \Phalcon\Image\Adapter::crop
+ - #2262 `\Phalcon\Logger\Formatter\Json` Wrong number of parameters
+ - #2244 add judge conditions in `Phalcon\Mvc\Model\Manager::getRelationRecords`
+ - Removed final keyword from Model constructor
+ - #2111 – replacing bindParam to bindValue to avoid unexpected reference changes
+ - #2002 Tag::linkTo() to allow the addition of query string parameters
+ - Add `allowEmpty` option to \Phalcon\Mvc\Model\Validator\*
+ - Use phalcon_camelize for namesapce Add \Phalcon\Session\Adapter::setId Fixed #1932 Phalcon\Http\…
+ - #2111 – replacing bindParam to bindValue to avoid unexpected reference changes
+ - Fix wrong issent() call on non Response objects
+ - #2236  - in mysql tinyint(1) is not boolean it's an int between 0 and 127
+ - Add \Phalcon\Session\Adapter::setId
+ - Fix BUG \Phalcon\Model\Validate\*
+ - Travis fast-finish builds
+ - #2157 and added tests
+ - #2196 Declared missing functions
+ - Add `allowEmpty` option to \Phalcon\Mvc\Model\Validator\*
+ - #2002 Tag::linkTo() to allow the addition of query string parameters
+ - #2018 add method \Phalcon\Db\Result\Pdo::nextRowset
+ - Use phalcon_camelize for namesapce
+ - #1932 Phalcon\Http\Request\File extend SplFileInfo
+>>>>>>> master
 
 1.3.1
  - Fixed segfault in Phalcon\Di\Service::resolve when string class does not exist (#2205)
