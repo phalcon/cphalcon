@@ -399,14 +399,11 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 			'nombres' => 'LOST UPDATE',
 			'telefono' => '2121'
 		)));
-		var_dump($persona->nombres);
 
 		//Checking correct update
 		$persona = Personas::findFirst(array("estado='X'"));
 		$this->assertNotEquals($persona, false);
 		$this->assertEquals($persona->nombres, 'LOST UPDATE');
-		var_dump($persona->nombres);
-		exit;
 		$this->assertEquals($persona->telefono, '2121');
 
 		//Create
