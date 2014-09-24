@@ -1,3 +1,6 @@
+1.3.4
+ - Fix imporper access to \Phalcon\Debug::$_charset (#2840)
+
 1.3.3
  - Fix segmentation fault in zim_Phalcon_Http_Request_getBasicAuth (#2819)
  - Fix memory corruption on unclean shutdown (#2829)
@@ -70,7 +73,6 @@
  - #2018 add method \Phalcon\Db\Result\Pdo::nextRowset
  - Use phalcon_camelize for namesapce
  - #1932 Phalcon\Http\Request\File extend SplFileInfo
->>>>>>> master
 
 1.3.1
  - Fixed segfault in Phalcon\Di\Service::resolve when string class does not exist (#2205)
