@@ -63,7 +63,7 @@ class Sqlite extends Dialect implements DialectInterface
 
 			case Column::TYPE_INTEGER:
 				if empty columnSql {
-					let columnSql .= "INT";
+					let columnSql .= "INTEGER";
 				}
 				break;
 
@@ -325,7 +325,165 @@ class Sqlite extends Dialect implements DialectInterface
 	 */
 	public function createTable(string! tableName, string! schemaName, array! definition) -> string
 	{
-		throw new Exception("Not implemented yet");
+		var temporary, options, table, createLines, columns,
+			column, indexes, index, reference, references, indexName,
+			indexSql, sql, columnLine, indexType,
+			referenceSql, onDelete, onUpdate, defaultValue,
+			indexLines, autocolumn, escapeChar;
+
+		if !fetch columns, definition["columns"] {
+			throw new Exception("The index 'columns' is required in the definition array");
+		}
+
+		let escapeChar = this->_escapeChar;
+		let autocolumn = null;
+
+		if schemaName {
+			let table = escapeChar . schemaName . escapeChar . "." . escapeChar . tableName . escapeChar;
+		} else {
+			let table = escapeChar . tableName . escapeChar;
+		}
+
+		let temporary = false;
+		if fetch options, definition["options"] {
+			fetch temporary, options["temporary"];
+		}
+
+		/**
+		 * Create a temporary o normal table
+		 */
+		if temporary {
+			let sql = "CREATE TEMPORARY TABLE " . table . " (\n\t";
+		} else {
+			let sql = "CREATE TABLE " . table . " (\n\t";
+		}
+
+		let createLines = [];
+		for column in columns {
+
+			let columnLine = escapeChar . column->getName() . escapeChar . " " . this->getColumnDefinition(column);
+
+			/**
+			 * Add a Default clause
+			 */
+			let defaultValue = column->getDefault();
+			if ! empty defaultValue {
+				let columnLine .= " DEFAULT " . escapeChar . addcslashes(defaultValue, escapeChar) . escapeChar;
+			}
+
+			/**
+			 * Add a NOT NULL clause
+			 */
+			if column->isNotNull() {
+				let columnLine .= " NOT NULL";
+			}
+
+			/**
+			 * Mark the column as primary key
+			 */
+			if column->isPrimary() || column->isAutoIncrement() {
+				let columnLine .= " PRIMARY KEY";
+			}
+
+			/**
+			 * Add an AUTO_INCREMENT clause
+			 */
+			if column->isAutoIncrement() {
+				let columnLine .= " AUTOINCREMENT";
+				let autocolumn = column->getName();
+			}
+
+			let createLines[] = columnLine;
+		}
+
+		/**
+		 * Create related indexes
+		 */
+		let indexLines = [];
+		if fetch indexes, definition["indexes"] {
+
+			for index in indexes {
+
+				let indexName = index->getName();
+				let indexType = index->getType();
+				let columns = index->getColumns();
+
+				/**
+				 * If the index name is primary we add a primary key
+				 * but only if there is no autoincrement column
+				 */
+				if indexName == "PRIMARY" && empty autocolumn {
+					let indexSql = "PRIMARY KEY (" . this->getColumnList(columns) . ")";
+				} else {
+					/**
+					 * Make a unique index key when there already an autoincrement column
+					 */
+					if indexName == "PRIMARY" {
+						if count(columns) == 1 {
+							/**
+							 * Skip if duplicate of autoincrement primary
+							 */
+							if in_array(autocolumn, columns) {
+								continue;
+							}
+						}
+						let indexType = "UNIQUE";
+					}
+					if empty indexType {
+						let indexSql = "CREATE INDEX ";
+					} else {
+						let indexSql = "CONSTRAINT ";
+					}
+					let indexSql .= escapeChar . indexName . escapeChar . " ";
+					if empty indexType {
+						let indexSql .= "ON " . table;
+					} else {
+						let indexSql .= indexType;
+					}
+					let indexSql .= "(" . this->getColumnList(index->getColumns()) . ")";
+				}
+
+				if empty indexType && indexName != "PRIMARY" {
+					let indexLines[] = indexSql;
+				} else {
+					let createLines[] = indexSql;
+				}
+			}
+		}
+
+		/**
+		 * Create related references
+		 */
+		if fetch references, definition["references"] {
+			for reference in references {
+				let referenceSql = "CONSTRAINT " . escapeChar . reference->getName() . escapeChar . " FOREIGN KEY (" . this->getColumnList(reference->getColumns()) . ")"
+					. " REFERENCES " . escapeChar . reference->getReferencedTable() . escapeChar . "(" . this->getColumnList(reference->getReferencedColumns()) . ")";
+
+				let onDelete = reference->getOnDelete();
+				if !empty onDelete {
+					let referenceSql .= " ON DELETE " . onDelete;
+				}
+
+				let onUpdate = reference->getOnUpdate();
+				if !empty onUpdate {
+					let referenceSql .= " ON UPDATE " . onUpdate;
+				}
+
+				let createLines[] = referenceSql;
+			}
+		}
+
+		let sql .= join(",\n\t", createLines) . "\n)";
+		if count(indexLines) {
+			let sql = "SAVEPOINT create" . tableName . ";\n" . join(";\n", indexLines) . ";\nRELEASE create" . tableName . ";\n";
+		}
+		if isset definition["options"] {
+			/**
+			 * Not supported, log notice?
+			 */
+		}
+
+		return sql;
 	}
 
 	/**
@@ -464,7 +622,7 @@ class Sqlite extends Dialect implements DialectInterface
 	 */
 	public function listTables(string! schemaName=null) -> string
 	{
-		return "SELECT tbl_name FROM sqlite_master WHERE type = 'table' ORDER BY tbl_name";
+		return "SELECT tbl_name FROM sqlite_master WHERE type = 'table' AND name NOT LIKE 'sqlite_%' ORDER BY tbl_name";
 	}
 
 	/**
