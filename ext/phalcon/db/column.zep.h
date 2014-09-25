@@ -6,6 +6,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Column);
 PHP_METHOD(Phalcon_Db_Column, getName);
 PHP_METHOD(Phalcon_Db_Column, getSchemaName);
 PHP_METHOD(Phalcon_Db_Column, getType);
+PHP_METHOD(Phalcon_Db_Column, getTypeReference);
+PHP_METHOD(Phalcon_Db_Column, getTypeValues);
 PHP_METHOD(Phalcon_Db_Column, getSize);
 PHP_METHOD(Phalcon_Db_Column, getScale);
 PHP_METHOD(Phalcon_Db_Column, getDefault);
@@ -33,6 +35,8 @@ ZEPHIR_INIT_FUNCS(phalcon_db_column_method_entry) {
 	PHP_ME(Phalcon_Db_Column, getName, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Column, getSchemaName, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Column, getType, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Column, getTypeReference, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Column, getTypeValues, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Column, getSize, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Column, getScale, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Column, getDefault, NULL, ZEND_ACC_PUBLIC)

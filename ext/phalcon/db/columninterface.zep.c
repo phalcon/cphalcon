@@ -72,6 +72,20 @@ ZEPHIR_DOC_METHOD(Phalcon_Db_ColumnInterface, getName);
 ZEPHIR_DOC_METHOD(Phalcon_Db_ColumnInterface, getType);
 
 /**
+ * Returns column type reference
+ *
+ * @return int
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Db_ColumnInterface, getTypeReference);
+
+/**
+ * Returns column type values
+ *
+ * @return int
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Db_ColumnInterface, getTypeValues);
+
+/**
  * Returns column size
  *
  * @return int

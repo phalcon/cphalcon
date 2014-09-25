@@ -17,6 +17,8 @@ ZEPHIR_INIT_FUNCS(phalcon_db_columninterface_method_entry) {
 	PHP_ABSTRACT_ME(Phalcon_Db_ColumnInterface, getSchemaName, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Db_ColumnInterface, getName, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Db_ColumnInterface, getType, NULL)
+	PHP_ABSTRACT_ME(Phalcon_Db_ColumnInterface, getTypeReference, NULL)
+	PHP_ABSTRACT_ME(Phalcon_Db_ColumnInterface, getTypeValues, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Db_ColumnInterface, getSize, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Db_ColumnInterface, getScale, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Db_ColumnInterface, isUnsigned, NULL)

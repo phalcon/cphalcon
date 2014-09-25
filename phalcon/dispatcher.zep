@@ -20,13 +20,20 @@
 
 namespace Phalcon;
 
+use Phalcon\Filter;
+use Phalcon\DiInterface;
+use Phalcon\DispatcherInterface;
+use Phalcon\Di\InjectionAwareInterface;
+use Phalcon\Events\EventsAwareInterface;
+use Phalcon\Events\ManagerInterface;
+
 /**
  * Phalcon\Dispatcher
  *
  * This is the base class for Phalcon\Mvc\Dispatcher and Phalcon\CLI\Dispatcher.
  * This class can't be instantiated directly, you can use it to create your own dispatchers
  */
-abstract class Dispatcher implements \Phalcon\DispatcherInterface, \Phalcon\Di\InjectionAwareInterface, \Phalcon\Events\EventsAwareInterface
+abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterface, EventsAwareInterface
 {
 
 	protected _dependencyInjector;
@@ -93,7 +100,7 @@ abstract class Dispatcher implements \Phalcon\DispatcherInterface, \Phalcon\Di\I
 	 *
 	 * @param Phalcon\DiInterface dependencyInjector
 	 */
-	public function setDI(<\Phalcon\DiInterface> dependencyInjector)
+	public function setDI(<DiInterface> dependencyInjector)
 	{
 		let this->_dependencyInjector = dependencyInjector;
 	}
@@ -103,7 +110,7 @@ abstract class Dispatcher implements \Phalcon\DispatcherInterface, \Phalcon\Di\I
 	 *
 	 * @return Phalcon\DiInterface
 	 */
-	public function getDI() -> <\Phalcon\DiInterface>
+	public function getDI() -> <DiInterface>
 	{
 		return this->_dependencyInjector;
 	}
@@ -113,7 +120,7 @@ abstract class Dispatcher implements \Phalcon\DispatcherInterface, \Phalcon\Di\I
 	 *
 	 * @param Phalcon\Events\ManagerInterface eventsManager
 	 */
-	public function setEventsManager(<\Phalcon\Events\ManagerInterface> eventsManager)
+	public function setEventsManager(<ManagerInterface> eventsManager)
 	{
 		let this->_eventsManager = eventsManager;
 	}
@@ -123,7 +130,7 @@ abstract class Dispatcher implements \Phalcon\DispatcherInterface, \Phalcon\Di\I
 	 *
 	 * @return Phalcon\Events\ManagerInterface
 	 */
-	public function getEventsManager() -> <\Phalcon\Events\ManagerInterface>
+	public function getEventsManager() -> <ManagerInterface>
 	{
 		return this->_eventsManager;
 	}
@@ -276,14 +283,13 @@ abstract class Dispatcher implements \Phalcon\DispatcherInterface, \Phalcon\Di\I
 		var params, filter, paramValue, dependencyInjector;
 
 		let params = this->_params;
-		if  isset params[param] {
-			let paramValue = params[param];
+		if  fetch paramValue, params[param] {
 			if filters !== null {
 				let dependencyInjector = this->_dependencyInjector;
 				if typeof dependencyInjector != "object" {
 					this->{"_throwDispatchException"}("A dependency injection object is required to access the 'filter' service", self::EXCEPTION_NO_DI);
 				}
-				let filter = <\Phalcon\Filter> dependencyInjector->getShared("filter");
+				let filter = <Filter> dependencyInjector->getShared("filter");
 				return filter->sanitize(paramValue, filters);
 			} else {
 				return paramValue;
@@ -346,14 +352,14 @@ abstract class Dispatcher implements \Phalcon\DispatcherInterface, \Phalcon\Di\I
 			handlerSuffix, actionSuffix, handlerClass, status, actionMethod,
 			wasFresh = false, e;
 
-		let dependencyInjector = <\Phalcon\DiInterface> this->_dependencyInjector;
+		let dependencyInjector = <DiInterface> this->_dependencyInjector;
 		if typeof dependencyInjector != "object" {
 			this->{"_throwDispatchException"}("A dependency injection container is required to access related dispatching services", self::EXCEPTION_NO_DI);
 			return false;
 		}
 
 		// Calling beforeDispatchLoop
-		let eventsManager = <\Phalcon\Events\Manager> this->_eventsManager;
+		let eventsManager = <ManagerInterface> this->_eventsManager;
 		if typeof eventsManager == "object" {
 			if eventsManager->fire("dispatch:beforeDispatchLoop", this) === false {
 				return false;
@@ -544,6 +550,7 @@ abstract class Dispatcher implements \Phalcon\DispatcherInterface, \Phalcon\Di\I
 			 * Call the 'initialize' method just once per request
 			 */
 			if wasFresh === true {
+
 				if method_exists(handler, "initialize") {
 					handler->initialize();
 				}
