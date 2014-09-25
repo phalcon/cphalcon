@@ -90,15 +90,23 @@ PHALCON_INIT_CLASS(Phalcon_Validation_Message){
 
 zval* phalcon_validation_message_construct_helper(zval *message, zval *field, const char *type, zval *code TSRMLS_DC)
 {
-	zval *result;
+	zval *result, *params[4], *tmp;
 
 	MAKE_STD_ZVAL(result);
 	object_init_ex(result, phalcon_validation_message_ce);
 
-	phalcon_update_property_this(result, SL("_message"), message TSRMLS_CC);
-	phalcon_update_property_this(result, SL("_field"), field TSRMLS_CC);
-	phalcon_update_property_string(result, SL("_type"), type, strlen(type) TSRMLS_CC);
-	phalcon_update_property_this(result, SL("_code"), code TSRMLS_CC);
+	MAKE_STD_ZVAL(tmp);
+	ZVAL_STRING(tmp, type, 1);
+
+	params[0] = message;
+	params[1] = field;
+	params[2] = tmp;
+	params[3] = code;
+
+	if (FAILURE == phalcon_call_class_method_aparams(NULL, Z_OBJCE_P(result), phalcon_fcall_method, result, SL("__construct"), 4, params TSRMLS_CC)) {
+		MAKE_STD_ZVAL(result);
+		ZVAL_NULL(result);
+	}
 
 	return result;
 }

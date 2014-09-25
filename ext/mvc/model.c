@@ -5142,7 +5142,7 @@ PHP_METHOD(Phalcon_Mvc_Model, refresh){
 	zval *field = NULL, *attribute_field = NULL, *value = NULL, *exception_message = NULL;
 	zval *read_connection = NULL, *schema = NULL, *source = NULL, *table = NULL, *unique_key = NULL, *exists = NULL;
 	zval *unique_params, *unique_types, *attributes = NULL;
-	zval *fields, *escaped_table = NULL;
+	zval *field_item = NULL, *fields, *escaped_table = NULL;
 	zval *select, *dialect = NULL, *sql = NULL, *fetch_type, *row = NULL, *column_map = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
@@ -5220,8 +5220,8 @@ PHP_METHOD(Phalcon_Mvc_Model, refresh){
 	if (zend_is_true(schema)) {
 		PHALCON_INIT_VAR(table);
 		array_init_size(table, 2);
-		phalcon_array_append(&table, schema, 0);
-		phalcon_array_append(&table, source, 0);
+		phalcon_array_append(&table, schema, PH_COPY);
+		phalcon_array_append(&table, source, PH_COPY);
 	} else {
 		PHALCON_CPY_WRT(table, source);
 	}
@@ -5264,13 +5264,14 @@ PHP_METHOD(Phalcon_Mvc_Model, refresh){
 	phalcon_is_iterable(attributes, &ah0, &hp0, 0, 0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
-		zval *field_item;
 
-		MAKE_STD_ZVAL(field_item);
+		PHALCON_GET_HVALUE(field);
+
+		PHALCON_INIT_NVAR(field_item);
 		array_init_size(field_item, 1);
-		phalcon_array_append(&field_item, *hd, 0);
+		phalcon_array_append(&field_item, field, PH_COPY);
 
-		add_next_index_zval(fields, field_item);
+		phalcon_array_append(&fields, field_item, PH_COPY);
 
 		zend_hash_move_forward_ex(ah0, &hp0);
 	}

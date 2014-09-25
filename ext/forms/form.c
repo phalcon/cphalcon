@@ -1355,6 +1355,7 @@ PHP_METHOD(Phalcon_Forms_Form, appendMessage){
 	
 	current_messages = phalcon_fetch_nproperty_this(this_ptr, SL("_messages"), PH_NOISY TSRMLS_CC);	
 	if (Z_TYPE_P(current_messages) != IS_ARRAY) {
+		PHALCON_INIT_VAR(current_messages);
 		array_init(current_messages);
 	}
 
