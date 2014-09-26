@@ -82,7 +82,7 @@ void phalcon_concat_self(zval **left, zval *right TSRMLS_DC){
 	}
 
 	length = Z_STRLEN_PP(left) + Z_STRLEN_P(right);
-	Z_STRVAL_PP(left) = erealloc(Z_STRVAL_PP(left), length + 1);
+	Z_STRVAL_PP(left) = str_erealloc(Z_STRVAL_PP(left), length + 1);
 
 	memcpy(Z_STRVAL_PP(left) + Z_STRLEN_PP(left), Z_STRVAL_P(right), Z_STRLEN_P(right));
 	Z_STRVAL_PP(left)[length] = 0;
@@ -126,7 +126,7 @@ void phalcon_concat_self_str(zval **left, const char *right, int right_length TS
 	}
 
 	length = Z_STRLEN_PP(left) + right_length;
-	Z_STRVAL_PP(left) = erealloc(Z_STRVAL_PP(left), length + 1);
+	Z_STRVAL_PP(left) = str_erealloc(Z_STRVAL_PP(left), length + 1);
 
 	memcpy(Z_STRVAL_PP(left) + Z_STRLEN_PP(left), right, right_length);
 	Z_STRVAL_PP(left)[length] = 0;

@@ -297,7 +297,7 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, _handleException){
  */
 PHP_METHOD(Phalcon_Mvc_Dispatcher, getControllerClass)
 {
-	PHALCON_RETURN_CALL_METHODW(this_ptr, "gethandlername");
+	PHALCON_RETURN_CALL_METHODW(this_ptr, "gethandlerclass");
 }
 
 /**

@@ -26,6 +26,8 @@ SOFTWARE.
 
 #include "php_phalcon.h"
 
+#ifdef PHALCON_NON_FREE
+
 #include <ext/standard/php_smart_str.h>
 
 #include "assets/filters/jsminifier.h"
@@ -402,3 +404,4 @@ int phalcon_jsmin(zval *return_value, zval *script TSRMLS_DC) {
 
 	return SUCCESS;
 }
+#endif

@@ -181,9 +181,6 @@ static const zend_function_entry phalcon_security_method_entry[] = {
  */
 PHALCON_INIT_CLASS(Phalcon_Security){
 
-	zend_phalcon_globals *g = PHALCON_VGLOBAL;
-	HashTable *constants    = EG(zend_constants);
-
 	PHALCON_REGISTER_CLASS(Phalcon, Security, security, phalcon_security_method_entry, 0);
 
 	zend_declare_property_null(phalcon_security_ce, SL("_dependencyInjector"), ZEND_ACC_PROTECTED TSRMLS_CC);
@@ -203,20 +200,6 @@ PHALCON_INIT_CLASS(Phalcon_Security){
 	zend_declare_class_constant_long(phalcon_security_ce, SL("CRYPT_BLOWFISH_Y"), PHALCON_SECURITY_CRYPT_BLOWFISH_Y TSRMLS_CC);
 	zend_declare_class_constant_long(phalcon_security_ce, SL("CRYPT_SHA256"),     PHALCON_SECURITY_CRYPT_SHA256     TSRMLS_CC);
 	zend_declare_class_constant_long(phalcon_security_ce, SL("CRYPT_SHA512"),     PHALCON_SECURITY_CRYPT_SHA512     TSRMLS_CC);
-
-	g->security.crypt_std_des_supported  = zend_hash_quick_exists(constants, SS("CRYPT_STD_DES"),  zend_inline_hash_func(SS("CRYPT_STD_DES")));
-	g->security.crypt_ext_des_supported  = zend_hash_quick_exists(constants, SS("CRYPT_EXT_DES"),  zend_inline_hash_func(SS("CRYPT_EXT_DES")));
-	g->security.crypt_md5_supported      = zend_hash_quick_exists(constants, SS("CRYPT_MD5"),      zend_inline_hash_func(SS("CRYPT_MD5")));
-	g->security.crypt_blowfish_supported = zend_hash_quick_exists(constants, SS("CRYPT_BLOWFISH"), zend_inline_hash_func(SS("CRYPT_BLOWFISH")));
-	g->security.crypt_sha256_supported   = zend_hash_quick_exists(constants, SS("CRYPT_SHA256"),   zend_inline_hash_func(SS("CRYPT_SHA256")));
-	g->security.crypt_sha512_supported   = zend_hash_quick_exists(constants, SS("CRYPT_SHA512"),   zend_inline_hash_func(SS("CRYPT_SHA512")));
-
-	if (PHP_VERSION_ID >= 50307) {
-		g->security.crypt_blowfish_y_supported = g->security.crypt_blowfish_supported;
-	}
-	else {
-		g->security.crypt_blowfish_y_supported = 0;
-	}
 
 	return SUCCESS;
 }

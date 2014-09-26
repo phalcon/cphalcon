@@ -245,6 +245,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, getHandler){
  *
  * @param string $routePattern
  * @param callable $handler
+ * @param string $name
  * @return Phalcon\Mvc\Micro\CollectionInterface
  */
 PHP_METHOD(Phalcon_Mvc_Micro_Collection, map){

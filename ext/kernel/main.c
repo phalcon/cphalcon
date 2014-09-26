@@ -32,6 +32,8 @@
  */
 void php_phalcon_init_globals(zend_phalcon_globals *phalcon_globals TSRMLS_DC) {
 
+	HashTable *constants = EG(zend_constants);
+
 	phalcon_globals->initialized = 0;
 
 	/* Memory options */
@@ -57,6 +59,21 @@ void php_phalcon_init_globals(zend_phalcon_globals *phalcon_globals TSRMLS_DC) {
 	phalcon_globals->orm.unique_cache_id = 0;
 	phalcon_globals->orm.parser_cache = NULL;
 	phalcon_globals->orm.ast_cache = NULL;
+
+	/* Security options */
+	phalcon_globals->security.crypt_std_des_supported  = zend_hash_quick_exists(constants, SS("CRYPT_STD_DES"),  zend_inline_hash_func(SS("CRYPT_STD_DES")));
+	phalcon_globals->security.crypt_ext_des_supported  = zend_hash_quick_exists(constants, SS("CRYPT_EXT_DES"),  zend_inline_hash_func(SS("CRYPT_EXT_DES")));
+	phalcon_globals->security.crypt_md5_supported      = zend_hash_quick_exists(constants, SS("CRYPT_MD5"),      zend_inline_hash_func(SS("CRYPT_MD5")));
+	phalcon_globals->security.crypt_blowfish_supported = zend_hash_quick_exists(constants, SS("CRYPT_BLOWFISH"), zend_inline_hash_func(SS("CRYPT_BLOWFISH")));
+	phalcon_globals->security.crypt_sha256_supported   = zend_hash_quick_exists(constants, SS("CRYPT_SHA256"),   zend_inline_hash_func(SS("CRYPT_SHA256")));
+	phalcon_globals->security.crypt_sha512_supported   = zend_hash_quick_exists(constants, SS("CRYPT_SHA512"),   zend_inline_hash_func(SS("CRYPT_SHA512")));
+
+	if (PHP_VERSION_ID >= 50307) {
+		phalcon_globals->security.crypt_blowfish_y_supported = phalcon_globals->security.crypt_blowfish_supported;
+	}
+	else {
+		phalcon_globals->security.crypt_blowfish_y_supported = 0;
+	}
 
 	/* DB options */
 	phalcon_globals->db.escape_identifiers = 1;

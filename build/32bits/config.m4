@@ -1,4 +1,13 @@
 PHP_ARG_ENABLE(phalcon, whether to enable phalcon framework, [ --enable-phalcon   Enable phalcon framework])
+PHP_ARG_WITH(non-free, wheter to enable non-free css and js minifier, [ --without-non-free Disable non-free minifiers], yes, no)
+
+AC_MSG_CHECKING([Include non-free minifiers])
+if test "$PHP_NON_FREE" = "yes"; then
+	AC_DEFINE([PHALCON_NON_FREE], [1], [Whether non-free minifiers are available])
+	AC_MSG_RESULT([yes, css and js])
+else
+	AC_MSG_RESULT([no])
+fi
 
 if test "$PHP_PHALCON" = "yes"; then
 	AC_DEFINE(HAVE_PHALCON, 1, [Whether you have Phalcon Framework])
@@ -37,22 +46,16 @@ if test "$PHP_PHALCON" = "yes"; then
 		[[#include "php_config.h"]]
 	)
 
-	AC_CHECK_DECL(
-		[HAVE_JSON],
+	AC_CHECK_HEADERS(
+		[ext/json/php_json.h],
 		[
-			AC_CHECK_HEADERS(
-				[ext/json/php_json.h],
-				[
-					PHP_ADD_EXTENSION_DEP([phalcon], [json])
-					AC_DEFINE([PHALCON_USE_PHP_JSON], [1], [Whether PHP json extension is present at compile time])
-				],
-				,
-				[[#include "main/php.h"]]
-			)
+			PHP_ADD_EXTENSION_DEP([phalcon], [json])
+			AC_DEFINE([PHALCON_USE_PHP_JSON], [1], [Whether PHP json extension is present at compile time])
 		],
 		,
-		[[#include "php_config.h"]]
+		[[#include "main/php.h"]]
 	)
+
 
 	AC_CHECK_DECL(
 		[HAVE_PHP_SESSION],

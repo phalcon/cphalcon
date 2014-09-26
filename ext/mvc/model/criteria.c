@@ -1381,7 +1381,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, fromInput){
 		PHALCON_VERIFY_INTERFACE_EX(model, phalcon_mvc_modelinterface_ce, phalcon_mvc_model_exception_ce, 1);
 
 		if (PHALCON_GLOBAL(orm).column_renaming) {
-			PHALCON_CALL_METHOD(&column_map, meta_data, "getcolumnmap", model);
+			PHALCON_CALL_METHOD(&column_map, meta_data, "getreversecolumnmap", model);
 			if (Z_TYPE_P(column_map) != IS_ARRAY) {
 				PHALCON_INIT_NVAR(column_map);
 			}
