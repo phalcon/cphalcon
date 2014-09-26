@@ -3623,6 +3623,42 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Collection_Exception);
 #endif /* PHALCON_MVC_COLLECTION_EXCEPTION_H */
 
 
+#ifndef PHALCON_MVC_COLLECTION_MESSAGEINTERFACE_H
+#define PHALCON_MVC_COLLECTION_MESSAGEINTERFACE_H
+
+#include "php_phalcon.h"
+
+zend_class_entry *phalcon_mvc_collection_messageinterface_ce;
+
+PHALCON_INIT_CLASS(Phalcon_Mvc_Collection_MessageInterface);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_collection_messageinterface_settype, 0, 0, 1)
+	ZEND_ARG_INFO(0, type)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_collection_messageinterface_setmessage, 0, 0, 1)
+	ZEND_ARG_INFO(0, message)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_collection_messageinterface_setfield, 0, 0, 1)
+	ZEND_ARG_INFO(0, field)
+ZEND_END_ARG_INFO()
+
+#endif /* PHALCON_MVC_COLLECTION_MESSAGEINTERFACE_H */
+
+
+#ifndef PHALCON_MVC_COLLECTION_MESSAGE_H
+#define PHALCON_MVC_COLLECTION_MESSAGE_H
+
+#include "php_phalcon.h"
+
+zend_class_entry *phalcon_mvc_collection_message_ce;
+
+PHALCON_INIT_CLASS(Phalcon_Mvc_Collection_Message);
+
+#endif /* PHALCON_MVC_COLLECTION_MESSAGE_H */
+
+
 #ifndef PHALCON_MVC_COLLECTION_MANAGER_H
 #define PHALCON_MVC_COLLECTION_MANAGER_H
 

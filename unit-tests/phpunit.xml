@@ -90,7 +90,7 @@
 			<file>unit-tests/ViewSimpleTest.php</file>
 
 			<!-- Other components -->
-			<file>unit-tests/ControllersTest.php</file>
+			<!-- <file>unit-tests/ControllersTest.php</file> -->
 			<file>unit-tests/SessionTest.php</file>
 			<file>unit-tests/SessionBagTest.php</file>
 			<file>unit-tests/PaginatorTest.php</file>
