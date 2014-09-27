@@ -36,8 +36,9 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_DiInterface) {
 
-	ZEPHIR_REGISTER_INTERFACE_EX(Phalcon, DiInterface, phalcon, diinterface, zend_ce_arrayaccess, phalcon_diinterface_method_entry);
+	ZEPHIR_REGISTER_INTERFACE(Phalcon, DiInterface, phalcon, diinterface, phalcon_diinterface_method_entry);
 
+	zend_class_implements(phalcon_diinterface_ce TSRMLS_CC, 1, zend_ce_arrayaccess);
 	return SUCCESS;
 
 }
