@@ -430,7 +430,7 @@ void phalcon_xss_clean(zval *return_value, zval *str, zval *allow_tags, zval *al
 			PHALCON_OBS_NVAR(element_attr_name);
 			phalcon_read_property(&element_attr_name, element_attr, SL("nodeName"), PH_NOISY TSRMLS_CC);
 			if (Z_TYPE_P(allow_attributes) == IS_ARRAY && !phalcon_fast_in_array(element_attr_name, allow_attributes TSRMLS_CC)) {
-				PHALCON_CALL_METHOD(NULL, element_attr, "removeattribute", element_attr_name);
+				PHALCON_CALL_METHOD(NULL, element, "removeattributenode", element_attr);
 			} else if (phalcon_memnstr_str(element_attr_name, SL("style"))) {
 				PHALCON_OBS_NVAR(element_attr_value);
 				phalcon_read_property(&element_attr_value, element_attr, SL("nodeValue"), PH_NOISY TSRMLS_CC);
