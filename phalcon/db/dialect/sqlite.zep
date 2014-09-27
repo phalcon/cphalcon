@@ -327,7 +327,7 @@ class Sqlite extends Dialect implements DialectInterface
 	{
 		var temporary, options, table, createLines, columns,
 			column, indexes, index, reference, references, indexName,
-			indexSql, sql, columnLine, indexType,
+			sql, columnLine, indexType,
 			referenceSql, onDelete, onUpdate, defaultValue,
 			indexLines, autocolumn, escapeChar;
 
@@ -337,6 +337,9 @@ class Sqlite extends Dialect implements DialectInterface
 
 		let escapeChar = this->_escapeChar;
 		let autocolumn = null;
+
+		let schemaName = addcslashes(schemaName, escapeChar);
+		let tableName = addcslashes(tableName, escapeChar);
 
 		if schemaName {
 			let table = escapeChar . schemaName . escapeChar . "." . escapeChar . tableName . escapeChar;
@@ -413,7 +416,7 @@ class Sqlite extends Dialect implements DialectInterface
 				 * but only if there is no autoincrement column
 				 */
 				if indexName == "PRIMARY" && empty autocolumn {
-					let indexSql = "PRIMARY KEY (" . this->getColumnList(columns) . ")";
+					let createLines[] = "PRIMARY KEY (" . this->getColumnList(columns) . ")";
 				} else {
 					/**
 					 * Make a unique index key when there already an autoincrement column
@@ -430,23 +433,10 @@ class Sqlite extends Dialect implements DialectInterface
 						let indexType = "UNIQUE";
 					}
 					if empty indexType {
-						let indexSql = "CREATE INDEX ";
+						let indexLines[] = this->addIndex(tableName, schemaName, index);
 					} else {
-						let indexSql = "CONSTRAINT ";
+						let createLines[] = "CONSTRAINT " . escapeChar . indexName . escapeChar . " " . indexType . " (" . this->getColumnList(columns) . ")";
 					}
-					let indexSql .= escapeChar . indexName . escapeChar . " ";
-					if empty indexType {
-						let indexSql .= "ON " . table;
-					} else {
-						let indexSql .= indexType;
-					}
-					let indexSql .= "(" . this->getColumnList(index->getColumns()) . ")";
-				}
-
-				if empty indexType && indexName != "PRIMARY" {
-					let indexLines[] = indexSql;
-				} else {
-					let createLines[] = indexSql;
 				}
 			}
 		}
@@ -475,7 +465,7 @@ class Sqlite extends Dialect implements DialectInterface
 
 		let sql .= join(",\n\t", createLines) . "\n)";
 		if count(indexLines) {
-			let sql = "SAVEPOINT create" . tableName . ";\n" . join(";\n", indexLines) . ";\nRELEASE create" . tableName . ";\n";
+			let sql = "SAVEPOINT create" . tableName . ";\n" . sql . ";\n" . join(";\n", indexLines) . ";\nRELEASE create" . tableName . ";";
 		}
 		if isset definition["options"] {
 			/**

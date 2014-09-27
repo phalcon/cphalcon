@@ -95,6 +95,13 @@ class DbDialectTest extends PHPUnit_Framework_TestCase
 				'notNull' => true,
 				'default' => 'A'
 			)),
+			'column13' => new Column("column13", array(
+				'type' => Column::TYPE_INTEGER,
+				'size' => 10,
+				'unsigned' => true,
+				'notNull' => true,
+				'autoIncrement' => true
+			)),
 		);
 	}
 
@@ -105,6 +112,8 @@ class DbDialectTest extends PHPUnit_Framework_TestCase
 			'index2' => new Index("index2", array('column1', 'column2')),
 			'PRIMARY' => new Index("PRIMARY", array('column3')),
 			'index4' => new Index("index4", array('column4'), 'UNIQUE'),
+			'index5' => new Index("PRIMARY", array('column13')),
+			'index6' => new Index("PRIMARY", array('column13', 'column1')),
 		);
 	}
 
@@ -272,6 +281,17 @@ class DbDialectTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($column12->getScale(), 0);
 		$this->assertFalse($column12->isUnsigned());
 		$this->assertTrue($column12->isNotNull());
+
+		//Integer column + auto increment
+		$column13 = $columns['column13'];
+
+		$this->assertEquals($column13->getName(), 'column13');
+		$this->assertEquals($column13->getType(), Column::TYPE_INTEGER);
+		$this->assertEquals($column13->getSize(), 10);
+		$this->assertEquals($column13->getScale(), 0);
+		$this->assertTrue($column13->isUnsigned());
+		$this->assertTrue($column13->isNotNull());
+		$this->assertTrue($column13->isAutoincrement());
 	}
 
 	public function testIndexes()
@@ -296,6 +316,13 @@ class DbDialectTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($index4->getColumns(), array('column4'));
 		$this->assertEquals($index4->getType(), 'UNIQUE');
 
+		$index5 = $indexes['index5'];
+		$this->assertEquals($index5->getName(), 'PRIMARY');
+		$this->assertEquals($index5->getColumns(), array('column13'));
+
+		$index6 = $indexes['index6'];
+		$this->assertEquals($index6->getName(), 'PRIMARY');
+		$this->assertEquals($index6->getColumns(), array('column13', 'column1'));
 	}
 
 	public function testReferences()
@@ -389,6 +416,7 @@ class DbDialectTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($dialect->getColumnDefinition($columns['column10']), 'INT(18) UNSIGNED');
 		$this->assertEquals($dialect->getColumnDefinition($columns['column11']), 'BIGINT(20) UNSIGNED');
 		$this->assertEquals($dialect->getColumnDefinition($columns['column12']), "ENUM(\"A\", \"B\", \"C\")");
+		$this->assertEquals($dialect->getColumnDefinition($columns['column13']), 'INT(10) UNSIGNED');
 
 		//Add Columns
 		$this->assertEquals($dialect->addColumn('table', null, $columns['column1']), 'ALTER TABLE `table` ADD `column1` VARCHAR(10)');
@@ -560,6 +588,25 @@ class DbDialectTest extends PHPUnit_Framework_TestCase
 		$expected .= ")";
 		$this->assertEquals($dialect->createTable('table', null, $definition), $expected);
 
+		$definition = array(
+			'columns' => array(
+				$columns['column13'],
+				$columns['column1'],
+				$columns['column2'],
+			),
+			'indexes' => array(
+				$indexes['index6'],
+				$indexes['index2'],
+			)
+		);
+		$expected = "CREATE TABLE `table` (\n";
+		$expected .= "\t`column13` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,\n";
+		$expected .= "\t`column1` VARCHAR(10),\n";
+		$expected .= "\t`column2` INT(18) UNSIGNED,\n";
+		$expected .= "\tPRIMARY KEY (`column13`, `column1`),\n";
+		$expected .= "\tKEY `index2` (`column1`, `column2`)\n";
+		$expected .= ")";
+		$this->assertEquals($dialect->createTable('table', null, $definition), $expected);
 	}
 
 	public function testSqliteDialect()
@@ -583,6 +630,8 @@ class DbDialectTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($dialect->getColumnDefinition($columns['column8']), 'FLOAT');
 		$this->assertEquals($dialect->getColumnDefinition($columns['column9']), 'VARCHAR(10)');
 		$this->assertEquals($dialect->getColumnDefinition($columns['column10']), 'INTEGER');
+		$this->assertEquals($dialect->getColumnDefinition($columns['column11']), 'BIGINT');
+		$this->assertEquals($dialect->getColumnDefinition($columns['column13']), 'INTEGER');
 
 		//Add Columns
 		$this->assertEquals($dialect->addColumn('table', null,     $columns['column1']), 'ALTER TABLE "table" ADD COLUMN "column1" VARCHAR(10)');
@@ -605,6 +654,10 @@ class DbDialectTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($dialect->addColumn('table', 'schema', $columns['column9']), 'ALTER TABLE "schema"."table" ADD COLUMN "column9" VARCHAR(10) DEFAULT "column9"');
 		$this->assertEquals($dialect->addColumn('table', null,     $columns['column10']), 'ALTER TABLE "table" ADD COLUMN "column10" INTEGER DEFAULT "10"');
 		$this->assertEquals($dialect->addColumn('table', 'schema', $columns['column10']), 'ALTER TABLE "schema"."table" ADD COLUMN "column10" INTEGER DEFAULT "10"');
+		$this->assertEquals($dialect->addColumn('table', null,     $columns['column11']), 'ALTER TABLE "table" ADD COLUMN "column11" BIGINT');
+		$this->assertEquals($dialect->addColumn('table', 'schema', $columns['column11']), 'ALTER TABLE "schema"."table" ADD COLUMN "column11" BIGINT');
+		$this->assertEquals($dialect->addColumn('table', null,     $columns['column13']), 'ALTER TABLE "table" ADD COLUMN "column13" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT');
+		$this->assertEquals($dialect->addColumn('table', 'schema', $columns['column13']), 'ALTER TABLE "schema"."table" ADD COLUMN "column13" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT');
 
 		//Modify Columns
 		try {
@@ -637,6 +690,10 @@ class DbDialectTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($dialect->addIndex('table', 'schema', $indexes['index1']),  'CREATE INDEX "schema"."index1" ON "table" ("column1")');
 		$this->assertEquals($dialect->addIndex('table', null,     $indexes['index2']),  'CREATE INDEX "index2" ON "table" ("column1", "column2")');
 		$this->assertEquals($dialect->addIndex('table', 'schema', $indexes['index2']),  'CREATE INDEX "schema"."index2" ON "table" ("column1", "column2")');
+		$this->assertEquals($dialect->addIndex('table', null,     $indexes['PRIMARY']), 'CREATE INDEX "PRIMARY" ON "table" ("column3")');
+		$this->assertEquals($dialect->addIndex('table', 'schema', $indexes['PRIMARY']), 'CREATE INDEX "schema"."PRIMARY" ON "table" ("column3")');
+		$this->assertEquals($dialect->addIndex('table', null,     $indexes['index4']),  'CREATE UNIQUE INDEX "index4" ON "table" ("column4")');
+		$this->assertEquals($dialect->addIndex('table', 'schema', $indexes['index4']),  'CREATE UNIQUE INDEX "schema"."index4" ON "table" ("column4")');
 
 		//Drop Index
 		$this->assertEquals($dialect->dropIndex('table', null, 'index1'), 'DROP INDEX "index1"');
@@ -748,6 +805,28 @@ class DbDialectTest extends PHPUnit_Framework_TestCase
 		$expected .= "	\"column9\" VARCHAR(10) DEFAULT \"column9\",\n";
 		$expected .= "	\"column10\" INTEGER DEFAULT \"10\"\n";
 		$expected .= ")";
+		$this->assertEquals($dialect->createTable('table', null, $definition), $expected);
+
+		$definition = array(
+			'columns' => array(
+				$columns['column13'],
+				$columns['column1'],
+				$columns['column2'],
+			),
+			'indexes' => array(
+				$indexes['index6'],
+				$indexes['index2'],
+			)
+		);
+		$expected  = "SAVEPOINT createtable;\n";
+		$expected .= "CREATE TABLE \"table\" (\n";
+		$expected .= "\t\"column13\" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,\n";
+		$expected .= "\t\"column1\" VARCHAR(10),\n";
+		$expected .= "\t\"column2\" INTEGER,\n";
+		$expected .= "\tCONSTRAINT \"PRIMARY\" UNIQUE (\"column13\", \"column1\")\n";
+		$expected .= ");\n";
+		$expected .= "CREATE INDEX \"index2\" ON \"table\" (\"column1\", \"column2\");\n";
+		$expected .= "RELEASE createtable;";
 		$this->assertEquals($dialect->createTable('table', null, $definition), $expected);
 	}
 
