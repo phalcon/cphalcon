@@ -109,7 +109,7 @@ class Sqlite extends \Phalcon\Db\Adapter\Pdo implements AdapterInterface
 			/**
 			 * By checking every column type we convert it to a Phalcon\Db\Column
 			 */
-			let columnType = field[2];
+			let columnType = strtolower(field[2]);
 
 			loop {
 
@@ -126,7 +126,7 @@ class Sqlite extends \Phalcon\Db\Adapter\Pdo implements AdapterInterface
 				/**
 				 * Smallint/Bigint/Integers/Int are int
 				 */
-				if memstr(columnType, "int") || memstr(columnType, "INT") {
+				if memstr(columnType, "int") {
 
 					let definition["type"] = Column::TYPE_INTEGER,
 						definition["isNumeric"] = true,
@@ -163,9 +163,9 @@ class Sqlite extends \Phalcon\Db\Adapter\Pdo implements AdapterInterface
 				}
 
 				/**
-				 * Decimals are floats
+				 * Numeric are decimals
 				 */
-				if memstr(columnType, "decimal") {
+				if memstr(columnType, "numeric") || memstr(columnType, "decimal") {
 					let definition["type"] = Column::TYPE_DECIMAL,
 						definition["isNumeric"] = true,
 						definition["bindType"] = Column::BIND_PARAM_DECIMAL;
@@ -203,14 +203,6 @@ class Sqlite extends \Phalcon\Db\Adapter\Pdo implements AdapterInterface
 					let definition["type"] = Column::TYPE_FLOAT,
 						definition["isNumeric"] = true,
 						definition["bindType"] = Column::TYPE_DECIMAL;
-					break;
-				}
-
-				/**
-				 * Enum are treated as char
-				 */
-				if memstr(columnType, "enum") {
-					let definition["type"] = Column::TYPE_CHAR;
 					break;
 				}
 
