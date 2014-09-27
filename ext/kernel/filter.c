@@ -381,7 +381,15 @@ void phalcon_xss_clean(zval *return_value, zval *str, zval *allow_tags, zval *al
 
 	phalcon_update_property_bool(document, SL("strictErrorChecking"), 0 TSRMLS_CC);
 
+	if (phalcon_function_exists_ex(SS("libxml_use_internal_errors") TSRMLS_CC) == SUCCESS) {
+		PHALCON_CALL_FUNCTION(NULL, "libxml_use_internal_errors", PHALCON_GLOBAL(z_true));
+	}
+
 	PHALCON_CALL_METHOD(&ret, document, "loadhtml", str);
+
+	if (phalcon_function_exists_ex(SS("libxml_clear_errors") TSRMLS_CC) == SUCCESS) {
+		PHALCON_CALL_FUNCTION(NULL, "libxml_clear_errors");
+	}
 
 	if (!zend_is_true(ret)) {
 		RETURN_MM();
