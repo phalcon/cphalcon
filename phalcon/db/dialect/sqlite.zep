@@ -23,6 +23,7 @@ namespace Phalcon\Db\Dialect;
 
 use Phalcon\Db\Column;
 use Phalcon\Db\Exception;
+use Phalcon\Db\Index;
 use Phalcon\Db\IndexInterface;
 use Phalcon\Db\Dialect;
 use Phalcon\Db\DialectInterface;
@@ -419,7 +420,7 @@ class Sqlite extends Dialect implements DialectInterface
 					let createLines[] = "PRIMARY KEY (" . this->getColumnList(columns) . ")";
 				} else {
 					/**
-					 * Make a unique index key when there already an autoincrement column
+					 * Make a unique index key if there is already an autoincrement column
 					 */
 					if indexName == "PRIMARY" {
 						if count(columns) == 1 {
@@ -430,13 +431,13 @@ class Sqlite extends Dialect implements DialectInterface
 								continue;
 							}
 						}
-						let indexType = "UNIQUE";
+						let index = new Index(indexName, columns, "UNIQUE");
 					}
-					if empty indexType {
-						let indexLines[] = this->addIndex(tableName, schemaName, index);
-					} else {
-						let createLines[] = "CONSTRAINT " . escapeChar . indexName . escapeChar . " " . indexType . " (" . this->getColumnList(columns) . ")";
-					}
+					/**
+					 * Table constraints are not considered indexes
+					 * So create an actual index instead
+					 */
+					let indexLines[] = this->addIndex(tableName, schemaName, index);
 				}
 			}
 		}

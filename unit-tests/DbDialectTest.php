@@ -822,9 +822,9 @@ class DbDialectTest extends PHPUnit_Framework_TestCase
 		$expected .= "CREATE TABLE \"table\" (\n";
 		$expected .= "\t\"column13\" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,\n";
 		$expected .= "\t\"column1\" VARCHAR(10),\n";
-		$expected .= "\t\"column2\" INTEGER,\n";
-		$expected .= "\tCONSTRAINT \"PRIMARY\" UNIQUE (\"column13\", \"column1\")\n";
+		$expected .= "\t\"column2\" INTEGER\n";
 		$expected .= ");\n";
+		$expected .= "CREATE UNIQUE INDEX \"PRIMARY\" ON \"table\" (\"column13\", \"column1\");\n";
 		$expected .= "CREATE INDEX \"index2\" ON \"table\" (\"column1\", \"column2\");\n";
 		$expected .= "RELEASE createtable;";
 		$this->assertEquals($dialect->createTable('table', null, $definition), $expected);
