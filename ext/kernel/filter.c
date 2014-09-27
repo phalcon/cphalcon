@@ -28,6 +28,11 @@
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
+#include "kernel/object.h"
+#include "kernel/fcall.h"
+#include "kernel/array.h"
+#include "kernel/string.h"
+#include "kernel/concat.h"
 
 /**
  * Filter alphanum string
@@ -352,4 +357,116 @@ void phalcon_escape_html(zval *return_value, zval *str, const zval *quote_style,
 	escaped = php_escape_html_entities((unsigned char*) Z_STRVAL_P(str), Z_STRLEN_P(str), &length, 0, Z_LVAL_P(quote_style), Z_STRVAL_P(charset) TSRMLS_CC);
 
 	RETURN_STRINGL(escaped, length, 0);
+}
+
+/**
+ * Prevernt cross-site scripting (XSS) attacks
+ */
+void phalcon_xss_clean(zval *return_value, zval *str, zval *allow_tags, zval *allow_attributes TSRMLS_DC){
+
+	zval *document, *ret = NULL, *tmp = NULL, *elements = NULL, *element = NULL;
+	zval *element_name = NULL, *element_attrs = NULL;
+	zval *element_attr = NULL, *element_attr_parent = NULL, *element_attr_name = NULL, *element_attr_value = NULL, *matched = NULL, *regexp;
+	zval *joined_tags, *clean_str = NULL;
+	zend_class_entry *ce0;
+	int i, j, element_length, element_attrs_length;
+
+	PHALCON_MM_GROW();
+
+	ce0 = zend_fetch_class(SL("DOMDocument"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
+
+	PHALCON_INIT_VAR(document);
+	object_init_ex(document, ce0);
+	PHALCON_CALL_METHOD(NULL, document, "__construct");
+
+	phalcon_update_property_bool(document, SL("strictErrorChecking"), 0 TSRMLS_CC);
+
+	if (phalcon_function_exists_ex(SS("libxml_use_internal_errors") TSRMLS_CC) == SUCCESS) {
+		PHALCON_CALL_FUNCTION(NULL, "libxml_use_internal_errors", PHALCON_GLOBAL(z_true));
+	}
+
+	PHALCON_CALL_METHOD(&ret, document, "loadhtml", str);
+
+	if (phalcon_function_exists_ex(SS("libxml_clear_errors") TSRMLS_CC) == SUCCESS) {
+		PHALCON_CALL_FUNCTION(NULL, "libxml_clear_errors");
+	}
+
+	if (!zend_is_true(ret)) {
+		RETURN_MM();
+	}
+
+	PHALCON_INIT_NVAR(tmp);
+	ZVAL_STRING(tmp, "*", 1);
+
+	PHALCON_CALL_METHOD(&elements, document, "getelementsbytagname", tmp);
+
+	PHALCON_INIT_VAR(regexp);
+	ZVAL_STRING(regexp, "/e.*x.*p.*r.*e.*s.*s.*i.*o.*n/i", 1);
+
+	PHALCON_OBS_NVAR(tmp);
+	phalcon_read_property(&tmp, elements, SL("length"), PH_NOISY TSRMLS_CC);
+
+	element_length = Z_LVAL_P(tmp);
+
+	for (i = 0; i < element_length; i++) {
+		PHALCON_INIT_NVAR(tmp);
+		ZVAL_LONG(tmp, i);
+	
+		PHALCON_CALL_METHOD(&element, elements, "item", tmp);
+
+		PHALCON_OBS_NVAR(element_name);
+		phalcon_read_property(&element_name, element, SL("nodeName"), PH_NOISY TSRMLS_CC);
+
+		if (Z_TYPE_P(allow_tags) == IS_ARRAY && !phalcon_fast_in_array(element_name, allow_tags TSRMLS_CC)) {
+			continue;
+		}
+
+		PHALCON_OBS_NVAR(element_attrs);
+		phalcon_read_property(&element_attrs, element, SL("attributes"), PH_NOISY TSRMLS_CC);
+
+		PHALCON_OBS_NVAR(tmp);
+		phalcon_read_property(&tmp, element_attrs, SL("length"), PH_NOISY TSRMLS_CC);
+
+		element_attrs_length = Z_LVAL_P(tmp);
+
+		for (j = 0; j < element_attrs_length; j++) {
+			PHALCON_INIT_NVAR(tmp);
+			ZVAL_LONG(tmp, j);
+
+			PHALCON_CALL_METHOD(&element_attr, element_attrs, "item", tmp);
+
+			PHALCON_OBS_NVAR(element_attr_name);
+			phalcon_read_property(&element_attr_name, element_attr, SL("nodeName"), PH_NOISY TSRMLS_CC);
+			if (Z_TYPE_P(allow_attributes) == IS_ARRAY && !phalcon_fast_in_array(element_attr_name, allow_attributes TSRMLS_CC)) {
+				PHALCON_CALL_METHOD(NULL, element, "removeattributenode", element_attr);
+			} else if (phalcon_memnstr_str(element_attr_name, SL("style"))) {
+				PHALCON_OBS_NVAR(element_attr_value);
+				phalcon_read_property(&element_attr_value, element_attr, SL("nodeValue"), PH_NOISY TSRMLS_CC);
+
+				PHALCON_INIT_NVAR(matched);
+				RETURN_MM_ON_FAILURE(phalcon_preg_match(matched, regexp, element_attr_value, NULL TSRMLS_CC));
+
+				if (zend_is_true(matched)) {
+					PHALCON_OBS_NVAR(element_attr_parent);
+					phalcon_read_property(&element_attr_parent, element_attr, SL("parentNode"), PH_NOISY TSRMLS_CC);
+
+					PHALCON_CALL_METHOD(NULL, element, "removeattributenode", element_attr);
+				}
+			}
+		}
+	}
+
+	PHALCON_INIT_NVAR(tmp);
+	phalcon_fast_join_str(tmp, SL("><"), allow_tags TSRMLS_CC);
+
+	PHALCON_INIT_VAR(joined_tags);
+	PHALCON_CONCAT_SVS(joined_tags, "<", tmp, ">");
+
+	PHALCON_CALL_METHOD(&ret, document, "savehtml");
+
+	PHALCON_CALL_FUNCTION(&clean_str, "strip_tags", ret, joined_tags);
+
+	ZVAL_ZVAL(return_value, clean_str, 1, 0);
+
+	PHALCON_MM_RESTORE();
 }
