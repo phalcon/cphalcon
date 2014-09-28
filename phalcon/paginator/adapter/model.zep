@@ -81,8 +81,8 @@ class Model implements AdapterInterface
 	public function getPaginate() -> <stdclass>
 	{
 		var config, items, pageItems, page, valid;
-		int pageNumber, show, n, start, lastPage, totalPages,
-			lastShowPage, i, maximumPages, next, pagesTotal,
+		int pageNumber, show, n, start,
+			lastShowPage, i, next, pagesTotal,
 			before;
 
 		let show       = (int) this->_limitRows,
@@ -101,16 +101,16 @@ class Model implements AdapterInterface
 		let n          = count(items),
 			page       = new \stdClass(),
 			lastShowPage = pageNumber - 1,
-			start      = show * lastShowPage,
-			lastPage   = n - 1,
-			totalPages = (int) ceil(lastPage / show);
+			start      = show * lastShowPage;
 
 		if typeof items != "object" {
 			throw new Exception("Invalid data for paginator");
 		}
 
-		if pageNumber <= 0 {
-			let pageNumber = 1;
+		if n % show != 0 {
+			let pagesTotal = (int) (n / show + 1);
+		} else {
+			let pagesTotal = (int) (n / show);
 		}
 
 		let pageItems = [];
@@ -123,7 +123,7 @@ class Model implements AdapterInterface
 			if start <= n {
 				items->seek(start);
 			} else {
-				items->seek(1);
+				items->seek(0);
 				let pageNumber = 1;
 			}
 
@@ -145,22 +145,12 @@ class Model implements AdapterInterface
 				let i++;
 			}
 		}
-		let page->items = pageItems,
-			maximumPages = start + show;
 
-		if maximumPages < n {
-			let next = pageNumber + 1;
-		} else {
-			if maximumPages == n {
-				let next = n;
-			} else {
-				let next = (int) (n / show + 1);
-			}
-		}
+		let page->items = pageItems;
 
-		//Fix next
-		if next > totalPages {
-			let next = totalPages;
+		let next = pageNumber + 1;
+		if next > pagesTotal {
+			let next = pagesTotal;
 		}
 		let page->next = next;
 
@@ -173,12 +163,6 @@ class Model implements AdapterInterface
 		let page->first = 1,
 			page->before =  before,
 			page->current = pageNumber;
-
-		if n % show != 0 {
-			let pagesTotal = (int) (n / show + 1);
-		} else {
-			let pagesTotal = (int) (n / show);
-		}
 
 		let page->last = pagesTotal,
 			page->total_pages = pagesTotal,
