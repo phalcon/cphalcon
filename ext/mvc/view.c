@@ -1014,6 +1014,8 @@ PHP_METHOD(Phalcon_Mvc_View, _engineRender){
 			ZVAL_FALSE(not_exists);
 
 			if (Z_TYPE_P(events_manager) == IS_OBJECT) {
+				phalcon_update_property_this(this_ptr, SL("_activeRenderPath"), view_engine_path TSRMLS_CC);
+				
 				PHALCON_INIT_NVAR(event_name);
 				ZVAL_STRING(event_name, "view:afterRenderView", 1);
 				PHALCON_CALL_METHOD(NULL, events_manager, "fire", event_name, this_ptr);
