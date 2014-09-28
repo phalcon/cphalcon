@@ -63,6 +63,8 @@ CREATE TABLE `personas` (
   `estado` character(1) NOT NULL,
   PRIMARY KEY (`cedula`)
 );
+CREATE UNIQUE INDEX personas_unique_idx ON personas (`nombres`, `telefono`, `email`, `creado_at`);
+
 INSERT INTO "personas" VALUES('1',3,'HUANG ZHENGQUIN','191821112','CRA 25 CALLE 100','@yahoo.es','2011-02-03',127591,'2011-05-18',6930,'I');
 INSERT INTO "personas" VALUES('100',1,'USME FERNANDEZ JUAN GUILLERMO','191821112','CRA 25 CALLE 100','@hotmail.es','2011-02-03',128662,'2010-04-15',439480,'A');
 INSERT INTO "personas" VALUES('1003',8,'SINMON PEREZ','191821112','CRA 25 CALLE 100','@terra.com.co','2011-02-03',127591,'2011-08-25',468610,'A');

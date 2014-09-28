@@ -807,6 +807,37 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 		$describeIndexes = $connection->describeIndexes('robots_parts', 'main');
 		$this->assertEquals($describeIndexes, $expectedIndexes);
 
+		// Unique and multi-column indexes
+		$expectedIndexes = array(
+			'personas_estado_2' => Phalcon\Db\Index::__set_state(array(
+				'_indexName' => 'personas_estado_2',
+				'_columns' => array('estado', 'nombres')
+			)),
+			'personas_ciudad_id' => Phalcon\Db\Index::__set_state(array(
+				'_indexName' => 'personas_ciudad_id',
+				'_columns' => array('ciudad_id')
+			)),
+			'personas_unique_idx' => Phalcon\Db\Index::__set_state(array(
+				'_indexName' => 'personas_unique_idx',
+				'_columns' => array('nombres', 'telefono', 'email', 'creado_at'),
+				'_type' => 'UNIQUE'
+			)),
+			'personas_estado' => Phalcon\Db\Index::__set_state(array(
+				'_indexName' => 'personas_estado',
+				'_columns' => array('estado')
+			)),
+			'PRIMARY' => Phalcon\Db\Index::__set_state(array(
+				'_indexName' => 'PRIMARY',
+				'_columns' => array('cedula')
+			)),
+		);
+
+		$describeIndexes = $connection->describeIndexes('personas');
+		$this->assertEquals($describeIndexes, $expectedIndexes);
+
+		$describeIndexes = $connection->describeIndexes('personas', 'main');
+		$this->assertEquals($describeIndexes, $expectedIndexes);
+
 		//References
 		$expectedReferences = array(
 		   'foreign_key_0' => Phalcon\Db\Reference::__set_state(array(

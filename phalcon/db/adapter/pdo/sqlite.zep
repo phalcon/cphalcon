@@ -286,9 +286,12 @@ class Sqlite extends \Phalcon\Db\Adapter\Pdo implements AdapterInterface
 	public function describeIndexes(table, schema = null) -> <IndexInterface>
 	{
 		var indexes, index, keyName, indexObjects, name, indexColumns, columns,
-			describe_index;
+			describe_index, indexType, indexTypes;
 
 		let indexes = [];
+		let indexObjects = [];
+		let indexTypes = [];
+
 		for index in this->fetchAll(this->_dialect->describeIndexes(table, schema), \Phalcon\Db::FETCH_NUM) {
 
 			let keyName = index[1];
@@ -298,16 +301,37 @@ class Sqlite extends \Phalcon\Db\Adapter\Pdo implements AdapterInterface
 				let columns = indexes[keyName];
 			}
 
+			let indexType = NULL;
+			if index[2] == "1" {
+				let indexType = "UNIQUE";
+			}
+
 			for describe_index in this->fetchAll(this->_dialect->describeIndex(keyName), \Phalcon\Db::FETCH_NUM) {
 				let columns[] = describe_index[2];
 			}
 
+			/**
+			 * sqlite_autoindex_% key is the PRIMARY
+			 */
+			if memstr(keyName, "sqlite_autoindex_") {
+				/**
+				 * Don't overwrite an existing PRIMARY
+				 * dialect->createTable can create a pseudo primary key for tables with an autoincrement AND composite primary
+				 */
+				if isset indexes["PRIMARY"] {
+					continue;
+				}
+				let keyName = "PRIMARY";
+				let indexType = NULL;
+			}
+
 			let indexes[keyName] = columns;
+			let indexTypes[keyName] = indexType;
 		}
 
 		let indexObjects = [];
 		for name, indexColumns in indexes {
-			let indexObjects[name] = new Index(name, indexColumns);
+			let indexObjects[name] = new Index(name, indexColumns, indexTypes[name]);
 		}
 
 		return indexObjects;
