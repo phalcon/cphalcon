@@ -12,8 +12,8 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
-#include "kernel/exception.h"
 #include "kernel/hash.h"
+#include "kernel/exception.h"
 #include "kernel/object.h"
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
@@ -74,8 +74,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Config) {
 
 /**
  * Phalcon\Config constructor
- *
- * @param	array arrayConfig
  */
 PHP_METHOD(Phalcon_Config, __construct) {
 
@@ -84,25 +82,27 @@ PHP_METHOD(Phalcon_Config, __construct) {
 	HashTable *_1, *_4;
 	HashPosition _0, _3;
 	zend_bool hasNumericKey;
-	zval *arrayConfig = NULL, *key = NULL, *value = NULL, *subkey = NULL, *subvalue = NULL, **_2, **_5, *_6 = NULL;
+	zval *arrayConfig_param = NULL, *key = NULL, *value = NULL, *subkey = NULL, *subvalue = NULL, **_2, **_5, *_6 = NULL;
+	zval *arrayConfig = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 0, 1, &arrayConfig);
+	zephir_fetch_params(1, 0, 1, &arrayConfig_param);
 
-	if (!arrayConfig) {
-		arrayConfig = ZEPHIR_GLOBAL(global_null);
+	if (!arrayConfig_param) {
+	ZEPHIR_INIT_VAR(arrayConfig);
+	ZVAL_NULL(arrayConfig);
+	} else {
+	if (unlikely(Z_TYPE_P(arrayConfig_param) != IS_ARRAY)) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'arrayConfig' must be an array") TSRMLS_CC);
+		RETURN_MM_NULL();
+	}
+
+		arrayConfig = arrayConfig_param;
+
 	}
 
 
-	if (Z_TYPE_P(arrayConfig) != IS_ARRAY) {
-		if (Z_TYPE_P(arrayConfig) != IS_NULL) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_config_exception_ce, "The configuration must be an Array", "phalcon/config.zep", 65);
-			return;
-		} else {
-			RETURN_MM_NULL();
-		}
-	}
-	zephir_is_iterable(arrayConfig, &_1, &_0, 0, 0, "phalcon/config.zep", 98);
+	zephir_is_iterable(arrayConfig, &_1, &_0, 0, 0, "phalcon/config.zep", 85);
 	for (
 	  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_1, &_0)
@@ -110,12 +110,12 @@ PHP_METHOD(Phalcon_Config, __construct) {
 		ZEPHIR_GET_HMKEY(key, _1, _0);
 		ZEPHIR_GET_HVALUE(value, _2);
 		if (Z_TYPE_P(key) != IS_STRING) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_config_exception_ce, "Only string keys are allowed as configuration properties", "phalcon/config.zep", 77);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_config_exception_ce, "Only string keys are allowed as configuration properties", "phalcon/config.zep", 64);
 			return;
 		}
 		if (Z_TYPE_P(value) == IS_ARRAY) {
 			hasNumericKey = 0;
-			zephir_is_iterable(value, &_4, &_3, 0, 0, "phalcon/config.zep", 88);
+			zephir_is_iterable(value, &_4, &_3, 0, 0, "phalcon/config.zep", 75);
 			for (
 			  ; zephir_hash_get_current_data_ex(_4, (void**) &_5, &_3) == SUCCESS
 			  ; zephir_hash_move_forward_ex(_4, &_3)
@@ -150,9 +150,6 @@ PHP_METHOD(Phalcon_Config, __construct) {
  *<code>
  * var_dump(isset($config['database']));
  *</code>
- *
- * @param string index
- * @return boolean
  */
 PHP_METHOD(Phalcon_Config, offsetExists) {
 
@@ -186,17 +183,26 @@ PHP_METHOD(Phalcon_Config, offsetExists) {
  *<code>
  * echo $config->get('controllersDir', '../app/controllers/');
  *</code>
- *
- * @param string index
- * @param mixed defaultValue
- * @return mixed
  */
 PHP_METHOD(Phalcon_Config, get) {
 
-	zval *index, *defaultValue = NULL;
+	zval *index_param = NULL, *defaultValue = NULL;
+	zval *index = NULL;
 
-	zephir_fetch_params(0, 1, 1, &index, &defaultValue);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 1, &index_param, &defaultValue);
 
+	if (unlikely(Z_TYPE_P(index_param) != IS_STRING && Z_TYPE_P(index_param) != IS_NULL)) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'index' must be a string") TSRMLS_CC);
+		RETURN_MM_NULL();
+	}
+
+	if (unlikely(Z_TYPE_P(index_param) == IS_STRING)) {
+		index = index_param;
+	} else {
+		ZEPHIR_INIT_VAR(index);
+		ZVAL_EMPTY_STRING(index);
+	}
 	if (!defaultValue) {
 		defaultValue = ZEPHIR_GLOBAL(global_null);
 	}
@@ -211,9 +217,6 @@ PHP_METHOD(Phalcon_Config, get) {
  *<code>
  * print_r($config['database']);
  *</code>
- *
- * @param string index
- * @return string
  */
 PHP_METHOD(Phalcon_Config, offsetGet) {
 
@@ -248,9 +251,6 @@ PHP_METHOD(Phalcon_Config, offsetGet) {
  *<code>
  * $config['database'] = array('type' => 'Sqlite');
  *</code>
- *
- * @param string $index
- * @param mixed $value
  */
 PHP_METHOD(Phalcon_Config, offsetSet) {
 
@@ -284,8 +284,6 @@ PHP_METHOD(Phalcon_Config, offsetSet) {
  *<code>
  * unset($config['database']);
  *</code>
- *
- * @param string index
  */
 PHP_METHOD(Phalcon_Config, offsetUnset) {
 
@@ -340,7 +338,7 @@ PHP_METHOD(Phalcon_Config, merge) {
 	}
 	ZEPHIR_CALL_FUNCTION(&_0, "get_object_vars", &_1, config);
 	zephir_check_call_status();
-	zephir_is_iterable(_0, &_3, &_2, 0, 0, "phalcon/config.zep", 196);
+	zephir_is_iterable(_0, &_3, &_2, 0, 0, "phalcon/config.zep", 168);
 	for (
 	  ; zephir_hash_get_current_data_ex(_3, (void**) &_4, &_2) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_3, &_2)
@@ -362,8 +360,6 @@ PHP_METHOD(Phalcon_Config, merge) {
  *<code>
  *	print_r($config->toArray());
  *</code>
- *
- * @return array
  */
 PHP_METHOD(Phalcon_Config, toArray) {
 
@@ -379,7 +375,7 @@ PHP_METHOD(Phalcon_Config, toArray) {
 	array_init(arrayConfig);
 	ZEPHIR_CALL_FUNCTION(&_0, "get_object_vars", &_1, this_ptr);
 	zephir_check_call_status();
-	zephir_is_iterable(_0, &_3, &_2, 0, 0, "phalcon/config.zep", 223);
+	zephir_is_iterable(_0, &_3, &_2, 0, 0, "phalcon/config.zep", 193);
 	for (
 	  ; zephir_hash_get_current_data_ex(_3, (void**) &_4, &_2) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_3, &_2)
@@ -404,17 +400,22 @@ PHP_METHOD(Phalcon_Config, toArray) {
 
 /**
  * Restores the state of a Phalcon\Config object
- *
- * @param array data
- * @return Phalcon\Config
  */
 PHP_METHOD(Phalcon_Config, __set_state) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *data;
+	zval *data_param = NULL;
+	zval *data = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &data);
+	zephir_fetch_params(1, 1, 0, &data_param);
+
+	if (unlikely(Z_TYPE_P(data_param) != IS_ARRAY)) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'data' must be an array") TSRMLS_CC);
+		RETURN_MM_NULL();
+	}
+
+		data = data_param;
 
 
 
