@@ -31,6 +31,7 @@
 #include "diinterface.h"
 #include "di/injectionawareinterface.h"
 #include "db/rawvalue.h"
+#include "filterinterface.h"
 
 #include <ext/pdo/php_pdo_driver.h>
 
@@ -171,6 +172,7 @@ PHP_METHOD(Phalcon_Mvc_Model, dump);
 PHP_METHOD(Phalcon_Mvc_Model, toArray);
 PHP_METHOD(Phalcon_Mvc_Model, setup);
 PHP_METHOD(Phalcon_Mvc_Model, reset);
+PHP_METHOD(Phalcon_Mvc_Model, filter);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model___construct, 0, 0, 0)
 	ZEND_ARG_INFO(0, dependencyInjector)
@@ -299,6 +301,14 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_toarray, 0, 0, 0)
 	ZEND_ARG_INFO(0, columns)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_filter, 0, 0, 2)
+	ZEND_ARG_INFO(0, field)
+	ZEND_ARG_INFO(0, filters)
+	ZEND_ARG_INFO(0, defaultValue)
+	ZEND_ARG_INFO(0, notAllowEmpty)
+	ZEND_ARG_INFO(0, noRecursive)
+ZEND_END_ARG_INFO()
+
 static const zend_function_entry phalcon_mvc_model_method_entry[] = {
 	PHP_ME(Phalcon_Mvc_Model, __construct, arginfo_phalcon_mvc_model___construct, ZEND_ACC_PUBLIC|ZEND_ACC_FINAL|ZEND_ACC_CTOR)
 	PHP_ME(Phalcon_Mvc_Model, setDI, arginfo_phalcon_di_injectionawareinterface_setdi, ZEND_ACC_PUBLIC)
@@ -388,6 +398,7 @@ static const zend_function_entry phalcon_mvc_model_method_entry[] = {
 	PHP_ME(Phalcon_Mvc_Model, toArray, arginfo_phalcon_mvc_model_toarray, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model, setup, arginfo_phalcon_mvc_model_setup, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Mvc_Model, reset, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model, filter, arginfo_phalcon_mvc_model_filter, ZEND_ACC_PROTECTED)
 	PHP_FE_END
 };
 
@@ -411,6 +422,7 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model){
 	zend_declare_property_null(phalcon_mvc_model_ce, SL("_skipped"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_model_ce, SL("_related"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_model_ce, SL("_snapshot"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_model_ce, SL("_filter"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	zend_declare_class_constant_long(phalcon_mvc_model_ce, SL("OP_NONE"), 0 TSRMLS_CC);
 	zend_declare_class_constant_long(phalcon_mvc_model_ce, SL("OP_CREATE"), 1 TSRMLS_CC);
@@ -3069,6 +3081,10 @@ PHP_METHOD(Phalcon_Mvc_Model, _preSave){
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 3, 0, &meta_data, &exists, &identity_field);
+
+	if (phalcon_method_exists_ex(this_ptr, SS("filters") TSRMLS_CC) == SUCCESS) {
+		PHALCON_CALL_METHOD(NULL, this_ptr, "filters");
+	}
 	
 	/** 
 	 * Run Validation Callbacks Before
@@ -6929,4 +6945,91 @@ PHP_METHOD(Phalcon_Mvc_Model, reset){
 
 	phalcon_update_property_null(this_ptr, SL("_uniqueParams") TSRMLS_CC);
 	phalcon_update_property_null(this_ptr, SL("_snapshot") TSRMLS_CC);
+}
+
+/**
+ * Sanitizes a value with a specified single or set of filters
+ *
+ *<code>
+ *use Phalcon\Mvc\Model\Validator\ExclusionIn as ExclusionIn;
+ *
+ *class Subscriptors extends Phalcon\Mvc\Model
+ *{
+ *
+ *	public function filters()
+ *  {
+ * 		$this->filter('status', 'int');
+ *	}
+ *
+ *}
+ *</code>
+ *
+ * @param string $field
+ * @param string|array $filters
+ * @param mixed $defaultValue
+ * @param boolean $notAllowEmpty
+ * @param boolean $noRecursive
+ * @return Phalcon\Mvc\Model
+ */
+PHP_METHOD(Phalcon_Mvc_Model, filter){
+
+	zval *field, *filters, *default_value = NULL, *not_allow_empty = NULL, *norecursive = NULL;
+	zval *value, *filterd_value = NULL, *filter, *dependency_injector, *service;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 2, 3, &field, &filters, &default_value, &not_allow_empty, &norecursive);
+	
+	if (!default_value) {
+		default_value = PHALCON_GLOBAL(z_null);
+	}
+	
+	if (!not_allow_empty) {
+		not_allow_empty = PHALCON_GLOBAL(z_false);
+	}
+	
+	if (!norecursive) {
+		norecursive = PHALCON_GLOBAL(z_false);
+	}
+
+	if (phalcon_isset_property_zval(this_ptr, field TSRMLS_CC)) {	
+		PHALCON_OBS_VAR(value);
+		phalcon_read_property_zval(&value, this_ptr, field, PH_NOISY TSRMLS_CC);
+	
+		if (!PHALCON_IS_EMPTY(value) && Z_TYPE_P(filters) != IS_NULL) {	
+			PHALCON_OBS_VAR(filter);
+			phalcon_read_property_this(&filter, this_ptr, SL("_filter"), PH_NOISY TSRMLS_CC);
+
+			if (Z_TYPE_P(filter) != IS_OBJECT) {
+				PHALCON_OBS_VAR(dependency_injector);
+				phalcon_read_property_this(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY TSRMLS_CC);
+
+				if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
+					PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "A dependency injection object is required to access the 'filter' service");
+					return;
+				}
+
+				PHALCON_INIT_VAR(service);
+				PHALCON_ZVAL_MAYBE_INTERNED_STRING(service, phalcon_interned_filter);
+
+				PHALCON_CALL_METHOD(&filter, dependency_injector, "getshared", service);
+				PHALCON_VERIFY_INTERFACE(filter, phalcon_filterinterface_ce);
+				phalcon_update_property_this(this_ptr, SL("_filter"), filter TSRMLS_CC);
+			}
+
+			PHALCON_CALL_METHOD(&filterd_value, filter, "sanitize", value, filters, norecursive);
+
+			if ((PHALCON_IS_EMPTY(filterd_value) && zend_is_true(not_allow_empty)) || PHALCON_IS_FALSE(filterd_value)) {
+				phalcon_update_property_zval_zval(this_ptr, field, default_value TSRMLS_CC);
+			} else {
+				phalcon_update_property_zval_zval(this_ptr, field, filterd_value TSRMLS_CC);
+			}
+		} else if (PHALCON_IS_EMPTY(value) && zend_is_true(not_allow_empty)) {
+			phalcon_update_property_zval_zval(this_ptr, field, default_value TSRMLS_CC);
+		}
+	} else {
+		phalcon_update_property_zval_zval(this_ptr, field, default_value TSRMLS_CC);
+	}
+	
+	RETURN_THIS();
 }
