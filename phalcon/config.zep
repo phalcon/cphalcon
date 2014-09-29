@@ -179,12 +179,18 @@ class Config implements \ArrayAccess
 	 *	$appConfig = new \Phalcon\Config(array('database' => array('host' => 'localhost')));
 	 *	$globalConfig->merge($config2);
 	 *</code>
-	 *
-	 * @param Phalcon\Config $config
 	 */
-	public function merge(config)
+	public function merge(<Config> config)
 	{
+        var key, value;
 
+        for key, value in get_object_vars(config) {
+            if (isset(this->{key})) {
+
+            } else {
+                let this->{key} = value;
+            }
+        }
 	}
 
 	/**

@@ -291,17 +291,39 @@ PHP_METHOD(Phalcon_Config, offsetUnset) {
  *	$appConfig = new \Phalcon\Config(array('database' => array('host' => 'localhost')));
  *	$globalConfig->merge($config2);
  *</code>
- *
- * @param Phalcon\Config $config
  */
 PHP_METHOD(Phalcon_Config, merge) {
 
-	zval *config;
+	HashTable *_3;
+	HashPosition _2;
+	int ZEPHIR_LAST_CALL_STATUS;
+	zephir_nts_static zephir_fcall_cache_entry *_1 = NULL;
+	zval *config, *key = NULL, *value = NULL, *_0 = NULL, **_4;
 
-	zephir_fetch_params(0, 1, 0, &config);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &config);
 
 
 
+	if (!(zephir_instance_of_ev(config, phalcon_config_ce TSRMLS_CC))) {
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'config' must be an instance of 'Phalcon\\\\Config'", "", 0);
+		return;
+	}
+	ZEPHIR_CALL_FUNCTION(&_0, "get_object_vars", &_1, config);
+	zephir_check_call_status();
+	zephir_is_iterable(_0, &_3, &_2, 0, 0, "phalcon/config.zep", 194);
+	for (
+	  ; zephir_hash_get_current_data_ex(_3, (void**) &_4, &_2) == SUCCESS
+	  ; zephir_hash_move_forward_ex(_3, &_2)
+	) {
+		ZEPHIR_GET_HMKEY(key, _3, _2);
+		ZEPHIR_GET_HVALUE(value, _4);
+		if (zephir_isset_property_zval(this_ptr, key TSRMLS_CC)) {
+		} else {
+			zephir_update_property_zval_zval(this_ptr, key, value TSRMLS_CC);
+		}
+	}
+	ZEPHIR_MM_RESTORE();
 
 }
 
@@ -328,7 +350,7 @@ PHP_METHOD(Phalcon_Config, toArray) {
 	array_init(arrayConfig);
 	ZEPHIR_CALL_FUNCTION(&_0, "get_object_vars", &_1, this_ptr);
 	zephir_check_call_status();
-	zephir_is_iterable(_0, &_3, &_2, 0, 0, "phalcon/config.zep", 215);
+	zephir_is_iterable(_0, &_3, &_2, 0, 0, "phalcon/config.zep", 221);
 	for (
 	  ; zephir_hash_get_current_data_ex(_3, (void**) &_4, &_2) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_3, &_2)
