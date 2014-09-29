@@ -3,7 +3,7 @@
 class HttpClientTest extends PHPUnit_Framework_TestCase
 {
 	public function testHeader()
-        {
+	{
 		$header = new Phalcon\Http\Client\Header();
 		$header->parse("HTTP/1.0 200 OK\r\nLocation:phalconphp.com");
 

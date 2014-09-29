@@ -121,6 +121,12 @@
 			<!-- Image -->
 			<file>unit-tests/ImageTest.php</file>
 
+			<!-- Http -->
+			<file>unit-tests/HttpClientTest.php</file>
+
+			<!-- Filter -->
+			<file>unit-tests/FilterTest.php</file>
+
 			<file>unit-tests/Issue1801.php</file>
 		</testsuite>
 		<testsuite name="PHPT Test Suite">

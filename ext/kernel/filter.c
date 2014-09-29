@@ -464,7 +464,9 @@ void phalcon_xss_clean(zval *return_value, zval *str, zval *allow_tags, zval *al
 
 	PHALCON_CALL_METHOD(&ret, document, "savehtml");
 
-	PHALCON_CALL_FUNCTION(&clean_str, "strip_tags", ret, joined_tags);
+	PHALCON_CALL_FUNCTION(&tmp, "strip_tags", ret, joined_tags);
+
+	PHALCON_CALL_FUNCTION(&clean_str, "trim", tmp);
 
 	ZVAL_ZVAL(return_value, clean_str, 1, 0);
 
