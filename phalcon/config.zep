@@ -106,7 +106,11 @@ class Config implements \ArrayAccess
 	 */
 	public function get(string! index, var defaultValue = null)
 	{
+       if isset this->{index} {
+            return this->{index};
+       }
 
+       return defaultValue;
 	}
 
 	/**
