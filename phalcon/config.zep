@@ -154,8 +154,9 @@ class Config implements \ArrayAccess
 	 * @param string $index
 	 * @param mixed $value
 	 */
-	public function offsetSet($index, $value)
+	public function offsetSet(string! index, var value)
 	{
+	    let this->{index} = value;
 	}
 
 	/**
