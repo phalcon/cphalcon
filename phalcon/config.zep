@@ -168,9 +168,10 @@ class Config implements \ArrayAccess
 	 *
 	 * @param string index
 	 */
-	public function offsetUnset(index)
+	public function offsetUnset(string! index)
 	{
-		return true;
+		//unset(this->{index});
+		let this->{index} = null;
 	}
 
 	/**
