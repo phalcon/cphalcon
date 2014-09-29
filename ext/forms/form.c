@@ -1255,7 +1255,7 @@ PHP_METHOD(Phalcon_Forms_Form, rewind){
 /**
  * Returns the current element in the iterator
  *
- * @return Phalcon\Validation\Message
+ * @return Phalcon\Forms\ElementInterface
  */
 PHP_METHOD(Phalcon_Forms_Form, current){
 
