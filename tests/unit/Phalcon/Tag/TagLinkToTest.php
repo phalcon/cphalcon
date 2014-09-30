@@ -24,7 +24,7 @@ namespace Phalcon\Tests\unit\Phalcon\Tag;
 
 use \Phalcon\Tag as PhTag;
 
-class TagLinkToTest extends TagBase
+class TagLinkToTest extends Helper\TagBase
 {
     /**
      * Tests linkTo with string as URL and name

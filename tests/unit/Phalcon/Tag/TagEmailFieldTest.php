@@ -24,7 +24,7 @@ namespace Phalcon\Tests\unit\Phalcon\Tag;
 
 use \Phalcon\Tag as PhTag;
 
-class TagEmailFieldTest extends TagBase
+class TagEmailFieldTest extends Helper\TagBase
 {
     /**
      * Tests colorField with string as a parameter

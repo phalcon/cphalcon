@@ -24,7 +24,7 @@ namespace Phalcon\Tests\unit\Phalcon\Tag;
 
 use \Phalcon\Tag as PhTag;
 
-class TagDateTimeLocalFieldTest extends TagBase
+class TagDateTimeLocalFieldTest extends Helper\TagBase
 {
     /**
      * Tests dateTimeLocalField with string as a parameter

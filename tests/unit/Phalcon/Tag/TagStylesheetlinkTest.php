@@ -24,7 +24,7 @@ namespace Phalcon\Tests\unit\Phalcon\Tag;
 
 use \Phalcon\Tag as PhTag;
 
-class TagStylesheetLinkTest extends TagBase
+class TagStylesheetLinkTest extends Helper\TagBase
 {
     /**
      * Tests stylesheetLink with string parameter for a local link

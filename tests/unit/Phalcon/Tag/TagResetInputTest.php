@@ -24,7 +24,7 @@ namespace Phalcon\Tests\unit\Phalcon\Tag;
 
 use \Phalcon\Tag as PhTag;
 
-class TagResetInputTest extends TagBase
+class TagResetInputTest extends Helper\TagBase
 {
     /**
      * Tests resetInput with setDefault

@@ -24,7 +24,7 @@ namespace Phalcon\Tests\unit\Phalcon\Tag;
 
 use \Phalcon\Tag as PhTag;
 
-class TagNumericFieldTest extends TagBase
+class TagNumericFieldTest extends Helper\TagBase
 {
     /**
      * Tests numericField with string as a parameter

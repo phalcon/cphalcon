@@ -24,7 +24,7 @@ namespace Phalcon\Tests\unit\Phalcon\Tag;
 
 use \Phalcon\Tag as PhTag;
 
-class TagCheckFieldTest extends TagBase
+class TagCheckFieldTest extends Helper\TagBase
 {
     /**
      * Tests checkField with string as a parameter

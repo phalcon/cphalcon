@@ -24,7 +24,7 @@ namespace Phalcon\Tests\unit\Phalcon\Tag;
 
 use \Phalcon\Tag as PhTag;
 
-class TagSelectStaticTest extends TagBase
+class TagSelectStaticTest extends Helper\TagBase
 {
     /**
      * Tests selectStatic with string as a parameter

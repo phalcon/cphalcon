@@ -24,7 +24,7 @@ namespace Phalcon\Tests\unit\Phalcon\Tag;
 
 use \Phalcon\Tag as PhTag;
 
-class TagDoctypeTest extends TagBase
+class TagDoctypeTest extends Helper\TagBase
 {
     /**
      * Setting the doctype to HTML5 for other tests to run smoothly

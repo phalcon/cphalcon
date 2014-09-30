@@ -24,7 +24,7 @@ namespace Phalcon\Tests\unit\Phalcon\Tag;
 
 use \Phalcon\Tag as PhTag;
 
-class TagImageInputTest extends TagBase
+class TagImageInputTest extends Helper\TagBase
 {
     /**
      * Tests imageInput with string as a parameter

@@ -24,7 +24,7 @@ namespace Phalcon\Tests\unit\Phalcon\Tag;
 
 use \Phalcon\Tag as PhTag;
 
-class TagJavascriptIncludeTest extends TagBase
+class TagJavascriptIncludeTest extends Helper\TagBase
 {
     /**
      * Tests iavascriptInclude with string as a parameter

@@ -25,7 +25,7 @@ namespace Phalcon\Tests\unit\Phalcon\Tag;
 use \Phalcon\Tag as PhTag;
 use \Phalcon\Tag\Exception as PhTagException;
 
-class TagFriendlyTitleTest extends TagBase
+class TagFriendlyTitleTest extends Helper\TagBase
 {
     /**
      * Tests friendlyTitle with string as a parameter and no separator

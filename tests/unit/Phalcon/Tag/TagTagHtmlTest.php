@@ -24,7 +24,7 @@ namespace Phalcon\Tests\unit\Phalcon\Tag;
 
 use \Phalcon\Tag as PhTag;
 
-class TagTagHtmlTest extends TagBase
+class TagTagHtmlTest extends Helper\TagBase
 {
     /**
      * Tests tagHtml with name parameter
