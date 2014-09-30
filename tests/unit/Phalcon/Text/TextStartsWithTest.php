@@ -31,7 +31,7 @@ class TextStartsWithTest extends \Codeception\TestCase\Test
     /**
      * Tests the startsWith function with empty strings
      *
-     * @author Nikos Dimopoulos <nikos@phalconphp.com>
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-29
      */
     public function testTextStartsWithEmpty()
@@ -48,7 +48,7 @@ class TextStartsWithTest extends \Codeception\TestCase\Test
     /**
      * Tests the startsWith function finding an empty string
      *
-     * @author Nikos Dimopoulos <nikos@phalconphp.com>
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-29
      */
     public function testTextStartsWithEmptySearchString()
@@ -65,7 +65,7 @@ class TextStartsWithTest extends \Codeception\TestCase\Test
     /**
      * Tests the startsWith function
      *
-     * @author Nikos Dimopoulos <nikos@phalconphp.com>
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-29
      */
     public function testTextStartsWith()
@@ -88,7 +88,7 @@ class TextStartsWithTest extends \Codeception\TestCase\Test
     /**
      * Tests the startsWith function with case insensitive flag
      *
-     * @author Nikos Dimopoulos <nikos@phalconphp.com>
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-29
      */
     public function testTextStartsWithCaseInsensitive()
@@ -111,7 +111,7 @@ class TextStartsWithTest extends \Codeception\TestCase\Test
     /**
      * Tests the startsWith function with case sensitive flag
      *
-     * @author Nikos Dimopoulos <nikos@phalconphp.com>
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-29
      */
     public function testTextStartsWithCaseSensitive()
