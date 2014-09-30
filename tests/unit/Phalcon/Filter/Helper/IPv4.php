@@ -20,7 +20,7 @@
  * so that we can send you a copy immediately.
  */
 
-namespace Phalcon\Tests\unit\Phalcon\Filter;
+namespace Phalcon\Tests\unit\Phalcon\Filter\Helper;
 
 /**
  * Class used by Phalcon\Filter
