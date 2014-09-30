@@ -648,7 +648,7 @@ PHP_METHOD(Phalcon_Db_Adapter, update){
 		} else {
 			PHALCON_CPY_WRT(escaped_field, field);
 		}
-	
+
 		if (Z_TYPE_P(value) == IS_OBJECT) {
 			PHALCON_INIT_NVAR(set_clause_part);
 			PHALCON_CONCAT_VSV(set_clause_part, escaped_field, " = ", value);
