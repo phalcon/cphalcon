@@ -31,7 +31,7 @@ class TextCamelizeTest extends \Codeception\TestCase\Test
     /**
      * Tests the camelize function
      *
-     * @author Nikos Dimopoulos <nikos@phalconphp.com>
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-29
      */
     public function testTextCamelizeString()
