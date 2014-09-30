@@ -20,17 +20,22 @@
  * so that we can send you a copy immediately.
  */
 
-namespace Phalcon\Test\Filter\Helper;
+namespace Phalcon\Tests\unit\Phalcon\Filter;
 
 /**
  * Class used by Phalcon\Filter
  */
 class IPv4
 {
-
+    /**
+     * Filters data
+     *
+     * @param $value
+     *
+     * @return mixed
+     */
     public function filter($value)
     {
         return filter_var($value, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4);
     }
-
 }
