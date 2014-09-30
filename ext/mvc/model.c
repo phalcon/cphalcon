@@ -7012,13 +7012,6 @@ PHP_METHOD(Phalcon_Mvc_Model, toArray){
 	
 		PHALCON_GET_HVALUE(attribute);
 
-		if (columns && Z_TYPE_P(columns) == IS_ARRAY) {
-			if (!phalcon_fast_in_array(attribute, columns TSRMLS_CC)) {
-				zend_hash_move_forward_ex(ah0, &hp0);
-				continue;
-			}
-		}
-
 		/** 
 		 * Check if the columns must be renamed
 		 */
@@ -7035,6 +7028,14 @@ PHP_METHOD(Phalcon_Mvc_Model, toArray){
 		} else {
 			PHALCON_CPY_WRT(attribute_field, attribute);
 		}
+
+		if (columns && Z_TYPE_P(columns) == IS_ARRAY) {
+			if (!phalcon_fast_in_array(attribute_field, columns TSRMLS_CC) && !phalcon_fast_in_array(attribute, columns TSRMLS_CC)) {
+				zend_hash_move_forward_ex(ah0, &hp0);
+				continue;
+			}
+		}
+
 		if (phalcon_isset_property_zval(this_ptr, attribute_field TSRMLS_CC)) {
 			PHALCON_OBS_NVAR(value);
 			phalcon_read_property_zval(&value, this_ptr, attribute_field, PH_NOISY TSRMLS_CC);
