@@ -4342,9 +4342,10 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 * print_r($robot->toArray());
 	 *</code>
 	 *
+	 * @param array $columns
 	 * @return array
 	 */
-	public function toArray() -> array
+	public function toArray(var columns) -> array
 	{
 		var data, metaData, columnMap, attribute,
 			attributeField, value;
@@ -4363,6 +4364,12 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 				}
 			} else {
 				let attributeField = attribute;
+			}
+
+			if typeof columns == "array" {
+				if !in_array(attributeField, columns) && !in_array(attribute, columns) {
+					continue;
+				}
 			}
 
 			if fetch value, this->{attributeField} {
