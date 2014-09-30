@@ -31,7 +31,7 @@ class TextUncamelizeTest extends \Codeception\TestCase\Test
     /**
      * Tests the uncamelize function
      *
-     * @author Nikos Dimopoulos <nikos@phalconphp.com>
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-29
      */
     public function testTextUncamelizeString()
