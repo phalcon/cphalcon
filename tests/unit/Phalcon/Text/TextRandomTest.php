@@ -47,7 +47,7 @@ class TextRandomTest extends \Codeception\TestCase\Test
     /**
      * Tests the random function with alnum
      *
-     * @author Nikos Dimopoulos <nikos@phalconphp.com>
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-29
      */
     public function testRandomAlnum()
@@ -71,7 +71,7 @@ class TextRandomTest extends \Codeception\TestCase\Test
     /**
      * Tests the random function with alpha
      *
-     * @author Nikos Dimopoulos <nikos@phalconphp.com>
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-29
      */
     public function testRandomAlpha()
@@ -95,7 +95,7 @@ class TextRandomTest extends \Codeception\TestCase\Test
     /**
      * Tests the random function with hexdec
      *
-     * @author Nikos Dimopoulos <nikos@phalconphp.com>
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-29
      */
     public function testRandomHexDec()
@@ -119,7 +119,7 @@ class TextRandomTest extends \Codeception\TestCase\Test
     /**
      * Tests the random function with numeric
      *
-     * @author Nikos Dimopoulos <nikos@phalconphp.com>
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-29
      */
     public function testRandomNumeric()
@@ -143,7 +143,7 @@ class TextRandomTest extends \Codeception\TestCase\Test
     /**
      * Tests the random function with non zero
      *
-     * @author Nikos Dimopoulos <nikos@phalconphp.com>
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-29
      */
     public function testRandomNonZero()
