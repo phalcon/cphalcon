@@ -98,13 +98,13 @@ class TextEndsWithTest extends \Codeception\TestCase\Test
             "endsWith does not return correct result with case insensitive string",
             function () {
                 $actual = PhText::endsWith("Hello", "O");
-                expect($actual)->false();
+                expect($actual)->true();
 
                 $actual = PhText::endsWith("Hello", "LO");
-                expect($actual)->false();
+                expect($actual)->true();
 
                 $actual = PhText::endsWith("Hello", "hello");
-                expect($actual)->false();
+                expect($actual)->true();
             }
         );
     }
@@ -121,13 +121,13 @@ class TextEndsWithTest extends \Codeception\TestCase\Test
             "endsWith does not return correct result with case sensitivity",
             function () {
                 $actual = PhText::endsWith("Hello", "hello", true);
-                expect($actual)->false();
+                expect($actual)->true();
 
                 $actual = PhText::endsWith("Hello", "hello", false);
-                expect($actual)->true();
+                expect($actual)->false();
 
                 $actual = PhText::endsWith("Hello", "O", false);
-                expect($actual)->true();
+                expect($actual)->false();
             }
         );
     }
