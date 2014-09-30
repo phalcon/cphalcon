@@ -28,6 +28,14 @@ class SecurityTest extends \Codeception\TestCase\Test
 {
     use \Codeception\Specify;
 
+    public function _before()
+    {
+        if (!extension_loaded('openssl')) {
+            $this->markTestSkipped('Warning: openssl extension is not loaded');
+            return;
+        }
+    }
+
     /**
      * Tests the HMAC computation
      *

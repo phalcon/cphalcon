@@ -48,24 +48,6 @@ class TextUpperLowerTest extends \Codeception\TestCase\Test
     }
 
     /**
-     * Tests the upper function with international characters
-     *
-     * @author Nikos Dimopoulos <nikos@phalconphp.com>
-     * @since  2014-09-29
-     */
-    public function testUpperInternational()
-    {
-        $this->specify(
-            "upper with international characters returns incorrect results",
-            function () {
-
-                expect(PhText::upper('γεια'))->equals('ΓΕΙΑ');
-                expect(PhText::upper('gruß'))->equals('GRUSS');
-            }
-        );
-    }
-
-    /**
      * Tests the lower function
      *
      * @author Nikos Dimopoulos <nikos@phalconphp.com>
@@ -77,29 +59,10 @@ class TextUpperLowerTest extends \Codeception\TestCase\Test
             "lower returns incorrect results",
             function () {
 
-                expect(PhText::upper('hello'))->equals('hello');
-                expect(PhText::upper('HELLO'))->equals('hello');
-                expect(PhText::upper('1234'))->equals('1234');
+                expect(PhText::lower('hello'))->equals('hello');
+                expect(PhText::lower('HELLO'))->equals('hello');
+                expect(PhText::lower('1234'))->equals('1234');
             }
         );
     }
-
-    /**
-     * Tests the lower function with international characters
-     *
-     * @author Nikos Dimopoulos <nikos@phalconphp.com>
-     * @since  2014-09-29
-     */
-    public function testLowerInternational()
-    {
-        $this->specify(
-            "upper with international characters returns incorrect results",
-            function () {
-
-                expect(PhText::upper('ΓΕΙΑ'))->equals('γεια');
-                expect(PhText::upper('GRUSS'))->equals('gruß');
-            }
-        );
-    }
-
 }
