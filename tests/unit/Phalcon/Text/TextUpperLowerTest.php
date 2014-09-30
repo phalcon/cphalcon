@@ -31,7 +31,7 @@ class TextUpperLowerTest extends \Codeception\TestCase\Test
     /**
      * Tests the upper function
      *
-     * @author Nikos Dimopoulos <nikos@phalconphp.com>
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-29
      */
     public function testUpper()
@@ -50,7 +50,7 @@ class TextUpperLowerTest extends \Codeception\TestCase\Test
     /**
      * Tests the lower function
      *
-     * @author Nikos Dimopoulos <nikos@phalconphp.com>
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-29
      */
     public function testLower()
