@@ -936,7 +936,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, functionCall){
 			phalcon_read_property_this(&array_helpers, this_ptr, SL("_arrayHelpers"), PH_NOISY TSRMLS_CC);
 			if (Z_TYPE_P(array_helpers) != IS_ARRAY) { 
 				PHALCON_INIT_NVAR(array_helpers);
-				array_init_size(array_helpers, 16);
+				array_init_size(array_helpers, 17);
 				add_assoc_bool_ex(array_helpers, SS("link_to"), 1);
 				add_assoc_bool_ex(array_helpers, SS("image"), 1);
 				add_assoc_bool_ex(array_helpers, SS("form"), 1);
@@ -953,6 +953,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, functionCall){
 				add_assoc_bool_ex(array_helpers, SS("date_field"), 1);
 				add_assoc_bool_ex(array_helpers, SS("numeric_field"), 1);
 				add_assoc_bool_ex(array_helpers, SS("email_field"), 1);
+				add_assoc_bool_ex(array_helpers, SS("image_input"), 1);
 				phalcon_update_property_this(this_ptr, SL("_arrayHelpers"), array_helpers TSRMLS_CC);
 			}
 	
