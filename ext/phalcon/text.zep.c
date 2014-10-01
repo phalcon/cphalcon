@@ -337,7 +337,6 @@ PHP_METHOD(Phalcon_Text, startsWith) {
  */
 PHP_METHOD(Phalcon_Text, endsWith) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
 	zend_bool ignoreCase;
 	zval *str_param = NULL, *end_param = NULL, *ignoreCase_param = NULL;
 	zval *str = NULL, *end = NULL;
@@ -354,9 +353,7 @@ PHP_METHOD(Phalcon_Text, endsWith) {
 	}
 
 
-	ZEPHIR_RETURN_CALL_FUNCTION("ends_with", NULL, str, end, (ignoreCase ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)));
-	zephir_check_call_status();
-	RETURN_MM();
+	RETURN_MM_BOOL(zephir_end_with(str, end, (ignoreCase ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false))));
 
 }
 

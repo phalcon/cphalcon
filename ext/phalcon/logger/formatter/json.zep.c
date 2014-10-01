@@ -89,7 +89,7 @@ PHP_METHOD(Phalcon_Logger_Formatter_Json, format) {
 		zephir_get_strval(message, _1);
 	}
 	ZEPHIR_INIT_VAR(_2);
-	array_init_size(_2, 4);
+	array_init_size(_2, 5);
 	ZEPHIR_INIT_VAR(_3);
 	ZVAL_LONG(_3, type);
 	ZEPHIR_CALL_METHOD(&_1, this_ptr, "gettypestring", NULL, _3);
