@@ -140,10 +140,11 @@ PHP_METHOD(Phalcon_Escaper, setHtmlQuoteType) {
 PHP_METHOD(Phalcon_Escaper, detectEncoding) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
+	zephir_fcall_cache_entry *_6 = NULL;
 	HashTable *_3;
 	HashPosition _2;
 	zval *_0;
-	zval *str, *charset = NULL, *_1 = NULL, **_4, *_5 = NULL;
+	zval *str, *charset = NULL, *_1, **_4, *_5 = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &str);
@@ -159,7 +160,7 @@ PHP_METHOD(Phalcon_Escaper, detectEncoding) {
 		RETURN_MM_NULL();
 	}
 	ZEPHIR_INIT_VAR(_0);
-	array_init_size(_0, 6);
+	array_init_size(_0, 7);
 	ZEPHIR_INIT_VAR(_1);
 	ZVAL_STRING(_1, "UTF-32", 1);
 	zephir_array_fast_append(_0, _1);
@@ -178,15 +179,13 @@ PHP_METHOD(Phalcon_Escaper, detectEncoding) {
 	  ; zephir_hash_move_forward_ex(_3, &_2)
 	) {
 		ZEPHIR_GET_HVALUE(charset, _4);
-		ZEPHIR_INIT_NVAR(_1);
-		ZVAL_BOOL(_1, 1);
-		ZEPHIR_CALL_FUNCTION(&_5, "mb_detect_encoding", NULL, str, charset, _1);
+		ZEPHIR_CALL_FUNCTION(&_5, "mb_detect_encoding", &_6, str, charset, ZEPHIR_GLOBAL(global_true));
 		zephir_check_call_status();
 		if (zephir_is_true(_5)) {
 			RETURN_CCTOR(charset);
 		}
 	}
-	ZEPHIR_RETURN_CALL_FUNCTION("mb_detect_encoding", NULL, str);
+	ZEPHIR_RETURN_CALL_FUNCTION("mb_detect_encoding", &_6, str);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -201,7 +200,7 @@ PHP_METHOD(Phalcon_Escaper, detectEncoding) {
 PHP_METHOD(Phalcon_Escaper, normalizeEncoding) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *str, *_0 = NULL, *_1;
+	zval *str, *_0 = NULL, _1;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &str);
@@ -214,10 +213,9 @@ PHP_METHOD(Phalcon_Escaper, normalizeEncoding) {
 	}
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "detectencoding", NULL, str);
 	zephir_check_call_status();
-	ZEPHIR_INIT_VAR(_1);
-	ZVAL_STRING(_1, "UTF-32", 0);
-	ZEPHIR_RETURN_CALL_FUNCTION("mb_convert_encoding", NULL, str, _1, _0);
-	zephir_check_temp_parameter(_1);
+	ZEPHIR_SINIT_VAR(_1);
+	ZVAL_STRING(&_1, "UTF-32", 0);
+	ZEPHIR_RETURN_CALL_FUNCTION("mb_convert_encoding", NULL, str, &_1, _0);
 	zephir_check_call_status();
 	RETURN_MM();
 

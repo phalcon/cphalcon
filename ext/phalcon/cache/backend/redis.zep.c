@@ -158,10 +158,8 @@ PHP_METHOD(Phalcon_Cache_Backend_Redis, _connect) {
 	ZEPHIR_INIT_VAR(redis);
 	_0 = zend_fetch_class(SL("Redis"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 	object_init_ex(redis, _0);
-	if (zephir_has_constructor(redis TSRMLS_CC)) {
-		ZEPHIR_CALL_METHOD(NULL, redis, "__construct", NULL);
-		zephir_check_call_status();
-	}
+	ZEPHIR_CALL_METHOD(NULL, redis, "__construct", NULL);
+	zephir_check_call_status();
 	ZEPHIR_OBS_VAR(host);
 	_1 = !zephir_array_isset_string_fetch(&host, options, SS("host"), 0 TSRMLS_CC);
 	if (!(_1)) {

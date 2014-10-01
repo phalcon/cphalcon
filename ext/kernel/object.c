@@ -981,6 +981,7 @@ int zephir_update_property_array(zval *object, const char *property, zend_uint p
 		Z_ADDREF_P(value);
 
 		if (Z_TYPE_P(index) == IS_STRING) {
+			//php_error_docref(NULL TSRMLS_CC, E_WARNING, "%d %d", Z_TYPE_P(index), separated);
 			zend_symtable_update(Z_ARRVAL_P(tmp), Z_STRVAL_P(index), Z_STRLEN_P(index) + 1, &value, sizeof(zval*), NULL);
 		} else if (Z_TYPE_P(index) == IS_LONG) {
 			zend_hash_index_update(Z_ARRVAL_P(tmp), Z_LVAL_P(index), &value, sizeof(zval *), NULL);
@@ -988,9 +989,13 @@ int zephir_update_property_array(zval *object, const char *property, zend_uint p
 			zend_hash_next_index_insert(Z_ARRVAL_P(tmp), (void**)&value, sizeof(zval*), NULL);
 		}
 
+		//php_error_docref(NULL TSRMLS_CC, E_WARNING, "%d %d", Z_TYPE_P(index), separated);
+
 		if (separated) {
 			zephir_update_property_zval(object, property, property_length, tmp TSRMLS_CC);
 		}
+	} else {
+		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Not object");
 	}
 
 	return SUCCESS;

@@ -79,12 +79,12 @@ abstract class Text
 	 * @param string $separator
 	 * @return string
 	 */
-	static public function increment(string str, var separator=null)
+	static public function increment(string str, var separator = null)
 	{
 		var parts, number;
 
 		if separator === null {
-			let separator = '_';
+			let separator = "_";
 		}
 
 		let parts = explode(separator, str);
@@ -109,24 +109,29 @@ abstract class Text
 	 * @param int length
 	 * @return string
 	 */
-	static public function random(int type=0, long length=8) -> string
+	static public function random(int type = 0, long length = 8) -> string
 	{
 		var pool, str = "";
 		int end;
 
 		switch type {
+
 			case Text::RANDOM_ALPHA:
 				let pool = array_merge(range("a", "z"), range("A", "Z"));
 				break;
+
 			case Text::RANDOM_HEXDEC:
 				let pool = array_merge(range(0, 9), range("a", "f"));
 				break;
+
 			case Text::RANDOM_NUMERIC:
 				let pool = range(0, 9);
 				break;
+
 			case Text::RANDOM_NOZERO:
 				let pool = range(1, 9);
 				break;
+
 			default:
 				// Default type \Phalcon\Text::RANDOM_ALNUM
 				let pool = array_merge(range(0, 9), range("a", "z"), range("A", "Z"));

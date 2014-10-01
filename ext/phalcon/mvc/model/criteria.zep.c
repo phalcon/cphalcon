@@ -298,7 +298,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, join) {
 
 
 	ZEPHIR_INIT_VAR(join);
-	array_init_size(join, 6);
+	array_init_size(join, 7);
 	zephir_array_fast_append(join, model);
 	zephir_array_fast_append(join, conditions);
 	zephir_array_fast_append(join, alias);
@@ -368,7 +368,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, innerJoin) {
 
 
 	ZEPHIR_INIT_VAR(join);
-	array_init_size(join, 6);
+	array_init_size(join, 7);
 	zephir_array_fast_append(join, model);
 	zephir_array_fast_append(join, conditions);
 	zephir_array_fast_append(join, alias);
@@ -436,7 +436,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, leftJoin) {
 
 
 	ZEPHIR_INIT_VAR(join);
-	array_init_size(join, 6);
+	array_init_size(join, 7);
 	zephir_array_fast_append(join, model);
 	zephir_array_fast_append(join, conditions);
 	zephir_array_fast_append(join, alias);
@@ -504,7 +504,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, rightJoin) {
 
 
 	ZEPHIR_INIT_VAR(join);
-	array_init_size(join, 6);
+	array_init_size(join, 7);
 	zephir_array_fast_append(join, model);
 	zephir_array_fast_append(join, conditions);
 	zephir_array_fast_append(join, alias);
