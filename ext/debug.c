@@ -132,7 +132,7 @@ static const zend_function_entry phalcon_debug_method_entry[] = {
 	PHP_ME(Phalcon_Debug, getJsSources, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Debug, showTraceItem, NULL, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Debug, onUncaughtException, arginfo_phalcon_debug_onuncaughtexception, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Debug, getCharset, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Debug, getCharset, NULL, ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Debug, setCharset, arginfo_phalcon_debug_setcharset, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Debug, getLinesBeforeContext, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Debug, setLinesBeforeContext, arginfo_phalcon_debug_setlines, ZEND_ACC_PUBLIC)
@@ -364,7 +364,7 @@ PHP_METHOD(Phalcon_Debug, _escapeString){
 		zval line_break;
 		zval escaped_line_break;
 
-		charset = phalcon_fetch_nproperty_this(getThis(), SL("_charset"), PH_NOISY TSRMLS_CC);
+		charset = phalcon_fetch_static_property_ce(phalcon_debug_ce, SL("_charset") TSRMLS_CC);
 	
 		INIT_ZVAL(line_break);
 		ZVAL_STRING(&line_break, "\n", 0);
@@ -948,7 +948,7 @@ PHP_METHOD(Phalcon_Debug, showTraceItem){
 			PHALCON_INIT_VAR(comment_pattern);
 			ZVAL_STRING(comment_pattern, "#\\*\\/$#", 1);
 	
-			charset = phalcon_fetch_nproperty_this(getThis(), SL("_charset"), PH_NOISY TSRMLS_CC);
+			charset = phalcon_fetch_static_property_ce(phalcon_debug_ce, SL("_charset") TSRMLS_CC);
 	
 			PHALCON_INIT_VAR(tab);
 			ZVAL_STRING(tab, "\t", 1);
@@ -1306,7 +1306,8 @@ PHP_METHOD(Phalcon_Debug, onUncaughtException){
  * @return string
  */
 PHP_METHOD(Phalcon_Debug, getCharset) {
-	RETURN_MEMBER(getThis(), "_charset");
+	zval *charset = phalcon_fetch_static_property_ce(phalcon_debug_ce, SL("_charset") TSRMLS_CC);
+	RETURN_ZVAL(charset, 1, 0);
 }
 
 /**
@@ -1323,7 +1324,7 @@ PHP_METHOD(Phalcon_Debug, setCharset) {
 	phalcon_fetch_params_ex(1, 0, &charset);
 	PHALCON_ENSURE_IS_STRING(charset);
 
-	phalcon_update_property_this(getThis(), SL("_charset"), *charset TSRMLS_CC);
+	phalcon_update_static_property_ce(phalcon_debug_ce, SL("_charset"), *charset TSRMLS_CC);
 	RETURN_THISW();
 }
 
