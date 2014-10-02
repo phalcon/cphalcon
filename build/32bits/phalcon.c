@@ -23236,7 +23236,7 @@ static PHP_METHOD(Phalcon_Validation, validate){
 	if (phalcon_method_quick_exists_ex(this_ptr, SS("beforevalidation"), 4025473891UL TSRMLS_CC) == SUCCESS) {
 		PHALCON_CALL_METHOD(&status, this_ptr, "beforevalidation", data, entity, messages);
 		if (PHALCON_IS_FALSE(status)) {
-			RETURN_CCTOR(status);
+			RETURN_CCTOR(messages);
 		}
 	}
 	
