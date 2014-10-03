@@ -79,7 +79,7 @@ abstract class Text
 	 * @param string $separator
 	 * @return string
 	 */
-	static public function increment(string str, var separator = null)
+	static public function increment(string str, var separator = null) -> string
 	{
 		var parts, number;
 
