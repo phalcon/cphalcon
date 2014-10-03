@@ -27,7 +27,7 @@ use \Phalcon\Tag as PhTag;
 class TagTextAreaTest extends Helper\TagBase
 {
     /**
-     * Tests colorField with string as a parameter
+     * Tests textArea with string as a parameter
      *
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-05
@@ -267,6 +267,33 @@ class TagTextAreaTest extends Helper\TagBase
                     false,
                     'displayTo'
                 );
+            }
+        );
+    }
+
+    /**
+     * Tests textArea with displayTo and newline in value
+     *
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-10-03
+     */
+    public function testTextAreaWithDisplayToAndNewlineInValue()
+    {
+        $this->specify(
+            "textArea with displayTo and newline in value",
+            function () {
+
+                $options  = 'x_name';
+                $value    = "\r\nx_content";
+                $expected = '<textarea id="x_name" name="x_name">'
+                          . $value
+                          . '</textarea>';
+
+                PhTag::setDefault('x_name', $value);
+                $actual = PhTag::textArea($options);
+                PhTag::setDefault('x_name', '');
+
+                expect($actual)->equals($expected);
             }
         );
     }

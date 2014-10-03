@@ -27,7 +27,7 @@ use \Phalcon\Tag as PhTag;
 class TagFileFieldTest extends Helper\TagBase
 {
     /**
-     * Tests colorField with string as a parameter
+     * Tests fileField with string as a parameter
      *
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-05

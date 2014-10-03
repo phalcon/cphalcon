@@ -27,7 +27,7 @@ use \Phalcon\Tag as PhTag;
 class TagUrlFieldTest extends Helper\TagBase
 {
     /**
-     * Tests colorField with string as a parameter
+     * Tests urlField with string as a parameter
      *
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-05
