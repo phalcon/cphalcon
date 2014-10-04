@@ -1,9 +1,9 @@
 <?php
 /**
- * DefaultCSSTest.php
- * Flash_Direct_DefaultCSSTest
+ * FlashDirectDefaultCSSTest.php
+ * \Phalcon\Flash\Direct\FlashDirectDefaultCSSTest
  *
- * Tests the \Phalcon\Flash\Direct component with default CSS
+ * Tests the \Phalcon\Tag component
  *
  * PhalconPHP Framework
  *
@@ -20,10 +20,14 @@
  * so that we can send you a copy immediately.
  */
 
-namespace Phalcon\Test\Flash\Direct;
+namespace Phalcon\Tests\unit\Phalcon\Flash\Direct;
 
-use \Phalcon\Test\Flash\Direct\Helper\Unit as FlashUnit;
+use \Phalcon\Flash\Direct as PhFlash;
 
-class DefaultCSSTest extends FlashUnit
+class FlashDirectDefaultCSSTest extends Helper\FlashBase
 {
+    public function _before()
+    {
+        parent::_before();
+    }
 }

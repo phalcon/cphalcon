@@ -1,9 +1,9 @@
 <?php
 /**
- * CustomCSSTest.php
- * Flash_Direct_CustomCSSTest
+ * FlashDirectCustomCSSTest.php
+ * \Phalcon\Flash\Direct\FlashDirectCustomCSSTest
  *
- * Tests the \Phalcon\Flash\Direct component with default CSS
+ * Tests the \Phalcon\Tag component
  *
  * PhalconPHP Framework
  *
@@ -20,22 +20,22 @@
  * so that we can send you a copy immediately.
  */
 
-namespace Phalcon\Test\Flash\Direct;
+namespace Phalcon\Tests\unit\Phalcon\Flash\Direct;
 
-use \Phalcon\Test\Flash\Direct\Helper\Unit as FlashUnit;
+use \Phalcon\Flash\Direct as PhFlash;
 
-class CustomCSSTest extends FlashUnit
+class FlashDirectCustomCSSTest extends Helper\FlashBase
 {
-    public function setUp()
+    public function _before()
     {
-        parent::setUp();
+        parent::_before();
 
-        $classes = array(
+        $classes = [
             'error'   => 'alert alert-error',
             'success' => 'alert alert-success',
             'notice'  => 'alert alert-notice',
             'warning' => 'alert alert-warning'
-        );
+        ];
 
         $this->setClasses($classes);
     }

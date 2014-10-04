@@ -1,13 +1,13 @@
 <?php
 /**
- * Unit.php
- * Phalcon_Flash_Direct_Helper_Unit
+ * FlashBase.php
+ * \Phalcon\Flash\Direct\Helper\FlashBase
  *
- * Helper for the \Phalcon\Flash\Direct component
+ * Tests the \Phalcon\Tag component
  *
  * PhalconPHP Framework
  *
- * @copyright (c) 2011-2012 Phalcon Team
+ * @copyright (c) 2011-2014 Phalcon Team
  * @link      http://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>
@@ -20,31 +20,31 @@
  * so that we can send you a copy immediately.
  */
 
-namespace Phalcon\Test\Flash\Direct\Helper;
+namespace Phalcon\Tests\unit\Phalcon\Flash\Direct\Helper;
 
 use \Phalcon\Flash\Direct as PhFlash;
-use \Phalcon\Test\UnitTestCase as PhTestUnitTestCase;
 
-class Unit extends PhTestUnitTestCase
+class FlashBase extends \Codeception\TestCase\Test
 {
+    use \Codeception\Specify;
 
     private $notImplicit = false;
     private $notHtml     = false;
     private $classes     = null;
-    private $default     = array(
+    private $default     = [
                                 'success' => 'successMessage',
                                 'notice'  => 'noticeMessage',
                                 'warning' => 'warningMessage',
                                 'error'   => 'errorMessage',
-                            );
+                            ];
 
     /**
      * Sets the custom classes for the tests
      * 
      * @param $classes
      * 
-     * @author Nikos Dimopoulos <nikos@phalconphp.com>
-     * @since  2012-11-30
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-10-04
      */
     protected function setClasses($classes)
     {
@@ -54,8 +54,8 @@ class Unit extends PhTestUnitTestCase
     /**
      * Tests error (implicit flush)
      *
-     * @author Nikos Dimopoulos <nikos@phalconphp.com>
-     * @since  2012-11-30
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-10-04
      */
     public function testErrorStringImplicitFlushHtml()
     {
@@ -65,8 +65,8 @@ class Unit extends PhTestUnitTestCase
     /**
      * Tests success (implicit flush)
      *
-     * @author Nikos Dimopoulos <nikos@phalconphp.com>
-     * @since  2012-11-30
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-10-04
      */
     public function testSuccessStringImplicitFlushHtml()
     {
@@ -76,8 +76,8 @@ class Unit extends PhTestUnitTestCase
     /**
      * Tests notice (implicit flush)
      *
-     * @author Nikos Dimopoulos <nikos@phalconphp.com>
-     * @since  2012-11-30
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-10-04
      */
     public function testNoticeStringImplicitFlushHtml()
     {
@@ -87,8 +87,8 @@ class Unit extends PhTestUnitTestCase
     /**
      * Tests warning (implicit flush)
      *
-     * @author Nikos Dimopoulos <nikos@phalconphp.com>
-     * @since  2012-11-30
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-10-04
      */
     public function testWarningStringImplicitFlushHtml()
     {
@@ -98,8 +98,8 @@ class Unit extends PhTestUnitTestCase
     /**
      * Tests error array of messages (implicit flush)
      *
-     * @author Nikos Dimopoulos <nikos@phalconphp.com>
-     * @since  2012-11-30
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-10-04
      */
     public function testErrorArrayImplicitFlushHtml()
     {
@@ -109,8 +109,8 @@ class Unit extends PhTestUnitTestCase
     /**
      * Tests success array of messages (implicit flush)
      *
-     * @author Nikos Dimopoulos <nikos@phalconphp.com>
-     * @since  2012-11-30
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-10-04
      */
     public function testSuccessArrayImplicitFlushHtml()
     {
@@ -120,8 +120,8 @@ class Unit extends PhTestUnitTestCase
     /**
      * Tests notice array of messages (implicit flush)
      *
-     * @author Nikos Dimopoulos <nikos@phalconphp.com>
-     * @since  2012-11-30
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-10-04
      */
     public function testNoticeArrayImplicitFlushHtml()
     {
@@ -131,8 +131,8 @@ class Unit extends PhTestUnitTestCase
     /**
      * Tests warning array of messages (implicit flush)
      *
-     * @author Nikos Dimopoulos <nikos@phalconphp.com>
-     * @since  2012-11-30
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-10-04
      */
     public function testWarningArrayImplicitFlushHtml()
     {
@@ -142,8 +142,8 @@ class Unit extends PhTestUnitTestCase
     /**
      * Tests error (no implicit flush)
      *
-     * @author Nikos Dimopoulos <nikos@phalconphp.com>
-     * @since  2012-11-30
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-10-04
      */
     public function testErrorStringNoImplicitFlushHtml()
     {
@@ -155,8 +155,8 @@ class Unit extends PhTestUnitTestCase
     /**
      * Tests success (no implicit flush)
      *
-     * @author Nikos Dimopoulos <nikos@phalconphp.com>
-     * @since  2012-11-30
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-10-04
      */
     public function testSuccessStringNoImplicitFlushHtml()
     {
@@ -168,8 +168,8 @@ class Unit extends PhTestUnitTestCase
     /**
      * Tests notice (no implicit flush)
      *
-     * @author Nikos Dimopoulos <nikos@phalconphp.com>
-     * @since  2012-11-30
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-10-04
      */
     public function testNoticeStringNoImplicitFlushHtml()
     {
@@ -181,8 +181,8 @@ class Unit extends PhTestUnitTestCase
     /**
      * Tests warning (no implicit flush)
      *
-     * @author Nikos Dimopoulos <nikos@phalconphp.com>
-     * @since  2012-11-30
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-10-04
      */
     public function testWarningStringNoImplicitFlushHtml()
     {
@@ -194,8 +194,8 @@ class Unit extends PhTestUnitTestCase
     /**
      * Tests error array of messages (no implicit flush)
      *
-     * @author Nikos Dimopoulos <nikos@phalconphp.com>
-     * @since  2012-11-30
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-10-04
      */
     public function testErrorArrayNoImplicitFlushHtml()
     {
@@ -207,8 +207,8 @@ class Unit extends PhTestUnitTestCase
     /**
      * Tests success array of messages (no implicit flush)
      *
-     * @author Nikos Dimopoulos <nikos@phalconphp.com>
-     * @since  2012-11-30
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-10-04
      */
     public function testSuccessArrayNoImplicitFlushHtml()
     {
@@ -220,8 +220,8 @@ class Unit extends PhTestUnitTestCase
     /**
      * Tests notice array of messages (no implicit flush)
      *
-     * @author Nikos Dimopoulos <nikos@phalconphp.com>
-     * @since  2012-11-30
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-10-04
      */
     public function testNoticeArrayNoImplicitFlushHtml()
     {
@@ -233,8 +233,8 @@ class Unit extends PhTestUnitTestCase
     /**
      * Tests warning array of messages (no implicit flush)
      *
-     * @author Nikos Dimopoulos <nikos@phalconphp.com>
-     * @since  2012-11-30
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-10-04
      */
     public function testWarningArrayNoImplicitFlushHtml()
     {
@@ -246,8 +246,8 @@ class Unit extends PhTestUnitTestCase
     /**
      * Tests error (implicit flush no html)
      *
-     * @author Nikos Dimopoulos <nikos@phalconphp.com>
-     * @since  2012-11-30
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-10-04
      */
     public function testErrorStringImplicitFlushNoHtml()
     {
@@ -259,8 +259,8 @@ class Unit extends PhTestUnitTestCase
     /**
      * Tests success (implicit flush no html)
      *
-     * @author Nikos Dimopoulos <nikos@phalconphp.com>
-     * @since  2012-11-30
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-10-04
      */
     public function testSuccessStringImplicitFlushNoHtml()
     {
@@ -272,8 +272,8 @@ class Unit extends PhTestUnitTestCase
     /**
      * Tests notice (implicit flush no html)
      *
-     * @author Nikos Dimopoulos <nikos@phalconphp.com>
-     * @since  2012-11-30
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-10-04
      */
     public function testNoticeStringImplicitFlushNoHtml()
     {
@@ -285,8 +285,8 @@ class Unit extends PhTestUnitTestCase
     /**
      * Tests warning (implicit flush no html)
      *
-     * @author Nikos Dimopoulos <nikos@phalconphp.com>
-     * @since  2012-11-30
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-10-04
      */
     public function testWarningStringImplicitFlushNoHtml()
     {
@@ -298,8 +298,8 @@ class Unit extends PhTestUnitTestCase
     /**
      * Tests error array of messages (implicit flush no html)
      *
-     * @author Nikos Dimopoulos <nikos@phalconphp.com>
-     * @since  2012-11-30
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-10-04
      */
     public function testErrorArrayImplicitFlushNoHtml()
     {
@@ -311,8 +311,8 @@ class Unit extends PhTestUnitTestCase
     /**
      * Tests success array of messages (implicit flush no html)
      *
-     * @author Nikos Dimopoulos <nikos@phalconphp.com>
-     * @since  2012-11-30
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-10-04
      */
     public function testSuccessArrayImplicitFlushNoHtml()
     {
@@ -324,8 +324,8 @@ class Unit extends PhTestUnitTestCase
     /**
      * Tests notice array of messages (implicit flush no html)
      *
-     * @author Nikos Dimopoulos <nikos@phalconphp.com>
-     * @since  2012-11-30
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-10-04
      */
     public function testNoticeArrayImplicitFlushNoHtml()
     {
@@ -337,8 +337,8 @@ class Unit extends PhTestUnitTestCase
     /**
      * Tests warning array of messages (implicit flush no html)
      *
-     * @author Nikos Dimopoulos <nikos@phalconphp.com>
-     * @since  2012-11-30
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-10-04
      */
     public function testWarningArrayImplicitFlushNoHtml()
     {
@@ -350,8 +350,8 @@ class Unit extends PhTestUnitTestCase
     /**
      * Tests error (no implicit flush no html)
      *
-     * @author Nikos Dimopoulos <nikos@phalconphp.com>
-     * @since  2012-11-30
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-10-04
      */
     public function testErrorStringNoImplicitFlushNoHtml()
     {
@@ -365,8 +365,8 @@ class Unit extends PhTestUnitTestCase
     /**
      * Tests success (no implicit flush no html)
      *
-     * @author Nikos Dimopoulos <nikos@phalconphp.com>
-     * @since  2012-11-30
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-10-04
      */
     public function testSuccessStringNoImplicitFlushNoHtml()
     {
@@ -380,8 +380,8 @@ class Unit extends PhTestUnitTestCase
     /**
      * Tests notice (no implicit flush no html)
      *
-     * @author Nikos Dimopoulos <nikos@phalconphp.com>
-     * @since  2012-11-30
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-10-04
      */
     public function testNoticeStringNoImplicitFlushNoHtml()
     {
@@ -395,8 +395,8 @@ class Unit extends PhTestUnitTestCase
     /**
      * Tests warning (no implicit flush no html)
      *
-     * @author Nikos Dimopoulos <nikos@phalconphp.com>
-     * @since  2012-11-30
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-10-04
      */
     public function testWarningStringNoImplicitFlushNoHtml()
     {
@@ -410,8 +410,8 @@ class Unit extends PhTestUnitTestCase
     /**
      * Tests error array of messages (no implicit flush no html)
      *
-     * @author Nikos Dimopoulos <nikos@phalconphp.com>
-     * @since  2012-11-30
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-10-04
      */
     public function testErrorArrayNoImplicitFlushNoHtml()
     {
@@ -425,8 +425,8 @@ class Unit extends PhTestUnitTestCase
     /**
      * Tests success array of messages (no implicit flush no html)
      *
-     * @author Nikos Dimopoulos <nikos@phalconphp.com>
-     * @since  2012-11-30
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-10-04
      */
     public function testSuccessArrayNoImplicitFlushNoHtml()
     {
@@ -440,8 +440,8 @@ class Unit extends PhTestUnitTestCase
     /**
      * Tests notice array of messages (no implicit flush no html)
      *
-     * @author Nikos Dimopoulos <nikos@phalconphp.com>
-     * @since  2012-11-30
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-10-04
      */
     public function testNoticeArrayNoImplicitFlushNoHtml()
     {
@@ -455,8 +455,8 @@ class Unit extends PhTestUnitTestCase
     /**
      * Tests warning array of messages (no implicit flush no html)
      *
-     * @author Nikos Dimopoulos <nikos@phalconphp.com>
-     * @since  2012-11-30
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-10-04
      */
     public function testWarningArrayNoImplicitFlushNoHtml()
     {
@@ -475,8 +475,8 @@ class Unit extends PhTestUnitTestCase
      *
      * @return string
      *
-     * @author Nikos Dimopoulos <nikos@phalconphp.com>
-     * @since  2012-11-30
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-10-04
      */
     private function getClass($key)
     {
@@ -504,8 +504,8 @@ class Unit extends PhTestUnitTestCase
      *
      * @return string
      *
-     * @author Nikos Dimopoulos <nikos@phalconphp.com>
-     * @since  2012-11-30
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-10-04
      */
     private function getObResponse($flash, $function, $message)
     {
@@ -522,21 +522,18 @@ class Unit extends PhTestUnitTestCase
      *
      * @param $function
      *
-     * @author Nikos Dimopoulos <nikos@phalconphp.com>
-     * @since  2012-11-30
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-10-04
      */
     private function stringTest($function)
     {
         $flash    = new PhFlash($this->classes);
         $class    = $this->getClass($function);
-        $implicit = '';
-        $html     = '';
         $template = '<div%s>%s</div>' . PHP_EOL;
         $message  = 'sample message';
 
         if ($this->notHtml) {
             $flash->setAutomaticHtml(false);
-            $html     = ' no HTML';
             $expected = $message;
         } else {
             $expected = sprintf($template, $class, $message);
@@ -545,17 +542,12 @@ class Unit extends PhTestUnitTestCase
 
         if ($this->notImplicit) {
             $flash->setImplicitFlush(false);
-            $implicit = ' no implicit';
             $actual   = $flash->$function($message);
         } else {
             $actual = $this->getObResponse($flash, $function, $message);
         }
 
-        $this->assertEquals(
-            $expected,
-            $actual,
-            "Flash\\Direct {$function} (string){$implicit}{$html} does not produce the correct message"
-        );
+        expect($actual)->equals($expected);
     }
 
     /**
@@ -563,24 +555,21 @@ class Unit extends PhTestUnitTestCase
      *
      * @param $function
      *
-     * @author Nikos Dimopoulos <nikos@phalconphp.com>
-     * @since  2012-11-30
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-10-04
      */
     private function arrayTest($function)
     {
         $flash    = new PhFlash($this->classes);
         $class    = $this->getClass($function);
-        $implicit = '';
-        $html     = '';
         $template = '<div%s>%s</div>' . PHP_EOL;
-        $message  = array(
+        $message  = [
             'sample message 1',
             'sample message 2',
-        );
+        ];
 
         if ($this->notHtml) {
             $flash->setAutomaticHtml(false);
-            $html = ' no HTML';
             $expected = $message[0]
                       . $message[1];
         } else {
@@ -590,16 +579,11 @@ class Unit extends PhTestUnitTestCase
 
         if ($this->notImplicit) {
             $flash->setImplicitFlush(false);
-            $implicit = ' no implicit';
-            $actual   = $flash->$function($message);
+            $actual   = (array) $flash->$function($message);
         } else {
             $actual = $this->getObResponse($flash, $function, $message);
         }
 
-        $this->assertEquals(
-            $expected,
-            $actual,
-            "Flash\\Direct {$function} (array){$implicit}{$html} does not produce the correct message"
-        );
+        expect($actual)->equals($expected);
     }
 }
