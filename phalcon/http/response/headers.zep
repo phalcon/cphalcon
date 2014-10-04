@@ -36,6 +36,7 @@ class Headers implements \Phalcon\Http\Response\HeadersInterface
 	 */
 	public function set(name, value)
 	{
+		let name = strtolower(name);
 		let this->_headers[name] = value;
 	}
 
