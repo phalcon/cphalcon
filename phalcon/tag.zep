@@ -34,7 +34,7 @@ use Phalcon\Mvc\UrlInterface;
 class Tag
 {
 	/**
-	 * Pre-asigned values for components
+	 * Pre-assigned values for components
 	 */
 	protected static _displayValues;
 
@@ -459,7 +459,7 @@ class Tag
 
 		} else {
 			/**
-			 * Use the "id" as value if the user hadn"t set it
+			 * Use the "id" as value if the user hadn't set it
 			 */
 			if !isset params["value"] {
 				if fetch value, params[0] {
@@ -569,7 +569,7 @@ class Tag
 	 * @param array parameters
 	 * @return string
 	 */
-	static public function colorField(parameters) -> string
+	public static function colorField(parameters) -> string
 	{
 		return self::_inputField("color", parameters);
 	}
@@ -584,7 +584,7 @@ class Tag
 	 * @param	array parameters
 	 * @return	string
 	 */
-	static public function textField(parameters) -> string
+	public static function textField(parameters) -> string
 	{
 		return self::_inputField("text", parameters);
 	}
@@ -599,7 +599,7 @@ class Tag
 	 * @param	array parameters
 	 * @return	string
 	 */
-	static public function numericField(parameters) -> string
+	public static function numericField(parameters) -> string
 	{
 		return self::_inputField("number", parameters);
 	}
@@ -611,7 +611,7 @@ class Tag
 	* @param array parameters
 	* @return string
 	*/
-	static public function rangeField(parameters) -> string
+	public static function rangeField(parameters) -> string
 	{
 		return self::_inputField("range", parameters);
 	}
@@ -626,7 +626,7 @@ class Tag
 	 * @param	array parameters
 	 * @return	string
 	 */
-	static public function emailField(parameters) -> string
+	public static function emailField(parameters) -> string
 	{
 		return self::_inputField("email", parameters);
 	}
@@ -641,7 +641,7 @@ class Tag
 	 * @param	array parameters
 	 * @return	string
 	 */
-	static public function dateField(parameters) -> string
+	public static function dateField(parameters) -> string
 	{
 		return self::_inputField("date", parameters);
 	}
@@ -652,7 +652,7 @@ class Tag
 	* @param array parameters
 	* @return string
 	*/
-	static public function dateTimeField(parameters) -> string
+	public static function dateTimeField(parameters) -> string
 	{
 		return self::_inputField("datetime", parameters);
 	}
@@ -663,7 +663,7 @@ class Tag
 	* @param array parameters
 	* @return string
 	*/
-	static public function dateTimeLocalField(parameters) -> string
+	public static function dateTimeLocalField(parameters) -> string
 	{
 		return self::_inputField("datetime-local", parameters);
 	}
@@ -674,7 +674,7 @@ class Tag
 	 * @param array parameters
 	 * @return string
 	 */
-	static public function monthField(parameters) -> string
+	public static function monthField(parameters) -> string
 	{
 		return self::_inputField("month", parameters);
 	}
@@ -685,7 +685,7 @@ class Tag
 	 * @param array parameters
 	 * @return string
 	 */
-	static public function timeField(parameters) -> string
+	public static function timeField(parameters) -> string
 	{
 		return self::_inputField("time", parameters);
 	}
@@ -696,7 +696,7 @@ class Tag
 	 * @param array parameters
 	 * @return string
 	 */
-	static public function weekField(parameters) -> string
+	public static function weekField(parameters) -> string
 	{
 		return self::_inputField("week", parameters);
 	}
@@ -711,7 +711,7 @@ class Tag
 	 * @param	array parameters
 	 * @return	string
 	 */
-	static public function passwordField(parameters) -> string
+	public static function passwordField(parameters) -> string
 	{
 		return self::_inputField("password", parameters);
 	}
@@ -726,7 +726,7 @@ class Tag
 	 * @param	array parameters
 	 * @return	string
 	 */
-	static public function hiddenField(parameters) -> string
+	public static function hiddenField(parameters) -> string
 	{
 		return self::_inputField("hidden", parameters);
 	}
@@ -741,7 +741,7 @@ class Tag
 	 * @param	array parameters
 	 * @return	string
 	 */
-	static public function fileField(parameters) -> string
+	public static function fileField(parameters) -> string
 	{
 		return self::_inputField("file", parameters);
 	}
@@ -752,7 +752,7 @@ class Tag
 	 * @param array parameters
 	 * @return string
 	 */
-	static public function searchField(parameters) -> string
+	public static function searchField(parameters) -> string
 	{
 		return self::_inputField("search", parameters);
 	}
@@ -763,7 +763,7 @@ class Tag
 	* @param array parameters
 	* @return string
 	*/
-	static public function telField(parameters) -> string
+	public static function telField(parameters) -> string
 	{
 		return self::_inputField("tel", parameters);
 	}
@@ -774,7 +774,7 @@ class Tag
 	 * @param array parameters
 	 * @return string
 	 */
-	static public function urlField(parameters) -> string
+	public static function urlField(parameters) -> string
 	{
 		return self::_inputField("url", parameters);
 	}
@@ -789,7 +789,7 @@ class Tag
 	 * @param	array parameters
 	 * @return	string
 	 */
-	static public function checkField(parameters) -> string
+	public static function checkField(parameters) -> string
 	{
 		return self::_inputFieldChecked("checkbox", parameters);
 	}
@@ -798,7 +798,7 @@ class Tag
 	 * Builds a HTML input[type="radio"] tag
 	 *
 	 *<code>
-	 * echo Phalcon\Tag::radioField(array("wheather", "value" => "hot"))
+	 * echo Phalcon\Tag::radioField(array("weather", "value" => "hot"))
 	 *</code>
 	 *
 	 * Volt syntax:
@@ -809,7 +809,7 @@ class Tag
 	 * @param	array parameters
 	 * @return	string
 	 */
-	static public function radioField(parameters) -> string
+	public static function radioField(parameters) -> string
 	{
 		return self::_inputFieldChecked("radio", parameters);
 	}
@@ -829,7 +829,7 @@ class Tag
 	 * @param	array parameters
 	 * @return	string
 	 */
-	static public function imageInput(parameters) -> string
+	public static function imageInput(parameters) -> string
 	{
 		return self::_inputField("image", parameters, true);
 	}
@@ -849,7 +849,7 @@ class Tag
 	 * @param	array parameters
 	 * @return	string
 	 */
-	static public function submitButton(parameters) -> string
+	public static function submitButton(parameters) -> string
 	{
 		return self::_inputField("submit", parameters, true);
 	}
@@ -910,7 +910,7 @@ class Tag
 	 * @param	array parameters
 	 * @return	string
 	 */
-	static public function textArea(parameters) -> string
+	public static function textArea(parameters) -> string
 	{
 		var params, id, name, content, code;
 
@@ -970,7 +970,7 @@ class Tag
 	 * @param array parameters
 	 * @return string
 	 */
-	static public function form(parameters) -> string
+	public static function form(parameters) -> string
 	{
 		var params, paramsAction, action, code;
 
@@ -1047,7 +1047,7 @@ class Tag
 	 *
 	 * @param string titleSeparator
 	 */
-	static public function setTitleSeparator(string titleSeparator)
+	public static function setTitleSeparator(string titleSeparator)
 	{
 		let self::_documentTitleSeparator = titleSeparator;
 	}
@@ -1373,11 +1373,15 @@ class Tag
 	/**
 	 * Set the document type of content
 	 *
-	 * @param string doctype
+	 * @param integer doctype
 	 */
-	public static function setDocType(doctype) -> void
+	public static function setDocType(int doctype) -> void
 	{
-		let self::_documentType = doctype;
+	    if (doctype < self::HTML32 || doctype > self::XHTML5) {
+	        let self::_documentType = self::HTML5;
+	    } else {
+		    let self::_documentType = doctype;
+        }
 	}
 
 	/**
@@ -1387,7 +1391,6 @@ class Tag
 	 */
 	public static function getDocType() -> string
 	{
-
 		switch self::_documentType
 		{
 			case 1:  return "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 3.2 Final//EN\">" . PHP_EOL;
@@ -1398,8 +1401,6 @@ class Tag
 			/* no break */
 			case 4:  return "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Frameset//EN\"" . PHP_EOL . "\t\"http://www.w3.org/TR/html4/frameset.dtd\">" . PHP_EOL;
 			/* no break */
-			case 5:  return "<!DOCTYPE html>" . PHP_EOL;
-			/* no break */
 			case 6:  return "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\"" . PHP_EOL . "\t\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">" . PHP_EOL;
 			/* no break */
 			case 7:  return "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\"" . PHP_EOL."\t\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">" . PHP_EOL;
@@ -1409,6 +1410,9 @@ class Tag
 			case 9:  return "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.1//EN\"" . PHP_EOL . "\t\"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd\">" . PHP_EOL;
 			/* no break */
 			case 10: return "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 2.0//EN\"" . PHP_EOL . "\t\"http://www.w3.org/MarkUp/DTD/xhtml2.dtd\">" . PHP_EOL;
+			case 5:
+			case 11: return "<!DOCTYPE html>" . PHP_EOL;
+			/* no break */
 		}
 
 		return "";

@@ -15,11 +15,7 @@
         <!-- <file>./Phalcon/Flash/Direct/CustomCSSTest.php</file> -->
         <!-- <file>./Phalcon/Flash/Direct/DefaultCSSTest.php</file> -->
         <!-- <file>./Phalcon/Flash/Direct/EmptyCSSTest.php</file> -->
-        <!-- <file>./Phalcon/Escaper/UnitTest.php</file> -->
         <!-- <file>./Phalcon/Logger/Adapter/File/UnitTest.php</file> -->
-        <!-- <file>./Phalcon/Text/UnitTest.php</file> -->
-        <!-- <file>./Phalcon/Url/UnitTest.php</file> -->
-        <!-- <file>./Phalcon/Version/UnitTest.php</file> -->
         <!-- <file>./Phalcon/Mvc/Model/Query/Builder/UnitTest.php</file> -->
         <!-- <file>./Phalcon/Translate/Adapter/NativeArray/UnitTest.php</file> -->
         <!-- <file>./Phalcon/View/Engines/Volt/UnitTest.php</file> -->

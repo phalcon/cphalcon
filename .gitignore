@@ -348,3 +348,7 @@ composer.lock
 php-tests/tests/var/logs/*.log
 compile-errors.log
 compile.log
+.vagrant
+Vagrantfile
+tests/_output/tests/logs/*
+

@@ -27,6 +27,45 @@ namespace Phalcon;
  */
 class Version
 {
+    /**
+     * The constant referencing the major version. Returns 0
+     * <code>
+     * echo Phalcon\Version::getPart(Phalcon\Version::VERSION_MAJOR);
+     * </code>
+     */
+	const VERSION_MAJOR = 0;
+
+    /**
+     * The constant referencing the major version. Returns 1
+     * <code>
+     * echo Phalcon\Version::getPart(Phalcon\Version::VERSION_MEDIUM);
+     * </code>
+     */
+	const VERSION_MEDIUM = 1;
+
+    /**
+     * The constant referencing the major version. Returns 2
+     * <code>
+     * echo Phalcon\Version::getPart(Phalcon\Version::VERSION_MINOR);
+     * </code>
+     */
+	const VERSION_MINOR = 2;
+
+    /**
+     * The constant referencing the major version. Returns 3
+     * <code>
+     * echo Phalcon\Version::getPart(Phalcon\Version::VERSION_SPECIAL);
+     * </code>
+     */
+	const VERSION_SPECIAL = 3;
+
+    /**
+     * The constant referencing the major version. Returns 4
+     * <code>
+     * echo Phalcon\Version::getPart(Phalcon\Version::VERSION_SPECIAL_NUMBER);
+     * </code>
+     */
+	const VERSION_SPECIAL_NUMBER = 4;
 
 	/**
 	 * Area where the version number is set. The format is as follows:
@@ -44,6 +83,32 @@ class Version
 	}
 
 	/**
+	 * Translates a number to a special release
+	 *
+	 * If Special release = 1 this function will return ALPHA
+	 *
+	 * @return string
+	 */
+    protected static function _getSpecial(int special) -> string
+    {
+        var suffix = "";
+
+		switch special {
+			case 1:
+				let suffix = "ALPHA";
+				break;
+			case 2:
+				let suffix = "BETA";
+				break;
+			case 3:
+				let suffix = "RC";
+				break;
+		}
+
+		return suffix;
+    }
+
+	/**
 	 * Returns the active version (string)
 	 *
 	 * <code>
@@ -59,29 +124,19 @@ class Version
 
 		let version       = self::_getVersion();
 
-		let major         = version[0],
-			medium        = version[1],
-			minor         = version[2],
-			special       = version[3],
-			specialNumber = version[4];
+		let major         = version[self::VERSION_MAJOR],
+			medium        = version[self::VERSION_MEDIUM],
+			minor         = version[self::VERSION_MINOR],
+			special       = version[self::VERSION_SPECIAL],
+			specialNumber = version[self::VERSION_SPECIAL_NUMBER];
 
-		let result = major . "." . medium . "." . minor . " ";
-		switch special {
-			case 1:
-				let suffix = "ALPHA " . specialNumber;
-				break;
-			case 2:
-				let suffix = "BETA " . specialNumber;
-				break;
-			case 3:
-				let suffix = "RC " . specialNumber;
-				break;
-			default:
-				let suffix = "";
-				break;
+		let result  = major . "." . medium . "." . minor . " ";
+		let suffix  = self::_getSpecial(special);
+
+		if (suffix != "") {
+		    let result .= suffix . " " . specialNumber;
 		}
 
-		let result .= suffix;
 		return trim(result);
 	}
 
@@ -101,13 +156,46 @@ class Version
 
 		let version       = self::_getVersion();
 
-		let major         = version[0],
-			medium        = version[1],
-			minor         = version[2],
-			special       = version[3],
-			specialNumber = version[4];
+		let major         = version[self::VERSION_MAJOR],
+			medium        = version[self::VERSION_MEDIUM],
+			minor         = version[self::VERSION_MINOR],
+			special       = version[self::VERSION_SPECIAL],
+			specialNumber = version[self::VERSION_SPECIAL_NUMBER];
 
 		return major . sprintf("%02s", medium) . sprintf("%02s", minor) . special . specialNumber;
 	}
 
+	/**
+	 * Returns a specific part of the version. If the wrong parameter is passed
+	 * it will return the full version
+	 *
+	 * <code>
+	 * echo Phalcon\Version::getPart(Phalcon\Version::VERSION_MAJOR);
+	 * </code>
+	 *
+	 * @return string
+	 */
+    public static function getPart(int part) -> string
+    {
+		var version, result;
+
+		let version = self::_getVersion();
+
+        switch part {
+            case self::VERSION_MAJOR:
+            case self::VERSION_MEDIUM:
+            case self::VERSION_MINOR:
+            case self::VERSION_SPECIAL_NUMBER:
+                let result = version[part];
+                break;
+            case self::VERSION_SPECIAL:
+                let result = self::_getSpecial(version[self::VERSION_SPECIAL]);
+                break;
+            default:
+                let result = self::get();
+                break;
+        }
+
+        return result;
+    }
 }
