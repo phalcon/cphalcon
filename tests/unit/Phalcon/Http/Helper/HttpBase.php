@@ -35,6 +35,9 @@ class HttpBase extends \Codeception\TestCase\Test
     /**
      * Initializes the response object and returns it
      *
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-10-05
+     *
      * @return PhResponse
      */
     protected function getResponseObject()
@@ -60,6 +63,9 @@ class HttpBase extends \Codeception\TestCase\Test
     /**
      * Initializes the request object and returns it
      *
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-10-05
+     *
      * @return PhRequest
      */
     protected function getRequestObject()
@@ -82,6 +88,9 @@ class HttpBase extends \Codeception\TestCase\Test
     /**
      * Checks the has functions on non defined variables
      *
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-10-05
+     *
      * @param string    $function
      */
     protected function hasEmpty($function)
@@ -94,6 +103,9 @@ class HttpBase extends \Codeception\TestCase\Test
 
     /**
      * Checks the has functions on defined variables
+     *
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-10-05
      *
      * @param string    $function
      * @param string    $method
@@ -113,6 +125,9 @@ class HttpBase extends \Codeception\TestCase\Test
     /**
      * Checks the get functions on undefined variables
      *
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-10-05
+     *
      * @param string    $function
      */
     public function getEmpty($function)
@@ -126,6 +141,9 @@ class HttpBase extends \Codeception\TestCase\Test
 
     /**
      * Checks the get functions on defined variables
+     *
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-10-05
      *
      * @param string    $function
      * @param string    $method
@@ -146,6 +164,9 @@ class HttpBase extends \Codeception\TestCase\Test
     /**
      * Checks the get functions for sanitized data
      *
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-10-05
+     *
      * @param string    $function
      * @param string    $method
      */
@@ -164,6 +185,9 @@ class HttpBase extends \Codeception\TestCase\Test
 
     /**
      * Checks the get functions for sanitized data (array filters)
+     *
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-10-05
      *
      * @param string    $function
      * @param array     $filter
@@ -185,6 +209,9 @@ class HttpBase extends \Codeception\TestCase\Test
     /**
      * Sets a server variable ($_SERVER)
      *
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-10-05
+     *
      * @param string    $var
      * @param mixed     $value
      */
@@ -196,6 +223,9 @@ class HttpBase extends \Codeception\TestCase\Test
     /**
      * Unsets a server variable ($_SERVER)
      *
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-10-05
+     *
      * @param string    $var
      */
     protected function unsetServerVar($var)
@@ -205,6 +235,9 @@ class HttpBase extends \Codeception\TestCase\Test
 
     /**
      * Sets a get variable ($_GET)
+     *
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-10-05
      *
      * @param string    $var
      * @param mixed     $value
@@ -217,6 +250,9 @@ class HttpBase extends \Codeception\TestCase\Test
     /**
      * Unsets a get variable ($_GET)
      *
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-10-05
+     *
      * @param string    $var
      */
     protected function unsetGetVar($var)
@@ -226,6 +262,9 @@ class HttpBase extends \Codeception\TestCase\Test
 
     /**
      * Sets a post variable ($_POST)
+     *
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-10-05
      *
      * @param string    $var
      * @param mixed     $value
@@ -238,6 +277,9 @@ class HttpBase extends \Codeception\TestCase\Test
     /**
      * Unsets a post variable ($_POST)
      *
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-10-05
+     *
      * @param string    $var
      */
     protected function unsetPostVar($var)
@@ -247,6 +289,9 @@ class HttpBase extends \Codeception\TestCase\Test
 
     /**
      * Sets a request variable ($_REQUEST)
+     *
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-10-05
      *
      * @param string    $var
      * @param mixed     $value
@@ -258,6 +303,9 @@ class HttpBase extends \Codeception\TestCase\Test
 
     /**
      * Unsets a request variable ($_REQUEST)
+     *
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-10-05
      *
      * @param string    $var
      */
