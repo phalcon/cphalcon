@@ -54,7 +54,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Tag) {
 	ZEPHIR_REGISTER_CLASS(Phalcon, Tag, phalcon, tag, phalcon_tag_method_entry, 0);
 
 	/**
-	 * Pre-asigned values for components
+	 * Pre-assigned values for components
 	 */
 	zend_declare_property_null(phalcon_tag_ce, SL("_displayValues"), ZEND_ACC_PROTECTED|ZEND_ACC_STATIC TSRMLS_CC);
 
@@ -1343,7 +1343,7 @@ PHP_METHOD(Phalcon_Tag, checkField) {
  * Builds a HTML input[type="radio"] tag
  *
  *<code>
- * echo Phalcon\Tag::radioField(array("wheather", "value" => "hot"))
+ * echo Phalcon\Tag::radioField(array("weather", "value" => "hot"))
  *</code>
  *
  * Volt syntax:
@@ -2246,17 +2246,32 @@ PHP_METHOD(Phalcon_Tag, friendlyTitle) {
 /**
  * Set the document type of content
  *
- * @param string doctype
+ * @param integer doctype
  */
 PHP_METHOD(Phalcon_Tag, setDocType) {
 
-	zval *doctype;
+	zend_bool _0;
+	zval *doctype_param = NULL, *_1;
+	int doctype;
 
-	zephir_fetch_params(0, 1, 0, &doctype);
+	zephir_fetch_params(0, 1, 0, &doctype_param);
+
+	doctype = zephir_get_intval(doctype_param);
 
 
-
-	zephir_update_static_property_ce(phalcon_tag_ce, SL("_documentType"), doctype TSRMLS_CC);
+	_0 = doctype < 1;
+	if (!(_0)) {
+		_0 = doctype > 11;
+	}
+	if (_0) {
+		ZEPHIR_INIT_ZVAL_NREF(_1);
+		ZVAL_LONG(_1, 5);
+		zephir_update_static_property_ce(phalcon_tag_ce, SL("_documentType"), _1 TSRMLS_CC);
+	} else {
+		ZEPHIR_INIT_ZVAL_NREF(_1);
+		ZVAL_LONG(_1, doctype);
+		zephir_update_static_property_ce(phalcon_tag_ce, SL("_documentType"), _1 TSRMLS_CC);
+	}
 
 }
 
@@ -2303,12 +2318,6 @@ PHP_METHOD(Phalcon_Tag, getDocType) {
 			ZEPHIR_CONCAT_SVSV(return_value, "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Frameset//EN\"", _1, "\t\"http://www.w3.org/TR/html4/frameset.dtd\">", _2);
 			RETURN_MM();
 		}
-		if (ZEPHIR_IS_LONG(_0, 5)) {
-			ZEPHIR_INIT_NVAR(_1);
-			ZEPHIR_GET_CONSTANT(_1, "PHP_EOL");
-			ZEPHIR_CONCAT_SV(return_value, "<!DOCTYPE html>", _1);
-			RETURN_MM();
-		}
 		if (ZEPHIR_IS_LONG(_0, 6)) {
 			ZEPHIR_INIT_NVAR(_1);
 			ZEPHIR_GET_CONSTANT(_1, "PHP_EOL");
@@ -2347,6 +2356,12 @@ PHP_METHOD(Phalcon_Tag, getDocType) {
 			ZEPHIR_INIT_NVAR(_2);
 			ZEPHIR_GET_CONSTANT(_2, "PHP_EOL");
 			ZEPHIR_CONCAT_SVSV(return_value, "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 2.0//EN\"", _1, "\t\"http://www.w3.org/MarkUp/DTD/xhtml2.dtd\">", _2);
+			RETURN_MM();
+		}
+		if (ZEPHIR_IS_LONG(_0, 5) || ZEPHIR_IS_LONG(_0, 11)) {
+			ZEPHIR_INIT_NVAR(_1);
+			ZEPHIR_GET_CONSTANT(_1, "PHP_EOL");
+			ZEPHIR_CONCAT_SV(return_value, "<!DOCTYPE html>", _1);
 			RETURN_MM();
 		}
 	} while(0);

@@ -21,7 +21,6 @@
 #include "kernel/fcall.h"
 #include "kernel/array.h"
 #include "Zend/zend_closures.h"
-#include "kernel/variables.h"
 #include "kernel/string.h"
 #include "kernel/filter.h"
 #include "kernel/concat.h"
@@ -247,7 +246,6 @@ PHP_METHOD(Phalcon_Filter, _sanitize) {
 	}
 	do {
 		if (ZEPHIR_IS_STRING(filter, "email")) {
-			zephir_var_dump(&value TSRMLS_CC);
 			ZEPHIR_INIT_VAR(_2);
 			ZEPHIR_SINIT_VAR(_3);
 			ZVAL_STRING(&_3, "'", 0);
@@ -323,7 +321,7 @@ PHP_METHOD(Phalcon_Filter, _sanitize) {
 		ZEPHIR_CONCAT_SVS(_11, "Sanitize filter '", filter, "' is not supported");
 		ZEPHIR_CALL_METHOD(NULL, _10, "__construct", NULL, _11);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(_10, "phalcon/filter.zep", 187 TSRMLS_CC);
+		zephir_throw_exception_debug(_10, "phalcon/filter.zep", 186 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	} while(0);
