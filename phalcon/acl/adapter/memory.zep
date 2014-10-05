@@ -299,6 +299,10 @@ class Memory extends Adapter
 			throw new Exception("Resource '" . resourceName . "' does not exist in ACL");
 		}
 
+		if typeof accessList != "array" && typeof accessList != "string" {
+			throw new Exception("Invalid value for accessList");
+		}
+
 		let exists = true;
 		if typeof accessList == "array" {
 			for accessName in accessList {
@@ -308,11 +312,9 @@ class Memory extends Adapter
 				}
 			}
 		} else {
-			if typeof accessList == "string" {
-				let accessKey = resourceName . "!" . accessName;
-				if !isset accessList[accessKey] {
-					let this->_accessList[accessKey] = exists;
-				}
+			let accessKey = resourceName . "!" . accessList;
+			if !isset accessList[accessKey] {
+				let this->_accessList[accessKey] = exists;
 			}
 		}
 	}

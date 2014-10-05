@@ -9,7 +9,7 @@ define('ROOT_PATH', $root);
 define('PATH_CACHE', $root . '/_output/tests/cache/');
 define('PATH_LOGS', $root . '/_output/tests/logs/');
 
-/**
+/*
 
 define('PATH_CONFIG', $root . '/_output/tests/var/config/');
 define('PATH_MICRO', $root . '/tests/app_micro/');
