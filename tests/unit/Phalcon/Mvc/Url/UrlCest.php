@@ -5,7 +5,7 @@
  *
  * Tests the \Phalcon\Url component
  *
- * PhalconPHP Framework
+ * Phalcon Framework
  *
  * @copyright (c) 2011-2014 Phalcon Team
  * @link      http://www.phalconphp.com

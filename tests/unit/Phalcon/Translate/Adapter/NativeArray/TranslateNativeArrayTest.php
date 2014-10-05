@@ -5,7 +5,7 @@
  *
  * Tests the \Phalcon\Translate\Adapter\NativeArray component
  *
- * PhalconPHP Framework
+ * Phalcon Framework
  *
  * @copyright (c) 2011-2014 Phalcon Team
  * @link      http://www.phalconphp.com
@@ -28,7 +28,7 @@ use \Phalcon\Translate\Adapter\NativeArray as PhTranslateAdapterNativeArray;
 class TranslateNativeArrayTest extends \Codeception\TestCase\Test
 {
     use \Codeception\Specify;
-    
+
     private $config = null;
 
     /**
@@ -61,7 +61,7 @@ class TranslateNativeArrayTest extends \Codeception\TestCase\Test
             ],
         ];
     }
-    
+
     /**
      * Tests whether a key exists in the array
      *
@@ -78,7 +78,7 @@ class TranslateNativeArrayTest extends \Codeception\TestCase\Test
                 $params     = ['content' => $language];
                 $translator = new PhTranslateAdapterNativeArray($params);
                 $found      = $translator->exists('hi');
-                
+
                 expect($found)->true();
             }
         );
@@ -100,14 +100,14 @@ class TranslateNativeArrayTest extends \Codeception\TestCase\Test
                 $params     = ['content' => $language];
                 $translator = new PhTranslateAdapterNativeArray($params);
                 $found      = $translator->offsetExists('hi');
-                
+
                 expect($found)->true();
             }
         );
     }
 
     /**
-     * Tests the offsetGet 
+     * Tests the offsetGet
      *
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-12
@@ -123,14 +123,14 @@ class TranslateNativeArrayTest extends \Codeception\TestCase\Test
                 $translator = new PhTranslateAdapterNativeArray($params);
                 $expected   = 'Hello';
                 $actual     = $translator->offsetGet('hi');
-                
+
                 expect($actual)->equals($expected);
             }
         );
     }
 
     /**
-     * Tests the query with English 
+     * Tests the query with English
      *
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-12
@@ -144,19 +144,19 @@ class TranslateNativeArrayTest extends \Codeception\TestCase\Test
                 $language   = $this->config['en'];
                 $params     = ['content' => $language];
                 $translator = new PhTranslateAdapterNativeArray($params);
-                
+
                 $expected   = 'Hello';
                 $actual     = $translator->query('hi');
-                
+
                 expect($actual)->equals($expected);
-                
+
                 $expected   = 'Good Bye';
                 $actual     = $translator->query('bye');
-                
+
                 expect($actual)->equals($expected);
             }
         );
-        
+
         $this->specify(
             "The key does not exist with query in English with alternative syntax",
             function () {
@@ -164,22 +164,22 @@ class TranslateNativeArrayTest extends \Codeception\TestCase\Test
                 $language   = $this->config['en'];
                 $params     = ['content' => $language];
                 $translator = new PhTranslateAdapterNativeArray($params);
-                
+
                 $expected   = 'Hello';
                 $actual     = $translator->_('hi');
-                
+
                 expect($actual)->equals($expected);
-                
+
                 $expected   = 'Good Bye';
                 $actual     = $translator->_('bye');
-                
+
                 expect($actual)->equals($expected);
             }
         );
     }
 
     /**
-     * Tests the query with Spanish 
+     * Tests the query with Spanish
      *
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-12
@@ -193,15 +193,15 @@ class TranslateNativeArrayTest extends \Codeception\TestCase\Test
                 $language   = $this->config['es'];
                 $params     = ['content' => $language];
                 $translator = new PhTranslateAdapterNativeArray($params);
-                
+
                 $expected   = 'Hola';
                 $actual     = $translator->query('hi');
-                
+
                 expect($actual)->equals($expected);
-                
+
                 $expected   = 'Adiós';
                 $actual     = $translator->query('bye');
-                
+
                 expect($actual)->equals($expected);
             }
         );
@@ -228,7 +228,7 @@ class TranslateNativeArrayTest extends \Codeception\TestCase\Test
     }
 
     /**
-     * Tests the query with French 
+     * Tests the query with French
      *
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-12
@@ -242,15 +242,15 @@ class TranslateNativeArrayTest extends \Codeception\TestCase\Test
                 $language   = $this->config['fr'];
                 $params     = ['content' => $language];
                 $translator = new PhTranslateAdapterNativeArray($params);
-                
+
                 $expected   = 'Bonjour';
                 $actual     = $translator->query('hi');
-                
+
                 expect($actual)->equals($expected);
-                
+
                 $expected   = 'Au revoir';
                 $actual     = $translator->query('bye');
-                
+
                 expect($actual)->equals($expected);
             }
         );
