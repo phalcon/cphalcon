@@ -121,8 +121,6 @@ class HttpResponseHeadersTest extends Helper\HttpBase
      *
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-10-05
-     *
-     * @todo Check this one out
      */
 	public function testHttpResponseHeadersRaw()
 	{

@@ -1,107 +1,119 @@
 <?php
+/**
+ * HttpResponseTest.php
+ * \Phalcon\Http\Request\HttpResponseTest
+ *
+ * Tests the Phalcon\Http\Response component
+ *
+ * PhalconPHP Framework
+ *
+ * @copyright (c) 2011-2014 Phalcon Team
+ * @link      http://www.phalconphp.com
+ * @author    Andres Gutierrez <andres@phalconphp.com>
+ * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>
+ *
+ * The contents of this file are subject to the New BSD License that is
+ * bundled with this package in the file docs/LICENSE.txt
+ *
+ * If you did not receive a copy of the license and are unable to obtain it
+ * through the world-wide-web, please send an email to license@phalconphp.com
+ * so that we can send you a copy immediately.
+ */
 
-/*
-  +------------------------------------------------------------------------+
-  | Phalcon Framework                                                      |
-  +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2012 Phalcon Team (http://www.phalconphp.com)       |
-  +------------------------------------------------------------------------+
-  | This source file is subject to the New BSD License that is bundled     |
-  | with this package in the file docs/LICENSE.txt.                        |
-  |                                                                        |
-  | If you did not receive a copy of the license and are unable to         |
-  | obtain it through the world-wide-web, please send an email             |
-  | to license@phalconphp.com so we can send you a copy immediately.       |
-  +------------------------------------------------------------------------+
-  | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
-  |          Eduar Carvajal <eduar@phalconphp.com>                         |
-  +------------------------------------------------------------------------+
-*/
+namespace Phalcon\Tests\unit\Phalcon\Http;
 
-class ResponseTest extends PHPUnit_Framework_TestCase
+use \Phalcon\Http\Response\Headers as PhResponseHeaders;
+
+class HttpResponseTest extends Helper\HttpBase
 {
+    /**
+     * Tests the instance of the object
+     */
+    public function testHttpRequestInstanceOf()
+    {
+        $this->specify(
+            "The new object is not the correct class",
+            function () {
 
-	private $_response;
+                $response = $this->getResponseObject();
 
-	public function setUp()
-	{
-		$di = new Phalcon\DI();
-
-		$di->set('url', function(){
-			$url = new Phalcon\Mvc\Url();
-			$url->setBaseUri('/');
-			return $url;
-		});
-
-		$this->_response = new Phalcon\Http\Response();
-
-		$this->_response->setDI($di);
-	}
+                expect($response instanceof \Phalcon\Http\Response)->true();
+            }
+        );
+    }
 
 	public function testSetHeader()
 	{
+        $this->markTestIncomplete('To be checked');
+        $response = $this->getResponseObject();
+        
+		$response->resetHeaders();
 
-		$this->_response->resetHeaders();
+		$response->setHeader('Content-Type', 'text/html');
 
-		$this->_response->setHeader('Content-Type', 'text/html');
-
-		$this->assertEquals(Phalcon\Http\Response\Headers::__set_state(array(
+		$this->assertEquals(PhResponseHeaders::__set_state(array(
 			'_headers' => array(
 				'Content-Type' => 'text/html',
 			)
-		)), $this->_response->getHeaders());
+		)), $response->getHeaders());
 
-		$this->_response->setHeader('Content-Length', '1234');
+		$response->setHeader('Content-Length', '1234');
 
-		$this->assertEquals(Phalcon\Http\Response\Headers::__set_state(array(
+		$this->assertEquals(PhResponseHeaders::__set_state(array(
 			'_headers' => array(
 				'Content-Type' => 'text/html',
 				'Content-Length' => '1234'
 			)
-		)), $this->_response->getHeaders());
+		)), $response->getHeaders());
 
 	}
 
 	public function testSetStatusHeader()
 	{
+        $this->markTestIncomplete('To be checked');
+        $response = $this->getResponseObject();
 
-		$this->_response->resetHeaders();
+		$response->resetHeaders();
 
-		$this->_response->setStatusCode(404, "Not Found");
+		$response->setStatusCode(404, "Not Found");
 
-		$this->assertEquals(Phalcon\Http\Response\Headers::__set_state(array(
+		$this->assertEquals(PhResponseHeaders::__set_state(array(
 			'_headers' => array(
 				'HTTP/1.1 404 Not Found' => '',
 				'Status' => '404 Not Found'
 			)
-		)), $this->_response->getHeaders());
+		)), $response->getHeaders());
 
 	}
 
 	public function testSetRawHeader()
 	{
+        $this->markTestIncomplete('To be checked');
+        $response = $this->getResponseObject();
 
-		$this->_response->resetHeaders();
+		$response->resetHeaders();
 
-		$this->_response->setRawHeader("HTTP/1.1 404 Not Found");
+		$response->setRawHeader("HTTP/1.1 404 Not Found");
 
-		$this->assertEquals(Phalcon\Http\Response\Headers::__set_state(array(
+		$this->assertEquals(PhResponseHeaders::__set_state(array(
 			'_headers' => array(
 				'HTTP/1.1 404 Not Found' => '',
 			)
-		)), $this->_response->getHeaders());
+		)), $response->getHeaders());
 
 	}
 	
 	public function testToArrayHeader()
 	{
+        $this->markTestIncomplete('To be checked');
+        $response = $this->getResponseObject();
 
-		$this->_response->resetHeaders();
+		$response->resetHeaders();
 
-		$this->_response->setHeader('Content-Type', 'text/html');
-		$this->_response->setHeader('Content-Length', '1234');
+		$response->setHeader('Content-Type', 'text/html');
+		$response->setHeader('Content-Length', '1234');
 		
-		$headers = $this->_response->getHeaders();
+		$headers = $response->getHeaders();
 		$headersArray = $headers->toArray();
 		
 		$this->assertArrayHasKey('Content-Type', $headersArray);
@@ -112,111 +124,121 @@ class ResponseTest extends PHPUnit_Framework_TestCase
 
 	public function testSetContentType()
 	{
+        $this->markTestIncomplete('To be checked');
+        $response = $this->getResponseObject();
 
 		//Without charset
-		$this->_response->resetHeaders();
+		$response->resetHeaders();
 
-		$this->_response->setContentType('application/json');
+		$response->setContentType('application/json');
 
-		$this->assertEquals(Phalcon\Http\Response\Headers::__set_state(array(
+		$this->assertEquals(PhResponseHeaders::__set_state(array(
 			'_headers' => array(
 				'Content-Type' => 'application/json'
 			)
-		)), $this->_response->getHeaders());
+		)), $response->getHeaders());
 
 		//With charset
-		$this->_response->resetHeaders();
+		$response->resetHeaders();
 
-		$this->_response->setContentType('application/json', 'utf-8');
+		$response->setContentType('application/json', 'utf-8');
 
-		$this->assertEquals(Phalcon\Http\Response\Headers::__set_state(array(
+		$this->assertEquals(PhResponseHeaders::__set_state(array(
 			'_headers' => array(
 				'Content-Type' => 'application/json; charset=utf-8'
 			)
-		)), $this->_response->getHeaders());
+		)), $response->getHeaders());
 	}
 
 	public function testNotModifiedHeader()
 	{
+        $this->markTestIncomplete('To be checked');
+        $response = $this->getResponseObject();
 
-		$this->_response->resetHeaders();
+		$response->resetHeaders();
 
-		$this->_response->setNotModified();
+		$response->setNotModified();
 
-		$this->assertEquals(Phalcon\Http\Response\Headers::__set_state(array(
+		$this->assertEquals(PhResponseHeaders::__set_state(array(
 			'_headers' => array(
 				'HTTP/1.1 304 Not modified' => false,
 				'Status' => '304 Not modified'
 			)
-		)), $this->_response->getHeaders());
+		)), $response->getHeaders());
 
 	}
 
 	public function testRedirect()
 	{
-
+        $this->markTestIncomplete('To be checked');
+        $response = $this->getResponseObject();
 
 		//local URI
-		$this->_response->resetHeaders();
+		$response->resetHeaders();
 
-		$this->_response->redirect("some/local/uri");
+		$response->redirect("some/local/uri");
 
-		$this->assertEquals(Phalcon\Http\Response\Headers::__set_state(array(
+		$this->assertEquals(PhResponseHeaders::__set_state(array(
 			'_headers' => array(
 				'HTTP/1.1 302 Redirect' => false,
 				'Status' => '302 Redirect',
 				'Location' => '/some/local/uri'
 			)
-		)), $this->_response->getHeaders());
+		)), $response->getHeaders());
 
 		//Full URL
-		$this->_response->resetHeaders();
+		$response->resetHeaders();
 
-		$this->_response->redirect("http://google.com", true);
+		$response->redirect("http://google.com", true);
 
-		$this->assertEquals(Phalcon\Http\Response\Headers::__set_state(array(
+		$this->assertEquals(PhResponseHeaders::__set_state(array(
 			'_headers' => array(
 				'HTTP/1.1 302 Redirect' => false,
 				'Status' => '302 Redirect',
 				'Location' => 'http://google.com'
 			)
-		)), $this->_response->getHeaders());
+		)), $response->getHeaders());
 
 		//HTTP code
-		$this->_response->resetHeaders();
+		$response->resetHeaders();
 
-		$this->_response->redirect("http://google.com", true, 301);
+		$response->redirect("http://google.com", true, 301);
 
-		$this->assertEquals(Phalcon\Http\Response\Headers::__set_state(array(
+		$this->assertEquals(PhResponseHeaders::__set_state(array(
 			'_headers' => array(
 				'HTTP/1.1 301 Redirect' => false,
 				'Status' => '301 Redirect',
 				'Location' => 'http://google.com'
 			)
-		)), $this->_response->getHeaders());
+		)), $response->getHeaders());
 
 	}
 
 	public function testContent()
 	{
+        $this->markTestIncomplete('To be checked');
+        $response = $this->getResponseObject();
 
-		$this->_response->setContent('<h1>Hello');
-		$this->assertEquals($this->_response->getContent(), '<h1>Hello');
+		$response->setContent('<h1>Hello');
+		$this->assertEquals($response->getContent(), '<h1>Hello');
 
-		$this->_response->appendContent('</h1>');
-		$this->assertEquals($this->_response->getContent(), '<h1>Hello</h1>');
+		$response->appendContent('</h1>');
+		$this->assertEquals($response->getContent(), '<h1>Hello</h1>');
 
 	}
 
 	public function testSetFileToSend()
 	{
+        $this->markTestIncomplete('To be checked');
+        $response = $this->getResponseObject();
+
 		$filename = __FILE__;
-		$this->_response->setFileToSend($filename);
+		$response->setFileToSend($filename);
 		ob_start();
-		$this->_response->send();
+		$response->send();
 		$actual   = ob_get_clean();
 		$expected = file_get_contents($filename);
 		$this->assertEquals($actual, $expected);
-		$this->assertEquals($this->_response->isSent(), true);
+		$this->assertEquals($response->isSent(), true);
 	}
 }
