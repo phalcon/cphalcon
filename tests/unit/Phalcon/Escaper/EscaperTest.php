@@ -5,7 +5,7 @@
  *
  * Tests the \Phalcon\Escaper component
  *
- * PhalconPHP Framework
+ * Phalcon Framework
  *
  * @copyright (c) 2011-2014 Phalcon Team
  * @link      http://www.phalconphp.com
@@ -22,7 +22,7 @@
 
 namespace Phalcon\Tests\unit\Phalcon\Translate\Adapter\NativeArray;
 
-use \Phalcon\Escaper as PhEscaper;
+use Phalcon\Escaper as PhEscaper;
 
 class EscaperTest extends \Codeception\TestCase\Test
 {

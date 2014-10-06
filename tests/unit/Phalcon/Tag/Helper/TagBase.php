@@ -5,7 +5,7 @@
  *
  * Tests the \Phalcon\Tag component
  *
- * PhalconPHP Framework
+ * Phalcon Framework
  *
  * @copyright (c) 2011-2014 Phalcon Team
  * @link      http://www.phalconphp.com
@@ -22,8 +22,8 @@
 
 namespace Phalcon\Tests\unit\Phalcon\Tag\Helper;
 
-use \Phalcon\Di\FactoryDefault as PhDI;
-use \Phalcon\Tag as PhTag;
+use Phalcon\Di\FactoryDefault as PhDI;
+use Phalcon\Tag as PhTag;
 
 class TagBase extends \Codeception\TestCase\Test
 {

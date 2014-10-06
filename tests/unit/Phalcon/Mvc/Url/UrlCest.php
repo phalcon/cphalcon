@@ -5,7 +5,7 @@
  *
  * Tests the \Phalcon\Url component
  *
- * PhalconPHP Framework
+ * Phalcon Framework
  *
  * @copyright (c) 2011-2014 Phalcon Team
  * @link      http://www.phalconphp.com
@@ -20,10 +20,10 @@
  * so that we can send you a copy immediately.
  */
 
-use \CodeGuy;
-use \Phalcon\DI as PhDI;
-use \Phalcon\Mvc\Router as PhRouter;
-use \Phalcon\Mvc\Url as PhUrl;
+use CodeGuy;
+use Phalcon\DI as PhDI;
+use Phalcon\Mvc\Router as PhRouter;
+use Phalcon\Mvc\Url as PhUrl;
 
 class UrlCest
 {

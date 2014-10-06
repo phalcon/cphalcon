@@ -5,7 +5,7 @@
  *
  * Tests the Phalcon\Logger\Adapter\File component
  *
- * PhalconPHP Framework
+ * Phalcon Framework
  *
  * @copyright (c) 2011-2014 Phalcon Team
  * @link      http://www.phalconphp.com
@@ -22,10 +22,10 @@
 
 namespace Phalcon\Tests\unit\Phalcon\Logger\Adapter\File;
 
-use \Phalcon\Logger as PhLogger;
-use \Phalcon\Logger\Exception as PhLoggerException;
-use \Phalcon\Logger\Adapter\File as PhLoggerAdapterFile;
-use \Phalcon\Logger\Formatter\Line as PhLoggerFormatterLine;
+use Phalcon\Logger as PhLogger;
+use Phalcon\Logger\Exception as PhLoggerException;
+use Phalcon\Logger\Adapter\File as PhLoggerAdapterFile;
+use Phalcon\Logger\Formatter\Line as PhLoggerFormatterLine;
 
 class UnitTest extends \Codeception\TestCase\Test
 {

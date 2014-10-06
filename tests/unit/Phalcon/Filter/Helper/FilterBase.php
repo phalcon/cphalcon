@@ -5,7 +5,7 @@
  *
  * Base class for Phalcon\Filter component
  *
- * PhalconPHP Framework
+ * Phalcon Framework
  *
  * @copyright (c) 2011-2014 Phalcon Team
  * @link      http://www.phalconphp.com
@@ -22,7 +22,7 @@
 
 namespace Phalcon\Tests\unit\Phalcon\Filter\Helper;
 
-use \Phalcon\Filter as PhFilter;
+use Phalcon\Filter as PhFilter;
 
 class FilterBase extends \Codeception\TestCase\Test
 {

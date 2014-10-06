@@ -981,7 +981,6 @@ int zephir_update_property_array(zval *object, const char *property, zend_uint p
 		Z_ADDREF_P(value);
 
 		if (Z_TYPE_P(index) == IS_STRING) {
-			//php_error_docref(NULL TSRMLS_CC, E_WARNING, "%d %d", Z_TYPE_P(index), separated);
 			zend_symtable_update(Z_ARRVAL_P(tmp), Z_STRVAL_P(index), Z_STRLEN_P(index) + 1, &value, sizeof(zval*), NULL);
 		} else if (Z_TYPE_P(index) == IS_LONG) {
 			zend_hash_index_update(Z_ARRVAL_P(tmp), Z_LVAL_P(index), &value, sizeof(zval *), NULL);
@@ -989,13 +988,9 @@ int zephir_update_property_array(zval *object, const char *property, zend_uint p
 			zend_hash_next_index_insert(Z_ARRVAL_P(tmp), (void**)&value, sizeof(zval*), NULL);
 		}
 
-		//php_error_docref(NULL TSRMLS_CC, E_WARNING, "%d %d", Z_TYPE_P(index), separated);
-
 		if (separated) {
 			zephir_update_property_zval(object, property, property_length, tmp TSRMLS_CC);
 		}
-	} else {
-		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Not object");
 	}
 
 	return SUCCESS;
@@ -1268,6 +1263,31 @@ int zephir_update_property_empty_array(zend_class_entry *ce, zval *object, char 
 	return res;
 }
 
+int zephir_unset_property(zval* object, const char* name TSRMLS_DC)
+{
+	if (Z_TYPE_P(object) == IS_OBJECT) {
+		zval member;
+		zend_class_entry *old_scope;
+
+		INIT_PZVAL(&member);
+		ZVAL_STRING(&member, name, 0);
+		old_scope = EG(scope);
+		EG(scope) = Z_OBJCE_P(object);
+
+		#if PHP_VERSION_ID < 50400
+			Z_OBJ_HT_P(object)->unset_property(object, &member TSRMLS_CC);
+		#else
+			Z_OBJ_HT_P(object)->unset_property(object, &member, 0 TSRMLS_CC);
+		#endif
+
+		EG(scope) = old_scope;
+
+		return SUCCESS;
+	}
+
+	return FAILURE;
+}
+
 /**
  * Unsets an index in an array property
  */
@@ -1430,6 +1450,16 @@ static int zephir_update_static_property_ex(zend_class_entry *scope, const char 
 {
 	zval **property;
 	zend_class_entry *old_scope = EG(scope);
+
+	/**
+	 * We have to protect super globals to avoid them make converted to references
+	 */
+	if (value == ZEPHIR_GLOBAL(global_null)) {
+		ALLOC_ZVAL(value);
+		Z_UNSET_ISREF_P(value);
+		Z_SET_REFCOUNT_P(value, 0);
+		ZVAL_NULL(value);
+	}
 
 	EG(scope) = scope;
 #if PHP_VERSION_ID < 50400
@@ -1604,7 +1634,7 @@ int zephir_update_static_property_array_multi_ce(zend_class_entry *ce, const cha
 				break;
 
 			case 'a':
-				zephir_array_append(&p, *value, PH_SEPARATE);
+				zephir_array_append(&p, *value, PH_SEPARATE ZEPHIR_DEBUG_PARAMS_DUMMY);
 				break;
 		}
 	}

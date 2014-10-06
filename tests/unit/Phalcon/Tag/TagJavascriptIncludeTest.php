@@ -5,7 +5,7 @@
  *
  * Tests the \Phalcon\Tag component
  *
- * PhalconPHP Framework
+ * Phalcon Framework
  *
  * @copyright (c) 2011-2014 Phalcon Team
  * @link      http://www.phalconphp.com
@@ -22,7 +22,7 @@
 
 namespace Phalcon\Tests\unit\Phalcon\Tag;
 
-use \Phalcon\Tag as PhTag;
+use Phalcon\Tag as PhTag;
 
 class TagJavascriptIncludeTest extends Helper\TagBase
 {

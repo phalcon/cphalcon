@@ -5,7 +5,7 @@
  *
  * Tests the Phalcon\Filter component
  *
- * PhalconPHP Framework
+ * Phalcon Framework
  *
  * @copyright (c) 2011-2014 Phalcon Team
  * @link      http://www.phalconphp.com
@@ -22,8 +22,8 @@
 
 namespace Phalcon\Tests\unit\Phalcon\Filter;
 
-use \Phalcon\Filter as PhFilter;
-use \Phalcon\Tests\unit\Phalcon\Filter\Helper\IPv4 as PhTestFilterIPv4;
+use Phalcon\Filter as PhFilter;
+use Phalcon\Tests\unit\Phalcon\Filter\Helper\IPv4 as PhTestFilterIPv4;
 
 class FilterCustomTest extends \Codeception\TestCase\Test
 {

@@ -5,7 +5,7 @@
  *
  * Tests the \Phalcon\Version component
  *
- * PhalconPHP Framework
+ * Phalcon Framework
  *
  * @copyright (c) 2011-2014 Phalcon Team
  * @link      http://www.phalconphp.com
@@ -20,7 +20,7 @@
  * so that we can send you a copy immediately.
  */
 
-use \Phalcon\Version as PhVersion;
+use Phalcon\Version as PhVersion;
 
 class VersionTest extends \Codeception\TestCase\Test
 {

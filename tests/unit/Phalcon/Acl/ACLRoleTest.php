@@ -5,7 +5,7 @@
  *
  * Tests the Phalcon\Acl component
  *
- * PhalconPHP Framework
+ * Phalcon Framework
  *
  * @copyright (c) 2011-2014 Phalcon Team
  * @link      http://www.phalconphp.com
@@ -22,7 +22,7 @@
 
 namespace Phalcon\Tests\unit\Phalcon\Acl;
 
-use \Phalcon\Acl\Role as PhAclRole;
+use Phalcon\Acl\Role as PhAclRole;
 
 class ACLRoleTest extends \Codeception\TestCase\Test
 {
@@ -39,7 +39,7 @@ class ACLRoleTest extends \Codeception\TestCase\Test
         $this->specify(
             "getting the name from the ACL role does not return the correct result",
             function () {
-                
+
                 $aclRole  = new PhAclRole('Administrators');
                 $expected = 'Administrators';
                 $actual   = $aclRole->getName();

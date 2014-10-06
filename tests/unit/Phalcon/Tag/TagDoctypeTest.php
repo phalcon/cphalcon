@@ -5,7 +5,7 @@
  *
  * Tests the \Phalcon\Tag component
  *
- * PhalconPHP Framework
+ * Phalcon Framework
  *
  * @copyright (c) 2011-2014 Phalcon Team
  * @link      http://www.phalconphp.com
@@ -22,7 +22,7 @@
 
 namespace Phalcon\Tests\unit\Phalcon\Tag;
 
-use \Phalcon\Tag as PhTag;
+use Phalcon\Tag as PhTag;
 
 class TagDoctypeTest extends Helper\TagBase
 {
@@ -223,13 +223,13 @@ class TagDoctypeTest extends Helper\TagBase
         $actual   = PhTag::getDocType();
 
         PhTag::setDocType(PhTag::HTML5);
-        
+
         expect($actual)->equals($expected);
     }
 
     /**
      * Converts a doctype code to a string output
-     * 
+     *
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-04
      *

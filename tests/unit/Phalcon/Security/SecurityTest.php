@@ -5,7 +5,7 @@
  *
  * Tests the \Phalcon\Security component
  *
- * PhalconPHP Framework
+ * Phalcon Framework
  *
  * @copyright (c) 2011-2014 Phalcon Team
  * @link      http://www.phalconphp.com
@@ -22,7 +22,7 @@
 
 namespace Phalcon\Tests\unit\Phalcon\Security;
 
-use \Phalcon\Security as PhSecurity;
+use Phalcon\Security as PhSecurity;
 
 class SecurityTest extends \Codeception\TestCase\Test
 {
