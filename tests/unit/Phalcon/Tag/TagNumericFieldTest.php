@@ -22,7 +22,7 @@
 
 namespace Phalcon\Tests\unit\Phalcon\Tag;
 
-use \Phalcon\Tag as PhTag;
+use Phalcon\Tag as PhTag;
 
 class TagNumericFieldTest extends Helper\TagBase
 {

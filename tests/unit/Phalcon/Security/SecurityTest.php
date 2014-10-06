@@ -22,7 +22,7 @@
 
 namespace Phalcon\Tests\unit\Phalcon\Security;
 
-use \Phalcon\Security as PhSecurity;
+use Phalcon\Security as PhSecurity;
 
 class SecurityTest extends \Codeception\TestCase\Test
 {

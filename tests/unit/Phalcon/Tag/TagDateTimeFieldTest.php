@@ -22,7 +22,7 @@
 
 namespace Phalcon\Tests\unit\Phalcon\Tag;
 
-use \Phalcon\Tag as PhTag;
+use Phalcon\Tag as PhTag;
 
 class TagDateTimeFieldTest extends Helper\TagBase
 {

@@ -22,7 +22,7 @@
 
 namespace Phalcon\Tests\unit\Phalcon\Filter\Helper;
 
-use \Phalcon\Filter as PhFilter;
+use Phalcon\Filter as PhFilter;
 
 class FilterBase extends \Codeception\TestCase\Test
 {

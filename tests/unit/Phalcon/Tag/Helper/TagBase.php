@@ -22,8 +22,8 @@
 
 namespace Phalcon\Tests\unit\Phalcon\Tag\Helper;
 
-use \Phalcon\Di\FactoryDefault as PhDI;
-use \Phalcon\Tag as PhTag;
+use Phalcon\Di\FactoryDefault as PhDI;
+use Phalcon\Tag as PhTag;
 
 class TagBase extends \Codeception\TestCase\Test
 {

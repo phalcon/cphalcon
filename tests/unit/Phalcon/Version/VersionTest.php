@@ -20,7 +20,7 @@
  * so that we can send you a copy immediately.
  */
 
-use \Phalcon\Version as PhVersion;
+use Phalcon\Version as PhVersion;
 
 class VersionTest extends \Codeception\TestCase\Test
 {

@@ -22,8 +22,8 @@
 
 namespace Phalcon\Tests\unit\Phalcon\Tag;
 
-use \Phalcon\Tag as PhTag;
-use \Phalcon\Tag\Exception as PhTagException;
+use Phalcon\Tag as PhTag;
+use Phalcon\Tag\Exception as PhTagException;
 
 class TagFriendlyTitleTest extends Helper\TagBase
 {

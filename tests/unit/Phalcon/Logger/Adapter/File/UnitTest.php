@@ -22,10 +22,10 @@
 
 namespace Phalcon\Tests\unit\Phalcon\Logger\Adapter\File;
 
-use \Phalcon\Logger as PhLogger;
-use \Phalcon\Logger\Exception as PhLoggerException;
-use \Phalcon\Logger\Adapter\File as PhLoggerAdapterFile;
-use \Phalcon\Logger\Formatter\Line as PhLoggerFormatterLine;
+use Phalcon\Logger as PhLogger;
+use Phalcon\Logger\Exception as PhLoggerException;
+use Phalcon\Logger\Adapter\File as PhLoggerAdapterFile;
+use Phalcon\Logger\Formatter\Line as PhLoggerFormatterLine;
 
 class UnitTest extends \Codeception\TestCase\Test
 {

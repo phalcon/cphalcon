@@ -22,7 +22,7 @@
 
 namespace Phalcon\Tests\unit\Phalcon\Acl;
 
-use \Phalcon\Acl\Resource as PhAclResource;
+use Phalcon\Acl\Resource as PhAclResource;
 
 class ACLResourceTest extends \Codeception\TestCase\Test
 {

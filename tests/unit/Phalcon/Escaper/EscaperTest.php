@@ -22,7 +22,7 @@
 
 namespace Phalcon\Tests\unit\Phalcon\Translate\Adapter\NativeArray;
 
-use \Phalcon\Escaper as PhEscaper;
+use Phalcon\Escaper as PhEscaper;
 
 class EscaperTest extends \Codeception\TestCase\Test
 {

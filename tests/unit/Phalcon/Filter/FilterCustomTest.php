@@ -22,8 +22,8 @@
 
 namespace Phalcon\Tests\unit\Phalcon\Filter;
 
-use \Phalcon\Filter as PhFilter;
-use \Phalcon\Tests\unit\Phalcon\Filter\Helper\IPv4 as PhTestFilterIPv4;
+use Phalcon\Filter as PhFilter;
+use Phalcon\Tests\unit\Phalcon\Filter\Helper\IPv4 as PhTestFilterIPv4;
 
 class FilterCustomTest extends \Codeception\TestCase\Test
 {

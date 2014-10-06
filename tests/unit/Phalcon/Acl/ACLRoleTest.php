@@ -22,7 +22,7 @@
 
 namespace Phalcon\Tests\unit\Phalcon\Acl;
 
-use \Phalcon\Acl\Role as PhAclRole;
+use Phalcon\Acl\Role as PhAclRole;
 
 class ACLRoleTest extends \Codeception\TestCase\Test
 {

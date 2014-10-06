@@ -22,8 +22,8 @@
 
 namespace Phalcon\Tests\unit\Phalcon\Translate\Adapter\NativeArray;
 
-use \Phalcon\Translate\Exception as PhTranslateException;
-use \Phalcon\Translate\Adapter\NativeArray as PhTranslateAdapterNativeArray;
+use Phalcon\Translate\Exception as PhTranslateException;
+use Phalcon\Translate\Adapter\NativeArray as PhTranslateAdapterNativeArray;
 
 class TranslateNativeArrayTest extends \Codeception\TestCase\Test
 {

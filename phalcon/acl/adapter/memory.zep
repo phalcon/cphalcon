@@ -20,6 +20,7 @@
 namespace Phalcon\Acl\Adapter;
 
 use Phalcon\Acl\Adapter;
+use Phalcon\Acl\Resource;
 use Phalcon\Acl\Exception;
 
 /**
@@ -239,7 +240,7 @@ class Memory extends Adapter
 	 * @param  string resourceName
 	 * @return boolean
 	 */
-	public function isResource(var resourceName)
+	public function isResource(var resourceName) -> boolean
 	{
 		return isset this->_resourcesNames[resourceName];
 	}
@@ -265,7 +266,7 @@ class Memory extends Adapter
 	 * @param   array accessList
 	 * @return  boolean
 	 */
-	public function addResource(var resourceValue, var accessList)
+	public function addResource(var resourceValue, var accessList) -> boolean
 	{
 		var resourceName, resourceObject;
 
@@ -274,7 +275,7 @@ class Memory extends Adapter
 			let resourceObject = resourceValue;
 		 } else {
 			let resourceName   = resourceValue;
-			let resourceObject = new \Phalcon\Acl\Resource(resourceName);
+			let resourceObject = new $Resource(resourceName);
 		 }
 
 		 if !isset this->_resourcesNames[resourceName] {
@@ -290,8 +291,9 @@ class Memory extends Adapter
 	 *
 	 * @param string resourceName
 	 * @param mixed accessList
+	 * @return boolean
 	 */
-	public function addResourceAccess(var resourceName, var accessList)
+	public function addResourceAccess(var resourceName, var accessList) -> boolean
 	{
 		var accessName, accessKey, exists;
 
@@ -317,6 +319,8 @@ class Memory extends Adapter
 				let this->_accessList[accessKey] = exists;
 			}
 		}
+
+		return true;
 	}
 
 	/**

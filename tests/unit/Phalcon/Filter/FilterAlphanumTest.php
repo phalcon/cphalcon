@@ -22,7 +22,7 @@
 
 namespace Phalcon\Tests\unit\Phalcon\Filter;
 
-use \Phalcon\Filter as PhFilter;
+use Phalcon\Filter as PhFilter;
 
 class FilterAlphanumTest extends Helper\FilterBase
 {
