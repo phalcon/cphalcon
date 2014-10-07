@@ -22,9 +22,10 @@
 
 namespace Phalcon\Tests\unit\Phalcon\Acl;
 
-use Phalcon\Acl\Role as PhAclRole;
+use \PhalconTest\Acl\Role as PhTAclRole;
+use \Codeception\TestCase\Test as CdTest;
 
-class ACLRoleTest extends \Codeception\TestCase\Test
+class ACLRoleTest extends CdTest
 {
     use \Codeception\Specify;
 
@@ -40,7 +41,7 @@ class ACLRoleTest extends \Codeception\TestCase\Test
             "getting the name from the ACL role does not return the correct result",
             function () {
 
-                $aclRole  = new PhAclRole('Administrators');
+                $aclRole  = new PhTAclRole('Administrators');
                 $expected = 'Administrators';
                 $actual   = $aclRole->getName();
                 expect($actual)->equals($expected);
@@ -63,7 +64,7 @@ class ACLRoleTest extends \Codeception\TestCase\Test
             "getting the name from the ACL role does not return the correct result",
             function () {
 
-                $aclRole  = new PhAclRole('Administrators', 'Super-User role');
+                $aclRole  = new PhTAclRole('Administrators', 'Super-User role');
                 $expected = 'Administrators';
                 $actual   = $aclRole->getName();
                 expect($actual)->equals($expected);

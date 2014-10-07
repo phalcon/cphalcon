@@ -65,3 +65,43 @@ function expect_not($fallacy)
     expect($fallacy)->isEmpty();
 }
 
+/**
+ * Returns a unique file name
+ *
+ * @author Nikos Dimopoulos <nikos@phalconphp.com>
+ * @since  2014-09-13
+ *
+ * @param string $prefix    A prefix for the file
+ * @param string $suffix    A suffix for the file
+ *
+ * @return string
+ *
+ */
+function newFileName($prefix = '', $suffix = 'log')
+{
+    $prefix = ($prefix) ? $prefix . '_' : '';
+    $suffix = ($suffix) ? $suffix       : 'log';
+
+    return uniqid($prefix, true) . '.' . $suffix;
+}
+
+/**
+ * Removes a file from the system
+ *
+ * @author Nikos Dimopoulos <nikos@phalconphp.com>
+ * @since  2014-09-13
+ *
+ * @param string $path
+ * @param string $fileName
+ */
+function cleanFile($path, $fileName)
+{
+    $file  = (substr($path, -1, 1) != "/") ? ($path . '/') : $path;
+    $file .= $fileName;
+
+    $actual = file_exists($file);
+
+    if ($actual) {
+        unlink($file);
+    }
+}
