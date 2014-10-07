@@ -313,7 +313,7 @@ PHP_METHOD(Phalcon_Db_Reference, __set_state) {
 	zephir_array_isset_string_fetch(&onUpdate, data, SS("_onUpdate"), 1 TSRMLS_CC);
 	object_init_ex(return_value, phalcon_db_reference_ce);
 	ZEPHIR_INIT_VAR(_0);
-	array_init_size(_0, 11);
+	array_init_size(_0, 8);
 	zephir_array_update_string(&_0, SL("referencedSchema"), &referencedSchema, PH_COPY | PH_SEPARATE);
 	zephir_array_update_string(&_0, SL("referencedTable"), &referencedTable, PH_COPY | PH_SEPARATE);
 	zephir_array_update_string(&_0, SL("columns"), &columns, PH_COPY | PH_SEPARATE);

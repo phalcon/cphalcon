@@ -65,7 +65,7 @@ PHP_METHOD(Phalcon_Di_FactoryDefault, __construct) {
 	ZEPHIR_CALL_PARENT(NULL, phalcon_di_factorydefault_ce, this_ptr, "__construct", &_0);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(_1);
-	array_init_size(_1, 29);
+	array_init_size(_1, 27);
 	ZEPHIR_INIT_VAR(_2);
 	object_init_ex(_2, phalcon_di_service_ce);
 	ZEPHIR_INIT_VAR(_3);
