@@ -24,7 +24,7 @@ namespace Phalcon\Tests\unit\Phalcon\Mvc\Url;
 
 use Phalcon\DI as PhDI;
 use Phalcon\Mvc\Router as PhRouter;
-use Phalcon\Mvc\Url as PhUrl;
+use \PhalconTest\Mvc\Url as PhTUrl;
 use \Codeception\TestCase\Test as CdTest;
 
 class UrlTest extends CdTest
@@ -97,7 +97,7 @@ class UrlTest extends CdTest
 
                 $_SERVER['PHP_SELF'] = '/index.php';
 
-                $url      = new PhUrl();
+                $url      = new PhTUrl();
                 $expected = '/';
                 $actual   = $url->get();
 
@@ -120,7 +120,7 @@ class UrlTest extends CdTest
 
                 $_SERVER['PHP_SELF'] = '/index.php';
 
-                $url      = new PhUrl();
+                $url      = new PhTUrl();
                 $expected = '/classes/api/Some';
                 $actual   = $url->get('classes/api/Some');
 
@@ -141,7 +141,7 @@ class UrlTest extends CdTest
             "URL with controller/action not correct",
             function () {
 
-                $url      = new PhUrl();
+                $url      = new PhTUrl();
                 $url->setDI($this->di);
                 $params   = [
                     'for'        => 'adminProducts',
@@ -168,7 +168,7 @@ class UrlTest extends CdTest
             "URL for controller not correct",
             function () {
 
-                $url      = new PhUrl();
+                $url      = new PhTUrl();
                 $url->setDI($this->di);
                 $params   = [
                     'for'   => 'classApi',
@@ -194,7 +194,7 @@ class UrlTest extends CdTest
             "URL with year/month/title not correct",
             function () {
 
-                $url      = new PhUrl();
+                $url      = new PhTUrl();
                 $url->setDI($this->di);
                 $params   = [
                     'for'        => 'lang-controller',
@@ -221,7 +221,7 @@ class UrlTest extends CdTest
             "URL for a different language not correct",
             function () {
 
-                $url      = new PhUrl();
+                $url      = new PhTUrl();
                 $url->setDI($this->di);
                 $params   = [
                     'for'   => 'blogPost',
@@ -249,7 +249,7 @@ class UrlTest extends CdTest
             "URL for a different language not correct",
             function () {
 
-                $url      = new PhUrl();
+                $url      = new PhTUrl();
                 $url->setDI($this->di);
                 $params   = [
                     'for'     => 'wikipedia',
