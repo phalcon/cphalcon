@@ -22,8 +22,7 @@
 
 namespace Phalcon\Tests\unit\Phalcon\Translate\Adapter\NativeArray;
 
-use Phalcon\Translate\Exception as PhTranslateException;
-use Phalcon\Translate\Adapter\NativeArray as PhTranslateAdapterNativeArray;
+use Phalcon\Translate\Adapter\NativeArray as PhTTranslateAdapterNativeArray;
 
 class TranslateNativeArrayTest extends \Codeception\TestCase\Test
 {
@@ -76,7 +75,7 @@ class TranslateNativeArrayTest extends \Codeception\TestCase\Test
 
                 $language   = $this->config['en'];
                 $params     = ['content' => $language];
-                $translator = new PhTranslateAdapterNativeArray($params);
+                $translator = new PhTTranslateAdapterNativeArray($params);
                 $found      = $translator->exists('hi');
 
                 expect($found)->true();
@@ -98,7 +97,7 @@ class TranslateNativeArrayTest extends \Codeception\TestCase\Test
 
                 $language   = $this->config['en'];
                 $params     = ['content' => $language];
-                $translator = new PhTranslateAdapterNativeArray($params);
+                $translator = new PhTTranslateAdapterNativeArray($params);
                 $found      = $translator->offsetExists('hi');
 
                 expect($found)->true();
@@ -120,7 +119,7 @@ class TranslateNativeArrayTest extends \Codeception\TestCase\Test
 
                 $language   = $this->config['en'];
                 $params     = ['content' => $language];
-                $translator = new PhTranslateAdapterNativeArray($params);
+                $translator = new PhTTranslateAdapterNativeArray($params);
                 $expected   = 'Hello';
                 $actual     = $translator->offsetGet('hi');
 
@@ -143,7 +142,7 @@ class TranslateNativeArrayTest extends \Codeception\TestCase\Test
 
                 $language   = $this->config['en'];
                 $params     = ['content' => $language];
-                $translator = new PhTranslateAdapterNativeArray($params);
+                $translator = new PhTTranslateAdapterNativeArray($params);
 
                 $expected   = 'Hello';
                 $actual     = $translator->query('hi');
@@ -163,7 +162,7 @@ class TranslateNativeArrayTest extends \Codeception\TestCase\Test
 
                 $language   = $this->config['en'];
                 $params     = ['content' => $language];
-                $translator = new PhTranslateAdapterNativeArray($params);
+                $translator = new PhTTranslateAdapterNativeArray($params);
 
                 $expected   = 'Hello';
                 $actual     = $translator->_('hi');
@@ -192,7 +191,7 @@ class TranslateNativeArrayTest extends \Codeception\TestCase\Test
 
                 $language   = $this->config['es'];
                 $params     = ['content' => $language];
-                $translator = new PhTranslateAdapterNativeArray($params);
+                $translator = new PhTTranslateAdapterNativeArray($params);
 
                 $expected   = 'Hola';
                 $actual     = $translator->query('hi');
@@ -212,7 +211,7 @@ class TranslateNativeArrayTest extends \Codeception\TestCase\Test
 
                 $language   = $this->config['es'];
                 $params     = ['content' => $language];
-                $translator = new PhTranslateAdapterNativeArray($params);
+                $translator = new PhTTranslateAdapterNativeArray($params);
 
                 $expected   = 'Hola';
                 $actual     = $translator->_('hi');
@@ -241,7 +240,7 @@ class TranslateNativeArrayTest extends \Codeception\TestCase\Test
 
                 $language   = $this->config['fr'];
                 $params     = ['content' => $language];
-                $translator = new PhTranslateAdapterNativeArray($params);
+                $translator = new PhTTranslateAdapterNativeArray($params);
 
                 $expected   = 'Bonjour';
                 $actual     = $translator->query('hi');
@@ -261,7 +260,7 @@ class TranslateNativeArrayTest extends \Codeception\TestCase\Test
 
                 $language   = $this->config['fr'];
                 $params     = ['content' => $language];
-                $translator = new PhTranslateAdapterNativeArray($params);
+                $translator = new PhTTranslateAdapterNativeArray($params);
 
                 $expected   = 'Bonjour';
                 $actual     = $translator->_('hi');
@@ -290,7 +289,7 @@ class TranslateNativeArrayTest extends \Codeception\TestCase\Test
 
                 $language   = $this->config['en'];
                 $params     = ['content' => $language];
-                $translator = new PhTranslateAdapterNativeArray($params);
+                $translator = new PhTTranslateAdapterNativeArray($params);
 
                 $vars     = ['name' => 'my friend'];
                 $expected = 'Hello';
@@ -315,7 +314,7 @@ class TranslateNativeArrayTest extends \Codeception\TestCase\Test
 
                 $language   = $this->config['en'];
                 $params     = ['content' => $language];
-                $translator = new PhTranslateAdapterNativeArray($params);
+                $translator = new PhTTranslateAdapterNativeArray($params);
 
                 $vars     = ['name' => 'my friend'];
                 $expected = 'Hello my friend';
@@ -340,7 +339,7 @@ class TranslateNativeArrayTest extends \Codeception\TestCase\Test
 
                 $language   = $this->config['en'];
                 $params     = ['content' => $language];
-                $translator = new PhTranslateAdapterNativeArray($params);
+                $translator = new PhTTranslateAdapterNativeArray($params);
 
                 $vars     = [
                     'song'   => 'Dust in the wind',
@@ -368,7 +367,7 @@ class TranslateNativeArrayTest extends \Codeception\TestCase\Test
 
                 $language   = $this->config['es'];
                 $params     = ['content' => $language];
-                $translator = new PhTranslateAdapterNativeArray($params);
+                $translator = new PhTTranslateAdapterNativeArray($params);
 
                 $vars     = ['name' => 'my friend'];
                 $expected = 'Hola';
@@ -393,7 +392,7 @@ class TranslateNativeArrayTest extends \Codeception\TestCase\Test
 
                 $language   = $this->config['es'];
                 $params     = ['content' => $language];
-                $translator = new PhTranslateAdapterNativeArray($params);
+                $translator = new PhTTranslateAdapterNativeArray($params);
 
                 $vars     = ['name' => 'my friend'];
                 $expected = 'Hola my friend';
@@ -418,7 +417,7 @@ class TranslateNativeArrayTest extends \Codeception\TestCase\Test
 
                 $language   = $this->config['es'];
                 $params     = ['content' => $language];
-                $translator = new PhTranslateAdapterNativeArray($params);
+                $translator = new PhTTranslateAdapterNativeArray($params);
 
                 $vars     = [
                     'song'   => 'Dust in the wind',
@@ -446,7 +445,7 @@ class TranslateNativeArrayTest extends \Codeception\TestCase\Test
 
                 $language   = $this->config['fr'];
                 $params     = ['content' => $language];
-                $translator = new PhTranslateAdapterNativeArray($params);
+                $translator = new PhTTranslateAdapterNativeArray($params);
 
                 $vars     = ['name' => 'my friend'];
                 $expected = 'Bonjour';
@@ -471,7 +470,7 @@ class TranslateNativeArrayTest extends \Codeception\TestCase\Test
 
                 $language   = $this->config['fr'];
                 $params     = ['content' => $language];
-                $translator = new PhTranslateAdapterNativeArray($params);
+                $translator = new PhTTranslateAdapterNativeArray($params);
 
                 $vars     = ['name' => 'my friend'];
                 $expected = 'Bonjour my friend';
@@ -496,7 +495,7 @@ class TranslateNativeArrayTest extends \Codeception\TestCase\Test
 
                 $language   = $this->config['fr'];
                 $params     = ['content' => $language];
-                $translator = new PhTranslateAdapterNativeArray($params);
+                $translator = new PhTTranslateAdapterNativeArray($params);
 
                 $vars     = [
                     'song'   => 'Dust in the wind',
@@ -524,7 +523,7 @@ class TranslateNativeArrayTest extends \Codeception\TestCase\Test
 
                 $language   = $this->config['ru'];
                 $params     = ['content' => $language];
-                $translator = new PhTranslateAdapterNativeArray($params);
+                $translator = new PhTTranslateAdapterNativeArray($params);
 
                 $expected = $language['Hello!'];
                 $actual   = $translator['Hello!'];
@@ -550,7 +549,7 @@ class TranslateNativeArrayTest extends \Codeception\TestCase\Test
 
                 $language   = $this->config['ru'];
                 $params     = ['content' => $language];
-                $translator = new PhTranslateAdapterNativeArray($params);
+                $translator = new PhTTranslateAdapterNativeArray($params);
 
                 $expected = 'Привет, John D. Doe!';
                 $actual = $translator->_(

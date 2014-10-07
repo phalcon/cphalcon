@@ -22,12 +22,10 @@
 
 namespace Phalcon\Tests\unit\Phalcon\Text;
 
-use Phalcon\Text as PhText;
+use \PhalconTest\Text as PhTText;
 
-class TextUncamelizeTest extends \Codeception\TestCase\Test
+class TextUncamelizeTest extends Helper\TextBase
 {
-    use \Codeception\Specify;
-
     /**
      * Tests the uncamelize function
      *
@@ -55,7 +53,7 @@ class TextUncamelizeTest extends \Codeception\TestCase\Test
                 foreach ($uncamelizeTests as $input => $uncamelized) {
 
                     $expected = $uncamelized;
-                    $actual   = PhText::uncamelize($input);
+                    $actual   = PhTText::uncamelize($input);
                     expect($actual)->equals($expected);
                 }
             }

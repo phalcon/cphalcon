@@ -22,12 +22,10 @@
 
 namespace Phalcon\Tests\unit\Phalcon\Text;
 
-use Phalcon\Text as PhText;
+use \PhalconTest\Text as PhTText;
 
-class TextCamelizeTest extends \Codeception\TestCase\Test
+class TextCamelizeTest extends Helper\TextBase
 {
-    use \Codeception\Specify;
-
     /**
      * Tests the camelize function
      *
@@ -52,12 +50,10 @@ class TextCamelizeTest extends \Codeception\TestCase\Test
                     'CameLize'        => 'Camelize',
                 ];
 
-                $template = "Text::camelize did not convert the string '%s' correctly";
-
                 foreach ($camelizeTests as $input => $camelized) {
 
                     $expected = $camelized;
-                    $actual   = PhText::camelize($input);
+                    $actual   = PhTText::camelize($input);
                     expect($actual)->equals($expected);
                 }
             }

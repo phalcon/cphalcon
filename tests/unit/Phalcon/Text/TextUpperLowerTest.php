@@ -22,12 +22,10 @@
 
 namespace Phalcon\Tests\unit\Phalcon\Text;
 
-use Phalcon\Text as PhText;
+use \PhalconTest\Text as PhTText;
 
-class TextUpperLowerTest extends \Codeception\TestCase\Test
+class TextUpperLowerTest extends Helper\TextBase
 {
-    use \Codeception\Specify;
-
     /**
      * Tests the upper function
      *
@@ -40,9 +38,9 @@ class TextUpperLowerTest extends \Codeception\TestCase\Test
             "upper returns incorrect results",
             function () {
 
-                expect(PhText::upper('hello'))->equals('HELLO');
-                expect(PhText::upper('HELLO'))->equals('HELLO');
-                expect(PhText::upper('1234'))->equals('1234');
+                expect(PhTText::upper('hello'))->equals('HELLO');
+                expect(PhTText::upper('HELLO'))->equals('HELLO');
+                expect(PhTText::upper('1234'))->equals('1234');
             }
         );
     }
@@ -59,9 +57,9 @@ class TextUpperLowerTest extends \Codeception\TestCase\Test
             "lower returns incorrect results",
             function () {
 
-                expect(PhText::lower('hello'))->equals('hello');
-                expect(PhText::lower('HELLO'))->equals('hello');
-                expect(PhText::lower('1234'))->equals('1234');
+                expect(PhTText::lower('hello'))->equals('hello');
+                expect(PhTText::lower('HELLO'))->equals('hello');
+                expect(PhTText::lower('1234'))->equals('1234');
             }
         );
     }

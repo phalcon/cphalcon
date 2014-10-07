@@ -20,7 +20,8 @@
  * so that we can send you a copy immediately.
  */
 
-use Phalcon\Version as PhVersion;
+use \Phalcon\Version as PhVersion;
+use \PhalconTest\Version as PhTVersion;
 
 class VersionTest extends \Codeception\TestCase\Test
 {
@@ -38,7 +39,7 @@ class VersionTest extends \Codeception\TestCase\Test
             "get() does not return a string",
             function () {
 
-                $actual = PhVersion::get();
+                $actual = PhTVersion::get();
 
                 expect(is_string($actual))->true();
             }
@@ -57,7 +58,7 @@ class VersionTest extends \Codeception\TestCase\Test
             "getId() does not return a string",
             function () {
 
-                $actual = PhVersion::getId();
+                $actual = PhTVersion::getId();
 
                 expect(is_string($actual))->true();
             }
@@ -76,7 +77,7 @@ class VersionTest extends \Codeception\TestCase\Test
             "get() to getId() does not produce the same result",
             function () {
 
-                $version = PhVersion::get();
+                $version = PhTVersion::get();
                 $chunks  = explode(' ', $version);
 
                 $special   = '4';
@@ -96,7 +97,7 @@ class VersionTest extends \Codeception\TestCase\Test
                 $min   = substr("00" . intval($verChunks[2]), -2);
 
                 $expected = "{$major}{$med}{$min}{$special}{$specialNo}";
-                $actual   = PhVersion::getId();
+                $actual   = PhTVersion::getId();
 
                 expect($actual)->equals($expected);
             }
@@ -115,7 +116,7 @@ class VersionTest extends \Codeception\TestCase\Test
             "getId() to get() does not produce the same result",
             function () {
 
-                $id        = PhVersion::getId();
+                $id        = PhTVersion::getId();
                 $major     = intval($id[0]);
                 $med       = intval($id[1] . $id[2]);
                 $min       = intval($id[3] . $id[4]);
@@ -123,7 +124,7 @@ class VersionTest extends \Codeception\TestCase\Test
                 $specialNo = ($special) ? $id[6] : '';
 
                 $expected = trim("{$major}.{$med}.{$min} {$special} {$specialNo}");
-                $actual   = PhVersion::get();
+                $actual   = PhTVersion::get();
 
                 expect($actual)->equals($expected);
             }
@@ -185,9 +186,9 @@ class VersionTest extends \Codeception\TestCase\Test
         $this->specify(
             "getPart(VERSION_MAJOR) does not return the correct result",
             function () {
-                $id       = PhVersion::getId();
+                $id       = PhTVersion::getId();
                 $expected = intval($id[PhVersion::VERSION_MAJOR]);
-                $actual   = PhVersion::getPart(PhVersion::VERSION_MAJOR);
+                $actual   = PhTVersion::getPart(PhVersion::VERSION_MAJOR);
 
                 expect($actual)->equals($expected);
             }
@@ -196,9 +197,9 @@ class VersionTest extends \Codeception\TestCase\Test
         $this->specify(
             "getPart(VERSION_MEDIUM) does not return the correct result",
             function () {
-                $id       = PhVersion::getId();
+                $id       = PhTVersion::getId();
                 $expected = intval($id[PhVersion::VERSION_MEDIUM]);
-                $actual   = PhVersion::getPart(PhVersion::VERSION_MEDIUM);
+                $actual   = PhTVersion::getPart(PhVersion::VERSION_MEDIUM);
 
                 expect($actual)->equals($expected);
             }
@@ -207,9 +208,9 @@ class VersionTest extends \Codeception\TestCase\Test
         $this->specify(
             "getPart(VERSION_MINOR) does not return the correct result",
             function () {
-                $id       = PhVersion::getId();
+                $id       = PhTVersion::getId();
                 $expected = intval($id[PhVersion::VERSION_MINOR]);
-                $actual   = PhVersion::getPart(PhVersion::VERSION_MINOR);
+                $actual   = PhTVersion::getPart(PhVersion::VERSION_MINOR);
 
                 expect($actual)->equals($expected);
             }
@@ -218,9 +219,9 @@ class VersionTest extends \Codeception\TestCase\Test
         $this->specify(
             "getPart(VERSION_SPECIAL) does not return the correct result",
             function () {
-                $id       = PhVersion::getId();
+                $id       = PhTVersion::getId();
                 $expected = $this->_numberToSpecial($id[5]);
-                $actual   = PhVersion::getPart(PhVersion::VERSION_SPECIAL);
+                $actual   = PhTVersion::getPart(PhVersion::VERSION_SPECIAL);
 
                 expect($actual)->equals($expected);
             }
@@ -229,10 +230,10 @@ class VersionTest extends \Codeception\TestCase\Test
         $this->specify(
             "getPart(VERSION_SPECIAL_NUMBER) does not return the correct result",
             function () {
-                $id       = PhVersion::getId();
+                $id       = PhTVersion::getId();
                 $special  = $this->_numberToSpecial($id[5]);
                 $expected = ($special) ? $id[6] : '';
-                $actual   = PhVersion::getPart(PhVersion::VERSION_SPECIAL_NUMBER);
+                $actual   = PhTVersion::getPart(PhVersion::VERSION_SPECIAL_NUMBER);
 
                 expect($actual)->equals($expected);
             }
@@ -241,8 +242,8 @@ class VersionTest extends \Codeception\TestCase\Test
         $this->specify(
             "getPart() with incorrect parameters does not return get()",
             function () {
-                $expected = PhVersion::get();
-                $actual   = PhVersion::getPart(7);
+                $expected = PhTVersion::get();
+                $actual   = PhTVersion::getPart(7);
 
                 expect($actual)->equals($expected);
             }

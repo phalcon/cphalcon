@@ -22,13 +22,17 @@
 
 namespace Phalcon\Tests\unit\Phalcon\Text;
 
-use Phalcon\Text as PhText;
+use \Phalcon\Text as PhText;
+use \PhalconTest\Text as PhTText;
 
-class TextRandomTest extends \Codeception\TestCase\Test
+class TextRandomTest extends Helper\TextBase
 {
-    use \Codeception\Specify;
-
-
+    /**
+     * Tests the constants for the random function
+     *
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-09-29
+     */
     public function testRandomConstants()
     {
         $this->specify(
@@ -58,7 +62,7 @@ class TextRandomTest extends \Codeception\TestCase\Test
 
                 for ($i = 1; $i < 10; $i++) {
 
-                    $source = PhText::random(PhText::RANDOM_ALNUM, $i);
+                    $source = PhTText::random(PhText::RANDOM_ALNUM, $i);
 
                     expect(preg_match('/[a-zA-Z0-9]+/', $source, $matches))->equals(1);
                     expect($matches[0])->equals($source);
@@ -82,7 +86,7 @@ class TextRandomTest extends \Codeception\TestCase\Test
 
                 for ($i = 1; $i < 10; $i++) {
 
-                    $source = PhText::random(PhText::RANDOM_ALPHA, $i);
+                    $source = PhTText::random(PhText::RANDOM_ALPHA, $i);
 
                     expect(preg_match('/[a-zA-Z]+/', $source, $matches))->equals(1);
                     expect($matches[0])->equals($source);
@@ -106,7 +110,7 @@ class TextRandomTest extends \Codeception\TestCase\Test
 
                 for ($i = 1; $i < 10; $i++) {
 
-                    $source = PhText::random(PhText::RANDOM_HEXDEC, $i);
+                    $source = PhTText::random(PhText::RANDOM_HEXDEC, $i);
 
                     expect(preg_match('/[a-f0-9]+/', $source, $matches))->equals(1);
                     expect($matches[0])->equals($source);
@@ -130,7 +134,7 @@ class TextRandomTest extends \Codeception\TestCase\Test
 
                 for ($i = 1; $i < 10; $i++) {
 
-                    $source = PhText::random(PhText::RANDOM_NUMERIC, $i);
+                    $source = PhTText::random(PhText::RANDOM_NUMERIC, $i);
 
                     expect(preg_match('/[0-9]+/', $source, $matches))->equals(1);
                     expect($matches[0])->equals($source);
@@ -154,7 +158,7 @@ class TextRandomTest extends \Codeception\TestCase\Test
 
                 for ($i = 1; $i < 10; $i++) {
 
-                    $source = PhText::random(PhText::RANDOM_NOZERO, $i);
+                    $source = PhTText::random(PhText::RANDOM_NOZERO, $i);
 
                     expect(preg_match('/[1-9]+/', $source, $matches))->equals(1);
                     expect($matches[0])->equals($source);
