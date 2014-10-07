@@ -22,7 +22,7 @@
 
 namespace Phalcon\Tests\unit\Phalcon\Filter\Helper;
 
-use Phalcon\Filter as PhFilter;
+use \PhalconTest\Filter as PhTFilter;
 
 class FilterBase extends \Codeception\TestCase\Test
 {
@@ -40,7 +40,7 @@ class FilterBase extends \Codeception\TestCase\Test
      */
     protected function sanitizer($filter, $expected, $value)
     {
-        $fl = new PhFilter();
+        $fl = new PhTFilter();
         $actual = $fl->sanitize($value, $filter);
         expect($actual)->equals($expected);
     }
