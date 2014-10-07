@@ -20,9 +20,9 @@
  * so that we can send you a copy immediately.
  */
 
-namespace Phalcon\Tests\unit\Phalcon\Translate\Adapter\NativeArray;
+namespace Phalcon\Tests\unit\Phalcon\Escaper;
 
-use Phalcon\Escaper as PhEscaper;
+use \PhalconTest\Escaper as PhTEscaper;
 
 class EscaperTest extends \Codeception\TestCase\Test
 {
@@ -40,7 +40,7 @@ class EscaperTest extends \Codeception\TestCase\Test
             "The escaper does not escape string correctly",
             function () {
 
-                $escaper  = new PhEscaper();
+                $escaper  = new PhTEscaper();
                 $source   = "<h1></h1>";
                 $expected = '&lt;h1&gt;&lt;/h1&gt;';
                 $actual   = $escaper->escapeHtml($source);
@@ -62,7 +62,7 @@ class EscaperTest extends \Codeception\TestCase\Test
             'The escaper does not set/get the encoding correctly',
             function () {
 
-                $escaper = new PhEscaper();
+                $escaper = new PhTEscaper();
 
                 $expected = 'UTF-8';
                 $escaper->setEncoding($expected);
@@ -86,7 +86,7 @@ class EscaperTest extends \Codeception\TestCase\Test
             'The escaper does not return the correct result with ENT_HTML401',
             function () {
 
-                $escaper  = new PhEscaper();
+                $escaper  = new PhTEscaper();
                 $escaper->setHtmlQuoteType(ENT_HTML401);
                 $source   = "That's right";
                 $expected = "That&#039;s right";
@@ -101,7 +101,7 @@ class EscaperTest extends \Codeception\TestCase\Test
             'The escaper does not return the correct result with ENT_XHTML',
             function () {
 
-                $escaper  = new PhEscaper();
+                $escaper  = new PhTEscaper();
                 $escaper->setHtmlQuoteType(ENT_XML1);
                 $source   = "That's right";
                 $expected = "That&#039;s right";
@@ -116,7 +116,7 @@ class EscaperTest extends \Codeception\TestCase\Test
             'The escaper does not return the correct result with ENT_XHTML',
             function () {
 
-                $escaper  = new PhEscaper();
+                $escaper  = new PhTEscaper();
                 $escaper->setHtmlQuoteType(ENT_XHTML);
                 $source   = "That's right";
                 $expected = "That&#039;s right";
@@ -131,7 +131,7 @@ class EscaperTest extends \Codeception\TestCase\Test
             'The escaper does not return the correct result with ENT_HTML5',
             function () {
 
-                $escaper  = new PhEscaper();
+                $escaper  = new PhTEscaper();
                 $escaper->setHtmlQuoteType(ENT_HTML5);
                 $source   = "That's right";
                 $expected = "That&#039;s right";
@@ -155,7 +155,7 @@ class EscaperTest extends \Codeception\TestCase\Test
             'The escaper does not detect the encoding correctly UTF-8',
             function () {
 
-                $escaper = new PhEscaper();
+                $escaper = new PhTEscaper();
 
                 $expected = 'UTF-8';
                 $source   = 'ḂḃĊċḊḋḞḟĠġṀṁ';
@@ -170,7 +170,7 @@ class EscaperTest extends \Codeception\TestCase\Test
             'The escaper does not detect the encoding correctly ISO-8859-1',
             function () {
 
-                $escaper = new PhEscaper();
+                $escaper = new PhTEscaper();
 
                 $expected = 'ISO-8859-1';
                 $source   = chr(172) . chr(128) . chr(159) . 'ḂḃĊċḊḋḞḟĠġṀṁ';
@@ -185,7 +185,7 @@ class EscaperTest extends \Codeception\TestCase\Test
             'The escaper does not detect the encoding correctly UTF-8',
             function () {
 
-                $escaper = new PhEscaper();
+                $escaper = new PhTEscaper();
 
                 $expected = 'UTF-8';
                 $source   = '\0\0\0H\0\0\0i';
@@ -209,7 +209,7 @@ class EscaperTest extends \Codeception\TestCase\Test
             'The escaper with normalizeEncoding does not return the correct result ',
             function () {
 
-                $escaper = new PhEscaper();
+                $escaper = new PhTEscaper();
 
                 $source   = 'Hello';
                 $expected = mb_convert_encoding($source, 'UTF-32', 'UTF-8');
@@ -233,7 +233,7 @@ class EscaperTest extends \Codeception\TestCase\Test
             'The escaper with escapeCss does not return the correct result ',
             function () {
 
-                $escaper = new PhEscaper();
+                $escaper = new PhTEscaper();
 
                 $source   = ".émotion { background: "
                           . "url('http://phalconphp.com/a.php?c=d&e=f'); }";
@@ -260,7 +260,7 @@ class EscaperTest extends \Codeception\TestCase\Test
             'The escaper with escapeJs does not return the correct result ',
             function () {
 
-                $escaper = new PhEscaper();
+                $escaper = new PhTEscaper();
 
                 $source   = "function createtoc () {"
                           . "var h2s = document.getElementsByTagName('H2');"
@@ -298,7 +298,7 @@ class EscaperTest extends \Codeception\TestCase\Test
             'The escaper with escapeCss does not return the correct result ',
             function () {
 
-                $escaper = new PhEscaper();
+                $escaper = new PhTEscaper();
 
                 $source   = "http://phalconphp.com/a.php?c=d&e=f";
                 $expected = 'http%3A%2F%2Fphalconphp.com%2Fa.php%3Fc%3Dd%26e%3Df';
