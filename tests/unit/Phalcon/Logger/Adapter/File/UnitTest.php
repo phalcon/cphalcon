@@ -24,10 +24,11 @@ namespace Phalcon\Tests\unit\Phalcon\Logger\Adapter\File;
 
 use Phalcon\Logger as PhLogger;
 use Phalcon\Logger\Exception as PhLoggerException;
-use Phalcon\Logger\Adapter\File as PhLoggerAdapterFile;
 use Phalcon\Logger\Formatter\Line as PhLoggerFormatterLine;
+use \PhalconTest\Logger\Adapter\File as PhTLoggerAdapterFile;
+use \Codeception\TestCase\Test as CdTest;
 
-class UnitTest extends \Codeception\TestCase\Test
+class UnitTest extends CdTest
 {
     private $logPath = '';
 
@@ -52,15 +53,15 @@ class UnitTest extends \Codeception\TestCase\Test
             "logging in a file does not create the file",
             function () {
 
-                $fileName = $this->newFileName('log', 'log');
+                $fileName = newFileName('log', 'log');
 
-                $logger = new PhLoggerAdapterFile($this->logPath . $fileName);
+                $logger = new PhTLoggerAdapterFile($this->logPath . $fileName);
                 $logger->log('Hello');
                 $logger->close();
 
                 $actual = file_exists($this->logPath . $fileName);
 
-                $this->cleanFile($this->logPath, $fileName);
+                cleanFile($this->logPath, $fileName);
 
                 expect($actual)->true();
             }
@@ -79,22 +80,22 @@ class UnitTest extends \Codeception\TestCase\Test
             "logging in a file with write mode does not create the file",
             function () {
 
-                $fileName = $this->newFileName('log', 'log');
+                $fileName = newFileName('log', 'log');
                 $params   = ['mode' => 'w'];
 
                 // First create one log entry
-                $logger = new PhLoggerAdapterFile($this->logPath . $fileName);
+                $logger = new PhTLoggerAdapterFile($this->logPath . $fileName);
                 $logger->log('Hello');
                 $logger->close();
 
                 // Now open the logger with w and add something else
-                $logger = new PhLoggerAdapterFile($this->logPath . $fileName, $params);
+                $logger = new PhTLoggerAdapterFile($this->logPath . $fileName, $params);
                 $logger->log('New Contents');
                 $logger->close();
 
                 $contents = file($this->logPath . $fileName);
 
-                $this->cleanFile($this->logPath, $fileName);
+                cleanFile($this->logPath, $fileName);
 
                 $position = strpos($contents[0], 'New Contents');
                 $actual   = ($position !== false);
@@ -116,16 +117,16 @@ class UnitTest extends \Codeception\TestCase\Test
             "logging in a file with write mode does not create the file",
             function () {
 
-                $fileName = $this->newFileName('log', 'log');
+                $fileName = newFileName('log', 'log');
                 $params   = array('mode' => 'r');
 
                 // First create one log entry
-                $logger = new PhLoggerAdapterFile($this->logPath . $fileName);
+                $logger = new PhTLoggerAdapterFile($this->logPath . $fileName);
                 $logger->log('Hello');
                 $logger->close();
 
                 // Now open the logger with r and add something else
-                $logger = new PhLoggerAdapterFile($this->logPath . $fileName, $params);
+                $logger = new PhTLoggerAdapterFile($this->logPath . $fileName, $params);
                 $logger->log('New Contents');
                 $logger->close();
             },
@@ -147,9 +148,9 @@ class UnitTest extends \Codeception\TestCase\Test
             "Log does not contain correct number of messages",
             function () {
 
-                $fileName = $this->newFileName('log', 'log');
+                $fileName = newFileName('log', 'log');
 
-                $logger = new PhLoggerAdapterFile($this->logPath . $fileName);
+                $logger = new PhTLoggerAdapterFile($this->logPath . $fileName);
                 $logger->log('Hello');
                 $logger->log('Goodbye');
                 $logger->close();
@@ -158,7 +159,7 @@ class UnitTest extends \Codeception\TestCase\Test
                 $expected = 2;
                 $actual   = count($contents);
 
-                $this->cleanFile($this->logPath, $fileName);
+                cleanFile($this->logPath, $fileName);
 
                 expect($actual)->equals($expected);
             }
@@ -285,9 +286,9 @@ class UnitTest extends \Codeception\TestCase\Test
      */
     public function testLoggerAdapterFileMultipleLogLevelsSetProperly()
     {
-        $fileName = $this->newFileName('log', 'log');
+        $fileName = newFileName('log', 'log');
 
-        $logger = new PhLoggerAdapterFile($this->logPath . $fileName);
+        $logger = new PhTLoggerAdapterFile($this->logPath . $fileName);
         $logger->log(PhLogger::DEBUG, 'Hello Debug');
         $logger->log(PhLogger::NOTICE, 'Hello Notice');
         $logger->log(PhLogger::ERROR, 'Hello Error');
@@ -298,7 +299,7 @@ class UnitTest extends \Codeception\TestCase\Test
         $logger->close();
 
         $contents = file($this->logPath . $fileName);
-        $this->cleanFile($this->logPath, $fileName);
+        cleanFile($this->logPath, $fileName);
 
         // First entry - Debug
         $position = strpos($contents[0], '[DEBUG]');
@@ -684,9 +685,9 @@ class UnitTest extends \Codeception\TestCase\Test
      */
     public function testNewFormatLogsCorrectly()
     {
-        $fileName = $this->newFileName('log', 'log');
+        $fileName = newFileName('log', 'log');
 
-        $logger = new PhLoggerAdapterFile($this->logPath . $fileName);
+        $logger = new PhTLoggerAdapterFile($this->logPath . $fileName);
 
         $formatter = new PhLoggerFormatterLine('%type%|%date%|%message%');
 
@@ -696,7 +697,7 @@ class UnitTest extends \Codeception\TestCase\Test
 
         $contents = file($this->logPath . $fileName);
         $message  = explode('|', $contents[0]);
-        $this->cleanFile($this->logPath, $fileName);
+        cleanFile($this->logPath, $fileName);
 
         $this->assertEquals(
             'DEBUG',
@@ -718,9 +719,9 @@ class UnitTest extends \Codeception\TestCase\Test
      */
     public function testNewFormatFormatsDateCorrectly()
     {
-        $fileName = $this->newFileName('log', 'log');
+        $fileName = newFileName('log', 'log');
 
-        $logger = new PhLoggerAdapterFile($this->logPath . $fileName);
+        $logger = new PhTLoggerAdapterFile($this->logPath . $fileName);
 
         $formatter = new PhLoggerFormatterLine('%type%|%date%|%message%');
 
@@ -730,7 +731,7 @@ class UnitTest extends \Codeception\TestCase\Test
 
         $contents = file($this->logPath . $fileName);
         $message  = explode('|', $contents[0]);
-        $this->cleanFile($this->logPath, $fileName);
+        cleanFile($this->logPath, $fileName);
 
         $date = new \DateTime($message[1]);
 
@@ -752,9 +753,9 @@ class UnitTest extends \Codeception\TestCase\Test
      */
     public function testCommit()
     {
-        $fileName = $this->newFileName('log', 'log');
+        $fileName = newFileName('log', 'log');
 
-        $logger = new PhLoggerAdapterFile($this->logPath . $fileName);
+        $logger = new PhTLoggerAdapterFile($this->logPath . $fileName);
         $logger->log('Hello');
 
         $contents = file($this->logPath . $fileName);
@@ -781,7 +782,7 @@ class UnitTest extends \Codeception\TestCase\Test
         $expected = 4;
         $actual   = count($contents);
 
-        $this->cleanFile($this->logPath, $fileName);
+        cleanFile($this->logPath, $fileName);
 
         $this->assertEquals(
             $expected,
@@ -798,9 +799,9 @@ class UnitTest extends \Codeception\TestCase\Test
      */
     public function testRollback()
     {
-        $fileName = $this->newFileName('log', 'log');
+        $fileName = newFileName('log', 'log');
 
-        $logger = new PhLoggerAdapterFile($this->logPath . $fileName);
+        $logger = new PhTLoggerAdapterFile($this->logPath . $fileName);
         $logger->log('Hello');
 
         $contents = file($this->logPath . $fileName);
@@ -827,54 +828,13 @@ class UnitTest extends \Codeception\TestCase\Test
         $expected = 1;
         $actual   = count($contents);
 
-        $this->cleanFile($this->logPath, $fileName);
+        cleanFile($this->logPath, $fileName);
 
         $this->assertEquals(
             $expected,
             $actual,
             'Log does not contain correct number of messages after rollback'
         );
-    }
-
-    /**
-     * Returns a unique file name
-     *
-     * @author Nikos Dimopoulos <nikos@phalconphp.com>
-     * @since  2014-09-13
-     *
-     * @param string $prefix    A prefix for the file
-     * @param string $suffix    A suffix for the file
-     *
-     * @return string
-     *
-     */
-    protected function newFileName($prefix = '', $suffix = 'log')
-    {
-        $prefix = ($prefix) ? $prefix . '_' : '';
-        $suffix = ($suffix) ? $suffix       : 'log';
-
-        return uniqid($prefix, true) . '.' . $suffix;
-    }
-
-    /**
-     * Removes a file from the system
-     *
-     * @author Nikos Dimopoulos <nikos@phalconphp.com>
-     * @since  2014-09-13
-     *
-     * @param string $path
-     * @param string $fileName
-     */
-    protected function cleanFile($path, $fileName)
-    {
-        $file  = (substr($path, -1, 1) != "/") ? ($path . '/') : $path;
-        $file .= $fileName;
-
-        $actual = file_exists($file);
-
-        if ($actual) {
-            unlink($file);
-        }
     }
 
     /**
@@ -888,9 +848,9 @@ class UnitTest extends \Codeception\TestCase\Test
      */
     protected function runLogging($level, $name = null)
     {
-        $fileName = $this->newFileName('log', 'log');
+        $fileName = newFileName('log', 'log');
 
-        $logger = new PhLoggerAdapterFile($this->logPath . $fileName);
+        $logger = new PhTLoggerAdapterFile($this->logPath . $fileName);
         if (is_null($name)) {
             $logger->log($level);
             $name = 'DEBUG';
@@ -900,7 +860,7 @@ class UnitTest extends \Codeception\TestCase\Test
         $logger->close();
 
         $contents = file($this->logPath . $fileName);
-        $this->cleanFile($this->logPath, $fileName);
+        cleanFile($this->logPath, $fileName);
 
         $position = strpos($contents[0], '[' . $name . ']');
         $actual   = ($position !== false);
@@ -922,15 +882,15 @@ class UnitTest extends \Codeception\TestCase\Test
      */
     protected function createOfLogFile($function)
     {
-        $fileName = $this->newFileName('log', 'log');
+        $fileName = newFileName('log', 'log');
 
-        $logger = new PhLoggerAdapterFile($this->logPath . $fileName);
+        $logger = new PhTLoggerAdapterFile($this->logPath . $fileName);
         $logger->$function('Hello');
         $logger->close();
 
         $found = file_exists($this->logPath . $fileName);
 
-        $this->cleanFile($this->logPath, $fileName);
+        cleanFile($this->logPath, $fileName);
 
         expect($found)->true();
     }
@@ -945,16 +905,16 @@ class UnitTest extends \Codeception\TestCase\Test
      */
     protected function numberOfMessagesLogged($function)
     {
-        $fileName = $this->newFileName('log', 'log');
+        $fileName = newFileName('log', 'log');
 
-        $logger = new PhLoggerAdapterFile($this->logPath . $fileName);
+        $logger = new PhTLoggerAdapterFile($this->logPath . $fileName);
         $logger->$function('Hello');
         $logger->$function('Goodbye');
         $logger->close();
 
         $contents = file($this->logPath . $fileName);
 
-        $this->cleanFile($this->logPath, $fileName);
+        cleanFile($this->logPath, $fileName);
 
         $expected = 2;
         $actual   = count($contents);
@@ -972,14 +932,14 @@ class UnitTest extends \Codeception\TestCase\Test
      */
     protected function logging($function)
     {
-        $fileName = $this->newFileName('log', 'log');
+        $fileName = newFileName('log', 'log');
 
-        $logger = new PhLoggerAdapterFile($this->logPath . $fileName);
+        $logger = new PhTLoggerAdapterFile($this->logPath . $fileName);
         $logger->$function('Hello');
         $logger->close();
 
         $contents = file($this->logPath . $fileName);
-        $this->cleanFile($this->logPath, $fileName);
+        cleanFile($this->logPath, $fileName);
 
         $position = strpos($contents[0], '[' . strtoupper($function) . ']');
         $actual   = ($position !== false);
