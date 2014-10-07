@@ -23,8 +23,9 @@
 namespace Phalcon\Tests\unit\Phalcon\Translate\Adapter\NativeArray;
 
 use Phalcon\Translate\Adapter\NativeArray as PhTTranslateAdapterNativeArray;
+use \Codeception\TestCase\Test as CdTest;
 
-class TranslateNativeArrayTest extends \Codeception\TestCase\Test
+class TranslateNativeArrayTest extends CdTest
 {
     use \Codeception\Specify;
 

@@ -22,7 +22,9 @@
 
 namespace Phalcon\Tests\unit\Phalcon\Text\Helper;
 
-class TextBase extends \Codeception\TestCase\Test
+use \Codeception\TestCase\Test as CdTest;
+
+class TextBase extends CdTest
 {
     use \Codeception\Specify;
 }

@@ -22,8 +22,9 @@
 
 use \Phalcon\Version as PhVersion;
 use \PhalconTest\Version as PhTVersion;
+use \Codeception\TestCase\Test as CdTest;
 
-class VersionTest extends \Codeception\TestCase\Test
+class VersionTest extends CdTest
 {
     use \Codeception\Specify;
 

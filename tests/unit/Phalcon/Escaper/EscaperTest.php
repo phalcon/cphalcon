@@ -23,8 +23,9 @@
 namespace Phalcon\Tests\unit\Phalcon\Escaper;
 
 use \PhalconTest\Escaper as PhTEscaper;
+use \Codeception\TestCase\Test as CdTest;
 
-class EscaperTest extends \Codeception\TestCase\Test
+class EscaperTest extends CdTest
 {
     use \Codeception\Specify;
 

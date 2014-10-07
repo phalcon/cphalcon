@@ -23,8 +23,9 @@
 namespace Phalcon\Tests\unit\Phalcon\Filter\Helper;
 
 use \PhalconTest\Filter as PhTFilter;
+use \Codeception\TestCase\Test as CdTest;
 
-class FilterBase extends \Codeception\TestCase\Test
+class FilterBase extends CdTest
 {
     use \Codeception\Specify;
 
