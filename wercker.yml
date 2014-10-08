@@ -1,0 +1,31 @@
+box: duythien/phalcon@1.2.2
+no-response-timeout: 25
+build:
+    steps:
+        - bundle-install
+        - leipert/composer-install@0.0.1
+        - script:
+            name: install dependencie
+            code: composer install --no-ansi --no-dev --no-interaction --no-progress --no-scripts --optimize-autoloader
+        - script:
+            name: Serve application for integration tests
+            code: php -S localhost:8000 >> /dev/null &
+        - script:
+            name: PHPUnit integration tests
+            code: phpunit --configuration phpunit.xml
+        - script:
+            name: codeception
+            code: codecept run --debug
+        #Code Style Check
+        #- mbrevda/phpcs:
+         #   directory: apps
+         #   standard: PSR2
+         #   ignore: tests
+         #   report: full
+  #send messages into hipchat
+    after-steps:
+
+deploy:
+    steps:
+
+    after-steps:
