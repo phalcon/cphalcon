@@ -433,7 +433,7 @@ PHP_METHOD(Phalcon_Validation, setDefaultMessages) {
 		return;
 	}
 	ZEPHIR_INIT_VAR(defaultMessages);
-	array_init_size(defaultMessages, 29);
+	array_init_size(defaultMessages, 28);
 	add_assoc_stringl_ex(defaultMessages, SS("Alnum"), SL("Field :field must contain only letters and numbers"), 1);
 	add_assoc_stringl_ex(defaultMessages, SS("Alpha"), SL("Field :field must contain only letters"), 1);
 	add_assoc_stringl_ex(defaultMessages, SS("Between"), SL("Field :field must be within the range of :min to :max"), 1);

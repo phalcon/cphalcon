@@ -312,6 +312,11 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/translate/adapter/nativearray.zep.c
 	phalcon/translate/adapterinterface.zep.c
 	phalcon/translate/exception.zep.c
+	phalcon/utils.zep.c
+	phalcon/utils/adapter.zep.c
+	phalcon/utils/adapterinterface.zep.c
+	phalcon/utils/exception.zep.c
+	phalcon/utils/slug.zep.c
 	phalcon/validation.zep.c
 	phalcon/validation/exception.zep.c
 	phalcon/validation/message.zep.c

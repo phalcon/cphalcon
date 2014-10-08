@@ -1435,7 +1435,7 @@ PHP_METHOD(Phalcon_Http_Request, smoothFiles) {
 		ZEPHIR_CONCAT_VSV(p, prefix, ".", idx);
 		if (Z_TYPE_P(name) == IS_STRING) {
 			ZEPHIR_INIT_NVAR(_3);
-			array_init_size(_3, 11);
+			array_init_size(_3, 8);
 			zephir_array_update_string(&_3, SL("name"), &name, PH_COPY | PH_SEPARATE);
 			ZEPHIR_OBS_NVAR(_4);
 			zephir_array_fetch(&_4, types, idx, PH_NOISY, "phalcon/http/request.zep", 799 TSRMLS_CC);

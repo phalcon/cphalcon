@@ -106,7 +106,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, _addMap) {
 
 
 	ZEPHIR_INIT_VAR(_0);
-	array_init_size(_0, 7);
+	array_init_size(_0, 6);
 	zephir_array_fast_append(_0, method);
 	zephir_array_fast_append(_0, routePattern);
 	zephir_array_fast_append(_0, handler);

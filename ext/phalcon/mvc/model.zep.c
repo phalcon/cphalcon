@@ -3076,7 +3076,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowUpdate) {
 		}
 	}
 	ZEPHIR_INIT_VAR(_11);
-	array_init_size(_11, 5);
+	array_init_size(_11, 4);
 	zephir_array_update_string(&_11, SL("conditions"), &uniqueKey, PH_COPY | PH_SEPARATE);
 	zephir_array_update_string(&_11, SL("bind"), &uniqueParams, PH_COPY | PH_SEPARATE);
 	zephir_array_update_string(&_11, SL("bindTypes"), &uniqueTypes, PH_COPY | PH_SEPARATE);
@@ -4059,7 +4059,7 @@ PHP_METHOD(Phalcon_Mvc_Model, refresh) {
 	ZEPHIR_CALL_METHOD(&dialect, readConnection, "getdialect",  NULL);
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(_5);
-	array_init_size(_5, 5);
+	array_init_size(_5, 4);
 	zephir_array_update_string(&_5, SL("columns"), &fields, PH_COPY | PH_SEPARATE);
 	ZEPHIR_CALL_METHOD(&_6, readConnection, "escapeidentifier", NULL, table);
 	zephir_check_call_status();
@@ -5042,7 +5042,7 @@ PHP_METHOD(Phalcon_Mvc_Model, getRelated) {
 	ZVAL_STRING(_5, "getRelationRecords", 1);
 	zephir_array_fast_append(_4, _5);
 	ZEPHIR_INIT_VAR(_6);
-	array_init_size(_6, 7);
+	array_init_size(_6, 6);
 	zephir_array_fast_append(_6, relation);
 	zephir_array_fast_append(_6, ZEPHIR_GLOBAL(global_null));
 	zephir_array_fast_append(_6, this_ptr);
@@ -5134,7 +5134,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _getRelatedRecords) {
 		ZVAL_STRING(_6, "getRelationRecords", 1);
 		zephir_array_fast_append(_5, _6);
 		ZEPHIR_INIT_VAR(_7);
-		array_init_size(_7, 7);
+		array_init_size(_7, 6);
 		zephir_array_fast_append(_7, relation);
 		zephir_array_fast_append(_7, queryMethod);
 		zephir_array_fast_append(_7, this_ptr);
@@ -5470,7 +5470,7 @@ PHP_METHOD(Phalcon_Mvc_Model, __get) {
 		ZVAL_STRING(_4, "getRelationRecords", 1);
 		zephir_array_fast_append(_3, _4);
 		ZEPHIR_INIT_VAR(_5);
-		array_init_size(_5, 7);
+		array_init_size(_5, 6);
 		zephir_array_fast_append(_5, relation);
 		zephir_array_fast_append(_5, ZEPHIR_GLOBAL(global_null));
 		zephir_array_fast_append(_5, this_ptr);
