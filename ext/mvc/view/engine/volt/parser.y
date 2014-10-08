@@ -341,6 +341,27 @@ static zval *phvolt_ret_include_statement(zval *path, zval *params, phvolt_scann
 	return ret;
 }
 
+static zval *phvolt_ret_require_statement(zval *path, zval *params, phvolt_scanner_state *state)
+{
+	zval *ret;
+
+	MAKE_STD_ZVAL(ret);
+	array_init_size(ret, 4);
+
+	add_assoc_long(ret, "type", PHVOLT_T_REQUIRE);
+
+	add_assoc_zval(ret, "path", path);
+	if (params) {
+		add_assoc_zval(ret, "params", params);
+	}
+
+	Z_ADDREF_P(state->active_file);
+	add_assoc_zval(ret, "file", state->active_file);
+	add_assoc_long(ret, "line", state->active_line);
+
+	return ret;
+}
+
 static zval *phvolt_ret_do_statement(zval *expr, phvolt_scanner_state *state)
 {
 	zval *ret;
@@ -767,6 +788,10 @@ statement(R) ::= include_statement(E) . {
 	R = E;
 }
 
+statement(R) ::= require_statement(E) . {
+	R = E;
+}
+
 statement(R) ::= do_statement(E) . {
 	R = E;
 }
@@ -999,6 +1024,16 @@ include_statement(R) ::= OPEN_DELIMITER INCLUDE expr(E) CLOSE_DELIMITER . {
 
 include_statement(R) ::= OPEN_DELIMITER INCLUDE expr(E) WITH expr(P) CLOSE_DELIMITER . {
 	R = phvolt_ret_include_statement(E, P, status->scanner_state);
+}
+
+%destructor require_statement { zval_ptr_dtor(&$$); }
+
+require_statement(R) ::= OPEN_DELIMITER REQUIRE expr(E) CLOSE_DELIMITER . {
+	R = phvolt_ret_require_statement(E, NULL, status->scanner_state);
+}
+
+require_statement(R) ::= OPEN_DELIMITER REQUIRE expr(E) WITH expr(P) CLOSE_DELIMITER . {
+	R = phvolt_ret_require_statement(E, P, status->scanner_state);
 }
 
 %destructor do_statement { zval_ptr_dtor(&$$); }

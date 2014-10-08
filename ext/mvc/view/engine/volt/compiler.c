@@ -83,6 +83,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileElseIf);
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileCache);
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileEcho);
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileInclude);
+PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileRequire);
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileSet);
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileDo);
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileReturn);
@@ -182,6 +183,10 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_engine_volt_compiler_compileincl
 	ZEND_ARG_INFO(0, statement)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_engine_volt_compiler_compilerequire, 0, 0, 1)
+	ZEND_ARG_INFO(0, statement)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_engine_volt_compiler_compileset, 0, 0, 1)
 	ZEND_ARG_INFO(0, statement)
 ZEND_END_ARG_INFO()
@@ -254,6 +259,7 @@ static const zend_function_entry phalcon_mvc_view_engine_volt_compiler_method_en
 	PHP_ME(Phalcon_Mvc_View_Engine_Volt_Compiler, compileCache, arginfo_phalcon_mvc_view_engine_volt_compiler_compilecache, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_View_Engine_Volt_Compiler, compileEcho, arginfo_phalcon_mvc_view_engine_volt_compiler_compileecho, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_View_Engine_Volt_Compiler, compileInclude, arginfo_phalcon_mvc_view_engine_volt_compiler_compileinclude, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_View_Engine_Volt_Compiler, compileRequire, arginfo_phalcon_mvc_view_engine_volt_compiler_compilerequire, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_View_Engine_Volt_Compiler, compileSet, arginfo_phalcon_mvc_view_engine_volt_compiler_compileset, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_View_Engine_Volt_Compiler, compileDo, arginfo_phalcon_mvc_view_engine_volt_compiler_compiledo, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_View_Engine_Volt_Compiler, compileReturn, arginfo_phalcon_mvc_view_engine_volt_compiler_compilereturn, ZEND_ACC_PUBLIC)
@@ -2560,6 +2566,13 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileInclude){
 			ZVAL_BOOL(extended, 0);
 	
 			/** 
+			 * Check if the template exists
+			 */
+			if (phalcon_file_exists(final_path TSRMLS_CC) == FAILURE) {
+				RETURN_MM();
+			}
+
+			/** 
 			 * Clone the original compiler
 			 */
 			PHALCON_INIT_VAR(sub_compiler);
@@ -2574,6 +2587,121 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileInclude){
 	
 			/** 
 			 * If the compilation doesn't return anything we include the compiled path
+			 */
+			if (Z_TYPE_P(compilation) == IS_NULL) {
+				PHALCON_CALL_METHOD(&compiled_path, sub_compiler, "getcompiledtemplatepath");
+	
+				/** 
+				 * Use file-get-contents to respect the openbase_dir directive
+				 */
+				PHALCON_INIT_NVAR(compilation);
+				phalcon_file_get_contents(compilation, compiled_path TSRMLS_CC);
+			}
+	
+			RETURN_CCTOR(compilation);
+		}
+	}
+	
+	/** 
+	 * Resolve the path's expression
+	 */
+	PHALCON_CALL_METHOD(&path, this_ptr, "expression", path_expr);
+	if (!phalcon_array_isset_string(statement, SS("params"))) {
+		PHALCON_CONCAT_SVS(return_value, "<?php $this->partial(", path, ", null, true); ?>");
+		RETURN_MM();
+	}
+	
+	PHALCON_OBS_VAR(expr_params);
+	phalcon_array_fetch_string(&expr_params, statement, SL("params"), PH_NOISY);
+	
+	PHALCON_CALL_METHOD(&params, this_ptr, "expression", expr_params);
+	PHALCON_CONCAT_SVSVS(return_value, "<?php $this->partial(", path, ", ", params, ", true); ?>");
+	
+	RETURN_MM();
+}
+
+/**
+ * Compiles a 'require' statement returning PHP code
+ *
+ * @param array $statement
+ * @return string
+ */
+PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileRequire){
+
+	zval *statement, *path_expr, *expr_type, *path = NULL;
+	zval *view, *views_dir = NULL, *final_path = NULL, *extended;
+	zval *sub_compiler, *compilation = NULL, *compiled_path = NULL;
+	zval *expr_params, *params = NULL;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 1, 0, &statement);
+	
+	/** 
+	 * A valid expression is required
+	 */
+	if (!phalcon_array_isset_string(statement, SS("path"))) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "Corrupted statement");
+		return;
+	}
+	
+	/** 
+	 * Require statement
+	 */
+	PHALCON_OBS_VAR(path_expr);
+	phalcon_array_fetch_string(&path_expr, statement, SL("path"), PH_NOISY);
+	
+	/** 
+	 * Check if the expression is a string
+	 */
+	PHALCON_OBS_VAR(expr_type);
+	phalcon_array_fetch_string(&expr_type, path_expr, SL("type"), PH_NOISY);
+	
+	/** 
+	 * If the path is an string try to make an static compilation
+	 */
+	if (PHALCON_IS_LONG(expr_type, 260)) {
+	
+		/** 
+		 * Static compilation cannot be performed if the user passed extra parameters
+		 */
+		if (!phalcon_array_isset_string(statement, SS("params"))) {
+	
+			/** 
+			 * Get the static path
+			 */
+			PHALCON_OBS_VAR(path);
+			phalcon_array_fetch_string(&path, path_expr, SL("value"), PH_NOISY);
+	
+			PHALCON_OBS_VAR(view);
+			phalcon_read_property_this(&view, this_ptr, SL("_view"), PH_NOISY TSRMLS_CC);
+			if (Z_TYPE_P(view) == IS_OBJECT) {
+				PHALCON_CALL_METHOD(&views_dir, view, "getviewsdir");
+	
+				PHALCON_INIT_VAR(final_path);
+				PHALCON_CONCAT_VV(final_path, views_dir, path);
+			} else {
+				PHALCON_CPY_WRT(final_path, path);
+			}
+	
+			PHALCON_INIT_VAR(extended);
+			ZVAL_BOOL(extended, 0);
+	
+			/** 
+			 * Clone the original compiler
+			 */
+			PHALCON_INIT_VAR(sub_compiler);
+			if (phalcon_clone(sub_compiler, this_ptr TSRMLS_CC) == FAILURE) {
+				RETURN_MM();
+			}
+	
+			/** 
+			 * Perform a subcompilation of the required file
+			 */
+			PHALCON_CALL_METHOD(&compilation, sub_compiler, "compile", final_path, extended);
+	
+			/** 
+			 * If the compilation doesn't return anything we require the compiled path
 			 */
 			if (Z_TYPE_P(compilation) == IS_NULL) {
 				PHALCON_CALL_METHOD(&compiled_path, sub_compiler, "getcompiledtemplatepath");
@@ -3190,6 +3318,11 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _statementList){
 	
 			case 327:
 				PHALCON_CALL_METHOD(&temp_compilation, this_ptr, "compilereturn", statement);
+				phalcon_concat_self(&compilation, temp_compilation TSRMLS_CC);
+				break;
+	
+			case 328:
+				PHALCON_CALL_METHOD(&temp_compilation, this_ptr, "compilerequire", statement);
 				phalcon_concat_self(&compilation, temp_compilation TSRMLS_CC);
 				break;
 	
