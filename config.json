@@ -76,6 +76,10 @@
         "orm.enable_literals": {
             "type": "bool",
             "default": true
+        },
+        "orm.late_state_binding": {
+            "type": "bool",
+            "default": true
         }
     },
     "destructors": {
