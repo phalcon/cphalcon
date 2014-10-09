@@ -50,12 +50,14 @@ class Url
 
 	public function setBaseUri($baseUri)
 	{
-        return $this->url->setBaseUri($baseUri);
+        $this->url->setBaseUri($baseUri);
+        return $this;
 	}
 
 	public function setStaticBaseUri($staticBaseUri)
 	{
-        return $this->url->setStaticBaseUri($staticBaseUri);
+        $this->url->setStaticBaseUri($staticBaseUri);
+        return $this;
 	}
 
 	public function getBaseUri()
@@ -70,7 +72,8 @@ class Url
 
 	public function setBasePath($basePath)
 	{
-        return $this->url->setBasePath($basePath);
+        $this->url->setBasePath($basePath);
+        return $this;
 	}
 
 	public function getBasePath()
