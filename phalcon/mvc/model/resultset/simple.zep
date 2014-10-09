@@ -96,7 +96,7 @@ class Simple extends Resultset
 	 */
 	public function valid() -> boolean
 	{
-		var result, row, rows, hydrateMode, columnMap, activeRow;
+		var result, row, rows, hydrateMode, columnMap, activeRow, modelName;
 
 		if this->_type {
 
@@ -149,7 +149,11 @@ class Simple extends Resultset
 			 * Set records as dirty state PERSISTENT by default
 			 * Performs the standard hydration based on objects
 			 */
-			let activeRow = Model::cloneResultMap(
+			let modelName = "Phalcon\\Mvc\\Model";
+			if this->_model instanceof \Phalcon\Mvc\Model {
+				let modelName = get_class(this->_model);
+			}
+			let activeRow = {modelName}::cloneResultMap(
 				this->_model,
 				row,
 				columnMap,
@@ -212,8 +216,8 @@ class Simple extends Resultset
 					let activeRow = this->_activeRow;
 
 					/**
-				 	 * Check if we need to re-execute the query
-				 	 */
+					 * Check if we need to re-execute the query
+					 */
 					if activeRow !== null {
 						result->execute();
 					}
