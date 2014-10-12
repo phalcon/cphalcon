@@ -90,7 +90,7 @@ class Memory extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendInt
 		}
 
 		if !lastKey {
-			throw new \Phalcon\Cache\Exception("The cache must be started first");
+			throw new \Phalcon\Cache\Exception("Cache must be started first");
 		}
 
 		let frontend = this->_frontend;

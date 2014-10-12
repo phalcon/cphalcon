@@ -88,7 +88,7 @@ class Apc extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendInterf
 		}
 
 		if !lastKey {
-			throw new Exception("The cache must be started first");
+			throw new Exception("Cache must be started first");
 		}
 
 		let frontend = this->_frontend;

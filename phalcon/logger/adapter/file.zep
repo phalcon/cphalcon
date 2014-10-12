@@ -19,6 +19,11 @@
 
 namespace Phalcon\Logger\Adapter;
 
+use Phalcon\Logger\Adapter;
+use Phalcon\Logger\AdapterInterface;
+use Phalcon\Logger\Exception;
+use Phalcon\Logger\FormatterInterface;
+
 /**
  * Phalcon\Logger\Adapter\File
  *
@@ -32,7 +37,7 @@ namespace Phalcon\Logger\Adapter;
  *	$logger->close();
  *</code>
  */
-class File extends \Phalcon\Logger\Adapter implements \Phalcon\Logger\AdapterInterface
+class File extends Adapter implements AdapterInterface
 {
 
 	/**
@@ -65,7 +70,7 @@ class File extends \Phalcon\Logger\Adapter implements \Phalcon\Logger\AdapterInt
 		if typeof options == "array" {
 			if fetch mode, options["mode"] {
 				if memstr(mode, "r") {
-					throw new \Phalcon\Logger\Exception("Logger must be opened in append or write mode");
+					throw new Exception("Logger must be opened in append or write mode");
 				}
 			}
 		} else {
@@ -77,7 +82,7 @@ class File extends \Phalcon\Logger\Adapter implements \Phalcon\Logger\AdapterInt
 		 */
 		let handler = fopen(name, mode);
 		if typeof handler != "resource" {
-			throw new \Phalcon\Logger\Exception("Can't open log file at '" . name . "'");
+			throw new Exception("Can't open log file at '" . name . "'");
 		}
 
 		let this->_path = name,
@@ -90,7 +95,7 @@ class File extends \Phalcon\Logger\Adapter implements \Phalcon\Logger\AdapterInt
 	 *
 	 * @return Phalcon\Logger\FormatterInterface
 	 */
-	public function getFormatter() -> <\Phalcon\Logger\FormatterInterface>
+	public function getFormatter() -> <FormatterInterface>
 	{
 		var formatter;
 
@@ -116,7 +121,7 @@ class File extends \Phalcon\Logger\Adapter implements \Phalcon\Logger\AdapterInt
 
 		let fileHandler = this->_fileHandler;
 		if typeof fileHandler != "resource" {
-			throw new \Phalcon\Logger\Exception("Cannot send message to the log because it is invalid");
+			throw new Exception("Cannot send message to the log because it is invalid");
 		}
 
 		let formatter = this->getFormatter();
@@ -143,7 +148,7 @@ class File extends \Phalcon\Logger\Adapter implements \Phalcon\Logger\AdapterInt
 
 		let path = this->_path;
 		if typeof path != "string" {
-			throw new \Phalcon\Logger\Exception("Invalid data passed to Phalcon\\Logger\\Adapter\\File::__wakeup()");
+			throw new Exception("Invalid data passed to Phalcon\\Logger\\Adapter\\File::__wakeup()");
 		}
 
 		if !fetch mode, this->_options["mode"] {
@@ -151,11 +156,11 @@ class File extends \Phalcon\Logger\Adapter implements \Phalcon\Logger\AdapterInt
 		}
 
 		if typeof mode != "string" {
-			throw new \Phalcon\Logger\Exception("Invalid data passed to Phalcon\\Logger\\Adapter\\File::__wakeup()");
+			throw new Exception("Invalid data passed to Phalcon\\Logger\\Adapter\\File::__wakeup()");
 		}
 
 		if memstr(mode, "r") {
-			throw new \Phalcon\Logger\Exception("Logger must be opened in append or write mode");
+			throw new Exception("Logger must be opened in append or write mode");
 		}
 
 		/**
@@ -163,5 +168,4 @@ class File extends \Phalcon\Logger\Adapter implements \Phalcon\Logger\AdapterInt
 		 */
 		let this->_fileHandler = fopen(path, mode);
 	}
-
 }

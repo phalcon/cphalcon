@@ -16,7 +16,6 @@
 #include "kernel/object.h"
 #include "kernel/memory.h"
 #include "kernel/operators.h"
-#include "kernel/string.h"
 #include "kernel/fcall.h"
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/array.h"
@@ -87,7 +86,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator, __construct) {
 PHP_METHOD(Phalcon_Mvc_Model_Validator, appendMessage) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *message_param = NULL, *field = NULL, *type = NULL, *_0, _1, _2, *_3;
+	zephir_nts_static zephir_fcall_cache_entry *_3 = NULL;
+	zval *message_param = NULL, *field = NULL, *type = NULL, *_0, *_1, *_2, *_4;
 	zval *message = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -115,20 +115,22 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator, appendMessage) {
 
 
 	if (!(zephir_is_true(type))) {
-		ZEPHIR_INIT_NVAR(type);
 		ZEPHIR_INIT_VAR(_0);
 		zephir_get_class(_0, this_ptr, 0 TSRMLS_CC);
-		ZEPHIR_SINIT_VAR(_1);
-		ZVAL_STRING(&_1, "Validator", 0);
-		ZEPHIR_SINIT_VAR(_2);
-		ZVAL_STRING(&_2, "", 0);
-		zephir_fast_str_replace(type, &_1, &_2, _0);
+		ZEPHIR_INIT_VAR(_1);
+		ZVAL_STRING(_1, "Validator", 0);
+		ZEPHIR_INIT_VAR(_2);
+		ZVAL_STRING(_2, "", 0);
+		ZEPHIR_CALL_FUNCTION(&type, "str_replace", &_3, _1, _2, _0);
+		zephir_check_temp_parameter(_1);
+		zephir_check_temp_parameter(_2);
+		zephir_check_call_status();
 	}
-	ZEPHIR_INIT_VAR(_3);
-	object_init_ex(_3, phalcon_mvc_model_message_ce);
-	ZEPHIR_CALL_METHOD(NULL, _3, "__construct", NULL, message, field, type);
+	ZEPHIR_INIT_VAR(_4);
+	object_init_ex(_4, phalcon_mvc_model_message_ce);
+	ZEPHIR_CALL_METHOD(NULL, _4, "__construct", NULL, message, field, type);
 	zephir_check_call_status();
-	zephir_update_property_array_append(this_ptr, SL("_messages"), _3 TSRMLS_CC);
+	zephir_update_property_array_append(this_ptr, SL("_messages"), _4 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 
 }

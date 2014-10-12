@@ -166,7 +166,7 @@ class Memcache extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendI
 		}
 
 		if !lastKey {
-			throw new Exception("The cache must be started first");
+			throw new Exception("Cache must be started first");
 		}
 
 		let frontend = this->_frontend;
@@ -190,7 +190,7 @@ class Memcache extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendI
 		 * Prepare the content in the frontend
 		 */
 		let preparedContent = frontend->beforeStore(cachedContent);
-		
+
 		if typeof lifetime == "null" {
 			let tmp = this->_lastLifetime;
 
@@ -272,7 +272,7 @@ class Memcache extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendI
 
 		if !fetch specialKey, options["statsKey"] {
 			throw new Exception("Unexpected inconsistency in options");
-		} 
+		}
 
 		let keys = memcache->get(specialKey);
 
