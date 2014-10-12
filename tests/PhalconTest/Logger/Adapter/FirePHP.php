@@ -1,9 +1,9 @@
 <?php
 /**
- * File.php
- * \PhalconTest\Logger\Adapter\File
+ * FirePHP.php
+ * \PhalconTest\Logger\Adapter\FirePHP
  *
- * Logger\Adapter\File proxy class
+ * Logger\Adapter\FirePHP proxy class
  *
  * PhalconPHP Framework
  *
@@ -22,28 +22,10 @@
 
 namespace PhalconTest\Logger\Adapter;
 
-use \Phalcon\Logger\Adapter\File as PhLoggerFile;
+use \Phalcon\Logger\Adapter\FirePHP as PhLoggerFirePHP;
 use \PhalconTest\Logger\Adapter as PhTAdapter;
 
-class File extends PhTAdapter
+class FirePHP
 {
-    public function __construct($name, $options = null)
-	{
-        $this->adapter = new PhLoggerFile($name, $options);
-	}
 
-	public function getFormatter()
-	{
-        return $this->adapter->getFormatter();
-	}
-
-	public function logInternal($message, $type, $time, $context)
-	{
-        $this->adapter->logInternal($message, $type, $time, $context);
-	}
-
-	public function close()
-	{
-        return $this->adapter->close();
-	}
 }

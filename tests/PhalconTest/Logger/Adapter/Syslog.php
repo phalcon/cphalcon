@@ -1,9 +1,9 @@
 <?php
 /**
- * File.php
- * \PhalconTest\Logger\Adapter\File
+ * Syslog.php
+ * \PhalconTest\Logger\Adapter\Syslog
  *
- * Logger\Adapter\File proxy class
+ * Logger\Adapter\Syslog proxy class
  *
  * PhalconPHP Framework
  *
@@ -22,14 +22,14 @@
 
 namespace PhalconTest\Logger\Adapter;
 
-use \Phalcon\Logger\Adapter\File as PhLoggerFile;
+use \Phalcon\Logger\Adapter\Syslog as PhLoggerSyslog;
 use \PhalconTest\Logger\Adapter as PhTAdapter;
 
-class File extends PhTAdapter
+class Syslog extends PhTAdapter
 {
     public function __construct($name, $options = null)
 	{
-        $this->adapter = new PhLoggerFile($name, $options);
+        $this->adapter = new PhLoggerSyslog($name, $options);
 	}
 
 	public function getFormatter()

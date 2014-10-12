@@ -25,7 +25,12 @@ namespace PhalconTest\Logger;
 class Adapter
 {
     protected $adapter = null;
-    
+
+    public function __desctruct()
+    {
+        unset($this->adapter);
+    }
+
     public function setLogLevel($level)
 	{
 		return $this->adapter->setLogLevel($level);

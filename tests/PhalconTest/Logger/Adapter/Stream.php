@@ -1,9 +1,9 @@
 <?php
 /**
- * File.php
- * \PhalconTest\Logger\Adapter\File
+ * Stream.php
+ * \PhalconTest\Logger\Adapter\Stream
  *
- * Logger\Adapter\File proxy class
+ * Logger\Adapter\Stream proxy class
  *
  * PhalconPHP Framework
  *
@@ -22,14 +22,14 @@
 
 namespace PhalconTest\Logger\Adapter;
 
-use \Phalcon\Logger\Adapter\File as PhLoggerFile;
+use \Phalcon\Logger\Adapter\Stream as PhLoggerStream;
 use \PhalconTest\Logger\Adapter as PhTAdapter;
 
-class File extends PhTAdapter
+class Stream extends PhTAdapter
 {
     public function __construct($name, $options = null)
 	{
-        $this->adapter = new PhLoggerFile($name, $options);
+        $this->adapter = new PhLoggerStream($name, $options);
 	}
 
 	public function getFormatter()
