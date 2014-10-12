@@ -23,44 +23,70 @@
 namespace Phalcon\Tests\unit\Phalcon\Assets;
 
 use \Phalcon\Assets\Resource as PhAssetsResource;
-use \Codeception\TestCase\Test as CdTest;
+
+use \PhalconTest\Assets\Manager as PhTAssetsManager;
+use \PhalconTest\Assets\Collection as PhTAssetsCollection;
+use \PhalconTest\Assets\Resource as PhTAssetsResource;
+use \PhalconTest\Assets\Resource\Css as PhTAssetsResourceCss;
+use \PhalconTest\Assets\Resource\Js as PhTAssetsResourceJs;
 
 class AssetsTest extends Helper\AssetsBase
 {
     /**
-     * Tests the instance of the object
+     * Tests getType
+     *
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-10-10
      */
-    public function testAssetsResource()
+    public function testAssetsResourceGetType()
     {
         $this->specify(
             "The resource getType is not correct",
             function () {
 
-                $resource = new PhAssetsResource('js', 'js/jquery.js');
+                $resource = new PhTAssetsResource('js', 'js/jquery.js');
                 $expected = 'js';
                 $actual   = $resource->getType();
 
                 expect($actual)->equals($expected);
             }
         );
+    }
 
+    /**
+     * Tests getPath
+     *
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-10-10
+     */
+    public function testAssetsResourceGetPath()
+    {
         $this->specify(
             "The resource getPath is not correct",
             function () {
 
-                $resource = new PhAssetsResource('js', 'js/jquery.js');
+                $resource = new PhTAssetsResource('js', 'js/jquery.js');
                 $expected = 'js/jquery.js';
                 $actual   = $resource->getPath();
 
                 expect($actual)->equals($expected);
             }
         );
+    }
 
+    /**
+     * Tests getLocal
+     *
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-10-10
+     */
+    public function testAssetsResourceGetLocal()
+    {
         $this->specify(
             "The resource getLocal is not correct",
             function () {
 
-                $resource = new PhAssetsResource('js', 'js/jquery.js');
+                $resource = new PhTAssetsResource('js', 'js/jquery.js');
                 $actual   = $resource->getLocal();
 
                 expect($actual)->true();
@@ -68,45 +94,162 @@ class AssetsTest extends Helper\AssetsBase
         );
     }
 
-	public function testResourceCss()
-	{
-        $this->markTestIncomplete('To be checked');
-		$resource = new Phalcon\Assets\Resource\Css('/css/style.css', false);
-		$this->assertEquals($resource->getType(), 'css');
-		$this->assertEquals($resource->getPath(), '/css/style.css');
-		$this->assertEquals($resource->getLocal(), false);
-	}
+    /**
+     * Tests Css getType
+     *
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-10-10
+     */
+    public function testAssetsResourceCssGetType()
+    {
+        $this->specify(
+            "The resource Css getType is not correct",
+            function () {
 
-	public function testResourceJs()
-	{
-        $this->markTestIncomplete('To be checked');
-		$resource = new Phalcon\Assets\Resource\Js('/js/jquery.js', false);
-		$this->assertEquals($resource->getType(), 'js');
-		$this->assertEquals($resource->getPath(), '/js/jquery.js');
-		$this->assertEquals($resource->getLocal(), false);
-	}
+                $resource = new PhTAssetsResourceCss('/css/style.css', false);
+                $expected = 'css';
+                $actual   = $resource->getType();
 
-	public function testCollection()
-	{
-        $this->markTestIncomplete('To be checked');
-		$collection = new Phalcon\Assets\Collection();
+                expect($actual)->equals($expected);
+            }
+        );
+    }
 
-		$collection->add(new Phalcon\Assets\Resource('js', 'js/jquery.js'));
-		$collection->add(new Phalcon\Assets\Resource('js', 'js/jquery-ui.js'));
+    /**
+     * Tests Css getPath
+     *
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-10-10
+     */
+    public function testAssetsResourceCssGetPath()
+    {
+        $this->specify(
+            "The resource Css getPath is not correct",
+            function () {
 
-		$number = 0;
-		foreach ($collection as $resource) {
-			$this->assertEquals($resource->getType(), 'js');
-			$number++;
-		}
+                $resource = new PhTAssetsResourceCss('/css/style.css', false);
+                $expected = '/css/style.css';
+                $actual   = $resource->getPath();
 
-		$this->assertEquals($number, 2);
-	}
+                expect($actual)->equals($expected);
+            }
+        );
+    }
+
+    /**
+     * Tests Css getLocal
+     *
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-10-10
+     */
+    public function testAssetsResourceCssGetLocal()
+    {
+        $this->specify(
+            "The resource Css getLocal is not correct",
+            function () {
+
+                $resource = new PhTAssetsResourceCss('/css/style.css', false);
+                $actual   = $resource->getLocal();
+
+                expect($actual)->false();
+            }
+        );
+    }
+
+    /**
+     * Tests Js getType
+     *
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-10-10
+     */
+    public function testAssetsResourceJsGetType()
+    {
+        $this->specify(
+            "The resource Js getType is not correct",
+            function () {
+
+                $resource = new PhTAssetsResourceJs('/js/jquery.js', false);
+                $expected = 'js';
+                $actual   = $resource->getType();
+
+                expect($actual)->equals($expected);
+            }
+        );
+    }
+
+    /**
+     * Tests Js getPath
+     *
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-10-10
+     */
+    public function testAssetsResourceJsGetPath()
+    {
+        $this->specify(
+            "The resource Js getPath is not correct",
+            function () {
+
+                $resource = new PhTAssetsResourceJs('/js/jquery.js', false);
+                $expected = '/js/jquery.js';
+                $actual   = $resource->getPath();
+
+                expect($actual)->equals($expected);
+            }
+        );
+    }
+
+    /**
+     * Tests Js getLocal
+     *
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-10-10
+     */
+    public function testAssetsResourceJsGetLocal()
+    {
+        $this->specify(
+            "The resource Js getLocal is not correct",
+            function () {
+
+                $resource = new PhTAssetsResourceJs('/js/jquery.js', false);
+                $actual   = $resource->getLocal();
+
+                expect($actual)->false();
+            }
+        );
+    }
+
+    /**
+     * Tests Collection
+     *
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-10-10
+     */
+    public function testAssetsResourceCollection()
+    {
+        $this->specify(
+            "The resource collection is not correct",
+            function () {
+
+                $collection = new PhTAssetsCollection();
+
+                $collection->add(new PhAssetsResource('js', 'js/jquery.js'));
+                $collection->add(new PhAssetsResource('js', 'js/jquery-ui.js'));
+
+                $number = 0;
+                foreach ($collection as $resource) {
+                    expect($resource->getType())->equals('js');
+                    $number++;
+                }
+
+                expect($number)->equals(2);
+            }
+        );
+    }
 
 	public function testAssetsManager()
 	{
         $this->markTestIncomplete('To be checked');
-		$assets = new Phalcon\Assets\Manager();
+		$assets = new PhTAssetsManager();
 
 		$assets->addCss('/css/style1.css');
 		$assets->addCss('/css/style2.css');
@@ -134,7 +277,7 @@ class AssetsTest extends Helper\AssetsBase
 
 		$this->assertEquals($number, 2);
 
-		$assets->addResource(new Phalcon\Assets\Resource\Css('/css/style.css', false));
+		$assets->addResource(new PhTAssetsResourceCss('/css/style.css', false));
 		$this->assertEquals(count($assets->get('css')), 3);
 
 		Phalcon\DI::reset();
@@ -329,7 +472,7 @@ class AssetsTest extends Helper\AssetsBase
 
 		$di->set('escaper', function() { return new \Phalcon\Escaper(); });
 
-		$assets = new Phalcon\Assets\Manager();
+		$assets = new PhTAssetsManager();
 
 		$assets->useImplicitOutput(false);
 
@@ -376,7 +519,7 @@ class AssetsTest extends Helper\AssetsBase
 
 		$di->set('escaper', function() { return new \Phalcon\Escaper(); });
 
-		$assets = new Phalcon\Assets\Manager();
+		$assets = new PhTAssetsManager();
 
 		$assets->useImplicitOutput(false);
 
@@ -422,7 +565,7 @@ class AssetsTest extends Helper\AssetsBase
 
 		$di->set('escaper', function() { return new \Phalcon\Escaper(); });
 
-		$assets = new Phalcon\Assets\Manager();
+		$assets = new PhTAssetsManager();
 
 		$assets->useImplicitOutput(false);
 
@@ -464,7 +607,7 @@ class AssetsTest extends Helper\AssetsBase
 
 		$di->set('escaper', function() { return new \Phalcon\Escaper(); });
 
-		$assets = new Phalcon\Assets\Manager();
+		$assets = new PhTAssetsManager();
 
 		$assets->useImplicitOutput(false);
 
@@ -472,13 +615,13 @@ class AssetsTest extends Helper\AssetsBase
 
 		$js->setTargetPath('unit-tests/assets/production/');
 
-		$jquery = new Phalcon\Assets\Resource\Js('unit-tests/assets/jquery.js', false, false);
+		$jquery = new PhTAssetsResourceJs('unit-tests/assets/jquery.js', false, false);
 
 		$jquery->setTargetUri('jquery.js');
 
 		$js->add($jquery);
 
-		$gs = new Phalcon\Assets\Resource\Js('unit-tests/assets/gs.js');
+		$gs = new PhTAssetsResourceJs('unit-tests/assets/gs.js');
 
 		$gs->setTargetUri('gs.js');
 		$gs->setTargetPath('gs.js');
@@ -517,7 +660,7 @@ class AssetsTest extends Helper\AssetsBase
 
 		$di->set('escaper', function() { return new \Phalcon\Escaper(); });
 
-		$assets = new Phalcon\Assets\Manager();
+		$assets = new PhTAssetsManager();
 
 		$assets->useImplicitOutput(false);
 
@@ -526,13 +669,13 @@ class AssetsTest extends Helper\AssetsBase
 		$js->setTargetUri('production/combined-3.js');
 		$js->setTargetPath('unit-tests/assets/production/combined-3.js');
 
-		$jquery = new Phalcon\Assets\Resource\Js('unit-tests/assets/jquery.js', false, false);
+		$jquery = new PhTAssetsResourceJs('unit-tests/assets/jquery.js', false, false);
 
 		$jquery->setTargetUri('jquery.js');
 
 		$js->add($jquery);
 
-		$gs = new Phalcon\Assets\Resource\Js('unit-tests/assets/gs.js');
+		$gs = new PhTAssetsResourceJs('unit-tests/assets/gs.js');
 
 		$gs->setTargetUri('gs.js');
 		$gs->setTargetPath('gs.js');
@@ -552,7 +695,7 @@ class AssetsTest extends Helper\AssetsBase
         $this->markTestIncomplete('To be checked');
 		@unlink(__DIR__ . '/assets/production/1198.css');
 		$di = new \Phalcon\DI\FactoryDefault();
-		$assets = new \Phalcon\Assets\Manager();
+		$assets = new \PhTAssetsManager();
 		$assets->useImplicitOutput(false);
 		$css = $assets->collection('css');
 		$css->setTargetPath(__DIR__ . '/assets/production/1198.css');
@@ -571,7 +714,7 @@ class AssetsTest extends Helper\AssetsBase
         $this->markTestIncomplete('To be checked');
 		@unlink(__DIR__ . '/assets/production/1532.js');
 		$di = new \Phalcon\DI\FactoryDefault();
-		$assets = new \Phalcon\Assets\Manager();
+		$assets = new \PhTAssetsManager();
 		$assets->useImplicitOutput(false);
 		$assets->collection('js')
 			->addJs('unit-tests/assets/jquery.js')
