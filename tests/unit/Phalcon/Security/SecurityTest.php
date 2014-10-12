@@ -22,7 +22,7 @@
 
 namespace Phalcon\Tests\unit\Phalcon\Security;
 
-use Phalcon\Security as PhSecurity;
+use \PhalconTest\Security as PhTSecurity;
 
 class SecurityTest extends \Codeception\TestCase\Test
 {
@@ -48,7 +48,7 @@ class SecurityTest extends \Codeception\TestCase\Test
             "The HMAC computation values are not identical",
             function () {
 
-                $security = new PhSecurity;
+                $security = new PhTSecurity();
                 $key      = md5('test', true);
                 $keys     = array(
                     substr($key, 0, strlen($key) / 2),

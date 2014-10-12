@@ -22,8 +22,6 @@
 
 namespace Phalcon\Tests\unit\Phalcon\Filter;
 
-use Phalcon\Filter as PhFilter;
-
 class FilterStriptagsTest extends Helper\FilterBase
 {
     /**
@@ -73,9 +71,6 @@ class FilterStriptagsTest extends Helper\FilterBase
         $this->specify(
             "striptags html filter is not correct",
             function () {
-
-                $filter = new PhFilter();
-
                 $expected = '';
                 $value    = '<';
                 $this->sanitizer('striptags', $expected, $value);

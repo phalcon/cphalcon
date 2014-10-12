@@ -22,12 +22,10 @@
 
 namespace Phalcon\Tests\unit\Phalcon\Text;
 
-use Phalcon\Text as PhText;
+use \PhalconTest\Text as PhTText;
 
-class TextStartsWithTest extends \Codeception\TestCase\Test
+class TextStartsWithTest extends Helper\TextBase
 {
-    use \Codeception\Specify;
-
     /**
      * Tests the startsWith function with empty strings
      *
@@ -39,7 +37,7 @@ class TextStartsWithTest extends \Codeception\TestCase\Test
         $this->specify(
             "startsWith does not return correct result with empty strings",
             function () {
-                $actual = PhText::startsWith("", "");
+                $actual = PhTText::startsWith("", "");
                 expect($actual)->false();
             }
         );
@@ -56,7 +54,7 @@ class TextStartsWithTest extends \Codeception\TestCase\Test
         $this->specify(
             "startsWith does not return correct result with empty/something string",
             function () {
-                $actual = PhText::startsWith("", "hello");
+                $actual = PhTText::startsWith("", "hello");
                 expect($actual)->false();
             }
         );
@@ -73,13 +71,13 @@ class TextStartsWithTest extends \Codeception\TestCase\Test
         $this->specify(
             "startsWith does not return correct result with matched strings",
             function () {
-                $actual = PhText::startsWith("Hello", "H");
+                $actual = PhTText::startsWith("Hello", "H");
                 expect($actual)->true();
 
-                $actual = PhText::startsWith("Hello", "He");
+                $actual = PhTText::startsWith("Hello", "He");
                 expect($actual)->true();
 
-                $actual = PhText::startsWith("Hello", "Hello");
+                $actual = PhTText::startsWith("Hello", "Hello");
                 expect($actual)->true();
             }
         );
@@ -96,13 +94,13 @@ class TextStartsWithTest extends \Codeception\TestCase\Test
         $this->specify(
             "startsWith does not return correct result with case insensitive string",
             function () {
-                $actual = PhText::startsWith("Hello", "h");
+                $actual = PhTText::startsWith("Hello", "h");
                 expect($actual)->true();
 
-                $actual = PhText::startsWith("Hello", "he");
+                $actual = PhTText::startsWith("Hello", "he");
                 expect($actual)->true();
 
-                $actual = PhText::startsWith("Hello", "hello");
+                $actual = PhTText::startsWith("Hello", "hello");
                 expect($actual)->true();
             }
         );
@@ -119,13 +117,13 @@ class TextStartsWithTest extends \Codeception\TestCase\Test
         $this->specify(
             "startsWith does not return correct result with case sensitivity",
             function () {
-                $actual = PhText::startsWith("Hello", "hello", true);
+                $actual = PhTText::startsWith("Hello", "hello", true);
                 expect($actual)->true();
 
-                $actual = PhText::startsWith("Hello", "hello", false);
+                $actual = PhTText::startsWith("Hello", "hello", false);
                 expect($actual)->false();
 
-                $actual = PhText::startsWith("Hello", "h", false);
+                $actual = PhTText::startsWith("Hello", "h", false);
                 expect($actual)->false();
             }
         );

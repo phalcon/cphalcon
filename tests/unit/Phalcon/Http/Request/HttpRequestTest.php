@@ -35,7 +35,7 @@ class HttpRequestTest extends Helper\HttpBase
 
                 $request = $this->getRequestObject();
 
-                expect($request instanceof \Phalcon\Http\Request)->true();
+                expect($request instanceof \PhalconTest\Http\Request)->true();
             }
         );
     }

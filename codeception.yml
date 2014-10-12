@@ -4,6 +4,8 @@ paths:
     log: tests/_output
     data: tests/_data
     helpers: tests/_support
+coverage:
+   enabled: true
 settings:
     bootstrap: _bootstrap.php
     colors: true

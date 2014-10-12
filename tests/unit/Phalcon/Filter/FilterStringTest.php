@@ -22,8 +22,6 @@
 
 namespace Phalcon\Tests\unit\Phalcon\Filter;
 
-use Phalcon\Filter as PhFilter;
-
 class FilterStringTest extends Helper\FilterBase
 {
     /**
