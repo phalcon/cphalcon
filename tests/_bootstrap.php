@@ -6,6 +6,7 @@ define('UNIT_TESTING', true);
 $root = realpath(dirname(__FILE__));
 
 define('ROOT_PATH', $root);
+define('PATH_DATA', $root . '/_data/');
 define('PATH_CACHE', $root . '/_output/tests/cache/');
 define('PATH_LOGS', $root . '/_output/tests/logs/');
 
