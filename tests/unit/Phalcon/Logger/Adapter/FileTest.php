@@ -1,7 +1,7 @@
 <?php
 /**
- * UnitTest.php
- * \Phalcon\Logger\Adapter\File
+ * FileTest.php
+ * \Phalcon\Logger\FileTest
  *
  * Tests the Phalcon\Logger\Adapter\File component
  *
@@ -20,15 +20,15 @@
  * so that we can send you a copy immediately.
  */
 
-namespace Phalcon\Tests\unit\Phalcon\Logger\Adapter\File;
+namespace Phalcon\Tests\unit\Phalcon\Logger\Adapter;
 
 use Phalcon\Logger as PhLogger;
 use Phalcon\Logger\Exception as PhLoggerException;
 use Phalcon\Logger\Formatter\Line as PhLoggerFormatterLine;
-use \PhalconTest\Logger\Adapter\File as PhTLoggerAdapterFile;
 use \Codeception\TestCase\Test as CdTest;
+use \PhalconTest\Logger\Adapter\File as PhTLoggerAdapterFile;
 
-class UnitTest extends CdTest
+class FileTest extends CdTest
 {
     private $logPath = '';
 
