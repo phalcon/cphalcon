@@ -55,7 +55,7 @@ int zephir_require_ret(zval **return_value_ptr, const char *require_path TSRMLS_
 		return FAILURE;
 	}
 
-	use_ret = !return_value_ptr;
+	use_ret = !!return_value_ptr;
 
 	ret = php_stream_open_for_zend_ex(require_path, &file_handle, ENFORCE_SAFE_MODE | USE_PATH | STREAM_OPEN_FOR_INCLUDE | IGNORE_URL TSRMLS_CC);
 	if (ret == SUCCESS) {

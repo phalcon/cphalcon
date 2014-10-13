@@ -511,8 +511,8 @@ PHP_METHOD(Phalcon_Logger_Adapter, alert) {
 PHP_METHOD(Phalcon_Logger_Adapter, log) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zend_bool _0;
-	zval *type, *message = NULL, *context = NULL, *timestamp = NULL, *toggledMessage = NULL, *toggledType = NULL, *_1, *_2, *_3;
+	zend_bool _0, _1;
+	zval *type, *message = NULL, *context = NULL, *timestamp = NULL, *toggledMessage = NULL, *toggledType = NULL, *_2, *_3, *_4;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 2, &type, &message, &context);
@@ -533,20 +533,33 @@ PHP_METHOD(Phalcon_Logger_Adapter, log) {
 		ZEPHIR_CPY_WRT(toggledMessage, type);
 		ZEPHIR_CPY_WRT(toggledType, message);
 	} else {
-		ZEPHIR_CPY_WRT(toggledMessage, message);
-		ZEPHIR_CPY_WRT(toggledType, type);
+		_1 = Z_TYPE_P(type) == IS_STRING;
+		if (_1) {
+			_1 = Z_TYPE_P(message) == IS_NULL;
+		}
+		if (_1) {
+			ZEPHIR_CPY_WRT(toggledMessage, type);
+			ZEPHIR_CPY_WRT(toggledType, message);
+		} else {
+			ZEPHIR_CPY_WRT(toggledMessage, message);
+			ZEPHIR_CPY_WRT(toggledType, type);
+		}
 	}
-	_1 = zephir_fetch_nproperty_this(this_ptr, SL("_logLevel"), PH_NOISY_CC);
-	if (ZEPHIR_GE(_1, type)) {
+	if (Z_TYPE_P(toggledType) == IS_NULL) {
+		ZEPHIR_INIT_VAR(toggledType);
+		ZVAL_LONG(toggledType, 7);
+	}
+	_2 = zephir_fetch_nproperty_this(this_ptr, SL("_logLevel"), PH_NOISY_CC);
+	if (ZEPHIR_GE(_2, type)) {
 		ZEPHIR_CALL_FUNCTION(&timestamp, "time", NULL);
 		zephir_check_call_status();
-		_2 = zephir_fetch_nproperty_this(this_ptr, SL("_transaction"), PH_NOISY_CC);
-		if (zephir_is_true(_2)) {
-			ZEPHIR_INIT_VAR(_3);
-			object_init_ex(_3, phalcon_logger_item_ce);
-			ZEPHIR_CALL_METHOD(NULL, _3, "__construct", NULL, toggledMessage, toggledType, timestamp, context);
+		_3 = zephir_fetch_nproperty_this(this_ptr, SL("_transaction"), PH_NOISY_CC);
+		if (zephir_is_true(_3)) {
+			ZEPHIR_INIT_VAR(_4);
+			object_init_ex(_4, phalcon_logger_item_ce);
+			ZEPHIR_CALL_METHOD(NULL, _4, "__construct", NULL, toggledMessage, toggledType, timestamp, context);
 			zephir_check_call_status();
-			zephir_update_property_array_append(this_ptr, SL("_queue"), _3 TSRMLS_CC);
+			zephir_update_property_array_append(this_ptr, SL("_queue"), _4 TSRMLS_CC);
 		} else {
 			ZEPHIR_CALL_METHOD(NULL, this_ptr, "loginternal", NULL, toggledMessage, toggledType, timestamp, context);
 			zephir_check_call_status();

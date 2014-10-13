@@ -29,6 +29,7 @@ use Phalcon\Mvc\Model\Query\StatusInterface;
 use Phalcon\Mvc\Model\ResultsetInterface;
 use Phalcon\Mvc\ModelInterface;
 use Phalcon\Mvc\Model\Resultset\Simple;
+use Phalcon\Di\InjectionAwareInterface;
 
 /**
  * Phalcon\Mvc\Model\Query
@@ -52,7 +53,7 @@ use Phalcon\Mvc\Model\Resultset\Simple;
  *
  *</code>
  */
-class Query implements QueryInterface, \Phalcon\Di\InjectionAwareInterface
+class Query implements QueryInterface, InjectionAwareInterface
 {
 
 	protected _dependencyInjector;
@@ -161,7 +162,7 @@ class Query implements QueryInterface, \Phalcon\Di\InjectionAwareInterface
 	 * @param boolean uniqueRow
 	 * @return Phalcon\Mvc\Model\Query
 	 */
-	public function setUniqueRow(boolean uniqueRow) -> <\Phalcon\Mvc\Model\Query>
+	public function setUniqueRow(boolean uniqueRow) -> <Query>
 	{
 		let this->_uniqueRow = uniqueRow;
 		return this;
@@ -778,7 +779,7 @@ class Query implements QueryInterface, \Phalcon\Di\InjectionAwareInterface
 	 * @param array join
 	 * @return array
 	 */
-	protected final function _getJoin(<\Phalcon\Mvc\Model\ManagerInterface> manager, join)
+	protected final function _getJoin(<ManagerInterface> manager, join)
 	{
 
 		var qualified, modelName, source, model, schema;

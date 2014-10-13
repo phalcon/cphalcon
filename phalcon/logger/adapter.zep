@@ -262,7 +262,15 @@ abstract class Adapter
 		if typeof type == "string" && typeof message == "integer" {
 			let toggledMessage = type, toggledType = message;
 		} else {
-			let toggledMessage = message, toggledType = type;
+			if typeof type == "string" && typeof message == "null" {
+				let toggledMessage = type, toggledType = message;
+			} else {
+				let toggledMessage = message, toggledType = type;
+			}
+		}
+
+		if typeof toggledType == "null" {
+			let toggledType = \Phalcon\Logger::DEBUG;
 		}
 
 		/**
