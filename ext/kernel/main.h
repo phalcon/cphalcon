@@ -129,9 +129,7 @@ int zephir_fetch_parameters(int num_args TSRMLS_DC, int required_args, int optio
 		} \
 	} while (0)
 
-/**
- * Return zval checking if it's needed to ctor
- */
+/** Return zval checking if it's needed to ctor */
 #define RETURN_CCTOR(var) { \
 		*(return_value) = *(var); \
 		if (Z_TYPE_P(var) > IS_BOOL) { \
@@ -142,9 +140,7 @@ int zephir_fetch_parameters(int num_args TSRMLS_DC, int required_args, int optio
 	ZEPHIR_MM_RESTORE(); \
 	return;
 
-/**
- * Return zval checking if it's needed to ctor, without restoring the memory stack
- */
+/** Return zval checking if it's needed to ctor, without restoring the memory stack  */
 #define RETURN_CCTORW(var) { \
 		*(return_value) = *(var); \
 		if (Z_TYPE_P(var) > IS_BOOL) { \
@@ -154,41 +150,61 @@ int zephir_fetch_parameters(int num_args TSRMLS_DC, int required_args, int optio
 	} \
 	return;
 
-/**
- * Return zval with always ctor
- */
+#if PHP_VERSION_ID < 50600
+
+/** Return zval with always ctor */
 #define RETURN_CTOR(var) { \
 		RETVAL_ZVAL(var, 1, 0); \
 	} \
 	ZEPHIR_MM_RESTORE(); \
 	return;
 
-/**
- * Return zval with always ctor, without restoring the memory stack
- */
+/** Return zval with always ctor, without restoring the memory stack */
 #define RETURN_CTORW(var) { \
 		RETVAL_ZVAL(var, 1, 0); \
 	} \
 	return;
 
-/**
- * Return this pointer
- */
+/** Return this pointer */
 #define RETURN_THIS() { \
 		RETVAL_ZVAL(this_ptr, 1, 0); \
 	} \
 	ZEPHIR_MM_RESTORE(); \
 	return;
 
-/**
- * Return zval with always ctor, without restoring the memory stack
- */
+/** Return zval with always ctor, without restoring the memory stack */
 #define RETURN_THISW() \
 	RETURN_ZVAL(this_ptr, 1, 0);
 
-/**
- * Returns variables without ctor
- */
+#else
+
+/** Return zval with always ctor */
+#define RETURN_CTOR(var) { \
+		RETVAL_ZVAL_FAST(var); \
+	} \
+	ZEPHIR_MM_RESTORE(); \
+	return;
+
+/** Return zval with always ctor, without restoring the memory stack */
+#define RETURN_CTORW(var) { \
+		RETVAL_ZVAL_FAST(var); \
+	} \
+	return;
+
+/** Return this pointer */
+#define RETURN_THIS() { \
+		RETVAL_ZVAL_FAST(this_ptr); \
+	} \
+	ZEPHIR_MM_RESTORE(); \
+	return;
+
+/** Return zval with always ctor, without restoring the memory stack */
+#define RETURN_THISW() \
+	RETURN_ZVAL_FAST(this_ptr);
+
+#endif
+
+/** Returns variables without ctor */
 #define RETURN_NCTOR(var) { \
 		*(return_value) = *(var); \
 		INIT_PZVAL(return_value) \
@@ -196,18 +212,14 @@ int zephir_fetch_parameters(int num_args TSRMLS_DC, int required_args, int optio
 	ZEPHIR_MM_RESTORE(); \
 	return;
 
-/**
- * Returns variables without ctor, without restoring the memory stack
- */
+/** Returns variables without ctor, without restoring the memory stack */
 #define RETURN_NCTORW(var) { \
 		*(return_value) = *(var); \
 		INIT_PZVAL(return_value) \
 	} \
 	return;
 
-/**
- * Check for ctor on the same return_value
- */
+/** Check for ctor on the same return_value */
 #define RETURN_SCTOR() \
 	if (Z_TYPE_P(return_value) > IS_BOOL) { \
 		zval_copy_ctor(return_value); \

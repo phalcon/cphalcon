@@ -181,6 +181,8 @@ void zephir_concat_self_long(zval **left, const long right TSRMLS_DC) {
 
 	if (right_length > 0) {
 
+		SEPARATE_ZVAL_IF_NOT_REF(left);
+
 		length = Z_STRLEN_PP(left) + right_length;
 		Z_STRVAL_PP(left) = str_erealloc(Z_STRVAL_PP(left), length + 1);
 		memcpy(Z_STRVAL_PP(left) + Z_STRLEN_PP(left), right_char, right_length);
@@ -218,6 +220,8 @@ void zephir_concat_self_char(zval **left, unsigned char right TSRMLS_DC) {
 			ZEPHIR_CPY_WRT_CTOR(*left, (&left_copy));
 		}
 	}
+
+	SEPARATE_ZVAL_IF_NOT_REF(left);
 
 	Z_STRLEN_PP(left)++;
 	Z_STRVAL_PP(left) = str_erealloc(Z_STRVAL_PP(left), Z_STRLEN_PP(left) + 1);
