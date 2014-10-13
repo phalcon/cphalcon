@@ -303,9 +303,24 @@ int zephir_fetch_parameters(int num_args TSRMLS_DC, int required_args, int optio
 /* Return double */
 #define RETURN_MM_DOUBLE(value)     { RETVAL_DOUBLE(value); ZEPHIR_MM_RESTORE(); return; }
 
+/* Compat for interned strings < 5.4 */
 #ifndef IS_INTERNED
 #define IS_INTERNED(key) 0
 #define INTERNED_HASH(key) 0
+#endif
+
+/* Compat for reallocation of interned strings < 5.4 */
+#ifndef str_erealloc
+#define str_erealloc(str, new_len) \
+	(IS_INTERNED(str) \
+	? _str_erealloc(str, new_len, INTERNED_LEN(str)) \
+	: erealloc(str, new_len))
+
+static inline char *_str_erealloc(char *str, size_t new_len, size_t old_len) {
+	char *buf = (char *) emalloc(new_len);
+	memcpy(buf, str, old_len);
+	return buf;
+}
 #endif
 
 /** Get the current hash key without copying the hash key */

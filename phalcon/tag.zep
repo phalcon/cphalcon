@@ -261,13 +261,9 @@ class Tag
 	 * @param array values
 	 * @param boolean merge
 	 */
-	public static function setDefaults(values, boolean merge = false) -> void
+	public static function setDefaults(array! values, boolean merge = false) -> void
 	{
 		var displayValues;
-
-		if typeof values != "array" {
-			throw new Exception("An array is required as default values");
-		}
 
 		if merge {
 			let displayValues = self::_displayValues;
