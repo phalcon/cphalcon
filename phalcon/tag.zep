@@ -112,7 +112,7 @@ class Tag
 	 */
 	public static function renderAttributes(string! code, array! attributes) -> string
 	{
-		var order, keys, escaper, attrs, value, escaped, key;
+		var order, keys, escaper, attrs, value, escaped, key, newCode;
 
 		let order = ["rel", "type", "for", "src", "href", "action", "id", "name", "value", "class"],
 			escaper = <\Phalcon\EscaperInterface> self::getEscaper(attributes),
@@ -121,6 +121,7 @@ class Tag
 
 		unset attrs["escape"];
 
+		let newCode = code;
 		for key, value in attrs {
 			if typeof key == "string" && value !== null {
 				if escaper {
@@ -128,11 +129,11 @@ class Tag
 				} else {
 					let escaped = value;
 				}
-				let code .= " " . key . "=\"" . escaped . "\"";
+				let newCode .= " " . key . "=\"" . escaped . "\"";
 			}
 		}
 
-		return code;
+		return newCode;
 	}
 
 	/**
@@ -1087,7 +1088,7 @@ class Tag
 	 *
 	 * @return string
 	 */
-	public static function getTitle(boolean tags=true) -> string
+	public static function getTitle(boolean tags = true) -> string
 	{
 		var documentTitle;
 		let documentTitle = self::_documentTitle;
@@ -1098,18 +1099,18 @@ class Tag
 	}
 
 	/**
-	* Gets the current document title separator
-	*
-	* <code>
-	*         echo Phalcon\Tag::getTitleSeparator();
-	* </code>
-	*
-	* <code>
-	*         {{ get_title_separator() }}
-	* </code>
-	*
-	* @return string
-	*/
+	 * Gets the current document title separator
+	 *
+	 * <code>
+	 *         echo Phalcon\Tag::getTitleSeparator();
+	 * </code>
+	 *
+	 * <code>
+	 *         {{ get_title_separator() }}
+	 * </code>
+	 *
+	 * @return string
+	 */
 	public static function getTitleSeparator()
 	{
 		return self::_documentTitleSeparator;
@@ -1278,7 +1279,7 @@ class Tag
 	 * @param  boolean local
 	 * @return string
 	 */
-	public static function image(parameters=null, local = true) -> string
+	public static function image(parameters = null, local = true) -> string
 	{
 		var params, code, src;
 
