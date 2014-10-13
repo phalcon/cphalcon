@@ -19,6 +19,8 @@
 
 namespace Phalcon\Mvc\Model\Query;
 
+use Phalcon\Mvc\ModelInterface;
+
 /**
  * Phalcon\Mvc\Model\Query\StatusInterface
  *
@@ -33,14 +35,14 @@ interface StatusInterface
 	 * @param boolean success
 	 * @param Phalcon\Mvc\ModelInterface model
 	 */
-	public function __construct(boolean success, <\Phalcon\Mvc\ModelInterface> model);
+	public function __construct(boolean success, <ModelInterface> model);
 
 	/**
 	 * Returns the model which executed the action
 	 *
 	 * @return Phalcon\Mvc\ModelInterface
 	 */
-	public function getModel() -> <\Phalcon\Mvc\ModelInterface>;
+	public function getModel() -> <ModelInterface>;
 
 	/**
 	 * Returns the messages produced by a operation failed
