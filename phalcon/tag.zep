@@ -152,7 +152,9 @@ class Tag
 	 */
 	public static function getDI() -> <\Phalcon\DiInterface>
 	{
-		return self::_dependencyInjector;
+		var di;
+		let di = self::_dependencyInjector;
+		return di;
 	}
 
 	/**
@@ -1019,7 +1021,7 @@ class Tag
 	 *
 	 * @return	string
 	 */
-	public static function endForm()
+	public static function endForm() -> string
 	{
 		return "</form>";
 	}
@@ -1131,7 +1133,7 @@ class Tag
 	 * @param   boolean local
 	 * @return	string
 	 */
-	public static function stylesheetLink(parameters=null, local=true)
+	public static function stylesheetLink(parameters = null, local = true) -> string
 	{
 		var params, code;
 
@@ -1276,7 +1278,7 @@ class Tag
 	 * @param  boolean local
 	 * @return string
 	 */
-	public static function image(parameters=null, local=true)
+	public static function image(parameters=null, local = true) -> string
 	{
 		var params, code, src;
 
@@ -1442,7 +1444,7 @@ class Tag
 	 * @param boolean useEol
 	 * @return string
 	 */
-	public static function tagHtml(tagName, parameters=null, selfClose=false, onlyStart=false, useEol=false) -> string
+	public static function tagHtml(tagName, parameters = null, selfClose = false, onlyStart = false, useEol = false) -> string
 	{
 		var params, localCode;
 
@@ -1489,7 +1491,7 @@ class Tag
 	 * @param boolean useEol
 	 * @return string
 	 */
-	public static function tagHtmlClose(tagName, useEol=false)
+	public static function tagHtmlClose(tagName, useEol = false) -> string
 	{
 		if useEol {
 			return "</" . tagName . ">" . PHP_EOL;
