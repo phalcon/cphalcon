@@ -1300,7 +1300,7 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 	zval *silence = NULL, *disabled_levels, *render_level, *enable_layouts_absolute_path;
 	zval *templates_before, *template_before = NULL;
 	zval *view_temp_path = NULL, *templates_after, *template_after = NULL, *main_view;
-	zval *namespace_name = NULL, *converter_key, *converter = NULL, *parameters = NULL, *lower_controller_name, *lower_action_name, *lower_namespace_name;
+	zval *namespace_name = NULL, *converter_key, *converter = NULL, *parameters = NULL, *lower_controller_name = NULL, *lower_action_name = NULL, *lower_namespace_name = NULL;
 	zval *ds, *namespace_separator, *ds_lower_namespace_name = NULL;
 	HashTable *ah0, *ah1;
 	HashPosition hp0, hp1;
