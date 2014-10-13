@@ -96,6 +96,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Memory, get) {
 		_0 = zephir_fetch_nproperty_this(this_ptr, SL("_prefix"), PH_NOISY_CC);
 		ZEPHIR_INIT_NVAR(lastKey);
 		ZEPHIR_CONCAT_VV(lastKey, _0, keyName);
+		zephir_update_property_this(this_ptr, SL("_lastKey"), lastKey TSRMLS_CC);
 	}
 	ZEPHIR_OBS_VAR(cachedContent);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_data"), PH_NOISY_CC);
@@ -151,7 +152,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Memory, save) {
 		ZEPHIR_CONCAT_VV(lastKey, _0, keyName);
 	}
 	if (!(zephir_is_true(lastKey))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_cache_exception_ce, "Cache must be started first", "phalcon/cache/backend/memory.zep", 93);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_cache_exception_ce, "Cache must be started first", "phalcon/cache/backend/memory.zep", 97);
 		return;
 	}
 	ZEPHIR_OBS_VAR(frontend);
@@ -236,14 +237,14 @@ PHP_METHOD(Phalcon_Cache_Backend_Memory, queryKeys) {
 			ZEPHIR_INIT_BNVAR(keys);
 			zephir_array_keys(keys, data TSRMLS_CC);
 		} else {
-			zephir_is_iterable(data, &_1, &_0, 0, 0, "phalcon/cache/backend/memory.zep", 157);
+			zephir_is_iterable(data, &_1, &_0, 0, 0, "phalcon/cache/backend/memory.zep", 161);
 			for (
 			  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
 			  ; zephir_hash_move_forward_ex(_1, &_0)
 			) {
 				ZEPHIR_GET_HMKEY(index, _1, _0);
 				ZEPHIR_GET_HVALUE(value, _2);
-				zephir_array_append(&keys, index, PH_SEPARATE, "phalcon/cache/backend/memory.zep", 155);
+				zephir_array_append(&keys, index, PH_SEPARATE, "phalcon/cache/backend/memory.zep", 159);
 			}
 		}
 	}

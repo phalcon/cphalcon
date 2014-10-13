@@ -166,14 +166,14 @@ PHP_METHOD(Phalcon_Logger_Adapter, commit) {
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_transaction"), PH_NOISY_CC);
 	if (!(zephir_is_true(_0))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_logger_exception_ce, "There is no active transaction", "phalcon/logger/adapter.zep", 113);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_logger_exception_ce, "There is no active transaction", "phalcon/logger/adapter.zep", 118);
 		return;
 	}
 	zephir_update_property_this(this_ptr, SL("_transaction"), (0) ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
 	ZEPHIR_OBS_VAR(queue);
 	zephir_read_property_this(&queue, this_ptr, SL("_queue"), PH_NOISY_CC);
 	if (Z_TYPE_P(queue) == IS_ARRAY) {
-		zephir_is_iterable(queue, &_2, &_1, 0, 0, "phalcon/logger/adapter.zep", 126);
+		zephir_is_iterable(queue, &_2, &_1, 0, 0, "phalcon/logger/adapter.zep", 131);
 		for (
 		  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_2, &_1)
@@ -209,7 +209,7 @@ PHP_METHOD(Phalcon_Logger_Adapter, rollback) {
 	ZEPHIR_OBS_VAR(transaction);
 	zephir_read_property_this(&transaction, this_ptr, SL("_transaction"), PH_NOISY_CC);
 	if (!(zephir_is_true(transaction))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_logger_exception_ce, "There is no active transaction", "phalcon/logger/adapter.zep", 142);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_logger_exception_ce, "There is no active transaction", "phalcon/logger/adapter.zep", 147);
 		return;
 	}
 	zephir_update_property_this(this_ptr, SL("_transaction"), (0) ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
@@ -230,12 +230,11 @@ PHP_METHOD(Phalcon_Logger_Adapter, rollback) {
 PHP_METHOD(Phalcon_Logger_Adapter, emergency) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *context = NULL;
-	zval *message_param = NULL, *context_param = NULL, *_0;
+	zval *message_param = NULL, *context = NULL, *_0;
 	zval *message = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 1, &message_param, &context_param);
+	zephir_fetch_params(1, 1, 1, &message_param, &context);
 
 	if (unlikely(Z_TYPE_P(message_param) != IS_STRING && Z_TYPE_P(message_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'message' must be a string") TSRMLS_CC);
@@ -248,11 +247,8 @@ PHP_METHOD(Phalcon_Logger_Adapter, emergency) {
 		ZEPHIR_INIT_VAR(message);
 		ZVAL_EMPTY_STRING(message);
 	}
-	if (!context_param) {
-	ZEPHIR_INIT_VAR(context);
-	ZVAL_NULL(context);
-	} else {
-		zephir_get_arrval(context, context_param);
+	if (!context) {
+		context = ZEPHIR_GLOBAL(global_null);
 	}
 
 
@@ -274,12 +270,11 @@ PHP_METHOD(Phalcon_Logger_Adapter, emergency) {
 PHP_METHOD(Phalcon_Logger_Adapter, debug) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *context = NULL;
-	zval *message_param = NULL, *context_param = NULL, *_0;
+	zval *message_param = NULL, *context = NULL, *_0;
 	zval *message = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 1, &message_param, &context_param);
+	zephir_fetch_params(1, 1, 1, &message_param, &context);
 
 	if (unlikely(Z_TYPE_P(message_param) != IS_STRING && Z_TYPE_P(message_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'message' must be a string") TSRMLS_CC);
@@ -292,11 +287,8 @@ PHP_METHOD(Phalcon_Logger_Adapter, debug) {
 		ZEPHIR_INIT_VAR(message);
 		ZVAL_EMPTY_STRING(message);
 	}
-	if (!context_param) {
-	ZEPHIR_INIT_VAR(context);
-	ZVAL_NULL(context);
-	} else {
-		zephir_get_arrval(context, context_param);
+	if (!context) {
+		context = ZEPHIR_GLOBAL(global_null);
 	}
 
 
@@ -318,12 +310,11 @@ PHP_METHOD(Phalcon_Logger_Adapter, debug) {
 PHP_METHOD(Phalcon_Logger_Adapter, error) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *context = NULL;
-	zval *message_param = NULL, *context_param = NULL, *_0;
+	zval *message_param = NULL, *context = NULL, *_0;
 	zval *message = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 1, &message_param, &context_param);
+	zephir_fetch_params(1, 1, 1, &message_param, &context);
 
 	if (unlikely(Z_TYPE_P(message_param) != IS_STRING && Z_TYPE_P(message_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'message' must be a string") TSRMLS_CC);
@@ -336,11 +327,8 @@ PHP_METHOD(Phalcon_Logger_Adapter, error) {
 		ZEPHIR_INIT_VAR(message);
 		ZVAL_EMPTY_STRING(message);
 	}
-	if (!context_param) {
-	ZEPHIR_INIT_VAR(context);
-	ZVAL_NULL(context);
-	} else {
-		zephir_get_arrval(context, context_param);
+	if (!context) {
+		context = ZEPHIR_GLOBAL(global_null);
 	}
 
 
@@ -362,12 +350,11 @@ PHP_METHOD(Phalcon_Logger_Adapter, error) {
 PHP_METHOD(Phalcon_Logger_Adapter, info) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *context = NULL;
-	zval *message_param = NULL, *context_param = NULL, *_0;
+	zval *message_param = NULL, *context = NULL, *_0;
 	zval *message = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 1, &message_param, &context_param);
+	zephir_fetch_params(1, 1, 1, &message_param, &context);
 
 	if (unlikely(Z_TYPE_P(message_param) != IS_STRING && Z_TYPE_P(message_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'message' must be a string") TSRMLS_CC);
@@ -380,11 +367,8 @@ PHP_METHOD(Phalcon_Logger_Adapter, info) {
 		ZEPHIR_INIT_VAR(message);
 		ZVAL_EMPTY_STRING(message);
 	}
-	if (!context_param) {
-	ZEPHIR_INIT_VAR(context);
-	ZVAL_NULL(context);
-	} else {
-		zephir_get_arrval(context, context_param);
+	if (!context) {
+		context = ZEPHIR_GLOBAL(global_null);
 	}
 
 
@@ -406,12 +390,11 @@ PHP_METHOD(Phalcon_Logger_Adapter, info) {
 PHP_METHOD(Phalcon_Logger_Adapter, notice) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *context = NULL;
-	zval *message_param = NULL, *context_param = NULL, *_0;
+	zval *message_param = NULL, *context = NULL, *_0;
 	zval *message = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 1, &message_param, &context_param);
+	zephir_fetch_params(1, 1, 1, &message_param, &context);
 
 	if (unlikely(Z_TYPE_P(message_param) != IS_STRING && Z_TYPE_P(message_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'message' must be a string") TSRMLS_CC);
@@ -424,11 +407,8 @@ PHP_METHOD(Phalcon_Logger_Adapter, notice) {
 		ZEPHIR_INIT_VAR(message);
 		ZVAL_EMPTY_STRING(message);
 	}
-	if (!context_param) {
-	ZEPHIR_INIT_VAR(context);
-	ZVAL_NULL(context);
-	} else {
-		zephir_get_arrval(context, context_param);
+	if (!context) {
+		context = ZEPHIR_GLOBAL(global_null);
 	}
 
 
@@ -450,12 +430,11 @@ PHP_METHOD(Phalcon_Logger_Adapter, notice) {
 PHP_METHOD(Phalcon_Logger_Adapter, warning) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *context = NULL;
-	zval *message_param = NULL, *context_param = NULL, *_0;
+	zval *message_param = NULL, *context = NULL, *_0;
 	zval *message = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 1, &message_param, &context_param);
+	zephir_fetch_params(1, 1, 1, &message_param, &context);
 
 	if (unlikely(Z_TYPE_P(message_param) != IS_STRING && Z_TYPE_P(message_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'message' must be a string") TSRMLS_CC);
@@ -468,11 +447,8 @@ PHP_METHOD(Phalcon_Logger_Adapter, warning) {
 		ZEPHIR_INIT_VAR(message);
 		ZVAL_EMPTY_STRING(message);
 	}
-	if (!context_param) {
-	ZEPHIR_INIT_VAR(context);
-	ZVAL_NULL(context);
-	} else {
-		zephir_get_arrval(context, context_param);
+	if (!context) {
+		context = ZEPHIR_GLOBAL(global_null);
 	}
 
 
@@ -494,12 +470,11 @@ PHP_METHOD(Phalcon_Logger_Adapter, warning) {
 PHP_METHOD(Phalcon_Logger_Adapter, alert) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *context = NULL;
-	zval *message_param = NULL, *context_param = NULL, *_0;
+	zval *message_param = NULL, *context = NULL, *_0;
 	zval *message = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 1, &message_param, &context_param);
+	zephir_fetch_params(1, 1, 1, &message_param, &context);
 
 	if (unlikely(Z_TYPE_P(message_param) != IS_STRING && Z_TYPE_P(message_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'message' must be a string") TSRMLS_CC);
@@ -512,11 +487,8 @@ PHP_METHOD(Phalcon_Logger_Adapter, alert) {
 		ZEPHIR_INIT_VAR(message);
 		ZVAL_EMPTY_STRING(message);
 	}
-	if (!context_param) {
-	ZEPHIR_INIT_VAR(context);
-	ZVAL_NULL(context);
-	} else {
-		zephir_get_arrval(context, context_param);
+	if (!context) {
+		context = ZEPHIR_GLOBAL(global_null);
 	}
 
 
@@ -529,71 +501,54 @@ PHP_METHOD(Phalcon_Logger_Adapter, alert) {
 }
 
 /**
- * Logs messages to the internal loggger. Appends logs to the
+ * Logs messages to the internal logger. Appends logs to the logger
  *
- * @param mixed type
- * @param string message
- * @param array $context
+ * @param var type
+ * @param var message
+ * @param var context
  * @return Phalcon\Logger\AdapterInterface
  */
 PHP_METHOD(Phalcon_Logger_Adapter, log) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zend_bool _1;
-	zval *context = NULL;
-	zval *message = NULL;
-	zval *type = NULL, *message_param = NULL, *context_param = NULL, *timestamp = NULL, *transaction, *tmp = NULL, *_0, *_2, *_3;
+	zend_bool _0;
+	zval *type, *message = NULL, *context = NULL, *timestamp = NULL, *toggledMessage = NULL, *toggledType = NULL, *_1, *_2, *_3;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 2, &type, &message_param, &context_param);
+	zephir_fetch_params(1, 1, 2, &type, &message, &context);
 
-	ZEPHIR_SEPARATE_PARAM(type);
-	if (!message_param) {
-		ZEPHIR_INIT_VAR(message);
-		ZVAL_EMPTY_STRING(message);
-	} else {
-		zephir_get_strval(message, message_param);
+	if (!message) {
+		message = ZEPHIR_GLOBAL(global_null);
 	}
-	if (!context_param) {
-	ZEPHIR_INIT_VAR(context);
-	ZVAL_NULL(context);
-	} else {
-		zephir_get_arrval(context, context_param);
+	if (!context) {
+		context = ZEPHIR_GLOBAL(global_null);
 	}
 
 
-	if (ZEPHIR_IS_STRING_IDENTICAL(message, "")) {
-		zephir_get_strval(message, type);
-		ZEPHIR_INIT_NVAR(type);
-		ZVAL_LONG(type, 7);
-	} else {
-		ZEPHIR_INIT_VAR(_0);
-		zephir_gettype(_0, message TSRMLS_CC);
-		_1 = ZEPHIR_IS_STRING(_0, "int");
-		if (_1) {
-			_1 = Z_TYPE_P(type) == IS_STRING;
-		}
-		if (_1) {
-			ZEPHIR_CPY_WRT(tmp, message);
-			zephir_get_strval(message, type);
-			ZEPHIR_INIT_NVAR(type);
-			ZVAL_LONG(type, zephir_get_intval(tmp));
-		}
+	_0 = Z_TYPE_P(type) == IS_STRING;
+	if (_0) {
+		_0 = Z_TYPE_P(message) == IS_LONG;
 	}
-	_2 = zephir_fetch_nproperty_this(this_ptr, SL("_logLevel"), PH_NOISY_CC);
-	if (ZEPHIR_GE(_2, type)) {
+	if (_0) {
+		ZEPHIR_CPY_WRT(toggledMessage, type);
+		ZEPHIR_CPY_WRT(toggledType, message);
+	} else {
+		ZEPHIR_CPY_WRT(toggledMessage, message);
+		ZEPHIR_CPY_WRT(toggledType, type);
+	}
+	_1 = zephir_fetch_nproperty_this(this_ptr, SL("_logLevel"), PH_NOISY_CC);
+	if (ZEPHIR_GE(_1, type)) {
 		ZEPHIR_CALL_FUNCTION(&timestamp, "time", NULL);
 		zephir_check_call_status();
-		ZEPHIR_OBS_VAR(transaction);
-		zephir_read_property_this(&transaction, this_ptr, SL("_transaction"), PH_NOISY_CC);
-		if (zephir_is_true(transaction)) {
+		_2 = zephir_fetch_nproperty_this(this_ptr, SL("_transaction"), PH_NOISY_CC);
+		if (zephir_is_true(_2)) {
 			ZEPHIR_INIT_VAR(_3);
 			object_init_ex(_3, phalcon_logger_item_ce);
-			ZEPHIR_CALL_METHOD(NULL, _3, "__construct", NULL, message, type, timestamp, context);
+			ZEPHIR_CALL_METHOD(NULL, _3, "__construct", NULL, toggledMessage, toggledType, timestamp, context);
 			zephir_check_call_status();
 			zephir_update_property_array_append(this_ptr, SL("_queue"), _3 TSRMLS_CC);
 		} else {
-			ZEPHIR_CALL_METHOD(NULL, this_ptr, "loginternal", NULL, message, type, timestamp, context);
+			ZEPHIR_CALL_METHOD(NULL, this_ptr, "loginternal", NULL, toggledMessage, toggledType, timestamp, context);
 			zephir_check_call_status();
 		}
 	}

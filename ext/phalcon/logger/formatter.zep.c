@@ -97,9 +97,9 @@ PHP_METHOD(Phalcon_Logger_Formatter, getTypeString) {
 		if (type == 9) {
 			RETURN_STRING("SPECIAL", 1);
 		}
-		RETURN_STRING("CUSTOM", 1);
 	} while(0);
 
+	RETURN_STRING("CUSTOM", 1);
 
 }
 
@@ -136,7 +136,7 @@ PHP_METHOD(Phalcon_Logger_Formatter, interpolate) {
 	if (_0) {
 		ZEPHIR_INIT_VAR(replace);
 		array_init(replace);
-		zephir_is_iterable(context, &_2, &_1, 0, 0, "phalcon/logger/formatter.zep", 93);
+		zephir_is_iterable(context, &_2, &_1, 0, 0, "phalcon/logger/formatter.zep", 92);
 		for (
 		  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_2, &_1)

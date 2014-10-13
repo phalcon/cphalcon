@@ -163,11 +163,11 @@ PHP_METHOD(Phalcon_Logger_Adapter_Syslog, logInternal) {
 	ZEPHIR_CALL_METHOD(&appliedFormat, _0, "format", NULL, message, _1, _2, context);
 	zephir_check_call_status();
 	if (Z_TYPE_P(appliedFormat) != IS_ARRAY) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_logger_exception_ce, "The formatted message is not valid", "phalcon/logger/adapter/syslog.zep", 100);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_logger_exception_ce, "The formatted message is not valid", "phalcon/logger/adapter/syslog.zep", 102);
 		return;
 	}
-	zephir_array_fetch_long(&_3, appliedFormat, 0, PH_NOISY | PH_READONLY, "phalcon/logger/adapter/syslog.zep", 103 TSRMLS_CC);
-	zephir_array_fetch_long(&_4, appliedFormat, 1, PH_NOISY | PH_READONLY, "phalcon/logger/adapter/syslog.zep", 103 TSRMLS_CC);
+	zephir_array_fetch_long(&_3, appliedFormat, 0, PH_NOISY | PH_READONLY, "phalcon/logger/adapter/syslog.zep", 105 TSRMLS_CC);
+	zephir_array_fetch_long(&_4, appliedFormat, 1, PH_NOISY | PH_READONLY, "phalcon/logger/adapter/syslog.zep", 105 TSRMLS_CC);
 	ZEPHIR_CALL_FUNCTION(NULL, "syslog", &_5, _3, _4);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();

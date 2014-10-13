@@ -63,7 +63,7 @@ class File extends Adapter implements AdapterInterface
 	 * @param string name
 	 * @param array options
 	 */
-	public function __construct(string! name, options=null)
+	public function __construct(string! name, options = null)
 	{
 		var mode, handler;
 
@@ -115,17 +115,16 @@ class File extends Adapter implements AdapterInterface
 	 * @param int time
 	  * @param array $context
 	 */
-	public function logInternal(string message, int type, int time, array context)
+	public function logInternal(string message, int type, int time, array context) -> void
 	{
-		var fileHandler, formatter;
+		var fileHandler;
 
 		let fileHandler = this->_fileHandler;
 		if typeof fileHandler != "resource" {
 			throw new Exception("Cannot send message to the log because it is invalid");
 		}
 
-		let formatter = this->getFormatter();
-		fwrite(fileHandler, formatter->format(message, type, time, context) . PHP_EOL);
+		fwrite(fileHandler, this->getFormatter()->format(message, type, time, context) . PHP_EOL);
 	}
 
 	/**

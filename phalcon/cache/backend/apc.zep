@@ -20,6 +20,8 @@
 namespace Phalcon\Cache\Backend;
 
 use Phalcon\Cache\Exception;
+use Phalcon\Cache\Backend;
+use Phalcon\Cache\BackendInterface;
 
 /**
  * Phalcon\Cache\Backend\Apc
@@ -44,7 +46,7 @@ use Phalcon\Cache\Exception;
  *
  *</code>
  */
-class Apc extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendInterface
+class Apc extends Backend implements BackendInterface
 {
 
 	/**
