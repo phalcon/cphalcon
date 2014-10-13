@@ -18,8 +18,8 @@
 #include "kernel/object.h"
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/hash.h"
+#include "kernel/string.h"
 #include "kernel/concat.h"
-#include "kernel/fcall.h"
 
 
 /*
@@ -101,8 +101,6 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, __construct) {
  */
 PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, query) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
-	zephir_nts_static zephir_fcall_cache_entry *_6 = NULL;
 	HashTable *_2;
 	HashPosition _1;
 	zval *index_param = NULL, *placeholders = NULL, *traslation = NULL, *key = NULL, *value = NULL, *_0, **_3, *_4 = NULL, *_5 = NULL;
@@ -139,11 +137,11 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, query) {
 				) {
 					ZEPHIR_GET_HMKEY(key, _2, _1);
 					ZEPHIR_GET_HVALUE(value, _3);
-					ZEPHIR_INIT_LNVAR(_4);
-					ZEPHIR_CONCAT_SVS(_4, "%", key, "%");
-					ZEPHIR_CALL_FUNCTION(&_5, "str_replace", &_6, _4, value, traslation);
-					zephir_check_call_status();
-					ZEPHIR_CPY_WRT(traslation, _5);
+					ZEPHIR_INIT_NVAR(_4);
+					ZEPHIR_INIT_LNVAR(_5);
+					ZEPHIR_CONCAT_SVS(_5, "%", key, "%");
+					zephir_fast_str_replace(_4, _5, value, traslation);
+					ZEPHIR_CPY_WRT(traslation, _4);
 				}
 			}
 		}

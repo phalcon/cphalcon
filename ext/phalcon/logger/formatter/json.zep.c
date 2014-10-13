@@ -70,7 +70,6 @@ PHP_METHOD(Phalcon_Logger_Formatter_Json, format) {
 	zephir_fetch_params(1, 3, 1, &message_param, &type_param, &timestamp_param, &context);
 
 	zephir_get_strval(message, message_param);
-	ZEPHIR_SEPARATE_PARAM(message);
 	type = zephir_get_intval(type_param);
 	timestamp = zephir_get_intval(timestamp_param);
 	if (!context) {

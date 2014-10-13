@@ -2147,7 +2147,6 @@ PHP_METHOD(Phalcon_Tag, friendlyTitle) {
 	zephir_fetch_params(1, 1, 3, &text_param, &separator_param, &lowercase_param, &replace);
 
 	zephir_get_strval(text, text_param);
-	ZEPHIR_SEPARATE_PARAM(text);
 	if (!separator_param) {
 		ZEPHIR_INIT_VAR(separator);
 		ZVAL_STRING(separator, "-", 1);

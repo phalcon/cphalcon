@@ -773,7 +773,6 @@ PHP_METHOD(Phalcon_Image_Adapter, background) {
 	zephir_fetch_params(1, 1, 1, &color_param, &opacity_param);
 
 	zephir_get_strval(color, color_param);
-	ZEPHIR_SEPARATE_PARAM(color);
 	if (!opacity_param) {
 		opacity = 100;
 	} else {
