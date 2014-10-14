@@ -24,31 +24,29 @@ namespace PhalconTest\Translate;
 
 abstract class Adapter
 {
-    protected $adapter = null;
-
     public function t($translateKey, $placeholders = null)
 	{
-		return $this->adapter->t($translateKey, $placeholders);
+		return parent::t($translateKey, $placeholders);
 	}
 
 	public function _($translateKey, $placeholders = null)
 	{
-        return $this->adapter->_($translateKey, $placeholders);
+        return parent::_($translateKey, $placeholders);
 	}
 
 	public function offsetSet($offset, $value)
 	{
-        $this->adapter->offsetSet($offset, $value);
+        parent::offsetSet($offset, $value);
     }
 
 	public function offsetExists($translateKey)
 	{
-        return $this->adapter->offsetExists($translateKey);
+        return parent::offsetExists($translateKey);
 	}
 
 	public function offsetUnset($offset)
 	{
-        $this->adapter->offsetUnset($offset);
+        parent::offsetUnset($offset);
     }
 
 	public function offsetGet($translateKey)
