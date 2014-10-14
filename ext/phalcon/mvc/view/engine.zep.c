@@ -17,6 +17,7 @@
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
 #include "ext/spl/spl_exceptions.h"
+#include "kernel/operators.h"
 
 
 /*
@@ -124,7 +125,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine, partial) {
 	}
 
 	if (unlikely(Z_TYPE_P(partialPath_param) == IS_STRING)) {
-		partialPath = partialPath_param;
+		zephir_get_strval(partialPath, partialPath_param);
 	} else {
 		ZEPHIR_INIT_VAR(partialPath);
 		ZVAL_EMPTY_STRING(partialPath);

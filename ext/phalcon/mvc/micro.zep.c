@@ -323,7 +323,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, head) {
 	}
 
 	if (unlikely(Z_TYPE_P(routePattern_param) == IS_STRING)) {
-		routePattern = routePattern_param;
+		zephir_get_strval(routePattern, routePattern_param);
 	} else {
 		ZEPHIR_INIT_VAR(routePattern);
 		ZVAL_EMPTY_STRING(routePattern);
@@ -391,7 +391,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, options) {
 	}
 
 	if (unlikely(Z_TYPE_P(routePattern_param) == IS_STRING)) {
-		routePattern = routePattern_param;
+		zephir_get_strval(routePattern, routePattern_param);
 	} else {
 		ZEPHIR_INIT_VAR(routePattern);
 		ZVAL_EMPTY_STRING(routePattern);

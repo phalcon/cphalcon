@@ -79,7 +79,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior_Timestampable, notify) {
 	}
 
 	if (unlikely(Z_TYPE_P(type_param) == IS_STRING)) {
-		type = type_param;
+		zephir_get_strval(type, type_param);
 	} else {
 		ZEPHIR_INIT_VAR(type);
 		ZVAL_EMPTY_STRING(type);

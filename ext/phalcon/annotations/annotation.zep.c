@@ -329,7 +329,7 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getNamedArgument) {
 	}
 
 	if (unlikely(Z_TYPE_P(name_param) == IS_STRING)) {
-		name = name_param;
+		zephir_get_strval(name, name_param);
 	} else {
 		ZEPHIR_INIT_VAR(name);
 		ZVAL_EMPTY_STRING(name);
@@ -365,7 +365,7 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getNamedParameter) {
 	}
 
 	if (unlikely(Z_TYPE_P(name_param) == IS_STRING)) {
-		name = name_param;
+		zephir_get_strval(name, name_param);
 	} else {
 		ZEPHIR_INIT_VAR(name);
 		ZVAL_EMPTY_STRING(name);

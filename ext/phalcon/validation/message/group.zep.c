@@ -306,7 +306,7 @@ PHP_METHOD(Phalcon_Validation_Message_Group, filter) {
 	}
 
 	if (unlikely(Z_TYPE_P(fieldName_param) == IS_STRING)) {
-		fieldName = fieldName_param;
+		zephir_get_strval(fieldName, fieldName_param);
 	} else {
 		ZEPHIR_INIT_VAR(fieldName);
 		ZVAL_EMPTY_STRING(fieldName);

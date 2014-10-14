@@ -701,7 +701,7 @@ PHP_METHOD(Phalcon_Forms_Form, render) {
 	}
 
 	if (unlikely(Z_TYPE_P(name_param) == IS_STRING)) {
-		name = name_param;
+		zephir_get_strval(name, name_param);
 	} else {
 		ZEPHIR_INIT_VAR(name);
 		ZVAL_EMPTY_STRING(name);
@@ -751,7 +751,7 @@ PHP_METHOD(Phalcon_Forms_Form, get) {
 	}
 
 	if (unlikely(Z_TYPE_P(name_param) == IS_STRING)) {
-		name = name_param;
+		zephir_get_strval(name, name_param);
 	} else {
 		ZEPHIR_INIT_VAR(name);
 		ZVAL_EMPTY_STRING(name);
@@ -798,7 +798,7 @@ PHP_METHOD(Phalcon_Forms_Form, label) {
 	}
 
 	if (unlikely(Z_TYPE_P(name_param) == IS_STRING)) {
-		name = name_param;
+		zephir_get_strval(name, name_param);
 	} else {
 		ZEPHIR_INIT_VAR(name);
 		ZVAL_EMPTY_STRING(name);
@@ -857,7 +857,7 @@ PHP_METHOD(Phalcon_Forms_Form, getLabel) {
 	}
 
 	if (unlikely(Z_TYPE_P(name_param) == IS_STRING)) {
-		name = name_param;
+		zephir_get_strval(name, name_param);
 	} else {
 		ZEPHIR_INIT_VAR(name);
 		ZVAL_EMPTY_STRING(name);
@@ -907,7 +907,7 @@ PHP_METHOD(Phalcon_Forms_Form, getValue) {
 	}
 
 	if (unlikely(Z_TYPE_P(name_param) == IS_STRING)) {
-		name = name_param;
+		zephir_get_strval(name, name_param);
 	} else {
 		ZEPHIR_INIT_VAR(name);
 		ZVAL_EMPTY_STRING(name);
@@ -961,7 +961,7 @@ PHP_METHOD(Phalcon_Forms_Form, has) {
 	}
 
 	if (unlikely(Z_TYPE_P(name_param) == IS_STRING)) {
-		name = name_param;
+		zephir_get_strval(name, name_param);
 	} else {
 		ZEPHIR_INIT_VAR(name);
 		ZVAL_EMPTY_STRING(name);
@@ -993,7 +993,7 @@ PHP_METHOD(Phalcon_Forms_Form, remove) {
 	}
 
 	if (unlikely(Z_TYPE_P(name_param) == IS_STRING)) {
-		name = name_param;
+		zephir_get_strval(name, name_param);
 	} else {
 		ZEPHIR_INIT_VAR(name);
 		ZVAL_EMPTY_STRING(name);

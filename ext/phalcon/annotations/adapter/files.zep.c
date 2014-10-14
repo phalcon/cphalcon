@@ -142,7 +142,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Files, write) {
 	}
 
 	if (unlikely(Z_TYPE_P(key_param) == IS_STRING)) {
-		key = key_param;
+		zephir_get_strval(key, key_param);
 	} else {
 		ZEPHIR_INIT_VAR(key);
 		ZVAL_EMPTY_STRING(key);

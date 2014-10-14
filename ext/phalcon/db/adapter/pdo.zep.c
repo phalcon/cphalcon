@@ -234,7 +234,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, prepare) {
 	}
 
 	if (unlikely(Z_TYPE_P(sqlStatement_param) == IS_STRING)) {
-		sqlStatement = sqlStatement_param;
+		zephir_get_strval(sqlStatement, sqlStatement_param);
 	} else {
 		ZEPHIR_INIT_VAR(sqlStatement);
 		ZVAL_EMPTY_STRING(sqlStatement);
@@ -363,7 +363,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, query) {
 	}
 
 	if (unlikely(Z_TYPE_P(sqlStatement_param) == IS_STRING)) {
-		sqlStatement = sqlStatement_param;
+		zephir_get_strval(sqlStatement, sqlStatement_param);
 	} else {
 		ZEPHIR_INIT_VAR(sqlStatement);
 		ZVAL_EMPTY_STRING(sqlStatement);
@@ -452,7 +452,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, execute) {
 	}
 
 	if (unlikely(Z_TYPE_P(sqlStatement_param) == IS_STRING)) {
-		sqlStatement = sqlStatement_param;
+		zephir_get_strval(sqlStatement, sqlStatement_param);
 	} else {
 		ZEPHIR_INIT_VAR(sqlStatement);
 		ZVAL_EMPTY_STRING(sqlStatement);
@@ -603,7 +603,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, escapeString) {
 	}
 
 	if (unlikely(Z_TYPE_P(str_param) == IS_STRING)) {
-		str = str_param;
+		zephir_get_strval(str, str_param);
 	} else {
 		ZEPHIR_INIT_VAR(str);
 		ZVAL_EMPTY_STRING(str);
@@ -647,7 +647,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, convertBoundParams) {
 	}
 
 	if (unlikely(Z_TYPE_P(sql_param) == IS_STRING)) {
-		sql = sql_param;
+		zephir_get_strval(sql, sql_param);
 	} else {
 		ZEPHIR_INIT_VAR(sql);
 		ZVAL_EMPTY_STRING(sql);

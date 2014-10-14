@@ -271,7 +271,7 @@ PHP_METHOD(Phalcon_Queue_Beanstalk, choose) {
 	}
 
 	if (unlikely(Z_TYPE_P(tube_param) == IS_STRING)) {
-		tube = tube_param;
+		zephir_get_strval(tube, tube_param);
 	} else {
 		ZEPHIR_INIT_VAR(tube);
 		ZVAL_EMPTY_STRING(tube);
@@ -315,7 +315,7 @@ PHP_METHOD(Phalcon_Queue_Beanstalk, watch) {
 	}
 
 	if (unlikely(Z_TYPE_P(tube_param) == IS_STRING)) {
-		tube = tube_param;
+		zephir_get_strval(tube, tube_param);
 	} else {
 		ZEPHIR_INIT_VAR(tube);
 		ZVAL_EMPTY_STRING(tube);

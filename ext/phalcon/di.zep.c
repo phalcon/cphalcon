@@ -133,7 +133,7 @@ PHP_METHOD(Phalcon_Di, set) {
 	}
 
 	if (unlikely(Z_TYPE_P(name_param) == IS_STRING)) {
-		name = name_param;
+		zephir_get_strval(name, name_param);
 	} else {
 		ZEPHIR_INIT_VAR(name);
 		ZVAL_EMPTY_STRING(name);
@@ -175,7 +175,7 @@ PHP_METHOD(Phalcon_Di, setShared) {
 	}
 
 	if (unlikely(Z_TYPE_P(name_param) == IS_STRING)) {
-		name = name_param;
+		zephir_get_strval(name, name_param);
 	} else {
 		ZEPHIR_INIT_VAR(name);
 		ZVAL_EMPTY_STRING(name);
@@ -212,7 +212,7 @@ PHP_METHOD(Phalcon_Di, remove) {
 	}
 
 	if (unlikely(Z_TYPE_P(name_param) == IS_STRING)) {
-		name = name_param;
+		zephir_get_strval(name, name_param);
 	} else {
 		ZEPHIR_INIT_VAR(name);
 		ZVAL_EMPTY_STRING(name);
@@ -252,7 +252,7 @@ PHP_METHOD(Phalcon_Di, attempt) {
 	}
 
 	if (unlikely(Z_TYPE_P(name_param) == IS_STRING)) {
-		name = name_param;
+		zephir_get_strval(name, name_param);
 	} else {
 		ZEPHIR_INIT_VAR(name);
 		ZVAL_EMPTY_STRING(name);
@@ -298,7 +298,7 @@ PHP_METHOD(Phalcon_Di, setRaw) {
 	}
 
 	if (unlikely(Z_TYPE_P(name_param) == IS_STRING)) {
-		name = name_param;
+		zephir_get_strval(name, name_param);
 	} else {
 		ZEPHIR_INIT_VAR(name);
 		ZVAL_EMPTY_STRING(name);
@@ -336,7 +336,7 @@ PHP_METHOD(Phalcon_Di, getRaw) {
 	}
 
 	if (unlikely(Z_TYPE_P(name_param) == IS_STRING)) {
-		name = name_param;
+		zephir_get_strval(name, name_param);
 	} else {
 		ZEPHIR_INIT_VAR(name);
 		ZVAL_EMPTY_STRING(name);
@@ -383,7 +383,7 @@ PHP_METHOD(Phalcon_Di, getService) {
 	}
 
 	if (unlikely(Z_TYPE_P(name_param) == IS_STRING)) {
-		name = name_param;
+		zephir_get_strval(name, name_param);
 	} else {
 		ZEPHIR_INIT_VAR(name);
 		ZVAL_EMPTY_STRING(name);
@@ -429,7 +429,7 @@ PHP_METHOD(Phalcon_Di, get) {
 	}
 
 	if (unlikely(Z_TYPE_P(name_param) == IS_STRING)) {
-		name = name_param;
+		zephir_get_strval(name, name_param);
 	} else {
 		ZEPHIR_INIT_VAR(name);
 		ZVAL_EMPTY_STRING(name);
@@ -505,7 +505,7 @@ PHP_METHOD(Phalcon_Di, getShared) {
 	}
 
 	if (unlikely(Z_TYPE_P(name_param) == IS_STRING)) {
-		name = name_param;
+		zephir_get_strval(name, name_param);
 	} else {
 		ZEPHIR_INIT_VAR(name);
 		ZVAL_EMPTY_STRING(name);
@@ -549,7 +549,7 @@ PHP_METHOD(Phalcon_Di, has) {
 	}
 
 	if (unlikely(Z_TYPE_P(name_param) == IS_STRING)) {
-		name = name_param;
+		zephir_get_strval(name, name_param);
 	} else {
 		ZEPHIR_INIT_VAR(name);
 		ZVAL_EMPTY_STRING(name);
@@ -606,7 +606,7 @@ PHP_METHOD(Phalcon_Di, offsetExists) {
 	}
 
 	if (unlikely(Z_TYPE_P(name_param) == IS_STRING)) {
-		name = name_param;
+		zephir_get_strval(name, name_param);
 	} else {
 		ZEPHIR_INIT_VAR(name);
 		ZVAL_EMPTY_STRING(name);
@@ -645,7 +645,7 @@ PHP_METHOD(Phalcon_Di, offsetSet) {
 	}
 
 	if (unlikely(Z_TYPE_P(name_param) == IS_STRING)) {
-		name = name_param;
+		zephir_get_strval(name, name_param);
 	} else {
 		ZEPHIR_INIT_VAR(name);
 		ZVAL_EMPTY_STRING(name);
@@ -683,7 +683,7 @@ PHP_METHOD(Phalcon_Di, offsetGet) {
 	}
 
 	if (unlikely(Z_TYPE_P(name_param) == IS_STRING)) {
-		name = name_param;
+		zephir_get_strval(name, name_param);
 	} else {
 		ZEPHIR_INIT_VAR(name);
 		ZVAL_EMPTY_STRING(name);
@@ -715,7 +715,7 @@ PHP_METHOD(Phalcon_Di, offsetUnset) {
 	}
 
 	if (unlikely(Z_TYPE_P(name_param) == IS_STRING)) {
-		name = name_param;
+		zephir_get_strval(name, name_param);
 	} else {
 		ZEPHIR_INIT_VAR(name);
 		ZVAL_EMPTY_STRING(name);
@@ -749,7 +749,7 @@ PHP_METHOD(Phalcon_Di, __call) {
 	}
 
 	if (unlikely(Z_TYPE_P(method_param) == IS_STRING)) {
-		method = method_param;
+		zephir_get_strval(method, method_param);
 	} else {
 		ZEPHIR_INIT_VAR(method);
 		ZVAL_EMPTY_STRING(method);

@@ -134,7 +134,7 @@ PHP_METHOD(Phalcon_Mvc_Url, setBaseUri) {
 	}
 
 	if (unlikely(Z_TYPE_P(baseUri_param) == IS_STRING)) {
-		baseUri = baseUri_param;
+		zephir_get_strval(baseUri, baseUri_param);
 	} else {
 		ZEPHIR_INIT_VAR(baseUri);
 		ZVAL_EMPTY_STRING(baseUri);
@@ -174,7 +174,7 @@ PHP_METHOD(Phalcon_Mvc_Url, setStaticBaseUri) {
 	}
 
 	if (unlikely(Z_TYPE_P(staticBaseUri_param) == IS_STRING)) {
-		staticBaseUri = staticBaseUri_param;
+		zephir_get_strval(staticBaseUri, staticBaseUri_param);
 	} else {
 		ZEPHIR_INIT_VAR(staticBaseUri);
 		ZVAL_EMPTY_STRING(staticBaseUri);
@@ -268,7 +268,7 @@ PHP_METHOD(Phalcon_Mvc_Url, setBasePath) {
 	}
 
 	if (unlikely(Z_TYPE_P(basePath_param) == IS_STRING)) {
-		basePath = basePath_param;
+		zephir_get_strval(basePath, basePath_param);
 	} else {
 		ZEPHIR_INIT_VAR(basePath);
 		ZVAL_EMPTY_STRING(basePath);

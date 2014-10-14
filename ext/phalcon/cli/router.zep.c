@@ -534,7 +534,7 @@ PHP_METHOD(Phalcon_Cli_Router, add) {
 	}
 
 	if (unlikely(Z_TYPE_P(pattern_param) == IS_STRING)) {
-		pattern = pattern_param;
+		zephir_get_strval(pattern, pattern_param);
 	} else {
 		ZEPHIR_INIT_VAR(pattern);
 		ZVAL_EMPTY_STRING(pattern);
@@ -707,7 +707,7 @@ PHP_METHOD(Phalcon_Cli_Router, getRouteByName) {
 	}
 
 	if (unlikely(Z_TYPE_P(name_param) == IS_STRING)) {
-		name = name_param;
+		zephir_get_strval(name, name_param);
 	} else {
 		ZEPHIR_INIT_VAR(name);
 		ZVAL_EMPTY_STRING(name);

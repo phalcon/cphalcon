@@ -20,8 +20,8 @@
 #include "kernel/fcall.h"
 #include "kernel/concat.h"
 #include "ext/spl/spl_exceptions.h"
-#include "kernel/file.h"
 #include "kernel/operators.h"
+#include "kernel/file.h"
 
 
 /*
@@ -112,7 +112,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, __construct) {
 	}
 
 	if (unlikely(Z_TYPE_P(name_param) == IS_STRING)) {
-		name = name_param;
+		zephir_get_strval(name, name_param);
 	} else {
 		ZEPHIR_INIT_VAR(name);
 		ZVAL_EMPTY_STRING(name);

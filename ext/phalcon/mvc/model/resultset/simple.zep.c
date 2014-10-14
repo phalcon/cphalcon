@@ -379,7 +379,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, unserialize) {
 	}
 
 	if (unlikely(Z_TYPE_P(data_param) == IS_STRING)) {
-		data = data_param;
+		zephir_get_strval(data, data_param);
 	} else {
 		ZEPHIR_INIT_VAR(data);
 		ZVAL_EMPTY_STRING(data);

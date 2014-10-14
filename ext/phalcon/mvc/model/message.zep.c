@@ -15,6 +15,7 @@
 #include "kernel/object.h"
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/exception.h"
+#include "kernel/operators.h"
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
 #include "kernel/array.h"
@@ -102,7 +103,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Message, __construct) {
 	}
 
 	if (unlikely(Z_TYPE_P(message_param) == IS_STRING)) {
-		message = message_param;
+		zephir_get_strval(message, message_param);
 	} else {
 		ZEPHIR_INIT_VAR(message);
 		ZVAL_EMPTY_STRING(message);
@@ -148,7 +149,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Message, setType) {
 	}
 
 	if (unlikely(Z_TYPE_P(type_param) == IS_STRING)) {
-		type = type_param;
+		zephir_get_strval(type, type_param);
 	} else {
 		ZEPHIR_INIT_VAR(type);
 		ZVAL_EMPTY_STRING(type);
@@ -192,7 +193,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Message, setMessage) {
 	}
 
 	if (unlikely(Z_TYPE_P(message_param) == IS_STRING)) {
-		message = message_param;
+		zephir_get_strval(message, message_param);
 	} else {
 		ZEPHIR_INIT_VAR(message);
 		ZVAL_EMPTY_STRING(message);
@@ -236,7 +237,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Message, setField) {
 	}
 
 	if (unlikely(Z_TYPE_P(field_param) == IS_STRING)) {
-		field = field_param;
+		zephir_get_strval(field, field_param);
 	} else {
 		ZEPHIR_INIT_VAR(field);
 		ZVAL_EMPTY_STRING(field);

@@ -74,7 +74,7 @@ PHP_METHOD(Phalcon_Assets_Resource_Css, __construct) {
 	}
 
 	if (unlikely(Z_TYPE_P(path_param) == IS_STRING)) {
-		path = path_param;
+		zephir_get_strval(path, path_param);
 	} else {
 		ZEPHIR_INIT_VAR(path);
 		ZVAL_EMPTY_STRING(path);

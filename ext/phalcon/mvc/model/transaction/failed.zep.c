@@ -16,8 +16,8 @@
 #include "kernel/exception.h"
 #include "kernel/fcall.h"
 #include "ext/spl/spl_exceptions.h"
-#include "kernel/memory.h"
 #include "kernel/operators.h"
+#include "kernel/memory.h"
 
 
 /*
@@ -74,7 +74,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Failed, __construct) {
 	}
 
 	if (unlikely(Z_TYPE_P(message_param) == IS_STRING)) {
-		message = message_param;
+		zephir_get_strval(message, message_param);
 	} else {
 		ZEPHIR_INIT_VAR(message);
 		ZVAL_EMPTY_STRING(message);

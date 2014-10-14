@@ -99,7 +99,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator, appendMessage) {
 	}
 
 	if (unlikely(Z_TYPE_P(message_param) == IS_STRING)) {
-		message = message_param;
+		zephir_get_strval(message, message_param);
 	} else {
 		ZEPHIR_INIT_VAR(message);
 		ZVAL_EMPTY_STRING(message);
@@ -177,7 +177,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator, getOption) {
 	}
 
 	if (unlikely(Z_TYPE_P(option_param) == IS_STRING)) {
-		option = option_param;
+		zephir_get_strval(option, option_param);
 	} else {
 		ZEPHIR_INIT_VAR(option);
 		ZVAL_EMPTY_STRING(option);
@@ -212,7 +212,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator, isSetOption) {
 	}
 
 	if (unlikely(Z_TYPE_P(option_param) == IS_STRING)) {
-		option = option_param;
+		zephir_get_strval(option, option_param);
 	} else {
 		ZEPHIR_INIT_VAR(option);
 		ZVAL_EMPTY_STRING(option);

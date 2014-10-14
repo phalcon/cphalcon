@@ -372,7 +372,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, setSource) {
 	}
 
 	if (unlikely(Z_TYPE_P(source_param) == IS_STRING)) {
-		source = source_param;
+		zephir_get_strval(source, source_param);
 	} else {
 		ZEPHIR_INIT_VAR(source);
 		ZVAL_EMPTY_STRING(source);
@@ -499,7 +499,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, readAttribute) {
 	}
 
 	if (unlikely(Z_TYPE_P(attribute_param) == IS_STRING)) {
-		attribute = attribute_param;
+		zephir_get_strval(attribute, attribute_param);
 	} else {
 		ZEPHIR_INIT_VAR(attribute);
 		ZVAL_EMPTY_STRING(attribute);
@@ -539,7 +539,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, writeAttribute) {
 	}
 
 	if (unlikely(Z_TYPE_P(attribute_param) == IS_STRING)) {
-		attribute = attribute_param;
+		zephir_get_strval(attribute, attribute_param);
 	} else {
 		ZEPHIR_INIT_VAR(attribute);
 		ZVAL_EMPTY_STRING(attribute);
@@ -1058,7 +1058,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, fireEvent) {
 	}
 
 	if (unlikely(Z_TYPE_P(eventName_param) == IS_STRING)) {
-		eventName = eventName_param;
+		zephir_get_strval(eventName, eventName_param);
 	} else {
 		ZEPHIR_INIT_VAR(eventName);
 		ZVAL_EMPTY_STRING(eventName);
@@ -1097,7 +1097,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, fireEventCancel) {
 	}
 
 	if (unlikely(Z_TYPE_P(eventName_param) == IS_STRING)) {
-		eventName = eventName_param;
+		zephir_get_strval(eventName, eventName_param);
 	} else {
 		ZEPHIR_INIT_VAR(eventName);
 		ZVAL_EMPTY_STRING(eventName);

@@ -15,6 +15,7 @@
 #include "kernel/fcall.h"
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/exception.h"
+#include "kernel/operators.h"
 #include "kernel/memory.h"
 
 
@@ -70,7 +71,7 @@ PHP_METHOD(Phalcon_Translate_Adapter, t) {
 	}
 
 	if (unlikely(Z_TYPE_P(translateKey_param) == IS_STRING)) {
-		translateKey = translateKey_param;
+		zephir_get_strval(translateKey, translateKey_param);
 	} else {
 		ZEPHIR_INIT_VAR(translateKey);
 		ZVAL_EMPTY_STRING(translateKey);
@@ -108,7 +109,7 @@ PHP_METHOD(Phalcon_Translate_Adapter, _) {
 	}
 
 	if (unlikely(Z_TYPE_P(translateKey_param) == IS_STRING)) {
-		translateKey = translateKey_param;
+		zephir_get_strval(translateKey, translateKey_param);
 	} else {
 		ZEPHIR_INIT_VAR(translateKey);
 		ZVAL_EMPTY_STRING(translateKey);
@@ -164,7 +165,7 @@ PHP_METHOD(Phalcon_Translate_Adapter, offsetExists) {
 	}
 
 	if (unlikely(Z_TYPE_P(translateKey_param) == IS_STRING)) {
-		translateKey = translateKey_param;
+		zephir_get_strval(translateKey, translateKey_param);
 	} else {
 		ZEPHIR_INIT_VAR(translateKey);
 		ZVAL_EMPTY_STRING(translateKey);
@@ -216,7 +217,7 @@ PHP_METHOD(Phalcon_Translate_Adapter, offsetGet) {
 	}
 
 	if (unlikely(Z_TYPE_P(translateKey_param) == IS_STRING)) {
-		translateKey = translateKey_param;
+		zephir_get_strval(translateKey, translateKey_param);
 	} else {
 		ZEPHIR_INIT_VAR(translateKey);
 		ZVAL_EMPTY_STRING(translateKey);

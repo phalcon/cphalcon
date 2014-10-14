@@ -84,7 +84,7 @@ PHP_METHOD(Phalcon_Db_Dialect, limit) {
 	}
 
 	if (unlikely(Z_TYPE_P(sqlQuery_param) == IS_STRING)) {
-		sqlQuery = sqlQuery_param;
+		zephir_get_strval(sqlQuery, sqlQuery_param);
 	} else {
 		ZEPHIR_INIT_VAR(sqlQuery);
 		ZVAL_EMPTY_STRING(sqlQuery);
@@ -129,7 +129,7 @@ PHP_METHOD(Phalcon_Db_Dialect, forUpdate) {
 	}
 
 	if (unlikely(Z_TYPE_P(sqlQuery_param) == IS_STRING)) {
-		sqlQuery = sqlQuery_param;
+		zephir_get_strval(sqlQuery, sqlQuery_param);
 	} else {
 		ZEPHIR_INIT_VAR(sqlQuery);
 		ZVAL_EMPTY_STRING(sqlQuery);
@@ -166,7 +166,7 @@ PHP_METHOD(Phalcon_Db_Dialect, sharedLock) {
 	}
 
 	if (unlikely(Z_TYPE_P(sqlQuery_param) == IS_STRING)) {
-		sqlQuery = sqlQuery_param;
+		zephir_get_strval(sqlQuery, sqlQuery_param);
 	} else {
 		ZEPHIR_INIT_VAR(sqlQuery);
 		ZVAL_EMPTY_STRING(sqlQuery);
@@ -831,7 +831,7 @@ PHP_METHOD(Phalcon_Db_Dialect, createSavepoint) {
 	}
 
 	if (unlikely(Z_TYPE_P(name_param) == IS_STRING)) {
-		name = name_param;
+		zephir_get_strval(name, name_param);
 	} else {
 		ZEPHIR_INIT_VAR(name);
 		ZVAL_EMPTY_STRING(name);
@@ -863,7 +863,7 @@ PHP_METHOD(Phalcon_Db_Dialect, releaseSavepoint) {
 	}
 
 	if (unlikely(Z_TYPE_P(name_param) == IS_STRING)) {
-		name = name_param;
+		zephir_get_strval(name, name_param);
 	} else {
 		ZEPHIR_INIT_VAR(name);
 		ZVAL_EMPTY_STRING(name);
@@ -895,7 +895,7 @@ PHP_METHOD(Phalcon_Db_Dialect, rollbackSavepoint) {
 	}
 
 	if (unlikely(Z_TYPE_P(name_param) == IS_STRING)) {
-		name = name_param;
+		zephir_get_strval(name, name_param);
 	} else {
 		ZEPHIR_INIT_VAR(name);
 		ZVAL_EMPTY_STRING(name);

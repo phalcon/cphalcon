@@ -134,7 +134,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Gd, __construct) {
 	}
 
 	if (unlikely(Z_TYPE_P(file_param) == IS_STRING)) {
-		file = file_param;
+		zephir_get_strval(file, file_param);
 	} else {
 		ZEPHIR_INIT_VAR(file);
 		ZVAL_EMPTY_STRING(file);

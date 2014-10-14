@@ -79,7 +79,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Php, render) {
 	}
 
 	if (unlikely(Z_TYPE_P(path_param) == IS_STRING)) {
-		path = path_param;
+		zephir_get_strval(path, path_param);
 	} else {
 		ZEPHIR_INIT_VAR(path);
 		ZVAL_EMPTY_STRING(path);

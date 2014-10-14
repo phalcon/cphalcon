@@ -15,9 +15,9 @@
 #include "kernel/object.h"
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/exception.h"
+#include "kernel/operators.h"
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
-#include "kernel/operators.h"
 
 
 /*
@@ -94,7 +94,7 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, setControllerSuffix) {
 	}
 
 	if (unlikely(Z_TYPE_P(controllerSuffix_param) == IS_STRING)) {
-		controllerSuffix = controllerSuffix_param;
+		zephir_get_strval(controllerSuffix, controllerSuffix_param);
 	} else {
 		ZEPHIR_INIT_VAR(controllerSuffix);
 		ZVAL_EMPTY_STRING(controllerSuffix);
@@ -125,7 +125,7 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, setDefaultController) {
 	}
 
 	if (unlikely(Z_TYPE_P(controllerName_param) == IS_STRING)) {
-		controllerName = controllerName_param;
+		zephir_get_strval(controllerName, controllerName_param);
 	} else {
 		ZEPHIR_INIT_VAR(controllerName);
 		ZVAL_EMPTY_STRING(controllerName);
@@ -156,7 +156,7 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, setControllerName) {
 	}
 
 	if (unlikely(Z_TYPE_P(controllerName_param) == IS_STRING)) {
-		controllerName = controllerName_param;
+		zephir_get_strval(controllerName, controllerName_param);
 	} else {
 		ZEPHIR_INIT_VAR(controllerName);
 		ZVAL_EMPTY_STRING(controllerName);
@@ -225,7 +225,7 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, _throwDispatchException) {
 	}
 
 	if (unlikely(Z_TYPE_P(message_param) == IS_STRING)) {
-		message = message_param;
+		zephir_get_strval(message, message_param);
 	} else {
 		ZEPHIR_INIT_VAR(message);
 		ZVAL_EMPTY_STRING(message);

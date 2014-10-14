@@ -240,7 +240,7 @@ PHP_METHOD(Phalcon_Mvc_Application, setDefaultModule) {
 	}
 
 	if (unlikely(Z_TYPE_P(defaultModule_param) == IS_STRING)) {
-		defaultModule = defaultModule_param;
+		zephir_get_strval(defaultModule, defaultModule_param);
 	} else {
 		ZEPHIR_INIT_VAR(defaultModule);
 		ZVAL_EMPTY_STRING(defaultModule);

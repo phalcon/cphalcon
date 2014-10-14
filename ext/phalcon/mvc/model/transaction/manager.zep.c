@@ -202,7 +202,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, setDbService) {
 	}
 
 	if (unlikely(Z_TYPE_P(service_param) == IS_STRING)) {
-		service = service_param;
+		zephir_get_strval(service, service_param);
 	} else {
 		ZEPHIR_INIT_VAR(service);
 		ZVAL_EMPTY_STRING(service);

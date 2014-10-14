@@ -157,7 +157,7 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, set) {
 	}
 
 	if (unlikely(Z_TYPE_P(name_param) == IS_STRING)) {
-		name = name_param;
+		zephir_get_strval(name, name_param);
 	} else {
 		ZEPHIR_INIT_VAR(name);
 		ZVAL_EMPTY_STRING(name);
@@ -189,7 +189,7 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, set) {
 	}
 
 	if (unlikely(Z_TYPE_P(domain_param) == IS_STRING)) {
-		domain = domain_param;
+		zephir_get_strval(domain, domain_param);
 	} else {
 		ZEPHIR_INIT_VAR(domain);
 		ZVAL_EMPTY_STRING(domain);
@@ -276,7 +276,7 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, get) {
 	}
 
 	if (unlikely(Z_TYPE_P(name_param) == IS_STRING)) {
-		name = name_param;
+		zephir_get_strval(name, name_param);
 	} else {
 		ZEPHIR_INIT_VAR(name);
 		ZVAL_EMPTY_STRING(name);
@@ -329,7 +329,7 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, has) {
 	}
 
 	if (unlikely(Z_TYPE_P(name_param) == IS_STRING)) {
-		name = name_param;
+		zephir_get_strval(name, name_param);
 	} else {
 		ZEPHIR_INIT_VAR(name);
 		ZVAL_EMPTY_STRING(name);
@@ -370,7 +370,7 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, delete) {
 	}
 
 	if (unlikely(Z_TYPE_P(name_param) == IS_STRING)) {
-		name = name_param;
+		zephir_get_strval(name, name_param);
 	} else {
 		ZEPHIR_INIT_VAR(name);
 		ZVAL_EMPTY_STRING(name);

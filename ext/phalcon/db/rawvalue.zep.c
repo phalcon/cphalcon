@@ -15,6 +15,7 @@
 #include "kernel/object.h"
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/exception.h"
+#include "kernel/operators.h"
 #include "kernel/memory.h"
 
 
@@ -107,7 +108,7 @@ PHP_METHOD(Phalcon_Db_RawValue, __construct) {
 	}
 
 	if (unlikely(Z_TYPE_P(value_param) == IS_STRING)) {
-		value = value_param;
+		zephir_get_strval(value, value_param);
 	} else {
 		ZEPHIR_INIT_VAR(value);
 		ZVAL_EMPTY_STRING(value);

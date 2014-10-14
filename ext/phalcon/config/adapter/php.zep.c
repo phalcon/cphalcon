@@ -17,6 +17,7 @@
 #include "kernel/require.h"
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/exception.h"
+#include "kernel/operators.h"
 
 
 /*
@@ -65,7 +66,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Php, __construct) {
 	}
 
 	if (unlikely(Z_TYPE_P(filePath_param) == IS_STRING)) {
-		filePath = filePath_param;
+		zephir_get_strval(filePath, filePath_param);
 	} else {
 		ZEPHIR_INIT_VAR(filePath);
 		ZVAL_EMPTY_STRING(filePath);

@@ -18,6 +18,7 @@
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
 #include "ext/spl/spl_exceptions.h"
+#include "kernel/operators.h"
 #include "kernel/array.h"
 
 
@@ -165,7 +166,7 @@ PHP_METHOD(Phalcon_Config, offsetExists) {
 	}
 
 	if (unlikely(Z_TYPE_P(index_param) == IS_STRING)) {
-		index = index_param;
+		zephir_get_strval(index, index_param);
 	} else {
 		ZEPHIR_INIT_VAR(index);
 		ZVAL_EMPTY_STRING(index);
@@ -198,7 +199,7 @@ PHP_METHOD(Phalcon_Config, get) {
 	}
 
 	if (unlikely(Z_TYPE_P(index_param) == IS_STRING)) {
-		index = index_param;
+		zephir_get_strval(index, index_param);
 	} else {
 		ZEPHIR_INIT_VAR(index);
 		ZVAL_EMPTY_STRING(index);
@@ -239,7 +240,7 @@ PHP_METHOD(Phalcon_Config, offsetGet) {
 	}
 
 	if (unlikely(Z_TYPE_P(index_param) == IS_STRING)) {
-		index = index_param;
+		zephir_get_strval(index, index_param);
 	} else {
 		ZEPHIR_INIT_VAR(index);
 		ZVAL_EMPTY_STRING(index);
@@ -273,7 +274,7 @@ PHP_METHOD(Phalcon_Config, offsetSet) {
 	}
 
 	if (unlikely(Z_TYPE_P(index_param) == IS_STRING)) {
-		index = index_param;
+		zephir_get_strval(index, index_param);
 	} else {
 		ZEPHIR_INIT_VAR(index);
 		ZVAL_EMPTY_STRING(index);
@@ -306,7 +307,7 @@ PHP_METHOD(Phalcon_Config, offsetUnset) {
 	}
 
 	if (unlikely(Z_TYPE_P(index_param) == IS_STRING)) {
-		index = index_param;
+		zephir_get_strval(index, index_param);
 	} else {
 		ZEPHIR_INIT_VAR(index);
 		ZVAL_EMPTY_STRING(index);

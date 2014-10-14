@@ -133,7 +133,7 @@ PHP_METHOD(Phalcon_Crypt, setCipher) {
 	}
 
 	if (unlikely(Z_TYPE_P(cipher_param) == IS_STRING)) {
-		cipher = cipher_param;
+		zephir_get_strval(cipher, cipher_param);
 	} else {
 		ZEPHIR_INIT_VAR(cipher);
 		ZVAL_EMPTY_STRING(cipher);
@@ -177,7 +177,7 @@ PHP_METHOD(Phalcon_Crypt, setMode) {
 	}
 
 	if (unlikely(Z_TYPE_P(mode_param) == IS_STRING)) {
-		mode = mode_param;
+		zephir_get_strval(mode, mode_param);
 	} else {
 		ZEPHIR_INIT_VAR(mode);
 		ZVAL_EMPTY_STRING(mode);
@@ -221,7 +221,7 @@ PHP_METHOD(Phalcon_Crypt, setKey) {
 	}
 
 	if (unlikely(Z_TYPE_P(key_param) == IS_STRING)) {
-		key = key_param;
+		zephir_get_strval(key, key_param);
 	} else {
 		ZEPHIR_INIT_VAR(key);
 		ZVAL_EMPTY_STRING(key);
@@ -272,7 +272,7 @@ PHP_METHOD(Phalcon_Crypt, _cryptPadText) {
 	}
 
 	if (unlikely(Z_TYPE_P(text_param) == IS_STRING)) {
-		text = text_param;
+		zephir_get_strval(text, text_param);
 	} else {
 		ZEPHIR_INIT_VAR(text);
 		ZVAL_EMPTY_STRING(text);
@@ -283,7 +283,7 @@ PHP_METHOD(Phalcon_Crypt, _cryptPadText) {
 	}
 
 	if (unlikely(Z_TYPE_P(mode_param) == IS_STRING)) {
-		mode = mode_param;
+		zephir_get_strval(mode, mode_param);
 	} else {
 		ZEPHIR_INIT_VAR(mode);
 		ZVAL_EMPTY_STRING(mode);
@@ -463,7 +463,7 @@ PHP_METHOD(Phalcon_Crypt, _cryptUnpadText) {
 	}
 
 	if (unlikely(Z_TYPE_P(text_param) == IS_STRING)) {
-		text = text_param;
+		zephir_get_strval(text, text_param);
 	} else {
 		ZEPHIR_INIT_VAR(text);
 		ZVAL_EMPTY_STRING(text);
@@ -474,7 +474,7 @@ PHP_METHOD(Phalcon_Crypt, _cryptUnpadText) {
 	}
 
 	if (unlikely(Z_TYPE_P(mode_param) == IS_STRING)) {
-		mode = mode_param;
+		zephir_get_strval(mode, mode_param);
 	} else {
 		ZEPHIR_INIT_VAR(mode);
 		ZVAL_EMPTY_STRING(mode);
@@ -706,7 +706,7 @@ PHP_METHOD(Phalcon_Crypt, encrypt) {
 	}
 
 	if (unlikely(Z_TYPE_P(text_param) == IS_STRING)) {
-		text = text_param;
+		zephir_get_strval(text, text_param);
 	} else {
 		ZEPHIR_INIT_VAR(text);
 		ZVAL_EMPTY_STRING(text);
@@ -721,7 +721,7 @@ PHP_METHOD(Phalcon_Crypt, encrypt) {
 	}
 
 	if (unlikely(Z_TYPE_P(key_param) == IS_STRING)) {
-		key = key_param;
+		zephir_get_strval(key, key_param);
 	} else {
 		ZEPHIR_INIT_VAR(key);
 		ZVAL_EMPTY_STRING(key);
@@ -820,7 +820,7 @@ PHP_METHOD(Phalcon_Crypt, decrypt) {
 	}
 
 	if (unlikely(Z_TYPE_P(text_param) == IS_STRING)) {
-		text = text_param;
+		zephir_get_strval(text, text_param);
 	} else {
 		ZEPHIR_INIT_VAR(text);
 		ZVAL_EMPTY_STRING(text);
@@ -912,7 +912,7 @@ PHP_METHOD(Phalcon_Crypt, encryptBase64) {
 	}
 
 	if (unlikely(Z_TYPE_P(text_param) == IS_STRING)) {
-		text = text_param;
+		zephir_get_strval(text, text_param);
 	} else {
 		ZEPHIR_INIT_VAR(text);
 		ZVAL_EMPTY_STRING(text);
@@ -978,7 +978,7 @@ PHP_METHOD(Phalcon_Crypt, decryptBase64) {
 	}
 
 	if (unlikely(Z_TYPE_P(text_param) == IS_STRING)) {
-		text = text_param;
+		zephir_get_strval(text, text_param);
 	} else {
 		ZEPHIR_INIT_VAR(text);
 		ZVAL_EMPTY_STRING(text);

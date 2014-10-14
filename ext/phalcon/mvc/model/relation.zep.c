@@ -15,9 +15,9 @@
 #include "kernel/object.h"
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/exception.h"
+#include "kernel/operators.h"
 #include "kernel/memory.h"
 #include "kernel/array.h"
-#include "kernel/operators.h"
 
 
 /*
@@ -106,7 +106,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, __construct) {
 	}
 
 	if (unlikely(Z_TYPE_P(referencedModel_param) == IS_STRING)) {
-		referencedModel = referencedModel_param;
+		zephir_get_strval(referencedModel, referencedModel_param);
 	} else {
 		ZEPHIR_INIT_VAR(referencedModel);
 		ZVAL_EMPTY_STRING(referencedModel);
@@ -146,7 +146,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, setIntermediateRelation) {
 	}
 
 	if (unlikely(Z_TYPE_P(intermediateModel_param) == IS_STRING)) {
-		intermediateModel = intermediateModel_param;
+		zephir_get_strval(intermediateModel, intermediateModel_param);
 	} else {
 		ZEPHIR_INIT_VAR(intermediateModel);
 		ZVAL_EMPTY_STRING(intermediateModel);
