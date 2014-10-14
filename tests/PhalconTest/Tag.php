@@ -22,277 +22,278 @@
 
 namespace PhalconTest;
 
-use Phalcon\Tag as PhTag;
+use \Phalcon\Tag as PhTag;
+use \Phalcon\DiInterface as PhDIInterface;
 
-class Tag
+class Tag extends PhTag
 {
     public static function getEscaper($params)
     {
-        return PhTag::getEscaper($params);
+        return parent::getEscaper($params);
     }
 
     public static function renderAttributes($code, $attributes)
     {
-        return PhTag::renderAttributes($code, $attributes);
+        return parent::renderAttributes($code, $attributes);
     }
 
-    public static function setDI($di)
+    public static function setDI(PhDIInterface $di)
     {
-        PhTag::setDI($di);
+        parent::setDI($di);
     }
 
     public static function getDI()
     {
-        return PhTag::getDI();
+        return parent::getDI();
     }
 
     public static function getUrlService()
     {
-        return PhTag::getUrlService();
+        return parent::getUrlService();
     }
 
     public static function getEscaperService()
     {
-        return PhTag::getEscaperService();
+        return parent::getEscaperService();
     }
 
     public static function setAutoescape($autoescape)
     {
-        PhTag::setAutoescape($autoescape);
+        parent::setAutoescape($autoescape);
     }
 
     public static function setDefault($id, $value)
     {
-        PhTag::setDefault($id, $value);
+        parent::setDefault($id, $value);
     }
 
     public static function setDefaults($values, $merge = false)
     {
-        PhTag::setDefaults($values, $merge);
+        parent::setDefaults($values, $merge);
     }
 
     public static function displayTo($id, $value)
     {
-        return PhTag::displayTo($id, $value);
+        return parent::displayTo($id, $value);
     }
 
     public static function hasValue($name)
     {
-        return PhTag::hasValue($name);
+        return parent::hasValue($name);
     }
 
     public static function getValue($name, $params = null)
     {
-        return PhTag::getValue($name, $params);
+        return parent::getValue($name, $params);
     }
 
     public static function resetInput()
     {
-        PhTag::resetInput();
+        parent::resetInput();
     }
 
     public static function linkTo($parameters, $text = null, $local = true)
     {
-        return PhTag::linkTo($parameters, $text, $local);
+        return parent::linkTo($parameters, $text, $local);
     }
 
     public static function colorField($parameters)
     {
-        return PhTag::colorField($parameters);
+        return parent::colorField($parameters);
     }
 
     public static function textField($parameters)
     {
-        return PhTag::textField($parameters);
+        return parent::textField($parameters);
     }
 
     public static function numericField($parameters)
     {
-        return PhTag::numericField($parameters);
+        return parent::numericField($parameters);
     }
 
     public static function rangeField($parameters)
     {
-        return PhTag::rangeField($parameters);
+        return parent::rangeField($parameters);
     }
 
     public static function emailField($parameters)
     {
-        return PhTag::emailField($parameters);
+        return parent::emailField($parameters);
     }
 
     public static function dateField($parameters)
     {
-        return PhTag::dateField($parameters);
+        return parent::dateField($parameters);
     }
 
     public static function dateTimeField($parameters)
     {
-        return PhTag::dateTimeField($parameters);
+        return parent::dateTimeField($parameters);
     }
 
     public static function dateTimeLocalField($parameters)
     {
-        return PhTag::dateTimeLocalField($parameters);
+        return parent::dateTimeLocalField($parameters);
     }
 
     public static function monthField($parameters)
     {
-        return PhTag::monthField($parameters);
+        return parent::monthField($parameters);
     }
 
     public static function timeField($parameters)
     {
-        return PhTag::timeField($parameters);
+        return parent::timeField($parameters);
     }
 
     public static function weekField($parameters)
     {
-        return PhTag::weekField($parameters);
+        return parent::weekField($parameters);
     }
 
     public static function passwordField($parameters)
     {
-        return PhTag::passwordField($parameters);
+        return parent::passwordField($parameters);
     }
 
     public static function hiddenField($parameters)
     {
-        return PhTag::hiddenField($parameters);
+        return parent::hiddenField($parameters);
     }
 
     public static function fileField($parameters)
     {
-        return PhTag::fileField($parameters);
+        return parent::fileField($parameters);
     }
 
     public static function searchField($parameters)
     {
-        return PhTag::searchField($parameters);
+        return parent::searchField($parameters);
     }
 
     public static function telField($parameters)
     {
-        return PhTag::telField($parameters);
+        return parent::telField($parameters);
     }
 
     public static function urlField($parameters)
     {
-        return PhTag::urlField($parameters);
+        return parent::urlField($parameters);
     }
 
     public static function checkField($parameters)
     {
-        return PhTag::checkField($parameters);
+        return parent::checkField($parameters);
     }
 
     public static function radioField($parameters)
     {
-        return PhTag::radioField($parameters);
+        return parent::radioField($parameters);
     }
 
     public static function imageInput($parameters)
     {
-        return PhTag::imageInput($parameters);
+        return parent::imageInput($parameters);
     }
 
     public static function submitButton($parameters)
     {
-        return PhTag::submitButton($parameters);
+        return parent::submitButton($parameters);
     }
 
     public static function selectStatic($parameters, $data = null)
     {
-        return PhTag::selectStatic($parameters, $data);
+        return parent::selectStatic($parameters, $data);
     }
 
     public static function select($parameters, $data = null)
     {
-        return PhTag::select($parameters, $data);
+        return parent::select($parameters, $data);
     }
 
     public static function textArea($parameters)
     {
-        return PhTag::textArea($parameters);
+        return parent::textArea($parameters);
     }
 
     public static function form($parameters)
     {
-        return PhTag::form($parameters);
+        return parent::form($parameters);
     }
 
     public static function endForm()
     {
-        return PhTag::endForm();
+        return parent::endForm();
     }
 
     public static function setTitle($title)
     {
-        return PhTag::setTitle($title);
+        return parent::setTitle($title);
     }
 
     public static function setTitleSeparator($titleSeparator)
     {
-        return PhTag::setTitleSeparator($titleSeparator);
+        return parent::setTitleSeparator($titleSeparator);
     }
 
     public static function appendTitle($title)
     {
-        return PhTag::appendTitle($title);
+        return parent::appendTitle($title);
     }
 
     public static function prependTitle($title)
     {
-        return PhTag::prependTitle($title);
+        return parent::prependTitle($title);
     }
 
     public static function getTitle($title)
     {
-        return PhTag::getTitle($title);
+        return parent::getTitle($title);
     }
 
     public static function getTitleSeparator()
     {
-        return PhTag::getTitleSeparator();
+        return parent::getTitleSeparator();
     }
 
     public static function stylesheetLink($parameters = null, $local = true)
     {
-        return PhTag::stylesheetLink($parameters, $local);
+        return parent::stylesheetLink($parameters, $local);
     }
 
     public static function javascriptInclude($parameters = null, $local = true)
     {
-        return PhTag::javascriptInclude($parameters, $local);
+        return parent::javascriptInclude($parameters, $local);
     }
 
     public static function image($parameters = null, $local = true)
     {
-        return PhTag::image($parameters, $local);
+        return parent::image($parameters, $local);
     }
 
     public static function friendlyTitle($text, $separator = "-", $lowercase = true, $replace = null)
     {
-        return PhTag::friendlyTitle($text, $separator, $lowercase, $replace);
+        return parent::friendlyTitle($text, $separator, $lowercase, $replace);
     }
 
     public static function setDocType($doctype)
     {
-        return PhTag::setDocType($doctype);
+        return parent::setDocType($doctype);
     }
 
     public static function getDocType()
     {
-        return PhTag::getDocType();
+        return parent::getDocType();
     }
 
     public static function tagHtml($tagName, $parameters = null, $selfClose = false, $onlyStart = false, $useEol = false)
     {
-        return PhTag::tagHtml($tagName, $parameters, $selfClose, $onlyStart, $useEol);
+        return parent::tagHtml($tagName, $parameters, $selfClose, $onlyStart, $useEol);
     }
 
     public static function tagHtmlClose($tagName, $useEol = false)
     {
-        return PhTag::tagHtmlClose($tagName, $useEol);
+        return parent::tagHtmlClose($tagName, $useEol);
     }
 }

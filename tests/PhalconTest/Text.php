@@ -22,47 +22,47 @@
 
 namespace PhalconTest;
 
-use Phalcon\Text as PhText;
+use \Phalcon\Text as PhText;
 
-class Text
+class Text extends PhText
 {
     static public function camelize($str)
 	{
-		return PhText::camelize($str);
+		return parent::camelize($str);
 	}
 
     static public function uncamelize($str)
 	{
-        return PhText::uncamelize($str);
+        return parent::uncamelize($str);
 	}
 
 	static public function increment($str, $separator = null)
 	{
-        return PhText::increment($str, $separator);
+        return parent::increment($str, $separator);
 	}
 
 	static public function random($type = 0, $length = 8)
 	{
-        return PhText::random($type, $length);
+        return parent::random($type, $length);
 	}
 
 	static public function startsWith($str, $start, $ignoreCase = true)
 	{
-        return PhText::startsWith($str, $start, $ignoreCase);
+        return parent::startsWith($str, $start, $ignoreCase);
     }
 
 	static public function endsWith($str, $end, $ignoreCase = true)
 	{
-        return PhText::endsWith($str, $end, $ignoreCase);
+        return parent::endsWith($str, $end, $ignoreCase);
     }
 
 	static public function lower($str)
 	{
-        return PhText::lower($str);
+        return parent::lower($str);
     }
 
 	static public function upper($str)
 	{
-        return PhText::upper($str);
+        return parent::upper($str);
     }
 }

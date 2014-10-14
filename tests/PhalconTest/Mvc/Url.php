@@ -22,77 +22,63 @@
 
 namespace PhalconTest\Mvc;
 
-use Phalcon\Mvc\Url as PhUrl;
+use \Phalcon\Mvc\Url as PhUrl;
+use \Phalcon\DiInterface as PhDIInterface;
 
-class Url
+class Url extends PhUrl
 {
-    private $url = null;
-    
-    public function __construct()
-    {
-        $this->url = new PhUrl();
-    }
-
-    public function __desctruct()
-    {
-        unset($this->url);
-    }
-
-    public function setDI($di)
+    public function setDI(PhDIInterface $di)
 	{
-		$this->url->setDI($di);
+        parent::setDI($di);
 	}
 
     public function getDI()
 	{
-        return $this->url->getDI();
+        parent::getDI();
 	}
 
 	public function setBaseUri($baseUri)
 	{
-        $this->url->setBaseUri($baseUri);
-        return $this;
+        return parent::setBaseUri($baseUri);
 	}
 
 	public function setStaticBaseUri($staticBaseUri)
 	{
-        $this->url->setStaticBaseUri($staticBaseUri);
-        return $this;
+        return parent::setStaticBaseUri($staticBaseUri);
 	}
 
 	public function getBaseUri()
 	{
-        return $this->url->getBaseUri();
+        return parent::getBaseUri();
 	}
 
 	public function getStaticBaseUri()
 	{
-        return $this->url->getStaticBaseUri();
+        return parent::getStaticBaseUri();
 	}
 
 	public function setBasePath($basePath)
 	{
-        $this->url->setBasePath($basePath);
-        return $this;
+        return parent::setBasePath($basePath);
 	}
 
 	public function getBasePath()
 	{
-        return $this->url->getBasePath();
+        return parent::getBasePath();
 	}
 
 	public function get($uri = null, $args = null, $local = null)
 	{
-        return $this->url->get($uri, $args, $local);
+        return parent::get($uri, $args, $local);
 	}
 
 	public function getStatic($uri = null)
 	{
-        return $this->url->getStatic($uri);
+        return parent::getStatic($uri);
 	}
 
 	public function path($path = null)
 	{
-        return $this->url->path($path);
+        return parent::path($path);
 	}
 }

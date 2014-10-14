@@ -22,84 +22,73 @@
 
 namespace PhalconTest;
 
-use Phalcon\Security as PhSecurity;
+use \Phalcon\Security as PhSecurity;
+use \Phalcon\DiInterface as PhDIInterface;
 
-class Security
+class Security extends PhSecurity
 {
-    private $security = null;
-    
-    public function __construct()
-    {
-        $this->security = new PhSecurity();
-    }
-
-    public function __desctruct()
-    {
-        unset($this->security);
-    }
-
-    public function setDI($di)
+    public function setDI(PhDIInterface $di)
 	{
-		$this->security->setDI($di);
+		parent::setDI($di);
 	}
 
     public function getDI()
 	{
-        return $this->security->getDI();
+        return parent::getDI();
 	}
 
 	public function setRandomBytes($randomBytes)
 	{
-        $this->security->setRandomBytes($randomBytes);
+        parent::setRandomBytes($randomBytes);
 	}
 
 	public function getRandomBytes()
 	{
-        return $this->security->getRandomBytes();
+        return parent::getRandomBytes();
 	}
 
 	public function getSaltBytes()
 	{
-        return $this->security->getSaltBytes();
+        return parent::getSaltBytes();
 	}
 
 	public function hash($password, $workFactor = 0)
 	{
-        return $this->security->hash($password, $workFactor);
+        return parent::hash($password, $workFactor);
 	}
 
 	public function checkHash($password, $passwordHash, $maxPassLength = 0)
 	{
-        return $this->security->checkHash($password, $passwordHash, $maxPassLength);
+        return parent::checkHash($password, $passwordHash, $maxPassLength);
     }
 
 	public function isLegacyHash($password, $passwordHash)
 	{
-        return $this->security->isLegacyHash($password, $passwordHash);
+        return parent::isLegacyHash($password, $passwordHash);
     }
 
 	public function getTokenKey($numberBytes = null)
 	{
-        return $this->security->getTokenKey($numberBytes);
+        return parent::getTokenKey($numberBytes);
 	}
 
 	public function getToken($numberBytes = null)
 	{
-        return $this->security->getToken($numberBytes);
+        return parent::getToken($numberBytes);
 	}
 
 	public function checkToken($tokenKey = null, $tokenValue = null)
 	{
-        return $this->security->checkToken($tokenKey, $tokenValue);
+        return parent::checkToken($tokenKey, $tokenValue);
 	}
 
 	public function getSessionToken()
 	{
-        return $this->security->getSessionToken();
+        return parent::getSessionToken();
 	}
 
 	public function computeHmac($data, $key, $algo, $raw = false)
     {
-        return $this->security->computeHmac($data, $key, $algo, $raw);
+        return parent::computeHmac($data, $key, $algo, $raw);
 	}
 }
