@@ -23,7 +23,7 @@ use Phalcon\Db\Exception;
 use Phalcon\Events\EventsAwareInterface;
 use Phalcon\Events\ManagerInterface;
 use Phalcon\Db\DialectInterface;
-use ReferenceInterface;
+use Phalcon\Db\ReferenceInterface;
 
 /**
  * Phalcon\Db\Adapter
@@ -905,7 +905,7 @@ abstract class Adapter implements EventsAwareInterface
 	 * @param	Phalcon\Db\ReferenceInterface reference
 	 * @return	boolean true
 	 */
-	public function addForeignKey(string! tableName, string! schemaName, <ReferenceInterface> reference) -> boolean
+	public function addForeignKey(string! tableName, string! schemaName, <\Phalcon\Db\ReferenceInterface> reference) -> boolean
 	{
 		return this->{"execute"}(this->_dialect->addForeignKey(tableName, schemaName, reference));
 	}

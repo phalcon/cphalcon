@@ -1852,8 +1852,8 @@ PHP_METHOD(Phalcon_Db_Adapter, addForeignKey) {
 	}
 
 
-	if (!(zephir_is_instance_of(reference, SL("ReferenceInterface") TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'reference' must be an instance of 'ReferenceInterface'", "", 0);
+	if (!(zephir_instance_of_ev(reference, phalcon_db_referenceinterface_ce TSRMLS_CC))) {
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'reference' must be an instance of 'Phalcon\\\\Db\\\\ReferenceInterface'", "", 0);
 		return;
 	}
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_dialect"), PH_NOISY_CC);
