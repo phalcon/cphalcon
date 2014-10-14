@@ -19,7 +19,10 @@
 
 namespace Phalcon\Config\Adapter;
 
-class Ini extends \Phalcon\Config
+use Phalcon\Config;
+use Phalcon\Config\Exception;
+
+class Ini extends Config
 {
 
 	/**
@@ -35,7 +38,7 @@ class Ini extends \Phalcon\Config
 
 		let iniConfig = parse_ini_file($filePath, true);
 		if iniConfig === false {
-			throw new \Phalcon\Config\Exception("Configuration file " . basename(filePath) . " can't be loaded");
+			throw new Exception("Configuration file " . basename(filePath) . " can't be loaded");
 		}
 
 		for section, directives in iniConfig {
@@ -44,12 +47,11 @@ class Ini extends \Phalcon\Config
 					let directiveParts = explode(".", key);
 					let config[section][directiveParts[0]][directiveParts[1]] = value;
 				} else {
-					let config[section][$key] = value;
+					let config[section][key] = value;
 				}
 			}
 		}
 
 		parent::__construct(config);
 	}
-
 }

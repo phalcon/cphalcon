@@ -154,7 +154,6 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, compilePattern) {
 		ZEPHIR_INIT_VAR(pattern);
 		ZVAL_EMPTY_STRING(pattern);
 	}
-	ZEPHIR_SEPARATE_PARAM(pattern);
 
 
 	if (zephir_memnstr_str(pattern, SL(":"), "phalcon/mvc/router/route.zep", 92)) {

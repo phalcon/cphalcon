@@ -97,9 +97,9 @@ PHP_METHOD(Phalcon_Logger_Formatter, getTypeString) {
 		if (type == 9) {
 			RETURN_STRING("SPECIAL", 1);
 		}
-		RETURN_STRING("CUSTOM", 1);
 	} while(0);
 
+	RETURN_STRING("CUSTOM", 1);
 
 }
 
@@ -113,50 +113,43 @@ PHP_METHOD(Phalcon_Logger_Formatter, getTypeString) {
 PHP_METHOD(Phalcon_Logger_Formatter, interpolate) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zephir_nts_static zephir_fcall_cache_entry *_7 = NULL;
-	HashTable *_3;
-	HashPosition _2;
-	zend_bool _1;
-	zval *context = NULL;
-	zval *message_param = NULL, *context_param = NULL, *replace, *key = NULL, *value = NULL, *_0, **_4, *_5 = NULL, *_6 = NULL;
+	zephir_nts_static zephir_fcall_cache_entry *_5 = NULL;
+	HashTable *_2;
+	HashPosition _1;
+	zend_bool _0;
+	zval *message_param = NULL, *context = NULL, *replace, *key = NULL, *value = NULL, **_3, *_4 = NULL;
 	zval *message = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 1, &message_param, &context_param);
+	zephir_fetch_params(1, 1, 1, &message_param, &context);
 
 	zephir_get_strval(message, message_param);
-	ZEPHIR_SEPARATE_PARAM(message);
-	if (!context_param) {
-	ZEPHIR_INIT_VAR(context);
-	ZVAL_NULL(context);
-	} else {
-		zephir_get_arrval(context, context_param);
+	if (!context) {
+		context = ZEPHIR_GLOBAL(global_null);
 	}
 
 
-	ZEPHIR_INIT_VAR(_0);
-	zephir_gettype(_0, context TSRMLS_CC);
-	_1 = ZEPHIR_IS_STRING(_0, "array");
-	if (_1) {
-		_1 = zephir_fast_count_int(context TSRMLS_CC) > 0;
+	_0 = Z_TYPE_P(context) == IS_ARRAY;
+	if (_0) {
+		_0 = zephir_fast_count_int(context TSRMLS_CC) > 0;
 	}
-	if (_1) {
+	if (_0) {
 		ZEPHIR_INIT_VAR(replace);
 		array_init(replace);
-		zephir_is_iterable(context, &_3, &_2, 0, 0, "phalcon/logger/formatter.zep", 93);
+		zephir_is_iterable(context, &_2, &_1, 0, 0, "phalcon/logger/formatter.zep", 92);
 		for (
-		  ; zephir_hash_get_current_data_ex(_3, (void**) &_4, &_2) == SUCCESS
-		  ; zephir_hash_move_forward_ex(_3, &_2)
+		  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
+		  ; zephir_hash_move_forward_ex(_2, &_1)
 		) {
-			ZEPHIR_GET_HMKEY(key, _3, _2);
-			ZEPHIR_GET_HVALUE(value, _4);
-			ZEPHIR_INIT_LNVAR(_5);
-			ZEPHIR_CONCAT_SVS(_5, "{", key, "}");
-			zephir_array_update_zval(&replace, _5, &value, PH_COPY | PH_SEPARATE);
+			ZEPHIR_GET_HMKEY(key, _2, _1);
+			ZEPHIR_GET_HVALUE(value, _3);
+			ZEPHIR_INIT_LNVAR(_4);
+			ZEPHIR_CONCAT_SVS(_4, "{", key, "}");
+			zephir_array_update_zval(&replace, _4, &value, PH_COPY | PH_SEPARATE);
 		}
-		ZEPHIR_CALL_FUNCTION(&_6, "strtr", &_7, message, replace);
+		ZEPHIR_RETURN_CALL_FUNCTION("strtr", &_5, message, replace);
 		zephir_check_call_status();
-		zephir_get_strval(message, _6);
+		RETURN_MM();
 	}
 	RETURN_CTOR(message);
 

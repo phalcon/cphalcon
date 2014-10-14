@@ -40,7 +40,7 @@
 int zephir_require_ret(zval **return_value_ptr, const char *require_path TSRMLS_DC)
 {
 	zend_file_handle file_handle;
-	int ret;
+	int ret, use_ret;
 
 #ifndef ZEPHIR_RELEASE
 	if (return_value_ptr && *return_value_ptr) {
@@ -55,8 +55,11 @@ int zephir_require_ret(zval **return_value_ptr, const char *require_path TSRMLS_
 		return FAILURE;
 	}
 
+	use_ret = !!return_value_ptr;
+
 	ret = php_stream_open_for_zend_ex(require_path, &file_handle, ENFORCE_SAFE_MODE | USE_PATH | STREAM_OPEN_FOR_INCLUDE | IGNORE_URL TSRMLS_CC);
 	if (ret == SUCCESS) {
+
 		int dummy = 1;
 		zend_op_array *new_op_array;
 
@@ -69,6 +72,7 @@ int zephir_require_ret(zval **return_value_ptr, const char *require_path TSRMLS_
 		zend_destroy_file_handle(&file_handle TSRMLS_CC);
 
 		if (new_op_array) {
+
 			zval **original_return_value            = EG(return_value_ptr_ptr);
 			zend_op_array *original_active_op_array = EG(active_op_array);
 			zend_op **original_opline_ptr           = EG(opline_ptr);
@@ -84,9 +88,14 @@ int zephir_require_ret(zval **return_value_ptr, const char *require_path TSRMLS_
 			if (EG(exception)) {
 				assert(!return_value_ptr || !*return_value_ptr);
 				ret = FAILURE;
-			}
-			else {
+			} else {
 				ret = SUCCESS;
+			}
+
+			if (!use_ret) {
+				if (EG(return_value_ptr_ptr)) {
+					zval_ptr_dtor(EG(return_value_ptr_ptr));
+				}
 			}
 
 			EG(return_value_ptr_ptr) = original_return_value;

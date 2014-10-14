@@ -19,6 +19,10 @@
 
 namespace Phalcon\Logger;
 
+use Phalcon\Logger\AdapterInterface;
+use Phalcon\Logger\FormatterInterface;
+use Phalcon\Logger\Exception;
+
 /**
  * Phalcon\Logger\Multiple
  *
@@ -36,11 +40,8 @@ class Multiple
 	 *
 	 * @param Phalcon\Logger\AdapterInterface logger
 	 */
-	public function push(<\Phalcon\Logger\AdapterInterface> logger)
+	public function push(<AdapterInterface> logger)
 	{
-		if typeof logger != "object" {
-			throw new \Phalcon\Logger\Exception("The logger is invalid");
-		}
 		let this->_loggers[] = logger;
 	}
 
@@ -49,7 +50,7 @@ class Multiple
 	 *
 	 * @param Phalcon\Logger\FormatterInterface formatter
 	 */
-	public function setFormatter(<\Phalcon\Logger\FormatterInterface> formatter)
+	public function setFormatter(<FormatterInterface> formatter)
 	{
 		var loggers, logger;
 

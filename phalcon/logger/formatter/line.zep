@@ -19,12 +19,15 @@
 
 namespace Phalcon\Logger\Formatter;
 
+use Phalcon\Logger\Formatter;
+use Phalcon\Logger\FormatterInterface;
+
 /**
  * Phalcon\Logger\Formatter\Line
  *
  * Formats messages using an one-line string
  */
-class Line extends \Phalcon\Logger\Formatter implements \Phalcon\Logger\FormatterInterface
+class Line extends Formatter implements FormatterInterface
 {
 
 	/**
@@ -47,7 +50,7 @@ class Line extends \Phalcon\Logger\Formatter implements \Phalcon\Logger\Formatte
 	 * @param string format
 	 * @param string dateFormat
 	 */
-	public function __construct(format=null, dateFormat=null)
+	public function __construct(format = null, dateFormat = null)
 	{
 		if format {
 			let this->_format = format;
@@ -66,7 +69,7 @@ class Line extends \Phalcon\Logger\Formatter implements \Phalcon\Logger\Formatte
 	 * @param array $context
 	 * @return string
 	 */
-	public function format(string message, int type, int timestamp, array context=null) -> string
+	public function format(string message, int type, int timestamp, var context = null) -> string
 	{
 		var format;
 
@@ -89,7 +92,7 @@ class Line extends \Phalcon\Logger\Formatter implements \Phalcon\Logger\Formatte
 		let format = str_replace("%message%", message, format);
 
 		if typeof context == "array" {
-			let format = this->interpolate(format, context);
+			return this->interpolate(format, context);
 		}
 
 		return format;
