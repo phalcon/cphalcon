@@ -142,7 +142,6 @@ class ModelsResultsetCacheTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(count($robots), 3);
 		$this->assertFalse($robots->isFresh());
 
-
 		//TODO: I really can't understand why postgresql fails on inserting a simple record
 		//The error is "Object not in prerequisite state: 7 ERROR:
 		//currval of sequence "robots_id_seq" is not yet defined in this session"

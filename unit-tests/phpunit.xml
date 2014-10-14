@@ -12,12 +12,12 @@
 	<testsuites>
 
 		<testsuite name="stable">
-			<!--<file>unit-tests/AnnotationsAdaptersTest.php</file>-->
+			<file>unit-tests/AnnotationsAdaptersTest.php</file>
 			<file>unit-tests/AnnotationsTest.php</file>
 			<file>unit-tests/ApplicationMvcTest.php</file>
 			<file>unit-tests/AssetsTest.php</file>
 			<file>unit-tests/BeanstalkTest.php</file>
-			<!--<file>unit-tests/CacheResultsetTest.php</file>-->
+			<file>unit-tests/CacheResultsetTest.php</file>
 			<file>unit-tests/CacheTest.php</file>
 			<!--<file>unit-tests/CollectionsEventsTest.php</file>-->
 			<!--<file>unit-tests/CollectionsSerializeTest.php</file>-->
@@ -65,7 +65,7 @@
 			<!--<file>unit-tests/ModelsQueryParsingTest.php</file>-->
 			<file>unit-tests/ModelsRelationsMagicTest.php</file>
 			<file>unit-tests/ModelsRelationsTest.php</file>
-			<!--<file>unit-tests/ModelsResultsetCacheStaticTest.php</file>-->
+			<file>unit-tests/ModelsResultsetCacheStaticTest.php</file>
 			<file>unit-tests/ModelsResultsetCacheTest.php</file>
 			<file>unit-tests/ModelsResultsetTest.php</file>
 			<file>unit-tests/ModelsSerializeTest.php</file>

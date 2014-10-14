@@ -27,6 +27,8 @@ use Phalcon\Db\AdapterInterface;
 use Phalcon\Mvc\Model\ResultsetInterface;
 use Phalcon\Mvc\Model\ManagerInterface;
 use Phalcon\Di\InjectionAwareInterface;
+use Phalcon\Events\EventsAwareInterface;
+use Phalcon\Mvc\Model\QueryInterface;
 use Phalcon\Events\ManagerInterface as EventsManagerInterface;
 
 /**
@@ -47,7 +49,7 @@ use Phalcon\Events\ManagerInterface as EventsManagerInterface;
  * $robot = new Robots($di);
  * </code>
  */
-class Manager implements ManagerInterface, InjectionAwareInterface, \Phalcon\Events\EventsAwareInterface
+class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareInterface
 {
 
 	protected _dependencyInjector;
@@ -1576,7 +1578,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, \Phalcon\Eve
 	 * @param  Phalcon\Mvc\ModelInterface model
 	 * @return Phalcon\Mvc\Model\RelationInterface[]
 	 */
-	public function getBelongsTo(<ModelInterface> model)
+	public function getBelongsTo(<ModelInterface> model) -> array
 	{
 		var belongsToSingle, relations;
 		let belongsToSingle = this->_belongsToSingle;
@@ -1594,7 +1596,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, \Phalcon\Eve
 	 * @param  Phalcon\Mvc\ModelInterface model
 	 * @return Phalcon\Mvc\Model\RelationInterface[]
 	 */
-	public function getHasMany(<ModelInterface> model)
+	public function getHasMany(<ModelInterface> model) -> array
 	{
 		var hasManySingle, relations;
 		let hasManySingle = this->_hasManySingle;
@@ -1613,7 +1615,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, \Phalcon\Eve
 	 * @param  Phalcon\Mvc\ModelInterface $model
 	 * @return array
 	 */
-	public function getHasOne(<ModelInterface> model)
+	public function getHasOne(<ModelInterface> model) -> array
 	{
 		var hasOneSingle, relations;
 		let hasOneSingle = this->_hasOneSingle;
@@ -1631,7 +1633,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, \Phalcon\Eve
 	 * @param  Phalcon\Mvc\ModelInterface model
 	 * @return Phalcon\Mvc\Model\RelationInterface[]
 	 */
-	public function getHasManyToMany(<ModelInterface> model)
+	public function getHasManyToMany(<ModelInterface> model) -> array
 	{
 		var hasManyToManySingle, relations;
 		let hasManyToManySingle = this->_hasManyToManySingle;
@@ -1649,7 +1651,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, \Phalcon\Eve
 	 * @param  Phalcon\Mvc\ModelInterface model
 	 * @return array
 	 */
-	public function getHasOneAndHasMany(<ModelInterface> model)
+	public function getHasOneAndHasMany(<ModelInterface> model) -> array
 	{
 		return array_merge(this->getHasOne(model), this->getHasMany(model));
 	}
@@ -1660,7 +1662,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, \Phalcon\Eve
 	 * @param string $modelName
 	 * @return Phalcon\Mvc\Model\RelationInterface[]
 	 */
-	public function getRelations(string! modelName)
+	public function getRelations(string! modelName) -> array
 	{
 		var entityName, allRelations, relations,
 			belongsTo, relation, hasOne, hasMany;
@@ -1760,7 +1762,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, \Phalcon\Eve
 	 * @param string phql
 	 * @return Phalcon\Mvc\Model\QueryInterface
 	 */
-	public function createQuery(string! phql) -> <\Phalcon\Mvc\Model\QueryInterface>
+	public function createQuery(string! phql) -> <QueryInterface>
 	{
 		var dependencyInjector, query;
 
@@ -1783,10 +1785,10 @@ class Manager implements ManagerInterface, InjectionAwareInterface, \Phalcon\Eve
 	 *
 	 * @param string phql
 	 * @param array placeholders
+	 * @param array types
 	 * @return Phalcon\Mvc\Model\QueryInterface
 	 */
-	public function executeQuery(string! phql, var placeholders=null)
-		-> <\Phalcon\Mvc\Model\QueryInterface>
+	public function executeQuery(string! phql, var placeholders = null, var types = null) -> <QueryInterface>
 	{
 		var dependencyInjector, query;
 
@@ -1798,15 +1800,13 @@ class Manager implements ManagerInterface, InjectionAwareInterface, \Phalcon\Eve
 		/**
 		 * Create a query
 		 */
-		let query = new \Phalcon\Mvc\Model\Query(phql);
-		query->setDI(dependencyInjector);
-
+		let query = new \Phalcon\Mvc\Model\Query(phql, dependencyInjector);
 		let this->_lastQuery = query;
 
 		/**
 		 * Execute the query
 		 */
-		return query->execute(placeholders);
+		return query->execute(placeholders, types);
 	}
 
 	/**
@@ -1835,7 +1835,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, \Phalcon\Eve
 	 *
 	 * @return Phalcon\Mvc\Model\QueryInterface
 	 */
-	public function getLastQuery() -> <\Phalcon\Mvc\Model\QueryInterface>
+	public function getLastQuery() -> <QueryInterface>
 	{
 		return this->_lastQuery;
 	}

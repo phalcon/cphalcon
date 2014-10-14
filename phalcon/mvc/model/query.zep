@@ -110,7 +110,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 	 * @param string $phql
 	 * @param Phalcon\DiInterface dependencyInjector
 	 */
-	public function __construct(phql = null, <\Phalcon\DiInterface> dependencyInjector=null)
+	public function __construct(phql = null, <\Phalcon\DiInterface> dependencyInjector = null)
 	{
 		if typeof phql != "null" {
 			let this->_phql = phql;
@@ -2313,6 +2313,10 @@ class Query implements QueryInterface, InjectionAwareInterface
 		let numberObjects = 0;
 		let columns1 = columns;
 		for column in columns {
+
+			if typeof column != "array" {
+				throw new Exception("Invalid column definition");
+			}
 
 			if column["type"] == "scalar" {
 				if !isset column["balias"] {
