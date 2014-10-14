@@ -150,7 +150,7 @@ int zephir_fetch_parameters(int num_args TSRMLS_DC, int required_args, int optio
 	} \
 	return;
 
-#if PHP_VERSION_ID < 50600
+//#if PHP_VERSION_ID < 50600
 
 /** Return zval with always ctor */
 #define RETURN_CTOR(var) { \
@@ -176,33 +176,33 @@ int zephir_fetch_parameters(int num_args TSRMLS_DC, int required_args, int optio
 #define RETURN_THISW() \
 	RETURN_ZVAL(this_ptr, 1, 0);
 
-#else
+//#else
 
 /** Return zval with always ctor */
-#define RETURN_CTOR(var) { \
-		RETVAL_ZVAL_FAST(var); \
-	} \
-	ZEPHIR_MM_RESTORE(); \
-	return;
+//#define RETURN_CTOR(var) { \
+//		RETVAL_ZVAL_FAST(var); \
+//	} \
+//	ZEPHIR_MM_RESTORE(); \
+//	return;
 
 /** Return zval with always ctor, without restoring the memory stack */
-#define RETURN_CTORW(var) { \
-		RETVAL_ZVAL_FAST(var); \
-	} \
-	return;
+//#define RETURN_CTORW(var) { \
+//		RETVAL_ZVAL_FAST(var); \
+//	} \
+//	return;
 
 /** Return this pointer */
-#define RETURN_THIS() { \
-		RETVAL_ZVAL_FAST(this_ptr); \
-	} \
-	ZEPHIR_MM_RESTORE(); \
-	return;
+//#define RETURN_THIS() { \
+//		RETVAL_ZVAL_FAST(this_ptr); \
+//	} \
+//	ZEPHIR_MM_RESTORE(); \
+//	return;
 
 /** Return zval with always ctor, without restoring the memory stack */
-#define RETURN_THISW() \
-	RETURN_ZVAL_FAST(this_ptr);
+//#define RETURN_THISW() \
+//	RETURN_ZVAL_FAST(this_ptr);
 
-#endif
+//#endif
 
 /** Returns variables without ctor */
 #define RETURN_NCTOR(var) { \

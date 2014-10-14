@@ -93,7 +93,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 * @param array params
 	 * @param Phalcon\DiInterface dependencyInjector
 	 */
-	public function __construct(params = null, <DiInterface> dependencyInjector = null)
+	public function __construct(var params = null, <DiInterface> dependencyInjector = null)
 	{
 		var conditions, columns, groupClause, havingClause, limitClause,
 			forUpdate, sharedLock, orderClause, offsetClause, joinsClause,
@@ -124,15 +124,15 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 								fetch singleTypes, singleConditionArray[2];
 
 								if typeof singleCondition == "string" {
-									let mergedConditions = array_push(mergedConditions, singleCondition);
+									let mergedConditions[] = singleCondition;
 								}
 
 								if typeof singleParams == "array" {
-									let mergedParams = array_merge(mergedParams, singleParams);
+									let mergedParams = mergedParams + singleParams;
 								}
 
 								if typeof singleTypes == "array" {
-									let mergedTypes = array_merge(mergedTypes, singleTypes);
+									let mergedTypes = mergedTypes + singleTypes;
 								}
 							}
 						}
@@ -269,7 +269,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 * @param bool|null distinct
 	 * @return Phalcon\Mvc\Model\Query\BuilderInterface
 	 */
-	 public function distinct(distinct) -> <Builder>
+	 public function distinct(var distinct) -> <Builder>
 	 {
 	 	let this->_distinct = distinct;
 	 	return this;
@@ -295,7 +295,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 * @param string|array columns
 	 * @return Phalcon\Mvc\Model\Query\Builder
 	 */
-	public function columns(columns) -> <Builder>
+	public function columns(var columns) -> <Builder>
 	{
 		let this->_columns = columns;
 		return this;
@@ -339,7 +339,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 * @param string alias
 	 * @return Phalcon\Mvc\Model\Query\Builder
 	 */
-	public function addFrom(model, alias = null) -> <Builder>
+	public function addFrom(var model, var alias = null) -> <Builder>
 	{
 		var models, currentModel;
 
@@ -353,7 +353,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 			}
 		}
 
-		if typeof alias != "string" {
+		if typeof alias == "string" {
 			let models[alias] = model;
 		} else {
 			let models[] = model;
@@ -389,7 +389,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 * @param string type
 	 * @return Phalcon\Mvc\Model\Query\Builder
 	 */
-	public function join(string! model, conditions = null, alias = null, type = null) -> <Builder>
+	public function join(string! model, var conditions = null, var alias = null, var type = null) -> <Builder>
 	{
 		let this->_joins[] = [model, conditions, alias, type];
 		return this;
@@ -411,7 +411,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 * @param string type
 	 * @return Phalcon\Mvc\Model\Query\Builder
 	 */
-	public function innerJoin(string! model, conditions = null, alias = null) -> <Builder>
+	public function innerJoin(string! model, var conditions = null, var alias = null) -> <Builder>
 	{
 		let this->_joins[] = [model, conditions, alias, "INNER"];
 		return this;
@@ -429,7 +429,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 * @param string alias
 	 * @return Phalcon\Mvc\Model\Query\Builder
 	 */
-	public function leftJoin(string! model, conditions = null, alias = null) -> <Builder>
+	public function leftJoin(string! model, var conditions = null, var alias = null) -> <Builder>
 	{
 		let this->_joins[] = [model, conditions, alias, "LEFT"];
 		return this;
@@ -447,7 +447,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 * @param string alias
 	 * @return Phalcon\Mvc\Model\Query\Builder
 	 */
-	public function rightJoin(model, conditions = null, alias = null) -> <Builder>
+	public function rightJoin(string! model, var conditions = null, var alias = null) -> <Builder>
 	{
 		let this->_joins = [model, conditions, alias, "RIGHT"];
 		return this;
@@ -457,16 +457,17 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 * Sets the query conditions
 	 *
 	 *<code>
+	 *	$builder->where(100);
 	 *	$builder->where('name = "Peter"');
 	 *	$builder->where('name = :name: AND id > :id:', array('name' => 'Peter', 'id' => 100));
 	 *</code>
 	 *
-	 * @param string conditions
+	 * @param mixed conditions
 	 * @param array bindParams
 	 * @param array bindTypes
 	 * @return Phalcon\Mvc\Model\Query\Builder
 	 */
-	public function where(conditions, bindParams = null, bindTypes = null) -> <Builder>
+	public function where(var conditions, var bindParams = null, var bindTypes = null) -> <Builder>
 	{
 		var currentBindParams, currentBindTypes, mergedParams, mergedTypes;
 
@@ -478,7 +479,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 		if typeof bindParams == "array" {
 			let currentBindParams = this->_bindParams;
 			if typeof currentBindParams == "array" {
-				let mergedParams = array_merge(currentBindParams, bindParams);
+				let mergedParams = currentBindParams + bindParams;
 			} else {
 				let mergedParams = bindParams;
 			}
@@ -491,7 +492,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 		if typeof bindTypes == "array" {
 			let currentBindTypes = this->_bindTypes;
 			if typeof currentBindParams == "array" {
-				let mergedTypes = array_merge(currentBindTypes, bindTypes);
+				let mergedTypes = currentBindTypes + bindTypes;
 			} else {
 				let mergedTypes = bindTypes;
 			}
@@ -514,7 +515,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 * @param array bindTypes
 	 * @return Phalcon\Mvc\Model\Query\Builder
 	 */
-	public function andWhere(string! conditions, bindParams = null, bindTypes = null) -> <Builder>
+	public function andWhere(string! conditions, var bindParams = null, var bindTypes = null) -> <Builder>
 	{
 		var currentBindParams, currentBindTypes, mergedParams,
 			mergedTypes, currentConditions, newConditions;
@@ -537,7 +538,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 		if typeof bindParams == "array" {
 			let currentBindParams = this->_bindParams;
 			if typeof currentBindParams == "array" {
-				let mergedParams = array_merge(currentBindParams, bindParams);
+				let mergedParams = currentBindParams + bindParams;
 			} else {
 				let mergedParams = bindParams;
 			}
@@ -550,7 +551,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 		if typeof bindTypes == "array" {
 			let currentBindTypes = this->_bindTypes;
 			if typeof currentBindParams == "array" {
-				let mergedTypes = array_merge(currentBindTypes, bindTypes);
+				let mergedTypes = currentBindTypes + bindTypes;
 			} else {
 				let mergedTypes = bindTypes;
 			}
@@ -573,7 +574,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 * @param array bindTypes
 	 * @return Phalcon\Mvc\Model\Query\Builder
 	 */
-	public function orWhere(string! conditions, bindParams = null, bindTypes = null) -> <Builder>
+	public function orWhere(string! conditions, var bindParams = null, var bindTypes = null) -> <Builder>
 	{
 		var currentBindParams, currentBindTypes, mergedParams,
 			mergedTypes, currentConditions;
@@ -594,7 +595,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 		if typeof bindParams == "array" {
 			let currentBindParams = this->_bindParams;
 			if typeof currentBindParams == "array" {
-				let mergedParams = array_merge(currentBindParams, bindParams);
+				let mergedParams = currentBindParams + bindParams;
 			} else {
 				let mergedParams = bindParams;
 			}
@@ -607,7 +608,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 		if typeof bindTypes == "array" {
 			let currentBindTypes = this->_bindTypes;
 			if typeof currentBindParams == "array" {
-				let mergedTypes = array_merge(currentBindTypes, bindTypes);
+				let mergedTypes = currentBindTypes + bindTypes;
 			} else {
 				let mergedTypes = bindTypes;
 			}
@@ -629,7 +630,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 * @param mixed maximum
 	 * @return Phalcon\Mvc\Model\Query\Builder
 	 */
-	public function betweenWhere(string! expr, minimum, maximum) -> <Builder>
+	public function betweenWhere(string! expr, var minimum, var maximum) -> <Builder>
 	{
 		var hiddenParam, nextHiddenParam, minimumKey, maximumKey;
 
@@ -670,7 +671,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 * @param mixed maximum
 	 * @return Phalcon\Mvc\Model\Query\Builder
 	 */
-	public function notBetweenWhere(string! expr, minimum, maximum) -> <Builder>
+	public function notBetweenWhere(string! expr, var minimum, var maximum) -> <Builder>
 	{
 		var hiddenParam, nextHiddenParam, minimumKey, maximumKey;
 
@@ -710,14 +711,10 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 * @param array values
 	 * @return Phalcon\Mvc\Model\Query\Builder
 	 */
-	public function inWhere(string! expr, values) -> <Builder>
+	public function inWhere(string! expr, array! values) -> <Builder>
 	{
 		var key, queryKey, value, bindKeys, bindParams;
 		int hiddenParam;
-
-		if typeof values != "array" {
-			throw new Exception("Values must be an array");
-		}
 
 		let hiddenParam = (int) this->_hiddenParamNumber;
 
@@ -756,15 +753,11 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 * @param array values
 	 * @return Phalcon\Mvc\Model\Query\Builder
 	 */
-	public function notInWhere(string! expr, values) -> <Builder>
+	public function notInWhere(string! expr, array! values) -> <Builder>
 	{
 
 		var key, queryKey, value, bindKeys, bindParams;
 		int hiddenParam;
-
-		if typeof values != "array" {
-			throw new Exception("Values must be an array");
-		}
 
 		let hiddenParam = (int) this->_hiddenParamNumber;
 
@@ -810,10 +803,10 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 *	$builder->orderBy(array('1', 'Robots.name'));
 	 *</code>
 	 *
-	 * @param string orderBy
+	 * @param string|array orderBy
 	 * @return Phalcon\Mvc\Model\Query\Builder
 	 */
-	public function orderBy(orderBy) -> <Builder>
+	public function orderBy(var orderBy) -> <Builder>
 	{
 		let this->_order = orderBy;
 		return this;
@@ -839,7 +832,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 * @param string having
 	 * @return Phalcon\Mvc\Model\Query\Builder
 	 */
-	public function having(having) -> <Builder>
+	public function having(string! having) -> <Builder>
 	{
 		let this->_having = having;
 		return this;
@@ -870,7 +863,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	public function limit(int limit, int offset = null) -> <Builder>
 	{
 		let this->_limit = limit;
-		if offset >= 0 {
+		if offset {
 			let this->_offset = offset;
 		}
 		return this;
@@ -897,7 +890,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 * @param int offset
 	 * @return Phalcon\Mvc\Model\Query\Builder
 	 */
-	public function offset(offset) -> <Builder>
+	public function offset(int offset) -> <Builder>
 	{
 		let this->_offset = offset;
 		return this;
@@ -920,10 +913,10 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 *	$builder->groupBy(array('Robots.name'));
 	 *</code>
 	 *
-	 * @param string group
+	 * @param string|array group
 	 * @return Phalcon\Mvc\Model\Query\Builder
 	 */
-	public function groupBy(group) -> <Builder>
+	public function groupBy(var group) -> <Builder>
 	{
 		let this->_group = group;
 		return this;
@@ -1198,12 +1191,12 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 					}
 				}
 			}
+		}
 
-			let having = this->_having;
-			if having !== null {
-				if !empty having {
-					let phql .= " HAVING ".having;
-				}
+		let having = this->_having;
+		if having !== null {
+			if !empty having {
+				let phql .= " HAVING ".having;
 			}
 		}
 
