@@ -297,21 +297,3 @@ PHP_METHOD(Phalcon_Version, getPart) {
 
 }
 
-PHP_METHOD(Phalcon_Version, testUnsetTypedArray) {
-
-	zval *key = NULL;
-	zval *arr_param = NULL, *key_param = NULL;
-	zval *arr = NULL;
-
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 2, 0, &arr_param, &key_param);
-
-	zephir_get_arrval(arr, arr_param);
-	zephir_get_strval(key, key_param);
-
-
-	zephir_array_unset(&arr, key, PH_SEPARATE);
-	RETURN_CTOR(arr);
-
-}
-

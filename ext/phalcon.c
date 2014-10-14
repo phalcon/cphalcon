@@ -24,6 +24,8 @@
 #include "kernel/fcall.h"
 #include "kernel/memory.h"
 
+#include "phalcon/mvc/model/orm.h"
+
 zend_class_entry *phalcon_di_injectionawareinterface_ce;
 zend_class_entry *phalcon_events_eventsawareinterface_ce;
 zend_class_entry *phalcon_validation_validatorinterface_ce;
@@ -869,9 +871,6 @@ static PHP_MSHUTDOWN_FUNCTION(phalcon)
 
 	zephir_deinitialize_memory(TSRMLS_C);
 
-	//assert(ZEPHIR_GLOBAL(orm).parser_cache == NULL);
-	//assert(ZEPHIR_GLOBAL(orm).ast_cache == NULL);
-
 	return SUCCESS;
 }
 #endif
@@ -920,6 +919,8 @@ static PHP_RINIT_FUNCTION(phalcon)
 
 static PHP_RSHUTDOWN_FUNCTION(phalcon)
 {
+
+	phalcon_orm_destroy_cache(TSRMLS_C);
 
 	zephir_deinitialize_memory(TSRMLS_C);
 	return SUCCESS;
