@@ -35,7 +35,7 @@ abstract class Formatter
 	 * @param  integer type
 	 * @return string
 	 */
-	public function getTypeString(int type)
+	public function getTypeString(int type) -> string
 	{
 		switch type {
 
@@ -68,10 +68,9 @@ abstract class Formatter
 
 			case Logger::SPECIAL:
 				return "SPECIAL";
-
-			default:
-				return "CUSTOM";
 		}
+
+		return "CUSTOM";
 	}
 
 	/**
@@ -81,7 +80,7 @@ abstract class Formatter
 	 * @param string $message
 	 * @param array $context
 	 */
-	public function interpolate(string message, array context=null)
+	public function interpolate(string message, var context = null)
 	{
 		var replace, key, value;
 
@@ -90,9 +89,8 @@ abstract class Formatter
 			for key, value in context {
 				let replace["{" . key . "}"] = value;
 			}
-			let message = strtr(message, replace);
+			return strtr(message, replace);
 		}
-
 		return message;
 	}
 

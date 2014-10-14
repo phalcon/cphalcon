@@ -92,29 +92,29 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct) {
 		ZEPHIR_CONCAT_SVS(_3, "Configuration file ", _2, " can't be loaded");
 		ZEPHIR_CALL_METHOD(NULL, _1, "__construct", NULL, _3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(_1, "phalcon/config/adapter/ini.zep", 38 TSRMLS_CC);
+		zephir_throw_exception_debug(_1, "phalcon/config/adapter/ini.zep", 41 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	zephir_is_iterable(iniConfig, &_5, &_4, 0, 0, "phalcon/config/adapter/ini.zep", 52);
+	zephir_is_iterable(iniConfig, &_5, &_4, 0, 0, "phalcon/config/adapter/ini.zep", 55);
 	for (
 	  ; zephir_hash_get_current_data_ex(_5, (void**) &_6, &_4) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_5, &_4)
 	) {
 		ZEPHIR_GET_HMKEY(section, _5, _4);
 		ZEPHIR_GET_HVALUE(directives, _6);
-		zephir_is_iterable(directives, &_8, &_7, 0, 0, "phalcon/config/adapter/ini.zep", 50);
+		zephir_is_iterable(directives, &_8, &_7, 0, 0, "phalcon/config/adapter/ini.zep", 53);
 		for (
 		  ; zephir_hash_get_current_data_ex(_8, (void**) &_9, &_7) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_8, &_7)
 		) {
 			ZEPHIR_GET_HMKEY(key, _8, _7);
 			ZEPHIR_GET_HVALUE(value, _9);
-			if (zephir_memnstr_str(key, SL("."), "phalcon/config/adapter/ini.zep", 43)) {
+			if (zephir_memnstr_str(key, SL("."), "phalcon/config/adapter/ini.zep", 46)) {
 				ZEPHIR_INIT_NVAR(directiveParts);
 				zephir_fast_explode_str(directiveParts, SL("."), key, LONG_MAX TSRMLS_CC);
-				zephir_array_fetch_long(&_10, directiveParts, 0, PH_NOISY | PH_READONLY, "phalcon/config/adapter/ini.zep", 45 TSRMLS_CC);
-				zephir_array_fetch_long(&_11, directiveParts, 1, PH_NOISY | PH_READONLY, "phalcon/config/adapter/ini.zep", 45 TSRMLS_CC);
+				zephir_array_fetch_long(&_10, directiveParts, 0, PH_NOISY | PH_READONLY, "phalcon/config/adapter/ini.zep", 48 TSRMLS_CC);
+				zephir_array_fetch_long(&_11, directiveParts, 1, PH_NOISY | PH_READONLY, "phalcon/config/adapter/ini.zep", 48 TSRMLS_CC);
 				zephir_array_update_multi(&config, &value TSRMLS_CC, SL("zzz"), 3, section, _10, _11);
 			} else {
 				zephir_array_update_multi(&config, &value TSRMLS_CC, SL("zz"), 2, section, key);

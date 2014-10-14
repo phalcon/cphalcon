@@ -93,6 +93,7 @@ static void zephir_memory_restore_stack_common(zend_zephir_globals_def *g TSRMLS
 	size_t i;
 	zephir_memory_entry *prev, *active_memory;
 	zephir_symbol_table *active_symbol_table;
+	zval **ptr;
 
 	active_memory = g->active_memory;
 	assert(active_memory != NULL);
@@ -152,11 +153,12 @@ static void zephir_memory_restore_stack_common(zend_zephir_globals_def *g TSRMLS
 
 		/* Traverse all zvals allocated, reduce the reference counting or free them */
 		for (i = 0; i < active_memory->pointer; ++i) {
-			if (EXPECTED(active_memory->addresses[i] != NULL && *(active_memory->addresses[i]) != NULL)) {
-				if (Z_REFCOUNT_PP(active_memory->addresses[i]) == 1) {
-					zval_ptr_dtor(active_memory->addresses[i]);
+			ptr = active_memory->addresses[i];
+			if (EXPECTED(ptr != NULL && *(ptr) != NULL)) {
+				if (Z_REFCOUNT_PP(ptr) == 1) {
+					zval_ptr_dtor(ptr);
 				} else {
-					Z_DELREF_PP(active_memory->addresses[i]);
+					Z_DELREF_PP(ptr);
 				}
 			}
 		}

@@ -24,6 +24,7 @@ use Phalcon\Mvc\Model\Resultset;
 use Phalcon\Mvc\Model\ResultsetInterface;
 use Phalcon\Mvc\Model\Exception;
 use Phalcon\Cache\BackendInterface;
+use Phalcon\Db\ResultInterface;
 
 /**
  * Phalcon\Mvc\Model\Resultset\Complex
@@ -42,7 +43,7 @@ class Complex extends Resultset implements ResultsetInterface
 	 * @param Phalcon\Db\ResultInterface result
 	 * @param Phalcon\Cache\BackendInterface cache
 	 */
-	public function __construct(var columnTypes, <\Phalcon\Db\ResultInterface> result, <BackendInterface> cache=null)
+	public function __construct(var columnTypes, <ResultInterface> result, <BackendInterface> cache=null)
 	{
 
 		/**
@@ -290,7 +291,7 @@ class Complex extends Resultset implements ResultsetInterface
 	 *
 	 * @return array
 	 */
-	public function toArray()
+	public function toArray() -> string
 	{
 		var records, current;
 		let records = [];
@@ -340,7 +341,7 @@ class Complex extends Resultset implements ResultsetInterface
 	 *
 	 * @param string data
 	 */
-	public function unserialize(data)
+	public function unserialize(data) -> void
 	{
 		var resultset;
 

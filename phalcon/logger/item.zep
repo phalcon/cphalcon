@@ -59,7 +59,7 @@ class Item
 	 * @param integer $time
 	 * @param array $context
 	 */
-	public function __construct(string message, int type, int time=0, array context=null)
+	public function __construct(string message, int type, int time = 0, var context = null)
 	{
 		let this->_message = message,
 			this->_type = type,

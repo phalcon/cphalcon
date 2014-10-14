@@ -19,6 +19,11 @@
 
 namespace Phalcon\Logger;
 
+use Phalcon\Logger\AdapterInterface;
+use Phalcon\Logger\FormatterInterface;
+use Phalcon\Logger\Exception;
+use Phalcon\Logger\Item;
+
 /**
  * Phalcon\Logger\Adapter
  *
@@ -61,7 +66,7 @@ abstract class Adapter
 	 * @param int level
 	 * @return Phalcon\Logger\AdapterInterface
 	 */
-	public function setLogLevel(int level) -> <\Phalcon\Logger\AdapterInterface>
+	public function setLogLevel(int level) -> <AdapterInterface>
 	{
 		let this->_logLevel = level;
 		return this;
@@ -83,7 +88,7 @@ abstract class Adapter
 	 * @param Phalcon\Logger\FormatterInterface formatter
 	 * @return Phalcon\Logger\AdapterInterface
 	 */
-	public function setFormatter(<\Phalcon\Logger\FormatterInterface> formatter) -> <\Phalcon\Logger\AdapterInterface>
+	public function setFormatter(<FormatterInterface> formatter) -> <AdapterInterface>
 	{
 		let this->_formatter = formatter;
 		return this;
@@ -94,7 +99,7 @@ abstract class Adapter
  	 *
  	 * @return Phalcon\Logger\AdapterInterface
  	 */
-	public function begin() -> <\Phalcon\Logger\AdapterInterface>
+	public function begin() -> <AdapterInterface>
 	{
 		let this->_transaction = true;
 		return this;
@@ -105,12 +110,12 @@ abstract class Adapter
  	 *
  	 * @return Phalcon\Logger\AdapterInterface
  	 */
-	public function commit() -> <\Phalcon\Logger\AdapterInterface>
+	public function commit() -> <AdapterInterface>
 	{
 		var queue, message;
 
 		if !this->_transaction {
-			throw new \Phalcon\Logger\Exception("There is no active transaction");
+			throw new Exception("There is no active transaction");
 		}
 
 		let this->_transaction = false;
@@ -133,13 +138,13 @@ abstract class Adapter
  	 *
  	 * @return Phalcon\Logger\Adapter
  	 */
-	public function rollback() -> <\Phalcon\Logger\Adapter>
+	public function rollback() -> <AdapterInterface>
 	{
 		var transaction;
 
 		let transaction = this->_transaction;
 		if !transaction {
-			throw new \Phalcon\Logger\Exception("There is no active transaction");
+			throw new Exception("There is no active transaction");
 		}
 
 		let this->_transaction = false,
@@ -155,7 +160,7 @@ abstract class Adapter
  	 * @param array $context
  	 * @return Phalcon\Logger\AdapterInterface
  	 */
-	public function emergency(string! message, array context=null) -> <\Phalcon\Logger\AdapterInterface>
+	public function emergency(string! message, var context = null) -> <AdapterInterface>
 	{
 		this->log(\Phalcon\Logger::EMERGENCY, message, context);
 		return this;
@@ -168,7 +173,7 @@ abstract class Adapter
  	 * @param array $context
  	 * @return Phalcon\Logger\AdapterInterface
  	 */
-	public function debug(string! message, array context=null) -> <\Phalcon\Logger\AdapterInterface>
+	public function debug(string! message, var context = null) -> <AdapterInterface>
 	{
 		this->log(\Phalcon\Logger::DEBUG, message, context);
 		return this;
@@ -181,7 +186,7 @@ abstract class Adapter
  	 * @param array $context
  	 * @return Phalcon\Logger\AdapterInterface
  	 */
-	public function error(string! message, array context=null) -> <\Phalcon\Logger\AdapterInterface>
+	public function error(string! message, var context = null) -> <AdapterInterface>
 	{
 		this->log(\Phalcon\Logger::ERROR, message, context);
 		return this;
@@ -194,7 +199,7 @@ abstract class Adapter
  	 * @param array $context
  	 * @return Phalcon\Logger\AdapterInterface
  	 */
-	public function info(string! message, array context=null) -> <\Phalcon\Logger\AdapterInterface>
+	public function info(string! message, var context = null) -> <AdapterInterface>
 	{
 		this->log(\Phalcon\Logger::INFO, message, context);
 		return this;
@@ -207,7 +212,7 @@ abstract class Adapter
  	 * @param array $context
  	 * @return Phalcon\Logger\AdapterInterface
  	 */
-	public function notice(string! message, array context=null) -> <\Phalcon\Logger\AdapterInterface>
+	public function notice(string! message, var context = null) -> <AdapterInterface>
 	{
 		this->log(\Phalcon\Logger::NOTICE, message, context);
 		return this;
@@ -220,7 +225,7 @@ abstract class Adapter
  	 * @param array $context
  	 * @return Phalcon\Logger\AdapterInterface
  	 */
-	public function warning(string! message, array context=null) -> <\Phalcon\Logger\AdapterInterface>
+	public function warning(string! message, var context = null) -> <AdapterInterface>
 	{
 		this->log(\Phalcon\Logger::WARNING, message, context);
 		return this;
@@ -233,51 +238,39 @@ abstract class Adapter
  	 * @param array $context
  	 * @return Phalcon\Logger\AdapterInterface
  	 */
-	public function alert(string! message, array context = null) -> <\Phalcon\Logger\AdapterInterface>
+	public function alert(string! message, var context = null) -> <AdapterInterface>
 	{
 		this->log(\Phalcon\Logger::ALERT, message, context);
 		return this;
 	}
 
 	/**
-	 * Logs messages to the internal loggger. Appends logs to the
+	 * Logs messages to the internal logger. Appends logs to the logger
 	 *
-	 * @param mixed type
-	 * @param string message
-	 * @param array $context
+	 * @param var type
+	 * @param var message
+	 * @param var context
 	 * @return Phalcon\Logger\AdapterInterface
 	 */
-	public function log(type, string message = null, array context = null) -> <\Phalcon\Logger\AdapterInterface>
+	public function log(var type, var message = null, var context = null) -> <AdapterInterface>
 	{
-		var timestamp, transaction, tmp;
+		var timestamp, toggledMessage, toggledType;
 
-		/*
-		 * Backwards compatibility.
-		 *
-		 * PSR-3 says:
-		 *
-		 * public function log($level, $message, array $context = array());
-		 *
-		 * Our old definition:
-		 *
-		 * public function log($message, $level = null)
-		 *
-		 * Now we want to implement PSR-3
-		 * Thus:
-		 *   - when $message === null, $level is $message and $level is DEBUG
-		 *   - when typeof($message) == 'int' && typeof($level) == 'string', then
-		 *     $message is $level and $level is $message.
+		/**
+		 * PSR3 compatibility
 		 */
-
-		if message === null {
-			let message = type,
-				type = \Phalcon\Logger::DEBUG;
+		if typeof type == "string" && typeof message == "integer" {
+			let toggledMessage = type, toggledType = message;
 		} else {
-			if typeof message == "int" && typeof type == "string" {
-				let tmp = message,
-					message = type,
-					type = (int) tmp;
+			if typeof type == "string" && typeof message == "null" {
+				let toggledMessage = type, toggledType = message;
+			} else {
+				let toggledMessage = message, toggledType = type;
 			}
+		}
+
+		if typeof toggledType == "null" {
+			let toggledType = \Phalcon\Logger::DEBUG;
 		}
 
 		/**
@@ -285,12 +278,10 @@ abstract class Adapter
 		 */
 		if this->_logLevel >= type {
 			let timestamp = time();
-
-			let transaction = this->_transaction;
-			if transaction {
-				let this->_queue[] = new \Phalcon\Logger\Item(message, type, timestamp, context);
+			if this->_transaction {
+				let this->_queue[] = new Item(toggledMessage, toggledType, timestamp, context);
 			} else {
-				this->{"logInternal"}(message, type, timestamp, context);
+				this->{"logInternal"}(toggledMessage, toggledType, timestamp, context);
 			}
 		}
 

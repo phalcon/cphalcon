@@ -12,7 +12,7 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_logger_formatter_interpolate, 0, 0, 1)
 	ZEND_ARG_INFO(0, message)
-	ZEND_ARG_ARRAY_INFO(0, context, 1)
+	ZEND_ARG_INFO(0, context)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_logger_formatter_method_entry) {

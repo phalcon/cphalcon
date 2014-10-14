@@ -83,7 +83,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_tag_setdefault, 0, 0, 2)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_tag_setdefaults, 0, 0, 1)
-	ZEND_ARG_INFO(0, values)
+	ZEND_ARG_ARRAY_INFO(0, values, 0)
 	ZEND_ARG_INFO(0, merge)
 ZEND_END_ARG_INFO()
 

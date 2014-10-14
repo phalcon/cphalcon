@@ -158,7 +158,6 @@ PHP_METHOD(Phalcon_Cli_Router_Route, compilePattern) {
 		ZEPHIR_INIT_VAR(pattern);
 		ZVAL_EMPTY_STRING(pattern);
 	}
-	ZEPHIR_SEPARATE_PARAM(pattern);
 
 
 	if (zephir_memnstr_str(pattern, SL(":"), "phalcon/cli/router/route.zep", 97)) {
@@ -494,7 +493,6 @@ PHP_METHOD(Phalcon_Cli_Router_Route, reConfigure) {
 		ZEPHIR_INIT_VAR(pattern);
 		ZVAL_EMPTY_STRING(pattern);
 	}
-	ZEPHIR_SEPARATE_PARAM(pattern);
 	if (!paths) {
 		paths = ZEPHIR_GLOBAL(global_null);
 	}

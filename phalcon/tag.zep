@@ -112,7 +112,7 @@ class Tag
 	 */
 	public static function renderAttributes(string! code, array! attributes) -> string
 	{
-		var order, keys, escaper, attrs, value, escaped, key;
+		var order, keys, escaper, attrs, value, escaped, key, newCode;
 
 		let order = ["rel", "type", "for", "src", "href", "action", "id", "name", "value", "class"],
 			escaper = <\Phalcon\EscaperInterface> self::getEscaper(attributes),
@@ -121,6 +121,7 @@ class Tag
 
 		unset attrs["escape"];
 
+		let newCode = code;
 		for key, value in attrs {
 			if typeof key == "string" && value !== null {
 				if escaper {
@@ -128,11 +129,11 @@ class Tag
 				} else {
 					let escaped = value;
 				}
-				let code .= " " . key . "=\"" . escaped . "\"";
+				let newCode .= " " . key . "=\"" . escaped . "\"";
 			}
 		}
 
-		return code;
+		return newCode;
 	}
 
 	/**
@@ -152,7 +153,9 @@ class Tag
 	 */
 	public static function getDI() -> <\Phalcon\DiInterface>
 	{
-		return self::_dependencyInjector;
+		var di;
+		let di = self::_dependencyInjector;
+		return di;
 	}
 
 	/**
@@ -258,13 +261,9 @@ class Tag
 	 * @param array values
 	 * @param boolean merge
 	 */
-	public static function setDefaults(values, boolean merge = false) -> void
+	public static function setDefaults(array! values, boolean merge = false) -> void
 	{
 		var displayValues;
-
-		if typeof values != "array" {
-			throw new Exception("An array is required as default values");
-		}
 
 		if merge {
 			let displayValues = self::_displayValues;
@@ -1019,7 +1018,7 @@ class Tag
 	 *
 	 * @return	string
 	 */
-	public static function endForm()
+	public static function endForm() -> string
 	{
 		return "</form>";
 	}
@@ -1085,7 +1084,7 @@ class Tag
 	 *
 	 * @return string
 	 */
-	public static function getTitle(boolean tags=true) -> string
+	public static function getTitle(boolean tags = true) -> string
 	{
 		var documentTitle;
 		let documentTitle = self::_documentTitle;
@@ -1096,18 +1095,18 @@ class Tag
 	}
 
 	/**
-	* Gets the current document title separator
-	*
-	* <code>
-	*         echo Phalcon\Tag::getTitleSeparator();
-	* </code>
-	*
-	* <code>
-	*         {{ get_title_separator() }}
-	* </code>
-	*
-	* @return string
-	*/
+	 * Gets the current document title separator
+	 *
+	 * <code>
+	 *         echo Phalcon\Tag::getTitleSeparator();
+	 * </code>
+	 *
+	 * <code>
+	 *         {{ get_title_separator() }}
+	 * </code>
+	 *
+	 * @return string
+	 */
 	public static function getTitleSeparator()
 	{
 		return self::_documentTitleSeparator;
@@ -1131,7 +1130,7 @@ class Tag
 	 * @param   boolean local
 	 * @return	string
 	 */
-	public static function stylesheetLink(parameters=null, local=true)
+	public static function stylesheetLink(parameters = null, local = true) -> string
 	{
 		var params, code;
 
@@ -1276,7 +1275,7 @@ class Tag
 	 * @param  boolean local
 	 * @return string
 	 */
-	public static function image(parameters=null, local=true)
+	public static function image(parameters = null, local = true) -> string
 	{
 		var params, code, src;
 
@@ -1395,21 +1394,31 @@ class Tag
 		{
 			case 1:  return "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 3.2 Final//EN\">" . PHP_EOL;
 			/* no break */
+
 			case 2:  return "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01//EN\"" . PHP_EOL . "\t\"http://www.w3.org/TR/html4/strict.dtd\">" . PHP_EOL;
 			/* no break */
+
 			case 3:  return "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\"" . PHP_EOL . "\t\"http://www.w3.org/TR/html4/loose.dtd\">" . PHP_EOL;
 			/* no break */
+
 			case 4:  return "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Frameset//EN\"" . PHP_EOL . "\t\"http://www.w3.org/TR/html4/frameset.dtd\">" . PHP_EOL;
 			/* no break */
+
 			case 6:  return "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\"" . PHP_EOL . "\t\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">" . PHP_EOL;
 			/* no break */
+
 			case 7:  return "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\"" . PHP_EOL."\t\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">" . PHP_EOL;
 			/* no break */
+
 			case 8:  return "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Frameset//EN\"" . PHP_EOL . "\t\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd\">" . PHP_EOL;
 			/* no break */
+
 			case 9:  return "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.1//EN\"" . PHP_EOL . "\t\"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd\">" . PHP_EOL;
 			/* no break */
+
 			case 10: return "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 2.0//EN\"" . PHP_EOL . "\t\"http://www.w3.org/MarkUp/DTD/xhtml2.dtd\">" . PHP_EOL;
+			/* no break */
+
 			case 5:
 			case 11: return "<!DOCTYPE html>" . PHP_EOL;
 			/* no break */
@@ -1432,7 +1441,7 @@ class Tag
 	 * @param boolean useEol
 	 * @return string
 	 */
-	public static function tagHtml(tagName, parameters=null, selfClose=false, onlyStart=false, useEol=false) -> string
+	public static function tagHtml(tagName, parameters = null, selfClose = false, onlyStart = false, useEol = false) -> string
 	{
 		var params, localCode;
 
@@ -1479,7 +1488,7 @@ class Tag
 	 * @param boolean useEol
 	 * @return string
 	 */
-	public static function tagHtmlClose(tagName, useEol=false)
+	public static function tagHtmlClose(tagName, useEol = false) -> string
 	{
 		if useEol {
 			return "</" . tagName . ">" . PHP_EOL;

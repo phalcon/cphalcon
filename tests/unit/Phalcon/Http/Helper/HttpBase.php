@@ -23,12 +23,14 @@
 namespace Phalcon\Tests\unit\Phalcon\Http\Helper;
 
 use \Phalcon\DI as PhDI;
-use \Phalcon\Http\Request as PhRequest;
-use \Phalcon\Http\Response as PhResponse;
 use \Phalcon\Mvc\Url as PhUrl;
-use \Phalcon\Filter as PhFilter;
 
-class HttpBase extends \Codeception\TestCase\Test
+use \PhalconTest\Filter as PhTFilter;
+use \PhalconTest\Http\Request as PhTRequest;
+use \PhalconTest\Http\Response as PhTResponse;
+use \Codeception\TestCase\Test as CdTest;
+
+class HttpBase extends CdTest
 {
     use \Codeception\Specify;
 
@@ -38,7 +40,7 @@ class HttpBase extends \Codeception\TestCase\Test
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-10-05
      *
-     * @return PhResponse
+     * @return PhTResponse
      */
     protected function getResponseObject()
     {
@@ -54,7 +56,7 @@ class HttpBase extends \Codeception\TestCase\Test
             }
         );
 
-        $response = new PhResponse();
+        $response = new PhTResponse();
         $response->setDI($di);
 
         return $response;
@@ -75,11 +77,11 @@ class HttpBase extends \Codeception\TestCase\Test
         $di->set(
             'filter',
             function () {
-                return new PhFilter();
+                return new PhTFilter();
             }
         );
 
-        $request = new PhRequest();
+        $request = new PhTRequest();
         $request->setDI($di);
 
         return $request;

@@ -19,7 +19,9 @@
 
 namespace Phalcon\Config\Adapter;
 
-class Php extends \Phalcon\Config
+use Phalcon\Config;
+
+class Php extends Config
 {
 
 	/**

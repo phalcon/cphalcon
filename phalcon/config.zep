@@ -49,24 +49,11 @@ class Config implements \ArrayAccess
 
 	/**
 	 * Phalcon\Config constructor
-	 *
-	 * @param	array arrayConfig
 	 */
-	public function __construct(arrayConfig=null)
+	public function __construct(array! arrayConfig = null)
 	{
 		var key, value, subkey, subvalue;
 		boolean hasNumericKey;
-
-		/**
-		 * Throw exceptions if bad parameters are passed
-		 */
-		if typeof arrayConfig != "array" {
-			if typeof arrayConfig != "null" {
-				throw new \Phalcon\Config\Exception("The configuration must be an Array");
-			} else {
-				return;
-			}
-		}
 
 		for key, value in arrayConfig {
 
@@ -103,11 +90,8 @@ class Config implements \ArrayAccess
 	 *<code>
 	 * var_dump(isset($config['database']));
 	 *</code>
-	 *
-	 * @param string index
-	 * @return boolean
 	 */
-	public function offsetExists(string! index)
+	public function offsetExists(string! index) -> boolean
 	{
 		return isset this->{index};
 	}
@@ -119,14 +103,14 @@ class Config implements \ArrayAccess
 	 *<code>
 	 * echo $config->get('controllersDir', '../app/controllers/');
 	 *</code>
-	 *
-	 * @param string index
-	 * @param mixed defaultValue
-	 * @return mixed
 	 */
-	public function get(index, defaultValue=null)
+	public function get(string! index, var defaultValue = null)
 	{
+       if isset this->{index} {
+            return this->{index};
+       }
 
+       return defaultValue;
 	}
 
 	/**
@@ -135,11 +119,8 @@ class Config implements \ArrayAccess
 	 *<code>
 	 * print_r($config['database']);
 	 *</code>
-	 *
-	 * @param string index
-	 * @return string
 	 */
-	public function offsetGet(string! index)
+	public function offsetGet(string! index) -> string
 	{
 		return this->{index};
 	}
@@ -150,12 +131,10 @@ class Config implements \ArrayAccess
 	 *<code>
 	 * $config['database'] = array('type' => 'Sqlite');
 	 *</code>
-	 *
-	 * @param string $index
-	 * @param mixed $value
 	 */
-	public function offsetSet($index, $value)
+	public function offsetSet(string! index, var value)
 	{
+	    let this->{index} = value;
 	}
 
 	/**
@@ -164,12 +143,11 @@ class Config implements \ArrayAccess
 	 *<code>
 	 * unset($config['database']);
 	 *</code>
-	 *
-	 * @param string index
 	 */
-	public function offsetUnset(index)
+	public function offsetUnset(string! index)
 	{
-		return true;
+		//unset(this->{index});
+		let this->{index} = null;
 	}
 
 	/**
@@ -179,12 +157,18 @@ class Config implements \ArrayAccess
 	 *	$appConfig = new \Phalcon\Config(array('database' => array('host' => 'localhost')));
 	 *	$globalConfig->merge($config2);
 	 *</code>
-	 *
-	 * @param Phalcon\Config $config
 	 */
-	public function merge(config)
+	public function merge(<Config> config)
 	{
+        var key, value;
 
+        for key, value in get_object_vars(config) {
+            if (isset(this->{key})) {
+
+            } else {
+                let this->{key} = value;
+            }
+        }
 	}
 
 	/**
@@ -193,10 +177,8 @@ class Config implements \ArrayAccess
 	 *<code>
 	 *	print_r($config->toArray());
 	 *</code>
-	 *
-	 * @return array
 	 */
-	public function toArray()
+	public function toArray() -> array
 	{
 		var key, value, arrayConfig;
 
@@ -217,11 +199,8 @@ class Config implements \ArrayAccess
 
 	/**
 	 * Restores the state of a Phalcon\Config object
-	 *
-	 * @param array data
-	 * @return Phalcon\Config
 	 */
-	public static function __set_state(data) -> <\Phalcon\Config>
+	public static function __set_state(array! data) -> <\Phalcon\Config>
 	{
 		return new self(data);
 	}

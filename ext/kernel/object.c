@@ -1459,6 +1459,20 @@ static int zephir_update_static_property_ex(zend_class_entry *scope, const char 
 		Z_UNSET_ISREF_P(value);
 		Z_SET_REFCOUNT_P(value, 0);
 		ZVAL_NULL(value);
+	} else {
+		if (value == ZEPHIR_GLOBAL(global_true)) {
+			ALLOC_ZVAL(value);
+			Z_UNSET_ISREF_P(value);
+			Z_SET_REFCOUNT_P(value, 0);
+			ZVAL_BOOL(value, 1);
+		} else {
+			if (value == ZEPHIR_GLOBAL(global_false)) {
+				ALLOC_ZVAL(value);
+				Z_UNSET_ISREF_P(value);
+				Z_SET_REFCOUNT_P(value, 0);
+				ZVAL_BOOL(value, 0);
+			}
+		}
 	}
 
 	EG(scope) = scope;

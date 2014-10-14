@@ -22,9 +22,10 @@
 
 namespace Phalcon\Tests\unit\Phalcon\Acl;
 
-use Phalcon\Acl\Resource as PhAclResource;
+use \PhalconTest\Acl\Resource as PhAclTResource;
+use \Codeception\TestCase\Test as CdTest;
 
-class ACLResourceTest extends \Codeception\TestCase\Test
+class ACLResourceTest extends CdTest
 {
     use \Codeception\Specify;
 
@@ -40,7 +41,7 @@ class ACLResourceTest extends \Codeception\TestCase\Test
             "getting the name from the ACL resource does not return the correct result",
             function () {
 
-                $aclResource = new PhAclResource('Schedules');
+                $aclResource = new PhAclTResource('Schedules');
                 $expected    = 'Schedules';
                 $actual      = $aclResource->getName();
                 expect($actual)->equals($expected);
@@ -63,7 +64,7 @@ class ACLResourceTest extends \Codeception\TestCase\Test
             "getting the name from the ACL resource does not return the correct result",
             function () {
 
-                $aclResource = new PhAclResource('Schedules', 'Schedules resource');
+                $aclResource = new PhAclTResource('Schedules', 'Schedules resource');
                 $expected    = 'Schedules';
                 $actual      = $aclResource->getName();
                 expect($actual)->equals($expected);

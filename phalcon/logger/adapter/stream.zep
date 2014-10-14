@@ -20,6 +20,10 @@
 namespace Phalcon\Logger\Adapter;
 
 use Phalcon\Logger\Exception;
+use Phalcon\Logger\Adapter;
+use Phalcon\Logger\AdapterInterface;
+use Phalcon\Logger\FormatterInterface;
+
 
 /**
  * Phalcon\Logger\Adapter\Stream
@@ -33,7 +37,7 @@ use Phalcon\Logger\Exception;
  *	$logger->error("This is another error");
  *</code>
  */
-class Stream extends \Phalcon\Logger\Adapter implements \Phalcon\Logger\AdapterInterface
+class Stream extends Adapter implements AdapterInterface
 {
 
 	/**
@@ -77,7 +81,7 @@ class Stream extends \Phalcon\Logger\Adapter implements \Phalcon\Logger\AdapterI
 	 *
 	 * @return Phalcon\Logger\Formatter\Line
 	 */
-	public function getFormatter() -> <\Phalcon\Logger\FormatterInterface>
+	public function getFormatter() -> <FormatterInterface>
 	{
 		var formatter;
 

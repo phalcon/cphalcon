@@ -21,6 +21,7 @@ namespace Phalcon\Di;
 
 use Phalcon\Di\Exception;
 use Phalcon\Di\ServiceInterface;
+use Phalcon\Di\Service\Builder;
 
 /**
  * Phalcon\Di\Service
@@ -187,7 +188,7 @@ class Service implements ServiceInterface
 				 * Array definitions require a 'className' parameter
 				 */
 				if typeof definition == "array" {
-					let builder = new \Phalcon\Di\Service\Builder(),
+					let builder = new Builder(),
 						instance = builder->build(dependencyInjector, definition, parameters);
 				} else {
 					let found = false;
@@ -221,7 +222,7 @@ class Service implements ServiceInterface
 	 * @param array parameter
 	 * @return Phalcon\Di\Service
 	 */
-	public function setParameter(int position, array! parameter) -> <\Phalcon\Di\Service>
+	public function setParameter(int position, array! parameter) -> <Service>
 	{
 		var definition, arguments;
 

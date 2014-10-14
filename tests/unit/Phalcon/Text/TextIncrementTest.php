@@ -22,12 +22,10 @@
 
 namespace Phalcon\Tests\unit\Phalcon\Text;
 
-use Phalcon\Text as PhText;
+use \PhalconTest\Text as PhTText;
 
-class TextIncrementTest extends \Codeception\TestCase\Test
+class TextIncrementTest extends Helper\TextBase
 {
-    use \Codeception\Specify;
-
     /**
      * Tests the increment function
      *
@@ -42,7 +40,7 @@ class TextIncrementTest extends \Codeception\TestCase\Test
 
                 $source   = 'file';
                 $expected = 'file_1';
-                $actual   = PhText::increment($source);
+                $actual   = PhTText::increment($source);
                 expect($actual)->equals($expected);
             }
         );
@@ -62,7 +60,7 @@ class TextIncrementTest extends \Codeception\TestCase\Test
 
                 $source   = 'file_1';
                 $expected = 'file_2';
-                $actual   = PhText::increment($source);
+                $actual   = PhTText::increment($source);
                 expect($actual)->equals($expected);
             }
         );
@@ -82,7 +80,7 @@ class TextIncrementTest extends \Codeception\TestCase\Test
 
                 $source   = 'file_2';
                 $expected = 'file_3';
-                $actual   = PhText::increment($source);
+                $actual   = PhTText::increment($source);
                 expect($actual)->equals($expected);
             }
         );
@@ -102,7 +100,7 @@ class TextIncrementTest extends \Codeception\TestCase\Test
 
                 $source   = 'file_';
                 $expected = 'file_1';
-                $actual   = PhText::increment($source);
+                $actual   = PhTText::increment($source);
                 expect($actual)->equals($expected);
             }
         );
@@ -122,7 +120,7 @@ class TextIncrementTest extends \Codeception\TestCase\Test
 
                 $source   = 'file ';
                 $expected = 'file _1';
-                $actual   = PhText::increment($source);
+                $actual   = PhTText::increment($source);
                 expect($actual)->equals($expected);
             }
         );
@@ -142,7 +140,7 @@ class TextIncrementTest extends \Codeception\TestCase\Test
 
                 $source   = 'file';
                 $expected = 'file-1';
-                $actual   = PhText::increment($source, '-');
+                $actual   = PhTText::increment($source, '-');
                 expect($actual)->equals($expected);
             }
         );

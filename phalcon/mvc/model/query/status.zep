@@ -19,6 +19,9 @@
 
 namespace Phalcon\Mvc\Model\Query;
 
+use Phalcon\Mvc\ModelInterface;
+use Phalcon\Mvc\Model\Query\StatusInterface;
+
 /**
  * Phalcon\Mvc\Model\Query\Status
  *
@@ -42,7 +45,7 @@ namespace Phalcon\Mvc\Model\Query;
  *}
  *</code>
  */
-class Status implements \Phalcon\Mvc\Model\Query\StatusInterface
+class Status implements StatusInterface
 {
 
 	protected _success;
@@ -55,7 +58,7 @@ class Status implements \Phalcon\Mvc\Model\Query\StatusInterface
 	 * @param boolean success
 	 * @param Phalcon\Mvc\ModelInterface model
 	 */
-	public function __construct(boolean success, <\Phalcon\Mvc\ModelInterface> model)
+	public function __construct(boolean success, <ModelInterface> model)
 	{
 		let this->_success = success,
 			this->_model = model;
@@ -66,7 +69,7 @@ class Status implements \Phalcon\Mvc\Model\Query\StatusInterface
 	 *
 	 * @return Phalcon\Mvc\ModelInterface
 	 */
-	public function getModel() -> <\Phalcon\Mvc\ModelInterface>
+	public function getModel() -> <ModelInterface>
 	{
 		return this->_model;
 	}

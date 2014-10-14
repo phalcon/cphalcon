@@ -18,6 +18,10 @@
 
 namespace Phalcon\Http;
 
+use Phalcon\Http\RequestInterface;
+use Phalcon\Di\InjectionAwareInterface;
+use Phalcon\Http\Request\Exception;
+
 /**
  * Phalcon\Http\Request
  *
@@ -36,7 +40,7 @@ namespace Phalcon\Http;
  *</code>
  *
  */
-class Request implements \Phalcon\Http\RequestInterface, \Phalcon\Di\InjectionAwareInterface
+class Request implements RequestInterface, InjectionAwareInterface
 {
 
 	protected _dependencyInjector;
@@ -84,7 +88,7 @@ class Request implements \Phalcon\Http\RequestInterface, \Phalcon\Di\InjectionAw
 	 * @param boolean noRecursive
 	 * @return mixed
 	 */
-	public function get(string! name=null, filters=null, defaultValue=null, notAllowEmpty=false, noRecursive=false)
+	public function get(string! name = null, filters = null, defaultValue = null, notAllowEmpty = false, noRecursive = false)
 	{
 		var request, value, filter, dependencyInjector;
 
@@ -96,7 +100,7 @@ class Request implements \Phalcon\Http\RequestInterface, \Phalcon\Di\InjectionAw
 					if typeof filter != "object" {
 						let dependencyInjector = <\Phalcon\Di> this->_dependencyInjector;
 						if typeof dependencyInjector != "object" {
-							throw new \Phalcon\Http\Request\Exception("A dependency injection object is required to access the 'filter' service");
+							throw new Exception("A dependency injection object is required to access the 'filter' service");
 						}
 						let filter = <\Phalcon\Filter> dependencyInjector->getShared("filter");
 						let this->_filter = filter;
@@ -155,7 +159,7 @@ class Request implements \Phalcon\Http\RequestInterface, \Phalcon\Di\InjectionAw
 					if typeof filter != "object" {
 						let dependencyInjector = <\Phalcon\Di> this->_dependencyInjector;
 						if typeof dependencyInjector != "object" {
-							throw new \Phalcon\Http\Request\Exception("A dependency injection object is required to access the 'filter' service");
+							throw new Exception("A dependency injection object is required to access the 'filter' service");
 						}
 						let filter = <\Phalcon\Filter> dependencyInjector->getShared("filter");
 						let this->_filter = filter;
@@ -218,7 +222,7 @@ class Request implements \Phalcon\Http\RequestInterface, \Phalcon\Di\InjectionAw
 					if typeof filter != "object" {
 						let dependencyInjector = <\Phalcon\Di> this->_dependencyInjector;
 						if typeof dependencyInjector != "object" {
-							throw new \Phalcon\Http\Request\Exception("A dependency injection object is required to access the 'filter' service");
+							throw new Exception("A dependency injection object is required to access the 'filter' service");
 						}
 						let filter = <\Phalcon\Filter> dependencyInjector->getShared("filter");
 						let this->_filter = filter;
@@ -515,7 +519,7 @@ class Request implements \Phalcon\Http\RequestInterface, \Phalcon\Di\InjectionAw
 	 * @param boolean trustForwardedHeader
 	 * @return string|boolean
 	 */
-	public function getClientAddress(boolean trustForwardedHeader=false) -> string | boolean
+	public function getClientAddress(boolean trustForwardedHeader = false) -> string | boolean
 	{
 		var address = null;
 

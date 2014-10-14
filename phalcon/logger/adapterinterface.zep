@@ -19,6 +19,8 @@
 
 namespace Phalcon\Logger;
 
+use Phalcon\Logger\FormatterInterface;
+
 /**
  * Phalcon\Logger\AdapterInterface
  *
@@ -33,7 +35,7 @@ interface AdapterInterface
 	 * @param Phalcon\Logger\FormatterInterface formatter
 	 * @return Phalcon\Logger\Adapter
 	 */
-	public function setFormatter(<\Phalcon\Logger\FormatterInterface> formatter);
+	public function setFormatter(<FormatterInterface> formatter);
 
 	/**
 	 * Returns the internal formatter
@@ -65,7 +67,7 @@ interface AdapterInterface
 	 * @param array $context
 	 * @return Phalcon\Logger\Adapter
 	 */
-	public function log(type, string message = null, array context = null);
+	public function log(var type, var message = null, var context = null);
 
 	/**
  	 * Starts a transaction
@@ -102,7 +104,7 @@ interface AdapterInterface
  	 * @param array $context
  	 * @return Phalcon\Logger\Adapter
  	 */
-	public function debug(string! message, array context=null);
+	public function debug(string! message, var context = null);
 
 	/**
  	 * Sends/Writes an error message to the log
@@ -111,7 +113,7 @@ interface AdapterInterface
  	 * @param array $context
  	 * @return Phalcon\Logger\Adapter
  	 */
-	public function error(string! message, array context=null);
+	public function error(string! message, var context = null);
 
 	/**
  	 * Sends/Writes an info message to the log
@@ -120,7 +122,7 @@ interface AdapterInterface
  	 * @param array $context
  	 * @return Phalcon\Logger\Adapter
  	 */
-	public function info(string! message, array context=null);
+	public function info(string! message, var context = null);
 
 	/**
  	 * Sends/Writes a notice message to the log
@@ -129,7 +131,7 @@ interface AdapterInterface
  	 * @param array $context
  	 * @return Phalcon\Logger\Adapter
  	 */
-	public function notice(string! message, array context=null);
+	public function notice(string! message, var context = null);
 
 	/**
  	 * Sends/Writes a warning message to the log
@@ -138,7 +140,7 @@ interface AdapterInterface
  	 * @param array $context
  	 * @return Phalcon\Logger\Adapter
  	 */
-	public function warning(string! message, array context=null);
+	public function warning(string! message, var context = null);
 
 	/**
  	 * Sends/Writes an alert message to the log
@@ -147,7 +149,7 @@ interface AdapterInterface
  	 * @param array $context
  	 * @return Phalcon\Logger\Adapter
  	 */
-	public function alert(string! message, array context=null);
+	public function alert(string! message, var context = null);
 
 	/**
  	 * Sends/Writes an emergency message to the log
@@ -156,7 +158,6 @@ interface AdapterInterface
  	 * @param array $context
  	 * @return Phalcon\Logger\Adapter
  	 */
-	public function emergency(string! message, array context=null);
+	public function emergency(string! message, var context = null);
 
 }
-

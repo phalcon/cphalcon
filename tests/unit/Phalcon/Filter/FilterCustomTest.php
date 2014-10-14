@@ -22,7 +22,7 @@
 
 namespace Phalcon\Tests\unit\Phalcon\Filter;
 
-use Phalcon\Filter as PhFilter;
+use \PhalconTest\Filter as PhTFilter;
 use Phalcon\Tests\unit\Phalcon\Filter\Helper\IPv4 as PhTestFilterIPv4;
 
 class FilterCustomTest extends \Codeception\TestCase\Test
@@ -41,7 +41,7 @@ class FilterCustomTest extends \Codeception\TestCase\Test
             "custom filter does not return correct hex",
             function () {
 
-                $filter = new PhFilter();
+                $filter = new PhTFilter();
 
                 $filter->add('ipv4', new PhTestFilterIPv4());
 
@@ -63,7 +63,7 @@ class FilterCustomTest extends \Codeception\TestCase\Test
             "custom filter does not return correct IP",
             function () {
 
-                $filter = new PhFilter();
+                $filter = new PhTFilter();
 
                 $filter->add('ipv4', new PhTestFilterIPv4());
 
@@ -86,7 +86,7 @@ class FilterCustomTest extends \Codeception\TestCase\Test
             "lambda custom filter does not return false",
             function () {
 
-                $filter = new PhFilter();
+                $filter = new PhTFilter();
 
                 $filter->add(
                     'md5',
@@ -115,7 +115,7 @@ class FilterCustomTest extends \Codeception\TestCase\Test
             "lambda custom filter does not return true",
             function () {
 
-                $filter = new PhFilter();
+                $filter = new PhTFilter();
 
                 $filter->add(
                     'md5',
