@@ -23,71 +23,57 @@
 namespace PhalconTest\Http\Response;
 
 use Phalcon\Http\Response\Cookies as PhCookies;
+use \Phalcon\DiInterface as PhDIInterface;
 
-class Cookies
+class Cookies extends PhCookies
 {
-    private $cookies = null;
-    
-    public function __construct($content = null, $code = null, $status = null)
-    {
-        $this->cookies = new PhCookies($content, $code, $status);
-    }
-
-    public function __desctruct()
-    {
-        unset($this->cookies);
-    }
-
-    public function setDI($di)
+    public function setDI(PhDIInterface $di)
 	{
-        $this->cookies->setDI($di);
+        parent::setDI($di);
 	}
 
     public function getDI()
 	{
-        return $this->cookies->getDI();
+        return parent::getDI();
 	}
 
 	public function useEncryption($useEncryption)
 	{
-        $this->cookies->useEncryption($useEncryption);
-		return $this;
+        return parent::useEncryption($useEncryption);
 	}
 
 	public function isUsingEncryption()
 	{
-        return $this->cookies->isUsingEncryption();
+        return parent::isUsingEncryption();
 	}
 
 	public function set($name, $value = null, $expire = 0, $path = "/", $secure = null, $domain = null, $httpOnly = null)
 	{
-        $this->cookies->set($name, $value, $expire, $path, $secure, $domain, $httpOnly);
-		return $this;
+        return parent::set($name, $value, $expire, $path, $secure, $domain, $httpOnly);
 	}
 
 	public function get($name)
 	{
-        return $this->cookies->get($name);
+        return parent::get($name);
     }
 
 	public function has($name)
 	{
-        return $this->cookies->has($name);
+        return parent::has($name);
 	}
 
 	public function delete($name)
 	{
-        return $this->cookies->delete($name);
+        return parent::delete($name);
 	}
 
 	public function send()
 	{
-        return $this->cookies->send();
+        return parent::send();
 	}
 
 	public function reset()
 	{
-        $this->cookies->reset();
-		return $this;
+        return parent::reset();
 	}
 }

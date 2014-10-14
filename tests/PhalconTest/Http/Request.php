@@ -23,239 +23,207 @@
 namespace PhalconTest\Http;
 
 use \Phalcon\Http\Request as PhRequest;
+use \Phalcon\DiInterface as PhDIInterface;
 
-class Request
+class Request extends PhRequest
 {
-    private $request = null;
-    
-    public function __construct()
-    {
-        $this->request = new PhRequest();
-    }
-
-    public function __desctruct()
-    {
-        unset($this->request);
-    }
-
-    public function setDI($di)
+    public function setDI(PhDIInterface $di)
 	{
-        $this->request->setDI($di);
+        parent::setDI($di);
 	}
 
     public function getDI()
 	{
-        return $this->request->getDI();
+        return parent::getDI();
 	}
 
 	public function get($name = null, $filters = null, $defaultValue = null, $notAllowEmpty = false, $noRecursive = false)
 	{
-        return $this->request->get($name, $filters, $defaultValue, $notAllowEmpty, $noRecursive);
+        return parent::get($name, $filters, $defaultValue, $notAllowEmpty, $noRecursive);
 	}
 
 	public function getPost($name = null, $filters = null, $defaultValue = null, $notAllowEmpty = false, $noRecursive = false)
 	{
-        return $this->request->getPost($name, $filters, $defaultValue, $notAllowEmpty, $noRecursive);
+        return parent::getPost($name, $filters, $defaultValue, $notAllowEmpty, $noRecursive);
 	}
 
 	public function getQuery($name = null, $filters = null, $defaultValue = null, $notAllowEmpty = false, $noRecursive = false)
 	{
-        return $this->request->getQuery($name, $filters, $defaultValue, $notAllowEmpty, $noRecursive);
+        return parent::getQuery($name, $filters, $defaultValue, $notAllowEmpty, $noRecursive);
 	}
 
 	public function getServer($name)
 	{
-        return $this->request->getServer($name);
+        return parent::getServer($name);
 	}
 
 	public function has($name)
 	{
-        return $this->request->has($name);
+        return parent::has($name);
 	}
 
 	public function hasPost($name)
 	{
-        return $this->request->hasPost($name);
+        return parent::hasPost($name);
 	}
 
 	public function hasQuery($name)
 	{
-        return $this->request->hasQuery($name);
-	}
-
-	public final function hasServer($name)
-	{
-        return $this->request->hasServer($name);
-	}
-
-	public final function getHeader($header)
-	{
-        return $this->request->getHeader($header);
+        return parent::hasQuery($name);
 	}
 
 	public function getScheme()
 	{
-        return $this->request->getScheme();
+        return parent::getScheme();
 	}
 
 	public function isAjax()
 	{
-        return $this->request->isAjax();
+        return parent::isAjax();
 	}
 
 	public function isSoapRequested()
 	{
-        return $this->request->isSoapRequest();
+        return parent::isSoapRequest();
 	}
 
 	public function isSecureRequest()
 	{
-        return $this->request->isSecureRequest();
+        return parent::isSecureRequest();
 	}
 
 	public function getRawBody()
 	{
-        return $this->request->getRawBody();
+        return parent::getRawBody();
 	}
 
 	public function getJsonRawBody()
     {
-        return $this->request->getJsonRawBody();
+        return parent::getJsonRawBody();
 	}
 
 	public function getServerAddress()
 	{
-        return $this->request->getServerAddress();
+        return parent::getServerAddress();
 	}
 
 	public function getServerName()
 	{
-        return $this->request->getServerName();
+        return parent::getServerName();
 	}
 
 	public function getHttpHost()
 	{
-        return $this->request->getHttpHost();
+        return parent::getHttpHost();
 	}
 
 	public function getClientAddress($trustForwardedHeader = false)
 	{
-        return $this->request->getClientAddress($trustForwardedHeader);
-	}
-
-	public final function getMethod()
-	{
-        return $this->request->getMethod();
+        return parent::getClientAddress($trustForwardedHeader);
 	}
 
 	public function getUserAgent()
 	{
-        return $this->request->getUserAgent();
+        return parent::getUserAgent();
 	}
 
 	public function isMethod($methods)
 	{
-        return $this->request->isMethod($methods);
+        return parent::isMethod($methods);
 	}
 
 	public function isPost()
 	{
-        return $this->request->isPost();
+        return parent::isPost();
 	}
 
 	public function isGet()
 	{
-        return $this->request->isGet();
+        return parent::isGet();
 	}
 
 	public function isPut()
 	{
-        return $this->request->isPut();
+        return parent::isPut();
 	}
 
 	public function isPatch()
 	{
-        return $this->request->isPatch();
+        return parent::isPatch();
 	}
 
 	public function isHead()
 	{
-        return $this->request->isHead();
+        return parent::isHead();
 	}
 
 	public function isDelete()
 	{
-        return $this->request->isDelete();
+        return parent::isDelete();
 	}
 
 	public function isOptions()
 	{
-        return $this->request->isOptions();
+        return parent::isOptions();
 	}
 
 	public function hasFiles($onlySuccessful = false)
 	{
-        return $this->request->hasFiles($onlySuccessful);
-	}
-
-	private function hasFileHelper($data, $onlySuccessful)
-	{
-        return $this->request->hasFileHeader($data, $onlySuccessful);
+        return parent::hasFiles($onlySuccessful);
 	}
 
 	public function getUploadedFiles($notErrored = false)
 	{
-        return $this->request->getUploadedFiles($notErrored);
+        return parent::getUploadedFiles($notErrored);
 	}
 
 	public function getHeaders()
 	{
-        return $this->request->getHeaders();
+        return parent::getHeaders();
 	}
 
 	public function getHTTPReferer()
 	{
-        return $this->request->getHTTPReferer();
+        return parent::getHTTPReferer();
 	}
 
 	public function getAcceptableContent()
     {
-        return $this->request->getAcceptableContent();
+        return parent::getAcceptableContent();
 	}
 
 	public function getBestAccept()
 	{
-        return $this->request->getBestAccept();
+        return parent::getBestAccept();
 	}
 
 	public function getClientCharsets()
     {
-        return $this->request->getClientCharsets();
+        return parent::getClientCharsets();
 	}
 
 	public function getBestCharset()
 	{
-        return $this->request->getBestCharset();
+        return parent::getBestCharset();
 	}
 
 	public function getLanguages()
 	{
-        return $this->request->getLanguages();
+        return parent::getLanguages();
 	}
 
 	public function getBestLanguage()
 	{
-        return $this->request->getBestLanguage();
+        return parent::getBestLanguage();
 	}
-
 
 	public function getBasicAuth()
     {
-        return $this->request->getBasicAuth();
+        return parent::getBasicAuth();
 	}
 
 	public function getDigestAuth()
 	{
-        return $this->request->getDigestAuth();
+        return parent::getDigestAuth();
 	}
 }
