@@ -22,9 +22,48 @@
 
 namespace Phalcon\Tests\unit\Phalcon\Assets\Helper;
 
+use \Phalcon\DI as PhDI;
+use \PhalconTest\Mvc\Url as PhTUrl;
+use \PhalconTest\Escaper as PhTEscaper;
+
 use \Codeception\TestCase\Test as CdTest;
 
 class AssetsBase extends CdTest
 {
     use \Codeception\Specify;
+
+    /**
+     * Sets up the DI and the escaper
+     *
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-10-13
+     *
+     * @param bool $static
+     */
+    protected function prepareDI($static = false)
+    {
+        PhDI::reset();
+
+        $di = new PhDI();
+
+        $di->set(
+            'url',
+            function () use ($static) {
+                $url = new PhTUrl();
+                if ($static) {
+                    $url->setStaticBaseUri('/');
+                } else {
+                    $url->setBaseUri('/');
+                }
+                return $url;
+            }
+        );
+
+        $di->set(
+            'escaper',
+            function() {
+                return new PhTEscaper();
+            }
+        );
+    }
 }
