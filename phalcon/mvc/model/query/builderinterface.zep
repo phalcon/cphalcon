@@ -171,7 +171,7 @@ interface BuilderInterface
 	 * @param array values
 	 * @return Phalcon\Mvc\Model\Query\Builder
 	 */
-	public function inWhere(expr, array! values);
+	public function inWhere(string! expr, array! values) -> <BuilderInterface>;
 
 	/**
 	 * Appends a NOT IN condition to the current conditions
@@ -180,7 +180,7 @@ interface BuilderInterface
 	 * @param array values
 	 * @return Phalcon\Mvc\Model\Query\Builder
 	 */
-	public function notInWhere(expr, array! values);
+	public function notInWhere(string! expr, array! values) -> <Builder>;
 
 	/**
 	 * Return the conditions for the query
