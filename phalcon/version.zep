@@ -133,7 +133,7 @@ class Version
 		let result  = major . "." . medium . "." . minor . " ";
 		let suffix  = self::_getSpecial(special);
 
-		if (suffix != "") {
+		if suffix != "" {
 		    let result .= suffix . " " . specialNumber;
 		}
 
@@ -198,4 +198,5 @@ class Version
 
         return result;
     }
+
 }

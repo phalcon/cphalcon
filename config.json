@@ -36,19 +36,31 @@
             "type": "bool",
             "default": true
         },
-        "orm.column_renaming": {
-            "type": "bool",
-            "default": true
+        "orm.parser_cache": {
+            "type": "hash",
+            "default": "NULL"
         },
-        "orm.events": {
-            "type": "bool",
-            "default": true
+        "orm.ast_cache": {
+            "type": "hash",
+            "default": "NULL"
         },
         "orm.cache_level": {
             "type": "int",
             "default": 3
         },
+        "orm.unique_cache_id": {
+            "type": "int",
+            "default": 3
+        },
+        "orm.events": {
+            "type": "bool",
+            "default": true
+        },
         "orm.virtual_foreign_keys": {
+            "type": "bool",
+            "default": true
+        },
+        "orm.column_renaming": {
             "type": "bool",
             "default": true
         },

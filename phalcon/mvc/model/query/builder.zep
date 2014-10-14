@@ -1270,7 +1270,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 *
 	 * @return Phalcon\Mvc\Model\Query
 	 */
-	public function getQuery() -> <Query>
+	public function getQuery() -> <\Phalcon\Mvc\Model\Query>
 	{
 		var query, bindParams, bindTypes;
 

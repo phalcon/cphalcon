@@ -892,10 +892,13 @@ static void php_zephir_init_globals(zend_phalcon_globals *zephir_globals TSRMLS_
 	zephir_globals->recursive_lock = 0;
 
 	zephir_globals->db.escape_identifiers = 1;
-	zephir_globals->orm.column_renaming = 1;
-	zephir_globals->orm.events = 1;
+	zephir_globals->orm.parser_cache = NULL;
+	zephir_globals->orm.ast_cache = NULL;
 	zephir_globals->orm.cache_level = 3;
+	zephir_globals->orm.unique_cache_id = 3;
+	zephir_globals->orm.events = 1;
 	zephir_globals->orm.virtual_foreign_keys = 1;
+	zephir_globals->orm.column_renaming = 1;
 	zephir_globals->orm.not_null_validations = 1;
 	zephir_globals->orm.exception_on_failed_save = 0;
 	zephir_globals->orm.enable_literals = 1;
