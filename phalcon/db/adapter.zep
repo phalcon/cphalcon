@@ -22,6 +22,8 @@ namespace Phalcon\Db;
 use Phalcon\Db\Exception;
 use Phalcon\Events\EventsAwareInterface;
 use Phalcon\Events\ManagerInterface;
+use Phalcon\Db\DialectInterface;
+use ReferenceInterface;
 
 /**
  * Phalcon\Db\Adapter
@@ -158,7 +160,7 @@ abstract class Adapter implements EventsAwareInterface
 	 *
 	 * @param Phalcon\Db\DialectInterface
 	 */
-	public function setDialect(<\Phalcon\Db\DialectInterface> dialect)
+	public function setDialect(<DialectInterface> dialect)
 	{
 		let this->_dialect = dialect;
 	}
@@ -168,7 +170,7 @@ abstract class Adapter implements EventsAwareInterface
 	 *
 	 * @return Phalcon\Db\DialectInterface
 	 */
-	public function getDialect() -> <\Phalcon\Db\DialectInterface>
+	public function getDialect() -> <DialectInterface>
 	{
 		return this->_dialect;
 	}
@@ -192,7 +194,7 @@ abstract class Adapter implements EventsAwareInterface
 	 * @param array bindTypes
 	 * @return array
 	 */
-	public function fetchOne(string sqlQuery, fetchMode=2, bindParams=null, bindTypes=null)
+	public function fetchOne(string! sqlQuery, var fetchMode = 2, var bindParams = null, var bindTypes = null)
 	{
 		var result;
 		let result = this->{"query"}(sqlQuery, bindParams, bindTypes);
@@ -231,7 +233,7 @@ abstract class Adapter implements EventsAwareInterface
 	 * @param array bindTypes
 	 * @return array
 	 */
-	public function fetchAll(string sqlQuery, fetchMode=2, bindParams=null, bindTypes=null)
+	public function fetchAll(string sqlQuery, var fetchMode = 2, var bindParams = null, var bindTypes = null) -> array
 	{
 		var results, result, row;
 		let results = [],
@@ -270,15 +272,14 @@ abstract class Adapter implements EventsAwareInterface
      * @param  int|string column
      * @return string|
      */
-    public function fetchColumn(var sqlQuery, placeholders=null, column=0) -> string|bool
+    public function fetchColumn(var sqlQuery, placeholders = null, column = 0) -> string|bool
     {
         var row;
         let row = this->fetchOne(sqlQuery, \Phalcon\Db::FETCH_BOTH, placeholders);
-        if(!empty row && isset row[column]) {
+        if !empty row && isset row[column] {
             return row[column];
-        } else {
-            return false;
         }
+		return false;
     }
 
 	/**
@@ -302,15 +303,11 @@ abstract class Adapter implements EventsAwareInterface
 	 * @param 	array dataTypes
 	 * @return 	boolean
 	 */
-	public function insert(var table, values, fields=null, dataTypes=null) -> boolean
+	public function insert(var table, array! values, fields = null, dataTypes = null) -> boolean
 	{
 		var placeholders, insertValues, bindDataTypes, bindType,
 			position, value, escapedTable, joinedValues, escapedFields,
 			field, insertSql;
-
-		if typeof values != "array" {
-			throw new Exception("The second parameter for insert isn't an Array");
-		}
 
 		/**
 		 * A valid array with more than one element is required
@@ -409,7 +406,7 @@ abstract class Adapter implements EventsAwareInterface
      * @param 	array dataTypes
      * @return 	boolean
      */
-    public function insertAsDict(var table, data, dataTypes=null) -> boolean
+    public function insertAsDict(var table, data, var dataTypes = null) -> boolean
     {
         if typeOf data != "array" || empty data {
             return false;
@@ -597,7 +594,7 @@ abstract class Adapter implements EventsAwareInterface
      * @param 	array dataTypes
      * @return 	boolean
      */
-    public function updateAsDict(var table, data, whereCondition=null, dataTypes=null) -> boolean
+    public function updateAsDict(var table, data, whereCondition = null, dataTypes = null) -> boolean
     {
         if typeOf data != "array" || empty data {
             return false;
@@ -908,7 +905,7 @@ abstract class Adapter implements EventsAwareInterface
 	 * @param	Phalcon\Db\ReferenceInterface reference
 	 * @return	boolean true
 	 */
-	public function addForeignKey(string! tableName, string! schemaName, <\Phalcon\Db\ReferenceInterface> reference) -> boolean
+	public function addForeignKey(string! tableName, string! schemaName, <ReferenceInterface> reference) -> boolean
 	{
 		return this->{"execute"}(this->_dialect->addForeignKey(tableName, schemaName, reference));
 	}
@@ -947,7 +944,7 @@ abstract class Adapter implements EventsAwareInterface
 	 * @param string schemaName
 	 * @return array
 	 */
-	public function listTables(string! schemaName=null)
+	public function listTables(string! schemaName = null)
 	{
 		var table, allTables;
 
@@ -990,7 +987,7 @@ abstract class Adapter implements EventsAwareInterface
 	 * @param	string schema
 	 * @return	Phalcon\Db\Index[]
 	 */
-	public function describeIndexes(string! table, schema=null)
+	public function describeIndexes(string! table, schema = null)
 	{
 		var indexes, index, keyName, indexObjects, name, indexColumns, columns;
 

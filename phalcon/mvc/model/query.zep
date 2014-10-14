@@ -184,7 +184,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 	 * @param array expr
 	 * @return string
 	 */
-	protected final function _getQualified(expr)
+	protected final function _getQualified(array! expr)
 	{
 		var columnName, sqlColumnAliases, metaData, sqlAliases,
 			source, sqlAliasesModelsInstances, realColumnName, columnDomain,
@@ -2127,7 +2127,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 	 *
 	 * @return array
 	 */
-	public function parse()
+	public function parse() -> array
 	{
 		var intermediate, phql, ast, irPhql, irPhqlCache, uniqueId, type;
 
@@ -2153,15 +2153,13 @@ class Query implements QueryInterface, InjectionAwareInterface
 			 * Parsed ASTs have a unique id
 			 */
 			if fetch uniqueId, ast["id"] {
-				if fetch irPhql, self::_irPhqlCache[uniqueId] {
-					if typeof irPhql == "array" {
-						/**
-						 * Assign the type to the query
-						 */
-						let this->_type = ast["type"];
-						return irPhql;
-					}
-				}
+				//if fetch irPhql, self::_irPhqlCache[uniqueId] {
+				//	if typeof irPhql == "array" {
+						//Assign the type to the query
+						//let this->_type = ast["type"];
+						//return irPhql;
+					//}
+				//}
 			}
 
 			/**
@@ -2203,7 +2201,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 		 * Store the prepared AST in the cache
 		 */
 		if typeof uniqueId == "int" {
-			let self::_irPhqlCache[uniqueId] = irPhql;
+			//let self::_irPhqlCache[uniqueId] = irPhql;
 		}
 
 		let this->_intermediate = irPhql;
@@ -2228,7 +2226,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 	 * @param array bindTypes
 	 * @return Phalcon\Mvc\Model\ResultsetInterface
 	 */
-	protected final function _executeSelect(intermediate, bindParams, bindTypes) -> <ResultsetInterface>
+	protected final function _executeSelect(var intermediate, var bindParams, var bindTypes) -> <ResultsetInterface>
 	{
 
 		var manager, modelName, models, model, connection, connections,
@@ -3042,7 +3040,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 		let defaultBindParams = this->_bindParams;
 		if typeof defaultBindParams == "array" {
 			if typeof bindParams == "array" {
-				let mergedParams = array_merge(defaultBindParams, bindParams);
+				let mergedParams = defaultBindParams + bindParams;
 			} else {
 				let mergedParams = defaultBindParams;
 			}
@@ -3056,7 +3054,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 		let defaultBindTypes = this->_bindTypes;
 		if typeof defaultBindTypes == "array" {
 			if typeof bindTypes == "array" {
-				let mergedTypes = array_merge(defaultBindTypes, bindTypes);
+				let mergedTypes = defaultBindTypes + bindTypes;
 			} else {
 				let mergedTypes = defaultBindTypes;
 			}

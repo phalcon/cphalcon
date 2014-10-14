@@ -63,7 +63,7 @@ interface AdapterInterface
 	 * @param 	array dataTypes
 	 * @return 	boolean
 	 */
-	public function insert(var table, values, fields=null, dataTypes=null);
+	public function insert(var table, array! values, fields = null, dataTypes = null);
 
 	/**
 	 * Updates data on a table using custom RBDM SQL syntax
@@ -75,7 +75,7 @@ interface AdapterInterface
 	 * @param 	array dataTypes
 	 * @return 	boolean
 	 */
-	public function update(var table, fields, values, whereCondition=null, dataTypes=null);
+	public function update(var table, fields, values, whereCondition = null, dataTypes = null);
 
 	/**
 	 * Deletes data from a table using custom RBDM SQL syntax
@@ -121,7 +121,7 @@ interface AdapterInterface
 	 * @param string schemaName
 	 * @return string
 	 */
-	public function viewExists(string! viewName, schemaName=null);
+	public function viewExists(string! viewName, schemaName = null);
 
 	/**
 	 * Returns a SQL modified with a FOR UPDATE clause
@@ -167,7 +167,7 @@ interface AdapterInterface
 	 * @param	string schemaName
 	 * @return	boolean
 	 */
-	public function createView(viewName, definition, schemaName=null);
+	public function createView(viewName, definition, schemaName = null);
 
 	/**
 	 * Drops a view
@@ -177,7 +177,7 @@ interface AdapterInterface
 	 * @param	boolean ifExists
 	 * @return	boolean
 	 */
-	public function dropView(viewName, schemaName=null, ifExists=true);
+	public function dropView(viewName, schemaName = null, ifExists = true);
 
 	/**
 	 * Adds a column to a table
