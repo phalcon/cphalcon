@@ -24,22 +24,10 @@ namespace PhalconTest\Assets\Filters;
 
 use Phalcon\Assets\Filters\Jsmin as PhJs;
 
-class Jsmin
+class Jsmin extends PhJs
 {
-    private $jsmin = null;
-
-    public function __construct()
-    {
-        $this->jsmin = new PhJs();
-    }
-
-    public function __desctruct()
-    {
-        unset($this->jsmin);
-    }
-
 	public function filter($content)
 	{
-		return $this->jsmin->filter($content);
+		return parent::filter($content);
 	}
 }

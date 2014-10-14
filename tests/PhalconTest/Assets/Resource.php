@@ -22,128 +22,108 @@
 
 namespace PhalconTest\Assets;
 
-use Phalcon\Assets\Resource as PhResource;
+use \Phalcon\Assets\Resource as PhResource;
 
-class Resource
+class Resource extends PhResource
 {
-    private $resource = null;
-
-    public function __construct($type, $path, $local = true, $filter = true, $attributes = null)
-    {
-        $this->resource = new PhResource($type, $path, $local, $filter, $attributes);
-    }
-
-    public function __desctruct()
-    {
-        unset($this->resource);
-    }
-
     public function getType()
     {
-        return $this->resource->getType();
+        return parent::getType();
     }
 
     public function getPath()
     {
-        return $this->resource->getPath();
+        return parent::getPath();
     }
 
     public function getLocal()
     {
-        return $this->resource->getLocal();
+        return parent::getLocal();
     }
 
     public function getFilter()
     {
-        return $this->resource->getFilter();
+        return parent::getFilter();
     }
 
     public function getAttributes()
     {
-        return $this->resource->getAttributes();
+        return parent::getAttributes();
     }
 
     public function getSourcePath()
     {
-        return $this->resource->getSourcePath();
+        return parent::getSourcePath();
     }
 
     public function getTargetPath()
     {
-        return $this->resource->getTargetPath();
+        return parent::getTargetPath();
     }
 
     public function getTargetUri()
     {
-        return $this->resource->getTargetUri();
+        return parent::getTargetUri();
     }
 
 	public function setType($type)
 	{
-        $this->resource->setType($type);
-		return $this;
+        return parent::setType($type);
 	}
 
 	public function setPath($path)
 	{
-        $this->resource->setPath($path);
-		return $this;
+        return parent::setPath($path);
 	}
 
 	public function setLocal($local)
 	{
-        $this->resource->setLocal($local);
-		return $this;
+        return parent::setLocal($local);
 	}
 
 	public function setFilter($filter)
 	{
-        $this->resource->setFilter($filter);
-		return $this;
+        return parent::setFilter($filter);
 	}
 
 	public function setAttributes($attributes)
 	{
-        $this->resource->setAttributes($attributes);
-		return $this;
+        return parent::setAttributes($attributes);
 	}
 
 	public function setTargetUri($targetUri)
 	{
-        $this->resource->setTargetUri($targetUri);
-		return $this;
+        return parent::setTargetUri($targetUri);
 	}
 
 	public function setSourcePath($sourcePath)
 	{
-        $this->resource->setSourcePath($sourcePath);
-		return $this;
+        return parent::setSourcePath($sourcePath);
 	}
 
 	public function setTargetPath($targetPath)
 	{
-        $this->resource->setTargetPath($targetPath);
-		return $this;
+        return parent::setTargetPath($targetPath);
 	}
 
 	public function getContent($basePath = null)
 	{
-        return $this->resource->getContent($basePath);
+        return parent::getContent($basePath);
 	}
 
 	public function getRealTargetUri()
 	{
-        return $this->resource->getRealTargetUri();
+        return parent::getRealTargetUri();
 	}
 
 	public function getRealSourcePath($basePath = null)
 	{
-        return $this->resource->getRealSourcePath($basePath);
+        return parent::getRealSourcePath($basePath);
 	}
 
 	public function getRealTargetPath($basePath = null)
 	{
-        return $this->resource->getRealTargetPath($basePath);
+        return parent::getRealTargetPath($basePath);
 	}
 
 }

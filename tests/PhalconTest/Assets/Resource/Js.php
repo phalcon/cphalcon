@@ -22,12 +22,8 @@
 
 namespace PhalconTest\Assets\Resource;
 
-use \PhalconTest\Assets\Resource as PhTResource;
+use \Phalcon\Assets\Resource\Js as PhJs;
 
-class Js extends PhTResource
+class Js extends PhJs
 {
-    public function __construct($path, $local = true, $filter = true, $attributes = null)
-    {
-        parent::__construct("js", $path, $local, $filter, $attributes);
-    }
 }

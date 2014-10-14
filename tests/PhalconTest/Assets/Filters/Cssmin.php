@@ -24,22 +24,10 @@ namespace PhalconTest\Assets\Filters;
 
 use Phalcon\Assets\Filters\Cssmin as PhCss;
 
-class Cssmin
+class Cssmin extends PhCss
 {
-    private $cssmin = null;
-
-    public function __construct()
-    {
-        $this->cssmin = new PhCss();
-    }
-
-    public function __desctruct()
-    {
-        unset($this->cssmin);
-    }
-
 	public function filter($content)
 	{
-		return $this->cssmin->filter($content);
+		return parent::filter($content);
 	}
 }
