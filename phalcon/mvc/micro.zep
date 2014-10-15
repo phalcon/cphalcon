@@ -464,7 +464,7 @@ class Micro extends \Phalcon\Di\Injectable implements \ArrayAccess
 	 * @param callable handler
 	 * @return Phalcon\Mvc\Micro
 	 */
-	public function errorFound(var handler) -> <Micro>
+	public function error(var handler) -> <Micro>
 	{
 		let this->_errorHandler = handler;
 		return this;
@@ -595,10 +595,12 @@ class Micro extends \Phalcon\Di\Injectable implements \ArrayAccess
 
 		let dependencyInjector = this->_dependencyInjector;
 		if typeof dependencyInjector != "object" {
-			throw new Exception("A dependency injection container is required to access related dispatching services");
+			throw new Exception("A dependency injection container is required to access required micro services");
 		}
 
 		try {
+
+			let returnedValue = null;
 
 			/**
 			 * Calling beforeHandle routing
@@ -677,7 +679,7 @@ class Micro extends \Phalcon\Di\Injectable implements \ArrayAccess
 						}
 
 						if !is_callable(before) {
-							throw new Exception("The before handler is not callable");
+							throw new Exception("'before' handler is not callable");
 						}
 
 						/**
@@ -768,7 +770,7 @@ class Micro extends \Phalcon\Di\Injectable implements \ArrayAccess
 				 */
 				let notFoundHandler = this->_notFoundHandler;
 				if !is_callable(notFoundHandler) {
-					throw new Exception("The Not-Found handler is not callable or is not defined");
+					throw new Exception("Not-Found handler is not callable or is not defined");
 				}
 
 				/**
@@ -820,7 +822,7 @@ class Micro extends \Phalcon\Di\Injectable implements \ArrayAccess
 					}
 
 					if !is_callable(finish) {
-						throw new Exception("One of finish handlers is not callable");
+						throw new Exception("One of the 'finish' handlers is not callable");
 					}
 
 					if params === null {
@@ -857,13 +859,27 @@ class Micro extends \Phalcon\Di\Injectable implements \ArrayAccess
 			if errorHandler {
 
 				if !is_callable(errorHandler) {
-					throw new Exception("The Error handler is not callable");
+					throw new Exception("Error handler is not callable");
 				}
 
 				/**
-				 * Call the Not-Found handler
+				 * Call the Error handler
 				 */
-				let returnedValue = call_user_func(errorHandler);
+				let returnedValue = call_user_func_array(errorHandler, [e]);
+				if typeof returnedValue == "object" {
+					if !(returnedValue instanceof ResponseInterface) {
+						throw e;
+					}
+				} else {
+					if returnedValue !== false {
+						throw e;
+					}
+				}
+
+			} else {
+				if returnedValue !== false {
+					throw e;
+				}
 			}
 		}
 

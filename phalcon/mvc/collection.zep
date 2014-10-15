@@ -338,7 +338,7 @@ abstract class Collection implements CollectionInterface, InjectionAwareInterfac
 	 * @param array document
 	 * @return Phalcon\Mvc\Collection
 	 */
-	public static function cloneResult(<CollectionInterface> collection, document) -> <Collection>
+	public static function cloneResult(<\Phalcon\Mvc\CollectionInterface> collection, document) -> <Collection>
 	{
 		var clonedCollection, key, value;
 
