@@ -19,6 +19,9 @@
 
 namespace Phalcon;
 
+use Phalcon\Flash\Exception;
+use Phalcon\FlashInterface;
+
 /**
  * Phalcon\Flash
  *
@@ -62,7 +65,7 @@ abstract class Flash
 	 * @param boolean implicitFlush
 	 * @return Phalcon\FlashInterface
 	 */
-	public function setImplicitFlush(boolean implicitFlush) -> <\Phalcon\FlashInterface>
+	public function setImplicitFlush(boolean implicitFlush) -> <FlashInterface>
 	{
 		let this->_implicitFlush = implicitFlush;
 		return this;
@@ -74,7 +77,7 @@ abstract class Flash
 	 * @param boolean automaticHtml
 	 * @return Phalcon\FlashInterface
 	 */
-	public function setAutomaticHtml(boolean automaticHtml) -> <\Phalcon\FlashInterface>
+	public function setAutomaticHtml(boolean automaticHtml) -> <FlashInterface>
 	{
 		let this->_automaticHtml = automaticHtml;
 		return this;
@@ -86,13 +89,10 @@ abstract class Flash
 	 * @param array cssClasses
 	 * @return Phalcon\FlashInterface
 	 */
-	public function setCssClasses(cssClasses) -> <\Phalcon\FlashInterface>
+	public function setCssClasses(array! cssClasses) -> <FlashInterface>
 	{
-		if typeof cssClasses == "array" {
-			let this->_cssClasses = cssClasses;
-			return this;
-		}
-		throw new \Phalcon\Flash\Exception("CSS classes must be an Array");
+		let this->_cssClasses = cssClasses;
+		return this;
 	}
 
 	/**

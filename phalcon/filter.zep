@@ -68,7 +68,7 @@ class Filter implements FilterInterface
 	 * @param  noRecursive
 	 * @return mixed
 	 */
-	public function sanitize(var value, var filters, boolean noRecursive=false)
+	public function sanitize(var value, var filters, boolean noRecursive = false)
 	{
 		var filter, arrayValue, itemKey, itemValue, sanitizedValue;
 

@@ -19,12 +19,17 @@
 
 namespace Phalcon;
 
+use Phalcon\Di\Injectable;
+use Phalcon\Validation\Exception;
+use Phalcon\Validation\Message\Group;
+use Phalcon\Validation\ValidatorInterface;
+
 /**
  * Phalcon\Validation
  *
- * Allows to validate data using validators
+ * Allows to validate data using custom or built-in validators
  */
-class Validation extends \Phalcon\Di\Injectable
+class Validation extends Injectable
 {
 	protected _data;
 
@@ -47,12 +52,12 @@ class Validation extends \Phalcon\Di\Injectable
 	 *
 	 * @param array validators
 	 */
-	public function __construct(validators=null)
+	public function __construct(validators = null)
 	{
 
 		if typeof validators != "null" {
 			if typeof validators != "array" {
-				throw new \Phalcon\Validation\Exception("Validators must be an array");
+				throw new Exception("Validators must be an array");
 			}
 			let this->_validators = validators;
 		}
@@ -74,13 +79,13 @@ class Validation extends \Phalcon\Di\Injectable
 	 * @param object entity
 	 * @return Phalcon\Validation\Message\Group
 	 */
-	public function validate(data=null, entity=null) -> <\Phalcon\Validation\Message\Group>
+	public function validate(data = null, entity = null) -> <Group>
 	{
 		var validators, messages, scope, field, validator;
 
 		let validators = this->_validators;
 		if typeof validators != "array" {
-			throw new \Phalcon\Validation\Exception("There are no validators to validate");
+			throw new Exception("There are no validators to validate");
 		}
 
 		/**
@@ -91,7 +96,7 @@ class Validation extends \Phalcon\Di\Injectable
 		/**
 		 * Implicitly creates a Phalcon\Validation\Message\Group object
 		 */
-		let messages = new \Phalcon\Validation\Message\Group();
+		let messages = new Group();
 
 		/**
 		 * Validation classes can implement the 'beforeValidation' callback
@@ -115,14 +120,14 @@ class Validation extends \Phalcon\Di\Injectable
 		for scope in validators {
 
 			if typeof scope != "array" {
-				throw new \Phalcon\Validation\Exception("The validator scope is not valid");
+				throw new Exception("The validator scope is not valid");
 			}
 
 			let field = scope[0],
 				validator = scope[1];
 
 			if typeof validator != "object" {
-				throw new \Phalcon\Validation\Exception("One of the validators is not valid");
+				throw new Exception("One of the validators is not valid");
 			}
 
 			/**
@@ -153,13 +158,8 @@ class Validation extends \Phalcon\Di\Injectable
 	 * @param Phalcon\Validation\ValidatorInterface validator
 	 * @return Phalcon\Validation
 	 */
-	public function add(string field, <\Phalcon\Validation\ValidatorInterface> validator) -> <\Phalcon\Validation>
+	public function add(string field, <ValidatorInterface> validator) -> <Validation>
 	{
-
-		if typeof validator != "object" {
-			throw new \Phalcon\Validation\Exception("The validator must be an object");
-		}
-
 		let this->_validators[] = [field, validator];
 		return this;
 	}
@@ -171,7 +171,7 @@ class Validation extends \Phalcon\Di\Injectable
 	 * @param Phalcon\Validation\ValidatorInterface validator
 	 * @return Phalcon\Validation
 	 */
-	public function rule(string field, <\Phalcon\Validation\ValidatorInterface> validator) -> <\Phalcon\Validation>
+	public function rule(string field, <ValidatorInterface> validator) -> <Validation>
 	{
 		return this->add(field, validator);
 	}
@@ -183,12 +183,12 @@ class Validation extends \Phalcon\Di\Injectable
 	 * @param array validators
 	 * @return Phalcon\Validation
 	 */
-	public function rules(string! field, array! validators) -> <\Phalcon\Validation>
+	public function rules(string! field, array! validators) -> <Validation>
 	{
 		var validator;
 
 		for validator in validators {
-			if validator instanceof \Phalcon\Validation\ValidatorInterface {
+			if validator instanceof ValidatorInterface {
 				let this->_validators[] = [field, validator];
 			}
 		}
@@ -202,7 +202,7 @@ class Validation extends \Phalcon\Di\Injectable
 	 * @param array|string field
 	 * @return Phalcon\Validation
 	 */
-	public function setFilters(string field, filters) -> <\Phalcon\Validation>
+	public function setFilters(string field, filters) -> <Validation>
 	{
 		let this->_filters[field] = filters;
 		return this;
@@ -214,7 +214,7 @@ class Validation extends \Phalcon\Di\Injectable
 	 * @param string field
 	 * @return mixed
 	 */
-	public function getFilters(var field=null)
+	public function getFilters(var field = null)
 	{
 		var filters, fieldFilters;
 		let filters = this->_filters;
@@ -232,7 +232,7 @@ class Validation extends \Phalcon\Di\Injectable
 	 *
 	 * @return array
 	 */
-	public function getValidators()
+	public function getValidators() -> array
 	{
 		return this->_validators;
 	}
@@ -253,7 +253,7 @@ class Validation extends \Phalcon\Di\Injectable
 	 * @param array messages
 	 * @return array
 	 */
-	public function setDefaultMessages(messages=null)
+	public function setDefaultMessages(messages = null)
 	{
 		var defaultMessages;
 
@@ -262,7 +262,7 @@ class Validation extends \Phalcon\Di\Injectable
 		}
 
 		if typeof messages != "array" {
-			throw new \Phalcon\Validation\Exception("Messages must be an array");
+			throw new Exception("Messages must be an array");
 		}
 
 		let defaultMessages = [
@@ -310,7 +310,7 @@ class Validation extends \Phalcon\Di\Injectable
 	 *
 	 * @return Phalcon\Validation\Message\Group
 	 */
-	public function getMessages() -> <\Phalcon\Validation\Message\Group>
+	public function getMessages() -> <Group>
 	{
 		return this->_messages;
 	}
@@ -320,11 +320,8 @@ class Validation extends \Phalcon\Di\Injectable
 	 *
 	 * @param array labels
 	 */
-	public function setLabels(labels)
+	public function setLabels(array! labels)
 	{
-		if typeof labels != "array" {
-			throw new \Phalcon\Validation\Exception("Labels must be an array");
-		}
 		let this->_labels = labels;
 	}
 
@@ -352,7 +349,7 @@ class Validation extends \Phalcon\Di\Injectable
 	 * @param Phalcon\Validation\MessageInterface message
 	 * @return Phalcon\Validation
 	 */
-	public function appendMessage(<\Phalcon\Validation\MessageInterface> message) -> <\Phalcon\Validation>
+	public function appendMessage(<MessageInterface> message) -> <Validation>
 	{
 		this->_messages->appendMessage(message);
 		return this;
@@ -366,16 +363,14 @@ class Validation extends \Phalcon\Di\Injectable
 	 * @param string data
 	 * @return Phalcon\Validation
 	 */
-	public function bind(entity, data) -> <\Phalcon\Validation>
+	public function bind(entity, data) -> <Validation>
 	{
 		if typeof entity != "object" {
-			throw new \Phalcon\Validation\Exception("The entity must be an object");
+			throw new Exception("Entity must be an object");
 		}
 
-		if typeof data != "array" {
-			if typeof data != "object" {
-				throw new \Phalcon\Validation\Exception("The data to validate must be an array or object");
-			}
+		if typeof data != "array" && typeof data != "object" {
+			throw new Exception("Data to validate must be an array or object");
 		}
 
 		let this->_entity = entity,
@@ -421,10 +416,8 @@ class Validation extends \Phalcon\Di\Injectable
 
 		let data = this->_data;
 
-		if typeof data != "array" {
-			if typeof data != "object" {
-				throw new \Phalcon\Validation\Exception("There is no data to validate");
-			}
+		if typeof data != "array" && typeof data != "object" {
+			throw new Exception("There is no data to validate");
 		}
 
 		/**
@@ -461,13 +454,13 @@ class Validation extends \Phalcon\Di\Injectable
 						if typeof dependencyInjector != "object" {
 							let dependencyInjector = \Phalcon\Di::getDefault();
 							if typeof dependencyInjector != "object" {
-								throw new \Phalcon\Validation\Exception("A dependency injector is required to obtain the 'filter' service");
+								throw new Exception("A dependency injector is required to obtain the 'filter' service");
 							}
 						}
 
 						let filterService = dependencyInjector->getShared("filter");
 						if typeof filterService != "object" {
-							throw new \Phalcon\Validation\Exception("Returned 'filter' service is invalid");
+							throw new Exception("Returned 'filter' service is invalid");
 						}
 
 						return filterService->sanitize(value, fieldFilters);

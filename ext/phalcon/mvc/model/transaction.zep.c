@@ -281,7 +281,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, rollback) {
 		_6 = zephir_fetch_nproperty_this(this_ptr, SL("_rollbackRecord"), PH_NOISY_CC);
 		ZEPHIR_CALL_METHOD(NULL, _5, "__construct", NULL, rollbackMessage, _6);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(_5, "phalcon/mvc/model/transaction.zep", 160 TSRMLS_CC);
+		zephir_throw_exception_debug(_5, "phalcon/mvc/model/transaction.zep", 164 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -405,7 +405,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, isValid) {
 /**
  * Sets object which generates rollback action
  *
- * @param Phalcon\Mvc\ModelInterface $record
+ * @param Phalcon\Mvc\ModelInterface record
  */
 PHP_METHOD(Phalcon_Mvc_Model_Transaction, setRollbackedRecord) {
 

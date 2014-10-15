@@ -20,10 +20,12 @@
 
 namespace Phalcon\Mvc;
 
+use Phalcon\DiInterface;
 use Phalcon\Mvc\CollectionInterface;
 use Phalcon\Di\InjectionAwareInterface;
 use Phalcon\Mvc\Collection\ManagerInterface;
 use Phalcon\Mvc\Collection\Exception;
+use Phalcon\Mvc\Model\MessageInterface;
 
 /**
  * Phalcon\Mvc\Collection
@@ -66,7 +68,7 @@ abstract class Collection implements CollectionInterface, InjectionAwareInterfac
 	 * @param Phalcon\DiInterface dependencyInjector
 	 * @param Phalcon\Mvc\Collection\ManagerInterface modelsManager
 	 */
-	public final function __construct(<\Phalcon\DiInterface> dependencyInjector=null, <ManagerInterface> modelsManager=null)
+	public final function __construct(<DiInterface> dependencyInjector = null, <ManagerInterface> modelsManager = null)
 	{
 		/**
 		 * We use a default DI if the user doesn't define one
@@ -151,7 +153,7 @@ abstract class Collection implements CollectionInterface, InjectionAwareInterfac
 	 *
 	 * @param Phalcon\DiInterface dependencyInjector
 	 */
-	public function setDI(<\Phalcon\DiInterface> dependencyInjector)
+	public function setDI(<DiInterface> dependencyInjector)
 	{
 		let this->_dependencyInjector = dependencyInjector;
 	}
@@ -161,7 +163,7 @@ abstract class Collection implements CollectionInterface, InjectionAwareInterfac
 	 *
 	 * @return Phalcon\DiInterface
 	 */
-	public function getDI() -> <\Phalcon\DiInterface>
+	public function getDI() -> <DiInterface>
 	{
 		return this->_dependencyInjector;
 	}
@@ -252,7 +254,7 @@ abstract class Collection implements CollectionInterface, InjectionAwareInterfac
 
 		let source = this->_source;
 		if !source {
-                        let collection = this;
+			let collection = this;
 			let source = uncamelize(get_class_ns(collection));
 			let this->_source = source;
 		}
@@ -882,11 +884,8 @@ abstract class Collection implements CollectionInterface, InjectionAwareInterfac
 	 *
 	 * @param Phalcon\Mvc\Model\MessageInterface message
 	 */
-	public function appendMessage(<\Phalcon\Mvc\Model\MessageInterface> message)
+	public function appendMessage(<MessageInterface> message)
 	{
-		if typeof message != "object" {
-			throw new Exception("Invalid message format '" . gettype(message) . "'");
-		}
 		let this->_errorMessages[] = message;
 	}
 
@@ -1377,8 +1376,9 @@ abstract class Collection implements CollectionInterface, InjectionAwareInterfac
 		var attributes, dependencyInjector, manager, key, value;
 
 		if typeof data == "string" {
+
 			let attributes = unserialize(data);
-			if typeof attributes != "array" {
+			if typeof attributes == "array" {
 
 				/**
 				 * Obtain the default DI

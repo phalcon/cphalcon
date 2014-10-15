@@ -15,11 +15,13 @@
  | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
  |          Eduar Carvajal <eduar@phalconphp.com>                         |
  +------------------------------------------------------------------------+
- */
+*/
 
- namespace Phalcon;
+namespace Phalcon;
 
- /**
+use Phalcon\Config\Exception;
+
+/**
  * Phalcon\Config
  *
  * Phalcon\Config is designed to simplify the access to, and the use of, configuration data within applications.
@@ -61,7 +63,7 @@ class Config implements \ArrayAccess
 			 * Phalcon\Config does not support numeric keys as properties
 			 */
 			if typeof key != "string" {
-				throw new \Phalcon\Config\Exception("Only string keys are allowed as configuration properties");
+				throw new Exception("Only string keys are allowed as configuration properties");
 			}
 
 			if typeof value == "array" {

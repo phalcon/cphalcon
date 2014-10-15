@@ -20,6 +20,7 @@
 namespace Phalcon;
 
 use Phalcon\Events\ManagerInterface;
+use Phalcon\Events\EventsAwareInterface;
 
 /**
  * Phalcon\Loader
@@ -44,7 +45,7 @@ use Phalcon\Events\ManagerInterface;
  * $adapter = Example\Adapter\Some();
  *</code>
  */
-class Loader implements \Phalcon\Events\EventsAwareInterface
+class Loader implements EventsAwareInterface
 {
 
 	protected _eventsManager = null;

@@ -20,6 +20,7 @@
 namespace Phalcon\Mvc\Model;
 
 use Phalcon\Mvc\Model;
+use Phalcon\Cache\BackendInterface;
 use Phalcon\Mvc\ModelInterface;
 use Phalcon\Mvc\Model\Exception;
 use Phalcon\Mvc\Model\ResultsetInterface;
@@ -198,7 +199,7 @@ abstract class Resultset
 	 *
 	 * @return int
 	 */
-	public final function count()
+	public final function count() -> int
 	{
 		var count, result, rows;
 
@@ -402,7 +403,7 @@ abstract class Resultset
 	 *
 	 * @return Phalcon\Cache\BackendInterface
 	 */
-	public function getCache() -> <\Phalcon\Cache\BackendInterface>
+	public function getCache() -> <BackendInterface>
 	{
 		return this->_cache;
 	}
@@ -507,7 +508,7 @@ abstract class Resultset
 	 * @param callback filter
 	 * @return Phalcon\Mvc\Model[]
 	 */
-	public function filter(var filter)
+	public function filter(var filter) -> array
 	{
 		var records, record, parameters, processedRecord;
 

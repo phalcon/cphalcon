@@ -38,7 +38,7 @@
  | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
  |          Eduar Carvajal <eduar@phalconphp.com>                         |
  +------------------------------------------------------------------------+
- */
+*/
 /**
  * Phalcon\Config
  *
@@ -103,7 +103,7 @@ PHP_METHOD(Phalcon_Config, __construct) {
 	}
 
 
-	zephir_is_iterable(arrayConfig, &_1, &_0, 0, 0, "phalcon/config.zep", 85);
+	zephir_is_iterable(arrayConfig, &_1, &_0, 0, 0, "phalcon/config.zep", 87);
 	for (
 	  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_1, &_0)
@@ -111,12 +111,12 @@ PHP_METHOD(Phalcon_Config, __construct) {
 		ZEPHIR_GET_HMKEY(key, _1, _0);
 		ZEPHIR_GET_HVALUE(value, _2);
 		if (Z_TYPE_P(key) != IS_STRING) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_config_exception_ce, "Only string keys are allowed as configuration properties", "phalcon/config.zep", 64);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_config_exception_ce, "Only string keys are allowed as configuration properties", "phalcon/config.zep", 66);
 			return;
 		}
 		if (Z_TYPE_P(value) == IS_ARRAY) {
 			hasNumericKey = 0;
-			zephir_is_iterable(value, &_4, &_3, 0, 0, "phalcon/config.zep", 75);
+			zephir_is_iterable(value, &_4, &_3, 0, 0, "phalcon/config.zep", 77);
 			for (
 			  ; zephir_hash_get_current_data_ex(_4, (void**) &_5, &_3) == SUCCESS
 			  ; zephir_hash_move_forward_ex(_4, &_3)
@@ -346,7 +346,7 @@ PHP_METHOD(Phalcon_Config, merge) {
 	}
 	ZEPHIR_CALL_FUNCTION(&_0, "get_object_vars", &_1, config);
 	zephir_check_call_status();
-	zephir_is_iterable(_0, &_3, &_2, 0, 0, "phalcon/config.zep", 172);
+	zephir_is_iterable(_0, &_3, &_2, 0, 0, "phalcon/config.zep", 174);
 	for (
 	  ; zephir_hash_get_current_data_ex(_3, (void**) &_4, &_2) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_3, &_2)
@@ -383,7 +383,7 @@ PHP_METHOD(Phalcon_Config, toArray) {
 	array_init(arrayConfig);
 	ZEPHIR_CALL_FUNCTION(&_0, "get_object_vars", &_1, this_ptr);
 	zephir_check_call_status();
-	zephir_is_iterable(_0, &_3, &_2, 0, 0, "phalcon/config.zep", 197);
+	zephir_is_iterable(_0, &_3, &_2, 0, 0, "phalcon/config.zep", 199);
 	for (
 	  ; zephir_hash_get_current_data_ex(_3, (void**) &_4, &_2) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_3, &_2)

@@ -198,12 +198,7 @@ class Manager implements InjectionAwareInterface, EventsAwareInterface
 	 */
 	public function setConnectionService(<CollectionInterface> model, string! connectionService) -> void
 	{
-		if typeof model != "object" {
-			throw new Exception("A valid collection instance is required");
-		}
-
 		let this->_connectionServices[get_class(model)] = connectionService;
-
 	}
 
 	/**
@@ -214,10 +209,6 @@ class Manager implements InjectionAwareInterface, EventsAwareInterface
 	 */
 	public function useImplicitObjectIds(<CollectionInterface> model, boolean useImplicitObjectIds) -> void
 	{
-		if typeof model != "object" {
-			throw new Exception("A valid collection instance is required");
-		}
-
 		let this->_implicitObjectsIds[get_class(model)] = useImplicitObjectIds;
 	}
 
@@ -230,10 +221,6 @@ class Manager implements InjectionAwareInterface, EventsAwareInterface
 	public function isUsingImplicitObjectIds(<CollectionInterface> model) -> boolean
 	{
 		var implicit;
-
-		if typeof model != "object" {
-			throw new Exception("A valid collection instance is required");
-		}
 
 		/**
 		* All collections use by default are using implicit object ids

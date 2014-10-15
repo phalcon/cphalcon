@@ -19,6 +19,8 @@
 
 namespace Phalcon\Validation\Validator;
 
+use Phalcon\Validation\Message;
+
 /**
  * Phalcon\Validation\Validator\File
  *
@@ -67,7 +69,7 @@ class File extends \Phalcon\Validation\Validator implements \Phalcon\Validation\
 				let message = validation->getDefaultMessage("FileIniSize");
 			}
 
-			validation->appendMessage(new \Phalcon\Validation\Message(strtr(message, replacePairs), field, "FileIniSize"));
+			validation->appendMessage(new Message(strtr(message, replacePairs), field, "FileIniSize"));
 			return false;
 		}
 
@@ -83,7 +85,7 @@ class File extends \Phalcon\Validation\Validator implements \Phalcon\Validation\
 				let message = validation->getDefaultMessage("FileEmpty");
 			}
 
-			validation->appendMessage(new \Phalcon\Validation\Message(strtr(message, replacePairs), field, "FileEmpty"));
+			validation->appendMessage(new Message(strtr(message, replacePairs), field, "FileEmpty"));
 			return false;
 		}
 
@@ -95,7 +97,7 @@ class File extends \Phalcon\Validation\Validator implements \Phalcon\Validation\
 				let message = validation->getDefaultMessage("FileValid");
 			}
 
-			validation->appendMessage(new \Phalcon\Validation\Message(strtr(message, replacePairs), field, "FileValid"));
+			validation->appendMessage(new Message(strtr(message, replacePairs), field, "FileValid"));
 			return false;
 		}
 
@@ -121,7 +123,7 @@ class File extends \Phalcon\Validation\Validator implements \Phalcon\Validation\
 					let message = validation->getDefaultMessage("FileSize");
 				}
 
-				validation->appendMessage(new \Phalcon\Validation\Message(strtr(message, replacePairs), field, "FileSize"));
+				validation->appendMessage(new Message(strtr(message, replacePairs), field, "FileSize"));
 				return false;
 			}
 		}
@@ -150,7 +152,7 @@ class File extends \Phalcon\Validation\Validator implements \Phalcon\Validation\
 					let message = validation->getDefaultMessage("FileType");
 				}
 
-				validation->appendMessage(new \Phalcon\Validation\Message(strtr(message, replacePairs), field, "FileType"));
+				validation->appendMessage(new Message(strtr(message, replacePairs), field, "FileType"));
 				return false;
 			}
 		}
@@ -177,11 +179,12 @@ class File extends \Phalcon\Validation\Validator implements \Phalcon\Validation\
 					let message = validation->getDefaultMessage("FileMinResolution");
 				}
 
-				validation->appendMessage(new \Phalcon\Validation\Message(strtr(message, replacePairs), field, "FileMinResolution"));
+				validation->appendMessage(new Message(strtr(message, replacePairs), field, "FileMinResolution"));
 				return false;
 			}
 
 			if this->isSetOption("maxResolution") {
+
 				let maxResolution = explode("x", this->getOption("maxResolution")),
 					maxWidth = maxResolution[0],
 					maxHeight = maxResolution[1];
@@ -194,7 +197,7 @@ class File extends \Phalcon\Validation\Validator implements \Phalcon\Validation\
 						let message = validation->getDefaultMessage("FileMaxResolution");
 					}
 
-					validation->appendMessage(new \Phalcon\Validation\Message(strtr(message, replacePairs), field, "FileMaxResolution"));
+					validation->appendMessage(new Message(strtr(message, replacePairs), field, "FileMaxResolution"));
 					return false;
 				}
 			}
