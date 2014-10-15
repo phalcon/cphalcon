@@ -132,7 +132,7 @@ class Bag implements InjectionAwareInterface, BagInterface
 	 * @param string property
 	 * @param string value
 	 */
-	public function set(property, value)
+	public function set(string! property, value)
 	{
 		if this->_initalized === false {
 			this->initialize();
@@ -151,7 +151,7 @@ class Bag implements InjectionAwareInterface, BagInterface
 	 * @param string property
 	 * @param string value
 	 */
-	public function __set(property, value)
+	public function __set(string! property, value)
 	{
 		this->set(property, value);
 	}
@@ -167,7 +167,7 @@ class Bag implements InjectionAwareInterface, BagInterface
 	 * @param string defaultValue
 	 * @return mixed
 	 */
-	public function get(property, defaultValue=null)
+	public function get(string! property, defaultValue = null)
 	{
 		var value;
 
@@ -198,7 +198,7 @@ class Bag implements InjectionAwareInterface, BagInterface
 	 * @param string property
 	 * @return mixed
 	 */
-	public function __get(property)
+	public function __get(string! property)
 	{
 		return this->get(property);
 	}
@@ -213,13 +213,13 @@ class Bag implements InjectionAwareInterface, BagInterface
 	 * @param string property
 	 * @return boolean
 	 */
-	public function has(property) -> boolean
+	public function has(string! property) -> boolean
 	{
 		if this->_initalized === false {
 			this->initialize();
 		}
 
-		return this->_data[property];
+		return isset this->_data[property];
 	}
 
 	/**
@@ -232,7 +232,7 @@ class Bag implements InjectionAwareInterface, BagInterface
 	 * @param string property
 	 * @return boolean
 	 */
-	public function __isset(property) -> boolean
+	public function __isset(string! property) -> boolean
 	{
 		return this->has(property);
 	}
@@ -247,7 +247,7 @@ class Bag implements InjectionAwareInterface, BagInterface
 	 * @param string property
 	 * @return boolean
 	 */
-	public function remove(property) -> boolean
+	public function remove(string! property) -> boolean
 	{
 		if isset this->_data[property] {
 			unset this->_data[property];
@@ -267,7 +267,7 @@ class Bag implements InjectionAwareInterface, BagInterface
 	 * @param string property
 	 * @return boolean
 	 */
-	public function __unset(property) -> boolean
+	public function __unset(string! property) -> boolean
 	{
 		return this->remove(property);
 	}

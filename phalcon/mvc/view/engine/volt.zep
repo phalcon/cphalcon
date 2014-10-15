@@ -103,7 +103,7 @@ class Volt extends Engine implements EngineInterface
 		var compiler, compiledTemplatePath, key, value;
 
 		if mustClean {
-			ob_start();
+			ob_clean();
 		}
 
 		/**
@@ -128,7 +128,7 @@ class Volt extends Engine implements EngineInterface
 
 		if mustClean {
 			this->_view->setContent(ob_get_contents());
-			ob_clean();
+			//ob_clean();
 		}
 	}
 

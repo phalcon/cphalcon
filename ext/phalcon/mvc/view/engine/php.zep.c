@@ -96,7 +96,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Php, render) {
 		zephir_check_call_status();
 	}
 	if (Z_TYPE_P(params) == IS_ARRAY) {
-		zephir_is_iterable(params, &_2, &_1, 0, 0, "phalcon/mvc/view/engine/php.zep", 52);
+		zephir_is_iterable(params, &_2, &_1, 0, 0, "phalcon/mvc/view/engine/php.zep", 55);
 		for (
 		  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_2, &_1)
@@ -104,7 +104,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Php, render) {
 			ZEPHIR_GET_HMKEY(key, _2, _1);
 			ZEPHIR_GET_HVALUE(value, _3);
 			if (zephir_set_symbol(key, value TSRMLS_CC) == FAILURE){
-			  return;
+				return;
 			}
 		}
 	}
