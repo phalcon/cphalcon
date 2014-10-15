@@ -1266,11 +1266,12 @@ int zephir_array_is_associative(zval *arr) {
 int zephir_array_update_multi(zval **arr, zval **value TSRMLS_DC, const char *types, int types_length, int types_count, ...)
 {
 	va_list ap;
-	va_start(ap, types_length);
 	long old_l[ZEPHIR_MAX_ARRAY_LEVELS], old_ll[ZEPHIR_MAX_ARRAY_LEVELS];
 	char *s, *old_s[ZEPHIR_MAX_ARRAY_LEVELS], old_type[ZEPHIR_MAX_ARRAY_LEVELS];
 	zval *fetched, *tmp, *p, *item, *old_item[ZEPHIR_MAX_ARRAY_LEVELS], *old_p[ZEPHIR_MAX_ARRAY_LEVELS];
 	int i, j, l, ll, re_update, must_continue, wrap_tmp;
+
+	va_start(ap, types_length);
 
 	assert(types_length < ZEPHIR_MAX_ARRAY_LEVELS);
 

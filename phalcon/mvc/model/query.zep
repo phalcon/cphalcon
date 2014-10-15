@@ -1488,7 +1488,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 	 *
 	 * @return array
 	 */
-	protected final function _prepareSelect()
+	protected final function _prepareSelect() -> array
 	{
 		var ast, sqlModels, sqlTables, sqlAliases, sqlColumns, select, tables, columns,
 			sqlAliasesModels, sqlModelsAliases, sqlAliasesModelsInstances,
@@ -1775,7 +1775,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 	 *
 	 * @return array
 	 */
-	protected final function _prepareInsert()
+	protected final function _prepareInsert() -> array
 	{
 		var ast, qualifiedName, manager, modelName, model, source, schema,
 			sqlAliases, exprValues, exprValue, sqlInsert, metaData, fields,
@@ -1864,7 +1864,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 	 *
 	 * @return array
 	 */
-	protected final function _prepareUpdate()
+	protected final function _prepareUpdate() -> array
 	{
 		var ast, update, tables, values, modelsInstances, models,
 			sqlTables, sqlAliases, sqlAliasesModelsInstances, updateTables,
@@ -2013,7 +2013,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 	 *
 	 * @return array
 	 */
-	protected final function _prepareDelete()
+	protected final function _prepareDelete() -> array
 	{
 		var ast, delete, tables, models, modelsInstances,
 			sqlTables, sqlModels, sqlAliases, sqlAliasesModelsInstances,
@@ -2551,7 +2551,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 	 * @param array bindTypes
 	 * @return Phalcon\Mvc\Model\Query\StatusInterface
 	 */
-	protected final function _executeInsert(intermediate, bindParams, bindTypes) -> <StatusInterface>
+	protected final function _executeInsert(var intermediate, var bindParams, var bindTypes) -> <StatusInterface>
 	{
 		var modelName, manager, connection, metaData, attributes,
 			fields, columnMap, dialect, insertValues, number, value, model,
@@ -2685,7 +2685,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 	 * @param array bindTypes
 	 * @return Phalcon\Mvc\Model\Query\StatusInterface
 	 */
-	protected final function _executeUpdate(intermediate, bindParams, bindTypes) -> <StatusInterface>
+	protected final function _executeUpdate(var intermediate, var bindParams, var bindTypes) -> <StatusInterface>
 	{
 		var models, modelName, model, connection, dialect,
 			fields, values, updateValues, fieldName, value,
@@ -2832,7 +2832,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 	 * @param array bindTypes
 	 * @return Phalcon\Mvc\Model\Query\StatusInterface
 	 */
-	protected final function _executeDelete(intermediate, bindParams, bindTypes) -> <StatusInterface>
+	protected final function _executeDelete(var intermediate, var bindParams, var bindTypes) -> <StatusInterface>
 	{
 		var models, modelName, model, records, connection, record;
 
@@ -2914,7 +2914,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 	 * @param array bindTypes
 	 * @return Phalcon\Mvc\Model\ResultsetInterface
 	 */
-	protected final function _getRelatedRecords(<ModelInterface> model, intermediate, bindParams, bindTypes)
+	protected final function _getRelatedRecords(<ModelInterface> model, var intermediate, var bindParams, var bindTypes)
 	 -> <ResultsetInterface>
 	{
 		var selectIr, whereConditions, limitConditions, query;
@@ -2964,7 +2964,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 	 * @param array bindTypes
 	 * @return mixed
 	 */
-	public function execute(bindParams = null, bindTypes = null)
+	public function execute(var bindParams = null, var bindTypes = null)
 	{
 		var uniqueRow, cacheOptions, key, cacheService,
 			cache, result, preparedResult, defaultBindParams, mergedParams,
@@ -3119,7 +3119,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 	 * @param array bindTypes
 	 * @return Ṕhalcon\Mvc\ModelInterface
 	 */
-	public function getSingleResult(bindParams=null, bindTypes=null)
+	public function getSingleResult(var bindParams = null, var bindTypes = null)
 	{
 
 		/**
