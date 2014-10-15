@@ -544,7 +544,7 @@ abstract class Collection implements CollectionInterface, InjectionAwareInterfac
 	 * @param boolean exists
 	 * @return boolean
 	 */
-	protected function _preSave(dependencyInjector, disableEvents, exists) -> boolean
+	protected final function _preSave(dependencyInjector, disableEvents, exists) -> boolean
 	{
 		var eventName;
 
@@ -627,7 +627,7 @@ abstract class Collection implements CollectionInterface, InjectionAwareInterfac
 	 * @param boolean exists
 	 * @return boolean
 	 */
-	protected function _postSave(boolean disableEvents, boolean success, boolean exists)
+	protected final function _postSave(boolean disableEvents, boolean success, boolean exists)
 	{
 		var eventName;
 
@@ -679,7 +679,7 @@ abstract class Collection implements CollectionInterface, InjectionAwareInterfac
 	 *
 	 * @param object validator
 	 */
-	protected function validate(validator)
+	protected function validate(validator) -> void
 	{
 		var message;
 
@@ -996,7 +996,7 @@ abstract class Collection implements CollectionInterface, InjectionAwareInterfac
 	 * @param string|\MongoId id
 	 * @return Phalcon\Mvc\Collection
 	 */
-	public static function findById(id) -> <\Phalcon\Mvc\Collection>
+	public static function findById(id) -> <Collection>
 	{
 		var className, collection, mongoId;
 
@@ -1189,14 +1189,10 @@ abstract class Collection implements CollectionInterface, InjectionAwareInterfac
 	 * @param string finalize
 	 * @return array
 	 */
-	public static function summatory(field, conditions=null, finalize=null)
+	public static function summatory(string! field, conditions = null, finalize = null)
 	{
 		var className, model, connection, source, collection, keys, emptyArray, initial,
 			reduce, group, retval, firstRetval;
-
-		if typeof field != "string" {
-			throw new Exception("Invalid field name for group");
-		}
 
 		let className = get_called_class();
 
