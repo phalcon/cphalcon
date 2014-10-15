@@ -36,7 +36,7 @@ class Check extends Element implements ElementInterface
 	 * @param array attributes
 	 * @return string
 	 */
-	public function render(var attributes=null) -> string
+	public function render(var attributes = null) -> string
 	{
 		return \Phalcon\Tag::checkField(this->prepareAttributes(attributes, true));
 	}

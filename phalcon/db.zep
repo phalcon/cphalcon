@@ -71,13 +71,9 @@ abstract class Db
 	 *
 	 * @param array options
 	 */
-	public static function setup(var options)
+	public static function setup(array! options) -> void
 	{
 		var escapeIdentifiers;
-
-		if typeof options != "array" {
-			throw new \Phalcon\Db\Exception("Options must be an array");
-		}
 
 		/**
 		 * Enables/Disables globally the escaping of SQL identifiers
@@ -85,7 +81,5 @@ abstract class Db
 		if fetch escapeIdentifiers, options["escapeSqlIdentifiers"] {
 			globals_set("db.escape_identifiers", escapeIdentifiers);
 		}
-
 	}
-
 }
