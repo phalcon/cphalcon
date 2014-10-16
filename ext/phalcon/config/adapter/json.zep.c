@@ -66,8 +66,8 @@ PHP_METHOD(Phalcon_Config_Adapter_Json, __construct) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(filePath_param) == IS_STRING)) {
-		filePath = filePath_param;
+	if (likely(Z_TYPE_P(filePath_param) == IS_STRING)) {
+		zephir_get_strval(filePath, filePath_param);
 	} else {
 		ZEPHIR_INIT_VAR(filePath);
 		ZVAL_EMPTY_STRING(filePath);

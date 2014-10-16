@@ -19,12 +19,18 @@
 
 namespace Phalcon\Flash;
 
+use Phalcon\DiInterface;
+use Phalcon\FlashInterface;
+use Phalcon\Di\InjectionAwareInterface;
+use Phalcon\Flash\Exception;
+use Phalcon\Session\AdapterInterface as SessionInterface;
+
 /**
  * Phalcon\Flash\Session
  *
  * Temporarily stores the messages in session, then messages can be printed in the next request
  */
-class Session extends \Phalcon\Flash implements \Phalcon\FlashInterface, \Phalcon\Di\InjectionAwareInterface
+class Session extends \Phalcon\Flash implements FlashInterface, InjectionAwareInterface
 {
 
 	protected _dependencyInjector;
@@ -34,7 +40,7 @@ class Session extends \Phalcon\Flash implements \Phalcon\FlashInterface, \Phalco
 	 *
 	 * @param Phalcon\DiInterface dependencyInjector
 	 */
-	public function setDI(<\Phalcon\DiInterface> dependencyInjector)
+	public function setDI(<DiInterface> dependencyInjector)
 	{
 		let this->_dependencyInjector = dependencyInjector;
 	}
@@ -44,7 +50,7 @@ class Session extends \Phalcon\Flash implements \Phalcon\FlashInterface, \Phalco
 	 *
 	 * @return Phalcon\DiInterface
 	 */
-	public function getDI() -> <\Phalcon\DiInterface>
+	public function getDI() -> <DiInterface>
 	{
 		return this->_dependencyInjector;
 	}
@@ -59,12 +65,12 @@ class Session extends \Phalcon\Flash implements \Phalcon\FlashInterface, \Phalco
 	{
 		var dependencyInjector, session, messages;
 
-		let dependencyInjector = this->_dependencyInjector;
+		let dependencyInjector = <DiInterface> this->_dependencyInjector;
 		if typeof dependencyInjector != "object" {
-			throw new \Phalcon\Flash\Exception("A dependency injection container is required to access the 'session' service");
+			throw new Exception("A dependency injection container is required to access the 'session' service");
 		}
 
-		let session = <\Phalcon\Session\AdapterInterface> dependencyInjector->getShared("session");
+		let session = <SessionInterface> dependencyInjector->getShared("session");
 		let messages = session->get("_flashMessages");
 
 		if remove === true {
@@ -79,16 +85,16 @@ class Session extends \Phalcon\Flash implements \Phalcon\FlashInterface, \Phalco
 	 *
 	 * @param array messages
 	 */
-	protected function _setSessionMessages(messages)
+	protected function _setSessionMessages(array! messages) -> array
 	{
 		var dependencyInjector, session;
 
-		let dependencyInjector = this->_dependencyInjector;
+		let dependencyInjector = <DiInterface> this->_dependencyInjector;
 		if typeof dependencyInjector != "object" {
-			throw new \Phalcon\Flash\Exception("A dependency injection container is required to access the 'session' service");
+			throw new Exception("A dependency injection container is required to access the 'session' service");
 		}
 
-		let session = <\Phalcon\Session\AdapterInterface> dependencyInjector->getShared("session");
+		let session = <SessionInterface> dependencyInjector->getShared("session");
 		session->set("_flashMessages", messages);
 		return messages;
 	}
@@ -99,7 +105,7 @@ class Session extends \Phalcon\Flash implements \Phalcon\FlashInterface, \Phalco
 	 * @param string type
 	 * @param string message
 	 */
-	public function message(string type, string message)
+	public function message(string type, string message) -> void
 	{
 		var messages;
 
@@ -110,7 +116,7 @@ class Session extends \Phalcon\Flash implements \Phalcon\FlashInterface, \Phalco
 		if !isset messages[type] {
 			let messages[type] = [];
 		}
-		//let messages[type][] = message;
+		let messages[type][] = message;
 
 		this->_setSessionMessages(messages);
 	}
@@ -122,7 +128,7 @@ class Session extends \Phalcon\Flash implements \Phalcon\FlashInterface, \Phalco
 	 * @param boolean remove
 	 * @return array
 	 */
-	public function getMessages(type=null, remove=true)
+	public function getMessages(type = null, remove = true) -> array
 	{
 		var messages, returnMessages;
 
@@ -144,7 +150,7 @@ class Session extends \Phalcon\Flash implements \Phalcon\FlashInterface, \Phalco
 	 *
 	 * @param boolean remove
 	 */
-	public function output(boolean remove=true)
+	public function output(boolean remove = true) -> void
 	{
 		var type, message, messages;
 

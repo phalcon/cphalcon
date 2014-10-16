@@ -278,7 +278,7 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 	 * @param  mixed defaultValue
 	 * @return mixed
 	 */
-	public function getParam(param, filters=null, defaultValue=null)
+	public function getParam(param, filters = null, defaultValue = null)
 	{
 		var params, filter, paramValue, dependencyInjector;
 

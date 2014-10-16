@@ -19,6 +19,8 @@
 
 namespace Phalcon\Mvc\Model;
 
+use Phalcon\Mvc\Model\Message;
+
 /**
  * Phalcon\Mvc\Model\Validator
  *
@@ -36,11 +38,8 @@ abstract class Validator
 	 *
 	 * @param array options
 	 */
-	public function __construct(options)
+	public function __construct(array! options)
 	{
-		if typeof options != "array" {
-			throw new \Phalcon\Mvc\Model\Exception("options argument must be an Array");
-		}
 		let this->_options = options;
 	}
 
@@ -51,12 +50,12 @@ abstract class Validator
 	 * @param string field
 	 * @param string type
 	 */
-	protected function appendMessage(string! message, field=null, type=null)
+	protected function appendMessage(string! message, field = null, type = null)
 	{
 		if !type {
 			let type = str_replace("Validator", "", get_class(this));
 		}
-		let this->_messages[] = new \Phalcon\Mvc\Model\Message(message, field, type);
+		let this->_messages[] = new Message(message, field, type);
 	}
 
 	/**
@@ -101,7 +100,7 @@ abstract class Validator
 	 * @param	string option
 	 * @return	boolean
 	 */
-	protected function isSetOption(string! option)
+	protected function isSetOption(string! option) -> boolean
 	{
 		return isset this->_options[option];
 	}

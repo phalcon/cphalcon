@@ -19,6 +19,12 @@
 
 namespace Phalcon\Mvc\Model;
 
+use Phalcon\DiInterface;
+use Phalcon\Mvc\ModelInterface;
+use Phalcon\Mvc\Model\Transaction\Failed as TxFailed;
+use Phalcon\Mvc\Model\Transaction\ManagerInterface;
+use Phalcon\Mvc\Model\TransactionInterface;
+
 /**
  * Phalcon\Mvc\Model\Transaction
  *
@@ -56,7 +62,7 @@ namespace Phalcon\Mvc\Model;
  *
  *</code>
  */
-class Transaction implements \Phalcon\Mvc\Model\TransactionInterface
+class Transaction implements TransactionInterface
 {
 
 	protected _connection;
@@ -80,7 +86,7 @@ class Transaction implements \Phalcon\Mvc\Model\TransactionInterface
 	 * @param boolean autoBegin
 	 * @param string service
 	 */
-	public function __construct(<\Phalcon\DiInterface> dependencyInjector, boolean autoBegin=false, service=null)
+	public function __construct(<DiInterface> dependencyInjector, boolean autoBegin = false, service = null)
 	{
 		var connection;
 
@@ -101,7 +107,7 @@ class Transaction implements \Phalcon\Mvc\Model\TransactionInterface
 	 *
 	 * @param Phalcon\Mvc\Model\Transaction\ManagerInterface $manager
 	 */
-	public function setTransactionManager(<\Phalcon\Mvc\Model\Transaction\ManagerInterface> manager)
+	public function setTransactionManager(<ManagerInterface> manager)
 	{
 		let this->_manager = manager;
 	}
@@ -111,7 +117,7 @@ class Transaction implements \Phalcon\Mvc\Model\TransactionInterface
 	 *
 	 * @return boolean
 	 */
-	public function begin()
+	public function begin() -> boolean
 	{
 		return this->_connection->begin();
 	}
@@ -140,7 +146,7 @@ class Transaction implements \Phalcon\Mvc\Model\TransactionInterface
 	 * @param  Phalcon\Mvc\ModelInterface rollbackRecord
 	 * @return boolean
 	 */
-	public function rollback(rollbackMessage=null, rollbackRecord=null) -> boolean
+	public function rollback(rollbackMessage = null, rollbackRecord = null) -> boolean
 	{
 		var manager, connection;
 
@@ -157,7 +163,7 @@ class Transaction implements \Phalcon\Mvc\Model\TransactionInterface
 			if typeof rollbackRecord == "object" {
 				let this->_rollbackRecord = rollbackRecord;
 			}
-			throw new \Phalcon\Mvc\Model\Transaction\Failed(rollbackMessage, this->_rollbackRecord);
+			throw new TxFailed(rollbackMessage, this->_rollbackRecord);
 		}
 
 		return true;
@@ -231,9 +237,9 @@ class Transaction implements \Phalcon\Mvc\Model\TransactionInterface
 	/**
 	 * Sets object which generates rollback action
 	 *
-	 * @param Phalcon\Mvc\ModelInterface $record
+	 * @param Phalcon\Mvc\ModelInterface record
 	 */
-	public function setRollbackedRecord(<\Phalcon\Mvc\ModelInterface> record)
+	public function setRollbackedRecord(<ModelInterface> record)
 	{
 		let this->_rollbackRecord = record;
 	}

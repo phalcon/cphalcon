@@ -98,8 +98,8 @@ PHP_METHOD(Phalcon_Cli_Router_Route, __construct) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(pattern_param) == IS_STRING)) {
-		pattern = pattern_param;
+	if (likely(Z_TYPE_P(pattern_param) == IS_STRING)) {
+		zephir_get_strval(pattern, pattern_param);
 	} else {
 		ZEPHIR_INIT_VAR(pattern);
 		ZVAL_EMPTY_STRING(pattern);
@@ -152,8 +152,8 @@ PHP_METHOD(Phalcon_Cli_Router_Route, compilePattern) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(pattern_param) == IS_STRING)) {
-		pattern = pattern_param;
+	if (likely(Z_TYPE_P(pattern_param) == IS_STRING)) {
+		zephir_get_strval(pattern, pattern_param);
 	} else {
 		ZEPHIR_INIT_VAR(pattern);
 		ZVAL_EMPTY_STRING(pattern);
@@ -263,8 +263,8 @@ PHP_METHOD(Phalcon_Cli_Router_Route, extractNamedParams) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(pattern_param) == IS_STRING)) {
-		pattern = pattern_param;
+	if (likely(Z_TYPE_P(pattern_param) == IS_STRING)) {
+		zephir_get_strval(pattern, pattern_param);
 	} else {
 		ZEPHIR_INIT_VAR(pattern);
 		ZVAL_EMPTY_STRING(pattern);
@@ -487,8 +487,8 @@ PHP_METHOD(Phalcon_Cli_Router_Route, reConfigure) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(pattern_param) == IS_STRING)) {
-		pattern = pattern_param;
+	if (likely(Z_TYPE_P(pattern_param) == IS_STRING)) {
+		zephir_get_strval(pattern, pattern_param);
 	} else {
 		ZEPHIR_INIT_VAR(pattern);
 		ZVAL_EMPTY_STRING(pattern);
@@ -638,8 +638,8 @@ PHP_METHOD(Phalcon_Cli_Router_Route, setName) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(name_param) == IS_STRING)) {
-		name = name_param;
+	if (likely(Z_TYPE_P(name_param) == IS_STRING)) {
+		zephir_get_strval(name, name_param);
 	} else {
 		ZEPHIR_INIT_VAR(name);
 		ZVAL_EMPTY_STRING(name);
@@ -781,8 +781,8 @@ PHP_METHOD(Phalcon_Cli_Router_Route, convert) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(name_param) == IS_STRING)) {
-		name = name_param;
+	if (likely(Z_TYPE_P(name_param) == IS_STRING)) {
+		zephir_get_strval(name, name_param);
 	} else {
 		ZEPHIR_INIT_VAR(name);
 		ZVAL_EMPTY_STRING(name);
@@ -836,8 +836,8 @@ PHP_METHOD(Phalcon_Cli_Router_Route, delimiter) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(delimiter_param) == IS_STRING)) {
-		delimiter = delimiter_param;
+	if (likely(Z_TYPE_P(delimiter_param) == IS_STRING)) {
+		zephir_get_strval(delimiter, delimiter_param);
 	} else {
 		ZEPHIR_INIT_VAR(delimiter);
 		ZVAL_EMPTY_STRING(delimiter);

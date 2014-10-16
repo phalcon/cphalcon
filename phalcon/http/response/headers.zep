@@ -68,7 +68,7 @@ class Headers implements \Phalcon\Http\Response\HeadersInterface
 	/**
 	 * Removes a header to be sent at the end of the request
 	 *
-	 * @param string $header Header name
+	 * @param string header Header name
 	 */
 	public function remove(string header)
 	{

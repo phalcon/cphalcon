@@ -132,8 +132,8 @@ PHP_METHOD(Phalcon_Crypt, setCipher) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(cipher_param) == IS_STRING)) {
-		cipher = cipher_param;
+	if (likely(Z_TYPE_P(cipher_param) == IS_STRING)) {
+		zephir_get_strval(cipher, cipher_param);
 	} else {
 		ZEPHIR_INIT_VAR(cipher);
 		ZVAL_EMPTY_STRING(cipher);
@@ -176,8 +176,8 @@ PHP_METHOD(Phalcon_Crypt, setMode) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(mode_param) == IS_STRING)) {
-		mode = mode_param;
+	if (likely(Z_TYPE_P(mode_param) == IS_STRING)) {
+		zephir_get_strval(mode, mode_param);
 	} else {
 		ZEPHIR_INIT_VAR(mode);
 		ZVAL_EMPTY_STRING(mode);
@@ -220,8 +220,8 @@ PHP_METHOD(Phalcon_Crypt, setKey) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(key_param) == IS_STRING)) {
-		key = key_param;
+	if (likely(Z_TYPE_P(key_param) == IS_STRING)) {
+		zephir_get_strval(key, key_param);
 	} else {
 		ZEPHIR_INIT_VAR(key);
 		ZVAL_EMPTY_STRING(key);
@@ -271,8 +271,8 @@ PHP_METHOD(Phalcon_Crypt, _cryptPadText) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(text_param) == IS_STRING)) {
-		text = text_param;
+	if (likely(Z_TYPE_P(text_param) == IS_STRING)) {
+		zephir_get_strval(text, text_param);
 	} else {
 		ZEPHIR_INIT_VAR(text);
 		ZVAL_EMPTY_STRING(text);
@@ -282,8 +282,8 @@ PHP_METHOD(Phalcon_Crypt, _cryptPadText) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(mode_param) == IS_STRING)) {
-		mode = mode_param;
+	if (likely(Z_TYPE_P(mode_param) == IS_STRING)) {
+		zephir_get_strval(mode, mode_param);
 	} else {
 		ZEPHIR_INIT_VAR(mode);
 		ZVAL_EMPTY_STRING(mode);
@@ -462,8 +462,8 @@ PHP_METHOD(Phalcon_Crypt, _cryptUnpadText) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(text_param) == IS_STRING)) {
-		text = text_param;
+	if (likely(Z_TYPE_P(text_param) == IS_STRING)) {
+		zephir_get_strval(text, text_param);
 	} else {
 		ZEPHIR_INIT_VAR(text);
 		ZVAL_EMPTY_STRING(text);
@@ -473,8 +473,8 @@ PHP_METHOD(Phalcon_Crypt, _cryptUnpadText) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(mode_param) == IS_STRING)) {
-		mode = mode_param;
+	if (likely(Z_TYPE_P(mode_param) == IS_STRING)) {
+		zephir_get_strval(mode, mode_param);
 	} else {
 		ZEPHIR_INIT_VAR(mode);
 		ZVAL_EMPTY_STRING(mode);
@@ -705,8 +705,8 @@ PHP_METHOD(Phalcon_Crypt, encrypt) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(text_param) == IS_STRING)) {
-		text = text_param;
+	if (likely(Z_TYPE_P(text_param) == IS_STRING)) {
+		zephir_get_strval(text, text_param);
 	} else {
 		ZEPHIR_INIT_VAR(text);
 		ZVAL_EMPTY_STRING(text);
@@ -720,8 +720,8 @@ PHP_METHOD(Phalcon_Crypt, encrypt) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(key_param) == IS_STRING)) {
-		key = key_param;
+	if (likely(Z_TYPE_P(key_param) == IS_STRING)) {
+		zephir_get_strval(key, key_param);
 	} else {
 		ZEPHIR_INIT_VAR(key);
 		ZVAL_EMPTY_STRING(key);
@@ -819,8 +819,8 @@ PHP_METHOD(Phalcon_Crypt, decrypt) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(text_param) == IS_STRING)) {
-		text = text_param;
+	if (likely(Z_TYPE_P(text_param) == IS_STRING)) {
+		zephir_get_strval(text, text_param);
 	} else {
 		ZEPHIR_INIT_VAR(text);
 		ZVAL_EMPTY_STRING(text);
@@ -911,8 +911,8 @@ PHP_METHOD(Phalcon_Crypt, encryptBase64) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(text_param) == IS_STRING)) {
-		text = text_param;
+	if (likely(Z_TYPE_P(text_param) == IS_STRING)) {
+		zephir_get_strval(text, text_param);
 	} else {
 		ZEPHIR_INIT_VAR(text);
 		ZVAL_EMPTY_STRING(text);
@@ -977,8 +977,8 @@ PHP_METHOD(Phalcon_Crypt, decryptBase64) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(text_param) == IS_STRING)) {
-		text = text_param;
+	if (likely(Z_TYPE_P(text_param) == IS_STRING)) {
+		zephir_get_strval(text, text_param);
 	} else {
 		ZEPHIR_INIT_VAR(text);
 		ZVAL_EMPTY_STRING(text);

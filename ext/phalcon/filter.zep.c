@@ -15,8 +15,8 @@
 #include "kernel/exception.h"
 #include "kernel/object.h"
 #include "ext/spl/spl_exceptions.h"
-#include "kernel/memory.h"
 #include "kernel/operators.h"
+#include "kernel/memory.h"
 #include "kernel/hash.h"
 #include "kernel/fcall.h"
 #include "kernel/array.h"
@@ -89,8 +89,8 @@ PHP_METHOD(Phalcon_Filter, add) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(name_param) == IS_STRING)) {
-		name = name_param;
+	if (likely(Z_TYPE_P(name_param) == IS_STRING)) {
+		zephir_get_strval(name, name_param);
 	} else {
 		ZEPHIR_INIT_VAR(name);
 		ZVAL_EMPTY_STRING(name);
@@ -221,8 +221,8 @@ PHP_METHOD(Phalcon_Filter, _sanitize) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(filter_param) == IS_STRING)) {
-		filter = filter_param;
+	if (likely(Z_TYPE_P(filter_param) == IS_STRING)) {
+		zephir_get_strval(filter, filter_param);
 	} else {
 		ZEPHIR_INIT_VAR(filter);
 		ZVAL_EMPTY_STRING(filter);

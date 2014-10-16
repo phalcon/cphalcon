@@ -14,6 +14,7 @@
 #include "kernel/main.h"
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/exception.h"
+#include "kernel/operators.h"
 #include "kernel/memory.h"
 #include "phalcon/mvc/model/query/scanner.h"
 #include "phalcon/mvc/model/query/phql.h"
@@ -80,8 +81,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Lang, parsePHQL) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(phql_param) == IS_STRING)) {
-		phql = phql_param;
+	if (likely(Z_TYPE_P(phql_param) == IS_STRING)) {
+		zephir_get_strval(phql, phql_param);
 	} else {
 		ZEPHIR_INIT_VAR(phql);
 		ZVAL_EMPTY_STRING(phql);

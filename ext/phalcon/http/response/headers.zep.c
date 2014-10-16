@@ -114,7 +114,7 @@ PHP_METHOD(Phalcon_Http_Response_Headers, setRaw) {
 /**
  * Removes a header to be sent at the end of the request
  *
- * @param string $header Header name
+ * @param string header Header name
  */
 PHP_METHOD(Phalcon_Http_Response_Headers, remove) {
 

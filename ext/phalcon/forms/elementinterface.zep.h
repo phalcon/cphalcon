@@ -20,7 +20,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_elementinterface_addfilter, 0, 0, 1
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_elementinterface_addvalidators, 0, 0, 1)
-	ZEND_ARG_INFO(0, validators)
+	ZEND_ARG_ARRAY_INFO(0, validators, 0)
 	ZEND_ARG_INFO(0, merge)
 ZEND_END_ARG_INFO()
 
@@ -74,7 +74,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_elementinterface_setmessages, 0, 0,
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_elementinterface_appendmessage, 0, 0, 1)
-	ZEND_ARG_OBJ_INFO(0, message, Phalcon\\Validation\\Message, 0)
+	ZEND_ARG_OBJ_INFO(0, message, Phalcon\\Validation\\MessageInterface, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_elementinterface_render, 0, 0, 0)

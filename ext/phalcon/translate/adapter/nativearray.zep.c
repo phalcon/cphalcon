@@ -20,6 +20,7 @@
 #include "kernel/hash.h"
 #include "kernel/string.h"
 #include "kernel/concat.h"
+#include "kernel/operators.h"
 
 
 /*
@@ -114,8 +115,8 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, query) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(index_param) == IS_STRING)) {
-		index = index_param;
+	if (likely(Z_TYPE_P(index_param) == IS_STRING)) {
+		zephir_get_strval(index, index_param);
 	} else {
 		ZEPHIR_INIT_VAR(index);
 		ZVAL_EMPTY_STRING(index);
@@ -170,8 +171,8 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, exists) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(index_param) == IS_STRING)) {
-		index = index_param;
+	if (likely(Z_TYPE_P(index_param) == IS_STRING)) {
+		zephir_get_strval(index, index_param);
 	} else {
 		ZEPHIR_INIT_VAR(index);
 		ZVAL_EMPTY_STRING(index);

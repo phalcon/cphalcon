@@ -613,6 +613,10 @@ select_statement(R) ::= select_clause(S) where_clause(W) group_clause(G) having_
 	R = phql_ret_select_statement(S, W, O, G, H, L);
 }
 
+select_statement(R) ::= select_clause(S) having_clause(H) order_clause(O) select_limit_clause(L) . {
+	R = phql_ret_select_statement(S, NULL, O, NULL, H, L);
+}
+
 select_statement(R) ::= select_clause(S) group_clause(G) . {
 	R = phql_ret_select_statement(S, NULL, NULL, G, NULL, NULL);
 }

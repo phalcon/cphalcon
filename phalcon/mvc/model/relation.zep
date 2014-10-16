@@ -19,12 +19,14 @@
 
 namespace Phalcon\Mvc\Model;
 
+use Phalcon\Mvc\Model\RelationInterface;
+
 /**
  * Phalcon\Mvc\Model\Relation
  *
  * This class represents a relationship between two models
  */
-class Relation implements \Phalcon\Mvc\Model\RelationInterface
+class Relation implements RelationInterface
 {
 
 	protected _type;
@@ -68,7 +70,7 @@ class Relation implements \Phalcon\Mvc\Model\RelationInterface
 	 * @param string|array referencedFields
 	 * @param array options
 	 */
-	public function __construct(type, string! referencedModel, var fields, var referencedFields, var options=null)
+	public function __construct(type, string! referencedModel, var fields, var referencedFields, var options = null)
 	{
 		let this->_type = type,
 			this->_referencedModel = referencedModel,
@@ -178,6 +180,25 @@ class Relation implements \Phalcon\Mvc\Model\RelationInterface
 	}
 
 	/**
+	 * Returns parameters that must be always used when the related records are obtained
+	 *
+	 * @return array
+	 */
+	public function getParams()
+	{
+		var options, params;
+		let options = this->_options;
+		if typeof options == "array" {
+			if fetch params, options["params"] {
+				if params {
+					return params;
+				}
+			}
+		}
+		return false;
+	}
+
+	/**
 	 * Check whether the relation is a 'many-to-many' relation or not
 	 *
 	 * @return boolean
@@ -235,5 +256,4 @@ class Relation implements \Phalcon\Mvc\Model\RelationInterface
 	{
 		return this->_intermediateReferencedFields;
 	}
-
 }

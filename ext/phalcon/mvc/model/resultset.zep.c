@@ -369,7 +369,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetGet) {
 		}
 		RETURN_MM_BOOL(0);
 	}
-	ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "The index does not exist in the cursor", "phalcon/mvc/model/resultset.zep", 283);
+	ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "The index does not exist in the cursor", "phalcon/mvc/model/resultset.zep", 284);
 	return;
 
 }
@@ -388,7 +388,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetSet) {
 
 
 
-	ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_mvc_model_exception_ce, "Cursor is an immutable ArrayAccess object", "phalcon/mvc/model/resultset.zep", 294);
+	ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_mvc_model_exception_ce, "Cursor is an immutable ArrayAccess object", "phalcon/mvc/model/resultset.zep", 295);
 	return;
 
 }
@@ -408,7 +408,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetUnset) {
 	offset = zephir_get_intval(offset_param);
 
 
-	ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_mvc_model_exception_ce, "Cursor is an immutable ArrayAccess object", "phalcon/mvc/model/resultset.zep", 304);
+	ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_mvc_model_exception_ce, "Cursor is an immutable ArrayAccess object", "phalcon/mvc/model/resultset.zep", 305);
 	return;
 
 }
@@ -633,7 +633,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, delete) {
 		}
 		if (transaction == 0) {
 			if (!((zephir_method_exists_ex(record, SS("getwriteconnection") TSRMLS_CC) == SUCCESS))) {
-				ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "The returned record is not valid", "phalcon/mvc/model/resultset.zep", 450);
+				ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "The returned record is not valid", "phalcon/mvc/model/resultset.zep", 451);
 				return;
 			}
 			ZEPHIR_CALL_METHOD(&connection, record, "getwriteconnection",  NULL);
@@ -710,7 +710,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, filter) {
 		_0->funcs->get_current_data(_0, &tmp TSRMLS_CC);
 		record = *tmp;
 		}
-		zephir_array_update_long(&parameters, 0, &record, PH_COPY | PH_SEPARATE, "phalcon/mvc/model/resultset.zep", 519);
+		zephir_array_update_long(&parameters, 0, &record, PH_COPY | PH_SEPARATE, "phalcon/mvc/model/resultset.zep", 520);
 		ZEPHIR_INIT_NVAR(processedRecord);
 		ZEPHIR_CALL_USER_FUNC_ARRAY(processedRecord, filter, parameters);
 		zephir_check_call_status();
@@ -719,7 +719,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, filter) {
 				continue;
 			}
 		}
-		zephir_array_append(&records, processedRecord, PH_SEPARATE, "phalcon/mvc/model/resultset.zep", 531);
+		zephir_array_append(&records, processedRecord, PH_SEPARATE, "phalcon/mvc/model/resultset.zep", 532);
 	}
 	_0->funcs->dtor(_0 TSRMLS_CC);
 	RETURN_CCTOR(records);

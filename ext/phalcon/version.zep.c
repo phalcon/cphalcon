@@ -121,7 +121,7 @@ PHP_METHOD(Phalcon_Version, _getVersion) {
 	ZVAL_LONG(_0, 2);
 	zephir_array_fast_append(return_value, _0);
 	ZEPHIR_INIT_BNVAR(_0);
-	ZVAL_LONG(_0, 2);
+	ZVAL_LONG(_0, 3);
 	zephir_array_fast_append(return_value, _0);
 	RETURN_MM();
 
@@ -180,8 +180,9 @@ PHP_METHOD(Phalcon_Version, _getSpecial) {
  */
 PHP_METHOD(Phalcon_Version, get) {
 
+	zephir_nts_static zephir_fcall_cache_entry *_0 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *version = NULL, *major, *medium, *minor, *special, *specialNumber, *result, *suffix = NULL, *_0;
+	zval *version = NULL, *major, *medium, *minor, *special, *specialNumber, *result, *suffix = NULL, *_1;
 
 	ZEPHIR_MM_GROW();
 
@@ -199,12 +200,12 @@ PHP_METHOD(Phalcon_Version, get) {
 	zephir_array_fetch_long(&specialNumber, version, 4, PH_NOISY, "phalcon/version.zep", 131 TSRMLS_CC);
 	ZEPHIR_INIT_VAR(result);
 	ZEPHIR_CONCAT_VSVSVS(result, major, ".", medium, ".", minor, " ");
-	ZEPHIR_CALL_SELF(&suffix, "_getspecial", NULL, special);
+	ZEPHIR_CALL_SELF(&suffix, "_getspecial", &_0, special);
 	zephir_check_call_status();
 	if (!ZEPHIR_IS_STRING(suffix, "")) {
-		ZEPHIR_INIT_VAR(_0);
-		ZEPHIR_CONCAT_VSV(_0, suffix, " ", specialNumber);
-		zephir_concat_self(&result, _0 TSRMLS_CC);
+		ZEPHIR_INIT_VAR(_1);
+		ZEPHIR_CONCAT_VSV(_1, suffix, " ", specialNumber);
+		zephir_concat_self(&result, _1 TSRMLS_CC);
 	}
 	zephir_fast_trim(return_value, result, NULL , ZEPHIR_TRIM_BOTH TSRMLS_CC);
 	RETURN_MM();
@@ -265,7 +266,8 @@ PHP_METHOD(Phalcon_Version, getId) {
  */
 PHP_METHOD(Phalcon_Version, getPart) {
 
-	zval *part_param = NULL, *version = NULL, *result = NULL, *_0;
+	zephir_nts_static zephir_fcall_cache_entry *_0 = NULL;
+	zval *part_param = NULL, *version = NULL, *result = NULL, *_1;
 	int part, ZEPHIR_LAST_CALL_STATUS;
 
 	ZEPHIR_MM_GROW();
@@ -283,8 +285,8 @@ PHP_METHOD(Phalcon_Version, getPart) {
 			break;
 		}
 		if (part == 3) {
-			zephir_array_fetch_long(&_0, version, 3, PH_NOISY | PH_READONLY, "phalcon/version.zep", 192 TSRMLS_CC);
-			ZEPHIR_CALL_SELF(&result, "_getspecial", NULL, _0);
+			zephir_array_fetch_long(&_1, version, 3, PH_NOISY | PH_READONLY, "phalcon/version.zep", 192 TSRMLS_CC);
+			ZEPHIR_CALL_SELF(&result, "_getspecial", &_0, _1);
 			zephir_check_call_status();
 			break;
 		}
@@ -294,24 +296,6 @@ PHP_METHOD(Phalcon_Version, getPart) {
 	} while(0);
 
 	RETURN_CCTOR(result);
-
-}
-
-PHP_METHOD(Phalcon_Version, testUnsetTypedArray) {
-
-	zval *key = NULL;
-	zval *arr_param = NULL, *key_param = NULL;
-	zval *arr = NULL;
-
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 2, 0, &arr_param, &key_param);
-
-	zephir_get_arrval(arr, arr_param);
-	zephir_get_strval(key, key_param);
-
-
-	zephir_array_unset(&arr, key, PH_SEPARATE);
-	RETURN_CTOR(arr);
 
 }
 

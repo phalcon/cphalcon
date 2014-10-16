@@ -19,12 +19,15 @@
 
 namespace Phalcon\Forms\Element;
 
+use Phalcon\Forms\Element;
+use Phalcon\Forms\ElementInterface;
+
 /**
  * Phalcon\Forms\Element\File
  *
  * Component INPUT[type=file] for forms
  */
-class File extends \Phalcon\Forms\Element implements \Phalcon\Forms\ElementInterface
+class File extends Element implements ElementInterface
 {
 
 	/**

@@ -19,13 +19,17 @@
 
 namespace Phalcon\Http\Response;
 
+use Phalcon\Http\Response\CookiesInterface;
+use Phalcon\Di\InjectionAwareInterface;
+use Phalcon\Http\Cookie\Exception;
+
 /**
  * Phalcon\Http\Response\Cookies
  *
  * This class is a bag to manage the cookies
  * A cookies bag is automatically registered as part of the 'response' service in the DI
  */
-class Cookies implements \Phalcon\Http\Response\CookiesInterface, \Phalcon\Di\InjectionAwareInterface
+class Cookies implements CookiesInterface, InjectionAwareInterface
 {
 
 	protected _dependencyInjector;
@@ -62,7 +66,7 @@ class Cookies implements \Phalcon\Http\Response\CookiesInterface, \Phalcon\Di\In
 	 * @param boolean useEncryption
 	 * @return Phalcon\Http\Response\Cookies
 	 */
-	public function useEncryption(boolean useEncryption) -> <\Phalcon\Http\Response\Cookies>
+	public function useEncryption(boolean useEncryption) -> <Cookies>
 	{
 		let this->_useEncryption = useEncryption;
 		return this;
@@ -138,7 +142,7 @@ class Cookies implements \Phalcon\Http\Response\CookiesInterface, \Phalcon\Di\In
 
 			let dependencyInjector = this->_dependencyInjector;
 			if typeof dependencyInjector != "object" {
-				throw new \Phalcon\Http\Cookie\Exception("A dependency injection object is required to access the 'response' service");
+				throw new Exception("A dependency injection object is required to access the 'response' service");
 			}
 
 			let response = dependencyInjector->getShared("response");
@@ -265,7 +269,7 @@ class Cookies implements \Phalcon\Http\Response\CookiesInterface, \Phalcon\Di\In
 	 *
 	 * @return Phalcon\Http\Response\Cookies
 	 */
-	public function reset() -> <\Phalcon\Http\Response\Cookies>
+	public function reset() -> <Cookies>
 	{
 		let this->_cookies = [];
 		return this;
