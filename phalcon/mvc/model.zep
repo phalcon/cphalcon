@@ -20,7 +20,6 @@
 namespace Phalcon\Mvc;
 
 use Phalcon\DiInterface;
-use Phalcon\Mvc\Model\Message;
 use Phalcon\Mvc\ModelInterface;
 use Phalcon\Mvc\Model\ResultInterface;
 use Phalcon\Di\InjectionAwareInterface;
@@ -32,10 +31,11 @@ use Phalcon\Mvc\Model\Resultset;
 use Phalcon\Mvc\Model\Query\Builder;
 use Phalcon\Mvc\Model\Relation;
 use Phalcon\Mvc\Model\RelationInterface;
-use Phalcon\Mvc\Model\BehaviorInterface;
-use Phalcon\Mvc\Model\Exception;
+use Phalcon\Mvc\Model\Exception as ModelException;
 use Phalcon\Mvc\Model\MetadataInterface;
-use Phalcon\Mvc\Model\MessageInterface;
+use Phalcon\Mvc\Entity\MessageInterface;
+use Phalcon\Mvc\Model\Message;
+use Phalcon\Mvc\Entity\BehaviorInterface;
 use Phalcon\Events\ManagerInterface as EventsManagerInterface;
 
 /**
@@ -70,20 +70,11 @@ use Phalcon\Events\ManagerInterface as EventsManagerInterface;
  * </code>
  *
  */
-abstract class Model implements ModelInterface, ResultInterface, InjectionAwareInterface, \Serializable
+abstract class Model extends Entity implements ModelInterface, ResultInterface
 {
-
-	protected _dependencyInjector;
-
 	protected _modelsManager;
 
 	protected _modelsMetaData;
-
-	protected _errorMessages;
-
-	protected _operationMade = 0;
-
-	protected _dirtyState = 1;
 
 	protected _transaction;
 
@@ -93,11 +84,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 
 	protected _uniqueTypes;
 
-	protected _skipped;
-
 	protected _related;
-
-	protected _snapshot;
 
 	const OP_NONE = 0;
 
@@ -110,97 +97,22 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	const DIRTY_STATE_PERSISTENT = 0;
 
 	const DIRTY_STATE_TRANSIENT = 1;
-
+	
 	const DIRTY_STATE_DETACHED = 2;
 
 	/**
 	 * Phalcon\Mvc\Model constructor
 	 *
 	 * @param Phalcon\DiInterface dependencyInjector
-	 * @param Phalcon\Mvc\Model\ManagerInterface modelsManager
+	 * @param Phalcon\Mvc\Model\ManagerInterface entityManager
 	 */
 	public final function __construct(<DiInterface> dependencyInjector = null, <ManagerInterface> modelsManager = null)
 	{
+		parent::__construct(dependencyInjector, modelsManager, "modelsManager");
 
-		/**
-		 * We use a default DI if the user doesn't define one
-		 */
-		if typeof dependencyInjector != "object" {
-			let dependencyInjector = \Phalcon\Di::getDefault();
-		}
-
-		if typeof dependencyInjector != "object" {
-			throw new Exception("A dependency injector container is required to obtain the services related to the ORM");
-		}
-
-		let this->_dependencyInjector = dependencyInjector;
-
-		/**
-		 * Inject the manager service from the DI
-		 */
-		if typeof modelsManager != "object" {
-			let modelsManager = <ManagerInterface> dependencyInjector->getShared("modelsManager");
-			if typeof modelsManager != "object" {
-				throw new Exception("The injected service 'modelsManager' is not valid");
-			}
-		}
-
-		/**
-		 * Update the models-manager
-		 */
+		// backward compatibility
+		let modelsManager = this->_entityManager;	
 		let this->_modelsManager = modelsManager;
-
-		/**
-		 * The manager always initializes the object
-		 */
-		modelsManager->initialize(this);
-
-		/**
-		 * This allows the developer to execute initialization stuff every time an instance is created
-		 */
-		if method_exists(this, "onConstruct") {
-			this->{"onConstruct"}();
-		}
-	}
-
-	/**
-	 * Sets the dependency injection container
-	 *
-	 * @param Phalcon\DiInterface dependencyInjector
-	 */
-	public function setDI(<DiInterface> dependencyInjector)
-	{
-		let this->_dependencyInjector = dependencyInjector;
-	}
-
-	/**
-	 * Returns the dependency injection container
-	 *
-	 * @return Phalcon\DiInterface
-	 */
-	public function getDI() -> <DiInterface>
-	{
-		return this->_dependencyInjector;
-	}
-
-	/**
-	 * Sets a custom events manager
-	 *
-	 * @param Phalcon\Events\ManagerInterface eventsManager
-	 */
-	protected function setEventsManager(<EventsManagerInterface> eventsManager)
-	{
-		this->_modelsManager->setCustomEventsManager(this, eventsManager);
-	}
-
-	/**
-	 * Returns the custom events manager
-	 *
-	 * @return Phalcon\Events\ManagerInterface
-	 */
-	protected function getEventsManager() -> <EventsManagerInterface>
-	{
-		return this->_modelsManager->getCustomEventsManager(this);
 	}
 
 	/**
@@ -220,7 +132,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 			 */
 			let dependencyInjector = <DiInterface> this->_dependencyInjector;
 			if typeof dependencyInjector != "object" {
-				throw new Exception("A dependency injector container is required to obtain the services related to the ORM");
+				throw new ModelException("A dependency injector container is required to obtain the services related to the ORM");
 			}
 
 			/**
@@ -228,7 +140,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 			 */
 			let metaData = <MetaDataInterface> dependencyInjector->getShared("modelsMetadata");
 			if typeof metaData != "object" {
-				throw new Exception("The injected service 'modelsMetadata' is not valid");
+				throw new ModelException("The injected service 'modelsMetadata' is not valid");
 			}
 
 			/**
@@ -246,7 +158,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 */
 	public function getModelsManager() -> <ManagerInterface>
 	{
-		return this->_modelsManager;
+		return this->_entityManager;
 	}
 
 	/**
@@ -288,13 +200,13 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 * @param Phalcon\Mvc\Model\TransactionInterface $transaction
 	 * @return Phalcon\Mvc\Model
 	 */
-	public function setTransaction(<TransactionInterface> transaction) -> <Model>
+	public function setTransaction(<TransactionInterface> transaction) -> <\Phalcon\Mvc\Model>
 	{
 		if typeof transaction == "object" {
 			let this->_transaction = transaction;
 			return this;
 		}
-		throw new Exception("Transaction should be an object");
+		throw new ModelException("Transaction should be an object");
 	}
 
 	/**
@@ -303,9 +215,9 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 * @param string source
 	 * @return Phalcon\Mvc\Model
 	 */
-	protected function setSource(string! source) -> <Model>
+	protected function setSource(string! source) -> <\Phalcon\Mvc\Model>
 	{
-		(<ManagerInterface> this->_modelsManager)->setModelSource(this, source);
+		(<ManagerInterface> this->_entityManager)->setModelSource(this, source);
 		return this;
 	}
 
@@ -316,7 +228,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 */
 	public function getSource() -> string
 	{
-		return (<ManagerInterface> this->_modelsManager)->getModelSource(this);
+		return (<ManagerInterface> this->_entityManager)->getModelSource(this);
 	}
 
 	/**
@@ -325,9 +237,9 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 * @param string schema
 	 * @return Phalcon\Mvc\Model
 	 */
-	protected function setSchema(string! schema) -> <Model>
+	protected function setSchema(string! schema) -> <\Phalcon\Mvc\Model>
 	{
-		return (<ManagerInterface> this->_modelsManager)->setModelSchema(this, schema);
+		return (<ManagerInterface> this->_entityManager)->setModelSchema(this, schema);
 	}
 
 	/**
@@ -337,7 +249,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 */
 	public function getSchema() -> string
 	{
-		return (<ManagerInterface> this->_modelsManager)->getModelSchema(this);
+		return (<ManagerInterface> this->_entityManager)->getModelSchema(this);
 	}
 
 	/**
@@ -348,7 +260,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 */
 	public function setConnectionService(string! connectionService) -> <Model>
 	{
-		(<ManagerInterface> this->_modelsManager)->setConnectionService(this, connectionService);
+		(<ManagerInterface> this->_entityManager)->setConnectionService(this, connectionService);
 		return this;
 	}
 
@@ -360,7 +272,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 */
 	public function setReadConnectionService(string! connectionService) -> <Model>
 	{
-		(<ManagerInterface> this->_modelsManager)->setReadConnectionService(this, connectionService);
+		(<ManagerInterface> this->_entityManager)->setReadConnectionService(this, connectionService);
 		return this;
 	}
 
@@ -372,7 +284,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 */
 	public function setWriteConnectionService(string! connectionService) -> <Model>
 	{
-		return (<ManagerInterface> this->_modelsManager)->setWriteConnectionService(this, connectionService);
+		return (<ManagerInterface> this->_entityManager)->setWriteConnectionService(this, connectionService);
 	}
 
 	/**
@@ -382,7 +294,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 */
 	public function getReadConnectionService() -> string
 	{
-		return (<ManagerInterface> this->_modelsManager)->getReadConnectionService(this);
+		return (<ManagerInterface> this->_entityManager)->getReadConnectionService(this);
 	}
 
 	/**
@@ -392,29 +304,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 */
 	public function getWriteConnectionService() -> string
 	{
-		return (<ManagerInterface> this->_modelsManager)->getWriteConnectionService(this);
-	}
-
-	/**
-	 * Sets the dirty state of the object using one of the DIRTY_STATE_* constants
-	 *
-	 * @param int dirtyState
-	 * @return Phalcon\Mvc\Model
-	 */
-	public function setDirtyState(int dirtyState) -> <\Phalcon\Mvc\Model>
-	{
-		let this->_dirtyState = dirtyState;
-		return this;
-	}
-
-	/**
-	 * Returns one of the DIRTY_STATE_* constants telling if the record exists in the database or not
-	 *
-	 * @return int
-	 */
-	public function getDirtyState() -> int
-	{
-		return this->_dirtyState;
+		return (<ManagerInterface> this->_entityManager)->getWriteConnectionService(this);
 	}
 
 	/**
@@ -424,7 +314,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 */
 	public function getReadConnection() -> <AdapterInterface>
 	{
-		return (<ManagerInterface> this->_modelsManager)->getReadConnection(this);
+		return (<ManagerInterface> this->_entityManager)->getReadConnection(this);
 	}
 
 	/**
@@ -441,49 +331,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 			return transaction->getConnection();
 		}
 
-		return (<ManagerInterface> this->_modelsManager)->getWriteConnection(this);
-	}
-
-	/**
-	 * Assigns values to a model from an array
-	 *
-	 *<code>
-	 *$robot->assign(array(
-	 *  'type' => 'mechanical',
-	 *  'name' => 'Astro Boy',
-	 *  'year' => 1952
-	 *));
-	 *</code>
-	 *
-	 * @param array data
-	 * @param array columnMap
-	 * @return Phalcon\Mvc\Model
-	 */
-	public function assign(var data, var columnMap = null) -> <Model>
-	{
-		var key, value, attribute;
-
-		for key, value in data {
-
-			/**
-			 * Only string keys in the data are valid
-			 */
-			if typeof columnMap == "array" {
-
-				/**
-				 * Every field must be part of the column map
-				 */
-				if fetch attribute, columnMap[key] {
-					let this->{attribute} = value;
-				} else {
-					throw new Exception("Column '" . key. "' doesn\'t make part of the column map");
-				}
-			} else {
-				let this->{key} = value;
-			}
-		}
-
-		return this;
+		return (<ManagerInterface> this->_entityManager)->getWriteConnection(this);
 	}
 
 	/**
@@ -504,7 +352,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 * @param boolean keepSnapshots
 	 * @return Phalcon\Mvc\Model
 	 */
-	public static function cloneResultMap(var base, array! data, var columnMap, int dirtyState = 0, boolean keepSnapshots = null) -> <Model>
+	public static function cloneResultMap(var base, array! data, var columnMap, int dirtyState=0, boolean keepSnapshots = null) -> <Model>
 	{
 		var instance, attribute, key, value;
 
@@ -529,7 +377,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 					if fetch attribute, columnMap[key] {
 						let instance->{attribute} = value;
 					} else {
-						throw new Exception("Column '" . key . "' doesn't make part of the column map");
+						throw new ModelException("Column '" . key . "' doesn't make part of the column map");
 					}
 				} else {
 					let instance->{key} = value;
@@ -592,7 +440,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 					 * Every field must be part of the column map
 					 */
 					if !fetch attribute, columnMap[key] {
-						throw new Exception("Column '" . key . "' doesn't make part of the column map");
+						throw new ModelException("Column '" . key . "' doesn't make part of the column map");
 					}
 
 					if hydrationMode == Resultset::HYDRATE_ARRAYS {
@@ -629,12 +477,12 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 * @param int dirtyState
 	 * @return Phalcon\Mvc\ModelInterface
 	 */
-	public static function cloneResult(<ModelInterface> base, var data, int dirtyState = 0)
+	public static function cloneResult(<ModelInterface> base, var data, int dirtyState=0)
 	{
 		var instance, key, value;
 
 		if typeof data != "array" {
-			throw new Exception("Data to dump in the object must be an Array");
+			throw new ModelException("Data to dump in the object must be an Array");
 		}
 
 		/**
@@ -649,7 +497,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 
 		for key, value in data {
 			if typeof key != "string" {
-				throw new Exception("Invalid key in array data provided to dumpResult()");
+				throw new ModelException("Invalid key in array data provided to dumpResult()");
 			}
 			let instance->{key} = value;
 		}
@@ -769,7 +617,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 * @param array parameters
 	 * @return Phalcon\Mvc\Model
 	 */
-	public static function findFirst(parameters = null) -> <Model>
+	public static function findFirst(var parameters = null) -> <Model>
 	{
 		var params, builder, query, bindParams, bindTypes, cache;
 
@@ -897,7 +745,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 
 				if typeof columnMap == "array" {
 					if !fetch attributeField, columnMap[field] {
-						throw new Exception("Column '" . field . "' isn't part of the column map");
+						throw new ModelException("Column '" . field . "' isn't part of the column map");
 					}
 				} else {
 					let attributeField = field;
@@ -923,7 +771,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 				}
 
 				if !fetch type, bindDataTypes[field] {
-					throw new Exception("Column '" . field . "' isn't part of the table columns");
+					throw new ModelException("Column '" . field . "' isn't part of the table columns");
 				}
 
 				let uniqueTypes[] = type,
@@ -1192,57 +1040,6 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	}
 
 	/**
-	 * Fires an event, implicitly calls behaviors and listeners in the events manager are notified
-	 *
-	 * @param string eventName
-	 * @return boolean
-	 */
-	public function fireEvent(string! eventName) -> boolean
-	{
-
-		/**
-		 * Check if there is a method with the same name of the event
-		 */
-		if method_exists(this, eventName) {
-			this->{eventName}();
-		}
-
-		/**
-		 * Send a notification to the events manager
-		 */
-		return (<ManagerInterface> this->_modelsManager)->notifyEvent(eventName, this);
-	}
-
-	/**
-	 * Fires an event, implicitly calls behaviors and listeners in the events manager are notified
-	 * This method stops if one of the callbacks/listeners returns boolean false
-	 *
-	 * @param string eventName
-	 * @return boolean
-	 */
-	public function fireEventCancel(string! eventName)
-	{
-
-		/**
-		 * Check if there is a method with the same name of the event
-		 */
-		if method_exists(this, eventName) {
-			if this->{eventName}() === false {
-				return false;
-			}
-		}
-
-		/**
-		 * Send a notification to the events manager
-		 */
-		if (<ManagerInterface> this->_modelsManager)->notifyEvent(eventName, this) === false {
-			return false;
-		}
-
-		return true;
-	}
-
-	/**
 	 * Cancel the current operation
 	 *
 	 */
@@ -1253,154 +1050,6 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 		} else {
 			this->fireEvent("notSaved");
 		}
-	}
-
-	/**
-	 * Appends a customized message on the validation process
-	 *
-	 * <code>
-	 * use \Phalcon\Mvc\Model\Message as Message;
-	 *
-	 * class Robots extends \Phalcon\Mvc\Model
-	 * {
-	 *
-	 *   public function beforeSave()
-	 *   {
-	 *     if ($this->name == 'Peter') {
-	 *        $message = new Message("Sorry, but a robot cannot be named Peter");
-	 *        $this->appendMessage($message);
-	 *     }
-	 *   }
-	 * }
-	 * </code>
-	 *
-	 * @param Phalcon\Mvc\Model\MessageInterface message
-	 * @return Phalcon\Mvc\Model
-	 */
-	public function appendMessage(<MessageInterface> message) -> <Model>
-	{
-		let this->_errorMessages[] = message;
-		return this;
-	}
-
-	/**
-	 * Executes validators on every validation call
-	 *
-	 *<code>
-	 *use Phalcon\Mvc\Model\Validator\ExclusionIn as ExclusionIn;
-	 *
-	 *class Subscriptors extends \Phalcon\Mvc\Model
-	 *{
-	 *
-	 *	public function validation()
-	 *  {
-	 * 		$this->validate(new ExclusionIn(array(
-	 *			'field' => 'status',
-	 *			'domain' => array('A', 'I')
-	 *		)));
-	 *		if ($this->validationHasFailed() == true) {
-	 *			return false;
-	 *		}
-	 *	}
-	 *
-	 *}
-	 *</code>
-	 *
-	 * @param object validator
-	 * @return Phalcon\Mvc\Model
-	 */
-	protected function validate(validator) -> <Model>
-	{
-		var message;
-
-		/**
-		 * Valid validators are objects
-		 */
-		if typeof validator != "object" {
-			throw new Exception("Validator must be an Object");
-		}
-
-		/**
-		 * Call the validation, if it returns false we append the messages to the current object
-		 */
-		if validator->validate(this) === false {
-			for message in validator->getMessages() {
-				let this->_errorMessages[] = message;
-			}
-		}
-
-		return this;
-	}
-
-	/**
-	 * Check whether validation process has generated any messages
-	 *
-	 *<code>
-	 *use Phalcon\Mvc\Model\Validator\ExclusionIn as ExclusionIn;
-	 *
-	 *class Subscriptors extends \Phalcon\Mvc\Model
-	 *{
-	 *
-	 *	public function validation()
-	 *  {
-	 * 		$this->validate(new ExclusionIn(array(
-	 *			'field' => 'status',
-	 *			'domain' => array('A', 'I')
-	 *		)));
-	 *		if ($this->validationHasFailed() == true) {
-	 *			return false;
-	 *		}
-	 *	}
-	 *
-	 *}
-	 *</code>
-	 *
-	 * @return boolean
-	 */
-	public function validationHasFailed() -> boolean
-	{
-		var errorMessages;
-		let errorMessages = this->_errorMessages;
-		if typeof errorMessages == "array" {
-			return count(errorMessages) > 0;
-		}
-		return false;
-	}
-
-	/**
-	 * Returns all the validation messages
-	 *
-	 *<code>
-	 *	$robot = new Robots();
-	 *	$robot->type = 'mechanical';
-	 *	$robot->name = 'Astro Boy';
-	 *	$robot->year = 1952;
-	 *	if ($robot->save() == false) {
-	 *  	echo "Umh, We can't store robots right now ";
-	 *  	foreach ($robot->getMessages() as $message) {
-	 *			echo $message;
-	 *		}
-	 *	} else {
-	 *  	echo "Great, a new robot was saved successfully!";
-	 *	}
-	 * </code>
-	 *
-	 * @return Phalcon\Mvc\Model\MessageInterface[]
-	 */
-	public function getMessages(var filter = null)
-	{
-		var filtered, message;
-
-		if typeof filter == "string" && !empty filter {
-			let filtered = [];
-			for message in this->_errorMessages {
-				if message->getField() == filter {
-					let filtered[] = message;
-				}
-			}
-			return filtered;
-		}
-		return this->_errorMessages;
 	}
 
 	/**
@@ -1420,7 +1069,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 		/**
 		 * Get the models manager
 		 */
-		let manager = <ManagerInterface> this->_modelsManager;
+		let manager = <ManagerInterface> this->_entityManager;
 
 		/**
 		 * We check if some of the belongsTo relations act as virtual foreign key
@@ -1549,7 +1198,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 		/**
 		 * Get the models manager
 		 */
-		let manager = <ManagerInterface> this->_modelsManager;
+		let manager = <ManagerInterface> this->_entityManager;
 
 		/**
 		 * We check if some of the hasOne/hasMany relations is a foreign key
@@ -1659,7 +1308,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 		/**
 		 * Get the models manager
 		 */
-		let manager = <ManagerInterface> this->_modelsManager;
+		let manager = <ManagerInterface> this->_entityManager;
 
 		/**
 		 * We check if some of the hasOne/hasMany relations is a foreign key
@@ -1745,7 +1394,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 							/**
 							 * Create a message
 							 */
-							this->appendMessage(new Message(message, fields, "ConstraintViolation"));
+							this->appendMessage(new \Phalcon\Mvc\Model\Message(message, fields, "ConstraintViolation"));
 							let error = true;
 							break;
 						}
@@ -1857,7 +1506,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 
 						if typeof columnMap == "array" {
 							if !fetch attributeField, columnMap[field] {
-								throw new Exception("Column '" . field . "' isn't part of the column map");
+								throw new ModelException("Column '" . field . "' isn't part of the column map");
 							}
 						} else {
 							let attributeField = field;
@@ -2052,7 +1701,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 				 */
 				if typeof columnMap == "array" {
 					if !fetch attributeField, columnMap[field] {
-						throw new Exception("Column '" . field . "' isn't part of the column map");
+						throw new ModelException("Column '" . field . "' isn't part of the column map");
 					}
 				} else {
 					let attributeField = field;
@@ -2074,7 +1723,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 						 * Every column must have a bind data type defined
 						 */
 						if !fetch bindType, bindDataTypes[field] {
-							throw new Exception("Column '" . field . "' have not defined a bind data type");
+							throw new ModelException("Column '" . field . "' have not defined a bind data type");
 						}
 
 						let values[] = value, bindTypes[] = bindType;
@@ -2105,7 +1754,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 			 */
 			if typeof columnMap == "array" {
 				if !fetch attributeField, columnMap[identityField] {
-					throw new Exception("Identity column '" . identityField . "' isn't part of the column map");
+					throw new ModelException("Identity column '" . identityField . "' isn't part of the column map");
 				}
 			} else {
 				let attributeField = identityField;
@@ -2133,7 +1782,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 					 * The field is valid we look for a bind value (normally int)
 					 */
 					if !fetch bindType, bindDataTypes[identityField] {
-						throw new Exception("Identity column '" . identityField . "' isn\'t part of the table columns");
+						throw new ModelException("Identity column '" . identityField . "' isn\'t part of the table columns");
 					}
 
 					let values[] = value, bindTypes[] = bindType;
@@ -2196,7 +1845,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 			fields = [],
 			values = [],
 			bindTypes = [],
-			manager = <ManagerInterface> this->_modelsManager;
+			manager = <ManagerInterface> this->_entityManager;
 
 		/**
 		 * Check if the model must use dynamic update
@@ -2231,7 +1880,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 				 * Check a bind type for field to update
 				 */
 				if !fetch bindType, bindDataTypes[field] {
-					throw new Exception("Column '" . field . "' have not defined a bind data type");
+					throw new ModelException("Column '" . field . "' have not defined a bind data type");
 				}
 
 				/**
@@ -2239,7 +1888,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 				 */
 				if typeof columnMap == "array" {
 					if !fetch attributeField, columnMap[field] {
-						throw new Exception("Column '" . field . "' isn't part of the column map");
+						throw new ModelException("Column '" . field . "' isn't part of the column map");
 					}
 				} else {
 					let attributeField = field;
@@ -2305,7 +1954,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 			 * We can't create dynamic SQL without a primary key
 			 */
 			if !count(primaryKeys) {
-				throw new Exception("A primary key must be defined in the model in order to perform the operation");
+				throw new ModelException("A primary key must be defined in the model in order to perform the operation");
 			}
 
 			let uniqueParams = [];
@@ -2316,7 +1965,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 				 */
 				if typeof columnMap == "array" {
 					if !fetch attributeField, columnMap[field] {
-						throw new Exception("Column '" . field . "' isn't part of the column map");
+						throw new ModelException("Column '" . field . "' isn't part of the column map");
 					}
 				} else {
 					let attributeField = field;
@@ -2384,7 +2033,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 
 					if typeof record != "object" {
 						connection->rollback(nesting);
-						throw new Exception("Only objects can be stored as part of belongs-to relations");
+						throw new ModelException("Only objects can be stored as part of belongs-to relations");
 					}
 
 					let columns = relation->getFields(),
@@ -2393,7 +2042,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 
 					if typeof columns == "array" {
 						connection->rollback(nesting);
-						throw new Exception("Not implemented");
+						throw new ModelException("Not implemented");
 					}
 
 					/**
@@ -2410,7 +2059,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 							 * Set the related model
 							 */
 							if typeof record == "object" {
-								message->setModel(record);
+								message->setEntity(record);
 							}
 
 							/**
@@ -2475,7 +2124,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 
 				if typeof record != "object" && typeof record != "array" {
 					connection->rollback(nesting);
-					throw new Exception("Only objects/arrays can be stored as part of has-many/has-one/has-many-to-many relations");
+					throw new ModelException("Only objects/arrays can be stored as part of has-many/has-one/has-many-to-many relations");
 				}
 
 				let columns = relation->getFields(),
@@ -2484,7 +2133,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 
 				if typeof columns == "array" {
 					connection->rollback(nesting);
-					throw new Exception("Not implemented");
+					throw new ModelException("Not implemented");
 				}
 
 				/**
@@ -2498,7 +2147,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 
 				if !fetch value, this->{columns} {
 					connection->rollback(nesting);
-					throw new Exception("The column '" . columns . "' needs to be present in the model");
+					throw new ModelException("The column '" . columns . "' needs to be present in the model");
 				}
 
 				/**
@@ -2544,7 +2193,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 							 * Set the related model
 							 */
 							if typeof message == "object" {
-								message->setModel(record);
+								message->setEntity(record);
 							}
 
 							/**
@@ -2596,7 +2245,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 								 * Set the related model
 								 */
 								if typeof message != "object" {
-									message->setModel(record);
+									message->setEntity(record);
 								}
 
 								/**
@@ -2617,7 +2266,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 			} else {
 				if typeof record != "array" {
 					connection->rollback(nesting);
-					throw new Exception("There are no defined relations for the model '" . className . "' using alias '" . name . "'");
+					throw new ModelException("There are no defined relations for the model '" . className . "' using alias '" . name . "'");
 				}
 			}
 		}
@@ -2664,7 +2313,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 		if data !== null {
 
 			if typeof data != "array" {
-				throw new Exception("Data passed to save() must be an array");
+				throw new ModelException("Data passed to save() must be an array");
 			}
 
 			/**
@@ -2863,7 +2512,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 		if data !== null {
 
 			if typeof data != "array" {
-				throw new Exception("Data passed to create() must be an array");
+				throw new ModelException("Data passed to create() must be an array");
 			}
 
 			if globals_get("orm.column_renaming") {
@@ -2882,7 +2531,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 				 */
 				if typeof columnMap == "array" {
 					if !fetch attributeField, columnMap[attribute]{
-						throw new Exception("Column '" . attribute . "' isn't part of the column map");
+						throw new ModelException("Column '" . attribute . "' isn't part of the column map");
 					}
 				} else {
 					let attributeField = attribute;
@@ -2961,7 +2610,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 		if data !== null {
 
 			if typeof data != "array" {
-				throw new Exception("Data passed to update() must be an array");
+				throw new ModelException("Data passed to update() must be an array");
 			}
 
 			let metaData = this->getModelsMetaData();
@@ -2981,7 +2630,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 				 */
 				if typeof columnMap == "array" {
 					if !fetch attributeField, columnMap[attribute] {
-						throw new Exception("Column '" . attribute . "' isn't part of the column map");
+						throw new ModelException("Column '" . attribute . "' isn't part of the column map");
 					}
 				} else {
 					let attributeField = attribute;
@@ -3092,7 +2741,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 		 * We can't create dynamic SQL without a primary key
 		 */
 		if !count(primaryKeys) {
-			throw new Exception("A primary key must be defined in the model in order to perform the operation");
+			throw new ModelException("A primary key must be defined in the model in order to perform the operation");
 		}
 
 		/**
@@ -3104,7 +2753,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 			 * Every column part of the primary key must be in the bind data types
 			 */
 			if !fetch bindType, bindDataTypes[primaryKey] {
-				throw new Exception("Column '" . primaryKey . "' have not defined a bind data type");
+				throw new ModelException("Column '" . primaryKey . "' have not defined a bind data type");
 			}
 
 			/**
@@ -3112,7 +2761,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 			 */
 			if typeof columnMap == "array" {
 				if !fetch attributeField, columnMap[primaryKey] {
-					throw new Exception("Column '" . primaryKey . "' isn't part of the column map");
+					throw new ModelException("Column '" . primaryKey . "' isn't part of the column map");
 				}
 			} else {
 				let attributeField = primaryKey;
@@ -3122,7 +2771,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 			 * If the attribute is currently set in the object add it to the conditions
 			 */
 			if !fetch value, this->{attributeField} {
-				throw new Exception("Cannot delete the record because the primary key attribute: '" . attributeField . "' wasn't set");
+				throw new ModelException("Cannot delete the record because the primary key attribute: '" . attributeField . "' wasn't set");
 			}
 
 			/**
@@ -3191,17 +2840,6 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	}
 
 	/**
-	 * Returns the type of the latest operation performed by the ORM
-	 * Returns one of the OP_* class constants
-	 *
-	 * @return int
-	 */
-	public function getOperationMade()
-	{
-		return this->_operationMade;
-	}
-
-	/**
 	 * Refreshes the model attributes re-querying the record from the database
 	 */
 	public function refresh()
@@ -3210,7 +2848,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 			uniqueKey, uniqueParams, dialect, row, fields, attribute;
 
 		if this->_dirtyState != self::DIRTY_STATE_PERSISTENT {
-			throw new Exception("The record cannot be refreshed because it does not exist or is deleted");
+			throw new ModelException("The record cannot be refreshed because it does not exist or is deleted");
 		}
 
 		let metaData = this->getModelsMetaData(),
@@ -3232,7 +2870,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 			 * We need to check if the record exists
 			 */
 			if !this->_exists(metaData, readConnection, table) {
-				throw new Exception("The record cannot be refreshed because it does not exist or is deleted");
+				throw new ModelException("The record cannot be refreshed because it does not exist or is deleted");
 			}
 
 			let uniqueKey = this->_uniqueKey;
@@ -3240,7 +2878,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 
 		let uniqueParams = this->_uniqueParams;
 		if typeof uniqueParams != "array" {
-			throw new Exception("The record cannot be refreshed because it does not exist or is deleted");
+			throw new ModelException("The record cannot be refreshed because it does not exist or is deleted");
 		}
 
 		/**
@@ -3268,49 +2906,6 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 		if typeof row == "array" {
 			this->assign(row, metaData->getColumnMap(this));
 		}
-	}
-
-	/**
-	 * Skips the current operation forcing a success state
-	 *
-	 * @param boolean skip
-	 */
-	public function skipOperation(boolean skip)
-	{
-		let this->_skipped = skip;
-	}
-
-	/**
-	 * Reads an attribute value by its name
-	 *
-	 * <code>
-	 * echo $robot->readAttribute('name');
-	 * </code>
-	 *
-	 * @param string attribute
-	 * @return mixed
-	 */
-	public function readAttribute(string! attribute)
-	{
-		if isset this->{attribute} {
-			return this->{attribute};
-		}
-		return null;
-	}
-
-	/**
-	 * Writes an attribute value by its name
-	 *
-	 * <code>
-	 * 	$robot->writeAttribute('name', 'Rosey');
-	 * </code>
-	 *
-	 * @param string attribute
-	 * @param mixed value
-	 */
-	public function writeAttribute(string! attribute, value)
-	{
-		let this->{attribute} = value;
 	}
 
 	/**
@@ -3437,7 +3032,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 */
 	protected function hasOne(var fields, string! referenceModel, var referencedFields, options = null) -> <Relation>
 	{
-		return (<ManagerInterface> this->_modelsManager)->addHasOne(this, fields, referenceModel, referencedFields, options);
+		return (<ManagerInterface> this->_entityManager)->addHasOne(this, fields, referenceModel, referencedFields, options);
 	}
 
 	/**
@@ -3465,7 +3060,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 */
 	protected function belongsTo(var fields, string! referenceModel, var referencedFields, options = null) -> <Relation>
 	{
-		return (<ManagerInterface> this->_modelsManager)->addBelongsTo(this, fields, referenceModel, referencedFields, options);
+		return (<ManagerInterface> this->_entityManager)->addBelongsTo(this, fields, referenceModel, referencedFields, options);
 	}
 
 	/**
@@ -3493,7 +3088,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 */
 	protected function hasMany(var fields, string! referenceModel, var referencedFields, options = null) -> <Relation>
 	{
-		return (<ManagerInterface> this->_modelsManager)->addHasMany(this, fields, referenceModel, referencedFields, options);
+		return (<ManagerInterface> this->_entityManager)->addHasMany(this, fields, referenceModel, referencedFields, options);
 	}
 
 	/**
@@ -3533,7 +3128,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	protected function hasManyToMany(var fields, string! intermediateModel, var intermediateFields, var intermediateReferencedFields,
 		string! referenceModel, var referencedFields, options = null) -> <Relation>
 	{
-		return (<ManagerInterface> this->_modelsManager)->addHasManyToMany(
+		return (<ManagerInterface> this->_entityManager)->addHasManyToMany(
 			this,
 			fields,
 			intermediateModel,
@@ -3543,129 +3138,6 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 			referencedFields,
 			options
 		);
-	}
-
-	/**
-	 * Setups a behavior in a model
-	 *
-	 *<code>
-	 *<?php
-	 *
-	 *use Phalcon\Mvc\Model\Behavior\Timestampable;
-	 *
-	 *class Robots extends \Phalcon\Mvc\Model
-	 *{
-	 *
-	 *   public function initialize()
-	 *   {
-	 *		$this->addBehavior(new Timestampable(array(
-	 *			'onCreate' => array(
-	 *				'field' => 'created_at',
-	 *				'format' => 'Y-m-d'
-	 *			)
-	 *		)));
-	 *   }
-	 *
-	 *}
-	 *</code>
-	 *
-	 * @param Phalcon\Mvc\Model\BehaviorInterface behavior
-	 */
-	protected function addBehavior(<BehaviorInterface> behavior)
-	{
-		(<ManagerInterface> this->_modelsManager)->addBehavior(this, behavior);
-	}
-
-	/**
-	 * Sets if the model must keep the original record snapshot in memory
-	 *
-	 *<code>
-	 *<?php
-	 *
-	 *class Robots extends \Phalcon\Mvc\Model
-	 *{
-	 *
-	 *   public function initialize()
-	 *   {
-	 *		$this->keepSnapshots(true);
-	 *   }
-	 *
-	 *}
-	 *</code>
-	 *
-	 * @param boolean keepSnapshots
-	 */
-	protected function keepSnapshots(boolean keepSnapshot)
-	{
-		(<ManagerInterface> this->_modelsManager)->keepSnapshots(this, keepSnapshot);
-	}
-
-	/**
-	 * Sets the record's snapshot data.
-	 * This method is used internally to set snapshot data when the model was set up to keep snapshot data
-	 *
-	 * @param array data
-	 * @param array columnMap
-	 */
-	public function setSnapshotData(array! data, columnMap = null)
-	{
-		var key, value, snapshot, attribute;
-
-		/**
-		 * Build the snapshot based on a column map
-		 */
-		if typeof columnMap == "array" {
-
-			let snapshot = [];
-			for key, value in data {
-
-				/**
-				 * Use only strings
-				 */
-				if typeof key != "string" {
-					continue;
-				}
-
-				/**
-				 * Every field must be part of the column map
-				 */
-				if !fetch attribute, columnMap[key] {
-					throw new Exception("Column '" . key . "' doesn't make part of the column map");
-				}
-
-				let snapshot[attribute] = value;
-			}
-
-			let this->_snapshot = snapshot;
-			return null;
-		}
-
-		let this->_snapshot = data;
-	}
-
-	/**
-	 * Checks if the object has internal snapshot data
-	 *
-	 * @return boolean
-	 */
-	public function hasSnapshotData() -> boolean
-	{
-		var snapshot;
-		let snapshot = this->_snapshot;
-		if typeof snapshot == "array" {
-			return true;
-		}
-		return false;
-	}
-
-	/**
-	 * Returns the internal snapshot data
-	 *
-	 * @return array
-	 */
-	public function getSnapshotData()
-	{
-		return this->_snapshot;
 	}
 
 	/**
@@ -3681,14 +3153,14 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 
 		let snapshot = this->_snapshot;
 		if typeof snapshot != "array" {
-			throw new Exception("The record doesn't have a valid data snapshot");
+			throw new ModelException("The record doesn't have a valid data snapshot");
 		}
 
 		/**
 		 * Dirty state must be DIRTY_PERSISTENT to make the checking
 		 */
 		if this->_dirtyState != self::DIRTY_STATE_PERSISTENT {
-			throw new Exception("Change checking cannot be performed because the object has not been persisted or is deleted");
+			throw new ModelException("Change checking cannot be performed because the object has not been persisted or is deleted");
 		}
 
 		/**
@@ -3720,11 +3192,11 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 			 */
 			if typeof columnMap == "array" {
 				if !isset columnMap[fieldName] {
-					throw new Exception("The field '" . fieldName . "' is not part of the model");
+					throw new ModelException("The field '" . fieldName . "' is not part of the model");
 				}
 			} else {
 				if !isset allAttributes[fieldName] {
-					throw new Exception("The field '" . fieldName . "' is not part of the model");
+					throw new ModelException("The field '" . fieldName . "' is not part of the model");
 				}
 			}
 
@@ -3732,14 +3204,14 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 			 * The field is not part of the model, throw exception
 			 */
 			if !fetch value, this->{fieldName} {
-				throw new Exception("The field '" . fieldName . "' is not defined on the model");
+				throw new ModelException("The field '" . fieldName . "' is not defined on the model");
 			}
 
 			/**
 			 * The field is not part of the data snapshot, throw exception
 			 */
 			if !fetch originalValue, snapshot[fieldName] {
-				throw new Exception("The field '" . fieldName . "' was not found in the snapshot");
+				throw new ModelException("The field '" . fieldName . "' was not found in the snapshot");
 			}
 
 			/**
@@ -3790,14 +3262,14 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 
 		let snapshot = this->_snapshot;
 		if typeof snapshot != "array" {
-			throw new Exception("The record doesn't have a valid data snapshot");
+			throw new ModelException("The record doesn't have a valid data snapshot");
 		}
 
 		/**
 		 * Dirty state must be DIRTY_PERSISTENT to make the checking
 		 */
 		if this->_dirtyState != self::DIRTY_STATE_PERSISTENT {
-			throw new Exception("Change checking cannot be performed because the object has not been persisted or is deleted");
+			throw new ModelException("Change checking cannot be performed because the object has not been persisted or is deleted");
 		}
 
 		/**
@@ -3875,7 +3347,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 */
 	protected function useDynamicUpdate(boolean dynamicUpdate)
 	{
-		(<ManagerInterface> this->_modelsManager)->useDynamicUpdate(this, dynamicUpdate);
+		(<ManagerInterface> this->_entityManager)->useDynamicUpdate(this, dynamicUpdate);
 	}
 
 	/**
@@ -3893,10 +3365,10 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 		 * Query the relation by alias
 		 */
 		let className = get_class(this),
-			manager = <ManagerInterface> this->_modelsManager,
+			manager = <ManagerInterface> this->_entityManager,
 			relation = <RelationInterface> manager->getRelationByAlias(className, alias);
 		if typeof relation != "object" {
-			throw new Exception("There is no defined relations for the model '" . className . "' using alias '" . alias . "'");
+			throw new ModelException("There is no defined relations for the model '" . className . "' using alias '" . alias . "'");
 		}
 
 		/**
@@ -3920,7 +3392,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	{
 		var manager, relation, queryMethod, extraArgs;
 
-		let manager = <ManagerInterface> this->_modelsManager;
+		let manager = <ManagerInterface> this->_entityManager;
 
 		let relation = false,
 			queryMethod = null;
@@ -3965,7 +3437,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 */
 	public function __call(string method, arguments = null)
 	{
-		var modelName, status, records;
+		var modelName, records;
 
 		let modelName = get_class(this);
 
@@ -3977,18 +3449,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 			return records;
 		}
 
-		/**
-		 * Try to find a replacement for the missing method in a behavior/listener
-		 */
-		let status = (<ManagerInterface> this->_modelsManager)->missingMethod(this, method, arguments);
-		if status !== null {
-			return status;
-		}
-
-		/**
-		 * The method doesn't exist throw an exception
-		 */
-		throw new Exception("The method '" . method . "' doesn't exist on model '" . modelName . "'");
+		return parent::__call(method, arguments);
 	}
 
 	/**
@@ -4039,11 +3500,11 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 		let modelName = get_called_class();
 
 		if !extraMethod {
-			throw new Exception("The static method '" . method . "' doesn't exist on model '" . modelName . "'");
+			throw new ModelException("The static method '" . method . "' doesn't exist on model '" . modelName . "'");
 		}
 
 		if !fetch value, arguments[0] {
-			throw new Exception("The static method '" . method . "' requires one argument");
+			throw new ModelException("The static method '" . method . "' requires one argument");
 		}
 
 		let model = new {modelName}(),
@@ -4077,7 +3538,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 				 */
 				let field = uncamelize(extraMethod);
 				if !isset attributes[field] {
-					throw new Exception("Cannot resolve attribute '" . extraMethod . "' in the model");
+					throw new ModelException("Cannot resolve attribute '" . extraMethod . "' in the model");
 				}
 			}
 		}
@@ -4172,7 +3633,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 		if method_exists(this, method) {
 			return this->{method}();
 		}
-
+	
 		let modelName = get_class(this),
 			manager = this->getModelsManager(),
 			lowerProperty = strtolower(property);
@@ -4282,7 +3743,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 				 */
 				let dependencyInjector = \Phalcon\Di::getDefault();
 				if typeof dependencyInjector != "object" {
-					throw new Exception("A dependency injector container is required to obtain the services related to the ORM");
+					throw new ModelException("A dependency injector container is required to obtain the services related to the ORM");
 				}
 
 				/**
@@ -4291,16 +3752,17 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 				let this->_dependencyInjector = dependencyInjector;
 
 				/**
-				 * Gets the default modelsManager service
+				 * Gets the default entityManager service
 				 */
 				let manager = <ManagerInterface> dependencyInjector->getShared("modelsManager");
 				if typeof manager != "object" {
-					throw new Exception("The injected service 'modelsManager' is not valid");
+					throw new ModelException("The injected service 'entityManager' is not valid");
 				}
 
 				/**
 				 * Update the models manager
 				 */
+				let this->_entityManager = manager;
 				let this->_modelsManager = manager;
 
 				/**
@@ -4318,21 +3780,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 				return null;
 			}
 		}
-		throw new Exception("Invalid serialization data");
-	}
-
-	/**
-	 * Returns a simple representation of the object that can be used with var_dump
-	 *
-	 *<code>
-	 * var_dump($robot->dump());
-	 *</code>
-	 *
-	 * @return array
-	 */
-	public function dump()
-	{
-		return get_object_vars(this);
+		throw new ModelException("Invalid serialization data");
 	}
 
 	/**
@@ -4359,7 +3807,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 			 */
 			if typeof columnMap == "array" {
 				if !fetch attributeField, columnMap[attribute] {
-					throw new Exception("Column '" . attribute . "' doesn't make part of the column map");
+					throw new ModelException("Column '" . attribute . "' doesn't make part of the column map");
 				}
 			} else {
 				let attributeField = attribute;

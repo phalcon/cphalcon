@@ -17,20 +17,21 @@
  +------------------------------------------------------------------------+
  */
 
-namespace Phalcon\Mvc\Model\Validator;
+namespace Phalcon\Mvc\Entity\Validator;
 
-use Phalcon\Mvc\Model\ValidatorInterface;
-use Phalcon\Mvc\Entity\Validator\Numericality as Validator;
+use Phalcon\Mvc\Entity\Exception;
+use Phalcon\Mvc\Entity\Validator;
+use Phalcon\Mvc\EntityInterface;
 
 /**
- * Phalcon\Mvc\Model\Validator\Numericality
+ * Phalcon\Mvc\Entity\Validator\Numericality
  *
  * Allows to validate if a field has a valid numeric format
  *
  *<code>
- *use Phalcon\Mvc\Model\Validator\Numericality as NumericalityValidator;
+ *use Phalcon\Mvc\Entity\Validator\Numericality as NumericalityValidator;
  *
- *class Products extends \Phalcon\Mvc\Model
+ *class Products extends \Phalcon\Mvc\Entity
  *{
  *
  *  public function validation()
@@ -47,7 +48,47 @@ use Phalcon\Mvc\Entity\Validator\Numericality as Validator;
  *</code>
  *
  */
-class Numericality extends Validator implements ValidatorInterface
+class Numericality extends Validator
 {
-	// leave this class for backward compatibility
+	/**
+	 * Executes the validator
+	 *
+	 * @param Phalcon\Mvc\EntityInterface entity
+	 * @return boolean
+	 */
+	public function validate(<EntityInterface> entity) -> boolean
+	{
+		var field, value, message;
+
+		let field = this->getOption("field");
+		if typeof field != "string" {
+			throw new Exception("Field name must be a string");
+		}
+
+		let value = entity->readAttribute(field);
+
+		if this->isSetOption("allowEmpty") && empty value {
+			return true;
+		}
+
+		/**
+		 * Check if the value is numeric using is_numeric in the PHP userland
+		 */
+		if !is_numeric(value) {
+
+			/**
+			 * Check if the developer has defined a custom message
+			 */
+			let message = this->getOption("message");
+			if empty message {
+				let message = "Value of field :field must be numeric";
+			}
+
+			this->appendMessage(strtr(message, [":field": field]), field, "Numericality");
+			return false;
+		}
+
+		return true;
+
+	}
 }

@@ -60,7 +60,7 @@ class Document implements \ArrayAccess
 	 *
 	 * @param string index
 	 * @param mixed value
-	 * @param Phalcon\Mvc\ModelInterface value
+	 * @param Phalcon\Mvc\CollectionInterface value
 	 */
 	public function offsetSet(index, value) -> void
 	{

@@ -19,13 +19,16 @@
 
 namespace Phalcon\Mvc\Collection;
 
+use Phalcon\Mvc\Entity\ManagerInterface as EntityManagerInterface;
+use Phalcon\Mvc\CollectionInterface;
+
 /**
  * Phalcon\Mvc\Collection\Manager
  *
- * This components controls the initialization of models, keeping record of relations
- * between the different models of the application.
+ * This components controls the initialization of collections, keeping record of relations
+ * between the different collections of the application.
  *
- * A CollectionManager is injected to a model via a Dependency Injector Container such as Phalcon\Di.
+ * A CollectionManager is injected to a collection via a Dependency Injector Container such as Phalcon\Di.
  *
  * <code>
  * $di = new \Phalcon\Di();
@@ -37,86 +40,37 @@ namespace Phalcon\Mvc\Collection;
  * robot = new Robots(di);
  * </code>
  */
-interface ManagerInterface
+interface ManagerInterface extends EntityManagerInterface
 {
-
 	/**
-	 * Sets a custom events manager for a specific model
+	 * Sets a connection service for a specific collection
 	 *
-	 * @param Phalcon\Mvc\CollectionInterface model
-	 * @param Phalcon\Events\ManagerInterface eventsManager
-	 */
-	public function setCustomEventsManager(model, eventsManager);
-
-	/**
-	 * Returns a custom events manager related to a model
-	 *
-	 * @param Phalcon\Mvc\CollectionInterface model
-	 * @return Phalcon\Events\ManagerInterface
-	 */
-	public function getCustomEventsManager(model);
-
-	/**
-	 * Initializes a model in the models manager
-	 *
-	 * @param Phalcon\Mvc\CollectionInterface model
-	 */
-	public function initialize(model);
-
-	/**
-	 * Check whether a model is already initialized
-	 *
-	 * @param string modelName
-	 * @return bool
-	 */
-	public function isInitialized(modelName);
-
-	/**
-	 * Get the latest initialized model
-	 *
-	 * @return Phalcon\Mvc\CollectionInterface
-	 */
-	public function getLastInitialized();
-
-	/**
-	 * Sets a connection service for a specific model
-	 *
-	 * @param Phalcon\Mvc\CollectionInterface model
+	 * @param Phalcon\Mvc\CollectionInterface collection
 	 * @param string connectionService
 	 */
-	public function setConnectionService(model, connectionService);
+	public function setConnectionService(<CollectionInterface> collection, string! connectionService);
 
 	/**
-	 * Sets if a model must use implicit objects ids
+	 * Sets if a collection must use implicit objects ids
 	 *
-	 * @param Phalcon\Mvc\CollectionInterface model
+	 * @param Phalcon\Mvc\CollectionInterface collection
 	 * @param boolean useImplicitObjectIds
 	 */
-	public function useImplicitObjectIds(model, useImplicitObjectIds);
+	public function useImplicitObjectIds(<CollectionInterface> collection, boolean useImplicitObjectIds);
 
 	/**
-	 * Checks if a model is using implicit object ids
+	 * Checks if a collection is using implicit object ids
 	 *
-	 * @param Phalcon\Mvc\CollectionInterface model
+	 * @param Phalcon\Mvc\CollectionInterface collection
 	 * @return boolean
 	 */
-	public function isUsingImplicitObjectIds(model);
+	public function isUsingImplicitObjectIds(<CollectionInterface> collection);
 
 	/**
-	 * Returns the connection related to a model
+	 * Returns the connection related to a collection
 	 *
-	 * @param Phalcon\Mvc\CollectionInterface model
+	 * @param Phalcon\Mvc\CollectionInterface collection
 	 * @return Phalcon\Db\AdapterInterface
 	 */
-	public function getConnection(model);
-
-	/**
-	 * Receives events generated in the models and dispatches them to a events-manager if available
-	 * Notify the behaviors that are listening in the model
-	 *
-	 * @param string eventName
-	 * @param Phalcon\Mvc\CollectionInterface model
-	 */
-	public function notifyEvent(eventName, model);
-
+	public function getConnection(<CollectionInterface> collection);
 }

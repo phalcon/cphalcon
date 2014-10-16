@@ -19,8 +19,8 @@
 
 namespace Phalcon\Mvc\Model\Validator;
 
-use Phalcon\Mvc\Model\Exception;
-use Phalcon\Mvc\ModelInterface;
+use Phalcon\Mvc\Model\ValidatorInterface;
+use Phalcon\Mvc\Entity\Validator\PresenceOf as Validator;
 
 /**
  * Phalcon\Mvc\Model\Validator\PresenceOf
@@ -48,42 +48,7 @@ use Phalcon\Mvc\ModelInterface;
  *</code>
  *
  */
-class PresenceOf extends \Phalcon\Mvc\Model\Validator implements \Phalcon\Mvc\Model\ValidatorInterface
+class PresenceOf extends Validator implements \Phalcon\Mvc\Model\ValidatorInterface
 {
-	/**
-	 * Executes the validator
-	 *
-	 * @param Phalcon\Mvc\ModelInterface record
-	 * @return boolean
-	 */
-	public function validate(<ModelInterface> record) -> boolean
-	{
-		var field, value, message;
-
-		let field = this->getOption("field");
-		if typeof field != "string" {
-			throw new Exception("Field name must be a string");
-		}
-
-		/**
-		 * A value is null when it is identical to null or a empty string
-		 */
-		let value = record->readAttribute(field);
-		if empty value {
-
-			/**
-			 * Check if the developer has defined a custom message
-			 */
-			let message = this->getOption("message");
-			if empty message {
-				let message = "':field' is required";
-			}
-
-			this->appendMessage(strtr(message, [":field": field]), field, "PresenceOf");
-			return false;
-		}
-
-		return true;
-
-	}
+	// leave this class for backward compatibility
 }

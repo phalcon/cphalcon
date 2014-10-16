@@ -19,8 +19,8 @@
 
 namespace Phalcon\Mvc\Model\Validator;
 
-use Phalcon\Mvc\Model\Exception;
 use Phalcon\Mvc\Model\ValidatorInterface;
+use Phalcon\Mvc\Entity\Validator\Url as Validator;
 
 /**
  * Phalcon\Mvc\Model\Validator\Url
@@ -47,46 +47,7 @@ use Phalcon\Mvc\Model\ValidatorInterface;
  *</code>
  *
  */
-class Url extends \Phalcon\Mvc\Model\Validator implements ValidatorInterface
+class Url extends Validator implements ValidatorInterface
 {
-	/**
-	 * Executes the validator
-	 *
-	 * @param Phalcon\Mvc\ModelInterface record
-	 * @return boolean
-	 */
-	public function validate(<\Phalcon\Mvc\ModelInterface> record) -> boolean
-	{
-		var field, value, message;
-
-		let field = this->getOption("field");
-		if typeof field == "string" {
-			throw new Exception("Field name must be a string");
-		}
-
-		let value = record->readAttribute(field);
-		if this->isSetOption("allowEmpty") && empty value {
-			return true;
-		}
-
-		/**
-		 * Filters the format using FILTER_VALIDATE_URL
-		 */
-		if !filter_var(value, FILTER_VALIDATE_URL) {
-
-			/**
-			 * Check if the developer has defined a custom message
-			 */
-			let message = this->getOption("message");
-			if empty message {
-				let message = ":field does not have a valid url format";
-			}
-
-			this->appendMessage(strtr(message, [":field": field]), field, "Url");
-			return false;
-		}
-
-		return true;
-
-	}
+	// leave this class for backward compatibility
 }

@@ -22,10 +22,8 @@ namespace Phalcon\Mvc;
 
 use Phalcon\DiInterface;
 use Phalcon\Mvc\CollectionInterface;
-use Phalcon\Di\InjectionAwareInterface;
 use Phalcon\Mvc\Collection\ManagerInterface;
-use Phalcon\Mvc\Collection\Exception;
-use Phalcon\Mvc\Model\MessageInterface;
+use Phalcon\Mvc\Collection\Exception as CollectionException;
 
 /**
  * Phalcon\Mvc\Collection
@@ -33,22 +31,14 @@ use Phalcon\Mvc\Model\MessageInterface;
  * This component implements a high level abstraction for NoSQL databases which
  * works with documents
  */
-abstract class Collection implements CollectionInterface, InjectionAwareInterface, \Serializable
+abstract class Collection extends Entity implements CollectionInterface
 {
 
 	public _id;
 
-	protected _dependencyInjector;
-
-	protected _modelsManager;
-
 	protected _source;
 
-	protected _operationMade = 0;
-
 	protected _connection;
-
-	protected _errorMessages;
 
 	protected static _reserved;
 
@@ -66,49 +56,11 @@ abstract class Collection implements CollectionInterface, InjectionAwareInterfac
 	 * Phalcon\Mvc\Model constructor
 	 *
 	 * @param Phalcon\DiInterface dependencyInjector
-	 * @param Phalcon\Mvc\Collection\ManagerInterface modelsManager
+	 * @param Phalcon\Mvc\Collection\ManagerInterface collectionManager
 	 */
-	public final function __construct(<DiInterface> dependencyInjector = null, <ManagerInterface> modelsManager = null)
+	public final function __construct(<DiInterface> dependencyInjector = null, <ManagerInterface> collectionManager = null)
 	{
-		/**
-		 * We use a default DI if the user doesn't define one
-		 */
-		if typeof dependencyInjector != "object" {
-			let dependencyInjector = \Phalcon\Di::getDefault();
-		}
-
-		if typeof dependencyInjector != "object" {
-			throw new Exception("A dependency injector container is required to obtain the services related to the ORM");
-		}
-
-		let this->_dependencyInjector = dependencyInjector;
-
-		/**
-		 * Inject the manager service from the DI
-		 */
-		if typeof modelsManager != "object" {
-			let modelsManager = dependencyInjector->getShared("collectionManager");
-			if typeof modelsManager != "object" {
-				throw new Exception("The injected service 'modelsManager' is not valid");
-			}
-		}
-
-		/**
-		 * Update the models-manager
-		 */
-		let this->_modelsManager = modelsManager;
-
-		/**
-		 * The manager always initializes the object
-		 */
-		modelsManager->initialize(this);
-
-		/**
-		 * This allows the developer to execute initialization stuff every time an instance is created
-		 */
-		if method_exists(this, "onConstruct") {
-			this->{"onConstruct"}();
-		}
+		parent::__construct(dependencyInjector, collectionManager, "collectionManager");
 	}
 
 	/**
@@ -126,7 +78,7 @@ abstract class Collection implements CollectionInterface, InjectionAwareInterfac
 			/**
 			 * Check if the model use implicit ids
 			 */
-			if this->_modelsManager->isUsingImplicitObjectIds(this) {
+			if this->_entityManager->isUsingImplicitObjectIds(this) {
 				let mongoId = new \MongoId(id);
 			} else {
 				let mongoId = id;
@@ -149,56 +101,6 @@ abstract class Collection implements CollectionInterface, InjectionAwareInterfac
 	}
 
 	/**
-	 * Sets the dependency injection container
-	 *
-	 * @param Phalcon\DiInterface dependencyInjector
-	 */
-	public function setDI(<DiInterface> dependencyInjector)
-	{
-		let this->_dependencyInjector = dependencyInjector;
-	}
-
-	/**
-	 * Returns the dependency injection container
-	 *
-	 * @return Phalcon\DiInterface
-	 */
-	public function getDI() -> <DiInterface>
-	{
-		return this->_dependencyInjector;
-	}
-
-	/**
-	 * Sets a custom events manager
-	 *
-	 * @param Phalcon\Events\ManagerInterface eventsManager
-	 */
-	protected function setEventsManager(<ManagerInterface> eventsManager)
-	{
-		this->_modelsManager->setCustomEventsManager(this, eventsManager);
-	}
-
-	/**
-	 * Returns the custom events manager
-	 *
-	 * @return Phalcon\Events\ManagerInterface
-	 */
-	protected function getEventsManager() -> <ManagerInterface>
-	{
-		return this->_modelsManager->getCustomEventsManager(this);
-	}
-
-	/**
-	 * Returns the models manager related to the entity instance
-	 *
-	 * @return Phalcon\Mvc\Model\ManagerInterface
-	 */
-	public function getModelsManager() -> <ManagerInterface>
-	{
-		return this->_modelsManager;
-	}
-
-	/**
 	 * Returns an array with reserved properties that cannot be part of the insert/update
 	 *
 	 * @return array
@@ -210,11 +112,17 @@ abstract class Collection implements CollectionInterface, InjectionAwareInterfac
 		let reserved = self::_reserved;
 		if reserved === null {
 			let reserved = [
-				"_connection": true,
+				"_entityManager": true,
 				"_dependencyInjector": true,
-				"_source": true,
 				"_operationMade": true,
-				"_errorMessages": true
+				"_dirtyState": true,
+				"_errorMessages": true,
+				"_skipped": true,
+				"_snapshot": true,
+				"_source": true,
+				"_connection": true,
+				"_reserved": true,
+				"_disableEvents": true
 			];
 			let self::_reserved = reserved;
 		}
@@ -228,7 +136,7 @@ abstract class Collection implements CollectionInterface, InjectionAwareInterfac
 	 */
 	protected function useImplicitObjectIds(boolean useImplicitObjectIds)
 	{
-		this->_modelsManager->useImplicitObjectIds(this, useImplicitObjectIds);
+		this->_entityManager->useImplicitObjectIds(this, useImplicitObjectIds);
 	}
 
 	/**
@@ -269,7 +177,7 @@ abstract class Collection implements CollectionInterface, InjectionAwareInterfac
 	 */
 	public function setConnectionService(string! connectionService) -> <Collection>
 	{
-		this->_modelsManager->setConnectionService(this, connectionService);
+		this->_entityManager->setConnectionService(this, connectionService);
 		return this;
 	}
 
@@ -280,7 +188,7 @@ abstract class Collection implements CollectionInterface, InjectionAwareInterfac
 	 */
 	public function getConnectionService() -> string
 	{
-		return this->_modelsManager->getConnectionService(this);
+		return this->_entityManager->getConnectionService(this);
 	}
 
 	/**
@@ -294,43 +202,10 @@ abstract class Collection implements CollectionInterface, InjectionAwareInterfac
 
 		let connection = this->_connection;
 		if typeof connection != "object" {
-			let connection = this->_modelsManager->getConnection(this);
+			let connection = this->_entityManager->getConnection(this);
 			let this->_connection = connection;
 		}
 		return connection;
-	}
-
-	/**
-	 * Reads an attribute value by its name
-	 *
-	 *<code>
-	 *	echo robot->readAttribute('name');
-	 *</code>
-	 *
-	 * @param string attribute
-	 * @return mixed
-	 */
-	public function readAttribute(string! attribute)
-	{
-		if isset this->{attribute} {
-			return this->{attribute};
-		}
-		return null;
-	}
-
-	/**
-	 * Writes an attribute value by its name
-	 *
-	 *<code>
-	 *	robot->writeAttribute('name', 'Rosey');
-	 *</code>
-	 *
-	 * @param string attribute
-	 * @param mixed value
-	 */
-	public function writeAttribute(string! attribute, var value)
-	{
-		let this->{attribute} = value;
 	}
 
 	/**
@@ -345,7 +220,7 @@ abstract class Collection implements CollectionInterface, InjectionAwareInterfac
 		var clonedCollection, key, value;
 
 		if typeof collection != "object" {
-			throw new Exception("Invalid collection");
+			throw new CollectionException("Invalid collection");
 		}
 
 		let clonedCollection = clone collection;
@@ -372,13 +247,13 @@ abstract class Collection implements CollectionInterface, InjectionAwareInterfac
 
 		let source = collection->getSource();
 		if empty source {
-			throw new Exception("Method getSource() returns empty string");
+			throw new CollectionException("Method getSource() returns empty string");
 		}
 
 		let mongoCollection = connection->selectCollection(source);
 
 		if typeof mongoCollection != "object" {
-			throw new Exception("Couldn't select mongo collection");
+			throw new CollectionException("Couldn't select mongo collection");
 		}
 
 		/**
@@ -391,7 +266,7 @@ abstract class Collection implements CollectionInterface, InjectionAwareInterfac
 		}
 
 		if typeof conditions != "array" {
-			throw new Exception("Find parameters must be an array");
+			throw new CollectionException("Find parameters must be an array");
 		}
 
 		/**
@@ -481,7 +356,7 @@ abstract class Collection implements CollectionInterface, InjectionAwareInterfac
 
 		let source = collection->getSource();
 		if empty source {
-			throw new Exception("Method getSource() returns empty string");
+			throw new CollectionException("Method getSource() returns empty string");
 		}
 
 		let mongoCollection = connection->selectCollection(source);
@@ -665,133 +540,6 @@ abstract class Collection implements CollectionInterface, InjectionAwareInterfac
 	}
 
 	/**
-	 * Executes validators on every validation call
-	 *
-	 *<code>
-	 *use Phalcon\Mvc\Model\Validator\ExclusionIn as ExclusionIn;
-	 *
-	 *class Subscriptors extends \Phalcon\Mvc\Collection
-	 *{
-	 *
-	 *	public function validation()
-	 *	{
-	 *		this->validate(new ExclusionIn(array(
-	 *			'field' => 'status',
-	 *			'domain' => array('A', 'I')
-	 *		)));
-	 *		if (this->validationHasFailed() == true) {
-	 *			return false;
-	 *		}
-	 *	}
-	 *
-	 *}
-	 *</code>
-	 *
-	 * @param object validator
-	 */
-	protected function validate(validator) -> void
-	{
-		var message;
-
-		if typeof validator != "object" {
-			throw new Exception("Validator must be an Object");
-		}
-
-		if validator->validate(this) === false {
-			for message in validator->getMessages() {
-				let this->_errorMessages[] = message;
-			}
-		}
-	}
-
-	/**
-	 * Check whether validation process has generated any messages
-	 *
-	 *<code>
-	 *use Phalcon\Mvc\Model\Validator\ExclusionIn as ExclusionIn;
-	 *
-	 *class Subscriptors extends \Phalcon\Mvc\Collection
-	 *{
-	 *
-	 *	public function validation()
-	 *	{
-	 *		this->validate(new ExclusionIn(array(
-	 *			'field' => 'status',
-	 *			'domain' => array('A', 'I')
-	 *		)));
-	 *		if (this->validationHasFailed() == true) {
-	 *			return false;
-	 *		}
-	 *	}
-	 *
-	 *}
-	 *</code>
-	 *
-	 * @return boolean
-	 */
-	public function validationHasFailed() -> boolean
-	{
-		var errorMessages;
-
-		let errorMessages = this->_errorMessages;
-		if typeof errorMessages == "array" {
-			if count(errorMessages) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	/**
-	 * Fires an internal event
-	 *
-	 * @param string eventName
-	 * @return boolean
-	 */
-	public function fireEvent(string! eventName) -> boolean
-	{
-		/**
-		 * Check if there is a method with the same name of the event
-		 */
-		if method_exists(this, eventName) {
-			this->{eventName}();
-		}
-
-		/**
-		 * Send a notification to the events manager
-		 */
-		return this->_modelsManager->notifyEvent(eventName, this);
-	}
-
-	/**
-	 * Fires an internal event that cancels the operation
-	 *
-	 * @param string eventName
-	 * @return boolean
-	 */
-	public function fireEventCancel(string! eventName) -> boolean
-	{
-
-		/**
-		 * Check if there is a method with the same name of the event
-		 */
-		if method_exists(this, eventName) {
-			if this->{eventName}() === false {
-				return false;
-			}
-		}
-
-		/**
-		 * Send a notification to the events manager
-		 */
-		if this->_modelsManager->notifyEvent(eventName, this) === false {
-			return false;
-		}
-
-		return true;
-	}
-
-	/**
 	 * Cancel the current operation
 	 *
 	 * @return boolean
@@ -830,7 +578,7 @@ abstract class Collection implements CollectionInterface, InjectionAwareInterfac
 				/**
 				 * Check if the model use implicit ids
 				 */
-				if this->_modelsManager->isUsingImplicitObjectIds(this) {
+				if this->_entityManager->isUsingImplicitObjectIds(this) {
 					let mongoId = new \MongoId(id);
 					let this->_id = mongoId;
 				} else {
@@ -847,74 +595,23 @@ abstract class Collection implements CollectionInterface, InjectionAwareInterfac
 	}
 
 	/**
-	 * Returns all the validation messages
-	 *
-	 * <code>
-	 *robot = new Robots();
-	 *robot->type = 'mechanical';
-	 *robot->name = 'Astro Boy';
-	 *robot->year = 1952;
-	 *if (robot->save() == false) {
-	 *	echo "Umh, We can't store robots right now ";
-	 *	foreach (robot->getMessages() as message) {
-	 *		echo message;
-	 *	}
-	 *} else {
-	 *	echo "Great, a new robot was saved successfully!";
-	 *}
-	 * </code>
-	 *
-	 * @return Phalcon\Mvc\Model\MessageInterface[]
-	 */
-	public function getMessages() -> <\Phalcon\Mvc\Model\MessageInterface[]>
-	{
-		return this->_errorMessages;
-	}
-
-	/**
-	 * Appends a customized message on the validation process
-	 *
-	 *<code>
-	 *	use \Phalcon\Mvc\Model\Message as Message;
-	 *
-	 *	class Robots extends \Phalcon\Mvc\Model
-	 *	{
-	 *
-	 *		public function beforeSave()
-	 *		{
-	 *			if (this->name == 'Peter') {
-	 *				message = new Message("Sorry, but a robot cannot be named Peter");
-	 *				this->appendMessage(message);
-	 *			}
-	 *		}
-	 *	}
-	 *</code>
-	 *
-	 * @param Phalcon\Mvc\Model\MessageInterface message
-	 */
-	public function appendMessage(<MessageInterface> message)
-	{
-		let this->_errorMessages[] = message;
-	}
-
-	/**
 	 * Creates/Updates a collection based on the values in the atributes
 	 *
 	 * @return boolean
 	 */
-	public function save() -> boolean
+	public function save(var data = null, var whiteList = null) -> boolean
 	{
-		var dependencyInjector, connection, exists, source, data, properties, reserved,
+		var dependencyInjector, connection, exists, source, datum, properties, reserved,
 			success, status, id, ok, collection, disableEvents, key, value;
 
 		let dependencyInjector = this->_dependencyInjector;
 		if typeof dependencyInjector != "object" {
-			throw new Exception("A dependency injector container is required to obtain the services related to the ORM");
+			throw new CollectionException("A dependency injector container is required to obtain the services related to the ORM");
 		}
 
 		let source = this->getSource();
 		if empty source {
-			throw new Exception("Method getSource() returns empty string");
+			throw new CollectionException("Method getSource() returns empty string");
 		}
 
 		let connection = this->getConnection();
@@ -949,7 +646,7 @@ abstract class Collection implements CollectionInterface, InjectionAwareInterfac
 			return false;
 		}
 
-		let data = [];
+		let datum = [];
 
 		let reserved = this->getReservedAttributes();
 		let properties = get_object_vars(this);
@@ -960,11 +657,11 @@ abstract class Collection implements CollectionInterface, InjectionAwareInterfac
 		for key, value in properties {
 			if key == "_id" {
 				if value {
-					let data[key] = value;
+					let datum[key] = value;
 				}
 			} else {
 				if !isset reserved[key] {
-					let data[key] = value;
+					let datum[key] = value;
 				}
 			}
 		}
@@ -975,13 +672,13 @@ abstract class Collection implements CollectionInterface, InjectionAwareInterfac
 		 * We always use safe stores to get the success state
 		 * Save the document
 		 */
-		let status = collection->save(data, ["w": true]);
+		let status = collection->save(datum, ["w": true]);
 		if typeof status == "array" {
 			if fetch ok, status["ok"] {
 				if ok {
 					let success = true;
 					if exists === false {
-						if fetch id, data["_id"] {
+						if fetch id, datum["_id"] {
 							let this->_id = id;
 						}
 					}
@@ -995,6 +692,32 @@ abstract class Collection implements CollectionInterface, InjectionAwareInterfac
 		 * Call the postSave hooks
 		 */
 		return this->_postSave(disableEvents, success, exists);
+	}
+
+	/**
+	 * Inserts a entity instance. If the instance already exists in the persistance it will throw an exception
+	 * Returning true on success or false otherwise.
+	 *
+	 * @param  array data
+	 * @param  array whiteList
+	 * @return boolean
+	 */
+	public function create(var data = null, var whiteList = null) -> boolean
+	{
+		throw new CollectionException("Method not implemented yet!");
+	}
+
+	/**
+	 * Updates a entity instance. If the instance doesn't exist in the persistance it will throw an exception
+	 * Returning true on success or false otherwise.
+	 *
+	 * @param  array data
+	 * @param  array whiteList
+	 * @return boolean
+	 */
+	public function update(var data = null, var whiteList = null) -> boolean
+	{
+		throw new CollectionException("Method not implemented yet!");
 	}
 
 	/**
@@ -1056,13 +779,13 @@ abstract class Collection implements CollectionInterface, InjectionAwareInterfac
 	 * @param array parameters
 	 * @return array
 	 */
-	public static function findFirst(parameters = null) -> array
+	public static function findFirst(var parameters = null) -> array
 	{
 		var className, collection, connection;
 
 		if parameters {
 			if typeof parameters != "array" {
-				throw new Exception("Invalid parameters for findFirst");
+				throw new CollectionException("Invalid parameters for findFirst");
 			}
 		}
 
@@ -1113,13 +836,13 @@ abstract class Collection implements CollectionInterface, InjectionAwareInterfac
 	 * @param 	array parameters
 	 * @return  array
 	 */
-	public static function find(parameters = null) -> array
+	public static function find(var parameters = null) -> array
 	{
 		var className, collection;
 
 		if parameters {
 			if typeof parameters != "array" {
-				throw new Exception("Invalid parameters for find");
+				throw new CollectionException("Invalid parameters for find");
 			}
 		}
 
@@ -1138,13 +861,13 @@ abstract class Collection implements CollectionInterface, InjectionAwareInterfac
 	 * @param array parameters
 	 * @return array
 	 */
-	public static function count(parameters = null) -> array
+	public static function count(var parameters = null) -> array
 	{
 		var className, collection, connection;
 
 		if parameters {
 			if typeof parameters != "array" {
-				throw new Exception("Invalid parameters for count");
+				throw new CollectionException("Invalid parameters for count");
 			}
 		}
 
@@ -1164,13 +887,13 @@ abstract class Collection implements CollectionInterface, InjectionAwareInterfac
 	 * @param array parameters
 	 * @return array
 	 */
-	public static function aggregate(parameters)
+	public static function aggregate(var parameters)
 	{
 		var className, model, connection, source;
 
 		if parameters {
 			if typeof parameters != "array" {
-				throw new Exception("Invalid parameters for aggregate");
+				throw new CollectionException("Invalid parameters for aggregate");
 			}
 		}
 
@@ -1182,7 +905,7 @@ abstract class Collection implements CollectionInterface, InjectionAwareInterfac
 
 		let source = model->getSource();
 		if empty source {
-			throw new Exception("Method getSource() returns empty string");
+			throw new CollectionException("Method getSource() returns empty string");
 		}
 
 		return connection->selectCollection(source)->aggregate(parameters);
@@ -1196,7 +919,7 @@ abstract class Collection implements CollectionInterface, InjectionAwareInterfac
 	 * @param string finalize
 	 * @return array
 	 */
-	public static function summatory(string! field, conditions = null, finalize = null)
+	public static function summatory(string! field, var conditions = null, var finalize = null)
 	{
 		var className, model, connection, source, collection, keys, emptyArray, initial,
 			reduce, group, retval, firstRetval;
@@ -1209,7 +932,7 @@ abstract class Collection implements CollectionInterface, InjectionAwareInterfac
 
 		let source = model->getSource();
 		if empty source {
-			throw new Exception("Method getSource() returns empty string");
+			throw new CollectionException("Method getSource() returns empty string");
 		}
 
 		let collection = connection->selectCollection(source);
@@ -1262,7 +985,7 @@ abstract class Collection implements CollectionInterface, InjectionAwareInterfac
 			collection, mongoId, success, ok;
 
 		if !fetch id, this->_id {
-			throw new Exception("The document cannot be deleted because it doesn't exist");
+			throw new CollectionException("The document cannot be deleted because it doesn't exist");
 		}
 
 		let disableEvents = self::_disableEvents;
@@ -1277,7 +1000,7 @@ abstract class Collection implements CollectionInterface, InjectionAwareInterfac
 
 		let source = this->getSource();
 		if empty source {
-			throw new Exception("Method getSource() returns empty string");
+			throw new CollectionException("Method getSource() returns empty string");
 		}
 
 		/**
@@ -1291,7 +1014,7 @@ abstract class Collection implements CollectionInterface, InjectionAwareInterfac
 			/**
 			 * Is the collection using implicit object Ids?
 			 */
-			if this->_modelsManager->isUsingImplicitObjectIds(this) {
+			if this->_entityManager->isUsingImplicitObjectIds(this) {
 				let mongoId = new \MongoId(id);
 			} else {
 				let mongoId = id;
@@ -1393,7 +1116,7 @@ abstract class Collection implements CollectionInterface, InjectionAwareInterfac
 				 */
 				let dependencyInjector = \Phalcon\Di::getDefault();
 				if typeof dependencyInjector != "object" {
-					throw new Exception("A dependency injector container is required to obtain the services related to the ODM");
+					throw new CollectionException("A dependency injector container is required to obtain the services related to the ODM");
 				}
 
 				/**
@@ -1402,17 +1125,17 @@ abstract class Collection implements CollectionInterface, InjectionAwareInterfac
 				let this->_dependencyInjector = dependencyInjector;
 
 				/**
-				 * Gets the default modelsManager service
+				 * Gets the default entityManager service
 				 */
 				let manager = dependencyInjector->getShared("collectionManager");
 				if typeof manager != "object" {
-					throw new Exception("The injected service 'collectionManager' is not valid");
+					throw new CollectionException("The injected service 'collectionManager' is not valid");
 				}
 
 				/**
 				 * Update the models manager
 				 */
-				let this->_modelsManager = manager;
+				let this->_entityManager = manager;
 
 				/**
 				 * Update the objects attributes
@@ -1425,6 +1148,6 @@ abstract class Collection implements CollectionInterface, InjectionAwareInterfac
 			}
 		}
 
-		throw new Exception("Invalid serialization data");
+		throw new CollectionException("Invalid serialization data");
 	}
 }

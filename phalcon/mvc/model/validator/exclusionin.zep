@@ -19,9 +19,8 @@
 
 namespace Phalcon\Mvc\Model\Validator;
 
-use Phalcon\Mvc\Model\Validator;
 use Phalcon\Mvc\Model\ValidatorInterface;
-use Phalcon\Mvc\Model\Exception;
+use Phalcon\Mvc\Entity\Validator\Exclusionin as Validator;
 
 /**
  * Phalcon\Mvc\Model\Validator\ExclusionIn
@@ -50,58 +49,5 @@ use Phalcon\Mvc\Model\Exception;
  */
 class Exclusionin extends Validator implements ValidatorInterface
 {
-
-	/**
-	 * Executes the validator
-	 *
-	 * @param Phalcon\Mvc\ModelInterface record
-	 * @return boolean
-	 */
-	public function validate(<\Phalcon\Mvc\ModelInterface> record) -> boolean
-	{
-		var field, domain, value, message;
-
-		let field = this->getOption("field");
-
-		if typeof field != "string" {
-			throw new Exception("Field name must be a string");
-		}
-
-		/**
-		 * The "domain" option must be a valid array of not allowed values
-		 */
-		if this->isSetOption("domain") === false {
-			throw new Exception("The option 'domain' is required by this validator");
-		}
-
-		let domain = this->getOption("domain");
-		if typeof domain != "array" {
-			throw new Exception("Option 'domain' must be an array");
-		}
-
-		let value = record->readAttribute(field);
-		if this->isSetOption("allowEmpty") && empty value {
-			return true;
-		}
-
-		/**
-		 * We check if the value contained into the array
-		 */
-		if in_array(value, domain) {
-
-			/**
-			 * Check if the developer has defined a custom message
-			 */
-			let message = this->getOption("message");
-			if empty message {
-				let message = "Value of field ':field' must not be part of list: :domain";
-			}
-
-			this->appendMessage(strtr(message, [":field": field, ":domain":  join(", ", domain)]), field, "Exclusion");
-			return false;
-		}
-
-		return true;
-	}
-
+	// leave this class for backward compatibility
 }

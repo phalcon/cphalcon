@@ -17,27 +17,27 @@
  +------------------------------------------------------------------------+
  */
 
-namespace Phalcon\Mvc\Model\Validator;
+namespace Phalcon\Mvc\Entity\Validator;
 
-use Phalcon\Mvc\Model\ValidatorInterface;
-use Phalcon\Mvc\Entity\Validator\Regex as Validator;
+use Phalcon\Mvc\Entity\Exception;
+use Phalcon\Mvc\Entity\Validator;
+use Phalcon\Mvc\EntityInterface;
 
 /**
- * Phalcon\Mvc\Model\Validator\Regex
+ * Phalcon\Mvc\Entity\Validator\Url
  *
- * Allows validate if the value of a field matches a regular expression
+ * Allows to validate if a field has a url format
  *
  *<code>
- *use Phalcon\Mvc\Model\Validator\Regex as RegexValidator;
+ *use Phalcon\Mvc\Entity\Validator\Url as UrlValidator;
  *
- *class Subscriptors extends \Phalcon\Mvc\Model
+ *class Posts extends \Phalcon\Mvc\Entity
  *{
  *
  *  public function validation()
  *  {
- *      this->validate(new RegexValidator(array(
- *          "field" => 'created_at',
- *          'pattern' => '/^[0-9]{4}[-\/](0[1-9]|1[12])[-\/](0[1-9]|[12][0-9]|3[01])/'
+ *      this->validate(new UrlValidator(array(
+ *          'field' => 'source_url'
  *      )));
  *      if (this->validationHasFailed() == true) {
  *          return false;
@@ -48,7 +48,46 @@ use Phalcon\Mvc\Entity\Validator\Regex as Validator;
  *</code>
  *
  */
-class Regex extends Validator implements ValidatorInterface
+class Url extends Validator
 {
-	// leave this class for backward compatibility
+	/**
+	 * Executes the validator
+	 *
+	 * @param Phalcon\Mvc\EntityInterface entity
+	 * @return boolean
+	 */
+	public function validate(<EntityInterface> entity) -> boolean
+	{
+		var field, value, message;
+
+		let field = this->getOption("field");
+		if typeof field == "string" {
+			throw new Exception("Field name must be a string");
+		}
+
+		let value = entity->readAttribute(field);
+		if this->isSetOption("allowEmpty") && empty value {
+			return true;
+		}
+
+		/**
+		 * Filters the format using FILTER_VALIDATE_URL
+		 */
+		if !filter_var(value, FILTER_VALIDATE_URL) {
+
+			/**
+			 * Check if the developer has defined a custom message
+			 */
+			let message = this->getOption("message");
+			if empty message {
+				let message = ":field does not have a valid url format";
+			}
+
+			this->appendMessage(strtr(message, [":field": field]), field, "Url");
+			return false;
+		}
+
+		return true;
+
+	}
 }

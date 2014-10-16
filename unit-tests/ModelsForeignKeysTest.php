@@ -123,31 +123,28 @@ class ModelsForeignKeysTest extends PHPUnit_Framework_TestCase
 
 		$this->assertFalse($robotsParts->save());
 
-		$messages = array(
-			0 => Phalcon\Mvc\Model\Message::__set_state(array(
-				'_type' => 'ConstraintViolation',
-				'_message' => 'Value of field "parts_id" does not exist on referenced table',
-				'_field' => 'parts_id',
-				'_code' => 0,
-  			))
-  		);
+        $messages = $robotsParts->getMessages();
+        $this->assertEquals(count($messages), 1);
+        $message = reset($messages);
 
-		$this->assertEquals($robotsParts->getMessages(), $messages);
+        $this->assertInstanceOf('Phalcon\Mvc\Entity\MessageInterface', $message);
+        $this->assertEquals($message->getType(), 'ConstraintViolation');
+        $this->assertEquals($message->getMessage(), 'Value of field "parts_id" does not exist on referenced table');
+        $this->assertEquals($message->getField(), 'parts_id');
+
 
 		$robotsParts->robots_id = 100;
 		$robotsParts->parts_id = 1;
 		$this->assertFalse($robotsParts->save());
 
-		$messages = array(
-			0 => Phalcon\Mvc\Model\Message::__set_state(array(
-				'_type' => 'ConstraintViolation',
-				'_message' => 'The robot code does not exist',
-				'_field' => 'robots_id',
-				'_code' => 0,
-  			))
-  		);
+        $messages = $robotsParts->getMessages();
+        $this->assertEquals(count($messages), 1);
+        $message = reset($messages);
 
-		$this->assertEquals($robotsParts->getMessages(), $messages);
+        $this->assertInstanceOf('Phalcon\Mvc\Entity\MessageInterface', $message);
+        $this->assertEquals($message->getType(), 'ConstraintViolation');
+        $this->assertEquals($message->getMessage(), 'The robot code does not exist');
+        $this->assertEquals($message->getField(), 'robots_id');
 
 		//Reverse foreign keys
 
@@ -156,33 +153,29 @@ class ModelsForeignKeysTest extends PHPUnit_Framework_TestCase
 
 		$this->assertFalse($robot->delete());
 
-		$messages = array(
-			0 => Phalcon\Mvc\Model\Message::__set_state(array(
-				'_type' => 'ConstraintViolation',
-				'_message' => 'Record is referenced by model RobotsParts',
-				'_field' => 'id',
-				'_code' => 0,
-			))
-		);
+        $messages = $robot->getMessages();
+        $this->assertEquals(count($messages), 1);
+        $message = reset($messages);
 
-		$this->assertEquals($robot->getMessages(), $messages);
+        $this->assertInstanceOf('Phalcon\Mvc\Entity\MessageInterface', $message);
+        $this->assertEquals($message->getType(), 'ConstraintViolation');
+        $this->assertEquals($message->getMessage(), 'Record is referenced by model RobotsParts');
+        $this->assertEquals($message->getField(), 'id');
+
 
 		$part = Parts::findFirst();
 		$this->assertNotEquals($part, false);
 
 		$this->assertFalse($part->delete());
 
-		$messages = array(
-			0 => Phalcon\Mvc\Model\Message::__set_state(array(
-				'_type' => 'ConstraintViolation',
-				'_message' => 'Parts cannot be deleted because is referenced by a Robot',
-				'_field' => 'id',
-				'_code' => 0,
-			))
-		);
+        $messages = $part->getMessages();
+        $this->assertEquals(count($messages), 1);
+        $message = reset($messages);
 
-		$this->assertEquals($part->getMessages(), $messages);
-
+        $this->assertInstanceOf('Phalcon\Mvc\Entity\MessageInterface', $message);
+        $this->assertEquals($message->getType(), 'ConstraintViolation');
+        $this->assertEquals($message->getMessage(), 'Parts cannot be deleted because is referenced by a Robot');
+        $this->assertEquals($message->getField(), 'id');
 	}
 
 	public function _executeTestsRenamed($di)
@@ -194,31 +187,29 @@ class ModelsForeignKeysTest extends PHPUnit_Framework_TestCase
 		$robottersDeles->delesCode = 100;
 		$this->assertFalse($robottersDeles->save());
 
-		$messages = array(
-			0 => Phalcon\Mvc\Model\Message::__set_state(array(
-				'_type' => 'ConstraintViolation',
-				'_message' => 'Value of field "delesCode" does not exist on referenced table',
-				'_field' => 'delesCode',
-				'_code' => 0,
-  			))
-  		);
+        $messages = $robottersDeles->getMessages();
+        $this->assertEquals(count($messages), 1);
+        $message = reset($messages);
 
-		$this->assertEquals($robottersDeles->getMessages(), $messages);
+        $this->assertInstanceOf('Phalcon\Mvc\Entity\MessageInterface', $message);
+        $this->assertEquals($message->getType(), 'ConstraintViolation');
+        $this->assertEquals($message->getMessage(), 'Value of field "delesCode" does not exist on referenced table');
+        $this->assertEquals($message->getField(), 'delesCode');
+
 
 		$robottersDeles->robottersCode = 100;
 		$robottersDeles->delesCode = 1;
 		$this->assertFalse($robottersDeles->save());
 
-		$messages = array(
-			0 => Phalcon\Mvc\Model\Message::__set_state(array(
-				'_type' => 'ConstraintViolation',
-				'_message' => 'The robotters code does not exist',
-				'_field' => 'robottersCode',
-				'_code' => 0,
-  			))
-  		);
+        $messages = $robottersDeles->getMessages();
+        $this->assertEquals(count($messages), 1);
+        $message = reset($messages);
 
-		$this->assertEquals($robottersDeles->getMessages(), $messages);
+        $this->assertInstanceOf('Phalcon\Mvc\Entity\MessageInterface', $message);
+        $this->assertEquals($message->getType(), 'ConstraintViolation');
+        $this->assertEquals($message->getMessage(), 'The robotters code does not exist');
+        $this->assertEquals($message->getField(), 'robottersCode');
+
 
 		//Reverse foreign keys with renaming
 		$robotter = Robotters::findFirst();
@@ -226,33 +217,28 @@ class ModelsForeignKeysTest extends PHPUnit_Framework_TestCase
 
 		$this->assertFalse($robotter->delete());
 
-		$messages = array(
-			0 => Phalcon\Mvc\Model\Message::__set_state(array(
-				'_type' => 'ConstraintViolation',
-				'_message' => 'Record is referenced by model RobottersDeles',
-				'_field' => 'code',
-				'_code' => 0,
-			))
-		);
+        $messages = $robotter->getMessages();
+        $this->assertEquals(count($messages), 1);
+        $message = reset($messages);
 
-		$this->assertEquals($robotter->getMessages(), $messages);
+        $this->assertInstanceOf('Phalcon\Mvc\Entity\MessageInterface', $message);
+        $this->assertEquals($message->getType(), 'ConstraintViolation');
+        $this->assertEquals($message->getMessage(), 'Record is referenced by model RobottersDeles');
+        $this->assertEquals($message->getField(), 'code');
 
 		$dele = Deles::findFirst();
 		$this->assertNotEquals($dele, false);
 
 		$this->assertFalse($dele->delete());
 
-		$messages = array(
-			0 => Phalcon\Mvc\Model\Message::__set_state(array(
-				'_type' => 'ConstraintViolation',
-				'_message' => 'Deles cannot be deleted because is referenced by a Robotter',
-				'_field' => 'code',
-				'_code' => 0,
-			))
-		);
+        $messages = $dele->getMessages();
+        $this->assertEquals(count($messages), 1);
+        $message = reset($messages);
 
-		$this->assertEquals($dele->getMessages(), $messages);
-
+        $this->assertInstanceOf('Phalcon\Mvc\Entity\MessageInterface', $message);
+        $this->assertEquals($message->getType(), 'ConstraintViolation');
+        $this->assertEquals($message->getMessage(), 'Deles cannot be deleted because is referenced by a Robotter');
+        $this->assertEquals($message->getField(), 'code');
 	}
 
 }

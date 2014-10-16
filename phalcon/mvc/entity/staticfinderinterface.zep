@@ -17,37 +17,30 @@
  +------------------------------------------------------------------------+
  */
 
-namespace Phalcon\Mvc\Model\Validator;
+namespace Phalcon\Mvc\Entity;
 
-use Phalcon\Mvc\Model\ValidatorInterface;
-use Phalcon\Mvc\Entity\Validator\Inclusionin as Validator;
+use Phalcon\Mvc\EntityInterface;
 
 /**
- * Phalcon\Mvc\Model\Validator\InclusionIn
+ * Phalcon\Mvc\Entity\StaticFinderInterface
  *
- * Check if a value is included into a list of values
- *
- *<code>
- *	use Phalcon\Mvc\Model\Validator\InclusionIn as InclusionInValidator;
- *
- *	class Subscriptors extends \Phalcon\Mvc\Model
- *	{
- *
- *		public function validation()
- *		{
- *			this->validate(new InclusionInValidator(array(
- *				"field" => 'status',
- *				'domain' => array('A', 'I')
- *			)));
- *			if (this->validationHasFailed() == true) {
- *				return false;
- *			}
- *		}
- *
- *	}
- *</code>
+ * Interface provides static methods for find entities.
  */
-class Inclusionin extends Validator implements ValidatorInterface
+interface StaticFinderInterface
 {
-	// leave this class for backward compatibility
+	/**
+	 * Allows to fiod a set of entities that match the specified conditions
+	 *
+	 * @param 	array parameters
+	 * @return  Phalcon\Mvc\Entity\ResultsetInterface
+	 */
+	public static function find(var parameters = null) -> <ResultsetInterface>;
+
+	/**
+	 * Allows to query the first entity that match the specified conditions
+	 *
+	 * @param array parameters
+	 * @return Phalcon\Mvc\EntityInterface
+	 */
+	public static function findFirst(var parameters = null) -> <EntityInterface>;
 }

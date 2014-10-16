@@ -21,16 +21,18 @@ namespace Phalcon\Mvc\Collection;
 
 use Phalcon\Di\InjectionAwareInterface;
 use Phalcon\Events\EventsAwareInterface;
-use Phalcon\Events\ManagerInterface;
+use Phalcon\Events\ManagerInterface as EventsManagerInterface;
 use Phalcon\Mvc\CollectionInterface;
+use Phalcon\Mvc\EntityInterface;
+use Phalcon\Mvc\Entity\Manager as EntityManager;
 
 /**
  * Phalcon\Mvc\Collection\Manager
  *
- * This components controls the initialization of models, keeping record of relations
- * between the different models of the application.
+ * This components controls the initialization of collections, keeping record of relations
+ * between the different collections of the application.
  *
- * A CollectionManager is injected to a model via a Dependency Injector Container such as Phalcon\Di.
+ * A CollectionManager is injected to a collection via a Dependency Injector Container such as Phalcon\Di.
  *
  * <code>
  * $di = new \Phalcon\Di();
@@ -42,190 +44,76 @@ use Phalcon\Mvc\CollectionInterface;
  * $robot = new Robots($di);
  * </code>
  */
-class Manager implements InjectionAwareInterface, EventsAwareInterface
+class Manager extends EntityManager implements ManagerInterface
 {
-
-	protected _dependencyInjector;
-
-	protected _initialized;
-
-	protected _lastInitialized;
-
-	protected _eventsManager;
-
-	protected _customEventsManager;
-
 	protected _connectionServices;
 
 	protected _implicitObjectsIds;
 
-	/**
-	* Sets the DependencyInjector container
-	*
-	* @param Phalcon\DiInterface $dependencyInjector
-	*/
-	public function setDI(<\Phalcon\DiInterface> dependencyInjector) -> void
-	{
-		let this->_dependencyInjector = dependencyInjector;
-	}
 
 	/**
-	* Returns the DependencyInjector container
-	*
-	* @return Phalcon\DiInterface
-	*/
-	public function getDI() -> <\Phalcon\DiInterface>
-	{
-		return this->_dependencyInjector;
-	}
-
-	/**
-	 * Sets the event manager
+	 * Initializes a collection in the collection manager
 	 *
-	 * @param Phalcon\Events\ManagerInterface $eventsManager
-	 */
-	public function setEventsManager(<ManagerInterface> eventsManager) -> void
-	{
-		let this->_eventsManager = eventsManager;
-	}
-
-	/**
-	 * Returns the internal event manager
-	 *
-	 * @return Phalcon\Events\ManagerInterface
-	 */
-	public function getEventsManager() -> <ManagerInterface>
-	{
-		return this->_eventsManager;
-	}
-
-	/**
-	 * Sets a custom events manager for a specific model
-	 *
-	 * @param Phalcon\Mvc\CollectionInterface $model
-	 * @param Phalcon\Events\ManagerInterface $eventsManager
-	 */
-	public function setCustomEventsManager(<CollectionInterface> model, <ManagerInterface> eventsManager) -> void
-	{
-		let this->_customEventsManager[get_class(model)] = eventsManager;
-	}
-
-	/**
-	 * Returns a custom events manager related to a model
-	 *
-	 * @param Phalcon\Mvc\CollectionInterface $model
- 	 * @return Phalcon\Events\ManagerInterface
-	 */
-	public function getCustomEventsManager(<CollectionInterface> model) //-> <\Phalcon\Events\ManagerInterface>
-	{
-		var customEventsManager, className;
-
-		let customEventsManager = this->_customEventsManager;
-		if typeof customEventsManager == "array" {
-			let className = get_class_lower(model);
-			if isset customEventsManager[className] {
-				return customEventsManager[className];
-			}
-		}
-	}
-
-	/**
-	 * Initializes a model in the models manager
-	 *
-	 * @param Phalcon\Mvc\CollectionInterface model
-	 */
-	public function initialize(<CollectionInterface> model) -> void
-	{
-		var className, initialized, eventsManager;
-
-		let className = get_class(model);
-		let initialized = this->_initialized;
-
-		/**
-		* Models are just initialized once per request
-		*/
-		if !isset initialized[className] {
-
-			/**
-			* Call the 'initialize' method if it's implemented
-			*/
-			if method_exists(model, "initialize") {
-				model->{"initialize"}();
-			}
-
-			/**
-			* If an EventsManager is available we pass to it every initialized model
-			*/
-			let eventsManager = this->_eventsManager;
-			if typeof eventsManager == "object" {
-				eventsManager->fire("collectionManager:afterInitialize");
-			}
-
-			let this->_initialized[className] = model;
-			let this->_lastInitialized = model;
-		}
-	}
-
-	/**
-	 * Check whether a model is already initialized
-	 *
-	 * @param string $modelName
-	 * @return bool
-	 */
-	public function isInitialized(modelName) -> boolean
-	{
-		if isset this->_initialized[strtolower(modelName)] {
-			return true;
-		}
-		return false;
-	}
-
-	/**
-	 * Get the latest initialized model
-	 *
-	 * @return Phalcon\Mvc\CollectionInterface
-	 */
-	public function getLastInitialized() -> <CollectionInterface>
-	{
-		return this->_lastInitialized;
-	}
-
-	/**
-	 * Sets a connection service for a specific model
-	 *
-	 * @param Phalcon\Mvc\CollectionInterface model
-	 * @param string connectionService
-	 */
-	public function setConnectionService(<CollectionInterface> model, string! connectionService) -> void
-	{
-		let this->_connectionServices[get_class(model)] = connectionService;
-	}
-
-	/**
-	 * Sets whether a model must use implicit objects ids
-	 *
-	 * @param Phalcon\Mvc\CollectionInterface model
-	 * @param boolean useImplicitObjectIds
-	 */
-	public function useImplicitObjectIds(<CollectionInterface> model, boolean useImplicitObjectIds) -> void
-	{
-		let this->_implicitObjectsIds[get_class(model)] = useImplicitObjectIds;
-	}
-
-	/**
-	 * Checks if a model is using implicit object ids
-	 *
-	 * @param Phalcon\Mvc\CollectionInterface model
+	 * @param Phalcon\Mvc\EntityInterface entity
 	 * @return boolean
 	 */
-	public function isUsingImplicitObjectIds(<CollectionInterface> model) -> boolean
+	public function initialize(<EntityInterface> entity) -> boolean
+	{
+		var status, eventsManager;
+
+		let status = parent::initialize(entity);
+
+		if status !== true {
+			return false;
+		}
+
+		/**
+		 * If an EventsManager is available we pass to it every initialized entity
+		 */
+		let eventsManager = <EventsManagerInterface> this->_eventsManager;
+		if typeof eventsManager == "object" {
+			eventsManager->fire("collectionManager:afterInitialize", this, entity);
+		}
+
+		return true;
+	}
+
+	/**
+	 * Sets a connection service for a specific collection
+	 *
+	 * @param Phalcon\Mvc\CollectionInterface collection
+	 * @param string connectionService
+	 */
+	public function setConnectionService(<CollectionInterface> collection, string! connectionService) -> void
+	{
+		let this->_connectionServices[get_class(collection)] = connectionService;
+	}
+
+	/**
+	 * Sets whether a collection must use implicit objects ids
+	 *
+	 * @param Phalcon\Mvc\CollectionInterface collection
+	 * @param boolean useImplicitObjectIds
+	 */
+	public function useImplicitObjectIds(<CollectionInterface> collection, boolean useImplicitObjectIds) -> void
+	{
+		let this->_implicitObjectsIds[get_class(collection)] = useImplicitObjectIds;
+	}
+
+	/**
+	 * Checks if a collection is using implicit object ids
+	 *
+	 * @param Phalcon\Mvc\CollectionInterface collection
+	 * @return boolean
+	 */
+	public function isUsingImplicitObjectIds(<CollectionInterface> collection) -> boolean
 	{
 		var implicit;
 
 		/**
 		* All collections use by default are using implicit object ids
 		*/
-		if fetch implicit, this->_implicitObjectsIds[get_class(model)] {
+		if fetch implicit, this->_implicitObjectsIds[get_class(collection)] {
 			return implicit;
 		}
 
@@ -233,26 +121,26 @@ class Manager implements InjectionAwareInterface, EventsAwareInterface
 	}
 
 	/**
-	 * Returns the connection related to a model
+	 * Returns the connection related to a collection
 	 *
-	 * @param Phalcon\Mvc\CollectionInterface $model
+	 * @param Phalcon\Mvc\CollectionInterface $collection
 	 * @return \Mongo
 	 */
-	public function getConnection(<CollectionInterface> model)
+	public function getConnection(<CollectionInterface> collection)
 	{
 		var service, connectionService, connection, dependencyInjector, entityName;
 
-		if typeof model != "object" {
+		if typeof collection != "object" {
 			throw new Exception("A valid collection instance is required");
 		}
 
 		let service = "mongo";
 		let connectionService = this->_connectionServices;
 		if typeof connectionService == "array" {
-			let entityName = get_class(model);
+			let entityName = get_class(collection);
 
 			/**
-			* Check if the model has a custom connection service
+			* Check if the collection has a custom connection service
 			*/
 			if isset connectionService[entityName] {
 				let service = connectionService[entityName];
@@ -276,36 +164,59 @@ class Manager implements InjectionAwareInterface, EventsAwareInterface
 	}
 
 	/**
-	 * Receives events generated in the models and dispatches them to a events-manager if available
-	 * Notify the behaviors that are listening in the model
+	 * Receives events generated in the entities and dispatches them to a events-manager if available
+	 * Notify the behaviors that are listening in the entity
 	 *
 	 * @param string eventName
-	 * @param Phalcon\Mvc\CollectionInterface model
+	 * @param Phalcon\Mvc\EntityInterface entity
 	 */
-	public function notifyEvent(string! eventName, <CollectionInterface> model)
+	public function notifyEvent(string! eventName, <EntityInterface> entity)
 	{
-		var eventsManager, status = null, customEventsManager;
+		var status, behavior, entitiesBehaviors, eventsManager,
+			customEventsManager, behaviors;
+
+		let status = null;
 
 		/**
-		* Dispatch events to the global events manager
-		*/
+		 * Dispatch events to the global events manager
+		 */
+		let behaviors = this->_behaviors;
+		if typeof behaviors == "array" {
+			if fetch entitiesBehaviors, behaviors[get_class_lower(entity)] {
+
+				/**
+				 * Notify all the events on the behavior
+				 */
+				for behavior in entitiesBehaviors {
+					let status = behavior->notify(eventName, entity);
+					if status === false {
+						return false;
+					}
+				}
+			}
+
+		}
+
+		/**
+		 * Dispatch events to the global events manager
+		 */
 		let eventsManager = this->_eventsManager;
 		if typeof eventsManager == "object" {
-			let status = eventsManager->fire( "collection:". eventName, model);
-			if !status {
+			let status = eventsManager->fire("collection:" . eventName, entity);
+			if status === false {
 				return status;
 			}
 		}
 
 		/**
-		* A model can has a specific events manager for it
-		*/
+		 * A entity can has a specific events manager for it
+		 */
 		let customEventsManager = this->_customEventsManager;
 		if typeof customEventsManager == "array" {
-			if isset customEventsManager[get_class_lower(model)] {
-				let status = customEventsManager->fire("collection:". eventName, model);
-				if !status {
-					return status;
+			if fetch customEventsManager, customEventsManager[get_class_lower(entity)] {
+				let status = customEventsManager->fire("collection:" . eventName, entity);
+				if status === false {
+					return false;
 				}
 			}
 		}
@@ -313,4 +224,49 @@ class Manager implements InjectionAwareInterface, EventsAwareInterface
 		return status;
 	}
 
+	/**
+	 * Dispatch a event to the listeners and behaviors
+	 * This method expects that the endpoint listeners/behaviors returns true
+	 * meaning that a least one was implemented
+	 *
+	 * @param Phalcon\Mvc\EntityInterface entity
+	 * @param string eventName
+	 * @param array data
+	 * @return boolean
+	 */
+	public function missingMethod(<EntityInterface> entity, string! eventName, array! data) -> boolean
+	{
+		var behaviors, entitiesBehaviors, result, eventsManager, behavior;
+
+		/**
+		 * Dispatch events to the global events manager
+		 */
+		let behaviors = this->_behaviors;
+		if typeof behaviors == "array" {
+
+			if fetch entitiesBehaviors, behaviors[get_class_lower(entity)] {
+
+				/**
+				 * Notify all the events on the behavior
+				 */
+				for behavior in entitiesBehaviors {
+					let result = behavior->missingMethod(entity, eventName, data);
+					if result !== null {
+						return result;
+					}
+				}
+			}
+
+		}
+
+		/**
+		 * Dispatch events to the global events manager
+		 */
+		let eventsManager = this->_eventsManager;
+		if typeof eventsManager == "object" {
+			return eventsManager->fire("collection:" . eventName, entity, data);
+		}
+
+		return false;
+	}
 }

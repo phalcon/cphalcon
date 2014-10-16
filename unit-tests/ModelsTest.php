@@ -18,7 +18,6 @@
   +------------------------------------------------------------------------+
 */
 
-use Phalcon\Mvc\Model\Message as ModelMessage;
 
 class Issue_1534 extends \Phalcon\Mvc\Model
 {
@@ -337,33 +336,35 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 		//Messages
 		$this->assertEquals(count($persona->getMessages()), 4);
 
-		$messages = array(
-			0 => ModelMessage::__set_state(array(
-				'_type' => 'PresenceOf',
-				'_message' => 'tipo_documento_id is required',
-				'_field' => 'tipo_documento_id',
-				'_code' => 0,
-			)),
-			1 => ModelMessage::__set_state(array(
-				'_type' => 'PresenceOf',
-				'_message' => 'nombres is required',
-				'_field' => 'nombres',
-				'_code' => 0,
-			)),
-			2 => ModelMessage::__set_state(array(
-				'_type' => 'PresenceOf',
-				'_message' => 'cupo is required',
-				'_field' => 'cupo',
-				'_code' => 0,
-			)),
-			3 => ModelMessage::__set_state(array(
-				'_type' => 'PresenceOf',
-				'_message' => 'estado is required',
-				'_field' => 'estado',
-				'_code' => 0,
-			)),
-		);
-		$this->assertEquals($persona->getMessages(), $messages);
+        $messages = array(
+            array(
+                'type' => 'PresenceOf',
+                'message' => 'tipo_documento_id is required',
+                'field' => 'tipo_documento_id',
+            ),
+            array(
+                'type' => 'PresenceOf',
+                'message' => 'nombres is required',
+                'field' => 'nombres',
+            ),
+            array(
+                'type' => 'PresenceOf',
+                'message' => 'cupo is required',
+                'field' => 'cupo',
+            ),
+            array(
+                'type' => 'PresenceOf',
+                'message' => 'estado is required',
+                'field' => 'estado',
+            ),
+        );
+
+        foreach($persona->getMessages() as $i => $message) {
+            $this->assertInstanceOf('Phalcon\Mvc\Entity\MessageInterface', $message);
+            $this->assertEquals($message->getType(), $messages[$i]['type']);
+            $this->assertEquals($message->getMessage(), $messages[$i]['message']);
+            $this->assertEquals($message->getField(), $messages[$i]['field']);
+        }
 
 		//Save
 		$persona = new Personas($di);
@@ -622,32 +623,34 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(count($personer->getMessages()), 4);
 
 		$messages = array(
-			0 => ModelMessage::__set_state(array(
-				'_type' => 'PresenceOf',
-				'_message' => 'slagBorgerId is required',
-				'_field' => 'slagBorgerId',
-				'_code' => 0,
-			)),
-			1 => ModelMessage::__set_state(array(
-				'_type' => 'PresenceOf',
-				'_message' => 'navnes is required',
-				'_field' => 'navnes',
-				'_code' => 0,
-			)),
-			2 => ModelMessage::__set_state(array(
-				'_type' => 'PresenceOf',
-				'_message' => 'kredit is required',
-				'_field' => 'kredit',
-				'_code' => 0,
-			)),
-			3 => ModelMessage::__set_state(array(
-				'_type' => 'PresenceOf',
-				'_message' => 'status is required',
-				'_field' => 'status',
-				'_code' => 0,
-			)),
+			array(
+                'type' => 'PresenceOf',
+                'message' => 'slagBorgerId is required',
+                'field' => 'slagBorgerId',
+            ),
+			array(
+                'type' => 'PresenceOf',
+                'message' => 'navnes is required',
+                'field' => 'navnes',
+            ),
+			array(
+                'type' => 'PresenceOf',
+                'message' => 'kredit is required',
+                'field' => 'kredit',
+            ),
+			array(
+                'type' => 'PresenceOf',
+                'message' => 'status is required',
+                'field' => 'status',
+            ),
 		);
-		$this->assertEquals($personer->getMessages(), $messages);
+
+        foreach($personer->getMessages() as $i => $message) {
+            $this->assertInstanceOf('Phalcon\Mvc\Entity\MessageInterface', $message);
+            $this->assertEquals($message->getType(), $messages[$i]['type']);
+            $this->assertEquals($message->getMessage(), $messages[$i]['message']);
+            $this->assertEquals($message->getField(), $messages[$i]['field']);
+        }
 
 		//Save
 		$personer = new Personers($di);

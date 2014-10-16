@@ -17,37 +17,40 @@
  +------------------------------------------------------------------------+
  */
 
-namespace Phalcon\Mvc\Model\Validator;
+namespace Phalcon\Mvc\Entity;
 
-use Phalcon\Mvc\Model\ValidatorInterface;
-use Phalcon\Mvc\Entity\Validator\Inclusionin as Validator;
+use Phalcon\Mvc\EntityInterface;
 
 /**
- * Phalcon\Mvc\Model\Validator\InclusionIn
+ * Phalcon\Mvc\Entity\BehaviorInterface
  *
- * Check if a value is included into a list of values
- *
- *<code>
- *	use Phalcon\Mvc\Model\Validator\InclusionIn as InclusionInValidator;
- *
- *	class Subscriptors extends \Phalcon\Mvc\Model
- *	{
- *
- *		public function validation()
- *		{
- *			this->validate(new InclusionInValidator(array(
- *				"field" => 'status',
- *				'domain' => array('A', 'I')
- *			)));
- *			if (this->validationHasFailed() == true) {
- *				return false;
- *			}
- *		}
- *
- *	}
- *</code>
+ * Interface for Phalcon\Mvc\Entity\Behavior
  */
-class Inclusionin extends Validator implements ValidatorInterface
+interface BehaviorInterface
 {
-	// leave this class for backward compatibility
+
+	/**
+	 * Phalcon\Mvc\Entity\Behavior
+	 *
+	 * @param array options
+	 */
+	public function __construct(options=null);
+
+	/**
+	 * This method receives the notifications from the EventsManager
+	 *
+	 * @param string type
+	 * @param Phalcon\Mvc\EntityInterface entity
+	 */
+	public function notify(string! type, <EntityInterface> entity);
+
+	/**
+	 * Calls a method when it's missing in the entity
+	 *
+	 * @param Phalcon\Mvc\EntityInterface entity
+	 * @param string method
+	 * @param array arguments
+	 */
+	public function missingMethod(<EntityInterface> entity, string! method, var arguments = null);
+
 }

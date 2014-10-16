@@ -19,21 +19,15 @@
 
 namespace Phalcon\Mvc\Model;
 
+use Phalcon\Mvc\Entity\ManagerInterface as EntityManagerInterface;
+
 /**
  * Phalcon\Mvc\Model\ManagerInterface
  *
  * Interface for Phalcon\Mvc\Model\Manager
  */
-interface ManagerInterface
+interface ManagerInterface extends EntityManagerInterface
 {
-
-	/**
-	 * Initializes a model in the model manager
-	 *
-	 * @param Phalcon\Mvc\ModelInterface model
-	 */
-	public function initialize(<\Phalcon\Mvc\ModelInterface> model);
-
 	/**
 	 * Sets the mapped source for a model
 	 *
@@ -122,30 +116,6 @@ interface ManagerInterface
 	 * @return Phalcon\Db\AdapterInterface
 	 */
 	public function getWriteConnection(<\Phalcon\Mvc\ModelInterface> model);
-
-	/**
-	 * Check of a model is already initialized
-	 *
-	 * @param string modelName
-	 * @return boolean
-	 */
-	public function isInitialized(modelName);
-
-	/**
-	 * Get last initialized model
-	 *
-	 * @return Phalcon\Mvc\ModelInterface
-	 */
-	public function getLastInitialized();
-
-	/**
-	 * Loads a model throwing an exception if it doesn't exist
-	 *
-	 * @param  string modelName
-	 * @param  boolean newInstance
-	 * @return Phalcon\Mvc\ModelInterface
-	 */
-	public function load(string modelName, boolean newInstance=false);
 
 	/**
 	 * Setup a 1-1 relation between two models
@@ -319,36 +289,7 @@ interface ManagerInterface
 	 * @return Phalcon\Mvc\Model\Query\BuilderInterface
 	 */
 	public function createBuilder(params=null);
-
-	/**
-	 * Binds a behavior to a model
-	 *
-	 * @param Phalcon\Mvc\ModelInterface model
-	 * @param Phalcon\Mvc\Model\BehaviorInterface behavior
-	 */
-	public function addBehavior(<\Phalcon\Mvc\ModelInterface> model, <\Phalcon\Mvc\Model\BehaviorInterface> behavior);
-
-	/**
-	 * Receives events generated in the models and dispatches them to a events-manager if available
-	 * Notify the behaviors that are listening in the model
-	 *
-	 * @param string eventName
-	 * @param Phalcon\Mvc\ModelInterface model
-	 */
-	public function notifyEvent(eventName, <\Phalcon\Mvc\ModelInterface> model);
-
-	/**
-	 * Dispatch a event to the listeners and behaviors
-	 * This method expects that the endpoint listeners/behaviors returns true
-	 * meaning that a least one is implemented
-	 *
-	 * @param Phalcon\Mvc\ModelInterface model
-	 * @param string eventName
-	 * @param array data
-	 * @return boolean
-	 */
-	public function missingMethod(<\Phalcon\Mvc\ModelInterface> model, eventName, data);
-
+	
 	/**
 	 * Returns the last query created or executed in the
 	 *

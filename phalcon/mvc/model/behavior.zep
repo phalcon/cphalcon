@@ -19,76 +19,14 @@
 
 namespace Phalcon\Mvc\Model;
 
+use Phalcon\Mvc\Entity\Behavior as EntityBehavior;
+
 /**
  * Phalcon\Mvc\Model\Behavior
  *
  * This is an optional base class for ORM behaviors
  */
-abstract class Behavior
+abstract class Behavior extends EntityBehavior implements BehaviorInterface
 {
-	protected _options;
-
-	/**
-	 * Phalcon\Mvc\Model\Behavior
-	 *
-	 * @param array options
-	 */
-	public function __construct(options=null)
-	{
-		let this->_options = options;
-	}
-
-	/**
-	 * Checks whether the behavior must take action on certain event
-	 *
-	 * @param string eventName
-	 */
-	protected function mustTakeAction(string! eventName)
-	{
-		return isset this->_options[eventName];
-	}
-
-	/**
-	 * Returns the behavior options related to an event
-	 *
-	 * @param string eventName
-	 * @return array
-	 */
-	protected function getOptions(string! eventName=null)
-	{
-		var options, eventOptions;
-
-		let options = this->_options;
-		if eventName !== null {
-			if fetch eventOptions, options[eventName] {
-				return eventOptions;
-			}
-			return null;
-		}
-		return options;
-	}
-
-	/**
-	 * This method receives the notifications from the EventsManager
-	 *
-	 * @param string type
-	 * @param Phalcon\Mvc\ModelInterface model
-	 */
-	public function notify(string type, <\Phalcon\Mvc\ModelInterface> model)
-	{
-		return null;
-	}
-
-	/**
-	 * Acts as fallbacks when a missing method is called on the model
-	 *
-	 * @param Phalcon\Mvc\ModelInterface model
-	 * @param string method
-	 * @param array arguments
-	 */
-	public function missingMethod(<\Phalcon\Mvc\ModelInterface> model, string method, arguments=null)
-	{
-		return null;
-	}
-
+	// leave this class for backward compatibility
 }

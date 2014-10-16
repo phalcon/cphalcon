@@ -17,27 +17,28 @@
  +------------------------------------------------------------------------+
  */
 
-namespace Phalcon\Mvc\Model\Validator;
+namespace Phalcon\Mvc\Entity\Validator;
 
-use Phalcon\Mvc\Model\ValidatorInterface;
-use Phalcon\Mvc\Entity\Validator\Regex as Validator;
+use Phalcon\Mvc\Entity\Exception;
+use Phalcon\Mvc\Entity\Validator;
+use Phalcon\Mvc\EntityInterface;
 
 /**
- * Phalcon\Mvc\Model\Validator\Regex
+ * Phalcon\Mvc\Entity\Validator\PresenceOf
  *
- * Allows validate if the value of a field matches a regular expression
+ * Allows to validate if a filed have a value different of null and empty string ("")
  *
  *<code>
- *use Phalcon\Mvc\Model\Validator\Regex as RegexValidator;
+ *use Phalcon\Mvc\Entity\Validator\PresenceOf;
  *
- *class Subscriptors extends \Phalcon\Mvc\Model
+ *class Subscriptors extends \Phalcon\Mvc\Entity
  *{
  *
  *  public function validation()
  *  {
- *      this->validate(new RegexValidator(array(
- *          "field" => 'created_at',
- *          'pattern' => '/^[0-9]{4}[-\/](0[1-9]|1[12])[-\/](0[1-9]|[12][0-9]|3[01])/'
+ *      this->validate(new PresenceOf(array(
+ *          "field" => 'name',
+ *          "message" => 'The name is required'
  *      )));
  *      if (this->validationHasFailed() == true) {
  *          return false;
@@ -48,7 +49,42 @@ use Phalcon\Mvc\Entity\Validator\Regex as Validator;
  *</code>
  *
  */
-class Regex extends Validator implements ValidatorInterface
+class PresenceOf extends Validator
 {
-	// leave this class for backward compatibility
+	/**
+	 * Executes the validator
+	 *
+	 * @param Phalcon\Mvc\EntityInterface entity
+	 * @return boolean
+	 */
+	public function validate(<EntityInterface> entity) -> boolean
+	{
+		var field, value, message;
+
+		let field = this->getOption("field");
+		if typeof field != "string" {
+			throw new Exception("Field name must be a string");
+		}
+
+		/**
+		 * A value is null when it is identical to null or a empty string
+		 */
+		let value = entity->readAttribute(field);
+		if empty value {
+
+			/**
+			 * Check if the developer has defined a custom message
+			 */
+			let message = this->getOption("message");
+			if empty message {
+				let message = "':field' is required";
+			}
+
+			this->appendMessage(strtr(message, [":field": field]), field, "PresenceOf");
+			return false;
+		}
+
+		return true;
+
+	}
 }

@@ -20,9 +20,8 @@
 
 namespace Phalcon\Mvc\Model\Validator;
 
-use Phalcon\Mvc\Model\Validator;
 use Phalcon\Mvc\Model\ValidatorInterface;
-use Phalcon\Mvc\Model\Exception;
+use Phalcon\Mvc\Entity\Validator\StringLength as Validator;
 
 /**
  * Phalcon\Mvc\Model\Validator\StringLength
@@ -55,92 +54,5 @@ use Phalcon\Mvc\Model\Exception;
  */
 class StringLength extends Validator implements ValidatorInterface
 {
-	/**
-	 * Executes the validator
-	 *
-	 * @param Phalcon\Mvc\ModelInterface record
-	 * @return boolean
-	 */
-	public function validate(<\Phalcon\Mvc\ModelInterface> record) -> boolean
-	{
-		var field, isSetMin, isSetMax, value, length, invalidMaximum, invalidMinimum,
-			maximum, minimum, message;
-
-		let field = this->getOption("field");
-		if typeof field != "string" {
-			throw new Exception("Field name must be a string");
-		}
-
-		/**
-		 * At least one of 'min' or 'max' must be set
-		 */
-		let isSetMin = this->isSetOption("min");
-		let isSetMax = this->isSetOption("max");
-
-		if !isSetMin && !isSetMax {
-			throw new Exception("A minimum or maximum must be set");
-		}
-
-		let value = record->readAttribute(field);
-
-		if this->isSetOption("allowEmpty") && empty value {
-			return true;
-		}
-
-		/**
-		 * Check if mbstring is available to calculate the correct length
-		 */
-		if function_exists("mb_strlen") {
-			let length = mb_strlen(value);
-		} else {
-			let length = strlen(value);
-		}
-
-		let invalidMaximum = false;
-		let invalidMinimum = false;
-
-		/**
-		 * Maximum length
-		 */
-		if isSetMax {
-
-			let maximum = this->getOption("max");
-			if length > maximum {
-
-				/**
-				 * Check if the developer has defined a custom message
-				 */
-				let message = this->getOption("messageMaximum");
-				if empty message {
-					let message = "Value of field ':field' exceeds the maximum :max characters";
-				}
-
-				this->appendMessage(strtr(message, [":field": field, ":max":  maximum]), field, "TooLong");
-				return false;
-			}
-		}
-
-		/**
-		 * Minimum length
-		 */
-		if isSetMin {
-
-			let minimum = this->getOption("min");
-			if length < minimum {
-
-				/**
-				 * Check if the developer has defined a custom message
-				 */
-				let message = this->getOption("messageMinimum");
-				if empty message {
-					let message = "Value of field ':field' is less than the minimum :min characters";
-				}
-
-				this->appendMessage(strtr(message, [":field": field, ":min":  minimum]), field, "TooShort");
-				return false;
-			}
-		}
-
-		return true;
-	}
+	// leave this class for backward compatibility
 }

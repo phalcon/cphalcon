@@ -20,10 +20,11 @@
 namespace Phalcon\Mvc\Model\Validator;
 
 use Phalcon\Mvc\Model;
-
 use Phalcon\Mvc\Model\Exception;
 use Phalcon\Mvc\Model\Validator;
 use Phalcon\Mvc\Model\ValidatorInterface;
+use Phalcon\Mvc\EntityInterface;
+use Phalcon\Mvc\ModelInterface;
 
 /**
  * Phalcon\Mvc\Model\Validator\Uniqueness
@@ -59,11 +60,15 @@ class Uniqueness extends Validator implements ValidatorInterface
 	 * @param Phalcon\Mvc\ModelInterface record
 	 * @return boolean
 	 */
-	public function validate(<\Phalcon\Mvc\ModelInterface> record) -> boolean
+	public function validate(<EntityInterface> record) -> boolean
 	{
 		var field, dependencyInjector, metaData, message, bindTypes, bindDataTypes,
 			columnMap, conditions, bindParams, number, composeField, columnField,
 			bindType, primaryField, attributeField, params, className, replacePairs;
+
+		if !(record instanceof ModelInterface) {
+ 			throw new Exception("The record parameter must be an object compatible with Phalcon\\Mvc\\ModelInterface");
+		}	
 
 		let dependencyInjector = record->getDI();
 		let metaData = dependencyInjector->getShared("modelsMetadata");

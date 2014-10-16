@@ -23,13 +23,14 @@ use Phalcon\DiInterface;
 use Phalcon\Mvc\ModelInterface;
 use Phalcon\Mvc\Model\TransactionInterface;
 use Phalcon\Mvc\Model\MessageInterface;
+use Phalcon\Mvc\Entity\StaticFinderInterface;
 
 /**
  * Phalcon\Mvc\ModelInterface
  *
  * Interface for Phalcon\Mvc\Model
  */
-interface ModelInterface
+interface ModelInterface extends EntityInterface, StaticFinderInterface
 {
 
 	/**
@@ -104,31 +105,6 @@ interface ModelInterface
 	public function getWriteConnection() -> <\Phalcon\Db\AdapterInterface>;
 
 	/**
-	 * Sets the dirty state of the object using one of the DIRTY_STATE_* constants
-	 *
-	 * @param int dirtyState
-	 * @return Phalcon\Mvc\ModelInterface
-	 */
-	public function setDirtyState(int dirtyState) -> <\Phalcon\Mvc\ModelInterface>;
-
-	/**
-	 * Returns one of the DIRTY_STATE_* constants telling if the record exists in the database or not
-	 *
-	 * @return int
-	 */
-	public function getDirtyState() -> int;
-
-	/**
-	 * Assigns values to a model from an array
-	 *
-	 * @param Phalcon\Mvc\Model object
-	 * @param array data
-	 * @param array columnMap
-	 * @return Phalcon\Mvc\Model
-	 */
-	public function assign(data, columnMap = null);
-
-	/**
 	 * Assigns values to a model from an array returning a new model
 	 *
 	 * @param Phalcon\Mvc\Model base
@@ -158,22 +134,6 @@ interface ModelInterface
 	 * @param int hydrationMode
 	 */
 	public static function cloneResultMapHydrate(array! data, var columnMap, int hydrationMode);
-
-	/**
-	 * Allows to query a set of records that match the specified conditions
-	 *
-	 * @param 	array parameters
-	 * @return  Phalcon\Mvc\Model\ResultsetInterface
-	 */
-	public static function find(parameters = null);
-
-	/**
-	 * Allows to query the first record that match the specified conditions
-	 *
-	 * @param array parameters
-	 * @return Phalcon\Mvc\ModelInterface
-	 */
-	public static function findFirst(parameters = null);
 
 	/**
 	 * Create a criteria for a especific model
@@ -224,114 +184,9 @@ interface ModelInterface
 	public static function average(parameters = null);
 
 	/**
-	 * Fires an event, implicitly calls behaviors and listeners in the events manager are notified
-	 *
-	 * @param string eventName
-	 * @return boolean
-	 */
-	public function fireEvent(eventName);
-
-	/**
-	 * Fires an event, implicitly calls behaviors and listeners in the events manager are notified
-	 * This method stops if one of the callbacks/listeners returns boolean false
-	 *
-	 * @param string eventName
-	 * @return boolean
-	 */
-	public function fireEventCancel(eventName);
-
-	/**
-	 * Appends a customized message on the validation process
-	 *
-	 * @param Phalcon\Mvc\Model\MessageInterface message
-	 */
-	public function appendMessage(<MessageInterface> message);
-
-	/**
-	 * Check whether validation process has generated any messages
-	 *
-	 * @return boolean
-	 */
-	public function validationHasFailed();
-
-	/**
-	 * Returns all the validation messages
-	 *
-	 * @return Phalcon\Mvc\Model\MessageInterface[]
-	 */
-	public function getMessages();
-
-	/**
-	 * Inserts or updates a model instance. Returning true on success or false otherwise.
-	 *
-	 * @param  array data
-	 * @param  array whiteList
-	 * @return boolean
-	 */
-	public function save(data = null, whiteList = null);
-
-	/**
-	 * Inserts a model instance. If the instance already exists in the persistance it will throw an exception
-	 * Returning true on success or false otherwise.
-	 *
-	 * @param  array data
-	 * @param  array whiteList
-	 * @return boolean
-	 */
-	public function create(data = null, whiteList = null);
-
-	/**
-	 * Updates a model instance. If the instance doesn't exist in the persistance it will throw an exception
-	 * Returning true on success or false otherwise.
-	 *
-	 * @param  array data
-	 * @param  array whiteList
-	 * @return boolean
-	 */
-	public function update(data = null, whiteList = null);
-
-	/**
-	 * Deletes a model instance. Returning true on success or false otherwise.
-	 *
-	 * @return boolean
-	 */
-	public function delete();
-
-	/**
-	 * Returns the type of the latest operation performed by the ORM
-	 * Returns one of the OP_* class constants
-	 *
-	 * @return int
-	 */
-	public function getOperationMade();
-
-	/**
 	 * Refreshes the model attributes re-querying the record from the database
 	 */
 	public function refresh();
-
-	/**
-	 * Skips the current operation forcing a success state
-	 *
-	 * @param boolean skip
-	 */
-	public function skipOperation(boolean skip);
-
-	/**
-	 * Reads an attribute value by its name
-	 *
-	 * @param string attribute
-	 * @return mixed
-	 */
-	public function readAttribute(attribute);
-
-	/**
-	 * Writes an attribute value by its name
-	 *
-	 * @param string attribute
-	 * @param mixed value
-	 */
-	public function writeAttribute(attribute, value);
 
 	/**
 	 * Returns related records based on defined relations
@@ -342,12 +197,4 @@ interface ModelInterface
 	 */
 	public function getRelated(alias, arguments = null);
 
-	/**
-	 * Sets the record's snapshot data.
-	 * This method is used internally to set snapshot data when the model was set up to keep snapshot data
-	 *
-	 * @param array data
-	 * @param array columnMap
-	 */
-	public function setSnapshotData(array! data, columnMap = null);
 }

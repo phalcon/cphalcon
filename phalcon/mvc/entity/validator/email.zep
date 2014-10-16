@@ -17,20 +17,21 @@
  +------------------------------------------------------------------------+
  */
 
-namespace Phalcon\Mvc\Model\Validator;
+namespace Phalcon\Mvc\Entity\Validator;
 
-use Phalcon\Mvc\Model\ValidatorInterface;
-use Phalcon\Mvc\Entity\Validator\Email as Validator;
+use Phalcon\Mvc\Entity\Exception;
+use Phalcon\Mvc\Entity\Validator;
+use Phalcon\Mvc\EntityInterface;
 
 /**
- * Phalcon\Mvc\Model\Validator\Email
+ * Phalcon\Mvc\Entity\Validator\Email
  *
  * Allows to validate if email fields has correct values
  *
  *<code>
- *	use Phalcon\Mvc\Model\Validator\Email as EmailValidator;
+ *	use Phalcon\Mvc\Entity\Validator\Email as EmailValidator;
  *
- *	class Subscriptors extends \Phalcon\Mvc\Model
+ *	class Subscriptors extends \Phalcon\Mvc\Entity
  *	{
  *
  *		public function validation()
@@ -47,7 +48,45 @@ use Phalcon\Mvc\Entity\Validator\Email as Validator;
  *</code>
  *
  */
-class Email extends Validator implements ValidatorInterface
+class Email extends Validator
 {
-	// leave this class for backward compatibility
+
+	/**
+	 * Executes the validator
+	 *
+	 * @param Phalcon\Mvc\EntityInterface entity
+	 * @return boolean
+	 */
+	public function validate(<EntityInterface> entity) -> boolean
+	{
+
+		var field, value, message;
+
+		let field = this->getOption("field");
+		if typeof field != "string" {
+			throw new Exception("Field name must be a string");
+		}
+
+		let value = entity->readAttribute(field);
+
+		if this->isSetOption("allowEmpty") && empty value {
+			return true;
+		}
+
+		/**
+		 * Filters the format using FILTER_VALIDATE_EMAIL
+		 */
+		if !filter_var(value, FILTER_VALIDATE_EMAIL) {
+
+			let message = this->getOption("message");
+			if empty message {
+				let message = "Value of field ':field' must have a valid e-mail format";
+			}
+
+			this->appendMessage(strtr(message, [":field": field]), field, "Email");
+			return false;
+		}
+
+		return true;
+	}
 }

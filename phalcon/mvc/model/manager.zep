@@ -30,6 +30,8 @@ use Phalcon\Di\InjectionAwareInterface;
 use Phalcon\Events\EventsAwareInterface;
 use Phalcon\Mvc\Model\QueryInterface;
 use Phalcon\Events\ManagerInterface as EventsManagerInterface;
+use Phalcon\Mvc\Entity\Manager as EntityManager;
+use Phalcon\Mvc\EntityInterface;
 
 /**
  * Phalcon\Mvc\Model\Manager
@@ -49,14 +51,8 @@ use Phalcon\Events\ManagerInterface as EventsManagerInterface;
  * $robot = new Robots($di);
  * </code>
  */
-class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareInterface
+class Manager extends EntityManager implements ManagerInterface
 {
-
-	protected _dependencyInjector;
-
-	protected _eventsManager;
-
-	protected _customEventsManager;
 
 	protected _readConnectionServices;
 
@@ -104,36 +100,16 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	 */
 	protected _hasManyToManySingle;
 
-	/**
-	 * Mark initialized models
-	 */
-	protected _initialized;
 
 	protected _sources;
 
 	protected _schemas;
 
-	/**
-	 * Models' behaviors
-	 */
-	protected _behaviors;
-
-	/**
-	 * Last model initialized
-	 */
-	protected _lastInitialized;
 
 	/**
 	 * Last query created/executed
 	 */
 	protected _lastQuery;
-
-	/**
-	 * Stores a list of reusable instances
-	 */
-	protected _reusable;
-
-	protected _keepSnapshots;
 
 	/**
 	 *
@@ -143,175 +119,39 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	protected _namespaceAliases;
 
 	/**
-	 * Sets the DependencyInjector container
-	 *
-	 * @param Phalcon\DiInterface dependencyInjector
+	 * Stores a list of reusable instances
 	 */
-	public function setDI(<\Phalcon\DiInterface> dependencyInjector)
-	{
-		let this->_dependencyInjector = dependencyInjector;
-	}
-
-	/**
-	 * Returns the DependencyInjector container
-	 *
-	 * @return Phalcon\DiInterface
-	 */
-	public function getDI() -> <\Phalcon\DiInterface>
-	{
-		return this->_dependencyInjector;
-	}
-
-	/**
-	 * Sets a global events manager
-	 *
-	 * @param Phalcon\Events\ManagerInterface eventsManager
-	 */
-	public function setEventsManager(<EventsManagerInterface> eventsManager) -> <Manager>
-	{
-		let this->_eventsManager = eventsManager;
-		return this;
-	}
-
-	/**
-	 * Returns the internal event manager
-	 *
-	 * @return Phalcon\Events\ManagerInterface
-	 */
-	public function getEventsManager() -> <EventsManagerInterface>
-	{
-		return this->_eventsManager;
-	}
-
-	/**
-	 * Sets a custom events manager for a specific model
-	 *
-	 * @param Phalcon\Mvc\ModelInterface model
-	 * @param Phalcon\Events\ManagerInterface eventsManager
-	 */
-	public function setCustomEventsManager(<ModelInterface> model, <EventsManagerInterface> eventsManager)
-	{
-		let this->_customEventsManager[get_class_lower(model)] = eventsManager;
-	}
-
-	/**
-	 * Returns a custom events manager related to a model
-	 *
-	 * @param Phalcon\Mvc\ModelInterface model
-	 * @return Phalcon\Events\ManagerInterface
-	 */
-	public function getCustomEventsManager(<ModelInterface> model) -> <EventsManagerInterface> | boolean
-	{
-		var customEventsManager, eventsManager;
-		let customEventsManager = this->_customEventsManager;
-		if typeof customEventsManager == "array" {
-			if fetch eventsManager, customEventsManager[get_class_lower(model)] {
-				return eventsManager;
-			}
-		}
-		return false;
-	}
-
+	protected _reusable;
+	
 	/**
 	 * Initializes a model in the model manager
 	 *
-	 * @param Phalcon\Mvc\ModelInterface model
+	 * @param Phalcon\Mvc\EntityInterface entity
 	 * @return boolean
 	 */
-	public function initialize(<ModelInterface> model) -> boolean
+	public function initialize(<EntityInterface> entity) -> boolean
 	{
-		var className, eventsManager;
+		var status, eventsManager;
 
-		let className = get_class_lower(model);
+		if !(entity instanceof ModelInterface) {
+ 			throw new Exception("The entity parameter must be an object compatible with Phalcon\\Mvc\\ModelInterface");
+		}
 
-		/**
-		 * Models are just initialized once per request
-		 */
-		if isset this->_initialized[className] {
+		let status = parent::initialize(entity);
+
+		if status !== true {
 			return false;
 		}
-
-		/**
-		 * Update the model as initialized, this avoid cyclic initializations
-		 */
-		let this->_initialized[className] = model;
-
-		/**
-		 * Call the 'initialize' method if it's implemented
-		 */
-		if method_exists(model, "initialize") {
-			model->{"initialize"}();
-		}
-
-		/**
-		 * Update the last initialized model, so it can be used in modelsManager:afterInitialize
-		 */
-		let this->_lastInitialized = model;
 
 		/**
 		 * If an EventsManager is available we pass to it every initialized model
 		 */
 		let eventsManager = <EventsManagerInterface> this->_eventsManager;
 		if typeof eventsManager == "object" {
-			eventsManager->fire("modelsManager:afterInitialize", this, model);
+			eventsManager->fire("modelsManager:afterInitialize", this, entity);
 		}
 
 		return true;
-	}
-
-	/**
-	 * Check whether a model is already initialized
-	 *
-	 * @param string modelName
-	 * @return bool
-	 */
-	public function isInitialized(string! modelName) -> boolean
-	{
-		return isset this->_initialized[strtolower(modelName)];
-	}
-
-	/**
-	 * Get last initialized model
-	 *
-	 * @return Phalcon\Mvc\ModelInterface
-	 */
-	public function getLastInitialized() -> <ModelInterface>
-	{
-		return this->_lastInitialized;
-	}
-
-	/**
-	 * Loads a model throwing an exception if it doesn't exist
-	 *
-	 * @param  string modelName
-	 * @param  boolean newInstance
-	 * @return Phalcon\Mvc\ModelInterface
-	 */
-	public function load(string! modelName, boolean newInstance = false) -> <ModelInterface>
-	{
-		var model;
-
-		/**
-		 * Check if a model with the same is already loaded
-		 */
-		if fetch model, this->_initialized[strtolower(modelName)] {
-			if newInstance {
-				return new {modelName}(this->_dependencyInjector, this);
-			}
-			return model;
-		}
-
-		/**
-		 * Load it using an autoloader
-		 */
-		if class_exists(modelName) {
-			return new {modelName}(this->_dependencyInjector, this);
-		}
-
-		/**
-		 * The model doesn't exist throw an exception
-		 */
-		throw new Exception("Model '" . modelName . "' could not be loaded");
 	}
 
 	/**
@@ -526,204 +366,6 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 			}
 		}
 		return "db";
-	}
-
-	/**
-	 * Receives events generated in the models and dispatches them to a events-manager if available
-	 * Notify the behaviors that are listening in the model
-	 *
-	 * @param string eventName
-	 * @param Phalcon\Mvc\ModelInterface model
-	 */
-	public function notifyEvent(string! eventName, <ModelInterface> model)
-	{
-		var status, behavior, modelsBehaviors, eventsManager,
-			customEventsManager, behaviors;
-
-		let status = null;
-
-		/**
-		 * Dispatch events to the global events manager
-		 */
-		let behaviors = this->_behaviors;
-		if typeof behaviors == "array" {
-			if fetch modelsBehaviors, behaviors[get_class_lower(model)] {
-
-				/**
-				 * Notify all the events on the behavior
-				 */
-				for behavior in modelsBehaviors {
-					let status = behavior->notify(eventName, model);
-					if status === false {
-						return false;
-					}
-				}
-			}
-
-		}
-
-		/**
-		 * Dispatch events to the global events manager
-		 */
-		let eventsManager = this->_eventsManager;
-		if typeof eventsManager == "object" {
-			let status = eventsManager->fire("model:" . eventName, model);
-			if status === false {
-				return status;
-			}
-		}
-
-		/**
-		 * A model can has a specific events manager for it
-		 */
-		let customEventsManager = this->_customEventsManager;
-		if typeof customEventsManager == "array" {
-			if fetch customEventsManager, customEventsManager[get_class_lower(model)] {
-				let status = customEventsManager->fire("model:" . eventName, model);
-				if status === false {
-					return false;
-				}
-			}
-		}
-
-		return status;
-	}
-
-	/**
-	 * Dispatch a event to the listeners and behaviors
-	 * This method expects that the endpoint listeners/behaviors returns true
-	 * meaning that a least one was implemented
-	 *
-	 * @param Phalcon\Mvc\ModelInterface model
-	 * @param string eventName
-	 * @param array data
-	 * @return boolean
-	 */
-	public function missingMethod(<ModelInterface> model, string! eventName, var data) -> boolean
-	{
-		var behaviors, modelsBehaviors, result, eventsManager, behavior;
-
-		/**
-		 * Dispatch events to the global events manager
-		 */
-		let behaviors = this->_behaviors;
-		if typeof behaviors == "array" {
-
-			if fetch modelsBehaviors, behaviors[get_class_lower(model)] {
-
-				/**
-				 * Notify all the events on the behavior
-				 */
-				for behavior in modelsBehaviors {
-					let result = behavior->missingMethod(model, eventName, data);
-					if result !== null {
-						return result;
-					}
-				}
-			}
-
-		}
-
-		/**
-		 * Dispatch events to the global events manager
-		 */
-		let eventsManager = this->_eventsManager;
-		if typeof eventsManager == "object" {
-			return eventsManager->fire("model:" . eventName, model, data);
-		}
-
-		return false;
-	}
-
-	/**
-	 * Binds a behavior to a model
-	 *
-	 * @param Phalcon\Mvc\ModelInterface model
-	 * @param Phalcon\Mvc\Model\BehaviorInterface behavior
-	 */
-	public function addBehavior(<ModelInterface> model, <\Phalcon\Mvc\Model\BehaviorInterface> behavior)
-	{
-		var entityName, modelsBehaviors;
-
-		let entityName = get_class_lower(model);
-
-		/**
-		 * Get the current behaviors
-		 */
-		if !fetch modelsBehaviors, this->_behaviors[entityName] {
-			let modelsBehaviors = [];
-		}
-
-		/**
-		 * Append the behavior to the list of behaviors
-		 */
-		let modelsBehaviors[] = behavior;
-
-		/**
-		 * Update the behaviors list
-		 */
-		let this->_behaviors[entityName] = modelsBehaviors;
-	}
-
-	/**
-	 * Sets if a model must keep snapshots
-	 *
-	 * @param Phalcon\Mvc\ModelInterface model
-	 * @param boolean keepSnapshots
-	 */
-	public function keepSnapshots(<ModelInterface> model, boolean keepSnapshots) -> void
-	{
-		let this->_keepSnapshots[get_class_lower(model)] = keepSnapshots;
-	}
-
-	/**
-	 * Checks if a model is keeping snapshots for the queried records
-	 *
-	 * @param Phalcon\Mvc\ModelInterface model
-	 * @return boolean
-	 */
-	public function isKeepingSnapshots(<ModelInterface> model) -> boolean
-	{
-		var keepSnapshots, isKeeping;
-		let keepSnapshots = this->_keepSnapshots;
-		if typeof keepSnapshots == "array" {
-			if fetch isKeeping, keepSnapshots[get_class_lower(model)] {
-				return isKeeping;
-			}
-		}
-		return false;
-	}
-
-	/**
-	 * Sets if a model must use dynamic update instead of the all-field update
-	 *
-	 * @param Phalcon\Mvc\ModelInterface model
-	 * @param boolean dynamicUpdate
-	 */
-	public function useDynamicUpdate(<ModelInterface> model, boolean dynamicUpdate)
-	{
-		var entityName;
-		let entityName = get_class_lower(model),
-			this->_dynamicUpdate[entityName] = dynamicUpdate,
-			this->_keepSnapshots[entityName] = dynamicUpdate;
-	}
-
-	/**
-	 * Checks if a model is using dynamic update instead of all-field update
-	 *
-	 * @param Phalcon\Mvc\Model model
-	 * @return boolean
-	 */
-	public function isUsingDynamicUpdate(<ModelInterface> model) -> boolean
-	{
-		var dynamicUpdate, isUsing;
-		let dynamicUpdate = this->_dynamicUpdate;
-		if typeof dynamicUpdate == "array" {
-			if fetch isUsing, dynamicUpdate[get_class_lower(model)] {
-				return isUsing;
-			}
-		}
-		return false;
 	}
 
 	/**
@@ -1889,4 +1531,119 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 		return this->_namespaceAliases;
 	}
 
+
+	/**
+	 * Receives events generated in the entities and dispatches them to a events-manager if available
+	 * Notify the behaviors that are listening in the entity
+	 *
+	 * @param string eventName
+	 * @param Phalcon\Mvc\EntityInterface entity
+	 */
+	public function notifyEvent(string! eventName, <EntityInterface> entity)
+	{
+		var status, behavior, entitiesBehaviors, eventsManager,
+			customEventsManager, behaviors;
+
+		if !(entity instanceof ModelInterface) {
+ 			throw new Exception("The entity parameter must be an object compatible with Phalcon\\Mvc\\ModelInterface");
+		}	
+
+		let status = null;
+
+		/**
+		 * Dispatch events to the global events manager
+		 */
+		let behaviors = this->_behaviors;
+		if typeof behaviors == "array" {
+			if fetch entitiesBehaviors, behaviors[get_class_lower(entity)] {
+
+				/**
+				 * Notify all the events on the behavior
+				 */
+				for behavior in entitiesBehaviors {
+					let status = behavior->notify(eventName, entity);
+					if status === false {
+						return false;
+					}
+				}
+			}
+
+		}
+
+		/**
+		 * Dispatch events to the global events manager
+		 */
+		let eventsManager = this->_eventsManager;
+		if typeof eventsManager == "object" {
+			let status = eventsManager->fire("model:" . eventName, entity);
+			if status === false {
+				return status;
+			}
+		}
+
+		/**
+		 * A entity can has a specific events manager for it
+		 */
+		let customEventsManager = this->_customEventsManager;
+		if typeof customEventsManager == "array" {
+			if fetch customEventsManager, customEventsManager[get_class_lower(entity)] {
+				let status = customEventsManager->fire("model:" . eventName, entity);
+				if status === false {
+					return false;
+				}
+			}
+		}
+
+		return status;
+	}
+
+	/**
+	 * Dispatch a event to the listeners and behaviors
+	 * This method expects that the endpoint listeners/behaviors returns true
+	 * meaning that a least one was implemented
+	 *
+	 * @param Phalcon\Mvc\EntityInterface entity
+	 * @param string eventName
+	 * @param array data
+	 * @return boolean
+	 */
+	public function missingMethod(<EntityInterface> entity, string! eventName, array! data) -> boolean
+	{
+		var behaviors, entitiesBehaviors, result, eventsManager, behavior;
+
+		if !(entity instanceof ModelInterface) {
+ 			throw new Exception("The entity parameter must be an object compatible with Phalcon\\Mvc\\ModelInterface");
+		}
+		
+		/**
+		 * Dispatch events to the global events manager
+		 */
+		let behaviors = this->_behaviors;
+		if typeof behaviors == "array" {
+
+			if fetch entitiesBehaviors, behaviors[get_class_lower(entity)] {
+
+				/**
+				 * Notify all the events on the behavior
+				 */
+				for behavior in entitiesBehaviors {
+					let result = behavior->missingMethod(entity, eventName, data);
+					if result !== null {
+						return result;
+					}
+				}
+			}
+
+		}
+
+		/**
+		 * Dispatch events to the global events manager
+		 */
+		let eventsManager = this->_eventsManager;
+		if typeof eventsManager == "object" {
+			return eventsManager->fire("model:" . eventName, entity, data);
+		}
+
+		return false;
+	}
 }

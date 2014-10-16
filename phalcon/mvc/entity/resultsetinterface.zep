@@ -17,37 +17,63 @@
  +------------------------------------------------------------------------+
  */
 
-namespace Phalcon\Mvc\Model\Validator;
-
-use Phalcon\Mvc\Model\ValidatorInterface;
-use Phalcon\Mvc\Entity\Validator\Inclusionin as Validator;
+namespace Phalcon\Mvc\Entity;
 
 /**
- * Phalcon\Mvc\Model\Validator\InclusionIn
+ * Phalcon\Mvc\Entity\ResultsetInterface
  *
- * Check if a value is included into a list of values
- *
- *<code>
- *	use Phalcon\Mvc\Model\Validator\InclusionIn as InclusionInValidator;
- *
- *	class Subscriptors extends \Phalcon\Mvc\Model
- *	{
- *
- *		public function validation()
- *		{
- *			this->validate(new InclusionInValidator(array(
- *				"field" => 'status',
- *				'domain' => array('A', 'I')
- *			)));
- *			if (this->validationHasFailed() == true) {
- *				return false;
- *			}
- *		}
- *
- *	}
- *</code>
  */
-class Inclusionin extends Validator implements ValidatorInterface
+interface ResultsetInterface
 {
-	// leave this class for backward compatibility
+
+	/**
+	 * Returns the internal type of data retrieval that the resultset is using
+	 *
+	 * @return int
+	 */
+	public function getType();
+
+	/**
+	 * Get first row in the resultset
+	 *
+	 * @return Phalcon\Mvc\EntityInterface
+	 */
+	public function getFirst();
+
+	/**
+	 * Get last row in the resultset
+	 *
+	 * @return Phalcon\Mvc\EntityInterface
+	 */
+	public function getLast();
+
+	/**
+	 * Set if the resultset is fresh or an old one cached
+	 *
+	 * @param boolean isFresh
+	 */
+	public function setIsFresh(boolean isFresh);
+
+	/**
+	 * Tell if the resultset if fresh or an old one cached
+	 *
+	 * @return boolean
+	 */
+	public function isFresh();
+
+	/**
+	 * Returns the associated cache for the resultset
+	 *
+	 * @return Phalcon\Cache\BackendInterface
+	 */
+	public function getCache();
+
+	/**
+	 * Returns a complete resultset as an array, if the resultset has a big number of rows
+	 * it could consume more memory than currently it does.
+	 *
+	 * @return array
+	 */
+	public function toArray();
+
 }

@@ -17,37 +17,14 @@
  +------------------------------------------------------------------------+
  */
 
-namespace Phalcon\Mvc\Model\Validator;
-
-use Phalcon\Mvc\Model\ValidatorInterface;
-use Phalcon\Mvc\Entity\Validator\Inclusionin as Validator;
+namespace Phalcon\Mvc\Entity;
 
 /**
- * Phalcon\Mvc\Model\Validator\InclusionIn
+ * Phalcon\Mvc\Entity\Exception
  *
- * Check if a value is included into a list of values
- *
- *<code>
- *	use Phalcon\Mvc\Model\Validator\InclusionIn as InclusionInValidator;
- *
- *	class Subscriptors extends \Phalcon\Mvc\Model
- *	{
- *
- *		public function validation()
- *		{
- *			this->validate(new InclusionInValidator(array(
- *				"field" => 'status',
- *				'domain' => array('A', 'I')
- *			)));
- *			if (this->validationHasFailed() == true) {
- *				return false;
- *			}
- *		}
- *
- *	}
- *</code>
+ * Exceptions thrown in Phalcon\Mvc\Entity\* classes will use this class
  */
-class Inclusionin extends Validator implements ValidatorInterface
+class Exception extends \Phalcon\Exception
 {
-	// leave this class for backward compatibility
+
 }
