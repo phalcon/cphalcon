@@ -23,7 +23,7 @@
 namespace Phalcon\Tests\unit\Phalcon\Logger\Adapter;
 
 use \Phalcon\Tests\unit\Phalcon\Logger\Adapter\Helper\FileBase as PhFileBase;
-use \PhalconTest\Logger\Adapter\File as PhTLoggerAdapterFile;
+use \Phalcon\Logger\Adapter\File as PhTLoggerAdapterFile;
 
 class TransactionTest extends PhFileBase
 {

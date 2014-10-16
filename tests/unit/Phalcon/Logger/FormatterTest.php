@@ -26,10 +26,9 @@ use Phalcon\Logger as PhLogger;
 use Phalcon\Logger\Exception as PhLoggerException;
 use Phalcon\Logger\Formatter\Line as PhLoggerFormatterLine;
 
-use \Phalcon\Tests\unit\Phalcon\Logger\Adapter\Helper\FileBase as PhFileBase;
-use \PhalconTest\Logger\Adapter\File as PhTLoggerAdapterFile;
+use \Phalcon\Logger\Adapter\File as PhTLoggerAdapterFile;
 
-class FormatterTest extends PhFileBase
+class FormatterTest extends Helper\FileBase
 {
     /**
      * Tests new format logs correctly

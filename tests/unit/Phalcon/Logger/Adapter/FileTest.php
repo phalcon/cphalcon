@@ -24,9 +24,9 @@ namespace Phalcon\Tests\unit\Phalcon\Logger\Adapter;
 
 use Phalcon\Logger as PhLogger;
 use Phalcon\Logger\Exception as PhLoggerException;
-use Phalcon\Logger\Formatter\Line as PhLoggerFormatterLine;
+use \Phalcon\Logger\Formatter\Line as PhLoggerFormatterLine;
+use \Phalcon\Logger\Adapter\File as PhTLoggerAdapterFile;
 use \Codeception\TestCase\Test as CdTest;
-use \PhalconTest\Logger\Adapter\File as PhTLoggerAdapterFile;
 
 class FileTest extends CdTest
 {
