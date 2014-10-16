@@ -102,7 +102,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Message, __construct) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(message_param) == IS_STRING)) {
+	if (likely(Z_TYPE_P(message_param) == IS_STRING)) {
 		zephir_get_strval(message, message_param);
 	} else {
 		ZEPHIR_INIT_VAR(message);
@@ -148,7 +148,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Message, setType) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(type_param) == IS_STRING)) {
+	if (likely(Z_TYPE_P(type_param) == IS_STRING)) {
 		zephir_get_strval(type, type_param);
 	} else {
 		ZEPHIR_INIT_VAR(type);
@@ -192,7 +192,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Message, setMessage) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(message_param) == IS_STRING)) {
+	if (likely(Z_TYPE_P(message_param) == IS_STRING)) {
 		zephir_get_strval(message, message_param);
 	} else {
 		ZEPHIR_INIT_VAR(message);
@@ -236,7 +236,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Message, setField) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(field_param) == IS_STRING)) {
+	if (likely(Z_TYPE_P(field_param) == IS_STRING)) {
 		zephir_get_strval(field, field_param);
 	} else {
 		ZEPHIR_INIT_VAR(field);

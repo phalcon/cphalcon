@@ -482,7 +482,7 @@ PHP_METHOD(Phalcon_Loader, autoLoad) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(className_param) == IS_STRING)) {
+	if (likely(Z_TYPE_P(className_param) == IS_STRING)) {
 		zephir_get_strval(className, className_param);
 	} else {
 		ZEPHIR_INIT_VAR(className);

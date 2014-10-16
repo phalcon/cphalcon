@@ -73,7 +73,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Failed, __construct) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(message_param) == IS_STRING)) {
+	if (likely(Z_TYPE_P(message_param) == IS_STRING)) {
 		zephir_get_strval(message, message_param);
 	} else {
 		ZEPHIR_INIT_VAR(message);

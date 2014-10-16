@@ -107,7 +107,7 @@ PHP_METHOD(Phalcon_Db_RawValue, __construct) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(value_param) == IS_STRING)) {
+	if (likely(Z_TYPE_P(value_param) == IS_STRING)) {
 		zephir_get_strval(value, value_param);
 	} else {
 		ZEPHIR_INIT_VAR(value);

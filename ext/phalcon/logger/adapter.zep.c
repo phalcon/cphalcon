@@ -241,7 +241,7 @@ PHP_METHOD(Phalcon_Logger_Adapter, emergency) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(message_param) == IS_STRING)) {
+	if (likely(Z_TYPE_P(message_param) == IS_STRING)) {
 		zephir_get_strval(message, message_param);
 	} else {
 		ZEPHIR_INIT_VAR(message);
@@ -281,7 +281,7 @@ PHP_METHOD(Phalcon_Logger_Adapter, debug) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(message_param) == IS_STRING)) {
+	if (likely(Z_TYPE_P(message_param) == IS_STRING)) {
 		zephir_get_strval(message, message_param);
 	} else {
 		ZEPHIR_INIT_VAR(message);
@@ -321,7 +321,7 @@ PHP_METHOD(Phalcon_Logger_Adapter, error) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(message_param) == IS_STRING)) {
+	if (likely(Z_TYPE_P(message_param) == IS_STRING)) {
 		zephir_get_strval(message, message_param);
 	} else {
 		ZEPHIR_INIT_VAR(message);
@@ -361,7 +361,7 @@ PHP_METHOD(Phalcon_Logger_Adapter, info) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(message_param) == IS_STRING)) {
+	if (likely(Z_TYPE_P(message_param) == IS_STRING)) {
 		zephir_get_strval(message, message_param);
 	} else {
 		ZEPHIR_INIT_VAR(message);
@@ -401,7 +401,7 @@ PHP_METHOD(Phalcon_Logger_Adapter, notice) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(message_param) == IS_STRING)) {
+	if (likely(Z_TYPE_P(message_param) == IS_STRING)) {
 		zephir_get_strval(message, message_param);
 	} else {
 		ZEPHIR_INIT_VAR(message);
@@ -441,7 +441,7 @@ PHP_METHOD(Phalcon_Logger_Adapter, warning) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(message_param) == IS_STRING)) {
+	if (likely(Z_TYPE_P(message_param) == IS_STRING)) {
 		zephir_get_strval(message, message_param);
 	} else {
 		ZEPHIR_INIT_VAR(message);
@@ -481,7 +481,7 @@ PHP_METHOD(Phalcon_Logger_Adapter, alert) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(message_param) == IS_STRING)) {
+	if (likely(Z_TYPE_P(message_param) == IS_STRING)) {
 		zephir_get_strval(message, message_param);
 	} else {
 		ZEPHIR_INIT_VAR(message);

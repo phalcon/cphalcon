@@ -1296,7 +1296,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getSingleJoin) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(joinType_param) == IS_STRING)) {
+	if (likely(Z_TYPE_P(joinType_param) == IS_STRING)) {
 		zephir_get_strval(joinType, joinType_param);
 	} else {
 		ZEPHIR_INIT_VAR(joinType);

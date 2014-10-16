@@ -89,7 +89,7 @@ PHP_METHOD(Phalcon_Filter, add) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(name_param) == IS_STRING)) {
+	if (likely(Z_TYPE_P(name_param) == IS_STRING)) {
 		zephir_get_strval(name, name_param);
 	} else {
 		ZEPHIR_INIT_VAR(name);
@@ -221,7 +221,7 @@ PHP_METHOD(Phalcon_Filter, _sanitize) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(filter_param) == IS_STRING)) {
+	if (likely(Z_TYPE_P(filter_param) == IS_STRING)) {
 		zephir_get_strval(filter, filter_param);
 	} else {
 		ZEPHIR_INIT_VAR(filter);

@@ -98,7 +98,7 @@ PHP_METHOD(Phalcon_Cli_Router_Route, __construct) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(pattern_param) == IS_STRING)) {
+	if (likely(Z_TYPE_P(pattern_param) == IS_STRING)) {
 		zephir_get_strval(pattern, pattern_param);
 	} else {
 		ZEPHIR_INIT_VAR(pattern);
@@ -152,7 +152,7 @@ PHP_METHOD(Phalcon_Cli_Router_Route, compilePattern) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(pattern_param) == IS_STRING)) {
+	if (likely(Z_TYPE_P(pattern_param) == IS_STRING)) {
 		zephir_get_strval(pattern, pattern_param);
 	} else {
 		ZEPHIR_INIT_VAR(pattern);
@@ -263,7 +263,7 @@ PHP_METHOD(Phalcon_Cli_Router_Route, extractNamedParams) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(pattern_param) == IS_STRING)) {
+	if (likely(Z_TYPE_P(pattern_param) == IS_STRING)) {
 		zephir_get_strval(pattern, pattern_param);
 	} else {
 		ZEPHIR_INIT_VAR(pattern);
@@ -487,7 +487,7 @@ PHP_METHOD(Phalcon_Cli_Router_Route, reConfigure) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(pattern_param) == IS_STRING)) {
+	if (likely(Z_TYPE_P(pattern_param) == IS_STRING)) {
 		zephir_get_strval(pattern, pattern_param);
 	} else {
 		ZEPHIR_INIT_VAR(pattern);
@@ -638,7 +638,7 @@ PHP_METHOD(Phalcon_Cli_Router_Route, setName) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(name_param) == IS_STRING)) {
+	if (likely(Z_TYPE_P(name_param) == IS_STRING)) {
 		zephir_get_strval(name, name_param);
 	} else {
 		ZEPHIR_INIT_VAR(name);
@@ -781,7 +781,7 @@ PHP_METHOD(Phalcon_Cli_Router_Route, convert) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(name_param) == IS_STRING)) {
+	if (likely(Z_TYPE_P(name_param) == IS_STRING)) {
 		zephir_get_strval(name, name_param);
 	} else {
 		ZEPHIR_INIT_VAR(name);
@@ -836,7 +836,7 @@ PHP_METHOD(Phalcon_Cli_Router_Route, delimiter) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(delimiter_param) == IS_STRING)) {
+	if (likely(Z_TYPE_P(delimiter_param) == IS_STRING)) {
 		zephir_get_strval(delimiter, delimiter_param);
 	} else {
 		ZEPHIR_INIT_VAR(delimiter);

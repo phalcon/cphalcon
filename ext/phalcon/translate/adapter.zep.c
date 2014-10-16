@@ -70,7 +70,7 @@ PHP_METHOD(Phalcon_Translate_Adapter, t) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(translateKey_param) == IS_STRING)) {
+	if (likely(Z_TYPE_P(translateKey_param) == IS_STRING)) {
 		zephir_get_strval(translateKey, translateKey_param);
 	} else {
 		ZEPHIR_INIT_VAR(translateKey);
@@ -108,7 +108,7 @@ PHP_METHOD(Phalcon_Translate_Adapter, _) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(translateKey_param) == IS_STRING)) {
+	if (likely(Z_TYPE_P(translateKey_param) == IS_STRING)) {
 		zephir_get_strval(translateKey, translateKey_param);
 	} else {
 		ZEPHIR_INIT_VAR(translateKey);
@@ -164,7 +164,7 @@ PHP_METHOD(Phalcon_Translate_Adapter, offsetExists) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(translateKey_param) == IS_STRING)) {
+	if (likely(Z_TYPE_P(translateKey_param) == IS_STRING)) {
 		zephir_get_strval(translateKey, translateKey_param);
 	} else {
 		ZEPHIR_INIT_VAR(translateKey);
@@ -216,7 +216,7 @@ PHP_METHOD(Phalcon_Translate_Adapter, offsetGet) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(translateKey_param) == IS_STRING)) {
+	if (likely(Z_TYPE_P(translateKey_param) == IS_STRING)) {
 		zephir_get_strval(translateKey, translateKey_param);
 	} else {
 		ZEPHIR_INIT_VAR(translateKey);

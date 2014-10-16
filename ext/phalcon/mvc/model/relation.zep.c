@@ -105,7 +105,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, __construct) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(referencedModel_param) == IS_STRING)) {
+	if (likely(Z_TYPE_P(referencedModel_param) == IS_STRING)) {
 		zephir_get_strval(referencedModel, referencedModel_param);
 	} else {
 		ZEPHIR_INIT_VAR(referencedModel);
@@ -145,7 +145,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, setIntermediateRelation) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(intermediateModel_param) == IS_STRING)) {
+	if (likely(Z_TYPE_P(intermediateModel_param) == IS_STRING)) {
 		zephir_get_strval(intermediateModel, intermediateModel_param);
 	} else {
 		ZEPHIR_INIT_VAR(intermediateModel);

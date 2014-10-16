@@ -93,7 +93,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, get) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(keyName_param) == IS_STRING)) {
+	if (likely(Z_TYPE_P(keyName_param) == IS_STRING)) {
 		zephir_get_strval(keyName, keyName_param);
 	} else {
 		ZEPHIR_INIT_VAR(keyName);
@@ -329,7 +329,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, delete) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(keyName_param) == IS_STRING)) {
+	if (likely(Z_TYPE_P(keyName_param) == IS_STRING)) {
 		zephir_get_strval(keyName, keyName_param);
 	} else {
 		ZEPHIR_INIT_VAR(keyName);

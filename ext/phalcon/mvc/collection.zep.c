@@ -369,7 +369,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, setSource) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(source_param) == IS_STRING)) {
+	if (likely(Z_TYPE_P(source_param) == IS_STRING)) {
 		zephir_get_strval(source, source_param);
 	} else {
 		ZEPHIR_INIT_VAR(source);
@@ -427,7 +427,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, setConnectionService) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(connectionService_param) == IS_STRING)) {
+	if (likely(Z_TYPE_P(connectionService_param) == IS_STRING)) {
 		zephir_get_strval(connectionService, connectionService_param);
 	} else {
 		ZEPHIR_INIT_VAR(connectionService);
@@ -508,7 +508,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, readAttribute) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(attribute_param) == IS_STRING)) {
+	if (likely(Z_TYPE_P(attribute_param) == IS_STRING)) {
 		zephir_get_strval(attribute, attribute_param);
 	} else {
 		ZEPHIR_INIT_VAR(attribute);
@@ -548,7 +548,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, writeAttribute) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(attribute_param) == IS_STRING)) {
+	if (likely(Z_TYPE_P(attribute_param) == IS_STRING)) {
 		zephir_get_strval(attribute, attribute_param);
 	} else {
 		ZEPHIR_INIT_VAR(attribute);
@@ -1070,7 +1070,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, fireEvent) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(eventName_param) == IS_STRING)) {
+	if (likely(Z_TYPE_P(eventName_param) == IS_STRING)) {
 		zephir_get_strval(eventName, eventName_param);
 	} else {
 		ZEPHIR_INIT_VAR(eventName);
@@ -1109,7 +1109,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, fireEventCancel) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(eventName_param) == IS_STRING)) {
+	if (likely(Z_TYPE_P(eventName_param) == IS_STRING)) {
 		zephir_get_strval(eventName, eventName_param);
 	} else {
 		ZEPHIR_INIT_VAR(eventName);
@@ -1701,7 +1701,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, summatory) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(field_param) == IS_STRING)) {
+	if (likely(Z_TYPE_P(field_param) == IS_STRING)) {
 		zephir_get_strval(field, field_param);
 	} else {
 		ZEPHIR_INIT_VAR(field);

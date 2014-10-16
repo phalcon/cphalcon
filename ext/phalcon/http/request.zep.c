@@ -147,7 +147,7 @@ PHP_METHOD(Phalcon_Http_Request, get) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(name_param) == IS_STRING)) {
+	if (likely(Z_TYPE_P(name_param) == IS_STRING)) {
 		zephir_get_strval(name, name_param);
 	} else {
 		ZEPHIR_INIT_VAR(name);
@@ -264,7 +264,7 @@ PHP_METHOD(Phalcon_Http_Request, getPost) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(name_param) == IS_STRING)) {
+	if (likely(Z_TYPE_P(name_param) == IS_STRING)) {
 		zephir_get_strval(name, name_param);
 	} else {
 		ZEPHIR_INIT_VAR(name);
@@ -380,7 +380,7 @@ PHP_METHOD(Phalcon_Http_Request, getQuery) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(name_param) == IS_STRING)) {
+	if (likely(Z_TYPE_P(name_param) == IS_STRING)) {
 		zephir_get_strval(name, name_param);
 	} else {
 		ZEPHIR_INIT_VAR(name);
@@ -474,7 +474,7 @@ PHP_METHOD(Phalcon_Http_Request, getServer) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(name_param) == IS_STRING)) {
+	if (likely(Z_TYPE_P(name_param) == IS_STRING)) {
 		zephir_get_strval(name, name_param);
 	} else {
 		ZEPHIR_INIT_VAR(name);
@@ -509,7 +509,7 @@ PHP_METHOD(Phalcon_Http_Request, has) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(name_param) == IS_STRING)) {
+	if (likely(Z_TYPE_P(name_param) == IS_STRING)) {
 		zephir_get_strval(name, name_param);
 	} else {
 		ZEPHIR_INIT_VAR(name);
@@ -541,7 +541,7 @@ PHP_METHOD(Phalcon_Http_Request, hasPost) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(name_param) == IS_STRING)) {
+	if (likely(Z_TYPE_P(name_param) == IS_STRING)) {
 		zephir_get_strval(name, name_param);
 	} else {
 		ZEPHIR_INIT_VAR(name);
@@ -573,7 +573,7 @@ PHP_METHOD(Phalcon_Http_Request, hasQuery) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(name_param) == IS_STRING)) {
+	if (likely(Z_TYPE_P(name_param) == IS_STRING)) {
 		zephir_get_strval(name, name_param);
 	} else {
 		ZEPHIR_INIT_VAR(name);
@@ -605,7 +605,7 @@ PHP_METHOD(Phalcon_Http_Request, hasServer) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(name_param) == IS_STRING)) {
+	if (likely(Z_TYPE_P(name_param) == IS_STRING)) {
 		zephir_get_strval(name, name_param);
 	} else {
 		ZEPHIR_INIT_VAR(name);
@@ -637,7 +637,7 @@ PHP_METHOD(Phalcon_Http_Request, getHeader) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(header_param) == IS_STRING)) {
+	if (likely(Z_TYPE_P(header_param) == IS_STRING)) {
 		zephir_get_strval(header, header_param);
 	} else {
 		ZEPHIR_INIT_VAR(header);
@@ -1555,7 +1555,7 @@ PHP_METHOD(Phalcon_Http_Request, _getQualityHeader) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(serverIndex_param) == IS_STRING)) {
+	if (likely(Z_TYPE_P(serverIndex_param) == IS_STRING)) {
 		zephir_get_strval(serverIndex, serverIndex_param);
 	} else {
 		ZEPHIR_INIT_VAR(serverIndex);
@@ -1566,7 +1566,7 @@ PHP_METHOD(Phalcon_Http_Request, _getQualityHeader) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(name_param) == IS_STRING)) {
+	if (likely(Z_TYPE_P(name_param) == IS_STRING)) {
 		zephir_get_strval(name, name_param);
 	} else {
 		ZEPHIR_INIT_VAR(name);
@@ -1638,7 +1638,7 @@ PHP_METHOD(Phalcon_Http_Request, _getBestQuality) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(name_param) == IS_STRING)) {
+	if (likely(Z_TYPE_P(name_param) == IS_STRING)) {
 		zephir_get_strval(name, name_param);
 	} else {
 		ZEPHIR_INIT_VAR(name);

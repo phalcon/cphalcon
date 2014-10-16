@@ -292,7 +292,7 @@ PHP_METHOD(Phalcon_Validation, rules) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(field_param) == IS_STRING)) {
+	if (likely(Z_TYPE_P(field_param) == IS_STRING)) {
 		zephir_get_strval(field, field_param);
 	} else {
 		ZEPHIR_INIT_VAR(field);
@@ -478,7 +478,7 @@ PHP_METHOD(Phalcon_Validation, getDefaultMessage) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(type_param) == IS_STRING)) {
+	if (likely(Z_TYPE_P(type_param) == IS_STRING)) {
 		zephir_get_strval(type, type_param);
 	} else {
 		ZEPHIR_INIT_VAR(type);
@@ -548,7 +548,7 @@ PHP_METHOD(Phalcon_Validation, getLabel) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(field_param) == IS_STRING)) {
+	if (likely(Z_TYPE_P(field_param) == IS_STRING)) {
 		zephir_get_strval(field, field_param);
 	} else {
 		ZEPHIR_INIT_VAR(field);

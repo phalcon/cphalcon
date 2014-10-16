@@ -147,7 +147,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Oracle, describeColumns) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(table_param) == IS_STRING)) {
+	if (likely(Z_TYPE_P(table_param) == IS_STRING)) {
 		zephir_get_strval(table, table_param);
 	} else {
 		ZEPHIR_INIT_VAR(table);

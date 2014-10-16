@@ -121,7 +121,7 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, setViewsDir) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(viewsDir_param) == IS_STRING)) {
+	if (likely(Z_TYPE_P(viewsDir_param) == IS_STRING)) {
 		zephir_get_strval(viewsDir, viewsDir_param);
 	} else {
 		ZEPHIR_INIT_VAR(viewsDir);
@@ -284,7 +284,7 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, _internalRender) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(path_param) == IS_STRING)) {
+	if (likely(Z_TYPE_P(path_param) == IS_STRING)) {
 		zephir_get_strval(path, path_param);
 	} else {
 		ZEPHIR_INIT_VAR(path);
@@ -391,7 +391,7 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, render) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(path_param) == IS_STRING)) {
+	if (likely(Z_TYPE_P(path_param) == IS_STRING)) {
 		zephir_get_strval(path, path_param);
 	} else {
 		ZEPHIR_INIT_VAR(path);
@@ -505,7 +505,7 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, partial) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(partialPath_param) == IS_STRING)) {
+	if (likely(Z_TYPE_P(partialPath_param) == IS_STRING)) {
 		zephir_get_strval(partialPath, partialPath_param);
 	} else {
 		ZEPHIR_INIT_VAR(partialPath);
@@ -699,7 +699,7 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, setParamToView) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(key_param) == IS_STRING)) {
+	if (likely(Z_TYPE_P(key_param) == IS_STRING)) {
 		zephir_get_strval(key, key_param);
 	} else {
 		ZEPHIR_INIT_VAR(key);
@@ -787,7 +787,7 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, setVar) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(key_param) == IS_STRING)) {
+	if (likely(Z_TYPE_P(key_param) == IS_STRING)) {
 		zephir_get_strval(key, key_param);
 	} else {
 		ZEPHIR_INIT_VAR(key);
@@ -819,7 +819,7 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, getVar) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(key_param) == IS_STRING)) {
+	if (likely(Z_TYPE_P(key_param) == IS_STRING)) {
 		zephir_get_strval(key, key_param);
 	} else {
 		ZEPHIR_INIT_VAR(key);
@@ -870,7 +870,7 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, setContent) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(content_param) == IS_STRING)) {
+	if (likely(Z_TYPE_P(content_param) == IS_STRING)) {
 		zephir_get_strval(content, content_param);
 	} else {
 		ZEPHIR_INIT_VAR(content);
@@ -930,7 +930,7 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, __set) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(key_param) == IS_STRING)) {
+	if (likely(Z_TYPE_P(key_param) == IS_STRING)) {
 		zephir_get_strval(key, key_param);
 	} else {
 		ZEPHIR_INIT_VAR(key);
@@ -966,7 +966,7 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, __get) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(key_param) == IS_STRING)) {
+	if (likely(Z_TYPE_P(key_param) == IS_STRING)) {
 		zephir_get_strval(key, key_param);
 	} else {
 		ZEPHIR_INIT_VAR(key);

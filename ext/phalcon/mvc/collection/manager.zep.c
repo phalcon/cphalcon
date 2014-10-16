@@ -311,7 +311,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, setConnectionService) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(connectionService_param) == IS_STRING)) {
+	if (likely(Z_TYPE_P(connectionService_param) == IS_STRING)) {
 		zephir_get_strval(connectionService, connectionService_param);
 	} else {
 		ZEPHIR_INIT_VAR(connectionService);
@@ -462,7 +462,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, notifyEvent) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(eventName_param) == IS_STRING)) {
+	if (likely(Z_TYPE_P(eventName_param) == IS_STRING)) {
 		zephir_get_strval(eventName, eventName_param);
 	} else {
 		ZEPHIR_INIT_VAR(eventName);

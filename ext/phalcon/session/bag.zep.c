@@ -88,7 +88,7 @@ PHP_METHOD(Phalcon_Session_Bag, __construct) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(name_param) == IS_STRING)) {
+	if (likely(Z_TYPE_P(name_param) == IS_STRING)) {
 		zephir_get_strval(name, name_param);
 	} else {
 		ZEPHIR_INIT_VAR(name);
@@ -229,7 +229,7 @@ PHP_METHOD(Phalcon_Session_Bag, set) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(property_param) == IS_STRING)) {
+	if (likely(Z_TYPE_P(property_param) == IS_STRING)) {
 		zephir_get_strval(property, property_param);
 	} else {
 		ZEPHIR_INIT_VAR(property);
@@ -276,7 +276,7 @@ PHP_METHOD(Phalcon_Session_Bag, __set) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(property_param) == IS_STRING)) {
+	if (likely(Z_TYPE_P(property_param) == IS_STRING)) {
 		zephir_get_strval(property, property_param);
 	} else {
 		ZEPHIR_INIT_VAR(property);
@@ -315,7 +315,7 @@ PHP_METHOD(Phalcon_Session_Bag, get) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(property_param) == IS_STRING)) {
+	if (likely(Z_TYPE_P(property_param) == IS_STRING)) {
 		zephir_get_strval(property, property_param);
 	} else {
 		ZEPHIR_INIT_VAR(property);
@@ -364,7 +364,7 @@ PHP_METHOD(Phalcon_Session_Bag, __get) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(property_param) == IS_STRING)) {
+	if (likely(Z_TYPE_P(property_param) == IS_STRING)) {
 		zephir_get_strval(property, property_param);
 	} else {
 		ZEPHIR_INIT_VAR(property);
@@ -402,7 +402,7 @@ PHP_METHOD(Phalcon_Session_Bag, has) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(property_param) == IS_STRING)) {
+	if (likely(Z_TYPE_P(property_param) == IS_STRING)) {
 		zephir_get_strval(property, property_param);
 	} else {
 		ZEPHIR_INIT_VAR(property);
@@ -444,7 +444,7 @@ PHP_METHOD(Phalcon_Session_Bag, __isset) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(property_param) == IS_STRING)) {
+	if (likely(Z_TYPE_P(property_param) == IS_STRING)) {
 		zephir_get_strval(property, property_param);
 	} else {
 		ZEPHIR_INIT_VAR(property);
@@ -482,7 +482,7 @@ PHP_METHOD(Phalcon_Session_Bag, remove) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(property_param) == IS_STRING)) {
+	if (likely(Z_TYPE_P(property_param) == IS_STRING)) {
 		zephir_get_strval(property, property_param);
 	} else {
 		ZEPHIR_INIT_VAR(property);
@@ -529,7 +529,7 @@ PHP_METHOD(Phalcon_Session_Bag, __unset) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(property_param) == IS_STRING)) {
+	if (likely(Z_TYPE_P(property_param) == IS_STRING)) {
 		zephir_get_strval(property, property_param);
 	} else {
 		ZEPHIR_INIT_VAR(property);

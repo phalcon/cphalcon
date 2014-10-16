@@ -408,7 +408,7 @@ PHP_METHOD(Phalcon_Mvc_Model, setSource) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(source_param) == IS_STRING)) {
+	if (likely(Z_TYPE_P(source_param) == IS_STRING)) {
 		zephir_get_strval(source, source_param);
 	} else {
 		ZEPHIR_INIT_VAR(source);
@@ -462,7 +462,7 @@ PHP_METHOD(Phalcon_Mvc_Model, setSchema) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(schema_param) == IS_STRING)) {
+	if (likely(Z_TYPE_P(schema_param) == IS_STRING)) {
 		zephir_get_strval(schema, schema_param);
 	} else {
 		ZEPHIR_INIT_VAR(schema);
@@ -516,7 +516,7 @@ PHP_METHOD(Phalcon_Mvc_Model, setConnectionService) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(connectionService_param) == IS_STRING)) {
+	if (likely(Z_TYPE_P(connectionService_param) == IS_STRING)) {
 		zephir_get_strval(connectionService, connectionService_param);
 	} else {
 		ZEPHIR_INIT_VAR(connectionService);
@@ -551,7 +551,7 @@ PHP_METHOD(Phalcon_Mvc_Model, setReadConnectionService) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(connectionService_param) == IS_STRING)) {
+	if (likely(Z_TYPE_P(connectionService_param) == IS_STRING)) {
 		zephir_get_strval(connectionService, connectionService_param);
 	} else {
 		ZEPHIR_INIT_VAR(connectionService);
@@ -586,7 +586,7 @@ PHP_METHOD(Phalcon_Mvc_Model, setWriteConnectionService) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(connectionService_param) == IS_STRING)) {
+	if (likely(Z_TYPE_P(connectionService_param) == IS_STRING)) {
 		zephir_get_strval(connectionService, connectionService_param);
 	} else {
 		ZEPHIR_INIT_VAR(connectionService);
@@ -1448,7 +1448,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _groupResult) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(functionName_param) == IS_STRING)) {
+	if (likely(Z_TYPE_P(functionName_param) == IS_STRING)) {
 		zephir_get_strval(functionName, functionName_param);
 	} else {
 		ZEPHIR_INIT_VAR(functionName);
@@ -1459,7 +1459,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _groupResult) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(alias_param) == IS_STRING)) {
+	if (likely(Z_TYPE_P(alias_param) == IS_STRING)) {
 		zephir_get_strval(alias, alias_param);
 	} else {
 		ZEPHIR_INIT_VAR(alias);
@@ -1768,7 +1768,7 @@ PHP_METHOD(Phalcon_Mvc_Model, fireEvent) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(eventName_param) == IS_STRING)) {
+	if (likely(Z_TYPE_P(eventName_param) == IS_STRING)) {
 		zephir_get_strval(eventName, eventName_param);
 	} else {
 		ZEPHIR_INIT_VAR(eventName);
@@ -1808,7 +1808,7 @@ PHP_METHOD(Phalcon_Mvc_Model, fireEventCancel) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(eventName_param) == IS_STRING)) {
+	if (likely(Z_TYPE_P(eventName_param) == IS_STRING)) {
 		zephir_get_strval(eventName, eventName_param);
 	} else {
 		ZEPHIR_INIT_VAR(eventName);
@@ -4124,7 +4124,7 @@ PHP_METHOD(Phalcon_Mvc_Model, readAttribute) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(attribute_param) == IS_STRING)) {
+	if (likely(Z_TYPE_P(attribute_param) == IS_STRING)) {
 		zephir_get_strval(attribute, attribute_param);
 	} else {
 		ZEPHIR_INIT_VAR(attribute);
@@ -4164,7 +4164,7 @@ PHP_METHOD(Phalcon_Mvc_Model, writeAttribute) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(attribute_param) == IS_STRING)) {
+	if (likely(Z_TYPE_P(attribute_param) == IS_STRING)) {
 		zephir_get_strval(attribute, attribute_param);
 	} else {
 		ZEPHIR_INIT_VAR(attribute);
@@ -4390,7 +4390,7 @@ PHP_METHOD(Phalcon_Mvc_Model, hasOne) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(referenceModel_param) == IS_STRING)) {
+	if (likely(Z_TYPE_P(referenceModel_param) == IS_STRING)) {
 		zephir_get_strval(referenceModel, referenceModel_param);
 	} else {
 		ZEPHIR_INIT_VAR(referenceModel);
@@ -4445,7 +4445,7 @@ PHP_METHOD(Phalcon_Mvc_Model, belongsTo) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(referenceModel_param) == IS_STRING)) {
+	if (likely(Z_TYPE_P(referenceModel_param) == IS_STRING)) {
 		zephir_get_strval(referenceModel, referenceModel_param);
 	} else {
 		ZEPHIR_INIT_VAR(referenceModel);
@@ -4500,7 +4500,7 @@ PHP_METHOD(Phalcon_Mvc_Model, hasMany) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(referenceModel_param) == IS_STRING)) {
+	if (likely(Z_TYPE_P(referenceModel_param) == IS_STRING)) {
 		zephir_get_strval(referenceModel, referenceModel_param);
 	} else {
 		ZEPHIR_INIT_VAR(referenceModel);
@@ -4566,7 +4566,7 @@ PHP_METHOD(Phalcon_Mvc_Model, hasManyToMany) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(intermediateModel_param) == IS_STRING)) {
+	if (likely(Z_TYPE_P(intermediateModel_param) == IS_STRING)) {
 		zephir_get_strval(intermediateModel, intermediateModel_param);
 	} else {
 		ZEPHIR_INIT_VAR(intermediateModel);
@@ -4577,7 +4577,7 @@ PHP_METHOD(Phalcon_Mvc_Model, hasManyToMany) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(referenceModel_param) == IS_STRING)) {
+	if (likely(Z_TYPE_P(referenceModel_param) == IS_STRING)) {
 		zephir_get_strval(referenceModel, referenceModel_param);
 	} else {
 		ZEPHIR_INIT_VAR(referenceModel);
@@ -5077,7 +5077,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _getRelatedRecords) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(modelName_param) == IS_STRING)) {
+	if (likely(Z_TYPE_P(modelName_param) == IS_STRING)) {
 		zephir_get_strval(modelName, modelName_param);
 	} else {
 		ZEPHIR_INIT_VAR(modelName);
@@ -5088,7 +5088,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _getRelatedRecords) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(method_param) == IS_STRING)) {
+	if (likely(Z_TYPE_P(method_param) == IS_STRING)) {
 		zephir_get_strval(method, method_param);
 	} else {
 		ZEPHIR_INIT_VAR(method);
@@ -5435,7 +5435,7 @@ PHP_METHOD(Phalcon_Mvc_Model, __get) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(property_param) == IS_STRING)) {
+	if (likely(Z_TYPE_P(property_param) == IS_STRING)) {
 		zephir_get_strval(property, property_param);
 	} else {
 		ZEPHIR_INIT_VAR(property);
@@ -5513,7 +5513,7 @@ PHP_METHOD(Phalcon_Mvc_Model, __isset) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(property_param) == IS_STRING)) {
+	if (likely(Z_TYPE_P(property_param) == IS_STRING)) {
 		zephir_get_strval(property, property_param);
 	} else {
 		ZEPHIR_INIT_VAR(property);

@@ -102,7 +102,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, __construct) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(file_param) == IS_STRING)) {
+	if (likely(Z_TYPE_P(file_param) == IS_STRING)) {
 		zephir_get_strval(file, file_param);
 	} else {
 		ZEPHIR_INIT_VAR(file);

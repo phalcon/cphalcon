@@ -73,7 +73,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, __construct) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(definition_param) == IS_STRING)) {
+	if (likely(Z_TYPE_P(definition_param) == IS_STRING)) {
 		zephir_get_strval(definition, definition_param);
 	} else {
 		ZEPHIR_INIT_VAR(definition);
@@ -109,7 +109,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, __call) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(method_param) == IS_STRING)) {
+	if (likely(Z_TYPE_P(method_param) == IS_STRING)) {
 		zephir_get_strval(method, method_param);
 	} else {
 		ZEPHIR_INIT_VAR(method);

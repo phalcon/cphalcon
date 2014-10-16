@@ -162,7 +162,7 @@ PHP_METHOD(Phalcon_Tag, renderAttributes) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(code_param) == IS_STRING)) {
+	if (likely(Z_TYPE_P(code_param) == IS_STRING)) {
 		zephir_get_strval(code, code_param);
 	} else {
 		ZEPHIR_INIT_VAR(code);
@@ -410,7 +410,7 @@ PHP_METHOD(Phalcon_Tag, setDefault) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(id_param) == IS_STRING)) {
+	if (likely(Z_TYPE_P(id_param) == IS_STRING)) {
 		zephir_get_strval(id, id_param);
 	} else {
 		ZEPHIR_INIT_VAR(id);

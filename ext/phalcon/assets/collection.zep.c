@@ -233,7 +233,7 @@ PHP_METHOD(Phalcon_Assets_Collection, addCss) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(path_param) == IS_STRING)) {
+	if (likely(Z_TYPE_P(path_param) == IS_STRING)) {
 		zephir_get_strval(path, path_param);
 	} else {
 		ZEPHIR_INIT_VAR(path);
@@ -347,7 +347,7 @@ PHP_METHOD(Phalcon_Assets_Collection, addJs) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(path_param) == IS_STRING)) {
+	if (likely(Z_TYPE_P(path_param) == IS_STRING)) {
 		zephir_get_strval(path, path_param);
 	} else {
 		ZEPHIR_INIT_VAR(path);
@@ -541,7 +541,7 @@ PHP_METHOD(Phalcon_Assets_Collection, setTargetPath) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(targetPath_param) == IS_STRING)) {
+	if (likely(Z_TYPE_P(targetPath_param) == IS_STRING)) {
 		zephir_get_strval(targetPath, targetPath_param);
 	} else {
 		ZEPHIR_INIT_VAR(targetPath);
@@ -573,7 +573,7 @@ PHP_METHOD(Phalcon_Assets_Collection, setSourcePath) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(sourcePath_param) == IS_STRING)) {
+	if (likely(Z_TYPE_P(sourcePath_param) == IS_STRING)) {
 		zephir_get_strval(sourcePath, sourcePath_param);
 	} else {
 		ZEPHIR_INIT_VAR(sourcePath);
@@ -605,7 +605,7 @@ PHP_METHOD(Phalcon_Assets_Collection, setTargetUri) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(targetUri_param) == IS_STRING)) {
+	if (likely(Z_TYPE_P(targetUri_param) == IS_STRING)) {
 		zephir_get_strval(targetUri, targetUri_param);
 	} else {
 		ZEPHIR_INIT_VAR(targetUri);
@@ -637,7 +637,7 @@ PHP_METHOD(Phalcon_Assets_Collection, setPrefix) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(prefix_param) == IS_STRING)) {
+	if (likely(Z_TYPE_P(prefix_param) == IS_STRING)) {
 		zephir_get_strval(prefix, prefix_param);
 	} else {
 		ZEPHIR_INIT_VAR(prefix);
@@ -798,7 +798,7 @@ PHP_METHOD(Phalcon_Assets_Collection, getRealTargetPath) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(basePath_param) == IS_STRING)) {
+	if (likely(Z_TYPE_P(basePath_param) == IS_STRING)) {
 		zephir_get_strval(basePath, basePath_param);
 	} else {
 		ZEPHIR_INIT_VAR(basePath);

@@ -233,7 +233,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, prepare) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(sqlStatement_param) == IS_STRING)) {
+	if (likely(Z_TYPE_P(sqlStatement_param) == IS_STRING)) {
 		zephir_get_strval(sqlStatement, sqlStatement_param);
 	} else {
 		ZEPHIR_INIT_VAR(sqlStatement);
@@ -362,7 +362,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, query) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(sqlStatement_param) == IS_STRING)) {
+	if (likely(Z_TYPE_P(sqlStatement_param) == IS_STRING)) {
 		zephir_get_strval(sqlStatement, sqlStatement_param);
 	} else {
 		ZEPHIR_INIT_VAR(sqlStatement);
@@ -451,7 +451,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, execute) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(sqlStatement_param) == IS_STRING)) {
+	if (likely(Z_TYPE_P(sqlStatement_param) == IS_STRING)) {
 		zephir_get_strval(sqlStatement, sqlStatement_param);
 	} else {
 		ZEPHIR_INIT_VAR(sqlStatement);
@@ -602,7 +602,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, escapeString) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(str_param) == IS_STRING)) {
+	if (likely(Z_TYPE_P(str_param) == IS_STRING)) {
 		zephir_get_strval(str, str_param);
 	} else {
 		ZEPHIR_INIT_VAR(str);
@@ -646,7 +646,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, convertBoundParams) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(sql_param) == IS_STRING)) {
+	if (likely(Z_TYPE_P(sql_param) == IS_STRING)) {
 		zephir_get_strval(sql, sql_param);
 	} else {
 		ZEPHIR_INIT_VAR(sql);

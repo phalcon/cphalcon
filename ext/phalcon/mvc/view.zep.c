@@ -582,7 +582,7 @@ PHP_METHOD(Phalcon_Mvc_View, setParamToView) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(key_param) == IS_STRING)) {
+	if (likely(Z_TYPE_P(key_param) == IS_STRING)) {
 		zephir_get_strval(key, key_param);
 	} else {
 		ZEPHIR_INIT_VAR(key);
@@ -670,7 +670,7 @@ PHP_METHOD(Phalcon_Mvc_View, setVar) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(key_param) == IS_STRING)) {
+	if (likely(Z_TYPE_P(key_param) == IS_STRING)) {
 		zephir_get_strval(key, key_param);
 	} else {
 		ZEPHIR_INIT_VAR(key);
@@ -702,7 +702,7 @@ PHP_METHOD(Phalcon_Mvc_View, getVar) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(key_param) == IS_STRING)) {
+	if (likely(Z_TYPE_P(key_param) == IS_STRING)) {
 		zephir_get_strval(key, key_param);
 	} else {
 		ZEPHIR_INIT_VAR(key);
@@ -1075,7 +1075,7 @@ PHP_METHOD(Phalcon_Mvc_View, exists) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(view_param) == IS_STRING)) {
+	if (likely(Z_TYPE_P(view_param) == IS_STRING)) {
 		zephir_get_strval(view, view_param);
 	} else {
 		ZEPHIR_INIT_VAR(view);
@@ -1148,7 +1148,7 @@ PHP_METHOD(Phalcon_Mvc_View, render) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(controllerName_param) == IS_STRING)) {
+	if (likely(Z_TYPE_P(controllerName_param) == IS_STRING)) {
 		zephir_get_strval(controllerName, controllerName_param);
 	} else {
 		ZEPHIR_INIT_VAR(controllerName);
@@ -1159,7 +1159,7 @@ PHP_METHOD(Phalcon_Mvc_View, render) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(actionName_param) == IS_STRING)) {
+	if (likely(Z_TYPE_P(actionName_param) == IS_STRING)) {
 		zephir_get_strval(actionName, actionName_param);
 	} else {
 		ZEPHIR_INIT_VAR(actionName);
@@ -1439,7 +1439,7 @@ PHP_METHOD(Phalcon_Mvc_View, partial) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(partialPath_param) == IS_STRING)) {
+	if (likely(Z_TYPE_P(partialPath_param) == IS_STRING)) {
 		zephir_get_strval(partialPath, partialPath_param);
 	} else {
 		ZEPHIR_INIT_VAR(partialPath);
@@ -1510,7 +1510,7 @@ PHP_METHOD(Phalcon_Mvc_View, getRender) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(controllerName_param) == IS_STRING)) {
+	if (likely(Z_TYPE_P(controllerName_param) == IS_STRING)) {
 		zephir_get_strval(controllerName, controllerName_param);
 	} else {
 		ZEPHIR_INIT_VAR(controllerName);
@@ -1521,7 +1521,7 @@ PHP_METHOD(Phalcon_Mvc_View, getRender) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(actionName_param) == IS_STRING)) {
+	if (likely(Z_TYPE_P(actionName_param) == IS_STRING)) {
 		zephir_get_strval(actionName, actionName_param);
 	} else {
 		ZEPHIR_INIT_VAR(actionName);
@@ -1863,7 +1863,7 @@ PHP_METHOD(Phalcon_Mvc_View, __set) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(key_param) == IS_STRING)) {
+	if (likely(Z_TYPE_P(key_param) == IS_STRING)) {
 		zephir_get_strval(key, key_param);
 	} else {
 		ZEPHIR_INIT_VAR(key);
@@ -1899,7 +1899,7 @@ PHP_METHOD(Phalcon_Mvc_View, __get) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(key_param) == IS_STRING)) {
+	if (likely(Z_TYPE_P(key_param) == IS_STRING)) {
 		zephir_get_strval(key, key_param);
 	} else {
 		ZEPHIR_INIT_VAR(key);

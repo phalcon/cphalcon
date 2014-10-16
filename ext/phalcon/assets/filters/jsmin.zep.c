@@ -71,7 +71,7 @@ PHP_METHOD(Phalcon_Assets_Filters_Jsmin, filter) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(content_param) == IS_STRING)) {
+	if (likely(Z_TYPE_P(content_param) == IS_STRING)) {
 		zephir_get_strval(content, content_param);
 	} else {
 		ZEPHIR_INIT_VAR(content);

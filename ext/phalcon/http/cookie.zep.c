@@ -101,7 +101,7 @@ PHP_METHOD(Phalcon_Http_Cookie, __construct) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(name_param) == IS_STRING)) {
+	if (likely(Z_TYPE_P(name_param) == IS_STRING)) {
 		zephir_get_strval(name, name_param);
 	} else {
 		ZEPHIR_INIT_VAR(name);
@@ -582,7 +582,7 @@ PHP_METHOD(Phalcon_Http_Cookie, setPath) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(path_param) == IS_STRING)) {
+	if (likely(Z_TYPE_P(path_param) == IS_STRING)) {
 		zephir_get_strval(path, path_param);
 	} else {
 		ZEPHIR_INIT_VAR(path);
@@ -641,7 +641,7 @@ PHP_METHOD(Phalcon_Http_Cookie, setDomain) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(domain_param) == IS_STRING)) {
+	if (likely(Z_TYPE_P(domain_param) == IS_STRING)) {
 		zephir_get_strval(domain, domain_param);
 	} else {
 		ZEPHIR_INIT_VAR(domain);

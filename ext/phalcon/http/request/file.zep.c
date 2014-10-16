@@ -296,7 +296,7 @@ PHP_METHOD(Phalcon_Http_Request_File, moveTo) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(destination_param) == IS_STRING)) {
+	if (likely(Z_TYPE_P(destination_param) == IS_STRING)) {
 		zephir_get_strval(destination, destination_param);
 	} else {
 		ZEPHIR_INIT_VAR(destination);

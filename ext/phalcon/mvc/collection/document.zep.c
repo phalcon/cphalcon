@@ -184,7 +184,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Document, writeAttribute) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(attribute_param) == IS_STRING)) {
+	if (likely(Z_TYPE_P(attribute_param) == IS_STRING)) {
 		zephir_get_strval(attribute, attribute_param);
 	} else {
 		ZEPHIR_INIT_VAR(attribute);
