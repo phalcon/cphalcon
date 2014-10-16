@@ -21,6 +21,7 @@ namespace Phalcon;
 
 use Phalcon\Di\Injectable;
 use Phalcon\Validation\Exception;
+use Phalcon\Validation\MessageInterface;
 use Phalcon\Validation\Message\Group;
 use Phalcon\Validation\ValidatorInterface;
 
