@@ -1226,7 +1226,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	public function getRelationRecords(<RelationInterface> relation, string! method, <ModelInterface> record, var parameters=null)
 	{
 		var preConditions, placeholders, referencedModel, intermediateModel,
-			intermediateFields, joinConditions, fields, builder,
+			intermediateFields, joinConditions, fields, builder, extraParameters,
 			conditions, refPosition, field, referencedFields, findParams,
 			findArguments, retrieveMethod, uniqueKey, records, arguments;
 		boolean reusable;
@@ -1261,6 +1261,18 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 			}
 		} else {
 			let placeholders = [];
+		}
+
+		/**
+		 * Returns parameters that must be always used when the related records are obtained
+		 */
+		let extraParameters = relation->getParams();
+		if typeof extraParameters == "array" {
+			if typeof parameters == "array" {
+				let parameters = array_merge(parameters, extraParameters);
+			} else {
+				let parameters = extraParameters;
+			}
 		}
 
 		/**

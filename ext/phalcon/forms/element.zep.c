@@ -249,10 +249,18 @@ PHP_METHOD(Phalcon_Forms_Element, getFilters) {
 PHP_METHOD(Phalcon_Forms_Element, addValidators) {
 
 	zend_bool merge;
-	zval *validators, *merge_param = NULL, *currentValidators, *mergedValidators = NULL;
+	zval *validators_param = NULL, *merge_param = NULL, *currentValidators, *mergedValidators = NULL;
+	zval *validators = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 1, &validators, &merge_param);
+	zephir_fetch_params(1, 1, 1, &validators_param, &merge_param);
+
+	if (unlikely(Z_TYPE_P(validators_param) != IS_ARRAY)) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'validators' must be an array") TSRMLS_CC);
+		RETURN_MM_NULL();
+	}
+
+		validators = validators_param;
 
 	if (!merge_param) {
 		merge = 1;
@@ -261,10 +269,6 @@ PHP_METHOD(Phalcon_Forms_Element, addValidators) {
 	}
 
 
-	if (Z_TYPE_P(validators) != IS_ARRAY) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_forms_exception_ce, "The validators parameter must be an array", "phalcon/forms/element.zep", 156);
-		return;
-	}
 	if (merge) {
 		ZEPHIR_OBS_VAR(currentValidators);
 		zephir_read_property_this(&currentValidators, this_ptr, SL("_validators"), PH_NOISY_CC);
@@ -296,10 +300,6 @@ PHP_METHOD(Phalcon_Forms_Element, addValidator) {
 
 	if (!(zephir_instance_of_ev(validator, phalcon_validation_validatorinterface_ce TSRMLS_CC))) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(spl_ce_InvalidArgumentException, "Parameter 'validator' must be an instance of 'Phalcon\\\\Validation\\\\ValidatorInterface'", "", 0);
-		return;
-	}
-	if (Z_TYPE_P(validator) != IS_OBJECT) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_forms_exception_ce, "The validators parameter must be an object", "phalcon/forms/element.zep", 179);
 		return;
 	}
 	zephir_update_property_array_append(this_ptr, SL("_validators"), validator TSRMLS_CC);
@@ -800,8 +800,8 @@ PHP_METHOD(Phalcon_Forms_Element, appendMessage) {
 
 
 
-	if (!(zephir_instance_of_ev(message, phalcon_validation_message_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'message' must be an instance of 'Phalcon\\\\Validation\\\\Message'", "", 0);
+	if (!(zephir_instance_of_ev(message, phalcon_validation_messageinterface_ce TSRMLS_CC))) {
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'message' must be an instance of 'Phalcon\\\\Validation\\\\MessageInterface'", "", 0);
 		return;
 	}
 	ZEPHIR_OBS_VAR(messages);

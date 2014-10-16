@@ -96,6 +96,6 @@ interface MessageInterface
 	 * @param array message
 	 * @return Phalcon\Validation\Message
 	 */
-	public static function __set_state(array! message) -> <Message>;
+	public static function __set_state(array! message) -> <MessageInterface>;
 
 }

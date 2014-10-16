@@ -263,6 +263,28 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, getForeignKey) {
 }
 
 /**
+ * Returns parameters that must be always used when the related records are obtained
+ *
+ * @return array
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Relation, getParams) {
+
+	zval *options, *params;
+
+
+	options = zephir_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY_CC);
+	if (Z_TYPE_P(options) == IS_ARRAY) {
+		if (zephir_array_isset_string_fetch(&params, options, SS("params"), 1 TSRMLS_CC)) {
+			if (zephir_is_true(params)) {
+				RETURN_CTORW(params);
+			}
+		}
+	}
+	RETURN_BOOL(0);
+
+}
+
+/**
  * Check whether the relation is a 'many-to-many' relation or not
  *
  * @return boolean

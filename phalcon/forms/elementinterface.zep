@@ -19,6 +19,10 @@
 
 namespace Phalcon\Forms;
 
+use Phalcon\Validation\MessageInterface;
+use Phalcon\Validation\ValidatorInterface;
+use Phalcon\Validation\Message\Group;
+
 /**
  * Phalcon\Forms\Element
  *
@@ -87,7 +91,7 @@ interface ElementInterface
 	 * @param boolean merge
 	 * @return Phalcon\Forms\ElementInterface
 	 */
-	public function addValidators(validators, merge=true);
+	public function addValidators(array! validators, merge = true);
 
 	/**
 	 * Adds a validator to the element
@@ -95,7 +99,7 @@ interface ElementInterface
 	 * @param Phalcon\Validation\ValidatorInterface
 	 * @return Phalcon\Forms\ElementInterface
 	 */
-	public function addValidator(<\Phalcon\Validation\ValidatorInterface> validator);
+	public function addValidator(<ValidatorInterface> validator);
 
 	/**
 	 * Returns the validators registered for the element
@@ -112,7 +116,7 @@ interface ElementInterface
 	 * @param boolean useChecked
 	 * @return array
 	 */
-	public function prepareAttributes(attributes=null, useChecked=false);
+	public function prepareAttributes(attributes = null, useChecked = false);
 
 	/**
 	 * Sets a default attribute for the element
@@ -130,7 +134,7 @@ interface ElementInterface
 	 * @param mixed defaultValue
 	 * @return mixed
 	 */
-	public function getAttribute(attribute, defaultValue=null);
+	public function getAttribute(attribute, defaultValue = null);
 
 	/**
 	 * Sets default attributes for the element
@@ -163,7 +167,7 @@ interface ElementInterface
 	 * @param mixed defaultValue
 	 * @return mixed
 	 */
-	public function getUserOption(option, defaultValue=null);
+	public function getUserOption(option, defaultValue = null);
 
 	/**
 	 * Sets options for the element
@@ -246,7 +250,7 @@ interface ElementInterface
 	 * @param Phalcon\Validation\Message\Group group
 	 * @return Phalcon\Forms\ElementInterface
 	 */
-	public function setMessages(<\Phalcon\Validation\Message\Group> group);
+	public function setMessages(<Group> group);
 
 	/**
 	 * Appends a message to the internal message list
@@ -254,7 +258,7 @@ interface ElementInterface
 	 * @param Phalcon\Validation\Message message
 	 * @return Phalcon\Forms\ElementInterface
 	 */
-	public function appendMessage(<\Phalcon\Validation\Message> message);
+	public function appendMessage(<MessageInterface> message);
 
 	/**
 	 * Clears every element in the form to its default value
@@ -269,6 +273,6 @@ interface ElementInterface
 	 * @param array attributes
 	 * @return string
 	 */
-	public function render(attributes=null);
+	public function render(attributes = null);
 
 }

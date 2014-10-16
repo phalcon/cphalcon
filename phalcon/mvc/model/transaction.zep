@@ -19,6 +19,8 @@
 
 namespace Phalcon\Mvc\Model;
 
+use Phalcon\DiInterface;
+use Phalcon\Mvc\ModelInterface;
 use Phalcon\Mvc\Model\Transaction\Failed as TxFailed;
 use Phalcon\Mvc\Model\Transaction\ManagerInterface;
 use Phalcon\Mvc\Model\TransactionInterface;
@@ -84,7 +86,7 @@ class Transaction implements TransactionInterface
 	 * @param boolean autoBegin
 	 * @param string service
 	 */
-	public function __construct(<\Phalcon\DiInterface> dependencyInjector, boolean autoBegin=false, service=null)
+	public function __construct(<DiInterface> dependencyInjector, boolean autoBegin = false, service = null)
 	{
 		var connection;
 
@@ -115,7 +117,7 @@ class Transaction implements TransactionInterface
 	 *
 	 * @return boolean
 	 */
-	public function begin()
+	public function begin() -> boolean
 	{
 		return this->_connection->begin();
 	}
@@ -237,7 +239,7 @@ class Transaction implements TransactionInterface
 	 *
 	 * @param Phalcon\Mvc\ModelInterface record
 	 */
-	public function setRollbackedRecord(<\Phalcon\Mvc\ModelInterface> record)
+	public function setRollbackedRecord(<ModelInterface> record)
 	{
 		let this->_rollbackRecord = record;
 	}
