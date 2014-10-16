@@ -77,9 +77,9 @@ class Version
 	 * D - Special release: 1 = Alpha, 2 = Beta, 3 = RC, 4 = Stable
 	 * E - Special release version i.e. RC1, Beta2 etc.
 	 */
-	protected static function _getVersion()
+	protected static function _getVersion() -> array
 	{
-		return [2, 0, 0, 2, 2];
+		return [2, 0, 0, 2, 3];
 	}
 
 	/**
@@ -89,7 +89,7 @@ class Version
 	 *
 	 * @return string
 	 */
-    protected static function _getSpecial(int special) -> string
+    protected final static function _getSpecial(int special) -> string
     {
         var suffix = "";
 
@@ -133,7 +133,7 @@ class Version
 		let result  = major . "." . medium . "." . minor . " ";
 		let suffix  = self::_getSpecial(special);
 
-		if (suffix != "") {
+		if suffix != "" {
 		    let result .= suffix . " " . specialNumber;
 		}
 
@@ -198,4 +198,5 @@ class Version
 
         return result;
     }
+
 }

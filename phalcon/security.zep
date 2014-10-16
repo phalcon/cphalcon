@@ -319,5 +319,4 @@ class Security implements InjectionAwareInterface
 		return ops;
 	}
 
-
 }

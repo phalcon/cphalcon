@@ -92,7 +92,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Document, offsetGet) {
 	if (zephir_fetch_property_zval(&value, this_ptr, index, PH_SILENT_CC)) {
 		RETURN_CCTOR(value);
 	}
-	ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_collection_exception_ce, "The index does not exist in the row", "phalcon/mvc/collection/document.zep", 53);
+	ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_collection_exception_ce, "The index does not exist in the row", "phalcon/mvc/collection/document.zep", 55);
 	return;
 
 }
@@ -129,7 +129,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Document, offsetUnset) {
 
 
 
-	ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_mvc_collection_exception_ce, "The index does not exist in the row", "phalcon/mvc/collection/document.zep", 75);
+	ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_mvc_collection_exception_ce, "The index does not exist in the row", "phalcon/mvc/collection/document.zep", 77);
 	return;
 
 }
@@ -184,8 +184,8 @@ PHP_METHOD(Phalcon_Mvc_Collection_Document, writeAttribute) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(attribute_param) == IS_STRING)) {
-		attribute = attribute_param;
+	if (likely(Z_TYPE_P(attribute_param) == IS_STRING)) {
+		zephir_get_strval(attribute, attribute_param);
 	} else {
 		ZEPHIR_INIT_VAR(attribute);
 		ZVAL_EMPTY_STRING(attribute);

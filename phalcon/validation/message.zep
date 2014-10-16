@@ -131,7 +131,7 @@ class Message implements MessageInterface
 	 * @param array message
 	 * @return Phalcon\Validation\Message
 	 */
-	public static function __set_state(message) -> <Message>
+	public static function __set_state(array! message) -> <Message>
 	{
 		return new self(message["_message"], message["_field"], message["_type"]);
 	}

@@ -24,6 +24,8 @@
 #include "kernel/fcall.h"
 #include "kernel/memory.h"
 
+#include "phalcon/mvc/model/orm.h"
+
 zend_class_entry *phalcon_di_injectionawareinterface_ce;
 zend_class_entry *phalcon_events_eventsawareinterface_ce;
 zend_class_entry *phalcon_validation_validatorinterface_ce;
@@ -869,9 +871,6 @@ static PHP_MSHUTDOWN_FUNCTION(phalcon)
 
 	zephir_deinitialize_memory(TSRMLS_C);
 
-	//assert(ZEPHIR_GLOBAL(orm).parser_cache == NULL);
-	//assert(ZEPHIR_GLOBAL(orm).ast_cache == NULL);
-
 	return SUCCESS;
 }
 #endif
@@ -892,10 +891,13 @@ static void php_zephir_init_globals(zend_phalcon_globals *zephir_globals TSRMLS_
 	zephir_globals->recursive_lock = 0;
 
 	zephir_globals->db.escape_identifiers = 1;
-	zephir_globals->orm.column_renaming = 1;
-	zephir_globals->orm.events = 1;
+	zephir_globals->orm.parser_cache = NULL;
+	zephir_globals->orm.ast_cache = NULL;
 	zephir_globals->orm.cache_level = 3;
+	zephir_globals->orm.unique_cache_id = 3;
+	zephir_globals->orm.events = 1;
 	zephir_globals->orm.virtual_foreign_keys = 1;
+	zephir_globals->orm.column_renaming = 1;
 	zephir_globals->orm.not_null_validations = 1;
 	zephir_globals->orm.exception_on_failed_save = 0;
 	zephir_globals->orm.enable_literals = 1;
@@ -917,6 +919,8 @@ static PHP_RINIT_FUNCTION(phalcon)
 
 static PHP_RSHUTDOWN_FUNCTION(phalcon)
 {
+
+	phalcon_orm_destroy_cache(TSRMLS_C);
 
 	zephir_deinitialize_memory(TSRMLS_C);
 	return SUCCESS;

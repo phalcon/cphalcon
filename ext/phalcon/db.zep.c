@@ -12,9 +12,10 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
-#include "kernel/exception.h"
 #include "kernel/array.h"
 #include "kernel/memory.h"
+#include "ext/spl/spl_exceptions.h"
+#include "kernel/exception.h"
 
 
 /*
@@ -93,17 +94,21 @@ ZEPHIR_INIT_CLASS(Phalcon_Db) {
  */
 PHP_METHOD(Phalcon_Db, setup) {
 
-	zval *options, *escapeIdentifiers;
+	zval *options_param = NULL, *escapeIdentifiers;
+	zval *options = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &options);
+	zephir_fetch_params(1, 1, 0, &options_param);
 
-
-
-	if (Z_TYPE_P(options) != IS_ARRAY) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Options must be an array", "phalcon/db.zep", 79);
-		return;
+	if (unlikely(Z_TYPE_P(options_param) != IS_ARRAY)) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'options' must be an array") TSRMLS_CC);
+		RETURN_MM_NULL();
 	}
+
+		options = options_param;
+
+
+
 	ZEPHIR_OBS_VAR(escapeIdentifiers);
 	if (zephir_array_isset_string_fetch(&escapeIdentifiers, options, SS("escapeSqlIdentifiers"), 0 TSRMLS_CC)) {
 	}

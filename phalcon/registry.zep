@@ -72,24 +72,30 @@
  */
 final class Registry implements \ArrayAccess
 {
-	public function offsetExists(var offset)
-	{
+	private _data;
 
+	public function __construct()
+	{
+		let this->_data = [];
+	}
+
+	public function offsetExists(var offset) -> boolean
+	{
+		return isset this->_data[offset];
 	}
 
 	public function offsetGet(var offset)
 	{
-
+		return this->_data[offset];
 	}
 
 	public function offsetSet(var offset, var value)
 	{
-
+		let this->_data[offset] = value;
 	}
 
 	public function offsetUnset(var offset)
 	{
-
+		unset this->_data[offset];
 	}
-
 }

@@ -233,8 +233,8 @@ PHP_METHOD(Phalcon_Assets_Collection, addCss) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(path_param) == IS_STRING)) {
-		path = path_param;
+	if (likely(Z_TYPE_P(path_param) == IS_STRING)) {
+		zephir_get_strval(path, path_param);
 	} else {
 		ZEPHIR_INIT_VAR(path);
 		ZVAL_EMPTY_STRING(path);
@@ -347,8 +347,8 @@ PHP_METHOD(Phalcon_Assets_Collection, addJs) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(path_param) == IS_STRING)) {
-		path = path_param;
+	if (likely(Z_TYPE_P(path_param) == IS_STRING)) {
+		zephir_get_strval(path, path_param);
 	} else {
 		ZEPHIR_INIT_VAR(path);
 		ZVAL_EMPTY_STRING(path);
@@ -541,8 +541,8 @@ PHP_METHOD(Phalcon_Assets_Collection, setTargetPath) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(targetPath_param) == IS_STRING)) {
-		targetPath = targetPath_param;
+	if (likely(Z_TYPE_P(targetPath_param) == IS_STRING)) {
+		zephir_get_strval(targetPath, targetPath_param);
 	} else {
 		ZEPHIR_INIT_VAR(targetPath);
 		ZVAL_EMPTY_STRING(targetPath);
@@ -573,8 +573,8 @@ PHP_METHOD(Phalcon_Assets_Collection, setSourcePath) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(sourcePath_param) == IS_STRING)) {
-		sourcePath = sourcePath_param;
+	if (likely(Z_TYPE_P(sourcePath_param) == IS_STRING)) {
+		zephir_get_strval(sourcePath, sourcePath_param);
 	} else {
 		ZEPHIR_INIT_VAR(sourcePath);
 		ZVAL_EMPTY_STRING(sourcePath);
@@ -605,8 +605,8 @@ PHP_METHOD(Phalcon_Assets_Collection, setTargetUri) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(targetUri_param) == IS_STRING)) {
-		targetUri = targetUri_param;
+	if (likely(Z_TYPE_P(targetUri_param) == IS_STRING)) {
+		zephir_get_strval(targetUri, targetUri_param);
 	} else {
 		ZEPHIR_INIT_VAR(targetUri);
 		ZVAL_EMPTY_STRING(targetUri);
@@ -637,8 +637,8 @@ PHP_METHOD(Phalcon_Assets_Collection, setPrefix) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(prefix_param) == IS_STRING)) {
-		prefix = prefix_param;
+	if (likely(Z_TYPE_P(prefix_param) == IS_STRING)) {
+		zephir_get_strval(prefix, prefix_param);
 	} else {
 		ZEPHIR_INIT_VAR(prefix);
 		ZVAL_EMPTY_STRING(prefix);
@@ -798,8 +798,8 @@ PHP_METHOD(Phalcon_Assets_Collection, getRealTargetPath) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(basePath_param) == IS_STRING)) {
-		basePath = basePath_param;
+	if (likely(Z_TYPE_P(basePath_param) == IS_STRING)) {
+		zephir_get_strval(basePath, basePath_param);
 	} else {
 		ZEPHIR_INIT_VAR(basePath);
 		ZVAL_EMPTY_STRING(basePath);

@@ -15,9 +15,9 @@
 #include "kernel/object.h"
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/exception.h"
+#include "kernel/operators.h"
 #include "kernel/memory.h"
 #include "kernel/array.h"
-#include "kernel/operators.h"
 
 
 /*
@@ -105,8 +105,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, __construct) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(referencedModel_param) == IS_STRING)) {
-		referencedModel = referencedModel_param;
+	if (likely(Z_TYPE_P(referencedModel_param) == IS_STRING)) {
+		zephir_get_strval(referencedModel, referencedModel_param);
 	} else {
 		ZEPHIR_INIT_VAR(referencedModel);
 		ZVAL_EMPTY_STRING(referencedModel);
@@ -145,8 +145,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, setIntermediateRelation) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(intermediateModel_param) == IS_STRING)) {
-		intermediateModel = intermediateModel_param;
+	if (likely(Z_TYPE_P(intermediateModel_param) == IS_STRING)) {
+		zephir_get_strval(intermediateModel, intermediateModel_param);
 	} else {
 		ZEPHIR_INIT_VAR(intermediateModel);
 		ZVAL_EMPTY_STRING(intermediateModel);
@@ -255,6 +255,28 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, getForeignKey) {
 		if (zephir_array_isset_string_fetch(&foreignKey, options, SS("foreignKey"), 1 TSRMLS_CC)) {
 			if (zephir_is_true(foreignKey)) {
 				RETURN_CTORW(foreignKey);
+			}
+		}
+	}
+	RETURN_BOOL(0);
+
+}
+
+/**
+ * Returns parameters that must be always used when the related records are obtained
+ *
+ * @return array
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Relation, getParams) {
+
+	zval *options, *params;
+
+
+	options = zephir_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY_CC);
+	if (Z_TYPE_P(options) == IS_ARRAY) {
+		if (zephir_array_isset_string_fetch(&params, options, SS("params"), 1 TSRMLS_CC)) {
+			if (zephir_is_true(params)) {
+				RETURN_CTORW(params);
 			}
 		}
 	}

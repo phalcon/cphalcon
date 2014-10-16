@@ -19,6 +19,10 @@
 
 namespace Phalcon\Validation\Validator;
 
+use Phalcon\Validation\Validator;
+use Phalcon\Validation\Message;
+use Phalcon\Validation\ValidatorInterface;
+
 /**
  * Phalcon\Validation\Validator\Alnum
  *
@@ -32,7 +36,7 @@ namespace Phalcon\Validation\Validator;
  *)));
  *</code>
  */
-class Alnum extends \Phalcon\Validation\Validator implements \Phalcon\Validation\ValidatorInterface
+class Alnum extends Validator implements ValidatorInterface
 {
 
 	/**
@@ -65,7 +69,7 @@ class Alnum extends \Phalcon\Validation\Validator implements \Phalcon\Validation
 				let message = validation->getDefaultMessage("Alnum");
 			}
 
-			validation->appendMessage(new \Phalcon\Validation\Message(strtr(message, replacePairs), field, "Alnum"));
+			validation->appendMessage(new Message(strtr(message, replacePairs), field, "Alnum"));
 			return false;
 		}
 

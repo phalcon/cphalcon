@@ -171,8 +171,8 @@ PHP_METHOD(Phalcon_Di_Injectable, __get) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(propertyName_param) == IS_STRING)) {
-		propertyName = propertyName_param;
+	if (likely(Z_TYPE_P(propertyName_param) == IS_STRING)) {
+		zephir_get_strval(propertyName, propertyName_param);
 	} else {
 		ZEPHIR_INIT_VAR(propertyName);
 		ZVAL_EMPTY_STRING(propertyName);

@@ -13,6 +13,8 @@
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
+#include "kernel/object.h"
+#include "kernel/array.h"
 
 
 /*
@@ -87,30 +89,50 @@ ZEPHIR_INIT_CLASS(Phalcon_Registry) {
 
 	ZEPHIR_REGISTER_CLASS(Phalcon, Registry, phalcon, registry, phalcon_registry_method_entry, 0);
 
+	zend_declare_property_null(phalcon_registry_ce, SL("_data"), ZEND_ACC_PRIVATE TSRMLS_CC);
+
 	zend_class_implements(phalcon_registry_ce TSRMLS_CC, 1, zend_ce_arrayaccess);
 	return SUCCESS;
 
 }
 
+PHP_METHOD(Phalcon_Registry, __construct) {
+
+	zval *_0;
+
+	ZEPHIR_MM_GROW();
+
+	ZEPHIR_INIT_VAR(_0);
+	array_init(_0);
+	zephir_update_property_this(this_ptr, SL("_data"), _0 TSRMLS_CC);
+	ZEPHIR_MM_RESTORE();
+
+}
+
 PHP_METHOD(Phalcon_Registry, offsetExists) {
 
-	zval *offset;
+	zval *offset, *_0;
 
 	zephir_fetch_params(0, 1, 0, &offset);
 
 
 
+	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_data"), PH_NOISY_CC);
+	RETURN_BOOL(zephir_array_isset(_0, offset));
 
 }
 
 PHP_METHOD(Phalcon_Registry, offsetGet) {
 
-	zval *offset;
+	zval *offset, *_0, *_1;
 
 	zephir_fetch_params(0, 1, 0, &offset);
 
 
 
+	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_data"), PH_NOISY_CC);
+	zephir_array_fetch(&_1, _0, offset, PH_NOISY | PH_READONLY, "phalcon/registry.zep", 89 TSRMLS_CC);
+	RETURN_CTORW(_1);
 
 }
 
@@ -122,17 +144,20 @@ PHP_METHOD(Phalcon_Registry, offsetSet) {
 
 
 
+	zephir_update_property_array(this_ptr, SL("_data"), offset, value TSRMLS_CC);
 
 }
 
 PHP_METHOD(Phalcon_Registry, offsetUnset) {
 
-	zval *offset;
+	zval *offset, *_0;
 
 	zephir_fetch_params(0, 1, 0, &offset);
 
 
 
+	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_data"), PH_NOISY_CC);
+	zephir_array_unset(&_0, offset, PH_SEPARATE);
 
 }
 

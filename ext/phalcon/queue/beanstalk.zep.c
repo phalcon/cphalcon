@@ -270,8 +270,8 @@ PHP_METHOD(Phalcon_Queue_Beanstalk, choose) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(tube_param) == IS_STRING)) {
-		tube = tube_param;
+	if (likely(Z_TYPE_P(tube_param) == IS_STRING)) {
+		zephir_get_strval(tube, tube_param);
 	} else {
 		ZEPHIR_INIT_VAR(tube);
 		ZVAL_EMPTY_STRING(tube);
@@ -314,8 +314,8 @@ PHP_METHOD(Phalcon_Queue_Beanstalk, watch) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(tube_param) == IS_STRING)) {
-		tube = tube_param;
+	if (likely(Z_TYPE_P(tube_param) == IS_STRING)) {
+		zephir_get_strval(tube, tube_param);
 	} else {
 		ZEPHIR_INIT_VAR(tube);
 		ZVAL_EMPTY_STRING(tube);

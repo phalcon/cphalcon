@@ -20,6 +20,7 @@
 namespace Phalcon\Paginator\Adapter;
 
 use Phalcon\Mvc\Model\Query\Builder;
+use Phalcon\Paginator\AdapterInterface;
 use Phalcon\Paginator\Exception;
 
 /**
@@ -40,7 +41,7 @@ use Phalcon\Paginator\Exception;
  *  ));
  *</code>
  */
-class QueryBuilder implements \Phalcon\Paginator\AdapterInterface
+class QueryBuilder implements AdapterInterface
 {
 	/**
 	 * Configuration of paginator by model
@@ -110,7 +111,7 @@ class QueryBuilder implements \Phalcon\Paginator\AdapterInterface
 	{
 		return this->_page;
 	}
-	
+
 	/**
 	 * Set current rows limit
 	 *
@@ -121,10 +122,10 @@ class QueryBuilder implements \Phalcon\Paginator\AdapterInterface
 	public function setLimit(int limitRows) -> <QueryBuilder>
 	{
 		let this->_limitRows = limitRows;
-		
+
 		return this;
 	}
-	
+
 	/**
 	 * Get current rows limit
 	 *
@@ -134,7 +135,7 @@ class QueryBuilder implements \Phalcon\Paginator\AdapterInterface
 	{
 		return this->_limitRows;
 	}
-	
+
 	/**
 	 * Set query builder object
 	 *
@@ -145,10 +146,10 @@ class QueryBuilder implements \Phalcon\Paginator\AdapterInterface
 	public function setQueryBuilder(<Builder> builder) -> <QueryBuilder>
 	{
 		let this->_builder = builder;
-		
+
 		return this;
 	}
-	
+
 	/**
 	 * Get query builder object
 	 *
@@ -158,7 +159,7 @@ class QueryBuilder implements \Phalcon\Paginator\AdapterInterface
 	{
 		return this->_builder;
 	}
-	
+
 	/**
 	 * Returns a slice of the resultset to show in the pagination
 	 *

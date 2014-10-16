@@ -99,7 +99,7 @@ interface CollectionInterface
 	 * @param array document
 	 * @return Phalcon\Mvc\Collection
 	 */
-	public static function cloneResult(<\Phalcon\Mvc\Collection> collection, document);
+	public static function cloneResult(<CollectionInterface> collection, array! document);
 
 	/**
 	 * Fires an event, implicitly calls behaviors and listeners in the events manager are notified
@@ -160,7 +160,7 @@ interface CollectionInterface
 	 * @param array parameters
 	 * @return array
 	 */
-	public static function findFirst(parameters=null);
+	public static function findFirst(parameters = null);
 
 	/**
 	 * Allows to query a set of records that match the specified conditions
@@ -168,7 +168,7 @@ interface CollectionInterface
 	 * @param 	array parameters
 	 * @return  array
 	 */
-	public static function find(parameters=null);
+	public static function find(parameters = null);
 
 	/**
 	 * Perform a count over a collection
@@ -176,7 +176,7 @@ interface CollectionInterface
 	 * @param array parameters
 	 * @return array
 	 */
-	public static function count(parameters=null);
+	public static function count(parameters = null);
 
 	/**
 	 * Deletes a model instance. Returning true on success or false otherwise

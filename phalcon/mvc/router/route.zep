@@ -19,6 +19,8 @@
 
 namespace Phalcon\Mvc\Router;
 
+use Phalcon\Mvc\Router\Exception;
+
 /**
  * Phalcon\Mvc\Router\Route
  *
@@ -161,7 +163,7 @@ class Route
 	 * @param string pattern
 	 * @return array|boolean
 	 */
-	public function extractNamedParams(string! pattern)
+	public function extractNamedParams(string! pattern) -> array | boolean
 	{
 
 		char ch;
@@ -374,7 +376,7 @@ class Route
 		}
 
 		if typeof routePaths !== "array" {
-			throw new \Phalcon\Mvc\Router\Exception("The route contains invalid paths");
+			throw new Exception("The route contains invalid paths");
 		}
 
 		/**
@@ -581,7 +583,7 @@ class Route
 	/**
 	 * Sets the group associated with the route
 	 *
-	 * @param Phalcon\Mvc\Router\Group $group
+	 * @param Phalcon\Mvc\Router\Group group
 	 * @return Phalcon\Mvc\RouteInterface
 	 */
 	public function setGroup(group) -> <Route>
@@ -630,5 +632,4 @@ class Route
 	{
 		let self::_uniqueId = null;
 	}
-
 }

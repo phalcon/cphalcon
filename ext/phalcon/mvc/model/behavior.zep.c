@@ -90,8 +90,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior, mustTakeAction) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(eventName_param) == IS_STRING)) {
-		eventName = eventName_param;
+	if (likely(Z_TYPE_P(eventName_param) == IS_STRING)) {
+		zephir_get_strval(eventName, eventName_param);
 	} else {
 		ZEPHIR_INIT_VAR(eventName);
 		ZVAL_EMPTY_STRING(eventName);
@@ -126,8 +126,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior, getOptions) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(eventName_param) == IS_STRING)) {
-		eventName = eventName_param;
+	if (likely(Z_TYPE_P(eventName_param) == IS_STRING)) {
+		zephir_get_strval(eventName, eventName_param);
 	} else {
 		ZEPHIR_INIT_VAR(eventName);
 		ZVAL_EMPTY_STRING(eventName);

@@ -15,6 +15,7 @@
 #include "phalcon/assets/filters/jsminifier.h"
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/exception.h"
+#include "kernel/operators.h"
 #include "kernel/memory.h"
 
 
@@ -70,8 +71,8 @@ PHP_METHOD(Phalcon_Assets_Filters_Jsmin, filter) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(content_param) == IS_STRING)) {
-		content = content_param;
+	if (likely(Z_TYPE_P(content_param) == IS_STRING)) {
+		zephir_get_strval(content, content_param);
 	} else {
 		ZEPHIR_INIT_VAR(content);
 		ZVAL_EMPTY_STRING(content);

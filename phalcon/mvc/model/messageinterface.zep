@@ -34,7 +34,7 @@ interface MessageInterface
      * @param string field
      * @param string type
      */
-	public function __construct(message, field=null, type=null);
+	public function __construct(message, field = null, type = null);
 
     /**
      * Sets message type
@@ -91,6 +91,6 @@ interface MessageInterface
      * @param array message
      * @return Phalcon\Mvc\Model\MessageInterface
      */
-	public static function __set_state(message);
+	public static function __set_state(array! message) -> <MessageInterface>;
 
 }

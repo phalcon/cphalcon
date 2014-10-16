@@ -449,12 +449,6 @@ int zephir_call_user_function(zval **object_pp, zend_class_entry *obj_ce, zephir
 		}
 	}
 
-	//#ifndef ZEPHIR_RELEASE
-	//if (Z_ISREF_P(zephir_globals_ptr->global_null)) {
-	//	fprintf(stderr, "F=%s\n", fcall_key);
-	//}
-	//#endif
-
 	if (fcall_key) {
 		efree(fcall_key);
 	}

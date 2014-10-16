@@ -408,7 +408,10 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 		$this->assertInstanceOf('Phalcon\Mvc\Model\Row', $result[0]);
 
 		// Issue 1011
-		$result = $manager->executeQuery('SELECT r.name le_name FROM Robots r ORDER BY r.name ASC LIMIT ?1,?2', array(1 => 1, 2 => 2), array(1 => \Phalcon\Db\Column::BIND_PARAM_INT, 2 => \Phalcon\Db\Column::BIND_PARAM_INT));
+		$result = $manager->executeQuery('SELECT r.name le_name FROM Robots r ORDER BY r.name ASC LIMIT ?1,?2', 
+			array(1 => 1, 2 => 2), 
+			array(1 => \Phalcon\Db\Column::BIND_PARAM_INT, 2 => \Phalcon\Db\Column::BIND_PARAM_INT
+		));
 		$this->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Simple', $result);
 		$this->assertEquals(count($result), 2);
 		$this->assertInstanceOf('Phalcon\Mvc\Model\Row', $result[0]);

@@ -25,6 +25,7 @@ use Phalcon\Mvc\Model\ResultsetInterface;
 use Phalcon\Mvc\Model\Exception;
 use Phalcon\Cache\BackendInterface;
 use Phalcon\Db\ResultInterface;
+use Phalcon\Mvc\Model\Row;
 
 /**
  * Phalcon\Mvc\Model\Resultset\Complex
@@ -43,7 +44,7 @@ class Complex extends Resultset implements ResultsetInterface
 	 * @param Phalcon\Db\ResultInterface result
 	 * @param Phalcon\Cache\BackendInterface cache
 	 */
-	public function __construct(var columnTypes, <ResultInterface> result, <BackendInterface> cache=null)
+	public function __construct(var columnTypes, <ResultInterface> result, <BackendInterface> cache = null)
 	{
 
 		/**
@@ -139,7 +140,7 @@ class Complex extends Resultset implements ResultsetInterface
 				switch hydrateMode {
 
 					case Resultset::HYDRATE_RECORDS:
-						let activeRow = new \Phalcon\Mvc\Model\Row();
+						let activeRow = new Row();
 						break;
 
 					case Resultset::HYDRATE_ARRAYS:
@@ -164,15 +165,12 @@ class Complex extends Resultset implements ResultsetInterface
 
 				for alias, column in columnTypes {
 
-					//var_dump(alias);
-					//var_dump(typeof column);
-
 					if typeof column != "array" {
 						throw new Exception("Column type is corrupt");
 					}
 
 					let type = column["type"];
-					if typeof type == "object" {
+					if type == "object" {
 
 						/**
 						 * Object columns are assigned column by column
@@ -190,7 +188,8 @@ class Complex extends Resultset implements ResultsetInterface
 							/**
 							 * Columns are supposed to be in the form _table_field
 							 */
-							let columnValue = row[underscore . source . underscore. attribute], rowModel[attribute] = columnValue;
+							let columnValue = row[underscore . source . underscore. attribute],
+								rowModel[attribute] = columnValue;
 						}
 
 						/**
