@@ -606,26 +606,39 @@ PHP_METHOD(Phalcon_Forms_Element, getLabel) {
 /**
  * Generate the HTML to label the element
  *
+ * @param array attributes
  * @return string
  */
 PHP_METHOD(Phalcon_Forms_Element, label) {
 
 	zephir_nts_static zephir_fcall_cache_entry *_0 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *attributes = NULL, *label, *name = NULL, *code = NULL, *_1, *_2 = NULL;
+	zval *attributes = NULL, *internalAttributes = NULL, *label, *name = NULL, *code = NULL, *_1, *_2 = NULL;
 
 	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 0, 1, &attributes);
 
-	ZEPHIR_CALL_METHOD(&attributes, this_ptr, "getattributes",  NULL);
+	if (!attributes) {
+		ZEPHIR_CPY_WRT(attributes, ZEPHIR_GLOBAL(global_null));
+	} else {
+		ZEPHIR_SEPARATE_PARAM(attributes);
+	}
+
+
+	ZEPHIR_CALL_METHOD(&internalAttributes, this_ptr, "getattributes",  NULL);
 	zephir_check_call_status();
 	ZEPHIR_OBS_VAR(name);
-	if (!(zephir_array_isset_string_fetch(&name, attributes, SS("id"), 0 TSRMLS_CC))) {
+	if (!(zephir_array_isset_string_fetch(&name, internalAttributes, SS("id"), 0 TSRMLS_CC))) {
 		ZEPHIR_OBS_NVAR(name);
 		zephir_read_property_this(&name, this_ptr, SL("_name"), PH_NOISY_CC);
-	} else {
-		zephir_array_unset_string(&attributes, SS("id"), PH_SEPARATE);
 	}
-	if (!(zephir_array_isset_string(attributes, SS("for")))) {
+	if (Z_TYPE_P(attributes) == IS_ARRAY) {
+		if (!(zephir_array_isset_string(attributes, SS("for")))) {
+			zephir_array_update_string(&attributes, SL("for"), &name, PH_COPY | PH_SEPARATE);
+		}
+	} else {
+		ZEPHIR_INIT_NVAR(attributes);
+		array_init_size(attributes, 2);
 		zephir_array_update_string(&attributes, SL("for"), &name, PH_COPY | PH_SEPARATE);
 	}
 	ZEPHIR_INIT_VAR(_1);

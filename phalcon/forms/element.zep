@@ -395,25 +395,28 @@ abstract class Element
 	/**
 	 * Generate the HTML to label the element
 	 *
+	 * @param array attributes
 	 * @return string
 	 */
-	public function label() -> string
+	public function label(var attributes = null) -> string
 	{
-		var attributes, label, name, code;
+		var internalAttributes, label, name, code;
 
 		/**
 		 * Check if there is an "id" attribute defined
 		 */
-		let attributes = this->getAttributes();
+		let internalAttributes = this->getAttributes();
 
-		if !fetch name, attributes["id"] {
+		if !fetch name, internalAttributes["id"] {
 			let name = this->_name;
-		} else {
-			unset attributes["id"];
 		}
 
-		if !isset attributes["for"] {
-			let attributes["for"] = name;
+		if typeof attributes == "array" {
+			if !isset attributes["for"] {
+				let attributes["for"] = name;
+			}
+		} else {
+			let attributes = ["for": name];
 		}
 
 		let code = \Phalcon\Tag::renderAttributes("<label", attributes);

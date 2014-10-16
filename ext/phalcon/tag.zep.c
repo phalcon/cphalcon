@@ -138,7 +138,7 @@ PHP_METHOD(Phalcon_Tag, getEscaper) {
 }
 
 /**
- * Renders parameters keeping order in html attributes
+ * Renders parameters keeping order in their HTML attributes
  *
  * @param string code
  * @param array attributes
@@ -286,7 +286,7 @@ PHP_METHOD(Phalcon_Tag, getDI) {
 }
 
 /**
- * Return a URL service from the default DI
+ * Returns a URL service from the default DI
  *
  * @return Phalcon\Mvc\UrlInterface
  */

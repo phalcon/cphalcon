@@ -105,7 +105,7 @@ class Tag
 	}
 
 	/**
-	 * Renders parameters keeping order in html attributes
+	 * Renders parameters keeping order in their HTML attributes
 	 *
 	 * @param string code
 	 * @param array attributes
@@ -159,7 +159,7 @@ class Tag
 	}
 
 	/**
-	 * Return a URL service from the default DI
+	 * Returns a URL service from the default DI
 	 *
 	 * @return Phalcon\Mvc\UrlInterface
 	 */

@@ -19,6 +19,11 @@
 
 namespace Phalcon\Validation\Validator;
 
+use Phalcon\Validation\Validator;
+use Phalcon\Validation\ValidatorInterface;
+use Phalcon\Validation\Exception;
+use Phalcon\Validation\Message;
+
 /**
  * Phalcon\Validation\Validator\InclusionIn
  *
@@ -33,7 +38,7 @@ namespace Phalcon\Validation\Validator;
  *)));
  *</code>
  */
-class InclusionIn extends \Phalcon\Validation\Validator implements \Phalcon\Validation\ValidatorInterface
+class InclusionIn extends Validator implements ValidatorInterface
 {
 
 	/**
@@ -58,7 +63,7 @@ class InclusionIn extends \Phalcon\Validation\Validator implements \Phalcon\Vali
 		 */
 		let domain = this->getOption("domain");
 		if typeof domain != "array" {
-			throw new \Phalcon\Validation\Exception("Option 'domain' must be an array");
+			throw new Exception("Option 'domain' must be an array");
 		}
 
 		/**
@@ -77,11 +82,10 @@ class InclusionIn extends \Phalcon\Validation\Validator implements \Phalcon\Vali
 				let message = validation->getDefaultMessage("InclusionIn");
 			}
 
-			validation->appendMessage(new \Phalcon\Validation\Message(strtr(message, replacePairs), field, "InclusionIn"));
+			validation->appendMessage(new Message(strtr(message, replacePairs), field, "InclusionIn"));
 			return false;
 		}
 
 		return true;
 	}
-
 }

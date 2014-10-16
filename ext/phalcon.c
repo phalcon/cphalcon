@@ -353,6 +353,7 @@ zend_class_entry *phalcon_validation_validator_exclusionin_ce;
 zend_class_entry *phalcon_validation_validator_file_ce;
 zend_class_entry *phalcon_validation_validator_identical_ce;
 zend_class_entry *phalcon_validation_validator_inclusionin_ce;
+zend_class_entry *phalcon_validation_validator_numericality_ce;
 zend_class_entry *phalcon_validation_validator_presenceof_ce;
 zend_class_entry *phalcon_validation_validator_regex_ce;
 zend_class_entry *phalcon_validation_validator_stringlength_ce;
@@ -851,6 +852,7 @@ static PHP_MINIT_FUNCTION(phalcon)
 	ZEPHIR_INIT(Phalcon_Validation_Validator_File);
 	ZEPHIR_INIT(Phalcon_Validation_Validator_Identical);
 	ZEPHIR_INIT(Phalcon_Validation_Validator_InclusionIn);
+	ZEPHIR_INIT(Phalcon_Validation_Validator_Numericality);
 	ZEPHIR_INIT(Phalcon_Validation_Validator_PresenceOf);
 	ZEPHIR_INIT(Phalcon_Validation_Validator_Regex);
 	ZEPHIR_INIT(Phalcon_Validation_Validator_StringLength);

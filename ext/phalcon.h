@@ -330,6 +330,7 @@
 #include "phalcon/validation/validator/file.zep.h"
 #include "phalcon/validation/validator/identical.zep.h"
 #include "phalcon/validation/validator/inclusionin.zep.h"
+#include "phalcon/validation/validator/numericality.zep.h"
 #include "phalcon/validation/validator/presenceof.zep.h"
 #include "phalcon/validation/validator/regex.zep.h"
 #include "phalcon/validation/validator/stringlength.zep.h"

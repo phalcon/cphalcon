@@ -19,6 +19,11 @@
 
 namespace Phalcon\Validation\Validator;
 
+use Phalcon\Validation;
+use Phalcon\Validation\Message;
+use Phalcon\Validation\Validator;
+use Phalcon\Validation\ValidatorInterface;
+
 /**
  * Phalcon\Validation\Validator\Digit
  *
@@ -32,7 +37,7 @@ namespace Phalcon\Validation\Validator;
  *)));
  *</code>
  */
-class Digit extends \Phalcon\Validation\Validator implements \Phalcon\Validation\ValidatorInterface
+class Digit extends Validator implements ValidatorInterface
 {
 
 	/**
@@ -42,7 +47,7 @@ class Digit extends \Phalcon\Validation\Validator implements \Phalcon\Validation
 	 * @param  string             field
 	 * @return boolean
 	 */
-	public function validate(<\Phalcon\Validation> validation, string! field) -> boolean
+	public function validate(<Validation> validation, string! field) -> boolean
 	{
 		var value, message, label, replacePairs;
 
@@ -65,7 +70,7 @@ class Digit extends \Phalcon\Validation\Validator implements \Phalcon\Validation
 				let message = validation->getDefaultMessage("Digit");
 			}
 
-			validation->appendMessage(new \Phalcon\Validation\Message(strtr(message, replacePairs), field, "Digit"));
+			validation->appendMessage(new Message(strtr(message, replacePairs), field, "Digit"));
 			return false;
 		}
 
