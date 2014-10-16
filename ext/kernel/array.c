@@ -1309,6 +1309,8 @@ int zephir_array_update_multi(zval **arr, zval **value TSRMLS_DC, const char *ty
 						}
 						must_continue = 1;
 					}
+				} else {
+					Z_DELREF_P(fetched);
 				}
 				if (!must_continue) {
 					re_update = Z_REFCOUNT_P(p) > 1;
@@ -1339,6 +1341,8 @@ int zephir_array_update_multi(zval **arr, zval **value TSRMLS_DC, const char *ty
 						}
 						must_continue = 1;
 					}
+				} else {
+					Z_DELREF_P(fetched);
 				}
 				if (!must_continue) {
 					re_update = Z_REFCOUNT_P(p) > 1;
@@ -1369,6 +1373,8 @@ int zephir_array_update_multi(zval **arr, zval **value TSRMLS_DC, const char *ty
 						}
 						must_continue = 1;
 					}
+				} else {
+					Z_DELREF_P(fetched);
 				}
 				if (!must_continue) {
 					re_update = Z_REFCOUNT_P(p) > 1;

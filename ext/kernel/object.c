@@ -1068,6 +1068,8 @@ int zephir_update_property_array_multi(zval *object, const char *property, zend_
 							}
 							must_continue = 1;
 						}
+					} else {
+						Z_DELREF_P(fetched);
 					}
 					if (!must_continue) {
 						re_update = Z_REFCOUNT_P(p) > 1;
@@ -1079,7 +1081,7 @@ int zephir_update_property_array_multi(zval *object, const char *property, zend_
 							zephir_array_update_string(&p, s, l, &tmp, PH_SEPARATE);
 							if (re_update) {
 								wrap_tmp = 1;
-							} else { 
+							} else {
 								p = tmp;
 							}
 						}
@@ -1098,6 +1100,8 @@ int zephir_update_property_array_multi(zval *object, const char *property, zend_
 							}
 							must_continue = 1;
 						}
+					} else {
+						Z_DELREF_P(fetched);
 					}
 					if (!must_continue) {
 						re_update = Z_REFCOUNT_P(p) > 1;
@@ -1109,7 +1113,7 @@ int zephir_update_property_array_multi(zval *object, const char *property, zend_
 							zephir_array_update_long(&p, ll, &tmp, PH_SEPARATE ZEPHIR_DEBUG_PARAMS_DUMMY);
 							if (re_update) {
 								wrap_tmp = 1;
-							} else { 
+							} else {
 								p = tmp;
 							}
 						}
@@ -1128,6 +1132,8 @@ int zephir_update_property_array_multi(zval *object, const char *property, zend_
 							}
 							must_continue = 1;
 						}
+					} else {
+						Z_DELREF_P(fetched);
 					}
 					if (!must_continue) {
 						re_update = Z_REFCOUNT_P(p) > 1;
@@ -1139,7 +1145,7 @@ int zephir_update_property_array_multi(zval *object, const char *property, zend_
 							zephir_array_update_zval(&p, item, &tmp, PH_SEPARATE);
 							if (re_update) {
 								wrap_tmp = 1;
-							} else { 
+							} else {
 								p = tmp;
 							}
 						}
@@ -1680,6 +1686,8 @@ int zephir_update_static_property_array_multi_ce(zend_class_entry *ce, const cha
 						}
 						must_continue = 1;
 					}
+				} else {
+					Z_DELREF_P(fetched);
 				}
 				if (!must_continue) {
 					re_update = Z_REFCOUNT_P(p) > 1;
@@ -1691,7 +1699,7 @@ int zephir_update_static_property_array_multi_ce(zend_class_entry *ce, const cha
 						zephir_array_update_string(&p, s, l, &tmp, PH_SEPARATE);
 						if (re_update) {
 							wrap_tmp = 1;
-						} else { 
+						} else {
 							p = tmp;
 						}
 					}
@@ -1710,6 +1718,8 @@ int zephir_update_static_property_array_multi_ce(zend_class_entry *ce, const cha
 						}
 						must_continue = 1;
 					}
+				} else {
+					Z_DELREF_P(fetched);
 				}
 				if (!must_continue) {
 					re_update = Z_REFCOUNT_P(p) > 1;
@@ -1721,7 +1731,7 @@ int zephir_update_static_property_array_multi_ce(zend_class_entry *ce, const cha
 						zephir_array_update_long(&p, ll, &tmp, PH_SEPARATE ZEPHIR_DEBUG_PARAMS_DUMMY);
 						if (re_update) {
 							wrap_tmp = 1;
-						} else { 
+						} else {
 							p = tmp;
 						}
 					}
@@ -1740,6 +1750,8 @@ int zephir_update_static_property_array_multi_ce(zend_class_entry *ce, const cha
 						}
 						must_continue = 1;
 					}
+				} else {
+					Z_DELREF_P(fetched);
 				}
 				if (!must_continue) {
 					re_update = Z_REFCOUNT_P(p) > 1;
@@ -1751,7 +1763,7 @@ int zephir_update_static_property_array_multi_ce(zend_class_entry *ce, const cha
 						zephir_array_update_zval(&p, item, &tmp, PH_SEPARATE);
 						if (re_update) {
 							wrap_tmp = 1;
-						} else { 
+						} else {
 							p = tmp;
 						}
 					}

@@ -1744,7 +1744,9 @@ PHP_METHOD(Phalcon_Tag, appendTitle) {
 	zephir_get_strval(title, title_param);
 
 
+	ZEPHIR_OBS_VAR(_0);
 	zephir_read_static_property_ce(&_0, phalcon_tag_ce, SL("_documentTitle") TSRMLS_CC);
+	ZEPHIR_OBS_VAR(_1);
 	zephir_read_static_property_ce(&_1, phalcon_tag_ce, SL("_documentTitleSeparator") TSRMLS_CC);
 	ZEPHIR_INIT_VAR(_2);
 	ZEPHIR_CONCAT_VVV(_2, _0, _1, title);
@@ -1769,7 +1771,9 @@ PHP_METHOD(Phalcon_Tag, prependTitle) {
 	zephir_get_strval(title, title_param);
 
 
+	ZEPHIR_OBS_VAR(_0);
 	zephir_read_static_property_ce(&_0, phalcon_tag_ce, SL("_documentTitleSeparator") TSRMLS_CC);
+	ZEPHIR_OBS_VAR(_1);
 	zephir_read_static_property_ce(&_1, phalcon_tag_ce, SL("_documentTitle") TSRMLS_CC);
 	ZEPHIR_INIT_VAR(_2);
 	ZEPHIR_CONCAT_VVV(_2, title, _0, _1);
