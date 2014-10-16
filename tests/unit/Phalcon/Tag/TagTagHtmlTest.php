@@ -22,7 +22,7 @@
 
 namespace Phalcon\Tests\unit\Phalcon\Tag;
 
-use Phalcon\Tag as PhTag;
+use \PhalconTest\Tag as PhTTag;
 
 class TagTagHtmlTest extends Helper\TagBase
 {
@@ -41,8 +41,8 @@ class TagTagHtmlTest extends Helper\TagBase
                 $name     = 'aside';
                 $expected = '<aside>';
 
-                PhTag::setDocType(PhTag::XHTML10_STRICT);
-                $actual = PhTag::tagHtml($name);
+                PhTTag::setDocType(PhTTag::XHTML10_STRICT);
+                $actual = PhTTag::tagHtml($name);
 
                 expect($actual)->equals($expected);
             }
@@ -55,8 +55,8 @@ class TagTagHtmlTest extends Helper\TagBase
                 $name     = 'aside';
                 $expected = '<aside></aside>';
 
-                PhTag::setDocType(PhTag::HTML5);
-                $actual = PhTag::tagHtml($name);
+                PhTTag::setDocType(PhTTag::HTML5);
+                $actual = PhTTag::tagHtml($name);
 
                 expect($actual)->equals($expected);
             }
@@ -78,8 +78,8 @@ class TagTagHtmlTest extends Helper\TagBase
                 $name     = 'aside';
                 $expected = '<aside />';
 
-                PhTag::setDocType(PhTag::XHTML10_STRICT);
-                $actual = PhTag::tagHtml($name, null, true);
+                PhTTag::setDocType(PhTTag::XHTML10_STRICT);
+                $actual = PhTTag::tagHtml($name, null, true);
 
                 expect($actual)->equals($expected);
             }
@@ -92,8 +92,8 @@ class TagTagHtmlTest extends Helper\TagBase
                 $name     = 'aside';
                 $expected = '<aside></aside>';
 
-                PhTag::setDocType(PhTag::HTML5);
-                $actual = PhTag::tagHtml($name, null, true);
+                PhTTag::setDocType(PhTTag::HTML5);
+                $actual = PhTTag::tagHtml($name, null, true);
 
                 expect($actual)->equals($expected);
             }
@@ -115,8 +115,8 @@ class TagTagHtmlTest extends Helper\TagBase
                 $name     = 'aside';
                 $expected = '<aside>';
 
-                PhTag::setDocType(PhTag::XHTML10_STRICT);
-                $actual = PhTag::tagHtml($name, null, null, true);
+                PhTTag::setDocType(PhTTag::XHTML10_STRICT);
+                $actual = PhTTag::tagHtml($name, null, null, true);
 
                 expect($actual)->equals($expected);
             }
@@ -129,8 +129,8 @@ class TagTagHtmlTest extends Helper\TagBase
                 $name     = 'aside';
                 $expected = '<aside>';
 
-                PhTag::setDocType(PhTag::HTML5);
-                $actual = PhTag::tagHtml($name, null, null, true);
+                PhTTag::setDocType(PhTTag::HTML5);
+                $actual = PhTTag::tagHtml($name, null, null, true);
 
                 expect($actual)->equals($expected);
             }
@@ -152,8 +152,8 @@ class TagTagHtmlTest extends Helper\TagBase
                 $name     = 'aside';
                 $expected = '<aside>' . PHP_EOL;
 
-                PhTag::setDocType(PhTag::XHTML10_STRICT);
-                $actual = PhTag::tagHtml($name, null, null, null, true);
+                PhTTag::setDocType(PhTTag::XHTML10_STRICT);
+                $actual = PhTTag::tagHtml($name, null, null, null, true);
 
                 expect($actual)->equals($expected);
             }
@@ -166,8 +166,8 @@ class TagTagHtmlTest extends Helper\TagBase
                 $name     = 'aside';
                 $expected = '<aside></aside>' . PHP_EOL;
 
-                PhTag::setDocType(PhTag::HTML5);
-                $actual = PhTag::tagHtml($name, null, null, null, true);
+                PhTTag::setDocType(PhTTag::HTML5);
+                $actual = PhTTag::tagHtml($name, null, null, null, true);
 
                 expect($actual)->equals($expected);
             }
@@ -194,8 +194,8 @@ class TagTagHtmlTest extends Helper\TagBase
                 ];
                 $expected = '<canvas id="canvas1" width="300" height="300">';
 
-                PhTag::setDocType(PhTag::XHTML10_STRICT);
-                $actual = PhTag::tagHtml($name, $options);
+                PhTTag::setDocType(PhTTag::XHTML10_STRICT);
+                $actual = PhTTag::tagHtml($name, $options);
 
                 expect($actual)->equals($expected);
             }
@@ -214,8 +214,8 @@ class TagTagHtmlTest extends Helper\TagBase
                 $expected = '<canvas id="canvas1" width="300" height="300">'
                           . '</canvas>';
 
-                PhTag::setDocType(PhTag::HTML5);
-                $actual = PhTag::tagHtml($name, $options);
+                PhTTag::setDocType(PhTTag::HTML5);
+                $actual = PhTTag::tagHtml($name, $options);
 
                 expect($actual)->equals($expected);
             }
@@ -237,8 +237,8 @@ class TagTagHtmlTest extends Helper\TagBase
                 $name     = 'canvas';
                 $expected = '</canvas>';
 
-                PhTag::setDocType(PhTag::XHTML10_STRICT);
-                $actual = PhTag::tagHtmlClose($name);
+                PhTTag::setDocType(PhTTag::XHTML10_STRICT);
+                $actual = PhTTag::tagHtmlClose($name);
 
                 expect($actual)->equals($expected);
             }
@@ -251,8 +251,8 @@ class TagTagHtmlTest extends Helper\TagBase
                 $name     = 'canvas';
                 $expected = '</canvas>';
 
-                PhTag::setDocType(PhTag::HTML5);
-                $actual = PhTag::tagHtmlClose($name);
+                PhTTag::setDocType(PhTTag::HTML5);
+                $actual = PhTTag::tagHtmlClose($name);
 
                 expect($actual)->equals($expected);
             }
@@ -274,8 +274,8 @@ class TagTagHtmlTest extends Helper\TagBase
                 $name     = 'canvas';
                 $expected = '</canvas>' . PHP_EOL;
 
-                PhTag::setDocType(PhTag::XHTML10_STRICT);
-                $actual = PhTag::tagHtmlClose($name, true);
+                PhTTag::setDocType(PhTTag::XHTML10_STRICT);
+                $actual = PhTTag::tagHtmlClose($name, true);
 
                 expect($actual)->equals($expected);
             }
@@ -288,8 +288,8 @@ class TagTagHtmlTest extends Helper\TagBase
                 $name     = 'canvas';
                 $expected = '</canvas>' . PHP_EOL;
 
-                PhTag::setDocType(PhTag::HTML5);
-                $actual = PhTag::tagHtmlClose($name, true);
+                PhTTag::setDocType(PhTTag::HTML5);
+                $actual = PhTTag::tagHtmlClose($name, true);
 
                 expect($actual)->equals($expected);
             }

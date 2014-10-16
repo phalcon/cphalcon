@@ -247,9 +247,9 @@ class Tag extends PhTag
         return parent::prependTitle($title);
     }
 
-    public static function getTitle($title)
+    public static function getTitle($tags = true)
     {
-        return parent::getTitle($title);
+        return parent::getTitle($tags);
     }
 
     public static function getTitleSeparator()

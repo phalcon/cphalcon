@@ -22,7 +22,7 @@
 
 namespace Phalcon\Tests\unit\Phalcon\Tag;
 
-use Phalcon\Tag as PhTag;
+use \PhalconTest\Tag as PhTTag;
 
 class TagJavascriptIncludeTest extends Helper\TagBase
 {
@@ -40,7 +40,7 @@ class TagJavascriptIncludeTest extends Helper\TagBase
 
                 $options  = 'js/phalcon.js';
                 $expected = '<script type="text/javascript" src="/js/phalcon.js"></script>' . PHP_EOL;
-                $actual   = PhTag::javascriptInclude($options);
+                $actual   = PhTTag::javascriptInclude($options);
 
                 expect($actual)->equals($expected);
             }
@@ -61,7 +61,7 @@ class TagJavascriptIncludeTest extends Helper\TagBase
 
                 $options  = ['js/phalcon.js'];
                 $expected = '<script type="text/javascript" src="/js/phalcon.js"></script>' . PHP_EOL;
-                $actual   = PhTag::javascriptInclude($options);
+                $actual   = PhTTag::javascriptInclude($options);
 
                 expect($actual)->equals($expected);
             }
@@ -82,7 +82,7 @@ class TagJavascriptIncludeTest extends Helper\TagBase
 
                 $options  = ['js/phalcon.js'];
                 $expected = '<script type="text/javascript" src="/js/phalcon.js"></script>' . PHP_EOL;
-                $actual   = PhTag::javascriptInclude($options, 'hello');
+                $actual   = PhTTag::javascriptInclude($options, 'hello');
 
                 expect($actual)->equals($expected);
             }
@@ -103,7 +103,7 @@ class TagJavascriptIncludeTest extends Helper\TagBase
 
                 $options  = 'http://my.local.com/js/phalcon.js';
                 $expected = '<script type="text/javascript" src="http://my.local.com/js/phalcon.js"></script>' . PHP_EOL;
-                $actual   = PhTag::javascriptInclude($options, false);
+                $actual   = PhTTag::javascriptInclude($options, false);
 
                 expect($actual)->equals($expected);
             }
@@ -124,7 +124,7 @@ class TagJavascriptIncludeTest extends Helper\TagBase
 
                 $options  = ['http://my.local.com/js/phalcon.js'];
                 $expected = '<script type="text/javascript" src="http://my.local.com/js/phalcon.js"></script>' . PHP_EOL;
-                $actual   = PhTag::javascriptInclude($options, false);
+                $actual   = PhTTag::javascriptInclude($options, false);
 
                 expect($actual)->equals($expected);
             }

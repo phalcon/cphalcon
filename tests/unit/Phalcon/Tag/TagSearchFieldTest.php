@@ -22,8 +22,6 @@
 
 namespace Phalcon\Tests\unit\Phalcon\Tag;
 
-use Phalcon\Tag as PhTag;
-
 class TagSearchFieldTest extends Helper\TagBase
 {
     /**

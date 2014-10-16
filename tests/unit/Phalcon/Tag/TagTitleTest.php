@@ -22,7 +22,7 @@
 
 namespace Phalcon\Tests\unit\Phalcon\Tag;
 
-use Phalcon\Tag as PhTag;
+use \PhalconTest\Tag as PhTTag;
 
 class TagTitleTest extends Helper\TagBase
 {
@@ -41,10 +41,10 @@ class TagTitleTest extends Helper\TagBase
 
                 $value = 'This is my title';
 
-                PhTag::setTitle($value);
+                PhTTag::setTitle($value);
 
                 $expected = "<title>{$value}</title>" . PHP_EOL;
-                $actual   = PhTag::getTitle();
+                $actual   = PhTTag::getTitle();
 
                 expect($actual)->equals($expected);
             }
@@ -65,14 +65,14 @@ class TagTitleTest extends Helper\TagBase
 
                 $value = 'This is my title';
 
-                PhTag::setTitle($value);
+                PhTTag::setTitle($value);
 
                 $append = ' - Welcome!';
 
-                PhTag::appendTitle($append);
+                PhTTag::appendTitle($append);
 
                 $expected = "<title>{$value}{$append}</title>" . PHP_EOL;
-                $actual   = PhTag::getTitle();
+                $actual   = PhTTag::getTitle();
 
                 expect($actual)->equals($expected);
             }
@@ -93,14 +93,14 @@ class TagTitleTest extends Helper\TagBase
 
                 $value = 'This is my title';
 
-                PhTag::setTitle($value);
+                PhTTag::setTitle($value);
 
                 $prepend = 'PhalconPHP -';
 
-                PhTag::prependTitle($prepend);
+                PhTTag::prependTitle($prepend);
 
                 $expected = "<title>{$prepend}{$value}</title>" . PHP_EOL;
-                $actual   = PhTag::getTitle();
+                $actual   = PhTTag::getTitle();
 
                 expect($actual)->equals($expected);
             }
@@ -119,10 +119,10 @@ class TagTitleTest extends Helper\TagBase
             "titleSeparator returns incorrect result",
             function () {
 
-                PhTag::setTitleSeparator('-');
+                PhTTag::setTitleSeparator('-');
 
                 $expected = "-";
-                $actual   = PhTag::getTitleSeparator();
+                $actual   = PhTTag::getTitleSeparator();
 
                 expect($actual)->equals($expected);
             }
@@ -144,12 +144,12 @@ class TagTitleTest extends Helper\TagBase
                 $value = 'This is my title';
                 $addon = 'PhalconPHP';
 
-                PhTag::setTitle($value);
-                PhTag::setTitleSeparator('-');
-                PhTag::appendTitle($addon);
+                PhTTag::setTitle($value);
+                PhTTag::setTitleSeparator('-');
+                PhTTag::appendTitle($addon);
 
                 $expected = "<title>{$value}-{$addon}</title>" . PHP_EOL;
-                $actual   = PhTag::getTitle();
+                $actual   = PhTTag::getTitle();
 
                 expect($actual)->equals($expected);
             }
@@ -171,12 +171,12 @@ class TagTitleTest extends Helper\TagBase
                 $value = 'This is my title';
                 $addon = 'PhalconPHP';
 
-                PhTag::setTitle($value);
-                PhTag::setTitleSeparator('-');
-                PhTag::prependTitle($addon);
+                PhTTag::setTitle($value);
+                PhTTag::setTitleSeparator('-');
+                PhTTag::prependTitle($addon);
 
                 $expected = "<title>{$addon}-{$value}</title>" . PHP_EOL;
-                $actual   = PhTag::getTitle();
+                $actual   = PhTTag::getTitle();
 
                 expect($actual)->equals($expected);
             }
