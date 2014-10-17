@@ -545,7 +545,7 @@ int zephir_call_class_method_aparams(zval **return_value_ptr, zend_class_entry *
 	uint param_count, zval **params TSRMLS_DC)
 {
 	zval *rv = NULL, **rvp = return_value_ptr ? return_value_ptr : &rv;
-	zval fn = zval_used_for_init;
+	zval *fn;
 	zval *mn;
 	int status;
 
@@ -563,38 +563,39 @@ int zephir_call_class_method_aparams(zval **return_value_ptr, zend_class_entry *
 		}
 	}
 
+	ALLOC_INIT_ZVAL(fn);
 	if (!cache_entry || !*cache_entry) {
 
-		array_init_size(&fn, 2);
+		array_init_size(fn, 2);
 		switch (type) {
-			case zephir_fcall_parent: add_next_index_stringl(&fn, ZEND_STRL("parent"), 1); break;
-			case zephir_fcall_self:   assert(!ce); add_next_index_stringl(&fn, ZEND_STRL("self"), 1); break;
-			case zephir_fcall_static: assert(!ce); add_next_index_stringl(&fn, ZEND_STRL("static"), 1); break;
+			case zephir_fcall_parent: add_next_index_stringl(fn, ZEND_STRL("parent"), 1); break;
+			case zephir_fcall_self:   assert(!ce); add_next_index_stringl(fn, ZEND_STRL("self"), 1); break;
+			case zephir_fcall_static: assert(!ce); add_next_index_stringl(fn, ZEND_STRL("static"), 1); break;
 
 			case zephir_fcall_ce:
 				assert(ce != NULL);
-				add_next_index_stringl(&fn, ce->name, ce->name_length, !IS_INTERNED(ce->name));
+				add_next_index_stringl(fn, ce->name, ce->name_length, !IS_INTERNED(ce->name));
 				break;
 
 			case zephir_fcall_method:
 			default:
 				assert(object != NULL);
 				Z_ADDREF_P(object);
-				add_next_index_zval(&fn, object);
+				add_next_index_zval(fn, object);
 				break;
 		}
 
 		ALLOC_INIT_ZVAL(mn);
 		ZVAL_STRINGL(mn, method_name, method_len, 0);
-		add_next_index_zval(&fn, mn);
+		add_next_index_zval(fn, mn);
 
 	} else {
-		ZVAL_STRINGL(&fn, "undefined", sizeof("undefined")-1, 0);
+		ZVAL_STRINGL(fn, "undefined", sizeof("undefined")-1, 0);
 	}
 
-	status = zephir_call_user_function(object ? &object : NULL, ce, type, &fn, rvp, cache_entry, param_count, params TSRMLS_CC);
+	status = zephir_call_user_function(object ? &object : NULL, ce, type, fn, rvp, cache_entry, param_count, params TSRMLS_CC);
 
-	if (Z_TYPE_P(&fn) == IS_ARRAY) {
+	if (Z_TYPE_P(fn) == IS_ARRAY) {
 		if (Z_REFCOUNT_P(mn) > 1) {
 			zval_copy_ctor(mn);
 		} else {
@@ -610,13 +611,14 @@ int zephir_call_class_method_aparams(zval **return_value_ptr, zend_class_entry *
 			case zephir_fcall_static: zend_error(E_ERROR, "Call to undefined function static::%s()", method_name); break;
 			case zephir_fcall_ce:     zend_error(E_ERROR, "Call to undefined function %s::%s()", ce->name, method_name); break;
 			case zephir_fcall_method: zend_error(E_ERROR, "Call to undefined function %s::%s()", Z_OBJCE_P(object)->name, method_name); break;
-			default:                   zend_error(E_ERROR, "Call to undefined function ?::%s()", method_name);
+			default:                  zend_error(E_ERROR, "Call to undefined function ?::%s()", method_name);
 		}
-	}
-	else if (EG(exception)) {
-		status = FAILURE;
-		if (return_value_ptr) {
-			*return_value_ptr = NULL;
+	} else {
+		if (EG(exception)) {
+			status = FAILURE;
+			if (return_value_ptr) {
+				*return_value_ptr = NULL;
+			}
 		}
 	}
 
@@ -624,9 +626,11 @@ int zephir_call_class_method_aparams(zval **return_value_ptr, zend_class_entry *
 		zval_ptr_dtor(&rv);
 	}
 
-	if (Z_TYPE_P(&fn) == IS_ARRAY) {
-		zval_dtor(&fn);
+	if (Z_TYPE_P(fn) == IS_STRING) {
+		ZVAL_NULL(fn);
 	}
+	zval_ptr_dtor(&fn);
+
 	return status;
 }
 
