@@ -2257,7 +2257,7 @@ PHP_METHOD(Phalcon_Db_Adapter, describeReferences) {
 		zephir_array_fetch_long(&_8, reference, 5, PH_NOISY | PH_READONLY, "phalcon/db/adapter.zep", 1055 TSRMLS_CC);
 		zephir_array_append(&referencedColumns, _8, PH_SEPARATE, "phalcon/db/adapter.zep", 1055);
 		ZEPHIR_INIT_NVAR(_11);
-		array_init_size(_11, 7);
+		array_init_size(_11, 6);
 		zephir_array_update_string(&_11, SL("referencedSchema"), &referencedSchema, PH_COPY | PH_SEPARATE);
 		zephir_array_update_string(&_11, SL("referencedTable"), &referencedTable, PH_COPY | PH_SEPARATE);
 		zephir_array_update_string(&_11, SL("columns"), &columns, PH_COPY | PH_SEPARATE);
@@ -2276,7 +2276,7 @@ PHP_METHOD(Phalcon_Db_Adapter, describeReferences) {
 		ZEPHIR_INIT_LNVAR(_15);
 		object_init_ex(_15, phalcon_db_reference_ce);
 		ZEPHIR_INIT_NVAR(_11);
-		array_init_size(_11, 7);
+		array_init_size(_11, 6);
 		ZEPHIR_OBS_NVAR(_16);
 		zephir_array_fetch_string(&_16, arrayReference, SL("referencedSchema"), PH_NOISY, "phalcon/db/adapter.zep", 1068 TSRMLS_CC);
 		zephir_array_update_string(&_11, SL("referencedSchema"), &_16, PH_COPY | PH_SEPARATE);

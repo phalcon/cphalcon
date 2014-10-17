@@ -2050,7 +2050,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords) {
 		}
 	}
 	ZEPHIR_INIT_VAR(findParams);
-	array_init_size(findParams, 5);
+	array_init_size(findParams, 4);
 	ZEPHIR_INIT_NVAR(_0);
 	zephir_fast_join_str(_0, SL(" AND "), conditions TSRMLS_CC);
 	zephir_array_fast_append(findParams, _0);

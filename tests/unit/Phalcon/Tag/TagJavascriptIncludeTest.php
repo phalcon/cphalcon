@@ -77,11 +77,11 @@ class TagJavascriptIncludeTest extends Helper\TagBase
     public function testJavascriptIncludeWithStringAsSecondParameterLocal()
     {
         $this->specify(
-            "iavascriptInclude with a string as the second parameter local link returns invalid HTML",
+            "javascriptInclude with a string as the second parameter local link returns invalid HTML",
             function () {
 
                 $options  = ['js/phalcon.js'];
-                $expected = '<script type="text/javascript" src="/js/phalcon.js"></script>' . PHP_EOL;
+                $expected = '<script type="text/javascript" src="js/phalcon.js"></script>' . PHP_EOL;
                 $actual   = PhTag::javascriptInclude($options, 'hello');
 
                 expect($actual)->equals($expected);

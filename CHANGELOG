@@ -5,6 +5,9 @@
  - Added parameter 'params' to set default conditions when retrieving related records
  - Added filters "int!" and "float!" that cast values to the respective type
  - Filter "alphanum" now use regular expression instead of internal function for better behave in 64bits
+ - Added 'allowEmpty' option in Phalcon\Validation validators to skip validation if the value is empty
+ - Added Phalcon\Validation::setDefaultMessages to set default values in validators
+ - Added Phalcon\Validation\Validator\Numericality
 
 1.3.4
  - Fix improper access to \Phalcon\Debug::$_charset (#2840)
