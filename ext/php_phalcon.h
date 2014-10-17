@@ -47,6 +47,9 @@ ZEND_BEGIN_MODULE_GLOBALS(phalcon)
 	/** Function cache */
 	HashTable *fcache;
 
+	/* Cache enabled */
+	unsigned int cache_enabled;
+
 	/* Max recursion control */
 	unsigned int recursive_lock;
 
