@@ -13,7 +13,9 @@ settings:
 modules:
     config:
         Db:
-            dsn: ''
-            user: ''
-            password: ''
-            dump: tests/_data/dump.sql
+            dsn: 'mysql:host=localhost;dbname=phalcon_test'
+            user: 'root'
+            password: '1234'
+            populate: true
+            cleanup: false
+            dump: tests/_data/mysql.dump.sql

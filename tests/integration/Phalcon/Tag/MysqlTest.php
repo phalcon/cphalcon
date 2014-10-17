@@ -20,16 +20,37 @@
  * so that we can send you a copy immediately.
  */
 
-namespace Phalcon\Test\Tag;
+namespace Phalcon\Tests\unit\Phalcon\Tag;
 
-use \Phalcon\Test\Tag\Helper\Model as PhTestTagHelperModel;
+use PhalconTest\Models\Select;
 
-class MysqlTest extends PhTestTagHelperModel
+class MysqlTest extends Helper\TagBase
 {
     public function setUp()
     {
         parent::setUp();
 
         $this->setDb('mysql');
+    }
+
+    public function NotestMe()
+    {
+        $select = new Select();
+
+        $select->setName('Option');
+        $select->setText('Option Text');
+        $select->save();
+
+        $actual   = $select->getName();
+        $expected = 'Option';
+        expect($actual)->equals($expected);
+
+        $this->unitTester->seeInDatabase(
+            'ph_select',
+            [
+                'sel_name' => 'Option',
+                'sel_text' => 'Option Text'
+            ]
+        );
     }
 }

@@ -1,9 +1,9 @@
 <?php
 /**
- * Model.php
- * Tag_Helper_Model
+ * TagBase.php
+ * Phalcon\Tag\Helper\TagBase
  *
- * Tests the \Phalcon\Tag component
+ * Tests the \Phalcon\Tag database components
  *
  * PhalconPHP Framework
  *
@@ -20,34 +20,38 @@
  * so that we can send you a copy immediately.
  */
 
-namespace Phalcon\Test\Tag\Helper;
+namespace Phalcon\Tests\integration\Phalcon\Tag;
 
-use \Phalcon\Test\ModelTestCase as PhTestModelTestCase;
-
+use \Phalcon\DI as PhDI;
 use \Phalcon\Tag as PhTag;
 
-class Model extends PhTestModelTestCase
-{
-    private $message = "%s does not return proper html element";
+use \PhalconTest\Models\Select;
+use \Codeception\TestCase\Test as CdTest;
 
-    // -------------------------------------------------------------------------
-    // select
-    // -------------------------------------------------------------------------
+class TagBase extends CdTest
+{
+    /**
+     * @var \IntegrationTester
+     */
+    protected $tester;
+
     /**
      * Tests an image tag with a bare minimum of information passed
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
-     * @since  2012-09-09
+     * @author Nikolaos Dimopoulos <nikos@niden.net>
+     * @since  2014-10-17
      */
-    public function testSelectBasic()
+    public function NotestSelectBasic()
     {
-        // Populate the table
-        // Empty the relationship table first
-        $this->emptyTable('robots_parts');
-        $this->populateTable('robots');
-        $this->populateTable('robots_parts');
+//        $user = new User();
+//        $user->setName('Miles');
+//        $user->setSurname('Davis');
+//        $user->save();
+//        $this->assertEquals('Miles Davis', $user->getFullName());
+//        $this->unitTester->seeInDatabase('users',array('name' => 'Miles', 'surname' => 'Davis'));
 
-        $robots = \Robots::find();
+
+        $select = Select::find();
 
         $params = array(
             'some_name',
@@ -66,6 +70,26 @@ class Model extends PhTestModelTestCase
             $expected,
             $actual,
             sprintf($this->message, 'select basic')
+        );
+    }
+
+    protected function setDb($dbType = 'mysql')
+    {
+        $di = PhDI::getDefault();
+
+        $config = $di['config'];
+
+        $this->di->set(
+            'db',
+            function () use ($dbType, $config) {
+
+                $params = $config['app_db_test'];
+                $params['adapter'] = ucfirst($dbType);
+                $class  = '\Phalcon\Db\Adapter\Pdo\\' . ucfirst($dbType);
+                $conn   = new $class($params);
+
+                return $conn;
+            }
         );
     }
 
