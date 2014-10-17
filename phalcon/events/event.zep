@@ -45,7 +45,7 @@ class Event
 	 * @param mixed data
 	 * @param boolean cancelable
 	 */
-	public function __construct(string! type, source, data=null, boolean cancelable=true)
+	public function __construct(string! type, source, data = null, boolean cancelable = true)
 	{
 
 		let this->_type = type,
@@ -63,7 +63,7 @@ class Event
 	/**
 	 * Stops the event preventing propagation
 	 */
-	public function stop()
+	public function stop() -> void
 	{
 		if this->_cancelable {
 			let this->_stopped = true;
@@ -81,5 +81,4 @@ class Event
 	{
 		return this->_stopped;
 	}
-
 }

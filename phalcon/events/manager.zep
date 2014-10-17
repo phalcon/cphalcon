@@ -45,7 +45,7 @@ class Manager implements ManagerInterface
 	 * @param object handler
 	 * @param int priority
 	 */
-	public function attach(string! eventType, var handler, int! priority=100)
+	public function attach(string! eventType, var handler, int! priority = 100)
 	{
 		var priorityQueue;
 
@@ -173,7 +173,7 @@ class Manager implements ManagerInterface
 		if typeof queue != "array" {
 			if typeof queue == "object" {
 				if !(queue instanceof \Phalcon\Events\Event) && !(queue instanceof \SplPriorityQueue) {
-					throw new Exception(sprintf("Unexpected value type: expected object of type Phalcon\\Events\\Event or SplPriorityQueue, %s given", get_class(queue)));	
+					throw new Exception(sprintf("Unexpected value type: expected object of type Phalcon\\Events\\Event or SplPriorityQueue, %s given", get_class(queue)));
 				}
 			} else {
 				throw new Exception("The queue is not valid");
