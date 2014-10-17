@@ -352,7 +352,7 @@ int zephir_call_user_function(zval **object_pp, zend_class_entry *obj_ce, zephir
 	}
 
 	if (!cache_entry || !*cache_entry) {
-		if (zephir_globals->cache_enabled) {
+		if (zephir_globals_ptr->cache_enabled) {
 			fcall_key_hash = zephir_make_fcall_key(&fcall_key, &fcall_key_len, (object_pp ? Z_OBJCE_PP(object_pp) : obj_ce), type, function_name TSRMLS_CC);
 		}
 	}
