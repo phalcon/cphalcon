@@ -1340,6 +1340,7 @@ class Tag
 		}
 
 		if replace {
+
 			if typeof replace != "array" && typeof replace != "string"{
 				throw new Exception("Parameter replace must be an array or a string");
 			}
