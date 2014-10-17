@@ -32,7 +32,7 @@ interface BuilderInterface
 	 *
 	 * @param array params
 	 */
-	public function __construct(params=null);
+	public function __construct(params = null);
 
 	/**
 	 * Sets the columns to be queried
@@ -64,7 +64,7 @@ interface BuilderInterface
 	 * @param string alias
 	 * @return Phalcon\Mvc\Model\Query\BuilderInterface
 	 */
-	public function addFrom(model, alias=null);
+	public function addFrom(model, alias = null);
 
 	/**
 	 * Return the models who makes part of the query
@@ -171,7 +171,7 @@ interface BuilderInterface
 	 * @param array values
 	 * @return Phalcon\Mvc\Model\Query\Builder
 	 */
-	public function inWhere(expr, values);
+	public function inWhere(string! expr, array! values) -> <BuilderInterface>;
 
 	/**
 	 * Appends a NOT IN condition to the current conditions
@@ -180,7 +180,7 @@ interface BuilderInterface
 	 * @param array values
 	 * @return Phalcon\Mvc\Model\Query\Builder
 	 */
-	public function notInWhere(expr, values);
+	public function notInWhere(string! expr, array! values) -> <Builder>;
 
 	/**
 	 * Return the conditions for the query

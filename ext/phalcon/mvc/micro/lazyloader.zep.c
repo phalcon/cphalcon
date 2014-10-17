@@ -15,6 +15,7 @@
 #include "kernel/object.h"
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/exception.h"
+#include "kernel/operators.h"
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
 #include "kernel/array.h"
@@ -72,8 +73,8 @@ PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, __construct) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(definition_param) == IS_STRING)) {
-		definition = definition_param;
+	if (likely(Z_TYPE_P(definition_param) == IS_STRING)) {
+		zephir_get_strval(definition, definition_param);
 	} else {
 		ZEPHIR_INIT_VAR(definition);
 		ZVAL_EMPTY_STRING(definition);
@@ -108,8 +109,8 @@ PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, __call) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(method_param) == IS_STRING)) {
-		method = method_param;
+	if (likely(Z_TYPE_P(method_param) == IS_STRING)) {
+		zephir_get_strval(method, method_param);
 	} else {
 		ZEPHIR_INIT_VAR(method);
 		ZVAL_EMPTY_STRING(method);

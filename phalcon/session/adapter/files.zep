@@ -19,6 +19,9 @@
 
 namespace Phalcon\Session\Adapter;
 
+use Phalcon\Session\AdapterInterface;
+use Phalcon\Session\Adapter;
+
 /**
  * Phalcon\Session\Adapter\Files
  *
@@ -36,7 +39,7 @@ namespace Phalcon\Session\Adapter;
  * echo $session->get('var');
  *</code>
  */
-class Files extends \Phalcon\Session\Adapter implements \Phalcon\Session\AdapterInterface
+class Files extends Adapter implements AdapterInterface
 {
 
 }

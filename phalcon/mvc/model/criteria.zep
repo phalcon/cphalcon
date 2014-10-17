@@ -386,7 +386,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 	 * @param array bindTypes
 	 * @return Phalcon\Mvc\Model\Criteria
 	 */
-	public function orWhere(string! conditions, bindParams=null, bindTypes=null) -> <Criteria>
+	public function orWhere(string! conditions, bindParams = null, bindTypes = null) -> <Criteria>
 	{
 		var currentBindParams, mergedParams, mergedParamsTypes, currentBindTypes, params, currentConditions;
 
@@ -641,7 +641,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 	 * @param int offset
 	 * @return Phalcon\Mvc\Model\Criteria
 	 */
-	public function limit(int limit, var offset=null)
+	public function limit(int limit, var offset = null)
 	{
 
 		if typeof offset == "null" {
@@ -659,7 +659,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 	 * @param boolean forUpdate
 	 * @return Phalcon\Mvc\Model\Criteria
 	 */
-	public function forUpdate(boolean forUpdate=true) -> <Criteria>
+	public function forUpdate(boolean forUpdate = true) -> <Criteria>
 	{
 		let this->_params["for_update"] = forUpdate;
 		return this;
@@ -671,9 +671,22 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 	 * @param boolean sharedLock
 	 * @return Phalcon\Mvc\Model\Criteria
 	 */
-	public function sharedLock(boolean sharedLock=true) -> <Criteria>
+	public function sharedLock(boolean sharedLock = true) -> <Criteria>
 	{
 		let this->_params["shared_lock"] = sharedLock;
+		return this;
+	}
+
+	/**
+	 * Sets the cache options in the criteria
+	 * This method replaces all previously set cache options
+	 *
+	 * @param array options
+	 * @return Phalcon\Mvc\Model\CriteriaInterface
+	 */
+	public function cache(array! cache) -> <Criteria>
+	{
+		let this->_params["cache"] = cache;
 		return this;
 	}
 
@@ -809,6 +822,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 			criteria->bind(bind);
 		}
 
+		criteria->setModelName(modelName);
 		return criteria;
 	}
 

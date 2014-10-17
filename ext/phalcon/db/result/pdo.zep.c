@@ -281,7 +281,7 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, numRows) {
 				ZEPHIR_INIT_VAR(matches);
 				ZVAL_NULL(matches);
 				ZEPHIR_INIT_VAR(_1);
-				ZVAL_STRING(_1, "/^SELECT\\s+(.*)/i", 0);
+				ZVAL_STRING(_1, "/^SELECT\\s+(.*)/i", ZEPHIR_TEMP_PARAM_COPY);
 				Z_SET_ISREF_P(matches);
 				ZEPHIR_CALL_FUNCTION(&_2, "preg_match", &_3, _1, sqlStatement, matches);
 				zephir_check_temp_parameter(_1);

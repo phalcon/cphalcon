@@ -98,7 +98,7 @@ class Application extends \Phalcon\Di\Injectable
 	 * @param boolean implicitView
 	 * @return Phalcon\Mvc\Application
 	 */
-	public function useImplicitView(boolean implicitView) -> <\Phalcon\Mvc\Application>
+	public function useImplicitView(boolean implicitView) -> <Application>
 	{
 		let this->_implicitView = implicitView;
 		return this;
@@ -124,7 +124,7 @@ class Application extends \Phalcon\Di\Injectable
 	 * @param boolean merge
 	 * @param Phalcon\Mvc\Application
 	 */
-	public function registerModules(modules, boolean merge=false) -> <Application>
+	public function registerModules(modules, boolean merge = false) -> <Application>
 	{
 		var registeredModules;
 
@@ -162,7 +162,7 @@ class Application extends \Phalcon\Di\Injectable
 	 * @param string defaultModule
 	 * @return Phalcon\Mvc\Application
 	 */
-	public function setDefaultModule(string! defaultModule) -> <\Phalcon\Mvc\Application>
+	public function setDefaultModule(string! defaultModule) -> <Application>
 	{
 		let this->_defaultModule = defaultModule;
 		return this;
@@ -184,7 +184,7 @@ class Application extends \Phalcon\Di\Injectable
 	 * @param string uri
 	 * @return Phalcon\Http\ResponseInterface|boolean
 	 */
-	public function handle(uri=null) -> <ResponseInterface> | boolean
+	public function handle(uri = null) -> <ResponseInterface> | boolean
 	{
 
 		var dependencyInjector, eventsManager, router, dispatcher, response, view,
@@ -246,10 +246,8 @@ class Application extends \Phalcon\Di\Injectable
 			/**
 			 * A module definition must ne an array or an object
 			 */
-			if typeof module != "array" {
-				if typeof module != "object" {
-					throw new Exception("Invalid module definition");
-				}
+			if typeof module != "array" && typeof module != "object" {
+				throw new Exception("Invalid module definition");
 			}
 
 			/**

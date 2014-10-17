@@ -132,7 +132,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, __construct) {
 		zephir_check_call_status();
 	} else {
 		ZEPHIR_INIT_VAR(_0);
-		ZVAL_STRING(_0, "db", 0);
+		ZVAL_STRING(_0, "db", ZEPHIR_TEMP_PARAM_COPY);
 		ZEPHIR_CALL_METHOD(&connection, dependencyInjector, "get", NULL, _0);
 		zephir_check_temp_parameter(_0);
 		zephir_check_call_status();
@@ -281,7 +281,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, rollback) {
 		_6 = zephir_fetch_nproperty_this(this_ptr, SL("_rollbackRecord"), PH_NOISY_CC);
 		ZEPHIR_CALL_METHOD(NULL, _5, "__construct", NULL, rollbackMessage, _6);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(_5, "phalcon/mvc/model/transaction.zep", 160 TSRMLS_CC);
+		zephir_throw_exception_debug(_5, "phalcon/mvc/model/transaction.zep", 166 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -308,7 +308,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, getConnection) {
 		zephir_check_call_status();
 		if (zephir_is_true(_1)) {
 			ZEPHIR_INIT_VAR(_3);
-			ZVAL_STRING(_3, "The request was aborted", 0);
+			ZVAL_STRING(_3, "The request was aborted", ZEPHIR_TEMP_PARAM_COPY);
 			ZEPHIR_CALL_METHOD(NULL, this_ptr, "rollback", NULL, _3);
 			zephir_check_temp_parameter(_3);
 			zephir_check_call_status();
@@ -405,7 +405,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, isValid) {
 /**
  * Sets object which generates rollback action
  *
- * @param Phalcon\Mvc\ModelInterface $record
+ * @param Phalcon\Mvc\ModelInterface record
  */
 PHP_METHOD(Phalcon_Mvc_Model_Transaction, setRollbackedRecord) {
 

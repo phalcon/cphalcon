@@ -148,7 +148,7 @@ PHP_METHOD(Phalcon_Tag_Select, selectField) {
 		zephir_array_unset_string(&params, SS("using"), PH_SEPARATE);
 	}
 	ZEPHIR_INIT_VAR(_5);
-	ZVAL_STRING(_5, "<select", 0);
+	ZVAL_STRING(_5, "<select", ZEPHIR_TEMP_PARAM_COPY);
 	ZEPHIR_CALL_CE_STATIC(&_3, phalcon_tag_ce, "renderattributes", &_4, _5, params);
 	zephir_check_temp_parameter(_5);
 	zephir_check_call_status();

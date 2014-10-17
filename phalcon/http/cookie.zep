@@ -19,12 +19,15 @@
 
 namespace Phalcon\Http;
 
+use Phalcon\Di\InjectionAwareInterface;
+use Phalcon\Http\Response\Exception;
+
 /**
  * Phalcon\Http\Cookie
  *
  * Provide OO wrappers to manage a HTTP cookie
  */
-class Cookie implements \Phalcon\Di\InjectionAwareInterface
+class Cookie implements InjectionAwareInterface
 {
 
 	protected _readed = false;
@@ -116,7 +119,7 @@ class Cookie implements \Phalcon\Di\InjectionAwareInterface
 	 * @param string value
 	 * @return Phalcon\Http\Cookie
 	 */
-	public function setValue(value) -> <\Phalcon\Http\Cookie>
+	public function setValue(value) -> <Cookie>
 	{
 		let this->_value = value,
 			this->_readed = true;
@@ -130,7 +133,7 @@ class Cookie implements \Phalcon\Di\InjectionAwareInterface
 	 * @param string defaultValue
 	 * @return mixed
 	 */
-	public function getValue(filters=null, defaultValue=null)
+	public function getValue(filters = null, defaultValue = null)
 	{
 		var dependencyInjector, value, crypt, decryptedValue, filter;
 
@@ -148,7 +151,7 @@ class Cookie implements \Phalcon\Di\InjectionAwareInterface
 
 					let dependencyInjector = this->_dependencyInjector;
 					if typeof dependencyInjector != "object" {
-						throw new \Phalcon\Http\Response\Exception("A dependency injection object is required to access the 'filter' service");
+						throw new Exception("A dependency injection object is required to access the 'filter' service");
 					}
 
 					let crypt = dependencyInjector->getShared("crypt");
@@ -174,7 +177,7 @@ class Cookie implements \Phalcon\Di\InjectionAwareInterface
 						if dependencyInjector === null {
 							let dependencyInjector = this->_dependencyInjector;
 							if typeof dependencyInjector != "object" {
-								throw new \Phalcon\Http\Response\Exception("A dependency injection object is required to access the 'filter' service");
+								throw new Exception("A dependency injection object is required to access the 'filter' service");
 							}
 						}
 
@@ -218,7 +221,7 @@ class Cookie implements \Phalcon\Di\InjectionAwareInterface
 		let dependencyInjector = this->_dependencyInjector;
 
 		if typeof dependencyInjector != "object" {
-			throw new \Phalcon\Http\Response\Exception("A dependency injection object is required to access the 'session' service");
+			throw new Exception("A dependency injection object is required to access the 'session' service");
 		}
 
 		let definition = [];
@@ -256,7 +259,7 @@ class Cookie implements \Phalcon\Di\InjectionAwareInterface
 			if !empty value {
 
 				if typeof dependencyInjector != "object" {
-					throw new \Phalcon\Http\Response\Exception("A dependency injection object is required to access the 'filter' service");
+					throw new Exception("A dependency injection object is required to access the 'filter' service");
 				}
 
 				let crypt = <\Phalcon\CryptInterface> dependencyInjector->getShared("crypt");

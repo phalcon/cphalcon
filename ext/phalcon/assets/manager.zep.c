@@ -174,8 +174,8 @@ PHP_METHOD(Phalcon_Assets_Manager, addCss) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(path_param) == IS_STRING)) {
-		path = path_param;
+	if (likely(Z_TYPE_P(path_param) == IS_STRING)) {
+		zephir_get_strval(path, path_param);
 	} else {
 		ZEPHIR_INIT_VAR(path);
 		ZVAL_EMPTY_STRING(path);
@@ -196,7 +196,7 @@ PHP_METHOD(Phalcon_Assets_Manager, addCss) {
 	ZEPHIR_CALL_METHOD(NULL, _0, "__construct", NULL, path, local, filter, attributes);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(_1);
-	ZVAL_STRING(_1, "css", 0);
+	ZVAL_STRING(_1, "css", ZEPHIR_TEMP_PARAM_COPY);
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "addresourcebytype", NULL, _1, _0);
 	zephir_check_temp_parameter(_1);
 	zephir_check_call_status();
@@ -235,7 +235,7 @@ PHP_METHOD(Phalcon_Assets_Manager, addInlineCss) {
 	ZEPHIR_CALL_METHOD(NULL, _0, "__construct", NULL, content, filter, attributes);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(_1);
-	ZVAL_STRING(_1, "css", 0);
+	ZVAL_STRING(_1, "css", ZEPHIR_TEMP_PARAM_COPY);
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "addinlinecodebytype", NULL, _1, _0);
 	zephir_check_temp_parameter(_1);
 	zephir_check_call_status();
@@ -271,8 +271,8 @@ PHP_METHOD(Phalcon_Assets_Manager, addJs) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(path_param) == IS_STRING)) {
-		path = path_param;
+	if (likely(Z_TYPE_P(path_param) == IS_STRING)) {
+		zephir_get_strval(path, path_param);
 	} else {
 		ZEPHIR_INIT_VAR(path);
 		ZVAL_EMPTY_STRING(path);
@@ -293,7 +293,7 @@ PHP_METHOD(Phalcon_Assets_Manager, addJs) {
 	ZEPHIR_CALL_METHOD(NULL, _0, "__construct", NULL, path, local, filter, attributes);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(_1);
-	ZVAL_STRING(_1, "js", 0);
+	ZVAL_STRING(_1, "js", ZEPHIR_TEMP_PARAM_COPY);
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "addresourcebytype", NULL, _1, _0);
 	zephir_check_temp_parameter(_1);
 	zephir_check_call_status();
@@ -332,7 +332,7 @@ PHP_METHOD(Phalcon_Assets_Manager, addInlineJs) {
 	ZEPHIR_CALL_METHOD(NULL, _0, "__construct", NULL, content, filter, attributes);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(_1);
-	ZVAL_STRING(_1, "js", 0);
+	ZVAL_STRING(_1, "js", ZEPHIR_TEMP_PARAM_COPY);
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "addinlinecodebytype", NULL, _1, _0);
 	zephir_check_temp_parameter(_1);
 	zephir_check_call_status();
@@ -365,8 +365,8 @@ PHP_METHOD(Phalcon_Assets_Manager, addResourceByType) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(type_param) == IS_STRING)) {
-		type = type_param;
+	if (likely(Z_TYPE_P(type_param) == IS_STRING)) {
+		zephir_get_strval(type, type_param);
 	} else {
 		ZEPHIR_INIT_VAR(type);
 		ZVAL_EMPTY_STRING(type);
@@ -415,8 +415,8 @@ PHP_METHOD(Phalcon_Assets_Manager, addInlineCodeByType) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(type_param) == IS_STRING)) {
-		type = type_param;
+	if (likely(Z_TYPE_P(type_param) == IS_STRING)) {
+		zephir_get_strval(type, type_param);
 	} else {
 		ZEPHIR_INIT_VAR(type);
 		ZVAL_EMPTY_STRING(type);
@@ -528,8 +528,8 @@ PHP_METHOD(Phalcon_Assets_Manager, set) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(id_param) == IS_STRING)) {
-		id = id_param;
+	if (likely(Z_TYPE_P(id_param) == IS_STRING)) {
+		zephir_get_strval(id, id_param);
 	} else {
 		ZEPHIR_INIT_VAR(id);
 		ZVAL_EMPTY_STRING(id);
@@ -568,8 +568,8 @@ PHP_METHOD(Phalcon_Assets_Manager, get) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(id_param) == IS_STRING)) {
-		id = id_param;
+	if (likely(Z_TYPE_P(id_param) == IS_STRING)) {
+		zephir_get_strval(id, id_param);
 	} else {
 		ZEPHIR_INIT_VAR(id);
 		ZVAL_EMPTY_STRING(id);
@@ -1129,7 +1129,7 @@ PHP_METHOD(Phalcon_Assets_Manager, outputCss) {
 	ZVAL_STRING(_1, "stylesheetLink", 1);
 	zephir_array_fast_append(_0, _1);
 	ZEPHIR_INIT_BNVAR(_1);
-	ZVAL_STRING(_1, "css", 0);
+	ZVAL_STRING(_1, "css", ZEPHIR_TEMP_PARAM_COPY);
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "output", NULL, collection, _0, _1);
 	zephir_check_temp_parameter(_1);
 	zephir_check_call_status();
@@ -1163,7 +1163,7 @@ PHP_METHOD(Phalcon_Assets_Manager, outputInlineCss) {
 		zephir_check_call_status();
 	}
 	ZEPHIR_INIT_VAR(_0);
-	ZVAL_STRING(_0, "style", 0);
+	ZVAL_STRING(_0, "style", ZEPHIR_TEMP_PARAM_COPY);
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "outputinline", NULL, collection, _0);
 	zephir_check_temp_parameter(_0);
 	zephir_check_call_status();
@@ -1206,7 +1206,7 @@ PHP_METHOD(Phalcon_Assets_Manager, outputJs) {
 	ZVAL_STRING(_1, "javascriptInclude", 1);
 	zephir_array_fast_append(_0, _1);
 	ZEPHIR_INIT_BNVAR(_1);
-	ZVAL_STRING(_1, "js", 0);
+	ZVAL_STRING(_1, "js", ZEPHIR_TEMP_PARAM_COPY);
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "output", NULL, collection, _0, _1);
 	zephir_check_temp_parameter(_1);
 	zephir_check_call_status();
@@ -1240,7 +1240,7 @@ PHP_METHOD(Phalcon_Assets_Manager, outputInlineJs) {
 		zephir_check_call_status();
 	}
 	ZEPHIR_INIT_VAR(_0);
-	ZVAL_STRING(_0, "script", 0);
+	ZVAL_STRING(_0, "script", ZEPHIR_TEMP_PARAM_COPY);
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "outputinline", NULL, collection, _0);
 	zephir_check_temp_parameter(_0);
 	zephir_check_call_status();

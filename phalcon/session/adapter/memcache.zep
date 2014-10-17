@@ -19,6 +19,11 @@
 
 namespace Phalcon\Session\Adapter;
 
+use Phalcon\Session\Adapter;
+use Phalcon\Session\AdapterInterface;
+use Phalcon\Cache\Backend\Memcache;
+use Phalcon\Cache\Frontend\Data as FrontendData;
+
 /**
  * Phalcon\Session\Adapter\Memcache
  *
@@ -41,7 +46,7 @@ namespace Phalcon\Session\Adapter;
  * echo $session->get('var');
  *</code>
  */
-class Memcache extends \Phalcon\Session\Adapter implements \Phalcon\Session\AdapterInterface
+class Memcache extends Adapter implements AdapterInterface
 {
 
 	protected _memcache = NULL { get };
@@ -53,7 +58,7 @@ class Memcache extends \Phalcon\Session\Adapter implements \Phalcon\Session\Adap
 	 *
 	 * @param array options
 	 */
-	public function __construct(options=null)
+	public function __construct(options = null)
 	{
 		var lifetime;
 
@@ -77,8 +82,8 @@ class Memcache extends \Phalcon\Session\Adapter implements \Phalcon\Session\Adap
 			let this->_lifetime = lifetime;
 		}
 
-		let this->_memcache = new \Phalcon\Cache\Backend\Memcache(
-			new \Phalcon\Cache\Frontend\Data(["lifetime": this->_lifetime]),
+		let this->_memcache = new Memcache(
+			new FrontendData(["lifetime": this->_lifetime]),
 			options
 		);
 

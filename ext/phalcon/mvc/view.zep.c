@@ -582,8 +582,8 @@ PHP_METHOD(Phalcon_Mvc_View, setParamToView) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(key_param) == IS_STRING)) {
-		key = key_param;
+	if (likely(Z_TYPE_P(key_param) == IS_STRING)) {
+		zephir_get_strval(key, key_param);
 	} else {
 		ZEPHIR_INIT_VAR(key);
 		ZVAL_EMPTY_STRING(key);
@@ -670,8 +670,8 @@ PHP_METHOD(Phalcon_Mvc_View, setVar) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(key_param) == IS_STRING)) {
-		key = key_param;
+	if (likely(Z_TYPE_P(key_param) == IS_STRING)) {
+		zephir_get_strval(key, key_param);
 	} else {
 		ZEPHIR_INIT_VAR(key);
 		ZVAL_EMPTY_STRING(key);
@@ -702,8 +702,8 @@ PHP_METHOD(Phalcon_Mvc_View, getVar) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(key_param) == IS_STRING)) {
-		key = key_param;
+	if (likely(Z_TYPE_P(key_param) == IS_STRING)) {
+		zephir_get_strval(key, key_param);
 	} else {
 		ZEPHIR_INIT_VAR(key);
 		ZVAL_EMPTY_STRING(key);
@@ -972,7 +972,7 @@ PHP_METHOD(Phalcon_Mvc_View, _engineRender) {
 			if (Z_TYPE_P(eventsManager) == IS_OBJECT) {
 				zephir_update_property_this(this_ptr, SL("_activeRenderPath"), viewEnginePath TSRMLS_CC);
 				ZEPHIR_INIT_NVAR(_10);
-				ZVAL_STRING(_10, "view:beforeRenderView", 0);
+				ZVAL_STRING(_10, "view:beforeRenderView", ZEPHIR_TEMP_PARAM_COPY);
 				ZEPHIR_CALL_METHOD(&_3, eventsManager, "fire", NULL, _10, this_ptr, viewEnginePath);
 				zephir_check_temp_parameter(_10);
 				zephir_check_call_status();
@@ -985,7 +985,7 @@ PHP_METHOD(Phalcon_Mvc_View, _engineRender) {
 			notExists = 0;
 			if (Z_TYPE_P(eventsManager) == IS_OBJECT) {
 				ZEPHIR_INIT_NVAR(_10);
-				ZVAL_STRING(_10, "view:afterRenderView", 0);
+				ZVAL_STRING(_10, "view:afterRenderView", ZEPHIR_TEMP_PARAM_COPY);
 				ZEPHIR_CALL_METHOD(NULL, eventsManager, "fire", NULL, _10, this_ptr);
 				zephir_check_temp_parameter(_10);
 				zephir_check_call_status();
@@ -997,7 +997,7 @@ PHP_METHOD(Phalcon_Mvc_View, _engineRender) {
 		if (Z_TYPE_P(eventsManager) == IS_OBJECT) {
 			zephir_update_property_this(this_ptr, SL("_activeRenderPath"), viewEnginePath TSRMLS_CC);
 			ZEPHIR_INIT_NVAR(_10);
-			ZVAL_STRING(_10, "view:notFoundView", 0);
+			ZVAL_STRING(_10, "view:notFoundView", ZEPHIR_TEMP_PARAM_COPY);
 			ZEPHIR_CALL_METHOD(NULL, eventsManager, "fire", NULL, _10, this_ptr, viewEnginePath);
 			zephir_check_temp_parameter(_10);
 			zephir_check_call_status();
@@ -1075,8 +1075,8 @@ PHP_METHOD(Phalcon_Mvc_View, exists) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(view_param) == IS_STRING)) {
-		view = view_param;
+	if (likely(Z_TYPE_P(view_param) == IS_STRING)) {
+		zephir_get_strval(view, view_param);
 	} else {
 		ZEPHIR_INIT_VAR(view);
 		ZVAL_EMPTY_STRING(view);
@@ -1148,8 +1148,8 @@ PHP_METHOD(Phalcon_Mvc_View, render) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(controllerName_param) == IS_STRING)) {
-		controllerName = controllerName_param;
+	if (likely(Z_TYPE_P(controllerName_param) == IS_STRING)) {
+		zephir_get_strval(controllerName, controllerName_param);
 	} else {
 		ZEPHIR_INIT_VAR(controllerName);
 		ZVAL_EMPTY_STRING(controllerName);
@@ -1159,8 +1159,8 @@ PHP_METHOD(Phalcon_Mvc_View, render) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(actionName_param) == IS_STRING)) {
-		actionName = actionName_param;
+	if (likely(Z_TYPE_P(actionName_param) == IS_STRING)) {
+		zephir_get_strval(actionName, actionName_param);
 	} else {
 		ZEPHIR_INIT_VAR(actionName);
 		ZVAL_EMPTY_STRING(actionName);
@@ -1226,7 +1226,7 @@ PHP_METHOD(Phalcon_Mvc_View, render) {
 	
 	if (Z_TYPE_P(eventsManager) == IS_OBJECT) {
 		ZEPHIR_INIT_VAR(_6);
-		ZVAL_STRING(_6, "view:beforeRender", 0);
+		ZVAL_STRING(_6, "view:beforeRender", ZEPHIR_TEMP_PARAM_COPY);
 		ZEPHIR_CALL_METHOD(&_1, eventsManager, "fire", NULL, _6, this_ptr);
 		zephir_check_temp_parameter(_6);
 		zephir_check_call_status();
@@ -1347,7 +1347,7 @@ PHP_METHOD(Phalcon_Mvc_View, render) {
 	}
 	if (Z_TYPE_P(eventsManager) == IS_OBJECT) {
 		ZEPHIR_INIT_NVAR(_6);
-		ZVAL_STRING(_6, "view:afterRender", 0);
+		ZVAL_STRING(_6, "view:afterRender", ZEPHIR_TEMP_PARAM_COPY);
 		ZEPHIR_CALL_METHOD(NULL, eventsManager, "fire", NULL, _6, this_ptr);
 		zephir_check_temp_parameter(_6);
 		zephir_check_call_status();
@@ -1439,8 +1439,8 @@ PHP_METHOD(Phalcon_Mvc_View, partial) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(partialPath_param) == IS_STRING)) {
-		partialPath = partialPath_param;
+	if (likely(Z_TYPE_P(partialPath_param) == IS_STRING)) {
+		zephir_get_strval(partialPath, partialPath_param);
 	} else {
 		ZEPHIR_INIT_VAR(partialPath);
 		ZVAL_EMPTY_STRING(partialPath);
@@ -1510,8 +1510,8 @@ PHP_METHOD(Phalcon_Mvc_View, getRender) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(controllerName_param) == IS_STRING)) {
-		controllerName = controllerName_param;
+	if (likely(Z_TYPE_P(controllerName_param) == IS_STRING)) {
+		zephir_get_strval(controllerName, controllerName_param);
 	} else {
 		ZEPHIR_INIT_VAR(controllerName);
 		ZVAL_EMPTY_STRING(controllerName);
@@ -1521,8 +1521,8 @@ PHP_METHOD(Phalcon_Mvc_View, getRender) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(actionName_param) == IS_STRING)) {
-		actionName = actionName_param;
+	if (likely(Z_TYPE_P(actionName_param) == IS_STRING)) {
+		zephir_get_strval(actionName, actionName_param);
 	} else {
 		ZEPHIR_INIT_VAR(actionName);
 		ZVAL_EMPTY_STRING(actionName);
@@ -1863,8 +1863,8 @@ PHP_METHOD(Phalcon_Mvc_View, __set) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(key_param) == IS_STRING)) {
-		key = key_param;
+	if (likely(Z_TYPE_P(key_param) == IS_STRING)) {
+		zephir_get_strval(key, key_param);
 	} else {
 		ZEPHIR_INIT_VAR(key);
 		ZVAL_EMPTY_STRING(key);
@@ -1899,8 +1899,8 @@ PHP_METHOD(Phalcon_Mvc_View, __get) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(key_param) == IS_STRING)) {
-		key = key_param;
+	if (likely(Z_TYPE_P(key_param) == IS_STRING)) {
+		zephir_get_strval(key, key_param);
 	} else {
 		ZEPHIR_INIT_VAR(key);
 		ZVAL_EMPTY_STRING(key);

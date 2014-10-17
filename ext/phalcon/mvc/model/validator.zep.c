@@ -12,13 +12,13 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
-#include "kernel/exception.h"
 #include "kernel/object.h"
+#include "ext/spl/spl_exceptions.h"
+#include "kernel/exception.h"
 #include "kernel/memory.h"
 #include "kernel/operators.h"
 #include "kernel/string.h"
 #include "kernel/fcall.h"
-#include "ext/spl/spl_exceptions.h"
 #include "kernel/array.h"
 
 
@@ -63,16 +63,20 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Validator) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Validator, __construct) {
 
-	zval *options;
+	zval *options_param = NULL;
+	zval *options = NULL;
 
-	zephir_fetch_params(0, 1, 0, &options);
+	zephir_fetch_params(0, 1, 0, &options_param);
 
-
-
-	if (Z_TYPE_P(options) != IS_ARRAY) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_mvc_model_exception_ce, "options argument must be an Array", "phalcon/mvc/model/validator.zep", 42);
-		return;
+	if (unlikely(Z_TYPE_P(options_param) != IS_ARRAY)) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'options' must be an array") TSRMLS_CC);
+		RETURN_NULL();
 	}
+
+		options = options_param;
+
+
+
 	zephir_update_property_this(this_ptr, SL("_options"), options TSRMLS_CC);
 
 }
@@ -98,8 +102,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator, appendMessage) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(message_param) == IS_STRING)) {
-		message = message_param;
+	if (likely(Z_TYPE_P(message_param) == IS_STRING)) {
+		zephir_get_strval(message, message_param);
 	} else {
 		ZEPHIR_INIT_VAR(message);
 		ZVAL_EMPTY_STRING(message);
@@ -176,8 +180,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator, getOption) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(option_param) == IS_STRING)) {
-		option = option_param;
+	if (likely(Z_TYPE_P(option_param) == IS_STRING)) {
+		zephir_get_strval(option, option_param);
 	} else {
 		ZEPHIR_INIT_VAR(option);
 		ZVAL_EMPTY_STRING(option);
@@ -211,8 +215,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator, isSetOption) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(option_param) == IS_STRING)) {
-		option = option_param;
+	if (likely(Z_TYPE_P(option_param) == IS_STRING)) {
+		zephir_get_strval(option, option_param);
 	} else {
 		ZEPHIR_INIT_VAR(option);
 		ZVAL_EMPTY_STRING(option);

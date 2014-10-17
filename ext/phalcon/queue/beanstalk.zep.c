@@ -270,8 +270,8 @@ PHP_METHOD(Phalcon_Queue_Beanstalk, choose) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(tube_param) == IS_STRING)) {
-		tube = tube_param;
+	if (likely(Z_TYPE_P(tube_param) == IS_STRING)) {
+		zephir_get_strval(tube, tube_param);
 	} else {
 		ZEPHIR_INIT_VAR(tube);
 		ZVAL_EMPTY_STRING(tube);
@@ -314,8 +314,8 @@ PHP_METHOD(Phalcon_Queue_Beanstalk, watch) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(tube_param) == IS_STRING)) {
-		tube = tube_param;
+	if (likely(Z_TYPE_P(tube_param) == IS_STRING)) {
+		zephir_get_strval(tube, tube_param);
 	} else {
 		ZEPHIR_INIT_VAR(tube);
 		ZVAL_EMPTY_STRING(tube);
@@ -351,7 +351,7 @@ PHP_METHOD(Phalcon_Queue_Beanstalk, peekReady) {
 	ZEPHIR_MM_GROW();
 
 	ZEPHIR_INIT_VAR(_0);
-	ZVAL_STRING(_0, "peek-ready", 0);
+	ZVAL_STRING(_0, "peek-ready", ZEPHIR_TEMP_PARAM_COPY);
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "write", NULL, _0);
 	zephir_check_temp_parameter(_0);
 	zephir_check_call_status();
@@ -388,7 +388,7 @@ PHP_METHOD(Phalcon_Queue_Beanstalk, peekBuried) {
 	ZEPHIR_MM_GROW();
 
 	ZEPHIR_INIT_VAR(_0);
-	ZVAL_STRING(_0, "peek-buried", 0);
+	ZVAL_STRING(_0, "peek-buried", ZEPHIR_TEMP_PARAM_COPY);
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "write", NULL, _0);
 	zephir_check_temp_parameter(_0);
 	zephir_check_call_status();

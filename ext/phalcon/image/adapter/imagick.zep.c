@@ -102,8 +102,8 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, __construct) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(file_param) == IS_STRING)) {
-		file = file_param;
+	if (likely(Z_TYPE_P(file_param) == IS_STRING)) {
+		zephir_get_strval(file, file_param);
 	} else {
 		ZEPHIR_INIT_VAR(file);
 		ZVAL_EMPTY_STRING(file);
@@ -204,7 +204,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, __construct) {
 		object_init_ex(_10, _21);
 		if (zephir_has_constructor(_10 TSRMLS_CC)) {
 			ZEPHIR_INIT_VAR(_22);
-			ZVAL_STRING(_22, "transparent", 0);
+			ZVAL_STRING(_22, "transparent", ZEPHIR_TEMP_PARAM_COPY);
 			ZEPHIR_CALL_METHOD(NULL, _10, "__construct", NULL, _22);
 			zephir_check_temp_parameter(_22);
 			zephir_check_call_status();
@@ -217,13 +217,13 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, __construct) {
 		zephir_check_call_status();
 		_9 = zephir_fetch_nproperty_this(this_ptr, SL("_image"), PH_NOISY_CC);
 		ZEPHIR_INIT_NVAR(_22);
-		ZVAL_STRING(_22, "png", 0);
+		ZVAL_STRING(_22, "png", ZEPHIR_TEMP_PARAM_COPY);
 		ZEPHIR_CALL_METHOD(NULL, _9, "setformat", NULL, _22);
 		zephir_check_temp_parameter(_22);
 		zephir_check_call_status();
 		_11 = zephir_fetch_nproperty_this(this_ptr, SL("_image"), PH_NOISY_CC);
 		ZEPHIR_INIT_NVAR(_22);
-		ZVAL_STRING(_22, "png", 0);
+		ZVAL_STRING(_22, "png", ZEPHIR_TEMP_PARAM_COPY);
 		ZEPHIR_CALL_METHOD(NULL, _11, "setimageformat", NULL, _22);
 		zephir_check_temp_parameter(_22);
 		zephir_check_call_status();
@@ -1044,7 +1044,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _background) {
 	object_init_ex(pixel2, _6);
 	if (zephir_has_constructor(pixel2 TSRMLS_CC)) {
 		ZEPHIR_INIT_VAR(_7);
-		ZVAL_STRING(_7, "transparent", 0);
+		ZVAL_STRING(_7, "transparent", ZEPHIR_TEMP_PARAM_COPY);
 		ZEPHIR_CALL_METHOD(NULL, pixel2, "__construct", NULL, _7);
 		zephir_check_temp_parameter(_7);
 		zephir_check_call_status();

@@ -359,13 +359,13 @@ PHP_METHOD(Phalcon_Security, getTokenKey) {
 	zephir_check_call_status();
 	zephir_filter_alphanum(safeBytes, _3);
 	ZEPHIR_INIT_BNVAR(_1);
-	ZVAL_STRING(_1, "session", 0);
+	ZVAL_STRING(_1, "session", ZEPHIR_TEMP_PARAM_COPY);
 	ZEPHIR_CALL_METHOD(&_5, dependencyInjector, "getshared", NULL, _1);
 	zephir_check_temp_parameter(_1);
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(session, _5);
 	ZEPHIR_INIT_BNVAR(_1);
-	ZVAL_STRING(_1, "$PHALCON/CSRF/KEY$", 0);
+	ZVAL_STRING(_1, "$PHALCON/CSRF/KEY$", ZEPHIR_TEMP_PARAM_COPY);
 	ZEPHIR_CALL_METHOD(NULL, session, "set", NULL, _1, safeBytes);
 	zephir_check_temp_parameter(_1);
 	zephir_check_call_status();
@@ -419,13 +419,13 @@ PHP_METHOD(Phalcon_Security, getToken) {
 		return;
 	}
 	ZEPHIR_INIT_BNVAR(_0);
-	ZVAL_STRING(_0, "session", 0);
+	ZVAL_STRING(_0, "session", ZEPHIR_TEMP_PARAM_COPY);
 	ZEPHIR_CALL_METHOD(&_1, dependencyInjector, "getshared", NULL, _0);
 	zephir_check_temp_parameter(_0);
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(session, _1);
 	ZEPHIR_INIT_BNVAR(_0);
-	ZVAL_STRING(_0, "$PHALCON/CSRF$", 0);
+	ZVAL_STRING(_0, "$PHALCON/CSRF$", ZEPHIR_TEMP_PARAM_COPY);
 	ZEPHIR_CALL_METHOD(NULL, session, "set", NULL, _0, token);
 	zephir_check_temp_parameter(_0);
 	zephir_check_call_status();
@@ -465,21 +465,21 @@ PHP_METHOD(Phalcon_Security, checkToken) {
 		return;
 	}
 	ZEPHIR_INIT_VAR(_2);
-	ZVAL_STRING(_2, "session", 0);
+	ZVAL_STRING(_2, "session", ZEPHIR_TEMP_PARAM_COPY);
 	ZEPHIR_CALL_METHOD(&_1, dependencyInjector, "getshared", NULL, _2);
 	zephir_check_temp_parameter(_2);
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(session, _1);
 	if (!(zephir_is_true(tokenKey))) {
 		ZEPHIR_INIT_BNVAR(_2);
-		ZVAL_STRING(_2, "$PHALCON/CSRF/KEY$", 0);
+		ZVAL_STRING(_2, "$PHALCON/CSRF/KEY$", ZEPHIR_TEMP_PARAM_COPY);
 		ZEPHIR_CALL_METHOD(&tokenKey, session, "get", NULL, _2);
 		zephir_check_temp_parameter(_2);
 		zephir_check_call_status();
 	}
 	if (!(zephir_is_true(tokenValue))) {
 		ZEPHIR_INIT_BNVAR(_2);
-		ZVAL_STRING(_2, "request", 0);
+		ZVAL_STRING(_2, "request", ZEPHIR_TEMP_PARAM_COPY);
 		ZEPHIR_CALL_METHOD(&request, dependencyInjector, "getshared", NULL, _2);
 		zephir_check_temp_parameter(_2);
 		zephir_check_call_status();
@@ -489,7 +489,7 @@ PHP_METHOD(Phalcon_Security, checkToken) {
 		ZEPHIR_CPY_WRT(token, tokenValue);
 	}
 	ZEPHIR_INIT_BNVAR(_2);
-	ZVAL_STRING(_2, "$PHALCON/CSRF$", 0);
+	ZVAL_STRING(_2, "$PHALCON/CSRF$", ZEPHIR_TEMP_PARAM_COPY);
 	ZEPHIR_CALL_METHOD(&_1, session, "get", NULL, _2);
 	zephir_check_temp_parameter(_2);
 	zephir_check_call_status();
@@ -516,13 +516,13 @@ PHP_METHOD(Phalcon_Security, getSessionToken) {
 		return;
 	}
 	ZEPHIR_INIT_VAR(_2);
-	ZVAL_STRING(_2, "session", 0);
+	ZVAL_STRING(_2, "session", ZEPHIR_TEMP_PARAM_COPY);
 	ZEPHIR_CALL_METHOD(&_1, dependencyInjector, "getshared", NULL, _2);
 	zephir_check_temp_parameter(_2);
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(session, _1);
 	ZEPHIR_INIT_BNVAR(_2);
-	ZVAL_STRING(_2, "$PHALCON/CSRF$", 0);
+	ZVAL_STRING(_2, "$PHALCON/CSRF$", ZEPHIR_TEMP_PARAM_COPY);
 	ZEPHIR_RETURN_CALL_METHOD(session, "get", NULL, _2);
 	zephir_check_temp_parameter(_2);
 	zephir_check_call_status();

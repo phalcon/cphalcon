@@ -156,8 +156,8 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, set) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(name_param) == IS_STRING)) {
-		name = name_param;
+	if (likely(Z_TYPE_P(name_param) == IS_STRING)) {
+		zephir_get_strval(name, name_param);
 	} else {
 		ZEPHIR_INIT_VAR(name);
 		ZVAL_EMPTY_STRING(name);
@@ -188,8 +188,8 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, set) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(domain_param) == IS_STRING)) {
-		domain = domain_param;
+	if (likely(Z_TYPE_P(domain_param) == IS_STRING)) {
+		zephir_get_strval(domain, domain_param);
 	} else {
 		ZEPHIR_INIT_VAR(domain);
 		ZVAL_EMPTY_STRING(domain);
@@ -240,11 +240,11 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, set) {
 		ZEPHIR_OBS_VAR(dependencyInjector);
 		zephir_read_property_this(&dependencyInjector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 		if (Z_TYPE_P(dependencyInjector) != IS_OBJECT) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_http_cookie_exception_ce, "A dependency injection object is required to access the 'response' service", "phalcon/http/response/cookies.zep", 141);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_http_cookie_exception_ce, "A dependency injection object is required to access the 'response' service", "phalcon/http/response/cookies.zep", 145);
 			return;
 		}
 		ZEPHIR_INIT_NVAR(_1);
-		ZVAL_STRING(_1, "response", 0);
+		ZVAL_STRING(_1, "response", ZEPHIR_TEMP_PARAM_COPY);
 		ZEPHIR_CALL_METHOD(&response, dependencyInjector, "getshared", NULL, _1);
 		zephir_check_temp_parameter(_1);
 		zephir_check_call_status();
@@ -275,8 +275,8 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, get) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(name_param) == IS_STRING)) {
-		name = name_param;
+	if (likely(Z_TYPE_P(name_param) == IS_STRING)) {
+		zephir_get_strval(name, name_param);
 	} else {
 		ZEPHIR_INIT_VAR(name);
 		ZVAL_EMPTY_STRING(name);
@@ -328,8 +328,8 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, has) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(name_param) == IS_STRING)) {
-		name = name_param;
+	if (likely(Z_TYPE_P(name_param) == IS_STRING)) {
+		zephir_get_strval(name, name_param);
 	} else {
 		ZEPHIR_INIT_VAR(name);
 		ZVAL_EMPTY_STRING(name);
@@ -369,8 +369,8 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, delete) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(name_param) == IS_STRING)) {
-		name = name_param;
+	if (likely(Z_TYPE_P(name_param) == IS_STRING)) {
+		zephir_get_strval(name, name_param);
 	} else {
 		ZEPHIR_INIT_VAR(name);
 		ZVAL_EMPTY_STRING(name);
@@ -408,7 +408,7 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, send) {
 	zephir_check_call_status();
 	if (!(zephir_is_true(_0))) {
 		_2 = zephir_fetch_nproperty_this(this_ptr, SL("_cookies"), PH_NOISY_CC);
-		zephir_is_iterable(_2, &_4, &_3, 0, 0, "phalcon/http/response/cookies.zep", 258);
+		zephir_is_iterable(_2, &_4, &_3, 0, 0, "phalcon/http/response/cookies.zep", 262);
 		for (
 		  ; zephir_hash_get_current_data_ex(_4, (void**) &_5, &_3) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_4, &_3)

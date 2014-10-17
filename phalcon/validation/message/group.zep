@@ -19,7 +19,10 @@
 
 namespace Phalcon\Validation\Message;
 
+use Phalcon\Validation\Message;
 use Phalcon\Validation\Exception;
+use Phalcon\Validation\MessageInterface;
+use Phalcon\Validation\Message\Group;
 
 /**
  * Phalcon\Validation\Message\Group
@@ -38,7 +41,7 @@ class Group implements \Countable, \ArrayAccess, \Iterator
 	 *
 	 * @param array messages
 	 */
-	public function __construct(messages=null)
+	public function __construct(messages = null)
 	{
 		if typeof messages == "array" {
 			let this->_messages = messages;
@@ -55,7 +58,7 @@ class Group implements \Countable, \ArrayAccess, \Iterator
 	 * @param int index
 	 * @return Phalcon\Validation\Message
 	 */
-	public function offsetGet(int! index) -> <\Phalcon\Validation\Message> | boolean
+	public function offsetGet(int! index) -> <Message> | boolean
 	{
 		var message;
 		if fetch message, this->_messages[index] {
@@ -123,7 +126,7 @@ class Group implements \Countable, \ArrayAccess, \Iterator
 	 *
 	 * @param Phalcon\Validation\MessageInterface message
 	 */
-	public function appendMessage(<\Phalcon\Validation\MessageInterface> message)
+	public function appendMessage(<MessageInterface> message)
 	{
 		let this->_messages[] = message;
 	}
@@ -141,10 +144,8 @@ class Group implements \Countable, \ArrayAccess, \Iterator
 	{
 		var currentMessages, finalMessages, message;
 
-		if typeof messages != "array" {
-			if typeof messages != "object" {
-				throw new Exception("The messages must be array or object");
-			}
+		if typeof messages != "array" && typeof messages != "object" {
+			throw new Exception("The messages must be array or object");
 		}
 
 		let currentMessages = this->_messages;
@@ -227,7 +228,7 @@ class Group implements \Countable, \ArrayAccess, \Iterator
 	 *
 	 * @return Phalcon\Validation\Message
 	 */
-	public function current() -> <\Phalcon\Validation\Message> | boolean
+	public function current() -> <Message> | boolean
 	{
 		var message;
 		if fetch message, this->_messages[this->_position] {
@@ -271,7 +272,7 @@ class Group implements \Countable, \ArrayAccess, \Iterator
 	 * @param array group
 	 * @return Phalcon\Validation\Message\Group
 	 */
-	public static function __set_state(group) -> <\Phalcon\Validation\Message\Group>
+	public static function __set_state(group) -> <Group>
 	{
 		return new self(group["_messages"]);
 	}

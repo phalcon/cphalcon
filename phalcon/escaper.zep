@@ -19,6 +19,9 @@
 
 namespace Phalcon;
 
+use Phalcon\EscaperInterface;
+use Phalcon\Escaper\Exception;
+
 /**
  * Phalcon\Escaper
  *
@@ -33,7 +36,7 @@ namespace Phalcon;
  *	echo $escaped; // font\2D family\3A \20 \3C Verdana\3E
  *</code>
  */
-class Escaper implements \Phalcon\EscaperInterface
+class Escaper implements EscaperInterface
 {
 
 	protected _encoding = "utf-8";
@@ -134,7 +137,7 @@ class Escaper implements \Phalcon\EscaperInterface
 		 * mbstring is required here
 		 */
 		if !function_exists("mb_convert_encoding") {
-			throw new \Phalcon\Escaper\Exception("Extension 'mbstring' is required");
+			throw new Exception("Extension 'mbstring' is required");
 		}
 
 		/**

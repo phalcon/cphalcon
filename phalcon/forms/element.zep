@@ -19,6 +19,12 @@
 
 namespace Phalcon\Forms;
 
+use Phalcon\Forms\Exception;
+use Phalcon\Validation\Message;
+use Phalcon\Validation\MessageInterface;
+use Phalcon\Validation\Message\Group;
+use Phalcon\Validation\ValidatorInterface;
+
 /**
  * Phalcon\Forms\Element
  *
@@ -51,7 +57,7 @@ abstract class Element
 	 * @param string name
 	 * @param array attributes
 	 */
-	public function __construct(string name, attributes=null)
+	public function __construct(string name, var attributes = null)
 	{
 		let this->_name = name;
 		if typeof attributes == "array" {
@@ -149,12 +155,9 @@ abstract class Element
 	 * @param Phalcon\Validation\ValidatorInterface[]
 	 * @return Phalcon\Forms\ElementInterface
 	 */
-	public function addValidators(validators, boolean merge=true) -> <ElementInterface>
+	public function addValidators(array! validators, boolean merge = true) -> <ElementInterface>
 	{
 		var currentValidators, mergedValidators;
-		if typeof validators != "array" {
-			throw new \Phalcon\Forms\Exception("The validators parameter must be an array");
-		}
 		if merge {
 			let currentValidators = this->_validators;
 			if typeof currentValidators == "array" {
@@ -173,11 +176,8 @@ abstract class Element
 	 * @param Phalcon\Validation\ValidatorInterface
 	 * @return Phalcon\Forms\ElementInterface
 	 */
-	public function addValidator(<\Phalcon\Validation\ValidatorInterface> validator) -> <ElementInterface>
+	public function addValidator(<ValidatorInterface> validator) -> <ElementInterface>
 	{
-		if typeof validator != "object" {
-			throw new Exception("The validators parameter must be an object");
-		}
 		let this->_validators[] = validator;
 		return this;
 	}
@@ -187,7 +187,7 @@ abstract class Element
 	 *
 	 * @return Phalcon\Validation\ValidatorInterface[]
 	 */
-	public function getValidators() -> <\Phalcon\Validation\ValidatorInterface[]>
+	public function getValidators() -> <ValidatorInterface[]>
 	{
 		return this->_validators;
 	}
@@ -200,7 +200,7 @@ abstract class Element
 	 * @param boolean useChecked
 	 * @return array
 	 */
-	public function prepareAttributes(attributes=null, boolean useChecked=false)
+	public function prepareAttributes(attributes = null, boolean useChecked = false)
 	{
 		var value, name, widgetAttributes, mergedAttributes,
 			defaultAttributes, currentValue;
@@ -282,7 +282,7 @@ abstract class Element
 	 * @param mixed defaultValue
 	 * @return mixed
 	 */
-	public function getAttribute(string attribute, defaultValue=null)
+	public function getAttribute(string attribute, defaultValue = null)
 	{
 		var attributes, value;
 		let attributes = this->_attributes;
@@ -339,7 +339,7 @@ abstract class Element
 	 * @param mixed defaultValue
 	 * @return mixed
 	 */
-	public function getUserOption(option, defaultValue=null)
+	public function getUserOption(option, defaultValue = null)
 	{
 		var value;
 		if fetch value, this->_options[option] {
@@ -395,25 +395,28 @@ abstract class Element
 	/**
 	 * Generate the HTML to label the element
 	 *
+	 * @param array attributes
 	 * @return string
 	 */
-	public function label() -> string
+	public function label(var attributes = null) -> string
 	{
-		var attributes, label, name, code;
+		var internalAttributes, label, name, code;
 
 		/**
 		 * Check if there is an "id" attribute defined
 		 */
-		let attributes = this->getAttributes();
+		let internalAttributes = this->getAttributes();
 
-		if !fetch name, attributes["id"] {
+		if !fetch name, internalAttributes["id"] {
 			let name = this->_name;
-		} else {
-			unset attributes["id"];
 		}
 
-		if !isset attributes["for"] {
-			let attributes["for"] = name;
+		if typeof attributes == "array" {
+			if !isset attributes["for"] {
+				let attributes["for"] = name;
+			}
+		} else {
+			let attributes = ["for": name];
 		}
 
 		let code = \Phalcon\Tag::renderAttributes("<label", attributes);
@@ -501,7 +504,7 @@ abstract class Element
 	 *
 	 * @return Phalcon\Validation\Message\Group
 	 */
-	public function getMessages() -> <\Phalcon\Validation\Message\Group>
+	public function getMessages() -> <Group>
 	{
 		var messages;
 
@@ -510,7 +513,7 @@ abstract class Element
 			return messages;
 		}
 
-		let messages = new \Phalcon\Validation\Message\Group(),
+		let messages = new Group(),
 			this->_messages = messages;
 		return messages;
 	}
@@ -541,7 +544,7 @@ abstract class Element
 	 * @param Phalcon\Validation\Message\Group group
 	 * @return Phalcon\Forms\ElementInterface
 	 */
-	public function setMessages(<\Phalcon\Validation\Message\Group> group) -> <ElementInterface>
+	public function setMessages(<Group> group) -> <ElementInterface>
 	{
 		let this->_messages = group;
 		return this;
@@ -553,13 +556,13 @@ abstract class Element
 	 * @param Phalcon\Validation\Message message
 	 * @return Phalcon\Forms\ElementInterface
 	 */
-	public function appendMessage(<\Phalcon\Validation\Message> message) -> <ElementInterface>
+	public function appendMessage(<MessageInterface> message) -> <ElementInterface>
 	{
 		var messages;
 
 		let messages = this->_messages;
 		if typeof messages != "object" {
-			let this->_messages = new \Phalcon\Validation\Message\Group();
+			let this->_messages = new Group();
 		}
 		messages->appendMessage(message);
 		return this;

@@ -4,7 +4,6 @@
 .project
 unit-tests/engines/*
 unit-tests/logs/*
-unit-tests/cache/*
 build/.deps
 build/.libs/
 build/Makefile
@@ -237,10 +236,6 @@ ext/escaper/.libs/
 ext/escaper/exception.lo
 ext/kernel/string.lo
 ext/mvc/model/metadata/files.lo
-unit-tests/cache/unit-tests.views.test10.index.volt.compiled
-unit-tests/cache/meta-robots-robots.php
-unit-tests/cache/meta-robots.php
-unit-tests/cache/map-robots.php
 unit-tests/views/test10/children.extends.volt.php
 unit-tests/views/test10/children2.volt.php
 unit-tests/views/test10/children.volt.php

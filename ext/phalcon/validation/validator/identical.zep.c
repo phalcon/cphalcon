@@ -84,8 +84,8 @@ PHP_METHOD(Phalcon_Validation_Validator_Identical, validate) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(field_param) == IS_STRING)) {
-		field = field_param;
+	if (likely(Z_TYPE_P(field_param) == IS_STRING)) {
+		zephir_get_strval(field, field_param);
 	} else {
 		ZEPHIR_INIT_VAR(field);
 		ZVAL_EMPTY_STRING(field);
@@ -99,13 +99,13 @@ PHP_METHOD(Phalcon_Validation_Validator_Identical, validate) {
 	ZEPHIR_CALL_METHOD(&_0, validation, "getvalue", NULL, field);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(_2);
-	ZVAL_STRING(_2, "value", 0);
+	ZVAL_STRING(_2, "value", ZEPHIR_TEMP_PARAM_COPY);
 	ZEPHIR_CALL_METHOD(&_1, this_ptr, "getoption", NULL, _2);
 	zephir_check_temp_parameter(_2);
 	zephir_check_call_status();
 	if (!ZEPHIR_IS_EQUAL(_0, _1)) {
 		ZEPHIR_INIT_BNVAR(_2);
-		ZVAL_STRING(_2, "label", 0);
+		ZVAL_STRING(_2, "label", ZEPHIR_TEMP_PARAM_COPY);
 		ZEPHIR_CALL_METHOD(&label, this_ptr, "getoption", NULL, _2);
 		zephir_check_temp_parameter(_2);
 		zephir_check_call_status();
@@ -114,7 +114,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Identical, validate) {
 			zephir_check_call_status();
 		}
 		ZEPHIR_INIT_BNVAR(_2);
-		ZVAL_STRING(_2, "message", 0);
+		ZVAL_STRING(_2, "message", ZEPHIR_TEMP_PARAM_COPY);
 		ZEPHIR_CALL_METHOD(&message, this_ptr, "getoption", NULL, _2);
 		zephir_check_temp_parameter(_2);
 		zephir_check_call_status();
@@ -123,7 +123,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Identical, validate) {
 		zephir_array_update_string(&replacePairs, SL(":field"), &label, PH_COPY | PH_SEPARATE);
 		if (ZEPHIR_IS_EMPTY(message)) {
 			ZEPHIR_INIT_BNVAR(_2);
-			ZVAL_STRING(_2, "Identical", 0);
+			ZVAL_STRING(_2, "Identical", ZEPHIR_TEMP_PARAM_COPY);
 			ZEPHIR_CALL_METHOD(&message, validation, "getdefaultmessage", NULL, _2);
 			zephir_check_temp_parameter(_2);
 			zephir_check_call_status();
@@ -133,7 +133,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Identical, validate) {
 		ZEPHIR_CALL_FUNCTION(&_4, "strtr", &_5, message, replacePairs);
 		zephir_check_call_status();
 		ZEPHIR_INIT_BNVAR(_2);
-		ZVAL_STRING(_2, "Identical", 0);
+		ZVAL_STRING(_2, "Identical", ZEPHIR_TEMP_PARAM_COPY);
 		ZEPHIR_CALL_METHOD(NULL, _3, "__construct", NULL, _4, field, _2);
 		zephir_check_temp_parameter(_2);
 		zephir_check_call_status();

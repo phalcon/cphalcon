@@ -14,9 +14,10 @@
 #include "kernel/main.h"
 #include "kernel/object.h"
 #include "kernel/array.h"
-#include "kernel/operators.h"
-#include "kernel/memory.h"
+#include "ext/spl/spl_exceptions.h"
 #include "kernel/exception.h"
+#include "kernel/memory.h"
+#include "kernel/operators.h"
 #include "kernel/fcall.h"
 
 
@@ -76,10 +77,15 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, __construct) {
 	zval *config_param = NULL, *page, *limit;
 	zval *config = NULL;
 
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &config_param);
+	zephir_fetch_params(0, 1, 0, &config_param);
 
-	zephir_get_arrval(config, config_param);
+	if (unlikely(Z_TYPE_P(config_param) != IS_ARRAY)) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'config' must be an array") TSRMLS_CC);
+		RETURN_NULL();
+	}
+
+		config = config_param;
+
 
 
 	zephir_update_property_this(this_ptr, SL("_config"), config TSRMLS_CC);
@@ -89,7 +95,6 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, __construct) {
 	if (zephir_array_isset_string_fetch(&page, config, SS("page"), 1 TSRMLS_CC)) {
 		zephir_update_property_this(this_ptr, SL("_page"), page TSRMLS_CC);
 	}
-	ZEPHIR_MM_RESTORE();
 
 }
 

@@ -20,10 +20,13 @@ typedef struct _zephir_struct_db {
 } zephir_struct_db;
 
 typedef struct _zephir_struct_orm { 
-	zend_bool column_renaming;
-	zend_bool events;
+	HashTable*  parser_cache;
+	HashTable*  ast_cache;
 	int cache_level;
+	int unique_cache_id;
+	zend_bool events;
 	zend_bool virtual_foreign_keys;
+	zend_bool column_renaming;
 	zend_bool not_null_validations;
 	zend_bool exception_on_failed_save;
 	zend_bool enable_literals;
@@ -43,6 +46,9 @@ ZEND_BEGIN_MODULE_GLOBALS(phalcon)
 
 	/** Function cache */
 	HashTable *fcache;
+
+	/* Cache enabled */
+	unsigned int cache_enabled;
 
 	/* Max recursion control */
 	unsigned int recursive_lock;

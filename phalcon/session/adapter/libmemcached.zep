@@ -19,6 +19,12 @@
 
 namespace Phalcon\Session\Adapter;
 
+use Phalcon\Session\Adapter;
+use Phalcon\Session\Exception;
+use Phalcon\Session\AdapterInterface;
+use Phalcon\Cache\Backend\Libmemcached;
+use Phalcon\Cache\Frontend\Data as FrontendData;
+
 /**
  * Phalcon\Session\Adapter\Libmemcached
  *
@@ -44,7 +50,7 @@ namespace Phalcon\Session\Adapter;
  * echo $session->get('var');
  *</code>
  */
-class Libmemcached extends \Phalcon\Session\Adapter implements \Phalcon\Session\AdapterInterface
+class Libmemcached extends Adapter implements AdapterInterface
 {
 
 	protected _libmemcached = NULL { get };
@@ -56,16 +62,16 @@ class Libmemcached extends \Phalcon\Session\Adapter implements \Phalcon\Session\
 	 *
 	 * @param array options
 	 */
-	public function __construct(options=null)
+	public function __construct(options = null)
 	{
 		var servers, client, lifetime, prefix;
 
 		if typeof options != "array" {
-			throw new \Phalcon\Session\Exception("The options must be an array");
+			throw new Exception("The options must be an array");
 		}
 
 		if !isset options["servers"] {
-			throw new \Phalcon\Session\Exception("No servers given in options");
+			throw new Exception("No servers given in options");
 		}
 
 		let servers = options["servers"];
@@ -88,8 +94,8 @@ class Libmemcached extends \Phalcon\Session\Adapter implements \Phalcon\Session\
 			let prefix = options["prefix"];
 		}
 
-		let this->_libmemcached = new \Phalcon\Cache\Backend\Libmemcached(
-			new \Phalcon\Cache\Frontend\Data(["lifetime": this->_lifetime]),
+		let this->_libmemcached = new Libmemcached(
+			new FrontendData(["lifetime": this->_lifetime]),
 			["servers": servers, "client": client, "prefix": prefix]
 		);
 
@@ -105,12 +111,12 @@ class Libmemcached extends \Phalcon\Session\Adapter implements \Phalcon\Session\
 		parent::__construct(options);
 	}
 
-	public function open()
+	public function open() -> boolean
 	{
 		return true;
 	}
 
-	public function close()
+	public function close() -> boolean
 	{
 		return true;
 	}
@@ -154,7 +160,7 @@ class Libmemcached extends \Phalcon\Session\Adapter implements \Phalcon\Session\
     /**
      * {@inheritdoc}
      */
-    public function gc()
+    public function gc() -> boolean
     {
 		return true;
 	}

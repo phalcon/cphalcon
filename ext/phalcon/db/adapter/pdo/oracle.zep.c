@@ -147,8 +147,8 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Oracle, describeColumns) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(table_param) == IS_STRING)) {
-		table = table_param;
+	if (likely(Z_TYPE_P(table_param) == IS_STRING)) {
+		zephir_get_strval(table, table_param);
 	} else {
 		ZEPHIR_INIT_VAR(table);
 		ZVAL_EMPTY_STRING(table);
@@ -358,7 +358,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Oracle, getDefaultIdValue) {
 
 	object_init_ex(return_value, phalcon_db_rawvalue_ce);
 	ZEPHIR_INIT_VAR(_0);
-	ZVAL_STRING(_0, "default", 0);
+	ZVAL_STRING(_0, "default", ZEPHIR_TEMP_PARAM_COPY);
 	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, _0);
 	zephir_check_temp_parameter(_0);
 	zephir_check_call_status();

@@ -19,6 +19,11 @@
 
 namespace Phalcon\Validation\Validator;
 
+use Phalcon\Validation;
+use Phalcon\Validation\Message;
+use Phalcon\Validation\Validator;
+use Phalcon\Validation\ValidatorInterface;
+
 /**
  * Phalcon\Validation\Validator\Regex
  *
@@ -33,7 +38,7 @@ namespace Phalcon\Validation\Validator;
  *)));
  *</code>
  */
-class Regex extends \Phalcon\Validation\Validator implements \Phalcon\Validation\ValidatorInterface
+class Regex extends Validator implements ValidatorInterface
 {
 
 	/**
@@ -43,7 +48,7 @@ class Regex extends \Phalcon\Validation\Validator implements \Phalcon\Validation
 	 * @param  string field
 	 * @return boolean
 	 */
-	public function validate(<\Phalcon\Validation> validation, field) -> boolean
+	public function validate(<Validation> validation, field) -> boolean
 	{
 		var matches, failed, message, value, label, replacePairs;
 
@@ -77,7 +82,7 @@ class Regex extends \Phalcon\Validation\Validator implements \Phalcon\Validation
 				let message = validation->getDefaultMessage("Regex");
 			}
 
-			validation->appendMessage(new \Phalcon\Validation\Message(strtr(message, replacePairs), field, "Regex"));
+			validation->appendMessage(new Message(strtr(message, replacePairs), field, "Regex"));
 			return false;
 		}
 

@@ -16,10 +16,10 @@
 #include "kernel/memory.h"
 #include "kernel/exception.h"
 #include "ext/spl/spl_exceptions.h"
+#include "kernel/operators.h"
 #include "kernel/array.h"
 #include "kernel/hash.h"
 #include "kernel/fcall.h"
-#include "kernel/operators.h"
 #include "kernel/file.h"
 #include "Zend/zend_closures.h"
 #include "kernel/concat.h"
@@ -214,8 +214,8 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, setOption) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(option_param) == IS_STRING)) {
-		option = option_param;
+	if (likely(Z_TYPE_P(option_param) == IS_STRING)) {
+		zephir_get_strval(option, option_param);
 	} else {
 		ZEPHIR_INIT_VAR(option);
 		ZVAL_EMPTY_STRING(option);
@@ -246,8 +246,8 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, getOption) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(option_param) == IS_STRING)) {
-		option = option_param;
+	if (likely(Z_TYPE_P(option_param) == IS_STRING)) {
+		zephir_get_strval(option, option_param);
 	} else {
 		ZEPHIR_INIT_VAR(option);
 		ZVAL_EMPTY_STRING(option);
@@ -299,8 +299,8 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, fireExtensionEvent) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(name_param) == IS_STRING)) {
-		name = name_param;
+	if (likely(Z_TYPE_P(name_param) == IS_STRING)) {
+		zephir_get_strval(name, name_param);
 	} else {
 		ZEPHIR_INIT_VAR(name);
 		ZVAL_EMPTY_STRING(name);
@@ -407,8 +407,8 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, addFunction) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(name_param) == IS_STRING)) {
-		name = name_param;
+	if (likely(Z_TYPE_P(name_param) == IS_STRING)) {
+		zephir_get_strval(name, name_param);
 	} else {
 		ZEPHIR_INIT_VAR(name);
 		ZVAL_EMPTY_STRING(name);
@@ -452,8 +452,8 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, addFilter) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(name_param) == IS_STRING)) {
-		name = name_param;
+	if (likely(Z_TYPE_P(name_param) == IS_STRING)) {
+		zephir_get_strval(name, name_param);
 	} else {
 		ZEPHIR_INIT_VAR(name);
 		ZVAL_EMPTY_STRING(name);
@@ -496,8 +496,8 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, setUniquePrefix) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(prefix_param) == IS_STRING)) {
-		prefix = prefix_param;
+	if (likely(Z_TYPE_P(prefix_param) == IS_STRING)) {
+		zephir_get_strval(prefix, prefix_param);
 	} else {
 		ZEPHIR_INIT_VAR(prefix);
 		ZVAL_EMPTY_STRING(prefix);
@@ -701,7 +701,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, functionCall) {
 			zephir_array_fast_append(_1, arguments);
 			zephir_array_fast_append(_1, funcArguments);
 			ZEPHIR_INIT_VAR(_2);
-			ZVAL_STRING(_2, "compileFunction", 0);
+			ZVAL_STRING(_2, "compileFunction", ZEPHIR_TEMP_PARAM_COPY);
 			ZEPHIR_CALL_METHOD(&code, this_ptr, "fireextensionevent", &_3, _2, _1);
 			zephir_check_temp_parameter(_2);
 			zephir_check_call_status();
@@ -1064,7 +1064,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, resolveFilter) {
 		zephir_array_fast_append(_4, arguments);
 		zephir_array_fast_append(_4, funcArguments);
 		ZEPHIR_INIT_VAR(_8);
-		ZVAL_STRING(_8, "compileFilter", 0);
+		ZVAL_STRING(_8, "compileFilter", ZEPHIR_TEMP_PARAM_COPY);
 		ZEPHIR_CALL_METHOD(&code, this_ptr, "fireextensionevent", &_9, _8, _4);
 		zephir_check_temp_parameter(_8);
 		zephir_check_call_status();
@@ -1274,7 +1274,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, expression) {
 			array_init_size(_0, 2);
 			zephir_array_fast_append(_0, expr);
 			ZEPHIR_INIT_NVAR(_1);
-			ZVAL_STRING(_1, "resolveExpression", 0);
+			ZVAL_STRING(_1, "resolveExpression", ZEPHIR_TEMP_PARAM_COPY);
 			ZEPHIR_CALL_METHOD(&exprCode, this_ptr, "fireextensionevent", &_2, _1, _0);
 			zephir_check_temp_parameter(_1);
 			zephir_check_call_status();
@@ -2472,7 +2472,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _statementList) {
 			array_init_size(_9, 2);
 			zephir_array_fast_append(_9, statement);
 			ZEPHIR_INIT_NVAR(_10);
-			ZVAL_STRING(_10, "compileStatement", 0);
+			ZVAL_STRING(_10, "compileStatement", ZEPHIR_TEMP_PARAM_COPY);
 			ZEPHIR_CALL_METHOD(&tempCompilation, this_ptr, "fireextensionevent", &_11, _10, _9);
 			zephir_check_temp_parameter(_10);
 			zephir_check_call_status();
@@ -2691,8 +2691,8 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _compileSource) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(viewCode_param) == IS_STRING)) {
-		viewCode = viewCode_param;
+	if (likely(Z_TYPE_P(viewCode_param) == IS_STRING)) {
+		zephir_get_strval(viewCode, viewCode_param);
 	} else {
 		ZEPHIR_INIT_VAR(viewCode);
 		ZVAL_EMPTY_STRING(viewCode);
@@ -2816,8 +2816,8 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileString) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(viewCode_param) == IS_STRING)) {
-		viewCode = viewCode_param;
+	if (likely(Z_TYPE_P(viewCode_param) == IS_STRING)) {
+		zephir_get_strval(viewCode, viewCode_param);
 	} else {
 		ZEPHIR_INIT_VAR(viewCode);
 		ZVAL_EMPTY_STRING(viewCode);
@@ -2866,8 +2866,8 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileFile) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(path_param) == IS_STRING)) {
-		path = path_param;
+	if (likely(Z_TYPE_P(path_param) == IS_STRING)) {
+		zephir_get_strval(path, path_param);
 	} else {
 		ZEPHIR_INIT_VAR(path);
 		ZVAL_EMPTY_STRING(path);
@@ -2877,8 +2877,8 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileFile) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(compiledPath_param) == IS_STRING)) {
-		compiledPath = compiledPath_param;
+	if (likely(Z_TYPE_P(compiledPath_param) == IS_STRING)) {
+		zephir_get_strval(compiledPath, compiledPath_param);
 	} else {
 		ZEPHIR_INIT_VAR(compiledPath);
 		ZVAL_EMPTY_STRING(compiledPath);
@@ -2967,8 +2967,8 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compile) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(templatePath_param) == IS_STRING)) {
-		templatePath = templatePath_param;
+	if (likely(Z_TYPE_P(templatePath_param) == IS_STRING)) {
+		zephir_get_strval(templatePath, templatePath_param);
 	} else {
 		ZEPHIR_INIT_VAR(templatePath);
 		ZVAL_EMPTY_STRING(templatePath);
@@ -3070,13 +3070,9 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compile) {
 		}
 		ZEPHIR_INIT_VAR(compiledTemplatePath);
 		if (extendsMode == 1) {
-			ZEPHIR_CALL_FUNCTION(&_1, "realpath", &_2, compiledPath);
-			zephir_check_call_status();
-			ZEPHIR_CONCAT_VSVVVSVV(compiledTemplatePath, _1, "/", prefix, templateSepPath, compiledSeparator, "e", compiledSeparator, compiledExtension);
+			ZEPHIR_CONCAT_VVVVSVV(compiledTemplatePath, compiledPath, prefix, templateSepPath, compiledSeparator, "e", compiledSeparator, compiledExtension);
 		} else {
-			ZEPHIR_CALL_FUNCTION(&_1, "realpath", &_2, compiledPath);
-			zephir_check_call_status();
-			ZEPHIR_CONCAT_VSVVV(compiledTemplatePath, _1, "/", prefix, templateSepPath, compiledExtension);
+			ZEPHIR_CONCAT_VVVV(compiledTemplatePath, compiledPath, prefix, templateSepPath, compiledExtension);
 		}
 	} else {
 		if (Z_TYPE_P(compiledPath) == IS_OBJECT) {
@@ -3206,8 +3202,8 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, parse) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(viewCode_param) == IS_STRING)) {
-		viewCode = viewCode_param;
+	if (likely(Z_TYPE_P(viewCode_param) == IS_STRING)) {
+		zephir_get_strval(viewCode, viewCode_param);
 	} else {
 		ZEPHIR_INIT_VAR(viewCode);
 		ZVAL_EMPTY_STRING(viewCode);

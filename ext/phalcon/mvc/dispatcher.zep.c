@@ -15,9 +15,9 @@
 #include "kernel/object.h"
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/exception.h"
+#include "kernel/operators.h"
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
-#include "kernel/operators.h"
 
 
 /*
@@ -93,8 +93,8 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, setControllerSuffix) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(controllerSuffix_param) == IS_STRING)) {
-		controllerSuffix = controllerSuffix_param;
+	if (likely(Z_TYPE_P(controllerSuffix_param) == IS_STRING)) {
+		zephir_get_strval(controllerSuffix, controllerSuffix_param);
 	} else {
 		ZEPHIR_INIT_VAR(controllerSuffix);
 		ZVAL_EMPTY_STRING(controllerSuffix);
@@ -124,8 +124,8 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, setDefaultController) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(controllerName_param) == IS_STRING)) {
-		controllerName = controllerName_param;
+	if (likely(Z_TYPE_P(controllerName_param) == IS_STRING)) {
+		zephir_get_strval(controllerName, controllerName_param);
 	} else {
 		ZEPHIR_INIT_VAR(controllerName);
 		ZVAL_EMPTY_STRING(controllerName);
@@ -155,8 +155,8 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, setControllerName) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(controllerName_param) == IS_STRING)) {
-		controllerName = controllerName_param;
+	if (likely(Z_TYPE_P(controllerName_param) == IS_STRING)) {
+		zephir_get_strval(controllerName, controllerName_param);
 	} else {
 		ZEPHIR_INIT_VAR(controllerName);
 		ZVAL_EMPTY_STRING(controllerName);
@@ -224,8 +224,8 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, _throwDispatchException) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(message_param) == IS_STRING)) {
-		message = message_param;
+	if (likely(Z_TYPE_P(message_param) == IS_STRING)) {
+		zephir_get_strval(message, message_param);
 	} else {
 		ZEPHIR_INIT_VAR(message);
 		ZVAL_EMPTY_STRING(message);
@@ -243,18 +243,18 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, _throwDispatchException) {
 		ZEPHIR_INIT_VAR(_0);
 		object_init_ex(_0, phalcon_mvc_dispatcher_exception_ce);
 		ZEPHIR_INIT_VAR(_1);
-		ZVAL_STRING(_1, "A dependency injection container is required to access the 'response' service", 0);
+		ZVAL_STRING(_1, "A dependency injection container is required to access the 'response' service", ZEPHIR_TEMP_PARAM_COPY);
 		ZEPHIR_INIT_VAR(_2);
 		ZVAL_LONG(_2, 0);
 		ZEPHIR_CALL_METHOD(NULL, _0, "__construct", NULL, _1, _2);
 		zephir_check_temp_parameter(_1);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(_0, "phalcon/mvc/dispatcher.zep", 129 TSRMLS_CC);
+		zephir_throw_exception_debug(_0, "phalcon/mvc/dispatcher.zep", 134 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
 	ZEPHIR_INIT_NVAR(_1);
-	ZVAL_STRING(_1, "response", 0);
+	ZVAL_STRING(_1, "response", ZEPHIR_TEMP_PARAM_COPY);
 	ZEPHIR_CALL_METHOD(&_3, dependencyInjector, "getshared", NULL, _1);
 	zephir_check_temp_parameter(_1);
 	zephir_check_call_status();
@@ -262,7 +262,7 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, _throwDispatchException) {
 	ZEPHIR_INIT_NVAR(_1);
 	ZVAL_LONG(_1, 404);
 	ZEPHIR_INIT_NVAR(_2);
-	ZVAL_STRING(_2, "Not Found", 0);
+	ZVAL_STRING(_2, "Not Found", ZEPHIR_TEMP_PARAM_COPY);
 	ZEPHIR_CALL_METHOD(NULL, response, "setstatuscode", NULL, _1, _2);
 	zephir_check_temp_parameter(_2);
 	zephir_check_call_status();
@@ -277,7 +277,7 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, _throwDispatchException) {
 	if (ZEPHIR_IS_FALSE_IDENTICAL(_3)) {
 		RETURN_MM_BOOL(0);
 	}
-	zephir_throw_exception_debug(exception, "phalcon/mvc/dispatcher.zep", 151 TSRMLS_CC);
+	zephir_throw_exception_debug(exception, "phalcon/mvc/dispatcher.zep", 156 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 	return;
 
@@ -306,7 +306,7 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, _handleException) {
 	ZEPHIR_CPY_WRT(eventsManager, _0);
 	if (Z_TYPE_P(eventsManager) == IS_OBJECT) {
 		ZEPHIR_INIT_VAR(_2);
-		ZVAL_STRING(_2, "dispatch:beforeException", 0);
+		ZVAL_STRING(_2, "dispatch:beforeException", ZEPHIR_TEMP_PARAM_COPY);
 		ZEPHIR_CALL_METHOD(&_1, eventsManager, "fire", NULL, _2, this_ptr, exception);
 		zephir_check_temp_parameter(_2);
 		zephir_check_call_status();

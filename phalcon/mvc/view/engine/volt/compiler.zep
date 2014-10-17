@@ -2468,7 +2468,7 @@ class Compiler implements InjectionAwareInterface
 	 * @param boolean extendsMode
 	 * @return string|array
 	 */
-	public function compile(string! templatePath, boolean extendsMode=false)
+	public function compile(string! templatePath, boolean extendsMode = false)
 	{
 		var stat, compileAlways, prefix, compiledPath, compiledSeparator, blocksCode,
 			compiledExtension, compilation, options, realCompiledPath,
@@ -2577,9 +2577,9 @@ class Compiler implements InjectionAwareInterface
 			 * In extends mode we add an additional 'e' suffix to the file
 			 */
 			if extendsMode === true {
-				let compiledTemplatePath = realpath(compiledPath) . DIRECTORY_SEPARATOR . prefix . templateSepPath . compiledSeparator . "e" . compiledSeparator . compiledExtension;
+				let compiledTemplatePath = compiledPath . prefix . templateSepPath . compiledSeparator . "e" . compiledSeparator . compiledExtension;
 			} else {
-				let compiledTemplatePath = realpath(compiledPath) . DIRECTORY_SEPARATOR . prefix . templateSepPath . compiledExtension;
+				let compiledTemplatePath = compiledPath . prefix . templateSepPath . compiledExtension;
 			}
 
 		} else {

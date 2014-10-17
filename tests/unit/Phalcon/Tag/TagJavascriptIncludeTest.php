@@ -56,7 +56,7 @@ class TagJavascriptIncludeTest extends Helper\TagBase
     public function testJavascriptIncludeWithArrayLocal()
     {
         $this->specify(
-            "iavascriptInclude with array parameter local link returns invalid HTML",
+            "javascriptInclude with array parameter local link returns invalid HTML",
             function () {
 
                 $options  = ['js/phalcon.js'];
@@ -77,7 +77,7 @@ class TagJavascriptIncludeTest extends Helper\TagBase
     public function testJavascriptIncludeWithStringAsSecondParameterLocal()
     {
         $this->specify(
-            "iavascriptInclude with a string as the second parameter local link returns invalid HTML",
+            "javascriptInclude with a string as the second parameter local link returns invalid HTML",
             function () {
 
                 $options  = ['js/phalcon.js'];

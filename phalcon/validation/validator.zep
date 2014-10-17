@@ -32,14 +32,12 @@ class Validator
 	/**
 	 * Phalcon\Validation\Validator constructor
 	 *
-	 * @param array options
+	 * @param mixed options
 	 */
-	public function __construct(options=null)
+	public function __construct(var options = null)
 	{
-		if typeof options != "array" {
-			if typeof options != "null" {
-				throw new Exception("Options must be an array");
-			}
+		if typeof options != "array" && typeof options != "null" {
+			throw new Exception("Options must be an array");
 		} else {
 			let this->_options = options;
 		}

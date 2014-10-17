@@ -127,7 +127,7 @@ PHP_METHOD(Phalcon_Cli_Router, __construct) {
 		array_init_size(_1, 2);
 		add_assoc_long_ex(_1, SS("task"), 1);
 		ZEPHIR_INIT_VAR(_2);
-		ZVAL_STRING(_2, "#^(?::delimiter)?([a-zA-Z0-9\\_\\-]+)[:delimiter]{0,1}$#", 0);
+		ZVAL_STRING(_2, "#^(?::delimiter)?([a-zA-Z0-9\\_\\-]+)[:delimiter]{0,1}$#", ZEPHIR_TEMP_PARAM_COPY);
 		ZEPHIR_CALL_METHOD(NULL, _0, "__construct", &_3, _2, _1);
 		zephir_check_temp_parameter(_2);
 		zephir_check_call_status();
@@ -140,7 +140,7 @@ PHP_METHOD(Phalcon_Cli_Router, __construct) {
 		add_assoc_long_ex(_5, SS("action"), 2);
 		add_assoc_long_ex(_5, SS("params"), 3);
 		ZEPHIR_INIT_NVAR(_2);
-		ZVAL_STRING(_2, "#^(?::delimiter)?([a-zA-Z0-9\\_\\-]+):delimiter([a-zA-Z0-9\\.\\_]+)(:delimiter.*)*$#", 0);
+		ZVAL_STRING(_2, "#^(?::delimiter)?([a-zA-Z0-9\\_\\-]+):delimiter([a-zA-Z0-9\\.\\_]+)(:delimiter.*)*$#", ZEPHIR_TEMP_PARAM_COPY);
 		ZEPHIR_CALL_METHOD(NULL, _4, "__construct", &_3, _2, _5);
 		zephir_check_temp_parameter(_2);
 		zephir_check_call_status();
@@ -533,8 +533,8 @@ PHP_METHOD(Phalcon_Cli_Router, add) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(pattern_param) == IS_STRING)) {
-		pattern = pattern_param;
+	if (likely(Z_TYPE_P(pattern_param) == IS_STRING)) {
+		zephir_get_strval(pattern, pattern_param);
 	} else {
 		ZEPHIR_INIT_VAR(pattern);
 		ZVAL_EMPTY_STRING(pattern);
@@ -706,8 +706,8 @@ PHP_METHOD(Phalcon_Cli_Router, getRouteByName) {
 		RETURN_MM_NULL();
 	}
 
-	if (unlikely(Z_TYPE_P(name_param) == IS_STRING)) {
-		name = name_param;
+	if (likely(Z_TYPE_P(name_param) == IS_STRING)) {
+		zephir_get_strval(name, name_param);
 	} else {
 		ZEPHIR_INIT_VAR(name);
 		ZVAL_EMPTY_STRING(name);

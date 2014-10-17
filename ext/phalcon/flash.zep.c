@@ -15,6 +15,7 @@
 #include "kernel/memory.h"
 #include "kernel/object.h"
 #include "kernel/operators.h"
+#include "ext/spl/spl_exceptions.h"
 #include "kernel/exception.h"
 #include "kernel/fcall.h"
 #include "kernel/array.h"
@@ -146,18 +147,22 @@ PHP_METHOD(Phalcon_Flash, setAutomaticHtml) {
  */
 PHP_METHOD(Phalcon_Flash, setCssClasses) {
 
-	zval *cssClasses;
+	zval *cssClasses_param = NULL;
+	zval *cssClasses = NULL;
 
-	zephir_fetch_params(0, 1, 0, &cssClasses);
+	zephir_fetch_params(0, 1, 0, &cssClasses_param);
 
-
-
-	if (Z_TYPE_P(cssClasses) == IS_ARRAY) {
-		zephir_update_property_this(this_ptr, SL("_cssClasses"), cssClasses TSRMLS_CC);
-		RETURN_THISW();
+	if (unlikely(Z_TYPE_P(cssClasses_param) != IS_ARRAY)) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'cssClasses' must be an array") TSRMLS_CC);
+		RETURN_NULL();
 	}
-	ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_flash_exception_ce, "CSS classes must be an Array", "phalcon/flash.zep", 95);
-	return;
+
+		cssClasses = cssClasses_param;
+
+
+
+	zephir_update_property_this(this_ptr, SL("_cssClasses"), cssClasses TSRMLS_CC);
+	RETURN_THISW();
 
 }
 
@@ -182,7 +187,7 @@ PHP_METHOD(Phalcon_Flash, error) {
 
 
 	ZEPHIR_INIT_VAR(_0);
-	ZVAL_STRING(_0, "error", 0);
+	ZVAL_STRING(_0, "error", ZEPHIR_TEMP_PARAM_COPY);
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "message", NULL, _0, message);
 	zephir_check_temp_parameter(_0);
 	zephir_check_call_status();
@@ -211,7 +216,7 @@ PHP_METHOD(Phalcon_Flash, notice) {
 
 
 	ZEPHIR_INIT_VAR(_0);
-	ZVAL_STRING(_0, "notice", 0);
+	ZVAL_STRING(_0, "notice", ZEPHIR_TEMP_PARAM_COPY);
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "message", NULL, _0, message);
 	zephir_check_temp_parameter(_0);
 	zephir_check_call_status();
@@ -242,7 +247,7 @@ PHP_METHOD(Phalcon_Flash, success) {
 
 
 	ZEPHIR_INIT_VAR(_0);
-	ZVAL_STRING(_0, "success", 0);
+	ZVAL_STRING(_0, "success", ZEPHIR_TEMP_PARAM_COPY);
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "message", NULL, _0, message);
 	zephir_check_temp_parameter(_0);
 	zephir_check_call_status();
@@ -271,7 +276,7 @@ PHP_METHOD(Phalcon_Flash, warning) {
 
 
 	ZEPHIR_INIT_VAR(_0);
-	ZVAL_STRING(_0, "warning", 0);
+	ZVAL_STRING(_0, "warning", ZEPHIR_TEMP_PARAM_COPY);
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "message", NULL, _0, message);
 	zephir_check_temp_parameter(_0);
 	zephir_check_call_status();

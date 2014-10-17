@@ -20,6 +20,7 @@
 
 namespace Phalcon;
 
+use Phalcon\DiInterface;
 use Phalcon\Di\Service;
 use Phalcon\Di\ServiceInterface;
 use Phalcon\Di\Exception;
@@ -56,7 +57,7 @@ use Phalcon\Di\Exception;
  *
  *</code>
  */
-class Di implements \Phalcon\DiInterface
+class Di implements DiInterface
 {
 
 	protected _services;
@@ -92,7 +93,7 @@ class Di implements \Phalcon\DiInterface
 	public function set(string! name, definition, shared = false) -> <ServiceInterface>
 	{
 		var service;
-		let service = new \Phalcon\Di\Service(name, definition, shared),
+		let service = new Service(name, definition, shared),
 			this->_services[name] = service;
 		return service;
 	}
@@ -404,7 +405,7 @@ class Di implements \Phalcon\DiInterface
 	 *
 	 * @param Phalcon\DiInterface dependencyInjector
 	 */
-	public static function setDefault(<\Phalcon\DiInterface> dependencyInjector)
+	public static function setDefault(<DiInterface> dependencyInjector)
 	{
 		let self::_default = dependencyInjector;
 	}
@@ -414,7 +415,7 @@ class Di implements \Phalcon\DiInterface
 	 *
 	 * @return Phalcon\DiInterface
 	 */
-	public static function getDefault() -> <\Phalcon\DiInterface>
+	public static function getDefault() -> <DiInterface>
 	{
 		return self::_default;
 	}

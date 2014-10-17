@@ -214,7 +214,7 @@ abstract class Text
 		 * 'upper' checks for the mbstring extension to make a correct lowercase transformation
 		 */
 		if function_exists("mb_strtoupper") {
-			return mb_strtoupper($str);
+			return mb_strtoupper(str);
 		}
 		return strtoupper(str);
 	}

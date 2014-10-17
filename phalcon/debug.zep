@@ -134,11 +134,11 @@ class Debug
 	/**
 	 * Adds a variable to the debug output
 	 *
-	 * @param mixed var
+	 * @param mixed varz
 	 * @param string key
 	 * @return Phalcon\Debug
 	 */
-	public function debugVar(varz, key=null) -> <Debug>
+	public function debugVar(varz, var key = null) -> <Debug>
 	{
 		let this->_data[] = [varz, debug_backtrace(), time()];
 		return this;
@@ -161,7 +161,7 @@ class Debug
 	 * @param string value
 	 * @return string
 	 */
-	protected function _escapeString(value)
+	protected function _escapeString(var value) -> string
 	{
 		if typeof value == "string" {
 			return htmlentities(str_replace("\n", "\\n", value), ENT_COMPAT, "utf-8");
@@ -228,7 +228,7 @@ class Debug
 	 * @param mixed variable
 	 * @return string
 	 */
-	protected function _getVarDump(variable)
+	protected function _getVarDump(var variable)
 	{
 		var className, dumpedObject, dump;
 
@@ -305,11 +305,11 @@ class Debug
 	}
 
 	/**
-	 * Returns the major framework"s version
+	 * Returns the major framework's version
 	 *
 	 * @return string
 	 */
-	public function getMajorVersion()
+	public function getMajorVersion() -> string
 	{
 		var parts;
 
@@ -322,7 +322,7 @@ class Debug
 	 *
 	 * @return string
 	 */
-	public function getVersion()
+	public function getVersion() -> string
 	{
 		return "<div class=\"version\">Phalcon Framework <a target=\"_new\" href=\"http://docs.phalconphp.com/en/" .
 			this->getMajorVersion() . "/\">" .

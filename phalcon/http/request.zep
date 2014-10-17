@@ -18,9 +18,11 @@
 
 namespace Phalcon\Http;
 
+use Phalcon\DiInterface;
 use Phalcon\Http\RequestInterface;
 use Phalcon\Di\InjectionAwareInterface;
 use Phalcon\Http\Request\Exception;
+use Phalcon\Http\Request\File;
 
 /**
  * Phalcon\Http\Request
@@ -54,7 +56,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 	 *
 	 * @param Phalcon\DiInterface dependencyInjector
 	 */
-	public function setDI(<\Phalcon\DiInterface> dependencyInjector)
+	public function setDI(<DiInterface> dependencyInjector)
 	{
 		let this->_dependencyInjector = dependencyInjector;
 	}
@@ -64,7 +66,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 	 *
 	 * @return Phalcon\DiInterface
 	 */
-	public function getDI() -> <\Phalcon\DiInterface>
+	public function getDI() -> <DiInterface>
 	{
 		return this->_dependencyInjector;
 	}
@@ -98,7 +100,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 				if filters !== null {
 					let filter = this->_filter;
 					if typeof filter != "object" {
-						let dependencyInjector = <\Phalcon\Di> this->_dependencyInjector;
+						let dependencyInjector = <DiInterface> this->_dependencyInjector;
 						if typeof dependencyInjector != "object" {
 							throw new Exception("A dependency injection object is required to access the 'filter' service");
 						}
@@ -147,7 +149,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 	 * @param boolean noRecursive
 	 * @return mixed
 	 */
-	public function getPost(string! name=null, filters=null, defaultValue=null, notAllowEmpty=false, noRecursive=false)
+	public function getPost(string! name = null, filters = null, defaultValue = null, notAllowEmpty = false, noRecursive = false)
 	{
 		var post, value, filter, dependencyInjector;
 
@@ -157,7 +159,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 				if filters !== null {
 					let filter = this->_filter;
 					if typeof filter != "object" {
-						let dependencyInjector = <\Phalcon\Di> this->_dependencyInjector;
+						let dependencyInjector = <DiInterface> this->_dependencyInjector;
 						if typeof dependencyInjector != "object" {
 							throw new Exception("A dependency injection object is required to access the 'filter' service");
 						}
@@ -174,11 +176,9 @@ class Request implements RequestInterface, InjectionAwareInterface
 					return value;
 
 				} else {
-
-				 	if (empty(value) && notAllowEmpty === true) {
+				 	if empty(value) && notAllowEmpty === true {
 				 		return defaultValue;
 				 	}
-
 					return value;
 
 				}
@@ -210,7 +210,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 	 * @param boolean noRecursive
 	 * @return mixed
 	 */
-	public function getQuery(string! name=null, filters=null, defaultValue=null, notAllowEmpty=false, noRecursive=false)
+	public function getQuery(string! name = null, filters = null, defaultValue = null, notAllowEmpty = false, noRecursive = false)
 	{
 		var get, value, filter, dependencyInjector;
 
@@ -220,7 +220,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 				if filters !== null {
 					let filter = this->_filter;
 					if typeof filter != "object" {
-						let dependencyInjector = <\Phalcon\Di> this->_dependencyInjector;
+						let dependencyInjector = <DiInterface> this->_dependencyInjector;
 						if typeof dependencyInjector != "object" {
 							throw new Exception("A dependency injection object is required to access the 'filter' service");
 						}
@@ -680,7 +680,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 	 * @param boolean onlySuccessful
 	 * @return boolean
 	 */
-	public function hasFiles(boolean onlySuccessful=false) -> long
+	public function hasFiles(boolean onlySuccessful = false) -> long
 	{
 		var files, file, error;
 		int numberFiles = 0;
@@ -739,7 +739,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 	 * @param boolean notErrored
 	 * @return Phalcon\Http\Request\File[]
 	 */
-	public function getUploadedFiles(boolean notErrored=false) -> <Phalcon\Http\Request\File[]>
+	public function getUploadedFiles(boolean notErrored = false) -> <File[]>
 	{
 		var superFiles, prefix, input, smoothInput, files, file, dataFile;
 
@@ -763,12 +763,12 @@ class Request implements RequestInterface, InjectionAwareInterface
 								"error": file["error"]
 							];
 
-							let files[] = new \Phalcon\Http\Request\File(dataFile, file["key"]);
+							let files[] = new File(dataFile, file["key"]);
 						}
 					}
 				} else {
 					if (notErrored == false || input["error"] == UPLOAD_ERR_OK) {
-						let files[] = new \Phalcon\Http\Request\File(input, prefix);
+						let files[] = new File(input, prefix);
 					}
 				}
 			}

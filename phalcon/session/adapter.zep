@@ -38,7 +38,7 @@ abstract class Adapter
 	 *
 	 * @param array options
 	 */
-	public function __construct(options=null)
+	public function __construct(options = null)
 	{
 		if typeof options == "array" {
 			this->setOptions(options);
@@ -71,13 +71,9 @@ abstract class Adapter
 	 *
 	 * @param array options
 	 */
-	public function setOptions(options)
+	public function setOptions(array! options)
 	{
 		var uniqueId;
-
-		if typeof options != "array" {
-			throw new Exception("Options must be an Array");
-		}
 
 		if fetch uniqueId, options["uniqueId"] {
 			let this->_uniqueId = uniqueId;
@@ -104,7 +100,7 @@ abstract class Adapter
 	 * @param boolean remove
 	 * @return mixed
 	 */
-	public function get(string index, defaultValue=null, remove=false)
+	public function get(string index, defaultValue = null, boolean remove = false)
 	{
 		var value, key;
 

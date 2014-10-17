@@ -19,6 +19,8 @@
 
 namespace Phalcon\Mvc\Collection;
 
+use Phalcon\Mvc\Collection\Exception;
+
 /**
  * Phalcon\Mvc\Collection\Document
  *
@@ -50,7 +52,7 @@ class Document implements \ArrayAccess
 		if fetch value, this->{index} {
 			return value;
 		}
-		throw new \Phalcon\Mvc\Collection\Exception("The index does not exist in the row");
+		throw new Exception("The index does not exist in the row");
 	}
 
 	/**
@@ -72,7 +74,7 @@ class Document implements \ArrayAccess
 	 */
 	public function offsetUnset(offset)
 	{
-		throw new \Phalcon\Mvc\Collection\Exception("The index does not exist in the row");
+		throw new Exception("The index does not exist in the row");
 	}
 
 	/**
