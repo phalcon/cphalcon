@@ -473,7 +473,7 @@ int zephir_call_func_aparams(zval **return_value_ptr, const char *func_name, uin
 {
 	int status;
 	zval *rv = NULL, **rvp = return_value_ptr ? return_value_ptr : &rv;
-	zval func = zval_used_for_init;
+	zval *func;
 
 #ifndef ZEPHIR_RELEASE
 	if (return_value_ptr && *return_value_ptr) {
@@ -483,8 +483,9 @@ int zephir_call_func_aparams(zval **return_value_ptr, const char *func_name, uin
 	}
 #endif
 
-	ZVAL_STRINGL(&func, func_name, func_length, 0);
-	status = zephir_call_user_function(NULL, NULL, zephir_fcall_function, &func, rvp, cache_entry, param_count, params TSRMLS_CC);
+	ALLOC_INIT_ZVAL(func);
+	ZVAL_STRINGL(func, func_name, func_length, 0);
+	status = zephir_call_user_function(NULL, NULL, zephir_fcall_function, func, rvp, cache_entry, param_count, params TSRMLS_CC);
 
 	if (status == FAILURE && !EG(exception)) {
 		zend_error(E_ERROR, "Call to undefined function %s()", func_name);
@@ -500,6 +501,13 @@ int zephir_call_func_aparams(zval **return_value_ptr, const char *func_name, uin
 	if (rv) {
 		zval_ptr_dtor(&rv);
 	}
+
+	if (Z_REFCOUNT_P(func) > 1) {
+		zval_copy_ctor(func);
+	} else {
+		ZVAL_NULL(func);
+	}
+	zval_ptr_dtor(&func);
 
 	return status;
 }
