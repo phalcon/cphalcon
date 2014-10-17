@@ -608,7 +608,7 @@ PHP_METHOD(Phalcon_Http_Response, redirect) {
 
 
 	ZEPHIR_INIT_VAR(messages);
-	array_init_size(messages, 12);
+	array_init_size(messages, 13);
 	add_index_stringl(messages, 300, SL("Multiple Choices"), 1);
 	add_index_stringl(messages, 301, SL("Moved Permanently"), 1);
 	add_index_stringl(messages, 302, SL("Found"), 1);

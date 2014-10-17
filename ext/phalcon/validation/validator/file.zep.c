@@ -279,7 +279,7 @@ PHP_METHOD(Phalcon_Validation_Validator_File, validate) {
 	zephir_check_call_status();
 	if (zephir_is_true(_10)) {
 		ZEPHIR_INIT_VAR(byteUnits);
-		array_init_size(byteUnits, 12);
+		array_init_size(byteUnits, 13);
 		add_assoc_long_ex(byteUnits, SS("B"), 0);
 		add_assoc_long_ex(byteUnits, SS("K"), 10);
 		add_assoc_long_ex(byteUnits, SS("M"), 20);

@@ -203,7 +203,6 @@ void zephir_concat_self_char(zval **left, unsigned char right TSRMLS_DC) {
 
 	zval left_copy;
 	int use_copy = 0;
-	char *tmp;
 
 	if (Z_TYPE_PP(left) == IS_NULL) {
 		Z_STRVAL_PP(left) = emalloc(2);
