@@ -55,7 +55,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator) {
 /**
  * Phalcon\Validation\Validator constructor
  *
- * @param array options
+ * @param mixed options
  */
 PHP_METHOD(Phalcon_Validation_Validator, __construct) {
 

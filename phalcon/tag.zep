@@ -105,7 +105,7 @@ class Tag
 	}
 
 	/**
-	 * Renders parameters keeping order in html attributes
+	 * Renders parameters keeping order in their HTML attributes
 	 *
 	 * @param string code
 	 * @param array attributes
@@ -159,7 +159,7 @@ class Tag
 	}
 
 	/**
-	 * Return a URL service from the default DI
+	 * Returns a URL service from the default DI
 	 *
 	 * @return Phalcon\Mvc\UrlInterface
 	 */
@@ -419,7 +419,7 @@ class Tag
 	 * @param 	boolean asValue
 	 * @return	string
 	 */
-	static protected function _inputField(string type, parameters, boolean asValue = false) -> string
+	static protected final function _inputField(string type, parameters, boolean asValue = false) -> string
 	{
 		var params, id, value, code, name;
 
@@ -446,10 +446,10 @@ class Tag
 			}
 
 			/**
-			* Automatically assign the id if the name is not an array
-			*/
-			if !memstr(id, "[") {
-				if !isset params["id"] {
+			 * Automatically assign the id if the name is not an array
+			 */
+			if typeof id == "string" {
+				if !memstr(id, "[") && !isset params["id"] {
 					let params["id"] = id;
 				}
 			}
@@ -489,7 +489,7 @@ class Tag
 	 * @param	array parameters
 	 * @return	string
 	 */
-	static protected function _inputFieldChecked(string type, parameters) -> string
+	static protected final function _inputFieldChecked(string type, var parameters) -> string
 	{
 		var params, value, id, code, name, currentValue;
 
@@ -568,7 +568,7 @@ class Tag
 	 * @param array parameters
 	 * @return string
 	 */
-	public static function colorField(parameters) -> string
+	public static function colorField(var parameters) -> string
 	{
 		return self::_inputField("color", parameters);
 	}
@@ -583,7 +583,7 @@ class Tag
 	 * @param	array parameters
 	 * @return	string
 	 */
-	public static function textField(parameters) -> string
+	public static function textField(var parameters) -> string
 	{
 		return self::_inputField("text", parameters);
 	}
@@ -598,7 +598,7 @@ class Tag
 	 * @param	array parameters
 	 * @return	string
 	 */
-	public static function numericField(parameters) -> string
+	public static function numericField(var parameters) -> string
 	{
 		return self::_inputField("number", parameters);
 	}
@@ -610,7 +610,7 @@ class Tag
 	* @param array parameters
 	* @return string
 	*/
-	public static function rangeField(parameters) -> string
+	public static function rangeField(var parameters) -> string
 	{
 		return self::_inputField("range", parameters);
 	}
@@ -625,7 +625,7 @@ class Tag
 	 * @param	array parameters
 	 * @return	string
 	 */
-	public static function emailField(parameters) -> string
+	public static function emailField(var parameters) -> string
 	{
 		return self::_inputField("email", parameters);
 	}
@@ -640,7 +640,7 @@ class Tag
 	 * @param	array parameters
 	 * @return	string
 	 */
-	public static function dateField(parameters) -> string
+	public static function dateField(var parameters) -> string
 	{
 		return self::_inputField("date", parameters);
 	}
@@ -651,7 +651,7 @@ class Tag
 	* @param array parameters
 	* @return string
 	*/
-	public static function dateTimeField(parameters) -> string
+	public static function dateTimeField(var parameters) -> string
 	{
 		return self::_inputField("datetime", parameters);
 	}
@@ -662,7 +662,7 @@ class Tag
 	* @param array parameters
 	* @return string
 	*/
-	public static function dateTimeLocalField(parameters) -> string
+	public static function dateTimeLocalField(var parameters) -> string
 	{
 		return self::_inputField("datetime-local", parameters);
 	}
@@ -673,7 +673,7 @@ class Tag
 	 * @param array parameters
 	 * @return string
 	 */
-	public static function monthField(parameters) -> string
+	public static function monthField(var parameters) -> string
 	{
 		return self::_inputField("month", parameters);
 	}
@@ -684,7 +684,7 @@ class Tag
 	 * @param array parameters
 	 * @return string
 	 */
-	public static function timeField(parameters) -> string
+	public static function timeField(var parameters) -> string
 	{
 		return self::_inputField("time", parameters);
 	}
@@ -695,7 +695,7 @@ class Tag
 	 * @param array parameters
 	 * @return string
 	 */
-	public static function weekField(parameters) -> string
+	public static function weekField(var parameters) -> string
 	{
 		return self::_inputField("week", parameters);
 	}
@@ -710,7 +710,7 @@ class Tag
 	 * @param	array parameters
 	 * @return	string
 	 */
-	public static function passwordField(parameters) -> string
+	public static function passwordField(var parameters) -> string
 	{
 		return self::_inputField("password", parameters);
 	}
@@ -725,7 +725,7 @@ class Tag
 	 * @param	array parameters
 	 * @return	string
 	 */
-	public static function hiddenField(parameters) -> string
+	public static function hiddenField(var parameters) -> string
 	{
 		return self::_inputField("hidden", parameters);
 	}
@@ -740,7 +740,7 @@ class Tag
 	 * @param	array parameters
 	 * @return	string
 	 */
-	public static function fileField(parameters) -> string
+	public static function fileField(var parameters) -> string
 	{
 		return self::_inputField("file", parameters);
 	}
@@ -751,7 +751,7 @@ class Tag
 	 * @param array parameters
 	 * @return string
 	 */
-	public static function searchField(parameters) -> string
+	public static function searchField(var parameters) -> string
 	{
 		return self::_inputField("search", parameters);
 	}
@@ -762,7 +762,7 @@ class Tag
 	* @param array parameters
 	* @return string
 	*/
-	public static function telField(parameters) -> string
+	public static function telField(var parameters) -> string
 	{
 		return self::_inputField("tel", parameters);
 	}
@@ -773,7 +773,7 @@ class Tag
 	 * @param array parameters
 	 * @return string
 	 */
-	public static function urlField(parameters) -> string
+	public static function urlField(var parameters) -> string
 	{
 		return self::_inputField("url", parameters);
 	}
@@ -788,7 +788,7 @@ class Tag
 	 * @param	array parameters
 	 * @return	string
 	 */
-	public static function checkField(parameters) -> string
+	public static function checkField(var parameters) -> string
 	{
 		return self::_inputFieldChecked("checkbox", parameters);
 	}
@@ -808,7 +808,7 @@ class Tag
 	 * @param	array parameters
 	 * @return	string
 	 */
-	public static function radioField(parameters) -> string
+	public static function radioField(var parameters) -> string
 	{
 		return self::_inputFieldChecked("radio", parameters);
 	}
@@ -828,7 +828,7 @@ class Tag
 	 * @param	array parameters
 	 * @return	string
 	 */
-	public static function imageInput(parameters) -> string
+	public static function imageInput(var parameters) -> string
 	{
 		return self::_inputField("image", parameters, true);
 	}
@@ -848,7 +848,7 @@ class Tag
 	 * @param	array parameters
 	 * @return	string
 	 */
-	public static function submitButton(parameters) -> string
+	public static function submitButton(var parameters) -> string
 	{
 		return self::_inputField("submit", parameters, true);
 	}
@@ -909,7 +909,7 @@ class Tag
 	 * @param	array parameters
 	 * @return	string
 	 */
-	public static function textArea(parameters) -> string
+	public static function textArea(var parameters) -> string
 	{
 		var params, id, name, content, code;
 
@@ -947,7 +947,7 @@ class Tag
 		}
 
 		let code = self::renderAttributes("<textarea", params),
-			code .= ">".content."</textarea>";
+			code .= ">" . content . "</textarea>";
 
 		return code;
 	}
@@ -969,7 +969,7 @@ class Tag
 	 * @param array parameters
 	 * @return string
 	 */
-	public static function form(parameters) -> string
+	public static function form(var parameters) -> string
 	{
 		var params, paramsAction, action, code;
 
@@ -1032,7 +1032,7 @@ class Tag
 	 *
 	 * @param string title
 	 */
-	public static function setTitle(string title)
+	public static function setTitle(string title) -> void
 	{
 		let self::_documentTitle = title;
 	}
@@ -1046,7 +1046,7 @@ class Tag
 	 *
 	 * @param string titleSeparator
 	 */
-	public static function setTitleSeparator(string titleSeparator)
+	public static function setTitleSeparator(string titleSeparator) -> void
 	{
 		let self::_documentTitleSeparator = titleSeparator;
 	}
@@ -1056,7 +1056,7 @@ class Tag
 	 *
 	 * @param string title
 	 */
-	public static function appendTitle(string title)
+	public static function appendTitle(string title) -> void
 	{
 		let self::_documentTitle = self::_documentTitle . self::_documentTitleSeparator . title;
 	}
@@ -1066,7 +1066,7 @@ class Tag
 	 *
 	 * @param string title
 	 */
-	public static function prependTitle(string title)
+	public static function prependTitle(string title) -> void
 	{
 		let self::_documentTitle = title . self::_documentTitleSeparator . self::_documentTitle;
 	}
@@ -1107,7 +1107,7 @@ class Tag
 	 *
 	 * @return string
 	 */
-	public static function getTitleSeparator()
+	public static function getTitleSeparator() -> string
 	{
 		return self::_documentTitleSeparator;
 	}
@@ -1130,7 +1130,7 @@ class Tag
 	 * @param   boolean local
 	 * @return	string
 	 */
-	public static function stylesheetLink(parameters = null, local = true) -> string
+	public static function stylesheetLink(var parameters = null, boolean local = true) -> string
 	{
 		var params, code;
 
@@ -1140,15 +1140,11 @@ class Tag
 			let params = parameters;
 		}
 
-		if typeof local != "boolean" {
-			let local = true;
-		}
-
 		if isset params[1] {
-			let local = params[1];
+			let local = (boolean) params[1];
 		} else {
 			if isset params["local"] {
-				let local = params["local"];
+				let local = (boolean) params["local"];
 				unset params["local"];
 			}
 		}
@@ -1208,7 +1204,7 @@ class Tag
 	 * @param   boolean local
 	 * @return string
 	 */
-	public static function javascriptInclude(parameters = null, local = true) -> string
+	public static function javascriptInclude(var parameters = null, boolean local = true) -> string
 	{
 		var params, code;
 
@@ -1218,15 +1214,11 @@ class Tag
 			let params = parameters;
 		}
 
-		if typeof local != "boolean" {
-			let local = true;
-		}
-
 		if isset params[1] {
-			let local = params[1];
+			let local = (boolean) params[1];
 		} else {
 			if isset params["local"] {
-				let local = params["local"];
+				let local = (boolean) params["local"];
 				unset params["local"];
 			}
 		}
@@ -1275,7 +1267,7 @@ class Tag
 	 * @param  boolean local
 	 * @return string
 	 */
-	public static function image(parameters = null, local = true) -> string
+	public static function image(var parameters = null, boolean local = true) -> string
 	{
 		var params, code, src;
 
@@ -1489,7 +1481,7 @@ class Tag
 	 * @param boolean useEol
 	 * @return string
 	 */
-	public static function tagHtmlClose(tagName, useEol = false) -> string
+	public static function tagHtmlClose(string tagName, useEol = false) -> string
 	{
 		if useEol {
 			return "</" . tagName . ">" . PHP_EOL;

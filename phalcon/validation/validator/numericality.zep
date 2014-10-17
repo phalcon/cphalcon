@@ -25,51 +25,39 @@ use Phalcon\Validation\Validator;
 use Phalcon\Validation\ValidatorInterface;
 
 /**
- * Phalcon\Validation\Validator\Regex
+ * Phalcon\Validation\Validator\Numericality
  *
- * Allows validate if the value of a field matches a regular expression
+ * Check for a valid numeric value
  *
  *<code>
- *use Phalcon\Validation\Validator\Regex as RegexValidator;
+ *use Phalcon\Validation\Validator\Numericality;
  *
- *$validator->add('created_at', new RegexValidator(array(
- *   'pattern' => '/^[0-9]{4}[-\/](0[1-9]|1[12])[-\/](0[1-9]|[12][0-9]|3[01])$/',
- *   'message' => 'The creation date is invalid'
+ *$validator->add('price', new Numericality(array(
+ *   'message' => ':field is not numeric'
  *)));
  *</code>
  */
-class Regex extends Validator implements ValidatorInterface
+class Numericality extends Validator implements ValidatorInterface
 {
 
 	/**
 	 * Executes the validation
 	 *
 	 * @param  Phalcon\Validation validation
-	 * @param  string field
+	 * @param  string             field
 	 * @return boolean
 	 */
-	public function validate(<Validation> validation, field) -> boolean
+	public function validate(<Validation> validation, string! field) -> boolean
 	{
-		var matches, failed, message, value, label, replacePairs;
+		var value, message, label, replacePairs;
 
-		/**
-		 * Regular expression is set in the option 'pattern'
-		 * Check if the value match using preg_match in the PHP userland
-		 */
-		let matches = null;
 		let value = validation->getValue(field);
 
 		if this->isSetOption("allowEmpty") && empty value {
 			return true;
 		}
 
-		if preg_match(this->getOption("pattern"), value, matches) {
-			let failed = matches[0] != value;
-		} else {
-			let failed = true;
-		}
-
-		if failed === true {
+		if !preg_match("/^-?\d+\.?\d*$/", value) {
 
 			let label = this->getOption("label");
 			if empty label {
@@ -79,14 +67,13 @@ class Regex extends Validator implements ValidatorInterface
 			let message = this->getOption("message");
 			let replacePairs = [":field": label];
 			if empty message {
-				let message = validation->getDefaultMessage("Regex");
+				let message = validation->getDefaultMessage("Numericality");
 			}
 
-			validation->appendMessage(new Message(strtr(message, replacePairs), field, "Regex"));
+			validation->appendMessage(new Message(strtr(message, replacePairs), field, "Numericality"));
 			return false;
 		}
 
 		return true;
 	}
-
 }

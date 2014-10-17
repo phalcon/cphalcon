@@ -239,7 +239,7 @@ PHP_METHOD(Phalcon_Debug, listenLowSeverity) {
 /**
  * Adds a variable to the debug output
  *
- * @param mixed var
+ * @param mixed varz
  * @param string key
  * @return Phalcon\Debug
  */
@@ -477,7 +477,7 @@ PHP_METHOD(Phalcon_Debug, _getVarDump) {
 }
 
 /**
- * Returns the major framework"s version
+ * Returns the major framework's version
  *
  * @return string
  */

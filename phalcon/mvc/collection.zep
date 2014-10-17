@@ -377,6 +377,10 @@ abstract class Collection implements CollectionInterface, InjectionAwareInterfac
 
 		let mongoCollection = connection->selectCollection(source);
 
+		if typeof mongoCollection != "object" {
+			throw new Exception("Couldn't select mongo collection");
+		}
+
 		/**
 		 * Convert the string to an array
 		 */
@@ -384,6 +388,10 @@ abstract class Collection implements CollectionInterface, InjectionAwareInterfac
 			if !fetch conditions, params["conditions"] {
 				let conditions = [];
 			}
+		}
+
+		if typeof conditions != "array" {
+			throw new Exception("Find parameters must be an array");
 		}
 
 		/**
