@@ -151,10 +151,14 @@ typedef struct _zephir_function_cache {
 # define ZLK_NULL_CC
 #endif*/
 
+#if PHP_VERSION_ID < 50600
 #ifdef ZTS
 #define zephir_nts_static
 #else
 #define zephir_nts_static static
+#endif
+#else
+#define zephir_nts_static
 #endif
 
 #define ZEPHIR_STATIC
