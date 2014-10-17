@@ -22,12 +22,8 @@
 
 namespace PhalconTest\Assets\Resource;
 
-use \PhalconTest\Assets\Resource as PhTResource;
+use \Phalcon\Assets\Resource\Css as PhCss;
 
-class Css extends PhTResource
+class Css extends PhCss
 {
-    public function __construct($path, $local = true, $filter = true, $attributes = null)
-    {
-        parent::__construct("css", $path, $local, $filter, $attributes);
-    }
 }

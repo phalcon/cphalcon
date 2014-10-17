@@ -23,19 +23,7 @@
 namespace PhalconTest\Assets\Inline;
 
 use \Phalcon\Assets\Inline\Js as PhJs;
-use \PhalconTest\Assets\Inline as PhInline;
 
-class Js extends PhInline
+class Js extends PhJs
 {
-    private $js = null;
-
-    public function __construct($content, $filter = true, $attributes = null)
-    {
-        $this->js = new PhJs($content, $filter, $attributes);
-    }
-
-    public function __desctruct()
-    {
-        unset($this->js);
-    }
 }

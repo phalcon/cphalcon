@@ -22,7 +22,7 @@
 
 namespace Phalcon\Tests\unit\Phalcon\Tag;
 
-use Phalcon\Tag as PhTag;
+use \PhalconTest\Tag as PhTTag;
 
 class TagLinkToTest extends Helper\TagBase
 {
@@ -42,7 +42,7 @@ class TagLinkToTest extends Helper\TagBase
                 $name = 'x_name';
 
                 $expected = '<a href="/x_url">x_name</a>';
-                $actual   = PhTag::linkTo($url, $name);
+                $actual   = PhTTag::linkTo($url, $name);
 
                 expect($actual)->equals($expected);
             }
@@ -65,7 +65,7 @@ class TagLinkToTest extends Helper\TagBase
                 $name = 'x_name';
 
                 $expected = '<a href="/">x_name</a>';
-                $actual   = PhTag::linkTo($url, $name);
+                $actual   = PhTTag::linkTo($url, $name);
 
                 expect($actual)->equals($expected);
             }
@@ -89,7 +89,7 @@ class TagLinkToTest extends Helper\TagBase
                     'x_name',
                 ];
                 $expected = '<a href="/x_url">x_name</a>';
-                $actual   = PhTag::linkTo($options);
+                $actual   = PhTTag::linkTo($options);
 
                 expect($actual)->equals($expected);
             }
@@ -114,7 +114,7 @@ class TagLinkToTest extends Helper\TagBase
                     'class'  => 'x_class',
                 ];
                 $expected = '<a href="/x_url" class="x_class">x_name</a>';
-                $actual   = PhTag::linkTo($options);
+                $actual   = PhTTag::linkTo($options);
 
                 expect($actual)->equals($expected);
             }
@@ -138,7 +138,7 @@ class TagLinkToTest extends Helper\TagBase
 
                 $url      = "x_action/x_param";
                 $name     = 'x_name';
-                $actual   = PhTag::linkTo($url, $name);
+                $actual   = PhTTag::linkTo($url, $name);
                 $expected = '<a href="/x_action/x_param">x_name</a>';
 
                 expect($actual)->equals($expected);
@@ -153,7 +153,7 @@ class TagLinkToTest extends Helper\TagBase
                     "x_action/x_param",
                     'x_name',
                 ];
-                $actual   = PhTag::linkTo($options);
+                $actual   = PhTTag::linkTo($options);
                 $expected = '<a href="/x_action/x_param">x_name</a>';
 
                 expect($actual)->equals($expected);
@@ -169,7 +169,7 @@ class TagLinkToTest extends Helper\TagBase
                     'x_name',
                     'class' => 'x_class'
                 ];
-                $actual   = PhTag::linkTo($options);
+                $actual   = PhTTag::linkTo($options);
                 $expected = '<a href="/x_action/x_param" class="x_class">x_name</a>';
 
                 expect($actual)->equals($expected);
@@ -194,7 +194,7 @@ class TagLinkToTest extends Helper\TagBase
 
                 $url      = "http://phalconphp.com/en/";
                 $name     = 'x_name';
-                $actual   = PhTag::linkTo($url, $name, false);
+                $actual   = PhTTag::linkTo($url, $name, false);
                 $expected = '<a href="http://phalconphp.com/en/">x_name</a>';
 
                 expect($actual)->equals($expected);
@@ -210,7 +210,7 @@ class TagLinkToTest extends Helper\TagBase
                     'x_name',
                     false,
                 ];
-                $actual   = PhTag::linkTo($options);
+                $actual   = PhTTag::linkTo($options);
                 $expected = '<a href="http://phalconphp.com/en/">x_name</a>';
 
                 expect($actual)->equals($expected);
@@ -226,7 +226,7 @@ class TagLinkToTest extends Helper\TagBase
                     'text'  => 'x_name',
                     'local' => false,
                 ];
-                $actual   = PhTag::linkTo($options);
+                $actual   = PhTTag::linkTo($options);
                 $expected = '<a href="http://phalconphp.com/en/">x_name</a>';
 
                 expect($actual)->equals($expected);
@@ -239,7 +239,7 @@ class TagLinkToTest extends Helper\TagBase
 
                 $url  = "mailto:someone@phalconphp.com";
                 $name = 'someone@phalconphp.com';
-                $actual   = PhTag::linkTo($url, $name, false);
+                $actual   = PhTTag::linkTo($url, $name, false);
                 $expected = '<a href="mailto:someone@phalconphp.com">someone@phalconphp.com</a>';
 
                 expect($actual)->equals($expected);

@@ -1,7 +1,7 @@
 <?php
 /**
- * UnitTest.php
- * \Phalcon\Logger\Adapter\File
+ * FileTest.php
+ * \Phalcon\Logger\FileTest
  *
  * Tests the Phalcon\Logger\Adapter\File component
  *
@@ -20,15 +20,15 @@
  * so that we can send you a copy immediately.
  */
 
-namespace Phalcon\Tests\unit\Phalcon\Logger\Adapter\File;
+namespace Phalcon\Tests\unit\Phalcon\Logger\Adapter;
 
 use Phalcon\Logger as PhLogger;
 use Phalcon\Logger\Exception as PhLoggerException;
-use Phalcon\Logger\Formatter\Line as PhLoggerFormatterLine;
-use \PhalconTest\Logger\Adapter\File as PhTLoggerAdapterFile;
+use \Phalcon\Logger\Formatter\Line as PhLoggerFormatterLine;
+use \Phalcon\Logger\Adapter\File as PhTLoggerAdapterFile;
 use \Codeception\TestCase\Test as CdTest;
 
-class UnitTest extends CdTest
+class FileTest extends CdTest
 {
     private $logPath = '';
 
@@ -371,7 +371,7 @@ class UnitTest extends CdTest
      * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-13
      */
-    public function testDebugCreationOfLogFile()
+    public function testLoggerAdapterFileDebugCreationOfLogFile()
     {
         $this->specify(
             "Debug file was not correctly created",
@@ -387,7 +387,7 @@ class UnitTest extends CdTest
      * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-13
      */
-    public function testDebugNumberOfMessagesLogged()
+    public function testLoggerAdapterFileDebugNumberOfMessagesLogged()
     {
         $this->specify(
             "Debug log does not contain correct number of messages",
@@ -403,7 +403,7 @@ class UnitTest extends CdTest
      * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-09-17
      */
-    public function testDebugLogging()
+    public function testLoggerAdapterFileDebugLogLogging()
     {
         $this->specify(
             "Logging with debug not correct",
@@ -419,7 +419,7 @@ class UnitTest extends CdTest
      * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-13
      */
-    public function testErrorCreationOfLogFile()
+    public function testLoggerAdapterFileErrorCreationOfLogFile()
     {
         $this->specify(
             "Error file was not correctly created",
@@ -435,7 +435,7 @@ class UnitTest extends CdTest
      * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-13
      */
-    public function testErrorNumberOfMessagesLogged()
+    public function testLoggerAdapterFileErrorNumberOfMessagesLogged()
     {
         $this->specify(
             "Error log does not contain correct number of messages",
@@ -451,7 +451,7 @@ class UnitTest extends CdTest
      * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-09-17
      */
-    public function testErrorLogging()
+    public function testLoggerAdapterFileErrorLogLogging()
     {
         $this->specify(
             "Logging with error not correct",
@@ -467,7 +467,7 @@ class UnitTest extends CdTest
      * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-13
      */
-    public function testInfoCreationOfLogFile()
+    public function testLoggerAdapterFileInfoCreationOfLogFile()
     {
         $this->specify(
             "Info file was not correctly created",
@@ -483,7 +483,7 @@ class UnitTest extends CdTest
      * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-13
      */
-    public function testInfoNumberOfMessagesLogged()
+    public function testLoggerAdapterFileInfoNumberOfMessagesLogged()
     {
         $this->specify(
             "Info log does not contain correct number of messages",
@@ -499,7 +499,7 @@ class UnitTest extends CdTest
      * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-09-17
      */
-    public function testInfoLogging()
+    public function testLoggerAdapterFileInfoLogLogging()
     {
         $this->specify(
             "Logging with info not correct",
@@ -515,7 +515,7 @@ class UnitTest extends CdTest
      * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-13
      */
-    public function testNoticeCreationOfLogFile()
+    public function testLoggerAdapterFileNoticeCreationOfLogFile()
     {
         $this->specify(
             "Notice file was not correctly created",
@@ -531,7 +531,7 @@ class UnitTest extends CdTest
      * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-13
      */
-    public function testNoticeNumberOfMessagesLogged()
+    public function testLoggerAdapterFileNoticeNumberOfMessagesLogged()
     {
         $this->specify(
             "Notice log does not contain correct number of messages",
@@ -547,7 +547,7 @@ class UnitTest extends CdTest
      * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-09-17
      */
-    public function testNoticeLogging()
+    public function testLoggerAdapterFileNoticeLogLogging()
     {
         $this->specify(
             "Logging with notice not correct",
@@ -563,7 +563,7 @@ class UnitTest extends CdTest
      * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-13
      */
-    public function testWarningCreationOfLogFile()
+    public function testLoggerAdapterFileWarningCreationOfLogFile()
     {
         $this->specify(
             "Warning file was not correctly created",
@@ -579,7 +579,7 @@ class UnitTest extends CdTest
      * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-13
      */
-    public function testWarningNumberOfMessagesLogged()
+    public function testLoggerAdapterFileWarningNumberOfMessagesLogged()
     {
         $this->specify(
             "Warning log does not contain correct number of messages",
@@ -595,7 +595,7 @@ class UnitTest extends CdTest
      * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-09-17
      */
-    public function testWarningLogging()
+    public function testLoggerAdapterFileWarningLogLogging()
     {
         $this->specify(
             "Logging with warning not correct",
@@ -611,7 +611,7 @@ class UnitTest extends CdTest
      * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-13
      */
-    public function testAlertCreationOfLogFile()
+    public function testLoggerAdapterFileAlertCreationOfLogFile()
     {
         $this->specify(
             "Alert file was not correctly created",
@@ -627,7 +627,7 @@ class UnitTest extends CdTest
      * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-13
      */
-    public function testAlertNumberOfMessagesLogged()
+    public function testLoggerAdapterFileAlertNumberOfMessagesLogged()
     {
         $this->specify(
             "Alert log does not contain correct number of messages",
@@ -643,7 +643,7 @@ class UnitTest extends CdTest
      * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-09-17
      */
-    public function testAlertLogging()
+    public function testLoggerAdapterFileAlertLogLogging()
     {
         $this->specify(
             "Logging with alert not correct",
@@ -659,7 +659,7 @@ class UnitTest extends CdTest
      * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-09-17
      */
-    public function testSetGetFormat()
+    public function testLoggerAdapterFileSetGetFormat()
     {
         $formatter = new PhLoggerFormatterLine();
 
@@ -683,7 +683,7 @@ class UnitTest extends CdTest
      * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-09-17
      */
-    public function testNewFormatLogsCorrectly()
+    public function testLoggerAdapterFileNewFormatLogsCorrectly()
     {
         $fileName = newFileName('log', 'log');
 
@@ -717,7 +717,7 @@ class UnitTest extends CdTest
      * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-09-17
      */
-    public function testNewFormatFormatsDateCorrectly()
+    public function testLoggerAdapterFileNewFormatFormatsDateCorrectly()
     {
         $fileName = newFileName('log', 'log');
 
@@ -746,99 +746,7 @@ class UnitTest extends CdTest
     }
 
     /**
-     * Tests the begin/commit
-     *
-     * @author Nikos Dimopoulos <nikos@phalconphp.com>
-     * @since  2014-09-13
-     */
-    public function testCommit()
-    {
-        $fileName = newFileName('log', 'log');
-
-        $logger = new PhTLoggerAdapterFile($this->logPath . $fileName);
-        $logger->log('Hello');
-
-        $contents = file($this->logPath . $fileName);
-        $expected = 1;
-        $actual   = count($contents);
-
-        $this->assertEquals(
-            $expected,
-            $actual,
-            'Log does not contain correct number of messages before commit'
-        );
-
-        $logger->begin();
-
-        $logger->log('Message 1');
-        $logger->log('Message 2');
-        $logger->log('Message 3');
-
-        $logger->commit();
-
-        $logger->close();
-
-        $contents = file($this->logPath . $fileName);
-        $expected = 4;
-        $actual   = count($contents);
-
-        cleanFile($this->logPath, $fileName);
-
-        $this->assertEquals(
-            $expected,
-            $actual,
-            'Log does not contain correct number of messages after commit'
-        );
-    }
-
-    /**
-     * Tests the begin/rollback
-     *
-     * @author Nikos Dimopoulos <nikos@phalconphp.com>
-     * @since  2014-09-13
-     */
-    public function testRollback()
-    {
-        $fileName = newFileName('log', 'log');
-
-        $logger = new PhTLoggerAdapterFile($this->logPath . $fileName);
-        $logger->log('Hello');
-
-        $contents = file($this->logPath . $fileName);
-        $expected = 1;
-        $actual   = count($contents);
-
-        $this->assertEquals(
-            $expected,
-            $actual,
-            'Log does not contain correct number of messages before rollback'
-        );
-
-        $logger->begin();
-
-        $logger->log('Message 1');
-        $logger->log('Message 2');
-        $logger->log('Message 3');
-
-        $logger->rollback();
-
-        $logger->close();
-
-        $contents = file($this->logPath . $fileName);
-        $expected = 1;
-        $actual   = count($contents);
-
-        cleanFile($this->logPath, $fileName);
-
-        $this->assertEquals(
-            $expected,
-            $actual,
-            'Log does not contain correct number of messages after rollback'
-        );
-    }
-
-    /**
-     * Runs the various logging function tests
+     * Runs the various logging function testLoggerAdapterFiles
      *
      * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-13

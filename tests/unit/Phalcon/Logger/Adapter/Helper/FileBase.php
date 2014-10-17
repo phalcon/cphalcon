@@ -1,11 +1,11 @@
 <?php
 /**
- * AdapterInterface.php
- * \PhalconTest\Translate\AdapterInterface
+ * FileBase.php
+ * \Phalcon\Logger\FileBase
  *
- * Translate AdapterInterface proxy class
+ * FileBase base class
  *
- * PhalconPHP Framework
+ * Phalcon Framework
  *
  * @copyright (c) 2011-2014 Phalcon Team
  * @link      http://www.phalconphp.com
@@ -20,14 +20,20 @@
  * so that we can send you a copy immediately.
  */
 
-namespace PhalconTest\Translate;
+namespace Phalcon\Tests\unit\Phalcon\Logger\Adapter\Helper;
 
-interface AdapterInterface
+use \Codeception\TestCase\Test as CdTest;
+
+class FileBase extends CdTest
 {
-    public function t($translateKey, $placeholders = null);
+    protected $logPath = '';
 
-    public function query($index, $placeholders = null);
+    use \Codeception\Specify;
 
-    public function exists($index);
+    public function _before()
+    {
+        parent::_before();
 
+        $this->logPath = PATH_LOGS;
+    }
 }

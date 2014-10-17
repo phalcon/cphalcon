@@ -22,26 +22,17 @@
 
 namespace PhalconTest\Translate\Adapter;
 
-use \PhalconTest\Translate\Adapter as PhAdapter;
-use \PhalconTest\Translate\AdapterInterface as PhAdapterInterface;
 use \Phalcon\Translate\Adapter\NativeArray as PhNativeArray;
 
-class NativeArray extends PhAdapter implements PhAdapterInterface, \ArrayAccess
+class NativeArray extends PhNativeArray
 {
-    public function __construct($options)
-    {
-        $this->adapter = new PhNativeArray($options);
-    }
-
 	public function query($index, $placeholders = null)
 	{
-        return $this->adapter->query($index, $placeholders);
+        return parent::query($index, $placeholders);
 	}
 
 	public function exists($index)
 	{
-        return $this->adapter->exists($index);
+        return parent::exists($index);
 	}
-
-
 }

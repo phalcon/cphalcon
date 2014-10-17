@@ -269,8 +269,9 @@ class HttpResponseTest extends Helper\HttpBase
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-10-08
      */
-    public function testHttpResponseRedirectLocaLUrl()
+    public function testHttpResponseRedirectLocalUrl()
     {
+        $this->markTestSkipped('To be tested');
         $this->specify(
             "redirect is not redirecting local properly",
             function () {

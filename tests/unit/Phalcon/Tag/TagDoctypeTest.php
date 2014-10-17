@@ -22,7 +22,7 @@
 
 namespace Phalcon\Tests\unit\Phalcon\Tag;
 
-use Phalcon\Tag as PhTag;
+use \PhalconTest\Tag as PhTTag;
 
 class TagDoctypeTest extends Helper\TagBase
 {
@@ -31,7 +31,7 @@ class TagDoctypeTest extends Helper\TagBase
      */
     public function _after()
     {
-        PhTag::setDocType(PhTag::HTML5);
+        PhTTag::setDocType(PhTTag::HTML5);
     }
 
     /**
@@ -45,7 +45,7 @@ class TagDoctypeTest extends Helper\TagBase
         $this->specify(
             "setDoctype to 3.2 is not correct",
             function () {
-                $this->runDoctypeTest(PhTag::HTML32);
+                $this->runDoctypeTest(PhTTag::HTML32);
             }
         );
     }
@@ -61,7 +61,7 @@ class TagDoctypeTest extends Helper\TagBase
         $this->specify(
             "setDoctype to HTML 4.01 Strict is not correct",
             function () {
-                $this->runDoctypeTest(PhTag::HTML401_STRICT);
+                $this->runDoctypeTest(PhTTag::HTML401_STRICT);
             }
         );
     }
@@ -77,7 +77,7 @@ class TagDoctypeTest extends Helper\TagBase
         $this->specify(
             "setDoctype to HTML 4.01 Transitional is not correct",
             function () {
-                $this->runDoctypeTest(PhTag::HTML401_TRANSITIONAL);
+                $this->runDoctypeTest(PhTTag::HTML401_TRANSITIONAL);
             }
         );
     }
@@ -93,7 +93,7 @@ class TagDoctypeTest extends Helper\TagBase
         $this->specify(
             "setDoctype to HTML 4.01 Frameset is not correct",
             function () {
-                $this->runDoctypeTest(PhTag::HTML401_FRAMESET);
+                $this->runDoctypeTest(PhTTag::HTML401_FRAMESET);
             }
         );
     }
@@ -109,7 +109,7 @@ class TagDoctypeTest extends Helper\TagBase
         $this->specify(
             "setDoctype to HTLM5 is not correct",
             function () {
-                $this->runDoctypeTest(PhTag::HTML5);
+                $this->runDoctypeTest(PhTTag::HTML5);
             }
         );
     }
@@ -125,7 +125,7 @@ class TagDoctypeTest extends Helper\TagBase
         $this->specify(
             "setDoctype to XHTML 1.0 Strict is not correct",
             function () {
-                $this->runDoctypeTest(PhTag::XHTML10_STRICT);
+                $this->runDoctypeTest(PhTTag::XHTML10_STRICT);
             }
         );
     }
@@ -141,7 +141,7 @@ class TagDoctypeTest extends Helper\TagBase
         $this->specify(
             "setDoctype to XHTML 1.0 Transitional is not correct",
             function () {
-                $this->runDoctypeTest(PhTag::XHTML10_TRANSITIONAL);
+                $this->runDoctypeTest(PhTTag::XHTML10_TRANSITIONAL);
             }
         );
     }
@@ -157,7 +157,7 @@ class TagDoctypeTest extends Helper\TagBase
         $this->specify(
             "setDoctype to XHTML 1.0 Frameset is not correct",
             function () {
-                $this->runDoctypeTest(PhTag::XHTML10_FRAMESET);
+                $this->runDoctypeTest(PhTTag::XHTML10_FRAMESET);
             }
         );
     }
@@ -173,7 +173,7 @@ class TagDoctypeTest extends Helper\TagBase
         $this->specify(
             "setDoctype to XHTML 1.1 is not correct",
             function () {
-                $this->runDoctypeTest(PhTag::XHTML11);
+                $this->runDoctypeTest(PhTTag::XHTML11);
             }
         );
     }
@@ -189,7 +189,7 @@ class TagDoctypeTest extends Helper\TagBase
         $this->specify(
             "setDoctype to XHTML 2.0 is not correct",
             function () {
-                $this->runDoctypeTest(PhTag::XHTML20);
+                $this->runDoctypeTest(PhTTag::XHTML20);
             }
         );
     }
@@ -217,12 +217,12 @@ class TagDoctypeTest extends Helper\TagBase
      */
     protected function runDoctypeTest($doctype)
     {
-        PhTag::setDocType($doctype);
+        PhTTag::setDocType($doctype);
 
         $expected = $this->docTypeToString($doctype);
-        $actual   = PhTag::getDocType();
+        $actual   = PhTTag::getDocType();
 
-        PhTag::setDocType(PhTag::HTML5);
+        PhTTag::setDocType(PhTTag::HTML5);
 
         expect($actual)->equals($expected);
     }

@@ -22,22 +22,22 @@
 
 namespace PhalconTest;
 
-use Phalcon\Version as PhVersion;
+use \Phalcon\Version as PhVersion;
 
-class Version
+class Version extends PhVersion
 {
     public static function get()
 	{
-        return PhVersion::get();
+        return parent::get();
 	}
 
 	public static function getId()
 	{
-        return PhVersion::getId();
+        return parent::getId();
 	}
 
     public static function getPart($part)
     {
-        return PhVersion::getPart($part);
+        return parent::getPart($part);
     }
 }

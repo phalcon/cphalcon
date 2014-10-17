@@ -25,7 +25,7 @@ namespace Phalcon\Test\Tag;
 
 use \Phalcon\Test\FunctionalTestCase as PhTestFunctionalTestCase;
 
-use \Phalcon\Tag as PhTag;
+use \PhalconTest\Tag as PhTTag;
 
 class FunctionalTest extends PhTestFunctionalTestCase
 {
@@ -46,7 +46,7 @@ class FunctionalTest extends PhTestFunctionalTestCase
         $params = 'about/index';
 
         $expected = '<form method="post" action="/about/index">';
-        $actual   = PhTag::form($params);
+        $actual   = PhTTag::form($params);
 
         $this->assertEquals(
             $expected,
@@ -67,7 +67,7 @@ class FunctionalTest extends PhTestFunctionalTestCase
         $params = 'somestring';
 
         $expected = '<form method="post" action="/somestring">';
-        $actual   = PhTag::form($params);
+        $actual   = PhTTag::form($params);
 
         $this->assertEquals(
             $expected,
@@ -91,7 +91,7 @@ class FunctionalTest extends PhTestFunctionalTestCase
         );
 
         $expected = '<form method="get" action="/about/list">';
-        $actual   = PhTag::form($params);
+        $actual   = PhTTag::form($params);
 
         $this->assertEquals(
             $expected,
@@ -115,7 +115,7 @@ class FunctionalTest extends PhTestFunctionalTestCase
         );
 
         $expected = '<form method="post" action="/about/list">';
-        $actual   = PhTag::form($params);
+        $actual   = PhTTag::form($params);
 
         $this->assertEquals(
             $expected,
@@ -134,7 +134,7 @@ class FunctionalTest extends PhTestFunctionalTestCase
     public function testEndForm()
     {
         $expected = '</form>';
-        $actual   = PhTag::endForm();
+        $actual   = PhTTag::endForm();
 
         $this->assertEquals(
             $expected,

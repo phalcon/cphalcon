@@ -23,19 +23,7 @@
 namespace PhalconTest\Assets\Inline;
 
 use \Phalcon\Assets\Inline\Css as PhCss;
-use \PhalconTest\Assets\Inline as PhInline;
 
-class Css extends PhInline
+class Css extends PhCss
 {
-    private $css = null;
-
-    public function __construct($content, $filter = true, $attributes = null)
-    {
-        $this->css = new PhCss($content, $filter, $attributes);
-    }
-
-    public function __desctruct()
-    {
-        unset($this->css);
-    }
 }

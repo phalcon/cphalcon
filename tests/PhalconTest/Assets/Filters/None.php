@@ -24,22 +24,10 @@ namespace PhalconTest\Assets\Filters;
 
 use Phalcon\Assets\Filters\None as PhNone;
 
-class None
+class None extends PhNone
 {
-    private $none = null;
-
-    public function __construct()
-    {
-        $this->none = new PhNone();
-    }
-
-    public function __desctruct()
-    {
-        unset($this->none);
-    }
-
 	public function filter($content)
 	{
-		return $this->none->filter($content);
+		return parent::filter($content);
 	}
 }

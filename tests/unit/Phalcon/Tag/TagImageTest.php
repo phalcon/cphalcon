@@ -22,7 +22,7 @@
 
 namespace Phalcon\Tests\unit\Phalcon\Tag;
 
-use Phalcon\Tag as PhTag;
+use \PhalconTest\Tag as PhTTag;
 
 class TagImageTest extends Helper\TagBase
 {
@@ -421,8 +421,8 @@ class TagImageTest extends Helper\TagBase
                 $options  = 'img/hello.gif';
                 $expected = '<img src="/img/hello.gif" />';
 
-                PhTag::setDocType(PhTag::XHTML10_STRICT);
-                $actual   = PhTag::image($options, true);
+                PhTTag::setDocType(PhTTag::XHTML10_STRICT);
+                $actual   = PhTTag::image($options, true);
 
                 expect($actual)->equals($expected);
             }
@@ -435,8 +435,8 @@ class TagImageTest extends Helper\TagBase
                 $options  = 'img/hello.gif';
                 $expected = '<img src="/img/hello.gif">';
 
-                PhTag::setDocType(PhTag::HTML5);
-                $actual   = PhTag::image($options, true);
+                PhTTag::setDocType(PhTTag::HTML5);
+                $actual   = PhTTag::image($options, true);
 
                 expect($actual)->equals($expected);
             }
@@ -458,8 +458,8 @@ class TagImageTest extends Helper\TagBase
                 $options  = 'http://phalconphp.com/img/hello.gif';
                 $expected = '<img src="http://phalconphp.com/img/hello.gif" />';
 
-                PhTag::setDocType(PhTag::XHTML10_STRICT);
-                $actual   = PhTag::image($options, false);
+                PhTTag::setDocType(PhTTag::XHTML10_STRICT);
+                $actual   = PhTTag::image($options, false);
 
                 expect($actual)->equals($expected);
             }
@@ -472,8 +472,8 @@ class TagImageTest extends Helper\TagBase
                 $options  = 'http://phalconphp.com/img/hello.gif';
                 $expected = '<img src="http://phalconphp.com/img/hello.gif">';
 
-                PhTag::setDocType(PhTag::HTML5);
-                $actual   = PhTag::image($options, false);
+                PhTTag::setDocType(PhTTag::HTML5);
+                $actual   = PhTTag::image($options, false);
 
                 expect($actual)->equals($expected);
             }
@@ -498,8 +498,8 @@ class TagImageTest extends Helper\TagBase
                 ];
                 $expected = '<img src="/img/hello.gif" alt="Hello" />';
 
-                PhTag::setDocType(PhTag::XHTML10_STRICT);
-                $actual   = PhTag::image($options, true);
+                PhTTag::setDocType(PhTTag::XHTML10_STRICT);
+                $actual   = PhTTag::image($options, true);
 
                 expect($actual)->equals($expected);
             }
@@ -515,8 +515,8 @@ class TagImageTest extends Helper\TagBase
                 ];
                 $expected = '<img src="/img/hello.gif" alt="Hello">';
 
-                PhTag::setDocType(PhTag::HTML5);
-                $actual   = PhTag::image($options, true);
+                PhTTag::setDocType(PhTTag::HTML5);
+                $actual   = PhTTag::image($options, true);
 
                 expect($actual)->equals($expected);
             }
@@ -542,8 +542,8 @@ class TagImageTest extends Helper\TagBase
                 $expected = '<img src="http://phalconphp.com/img/hello.gif" '
                           . 'alt="Hello" />';
 
-                PhTag::setDocType(PhTag::XHTML10_STRICT);
-                $actual   = PhTag::image($options, false);
+                PhTTag::setDocType(PhTTag::XHTML10_STRICT);
+                $actual   = PhTTag::image($options, false);
 
                 expect($actual)->equals($expected);
             }
@@ -560,8 +560,8 @@ class TagImageTest extends Helper\TagBase
                 $expected = '<img src="http://phalconphp.com/img/hello.gif" '
                           . 'alt="Hello">';
 
-                PhTag::setDocType(PhTag::HTML5);
-                $actual   = PhTag::image($options, false);
+                PhTTag::setDocType(PhTTag::HTML5);
+                $actual   = PhTTag::image($options, false);
 
                 expect($actual)->equals($expected);
             }

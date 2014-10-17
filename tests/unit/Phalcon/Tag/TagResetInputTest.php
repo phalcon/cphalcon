@@ -22,7 +22,7 @@
 
 namespace Phalcon\Tests\unit\Phalcon\Tag;
 
-use Phalcon\Tag as PhTag;
+use \PhalconTest\Tag as PhTTag;
 
 class TagResetInputTest extends Helper\TagBase
 {
@@ -38,19 +38,19 @@ class TagResetInputTest extends Helper\TagBase
             "resetInput with setDefault returns invalid HTML Strict",
             function () {
 
-                PhTag::setDoctype(PhTag::XHTML10_STRICT);
+                PhTTag::setDoctype(PhTTag::XHTML10_STRICT);
 
                 $options  = 'x_name';
                 $expected = '<input type="text" id="x_name" name="x_name" '
                           . 'value="x_other" />';
-                PhTag::setDefault('x_name', 'x_other');
-                $actual   = PhTag::textField($options);
-                PhTag::resetInput();
+                PhTTag::setDefault('x_name', 'x_other');
+                $actual   = PhTTag::textField($options);
+                PhTTag::resetInput();
 
                 expect($actual)->equals($expected);
 
                 $expected = '<input type="text" id="x_name" name="x_name" />';
-                $actual   = PhTag::textField($options);
+                $actual   = PhTTag::textField($options);
 
                 expect($actual)->equals($expected);
             }
@@ -60,19 +60,19 @@ class TagResetInputTest extends Helper\TagBase
             "resetInput with setDefault returns invalid HTML XHTML",
             function () {
 
-                PhTag::setDoctype(PhTag::HTML5);
+                PhTTag::setDoctype(PhTTag::HTML5);
 
                 $options  = 'x_name';
                 $expected = '<input type="text" id="x_name" '
                           . 'name="x_name" value="x_other">';
-                PhTag::setDefault('x_name', 'x_other');
-                $actual   = PhTag::textField($options);
-                PhTag::resetInput();
+                PhTTag::setDefault('x_name', 'x_other');
+                $actual   = PhTTag::textField($options);
+                PhTTag::resetInput();
 
                 expect($actual)->equals($expected);
 
                 $expected = '<input type="text" id="x_name" name="x_name">';
-                $actual   = PhTag::textField($options);
+                $actual   = PhTTag::textField($options);
 
                 expect($actual)->equals($expected);
             }
@@ -91,19 +91,19 @@ class TagResetInputTest extends Helper\TagBase
             "resetInput with displayTo returns invalid HTML Strict",
             function () {
 
-                PhTag::setDoctype(PhTag::XHTML10_STRICT);
+                PhTTag::setDoctype(PhTTag::XHTML10_STRICT);
 
                 $options  = 'x_name';
                 $expected = '<input type="text" id="x_name" name="x_name" '
                           . 'value="x_other" />';
-                PhTag::displayTo('x_name', 'x_other');
-                $actual   = PhTag::textField($options);
-                PhTag::resetInput();
+                PhTTag::displayTo('x_name', 'x_other');
+                $actual   = PhTTag::textField($options);
+                PhTTag::resetInput();
 
                 expect($actual)->equals($expected);
 
                 $expected = '<input type="text" id="x_name" name="x_name" />';
-                $actual   = PhTag::textField($options);
+                $actual   = PhTTag::textField($options);
 
                 expect($actual)->equals($expected);
             }
@@ -113,19 +113,19 @@ class TagResetInputTest extends Helper\TagBase
             "resetInput with displayTo returns invalid HTML XHTML",
             function () {
 
-                PhTag::setDoctype(PhTag::HTML5);
+                PhTTag::setDoctype(PhTTag::HTML5);
 
                 $options  = 'x_name';
                 $expected = '<input type="text" id="x_name" name="x_name" '
                           . 'value="x_other">';
-                PhTag::displayTo('x_name', 'x_other');
-                $actual   = PhTag::textField($options);
-                PhTag::resetInput();
+                PhTTag::displayTo('x_name', 'x_other');
+                $actual   = PhTTag::textField($options);
+                PhTTag::resetInput();
 
                 expect($actual)->equals($expected);
 
                 $expected = '<input type="text" id="x_name" name="x_name">';
-                $actual   = PhTag::textField($options);
+                $actual   = PhTTag::textField($options);
 
                 expect($actual)->equals($expected);
             }

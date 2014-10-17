@@ -22,138 +22,117 @@
 
 namespace PhalconTest\Assets;
 
-use Phalcon\Assets\Manager as PhManager;
+use \Phalcon\Assets\Manager as PhManager;
 
-class Manager
+class Manager extends PhManager
 {
-    private $manager = null;
-
-    public function __construct($options = null)
-    {
-        $this->manager = new PhManager($options);
-    }
-
-    public function __desctruct()
-    {
-        unset($this->manager);
-    }
-
 	public function setOptions($options)
 	{
-        $this->manager->setOptions($options);
-		return $this;
+        return parent::setOptions($options);
 	}
 
 	public function getOptions()
 	{
-		return $this->manager->getOptions();
+		return parent::getOptions();
 	}
 
 	public function useImplicitOutput($implicitOutput)
 	{
-        $this->manager->useImplicitOutput($implicitOutput);
-		return $this;
+        return parent::useImplicitOutput($implicitOutput);
 	}
 
 	public function addCss($path, $local = true, $filter = true, $attributes = null)
 	{
-        $this->manager->addCss($path, $local, $filter, $attributes);
-		return $this;
+        return parent::addCss($path, $local, $filter, $attributes);
 	}
 
 	public function addInlineCss($content, $filter = true, $attributes = null)
 	{
-        $this->manager->addInlineCsse($content, $filter, $attributes);
+        parent::addInlineCsse($content, $filter, $attributes);
 	}
 
 	public function addJs($path, $local = true, $filter = true, $attributes = null)
 	{
-        $this->manager->addJs($path, $local, $filter, $attributes);
-		return $this;
+        return parent::addJs($path, $local, $filter, $attributes);
 	}
 
 	public function addInlineJs($content, $filter = true, $attributes = null)
 	{
-        $this->manager->addInlineJs($content, $filter, $attributes);
+        parent::addInlineJs($content, $filter, $attributes);
 	}
 
 	public function addResourceByType($type, $resource)
 	{
-        $this->manager->addResourceByType($type, $resource);
-		return $this;
+        parent::addResourceByType($type, $resource);
 	}
 
 	public function addInlineCodeByType($type, $code)
 	{
-        $this->manager->addInlineCodeByType($type, $code);
-		return $this;
+        parent::addInlineCodeByType($type, $code);
 	}
 
 	public function addResource($resource)
 	{
-        $this->manager->addResource($resource);
-		return $this;
+        parent::addResource($resource);
 	}
 
 	public function addInlineCode($code)
 	{
-        $this->manager->addInlineCode($code);
-		return $this;
+        parent::addInlineCode($code);
 	}
 
 	public function set($id, $collection)
 	{
-        $this->manager->set($id, $collection);
-		return $this;
+        return parent::set($id, $collection);
 	}
 
 	public function get($id)
 	{
-        return $this->manager->get($id);
+        return parent::get($id);
 	}
 
 	public function getCss()
 	{
-        return $this->manager->getCss();
+        return parent::getCss();
 	}
 
 	public function getJs()
 	{
-        return $this->manager->getJs();
+        return parent::getJs();
 	}
 
 	public function collection($name)
 	{
-        return $this->manager->collection($name);
+        return parent::collection($name);
 	}
 
 	public function output($collection, $callback, $type)
 	{
-        return $this->manager->output($collection, $callback, $type);
+        return parent::output($collection, $callback, $type);
 	}
 
 	public function outputInline($collection, $type)
 	{
-        return $this->manager->outputInline($collection, $type);
+        return parent::outputInline($collection, $type);
 	}
 
 	public function outputCss($collectionName = null)
 	{
-        return $this->manager->outputCss($collectionName);
+        return parent::outputCss($collectionName);
 	}
 
 	public function outputInlineCss($collectionName = null)
 	{
-        return $this->manager->outputInlineCss($collectionName);
+        return parent::outputInlineCss($collectionName);
 	}
 
 	public function outputJs($collectionName = null)
 	{
-        return $this->manager->outputJs($collectionName);
+        return parent::outputJs($collectionName);
 	}
 
 	public function outputInlineJs($collectionName = null)
 	{
-        return $this->manager->outputInlineJs($collectionName);
+        return parent::outputInlineJs($collectionName);
 	}
 }
