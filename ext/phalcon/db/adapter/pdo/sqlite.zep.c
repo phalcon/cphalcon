@@ -309,9 +309,9 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeColumns) {
 		if (!ZEPHIR_IS_LONG(_11, 0)) {
 			zephir_array_fetch_long(&_18, field, 4, PH_NOISY | PH_READONLY, "phalcon/db/adapter/pdo/sqlite.zep", 273 TSRMLS_CC);
 			ZEPHIR_INIT_NVAR(_7);
-			ZVAL_STRING(_7, "/^'|'$/", 0);
+			ZVAL_STRING(_7, "/^'|'$/", ZEPHIR_TEMP_PARAM_COPY);
 			ZEPHIR_INIT_NVAR(_9);
-			ZVAL_STRING(_9, "", 0);
+			ZVAL_STRING(_9, "", ZEPHIR_TEMP_PARAM_COPY);
 			ZEPHIR_CALL_FUNCTION(&_19, "preg_replace", &_20, _7, _9, _18);
 			zephir_check_temp_parameter(_7);
 			zephir_check_temp_parameter(_9);

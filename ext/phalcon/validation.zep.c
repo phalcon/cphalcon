@@ -189,7 +189,7 @@ PHP_METHOD(Phalcon_Validation, validate) {
 		zephir_check_call_status();
 		if (ZEPHIR_IS_FALSE_IDENTICAL(_0)) {
 			ZEPHIR_INIT_NVAR(_5);
-			ZVAL_STRING(_5, "cancelOnFail", 0);
+			ZVAL_STRING(_5, "cancelOnFail", ZEPHIR_TEMP_PARAM_COPY);
 			ZEPHIR_CALL_METHOD(&_4, validator, "getoption", NULL, _5);
 			zephir_check_temp_parameter(_5);
 			zephir_check_call_status();
@@ -722,7 +722,7 @@ PHP_METHOD(Phalcon_Validation, getValue) {
 						}
 					}
 					ZEPHIR_INIT_VAR(_3);
-					ZVAL_STRING(_3, "filter", 0);
+					ZVAL_STRING(_3, "filter", ZEPHIR_TEMP_PARAM_COPY);
 					ZEPHIR_CALL_METHOD(&filterService, dependencyInjector, "getshared", NULL, _3);
 					zephir_check_temp_parameter(_3);
 					zephir_check_call_status();

@@ -606,7 +606,7 @@ PHP_METHOD(Phalcon_Debug, showTraceItem) {
 		ZEPHIR_OBS_VAR(className);
 		zephir_array_fetch_string(&className, trace, SL("class"), PH_NOISY, "phalcon/debug.zep", 393 TSRMLS_CC);
 		ZEPHIR_INIT_VAR(_0);
-		ZVAL_STRING(_0, "/^Phalcon/", 0);
+		ZVAL_STRING(_0, "/^Phalcon/", ZEPHIR_TEMP_PARAM_COPY);
 		ZEPHIR_CALL_FUNCTION(&_1, "preg_match", &_2, _0, className);
 		zephir_check_temp_parameter(_0);
 		zephir_check_call_status();

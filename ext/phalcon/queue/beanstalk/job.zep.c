@@ -273,9 +273,9 @@ PHP_METHOD(Phalcon_Queue_Beanstalk_Job, __wakeup) {
 		ZEPHIR_INIT_VAR(_1);
 		object_init_ex(_1, phalcon_exception_ce);
 		ZEPHIR_INIT_VAR(_2);
-		ZVAL_STRING(_2, "Unexpected inconsistency in %s - possible break-in attempt!", 0);
+		ZVAL_STRING(_2, "Unexpected inconsistency in %s - possible break-in attempt!", ZEPHIR_TEMP_PARAM_COPY);
 		ZEPHIR_INIT_VAR(_3);
-		ZVAL_STRING(_3, "Phalcon\\Queue\\Beanstalk\\Job::__wakeup()", 0);
+		ZVAL_STRING(_3, "Phalcon\\Queue\\Beanstalk\\Job::__wakeup()", ZEPHIR_TEMP_PARAM_COPY);
 		ZEPHIR_CALL_METHOD(NULL, _1, "__construct", NULL, _2, _3);
 		zephir_check_temp_parameter(_2);
 		zephir_check_temp_parameter(_3);

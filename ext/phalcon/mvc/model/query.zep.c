@@ -187,7 +187,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, setDI) {
 		return;
 	}
 	ZEPHIR_INIT_VAR(_0);
-	ZVAL_STRING(_0, "modelsManager", 0);
+	ZVAL_STRING(_0, "modelsManager", ZEPHIR_TEMP_PARAM_COPY);
 	ZEPHIR_CALL_METHOD(&manager, dependencyInjector, "getshared", NULL, _0);
 	zephir_check_temp_parameter(_0);
 	zephir_check_call_status();
@@ -196,7 +196,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, setDI) {
 		return;
 	}
 	ZEPHIR_INIT_BNVAR(_0);
-	ZVAL_STRING(_0, "modelsMetadata", 0);
+	ZVAL_STRING(_0, "modelsMetadata", ZEPHIR_TEMP_PARAM_COPY);
 	ZEPHIR_CALL_METHOD(&metaData, dependencyInjector, "getshared", NULL, _0);
 	zephir_check_temp_parameter(_0);
 	zephir_check_call_status();

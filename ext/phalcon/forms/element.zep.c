@@ -642,7 +642,7 @@ PHP_METHOD(Phalcon_Forms_Element, label) {
 		zephir_array_update_string(&attributes, SL("for"), &name, PH_COPY | PH_SEPARATE);
 	}
 	ZEPHIR_INIT_VAR(_1);
-	ZVAL_STRING(_1, "<label", 0);
+	ZVAL_STRING(_1, "<label", ZEPHIR_TEMP_PARAM_COPY);
 	ZEPHIR_CALL_CE_STATIC(&code, phalcon_tag_ce, "renderattributes", &_0, _1, attributes);
 	zephir_check_temp_parameter(_1);
 	zephir_check_call_status();

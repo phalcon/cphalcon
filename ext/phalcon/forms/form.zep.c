@@ -356,7 +356,7 @@ PHP_METHOD(Phalcon_Forms_Form, bind) {
 				ZEPHIR_CALL_METHOD(&dependencyInjector, this_ptr, "getdi",  &_3);
 				zephir_check_call_status();
 				ZEPHIR_INIT_NVAR(_5);
-				ZVAL_STRING(_5, "filter", 0);
+				ZVAL_STRING(_5, "filter", ZEPHIR_TEMP_PARAM_COPY);
 				ZEPHIR_CALL_METHOD(&_4, dependencyInjector, "getshared", NULL, _5);
 				zephir_check_temp_parameter(_5);
 				zephir_check_call_status();

@@ -208,7 +208,7 @@ PHP_METHOD(Phalcon_Di_Injectable, __get) {
 		zephir_get_class(_5, this_ptr, 0 TSRMLS_CC);
 		zephir_array_fast_append(_4, _5);
 		ZEPHIR_INIT_NVAR(_5);
-		ZVAL_STRING(_5, "sessionBag", 0);
+		ZVAL_STRING(_5, "sessionBag", ZEPHIR_TEMP_PARAM_COPY);
 		ZEPHIR_CALL_METHOD(&_3, dependencyInjector, "get", NULL, _5, _4);
 		zephir_check_temp_parameter(_5);
 		zephir_check_call_status();

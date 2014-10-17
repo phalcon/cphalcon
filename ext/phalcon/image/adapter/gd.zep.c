@@ -82,7 +82,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Gd, check) {
 		ZVAL_NULL(matches);
 		zephir_array_fetch_string(&_4, info, SL("GD Version"), PH_NOISY | PH_READONLY, "phalcon/image/adapter/gd.zep", 41 TSRMLS_CC);
 		ZEPHIR_INIT_VAR(_5);
-		ZVAL_STRING(_5, "/\\d+\\.\\d+(?:\\.\\d+)?/", 0);
+		ZVAL_STRING(_5, "/\\d+\\.\\d+(?:\\.\\d+)?/", ZEPHIR_TEMP_PARAM_COPY);
 		Z_SET_ISREF_P(matches);
 		ZEPHIR_CALL_FUNCTION(&_6, "preg_match", &_7, _5, _4, matches);
 		zephir_check_temp_parameter(_5);

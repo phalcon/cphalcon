@@ -291,9 +291,9 @@ PHP_METHOD(Phalcon_Filter, _sanitize) {
 		}
 		if (ZEPHIR_IS_STRING(filter, "alphanum")) {
 			ZEPHIR_INIT_NVAR(_2);
-			ZVAL_STRING(_2, "/[^A-Za-z0-9]/", 0);
+			ZVAL_STRING(_2, "/[^A-Za-z0-9]/", ZEPHIR_TEMP_PARAM_COPY);
 			ZEPHIR_INIT_VAR(_9);
-			ZVAL_STRING(_9, "", 0);
+			ZVAL_STRING(_9, "", ZEPHIR_TEMP_PARAM_COPY);
 			ZEPHIR_RETURN_CALL_FUNCTION("preg_replace", &_10, _2, _9, value);
 			zephir_check_temp_parameter(_2);
 			zephir_check_temp_parameter(_9);

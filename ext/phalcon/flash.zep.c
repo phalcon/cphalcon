@@ -187,7 +187,7 @@ PHP_METHOD(Phalcon_Flash, error) {
 
 
 	ZEPHIR_INIT_VAR(_0);
-	ZVAL_STRING(_0, "error", 0);
+	ZVAL_STRING(_0, "error", ZEPHIR_TEMP_PARAM_COPY);
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "message", NULL, _0, message);
 	zephir_check_temp_parameter(_0);
 	zephir_check_call_status();
@@ -216,7 +216,7 @@ PHP_METHOD(Phalcon_Flash, notice) {
 
 
 	ZEPHIR_INIT_VAR(_0);
-	ZVAL_STRING(_0, "notice", 0);
+	ZVAL_STRING(_0, "notice", ZEPHIR_TEMP_PARAM_COPY);
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "message", NULL, _0, message);
 	zephir_check_temp_parameter(_0);
 	zephir_check_call_status();
@@ -247,7 +247,7 @@ PHP_METHOD(Phalcon_Flash, success) {
 
 
 	ZEPHIR_INIT_VAR(_0);
-	ZVAL_STRING(_0, "success", 0);
+	ZVAL_STRING(_0, "success", ZEPHIR_TEMP_PARAM_COPY);
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "message", NULL, _0, message);
 	zephir_check_temp_parameter(_0);
 	zephir_check_call_status();
@@ -276,7 +276,7 @@ PHP_METHOD(Phalcon_Flash, warning) {
 
 
 	ZEPHIR_INIT_VAR(_0);
-	ZVAL_STRING(_0, "warning", 0);
+	ZVAL_STRING(_0, "warning", ZEPHIR_TEMP_PARAM_COPY);
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "message", NULL, _0, message);
 	zephir_check_temp_parameter(_0);
 	zephir_check_call_status();

@@ -84,7 +84,7 @@ PHP_METHOD(Phalcon_Assets_Inline_Js, __construct) {
 		add_assoc_stringl_ex(attributes, SS("type"), SL("text/javascript"), 1);
 	}
 	ZEPHIR_INIT_VAR(_1);
-	ZVAL_STRING(_1, "js", 0);
+	ZVAL_STRING(_1, "js", ZEPHIR_TEMP_PARAM_COPY);
 	ZEPHIR_CALL_PARENT(NULL, phalcon_assets_inline_js_ce, this_ptr, "__construct", &_0, _1, content, (filter ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)), attributes);
 	zephir_check_temp_parameter(_1);
 	zephir_check_call_status();

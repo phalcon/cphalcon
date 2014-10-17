@@ -184,7 +184,7 @@ PHP_METHOD(Phalcon_Http_Request, get) {
 						return;
 					}
 					ZEPHIR_INIT_VAR(_2);
-					ZVAL_STRING(_2, "filter", 0);
+					ZVAL_STRING(_2, "filter", ZEPHIR_TEMP_PARAM_COPY);
 					ZEPHIR_CALL_METHOD(&_1, dependencyInjector, "getshared", NULL, _2);
 					zephir_check_temp_parameter(_2);
 					zephir_check_call_status();
@@ -301,7 +301,7 @@ PHP_METHOD(Phalcon_Http_Request, getPost) {
 						return;
 					}
 					ZEPHIR_INIT_VAR(_2);
-					ZVAL_STRING(_2, "filter", 0);
+					ZVAL_STRING(_2, "filter", ZEPHIR_TEMP_PARAM_COPY);
 					ZEPHIR_CALL_METHOD(&_1, dependencyInjector, "getshared", NULL, _2);
 					zephir_check_temp_parameter(_2);
 					zephir_check_call_status();
@@ -417,7 +417,7 @@ PHP_METHOD(Phalcon_Http_Request, getQuery) {
 						return;
 					}
 					ZEPHIR_INIT_VAR(_2);
-					ZVAL_STRING(_2, "filter", 0);
+					ZVAL_STRING(_2, "filter", ZEPHIR_TEMP_PARAM_COPY);
 					ZEPHIR_CALL_METHOD(&_1, dependencyInjector, "getshared", NULL, _2);
 					zephir_check_temp_parameter(_2);
 					zephir_check_call_status();
@@ -672,7 +672,7 @@ PHP_METHOD(Phalcon_Http_Request, getScheme) {
 	ZEPHIR_MM_GROW();
 
 	ZEPHIR_INIT_VAR(_0);
-	ZVAL_STRING(_0, "HTTPS", 0);
+	ZVAL_STRING(_0, "HTTPS", ZEPHIR_TEMP_PARAM_COPY);
 	ZEPHIR_CALL_METHOD(&https, this_ptr, "getserver", NULL, _0);
 	zephir_check_temp_parameter(_0);
 	zephir_check_call_status();
@@ -705,7 +705,7 @@ PHP_METHOD(Phalcon_Http_Request, isAjax) {
 	ZEPHIR_MM_GROW();
 
 	ZEPHIR_INIT_VAR(_1);
-	ZVAL_STRING(_1, "HTTP_X_REQUESTED_WITH", 0);
+	ZVAL_STRING(_1, "HTTP_X_REQUESTED_WITH", ZEPHIR_TEMP_PARAM_COPY);
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getheader", &_2, _1);
 	zephir_check_temp_parameter(_1);
 	zephir_check_call_status();
@@ -861,7 +861,7 @@ PHP_METHOD(Phalcon_Http_Request, getHttpHost) {
 	ZEPHIR_MM_GROW();
 
 	ZEPHIR_INIT_VAR(_0);
-	ZVAL_STRING(_0, "HTTP_HOST", 0);
+	ZVAL_STRING(_0, "HTTP_HOST", ZEPHIR_TEMP_PARAM_COPY);
 	ZEPHIR_CALL_METHOD(&httpHost, this_ptr, "getserver", NULL, _0);
 	zephir_check_temp_parameter(_0);
 	zephir_check_call_status();
@@ -871,12 +871,12 @@ PHP_METHOD(Phalcon_Http_Request, getHttpHost) {
 	ZEPHIR_CALL_METHOD(&scheme, this_ptr, "getscheme",  NULL);
 	zephir_check_call_status();
 	ZEPHIR_INIT_BNVAR(_0);
-	ZVAL_STRING(_0, "SERVER_NAME", 0);
+	ZVAL_STRING(_0, "SERVER_NAME", ZEPHIR_TEMP_PARAM_COPY);
 	ZEPHIR_CALL_METHOD(&name, this_ptr, "getserver", NULL, _0);
 	zephir_check_temp_parameter(_0);
 	zephir_check_call_status();
 	ZEPHIR_INIT_BNVAR(_0);
-	ZVAL_STRING(_0, "SERVER_PORT", 0);
+	ZVAL_STRING(_0, "SERVER_PORT", ZEPHIR_TEMP_PARAM_COPY);
 	ZEPHIR_CALL_METHOD(&port, this_ptr, "getserver", NULL, _0);
 	zephir_check_temp_parameter(_0);
 	zephir_check_call_status();
@@ -1691,9 +1691,9 @@ PHP_METHOD(Phalcon_Http_Request, getAcceptableContent) {
 	ZEPHIR_MM_GROW();
 
 	ZEPHIR_INIT_VAR(_0);
-	ZVAL_STRING(_0, "HTTP_ACCEPT", 0);
+	ZVAL_STRING(_0, "HTTP_ACCEPT", ZEPHIR_TEMP_PARAM_COPY);
 	ZEPHIR_INIT_VAR(_1);
-	ZVAL_STRING(_1, "accept", 0);
+	ZVAL_STRING(_1, "accept", ZEPHIR_TEMP_PARAM_COPY);
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "_getqualityheader", NULL, _0, _1);
 	zephir_check_temp_parameter(_0);
 	zephir_check_temp_parameter(_1);
@@ -1717,7 +1717,7 @@ PHP_METHOD(Phalcon_Http_Request, getBestAccept) {
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getacceptablecontent",  NULL);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(_1);
-	ZVAL_STRING(_1, "accept", 0);
+	ZVAL_STRING(_1, "accept", ZEPHIR_TEMP_PARAM_COPY);
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "_getbestquality", NULL, _0, _1);
 	zephir_check_temp_parameter(_1);
 	zephir_check_call_status();
@@ -1738,9 +1738,9 @@ PHP_METHOD(Phalcon_Http_Request, getClientCharsets) {
 	ZEPHIR_MM_GROW();
 
 	ZEPHIR_INIT_VAR(_0);
-	ZVAL_STRING(_0, "HTTP_ACCEPT_CHARSET", 0);
+	ZVAL_STRING(_0, "HTTP_ACCEPT_CHARSET", ZEPHIR_TEMP_PARAM_COPY);
 	ZEPHIR_INIT_VAR(_1);
-	ZVAL_STRING(_1, "charset", 0);
+	ZVAL_STRING(_1, "charset", ZEPHIR_TEMP_PARAM_COPY);
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "_getqualityheader", NULL, _0, _1);
 	zephir_check_temp_parameter(_0);
 	zephir_check_temp_parameter(_1);
@@ -1764,7 +1764,7 @@ PHP_METHOD(Phalcon_Http_Request, getBestCharset) {
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getclientcharsets",  NULL);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(_1);
-	ZVAL_STRING(_1, "charset", 0);
+	ZVAL_STRING(_1, "charset", ZEPHIR_TEMP_PARAM_COPY);
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "_getbestquality", NULL, _0, _1);
 	zephir_check_temp_parameter(_1);
 	zephir_check_call_status();
@@ -1785,9 +1785,9 @@ PHP_METHOD(Phalcon_Http_Request, getLanguages) {
 	ZEPHIR_MM_GROW();
 
 	ZEPHIR_INIT_VAR(_0);
-	ZVAL_STRING(_0, "HTTP_ACCEPT_LANGUAGE", 0);
+	ZVAL_STRING(_0, "HTTP_ACCEPT_LANGUAGE", ZEPHIR_TEMP_PARAM_COPY);
 	ZEPHIR_INIT_VAR(_1);
-	ZVAL_STRING(_1, "language", 0);
+	ZVAL_STRING(_1, "language", ZEPHIR_TEMP_PARAM_COPY);
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "_getqualityheader", NULL, _0, _1);
 	zephir_check_temp_parameter(_0);
 	zephir_check_temp_parameter(_1);
@@ -1811,7 +1811,7 @@ PHP_METHOD(Phalcon_Http_Request, getBestLanguage) {
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getlanguages",  NULL);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(_1);
-	ZVAL_STRING(_1, "language", 0);
+	ZVAL_STRING(_1, "language", ZEPHIR_TEMP_PARAM_COPY);
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "_getbestquality", NULL, _0, _1);
 	zephir_check_temp_parameter(_1);
 	zephir_check_call_status();
@@ -1873,7 +1873,7 @@ PHP_METHOD(Phalcon_Http_Request, getDigestAuth) {
 		ZEPHIR_INIT_VAR(matches);
 		array_init(matches);
 		ZEPHIR_INIT_VAR(_0);
-		ZVAL_STRING(_0, "#(\\w+)=(['\"]?)([^'\" ,]+)\\2#", 0);
+		ZVAL_STRING(_0, "#(\\w+)=(['\"]?)([^'\" ,]+)\\2#", ZEPHIR_TEMP_PARAM_COPY);
 		ZEPHIR_INIT_VAR(_1);
 		ZVAL_LONG(_1, 2);
 		Z_SET_ISREF_P(matches);

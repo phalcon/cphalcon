@@ -494,7 +494,7 @@ PHP_METHOD(Phalcon_Loader, autoLoad) {
 	zephir_read_property_this(&eventsManager, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
 	if (Z_TYPE_P(eventsManager) == IS_OBJECT) {
 		ZEPHIR_INIT_VAR(_0);
-		ZVAL_STRING(_0, "loader:beforeCheckClass", 0);
+		ZVAL_STRING(_0, "loader:beforeCheckClass", ZEPHIR_TEMP_PARAM_COPY);
 		ZEPHIR_CALL_METHOD(NULL, eventsManager, "fire", NULL, _0, this_ptr, className);
 		zephir_check_temp_parameter(_0);
 		zephir_check_call_status();
@@ -507,7 +507,7 @@ PHP_METHOD(Phalcon_Loader, autoLoad) {
 			if (Z_TYPE_P(eventsManager) == IS_OBJECT) {
 				zephir_update_property_this(this_ptr, SL("_foundPath"), filePath TSRMLS_CC);
 				ZEPHIR_INIT_NVAR(_0);
-				ZVAL_STRING(_0, "loader:pathFound", 0);
+				ZVAL_STRING(_0, "loader:pathFound", ZEPHIR_TEMP_PARAM_COPY);
 				ZEPHIR_CALL_METHOD(NULL, eventsManager, "fire", NULL, _0, this_ptr, filePath);
 				zephir_check_temp_parameter(_0);
 				zephir_check_call_status();
@@ -560,7 +560,7 @@ PHP_METHOD(Phalcon_Loader, autoLoad) {
 						if (Z_TYPE_P(eventsManager) == IS_OBJECT) {
 							zephir_update_property_this(this_ptr, SL("_checkedPath"), filePath TSRMLS_CC);
 							ZEPHIR_INIT_NVAR(_9);
-							ZVAL_STRING(_9, "loader:beforeCheckPath", 0);
+							ZVAL_STRING(_9, "loader:beforeCheckPath", ZEPHIR_TEMP_PARAM_COPY);
 							ZEPHIR_CALL_METHOD(NULL, eventsManager, "fire", NULL, _9, this_ptr);
 							zephir_check_temp_parameter(_9);
 							zephir_check_call_status();
@@ -571,7 +571,7 @@ PHP_METHOD(Phalcon_Loader, autoLoad) {
 							if (Z_TYPE_P(eventsManager) == IS_OBJECT) {
 								zephir_update_property_this(this_ptr, SL("_foundPath"), filePath TSRMLS_CC);
 								ZEPHIR_INIT_NVAR(_9);
-								ZVAL_STRING(_9, "loader:pathFound", 0);
+								ZVAL_STRING(_9, "loader:pathFound", ZEPHIR_TEMP_PARAM_COPY);
 								ZEPHIR_CALL_METHOD(NULL, eventsManager, "fire", NULL, _9, this_ptr, filePath);
 								zephir_check_temp_parameter(_9);
 								zephir_check_call_status();
@@ -631,7 +631,7 @@ PHP_METHOD(Phalcon_Loader, autoLoad) {
 						if (Z_TYPE_P(eventsManager) == IS_OBJECT) {
 							zephir_update_property_this(this_ptr, SL("_checkedPath"), filePath TSRMLS_CC);
 							ZEPHIR_INIT_NVAR(_9);
-							ZVAL_STRING(_9, "loader:beforeCheckPath", 0);
+							ZVAL_STRING(_9, "loader:beforeCheckPath", ZEPHIR_TEMP_PARAM_COPY);
 							ZEPHIR_CALL_METHOD(NULL, eventsManager, "fire", NULL, _9, this_ptr, filePath);
 							zephir_check_temp_parameter(_9);
 							zephir_check_call_status();
@@ -642,7 +642,7 @@ PHP_METHOD(Phalcon_Loader, autoLoad) {
 							if (Z_TYPE_P(eventsManager) == IS_OBJECT) {
 								zephir_update_property_this(this_ptr, SL("_foundPath"), filePath TSRMLS_CC);
 								ZEPHIR_INIT_NVAR(_9);
-								ZVAL_STRING(_9, "loader:pathFound", 0);
+								ZVAL_STRING(_9, "loader:pathFound", ZEPHIR_TEMP_PARAM_COPY);
 								ZEPHIR_CALL_METHOD(NULL, eventsManager, "fire", NULL, _9, this_ptr, filePath);
 								zephir_check_temp_parameter(_9);
 								zephir_check_call_status();
@@ -689,7 +689,7 @@ PHP_METHOD(Phalcon_Loader, autoLoad) {
 				if (Z_TYPE_P(eventsManager) == IS_OBJECT) {
 					zephir_update_property_this(this_ptr, SL("_checkedPath"), filePath TSRMLS_CC);
 					ZEPHIR_INIT_NVAR(_9);
-					ZVAL_STRING(_9, "loader:beforeCheckPath", 0);
+					ZVAL_STRING(_9, "loader:beforeCheckPath", ZEPHIR_TEMP_PARAM_COPY);
 					ZEPHIR_CALL_METHOD(NULL, eventsManager, "fire", NULL, _9, this_ptr, filePath);
 					zephir_check_temp_parameter(_9);
 					zephir_check_call_status();
@@ -700,7 +700,7 @@ PHP_METHOD(Phalcon_Loader, autoLoad) {
 					if (Z_TYPE_P(eventsManager) == IS_OBJECT) {
 						zephir_update_property_this(this_ptr, SL("_foundPath"), filePath TSRMLS_CC);
 						ZEPHIR_INIT_NVAR(_9);
-						ZVAL_STRING(_9, "loader:pathFound", 0);
+						ZVAL_STRING(_9, "loader:pathFound", ZEPHIR_TEMP_PARAM_COPY);
 						ZEPHIR_CALL_METHOD(NULL, eventsManager, "fire", NULL, _9, this_ptr, filePath);
 						zephir_check_temp_parameter(_9);
 						zephir_check_call_status();
@@ -715,7 +715,7 @@ PHP_METHOD(Phalcon_Loader, autoLoad) {
 	}
 	if (Z_TYPE_P(eventsManager) == IS_OBJECT) {
 		ZEPHIR_INIT_NVAR(_0);
-		ZVAL_STRING(_0, "loader:afterCheckClass", 0);
+		ZVAL_STRING(_0, "loader:afterCheckClass", ZEPHIR_TEMP_PARAM_COPY);
 		ZEPHIR_CALL_METHOD(NULL, eventsManager, "fire", NULL, _0, this_ptr, className);
 		zephir_check_temp_parameter(_0);
 		zephir_check_call_status();

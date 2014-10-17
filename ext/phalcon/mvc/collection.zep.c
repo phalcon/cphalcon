@@ -140,7 +140,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, __construct) {
 	zephir_update_property_this(this_ptr, SL("_dependencyInjector"), dependencyInjector TSRMLS_CC);
 	if (Z_TYPE_P(modelsManager) != IS_OBJECT) {
 		ZEPHIR_INIT_VAR(_3);
-		ZVAL_STRING(_3, "collectionManager", 0);
+		ZVAL_STRING(_3, "collectionManager", ZEPHIR_TEMP_PARAM_COPY);
 		ZEPHIR_CALL_METHOD(&modelsManager, dependencyInjector, "getshared", NULL, _3);
 		zephir_check_temp_parameter(_3);
 		zephir_check_call_status();
@@ -828,7 +828,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, _preSave) {
 
 	if (!(zephir_is_true(disableEvents))) {
 		ZEPHIR_INIT_VAR(_1);
-		ZVAL_STRING(_1, "beforeValidation", 0);
+		ZVAL_STRING(_1, "beforeValidation", ZEPHIR_TEMP_PARAM_COPY);
 		ZEPHIR_CALL_METHOD(&_0, this_ptr, "fireeventcancel", NULL, _1);
 		zephir_check_temp_parameter(_1);
 		zephir_check_call_status();
@@ -848,14 +848,14 @@ PHP_METHOD(Phalcon_Mvc_Collection, _preSave) {
 		}
 	}
 	ZEPHIR_INIT_NVAR(_1);
-	ZVAL_STRING(_1, "validation", 0);
+	ZVAL_STRING(_1, "validation", ZEPHIR_TEMP_PARAM_COPY);
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "fireeventcancel", NULL, _1);
 	zephir_check_temp_parameter(_1);
 	zephir_check_call_status();
 	if (ZEPHIR_IS_FALSE_IDENTICAL(_0)) {
 		if (!(zephir_is_true(disableEvents))) {
 			ZEPHIR_INIT_NVAR(_1);
-			ZVAL_STRING(_1, "onValidationFails", 0);
+			ZVAL_STRING(_1, "onValidationFails", ZEPHIR_TEMP_PARAM_COPY);
 			ZEPHIR_CALL_METHOD(NULL, this_ptr, "fireevent", NULL, _1);
 			zephir_check_temp_parameter(_1);
 			zephir_check_call_status();
@@ -875,7 +875,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, _preSave) {
 			RETURN_MM_BOOL(0);
 		}
 		ZEPHIR_INIT_NVAR(_1);
-		ZVAL_STRING(_1, "afterValidation", 0);
+		ZVAL_STRING(_1, "afterValidation", ZEPHIR_TEMP_PARAM_COPY);
 		ZEPHIR_CALL_METHOD(&_2, this_ptr, "fireeventcancel", NULL, _1);
 		zephir_check_temp_parameter(_1);
 		zephir_check_call_status();
@@ -883,7 +883,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, _preSave) {
 			RETURN_MM_BOOL(0);
 		}
 		ZEPHIR_INIT_NVAR(_1);
-		ZVAL_STRING(_1, "beforeSave", 0);
+		ZVAL_STRING(_1, "beforeSave", ZEPHIR_TEMP_PARAM_COPY);
 		ZEPHIR_CALL_METHOD(&_3, this_ptr, "fireeventcancel", NULL, _1);
 		zephir_check_temp_parameter(_1);
 		zephir_check_call_status();
@@ -939,7 +939,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, _postSave) {
 			ZEPHIR_CALL_METHOD(NULL, this_ptr, "fireevent", NULL, eventName);
 			zephir_check_call_status();
 			ZEPHIR_INIT_VAR(_0);
-			ZVAL_STRING(_0, "afterSave", 0);
+			ZVAL_STRING(_0, "afterSave", ZEPHIR_TEMP_PARAM_COPY);
 			ZEPHIR_CALL_METHOD(NULL, this_ptr, "fireevent", NULL, _0);
 			zephir_check_temp_parameter(_0);
 			zephir_check_call_status();
@@ -948,7 +948,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, _postSave) {
 	}
 	if (!(disableEvents)) {
 		ZEPHIR_INIT_NVAR(_0);
-		ZVAL_STRING(_0, "notSave", 0);
+		ZVAL_STRING(_0, "notSave", ZEPHIR_TEMP_PARAM_COPY);
 		ZEPHIR_CALL_METHOD(NULL, this_ptr, "fireevent", NULL, _0);
 		zephir_check_temp_parameter(_0);
 		zephir_check_call_status();
@@ -1808,7 +1808,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, delete) {
 	zephir_read_static_property_ce(&disableEvents, phalcon_mvc_collection_ce, SL("_disableEvents") TSRMLS_CC);
 	if (!(zephir_is_true(disableEvents))) {
 		ZEPHIR_INIT_VAR(_1);
-		ZVAL_STRING(_1, "beforeDelete", 0);
+		ZVAL_STRING(_1, "beforeDelete", ZEPHIR_TEMP_PARAM_COPY);
 		ZEPHIR_CALL_METHOD(&_0, this_ptr, "fireeventcancel", NULL, _1);
 		zephir_check_temp_parameter(_1);
 		zephir_check_call_status();
@@ -1862,7 +1862,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, delete) {
 			success = 1;
 			if (!(zephir_is_true(disableEvents))) {
 				ZEPHIR_INIT_NVAR(_1);
-				ZVAL_STRING(_1, "afterDelete", 0);
+				ZVAL_STRING(_1, "afterDelete", ZEPHIR_TEMP_PARAM_COPY);
 				ZEPHIR_CALL_METHOD(NULL, this_ptr, "fireevent", NULL, _1);
 				zephir_check_temp_parameter(_1);
 				zephir_check_call_status();
@@ -1972,7 +1972,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, unserialize) {
 			}
 			zephir_update_property_this(this_ptr, SL("_dependencyInjector"), dependencyInjector TSRMLS_CC);
 			ZEPHIR_INIT_VAR(_2);
-			ZVAL_STRING(_2, "collectionManager", 0);
+			ZVAL_STRING(_2, "collectionManager", ZEPHIR_TEMP_PARAM_COPY);
 			ZEPHIR_CALL_METHOD(&manager, dependencyInjector, "getshared", NULL, _2);
 			zephir_check_temp_parameter(_2);
 			zephir_check_call_status();

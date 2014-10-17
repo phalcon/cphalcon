@@ -346,7 +346,7 @@ PHP_METHOD(Phalcon_Mvc_Url, get) {
 		}
 		if (_0) {
 			ZEPHIR_INIT_VAR(_4);
-			ZVAL_STRING(_4, "/^[^:\\/?#]++:/", 0);
+			ZVAL_STRING(_4, "/^[^:\\/?#]++:/", ZEPHIR_TEMP_PARAM_COPY);
 			ZEPHIR_CALL_FUNCTION(&matched, "preg_match", &_5, _4, uri);
 			zephir_check_temp_parameter(_4);
 			zephir_check_call_status();
@@ -377,7 +377,7 @@ PHP_METHOD(Phalcon_Mvc_Url, get) {
 				return;
 			}
 			ZEPHIR_INIT_NVAR(_4);
-			ZVAL_STRING(_4, "router", 0);
+			ZVAL_STRING(_4, "router", ZEPHIR_TEMP_PARAM_COPY);
 			ZEPHIR_CALL_METHOD(&_2, dependencyInjector, "getshared", NULL, _4);
 			zephir_check_temp_parameter(_4);
 			zephir_check_call_status();

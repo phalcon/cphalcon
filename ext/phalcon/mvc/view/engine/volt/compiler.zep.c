@@ -701,7 +701,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, functionCall) {
 			zephir_array_fast_append(_1, arguments);
 			zephir_array_fast_append(_1, funcArguments);
 			ZEPHIR_INIT_VAR(_2);
-			ZVAL_STRING(_2, "compileFunction", 0);
+			ZVAL_STRING(_2, "compileFunction", ZEPHIR_TEMP_PARAM_COPY);
 			ZEPHIR_CALL_METHOD(&code, this_ptr, "fireextensionevent", &_3, _2, _1);
 			zephir_check_temp_parameter(_2);
 			zephir_check_call_status();
@@ -1064,7 +1064,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, resolveFilter) {
 		zephir_array_fast_append(_4, arguments);
 		zephir_array_fast_append(_4, funcArguments);
 		ZEPHIR_INIT_VAR(_8);
-		ZVAL_STRING(_8, "compileFilter", 0);
+		ZVAL_STRING(_8, "compileFilter", ZEPHIR_TEMP_PARAM_COPY);
 		ZEPHIR_CALL_METHOD(&code, this_ptr, "fireextensionevent", &_9, _8, _4);
 		zephir_check_temp_parameter(_8);
 		zephir_check_call_status();
@@ -1274,7 +1274,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, expression) {
 			array_init_size(_0, 2);
 			zephir_array_fast_append(_0, expr);
 			ZEPHIR_INIT_NVAR(_1);
-			ZVAL_STRING(_1, "resolveExpression", 0);
+			ZVAL_STRING(_1, "resolveExpression", ZEPHIR_TEMP_PARAM_COPY);
 			ZEPHIR_CALL_METHOD(&exprCode, this_ptr, "fireextensionevent", &_2, _1, _0);
 			zephir_check_temp_parameter(_1);
 			zephir_check_call_status();
@@ -2472,7 +2472,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _statementList) {
 			array_init_size(_9, 2);
 			zephir_array_fast_append(_9, statement);
 			ZEPHIR_INIT_NVAR(_10);
-			ZVAL_STRING(_10, "compileStatement", 0);
+			ZVAL_STRING(_10, "compileStatement", ZEPHIR_TEMP_PARAM_COPY);
 			ZEPHIR_CALL_METHOD(&tempCompilation, this_ptr, "fireextensionevent", &_11, _10, _9);
 			zephir_check_temp_parameter(_10);
 			zephir_check_call_status();
