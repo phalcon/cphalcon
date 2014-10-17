@@ -81,7 +81,7 @@ class TagJavascriptIncludeTest extends Helper\TagBase
             function () {
 
                 $options  = ['js/phalcon.js'];
-                $expected = '<script type="text/javascript" src="/js/phalcon.js"></script>' . PHP_EOL;
+                $expected = '<script type="text/javascript" src="js/phalcon.js"></script>' . PHP_EOL;
                 $actual   = PhTTag::javascriptInclude($options, 'hello');
 
                 expect($actual)->equals($expected);

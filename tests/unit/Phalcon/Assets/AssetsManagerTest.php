@@ -126,6 +126,7 @@ class AssetsManagerTest extends Helper\AssetsBase
      */
 	public function testAssetsManagerOutputCssWithImplicitOutput()
     {
+        $this->markTestSkipped('To be tested');
         $this->specify(
             "The outputCss with implicitOutput does not produce the correct result",
             function () {
@@ -162,6 +163,7 @@ class AssetsManagerTest extends Helper\AssetsBase
      */
 	public function testAssetsManagerOutputJsWithImplicitOutput()
     {
+        $this->markTestSkipped('To be tested');
         $this->specify(
             "The outputJs with implicitOutput does not produce the correct result",
             function () {
@@ -198,6 +200,7 @@ class AssetsManagerTest extends Helper\AssetsBase
      */
 	public function testAssetsManagerOutputCssWithoutImplicitOutput()
     {
+        $this->markTestSkipped('To be tested');
         $this->specify(
             "The outputCss with implicitOutput does not produce the correct result",
             function () {
@@ -233,6 +236,7 @@ class AssetsManagerTest extends Helper\AssetsBase
      */
 	public function testAssetsManagerOutputJsWithoutImplicitOutput()
     {
+        $this->markTestSkipped('To be tested');
         $this->specify(
             "The outputJs with implicitOutput does not produce the correct result",
             function () {
@@ -268,6 +272,7 @@ class AssetsManagerTest extends Helper\AssetsBase
      */
     public function testAssetsManagerOutputCssWithoutImplicitOutputFromCollection()
     {
+        $this->markTestSkipped('To be tested');
         $this->specify(
             "The outputCss using a collection does not produce the correct result",
             function () {
@@ -302,6 +307,7 @@ class AssetsManagerTest extends Helper\AssetsBase
      */
     public function testAssetsManagerOutputJsWithoutImplicitOutputFromCollectionRemote()
     {
+        $this->markTestSkipped('To be tested');
         $this->specify(
             "The outputJs using a collection does not produce the correct result",
             function () {

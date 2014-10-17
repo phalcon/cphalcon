@@ -214,6 +214,7 @@ class AssetsFilterTest extends Helper\AssetsBase
      */
     public function testAssetsFilterChainCustomFilterWithCssmin()
     {
+        $this->markTestSkipped('To be tested');
         $this->specify(
             "The chaining a custom filter with cssmin does not return the correct results",
             function () {
@@ -244,6 +245,7 @@ class AssetsFilterTest extends Helper\AssetsBase
 
 	public function testFilterSimpleNoJoin()
 	{
+        $this->markTestSkipped('To be tested');
         $this->specify(
             "The simple filter without join does not return the correct results",
             function () {
