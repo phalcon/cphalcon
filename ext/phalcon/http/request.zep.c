@@ -180,7 +180,7 @@ PHP_METHOD(Phalcon_Http_Request, get) {
 					_0 = zephir_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 					ZEPHIR_CPY_WRT(dependencyInjector, _0);
 					if (Z_TYPE_P(dependencyInjector) != IS_OBJECT) {
-						ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_http_request_exception_ce, "A dependency injection object is required to access the 'filter' service", "phalcon/http/request.zep", 103);
+						ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_http_request_exception_ce, "A dependency injection object is required to access the 'filter' service", "phalcon/http/request.zep", 105);
 						return;
 					}
 					ZEPHIR_INIT_VAR(_2);
@@ -297,7 +297,7 @@ PHP_METHOD(Phalcon_Http_Request, getPost) {
 					_0 = zephir_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 					ZEPHIR_CPY_WRT(dependencyInjector, _0);
 					if (Z_TYPE_P(dependencyInjector) != IS_OBJECT) {
-						ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_http_request_exception_ce, "A dependency injection object is required to access the 'filter' service", "phalcon/http/request.zep", 162);
+						ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_http_request_exception_ce, "A dependency injection object is required to access the 'filter' service", "phalcon/http/request.zep", 164);
 						return;
 					}
 					ZEPHIR_INIT_VAR(_2);

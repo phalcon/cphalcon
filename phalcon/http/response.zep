@@ -25,6 +25,7 @@ use Phalcon\Http\Response\HeadersInterface;
 use Phalcon\Http\Response\CookiesInterface;
 use Phalcon\Mvc\UrlInterface;
 use Phalcon\Http\Response\Headers;
+use Phalcon\Di\InjectionAwareInterface;
 
 /**
  * Phalcon\Http\Response
@@ -40,7 +41,7 @@ use Phalcon\Http\Response\Headers;
  *	$response->send();
  *</code>
  */
-class Response implements ResponseInterface, \Phalcon\Di\InjectionAwareInterface
+class Response implements ResponseInterface, InjectionAwareInterface
 {
 
 	protected _sent = false;
@@ -299,7 +300,7 @@ class Response implements ResponseInterface, \Phalcon\Di\InjectionAwareInterface
 	 * @param string charset
 	 * @return Phalcon\Http\ResponseInterface
 	 */
-	public function setContentType(string contentType, charset=null) -> <ResponseInterface>
+	public function setContentType(string contentType, charset = null) -> <ResponseInterface>
 	{
 		var headers, name;
 		let headers = this->getHeaders();

@@ -2426,22 +2426,31 @@ PHP_METHOD(Phalcon_Tag, getDocType) {
 PHP_METHOD(Phalcon_Tag, tagHtml) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *tagName, *parameters = NULL, *selfClose = NULL, *onlyStart = NULL, *useEol = NULL, *params = NULL, *localCode = NULL, *_0, *_1, *_2, *_3;
+	zend_bool selfClose, onlyStart, useEol;
+	zval *tagName_param = NULL, *parameters = NULL, *selfClose_param = NULL, *onlyStart_param = NULL, *useEol_param = NULL, *params = NULL, *localCode = NULL, *_1, *_3;
+	zval *tagName = NULL, *_0, *_2;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 4, &tagName, &parameters, &selfClose, &onlyStart, &useEol);
+	zephir_fetch_params(1, 1, 4, &tagName_param, &parameters, &selfClose_param, &onlyStart_param, &useEol_param);
 
+	zephir_get_strval(tagName, tagName_param);
 	if (!parameters) {
 		parameters = ZEPHIR_GLOBAL(global_null);
 	}
-	if (!selfClose) {
-		selfClose = ZEPHIR_GLOBAL(global_false);
+	if (!selfClose_param) {
+		selfClose = 0;
+	} else {
+		selfClose = zephir_get_boolval(selfClose_param);
 	}
-	if (!onlyStart) {
-		onlyStart = ZEPHIR_GLOBAL(global_false);
+	if (!onlyStart_param) {
+		onlyStart = 0;
+	} else {
+		onlyStart = zephir_get_boolval(onlyStart_param);
 	}
-	if (!useEol) {
-		useEol = ZEPHIR_GLOBAL(global_false);
+	if (!useEol_param) {
+		useEol = 0;
+	} else {
+		useEol = zephir_get_boolval(useEol_param);
 	}
 
 
@@ -2458,13 +2467,13 @@ PHP_METHOD(Phalcon_Tag, tagHtml) {
 	zephir_check_call_status();
 	_1 = zephir_fetch_static_property_ce(phalcon_tag_ce, SL("_documentType") TSRMLS_CC);
 	if (ZEPHIR_GT_LONG(_1, 5)) {
-		if (zephir_is_true(selfClose)) {
+		if (selfClose) {
 			zephir_concat_self_str(&localCode, SL(" />") TSRMLS_CC);
 		} else {
 			zephir_concat_self_str(&localCode, SL(">") TSRMLS_CC);
 		}
 	} else {
-		if (zephir_is_true(onlyStart)) {
+		if (onlyStart) {
 			zephir_concat_self_str(&localCode, SL(">") TSRMLS_CC);
 		} else {
 			ZEPHIR_INIT_VAR(_2);
@@ -2472,7 +2481,7 @@ PHP_METHOD(Phalcon_Tag, tagHtml) {
 			zephir_concat_self(&localCode, _2 TSRMLS_CC);
 		}
 	}
-	if (zephir_is_true(useEol)) {
+	if (useEol) {
 		ZEPHIR_INIT_VAR(_3);
 		ZEPHIR_GET_CONSTANT(_3, "PHP_EOL");
 		zephir_concat_self(&localCode, _3 TSRMLS_CC);

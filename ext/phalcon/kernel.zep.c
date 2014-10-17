@@ -51,7 +51,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Kernel) {
 /**
  * Produces a pre-computed hash key based on a string. This function produce different numbers in 32bit/64bit processors
  *
- * @param string $arrKey
+ * @param string key
  * @return string
  */
 PHP_METHOD(Phalcon_Kernel, preComputeHashKey) {

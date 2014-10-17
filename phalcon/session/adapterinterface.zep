@@ -39,7 +39,7 @@ interface AdapterInterface
 	 *
 	 * @param array options
 	 */
-	public function setOptions(options);
+	public function setOptions(array! options);
 
 	/**
 	 * Get internal options

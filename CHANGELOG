@@ -69,7 +69,7 @@
  - Removed final keyword from Model constructor
  - #2111 – replacing bindParam to bindValue to avoid unexpected reference changes
  - #2002 Tag::linkTo() to allow the addition of query string parameters
- - Add `allowEmpty` option to \Phalcon\Mvc\Model\Validator\*
+ - Added `allowEmpty` option to \Phalcon\Mvc\Model\Validator\*
  - Use phalcon_camelize for namesapce Add \Phalcon\Session\Adapter::setId Fixed #1932 Phalcon\Http\…
  - #2111 – replacing bindParam to bindValue to avoid unexpected reference changes
  - Fix wrong issent() call on non Response objects

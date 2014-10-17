@@ -1434,7 +1434,8 @@ class Tag
 	 * @param boolean useEol
 	 * @return string
 	 */
-	public static function tagHtml(tagName, parameters = null, selfClose = false, onlyStart = false, useEol = false) -> string
+	public static function tagHtml(string tagName, var parameters = null, boolean selfClose = false,
+		boolean onlyStart = false, boolean useEol = false) -> string
 	{
 		var params, localCode;
 
