@@ -2203,7 +2203,7 @@ PHP_METHOD(Phalcon_Tag, friendlyTitle) {
 	zephir_check_call_status();
 	if (zephir_is_true(_1)) {
 		ZEPHIR_SINIT_NVAR(_0);
-		ZVAL_LONG(&_0, 0);
+		ZVAL_LONG(&_0, 6);
 		ZEPHIR_SINIT_VAR(_3);
 		ZVAL_STRING(&_3, "en_US.UTF-8", 0);
 		ZEPHIR_CALL_FUNCTION(&locale, "setlocale", &_4, &_0, &_3);
@@ -2274,7 +2274,7 @@ PHP_METHOD(Phalcon_Tag, friendlyTitle) {
 	zephir_check_call_status();
 	if (zephir_is_true(_5)) {
 		ZEPHIR_SINIT_NVAR(_3);
-		ZVAL_LONG(&_3, 0);
+		ZVAL_LONG(&_3, 6);
 		ZEPHIR_CALL_FUNCTION(NULL, "setlocale", &_4, &_3, locale);
 		zephir_check_call_status();
 	}
