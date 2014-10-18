@@ -22,9 +22,10 @@
 
 namespace Phalcon\Tests\unit\Phalcon\Flash\Direct\Helper;
 
-use \Phalcon\Flash\Direct as PhFlash;
+use \PhalconTest\Flash\Direct as PhFlash;
+use \Codeception\TestCase\Test as CdTest;
 
-class FlashBase extends \Codeception\TestCase\Test
+class FlashBase extends CdTest
 {
     use \Codeception\Specify;
 
@@ -57,7 +58,7 @@ class FlashBase extends \Codeception\TestCase\Test
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-10-04
      */
-    public function testErrorStringImplicitFlushHtml()
+    public function testFlashDirectErrorImplicitFlushHtml()
     {
         $this->stringTest('error');
     }
@@ -68,7 +69,7 @@ class FlashBase extends \Codeception\TestCase\Test
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-10-04
      */
-    public function testSuccessStringImplicitFlushHtml()
+    public function testFlashDirectSuccessImplicitFlushHtml()
     {
         $this->stringTest('success');
     }
@@ -79,7 +80,7 @@ class FlashBase extends \Codeception\TestCase\Test
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-10-04
      */
-    public function testNoticeStringImplicitFlushHtml()
+    public function testFlashDirectNoticeImplicitFlushHtml()
     {
         $this->stringTest('notice');
     }
@@ -90,53 +91,9 @@ class FlashBase extends \Codeception\TestCase\Test
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-10-04
      */
-    public function testWarningStringImplicitFlushHtml()
+    public function testFlashDirectWarningImplicitFlushHtml()
     {
         $this->stringTest('warning');
-    }
-
-    /**
-     * Tests error array of messages (implicit flush)
-     *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
-     * @since  2014-10-04
-     */
-    public function testErrorArrayImplicitFlushHtml()
-    {
-        $this->arrayTest('error');
-    }
-
-    /**
-     * Tests success array of messages (implicit flush)
-     *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
-     * @since  2014-10-04
-     */
-    public function testSuccessArrayImplicitFlushHtml()
-    {
-        $this->arrayTest('success');
-    }
-
-    /**
-     * Tests notice array of messages (implicit flush)
-     *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
-     * @since  2014-10-04
-     */
-    public function testNoticeArrayImplicitFlushHtml()
-    {
-        $this->arrayTest('notice');
-    }
-
-    /**
-     * Tests warning array of messages (implicit flush)
-     *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
-     * @since  2014-10-04
-     */
-    public function testWarningArrayImplicitFlushHtml()
-    {
-        $this->arrayTest('warning');
     }
 
     /**
@@ -145,7 +102,7 @@ class FlashBase extends \Codeception\TestCase\Test
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-10-04
      */
-    public function testErrorStringNoImplicitFlushHtml()
+    public function testFlashDirectErrorNoImplicitFlushHtml()
     {
         $this->notImplicit = true;
         $this->stringTest('error');
@@ -158,7 +115,7 @@ class FlashBase extends \Codeception\TestCase\Test
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-10-04
      */
-    public function testSuccessStringNoImplicitFlushHtml()
+    public function testFlashDirectSuccessNoImplicitFlushHtml()
     {
         $this->notImplicit = true;
         $this->stringTest('success');
@@ -171,7 +128,7 @@ class FlashBase extends \Codeception\TestCase\Test
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-10-04
      */
-    public function testNoticeStringNoImplicitFlushHtml()
+    public function testFlashDirectNoticeNoImplicitFlushHtml()
     {
         $this->notImplicit = true;
         $this->stringTest('notice');
@@ -184,62 +141,10 @@ class FlashBase extends \Codeception\TestCase\Test
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-10-04
      */
-    public function testWarningStringNoImplicitFlushHtml()
+    public function testFlashDirectWarningNoImplicitFlushHtml()
     {
         $this->notImplicit = true;
         $this->stringTest('warning');
-        $this->notImplicit = false;
-    }
-
-    /**
-     * Tests error array of messages (no implicit flush)
-     *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
-     * @since  2014-10-04
-     */
-    public function testErrorArrayNoImplicitFlushHtml()
-    {
-        $this->notImplicit = true;
-        $this->arrayTest('error');
-        $this->notImplicit = false;
-    }
-
-    /**
-     * Tests success array of messages (no implicit flush)
-     *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
-     * @since  2014-10-04
-     */
-    public function testSuccessArrayNoImplicitFlushHtml()
-    {
-        $this->notImplicit = true;
-        $this->arrayTest('success');
-        $this->notImplicit = false;
-    }
-
-    /**
-     * Tests notice array of messages (no implicit flush)
-     *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
-     * @since  2014-10-04
-     */
-    public function testNoticeArrayNoImplicitFlushHtml()
-    {
-        $this->notImplicit = true;
-        $this->arrayTest('notice');
-        $this->notImplicit = false;
-    }
-
-    /**
-     * Tests warning array of messages (no implicit flush)
-     *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
-     * @since  2014-10-04
-     */
-    public function testWarningArrayNoImplicitFlushHtml()
-    {
-        $this->notImplicit = true;
-        $this->arrayTest('warning');
         $this->notImplicit = false;
     }
 
@@ -249,7 +154,7 @@ class FlashBase extends \Codeception\TestCase\Test
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-10-04
      */
-    public function testErrorStringImplicitFlushNoHtml()
+    public function testFlashDirectErrorImplicitFlushNoHtml()
     {
         $this->notHtml = true;
         $this->stringTest('error');
@@ -262,7 +167,7 @@ class FlashBase extends \Codeception\TestCase\Test
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-10-04
      */
-    public function testSuccessStringImplicitFlushNoHtml()
+    public function testFlashDirectSuccessImplicitFlushNoHtml()
     {
         $this->notHtml = true;
         $this->stringTest('success');
@@ -275,7 +180,7 @@ class FlashBase extends \Codeception\TestCase\Test
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-10-04
      */
-    public function testNoticeStringImplicitFlushNoHtml()
+    public function testFlashDirectNoticeImplicitFlushNoHtml()
     {
         $this->notHtml = true;
         $this->stringTest('notice');
@@ -288,62 +193,10 @@ class FlashBase extends \Codeception\TestCase\Test
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-10-04
      */
-    public function testWarningStringImplicitFlushNoHtml()
+    public function testFlashDirectWarningImplicitFlushNoHtml()
     {
         $this->notHtml = true;
         $this->stringTest('warning');
-        $this->notHtml = false;
-    }
-
-    /**
-     * Tests error array of messages (implicit flush no html)
-     *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
-     * @since  2014-10-04
-     */
-    public function testErrorArrayImplicitFlushNoHtml()
-    {
-        $this->notHtml = true;
-        $this->arrayTest('error');
-        $this->notHtml = false;
-    }
-
-    /**
-     * Tests success array of messages (implicit flush no html)
-     *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
-     * @since  2014-10-04
-     */
-    public function testSuccessArrayImplicitFlushNoHtml()
-    {
-        $this->notHtml = true;
-        $this->arrayTest('success');
-        $this->notHtml = false;
-    }
-
-    /**
-     * Tests notice array of messages (implicit flush no html)
-     *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
-     * @since  2014-10-04
-     */
-    public function testNoticeArrayImplicitFlushNoHtml()
-    {
-        $this->notHtml = true;
-        $this->arrayTest('notice');
-        $this->notHtml = false;
-    }
-
-    /**
-     * Tests warning array of messages (implicit flush no html)
-     *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
-     * @since  2014-10-04
-     */
-    public function testWarningArrayImplicitFlushNoHtml()
-    {
-        $this->notHtml = true;
-        $this->arrayTest('warning');
         $this->notHtml = false;
     }
 
@@ -353,7 +206,7 @@ class FlashBase extends \Codeception\TestCase\Test
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-10-04
      */
-    public function testErrorStringNoImplicitFlushNoHtml()
+    public function testFlashDirectErrorNoImplicitFlushNoHtml()
     {
         $this->notHtml     = true;
         $this->notImplicit = true;
@@ -368,7 +221,7 @@ class FlashBase extends \Codeception\TestCase\Test
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-10-04
      */
-    public function testSuccessStringNoImplicitFlushNoHtml()
+    public function testFlashDirectSuccessNoImplicitFlushNoHtml()
     {
         $this->notHtml     = true;
         $this->notImplicit = true;
@@ -383,7 +236,7 @@ class FlashBase extends \Codeception\TestCase\Test
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-10-04
      */
-    public function testNoticeStringNoImplicitFlushNoHtml()
+    public function testFlashDirectNoticeNoImplicitFlushNoHtml()
     {
         $this->notHtml     = true;
         $this->notImplicit = true;
@@ -398,71 +251,11 @@ class FlashBase extends \Codeception\TestCase\Test
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-10-04
      */
-    public function testWarningStringNoImplicitFlushNoHtml()
+    public function testFlashDirectWarningNoImplicitFlushNoHtml()
     {
         $this->notHtml     = true;
         $this->notImplicit = true;
         $this->stringTest('warning');
-        $this->notHtml     = false;
-        $this->notImplicit = false;
-    }
-
-    /**
-     * Tests error array of messages (no implicit flush no html)
-     *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
-     * @since  2014-10-04
-     */
-    public function testErrorArrayNoImplicitFlushNoHtml()
-    {
-        $this->notHtml     = true;
-        $this->notImplicit = true;
-        $this->arrayTest('error');
-        $this->notHtml     = false;
-        $this->notImplicit = false;
-    }
-
-    /**
-     * Tests success array of messages (no implicit flush no html)
-     *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
-     * @since  2014-10-04
-     */
-    public function testSuccessArrayNoImplicitFlushNoHtml()
-    {
-        $this->notHtml     = true;
-        $this->notImplicit = true;
-        $this->arrayTest('success');
-        $this->notHtml     = false;
-        $this->notImplicit = false;
-    }
-
-    /**
-     * Tests notice array of messages (no implicit flush no html)
-     *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
-     * @since  2014-10-04
-     */
-    public function testNoticeArrayNoImplicitFlushNoHtml()
-    {
-        $this->notHtml     = true;
-        $this->notImplicit = true;
-        $this->arrayTest('notice');
-        $this->notHtml     = false;
-        $this->notImplicit = false;
-    }
-
-    /**
-     * Tests warning array of messages (no implicit flush no html)
-     *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
-     * @since  2014-10-04
-     */
-    public function testWarningArrayNoImplicitFlushNoHtml()
-    {
-        $this->notHtml     = true;
-        $this->notImplicit = true;
-        $this->arrayTest('warning');
         $this->notHtml     = false;
         $this->notImplicit = false;
     }
@@ -543,43 +336,6 @@ class FlashBase extends \Codeception\TestCase\Test
         if ($this->notImplicit) {
             $flash->setImplicitFlush(false);
             $actual   = $flash->$function($message);
-        } else {
-            $actual = $this->getObResponse($flash, $function, $message);
-        }
-
-        expect($actual)->equals($expected);
-    }
-
-    /**
-     * Private function that tests an array with implicit flush Html
-     *
-     * @param $function
-     *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
-     * @since  2014-10-04
-     */
-    private function arrayTest($function)
-    {
-        $flash    = new PhFlash($this->classes);
-        $class    = $this->getClass($function);
-        $template = '<div%s>%s</div>' . PHP_EOL;
-        $message  = [
-            'sample message 1',
-            'sample message 2',
-        ];
-
-        if ($this->notHtml) {
-            $flash->setAutomaticHtml(false);
-            $expected = $message[0]
-                      . $message[1];
-        } else {
-            $expected = sprintf($template, $class, $message[0])
-                      . sprintf($template, $class, $message[1]);
-        }
-
-        if ($this->notImplicit) {
-            $flash->setImplicitFlush(false);
-            $actual   = (array) $flash->$function($message);
         } else {
             $actual = $this->getObResponse($flash, $function, $message);
         }

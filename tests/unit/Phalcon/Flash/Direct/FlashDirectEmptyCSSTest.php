@@ -1,7 +1,7 @@
 <?php
 /**
- * FlashDirectDefaultCSSTest.php
- * \Phalcon\Flash\Direct\FlashDirectDefaultCSSTest
+ * FlashDirectEmptyCSSTest.php
+ * \Phalcon\Flash\Direct\FlashDirectEmptyCSSTest
  *
  * Tests the \Phalcon\Tag component
  *
@@ -22,12 +22,14 @@
 
 namespace Phalcon\Tests\unit\Phalcon\Flash\Direct;
 
-use \Phalcon\Flash\Direct as PhFlash;
-
-class FlashDirectDefaultCSSTest extends Helper\FlashBase
+class FlashDirectEmptyCSSTest extends Helper\FlashBase
 {
     public function _before()
     {
         parent::_before();
+
+        $classes = [];
+
+        $this->setClasses($classes);
     }
 }
