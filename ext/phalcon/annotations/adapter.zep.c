@@ -88,7 +88,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter, setReader) {
 PHP_METHOD(Phalcon_Annotations_Adapter, getReader) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *reader;
+	zval *reader = NULL;
 
 	ZEPHIR_MM_GROW();
 

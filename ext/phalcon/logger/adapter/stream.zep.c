@@ -79,7 +79,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Stream, __construct) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
 	zephir_nts_static zephir_fcall_cache_entry *_0 = NULL;
-	zval *name_param = NULL, *options = NULL, *mode, *stream = NULL, *_1;
+	zval *name_param = NULL, *options = NULL, *mode = NULL, *stream = NULL, *_1;
 	zval *name = NULL, *_2;
 
 	ZEPHIR_MM_GROW();
@@ -137,7 +137,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Stream, __construct) {
 PHP_METHOD(Phalcon_Logger_Adapter_Stream, getFormatter) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *formatter;
+	zval *formatter = NULL;
 
 	ZEPHIR_MM_GROW();
 

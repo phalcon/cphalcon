@@ -56,29 +56,29 @@ ZEPHIR_INIT_CLASS(Phalcon_Tag) {
 	/**
 	 * Pre-assigned values for components
 	 */
-	zend_declare_property_null(phalcon_tag_ce, SL("_displayValues"), ZEND_ACC_PROTECTED|ZEND_ACC_STATIC TSRMLS_CC);
+	zend_declare_property_null(phalcon_tag_ce, SL("_displayValues"), ZEND_ACC_PUBLIC|ZEND_ACC_STATIC TSRMLS_CC);
 
 	/**
 	 * HTML document title
 	 */
-	zend_declare_property_null(phalcon_tag_ce, SL("_documentTitle"), ZEND_ACC_PROTECTED|ZEND_ACC_STATIC TSRMLS_CC);
+	zend_declare_property_null(phalcon_tag_ce, SL("_documentTitle"), ZEND_ACC_PUBLIC|ZEND_ACC_STATIC TSRMLS_CC);
 
-	zend_declare_property_null(phalcon_tag_ce, SL("_documentTitleSeparator"), ZEND_ACC_PROTECTED|ZEND_ACC_STATIC TSRMLS_CC);
+	zend_declare_property_null(phalcon_tag_ce, SL("_documentTitleSeparator"), ZEND_ACC_PUBLIC|ZEND_ACC_STATIC TSRMLS_CC);
 
-	zend_declare_property_long(phalcon_tag_ce, SL("_documentType"), 11, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC TSRMLS_CC);
+	zend_declare_property_long(phalcon_tag_ce, SL("_documentType"), 11, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC TSRMLS_CC);
 
 	/**
 	 * Framework Dispatcher
 	 */
-	zend_declare_property_null(phalcon_tag_ce, SL("_dependencyInjector"), ZEND_ACC_PROTECTED|ZEND_ACC_STATIC TSRMLS_CC);
+	zend_declare_property_null(phalcon_tag_ce, SL("_dependencyInjector"), ZEND_ACC_PUBLIC|ZEND_ACC_STATIC TSRMLS_CC);
 
-	zend_declare_property_null(phalcon_tag_ce, SL("_urlService"), ZEND_ACC_PROTECTED|ZEND_ACC_STATIC TSRMLS_CC);
+	zend_declare_property_null(phalcon_tag_ce, SL("_urlService"), ZEND_ACC_PUBLIC|ZEND_ACC_STATIC TSRMLS_CC);
 
-	zend_declare_property_null(phalcon_tag_ce, SL("_dispatcherService"), ZEND_ACC_PROTECTED|ZEND_ACC_STATIC TSRMLS_CC);
+	zend_declare_property_null(phalcon_tag_ce, SL("_dispatcherService"), ZEND_ACC_PUBLIC|ZEND_ACC_STATIC TSRMLS_CC);
 
-	zend_declare_property_null(phalcon_tag_ce, SL("_escaperService"), ZEND_ACC_PROTECTED|ZEND_ACC_STATIC TSRMLS_CC);
+	zend_declare_property_null(phalcon_tag_ce, SL("_escaperService"), ZEND_ACC_PUBLIC|ZEND_ACC_STATIC TSRMLS_CC);
 
-	zend_declare_property_bool(phalcon_tag_ce, SL("_autoEscape"), 1, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC TSRMLS_CC);
+	zend_declare_property_bool(phalcon_tag_ce, SL("_autoEscape"), 1, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC TSRMLS_CC);
 
 	zend_declare_class_constant_long(phalcon_tag_ce, SL("HTML32"), 1 TSRMLS_CC);
 
@@ -151,7 +151,7 @@ PHP_METHOD(Phalcon_Tag, renderAttributes) {
 	zephir_nts_static zephir_fcall_cache_entry *_2 = NULL, *_3 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *attributes = NULL;
-	zval *code_param = NULL, *attributes_param = NULL, *order, *keys = NULL, *escaper = NULL, *attrs, *value = NULL, *escaped = NULL, *key = NULL, *newCode = NULL, *_0, *_1 = NULL, **_6, *_8 = NULL;
+	zval *code_param = NULL, *attributes_param = NULL, *order, *keys = NULL, *escaper = NULL, *attrs, *value = NULL, *escaped = NULL, *key = NULL, *newCode = NULL, *_0 = NULL, *_1 = NULL, **_6, *_8 = NULL;
 	zval *code = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -578,7 +578,7 @@ PHP_METHOD(Phalcon_Tag, getValue) {
  */
 PHP_METHOD(Phalcon_Tag, resetInput) {
 
-	zval *_0;
+	zval *_0 = NULL;
 
 	ZEPHIR_MM_GROW();
 
@@ -614,7 +614,7 @@ PHP_METHOD(Phalcon_Tag, resetInput) {
 PHP_METHOD(Phalcon_Tag, linkTo) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *parameters, *text = NULL, *local = NULL, *params = NULL, *action = NULL, *query, *url = NULL, *code = NULL, *_0 = NULL, *_1, *_2;
+	zval *parameters, *text = NULL, *local = NULL, *params = NULL, *action = NULL, *query = NULL, *url = NULL, *code = NULL, *_0 = NULL, *_1, *_2;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 2, &parameters, &text, &local);
@@ -2174,7 +2174,7 @@ PHP_METHOD(Phalcon_Tag, friendlyTitle) {
 	int ZEPHIR_LAST_CALL_STATUS;
 	zephir_nts_static zephir_fcall_cache_entry *_2 = NULL, *_4 = NULL, *_13 = NULL;
 	zend_bool lowercase, _6;
-	zval *text_param = NULL, *separator_param = NULL, *lowercase_param = NULL, *replace = NULL, *friendly = NULL, *locale = NULL, *search = NULL, _0 = zval_used_for_init, *_1 = NULL, _3 = zval_used_for_init, *_5 = NULL, **_9, *_10 = NULL, *_11, *_12;
+	zval *text_param = NULL, *separator_param = NULL, *lowercase_param = NULL, *replace = NULL, *friendly = NULL, *locale = NULL, *search = NULL, _0 = zval_used_for_init, *_1 = NULL, _3 = zval_used_for_init, *_5 = NULL, **_9, *_10 = NULL, *_11 = NULL, *_12;
 	zval *text = NULL, *separator = NULL;
 
 	ZEPHIR_MM_GROW();

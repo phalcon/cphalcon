@@ -84,7 +84,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Regex, validate) {
 	zephir_nts_static zephir_fcall_cache_entry *_5 = NULL, *_9 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zend_bool failed, _3;
-	zval *record, *field = NULL, *value = NULL, *matches, *pattern = NULL, *message = NULL, *_0, *_1 = NULL, *_2 = NULL, *_4 = NULL, *_6, *_8 = NULL;
+	zval *record, *field = NULL, *value = NULL, *matches, *pattern = NULL, *message = NULL, *_0 = NULL, *_1 = NULL, *_2 = NULL, *_4 = NULL, *_6, *_8 = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &record);

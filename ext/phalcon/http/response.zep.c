@@ -268,7 +268,7 @@ PHP_METHOD(Phalcon_Http_Response, setHeaders) {
 PHP_METHOD(Phalcon_Http_Response, getHeaders) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *headers;
+	zval *headers = NULL;
 
 	ZEPHIR_MM_GROW();
 
@@ -417,7 +417,7 @@ PHP_METHOD(Phalcon_Http_Response, setExpires) {
 
 	zend_class_entry *_1;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *datetime, *headers = NULL, *date, *_0, *_2, *_3 = NULL, *_4;
+	zval *datetime, *headers = NULL, *date, *_0, *_2 = NULL, *_3 = NULL, *_4;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &datetime);

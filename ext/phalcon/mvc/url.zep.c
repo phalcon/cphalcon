@@ -193,7 +193,7 @@ PHP_METHOD(Phalcon_Mvc_Url, setStaticBaseUri) {
  */
 PHP_METHOD(Phalcon_Mvc_Url, getBaseUri) {
 
-	zval *baseUri, *phpSelf, *uri = NULL, *_SERVER;
+	zval *baseUri = NULL, *phpSelf, *uri = NULL, *_SERVER;
 
 	ZEPHIR_MM_GROW();
 

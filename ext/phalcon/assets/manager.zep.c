@@ -354,7 +354,7 @@ PHP_METHOD(Phalcon_Assets_Manager, addInlineJs) {
 PHP_METHOD(Phalcon_Assets_Manager, addResourceByType) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *type_param = NULL, *resource, *collection, *_0;
+	zval *type_param = NULL, *resource, *collection = NULL, *_0;
 	zval *type = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -404,7 +404,7 @@ PHP_METHOD(Phalcon_Assets_Manager, addResourceByType) {
 PHP_METHOD(Phalcon_Assets_Manager, addInlineCodeByType) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *type_param = NULL, *code, *collection, *_0;
+	zval *type_param = NULL, *code, *collection = NULL, *_0;
 	zval *type = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -645,7 +645,7 @@ PHP_METHOD(Phalcon_Assets_Manager, getJs) {
 PHP_METHOD(Phalcon_Assets_Manager, collection) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *name_param = NULL, *collection, *_0;
+	zval *name_param = NULL, *collection = NULL, *_0;
 	zval *name = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -1103,7 +1103,7 @@ PHP_METHOD(Phalcon_Assets_Manager, outputCss) {
 
 	zval *_0;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *collectionName = NULL, *collection = NULL, *_1;
+	zval *collectionName = NULL, *collection = NULL, *_1 = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &collectionName);
@@ -1180,7 +1180,7 @@ PHP_METHOD(Phalcon_Assets_Manager, outputJs) {
 
 	zval *_0;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *collectionName = NULL, *collection = NULL, *_1;
+	zval *collectionName = NULL, *collection = NULL, *_1 = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &collectionName);

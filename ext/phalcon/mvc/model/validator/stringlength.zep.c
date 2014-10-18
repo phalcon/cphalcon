@@ -89,7 +89,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_StringLength, validate) {
 	zval *_4 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zend_bool invalidMaximum, invalidMinimum, _1, _3;
-	zval *record, *field = NULL, *isSetMin = NULL, *isSetMax = NULL, *value = NULL, *length = NULL, *maximum = NULL, *minimum = NULL, *message = NULL, *_0, *_2 = NULL, *_5 = NULL;
+	zval *record, *field = NULL, *isSetMin = NULL, *isSetMax = NULL, *value = NULL, *length = NULL, *maximum = NULL, *minimum = NULL, *message = NULL, *_0 = NULL, *_2 = NULL, *_5 = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &record);

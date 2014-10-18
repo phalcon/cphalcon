@@ -65,7 +65,7 @@ PHP_METHOD(Phalcon_Tag_Select, selectField) {
 	zend_bool _2;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zephir_nts_static zephir_fcall_cache_entry *_1 = NULL, *_4 = NULL, *_9 = NULL, *_10 = NULL;
-	zval *parameters, *data = NULL, *params = NULL, *name, *id, *value = NULL, *useEmpty, *code, *emptyValue = NULL, *emptyText = NULL, *options = NULL, *using, *_0, *_3 = NULL, *_5, *_6 = NULL, *_7 = NULL, *_8 = NULL;
+	zval *parameters, *data = NULL, *params = NULL, *name, *id, *value = NULL, *useEmpty, *code, *emptyValue = NULL, *emptyText = NULL, *options = NULL, *using, *_0, *_3 = NULL, *_5 = NULL, *_6 = NULL, *_7 = NULL, *_8 = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &parameters, &data);

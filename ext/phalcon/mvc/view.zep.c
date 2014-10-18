@@ -796,7 +796,7 @@ PHP_METHOD(Phalcon_Mvc_View, _loadTemplateEngines) {
 	HashTable *_3;
 	HashPosition _2;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *engines, *dependencyInjector = NULL, *registeredEngines, *arguments, *engineService = NULL, *extension = NULL, *_0, *_1 = NULL, **_4, *_5 = NULL, *_6 = NULL, *_8 = NULL;
+	zval *engines = NULL, *dependencyInjector = NULL, *registeredEngines, *arguments, *engineService = NULL, *extension = NULL, *_0, *_1 = NULL, **_4, *_5 = NULL, *_6 = NULL, *_8 = NULL;
 
 	ZEPHIR_MM_GROW();
 
@@ -1064,7 +1064,7 @@ PHP_METHOD(Phalcon_Mvc_View, exists) {
 	HashTable *_2;
 	HashPosition _1;
 	zend_bool exists;
-	zval *view_param = NULL, *basePath, *viewsDir, *engines, *engine = NULL, *extension = NULL, *_0, **_3, *_4 = NULL;
+	zval *view_param = NULL, *basePath, *viewsDir, *engines = NULL, *engine = NULL, *extension = NULL, *_0, **_3, *_4 = NULL;
 	zval *view = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -1137,7 +1137,7 @@ PHP_METHOD(Phalcon_Mvc_View, render) {
 	zephir_nts_static zephir_fcall_cache_entry *_2 = NULL;
 	int renderLevel, ZEPHIR_LAST_CALL_STATUS;
 	zend_bool silence, mustClean;
-	zval *controllerName_param = NULL, *actionName_param = NULL, *params = NULL, *layoutsDir, *layout, *pickView, *layoutName = NULL, *engines = NULL, *renderView = NULL, *pickViewAction, *eventsManager = NULL, *disabledLevels, *templatesBefore, *templatesAfter, *templateBefore = NULL, *templateAfter = NULL, *cache = NULL, *_0, *_1 = NULL, *_4, *_5, *_6 = NULL, *_7, **_10, *_11 = NULL, **_15, *_16 = NULL, *_17, *_18 = NULL, *_19 = NULL;
+	zval *controllerName_param = NULL, *actionName_param = NULL, *params = NULL, *layoutsDir = NULL, *layout, *pickView, *layoutName = NULL, *engines = NULL, *renderView = NULL, *pickViewAction, *eventsManager = NULL, *disabledLevels, *templatesBefore, *templatesAfter, *templateBefore = NULL, *templateAfter = NULL, *cache = NULL, *_0, *_1 = NULL, *_4, *_5, *_6 = NULL, *_7, **_10, *_11 = NULL, **_15, *_16 = NULL, *_17, *_18 = NULL, *_19 = NULL;
 	zval *controllerName = NULL, *actionName = NULL, *_3;
 
 	ZEPHIR_MM_GROW();

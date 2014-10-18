@@ -87,7 +87,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Cli_Router_Route) {
 PHP_METHOD(Phalcon_Cli_Router_Route, __construct) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *pattern_param = NULL, *paths = NULL, *routeId = NULL, *uniqueId, *delimiter, *_0;
+	zval *pattern_param = NULL, *paths = NULL, *routeId = NULL, *uniqueId = NULL, *delimiter = NULL, *_0;
 	zval *pattern = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -857,7 +857,7 @@ PHP_METHOD(Phalcon_Cli_Router_Route, delimiter) {
  */
 PHP_METHOD(Phalcon_Cli_Router_Route, getDelimiter) {
 
-	zval *delimiter;
+	zval *delimiter = NULL;
 
 	ZEPHIR_MM_GROW();
 

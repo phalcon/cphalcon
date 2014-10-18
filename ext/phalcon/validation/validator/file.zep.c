@@ -81,7 +81,7 @@ PHP_METHOD(Phalcon_Validation_Validator_File, validate) {
 	zend_bool _2, _3, _4, _6, _7, _13, _14, _15, _17, _18, _20, _24, _25, _38, _40, _42;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *field = NULL;
-	zval *validation, *field_param = NULL, *value = NULL, *message = NULL, *label = NULL, *replacePairs = NULL, *types = NULL, *byteUnits, *unit = NULL, *maxSize = NULL, *matches, *bytes, *mime = NULL, *tmp = NULL, *width, *height, *minResolution, *maxResolution, *minWidth = NULL, *maxWidth, *minHeight = NULL, *maxHeight, *_0, *_SERVER, *_1, *_POST, *_FILES, *_5, *_8, *_9 = NULL, *_10 = NULL, *_16, *_19, *_21, *_23 = NULL, *_26 = NULL, *_28, *_30, _31 = zval_used_for_init, *_32 = NULL, *_34, *_35 = NULL, *_36 = NULL, *_37 = NULL, *_41 = NULL, *_43 = NULL;
+	zval *validation, *field_param = NULL, *value = NULL, *message = NULL, *label = NULL, *replacePairs = NULL, *types = NULL, *byteUnits, *unit = NULL, *maxSize = NULL, *matches, *bytes, *mime = NULL, *tmp = NULL, *width, *height, *minResolution, *maxResolution, *minWidth = NULL, *maxWidth, *minHeight = NULL, *maxHeight, *_0 = NULL, *_SERVER, *_1, *_POST, *_FILES, *_5, *_8, *_9 = NULL, *_10 = NULL, *_16, *_19, *_21, *_23 = NULL, *_26 = NULL, *_28, *_30, _31 = zval_used_for_init, *_32 = NULL, *_34, *_35 = NULL, *_36 = NULL, *_37 = NULL, *_41 = NULL, *_43 = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &validation, &field_param);

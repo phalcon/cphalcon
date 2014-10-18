@@ -326,7 +326,7 @@ PHP_METHOD(Phalcon_Di_Service, resolve) {
 PHP_METHOD(Phalcon_Di_Service, setParameter) {
 
 	zval *parameter = NULL;
-	zval *position_param = NULL, *parameter_param = NULL, *definition, *arguments;
+	zval *position_param = NULL, *parameter_param = NULL, *definition, *arguments = NULL;
 	int position;
 
 	ZEPHIR_MM_GROW();

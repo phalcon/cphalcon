@@ -736,7 +736,7 @@ PHP_METHOD(Phalcon_Forms_Element, getValue) {
 PHP_METHOD(Phalcon_Forms_Element, getMessages) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *messages;
+	zval *messages = NULL;
 
 	ZEPHIR_MM_GROW();
 

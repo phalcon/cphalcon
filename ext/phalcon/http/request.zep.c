@@ -856,7 +856,7 @@ PHP_METHOD(Phalcon_Http_Request, getHttpHost) {
 
 	zend_bool _1, _2;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *httpHost = NULL, *scheme = NULL, *name = NULL, *port = NULL, *_0;
+	zval *httpHost = NULL, *scheme = NULL, *name = NULL, *port = NULL, *_0 = NULL;
 
 	ZEPHIR_MM_GROW();
 

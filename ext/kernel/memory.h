@@ -27,6 +27,8 @@ void zephir_cpy_wrt(zval **dest, zval *var TSRMLS_DC);
 void zephir_cpy_wrt_ctor(zval **dest, zval *var TSRMLS_DC);
 
 void zephir_value_dtor(zval *zvalue ZEND_FILE_LINE_DC);
+void ZEND_FASTCALL zephir_ptr_dtor(zval **var);
+void ZEND_FASTCALL zephir_dtor(zval *var);
 
 /* Memory Frames */
 #ifndef ZEPHIR_RELEASE
@@ -83,13 +85,13 @@ void ZEPHIR_FASTCALL zephir_copy_ctor(zval *destiny, zval *origin);
 
 #define ZEPHIR_INIT_NVAR(z)\
 	if (z) { \
-		if (Z_REFCOUNT_P(z) > 1) { \
+		if (Z_REFCOUNT_P(z) > 1 || Z_ISREF_P(z)) { \
 			Z_DELREF_P(z); \
 			ALLOC_ZVAL(z); \
 			Z_SET_REFCOUNT_P(z, 1); \
 			Z_UNSET_ISREF_P(z); \
 		} else {\
-			zval_dtor(z); \
+			zephir_dtor(z); \
 		} \
 		ZVAL_NULL(z); \
 	} else { \
@@ -100,14 +102,14 @@ void ZEPHIR_FASTCALL zephir_copy_ctor(zval *destiny, zval *origin);
  * Second allocation, assumes the variable was allocated for the first time in the branch zero
  */
 #define ZEPHIR_INIT_BNVAR(z) \
-	if (Z_REFCOUNT_P(z) > 1) { \
+	if (Z_REFCOUNT_P(z) > 1 || Z_ISREF_P(z)) { \
 		Z_DELREF_P(z); \
 		ALLOC_ZVAL(z); \
 		Z_SET_REFCOUNT_P(z, 1); \
 		Z_UNSET_ISREF_P(z); \
 		ZVAL_NULL(z); \
 	} else {\
-		zval_ptr_dtor(&z); \
+		zephir_ptr_dtor(&z); \
 		ZEPHIR_ALLOC_ZVAL(z); \
 	}
 
@@ -130,7 +132,7 @@ void ZEPHIR_FASTCALL zephir_copy_ctor(zval *destiny, zval *origin);
 /* only removes the value body of the zval */
 #define ZEPHIR_INIT_LNVAR(z)\
 	if (z) { \
-		if (Z_REFCOUNT_P(z) > 1) { \
+		if (Z_REFCOUNT_P(z) > 1 || Z_ISREF_P(z)) { \
 			Z_DELREF_P(z); \
 			ALLOC_ZVAL(z); \
 			Z_SET_REFCOUNT_P(z, 1); \
@@ -147,7 +149,7 @@ void ZEPHIR_FASTCALL zephir_copy_ctor(zval *destiny, zval *origin);
 #define ZEPHIR_CPY_WRT(d, v) \
 	if (d) { \
 		if (Z_REFCOUNT_P(d) > 0) { \
-			zval_ptr_dtor(&d); \
+			zephir_ptr_dtor(&d); \
 		} \
 	} else { \
 		zephir_memory_observe(&d TSRMLS_CC); \
@@ -158,7 +160,7 @@ void ZEPHIR_FASTCALL zephir_copy_ctor(zval *destiny, zval *origin);
 #define ZEPHIR_CPY_WRT_CTOR(d, v) \
 	if (d) { \
 		if (Z_REFCOUNT_P(d) > 0) { \
-			zval_ptr_dtor(&d); \
+			zephir_ptr_dtor(&d); \
 		} \
 	} else { \
 		zephir_memory_observe(&d TSRMLS_CC); \
@@ -178,7 +180,7 @@ void ZEPHIR_FASTCALL zephir_copy_ctor(zval *destiny, zval *origin);
 		if (Z_REFCOUNT_P(z) > 1) { \
 			Z_DELREF_P(z); \
 		} else {\
-			zval_ptr_dtor(&z); \
+			zephir_ptr_dtor(&z); \
 			z = NULL; \
 		} \
 	} else { \
@@ -190,7 +192,7 @@ void ZEPHIR_FASTCALL zephir_copy_ctor(zval *destiny, zval *origin);
 		zval **tmp_ = (ppzv); \
 		if (tmp_ != NULL) { \
 			if (*tmp_) { \
-				zval_ptr_dtor(tmp_); \
+				zephir_ptr_dtor(tmp_); \
 				*tmp_ = NULL; \
 			} \
 			else { \
@@ -202,7 +204,7 @@ void ZEPHIR_FASTCALL zephir_copy_ctor(zval *destiny, zval *origin);
 #define ZEPHIR_OBSERVE_OR_NULLIFY_VAR(z) \
 	do { \
 		if (z) { \
-			zval_ptr_dtor(&z); \
+			zephir_ptr_dtor(&z); \
 			z = NULL; \
 		} \
 		else { \

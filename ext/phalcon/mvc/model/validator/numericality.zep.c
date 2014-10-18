@@ -83,7 +83,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Numericality, validate) {
 	zval *_3;
 	zend_bool _2;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *record, *field = NULL, *value = NULL, *message = NULL, *_0, *_1 = NULL, *_4 = NULL;
+	zval *record, *field = NULL, *value = NULL, *message = NULL, *_0 = NULL, *_1 = NULL, *_4 = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &record);

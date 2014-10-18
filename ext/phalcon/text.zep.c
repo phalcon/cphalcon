@@ -129,7 +129,7 @@ PHP_METHOD(Phalcon_Text, uncamelize) {
  */
 PHP_METHOD(Phalcon_Text, increment) {
 
-	zval *str_param = NULL, *separator = NULL, *parts, *number, *_0;
+	zval *str_param = NULL, *separator = NULL, *parts, *number = NULL, *_0;
 	zval *str = NULL;
 
 	ZEPHIR_MM_GROW();

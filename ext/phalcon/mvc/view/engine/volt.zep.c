@@ -104,7 +104,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, getOptions) {
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, getCompiler) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *compiler, *dependencyInjector = NULL, *options, *_0, *_1;
+	zval *compiler = NULL, *dependencyInjector = NULL, *options, *_0, *_1;
 
 	ZEPHIR_MM_GROW();
 

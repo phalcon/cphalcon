@@ -673,9 +673,9 @@ PHP_METHOD(Phalcon_Image_Adapter_Gd, _flip) {
 
 PHP_METHOD(Phalcon_Image_Adapter_Gd, _sharpen) {
 
-	zval *_5;
+	zval *_5 = NULL;
 	zephir_nts_static zephir_fcall_cache_entry *_2 = NULL, *_4 = NULL;
-	zval *amount_param = NULL, *matrix, _0 = zval_used_for_init, *_1 = NULL, *_3 = NULL, *_6, *_7, _8, *_9 = NULL, *_10, *_11 = NULL, *_12, *_13 = NULL;
+	zval *amount_param = NULL, *matrix, _0 = zval_used_for_init, *_1 = NULL, *_3 = NULL, *_6 = NULL, *_7, _8, *_9 = NULL, *_10, *_11 = NULL, *_12, *_13 = NULL;
 	int amount, ZEPHIR_LAST_CALL_STATUS;
 
 	ZEPHIR_MM_GROW();

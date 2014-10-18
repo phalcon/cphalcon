@@ -78,7 +78,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Events_Manager) {
 PHP_METHOD(Phalcon_Events_Manager, attach) {
 
 	int priority, ZEPHIR_LAST_CALL_STATUS;
-	zval *eventType_param = NULL, *handler, *priority_param = NULL, *priorityQueue, *_0, *_1, *_2 = NULL;
+	zval *eventType_param = NULL, *handler, *priority_param = NULL, *priorityQueue = NULL, *_0, *_1, *_2 = NULL;
 	zval *eventType = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -501,7 +501,7 @@ PHP_METHOD(Phalcon_Events_Manager, fire) {
 	zephir_fcall_cache_entry *_4 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zend_bool cancelable, _3;
-	zval *eventType_param = NULL, *source, *data = NULL, *cancelable_param = NULL, *events, *eventParts, *type, *eventName, *event, *status = NULL, *fireEvents = NULL, *_0, *_2;
+	zval *eventType_param = NULL, *source, *data = NULL, *cancelable_param = NULL, *events, *eventParts, *type, *eventName, *event = NULL, *status = NULL, *fireEvents = NULL, *_0, *_2;
 	zval *eventType = NULL, *_1;
 
 	ZEPHIR_MM_GROW();

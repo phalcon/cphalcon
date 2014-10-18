@@ -324,7 +324,7 @@ PHP_METHOD(Phalcon_Security, isLegacyHash) {
 PHP_METHOD(Phalcon_Security, getTokenKey) {
 
 	zephir_nts_static zephir_fcall_cache_entry *_4 = NULL;
-	zval *numberBytes_param = NULL, *safeBytes, *dependencyInjector = NULL, *session = NULL, *_0, *_1, *_2 = NULL, *_3 = NULL, *_5 = NULL;
+	zval *numberBytes_param = NULL, *safeBytes, *dependencyInjector = NULL, *session = NULL, *_0, *_1 = NULL, *_2 = NULL, *_3 = NULL, *_5 = NULL;
 	int numberBytes, ZEPHIR_LAST_CALL_STATUS;
 
 	ZEPHIR_MM_GROW();
@@ -382,7 +382,7 @@ PHP_METHOD(Phalcon_Security, getTokenKey) {
 PHP_METHOD(Phalcon_Security, getToken) {
 
 	zephir_nts_static zephir_fcall_cache_entry *_2 = NULL;
-	zval *numberBytes_param = NULL, *token = NULL, *dependencyInjector = NULL, *session = NULL, *_0, *_1 = NULL, *_3;
+	zval *numberBytes_param = NULL, *token = NULL, *dependencyInjector = NULL, *session = NULL, *_0 = NULL, *_1 = NULL, *_3;
 	int numberBytes, ZEPHIR_LAST_CALL_STATUS;
 
 	ZEPHIR_MM_GROW();
@@ -443,7 +443,7 @@ PHP_METHOD(Phalcon_Security, getToken) {
 PHP_METHOD(Phalcon_Security, checkToken) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *tokenKey = NULL, *tokenValue = NULL, *dependencyInjector = NULL, *session = NULL, *request = NULL, *token = NULL, *_0, *_1 = NULL, *_2;
+	zval *tokenKey = NULL, *tokenValue = NULL, *dependencyInjector = NULL, *session = NULL, *request = NULL, *token = NULL, *_0, *_1 = NULL, *_2 = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 2, &tokenKey, &tokenValue);
@@ -505,7 +505,7 @@ PHP_METHOD(Phalcon_Security, checkToken) {
 PHP_METHOD(Phalcon_Security, getSessionToken) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *dependencyInjector = NULL, *session = NULL, *_0, *_1 = NULL, *_2;
+	zval *dependencyInjector = NULL, *session = NULL, *_0, *_1 = NULL, *_2 = NULL;
 
 	ZEPHIR_MM_GROW();
 
