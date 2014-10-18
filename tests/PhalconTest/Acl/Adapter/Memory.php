@@ -23,76 +23,66 @@
 namespace PhalconTest\Acl\Adapter;
 
 use \Phalcon\Acl\Adapter\Memory as PhAdapter;
-use \PhalconTest\Acl\Adapter as PhTAdapter;
 
-class Memory extends PhTAdapter
+class Memory extends PhAdapter
 {
-    public function __construct()
-    {
-        $this->adapter = new PhAdapter();
-    }
-
-    public function __desctruct()
-    {
-        unset($this->adapter);
-    }
     public function addRole($role, $accessInherits = null)
 	{
-        return $this->adapter->addRole($role, $accessInherits);
+        return parent::addRole($role, $accessInherits);
     }
 
 	public function addInherit($roleName, $roleToInherit)
 	{
-        return $this->adapter->addInherit($roleName, $roleToInherit);
+        return parent::addInherit($roleName, $roleToInherit);
 	}
 
 	public function isRole($roleName)
 	{
-        return $this->adapter->isRole($roleName);
+        return parent::isRole($roleName);
 	}
 
 	public function isResource($resourceName)
 	{
-        return $this->adapter->isResource($resourceName);
+        return parent::isResource($resourceName);
 	}
 
 	public function addResource($resourceValue, $accessList)
 	{
-        return $this->adapter->addResource($resourceValue, $accessList);
+        return parent::addResource($resourceValue, $accessList);
 	}
 
 	public function addResourceAccess($resourceName, $accessList)
 	{
-        return $this->adapter->addResourceAccess($resourceName, $accessList);
+        return parent::addResourceAccess($resourceName, $accessList);
 	}
 
 	public function dropResourceAccess($resourceName, $accessList)
 	{
-        $this->adapter->dropResourceAccess($resourceName, $accessList);
+        parent::dropResourceAccess($resourceName, $accessList);
     }
 
 	public function allow($roleName, $resourceName, $access)
 	{
-        $this->adapter->allow($roleName, $resourceName, $access);
+        parent::allow($roleName, $resourceName, $access);
     }
 
 	public function deny($roleName, $resourceName, $access)
 	{
-        $this->adapter->deny($roleName, $resourceName, $access);
+        parent::deny($roleName, $resourceName, $access);
     }
 
 	public function isAllowed($roleName, $resourceName, $access)
 	{
-        return $this->adapter->isAllowed($roleName, $resourceName, $access);
+        return parent::isAllowed($roleName, $resourceName, $access);
 	}
 
 	public function getRoles()
     {
-        return $this->adapter->getRoles();
+        return parent::getRoles();
 	}
 
 	public function getResources()
     {
-        return $this->adapter->getResources();
+        return parent::getResources();
 	}
 }

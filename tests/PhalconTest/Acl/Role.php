@@ -22,29 +22,17 @@
 
 namespace PhalconTest\Acl;
 
-use Phalcon\Acl\Role as PhRole;
+use \Phalcon\Acl\Role as PhRole;
 
-class Role
+class Role extends PhRole
 {
-    private $role = null;
-    
-    public function __construct($name, $description = null)
-    {
-        $this->role = new PhRole($name, $description);
-    }
-
-    public function __desctruct()
-    {
-        unset($this->role);
-    }
-
     public function getName()
     {
-        return $this->role->getName();
+        return parent::getName();
     }
 
     public function getDescription()
     {
-        return $this->role->getDescription();
+        return parent::getDescription();
     }
 }

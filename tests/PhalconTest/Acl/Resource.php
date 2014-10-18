@@ -24,27 +24,15 @@ namespace PhalconTest\Acl;
 
 use \Phalcon\Acl\Resource as PhResource;
 
-class Resource
+class Resource extends PhResource
 {
-    private $resource = null;
-
-    public function __construct($name, $description = null)
-    {
-        $this->resource = new PhResource($name, $description);
-    }
-
-    public function __desctruct()
-    {
-        unset($this->resource);
-    }
-
     public function getName()
     {
-        return $this->resource->getName();
+        return parent::getName();
     }
 
     public function getDescription()
     {
-        return $this->resource->getDescription();
+        return parent::getDescription();
     }
 }

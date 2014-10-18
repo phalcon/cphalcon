@@ -22,27 +22,27 @@
 
 namespace PhalconTest\Acl;
 
-class Adapter
-{
-    protected $adapter = null;
+use \Phalcon\Acl\Adapter as PhAdapter;
 
+class Adapter extends PhAdapter
+{
     public function setEventsManager($eventsManager)
 	{
-        $this->adapter->setEventsManager($eventsManager);
+        parent::setEventsManager($eventsManager);
 	}
 
     public function getEventsManager()
 	{
-        return $this->adapter->getEventsManager();
+        return parent::getEventsManager();
 	}
 
 	public function setDefaultAction($defaultAccess)
 	{
-        $this->adapter->setDefaultAction($defaultAccess);
+        parent::setDefaultAction($defaultAccess);
 	}
 
 	public function getDefaultAction()
 	{
-        return $this->adapter->getDefaultAction();
+        return parent::getDefaultAction();
 	}
 }
