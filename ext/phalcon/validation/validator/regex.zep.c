@@ -72,7 +72,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Regex, validate) {
 	zephir_nts_static zephir_fcall_cache_entry *_5 = NULL, *_9 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zend_bool failed, _2;
-	zval *validation, *field, *matches, *message = NULL, *value = NULL, *label = NULL, *replacePairs, *_0 = NULL, *_1 = NULL, *_3 = NULL, *_4 = NULL, *_6, *_7, *_8 = NULL;
+	zval *validation, *field, *matches, *message = NULL, *value = NULL, *label = NULL, *replacePairs, *_0 = NULL, *_1, *_3 = NULL, *_4 = NULL, *_6, *_7, *_8 = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &validation, &field);

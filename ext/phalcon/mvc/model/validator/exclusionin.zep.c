@@ -84,7 +84,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Exclusionin, validate) {
 	zval *_4;
 	zend_bool _3;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *record, *field = NULL, *domain = NULL, *value = NULL, *message = NULL, *_0 = NULL, *_1 = NULL, *_2 = NULL, *_5 = NULL;
+	zval *record, *field = NULL, *domain = NULL, *value = NULL, *message = NULL, *_0, *_1 = NULL, *_2 = NULL, *_5 = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &record);

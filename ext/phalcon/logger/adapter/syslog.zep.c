@@ -110,7 +110,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Syslog, __construct) {
 PHP_METHOD(Phalcon_Logger_Adapter_Syslog, getFormatter) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *formatter = NULL;
+	zval *formatter;
 
 	ZEPHIR_MM_GROW();
 

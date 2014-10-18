@@ -259,7 +259,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, setStrategy) {
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, getStrategy) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *strategy = NULL;
+	zval *strategy;
 
 	ZEPHIR_MM_GROW();
 

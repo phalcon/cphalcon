@@ -145,7 +145,7 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, isUsingEncryption) {
 PHP_METHOD(Phalcon_Http_Response_Cookies, set) {
 
 	int expire, ZEPHIR_LAST_CALL_STATUS;
-	zval *name_param = NULL, *value = NULL, *expire_param = NULL, *path_param = NULL, *secure = NULL, *domain_param = NULL, *httpOnly = NULL, *cookie = NULL, *encryption, *dependencyInjector, *response = NULL, *_0, *_1 = NULL, *_2;
+	zval *name_param = NULL, *value = NULL, *expire_param = NULL, *path_param = NULL, *secure = NULL, *domain_param = NULL, *httpOnly = NULL, *cookie, *encryption, *dependencyInjector, *response = NULL, *_0, *_1 = NULL, *_2;
 	zval *name = NULL, *path = NULL, *domain = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -264,7 +264,7 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, set) {
 PHP_METHOD(Phalcon_Http_Response_Cookies, get) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *name_param = NULL, *dependencyInjector, *encryption, *cookie = NULL, *_0;
+	zval *name_param = NULL, *dependencyInjector, *encryption, *cookie, *_0;
 	zval *name = NULL;
 
 	ZEPHIR_MM_GROW();

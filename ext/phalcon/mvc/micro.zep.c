@@ -135,7 +135,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, __construct) {
 PHP_METHOD(Phalcon_Mvc_Micro, setDI) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *dependencyInjector, *_0 = NULL, *_1 = NULL;
+	zval *dependencyInjector, *_0 = NULL, *_1;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &dependencyInjector);
@@ -670,7 +670,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, setService) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
 	zend_bool shared;
-	zval *serviceName, *definition, *shared_param = NULL, *dependencyInjector = NULL;
+	zval *serviceName, *definition, *shared_param = NULL, *dependencyInjector;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 1, &serviceName, &definition, &shared_param);
@@ -706,7 +706,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, setService) {
 PHP_METHOD(Phalcon_Mvc_Micro, hasService) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *serviceName_param = NULL, *dependencyInjector = NULL;
+	zval *serviceName_param = NULL, *dependencyInjector;
 	zval *serviceName = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -749,7 +749,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, hasService) {
 PHP_METHOD(Phalcon_Mvc_Micro, getService) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *serviceName_param = NULL, *dependencyInjector = NULL;
+	zval *serviceName_param = NULL, *dependencyInjector;
 	zval *serviceName = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -792,7 +792,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, getService) {
 PHP_METHOD(Phalcon_Mvc_Micro, getSharedService) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *serviceName, *dependencyInjector = NULL;
+	zval *serviceName, *dependencyInjector;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &serviceName);

@@ -400,7 +400,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, from) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, addFrom) {
 
-	zval *model, *alias = NULL, *models = NULL, *currentModel = NULL;
+	zval *model, *alias = NULL, *models, *currentModel = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &model, &alias);

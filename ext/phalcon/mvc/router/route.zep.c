@@ -86,7 +86,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Router_Route) {
 PHP_METHOD(Phalcon_Mvc_Router_Route, __construct) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *pattern_param = NULL, *paths = NULL, *httpMethods = NULL, *routeId = NULL, *uniqueId = NULL, *_0;
+	zval *pattern_param = NULL, *paths = NULL, *httpMethods = NULL, *routeId = NULL, *uniqueId, *_0;
 	zval *pattern = NULL;
 
 	ZEPHIR_MM_GROW();

@@ -63,7 +63,7 @@ PHP_METHOD(Phalcon_Logger_Formatter_Json, format) {
 
 	zval *_1;
 	int type, timestamp, ZEPHIR_LAST_CALL_STATUS;
-	zval *message_param = NULL, *type_param = NULL, *timestamp_param = NULL, *context = NULL, *_0 = NULL, *_2 = NULL;
+	zval *message_param = NULL, *type_param = NULL, *timestamp_param = NULL, *context = NULL, *_0 = NULL, *_2;
 	zval *message = NULL;
 
 	ZEPHIR_MM_GROW();

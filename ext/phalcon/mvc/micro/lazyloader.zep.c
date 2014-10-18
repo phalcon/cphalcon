@@ -98,7 +98,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, __call) {
 	zval *_1;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zend_class_entry *_0;
-	zval *method_param = NULL, *arguments, *handler = NULL, *definition;
+	zval *method_param = NULL, *arguments, *handler, *definition;
 	zval *method = NULL;
 
 	ZEPHIR_MM_GROW();

@@ -308,7 +308,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, getModelsManager) {
  */
 PHP_METHOD(Phalcon_Mvc_Collection, getReservedAttributes) {
 
-	zval *reserved = NULL;
+	zval *reserved;
 
 	ZEPHIR_MM_GROW();
 
@@ -391,7 +391,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, setSource) {
  */
 PHP_METHOD(Phalcon_Mvc_Collection, getSource) {
 
-	zval *source = NULL, *collection = NULL, *_0;
+	zval *source, *collection = NULL, *_0;
 
 	ZEPHIR_MM_GROW();
 

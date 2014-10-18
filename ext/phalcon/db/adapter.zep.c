@@ -168,7 +168,7 @@ PHP_METHOD(Phalcon_Db_Adapter, __construct) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
 	zend_class_entry *_2;
-	zval *descriptor_param = NULL, *dialectClass = NULL, *connectionId, *_0, *_1;
+	zval *descriptor_param = NULL, *dialectClass, *connectionId, *_0, *_1;
 	zval *descriptor = NULL;
 
 	ZEPHIR_MM_GROW();

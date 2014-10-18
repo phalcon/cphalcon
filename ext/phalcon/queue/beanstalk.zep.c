@@ -153,7 +153,7 @@ PHP_METHOD(Phalcon_Queue_Beanstalk, put) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
 	zephir_nts_static zephir_fcall_cache_entry *_0 = NULL, *_2 = NULL;
-	zval *data, *options = NULL, *priority = NULL, *delay = NULL, *ttr = NULL, *serialized = NULL, *response = NULL, *status, *length, *_1, *_3;
+	zval *data, *options = NULL, *priority, *delay, *ttr, *serialized = NULL, *response = NULL, *status, *length, *_1, *_3;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &data, &options);

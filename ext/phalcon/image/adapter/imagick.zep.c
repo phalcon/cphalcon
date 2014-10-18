@@ -413,7 +413,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _rotate) {
 
 PHP_METHOD(Phalcon_Image_Adapter_Imagick, _flip) {
 
-	zval *direction_param = NULL, *func = NULL, *_0, *_1, *_2, *_3, *_4 = NULL;
+	zval *direction_param = NULL, *func, *_0, *_1, *_2, *_3, *_4 = NULL;
 	int direction, ZEPHIR_LAST_CALL_STATUS;
 
 	ZEPHIR_MM_GROW();
@@ -450,7 +450,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _flip) {
 
 PHP_METHOD(Phalcon_Image_Adapter_Imagick, _sharpen) {
 
-	zval *amount_param = NULL, *_0 = NULL, *_1, *_2 = NULL, *_3, *_4 = NULL, *_5, *_6 = NULL;
+	zval *amount_param = NULL, *_0, *_1, *_2 = NULL, *_3, *_4 = NULL, *_5, *_6 = NULL;
 	int amount, ZEPHIR_LAST_CALL_STATUS;
 
 	ZEPHIR_MM_GROW();
@@ -499,7 +499,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _reflection) {
 	zephir_nts_static zephir_fcall_cache_entry *_10 = NULL;
 	zend_class_entry *_8, *_14, *_15;
 	zend_bool fade_in, _28;
-	zval *height_param = NULL, *opacity_param = NULL, *fade_in_param = NULL, *reflection, *fade, *pseudo = NULL, *image, *pixel, *_0, *_1, *_2 = NULL, *_3 = NULL, *_4 = NULL, *_5 = NULL, *_6 = NULL, *_7 = NULL, _9 = zval_used_for_init, *_11 = NULL, *_12 = NULL, *_13 = NULL, *_16, *_17, *_20, *_22, *_24, *_26, *_29 = NULL;
+	zval *height_param = NULL, *opacity_param = NULL, *fade_in_param = NULL, *reflection, *fade, *pseudo, *image, *pixel, *_0, *_1, *_2 = NULL, *_3 = NULL, *_4 = NULL, *_5 = NULL, *_6 = NULL, *_7 = NULL, _9 = zval_used_for_init, *_11 = NULL, *_12 = NULL, *_13 = NULL, *_16, *_17, *_20, *_22, *_24, *_26, *_29 = NULL;
 	int height, opacity, ZEPHIR_LAST_CALL_STATUS;
 
 	ZEPHIR_MM_GROW();

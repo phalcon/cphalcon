@@ -88,6 +88,9 @@ static zephir_memory_entry* zephir_memory_grow_stack_common(zend_zephir_globals_
 	return g->active_memory;
 }
 
+/**
+ * Restore a memory stack applying GC to all observed variables
+ */
 static void zephir_memory_restore_stack_common(zend_zephir_globals_def *g TSRMLS_DC)
 {
 	size_t i;
@@ -507,7 +510,7 @@ int ZEND_FASTCALL zephir_clean_restore_stack(TSRMLS_D) {
 /**
  * Copies a variable only if its refcount is greater than 1
  */
-void ZEND_FASTCALL zephir_copy_ctor(zval *destination, zval *origin) {
+zend_always_inline void ZEND_FASTCALL zephir_copy_ctor(zval *destination, zval *origin) {
 	if (Z_REFCOUNT_P(origin) > 1) {
 		zval_copy_ctor(destination);
 	} else {
@@ -644,7 +647,7 @@ static inline void zephir_dtor_func(zval *zvalue ZEND_FILE_LINE_DC)
 	}
 }
 
-void zephir_value_dtor(zval *zvalue ZEND_FILE_LINE_DC)
+zend_always_inline void zephir_value_dtor(zval *zvalue ZEND_FILE_LINE_DC)
 {
 	if (zvalue->type <= IS_BOOL) {
 		return;

@@ -165,7 +165,7 @@ PHP_METHOD(Phalcon_Db_Index, __construct) {
 PHP_METHOD(Phalcon_Db_Index, __set_state) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *data_param = NULL, *indexName, *columns, *type = NULL;
+	zval *data_param = NULL, *indexName, *columns, *type;
 	zval *data = NULL;
 
 	ZEPHIR_MM_GROW();
