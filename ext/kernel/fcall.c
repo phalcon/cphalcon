@@ -444,9 +444,11 @@ int zephir_call_user_function(zval **object_pp, zend_class_entry *obj_ce, zephir
 				free(temp_cache_entry);
 	#endif
 			} else {
+#if PHP_VERSION_ID < 50600
 				if (cache_entry) {
 					*cache_entry = temp_cache_entry;
 				}
+#endif
 			}
 		}
 	}
