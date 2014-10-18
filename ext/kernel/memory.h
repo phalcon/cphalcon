@@ -93,10 +93,9 @@ void ZEPHIR_FASTCALL zephir_copy_ctor(zval *destiny, zval *origin);
 		} else { \
 			if (!Z_ISREF_P(z)) { \
 				zephir_dtor(z); \
-			} else { \
-				Z_SET_REFCOUNT_P(z, 1); \
-				Z_UNSET_ISREF_P(z); \
 			} \
+			Z_SET_REFCOUNT_P(z, 1); \
+			Z_UNSET_ISREF_P(z); \
 		} \
 		ZVAL_NULL(z); \
 	} else { \
@@ -142,13 +141,12 @@ void ZEPHIR_FASTCALL zephir_copy_ctor(zval *destiny, zval *origin);
 			ALLOC_ZVAL(z); \
 			Z_SET_REFCOUNT_P(z, 1); \
 			Z_UNSET_ISREF_P(z); \
-		} else {\
+		} else { \
 			if (!Z_ISREF_P(z)) { \
 				zephir_value_dtor(z ZEND_FILE_LINE_CC); \
-			} else { \
-				Z_SET_REFCOUNT_P(z, 1); \
-				Z_UNSET_ISREF_P(z); \
 			} \
+			Z_SET_REFCOUNT_P(z, 1); \
+			Z_UNSET_ISREF_P(z); \
 		} \
 		ZVAL_NULL(z); \
 	} else { \
