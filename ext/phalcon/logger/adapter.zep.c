@@ -221,6 +221,46 @@ PHP_METHOD(Phalcon_Logger_Adapter, rollback) {
 }
 
 /**
+ * Sends/Writes a critical message to the log
+ *
+ * @param string message
+ * @param array $context
+ * @return Phalcon\Logger\AdapterInterface
+ */
+PHP_METHOD(Phalcon_Logger_Adapter, critical) {
+
+	int ZEPHIR_LAST_CALL_STATUS;
+	zval *message_param = NULL, *context = NULL, *_0;
+	zval *message = NULL;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 1, &message_param, &context);
+
+	if (unlikely(Z_TYPE_P(message_param) != IS_STRING && Z_TYPE_P(message_param) != IS_NULL)) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'message' must be a string") TSRMLS_CC);
+		RETURN_MM_NULL();
+	}
+
+	if (likely(Z_TYPE_P(message_param) == IS_STRING)) {
+		zephir_get_strval(message, message_param);
+	} else {
+		ZEPHIR_INIT_VAR(message);
+		ZVAL_EMPTY_STRING(message);
+	}
+	if (!context) {
+		context = ZEPHIR_GLOBAL(global_null);
+	}
+
+
+	ZEPHIR_INIT_VAR(_0);
+	ZVAL_LONG(_0, 1);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "log", NULL, _0, message, context);
+	zephir_check_call_status();
+	RETURN_THIS();
+
+}
+
+/**
  * Sends/Writes an emergency message to the log
  *
  * @param string message

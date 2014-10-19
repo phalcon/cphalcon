@@ -103,7 +103,7 @@ PHP_METHOD(Phalcon_Di, __construct) {
 	ZEPHIR_OBS_VAR(defaultDi);
 	zephir_read_static_property_ce(&defaultDi, phalcon_di_ce, SL("_default") TSRMLS_CC);
 	if (!(zephir_is_true(defaultDi))) {
-		zephir_update_static_property_ce(phalcon_di_ce, SL("_default"), this_ptr TSRMLS_CC);
+		zephir_update_static_property_ce(phalcon_di_ce, SL("_default"), &this_ptr TSRMLS_CC);
 	}
 	ZEPHIR_MM_RESTORE();
 
@@ -822,7 +822,7 @@ PHP_METHOD(Phalcon_Di, setDefault) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(spl_ce_InvalidArgumentException, "Parameter 'dependencyInjector' must be an instance of 'Phalcon\\\\DiInterface'", "", 0);
 		return;
 	}
-	zephir_update_static_property_ce(phalcon_di_ce, SL("_default"), dependencyInjector TSRMLS_CC);
+	zephir_update_static_property_ce(phalcon_di_ce, SL("_default"), &dependencyInjector TSRMLS_CC);
 
 }
 
@@ -847,7 +847,7 @@ PHP_METHOD(Phalcon_Di, getDefault) {
 PHP_METHOD(Phalcon_Di, reset) {
 
 
-	zephir_update_static_property_ce(phalcon_di_ce, SL("_default"), ZEPHIR_GLOBAL(global_null) TSRMLS_CC);
+	zephir_update_static_property_ce(phalcon_di_ce, SL("_default"), &ZEPHIR_GLOBAL(global_null) TSRMLS_CC);
 
 }
 

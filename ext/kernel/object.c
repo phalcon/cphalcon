@@ -1313,7 +1313,7 @@ int zephir_update_property_array_append(zval *object, char *property, unsigned i
 			INIT_PZVAL_COPY(new_zv, tmp);
 			tmp = new_zv;
 			zval_copy_ctor(new_zv);
-			Z_SET_REFCOUNT_P(tmp, 1);
+			Z_SET_REFCOUNT_P(tmp, 0);
 			Z_UNSET_ISREF_P(tmp);
 			separated = 1;
 		}
@@ -1329,7 +1329,7 @@ int zephir_update_property_array_append(zval *object, char *property, unsigned i
 			INIT_PZVAL_COPY(new_zv, tmp);
 			tmp = new_zv;
 			zval_copy_ctor(new_zv);
-			Z_SET_REFCOUNT_P(tmp, 1);
+			Z_SET_REFCOUNT_P(tmp, 0);
 			Z_UNSET_ISREF_P(tmp);
 			array_init(tmp);
 			separated = 1;
@@ -1550,29 +1550,34 @@ static zval **zephir_std_get_static_property(zend_class_entry *ce, const char *p
 static int zephir_update_static_property_ex(zend_class_entry *scope, const char *name, int name_length,
 	zval **value, zend_property_info **property_info TSRMLS_DC)
 {
-	zval **property; zval **safe_value = NULL;
+	zval **property; zval *tmp, **safe_value;
 	zend_class_entry *old_scope = EG(scope);
+	zend_zephir_globals_def *zephir_globals_ptr = ZEPHIR_VGLOBAL;
+
 
 	/**
 	 * We have to protect super globals to avoid them make converted to references
 	 */
-	if (*value == ZEPHIR_GLOBAL(global_null)) {
-		ALLOC_ZVAL(*safe_value);
-		Z_UNSET_ISREF_PP(safe_value);
-		Z_SET_REFCOUNT_PP(safe_value, 0);
-		ZVAL_NULL(*safe_value);
+	if (*value == zephir_globals_ptr->global_null) {
+		ALLOC_ZVAL(tmp);
+		Z_UNSET_ISREF_P(tmp);
+		Z_SET_REFCOUNT_P(tmp, 0);
+		ZVAL_NULL(tmp);
+		safe_value = &tmp;
 	} else {
-		if (*value == ZEPHIR_GLOBAL(global_true)) {
-			ALLOC_ZVAL(*safe_value);
-			Z_UNSET_ISREF_PP(safe_value);
-			Z_SET_REFCOUNT_PP(safe_value, 0);
-			ZVAL_BOOL(*safe_value, 1);
+		if (*value == zephir_globals_ptr->global_true) {
+			ALLOC_ZVAL(tmp);
+			Z_UNSET_ISREF_P(tmp);
+			Z_SET_REFCOUNT_P(tmp, 0);
+			ZVAL_BOOL(tmp, 1);
+			safe_value = &tmp;
 		} else {
-			if (*value == ZEPHIR_GLOBAL(global_false)) {
-				ALLOC_ZVAL(*safe_value);
-				Z_UNSET_ISREF_PP(safe_value);
-				Z_SET_REFCOUNT_PP(safe_value, 0);
-				ZVAL_BOOL(*safe_value, 0);
+			if (*value == zephir_globals_ptr->global_false) {
+				ALLOC_ZVAL(tmp);
+				Z_UNSET_ISREF_P(tmp);
+				Z_SET_REFCOUNT_P(tmp, 0);
+				ZVAL_BOOL(tmp, 0);
+				safe_value = &tmp;
 			} else {
 				safe_value = value;
 			}

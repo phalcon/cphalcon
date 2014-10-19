@@ -87,7 +87,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Cli_Router_Route) {
 PHP_METHOD(Phalcon_Cli_Router_Route, __construct) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *pattern_param = NULL, *paths = NULL, *routeId = NULL, *uniqueId, *delimiter, *_0;
+	zval *pattern_param = NULL, *paths = NULL, *routeId = NULL, *uniqueId = NULL, *delimiter = NULL, *_0;
 	zval *pattern = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -128,7 +128,7 @@ PHP_METHOD(Phalcon_Cli_Router_Route, __construct) {
 	zephir_update_property_this(this_ptr, SL("_id"), routeId TSRMLS_CC);
 	ZEPHIR_INIT_ZVAL_NREF(_0);
 	ZVAL_LONG(_0, (zephir_get_numberval(uniqueId) + 1));
-	zephir_update_static_property_ce(phalcon_cli_router_route_ce, SL("_uniqueId"), _0 TSRMLS_CC);
+	zephir_update_static_property_ce(phalcon_cli_router_route_ce, SL("_uniqueId"), &_0 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -812,7 +812,7 @@ PHP_METHOD(Phalcon_Cli_Router_Route, getConverters) {
 PHP_METHOD(Phalcon_Cli_Router_Route, reset) {
 
 
-	zephir_update_static_property_ce(phalcon_cli_router_route_ce, SL("_uniqueId"), ZEPHIR_GLOBAL(global_null) TSRMLS_CC);
+	zephir_update_static_property_ce(phalcon_cli_router_route_ce, SL("_uniqueId"), &ZEPHIR_GLOBAL(global_null) TSRMLS_CC);
 
 }
 
@@ -845,7 +845,7 @@ PHP_METHOD(Phalcon_Cli_Router_Route, delimiter) {
 	}
 
 
-	zephir_update_static_property_ce(phalcon_cli_router_route_ce, SL("_delimiterPath"), delimiter TSRMLS_CC);
+	zephir_update_static_property_ce(phalcon_cli_router_route_ce, SL("_delimiterPath"), &delimiter TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -857,7 +857,7 @@ PHP_METHOD(Phalcon_Cli_Router_Route, delimiter) {
  */
 PHP_METHOD(Phalcon_Cli_Router_Route, getDelimiter) {
 
-	zval *delimiter;
+	zval *delimiter = NULL;
 
 	ZEPHIR_MM_GROW();
 

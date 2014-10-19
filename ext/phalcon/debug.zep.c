@@ -837,7 +837,7 @@ PHP_METHOD(Phalcon_Debug, onUncaughtException) {
 		zend_print_zval(_3, 0);
 		RETURN_MM_NULL();
 	}
-	zephir_update_static_property_ce(phalcon_debug_ce, SL("_isActive"), ZEPHIR_GLOBAL(global_true) TSRMLS_CC);
+	zephir_update_static_property_ce(phalcon_debug_ce, SL("_isActive"), &ZEPHIR_GLOBAL(global_true) TSRMLS_CC);
 	ZEPHIR_INIT_VAR(className);
 	zephir_get_class(className, exception, 0 TSRMLS_CC);
 	ZEPHIR_CALL_METHOD(&escapedMessage, exception, "getmessage",  NULL);
@@ -974,7 +974,7 @@ PHP_METHOD(Phalcon_Debug, onUncaughtException) {
 	ZEPHIR_CONCAT_VS(_19, _3, "</div></body></html>");
 	zephir_concat_self(&html, _19 TSRMLS_CC);
 	zend_print_zval(html, 0);
-	zephir_update_static_property_ce(phalcon_debug_ce, SL("_isActive"), ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+	zephir_update_static_property_ce(phalcon_debug_ce, SL("_isActive"), &ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
 	RETURN_MM_BOOL(1);
 
 }

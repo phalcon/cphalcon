@@ -64,7 +64,13 @@ class Tag extends PhTag
 
     public static function setDefault($id, $value)
     {
-        parent::setDefault($id, $value);
+        //parent::setDefault($id, $value);
+        if ($value !== null) {
+            if (is_array($value) || is_object($value)) {
+                throw new Exception("Only scalar values can be assigned to UI components");
+            }
+        }
+        self::$_displayValues[$id] = $value;
     }
 
     public static function setDefaults($values, $merge = false)
@@ -89,7 +95,8 @@ class Tag extends PhTag
 
     public static function resetInput()
     {
-        parent::resetInput();
+        //parent::resetInput();
+        self::$_displayValues = []; $_POST = [];
     }
 
     public static function linkTo($parameters, $text = null, $local = true)
