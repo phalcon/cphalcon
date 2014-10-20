@@ -461,6 +461,7 @@ int zephir_read_property(zval **result, zval *object, const char *property_name,
 		}
 
 		ALLOC_INIT_ZVAL(*result);
+		ZVAL_NULL(*result);
 		return FAILURE;
 	}
 
@@ -1253,7 +1254,7 @@ int zephir_update_property_array_string(zval *object, char *property, unsigned i
 				INIT_PZVAL_COPY(new_zv, tmp);
 				tmp = new_zv;
 				zval_copy_ctor(new_zv);
-				Z_SET_REFCOUNT_P(tmp, 1);
+				Z_SET_REFCOUNT_P(tmp, 0);
 				Z_UNSET_ISREF_P(tmp);
 				separated = 1;
 			}
@@ -1269,7 +1270,7 @@ int zephir_update_property_array_string(zval *object, char *property, unsigned i
 				INIT_PZVAL_COPY(new_zv, tmp);
 				tmp = new_zv;
 				zval_copy_ctor(new_zv);
-				Z_SET_REFCOUNT_P(tmp, 1);
+				Z_SET_REFCOUNT_P(tmp, 0);
 				Z_UNSET_ISREF_P(tmp);
 				array_init(tmp);
 				separated = 1;
@@ -1480,14 +1481,19 @@ zval* zephir_fetch_static_property_ce(zend_class_entry *ce, const char *property
 }
 
 int zephir_read_static_property_ce(zval **result, zend_class_entry *ce, const char *property, int len TSRMLS_DC) {
-	assert(ce != NULL);
-
-	*result = zephir_fetch_static_property_ce(ce, property, len TSRMLS_CC);
-	if (*result) {
-		Z_ADDREF_PP(result);
+	zval *tmp;
+	tmp = zephir_fetch_static_property_ce(ce, property, len TSRMLS_CC);
+	if (tmp) {
+		if (!Z_ISREF_P(tmp)) {
+			*result = tmp;
+			Z_ADDREF_PP(result);
+		} else {
+			ALLOC_INIT_ZVAL(*result);
+			ZVAL_ZVAL(*result, tmp, 1, 0);
+		}
 		return SUCCESS;
 	}
-
+	ALLOC_INIT_ZVAL(*result);
 	return FAILURE;
 }
 
@@ -1511,7 +1517,7 @@ static zval **zephir_std_get_static_property(zend_class_entry *ce, const char *p
 		}
 
 		#ifndef ZEPHIR_RELEASE
-		if (UNEXPECTED(!zend_verify_property_access(temp_property_info, ce TSRMLS_CC))) {
+		/*if (UNEXPECTED(!zend_verify_property_access(temp_property_info, ce TSRMLS_CC))) {
 			if (!silent) {
 				zend_error_noreturn(E_ERROR, "Cannot access %s property %s::$%s", zend_visibility_string(temp_property_info->flags), ce->name, property_name);
 			}
@@ -1523,7 +1529,7 @@ static zval **zephir_std_get_static_property(zend_class_entry *ce, const char *p
 				zend_error_noreturn(E_ERROR, "Access to undeclared static property: %s::$%s", ce->name, property_name);
 			}
 			return NULL;
-		}
+		}*/
 		#endif
 
 		zend_update_class_constants(ce TSRMLS_CC);
@@ -1656,9 +1662,12 @@ int zephir_update_static_property_array_multi_ce(zend_class_entry *ce, const cha
 	int i, j, l, ll, re_update, must_continue, wrap_tmp;
 	int separated = 0;
 
-	zephir_read_static_property_ce(&tmp_arr, ce, property, property_length TSRMLS_CC);
-
-	Z_DELREF_P(tmp_arr);
+	tmp_arr = zephir_fetch_static_property_ce(ce, property, property_length TSRMLS_CC);
+	if (!tmp_arr) {
+		ALLOC_INIT_ZVAL(tmp_arr);
+		array_init(tmp_arr);
+		separated = 1;
+	}
 
 	/** Separation only when refcount > 1 */
 	if (Z_REFCOUNT_P(tmp_arr) > 1) {

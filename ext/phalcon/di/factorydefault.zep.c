@@ -55,7 +55,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Di_FactoryDefault) {
  */
 PHP_METHOD(Phalcon_Di_FactoryDefault, __construct) {
 
-	zval *_2 = NULL, *_3, *_4, _5 = zval_used_for_init;
+	zval *_2 = NULL, *_3 = NULL, *_4 = NULL, _5 = zval_used_for_init;
 	zval *_1;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zephir_nts_static zephir_fcall_cache_entry *_0 = NULL, *_6 = NULL;

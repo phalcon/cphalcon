@@ -34,6 +34,7 @@ typedef struct _zephir_memory_entry {
 	struct _zephir_memory_entry *prev;
 	struct _zephir_memory_entry *next;
 #ifndef ZEPHIR_RELEASE
+	int permanent;
 	const char *func;
 #endif
 } zephir_memory_entry;
@@ -83,14 +84,14 @@ typedef struct _zephir_function_cache {
 #endif
 
 #ifndef INIT_PZVAL_COPY
-# define INIT_PZVAL_COPY(z, v) \
+#define INIT_PZVAL_COPY(z, v) \
 	ZVAL_COPY_VALUE(z, v); \
 	Z_SET_REFCOUNT_P(z, 1); \
 	Z_UNSET_ISREF_P(z);
 #endif
 
 #ifndef ZVAL_COPY_VALUE
-# define ZVAL_COPY_VALUE(z, v) \
+#define ZVAL_COPY_VALUE(z, v) \
 	(z)->value = (v)->value; \
 	Z_TYPE_P(z) = Z_TYPE_P(v);
 #endif

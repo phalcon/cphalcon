@@ -110,7 +110,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Gd, check) {
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	zephir_update_static_property_ce(phalcon_image_adapter_gd_ce, SL("_checked"), &ZEPHIR_GLOBAL(global_true) TSRMLS_CC);
+	zephir_update_static_property_ce(phalcon_image_adapter_gd_ce, SL("_checked"), &(ZEPHIR_GLOBAL(global_true)) TSRMLS_CC);
 	_12 = zephir_fetch_static_property_ce(phalcon_image_adapter_gd_ce, SL("_checked") TSRMLS_CC);
 	RETURN_CTOR(_12);
 

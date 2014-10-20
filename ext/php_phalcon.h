@@ -4,8 +4,6 @@
 #ifndef PHP_PHALCON_H
 #define PHP_PHALCON_H 1
 
-#define ZEPHIR_RELEASE 1
-
 #include "kernel/globals.h"
 
 #define PHP_PHALCON_NAME        ""
@@ -35,6 +33,8 @@ typedef struct _zephir_struct_orm {
 
 
 ZEND_BEGIN_MODULE_GLOBALS(phalcon)
+
+	int initialized;
 
 	/* Memory */
 	zephir_memory_entry *start_memory; /**< The first preallocated frame */

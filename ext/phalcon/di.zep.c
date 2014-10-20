@@ -847,7 +847,7 @@ PHP_METHOD(Phalcon_Di, getDefault) {
 PHP_METHOD(Phalcon_Di, reset) {
 
 
-	zephir_update_static_property_ce(phalcon_di_ce, SL("_default"), &ZEPHIR_GLOBAL(global_null) TSRMLS_CC);
+	zephir_update_static_property_ce(phalcon_di_ce, SL("_default"), &(ZEPHIR_GLOBAL(global_null)) TSRMLS_CC);
 
 }
 
