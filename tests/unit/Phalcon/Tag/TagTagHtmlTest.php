@@ -38,6 +38,7 @@ class TagTagHtmlTest extends Helper\TagBase
             "tagHtml with name parameter returns invalid HTML Strict",
             function () {
 
+                PhTTag::resetInput();
                 $name     = 'aside';
                 $expected = '<aside>';
 
@@ -52,6 +53,7 @@ class TagTagHtmlTest extends Helper\TagBase
             "tagHtml with name parameter returns invalid HTML XHTML",
             function () {
 
+                PhTTag::resetInput();
                 $name     = 'aside';
                 $expected = '<aside></aside>';
 
@@ -75,6 +77,7 @@ class TagTagHtmlTest extends Helper\TagBase
             "tagHtml with name parameter and self close returns invalid HTML Strict",
             function () {
 
+                PhTTag::resetInput();
                 $name     = 'aside';
                 $expected = '<aside />';
 
@@ -89,6 +92,7 @@ class TagTagHtmlTest extends Helper\TagBase
             "tagHtml with name parameter and self close returns invalid HTML XHTML",
             function () {
 
+                PhTTag::resetInput();
                 $name     = 'aside';
                 $expected = '<aside></aside>';
 
@@ -112,6 +116,7 @@ class TagTagHtmlTest extends Helper\TagBase
             "tagHtml with name parameter and only start returns invalid HTML Strict",
             function () {
 
+                PhTTag::resetInput();
                 $name     = 'aside';
                 $expected = '<aside>';
 
@@ -126,6 +131,7 @@ class TagTagHtmlTest extends Helper\TagBase
             "tagHtml with name parameter and only start returns invalid HTML XHTML",
             function () {
 
+                PhTTag::resetInput();
                 $name     = 'aside';
                 $expected = '<aside>';
 
@@ -149,6 +155,7 @@ class TagTagHtmlTest extends Helper\TagBase
             "tagHtml with name parameter and EOL returns invalid HTML Strict",
             function () {
 
+                PhTTag::resetInput();
                 $name     = 'aside';
                 $expected = '<aside>' . PHP_EOL;
 
@@ -163,6 +170,7 @@ class TagTagHtmlTest extends Helper\TagBase
             "tagHtml with name parameter and EOL returns invalid HTML XHTML",
             function () {
 
+                PhTTag::resetInput();
                 $name     = 'aside';
                 $expected = '<aside></aside>' . PHP_EOL;
 
@@ -186,6 +194,7 @@ class TagTagHtmlTest extends Helper\TagBase
             "tagHtml with array parameter returns invalid HTML Strict",
             function () {
 
+                PhTTag::resetInput();
                 $name     = 'canvas';
                 $options  = [
                     'id'     => 'canvas1',
@@ -205,6 +214,7 @@ class TagTagHtmlTest extends Helper\TagBase
             "tagHtml with array parameter returns invalid HTML XHTML",
             function () {
 
+                PhTTag::resetInput();
                 $name     = 'canvas';
                 $options  = [
                     'id'     => 'canvas1',
@@ -234,6 +244,7 @@ class TagTagHtmlTest extends Helper\TagBase
             "tagHtmlClose returns invalid HTML Strict",
             function () {
 
+                PhTTag::resetInput();
                 $name     = 'canvas';
                 $expected = '</canvas>';
 
@@ -248,6 +259,7 @@ class TagTagHtmlTest extends Helper\TagBase
             "tagHtmlClose returns invalid HTML XHTML",
             function () {
 
+                PhTTag::resetInput();
                 $name     = 'canvas';
                 $expected = '</canvas>';
 
@@ -271,6 +283,7 @@ class TagTagHtmlTest extends Helper\TagBase
             "tagHtmlClose with EOL returns invalid HTML Strict",
             function () {
 
+                PhTTag::resetInput();
                 $name     = 'canvas';
                 $expected = '</canvas>' . PHP_EOL;
 
@@ -285,6 +298,7 @@ class TagTagHtmlTest extends Helper\TagBase
             "tagHtmlClose with EOL returns invalid HTML XHTML",
             function () {
 
+                PhTTag::resetInput();
                 $name     = 'canvas';
                 $expected = '</canvas>' . PHP_EOL;
 
