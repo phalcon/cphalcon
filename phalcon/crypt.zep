@@ -380,7 +380,7 @@ class Crypt implements \Phalcon\CryptInterface
 		if key === null {
 			let decryptKey = this->_key;
 		} else {
-			let decryptKey = $key;
+			let decryptKey = key;
 		}
 
 		if empty decryptKey {

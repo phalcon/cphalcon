@@ -154,6 +154,19 @@ abstract class Adapter
 	}
 
 	/**
+ 	 * Sends/Writes a critical message to the log
+ 	 *
+ 	 * @param string message
+ 	 * @param array $context
+ 	 * @return Phalcon\Logger\AdapterInterface
+ 	 */
+	public function critical(string! message, var context = null) -> <AdapterInterface>
+	{
+		this->log(\Phalcon\Logger::CRITICAL, message, context);
+		return this;
+	}
+	
+	/**
  	 * Sends/Writes an emergency message to the log
  	 *
  	 * @param string message

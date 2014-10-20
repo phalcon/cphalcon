@@ -308,7 +308,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, getModelsManager) {
  */
 PHP_METHOD(Phalcon_Mvc_Collection, getReservedAttributes) {
 
-	zval *reserved;
+	zval *reserved = NULL;
 
 	ZEPHIR_MM_GROW();
 
@@ -322,7 +322,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, getReservedAttributes) {
 		zephir_array_update_string(&reserved, SL("_source"), &ZEPHIR_GLOBAL(global_true), PH_COPY | PH_SEPARATE);
 		zephir_array_update_string(&reserved, SL("_operationMade"), &ZEPHIR_GLOBAL(global_true), PH_COPY | PH_SEPARATE);
 		zephir_array_update_string(&reserved, SL("_errorMessages"), &ZEPHIR_GLOBAL(global_true), PH_COPY | PH_SEPARATE);
-		zephir_update_static_property_ce(phalcon_mvc_collection_ce, SL("_reserved"), reserved TSRMLS_CC);
+		zephir_update_static_property_ce(phalcon_mvc_collection_ce, SL("_reserved"), &reserved TSRMLS_CC);
 	}
 	RETURN_CCTOR(reserved);
 
@@ -391,7 +391,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, setSource) {
  */
 PHP_METHOD(Phalcon_Mvc_Collection, getSource) {
 
-	zval *source, *collection = NULL, *_0;
+	zval *source = NULL, *collection = NULL, *_0;
 
 	ZEPHIR_MM_GROW();
 

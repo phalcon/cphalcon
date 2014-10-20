@@ -128,6 +128,12 @@ class MySQL extends \Phalcon\Db\Dialect //implements Phalcon\Db\DialectInterface
 				}
 				break;
 
+			case Column::TYPE_BOOLEAN:
+				if empty columnSql {
+					let columnSql .= "TINYINT(1)";
+				}
+				break;
+
 			default:
 				if empty columnSql {
 					throw new Exception("Unrecognized MySQL data type");

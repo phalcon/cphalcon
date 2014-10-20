@@ -86,7 +86,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Router_Route) {
 PHP_METHOD(Phalcon_Mvc_Router_Route, __construct) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *pattern_param = NULL, *paths = NULL, *httpMethods = NULL, *routeId = NULL, *uniqueId, *_0;
+	zval *pattern_param = NULL, *paths = NULL, *httpMethods = NULL, *routeId = NULL, *uniqueId = NULL, *_0;
 	zval *pattern = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -124,7 +124,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, __construct) {
 	zephir_update_property_this(this_ptr, SL("_id"), routeId TSRMLS_CC);
 	ZEPHIR_INIT_ZVAL_NREF(_0);
 	ZVAL_LONG(_0, (zephir_get_numberval(uniqueId) + 1));
-	zephir_update_static_property_ce(phalcon_mvc_router_route_ce, SL("_uniqueId"), _0 TSRMLS_CC);
+	zephir_update_static_property_ce(phalcon_mvc_router_route_ce, SL("_uniqueId"), &_0 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -906,7 +906,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, getConverters) {
 PHP_METHOD(Phalcon_Mvc_Router_Route, reset) {
 
 
-	zephir_update_static_property_ce(phalcon_mvc_router_route_ce, SL("_uniqueId"), ZEPHIR_GLOBAL(global_null) TSRMLS_CC);
+	zephir_update_static_property_ce(phalcon_mvc_router_route_ce, SL("_uniqueId"), &ZEPHIR_GLOBAL(global_null) TSRMLS_CC);
 
 }
 
