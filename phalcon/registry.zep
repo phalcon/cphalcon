@@ -192,5 +192,4 @@ final class Registry implements \ArrayAccess, \Countable, \Iterator
 	{
 		return key(this->_data) !== null;
 	}
-
 }

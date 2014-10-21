@@ -10,6 +10,7 @@ PHP_METHOD(Phalcon_Debug, setShowFileFragment);
 PHP_METHOD(Phalcon_Debug, listen);
 PHP_METHOD(Phalcon_Debug, listenExceptions);
 PHP_METHOD(Phalcon_Debug, listenLowSeverity);
+PHP_METHOD(Phalcon_Debug, halt);
 PHP_METHOD(Phalcon_Debug, debugVar);
 PHP_METHOD(Phalcon_Debug, clearVars);
 PHP_METHOD(Phalcon_Debug, _escapeString);
@@ -78,6 +79,7 @@ ZEPHIR_INIT_FUNCS(phalcon_debug_method_entry) {
 	PHP_ME(Phalcon_Debug, listen, arginfo_phalcon_debug_listen, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Debug, listenExceptions, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Debug, listenLowSeverity, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Debug, halt, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Debug, debugVar, arginfo_phalcon_debug_debugvar, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Debug, clearVars, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Debug, _escapeString, arginfo_phalcon_debug__escapestring, ZEND_ACC_PROTECTED)
@@ -87,7 +89,7 @@ ZEPHIR_INIT_FUNCS(phalcon_debug_method_entry) {
 	PHP_ME(Phalcon_Debug, getVersion, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Debug, getCssSources, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Debug, getJsSources, NULL, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Debug, showTraceItem, arginfo_phalcon_debug_showtraceitem, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Debug, showTraceItem, arginfo_phalcon_debug_showtraceitem, ZEND_ACC_PROTECTED|ZEND_ACC_FINAL)
 	PHP_ME(Phalcon_Debug, onUncaughtException, arginfo_phalcon_debug_onuncaughtexception, ZEND_ACC_PUBLIC)
   PHP_FE_END
 };

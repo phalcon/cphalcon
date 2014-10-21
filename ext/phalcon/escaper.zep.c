@@ -144,7 +144,7 @@ PHP_METHOD(Phalcon_Escaper, detectEncoding) {
 	HashTable *_3;
 	HashPosition _2;
 	zval *_0;
-	zval *str, *charset = NULL, *_1, **_4, *_5 = NULL;
+	zval *str, *charset = NULL, *_1 = NULL, **_4, *_5 = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &str);
@@ -194,7 +194,7 @@ PHP_METHOD(Phalcon_Escaper, detectEncoding) {
 /**
  * Utility to normalize a string's encoding to UTF-32.
  *
- * @param string $str
+ * @param string str
  * @return string
  */
 PHP_METHOD(Phalcon_Escaper, normalizeEncoding) {
@@ -224,7 +224,7 @@ PHP_METHOD(Phalcon_Escaper, normalizeEncoding) {
 /**
  * Escapes a HTML string. Internally uses htmlspecialchars
  *
- * @param string $text
+ * @param string text
  * @return string
  */
 PHP_METHOD(Phalcon_Escaper, escapeHtml) {
@@ -251,7 +251,7 @@ PHP_METHOD(Phalcon_Escaper, escapeHtml) {
 /**
  * Escapes a HTML attribute string
  *
- * @param string $attribute
+ * @param string attribute
  * @return string
  */
 PHP_METHOD(Phalcon_Escaper, escapeHtmlAttr) {
@@ -279,7 +279,7 @@ PHP_METHOD(Phalcon_Escaper, escapeHtmlAttr) {
 /**
  * Escape CSS strings by replacing non-alphanumeric chars by their hexadecimal escaped representation
  *
- * @param string $css
+ * @param string css
  * @return string
  */
 PHP_METHOD(Phalcon_Escaper, escapeCss) {
@@ -304,7 +304,7 @@ PHP_METHOD(Phalcon_Escaper, escapeCss) {
 /**
  * Escape javascript strings by replacing non-alphanumeric chars by their hexadecimal escaped representation
  *
- * @param string $js
+ * @param string js
  * @return string
  */
 PHP_METHOD(Phalcon_Escaper, escapeJs) {
@@ -329,7 +329,7 @@ PHP_METHOD(Phalcon_Escaper, escapeJs) {
 /**
  * Escapes a URL. Internally uses rawurlencode
  *
- * @param string $url
+ * @param string url
  * @return string
  */
 PHP_METHOD(Phalcon_Escaper, escapeUrl) {

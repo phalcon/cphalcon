@@ -128,7 +128,7 @@ class Escaper implements EscaperInterface
 	/**
 	 * Utility to normalize a string's encoding to UTF-32.
 	 *
-	 * @param string $str
+	 * @param string str
 	 * @return string
 	 */
 	public function normalizeEncoding(str) -> string
@@ -150,7 +150,7 @@ class Escaper implements EscaperInterface
 	/**
 	 * Escapes a HTML string. Internally uses htmlspecialchars
 	 *
-	 * @param string $text
+	 * @param string text
 	 * @return string
 	 */
 	public function escapeHtml(string text) -> string
@@ -161,7 +161,7 @@ class Escaper implements EscaperInterface
 	/**
 	 * Escapes a HTML attribute string
 	 *
-	 * @param string $attribute
+	 * @param string attribute
 	 * @return string
 	 */
 	public function escapeHtmlAttr(string attribute) -> string
@@ -172,7 +172,7 @@ class Escaper implements EscaperInterface
 	/**
 	 * Escape CSS strings by replacing non-alphanumeric chars by their hexadecimal escaped representation
 	 *
-	 * @param string $css
+	 * @param string css
 	 * @return string
 	 */
 	public function escapeCss(string css) -> string
@@ -187,7 +187,7 @@ class Escaper implements EscaperInterface
 	/**
 	 * Escape javascript strings by replacing non-alphanumeric chars by their hexadecimal escaped representation
 	 *
-	 * @param string $js
+	 * @param string js
 	 * @return string
 	 */
 	public function escapeJs(string js) -> string
@@ -202,7 +202,7 @@ class Escaper implements EscaperInterface
 	/**
 	 * Escapes a URL. Internally uses rawurlencode
 	 *
-	 * @param string $url
+	 * @param string url
 	 * @return string
 	 */
 	public function escapeUrl(string url) -> string

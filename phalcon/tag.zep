@@ -20,9 +20,11 @@
 
 namespace Phalcon;
 
+use Phalcon\DiInterface;
 use Phalcon\Tag\Select;
 use Phalcon\Tag\Exception;
 use Phalcon\Mvc\UrlInterface;
+use Phalcon\EscaperInterface;
 
 /**
  * Phalcon\Tag
@@ -109,15 +111,39 @@ class Tag
 	 *
 	 * @param string code
 	 * @param array attributes
+	 * @return string
 	 */
 	public static function renderAttributes(string! code, array! attributes) -> string
 	{
-		var order, keys, escaper, attrs, value, escaped, key, newCode;
+		var order, escaper, attrs, attribute, value, escaped, key, newCode;
 
-		let order = ["rel", "type", "for", "src", "href", "action", "id", "name", "value", "class"],
-			escaper = <\Phalcon\EscaperInterface> self::getEscaper(attributes),
-			keys = array_intersect_key(array_flip(order), attributes),
-        	attrs = array_merge(keys, attributes);
+		let order = [
+			"rel"    : null,
+			"type"   : null,
+			"for"    : null,
+			"src"    : null,
+			"href"   : null,
+			"action" : null,
+			"id"     : null,
+			"name"   : null,
+			"value"  : null,
+			"class"  : null
+		];
+
+		let attrs = [];
+		for key, value in order {
+			if fetch attribute, attributes[key] {
+				let attrs[key] = attribute;
+			}
+		}
+
+		for key, value in attributes {
+			if !isset attrs[key] {
+				let attrs[key] = value;
+			}
+		}
+
+		let escaper = <EscaperInterface> self::getEscaper(attributes);
 
 		unset attrs["escape"];
 
@@ -141,7 +167,7 @@ class Tag
 	 *
 	 * @param Phalcon\DiInterface dependencyInjector
 	 */
-	public static function setDI(<\Phalcon\DiInterface> dependencyInjector)
+	public static function setDI(<DiInterface> dependencyInjector)
 	{
 		let self::_dependencyInjector = dependencyInjector;
 	}
@@ -151,7 +177,7 @@ class Tag
 	 *
 	 * @return Phalcon\DiInterface
 	 */
-	public static function getDI() -> <\Phalcon\DiInterface>
+	public static function getDI() -> <DiInterface>
 	{
 		var di;
 		let di = self::_dependencyInjector;
@@ -170,7 +196,7 @@ class Tag
 		let url = self::_urlService;
 		if typeof url != "object" {
 
-			let dependencyInjector = <\Phalcon\DiInterface> self::_dependencyInjector;
+			let dependencyInjector = <DiInterface> self::_dependencyInjector;
 			if typeof dependencyInjector != "object" {
 				let dependencyInjector = \Phalcon\Di::getDefault();
 			}
@@ -190,15 +216,14 @@ class Tag
 	 *
 	 * @return Phalcon\EscaperInterface
 	 */
-	public static function getEscaperService() -> <\Phalcon\EscaperInterface>
+	public static function getEscaperService() -> <EscaperInterface>
 	{
 		var escaper, dependencyInjector;
 
 		let escaper = self::_escaperService;
 		if typeof escaper != "object" {
 
-			//let dependencyInjector = <\Phalcon\DiInterface> self::_dependencyInjector;
-			let dependencyInjector = self::_dependencyInjector;
+			let dependencyInjector = <DiInterface> self::_dependencyInjector;
 			if typeof dependencyInjector != "object" {
 				let dependencyInjector = \Phalcon\Di::getDefault();
 			}
@@ -207,7 +232,7 @@ class Tag
 				throw new Exception("A dependency injector container is required to obtain the 'escaper' service");
 			}
 
-			let escaper = <\Phalcon\EscaperInterface> dependencyInjector->getShared("escaper"),
+			let escaper = <EscaperInterface> dependencyInjector->getShared("escaper"),
 				self::_escaperService = escaper;
 		}
 		return escaper;
