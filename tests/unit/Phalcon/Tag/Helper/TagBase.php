@@ -35,8 +35,8 @@ class TagBase extends CdTest
 
     public function _before()
     {
+        PhDI::reset();
         $di = new PhDI();
-        $di::reset();
         PhTTag::setDI($di);
     }
 
@@ -60,7 +60,7 @@ class TagBase extends CdTest
         $expected .= ($xhtml) ? ' />' : '>';
 
         if ($set) {
-            PhTTag::$set('x_name', 'x_value');
+            PhTTag::displayTo('x_name', 'x_value');
         }
         $actual   = PhTTag::$function($options);
         if ($set) {

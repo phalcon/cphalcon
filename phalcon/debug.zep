@@ -48,7 +48,7 @@ class Debug
 	 * @param string uri
 	 * @return Phalcon\Debug
 	 */
-	public function setUri(uri) -> <Debug>
+	public function setUri(string! uri) -> <Debug>
 	{
 		let this->_uri = uri;
 		return this;
@@ -85,7 +85,7 @@ class Debug
 	 * @param boolean showFileFragment
 	 * @return Phalcon\Debug
 	 */
-	public function setShowFileFragment(showFileFragment) -> <Debug>
+	public function setShowFileFragment(boolean showFileFragment) -> <Debug>
 	{
 		let this->_showFileFragment = showFileFragment;
 		return this;
@@ -98,7 +98,7 @@ class Debug
 	 * @param boolean lowSeverity
 	 * @return Phalcon\Debug
 	 */
-	public function listen(exceptions = true, lowSeverity = false) -> <Debug>
+	public function listen(boolean exceptions = true, boolean lowSeverity = false) -> <Debug>
 	{
 		if exceptions {
 			this->listenExceptions();
@@ -114,7 +114,7 @@ class Debug
 	 *
 	 * @return Phalcon\Debug
 	 */
-	public function listenExceptions()
+	public function listenExceptions() -> <Debug>
 	{
 		set_exception_handler([this, "onUncaughtException"]);
 		return this;
@@ -129,6 +129,15 @@ class Debug
 	{
 		set_exception_handler([this, "onUncaughtLowSeverity"]);
 		return this;
+	}
+
+	/**
+	 * Halts the request showing a backtrace
+	 *
+	 */
+	public function halt()
+	{
+		throw new Exception("Halted request");
 	}
 
 	/**
@@ -175,7 +184,7 @@ class Debug
 	 * @param array argument
 	 * @return string
 	 */
-	protected function _getArrayDump(argument, n = 0)
+	protected function _getArrayDump(argument, n = 0) -> string | null
 	{
 		var numberArguments, dump, varDump, k, v;
 
@@ -334,7 +343,7 @@ class Debug
 	 *
 	 * @return string
 	 */
-	public function getCssSources()
+	public function getCssSources() -> string
 	{
 		var uri, sources;
 
@@ -349,7 +358,7 @@ class Debug
 	 *
 	 * @return string
 	 */
-	public function getJsSources()
+	public function getJsSources() -> string
 	{
 		var uri, sources;
 
@@ -368,7 +377,7 @@ class Debug
 	 * @param int n
 	 * @param array trace
 	 */
-	protected function showTraceItem(n, trace)
+	protected final function showTraceItem(n, trace)
 	{
 
 		var space, twoSpaces, underscore, minus, className, namespaceSeparator,
@@ -386,7 +395,7 @@ class Debug
 		/**
 		 * Every trace in the backtrace have a unique number
 		 */
-		let html = "<tr><td align=\"right\" valign=\"top\" class=\"error-number\">#".n."</td><td>";
+		let html = "<tr><td align=\"right\" valign=\"top\" class=\"error-number\">#" . n . "</td><td>";
 
 		if isset trace["class"] {
 
@@ -497,7 +506,7 @@ class Debug
 		 */
 		if fetch filez, trace["file"] {
 
-			let line = trace["line"];
+			let line = (string) trace["line"];
 
 			/**
 			 * Realpath to the file and its line using a special header
@@ -628,7 +637,7 @@ class Debug
 	 * @param \Exception exception
 	 * @return boolean
 	 */
-	public function onUncaughtException(exception) -> boolean
+	public function onUncaughtException(var exception) -> boolean
 	{
 		var obLevel, className, escapedMessage, html, showBackTrace,
 		dataVars, n, traceItem, keyRequest, value, keyServer, keyFile, keyVar, dataVar;
@@ -660,7 +669,7 @@ class Debug
 		/**
 		 * Escape the exception's message avoiding possible XSS injections?
 		 */
-		let escapedMessage = exception->getMessage();
+		let escapedMessage = $this->_escapeString(exception->getMessage());
 
 		/**
 		 * CSS static sources to style the error presentation
@@ -700,7 +709,7 @@ class Debug
 			let html .= "<li><a href=\"#error-tabs-3\">Server</a></li>";
 			let html .= "<li><a href=\"#error-tabs-4\">Included Files</a></li>";
 			let html .= "<li><a href=\"#error-tabs-5\">Memory</a></li>";
-			if typeof  dataVars == "array" {
+			if typeof dataVars == "array" {
 				let html .= "<li><a href=\"#error-tabs-6\">Variables</a></li>";
 			}
 			let html .= "</ul>";
