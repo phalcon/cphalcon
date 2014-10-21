@@ -60885,6 +60885,10 @@ static PHP_METHOD(Phalcon_Mvc_Collection, _getResultset){
 	}
 
 	PHALCON_CALL_METHOD(&mongo_collection, connection, "selectcollection", source);
+	if (Z_TYPE_P(mongo_collection) != IS_OBJECT) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_collection_exception_ce, "Couldn't select mongo collection");
+		return;
+	}
 
 	if (phalcon_array_isset_long(params, 0)) {
 		PHALCON_OBS_VAR(conditions);
