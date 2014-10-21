@@ -175,6 +175,19 @@ class ResponseTest extends PHPUnit_Framework_TestCase
 				'Location' => 'http://google.com'
 			)
 		)), $this->_response->getHeaders());
+
+		//HTTP query
+		$this->_response->resetHeaders();
+
+		$this->_response->redirect("http://google.com/search/", true, 301, array('q' => 'phalcon'));
+
+		$this->assertEquals(Phalcon\Http\Response\Headers::__set_state(array(
+			'_headers' => array(
+				'HTTP/1.1 301 Moved Permanently' => false,
+				'Status' => '301 Moved Permanently',
+				'Location' => 'http://google.com/search/?q=phalcon'
+			)
+		)), $this->_response->getHeaders());
 	}
 
 	public function testContent()
@@ -225,7 +238,7 @@ class ResponseTest extends PHPUnit_Framework_TestCase
 			'_headers' => array(
 				'HTTP/1.1 301 Moved Permanently' => false,
 				'Status' => '301 Moved Permanently',
-				'Location' => 'http://google.com'
+				'Location' => '/http://google.com'
 			)
 		)), $this->_response->getHeaders());
 	}

@@ -381,7 +381,11 @@ PHP_METHOD(Phalcon_Mvc_Url, get){
 			PHALCON_CONCAT_VV(return_value, base_uri, *uri);
 		}
 		else {
-			ZVAL_ZVAL(return_value, *uri, 1, 0);
+			if (unlikely(Z_TYPE_PP(uri) != IS_STRING)){
+				PHALCON_SEPARATE_PARAM(*uri);
+				convert_to_string(*uri);
+			}
+			ZVAL_STRING(return_value,Z_STRVAL_PP(uri), 1);
 		}
 	}
 	
