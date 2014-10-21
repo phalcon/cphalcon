@@ -24,9 +24,10 @@
 namespace Phalcon\Tests\unit\Phalcon\Acl;
 
 use \Phalcon\Acl as PhAcl;
+use \Phalcon\Acl\Adapter\Memory as PhTAclMem;
+
 use \PhalconTest\Acl\Role as PhTAclRole;
 use \PhalconTest\Acl\Resource as PhTAclResource;
-use \PhalconTest\Acl\Adapter\Memory as PhTAclMem;
 use \Codeception\TestCase\Test as CdTest;
 
 class ACLMemoryTest extends CdTest
@@ -415,7 +416,7 @@ class ACLMemoryTest extends CdTest
                 cleanFile(PATH_CACHE, $filename);
 
                 $acl = unserialize($contents);
-                $actual = ($acl instanceof \PhalconTest\Acl\Adapter\Memory);
+                $actual = ($acl instanceof \Phalcon\Acl\Adapter\Memory);
                 expect($actual)->true();
 
                 $actual = $acl->isRole('Administrators');

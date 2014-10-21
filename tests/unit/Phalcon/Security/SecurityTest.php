@@ -23,8 +23,9 @@
 namespace Phalcon\Tests\unit\Phalcon\Security;
 
 use \PhalconTest\Security as PhTSecurity;
+use \Codeception\TestCase\Test as CdTest;
 
-class SecurityTest extends \Codeception\TestCase\Test
+class SecurityTest extends CdTest
 {
     use \Codeception\Specify;
 
@@ -42,7 +43,7 @@ class SecurityTest extends \Codeception\TestCase\Test
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-12
      */
-    public function testComputeHMAC()
+    public function testSecurityComputeHMAC()
     {
         $this->specify(
             "The HMAC computation values are not identical",

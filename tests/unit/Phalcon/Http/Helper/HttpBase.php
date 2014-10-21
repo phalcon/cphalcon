@@ -44,6 +44,7 @@ class HttpBase extends CdTest
      */
     protected function getResponseObject()
     {
+        PhDI::reset();
         $di = new PhDI();
 
         $di->set(

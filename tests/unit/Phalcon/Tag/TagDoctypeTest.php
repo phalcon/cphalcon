@@ -217,6 +217,7 @@ class TagDoctypeTest extends Helper\TagBase
      */
     protected function runDoctypeTest($doctype)
     {
+        PhTTag::resetInput();
         PhTTag::setDocType($doctype);
 
         $expected = $this->docTypeToString($doctype);

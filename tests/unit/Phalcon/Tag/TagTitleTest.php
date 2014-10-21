@@ -39,6 +39,7 @@ class TagTitleTest extends Helper\TagBase
             "setTitle returns incorrect result",
             function () {
 
+                PhTTag::resetInput();
                 $value = 'This is my title';
 
                 PhTTag::setTitle($value);
@@ -63,6 +64,7 @@ class TagTitleTest extends Helper\TagBase
             "appendTitle returns incorrect result",
             function () {
 
+                PhTTag::resetInput();
                 $value = 'This is my title';
 
                 PhTTag::setTitle($value);
@@ -91,6 +93,7 @@ class TagTitleTest extends Helper\TagBase
             "prependTitle returns incorrect result",
             function () {
 
+                PhTTag::resetInput();
                 $value = 'This is my title';
 
                 PhTTag::setTitle($value);
@@ -119,6 +122,7 @@ class TagTitleTest extends Helper\TagBase
             "titleSeparator returns incorrect result",
             function () {
 
+                PhTTag::resetInput();
                 PhTTag::setTitleSeparator('-');
 
                 $expected = "-";
@@ -141,6 +145,7 @@ class TagTitleTest extends Helper\TagBase
             "titleSeparator with append returns incorrect result",
             function () {
 
+                PhTTag::resetInput();
                 $value = 'This is my title';
                 $addon = 'PhalconPHP';
 
@@ -168,6 +173,7 @@ class TagTitleTest extends Helper\TagBase
             "titleSeparator prepend returns incorrect result",
             function () {
 
+                PhTTag::resetInput();
                 $value = 'This is my title';
                 $addon = 'PhalconPHP';
 

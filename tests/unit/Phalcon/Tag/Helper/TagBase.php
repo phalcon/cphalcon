@@ -51,6 +51,8 @@ class TagBase extends CdTest
      */
     public function fieldParameter($function, $options, $expected, $xhtml, $set = '')
     {
+        PhTTag::resetInput();
+
         if ($xhtml) {
             PhTTag::setDocType(PhTTag::XHTML10_STRICT);
         } else {

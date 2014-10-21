@@ -38,6 +38,7 @@ class TagJavascriptIncludeTest extends Helper\TagBase
             "iavascriptInclude with string parameter local link returns invalid HTML",
             function () {
 
+                PhTTag::resetInput();
                 $options  = 'js/phalcon.js';
                 $expected = '<script type="text/javascript" src="/js/phalcon.js"></script>' . PHP_EOL;
                 $actual   = PhTTag::javascriptInclude($options);
@@ -59,6 +60,7 @@ class TagJavascriptIncludeTest extends Helper\TagBase
             "javascriptInclude with array parameter local link returns invalid HTML",
             function () {
 
+                PhTTag::resetInput();
                 $options  = ['js/phalcon.js'];
                 $expected = '<script type="text/javascript" src="/js/phalcon.js"></script>' . PHP_EOL;
                 $actual   = PhTTag::javascriptInclude($options);
@@ -80,6 +82,7 @@ class TagJavascriptIncludeTest extends Helper\TagBase
             "javascriptInclude with a string as the second parameter local link returns invalid HTML",
             function () {
 
+                PhTTag::resetInput();
                 $options  = ['js/phalcon.js'];
                 $expected = '<script type="text/javascript" src="js/phalcon.js"></script>' . PHP_EOL;
                 $actual   = PhTTag::javascriptInclude($options, 'hello');
@@ -101,6 +104,7 @@ class TagJavascriptIncludeTest extends Helper\TagBase
             "iavascriptInclude with a string parameter remote link returns invalid HTML",
             function () {
 
+                PhTTag::resetInput();
                 $options  = 'http://my.local.com/js/phalcon.js';
                 $expected = '<script type="text/javascript" src="http://my.local.com/js/phalcon.js"></script>' . PHP_EOL;
                 $actual   = PhTTag::javascriptInclude($options, false);
@@ -122,6 +126,7 @@ class TagJavascriptIncludeTest extends Helper\TagBase
             "iavascriptInclude with array second parameter remote link returns invalid HTML",
             function () {
 
+                PhTTag::resetInput();
                 $options  = ['http://my.local.com/js/phalcon.js'];
                 $expected = '<script type="text/javascript" src="http://my.local.com/js/phalcon.js"></script>' . PHP_EOL;
                 $actual   = PhTTag::javascriptInclude($options, false);

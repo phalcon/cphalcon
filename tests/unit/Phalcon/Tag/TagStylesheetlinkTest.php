@@ -40,6 +40,7 @@ class TagStylesheetLinkTest extends Helper\TagBase
             "stylesheetLink with string parameter local returns invalid HTML Strict",
             function () {
 
+                PhTTag::resetInput();
                 $options  = 'css/phalcon.css';
                 $expected = '<link rel="stylesheet" type="text/css" '
                           . 'href="/css/phalcon.css" />'
@@ -56,6 +57,7 @@ class TagStylesheetLinkTest extends Helper\TagBase
             "stylesheetLink with string parameter local returns invalid HTML HTML5",
             function () {
 
+                PhTTag::resetInput();
                 $options  = 'css/phalcon.css';
                 $expected = '<link rel="stylesheet" type="text/css" '
                           . 'href="/css/phalcon.css">'
@@ -83,6 +85,7 @@ class TagStylesheetLinkTest extends Helper\TagBase
             "stylesheetLink with array parameter local returns invalid HTML Strict",
             function () {
 
+                PhTTag::resetInput();
                 $options  = ['css/phalcon.css'];
                 $expected = '<link rel="stylesheet" type="text/css" '
                           . 'href="/css/phalcon.css" />'
@@ -99,6 +102,7 @@ class TagStylesheetLinkTest extends Helper\TagBase
             "stylesheetLink with array parameter local returns invalid HTML HTML5",
             function () {
 
+                PhTTag::resetInput();
                 $options  = ['css/phalcon.css'];
                 $expected = '<link rel="stylesheet" type="text/css" '
                           . 'href="/css/phalcon.css">'
@@ -124,6 +128,7 @@ class TagStylesheetLinkTest extends Helper\TagBase
             "stylesheetLink with string parameter remote returns invalid HTML Strict",
             function () {
 
+                PhTTag::resetInput();
                 $options  = 'http://phalconphp.com/css/phalcon.css';
                 $expected = '<link rel="stylesheet" type="text/css" '
                           . 'href="http://phalconphp.com/css/phalcon.css" />'
@@ -140,6 +145,7 @@ class TagStylesheetLinkTest extends Helper\TagBase
             "stylesheetLink with string parameter remote returns invalid HTML HTML5",
             function () {
 
+                PhTTag::resetInput();
                 $options  = 'http://phalconphp.com/css/phalcon.css';
                 $expected = '<link rel="stylesheet" type="text/css" '
                           . 'href="http://phalconphp.com/css/phalcon.css">'
@@ -165,6 +171,7 @@ class TagStylesheetLinkTest extends Helper\TagBase
             "stylesheetLink with array parameter remote returns invalid HTML Strict",
             function () {
 
+                PhTTag::resetInput();
                 $options  = ['http://phalconphp.com/css/phalcon.css'];
                 $expected = '<link rel="stylesheet" type="text/css" '
                           . 'href="http://phalconphp.com/css/phalcon.css" />'
@@ -181,6 +188,7 @@ class TagStylesheetLinkTest extends Helper\TagBase
             "stylesheetLink with array parameter remote returns invalid HTML HTML5",
             function () {
 
+                PhTTag::resetInput();
                 $options  = ['http://phalconphp.com/css/phalcon.css'];
                 $expected = '<link rel="stylesheet" type="text/css" '
                           . 'href="http://phalconphp.com/css/phalcon.css">'
@@ -208,6 +216,7 @@ class TagStylesheetLinkTest extends Helper\TagBase
             "stylesheetLink overriding rel local returns invalid HTML Strict",
             function () {
 
+                PhTTag::resetInput();
                 $options  = [
                     'css/phalcon.css',
                     'rel' => 'stylesheet/less',
@@ -227,6 +236,7 @@ class TagStylesheetLinkTest extends Helper\TagBase
             "stylesheetLink overriding rel local returns invalid HTML Strict",
             function () {
 
+                PhTTag::resetInput();
                 $options  = [
                     'css/phalcon.css',
                     'rel' => 'stylesheet/less',

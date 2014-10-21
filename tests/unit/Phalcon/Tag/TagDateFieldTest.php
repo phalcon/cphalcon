@@ -37,8 +37,7 @@ class TagDateFieldTest extends Helper\TagBase
             function () {
 
                 $options  = 'x_name';
-                $expected = '<input type="date" id="x_name" name="x_name" '
-                          . 'value=""';
+                $expected = '<input type="date" id="x_name" name="x_name"';
 
                 $this->fieldParameter(
                     'dateField',
@@ -54,8 +53,7 @@ class TagDateFieldTest extends Helper\TagBase
             function () {
 
                 $options  = 'x_name';
-                $expected = '<input type="date" id="x_name" name="x_name" '
-                          . 'value=""';
+                $expected = '<input type="date" id="x_name" name="x_name"';
 
                 $this->fieldParameter(
                     'dateField',
@@ -84,7 +82,7 @@ class TagDateFieldTest extends Helper\TagBase
                     'class' => 'x_class',
                 ];
                 $expected = '<input type="date" id="x_name" name="x_name" '
-                          . 'value="" class="x_class"';
+                          . 'class="x_class"';
 
                 $this->fieldParameter(
                     'dateField',
@@ -104,7 +102,7 @@ class TagDateFieldTest extends Helper\TagBase
                     'class' => 'x_class',
                 ];
                 $expected = '<input type="date" id="x_name" name="x_name" '
-                          . 'value="" class="x_class"';
+                          . 'class="x_class"';
 
                 $this->fieldParameter(
                     'dateField',
@@ -135,7 +133,7 @@ class TagDateFieldTest extends Helper\TagBase
                     'size'  => '10'
                 ];
                 $expected = '<input type="date" id="x_id" name="x_name" '
-                          . 'value="" class="x_class" size="10"';
+                          . 'class="x_class" size="10"';
 
                 $this->fieldParameter(
                     'dateField',
@@ -157,7 +155,7 @@ class TagDateFieldTest extends Helper\TagBase
                     'size'  => '10'
                 ];
                 $expected = '<input type="date" id="x_id" name="x_name" '
-                          . 'value="" class="x_class" size="10"';
+                          . 'class="x_class" size="10"';
 
                 $this->fieldParameter(
                     'dateField',
@@ -188,7 +186,7 @@ class TagDateFieldTest extends Helper\TagBase
                     'size'  => '10',
                 ];
                 $expected = '<input type="date" id="x_name" '
-                          . 'name="x_other" value="" class="x_class" size="10"';
+                          . 'name="x_other" class="x_class" size="10"';
 
                 $this->fieldParameter(
                     'dateField',
@@ -210,7 +208,7 @@ class TagDateFieldTest extends Helper\TagBase
                     'size'  => '10',
                 ];
                 $expected = '<input type="date" id="x_name" '
-                          . 'name="x_other" value="" class="x_class" size="10"';
+                          . 'name="x_other" class="x_class" size="10"';
 
                 $this->fieldParameter(
                     'dateField',

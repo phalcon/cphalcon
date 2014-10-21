@@ -38,6 +38,7 @@ class TagLinkToTest extends Helper\TagBase
             "linkTo with string as URL and name returns invalid HTML",
             function () {
 
+                PhTTag::resetInput();
                 $url  = 'x_url';
                 $name = 'x_name';
 
@@ -61,6 +62,7 @@ class TagLinkToTest extends Helper\TagBase
             "linkTo with empty string as URL and string as name parameter returns invalid HTML",
             function () {
 
+                PhTTag::resetInput();
                 $url  = '';
                 $name = 'x_name';
 
@@ -84,6 +86,7 @@ class TagLinkToTest extends Helper\TagBase
             "linkTo with array parameter returns invalid HTML",
             function () {
 
+                PhTTag::resetInput();
                 $options = [
                     'x_url',
                     'x_name',
@@ -108,6 +111,7 @@ class TagLinkToTest extends Helper\TagBase
             "linkTo with named array parameter returns invalid HTML",
             function () {
 
+                PhTTag::resetInput();
                 $options = [
                     'action' => 'x_url',
                     'text'   => 'x_name',
@@ -136,6 +140,7 @@ class TagLinkToTest extends Helper\TagBase
             "linkTo with complex local URL string parameter returns invalid HTML",
             function () {
 
+                PhTTag::resetInput();
                 $url      = "x_action/x_param";
                 $name     = 'x_name';
                 $actual   = PhTTag::linkTo($url, $name);
@@ -149,6 +154,7 @@ class TagLinkToTest extends Helper\TagBase
             "linkTo with complex local URL array parameter returns invalid HTML",
             function () {
 
+                PhTTag::resetInput();
                 $options  = [
                     "x_action/x_param",
                     'x_name',
@@ -164,6 +170,7 @@ class TagLinkToTest extends Helper\TagBase
             "linkTo with complex local URL array named parameter returns invalid HTML",
             function () {
 
+                PhTTag::resetInput();
                 $options  = [
                     "x_action/x_param",
                     'x_name',
@@ -192,6 +199,7 @@ class TagLinkToTest extends Helper\TagBase
             "linkTo with complex remote URL string parameter returns invalid HTML",
             function () {
 
+                PhTTag::resetInput();
                 $url      = "http://phalconphp.com/en/";
                 $name     = 'x_name';
                 $actual   = PhTTag::linkTo($url, $name, false);
@@ -205,6 +213,7 @@ class TagLinkToTest extends Helper\TagBase
             "linkTo with complex remote URL array parameter returns invalid HTML",
             function () {
 
+                PhTTag::resetInput();
                 $options  = [
                     "http://phalconphp.com/en/",
                     'x_name',
@@ -221,6 +230,7 @@ class TagLinkToTest extends Helper\TagBase
             "linkTo with complex remote URL array named parameter returns invalid HTML",
             function () {
 
+                PhTTag::resetInput();
                 $options  = [
                     "http://phalconphp.com/en/",
                     'text'  => 'x_name',
@@ -237,6 +247,7 @@ class TagLinkToTest extends Helper\TagBase
             "linkTo with mailto URL string parameter returns invalid HTML",
             function () {
 
+                PhTTag::resetInput();
                 $url  = "mailto:someone@phalconphp.com";
                 $name = 'someone@phalconphp.com';
                 $actual   = PhTTag::linkTo($url, $name, false);

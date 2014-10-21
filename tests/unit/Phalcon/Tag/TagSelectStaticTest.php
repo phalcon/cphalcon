@@ -38,7 +38,7 @@ class TagSelectStaticTest extends Helper\TagBase
             "selectStatic with string parameter returns invalid HTML",
             function () {
 
-
+                PhTTag::resetInput();
                 $name    = 'x_name';
                 $options = [
                     'A' => 'Active',
@@ -69,6 +69,7 @@ class TagSelectStaticTest extends Helper\TagBase
             "selectStatic with array parameter returns invalid HTML",
             function () {
 
+                PhTTag::resetInput();
                 $params = [
                     'x_name',
                     'class' => 'x_class',
@@ -103,6 +104,7 @@ class TagSelectStaticTest extends Helper\TagBase
             "selectStatic with array parameter with id returns invalid HTML",
             function () {
 
+                PhTTag::resetInput();
                 $params = [
                     'x_name',
                     'id'    => 'x_id',
@@ -138,6 +140,7 @@ class TagSelectStaticTest extends Helper\TagBase
             "selectStatic with array parameter with name no id returns invalid HTML",
             function () {
 
+                PhTTag::resetInput();
                 $params = [
                     'x_name',
                     'id'    => 'x_id',
@@ -172,6 +175,7 @@ class TagSelectStaticTest extends Helper\TagBase
             "selectStatic with array parameter with value returns invalid HTML",
             function () {
 
+                PhTTag::resetInput();
                 $params = [
                     'x_name',
                     'value' => 'I',
@@ -206,6 +210,7 @@ class TagSelectStaticTest extends Helper\TagBase
             "selectStatic with setDefault returns invalid HTML",
             function () {
 
+                PhTTag::resetInput();
                 $params = [
                     'x_name',
                     'class' => 'x_class',
@@ -240,6 +245,7 @@ class TagSelectStaticTest extends Helper\TagBase
             "selectStatic with setDefault returns invalid HTML",
             function () {
 
+                PhTTag::resetInput();
                 $params = [
                     'x_name',
                     'class' => 'x_class',
@@ -274,6 +280,7 @@ class TagSelectStaticTest extends Helper\TagBase
             "selectStatic with setDefault and element not present returns invalid HTML",
             function () {
 
+                PhTTag::resetInput();
                 $params = [
                     'x_name',
                     'name'  => 'x_other',
@@ -309,6 +316,7 @@ class TagSelectStaticTest extends Helper\TagBase
             "selectStatic with displayTo and element not present returns invalid HTML Strict",
             function () {
 
+                PhTTag::resetInput();
                 $params = [
                     'x_name',
                     'name'  => 'x_other',
@@ -344,6 +352,7 @@ class TagSelectStaticTest extends Helper\TagBase
             "selectStatic with array parameter returns invalid HTML",
             function () {
 
+                PhTTag::resetInput();
                 $params = [
                     "x_name",
                     [
@@ -383,6 +392,7 @@ class TagSelectStaticTest extends Helper\TagBase
             "selectStatic with array parameter with id returns invalid HTML",
             function () {
 
+                PhTTag::resetInput();
                 $params = [
                     'x_name',
                     'id'    => 'x_id',
@@ -424,6 +434,7 @@ class TagSelectStaticTest extends Helper\TagBase
             "selectStatic with array parameter with name no id returns invalid HTML",
             function () {
 
+                PhTTag::resetInput();
                 $params = [
                     'x_name',
                     'id'    => 'x_id',
@@ -464,6 +475,7 @@ class TagSelectStaticTest extends Helper\TagBase
             "selectStatic with array parameter with value returns invalid HTML",
             function () {
 
+                PhTTag::resetInput();
                 $params = [
                     'x_name',
                     'value' => 'A1',
@@ -504,6 +516,7 @@ class TagSelectStaticTest extends Helper\TagBase
             "selectStatic with setDefault returns invalid HTML",
             function () {
 
+                PhTTag::resetInput();
                 $params = [
                     'x_name',
                     'class' => 'x_class',
@@ -545,6 +558,7 @@ class TagSelectStaticTest extends Helper\TagBase
             "selectStatic with setDefault returns invalid HTML",
             function () {
 
+                PhTTag::resetInput();
                 $params = [
                     'x_name',
                     'class' => 'x_class',
@@ -586,6 +600,7 @@ class TagSelectStaticTest extends Helper\TagBase
             "selectStatic with setDefault and element not present returns invalid HTML",
             function () {
 
+                PhTTag::resetInput();
                 $params = [
                     'x_name',
                     'name'  => 'x_other',
@@ -629,6 +644,7 @@ class TagSelectStaticTest extends Helper\TagBase
             "selectStatic with displayTo and element not present returns invalid HTML",
             function () {
 
+                PhTTag::resetInput();
                 $params = [
                     'x_name',
                     'name'  => 'x_other',
