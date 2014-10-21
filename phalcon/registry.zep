@@ -70,32 +70,127 @@
  * are implemented using object handlers or similar techniques: this allows
  * to bypass relatively slow method calls.
  */
-final class Registry implements \ArrayAccess
+final class Registry implements \ArrayAccess, \Countable, \Iterator
 {
-	private _data;
+	protected _data;
 
-	public function __construct()
+	/**
+	 * Registry constructor
+	 */
+	public final function __construct()
 	{
 		let this->_data = [];
 	}
 
-	public function offsetExists(var offset) -> boolean
+	/**
+	 * Checks if the element is present in the registry
+	 *
+	 * @param string offset
+	 */
+	public final function offsetExists(var offset) -> boolean
 	{
 		return isset this->_data[offset];
 	}
 
-	public function offsetGet(var offset)
+	/**
+	 * Returns an index in the registry
+	 *
+	 * @param string offset
+	 */
+	public final function offsetGet(var offset)
 	{
 		return this->_data[offset];
 	}
 
-	public function offsetSet(var offset, var value)
+	/**
+	 * Sets an element in the registry
+	 *
+	 * @param string offset
+	 * @param mixed value
+	 */
+	public final function offsetSet(var offset, var value)
 	{
 		let this->_data[offset] = value;
 	}
 
-	public function offsetUnset(var offset)
+	/**
+	 * Unsets an element in the registry
+	 *
+	 * @param string offset
+	 */
+	public final function offsetUnset(var offset)
 	{
 		unset this->_data[offset];
 	}
+
+	/**
+	 * Sets an element in the registry
+	 *
+	 * @param string offset
+	 * @param mixed value
+	 */
+	public final function __set(var offset, var value)
+	{
+		let this->_data[offset] = value;
+	}
+
+	/**
+	 * Returns an index in the registry
+	 *
+	 * @param string offset
+	 */
+	public final function __get(var offset)
+	{
+		return this->_data[offset];
+	}
+
+	/**
+	 * Checks how many elements are in the register
+	 *
+	 * @return int
+	 */
+	public final function count() -> int
+	{
+		return count(this->_data);
+	}
+
+	/**
+	 * Moves cursor to next row in the registry
+	 *
+	 */
+	public final function next() -> void
+	{
+		next(this->_data);
+	}
+
+	/**
+	 * Gets pointer number of active row in the registry
+	 *
+	 * @return int
+	 */
+	public final function key() -> int
+	{
+		return key(this->_data);
+	}
+
+	/**
+	 * Rewinds the registry cursor to its beginning
+	 *
+	 */
+	public final function rewind() -> void
+	{
+		reset(this->_data);
+	}
+
+
+	public function valid()
+	{
+		return current(this->_data);
+	}
+
+	public function current()
+	{
+		return key(this->_data) !== null;
+	}
+
 }

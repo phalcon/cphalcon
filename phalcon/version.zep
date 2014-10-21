@@ -198,5 +198,4 @@ class Version
 
         return result;
     }
-
 }

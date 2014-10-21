@@ -38,7 +38,7 @@ class Introspection implements StrategyInterface
 	 * @param Phalcon\DiInterface dependencyInjector
 	 * @return array
 	 */
-	public final function getMetaData(<ModelInterface> model, <\Phalcon\DiInterface> dependencyInjector)
+	public final function getMetaData(<ModelInterface> model, <\Phalcon\DiInterface> dependencyInjector) -> array
 	{
 		var schema, table, readConnection, columns, attributes,
 			primaryKeys, nonPrimaryKeys, completeTable, numericTyped, notNull,
@@ -167,7 +167,7 @@ class Introspection implements StrategyInterface
 	 * @param Phalcon\DiInterface dependencyInjector
 	 * @return array
 	 */
-	public final function getColumnMaps(<ModelInterface> model, <\Phalcon\DiInterface> dependencyInjector)
+	public final function getColumnMaps(<ModelInterface> model, <\Phalcon\DiInterface> dependencyInjector) -> array
 	{
 		var orderedColumnMap, userColumnMap, reversedColumnMap, name, userName;
 

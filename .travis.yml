@@ -25,7 +25,7 @@ before_script:
  - (cd php-tests/library/Twig; git checkout master)
  - (cd vendor/phalcon/zephir; ./unit-tests/ci/before_install.sh; ./install)
  - ./vendor/bin/zephir generate
- - (cd ext; export CFLAGS="-g3 -O1 -std=gnu90 -Wall"; phpize && ./configure --enable-phalcon && make --silent -j4 && sudo make --silent install && phpenv config-add ../unit-tests/ci/phalcon.ini)
+ - (cd ext; export CFLAGS="-g3 -O1 -std=gnu90 -Wall -DZEPHIR_RELEASE=1"; phpize && ./configure --enable-phalcon && make --silent -j4 && sudo make --silent install && phpenv config-add ../unit-tests/ci/phalcon.ini)
  - ulimit -c unlimited || true
 
 script:

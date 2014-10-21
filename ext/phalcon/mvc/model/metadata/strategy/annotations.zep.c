@@ -245,7 +245,6 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getMetaData) {
  * @param Phalcon\Mvc\ModelInterface model
  * @param Phalcon\DiInterface dependencyInjector
  * @return array
- * @todo Not implemented
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getColumnMaps) {
 
@@ -263,6 +262,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getColumnMaps) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(spl_ce_InvalidArgumentException, "Parameter 'dependencyInjector' must be an instance of 'Phalcon\\\\DiInterface'", "", 0);
 		return;
 	}
+	RETURN_NULL();
 
 }
 

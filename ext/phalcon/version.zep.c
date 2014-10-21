@@ -103,7 +103,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Version) {
  */
 PHP_METHOD(Phalcon_Version, _getVersion) {
 
-	zval *_0;
+	zval *_0 = NULL;
 
 	ZEPHIR_MM_GROW();
 

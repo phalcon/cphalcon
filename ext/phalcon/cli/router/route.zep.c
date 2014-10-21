@@ -812,7 +812,7 @@ PHP_METHOD(Phalcon_Cli_Router_Route, getConverters) {
 PHP_METHOD(Phalcon_Cli_Router_Route, reset) {
 
 
-	zephir_update_static_property_ce(phalcon_cli_router_route_ce, SL("_uniqueId"), &ZEPHIR_GLOBAL(global_null) TSRMLS_CC);
+	zephir_update_static_property_ce(phalcon_cli_router_route_ce, SL("_uniqueId"), &(ZEPHIR_GLOBAL(global_null)) TSRMLS_CC);
 
 }
 

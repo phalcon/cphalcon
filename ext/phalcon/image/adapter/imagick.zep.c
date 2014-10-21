@@ -79,7 +79,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, check) {
 		zephir_check_call_status();
 		zephir_update_property_this(this_ptr, SL("_version"), _5 TSRMLS_CC);
 	}
-	zephir_update_static_property_ce(phalcon_image_adapter_imagick_ce, SL("_checked"), &ZEPHIR_GLOBAL(global_true) TSRMLS_CC);
+	zephir_update_static_property_ce(phalcon_image_adapter_imagick_ce, SL("_checked"), &(ZEPHIR_GLOBAL(global_true)) TSRMLS_CC);
 	_7 = zephir_fetch_static_property_ce(phalcon_image_adapter_imagick_ce, SL("_checked") TSRMLS_CC);
 	RETURN_CTOR(_7);
 
