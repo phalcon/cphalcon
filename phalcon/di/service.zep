@@ -132,7 +132,7 @@ class Service implements ServiceInterface
 	{
 
 		boolean found;
-		var shared, definition, sharedInstance, instance, builder;
+		var shared, definition, sharedInstance, instance, builder, reflection;
 
 		let shared = this->_shared;
 
@@ -158,12 +158,21 @@ class Service implements ServiceInterface
 			if class_exists(definition) {
 				if typeof parameters == "array" {
 					if count(parameters) {
-						let instance = create_instance_params(definition, parameters);
+						//let instance = create_instance_params(definition, parameters);
+
+						let reflection = new \ReflectionClass(definition),
+							instance = reflection->newInstanceArgs(parameters);
+
 					} else {
-						let instance = create_instance(definition);
+						//let instance = create_instance(definition);
+
+						let reflection = new \ReflectionClass(definition),
+							instance = reflection->newInstance();
 					}
 				} else {
-					let instance = create_instance(definition);
+					//let instance = create_instance(definition);
+					let reflection = new \ReflectionClass(definition),
+							instance = reflection->newInstance();
 				}
 			} else {
 				let found = false;

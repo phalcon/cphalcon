@@ -39,7 +39,7 @@ class Tag extends PhTag
 
     public static function setDI(PhDIInterface $di)
     {
-        parent::setDI($di);
+        return parent::setDI($di);
     }
 
     public static function getDI()
@@ -59,18 +59,12 @@ class Tag extends PhTag
 
     public static function setAutoescape($autoescape)
     {
-        parent::setAutoescape($autoescape);
+        return parent::setAutoescape($autoescape);
     }
 
     public static function setDefault($id, $value)
     {
-        //parent::setDefault($id, $value);
-        if ($value !== null) {
-            if (is_array($value) || is_object($value)) {
-                throw new Exception("Only scalar values can be assigned to UI components");
-            }
-        }
-        self::$_displayValues[$id] = $value;
+        parent::setDefault($id, $value);
     }
 
     public static function setDefaults($values, $merge = false)
@@ -95,8 +89,7 @@ class Tag extends PhTag
 
     public static function resetInput()
     {
-        //parent::resetInput();
-        self::$_displayValues = []; $_POST = [];
+        return parent::resetInput();
     }
 
     public static function linkTo($parameters, $text = null, $local = true)
