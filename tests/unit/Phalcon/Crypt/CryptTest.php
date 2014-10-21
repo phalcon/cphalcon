@@ -20,7 +20,7 @@
  * so that we can send you a copy immediately.
  */
 
-use \PhalconTest\Crypt as PhTCrypt;
+use \Phalcon\Crypt as PhTCrypt;
 use \Codeception\TestCase\Test as CdTest;
 
 class CryptTest extends CdTest

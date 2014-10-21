@@ -329,7 +329,6 @@ class HttpRequestTest extends Helper\HttpBase
      */
     public function testHttpRequestInputPost()
     {
-        $this->markTestSkipped('To be tested');
         $this->specify(
             "hasPost for empty element returns incorrect results",
             function () {

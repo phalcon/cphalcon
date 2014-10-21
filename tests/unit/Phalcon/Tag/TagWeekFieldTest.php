@@ -37,8 +37,7 @@ class TagWeekFieldTest extends Helper\TagBase
             function () {
 
                 $options  = 'x_name';
-                $expected = '<input type="week" id="x_name" name="x_name" '
-                          . 'value=""';
+                $expected = '<input type="week" id="x_name" name="x_name"';
 
                 $this->fieldParameter(
                     'weekField',
@@ -54,8 +53,7 @@ class TagWeekFieldTest extends Helper\TagBase
             function () {
 
                 $options  = 'x_name';
-                $expected = '<input type="week" id="x_name" name="x_name" '
-                          . 'value=""';
+                $expected = '<input type="week" id="x_name" name="x_name"';
 
                 $this->fieldParameter(
                     'weekField',
@@ -84,7 +82,7 @@ class TagWeekFieldTest extends Helper\TagBase
                     'class' => 'x_class',
                 ];
                 $expected = '<input type="week" id="x_name" name="x_name" '
-                          . 'value="" class="x_class"';
+                          . 'class="x_class"';
 
                 $this->fieldParameter(
                     'weekField',
@@ -104,7 +102,7 @@ class TagWeekFieldTest extends Helper\TagBase
                     'class' => 'x_class',
                 ];
                 $expected = '<input type="week" id="x_name" name="x_name" '
-                          . 'value="" class="x_class"';
+                          . 'class="x_class"';
 
                 $this->fieldParameter(
                     'weekField',
@@ -135,7 +133,7 @@ class TagWeekFieldTest extends Helper\TagBase
                     'size'  => '10'
                 ];
                 $expected = '<input type="week" id="x_id" name="x_name" '
-                          . 'value="" class="x_class" size="10"';
+                          . 'class="x_class" size="10"';
 
                 $this->fieldParameter(
                     'weekField',
@@ -157,7 +155,7 @@ class TagWeekFieldTest extends Helper\TagBase
                     'size'  => '10'
                 ];
                 $expected = '<input type="week" id="x_id" name="x_name" '
-                          . 'value="" class="x_class" size="10"';
+                          . 'class="x_class" size="10"';
 
                 $this->fieldParameter(
                     'weekField',
@@ -188,7 +186,7 @@ class TagWeekFieldTest extends Helper\TagBase
                     'size'  => '10',
                 ];
                 $expected = '<input type="week" id="x_name" '
-                          . 'name="x_other" value="" class="x_class" size="10"';
+                          . 'name="x_other" class="x_class" size="10"';
 
                 $this->fieldParameter(
                     'weekField',
@@ -210,7 +208,7 @@ class TagWeekFieldTest extends Helper\TagBase
                     'size'  => '10',
                 ];
                 $expected = '<input type="week" id="x_name" '
-                          . 'name="x_other" value="" class="x_class" size="10"';
+                          . 'name="x_other" class="x_class" size="10"';
 
                 $this->fieldParameter(
                     'weekField',
