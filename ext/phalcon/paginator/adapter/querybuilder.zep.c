@@ -287,7 +287,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, getPaginate) {
 	zephir_check_call_status();
 	zephir_update_property_zval(page, SL("items"), items TSRMLS_CC);
 	ZEPHIR_INIT_VAR(_2);
-	ZVAL_STRING(_2, "COUNT(*) [rowcount]", 0);
+	ZVAL_STRING(_2, "COUNT(*) [rowcount]", ZEPHIR_TEMP_PARAM_COPY);
 	ZEPHIR_CALL_METHOD(NULL, totalBuilder, "columns", NULL, _2);
 	zephir_check_temp_parameter(_2);
 	zephir_check_call_status();

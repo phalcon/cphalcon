@@ -1413,7 +1413,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql) {
 			ZEPHIR_CPY_WRT(model, models);
 		}
 		ZEPHIR_INIT_VAR(_1);
-		ZVAL_STRING(_1, "modelsMetadata", 0);
+		ZVAL_STRING(_1, "modelsMetadata", ZEPHIR_TEMP_PARAM_COPY);
 		ZEPHIR_CALL_METHOD(&metaData, dependencyInjector, "getshared", NULL, _1);
 		zephir_check_temp_parameter(_1);
 		zephir_check_call_status();

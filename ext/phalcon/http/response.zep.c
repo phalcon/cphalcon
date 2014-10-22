@@ -154,7 +154,7 @@ PHP_METHOD(Phalcon_Http_Response, getDI) {
 		ZEPHIR_CALL_CE_STATIC(&dependencyInjector, phalcon_di_ce, "getdefault", &_1);
 		zephir_check_call_status();
 		if (Z_TYPE_P(dependencyInjector) != IS_OBJECT) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_http_response_exception_ce, "A dependency injection object is required to access the 'url' service", "phalcon/http/response.zep", 97);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_http_response_exception_ce, "A dependency injection object is required to access the 'url' service", "phalcon/http/response.zep", 98);
 			return;
 		}
 		zephir_update_property_this(this_ptr, SL("_dependencyInjector"), dependencyInjector TSRMLS_CC);
@@ -196,7 +196,7 @@ PHP_METHOD(Phalcon_Http_Response, setStatusCode) {
 	ZEPHIR_CALL_METHOD(&currentHeadersRaw, headers, "toarray",  NULL);
 	zephir_check_call_status();
 	if (Z_TYPE_P(currentHeadersRaw) == IS_ARRAY) {
-		zephir_is_iterable(currentHeadersRaw, &_1, &_0, 0, 0, "phalcon/http/response.zep", 133);
+		zephir_is_iterable(currentHeadersRaw, &_1, &_0, 0, 0, "phalcon/http/response.zep", 134);
 		for (
 		  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_1, &_0)
@@ -228,7 +228,7 @@ PHP_METHOD(Phalcon_Http_Response, setStatusCode) {
 	ZEPHIR_INIT_VAR(_9);
 	ZEPHIR_CONCAT_VSV(_9, &_8, " ", message);
 	ZEPHIR_INIT_VAR(_10);
-	ZVAL_STRING(_10, "Status", 0);
+	ZVAL_STRING(_10, "Status", ZEPHIR_TEMP_PARAM_COPY);
 	ZEPHIR_CALL_METHOD(NULL, headers, "set", NULL, _10, _9);
 	zephir_check_temp_parameter(_10);
 	zephir_check_call_status();
@@ -438,21 +438,21 @@ PHP_METHOD(Phalcon_Http_Response, setExpires) {
 	_1 = zend_fetch_class(SL("DateTimeZone"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 	object_init_ex(_0, _1);
 	ZEPHIR_INIT_VAR(_2);
-	ZVAL_STRING(_2, "UTC", 0);
+	ZVAL_STRING(_2, "UTC", ZEPHIR_TEMP_PARAM_COPY);
 	ZEPHIR_CALL_METHOD(NULL, _0, "__construct", NULL, _2);
 	zephir_check_temp_parameter(_2);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(NULL, date, "settimezone", NULL, _0);
 	zephir_check_call_status();
 	ZEPHIR_INIT_BNVAR(_2);
-	ZVAL_STRING(_2, "D, d M Y H:i:s", 0);
+	ZVAL_STRING(_2, "D, d M Y H:i:s", ZEPHIR_TEMP_PARAM_COPY);
 	ZEPHIR_CALL_METHOD(&_3, date, "format", NULL, _2);
 	zephir_check_temp_parameter(_2);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(_4);
 	ZEPHIR_CONCAT_VS(_4, _3, " GMT");
 	ZEPHIR_INIT_BNVAR(_2);
-	ZVAL_STRING(_2, "Expires", 0);
+	ZVAL_STRING(_2, "Expires", ZEPHIR_TEMP_PARAM_COPY);
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "setheader", NULL, _2, _4);
 	zephir_check_temp_parameter(_2);
 	zephir_check_call_status();
@@ -475,7 +475,7 @@ PHP_METHOD(Phalcon_Http_Response, setNotModified) {
 	ZEPHIR_INIT_VAR(_0);
 	ZVAL_LONG(_0, 304);
 	ZEPHIR_INIT_VAR(_1);
-	ZVAL_STRING(_1, "Not modified", 0);
+	ZVAL_STRING(_1, "Not modified", ZEPHIR_TEMP_PARAM_COPY);
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "setstatuscode", NULL, _0, _1);
 	zephir_check_temp_parameter(_1);
 	zephir_check_call_status();
@@ -552,7 +552,7 @@ PHP_METHOD(Phalcon_Http_Response, setEtag) {
 	ZEPHIR_CALL_METHOD(&headers, this_ptr, "getheaders",  NULL);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(_0);
-	ZVAL_STRING(_0, "Etag", 0);
+	ZVAL_STRING(_0, "Etag", ZEPHIR_TEMP_PARAM_COPY);
 	ZEPHIR_CALL_METHOD(NULL, headers, "set", NULL, _0, etag);
 	zephir_check_temp_parameter(_0);
 	zephir_check_call_status();
@@ -635,7 +635,7 @@ PHP_METHOD(Phalcon_Http_Response, redirect) {
 		}
 		if (_0) {
 			ZEPHIR_INIT_VAR(_4);
-			ZVAL_STRING(_4, "/^[^:\\/?#]++:/", 0);
+			ZVAL_STRING(_4, "/^[^:\\/?#]++:/", ZEPHIR_TEMP_PARAM_COPY);
 			ZEPHIR_CALL_FUNCTION(&matched, "preg_match", &_5, _4, location);
 			zephir_check_temp_parameter(_4);
 			zephir_check_call_status();
@@ -654,7 +654,7 @@ PHP_METHOD(Phalcon_Http_Response, redirect) {
 		ZEPHIR_CALL_METHOD(&dependencyInjector, this_ptr, "getdi",  NULL);
 		zephir_check_call_status();
 		ZEPHIR_INIT_NVAR(_4);
-		ZVAL_STRING(_4, "url", 0);
+		ZVAL_STRING(_4, "url", ZEPHIR_TEMP_PARAM_COPY);
 		ZEPHIR_CALL_METHOD(&_2, dependencyInjector, "getshared", NULL, _4);
 		zephir_check_temp_parameter(_4);
 		zephir_check_call_status();
@@ -679,7 +679,7 @@ PHP_METHOD(Phalcon_Http_Response, redirect) {
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "setstatuscode", NULL, _4, message);
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(_4);
-	ZVAL_STRING(_4, "Location", 0);
+	ZVAL_STRING(_4, "Location", ZEPHIR_TEMP_PARAM_COPY);
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "setheader", NULL, _4, header);
 	zephir_check_temp_parameter(_4);
 	zephir_check_call_status();
@@ -853,7 +853,7 @@ PHP_METHOD(Phalcon_Http_Response, send) {
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_sent"), PH_NOISY_CC);
 	if (zephir_is_true(_0)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_http_response_exception_ce, "Response was already sent", "phalcon/http/response.zep", 520);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_http_response_exception_ce, "Response was already sent", "phalcon/http/response.zep", 521);
 		return;
 	}
 	ZEPHIR_OBS_VAR(headers);
@@ -924,12 +924,12 @@ PHP_METHOD(Phalcon_Http_Response, setFileToSend) {
 		ZEPHIR_CALL_METHOD(&headers, this_ptr, "getheaders",  NULL);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(_0);
-		ZVAL_STRING(_0, "Content-Description: File Transfer", 0);
+		ZVAL_STRING(_0, "Content-Description: File Transfer", ZEPHIR_TEMP_PARAM_COPY);
 		ZEPHIR_CALL_METHOD(NULL, headers, "setraw", NULL, _0);
 		zephir_check_temp_parameter(_0);
 		zephir_check_call_status();
 		ZEPHIR_INIT_NVAR(_0);
-		ZVAL_STRING(_0, "Content-Type: application/octet-stream", 0);
+		ZVAL_STRING(_0, "Content-Type: application/octet-stream", ZEPHIR_TEMP_PARAM_COPY);
 		ZEPHIR_CALL_METHOD(NULL, headers, "setraw", NULL, _0);
 		zephir_check_temp_parameter(_0);
 		zephir_check_call_status();
@@ -938,7 +938,7 @@ PHP_METHOD(Phalcon_Http_Response, setFileToSend) {
 		ZEPHIR_CALL_METHOD(NULL, headers, "setraw", NULL, _1);
 		zephir_check_call_status();
 		ZEPHIR_INIT_NVAR(_0);
-		ZVAL_STRING(_0, "Content-Transfer-Encoding: binary", 0);
+		ZVAL_STRING(_0, "Content-Transfer-Encoding: binary", ZEPHIR_TEMP_PARAM_COPY);
 		ZEPHIR_CALL_METHOD(NULL, headers, "setraw", NULL, _0);
 		zephir_check_temp_parameter(_0);
 		zephir_check_call_status();

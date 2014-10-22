@@ -4,15 +4,13 @@
 #ifndef PHP_PHALCON_H
 #define PHP_PHALCON_H 1
 
-#define ZEPHIR_RELEASE 1
-
 #include "kernel/globals.h"
 
 #define PHP_PHALCON_NAME        ""
 #define PHP_PHALCON_VERSION     "2.0.0b"
 #define PHP_PHALCON_EXTNAME     "phalcon"
 #define PHP_PHALCON_AUTHOR      "Phalcon Team"
-#define PHP_PHALCON_ZEPVERSION  "0.5.2a"
+#define PHP_PHALCON_ZEPVERSION  "0.5.4a"
 #define PHP_PHALCON_DESCRIPTION ""
 
 typedef struct _zephir_struct_db { 
@@ -36,6 +34,8 @@ typedef struct _zephir_struct_orm {
 
 ZEND_BEGIN_MODULE_GLOBALS(phalcon)
 
+	int initialized;
+
 	/* Memory */
 	zephir_memory_entry *start_memory; /**< The first preallocated frame */
 	zephir_memory_entry *end_memory; /**< The last preallocate frame */
@@ -46,6 +46,9 @@ ZEND_BEGIN_MODULE_GLOBALS(phalcon)
 
 	/** Function cache */
 	HashTable *fcache;
+
+	/* Cache enabled */
+	unsigned int cache_enabled;
 
 	/* Max recursion control */
 	unsigned int recursive_lock;

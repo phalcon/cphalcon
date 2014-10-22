@@ -22,38 +22,22 @@
 
 namespace PhalconTest\Assets;
 
-use Phalcon\Assets\Inline as PhInline;
+use \Phalcon\Assets\Inline as PhInline;
 
-class Inline
+class Inline extends PhInline
 {
-    private $inln = null;
-
-    public function __construct($type, $content, $filter = true, $attributes = null)
-    {
-        $this->inln = new PhInline($type, $content, $filter, $attributes);
-    }
-
-    public function __desctruct()
-    {
-        unset($this->inln);
-    }
-
-
 	public function setType($type)
 	{
-	    $this->inln->setType($type);
-		return $this;
+        return parent::setType($type);
 	}
 
 	public function setFilter($filter)
 	{
-        $this->inln->setFilter($filter);
-		return $this;
+        return parent::setFilter($filter);
 	}
 
 	public function setAttributes($attributes)
 	{
-        $this->inln->setAttributes($attributes);
-		return $this;
+        return parent::setAttributes($attributes);
 	}
 }

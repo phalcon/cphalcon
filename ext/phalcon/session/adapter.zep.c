@@ -16,8 +16,9 @@
 #include "kernel/memory.h"
 #include "kernel/operators.h"
 #include "kernel/object.h"
-#include "kernel/exception.h"
 #include "kernel/array.h"
+#include "ext/spl/spl_exceptions.h"
+#include "kernel/exception.h"
 #include "kernel/concat.h"
 
 
@@ -121,16 +122,20 @@ PHP_METHOD(Phalcon_Session_Adapter, start) {
  */
 PHP_METHOD(Phalcon_Session_Adapter, setOptions) {
 
-	zval *options, *uniqueId;
+	zval *options_param = NULL, *uniqueId;
+	zval *options = NULL;
 
-	zephir_fetch_params(0, 1, 0, &options);
+	zephir_fetch_params(0, 1, 0, &options_param);
 
-
-
-	if (Z_TYPE_P(options) != IS_ARRAY) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_session_exception_ce, "Options must be an Array", "phalcon/session/adapter.zep", 79);
-		return;
+	if (unlikely(Z_TYPE_P(options_param) != IS_ARRAY)) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'options' must be an array") TSRMLS_CC);
+		RETURN_NULL();
 	}
+
+		options = options_param;
+
+
+
 	if (zephir_array_isset_string_fetch(&uniqueId, options, SS("uniqueId"), 1 TSRMLS_CC)) {
 		zephir_update_property_this(this_ptr, SL("_uniqueId"), uniqueId TSRMLS_CC);
 	}
@@ -160,18 +165,21 @@ PHP_METHOD(Phalcon_Session_Adapter, getOptions) {
  */
 PHP_METHOD(Phalcon_Session_Adapter, get) {
 
-	zval *index_param = NULL, *defaultValue = NULL, *remove = NULL, *value, *key, *_0, *_SESSION;
+	zend_bool remove;
+	zval *index_param = NULL, *defaultValue = NULL, *remove_param = NULL, *value, *key, *_0, *_SESSION;
 	zval *index = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 2, &index_param, &defaultValue, &remove);
+	zephir_fetch_params(1, 1, 2, &index_param, &defaultValue, &remove_param);
 
 	zephir_get_strval(index, index_param);
 	if (!defaultValue) {
 		defaultValue = ZEPHIR_GLOBAL(global_null);
 	}
-	if (!remove) {
-		remove = ZEPHIR_GLOBAL(global_false);
+	if (!remove_param) {
+		remove = 0;
+	} else {
+		remove = zephir_get_boolval(remove_param);
 	}
 
 
@@ -182,7 +190,7 @@ PHP_METHOD(Phalcon_Session_Adapter, get) {
 	zephir_get_global(&_SESSION, SS("_SESSION") TSRMLS_CC);
 	if (zephir_array_isset_fetch(&value, _SESSION, key, 0 TSRMLS_CC)) {
 		if (!(ZEPHIR_IS_EMPTY(value))) {
-			if (zephir_is_true(remove)) {
+			if (remove) {
 				zephir_array_unset(&_SESSION, key, PH_SEPARATE);
 			}
 			RETURN_CCTOR(value);

@@ -381,7 +381,7 @@ PHP_METHOD(Phalcon_Dispatcher, setParams) {
 
 	if (Z_TYPE_P(params) != IS_ARRAY) {
 		ZEPHIR_INIT_VAR(_0);
-		ZVAL_STRING(_0, "Parameters must be an Array", 0);
+		ZVAL_STRING(_0, "Parameters must be an Array", ZEPHIR_TEMP_PARAM_COPY);
 		ZEPHIR_CALL_METHOD(NULL, this_ptr, "_throwdispatchexception", NULL, _0);
 		zephir_check_temp_parameter(_0);
 		zephir_check_call_status();
@@ -455,7 +455,7 @@ PHP_METHOD(Phalcon_Dispatcher, getParam) {
 			zephir_read_property_this(&dependencyInjector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 			if (Z_TYPE_P(dependencyInjector) != IS_OBJECT) {
 				ZEPHIR_INIT_VAR(_0);
-				ZVAL_STRING(_0, "A dependency injection object is required to access the 'filter' service", 0);
+				ZVAL_STRING(_0, "A dependency injection object is required to access the 'filter' service", ZEPHIR_TEMP_PARAM_COPY);
 				ZEPHIR_INIT_VAR(_1);
 				ZVAL_LONG(_1, 0);
 				ZEPHIR_CALL_METHOD(NULL, this_ptr, "_throwdispatchexception", NULL, _0, _1);
@@ -463,7 +463,7 @@ PHP_METHOD(Phalcon_Dispatcher, getParam) {
 				zephir_check_call_status();
 			}
 			ZEPHIR_INIT_NVAR(_0);
-			ZVAL_STRING(_0, "filter", 0);
+			ZVAL_STRING(_0, "filter", ZEPHIR_TEMP_PARAM_COPY);
 			ZEPHIR_CALL_METHOD(&_2, dependencyInjector, "getshared", NULL, _0);
 			zephir_check_temp_parameter(_0);
 			zephir_check_call_status();
@@ -556,7 +556,7 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch) {
 	ZEPHIR_CPY_WRT(dependencyInjector, _0);
 	if (Z_TYPE_P(dependencyInjector) != IS_OBJECT) {
 		ZEPHIR_INIT_VAR(_1);
-		ZVAL_STRING(_1, "A dependency injection container is required to access related dispatching services", 0);
+		ZVAL_STRING(_1, "A dependency injection container is required to access related dispatching services", ZEPHIR_TEMP_PARAM_COPY);
 		ZEPHIR_INIT_VAR(_2);
 		ZVAL_LONG(_2, 0);
 		ZEPHIR_CALL_METHOD(NULL, this_ptr, "_throwdispatchexception", NULL, _1, _2);
@@ -568,7 +568,7 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch) {
 	ZEPHIR_CPY_WRT(eventsManager, _0);
 	if (Z_TYPE_P(eventsManager) == IS_OBJECT) {
 		ZEPHIR_INIT_NVAR(_1);
-		ZVAL_STRING(_1, "dispatch:beforeDispatchLoop", 0);
+		ZVAL_STRING(_1, "dispatch:beforeDispatchLoop", ZEPHIR_TEMP_PARAM_COPY);
 		ZEPHIR_CALL_METHOD(&_3, eventsManager, "fire", NULL, _1, this_ptr);
 		zephir_check_temp_parameter(_1);
 		zephir_check_call_status();
@@ -594,7 +594,7 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch) {
 		numberDispatches++;
 		if (numberDispatches == 256) {
 			ZEPHIR_INIT_NVAR(_1);
-			ZVAL_STRING(_1, "Dispatcher has detected a cyclic routing causing stability problems", 0);
+			ZVAL_STRING(_1, "Dispatcher has detected a cyclic routing causing stability problems", ZEPHIR_TEMP_PARAM_COPY);
 			ZEPHIR_INIT_NVAR(_2);
 			ZVAL_LONG(_2, 1);
 			ZEPHIR_CALL_METHOD(NULL, this_ptr, "_throwdispatchexception", NULL, _1, _2);
@@ -626,7 +626,7 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch) {
 		}
 		if (Z_TYPE_P(eventsManager) == IS_OBJECT) {
 			ZEPHIR_INIT_NVAR(_1);
-			ZVAL_STRING(_1, "dispatch:beforeDispatch", 0);
+			ZVAL_STRING(_1, "dispatch:beforeDispatch", ZEPHIR_TEMP_PARAM_COPY);
 			ZEPHIR_CALL_METHOD(&_3, eventsManager, "fire", NULL, _1, this_ptr);
 			zephir_check_temp_parameter(_1);
 			zephir_check_call_status();
@@ -685,7 +685,7 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch) {
 		}
 		if (Z_TYPE_P(handler) != IS_OBJECT) {
 			ZEPHIR_INIT_NVAR(_1);
-			ZVAL_STRING(_1, "Invalid handler returned from the services container", 0);
+			ZVAL_STRING(_1, "Invalid handler returned from the services container", ZEPHIR_TEMP_PARAM_COPY);
 			ZEPHIR_INIT_NVAR(_2);
 			ZVAL_LONG(_2, 3);
 			ZEPHIR_CALL_METHOD(&status, this_ptr, "_throwdispatchexception", NULL, _1, _2);
@@ -704,7 +704,7 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch) {
 		zephir_read_property_this(&params, this_ptr, SL("_params"), PH_NOISY_CC);
 		if (Z_TYPE_P(params) != IS_ARRAY) {
 			ZEPHIR_INIT_NVAR(_1);
-			ZVAL_STRING(_1, "Action parameters must be an Array", 0);
+			ZVAL_STRING(_1, "Action parameters must be an Array", ZEPHIR_TEMP_PARAM_COPY);
 			ZEPHIR_INIT_NVAR(_2);
 			ZVAL_LONG(_2, 4);
 			ZEPHIR_CALL_METHOD(&status, this_ptr, "_throwdispatchexception", NULL, _1, _2);
@@ -723,7 +723,7 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch) {
 		if (!((zephir_method_exists(handler, actionMethod TSRMLS_CC)  == SUCCESS))) {
 			if (Z_TYPE_P(eventsManager) == IS_OBJECT) {
 				ZEPHIR_INIT_NVAR(_1);
-				ZVAL_STRING(_1, "dispatch:beforeNotFoundAction", 0);
+				ZVAL_STRING(_1, "dispatch:beforeNotFoundAction", ZEPHIR_TEMP_PARAM_COPY);
 				ZEPHIR_CALL_METHOD(&_7, eventsManager, "fire", NULL, _1, this_ptr);
 				zephir_check_temp_parameter(_1);
 				zephir_check_call_status();
@@ -751,7 +751,7 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch) {
 		}
 		if (Z_TYPE_P(eventsManager) == IS_OBJECT) {
 			ZEPHIR_INIT_NVAR(_1);
-			ZVAL_STRING(_1, "dispatch:beforeExecuteRoute", 0);
+			ZVAL_STRING(_1, "dispatch:beforeExecuteRoute", ZEPHIR_TEMP_PARAM_COPY);
 			ZEPHIR_CALL_METHOD(&_7, eventsManager, "fire", NULL, _1, this_ptr);
 			zephir_check_temp_parameter(_1);
 			zephir_check_call_status();
@@ -781,7 +781,7 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch) {
 			}
 			if (zephir_is_true(eventsManager)) {
 				ZEPHIR_INIT_NVAR(_1);
-				ZVAL_STRING(_1, "dispatch:afterInitialize", 0);
+				ZVAL_STRING(_1, "dispatch:afterInitialize", ZEPHIR_TEMP_PARAM_COPY);
 				ZEPHIR_CALL_METHOD(&_7, eventsManager, "fire", NULL, _1, this_ptr);
 				zephir_check_temp_parameter(_1);
 				zephir_check_call_status();
@@ -829,7 +829,7 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch) {
 		}
 		if (Z_TYPE_P(eventsManager) == IS_OBJECT) {
 			ZEPHIR_INIT_NVAR(_2);
-			ZVAL_STRING(_2, "dispatch:afterExecuteRoute", 0);
+			ZVAL_STRING(_2, "dispatch:afterExecuteRoute", ZEPHIR_TEMP_PARAM_COPY);
 			ZEPHIR_CALL_METHOD(&_7, eventsManager, "fire", NULL, _2, this_ptr, value);
 			zephir_check_temp_parameter(_2);
 			zephir_check_call_status();
@@ -841,7 +841,7 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch) {
 				continue;
 			}
 			ZEPHIR_INIT_NVAR(_2);
-			ZVAL_STRING(_2, "dispatch:afterDispatch", 0);
+			ZVAL_STRING(_2, "dispatch:afterDispatch", ZEPHIR_TEMP_PARAM_COPY);
 			ZEPHIR_CALL_METHOD(NULL, eventsManager, "fire", NULL, _2, this_ptr);
 			zephir_check_temp_parameter(_2);
 			zephir_check_call_status();
@@ -860,7 +860,7 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch) {
 	}
 	if (Z_TYPE_P(eventsManager) == IS_OBJECT) {
 		ZEPHIR_INIT_NVAR(_1);
-		ZVAL_STRING(_1, "dispatch:afterDispatchLoop", 0);
+		ZVAL_STRING(_1, "dispatch:afterDispatchLoop", ZEPHIR_TEMP_PARAM_COPY);
 		ZEPHIR_CALL_METHOD(NULL, eventsManager, "fire", NULL, _1, this_ptr);
 		zephir_check_temp_parameter(_1);
 		zephir_check_call_status();
@@ -891,7 +891,7 @@ PHP_METHOD(Phalcon_Dispatcher, forward) {
 
 	if (Z_TYPE_P(forward) != IS_ARRAY) {
 		ZEPHIR_INIT_VAR(_0);
-		ZVAL_STRING(_0, "Forward parameter must be an Array", 0);
+		ZVAL_STRING(_0, "Forward parameter must be an Array", ZEPHIR_TEMP_PARAM_COPY);
 		ZEPHIR_CALL_METHOD(NULL, this_ptr, "_throwdispatchexception", NULL, _0);
 		zephir_check_temp_parameter(_0);
 		zephir_check_call_status();

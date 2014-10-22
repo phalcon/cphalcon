@@ -23,127 +23,107 @@
 namespace PhalconTest\Http;
 
 use \Phalcon\Http\Cookie as PhCookie;
+use \Phalcon\DiInterface as PhDIInterface;
 
-class Cookie
+class Cookie extends PhCookie
 {
-    private $cookie = null;
-    
-    public function __construct($name, $value = null, $expire = 0, $path = "/", $secure = null, $domain = null, $httpOnly = null)
-    {
-        $this->cookie = new PhCookie($name, $value, $expire, $path, $secure, $domain, $httpOnly);
-    }
-
-    public function __desctruct()
-    {
-        unset($this->cookie);
-    }
-
-	public function setDI($di)
+    public function setDI(PhDIInterface $di)
 	{
-        $this->cookie->setDI($di);
+        parent::setDI($di);
 	}
 
 	public function getDI()
 	{
-        return $this->cookie->getDI();
+        return parent::getDI();
 	}
 
 	public function setValue($value)
 	{
-        $this->cookie->setValue($value);
-		return $this;
+        return parent::setValue($value);
 	}
 
 	public function getValue($filters = null, $defaultValue = null)
     {
-        return $this->cookie->getValue($filters, $defaultValue);
+        return parent::getValue($filters, $defaultValue);
 	}
 
 	public function send()
 	{
-        $this->cookie->send();
-		return $this;
+        return parent::send();
 	}
 
 	public function restore()
 	{
-        $this->cookie->restore();
-		return $this;
+        return parent::restore();
 	}
 
 	public function delete()
     {
-        $this->cookie->delete();
+        parent::delete();
 	}
 
 	public function useEncryption($useEncryption)
 	{
-        $this->cookie->useEncryption($useEncryption);
-		return $this;
+        return parent::useEncryption($useEncryption);
 	}
 
 	public function isUsingEncryption()
 	{
-        return $this->cookie->isUsingEncryption();
+        return parent::isUsingEncryption();
 	}
 
 	public function setExpiration($expire)
 	{
-        $this->cookie->setExpiration($expire);
-		return $this;
+        return parent::setExpiration($expire);
 	}
 
 	public function getExpiration()
 	{
-        return $this->cookie->getExpiration();
+        return parent::getExpiration();
 	}
 
 	public function setPath($path)
 	{
-        $this->cookie->setPath($path);
-		return $this;
+        return parent::setPath($path);
 	}
 
 	public function getPath()
 	{
-        $this->cookie->getPath();
+        parent::getPath();
 	}
 
 	public function setDomain($domain)
 	{
-        $this->cookie->setDomain($domain);
-		return $this;
+        return parent::setDomain($domain);
 	}
 
 	public function getDomain()
 	{
-        $this->cookie->getDomain();
+        parent::getDomain();
 	}
 
 	public function setSecure($secure)
 	{
-        $this->cookie->setSecure($secure);
-		return $this;
+        return parent::setSecure($secure);
 	}
 
 	public function getSecure()
     {
-        $this->cookie->getSource();
+        parent::getSource();
 	}
 
 	public function setHttpOnly($httpOnly)
 	{
-        $this->cookie->setHttpOnly($httpOnly);
-		return $this;
+        return parent::setHttpOnly($httpOnly);
 	}
 
 	public function getHttpOnly()
 	{
-        $this->cookie->getHttpOnly();
+        parent::getHttpOnly();
 	}
 
 	public function __toString()
     {
-        return $this->cookie->__toString();
+        return parent::__toString();
     }
 }

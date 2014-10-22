@@ -21,6 +21,7 @@ namespace Phalcon;
 
 use Phalcon\Di\Injectable;
 use Phalcon\Validation\Exception;
+use Phalcon\Validation\MessageInterface;
 use Phalcon\Validation\Message\Group;
 use Phalcon\Validation\ValidatorInterface;
 
@@ -52,7 +53,7 @@ class Validation extends Injectable
 	 *
 	 * @param array validators
 	 */
-	public function __construct(validators = null)
+	public function __construct(var validators = null)
 	{
 
 		if typeof validators != "null" {
@@ -282,6 +283,7 @@ class Validation extends Injectable
 			"FileValid": "Field :field is not valid",
 			"Identical": "Field :field does not have the expected value",
 			"InclusionIn": "Field :field must be a part of list: :domain",
+			"Numericality": "Field :field does not have a valid numeric format",
 			"PresenceOf": "Field :field is required",
 			"Regex": "Field :field does not match the required format",
 			"TooLong": "Field :field must not exceed :max characters long",

@@ -22,34 +22,22 @@
 
 namespace PhalconTest;
 
-use Phalcon\Filter as PhFilter;
+use \Phalcon\Filter as PhFilter;
 
-class Filter
+class Filter extends PhFilter
 {
-    private $filter = null;
-    
-    public function __construct()
-    {
-        $this->filter = new PhFilter();
-    }
-
-    public function __desctruct()
-    {
-        unset($this->filter);
-    }
-
     public function add($name, $handler)
 	{
-        return $this->filter->add($name, $handler);
+        return parent::add($name, $handler);
 	}
 
 	public function sanitize($value, $filters, $noRecursive = false)
 	{
-        return $this->filter->sanitize($value, $filters, $noRecursive);
+        return parent::sanitize($value, $filters, $noRecursive);
     }
 
 	public function getFilters()
     {
-        return $this->filter->getFilters();
+        return parent::getFilters();
 	}
 }

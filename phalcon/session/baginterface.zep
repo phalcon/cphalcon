@@ -52,7 +52,7 @@ interface BagInterface
 	 * @param mixed defaultValue
 	 * @return mixed
 	 */
-	public function get(property, defaultValue=null);
+	public function get(property, defaultValue = null);
 
 	/**
 	 * Isset property

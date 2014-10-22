@@ -22,7 +22,7 @@
 
 namespace Phalcon\Tests\unit\Phalcon\Tag;
 
-use Phalcon\Tag as PhTag;
+use \PhalconTest\Tag as PhTTag;
 
 class TagJavascriptIncludeTest extends Helper\TagBase
 {
@@ -38,9 +38,10 @@ class TagJavascriptIncludeTest extends Helper\TagBase
             "iavascriptInclude with string parameter local link returns invalid HTML",
             function () {
 
+                PhTTag::resetInput();
                 $options  = 'js/phalcon.js';
                 $expected = '<script type="text/javascript" src="/js/phalcon.js"></script>' . PHP_EOL;
-                $actual   = PhTag::javascriptInclude($options);
+                $actual   = PhTTag::javascriptInclude($options);
 
                 expect($actual)->equals($expected);
             }
@@ -56,12 +57,13 @@ class TagJavascriptIncludeTest extends Helper\TagBase
     public function testJavascriptIncludeWithArrayLocal()
     {
         $this->specify(
-            "iavascriptInclude with array parameter local link returns invalid HTML",
+            "javascriptInclude with array parameter local link returns invalid HTML",
             function () {
 
+                PhTTag::resetInput();
                 $options  = ['js/phalcon.js'];
                 $expected = '<script type="text/javascript" src="/js/phalcon.js"></script>' . PHP_EOL;
-                $actual   = PhTag::javascriptInclude($options);
+                $actual   = PhTTag::javascriptInclude($options);
 
                 expect($actual)->equals($expected);
             }
@@ -77,12 +79,13 @@ class TagJavascriptIncludeTest extends Helper\TagBase
     public function testJavascriptIncludeWithStringAsSecondParameterLocal()
     {
         $this->specify(
-            "iavascriptInclude with a string as the second parameter local link returns invalid HTML",
+            "javascriptInclude with a string as the second parameter local link returns invalid HTML",
             function () {
 
+                PhTTag::resetInput();
                 $options  = ['js/phalcon.js'];
-                $expected = '<script type="text/javascript" src="/js/phalcon.js"></script>' . PHP_EOL;
-                $actual   = PhTag::javascriptInclude($options, 'hello');
+                $expected = '<script type="text/javascript" src="js/phalcon.js"></script>' . PHP_EOL;
+                $actual   = PhTTag::javascriptInclude($options, 'hello');
 
                 expect($actual)->equals($expected);
             }
@@ -101,9 +104,10 @@ class TagJavascriptIncludeTest extends Helper\TagBase
             "iavascriptInclude with a string parameter remote link returns invalid HTML",
             function () {
 
+                PhTTag::resetInput();
                 $options  = 'http://my.local.com/js/phalcon.js';
                 $expected = '<script type="text/javascript" src="http://my.local.com/js/phalcon.js"></script>' . PHP_EOL;
-                $actual   = PhTag::javascriptInclude($options, false);
+                $actual   = PhTTag::javascriptInclude($options, false);
 
                 expect($actual)->equals($expected);
             }
@@ -122,9 +126,10 @@ class TagJavascriptIncludeTest extends Helper\TagBase
             "iavascriptInclude with array second parameter remote link returns invalid HTML",
             function () {
 
+                PhTTag::resetInput();
                 $options  = ['http://my.local.com/js/phalcon.js'];
                 $expected = '<script type="text/javascript" src="http://my.local.com/js/phalcon.js"></script>' . PHP_EOL;
-                $actual   = PhTag::javascriptInclude($options, false);
+                $actual   = PhTTag::javascriptInclude($options, false);
 
                 expect($actual)->equals($expected);
             }

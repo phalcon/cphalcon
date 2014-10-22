@@ -22,7 +22,7 @@
 
 namespace Phalcon\Tests\unit\Phalcon\Tag;
 
-use Phalcon\Tag as PhTag;
+use \PhalconTest\Tag as PhTTag;
 
 class TagLinkToTest extends Helper\TagBase
 {
@@ -38,11 +38,12 @@ class TagLinkToTest extends Helper\TagBase
             "linkTo with string as URL and name returns invalid HTML",
             function () {
 
+                PhTTag::resetInput();
                 $url  = 'x_url';
                 $name = 'x_name';
 
                 $expected = '<a href="/x_url">x_name</a>';
-                $actual   = PhTag::linkTo($url, $name);
+                $actual   = PhTTag::linkTo($url, $name);
 
                 expect($actual)->equals($expected);
             }
@@ -61,11 +62,12 @@ class TagLinkToTest extends Helper\TagBase
             "linkTo with empty string as URL and string as name parameter returns invalid HTML",
             function () {
 
+                PhTTag::resetInput();
                 $url  = '';
                 $name = 'x_name';
 
                 $expected = '<a href="/">x_name</a>';
-                $actual   = PhTag::linkTo($url, $name);
+                $actual   = PhTTag::linkTo($url, $name);
 
                 expect($actual)->equals($expected);
             }
@@ -84,12 +86,13 @@ class TagLinkToTest extends Helper\TagBase
             "linkTo with array parameter returns invalid HTML",
             function () {
 
+                PhTTag::resetInput();
                 $options = [
                     'x_url',
                     'x_name',
                 ];
                 $expected = '<a href="/x_url">x_name</a>';
-                $actual   = PhTag::linkTo($options);
+                $actual   = PhTTag::linkTo($options);
 
                 expect($actual)->equals($expected);
             }
@@ -108,13 +111,14 @@ class TagLinkToTest extends Helper\TagBase
             "linkTo with named array parameter returns invalid HTML",
             function () {
 
+                PhTTag::resetInput();
                 $options = [
                     'action' => 'x_url',
                     'text'   => 'x_name',
                     'class'  => 'x_class',
                 ];
                 $expected = '<a href="/x_url" class="x_class">x_name</a>';
-                $actual   = PhTag::linkTo($options);
+                $actual   = PhTTag::linkTo($options);
 
                 expect($actual)->equals($expected);
             }
@@ -136,9 +140,10 @@ class TagLinkToTest extends Helper\TagBase
             "linkTo with complex local URL string parameter returns invalid HTML",
             function () {
 
+                PhTTag::resetInput();
                 $url      = "x_action/x_param";
                 $name     = 'x_name';
-                $actual   = PhTag::linkTo($url, $name);
+                $actual   = PhTTag::linkTo($url, $name);
                 $expected = '<a href="/x_action/x_param">x_name</a>';
 
                 expect($actual)->equals($expected);
@@ -149,11 +154,12 @@ class TagLinkToTest extends Helper\TagBase
             "linkTo with complex local URL array parameter returns invalid HTML",
             function () {
 
+                PhTTag::resetInput();
                 $options  = [
                     "x_action/x_param",
                     'x_name',
                 ];
-                $actual   = PhTag::linkTo($options);
+                $actual   = PhTTag::linkTo($options);
                 $expected = '<a href="/x_action/x_param">x_name</a>';
 
                 expect($actual)->equals($expected);
@@ -164,12 +170,13 @@ class TagLinkToTest extends Helper\TagBase
             "linkTo with complex local URL array named parameter returns invalid HTML",
             function () {
 
+                PhTTag::resetInput();
                 $options  = [
                     "x_action/x_param",
                     'x_name',
                     'class' => 'x_class'
                 ];
-                $actual   = PhTag::linkTo($options);
+                $actual   = PhTTag::linkTo($options);
                 $expected = '<a href="/x_action/x_param" class="x_class">x_name</a>';
 
                 expect($actual)->equals($expected);
@@ -192,9 +199,10 @@ class TagLinkToTest extends Helper\TagBase
             "linkTo with complex remote URL string parameter returns invalid HTML",
             function () {
 
+                PhTTag::resetInput();
                 $url      = "http://phalconphp.com/en/";
                 $name     = 'x_name';
-                $actual   = PhTag::linkTo($url, $name, false);
+                $actual   = PhTTag::linkTo($url, $name, false);
                 $expected = '<a href="http://phalconphp.com/en/">x_name</a>';
 
                 expect($actual)->equals($expected);
@@ -205,12 +213,13 @@ class TagLinkToTest extends Helper\TagBase
             "linkTo with complex remote URL array parameter returns invalid HTML",
             function () {
 
+                PhTTag::resetInput();
                 $options  = [
                     "http://phalconphp.com/en/",
                     'x_name',
                     false,
                 ];
-                $actual   = PhTag::linkTo($options);
+                $actual   = PhTTag::linkTo($options);
                 $expected = '<a href="http://phalconphp.com/en/">x_name</a>';
 
                 expect($actual)->equals($expected);
@@ -221,12 +230,13 @@ class TagLinkToTest extends Helper\TagBase
             "linkTo with complex remote URL array named parameter returns invalid HTML",
             function () {
 
+                PhTTag::resetInput();
                 $options  = [
                     "http://phalconphp.com/en/",
                     'text'  => 'x_name',
                     'local' => false,
                 ];
-                $actual   = PhTag::linkTo($options);
+                $actual   = PhTTag::linkTo($options);
                 $expected = '<a href="http://phalconphp.com/en/">x_name</a>';
 
                 expect($actual)->equals($expected);
@@ -237,9 +247,10 @@ class TagLinkToTest extends Helper\TagBase
             "linkTo with mailto URL string parameter returns invalid HTML",
             function () {
 
+                PhTTag::resetInput();
                 $url  = "mailto:someone@phalconphp.com";
                 $name = 'someone@phalconphp.com';
-                $actual   = PhTag::linkTo($url, $name, false);
+                $actual   = PhTTag::linkTo($url, $name, false);
                 $expected = '<a href="mailto:someone@phalconphp.com">someone@phalconphp.com</a>';
 
                 expect($actual)->equals($expected);

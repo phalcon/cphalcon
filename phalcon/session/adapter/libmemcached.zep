@@ -19,7 +19,11 @@
 
 namespace Phalcon\Session\Adapter;
 
+use Phalcon\Session\Adapter;
 use Phalcon\Session\Exception;
+use Phalcon\Session\AdapterInterface;
+use Phalcon\Cache\Backend\Libmemcached;
+use Phalcon\Cache\Frontend\Data as FrontendData;
 
 /**
  * Phalcon\Session\Adapter\Libmemcached
@@ -46,7 +50,7 @@ use Phalcon\Session\Exception;
  * echo $session->get('var');
  *</code>
  */
-class Libmemcached extends \Phalcon\Session\Adapter implements \Phalcon\Session\AdapterInterface
+class Libmemcached extends Adapter implements AdapterInterface
 {
 
 	protected _libmemcached = NULL { get };
@@ -90,8 +94,8 @@ class Libmemcached extends \Phalcon\Session\Adapter implements \Phalcon\Session\
 			let prefix = options["prefix"];
 		}
 
-		let this->_libmemcached = new \Phalcon\Cache\Backend\Libmemcached(
-			new \Phalcon\Cache\Frontend\Data(["lifetime": this->_lifetime]),
+		let this->_libmemcached = new Libmemcached(
+			new FrontendData(["lifetime": this->_lifetime]),
 			["servers": servers, "client": client, "prefix": prefix]
 		);
 

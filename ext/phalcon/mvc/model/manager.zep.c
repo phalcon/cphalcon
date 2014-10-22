@@ -324,7 +324,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, initialize) {
 	ZEPHIR_CPY_WRT(eventsManager, _1);
 	if (Z_TYPE_P(eventsManager) == IS_OBJECT) {
 		ZEPHIR_INIT_VAR(_2);
-		ZVAL_STRING(_2, "modelsManager:afterInitialize", 0);
+		ZVAL_STRING(_2, "modelsManager:afterInitialize", ZEPHIR_TEMP_PARAM_COPY);
 		ZEPHIR_CALL_METHOD(NULL, eventsManager, "fire", NULL, _2, this_ptr, model);
 		zephir_check_temp_parameter(_2);
 		zephir_check_call_status();
@@ -757,7 +757,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getReadConnection) {
 		ZEPHIR_CPY_WRT(connection, _2);
 	} else {
 		ZEPHIR_INIT_NVAR(_0);
-		ZVAL_STRING(_0, "db", 0);
+		ZVAL_STRING(_0, "db", ZEPHIR_TEMP_PARAM_COPY);
 		ZEPHIR_CALL_METHOD(&_2, dependencyInjector, "getshared", NULL, _0);
 		zephir_check_temp_parameter(_0);
 		zephir_check_call_status();
@@ -814,7 +814,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getWriteConnection) {
 		ZEPHIR_CPY_WRT(connection, _2);
 	} else {
 		ZEPHIR_INIT_NVAR(_0);
-		ZVAL_STRING(_0, "db", 0);
+		ZVAL_STRING(_0, "db", ZEPHIR_TEMP_PARAM_COPY);
 		ZEPHIR_CALL_METHOD(&_2, dependencyInjector, "getshared", NULL, _0);
 		zephir_check_temp_parameter(_0);
 		zephir_check_call_status();

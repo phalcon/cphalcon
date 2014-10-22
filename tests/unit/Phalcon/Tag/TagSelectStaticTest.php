@@ -22,7 +22,7 @@
 
 namespace Phalcon\Tests\unit\Phalcon\Tag;
 
-use Phalcon\Tag as PhTag;
+use \PhalconTest\Tag as PhTTag;
 
 class TagSelectStaticTest extends Helper\TagBase
 {
@@ -38,7 +38,7 @@ class TagSelectStaticTest extends Helper\TagBase
             "selectStatic with string parameter returns invalid HTML",
             function () {
 
-
+                PhTTag::resetInput();
                 $name    = 'x_name';
                 $options = [
                     'A' => 'Active',
@@ -49,8 +49,8 @@ class TagSelectStaticTest extends Helper\TagBase
                           . chr(9) . '<option value="I">Inactive</option>' . PHP_EOL
                           . '</select>';
 
-                $actual   = PhTag::selectStatic($name, $options);
-                PhTag::resetInput();
+                $actual   = PhTTag::selectStatic($name, $options);
+                PhTTag::resetInput();
 
                 expect($actual)->equals($expected);
             }
@@ -69,6 +69,7 @@ class TagSelectStaticTest extends Helper\TagBase
             "selectStatic with array parameter returns invalid HTML",
             function () {
 
+                PhTTag::resetInput();
                 $params = [
                     'x_name',
                     'class' => 'x_class',
@@ -82,8 +83,8 @@ class TagSelectStaticTest extends Helper\TagBase
                           . chr(9) . '<option value="I">Inactive</option>' . PHP_EOL
                           . '</select>';
 
-                $actual   = PhTag::selectStatic($params, $options);
-                PhTag::resetInput();
+                $actual   = PhTTag::selectStatic($params, $options);
+                PhTTag::resetInput();
 
                 expect($actual)->equals($expected);
             }
@@ -103,6 +104,7 @@ class TagSelectStaticTest extends Helper\TagBase
             "selectStatic with array parameter with id returns invalid HTML",
             function () {
 
+                PhTTag::resetInput();
                 $params = [
                     'x_name',
                     'id'    => 'x_id',
@@ -117,8 +119,8 @@ class TagSelectStaticTest extends Helper\TagBase
                           . chr(9) . '<option value="I">Inactive</option>' . PHP_EOL
                           . '</select>';
 
-                $actual   = PhTag::selectStatic($params, $options);
-                PhTag::resetInput();
+                $actual   = PhTTag::selectStatic($params, $options);
+                PhTTag::resetInput();
 
                 expect($actual)->equals($expected);
             }
@@ -138,6 +140,7 @@ class TagSelectStaticTest extends Helper\TagBase
             "selectStatic with array parameter with name no id returns invalid HTML",
             function () {
 
+                PhTTag::resetInput();
                 $params = [
                     'x_name',
                     'id'    => 'x_id',
@@ -152,8 +155,8 @@ class TagSelectStaticTest extends Helper\TagBase
                           . chr(9) . '<option value="I">Inactive</option>' . PHP_EOL
                           . '</select>';
 
-                $actual   = PhTag::selectStatic($params, $options);
-                PhTag::resetInput();
+                $actual   = PhTTag::selectStatic($params, $options);
+                PhTTag::resetInput();
 
                 expect($actual)->equals($expected);
             }
@@ -172,6 +175,7 @@ class TagSelectStaticTest extends Helper\TagBase
             "selectStatic with array parameter with value returns invalid HTML",
             function () {
 
+                PhTTag::resetInput();
                 $params = [
                     'x_name',
                     'value' => 'I',
@@ -186,8 +190,8 @@ class TagSelectStaticTest extends Helper\TagBase
                           . chr(9) . '<option selected="selected" value="I">Inactive</option>' . PHP_EOL
                           . '</select>';
 
-                $actual   = PhTag::selectStatic($params, $options);
-                PhTag::resetInput();
+                $actual   = PhTTag::selectStatic($params, $options);
+                PhTTag::resetInput();
 
                 expect($actual)->equals($expected);
             }
@@ -206,6 +210,7 @@ class TagSelectStaticTest extends Helper\TagBase
             "selectStatic with setDefault returns invalid HTML",
             function () {
 
+                PhTTag::resetInput();
                 $params = [
                     'x_name',
                     'class' => 'x_class',
@@ -219,9 +224,9 @@ class TagSelectStaticTest extends Helper\TagBase
                           . chr(9) . '<option value="A">Active</option>' . PHP_EOL
                           . chr(9) . '<option selected="selected" value="I">Inactive</option>' . PHP_EOL
                           . '</select>';
-                PhTag::setDefault('x_name', 'I');
-                $actual   = PhTag::selectStatic($params, $options);
-                PhTag::resetInput();
+                PhTTag::setDefault('x_name', 'I');
+                $actual   = PhTTag::selectStatic($params, $options);
+                PhTTag::resetInput();
 
                 expect($actual)->equals($expected);
             }
@@ -240,6 +245,7 @@ class TagSelectStaticTest extends Helper\TagBase
             "selectStatic with setDefault returns invalid HTML",
             function () {
 
+                PhTTag::resetInput();
                 $params = [
                     'x_name',
                     'class' => 'x_class',
@@ -253,9 +259,9 @@ class TagSelectStaticTest extends Helper\TagBase
                           . chr(9) . '<option value="A">Active</option>' . PHP_EOL
                           . chr(9) . '<option selected="selected" value="I">Inactive</option>' . PHP_EOL
                           . '</select>';
-                PhTag::displayTo('x_name', 'I');
-                $actual   = PhTag::selectStatic($params, $options);
-                PhTag::resetInput();
+                PhTTag::displayTo('x_name', 'I');
+                $actual   = PhTTag::selectStatic($params, $options);
+                PhTTag::resetInput();
 
                 expect($actual)->equals($expected);
             }
@@ -274,6 +280,7 @@ class TagSelectStaticTest extends Helper\TagBase
             "selectStatic with setDefault and element not present returns invalid HTML",
             function () {
 
+                PhTTag::resetInput();
                 $params = [
                     'x_name',
                     'name'  => 'x_other',
@@ -288,9 +295,9 @@ class TagSelectStaticTest extends Helper\TagBase
                           . chr(9) . '<option value="A">Active</option>' . PHP_EOL
                           . chr(9) . '<option value="I">Inactive</option>' . PHP_EOL
                           . '</select>';
-                PhTag::setDefault('x_name', 'Z');
-                $actual   = PhTag::selectStatic($params, $options);
-                PhTag::resetInput();
+                PhTTag::setDefault('x_name', 'Z');
+                $actual   = PhTTag::selectStatic($params, $options);
+                PhTTag::resetInput();
 
                 expect($actual)->equals($expected);
             }
@@ -309,6 +316,7 @@ class TagSelectStaticTest extends Helper\TagBase
             "selectStatic with displayTo and element not present returns invalid HTML Strict",
             function () {
 
+                PhTTag::resetInput();
                 $params = [
                     'x_name',
                     'name'  => 'x_other',
@@ -323,9 +331,9 @@ class TagSelectStaticTest extends Helper\TagBase
                           . chr(9) . '<option value="A">Active</option>' . PHP_EOL
                           . chr(9) . '<option value="I">Inactive</option>' . PHP_EOL
                           . '</select>';
-                PhTag::displayTo('x_name', 'Z');
-                $actual   = PhTag::selectStatic($params, $options);
-                PhTag::resetInput();
+                PhTTag::displayTo('x_name', 'Z');
+                $actual   = PhTTag::selectStatic($params, $options);
+                PhTTag::resetInput();
 
                 expect($actual)->equals($expected);
             }
@@ -344,6 +352,7 @@ class TagSelectStaticTest extends Helper\TagBase
             "selectStatic with array parameter returns invalid HTML",
             function () {
 
+                PhTTag::resetInput();
                 $params = [
                     "x_name",
                     [
@@ -362,8 +371,8 @@ class TagSelectStaticTest extends Helper\TagBase
                           . chr(9) . '<option value="B">B One</option>' . PHP_EOL
                           . '</select>';
 
-                $actual   = PhTag::selectStatic($params);
-                PhTag::resetInput();
+                $actual   = PhTTag::selectStatic($params);
+                PhTTag::resetInput();
 
                 expect($actual)->equals($expected);
             }
@@ -383,6 +392,7 @@ class TagSelectStaticTest extends Helper\TagBase
             "selectStatic with array parameter with id returns invalid HTML",
             function () {
 
+                PhTTag::resetInput();
                 $params = [
                     'x_name',
                     'id'    => 'x_id',
@@ -403,8 +413,8 @@ class TagSelectStaticTest extends Helper\TagBase
                           . chr(9) . '<option value="B">B One</option>' . PHP_EOL
                           . '</select>';
 
-                $actual   = PhTag::selectStatic($params, $options);
-                PhTag::resetInput();
+                $actual   = PhTTag::selectStatic($params, $options);
+                PhTTag::resetInput();
 
                 expect($actual)->equals($expected);
             }
@@ -424,6 +434,7 @@ class TagSelectStaticTest extends Helper\TagBase
             "selectStatic with array parameter with name no id returns invalid HTML",
             function () {
 
+                PhTTag::resetInput();
                 $params = [
                     'x_name',
                     'id'    => 'x_id',
@@ -444,8 +455,8 @@ class TagSelectStaticTest extends Helper\TagBase
                           . chr(9) . '<option value="B">B One</option>' . PHP_EOL
                           . '</select>';
 
-                $actual   = PhTag::selectStatic($params, $options);
-                PhTag::resetInput();
+                $actual   = PhTTag::selectStatic($params, $options);
+                PhTTag::resetInput();
 
                 expect($actual)->equals($expected);
             }
@@ -464,6 +475,7 @@ class TagSelectStaticTest extends Helper\TagBase
             "selectStatic with array parameter with value returns invalid HTML",
             function () {
 
+                PhTTag::resetInput();
                 $params = [
                     'x_name',
                     'value' => 'A1',
@@ -484,8 +496,8 @@ class TagSelectStaticTest extends Helper\TagBase
                           . chr(9) . '<option value="B">B One</option>' . PHP_EOL
                           . '</select>';
 
-                $actual   = PhTag::selectStatic($params, $options);
-                PhTag::resetInput();
+                $actual   = PhTTag::selectStatic($params, $options);
+                PhTTag::resetInput();
 
                 expect($actual)->equals($expected);
             }
@@ -504,6 +516,7 @@ class TagSelectStaticTest extends Helper\TagBase
             "selectStatic with setDefault returns invalid HTML",
             function () {
 
+                PhTTag::resetInput();
                 $params = [
                     'x_name',
                     'class' => 'x_class',
@@ -524,9 +537,9 @@ class TagSelectStaticTest extends Helper\TagBase
                           . chr(9) . '<option value="B">B One</option>' . PHP_EOL
                           . '</select>';
 
-                PhTag::setDefault('x_name', 'A2');
-                $actual   = PhTag::selectStatic($params, $options);
-                PhTag::resetInput();
+                PhTTag::setDefault('x_name', 'A2');
+                $actual   = PhTTag::selectStatic($params, $options);
+                PhTTag::resetInput();
 
                 expect($actual)->equals($expected);
             }
@@ -545,6 +558,7 @@ class TagSelectStaticTest extends Helper\TagBase
             "selectStatic with setDefault returns invalid HTML",
             function () {
 
+                PhTTag::resetInput();
                 $params = [
                     'x_name',
                     'class' => 'x_class',
@@ -565,9 +579,9 @@ class TagSelectStaticTest extends Helper\TagBase
                           . chr(9) . '<option value="B">B One</option>' . PHP_EOL
                           . '</select>';
 
-                PhTag::displayTo('x_name', 'A2');
-                $actual   = PhTag::selectStatic($params, $options);
-                PhTag::resetInput();
+                PhTTag::displayTo('x_name', 'A2');
+                $actual   = PhTTag::selectStatic($params, $options);
+                PhTTag::resetInput();
 
                 expect($actual)->equals($expected);
             }
@@ -586,6 +600,7 @@ class TagSelectStaticTest extends Helper\TagBase
             "selectStatic with setDefault and element not present returns invalid HTML",
             function () {
 
+                PhTTag::resetInput();
                 $params = [
                     'x_name',
                     'name'  => 'x_other',
@@ -608,9 +623,9 @@ class TagSelectStaticTest extends Helper\TagBase
                           . chr(9) . '<option value="B">B One</option>' . PHP_EOL
                           . '</select>';
 
-                PhTag::setDefault('x_name', 'I');
-                $actual   = PhTag::selectStatic($params, $options);
-                PhTag::resetInput();
+                PhTTag::setDefault('x_name', 'I');
+                $actual   = PhTTag::selectStatic($params, $options);
+                PhTTag::resetInput();
 
                 expect($actual)->equals($expected);
             }
@@ -629,6 +644,7 @@ class TagSelectStaticTest extends Helper\TagBase
             "selectStatic with displayTo and element not present returns invalid HTML",
             function () {
 
+                PhTTag::resetInput();
                 $params = [
                     'x_name',
                     'name'  => 'x_other',
@@ -650,9 +666,9 @@ class TagSelectStaticTest extends Helper\TagBase
                           . chr(9) . '<option value="B">B One</option>' . PHP_EOL
                           . '</select>';
 
-                PhTag::displayTo('x_name', 'I');
-                $actual   = PhTag::selectStatic($params, $options);
-                PhTag::resetInput();
+                PhTTag::displayTo('x_name', 'I');
+                $actual   = PhTTag::selectStatic($params, $options);
+                PhTTag::resetInput();
 
                 expect($actual)->equals($expected);
             }

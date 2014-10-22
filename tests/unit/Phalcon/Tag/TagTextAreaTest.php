@@ -22,7 +22,7 @@
 
 namespace Phalcon\Tests\unit\Phalcon\Tag;
 
-use Phalcon\Tag as PhTag;
+use \PhalconTest\Tag as PhTTag;
 
 class TagTextAreaTest extends Helper\TagBase
 {
@@ -289,9 +289,9 @@ class TagTextAreaTest extends Helper\TagBase
                           . $value
                           . '</textarea>';
 
-                PhTag::setDefault('x_name', $value);
-                $actual = PhTag::textArea($options);
-                PhTag::setDefault('x_name', '');
+                PhTTag::setDefault('x_name', $value);
+                $actual = PhTTag::textArea($options);
+                PhTTag::setDefault('x_name', '');
 
                 expect($actual)->equals($expected);
             }

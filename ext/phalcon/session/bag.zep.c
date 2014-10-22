@@ -159,7 +159,7 @@ PHP_METHOD(Phalcon_Session_Bag, initialize) {
 			}
 		}
 		ZEPHIR_INIT_VAR(_1);
-		ZVAL_STRING(_1, "session", 0);
+		ZVAL_STRING(_1, "session", ZEPHIR_TEMP_PARAM_COPY);
 		ZEPHIR_CALL_METHOD(&session, dependencyInjector, "getshared", NULL, _1);
 		zephir_check_temp_parameter(_1);
 		zephir_check_call_status();

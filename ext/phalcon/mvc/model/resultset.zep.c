@@ -260,7 +260,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, seek) {
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, count) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *count, *result = NULL, *rows = NULL, *_0, *_1 = NULL;
+	zval *count = NULL, *result = NULL, *rows = NULL, *_0, *_1 = NULL;
 
 	ZEPHIR_MM_GROW();
 

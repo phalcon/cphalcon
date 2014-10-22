@@ -22,69 +22,57 @@
 
 namespace PhalconTest;
 
-use Phalcon\Escaper as PhEscaper;
+use \Phalcon\Escaper as PhEscaper;
 
-class Escaper
+class Escaper extends PhEscaper
 {
-    private $escaper = null;
-    
-    public function __construct()
-    {
-        $this->escaper = new PhEscaper();
-    }
-
-    public function __desctruct()
-    {
-        unset($this->escaper);
-    }
-
     public function setEncoding($encoding)
 	{
-		$this->escaper->setEncoding($encoding);
+		parent::setEncoding($encoding);
 	}
 
     public function getEncoding()
 	{
-        return $this->escaper->getEncoding();
+        return parent::getEncoding();
 	}
 
 	public function setHtmlQuoteType($quoteType)
     {
-        $this->escaper->setHtmlQuoteType($quoteType);
+        parent::setHtmlQuoteType($quoteType);
     }
 
 	public function detectEncoding($str)
 	{
-        return $this->escaper->detectEncoding($str);
+        return parent::detectEncoding($str);
     }
 
 	public function normalizeEncoding($str)
 	{
-        return $this->escaper->normalizeEncoding($str);
+        return parent::normalizeEncoding($str);
     }
 
 	public function escapeHtml($text)
 	{
-        return $this->escaper->escapeHtml($text);
+        return parent::escapeHtml($text);
 	}
 
 	public function escapeHtmlAttr($attribute)
 	{
-        return $this->escaper->escapeHtmlAttr($attribute);
+        return parent::escapeHtmlAttr($attribute);
 	}
 
 	public function escapeCss($css)
 	{
-        return $this->escaper->escapeCss($css);
+        return parent::escapeCss($css);
 	}
 
 	public function escapeJs($js)
 	{
-        return $this->escaper->escapeJs($js);
+        return parent::escapeJs($js);
 	}
 
 	public function escapeUrl($url)
 	{
-        return $this->escaper->escapeUrl($url);
+        return parent::escapeUrl($url);
     }
 }

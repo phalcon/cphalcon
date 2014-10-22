@@ -248,7 +248,7 @@ PHP_METHOD(Phalcon_Http_Cookie, getValue) {
 					return;
 				}
 				ZEPHIR_INIT_VAR(_4);
-				ZVAL_STRING(_4, "crypt", 0);
+				ZVAL_STRING(_4, "crypt", ZEPHIR_TEMP_PARAM_COPY);
 				ZEPHIR_CALL_METHOD(&crypt, dependencyInjector, "getshared", NULL, _4);
 				zephir_check_temp_parameter(_4);
 				zephir_check_call_status();
@@ -271,7 +271,7 @@ PHP_METHOD(Phalcon_Http_Cookie, getValue) {
 						}
 					}
 					ZEPHIR_INIT_NVAR(_4);
-					ZVAL_STRING(_4, "filter", 0);
+					ZVAL_STRING(_4, "filter", ZEPHIR_TEMP_PARAM_COPY);
 					ZEPHIR_CALL_METHOD(&filter, dependencyInjector, "getshared", NULL, _4);
 					zephir_check_temp_parameter(_4);
 					zephir_check_call_status();
@@ -343,7 +343,7 @@ PHP_METHOD(Phalcon_Http_Cookie, send) {
 	}
 	if (zephir_fast_count_int(definition TSRMLS_CC)) {
 		ZEPHIR_INIT_VAR(_1);
-		ZVAL_STRING(_1, "session", 0);
+		ZVAL_STRING(_1, "session", ZEPHIR_TEMP_PARAM_COPY);
 		ZEPHIR_CALL_METHOD(&_0, dependencyInjector, "getshared", NULL, _1);
 		zephir_check_temp_parameter(_1);
 		zephir_check_call_status();
@@ -361,7 +361,7 @@ PHP_METHOD(Phalcon_Http_Cookie, send) {
 				return;
 			}
 			ZEPHIR_INIT_NVAR(_1);
-			ZVAL_STRING(_1, "crypt", 0);
+			ZVAL_STRING(_1, "crypt", ZEPHIR_TEMP_PARAM_COPY);
 			ZEPHIR_CALL_METHOD(&_0, dependencyInjector, "getshared", NULL, _1);
 			zephir_check_temp_parameter(_1);
 			zephir_check_call_status();
@@ -399,7 +399,7 @@ PHP_METHOD(Phalcon_Http_Cookie, restore) {
 		zephir_read_property_this(&dependencyInjector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 		if (Z_TYPE_P(dependencyInjector) == IS_OBJECT) {
 			ZEPHIR_INIT_VAR(_1);
-			ZVAL_STRING(_1, "session", 0);
+			ZVAL_STRING(_1, "session", ZEPHIR_TEMP_PARAM_COPY);
 			ZEPHIR_CALL_METHOD(&session, dependencyInjector, "getshared", NULL, _1);
 			zephir_check_temp_parameter(_1);
 			zephir_check_call_status();
@@ -458,7 +458,7 @@ PHP_METHOD(Phalcon_Http_Cookie, delete) {
 	ZEPHIR_CPY_WRT(dependencyInjector, _0);
 	if (Z_TYPE_P(dependencyInjector) != IS_OBJECT) {
 		ZEPHIR_INIT_VAR(_2);
-		ZVAL_STRING(_2, "session", 0);
+		ZVAL_STRING(_2, "session", ZEPHIR_TEMP_PARAM_COPY);
 		ZEPHIR_CALL_METHOD(&_1, dependencyInjector, "getshared", NULL, _2);
 		zephir_check_temp_parameter(_2);
 		zephir_check_call_status();

@@ -19,6 +19,9 @@
 
 namespace Phalcon;
 
+use Phalcon\EscaperInterface;
+use Phalcon\Escaper\Exception;
+
 /**
  * Phalcon\Escaper
  *
@@ -33,7 +36,7 @@ namespace Phalcon;
  *	echo $escaped; // font\2D family\3A \20 \3C Verdana\3E
  *</code>
  */
-class Escaper implements \Phalcon\EscaperInterface
+class Escaper implements EscaperInterface
 {
 
 	protected _encoding = "utf-8";
@@ -125,7 +128,7 @@ class Escaper implements \Phalcon\EscaperInterface
 	/**
 	 * Utility to normalize a string's encoding to UTF-32.
 	 *
-	 * @param string $str
+	 * @param string str
 	 * @return string
 	 */
 	public function normalizeEncoding(str) -> string
@@ -134,7 +137,7 @@ class Escaper implements \Phalcon\EscaperInterface
 		 * mbstring is required here
 		 */
 		if !function_exists("mb_convert_encoding") {
-			throw new \Phalcon\Escaper\Exception("Extension 'mbstring' is required");
+			throw new Exception("Extension 'mbstring' is required");
 		}
 
 		/**
@@ -147,7 +150,7 @@ class Escaper implements \Phalcon\EscaperInterface
 	/**
 	 * Escapes a HTML string. Internally uses htmlspecialchars
 	 *
-	 * @param string $text
+	 * @param string text
 	 * @return string
 	 */
 	public function escapeHtml(string text) -> string
@@ -158,7 +161,7 @@ class Escaper implements \Phalcon\EscaperInterface
 	/**
 	 * Escapes a HTML attribute string
 	 *
-	 * @param string $attribute
+	 * @param string attribute
 	 * @return string
 	 */
 	public function escapeHtmlAttr(string attribute) -> string
@@ -169,7 +172,7 @@ class Escaper implements \Phalcon\EscaperInterface
 	/**
 	 * Escape CSS strings by replacing non-alphanumeric chars by their hexadecimal escaped representation
 	 *
-	 * @param string $css
+	 * @param string css
 	 * @return string
 	 */
 	public function escapeCss(string css) -> string
@@ -184,7 +187,7 @@ class Escaper implements \Phalcon\EscaperInterface
 	/**
 	 * Escape javascript strings by replacing non-alphanumeric chars by their hexadecimal escaped representation
 	 *
-	 * @param string $js
+	 * @param string js
 	 * @return string
 	 */
 	public function escapeJs(string js) -> string
@@ -199,7 +202,7 @@ class Escaper implements \Phalcon\EscaperInterface
 	/**
 	 * Escapes a URL. Internally uses rawurlencode
 	 *
-	 * @param string $url
+	 * @param string url
 	 * @return string
 	 */
 	public function escapeUrl(string url) -> string

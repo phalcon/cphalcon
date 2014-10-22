@@ -168,7 +168,7 @@ PHP_METHOD(Phalcon_Db_Adapter, __construct) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
 	zend_class_entry *_2;
-	zval *descriptor_param = NULL, *dialectClass, *connectionId, *_0, *_1;
+	zval *descriptor_param = NULL, *dialectClass = NULL, *connectionId, *_0, *_1;
 	zval *descriptor = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -188,7 +188,7 @@ PHP_METHOD(Phalcon_Db_Adapter, __construct) {
 	zephir_update_property_this(this_ptr, SL("_connectionId"), connectionId TSRMLS_CC);
 	ZEPHIR_INIT_ZVAL_NREF(_0);
 	ZVAL_LONG(_0, (zephir_get_numberval(connectionId) + 1));
-	zephir_update_static_property_ce(phalcon_db_adapter_ce, SL("_connectionConsecutive"), _0 TSRMLS_CC);
+	zephir_update_static_property_ce(phalcon_db_adapter_ce, SL("_connectionConsecutive"), &_0 TSRMLS_CC);
 	ZEPHIR_OBS_VAR(dialectClass);
 	if (!(zephir_array_isset_string_fetch(&dialectClass, descriptor, SS("dialectClass"), 0 TSRMLS_CC))) {
 		_0 = zephir_fetch_nproperty_this(this_ptr, SL("_dialectType"), PH_NOISY_CC);
@@ -2560,7 +2560,7 @@ PHP_METHOD(Phalcon_Db_Adapter, getDefaultIdValue) {
 
 	object_init_ex(return_value, phalcon_db_rawvalue_ce);
 	ZEPHIR_INIT_VAR(_0);
-	ZVAL_STRING(_0, "null", 0);
+	ZVAL_STRING(_0, "null", ZEPHIR_TEMP_PARAM_COPY);
 	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, _0);
 	zephir_check_temp_parameter(_0);
 	zephir_check_call_status();

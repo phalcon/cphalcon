@@ -24,148 +24,120 @@ namespace PhalconTest\Assets;
 
 use Phalcon\Assets\Collection as PhCollection;
 
-class Collection implements \Countable, \Iterator
+class Collection extends PhCollection
 {
-    private $collection = null;
-
-    public function __construct()
-    {
-        $this->collection = new PhCollection();
-    }
-
-    public function __desctruct()
-    {
-        unset($this->collection);
-    }
-
 	public function add($resource)
 	{
-        $this->collection->add($resource);
-		return $this;
+        return parent::add($resource);
 	}
 
 	public function addInline($code)
 	{
-        $this->collection->addInline($code);
-		return $this;
+        return parent::addInline($code);
 	}
 
 	public function addCss($path, $local = null, $filter = false, $attributes = null)
 	{
-        $this->collection->addCss($path, $local, $filter, $attributes);
-		return $this;
+        return parent::addCss($path, $local, $filter, $attributes);
 	}
 
 	public function addInlineCss($content, $filter = false, $attributes = null)
 	{
-        $this->collection->addInlineCss($content, $filter, $attributes);
-		return $this;
+        return parent::addInlineCss($content, $filter, $attributes);
 	}
 
 	public function addJs($path, $local = null, $filter = false, $attributes = null)
 	{
-        $this->collection->addJs($path, $local, $filter, $attributes);
-		return $this;
+        return parent::addJs($path, $local, $filter, $attributes);
 	}
 
 	public function addInlineJs($content, $filter = false, $attributes = null)
 	{
-        $this->collection->addInlineJs($content, $filter, $attributes);
-		return $this;
+        return parent::addInlineJs($content, $filter, $attributes);
 	}
 
 	public function count()
 	{
-        return $this->collection->count();
+        return parent::count();
 	}
 
 	public function rewind()
 	{
-        $this->collection->rewind();
+        parent::rewind();
 	}
 
 	public function current()
 	{
-        return $this->collection->current();
+        return parent::current();
 	}
 
 	public function key()
 	{
-        return $this->collection->key();
+        return parent::key();
 	}
 
 	public function next()
 	{
-        $this->collection->next();
+        parent::next();
 	}
 
 	public function valid()
 	{
-        return $this->collection->valid();
+        return parent::valid();
 	}
 
 	public function setTargetPath($targetPath)
 	{
-        $this->collection->setTargetPath($targetPath);
-		return $this;
+        return parent::setTargetPath($targetPath);
 	}
 
 	public function setSourcePath($sourcePath)
 	{
-        $this->collection->setSourcePath($sourcePath);
-		return $this;
+        return parent::setSourcePath($sourcePath);
 	}
 
 	public function setTargetUri($targetUri)
 	{
-        $this->collection->setTargetUri($targetUri);
-		return $this;
+        return parent::setTargetUri($targetUri);
 	}
 
 	public function setPrefix($prefix)
 	{
-        $this->collection->setPrefix($prefix);
-		return $this;
+        return parent::setPrefix($prefix);
 	}
 
 	public function setLocal($local)
 	{
-        $this->collection->setLocal($local);
-		return $this;
+        return parent::setLocal($local);
 	}
 
 	public function setAttributes($attributes)
 	{
-        $this->collection->setAttributes($attributes);
-		return $this;
+        return parent::setAttributes($attributes);
 	}
 
 	public function setFilters($filters)
 	{
-        $this->collection->setFilter($filters);
-		return $this;
+        return parent::setFilter($filters);
 	}
 
 	public function setTargetLocal($targetLocal)
 	{
-        $this->collection->setTargetLocal($targetLocal);
-		return $this;
+        return parent::setTargetLocal($targetLocal);
 	}
 
 	public function join($join)
 	{
-        $this->collection->join($join);
-		return $this;
+        return parent::join($join);
 	}
 
 	public function getRealTargetPath($basePath)
 	{
-        return $this->collection->getRealTargetPath($basePath);
+        return parent::getRealTargetPath($basePath);
 	}
 
 	public function addFilter($filter)
 	{
-        $this->collection->addFilter($filter);
-		return $this;
+        return parent::addFilter($filter);
 	}
 }

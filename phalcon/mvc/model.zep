@@ -288,7 +288,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 * @param Phalcon\Mvc\Model\TransactionInterface $transaction
 	 * @return Phalcon\Mvc\Model
 	 */
-	public function setTransaction(<TransactionInterface> transaction) -> <\Phalcon\Mvc\Model>
+	public function setTransaction(<TransactionInterface> transaction) -> <Model>
 	{
 		if typeof transaction == "object" {
 			let this->_transaction = transaction;
@@ -303,7 +303,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 * @param string source
 	 * @return Phalcon\Mvc\Model
 	 */
-	protected function setSource(string! source) -> <\Phalcon\Mvc\Model>
+	protected function setSource(string! source) -> <Model>
 	{
 		(<ManagerInterface> this->_modelsManager)->setModelSource(this, source);
 		return this;
@@ -325,7 +325,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 * @param string schema
 	 * @return Phalcon\Mvc\Model
 	 */
-	protected function setSchema(string! schema) -> <\Phalcon\Mvc\Model>
+	protected function setSchema(string! schema) -> <Model>
 	{
 		return (<ManagerInterface> this->_modelsManager)->setModelSchema(this, schema);
 	}
@@ -504,7 +504,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 * @param boolean keepSnapshots
 	 * @return Phalcon\Mvc\Model
 	 */
-	public static function cloneResultMap(var base, array! data, var columnMap, int dirtyState=0, boolean keepSnapshots = null) -> <Model>
+	public static function cloneResultMap(var base, array! data, var columnMap, int dirtyState = 0, boolean keepSnapshots = null) -> <Model>
 	{
 		var instance, attribute, key, value;
 
@@ -629,7 +629,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 * @param int dirtyState
 	 * @return Phalcon\Mvc\ModelInterface
 	 */
-	public static function cloneResult(<ModelInterface> base, var data, int dirtyState=0)
+	public static function cloneResult(<ModelInterface> base, var data, int dirtyState = 0)
 	{
 		var instance, key, value;
 
@@ -1277,7 +1277,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 * @param Phalcon\Mvc\Model\MessageInterface message
 	 * @return Phalcon\Mvc\Model
 	 */
-	public function appendMessage(<MessageInterface> message) -> <\Phalcon\Mvc\Model>
+	public function appendMessage(<MessageInterface> message) -> <Model>
 	{
 		let this->_errorMessages[] = message;
 		return this;
@@ -1745,7 +1745,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 							/**
 							 * Create a message
 							 */
-							this->appendMessage(new \Phalcon\Mvc\Model\Message(message, fields, "ConstraintViolation"));
+							this->appendMessage(new Message(message, fields, "ConstraintViolation"));
 							let error = true;
 							break;
 						}
@@ -4172,7 +4172,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 		if method_exists(this, method) {
 			return this->{method}();
 		}
-	
+
 		let modelName = get_class(this),
 			manager = this->getModelsManager(),
 			lowerProperty = strtolower(property);

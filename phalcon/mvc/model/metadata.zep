@@ -180,7 +180,8 @@ abstract class MetaData implements InjectionAwareInterface
 		 * Get the meta-data
 		 * Update the column map locally
 		 */
-		let modelColumnMap = strategy->getColumnMaps(model, dependencyInjector), this->_columnMap[keyName] = modelColumnMap;
+		let modelColumnMap = strategy->getColumnMaps(model, dependencyInjector),
+			this->_columnMap[keyName] = modelColumnMap;
 
 		/**
 		 * Write the data to the adapter
@@ -341,6 +342,10 @@ abstract class MetaData implements InjectionAwareInterface
 	{
 		var keyName, data;
 
+		if !globals_get("orm.column_renaming") {
+			return null;
+		}
+
 		let keyName = get_class_lower(model);
 		if !fetch data, this->_columnMap[keyName] {
 			this->_initialize(model, null, null, null);
@@ -362,7 +367,11 @@ abstract class MetaData implements InjectionAwareInterface
 	 */
 	public final function readColumnMapIndex(<ModelInterface> model, int index)
 	{
-		var keyName, columnMapModel;
+		var keyName, columnMapModel, map;
+
+		if !globals_get("orm.column_renaming") {
+			return null;
+		}
 
 		let keyName = get_class_lower(model);
 
@@ -371,7 +380,9 @@ abstract class MetaData implements InjectionAwareInterface
 			let columnMapModel = this->_columnMap[keyName];
 		}
 
-		return columnMapModel[index];
+		fetch map, columnMapModel[index];
+
+		return map;
 	}
 
 	/**

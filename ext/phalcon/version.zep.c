@@ -103,7 +103,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Version) {
  */
 PHP_METHOD(Phalcon_Version, _getVersion) {
 
-	zval *_0;
+	zval *_0 = NULL;
 
 	ZEPHIR_MM_GROW();
 
@@ -281,11 +281,11 @@ PHP_METHOD(Phalcon_Version, getPart) {
 	do {
 		if (part == 0 || part == 1 || part == 2 || part == 4) {
 			ZEPHIR_OBS_VAR(result);
-			zephir_array_fetch_long(&result, version, part, PH_NOISY, "phalcon/version.zep", 189 TSRMLS_CC);
+			zephir_array_fetch_long(&result, version, part, PH_NOISY, "phalcon/version.zep", 190 TSRMLS_CC);
 			break;
 		}
 		if (part == 3) {
-			zephir_array_fetch_long(&_1, version, 3, PH_NOISY | PH_READONLY, "phalcon/version.zep", 192 TSRMLS_CC);
+			zephir_array_fetch_long(&_1, version, 3, PH_NOISY | PH_READONLY, "phalcon/version.zep", 194 TSRMLS_CC);
 			ZEPHIR_CALL_SELF(&result, "_getspecial", &_0, _1);
 			zephir_check_call_status();
 			break;

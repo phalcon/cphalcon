@@ -146,6 +146,9 @@ class Filter implements FilterInterface
 				 */
 				return filter_var(value, FILTER_SANITIZE_NUMBER_INT);
 
+			case "int!":
+				return intval(value);
+
 			case "string":
 				return filter_var(value, FILTER_SANITIZE_STRING);
 
@@ -155,8 +158,11 @@ class Filter implements FilterInterface
 				 */
 				return filter_var(value, FILTER_SANITIZE_NUMBER_FLOAT, ["flags": FILTER_FLAG_ALLOW_FRACTION]);
 
+			case "float!":
+				return doubleval(value);
+
 			case "alphanum":
-				return phalcon_filter_alphanum(value);
+				return preg_replace("/[^A-Za-z0-9]/", "", value);
 
 			case "trim":
 				return trim(value);
@@ -196,5 +202,4 @@ class Filter implements FilterInterface
 	{
 		return this->_filters;
 	}
-
 }

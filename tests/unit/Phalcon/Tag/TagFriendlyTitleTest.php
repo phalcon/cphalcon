@@ -22,8 +22,8 @@
 
 namespace Phalcon\Tests\unit\Phalcon\Tag;
 
-use Phalcon\Tag as PhTag;
-use Phalcon\Tag\Exception as PhTagException;
+use \Phalcon\Tag\Exception as PhTagException;
+use \PhalconTest\Tag as PhTTag;
 
 class TagFriendlyTitleTest extends Helper\TagBase
 {
@@ -39,9 +39,10 @@ class TagFriendlyTitleTest extends Helper\TagBase
             "friendlyTitle with string parameter and no separator returns incorrect text",
             function () {
 
+                PhTTag::resetInput();
                 $options  = 'This is a Test';
                 $expected = 'this-is-a-test';
-                $actual   = PhTag::friendlyTitle($options);
+                $actual   = PhTTag::friendlyTitle($options);
 
                 expect($actual)->equals($expected);
             }
@@ -60,9 +61,10 @@ class TagFriendlyTitleTest extends Helper\TagBase
             "friendlyTitle with string parameter and a separator returns incorrect text",
             function () {
 
+                PhTTag::resetInput();
                 $options  = 'This is a Test';
                 $expected = 'this_is_a_test';
-                $actual   = PhTag::friendlyTitle($options, '_');
+                $actual   = PhTTag::friendlyTitle($options, '_');
 
                 expect($actual)->equals($expected);
             }
@@ -81,9 +83,10 @@ class TagFriendlyTitleTest extends Helper\TagBase
             "friendlyTitle with string parameter lowercase returns incorrect text",
             function () {
 
+                PhTTag::resetInput();
                 $options  = 'This is a Test';
                 $expected = 'this_is_a_test';
-                $actual   = PhTag::friendlyTitle($options, '_', true);
+                $actual   = PhTTag::friendlyTitle($options, '_', true);
 
                 expect($actual)->equals($expected);
             }
@@ -102,9 +105,10 @@ class TagFriendlyTitleTest extends Helper\TagBase
             "friendlyTitle with string parameter uppercase returns incorrect text",
             function () {
 
+                PhTTag::resetInput();
                 $options  = 'This is a Test';
                 $expected = 'This_is_a_Test';
-                $actual   = PhTag::friendlyTitle($options, '_', false);
+                $actual   = PhTTag::friendlyTitle($options, '_', false);
 
                 expect($actual)->equals($expected);
             }
@@ -123,9 +127,10 @@ class TagFriendlyTitleTest extends Helper\TagBase
             "friendlyTitle with string parameter with replace returns incorrect text",
             function () {
 
+                PhTTag::resetInput();
                 $options  = 'This is a Test';
                 $expected = 'th_s_s_a_test';
-                $actual   = PhTag::friendlyTitle($options, '_', true, 'i');
+                $actual   = PhTTag::friendlyTitle($options, '_', true, 'i');
 
                 expect($actual)->equals($expected);
             }
@@ -144,9 +149,10 @@ class TagFriendlyTitleTest extends Helper\TagBase
             "friendlyTitle with string parameter with replace array returns incorrect text",
             function () {
 
+                PhTTag::resetInput();
                 $options  = 'This is a Test';
                 $expected = 't_s_s_a_test';
-                $actual   = PhTag::friendlyTitle(
+                $actual   = PhTTag::friendlyTitle(
                     $options,
                     '_',
                     true,
@@ -170,11 +176,12 @@ class TagFriendlyTitleTest extends Helper\TagBase
             "friendlyTitle with special characters and escaping returns incorrect text",
             function () {
 
+                PhTTag::resetInput();
                 $options  = "Mess'd up --text-- just (to) stress /test/ ?our! "
                           . "`little` \\clean\\ url fun.ction!?-->";
                 $expected = 'messd-up-text-just-to-stress-test-our-little-'
                           . 'clean-url-function';
-                $actual   = PhTag::friendlyTitle($options);
+                $actual   = PhTTag::friendlyTitle($options);
 
                 expect($actual)->equals($expected);
             }
@@ -193,9 +200,10 @@ class TagFriendlyTitleTest extends Helper\TagBase
             "friendlyTitle with accented characters and replace string returns incorrect text",
             function () {
 
+                PhTTag::resetInput();
                 $options  = "Perché l'erba è verde?";
                 $expected = 'perche-l-erba-e-verde';
-                $actual   = PhTag::friendlyTitle($options, "-", true, "'");
+                $actual   = PhTTag::friendlyTitle($options, "-", true, "'");
 
                 expect($actual)->equals($expected);
             }
@@ -214,9 +222,10 @@ class TagFriendlyTitleTest extends Helper\TagBase
             "friendlyTitle with accented characters and replace array returns incorrect text",
             function () {
 
+                PhTTag::resetInput();
                 $options  = "Perché l'erba è verde?";
                 $expected = 'P_rch_l_rb_v_rd';
-                $actual   = PhTag::friendlyTitle(
+                $actual   = PhTTag::friendlyTitle(
                     $options,
                     "_",
                     false,
@@ -240,9 +249,10 @@ class TagFriendlyTitleTest extends Helper\TagBase
             "friendlyTitle with string parameter with replace array returns incorrect text",
             function () {
 
+                PhTTag::resetInput();
                 $options  = 'This is a Test';
                 $expected = 't_s_s_a_test';
-                $actual   = PhTag::friendlyTitle($options, '_', true, true);
+                $actual   = PhTTag::friendlyTitle($options, '_', true, true);
 
                 expect($actual)->equals($expected);
             },

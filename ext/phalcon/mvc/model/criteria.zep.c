@@ -1438,7 +1438,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, fromInput) {
 	array_init(conditions);
 	if (zephir_fast_count_int(data TSRMLS_CC)) {
 		ZEPHIR_INIT_VAR(_0);
-		ZVAL_STRING(_0, "modelsMetadata", 0);
+		ZVAL_STRING(_0, "modelsMetadata", ZEPHIR_TEMP_PARAM_COPY);
 		ZEPHIR_CALL_METHOD(&metaData, dependencyInjector, "getshared", NULL, _0);
 		zephir_check_temp_parameter(_0);
 		zephir_check_call_status();

@@ -203,7 +203,6 @@ void zephir_concat_self_char(zval **left, unsigned char right TSRMLS_DC) {
 
 	zval left_copy;
 	int use_copy = 0;
-	char *tmp;
 
 	if (Z_TYPE_PP(left) == IS_NULL) {
 		Z_STRVAL_PP(left) = emalloc(2);
@@ -240,6 +239,7 @@ void zephir_concat_self_char(zval **left, unsigned char right TSRMLS_DC) {
 int zephir_compare_strict_string(zval *op1, const char *op2, int op2_length) {
 
 	switch (Z_TYPE_P(op1)) {
+
 		case IS_STRING:
 			if (!Z_STRLEN_P(op1) && !op2_length) {
 				return 1;
@@ -248,8 +248,10 @@ int zephir_compare_strict_string(zval *op1, const char *op2, int op2_length) {
 				return 0;
 			}
 			return !zend_binary_strcmp(Z_STRVAL_P(op1), Z_STRLEN_P(op1), op2, op2_length);
+
 		case IS_NULL:
 			return !zend_binary_strcmp("", 0, op2, op2_length);
+
 		case IS_BOOL:
 			if (!Z_BVAL_P(op1)) {
 				return !zend_binary_strcmp("0", strlen("0"), op2, op2_length);

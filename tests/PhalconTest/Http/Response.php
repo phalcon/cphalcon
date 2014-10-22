@@ -23,156 +23,127 @@
 namespace PhalconTest\Http;
 
 use Phalcon\Http\Response as PhResponse;
+use \Phalcon\DiInterface as PhDIInterface;
 
-class Response
+class Response extends PhResponse
 {
-    private $response = null;
-    
-    public function __construct($content = null, $code = null, $status = null)
-    {
-        $this->response = new PhResponse($content, $code, $status);
-    }
-
-    public function __desctruct()
-    {
-        unset($this->response);
-    }
-
-    public function setDI($di)
+    public function setDI(PhDIInterface $di)
 	{
-		$this->response->setDI($di);
+		parent::setDI($di);
 	}
 
     public function getDI()
 	{
-        return $this->response->getDI();
+        return parent::getDI();
 	}
 
 	public function setStatusCode($code, $message)
 	{
-        $this->response->setStatusCode($code, $message);
-        return $this;
+        return parent::setStatusCode($code, $message);
 	}
 
 	public function setHeaders($headers)
 	{
-        $this->response->setHeaders($headers);
-        return $this;
+        return parent::setHeaders($headers);
 	}
 
 	public function getHeaders()
 	{
-        return $this->response->getHeaders();
+        return parent::getHeaders();
 	}
 
 	public function setCookies($cookies)
 	{
-        $this->response->setCookies($cookies);
-        return $this;
+        return parent::setCookies($cookies);
 	}
 
 	public function getCookies()
 	{
-        return $this->response->getCookies();
+        return parent::getCookies();
 	}
 
 	public function setHeader($name, $value)
 	{
-        $this->response->setHeader($name, $value);
-        return $this;
+        return parent::setHeader($name, $value);
 	}
 
 	public function setRawHeader($header)
 	{
-        $this->response->setRawHeader($header);
-        return $this;
+        return parent::setRawHeader($header);
 	}
 
 	public function resetHeaders()
 	{
-        $this->response->resetHeaders();
-        return $this;
+        return parent::resetHeaders();
 	}
 
-	public function setExpires($datetime)
+	public function setExpires(\Datetime $datetime)
 	{
-        $this->response->setExpires($datetime);
-        return $this;
+        return parent::setExpires($datetime);
 	}
 
 	public function setNotModified()
 	{
-        $this->response->setNotModified();
-        return $this;
+        return parent::setNotModified();
 	}
 
 	public function setContentType($contentType, $charset = null)
 	{
-        $this->response->setContentType($contentType, $charset);
-        return $this;
+        return parent::setContentType($contentType, $charset);
 	}
 
 	public function setEtag($etag)
 	{
-        $this->response->setEtag($etag);
-		return $this;
+        return parent::setEtag($etag);
 	}
 
 	public function redirect($location = null, $externalRedirect = false, $statusCode = 302)
 	{
-        $this->response->redirect($location, $externalRedirect, $statusCode);
-		return $this;
+        return parent::redirect($location, $externalRedirect, $statusCode);
 	}
 
 	public function setContent($content)
 	{
-        $this->response->setContent($content);
-		return $this;
+        return parent::setContent($content);
 	}
 
 	public function setJsonContent($content, $jsonOptions = 0)
 	{
-        $this->response->setJsonContent($content, $jsonOptions);
-		return $this;
+        return parent::setJsonContent($content, $jsonOptions);
 	}
 
 	public function appendContent($content)
 	{
-        $this->response->appendContent($content);
-		return $this;
+        return parent::appendContent($content);
 	}
 
 	public function getContent()
 	{
-        return $this->response->getContent();
+        return parent::getContent();
 	}
 
 	public function isSent()
 	{
-        return $this->response->isSent();
+        return parent::isSent();
 	}
 
 	public function sendHeaders()
 	{
-        $this->response->sendHeaders();
-		return $this;
+        return parent::sendHeaders();
 	}
 
 	public function sendCookies()
 	{
-        $this->response->sendCookies();
-		return $this;
+        return parent::sendCookies();
 	}
 
 	public function send()
 	{
-        $this->response->send();
-		return $this;
+        return parent::send();
 	}
 
 	public function setFileToSend($filePath, $attachmentName = null, $attachment = true)
 	{
-        $this->response->setFileToSend($filePath, $attachmentName, $attachment);
-		return $this;
+        return parent::setFileToSend($filePath, $attachmentName, $attachment);
 	}
 }

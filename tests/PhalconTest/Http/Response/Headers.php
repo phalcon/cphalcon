@@ -24,57 +24,45 @@ namespace PhalconTest\Http\Response;
 
 use Phalcon\Http\Response\Headers as PhHeaders;
 
-class Headers
+class Headers extends PhHeaders
 {
-    private $headers = null;
-    
-    public function __construct($content = null, $code = null, $status = null)
-    {
-        $this->headers = new PhHeaders($content, $code, $status);
-    }
-
-    public function __desctruct()
-    {
-        unset($this->headers);
-    }
-
     public function set($name, $value)
 	{
-        $this->headers->set($name, $value);
+        parent::set($name, $value);
 	}
 
     public function get($name)
 	{
-        $this->headers->get($name);
+        parent::get($name);
 	}
 
     public function setRaw($header)
 	{
-        $this->headers->setRaw($header);
+        parent::setRaw($header);
 	}
 
     public function remove($header)
 	{
-        $this->headers->remove($header);
+        parent::remove($header);
 	}
 
 	public function send()
     {
-        $this->headers->send();
+        parent::send();
 	}
 
 	public function reset()
     {
-        $this->headers->reset();
+        parent::reset();
 	}
 
 	public function toArray()
     {
-        return $this->headers->toArray();
+        return parent::toArray();
 	}
 
 	public static function __set_state($data)
 	{
-        return PhHeaders::__set_state($data);
+        return parent::__set_state($data);
 	}
 }

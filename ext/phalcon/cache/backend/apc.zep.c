@@ -387,7 +387,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, queryKeys) {
 	object_init_ex(apc, _1);
 	if (zephir_has_constructor(apc TSRMLS_CC)) {
 		ZEPHIR_INIT_VAR(_2);
-		ZVAL_STRING(_2, "user", 0);
+		ZVAL_STRING(_2, "user", ZEPHIR_TEMP_PARAM_COPY);
 		ZEPHIR_CALL_METHOD(NULL, apc, "__construct", NULL, _2, prefixPattern);
 		zephir_check_temp_parameter(_2);
 		zephir_check_call_status();

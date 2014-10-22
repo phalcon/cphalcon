@@ -88,6 +88,9 @@ static zephir_memory_entry* zephir_memory_grow_stack_common(zend_zephir_globals_
 	return g->active_memory;
 }
 
+/**
+ * Restore a memory stack applying GC to all observed variables
+ */
 static void zephir_memory_restore_stack_common(zend_zephir_globals_def *g TSRMLS_DC)
 {
 	size_t i;
@@ -156,7 +159,11 @@ static void zephir_memory_restore_stack_common(zend_zephir_globals_def *g TSRMLS
 			ptr = active_memory->addresses[i];
 			if (EXPECTED(ptr != NULL && *(ptr) != NULL)) {
 				if (Z_REFCOUNT_PP(ptr) == 1) {
-					zval_ptr_dtor(ptr);
+					if (!Z_ISREF_PP(ptr)) {
+						zval_ptr_dtor(ptr);
+					} else {
+						efree(*ptr);
+					}
 				} else {
 					Z_DELREF_PP(ptr);
 				}
@@ -187,12 +194,10 @@ static void zephir_memory_restore_stack_common(zend_zephir_globals_def *g TSRMLS
 		efree(g->active_memory);
 		g->active_memory = prev;
 		prev->next = NULL;
-	}
-	else {
+	} else {
 #ifndef ZEPHIR_RELEASE
 		assert(g->active_memory->permanent == 1);
 #endif
-
 		active_memory->pointer      = 0;
 		active_memory->hash_pointer = 0;
 		g->active_memory = prev;
@@ -215,6 +220,9 @@ static void zephir_memory_restore_stack_common(zend_zephir_globals_def *g TSRMLS
 
 #ifndef ZEPHIR_RELEASE
 
+/**
+ * Dumps a memory frame for debug purposes
+ */
 void zephir_dump_memory_frame(zephir_memory_entry *active_memory TSRMLS_DC)
 {
 	size_t i;
@@ -310,7 +318,9 @@ void ZEND_FASTCALL zephir_memory_grow_stack(const char *func TSRMLS_DC)
 	zephir_memory_entry *entry = zephir_memory_grow_stack_common(ZEPHIR_VGLOBAL);
 	entry->func = func;
 }
+
 #else
+
 /**
  * Adds a memory frame in the current executed method
  */
@@ -327,6 +337,7 @@ int ZEND_FASTCALL zephir_memory_restore_stack(TSRMLS_D)
 	zephir_memory_restore_stack_common(ZEPHIR_VGLOBAL TSRMLS_CC);
 	return SUCCESS;
 }
+
 #endif
 
 ZEPHIR_ATTR_NONNULL static void zephir_reallocate_memory(const zend_zephir_globals_def *g)
@@ -418,6 +429,35 @@ void ZEND_FASTCALL zephir_memory_alloc(zval **var TSRMLS_DC)
 }
 
 /**
+ * Releases memory for an allocated zval
+ */
+void ZEND_FASTCALL zephir_ptr_dtor(zval **var)
+{
+	if (!Z_ISREF_PP(var)) {
+		zval_ptr_dtor(var);
+	} else {
+		if (Z_REFCOUNT_PP(var) == 0) {
+			efree(*var);
+		} else {
+			Z_DELREF_PP(var);
+			if (Z_REFCOUNT_PP(var) == 0) {
+				efree(*var);
+			}
+		}
+	}
+}
+
+/**
+ * Releases memory for an allocated zval
+ */
+void ZEND_FASTCALL zephir_dtor(zval *var)
+{
+	if (!Z_ISREF_P(var)) {
+		zval_dtor(var);
+	}
+}
+
+/**
  * Observes a variable and allocates memory for it
  * Marks hash key zvals to be nulled before freeing
  */
@@ -470,7 +510,7 @@ int ZEND_FASTCALL zephir_clean_restore_stack(TSRMLS_D) {
 /**
  * Copies a variable only if its refcount is greater than 1
  */
-void ZEND_FASTCALL zephir_copy_ctor(zval *destination, zval *origin) {
+zend_always_inline void ZEND_FASTCALL zephir_copy_ctor(zval *destination, zval *origin) {
 	if (Z_REFCOUNT_P(origin) > 1) {
 		zval_copy_ctor(destination);
 	} else {
@@ -607,7 +647,7 @@ static inline void zephir_dtor_func(zval *zvalue ZEND_FILE_LINE_DC)
 	}
 }
 
-void zephir_value_dtor(zval *zvalue ZEND_FILE_LINE_DC)
+zend_always_inline void zephir_value_dtor(zval *zvalue ZEND_FILE_LINE_DC)
 {
 	if (zvalue->type <= IS_BOOL) {
 		return;

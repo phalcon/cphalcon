@@ -132,7 +132,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, __construct) {
 		zephir_check_call_status();
 	} else {
 		ZEPHIR_INIT_VAR(_0);
-		ZVAL_STRING(_0, "db", 0);
+		ZVAL_STRING(_0, "db", ZEPHIR_TEMP_PARAM_COPY);
 		ZEPHIR_CALL_METHOD(&connection, dependencyInjector, "get", NULL, _0);
 		zephir_check_temp_parameter(_0);
 		zephir_check_call_status();
@@ -308,7 +308,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, getConnection) {
 		zephir_check_call_status();
 		if (zephir_is_true(_1)) {
 			ZEPHIR_INIT_VAR(_3);
-			ZVAL_STRING(_3, "The request was aborted", 0);
+			ZVAL_STRING(_3, "The request was aborted", ZEPHIR_TEMP_PARAM_COPY);
 			ZEPHIR_CALL_METHOD(NULL, this_ptr, "rollback", NULL, _3);
 			zephir_check_temp_parameter(_3);
 			zephir_check_call_status();

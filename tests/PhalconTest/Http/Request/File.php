@@ -22,54 +22,42 @@
 
 namespace PhalconTest\Http\Request;
 
-use Phalcon\Http\Request\File as PhFile;
+use \Phalcon\Http\Request\File as PhFile;
 
-class File
+class File extends PhFile
 {
-    private $file = null;
-    
-    public function __construct($file, $key = null)
-    {
-        $this->file = new PhFile($file, $key);
-    }
-
-    public function __desctruct()
-    {
-        unset($this->file);
-    }
-
 	public function getSize()
 	{
-        return $this->file->getSize();
+        return parent::getSize();
 	}
 
 	public function getName()
 	{
-        return $this->file->getName();
+        return parent::getName();
 	}
 
 	public function getTempName()
 	{
-        return $this->file->getTempName();
+        return parent::getTempName();
 	}
 
 	public function getType()
 	{
-        return $this->file->getType();
+        return parent::getType();
 	}
 
 	public function getRealType()
 	{
-        return $this->file->getRealType();
+        return parent::getRealType();
 	}
 
 	public function isUploadedFile()
 	{
-        return $this->file->isUploadedFile();
+        return parent::isUploadedFile();
 	}
 
 	public function moveTo($destination)
 	{
-        return $this->file->moveTo($destination);
+        return parent::moveTo($destination);
 	}
 }

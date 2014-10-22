@@ -103,7 +103,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate) {
 	ZEPHIR_CALL_METHOD(&dependencyInjector, record, "getdi",  NULL);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(_0);
-	ZVAL_STRING(_0, "modelsMetadata", 0);
+	ZVAL_STRING(_0, "modelsMetadata", ZEPHIR_TEMP_PARAM_COPY);
 	ZEPHIR_CALL_METHOD(&metaData, dependencyInjector, "getshared", NULL, _0);
 	zephir_check_temp_parameter(_0);
 	zephir_check_call_status();
@@ -124,7 +124,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate) {
 	array_init(bindParams);
 	number = 0;
 	ZEPHIR_INIT_BNVAR(_0);
-	ZVAL_STRING(_0, "field", 0);
+	ZVAL_STRING(_0, "field", ZEPHIR_TEMP_PARAM_COPY);
 	ZEPHIR_CALL_METHOD(&field, this_ptr, "getoption", NULL, _0);
 	zephir_check_temp_parameter(_0);
 	zephir_check_call_status();
@@ -285,7 +285,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate) {
 	zephir_check_call_status();
 	if (!ZEPHIR_IS_LONG(_8, 0)) {
 		ZEPHIR_INIT_VAR(_19);
-		ZVAL_STRING(_19, "message", 0);
+		ZVAL_STRING(_19, "message", ZEPHIR_TEMP_PARAM_COPY);
 		ZEPHIR_CALL_METHOD(&message, this_ptr, "getoption", NULL, _19);
 		zephir_check_temp_parameter(_19);
 		zephir_check_call_status();
@@ -308,7 +308,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate) {
 		ZEPHIR_CALL_FUNCTION(&_8, "strtr", &_20, message, replacePairs);
 		zephir_check_call_status();
 		ZEPHIR_INIT_NVAR(_19);
-		ZVAL_STRING(_19, "Unique", 0);
+		ZVAL_STRING(_19, "Unique", ZEPHIR_TEMP_PARAM_COPY);
 		ZEPHIR_CALL_METHOD(NULL, this_ptr, "appendmessage", NULL, _8, field, _19);
 		zephir_check_temp_parameter(_19);
 		zephir_check_call_status();

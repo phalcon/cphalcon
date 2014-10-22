@@ -90,7 +90,7 @@ class Di implements DiInterface
 	 * @param boolean shared
 	 * @return Phalcon\Di\ServiceInterface
 	 */
-	public function set(string! name, definition, shared = false) -> <ServiceInterface>
+	public function set(string! name, definition, boolean shared = false) -> <ServiceInterface>
 	{
 		var service;
 		let service = new Service(name, definition, shared),
@@ -105,7 +105,7 @@ class Di implements DiInterface
 	 * @param mixed definition
 	 * @return Phalcon\Di\ServiceInterface
 	 */
-	public function setShared(string! name, definition) -> <ServiceInterface>
+	public function setShared(string! name, var definition) -> <ServiceInterface>
 	{
 		var service;
 		let service = new Service(name, definition, true),

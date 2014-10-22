@@ -80,7 +80,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getMetaData) {
 		return;
 	}
 	ZEPHIR_INIT_VAR(_0);
-	ZVAL_STRING(_0, "annotations", 0);
+	ZVAL_STRING(_0, "annotations", ZEPHIR_TEMP_PARAM_COPY);
 	ZEPHIR_CALL_METHOD(&annotations, dependencyInjector, "get", NULL, _0);
 	zephir_check_temp_parameter(_0);
 	zephir_check_call_status();
@@ -138,7 +138,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getMetaData) {
 		ZEPHIR_GET_HMKEY(property, _4, _3);
 		ZEPHIR_GET_HVALUE(propAnnotations, _5);
 		ZEPHIR_INIT_NVAR(_0);
-		ZVAL_STRING(_0, "Column", 0);
+		ZVAL_STRING(_0, "Column", ZEPHIR_TEMP_PARAM_COPY);
 		ZEPHIR_CALL_METHOD(&_6, propAnnotations, "has", NULL, _0);
 		zephir_check_temp_parameter(_0);
 		zephir_check_call_status();
@@ -146,12 +146,12 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getMetaData) {
 			continue;
 		}
 		ZEPHIR_INIT_NVAR(_0);
-		ZVAL_STRING(_0, "Column", 0);
+		ZVAL_STRING(_0, "Column", ZEPHIR_TEMP_PARAM_COPY);
 		ZEPHIR_CALL_METHOD(&columnAnnotation, propAnnotations, "get", NULL, _0);
 		zephir_check_temp_parameter(_0);
 		zephir_check_call_status();
 		ZEPHIR_INIT_NVAR(_0);
-		ZVAL_STRING(_0, "type", 0);
+		ZVAL_STRING(_0, "type", ZEPHIR_TEMP_PARAM_COPY);
 		ZEPHIR_CALL_METHOD(&feature, columnAnnotation, "getnamedparameter", NULL, _0);
 		zephir_check_temp_parameter(_0);
 		zephir_check_call_status();
@@ -197,7 +197,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getMetaData) {
 			}
 		}
 		ZEPHIR_INIT_NVAR(_7);
-		ZVAL_STRING(_7, "Primary", 0);
+		ZVAL_STRING(_7, "Primary", ZEPHIR_TEMP_PARAM_COPY);
 		ZEPHIR_CALL_METHOD(&_11, propAnnotations, "has", NULL, _7);
 		zephir_check_temp_parameter(_7);
 		zephir_check_call_status();
@@ -207,7 +207,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getMetaData) {
 			zephir_array_append(&nonPrimaryKeys, property, PH_SEPARATE, "phalcon/mvc/model/metadata/strategy/annotations.zep", 127);
 		}
 		ZEPHIR_INIT_NVAR(_7);
-		ZVAL_STRING(_7, "Identity", 0);
+		ZVAL_STRING(_7, "Identity", ZEPHIR_TEMP_PARAM_COPY);
 		ZEPHIR_CALL_METHOD(&_12, propAnnotations, "has", NULL, _7);
 		zephir_check_temp_parameter(_7);
 		zephir_check_call_status();
@@ -215,7 +215,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getMetaData) {
 			ZEPHIR_CPY_WRT(identityField, property);
 		}
 		ZEPHIR_INIT_NVAR(_7);
-		ZVAL_STRING(_7, "nullable", 0);
+		ZVAL_STRING(_7, "nullable", ZEPHIR_TEMP_PARAM_COPY);
 		ZEPHIR_CALL_METHOD(&_13, columnAnnotation, "getnamedparameter", NULL, _7);
 		zephir_check_temp_parameter(_7);
 		zephir_check_call_status();
@@ -245,7 +245,6 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getMetaData) {
  * @param Phalcon\Mvc\ModelInterface model
  * @param Phalcon\DiInterface dependencyInjector
  * @return array
- * @todo Not implemented
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getColumnMaps) {
 
@@ -263,6 +262,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getColumnMaps) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(spl_ce_InvalidArgumentException, "Parameter 'dependencyInjector' must be an instance of 'Phalcon\\\\DiInterface'", "", 0);
 		return;
 	}
+	RETURN_NULL();
 
 }
 

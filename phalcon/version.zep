@@ -182,15 +182,18 @@ class Version
 		let version = self::_getVersion();
 
         switch part {
+
             case self::VERSION_MAJOR:
             case self::VERSION_MEDIUM:
             case self::VERSION_MINOR:
             case self::VERSION_SPECIAL_NUMBER:
                 let result = version[part];
                 break;
+
             case self::VERSION_SPECIAL:
                 let result = self::_getSpecial(version[self::VERSION_SPECIAL]);
                 break;
+
             default:
                 let result = self::get();
                 break;
@@ -198,5 +201,4 @@ class Version
 
         return result;
     }
-
 }

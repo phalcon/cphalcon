@@ -244,7 +244,7 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, set) {
 			return;
 		}
 		ZEPHIR_INIT_NVAR(_1);
-		ZVAL_STRING(_1, "response", 0);
+		ZVAL_STRING(_1, "response", ZEPHIR_TEMP_PARAM_COPY);
 		ZEPHIR_CALL_METHOD(&response, dependencyInjector, "getshared", NULL, _1);
 		zephir_check_temp_parameter(_1);
 		zephir_check_call_status();

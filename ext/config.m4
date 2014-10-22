@@ -328,6 +328,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/validation/validator/file.zep.c
 	phalcon/validation/validator/identical.zep.c
 	phalcon/validation/validator/inclusionin.zep.c
+	phalcon/validation/validator/numericality.zep.c
 	phalcon/validation/validator/presenceof.zep.c
 	phalcon/validation/validator/regex.zep.c
 	phalcon/validation/validator/stringlength.zep.c

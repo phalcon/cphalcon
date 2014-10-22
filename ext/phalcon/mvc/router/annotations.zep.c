@@ -276,7 +276,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, handle) {
 							return;
 						}
 						ZEPHIR_INIT_NVAR(_5);
-						ZVAL_STRING(_5, "annotations", 0);
+						ZVAL_STRING(_5, "annotations", ZEPHIR_TEMP_PARAM_COPY);
 						ZEPHIR_CALL_METHOD(&annotationsService, dependencyInjector, "getshared", NULL, _5);
 						zephir_check_temp_parameter(_5);
 						zephir_check_call_status();
@@ -521,7 +521,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, processActionAnnotation) {
 		ZEPHIR_OBS_VAR(routePrefix);
 		zephir_read_property_this(&routePrefix, this_ptr, SL("_routePrefix"), PH_NOISY_CC);
 		ZEPHIR_INIT_VAR(_3);
-		ZVAL_STRING(_3, "paths", 0);
+		ZVAL_STRING(_3, "paths", ZEPHIR_TEMP_PARAM_COPY);
 		ZEPHIR_CALL_METHOD(&paths, annotation, "getnamedargument", NULL, _3);
 		zephir_check_temp_parameter(_3);
 		zephir_check_call_status();
@@ -556,7 +556,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, processActionAnnotation) {
 		zephir_check_call_status();
 		if (Z_TYPE_P(methods) != IS_NULL) {
 			ZEPHIR_INIT_NVAR(_3);
-			ZVAL_STRING(_3, "methods", 0);
+			ZVAL_STRING(_3, "methods", ZEPHIR_TEMP_PARAM_COPY);
 			ZEPHIR_CALL_METHOD(&methods, annotation, "getnamedargument", NULL, _3);
 			zephir_check_temp_parameter(_3);
 			zephir_check_call_status();
@@ -574,7 +574,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, processActionAnnotation) {
 			zephir_check_call_status();
 		}
 		ZEPHIR_INIT_NVAR(_3);
-		ZVAL_STRING(_3, "converts", 0);
+		ZVAL_STRING(_3, "converts", ZEPHIR_TEMP_PARAM_COPY);
 		ZEPHIR_CALL_METHOD(&converts, annotation, "getnamedargument", NULL, _3);
 		zephir_check_temp_parameter(_3);
 		zephir_check_call_status();
@@ -591,7 +591,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, processActionAnnotation) {
 			}
 		}
 		ZEPHIR_INIT_NVAR(_3);
-		ZVAL_STRING(_3, "conversors", 0);
+		ZVAL_STRING(_3, "conversors", ZEPHIR_TEMP_PARAM_COPY);
 		ZEPHIR_CALL_METHOD(&converts, annotation, "getnamedargument", NULL, _3);
 		zephir_check_temp_parameter(_3);
 		zephir_check_call_status();
@@ -608,7 +608,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, processActionAnnotation) {
 			}
 		}
 		ZEPHIR_INIT_NVAR(_3);
-		ZVAL_STRING(_3, "name", 0);
+		ZVAL_STRING(_3, "name", ZEPHIR_TEMP_PARAM_COPY);
 		ZEPHIR_CALL_METHOD(&routeName, annotation, "getnamedargument", NULL, _3);
 		zephir_check_temp_parameter(_3);
 		zephir_check_call_status();

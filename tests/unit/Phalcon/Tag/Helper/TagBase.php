@@ -23,19 +23,21 @@
 namespace Phalcon\Tests\unit\Phalcon\Tag\Helper;
 
 use Phalcon\Di\FactoryDefault as PhDI;
-use \Phalcon\Tag as PhTag;
+
 use \PhalconTest\Tag as PhTTag;
+
 use \Codeception\TestCase\Test as CdTest;
+use \Codeception\Specify as CdSpecify;
 
 class TagBase extends CdTest
 {
-    use \Codeception\Specify;
+    use CdSpecify;
 
     public function _before()
     {
+        PhDI::reset();
         $di = new PhDI();
-        $di::reset();
-        PhTag::setDI($di);
+        PhTTag::setDI($di);
     }
 
     /**
@@ -49,16 +51,18 @@ class TagBase extends CdTest
      */
     public function fieldParameter($function, $options, $expected, $xhtml, $set = '')
     {
+        PhTTag::resetInput();
+
         if ($xhtml) {
-            PhTTag::setDocType(PhTag::XHTML10_STRICT);
+            PhTTag::setDocType(PhTTag::XHTML10_STRICT);
         } else {
-            PhTTag::setDocType(PhTag::HTML5);
+            PhTTag::setDocType(PhTTag::HTML5);
         }
 
         $expected .= ($xhtml) ? ' />' : '>';
 
         if ($set) {
-            PhTTag::$set('x_name', 'x_value');
+            PhTTag::displayTo('x_name', 'x_value');
         }
         $actual   = PhTTag::$function($options);
         if ($set) {

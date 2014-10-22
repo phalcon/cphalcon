@@ -22,8 +22,6 @@
 
 namespace Phalcon\Tests\unit\Phalcon\Tag;
 
-use Phalcon\Tag as PhTag;
-
 class TagNumericFieldTest extends Helper\TagBase
 {
     /**
@@ -39,8 +37,7 @@ class TagNumericFieldTest extends Helper\TagBase
             function () {
 
                 $options  = 'x_name';
-                $expected = '<input type="number" id="x_name" name="x_name" '
-                          . 'value=""';
+                $expected = '<input type="number" id="x_name" name="x_name"';
 
                 $this->fieldParameter(
                     'numericField',
@@ -56,8 +53,7 @@ class TagNumericFieldTest extends Helper\TagBase
             function () {
 
                 $options  = 'x_name';
-                $expected = '<input type="number" id="x_name" name="x_name" '
-                          . 'value=""';
+                $expected = '<input type="number" id="x_name" name="x_name"';
 
                 $this->fieldParameter(
                     'numericField',
@@ -86,7 +82,7 @@ class TagNumericFieldTest extends Helper\TagBase
                     'class' => 'x_class',
                 ];
                 $expected = '<input type="number" id="x_name" name="x_name" '
-                          . 'value="" class="x_class"';
+                          . 'class="x_class"';
 
                 $this->fieldParameter(
                     'numericField',
@@ -106,7 +102,7 @@ class TagNumericFieldTest extends Helper\TagBase
                     'class' => 'x_class',
                 ];
                 $expected = '<input type="number" id="x_name" name="x_name" '
-                          . 'value="" class="x_class"';
+                          . 'class="x_class"';
 
                 $this->fieldParameter(
                     'numericField',
@@ -137,7 +133,7 @@ class TagNumericFieldTest extends Helper\TagBase
                     'size'  => '10'
                 ];
                 $expected = '<input type="number" id="x_id" name="x_name" '
-                          . 'value="" class="x_class" size="10"';
+                          . 'class="x_class" size="10"';
 
                 $this->fieldParameter(
                     'numericField',
@@ -159,7 +155,7 @@ class TagNumericFieldTest extends Helper\TagBase
                     'size'  => '10'
                 ];
                 $expected = '<input type="number" id="x_id" name="x_name" '
-                          . 'value="" class="x_class" size="10"';
+                          . 'class="x_class" size="10"';
 
                 $this->fieldParameter(
                     'numericField',
@@ -190,7 +186,7 @@ class TagNumericFieldTest extends Helper\TagBase
                     'size'  => '10',
                 ];
                 $expected = '<input type="number" id="x_name" '
-                          . 'name="x_other" value="" class="x_class" size="10"';
+                          . 'name="x_other" class="x_class" size="10"';
 
                 $this->fieldParameter(
                     'numericField',
@@ -212,7 +208,7 @@ class TagNumericFieldTest extends Helper\TagBase
                     'size'  => '10',
                 ];
                 $expected = '<input type="number" id="x_name" '
-                          . 'name="x_other" value="" class="x_class" size="10"';
+                          . 'name="x_other" class="x_class" size="10"';
 
                 $this->fieldParameter(
                     'numericField',

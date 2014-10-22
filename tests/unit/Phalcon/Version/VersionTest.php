@@ -20,7 +20,6 @@
  * so that we can send you a copy immediately.
  */
 
-use \Phalcon\Version as PhVersion;
 use \PhalconTest\Version as PhTVersion;
 use \Codeception\TestCase\Test as CdTest;
 
@@ -34,7 +33,7 @@ class VersionTest extends CdTest
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-04
      */
-    public function testGet()
+    public function testVersionGet()
     {
         $this->specify(
             "get() does not return a string",
@@ -53,7 +52,7 @@ class VersionTest extends CdTest
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-04
      */
-    public function testGetId()
+    public function testVersionGetId()
     {
         $this->specify(
             "getId() does not return a string",
@@ -72,7 +71,7 @@ class VersionTest extends CdTest
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-04
      */
-    public function testGetToGetId()
+    public function testVersionGetToGetId()
     {
         $this->specify(
             "get() to getId() does not produce the same result",
@@ -111,7 +110,7 @@ class VersionTest extends CdTest
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-04
      */
-    public function testGetIdToGet()
+    public function testVersionGetIdToGet()
     {
         $this->specify(
             "getId() to get() does not produce the same result",
@@ -138,40 +137,40 @@ class VersionTest extends CdTest
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-04
      */
-    public function testConstants()
+    public function testVersionConstants()
     {
         $this->specify(
             "VERSION_MAJOR does not return 0",
             function () {
-                expect(PhVersion::VERSION_MAJOR)->equals(0);
+                expect(PhTVersion::VERSION_MAJOR)->equals(0);
             }
         );
 
         $this->specify(
             "VERSION_MEDIUM does not return 1",
             function () {
-                expect(PhVersion::VERSION_MEDIUM)->equals(1);
+                expect(PhTVersion::VERSION_MEDIUM)->equals(1);
             }
         );
 
         $this->specify(
             "VERSION_MINOR does not return 2",
             function () {
-                expect(PhVersion::VERSION_MINOR)->equals(2);
+                expect(PhTVersion::VERSION_MINOR)->equals(2);
             }
         );
 
         $this->specify(
             "VERSION_SPECIAL does not return 3",
             function () {
-                expect(PhVersion::VERSION_SPECIAL)->equals(3);
+                expect(PhTVersion::VERSION_SPECIAL)->equals(3);
             }
         );
 
         $this->specify(
             "VERSION_SPECIAL_NUMBER does not return 4",
             function () {
-                expect(PhVersion::VERSION_SPECIAL_NUMBER)->equals(4);
+                expect(PhTVersion::VERSION_SPECIAL_NUMBER)->equals(4);
             }
         );
     }
@@ -182,14 +181,14 @@ class VersionTest extends CdTest
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-04
      */
-    public function testGetPart()
+    public function testVersionGetPart()
     {
         $this->specify(
             "getPart(VERSION_MAJOR) does not return the correct result",
             function () {
                 $id       = PhTVersion::getId();
-                $expected = intval($id[PhVersion::VERSION_MAJOR]);
-                $actual   = PhTVersion::getPart(PhVersion::VERSION_MAJOR);
+                $expected = intval($id[PhTVersion::VERSION_MAJOR]);
+                $actual   = PhTVersion::getPart(PhTVersion::VERSION_MAJOR);
 
                 expect($actual)->equals($expected);
             }
@@ -199,8 +198,8 @@ class VersionTest extends CdTest
             "getPart(VERSION_MEDIUM) does not return the correct result",
             function () {
                 $id       = PhTVersion::getId();
-                $expected = intval($id[PhVersion::VERSION_MEDIUM]);
-                $actual   = PhTVersion::getPart(PhVersion::VERSION_MEDIUM);
+                $expected = intval($id[PhTVersion::VERSION_MEDIUM]);
+                $actual   = PhTVersion::getPart(PhTVersion::VERSION_MEDIUM);
 
                 expect($actual)->equals($expected);
             }
@@ -210,8 +209,8 @@ class VersionTest extends CdTest
             "getPart(VERSION_MINOR) does not return the correct result",
             function () {
                 $id       = PhTVersion::getId();
-                $expected = intval($id[PhVersion::VERSION_MINOR]);
-                $actual   = PhTVersion::getPart(PhVersion::VERSION_MINOR);
+                $expected = intval($id[PhTVersion::VERSION_MINOR]);
+                $actual   = PhTVersion::getPart(PhTVersion::VERSION_MINOR);
 
                 expect($actual)->equals($expected);
             }
@@ -222,7 +221,7 @@ class VersionTest extends CdTest
             function () {
                 $id       = PhTVersion::getId();
                 $expected = $this->_numberToSpecial($id[5]);
-                $actual   = PhTVersion::getPart(PhVersion::VERSION_SPECIAL);
+                $actual   = PhTVersion::getPart(PhTVersion::VERSION_SPECIAL);
 
                 expect($actual)->equals($expected);
             }
@@ -234,7 +233,7 @@ class VersionTest extends CdTest
                 $id       = PhTVersion::getId();
                 $special  = $this->_numberToSpecial($id[5]);
                 $expected = ($special) ? $id[6] : '';
-                $actual   = PhTVersion::getPart(PhVersion::VERSION_SPECIAL_NUMBER);
+                $actual   = PhTVersion::getPart(PhTVersion::VERSION_SPECIAL_NUMBER);
 
                 expect($actual)->equals($expected);
             }

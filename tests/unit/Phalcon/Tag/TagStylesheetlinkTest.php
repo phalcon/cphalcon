@@ -22,7 +22,7 @@
 
 namespace Phalcon\Tests\unit\Phalcon\Tag;
 
-use Phalcon\Tag as PhTag;
+use \PhalconTest\Tag as PhTTag;
 
 class TagStylesheetLinkTest extends Helper\TagBase
 {
@@ -40,13 +40,14 @@ class TagStylesheetLinkTest extends Helper\TagBase
             "stylesheetLink with string parameter local returns invalid HTML Strict",
             function () {
 
+                PhTTag::resetInput();
                 $options  = 'css/phalcon.css';
                 $expected = '<link rel="stylesheet" type="text/css" '
                           . 'href="/css/phalcon.css" />'
                           . PHP_EOL;
 
-                PhTag::setDocType(PhTag::XHTML10_STRICT);
-                $actual   = PhTag::stylesheetLink($options);
+                PhTTag::setDocType(PhTTag::XHTML10_STRICT);
+                $actual   = PhTTag::stylesheetLink($options);
 
                 expect($actual)->equals($expected);
             }
@@ -56,13 +57,14 @@ class TagStylesheetLinkTest extends Helper\TagBase
             "stylesheetLink with string parameter local returns invalid HTML HTML5",
             function () {
 
+                PhTTag::resetInput();
                 $options  = 'css/phalcon.css';
                 $expected = '<link rel="stylesheet" type="text/css" '
                           . 'href="/css/phalcon.css">'
                           . PHP_EOL;
 
-                PhTag::setDocType(PhTag::HTML5);
-                $actual   = PhTag::stylesheetLink($options);
+                PhTTag::setDocType(PhTTag::HTML5);
+                $actual   = PhTTag::stylesheetLink($options);
 
                 expect($actual)->equals($expected);
             }
@@ -83,13 +85,14 @@ class TagStylesheetLinkTest extends Helper\TagBase
             "stylesheetLink with array parameter local returns invalid HTML Strict",
             function () {
 
+                PhTTag::resetInput();
                 $options  = ['css/phalcon.css'];
                 $expected = '<link rel="stylesheet" type="text/css" '
                           . 'href="/css/phalcon.css" />'
                           . PHP_EOL;
 
-                PhTag::setDocType(PhTag::XHTML10_STRICT);
-                $actual   = PhTag::stylesheetLink($options);
+                PhTTag::setDocType(PhTTag::XHTML10_STRICT);
+                $actual   = PhTTag::stylesheetLink($options);
 
                 expect($actual)->equals($expected);
             }
@@ -99,13 +102,14 @@ class TagStylesheetLinkTest extends Helper\TagBase
             "stylesheetLink with array parameter local returns invalid HTML HTML5",
             function () {
 
+                PhTTag::resetInput();
                 $options  = ['css/phalcon.css'];
                 $expected = '<link rel="stylesheet" type="text/css" '
                           . 'href="/css/phalcon.css">'
                           . PHP_EOL;
 
-                PhTag::setDocType(PhTag::HTML5);
-                $actual   = PhTag::stylesheetLink($options);
+                PhTTag::setDocType(PhTTag::HTML5);
+                $actual   = PhTTag::stylesheetLink($options);
 
                 expect($actual)->equals($expected);
             }
@@ -124,13 +128,14 @@ class TagStylesheetLinkTest extends Helper\TagBase
             "stylesheetLink with string parameter remote returns invalid HTML Strict",
             function () {
 
+                PhTTag::resetInput();
                 $options  = 'http://phalconphp.com/css/phalcon.css';
                 $expected = '<link rel="stylesheet" type="text/css" '
                           . 'href="http://phalconphp.com/css/phalcon.css" />'
                           . PHP_EOL;
 
-                PhTag::setDocType(PhTag::XHTML10_STRICT);
-                $actual   = PhTag::stylesheetLink($options, false);
+                PhTTag::setDocType(PhTTag::XHTML10_STRICT);
+                $actual   = PhTTag::stylesheetLink($options, false);
 
                 expect($actual)->equals($expected);
             }
@@ -140,13 +145,14 @@ class TagStylesheetLinkTest extends Helper\TagBase
             "stylesheetLink with string parameter remote returns invalid HTML HTML5",
             function () {
 
+                PhTTag::resetInput();
                 $options  = 'http://phalconphp.com/css/phalcon.css';
                 $expected = '<link rel="stylesheet" type="text/css" '
                           . 'href="http://phalconphp.com/css/phalcon.css">'
                           . PHP_EOL;
 
-                PhTag::setDocType(PhTag::HTML5);
-                $actual   = PhTag::stylesheetLink($options, false);
+                PhTTag::setDocType(PhTTag::HTML5);
+                $actual   = PhTTag::stylesheetLink($options, false);
 
                 expect($actual)->equals($expected);
             }
@@ -165,13 +171,14 @@ class TagStylesheetLinkTest extends Helper\TagBase
             "stylesheetLink with array parameter remote returns invalid HTML Strict",
             function () {
 
+                PhTTag::resetInput();
                 $options  = ['http://phalconphp.com/css/phalcon.css'];
                 $expected = '<link rel="stylesheet" type="text/css" '
                           . 'href="http://phalconphp.com/css/phalcon.css" />'
                           . PHP_EOL;
 
-                PhTag::setDocType(PhTag::XHTML10_STRICT);
-                $actual   = PhTag::stylesheetLink($options, false);
+                PhTTag::setDocType(PhTTag::XHTML10_STRICT);
+                $actual   = PhTTag::stylesheetLink($options, false);
 
                 expect($actual)->equals($expected);
             }
@@ -181,13 +188,14 @@ class TagStylesheetLinkTest extends Helper\TagBase
             "stylesheetLink with array parameter remote returns invalid HTML HTML5",
             function () {
 
+                PhTTag::resetInput();
                 $options  = ['http://phalconphp.com/css/phalcon.css'];
                 $expected = '<link rel="stylesheet" type="text/css" '
                           . 'href="http://phalconphp.com/css/phalcon.css">'
                           . PHP_EOL;
 
-                PhTag::setDocType(PhTag::HTML5);
-                $actual   = PhTag::stylesheetLink($options, false);
+                PhTTag::setDocType(PhTTag::HTML5);
+                $actual   = PhTTag::stylesheetLink($options, false);
 
                 expect($actual)->equals($expected);
             }
@@ -208,6 +216,7 @@ class TagStylesheetLinkTest extends Helper\TagBase
             "stylesheetLink overriding rel local returns invalid HTML Strict",
             function () {
 
+                PhTTag::resetInput();
                 $options  = [
                     'css/phalcon.css',
                     'rel' => 'stylesheet/less',
@@ -216,8 +225,8 @@ class TagStylesheetLinkTest extends Helper\TagBase
                           . 'href="/css/phalcon.css" />'
                           . PHP_EOL;
 
-                PhTag::setDocType(PhTag::XHTML10_STRICT);
-                $actual   = PhTag::stylesheetLink($options);
+                PhTTag::setDocType(PhTTag::XHTML10_STRICT);
+                $actual   = PhTTag::stylesheetLink($options);
 
                 expect($actual)->equals($expected);
             }
@@ -227,6 +236,7 @@ class TagStylesheetLinkTest extends Helper\TagBase
             "stylesheetLink overriding rel local returns invalid HTML Strict",
             function () {
 
+                PhTTag::resetInput();
                 $options  = [
                     'css/phalcon.css',
                     'rel' => 'stylesheet/less',
@@ -235,8 +245,8 @@ class TagStylesheetLinkTest extends Helper\TagBase
                           . 'href="/css/phalcon.css">'
                           . PHP_EOL;
 
-                PhTag::setDocType(PhTag::HTML5);
-                $actual   = PhTag::stylesheetLink($options);
+                PhTTag::setDocType(PhTTag::HTML5);
+                $actual   = PhTTag::stylesheetLink($options);
 
                 expect($actual)->equals($expected);
             }
