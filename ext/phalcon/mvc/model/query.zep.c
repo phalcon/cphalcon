@@ -803,7 +803,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getExpression) {
 				ZVAL_STRING(&_5, "?", 0);
 				ZEPHIR_SINIT_VAR(_6);
 				ZVAL_STRING(&_6, ":", 0);
-				zephir_fast_str_replace(_3, &_5, &_6, _4);
+				zephir_fast_str_replace(_3, &_5, &_6, _4 TSRMLS_CC);
 				zephir_array_update_string(&exprReturn, SL("value"), &_3, PH_COPY | PH_SEPARATE);
 				break;
 			}
@@ -2907,7 +2907,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect) {
 	if (zephir_is_true(_4)) {
 		ZEPHIR_CPY_WRT(resultData, result);
 	} else {
-		ZEPHIR_INIT_VAR(resultData);
+		ZEPHIR_INIT_NVAR(resultData);
 		ZVAL_BOOL(resultData, 0);
 	}
 	ZEPHIR_OBS_VAR(cache);
@@ -3044,7 +3044,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeInsert) {
 				ZVAL_STRING(&_6, ":", 0);
 				ZEPHIR_SINIT_NVAR(_7);
 				ZVAL_STRING(&_7, "", 0);
-				zephir_fast_str_replace(wildcard, &_6, &_7, _5);
+				zephir_fast_str_replace(wildcard, &_6, &_7, _5 TSRMLS_CC);
 				ZEPHIR_OBS_NVAR(insertValue);
 				if (!(zephir_array_isset_fetch(&insertValue, bindParams, wildcard, 0 TSRMLS_CC))) {
 					ZEPHIR_INIT_LNVAR(_8);
@@ -3203,7 +3203,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeUpdate) {
 				ZVAL_STRING(&_7, ":", 0);
 				ZEPHIR_SINIT_NVAR(_8);
 				ZVAL_STRING(&_8, "", 0);
-				zephir_fast_str_replace(wildcard, &_7, &_8, _6);
+				zephir_fast_str_replace(wildcard, &_7, &_8, _6 TSRMLS_CC);
 				ZEPHIR_OBS_NVAR(updateValue);
 				if (zephir_array_isset_fetch(&updateValue, bindParams, wildcard, 0 TSRMLS_CC)) {
 					zephir_array_unset(&selectBindParams, wildcard, PH_SEPARATE);

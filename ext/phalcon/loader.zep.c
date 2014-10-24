@@ -540,9 +540,9 @@ PHP_METHOD(Phalcon_Loader, autoLoad) {
 				ZEPHIR_CONCAT_VV(_4, nsPrefix, namespaceSeparator);
 				ZEPHIR_SINIT_NVAR(_5);
 				ZVAL_STRING(&_5, "", 0);
-				zephir_fast_str_replace(fileName, _4, &_5, className);
+				zephir_fast_str_replace(fileName, _4, &_5, className TSRMLS_CC);
 				ZEPHIR_INIT_NVAR(_0);
-				zephir_fast_str_replace(_0, namespaceSeparator, ds, fileName);
+				zephir_fast_str_replace(_0, namespaceSeparator, ds, fileName TSRMLS_CC);
 				ZEPHIR_CPY_WRT(fileName, _0);
 				if (zephir_is_true(fileName)) {
 					ZEPHIR_INIT_NVAR(_0);
@@ -602,18 +602,18 @@ PHP_METHOD(Phalcon_Loader, autoLoad) {
 				ZEPHIR_CONCAT_VV(_4, prefix, namespaceSeparator);
 				ZEPHIR_SINIT_NVAR(_5);
 				ZVAL_STRING(&_5, "", 0);
-				zephir_fast_str_replace(fileName, _4, &_5, className);
+				zephir_fast_str_replace(fileName, _4, &_5, className TSRMLS_CC);
 				ZEPHIR_INIT_NVAR(_0);
 				ZEPHIR_INIT_LNVAR(_15);
 				ZEPHIR_CONCAT_VS(_15, prefix, "_");
 				ZEPHIR_SINIT_NVAR(_16);
 				ZVAL_STRING(&_16, "", 0);
-				zephir_fast_str_replace(_0, _15, &_16, fileName);
+				zephir_fast_str_replace(_0, _15, &_16, fileName TSRMLS_CC);
 				ZEPHIR_CPY_WRT(fileName, _0);
 				ZEPHIR_INIT_NVAR(_0);
 				ZEPHIR_SINIT_NVAR(_17);
 				ZVAL_STRING(&_17, "_", 0);
-				zephir_fast_str_replace(_0, &_17, ds, fileName);
+				zephir_fast_str_replace(_0, &_17, ds, fileName TSRMLS_CC);
 				ZEPHIR_CPY_WRT(fileName, _0);
 				if (zephir_is_true(fileName)) {
 					ZEPHIR_INIT_NVAR(_0);
@@ -660,11 +660,11 @@ PHP_METHOD(Phalcon_Loader, autoLoad) {
 	ZEPHIR_INIT_VAR(dsClassName);
 	ZEPHIR_SINIT_NVAR(_5);
 	ZVAL_STRING(&_5, "_", 0);
-	zephir_fast_str_replace(dsClassName, &_5, ds, className);
+	zephir_fast_str_replace(dsClassName, &_5, ds, className TSRMLS_CC);
 	ZEPHIR_INIT_VAR(nsClassName);
 	ZEPHIR_SINIT_NVAR(_16);
 	ZVAL_STRING(&_16, "\\", 0);
-	zephir_fast_str_replace(nsClassName, &_16, ds, dsClassName);
+	zephir_fast_str_replace(nsClassName, &_16, ds, dsClassName TSRMLS_CC);
 	ZEPHIR_OBS_VAR(directories);
 	zephir_read_property_this(&directories, this_ptr, SL("_directories"), PH_NOISY_CC);
 	if (Z_TYPE_P(directories) == IS_ARRAY) {

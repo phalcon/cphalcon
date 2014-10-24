@@ -126,7 +126,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator, appendMessage) {
 		ZVAL_STRING(&_1, "Validator", 0);
 		ZEPHIR_SINIT_VAR(_2);
 		ZVAL_STRING(&_2, "", 0);
-		zephir_fast_str_replace(type, &_1, &_2, _0);
+		zephir_fast_str_replace(type, &_1, &_2, _0 TSRMLS_CC);
 	}
 	ZEPHIR_INIT_VAR(_3);
 	object_init_ex(_3, phalcon_mvc_model_message_ce);

@@ -1919,6 +1919,7 @@ int zephir_create_instance(zval *return_value, const zval *class_name TSRMLS_DC)
 
 	ce = zend_fetch_class(Z_STRVAL_P(class_name), Z_STRLEN_P(class_name), ZEND_FETCH_CLASS_DEFAULT TSRMLS_CC);
 	if (!ce) {
+		ZVAL_NULL(return_value);
 		return FAILURE;
 	}
 
@@ -1950,6 +1951,7 @@ int zephir_create_instance_params(zval *return_value, const zval *class_name, zv
 
 	ce = zend_fetch_class(Z_STRVAL_P(class_name), Z_STRLEN_P(class_name), ZEND_FETCH_CLASS_DEFAULT TSRMLS_CC);
 	if (!ce) {
+		ZVAL_NULL(return_value);
 		return FAILURE;
 	}
 
@@ -1969,21 +1971,19 @@ int zephir_create_instance_params(zval *return_value, const zval *class_name, zv
 
 			if (likely(param_count) <= 10) {
 				params_ptr = static_params;
-			}
-			else {
+			} else {
 				params_arr = emalloc(param_count * sizeof(zval*));
 				params_ptr = &params;
 			}
 
 			for (
 				zend_hash_internal_pointer_reset_ex(Z_ARRVAL_P(params), &pos);
-				zend_hash_get_current_data_ex(Z_ARRVAL_P(params), (void**)&item, &pos) == SUCCESS;
+				zend_hash_get_current_data_ex(Z_ARRVAL_P(params), (void**) &item, &pos) == SUCCESS;
 				zend_hash_move_forward_ex(Z_ARRVAL_P(params), &pos), ++i
 			) {
 				params_ptr[i] = *item;
 			}
-		}
-		else {
+		} else {
 			params_ptr = NULL;
 		}
 

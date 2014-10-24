@@ -856,7 +856,7 @@ PHP_METHOD(Phalcon_Http_Request, getHttpHost) {
 
 	zend_bool _1, _2;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *httpHost = NULL, *scheme = NULL, *name = NULL, *port = NULL, *_0;
+	zval *httpHost = NULL, *scheme = NULL, *name = NULL, *port = NULL, *_0 = NULL;
 
 	ZEPHIR_MM_GROW();
 
@@ -1503,7 +1503,7 @@ PHP_METHOD(Phalcon_Http_Request, getHeaders) {
 			ZVAL_STRING(&_4, "HTTP_", 0);
 			ZEPHIR_SINIT_NVAR(_5);
 			ZVAL_STRING(&_5, "", 0);
-			zephir_fast_str_replace(_3, &_4, &_5, key);
+			zephir_fast_str_replace(_3, &_4, &_5, key TSRMLS_CC);
 			zephir_array_update_zval(&headers, _3, &value, PH_COPY | PH_SEPARATE);
 		}
 	}

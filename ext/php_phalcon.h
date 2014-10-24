@@ -10,7 +10,7 @@
 #define PHP_PHALCON_VERSION     "2.0.0b"
 #define PHP_PHALCON_EXTNAME     "phalcon"
 #define PHP_PHALCON_AUTHOR      "Phalcon Team"
-#define PHP_PHALCON_ZEPVERSION  "0.5.4a"
+#define PHP_PHALCON_ZEPVERSION  "0.5.6a"
 #define PHP_PHALCON_DESCRIPTION ""
 
 typedef struct _zephir_struct_db { 

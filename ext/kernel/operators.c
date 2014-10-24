@@ -28,6 +28,7 @@
 #include "kernel/main.h"
 #include "kernel/memory.h"
 #include "kernel/string.h"
+#include "kernel/operators.h"
 
 #include "Zend/zend_operators.h"
 
@@ -749,3 +750,78 @@ int zephir_shift_right_function(zval *result, zval *op1, zval *op2 TSRMLS_DC){
 	return status;
 }
 
+/**
+ * Do safe divisions between two longs
+ */
+double zephir_safe_div_long_long(long op1, long op2 TSRMLS_DC) {
+	if (!op2) {
+		zend_error(E_WARNING, "Division by zero");
+		return 0;
+	}
+	return op1 / op2;
+}
+
+/**
+ * Do safe divisions between two longs
+ */
+double zephir_safe_div_long_double(long op1, double op2 TSRMLS_DC) {
+	if (!op2) {
+		zend_error(E_WARNING, "Division by zero");
+		return 0;
+	}
+	return op1 / op2;
+}
+
+/**
+ * Do safe divisions between two longs
+ */
+double zephir_safe_div_double_long(double op1, long op2 TSRMLS_DC) {
+	if (!op2) {
+		zend_error(E_WARNING, "Division by zero");
+		return 0;
+	}
+	return op1 / op2;
+}
+
+/**
+ * Do safe divisions between two longs
+ */
+double zephir_safe_div_double_double(double op1, double op2 TSRMLS_DC) {
+	if (!op2) {
+		zend_error(E_WARNING, "Division by zero");
+		return 0;
+	}
+	return op1 / op2;
+}
+
+double zephir_safe_div_zval_long(zval *op1, long op2 TSRMLS_DC) {
+	if (!op2) {
+		zend_error(E_WARNING, "Division by zero");
+		return 0;
+	}
+	return zephir_get_numberval(op1) / op2;
+}
+
+double zephir_safe_div_zval_double(zval *op1, double op2 TSRMLS_DC) {
+	if (!op2) {
+		zend_error(E_WARNING, "Division by zero");
+		return 0;
+	}
+	return zephir_get_numberval(op1) / op2;
+}
+
+double zephir_safe_div_long_zval(long op1, zval *op2 TSRMLS_DC) {
+	if (!zephir_get_numberval(op2)) {
+		zend_error(E_WARNING, "Division by zero");
+		return 0;
+	}
+	return op1 / zephir_get_numberval(op2);
+}
+
+double zephir_safe_div_double_zval(double op1, zval *op2 TSRMLS_DC) {
+	if (!zephir_get_numberval(op2)) {
+		zend_error(E_WARNING, "Division by zero");
+		return 0;
+	}
+	return op1 / zephir_get_numberval(op2);
+}

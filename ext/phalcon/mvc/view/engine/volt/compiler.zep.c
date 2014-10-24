@@ -774,7 +774,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, functionCall) {
 						if (ZEPHIR_IS_LONG(exprLevel, 1)) {
 							ZEPHIR_CPY_WRT(escapedCode, code);
 						} else {
-							ZEPHIR_INIT_VAR(escapedCode);
+							ZEPHIR_INIT_NVAR(escapedCode);
 							zephir_addslashes(escapedCode, code TSRMLS_CC);
 						}
 					} else {
@@ -1420,7 +1420,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, expression) {
 				ZVAL_STRING(&_13, "'", 0);
 				ZEPHIR_SINIT_NVAR(_14);
 				ZVAL_STRING(&_14, "\\'", 0);
-				zephir_fast_str_replace(_1, &_13, &_14, _6);
+				zephir_fast_str_replace(_1, &_13, &_14, _6 TSRMLS_CC);
 				ZEPHIR_INIT_NVAR(exprCode);
 				ZEPHIR_CONCAT_SVS(exprCode, "'", _1, "'");
 				break;

@@ -468,7 +468,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _sharpen) {
 		ZVAL_LONG(_0, amount);
 	}
 	amount = zephir_get_numberval(_0);
-	amount = (((amount * 3.0)) / 100);
+	amount = (long) (zephir_safe_div_long_long(((amount * 3.0)), 100 TSRMLS_CC));
 	_1 = zephir_fetch_nproperty_this(this_ptr, SL("_image"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(_2);
 	ZVAL_LONG(_2, 0);
@@ -603,7 +603,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _reflection) {
 		ZEPHIR_CALL_FUNCTION(&_12, "constant", &_10, &_9);
 		zephir_check_call_status();
 		ZEPHIR_INIT_NVAR(_3);
-		ZVAL_LONG(_3, (opacity / 100));
+		ZVAL_DOUBLE(_3, zephir_safe_div_long_long(opacity, 100 TSRMLS_CC));
 		ZEPHIR_CALL_METHOD(NULL, reflection, "evaluateimage", NULL, _11, _3, _12);
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(&_13, reflection, "nextimage",  NULL);
@@ -774,7 +774,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _watermark) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'image' must be an instance of 'Phalcon\\\\Image\\\\Adapter'", "", 0);
 		return;
 	}
-	opacity = (opacity / 100);
+	opacity = (long) (zephir_safe_div_long_long(opacity, 100 TSRMLS_CC));
 	ZEPHIR_INIT_VAR(watermark);
 	_0 = zend_fetch_class(SL("Imagick"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 	object_init_ex(watermark, _0);
@@ -844,7 +844,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _text) {
 	zephir_get_strval(fontfile, fontfile_param);
 
 
-	opacity = (opacity / 100);
+	opacity = (long) (zephir_safe_div_long_long(opacity, 100 TSRMLS_CC));
 	ZEPHIR_INIT_VAR(draw);
 	_0 = zend_fetch_class(SL("ImagickDraw"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 	object_init_ex(draw, _0);
@@ -1038,7 +1038,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _background) {
 		ZEPHIR_CALL_METHOD(NULL, pixel1, "__construct", NULL, color);
 		zephir_check_call_status();
 	}
-	opacity = (opacity / 100);
+	opacity = (long) (zephir_safe_div_long_long(opacity, 100 TSRMLS_CC));
 	ZEPHIR_INIT_VAR(pixel2);
 	_6 = zend_fetch_class(SL("ImagickPixel"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 	object_init_ex(pixel2, _6);
@@ -1171,9 +1171,9 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _pixelate) {
 
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_width"), PH_NOISY_CC);
-	width = (zephir_get_numberval(_0) / amount);
+	width = (long) (zephir_safe_div_zval_long(_0, amount TSRMLS_CC));
 	_1 = zephir_fetch_nproperty_this(this_ptr, SL("_height"), PH_NOISY_CC);
-	height = (zephir_get_numberval(_1) / amount);
+	height = (long) (zephir_safe_div_zval_long(_1, amount TSRMLS_CC));
 	_2 = zephir_fetch_nproperty_this(this_ptr, SL("_image"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(_3);
 	ZVAL_LONG(_3, 0);

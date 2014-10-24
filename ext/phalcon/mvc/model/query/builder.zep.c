@@ -400,7 +400,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, from) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, addFrom) {
 
-	zval *model, *alias = NULL, *models, *currentModel = NULL;
+	zval *model, *alias = NULL, *models = NULL, *currentModel = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &model, &alias);
@@ -1655,7 +1655,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql) {
 						ZVAL_STRING(&_24, " ", 0);
 						ZEPHIR_SINIT_VAR(_25);
 						ZVAL_STRING(&_25, "", 0);
-						zephir_fast_str_replace(_23, &_24, &_25, group);
+						zephir_fast_str_replace(_23, &_24, &_25, group TSRMLS_CC);
 						ZEPHIR_CPY_WRT(group, _23);
 						ZEPHIR_INIT_NVAR(groupItems);
 						zephir_fast_explode_str(groupItems, SL(","), group, LONG_MAX TSRMLS_CC);

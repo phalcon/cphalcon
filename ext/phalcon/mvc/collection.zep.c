@@ -1203,7 +1203,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, _exists) {
 			ZEPHIR_CALL_METHOD(&_1, _0, "isusingimplicitobjectids", NULL, this_ptr);
 			zephir_check_call_status();
 			if (zephir_is_true(_1)) {
-				ZEPHIR_INIT_VAR(mongoId);
+				ZEPHIR_INIT_NVAR(mongoId);
 				_2 = zend_fetch_class(SL("MongoId"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 				object_init_ex(mongoId, _2);
 				if (zephir_has_constructor(mongoId TSRMLS_CC)) {
@@ -1833,7 +1833,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, delete) {
 		ZEPHIR_CALL_METHOD(&_0, _2, "isusingimplicitobjectids", NULL, this_ptr);
 		zephir_check_call_status();
 		if (zephir_is_true(_0)) {
-			ZEPHIR_INIT_VAR(mongoId);
+			ZEPHIR_INIT_NVAR(mongoId);
 			_3 = zend_fetch_class(SL("MongoId"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 			object_init_ex(mongoId, _3);
 			if (zephir_has_constructor(mongoId TSRMLS_CC)) {
