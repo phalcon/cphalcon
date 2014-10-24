@@ -17,7 +17,7 @@
   |          Eduar Carvajal <eduar@phalconphp.com>                         |
   +------------------------------------------------------------------------+
 */
-  define('APPROOT', dirname(__DIR__));
+define('APPROOT', dirname(__DIR__));
 define('CONFKEY', 'secret');
 
 class ConfigTest extends PHPUnit_Framework_TestCase
@@ -234,4 +234,18 @@ class ConfigTest extends PHPUnit_Framework_TestCase
         $config = new Phalcon\Config\Adapter\Yaml('unit-tests/config/config.yml');
         $this->assertTrue($this->_compareConfig($this->_config, $config));
     }
+
+    public function testYamlConfigCallback()
+    {
+        $config = new Phalcon\Config\Adapter\Yaml('unit-tests/config/config.yml', array(
+            '!decrypt' => function($value) {
+                return (new Phalcon\Crypt)->setCipher('blowfish')->decryptBase64($value, CONFKEY);
+            },
+            '!approot' => function($value) {
+                return APPROOT . $value;
+            }
+        ));
+        $this->assertTrue($this->_compareConfig($this->_config, $config));
+    }
+
 }
