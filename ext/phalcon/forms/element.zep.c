@@ -736,7 +736,7 @@ PHP_METHOD(Phalcon_Forms_Element, getValue) {
 PHP_METHOD(Phalcon_Forms_Element, getMessages) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *messages;
+	zval *messages = NULL;
 
 	ZEPHIR_MM_GROW();
 
@@ -745,7 +745,7 @@ PHP_METHOD(Phalcon_Forms_Element, getMessages) {
 	if (Z_TYPE_P(messages) == IS_OBJECT) {
 		RETURN_CCTOR(messages);
 	}
-	ZEPHIR_INIT_BNVAR(messages);
+	ZEPHIR_INIT_NVAR(messages);
 	object_init_ex(messages, phalcon_validation_message_group_ce);
 	ZEPHIR_CALL_METHOD(NULL, messages, "__construct", NULL);
 	zephir_check_call_status();

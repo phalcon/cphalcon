@@ -275,7 +275,7 @@ PHP_METHOD(Phalcon_Http_Response, getHeaders) {
 	ZEPHIR_OBS_VAR(headers);
 	zephir_read_property_this(&headers, this_ptr, SL("_headers"), PH_NOISY_CC);
 	if (Z_TYPE_P(headers) == IS_NULL) {
-		ZEPHIR_INIT_BNVAR(headers);
+		ZEPHIR_INIT_NVAR(headers);
 		object_init_ex(headers, phalcon_http_response_headers_ce);
 		if (zephir_has_constructor(headers TSRMLS_CC)) {
 			ZEPHIR_CALL_METHOD(NULL, headers, "__construct", NULL);
@@ -444,14 +444,14 @@ PHP_METHOD(Phalcon_Http_Response, setExpires) {
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(NULL, date, "settimezone", NULL, _0);
 	zephir_check_call_status();
-	ZEPHIR_INIT_BNVAR(_2);
+	ZEPHIR_INIT_NVAR(_2);
 	ZVAL_STRING(_2, "D, d M Y H:i:s", ZEPHIR_TEMP_PARAM_COPY);
 	ZEPHIR_CALL_METHOD(&_3, date, "format", NULL, _2);
 	zephir_check_temp_parameter(_2);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(_4);
 	ZEPHIR_CONCAT_VS(_4, _3, " GMT");
-	ZEPHIR_INIT_BNVAR(_2);
+	ZEPHIR_INIT_NVAR(_2);
 	ZVAL_STRING(_2, "Expires", ZEPHIR_TEMP_PARAM_COPY);
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "setheader", NULL, _2, _4);
 	zephir_check_temp_parameter(_2);

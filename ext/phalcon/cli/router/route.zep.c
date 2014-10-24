@@ -112,7 +112,7 @@ PHP_METHOD(Phalcon_Cli_Router_Route, __construct) {
 	ZEPHIR_OBS_VAR(delimiter);
 	zephir_read_static_property_ce(&delimiter, phalcon_cli_router_route_ce, SL("_delimiterPath") TSRMLS_CC);
 	if (!(zephir_is_true(delimiter))) {
-		ZEPHIR_INIT_BNVAR(delimiter);
+		ZEPHIR_INIT_NVAR(delimiter);
 		ZVAL_STRING(delimiter, " ", 1);
 	}
 	zephir_update_property_this(this_ptr, SL("_delimiter"), delimiter TSRMLS_CC);
@@ -121,7 +121,7 @@ PHP_METHOD(Phalcon_Cli_Router_Route, __construct) {
 	ZEPHIR_OBS_VAR(uniqueId);
 	zephir_read_static_property_ce(&uniqueId, phalcon_cli_router_route_ce, SL("_uniqueId") TSRMLS_CC);
 	if (Z_TYPE_P(uniqueId) == IS_NULL) {
-		ZEPHIR_INIT_BNVAR(uniqueId);
+		ZEPHIR_INIT_NVAR(uniqueId);
 		ZVAL_LONG(uniqueId, 0);
 	}
 	ZEPHIR_CPY_WRT(routeId, uniqueId);
@@ -864,7 +864,7 @@ PHP_METHOD(Phalcon_Cli_Router_Route, getDelimiter) {
 	ZEPHIR_OBS_VAR(delimiter);
 	zephir_read_static_property_ce(&delimiter, phalcon_cli_router_route_ce, SL("_delimiterPath") TSRMLS_CC);
 	if (!(zephir_is_true(delimiter))) {
-		ZEPHIR_INIT_BNVAR(delimiter);
+		ZEPHIR_INIT_NVAR(delimiter);
 		ZVAL_STRING(delimiter, " ", 1);
 	}
 	RETURN_CCTOR(delimiter);

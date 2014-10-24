@@ -104,14 +104,14 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, getOptions) {
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, getCompiler) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *compiler, *dependencyInjector = NULL, *options, *_0, *_1;
+	zval *compiler = NULL, *dependencyInjector = NULL, *options, *_0, *_1;
 
 	ZEPHIR_MM_GROW();
 
 	ZEPHIR_OBS_VAR(compiler);
 	zephir_read_property_this(&compiler, this_ptr, SL("_compiler"), PH_NOISY_CC);
 	if (Z_TYPE_P(compiler) != IS_OBJECT) {
-		ZEPHIR_INIT_BNVAR(compiler);
+		ZEPHIR_INIT_NVAR(compiler);
 		object_init_ex(compiler, phalcon_mvc_view_engine_volt_compiler_ce);
 		_0 = zephir_fetch_nproperty_this(this_ptr, SL("_view"), PH_NOISY_CC);
 		ZEPHIR_CALL_METHOD(NULL, compiler, "__construct", NULL, _0);
@@ -228,18 +228,18 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, length) {
 	ZEPHIR_INIT_VAR(length);
 	ZVAL_LONG(length, 0);
 	if (Z_TYPE_P(item) == IS_OBJECT) {
-		ZEPHIR_INIT_BNVAR(length);
+		ZEPHIR_INIT_NVAR(length);
 		ZVAL_LONG(length, zephir_fast_count_int(item TSRMLS_CC));
 	} else {
 		if (Z_TYPE_P(item) == IS_ARRAY) {
-			ZEPHIR_INIT_BNVAR(length);
+			ZEPHIR_INIT_NVAR(length);
 			ZVAL_LONG(length, zephir_fast_count_int(item TSRMLS_CC));
 		} else {
 			if ((zephir_function_exists_ex(SS("mb_strlen") TSRMLS_CC) == SUCCESS)) {
 				ZEPHIR_CALL_FUNCTION(&length, "mb_strlen", NULL, item);
 				zephir_check_call_status();
 			} else {
-				ZEPHIR_INIT_BNVAR(length);
+				ZEPHIR_INIT_NVAR(length);
 				ZVAL_LONG(length, zephir_fast_strlen_ev(item));
 			}
 		}

@@ -237,7 +237,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, getPaginate) {
 
 	int numberPage, before, ZEPHIR_LAST_CALL_STATUS;
 	double totalPages;
-	zval *originalBuilder, *builder, *totalBuilder, *limit, *number, *query = NULL, *page, *items = NULL, *totalQuery = NULL, *result = NULL, *row = NULL, *rowcount = NULL, *intTotalPages, *next = NULL, *_0, *_1, *_2, *_3, *_4, _5;
+	zval *originalBuilder, *builder, *totalBuilder, *limit, *number, *query = NULL, *page, *items = NULL, *totalQuery = NULL, *result = NULL, *row = NULL, *rowcount = NULL, *intTotalPages, *next = NULL, *_0, *_1, *_2 = NULL, *_3, *_4, _5;
 
 	ZEPHIR_MM_GROW();
 
@@ -291,7 +291,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, getPaginate) {
 	ZEPHIR_CALL_METHOD(NULL, totalBuilder, "columns", NULL, _2);
 	zephir_check_temp_parameter(_2);
 	zephir_check_call_status();
-	ZEPHIR_INIT_BNVAR(_2);
+	ZEPHIR_INIT_NVAR(_2);
 	ZVAL_NULL(_2);
 	ZEPHIR_CALL_METHOD(NULL, totalBuilder, "orderby", NULL, _2);
 	zephir_check_call_status();

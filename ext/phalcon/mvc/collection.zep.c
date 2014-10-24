@@ -315,7 +315,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, getReservedAttributes) {
 	ZEPHIR_OBS_VAR(reserved);
 	zephir_read_static_property_ce(&reserved, phalcon_mvc_collection_ce, SL("_reserved") TSRMLS_CC);
 	if (Z_TYPE_P(reserved) == IS_NULL) {
-		ZEPHIR_INIT_BNVAR(reserved);
+		ZEPHIR_INIT_NVAR(reserved);
 		array_init_size(reserved, 7);
 		zephir_array_update_string(&reserved, SL("_connection"), &ZEPHIR_GLOBAL(global_true), PH_COPY | PH_SEPARATE);
 		zephir_array_update_string(&reserved, SL("_dependencyInjector"), &ZEPHIR_GLOBAL(global_true), PH_COPY | PH_SEPARATE);
@@ -399,7 +399,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, getSource) {
 	zephir_read_property_this(&source, this_ptr, SL("_source"), PH_NOISY_CC);
 	if (!(zephir_is_true(source))) {
 		ZEPHIR_CPY_WRT(collection, this_ptr);
-		ZEPHIR_INIT_BNVAR(source);
+		ZEPHIR_INIT_NVAR(source);
 		ZEPHIR_INIT_VAR(_0);
 		zephir_get_class_ns(_0, collection, 0 TSRMLS_CC);
 		zephir_uncamelize(source, _0);
@@ -660,7 +660,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, _getResultset) {
 	if (!(zephir_array_isset_long_fetch(&conditions, params, 0, 0 TSRMLS_CC))) {
 		ZEPHIR_OBS_NVAR(conditions);
 		if (!(zephir_array_isset_string_fetch(&conditions, params, SS("conditions"), 0 TSRMLS_CC))) {
-			ZEPHIR_INIT_BNVAR(conditions);
+			ZEPHIR_INIT_NVAR(conditions);
 			array_init(conditions);
 		}
 	}
@@ -766,7 +766,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, _getGroupResultset) {
 	if (!(zephir_array_isset_long_fetch(&conditions, params, 0, 0 TSRMLS_CC))) {
 		ZEPHIR_OBS_NVAR(conditions);
 		if (!(zephir_array_isset_string_fetch(&conditions, params, SS("conditions"), 0 TSRMLS_CC))) {
-			ZEPHIR_INIT_BNVAR(conditions);
+			ZEPHIR_INIT_NVAR(conditions);
 			array_init(conditions);
 		}
 	}

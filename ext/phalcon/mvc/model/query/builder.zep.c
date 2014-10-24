@@ -415,11 +415,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, addFrom) {
 	if (Z_TYPE_P(models) != IS_ARRAY) {
 		if (Z_TYPE_P(models) != IS_NULL) {
 			ZEPHIR_CPY_WRT(currentModel, models);
-			ZEPHIR_INIT_BNVAR(models);
+			ZEPHIR_INIT_NVAR(models);
 			array_init_size(models, 2);
 			zephir_array_fast_append(models, currentModel);
 		} else {
-			ZEPHIR_INIT_BNVAR(models);
+			ZEPHIR_INIT_NVAR(models);
 			array_init(models);
 		}
 	}

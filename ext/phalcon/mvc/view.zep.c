@@ -805,7 +805,7 @@ PHP_METHOD(Phalcon_Mvc_View, _loadTemplateEngines) {
 	if (ZEPHIR_IS_FALSE_IDENTICAL(engines)) {
 		_0 = zephir_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 		ZEPHIR_CPY_WRT(dependencyInjector, _0);
-		ZEPHIR_INIT_BNVAR(engines);
+		ZEPHIR_INIT_NVAR(engines);
 		array_init(engines);
 		ZEPHIR_OBS_VAR(registeredEngines);
 		zephir_read_property_this(&registeredEngines, this_ptr, SL("_registeredEngines"), PH_NOISY_CC);
@@ -1090,7 +1090,7 @@ PHP_METHOD(Phalcon_Mvc_View, exists) {
 	ZEPHIR_OBS_VAR(engines);
 	zephir_read_property_this(&engines, this_ptr, SL("_registeredEngines"), PH_NOISY_CC);
 	if (Z_TYPE_P(engines) != IS_ARRAY) {
-		ZEPHIR_INIT_BNVAR(engines);
+		ZEPHIR_INIT_NVAR(engines);
 		array_init(engines);
 		ZEPHIR_INIT_VAR(_0);
 		ZVAL_STRING(_0, "Phalcon\\Mvc\\View\\Engine\\Php", 1);
@@ -1186,7 +1186,7 @@ PHP_METHOD(Phalcon_Mvc_View, render) {
 	ZEPHIR_OBS_VAR(layoutsDir);
 	zephir_read_property_this(&layoutsDir, this_ptr, SL("_layoutsDir"), PH_NOISY_CC);
 	if (!(zephir_is_true(layoutsDir))) {
-		ZEPHIR_INIT_BNVAR(layoutsDir);
+		ZEPHIR_INIT_NVAR(layoutsDir);
 		ZVAL_STRING(layoutsDir, "layouts/", 1);
 	}
 	ZEPHIR_OBS_VAR(layout);

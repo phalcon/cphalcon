@@ -766,7 +766,7 @@ PHP_METHOD(Phalcon_Crypt, encrypt) {
 	zephir_check_call_status();
 	if (Z_TYPE_P(blockSize) != IS_LONG) {
 		_3 = zephir_get_intval(blockSize);
-		ZEPHIR_INIT_BNVAR(blockSize);
+		ZEPHIR_INIT_NVAR(blockSize);
 		ZVAL_LONG(blockSize, _3);
 	}
 	ZEPHIR_OBS_VAR(paddingType);

@@ -19,6 +19,7 @@
 #include "kernel/concat.h"
 #include "kernel/string.h"
 #include "kernel/object.h"
+#include "kernel/variables.h"
 
 
 /*
@@ -114,16 +115,16 @@ PHP_METHOD(Phalcon_Version, _getVersion) {
 	ZEPHIR_INIT_VAR(_0);
 	ZVAL_LONG(_0, 2);
 	zephir_array_fast_append(return_value, _0);
-	ZEPHIR_INIT_BNVAR(_0);
+	ZEPHIR_INIT_NVAR(_0);
 	ZVAL_LONG(_0, 0);
 	zephir_array_fast_append(return_value, _0);
-	ZEPHIR_INIT_BNVAR(_0);
+	ZEPHIR_INIT_NVAR(_0);
 	ZVAL_LONG(_0, 0);
 	zephir_array_fast_append(return_value, _0);
-	ZEPHIR_INIT_BNVAR(_0);
+	ZEPHIR_INIT_NVAR(_0);
 	ZVAL_LONG(_0, 2);
 	zephir_array_fast_append(return_value, _0);
-	ZEPHIR_INIT_BNVAR(_0);
+	ZEPHIR_INIT_NVAR(_0);
 	ZVAL_LONG(_0, 3);
 	zephir_array_fast_append(return_value, _0);
 	RETURN_MM();
@@ -304,20 +305,24 @@ PHP_METHOD(Phalcon_Version, getPart) {
 
 PHP_METHOD(Phalcon_Version, makeA) {
 
-	zval *a = NULL, *_0, *_1;
+	int _1;
+	zval *row, *order = NULL, *_0;
 
 	ZEPHIR_MM_GROW();
 
-	_0 = zephir_fetch_nproperty_this(this_ptr, SL("a"), PH_NOISY_CC);
-	ZEPHIR_CPY_WRT(a, _0);
-	if (Z_TYPE_P(a) == IS_NULL) {
-		ZEPHIR_INIT_NVAR(a);
-		array_init(a);
+	ZEPHIR_INIT_VAR(row);
+	object_init(row);
+	if (!(zephir_is_true(row))) {
+		ZEPHIR_INIT_VAR(order);
+		ZVAL_LONG(order, 0);
+	} else {
+		ZEPHIR_OBS_VAR(_0);
+		zephir_read_property(&_0, row, SL("order"), PH_NOISY_CC);
+		_1 = (zephir_get_numberval(_0) + 1);
+		ZEPHIR_INIT_NVAR(order);
+		ZVAL_LONG(order, _1);
 	}
-	ZEPHIR_INIT_VAR(_1);
-	ZVAL_STRING(_1, "test", 1);
-	zephir_array_update_string(&a, SL("test"), &_1, PH_COPY | PH_SEPARATE);
-	zephir_update_property_this(this_ptr, SL("a"), a TSRMLS_CC);
+	zephir_var_dump(&order TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 
 }

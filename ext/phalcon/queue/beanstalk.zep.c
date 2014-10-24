@@ -153,7 +153,7 @@ PHP_METHOD(Phalcon_Queue_Beanstalk, put) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
 	zephir_nts_static zephir_fcall_cache_entry *_0 = NULL, *_2 = NULL;
-	zval *data, *options = NULL, *priority, *delay, *ttr, *serialized = NULL, *response = NULL, *status, *length, *_1, *_3;
+	zval *data, *options = NULL, *priority = NULL, *delay = NULL, *ttr = NULL, *serialized = NULL, *response = NULL, *status, *length, *_1, *_3;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &data, &options);
@@ -165,17 +165,17 @@ PHP_METHOD(Phalcon_Queue_Beanstalk, put) {
 
 	ZEPHIR_OBS_VAR(priority);
 	if (!(zephir_array_isset_string_fetch(&priority, options, SS("priority"), 0 TSRMLS_CC))) {
-		ZEPHIR_INIT_BNVAR(priority);
+		ZEPHIR_INIT_NVAR(priority);
 		ZVAL_LONG(priority, 100);
 	}
 	ZEPHIR_OBS_VAR(delay);
 	if (!(zephir_array_isset_string_fetch(&delay, options, SS("delay"), 0 TSRMLS_CC))) {
-		ZEPHIR_INIT_BNVAR(delay);
+		ZEPHIR_INIT_NVAR(delay);
 		ZVAL_LONG(delay, 0);
 	}
 	ZEPHIR_OBS_VAR(ttr);
 	if (!(zephir_array_isset_string_fetch(&ttr, options, SS("ttr"), 0 TSRMLS_CC))) {
-		ZEPHIR_INIT_BNVAR(ttr);
+		ZEPHIR_INIT_NVAR(ttr);
 		ZVAL_LONG(ttr, 86400);
 	}
 	ZEPHIR_CALL_FUNCTION(&serialized, "serialize", &_0, data);

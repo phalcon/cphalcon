@@ -218,7 +218,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Memory, queryKeys) {
 
 	HashTable *_1;
 	HashPosition _0;
-	zval *prefix = NULL, *data, *keys, *index = NULL, *value = NULL, **_2;
+	zval *prefix = NULL, *data, *keys = NULL, *index = NULL, *value = NULL, **_2;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &prefix);
@@ -234,7 +234,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Memory, queryKeys) {
 	array_init(keys);
 	if (Z_TYPE_P(data) == IS_ARRAY) {
 		if (!(zephir_is_true(prefix))) {
-			ZEPHIR_INIT_BNVAR(keys);
+			ZEPHIR_INIT_NVAR(keys);
 			zephir_array_keys(keys, data TSRMLS_CC);
 		} else {
 			zephir_is_iterable(data, &_1, &_0, 0, 0, "phalcon/cache/backend/memory.zep", 161);

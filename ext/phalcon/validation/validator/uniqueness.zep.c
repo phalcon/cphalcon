@@ -84,7 +84,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Uniqueness, validate) {
 	zval *_1 = NULL, *_3 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *field = NULL;
-	zval *validation, *field_param = NULL, *attribute = NULL, *value = NULL, *model = NULL, *except = NULL, *number = NULL, *message = NULL, *label = NULL, *replacePairs, *_0, *_2 = NULL, *_6 = NULL;
+	zval *validation, *field_param = NULL, *attribute = NULL, *value = NULL, *model = NULL, *except = NULL, *number = NULL, *message = NULL, *label = NULL, *replacePairs, *_0 = NULL, *_2 = NULL, *_6 = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &validation, &field_param);
@@ -113,12 +113,12 @@ PHP_METHOD(Phalcon_Validation_Validator_Uniqueness, validate) {
 	ZEPHIR_CALL_METHOD(&model, this_ptr, "getoption", NULL, _0);
 	zephir_check_temp_parameter(_0);
 	zephir_check_call_status();
-	ZEPHIR_INIT_BNVAR(_0);
+	ZEPHIR_INIT_NVAR(_0);
 	ZVAL_STRING(_0, "attribute", ZEPHIR_TEMP_PARAM_COPY);
 	ZEPHIR_CALL_METHOD(&attribute, this_ptr, "getoption", NULL, _0);
 	zephir_check_temp_parameter(_0);
 	zephir_check_call_status();
-	ZEPHIR_INIT_BNVAR(_0);
+	ZEPHIR_INIT_NVAR(_0);
 	ZVAL_STRING(_0, "except", ZEPHIR_TEMP_PARAM_COPY);
 	ZEPHIR_CALL_METHOD(&except, this_ptr, "getoption", NULL, _0);
 	zephir_check_temp_parameter(_0);
@@ -159,7 +159,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Uniqueness, validate) {
 		zephir_check_call_status();
 	}
 	if (zephir_is_true(number)) {
-		ZEPHIR_INIT_BNVAR(_0);
+		ZEPHIR_INIT_NVAR(_0);
 		ZVAL_STRING(_0, "label", ZEPHIR_TEMP_PARAM_COPY);
 		ZEPHIR_CALL_METHOD(&label, this_ptr, "getoption", NULL, _0);
 		zephir_check_temp_parameter(_0);
@@ -168,7 +168,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Uniqueness, validate) {
 			ZEPHIR_CALL_METHOD(&label, validation, "getlabel", NULL, field);
 			zephir_check_call_status();
 		}
-		ZEPHIR_INIT_BNVAR(_0);
+		ZEPHIR_INIT_NVAR(_0);
 		ZVAL_STRING(_0, "message", ZEPHIR_TEMP_PARAM_COPY);
 		ZEPHIR_CALL_METHOD(&message, this_ptr, "getoption", NULL, _0);
 		zephir_check_temp_parameter(_0);
@@ -177,7 +177,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Uniqueness, validate) {
 		array_init_size(replacePairs, 2);
 		zephir_array_update_string(&replacePairs, SL(":field"), &label, PH_COPY | PH_SEPARATE);
 		if (ZEPHIR_IS_EMPTY(message)) {
-			ZEPHIR_INIT_BNVAR(_0);
+			ZEPHIR_INIT_NVAR(_0);
 			ZVAL_STRING(_0, "Uniqueness", ZEPHIR_TEMP_PARAM_COPY);
 			ZEPHIR_CALL_METHOD(&message, validation, "getdefaultmessage", NULL, _0);
 			zephir_check_temp_parameter(_0);
@@ -187,7 +187,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Uniqueness, validate) {
 		object_init_ex(_2, phalcon_validation_message_ce);
 		ZEPHIR_CALL_FUNCTION(&_6, "strtr", &_7, message, replacePairs);
 		zephir_check_call_status();
-		ZEPHIR_INIT_BNVAR(_0);
+		ZEPHIR_INIT_NVAR(_0);
 		ZVAL_STRING(_0, "Uniqueness", ZEPHIR_TEMP_PARAM_COPY);
 		ZEPHIR_CALL_METHOD(NULL, _2, "__construct", NULL, _6, field, _0);
 		zephir_check_temp_parameter(_0);

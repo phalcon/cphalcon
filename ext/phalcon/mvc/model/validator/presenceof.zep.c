@@ -83,7 +83,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_PresenceOf, validate) {
 	zephir_nts_static zephir_fcall_cache_entry *_3 = NULL;
 	zval *_1;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *record, *field = NULL, *value = NULL, *message = NULL, *_0, *_2 = NULL;
+	zval *record, *field = NULL, *value = NULL, *message = NULL, *_0 = NULL, *_2 = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &record);
@@ -106,7 +106,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_PresenceOf, validate) {
 	ZEPHIR_CALL_METHOD(&value, record, "readattribute", NULL, field);
 	zephir_check_call_status();
 	if (ZEPHIR_IS_EMPTY(value)) {
-		ZEPHIR_INIT_BNVAR(_0);
+		ZEPHIR_INIT_NVAR(_0);
 		ZVAL_STRING(_0, "message", ZEPHIR_TEMP_PARAM_COPY);
 		ZEPHIR_CALL_METHOD(&message, this_ptr, "getoption", NULL, _0);
 		zephir_check_temp_parameter(_0);
@@ -120,7 +120,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_PresenceOf, validate) {
 		zephir_array_update_string(&_1, SL(":field"), &field, PH_COPY | PH_SEPARATE);
 		ZEPHIR_CALL_FUNCTION(&_2, "strtr", &_3, message, _1);
 		zephir_check_call_status();
-		ZEPHIR_INIT_BNVAR(_0);
+		ZEPHIR_INIT_NVAR(_0);
 		ZVAL_STRING(_0, "PresenceOf", ZEPHIR_TEMP_PARAM_COPY);
 		ZEPHIR_CALL_METHOD(NULL, this_ptr, "appendmessage", NULL, _2, field, _0);
 		zephir_check_temp_parameter(_0);

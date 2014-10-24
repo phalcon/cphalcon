@@ -129,7 +129,7 @@ PHP_METHOD(Phalcon_Text, uncamelize) {
  */
 PHP_METHOD(Phalcon_Text, increment) {
 
-	zval *str_param = NULL, *separator = NULL, *parts, *number, *_0;
+	zval *str_param = NULL, *separator = NULL, *parts, *number = NULL, *_0;
 	zval *str = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -154,7 +154,7 @@ PHP_METHOD(Phalcon_Text, increment) {
 		ZEPHIR_SEPARATE(number);
 		zephir_increment(number);
 	} else {
-		ZEPHIR_INIT_BNVAR(number);
+		ZEPHIR_INIT_NVAR(number);
 		ZVAL_LONG(number, 1);
 	}
 	zephir_array_fetch_long(&_0, parts, 0, PH_NOISY | PH_READONLY, "phalcon/text.zep", 98 TSRMLS_CC);

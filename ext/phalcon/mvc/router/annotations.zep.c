@@ -488,22 +488,22 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, processActionAnnotation) {
 	} else {
 		if (ZEPHIR_IS_STRING(name, "Get")) {
 			isRoute = 1;
-			ZEPHIR_INIT_BNVAR(methods);
+			ZEPHIR_INIT_NVAR(methods);
 			ZVAL_STRING(methods, "GET", 1);
 		} else {
 			if (ZEPHIR_IS_STRING(name, "Post")) {
 				isRoute = 1;
-				ZEPHIR_INIT_BNVAR(methods);
+				ZEPHIR_INIT_NVAR(methods);
 				ZVAL_STRING(methods, "POST", 1);
 			} else {
 				if (ZEPHIR_IS_STRING(name, "Put")) {
 					isRoute = 1;
-					ZEPHIR_INIT_BNVAR(methods);
+					ZEPHIR_INIT_NVAR(methods);
 					ZVAL_STRING(methods, "PUT", 1);
 				} else {
 					if (ZEPHIR_IS_STRING(name, "Options")) {
 						isRoute = 1;
-						ZEPHIR_INIT_BNVAR(methods);
+						ZEPHIR_INIT_NVAR(methods);
 						ZVAL_STRING(methods, "OPTIONS", 1);
 					}
 				}

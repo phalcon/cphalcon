@@ -193,7 +193,7 @@ PHP_METHOD(Phalcon_Mvc_Url, setStaticBaseUri) {
  */
 PHP_METHOD(Phalcon_Mvc_Url, getBaseUri) {
 
-	zval *baseUri, *phpSelf, *uri = NULL, *_SERVER;
+	zval *baseUri = NULL, *phpSelf, *uri = NULL, *_SERVER;
 
 	ZEPHIR_MM_GROW();
 
@@ -209,7 +209,7 @@ PHP_METHOD(Phalcon_Mvc_Url, getBaseUri) {
 			ZEPHIR_INIT_NVAR(uri);
 			ZVAL_NULL(uri);
 		}
-		ZEPHIR_INIT_BNVAR(baseUri);
+		ZEPHIR_INIT_NVAR(baseUri);
 		if (!(zephir_is_true(uri))) {
 			ZVAL_STRING(baseUri, "/", 1);
 		} else {

@@ -117,7 +117,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, __construct) {
 	ZEPHIR_OBS_VAR(uniqueId);
 	zephir_read_static_property_ce(&uniqueId, phalcon_mvc_router_route_ce, SL("_uniqueId") TSRMLS_CC);
 	if (Z_TYPE_P(uniqueId) == IS_NULL) {
-		ZEPHIR_INIT_BNVAR(uniqueId);
+		ZEPHIR_INIT_NVAR(uniqueId);
 		ZVAL_LONG(uniqueId, 0);
 	}
 	ZEPHIR_CPY_WRT(routeId, uniqueId);

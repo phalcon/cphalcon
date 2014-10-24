@@ -110,14 +110,14 @@ PHP_METHOD(Phalcon_Logger_Adapter_Syslog, __construct) {
 PHP_METHOD(Phalcon_Logger_Adapter_Syslog, getFormatter) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *formatter;
+	zval *formatter = NULL;
 
 	ZEPHIR_MM_GROW();
 
 	ZEPHIR_OBS_VAR(formatter);
 	zephir_read_property_this(&formatter, this_ptr, SL("_formatter"), PH_NOISY_CC);
 	if (Z_TYPE_P(formatter) != IS_OBJECT) {
-		ZEPHIR_INIT_BNVAR(formatter);
+		ZEPHIR_INIT_NVAR(formatter);
 		object_init_ex(formatter, phalcon_logger_formatter_syslog_ce);
 		if (zephir_has_constructor(formatter TSRMLS_CC)) {
 			ZEPHIR_CALL_METHOD(NULL, formatter, "__construct", NULL);

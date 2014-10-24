@@ -267,7 +267,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, count) {
 	ZEPHIR_OBS_VAR(count);
 	zephir_read_property_this(&count, this_ptr, SL("_count"), PH_NOISY_CC);
 	if (Z_TYPE_P(count) == IS_NULL) {
-		ZEPHIR_INIT_BNVAR(count);
+		ZEPHIR_INIT_NVAR(count);
 		ZVAL_LONG(count, 0);
 		_0 = zephir_fetch_nproperty_this(this_ptr, SL("_type"), PH_NOISY_CC);
 		if (zephir_is_true(_0)) {
@@ -276,7 +276,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, count) {
 			if (!ZEPHIR_IS_FALSE_IDENTICAL(result)) {
 				ZEPHIR_CALL_METHOD(&_1, result, "numrows",  NULL);
 				zephir_check_call_status();
-				ZEPHIR_INIT_BNVAR(count);
+				ZEPHIR_INIT_NVAR(count);
 				ZVAL_LONG(count, zephir_get_intval(_1));
 			}
 		} else {
@@ -291,7 +291,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, count) {
 					zephir_update_property_this(this_ptr, SL("_rows"), rows TSRMLS_CC);
 				}
 			}
-			ZEPHIR_INIT_BNVAR(count);
+			ZEPHIR_INIT_NVAR(count);
 			ZVAL_LONG(count, zephir_fast_count_int(rows TSRMLS_CC));
 		}
 		zephir_update_property_this(this_ptr, SL("_count"), count TSRMLS_CC);

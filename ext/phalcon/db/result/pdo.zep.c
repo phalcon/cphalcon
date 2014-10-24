@@ -301,7 +301,7 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, numRows) {
 					zephir_array_fetch_string(&rowCount, row, SL("numrows"), PH_NOISY, "phalcon/db/result/pdo.zep", 208 TSRMLS_CC);
 				}
 			} else {
-				ZEPHIR_INIT_BNVAR(rowCount);
+				ZEPHIR_INIT_NVAR(rowCount);
 				ZVAL_LONG(rowCount, 1);
 			}
 		}

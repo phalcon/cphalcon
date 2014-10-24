@@ -195,7 +195,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, setDI) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "Injected service 'modelsManager' is invalid", "phalcon/mvc/model/query.zep", 135);
 		return;
 	}
-	ZEPHIR_INIT_BNVAR(_0);
+	ZEPHIR_INIT_NVAR(_0);
 	ZVAL_STRING(_0, "modelsMetadata", ZEPHIR_TEMP_PARAM_COPY);
 	ZEPHIR_CALL_METHOD(&metaData, dependencyInjector, "getshared", NULL, _0);
 	zephir_check_temp_parameter(_0);
@@ -1484,7 +1484,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getMultiJoin) {
 			zephir_array_update_string(&sqlEqualsJoinCondition, SL("right"), &_7, PH_COPY | PH_SEPARATE);
 		}
 	} else {
-		ZEPHIR_INIT_BNVAR(sqlJoins);
+		ZEPHIR_INIT_NVAR(sqlJoins);
 		array_init_size(sqlJoins, 3);
 		ZEPHIR_INIT_NVAR(_8);
 		array_init_size(_8, 5);
@@ -2183,7 +2183,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareInsert) {
 	ZEPHIR_CALL_METHOD(&schema, model, "getschema",  NULL);
 	zephir_check_call_status();
 	if (zephir_is_true(schema)) {
-		ZEPHIR_INIT_BNVAR(source);
+		ZEPHIR_INIT_NVAR(source);
 		array_init_size(source, 3);
 		zephir_array_fast_append(source, schema);
 		zephir_array_fast_append(source, source);
@@ -3449,7 +3449,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getRelatedRecords) {
 	_6 = zephir_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	ZEPHIR_CALL_METHOD(NULL, query, "setdi", NULL, _6);
 	zephir_check_call_status();
-	ZEPHIR_INIT_BNVAR(_3);
+	ZEPHIR_INIT_NVAR(_3);
 	ZVAL_LONG(_3, 309);
 	ZEPHIR_CALL_METHOD(NULL, query, "settype", NULL, _3);
 	zephir_check_call_status();

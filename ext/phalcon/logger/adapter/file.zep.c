@@ -162,14 +162,14 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, __construct) {
 PHP_METHOD(Phalcon_Logger_Adapter_File, getFormatter) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *formatter;
+	zval *formatter = NULL;
 
 	ZEPHIR_MM_GROW();
 
 	ZEPHIR_OBS_VAR(formatter);
 	zephir_read_property_this(&formatter, this_ptr, SL("_formatter"), PH_NOISY_CC);
 	if (Z_TYPE_P(formatter) != IS_OBJECT) {
-		ZEPHIR_INIT_BNVAR(formatter);
+		ZEPHIR_INIT_NVAR(formatter);
 		object_init_ex(formatter, phalcon_logger_formatter_line_ce);
 		ZEPHIR_CALL_METHOD(NULL, formatter, "__construct", NULL);
 		zephir_check_call_status();
@@ -191,7 +191,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, logInternal) {
 
 	zval *context = NULL;
 	int type, time, ZEPHIR_LAST_CALL_STATUS;
-	zval *message_param = NULL, *type_param = NULL, *time_param = NULL, *context_param = NULL, *fileHandler, *_0 = NULL, *_1 = NULL, *_2, *_3, *_4;
+	zval *message_param = NULL, *type_param = NULL, *time_param = NULL, *context_param = NULL, *fileHandler, *_0 = NULL, *_1 = NULL, *_2 = NULL, *_3, *_4;
 	zval *message = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -217,7 +217,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, logInternal) {
 	ZVAL_LONG(_3, time);
 	ZEPHIR_CALL_METHOD(&_1, _0, "format", NULL, message, _2, _3, context);
 	zephir_check_call_status();
-	ZEPHIR_INIT_BNVAR(_2);
+	ZEPHIR_INIT_NVAR(_2);
 	ZEPHIR_GET_CONSTANT(_2, "PHP_EOL");
 	ZEPHIR_INIT_VAR(_4);
 	ZEPHIR_CONCAT_VV(_4, _1, _2);
@@ -249,7 +249,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, __wakeup) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
 	zephir_nts_static zephir_fcall_cache_entry *_2 = NULL;
-	zval *path, *mode, *_0, *_1 = NULL;
+	zval *path, *mode = NULL, *_0, *_1 = NULL;
 
 	ZEPHIR_MM_GROW();
 
@@ -262,7 +262,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, __wakeup) {
 	ZEPHIR_OBS_VAR(mode);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY_CC);
 	if (!(zephir_array_isset_string_fetch(&mode, _0, SS("mode"), 0 TSRMLS_CC))) {
-		ZEPHIR_INIT_BNVAR(mode);
+		ZEPHIR_INIT_NVAR(mode);
 		ZVAL_STRING(mode, "ab", 1);
 	}
 	if (Z_TYPE_P(mode) != IS_STRING) {

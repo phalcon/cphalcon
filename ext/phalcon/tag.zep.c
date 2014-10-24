@@ -584,7 +584,7 @@ PHP_METHOD(Phalcon_Tag, resetInput) {
 	ZEPHIR_INIT_VAR(_0);
 	array_init(_0);
 	zephir_update_static_property_ce(phalcon_tag_ce, SL("_displayValues"), &_0 TSRMLS_CC);
-	ZEPHIR_INIT_BNVAR(_0);
+	ZEPHIR_INIT_NVAR(_0);
 	array_init(_0);
 	if (zephir_set_symbol_str(SS("_POST"), _0 TSRMLS_CC) == FAILURE){
 	  return;
@@ -643,7 +643,7 @@ PHP_METHOD(Phalcon_Tag, linkTo) {
 	if (!(zephir_array_isset_long_fetch(&action, params, 0, 0 TSRMLS_CC))) {
 		ZEPHIR_OBS_NVAR(action);
 		if (!(zephir_array_isset_string_fetch(&action, params, SS("action"), 0 TSRMLS_CC))) {
-			ZEPHIR_INIT_BNVAR(action);
+			ZEPHIR_INIT_NVAR(action);
 			ZVAL_STRING(action, "", 1);
 		} else {
 			zephir_array_unset_string(&params, SS("action"), PH_SEPARATE);
@@ -653,7 +653,7 @@ PHP_METHOD(Phalcon_Tag, linkTo) {
 	if (!(zephir_array_isset_long_fetch(&text, params, 1, 0 TSRMLS_CC))) {
 		ZEPHIR_OBS_NVAR(text);
 		if (!(zephir_array_isset_string_fetch(&text, params, SS("text"), 0 TSRMLS_CC))) {
-			ZEPHIR_INIT_BNVAR(text);
+			ZEPHIR_INIT_NVAR(text);
 			ZVAL_STRING(text, "", 1);
 		} else {
 			zephir_array_unset_string(&params, SS("text"), PH_SEPARATE);
@@ -663,7 +663,7 @@ PHP_METHOD(Phalcon_Tag, linkTo) {
 	if (!(zephir_array_isset_long_fetch(&local, params, 2, 0 TSRMLS_CC))) {
 		ZEPHIR_OBS_NVAR(local);
 		if (!(zephir_array_isset_string_fetch(&local, params, SS("local"), 0 TSRMLS_CC))) {
-			ZEPHIR_INIT_BNVAR(local);
+			ZEPHIR_INIT_NVAR(local);
 			ZVAL_BOOL(local, 1);
 		} else {
 			zephir_array_unset_string(&params, SS("local"), PH_SEPARATE);
@@ -673,7 +673,7 @@ PHP_METHOD(Phalcon_Tag, linkTo) {
 	if (zephir_array_isset_string_fetch(&query, params, SS("query"), 0 TSRMLS_CC)) {
 		zephir_array_unset_string(&params, SS("query"), PH_SEPARATE);
 	} else {
-		ZEPHIR_INIT_BNVAR(query);
+		ZEPHIR_INIT_NVAR(query);
 		ZVAL_NULL(query);
 	}
 	ZEPHIR_CALL_SELF(&url, "geturlservice", NULL);
@@ -2254,17 +2254,17 @@ PHP_METHOD(Phalcon_Tag, friendlyTitle) {
 	zephir_check_temp_parameter(_12);
 	zephir_check_call_status();
 	if (lowercase) {
-		ZEPHIR_INIT_BNVAR(_11);
+		ZEPHIR_INIT_NVAR(_11);
 		zephir_fast_strtolower(_11, friendly);
 		ZEPHIR_CPY_WRT(friendly, _11);
 	}
-	ZEPHIR_INIT_BNVAR(_11);
+	ZEPHIR_INIT_NVAR(_11);
 	ZVAL_STRING(_11, "/[\\/_|+ -]+/", ZEPHIR_TEMP_PARAM_COPY);
 	ZEPHIR_CALL_FUNCTION(&_5, "preg_replace", &_13, _11, separator, friendly);
 	zephir_check_temp_parameter(_11);
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(friendly, _5);
-	ZEPHIR_INIT_BNVAR(_11);
+	ZEPHIR_INIT_NVAR(_11);
 	zephir_fast_trim(_11, friendly, separator, ZEPHIR_TRIM_BOTH TSRMLS_CC);
 	ZEPHIR_CPY_WRT(friendly, _11);
 	ZEPHIR_SINIT_NVAR(_3);
