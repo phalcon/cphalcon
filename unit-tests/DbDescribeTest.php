@@ -39,6 +39,7 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 				'_first' => true,
 				'_after' => NULL,
 				'_bindType' => 2,
+				'_default' => NULL,
 			)),
 			1 => Phalcon\Db\Column::__set_state(array(
 				'_columnName' => 'tipo_documento_id',
@@ -53,6 +54,7 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 				'_first' => false,
 				'_after' => 'cedula',
 				'_bindType' => 1,
+				'_default' => NULL,
 			)),
 			2 => Phalcon\Db\Column::__set_state(array(
 				'_columnName' => 'nombres',
@@ -67,6 +69,7 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 				'_first' => false,
 				'_after' => 'tipo_documento_id',
 				'_bindType' => 2,
+				'_default' => NULL,
 			)),
 			3 => Phalcon\Db\Column::__set_state(array(
 				'_columnName' => 'telefono',
@@ -81,6 +84,7 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 				'_first' => false,
 				'_after' => 'nombres',
 				'_bindType' => 2,
+				'_default' => NULL,
 			)),
 			4 => Phalcon\Db\Column::__set_state(array(
 				'_columnName' => 'direccion',
@@ -95,6 +99,7 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 				'_first' => false,
 				'_after' => 'telefono',
 				'_bindType' => 2,
+				'_default' => NULL,
 			)),
 			5 => Phalcon\Db\Column::__set_state(array(
 				'_columnName' => 'email',
@@ -109,6 +114,7 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 				'_first' => false,
 				'_after' => 'direccion',
 				'_bindType' => 2,
+				'_default' => NULL,
 			)),
 			6 => Phalcon\Db\Column::__set_state(array(
 				'_columnName' => 'fecha_nacimiento',
@@ -123,6 +129,7 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 				'_first' => false,
 				'_after' => 'email',
 				'_bindType' => 2,
+				'_default' => '1970-01-01',
 			)),
 			7 => Phalcon\Db\Column::__set_state(array(
 				'_columnName' => 'ciudad_id',
@@ -137,6 +144,7 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 				'_first' => false,
 				'_after' => 'fecha_nacimiento',
 				'_bindType' => 1,
+				'_default' => '0',
 			)),
 			8 => Phalcon\Db\Column::__set_state(array(
 				'_columnName' => 'creado_at',
@@ -151,6 +159,7 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 				'_first' => false,
 				'_after' => 'ciudad_id',
 				'_bindType' => 2,
+				'_default' => NULL,
 			)),
 			9 => Phalcon\Db\Column::__set_state(array(
 				'_columnName' => 'cupo',
@@ -165,6 +174,7 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 				'_first' => false,
 				'_after' => 'creado_at',
 				'_bindType' => 32,
+				'_default' => NULL,
 			)),
 			10 => Phalcon\Db\Column::__set_state(array(
 				'_columnName' => 'estado',
@@ -179,6 +189,7 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 				'_first' => false,
 				'_after' => 'cupo',
 				'_bindType' => 2,
+				'_default' => NULL,
 			))
 		);
 	}
@@ -200,6 +211,7 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 				'_first' => true,
 				'_after' => NULL,
 				'_bindType' => 2,
+				'_default' => NULL,
 			)),
 			1 => Phalcon\Db\Column::__set_state(array(
 				'_columnName' => 'tipo_documento_id',
@@ -214,6 +226,7 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 				'_first' => false,
 				'_after' => 'cedula',
 				'_bindType' => 1,
+				'_default' => NULL,
 			)),
 			2 => Phalcon\Db\Column::__set_state(array(
 				'_columnName' => 'nombres',
@@ -228,6 +241,7 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 				'_first' => false,
 				'_after' => 'tipo_documento_id',
 				'_bindType' => 2,
+				'_default' => '\'\'::character varying',
 			)),
 			3 => Phalcon\Db\Column::__set_state(array(
 				'_columnName' => 'telefono',
@@ -241,6 +255,7 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 				'_autoIncrement' => false,
 				'_first' => false,
 				'_after' => 'nombres',
+				'_default' => 'NULL::character varying',
 			)),
 			4 => Phalcon\Db\Column::__set_state(array(
 				'_columnName' => 'direccion',
@@ -255,6 +270,7 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 				'_first' => false,
 				'_after' => 'telefono',
 				'_bindType' => 2,
+				'_default' => 'NULL::character varying',
 			)),
 			5 => Phalcon\Db\Column::__set_state(array(
 				'_columnName' => 'email',
@@ -269,6 +285,7 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 				'_first' => false,
 				'_after' => 'direccion',
 				'_bindType' => 2,
+				'_default' => 'NULL::character varying',
 			)),
 			6 => Phalcon\Db\Column::__set_state(array(
 				'_columnName' => 'fecha_nacimiento',
@@ -283,6 +300,7 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 				'_first' => false,
 				'_after' => 'email',
 				'_bindType' => 2,
+				'_default' => '\'1970-01-01\'::date',
 			)),
 			7 => Phalcon\Db\Column::__set_state(array(
 				'_columnName' => 'ciudad_id',
@@ -297,6 +315,7 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 				'_first' => false,
 				'_after' => 'fecha_nacimiento',
 				'_bindType' => 1,
+				'_default' => '0',
 			)),
 			8 => Phalcon\Db\Column::__set_state(array(
 				'_columnName' => 'creado_at',
@@ -311,6 +330,7 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 				'_first' => false,
 				'_after' => 'ciudad_id',
 				'_bindType' => 2,
+				'_default' => NULL,
 			)),
 			9 => Phalcon\Db\Column::__set_state(array(
 				'_columnName' => 'cupo',
@@ -325,6 +345,7 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 				'_first' => false,
 				'_after' => 'creado_at',
 				'_bindType' => 32,
+				'_default' => NULL,
 			)),
 			10 => Phalcon\Db\Column::__set_state(array(
 				'_columnName' => 'estado',
@@ -339,6 +360,7 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 				'_first' => false,
 				'_after' => 'cupo',
 				'_bindType' => 2,
+				'_default' => NULL,
 			)),
 		);
 
@@ -361,6 +383,7 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 				'_first' => true,
 				'_after' => NULL,
 				'_bindType' => 2,
+				'_default' => NULL,
 			)),
 			1 => Phalcon\Db\Column::__set_state(array(
 				'_columnName' => 'tipo_documento_id',
@@ -375,6 +398,7 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 				'_first' => false,
 				'_after' => 'cedula',
 				'_bindType' => 1,
+				'_default' => NULL,
 			)),
 			2 => Phalcon\Db\Column::__set_state(array(
 				'_columnName' => 'nombres',
@@ -389,6 +413,7 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 				'_first' => false,
 				'_after' => 'tipo_documento_id',
 				'_bindType' => 2,
+				'_default' => '\'\'',
 			)),
 			3 => Phalcon\Db\Column::__set_state(array(
 				'_columnName' => 'telefono',
@@ -403,6 +428,7 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 				'_first' => false,
 				'_after' => 'nombres',
 				'_bindType' => 2,
+				'_default' => 'NULL',
 			)),
 			4 => Phalcon\Db\Column::__set_state(array(
 				'_columnName' => 'direccion',
@@ -417,6 +443,7 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 				'_first' => false,
 				'_after' => 'telefono',
 				'_bindType' => 2,
+				'_default' => 'NULL',
 			)),
 			5 => Phalcon\Db\Column::__set_state(array(
 				'_columnName' => 'email',
@@ -431,6 +458,7 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 				'_first' => false,
 				'_after' => 'direccion',
 				'_bindType' => 2,
+				'_default' => 'NULL',
 			)),
 			6 => Phalcon\Db\Column::__set_state(array(
 				'_columnName' => 'fecha_nacimiento',
@@ -445,6 +473,7 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 				'_first' => false,
 				'_after' => 'email',
 				'_bindType' => 2,
+				'_default' => '\'1970-01-01\'',
 			)),
 			7 => Phalcon\Db\Column::__set_state(array(
 				'_columnName' => 'ciudad_id',
@@ -459,6 +488,7 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 				'_first' => false,
 				'_after' => 'fecha_nacimiento',
 				'_bindType' => 1,
+				'_default' => '\'0\'',
 			)),
 			8 => Phalcon\Db\Column::__set_state(array(
 				'_columnName' => 'creado_at',
@@ -473,6 +503,7 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 				'_first' => false,
 				'_after' => 'ciudad_id',
 				'_bindType' => 2,
+				'_default' => 'NULL',
 			)),
 			9 => Phalcon\Db\Column::__set_state(array(
 				'_columnName' => 'cupo',
@@ -487,6 +518,7 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 				'_first' => false,
 				'_after' => 'creado_at',
 				'_bindType' => 32,
+				'_default' => NULL,
 			)),
 			10 => Phalcon\Db\Column::__set_state(array(
 				'_columnName' => 'estado',
@@ -501,6 +533,7 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 				'_first' => false,
 				'_after' => 'cupo',
 				'_bindType' => 2,
+				'_default' => NULL,
 			)),
 		);
 	}

@@ -324,8 +324,8 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, getPaginate){
 	PHALCON_CALL_METHOD(&models, builder, "getfrom");
 
 	if (Z_TYPE_P(models) == IS_ARRAY) {
-		PHALCON_OBS_VAR(model_name);
-		phalcon_array_fetch_long(&model_name, models, 0, PH_NOISY);
+		PHALCON_INIT_VAR(model_name);
+		phalcon_array_get_current(model_name, models);
 	} else {
 		PHALCON_CPY_WRT(model_name, models);
 	}

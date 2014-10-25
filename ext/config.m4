@@ -101,12 +101,22 @@ http/response/exception.c \
 http/response/headers.c \
 http/response/cookiesinterface.c \
 http/response/headersinterface.c \
+http/uri.c \
+http/client/exception.c \
+http/client/header.c \
+http/client/response.c \
+http/client/adapterinterface.c \
+http/client/adapter.c \
+http/client/adapter/curl.c \
+http/client/adapter/stream.c \
 dispatcherinterface.c \
 di.c \
 loader/exception.c \
 cryptinterface.c \
 db.c \
 text.c \
+arr.c \
+date.c \
 debug.c \
 tag.c \
 mvc/controller.c \
@@ -163,6 +173,9 @@ mvc/model/metadata/apc.c \
 mvc/model/metadata/xcache.c \
 mvc/model/metadata/memory.c \
 mvc/model/metadata/session.c \
+mvc/model/metadata/memcache.c \
+mvc/model/metadata/libmemcached.c \
+mvc/model/metadata/redis.c \
 mvc/model/transaction.c \
 mvc/model/validatorinterface.c \
 mvc/model/metadata.c \
@@ -200,6 +213,7 @@ mvc/model/validator/url.c \
 mvc/model/validator/regex.c \
 mvc/model/validator/numericality.c \
 mvc/model/validator/stringlength.c \
+mvc/model/validator/json.c \
 mvc/model/resultset/complex.c \
 mvc/model/resultset/simple.c \
 mvc/model/behavior/timestampable.c \
@@ -209,6 +223,11 @@ mvc/model/metadatainterface.c \
 mvc/model/relationinterface.c \
 mvc/model/messageinterface.c \
 mvc/model/transactioninterface.c \
+mvc/jsonrpc.c \
+mvc/jsonrpc/exception.c \
+jsonrpc/client.c \
+jsonrpc/client/exception.c \
+jsonrpc/client/response.c \
 config/adapter/ini.c \
 config/adapter/json.c \
 config/adapter/php.c \
@@ -275,6 +294,7 @@ cache/backend/mongo.c \
 cache/backend/memcache.c \
 cache/backend/libmemcached.c \
 cache/backend/memory.c \
+cache/backend/redis.c \
 cache/exception.c \
 cache/backendinterface.c \
 cache/frontendinterface.c \
@@ -304,6 +324,7 @@ kernel.c \
 paginator/adapter/model.c \
 paginator/adapter/nativearray.c \
 paginator/adapter/querybuilder.c \
+paginator/adapter/sql.c \
 paginator/exception.c \
 paginator/adapterinterface.c \
 di/injectable.c \
@@ -350,6 +371,7 @@ validation/validator/between.c \
 validation/validator/inclusionin.c \
 validation/validator/stringlength.c \
 validation/validator/url.c \
+validation/validator/file.c \
 validation/validator.c \
 mvc/model/query/parser.c \
 mvc/model/query/scanner.c \
@@ -363,6 +385,15 @@ image/adapterinterface.c \
 image/exception.c \
 image/adapter/gd.c \
 image/adapter/imagick.c \
+amf.c \
+amf/header.c \
+amf/message.c \
+amf/packet.c \
+amf/deserializer.c \
+amf/serializer.c \
+amf/exception.c \
+mvc/amf.c \
+mvc/amf/exception.c \
 psr/log/abstractlogger.c \
 psr/log/invalidargumentexception.c \
 psr/log/loggerawareinterface.c \
@@ -371,6 +402,10 @@ psr/log/loggerinterface.c \
 psr/log/loggertrait.c \
 psr/log/loglevel.c \
 psr/log/nulllogger.c \
+chart/qrcode.c \
+chart/captcha.c \
+chart/exception.c \
+scws.c \
 registry.c"
 
 	AC_MSG_CHECKING([Include non-free minifiers])
@@ -461,6 +496,105 @@ registry.c"
 	)
 
 	CPPFLAGS=$old_CPPFLAGS
+
+	for i in /usr /usr/local; do
+		if test -r $i/include/png.h; then
+			PNG_CFLAGS=`pkg-config --cflags libpng`
+			PNG_LDFLAGS=`pkg-config --libs libpng`
+
+			PHP_ADD_INCLUDE($i/include)
+
+			CPPFLAGS="${CPPFLAGS} ${PNG_CFLAGS}"
+			EXTRA_LDFLAGS="${EXTRA_LDFLAGS} ${PNG_LDFLAGS}"
+
+			AC_MSG_RESULT("libpng found")
+
+			AC_DEFINE([PHALCON_USE_PNG], [1], [Have libpng support])
+			break
+		fi
+	done
+
+	if test -n "$PNG_CFLAGS"; then
+		for i in /usr /usr/local; do
+			if test -r $i/include/qrencode.h; then
+				QR_CFLAGS=`pkg-config --cflags libqrencode`
+				QR_LDFLAGS=`pkg-config --libs libqrencode`
+
+				PHP_ADD_INCLUDE($i/include)
+
+				CPPFLAGS="${CPPFLAGS} ${QR_CFLAGS}"
+				EXTRA_LDFLAGS="${EXTRA_LDFLAGS} ${QR_LDFLAGS}"
+
+				AC_MSG_RESULT("libqrencode found")
+
+				AC_DEFINE([PHALCON_USE_QRENCODE], [1], [Have libqrencode support])
+				break
+			fi
+		done
+	else
+		AC_MSG_RESULT([libpng not found])
+	fi
+
+	for i in /usr /usr/local; do
+		if test -r $i/bin/MagickWand-config; then
+			WAND_BINARY=$i/bin/MagickWand-config
+
+			WAND_CFLAGS=`$WAND_BINARY --cflags`
+			WAND_LDFLAGS=`$WAND_BINARY --libs`
+
+			PHP_ADD_INCLUDE($i/include)
+
+			CPPFLAGS="${CPPFLAGS} ${WAND_CFLAGS}"
+			EXTRA_LDFLAGS="${EXTRA_LDFLAGS} ${WAND_LDFLAGS}"
+
+			AC_DEFINE([PHALCON_USE_MAGICKWAND], [1], [Have ImageMagick MagickWand support])
+			break
+		fi
+	done
+
+	if test -r "$WAND_BINARY"; then
+		for i in /usr /usr/local; do
+			if test -r $i/include/zbar.h; then
+				ZBAR_CFLAGS=`pkg-config --cflags zbar`
+				ZBAR_LDFLAGS=`pkg-config --libs zbar`
+
+				PHP_ADD_INCLUDE($i/include)
+
+				CPPFLAGS="${CPPFLAGS} ${ZBAR_CFLAGS}"
+				EXTRA_LDFLAGS="${EXTRA_LDFLAGS} ${ZBAR_LDFLAGS}"
+
+				AC_MSG_RESULT("libzbar found")
+
+				AC_DEFINE([PHALCON_USE_ZBAR], [1], [Have libzbar support])
+				break
+			fi
+		done
+	fi
+
+	AC_MSG_CHECKING([for scws.h])
+	for i in /usr/local /usr /usr/local/include/scws; do
+		if test -r $i/include/scws/scws.h; then
+			AC_MSG_RESULT([yes, found in $i])
+
+			PHP_ADD_INCLUDE($i/include)
+
+			PHP_CHECK_LIBRARY(scws, scws_new,
+			[
+				PHP_ADD_LIBRARY_WITH_PATH(scws, $i/lib, PHALCON_SHARED_LIBADD)
+				PHP_SUBST(PHALCON_SHARED_LIBADD)
+
+				AC_DEFINE(PHALCON_USE_SCWS,1,[Have libscws support])
+			],[
+				AC_MSG_ERROR([Incorrect scws library])
+			],[
+				-L$i/lib -lm
+			])
+
+			break
+		else
+			AC_MSG_RESULT([no, found in $i])
+		fi
+	done
 
 	PHP_ADD_MAKEFILE_FRAGMENT([Makefile.frag])
 fi

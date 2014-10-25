@@ -13,9 +13,9 @@ class Robots extends \Phalcon\Mvc\Model
 	public $id;
 
 	/**
-	 * @Column(type="string", length=70, nullable=false)
+	 * @Column(type="string", length=70, nullable=false, map="name")
 	 */
-	public $name;
+	public $robotName;
 
 	/**
 	 * @Column(type="string", length=32, nullable=false)
