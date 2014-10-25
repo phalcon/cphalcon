@@ -103,8 +103,9 @@ class Validation extends Injectable
 		 * Validation classes can implement the 'beforeValidation' callback
 		 */
 		if method_exists(this, "beforeValidation") {
-			if this->{"beforeValidation"}(data, entity, messages) === false {
-				return messages;
+			let status = this->{"beforeValidation"}(data, entity, messages);
+			if status === false {
+				return status;
 			}
 		}
 

@@ -27,6 +27,8 @@ namespace Phalcon;
  */
 class Version
 {
+	public a;
+
     /**
      * The constant referencing the major version. Returns 0
      * <code>
@@ -200,5 +202,13 @@ class Version
         }
 
         return result;
+    }
+
+    public function makeA()
+    {
+        var row, order;
+        let row = new \stdClass;
+        let order = !row ? 0 : row->order + 1;
+        var_dump(order);
     }
 }
