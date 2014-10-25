@@ -212,25 +212,23 @@ PHP_METHOD(Phalcon_Debug_Dump, getStyle) {
  */
 PHP_METHOD(Phalcon_Debug_Dump, setStyles) {
 
-	zval *styles_param = NULL, *defaultStyles, *_0;
-	zval *styles = NULL;
+	zval *styles = NULL, *defaultStyles, *_0;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 0, 1, &styles_param);
+	zephir_fetch_params(1, 0, 1, &styles);
 
-	if (!styles_param) {
-	ZEPHIR_INIT_VAR(styles);
-	ZVAL_NULL(styles);
+	if (!styles) {
+		ZEPHIR_CPY_WRT(styles, ZEPHIR_GLOBAL(global_null));
 	} else {
-		zephir_get_arrval(styles, styles_param);
+		ZEPHIR_SEPARATE_PARAM(styles);
 	}
 
 
-	if (0) {
+	if (Z_TYPE_P(styles) == IS_NULL) {
 		ZEPHIR_INIT_NVAR(styles);
 		array_init(styles);
 	}
-	if (1) {
+	if (Z_TYPE_P(styles) != IS_ARRAY) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_debug_exception_ce, "The styles must be an array", "phalcon/debug/dump.zep", 108);
 		return;
 	}

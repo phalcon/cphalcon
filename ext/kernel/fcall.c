@@ -435,7 +435,7 @@ int zephir_call_user_function(zval **object_pp, zend_class_entry *obj_ce, zephir
 			zephir_fcall_cache_entry *temp_cache_entry = fcic.function_handler;
 			if (FAILURE == zend_hash_quick_add(zephir_globals_ptr->fcache, fcall_key, fcall_key_len, fcall_key_hash, &temp_cache_entry, sizeof(zephir_fcall_cache_entry*), NULL)) {
 			} else {
-#if PHP_VERSION_ID < 50600
+#ifdef ZEPHIR_RELEASE
 				if (cache_entry) {
 					*cache_entry = temp_cache_entry;
 				}

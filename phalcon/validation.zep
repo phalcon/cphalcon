@@ -80,9 +80,9 @@ class Validation extends Injectable
 	 * @param object entity
 	 * @return Phalcon\Validation\Message\Group
 	 */
-	public function validate(data = null, entity = null) -> <Group>
+	public function validate(var data = null, var entity = null) -> <Group>
 	{
-		var validators, messages, scope, field, validator;
+		var validators, messages, scope, field, validator, status;
 
 		let validators = this->_validators;
 		if typeof validators != "array" {
