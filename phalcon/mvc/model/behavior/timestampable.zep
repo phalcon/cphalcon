@@ -19,13 +19,18 @@
 
 namespace Phalcon\Mvc\Model\Behavior;
 
+use Phalcon\Mvc\ModelInterface;
+use Phalcon\Mvc\Model\Behavior;
+use Phalcon\Mvc\Model\BehaviorInterface;
+use Phalcon\Mvc\Model\Exception;
+
 /**
  * Phalcon\Mvc\Model\Behavior\Timestampable
  *
  * Allows to automatically update a model’s attribute saving the
  * datetime when a record is created or updated
  */
-class Timestampable extends \Phalcon\Mvc\Model\Behavior implements \Phalcon\Mvc\Model\BehaviorInterface
+class Timestampable extends Behavior implements BehaviorInterface
 {
 
 	/**
@@ -34,7 +39,7 @@ class Timestampable extends \Phalcon\Mvc\Model\Behavior implements \Phalcon\Mvc\
 	 * @param string type
 	 * @param Phalcon\Mvc\ModelInterface model
 	 */
-	public function notify(string! type, <\Phalcon\Mvc\ModelInterface> model)
+	public function notify(string! type, <ModelInterface> model)
 	{
 		var options, timestamp, singleField, field, generator, format;
 
@@ -52,7 +57,7 @@ class Timestampable extends \Phalcon\Mvc\Model\Behavior implements \Phalcon\Mvc\
 			 * The field name is required in this behavior
 			 */
 			if !fetch field, options["field"] {
-				throw new \Phalcon\Mvc\Model\Exception("The option 'field' is required");
+				throw new Exception("The option 'field' is required");
 			}
 
 			let timestamp = null;
@@ -94,7 +99,5 @@ class Timestampable extends \Phalcon\Mvc\Model\Behavior implements \Phalcon\Mvc\
 				model->writeAttribute(field, timestamp);
 			}
 		}
-
 	}
-
 }

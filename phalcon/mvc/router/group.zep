@@ -338,5 +338,4 @@ class Group
 	{
 		let this->_routes = [];
 	}
-
 }

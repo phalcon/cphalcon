@@ -19,24 +19,25 @@
 
 namespace Phalcon\Flash;
 
+use Phalcon\FlashInterface;
+
 /**
  * Phalcon\Flash\Direct
  *
  * This is a variant of the Phalcon\Flash that inmediately outputs any message passed to it
  */
-class Direct extends \Phalcon\Flash implements \Phalcon\FlashInterface
+class Direct extends \Phalcon\Flash implements FlashInterface
 {
 
 	/**
 	 * Outputs a message
 	 *
 	 * @param  string type
-	 * @param  string message
+	 * @param  string|array message
 	 * @return string
 	 */
-	public function message(string type, string message) -> string
+	public function message(string type, var message) -> string
 	{
 		return this->outputMessage(type, message);
 	}
-
 }

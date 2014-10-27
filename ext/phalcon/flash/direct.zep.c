@@ -52,20 +52,19 @@ ZEPHIR_INIT_CLASS(Phalcon_Flash_Direct) {
  * Outputs a message
  *
  * @param  string type
- * @param  string message
+ * @param  string|array message
  * @return string
  */
 PHP_METHOD(Phalcon_Flash_Direct, message) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *type_param = NULL, *message_param = NULL;
-	zval *type = NULL, *message = NULL;
+	zval *type_param = NULL, *message;
+	zval *type = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 2, 0, &type_param, &message_param);
+	zephir_fetch_params(1, 2, 0, &type_param, &message);
 
 	zephir_get_strval(type, type_param);
-	zephir_get_strval(message, message_param);
 
 
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "outputmessage", NULL, type, message);

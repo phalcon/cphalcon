@@ -19,8 +19,10 @@
 
 namespace Phalcon\Http;
 
+use Phalcon\DiInterface;
 use Phalcon\Di\InjectionAwareInterface;
 use Phalcon\Http\Response\Exception;
+use Phalcon\Session\AdapterInterface as SessionInterface;
 
 /**
  * Phalcon\Http\Cookie
@@ -65,7 +67,7 @@ class Cookie implements InjectionAwareInterface
 	 * @param string domain
 	 * @param boolean httpOnly
 	 */
-	public function __construct(string! name, value=null, expire=0, path="/", secure=null, domain=null, httpOnly=null)
+	public function __construct(string! name, value = null, expire = 0, path = "/", secure = null, domain = null, httpOnly = null)
 	{
 
 		let this->_name = name;
@@ -98,7 +100,7 @@ class Cookie implements InjectionAwareInterface
 	 *
 	 * @param Phalcon\DiInterface dependencyInjector
 	 */
-	public function setDI(<\Phalcon\DiInterface> dependencyInjector)
+	public function setDI(<DiInterface> dependencyInjector)
 	{
 		let this->_dependencyInjector = dependencyInjector;
 	}
@@ -108,7 +110,7 @@ class Cookie implements InjectionAwareInterface
 	 *
 	 * @return Phalcon\DiInterface
 	 */
-	public function getDI() -> <\Phalcon\DiInterface>
+	public function getDI() -> <DiInterface>
 	{
 		return this->_dependencyInjector;
 	}
@@ -149,7 +151,7 @@ class Cookie implements InjectionAwareInterface
 
 				if this->_useEncryption {
 
-					let dependencyInjector = this->_dependencyInjector;
+					let dependencyInjector = <DiInterface> this->_dependencyInjector;
 					if typeof dependencyInjector != "object" {
 						throw new Exception("A dependency injection object is required to access the 'filter' service");
 					}
@@ -175,7 +177,7 @@ class Cookie implements InjectionAwareInterface
 					if typeof filter != "object" {
 
 						if dependencyInjector === null {
-							let dependencyInjector = this->_dependencyInjector;
+							let dependencyInjector = <DiInterface> this->_dependencyInjector;
 							if typeof dependencyInjector != "object" {
 								throw new Exception("A dependency injection object is required to access the 'filter' service");
 							}
@@ -205,7 +207,7 @@ class Cookie implements InjectionAwareInterface
 	 *
 	 * @return Phalcon\Http\Cookie
 	 */
-	public function send() -> <\Phalcon\Http\Cookie>
+	public function send() -> <Cookie>
 	{
 		var name, value, expire, domain, path, secure, httpOnly,
 			dependencyInjector, definition, session, crypt, encryptValue;
@@ -250,7 +252,7 @@ class Cookie implements InjectionAwareInterface
 		 * The definition is stored in session
 		 */
 		if count(definition) {
-			let session = <\Phalcon\Session\AdapterInterface> dependencyInjector->getShared("session");
+			let session = <SessionInterface> dependencyInjector->getShared("session");
 			session->set("_PHCOOKIE_" . name, definition);
 		}
 
@@ -290,7 +292,7 @@ class Cookie implements InjectionAwareInterface
 	 *
 	 * @return Phalcon\Http\Cookie
 	 */
-	public function restore() -> <\Phalcon\Http\Cookie>
+	public function restore() -> <Cookie>
 	{
 		var dependencyInjector, expire, domain, path, secure,
 			httpOnly, session, definition;
@@ -348,9 +350,9 @@ class Cookie implements InjectionAwareInterface
 			secure   = this->_secure,
 			httpOnly = this->_httpOnly;
 
-		let dependencyInjector = <\Phalcon\DiInterface> this->_dependencyInjector;
+		let dependencyInjector = <DiInterface> this->_dependencyInjector;
 		if typeof dependencyInjector != "object" {
-			let session = <\Phalcon\Session\AdapterInterface> dependencyInjector->getShared("session");
+			let session = <SessionInterface> dependencyInjector->getShared("session");
 			session->remove("_PHCOOKIE_" . name);
 		}
 
@@ -386,7 +388,7 @@ class Cookie implements InjectionAwareInterface
 	 * @param int expire
 	 * @return Phalcon\Http\Cookie
 	 */
-	public function setExpiration(int expire) -> <\Phalcon\Http\Cookie>
+	public function setExpiration(int expire) -> <Cookie>
 	{
 		if !this->_restored {
 			this->restore();
@@ -442,7 +444,7 @@ class Cookie implements InjectionAwareInterface
 	 * @param string domain
 	 * @return Phalcon\Http\Cookie
 	 */
-	public function setDomain(string! domain) -> <\Phalcon\Http\Cookie>
+	public function setDomain(string! domain) -> <Cookie>
 	{
 		if !this->_restored {
 			this->restore();
@@ -470,7 +472,7 @@ class Cookie implements InjectionAwareInterface
 	 * @param boolean secure
 	 * @return Phalcon\Http\Cookie
 	 */
-	public function setSecure(boolean secure) -> <\Phalcon\Http\Cookie>
+	public function setSecure(boolean secure) -> <Cookie>
 	{
 		if !this->_restored {
 			this->restore();
@@ -498,7 +500,7 @@ class Cookie implements InjectionAwareInterface
 	 * @param boolean httpOnly
 	 * @return Phalcon\Http\Cookie
 	 */
-	public function setHttpOnly(boolean httpOnly) -> <\Phalcon\Http\Cookie>
+	public function setHttpOnly(boolean httpOnly) -> <Cookie>
 	{
 		if !this->_restored {
 			this->restore();

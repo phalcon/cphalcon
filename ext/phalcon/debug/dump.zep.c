@@ -122,7 +122,7 @@ PHP_METHOD(Phalcon_Debug_Dump, __construct) {
 
 	_0 = zephir_is_true(styles);
 	if (_0) {
-		_0 = 1;
+		_0 = 1 != 1;
 	}
 	if (_0) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_debug_exception_ce, "The styles must be an array", "phalcon/debug/dump.zep", 57);

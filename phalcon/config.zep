@@ -202,9 +202,8 @@ class Config implements \ArrayAccess
 	/**
 	 * Restores the state of a Phalcon\Config object
 	 */
-	public static function __set_state(array! data) -> <\Phalcon\Config>
+	public static function __set_state(array! data) -> <Config>
 	{
 		return new self(data);
 	}
-
 }

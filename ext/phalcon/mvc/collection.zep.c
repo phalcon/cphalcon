@@ -184,10 +184,8 @@ PHP_METHOD(Phalcon_Mvc_Collection, setId) {
 			ZEPHIR_INIT_VAR(mongoId);
 			_2 = zend_fetch_class(SL("MongoId"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 			object_init_ex(mongoId, _2);
-			if (zephir_has_constructor(mongoId TSRMLS_CC)) {
-				ZEPHIR_CALL_METHOD(NULL, mongoId, "__construct", NULL, id);
-				zephir_check_call_status();
-			}
+			ZEPHIR_CALL_METHOD(NULL, mongoId, "__construct", NULL, id);
+			zephir_check_call_status();
 		} else {
 			ZEPHIR_CPY_WRT(mongoId, id);
 		}
@@ -1206,10 +1204,8 @@ PHP_METHOD(Phalcon_Mvc_Collection, _exists) {
 				ZEPHIR_INIT_NVAR(mongoId);
 				_2 = zend_fetch_class(SL("MongoId"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 				object_init_ex(mongoId, _2);
-				if (zephir_has_constructor(mongoId TSRMLS_CC)) {
-					ZEPHIR_CALL_METHOD(NULL, mongoId, "__construct", NULL, id);
-					zephir_check_call_status();
-				}
+				ZEPHIR_CALL_METHOD(NULL, mongoId, "__construct", NULL, id);
+				zephir_check_call_status();
 				zephir_update_property_this(this_ptr, SL("_id"), mongoId TSRMLS_CC);
 			} else {
 				ZEPHIR_CPY_WRT(mongoId, id);
@@ -1431,10 +1427,8 @@ PHP_METHOD(Phalcon_Mvc_Collection, findById) {
 			ZEPHIR_INIT_VAR(mongoId);
 			_3 = zend_fetch_class(SL("MongoId"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 			object_init_ex(mongoId, _3);
-			if (zephir_has_constructor(mongoId TSRMLS_CC)) {
-				ZEPHIR_CALL_METHOD(NULL, mongoId, "__construct", NULL, id);
-				zephir_check_call_status();
-			}
+			ZEPHIR_CALL_METHOD(NULL, mongoId, "__construct", NULL, id);
+			zephir_check_call_status();
 		} else {
 			ZEPHIR_CPY_WRT(mongoId, id);
 		}
@@ -1836,10 +1830,8 @@ PHP_METHOD(Phalcon_Mvc_Collection, delete) {
 			ZEPHIR_INIT_NVAR(mongoId);
 			_3 = zend_fetch_class(SL("MongoId"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 			object_init_ex(mongoId, _3);
-			if (zephir_has_constructor(mongoId TSRMLS_CC)) {
-				ZEPHIR_CALL_METHOD(NULL, mongoId, "__construct", NULL, id);
-				zephir_check_call_status();
-			}
+			ZEPHIR_CALL_METHOD(NULL, mongoId, "__construct", NULL, id);
+			zephir_check_call_status();
 		} else {
 			ZEPHIR_CPY_WRT(mongoId, id);
 		}

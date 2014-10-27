@@ -419,9 +419,12 @@ void zephir_initialize_memory(zend_zephir_globals_def *zephir_globals_ptr TSRMLS
 	zephir_globals_ptr->initialized = 1;
 }
 
+/**
+ * Cleans the function/method cache up
+ */
 int zephir_cleanup_fcache(void *pDest TSRMLS_DC, int num_args, va_list args, zend_hash_key *hash_key)
 {
-	zephir_fcall_cache_entry **entry = (zephir_fcall_cache_entry**)pDest;
+	zephir_fcall_cache_entry **entry = (zephir_fcall_cache_entry**) pDest;
 	zend_class_entry *scope;
 	uint len = hash_key->nKeyLength;
 
@@ -431,7 +434,7 @@ int zephir_cleanup_fcache(void *pDest TSRMLS_DC, int num_args, va_list args, zen
 	memcpy(&scope, &hash_key->arKey[len - 2 * sizeof(zend_class_entry**)], sizeof(zend_class_entry*));
 
 /*
-#ifndef ZEPHIR_RELEASE
+#ifndef PHALCON_RELEASE
 	{
 		zend_class_entry *cls;
 		memcpy(&cls, &hash_key->arKey[len - sizeof(zend_class_entry**)], sizeof(zend_class_entry*));

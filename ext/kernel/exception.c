@@ -111,6 +111,34 @@ void zephir_throw_exception_string(zend_class_entry *ce, const char *message, ze
 }
 
 /**
+ * Throws an exception with a string format as parameter
+ */
+void zephir_throw_exception_format(zend_class_entry *ce TSRMLS_DC, const char *format, ...) {
+
+	zval *object, *msg;
+	int ZEPHIR_LAST_CALL_STATUS = 0, len;
+	char *buffer;
+	va_list args;
+
+	ALLOC_INIT_ZVAL(object);
+	object_init_ex(object, ce);
+
+	va_start(args, format);
+	len = vspprintf(&buffer, 0, format, args);
+	va_end(args);
+
+	ALLOC_INIT_ZVAL(msg);
+	ZVAL_STRINGL(msg, buffer, len, 0);
+
+	ZEPHIR_CALL_METHOD(NULL, object, "__construct", NULL, msg);
+	zephir_check_call_status();
+
+	zend_throw_exception_object(object TSRMLS_CC);
+
+	zval_ptr_dtor(&msg);
+}
+
+/**
  * Throws an exception with a single zval parameter
  */
 void zephir_throw_exception_zval_debug(zend_class_entry *ce, zval *message, const char *file, zend_uint line TSRMLS_DC){
