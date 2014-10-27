@@ -177,59 +177,12 @@ class Simple extends Resultset
 	 */
 	public function toArray(boolean renameColumns = true) -> array
 	{
-		var result, activeRow, records, record, renamed, renamedKey,
+		var records, record, renamed, renamedKey,
 			key, value, renamedRecords, columnMap;
 
-		if this->_type {
-
-			let result = this->_result;
-			if typeof result == "object" {
-
-				let activeRow = this->_activeRow;
-
-				/**
-				 * Check if we need to re-execute the query
-				 */
-				if activeRow !== null {
-					result->execute();
-				}
-
-				/**
-				 * We fetch all the results in memory
-				 */
-				let records = result->fetchAll();
-			} else {
-				let records = [];
-			}
-
-		} else {
-
-			let records = this->_rows;
-			if typeof records != "array" {
-				let result = this->_result;
-				if typeof result == "object" {
-
-					let activeRow = this->_activeRow;
-
-					/**
-				 	 * Check if we need to re-execute the query
-				 	 */
-					if activeRow !== null {
-						result->execute();
-					}
-
-					/**
-					 * We fetch all the results in memory again
-					 */
-					let records = result->fetchAll(),
-						this->_rows = records;
-
-					/**
-					 * Update the row count
-					 */
-					let this->_count = count(records);
-				}
-			}
+		let records = [];
+		for record in iterator(this) {
+			let records[] = record->toArray();
 		}
 
 		/**
