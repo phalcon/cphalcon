@@ -306,6 +306,7 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_toarray, 0, 0, 0)
 	ZEND_ARG_INFO(0, columns)
+	ZEND_ARG_INFO(0, renameColumns)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_filter, 0, 0, 2)
