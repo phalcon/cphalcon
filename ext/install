@@ -21,4 +21,4 @@ if [ -f Makefile ]; then
 fi
 
 phpize 
-CC="gcc" CFLAGS="-g3 -O0 -Wall" ./configure --enable-phalcon && make && make install && echo "Notice: Phalcon was compiled in debug mode.\nThanks for compiling Phalcon!\nBuild succeed: Please restart your web server to complete the installation"
+CC="gcc" CFLAGS="-g3 -O0 -Wall" ./configure --enable-phalcon && make -j2 && make install && echo "Notice: Phalcon was compiled in debug mode.\nThanks for compiling Phalcon!\nBuild succeed: Please restart your web server to complete the installation"

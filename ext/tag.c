@@ -582,18 +582,40 @@ PHP_METHOD(Phalcon_Tag, setDefault){
  * </code>
  *
  * @param array $values
+ * @param boolean $merge
  */
 PHP_METHOD(Phalcon_Tag, setDefaults){
 
-	zval *values;
+	zval *values, *merge = NULL, *display_values, *merged_values = NULL;;
 
-	phalcon_fetch_params(0, 1, 0, &values);
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 1, 1, &values, &merge);
+
+	if (!merge) {
+		merge = PHALCON_GLOBAL(z_false);
+	}
 	
 	if (Z_TYPE_P(values) != IS_ARRAY) { 
 		PHALCON_THROW_EXCEPTION_STRW(phalcon_tag_exception_ce, "An array is required as default values");
 		return;
 	}
-	phalcon_update_static_property_ce(phalcon_tag_ce, SL("_displayValues"), values TSRMLS_CC);
+
+	if (zend_is_true(merge)) {
+
+		display_values = phalcon_fetch_static_property_ce(phalcon_tag_ce, SL("_displayValues") TSRMLS_CC);
+		if (Z_TYPE_P(display_values) == IS_ARRAY) { 
+			PHALCON_INIT_VAR(merged_values);
+			phalcon_fast_array_merge(merged_values, &display_values, &values TSRMLS_CC);
+			phalcon_update_static_property_ce(phalcon_tag_ce, SL("_displayValues"), merged_values TSRMLS_CC);
+		} else {
+			phalcon_update_static_property_ce(phalcon_tag_ce, SL("_displayValues"), values TSRMLS_CC);
+		}
+	} else {
+		phalcon_update_static_property_ce(phalcon_tag_ce, SL("_displayValues"), values TSRMLS_CC);
+	}
+
+	PHALCON_MM_RESTORE();
 	
 }
 

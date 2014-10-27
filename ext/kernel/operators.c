@@ -81,6 +81,8 @@ void phalcon_concat_self(zval **left, zval *right TSRMLS_DC){
 		}
 	}
 
+	SEPARATE_ZVAL_IF_NOT_REF(left);
+
 	length = Z_STRLEN_PP(left) + Z_STRLEN_P(right);
 	Z_STRVAL_PP(left) = str_erealloc(Z_STRVAL_PP(left), length + 1);
 
@@ -124,6 +126,8 @@ void phalcon_concat_self_str(zval **left, const char *right, int right_length TS
 			PHALCON_CPY_WRT_CTOR(*left, (&left_copy));
 		}
 	}
+
+	SEPARATE_ZVAL_IF_NOT_REF(left);
 
 	length = Z_STRLEN_PP(left) + right_length;
 	Z_STRVAL_PP(left) = str_erealloc(Z_STRVAL_PP(left), length + 1);
