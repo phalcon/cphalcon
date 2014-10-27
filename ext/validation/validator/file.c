@@ -320,7 +320,7 @@ PHP_METHOD(Phalcon_Validation_Validator_File, validate){
 PHP_METHOD(Phalcon_Validation_Validator_File, valid){
 
 	zval *value, *minsize = NULL, *maxsize = NULL, *mimes = NULL, *minwidth = NULL, *maxwidth = NULL, *minheight = NULL, *maxheight = NULL;
-	zval *file = NULL, *size = NULL, *constant, *finfo = NULL, *pathname = NULL, *mime = NULL, *image, *width = NULL, *height = NULL, *valid = NULL;
+	zval *file = NULL, *size = NULL, *constant, *finfo = NULL, *pathname = NULL, *mime = NULL, *image, *imageinfo = NULL, *width = NULL, *height = NULL, *valid = NULL;
 	zend_class_entry *imagick_ce;
 
 	PHALCON_MM_GROW();
@@ -422,14 +422,33 @@ PHP_METHOD(Phalcon_Validation_Validator_File, valid){
 		}
 	}
 
-	imagick_ce = zend_fetch_class(SL("Imagick"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
+	if (phalcon_class_exists(SL("imagick"), 0 TSRMLS_CC)) {
+		imagick_ce = zend_fetch_class(SL("Imagick"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 
-	PHALCON_INIT_VAR(image);
-	object_init_ex(image, imagick_ce);
-	PHALCON_CALL_METHOD(NULL, image, "__construct", pathname);
+		PHALCON_INIT_VAR(image);
+		object_init_ex(image, imagick_ce);
+		PHALCON_CALL_METHOD(NULL, image, "__construct", pathname);
 
-	PHALCON_CALL_METHOD(&width, image, "getImageWidth");
-	PHALCON_CALL_METHOD(&height, image, "getImageHeight");
+		PHALCON_CALL_METHOD(&width, image, "getImageWidth");
+		PHALCON_CALL_METHOD(&height, image, "getImageHeight");
+	} else if (phalcon_function_exists_ex(SS("getimagesize") TSRMLS_CC) != FAILURE) {
+		PHALCON_CALL_FUNCTION(&imageinfo, "getimagesize", pathname);
+		if (!phalcon_array_isset_long_fetch(&width, imageinfo, 0)) {
+			PHALCON_INIT_VAR(width);
+			ZVAL_LONG(width, -1);
+		}
+
+		if (!phalcon_array_isset_long_fetch(&height, imageinfo, 1)) {
+			PHALCON_INIT_VAR(height);
+			ZVAL_LONG(height, -1);
+		}
+	} else {
+		PHALCON_INIT_VAR(width);
+		ZVAL_LONG(width, -1);
+
+		PHALCON_INIT_VAR(height);
+		ZVAL_LONG(height, -1);
+	}
 
 	if (!PHALCON_IS_EMPTY(minwidth)) {
 		PHALCON_INIT_NVAR(valid);
