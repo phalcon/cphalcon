@@ -344,5 +344,5 @@ PHP_METHOD(Phalcon_Http_Request_File, __set_state) {
 PHP_METHOD(Phalcon_Http_Request_File, getExtension){
 
 
-	RETURN_MEMBER(this_ptr, "_extension ");
+	RETURN_MEMBER(this_ptr, "_extension");
 }
