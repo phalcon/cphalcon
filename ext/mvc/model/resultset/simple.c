@@ -303,12 +303,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, valid){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, toArray){
 
-	zval *rename_columns = NULL, *records, *valid = NULL, *current = NULL, *arr = NULL, *column_map, *renamed_records;
-	zval *record = NULL, *renamed = NULL, *value = NULL, *key = NULL, *exception_message = NULL;
-	zval *renamed_key = NULL;
-	HashTable *ah0, *ah1;
-	HashPosition hp0, hp1;
-	zval **hd;
+	zval *rename_columns = NULL, *records, *valid = NULL, *current = NULL, *arr = NULL;
 
 	PHALCON_MM_GROW();
 
