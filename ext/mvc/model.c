@@ -1559,21 +1559,27 @@ PHP_METHOD(Phalcon_Mvc_Model, find){
  * </code>
  *
  * @param array $parameters
+ * @param bool $autoCreate
  * @return Phalcon\Mvc\Model
  */
 PHP_METHOD(Phalcon_Mvc_Model, findFirst){
 
-	zval *parameters = NULL, *model_name, *params = NULL, *builder;
+	zval *parameters = NULL, *auto_create = NULL, *model_name, *params = NULL, *builder;
 	zval *query = NULL, *bind_params = NULL, *bind_types = NULL, *cache;
 	zval *unique, *index, tmp = zval_used_for_init;
 	zval *dependency_injector = NULL, *manager, *model = NULL;
+	zval *result = NULL;
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 0, 1, &parameters);
+	phalcon_fetch_params(1, 0, 2, &parameters, &auto_create);
 	
 	if (!parameters) {
 		parameters = PHALCON_GLOBAL(z_null);
+	}
+	
+	if (!auto_create) {
+		auto_create = PHALCON_GLOBAL(z_false);
 	}
 	
 	PHALCON_INIT_VAR(model_name);
@@ -1676,7 +1682,16 @@ PHP_METHOD(Phalcon_Mvc_Model, findFirst){
 	/** 
 	 * Execute the query passing the bind-params and casting-types
 	 */
-	PHALCON_RETURN_CALL_METHOD(query, "execute", bind_params, bind_types);
+	PHALCON_CALL_METHOD(&result, query, "execute", bind_params, bind_types);
+
+	if (zend_is_true(result)) {
+		RETURN_CTOR(result);
+	}
+
+	if (zend_is_true(auto_create)) {
+		RETURN_CTOR(model);
+	}
+
 	RETURN_MM();
 }
 
