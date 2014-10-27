@@ -18,9 +18,13 @@
 */
 
 #include "image.h"
+#include "image/adapter/gd.h"
+#include "image/adapter/imagick.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
+#include "kernel/fcall.h"
+#include "kernel/object.h"
 
 /**
  * Phalcon\Image
@@ -28,19 +32,32 @@
  * Image manipulation support. Allows images to be resized, cropped, etc.
  *
  *<code>
- *	$image = new Phalcon\Image\Adapter\GD("upload/test.jpg");
+ *	$image = Phalcon\Image::factory("upload/test.jpg");
  *	$image->resize(200, 200);
  *	$image->save();
  *</code>
  */
 zend_class_entry *phalcon_image_ce;
 
+PHP_METHOD(Phalcon_Image, factory);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_image_factory, 0, 0, 1)
+	ZEND_ARG_INFO(0, file)
+	ZEND_ARG_INFO(0, width)
+	ZEND_ARG_INFO(0, height)
+ZEND_END_ARG_INFO()
+
+static const zend_function_entry phalcon_image_method_entry[] = {
+	PHP_ME(Phalcon_Image, factory, arginfo_phalcon_image_factory, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
+	PHP_FE_END
+};
+
 /**
  * Phalcon\Image initializer
  */
 PHALCON_INIT_CLASS(Phalcon_Image){
 
-	PHALCON_REGISTER_CLASS(Phalcon, Image, image, NULL, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
+	PHALCON_REGISTER_CLASS(Phalcon, Image, image, phalcon_image_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
 	
 	/* Resizing constraints */
 	zend_declare_class_constant_long(phalcon_image_ce, SL("NONE"),    PHALCON_IMAGE_NONE TSRMLS_CC);
@@ -60,4 +77,38 @@ PHALCON_INIT_CLASS(Phalcon_Image){
 	zend_declare_class_constant_long(phalcon_image_ce, SL("IMAGICK"), PHALCON_IMAGE_IMAGICK TSRMLS_CC);
 
 	return SUCCESS;
+}
+
+/**
+ * Executes the validation
+ *
+ * @param string $file
+ * @param int $width
+ * @param int $height
+ * @return Phalcon\Image\AdapterInterface
+ */
+PHP_METHOD(Phalcon_Image, factory){
+	zval *file, *width = NULL, *height = NULL;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 1, 2, &file, &width, &height);
+
+	if (!width) {
+		width = PHALCON_GLOBAL(z_null);
+	}
+
+	if (!height) {
+		height = PHALCON_GLOBAL(z_null);
+	}
+
+	if (phalcon_class_exists(SL("imagick"), 0 TSRMLS_CC)) {
+		object_init_ex(return_value, phalcon_image_adapter_imagick_ce);
+		PHALCON_CALL_METHOD(NULL, return_value, "__construct", file, width, height);
+	} else {
+		object_init_ex(return_value, phalcon_image_adapter_gd_ce);
+		PHALCON_CALL_METHOD(NULL, return_value, "__construct", file, width, height);
+	}
+
+	PHALCON_MM_RESTORE();
 }
