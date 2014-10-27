@@ -330,80 +330,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, toArray){
 		}
 	
 		PHALCON_CALL_METHOD(&current, this_ptr, "current");
-		PHALCON_CALL_METHOD(&arr, current, "toarray");
+		PHALCON_CALL_METHOD(&arr, current, "toarray", PHALCON_GLOBAL(z_null), rename_columns);
 		phalcon_array_append(&records, arr, 0);
 		PHALCON_CALL_METHOD(NULL, this_ptr, "next");
-	}
-	
-	/** 
-	 * We need to rename the whole set here, this could be slow
-	 */
-	if (zend_is_true(rename_columns)) {
-	
-		/** 
-		 * Get the resultset column map
-		 */
-		PHALCON_OBS_VAR(column_map);
-		phalcon_read_property_this(&column_map, this_ptr, SL("_columnMap"), PH_NOISY TSRMLS_CC);
-		if (Z_TYPE_P(column_map) != IS_ARRAY) { 
-			RETURN_CCTOR(records);
-		}
-	
-		PHALCON_INIT_VAR(renamed_records);
-		array_init(renamed_records);
-		if (Z_TYPE_P(records) == IS_ARRAY) { 
-	
-			phalcon_is_iterable(records, &ah0, &hp0, 0, 0);
-	
-			while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
-	
-				PHALCON_GET_HVALUE(record);
-	
-				PHALCON_INIT_NVAR(renamed);
-				array_init(renamed);
-	
-				phalcon_is_iterable(record, &ah1, &hp1, 0, 0);
-	
-				while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
-	
-					PHALCON_GET_HKEY(key, ah1, hp1);
-					PHALCON_GET_HVALUE(value);
-	
-					/** 
-					 * Check if the key is part of the column map
-					 */
-					if (!phalcon_array_isset(column_map, key)) {
-						PHALCON_INIT_NVAR(exception_message);
-						PHALCON_CONCAT_SVS(exception_message, "Column '", key, "' is not part of the column map");
-						PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
-						return;
-					}
-	
-					/** 
-					 * Get the renamed column
-					 */
-					PHALCON_OBS_NVAR(renamed_key);
-					phalcon_array_fetch(&renamed_key, column_map, key, PH_NOISY);
-	
-					/** 
-					 * Add the value renamed
-					 */
-					phalcon_array_update_zval(&renamed, renamed_key, value, PH_COPY | PH_SEPARATE);
-	
-					zend_hash_move_forward_ex(ah1, &hp1);
-				}
-	
-				/** 
-				 * Append the renamed records to the main array
-				 */
-				phalcon_array_append(&renamed_records, renamed, PH_SEPARATE);
-	
-				zend_hash_move_forward_ex(ah0, &hp0);
-			}
-	
-		}
-	
-		RETURN_CTOR(renamed_records);
 	}
 	
 	RETURN_CCTOR(records);
