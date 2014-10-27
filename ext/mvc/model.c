@@ -306,6 +306,7 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_toarray, 0, 0, 0)
 	ZEND_ARG_INFO(0, columns)
+	ZEND_ARG_INFO(0, renameColumns)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_filter, 0, 0, 2)
@@ -6993,7 +6994,7 @@ PHP_METHOD(Phalcon_Mvc_Model, dump){
  */
 PHP_METHOD(Phalcon_Mvc_Model, toArray){
 
-	zval *columns = NULL, *meta_data = NULL, *data, *null_value, *attributes = NULL;
+	zval *columns = NULL, *rename_columns = NULL, *meta_data = NULL, *data, *null_value, *attributes = NULL;
 	zval *column_map = NULL, *attribute = NULL, *exception_message = NULL;
 	zval *attribute_field = NULL, *value = NULL;
 	HashTable *ah0;
@@ -7002,7 +7003,11 @@ PHP_METHOD(Phalcon_Mvc_Model, toArray){
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 0, 1, &columns);
+	phalcon_fetch_params(1, 0, 2, &columns, &rename_columns);
+	
+	if (!rename_columns) {
+		rename_columns = PHALCON_GLOBAL(z_true);
+	}
 
 	PHALCON_CALL_METHOD(&meta_data, this_ptr, "getmodelsmetadata");
 	
@@ -7030,7 +7035,7 @@ PHP_METHOD(Phalcon_Mvc_Model, toArray){
 		/** 
 		 * Check if the columns must be renamed
 		 */
-		if (Z_TYPE_P(column_map) == IS_ARRAY) { 
+		if (zend_is_true(rename_columns) && Z_TYPE_P(column_map) == IS_ARRAY) { 
 			if (!phalcon_array_isset(column_map, attribute)) {
 				PHALCON_INIT_NVAR(exception_message);
 				PHALCON_CONCAT_SVS(exception_message, "Column \"", attribute, "\" doesn't make part of the column map");
