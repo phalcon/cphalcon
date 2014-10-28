@@ -1888,7 +1888,7 @@ PHP_METHOD(Phalcon_Http_Request, getHeaders){
 
 			MAKE_STD_ZVAL(header);
 			ZVAL_STRINGL(header, Z_STRVAL(key) + 5, Z_STRLEN(key) - 5, 1);
-			phalcon_array_update_zval(&return_value, header, *hd, 0);
+			phalcon_array_update_zval(&return_value, header, *hd, PH_COPY);
 		}
 	}
 }
