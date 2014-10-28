@@ -301,7 +301,8 @@ PHP_METHOD(Phalcon_Cache_Backend_File, save){
 	}
 
 	PHALCON_CALL_METHOD(&is_buffering, frontend, "isbuffering");
-	if (!stop_buffer || PHALCON_IS_TRUE(stop_buffer)) {
+
+	if (!stop_buffer || Z_TYPE_P(stop_buffer) == IS_NULL || PHALCON_IS_TRUE(stop_buffer)) {
 		PHALCON_CALL_METHOD(NULL, frontend, "stop");
 	}
 
