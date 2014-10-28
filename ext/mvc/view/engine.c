@@ -106,16 +106,20 @@ PHP_METHOD(Phalcon_Mvc_View_Engine, getContent)
  */
 PHP_METHOD(Phalcon_Mvc_View_Engine, partial){
 
-	zval *partial_path, *params = NULL, *view;
+	zval *partial_path, *params = NULL, *view, *ignore_missing = NULL;
 
-	phalcon_fetch_params(0, 1, 1, &partial_path, &params);
+	phalcon_fetch_params(0, 1, 2, &partial_path, &params, &ignore_missing);
 	
 	if (!params) {
 		params = PHALCON_GLOBAL(z_null);
 	}
-	
+
+	if (!ignore_missing) {
+	    ignore_missing = PHALCON_GLOBAL(z_false);
+	}
+
 	view = phalcon_fetch_nproperty_this(this_ptr, SL("_view"), PH_NOISY TSRMLS_CC);
-	PHALCON_RETURN_CALL_METHODW(view, "partial", partial_path, params);
+	PHALCON_RETURN_CALL_METHODW(view, "partial", partial_path, params, ignore_missing);
 }
 
 /**
