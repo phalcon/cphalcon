@@ -738,6 +738,33 @@ void phalcon_array_merge_recursive_n(zval **a1, zval *a2)
 	}
 }
 
+void phalcon_array_merge_recursive_n2(zval **a1, zval *a2)
+{
+	HashPosition hp;
+	zval **value, key, *tmp1, *tmp2;
+
+	assert(Z_TYPE_PP(a1) == IS_ARRAY);
+	assert(Z_TYPE_P(a2)  == IS_ARRAY);
+
+	for (
+		zend_hash_internal_pointer_reset_ex(Z_ARRVAL_P(a2), &hp);
+		zend_hash_get_current_data_ex(Z_ARRVAL_P(a2), (void**) &value, &hp) == SUCCESS;
+		zend_hash_move_forward_ex(Z_ARRVAL_P(a2), &hp)
+	) {
+		key = phalcon_get_current_key_w(Z_ARRVAL_P(a2), &hp);
+
+		if (!phalcon_array_isset(*a1, &key)) {
+			phalcon_array_update_zval(a1, &key, *value, PH_COPY | PH_SEPARATE);
+		} else if (Z_TYPE_PP(value) == IS_ARRAY) {
+			phalcon_array_fetch(&tmp1, *a1, &key, PH_NOISY);
+			phalcon_array_fetch(&tmp2, a2, &key, PH_NOISY);
+			phalcon_array_merge_recursive_n2(&tmp1, tmp2);
+			zval_ptr_dtor(&tmp1);
+			zval_ptr_dtor(&tmp2);
+		}
+	}
+}
+
 HashTable* phalcon_array_splice(HashTable *in_hash, int offset, int length, zval ***list, int list_count, HashTable **removed TSRMLS_DC) /* {{{ */
 {
 	HashTable 	*out_hash = NULL;	/* Output hashtable */
