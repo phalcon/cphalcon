@@ -79,6 +79,7 @@ PHALCON_INIT_CLASS(Phalcon_Db_Adapter_Pdo_Postgresql){
 
 	zend_declare_property_string(phalcon_db_adapter_pdo_postgresql_ce, SL("_type"), "pgsql", ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_string(phalcon_db_adapter_pdo_postgresql_ce, SL("_dialectType"), "postgresql", ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_db_adapter_pdo_postgresql_ce, SL("_schema"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	zend_class_implements(phalcon_db_adapter_pdo_postgresql_ce TSRMLS_CC, 1, phalcon_db_adapterinterface_ce);
 
@@ -117,6 +118,8 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, connect){
 		PHALCON_OBS_VAR(schema);
 		phalcon_array_fetch_string(&schema, descriptor, SL("schema"), PH_NOISY);
 		phalcon_array_unset_string(&descriptor, SS("schema"), PH_SEPARATE);
+
+		phalcon_update_property_this(this_ptr, SL("_schema"), schema TSRMLS_CC);
 	}
 	else {
 		PHALCON_INIT_VAR(schema);
@@ -173,8 +176,8 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, describeColumns){
 
 	phalcon_fetch_params(1, 1, 1, &table, &schema);
 	
-	if (!schema) {
-		schema = PHALCON_GLOBAL(z_null);
+	if (!schema || !zend_is_true(schema)) {
+		schema = phalcon_fetch_nproperty_this(this_ptr, SL("_schema"), PH_NOISY TSRMLS_CC);
 	}
 	
 	PHALCON_INIT_VAR(columns);
