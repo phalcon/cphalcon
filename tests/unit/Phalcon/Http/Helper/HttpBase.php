@@ -73,6 +73,7 @@ class HttpBase extends CdTest
      */
     protected function getRequestObject()
     {
+        PhDI::reset();
         $di = new PhDI();
 
         $di->set(

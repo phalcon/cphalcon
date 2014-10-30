@@ -84,7 +84,7 @@ class Request extends PhRequest
 
 	public function isSoapRequested()
 	{
-        return parent::isSoapRequest();
+        return parent::isSoapRequested();
 	}
 
 	public function isSecureRequest()
