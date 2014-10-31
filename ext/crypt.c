@@ -28,6 +28,7 @@
 #include "kernel/main.h"
 #include "kernel/memory.h"
 #include "kernel/object.h"
+#include "kernel/array.h"
 #include "kernel/exception.h"
 #include "kernel/operators.h"
 #include "kernel/fcall.h"
@@ -67,12 +68,33 @@ PHP_METHOD(Phalcon_Crypt, encryptBase64);
 PHP_METHOD(Phalcon_Crypt, decryptBase64);
 PHP_METHOD(Phalcon_Crypt, getAvailableCiphers);
 PHP_METHOD(Phalcon_Crypt, getAvailableModes);
+PHP_METHOD(Phalcon_Crypt, getAvailableCiphers);
+PHP_METHOD(Phalcon_Crypt, beforeEncrypt);
+PHP_METHOD(Phalcon_Crypt, afterEncrypt);
+PHP_METHOD(Phalcon_Crypt, beforeDecrypt);
+PHP_METHOD(Phalcon_Crypt, afterDecrypt);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_crypt_getpadding, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_crypt_setpadding, 0, 0, 1)
 	ZEND_ARG_INFO(0, scheme)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_crypt_beforeencrypt, 0, 0, 1)
+	ZEND_ARG_INFO(0, handler)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_crypt_afterencrypt, 0, 0, 1)
+	ZEND_ARG_INFO(0, handler)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_crypt_beforedecrypt, 0, 0, 1)
+	ZEND_ARG_INFO(0, handler)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_crypt_afterdecrypt, 0, 0, 1)
+	ZEND_ARG_INFO(0, handler)
 ZEND_END_ARG_INFO()
 
 static const zend_function_entry phalcon_crypt_method_entry[] = {
@@ -90,6 +112,10 @@ static const zend_function_entry phalcon_crypt_method_entry[] = {
 	PHP_ME(Phalcon_Crypt, decryptBase64, arginfo_phalcon_cryptinterface_decryptbase64, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Crypt, getAvailableCiphers, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Crypt, getAvailableModes, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Crypt, beforeEncrypt, arginfo_phalcon_crypt_beforeencrypt, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Crypt, afterEncrypt, arginfo_phalcon_crypt_afterencrypt, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Crypt, beforeDecrypt, arginfo_phalcon_crypt_beforedecrypt, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Crypt, afterDecrypt, arginfo_phalcon_crypt_afterdecrypt, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };
 
@@ -104,7 +130,11 @@ PHALCON_INIT_CLASS(Phalcon_Crypt){
 	zend_declare_property_null(phalcon_crypt_ce, SL("_key"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_string(phalcon_crypt_ce, SL("_mode"), "cbc", ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_string(phalcon_crypt_ce, SL("_cipher"), "rijndael-256", ZEND_ACC_PROTECTED TSRMLS_CC);
-	zend_declare_property_long(phalcon_crypt_ce, SL("_padding"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_long(phalcon_crypt_ce, SL("_padding"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);	
+	zend_declare_property_null(phalcon_crypt_ce, SL("_beforeEncrypt"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_crypt_ce, SL("_afterEncrypt"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_crypt_ce, SL("_beforeDecrypt"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_crypt_ce, SL("_afterDecrypt"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	zend_class_implements(phalcon_crypt_ce TSRMLS_CC, 1, phalcon_cryptinterface_ce);
 
@@ -430,10 +460,27 @@ PHP_METHOD(Phalcon_Crypt, encrypt){
 
 	zval *source, *text, *key = NULL, *encrypt_key = NULL, *cipher, *mode, *padding_type, *iv_size = NULL;
 	zval *rand, *iv = NULL, *encrypt = NULL, *block_size = NULL, *padded;
+	zval *handler, *arguments = NULL, *value = NULL;
 
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 1, 1, &source, &key);
+
+	PHALCON_OBS_VAR(handler);
+	phalcon_read_property_this(&handler, this_ptr, SL("_beforeEncrypt"), PH_NOISY TSRMLS_CC);
+
+	if (phalcon_is_callable(handler TSRMLS_CC)) {
+		PHALCON_SEPARATE_PARAM(source);
+
+		PHALCON_INIT_NVAR(arguments);
+		array_init_size(arguments, 1);
+		phalcon_array_append(&arguments, source, 0);
+
+		PHALCON_INIT_NVAR(value);
+		PHALCON_CALL_USER_FUNC_ARRAY(value, handler, arguments);
+
+		PHALCON_CPY_WRT(source, value);
+	}
 
 	/* Do not use make_printable_zval() here: we need the conversion with type juggling */
 	if (Z_TYPE_P(source) != IS_STRING) {
@@ -503,6 +550,21 @@ PHP_METHOD(Phalcon_Crypt, encrypt){
 	PHALCON_CALL_FUNCTION(&encrypt, "mcrypt_encrypt", cipher, encrypt_key, padded, mode, iv);
 
 	PHALCON_CONCAT_VV(return_value, iv, encrypt);
+
+	PHALCON_OBS_NVAR(handler);
+	phalcon_read_property_this(&handler, this_ptr, SL("_afterEncrypt"), PH_NOISY TSRMLS_CC);
+
+	if (phalcon_is_callable(handler TSRMLS_CC)) {
+		PHALCON_INIT_NVAR(arguments);
+		array_init_size(arguments, 1);
+		phalcon_array_append(&arguments, return_value, 0);
+
+		PHALCON_INIT_NVAR(value);
+		PHALCON_CALL_USER_FUNC_ARRAY(value, handler, arguments);
+
+		RETURN_CTOR(value);
+	}
+
 	RETURN_MM();
 }
 
@@ -522,6 +584,7 @@ PHP_METHOD(Phalcon_Crypt, decrypt){
 	zval *text, *key = NULL, *decrypt_key = NULL, *cipher, *mode, *iv_size = NULL;
 	zval *key_size, *text_size, *iv, *text_to_decipher, *decrypted = NULL;
 	zval *padding_type, *block_size = NULL;
+	zval *handler, *arguments = NULL, *value = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -530,6 +593,22 @@ PHP_METHOD(Phalcon_Crypt, decrypt){
 	if (phalcon_function_exists_ex(SS("mcrypt_get_iv_size") TSRMLS_CC) == FAILURE) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_crypt_exception_ce, "mcrypt extension is required");
 		return;
+	}
+
+	PHALCON_OBS_VAR(handler);
+	phalcon_read_property_this(&handler, this_ptr, SL("_beforeDecrypt"), PH_NOISY TSRMLS_CC);
+
+	if (phalcon_is_callable(handler TSRMLS_CC)) {
+		PHALCON_SEPARATE_PARAM(text);
+
+		PHALCON_INIT_NVAR(arguments);
+		array_init_size(arguments, 1);
+		phalcon_array_append(&arguments, text, 0);
+
+		PHALCON_INIT_NVAR(value);
+		PHALCON_CALL_USER_FUNC_ARRAY(value, handler, arguments);
+
+		PHALCON_CPY_WRT(text, value);
 	}
 
 	if (!key || Z_TYPE_P(key) == IS_NULL) {
@@ -589,6 +668,21 @@ PHP_METHOD(Phalcon_Crypt, decrypt){
 	assert(Z_TYPE_P(decrypted) == IS_STRING);
 
 	phalcon_crypt_unpad_text(return_value, decrypted, mode, Z_LVAL_P(block_size), Z_LVAL_P(padding_type) TSRMLS_CC);
+
+	PHALCON_OBS_NVAR(handler);
+	phalcon_read_property_this(&handler, this_ptr, SL("_afterDecrypt"), PH_NOISY TSRMLS_CC);
+
+	if (phalcon_is_callable(handler TSRMLS_CC)) {
+		PHALCON_INIT_NVAR(arguments);
+		array_init_size(arguments, 1);
+		phalcon_array_append(&arguments, return_value, 0);
+
+		PHALCON_INIT_NVAR(value);
+		PHALCON_CALL_USER_FUNC_ARRAY(value, handler, arguments);
+
+		RETURN_CTOR(value);
+	}
+
 	RETURN_MM();
 }
 
@@ -684,4 +778,92 @@ PHP_METHOD(Phalcon_Crypt, getAvailableCiphers){
 PHP_METHOD(Phalcon_Crypt, getAvailableModes){
 
 	PHALCON_RETURN_CALL_FUNCTIONW("mcrypt_list_modes");
+}
+
+/**
+ * Adds a internal hooks before encrypts a text
+ *
+ * @param callable $handler
+ */
+PHP_METHOD(Phalcon_Crypt, beforeEncrypt){
+
+	zval *handler;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 1, 0, &handler);
+	
+	if (Z_TYPE_P(handler) != IS_OBJECT && !phalcon_is_callable(handler TSRMLS_CC)) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_crypt_exception_ce, "Handler must be an callable");
+		return;
+	}
+	
+	phalcon_update_property_this(this_ptr, SL("_beforeEncrypt"), handler TSRMLS_CC);
+	RETURN_THIS();
+}
+
+/**
+ * Adds a internal hooks after encrypts a text
+ *
+ * @param callable $handler
+ */
+PHP_METHOD(Phalcon_Crypt, afterEncrypt){
+
+	zval *handler;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 1, 0, &handler);
+	
+	if (Z_TYPE_P(handler) != IS_OBJECT && !phalcon_is_callable(handler TSRMLS_CC)) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_crypt_exception_ce, "Handler must be an callable");
+		return;
+	}
+	
+	phalcon_update_property_this(this_ptr, SL("_afterEncrypt"), handler TSRMLS_CC);
+	RETURN_THIS();
+}
+
+/**
+ * Adds a internal hooks before decrypts an encrypted text
+ *
+ * @param callable $handler
+ */
+PHP_METHOD(Phalcon_Crypt, beforeDecrypt){
+
+	zval *handler;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 1, 0, &handler);
+	
+	if (Z_TYPE_P(handler) != IS_OBJECT && !phalcon_is_callable(handler TSRMLS_CC)) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_crypt_exception_ce, "Handler must be an callable");
+		return;
+	}
+	
+	phalcon_update_property_this(this_ptr, SL("_beforeDecrypt"), handler TSRMLS_CC);
+	RETURN_THIS();
+}
+
+/**
+ * Adds a internal hooks after decrypts an encrypted text
+ *
+ * @param callable $handler
+ */
+PHP_METHOD(Phalcon_Crypt, afterDecrypt){
+
+	zval *handler;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 1, 0, &handler);
+	
+	if (Z_TYPE_P(handler) != IS_OBJECT && !phalcon_is_callable(handler TSRMLS_CC)) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_crypt_exception_ce, "Handler must be an callable");
+		return;
+	}
+	
+	phalcon_update_property_this(this_ptr, SL("_afterDecrypt"), handler TSRMLS_CC);
+	RETURN_THIS();
 }
