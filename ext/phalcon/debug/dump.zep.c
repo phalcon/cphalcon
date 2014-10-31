@@ -109,7 +109,7 @@ PHP_METHOD(Phalcon_Debug_Dump, __construct) {
 
 	if (!styles_param) {
 	ZEPHIR_INIT_VAR(styles);
-	ZVAL_NULL(styles);
+	array_init(styles);
 	} else {
 		zephir_get_arrval(styles, styles_param);
 	}

@@ -78,7 +78,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Yaml, __construct) {
 	}
 	if (!callbacks_param) {
 	ZEPHIR_INIT_VAR(callbacks);
-	ZVAL_NULL(callbacks);
+	array_init(callbacks);
 	} else {
 	if (unlikely(Z_TYPE_P(callbacks_param) != IS_ARRAY)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'callbacks' must be an array") TSRMLS_CC);

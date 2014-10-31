@@ -89,7 +89,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Registry) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon, Registry, phalcon, registry, phalcon_registry_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon, Registry, phalcon, registry, phalcon_registry_method_entry, ZEND_ACC_FINAL_CLASS);
 
 	zend_declare_property_null(phalcon_registry_ce, SL("_data"), ZEND_ACC_PROTECTED TSRMLS_CC);
 

@@ -69,6 +69,7 @@
 #include "phalcon/config/adapter/ini.zep.h"
 #include "phalcon/config/adapter/json.zep.h"
 #include "phalcon/config/adapter/php.zep.h"
+#include "phalcon/config/adapter/yaml.zep.h"
 #include "phalcon/config/exception.zep.h"
 #include "phalcon/crypt.zep.h"
 #include "phalcon/crypt/exception.zep.h"

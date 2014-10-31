@@ -114,10 +114,10 @@ PHP_METHOD(Phalcon_Image_Adapter, getMime) {
  */
 PHP_METHOD(Phalcon_Image_Adapter, resize) {
 
-	zephir_nts_static zephir_fcall_cache_entry *_10 = NULL, *_12 = NULL;
+	zephir_nts_static zephir_fcall_cache_entry *_10 = NULL, *_13 = NULL;
 	zend_bool _0, _4;
 	double ratio;
-	zval *width_param = NULL, *height_param = NULL, *master_param = NULL, *_1 = NULL, *_2, *_3, *_5, *_6, *_7 = NULL, _8 = zval_used_for_init, *_9 = NULL, *_11 = NULL, *_13 = NULL, *_14 = NULL, *_15, *_16;
+	zval *width_param = NULL, *height_param = NULL, *master_param = NULL, *_1 = NULL, *_2, *_3, *_5, *_6, *_7 = NULL, _8 = zval_used_for_init, *_9 = NULL, *_11 = NULL, *_12 = NULL, *_14 = NULL, *_15 = NULL, *_16;
 	int width, height, master, ZEPHIR_LAST_CALL_STATUS;
 
 	ZEPHIR_MM_GROW();
@@ -258,25 +258,25 @@ PHP_METHOD(Phalcon_Image_Adapter, resize) {
 	ZVAL_LONG(&_8, width);
 	ZEPHIR_CALL_FUNCTION(&_9, "round", &_10, &_8);
 	zephir_check_call_status();
-	ZEPHIR_SINIT_NVAR(_8);
-	ZVAL_LONG(&_8, 1);
-	ZEPHIR_CALL_FUNCTION(&_11, "max", &_12, _9, &_8);
+	ZEPHIR_INIT_VAR(_11);
+	ZVAL_LONG(_11, 1);
+	ZEPHIR_CALL_FUNCTION(&_12, "max", &_13, _9, _11);
 	zephir_check_call_status();
-	width = zephir_get_intval(_11);
+	width = zephir_get_intval(_12);
 	ZEPHIR_SINIT_NVAR(_8);
 	ZVAL_LONG(&_8, height);
-	ZEPHIR_CALL_FUNCTION(&_13, "round", &_10, &_8);
+	ZEPHIR_CALL_FUNCTION(&_14, "round", &_10, &_8);
 	zephir_check_call_status();
-	ZEPHIR_SINIT_NVAR(_8);
-	ZVAL_LONG(&_8, 1);
-	ZEPHIR_CALL_FUNCTION(&_14, "max", &_12, _13, &_8);
+	ZEPHIR_INIT_NVAR(_11);
+	ZVAL_LONG(_11, 1);
+	ZEPHIR_CALL_FUNCTION(&_15, "max", &_13, _14, _11);
 	zephir_check_call_status();
-	height = zephir_get_intval(_14);
-	ZEPHIR_INIT_VAR(_15);
-	ZVAL_LONG(_15, width);
+	height = zephir_get_intval(_15);
+	ZEPHIR_INIT_NVAR(_11);
+	ZVAL_LONG(_11, width);
 	ZEPHIR_INIT_VAR(_16);
 	ZVAL_LONG(_16, height);
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "_resize", NULL, _15, _16);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "_resize", NULL, _11, _16);
 	zephir_check_call_status();
 	RETURN_THIS();
 

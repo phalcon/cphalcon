@@ -22,13 +22,14 @@
 #include "config.h"
 #endif
 
-#include "php.h"
+#include <php.h>
 
 #ifdef PHP_WIN32
-#include "php_string.h"
+#include <php_string.h>
 #endif
 
 #include "php_ext.h"
+#include <Zend/zend_closures.h>
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
@@ -38,6 +39,7 @@
 #include "kernel/hash.h"
 #include "kernel/array.h"
 #include "kernel/operators.h"
+
 
 /**
  * Reads class constant from string name and returns its value
@@ -2122,3 +2124,21 @@ int zephir_fetch_property_zval(zval **result, zval *object, zval *property, int 
 	Z_ADDREF_P(*result);
 	return 0;
 }
+
+int zephir_create_closure_ex(zval *return_value, zval *this_ptr, zend_class_entry *ce, const char *method_name, zend_uint method_length TSRMLS_DC) {
+
+	zend_function *function_ptr;
+
+	if (zend_hash_find(&ce->function_table, method_name, method_length, (void**) &function_ptr) == FAILURE) {
+		ZVAL_NULL(return_value);
+		return FAILURE;
+	}
+
+#if PHP_VERSION_ID < 50400
+	zend_create_closure(return_value, function_ptr TSRMLS_CC);
+#else
+	zend_create_closure(return_value, function_ptr, ce, this_ptr TSRMLS_CC);
+#endif
+	return SUCCESS;
+}
+

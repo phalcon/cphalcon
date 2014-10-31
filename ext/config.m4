@@ -67,6 +67,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/config/adapter/ini.zep.c
 	phalcon/config/adapter/json.zep.c
 	phalcon/config/adapter/php.zep.c
+	phalcon/config/adapter/yaml.zep.c
 	phalcon/config/exception.zep.c
 	phalcon/crypt.zep.c
 	phalcon/crypt/exception.zep.c

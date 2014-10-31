@@ -493,8 +493,8 @@ int zephir_call_user_function(zval **object_pp, zend_class_entry *obj_ce, zephir
 		if (EXPECTED(status != FAILURE) && fcall_key && !temp_cache_entry) {
 #ifndef ZEPHIR_RELEASE
 			zephir_fcall_cache_entry *temp_cache_entry = malloc(sizeof(zephir_fcall_cache_entry));
-			cache_entry->f     = fcic.function_handler;
-			cache_entry->times = 0;
+			temp_cache_entry->f     = fcic.function_handler;
+			temp_cache_entry->times = 0;
 #else
 			zephir_fcall_cache_entry *temp_cache_entry = fcic.function_handler;
 #endif

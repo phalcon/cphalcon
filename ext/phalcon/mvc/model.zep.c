@@ -5661,17 +5661,22 @@ PHP_METHOD(Phalcon_Mvc_Model, dump) {
  * print_r($robot->toArray());
  *</code>
  *
+ * @param array $columns
  * @return array
  */
 PHP_METHOD(Phalcon_Mvc_Model, toArray) {
 
+	zend_bool _7;
 	zephir_fcall_cache_entry *_6 = NULL;
 	HashTable *_2;
 	HashPosition _1;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *data, *metaData = NULL, *columnMap = NULL, *attribute = NULL, *attributeField = NULL, *value = NULL, *_0 = NULL, **_3, *_4 = NULL, *_5 = NULL;
+	zval *columns, *data, *metaData = NULL, *columnMap = NULL, *attribute = NULL, *attributeField = NULL, *value = NULL, *_0 = NULL, **_3, *_4 = NULL, *_5 = NULL;
 
 	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &columns);
+
+
 
 	ZEPHIR_INIT_VAR(data);
 	array_init(data);
@@ -5681,7 +5686,7 @@ PHP_METHOD(Phalcon_Mvc_Model, toArray) {
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&_0, metaData, "getattributes", NULL, this_ptr);
 	zephir_check_call_status();
-	zephir_is_iterable(_0, &_2, &_1, 0, 0, "phalcon/mvc/model.zep", 4375);
+	zephir_is_iterable(_0, &_2, &_1, 0, 0, "phalcon/mvc/model.zep", 4382);
 	for (
 	  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_2, &_1)
@@ -5696,12 +5701,21 @@ PHP_METHOD(Phalcon_Mvc_Model, toArray) {
 				ZEPHIR_CONCAT_SVS(_5, "Column '", attribute, "' doesn't make part of the column map");
 				ZEPHIR_CALL_METHOD(NULL, _4, "__construct", &_6, _5);
 				zephir_check_call_status();
-				zephir_throw_exception_debug(_4, "phalcon/mvc/model.zep", 4362 TSRMLS_CC);
+				zephir_throw_exception_debug(_4, "phalcon/mvc/model.zep", 4363 TSRMLS_CC);
 				ZEPHIR_MM_RESTORE();
 				return;
 			}
 		} else {
 			ZEPHIR_CPY_WRT(attributeField, attribute);
+		}
+		if (Z_TYPE_P(columns) == IS_ARRAY) {
+			_7 = !zephir_fast_in_array(attributeField, columns TSRMLS_CC);
+			if (_7) {
+				_7 = !zephir_fast_in_array(attribute, columns TSRMLS_CC);
+			}
+			if (_7) {
+				continue;
+			}
 		}
 		ZEPHIR_OBS_NVAR(value);
 		if (zephir_fetch_property_zval(&value, this_ptr, attributeField, PH_SILENT_CC)) {
