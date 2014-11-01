@@ -98,7 +98,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getMetaData){
 	
 	PHALCON_CALL_METHOD(&schema, model, "getschema");
 	PHALCON_CALL_METHOD(&table, model, "getsource");
-	
+
 	/** 
 	 * Check if the mapped table exists on the database
 	 */
@@ -111,7 +111,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getMetaData){
 		} else {
 			PHALCON_CPY_WRT(complete_table, table);
 		}
-	
+
 		/** 
 		 * The table not exists
 		 */
@@ -120,7 +120,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getMetaData){
 		PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
 		return;
 	}
-	
+
 	/** 
 	 * Try to describe the table
 	 */
@@ -132,7 +132,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getMetaData){
 		} else {
 			PHALCON_CPY_WRT(complete_table, table);
 		}
-	
+
 		/** 
 		 * The table not exists
 		 */
@@ -266,7 +266,9 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getMetaData){
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getColumnMaps){
 
-	zval *model, *dependency_injector, *ordered_column_map = NULL;
+	zval *model, *dependency_injector, *class_name;
+	zval *schema = NULL, *table = NULL, *read_connection = NULL, *exists = NULL;
+	zval *columns = NULL, *column = NULL, *field_name = NULL, *ordered_column_map = NULL;
 	zval *reversed_column_map = NULL, *user_column_map = NULL;
 	zval *user_name = NULL, *name = NULL;
 	HashTable *ah0;
@@ -276,11 +278,10 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getColumnMaps){
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 2, 0, &model, &dependency_injector);
-	
+
 	PHALCON_INIT_VAR(ordered_column_map);
-	
 	PHALCON_INIT_VAR(reversed_column_map);
-	
+
 	/** 
 	 * Check for a columnMap() method on the model
 	 */
@@ -292,21 +293,63 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getColumnMaps){
 			return;
 		}
 	
+		PHALCON_INIT_VAR(class_name);
+		phalcon_get_class(class_name, model, 0 TSRMLS_CC);
+		
+		PHALCON_CALL_METHOD(&schema, model, "getschema");
+		PHALCON_CALL_METHOD(&table, model, "getsource");
+
+		/** 
+		 * Check if the mapped table exists on the database
+		 */
+		PHALCON_CALL_METHOD(&read_connection, model, "getreadconnection");
+		PHALCON_CALL_METHOD(&exists, read_connection, "tableexists", table, schema);
+		if (zend_is_true(exists)) {
+			/** 
+			 * Try to describe the table
+			 */
+			PHALCON_CALL_METHOD(&columns, read_connection, "describecolumns", table, schema);
+		} else {
+			columns = PHALCON_GLOBAL(z_null);
+		}
+
+		array_init(ordered_column_map);
 		array_init(reversed_column_map);
-		PHALCON_CPY_WRT(ordered_column_map, user_column_map);
-	
-		phalcon_is_iterable(user_column_map, &ah0, &hp0, 0, 0);
-	
+
+		if (Z_TYPE_P(columns) == IS_ARRAY) {
+
+			phalcon_is_iterable(columns, &ah0, &hp0, 0, 0);
+			while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
+				PHALCON_GET_HVALUE(column);
+				PHALCON_CALL_METHOD(&field_name, column, "getname");
+
+				phalcon_array_update_zval(&ordered_column_map, field_name, field_name, PH_COPY);
+
+				zend_hash_move_forward_ex(ah0, &hp0);
+			}
+		}
+
+		phalcon_is_iterable(user_column_map, &ah0, &hp0, 0, 0);	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
-	
+
 			PHALCON_GET_HKEY(name, ah0, hp0);
 			PHALCON_GET_HVALUE(user_name);
 	
+			phalcon_array_update_zval(&ordered_column_map, name, user_name, PH_COPY);
+	
+			zend_hash_move_forward_ex(ah0, &hp0);
+		}
+
+		phalcon_is_iterable(ordered_column_map, &ah0, &hp0, 0, 0);	
+		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
+
+			PHALCON_GET_HKEY(name, ah0, hp0);
+			PHALCON_GET_HVALUE(user_name);
+
 			phalcon_array_update_zval(&reversed_column_map, user_name, name, PH_COPY);
 	
 			zend_hash_move_forward_ex(ah0, &hp0);
 		}
-	
 	}
 	
 	/** 
