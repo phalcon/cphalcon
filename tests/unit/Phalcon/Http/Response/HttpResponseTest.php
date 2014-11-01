@@ -271,7 +271,6 @@ class HttpResponseTest extends Helper\HttpBase
      */
     public function testHttpResponseRedirectLocalUrl()
     {
-        $this->markTestSkipped('To be tested');
         $this->specify(
             "redirect is not redirecting local properly",
             function () {
