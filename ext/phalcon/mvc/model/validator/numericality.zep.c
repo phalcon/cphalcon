@@ -83,7 +83,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Numericality, validate) {
 	zval *_3;
 	zend_bool _2;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *record, *field = NULL, *value = NULL, *message = NULL, *_0, *_1 = NULL, *_4 = NULL;
+	zval *record, *field = NULL, *value = NULL, *message = NULL, *_0 = NULL, *_1 = NULL, *_4 = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &record);
@@ -105,7 +105,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Numericality, validate) {
 	}
 	ZEPHIR_CALL_METHOD(&value, record, "readattribute", NULL, field);
 	zephir_check_call_status();
-	ZEPHIR_INIT_BNVAR(_0);
+	ZEPHIR_INIT_NVAR(_0);
 	ZVAL_STRING(_0, "allowEmpty", ZEPHIR_TEMP_PARAM_COPY);
 	ZEPHIR_CALL_METHOD(&_1, this_ptr, "issetoption", NULL, _0);
 	zephir_check_temp_parameter(_0);
@@ -118,7 +118,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Numericality, validate) {
 		RETURN_MM_BOOL(1);
 	}
 	if (!(zephir_is_numeric(value))) {
-		ZEPHIR_INIT_BNVAR(_0);
+		ZEPHIR_INIT_NVAR(_0);
 		ZVAL_STRING(_0, "message", ZEPHIR_TEMP_PARAM_COPY);
 		ZEPHIR_CALL_METHOD(&message, this_ptr, "getoption", NULL, _0);
 		zephir_check_temp_parameter(_0);
@@ -132,7 +132,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Numericality, validate) {
 		zephir_array_update_string(&_3, SL(":field"), &field, PH_COPY | PH_SEPARATE);
 		ZEPHIR_CALL_FUNCTION(&_4, "strtr", &_5, message, _3);
 		zephir_check_call_status();
-		ZEPHIR_INIT_BNVAR(_0);
+		ZEPHIR_INIT_NVAR(_0);
 		ZVAL_STRING(_0, "Numericality", ZEPHIR_TEMP_PARAM_COPY);
 		ZEPHIR_CALL_METHOD(NULL, this_ptr, "appendmessage", NULL, _4, field, _0);
 		zephir_check_temp_parameter(_0);

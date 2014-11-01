@@ -65,7 +65,7 @@ PHP_METHOD(Phalcon_Tag_Select, selectField) {
 	zend_bool _2;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zephir_nts_static zephir_fcall_cache_entry *_1 = NULL, *_4 = NULL, *_9 = NULL, *_10 = NULL;
-	zval *parameters, *data = NULL, *params = NULL, *name, *id, *value = NULL, *useEmpty, *code, *emptyValue = NULL, *emptyText = NULL, *options = NULL, *using, *_0, *_3 = NULL, *_5, *_6 = NULL, *_7 = NULL, *_8 = NULL;
+	zval *parameters, *data = NULL, *params = NULL, *name, *id, *value = NULL, *useEmpty, *code, *emptyValue = NULL, *emptyText = NULL, *options = NULL, *using, *_0, *_3 = NULL, *_5 = NULL, *_6 = NULL, *_7 = NULL, *_8 = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &parameters, &data);
@@ -152,7 +152,7 @@ PHP_METHOD(Phalcon_Tag_Select, selectField) {
 	ZEPHIR_CALL_CE_STATIC(&_3, phalcon_tag_ce, "renderattributes", &_4, _5, params);
 	zephir_check_temp_parameter(_5);
 	zephir_check_call_status();
-	ZEPHIR_INIT_BNVAR(_5);
+	ZEPHIR_INIT_NVAR(_5);
 	ZEPHIR_GET_CONSTANT(_5, "PHP_EOL");
 	ZEPHIR_INIT_VAR(code);
 	ZEPHIR_CONCAT_VSV(code, _3, ">", _5);

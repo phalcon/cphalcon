@@ -342,7 +342,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, join) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, innerJoin) {
 
-	zval *model_param = NULL, *conditions = NULL, *alias = NULL, *join, *mergedJoins = NULL, *currentJoins, *_0, *_1;
+	zval *model_param = NULL, *conditions = NULL, *alias = NULL, *join, *mergedJoins = NULL, *currentJoins, *_0 = NULL, *_1;
 	zval *model = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -389,7 +389,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, innerJoin) {
 		array_init_size(mergedJoins, 2);
 		zephir_array_fast_append(mergedJoins, join);
 	}
-	ZEPHIR_INIT_BNVAR(_0);
+	ZEPHIR_INIT_NVAR(_0);
 	ZVAL_STRING(_0, "joins", 1);
 	zephir_update_property_array(this_ptr, SL("_params"), _0, mergedJoins TSRMLS_CC);
 	RETURN_THIS();
@@ -410,7 +410,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, innerJoin) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, leftJoin) {
 
-	zval *model_param = NULL, *conditions = NULL, *alias = NULL, *join, *mergedJoins = NULL, *currentJoins, *_0, *_1;
+	zval *model_param = NULL, *conditions = NULL, *alias = NULL, *join, *mergedJoins = NULL, *currentJoins, *_0 = NULL, *_1;
 	zval *model = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -457,7 +457,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, leftJoin) {
 		array_init_size(mergedJoins, 2);
 		zephir_array_fast_append(mergedJoins, join);
 	}
-	ZEPHIR_INIT_BNVAR(_0);
+	ZEPHIR_INIT_NVAR(_0);
 	ZVAL_STRING(_0, "joins", 1);
 	zephir_update_property_array(this_ptr, SL("_params"), _0, mergedJoins TSRMLS_CC);
 	RETURN_THIS();
@@ -478,7 +478,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, leftJoin) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, rightJoin) {
 
-	zval *model_param = NULL, *conditions = NULL, *alias = NULL, *join, *mergedJoins = NULL, *currentJoins, *_0, *_1;
+	zval *model_param = NULL, *conditions = NULL, *alias = NULL, *join, *mergedJoins = NULL, *currentJoins, *_0 = NULL, *_1;
 	zval *model = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -525,7 +525,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, rightJoin) {
 		array_init_size(mergedJoins, 2);
 		zephir_array_fast_append(mergedJoins, join);
 	}
-	ZEPHIR_INIT_BNVAR(_0);
+	ZEPHIR_INIT_NVAR(_0);
 	ZVAL_STRING(_0, "joins", 1);
 	zephir_update_property_array(this_ptr, SL("_params"), _0, mergedJoins TSRMLS_CC);
 	RETURN_THIS();

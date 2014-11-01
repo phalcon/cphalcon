@@ -811,7 +811,7 @@ PHP_METHOD(Phalcon_Forms_Form, label) {
 	}
 	if (!attributes_param) {
 	ZEPHIR_INIT_VAR(attributes);
-	ZVAL_NULL(attributes);
+	array_init(attributes);
 	} else {
 		zephir_get_arrval(attributes, attributes_param);
 	}

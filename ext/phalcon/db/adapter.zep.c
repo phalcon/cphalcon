@@ -192,7 +192,7 @@ PHP_METHOD(Phalcon_Db_Adapter, __construct) {
 	ZEPHIR_OBS_VAR(dialectClass);
 	if (!(zephir_array_isset_string_fetch(&dialectClass, descriptor, SS("dialectClass"), 0 TSRMLS_CC))) {
 		_0 = zephir_fetch_nproperty_this(this_ptr, SL("_dialectType"), PH_NOISY_CC);
-		ZEPHIR_INIT_BNVAR(dialectClass);
+		ZEPHIR_INIT_NVAR(dialectClass);
 		ZEPHIR_CONCAT_SV(dialectClass, "phalcon\\db\\dialect\\", _0);
 	}
 	if (Z_TYPE_P(dialectClass) == IS_STRING) {

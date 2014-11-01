@@ -31,22 +31,22 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_loader_setextensions, 0, 0, 1)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_loader_registernamespaces, 0, 0, 1)
-	ZEND_ARG_INFO(0, namespaces)
+	ZEND_ARG_ARRAY_INFO(0, namespaces, 0)
 	ZEND_ARG_INFO(0, merge)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_loader_registerprefixes, 0, 0, 1)
-	ZEND_ARG_INFO(0, prefixes)
+	ZEND_ARG_ARRAY_INFO(0, prefixes, 0)
 	ZEND_ARG_INFO(0, merge)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_loader_registerdirs, 0, 0, 1)
-	ZEND_ARG_INFO(0, directories)
+	ZEND_ARG_ARRAY_INFO(0, directories, 0)
 	ZEND_ARG_INFO(0, merge)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_loader_registerclasses, 0, 0, 1)
-	ZEND_ARG_INFO(0, classes)
+	ZEND_ARG_ARRAY_INFO(0, classes, 0)
 	ZEND_ARG_INFO(0, merge)
 ZEND_END_ARG_INFO()
 

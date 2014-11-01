@@ -63,7 +63,7 @@ PHP_METHOD(Phalcon_Logger_Formatter_Json, format) {
 
 	zval *_1;
 	int type, timestamp, ZEPHIR_LAST_CALL_STATUS;
-	zval *message_param = NULL, *type_param = NULL, *timestamp_param = NULL, *context = NULL, *_0 = NULL, *_2;
+	zval *message_param = NULL, *type_param = NULL, *timestamp_param = NULL, *context = NULL, *_0 = NULL, *_2 = NULL;
 	zval *message = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -90,7 +90,7 @@ PHP_METHOD(Phalcon_Logger_Formatter_Json, format) {
 	zephir_check_call_status();
 	zephir_array_update_string(&_1, SL("type"), &_0, PH_COPY | PH_SEPARATE);
 	zephir_array_update_string(&_1, SL("message"), &message, PH_COPY | PH_SEPARATE);
-	ZEPHIR_INIT_BNVAR(_2);
+	ZEPHIR_INIT_NVAR(_2);
 	ZVAL_LONG(_2, timestamp);
 	zephir_array_update_string(&_1, SL("timestamp"), &_2, PH_COPY | PH_SEPARATE);
 	zephir_json_encode(return_value, &(return_value), _1, 0  TSRMLS_CC);

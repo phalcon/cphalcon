@@ -91,7 +91,7 @@ PHP_METHOD(Phalcon_Config, __construct) {
 
 	if (!arrayConfig_param) {
 	ZEPHIR_INIT_VAR(arrayConfig);
-	ZVAL_NULL(arrayConfig);
+	array_init(arrayConfig);
 	} else {
 	if (unlikely(Z_TYPE_P(arrayConfig_param) != IS_ARRAY)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'arrayConfig' must be an array") TSRMLS_CC);

@@ -169,7 +169,7 @@ PHP_METHOD(Phalcon_Session_Bag, initialize) {
 	ZEPHIR_CALL_METHOD(&data, session, "get", NULL, _2);
 	zephir_check_call_status();
 	if (Z_TYPE_P(data) != IS_ARRAY) {
-		ZEPHIR_INIT_BNVAR(data);
+		ZEPHIR_INIT_NVAR(data);
 		array_init(data);
 	}
 	zephir_update_property_this(this_ptr, SL("_data"), data TSRMLS_CC);

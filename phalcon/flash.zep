@@ -46,7 +46,7 @@ abstract class Flash
 	 *
 	 * @param array cssClasses
 	 */
-	public function __construct(cssClasses=null)
+	public function __construct(cssClasses = null)
 	{
 		if typeof cssClasses != "array" {
 			let cssClasses = [
@@ -246,5 +246,4 @@ abstract class Flash
 			}
 		}
 	}
-
 }

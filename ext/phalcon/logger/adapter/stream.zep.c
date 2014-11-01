@@ -79,7 +79,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Stream, __construct) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
 	zephir_nts_static zephir_fcall_cache_entry *_0 = NULL;
-	zval *name_param = NULL, *options = NULL, *mode, *stream = NULL, *_1;
+	zval *name_param = NULL, *options = NULL, *mode = NULL, *stream = NULL, *_1;
 	zval *name = NULL, *_2;
 
 	ZEPHIR_MM_GROW();
@@ -108,7 +108,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Stream, __construct) {
 			return;
 		}
 	} else {
-		ZEPHIR_INIT_BNVAR(mode);
+		ZEPHIR_INIT_NVAR(mode);
 		ZVAL_STRING(mode, "ab", 1);
 	}
 	ZEPHIR_CALL_FUNCTION(&stream, "fopen", &_0, name, mode);
@@ -137,14 +137,14 @@ PHP_METHOD(Phalcon_Logger_Adapter_Stream, __construct) {
 PHP_METHOD(Phalcon_Logger_Adapter_Stream, getFormatter) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *formatter;
+	zval *formatter = NULL;
 
 	ZEPHIR_MM_GROW();
 
 	ZEPHIR_OBS_VAR(formatter);
 	zephir_read_property_this(&formatter, this_ptr, SL("_formatter"), PH_NOISY_CC);
 	if (Z_TYPE_P(formatter) == IS_OBJECT) {
-		ZEPHIR_INIT_BNVAR(formatter);
+		ZEPHIR_INIT_NVAR(formatter);
 		object_init_ex(formatter, phalcon_logger_formatter_line_ce);
 		ZEPHIR_CALL_METHOD(NULL, formatter, "__construct", NULL);
 		zephir_check_call_status();

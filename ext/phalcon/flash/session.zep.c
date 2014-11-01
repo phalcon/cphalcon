@@ -98,7 +98,7 @@ PHP_METHOD(Phalcon_Flash_Session, getDI) {
 PHP_METHOD(Phalcon_Flash_Session, _getSessionMessages) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *remove_param = NULL, *dependencyInjector = NULL, *session = NULL, *messages = NULL, *_0, *_1 = NULL, *_2;
+	zval *remove_param = NULL, *dependencyInjector = NULL, *session = NULL, *messages = NULL, *_0, *_1 = NULL, *_2 = NULL;
 	zend_bool remove;
 
 	ZEPHIR_MM_GROW();
@@ -119,13 +119,13 @@ PHP_METHOD(Phalcon_Flash_Session, _getSessionMessages) {
 	zephir_check_temp_parameter(_2);
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(session, _1);
-	ZEPHIR_INIT_BNVAR(_2);
+	ZEPHIR_INIT_NVAR(_2);
 	ZVAL_STRING(_2, "_flashMessages", ZEPHIR_TEMP_PARAM_COPY);
 	ZEPHIR_CALL_METHOD(&messages, session, "get", NULL, _2);
 	zephir_check_temp_parameter(_2);
 	zephir_check_call_status();
 	if (remove == 1) {
-		ZEPHIR_INIT_BNVAR(_2);
+		ZEPHIR_INIT_NVAR(_2);
 		ZVAL_STRING(_2, "_flashMessages", ZEPHIR_TEMP_PARAM_COPY);
 		ZEPHIR_CALL_METHOD(NULL, session, "remove", NULL, _2);
 		zephir_check_temp_parameter(_2);
@@ -143,7 +143,7 @@ PHP_METHOD(Phalcon_Flash_Session, _getSessionMessages) {
 PHP_METHOD(Phalcon_Flash_Session, _setSessionMessages) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *messages_param = NULL, *dependencyInjector = NULL, *session = NULL, *_0, *_1 = NULL, *_2;
+	zval *messages_param = NULL, *dependencyInjector = NULL, *session = NULL, *_0, *_1 = NULL, *_2 = NULL;
 	zval *messages = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -170,7 +170,7 @@ PHP_METHOD(Phalcon_Flash_Session, _setSessionMessages) {
 	zephir_check_temp_parameter(_2);
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(session, _1);
-	ZEPHIR_INIT_BNVAR(_2);
+	ZEPHIR_INIT_NVAR(_2);
 	ZVAL_STRING(_2, "_flashMessages", ZEPHIR_TEMP_PARAM_COPY);
 	ZEPHIR_CALL_METHOD(NULL, session, "set", NULL, _2, messages);
 	zephir_check_temp_parameter(_2);
@@ -188,7 +188,7 @@ PHP_METHOD(Phalcon_Flash_Session, _setSessionMessages) {
 PHP_METHOD(Phalcon_Flash_Session, message) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *type_param = NULL, *message_param = NULL, *messages = NULL, *_0;
+	zval *type_param = NULL, *message_param = NULL, *messages = NULL, *_0 = NULL;
 	zval *type = NULL, *message = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -203,11 +203,11 @@ PHP_METHOD(Phalcon_Flash_Session, message) {
 	ZEPHIR_CALL_METHOD(&messages, this_ptr, "_getsessionmessages", NULL, _0);
 	zephir_check_call_status();
 	if (Z_TYPE_P(messages) != IS_ARRAY) {
-		ZEPHIR_INIT_BNVAR(messages);
+		ZEPHIR_INIT_NVAR(messages);
 		array_init(messages);
 	}
 	if (!(zephir_array_isset(messages, type))) {
-		ZEPHIR_INIT_BNVAR(_0);
+		ZEPHIR_INIT_NVAR(_0);
 		array_init(_0);
 		zephir_array_update_zval(&messages, type, &_0, PH_COPY | PH_SEPARATE);
 	}

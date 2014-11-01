@@ -19,6 +19,7 @@
 
 namespace Phalcon\Mvc\Model\MetaData\Strategy;
 
+use Phalcon\DiInterface;
 use Phalcon\Db\Column;
 use Phalcon\Mvc\ModelInterface;
 use Phalcon\Mvc\Model\MetaData\StrategyInterface;
@@ -33,7 +34,7 @@ class Annotations implements StrategyInterface
 	 * @param Phalcon\DiInterface dependencyInjector
 	 * @return array
 	 */
-	public final function getMetaData(<ModelInterface> model, <\Phalcon\DiInterface> dependencyInjector) -> array
+	public final function getMetaData(<ModelInterface> model, <DiInterface> dependencyInjector) -> array
 	{
 		var annotations, className, reflection, propertiesAnnotations;
 		var property, propAnnotations, columnAnnotation, feature;
@@ -172,5 +173,4 @@ class Annotations implements StrategyInterface
 	{
 		return null;
 	}
-
 }

@@ -411,6 +411,4 @@ class Annotations extends Router
 	{
 		return this->_handlers;
 	}
-
 }
-

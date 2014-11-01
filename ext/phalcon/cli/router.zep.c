@@ -479,12 +479,12 @@ PHP_METHOD(Phalcon_Cli_Router, handle) {
 				ZEPHIR_CALL_FUNCTION(&strParams, "substr", &_18, _16, &_17);
 				zephir_check_call_status();
 				if (zephir_is_true(strParams)) {
-					ZEPHIR_INIT_BNVAR(params);
+					ZEPHIR_INIT_NVAR(params);
 					ZEPHIR_CALL_CE_STATIC(&_19, phalcon_cli_router_route_ce, "getdelimiter", &_20);
 					zephir_check_call_status();
 					zephir_fast_explode(params, _19, strParams, LONG_MAX TSRMLS_CC);
 				} else {
-					ZEPHIR_INIT_BNVAR(params);
+					ZEPHIR_INIT_NVAR(params);
 					array_init(params);
 				}
 			}

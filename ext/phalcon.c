@@ -103,9 +103,9 @@ zend_class_entry *phalcon_cache_backend_ce;
 zend_class_entry *phalcon_db_adapter_ce;
 zend_class_entry *phalcon_mvc_model_metadata_ce;
 zend_class_entry *phalcon_annotations_adapter_ce;
+zend_class_entry *phalcon_config_ce;
 zend_class_entry *phalcon_db_adapter_pdo_ce;
 zend_class_entry *phalcon_db_dialect_ce;
-zend_class_entry *phalcon_config_ce;
 zend_class_entry *phalcon_logger_adapter_ce;
 zend_class_entry *phalcon_logger_formatter_ce;
 zend_class_entry *phalcon_mvc_model_exception_ce;
@@ -175,6 +175,7 @@ zend_class_entry *phalcon_cli_task_ce;
 zend_class_entry *phalcon_config_adapter_ini_ce;
 zend_class_entry *phalcon_config_adapter_json_ce;
 zend_class_entry *phalcon_config_adapter_php_ce;
+zend_class_entry *phalcon_config_adapter_yaml_ce;
 zend_class_entry *phalcon_config_exception_ce;
 zend_class_entry *phalcon_crypt_ce;
 zend_class_entry *phalcon_crypt_exception_ce;
@@ -419,9 +420,12 @@ void zephir_initialize_memory(zend_zephir_globals_def *zephir_globals_ptr TSRMLS
 	zephir_globals_ptr->initialized = 1;
 }
 
+/**
+ * Cleans the function/method cache up
+ */
 int zephir_cleanup_fcache(void *pDest TSRMLS_DC, int num_args, va_list args, zend_hash_key *hash_key)
 {
-	zephir_fcall_cache_entry **entry = (zephir_fcall_cache_entry**)pDest;
+	zephir_fcall_cache_entry **entry = (zephir_fcall_cache_entry**) pDest;
 	zend_class_entry *scope;
 	uint len = hash_key->nKeyLength;
 
@@ -431,7 +435,7 @@ int zephir_cleanup_fcache(void *pDest TSRMLS_DC, int num_args, va_list args, zen
 	memcpy(&scope, &hash_key->arKey[len - 2 * sizeof(zend_class_entry**)], sizeof(zend_class_entry*));
 
 /*
-#ifndef ZEPHIR_RELEASE
+#ifndef PHALCON_RELEASE
 	{
 		zend_class_entry *cls;
 		memcpy(&cls, &hash_key->arKey[len - sizeof(zend_class_entry**)], sizeof(zend_class_entry*));
@@ -600,9 +604,9 @@ static PHP_MINIT_FUNCTION(phalcon)
 	ZEPHIR_INIT(Phalcon_Db_Adapter);
 	ZEPHIR_INIT(Phalcon_Mvc_Model_MetaData);
 	ZEPHIR_INIT(Phalcon_Annotations_Adapter);
+	ZEPHIR_INIT(Phalcon_Config);
 	ZEPHIR_INIT(Phalcon_Db_Adapter_Pdo);
 	ZEPHIR_INIT(Phalcon_Db_Dialect);
-	ZEPHIR_INIT(Phalcon_Config);
 	ZEPHIR_INIT(Phalcon_Logger_Adapter);
 	ZEPHIR_INIT(Phalcon_Logger_Formatter);
 	ZEPHIR_INIT(Phalcon_Mvc_Model_Exception);
@@ -672,6 +676,7 @@ static PHP_MINIT_FUNCTION(phalcon)
 	ZEPHIR_INIT(Phalcon_Config_Adapter_Ini);
 	ZEPHIR_INIT(Phalcon_Config_Adapter_Json);
 	ZEPHIR_INIT(Phalcon_Config_Adapter_Php);
+	ZEPHIR_INIT(Phalcon_Config_Adapter_Yaml);
 	ZEPHIR_INIT(Phalcon_Config_Exception);
 	ZEPHIR_INIT(Phalcon_Crypt);
 	ZEPHIR_INIT(Phalcon_Crypt_Exception);

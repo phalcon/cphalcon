@@ -97,7 +97,7 @@ class Dump
 	 * @param array styles
 	 * @return array
 	 */
-	public function setStyles(array styles = null) -> array
+	public function setStyles(var styles = null) -> array
 	{
 		var defaultStyles;
 

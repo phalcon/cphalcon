@@ -483,7 +483,7 @@ PHP_METHOD(Phalcon_Mvc_Router, handle) {
 	HashTable *_4, *_12;
 	HashPosition _3, _11;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *uri = NULL, *realUri = NULL, *request = NULL, *currentHostName = NULL, *routeFound = NULL, *parts = NULL, *params, *matches, *notFoundPaths, *vnamespace, *module, *controller, *action, *paramsStr, *strParams = NULL, *route = NULL, *methods = NULL, *dependencyInjector = NULL, *hostname = NULL, *regexHostName = NULL, *matched = NULL, *pattern = NULL, *handledUri = NULL, *beforeMatch = NULL, *paths = NULL, *converters = NULL, *part = NULL, *position = NULL, *matchPosition = NULL, *converter = NULL, *_0, _1 = zval_used_for_init, *_2, **_5, *_6, *_7 = NULL, *_8 = NULL, **_13, *_14 = NULL, *_17, *_18, *_19, *_20;
+	zval *uri = NULL, *realUri = NULL, *request = NULL, *currentHostName = NULL, *routeFound = NULL, *parts = NULL, *params = NULL, *matches, *notFoundPaths, *vnamespace, *module, *controller, *action, *paramsStr, *strParams = NULL, *route = NULL, *methods = NULL, *dependencyInjector = NULL, *hostname = NULL, *regexHostName = NULL, *matched = NULL, *pattern = NULL, *handledUri = NULL, *beforeMatch = NULL, *paths = NULL, *converters = NULL, *part = NULL, *position = NULL, *matchPosition = NULL, *converter = NULL, *_0, _1 = zval_used_for_init, *_2, **_5, *_6, *_7 = NULL, *_8 = NULL, **_13, *_14 = NULL, *_17, *_18, *_19, *_20;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &uri);
@@ -687,7 +687,7 @@ PHP_METHOD(Phalcon_Mvc_Router, handle) {
 		zephir_read_property_this(&notFoundPaths, this_ptr, SL("_notFoundPaths"), PH_NOISY_CC);
 		if (Z_TYPE_P(notFoundPaths) != IS_NULL) {
 			ZEPHIR_CPY_WRT(parts, notFoundPaths);
-			ZEPHIR_INIT_BNVAR(routeFound);
+			ZEPHIR_INIT_NVAR(routeFound);
 			ZVAL_BOOL(routeFound, 1);
 		}
 	}
@@ -739,7 +739,7 @@ PHP_METHOD(Phalcon_Mvc_Router, handle) {
 			ZEPHIR_CALL_FUNCTION(&strParams, "substr", &_16, paramsStr, &_1);
 			zephir_check_call_status();
 			if (zephir_is_true(strParams)) {
-				ZEPHIR_INIT_BNVAR(params);
+				ZEPHIR_INIT_NVAR(params);
 				zephir_fast_explode_str(params, SL("/"), strParams, LONG_MAX TSRMLS_CC);
 			}
 			zephir_array_unset_string(&parts, SS("params"), PH_SEPARATE);

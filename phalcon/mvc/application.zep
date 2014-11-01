@@ -19,6 +19,8 @@
 
 namespace Phalcon\Mvc;
 
+use Phalcon\Di\Injectable;
+use Phalcon\Mvc\ViewInterface;
 use Phalcon\Mvc\Application\Exception;
 use Phalcon\Mvc\ModuleDefinitionInterface;
 use Phalcon\Mvc\RouterInterface;
@@ -70,7 +72,7 @@ use Phalcon\Mvc\DispatcherInterface;
  *
  *</code>
  */
-class Application extends \Phalcon\Di\Injectable
+class Application extends Injectable
 {
 
 	protected _defaultModule;
@@ -84,7 +86,7 @@ class Application extends \Phalcon\Di\Injectable
 	 *
 	 * @param Phalcon\DiInterface dependencyInjector
 	 */
-	public function __construct(<DiInterface> dependencyInjector=null)
+	public function __construct(<DiInterface> dependencyInjector = null)
 	{
 		if typeof dependencyInjector == "object" {
 			let this->_dependencyInjector = dependencyInjector;
@@ -310,7 +312,7 @@ class Application extends \Phalcon\Di\Injectable
 		let implicitView = this->_implicitView;
 
 		if implicitView === true {
-			let view = <\Phalcon\Mvc\ViewInterface> dependencyInjector->getShared("view");
+			let view = <ViewInterface> dependencyInjector->getShared("view");
 		}
 
 		/**

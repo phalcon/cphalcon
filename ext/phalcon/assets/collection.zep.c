@@ -258,13 +258,13 @@ PHP_METHOD(Phalcon_Assets_Collection, addCss) {
 	if (Z_TYPE_P(local) == IS_BOOL) {
 		ZEPHIR_CPY_WRT(collectionLocal, local);
 	} else {
-		ZEPHIR_OBS_VAR(collectionLocal);
+		ZEPHIR_OBS_NVAR(collectionLocal);
 		zephir_read_property_this(&collectionLocal, this_ptr, SL("_local"), PH_NOISY_CC);
 	}
 	if (Z_TYPE_P(attributes) == IS_ARRAY) {
 		ZEPHIR_CPY_WRT(collectionAttributes, attributes);
 	} else {
-		ZEPHIR_OBS_VAR(collectionAttributes);
+		ZEPHIR_OBS_NVAR(collectionAttributes);
 		zephir_read_property_this(&collectionAttributes, this_ptr, SL("_attributes"), PH_NOISY_CC);
 	}
 	ZEPHIR_INIT_VAR(_0);
@@ -311,7 +311,7 @@ PHP_METHOD(Phalcon_Assets_Collection, addInlineCss) {
 	if (Z_TYPE_P(attributes) == IS_ARRAY) {
 		ZEPHIR_CPY_WRT(collectionAttributes, attributes);
 	} else {
-		ZEPHIR_OBS_VAR(collectionAttributes);
+		ZEPHIR_OBS_NVAR(collectionAttributes);
 		zephir_read_property_this(&collectionAttributes, this_ptr, SL("_attributes"), PH_NOISY_CC);
 	}
 	ZEPHIR_INIT_VAR(_0);
@@ -372,13 +372,13 @@ PHP_METHOD(Phalcon_Assets_Collection, addJs) {
 	if (Z_TYPE_P(local) == IS_BOOL) {
 		ZEPHIR_CPY_WRT(collectionLocal, local);
 	} else {
-		ZEPHIR_OBS_VAR(collectionLocal);
+		ZEPHIR_OBS_NVAR(collectionLocal);
 		zephir_read_property_this(&collectionLocal, this_ptr, SL("_local"), PH_NOISY_CC);
 	}
 	if (Z_TYPE_P(attributes) == IS_ARRAY) {
 		ZEPHIR_CPY_WRT(collectionAttributes, attributes);
 	} else {
-		ZEPHIR_OBS_VAR(collectionAttributes);
+		ZEPHIR_OBS_NVAR(collectionAttributes);
 		zephir_read_property_this(&collectionAttributes, this_ptr, SL("_attributes"), PH_NOISY_CC);
 	}
 	ZEPHIR_INIT_VAR(_0);
@@ -425,7 +425,7 @@ PHP_METHOD(Phalcon_Assets_Collection, addInlineJs) {
 	if (Z_TYPE_P(attributes) == IS_ARRAY) {
 		ZEPHIR_CPY_WRT(collectionAttributes, attributes);
 	} else {
-		ZEPHIR_OBS_VAR(collectionAttributes);
+		ZEPHIR_OBS_NVAR(collectionAttributes);
 		zephir_read_property_this(&collectionAttributes, this_ptr, SL("_attributes"), PH_NOISY_CC);
 	}
 	ZEPHIR_INIT_VAR(_0);

@@ -164,13 +164,13 @@ PHP_METHOD(Phalcon_Escaper, detectEncoding) {
 	ZEPHIR_INIT_VAR(_1);
 	ZVAL_STRING(_1, "UTF-32", 1);
 	zephir_array_fast_append(_0, _1);
-	ZEPHIR_INIT_BNVAR(_1);
+	ZEPHIR_INIT_NVAR(_1);
 	ZVAL_STRING(_1, "UTF-8", 1);
 	zephir_array_fast_append(_0, _1);
-	ZEPHIR_INIT_BNVAR(_1);
+	ZEPHIR_INIT_NVAR(_1);
 	ZVAL_STRING(_1, "ISO-8859-1", 1);
 	zephir_array_fast_append(_0, _1);
-	ZEPHIR_INIT_BNVAR(_1);
+	ZEPHIR_INIT_NVAR(_1);
 	ZVAL_STRING(_1, "ASCII", 1);
 	zephir_array_fast_append(_0, _1);
 	zephir_is_iterable(_0, &_3, &_2, 0, 0, "phalcon/escaper.zep", 125);

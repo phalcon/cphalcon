@@ -267,7 +267,7 @@ PHP_METHOD(Phalcon_Cli_Console, handle) {
 
 	zend_bool _3;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *arguments = NULL, *dependencyInjector, *router = NULL, *eventsManager = NULL, *moduleName = NULL, *modules, *module, *path, *className = NULL, *moduleObject = NULL, *dispatcher = NULL, *task = NULL, *_0, *_1 = NULL, *_2, *_4, *_5 = NULL, *_6 = NULL, *_7 = NULL, *_8 = NULL, *_9 = NULL, *_10 = NULL;
+	zval *arguments = NULL, *dependencyInjector, *router = NULL, *eventsManager = NULL, *moduleName = NULL, *modules, *module, *path, *className = NULL, *moduleObject = NULL, *dispatcher = NULL, *task = NULL, *_0, *_1 = NULL, *_2 = NULL, *_4, *_5 = NULL, *_6 = NULL, *_7 = NULL, *_8 = NULL, *_9 = NULL, *_10 = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &arguments);
@@ -308,7 +308,7 @@ PHP_METHOD(Phalcon_Cli_Console, handle) {
 	zephir_check_call_status();
 	if (zephir_is_true(moduleName)) {
 		if (Z_TYPE_P(eventsManager) == IS_OBJECT) {
-			ZEPHIR_INIT_BNVAR(_2);
+			ZEPHIR_INIT_NVAR(_2);
 			ZVAL_STRING(_2, "console:beforeStartModule", ZEPHIR_TEMP_PARAM_COPY);
 			ZEPHIR_CALL_METHOD(&_1, eventsManager, "fire", NULL, _2, this_ptr, moduleName);
 			zephir_check_temp_parameter(_2);
@@ -366,7 +366,7 @@ PHP_METHOD(Phalcon_Cli_Console, handle) {
 		zephir_check_call_status();
 		if (Z_TYPE_P(eventsManager) == IS_OBJECT) {
 			zephir_update_property_this(this_ptr, SL("_moduleObject"), moduleObject TSRMLS_CC);
-			ZEPHIR_INIT_BNVAR(_2);
+			ZEPHIR_INIT_NVAR(_2);
 			ZVAL_STRING(_2, "console:afterStartModule", ZEPHIR_TEMP_PARAM_COPY);
 			ZEPHIR_CALL_METHOD(&_7, eventsManager, "fire", NULL, _2, this_ptr, moduleObject);
 			zephir_check_temp_parameter(_2);
@@ -376,7 +376,7 @@ PHP_METHOD(Phalcon_Cli_Console, handle) {
 			}
 		}
 	}
-	ZEPHIR_INIT_BNVAR(_2);
+	ZEPHIR_INIT_NVAR(_2);
 	ZVAL_STRING(_2, "dispatcher", ZEPHIR_TEMP_PARAM_COPY);
 	ZEPHIR_CALL_METHOD(&_7, dependencyInjector, "getshared", NULL, _2);
 	zephir_check_temp_parameter(_2);
@@ -398,7 +398,7 @@ PHP_METHOD(Phalcon_Cli_Console, handle) {
 	ZEPHIR_CALL_METHOD(NULL, dispatcher, "setoptions", NULL, _4);
 	zephir_check_call_status();
 	if (Z_TYPE_P(eventsManager) == IS_OBJECT) {
-		ZEPHIR_INIT_BNVAR(_2);
+		ZEPHIR_INIT_NVAR(_2);
 		ZVAL_STRING(_2, "console:beforeHandleTask", ZEPHIR_TEMP_PARAM_COPY);
 		ZEPHIR_CALL_METHOD(&_10, eventsManager, "fire", NULL, _2, this_ptr, dispatcher);
 		zephir_check_temp_parameter(_2);
@@ -410,7 +410,7 @@ PHP_METHOD(Phalcon_Cli_Console, handle) {
 	ZEPHIR_CALL_METHOD(&task, dispatcher, "dispatch",  NULL);
 	zephir_check_call_status();
 	if (Z_TYPE_P(eventsManager) == IS_OBJECT) {
-		ZEPHIR_INIT_BNVAR(_2);
+		ZEPHIR_INIT_NVAR(_2);
 		ZVAL_STRING(_2, "console:afterHandleTask", ZEPHIR_TEMP_PARAM_COPY);
 		ZEPHIR_CALL_METHOD(NULL, eventsManager, "fire", NULL, _2, this_ptr, task);
 		zephir_check_temp_parameter(_2);

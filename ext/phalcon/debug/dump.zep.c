@@ -14,9 +14,9 @@
 #include "kernel/main.h"
 #include "kernel/object.h"
 #include "kernel/memory.h"
-#include "kernel/operators.h"
 #include "kernel/exception.h"
 #include "kernel/fcall.h"
+#include "kernel/operators.h"
 #include "kernel/array.h"
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/concat.h"
@@ -101,7 +101,7 @@ PHP_METHOD(Phalcon_Debug_Dump, __construct) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
 	zend_bool detailed, _0;
-	zval *styles_param = NULL, *detailed_param = NULL, *_1, *_2;
+	zval *styles_param = NULL, *detailed_param = NULL, *_1;
 	zval *styles = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -109,7 +109,7 @@ PHP_METHOD(Phalcon_Debug_Dump, __construct) {
 
 	if (!styles_param) {
 	ZEPHIR_INIT_VAR(styles);
-	ZVAL_NULL(styles);
+	array_init(styles);
 	} else {
 		zephir_get_arrval(styles, styles_param);
 	}
@@ -122,9 +122,7 @@ PHP_METHOD(Phalcon_Debug_Dump, __construct) {
 
 	_0 = zephir_is_true(styles);
 	if (_0) {
-		ZEPHIR_INIT_VAR(_1);
-		zephir_gettype(_1, styles TSRMLS_CC);
-		_0 = !ZEPHIR_IS_STRING(_1, "array");
+		_0 = 1 != 1;
 	}
 	if (_0) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_debug_exception_ce, "The styles must be an array", "phalcon/debug/dump.zep", 57);
@@ -132,9 +130,9 @@ PHP_METHOD(Phalcon_Debug_Dump, __construct) {
 	}
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "setstyles", NULL, styles);
 	zephir_check_call_status();
-	ZEPHIR_INIT_VAR(_2);
-	array_init(_2);
-	zephir_update_property_this(this_ptr, SL("_methods"), _2 TSRMLS_CC);
+	ZEPHIR_INIT_VAR(_1);
+	array_init(_1);
+	zephir_update_property_this(this_ptr, SL("_methods"), _1 TSRMLS_CC);
 	zephir_update_property_this(this_ptr, SL("_detailed"), detailed ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 
@@ -214,29 +212,23 @@ PHP_METHOD(Phalcon_Debug_Dump, getStyle) {
  */
 PHP_METHOD(Phalcon_Debug_Dump, setStyles) {
 
-	zval *styles_param = NULL, *defaultStyles, *_0, *_1, *_2;
-	zval *styles = NULL;
+	zval *styles = NULL, *defaultStyles, *_0;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 0, 1, &styles_param);
+	zephir_fetch_params(1, 0, 1, &styles);
 
-	if (!styles_param) {
-	ZEPHIR_INIT_VAR(styles);
-	ZVAL_NULL(styles);
+	if (!styles) {
+		ZEPHIR_CPY_WRT(styles, ZEPHIR_GLOBAL(global_null));
 	} else {
-		zephir_get_arrval(styles, styles_param);
+		ZEPHIR_SEPARATE_PARAM(styles);
 	}
 
 
-	ZEPHIR_INIT_VAR(_0);
-	zephir_gettype(_0, styles TSRMLS_CC);
-	if (ZEPHIR_IS_STRING(_0, "null")) {
+	if (Z_TYPE_P(styles) == IS_NULL) {
 		ZEPHIR_INIT_NVAR(styles);
 		array_init(styles);
 	}
-	ZEPHIR_INIT_VAR(_1);
-	zephir_gettype(_1, styles TSRMLS_CC);
-	if (!ZEPHIR_IS_STRING(_1, "array")) {
+	if (Z_TYPE_P(styles) != IS_ARRAY) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_debug_exception_ce, "The styles must be an array", "phalcon/debug/dump.zep", 108);
 		return;
 	}
@@ -253,9 +245,9 @@ PHP_METHOD(Phalcon_Debug_Dump, setStyles) {
 	add_assoc_stringl_ex(defaultStyles, SS("other"), SL("color:maroon"), 1);
 	add_assoc_stringl_ex(defaultStyles, SS("res"), SL("color:lime"), 1);
 	add_assoc_stringl_ex(defaultStyles, SS("str"), SL("color:teal"), 1);
-	ZEPHIR_INIT_VAR(_2);
-	zephir_fast_array_merge(_2, &(defaultStyles), &(styles) TSRMLS_CC);
-	zephir_update_property_this(this_ptr, SL("_styles"), _2 TSRMLS_CC);
+	ZEPHIR_INIT_VAR(_0);
+	zephir_fast_array_merge(_0, &(defaultStyles), &(styles) TSRMLS_CC);
+	zephir_update_property_this(this_ptr, SL("_styles"), _0 TSRMLS_CC);
 	RETURN_MM_MEMBER(this_ptr, "_styles");
 
 }
@@ -307,7 +299,7 @@ PHP_METHOD(Phalcon_Debug_Dump, output) {
 	zephir_nts_static zephir_fcall_cache_entry *_4 = NULL, *_9 = NULL, *_17 = NULL, *_23 = NULL, *_25 = NULL, *_29 = NULL, *_30 = NULL, *_31 = NULL, *_33 = NULL, *_35 = NULL, *_42 = NULL, *_44 = NULL, *_45 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *_0 = NULL, *_10 = NULL, *_40 = NULL;
-	zval *variable, *name = NULL, *tab = NULL, *key = NULL, *value = NULL, *output, *space, *type = NULL, *attr = NULL, *_1 = NULL, *_2 = NULL, _3 = zval_used_for_init, **_7, *_8 = NULL, *_11 = NULL, *_13 = NULL, *_16 = NULL, *_19 = NULL, *_20 = NULL, *_22 = NULL, *_24, **_28, *_32, *_34 = NULL, *_36, **_39, *_41 = NULL, _43;
+	zval *variable, *name = NULL, *tab = NULL, *key = NULL, *value = NULL, *output = NULL, *space, *type = NULL, *attr = NULL, *_1 = NULL, *_2 = NULL, _3 = zval_used_for_init, **_7, *_8 = NULL, *_11 = NULL, *_13 = NULL, *_16 = NULL, *_19 = NULL, *_20 = NULL, *_22 = NULL, *_24, **_28, *_32, *_34 = NULL, *_36, **_39, *_41 = NULL, _43;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 2, &variable, &name, &tab);
@@ -326,7 +318,7 @@ PHP_METHOD(Phalcon_Debug_Dump, output) {
 	ZEPHIR_INIT_VAR(output);
 	ZVAL_STRING(output, "", 1);
 	if (zephir_is_true(name)) {
-		ZEPHIR_INIT_BNVAR(output);
+		ZEPHIR_INIT_NVAR(output);
 		ZEPHIR_CONCAT_VS(output, name, " ");
 	}
 	if (Z_TYPE_P(variable) == IS_ARRAY) {

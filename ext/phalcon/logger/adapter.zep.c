@@ -586,7 +586,7 @@ PHP_METHOD(Phalcon_Logger_Adapter, log) {
 		}
 	}
 	if (Z_TYPE_P(toggledType) == IS_NULL) {
-		ZEPHIR_INIT_VAR(toggledType);
+		ZEPHIR_INIT_NVAR(toggledType);
 		ZVAL_LONG(toggledType, 7);
 	}
 	_2 = zephir_fetch_nproperty_this(this_ptr, SL("_logLevel"), PH_NOISY_CC);

@@ -283,7 +283,7 @@ PHP_METHOD(Phalcon_Di_Service, resolve) {
 		if (Z_TYPE_P(definition) == IS_OBJECT) {
 			if (zephir_instance_of_ev(definition, zend_ce_closure TSRMLS_CC)) {
 				if (Z_TYPE_P(parameters) == IS_ARRAY) {
-					ZEPHIR_INIT_BNVAR(instance);
+					ZEPHIR_INIT_NVAR(instance);
 					ZEPHIR_CALL_USER_FUNC_ARRAY(instance, definition, parameters);
 					zephir_check_call_status();
 				} else {
@@ -364,7 +364,7 @@ PHP_METHOD(Phalcon_Di_Service, setParameter) {
 	if (zephir_array_isset_string_fetch(&arguments, definition, SS("arguments"), 0 TSRMLS_CC)) {
 		zephir_array_update_long(&arguments, position, &parameter, PH_COPY | PH_SEPARATE, "phalcon/di/service.zep", 247);
 	} else {
-		ZEPHIR_INIT_BNVAR(arguments);
+		ZEPHIR_INIT_NVAR(arguments);
 		array_init_size(arguments, 2);
 		zephir_array_update_long(&arguments, position, &parameter, PH_COPY, "phalcon/di/service.zep", 249);
 	}

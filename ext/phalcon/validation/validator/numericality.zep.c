@@ -73,7 +73,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Numericality, validate) {
 	zend_bool _2;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *field = NULL;
-	zval *validation, *field_param = NULL, *value = NULL, *message = NULL, *label = NULL, *replacePairs, *_0 = NULL, *_1, *_3 = NULL, *_5, *_6 = NULL;
+	zval *validation, *field_param = NULL, *value = NULL, *message = NULL, *label = NULL, *replacePairs, *_0 = NULL, *_1 = NULL, *_3 = NULL, *_5, *_6 = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &validation, &field_param);
@@ -109,13 +109,13 @@ PHP_METHOD(Phalcon_Validation_Validator_Numericality, validate) {
 	if (_2) {
 		RETURN_MM_BOOL(1);
 	}
-	ZEPHIR_INIT_BNVAR(_1);
+	ZEPHIR_INIT_NVAR(_1);
 	ZVAL_STRING(_1, "/^-?\d+\.?\d*$/", ZEPHIR_TEMP_PARAM_COPY);
 	ZEPHIR_CALL_FUNCTION(&_3, "preg_match", &_4, _1, value);
 	zephir_check_temp_parameter(_1);
 	zephir_check_call_status();
 	if (!(zephir_is_true(_3))) {
-		ZEPHIR_INIT_BNVAR(_1);
+		ZEPHIR_INIT_NVAR(_1);
 		ZVAL_STRING(_1, "label", ZEPHIR_TEMP_PARAM_COPY);
 		ZEPHIR_CALL_METHOD(&label, this_ptr, "getoption", NULL, _1);
 		zephir_check_temp_parameter(_1);
@@ -124,7 +124,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Numericality, validate) {
 			ZEPHIR_CALL_METHOD(&label, validation, "getlabel", NULL, field);
 			zephir_check_call_status();
 		}
-		ZEPHIR_INIT_BNVAR(_1);
+		ZEPHIR_INIT_NVAR(_1);
 		ZVAL_STRING(_1, "message", ZEPHIR_TEMP_PARAM_COPY);
 		ZEPHIR_CALL_METHOD(&message, this_ptr, "getoption", NULL, _1);
 		zephir_check_temp_parameter(_1);
@@ -133,7 +133,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Numericality, validate) {
 		array_init_size(replacePairs, 2);
 		zephir_array_update_string(&replacePairs, SL(":field"), &label, PH_COPY | PH_SEPARATE);
 		if (ZEPHIR_IS_EMPTY(message)) {
-			ZEPHIR_INIT_BNVAR(_1);
+			ZEPHIR_INIT_NVAR(_1);
 			ZVAL_STRING(_1, "Numericality", ZEPHIR_TEMP_PARAM_COPY);
 			ZEPHIR_CALL_METHOD(&message, validation, "getdefaultmessage", NULL, _1);
 			zephir_check_temp_parameter(_1);
@@ -143,7 +143,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Numericality, validate) {
 		object_init_ex(_5, phalcon_validation_message_ce);
 		ZEPHIR_CALL_FUNCTION(&_6, "strtr", &_7, message, replacePairs);
 		zephir_check_call_status();
-		ZEPHIR_INIT_BNVAR(_1);
+		ZEPHIR_INIT_NVAR(_1);
 		ZVAL_STRING(_1, "Numericality", ZEPHIR_TEMP_PARAM_COPY);
 		ZEPHIR_CALL_METHOD(NULL, _5, "__construct", NULL, _6, field, _1);
 		zephir_check_temp_parameter(_1);

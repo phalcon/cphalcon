@@ -17,27 +17,38 @@
  +------------------------------------------------------------------------+
  */
 
-namespace Phalcon\Flash;
+namespace Phalcon\Config\Adapter;
 
-use Phalcon\FlashInterface;
+use Phalcon\Config;
+use Phalcon\Config\Exception;
 
-/**
- * Phalcon\Flash\Direct
- *
- * This is a variant of the Phalcon\Flash that inmediately outputs any message passed to it
- */
-class Direct extends \Phalcon\Flash implements FlashInterface
+class Yaml extends Config
 {
 
-	/**
-	 * Outputs a message
-	 *
-	 * @param  string type
-	 * @param  string|array message
-	 * @return string
-	 */
-	public function message(string type, var message) -> string
-	{
-		return this->outputMessage(type, message);
-	}
+    /**
+     * Phalcon\Config\Adapter\Yaml constructor
+     *
+     * @param  string                    $filePath
+     * @param  array                     $callbacks
+     * @throws \Phalcon\Config\Exception
+     */
+    public function __construct(string! filePath, array! callbacks = null)
+    {
+        if (!extension_loaded("yaml")) {
+            throw new Exception("Yaml extension not loaded");
+        }
+        var yamlConfig;
+        int ndocs = 0;
+        if callbacks != null {
+            let yamlConfig = yaml_parse_file(filePath, 0, ndocs, callbacks);
+        } else {
+            let yamlConfig = yaml_parse_file(filePath);
+        }
+        if yamlConfig === false {
+            throw new Exception("Configuration file " . basename(filePath) . " can't be loaded");
+        }
+
+        parent::__construct(yamlConfig);
+    }
+
 }

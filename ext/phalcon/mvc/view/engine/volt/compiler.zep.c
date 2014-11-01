@@ -525,7 +525,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, getUniquePrefix) {
 	ZEPHIR_OBS_VAR(prefix);
 	zephir_read_property_this(&prefix, this_ptr, SL("_prefix"), PH_NOISY_CC);
 	if (!(zephir_is_true(prefix))) {
-		ZEPHIR_INIT_BNVAR(prefix);
+		ZEPHIR_INIT_NVAR(prefix);
 		_0 = zephir_fetch_nproperty_this(this_ptr, SL("_currentPath"), PH_NOISY_CC);
 		zephir_unique_path_key(prefix, _0 TSRMLS_CC);
 		zephir_update_property_this(this_ptr, SL("_prefix"), prefix TSRMLS_CC);
@@ -774,7 +774,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, functionCall) {
 						if (ZEPHIR_IS_LONG(exprLevel, 1)) {
 							ZEPHIR_CPY_WRT(escapedCode, code);
 						} else {
-							ZEPHIR_INIT_VAR(escapedCode);
+							ZEPHIR_INIT_NVAR(escapedCode);
 							zephir_addslashes(escapedCode, code TSRMLS_CC);
 						}
 					} else {
@@ -1420,7 +1420,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, expression) {
 				ZVAL_STRING(&_13, "'", 0);
 				ZEPHIR_SINIT_NVAR(_14);
 				ZVAL_STRING(&_14, "\\'", 0);
-				zephir_fast_str_replace(_1, &_13, &_14, _6);
+				zephir_fast_str_replace(_1, &_13, &_14, _6 TSRMLS_CC);
 				ZEPHIR_INIT_NVAR(exprCode);
 				ZEPHIR_CONCAT_SVS(exprCode, "'", _1, "'");
 				break;
@@ -1685,7 +1685,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileForeach) {
 	zephir_check_call_status();
 	ZEPHIR_OBS_VAR(blockStatements);
 	zephir_array_fetch_string(&blockStatements, statement, SL("block_statements"), PH_NOISY, "phalcon/mvc/view/engine/volt/compiler.zep", 1415 TSRMLS_CC);
-	ZEPHIR_INIT_BNVAR(forElse);
+	ZEPHIR_INIT_NVAR(forElse);
 	ZVAL_BOOL(forElse, 0);
 	if (Z_TYPE_P(blockStatements) == IS_ARRAY) {
 		zephir_is_iterable(blockStatements, &_2, &_1, 0, 0, "phalcon/mvc/view/engine/volt/compiler.zep", 1441);
@@ -3127,7 +3127,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compile) {
 							ZEPHIR_CALL_FUNCTION(&compilation, "unserialize", &_7, blocksCode);
 							zephir_check_call_status();
 						} else {
-							ZEPHIR_INIT_BNVAR(compilation);
+							ZEPHIR_INIT_NVAR(compilation);
 							array_init(compilation);
 						}
 					}

@@ -488,22 +488,22 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, processActionAnnotation) {
 	} else {
 		if (ZEPHIR_IS_STRING(name, "Get")) {
 			isRoute = 1;
-			ZEPHIR_INIT_BNVAR(methods);
+			ZEPHIR_INIT_NVAR(methods);
 			ZVAL_STRING(methods, "GET", 1);
 		} else {
 			if (ZEPHIR_IS_STRING(name, "Post")) {
 				isRoute = 1;
-				ZEPHIR_INIT_BNVAR(methods);
+				ZEPHIR_INIT_NVAR(methods);
 				ZVAL_STRING(methods, "POST", 1);
 			} else {
 				if (ZEPHIR_IS_STRING(name, "Put")) {
 					isRoute = 1;
-					ZEPHIR_INIT_BNVAR(methods);
+					ZEPHIR_INIT_NVAR(methods);
 					ZVAL_STRING(methods, "PUT", 1);
 				} else {
 					if (ZEPHIR_IS_STRING(name, "Options")) {
 						isRoute = 1;
-						ZEPHIR_INIT_BNVAR(methods);
+						ZEPHIR_INIT_NVAR(methods);
 						ZVAL_STRING(methods, "OPTIONS", 1);
 					}
 				}
@@ -516,7 +516,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, processActionAnnotation) {
 		_1 = zephir_fetch_nproperty_this(this_ptr, SL("_actionSuffix"), PH_NOISY_CC);
 		ZEPHIR_SINIT_VAR(_2);
 		ZVAL_STRING(&_2, "", 0);
-		zephir_fast_str_replace(_0, _1, &_2, action);
+		zephir_fast_str_replace(_0, _1, &_2, action TSRMLS_CC);
 		zephir_fast_strtolower(actionName, _0);
 		ZEPHIR_OBS_VAR(routePrefix);
 		zephir_read_property_this(&routePrefix, this_ptr, SL("_routePrefix"), PH_NOISY_CC);

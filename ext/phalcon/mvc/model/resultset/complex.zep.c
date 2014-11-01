@@ -262,7 +262,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, valid) {
 						ZEPHIR_INIT_NVAR(attribute);
 						ZEPHIR_SINIT_NVAR(_14);
 						ZVAL_STRING(&_14, "", 0);
-						zephir_fast_str_replace(attribute, underscore, &_14, alias);
+						zephir_fast_str_replace(attribute, underscore, &_14, alias TSRMLS_CC);
 					}
 				}
 				do {

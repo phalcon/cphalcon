@@ -82,7 +82,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, connect) {
 	int ZEPHIR_LAST_CALL_STATUS;
 	zephir_nts_static zephir_fcall_cache_entry *_3 = NULL;
 	zend_bool _1;
-	zval *descriptor = NULL, *schema, *sql, *_0, *_2;
+	zval *descriptor = NULL, *schema = NULL, *sql, *_0, *_2;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &descriptor);
@@ -102,7 +102,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, connect) {
 	if (zephir_array_isset_string_fetch(&schema, descriptor, SS("schema"), 0 TSRMLS_CC)) {
 		zephir_array_unset_string(&descriptor, SS("schema"), PH_SEPARATE);
 	} else {
-		ZEPHIR_INIT_BNVAR(schema);
+		ZEPHIR_INIT_NVAR(schema);
 		ZVAL_STRING(schema, "", 1);
 	}
 	if (zephir_array_isset_string(descriptor, SS("password"))) {

@@ -98,7 +98,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, __call) {
 	zval *_1;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zend_class_entry *_0;
-	zval *method_param = NULL, *arguments, *handler, *definition;
+	zval *method_param = NULL, *arguments, *handler = NULL, *definition;
 	zval *method = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -122,7 +122,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, __call) {
 	if (Z_TYPE_P(handler) != IS_OBJECT) {
 		ZEPHIR_OBS_VAR(definition);
 		zephir_read_property_this(&definition, this_ptr, SL("_definition"), PH_NOISY_CC);
-		ZEPHIR_INIT_BNVAR(handler);
+		ZEPHIR_INIT_NVAR(handler);
 		_0 = zend_fetch_class(Z_STRVAL_P(definition), Z_STRLEN_P(definition), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 		object_init_ex(handler, _0);
 		if (zephir_has_constructor(handler TSRMLS_CC)) {

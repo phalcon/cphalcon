@@ -342,7 +342,7 @@ PHP_METHOD(Phalcon_Debug, _escapeString) {
 		ZVAL_STRING(&_1, "\n", 0);
 		ZEPHIR_SINIT_VAR(_2);
 		ZVAL_STRING(&_2, "\\n", 0);
-		zephir_fast_str_replace(_0, &_1, &_2, value);
+		zephir_fast_str_replace(_0, &_1, &_2, value TSRMLS_CC);
 		ZEPHIR_SINIT_VAR(_3);
 		ZVAL_LONG(&_3, 2);
 		ZEPHIR_SINIT_VAR(_4);
@@ -649,7 +649,7 @@ PHP_METHOD(Phalcon_Debug, showTraceItem) {
 			ZEPHIR_INIT_VAR(namespaceSeparator);
 			ZVAL_STRING(namespaceSeparator, "\\", 1);
 			ZEPHIR_INIT_VAR(prepareUriClass);
-			zephir_fast_str_replace(prepareUriClass, namespaceSeparator, underscore, className);
+			zephir_fast_str_replace(prepareUriClass, namespaceSeparator, underscore, className TSRMLS_CC);
 			ZEPHIR_INIT_VAR(_3);
 			ZEPHIR_CONCAT_SVSVS(_3, "<span class=\"error-class\"><a target=\"_new\" href=\"http://docs.phalconphp.com/en/latest/api/", prepareUriClass, ".html\">", className, "</a></span>");
 			zephir_concat_self(&html, _3 TSRMLS_CC);
@@ -665,7 +665,7 @@ PHP_METHOD(Phalcon_Debug, showTraceItem) {
 				ZEPHIR_INIT_VAR(prepareInternalClass);
 				ZEPHIR_INIT_NVAR(_0);
 				zephir_fast_strtolower(_0, className);
-				zephir_fast_str_replace(prepareInternalClass, underscore, minus, _0);
+				zephir_fast_str_replace(prepareInternalClass, underscore, minus, _0 TSRMLS_CC);
 				ZEPHIR_INIT_LNVAR(_3);
 				ZEPHIR_CONCAT_SVSVS(_3, "<span class=\"error-class\"><a target=\"_new\" href=\"http://php.net/manual/en/class.", prepareInternalClass, ".php\">", className, "</a></span>");
 				zephir_concat_self(&html, _3 TSRMLS_CC);
@@ -695,7 +695,7 @@ PHP_METHOD(Phalcon_Debug, showTraceItem) {
 			zephir_check_call_status();
 			if (zephir_is_true(_1)) {
 				ZEPHIR_INIT_VAR(preparedFunctionName);
-				zephir_fast_str_replace(preparedFunctionName, underscore, minus, functionName);
+				zephir_fast_str_replace(preparedFunctionName, underscore, minus, functionName TSRMLS_CC);
 				ZEPHIR_INIT_LNVAR(_6);
 				ZEPHIR_CONCAT_SVSVS(_6, "<span class=\"error-function\"><a target=\"_new\" href=\"http://php.net/manual/en/function.", preparedFunctionName, ".php\">", functionName, "</a></span>");
 				zephir_concat_self(&html, _6 TSRMLS_CC);
@@ -813,7 +813,7 @@ PHP_METHOD(Phalcon_Debug, showTraceItem) {
 						zephir_check_call_status();
 						if (zephir_is_true(_1)) {
 							ZEPHIR_INIT_NVAR(_19);
-							zephir_fast_str_replace(_19, comment, space, currentLine);
+							zephir_fast_str_replace(_19, comment, space, currentLine TSRMLS_CC);
 							ZEPHIR_CPY_WRT(currentLine, _19);
 						}
 					}
@@ -825,7 +825,7 @@ PHP_METHOD(Phalcon_Debug, showTraceItem) {
 						zephir_concat_self_str(&html, SL("&nbsp;\n") TSRMLS_CC);
 					} else {
 						ZEPHIR_INIT_NVAR(_19);
-						zephir_fast_str_replace(_19, tab, twoSpaces, currentLine);
+						zephir_fast_str_replace(_19, tab, twoSpaces, currentLine TSRMLS_CC);
 						ZEPHIR_CALL_FUNCTION(&_5, "htmlentities", &_20, _19, entCompat, utf8);
 						zephir_check_call_status();
 						zephir_concat_self(&html, _5 TSRMLS_CC);

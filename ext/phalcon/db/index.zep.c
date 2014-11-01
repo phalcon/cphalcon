@@ -165,7 +165,7 @@ PHP_METHOD(Phalcon_Db_Index, __construct) {
 PHP_METHOD(Phalcon_Db_Index, __set_state) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *data_param = NULL, *indexName, *columns, *type;
+	zval *data_param = NULL, *indexName, *columns, *type = NULL;
 	zval *data = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -192,7 +192,7 @@ PHP_METHOD(Phalcon_Db_Index, __set_state) {
 	}
 	ZEPHIR_OBS_VAR(type);
 	if (!(zephir_array_isset_string_fetch(&type, data, SS("_type"), 0 TSRMLS_CC))) {
-		ZEPHIR_INIT_BNVAR(type);
+		ZEPHIR_INIT_NVAR(type);
 		ZVAL_STRING(type, "", 1);
 	}
 	object_init_ex(return_value, phalcon_db_index_ce);

@@ -83,7 +83,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Url, validate) {
 	zval *_5;
 	zend_bool _2;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *record, *field = NULL, *value = NULL, *message = NULL, *_0, *_1 = NULL, _3, *_4 = NULL, *_6 = NULL;
+	zval *record, *field = NULL, *value = NULL, *message = NULL, *_0 = NULL, *_1 = NULL, _3, *_4 = NULL, *_6 = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &record);
@@ -105,7 +105,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Url, validate) {
 	}
 	ZEPHIR_CALL_METHOD(&value, record, "readattribute", NULL, field);
 	zephir_check_call_status();
-	ZEPHIR_INIT_BNVAR(_0);
+	ZEPHIR_INIT_NVAR(_0);
 	ZVAL_STRING(_0, "allowEmpty", ZEPHIR_TEMP_PARAM_COPY);
 	ZEPHIR_CALL_METHOD(&_1, this_ptr, "issetoption", NULL, _0);
 	zephir_check_temp_parameter(_0);
@@ -122,7 +122,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Url, validate) {
 	ZEPHIR_CALL_FUNCTION(&_4, "filter_var", NULL, value, &_3);
 	zephir_check_call_status();
 	if (!(zephir_is_true(_4))) {
-		ZEPHIR_INIT_BNVAR(_0);
+		ZEPHIR_INIT_NVAR(_0);
 		ZVAL_STRING(_0, "message", ZEPHIR_TEMP_PARAM_COPY);
 		ZEPHIR_CALL_METHOD(&message, this_ptr, "getoption", NULL, _0);
 		zephir_check_temp_parameter(_0);
@@ -136,7 +136,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Url, validate) {
 		zephir_array_update_string(&_5, SL(":field"), &field, PH_COPY | PH_SEPARATE);
 		ZEPHIR_CALL_FUNCTION(&_6, "strtr", &_7, message, _5);
 		zephir_check_call_status();
-		ZEPHIR_INIT_BNVAR(_0);
+		ZEPHIR_INIT_NVAR(_0);
 		ZVAL_STRING(_0, "Url", ZEPHIR_TEMP_PARAM_COPY);
 		ZEPHIR_CALL_METHOD(NULL, this_ptr, "appendmessage", NULL, _6, field, _0);
 		zephir_check_temp_parameter(_0);

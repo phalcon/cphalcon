@@ -29,6 +29,7 @@
 #include "kernel/fcall.h"
 #include "kernel/memory.h"
 #include "kernel/hash.h"
+#include "kernel/operators.h"
 #include "kernel/exception.h"
 #include "kernel/backtrace.h"
 
@@ -102,6 +103,64 @@ static inline ulong zephir_update_hash(const char *arKey, uint nKeyLength, ulong
 }
 #endif
 
+static char *zephir_fcall_possible_method(zend_class_entry *ce, const char *wrong_name TSRMLS_DC)
+{
+	HashTable *methods;
+	HashPosition   pos;
+	zend_function *method;
+	char *possible_method = NULL;
+	zval *left = NULL, *right = NULL, method_name;
+	zval *params[1];
+	int count;
+
+	count = zend_hash_num_elements(&ce->function_table);
+	if (count > 0) {
+
+		ZEPHIR_SINIT_VAR(method_name);
+		ZVAL_STRING(&method_name, wrong_name, 0);
+
+		params[0] = &method_name;
+		zephir_call_func_aparams(&right, SL("metaphone"), NULL, 1, params TSRMLS_CC);
+
+		methods = &ce->function_table;
+		zend_hash_internal_pointer_reset_ex(methods, &pos);
+
+		while (zend_hash_get_current_data_ex(methods, (void **) &method, &pos) == SUCCESS) {
+
+			ZEPHIR_SINIT_VAR(method_name);
+			ZVAL_STRING(&method_name, method->common.function_name, 0);
+
+			if (left) {
+				zephir_ptr_dtor(&left);
+			}
+			left = NULL;
+
+			params[0] = &method_name;
+			zephir_call_func_aparams(&left, SL("metaphone"), NULL, 1, params TSRMLS_CC);
+
+			if (zephir_is_equal(left, right TSRMLS_CC)) {
+				possible_method = (char *) method->common.function_name;
+				break;
+			}
+
+			zend_hash_move_forward_ex(methods, &pos);
+		}
+
+		if (left) {
+			zephir_ptr_dtor(&left);
+		}
+
+		if (right) {
+			zephir_ptr_dtor(&right);
+		}
+	}
+
+	return possible_method;
+}
+
+/**
+ * Creates a unique key to cache the current method/function call address for the current scope
+ */
 static ulong zephir_make_fcall_key(char **result, size_t *length, const zend_class_entry *obj_ce, zephir_call_type type, zval *function_name TSRMLS_DC)
 {
 	const zend_class_entry *calling_scope = EG(scope);
@@ -432,10 +491,19 @@ int zephir_call_user_function(zval **object_pp, zend_class_entry *obj_ce, zephir
 
 	if (!cache_entry || !*cache_entry) {
 		if (EXPECTED(status != FAILURE) && fcall_key && !temp_cache_entry) {
+#ifndef ZEPHIR_RELEASE
+			zephir_fcall_cache_entry *temp_cache_entry = malloc(sizeof(zephir_fcall_cache_entry));
+			temp_cache_entry->f     = fcic.function_handler;
+			temp_cache_entry->times = 0;
+#else
 			zephir_fcall_cache_entry *temp_cache_entry = fcic.function_handler;
+#endif
 			if (FAILURE == zend_hash_quick_add(zephir_globals_ptr->fcache, fcall_key, fcall_key_len, fcall_key_hash, &temp_cache_entry, sizeof(zephir_fcall_cache_entry*), NULL)) {
+#ifndef ZEPHIR_RELEASE
+				free(temp_cache_entry);
+#endif
 			} else {
-#if PHP_VERSION_ID < 50600
+#ifdef ZEPHIR_RELEASE
 				if (cache_entry) {
 					*cache_entry = temp_cache_entry;
 				}
@@ -483,7 +551,10 @@ int zephir_call_func_aparams(zval **return_value_ptr, const char *func_name, uin
 	status = zephir_call_user_function(NULL, NULL, zephir_fcall_function, func, rvp, cache_entry, param_count, params TSRMLS_CC);
 
 	if (status == FAILURE && !EG(exception)) {
-		zend_error(E_ERROR, "Call to undefined function %s()", func_name);
+		zephir_throw_exception_format(spl_ce_RuntimeException TSRMLS_CC, "Call to undefined function %s()", func_name);
+		if (return_value_ptr) {
+			*return_value_ptr = NULL;
+		}
 	} else {
 		if (EG(exception)) {
 			status = FAILURE;
@@ -525,7 +596,10 @@ int zephir_call_zval_func_aparams(zval **return_value_ptr, zval *func_name,
 	status = zephir_call_user_function(NULL, NULL, zephir_fcall_function, func_name, rvp, cache_entry, param_count, params TSRMLS_CC);
 
 	if (status == FAILURE && !EG(exception)) {
-		zend_error(E_ERROR, "Call to undefined function %s()", Z_TYPE_P(func_name) ? Z_STRVAL_P(func_name) : "undefined");
+		zephir_throw_exception_format(spl_ce_RuntimeException TSRMLS_CC, "Call to undefined function %s()", Z_TYPE_P(func_name) ? Z_STRVAL_P(func_name) : "undefined");
+		if (return_value_ptr) {
+			*return_value_ptr = NULL;
+		}
 	} else {
 		if (EG(exception)) {
 			status = FAILURE;
@@ -547,6 +621,7 @@ int zephir_call_class_method_aparams(zval **return_value_ptr, zend_class_entry *
 	zephir_fcall_cache_entry **cache_entry,
 	uint param_count, zval **params TSRMLS_DC)
 {
+	char *possible_method;
 	zval *rv = NULL, **rvp = return_value_ptr ? return_value_ptr : &rv;
 	zval *fn;
 	zval *mn;
@@ -562,7 +637,11 @@ int zephir_call_class_method_aparams(zval **return_value_ptr, zend_class_entry *
 
 	if (object) {
 		if (Z_TYPE_P(object) != IS_OBJECT) {
-			zend_error(E_ERROR, "Trying to call method %s on a non-object", method_name);
+			zephir_throw_exception_format(spl_ce_RuntimeException TSRMLS_CC, "Trying to call method %s on a non-object", method_name);
+			if (return_value_ptr) {
+				*return_value_ptr = NULL;
+			}
+			return FAILURE;
 		}
 	}
 
@@ -597,24 +676,52 @@ int zephir_call_class_method_aparams(zval **return_value_ptr, zend_class_entry *
 	}
 
 	status = zephir_call_user_function(object ? &object : NULL, ce, type, fn, rvp, cache_entry, param_count, params TSRMLS_CC);
-
-	/*if (Z_TYPE_P(fn) == IS_ARRAY) {
-		if (Z_REFCOUNT_P(mn) > 1) {
-			zval_copy_ctor(mn);
-		} else {
-			ZVAL_NULL(mn);
-		}*/
-		//zval_ptr_dtor(&mn);
-	//}
-
 	if (status == FAILURE && !EG(exception)) {
+
+		if (ce) {
+			possible_method = zephir_fcall_possible_method(ce, method_name TSRMLS_CC);
+		}
+
 		switch (type) {
-			case zephir_fcall_parent: zend_error(E_ERROR, "Call to undefined function parent::%s()", method_name); break;
-			case zephir_fcall_self:   zend_error(E_ERROR, "Call to undefined function self::%s()", method_name); break;
-			case zephir_fcall_static: zend_error(E_ERROR, "Call to undefined function static::%s()", method_name); break;
-			case zephir_fcall_ce:     zend_error(E_ERROR, "Call to undefined function %s::%s()", ce->name, method_name); break;
-			case zephir_fcall_method: zend_error(E_ERROR, "Call to undefined function %s::%s()", Z_OBJCE_P(object)->name, method_name); break;
-			default:                  zend_error(E_ERROR, "Call to undefined function ?::%s()", method_name);
+
+			case zephir_fcall_parent:
+				if (possible_method) {
+					zephir_throw_exception_format(spl_ce_RuntimeException TSRMLS_CC, "Call to undefined method parent::%s(), did you mean '%s'?", method_name, possible_method);
+				} else {
+					zephir_throw_exception_format(spl_ce_RuntimeException TSRMLS_CC, "Call to undefined method parent::%s()", method_name);
+				}
+				break;
+
+			case zephir_fcall_self:
+				if (possible_method) {
+					zephir_throw_exception_format(spl_ce_RuntimeException TSRMLS_CC, "Call to undefined method self::%s(), did you mean '%s'?", method_name, possible_method);
+				} else {
+					zephir_throw_exception_format(spl_ce_RuntimeException TSRMLS_CC, "Call to undefined method self::%s()", method_name);
+				}
+				break;
+
+			case zephir_fcall_static:
+				zephir_throw_exception_format(spl_ce_RuntimeException TSRMLS_CC, "Call to undefined method static::%s()", method_name);
+				break;
+
+			case zephir_fcall_ce:
+				zephir_throw_exception_format(spl_ce_RuntimeException TSRMLS_CC, "Call to undefined method %s::%s()", ce->name, method_name);
+				break;
+
+			case zephir_fcall_method:
+				if (possible_method) {
+					zephir_throw_exception_format(spl_ce_RuntimeException TSRMLS_CC, "Call to undefined method %s::%s(), did you mean '%s'?", ce->name, method_name, possible_method);
+				} else {
+					zephir_throw_exception_format(spl_ce_RuntimeException TSRMLS_CC, "Call to undefined method %s::%s()", ce->name, method_name);
+				}
+				break;
+
+			default:
+				zephir_throw_exception_format(spl_ce_RuntimeException TSRMLS_CC, "Call to undefined method ?::%s()", method_name);
+		}
+
+		if (return_value_ptr) {
+			*return_value_ptr = NULL;
 		}
 	} else {
 		if (EG(exception)) {
@@ -629,9 +736,6 @@ int zephir_call_class_method_aparams(zval **return_value_ptr, zend_class_entry *
 		zval_ptr_dtor(&rv);
 	}
 
-	/*if (Z_TYPE_P(fn) == IS_STRING) {
-		ZVAL_NULL(fn);
-	}*/
 	zval_ptr_dtor(&fn);
 
 	return status;

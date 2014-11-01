@@ -154,13 +154,29 @@ class Security implements InjectionAwareInterface
 	 */
 	public function checkHash(string password, string passwordHash, int maxPassLength = 0) -> boolean
 	{
+		string cryptedHash;
+		int i, sum, cryptedLength, passwordLength;
+		char ch;
+
 		if maxPassLength {
 			if maxPassLength > 0 && strlen(password) > maxPassLength {
 				return false;
 			}
 		}
 
-		return crypt(password, passwordHash) == passwordHash;
+		let cryptedHash = (string) crypt(password, passwordHash);
+
+		let cryptedLength = strlen(cryptedHash),
+        	passwordLength = strlen(passwordHash);
+
+        let cryptedHash .= passwordHash;
+
+        let sum = cryptedLength - passwordLength;
+        for i, ch in passwordHash {
+        	let sum = sum | (cryptedHash[i] ^ ch);
+        }
+
+		return 0 === sum;
 	}
 
 	/**
