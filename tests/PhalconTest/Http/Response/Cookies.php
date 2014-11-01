@@ -28,52 +28,52 @@ use \Phalcon\DiInterface as PhDIInterface;
 class Cookies extends PhCookies
 {
     public function setDI(PhDIInterface $di)
-	{
+    {
         parent::setDI($di);
-	}
+    }
 
     public function getDI()
-	{
+    {
         return parent::getDI();
-	}
+    }
 
-	public function useEncryption($useEncryption)
-	{
+    public function useEncryption($useEncryption)
+    {
         return parent::useEncryption($useEncryption);
-	}
+    }
 
-	public function isUsingEncryption()
-	{
+    public function isUsingEncryption()
+    {
         return parent::isUsingEncryption();
-	}
+    }
 
-	public function set($name, $value = null, $expire = 0, $path = "/", $secure = null, $domain = null, $httpOnly = null)
-	{
+    public function set($name, $value = null, $expire = 0, $path = "/", $secure = null, $domain = null, $httpOnly = null)
+    {
         return parent::set($name, $value, $expire, $path, $secure, $domain, $httpOnly);
-	}
+    }
 
-	public function get($name)
-	{
+    public function get($name)
+    {
         return parent::get($name);
     }
 
-	public function has($name)
-	{
+    public function has($name)
+    {
         return parent::has($name);
-	}
+    }
 
-	public function delete($name)
-	{
+    public function delete($name)
+    {
         return parent::delete($name);
-	}
+    }
 
-	public function send()
-	{
+    public function send()
+    {
         return parent::send();
-	}
+    }
 
-	public function reset()
-	{
+    public function reset()
+    {
         return parent::reset();
-	}
+    }
 }

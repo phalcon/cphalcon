@@ -27,17 +27,17 @@ use \Phalcon\Filter as PhFilter;
 class Filter extends PhFilter
 {
     public function add($name, $handler)
-	{
+    {
         return parent::add($name, $handler);
-	}
+    }
 
-	public function sanitize($value, $filters, $noRecursive = false)
-	{
+    public function sanitize($value, $filters, $noRecursive = false)
+    {
         return parent::sanitize($value, $filters, $noRecursive);
     }
 
-	public function getFilters()
+    public function getFilters()
     {
         return parent::getFilters();
-	}
+    }
 }

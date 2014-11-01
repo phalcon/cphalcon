@@ -36,8 +36,8 @@ class UppercaseFilter implements PhFilterInterface
      *
      * @return string
      */
-	public function filter($input)
-	{
-		return strtoupper($input);
-	}
+    public function filter($input)
+    {
+        return strtoupper($input);
+    }
 }

@@ -28,67 +28,67 @@ use \Phalcon\DiInterface as PhDIInterface;
 class Security extends PhSecurity
 {
     public function setDI(PhDIInterface $di)
-	{
-		parent::setDI($di);
-	}
+    {
+        parent::setDI($di);
+    }
 
     public function getDI()
-	{
+    {
         return parent::getDI();
-	}
+    }
 
-	public function setRandomBytes($randomBytes)
-	{
+    public function setRandomBytes($randomBytes)
+    {
         parent::setRandomBytes($randomBytes);
-	}
+    }
 
-	public function getRandomBytes()
-	{
+    public function getRandomBytes()
+    {
         return parent::getRandomBytes();
-	}
+    }
 
-	public function getSaltBytes()
-	{
+    public function getSaltBytes()
+    {
         return parent::getSaltBytes();
-	}
+    }
 
-	public function hash($password, $workFactor = 0)
-	{
+    public function hash($password, $workFactor = 0)
+    {
         return parent::hash($password, $workFactor);
-	}
+    }
 
-	public function checkHash($password, $passwordHash, $maxPassLength = 0)
-	{
+    public function checkHash($password, $passwordHash, $maxPassLength = 0)
+    {
         return parent::checkHash($password, $passwordHash, $maxPassLength);
     }
 
-	public function isLegacyHash($password, $passwordHash)
-	{
+    public function isLegacyHash($password, $passwordHash)
+    {
         return parent::isLegacyHash($password, $passwordHash);
     }
 
-	public function getTokenKey($numberBytes = null)
-	{
+    public function getTokenKey($numberBytes = null)
+    {
         return parent::getTokenKey($numberBytes);
-	}
+    }
 
-	public function getToken($numberBytes = null)
-	{
+    public function getToken($numberBytes = null)
+    {
         return parent::getToken($numberBytes);
-	}
+    }
 
-	public function checkToken($tokenKey = null, $tokenValue = null)
-	{
+    public function checkToken($tokenKey = null, $tokenValue = null)
+    {
         return parent::checkToken($tokenKey, $tokenValue);
-	}
+    }
 
-	public function getSessionToken()
-	{
+    public function getSessionToken()
+    {
         return parent::getSessionToken();
-	}
+    }
 
-	public function computeHmac($data, $key, $algo, $raw = false)
+    public function computeHmac($data, $key, $algo, $raw = false)
     {
         return parent::computeHmac($data, $key, $algo, $raw);
-	}
+    }
 }

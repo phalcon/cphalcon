@@ -27,22 +27,22 @@ use \Phalcon\Acl\Adapter as PhAdapter;
 class Adapter extends PhAdapter
 {
     public function setEventsManager($eventsManager)
-	{
+    {
         parent::setEventsManager($eventsManager);
-	}
+    }
 
     public function getEventsManager()
-	{
+    {
         return parent::getEventsManager();
-	}
+    }
 
-	public function setDefaultAction($defaultAccess)
-	{
+    public function setDefaultAction($defaultAccess)
+    {
         parent::setDefaultAction($defaultAccess);
-	}
+    }
 
-	public function getDefaultAction()
-	{
+    public function getDefaultAction()
+    {
         return parent::getDefaultAction();
-	}
+    }
 }

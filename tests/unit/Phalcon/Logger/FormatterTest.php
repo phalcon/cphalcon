@@ -25,10 +25,11 @@ namespace Phalcon\Tests\unit\Phalcon\Logger\Adapter;
 use Phalcon\Logger as PhLogger;
 use Phalcon\Logger\Exception as PhLoggerException;
 use Phalcon\Logger\Formatter\Line as PhLoggerFormatterLine;
-
 use \Phalcon\Logger\Adapter\File as PhTLoggerAdapterFile;
 
-class FormatterTest extends Helper\FileBase
+use Phalcon\Tests\unit\Phalcon\Logger\Helper\FileBase as FBase;
+
+class FormatterTest extends FBase
 {
     /**
      * Tests new format logs correctly

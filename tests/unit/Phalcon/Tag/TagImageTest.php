@@ -567,5 +567,4 @@ class TagImageTest extends Helper\TagBase
             }
         );
     }
-
 }

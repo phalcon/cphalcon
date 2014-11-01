@@ -23,12 +23,11 @@
 namespace Phalcon\Tests\unit\Phalcon\Acl;
 
 use \PhalconTest\Acl\Resource as PhAclTResource;
-use \Codeception\TestCase\Test as CdTest;
 
-class ACLResourceTest extends CdTest
+use \Phalcon\Tests\unit\Phalcon\_Helper\TestsBase as TBase;
+
+class ACLResourceTest extends TBase
 {
-    use \Codeception\Specify;
-
     /**
      * Tests the creation of an Acl Resource (name)
      *

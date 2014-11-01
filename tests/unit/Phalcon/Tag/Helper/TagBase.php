@@ -26,15 +26,14 @@ use Phalcon\Di\FactoryDefault as PhDI;
 
 use \PhalconTest\Tag as PhTTag;
 
-use \Codeception\TestCase\Test as CdTest;
-use \Codeception\Specify as CdSpecify;
+use \Phalcon\Tests\unit\Phalcon\_Helper\TestsBase as TBase;
 
-class TagBase extends CdTest
+class TagBase extends TBase
 {
-    use CdSpecify;
-
     public function _before()
     {
+        parent::_before();
+
         PhDI::reset();
         $di = new PhDI();
         PhTTag::setDI($di);

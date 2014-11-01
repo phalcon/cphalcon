@@ -66,64 +66,63 @@ class Resource extends PhResource
         return parent::getTargetUri();
     }
 
-	public function setType($type)
-	{
+    public function setType($type)
+    {
         return parent::setType($type);
-	}
+    }
 
-	public function setPath($path)
-	{
+    public function setPath($path)
+    {
         return parent::setPath($path);
-	}
+    }
 
-	public function setLocal($local)
-	{
+    public function setLocal($local)
+    {
         return parent::setLocal($local);
-	}
+    }
 
-	public function setFilter($filter)
-	{
+    public function setFilter($filter)
+    {
         return parent::setFilter($filter);
-	}
+    }
 
-	public function setAttributes($attributes)
-	{
+    public function setAttributes($attributes)
+    {
         return parent::setAttributes($attributes);
-	}
+    }
 
-	public function setTargetUri($targetUri)
-	{
+    public function setTargetUri($targetUri)
+    {
         return parent::setTargetUri($targetUri);
-	}
+    }
 
-	public function setSourcePath($sourcePath)
-	{
+    public function setSourcePath($sourcePath)
+    {
         return parent::setSourcePath($sourcePath);
-	}
+    }
 
-	public function setTargetPath($targetPath)
-	{
+    public function setTargetPath($targetPath)
+    {
         return parent::setTargetPath($targetPath);
-	}
+    }
 
-	public function getContent($basePath = null)
-	{
+    public function getContent($basePath = null)
+    {
         return parent::getContent($basePath);
-	}
+    }
 
-	public function getRealTargetUri()
-	{
+    public function getRealTargetUri()
+    {
         return parent::getRealTargetUri();
-	}
+    }
 
-	public function getRealSourcePath($basePath = null)
-	{
+    public function getRealSourcePath($basePath = null)
+    {
         return parent::getRealSourcePath($basePath);
-	}
+    }
 
-	public function getRealTargetPath($basePath = null)
-	{
+    public function getRealTargetPath($basePath = null)
+    {
         return parent::getRealTargetPath($basePath);
-	}
-
+    }
 }

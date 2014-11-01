@@ -28,57 +28,57 @@ use \Phalcon\DiInterface as PhDIInterface;
 class Url extends PhUrl
 {
     public function setDI(PhDIInterface $di)
-	{
+    {
         parent::setDI($di);
-	}
+    }
 
     public function getDI()
-	{
+    {
         parent::getDI();
-	}
+    }
 
-	public function setBaseUri($baseUri)
-	{
+    public function setBaseUri($baseUri)
+    {
         return parent::setBaseUri($baseUri);
-	}
+    }
 
-	public function setStaticBaseUri($staticBaseUri)
-	{
+    public function setStaticBaseUri($staticBaseUri)
+    {
         return parent::setStaticBaseUri($staticBaseUri);
-	}
+    }
 
-	public function getBaseUri()
-	{
+    public function getBaseUri()
+    {
         return parent::getBaseUri();
-	}
+    }
 
-	public function getStaticBaseUri()
-	{
+    public function getStaticBaseUri()
+    {
         return parent::getStaticBaseUri();
-	}
+    }
 
-	public function setBasePath($basePath)
-	{
+    public function setBasePath($basePath)
+    {
         return parent::setBasePath($basePath);
-	}
+    }
 
-	public function getBasePath()
-	{
+    public function getBasePath()
+    {
         return parent::getBasePath();
-	}
+    }
 
-	public function get($uri = null, $args = null, $local = null)
-	{
+    public function get($uri = null, $args = null, $local = null)
+    {
         return parent::get($uri, $args, $local);
-	}
+    }
 
-	public function getStatic($uri = null)
-	{
+    public function getStatic($uri = null)
+    {
         return parent::getStatic($uri);
-	}
+    }
 
-	public function path($path = null)
-	{
+    public function path($path = null)
+    {
         return parent::path($path);
-	}
+    }
 }

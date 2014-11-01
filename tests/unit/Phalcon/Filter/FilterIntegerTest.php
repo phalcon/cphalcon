@@ -104,4 +104,3 @@ class FilterIntegerTest extends Helper\FilterBase
         );
     }
 }
-

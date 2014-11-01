@@ -27,62 +27,62 @@ use \Phalcon\Acl\Adapter\Memory as PhAdapter;
 class Memory extends PhAdapter
 {
     public function addRole($role, $accessInherits = null)
-	{
+    {
         return parent::addRole($role, $accessInherits);
     }
 
-	public function addInherit($roleName, $roleToInherit)
-	{
+    public function addInherit($roleName, $roleToInherit)
+    {
         return parent::addInherit($roleName, $roleToInherit);
-	}
+    }
 
-	public function isRole($roleName)
-	{
+    public function isRole($roleName)
+    {
         return parent::isRole($roleName);
-	}
+    }
 
-	public function isResource($resourceName)
-	{
+    public function isResource($resourceName)
+    {
         return parent::isResource($resourceName);
-	}
+    }
 
-	public function addResource($resourceValue, $accessList)
-	{
+    public function addResource($resourceValue, $accessList)
+    {
         return parent::addResource($resourceValue, $accessList);
-	}
+    }
 
-	public function addResourceAccess($resourceName, $accessList)
-	{
+    public function addResourceAccess($resourceName, $accessList)
+    {
         return parent::addResourceAccess($resourceName, $accessList);
-	}
+    }
 
-	public function dropResourceAccess($resourceName, $accessList)
-	{
+    public function dropResourceAccess($resourceName, $accessList)
+    {
         parent::dropResourceAccess($resourceName, $accessList);
     }
 
-	public function allow($roleName, $resourceName, $access)
-	{
+    public function allow($roleName, $resourceName, $access)
+    {
         parent::allow($roleName, $resourceName, $access);
     }
 
-	public function deny($roleName, $resourceName, $access)
-	{
+    public function deny($roleName, $resourceName, $access)
+    {
         parent::deny($roleName, $resourceName, $access);
     }
 
-	public function isAllowed($roleName, $resourceName, $access)
-	{
+    public function isAllowed($roleName, $resourceName, $access)
+    {
         return parent::isAllowed($roleName, $resourceName, $access);
-	}
+    }
 
-	public function getRoles()
+    public function getRoles()
     {
         return parent::getRoles();
-	}
+    }
 
-	public function getResources()
+    public function getResources()
     {
         return parent::getResources();
-	}
+    }
 }

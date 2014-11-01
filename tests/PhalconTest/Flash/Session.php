@@ -27,63 +27,63 @@ use \Phalcon\Flash\Session as PhSession;
 
 class Session extends PhSession
 {
-	public function setDI(PhDIInterface $di)
-	{
+    public function setDI(PhDIInterface $di)
+    {
         parent::setDI($di);
-	}
+    }
 
-	public function getDI()
-	{
-		return parent::getDI();
-	}
+    public function getDI()
+    {
+        return parent::getDI();
+    }
 
-	public function message($type, $message)
-	{
+    public function message($type, $message)
+    {
         return parent::message($type, $message);
-	}
+    }
 
-	public function output($remove = true)
-	{
+    public function output($remove = true)
+    {
         parent::output($remove);
-	}
+    }
 
-	public function setImplicitFlush($implicitFlush)
-	{
+    public function setImplicitFlush($implicitFlush)
+    {
         return parent::setImplicitFlush($implicitFlush);
-	}
+    }
 
-	public function setAutomaticHtml($automaticHtml)
-	{
+    public function setAutomaticHtml($automaticHtml)
+    {
         return parent::setAutomaticHtml($automaticHtml);
-	}
+    }
 
-	public function setCssClasses($cssClasses)
-	{
+    public function setCssClasses($cssClasses)
+    {
         return parent::setCssClasses($cssClasses);
-	}
+    }
 
-	public function error($message)
-	{
+    public function error($message)
+    {
         return parent::error($message);
-	}
+    }
 
-	public function notice($message)
-	{
+    public function notice($message)
+    {
         return parent::notice($message);
-	}
+    }
 
-	public function success($message)
-	{
+    public function success($message)
+    {
         return parent::success($message);
-	}
+    }
 
-	public function warning($message)
-	{
+    public function warning($message)
+    {
         return parent::warning($message);
-	}
+    }
 
-	public function outputMessage($type, $message)
-	{
+    public function outputMessage($type, $message)
+    {
         return parent::outputMessage($type, $message);
-	}
+    }
 }

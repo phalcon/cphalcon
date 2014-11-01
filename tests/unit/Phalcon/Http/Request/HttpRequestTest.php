@@ -644,6 +644,4 @@ class HttpRequestTest extends Helper\HttpBase
         $_SERVER['REMOTE_ADDR'] = '86.45.89.47, 214.55.34.56';
         $this->assertEquals($request->getClientAddress(), '86.45.89.47');
     }
-
-
 }

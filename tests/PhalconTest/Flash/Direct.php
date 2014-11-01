@@ -27,48 +27,47 @@ use \Phalcon\Flash\Direct as PhDirect;
 class Direct extends PhDirect
 {
     public function setImplicitFlush($implicitFlush)
-	{
+    {
         return parent::setImplicitFlush($implicitFlush);
-	}
+    }
 
     public function setAutomaticHtml($automaticHtml)
-	{
+    {
         parent::setAutomaticHtml($automaticHtml);
-	}
+    }
 
-	public function setCssClasses($cssClasses)
-	{
+    public function setCssClasses($cssClasses)
+    {
         return parent::setCssClasses($cssClasses);
-	}
+    }
 
-	public function error($message)
-	{
+    public function error($message)
+    {
         return parent::error($message);
-	}
+    }
 
-	public function notice($message)
-	{
+    public function notice($message)
+    {
         return parent::notice($message);
-	}
+    }
 
-	public function success($message)
-	{
+    public function success($message)
+    {
         return parent::success($message);
-	}
+    }
 
-	public function warning($message)
-	{
+    public function warning($message)
+    {
         return parent::warning($message);
-	}
+    }
 
-	public function outputMessage($type, $message)
-	{
+    public function outputMessage($type, $message)
+    {
         return parent::outputMessage($type, $message);
-	}
+    }
 
-	public function message($type, $message)
-	{
-		return parent::message($type, $message);
-	}
-
+    public function message($type, $message)
+    {
+        return parent::message($type, $message);
+    }
 }

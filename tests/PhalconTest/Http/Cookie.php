@@ -28,101 +28,101 @@ use \Phalcon\DiInterface as PhDIInterface;
 class Cookie extends PhCookie
 {
     public function setDI(PhDIInterface $di)
-	{
+    {
         parent::setDI($di);
-	}
+    }
 
-	public function getDI()
-	{
+    public function getDI()
+    {
         return parent::getDI();
-	}
+    }
 
-	public function setValue($value)
-	{
+    public function setValue($value)
+    {
         return parent::setValue($value);
-	}
+    }
 
-	public function getValue($filters = null, $defaultValue = null)
+    public function getValue($filters = null, $defaultValue = null)
     {
         return parent::getValue($filters, $defaultValue);
-	}
+    }
 
-	public function send()
-	{
+    public function send()
+    {
         return parent::send();
-	}
+    }
 
-	public function restore()
-	{
+    public function restore()
+    {
         return parent::restore();
-	}
+    }
 
-	public function delete()
+    public function delete()
     {
         parent::delete();
-	}
+    }
 
-	public function useEncryption($useEncryption)
-	{
+    public function useEncryption($useEncryption)
+    {
         return parent::useEncryption($useEncryption);
-	}
+    }
 
-	public function isUsingEncryption()
-	{
+    public function isUsingEncryption()
+    {
         return parent::isUsingEncryption();
-	}
+    }
 
-	public function setExpiration($expire)
-	{
+    public function setExpiration($expire)
+    {
         return parent::setExpiration($expire);
-	}
+    }
 
-	public function getExpiration()
-	{
+    public function getExpiration()
+    {
         return parent::getExpiration();
-	}
+    }
 
-	public function setPath($path)
-	{
+    public function setPath($path)
+    {
         return parent::setPath($path);
-	}
+    }
 
-	public function getPath()
-	{
+    public function getPath()
+    {
         parent::getPath();
-	}
+    }
 
-	public function setDomain($domain)
-	{
+    public function setDomain($domain)
+    {
         return parent::setDomain($domain);
-	}
+    }
 
-	public function getDomain()
-	{
+    public function getDomain()
+    {
         parent::getDomain();
-	}
+    }
 
-	public function setSecure($secure)
-	{
+    public function setSecure($secure)
+    {
         return parent::setSecure($secure);
-	}
+    }
 
-	public function getSecure()
+    public function getSecure()
     {
         parent::getSource();
-	}
+    }
 
-	public function setHttpOnly($httpOnly)
-	{
+    public function setHttpOnly($httpOnly)
+    {
         return parent::setHttpOnly($httpOnly);
-	}
+    }
 
-	public function getHttpOnly()
-	{
+    public function getHttpOnly()
+    {
         parent::getHttpOnly();
-	}
+    }
 
-	public function __toString()
+    public function __toString()
     {
         return parent::__toString();
     }

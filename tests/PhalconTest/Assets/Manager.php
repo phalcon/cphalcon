@@ -26,113 +26,113 @@ use \Phalcon\Assets\Manager as PhManager;
 
 class Manager extends PhManager
 {
-	public function setOptions($options)
-	{
+    public function setOptions($options)
+    {
         return parent::setOptions($options);
-	}
+    }
 
-	public function getOptions()
-	{
-		return parent::getOptions();
-	}
+    public function getOptions()
+    {
+        return parent::getOptions();
+    }
 
-	public function useImplicitOutput($implicitOutput)
-	{
+    public function useImplicitOutput($implicitOutput)
+    {
         return parent::useImplicitOutput($implicitOutput);
-	}
+    }
 
-	public function addCss($path, $local = true, $filter = true, $attributes = null)
-	{
+    public function addCss($path, $local = true, $filter = true, $attributes = null)
+    {
         return parent::addCss($path, $local, $filter, $attributes);
-	}
+    }
 
-	public function addInlineCss($content, $filter = true, $attributes = null)
-	{
+    public function addInlineCss($content, $filter = true, $attributes = null)
+    {
         parent::addInlineCsse($content, $filter, $attributes);
-	}
+    }
 
-	public function addJs($path, $local = true, $filter = true, $attributes = null)
-	{
+    public function addJs($path, $local = true, $filter = true, $attributes = null)
+    {
         return parent::addJs($path, $local, $filter, $attributes);
-	}
+    }
 
-	public function addInlineJs($content, $filter = true, $attributes = null)
-	{
+    public function addInlineJs($content, $filter = true, $attributes = null)
+    {
         parent::addInlineJs($content, $filter, $attributes);
-	}
+    }
 
-	public function addResourceByType($type, $resource)
-	{
+    public function addResourceByType($type, $resource)
+    {
         parent::addResourceByType($type, $resource);
-	}
+    }
 
-	public function addInlineCodeByType($type, $code)
-	{
+    public function addInlineCodeByType($type, $code)
+    {
         parent::addInlineCodeByType($type, $code);
-	}
+    }
 
-	public function addResource($resource)
-	{
+    public function addResource($resource)
+    {
         parent::addResource($resource);
-	}
+    }
 
-	public function addInlineCode($code)
-	{
+    public function addInlineCode($code)
+    {
         parent::addInlineCode($code);
-	}
+    }
 
-	public function set($id, $collection)
-	{
+    public function set($id, $collection)
+    {
         return parent::set($id, $collection);
-	}
+    }
 
-	public function get($id)
-	{
+    public function get($id)
+    {
         return parent::get($id);
-	}
+    }
 
-	public function getCss()
-	{
+    public function getCss()
+    {
         return parent::getCss();
-	}
+    }
 
-	public function getJs()
-	{
+    public function getJs()
+    {
         return parent::getJs();
-	}
+    }
 
-	public function collection($name)
-	{
+    public function collection($name)
+    {
         return parent::collection($name);
-	}
+    }
 
-	public function output($collection, $callback, $type)
-	{
+    public function output($collection, $callback, $type)
+    {
         return parent::output($collection, $callback, $type);
-	}
+    }
 
-	public function outputInline($collection, $type)
-	{
+    public function outputInline($collection, $type)
+    {
         return parent::outputInline($collection, $type);
-	}
+    }
 
-	public function outputCss($collectionName = null)
-	{
+    public function outputCss($collectionName = null)
+    {
         return parent::outputCss($collectionName);
-	}
+    }
 
-	public function outputInlineCss($collectionName = null)
-	{
+    public function outputInlineCss($collectionName = null)
+    {
         return parent::outputInlineCss($collectionName);
-	}
+    }
 
-	public function outputJs($collectionName = null)
-	{
+    public function outputJs($collectionName = null)
+    {
         return parent::outputJs($collectionName);
-	}
+    }
 
-	public function outputInlineJs($collectionName = null)
-	{
+    public function outputInlineJs($collectionName = null)
+    {
         return parent::outputInlineJs($collectionName);
-	}
+    }
 }

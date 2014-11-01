@@ -27,14 +27,14 @@ use \Phalcon\Version as PhVersion;
 class Version extends PhVersion
 {
     public static function get()
-	{
+    {
         return parent::get();
-	}
+    }
 
-	public static function getId()
-	{
+    public static function getId()
+    {
         return parent::getId();
-	}
+    }
 
     public static function getPart($part)
     {

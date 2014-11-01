@@ -30,7 +30,9 @@ use \Phalcon\Assets\Resource\Js as PhAssetsResourceJs;
 use \PhalconTest\Assets\Manager as PhTAssetsManager;
 use \PhalconTest\Assets\Resource as PhTAssetsResource;
 
-class AssetsManagerTest extends Helper\AssetsBase
+use \Phalcon\Tests\unit\Phalcon\_Helper\TestsBase as TBase;
+
+class AssetsManagerTest extends TBase
 {
     /**
      * addCss tests
@@ -38,8 +40,8 @@ class AssetsManagerTest extends Helper\AssetsBase
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-10-13
      */
-	public function testAssetsManagerAddingCss()
-	{
+    public function testAssetsManagerAddingCss()
+    {
         $this->specify(
             "The addCss on assets manager does add resources correctly",
             function () {
@@ -60,7 +62,7 @@ class AssetsManagerTest extends Helper\AssetsBase
                 expect($number)->equals(2);
             }
         );
-	}
+    }
 
     /**
      * addJs tests
@@ -68,8 +70,8 @@ class AssetsManagerTest extends Helper\AssetsBase
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-10-13
      */
-	public function testAssetsManagerAddingJs()
-	{
+    public function testAssetsManagerAddingJs()
+    {
         $this->specify(
             "The addJs on assets manager does add resources correctly",
             function () {
@@ -90,7 +92,7 @@ class AssetsManagerTest extends Helper\AssetsBase
                 expect($number)->equals(2);
             }
         );
-	}
+    }
 
     /**
      * addResource tests
@@ -98,8 +100,8 @@ class AssetsManagerTest extends Helper\AssetsBase
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-10-13
      */
-	public function testAssetsManagerAddingCssWithAddResource()
-	{
+    public function testAssetsManagerAddingCssWithAddResource()
+    {
         $this->specify(
             "The addResource on assets manager does add resources correctly",
             function () {
@@ -116,7 +118,7 @@ class AssetsManagerTest extends Helper\AssetsBase
                 expect($actual)->equals(3);
             }
         );
-	}
+    }
 
     /**
      * outputCss - implicitOutput tests
@@ -124,7 +126,7 @@ class AssetsManagerTest extends Helper\AssetsBase
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-10-13
      */
-	public function testAssetsManagerOutputCssWithImplicitOutput()
+    public function testAssetsManagerOutputCssWithImplicitOutput()
     {
         $this->markTestSkipped('To be tested');
         $this->specify(
@@ -161,7 +163,7 @@ class AssetsManagerTest extends Helper\AssetsBase
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-10-13
      */
-	public function testAssetsManagerOutputJsWithImplicitOutput()
+    public function testAssetsManagerOutputJsWithImplicitOutput()
     {
         $this->markTestSkipped('To be tested');
         $this->specify(
@@ -198,7 +200,7 @@ class AssetsManagerTest extends Helper\AssetsBase
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-10-13
      */
-	public function testAssetsManagerOutputCssWithoutImplicitOutput()
+    public function testAssetsManagerOutputCssWithoutImplicitOutput()
     {
         $this->markTestSkipped('To be tested');
         $this->specify(
@@ -234,7 +236,7 @@ class AssetsManagerTest extends Helper\AssetsBase
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-10-13
      */
-	public function testAssetsManagerOutputJsWithoutImplicitOutput()
+    public function testAssetsManagerOutputJsWithoutImplicitOutput()
     {
         $this->markTestSkipped('To be tested');
         $this->specify(
@@ -297,7 +299,7 @@ class AssetsManagerTest extends Helper\AssetsBase
                 expect($actual)->equals($expected);
             }
         );
-	}
+    }
 
     /**
      * collection tests
@@ -332,5 +334,5 @@ class AssetsManagerTest extends Helper\AssetsBase
                 expect($actual)->equals($expected);
             }
         );
-	}
+    }
 }

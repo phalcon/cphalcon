@@ -26,8 +26,8 @@ use Phalcon\Assets\Filters\None as PhNone;
 
 class None extends PhNone
 {
-	public function filter($content)
-	{
-		return parent::filter($content);
-	}
+    public function filter($content)
+    {
+        return parent::filter($content);
+    }
 }

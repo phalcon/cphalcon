@@ -20,15 +20,13 @@
  * so that we can send you a copy immediately.
  */
 
-namespace Phalcon\Tests\unit\Phalcon\Logger\Adapter\Helper;
+namespace Phalcon\Tests\unit\Phalcon\Logger\Helper;
 
-use \Codeception\TestCase\Test as CdTest;
+use \Phalcon\Tests\unit\Phalcon\_Helper\TestsBase as TBase;
 
-class FileBase extends CdTest
+class FileBase extends TBase
 {
     protected $logPath = '';
-
-    use \Codeception\Specify;
 
     public function _before()
     {

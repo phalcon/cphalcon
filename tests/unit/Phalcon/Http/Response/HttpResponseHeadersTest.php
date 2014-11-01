@@ -51,8 +51,8 @@ class HttpResponseHeadersTest extends Helper\HttpBase
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-10-05
      */
-	public function testHttpResponseHeadersGetSet()
-	{
+    public function testHttpResponseHeadersGetSet()
+    {
         $this->specify(
             "Setting and Getting Response Headers is not correct",
             function () {
@@ -66,7 +66,7 @@ class HttpResponseHeadersTest extends Helper\HttpBase
                 expect($actual)->equals($expected);
             }
         );
-	}
+    }
 
     /**
      * Tests resetting the response headers
@@ -74,8 +74,8 @@ class HttpResponseHeadersTest extends Helper\HttpBase
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-10-05
      */
-	public function testHttpResponseHeadersReset()
-	{
+    public function testHttpResponseHeadersReset()
+    {
         $this->specify(
             "Resetting Response Headers is not correct",
             function () {
@@ -90,7 +90,7 @@ class HttpResponseHeadersTest extends Helper\HttpBase
                 expect($actual)->isEmpty();
             }
         );
-	}
+    }
 
     /**
      * Tests removing a response header
@@ -98,8 +98,8 @@ class HttpResponseHeadersTest extends Helper\HttpBase
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-10-05
      */
-	public function testHttpResponseHeadersRemove()
-	{
+    public function testHttpResponseHeadersRemove()
+    {
         $this->specify(
             "Removing Response Header is not correct",
             function () {
@@ -114,7 +114,7 @@ class HttpResponseHeadersTest extends Helper\HttpBase
                 expect($actual)->isEmpty();
             }
         );
-	}
+    }
 
     /**
      * Tests setting a raw response header
@@ -122,8 +122,8 @@ class HttpResponseHeadersTest extends Helper\HttpBase
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-10-05
      */
-	public function testHttpResponseHeadersRaw()
-	{
+    public function testHttpResponseHeadersRaw()
+    {
         $this->specify(
             "Setting a raw Response Header is not correct",
             function () {
@@ -136,7 +136,7 @@ class HttpResponseHeadersTest extends Helper\HttpBase
                 expect($actual)->isEmpty();
             }
         );
-	}
+    }
 
     /**
      * Tests toArray in response headers
@@ -144,8 +144,8 @@ class HttpResponseHeadersTest extends Helper\HttpBase
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-10-05
      */
-	public function testHttpResponseHeadersToArray()
-	{
+    public function testHttpResponseHeadersToArray()
+    {
         $this->specify(
             "toArray in Response Headers is not correct",
             function () {
@@ -159,5 +159,5 @@ class HttpResponseHeadersTest extends Helper\HttpBase
                 expect($actual)->equals($expected);
             }
         );
-	}
+    }
 }

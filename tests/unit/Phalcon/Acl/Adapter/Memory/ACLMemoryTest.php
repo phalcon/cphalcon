@@ -28,12 +28,11 @@ use \Phalcon\Acl\Adapter\Memory as PhTAclMem;
 
 use \PhalconTest\Acl\Role as PhTAclRole;
 use \PhalconTest\Acl\Resource as PhTAclResource;
-use \Codeception\TestCase\Test as CdTest;
 
-class ACLMemoryTest extends CdTest
+use \Phalcon\Tests\unit\Phalcon\_Helper\TestsBase as TBase;
+
+class ACLMemoryTest extends TBase
 {
-    use \Codeception\Specify;
-
     /**
      * Tests the ACL constants
      *

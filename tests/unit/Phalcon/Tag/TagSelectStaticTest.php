@@ -674,5 +674,4 @@ class TagSelectStaticTest extends Helper\TagBase
             }
         );
     }
-
 }

@@ -24,13 +24,13 @@ namespace Phalcon\Tests\unit\Phalcon\Assets;
 
 use \Phalcon\Assets\Resource as PhAssetsResource;
 
-use \PhalconTest\Assets\Manager as PhTAssetsManager;
-use \PhalconTest\Assets\Collection as PhTAssetsCollection;
 use \PhalconTest\Assets\Resource as PhTAssetsResource;
 use \PhalconTest\Assets\Resource\Css as PhTAssetsResourceCss;
 use \PhalconTest\Assets\Resource\Js as PhTAssetsResourceJs;
 
-class AssetsTest extends Helper\AssetsBase
+use \Phalcon\Tests\unit\Phalcon\_Helper\TestsBase as TBase;
+
+class AssetsTest extends TBase
 {
     /**
      * Tests getType

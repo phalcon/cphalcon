@@ -28,7 +28,9 @@ use \PhalconTest\Assets\Manager as PhTAssetsManager;
 use \PhalconTest\Assets\Filters\Cssmin as PhTFilterCssmin;
 use \PhalconTest\Assets\Filters\None as PhTFilterNone;
 
-class AssetsFilterTest extends Helper\AssetsBase
+use \Phalcon\Tests\unit\Phalcon\_Helper\TestsBase as TBase;
+
+class AssetsFilterTest extends TBase
 {
     /**
      * Tests cssmin filter with empty parameters
@@ -90,7 +92,7 @@ class AssetsFilterTest extends Helper\AssetsBase
             function () {
 
                 $cssmin   = new PhTFilterCssmin();
-                $actual   = $cssmin->filter('.s { d 	:		b; }');
+                $actual   = $cssmin->filter('.s { d     :        b; }');
                 $expected = '.s{d : b;}';
                 expect($actual)->equals($expected);
             }
@@ -119,7 +121,7 @@ class AssetsFilterTest extends Helper\AssetsBase
             function () {
 
                 $cssmin   = new PhTFilterCssmin();
-                $source   = "h2:after 	    { border-width:   	  1px; }";
+                $source   = "h2:after         { border-width:         1px; }";
                 $actual   = $cssmin->filter($source);
                 $expected = "h2:after{border-width: 1px;}";
                 expect($actual)->equals($expected);
@@ -203,7 +205,7 @@ class AssetsFilterTest extends Helper\AssetsBase
                 expect($actual)->equals($expected);
             }
         );
-	}
+    }
 
     /**
      * Tests none filter
@@ -241,10 +243,10 @@ class AssetsFilterTest extends Helper\AssetsBase
                 expect($actual)->equals($expected);
             }
         );
-	}
+    }
 
-	public function testFilterSimpleNoJoin()
-	{
+    public function testFilterSimpleNoJoin()
+    {
         $this->markTestSkipped('To be tested');
         $this->specify(
             "The simple filter without join does not return the correct results",
@@ -271,86 +273,111 @@ class AssetsFilterTest extends Helper\AssetsBase
                 expect($actual)->equals($expected);
             }
         );
-//		//Enabling join
-//		$js->join(true);
-//		$this->assertEquals($assets->outputJs('js'), '<script type="text/javascript" src="unit-tests/assets/jquery.js"></script>' . PHP_EOL);
+//        //Enabling join
+//        $js->join(true);
+//        $this->assertEquals($assets->outputJs('js'), '<script type="text/javascript" src="unit-tests/assets/jquery.js"></script>' . PHP_EOL);
 //
-//		//Disabling join
-//		$js->join(false);
-//		$this->assertEquals($assets->outputJs('js'), '<script type="text/javascript" src="unit-tests/assets/jquery.js"></script>' . PHP_EOL);
+//        //Disabling join
+//        $js->join(false);
+//        $this->assertEquals($assets->outputJs('js'), '<script type="text/javascript" src="unit-tests/assets/jquery.js"></script>' . PHP_EOL);
 //
-//		//Filter - Join
-//		$js->join(false);
-//		$js->addFilter(new Phalcon\Assets\Filters\None());
-//		$this->assertEquals($assets->outputJs('js'), '<script type="text/javascript" src="/unit-tests/assets/jquery.js"></script>' . PHP_EOL);
+//        //Filter - Join
+//        $js->join(false);
+//        $js->addFilter(new Phalcon\Assets\Filters\None());
+//        $this->assertEquals($assets->outputJs('js'), '<script type="text/javascript" src="/unit-tests/assets/jquery.js"></script>' . PHP_EOL);
 
-	}
+    }
 
-	public function testFilterSimpleJoin()
-	{
+    public function testFilterSimpleJoin()
+    {
         $this->markTestIncomplete('To be checked');
-		@unlink('unit-tests/assets/production/combined.js');
+        @unlink('unit-tests/assets/production/combined.js');
 
-		Phalcon\DI::reset();
+        Phalcon\DI::reset();
 
-		$di = new Phalcon\DI();
+        $di = new Phalcon\DI();
 
-		$di['url'] = function() {
-			$url = new Phalcon\Mvc\Url();
-			$url->setStaticBaseUri('/');
-			return $url;
-		};
+        $di['url'] = function () {
+            $url = new Phalcon\Mvc\Url();
+            $url->setStaticBaseUri('/');
+            return $url;
+        };
 
-		$di->set('escaper', function() { return new \Phalcon\Escaper(); });
+        $di->set(
+            'escaper',
+            function () {
+                return new \Phalcon\Escaper();
+            }
+        );
 
-		$assets = new PhTAssetsManager();
+        $assets = new PhTAssetsManager();
 
-		$assets->useImplicitOutput(false);
+        $assets->useImplicitOutput(false);
 
-		$js = $assets->collection('js');
+        $js = $assets->collection('js');
 
-		$js->setTargetPath('unit-tests/assets/production/combined.js');
+        $js->setTargetPath('unit-tests/assets/production/combined.js');
 
-		$js->setTargetUri('production/combined.js');
+        $js->setTargetUri('production/combined.js');
 
-		$js->addJs('unit-tests/assets/jquery.js', false, false);
+        $js->addJs('unit-tests/assets/jquery.js', false, false);
 
-		//Basic output
-		$this->assertEquals($assets->outputJs('js'), '<script type="text/javascript" src="unit-tests/assets/jquery.js"></script>' . PHP_EOL);
+        //Basic output
+        $this->assertEquals(
+            $assets->outputJs('js'),
+            '<script type="text/javascript" src="unit-tests/assets/jquery.js"></script>' .
+            PHP_EOL
+        );
 
-		//Enabling join
-		$js->join(true);
-		$this->assertEquals($assets->outputJs('js'), '<script type="text/javascript" src="unit-tests/assets/jquery.js"></script>' . PHP_EOL);
+        //Enabling join
+        $js->join(true);
+        $this->assertEquals(
+            $assets->outputJs('js'),
+            '<script type="text/javascript" src="unit-tests/assets/jquery.js"></script>' .
+            PHP_EOL
+        );
 
-		//Disabling join
-		$js->join(false);
-		$this->assertEquals($assets->outputJs('js'), '<script type="text/javascript" src="unit-tests/assets/jquery.js"></script>' . PHP_EOL);
+        //Disabling join
+        $js->join(false);
+        $this->assertEquals(
+            $assets->outputJs('js'),
+            '<script type="text/javascript" src="unit-tests/assets/jquery.js"></script>' .
+            PHP_EOL
+        );
 
-		//Filter + Join
-		$js->join(true);
-		$js->addFilter(new Phalcon\Assets\Filters\None());
-		$this->assertEquals($assets->outputJs('js'), '<script type="text/javascript" src="/production/combined.js"></script>' . PHP_EOL);
-	}
+        //Filter + Join
+        $js->join(true);
+        $js->addFilter(new Phalcon\Assets\Filters\None());
+        $this->assertEquals(
+            $assets->outputJs('js'),
+            '<script type="text/javascript" src="/production/combined.js"></script>' .
+            PHP_EOL
+        );
+    }
 
 
-	public function testIssue1532()
-	{
+    public function testIssue1532()
+    {
         $this->markTestIncomplete('To be checked');
-		@unlink(__DIR__ . '/assets/production/1532.js');
-		$di = new \Phalcon\DI\FactoryDefault();
-		$assets = new \PhTAssetsManager();
-		$assets->useImplicitOutput(false);
-		$assets->collection('js')
-			->addJs('unit-tests/assets/jquery.js')
-			->join(true)
-			->addFilter(new Phalcon\Assets\Filters\Jsmin())
-			->setTargetPath(__DIR__ .'/assets/production/1532.js')
-			->setTargetLocal(FALSE)
-			->setPrefix('//phalconphp.com/')
-			->setTargetUri('js/jquery.js');
+        @unlink(__DIR__ . '/assets/production/1532.js');
+        $di = new \Phalcon\DI\FactoryDefault();
+        $assets = new \PhTAssetsManager();
+        $assets->useImplicitOutput(false);
+        $assets->collection('js')
+            ->addJs('unit-tests/assets/jquery.js')
+            ->join(true)
+            ->addFilter(new Phalcon\Assets\Filters\Jsmin())
+            ->setTargetPath(__DIR__ .'/assets/production/1532.js')
+            ->setTargetLocal(false)
+            ->setPrefix('//phalconphp.com/')
+            ->setTargetUri('js/jquery.js');
 
-		$this->assertEquals($assets->outputJs('js'), '<script type="text/javascript" src="//phalconphp.com/js/jquery.js"></script>' . PHP_EOL);
-	}
+        $this->assertEquals(
+            $assets->outputJs('js'),
+            '<script type="text/javascript" src="//phalconphp.com/js/jquery.js"></script>' .
+            PHP_EOL
+        );
+    }
 
     public function testJsminFilter()
     {
@@ -359,25 +386,25 @@ class AssetsFilterTest extends Helper\AssetsBase
 
         try {
             $filtered = $jsmin->filter(null);
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             $this->assertEquals($e->getMessage(), 'Script must be a string');
         }
 
         try {
             $filtered = $jsmin->filter('/*');
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             $this->assertEquals($e->getMessage(), 'Unterminated comment.');
         }
 
         try {
             $filtered = $jsmin->filter('a = "');
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             $this->assertEquals($e->getMessage(), 'Unterminated string literal.');
         }
 
         try {
             $filtered = $jsmin->filter('b = /[a-z]+');
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             $this->assertEquals($e->getMessage(), 'Unterminated Regular Expression literal.');
         }
 
@@ -393,7 +420,9 @@ class AssetsFilterTest extends Helper\AssetsBase
         $filtered = $jsmin->filter("if ( a == b ) {    document . writeln('\t') ; }");
         $this->assertEquals($filtered, "\n" . "if(a==b){document.writeln('\t');}");
 
-        $filtered = $jsmin->filter("/** this is a comment */ if ( a == b ) {    document . writeln('\t') ; /** this is a comment */ }");
+        $filtered = $jsmin->filter(
+            "/** this is a comment */ if ( a == b ) {    document . writeln('\t') ; /** this is a comment */ }"
+        );
         $this->assertEquals($filtered, "\n" . "if(a==b){document.writeln('\t');}");
 
         $filtered = $jsmin->filter("\t\ta\t\r\n= \n \r\n100;\t");

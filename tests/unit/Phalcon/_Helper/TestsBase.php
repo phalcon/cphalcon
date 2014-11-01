@@ -1,9 +1,9 @@
 <?php
 /**
- * AssetsBase.php
- * \Phalcon\Resource\Helper\AssetsBase
+ * TestsBase.php
+ * \Phalcon\_Helper\TestsBase
  *
- * Base class for Assets tests
+ * Base class for all tests
  *
  * PhalconPHP Framework
  *
@@ -20,32 +20,52 @@
  * so that we can send you a copy immediately.
  */
 
-namespace Phalcon\Tests\unit\Phalcon\Assets\Helper;
+namespace Phalcon\Tests\unit\Phalcon\_Helper;
 
 use \Phalcon\DI as PhDI;
+use \Phalcon\DI\FactoryDefault as PhDIFD;
 use \PhalconTest\Mvc\Url as PhTUrl;
 use \PhalconTest\Escaper as PhTEscaper;
 
 use \Codeception\TestCase\Test as CdTest;
+use \Codeception\Specify as CdSpecify;
 
-class AssetsBase extends CdTest
+class TestsBase extends CdTest
 {
-    use \Codeception\Specify;
+    use CdSpecify;
 
     /**
-     * Sets up the DI and the escaper
+     * Sets up the DI
      *
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-10-13
      *
      * @param bool $static
+     *
+     * @return \Phalcon\DI\FactoryDefault
      */
     protected function prepareDI($static = false)
     {
         PhDI::reset();
 
-        $di = new PhDI();
+        $di = new PhDIFD();
 
+        $this->prepareUrl($di, $static);
+        $this->prepareEscaper($di);
+
+        return $di;
+    }
+
+    /**
+     * Prepares the url service for the di
+     *
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
+     * @since  2013-10-30
+     *
+     * @param $di
+     */
+    protected function prepareUrl($di, $static = false)
+    {
         $di->set(
             'url',
             function () use ($static) {
@@ -58,10 +78,21 @@ class AssetsBase extends CdTest
                 return $url;
             }
         );
+    }
 
+    /**
+     * Prepares the escaper service for the di
+     *
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
+     * @since  2013-10-30
+     *
+     * @param $di
+     */
+    protected function prepareEscaper($di)
+    {
         $di->set(
             'escaper',
-            function() {
+            function () {
                 return new PhTEscaper();
             }
         );

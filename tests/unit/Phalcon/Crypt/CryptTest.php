@@ -20,13 +20,14 @@
  * so that we can send you a copy immediately.
  */
 
+namespace Phalcon\Tests\unit\Phalcon\Crypt;
+
 use \Phalcon\Crypt as PhTCrypt;
-use \Codeception\TestCase\Test as CdTest;
 
-class CryptTest extends CdTest
+use \Phalcon\Tests\unit\Phalcon\_Helper\TestsBase as TBase;
+
+class CryptTest extends TBase
 {
-    use \Codeception\Specify;
-
     public function _before()
     {
         if (!extension_loaded('mcrypt')) {

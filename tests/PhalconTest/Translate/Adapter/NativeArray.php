@@ -26,13 +26,13 @@ use \Phalcon\Translate\Adapter\NativeArray as PhNativeArray;
 
 class NativeArray extends PhNativeArray
 {
-	public function query($index, $placeholders = null)
-	{
+    public function query($index, $placeholders = null)
+    {
         return parent::query($index, $placeholders);
-	}
+    }
 
-	public function exists($index)
-	{
+    public function exists($index)
+    {
         return parent::exists($index);
-	}
+    }
 }
