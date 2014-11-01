@@ -571,10 +571,10 @@ static zval *phvolt_ret_macro_call_statement(zval *expr, zval *arguments, zval *
 /* Next is all token values, in a form suitable for use by makeheaders.
 ** This section will be null unless lemon is run with the -m switch.
 */
-/*
+/* 
 ** These constants (all generated automatically by the parser generator)
 ** specify the various kinds of tokens (terminals) that the parser
-** understands.
+** understands. 
 **
 ** Each symbol here is a terminal symbol in the grammar.
 */
@@ -591,7 +591,7 @@ static zval *phvolt_ret_macro_call_statement(zval *expr, zval *arguments, zval *
 **                       and nonterminals.  "int" is used otherwise.
 **    KKNOCODE           is a number of type KKCODETYPE which corresponds
 **                       to no legal terminal or nonterminal number.  This
-**                       number is used to fill in empty slots of the hash
+**                       number is used to fill in empty slots of the hash 
 **                       table.
 **    KKFALLBACK         If defined, this indicates that one or more tokens
 **                       have fall-back values which should be used if the
@@ -600,7 +600,7 @@ static zval *phvolt_ret_macro_call_statement(zval *expr, zval *arguments, zval *
 **                       and nonterminal numbers.  "unsigned char" is
 **                       used if there are fewer than 250 rules and
 **                       states combined.  "int" is used otherwise.
-**    phvolt_KTOKENTYPE     is the data type used for minor tokens given
+**    phvolt_KTOKENTYPE     is the data type used for minor tokens given 
 **                       directly to the parser from the tokenizer.
 **    KKMINORTYPE        is the data type used for all minor tokens.
 **                       This is typically a union of many types, one of
@@ -641,7 +641,7 @@ typedef union {
 /* Next are that tables used to determine what action to take based on the
 ** current state and lookahead token.  These tables are used to implement
 ** functions that take a state number and lookahead value and return an
-** action integer.
+** action integer.  
 **
 ** Suppose the action integer is N.  Then the action is determined as
 ** follows
@@ -666,7 +666,7 @@ typedef union {
 ** If the index value kk_shift_ofst[S]+X is out of range or if the value
 ** kk_lookahead[kk_shift_ofst[S]+X] is not equal to X or if kk_shift_ofst[S]
 ** is equal to KK_SHIFT_USE_DFLT, it means that the action is not in the table
-** and that kk_default[S] should be used instead.
+** and that kk_default[S] should be used instead.  
 **
 ** The formula above is for computing the action when the lookahead is
 ** a terminal symbol.  If the lookahead is a non-terminal (as occurs after
@@ -1220,7 +1220,7 @@ static KKACTIONTYPE kk_default[] = {
 
 /* The next table maps tokens into fallback tokens.  If a construct
 ** like the following:
-**
+** 
 **      %fallback ID X Y Z.
 **
 ** appears in the grammer, then ID becomes a fallback token for X, Y,
@@ -1271,10 +1271,10 @@ static char *kkTracePrompt = 0;
 #endif /* NDEBUG */
 
 #ifndef NDEBUG
-/*
+/* 
 ** Turn parser tracing on by giving a stream to which to write the trace
 ** and a prompt to preface each trace message.  Tracing is turned off
-** by making either argument NULL
+** by making either argument NULL 
 **
 ** Inputs:
 ** <ul>
@@ -1299,25 +1299,25 @@ void phvolt_Trace(FILE *TraceFILE, char *zTracePrompt){
 #ifndef NDEBUG
 /* For tracing shifts, the names of all terminals and nonterminals
 ** are required.  The following table supplies these names */
-static const char *kkTokenName[] = {
-  "$",             "OPEN_DELIMITER",  "COMMA",         "IN",
-  "QUESTION",      "COLON",         "RANGE",         "AND",
-  "OR",            "IS",            "EQUALS",        "NOTEQUALS",
-  "LESS",          "GREATER",       "GREATEREQUAL",  "LESSEQUAL",
-  "IDENTICAL",     "NOTIDENTICAL",  "DIVIDE",        "TIMES",
-  "MOD",           "PLUS",          "MINUS",         "CONCAT",
-  "SBRACKET_OPEN",  "PIPE",          "NOT",           "INCR",
-  "DECR",          "PARENTHESES_OPEN",  "DOT",           "IF",
-  "CLOSE_DELIMITER",  "ENDIF",         "ELSE",          "ELSEIF",
-  "ELSEFOR",       "FOR",           "IDENTIFIER",    "ENDFOR",
-  "SET",           "ASSIGN",        "ADD_ASSIGN",    "SUB_ASSIGN",
+static const char *kkTokenName[] = { 
+  "$",             "OPEN_DELIMITER",  "COMMA",         "IN",          
+  "QUESTION",      "COLON",         "RANGE",         "AND",         
+  "OR",            "IS",            "EQUALS",        "NOTEQUALS",   
+  "LESS",          "GREATER",       "GREATEREQUAL",  "LESSEQUAL",   
+  "IDENTICAL",     "NOTIDENTICAL",  "DIVIDE",        "TIMES",       
+  "MOD",           "PLUS",          "MINUS",         "CONCAT",      
+  "SBRACKET_OPEN",  "PIPE",          "NOT",           "INCR",        
+  "DECR",          "PARENTHESES_OPEN",  "DOT",           "IF",          
+  "CLOSE_DELIMITER",  "ENDIF",         "ELSE",          "ELSEIF",      
+  "ELSEFOR",       "FOR",           "IDENTIFIER",    "ENDFOR",      
+  "SET",           "ASSIGN",        "ADD_ASSIGN",    "SUB_ASSIGN",  
   "MUL_ASSIGN",    "DIV_ASSIGN",    "MACRO",         "PARENTHESES_CLOSE",
-  "ENDMACRO",      "INTEGER",       "STRING",        "DOUBLE",
-  "NULL",          "FALSE",         "TRUE",          "CALL",
-  "ENDCALL",       "OPEN_EDELIMITER",  "CLOSE_EDELIMITER",  "BLOCK",
-  "ENDBLOCK",      "CACHE",         "ENDCACHE",      "EXTENDS",
-  "INCLUDE",       "WITH",          "DO",            "RETURN",
-  "AUTOESCAPE",    "ENDAUTOESCAPE",  "BREAK",         "CONTINUE",
+  "ENDMACRO",      "INTEGER",       "STRING",        "DOUBLE",      
+  "NULL",          "FALSE",         "TRUE",          "CALL",        
+  "ENDCALL",       "OPEN_EDELIMITER",  "CLOSE_EDELIMITER",  "BLOCK",       
+  "ENDBLOCK",      "CACHE",         "ENDCACHE",      "EXTENDS",     
+  "INCLUDE",       "WITH",          "DO",            "RETURN",      
+  "AUTOESCAPE",    "ENDAUTOESCAPE",  "BREAK",         "CONTINUE",    
   "RAW_FRAGMENT",  "DEFINED",       "SBRACKET_CLOSE",  "CBRACKET_OPEN",
   "CBRACKET_CLOSE",  "error",         "program",       "volt_language",
   "statement_list",  "statement",     "raw_fragment",  "if_statement",
@@ -1488,7 +1488,7 @@ const char *phvolt_TokenName(int tokenType){
 #endif
 }
 
-/*
+/* 
 ** This function allocates a new parser.
 ** The only argument is a pointer to a function which works like
 ** malloc.
@@ -1519,7 +1519,7 @@ static void kk_destructor(KKCODETYPE kkmajor, KKMINORTYPE *kkpminor){
     /* Here is inserted the actions which take place when a
     ** terminal or non-terminal is destroyed.  This can happen
     ** when the symbol is popped from the stack during a
-    ** reduce or during error processing or when a parser is
+    ** reduce or during error processing or when a parser is 
     ** being destroyed before it is finished parsing.
     **
     ** Note: during a reduce, the only symbols destroyed are those
@@ -1679,7 +1679,7 @@ static int kk_pop_parser_stack(kkParser *pParser){
   return kkmajor;
 }
 
-/*
+/* 
 ** Deallocate and destroy a parser.  Destructors are all called for
 ** all stack elements before shutting the parser down.
 **
@@ -1715,7 +1715,7 @@ static int kk_find_shift_action(
 ){
   int i;
   int stateno = pParser->kkstack[pParser->kkidx].stateno;
-
+ 
   /* if( pParser->kkidx<0 ) return KK_NO_ACTION;  */
   i = kk_shift_ofst[stateno];
   if( i==KK_SHIFT_USE_DFLT ){
@@ -1759,7 +1759,7 @@ static int kk_find_reduce_action(
 ){
   int i;
   int stateno = pParser->kkstack[pParser->kkidx].stateno;
-
+ 
   i = kk_reduce_ofst[stateno];
   if( i==KK_REDUCE_USE_DFLT ){
     return kk_default[stateno];
@@ -1976,7 +1976,7 @@ static void kk_reduce(
   phvolt_ARG_FETCH;
   kkmsp = &kkpParser->kkstack[kkpParser->kkidx];
 #ifndef NDEBUG
-  if( kkTraceFILE && kkruleno>=0
+  if( kkTraceFILE && kkruleno>=0 
         && kkruleno<sizeof(kkRuleName)/sizeof(kkRuleName[0]) ){
     fprintf(kkTraceFILE, "%sReduce [%s].\n", kkTracePrompt,
       kkRuleName[kkruleno]);
@@ -3184,7 +3184,7 @@ void phvolt_(
 #ifdef KKERRORSYMBOL
       /* A syntax error has occurred.
       ** The response to an error depends upon whether or not the
-      ** grammar defines an error token "ERROR".
+      ** grammar defines an error token "ERROR".  
       **
       ** This is what we do if the grammar does define ERROR:
       **
@@ -3266,7 +3266,7 @@ void phvolt_(
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -3416,7 +3416,7 @@ static void phvolt_scanner_error_msg(phvolt_parser_status *parser_status, zval *
 	int length;
 	phvolt_scanner_state *state = parser_status->scanner_state;
 
-	ZEPHIR_INIT_VAR(*error_msg);
+	MAKE_STD_ZVAL(*error_msg);
 	if (state->start) {
 		error = emalloc(sizeof(char) * 72 + state->start_length +  Z_STRLEN_P(state->active_file));
 		if (state->start_length > 16) {
@@ -3456,6 +3456,7 @@ int phvolt_parse_view(zval *result, zval *view_code, zval *template_path TSRMLS_
 
 	if (phvolt_internal_parse_view(&result, view_code, template_path, &error_msg TSRMLS_CC) == FAILURE) {
 		ZEPHIR_THROW_EXCEPTION_STRW(phalcon_mvc_view_exception_ce, Z_STRVAL_P(error_msg));
+		zval_ptr_dtor(&error_msg);
 		return FAILURE;
 	}
 
@@ -3495,7 +3496,7 @@ int phvolt_internal_parse_view(zval **result, zval *view_code, zval *template_pa
 
 	/** Check if the view has code */
 	if (!Z_STRVAL_P(view_code)) {
-		ZEPHIR_INIT_VAR(*error_msg);
+		MAKE_STD_ZVAL(*error_msg);
 		ZVAL_STRING(*error_msg, "View code cannot be null", 1);
 		return FAILURE;
 	}
@@ -3896,7 +3897,7 @@ int phvolt_internal_parse_view(zval **result, zval *view_code, zval *template_pa
 				if (!*error_msg) {
 					error = emalloc(sizeof(char) * (48 + Z_STRLEN_P(state->active_file)));
 					snprintf(error, 48 + Z_STRLEN_P(state->active_file) + state->active_line, "Scanner: unknown opcode %d on in %s line %d", token.opcode, Z_STRVAL_P(state->active_file), state->active_line);
-					ZEPHIR_INIT_VAR(*error_msg);
+					MAKE_STD_ZVAL(*error_msg);
 					ZVAL_STRING(*error_msg, error, 1);
 					efree(error);
 				}
@@ -3933,7 +3934,7 @@ int phvolt_internal_parse_view(zval **result, zval *view_code, zval *template_pa
 		status = FAILURE;
 		if (parser_status->syntax_error) {
 			if (!*error_msg) {
-				ZEPHIR_INIT_VAR(*error_msg);
+				MAKE_STD_ZVAL(*error_msg);
 				ZVAL_STRING(*error_msg, parser_status->syntax_error, 1);
 			}
 			efree(parser_status->syntax_error);
