@@ -88,7 +88,7 @@ class UrlTest extends TBase
      */
     public function testUrlForControllerAction()
     {
-        $this->markTestSkipped('To be tested');
+        //$this->markTestSkipped('To be tested');
         $this->specify(
             "URL with controller/action not correct",
             function () {
@@ -117,7 +117,7 @@ class UrlTest extends TBase
      */
     public function testUrlForController()
     {
-        $this->markTestSkipped('To be tested');
+        //$this->markTestSkipped('To be tested');
         $this->specify(
             "URL for controller not correct",
             function () {
@@ -145,7 +145,7 @@ class UrlTest extends TBase
      */
     public function testUrlForBlogMixedParameters()
     {
-        $this->markTestSkipped('To be tested');
+        //$this->markTestSkipped('To be tested');
         $this->specify(
             "URL with year/month/title not correct",
             function () {
@@ -174,7 +174,7 @@ class UrlTest extends TBase
      */
     public function testUrlForDifferentLanguage()
     {
-        $this->markTestSkipped('To be tested');
+        //$this->markTestSkipped('To be tested');
         $this->specify(
             "URL for a different language not correct",
             function () {
@@ -204,7 +204,7 @@ class UrlTest extends TBase
      */
     public function testUrlForExternalSite()
     {
-        $this->markTestSkipped('To be tested');
+        //$this->markTestSkipped('To be tested');
         $this->specify(
             "URL for a different language not correct",
             function () {
