@@ -20,12 +20,15 @@
  * so that we can send you a copy immediately.
  */
 
+namespace Phalcon\Tests\unit\Phalcon\Version;
+
 use \PhalconTest\Version as PhTVersion;
 use \Codeception\TestCase\Test as CdTest;
+use \Codeception\Specify as CdSpecify;
 
 class VersionTest extends CdTest
 {
-    use \Codeception\Specify;
+    use CdSpecify;
 
     /**
      * Tests the get
@@ -84,10 +87,9 @@ class VersionTest extends CdTest
                 $specialNo = '0';
 
                 // There are special versions
-                if (count($chunks) > 1)
-                {
+                if (count($chunks) > 1) {
                     $specialNo = $chunks[2];
-                    $special   = $this->_specialToNumber($chunks[1]);
+                    $special   = $this->specialToNumber($chunks[1]);
                 }
 
                 // Now the version itself
@@ -120,7 +122,7 @@ class VersionTest extends CdTest
                 $major     = intval($id[0]);
                 $med       = intval($id[1] . $id[2]);
                 $min       = intval($id[3] . $id[4]);
-                $special   = $this->_numberToSpecial($id[5]);
+                $special   = $this->numberToSpecial($id[5]);
                 $specialNo = ($special) ? $id[6] : '';
 
                 $expected = trim("{$major}.{$med}.{$min} {$special} {$specialNo}");
@@ -220,7 +222,7 @@ class VersionTest extends CdTest
             "getPart(VERSION_SPECIAL) does not return the correct result",
             function () {
                 $id       = PhTVersion::getId();
-                $expected = $this->_numberToSpecial($id[5]);
+                $expected = $this->numberToSpecial($id[5]);
                 $actual   = PhTVersion::getPart(PhTVersion::VERSION_SPECIAL);
 
                 expect($actual)->equals($expected);
@@ -231,7 +233,7 @@ class VersionTest extends CdTest
             "getPart(VERSION_SPECIAL_NUMBER) does not return the correct result",
             function () {
                 $id       = PhTVersion::getId();
-                $special  = $this->_numberToSpecial($id[5]);
+                $special  = $this->numberToSpecial($id[5]);
                 $expected = ($special) ? $id[6] : '';
                 $actual   = PhTVersion::getPart(PhTVersion::VERSION_SPECIAL_NUMBER);
 
@@ -260,7 +262,7 @@ class VersionTest extends CdTest
      *
      * @return string
      */
-    public function _specialToNumber($input)
+    private function specialToNumber($input)
     {
         switch ($input)
         {
@@ -291,7 +293,7 @@ class VersionTest extends CdTest
      *
      * @return string
      */
-    private function _numberToSpecial($number)
+    private function numberToSpecial($number)
     {
         $special = '';
 

@@ -26,43 +26,43 @@ use \Phalcon\Text as PhText;
 
 class Text extends PhText
 {
-    static public function camelize($str)
-	{
-		return parent::camelize($str);
-	}
+    public static function camelize($str)
+    {
+        return parent::camelize($str);
+    }
 
-    static public function uncamelize($str)
-	{
+    public static function uncamelize($str)
+    {
         return parent::uncamelize($str);
-	}
+    }
 
-	static public function increment($str, $separator = null)
-	{
+    public static function increment($str, $separator = null)
+    {
         return parent::increment($str, $separator);
-	}
+    }
 
-	static public function random($type = 0, $length = 8)
-	{
+    public static function random($type = 0, $length = 8)
+    {
         return parent::random($type, $length);
-	}
+    }
 
-	static public function startsWith($str, $start, $ignoreCase = true)
-	{
+    public static function startsWith($str, $start, $ignoreCase = true)
+    {
         return parent::startsWith($str, $start, $ignoreCase);
     }
 
-	static public function endsWith($str, $end, $ignoreCase = true)
-	{
+    public static function endsWith($str, $end, $ignoreCase = true)
+    {
         return parent::endsWith($str, $end, $ignoreCase);
     }
 
-	static public function lower($str)
-	{
+    public static function lower($str)
+    {
         return parent::lower($str);
     }
 
-	static public function upper($str)
-	{
+    public static function upper($str)
+    {
         return parent::upper($str);
     }
 }

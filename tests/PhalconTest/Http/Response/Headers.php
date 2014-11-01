@@ -27,42 +27,42 @@ use Phalcon\Http\Response\Headers as PhHeaders;
 class Headers extends PhHeaders
 {
     public function set($name, $value)
-	{
+    {
         parent::set($name, $value);
-	}
+    }
 
     public function get($name)
-	{
+    {
         parent::get($name);
-	}
+    }
 
     public function setRaw($header)
-	{
+    {
         parent::setRaw($header);
-	}
+    }
 
     public function remove($header)
-	{
+    {
         parent::remove($header);
-	}
+    }
 
-	public function send()
+    public function send()
     {
         parent::send();
-	}
+    }
 
-	public function reset()
+    public function reset()
     {
         parent::reset();
-	}
+    }
 
-	public function toArray()
+    public function toArray()
     {
         return parent::toArray();
-	}
+    }
 
-	public static function __set_state($data)
-	{
+    public static function __set_state($data)
+    {
         return parent::__set_state($data);
-	}
+    }
 }

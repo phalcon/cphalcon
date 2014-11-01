@@ -41,7 +41,7 @@ class TagBase extends CdTest
      * @author Nikolaos Dimopoulos <nikos@niden.net>
      * @since  2014-10-17
      */
-    public function NotestSelectBasic()
+    public function notestSelectBasic()
     {
 //        $user = new User();
 //        $user->setName('Miles');
@@ -55,7 +55,7 @@ class TagBase extends CdTest
 
         $params = array(
             'some_name',
-            $robots,
+            $select,
             'using' => array('id', 'name')
         );
 
@@ -92,5 +92,4 @@ class TagBase extends CdTest
             }
         );
     }
-
 }

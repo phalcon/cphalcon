@@ -26,18 +26,18 @@ use \Phalcon\Assets\Inline as PhInline;
 
 class Inline extends PhInline
 {
-	public function setType($type)
-	{
+    public function setType($type)
+    {
         return parent::setType($type);
-	}
+    }
 
-	public function setFilter($filter)
-	{
+    public function setFilter($filter)
+    {
         return parent::setFilter($filter);
-	}
+    }
 
-	public function setAttributes($attributes)
-	{
+    public function setAttributes($attributes)
+    {
         return parent::setAttributes($attributes);
-	}
+    }
 }

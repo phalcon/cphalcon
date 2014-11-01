@@ -25,16 +25,18 @@ namespace Phalcon\Tests\unit\Phalcon\Security;
 use \PhalconTest\Security as PhTSecurity;
 use \Codeception\TestCase\Test as CdTest;
 
-class SecurityTest extends CdTest
-{
-    use \Codeception\Specify;
+use \Phalcon\Tests\unit\Phalcon\_Helper\TestsBase as TBase;
 
+class SecurityTest extends TBase
+{
     public function _before()
     {
         if (!extension_loaded('openssl')) {
             $this->markTestSkipped('Warning: openssl extension is not loaded');
             return;
         }
+
+        parent::_before();
     }
 
     /**

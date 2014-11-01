@@ -23,12 +23,11 @@
 namespace Phalcon\Tests\unit\Phalcon\Filter\Helper;
 
 use \PhalconTest\Filter as PhTFilter;
-use \Codeception\TestCase\Test as CdTest;
 
-class FilterBase extends CdTest
+use \Phalcon\Tests\unit\Phalcon\_Helper\TestsBase as TBase;
+
+class FilterBase extends TBase
 {
-    use \Codeception\Specify;
-
     /**
      * Tests integers
      *

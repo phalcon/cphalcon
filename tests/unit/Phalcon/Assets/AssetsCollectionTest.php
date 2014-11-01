@@ -25,8 +25,9 @@ namespace Phalcon\Tests\unit\Phalcon\Assets;
 use \Phalcon\Assets\Resource as PhAssetsResource;
 
 use \PhalconTest\Assets\Collection as PhTAssetsCollection;
+use \Phalcon\Tests\unit\Phalcon\_Helper\TestsBase as TBase;
 
-class AssetsCollectionTest extends Helper\AssetsBase
+class AssetsCollectionTest extends TBase
 {
     /**
      * Tests Collection

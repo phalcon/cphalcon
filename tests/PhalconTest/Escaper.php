@@ -27,52 +27,52 @@ use \Phalcon\Escaper as PhEscaper;
 class Escaper extends PhEscaper
 {
     public function setEncoding($encoding)
-	{
-		parent::setEncoding($encoding);
-	}
+    {
+        parent::setEncoding($encoding);
+    }
 
     public function getEncoding()
-	{
+    {
         return parent::getEncoding();
-	}
+    }
 
-	public function setHtmlQuoteType($quoteType)
+    public function setHtmlQuoteType($quoteType)
     {
         parent::setHtmlQuoteType($quoteType);
     }
 
-	public function detectEncoding($str)
-	{
+    public function detectEncoding($str)
+    {
         return parent::detectEncoding($str);
     }
 
-	public function normalizeEncoding($str)
-	{
+    public function normalizeEncoding($str)
+    {
         return parent::normalizeEncoding($str);
     }
 
-	public function escapeHtml($text)
-	{
+    public function escapeHtml($text)
+    {
         return parent::escapeHtml($text);
-	}
+    }
 
-	public function escapeHtmlAttr($attribute)
-	{
+    public function escapeHtmlAttr($attribute)
+    {
         return parent::escapeHtmlAttr($attribute);
-	}
+    }
 
-	public function escapeCss($css)
-	{
+    public function escapeCss($css)
+    {
         return parent::escapeCss($css);
-	}
+    }
 
-	public function escapeJs($js)
-	{
+    public function escapeJs($js)
+    {
         return parent::escapeJs($js);
-	}
+    }
 
-	public function escapeUrl($url)
-	{
+    public function escapeUrl($url)
+    {
         return parent::escapeUrl($url);
     }
 }

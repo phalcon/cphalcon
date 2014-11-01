@@ -47,7 +47,7 @@ abstract class Text
 	 * @param string str
 	 * @return string
 	 */
-	static public function camelize(string str) -> string
+	public static function camelize(string str) -> string
 	{
 		return str->camelize();
 	}
@@ -62,7 +62,7 @@ abstract class Text
 	 * @param string str
 	 * @return string
 	 */
-	static public function uncamelize(string str) -> string
+	public static function uncamelize(string str) -> string
 	{
 		return str->uncamelize();
 	}
@@ -79,7 +79,7 @@ abstract class Text
 	 * @param string $separator
 	 * @return string
 	 */
-	static public function increment(string str, var separator = null) -> string
+	public static function increment(string str, var separator = null) -> string
 	{
 		var parts, number;
 
@@ -109,7 +109,7 @@ abstract class Text
 	 * @param int length
 	 * @return string
 	 */
-	static public function random(int type = 0, long length = 8) -> string
+	public static function random(int type = 0, long length = 8) -> string
 	{
 		var pool, str = "";
 		int end;
@@ -161,7 +161,7 @@ abstract class Text
 	 * @param boolean ignoreCase
 	 * @return boolean
 	 */
-	static public function startsWith(str, start, ignoreCase = true) -> boolean
+	public static function startsWith(str, start, ignoreCase = true) -> boolean
 	{
 		return starts_with(str, start, ignoreCase);
 	}
@@ -180,7 +180,7 @@ abstract class Text
 	 * @param boolean ignoreCase
 	 * @return boolean
 	 */
-	static public function endsWith(string str, string end, boolean ignoreCase=true) -> boolean
+	public static function endsWith(string str, string end, boolean ignoreCase=true) -> boolean
 	{
 		return ends_with(str, end, ignoreCase);
 	}
@@ -191,7 +191,7 @@ abstract class Text
 	 * @param string $str
 	 * @return string
 	 */
-	static public function lower(string str) -> string
+	public static function lower(string str) -> string
 	{
 		/**
 		 * 'lower' checks for the mbstring extension to make a correct lowercase transformation
@@ -208,7 +208,7 @@ abstract class Text
 	 * @param string str
 	 * @return string
 	 */
-	static public function upper(string str) -> string
+	public static function upper(string str) -> string
 	{
 		/**
 		 * 'upper' checks for the mbstring extension to make a correct lowercase transformation

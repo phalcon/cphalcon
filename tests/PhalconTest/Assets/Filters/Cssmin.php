@@ -26,8 +26,8 @@ use Phalcon\Assets\Filters\Cssmin as PhCss;
 
 class Cssmin extends PhCss
 {
-	public function filter($content)
-	{
-		return parent::filter($content);
-	}
+    public function filter($content)
+    {
+        return parent::filter($content);
+    }
 }

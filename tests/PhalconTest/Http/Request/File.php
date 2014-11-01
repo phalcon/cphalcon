@@ -26,38 +26,38 @@ use \Phalcon\Http\Request\File as PhFile;
 
 class File extends PhFile
 {
-	public function getSize()
-	{
+    public function getSize()
+    {
         return parent::getSize();
-	}
+    }
 
-	public function getName()
-	{
+    public function getName()
+    {
         return parent::getName();
-	}
+    }
 
-	public function getTempName()
-	{
+    public function getTempName()
+    {
         return parent::getTempName();
-	}
+    }
 
-	public function getType()
-	{
+    public function getType()
+    {
         return parent::getType();
-	}
+    }
 
-	public function getRealType()
-	{
+    public function getRealType()
+    {
         return parent::getRealType();
-	}
+    }
 
-	public function isUploadedFile()
-	{
+    public function isUploadedFile()
+    {
         return parent::isUploadedFile();
-	}
+    }
 
-	public function moveTo($destination)
-	{
+    public function moveTo($destination)
+    {
         return parent::moveTo($destination);
-	}
+    }
 }

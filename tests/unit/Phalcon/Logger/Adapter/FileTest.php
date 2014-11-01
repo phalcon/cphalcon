@@ -26,14 +26,11 @@ use Phalcon\Logger as PhLogger;
 use Phalcon\Logger\Exception as PhLoggerException;
 use \Phalcon\Logger\Formatter\Line as PhLoggerFormatterLine;
 use \Phalcon\Logger\Adapter\File as PhTLoggerAdapterFile;
-use \Codeception\TestCase\Test as CdTest;
 
-class FileTest extends CdTest
+use Phalcon\Tests\unit\Phalcon\Logger\Helper\FileBase as FBase;
+
+class FileTest extends FBase
 {
-    private $logPath = '';
-
-    use \Codeception\Specify;
-
     public function _before()
     {
         parent::_before();

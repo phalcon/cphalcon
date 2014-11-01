@@ -34,6 +34,8 @@ set_include_path(
     ROOT_PATH . PATH_SEPARATOR . get_include_path()
 );
 
+// \Codeception\Specify\Config::setDeepClone(false);
+
 // Register the autoloader
 spl_autoload_register('phalconTestAutoloader');
 

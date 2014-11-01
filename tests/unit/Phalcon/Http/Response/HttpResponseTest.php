@@ -51,8 +51,8 @@ class HttpResponseTest extends Helper\HttpBase
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-10-08
      */
-	public function testHttpResponseSetHeader()
-	{
+    public function testHttpResponseSetHeader()
+    {
         $this->specify(
             "setHeader is not setting the headers properly",
             function () {
@@ -83,7 +83,7 @@ class HttpResponseTest extends Helper\HttpBase
                 expect($actual)->equals($expected);
             }
         );
-	}
+    }
 
     /**
      * Tests the setStatusCode
@@ -114,7 +114,7 @@ class HttpResponseTest extends Helper\HttpBase
                 expect($actual)->equals($expected);
             }
         );
-	}
+    }
 
     /**
      * Tests the setRawHeader
@@ -142,7 +142,7 @@ class HttpResponseTest extends Helper\HttpBase
                 expect($actual)->equals($expected);
             }
         );
-	}
+    }
 
     /**
      * Tests the setHeader
@@ -172,7 +172,7 @@ class HttpResponseTest extends Helper\HttpBase
                 expect($headers['Content-Length'])->equals('1234');
             }
         );
-	}
+    }
 
     /**
      * Tests the setContentType

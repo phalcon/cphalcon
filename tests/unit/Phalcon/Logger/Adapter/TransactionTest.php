@@ -22,10 +22,11 @@
 
 namespace Phalcon\Tests\unit\Phalcon\Logger\Adapter;
 
-use \Phalcon\Tests\unit\Phalcon\Logger\Adapter\Helper\FileBase as PhFileBase;
 use \Phalcon\Logger\Adapter\File as PhTLoggerAdapterFile;
 
-class TransactionTest extends PhFileBase
+use Phalcon\Tests\unit\Phalcon\Logger\Helper\FileBase as FBase;
+
+class TransactionTest extends FBase
 {
     /**
      * Tests the begin/commit

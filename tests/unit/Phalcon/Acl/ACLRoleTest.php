@@ -23,12 +23,11 @@
 namespace Phalcon\Tests\unit\Phalcon\Acl;
 
 use \PhalconTest\Acl\Role as PhTAclRole;
-use \Codeception\TestCase\Test as CdTest;
 
-class ACLRoleTest extends CdTest
+use \Phalcon\Tests\unit\Phalcon\_Helper\TestsBase as TBase;
+
+class ACLRoleTest extends TBase
 {
-    use \Codeception\Specify;
-
     /**
      * Tests the creation of an Acl Role (name)
      *

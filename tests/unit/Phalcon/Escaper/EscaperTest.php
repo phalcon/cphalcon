@@ -23,12 +23,11 @@
 namespace Phalcon\Tests\unit\Phalcon\Escaper;
 
 use \PhalconTest\Escaper as PhTEscaper;
-use \Codeception\TestCase\Test as CdTest;
 
-class EscaperTest extends CdTest
+use \Phalcon\Tests\unit\Phalcon\_Helper\TestsBase as TBase;
+
+class EscaperTest extends TBase
 {
-    use \Codeception\Specify;
-
     /**
      * Tests whether a key exists in the array
      *

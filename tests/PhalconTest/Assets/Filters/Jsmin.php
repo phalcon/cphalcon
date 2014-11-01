@@ -26,8 +26,8 @@ use Phalcon\Assets\Filters\Jsmin as PhJs;
 
 class Jsmin extends PhJs
 {
-	public function filter($content)
-	{
-		return parent::filter($content);
-	}
+    public function filter($content)
+    {
+        return parent::filter($content);
+    }
 }

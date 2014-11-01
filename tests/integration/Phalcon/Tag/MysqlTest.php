@@ -33,7 +33,7 @@ class MysqlTest extends Helper\TagBase
         $this->setDb('mysql');
     }
 
-    public function NotestMe()
+    public function notestMe()
     {
         $select = new Select();
 

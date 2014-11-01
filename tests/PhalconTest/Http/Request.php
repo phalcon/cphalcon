@@ -28,202 +28,202 @@ use \Phalcon\DiInterface as PhDIInterface;
 class Request extends PhRequest
 {
     public function setDI(PhDIInterface $di)
-	{
+    {
         parent::setDI($di);
-	}
+    }
 
     public function getDI()
-	{
+    {
         return parent::getDI();
-	}
+    }
 
-	public function get($name = null, $filters = null, $defaultValue = null, $notAllowEmpty = false, $noRecursive = false)
-	{
+    public function get($name = null, $filters = null, $defaultValue = null, $notAllowEmpty = false, $noRecursive = false)
+    {
         return parent::get($name, $filters, $defaultValue, $notAllowEmpty, $noRecursive);
-	}
+    }
 
-	public function getPost($name = null, $filters = null, $defaultValue = null, $notAllowEmpty = false, $noRecursive = false)
-	{
+    public function getPost($name = null, $filters = null, $defaultValue = null, $notAllowEmpty = false, $noRecursive = false)
+    {
         return parent::getPost($name, $filters, $defaultValue, $notAllowEmpty, $noRecursive);
-	}
+    }
 
-	public function getQuery($name = null, $filters = null, $defaultValue = null, $notAllowEmpty = false, $noRecursive = false)
-	{
+    public function getQuery($name = null, $filters = null, $defaultValue = null, $notAllowEmpty = false, $noRecursive = false)
+    {
         return parent::getQuery($name, $filters, $defaultValue, $notAllowEmpty, $noRecursive);
-	}
+    }
 
-	public function getServer($name)
-	{
+    public function getServer($name)
+    {
         return parent::getServer($name);
-	}
+    }
 
-	public function has($name)
-	{
+    public function has($name)
+    {
         return parent::has($name);
-	}
+    }
 
-	public function hasPost($name)
-	{
+    public function hasPost($name)
+    {
         return parent::hasPost($name);
-	}
+    }
 
-	public function hasQuery($name)
-	{
+    public function hasQuery($name)
+    {
         return parent::hasQuery($name);
-	}
+    }
 
-	public function getScheme()
-	{
+    public function getScheme()
+    {
         return parent::getScheme();
-	}
+    }
 
-	public function isAjax()
-	{
+    public function isAjax()
+    {
         return parent::isAjax();
-	}
+    }
 
-	public function isSoapRequested()
-	{
-        return parent::isSoapRequest();
-	}
+    public function isSoapRequested()
+    {
+        return parent::isSoapRequested();
+    }
 
-	public function isSecureRequest()
-	{
+    public function isSecureRequest()
+    {
         return parent::isSecureRequest();
-	}
+    }
 
-	public function getRawBody()
-	{
+    public function getRawBody()
+    {
         return parent::getRawBody();
-	}
+    }
 
-	public function getJsonRawBody()
+    public function getJsonRawBody()
     {
         return parent::getJsonRawBody();
-	}
+    }
 
-	public function getServerAddress()
-	{
+    public function getServerAddress()
+    {
         return parent::getServerAddress();
-	}
+    }
 
-	public function getServerName()
-	{
+    public function getServerName()
+    {
         return parent::getServerName();
-	}
+    }
 
-	public function getHttpHost()
-	{
+    public function getHttpHost()
+    {
         return parent::getHttpHost();
-	}
+    }
 
-	public function getClientAddress($trustForwardedHeader = false)
-	{
+    public function getClientAddress($trustForwardedHeader = false)
+    {
         return parent::getClientAddress($trustForwardedHeader);
-	}
+    }
 
-	public function getUserAgent()
-	{
+    public function getUserAgent()
+    {
         return parent::getUserAgent();
-	}
+    }
 
-	public function isMethod($methods)
-	{
+    public function isMethod($methods)
+    {
         return parent::isMethod($methods);
-	}
+    }
 
-	public function isPost()
-	{
+    public function isPost()
+    {
         return parent::isPost();
-	}
+    }
 
-	public function isGet()
-	{
+    public function isGet()
+    {
         return parent::isGet();
-	}
+    }
 
-	public function isPut()
-	{
+    public function isPut()
+    {
         return parent::isPut();
-	}
+    }
 
-	public function isPatch()
-	{
+    public function isPatch()
+    {
         return parent::isPatch();
-	}
+    }
 
-	public function isHead()
-	{
+    public function isHead()
+    {
         return parent::isHead();
-	}
+    }
 
-	public function isDelete()
-	{
+    public function isDelete()
+    {
         return parent::isDelete();
-	}
+    }
 
-	public function isOptions()
-	{
+    public function isOptions()
+    {
         return parent::isOptions();
-	}
+    }
 
-	public function hasFiles($onlySuccessful = false)
-	{
+    public function hasFiles($onlySuccessful = false)
+    {
         return parent::hasFiles($onlySuccessful);
-	}
+    }
 
-	public function getUploadedFiles($notErrored = false)
-	{
+    public function getUploadedFiles($notErrored = false)
+    {
         return parent::getUploadedFiles($notErrored);
-	}
+    }
 
-	public function getHeaders()
-	{
+    public function getHeaders()
+    {
         return parent::getHeaders();
-	}
+    }
 
-	public function getHTTPReferer()
-	{
+    public function getHTTPReferer()
+    {
         return parent::getHTTPReferer();
-	}
+    }
 
-	public function getAcceptableContent()
+    public function getAcceptableContent()
     {
         return parent::getAcceptableContent();
-	}
+    }
 
-	public function getBestAccept()
-	{
+    public function getBestAccept()
+    {
         return parent::getBestAccept();
-	}
+    }
 
-	public function getClientCharsets()
+    public function getClientCharsets()
     {
         return parent::getClientCharsets();
-	}
+    }
 
-	public function getBestCharset()
-	{
+    public function getBestCharset()
+    {
         return parent::getBestCharset();
-	}
+    }
 
-	public function getLanguages()
-	{
+    public function getLanguages()
+    {
         return parent::getLanguages();
-	}
+    }
 
-	public function getBestLanguage()
-	{
+    public function getBestLanguage()
+    {
         return parent::getBestLanguage();
-	}
+    }
 
-	public function getBasicAuth()
+    public function getBasicAuth()
     {
         return parent::getBasicAuth();
-	}
+    }
 
-	public function getDigestAuth()
-	{
+    public function getDigestAuth()
+    {
         return parent::getDigestAuth();
-	}
+    }
 }

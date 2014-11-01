@@ -25,12 +25,11 @@ namespace Phalcon\Tests\unit\Phalcon\Mvc\Url;
 use Phalcon\DI as PhDI;
 use Phalcon\Mvc\Router as PhRouter;
 use \PhalconTest\Mvc\Url as PhTUrl;
-use \Codeception\TestCase\Test as CdTest;
 
-class UrlTest extends CdTest
+use \Phalcon\Tests\unit\Phalcon\_Helper\TestsBase as TBase;
+
+class UrlTest extends TBase
 {
-    use \Codeception\Specify;
-
     /**
      * Tests the base url
      *

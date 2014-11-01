@@ -78,4 +78,3 @@ class FilterTrimTest extends Helper\FilterBase
         );
     }
 }
-

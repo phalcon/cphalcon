@@ -23,12 +23,11 @@
 namespace Phalcon\Tests\unit\Phalcon\Flash\Direct\Helper;
 
 use \PhalconTest\Flash\Direct as PhFlash;
-use \Codeception\TestCase\Test as CdTest;
 
-class FlashBase extends CdTest
+use \Phalcon\Tests\unit\Phalcon\_Helper\TestsBase as TBase;
+
+class FlashBase extends TBase
 {
-    use \Codeception\Specify;
-
     private $notImplicit = false;
     private $notHtml     = false;
     private $classes     = null;
