@@ -79,9 +79,9 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getMetaData){
 	zval *field_bind_types, *automatic_default;
 	zval *identity_field = NULL, *column_annot_name;
 	zval *primary_annot_name, *id_annot_name;
-	zval *column_type_name, *column_nullable_name;
+	zval *column_map_name, *column_type_name, *column_nullable_name;
 	zval *prop_annotations = NULL, *property = NULL, *has_annotation = NULL;
-	zval *column_annotation = NULL, *feature = NULL;
+	zval *column_annotation = NULL, *real_property = NULL, *feature = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -160,6 +160,9 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getMetaData){
 	
 	PHALCON_INIT_VAR(id_annot_name);
 	ZVAL_STRING(id_annot_name, "Identity", 1);
+
+	PHALCON_INIT_VAR(column_map_name);
+	ZVAL_STRING(column_map_name, "column", 1);
 	
 	PHALCON_INIT_VAR(column_type_name);
 	ZVAL_STRING(column_type_name, "type", 1);
@@ -187,32 +190,40 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getMetaData){
 		 * Fetch the 'column' annotation
 		 */
 		PHALCON_CALL_METHOD(&column_annotation, prop_annotations, "get", column_annot_name);
-	
+
+		/** 
+		 * Check column map
+		 */
+		PHALCON_CALL_METHOD(&real_property, column_annotation, "getargument", column_map_name);
+		if (PHALCON_IS_EMPTY(real_property)) {
+			PHALCON_CPY_WRT(real_property, property);
+		}
+
 		/** 
 		 * Check if annotation has the 'type' named parameter
 		 */
 		PHALCON_CALL_METHOD(&feature, column_annotation, "getargument", column_type_name);
 		if (PHALCON_IS_STRING(feature, "integer")) {
-			phalcon_array_update_zval_long(&field_types, property, 0, PH_SEPARATE);
-			phalcon_array_update_zval_long(&field_bind_types, property, 1, PH_SEPARATE);
-			phalcon_array_update_zval_bool(&numeric_typed, property, 1, PH_SEPARATE);
+			phalcon_array_update_zval_long(&field_types, real_property, 0, PH_SEPARATE);
+			phalcon_array_update_zval_long(&field_bind_types, real_property, 1, PH_SEPARATE);
+			phalcon_array_update_zval_bool(&numeric_typed, real_property, 1, PH_SEPARATE);
 		} else if (PHALCON_IS_STRING(feature, "decimal")) {
-			phalcon_array_update_zval_long(&field_types, property, 3, PH_SEPARATE);
-			phalcon_array_update_zval_long(&field_bind_types, property, 32, PH_SEPARATE);
-			phalcon_array_update_zval_bool(&numeric_typed, property, 1, PH_SEPARATE);
+			phalcon_array_update_zval_long(&field_types, real_property, 3, PH_SEPARATE);
+			phalcon_array_update_zval_long(&field_bind_types, real_property, 32, PH_SEPARATE);
+			phalcon_array_update_zval_bool(&numeric_typed, real_property, 1, PH_SEPARATE);
 		} else if (PHALCON_IS_STRING(feature, "boolean")) {
-			phalcon_array_update_zval_long(&field_types, property, 8, PH_SEPARATE);
-			phalcon_array_update_zval_long(&field_bind_types, property, 5, PH_SEPARATE);
+			phalcon_array_update_zval_long(&field_types, real_property, 8, PH_SEPARATE);
+			phalcon_array_update_zval_long(&field_bind_types, real_property, 5, PH_SEPARATE);
 		} else {
 			if (PHALCON_IS_STRING(feature, "date")) {
-				phalcon_array_update_zval_long(&field_types, property, 1, PH_SEPARATE);
+				phalcon_array_update_zval_long(&field_types, real_property, 1, PH_SEPARATE);
 			} else {
 				/**
 				 * By default all columns are varchar/string
 				 */
-				phalcon_array_update_zval_long(&field_types, property, 2, PH_SEPARATE);
+				phalcon_array_update_zval_long(&field_types, real_property, 2, PH_SEPARATE);
 			}
-			phalcon_array_update_zval_long(&field_bind_types, property, 2, PH_SEPARATE);
+			phalcon_array_update_zval_long(&field_bind_types, real_property, 2, PH_SEPARATE);
 		}
 	
 		/** 
@@ -220,9 +231,9 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getMetaData){
 		 */
 		PHALCON_CALL_METHOD(&has_annotation, prop_annotations, "has", primary_annot_name);
 		if (zend_is_true(has_annotation)) {
-			phalcon_array_append(&primary_keys, property, PH_SEPARATE);
+			phalcon_array_append(&primary_keys, real_property, PH_SEPARATE);
 		} else {
-			phalcon_array_append(&non_primary_keys, property, PH_SEPARATE);
+			phalcon_array_append(&non_primary_keys, real_property, PH_SEPARATE);
 		}
 	
 		/** 
@@ -230,7 +241,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getMetaData){
 		 */
 		PHALCON_CALL_METHOD(&has_annotation, prop_annotations, "has", id_annot_name);
 		if (zend_is_true(has_annotation)) {
-			PHALCON_CPY_WRT(identity_field, property);
+			PHALCON_CPY_WRT(identity_field, real_property);
 		}
 	
 		/** 
@@ -238,10 +249,10 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getMetaData){
 		 */
 		PHALCON_CALL_METHOD(&feature, column_annotation, "getargument", column_nullable_name);
 		if (!zend_is_true(feature)) {
-			phalcon_array_append(&not_null, property, PH_SEPARATE);
+			phalcon_array_append(&not_null, real_property, PH_SEPARATE);
 		}
 	
-		phalcon_array_append(&attributes, property, PH_SEPARATE);
+		phalcon_array_append(&attributes, real_property, PH_SEPARATE);
 	
 		zend_hash_move_forward_ex(ah0, &hp0);
 	}
@@ -274,7 +285,108 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getMetaData){
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getColumnMaps){
 
+	zval *model, *dependency_injector, *service;
+	zval *ordered_column_map, *reversed_column_map = NULL;
+	zval *annotations = NULL, *class_name, *reflection = NULL;
+	zval *exception_message = NULL, *properties_annotations = NULL;
+	zval *column_annot_name, *column_map_name;
+	zval *prop_annotations = NULL, *property = NULL, *has_annotation = NULL;
+	zval *column_annotation = NULL, *real_property = NULL;
+	HashTable *ah0;
+	HashPosition hp0;
+	zval **hd;
 
-	
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 2, 0, &model, &dependency_injector);
+
+	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The dependency injector is invalid");
+		return;
+	}
+
+	PHALCON_INIT_VAR(service);
+	ZVAL_STRING(service, "annotations", 1);
+
+	PHALCON_CALL_METHOD(&annotations, dependency_injector, "get", service);
+
+	PHALCON_INIT_VAR(class_name);
+	phalcon_get_class(class_name, model, 0 TSRMLS_CC);
+
+	PHALCON_CALL_METHOD(&reflection, annotations, "get", class_name);
+	if (Z_TYPE_P(reflection) != IS_OBJECT) {
+		PHALCON_INIT_VAR(exception_message);
+		PHALCON_CONCAT_SV(exception_message, "No annotations were found in class ", class_name);
+		PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
+		return;
+	}
+
+	/** 
+	 * Get the properties defined in 
+	 */
+	PHALCON_CALL_METHOD(&properties_annotations, reflection, "getpropertiesannotations");
+	if (!phalcon_fast_count_ev(properties_annotations TSRMLS_CC)) {
+		PHALCON_INIT_NVAR(exception_message);
+		PHALCON_CONCAT_SV(exception_message, "No properties with annotations were found in class ", class_name);
+		PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
+		return;
+	}
+
+	/** 
+	 * Initialize meta-data
+	 */
+	PHALCON_INIT_VAR(ordered_column_map);
+	array_init(ordered_column_map);
+
+	PHALCON_INIT_VAR(reversed_column_map);
+	array_init(reversed_column_map);
+
+	PHALCON_INIT_VAR(column_annot_name);
+	ZVAL_STRING(column_annot_name, "Column", 1);
+
+	PHALCON_INIT_VAR(column_map_name);
+	ZVAL_STRING(column_map_name, "column", 1);
+
+	phalcon_is_iterable(properties_annotations, &ah0, &hp0, 0, 0);
+
+	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
+
+		PHALCON_GET_HKEY(property, ah0, hp0);
+		PHALCON_GET_HVALUE(prop_annotations);
+
+		/** 
+		 * All columns marked with the 'Column' annotation are considered columns
+		 */
+		PHALCON_CALL_METHOD(&has_annotation, prop_annotations, "has", column_annot_name);
+		if (!zend_is_true(has_annotation)) {
+			zend_hash_move_forward_ex(ah0, &hp0);
+			continue;
+		}
+
+		/** 
+		 * Fetch the 'column' annotation
+		 */
+		PHALCON_CALL_METHOD(&column_annotation, prop_annotations, "get", column_annot_name);
+
+		/** 
+		 * Check column map
+		 */
+		PHALCON_CALL_METHOD(&real_property, column_annotation, "getargument", column_map_name);
+		if (!PHALCON_IS_EMPTY(real_property)) {
+			phalcon_array_update_zval(&ordered_column_map, real_property, property, PH_COPY);
+			phalcon_array_update_zval(&reversed_column_map, property, real_property, PH_COPY);
+		} else {
+			phalcon_array_update_zval(&ordered_column_map, property, property, PH_COPY);
+			phalcon_array_update_zval(&reversed_column_map, property, property, PH_COPY);
+		}
+
+		zend_hash_move_forward_ex(ah0, &hp0);
+	}
+
+	array_init_size(return_value, 2);
+	phalcon_array_update_long(&return_value, 0, ordered_column_map, PH_COPY);
+	phalcon_array_update_long(&return_value, 1, reversed_column_map, PH_COPY);
+
+	PHALCON_MM_RESTORE();
 }
 

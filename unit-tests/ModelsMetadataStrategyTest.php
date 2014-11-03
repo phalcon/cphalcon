@@ -156,6 +156,13 @@ class ModelsMetadataStrategyTest extends PHPUnit_Framework_TestCase
 
 		$meta = $metaData->readMetaData($robots);
 		$this->assertEquals($meta, $this->_expectedMeta);
+
+		// Issue 2954
+		$robot = Boutique\Robotters::findFirst();
+		$code = $robot->code;
+		$serialized = serialize($robot);
+		$unserialized = unserialize($serialized);
+		$this->assertEquals($code, $unserialized->code);
 	}
 
 }
