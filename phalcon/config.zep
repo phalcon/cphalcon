@@ -46,7 +46,7 @@ use Phalcon\Config\Exception;
  *</code>
  *
  */
-class Config implements \ArrayAccess
+class Config implements \ArrayAccess, \Countable
 {
 
 	/**
@@ -197,6 +197,24 @@ class Config implements \ArrayAccess
 			}
 		}
 		return arrayConfig;
+	}
+
+	/**
+	 * Returns the count of properties set in the config
+	 *
+	 *<code>
+	 *	print count($config);
+	 *</code>
+	 *
+	 * or
+	 *
+     *<code>
+     *	print $config->count();
+     *</code>
+	 */
+	public function count()
+	{
+		return count(get_object_vars(this));
 	}
 
 	/**
