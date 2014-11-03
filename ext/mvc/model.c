@@ -6608,8 +6608,8 @@ PHP_METHOD(Phalcon_Mvc_Model, __isset){
  */
 PHP_METHOD(Phalcon_Mvc_Model, serialize){
 
-	zval *meta_data = NULL, *attributes = NULL, *null_value, *data;
-	zval *attribute = NULL, *value = NULL;
+	zval *meta_data = NULL, *attributes = NULL, *column_map = NULL, *null_value, *data;
+	zval *attribute = NULL, *attribute_field = NULL, *value = NULL, *exception_message = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -6622,6 +6622,11 @@ PHP_METHOD(Phalcon_Mvc_Model, serialize){
 	 * We get the model's attributes to only serialize them
 	 */
 	PHALCON_CALL_METHOD(&attributes, meta_data, "getattributes", this_ptr);
+
+	/** 
+	 * Reverse column map
+	 */
+	PHALCON_CALL_METHOD(&column_map, meta_data, "getcolumnmap", this_ptr);
 	
 	PHALCON_INIT_VAR(null_value);
 	
@@ -6633,13 +6638,30 @@ PHP_METHOD(Phalcon_Mvc_Model, serialize){
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
 		PHALCON_GET_HVALUE(attribute);
+
+		/** 
+		 * Check if the columns must be renamed
+		 */
+		if (Z_TYPE_P(column_map) == IS_ARRAY) { 
+			if (!phalcon_array_isset(column_map, attribute)) {
+				PHALCON_INIT_NVAR(exception_message);
+				PHALCON_CONCAT_SVS(exception_message, "Column \"", attribute, "\" doesn't make part of the column map");
+				PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
+				return;
+			}
 	
-		if (phalcon_isset_property_zval(this_ptr, attribute TSRMLS_CC)) {
-			PHALCON_OBS_NVAR(value);
-			phalcon_read_property_zval(&value, this_ptr, attribute, PH_NOISY TSRMLS_CC);
-			phalcon_array_update_zval(&data, attribute, value, PH_COPY);
+			PHALCON_OBS_NVAR(attribute_field);
+			phalcon_array_fetch(&attribute_field, column_map, attribute, PH_NOISY);
 		} else {
-			phalcon_array_update_zval(&data, attribute, null_value, PH_COPY);
+			PHALCON_CPY_WRT(attribute_field, attribute);
+		}
+
+		if (phalcon_isset_property_zval(this_ptr, attribute_field TSRMLS_CC)) {
+			PHALCON_OBS_NVAR(value);
+			phalcon_read_property_zval(&value, this_ptr, attribute_field, PH_NOISY TSRMLS_CC);
+			phalcon_array_update_zval(&data, attribute_field, value, PH_COPY);
+		} else {
+			phalcon_array_update_zval(&data, attribute_field, null_value, PH_COPY);
 		}
 	
 		zend_hash_move_forward_ex(ah0, &hp0);
