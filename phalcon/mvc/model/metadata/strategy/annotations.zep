@@ -181,9 +181,8 @@ class Annotations implements StrategyInterface
 	public final function getColumnMaps(<ModelInterface> model, <\Phalcon\DiInterface> dependencyInjector)
 	{
 		var annotations, className, reflection, propertiesAnnotations;
-		var property, propAnnotations, columnAnnotation, columnName, feature;
-		var fieldTypes, fieldBindTypes, numericTyped, primaryKeys, nonPrimaryKeys, identityField,
-			notNull, attributes, automaticDefault;
+		var property, propAnnotations, columnAnnotation, columnName;
+		var orderedColumnMap, reversedColumnMap;
 
 		if typeof dependencyInjector != "object" {
 			throw new Exception("The dependency injector is invalid");
