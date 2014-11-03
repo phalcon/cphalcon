@@ -188,6 +188,19 @@ class ConfigTest extends PHPUnit_Framework_TestCase
 
 	}
 
+    public function testConfigCount()
+    {
+
+        $config = new Phalcon\Config(array(
+                                         "controllersDir" => "../x/y/z",
+                                         "modelsDir" => "../x/y/z",
+                                     ));
+
+
+        $this->assertEquals(2, count($config));
+
+    }
+
 	public function testIniConfigDirective()
 	{
 		$config = new \Phalcon\Config\Adapter\Ini('unit-tests/config/directive.ini');
