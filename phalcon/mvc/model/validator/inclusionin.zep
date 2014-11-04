@@ -58,7 +58,7 @@ class Inclusionin extends Validator implements ValidatorInterface
 	 */
 	public function validate(<\Phalcon\Mvc\ModelInterface> record) -> boolean
 	{
-		var field, domain, value, message;
+		var field, domain, value, message, strict;
 
 		let field = this->getOption("field");
 		if typeof field != "string" {
@@ -82,11 +82,20 @@ class Inclusionin extends Validator implements ValidatorInterface
 		if this->isSetOption("allowEmpty") && empty value {
 			return true;
 		}
-
+		
+		let strict = false;
+		if this->isSetOption("strict") {
+			if typeof strict != "boolean" {
+			    throw new Exception("Option 'strict' must be a boolean");
+			}
+			
+			let strict = this->getOption("strict");
+		}		
+		
 		/**
 		 * Check if the value is contained in the array
 		 */
-		if !in_array(value, domain) {
+		if !in_array(value, domain, strict) {
 
 			/**
 			 * Check if the developer has defined a custom message
