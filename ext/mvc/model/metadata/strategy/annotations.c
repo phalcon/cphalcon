@@ -118,7 +118,8 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getMetaData){
 	 * Get the properties defined in 
 	 */
 	PHALCON_CALL_METHOD(&properties_annotations, reflection, "getpropertiesannotations");
-	if (!phalcon_fast_count_ev(properties_annotations TSRMLS_CC)) {
+
+	if (!zend_is_true(properties_annotations) || !phalcon_fast_count_ev(properties_annotations TSRMLS_CC)) {
 		PHALCON_INIT_NVAR(exception_message);
 		PHALCON_CONCAT_SV(exception_message, "No properties with annotations were found in class ", class_name);
 		PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);

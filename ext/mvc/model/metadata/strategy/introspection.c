@@ -92,10 +92,10 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getMetaData){
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 2, 0, &model, &dependency_injector);
-	
+
 	PHALCON_INIT_VAR(class_name);
 	phalcon_get_class(class_name, model, 0 TSRMLS_CC);
-	
+
 	PHALCON_CALL_METHOD(&schema, model, "getschema");
 	PHALCON_CALL_METHOD(&table, model, "getsource");
 
@@ -141,40 +141,40 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getMetaData){
 		PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
 		return;
 	}
-	
+
 	/** 
 	 * Initialize meta-data
 	 */
 	PHALCON_INIT_VAR(attributes);
 	array_init(attributes);
-	
+
 	PHALCON_INIT_VAR(primary_keys);
 	array_init(primary_keys);
-	
+
 	PHALCON_INIT_VAR(non_primary_keys);
 	array_init(non_primary_keys);
-	
+
 	PHALCON_INIT_VAR(numeric_typed);
 	array_init(numeric_typed);
-	
+
 	PHALCON_INIT_VAR(not_null);
 	array_init(not_null);
-	
+
 	PHALCON_INIT_VAR(field_types);
 	array_init(field_types);
-	
+
 	PHALCON_INIT_VAR(field_bind_types);
 	array_init(field_bind_types);
-	
+
 	PHALCON_INIT_VAR(automatic_default);
 	array_init(automatic_default);
-	
+
 	PHALCON_INIT_VAR(identity_field);
 	ZVAL_FALSE(identity_field);
-	
+
 	PHALCON_INIT_VAR(field_default_values);
 	array_init(field_default_values);
-	
+
 	phalcon_is_iterable(columns, &ah0, &hp0, 0, 0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {

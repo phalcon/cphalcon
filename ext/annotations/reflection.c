@@ -208,40 +208,40 @@ PHP_METHOD(Phalcon_Annotations_Reflection, getPropertiesAnnotations){
 
 	annotations = phalcon_fetch_nproperty_this(this_ptr, SL("_propertyAnnotations"), PH_NOISY TSRMLS_CC);
 	if (Z_TYPE_P(annotations) != IS_OBJECT) {
-	
+
 		reflection_data = phalcon_fetch_nproperty_this(this_ptr, SL("_reflectionData"), PH_NOISY TSRMLS_CC);
 		if (phalcon_array_isset_string_fetch(&reflection_properties, reflection_data, SS("properties"))) {
-	
+
 			if (phalcon_fast_count_ev(reflection_properties TSRMLS_CC)) {
-	
+
 				array_init(return_value);
-	
+
 				phalcon_is_iterable(reflection_properties, &ah0, &hp0, 0, 0);
-	
+
 				while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
-	
+
 					PHALCON_GET_HKEY(property, ah0, hp0);
 					PHALCON_GET_HVALUE(reflection_property);
-	
+
 					PHALCON_INIT_NVAR(collection);
 					object_init_ex(collection, phalcon_annotations_collection_ce);
 					PHALCON_CALL_METHOD(NULL, collection, "__construct", reflection_property);
-	
+
 					phalcon_array_update_zval(&return_value, property, collection, PH_COPY);
-	
+
 					zend_hash_move_forward_ex(ah0, &hp0);
 				}
-	
+
 				phalcon_update_property_this(this_ptr, SL("_propertyAnnotations"), return_value TSRMLS_CC);
 	
 				RETURN_MM();
 			}
 		}
-	
+
 		phalcon_update_property_bool(this_ptr, SL("_propertyAnnotations"), 0 TSRMLS_CC);
 		RETURN_MM_FALSE;
 	}
-	
+
 	RETURN_CTOR(annotations);
 }
 

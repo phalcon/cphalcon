@@ -7031,23 +7031,24 @@ PHP_METHOD(Phalcon_Mvc_Model, toArray){
 		rename_columns = PHALCON_GLOBAL(z_true);
 	}
 
+
 	PHALCON_CALL_METHOD(&meta_data, this_ptr, "getmodelsmetadata");
 	
 	PHALCON_INIT_VAR(data);
 	array_init(data);
 	
 	PHALCON_INIT_VAR(null_value);
-	
+
 	/** 
 	 * Original attributes
 	 */
 	PHALCON_CALL_METHOD(&attributes, meta_data, "getattributes", this_ptr);
-	
+
 	/** 
 	 * Reverse column map
 	 */
 	PHALCON_CALL_METHOD(&column_map, meta_data, "getcolumnmap", this_ptr);
-	
+
 	phalcon_is_iterable(attributes, &ah0, &hp0, 0, 0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {

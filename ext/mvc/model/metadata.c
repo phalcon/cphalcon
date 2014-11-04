@@ -180,7 +180,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, _initialize){
 	
 			PHALCON_INIT_VAR(prefix_key);
 			PHALCON_CONCAT_SV(prefix_key, "meta-", key);
-	
+
 			/** 
 			 * The meta-data is read from the adapter always
 			 */
@@ -210,7 +210,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, _initialize){
 					 * Get the meta-data extraction strategy
 					 */
 					PHALCON_CALL_METHOD(&strategy, this_ptr, "getstrategy");
-	
+
 					/** 
 					 * Get the meta-data
 					 */
@@ -439,16 +439,17 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, readMetaDataIndex){
 	
 	PHALCON_OBS_VAR(meta_data);
 	phalcon_read_property_this(&meta_data, this_ptr, SL("_metaData"), PH_NOISY TSRMLS_CC);
+
 	if (!phalcon_array_isset(meta_data, key)) {
 		PHALCON_CALL_METHOD(NULL, this_ptr, "_initialize", *model, key, table, schema);
 	
 		PHALCON_OBS_NVAR(meta_data);
 		phalcon_read_property_this(&meta_data, this_ptr, SL("_metaData"), PH_NOISY TSRMLS_CC);
 	}
-	
+
 	PHALCON_OBS_VAR(meta_data_index);
 	phalcon_array_fetch(&meta_data_index, meta_data, key, PH_NOISY);
-	
+
 	PHALCON_OBS_VAR(attributes);
 	phalcon_array_fetch(&attributes, meta_data_index, *index, PH_NOISY);
 	
