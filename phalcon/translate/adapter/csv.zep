@@ -12,8 +12,7 @@
  | obtain it through the world-wide-web, please send an email             |
  | to license@phalconphp.com so we can send you a copy immediately.       |
  +------------------------------------------------------------------------+
- | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
- |          Eduar Carvajal <eduar@phalconphp.com>                         |
+ | Author: Ivan Zubok <chi_no@ukr.net>                             |
  +------------------------------------------------------------------------+
  */
 
@@ -24,33 +23,55 @@ use Phalcon\Translate\AdapterInterface;
 use Phalcon\Translate\Adapter;
 
 /**
- * Phalcon\Translate\Adapter\NativeArray
+ * Phalcon\Translate\Adapter\Csv
  *
- * Allows to define translation lists using PHP arrays
+ * Allows to define translation lists using CSV file
  */
-class NativeArray extends Adapter implements AdapterInterface, \ArrayAccess
+class Csv extends Adapter implements AdapterInterface, \ArrayAccess
 {
 
-	protected _translate;
+	protected _translate = [];
 
 	/**
-	 * Phalcon\Translate\Adapter\NativeArray constructor
+	 * Phalcon\Translate\Adapter\Csv constructor
 	 *
 	 * @param array options
 	 */
 	public function __construct(array! options)
 	{
+		if !isset options["content"] {
+			throw new Exception("Parameter 'content' is required");
+		}
+
+		let options = array_merge([
+			"delimiter": ";",
+			"length": 0,
+			"enclosure": "\""
+		], options);
+
+		if is_readable(options["content"]) === false {
+			throw new Exception("Error opening translation file '" . options["content"] . "'");
+		}
+
+		var file;
+		let file = fopen(options["content"], "rb");
+
 		var data;
 
-		if !fetch data, options["content"] {
-			throw new Exception("Translation content was not provided");
+		loop {
+			let data = fgetcsv(file, options["length"], options["delimiter"], options["enclosure"]);
+			if data === false {
+				break;
+			}
+
+			if substr(data[0], 0, 1) === "#" || !isset data[1] {
+				continue;
+			}
+
+			let this->_translate[data[0]] = data[1];
 		}
 
-		if typeof data !== "array" {
-			throw new Exception("Translation data must be an array");
-		}
-
-		let this->_translate = data;
+		fclose(file);
 	}
 
 	/**
