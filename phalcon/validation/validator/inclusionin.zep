@@ -50,7 +50,7 @@ class InclusionIn extends Validator implements ValidatorInterface
 	 */
 	public function validate(<\Phalcon\Validation> validation, field) -> boolean
 	{
-		var value, domain, message, label, replacePairs;
+		var value, domain, message, label, replacePairs, strict;
 
 		let value = validation->getValue(field);
 
@@ -65,11 +65,20 @@ class InclusionIn extends Validator implements ValidatorInterface
 		if typeof domain != "array" {
 			throw new Exception("Option 'domain' must be an array");
 		}
+		
+		let strict = false;
+		if this->isSetOption("strict") {
+			if typeof strict != "boolean" {
+			    throw new Exception("Option 'strict' must be a boolean");
+			}
+			
+			let strict = this->getOption("strict");
+		}
 
 		/**
 		 * Check if the value is contained by the array
 		 */
-		if !in_array(value, domain) {
+		if !in_array(value, domain, strict) {
 
 			let label = this->getOption("label");
 			if empty label {
