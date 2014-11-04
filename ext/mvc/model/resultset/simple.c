@@ -277,8 +277,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, valid){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, toArray){
 
-	zval *rename_columns = NULL, *type, *result = NULL, *active_row = NULL;
-	zval *records = NULL, *row_count, *column_map, *renamed_records;
+	zval *rename_columns = NULL, *records, *valid = NULL, *current = NULL, *arr = NULL, *column_map, *renamed_records;
 	zval *record = NULL, *renamed = NULL, *value = NULL, *key = NULL, *exception_message = NULL;
 	zval *renamed_key = NULL;
 	HashTable *ah0, *ah1;
@@ -293,69 +292,21 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, toArray){
 		rename_columns = PHALCON_GLOBAL(z_true);
 	}
 	
-	PHALCON_OBS_VAR(type);
-	phalcon_read_property_this(&type, this_ptr, SL("_type"), PH_NOISY TSRMLS_CC);
-	if (zend_is_true(type)) {
+	PHALCON_INIT_VAR(records);
+	array_init(records);
+
+	PHALCON_CALL_METHOD(NULL, this_ptr, "rewind");
 	
-		PHALCON_OBS_VAR(result);
-		phalcon_read_property_this(&result, this_ptr, SL("_result"), PH_NOISY TSRMLS_CC);
-		if (Z_TYPE_P(result) == IS_OBJECT) {
-	
-			PHALCON_OBS_VAR(active_row);
-			phalcon_read_property_this(&active_row, this_ptr, SL("_activeRow"), PH_NOISY TSRMLS_CC);
-	
-			/** 
-			 * Check if we need to re-execute the query
-			 */
-			if (Z_TYPE_P(active_row) != IS_NULL) {
-				PHALCON_CALL_METHOD(NULL, result, "execute");
-			}
-	
-			/** 
-			 * We fetch all the results in memory
-			 */
-			PHALCON_CALL_METHOD(&records, result, "fetchall");
-		} else {
-			PHALCON_INIT_NVAR(records);
-			array_init(records);
+	while (1) {
+		PHALCON_CALL_METHOD(&valid, this_ptr, "valid");
+		if (!PHALCON_IS_NOT_FALSE(valid)) {
+			break;
 		}
-	} else {
-		PHALCON_OBS_NVAR(records);
-		phalcon_read_property_this(&records, this_ptr, SL("_rows"), PH_NOISY TSRMLS_CC);
-		if (Z_TYPE_P(records) != IS_ARRAY) { 
 	
-			PHALCON_OBS_NVAR(result);
-			phalcon_read_property_this(&result, this_ptr, SL("_result"), PH_NOISY TSRMLS_CC);
-			if (Z_TYPE_P(result) == IS_OBJECT) {
-	
-				PHALCON_OBS_NVAR(active_row);
-				phalcon_read_property_this(&active_row, this_ptr, SL("_activeRow"), PH_NOISY TSRMLS_CC);
-	
-				/** 
-				 * Check if we need to re-execute the query
-				 */
-				if (Z_TYPE_P(active_row) != IS_NULL) {
-					PHALCON_CALL_METHOD(NULL, result, "execute");
-				}
-	
-				/** 
-				 * We fetch all the results in memory again
-				 */
-				PHALCON_CALL_METHOD(&records, result, "fetchall");
-				phalcon_update_property_this(this_ptr, SL("_rows"), records TSRMLS_CC);
-	
-				/** 
-				 * Update the row count
-				 */
-				PHALCON_INIT_VAR(row_count);
-				phalcon_fast_count(row_count, records TSRMLS_CC);
-				phalcon_update_property_this(this_ptr, SL("_count"), row_count TSRMLS_CC);
-			}
-			else {
-				PHALCON_INIT_NVAR(records);
-				array_init(records);
-			}
-		}
+		PHALCON_CALL_METHOD(&current, this_ptr, "current");
+		PHALCON_CALL_METHOD(&arr, current, "toarray");
+		phalcon_array_append(&records, arr, 0);
+		PHALCON_CALL_METHOD(NULL, this_ptr, "next");
 	}
 	
 	/** 
