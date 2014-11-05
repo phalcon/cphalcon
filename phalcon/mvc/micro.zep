@@ -685,7 +685,7 @@ class Micro extends \Phalcon\Di\Injectable implements \ArrayAccess
 						/**
 						 * Call the before handler, if it returns false exit
 						 */
-						if call_user_func(before) === false {
+						if before() === false {
 							return false;
 						}
 
@@ -749,7 +749,7 @@ class Micro extends \Phalcon\Di\Injectable implements \ArrayAccess
 							throw new Exception("One of the 'after' handlers is not callable");
 						}
 
-						let status = call_user_func(after);
+						let status = after();
 					}
 				}
 
@@ -776,7 +776,7 @@ class Micro extends \Phalcon\Di\Injectable implements \ArrayAccess
 				/**
 				 * Call the Not-Found handler
 				 */
-				let returnedValue = call_user_func(notFoundHandler);
+				let returnedValue = call_user_func(notFoundHandler); 
 			}
 
 			/**
