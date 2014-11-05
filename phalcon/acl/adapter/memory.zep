@@ -358,7 +358,7 @@ class Memory extends Adapter
 	 * @param string access
 	 * @param string action
 	 */
-	private function _allowOrDeny(var roleName, var resourceName, var access, var action)
+	protected function _allowOrDeny(var roleName, var resourceName, var access, var action)
 	{
 		var defaultAccess, accessList, accessName, accessKey, accessKeyAll, internalAccess;
 
@@ -456,10 +456,10 @@ class Memory extends Adapter
 		var tmp;
 
 		if roleName != "*" {
-			return this->_allowordeny(roleName, resourceName, access, \Phalcon\Acl::ALLOW);
+			return this->_allowOrDeny(roleName, resourceName, access, \Phalcon\Acl::ALLOW);
 		} else {
 			for roleName, tmp in this->_rolesNames {
-				this->_allowordeny(roleName, resourceName, access, \Phalcon\Acl::ALLOW);
+				this->_allowOrDeny(roleName, resourceName, access, \Phalcon\Acl::ALLOW);
 			}
 		}
 	}
