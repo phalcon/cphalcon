@@ -90,6 +90,7 @@ class Ini extends Config
 	 *
 	 * <code>
 	 * $this->_parseIniString('path.hello.world', 'value for last key');
+	 *
 	 * // result
 	 * [
 	 *      'path' => [
