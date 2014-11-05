@@ -150,7 +150,8 @@ class ConfigTest extends PHPUnit_Framework_TestCase
 				"host"     => "localhost",
 				"username" => "peter",
 				"options" => array(
-					"case" => "lower"
+					"case" => "lower",
+//					PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8',
 				),
 				"alternatives" => array(
 					"primary" => "swedish",
@@ -180,6 +181,8 @@ class ConfigTest extends PHPUnit_Framework_TestCase
 				)),
 				'options' => Phalcon\Config::__set_state(array(
 					'case' => 'lower',
+					// todo: add support numeric keys as properties
+//					(string)PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8',
 				)),
 			)),
 		));
@@ -190,14 +193,12 @@ class ConfigTest extends PHPUnit_Framework_TestCase
 
     public function testConfigCount()
     {
+		$config = new Phalcon\Config(array(
+			 "controllersDir" => "../x/y/z",
+			 "modelsDir" => "../x/y/z",
+		 ));
 
-        $config = new Phalcon\Config(array(
-                                         "controllersDir" => "../x/y/z",
-                                         "modelsDir" => "../x/y/z",
-                                     ));
-
-
-        $this->assertEquals(2, count($config));
+		$this->assertEquals(2, count($config));
 
     }
 

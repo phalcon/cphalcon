@@ -54,22 +54,22 @@ class Config implements \ArrayAccess, \Countable
 	 */
 	public function __construct(array! arrayConfig = null)
 	{
-		var key, value, subkey, subvalue;
+		var key, value, subKey, subValue;
 		boolean hasNumericKey;
 
 		for key, value in arrayConfig {
-
 			/**
 			 * Phalcon\Config does not support numeric keys as properties
 			 */
-			if typeof key != "string" {
+			 // todo: add support numeric keys as properties
+			if typeof key !== "string" {
 				throw new Exception("Only string keys are allowed as configuration properties");
 			}
 
-			if typeof value == "array" {
+			if typeof value === "array" {
 				let hasNumericKey = false;
-				for subkey, subvalue in value {
-					if typeof subkey == "int" {
+				for subKey, subValue in value {
+					if typeof subKey === "int" {
 						let hasNumericKey = true;
 						break;
 					}
@@ -77,7 +77,7 @@ class Config implements \ArrayAccess, \Countable
 				if hasNumericKey {
 					let this->{key} = value;
 				} else {
-					let this->{key} = new \Phalcon\Config(value);
+					let this->{key} = new self(value);
 				}
 			} else {
 				let this->{key} = value;
@@ -108,11 +108,11 @@ class Config implements \ArrayAccess, \Countable
 	 */
 	public function get(string! index, var defaultValue = null)
 	{
-       if isset this->{index} {
-            return this->{index};
-       }
+		if isset this->{index} {
+			return this->{index};
+		}
 
-       return defaultValue;
+		return defaultValue;
 	}
 
 	/**
@@ -156,21 +156,16 @@ class Config implements \ArrayAccess, \Countable
 	 * Merges a configuration into the current one
 	 *
 	 *<code>
-	 *	$appConfig = new \Phalcon\Config(array('database' => array('host' => 'localhost')));
-	 *	$globalConfig->merge($config2);
+	 * $appConfig = new \Phalcon\Config(array('database' => array('host' => 'localhost')));
+	 * $globalConfig->merge($config2);
 	 *</code>
+	 *
+	 * @param Config config
+	 * @return this merged config
 	 */
-	public function merge(<Config> config)
+	public function merge(<Config> config) -> <Config>
 	{
-        var key, value;
-
-        for key, value in get_object_vars(config) {
-            if (isset(this->{key})) {
-
-            } else {
-                let this->{key} = value;
-            }
-        }
+		return this->_merge(config);
 	}
 
 	/**
@@ -186,7 +181,7 @@ class Config implements \ArrayAccess, \Countable
 
 		let arrayConfig = [];
 		for key, value in get_object_vars(this) {
-			if typeof value == "object" {
+			if typeof value === "object" {
 				if method_exists(value, "toArray") {
 					let arrayConfig[key] = value->toArray();
 				} else {
@@ -203,16 +198,16 @@ class Config implements \ArrayAccess, \Countable
 	 * Returns the count of properties set in the config
 	 *
 	 *<code>
-	 *	print count($config);
+	 * print count($config);
 	 *</code>
 	 *
 	 * or
 	 *
-     *<code>
-     *	print $config->count();
-     *</code>
+	 *<code>
+	 * print $config->count();
+	 *</code>
 	 */
-	public function count()
+	public function count() -> int
 	{
 		return count(get_object_vars(this));
 	}
@@ -223,5 +218,36 @@ class Config implements \ArrayAccess, \Countable
 	public static function __set_state(array! data) -> <Config>
 	{
 		return new self(data);
+	}
+
+	/**
+	 * Helper method for merge configs (forwarding nested config instance)
+	 *
+	 * @param Config config
+	 * @param Config instance = null
+	 *
+	 * @return Config merged config
+	 */
+	private function _merge(<Config> config, var instance = null) -> <Config>
+	{
+		var key, value;
+
+		if typeof instance !== "object" {
+			let instance = this;
+		}
+
+		for key, value in get_object_vars(config) {
+			if isset(instance->{key}) {
+				if typeof value === "object" && typeof instance->{key} === "object" {
+					this->_merge(value, instance->{key});
+				} else {
+					let instance->{key} = value;
+				}
+			} else {
+				let instance->{key} = value;
+			}
+		}
+
+		return instance;
 	}
 }
