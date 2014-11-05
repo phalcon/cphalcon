@@ -187,8 +187,6 @@ class Service implements ServiceInterface
 					if typeof parameters == "array" {
 						let instance = call_user_func_array(definition, parameters);
 					} else {
-						file_put_contents("/tmp/tmp.log", get_class(definition));
-						// let instance = call_user_func(definition);
 						let instance = definition();
 					}
 				} else {
