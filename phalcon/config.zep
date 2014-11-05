@@ -237,12 +237,8 @@ class Config implements \ArrayAccess, \Countable
 		}
 
 		for key, value in get_object_vars(config) {
-			if isset(instance->{key}) {
-				if typeof value === "object" && typeof instance->{key} === "object" {
-					this->_merge(value, instance->{key});
-				} else {
-					let instance->{key} = value;
-				}
+			if isset(instance->{key}) && typeof value === "object" && typeof instance->{key} === "object" {
+				this->_merge(value, instance->{key});
 			} else {
 				let instance->{key} = value;
 			}
