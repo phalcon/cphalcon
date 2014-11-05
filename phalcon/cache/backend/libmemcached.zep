@@ -145,7 +145,7 @@ class Libmemcached extends \Phalcon\Cache\Backend implements \Phalcon\Cache\Back
 		if is_numeric(cachedContent) {
 			return cachedContent;
 		} else {
-			this->_frontend->afterRetrieve(cachedContent);
+			return this->_frontend->afterRetrieve(cachedContent);
 		}
 	}
 
