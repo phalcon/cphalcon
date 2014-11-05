@@ -89,7 +89,7 @@ class Ini extends Config
 	 * Build multidimensional array from string
 	 *
 	 * <code>
-	 * $this->_buildArrayFromString('path.hello.world', 'value for last key');
+	 * $this->_parseIniString('path.hello.world', 'value for last key');
 	 * // result
 	 * [
 	 *      'path' => [
