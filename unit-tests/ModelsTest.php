@@ -480,7 +480,7 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 			'estado' => 'A',
 		);
 
-		//$this->assertEquals($persona->toArray(array('nombres', 'cupo', 'estado')), $expected);
+		$this->assertEquals($persona->toArray(array('nombres', 'cupo', 'estado')), $expected);
 
 		//Refresh
 		$persona = Personas::findFirst();
