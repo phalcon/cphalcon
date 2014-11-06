@@ -161,7 +161,6 @@ class ModelsRelationsMagicTest extends PHPUnit_Framework_TestCase
 		$artist->name = 'Van She';
 
 		//Due to not null fields on album model the whole
-		var_dump($album->toArray());
 		$this->assertFalse($album->save());
 		$this->assertFalse((bool) $connection->isUnderTransaction());
 
