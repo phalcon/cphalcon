@@ -12,7 +12,9 @@
  | obtain it through the world-wide-web, please send an email             |
  | to license@phalconphp.com so we can send you a copy immediately.       |
  +------------------------------------------------------------------------+
- | Author: Ivan Zubok <chi_no@ukr.net>                                    |
+ | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
+ |          Eduar Carvajal <eduar@phalconphp.com>                         |
+ |          Ivan Zubok <eduar@phalconphp.com>                             |
  +------------------------------------------------------------------------+
  */
 
@@ -27,7 +29,7 @@ use Phalcon\Logger\FormatterInterface;
  *
  * Formats messages so that they can be sent to FirePHP
  */
-class FirePHP extends Formatter implements FormatterInterface
+class Firephp extends Formatter implements FormatterInterface
 {
 	protected _showBacktrace = true;
 
@@ -79,7 +81,7 @@ class FirePHP extends Formatter implements FormatterInterface
 	 *
 	 * @return this
 	 */
-	public function setShowBacktrace(boolean isShow = null) -> <\Phalcon\Logger\Formatter\FirePHP>
+	public function setShowBacktrace(boolean isShow = null) -> <Firephp>
 	{
 		let this->_showBacktrace = isShow;
 		return this;
@@ -100,7 +102,7 @@ class FirePHP extends Formatter implements FormatterInterface
 	 *
 	 * @return this
 	 */
-	public function enableLabels(boolean isEnable = null) -> <\Phalcon\Logger\Formatter\FirePHP>
+	public function enableLabels(boolean isEnable = null) -> <Firephp>
 	{
 		let this->_enableLabels = isEnable;
 		return this;
@@ -123,17 +125,69 @@ class FirePHP extends Formatter implements FormatterInterface
 	 * @param int $type
 	 * @param int $timestamp
 	 * @param array $context
-	 * @return array
+	 *
+	 * @return string
 	 */
-	public function format(string message, int type, int timestamp, var context = null) -> array
+	public function format(string message, int type, int timestamp, var context = null) -> string
 	{
+		var meta, body, backtrace, encoded, len, lastTrace;
+
 		if typeof context === "array" {
 			let message = this->interpolate(message, context);
 		}
 
-		return [
-			"Type": this->getTypeString(type),
-			"Label": message
-		];
+		let meta = ["Type": this->getTypeString(type)];
+
+		if this->_showBacktrace {
+			var param, backtraceItem, key;
+			let param = false;
+
+			if !version_compare(PHP_VERSION, "5.3.6", "<") {
+				let param = DEBUG_BACKTRACE_IGNORE_ARGS;
+			}
+
+			let backtrace = debug_backtrace(param),
+				lastTrace = end(backtrace);
+
+			if isset(lastTrace["file"]) {
+				let meta["File"] = lastTrace["file"];
+			}
+
+			if isset(lastTrace["line"]) {
+				let meta["Line"] = lastTrace["line"];
+			}
+
+			for key, backtraceItem in backtrace {
+				unset(backtraceItem["object"]);
+				unset(backtraceItem["args"]);
+
+				let backtrace[key] = backtraceItem;
+			}
+		}
+
+		if this->_enableLabels {
+			let meta["Label"] = message;
+		}
+
+		if !this->_enableLabels && !this->_showBacktrace {
+			let body = message;
+		} elseif this->_enableLabels && !this->_showBacktrace {
+			let body = "";
+		} else {
+			let body = [];
+
+			if this->_showBacktrace {
+				let body["backtrace"] = backtrace;
+			}
+
+			if !this->_enableLabels {
+				let body["message"] = message;
+			}
+		}
+
+		let encoded = json_encode([meta, body]),
+			len = strlen(encoded);
+
+		return len . "|" . encoded . "|";
 	}
 }
