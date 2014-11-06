@@ -4382,7 +4382,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 			}
 
 			if typeof columns == "array" {
-				if !in_array(attributeField, columns) && !in_array(attribute, columns) {
+				if !in_array(attributeField, columns) {
 					continue;
 				}
 			}
