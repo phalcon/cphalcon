@@ -3442,6 +3442,22 @@ PHP_METHOD(Phalcon_Mvc_Model, _preSave){
 	PHALCON_INIT_VAR(error);
 	ZVAL_BOOL(error, 0);
 
+	PHALCON_INIT_NVAR(event_name);
+	ZVAL_STRING(event_name, "validation", 1);
+
+	/** 
+	 * Call the main validation event
+	 */
+	PHALCON_CALL_METHOD(&status, this_ptr, "fireeventcancel", event_name);
+	if (PHALCON_IS_FALSE(status)) {
+		if (PHALCON_GLOBAL(orm).events) {
+			PHALCON_INIT_NVAR(event_name);
+			ZVAL_STRING(event_name, "onValidationFails", 1);
+			PHALCON_CALL_METHOD(NULL, this_ptr, "fireevent", event_name);
+		}
+		RETURN_MM_FALSE;
+	}
+
 	phalcon_is_iterable(attributes, &ah0, &hp0, 0, 0);
 
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
@@ -3563,22 +3579,6 @@ PHP_METHOD(Phalcon_Mvc_Model, _preSave){
 			ZVAL_STRING(event_name, "onValidationFails", 1);
 			PHALCON_CALL_METHOD(NULL, this_ptr, "fireevent", event_name);
 			PHALCON_CALL_METHOD(NULL, this_ptr, "_canceloperation");
-		}
-		RETURN_MM_FALSE;
-	}
-	
-	PHALCON_INIT_NVAR(event_name);
-	ZVAL_STRING(event_name, "validation", 1);
-	
-	/** 
-	 * Call the main validation event
-	 */
-	PHALCON_CALL_METHOD(&status, this_ptr, "fireeventcancel", event_name);
-	if (PHALCON_IS_FALSE(status)) {
-		if (PHALCON_GLOBAL(orm).events) {
-			PHALCON_INIT_NVAR(event_name);
-			ZVAL_STRING(event_name, "onValidationFails", 1);
-			PHALCON_CALL_METHOD(NULL, this_ptr, "fireevent", event_name);
 		}
 		RETURN_MM_FALSE;
 	}
