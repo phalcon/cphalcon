@@ -83,13 +83,11 @@ class Stream extends Adapter implements AdapterInterface
 	 */
 	public function getFormatter() -> <FormatterInterface>
 	{
-		var formatter;
-
-		let formatter = this->_formatter;
-		if typeof formatter == "object" {
-			let formatter = new \Phalcon\Logger\Formatter\Line(), this->_formatter = formatter;
+		if typeof this->_formatter !== "object" {
+			let this->_formatter = new \Phalcon\Logger\Formatter\Line();
 		}
-		return formatter;
+
+		return this->_formatter;
 	}
 
 	/**
