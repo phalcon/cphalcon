@@ -14,7 +14,7 @@
  +------------------------------------------------------------------------+
  | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
  |          Eduar Carvajal <eduar@phalconphp.com>                         |
- |          Ivan Zubok <chi_no@ukr.net>                                  |
+ |          Ivan Zubok <chi_no@ukr.net>                                   |
  +------------------------------------------------------------------------+
  */
 
