@@ -77,11 +77,11 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getMetaData){
 	zval *annotations = NULL, *class_name, *reflection = NULL;
 	zval *exception_message = NULL, *properties_annotations = NULL;
 	zval *attributes, *primary_keys, *non_primary_keys;
-	zval *numeric_typed, *not_null, *field_types;
-	zval *field_bind_types, *automatic_default;
+	zval *numeric_typed, *not_null, *field_types, *field_sizes;
+	zval *field_bind_types, *automatic_create_attributes, *automatic_update_attributes;
 	zval *identity_field = NULL, *column_annot_name;
 	zval *primary_annot_name, *id_annot_name;
-	zval *column_map_name, *column_type_name, *column_nullable_name;
+	zval *column_map_name, *column_type_name, *column_size_name, *column_nullable_name;
 	zval *prop_annotations = NULL, *property = NULL, *has_annotation = NULL;
 	zval *column_annotation = NULL, *real_property = NULL, *feature = NULL;
 	zval *field_default_values, *column_default_value = NULL;
@@ -147,11 +147,17 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getMetaData){
 	PHALCON_INIT_VAR(field_types);
 	array_init(field_types);
 
+	PHALCON_INIT_VAR(field_sizes);
+	array_init(field_sizes);
+
 	PHALCON_INIT_VAR(field_bind_types);
 	array_init(field_bind_types);
 
-	PHALCON_INIT_VAR(automatic_default);
-	array_init(automatic_default);
+	PHALCON_INIT_VAR(automatic_create_attributes);
+	array_init(automatic_create_attributes);
+
+	PHALCON_INIT_VAR(automatic_update_attributes);
+	array_init(automatic_update_attributes);
 
 	PHALCON_INIT_VAR(identity_field);
 	ZVAL_FALSE(identity_field);
@@ -173,6 +179,9 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getMetaData){
 
 	PHALCON_INIT_VAR(column_type_name);
 	ZVAL_STRING(column_type_name, "type", 1);
+
+	PHALCON_INIT_VAR(column_size_name);
+	ZVAL_STRING(column_size_name, "size", 1);
 
 	PHALCON_INIT_VAR(column_default_value);
 	ZVAL_STRING(column_default_value, "default", 1);
@@ -216,53 +225,58 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getMetaData){
 		PHALCON_CALL_METHOD(&feature, column_annotation, "getargument", column_type_name);
 
 		if (PHALCON_IS_STRING(feature, "integer")) {
-			phalcon_array_update_zval_long(&field_types, real_property, 0, PH_SEPARATE);
-			phalcon_array_update_zval_long(&field_bind_types, real_property, 1, PH_SEPARATE);
-			phalcon_array_update_zval_bool(&numeric_typed, real_property, 1, PH_SEPARATE);
+			phalcon_array_update_zval_long(&field_types, real_property, 0, 0);
+			phalcon_array_update_zval_long(&field_bind_types, real_property, 1, 0);
+			phalcon_array_update_zval_bool(&numeric_typed, real_property, 1, 0);
 		} else if (PHALCON_IS_STRING(feature, "decimal")) {
-			phalcon_array_update_zval_long(&field_types, real_property, 3, PH_SEPARATE);
-			phalcon_array_update_zval_long(&field_bind_types, real_property, 32, PH_SEPARATE);
-			phalcon_array_update_zval_bool(&numeric_typed, real_property, 1, PH_SEPARATE);
+			phalcon_array_update_zval_long(&field_types, real_property, 3, 0);
+			phalcon_array_update_zval_long(&field_bind_types, real_property, 32, 0);
+			phalcon_array_update_zval_bool(&numeric_typed, real_property, 1, 0);
 		} else if (PHALCON_IS_STRING(feature, "boolean")) {
-			phalcon_array_update_zval_long(&field_types, real_property, 8, PH_SEPARATE);
-			phalcon_array_update_zval_long(&field_bind_types, real_property, 5, PH_SEPARATE);
+			phalcon_array_update_zval_long(&field_types, real_property, 8, 0);
+			phalcon_array_update_zval_long(&field_bind_types, real_property, 5, 0);
 		} else {
 			if (PHALCON_IS_STRING(feature, "date")) {
-				phalcon_array_update_zval_long(&field_types, real_property, 1, PH_SEPARATE);
+				phalcon_array_update_zval_long(&field_types, real_property, 1, 0);
 			} else {
 				/**
 				 * By default all columns are varchar/string
 				 */
-				phalcon_array_update_zval_long(&field_types, real_property, 2, PH_SEPARATE);
+				phalcon_array_update_zval_long(&field_types, real_property, 2, 0);
 			}
-			phalcon_array_update_zval_long(&field_bind_types, real_property, 2, PH_SEPARATE);
+			phalcon_array_update_zval_long(&field_bind_types, real_property, 2, 0);
+		}
+		
+		PHALCON_CALL_METHOD(&feature, column_annotation, "getargument", column_size_name);
+		if (!PHALCON_IS_EMPTY(feature)) {
+			phalcon_array_update_zval(&field_sizes, real_property, feature, PH_COPY);
 		}
 
 		PHALCON_CALL_METHOD(&feature, column_annotation, "getargument", column_default_value);
 		if (!PHALCON_IS_EMPTY(feature)) {
-			phalcon_array_update_zval(&field_default_values, real_property, feature, PH_SEPARATE);
+			phalcon_array_update_zval(&field_default_values, real_property, feature, PH_COPY);
 		}
 
 		PHALCON_CALL_METHOD(&feature, column_annotation, "getargument", column_default_value);
 		if (!PHALCON_IS_EMPTY(feature)) {
-			phalcon_array_update_zval(&field_default_values, property, feature, PH_SEPARATE);
+			phalcon_array_update_zval(&field_default_values, property, feature, PH_COPY);
 		}
 
 		PHALCON_CALL_METHOD(&feature, column_annotation, "getargument", column_default_value);
 		if (!PHALCON_IS_EMPTY(feature)) {
-			phalcon_array_update_zval(&field_default_values, property, feature, PH_SEPARATE);
+			phalcon_array_update_zval(&field_default_values, property, feature, PH_COPY);
 		}
-	
+
 		/** 
 		 * All columns marked with the 'Primary' annotation are considered primary keys
 		 */
 		PHALCON_CALL_METHOD(&has_annotation, prop_annotations, "has", primary_annot_name);
 		if (zend_is_true(has_annotation)) {
-			phalcon_array_append(&primary_keys, real_property, PH_SEPARATE);
+			phalcon_array_append(&primary_keys, real_property, PH_COPY);
 		} else {
-			phalcon_array_append(&non_primary_keys, real_property, PH_SEPARATE);
+			phalcon_array_append(&non_primary_keys, real_property, PH_COPY);
 		}
-	
+
 		/** 
 		 * All columns marked with the 'Primary' annotation are considered primary keys
 		 */
@@ -270,16 +284,16 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getMetaData){
 		if (zend_is_true(has_annotation)) {
 			PHALCON_CPY_WRT(identity_field, real_property);
 		}
-	
+
 		/** 
 		 * Check if the column 
 		 */
 		PHALCON_CALL_METHOD(&feature, column_annotation, "getargument", column_nullable_name);
 		if (!zend_is_true(feature)) {
-			phalcon_array_append(&not_null, real_property, PH_SEPARATE);
+			phalcon_array_append(&not_null, real_property, PH_COPY);
 		}
 
-		phalcon_array_append(&attributes, real_property, PH_SEPARATE);
+		phalcon_array_append(&attributes, real_property, PH_COPY);
 	
 		zend_hash_move_forward_ex(ah0, &hp0);
 	}
@@ -296,9 +310,10 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getMetaData){
 	phalcon_array_update_long(&return_value, 5,  numeric_typed, PH_COPY);
 	phalcon_array_update_long(&return_value, 8,  identity_field, PH_COPY);
 	phalcon_array_update_long(&return_value, 9,  field_bind_types, PH_COPY);
-	phalcon_array_update_long(&return_value, 10, automatic_default, PH_COPY);
-	phalcon_array_update_long(&return_value, 11, automatic_default, PH_COPY);
+	phalcon_array_update_long(&return_value, 10, automatic_create_attributes, PH_COPY);
+	phalcon_array_update_long(&return_value, 11, automatic_update_attributes, PH_COPY);
 	phalcon_array_update_long(&return_value, 12, field_default_values, PH_COPY);
+	phalcon_array_update_long(&return_value, 13, field_sizes, PH_COPY);
 	
 	PHALCON_MM_RESTORE();
 }

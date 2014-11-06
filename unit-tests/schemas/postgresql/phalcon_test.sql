@@ -32,6 +32,51 @@ SET default_with_oids = false;
 CREATE USER phalcon_user WITH PASSWORD '1234';
 GRANT ALL PRIVILEGES ON DATABASE phalcon_test TO phalcon_user;
 
+-- Table: albums
+CREATE TABLE albums (
+  id SERIAL,
+  artists_id integer NOT NULL,
+  name varchar(72) NOT NULL,
+  PRIMARY KEY (id)
+);
+
+CREATE INDEX albums_artists_id_idx ON albums (artists_id);
+
+ALTER TABLE public.albums OWNER TO postgres;
+
+INSERT INTO public.albums VALUES (1,1,'Born to Die'),(2,1,'Born to Die - The Paradise Edition');
+
+SELECT pg_catalog.setval('albums_id_seq', 2, true);
+
+-- Table: artists
+CREATE TABLE artists (
+  id SERIAL,
+  name varchar(72) NOT NULL,
+  PRIMARY KEY (id)
+);
+
+ALTER TABLE public.artists OWNER TO postgres;
+
+INSERT INTO public.artists VALUES (1,'Lana del Rey'),(2,'Radiohead');
+
+SELECT pg_catalog.setval('artists_id_seq', 2, true);
+
+-- Table: songs
+CREATE TABLE songs (
+  id SERIAL,
+  albums_id integer NOT NULL,
+  name varchar(72) NOT NULL,
+  PRIMARY KEY (id)
+);
+
+CREATE INDEX songs_albums_id_idx ON songs (albums_id);
+
+ALTER TABLE public.songs OWNER TO postgres;
+
+INSERT INTO public.songs VALUES (1,1,'Born to Die'),(2,1,'Off to Races'),(3,1,'Blue Jeans'),(4,1,'Video Games'),(5,1,'Diet Mountain Dew'),(6,1,'National Anthem'),(7,1,'Dark Paradise');
+
+SELECT pg_catalog.setval('songs_id_seq', 7, true);
+
 -- Table: customers
 CREATE TABLE customers (
   id SERIAL,

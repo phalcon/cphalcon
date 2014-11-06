@@ -1,6 +1,33 @@
 PRAGMA foreign_keys=OFF;
 BEGIN TRANSACTION;
 
+CREATE TABLE `albums` (
+  `id` INTEGER PRIMARY KEY AUTOINCREMENT,
+  `artists_id` int(10) NOT NULL,
+  `name` varchar(72) NOT NULL
+);
+
+CREATE INDEX albums_artists_id_idx ON albums (`artists_id`);
+
+INSERT INTO `albums` VALUES (1,1,'Born to Die'),(2,1,'Born to Die - The Paradise Edition');
+
+CREATE TABLE `artists` (
+  `id` INTEGER PRIMARY KEY AUTOINCREMENT,
+  `name` varchar(72) NOT NULL
+);
+
+INSERT INTO `artists` VALUES (1,'Lana del Rey'),(2,'Radiohead');
+
+CREATE TABLE `songs` (
+  `id` INTEGER PRIMARY KEY AUTOINCREMENT,
+  `albums_id` int(10) NOT NULL,
+  `name` varchar(72) NOT NULL
+);
+
+CREATE INDEX songs_albums_id_idx ON songs (`albums_id`);
+
+INSERT INTO `songs` VALUES (1,1,'Born to Die'),(2,1,'Off to Races'),(3,1,'Blue Jeans'),(4,1,'Video Games'),(5,1,'Diet Mountain Dew'),(6,1,'National Anthem'),(7,1,'Dark Paradise');
+
 CREATE TABLE `customers` (
   `id` INTEGER PRIMARY KEY AUTOINCREMENT,
   `document_id` int(3) NOT NULL,

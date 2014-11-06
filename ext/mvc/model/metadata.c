@@ -67,8 +67,13 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getAttributes);
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, getPrimaryKeyAttributes);
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, getNonPrimaryKeyAttributes);
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, getNotNullAttributes);
+PHP_METHOD(Phalcon_Mvc_Model_MetaData, isNotNull);
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, getDataTypes);
+PHP_METHOD(Phalcon_Mvc_Model_MetaData, getDataType);
+PHP_METHOD(Phalcon_Mvc_Model_MetaData, getDataSizes);
+PHP_METHOD(Phalcon_Mvc_Model_MetaData, getDataSize);
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, getDataTypesNumeric);
+PHP_METHOD(Phalcon_Mvc_Model_MetaData, isNumeric);
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, getIdentityField);
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, getBindTypes);
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, getDefaultValues);
@@ -97,8 +102,13 @@ static const zend_function_entry phalcon_mvc_model_metadata_method_entry[] = {
 	PHP_ME(Phalcon_Mvc_Model_MetaData, getPrimaryKeyAttributes, arginfo_phalcon_mvc_model_metadatainterface_getprimarykeyattributes, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_MetaData, getNonPrimaryKeyAttributes, arginfo_phalcon_mvc_model_metadatainterface_getnonprimarykeyattributes, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_MetaData, getNotNullAttributes, arginfo_phalcon_mvc_model_metadatainterface_getnotnullattributes, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_MetaData, isNotNull, arginfo_phalcon_mvc_model_metadatainterface_isnotnull, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_MetaData, getDataTypes, arginfo_phalcon_mvc_model_metadatainterface_getdatatypes, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_MetaData, getDataType, arginfo_phalcon_mvc_model_metadatainterface_getdatatype, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_MetaData, getDataSizes, arginfo_phalcon_mvc_model_metadatainterface_getdatasizes, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_MetaData, getDataSize, arginfo_phalcon_mvc_model_metadatainterface_getdatasize, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_MetaData, getDataTypesNumeric, arginfo_phalcon_mvc_model_metadatainterface_getdatatypesnumeric, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_MetaData, isNumeric, arginfo_phalcon_mvc_model_metadatainterface_isnumeric, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_MetaData, getIdentityField, arginfo_phalcon_mvc_model_metadatainterface_getidentityfield, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_MetaData, getBindTypes, arginfo_phalcon_mvc_model_metadatainterface_getbindtypes, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_MetaData, getDefaultValues, arginfo_phalcon_mvc_model_metadatainterface_getdefaultvalues, ZEND_ACC_PUBLIC)
@@ -750,6 +760,34 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getNotNullAttributes){
 }
 
 /**
+ * Checks if the attribute is not null
+ *
+ *<code>
+ *	var_dump($metaData->isNotNull(new Robots(), 'type');
+ *</code>
+ *
+ * @param Phalcon\Mvc\ModelInterface $model
+ * @param string $attribute
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Mvc_Model_MetaData, isNotNull){
+
+	zval *model, *attribute, *data = NULL;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 2, 0, &model, &attribute);
+
+	PHALCON_CALL_METHOD(&data, this_ptr, "getnotnullattributes", model);
+
+	if (phalcon_fast_in_array(attribute, data TSRMLS_CC)) {
+		RETURN_MM_TRUE;
+	}
+
+	RETURN_MM_FALSE;
+}
+
+/**
  * Returns attributes and their data types
  *
  *<code>
@@ -780,6 +818,98 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getDataTypes){
 }
 
 /**
+ * Returns attribute data type
+ *
+ *<code>
+ *	print_r($metaData->getDataType(new Robots(), 'type'));
+ *</code>
+ *
+ * @param Phalcon\Mvc\ModelInterface $model
+ * @param string $attribute
+ * @return int
+ */
+PHP_METHOD(Phalcon_Mvc_Model_MetaData, getDataType){
+
+	zval *model, *attribute, *data = NULL, *type;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 2, 0, &model, &attribute);
+	
+	PHALCON_CALL_METHOD(&data, this_ptr, "getdatatypes", model);
+
+	if (phalcon_array_isset(data, attribute)) {
+		PHALCON_OBS_VAR(type);
+		phalcon_array_fetch(&type, data, attribute, PH_NOISY);
+	} else {
+		PHALCON_INIT_VAR(type);
+	}
+
+	RETURN_CTOR(type);
+}
+
+/**
+ * Returns attributes and their data sizes
+ *
+ *<code>
+ *	print_r($metaData->getDataSizes(new Robots()));
+ *</code>
+ *
+ * @param Phalcon\Mvc\ModelInterface $model
+ * @return array
+ */
+PHP_METHOD(Phalcon_Mvc_Model_MetaData, getDataSizes){
+
+	zval *model, *index, *data = NULL;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 1, 0, &model);
+	
+	PHALCON_INIT_VAR(index);
+	ZVAL_LONG(index, 13);
+	
+	PHALCON_CALL_METHOD(&data, this_ptr, "readmetadataindex", model, index);
+	if (Z_TYPE_P(data) != IS_ARRAY) { 
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The meta-data is invalid or is corrupt");
+		return;
+	}
+	
+	RETURN_CTOR(data);
+}
+
+/**
+ * Returns attribute data size
+ *
+ *<code>
+ *	print_r($metaData->getDataSize(new Robots(), 'type'));
+ *</code>
+ *
+ * @param Phalcon\Mvc\ModelInterface $model
+ * @param string $attribute
+ * @return int
+ */
+PHP_METHOD(Phalcon_Mvc_Model_MetaData, getDataSize){
+
+	zval *model, *attribute, *data = NULL, *size;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 2, 0, &model, &attribute);
+	
+	PHALCON_CALL_METHOD(&data, this_ptr, "getdatasizes", model);
+
+	if (phalcon_array_isset(data, attribute)) {
+		PHALCON_OBS_VAR(size);
+		phalcon_array_fetch(&size, data, attribute, PH_NOISY);
+	} else {
+		PHALCON_INIT_VAR(size);
+	}
+
+	RETURN_CTOR(size);
+}
+
+/**
  * Returns attributes which types are numerical
  *
  *<code>
@@ -807,6 +937,34 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getDataTypesNumeric){
 	}
 	
 	RETURN_CTOR(data);
+}
+
+/**
+ * Checks if the attribute is numerical
+ *
+ *<code>
+ *	var_dump($metaData->isNumeric(new Robots(), 'id'));
+ *</code>
+ *
+ * @param Phalcon\Mvc\ModelInterface $model
+ * @param string $attribute
+ * @return int
+ */
+PHP_METHOD(Phalcon_Mvc_Model_MetaData, isNumeric){
+
+	zval *model, *attribute, *data = NULL;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 1, 0, &model, &attribute);
+	
+	PHALCON_CALL_METHOD(&data, this_ptr, "getdatatypesnumeric", model);
+
+	if (phalcon_array_isset(data, attribute)) {
+		RETURN_MM_TRUE;
+	}
+
+	RETURN_MM_FALSE;
 }
 
 /**

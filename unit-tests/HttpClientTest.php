@@ -23,6 +23,11 @@ class HttpClientTest extends PHPUnit_Framework_TestCase
 
 	public function testCurl()
 	{
+		if (!extension_loaded('curl')) {
+			$this->markTestSkipped('Warning: curl extension is not loaded');
+			return false;
+		}
+	
 		$client = new Phalcon\Http\Client\Adapter\Curl('http://phalconphp.com/');
 
 		$response = $client->get();

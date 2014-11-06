@@ -190,6 +190,8 @@ PHP_INI_BEGIN()
 	STD_PHP_INI_BOOLEAN("phalcon.orm.column_renaming",          "1", PHP_INI_ALL,    OnUpdateBool, orm.column_renaming,          zend_phalcon_globals, phalcon_globals)
 	/* Enables/Disables automatic NOT NULL validation */
 	STD_PHP_INI_BOOLEAN("phalcon.orm.not_null_validations",     "1", PHP_INI_ALL,    OnUpdateBool, orm.not_null_validations,     zend_phalcon_globals, phalcon_globals)
+	/* Enables/Disables automatic length validation */
+	STD_PHP_INI_BOOLEAN("phalcon.orm.length_validations",       "1", PHP_INI_ALL,    OnUpdateBool, orm.length_validations,       zend_phalcon_globals, phalcon_globals)
 	/* Enables/Disables throwing an exception if save fails */
 	STD_PHP_INI_BOOLEAN("phalcon.orm.exception_on_failed_save", "0", PHP_INI_ALL,    OnUpdateBool, orm.exception_on_failed_save, zend_phalcon_globals, phalcon_globals)
 	/* Enables/Disables literals in PHQL */

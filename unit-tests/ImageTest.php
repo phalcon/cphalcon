@@ -302,6 +302,10 @@ class ImageTest extends PHPUnit_Framework_TestCase
 
 	public function testIssues2259()
 	{
+		if (!function_exists('gd_info')) {
+			return;
+		}
+
 		$image = new Phalcon\Image\Adapter\GD('unit-tests/assets/phalconphp.jpg');
 
 		$image->crop(100, 100, 0.5, 0.5)->save('unit-tests/assets/production/2259.jpg');
