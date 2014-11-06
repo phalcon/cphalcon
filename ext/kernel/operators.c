@@ -311,6 +311,16 @@ int phalcon_is_equal(zval *op1, zval *op2 TSRMLS_DC) {
 }
 
 /**
+ * Check if a zval is equal than a long value
+ */
+int phalcon_is_equal_long(zval *op1, long op2 TSRMLS_DC) {
+	zval result, op2_zval;
+	ZVAL_LONG(&op2_zval, op2);
+	is_equal_function(&result, op1, &op2_zval TSRMLS_CC);
+	return Z_BVAL(result);
+}
+
+/**
  * Check if a zval is less than other
  */
 int phalcon_less(zval *op1, zval *op2 TSRMLS_DC) {

@@ -662,15 +662,18 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 
 		//List tables
 		$expectedTables = array (
-			0 => 'customers',
-			1 => 'parts',
-			2 => 'personas',
-			3 => 'personnes',
-			4 => 'prueba',
-			5 => 'robots',
-			6 => 'robots_parts',
-			7 => 'subscriptores',
-			8 => 'tipo_documento',
+			0 => 'albums',
+			1 => 'artists',
+			2 => 'customers',
+			3 => 'parts',
+			4 => 'personas',
+			5 => 'personnes',
+			6 => 'prueba',
+			7 => 'robots',
+			8 => 'robots_parts',
+			9 => 'songs',
+			10 => 'subscriptores',
+			11 => 'tipo_documento',
 		);
 
 		$tables = $connection->listTables();
@@ -755,19 +758,22 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 
 		//List tables
 		$expectedTables = array (
-			0 => 'customers',
-			1 => 'm2m_parts',
-			2 => 'm2m_robots',
-			3 => 'm2m_robots_parts',
-			4 => 'parts',
-			5 => 'personas',
-			6 => 'personnes',
-			7 => 'prueba',
-			8 => 'robots',
-			9 => 'robots_parts',
-			10 => 'sqlite_sequence',
-			11 => 'subscriptores',
-			12 => 'tipo_documento',
+			0 => 'albums',
+			1 => 'artists',
+			2 => 'customers',
+			3 => 'm2m_parts',
+			4 => 'm2m_robots',
+			5 => 'm2m_robots_parts',
+			6 => 'parts',
+			7 => 'personas',
+			8 => 'personnes',
+			9 => 'prueba',
+			10 => 'robots',
+			11 => 'robots_parts',
+			12 => 'songs',
+			13 => 'sqlite_sequence',
+			14 => 'subscriptores',
+			15 => 'tipo_documento',
 		);
 
 		$tables = $connection->listTables();

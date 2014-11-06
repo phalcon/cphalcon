@@ -80,10 +80,10 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getMetaData){
 	zval *schema = NULL, *table = NULL, *read_connection = NULL, *exists = NULL;
 	zval *complete_table = NULL, *exception_message = NULL;
 	zval *columns = NULL, *attributes, *primary_keys, *non_primary_keys;
-	zval *numeric_typed, *not_null, *field_types;
-	zval *field_bind_types, *automatic_default;
+	zval *numeric_typed, *not_null, *field_types, *field_sizes;
+	zval *field_bind_types, *automatic_create_attributes, *automatic_update_attributes;
 	zval *identity_field = NULL, *column = NULL, *field_name = NULL, *feature = NULL;
-	zval *type = NULL, *bind_type = NULL;
+	zval *type = NULL, *size = NULL, *bind_type = NULL;
 	zval *field_default_values, *default_value = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
@@ -163,11 +163,17 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getMetaData){
 	PHALCON_INIT_VAR(field_types);
 	array_init(field_types);
 
+	PHALCON_INIT_VAR(field_sizes);
+	array_init(field_sizes);
+
 	PHALCON_INIT_VAR(field_bind_types);
 	array_init(field_bind_types);
 
-	PHALCON_INIT_VAR(automatic_default);
-	array_init(automatic_default);
+	PHALCON_INIT_VAR(automatic_create_attributes);
+	array_init(automatic_create_attributes);
+
+	PHALCON_INIT_VAR(automatic_update_attributes);
+	array_init(automatic_update_attributes);
 
 	PHALCON_INIT_VAR(identity_field);
 	ZVAL_FALSE(identity_field);
@@ -178,36 +184,36 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getMetaData){
 	phalcon_is_iterable(columns, &ah0, &hp0, 0, 0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
-	
+
 		PHALCON_GET_HVALUE(column);
-	
+
 		PHALCON_CALL_METHOD(&field_name, column, "getname");
 		phalcon_array_append(&attributes, field_name, PH_SEPARATE);
-	
+
 		/** 
 		 * To mark fields as primary keys
 		 */
 		PHALCON_CALL_METHOD(&feature, column, "isprimary");
 		if (PHALCON_IS_TRUE(feature)) {
-			phalcon_array_append(&primary_keys, field_name, PH_SEPARATE);
+			phalcon_array_append(&primary_keys, field_name, PH_COPY);
 		} else {
-			phalcon_array_append(&non_primary_keys, field_name, PH_SEPARATE);
+			phalcon_array_append(&non_primary_keys, field_name, PH_COPY);
 		}
-	
+
 		/** 
 		 * To mark fields as numeric
 		 */
 		PHALCON_CALL_METHOD(&feature, column, "isnumeric");
 		if (PHALCON_IS_TRUE(feature)) {
-			phalcon_array_update_zval_bool(&numeric_typed, field_name, 1, PH_SEPARATE);
+			phalcon_array_update_zval_bool(&numeric_typed, field_name, 1, PH_COPY);
 		}
-	
+
 		/** 
 		 * To mark fields as not null
 		 */
 		PHALCON_CALL_METHOD(&feature, column, "isnotnull");
 		if (PHALCON_IS_TRUE(feature)) {
-			phalcon_array_append(&not_null, field_name, PH_SEPARATE);
+			phalcon_array_append(&not_null, field_name, PH_COPY);
 		}
 	
 		/** 
@@ -217,13 +223,19 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getMetaData){
 		if (PHALCON_IS_TRUE(feature)) {
 			PHALCON_CPY_WRT(identity_field, field_name);
 		}
-	
+
 		/** 
 		 * To get the internal types
 		 */
 		PHALCON_CALL_METHOD(&type, column, "gettype");
 		phalcon_array_update_zval(&field_types, field_name, type, PH_COPY);
 	
+		/** 
+		 * To get the internal size
+		 */
+		PHALCON_CALL_METHOD(&size, column, "getsize");
+		phalcon_array_update_zval(&field_sizes, field_name, size, PH_COPY);
+
 		/** 
 		 * To mark how the fields must be escaped
 		 */
@@ -237,11 +249,11 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getMetaData){
 	
 		zend_hash_move_forward_ex(ah0, &hp0);
 	}
-	
+
 	/** 
 	 * Create an array using the MODELS_* constants as indexes
 	 */
-	array_init_size(return_value, 11);
+	array_init_size(return_value, 12);
 	phalcon_array_update_long(&return_value, 0,  attributes, PH_COPY);
 	phalcon_array_update_long(&return_value, 1,  primary_keys, PH_COPY);
 	phalcon_array_update_long(&return_value, 2,  non_primary_keys, PH_COPY);
@@ -250,10 +262,11 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getMetaData){
 	phalcon_array_update_long(&return_value, 5,  numeric_typed, PH_COPY);
 	phalcon_array_update_long(&return_value, 8,  identity_field, PH_COPY);
 	phalcon_array_update_long(&return_value, 9,  field_bind_types, PH_COPY);
-	phalcon_array_update_long(&return_value, 10, automatic_default, PH_COPY);
-	phalcon_array_update_long(&return_value, 11, automatic_default, PH_COPY);
+	phalcon_array_update_long(&return_value, 10, automatic_create_attributes, PH_COPY);
+	phalcon_array_update_long(&return_value, 11, automatic_update_attributes, PH_COPY);
 	phalcon_array_update_long(&return_value, 12, field_default_values, PH_COPY);
-	
+	phalcon_array_update_long(&return_value, 13, field_sizes, PH_COPY);
+
 	PHALCON_MM_RESTORE();
 }
 

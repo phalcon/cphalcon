@@ -64,7 +64,13 @@ class ModelsMetadataAdaptersTest extends PHPUnit_Framework_TestCase
 			),
 			10 => array(),
 			11 => array(),
-			12 => array()
+			12 => array(),
+			13 => array(
+				'id' => 10,
+				'name' => 70,
+				'type' => 32,
+				'year' => 11,
+			)
 		),
 		'map-robots' => array(
 			0 => null,
@@ -301,6 +307,11 @@ class ModelsMetadataAdaptersTest extends PHPUnit_Framework_TestCase
 
 	public function testMetadataMemcached()
 	{
+		if (!extension_loaded('memcache')) {
+			$this->markTestSkipped('Warning: memcache extension is not loaded');
+			return false;
+		}
+
 		require 'unit-tests/config.db.php';
 		if (empty($configMysql)) {
 			$this->markTestSkipped('Test skipped');
@@ -340,6 +351,11 @@ class ModelsMetadataAdaptersTest extends PHPUnit_Framework_TestCase
 
 	public function testMetadataLibmemcached()
 	{
+		if (!extension_loaded('memcached')) {
+			$this->markTestSkipped('Warning: memcached extension is not loaded');
+			return false;
+		}
+
 		require 'unit-tests/config.db.php';
 		if (empty($configMysql)) {
 			$this->markTestSkipped('Test skipped');

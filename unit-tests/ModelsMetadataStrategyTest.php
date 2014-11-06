@@ -62,6 +62,12 @@ class ModelsMetadataStrategyTest extends PHPUnit_Framework_TestCase
 		10 => array(),
 		11 => array(),
 		12 => array(),
+		13 => array(
+			'id' => 10,
+			'name' => 70,
+			'type' => 32,
+			'year' => 11,
+		),
 	);
 
 	public function __construct()
@@ -151,9 +157,6 @@ class ModelsMetadataStrategyTest extends PHPUnit_Framework_TestCase
 		$metaData = $di['modelsMetadata'];
 
 		$robots = new Boutique\Robots();
-
-		$meta = $metaData->readMetaData($robots);
-		$this->assertEquals($meta, $this->_expectedMeta);
 
 		$meta = $metaData->readMetaData($robots);
 		$this->assertEquals($meta, $this->_expectedMeta);

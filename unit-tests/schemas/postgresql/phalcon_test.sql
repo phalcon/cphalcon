@@ -28,11 +28,60 @@ SET default_tablespace = '';
 
 SET default_with_oids = false;
 
-
+DROP USER IF EXISTS phalcon_user;
 CREATE USER phalcon_user WITH PASSWORD '1234';
 GRANT ALL PRIVILEGES ON DATABASE phalcon_test TO phalcon_user;
 
+-- Table: albums
+DROP TABLE IF EXISTS albums CASCADE;
+CREATE TABLE albums (
+  id SERIAL,
+  artists_id integer NOT NULL,
+  name varchar(72) NOT NULL,
+  PRIMARY KEY (id)
+);
+
+CREATE INDEX albums_artists_id_idx ON albums (artists_id);
+
+ALTER TABLE public.albums OWNER TO postgres;
+
+INSERT INTO public.albums VALUES (1,1,'Born to Die'),(2,1,'Born to Die - The Paradise Edition');
+
+SELECT pg_catalog.setval('albums_id_seq', 2, true);
+
+-- Table: artists
+DROP TABLE IF EXISTS artists CASCADE;
+CREATE TABLE artists (
+  id SERIAL,
+  name varchar(72) NOT NULL,
+  PRIMARY KEY (id)
+);
+
+ALTER TABLE public.artists OWNER TO postgres;
+
+INSERT INTO public.artists VALUES (1,'Lana del Rey'),(2,'Radiohead');
+
+SELECT pg_catalog.setval('artists_id_seq', 2, true);
+
+-- Table: songs
+DROP TABLE IF EXISTS songs CASCADE;
+CREATE TABLE songs (
+  id SERIAL,
+  albums_id integer NOT NULL,
+  name varchar(72) NOT NULL,
+  PRIMARY KEY (id)
+);
+
+CREATE INDEX songs_albums_id_idx ON songs (albums_id);
+
+ALTER TABLE public.songs OWNER TO postgres;
+
+INSERT INTO public.songs VALUES (1,1,'Born to Die'),(2,1,'Off to Races'),(3,1,'Blue Jeans'),(4,1,'Video Games'),(5,1,'Diet Mountain Dew'),(6,1,'National Anthem'),(7,1,'Dark Paradise');
+
+SELECT pg_catalog.setval('songs_id_seq', 7, true);
+
 -- Table: customers
+DROP TABLE IF EXISTS customers CASCADE;
 CREATE TABLE customers (
   id SERIAL,
   document_id integer NOT NULL,
@@ -61,7 +110,7 @@ ALTER TABLE public.customers OWNER TO postgres;
 --
 -- Name: parts; Type: TABLE; Schema: public; Owner: postgres; Tablespace:
 --
-
+DROP TABLE IF EXISTS parts CASCADE;
 CREATE TABLE parts (
     id integer NOT NULL,
     name character varying(70) NOT NULL
@@ -73,7 +122,7 @@ ALTER TABLE public.parts OWNER TO postgres;
 --
 -- Name: personas; Type: TABLE; Schema: public; Owner: postgres; Tablespace:
 --
-
+DROP TABLE IF EXISTS personas CASCADE;
 CREATE TABLE personas (
     cedula character(15) NOT NULL,
     tipo_documento_id integer NOT NULL,
@@ -94,7 +143,7 @@ ALTER TABLE public.personas OWNER TO postgres;
 --
 -- Name: personnes; Type: TABLE; Schema: public; Owner: postgres; Tablespace:
 --
-
+DROP TABLE IF EXISTS personnes CASCADE;
 CREATE TABLE personnes (
     cedula character(15) NOT NULL,
     tipo_documento_id integer NOT NULL,
@@ -115,7 +164,7 @@ ALTER TABLE public.personnes OWNER TO postgres;
 --
 -- Name: prueba; Type: TABLE; Schema: public; Owner: postgres; Tablespace:
 --
-
+DROP TABLE IF EXISTS prueba CASCADE;
 CREATE TABLE prueba (
     id integer NOT NULL,
     nombre character varying(120) NOT NULL,
@@ -156,7 +205,7 @@ SELECT pg_catalog.setval('prueba_id_seq', 636, true);
 --
 -- Name: robots; Type: TABLE; Schema: public; Owner: postgres; Tablespace:
 --
-
+DROP TABLE IF EXISTS robots CASCADE;
 CREATE TABLE robots (
     id integer NOT NULL,
     name character varying(70) NOT NULL,
@@ -198,7 +247,7 @@ SELECT pg_catalog.setval('robots_id_seq', 1, false);
 --
 -- Name: robots_parts; Type: TABLE; Schema: public; Owner: postgres; Tablespace:
 --
-
+DROP TABLE IF EXISTS robots_parts CASCADE;
 CREATE TABLE robots_parts (
     id integer NOT NULL,
     robots_id integer NOT NULL,
@@ -239,7 +288,7 @@ SELECT pg_catalog.setval('robots_parts_id_seq', 1, false);
 --
 -- Name: subscriptores; Type: TABLE; Schema: public; Owner: postgres; Tablespace:
 --
-
+DROP TABLE IF EXISTS subscriptores CASCADE;
 CREATE TABLE subscriptores (
     id integer NOT NULL,
     email character varying(70) NOT NULL,
@@ -281,7 +330,7 @@ SELECT pg_catalog.setval('subscriptores_id_seq', 1, false);
 --
 -- Name: tipo_documento; Type: TABLE; Schema: public; Owner: postgres; Tablespace:
 --
-
+DROP TABLE IF EXISTS tipo_documento CASCADE;
 CREATE TABLE tipo_documento (
     id integer NOT NULL,
     detalle character varying(32) NOT NULL

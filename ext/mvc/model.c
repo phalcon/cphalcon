@@ -32,6 +32,7 @@
 #include "di.h"
 #include "diinterface.h"
 #include "di/injectionawareinterface.h"
+#include "db/column.h"
 #include "db/rawvalue.h"
 #include "db/adapterinterface.h"
 #include "filterinterface.h"
@@ -2460,22 +2461,35 @@ PHP_METHOD(Phalcon_Mvc_Model, _cancelOperation){
  */
 PHP_METHOD(Phalcon_Mvc_Model, appendMessage){
 
-	zval *message, *type, *exception_message;
+	zval *message, *field = NULL, *type = NULL, *exception_message, *model_message;
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 1, 0, &message);
+	phalcon_fetch_params(1, 1, 2, &message, &field, &type);
 	
 	if (Z_TYPE_P(message) != IS_OBJECT) {
-		PHALCON_INIT_VAR(type);
-		ZVAL_STRING(type, zend_zval_type_name(message), 1);
-	
-		PHALCON_INIT_VAR(exception_message);
-		PHALCON_CONCAT_SVS(exception_message, "Invalid message format '", type, "'");
-		PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
-		return;
+		if (!field || !type) {
+			if (type) {
+				PHALCON_SEPARATE_PARAM(type);
+			}
+
+			PHALCON_INIT_NVAR(type);
+			ZVAL_STRING(type, zend_zval_type_name(message), 1);
+
+			PHALCON_INIT_VAR(exception_message);
+			PHALCON_CONCAT_SVS(exception_message, "Invalid message format '", type, "'");
+			PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
+			return;
+		}
+
+		PHALCON_INIT_VAR(model_message);
+		object_init_ex(model_message, phalcon_mvc_model_message_ce);
+		PHALCON_CALL_METHOD(NULL, model_message, "__construct", message, field, type);
+
+		phalcon_update_property_array_append(this_ptr, SL("_errorMessages"), model_message TSRMLS_CC);
+	} else {
+		phalcon_update_property_array_append(this_ptr, SL("_errorMessages"), message TSRMLS_CC);
 	}
-	phalcon_update_property_array_append(this_ptr, SL("_errorMessages"), message TSRMLS_CC);
 	
 	RETURN_THIS();
 }
@@ -2765,7 +2779,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysRestrict){
 	zval *field = NULL, *position = NULL, *value = NULL, *referenced_field = NULL;
 	zval *condition = NULL, *extra_conditions = NULL, *join_conditions = NULL;
 	zval *parameters = NULL, *rowcount = NULL, *user_message = NULL, *joined_fields = NULL;
-	zval *type = NULL, *message = NULL, *event_name;
+	zval *type = NULL, *event_name;
 	HashTable *ah0, *ah1;
 	HashPosition hp0, hp1;
 	zval **hd;
@@ -2934,11 +2948,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysRestrict){
 						PHALCON_INIT_NVAR(type);
 						ZVAL_STRING(type, "ConstraintViolation", 1);
 	
-						PHALCON_INIT_NVAR(message);
-						object_init_ex(message, phalcon_mvc_model_message_ce);
-						PHALCON_CALL_METHOD(NULL, message, "__construct", user_message, fields, type);
-	
-						PHALCON_CALL_METHOD(NULL, this_ptr, "appendmessage", message);
+						PHALCON_CALL_METHOD(NULL, this_ptr, "appendmessage", user_message, fields, type);
 	
 						PHALCON_INIT_NVAR(error);
 						ZVAL_BOOL(error, 1);
@@ -2980,7 +2990,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysReverseRestrict){
 	zval *bind_params = NULL, *field = NULL, *position = NULL, *value = NULL, *referenced_field = NULL;
 	zval *condition = NULL, *extra_conditions = NULL, *join_conditions = NULL;
 	zval *parameters = NULL, *rowcount = NULL, *user_message = NULL, *type = NULL;
-	zval *message = NULL, *event_name;
+	zval *event_name;
 	HashTable *ah0, *ah1;
 	HashPosition hp0, hp1;
 	zval **hd;
@@ -3137,11 +3147,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysReverseRestrict){
 						PHALCON_INIT_NVAR(type);
 						ZVAL_STRING(type, "ConstraintViolation", 1);
 	
-						PHALCON_INIT_NVAR(message);
-						object_init_ex(message, phalcon_mvc_model_message_ce);
-						PHALCON_CALL_METHOD(NULL, message, "__construct", user_message, fields, type);
-	
-						PHALCON_CALL_METHOD(NULL, this_ptr, "appendmessage", message);
+						PHALCON_CALL_METHOD(NULL, this_ptr, "appendmessage", user_message, fields, type);
 	
 						PHALCON_INIT_NVAR(error);
 						ZVAL_BOOL(error, 1);
@@ -3351,12 +3357,11 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysReverseCascade){
 PHP_METHOD(Phalcon_Mvc_Model, _preSave){
 
 	zval *meta_data, *exists, *identity_field, *event_name = NULL;
-	zval *status = NULL, *not_null = NULL, *data_type_numeric = NULL;
-	zval *column_map = NULL, *automatic_attributes = NULL, *error = NULL;
-	zval *null_value, *field = NULL, *is_null = NULL, *attribute_field = NULL;
-	zval *exception_message = NULL, *value = NULL, *message = NULL, *type = NULL;
-	zval *model_message = NULL, *skipped;
-	zval *default_values = NULL;
+	zval *status = NULL, *attributes = NULL, *data_type_numeric = NULL, *data_types = NULL;
+	zval *column_map = NULL, *automatic_attributes = NULL, *default_values = NULL, *error = NULL;
+	zval *field = NULL, *field_type = NULL, *is_not_null = NULL, *field_size = NULL;
+	zval *attribute_field = NULL, *value = NULL, *message = NULL, *type = NULL, *length = NULL;
+	zval *skipped, *exception_message = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -3412,151 +3417,154 @@ PHP_METHOD(Phalcon_Mvc_Model, _preSave){
 		}
 	}
 	
+	PHALCON_CALL_METHOD(&attributes, meta_data, "getattributes", this_ptr);
+	PHALCON_CALL_METHOD(&data_type_numeric, meta_data, "getdatatypesnumeric", this_ptr);
+	PHALCON_CALL_METHOD(&data_types, meta_data, "getdatatypes", this_ptr);
+
+	if (PHALCON_GLOBAL(orm).column_renaming) {
+		PHALCON_CALL_METHOD(&column_map, meta_data, "getcolumnmap", this_ptr);
+	} else {
+		PHALCON_INIT_VAR(column_map);
+	}
+
 	/** 
-	 * Columns marked as not null are automatically validated by the ORM
+	 * Get fields that must be omitted from the SQL generation
 	 */
-	if (PHALCON_GLOBAL(orm).not_null_validations) {
-		PHALCON_CALL_METHOD(&not_null, meta_data, "getnotnullattributes", this_ptr);
-		if (Z_TYPE_P(not_null) == IS_ARRAY) { 
-	
-			/** 
-			 * Gets the fields that are numeric, these are validated in a diferent way
-			 */
-			PHALCON_CALL_METHOD(&data_type_numeric, meta_data, "getdatatypesnumeric", this_ptr);
-			if (PHALCON_GLOBAL(orm).column_renaming) {
-				PHALCON_CALL_METHOD(&column_map, meta_data, "getcolumnmap", this_ptr);
+	if (zend_is_true(exists)) {
+		PHALCON_CALL_METHOD(&automatic_attributes, meta_data, "getautomaticupdateattributes", this_ptr);
+		PHALCON_INIT_VAR(default_values);
+		array_init(default_values);
+	} else {
+		PHALCON_CALL_METHOD(&automatic_attributes, meta_data, "getautomaticupdateattributes", this_ptr);
+		PHALCON_CALL_METHOD(&default_values, meta_data, "getdefaultvalues", this_ptr);
+	}
+
+	PHALCON_INIT_VAR(error);
+	ZVAL_BOOL(error, 0);
+
+	phalcon_is_iterable(attributes, &ah0, &hp0, 0, 0);
+
+	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
+
+		PHALCON_GET_HVALUE(field);
+
+		/** 
+		 * We don't check fields that must be omitted
+		 */
+		if (!phalcon_array_isset(automatic_attributes, field)) {
+
+			if (Z_TYPE_P(column_map) == IS_ARRAY) { 
+				if (phalcon_array_isset(column_map, field)) {
+					PHALCON_OBS_NVAR(attribute_field);
+					phalcon_array_fetch(&attribute_field, column_map, field, PH_NOISY);
+				} else {
+					PHALCON_INIT_NVAR(exception_message);
+					PHALCON_CONCAT_SVS(exception_message, "Column '", field, "' isn't part of the column map");
+					PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
+					return;
+				}
 			} else {
-				PHALCON_INIT_VAR(column_map);
-			}
-	
-			/** 
-			 * Get fields that must be omitted from the SQL generation
-			 */
-			if (zend_is_true(exists)) {
-				PHALCON_CALL_METHOD(&automatic_attributes, meta_data, "getautomaticupdateattributes", this_ptr);
-			} else {
-				PHALCON_CALL_METHOD(&automatic_attributes, meta_data, "getautomaticupdateattributes", this_ptr);
-				PHALCON_CALL_METHOD(&default_values, meta_data, "getdefaultvalues", this_ptr);
+				PHALCON_CPY_WRT(attribute_field, field);
 			}
 
-			PHALCON_INIT_VAR(error);
-			ZVAL_BOOL(error, 0);
-	
-			PHALCON_INIT_VAR(null_value);
-	
-			phalcon_is_iterable(not_null, &ah0, &hp0, 0, 0);
-	
-			while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
-	
-				PHALCON_GET_HVALUE(field);
-	
+			if (phalcon_isset_property_zval(this_ptr, attribute_field TSRMLS_CC)) {
+
 				/** 
-				 * We don't check fields that must be omitted
+				 * Read the attribute from the this_ptr using the real or renamed name
 				 */
-				if (!phalcon_array_isset(automatic_attributes, field)) {
-	
-					PHALCON_INIT_NVAR(is_null);
-					ZVAL_BOOL(is_null, 0);
-					if (Z_TYPE_P(column_map) == IS_ARRAY) { 
-						if (phalcon_array_isset(column_map, field)) {
-							PHALCON_OBS_NVAR(attribute_field);
-							phalcon_array_fetch(&attribute_field, column_map, field, PH_NOISY);
-						} else {
-							PHALCON_INIT_NVAR(exception_message);
-							PHALCON_CONCAT_SVS(exception_message, "Column '", field, "' isn't part of the column map");
-							PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
-							return;
-						}
-					} else {
-						PHALCON_CPY_WRT(attribute_field, field);
-					}
-	
-					/** 
-					 * Field is null when: 1) is not set, 2) is numeric but its value is not numeric,
-					 * 3) is null or 4) is empty string
-					 */
-					if (phalcon_isset_property_zval(this_ptr, attribute_field TSRMLS_CC)) {
-	
-						/** 
-						 * Read the attribute from the this_ptr using the real or renamed name
-						 */
-						PHALCON_OBS_NVAR(value);
-						phalcon_read_property_zval(&value, this_ptr, attribute_field, PH_NOISY TSRMLS_CC);
-	
-						/** 
-						 * Objects are never treated as null, numeric fields must be numeric to be accepted
-						 * as not null
-						 */
-						if (Z_TYPE_P(value) == IS_NULL && default_values && phalcon_array_isset(default_values, field)) {
-							zend_hash_move_forward_ex(ah0, &hp0);
-							continue;
-						}
+				PHALCON_OBS_NVAR(value);
+				phalcon_read_property_zval(&value, this_ptr, attribute_field, PH_NOISY TSRMLS_CC);
+			} else {
+				PHALCON_INIT_NVAR(value);
+				ZVAL_NULL(value);
+			}
 
-						if (Z_TYPE_P(value) != IS_OBJECT) {
-							if (!phalcon_array_isset(data_type_numeric, field)) {
-								if (Z_TYPE_P(value) == IS_NULL) {
-									PHALCON_INIT_NVAR(is_null);
-									ZVAL_BOOL(is_null, 1);
-								}
-							} else {
-								if (!phalcon_is_numeric(value)) {
-									PHALCON_INIT_NVAR(is_null);
-									ZVAL_BOOL(is_null, 1);
-								}
-							}
-						}
-					} else {
-						if (!default_values || !phalcon_array_isset(default_values, field)) {
-							PHALCON_INIT_NVAR(is_null);
-							ZVAL_BOOL(is_null, 1);
-						}
-					}
+			PHALCON_OBS_NVAR(field_type);
+			phalcon_array_fetch(&field_type, data_types, field, PH_NOISY);
 
-					if (PHALCON_IS_TRUE(is_null)) {
-						if (!zend_is_true(exists)) {
-	
-							/** 
-							 * The identity field can be null
-							 */
-							if (PHALCON_IS_EQUAL(field, identity_field)) {
-								zend_hash_move_forward_ex(ah0, &hp0);
-								continue;
-							}
-						}
-	
+			/** 
+			 * Field is null when: 1) is not set, 2) is numeric but its value is not numeric,
+			 * 3) is null or 4) is empty string
+			 */
+			if (Z_TYPE_P(value) == IS_NULL) {
+				if (!PHALCON_GLOBAL(orm).not_null_validations) {
+					zend_hash_move_forward_ex(ah0, &hp0);
+					continue;
+				}
+
+				if (!zend_is_true(exists) && PHALCON_IS_EQUAL(field, identity_field)) {
+					zend_hash_move_forward_ex(ah0, &hp0);
+					continue;
+				}
+
+				PHALCON_CALL_METHOD(&is_not_null, meta_data, "isnotnull", this_ptr, field);
+				if (zend_is_true(is_not_null) && !phalcon_array_isset(default_values, field)) {
+					PHALCON_INIT_NVAR(message);
+					PHALCON_CONCAT_VS(message, attribute_field, " is required");
+
+					PHALCON_INIT_NVAR(type);
+					ZVAL_STRING(type, "PresenceOf", 1);
+
+					PHALCON_CALL_METHOD(NULL, this_ptr, "appendmessage", message, attribute_field, type);
+
+					ZVAL_BOOL(error, 1);
+				}
+			} else if (Z_TYPE_P(value) != IS_OBJECT) {
+				if (phalcon_array_isset(data_type_numeric, field)) {
+					if (!phalcon_is_numeric(value)) {
 						PHALCON_INIT_NVAR(message);
-						PHALCON_CONCAT_VS(message, attribute_field, " is required");
-	
+						PHALCON_CONCAT_SVS(message, "Value of field '", attribute_field, "' must be numeric");
+
 						PHALCON_INIT_NVAR(type);
-						ZVAL_STRING(type, "PresenceOf", 1);
-	
-						/** 
-						 * A implicit PresenceOf message is created
-						 */
-						PHALCON_INIT_NVAR(model_message);
-						object_init_ex(model_message, phalcon_mvc_model_message_ce);
-						PHALCON_CALL_METHOD(NULL, model_message, "__construct", message, attribute_field, type);
-	
-						phalcon_update_property_array_append(this_ptr, SL("_errorMessages"), model_message TSRMLS_CC);
-	
-						PHALCON_INIT_NVAR(error);
+						ZVAL_STRING(type, "Numericality", 1);
+
+						PHALCON_CALL_METHOD(NULL, this_ptr, "appendmessage", message, attribute_field, type);
+
 						ZVAL_BOOL(error, 1);
 					}
+				} else if (phalcon_is_equal_long(field_type, PHALCON_DB_COLUMN_TYPE_VARCHAR TSRMLS_CC)
+					|| phalcon_is_equal_long(field_type, PHALCON_DB_COLUMN_TYPE_CHAR TSRMLS_CC)) {
+					if (!PHALCON_GLOBAL(orm).length_validations) {
+						zend_hash_move_forward_ex(ah0, &hp0);
+						continue;
+					}
+
+					PHALCON_CALL_METHOD(&field_size, meta_data, "getdatasize", this_ptr, field);
+					if (Z_TYPE_P(field_size) != IS_NULL) {
+						if (phalcon_function_exists_ex(SS("mb_strlen") TSRMLS_CC) == SUCCESS) {
+							PHALCON_CALL_FUNCTION(&length, "mb_strlen", value);
+						} else {						
+							PHALCON_INIT_NVAR(length);
+							phalcon_fast_strlen(length, value);
+						}
+
+						if (phalcon_greater(length, field_size TSRMLS_CC)) {
+							PHALCON_INIT_NVAR(message);
+							PHALCON_CONCAT_SVSVS(message, "Value of field '", field, "' exceeds the maximum ", field_size, " characters");
+
+							PHALCON_INIT_NVAR(type);
+							ZVAL_STRING(type, "TooLong", 1);
+
+							PHALCON_CALL_METHOD(NULL, this_ptr, "appendmessage", message, attribute_field, type);
+
+							ZVAL_BOOL(error, 1);
+						}
+					}
 				}
-	
-				zend_hash_move_forward_ex(ah0, &hp0);
-			}
-	
-			if (PHALCON_IS_TRUE(error)) {
-				if (PHALCON_GLOBAL(orm).events) {
-					PHALCON_INIT_NVAR(event_name);
-					ZVAL_STRING(event_name, "onValidationFails", 1);
-					PHALCON_CALL_METHOD(NULL, this_ptr, "fireevent", event_name);
-					PHALCON_CALL_METHOD(NULL, this_ptr, "_canceloperation");
-				}
-				RETURN_MM_FALSE;
 			}
 		}
+
+		zend_hash_move_forward_ex(ah0, &hp0);
+	}
+
+	if (PHALCON_IS_TRUE(error)) {
+		if (PHALCON_GLOBAL(orm).events) {
+			PHALCON_INIT_NVAR(event_name);
+			ZVAL_STRING(event_name, "onValidationFails", 1);
+			PHALCON_CALL_METHOD(NULL, this_ptr, "fireevent", event_name);
+			PHALCON_CALL_METHOD(NULL, this_ptr, "_canceloperation");
+		}
+		RETURN_MM_FALSE;
 	}
 	
 	PHALCON_INIT_NVAR(event_name);
@@ -7108,19 +7116,19 @@ PHP_METHOD(Phalcon_Mvc_Model, toArray){
 PHP_METHOD(Phalcon_Mvc_Model, setup){
 
 	zval *options, *disable_events, *virtual_foreign_keys;
-	zval *column_renaming, *not_null_validations;
+	zval *column_renaming, *not_null_validations, *length_validations;
 	zval *exception_on_failed_save, *phql_literals;
 	zval *phql_cache;
 
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 1, 0, &options);
-	
+
 	if (Z_TYPE_P(options) != IS_ARRAY) { 
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Options must be an array");
 		return;
 	}
-	
+
 	/** 
 	 * Enables/Disables globally the internal events
 	 */
@@ -7129,7 +7137,7 @@ PHP_METHOD(Phalcon_Mvc_Model, setup){
 		phalcon_array_fetch_string(&disable_events, options, SL("events"), PH_NOISY);
 		PHALCON_GLOBAL(orm).events = zend_is_true(disable_events);
 	}
-	
+
 	/** 
 	 * Enables/Disables virtual foreign keys
 	 */
@@ -7138,7 +7146,7 @@ PHP_METHOD(Phalcon_Mvc_Model, setup){
 		phalcon_array_fetch_string(&virtual_foreign_keys, options, SL("virtualForeignKeys"), PH_NOISY);
 		PHALCON_GLOBAL(orm).virtual_foreign_keys = zend_is_true(virtual_foreign_keys);
 	}
-	
+
 	/** 
 	 * Enables/Disables column renaming
 	 */
@@ -7147,7 +7155,7 @@ PHP_METHOD(Phalcon_Mvc_Model, setup){
 		phalcon_array_fetch_string(&column_renaming, options, SL("columnRenaming"), PH_NOISY);
 		PHALCON_GLOBAL(orm).column_renaming = zend_is_true(column_renaming);
 	}
-	
+
 	/** 
 	 * Enables/Disables automatic not null validation
 	 */
@@ -7156,7 +7164,16 @@ PHP_METHOD(Phalcon_Mvc_Model, setup){
 		phalcon_array_fetch_string(&not_null_validations, options, SL("notNullValidations"), PH_NOISY);
 		PHALCON_GLOBAL(orm).not_null_validations = zend_is_true(not_null_validations);
 	}
-	
+
+	/** 
+	 * Enables/Disables automatic length validation
+	 */
+	if (phalcon_array_isset_string(options, SS("lengthValidations"))) {
+		PHALCON_OBS_VAR(length_validations);
+		phalcon_array_fetch_string(&length_validations, options, SL("lengthValidations"), PH_NOISY);
+		PHALCON_GLOBAL(orm).length_validations = zend_is_true(length_validations);
+	}
+
 	/** 
 	 * Enables/Disables throws an exception if the saving process fails
 	 */
@@ -7165,7 +7182,7 @@ PHP_METHOD(Phalcon_Mvc_Model, setup){
 		phalcon_array_fetch_string(&exception_on_failed_save, options, SL("exceptionOnFailedSave"), PH_NOISY);
 		PHALCON_GLOBAL(orm).exception_on_failed_save = zend_is_true(exception_on_failed_save);
 	}
-	
+
 	/** 
 	 * Enables/Disables literals in PHQL this improves the security of applications
 	 */
@@ -7174,7 +7191,7 @@ PHP_METHOD(Phalcon_Mvc_Model, setup){
 		phalcon_array_fetch_string(&phql_literals, options, SL("phqlLiterals"), PH_NOISY);
 		PHALCON_GLOBAL(orm).enable_literals = zend_is_true(phql_literals);
 	}
-	
+
 	/** 
 	 * Enables/Disables AST cache
 	 */
@@ -7183,7 +7200,7 @@ PHP_METHOD(Phalcon_Mvc_Model, setup){
 		phalcon_array_fetch_string(&phql_cache, options, SL("astCache"), PH_NOISY);
 		PHALCON_GLOBAL(orm).enable_ast_cache = zend_is_true(phql_cache);
 	}
-	
+
 	PHALCON_MM_RESTORE();
 }
 
