@@ -96,7 +96,7 @@ class Syslog extends Adapter implements AdapterInterface
 		var appliedFormat;
 
 		let appliedFormat = this->getFormatter()->format(message, type, time, context);
-		if typeof appliedFormat != "array" {
+		if typeof appliedFormat !== "array" {
 			throw new Exception("The formatted message is not valid");
 		}
 

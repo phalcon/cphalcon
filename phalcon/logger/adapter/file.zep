@@ -67,7 +67,7 @@ class File extends Adapter implements AdapterInterface
 	{
 		var mode, handler;
 
-		if typeof options == "array" {
+		if typeof options === "array" {
 			if fetch mode, options["mode"] {
 				if memstr(mode, "r") {
 					throw new Exception("Logger must be opened in append or write mode");
@@ -117,7 +117,7 @@ class File extends Adapter implements AdapterInterface
 		var fileHandler;
 
 		let fileHandler = this->_fileHandler;
-		if typeof fileHandler != "resource" {
+		if typeof fileHandler !== "resource" {
 			throw new Exception("Cannot send message to the log because it is invalid");
 		}
 
@@ -143,7 +143,7 @@ class File extends Adapter implements AdapterInterface
 		var path, mode;
 
 		let path = this->_path;
-		if typeof path != "string" {
+		if typeof path !== "string" {
 			throw new Exception("Invalid data passed to Phalcon\\Logger\\Adapter\\File::__wakeup()");
 		}
 
@@ -151,7 +151,7 @@ class File extends Adapter implements AdapterInterface
 			let mode = "ab";
 		}
 
-		if typeof mode != "string" {
+		if typeof mode !== "string" {
 			throw new Exception("Invalid data passed to Phalcon\\Logger\\Adapter\\File::__wakeup()");
 		}
 
