@@ -4020,7 +4020,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _postSaveRelatedRecords){
 	
 		PHALCON_GET_HKEY(name, ah0, hp0);
 		PHALCON_GET_HVALUE(record);
-	
+
 		/** 
 		 * Try to get a relation with the same name
 		 */
@@ -4135,7 +4135,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _postSaveRelatedRecords){
 					 * Create a new instance of the intermediate model
 					 */
 					PHALCON_CALL_METHOD(&intermediate_model, manager, "load", intermediate_model_name, new_instance);
-	
+
 					/** 
 					 * Write value in the intermediate model
 					 */
@@ -4322,7 +4322,7 @@ PHP_METHOD(Phalcon_Mvc_Model, save){
 			RETURN_MM_FALSE;
 		}
 	}
-	
+
 	PHALCON_CALL_METHOD(&schema, this_ptr, "getschema");
 	PHALCON_CALL_METHOD(&source, this_ptr, "getsource");
 	if (zend_is_true(schema)) {
@@ -4421,7 +4421,7 @@ PHP_METHOD(Phalcon_Mvc_Model, save){
 	} else {
 		PHALCON_CPY_WRT(new_success, success);
 	}
-	
+
 	if (Z_TYPE_P(related) == IS_ARRAY) { 
 	
 		/** 
@@ -4433,7 +4433,7 @@ PHP_METHOD(Phalcon_Mvc_Model, save){
 			PHALCON_CALL_METHOD(NULL, write_connection, "rollback", nesting);
 			RETURN_MM_FALSE;
 		}
-	
+
 		/** 
 		 * Save the post-related records
 		 */
@@ -6396,11 +6396,13 @@ PHP_METHOD(Phalcon_Mvc_Model, __set){
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
-	int i = 0;
 
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 2, 0, &property, &value);
+
+	PHALCON_INIT_VAR(lower_property);
+	phalcon_fast_strtolower(lower_property, property);
 
 	if (Z_TYPE_P(property) == IS_STRING) {
 		PHALCON_CALL_METHOD(&meta_data, this_ptr, "getmodelsmetadata");
@@ -6418,17 +6420,23 @@ PHP_METHOD(Phalcon_Mvc_Model, __set){
 				RETURN_CTOR(value);
 			}
 		}
+
+		PHALCON_INIT_VAR(model_name);
+		phalcon_get_class(model_name, this_ptr, 0 TSRMLS_CC);
+		
+		PHALCON_CALL_METHOD(&manager, this_ptr, "getmodelsmanager");
+
+		PHALCON_CALL_METHOD(&relation, manager, "getrelationbyalias", model_name, lower_property);
 	}
-	
+
 	/** 
 	 * Values are probably relationships if they are objects
 	 */
 	if (Z_TYPE_P(value) == IS_OBJECT) {
-	
 		if (instanceof_function_ex(Z_OBJCE_P(value), phalcon_mvc_modelinterface_ce, 1 TSRMLS_CC)) {
-			PHALCON_INIT_VAR(lower_property);
-			phalcon_fast_strtolower(lower_property, property);
-			phalcon_update_property_zval_zval(this_ptr, lower_property, value TSRMLS_CC);
+			if (Z_TYPE_P(relation) != IS_OBJECT) {
+				phalcon_update_property_zval_zval(this_ptr, lower_property, value TSRMLS_CC);
+			}
 			phalcon_update_property_array(this_ptr, SL("_related"), lower_property, value TSRMLS_CC);
 			phalcon_update_property_long(this_ptr, SL("_dirtyState"), 1 TSRMLS_CC);
 			RETURN_CTOR(value);
@@ -6442,14 +6450,6 @@ PHP_METHOD(Phalcon_Mvc_Model, __set){
 		PHALCON_INIT_VAR(related);
 		array_init(related);
 
-		PHALCON_INIT_VAR(lower_property);
-		phalcon_fast_strtolower(lower_property, property);
-
-		PHALCON_INIT_VAR(model_name);
-		phalcon_get_class(model_name, this_ptr, 0 TSRMLS_CC);
-		
-		PHALCON_CALL_METHOD(&manager, this_ptr, "getmodelsmanager");
-
 		phalcon_is_iterable(value, &ah0, &hp0, 0, 0);
 		
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
@@ -6459,39 +6459,34 @@ PHP_METHOD(Phalcon_Mvc_Model, __set){
 
 			if (Z_TYPE_P(item) == IS_OBJECT) {
 				if (instanceof_function_ex(Z_OBJCE_P(item), phalcon_mvc_modelinterface_ce, 1 TSRMLS_CC)) {
-					i++;
 					phalcon_array_append(&related, item, 0);
 				}
-			} else if (Z_TYPE_P(key) == IS_STRING) {
+			} else if (Z_TYPE_P(relation) == IS_OBJECT) {
+				PHALCON_CALL_METHOD(&referenced_model_name, relation, "getreferencedmodel");
+				PHALCON_CALL_METHOD(&referenced_model, manager, "load", referenced_model_name, PHALCON_GLOBAL(z_false));
+				PHALCON_CALL_METHOD(NULL, referenced_model, "writeattribute", lower_key, item);	
+			} else if (Z_TYPE_P(property) != IS_STRING && Z_TYPE_P(key) == IS_STRING) {
 				PHALCON_INIT_NVAR(lower_key);
 				phalcon_fast_strtolower(lower_key, key);
 
 				phalcon_update_property_zval_zval(this_ptr, lower_key, item TSRMLS_CC);
-
-				PHALCON_CALL_METHOD(&relation, manager, "getrelationbyalias", model_name, lower_property);
-				if (Z_TYPE_P(relation) == IS_OBJECT) {
-					PHALCON_CALL_METHOD(&referenced_model_name, relation, "getreferencedmodel");
-					PHALCON_CALL_METHOD(&referenced_model, manager, "load", referenced_model_name, PHALCON_GLOBAL(z_false));
-					PHALCON_CALL_METHOD(NULL, referenced_model, "writeattribute", lower_key, item);	
-				}
 			}
 
 			zend_hash_move_forward_ex(ah0, &hp0);
 		}
 
-		if (i > 0) {
-			phalcon_update_property_zval_zval(this_ptr, lower_property, related TSRMLS_CC);
+		if (phalcon_fast_count_ev(related TSRMLS_CC)) {
 			phalcon_update_property_array(this_ptr, SL("_related"), lower_property, related TSRMLS_CC);
 			phalcon_update_property_long(this_ptr, SL("_dirtyState"), 1 TSRMLS_CC);
 		}
-
-		RETURN_CTOR(value);
 	}
 	
 	/** 
 	 * Fallback assigning the value to the instance
 	 */
-	phalcon_update_property_zval_zval(this_ptr, property, value TSRMLS_CC);
+	if (Z_TYPE_P(relation) != IS_OBJECT) {
+		phalcon_update_property_zval_zval(this_ptr, property, value TSRMLS_CC);
+	}
 	
 	RETURN_CTOR(value);
 }
