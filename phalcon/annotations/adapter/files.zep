@@ -47,7 +47,7 @@ class Files extends Adapter implements AdapterInterface
 	public function __construct(options = null)
 	{
 		var annotationsDir;
-		if typeof options != "array" {
+		if typeof options == "array" {
 			if fetch annotationsDir, options["annotationsDir"] {
 				let this->_annotationsDir = annotationsDir;
 	  		}
