@@ -1999,12 +1999,9 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 			} else {
 				this->fireEvent("afterCreate");
 			}
-			this->fireEvent("afterSave");
 			return success;
 		}
 
-		this->fireEvent("notSave");
-		this->_cancelOperation();
 		return false;
 	}
 
@@ -2812,15 +2809,19 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 			 */
 			if success === false {
 				writeConnection->rollback(false);
-				return false;
+			} else {
+				/**
+				 * Save the post-related records
+				 */
+				let success = this->_postSaveRelatedRecords(writeConnection, related);
 			}
+		}
 
-			/**
-			 * Save the post-related records
-			 */
-			if this->_postSaveRelatedRecords(writeConnection, related) === false {
-				return false;
-			}
+		if success === false {
+			this->fireEvent("notSave");
+			this->_cancelOperation();
+		} else {
+			this->fireEvent("afterSave");
 		}
 
 		return success;
