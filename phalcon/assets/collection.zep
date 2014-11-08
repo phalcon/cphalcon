@@ -31,15 +31,15 @@ class Collection implements \Countable, \Iterator
 
 	protected _local = true { get };
 
-	protected _resources { get };
+	protected _resources = [] { get };
 
-	protected _codes { get };
+	protected _codes = [] { get };
 
 	protected _position { get };
 
-	protected _filters { get };
+	protected _filters = [] { get };
 
-	protected _attributes { get };
+	protected _attributes = [] { get };
 
 	protected _join = true { get };
 
