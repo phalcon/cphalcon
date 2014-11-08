@@ -3363,17 +3363,9 @@ PHP_METHOD(Phalcon_Mvc_Model, _postSave){
 		}
 		PHALCON_CALL_METHOD(NULL, this_ptr, "fireevent", event_name);
 	
-		PHALCON_INIT_NVAR(event_name);
-		ZVAL_STRING(event_name, "afterSave", 1);
-		PHALCON_CALL_METHOD(NULL, this_ptr, "fireevent", event_name);
-	
 		RETURN_CTOR(success);
 	}
-	
-	PHALCON_INIT_NVAR(event_name);
-	ZVAL_STRING(event_name, "notSave", 1);
-	PHALCON_CALL_METHOD(NULL, this_ptr, "fireevent", event_name);
-	PHALCON_CALL_METHOD(NULL, this_ptr, "_canceloperation");
+
 	RETURN_MM_FALSE;
 }
 
@@ -4224,7 +4216,7 @@ PHP_METHOD(Phalcon_Mvc_Model, save){
 	zval *attribute = NULL, *value = NULL, *possible_setter = NULL, *write_connection = NULL;
 	zval *related, *status = NULL, *schema = NULL, *source = NULL, *table = NULL, *read_connection = NULL;
 	zval *exists = NULL, *error_messages = NULL, *identity_field = NULL;
-	zval *nesting = NULL, *exception, *success = NULL, *new_success = NULL;
+	zval *nesting = NULL, *exception, *success = NULL, *new_success = NULL, *event_name = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -4360,7 +4352,9 @@ PHP_METHOD(Phalcon_Mvc_Model, save){
 	 * Query the identity field
 	 */
 	PHALCON_CALL_METHOD(&identity_field, meta_data, "getidentityfield", this_ptr);
-	
+
+	nesting = PHALCON_GLOBAL(z_false);
+
 	/** 
 	 * _preSave() makes all the validations
 	 */
@@ -4371,8 +4365,6 @@ PHP_METHOD(Phalcon_Mvc_Model, save){
 		 * Rollback the current transaction if there was validation errors
 		 */
 		if (Z_TYPE_P(related) == IS_ARRAY) { 
-			PHALCON_INIT_VAR(nesting);
-			ZVAL_BOOL(nesting, 0);
 			PHALCON_CALL_METHOD(NULL, write_connection, "rollback", nesting);
 		}
 	
@@ -4428,21 +4420,32 @@ PHP_METHOD(Phalcon_Mvc_Model, save){
 		 * Rollbacks the implicit transaction if the master save has failed
 		 */
 		if (PHALCON_IS_FALSE(new_success)) {
-			PHALCON_INIT_NVAR(nesting);
-			ZVAL_BOOL(nesting, 0);
 			PHALCON_CALL_METHOD(NULL, write_connection, "rollback", nesting);
-			RETURN_MM_FALSE;
-		}
-	
-		/** 
-		 * Save the post-related records
-		 */
-		PHALCON_CALL_METHOD(&status, this_ptr, "_postsaverelatedrecords", write_connection, related);
-		if (PHALCON_IS_FALSE(status)) {
-			RETURN_MM_FALSE;
+		} else {	
+			/** 
+			 * Save the post-related records
+			 */
+			PHALCON_CALL_METHOD(&status, this_ptr, "_postsaverelatedrecords", write_connection, related);
+			if (PHALCON_IS_FALSE(status)) {
+				PHALCON_CALL_METHOD(NULL, write_connection, "rollback", nesting);
+			}
+
+			PHALCON_CPY_WRT(new_success, status);
 		}
 	}
-	
+
+	if (PHALCON_IS_FALSE(new_success)) {
+		PHALCON_INIT_NVAR(event_name);
+		ZVAL_STRING(event_name, "notSave", 1);
+		PHALCON_CALL_METHOD(NULL, this_ptr, "fireevent", event_name);
+
+		PHALCON_CALL_METHOD(NULL, this_ptr, "_canceloperation");
+	} else {
+		PHALCON_INIT_NVAR(event_name);
+		ZVAL_STRING(event_name, "afterSave", 1);
+		PHALCON_CALL_METHOD(NULL, this_ptr, "fireevent", event_name);
+	}
+
 	RETURN_CTOR(new_success);
 }
 
