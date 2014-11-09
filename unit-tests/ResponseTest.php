@@ -229,4 +229,18 @@ class ResponseTest extends PHPUnit_Framework_TestCase
 			)
 		)), $this->_response->getHeaders());
 	}
+
+	public function testSetStatusCodeDefaultMessage()
+	{
+		$this->_response->resetHeaders();
+
+		$this->_response->setStatusCode(200);
+		$this->assertEquals(array('HTTP/1.1 200 OK' => null, 'Status' => '200 OK'), $this->_response->getHeaders()->toArray());
+
+		$this->_response->setStatusCode(418);
+		$this->assertEquals(array('HTTP/1.1 418 I\'m a teapot' => null, 'Status' => '418 I\'m a teapot'), $this->_response->getHeaders()->toArray());
+
+		$this->_response->setStatusCode(418, "My own message");
+		$this->assertEquals(array('HTTP/1.1 418 My own message' => null, 'Status' => '418 My own message'), $this->_response->getHeaders()->toArray());
+	}
 }
