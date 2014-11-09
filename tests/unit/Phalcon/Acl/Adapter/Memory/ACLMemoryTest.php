@@ -24,7 +24,7 @@
 namespace Phalcon\Tests\unit\Phalcon\Acl;
 
 use \Phalcon\Acl as PhAcl;
-use \Phalcon\Acl\Adapter\Memory as PhTAclMem;
+use \PhalconTest\Acl\Adapter\Memory as PhTAclMem;
 
 use \PhalconTest\Acl\Role as PhTAclRole;
 use \PhalconTest\Acl\Resource as PhTAclResource;
