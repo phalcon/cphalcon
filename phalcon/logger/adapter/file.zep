@@ -67,7 +67,7 @@ class File extends Adapter implements AdapterInterface
 	{
 		var mode, handler;
 
-		if typeof options == "array" {
+		if typeof options === "array" {
 			if fetch mode, options["mode"] {
 				if memstr(mode, "r") {
 					throw new Exception("Logger must be opened in append or write mode");
@@ -97,14 +97,11 @@ class File extends Adapter implements AdapterInterface
 	 */
 	public function getFormatter() -> <FormatterInterface>
 	{
-		var formatter;
-
-		let formatter = this->_formatter;
-		if typeof formatter != "object" {
-			let formatter = new \Phalcon\Logger\Formatter\Line(),
-				this->_formatter = formatter;
+		if typeof this->_formatter !== "object" {
+			let this->_formatter = new \Phalcon\Logger\Formatter\Line();
 		}
-		return formatter;
+
+		return this->_formatter;
 	}
 
 	/**
@@ -120,7 +117,7 @@ class File extends Adapter implements AdapterInterface
 		var fileHandler;
 
 		let fileHandler = this->_fileHandler;
-		if typeof fileHandler != "resource" {
+		if typeof fileHandler !== "resource" {
 			throw new Exception("Cannot send message to the log because it is invalid");
 		}
 
@@ -146,7 +143,7 @@ class File extends Adapter implements AdapterInterface
 		var path, mode;
 
 		let path = this->_path;
-		if typeof path != "string" {
+		if typeof path !== "string" {
 			throw new Exception("Invalid data passed to Phalcon\\Logger\\Adapter\\File::__wakeup()");
 		}
 
@@ -154,7 +151,7 @@ class File extends Adapter implements AdapterInterface
 			let mode = "ab";
 		}
 
-		if typeof mode != "string" {
+		if typeof mode !== "string" {
 			throw new Exception("Invalid data passed to Phalcon\\Logger\\Adapter\\File::__wakeup()");
 		}
 

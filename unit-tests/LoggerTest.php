@@ -15,6 +15,7 @@
   +------------------------------------------------------------------------+
   | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
   |          Eduar Carvajal <eduar@phalconphp.com>                         |
+  |          Ivan Zubok <chi_no@ukr.net>                                   |
   +------------------------------------------------------------------------+
 */
 
@@ -52,6 +53,23 @@ class LoggerTest extends PHPUnit_Framework_TestCase
 		$lines = file($logfile);
 		$this->assertEquals(count($lines), 3);
 	}
+
+  /**
+   * @runInSeparateProcess
+   */
+  public function testFirephp()
+  {
+    $logger = new \Phalcon\Logger\Adapter\Firephp();
+    $logger->getFormatter()->setShowBacktrace(false);
+    $logger->info('info');
+
+    $headers = xdebug_get_headers();
+
+    $this->assertContains('X-Wf-Protocol-1: http://meta.wildfirehq.org/Protocol/JsonStream/0.2', $headers);
+    $this->assertContains('X-Wf-1-Plugin-1: http://meta.firephp.org/Wildfire/Plugin/FirePHP/Library-FirePHPCore/0.3', $headers);
+    $this->assertContains('X-Wf-Structure-1: http://meta.firephp.org/Wildfire/Structure/FirePHP/FirebugConsole/0.1', $headers);
+    $this->assertContains('X-Wf-1-1-1-1: 35|[{"Type":"INFO","Label":"info"},""]|', $headers);
+  }
 
   public function testIssues2798()
   {

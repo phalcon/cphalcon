@@ -41,7 +41,7 @@ class Json extends Formatter implements FormatterInterface
 	 */
 	public function format(string message, int type, int timestamp, var context = null) -> string
 	{
-		if typeof context == "array" {
+		if typeof context === "array" {
 			let message = this->interpolate(message, context);
 		}
 

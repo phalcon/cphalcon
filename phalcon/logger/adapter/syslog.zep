@@ -76,13 +76,11 @@ class Syslog extends Adapter implements AdapterInterface
 	 */
 	public function getFormatter()
 	{
-		var formatter;
-
-		let formatter = this->_formatter;
-		if typeof formatter != "object" {
-			let formatter = new \Phalcon\Logger\Formatter\Syslog(), this->_formatter = formatter;
+		if typeof this->_formatter !== "object" {
+			let this->_formatter = new \Phalcon\Logger\Formatter\Syslog();
 		}
-		return formatter;
+
+		return this->_formatter;
 	}
 
 	/**
@@ -98,7 +96,7 @@ class Syslog extends Adapter implements AdapterInterface
 		var appliedFormat;
 
 		let appliedFormat = this->getFormatter()->format(message, type, time, context);
-		if typeof appliedFormat != "array" {
+		if typeof appliedFormat !== "array" {
 			throw new Exception("The formatted message is not valid");
 		}
 

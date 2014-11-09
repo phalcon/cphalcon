@@ -91,7 +91,7 @@ class Line extends Formatter implements FormatterInterface
 
 		let format = str_replace("%message%", message, format);
 
-		if typeof context == "array" {
+		if typeof context === "array" {
 			return this->interpolate(format, context);
 		}
 
