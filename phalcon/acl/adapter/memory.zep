@@ -379,7 +379,7 @@ class Memory extends Adapter
 			for accessName in access {
 				let accessKey = resourceName . "!" . accessName;
 				if !isset accessList[accessKey] {
-					throw new Exception("Acccess '" . accessName . "' does not exist in resource '" . resourceName . "'");
+					throw new Exception("Access '" . accessName . "' does not exist in resource '" . resourceName . "'");
 				}
 			}
 
@@ -401,7 +401,7 @@ class Memory extends Adapter
 			if access != "*" {
 				let accessKey = resourceName . "!" . access;
 				if !isset accessList[accessKey] {
-					throw new Exception("Acccess '" . access . "' does not exist in resource '" . resourceName . "'");
+					throw new Exception("Access '" . access . "' does not exist in resource '" . resourceName . "'");
 				}
 			}
 
