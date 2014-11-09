@@ -14,6 +14,7 @@
  +------------------------------------------------------------------------+
  | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
  |          Eduar Carvajal <eduar@phalconphp.com>                         |
+ |          Ivan Zubok <chi_no@ukr.net>                                   |
  +------------------------------------------------------------------------+
  */
 
@@ -22,6 +23,35 @@ namespace Phalcon\Config\Adapter;
 use Phalcon\Config;
 use Phalcon\Config\Exception;
 
+/**
+ * Phalcon\Config\Adapter\Ini
+ *
+ * Reads ini files and converts them to Phalcon\Config objects.
+ *
+ * Given the next configuration file:
+ *
+ *<code>
+ * [database]
+ * adapter = Mysql
+ * host = localhost
+ * username = scott
+ * password = cheetah
+ * dbname = test_db
+ *
+ * [phalcon]
+ * controllersDir = "../app/controllers/"
+ * modelsDir = "../app/models/"
+ * viewsDir = "../app/views/"
+ * </code>
+ *
+ * You can read it as follows:
+ *
+ *<code>
+ * $config = new Phalcon\Config\Adapter\Ini("path/config.ini");
+ * echo $config->phalcon->controllersDir;
+ * echo $config->database->username;
+ *</code>
+ */
 class Ini extends Config
 {
 
@@ -32,26 +62,63 @@ class Ini extends Config
 	 */
 	public function __construct(string! filePath)
 	{
-		var config, iniConfig, section, directives, directiveParts, key, value;
+		var iniConfig;
 
-		let config = [];
-
-		let iniConfig = parse_ini_file($filePath, true);
+		let iniConfig = parse_ini_file(filePath, true);
 		if iniConfig === false {
 			throw new Exception("Configuration file " . basename(filePath) . " can't be loaded");
 		}
 
+		var config, section, sections, directives, path, lastValue;
+
+		let config = [];
+
 		for section, directives in iniConfig {
-			for key, value in directives {
-				if memstr(key, ".") {
-					let directiveParts = explode(".", key);
-					let config[section][directiveParts[0]][directiveParts[1]] = value;
-				} else {
-					let config[section][key] = value;
-				}
+			let sections = [];
+			for path, lastValue in directives {
+				let sections[] = this->_parseIniString(path, lastValue);
 			}
+
+			let config[section] = call_user_func_array("array_merge_recursive", sections);
 		}
 
 		parent::__construct(config);
+	}
+
+	/**
+	 * Build multidimensional array from string
+	 *
+	 * <code>
+	 * $this->_parseIniString('path.hello.world', 'value for last key');
+	 *
+	 * // result
+	 * [
+	 *      'path' => [
+	 *          'hello' => [
+	 *              'world' => 'value for last key',
+	 *          ],
+	 *      ],
+	 * ];
+	 * </code>
+	 * @param string path
+	 * @param mixed value
+	 *
+	 * @return array parsed path
+	 */
+	private function _parseIniString(string! path, var value) -> array
+	{
+		var pos;
+		let pos = strpos(path, ".");
+
+		if pos === false {
+			return [path: value];
+		}
+
+		var key;
+
+		let key = substr(path, 0, pos);
+		let path = substr(path, pos + 1);
+
+		return [key: this->_parseIniString(path, value)];
 	}
 }

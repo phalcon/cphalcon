@@ -22,33 +22,58 @@ namespace Phalcon\Config\Adapter;
 use Phalcon\Config;
 use Phalcon\Config\Exception;
 
+/**
+ * Phalcon\Config\Adapter\Yaml
+ *
+ * Reads JSON files and converts them to Phalcon\Config objects.
+ *
+ * Given the following configuration file:
+ *
+ *<code>
+ * phalcon
+ *   baseuri: /phalcon/
+ * models:
+ *   metadata: memory
+ *</code>
+ *
+ * You can read it as follows:
+ *
+ *<code>
+ * $config = new Phalcon\Config\Adapter\Yaml("path/config.yaml");
+ * echo $config->phalcon->baseuri;
+ * echo $config->models->metadata;
+ *</code>
+ *
+ */
 class Yaml extends Config
 {
 
-    /**
-     * Phalcon\Config\Adapter\Yaml constructor
-     *
-     * @param  string                    $filePath
-     * @param  array                     $callbacks
-     * @throws \Phalcon\Config\Exception
-     */
-    public function __construct(string! filePath, array! callbacks = null)
-    {
-        if (!extension_loaded("yaml")) {
-            throw new Exception("Yaml extension not loaded");
-        }
-        var yamlConfig;
-        int ndocs = 0;
-        if callbacks != null {
-            let yamlConfig = yaml_parse_file(filePath, 0, ndocs, callbacks);
-        } else {
-            let yamlConfig = yaml_parse_file(filePath);
-        }
-        if yamlConfig === false {
-            throw new Exception("Configuration file " . basename(filePath) . " can't be loaded");
-        }
+	/**
+	 * Phalcon\Config\Adapter\Yaml constructor
+	 *
+	 * @param  string                    $filePath
+	 * @param  array                     $callbacks
+	 * @throws \Phalcon\Config\Exception
+	 */
+	public function __construct(string! filePath, array! callbacks = null)
+	{
+		if !extension_loaded("yaml") {
+			throw new Exception("Yaml extension not loaded");
+		}
+		var yamlConfig;
+		int ndocs = 0;
 
-        parent::__construct(yamlConfig);
-    }
+		if callbacks !== null {
+			let yamlConfig = yaml_parse_file(filePath, 0, ndocs, callbacks);
+		} else {
+			let yamlConfig = yaml_parse_file(filePath);
+		}
+
+		if yamlConfig === false {
+			throw new Exception("Configuration file " . basename(filePath) . " can't be loaded");
+		}
+
+		parent::__construct(yamlConfig);
+	}
 
 }
