@@ -352,5 +352,28 @@ class RequestTest extends PHPUnit_Framework_TestCase
 			$this->assertEquals($file->getRealType(), 'image/jpeg');			
 		}
 	}
+
+	public function testIssues2294()
+	{
+		$_SERVER['HTTP_FOO'] = 'Bar';
+		$_SERVER['HTTP_BLA_BLA'] = 'boo';
+		$_SERVER['HTTP_AUTH'] = true;
+
+		$request = new \Phalcon\Http\Request();
+		
+		$oldheaders = $_SERVER;
+		$headers = array();
+
+		foreach($oldheaders as $key => $value) {
+			if (strpos($key, 'HTTP_') === 0) {
+			    $key = explode('_', ltrim($key, 'HTTP_'));
+			    array_walk($key, function(&$k) { $k = ucfirst(strtolower($k)); });
+			    $key = implode('-', $key);
+			    $headers[$key] = $value;
+			}
+		}
+
+		$this->assertEquals($request->getHeaders(), $headers);
+	}
 }
 
