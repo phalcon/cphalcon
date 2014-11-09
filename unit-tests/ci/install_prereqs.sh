@@ -17,8 +17,7 @@ CFLAGS="-O2 -g3 -fno-strict-aliasing" pecl install igbinary < /dev/null &
 
 phpenv config-add "$DIR/memcache.ini"
 phpenv config-rm xdebug.ini
+wait
 
 composer self-update
 composer --version
-
-wait
