@@ -479,8 +479,26 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 			'cupo' => 21000,
 			'estado' => 'A',
 		);
-
 		$this->assertEquals($persona->toArray(array('nombres', 'cupo', 'estado')), $expected);
+
+        //toArray with params must return only mapped fields if exists columnMap
+        $persona = new Personers();
+        $persona->assign(array(
+            'slagBorgerId' => 1,
+			'navnes' => 'LOST CREATE',
+			'teletelefonfono' => '1',
+			'kredit' => 21000,
+			'status' => 'A',
+			'notField' => 'SOME VALUE'
+        ));
+        $expected = array(
+            'navnes' => 'LOST CREATE',
+            'kredit' => 21000,
+            'status' => 'A',
+        );
+        $this->assertEquals($persona->toArray(array('nombres', 'cupo', 'estado')), []);//db fields names
+        $this->assertEquals($persona->toArray(array('navnes', 'kredit', 'status')), $expected);//mapped fields names
+
 
 		//Refresh
 		$persona = Personas::findFirst();
