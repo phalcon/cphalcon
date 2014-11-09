@@ -4358,7 +4358,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 * @param array $columns
 	 * @return array
 	 */
-	public function toArray(columns) -> array
+	public function toArray(columns=null) -> array
 	{
 		var data, metaData, columnMap, attribute,
 			attributeField, value;
