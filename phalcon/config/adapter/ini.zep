@@ -105,7 +105,7 @@ class Ini extends Config
 	 *
 	 * @return array parsed path
 	 */
-	private function _parseIniString(string! path, var value) -> array
+	protected function _parseIniString(string! path, var value) -> array
 	{
 		var pos;
 		let pos = strpos(path, ".");
