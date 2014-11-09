@@ -71,7 +71,7 @@ class CacheTest extends PHPUnit_Framework_TestCase
 		ob_end_clean();
 
 		$this->assertEquals($time, $obContent);
-		$this->assertTrue(file_exists('unit-tests/cache/unittestoutput'));
+		$this->assertTrue(file_exists('unit-tests/cache/unit'.$cache->getSafeKey('testoutput')));
 
 		//Same cache
 		$content = $cache->start('testoutput');
@@ -109,7 +109,7 @@ class CacheTest extends PHPUnit_Framework_TestCase
 		//Check keys
 		$keys = $cache->queryKeys();
 		$this->assertEquals($keys, array(
-			0 => 'unittestoutput',
+			0 => 'unit'.$cache->getSafeKey('testoutput'),
 		));
 
 		$this->assertTrue($cache->exists('testoutput'));
@@ -133,7 +133,7 @@ class CacheTest extends PHPUnit_Framework_TestCase
 		//Save
 		$cache->save('test-data', "nothing interesting");
 
-		$this->assertTrue(file_exists('unit-tests/cache/test-data'));
+		$this->assertTrue(file_exists('unit-tests/cache/'.$cache->getSafeKey('test-data')));
 
 		//Get
 		$cachedContent = $cache->get('test-data');
@@ -183,6 +183,20 @@ class CacheTest extends PHPUnit_Framework_TestCase
 
 		$this->assertEquals(95, $cache->decrement('foo', 4));
 	}
+
+    /**
+     * @expectedException \Exception
+     */
+	public function testDataFileCacheUnsafeKey()
+	{
+		$frontCache = new Phalcon\Cache\Frontend\Data();
+
+		$cache = new Phalcon\Cache\Backend\File($frontCache, array(
+			'cacheDir' => 'unit-tests/cache/',
+			'prefix' => '!@(##' // should throw an exception, only a-zA-Z09_-. are allowed
+		));
+	}
+
 
 	/*public function testMemoryCache()
 	{
