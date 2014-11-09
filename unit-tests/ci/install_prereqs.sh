@@ -19,5 +19,6 @@ phpenv config-add "$DIR/memcache.ini"
 phpenv config-rm xdebug.ini
 
 composer self-update
+composer --version
 
 wait
