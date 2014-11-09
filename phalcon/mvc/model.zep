@@ -3269,6 +3269,8 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 		if typeof row == "array" {
 			this->assign(row, metaData->getColumnMap(this));
 		}
+
+		return this;
 	}
 
 	/**
