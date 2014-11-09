@@ -1034,6 +1034,32 @@ class View extends Injectable implements ViewInterface
 	 * Renders a partial view
 	 *
 	 * <code>
+	 * 	//Retrieve the contents of a partial
+	 * 	echo $this->getPartial('shared/footer');
+	 * </code>
+	 *
+	 * <code>
+	 * 	//Retrieve the contents of a partial with arguments
+	 * 	echo $this->getPartial('shared/footer', array('content' => $html));
+	 * </code>
+	 *
+	 * @param string partialPath
+	 * @param array params
+	 * @return string
+	 */
+	public function getPartial(string! partialPath, params = null) -> string
+	{
+		// not liking the ob_* functions here, but it will greatly reduce the
+		// amount of double code.
+		ob_start();
+		this->partial(partialPath, params);
+		return ob_get_clean();
+	}
+
+	/**
+	 * Renders a partial view
+	 *
+	 * <code>
 	 * 	//Show a partial inside another view
 	 * 	$this->partial('shared/footer');
 	 * </code>

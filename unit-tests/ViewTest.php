@@ -275,6 +275,10 @@ class ViewTest extends PHPUnit_Framework_TestCase
 
 		$this->assertEquals('<!DOCTYPE html><html>Hey, this is a partial, also le-this</html>' . PHP_EOL, $view->getContent());
 
+
+		// Retrieve a partial as a string
+		$this->assertEquals('Hey, this is a partial, also le-this', $view->getPartial('partials/_partial1', array('cool_var' => 'le-this')));
+
 	}
 
 	public function testMissingPartial()
