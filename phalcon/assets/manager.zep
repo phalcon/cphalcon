@@ -372,7 +372,7 @@ class Manager
 		/**
 		 * Prepare options if the collection must be filtered
 		 */
-		if typeof filters == "array" {
+		if count(filters) {
 
 			let options = this->_options;
 
@@ -462,7 +462,7 @@ class Manager
 			/**
 			 * If the collection must not be joined we must print a HTML for each one
 			 */
-			if typeof filters == "array" {
+			if count(filters) {
 				if local {
 
 					/**
@@ -690,7 +690,7 @@ class Manager
 			}
 		}
 
-		if typeof filters == "array" {
+		if count(filters) {
 
 			if join == true {
 
