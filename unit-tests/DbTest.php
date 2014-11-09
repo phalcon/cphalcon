@@ -242,6 +242,29 @@ class DbTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($success);
         $row = $connection->fetchOne('select count(*) as cnt from prueba where nombre=? and estado=?', Phalcon\Db::FETCH_ASSOC, array("LOL updateAsDict", "X"));
         $this->assertEquals($row['cnt'], 1);
+        $success = $connection->updateAsDict('prueba', array(
+                'nombre' => "LOL updateAsDict2"
+            ),
+            "nombre=? and estado = ?",
+            array(
+                'LOL updateAsDict',
+                "X"
+            )
+        );
+        $this->assertTrue($success);
+        $row = $connection->fetchOne('select count(*) as cnt from prueba where nombre=? and estado=?', Phalcon\Db::FETCH_ASSOC, array("LOL updateAsDict2", "X"));
+        $this->assertEquals($row['cnt'], 1);
+
+        //test update with binds params foe where
+        $success = $connection->update(
+            'prueba',
+            array('nombre'),
+            array("LOL updateAsDict3", 'LOL updateAsDict2', "X"),
+            "nombre=? and estado = ?"
+        );
+        $this->assertTrue($success);
+        $row = $connection->fetchOne('select count(*) as cnt from prueba where nombre=? and estado=?', Phalcon\Db::FETCH_ASSOC, array("LOL updateAsDict3", "X"));
+        $this->assertEquals($row['cnt'], 1);
 
 		$connection->delete("prueba", "estado='X'");
 		$this->assertTrue($success);

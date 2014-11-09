@@ -452,6 +452,15 @@ abstract class Adapter implements EventsAwareInterface
 	 *     array(PDO::PARAM_STR)
 	 * );
 	 *
+	 * //Updating existing robot with string where condition and bindings
+	 * $success = $connection->update(
+	 *     "robots",
+	 *     array("name"),
+	 *     array("New Astro Boy", $some_unsafe_id),
+	 *     "id = ?"
+	 * );
+	 *
+	 *
 	 * </code>
 	 *
 	 * Warning! If $whereCondition is string it not escaped.
@@ -483,22 +492,32 @@ abstract class Adapter implements EventsAwareInterface
 		 */
 		for position, value in values {
 
-			if !fetch field, fields[position] {
-				throw new Exception("The number of values in the update is not the same as fields");
-			}
-
-			if globals_get("db.escape_identifiers") {
-				let escapedField = this->{"escapeIdentifier"}(field);
-			} else {
-				let escapedField = field;
-			}
-
-			if typeof value == "object" {
-				let placeholders[] = escapedField . " = " . value;
-			} else {
-				if typeof value == "null" {
-					let placeholders[] = escapedField . " = null";
+			if fetch field, fields[position] {
+				if globals_get("db.escape_identifiers") {
+					let escapedField = this->{"escapeIdentifier"}(field);
 				} else {
+					let escapedField = field;
+				}
+
+				if typeof value == "object" {
+					let placeholders[] = escapedField . " = " . value;
+				} else {
+					if typeof value == "null" {
+						let placeholders[] = escapedField . " = null";
+					} else {
+						let updateValues[] = value;
+						if typeof dataTypes == "array" {
+							if !fetch bindType, dataTypes[position] {
+								throw new Exception("Incomplete number of bind types");
+							}
+							let bindDataTypes[] = bindType;
+						}
+						let placeholders[] = escapedField . " = ?";
+					}
+				}
+			} else {
+				//processing bind params for string where condition
+				if typeof whereCondition == "string" {
 					let updateValues[] = value;
 					if typeof dataTypes == "array" {
 						if !fetch bindType, dataTypes[position] {
@@ -506,7 +525,6 @@ abstract class Adapter implements EventsAwareInterface
 						}
 						let bindDataTypes[] = bindType;
 					}
-					let placeholders[] = escapedField . " = ?";
 				}
 			}
 		}
@@ -572,45 +590,62 @@ abstract class Adapter implements EventsAwareInterface
 		return this->{"execute"}(updateSql, updateValues, bindDataTypes);
 	}
 
-    /**
-     * Updates data on a table using custom RBDM SQL syntax
-     * Another, more convenient syntax
-     *
-     * <code>
-     * //Updating existing robot
-     * $success = $connection->update(
-     *     "robots",
-     *     array(
-     *          "name" => "New Astro Boy"
-     *      ),
-     *     "id = 101"
-     * );
-     *
-     * //Next SQL sentence is sent to the database system
-     * UPDATE `robots` SET `name` = "Astro boy" WHERE id = 101
-     * </code>
-     *
-     * @param 	string table
-     * @param 	array data
-     * @param 	string whereCondition
-     * @param 	array dataTypes
-     * @return 	boolean
-     */
-    public function updateAsDict(var table, data, whereCondition = null, dataTypes = null) -> boolean
-    {
-        if typeOf data != "array" || empty data {
-            return false;
-        }
+	/**
+	 * Updates data on a table using custom RBDM SQL syntax
+	 * Another, more convenient syntax
+	 *
+	 * <code>
+	 * //Updating existing robot
+	 * $success = $connection->update(
+	 *     "robots",
+	 *     array(
+	 *          "name" => "New Astro Boy"
+	 *      ),
+	 *     "id = 101"
+	 * );
+	 *
+	 * //Next SQL sentence is sent to the database system
+	 * UPDATE `robots` SET `name` = "Astro boy" WHERE id = 101
+	 *
+	 *
+	 * //Updating existing robot by user inputed id
+	 * $success = $connection->update(
+	 *     "robots",
+	 *     array(
+	 *          "name" => "New Astro Boy"
+	 *      ),
+	 *     "id = ?",
+	 *     array($userId)
+	 * );
+	 *
+	 * </code>
+	 *
+	 * @param 	string table
+	 * @param 	array data
+	 * @param 	string whereCondition
+	 * @param 	array whereConditionParams
+	 * @param 	array dataTypes
+	 * @return 	boolean
+	 */
+	public function updateAsDict(var table, data, whereCondition = null, whereConditionParams = null, dataTypes = null) -> boolean
+	{
+		if typeOf data != "array" || empty data {
+			return false;
+		}
 
-        var values = [], fields = [];
-        var field, value;
-        for field, value in data {
-            let fields[] = field;
-            let values[] = value;
-        }
+		var values = [], fields = [];
+		var field, value;
+		for field, value in data {
+			let fields[] = field;
+			let values[] = value;
+		}
 
-        return this->update(table, fields, values, whereCondition, dataTypes);
-    }
+		if typeOf whereConditionParams == "array" {
+			let values = array_merge(values, whereConditionParams);
+		}
+
+		return this->update(table, fields, values, whereCondition, dataTypes);
+	}
 
 	/**
 	 * Deletes data from a table using custom RBDM SQL syntax
