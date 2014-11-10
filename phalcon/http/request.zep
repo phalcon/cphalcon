@@ -826,12 +826,22 @@ class Request implements RequestInterface, InjectionAwareInterface
 	 */
 	public function getHeaders() -> array
 	{
-		var headers, key, value;
+		var headers, key, value, parts, pos, part;
 
 		let headers = [];
 		for key, value in _SERVER {
 			if starts_with(key, "HTTP_") {
-				let headers[str_replace("HTTP_", "", key)] = value;
+
+				let key = str_replace("HTTP_", "", key),
+				    parts = explode("_", key),
+				    key = "";
+
+				for pos, part in parts {
+					let parts[pos] = ucfirst(strtolower(part));
+				}
+
+				let key = implode("-", parts),
+					headers[key] = value;
 			}
 		}
 		return headers;
