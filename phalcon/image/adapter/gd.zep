@@ -157,7 +157,7 @@ class Gd extends \Phalcon\Image\Adapter implements \Phalcon\Image\AdapterInterfa
 			imagedestroy(this->_image);
 			let this->_image = image;
 			let this->_width  = imagesx(image);
-			let this->_height = imagesx(image);
+			let this->_height = imagesy(image);
 		}
 	}
 
@@ -179,7 +179,7 @@ class Gd extends \Phalcon\Image\Adapter implements \Phalcon\Image\AdapterInterfa
 			imagedestroy(this->_image);
 			let this->_image = image;
 			let this->_width  = imagesx(image);
-			let this->_height = imagesx(image);
+			let this->_height = imagesy(image);
 		}
 	}
 
