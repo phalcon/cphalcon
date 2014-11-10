@@ -180,6 +180,7 @@
 #include "http/response/headers.h"
 #include "http/response/headersinterface.h"
 #include "http/uri.h"
+#include "http/client.h"
 #include "http/client/exception.h"
 #include "http/client/header.h"
 #include "http/client/response.h"

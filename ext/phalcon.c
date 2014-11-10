@@ -511,6 +511,7 @@ static PHP_MINIT_FUNCTION(phalcon)
 	PHALCON_INIT(Phalcon_Http_Response_Cookies);
 	PHALCON_INIT(Phalcon_Http_Response_Headers);
 	PHALCON_INIT(Phalcon_Http_Uri);
+	PHALCON_INIT(Phalcon_Http_Client);
 	PHALCON_INIT(Phalcon_Http_Client_Header);
 	PHALCON_INIT(Phalcon_Http_Client_Response);
 	PHALCON_INIT(Phalcon_Http_Client_Adapter);

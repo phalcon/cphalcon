@@ -45,13 +45,8 @@ zend_class_entry *phalcon_http_client_adapter_curl_ce;
 PHP_METHOD(Phalcon_Http_Client_Adapter_Curl, __construct);
 PHP_METHOD(Phalcon_Http_Client_Adapter_Curl, sendInternal);
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_client_adapter_curl___construct, 0, 0, 1)
-	ZEND_ARG_INFO(0, uri)
-	ZEND_ARG_INFO(0, method)
-ZEND_END_ARG_INFO()
-
 static const zend_function_entry phalcon_http_client_adapter_curl_method_entry[] = {
-	PHP_ME(Phalcon_Http_Client_Adapter_Curl, __construct, arginfo_phalcon_http_client_adapter_curl___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_ME(Phalcon_Http_Client_Adapter_Curl, __construct, arginfo_phalcon_http_client_adapterinterface___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_ME(Phalcon_Http_Client_Adapter_Curl, sendInternal, NULL, ZEND_ACC_PROTECTED)
 	PHP_FE_END
 };
@@ -76,9 +71,11 @@ PHP_METHOD(Phalcon_Http_Client_Adapter_Curl, __construct){
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 1, 1, &uri, &method);
+	phalcon_fetch_params(1, 0, 2, &uri, &method);
 
-	PHALCON_CALL_SELF(NULL, "setbaseuri", uri);
+	if (uri) {
+		PHALCON_CALL_SELF(NULL, "setbaseuri", uri);
+	}
 
 	if (method) {
 		PHALCON_INIT_VAR(upper_method);
@@ -136,13 +133,15 @@ PHP_METHOD(Phalcon_Http_Client_Adapter_Curl, __construct){
 
 PHP_METHOD(Phalcon_Http_Client_Adapter_Curl, sendInternal){
 
-	zval *base_uri, *url = NULL, *method, *useragent, *data, *file, *timeout, *curl, *username, *password, *authtype;
+	zval *uri = NULL, *url = NULL, *method, *useragent, *data, *file, *timeout, *curl, *username, *password, *authtype;
 	zval *fp = NULL, *filesize = NULL, *constant, *header, *headers = NULL;
 	zval *content = NULL, *errorno = NULL, *error = NULL, *headersize = NULL, *httpcode = NULL, *headerstr, *bodystr, *response, *tmp = NULL;
 
 	PHALCON_MM_GROW();
 
-	base_uri = phalcon_fetch_nproperty_this(this_ptr, SL("_base_uri"), PH_NOISY TSRMLS_CC);
+	PHALCON_CALL_SELF(&uri, "geturi");
+	PHALCON_CALL_METHOD(&url, uri, "build");
+
 	method = phalcon_fetch_nproperty_this(this_ptr, SL("_method"), PH_NOISY TSRMLS_CC);
 	useragent = phalcon_fetch_nproperty_this(this_ptr, SL("_useragent"), PH_NOISY TSRMLS_CC);
 	data = phalcon_fetch_nproperty_this(this_ptr, SL("_data"), PH_NOISY TSRMLS_CC);
@@ -152,8 +151,6 @@ PHP_METHOD(Phalcon_Http_Client_Adapter_Curl, sendInternal){
 	username = phalcon_fetch_nproperty_this(this_ptr, SL("_username"), PH_NOISY TSRMLS_CC);
 	password = phalcon_fetch_nproperty_this(this_ptr, SL("_password"), PH_NOISY TSRMLS_CC);
 	authtype = phalcon_fetch_nproperty_this(this_ptr, SL("_authtype"), PH_NOISY TSRMLS_CC);
-
-	PHALCON_CALL_METHOD(&url, base_uri, "build");
 
 	PHALCON_INIT_VAR(constant);
 	if (!zend_get_constant(SL("CURLOPT_URL"), constant TSRMLS_CC)) {

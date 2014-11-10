@@ -47,12 +47,6 @@ PHP_METHOD(Phalcon_Http_Client_Adapter_Stream, buildBody);
 PHP_METHOD(Phalcon_Http_Client_Adapter_Stream, errorHandler);
 PHP_METHOD(Phalcon_Http_Client_Adapter_Stream, sendInternal);
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_client_adapter_stream___construct, 0, 0, 1)
-	ZEND_ARG_INFO(0, uri)
-	ZEND_ARG_INFO(0, method)
-ZEND_END_ARG_INFO()
-
-
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_client_adapter_stream_errorhandler, 0, 0, 5)
 	ZEND_ARG_INFO(0, errno)
 	ZEND_ARG_INFO(0, errstr)
@@ -62,7 +56,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_client_adapter_stream_errorhandler, 
 ZEND_END_ARG_INFO()
 
 static const zend_function_entry phalcon_http_client_adapter_stream_method_entry[] = {
-	PHP_ME(Phalcon_Http_Client_Adapter_Stream, __construct, arginfo_phalcon_http_client_adapter_stream___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_ME(Phalcon_Http_Client_Adapter_Stream, __construct, arginfo_phalcon_http_client_adapterinterface___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_ME(Phalcon_Http_Client_Adapter_Stream, buildBody, NULL, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Http_Client_Adapter_Stream, errorHandler, arginfo_phalcon_http_client_adapter_stream_errorhandler, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Client_Adapter_Stream, sendInternal, NULL, ZEND_ACC_PROTECTED)
@@ -89,9 +83,11 @@ PHP_METHOD(Phalcon_Http_Client_Adapter_Stream, __construct){
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 1, 1, &uri, &method);
+	phalcon_fetch_params(1, 0, 2, &uri, &method);
 
-	PHALCON_CALL_SELF(NULL, "setbaseuri", uri);
+	if (uri) {
+		PHALCON_CALL_SELF(NULL, "setbaseuri", uri);
+	}
 
 	if (method) {
 		PHALCON_INIT_VAR(upper_method);
@@ -371,15 +367,17 @@ PHP_METHOD(Phalcon_Http_Client_Adapter_Stream, errorHandler){
 
 PHP_METHOD(Phalcon_Http_Client_Adapter_Stream, sendInternal){
 
-	zval *stream, *http, *option = NULL, *header, *handler, *base_uri, *url = NULL, *method, *useragent, *timeout;
+	zval *uri = NULL, *url = NULL, *stream, *http, *option = NULL, *header, *handler, *method, *useragent, *timeout;
 	zval *fp = NULL, *meta = NULL, *wrapper_data, *bodystr = NULL, *response;
 
 	PHALCON_MM_GROW();
 
+	PHALCON_CALL_SELF(&uri, "geturi");
+	PHALCON_CALL_METHOD(&url, uri, "build");
+
 	stream = phalcon_fetch_nproperty_this(this_ptr, SL("_stream"), PH_NOISY TSRMLS_CC);
 	header = phalcon_fetch_nproperty_this(this_ptr, SL("_header"), PH_NOISY TSRMLS_CC);
 	method = phalcon_fetch_nproperty_this(this_ptr, SL("_method"), PH_NOISY TSRMLS_CC);
-	base_uri = phalcon_fetch_nproperty_this(this_ptr, SL("_base_uri"), PH_NOISY TSRMLS_CC);
 	useragent = phalcon_fetch_nproperty_this(this_ptr, SL("_useragent"), PH_NOISY TSRMLS_CC);
 	timeout = phalcon_fetch_nproperty_this(this_ptr, SL("_timeout"), PH_NOISY TSRMLS_CC);
 
@@ -404,8 +402,6 @@ PHP_METHOD(Phalcon_Http_Client_Adapter_Stream, sendInternal){
 	ZVAL_STRING(option, "timeout", 1);
 
 	PHALCON_CALL_FUNCTION(NULL, "stream_context_set_option", stream, http, option, timeout);
-
-	PHALCON_CALL_METHOD(&url, base_uri, "build");
 
 	PHALCON_CALL_SELF(NULL, "buildBody");
 

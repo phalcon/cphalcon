@@ -102,6 +102,7 @@ http/response/headers.c \
 http/response/cookiesinterface.c \
 http/response/headersinterface.c \
 http/uri.c \
+http/client.c \
 http/client/exception.c \
 http/client/header.c \
 http/client/response.c \
