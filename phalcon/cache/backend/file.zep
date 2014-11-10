@@ -54,6 +54,12 @@ use Phalcon\Cache\Exception;
  */
 class File extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendInterface
 {
+	/**
+	 * Default to false for backwards compatibility
+	 * 
+	 * @var boolean
+	 */
+	private _useSafeKey = false;
 
 	/**
 	 * Phalcon\Cache\Backend\File constructor
@@ -63,15 +69,23 @@ class File extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendInter
 	 */
 	public function __construct(<\Phalcon\Cache\FrontendInterface> frontend, options=null)
 	{
-		var prefix;
+		var prefix, safekey;
 
 		if !isset options["cacheDir"] {
 			throw new Exception("Cache directory must be specified with the option cacheDir");
 		}
 
+		if fetch safekey, options["safekey"] {
+			if typeof safekey !== "boolean" {
+				throw new Exception("safekey option should be a boolean.");
+			}
+
+			let this->_useSafeKey = safekey;
+		}
+
 		// added to avoid having unsafe filesystem characters in the prefix
 		if fetch prefix, options["prefix"] {
-			if preg_match("/[^a-zA-Z0-9_.-]+/", prefix) {
+			if this->_useSafeKey && preg_match("/[^a-zA-Z0-9_.-]+/", prefix) {
 				throw new Exception("FileCache prefix should only use alphanumeric characters.");
 			}
 		}
@@ -91,7 +105,7 @@ class File extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendInter
 		var prefixedKey, cacheDir, cacheFile, frontend, lastLifetime, ttl, cachedContent, ret;
 		int modifiedTime;
 
-		let prefixedKey =  this->_prefix . this->getSafeKey(keyName);
+		let prefixedKey =  this->_prefix . this->getKey(keyName);
 		let this->_lastKey = prefixedKey;
 
 		if !fetch cacheDir, this->_options["cacheDir"] {
@@ -162,7 +176,7 @@ class File extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendInter
 		if !keyName {
 			let lastKey = this->_lastKey;
 		} else {
-			let lastKey = this->_prefix . this->getSafeKey(keyName);
+			let lastKey = this->_prefix . this->getKey(keyName);
 		}
 
 		if !lastKey {
@@ -225,7 +239,7 @@ class File extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendInter
 			throw new Exception("Unexpected inconsistency in options");
 		}
 
-		let cacheFile = cacheDir . this->_prefix . this->getSafeKey(keyName);
+		let cacheFile = cacheDir . this->_prefix . this->getKey(keyName);
 		if file_exists(cacheFile) {
 			return unlink(cacheFile);
 		}
@@ -284,7 +298,7 @@ class File extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendInter
 			let lastKey = this->_lastKey;
 		} else {
 			let prefix = this->_prefix;
-			let lastKey = prefix . this->getSafeKey(keyName);
+			let lastKey = prefix . this->getKey(keyName);
 		}
 
 		if lastKey {
@@ -323,7 +337,7 @@ class File extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendInter
 		var prefixedKey, cacheFile, frontend, timestamp, lifetime, ttl,
 			cachedContent, result;
 
-		let prefixedKey = this->_prefix . this->getSafeKey(keyName),
+		let prefixedKey = this->_prefix . this->getKey(keyName),
 			this->_lastKey = prefixedKey,
 			cacheFile = this->_options["cacheDir"] . prefixedKey;
 
@@ -384,7 +398,7 @@ class File extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendInter
 	{
 		var prefixedKey, cacheFile, timestamp, lifetime, ttl, cachedContent, result;
 
-		let prefixedKey = this->_prefix . this->getSafeKey(keyName),
+		let prefixedKey = this->_prefix . this->getKey(keyName),
 			this->_lastKey = prefixedKey,
 			cacheFile = this->_options["cacheDir"] . prefixedKey;
 
@@ -469,8 +483,24 @@ class File extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendInter
 	 *
 	 * @return string
 	 */
-	public function getSafeKey(key) -> string
+	public function getKey(key) -> string
 	{
-		return md5(key);
+		if this->_useSafeKey === true {
+			return md5(key);
+		}
+		
+		return key;
+	}
+
+	/**
+	 * Set whether to use the safekey or not
+	 *
+	 * @return this
+	 */
+	public function useSafeKey(bool useSafeKey)
+	{
+		let this->_useSafeKey = useSafeKey;
+
+		return this;
 	}
 }
