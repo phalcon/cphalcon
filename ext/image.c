@@ -79,14 +79,6 @@ PHALCON_INIT_CLASS(Phalcon_Image){
 	return SUCCESS;
 }
 
-/**
- * Executes the validation
- *
- * @param string $file
- * @param int $width
- * @param int $height
- * @return Phalcon\Image\AdapterInterface
- */
 PHP_METHOD(Phalcon_Image, factory){
 	zval *file, *width = NULL, *height = NULL;
 

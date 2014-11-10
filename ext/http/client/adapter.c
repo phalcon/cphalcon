@@ -51,6 +51,7 @@ PHP_METHOD(Phalcon_Http_Client_Adapter, post);
 PHP_METHOD(Phalcon_Http_Client_Adapter, put);
 PHP_METHOD(Phalcon_Http_Client_Adapter, delete);
 PHP_METHOD(Phalcon_Http_Client_Adapter, setUri);
+PHP_METHOD(Phalcon_Http_Client_Adapter, getUri);
 PHP_METHOD(Phalcon_Http_Client_Adapter, setBaseUri);
 PHP_METHOD(Phalcon_Http_Client_Adapter, setMethod);
 PHP_METHOD(Phalcon_Http_Client_Adapter, setTimeOut);
@@ -70,10 +71,11 @@ static const zend_function_entry phalcon_http_client_adapter_method_entry[] = {
 	PHP_ME(Phalcon_Http_Client_Adapter, put, arginfo_phalcon_http_client_adapterinterface_put, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Client_Adapter, delete, arginfo_phalcon_http_client_adapterinterface_delete, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Client_Adapter, setUri, arginfo_phalcon_http_client_adapterinterface_seturi, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Client_Adapter, getUri, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Client_Adapter, setBaseUri, arginfo_phalcon_http_client_adapterinterface_setbaseuri, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Client_Adapter, setMethod, arginfo_phalcon_http_client_adapterinterface_setmethod, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Client_Adapter, setTimeOut, arginfo_phalcon_http_client_adapterinterface_setmethod, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Http_Client_Adapter, send, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Client_Adapter, send, arginfo_phalcon_http_client_adapterinterface_send, ZEND_ACC_PUBLIC)
 
 	ZEND_FENTRY(sendInternal, NULL, NULL, ZEND_ACC_PROTECTED|ZEND_ACC_ABSTRACT)
 
@@ -402,11 +404,33 @@ PHP_METHOD(Phalcon_Http_Client_Adapter, setUri){
 
 	base_uri = phalcon_fetch_nproperty_this(this_ptr, SL("_base_uri"), PH_NOISY TSRMLS_CC);
 
-	PHALCON_CALL_METHODW(NULL, base_uri, "extend", uri);
-
-	phalcon_update_property_this(this_ptr, SL("_base_uri"), base_uri TSRMLS_CC);
+	if (Z_TYPE_P(base_uri) == IS_OBJECT) {
+		PHALCON_CALL_METHODW(NULL, base_uri, "extend", uri);
+		phalcon_update_property_this(this_ptr, SL("_base_uri"), base_uri TSRMLS_CC);
+	} else {
+		PHALCON_CALL_SELFW(NULL, "setbaseuri", uri);
+	}
 
 	RETURN_THISW();
+}
+
+/**
+ * Get URI
+ *
+ * @return Phalcon\Http\Uri
+ */
+PHP_METHOD(Phalcon_Http_Client_Adapter, getUri){
+
+	zval *base_uri;
+
+	base_uri = phalcon_fetch_nproperty_this(this_ptr, SL("_base_uri"), PH_NOISY TSRMLS_CC);
+
+	if (Z_TYPE_P(base_uri) != IS_OBJECT) {
+		PHALCON_CALL_SELFW(NULL, "setbaseuri");
+		base_uri = phalcon_fetch_nproperty_this(this_ptr, SL("_base_uri"), PH_NOISY TSRMLS_CC);
+	}
+
+	RETURN_CTORW(base_uri);
 }
 
 /**
@@ -417,11 +441,15 @@ PHP_METHOD(Phalcon_Http_Client_Adapter, setUri){
  */
 PHP_METHOD(Phalcon_Http_Client_Adapter, setBaseUri){
 
-	zval *uri, *base_uri;
+	zval *uri = NULL, *base_uri;
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 1, 0, &uri);
+	phalcon_fetch_params(1, 0, 1, &uri);
+
+	if (!uri) {
+		uri = PHALCON_GLOBAL(z_null);
+	}
 
 	PHALCON_INIT_VAR(base_uri);
 	object_init_ex(base_uri, phalcon_http_uri_ce);
@@ -472,6 +500,14 @@ PHP_METHOD(Phalcon_Http_Client_Adapter, setTimeOut){
  * @return Phalcon\Http\Client\Response
  */
 PHP_METHOD(Phalcon_Http_Client_Adapter, send){
+
+	zval *uri = NULL;
+
+	phalcon_fetch_params(0, 0, 1, &uri);
+
+	if (uri) {
+		PHALCON_CALL_SELFW(NULL, "seturi", uri);
+	}
 
 	PHALCON_RETURN_CALL_METHODW(this_ptr, "sendinternal");
 }

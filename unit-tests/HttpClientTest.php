@@ -38,4 +38,13 @@ class HttpClientTest extends PHPUnit_Framework_TestCase
 
 		$this->assertEquals($response->getStatusCode(), 200);
 	}
+
+	public function testFactory()
+	{
+		$client = Phalcon\Http\Client::factory('http://phalconphp.com/');
+
+		$response = $client->get();
+
+		$this->assertEquals($response->getStatusCode(), 200);
+	}
 }

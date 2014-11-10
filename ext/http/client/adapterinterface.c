@@ -35,10 +35,11 @@ static const zend_function_entry phalcon_http_client_adapterinterface_method_ent
 	PHP_ABSTRACT_ME(Phalcon_Http_Client_AdapterInterface, put, arginfo_phalcon_http_client_adapterinterface_put)
 	PHP_ABSTRACT_ME(Phalcon_Http_Client_AdapterInterface, delete, arginfo_phalcon_http_client_adapterinterface_delete)
 	PHP_ABSTRACT_ME(Phalcon_Http_Client_AdapterInterface, setUri, arginfo_phalcon_http_client_adapterinterface_seturi)
+	PHP_ABSTRACT_ME(Phalcon_Http_Client_AdapterInterface, getUri, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Http_Client_AdapterInterface, setBaseUri, arginfo_phalcon_http_client_adapterinterface_setbaseuri)
 	PHP_ABSTRACT_ME(Phalcon_Http_Client_AdapterInterface, setMethod, arginfo_phalcon_http_client_adapterinterface_setmethod)
 	PHP_ABSTRACT_ME(Phalcon_Http_Client_AdapterInterface, setTimeOut, arginfo_phalcon_http_client_adapterinterface_settimeout)
-	PHP_ABSTRACT_ME(Phalcon_Http_Client_AdapterInterface, send, NULL)
+	PHP_ABSTRACT_ME(Phalcon_Http_Client_AdapterInterface, send, arginfo_phalcon_http_client_adapterinterface_send)
 	PHP_FE_END
 };
 
@@ -65,6 +66,7 @@ PHALCON_DOC_METHOD(Phalcon_Http_Client_AdapterInterface, post);
 PHALCON_DOC_METHOD(Phalcon_Http_Client_AdapterInterface, put);
 PHALCON_DOC_METHOD(Phalcon_Http_Client_AdapterInterface, delete);
 PHALCON_DOC_METHOD(Phalcon_Http_Client_AdapterInterface, setUri);
+PHALCON_DOC_METHOD(Phalcon_Http_Client_AdapterInterface, getUri);
 PHALCON_DOC_METHOD(Phalcon_Http_Client_AdapterInterface, setBaseUri);
 PHALCON_DOC_METHOD(Phalcon_Http_Client_AdapterInterface, setMethod);
 PHALCON_DOC_METHOD(Phalcon_Http_Client_AdapterInterface, setTimeOut);
