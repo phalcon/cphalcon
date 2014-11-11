@@ -739,4 +739,13 @@ abstract class Pdo extends \Phalcon\Db\Adapter
 		return this->_pdo;
 	}
 
+	/**
+	 * Return the error info, if any
+	 *
+	 * @return array
+	 */
+	public function getErrorInfo()
+	{
+		return this->_pdo->errorInfo();
+	}
 }
