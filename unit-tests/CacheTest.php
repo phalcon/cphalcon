@@ -40,7 +40,7 @@ class CacheTest extends PHPUnit_Framework_TestCase
 
 	public function testOutputFileCache()
 	{
-
+	    for($i = 0; $i < 2; $i++) {
 		$time = date('H:i:s');
 
 		$frontCache = new Phalcon\Cache\Frontend\Output(array(
@@ -51,6 +51,11 @@ class CacheTest extends PHPUnit_Framework_TestCase
 			'cacheDir' => 'unit-tests/cache/',
 			'prefix' => 'unit'
 		));
+
+		// on the second run set useSafeKey to true to test the compatibility toggle
+		if ($i == 1) {
+                    $cache->useSafeKey(true);
+                }
 
 		$this->assertFalse($cache->isStarted());
 
@@ -71,7 +76,7 @@ class CacheTest extends PHPUnit_Framework_TestCase
 		ob_end_clean();
 
 		$this->assertEquals($time, $obContent);
-		$this->assertTrue(file_exists('unit-tests/cache/unittestoutput'));
+		$this->assertTrue(file_exists('unit-tests/cache/unit'.$cache->getKey('testoutput')));
 
 		//Same cache
 		$content = $cache->start('testoutput');
@@ -109,14 +114,14 @@ class CacheTest extends PHPUnit_Framework_TestCase
 		//Check keys
 		$keys = $cache->queryKeys();
 		$this->assertEquals($keys, array(
-			0 => 'unittestoutput',
+			0 => 'unit'.$cache->getKey('testoutput'),
 		));
 
 		$this->assertTrue($cache->exists('testoutput'));
 
 		//Delete cache
 		$this->assertTrue($cache->delete('testoutput'));
-
+            }
 	}
 
 	public function testDataFileCache()
@@ -133,7 +138,7 @@ class CacheTest extends PHPUnit_Framework_TestCase
 		//Save
 		$cache->save('test-data', "nothing interesting");
 
-		$this->assertTrue(file_exists('unit-tests/cache/test-data'));
+		$this->assertTrue(file_exists('unit-tests/cache/'.$cache->getKey('test-data')));
 
 		//Get
 		$cachedContent = $cache->get('test-data');
@@ -183,6 +188,21 @@ class CacheTest extends PHPUnit_Framework_TestCase
 
 		$this->assertEquals(95, $cache->decrement('foo', 4));
 	}
+
+        /**
+         * @expectedException \Exception
+         */
+	public function testDataFileCacheUnsafeKey()
+	{
+		$frontCache = new Phalcon\Cache\Frontend\Data();
+
+		$cache = new Phalcon\Cache\Backend\File($frontCache, array(
+			'cacheDir' => 'unit-tests/cache/',
+                        'safekey' => true,
+			'prefix' => '!@(##' // should throw an exception, only a-zA-Z09_-. are allowed
+		));
+	}
+
 
 	/*public function testMemoryCache()
 	{
