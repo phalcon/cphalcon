@@ -587,7 +587,7 @@
       <itemPath>ext/configure</itemPath>
     </logicalFolder>
   </logicalFolder>
-  <sourceFolderFilter>^(nbproject)$</sourceFolderFilter>
+  <sourceFolderFilter>^(nbproject|tests)$</sourceFolderFilter>
   <sourceRootList>
     <Elem>ext</Elem>
   </sourceRootList>
@@ -600,8 +600,7 @@
         <rebuildPropChanged>false</rebuildPropChanged>
       </toolsSet>
       <flagsDictionary>
-        <element flagsID="0" commonFlags="-fopenmp -fPIC"/>
-        <element flagsID="1" commonFlags="-fopenmp -g -fPIC"/>
+        <element flagsID="0" commonFlags="-fopenmp -g -fPIC"/>
       </flagsDictionary>
       <codeAssistance>
       </codeAssistance>
@@ -619,7 +618,7 @@
         </makeTool>
       </makefileType>
       <item path="ext/acl.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
+        <cTool flags="0">
           <incDir>
             <pElem>ext/include</pElem>
             <pElem>ext/main</pElem>
@@ -641,39 +640,23 @@
         </cTool>
       </item>
       <item path="ext/acl/adapter.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/acl/adapter/memory.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/acl/adapterinterface.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/acl/exception.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/acl/resource.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/acl/resourceinterface.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/acl/role.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/acl/roleinterface.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/amf.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
+        <cTool flags="0">
           <incDir>
             <pElem>ext/include</pElem>
             <pElem>ext/main</pElem>
@@ -695,31 +678,19 @@
         </cTool>
       </item>
       <item path="ext/amf/deserializer.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/amf/exception.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/amf/header.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/amf/message.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/amf/packet.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/amf/serializer.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/annotations/adapter.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
+        <cTool flags="0">
           <incDir>
             <pElem>ext/include</pElem>
             <pElem>ext/main</pElem>
@@ -741,23 +712,15 @@
         </cTool>
       </item>
       <item path="ext/annotations/adapter/apc.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/annotations/adapter/files.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/annotations/adapter/memory.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/annotations/adapter/xcache.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/annotations/adapterinterface.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
+        <cTool flags="0">
           <incDir>
             <pElem>ext/include</pElem>
             <pElem>ext/main</pElem>
@@ -779,7 +742,7 @@
         </cTool>
       </item>
       <item path="ext/annotations/annotation.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
+        <cTool flags="0">
           <incDir>
             <pElem>ext/include</pElem>
             <pElem>ext/main</pElem>
@@ -803,7 +766,7 @@
       <item path="ext/annotations/base.c" ex="false" tool="0" flavor2="2">
       </item>
       <item path="ext/annotations/collection.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
+        <cTool flags="0">
           <incDir>
             <pElem>ext/include</pElem>
             <pElem>ext/main</pElem>
@@ -825,7 +788,7 @@
         </cTool>
       </item>
       <item path="ext/annotations/exception.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
+        <cTool flags="0">
           <incDir>
             <pElem>ext/include</pElem>
             <pElem>ext/main</pElem>
@@ -847,7 +810,7 @@
         </cTool>
       </item>
       <item path="ext/annotations/parser.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
+        <cTool flags="0">
           <incDir>
             <pElem>ext/include</pElem>
             <pElem>ext/main</pElem>
@@ -869,7 +832,7 @@
         </cTool>
       </item>
       <item path="ext/annotations/reader.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
+        <cTool flags="0">
           <incDir>
             <pElem>ext/include</pElem>
             <pElem>ext/main</pElem>
@@ -891,7 +854,7 @@
         </cTool>
       </item>
       <item path="ext/annotations/readerinterface.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
+        <cTool flags="0">
           <incDir>
             <pElem>ext/include</pElem>
             <pElem>ext/main</pElem>
@@ -913,7 +876,7 @@
         </cTool>
       </item>
       <item path="ext/annotations/reflection.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
+        <cTool flags="0">
           <incDir>
             <pElem>ext/include</pElem>
             <pElem>ext/main</pElem>
@@ -935,7 +898,7 @@
         </cTool>
       </item>
       <item path="ext/annotations/scanner.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
+        <cTool flags="0">
           <incDir>
             <pElem>ext/include</pElem>
             <pElem>ext/main</pElem>
@@ -957,7 +920,7 @@
         </cTool>
       </item>
       <item path="ext/arr.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
+        <cTool flags="0">
           <incDir>
             <pElem>ext/include</pElem>
             <pElem>ext/main</pElem>
@@ -979,7 +942,7 @@
         </cTool>
       </item>
       <item path="ext/assets/collection.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
+        <cTool flags="0">
           <incDir>
             <pElem>ext/include</pElem>
             <pElem>ext/main</pElem>
@@ -1001,7 +964,7 @@
         </cTool>
       </item>
       <item path="ext/assets/exception.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
+        <cTool flags="0">
           <incDir>
             <pElem>ext/include</pElem>
             <pElem>ext/main</pElem>
@@ -1023,7 +986,7 @@
         </cTool>
       </item>
       <item path="ext/assets/filterinterface.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
+        <cTool flags="0">
           <incDir>
             <pElem>ext/include</pElem>
             <pElem>ext/main</pElem>
@@ -1045,7 +1008,7 @@
         </cTool>
       </item>
       <item path="ext/assets/filters/cssmin.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
+        <cTool flags="0">
           <incDir>
             <pElem>ext/include</pElem>
             <pElem>ext/main</pElem>
@@ -1067,7 +1030,7 @@
         </cTool>
       </item>
       <item path="ext/assets/filters/cssminifier.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
+        <cTool flags="0">
           <incDir>
             <pElem>ext/include</pElem>
             <pElem>ext/main</pElem>
@@ -1089,7 +1052,7 @@
         </cTool>
       </item>
       <item path="ext/assets/filters/jsmin.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
+        <cTool flags="0">
           <incDir>
             <pElem>ext/include</pElem>
             <pElem>ext/main</pElem>
@@ -1111,7 +1074,7 @@
         </cTool>
       </item>
       <item path="ext/assets/filters/jsminifier.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
+        <cTool flags="0">
           <incDir>
             <pElem>ext/include</pElem>
             <pElem>ext/main</pElem>
@@ -1137,7 +1100,7 @@
       <item path="ext/assets/filters/nojsminifier.c" ex="false" tool="0" flavor2="2">
       </item>
       <item path="ext/assets/filters/none.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
+        <cTool flags="0">
           <incDir>
             <pElem>ext/include</pElem>
             <pElem>ext/main</pElem>
@@ -1159,7 +1122,7 @@
         </cTool>
       </item>
       <item path="ext/assets/manager.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
+        <cTool flags="0">
           <incDir>
             <pElem>ext/include</pElem>
             <pElem>ext/main</pElem>
@@ -1181,7 +1144,7 @@
         </cTool>
       </item>
       <item path="ext/assets/resource.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
+        <cTool flags="0">
           <incDir>
             <pElem>ext/include</pElem>
             <pElem>ext/main</pElem>
@@ -1203,131 +1166,69 @@
         </cTool>
       </item>
       <item path="ext/assets/resource/css.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/assets/resource/js.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/cache/backend.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/cache/backend/apc.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/cache/backend/file.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/cache/backend/libmemcached.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/cache/backend/memcache.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/cache/backend/memory.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/cache/backend/mongo.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/cache/backend/redis.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/cache/backend/xcache.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/cache/backendinterface.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/cache/exception.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/cache/frontend/base64.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/cache/frontend/data.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/cache/frontend/igbinary.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/cache/frontend/json.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/cache/frontend/none.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/cache/frontend/output.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/cache/frontendinterface.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/cache/multiple.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/chart/captcha.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/chart/exception.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/chart/qrcode.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/cli/console.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/cli/console/exception.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/cli/dispatcher.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/cli/dispatcher/exception.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/cli/router.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/cli/router/exception.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/cli/task.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/config.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
+        <cTool flags="0">
           <incDir>
             <pElem>ext/include</pElem>
             <pElem>ext/main</pElem>
@@ -1349,27 +1250,17 @@
         </cTool>
       </item>
       <item path="ext/config/adapter/ini.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/config/adapter/json.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/config/adapter/php.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/config/adapter/yaml.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/config/exception.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/crypt.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
+        <cTool flags="0">
           <incDir>
             <pElem>ext/include</pElem>
             <pElem>ext/main</pElem>
@@ -1391,11 +1282,9 @@
         </cTool>
       </item>
       <item path="ext/crypt/exception.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/cryptinterface.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
+        <cTool flags="0">
           <incDir>
             <pElem>ext/include</pElem>
             <pElem>ext/main</pElem>
@@ -1417,7 +1306,7 @@
         </cTool>
       </item>
       <item path="ext/date.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
+        <cTool flags="0">
           <incDir>
             <pElem>ext/include</pElem>
             <pElem>ext/main</pElem>
@@ -1439,7 +1328,7 @@
         </cTool>
       </item>
       <item path="ext/db.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
+        <cTool flags="0">
           <incDir>
             <pElem>ext/include</pElem>
             <pElem>ext/main</pElem>
@@ -1461,107 +1350,57 @@
         </cTool>
       </item>
       <item path="ext/db/adapter.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/db/adapter/pdo.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/db/adapter/pdo/mysql.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/db/adapter/pdo/oracle.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/db/adapter/pdo/postgresql.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/db/adapter/pdo/sqlite.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/db/adapterinterface.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/db/column.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/db/columninterface.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/db/dialect.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/db/dialect/mysql.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/db/dialect/oracle.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/db/dialect/postgresql.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/db/dialect/sqlite.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/db/dialectinterface.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/db/exception.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/db/index.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/db/indexinterface.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/db/profiler.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/db/profiler/item.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/db/rawvalue.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/db/reference.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/db/referenceinterface.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/db/result/pdo.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/db/resultinterface.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/debug.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
+        <cTool flags="0">
           <incDir>
             <pElem>ext/include</pElem>
             <pElem>ext/main</pElem>
@@ -1583,7 +1422,7 @@
         </cTool>
       </item>
       <item path="ext/di.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
+        <cTool flags="0">
           <incDir>
             <pElem>ext/include</pElem>
             <pElem>ext/main</pElem>
@@ -1605,39 +1444,23 @@
         </cTool>
       </item>
       <item path="ext/di/exception.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/di/factorydefault.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/di/factorydefault/cli.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/di/injectable.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/di/injectionawareinterface.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/di/service.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/di/service/builder.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/di/serviceinterface.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/diinterface.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
+        <cTool flags="0">
           <incDir>
             <pElem>ext/include</pElem>
             <pElem>ext/main</pElem>
@@ -1659,7 +1482,7 @@
         </cTool>
       </item>
       <item path="ext/dispatcher.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
+        <cTool flags="0">
           <incDir>
             <pElem>ext/include</pElem>
             <pElem>ext/main</pElem>
@@ -1681,7 +1504,7 @@
         </cTool>
       </item>
       <item path="ext/dispatcherinterface.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
+        <cTool flags="0">
           <incDir>
             <pElem>ext/include</pElem>
             <pElem>ext/main</pElem>
@@ -1703,7 +1526,7 @@
         </cTool>
       </item>
       <item path="ext/escaper.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
+        <cTool flags="0">
           <incDir>
             <pElem>ext/include</pElem>
             <pElem>ext/main</pElem>
@@ -1725,11 +1548,9 @@
         </cTool>
       </item>
       <item path="ext/escaper/exception.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/escaperinterface.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
+        <cTool flags="0">
           <incDir>
             <pElem>ext/include</pElem>
             <pElem>ext/main</pElem>
@@ -1751,27 +1572,17 @@
         </cTool>
       </item>
       <item path="ext/events/event.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/events/eventsawareinterface.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/events/exception.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/events/manager.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/events/managerinterface.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/exception.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
+        <cTool flags="0">
           <incDir>
             <pElem>ext/include</pElem>
             <pElem>ext/main</pElem>
@@ -1793,7 +1604,7 @@
         </cTool>
       </item>
       <item path="ext/filter.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
+        <cTool flags="0">
           <incDir>
             <pElem>ext/include</pElem>
             <pElem>ext/main</pElem>
@@ -1815,15 +1626,11 @@
         </cTool>
       </item>
       <item path="ext/filter/exception.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/filter/userfilterinterface.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/filterinterface.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
+        <cTool flags="0">
           <incDir>
             <pElem>ext/include</pElem>
             <pElem>ext/main</pElem>
@@ -1845,7 +1652,7 @@
         </cTool>
       </item>
       <item path="ext/flash.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
+        <cTool flags="0">
           <incDir>
             <pElem>ext/include</pElem>
             <pElem>ext/main</pElem>
@@ -1867,19 +1674,13 @@
         </cTool>
       </item>
       <item path="ext/flash/direct.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/flash/exception.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/flash/session.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/flashinterface.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
+        <cTool flags="0">
           <incDir>
             <pElem>ext/include</pElem>
             <pElem>ext/main</pElem>
@@ -1901,173 +1702,93 @@
         </cTool>
       </item>
       <item path="ext/forms/element.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/forms/element/check.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/forms/element/date.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/forms/element/email.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/forms/element/file.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/forms/element/hidden.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/forms/element/numeric.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/forms/element/password.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/forms/element/radio.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/forms/element/select.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/forms/element/submit.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/forms/element/text.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/forms/element/textarea.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/forms/elementinterface.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/forms/exception.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/forms/form.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/forms/manager.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/http/client.c" ex="false" tool="0" flavor2="0">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/http/client/adapter.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/http/client/adapter/curl.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/http/client/adapter/stream.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/http/client/adapterinterface.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/http/client/exception.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/http/client/header.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/http/client/response.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/http/cookie.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/http/cookie/exception.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/http/request.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/http/request/exception.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/http/request/file.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/http/request/fileinterface.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/http/requestinterface.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/http/response.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/http/response/cookies.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/http/response/cookiesinterface.c"
             ex="false"
             tool="0"
             flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/http/response/exception.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/http/response/headers.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/http/response/headersinterface.c"
             ex="false"
             tool="0"
             flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/http/responseinterface.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/http/uri.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/image.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
+        <cTool flags="0">
           <incDir>
             <pElem>ext/include</pElem>
             <pElem>ext/main</pElem>
@@ -2089,27 +1810,17 @@
         </cTool>
       </item>
       <item path="ext/image/adapter.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/image/adapter/gd.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/image/adapter/imagick.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/image/adapterinterface.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/image/exception.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/interned-strings.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
+        <cTool flags="0">
           <incDir>
             <pElem>ext/include</pElem>
             <pElem>ext/main</pElem>
@@ -2131,19 +1842,13 @@
         </cTool>
       </item>
       <item path="ext/jsonrpc/client.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/jsonrpc/client/exception.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/jsonrpc/client/response.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/kernel.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
+        <cTool flags="0">
           <incDir>
             <pElem>ext/include</pElem>
             <pElem>ext/main</pElem>
@@ -2165,93 +1870,51 @@
         </cTool>
       </item>
       <item path="ext/kernel/array.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/kernel/backtrace.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/kernel/concat.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/kernel/debug.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/kernel/exception.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/kernel/fcall.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/kernel/file.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/kernel/filter.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/kernel/framework/orm.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/kernel/framework/router.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/kernel/framework/url.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/kernel/hash.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/kernel/main.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/kernel/mbstring.c" ex="false" tool="0" flavor2="2">
       </item>
       <item path="ext/kernel/memory.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/kernel/object.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/kernel/operators.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/kernel/output.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/kernel/require.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/kernel/session.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/kernel/string.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/kernel/variables.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/loader.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
+        <cTool flags="0">
           <incDir>
             <pElem>ext/include</pElem>
             <pElem>ext/main</pElem>
@@ -2273,11 +1936,9 @@
         </cTool>
       </item>
       <item path="ext/loader/exception.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/logger.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
+        <cTool flags="0">
           <incDir>
             <pElem>ext/include</pElem>
             <pElem>ext/main</pElem>
@@ -2299,67 +1960,37 @@
         </cTool>
       </item>
       <item path="ext/logger/adapter.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/logger/adapter/file.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/logger/adapter/firephp.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/logger/adapter/stream.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/logger/adapter/syslog.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/logger/adapterinterface.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/logger/exception.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/logger/formatter.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/logger/formatter/firephp.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/logger/formatter/json.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/logger/formatter/line.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/logger/formatter/syslog.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/logger/formatterinterface.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/logger/item.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/logger/multiple.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/mvc/amf.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
+        <cTool flags="0">
           <incDir>
             <pElem>ext/include</pElem>
             <pElem>ext/main</pElem>
@@ -2381,11 +2012,9 @@
         </cTool>
       </item>
       <item path="ext/mvc/amf/exception.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/mvc/application.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
+        <cTool flags="0">
           <incDir>
             <pElem>ext/include</pElem>
             <pElem>ext/main</pElem>
@@ -2407,11 +2036,9 @@
         </cTool>
       </item>
       <item path="ext/mvc/application/exception.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/mvc/collection.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
+        <cTool flags="0">
           <incDir>
             <pElem>ext/include</pElem>
             <pElem>ext/main</pElem>
@@ -2433,37 +2060,25 @@
         </cTool>
       </item>
       <item path="ext/mvc/collection/document.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/mvc/collection/exception.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/mvc/collection/manager.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/mvc/collection/managerinterface.c"
             ex="false"
             tool="0"
             flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/mvc/collection/message.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/mvc/collection/messageinterface.c"
             ex="false"
             tool="0"
             flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/mvc/collectioninterface.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
+        <cTool flags="0">
           <incDir>
             <pElem>ext/include</pElem>
             <pElem>ext/main</pElem>
@@ -2485,7 +2100,7 @@
         </cTool>
       </item>
       <item path="ext/mvc/controller.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
+        <cTool flags="0">
           <incDir>
             <pElem>ext/include</pElem>
             <pElem>ext/main</pElem>
@@ -2507,7 +2122,7 @@
         </cTool>
       </item>
       <item path="ext/mvc/controllerinterface.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
+        <cTool flags="0">
           <incDir>
             <pElem>ext/include</pElem>
             <pElem>ext/main</pElem>
@@ -2529,7 +2144,7 @@
         </cTool>
       </item>
       <item path="ext/mvc/dispatcher.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
+        <cTool flags="0">
           <incDir>
             <pElem>ext/include</pElem>
             <pElem>ext/main</pElem>
@@ -2551,11 +2166,9 @@
         </cTool>
       </item>
       <item path="ext/mvc/dispatcher/exception.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/mvc/dispatcherinterface.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
+        <cTool flags="0">
           <incDir>
             <pElem>ext/include</pElem>
             <pElem>ext/main</pElem>
@@ -2577,7 +2190,7 @@
         </cTool>
       </item>
       <item path="ext/mvc/jsonrpc.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
+        <cTool flags="0">
           <incDir>
             <pElem>ext/include</pElem>
             <pElem>ext/main</pElem>
@@ -2599,11 +2212,9 @@
         </cTool>
       </item>
       <item path="ext/mvc/jsonrpc/exception.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/mvc/micro.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
+        <cTool flags="0">
           <incDir>
             <pElem>ext/include</pElem>
             <pElem>ext/main</pElem>
@@ -2625,33 +2236,23 @@
         </cTool>
       </item>
       <item path="ext/mvc/micro/collection.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/mvc/micro/collectioninterface.c"
             ex="false"
             tool="0"
             flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/mvc/micro/exception.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/mvc/micro/lazyloader.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/mvc/micro/middlewareinterface.c"
             ex="false"
             tool="0"
             flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/mvc/model.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
+        <cTool flags="0">
           <incDir>
             <pElem>ext/include</pElem>
             <pElem>ext/main</pElem>
@@ -2673,7 +2274,7 @@
         </cTool>
       </item>
       <item path="ext/mvc/model/behavior.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
+        <cTool flags="0">
           <incDir>
             <pElem>ext/include</pElem>
             <pElem>ext/main</pElem>
@@ -2698,18 +2299,14 @@
             ex="false"
             tool="0"
             flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/mvc/model/behavior/timestampable.c"
             ex="false"
             tool="0"
             flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/mvc/model/behaviorinterface.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
+        <cTool flags="0">
           <incDir>
             <pElem>ext/include</pElem>
             <pElem>ext/main</pElem>
@@ -2731,7 +2328,7 @@
         </cTool>
       </item>
       <item path="ext/mvc/model/criteria.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
+        <cTool flags="0">
           <incDir>
             <pElem>ext/include</pElem>
             <pElem>ext/main</pElem>
@@ -2753,7 +2350,7 @@
         </cTool>
       </item>
       <item path="ext/mvc/model/criteriainterface.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
+        <cTool flags="0">
           <incDir>
             <pElem>ext/include</pElem>
             <pElem>ext/main</pElem>
@@ -2775,7 +2372,7 @@
         </cTool>
       </item>
       <item path="ext/mvc/model/exception.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
+        <cTool flags="0">
           <incDir>
             <pElem>ext/include</pElem>
             <pElem>ext/main</pElem>
@@ -2797,7 +2394,7 @@
         </cTool>
       </item>
       <item path="ext/mvc/model/manager.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
+        <cTool flags="0">
           <incDir>
             <pElem>ext/include</pElem>
             <pElem>ext/main</pElem>
@@ -2819,7 +2416,7 @@
         </cTool>
       </item>
       <item path="ext/mvc/model/managerinterface.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
+        <cTool flags="0">
           <incDir>
             <pElem>ext/include</pElem>
             <pElem>ext/main</pElem>
@@ -2841,7 +2438,7 @@
         </cTool>
       </item>
       <item path="ext/mvc/model/message.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
+        <cTool flags="0">
           <incDir>
             <pElem>ext/include</pElem>
             <pElem>ext/main</pElem>
@@ -2863,7 +2460,7 @@
         </cTool>
       </item>
       <item path="ext/mvc/model/messageinterface.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
+        <cTool flags="0">
           <incDir>
             <pElem>ext/include</pElem>
             <pElem>ext/main</pElem>
@@ -2885,7 +2482,7 @@
         </cTool>
       </item>
       <item path="ext/mvc/model/metadata.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
+        <cTool flags="0">
           <incDir>
             <pElem>ext/include</pElem>
             <pElem>ext/main</pElem>
@@ -2907,56 +2504,36 @@
         </cTool>
       </item>
       <item path="ext/mvc/model/metadata/apc.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/mvc/model/metadata/files.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/mvc/model/metadata/libmemcached.c"
             ex="false"
             tool="0"
             flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/mvc/model/metadata/memcache.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/mvc/model/metadata/memory.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/mvc/model/metadata/redis.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/mvc/model/metadata/session.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/mvc/model/metadata/strategy/annotations.c"
             ex="false"
             tool="0"
             flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/mvc/model/metadata/strategy/introspection.c"
             ex="false"
             tool="0"
             flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/mvc/model/metadata/xcache.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/mvc/model/metadatainterface.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
+        <cTool flags="0">
           <incDir>
             <pElem>ext/include</pElem>
             <pElem>ext/main</pElem>
@@ -2978,7 +2555,7 @@
         </cTool>
       </item>
       <item path="ext/mvc/model/query.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
+        <cTool flags="0">
           <incDir>
             <pElem>ext/include</pElem>
             <pElem>ext/main</pElem>
@@ -3002,7 +2579,7 @@
       <item path="ext/mvc/model/query/base.c" ex="false" tool="0" flavor2="2">
       </item>
       <item path="ext/mvc/model/query/builder.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
+        <cTool flags="0">
           <incDir>
             <pElem>ext/include</pElem>
             <pElem>ext/main</pElem>
@@ -3027,7 +2604,7 @@
             ex="false"
             tool="0"
             flavor2="2">
-        <cTool flags="1">
+        <cTool flags="0">
           <incDir>
             <pElem>ext/include</pElem>
             <pElem>ext/main</pElem>
@@ -3049,7 +2626,7 @@
         </cTool>
       </item>
       <item path="ext/mvc/model/query/lang.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
+        <cTool flags="0">
           <incDir>
             <pElem>ext/include</pElem>
             <pElem>ext/main</pElem>
@@ -3071,7 +2648,7 @@
         </cTool>
       </item>
       <item path="ext/mvc/model/query/parser.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
+        <cTool flags="0">
           <incDir>
             <pElem>ext/include</pElem>
             <pElem>ext/main</pElem>
@@ -3093,7 +2670,7 @@
         </cTool>
       </item>
       <item path="ext/mvc/model/query/scanner.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
+        <cTool flags="0">
           <incDir>
             <pElem>ext/include</pElem>
             <pElem>ext/main</pElem>
@@ -3115,7 +2692,7 @@
         </cTool>
       </item>
       <item path="ext/mvc/model/query/status.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
+        <cTool flags="0">
           <incDir>
             <pElem>ext/include</pElem>
             <pElem>ext/main</pElem>
@@ -3140,7 +2717,7 @@
             ex="false"
             tool="0"
             flavor2="2">
-        <cTool flags="1">
+        <cTool flags="0">
           <incDir>
             <pElem>ext/include</pElem>
             <pElem>ext/main</pElem>
@@ -3162,7 +2739,7 @@
         </cTool>
       </item>
       <item path="ext/mvc/model/queryinterface.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
+        <cTool flags="0">
           <incDir>
             <pElem>ext/include</pElem>
             <pElem>ext/main</pElem>
@@ -3184,7 +2761,7 @@
         </cTool>
       </item>
       <item path="ext/mvc/model/relation.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
+        <cTool flags="0">
           <incDir>
             <pElem>ext/include</pElem>
             <pElem>ext/main</pElem>
@@ -3206,7 +2783,7 @@
         </cTool>
       </item>
       <item path="ext/mvc/model/relationinterface.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
+        <cTool flags="0">
           <incDir>
             <pElem>ext/include</pElem>
             <pElem>ext/main</pElem>
@@ -3228,7 +2805,7 @@
         </cTool>
       </item>
       <item path="ext/mvc/model/resultinterface.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
+        <cTool flags="0">
           <incDir>
             <pElem>ext/include</pElem>
             <pElem>ext/main</pElem>
@@ -3250,7 +2827,7 @@
         </cTool>
       </item>
       <item path="ext/mvc/model/resultset.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
+        <cTool flags="0">
           <incDir>
             <pElem>ext/include</pElem>
             <pElem>ext/main</pElem>
@@ -3272,15 +2849,11 @@
         </cTool>
       </item>
       <item path="ext/mvc/model/resultset/complex.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/mvc/model/resultset/simple.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/mvc/model/resultsetinterface.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
+        <cTool flags="0">
           <incDir>
             <pElem>ext/include</pElem>
             <pElem>ext/main</pElem>
@@ -3302,7 +2875,7 @@
         </cTool>
       </item>
       <item path="ext/mvc/model/row.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
+        <cTool flags="0">
           <incDir>
             <pElem>ext/include</pElem>
             <pElem>ext/main</pElem>
@@ -3324,7 +2897,7 @@
         </cTool>
       </item>
       <item path="ext/mvc/model/transaction.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
+        <cTool flags="0">
           <incDir>
             <pElem>ext/include</pElem>
             <pElem>ext/main</pElem>
@@ -3349,32 +2922,24 @@
             ex="false"
             tool="0"
             flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/mvc/model/transaction/failed.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/mvc/model/transaction/manager.c"
             ex="false"
             tool="0"
             flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/mvc/model/transaction/managerinterface.c"
             ex="false"
             tool="0"
             flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/mvc/model/transactioninterface.c"
             ex="false"
             tool="0"
             flavor2="2">
-        <cTool flags="1">
+        <cTool flags="0">
           <incDir>
             <pElem>ext/include</pElem>
             <pElem>ext/main</pElem>
@@ -3396,7 +2961,7 @@
         </cTool>
       </item>
       <item path="ext/mvc/model/validationfailed.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
+        <cTool flags="0">
           <incDir>
             <pElem>ext/include</pElem>
             <pElem>ext/main</pElem>
@@ -3418,7 +2983,7 @@
         </cTool>
       </item>
       <item path="ext/mvc/model/validator.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
+        <cTool flags="0">
           <incDir>
             <pElem>ext/include</pElem>
             <pElem>ext/main</pElem>
@@ -3440,65 +3005,45 @@
         </cTool>
       </item>
       <item path="ext/mvc/model/validator/email.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/mvc/model/validator/exclusionin.c"
             ex="false"
             tool="0"
             flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/mvc/model/validator/inclusionin.c"
             ex="false"
             tool="0"
             flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/mvc/model/validator/json.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/mvc/model/validator/numericality.c"
             ex="false"
             tool="0"
             flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/mvc/model/validator/presenceof.c"
             ex="false"
             tool="0"
             flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/mvc/model/validator/regex.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/mvc/model/validator/stringlength.c"
             ex="false"
             tool="0"
             flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/mvc/model/validator/uniqueness.c"
             ex="false"
             tool="0"
             flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/mvc/model/validator/url.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/mvc/model/validatorinterface.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
+        <cTool flags="0">
           <incDir>
             <pElem>ext/include</pElem>
             <pElem>ext/main</pElem>
@@ -3520,7 +3065,7 @@
         </cTool>
       </item>
       <item path="ext/mvc/modelinterface.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
+        <cTool flags="0">
           <incDir>
             <pElem>ext/include</pElem>
             <pElem>ext/main</pElem>
@@ -3545,7 +3090,7 @@
             ex="false"
             tool="0"
             flavor2="2">
-        <cTool flags="1">
+        <cTool flags="0">
           <incDir>
             <pElem>ext/include</pElem>
             <pElem>ext/main</pElem>
@@ -3567,7 +3112,7 @@
         </cTool>
       </item>
       <item path="ext/mvc/router.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
+        <cTool flags="0">
           <incDir>
             <pElem>ext/include</pElem>
             <pElem>ext/main</pElem>
@@ -3589,27 +3134,17 @@
         </cTool>
       </item>
       <item path="ext/mvc/router/annotations.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/mvc/router/exception.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/mvc/router/group.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/mvc/router/route.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/mvc/router/routeinterface.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/mvc/routerinterface.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
+        <cTool flags="0">
           <incDir>
             <pElem>ext/include</pElem>
             <pElem>ext/main</pElem>
@@ -3631,7 +3166,7 @@
         </cTool>
       </item>
       <item path="ext/mvc/url.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
+        <cTool flags="0">
           <incDir>
             <pElem>ext/include</pElem>
             <pElem>ext/main</pElem>
@@ -3653,11 +3188,9 @@
         </cTool>
       </item>
       <item path="ext/mvc/url/exception.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/mvc/urlinterface.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
+        <cTool flags="0">
           <incDir>
             <pElem>ext/include</pElem>
             <pElem>ext/main</pElem>
@@ -3679,19 +3212,13 @@
         </cTool>
       </item>
       <item path="ext/mvc/user/component.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/mvc/user/module.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/mvc/user/plugin.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/mvc/view.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
+        <cTool flags="0">
           <incDir>
             <pElem>ext/include</pElem>
             <pElem>ext/main</pElem>
@@ -3713,7 +3240,7 @@
         </cTool>
       </item>
       <item path="ext/mvc/view/engine.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
+        <cTool flags="0">
           <incDir>
             <pElem>ext/include</pElem>
             <pElem>ext/main</pElem>
@@ -3735,7 +3262,7 @@
         </cTool>
       </item>
       <item path="ext/mvc/view/engine/helpers.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
+        <cTool flags="0">
           <incDir>
             <pElem>ext/include</pElem>
             <pElem>ext/main</pElem>
@@ -3757,7 +3284,7 @@
         </cTool>
       </item>
       <item path="ext/mvc/view/engine/php.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
+        <cTool flags="0">
           <incDir>
             <pElem>ext/include</pElem>
             <pElem>ext/main</pElem>
@@ -3779,7 +3306,7 @@
         </cTool>
       </item>
       <item path="ext/mvc/view/engine/volt.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
+        <cTool flags="0">
           <incDir>
             <pElem>ext/include</pElem>
             <pElem>ext/main</pElem>
@@ -3806,7 +3333,7 @@
             ex="false"
             tool="0"
             flavor2="2">
-        <cTool flags="1">
+        <cTool flags="0">
           <incDir>
             <pElem>ext/include</pElem>
             <pElem>ext/main</pElem>
@@ -3828,7 +3355,7 @@
         </cTool>
       </item>
       <item path="ext/mvc/view/engine/volt/parser.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
+        <cTool flags="0">
           <incDir>
             <pElem>ext/include</pElem>
             <pElem>ext/main</pElem>
@@ -3850,7 +3377,7 @@
         </cTool>
       </item>
       <item path="ext/mvc/view/engine/volt/scanner.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
+        <cTool flags="0">
           <incDir>
             <pElem>ext/include</pElem>
             <pElem>ext/main</pElem>
@@ -3872,7 +3399,7 @@
         </cTool>
       </item>
       <item path="ext/mvc/view/engineinterface.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
+        <cTool flags="0">
           <incDir>
             <pElem>ext/include</pElem>
             <pElem>ext/main</pElem>
@@ -3894,7 +3421,7 @@
         </cTool>
       </item>
       <item path="ext/mvc/view/exception.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
+        <cTool flags="0">
           <incDir>
             <pElem>ext/include</pElem>
             <pElem>ext/main</pElem>
@@ -3916,7 +3443,7 @@
         </cTool>
       </item>
       <item path="ext/mvc/view/simple.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
+        <cTool flags="0">
           <incDir>
             <pElem>ext/include</pElem>
             <pElem>ext/main</pElem>
@@ -3938,7 +3465,7 @@
         </cTool>
       </item>
       <item path="ext/mvc/viewinterface.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
+        <cTool flags="0">
           <incDir>
             <pElem>ext/include</pElem>
             <pElem>ext/main</pElem>
@@ -3960,37 +3487,25 @@
         </cTool>
       </item>
       <item path="ext/paginator/adapter/model.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/paginator/adapter/nativearray.c"
             ex="false"
             tool="0"
             flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/paginator/adapter/querybuilder.c"
             ex="false"
             tool="0"
             flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/paginator/adapter/sql.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/paginator/adapterinterface.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/paginator/exception.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/phalcon.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
+        <cTool flags="0">
           <incDir>
             <pElem>ext/include</pElem>
             <pElem>ext/main</pElem>
@@ -4012,50 +3527,30 @@
         </cTool>
       </item>
       <item path="ext/psr/log/abstractlogger.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/psr/log/invalidargumentexception.c"
             ex="false"
             tool="0"
             flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/psr/log/loggerawareinterface.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/psr/log/loggerawaretrait.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/psr/log/loggerinterface.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/psr/log/loggertrait.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/psr/log/loglevel.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/psr/log/nulllogger.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/queue/beanstalk.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/queue/beanstalk/job.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/registry.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
+        <cTool flags="0">
           <incDir>
             <pElem>ext/include</pElem>
             <pElem>ext/main</pElem>
@@ -4077,7 +3572,7 @@
         </cTool>
       </item>
       <item path="ext/scws.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
+        <cTool flags="0">
           <incDir>
             <pElem>ext/include</pElem>
             <pElem>ext/main</pElem>
@@ -4099,7 +3594,7 @@
         </cTool>
       </item>
       <item path="ext/security.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
+        <cTool flags="0">
           <incDir>
             <pElem>ext/include</pElem>
             <pElem>ext/main</pElem>
@@ -4121,43 +3616,25 @@
         </cTool>
       </item>
       <item path="ext/security/exception.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/session/adapter.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/session/adapter/files.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/session/adapter/libmemcached.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/session/adapter/memcache.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/session/adapterinterface.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/session/bag.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/session/baginterface.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/session/exception.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/tag.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
+        <cTool flags="0">
           <incDir>
             <pElem>ext/include</pElem>
             <pElem>ext/main</pElem>
@@ -4179,15 +3656,11 @@
         </cTool>
       </item>
       <item path="ext/tag/exception.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/tag/select.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/text.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
+        <cTool flags="0">
           <incDir>
             <pElem>ext/include</pElem>
             <pElem>ext/main</pElem>
@@ -4209,30 +3682,20 @@
         </cTool>
       </item>
       <item path="ext/translate/adapter.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/translate/adapter/gettext.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/translate/adapter/nativearray.c"
             ex="false"
             tool="0"
             flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/translate/adapterinterface.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/translate/exception.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/validation.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
+        <cTool flags="0">
           <incDir>
             <pElem>ext/include</pElem>
             <pElem>ext/main</pElem>
@@ -4254,96 +3717,62 @@
         </cTool>
       </item>
       <item path="ext/validation/exception.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/validation/message.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/validation/message/group.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/validation/messageinterface.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/validation/validator.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/validation/validator/between.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/validation/validator/confirmation.c"
             ex="false"
             tool="0"
             flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/validation/validator/email.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/validation/validator/exclusionin.c"
             ex="false"
             tool="0"
             flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/validation/validator/file.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/validation/validator/identical.c"
             ex="false"
             tool="0"
             flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/validation/validator/inclusionin.c"
             ex="false"
             tool="0"
             flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/validation/validator/presenceof.c"
             ex="false"
             tool="0"
             flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/validation/validator/regex.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/validation/validator/stringlength.c"
             ex="false"
             tool="0"
             flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/validation/validator/url.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/validation/validatorinterface.c"
             ex="false"
             tool="0"
             flavor2="2">
-        <cTool flags="1">
-        </cTool>
       </item>
       <item path="ext/version.c" ex="false" tool="0" flavor2="2">
-        <cTool flags="1">
+        <cTool flags="0">
           <incDir>
             <pElem>ext/include</pElem>
             <pElem>ext/main</pElem>
