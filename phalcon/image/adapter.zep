@@ -28,12 +28,34 @@ abstract class Adapter
 
 	protected _realpath { get };
 
+    /**
+     * Image width
+     *
+     * @var int
+     */
 	protected _width { get };
 
+    /**
+     * Image height
+     *
+     * @var int
+     */
 	protected _height { get };
 
+    /**
+     * Image type
+     *
+     * Driver dependent
+     *
+     * @var int
+     */
 	protected _type { get };
 
+    /**
+     * Image mime type
+     *
+     * @var string
+     */
 	protected _mime { get };
 
 	protected static _checked = false;
