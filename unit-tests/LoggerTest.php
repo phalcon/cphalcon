@@ -59,6 +59,7 @@ class LoggerTest extends PHPUnit_Framework_TestCase
    */
   public function testFirephp()
   {
+    $this->markTestSkipped('need install xdebug');
     $logger = new \Phalcon\Logger\Adapter\Firephp();
     $logger->getFormatter()->setShowBacktrace(false);
     $logger->info('info');
