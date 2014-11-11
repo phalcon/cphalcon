@@ -37,11 +37,11 @@ class TranslateCsvTest extends CdTest
      */
     public function _before()
     {
-        $this->config = [
-            'ru' => [
+        $this->config = array(
+            'ru' => array(
                 'content' => PATH_DATA . 'translation/csv/ru_RU.csv',
-            ],
-        ];
+            ),
+        );
     }
 
     /**
@@ -89,7 +89,7 @@ class TranslateCsvTest extends CdTest
     public function testExists()
     {
         $this->specify(
-            "The key exist with exists",
+            "The key exist with expect",
             function () {
                 $params = $this->config['ru'];
                 $translator = new PhTTranslateAdapterCsv($params);
