@@ -48,3 +48,4 @@ build/install2
 /unit-tests/nbproject/private/
 /vendor/
 composer.lock
+nbproject/private/
