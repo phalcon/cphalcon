@@ -258,31 +258,31 @@ class ImageTest extends PHPUnit_Framework_TestCase
 		// Create a 50 pixel reflection that fades from 0-60% opacity
 		//$image->reflection(50, 60, TRUE);
 
-		// Add a watermark to the bottom right of the image
-		$mark = new Phalcon\Image\Adapter\Imagick('unit-tests/assets/logo.png');
-		$image->watermark($mark, TRUE, TRUE)->save('unit-tests/assets/production/imagick-watermark.jpg');
-		$this->assertTrue(file_exists('unit-tests/assets/production/imagick-watermark.jpg'));
+//		// Add a watermark to the bottom right of the image
+//		$mark = new Phalcon\Image\Adapter\Imagick('unit-tests/assets/logo.png');
+//		$image->watermark($mark, TRUE, TRUE)->save('unit-tests/assets/production/imagick-watermark.jpg');
+//		$this->assertTrue(file_exists('unit-tests/assets/production/imagick-watermark.jpg'));
+//
+//		// Mask image
+//		$mask = new Phalcon\Image\Adapter\Imagick('unit-tests/assets/logo.png');
+//		$image->mask($mask)->save('unit-tests/assets/production/imagick-mask.jpg');
+//		$this->assertTrue(file_exists('unit-tests/assets/production/imagick-mask.jpg'));
 
-		// Mask image
-		$mask = new Phalcon\Image\Adapter\Imagick('unit-tests/assets/logo.png');
-		$image->mask($mask)->save('unit-tests/assets/production/imagick-mask.jpg');
-		$this->assertTrue(file_exists('unit-tests/assets/production/imagick-mask.jpg'));
-
-		// Add a text to the bottom right of the image
-		$image->text('hello', TRUE, TRUE);
-
-		// Set font size
-		//$image->text('hello', TRUE, TRUE, NULL, NULL, 12);
-
-		// Set font
-		//$image->text('hello', TRUE, TRUE, NULL, NULL, 12, /usr/share/fonts/truetype/wqy/wqy-microhei.ttc);
-
-		// Add a text to the center of the image
-		//$image->text('hello');
-
-		// Make the image background black
-		$mark->background('#000')->save('unit-tests/assets/production/imagick-background.jpg');
-		$this->assertTrue(file_exists('unit-tests/assets/production/imagick-background.jpg'));
+//		// Add a text to the bottom right of the image
+//		$image->text('hello', TRUE, TRUE);
+//
+//		// Set font size
+//		//$image->text('hello', TRUE, TRUE, NULL, NULL, 12);
+//
+//		// Set font
+//		//$image->text('hello', TRUE, TRUE, NULL, NULL, 12, /usr/share/fonts/truetype/wqy/wqy-microhei.ttc);
+//
+//		// Add a text to the center of the image
+//		//$image->text('hello');
+//
+//		// Make the image background black
+//		$mark->background('#000')->save('unit-tests/assets/production/imagick-background.jpg');
+//		$this->assertTrue(file_exists('unit-tests/assets/production/imagick-background.jpg'));
 
 		// Make the image background black with 50% opacity
 		//$image->background('#000', 50);
