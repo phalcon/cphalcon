@@ -208,7 +208,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, setQueryBuilder) {
 
 
 	if (!(zephir_instance_of_ev(builder, phalcon_mvc_model_query_builder_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(spl_ce_InvalidArgumentException, "Parameter 'builder' must be an instance of 'Phalcon\\\\Mvc\\\\Model\\\\Query\\\\Builder'", "", 0);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(spl_ce_InvalidArgumentException, "Parameter 'builder' must be an instance of 'Phalcon\\Mvc\\Model\\Query\\Builder'", "", 0);
 		return;
 	}
 	zephir_update_property_this(this_ptr, SL("_builder"), builder TSRMLS_CC);

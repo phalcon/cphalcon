@@ -123,7 +123,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Memory, write) {
 
 
 	if (!(zephir_instance_of_ev(data, phalcon_annotations_reflection_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'data' must be an instance of 'Phalcon\\\\Annotations\\\\Reflection'", "", 0);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'data' must be an instance of 'Phalcon\\Annotations\\Reflection'", "", 0);
 		return;
 	}
 	ZEPHIR_INIT_VAR(lowercasedKey);

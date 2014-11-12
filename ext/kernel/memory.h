@@ -85,19 +85,19 @@ void ZEPHIR_FASTCALL zephir_copy_ctor(zval *destiny, zval *origin);
 
 #define ZEPHIR_INIT_NVAR(z)\
 	if (z) { \
-		if (Z_REFCOUNT_P(z) > 1) { \
-			Z_DELREF_P(z); \
-			ALLOC_ZVAL(z); \
-			Z_SET_REFCOUNT_P(z, 1); \
-			Z_UNSET_ISREF_P(z); \
-		} else { \
-			if (!Z_ISREF_P(z)) { \
+		if (!Z_ISREF_P(z)) { \
+			if (Z_REFCOUNT_P(z) > 1) { \
+				Z_DELREF_P(z); \
+				ALLOC_ZVAL(z); \
+				Z_SET_REFCOUNT_P(z, 1); \
+				Z_UNSET_ISREF_P(z); \
+			} else { \
 				zephir_dtor(z); \
+				Z_SET_REFCOUNT_P(z, 1); \
+				Z_UNSET_ISREF_P(z); \
 			} \
-			Z_SET_REFCOUNT_P(z, 1); \
-			Z_UNSET_ISREF_P(z); \
+			ZVAL_NULL(z); \
 		} \
-		ZVAL_NULL(z); \
 	} else { \
 		zephir_memory_alloc(&z TSRMLS_CC); \
 	}
@@ -177,6 +177,20 @@ void ZEPHIR_FASTCALL zephir_copy_ctor(zval *destiny, zval *origin);
 	zval_copy_ctor(d); \
 	Z_SET_REFCOUNT_P(d, 1); \
 	Z_UNSET_ISREF_P(d);
+
+#define ZEPHIR_MAKE_REFERENCE(d, v)	\
+	if (d) { \
+		if (Z_REFCOUNT_P(d) > 0) { \
+			zephir_ptr_dtor(&d); \
+		} \
+	} else { \
+		zephir_memory_observe(&d TSRMLS_CC); \
+	} \
+	ALLOC_ZVAL(d); \
+	Z_TYPE_P(d) = Z_TYPE_P(v); \
+	d->value = v->value; \
+	Z_SET_REFCOUNT_P(d, 1); \
+	Z_SET_ISREF_P(d);
 
 /* */
 #define ZEPHIR_OBS_VAR(z) \

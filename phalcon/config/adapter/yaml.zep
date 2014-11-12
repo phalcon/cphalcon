@@ -75,5 +75,4 @@ class Yaml extends Config
 
 		parent::__construct(yamlConfig);
 	}
-
 }

@@ -209,11 +209,10 @@ PHP_METHOD(Phalcon_Di_Service, getDefinition) {
  */
 PHP_METHOD(Phalcon_Di_Service, resolve) {
 
-	zephir_nts_static zephir_fcall_cache_entry *_4 = NULL;
+	zephir_nts_static zephir_fcall_cache_entry *_1 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zend_class_entry *_1, *_2, *_3;
 	zend_bool _0, found;
-	zval *parameters = NULL, *dependencyInjector = NULL, *shared, *definition, *sharedInstance, *instance = NULL, *builder, *reflection = NULL, *_5, *_6, *_7;
+	zval *parameters = NULL, *dependencyInjector = NULL, *shared, *definition, *sharedInstance, *instance = NULL, *builder, *reflection = NULL, *_2, *_3, *_4;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 2, &parameters, &dependencyInjector);
@@ -231,7 +230,7 @@ PHP_METHOD(Phalcon_Di_Service, resolve) {
 		_0 = !zephir_instance_of_ev(dependencyInjector, phalcon_diinterface_ce TSRMLS_CC);
 	}
 	if (_0) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'dependencyInjector' must be an instance of 'Phalcon\\\\DiInterface'", "", 0);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'dependencyInjector' must be an instance of 'Phalcon\\DiInterface'", "", 0);
 		return;
 	}
 	ZEPHIR_OBS_VAR(shared);
@@ -251,30 +250,46 @@ PHP_METHOD(Phalcon_Di_Service, resolve) {
 	if (Z_TYPE_P(definition) == IS_STRING) {
 		if (zephir_class_exists(definition, 1 TSRMLS_CC)) {
 			if (Z_TYPE_P(parameters) == IS_ARRAY) {
-				ZEPHIR_INIT_VAR(reflection);
 				if (zephir_fast_count_int(parameters TSRMLS_CC)) {
-					_1 = zend_fetch_class(SL("ReflectionClass"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
-					object_init_ex(reflection, _1);
-					ZEPHIR_CALL_METHOD(NULL, reflection, "__construct", NULL, definition);
-					zephir_check_call_status();
-					ZEPHIR_CALL_METHOD(&instance, reflection, "newinstanceargs", NULL, parameters);
-					zephir_check_call_status();
+					if (zephir_is_php_version(50600)) {
+						ZEPHIR_INIT_VAR(reflection);
+						object_init_ex(reflection, zephir_get_internal_ce(SS("reflectionclass") TSRMLS_CC));
+						ZEPHIR_CALL_METHOD(NULL, reflection, "__construct", NULL, definition);
+						zephir_check_call_status();
+						ZEPHIR_CALL_METHOD(&instance, reflection, "newinstanceargs", NULL, parameters);
+						zephir_check_call_status();
+					} else {
+						ZEPHIR_INIT_NVAR(instance);
+						ZEPHIR_LAST_CALL_STATUS = zephir_create_instance_params(instance, definition, parameters TSRMLS_CC);
+						zephir_check_call_status();
+					}
 				} else {
-					_2 = zend_fetch_class(SL("ReflectionClass"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
-					object_init_ex(reflection, _2);
+					if (zephir_is_php_version(50600)) {
+						ZEPHIR_INIT_NVAR(reflection);
+						object_init_ex(reflection, zephir_get_internal_ce(SS("reflectionclass") TSRMLS_CC));
+						ZEPHIR_CALL_METHOD(NULL, reflection, "__construct", NULL, definition);
+						zephir_check_call_status();
+						ZEPHIR_CALL_METHOD(&instance, reflection, "newinstance",  NULL);
+						zephir_check_call_status();
+					} else {
+						ZEPHIR_INIT_NVAR(instance);
+						ZEPHIR_LAST_CALL_STATUS = zephir_create_instance(instance, definition TSRMLS_CC);
+						zephir_check_call_status();
+					}
+				}
+			} else {
+				if (zephir_is_php_version(50600)) {
+					ZEPHIR_INIT_NVAR(reflection);
+					object_init_ex(reflection, zephir_get_internal_ce(SS("reflectionclass") TSRMLS_CC));
 					ZEPHIR_CALL_METHOD(NULL, reflection, "__construct", NULL, definition);
 					zephir_check_call_status();
 					ZEPHIR_CALL_METHOD(&instance, reflection, "newinstance",  NULL);
 					zephir_check_call_status();
+				} else {
+					ZEPHIR_INIT_NVAR(instance);
+					ZEPHIR_LAST_CALL_STATUS = zephir_create_instance(instance, definition TSRMLS_CC);
+					zephir_check_call_status();
 				}
-			} else {
-				ZEPHIR_INIT_NVAR(reflection);
-				_3 = zend_fetch_class(SL("ReflectionClass"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
-				object_init_ex(reflection, _3);
-				ZEPHIR_CALL_METHOD(NULL, reflection, "__construct", NULL, definition);
-				zephir_check_call_status();
-				ZEPHIR_CALL_METHOD(&instance, reflection, "newinstance",  NULL);
-				zephir_check_call_status();
 			}
 		} else {
 			found = 0;
@@ -287,7 +302,7 @@ PHP_METHOD(Phalcon_Di_Service, resolve) {
 					ZEPHIR_CALL_USER_FUNC_ARRAY(instance, definition, parameters);
 					zephir_check_call_status();
 				} else {
-					ZEPHIR_CALL_FUNCTION(&instance, "call_user_func", &_4, definition);
+					ZEPHIR_CALL_FUNCTION(&instance, "call_user_func", &_1, definition);
 					zephir_check_call_status();
 				}
 			} else {
@@ -309,14 +324,14 @@ PHP_METHOD(Phalcon_Di_Service, resolve) {
 		}
 	}
 	if (found == 0) {
-		ZEPHIR_INIT_VAR(_5);
-		object_init_ex(_5, phalcon_di_exception_ce);
-		_6 = zephir_fetch_nproperty_this(this_ptr, SL("_name"), PH_NOISY_CC);
-		ZEPHIR_INIT_VAR(_7);
-		ZEPHIR_CONCAT_SVS(_7, "Service '", _6, "' cannot be resolved");
-		ZEPHIR_CALL_METHOD(NULL, _5, "__construct", NULL, _7);
+		ZEPHIR_INIT_VAR(_2);
+		object_init_ex(_2, phalcon_di_exception_ce);
+		_3 = zephir_fetch_nproperty_this(this_ptr, SL("_name"), PH_NOISY_CC);
+		ZEPHIR_INIT_VAR(_4);
+		ZEPHIR_CONCAT_SVS(_4, "Service '", _3, "' cannot be resolved");
+		ZEPHIR_CALL_METHOD(NULL, _2, "__construct", NULL, _4);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(_5, "phalcon/di/service.zep", 212 TSRMLS_CC);
+		zephir_throw_exception_debug(_2, "phalcon/di/service.zep", 219 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -357,16 +372,16 @@ PHP_METHOD(Phalcon_Di_Service, setParameter) {
 	ZEPHIR_OBS_VAR(definition);
 	zephir_read_property_this(&definition, this_ptr, SL("_definition"), PH_NOISY_CC);
 	if (Z_TYPE_P(definition) != IS_ARRAY) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_di_exception_ce, "Definition must be an array to update its parameters", "phalcon/di/service.zep", 240);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_di_exception_ce, "Definition must be an array to update its parameters", "phalcon/di/service.zep", 247);
 		return;
 	}
 	ZEPHIR_OBS_VAR(arguments);
 	if (zephir_array_isset_string_fetch(&arguments, definition, SS("arguments"), 0 TSRMLS_CC)) {
-		zephir_array_update_long(&arguments, position, &parameter, PH_COPY | PH_SEPARATE, "phalcon/di/service.zep", 247);
+		zephir_array_update_long(&arguments, position, &parameter, PH_COPY | PH_SEPARATE, "phalcon/di/service.zep", 254);
 	} else {
 		ZEPHIR_INIT_NVAR(arguments);
 		array_init_size(arguments, 2);
-		zephir_array_update_long(&arguments, position, &parameter, PH_COPY, "phalcon/di/service.zep", 249);
+		zephir_array_update_long(&arguments, position, &parameter, PH_COPY, "phalcon/di/service.zep", 256);
 	}
 	zephir_array_update_string(&definition, SL("arguments"), &arguments, PH_COPY | PH_SEPARATE);
 	zephir_update_property_this(this_ptr, SL("_definition"), definition TSRMLS_CC);
@@ -394,7 +409,7 @@ PHP_METHOD(Phalcon_Di_Service, getParameter) {
 	ZEPHIR_OBS_VAR(definition);
 	zephir_read_property_this(&definition, this_ptr, SL("_definition"), PH_NOISY_CC);
 	if (Z_TYPE_P(definition) != IS_ARRAY) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_di_exception_ce, "Definition must be an array to obtain its parameters", "phalcon/di/service.zep", 277);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_di_exception_ce, "Definition must be an array to obtain its parameters", "phalcon/di/service.zep", 284);
 		return;
 	}
 	if (zephir_array_isset_string_fetch(&arguments, definition, SS("arguments"), 1 TSRMLS_CC)) {
@@ -445,17 +460,17 @@ PHP_METHOD(Phalcon_Di_Service, __set_state) {
 
 	ZEPHIR_OBS_VAR(name);
 	if (!(zephir_array_isset_string_fetch(&name, attributes, SS("_name"), 0 TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_di_exception_ce, "The attribute '_name' is required", "phalcon/di/service.zep", 313);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_di_exception_ce, "The attribute '_name' is required", "phalcon/di/service.zep", 320);
 		return;
 	}
 	ZEPHIR_OBS_VAR(definition);
 	if (!(zephir_array_isset_string_fetch(&definition, attributes, SS("_definition"), 0 TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_di_exception_ce, "The attribute '_name' is required", "phalcon/di/service.zep", 317);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_di_exception_ce, "The attribute '_name' is required", "phalcon/di/service.zep", 324);
 		return;
 	}
 	ZEPHIR_OBS_VAR(shared);
 	if (!(zephir_array_isset_string_fetch(&shared, attributes, SS("_shared"), 0 TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_di_exception_ce, "The attribute '_shared' is required", "phalcon/di/service.zep", 321);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_di_exception_ce, "The attribute '_shared' is required", "phalcon/di/service.zep", 328);
 		return;
 	}
 	object_init_ex(return_value, phalcon_di_service_ce);

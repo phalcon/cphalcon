@@ -267,11 +267,7 @@ PHP_METHOD(Phalcon_Http_Request_File, isUploadedFile) {
 		zephir_check_call_status();
 		_0 = zephir_is_true(_1);
 	}
-	if (_0) {
-		RETURN_MM_BOOL(1);
-	} else {
-		RETURN_MM_BOOL(0);
-	}
+	RETURN_MM_BOOL(_0);
 
 }
 

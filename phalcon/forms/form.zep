@@ -19,6 +19,7 @@
 
 namespace Phalcon\Forms;
 
+use Phalcon\FilterInterface;
 use Phalcon\Di\Injectable;
 use Phalcon\Forms\Exception;
 use Phalcon\Forms\ElementInterface;
@@ -231,7 +232,7 @@ class Form extends Injectable implements \Countable, \Iterator
 
 				if typeof filter != "object" {
 					let dependencyInjector = this->getDI(),
-						filter = <\Phalcon\FilterInterface> dependencyInjector->getShared("filter");
+						filter = <FilterInterface> dependencyInjector->getShared("filter");
 				}
 
 				/**
@@ -757,5 +758,4 @@ class Form extends Injectable implements \Countable, \Iterator
 	{
 		return isset this->_elementsIndexed[this->_position];
 	}
-
 }

@@ -182,14 +182,19 @@ final class Registry implements \ArrayAccess, \Countable, \Iterator
 		reset(this->_data);
 	}
 
-
+	/**
+	 * Checks if the iterator is valid
+	 */
 	public function valid()
 	{
-		return current(this->_data);
+		return key(this->_data) !== null;
 	}
 
+	/**
+	 *
+	 */
 	public function current()
 	{
-		return key(this->_data) !== null;
+		return current(this->_data);
 	}
 }

@@ -92,7 +92,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Numericality, validate) {
 
 
 	if (!(zephir_instance_of_ev(validation, phalcon_validation_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'validation' must be an instance of 'Phalcon\\\\Validation'", "", 0);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'validation' must be an instance of 'Phalcon\\Validation'", "", 0);
 		return;
 	}
 	ZEPHIR_CALL_METHOD(&value, validation, "getvalue", NULL, field);
@@ -110,7 +110,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Numericality, validate) {
 		RETURN_MM_BOOL(1);
 	}
 	ZEPHIR_INIT_NVAR(_1);
-	ZVAL_STRING(_1, "/^-?\d+\.?\d*$/", ZEPHIR_TEMP_PARAM_COPY);
+	ZVAL_STRING(_1, "/^-?\\d+\\.?\\d*$/", ZEPHIR_TEMP_PARAM_COPY);
 	ZEPHIR_CALL_FUNCTION(&_3, "preg_match", &_4, _1, value);
 	zephir_check_temp_parameter(_1);
 	zephir_check_call_status();

@@ -21,6 +21,8 @@ namespace Phalcon\Db\Adapter;
 
 use Phalcon\Db\Exception;
 use Phalcon\Db\Column;
+use Phalcon\Db\ResultInterface;
+use Phalcon\Events\ManagerInterface;
 
 /**
  * Phalcon\Db\Adapter\Pdo
@@ -242,11 +244,11 @@ abstract class Pdo extends \Phalcon\Db\Adapter
 	 * @param  array bindTypes
 	 * @return Phalcon\Db\ResultInterface|bool
 	 */
-	public function query(string! sqlStatement, bindParams=null, bindTypes=null) -> <\Phalcon\Db\ResultInterface> | boolean
+	public function query(string! sqlStatement, bindParams = null, bindTypes = null) -> <ResultInterface> | boolean
 	{
 		var eventsManager, pdo, statement;
 
-		let eventsManager = <\Phalcon\Events\Manager> this->_eventsManager;
+		let eventsManager = <ManagerInterface> this->_eventsManager;
 
 		/**
 		 * Execute the beforeQuery event if a EventsManager is available
@@ -305,7 +307,7 @@ abstract class Pdo extends \Phalcon\Db\Adapter
 		/**
 		 * Execute the beforeQuery event if a EventsManager is available
 		 */
-		let eventsManager = <\Phalcon\Events\Manager> this->_eventsManager;
+		let eventsManager = <ManagerInterface> this->_eventsManager;
 		if typeof eventsManager == "object" {
 			let this->_sqlStatement = sqlStatement,
 				this->_sqlVariables = bindParams,
@@ -516,7 +518,7 @@ abstract class Pdo extends \Phalcon\Db\Adapter
 			/**
 			 * Notify the events manager about the started transaction
 			 */
-			let eventsManager = <\Phalcon\Events\Manager> this->_eventsManager;
+			let eventsManager = <ManagerInterface> this->_eventsManager;
 			if typeof eventsManager == "object" {
 				eventsManager->fire("db:beginTransaction", this);
 			}
@@ -529,7 +531,7 @@ abstract class Pdo extends \Phalcon\Db\Adapter
 			 */
 			if transactionLevel && nesting && this->isNestedTransactionsWithSavepoints() {
 
-				let eventsManager = <\Phalcon\Events\Manager> this->_eventsManager,
+				let eventsManager = <ManagerInterface> this->_eventsManager,
 					savepointName = this->getNestedTransactionSavepointName();
 
 				/**
@@ -575,7 +577,7 @@ abstract class Pdo extends \Phalcon\Db\Adapter
 			/**
 			 * Notify the events manager about the rollbacked transaction
 			 */
-			let eventsManager = <\Phalcon\Events\Manager> this->_eventsManager;
+			let eventsManager = <ManagerInterface> this->_eventsManager;
 			if typeof eventsManager == "object" {
 				eventsManager->fire("db:rollbackTransaction", this);
 			}
@@ -599,7 +601,7 @@ abstract class Pdo extends \Phalcon\Db\Adapter
 				/**
 				 * Notify the events manager about the rolled back savepoint
 				 */
-				let eventsManager = <\Phalcon\Events\Manager> this->_eventsManager;
+				let eventsManager = <ManagerInterface> this->_eventsManager;
 				if typeof eventsManager == "object" {
 					eventsManager->fire("db:rollbackSavepoint", this, savepointName);
 				}
@@ -652,7 +654,7 @@ abstract class Pdo extends \Phalcon\Db\Adapter
 			/**
 			 * Notify the events manager about the commited transaction
 			 */
-			let eventsManager = <\Phalcon\Events\Manager> this->_eventsManager;
+			let eventsManager = <ManagerInterface> this->_eventsManager;
 			if typeof eventsManager == "object" {
 				eventsManager->fire("db:commitTransaction", this);
 			}
@@ -673,7 +675,7 @@ abstract class Pdo extends \Phalcon\Db\Adapter
 				/**
 				 * Notify the events manager about the commited savepoint
 				 */
-				let eventsManager = <\Phalcon\Events\Manager> this->_eventsManager,
+				let eventsManager = <ManagerInterface> this->_eventsManager,
 					savepointName = this->getNestedTransactionSavepointName();
 				if typeof eventsManager == "object" {
 					eventsManager->fire("db:releaseSavepoint", this, savepointName);

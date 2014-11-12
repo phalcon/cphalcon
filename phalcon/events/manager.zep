@@ -19,6 +19,8 @@
 
 namespace Phalcon\Events;
 
+use Phalcon\Events\Event;
+
 /**
  * Phalcon\Events\Manager
  *
@@ -172,7 +174,7 @@ class Manager implements ManagerInterface
 
 		if typeof queue != "array" {
 			if typeof queue == "object" {
-				if !(queue instanceof \Phalcon\Events\Event) && !(queue instanceof \SplPriorityQueue) {
+				if !(queue instanceof Event) && !(queue instanceof \SplPriorityQueue) {
 					throw new Exception(sprintf("Unexpected value type: expected object of type Phalcon\\Events\\Event or SplPriorityQueue, %s given", get_class(queue)));
 				}
 			} else {
@@ -180,7 +182,7 @@ class Manager implements ManagerInterface
 			}
 		}
 
-		if typeof event != "object" || !(event instanceof \Phalcon\Events\Event) {
+		if typeof event != "object" || !(event instanceof Event) {
 			throw new Exception("The event is not valid");
 		}
 

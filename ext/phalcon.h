@@ -312,6 +312,7 @@
 #include "phalcon/text.zep.h"
 #include "phalcon/translate.zep.h"
 #include "phalcon/translate/adapter.zep.h"
+#include "phalcon/translate/adapter/csv.zep.h"
 #include "phalcon/translate/adapter/nativearray.zep.h"
 #include "phalcon/translate/adapterinterface.zep.h"
 #include "phalcon/translate/exception.zep.h"
