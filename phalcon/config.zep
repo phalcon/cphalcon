@@ -59,7 +59,7 @@ class Config implements \ArrayAccess, \Countable
 		for key, value in arrayConfig {
 
 			let key = strval(key);
-			if (typeof value === "array") {
+			if typeof value === "array" {
 				let this->{key} = new self(value);
 			} else {
 				let this->{key} = value;

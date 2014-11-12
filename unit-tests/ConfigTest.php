@@ -263,4 +263,16 @@ class ConfigTest extends PHPUnit_Framework_TestCase
         ));
         $this->assertTrue($this->_compareConfig($this->_config, $config));
     }
+
+    public function testNumericConfig()
+    {
+		$config = new \Phalcon\Config(["abc"]);
+		$this->assertEquals($config->{0}, "abc");
+    }
+
+    public function testChildArrayToConfigObject()
+    {
+		$config = new \Phalcon\Config(['childsettings' => ['A', 'B', 'C']]);
+		$this->assertInstanceOf('Phalcon\Config', $config->childsettings);
+    }
 }
