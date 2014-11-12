@@ -337,8 +337,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, getPaginate){
 	PHALCON_CALL_METHOD(&intermediate, total_query, "parse");
 
 	PHALCON_CALL_METHOD(&select_column, builder, "getgroupby");
-
-	phalcon_array_update_string(&intermediate, SL("columns"), select_column, PH_COPY | PH_SEPARATE);
+	PHALCON_CALL_METHOD(NULL, builder, "columns", select_column);
 
 	PHALCON_CALL_METHOD(&dialect, connection, "getdialect");
 	PHALCON_CALL_METHOD(&sql_select, dialect, "select", intermediate);
