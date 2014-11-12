@@ -78,50 +78,119 @@ class ModelsMassAssigmentTest extends PHPUnit_Framework_TestCase
 	protected function _executeTestsNormal($di)
 	{
 		$robot = new Robots();
-
 		$success = $robot->save(array(
 			'type' => 'mechanical',
 			'year' => 2018
 		));
-
 		$this->assertEquals($success, false);
 		$this->assertEquals($robot->type, 'mechanical');
 		$this->assertEquals($robot->year, 2018);
 
 		$robot = new Robots();
-
 		$robot->assign(array(
 			'type' => 'mechanical',
 			'year' => 2018
 		));
-
 		$this->assertEquals($robot->type, 'mechanical');
 		$this->assertEquals($robot->year, 2018);
+
+		//not assigns nonexistent fields
+		$robot = new Robots();
+		$robot->assign(array(
+			'field1' => 'mechanical',
+			'field2' => 2018
+		));
+		$this->assertEquals(empty($robot->field1), true);
+		$this->assertEquals(empty($robot->field2), true);
+
+		//white list
+		$robot = new Robots();
+		$robot->assign(
+			array(
+				'type' => 'mechanical',
+				'year' => 2018
+			),
+			null,
+			array('type')
+		);
+		$this->assertEquals($robot->type, 'mechanical');
+		$this->assertEquals(empty($robot->year), true);
+
+		//white list
+		$robot = new Robots();
+		$robot->assign(
+			array(
+				'typeFromClient' => 'mechanical',
+				'yearFromClient' => 2018
+			),
+			array(
+				'typeFromClient' => 'type',
+				'yearFromClient' => 'year',
+			),
+			array('type')
+		);
+		$this->assertEquals($robot->type, 'mechanical');
+		$this->assertEquals(empty($robot->year), true);
 	}
 
 	protected function _executeTestsRenamed($di)
 	{
 
 		$robot = new Robotters();
-
 		$success = $robot->save(array(
 			'theType' => 'mechanical',
 			'theYear' => 2018
 		));
-
 		$this->assertEquals($success, false);
 		$this->assertEquals($robot->theType, 'mechanical');
 		$this->assertEquals($robot->theYear, 2018);
 
+		//assign uses column renaming
 		$robot = new Robotters();
-
 		$robot->assign(array(
 			'theType' => 'mechanical',
 			'theYear' => 2018
 		));
-
 		$this->assertEquals($robot->theType, 'mechanical');
 		$this->assertEquals($robot->theYear, 2018);
+
+		//not assigns nonexistent fields
+		$robot = new Robotters();
+		$robot->assign(array(
+			'field1' => 'mechanical',
+			'field2' => 2018
+		));
+		$this->assertEquals(empty($robot->field1), true);
+		$this->assertEquals(empty($robot->field2), true);
+
+		//white list
+		$robot = new Robotters();
+		$robot->assign(
+			array(
+				'theType' => 'mechanical',
+				'theYear' => 2018
+			),
+			null,
+			array('theType')
+		);
+		$this->assertEquals($robot->theType, 'mechanical');
+		$this->assertEquals(empty($robot->theYear), true);
+
+		//white list & custom mapping
+		$robot = new Robotters();
+		$robot->assign(
+			array(
+				'theTypeFromClient' => 'mechanical',
+				'theYearFromClient' => 2018
+			),
+			array(
+				'theTypeFromClient' => 'theType',
+				'theYearFromClient' => 'theYear',
+			),
+			array('theType')
+		);
+		$this->assertEquals($robot->theType, 'mechanical');
+		$this->assertEquals(empty($robot->theYear), true);
 	}
 
 }
