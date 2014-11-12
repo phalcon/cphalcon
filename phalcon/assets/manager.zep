@@ -502,7 +502,7 @@ class Manager
 					throw new \Phalcon\Assets\Exception("Resource '". sourcePath. "' does not have a valid target path");
 				}
 
-				if local {
+				if join {
 					/**
 					 * Make sure the target path is not the same source path
 					 */
