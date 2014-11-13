@@ -171,7 +171,7 @@ class Apc extends Backend implements BackendInterface
 	 * @param  long value
 	 * @return mixed
 	 */
-	public function decrement(keyName=null, int value=1)
+	public function decrement(keyName = null, int value = 1)
 	{
 		var lastKey, cachedContent, result;
 
@@ -210,7 +210,7 @@ class Apc extends Backend implements BackendInterface
 	 * @param string prefix
 	 * @return array
 	 */
-	public function queryKeys(string prefix=null)
+	public function queryKeys(string prefix = null)
 	{
 		var prefixPattern, apc, keys, key, item;
 

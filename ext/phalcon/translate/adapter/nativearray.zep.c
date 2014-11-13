@@ -104,7 +104,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, query) {
 
 	HashTable *_2;
 	HashPosition _1;
-	zval *index_param = NULL, *placeholders = NULL, *traslation = NULL, *key = NULL, *value = NULL, *_0, **_3, *_4 = NULL, *_5 = NULL;
+	zval *index_param = NULL, *placeholders = NULL, *translation = NULL, *key = NULL, *value = NULL, *_0, **_3, *_4 = NULL, *_5 = NULL;
 	zval *index = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -126,9 +126,9 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, query) {
 	}
 
 
-	ZEPHIR_OBS_VAR(traslation);
+	ZEPHIR_OBS_VAR(translation);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_translate"), PH_NOISY_CC);
-	if (zephir_array_isset_fetch(&traslation, _0, index, 0 TSRMLS_CC)) {
+	if (zephir_array_isset_fetch(&translation, _0, index, 0 TSRMLS_CC)) {
 		if (Z_TYPE_P(placeholders) == IS_ARRAY) {
 			if (zephir_fast_count_int(placeholders TSRMLS_CC)) {
 				zephir_is_iterable(placeholders, &_2, &_1, 0, 0, "phalcon/translate/adapter/nativearray.zep", 73);
@@ -141,12 +141,12 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, query) {
 					ZEPHIR_INIT_NVAR(_4);
 					ZEPHIR_INIT_LNVAR(_5);
 					ZEPHIR_CONCAT_SVS(_5, "%", key, "%");
-					zephir_fast_str_replace(_4, _5, value, traslation TSRMLS_CC);
-					ZEPHIR_CPY_WRT(traslation, _4);
+					zephir_fast_str_replace(_4, _5, value, translation TSRMLS_CC);
+					ZEPHIR_CPY_WRT(translation, _4);
 				}
 			}
 		}
-		RETURN_CCTOR(traslation);
+		RETURN_CCTOR(translation);
 	}
 	RETURN_CTOR(index);
 

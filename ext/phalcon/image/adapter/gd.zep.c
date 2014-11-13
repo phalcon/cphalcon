@@ -286,7 +286,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Gd, __construct) {
 
 PHP_METHOD(Phalcon_Image_Adapter_Gd, _resize) {
 
-	zephir_fcall_cache_entry *_17 = NULL, *_23 = NULL;
+	zephir_fcall_cache_entry *_17 = NULL, *_23 = NULL, *_25 = NULL;
 	zend_bool _5, _8;
 	zephir_nts_static zephir_fcall_cache_entry *_3 = NULL, *_7 = NULL;
 	zval *width_param = NULL, *height_param = NULL, *image = NULL, *pre_width = NULL, *pre_height = NULL, *reduction_width = NULL, *reduction_height = NULL, *_0, _1 = zval_used_for_init, *_2 = NULL, *_4, *_6, *_9, *_10, *_11, _12 = zval_used_for_init, _13 = zval_used_for_init, _14 = zval_used_for_init, *_15 = NULL, *_16, *_18, *_19, _20, _21, *_22 = NULL, *_24 = NULL;
@@ -389,7 +389,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Gd, _resize) {
 			ZEPHIR_CALL_FUNCTION(&_22, "imagesx", &_23, image);
 			zephir_check_call_status();
 			zephir_update_property_this(this_ptr, SL("_width"), _22 TSRMLS_CC);
-			ZEPHIR_CALL_FUNCTION(&_24, "imagesy", NULL, image);
+			ZEPHIR_CALL_FUNCTION(&_24, "imagesy", &_25, image);
 			zephir_check_call_status();
 			zephir_update_property_this(this_ptr, SL("_height"), _24 TSRMLS_CC);
 		}
@@ -408,7 +408,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Gd, _resize) {
 		ZEPHIR_CALL_FUNCTION(&_15, "imagesx", &_23, image);
 		zephir_check_call_status();
 		zephir_update_property_this(this_ptr, SL("_width"), _15 TSRMLS_CC);
-		ZEPHIR_CALL_FUNCTION(&_22, "imagesx", &_23, image);
+		ZEPHIR_CALL_FUNCTION(&_22, "imagesy", &_25, image);
 		zephir_check_call_status();
 		zephir_update_property_this(this_ptr, SL("_height"), _22 TSRMLS_CC);
 	}
@@ -418,7 +418,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Gd, _resize) {
 
 PHP_METHOD(Phalcon_Image_Adapter_Gd, _crop) {
 
-	zephir_fcall_cache_entry *_16 = NULL, *_18 = NULL;
+	zephir_fcall_cache_entry *_16 = NULL, *_18 = NULL, *_20 = NULL;
 	zephir_nts_static zephir_fcall_cache_entry *_3 = NULL;
 	zval *width_param = NULL, *height_param = NULL, *offset_x_param = NULL, *offset_y_param = NULL, *image = NULL, *rect, *_0, _1 = zval_used_for_init, *_2 = NULL, *_4 = NULL, *_5, *_6, _7, _8, _9, _10, _11, _12, _13, *_14 = NULL, *_15, *_17 = NULL, *_19 = NULL;
 	int width, height, offset_x, offset_y, ZEPHIR_LAST_CALL_STATUS;
@@ -472,7 +472,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Gd, _crop) {
 			ZEPHIR_CALL_FUNCTION(&_17, "imagesx", &_18, image);
 			zephir_check_call_status();
 			zephir_update_property_this(this_ptr, SL("_width"), _17 TSRMLS_CC);
-			ZEPHIR_CALL_FUNCTION(&_19, "imagesy", NULL, image);
+			ZEPHIR_CALL_FUNCTION(&_19, "imagesy", &_20, image);
 			zephir_check_call_status();
 			zephir_update_property_this(this_ptr, SL("_height"), _19 TSRMLS_CC);
 		}
@@ -501,7 +501,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Gd, _crop) {
 		ZEPHIR_CALL_FUNCTION(&_14, "imagesx", &_18, image);
 		zephir_check_call_status();
 		zephir_update_property_this(this_ptr, SL("_width"), _14 TSRMLS_CC);
-		ZEPHIR_CALL_FUNCTION(&_17, "imagesx", &_18, image);
+		ZEPHIR_CALL_FUNCTION(&_17, "imagesy", &_20, image);
 		zephir_check_call_status();
 		zephir_update_property_this(this_ptr, SL("_height"), _17 TSRMLS_CC);
 	}
@@ -896,7 +896,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Gd, _watermark) {
 
 
 	if (!(zephir_instance_of_ev(watermark, phalcon_image_adapter_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'watermark' must be an instance of 'Phalcon\\\\Image\\\\Adapter'", "", 0);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'watermark' must be an instance of 'Phalcon\\Image\\Adapter'", "", 0);
 		return;
 	}
 	ZEPHIR_CALL_METHOD(&_0, watermark, "render",  NULL);
@@ -1135,7 +1135,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Gd, _mask) {
 
 
 	if (!(zephir_instance_of_ev(mask, phalcon_image_adapter_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'mask' must be an instance of 'Phalcon\\\\Image\\\\Adapter'", "", 0);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'mask' must be an instance of 'Phalcon\\Image\\Adapter'", "", 0);
 		return;
 	}
 	ZEPHIR_CALL_METHOD(&_0, mask, "render",  NULL);

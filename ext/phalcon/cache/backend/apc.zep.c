@@ -357,7 +357,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, queryKeys) {
 	zephir_nts_static zephir_fcall_cache_entry *_6 = NULL;
 	zend_object_iterator *_3;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zend_class_entry *_1;
+	zephir_nts_static zend_class_entry *_1 = NULL;
 	zval *prefix_param = NULL, *prefixPattern = NULL, *apc, *keys, *key = NULL, *item = NULL, *_2, _4 = zval_used_for_init, *_5 = NULL;
 	zval *prefix = NULL, *_0;
 
@@ -383,7 +383,9 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, queryKeys) {
 	ZEPHIR_INIT_VAR(keys);
 	array_init(keys);
 	ZEPHIR_INIT_VAR(apc);
-	_1 = zend_fetch_class(SL("APCIterator"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
+	if (!_1) {
+		_1 = zend_fetch_class(SL("APCIterator"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
+	}
 	object_init_ex(apc, _1);
 	if (zephir_has_constructor(apc TSRMLS_CC)) {
 		ZEPHIR_INIT_VAR(_2);

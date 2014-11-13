@@ -118,9 +118,9 @@ ZEPHIR_ATTR_NONNULL static inline int zephir_read_property_this_quick(zval **res
 {
   zval *tmp = zephir_fetch_property_this_quick(object, property_name, property_length, key, silent TSRMLS_CC);
   if (EXPECTED(tmp != NULL)) {
-    *result = tmp;
-    Z_ADDREF_PP(result);
-    return SUCCESS;
+	*result = tmp;
+	Z_ADDREF_PP(result);
+	return SUCCESS;
   }
 
   ALLOC_INIT_ZVAL(*result);
@@ -135,7 +135,7 @@ ZEPHIR_ATTR_NONNULL static inline int zephir_read_property_this(zval **result, z
 {
 #ifdef __GNUC__
   if (__builtin_constant_p(property_name) && __builtin_constant_p(property_length)) {
-    return zephir_read_property_this_quick(result, object, property_name, property_length, zend_inline_hash_func(property_name, property_length + 1), silent TSRMLS_CC);
+	return zephir_read_property_this_quick(result, object, property_name, property_length, zend_inline_hash_func(property_name, property_length + 1), silent TSRMLS_CC);
   }
 #endif
 
@@ -146,8 +146,8 @@ ZEPHIR_ATTR_NONNULL static inline zval* zephir_fetch_nproperty_this_quick(zval *
 {
 #ifdef __GNUC__
   if (__builtin_constant_p(property_name) && __builtin_constant_p(property_length)) {
-    zval *result = zephir_fetch_property_this_quick(object, property_name, property_length, zend_inline_hash_func(property_name, property_length + 1), silent TSRMLS_CC);
-    return result ? result : EG(uninitialized_zval_ptr);
+	zval *result = zephir_fetch_property_this_quick(object, property_name, property_length, zend_inline_hash_func(property_name, property_length + 1), silent TSRMLS_CC);
+	return result ? result : EG(uninitialized_zval_ptr);
   }
 #endif
 
@@ -159,7 +159,7 @@ ZEPHIR_ATTR_NONNULL static inline zval* zephir_fetch_nproperty_this(zval *object
 {
 #ifdef __GNUC__
   if (__builtin_constant_p(property_name) && __builtin_constant_p(property_length)) {
-    return zephir_fetch_nproperty_this_quick(object, property_name, property_length, zend_inline_hash_func(property_name, property_length + 1), silent TSRMLS_CC);
+	return zephir_fetch_nproperty_this_quick(object, property_name, property_length, zend_inline_hash_func(property_name, property_length + 1), silent TSRMLS_CC);
   }
 #endif
 
@@ -170,7 +170,7 @@ ZEPHIR_ATTR_NONNULL static inline zval* zephir_fetch_property_this(zval *object,
 {
 #ifdef __GNUC__
   if (__builtin_constant_p(property_name) && __builtin_constant_p(property_length)) {
-    return zephir_fetch_property_this_quick(object, property_name, property_length, zend_inline_hash_func(property_name, property_length + 1), silent TSRMLS_CC);
+	return zephir_fetch_property_this_quick(object, property_name, property_length, zend_inline_hash_func(property_name, property_length + 1), silent TSRMLS_CC);
   }
 #endif
 
@@ -178,3 +178,13 @@ ZEPHIR_ATTR_NONNULL static inline zval* zephir_fetch_property_this(zval *object,
 }
 
 #endif
+
+#define zephir_fetch_safe_class(destination, var) \
+  	{ \
+		if (Z_TYPE_P(var) == IS_STRING) { \
+			ZEPHIR_CPY_WRT(destination, var); \
+		} else { \
+			ZEPHIR_INIT_NVAR(destination); \
+			ZVAL_STRING(destination, "<undefined class>", 1); \
+		} \
+	}

@@ -154,9 +154,9 @@ class Security implements InjectionAwareInterface
 	 */
 	public function checkHash(string password, string passwordHash, int maxPassLength = 0) -> boolean
 	{
+		char ch;
 		string cryptedHash;
 		int i, sum, cryptedLength, passwordLength;
-		char ch;
 
 		if maxPassLength {
 			if maxPassLength > 0 && strlen(password) > maxPassLength {

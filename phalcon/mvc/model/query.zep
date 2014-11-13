@@ -853,7 +853,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 	protected final function _getSingleJoin(string! joinType, joinSource, modelAlias, joinAlias,
 		<\Phalcon\Mvc\Model\RelationInterface> relation)
 	{
-		var fields, referencedFields, sqlJoinConditions,
+		var fields, referencedFields, sqlJoinConditions = null,
 			sqlJoinPartialConditions, position, field, referencedField;
 
 		/**

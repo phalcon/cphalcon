@@ -19,6 +19,9 @@
 
 namespace Phalcon\Di\FactoryDefault;
 
+use Phalcon\Di\Service;
+use Phalcon\Di\FactoryDefault;
+
  /**
  * Phalcon\Di\FactoryDefault\CLI
  *
@@ -27,7 +30,7 @@ namespace Phalcon\Di\FactoryDefault;
  * Thanks to this, the developer does not need to register each service individually.
  * This class is specially suitable for CLI applications
  */
-class Cli extends \Phalcon\Di\FactoryDefault
+class Cli extends FactoryDefault
 {
 
 	/**
@@ -39,16 +42,16 @@ class Cli extends \Phalcon\Di\FactoryDefault
 		parent::__construct();
 
 		let this->_services = [
-			"router": new \Phalcon\Di\Service("router", "Phalcon\\CLI\\Router"),
-			"dispatcher": new \Phalcon\Di\Service("dispatcher", "Phalcon\\CLI\\Dispatcher"),
-			"modelsManager": new \Phalcon\Di\Service("modelsManager", "Phalcon\\Mvc\\Model\\Manager"),
-			"modelsMetadata": new \Phalcon\Di\Service("modelsMetadata", "Phalcon\\Mvc\\Model\\Metadata\\Memory"),
-			"filter": new \Phalcon\Di\Service("filter", "Phalcon\\Filter", true),
-			"escaper": new \Phalcon\Di\Service("escaper", "Phalcon\\Escaper", true),
-			"annotations": new \Phalcon\Di\Service("annotations", "Phalcon\\Annotations\\Adapter\\Memory", true),
-			"security": new \Phalcon\Di\Service("security", "Phalcon\\Security", true),
-			"eventsManager": new \Phalcon\Di\Service("eventsManager", "Phalcon\\Events\\Manage", true),
-			"transactionManager": new \Phalcon\Di\Service("transactionManager", "Phalcon\\Mvc\\Model\\Transaction\\Manager", true)
+			"router":             new Service("router", "Phalcon\\CLI\\Router"),
+			"dispatcher":         new Service("dispatcher", "Phalcon\\CLI\\Dispatcher"),
+			"modelsManager":      new Service("modelsManager", "Phalcon\\Mvc\\Model\\Manager"),
+			"modelsMetadata":     new Service("modelsMetadata", "Phalcon\\Mvc\\Model\\Metadata\\Memory"),
+			"filter":             new Service("filter", "Phalcon\\Filter", true),
+			"escaper":            new Service("escaper", "Phalcon\\Escaper", true),
+			"annotations":        new Service("annotations", "Phalcon\\Annotations\\Adapter\\Memory", true),
+			"security":           new Service("security", "Phalcon\\Security", true),
+			"eventsManager":      new Service("eventsManager", "Phalcon\\Events\\Manage", true),
+			"transactionManager": new Service("transactionManager", "Phalcon\\Mvc\\Model\\Transaction\\Manager", true)
 		];
 	}
 

@@ -78,7 +78,6 @@ class Ini extends Config
 			for path, lastValue in directives {
 				let sections[] = this->_parseIniString(path, lastValue);
 			}
-
 			let config[section] = call_user_func_array("array_merge_recursive", sections);
 		}
 
@@ -105,16 +104,14 @@ class Ini extends Config
 	 *
 	 * @return array parsed path
 	 */
-	private function _parseIniString(string! path, var value) -> array
+	protected function _parseIniString(string! path, var value) -> array
 	{
-		var pos;
+		var pos, key;
 		let pos = strpos(path, ".");
 
 		if pos === false {
 			return [path: value];
 		}
-
-		var key;
 
 		let key = substr(path, 0, pos);
 		let path = substr(path, pos + 1);

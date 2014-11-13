@@ -107,7 +107,7 @@ PHP_METHOD(Phalcon_Security, setDI) {
 
 
 	if (!(zephir_instance_of_ev(dependencyInjector, phalcon_diinterface_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(spl_ce_InvalidArgumentException, "Parameter 'dependencyInjector' must be an instance of 'Phalcon\\\\DiInterface'", "", 0);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(spl_ce_InvalidArgumentException, "Parameter 'dependencyInjector' must be an instance of 'Phalcon\\DiInterface'", "", 0);
 		return;
 	}
 	zephir_update_property_this(this_ptr, SL("_dependencyInjector"), dependencyInjector TSRMLS_CC);
@@ -259,7 +259,7 @@ PHP_METHOD(Phalcon_Security, hash) {
  */
 PHP_METHOD(Phalcon_Security, checkHash) {
 
-	unsigned char _5, _6;
+	unsigned char _5;
 	long _4;
 	zephir_nts_static zephir_fcall_cache_entry *_2 = NULL;
 	zend_bool _0;
@@ -301,8 +301,7 @@ PHP_METHOD(Phalcon_Security, checkHash) {
 		i = _4; 
 		ch = ZEPHIR_STRING_OFFSET(passwordHash, _4);
 		_5 = ZEPHIR_STRING_OFFSET(cryptedHash, i);
-		_6 = ZEPHIR_STRING_OFFSET(passwordHash, i);
-		sum = (sum | (_5 ^ _6));
+		sum = (sum | ((_5 ^ ch)));
 	}
 	RETURN_MM_BOOL(0 == sum);
 

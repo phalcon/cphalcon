@@ -110,7 +110,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Libmemcached, __construct) {
 
 
 	if (!(zephir_instance_of_ev(frontend, phalcon_cache_frontendinterface_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'frontend' must be an instance of 'Phalcon\\\\Cache\\\\FrontendInterface'", "", 0);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'frontend' must be an instance of 'Phalcon\\Cache\\FrontendInterface'", "", 0);
 		return;
 	}
 	if (Z_TYPE_P(options) != IS_ARRAY) {
@@ -145,16 +145,14 @@ PHP_METHOD(Phalcon_Cache_Backend_Libmemcached, __construct) {
 PHP_METHOD(Phalcon_Cache_Backend_Libmemcached, _connect) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zend_class_entry *_0;
-	zval *options, *memcache, *client, *servers, *_1 = NULL;
+	zval *options, *memcache, *client, *servers, *_0 = NULL;
 
 	ZEPHIR_MM_GROW();
 
 	ZEPHIR_OBS_VAR(options);
 	zephir_read_property_this(&options, this_ptr, SL("_options"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(memcache);
-	_0 = zend_fetch_class(SL("Memcached"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
-	object_init_ex(memcache, _0);
+	object_init_ex(memcache, zephir_get_internal_ce(SS("memcached") TSRMLS_CC));
 	ZEPHIR_CALL_METHOD(NULL, memcache, "__construct", NULL);
 	zephir_check_call_status();
 	ZEPHIR_OBS_VAR(servers);
@@ -166,9 +164,9 @@ PHP_METHOD(Phalcon_Cache_Backend_Libmemcached, _connect) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_cache_exception_ce, "Servers must be an array", "phalcon/cache/backend/libmemcached.zep", 103);
 		return;
 	}
-	ZEPHIR_CALL_METHOD(&_1, memcache, "addservers", NULL, servers);
+	ZEPHIR_CALL_METHOD(&_0, memcache, "addservers", NULL, servers);
 	zephir_check_call_status();
-	if (!(zephir_is_true(_1))) {
+	if (!(zephir_is_true(_0))) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_cache_exception_ce, "Cannot connect to Memcached server", "phalcon/cache/backend/libmemcached.zep", 107);
 		return;
 	}
@@ -227,10 +225,10 @@ PHP_METHOD(Phalcon_Cache_Backend_Libmemcached, get) {
 		RETURN_CCTOR(cachedContent);
 	} else {
 		_1 = zephir_fetch_nproperty_this(this_ptr, SL("_frontend"), PH_NOISY_CC);
-		ZEPHIR_CALL_METHOD(NULL, _1, "afterretrieve", NULL, cachedContent);
+		ZEPHIR_RETURN_CALL_METHOD(_1, "afterretrieve", NULL, cachedContent);
 		zephir_check_call_status();
+		RETURN_MM();
 	}
-	ZEPHIR_MM_RESTORE();
 
 }
 

@@ -72,5 +72,4 @@ class Item
 	{
 		return this->_finalTime - this->_initialTime;
 	}
-
 }

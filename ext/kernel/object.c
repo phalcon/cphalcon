@@ -23,11 +23,6 @@
 #endif
 
 #include <php.h>
-
-#ifdef PHP_WIN32
-#include <php_string.h>
-#endif
-
 #include "php_ext.h"
 #include <Zend/zend_closures.h>
 
@@ -1014,7 +1009,7 @@ int zephir_update_property_array_multi(zval *object, const char *property, zend_
 	int i, j, l, ll, re_update, must_continue, wrap_tmp;
 	int separated = 0;
 
-	va_start(ap, types_length);
+	va_start(ap, types_count);
 
 	if (Z_TYPE_P(object) == IS_OBJECT) {
 
@@ -1500,7 +1495,7 @@ int zephir_read_static_property_ce(zval **result, zend_class_entry *ce, const ch
 }
 
 #if PHP_VERSION_ID >= 50400
-static zval **zephir_std_get_static_property(zend_class_entry *ce, const char *property_name, int property_name_len, zend_bool silent, ulong hash_value, zend_property_info **
+static zval **zephir_std_get_static_property(zend_class_entry *ce, const char *property_name, int property_name_len, ulong hash_value, zend_bool silent, zend_property_info **
 	property_info TSRMLS_DC)
 {
 	zend_property_info *temp_property_info;
@@ -1511,7 +1506,7 @@ static zval **zephir_std_get_static_property(zend_class_entry *ce, const char *p
 
 	if (!property_info || !*property_info) {
 
-		if (UNEXPECTED(zend_hash_quick_find(&ce->properties_info, property_name, property_name_len+1, hash_value, (void **) &temp_property_info)==FAILURE)) {
+		if (UNEXPECTED(zend_hash_quick_find(&ce->properties_info, property_name, property_name_len + 1, hash_value, (void **) &temp_property_info)==FAILURE)) {
 			if (!silent) {
 				zend_error_noreturn(E_ERROR, "Access to undeclared static property: %s::$%s", ce->name, property_name);
 			}
@@ -1555,13 +1550,11 @@ static zval **zephir_std_get_static_property(zend_class_entry *ce, const char *p
 }
 #endif
 
-static int zephir_update_static_property_ex(zend_class_entry *scope, const char *name, int name_length,
-	zval **value, zend_property_info **property_info TSRMLS_DC)
+static int zephir_update_static_property_ex(zend_class_entry *scope, const char *name, int name_length, zval **value, zend_property_info **property_info TSRMLS_DC)
 {
 	zval **property; zval *tmp, **safe_value;
-	zend_class_entry *old_scope = EG(scope);
 	zend_zephir_globals_def *zephir_globals_ptr = ZEPHIR_VGLOBAL;
-
+	zend_class_entry *old_scope = EG(scope);
 
 	/**
 	 * We have to protect super globals to avoid them make converted to references
@@ -1596,7 +1589,7 @@ static int zephir_update_static_property_ex(zend_class_entry *scope, const char 
 #if PHP_VERSION_ID < 50400
 	property = zend_std_get_static_property(scope, name, name_length, 0 TSRMLS_CC);
 #else
-	property = zephir_std_get_static_property(scope, name, name_length, zend_inline_hash_func(name, name_length), 0, property_info TSRMLS_CC);
+	property = zephir_std_get_static_property(scope, name, name_length, zend_inline_hash_func(name, name_length + 1), 0, property_info TSRMLS_CC);
 #endif
 	EG(scope) = old_scope;
 
@@ -1657,7 +1650,6 @@ int zephir_update_static_property_ce_cache(zend_class_entry *ce, const char *nam
 int zephir_update_static_property_array_multi_ce(zend_class_entry *ce, const char *property, zend_uint property_length, zval **value TSRMLS_DC, const char *types, int types_length, int types_count, ...) {
 
 	va_list ap;
-	va_start(ap, types_length);
 	long old_l[ZEPHIR_MAX_ARRAY_LEVELS], old_ll[ZEPHIR_MAX_ARRAY_LEVELS];
 	char *s, *old_s[ZEPHIR_MAX_ARRAY_LEVELS], old_type[ZEPHIR_MAX_ARRAY_LEVELS];
 	zval *fetched, *tmp, *tmp_arr, *p, *item, *old_item[ZEPHIR_MAX_ARRAY_LEVELS], *old_p[ZEPHIR_MAX_ARRAY_LEVELS];
@@ -2095,6 +2087,9 @@ int zephir_property_decr(zval *object, char *property_name, unsigned int propert
 	return SUCCESS;
 }
 
+/**
+ * Fetches a property using a const char
+ */
 int zephir_fetch_property(zval **result, zval *object, const char *property_name, zend_uint property_length, int silent TSRMLS_DC) {
 
 	if (zephir_isset_property(object, property_name, property_length + 1 TSRMLS_CC)) {
@@ -2107,6 +2102,9 @@ int zephir_fetch_property(zval **result, zval *object, const char *property_name
 	return 0;
 }
 
+/**
+ * Fetches a property using a zval property
+ */
 int zephir_fetch_property_zval(zval **result, zval *object, zval *property, int silent TSRMLS_DC) {
 
 	if (unlikely(Z_TYPE_P(property) != IS_STRING)) {
@@ -2125,6 +2123,9 @@ int zephir_fetch_property_zval(zval **result, zval *object, zval *property, int 
 	return 0;
 }
 
+/**
+ * Creates a closure
+ */
 int zephir_create_closure_ex(zval *return_value, zval *this_ptr, zend_class_entry *ce, const char *method_name, zend_uint method_length TSRMLS_DC) {
 
 	zend_function *function_ptr;

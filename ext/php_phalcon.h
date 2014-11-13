@@ -4,13 +4,17 @@
 #ifndef PHP_PHALCON_H
 #define PHP_PHALCON_H 1
 
+#ifdef PHP_WIN32
+#define ZEPHIR_RELEASE 1
+#endif
+
 #include "kernel/globals.h"
 
 #define PHP_PHALCON_NAME        ""
 #define PHP_PHALCON_VERSION     "2.0.0b"
 #define PHP_PHALCON_EXTNAME     "phalcon"
 #define PHP_PHALCON_AUTHOR      "Phalcon Team"
-#define PHP_PHALCON_ZEPVERSION  "0.5.7a"
+#define PHP_PHALCON_ZEPVERSION  "0.5.8a"
 #define PHP_PHALCON_DESCRIPTION ""
 
 typedef struct _zephir_struct_db { 
@@ -82,6 +86,8 @@ ZEND_EXTERN_MODULE_GLOBALS(phalcon)
 #else
 	#define ZEPHIR_VGLOBAL &(phalcon_globals)
 #endif
+
+#define ZEPHIR_API ZEND_API
 
 #define zephir_globals_def phalcon_globals
 #define zend_zephir_globals_def zend_phalcon_globals
