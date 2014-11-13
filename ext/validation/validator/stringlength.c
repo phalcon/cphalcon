@@ -37,7 +37,9 @@
 /**
  * Phalcon\Validation\Validator\StringLength
  *
- * Validates that a string has the specified maximum and minimum constraints
+ * Validates that a string has the specified maximum and minimum constraints.
+ * The test is passed if for a string's length l, min<=l<=max, i.e. l must
+ * be at least min, and at most max.
  *
  *<code>
  *use Phalcon\Validation\Validator\StringLength as StringLength;
