@@ -54,35 +54,16 @@ class Config implements \ArrayAccess, \Countable
 	 */
 	public function __construct(array! arrayConfig = null)
 	{
-		var key, value, subKey, subValue;
-		boolean hasNumericKey;
+		var key, value;
 
 		for key, value in arrayConfig {
-			/**
-			 * Phalcon\Config does not support numeric keys as properties
-			 */
-			 // todo: add support numeric keys as properties
-			if typeof key !== "string" {
-				throw new Exception("Only string keys are allowed as configuration properties");
-			}
 
+			let key = strval(key);
 			if typeof value === "array" {
-				let hasNumericKey = false;
-				for subKey, subValue in value {
-					if typeof subKey === "int" {
-						let hasNumericKey = true;
-						break;
-					}
-				}
-				if hasNumericKey {
-					let this->{key} = value;
-				} else {
-					let this->{key} = new self(value);
-				}
+				let this->{key} = new self(value);
 			} else {
 				let this->{key} = value;
 			}
-
 		}
 	}
 

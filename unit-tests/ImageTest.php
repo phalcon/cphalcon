@@ -268,8 +268,8 @@ class ImageTest extends PHPUnit_Framework_TestCase
 		$image->mask($mask)->save('unit-tests/assets/production/imagick-mask.jpg');
 		$this->assertTrue(file_exists('unit-tests/assets/production/imagick-mask.jpg'));
 
-		// Add a text to the bottom right of the image
-		$image->text('hello', TRUE, TRUE);
+//		// Add a text to the bottom right of the image
+//		$image->text('hello', TRUE, TRUE);
 
 		// Set font size
 		//$image->text('hello', TRUE, TRUE, NULL, NULL, 12);

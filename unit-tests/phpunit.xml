@@ -19,9 +19,9 @@
 			<file>unit-tests/BeanstalkTest.php</file>
 			<file>unit-tests/CacheResultsetTest.php</file>
 			<file>unit-tests/CacheTest.php</file>
-			<!--<file>unit-tests/CollectionsEventsTest.php</file>-->
-			<!--<file>unit-tests/CollectionsSerializeTest.php</file>-->
-			<!--<file>unit-tests/CollectionsTest.php</file>-->
+			<file>unit-tests/CollectionsEventsTest.php</file>
+			<file>unit-tests/CollectionsSerializeTest.php</file>
+			<file>unit-tests/CollectionsTest.php</file>
 			<file>unit-tests/ConfigTest.php</file>
 			<file>unit-tests/ConsoleCliTest.php</file>
 			<file>unit-tests/ControllersTest.php</file>
@@ -37,7 +37,7 @@
 			<file>unit-tests/DiTest.php</file>
 			<file>unit-tests/EventsTest.php</file>
 			<file>unit-tests/FormsTest.php</file>
-			<!--<file>unit-tests/ImageTest.php</file>-->
+			<file>unit-tests/ImageTest.php</file>
 			<file>unit-tests/InitTest.php</file>
 			<file>unit-tests/LoaderTest.php</file>
 			<file>unit-tests/LoggerTest.php</file>
@@ -55,7 +55,7 @@
 			<file>unit-tests/ModelsForeignKeysTest.php</file>
 			<file>unit-tests/ModelsHydrationTest.php</file>
 			<file>unit-tests/ModelsMassAssigmentTest.php</file>
-			<!--<file>unit-tests/ModelsMetadataAdaptersTest.php</file>-->
+			<file>unit-tests/ModelsMetadataAdaptersTest.php</file>
 			<file>unit-tests/ModelsMetadataManualTest.php</file>
 			<file>unit-tests/ModelsMetadataStrategyTest.php</file>
 			<file>unit-tests/ModelsMetadataTest.php</file>

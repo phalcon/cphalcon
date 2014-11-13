@@ -13,9 +13,11 @@ else
 fi
 
 CFLAGS="-O2 -g3 -fno-strict-aliasing" pecl install igbinary < /dev/null &
+CFLAGS="-O1 -g3 -fno-strict-aliasing" pecl install imagick < /dev/null &
 CFLAGS="-O1 -g3 -fno-strict-aliasing" pecl install yaml < /dev/null &
 # CFLAGS="-O2 -g3 -fno-strict-aliasing" pecl upgrade mongo < /dev/null &
 
 phpenv config-add "$DIR/memcache.ini"
+phpenv config-add "$DIR/mongo.ini"
 phpenv config-rm xdebug.ini
 wait

@@ -447,39 +447,91 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	/**
 	 * Assigns values to a model from an array
 	 *
-	 *<code>
-	 *$robot->assign(array(
-	 *  'type' => 'mechanical',
-	 *  'name' => 'Astro Boy',
-	 *  'year' => 1952
-	 *));
+	 * <code>
+	 * $robot->assign(array(
+	 *    'type' => 'mechanical',
+	 *    'name' => 'Astro Boy',
+	 *    'year' => 1952
+	 * ));
+	 *
+	 * //assign by db row, column map needed
+	 * $robot->assign($dbRow, array(
+	 *    'db_type' => 'type',
+	 *    'db_name' => 'name',
+	 *    'db_year' => 'year'
+	 * ));
+	 *
+	 * //allow assign only name and year
+	 * $robot->assign($_POST, null, array('name', 'year');
+	 *
 	 *</code>
 	 *
 	 * @param array data
-	 * @param array columnMap
+	 * @param array dataColumnMap array to transform keys of data to another
+	 * @param array whiteList
 	 * @return Phalcon\Mvc\Model
 	 */
-	public function assign(var data, var columnMap = null) -> <Model>
+	public function assign(var data, var dataColumnMap = null, var whiteList = null) -> <Model>
 	{
-		var key, value, attribute;
+		var key, keyMapped, value, attribute, attributeField, possibleSetter, metaData, columnMap, dataMapped;
 
-		for key, value in data {
+		if typeof data != "array" {
+			throw new Exception("Data must be an array");
+		}
 
-			/**
-			 * Only string keys in the data are valid
-			 */
+		// apply column map for data, if exist
+		if typeof dataColumnMap == "array" {
+			let dataMapped = [];
+			for key, value in data {
+				if fetch keyMapped, dataColumnMap[key] {
+					let dataMapped[keyMapped] = value;
+				}
+			}
+		} else {
+			let dataMapped = data;
+		}
+
+		if empty dataMapped {
+			return this;
+		}
+
+		let metaData = this->getModelsMetaData();
+
+		if globals_get("orm.column_renaming") {
+			let columnMap = metaData->getColumnMap(this);
+		} else {
+			let columnMap = null;
+		}
+
+		for attribute in metaData->getAttributes(this) {
+
+			// Check if we need to rename the field
 			if typeof columnMap == "array" {
-
-				/**
-				 * Every field must be part of the column map
-				 */
-				if fetch attribute, columnMap[key] {
-					let this->{attribute} = value;
-				} else {
-					throw new Exception("Column '" . key. "' doesn\'t make part of the column map");
+				if !fetch attributeField, columnMap[attribute] {
+					throw new Exception("Column '" . attribute. "' doesn\'t make part of the column map");
 				}
 			} else {
-				let this->{key} = value;
+				let attributeField = attribute;
+			}
+
+			// The value in the array passed
+			// Check if we there is data for the field
+			if fetch value, dataMapped[attributeField] {
+
+				// If white-list exists check if the attribute is on that list
+				if typeof whiteList == "array" {
+					if !in_array(attributeField, whiteList) {
+						continue;
+					}
+				}
+
+				// Try to find a possible getter
+				let possibleSetter = "set" . attributeField;
+				if method_exists(this, possibleSetter) {
+					this->{possibleSetter}(value);
+				} else {
+					let this->{attributeField} = value;
+				}
 			}
 		}
 
@@ -2653,60 +2705,13 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 */
 	public function save(var data = null, var whiteList = null) -> boolean
 	{
-		var metaData, attribute, attributes, related,
-			schema, possibleSetter, value, writeConnection, readConnection,
+		var metaData, related, schema, writeConnection, readConnection,
 			source, table, identityField, exists, success;
 
 		let metaData = this->getModelsMetaData();
 
-		/**
-		 * Assign the values passed
-		 */
-		if data !== null {
-
-			if typeof data != "array" {
-				throw new Exception("Data passed to save() must be an array");
-			}
-
-			/**
-			 * Get the reversed column map for future renamings
-			 */
-			let attributes = metaData->getColumnMap(this);
-			if typeof attributes != "array" {
-				/**
-				 * Use the standard column map if there are no renamings
-				 */
-				let attributes = metaData->getAttributes(this);
-			}
-
-			for attribute in attributes {
-
-				if fetch value, data[attribute] {
-
-					/**
-					 * If the white-list is an array check if the attribute is on that list
-					 */
-					if typeof whiteList == "array" {
-						if !in_array(attribute, whiteList) {
-							continue;
-						}
-					}
-
-					/**
-					 * We check if the field has a setter
-					 */
-					let possibleSetter = "set" . attribute;
-					if method_exists(this, possibleSetter) {
-						this->{possibleSetter}(value);
-					} else {
-						/**
-						 * Otherwise we assign the attribute directly
-						 */
-						let this->{attribute} = value;
-					}
-				}
-
-			}
+		if !empty data {
+			this->assign(data, null, whiteList);
 		}
 
 		/**
@@ -2858,68 +2863,9 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 */
 	public function create(var data = null, var whiteList = null) -> boolean
 	{
-		var metaData, attribute, possibleSetter, value, columnMap, attributeField;
+		var metaData;
 
 		let metaData = this->getModelsMetaData();
-
-		/**
-		 * Assign the values passed
-		 */
-		if data !== null {
-
-			if typeof data != "array" {
-				throw new Exception("Data passed to create() must be an array");
-			}
-
-			if globals_get("orm.column_renaming") {
-				let columnMap = metaData->getColumnMap(this);
-			} else {
-				let columnMap = null;
-			}
-
-			/**
-			 * We assign the fields starting from the current attributes in the model
-			 */
-			for attribute in metaData->getAttributes(this) {
-
-				/**
-				 * Check if we need to rename the field
-				 */
-				if typeof columnMap == "array" {
-					if !fetch attributeField, columnMap[attribute]{
-						throw new Exception("Column '" . attribute . "' isn't part of the column map");
-					}
-				} else {
-					let attributeField = attribute;
-				}
-
-				/**
-				 * The value in the array passed
-				 * Check if we there is data for the field
-				 */
-				if fetch value, data[attributeField] {
-
-					/**
-					 * If the white-list is an array check if the attribute is on that list
-					 */
-					if typeof whiteList == "array" {
-						if !in_array(attributeField, whiteList) {
-							continue;
-						}
-					}
-
-					/**
-					 * Check if the field has a posible setter
-					 */
-					let possibleSetter = "set" . attributeField;
-					if method_exists(this, possibleSetter) {
-						this->{possibleSetter}(value);
-					} else {
-						let this->{attributeField} = value;
-					}
-				}
-			}
-		}
 
 		/**
 		 * Get the current connection
@@ -2935,7 +2881,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 		/**
 		 * Using save() anyways
 		 */
-		return this->save();
+		return this->save(data, whiteList);
 	}
 
 	/**
@@ -2955,80 +2901,14 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 */
 	public function update(var data = null, var whiteList = null) -> boolean
 	{
-		var metaData, columnMap, attribute, attributeField,
-			possibleSetter, value;
-
-		let metaData = null;
-
-		/**
-		 * Assign the values bassed on the passed
-		 */
-		if data !== null {
-
-			if typeof data != "array" {
-				throw new Exception("Data passed to update() must be an array");
-			}
-
-			let metaData = this->getModelsMetaData();
-			if globals_get("orm.column_renaming") {
-				let columnMap = metaData->getColumnMap(this);
-			} else {
-				let columnMap = null;
-			}
-
-			/**
-			 * We assign the fields starting from the current attributes in the model
-			 */
-			for attribute in metaData->getAttributes(this) {
-
-				/**
-				 * Check if we need to rename the field
-				 */
-				if typeof columnMap == "array" {
-					if !fetch attributeField, columnMap[attribute] {
-						throw new Exception("Column '" . attribute . "' isn't part of the column map");
-					}
-				} else {
-					let attributeField = attribute;
-				}
-
-				/**
-				 * Check if we there is data for the field
-				 * Reads the attribute from the data
-				 */
-				if fetch value, data[attributeField] {
-
-					/**
-					 * If the white-list is an array check if the attribute is on that list
-					 */
-					if typeof whiteList == "array" {
-						if !in_array(attributeField, whiteList) {
-							continue;
-						}
-					}
-
-					/**
-					 * Try to find a possible getter
-					 */
-					let possibleSetter = "set" . attributeField;
-					if method_exists(this, possibleSetter) {
-						this->{possibleSetter}(value);
-					} else {
-						let this->{attributeField} = value;
-					}
-				}
-			}
-
-		}
+		var metaData;
 
 		/**
 		 * We don't check if the record exists if the record is already checked
 		 */
 		if this->_dirtyState {
 
-			if metaData === null {
-				let metaData = this->getModelsMetaData();
-			}
+			let metaData = this->getModelsMetaData();
 
 			if this->_exists(metaData, this->getReadConnection()) {
 				let this->_errorMessages = [new Message("Record cannot be updated because it does not exist", null, "InvalidUpdateAttempt")];
@@ -3039,7 +2919,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 		/**
 		 * Call save() anyways
 		 */
-		return this->save();
+		return this->save(data, whiteList);
 	}
 
 	/**

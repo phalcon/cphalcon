@@ -49,12 +49,12 @@ class Csv extends Adapter implements AdapterInterface, \ArrayAccess
 			"enclosure": "\""
 		], options);
 
-		if is_readable(options["content"]) === false {
-			throw new Exception("Error opening translation file '" . options["content"] . "'");
-		}
-
 		var file;
 		let file = fopen(options["content"], "rb");
+
+		if typeof file !== "resource" {
+			throw new Exception("Error opening translation file '" . options["content"] . "'");
+		}
 
 		var data;
 
