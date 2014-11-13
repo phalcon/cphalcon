@@ -1135,6 +1135,8 @@ void zephir_array_merge_recursive_n(zval **a1, zval *a2 TSRMLS_DC)
 void zephir_array_unshift(zval *arr, zval *arg TSRMLS_DC)
 {
 	if (likely(Z_TYPE_P(arr) == IS_ARRAY)) {
+
+		HashTable  oldhash;
 		zval** args[1]      = { &arg };
 
 		HashTable *newhash = Z_ARRVAL_P(arr);
@@ -1145,7 +1147,7 @@ void zephir_array_unshift(zval *arr, zval *arg TSRMLS_DC)
 			php_splice(newhash, 0, 0, args, 1, NULL TSRMLS_CC);
 		#endif
 
-		HashTable  oldhash = *Z_ARRVAL_P(arr);
+		oldhash = *Z_ARRVAL_P(arr);
 		*Z_ARRVAL_P(arr)   = *newhash;
 
 		FREE_HASHTABLE(newhash);
@@ -1271,7 +1273,7 @@ int zephir_array_update_multi(zval **arr, zval **value TSRMLS_DC, const char *ty
 	zval *fetched, *tmp, *p, *item, *old_item[ZEPHIR_MAX_ARRAY_LEVELS], *old_p[ZEPHIR_MAX_ARRAY_LEVELS];
 	int i, j, l, ll, re_update, must_continue, wrap_tmp;
 
-	va_start(ap, types_length);
+	va_start(ap, types_count);
 
 	assert(types_length < ZEPHIR_MAX_ARRAY_LEVELS);
 

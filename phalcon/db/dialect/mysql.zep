@@ -22,6 +22,7 @@ namespace Phalcon\Db\Dialect;
 use Phalcon\Db\Column;
 use Phalcon\Db\Exception;
 use Phalcon\Db\IndexInterface;
+use Phalcon\Db\ColumnInterface;
 
 /**
  * Phalcon\Db\Dialect\Mysql
@@ -39,7 +40,7 @@ class MySQL extends \Phalcon\Db\Dialect //implements Phalcon\Db\DialectInterface
 	 * @param Phalcon\Db\ColumnInterface column
 	 * @return string
 	 */
-	public function getColumnDefinition(<\Phalcon\Db\ColumnInterface> column) -> string
+	public function getColumnDefinition(<ColumnInterface> column) -> string
 	{
 		var columnSql, size, scale, type, typeValues;
 
@@ -164,7 +165,7 @@ class MySQL extends \Phalcon\Db\Dialect //implements Phalcon\Db\DialectInterface
 	 * @param	string schemaName
 	 * @param	Phalcon\Db\ColumnInterface column
 	 */
-	public function addColumn(string! tableName, string! schemaName, <\Phalcon\Db\ColumnInterface> column) -> string
+	public function addColumn(string! tableName, string! schemaName, <ColumnInterface> column) -> string
 	{
 		var afterPosition, sql, defaultValue;
 
@@ -208,7 +209,7 @@ class MySQL extends \Phalcon\Db\Dialect //implements Phalcon\Db\DialectInterface
 	 * @param	Phalcon\Db\ColumnInterface column
 	 * @return	string
 	 */
-	public function modifyColumn(string! tableName, string! schemaName, <\Phalcon\Db\ColumnInterface> column) -> string
+	public function modifyColumn(string! tableName, string! schemaName, <ColumnInterface> column) -> string
 	{
 		var sql, defaultValue;
 

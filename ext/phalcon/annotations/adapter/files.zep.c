@@ -79,7 +79,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Files, __construct) {
 	}
 
 
-	if (Z_TYPE_P(options) != IS_ARRAY) {
+	if (Z_TYPE_P(options) == IS_ARRAY) {
 		if (zephir_array_isset_string_fetch(&annotationsDir, options, SS("annotationsDir"), 1 TSRMLS_CC)) {
 			zephir_update_property_this(this_ptr, SL("_annotationsDir"), annotationsDir TSRMLS_CC);
 		}
@@ -150,7 +150,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Files, write) {
 
 
 	if (!(zephir_instance_of_ev(data, phalcon_annotations_reflection_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'data' must be an instance of 'Phalcon\\\\Annotations\\\\Reflection'", "", 0);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'data' must be an instance of 'Phalcon\\Annotations\\Reflection'", "", 0);
 		return;
 	}
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_annotationsDir"), PH_NOISY_CC);

@@ -129,7 +129,7 @@ PHP_METHOD(Phalcon_Logger_Adapter, setFormatter) {
 
 
 	if (!(zephir_instance_of_ev(formatter, phalcon_logger_formatterinterface_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(spl_ce_InvalidArgumentException, "Parameter 'formatter' must be an instance of 'Phalcon\\\\Logger\\\\FormatterInterface'", "", 0);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(spl_ce_InvalidArgumentException, "Parameter 'formatter' must be an instance of 'Phalcon\\Logger\\FormatterInterface'", "", 0);
 		return;
 	}
 	zephir_update_property_this(this_ptr, SL("_formatter"), formatter TSRMLS_CC);

@@ -68,13 +68,14 @@ class Firephp extends Adapter implements AdapterInterface
 	 */
 	public function logInternal(string message, int type, int time, array context)
 	{
-		var chunk, format, chString, chLength, content, key;
+		var chunk, format, chString, content, key;
 
 		if self::_index === null {
 			let self::_index = 1;
 		}
 
 		if self::_initialized !== true {
+
 			header("X-Wf-Protocol-1: http://meta.wildfirehq.org/Protocol/JsonStream/0.2");
 			header("X-Wf-1-Plugin-1: http://meta.firephp.org/Wildfire/Plugin/FirePHP/Library-FirePHPCore/0.3");
 			header("X-Wf-Structure-1: http://meta.firephp.org/Wildfire/Structure/FirePHP/FirebugConsole/0.1");
@@ -96,7 +97,6 @@ class Firephp extends Adapter implements AdapterInterface
 
 			let self::_index = self::_index + 1;
 		}
-
 	}
 
 	/**

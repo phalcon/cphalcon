@@ -69,6 +69,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Config) {
 	ZEPHIR_REGISTER_CLASS(Phalcon, Config, phalcon, config, phalcon_config_method_entry, 0);
 
 	zend_class_implements(phalcon_config_ce TSRMLS_CC, 1, zend_ce_arrayaccess);
+	zend_class_implements(phalcon_config_ce TSRMLS_CC, 1, spl_ce_Countable);
 	return SUCCESS;
 
 }
@@ -83,7 +84,7 @@ PHP_METHOD(Phalcon_Config, __construct) {
 	HashTable *_1, *_4;
 	HashPosition _0, _3;
 	zend_bool hasNumericKey;
-	zval *arrayConfig_param = NULL, *key = NULL, *value = NULL, *subkey = NULL, *subvalue = NULL, **_2, **_5, *_6 = NULL;
+	zval *arrayConfig_param = NULL, *key = NULL, *value = NULL, *subKey = NULL, *subValue = NULL, **_2, **_5, *_6 = NULL;
 	zval *arrayConfig = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -121,9 +122,9 @@ PHP_METHOD(Phalcon_Config, __construct) {
 			  ; zephir_hash_get_current_data_ex(_4, (void**) &_5, &_3) == SUCCESS
 			  ; zephir_hash_move_forward_ex(_4, &_3)
 			) {
-				ZEPHIR_GET_HMKEY(subkey, _4, _3);
-				ZEPHIR_GET_HVALUE(subvalue, _5);
-				if (Z_TYPE_P(subkey) == IS_LONG) {
+				ZEPHIR_GET_HMKEY(subKey, _4, _3);
+				ZEPHIR_GET_HVALUE(subValue, _5);
+				if (Z_TYPE_P(subKey) == IS_LONG) {
 					hasNumericKey = 1;
 					break;
 				}
@@ -323,17 +324,18 @@ PHP_METHOD(Phalcon_Config, offsetUnset) {
  * Merges a configuration into the current one
  *
  *<code>
- *	$appConfig = new \Phalcon\Config(array('database' => array('host' => 'localhost')));
- *	$globalConfig->merge($config2);
+ * $appConfig = new \Phalcon\Config(array('database' => array('host' => 'localhost')));
+ * $globalConfig->merge($config2);
  *</code>
+ *
+ * @param Config config
+ * @return this merged config
  */
 PHP_METHOD(Phalcon_Config, merge) {
 
-	HashTable *_3;
-	HashPosition _2;
+	zephir_nts_static zephir_fcall_cache_entry *_0 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zephir_nts_static zephir_fcall_cache_entry *_1 = NULL;
-	zval *config, *key = NULL, *value = NULL, *_0 = NULL, **_4;
+	zval *config;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &config);
@@ -341,24 +343,12 @@ PHP_METHOD(Phalcon_Config, merge) {
 
 
 	if (!(zephir_instance_of_ev(config, phalcon_config_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'config' must be an instance of 'Phalcon\\\\Config'", "", 0);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'config' must be an instance of 'Phalcon\\Config'", "", 0);
 		return;
 	}
-	ZEPHIR_CALL_FUNCTION(&_0, "get_object_vars", &_1, config);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "_merge", &_0, config);
 	zephir_check_call_status();
-	zephir_is_iterable(_0, &_3, &_2, 0, 0, "phalcon/config.zep", 174);
-	for (
-	  ; zephir_hash_get_current_data_ex(_3, (void**) &_4, &_2) == SUCCESS
-	  ; zephir_hash_move_forward_ex(_3, &_2)
-	) {
-		ZEPHIR_GET_HMKEY(key, _3, _2);
-		ZEPHIR_GET_HVALUE(value, _4);
-		if (zephir_isset_property_zval(this_ptr, key TSRMLS_CC)) {
-		} else {
-			zephir_update_property_zval_zval(this_ptr, key, value TSRMLS_CC);
-		}
-	}
-	ZEPHIR_MM_RESTORE();
+	RETURN_MM();
 
 }
 
@@ -383,7 +373,7 @@ PHP_METHOD(Phalcon_Config, toArray) {
 	array_init(arrayConfig);
 	ZEPHIR_CALL_FUNCTION(&_0, "get_object_vars", &_1, this_ptr);
 	zephir_check_call_status();
-	zephir_is_iterable(_0, &_3, &_2, 0, 0, "phalcon/config.zep", 199);
+	zephir_is_iterable(_0, &_3, &_2, 0, 0, "phalcon/config.zep", 194);
 	for (
 	  ; zephir_hash_get_current_data_ex(_3, (void**) &_4, &_2) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_3, &_2)
@@ -403,6 +393,33 @@ PHP_METHOD(Phalcon_Config, toArray) {
 		}
 	}
 	RETURN_CCTOR(arrayConfig);
+
+}
+
+/**
+ * Returns the count of properties set in the config
+ *
+ *<code>
+ * print count($config);
+ *</code>
+ *
+ * or
+ *
+ *<code>
+ * print $config->count();
+ *</code>
+ */
+PHP_METHOD(Phalcon_Config, count) {
+
+	int ZEPHIR_LAST_CALL_STATUS;
+	zephir_nts_static zephir_fcall_cache_entry *_1 = NULL;
+	zval *_0 = NULL;
+
+	ZEPHIR_MM_GROW();
+
+	ZEPHIR_CALL_FUNCTION(&_0, "get_object_vars", &_1, this_ptr);
+	zephir_check_call_status();
+	RETURN_MM_LONG(zephir_fast_count_int(_0 TSRMLS_CC));
 
 }
 
@@ -430,6 +447,73 @@ PHP_METHOD(Phalcon_Config, __set_state) {
 	object_init_ex(return_value, phalcon_config_ce);
 	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, data);
 	zephir_check_call_status();
+	RETURN_MM();
+
+}
+
+/**
+ * Helper method for merge configs (forwarding nested config instance)
+ *
+ * @param Config config
+ * @param Config instance = null
+ *
+ * @return Config merged config
+ */
+PHP_METHOD(Phalcon_Config, _merge) {
+
+	zend_bool _5, _6;
+	HashTable *_3;
+	HashPosition _2;
+	int ZEPHIR_LAST_CALL_STATUS;
+	zephir_nts_static zephir_fcall_cache_entry *_1 = NULL, *_9 = NULL;
+	zval *config, *instance = NULL, *key = NULL, *value = NULL, *_0 = NULL, **_4, *_7 = NULL, *_8 = NULL;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 1, &config, &instance);
+
+	if (!instance) {
+		ZEPHIR_CPY_WRT(instance, ZEPHIR_GLOBAL(global_null));
+	} else {
+		ZEPHIR_SEPARATE_PARAM(instance);
+	}
+
+
+	if (!(zephir_instance_of_ev(config, phalcon_config_ce TSRMLS_CC))) {
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'config' must be an instance of 'Phalcon\\Config'", "", 0);
+		return;
+	}
+	if (Z_TYPE_P(instance) != IS_OBJECT) {
+		ZEPHIR_CPY_WRT(instance, this_ptr);
+	}
+	ZEPHIR_CALL_FUNCTION(&_0, "get_object_vars", &_1, config);
+	zephir_check_call_status();
+	zephir_is_iterable(_0, &_3, &_2, 0, 0, "phalcon/config.zep", 247);
+	for (
+	  ; zephir_hash_get_current_data_ex(_3, (void**) &_4, &_2) == SUCCESS
+	  ; zephir_hash_move_forward_ex(_3, &_2)
+	) {
+		ZEPHIR_GET_HMKEY(key, _3, _2);
+		ZEPHIR_GET_HVALUE(value, _4);
+		_5 = zephir_isset_property_zval(instance, key TSRMLS_CC);
+		if (_5) {
+			_5 = Z_TYPE_P(value) == IS_OBJECT;
+		}
+		_6 = _5;
+		if (_6) {
+			ZEPHIR_OBS_NVAR(_7);
+			zephir_read_property_zval(&_7, instance, key, PH_NOISY_CC);
+			_6 = Z_TYPE_P(_7) == IS_OBJECT;
+		}
+		if (_6) {
+			ZEPHIR_OBS_NVAR(_8);
+			zephir_read_property_zval(&_8, instance, key, PH_NOISY_CC);
+			ZEPHIR_CALL_METHOD(NULL, this_ptr, "_merge", &_9, value, _8);
+			zephir_check_call_status();
+		} else {
+			zephir_update_property_zval_zval(instance, key, value TSRMLS_CC);
+		}
+	}
+	RETVAL_ZVAL(instance, 1, 0);
 	RETURN_MM();
 
 }

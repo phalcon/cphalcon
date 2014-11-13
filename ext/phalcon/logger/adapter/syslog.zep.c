@@ -110,22 +110,22 @@ PHP_METHOD(Phalcon_Logger_Adapter_Syslog, __construct) {
 PHP_METHOD(Phalcon_Logger_Adapter_Syslog, getFormatter) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *formatter = NULL;
+	zval *_0, *_1;
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_OBS_VAR(formatter);
-	zephir_read_property_this(&formatter, this_ptr, SL("_formatter"), PH_NOISY_CC);
-	if (Z_TYPE_P(formatter) != IS_OBJECT) {
-		ZEPHIR_INIT_NVAR(formatter);
-		object_init_ex(formatter, phalcon_logger_formatter_syslog_ce);
-		if (zephir_has_constructor(formatter TSRMLS_CC)) {
-			ZEPHIR_CALL_METHOD(NULL, formatter, "__construct", NULL);
+	ZEPHIR_OBS_VAR(_0);
+	zephir_read_property_this(&_0, this_ptr, SL("_formatter"), PH_NOISY_CC);
+	if (Z_TYPE_P(_0) != IS_OBJECT) {
+		ZEPHIR_INIT_VAR(_1);
+		object_init_ex(_1, phalcon_logger_formatter_syslog_ce);
+		if (zephir_has_constructor(_1 TSRMLS_CC)) {
+			ZEPHIR_CALL_METHOD(NULL, _1, "__construct", NULL);
 			zephir_check_call_status();
 		}
-		zephir_update_property_this(this_ptr, SL("_formatter"), formatter TSRMLS_CC);
+		zephir_update_property_this(this_ptr, SL("_formatter"), _1 TSRMLS_CC);
 	}
-	RETURN_CCTOR(formatter);
+	RETURN_MM_MEMBER(this_ptr, "_formatter");
 
 }
 
@@ -163,11 +163,11 @@ PHP_METHOD(Phalcon_Logger_Adapter_Syslog, logInternal) {
 	ZEPHIR_CALL_METHOD(&appliedFormat, _0, "format", NULL, message, _1, _2, context);
 	zephir_check_call_status();
 	if (Z_TYPE_P(appliedFormat) != IS_ARRAY) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_logger_exception_ce, "The formatted message is not valid", "phalcon/logger/adapter/syslog.zep", 102);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_logger_exception_ce, "The formatted message is not valid", "phalcon/logger/adapter/syslog.zep", 100);
 		return;
 	}
-	zephir_array_fetch_long(&_3, appliedFormat, 0, PH_NOISY | PH_READONLY, "phalcon/logger/adapter/syslog.zep", 105 TSRMLS_CC);
-	zephir_array_fetch_long(&_4, appliedFormat, 1, PH_NOISY | PH_READONLY, "phalcon/logger/adapter/syslog.zep", 105 TSRMLS_CC);
+	zephir_array_fetch_long(&_3, appliedFormat, 0, PH_NOISY | PH_READONLY, "phalcon/logger/adapter/syslog.zep", 103 TSRMLS_CC);
+	zephir_array_fetch_long(&_4, appliedFormat, 1, PH_NOISY | PH_READONLY, "phalcon/logger/adapter/syslog.zep", 103 TSRMLS_CC);
 	ZEPHIR_CALL_FUNCTION(NULL, "syslog", &_5, _3, _4);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();

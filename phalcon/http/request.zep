@@ -513,6 +513,21 @@ class Request implements RequestInterface, InjectionAwareInterface
 
 	}
 
+        /**
+         * Gets HTTP URI which request has been made
+         *
+         * @return string
+         */
+        public final function getURI() -> string
+        {
+                var requestURI;
+
+                if fetch requestURI, _SERVER["REQUEST_URI"] {
+                        return requestURI;
+                }
+                return "";
+        }
+
 	/**
 	 * Gets most possible client IPv4 Address. This method search in _SERVER['REMOTE_ADDR'] and optionally in _SERVER['HTTP_X_FORWARDED_FOR']
 	 *

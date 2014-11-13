@@ -55,7 +55,9 @@ static zephir_memory_entry* zephir_memory_grow_stack_common(zend_zephir_globals_
 #endif
 	}
 	else if (!g->active_memory->next) {
+#ifndef PHP_WIN32
 		assert(g->active_memory >= g->end_memory - 1 || g->active_memory < g->start_memory);
+#endif
 		zephir_memory_entry *entry = (zephir_memory_entry *) ecalloc(1, sizeof(zephir_memory_entry));
 	/* ecalloc() will take care of these members
 		entry->pointer   = 0;
@@ -510,7 +512,7 @@ int ZEND_FASTCALL zephir_clean_restore_stack(TSRMLS_D) {
 /**
  * Copies a variable only if its refcount is greater than 1
  */
-zend_always_inline void ZEND_FASTCALL zephir_copy_ctor(zval *destination, zval *origin) {
+void ZEND_FASTCALL zephir_copy_ctor(zval *destination, zval *origin) {
 	if (Z_REFCOUNT_P(origin) > 1) {
 		zval_copy_ctor(destination);
 	} else {
@@ -647,7 +649,7 @@ static inline void zephir_dtor_func(zval *zvalue ZEND_FILE_LINE_DC)
 	}
 }
 
-zend_always_inline void zephir_value_dtor(zval *zvalue ZEND_FILE_LINE_DC)
+void zephir_value_dtor(zval *zvalue ZEND_FILE_LINE_DC)
 {
 	if (zvalue->type <= IS_BOOL) {
 		return;

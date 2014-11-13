@@ -95,10 +95,10 @@ PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, __construct) {
  */
 PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, __call) {
 
-	zval *_1;
+	zval *_2;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zend_class_entry *_0;
-	zval *method_param = NULL, *arguments, *handler = NULL, *definition;
+	zend_class_entry *_1;
+	zval *method_param = NULL, *arguments, *handler = NULL, *definition, *_0 = NULL;
 	zval *method = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -123,19 +123,20 @@ PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, __call) {
 		ZEPHIR_OBS_VAR(definition);
 		zephir_read_property_this(&definition, this_ptr, SL("_definition"), PH_NOISY_CC);
 		ZEPHIR_INIT_NVAR(handler);
-		_0 = zend_fetch_class(Z_STRVAL_P(definition), Z_STRLEN_P(definition), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
-		object_init_ex(handler, _0);
+		zephir_fetch_safe_class(_0, definition);
+		_1 = zend_fetch_class(Z_STRVAL_P(_0), Z_STRLEN_P(_0), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
+		object_init_ex(handler, _1);
 		if (zephir_has_constructor(handler TSRMLS_CC)) {
 			ZEPHIR_CALL_METHOD(NULL, handler, "__construct", NULL);
 			zephir_check_call_status();
 		}
 		zephir_update_property_this(this_ptr, SL("_handler"), handler TSRMLS_CC);
 	}
-	ZEPHIR_INIT_VAR(_1);
-	array_init_size(_1, 3);
-	zephir_array_fast_append(_1, handler);
-	zephir_array_fast_append(_1, method);
-	ZEPHIR_CALL_USER_FUNC_ARRAY(return_value, _1, arguments);
+	ZEPHIR_INIT_VAR(_2);
+	array_init_size(_2, 3);
+	zephir_array_fast_append(_2, handler);
+	zephir_array_fast_append(_2, method);
+	ZEPHIR_CALL_USER_FUNC_ARRAY(return_value, _2, arguments);
 	zephir_check_call_status();
 	RETURN_MM();
 

@@ -162,4 +162,8 @@ class Session extends \Phalcon\Flash implements FlashInterface, InjectionAwareIn
 		}
 	}
 
+	public function clear() -> void
+	{
+		this->_getSessionMessages(true);
+	}
 }

@@ -899,7 +899,7 @@ PHP_METHOD(Phalcon_Mvc_View, _engineRender) {
 		_0 = !zephir_instance_of_ev(cache, phalcon_cache_backendinterface_ce TSRMLS_CC);
 	}
 	if (_0) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'cache' must be an instance of 'Phalcon\\\\Cache\\\\BackendInterface'", "", 0);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'cache' must be an instance of 'Phalcon\\Cache\\BackendInterface'", "", 0);
 		return;
 	}
 	notExists = 1;
@@ -1414,6 +1414,59 @@ PHP_METHOD(Phalcon_Mvc_View, pick) {
  * Renders a partial view
  *
  * <code>
+ * 	//Retrieve the contents of a partial
+ * 	echo $this->getPartial('shared/footer');
+ * </code>
+ *
+ * <code>
+ * 	//Retrieve the contents of a partial with arguments
+ * 	echo $this->getPartial('shared/footer', array('content' => $html));
+ * </code>
+ *
+ * @param string partialPath
+ * @param array params
+ * @return string
+ */
+PHP_METHOD(Phalcon_Mvc_View, getPartial) {
+
+	int ZEPHIR_LAST_CALL_STATUS;
+	zephir_nts_static zephir_fcall_cache_entry *_0 = NULL, *_1 = NULL;
+	zval *partialPath_param = NULL, *params = NULL;
+	zval *partialPath = NULL;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 1, &partialPath_param, &params);
+
+	if (unlikely(Z_TYPE_P(partialPath_param) != IS_STRING && Z_TYPE_P(partialPath_param) != IS_NULL)) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'partialPath' must be a string") TSRMLS_CC);
+		RETURN_MM_NULL();
+	}
+
+	if (likely(Z_TYPE_P(partialPath_param) == IS_STRING)) {
+		zephir_get_strval(partialPath, partialPath_param);
+	} else {
+		ZEPHIR_INIT_VAR(partialPath);
+		ZVAL_EMPTY_STRING(partialPath);
+	}
+	if (!params) {
+		params = ZEPHIR_GLOBAL(global_null);
+	}
+
+
+	ZEPHIR_CALL_FUNCTION(NULL, "ob_start", &_0);
+	zephir_check_call_status();
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "partial", NULL, partialPath, params);
+	zephir_check_call_status();
+	ZEPHIR_RETURN_CALL_FUNCTION("ob_get_clean", &_1);
+	zephir_check_call_status();
+	RETURN_MM();
+
+}
+
+/**
+ * Renders a partial view
+ *
+ * <code>
  * 	//Show a partial inside another view
  * 	$this->partial('shared/footer');
  * </code>
@@ -1600,7 +1653,7 @@ PHP_METHOD(Phalcon_Mvc_View, _createCache) {
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	ZEPHIR_CPY_WRT(dependencyInjector, _0);
 	if (Z_TYPE_P(dependencyInjector) != IS_OBJECT) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_view_exception_ce, "A dependency injector container is required to obtain the view cache services", "phalcon/mvc/view.zep", 1177);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_view_exception_ce, "A dependency injector container is required to obtain the view cache services", "phalcon/mvc/view.zep", 1203);
 		return;
 	}
 	ZEPHIR_INIT_VAR(cacheService);
@@ -1612,7 +1665,7 @@ PHP_METHOD(Phalcon_Mvc_View, _createCache) {
 		if (zephir_array_isset_string_fetch(&cacheOptions, viewOptions, SS("cache"), 0 TSRMLS_CC)) {
 			if (zephir_array_isset_string(cacheOptions, SS("service"))) {
 				ZEPHIR_OBS_NVAR(cacheService);
-				zephir_array_fetch_string(&cacheService, cacheOptions, SL("service"), PH_NOISY, "phalcon/mvc/view.zep", 1186 TSRMLS_CC);
+				zephir_array_fetch_string(&cacheService, cacheOptions, SL("service"), PH_NOISY, "phalcon/mvc/view.zep", 1212 TSRMLS_CC);
 			}
 		}
 	}
@@ -1620,7 +1673,7 @@ PHP_METHOD(Phalcon_Mvc_View, _createCache) {
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(viewCache, _1);
 	if (Z_TYPE_P(viewCache) != IS_OBJECT) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_view_exception_ce, "The injected caching service is invalid", "phalcon/mvc/view.zep", 1196);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_view_exception_ce, "The injected caching service is invalid", "phalcon/mvc/view.zep", 1222);
 		return;
 	}
 	RETURN_CCTOR(viewCache);
@@ -1707,7 +1760,7 @@ PHP_METHOD(Phalcon_Mvc_View, cache) {
 			ZEPHIR_INIT_NVAR(cacheOptions);
 			array_init(cacheOptions);
 		}
-		zephir_is_iterable(options, &_1, &_0, 0, 0, "phalcon/mvc/view.zep", 1268);
+		zephir_is_iterable(options, &_1, &_0, 0, 0, "phalcon/mvc/view.zep", 1294);
 		for (
 		  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_1, &_0)

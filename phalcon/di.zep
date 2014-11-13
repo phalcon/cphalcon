@@ -202,7 +202,7 @@ class Di implements DiInterface
 	 */
 	public function get(string! name, parameters = null)
 	{
-		var service, instance;
+		var service, instance, reflection;
 
 		if fetch service, this->_services[name] {
 			/**
@@ -216,12 +216,27 @@ class Di implements DiInterface
 			if class_exists(name) {
 				if typeof parameters == "array" {
 					if count(parameters) {
-						let instance = create_instance_params(name, parameters);
+						if is_php_version("5.6") {
+							let reflection = new \ReflectionClass(name),
+								instance = reflection->newInstanceArgs(parameters);
+						} else {
+							let instance = create_instance_params(name, parameters);
+						}
+					} else {
+						if is_php_version("5.6") {
+							let reflection = new \ReflectionClass(name),
+								instance = reflection->newInstance();
+						} else {
+							let instance = create_instance(name);
+						}
+					}
+				} else {
+					if is_php_version("5.6") {
+						let reflection = new \ReflectionClass(name),
+							instance = reflection->newInstance();
 					} else {
 						let instance = create_instance(name);
 					}
-				} else {
-					let instance = create_instance(name);
 				}
 			} else {
 				throw new Exception("Service '" . name . "' wasn't found in the dependency injection container");
@@ -326,7 +341,7 @@ class Di implements DiInterface
 	 * @param mixed definition
 	 * @return boolean
 	 */
-	public function offsetSet(string! name, definition) -> boolean
+	public function offsetSet(string! name, var definition) -> boolean
 	{
 		this->setShared(name, definition);
 		return true;
@@ -427,5 +442,4 @@ class Di implements DiInterface
 	{
 		let self::_default = null;
 	}
-
 }

@@ -25,7 +25,7 @@ use Phalcon\Config\Exception;
 /**
  * Phalcon\Config\Adapter\Yaml
  *
- * Reads JSON files and converts them to Phalcon\Config objects.
+ * Reads YAML files and converts them to Phalcon\Config objects.
  *
  * Given the following configuration file:
  *
@@ -75,5 +75,4 @@ class Yaml extends Config
 
 		parent::__construct(yamlConfig);
 	}
-
 }

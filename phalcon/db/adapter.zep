@@ -24,6 +24,8 @@ use Phalcon\Events\EventsAwareInterface;
 use Phalcon\Events\ManagerInterface;
 use Phalcon\Db\DialectInterface;
 use Phalcon\Db\ReferenceInterface;
+use Phalcon\Db\ColumnInterface;
+use Phalcon\Db\AdapterInterface;
 
 /**
  * Phalcon\Db\Adapter
@@ -461,7 +463,7 @@ abstract class Adapter implements EventsAwareInterface
 	 * @param 	array dataTypes
 	 * @return 	boolean
 	 */
-	public function update(var table, fields, values, whereCondition=null, dataTypes=null) -> boolean
+	public function update(var table, fields, values, whereCondition = null, dataTypes = null) -> boolean
 	{
 		var placeholders, updateValues, position, value,
 			field, bindDataTypes, escapedField, bindType, escapedTable,
@@ -630,7 +632,7 @@ abstract class Adapter implements EventsAwareInterface
 	 * @param  array dataTypes
 	 * @return boolean
 	 */
-	public function delete(var table, whereCondition=null, placeholders=null, dataTypes=null) -> boolean
+	public function delete(var table, whereCondition = null, placeholders = null, dataTypes = null) -> boolean
 	{
 		var sql, escapedTable;
 
@@ -690,7 +692,7 @@ abstract class Adapter implements EventsAwareInterface
 	 * @param string schemaName
 	 * @return boolean
 	 */
-	public function tableExists(string! tableName, string! schemaName=null) -> boolean
+	public function tableExists(string! tableName, string! schemaName = null) -> boolean
 	{
 		return this->fetchOne(this->_dialect->tableExists(tableName, schemaName), \Phalcon\Db::FETCH_NUM)[0] > 0;
 	}
@@ -706,7 +708,7 @@ abstract class Adapter implements EventsAwareInterface
 	 * @param string schemaName
 	 * @return boolean
 	 */
-	public function viewExists(string! viewName, schemaName=null)
+	public function viewExists(string! viewName, schemaName = null)
 	{
 		return this->fetchOne(this->_dialect->viewExists(viewName, schemaName), \Phalcon\Db::FETCH_NUM)[0] > 0;
 	}
@@ -768,7 +770,7 @@ abstract class Adapter implements EventsAwareInterface
 	 * @param	boolean ifExists
 	 * @return	boolean
 	 */
-	public function dropTable(string! tableName, string! schemaName=null, ifExists=true) -> boolean
+	public function dropTable(string! tableName, string! schemaName = null, ifExists = true) -> boolean
 	{
 		return this->{"execute"}(this->_dialect->dropTable(tableName, schemaName, ifExists));
 	}
@@ -781,7 +783,7 @@ abstract class Adapter implements EventsAwareInterface
 	 * @param	string schemaName
 	 * @return	boolean
 	 */
-	public function createView(string! viewName, definition, schemaName=null) -> boolean
+	public function createView(string! viewName, definition, schemaName = null) -> boolean
 	{
 		if typeof definition != "array" {
 			throw new Exception("Invalid definition to create the view '" . viewName . "'");
@@ -815,7 +817,7 @@ abstract class Adapter implements EventsAwareInterface
 	 * @param	Phalcon\Db\ColumnInterface column
 	 * @return	boolean
 	 */
-	public function addColumn(string! tableName, string! schemaName, <\Phalcon\Db\ColumnInterface> column) -> boolean
+	public function addColumn(string! tableName, string! schemaName, <ColumnInterface> column) -> boolean
 	{
 		return this->{"execute"}(this->_dialect->addColumn(tableName, schemaName, column));
 	}
@@ -828,7 +830,7 @@ abstract class Adapter implements EventsAwareInterface
 	 * @param	Phalcon\Db\ColumnInterface column
 	 * @return 	boolean
 	 */
-	public function modifyColumn(string! tableName, string! schemaName, <\Phalcon\Db\ColumnInterface> column) -> boolean
+	public function modifyColumn(string! tableName, string! schemaName, <ColumnInterface> column) -> boolean
 	{
 		return this->{"execute"}(this->_dialect->modifyColumn(tableName, schemaName, column));
 	}
@@ -929,7 +931,7 @@ abstract class Adapter implements EventsAwareInterface
 	 * @param	Phalcon\Db\ColumnInterface column
 	 * @return	string
 	 */
-	public function getColumnDefinition(<\Phalcon\Db\ColumnInterface> column) -> boolean
+	public function getColumnDefinition(<ColumnInterface> column) -> boolean
 	{
 		return this->_dialect->getColumnDefinition(column);
 	}
@@ -1164,7 +1166,7 @@ abstract class Adapter implements EventsAwareInterface
 	 * @param boolean nestedTransactionsWithSavepoints
 	 * @return Phalcon\Db\AdapterInterface
 	 */
-	public function setNestedTransactionsWithSavepoints(boolean nestedTransactionsWithSavepoints) -> <\Phalcon\Db\AdapterInterface>
+	public function setNestedTransactionsWithSavepoints(boolean nestedTransactionsWithSavepoints) -> <AdapterInterface>
 	{
 
 		if this->_transactionLevel > 0 {

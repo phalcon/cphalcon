@@ -23,11 +23,6 @@
 #endif
 
 #include "php.h"
-
-#ifdef PHP_WIN32
-#include "php_string.h"
-#endif
-
 #include "php_ext.h"
 
 #include "kernel/main.h"

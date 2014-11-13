@@ -1,80 +1,91 @@
-ARG_ENABLE("phalcon", "enable phalcon framework", "no", "-Iext/phalcon");
+ARG_ENABLE("phalcon", "enable phalcon", "no");
 
 if (PHP_PHALCON != "no") {
-  EXTENSION("phalcon", "phalcon.c");
-  ADD_SOURCES("ext/phalcon/kernel", "main.c fcall.c require.c debug.c backtrace.c assert.c object.c array.c hash.c memory.c filter.c string.c operators.c concat.c file.c output.c session.c exception.c variables.c", "phalcon")
-  ADD_SOURCES("ext/phalcon/kernel/framework", "orm.c router.c url.c", "phalcon")
-  ADD_SOURCES("ext/phalcon/assets/filters", "jsminifier.c cssminifier.c none.c cssmin.c jsmin.c", "phalcon")
-  ADD_SOURCES("ext/phalcon/mvc/model/query", "scanner.c parser.c builder.c lang.c statusinterface.c status.c builderinterface.c", "phalcon")
-  ADD_SOURCES("ext/phalcon/mvc/view/engine/volt", "scanner.c parser.c compiler.c", "phalcon")
-  ADD_SOURCES("ext/phalcon/annotations", "scanner.c parser.c reflection.c annotation.c readerinterface.c exception.c collection.c adapterinterface.c adapter.c reader.c", "phalcon")
-  ADD_SOURCES("ext/phalcon/.", "logger.c flash.c dispatcherinterface.c di.c cryptinterface.c db.c text.c debug.c tag.c filterinterface.c acl.c loader.c exception.c crypt.c filter.c dispatcher.c diinterface.c escaper.c config.c escaperinterface.c validation.c version.c flashinterface.c kernel.c security.c translate.c session.c", "phalcon")
-  ADD_SOURCES("ext/phalcon/cli/dispatcher", "exception.c", "phalcon")
-  ADD_SOURCES("ext/phalcon/cli", "console.c router.c task.c dispatcher.c", "phalcon")
-  ADD_SOURCES("ext/phalcon/cli/router", "exception.c", "phalcon")
-  ADD_SOURCES("ext/phalcon/cli/console", "exception.c", "phalcon")
-  ADD_SOURCES("ext/phalcon/security", "exception.c", "phalcon")
-  ADD_SOURCES("ext/phalcon/db/dialect", "sqlite.c mysql.c oracle.c postgresql.c", "phalcon")
-  ADD_SOURCES("ext/phalcon/db/result", "pdo.c", "phalcon")
-  ADD_SOURCES("ext/phalcon/db", "column.c index.c indexinterface.c dialectinterface.c resultinterface.c profiler.c referenceinterface.c exception.c reference.c adapterinterface.c dialect.c adapter.c rawvalue.c columninterface.c", "phalcon")
-  ADD_SOURCES("ext/phalcon/db/profiler", "item.c", "phalcon")
-  ADD_SOURCES("ext/phalcon/db/adapter/pdo", "sqlite.c mysql.c oracle.c postgresql.c", "phalcon")
-  ADD_SOURCES("ext/phalcon/db/adapter", "pdo.c", "phalcon")
-  ADD_SOURCES("ext/phalcon/forms", "form.c manager.c exception.c element.c elementinterface.c", "phalcon")
-  ADD_SOURCES("ext/phalcon/forms/element", "file.c email.c hidden.c password.c text.c select.c textarea.c check.c numeric.c submit.c date.c", "phalcon")
-  ADD_SOURCES("ext/phalcon/http", "response.c requestinterface.c request.c cookie.c responseinterface.c", "phalcon")
-  ADD_SOURCES("ext/phalcon/http/request", "file.c exception.c fileinterface.c", "phalcon")
-  ADD_SOURCES("ext/phalcon/http/cookie", "exception.c", "phalcon")
-  ADD_SOURCES("ext/phalcon/http/response", "cookies.c exception.c headers.c cookiesinterface.c headersinterface.c", "phalcon")
-  ADD_SOURCES("ext/phalcon/loader", "exception.c", "phalcon")
-  ADD_SOURCES("ext/phalcon/mvc", "controller.c router.c micro.c dispatcherinterface.c routerinterface.c urlinterface.c url.c model.c view.c modelinterface.c viewinterface.c collection.c dispatcher.c collectioninterface.c application.c controllerinterface.c moduledefinitioninterface.c", "phalcon")
-  ADD_SOURCES("ext/phalcon/mvc/dispatcher", "exception.c", "phalcon")
-  ADD_SOURCES("ext/phalcon/mvc/application", "exception.c", "phalcon")
-  ADD_SOURCES("ext/phalcon/mvc/micro", "middlewareinterface.c lazyloader.c exception.c collection.c collectioninterface.c", "phalcon")
-  ADD_SOURCES("ext/phalcon/mvc/collection", "managerinterface.c manager.c exception.c document.c", "phalcon")
-  ADD_SOURCES("ext/phalcon/mvc/user", "component.c plugin.c module.c", "phalcon")
-  ADD_SOURCES("ext/phalcon/mvc/router", "group.c route.c annotations.c exception.c routeinterface.c", "phalcon")
-  ADD_SOURCES("ext/phalcon/mvc/url", "exception.c", "phalcon")
-  ADD_SOURCES("ext/phalcon/mvc/view/engine", "php.c volt.c", "phalcon")
-  ADD_SOURCES("ext/phalcon/mvc/view", "exception.c engineinterface.c simple.c engine.c", "phalcon")
-  ADD_SOURCES("ext/phalcon/mvc/model/metadata", "files.c apc.c xcache.c memory.c session.c", "phalcon")
-  ADD_SOURCES("ext/phalcon/mvc/model/metadata/strategy", "introspection.c annotations.c", "phalcon")
-  ADD_SOURCES("ext/phalcon/mvc/model", "transaction.c validatorinterface.c metadata.c resultsetinterface.c managerinterface.c behavior.c resultinterface.c criteriainterface.c query.c resultset.c validationfailed.c manager.c behaviorinterface.c relation.c exception.c message.c queryinterface.c row.c criteria.c validator.c metadatainterface.c relationinterface.c messageinterface.c transactioninterface.c", "phalcon")
-  ADD_SOURCES("ext/phalcon/mvc/model/transaction", "failed.c managerinterface.c manager.c exception.c", "phalcon")
-  ADD_SOURCES("ext/phalcon/mvc/model/validator", "email.c presenceof.c inclusionin.c exclusionin.c uniqueness.c url.c regex.c numericality.c stringlength.c", "phalcon")
-  ADD_SOURCES("ext/phalcon/mvc/model/resultset", "complex.c simple.c", "phalcon")
-  ADD_SOURCES("ext/phalcon/mvc/model/behavior", "timestampable.c softdelete.c", "phalcon")
-  ADD_SOURCES("ext/phalcon/config/adapter", "ini.c json.c", "phalcon")
-  ADD_SOURCES("ext/phalcon/config", "exception.c", "phalcon")
-  ADD_SOURCES("ext/phalcon/logger", "multiple.c formatter.c exception.c adapterinterface.c formatterinterface.c adapter.c item.c", "phalcon")
-  ADD_SOURCES("ext/phalcon/logger/formatter", "json.c line.c syslog.c firephp.c", "phalcon")
-  ADD_SOURCES("ext/phalcon/logger/adapter", "file.c stream.c syslog.c firephp.c", "phalcon")
-  ADD_SOURCES("ext/phalcon/filter", "exception.c userfilterinterface.c", "phalcon")
-  ADD_SOURCES("ext/phalcon/queue", "beanstalk.c", "phalcon")
-  ADD_SOURCES("ext/phalcon/queue/beanstalk", "job.c", "phalcon")
-  ADD_SOURCES("ext/phalcon/assets/resource", "css.c js.c", "phalcon")
-  ADD_SOURCES("ext/phalcon/assets", "filterinterface.c resource.c manager.c exception.c collection.c", "phalcon")
-  ADD_SOURCES("ext/phalcon/escaper", "exception.c", "phalcon")
-  ADD_SOURCES("ext/phalcon/tag", "select.c exception.c", "phalcon")
-  ADD_SOURCES("ext/phalcon/acl", "resource.c resourceinterface.c exception.c role.c adapterinterface.c adapter.c roleinterface.c", "phalcon")
-  ADD_SOURCES("ext/phalcon/acl/adapter", "memory.c", "phalcon")
-  ADD_SOURCES("ext/phalcon/cache", "multiple.c exception.c backendinterface.c frontendinterface.c backend.c", "phalcon")
-  ADD_SOURCES("ext/phalcon/cache/frontend", "none.c base64.c json.c igbinary.c data.c output.c", "phalcon")
-  ADD_SOURCES("ext/phalcon/cache/backend", "file.c apc.c xcache.c mongo.c memcache.c memory.c", "phalcon")
-  ADD_SOURCES("ext/phalcon/session", "bag.c exception.c baginterface.c adapterinterface.c adapter.c", "phalcon")
-  ADD_SOURCES("ext/phalcon/session/adapter", "files.c", "phalcon")
-  ADD_SOURCES("ext/phalcon/crypt", "exception.c", "phalcon")
-  ADD_SOURCES("ext/phalcon/events", "managerinterface.c manager.c event.c exception.c eventsawareinterface.c", "phalcon")
-  ADD_SOURCES("ext/phalcon/paginator/adapter", "model.c nativearray.c querybuilder.c", "phalcon")
-  ADD_SOURCES("ext/phalcon/paginator", "exception.c adapterinterface.c", "phalcon")
-  ADD_SOURCES("ext/phalcon/di", "injectable.c factorydefault.c serviceinterface.c exception.c injectionawareinterface.c service.c", "phalcon")
-  ADD_SOURCES("ext/phalcon/di/service", "builder.c", "phalcon")
-  ADD_SOURCES("ext/phalcon/di/factorydefault", "cli.c", "phalcon")
-  ADD_SOURCES("ext/phalcon/annotations/adapter", "files.c apc.c xcache.c memory.c", "phalcon")
-  ADD_SOURCES("ext/phalcon/flash", "direct.c exception.c session.c", "phalcon")
-  ADD_SOURCES("ext/phalcon/translate/adapter", "nativearray.c", "phalcon")
-  ADD_SOURCES("ext/phalcon/translate", "exception.c adapterinterface.c adapter.c", "phalcon")
-  ADD_SOURCES("ext/phalcon/validation", "validatorinterface.c exception.c message.c validator.c", "phalcon")
-  ADD_SOURCES("ext/phalcon/validation/message", "group.c", "phalcon")
-  ADD_SOURCES("ext/phalcon/validation/validator", "email.c presenceof.c confirmation.c regex.c exclusionin.c identical.c between.c inclusionin.c stringlength.c", "phalcon")
+  EXTENSION("phalcon", "phalcon.c", null, "-Iext/phalcon");
+  ADD_SOURCES("ext/phalcon/kernel", "main.c memory.c exception.c hash.c debug.c backtrace.c object.c array.c string.c fcall.c require.c file.c operators.c concat.c variables.c filter.c iterator.c exit.c", "phalcon");
+  ADD_SOURCES("ext/phalcon/kernel/extended", "array.c", "phalcon");
+  ADD_SOURCES("ext/phalcon/phalcon/annotations", "scanner.c parser.c", "phalcon");
+	ADD_SOURCES("ext/phalcon/phalcon/mvc/model", "orm.c", "phalcon");
+	ADD_SOURCES("ext/phalcon/phalcon/mvc/model/query", "scanner.c parser.c", "phalcon");
+	ADD_SOURCES("ext/phalcon/phalcon/mvc/view/engine/volt", "parser.c scanner.c", "phalcon");
+	ADD_SOURCES("ext/phalcon/phalcon/assets/filters", "jsminifier.c cssminifier.c", "phalcon");
+	ADD_SOURCES("ext/phalcon/phalcon/mvc/url", "utils.c", "phalcon");
+  ADD_SOURCES("ext/phalcon/phalcon", "acl.zep.c config.zep.c crypt.zep.c cryptinterface.zep.c db.zep.c debug.zep.c di.zep.c diinterface.zep.c dispatcher.zep.c dispatcherinterface.zep.c escaper.zep.c escaperinterface.zep.c exception.zep.c filter.zep.c filterinterface.zep.c flash.zep.c flashinterface.zep.c image.zep.c kernel.zep.c loader.zep.c logger.zep.c registry.zep.c security.zep.c session.zep.c tag.zep.c text.zep.c translate.zep.c validation.zep.c version.zep.c", "phalcon");
+	ADD_SOURCES("ext/phalcon/phalcon/acl", "adapter.zep.c adapterinterface.zep.c exception.zep.c resource.zep.c resourceinterface.zep.c role.zep.c roleinterface.zep.c", "phalcon");
+	ADD_SOURCES("ext/phalcon/phalcon/acl/adapter", "memory.zep.c", "phalcon");
+	ADD_SOURCES("ext/phalcon/phalcon/annotations", "adapter.zep.c adapterinterface.zep.c annotation.zep.c collection.zep.c exception.zep.c reader.zep.c readerinterface.zep.c reflection.zep.c", "phalcon");
+	ADD_SOURCES("ext/phalcon/phalcon/annotations/adapter", "apc.zep.c files.zep.c memory.zep.c xcache.zep.c", "phalcon");
+	ADD_SOURCES("ext/phalcon/phalcon/assets", "collection.zep.c exception.zep.c filterinterface.zep.c inline.zep.c manager.zep.c resource.zep.c", "phalcon");
+	ADD_SOURCES("ext/phalcon/phalcon/assets/filters", "cssmin.zep.c jsmin.zep.c none.zep.c", "phalcon");
+	ADD_SOURCES("ext/phalcon/phalcon/assets/inline", "css.zep.c js.zep.c", "phalcon");
+	ADD_SOURCES("ext/phalcon/phalcon/assets/resource", "css.zep.c js.zep.c", "phalcon");
+	ADD_SOURCES("ext/phalcon/phalcon/cache", "backend.zep.c backendinterface.zep.c exception.zep.c frontendinterface.zep.c multiple.zep.c", "phalcon");
+	ADD_SOURCES("ext/phalcon/phalcon/cache/backend", "apc.zep.c file.zep.c libmemcached.zep.c memcache.zep.c memory.zep.c mongo.zep.c redis.zep.c xcache.zep.c", "phalcon");
+	ADD_SOURCES("ext/phalcon/phalcon/cache/frontend", "base64.zep.c data.zep.c igbinary.zep.c json.zep.c none.zep.c output.zep.c", "phalcon");
+	ADD_SOURCES("ext/phalcon/phalcon/cli", "console.zep.c dispatcher.zep.c router.zep.c task.zep.c", "phalcon");
+	ADD_SOURCES("ext/phalcon/phalcon/cli/console", "exception.zep.c", "phalcon");
+	ADD_SOURCES("ext/phalcon/phalcon/cli/dispatcher", "exception.zep.c", "phalcon");
+	ADD_SOURCES("ext/phalcon/phalcon/cli/router", "exception.zep.c route.zep.c", "phalcon");
+	ADD_SOURCES("ext/phalcon/phalcon/config/adapter", "ini.zep.c json.zep.c php.zep.c yaml.zep.c", "phalcon");
+	ADD_SOURCES("ext/phalcon/phalcon/config", "exception.zep.c", "phalcon");
+	ADD_SOURCES("ext/phalcon/phalcon/crypt", "exception.zep.c", "phalcon");
+	ADD_SOURCES("ext/phalcon/phalcon/db", "adapter.zep.c adapterinterface.zep.c column.zep.c columninterface.zep.c dialect.zep.c dialectinterface.zep.c exception.zep.c index.zep.c indexinterface.zep.c profiler.zep.c rawvalue.zep.c reference.zep.c referenceinterface.zep.c resultinterface.zep.c", "phalcon");
+	ADD_SOURCES("ext/phalcon/phalcon/db/adapter", "pdo.zep.c", "phalcon");
+	ADD_SOURCES("ext/phalcon/phalcon/db/adapter/pdo", "mysql.zep.c oracle.zep.c postgresql.zep.c sqlite.zep.c", "phalcon");
+	ADD_SOURCES("ext/phalcon/phalcon/db/dialect", "mysql.zep.c oracle.zep.c postgresql.zep.c sqlite.zep.c", "phalcon");
+	ADD_SOURCES("ext/phalcon/phalcon/db/profiler", "item.zep.c", "phalcon");
+	ADD_SOURCES("ext/phalcon/phalcon/db/result", "pdo.zep.c", "phalcon");
+	ADD_SOURCES("ext/phalcon/phalcon/debug", "dump.zep.c exception.zep.c", "phalcon");
+	ADD_SOURCES("ext/phalcon/phalcon/di", "exception.zep.c factorydefault.zep.c injectable.zep.c injectionawareinterface.zep.c service.zep.c serviceinterface.zep.c", "phalcon");
+	ADD_SOURCES("ext/phalcon/phalcon/di/factorydefault", "cli.zep.c", "phalcon");
+	ADD_SOURCES("ext/phalcon/phalcon/di/service", "builder.zep.c", "phalcon");
+	ADD_SOURCES("ext/phalcon/phalcon/escaper", "exception.zep.c", "phalcon");
+	ADD_SOURCES("ext/phalcon/phalcon/events", "event.zep.c eventsawareinterface.zep.c exception.zep.c manager.zep.c managerinterface.zep.c", "phalcon");
+	ADD_SOURCES("ext/phalcon/phalcon/filter", "exception.zep.c userfilterinterface.zep.c", "phalcon");
+	ADD_SOURCES("ext/phalcon/phalcon/flash", "direct.zep.c exception.zep.c session.zep.c", "phalcon");
+	ADD_SOURCES("ext/phalcon/phalcon/forms", "element.zep.c elementinterface.zep.c exception.zep.c form.zep.c manager.zep.c", "phalcon");
+	ADD_SOURCES("ext/phalcon/phalcon/forms/element", "check.zep.c date.zep.c email.zep.c file.zep.c hidden.zep.c numeric.zep.c password.zep.c radio.zep.c select.zep.c submit.zep.c text.zep.c textarea.zep.c", "phalcon");
+	ADD_SOURCES("ext/phalcon/phalcon/http", "cookie.zep.c request.zep.c requestinterface.zep.c response.zep.c responseinterface.zep.c", "phalcon");
+	ADD_SOURCES("ext/phalcon/phalcon/http/cookie", "exception.zep.c", "phalcon");
+	ADD_SOURCES("ext/phalcon/phalcon/http/request", "exception.zep.c file.zep.c fileinterface.zep.c", "phalcon");
+	ADD_SOURCES("ext/phalcon/phalcon/http/response", "cookies.zep.c cookiesinterface.zep.c exception.zep.c headers.zep.c headersinterface.zep.c", "phalcon");
+	ADD_SOURCES("ext/phalcon/phalcon/image", "adapter.zep.c adapterinterface.zep.c exception.zep.c", "phalcon");
+	ADD_SOURCES("ext/phalcon/phalcon/image/adapter", "gd.zep.c imagick.zep.c", "phalcon");
+	ADD_SOURCES("ext/phalcon/phalcon/loader", "exception.zep.c", "phalcon");
+	ADD_SOURCES("ext/phalcon/phalcon/logger", "adapter.zep.c adapterinterface.zep.c exception.zep.c formatter.zep.c formatterinterface.zep.c item.zep.c multiple.zep.c", "phalcon");
+	ADD_SOURCES("ext/phalcon/phalcon/logger/adapter", "file.zep.c firephp.zep.c stream.zep.c syslog.zep.c", "phalcon");
+	ADD_SOURCES("ext/phalcon/phalcon/logger/formatter", "firephp.zep.c json.zep.c line.zep.c syslog.zep.c", "phalcon");
+	ADD_SOURCES("ext/phalcon/phalcon/mvc", "application.zep.c collection.zep.c collectioninterface.zep.c controller.zep.c controllerinterface.zep.c dispatcher.zep.c dispatcherinterface.zep.c micro.zep.c model.zep.c modelinterface.zep.c moduledefinitioninterface.zep.c router.zep.c routerinterface.zep.c url.zep.c urlinterface.zep.c view.zep.c viewinterface.zep.c", "phalcon");
+	ADD_SOURCES("ext/phalcon/phalcon/mvc/application", "exception.zep.c", "phalcon");
+	ADD_SOURCES("ext/phalcon/phalcon/mvc/collection", "document.zep.c exception.zep.c manager.zep.c managerinterface.zep.c", "phalcon");
+	ADD_SOURCES("ext/phalcon/phalcon/mvc/dispatcher", "exception.zep.c", "phalcon");
+	ADD_SOURCES("ext/phalcon/phalcon/mvc/micro", "collection.zep.c collectioninterface.zep.c exception.zep.c lazyloader.zep.c middlewareinterface.zep.c", "phalcon");
+	ADD_SOURCES("ext/phalcon/phalcon/mvc/model", "behavior.zep.c behaviorinterface.zep.c criteria.zep.c criteriainterface.zep.c exception.zep.c manager.zep.c managerinterface.zep.c message.zep.c messageinterface.zep.c metadata.zep.c metadatainterface.zep.c query.zep.c queryinterface.zep.c relation.zep.c relationinterface.zep.c resultinterface.zep.c resultset.zep.c resultsetinterface.zep.c row.zep.c transaction.zep.c transactioninterface.zep.c validationfailed.zep.c validator.zep.c validatorinterface.zep.c", "phalcon");
+	ADD_SOURCES("ext/phalcon/phalcon/mvc/model/behavior", "softdelete.zep.c timestampable.zep.c", "phalcon");
+	ADD_SOURCES("ext/phalcon/phalcon/mvc/model/metadata", "apc.zep.c files.zep.c memory.zep.c session.zep.c strategyinterface.zep.c xcache.zep.c", "phalcon");
+	ADD_SOURCES("ext/phalcon/phalcon/mvc/model/metadata/strategy", "annotations.zep.c introspection.zep.c", "phalcon");
+	ADD_SOURCES("ext/phalcon/phalcon/mvc/model/query", "builder.zep.c builderinterface.zep.c lang.zep.c status.zep.c statusinterface.zep.c", "phalcon");
+	ADD_SOURCES("ext/phalcon/phalcon/mvc/model/resultset", "complex.zep.c simple.zep.c", "phalcon");
+	ADD_SOURCES("ext/phalcon/phalcon/mvc/model/transaction", "exception.zep.c failed.zep.c manager.zep.c managerinterface.zep.c", "phalcon");
+	ADD_SOURCES("ext/phalcon/phalcon/mvc/model/validator", "email.zep.c exclusionin.zep.c inclusionin.zep.c numericality.zep.c presenceof.zep.c regex.zep.c stringlength.zep.c uniqueness.zep.c url.zep.c", "phalcon");
+	ADD_SOURCES("ext/phalcon/phalcon/mvc/router", "annotations.zep.c exception.zep.c group.zep.c route.zep.c routeinterface.zep.c", "phalcon");
+	ADD_SOURCES("ext/phalcon/phalcon/mvc/url", "exception.zep.c", "phalcon");
+	ADD_SOURCES("ext/phalcon/phalcon/mvc/user", "component.zep.c module.zep.c plugin.zep.c", "phalcon");
+	ADD_SOURCES("ext/phalcon/phalcon/mvc/view", "engine.zep.c engineinterface.zep.c exception.zep.c simple.zep.c", "phalcon");
+	ADD_SOURCES("ext/phalcon/phalcon/mvc/view/engine", "php.zep.c volt.zep.c", "phalcon");
+	ADD_SOURCES("ext/phalcon/phalcon/mvc/view/engine/volt", "compiler.zep.c", "phalcon");
+	ADD_SOURCES("ext/phalcon/phalcon/paginator/adapter", "model.zep.c nativearray.zep.c querybuilder.zep.c", "phalcon");
+	ADD_SOURCES("ext/phalcon/phalcon/paginator", "adapterinterface.zep.c exception.zep.c", "phalcon");
+	ADD_SOURCES("ext/phalcon/phalcon/queue", "beanstalk.zep.c", "phalcon");
+	ADD_SOURCES("ext/phalcon/phalcon/queue/beanstalk", "job.zep.c", "phalcon");
+	ADD_SOURCES("ext/phalcon/phalcon/security", "exception.zep.c", "phalcon");
+	ADD_SOURCES("ext/phalcon/phalcon/session", "adapter.zep.c adapterinterface.zep.c bag.zep.c baginterface.zep.c exception.zep.c", "phalcon");
+	ADD_SOURCES("ext/phalcon/phalcon/session/adapter", "files.zep.c libmemcached.zep.c memcache.zep.c", "phalcon");
+	ADD_SOURCES("ext/phalcon/phalcon/tag", "exception.zep.c select.zep.c", "phalcon");
+	ADD_SOURCES("ext/phalcon/phalcon/translate", "adapter.zep.c adapterinterface.zep.c exception.zep.c", "phalcon");
+	ADD_SOURCES("ext/phalcon/phalcon/translate/adapter", "csv.zep.c nativearray.zep.c", "phalcon");
+	ADD_SOURCES("ext/phalcon/phalcon/validation", "exception.zep.c message.zep.c messageinterface.zep.c validator.zep.c validatorinterface.zep.c", "phalcon");
+	ADD_SOURCES("ext/phalcon/phalcon/validation/message", "group.zep.c", "phalcon");
+	ADD_SOURCES("ext/phalcon/phalcon/validation/validator", "alnum.zep.c alpha.zep.c between.zep.c confirmation.zep.c digit.zep.c email.zep.c exclusionin.zep.c file.zep.c identical.zep.c inclusionin.zep.c numericality.zep.c presenceof.zep.c regex.zep.c stringlength.zep.c uniqueness.zep.c url.zep.c", "phalcon");
+  ADD_FLAG("CFLAGS_PHALCON", "/D ZEPHIR_RELEASE");
 }

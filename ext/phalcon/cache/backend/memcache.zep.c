@@ -103,7 +103,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, __construct) {
 
 
 	if (!(zephir_instance_of_ev(frontend, phalcon_cache_frontendinterface_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'frontend' must be an instance of 'Phalcon\\\\Cache\\\\FrontendInterface'", "", 0);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'frontend' must be an instance of 'Phalcon\\Cache\\FrontendInterface'", "", 0);
 		return;
 	}
 	if (Z_TYPE_P(options) != IS_ARRAY) {
@@ -139,9 +139,8 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, __construct) {
  */
 PHP_METHOD(Phalcon_Cache_Backend_Memcache, _connect) {
 
-	zend_bool _1, _2;
+	zend_bool _0, _1;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zend_class_entry *_0;
 	zval *options, *memcache, *persistent, *success = NULL, *host, *port;
 
 	ZEPHIR_MM_GROW();
@@ -149,24 +148,23 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, _connect) {
 	ZEPHIR_OBS_VAR(options);
 	zephir_read_property_this(&options, this_ptr, SL("_options"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(memcache);
-	_0 = zend_fetch_class(SL("Memcache"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
-	object_init_ex(memcache, _0);
+	object_init_ex(memcache, zephir_get_internal_ce(SS("memcache") TSRMLS_CC));
 	if (zephir_has_constructor(memcache TSRMLS_CC)) {
 		ZEPHIR_CALL_METHOD(NULL, memcache, "__construct", NULL);
 		zephir_check_call_status();
 	}
 	ZEPHIR_OBS_VAR(host);
-	_1 = !zephir_array_isset_string_fetch(&host, options, SS("host"), 0 TSRMLS_CC);
-	if (!(_1)) {
+	_0 = !zephir_array_isset_string_fetch(&host, options, SS("host"), 0 TSRMLS_CC);
+	if (!(_0)) {
 		ZEPHIR_OBS_VAR(port);
-		_1 = !zephir_array_isset_string_fetch(&port, options, SS("port"), 0 TSRMLS_CC);
+		_0 = !zephir_array_isset_string_fetch(&port, options, SS("port"), 0 TSRMLS_CC);
 	}
-	_2 = _1;
-	if (!(_2)) {
+	_1 = _0;
+	if (!(_1)) {
 		ZEPHIR_OBS_VAR(persistent);
-		_2 = !zephir_array_isset_string_fetch(&persistent, options, SS("persistent"), 0 TSRMLS_CC);
+		_1 = !zephir_array_isset_string_fetch(&persistent, options, SS("persistent"), 0 TSRMLS_CC);
 	}
-	if (_2) {
+	if (_1) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_cache_exception_ce, "Unexpected inconsistency in options", "phalcon/cache/backend/memcache.zep", 100);
 		return;
 	}

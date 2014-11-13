@@ -66,5 +66,4 @@ class Php extends Config
 	{
 		parent::__construct(require filePath);
 	}
-
 }

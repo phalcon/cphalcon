@@ -305,24 +305,10 @@ PHP_METHOD(Phalcon_Registry, rewind) {
 
 }
 
+/**
+ * Checks if the iterator is valid
+ */
 PHP_METHOD(Phalcon_Registry, valid) {
-
-	int ZEPHIR_LAST_CALL_STATUS;
-	zephir_nts_static zephir_fcall_cache_entry *_1 = NULL;
-	zval *_0;
-
-	ZEPHIR_MM_GROW();
-
-	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_data"), PH_NOISY_CC);
-	Z_SET_ISREF_P(_0);
-	ZEPHIR_RETURN_CALL_FUNCTION("current", &_1, _0);
-	Z_UNSET_ISREF_P(_0);
-	zephir_check_call_status();
-	RETURN_MM();
-
-}
-
-PHP_METHOD(Phalcon_Registry, current) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
 	zephir_nts_static zephir_fcall_cache_entry *_2 = NULL;
@@ -336,6 +322,26 @@ PHP_METHOD(Phalcon_Registry, current) {
 	Z_UNSET_ISREF_P(_0);
 	zephir_check_call_status();
 	RETURN_MM_BOOL(Z_TYPE_P(_1) != IS_NULL);
+
+}
+
+/**
+ *
+ */
+PHP_METHOD(Phalcon_Registry, current) {
+
+	int ZEPHIR_LAST_CALL_STATUS;
+	zephir_nts_static zephir_fcall_cache_entry *_1 = NULL;
+	zval *_0;
+
+	ZEPHIR_MM_GROW();
+
+	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_data"), PH_NOISY_CC);
+	Z_SET_ISREF_P(_0);
+	ZEPHIR_RETURN_CALL_FUNCTION("current", &_1, _0);
+	Z_UNSET_ISREF_P(_0);
+	zephir_check_call_status();
+	RETURN_MM();
 
 }
 

@@ -19,6 +19,7 @@
 
 namespace Phalcon\Di;
 
+use Phalcon\DiInterface;
 use Phalcon\Di\Exception;
 use Phalcon\Di\ServiceInterface;
 use Phalcon\Di\Service\Builder;
@@ -128,7 +129,7 @@ class Service implements ServiceInterface
 	 * @param Phalcon\DiInterface dependencyInjector
 	 * @return mixed
 	 */
-	public function resolve(parameters = null, <\Phalcon\DiInterface> dependencyInjector = null)
+	public function resolve(parameters = null, <DiInterface> dependencyInjector = null)
 	{
 
 		boolean found;
@@ -158,21 +159,27 @@ class Service implements ServiceInterface
 			if class_exists(definition) {
 				if typeof parameters == "array" {
 					if count(parameters) {
-						//let instance = create_instance_params(definition, parameters);
-
-						let reflection = new \ReflectionClass(definition),
-							instance = reflection->newInstanceArgs(parameters);
-
+						if is_php_version("5.6") {
+							let reflection = new \ReflectionClass(definition),
+								instance = reflection->newInstanceArgs(parameters);
+						} else {
+							let instance = create_instance_params(definition, parameters);
+						}
 					} else {
-						//let instance = create_instance(definition);
-
-						let reflection = new \ReflectionClass(definition),
-							instance = reflection->newInstance();
+						if is_php_version("5.6") {
+							let reflection = new \ReflectionClass(definition),
+								instance = reflection->newInstance();
+						} else {
+							let instance = create_instance(definition);
+						}
 					}
 				} else {
-					//let instance = create_instance(definition);
-					let reflection = new \ReflectionClass(definition),
+					if is_php_version("5.6") {
+						let reflection = new \ReflectionClass(definition),
 							instance = reflection->newInstance();
+					} else {
+						let instance = create_instance(definition);
+					}
 				}
 			} else {
 				let found = false;
