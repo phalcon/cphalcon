@@ -121,6 +121,35 @@ class AssetsManagerTest extends TBase
     }
 
     /**
+     * outputCss tests
+     */
+    public function testAssetsManagerOutputCssWithoutJoin()
+    {
+        $this->specify(
+            "The output of css collection fails if join is false",
+            function () {
+
+                $this->prepareDI();
+
+                $assets = new PhTAssetsManager();
+                $assets->useImplicitOutput(false);
+                $css = $assets->collection('css');
+
+                $css->addCss(PATH_DATA . 'assets/1198.css');
+                $css->join(false);
+                $output = trim($assets->outputCss());
+
+                $expected = 'assets/1198.css';
+
+                $this->assertContains(
+                    $expected,
+                    $output
+                );
+            }
+        );
+    }
+
+    /**
      * outputCss - implicitOutput tests
      *
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
