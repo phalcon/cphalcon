@@ -100,6 +100,17 @@ extern const char *phalcon_interned_value;
 extern const char *phalcon_interned_values;
 extern const char *phalcon_interned_where;
 extern const char *phalcon_interned_rows;
+extern const char *phalcon_interned_cookies;
+extern const char *phalcon_interned_annotations;
+extern const char *phalcon_interned_security;
+extern const char *phalcon_interned_crypt;
+extern const char *phalcon_interned_flash;
+extern const char *phalcon_interned_flashSession;
+extern const char *phalcon_interned_tag;
+extern const char *phalcon_interned_sessionBag;
+extern const char *phalcon_interned_eventsManager;
+extern const char *phalcon_interned_transactionManager;
+extern const char *phalcon_interned_assets;
 
 void phalcon_init_interned_strings(TSRMLS_D);
 

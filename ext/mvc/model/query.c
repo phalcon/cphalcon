@@ -4107,7 +4107,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect){
 			ZVAL_BOOL(is_keeping_snapshots, 0);
 		} else {
 			PHALCON_CPY_WRT(result_object, model);
-	
+
+			PHALCON_CALL_METHOD(NULL, result_object, "reset");
+
 			/** 
 			 * Get the column map
 			 */
