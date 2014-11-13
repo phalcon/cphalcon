@@ -397,6 +397,7 @@ CREATE TABLE `issue_1534` (
   `slug` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
   `brand` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
   `sort` tinyint(3) unsigned NOT NULL DEFAULT '0',
+  `language2` varchar(2) COLLATE utf8_unicode_ci NOT NULL DEFAULT 'bb',
   PRIMARY KEY (`id`,`language`),
   UNIQUE KEY `slug` (`slug`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
