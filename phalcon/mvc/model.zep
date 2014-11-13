@@ -564,7 +564,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 */
 	public static function cloneResultMapHydrate(array! data, var columnMap, int hydrationMode)
 	{
-		var hydrate, key, value, attribute;
+		var hydrateArray, hydrateObject, key, value, attribute;
 
 		/**
 		 * If there is no column map and the hydration mode is arrays return the data as it is
@@ -579,9 +579,9 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 		 * Create the destination object according to the hydration mode
 		 */
 		if hydrationMode == Resultset::HYDRATE_ARRAYS {
-			let hydrate = [];
+			let hydrateArray = [];
 		} else {
-			let hydrate = new \stdclass();
+			let hydrateObject = new \stdclass();
 		}
 
 		for key, value in data {
@@ -596,21 +596,25 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 					}
 
 					if hydrationMode == Resultset::HYDRATE_ARRAYS {
-						let hydrate[attribute] = value;
+						let hydrateArray[attribute] = value;
 					} else {
-						let hydrate->{attribute} = value;
+						let hydrateObject->{attribute} = value;
 					}
 				} else {
 					if hydrationMode == Resultset::HYDRATE_ARRAYS {
-						let hydrate[key] = value;
+						let hydrateArray[key] = value;
 					} else {
-						let hydrate->{key} = value;
+						let hydrateObject->{key} = value;
 					}
 				}
 			}
 		}
 
-		return hydrate;
+		if hydrationMode == Resultset::HYDRATE_ARRAYS {
+			return hydrateArray;
+		}
+
+		return hydrateObject;
 	}
 
 	/**

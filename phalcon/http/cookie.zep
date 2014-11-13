@@ -531,5 +531,4 @@ class Cookie implements InjectionAwareInterface
 	{
 
 	}
-
 }

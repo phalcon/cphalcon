@@ -283,7 +283,6 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, getOptions) {
  */
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, fireExtensionEvent) {
 
-	zephir_nts_static zephir_fcall_cache_entry *_4 = NULL;
 	zval *_3 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
 	HashTable *_1;
@@ -329,11 +328,12 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, fireExtensionEvent) {
 					ZEPHIR_CALL_USER_FUNC_ARRAY(status, _3, arguments);
 					zephir_check_call_status();
 				} else {
+					ZEPHIR_INIT_NVAR(status);
 					ZEPHIR_INIT_NVAR(_3);
 					array_init_size(_3, 3);
 					zephir_array_fast_append(_3, extension);
 					zephir_array_fast_append(_3, name);
-					ZEPHIR_CALL_FUNCTION(&status, "call_user_func", &_4, _3);
+					ZEPHIR_CALL_USER_FUNC(status, _3);
 					zephir_check_call_status();
 				}
 				if (Z_TYPE_P(status) == IS_STRING) {

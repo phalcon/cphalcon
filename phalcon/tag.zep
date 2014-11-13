@@ -914,7 +914,7 @@ class Tag
 	 * @param   array data
 	 * @return	string
 	 */
-	public static function select(parameters, data = null) -> string
+	public static function select(var parameters, data = null) -> string
 	{
 		return Select::selectField(parameters, data);
 	}

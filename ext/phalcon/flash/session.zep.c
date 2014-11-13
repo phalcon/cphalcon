@@ -219,6 +219,42 @@ PHP_METHOD(Phalcon_Flash_Session, message) {
 }
 
 /**
+ * Checks whether there are messages
+ *
+ * @param string type
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Flash_Session, has) {
+
+	int ZEPHIR_LAST_CALL_STATUS;
+	zval *type = NULL, *messages = NULL, *returnMessages, *_0;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 0, 1, &type);
+
+	if (!type) {
+		type = ZEPHIR_GLOBAL(global_null);
+	}
+
+
+	ZEPHIR_INIT_VAR(_0);
+	ZVAL_BOOL(_0, 0);
+	ZEPHIR_CALL_METHOD(&messages, this_ptr, "_getsessionmessages", NULL, _0);
+	zephir_check_call_status();
+	if (Z_TYPE_P(messages) == IS_ARRAY) {
+		if (Z_TYPE_P(type) == IS_STRING) {
+			if (zephir_array_isset_fetch(&returnMessages, messages, type, 1 TSRMLS_CC)) {
+				RETURN_MM_BOOL(1);
+			}
+			RETURN_MM_BOOL(0);
+		}
+		RETURN_MM_BOOL(1);
+	}
+	RETURN_MM_BOOL(0);
+
+}
+
+/**
  * Returns the messages in the session flasher
  *
  * @param string type
@@ -246,7 +282,7 @@ PHP_METHOD(Phalcon_Flash_Session, getMessages) {
 	if (Z_TYPE_P(messages) == IS_ARRAY) {
 		if (Z_TYPE_P(type) == IS_STRING) {
 			if (zephir_array_isset_fetch(&returnMessages, messages, type, 1 TSRMLS_CC)) {
-				zephir_array_fetch(&_0, messages, type, PH_NOISY | PH_READONLY, "phalcon/flash/session.zep", 139 TSRMLS_CC);
+				zephir_array_fetch(&_0, messages, type, PH_NOISY | PH_READONLY, "phalcon/flash/session.zep", 162 TSRMLS_CC);
 				RETURN_CTOR(_0);
 			}
 		}
@@ -284,7 +320,7 @@ PHP_METHOD(Phalcon_Flash_Session, output) {
 	ZEPHIR_CALL_METHOD(&messages, this_ptr, "_getsessionmessages", NULL, (remove ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)));
 	zephir_check_call_status();
 	if (Z_TYPE_P(messages) == IS_ARRAY) {
-		zephir_is_iterable(messages, &_1, &_0, 0, 0, "phalcon/flash/session.zep", 162);
+		zephir_is_iterable(messages, &_1, &_0, 0, 0, "phalcon/flash/session.zep", 185);
 		for (
 		  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_1, &_0)

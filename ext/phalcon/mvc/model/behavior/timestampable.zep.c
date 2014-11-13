@@ -63,11 +63,10 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Behavior_Timestampable) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Behavior_Timestampable, notify) {
 
-	HashTable *_3;
-	HashPosition _2;
-	zephir_nts_static zephir_fcall_cache_entry *_1 = NULL;
+	HashTable *_2;
+	HashPosition _1;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *type_param = NULL, *model, *options = NULL, *timestamp = NULL, *singleField = NULL, *field, *generator, *format, *_0 = NULL, **_4;
+	zval *type_param = NULL, *model, *options = NULL, *timestamp = NULL, *singleField = NULL, *field, *generator, *format, *_0 = NULL, **_3;
 	zval *type = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -114,7 +113,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior_Timestampable, notify) {
 			if (zephir_array_isset_string_fetch(&generator, options, SS("generator"), 0 TSRMLS_CC)) {
 				if (Z_TYPE_P(generator) == IS_OBJECT) {
 					if (zephir_instance_of_ev(generator, zend_ce_closure TSRMLS_CC)) {
-						ZEPHIR_CALL_FUNCTION(&timestamp, "call_user_func", &_1, generator);
+						ZEPHIR_INIT_NVAR(timestamp);
+						ZEPHIR_CALL_USER_FUNC(timestamp, generator);
 						zephir_check_call_status();
 					}
 				}
@@ -125,12 +125,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior_Timestampable, notify) {
 			zephir_check_call_status();
 		}
 		if (Z_TYPE_P(field) == IS_ARRAY) {
-			zephir_is_iterable(field, &_3, &_2, 0, 0, "phalcon/mvc/model/behavior/timestampable.zep", 98);
+			zephir_is_iterable(field, &_2, &_1, 0, 0, "phalcon/mvc/model/behavior/timestampable.zep", 98);
 			for (
-			  ; zephir_hash_get_current_data_ex(_3, (void**) &_4, &_2) == SUCCESS
-			  ; zephir_hash_move_forward_ex(_3, &_2)
+			  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
+			  ; zephir_hash_move_forward_ex(_2, &_1)
 			) {
-				ZEPHIR_GET_HVALUE(singleField, _4);
+				ZEPHIR_GET_HVALUE(singleField, _3);
 				ZEPHIR_CALL_METHOD(NULL, model, "writeattribute", NULL, singleField, timestamp);
 				zephir_check_call_status();
 			}

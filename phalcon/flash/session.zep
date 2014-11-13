@@ -122,6 +122,29 @@ class Session extends \Phalcon\Flash implements FlashInterface, InjectionAwareIn
 	}
 
 	/**
+	 * Checks whether there are messages
+	 *
+	 * @param string type
+	 * @return boolean
+	 */
+	public function has(type = null) -> boolean
+	{
+		var messages, returnMessages;
+
+		let messages = this->_getSessionMessages(false);
+		if typeof messages == "array" {
+			if typeof type == "string" {
+				if fetch returnMessages, messages[type] {
+					return true;
+				}
+				return false;
+			}
+			return true;
+		}
+		return false;
+	}
+
+	/**
 	 * Returns the messages in the session flasher
 	 *
 	 * @param string type

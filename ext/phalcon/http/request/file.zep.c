@@ -138,7 +138,7 @@ PHP_METHOD(Phalcon_Http_Request_File, __construct) {
 	if (zephir_array_isset_string_fetch(&name, file, SS("name"), 0 TSRMLS_CC)) {
 		zephir_update_property_this(this_ptr, SL("_name"), name TSRMLS_CC);
 		ZEPHIR_SINIT_VAR(_0);
-		ZVAL_LONG(&_0, 4);
+		ZVAL_STRING(&_0, "PATHINFO_EXTENSION", 0);
 		ZEPHIR_CALL_FUNCTION(&_1, "defined", &_2, &_0);
 		zephir_check_call_status();
 		if (zephir_is_true(_1)) {

@@ -20,6 +20,7 @@
 namespace Phalcon\Db;
 
 use Phalcon\Db\Exception;
+use Phalcon\Db\ReferenceInterface;
 
 /**
  * Phalcon\Db\Reference
@@ -35,7 +36,7 @@ use Phalcon\Db\Exception;
  *	));
  *</code>
  */
-class Reference implements \Phalcon\Db\ReferenceInterface
+class Reference implements ReferenceInterface
 {
 
 	/**
@@ -143,7 +144,7 @@ class Reference implements \Phalcon\Db\ReferenceInterface
 	 * @param array data
 	 * @return Phalcon\Db\Reference
 	 */
-	public static function __set_state(array! data) -> <\Phalcon\Db\Reference>
+	public static function __set_state(array! data) -> <Reference>
 	{
 		var referencedSchema, referencedTable, columns,
 			referencedColumns, constraintName,
@@ -162,7 +163,7 @@ class Reference implements \Phalcon\Db\ReferenceInterface
 		fetch onDelete, data["_onDelete"];
 		fetch onUpdate, data["_onUpdate"];
 
-		return new \Phalcon\Db\Reference(constraintName, [
+		return new Reference(constraintName, [
 			"referencedSchema"  : referencedSchema,
 			"referencedTable"   : referencedTable,
 			"columns"           : columns,

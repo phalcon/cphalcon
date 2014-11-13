@@ -74,7 +74,7 @@ class File implements FileInterface
 		if fetch name, file["name"] {
 			let this->_name = name;
 
-			if defined(PATHINFO_EXTENSION) {
+			if defined("PATHINFO_EXTENSION") {
 				let this->_extension = pathinfo(name, PATHINFO_EXTENSION);
 			}
 		}
