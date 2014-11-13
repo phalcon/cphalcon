@@ -19,7 +19,7 @@
 			<file>unit-tests/BeanstalkTest.php</file>
 			<file>unit-tests/CacheResultsetTest.php</file>
 			<file>unit-tests/CacheTest.php</file>
-			<!--<file>unit-tests/CollectionsEventsTest.php</file>-->
+			<file>unit-tests/CollectionsEventsTest.php</file>
 			<file>unit-tests/CollectionsSerializeTest.php</file>
 			<file>unit-tests/CollectionsTest.php</file>
 			<file>unit-tests/ConfigTest.php</file>
@@ -55,7 +55,7 @@
 			<file>unit-tests/ModelsForeignKeysTest.php</file>
 			<file>unit-tests/ModelsHydrationTest.php</file>
 			<file>unit-tests/ModelsMassAssigmentTest.php</file>
-			<!--<file>unit-tests/ModelsMetadataAdaptersTest.php</file>-->
+			<file>unit-tests/ModelsMetadataAdaptersTest.php</file>
 			<file>unit-tests/ModelsMetadataManualTest.php</file>
 			<file>unit-tests/ModelsMetadataStrategyTest.php</file>
 			<file>unit-tests/ModelsMetadataTest.php</file>

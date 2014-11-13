@@ -372,7 +372,7 @@ abstract class Adapter
 			let color = substr(color, 1);
 		}
 
-		if strlen(color) == 3 {
+		if strlen(color) === 3 {
 			let color = preg_replace("/./", "$0$0", color);
 		}
 
@@ -410,7 +410,7 @@ abstract class Adapter
 			let color = substr(color, 1);
 		}
 
-		if strlen(color) == 3 {
+		if strlen(color) === 3 {
 			let color = preg_replace("/./", "$0$0", color);
 		}
 
@@ -488,7 +488,7 @@ abstract class Adapter
 	 * @param int quality
  	 * @return string
  	 */
-	public function render(string ext=null, int quality=100) -> string
+	public function render(string ext = null, int quality = 100) -> string
 	{
 		if !ext {
 			let ext = (string) pathinfo(this->_file, PATHINFO_EXTENSION);

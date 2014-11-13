@@ -128,7 +128,7 @@ class Imagick extends \Phalcon\Image\Adapter implements \Phalcon\Image\AdapterIn
 
 		loop {
 			this->_image->scaleImage(width, height);
-			if !this->_image->nextImage() {
+			if this->_image->nextImage() === false {
 				break;
 			}
 		}
@@ -211,7 +211,7 @@ class Imagick extends \Phalcon\Image\Adapter implements \Phalcon\Image\AdapterIn
 		loop {
 			this->_image->rotateImage(pixel, degrees);
 			this->_image->setImagePage(this->_width, this->_height, 0, 0);
-			if  !this->_image->nextImage() {
+			if this->_image->nextImage() === false {
 				break;
 			}
 		}
@@ -238,7 +238,7 @@ class Imagick extends \Phalcon\Image\Adapter implements \Phalcon\Image\AdapterIn
 
 		loop {
 			this->_image->{func}();
-			if  !this->_image->nextImage() {
+			if this->_image->nextImage() === false {
 				break;
 			}
 		}
@@ -258,7 +258,7 @@ class Imagick extends \Phalcon\Image\Adapter implements \Phalcon\Image\AdapterIn
 
 		loop {
 			this->_image->sharpenImage(0, amount);
-			if  !this->_image->nextImage() {
+			if this->_image->nextImage() === false {
 				break;
 			}
 		}
@@ -372,11 +372,10 @@ class Imagick extends \Phalcon\Image\Adapter implements \Phalcon\Image\AdapterIn
 	 */
 	protected function _watermark(<\Phalcon\Image\Adapter> image, int offset_x, int offset_y, int opacity)
 	{
-		var watermark;
+		var watermark, ret;
 
-		let opacity = opacity / 100;
-
-		let watermark = new \Imagick();
+		let opacity = opacity / 100,
+			watermark = new \Imagick();
 
 		watermark->readImageBlob(image->render());
 		watermark->setImageOpacity(opacity);
@@ -384,8 +383,13 @@ class Imagick extends \Phalcon\Image\Adapter implements \Phalcon\Image\AdapterIn
 		this->_image->setIteratorIndex(0);
 
 		loop {
-			this->_image->compositeImage(watermark, constant("Imagick::COMPOSITE_OVER"), offset_x, offset_y);
-			if  !this->_image->nextImage() {
+			let ret = this->_image->compositeImage(watermark, constant("Imagick::COMPOSITE_OVER"), offset_x, offset_y);
+
+			if ret !== true {
+				throw new Exception("Imagick::compositeImage failed");
+			}
+
+			if this->_image->nextImage() === false {
 				break;
 			}
 		}
@@ -455,7 +459,7 @@ class Imagick extends \Phalcon\Image\Adapter implements \Phalcon\Image\AdapterIn
 
 		loop {
 			this->_image->annotateImage(draw, offset_x, offset_y, 0, text);
-			if !this->_image->nextImage() {
+			if this->_image->nextImage() === false {
 				break;
 			}
 		}
@@ -465,24 +469,26 @@ class Imagick extends \Phalcon\Image\Adapter implements \Phalcon\Image\AdapterIn
 	/**
 	 * Composite one image onto another
 	 *
-	 * @param \Phalcon\Image\Adapter $mask  mask Image instance
+	 * @param \Phalcon\Image\Adapter $mask mask Image instance
 	 */
 	protected function _mask(<\Phalcon\Image\Adapter> image)
 	{
-		var mask;
-
-		//let opacity = opacity / 100; // where opacity comes from?
+		var mask, ret;
 
 		let mask = new \Imagick();
 
 		mask->readImageBlob(image->render());
-
 		this->_image->setIteratorIndex(0);
 
 		loop {
 			this->_image->setImageMatte(1);
-			this->_image->compositeImage(mask, constant("Imagick::COMPOSITE_DSTIN"), 0, 0);
-			if  !this->_image->nextImage() {
+			let ret = this->_image->compositeImage(mask, constant("Imagick::COMPOSITE_DSTIN"), 0, 0);
+
+			if ret !== true {
+				throw new Exception("Imagick::compositeImage failed");
+			}
+
+			if this->_image->nextImage() === false {
 				break;
 			}
 		}
@@ -501,7 +507,7 @@ class Imagick extends \Phalcon\Image\Adapter implements \Phalcon\Image\AdapterIn
 	 */
 	protected function _background(int r, int g, int b, int opacity)
 	{
-		var background, color, pixel1, pixel2;
+		var background, color, pixel1, pixel2, ret;
 
 		let color = sprintf("rgb(%d, %d, %d)", r, g, b);
 		let pixel1 = new \ImagickPixel(color);
@@ -520,8 +526,13 @@ class Imagick extends \Phalcon\Image\Adapter implements \Phalcon\Image\AdapterIn
 			background->setImageBackgroundColor(pixel2);
 			background->evaluateImage(constant("Imagick::EVALUATE_MULTIPLY"), opacity, constant("Imagick::CHANNEL_ALPHA"));
 			background->setColorspace(this->_image->getColorspace());
-			background->compositeImage(this->_image, constant("Imagick::COMPOSITE_DISSOLVE"), 0, 0);
-			if  !this->_image->nextImage() {
+			let ret = background->compositeImage(this->_image, constant("Imagick::COMPOSITE_DISSOLVE"), 0, 0);
+
+			if ret !== true {
+				throw new Exception("Imagick::compositeImage failed");
+			}
+
+			if this->_image->nextImage() === false {
 				break;
 			}
 		}
@@ -543,7 +554,7 @@ class Imagick extends \Phalcon\Image\Adapter implements \Phalcon\Image\AdapterIn
 
 		loop {
 			this->_image->blurImage(radius, 100);
-			if  !this->_image->nextImage() {
+			if this->_image->nextImage() === false {
 				break;
 			}
 		}
@@ -566,7 +577,7 @@ class Imagick extends \Phalcon\Image\Adapter implements \Phalcon\Image\AdapterIn
 		loop {
 			this->_image->scaleImage(width, height);
 			this->_image->scaleImage(this->_width, this->_height);
-			if  !this->_image->nextImage() {
+			if this->_image->nextImage() === false{
 				break;
 			}
 		}
@@ -613,28 +624,29 @@ class Imagick extends \Phalcon\Image\Adapter implements \Phalcon\Image\AdapterIn
 	 * @param int $quality
 	 * @return string
 	 */
-	protected function _render(string ext, int quality)
+	protected function _render(string extension, int quality)
 	{
 		var image;
 
 		let image = this->_image;
 
-		image->setFormat(ext);
-		image->setImageFormat(ext);
+		image->setFormat(extension);
+		image->setImageFormat(extension);
+		image->stripImage();
 
-		let this->_type = image->getImageType();
-		let this->_mime = "image/" . image->getImageFormat();
+		let this->_type = image->getImageType(),
+			this->_mime = "image/" . image->getImageFormat();
 
-		if strcasecmp(ext, "gif") == 0 {
+		if strcasecmp(extension, "gif") === 0 {
 			image->optimizeImageLayers();
-			return image->getImagesBlob();
 		} else {
-			if strcasecmp(ext, "jpg") == 0 || strcasecmp(ext, "jpeg") == 0 {
+			if strcasecmp(extension, "jpg") === 0 || strcasecmp(extension, "jpeg") === 0 {
 				image->setImageCompression(constant("Imagick::COMPRESSION_JPEG"));
 			}
 			image->setImageCompressionQuality(quality);
-			//return image->getImageBlob(file); where file comes from?
 		}
+
+		return image->getImageBlob();
 	}
 
 	/**
@@ -642,12 +654,9 @@ class Imagick extends \Phalcon\Image\Adapter implements \Phalcon\Image\AdapterIn
 	 */
 	public function __destruct()
 	{
-		var image;
-
-		let image = this->_image;
-		if image {
-			image->clear();
-			image->destroy();
+		if this->_image instanceof \Imagick {
+			this->_image->clear();
+			this->_image->destroy();
 		}
 	}
 
