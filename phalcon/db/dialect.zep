@@ -112,7 +112,7 @@ abstract class Dialect
 	 * @param string escapeChar
 	 * @return string
 	 */
-	public final function getSqlExpression(array! expression, var escapeChar = null) -> string
+	public function getSqlExpression(array! expression, var escapeChar = null) -> string
 	{
 		var type, domain, operator, left, right, name, sqlItems,
 			escapedName, sqlArguments, arguments, argument, item;
