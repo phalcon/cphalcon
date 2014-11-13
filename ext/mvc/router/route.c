@@ -361,24 +361,25 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, reConfigure){
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 1, 1, &pattern, &paths);
-	
+
 	if (!paths) {
 		paths = PHALCON_GLOBAL(z_null);
 	}
-	
+
 	if (Z_TYPE_P(pattern) != IS_STRING) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_router_exception_ce, "The pattern must be string");
 		return;
 	}
+
 	if (Z_TYPE_P(paths) != IS_NULL) {
 		if (Z_TYPE_P(paths) == IS_STRING) {
-	
+
 			PHALCON_INIT_VAR(module_name);
 	
 			PHALCON_INIT_VAR(controller_name);
-	
+
 			PHALCON_INIT_VAR(action_name);
-	
+
 			/** 
 			 * Explode the short paths using the :: separator
 			 */
@@ -387,13 +388,13 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, reConfigure){
 	
 			PHALCON_INIT_VAR(number_parts);
 			phalcon_fast_count(number_parts, parts TSRMLS_CC);
-	
+
 			/** 
 			 * Create the array paths dynamically
 			 */
 	
 			switch (phalcon_get_intval(number_parts)) {
-	
+
 				case 3:
 					PHALCON_OBS_NVAR(module_name);
 					phalcon_array_fetch_long(&module_name, parts, 0, PH_NOISY);
@@ -404,7 +405,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, reConfigure){
 					PHALCON_OBS_NVAR(action_name);
 					phalcon_array_fetch_long(&action_name, parts, 2, PH_NOISY);
 					break;
-	
+
 				case 2:
 					PHALCON_OBS_NVAR(controller_name);
 					phalcon_array_fetch_long(&controller_name, parts, 0, PH_NOISY);
@@ -419,7 +420,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, reConfigure){
 					break;
 	
 			}
-	
+
 			PHALCON_INIT_VAR(route_paths);
 			array_init(route_paths);
 	
@@ -429,12 +430,12 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, reConfigure){
 			if (Z_TYPE_P(module_name) != IS_NULL) {
 				phalcon_array_update_string(&route_paths, SL("module"), module_name, PH_COPY | PH_SEPARATE);
 			}
-	
+
 			/** 
 			 * Process controller name
 			 */
 			if (Z_TYPE_P(controller_name) != IS_NULL) {
-	
+
 				/** 
 				 * Check if we need to obtain the namespace
 				 */
@@ -445,13 +446,13 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, reConfigure){
 					 */
 					PHALCON_INIT_VAR(real_class_name);
 					phalcon_get_class_ns(real_class_name, controller_name, 0 TSRMLS_CC);
-	
+
 					/** 
 					 * Extract the namespace from the namespaced class
 					 */
 					PHALCON_INIT_VAR(namespace_name);
 					phalcon_get_ns_class(namespace_name, controller_name, 0 TSRMLS_CC);
-	
+
 					/** 
 					 * Update the namespace
 					 */
@@ -461,7 +462,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, reConfigure){
 				} else {
 					PHALCON_CPY_WRT(real_class_name, controller_name);
 				}
-	
+
 				/** 
 				 * Always pass the controller to lowercase
 				 */
@@ -473,7 +474,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, reConfigure){
 				 */
 				phalcon_array_update_string(&route_paths, SL("controller"), lower_name, PH_COPY | PH_SEPARATE);
 			}
-	
+
 			/** 
 			 * Process action name
 			 */
@@ -487,12 +488,12 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, reConfigure){
 		PHALCON_INIT_NVAR(route_paths);
 		array_init(route_paths);
 	}
-	
+
 	if (Z_TYPE_P(route_paths) != IS_ARRAY) { 
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_router_exception_ce, "The route contains invalid paths");
 		return;
 	}
-	
+
 	/** 
 	 * If the route starts with '#' we assume that it is a regular expression
 	 */
