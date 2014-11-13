@@ -147,17 +147,17 @@ class Imagick extends \Phalcon\Image\Adapter implements \Phalcon\Image\AdapterIn
 	 */
 	protected function _liquidRescale(int width, int height, int delta_x, int rigidity)
 	{
-		var nextImage, ret;
+		var ret;
 		this->_image->setIteratorIndex(0);
-		loop {
-			let nextImage = this->_image->nextImage();
-			if (nextImage === false) {
-				break;
-			}
 
-			let ret = nextImage->liquidRescaleImage(width, height, delta_x, rigidity);
+		loop {
+			let ret = this->_image->liquidRescaleImage(width, height, delta_x, rigidity);
 			if ret !== true {
 				throw new Exception("Imagick::liquidRescale failed");
+			}
+
+			if this->_image->nextImage() === false {
+				break;
 			}
 		}
 
