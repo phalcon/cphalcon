@@ -152,6 +152,21 @@ abstract class Adapter
 	}
 
 	/**
+	 * This method scales the images using liquid rescaling method. Only support Imagick
+	 *
+	 * @param int $width   new width
+	 * @param int $height  new height
+	 * @param int $delta_x How much the seam can traverse on x-axis. Passing 0 causes the seams to be straight.
+	 * @param int $rigidity Introduces a bias for non-straight seams. This parameter is typically 0.
+	 * @return Phalcon\Image\Adapter
+	 */
+	public function liquidRescale(int width, int height, int delta_x = 0, int rigidity = 0) -> <\Phalcon\Image\Adapter>
+	{
+		this->{"_liquidRescale"}(width, height, delta_x, rigidity);
+		return this;
+	}
+
+	/**
  	 * Crop an image to the given size
  	 *
  	 * @param int width
@@ -274,10 +289,8 @@ abstract class Adapter
 
 		if opacity < 0 {
 			let opacity = 0;
-		} else {
-			if opacity > 100 {
-				let opacity = 100;
-			}
+		} elseif opacity > 100 {
+			let opacity = 100;
 		}
 
 		this->{"_reflection"}(height, opacity, fade_in);
@@ -359,7 +372,7 @@ abstract class Adapter
 			let color = substr(color, 1);
 		}
 
-		if strlen(color) == 3 {
+		if strlen(color) === 3 {
 			let color = preg_replace("/./", "$0$0", color);
 		}
 
@@ -397,7 +410,7 @@ abstract class Adapter
 			let color = substr(color, 1);
 		}
 
-		if strlen(color) == 3 {
+		if strlen(color) === 3 {
 			let color = preg_replace("/./", "$0$0", color);
 		}
 
@@ -475,7 +488,7 @@ abstract class Adapter
 	 * @param int quality
  	 * @return string
  	 */
-	public function render(string ext=null, int quality=100) -> string
+	public function render(string ext = null, int quality = 100) -> string
 	{
 		if !ext {
 			let ext = (string) pathinfo(this->_file, PATHINFO_EXTENSION);
