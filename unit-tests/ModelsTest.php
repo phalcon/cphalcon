@@ -156,6 +156,7 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 
 		$product = new Issue_1534();
 		$product->language = new \Phalcon\Db\RawValue('default(language)');
+		$product->language2 = new \Phalcon\Db\RawValue('default(language2)');
 		$product->name     = 'foo';
 		$product->slug     = 'bar';
 		$product->brand    = new \Phalcon\Db\RawValue('default');
@@ -165,6 +166,7 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 
 		$entry = Issue_1534::findFirst();
 		$this->assertEquals('bb', $entry->language);
+		$this->assertEquals('bb', $entry->language2);
 		$this->assertEquals('0', $entry->sort);
 		$this->assertTrue($entry->brand === NULL);
 
@@ -172,6 +174,7 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 
 		$product = new Issue_1534();
 		$product->language = 'en';
+		$product->language2 = 'en';
 		$product->name     = 'foo';
 		$product->slug     = 'bar';
 		$product->brand    = 'brand';
@@ -189,17 +192,44 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals('0', $entry->sort);
 		$this->assertTrue($entry->brand === NULL);
 
-/* FIXME: this does not work yet
-		$entry->language = new \Phalcon\Db\RawValue('default(language)');
-		$entry->language = 'es';
+		$entry->language2 = new \Phalcon\Db\RawValue('default(language)');
 		$this->assertTrue($entry->save());
 		$this->assertEquals(1, Issue_1534::count());
 
 		$entry = Issue_1534::findFirst();
-		$this->assertEquals('es', $entry->language);
+		$this->assertEquals('bb', $entry->language2);
 		$this->assertEquals('0', $entry->sort);
 		$this->assertTrue($entry->brand === NULL);
-*/
+		$entry->delete();
+
+		//test subject of Issue - setting RawValue('default')
+		$product = new Issue_1534();
+		$product->language = new \Phalcon\Db\RawValue('default');
+		$product->language2 = new \Phalcon\Db\RawValue('default');
+		$product->name     = 'foo';
+		$product->slug     = 'bar';
+		$product->brand    = 'brand';
+		$product->sort     = 1;
+		$this->assertTrue($product->save());
+		$this->assertEquals(1, Issue_1534::count());
+
+
+		$entry = Issue_1534::findFirst();
+		$this->assertEquals('bb', $entry->language);
+		$this->assertEquals('bb', $entry->language2);
+
+		$entry->language2 = 'en';
+		$this->assertTrue($entry->save());
+
+		$entry = Issue_1534::findFirst();
+		$this->assertEquals('en', $entry->language2);
+
+		$entry->language2 = new \Phalcon\Db\RawValue('default');
+		$this->assertTrue($entry->save());
+
+		$entry = Issue_1534::findFirst();
+		$this->assertEquals('bb', $entry->language2);
+
 
 		$this->assertTrue($db->delete('issue_1534'));
 	}
