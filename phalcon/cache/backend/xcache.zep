@@ -302,13 +302,13 @@ namespace Phalcon\Cache\Backend;
 	}
 
 	/**
-	* Atomic decrement of a given key, by number $value
-	*
-	* @param  string keyName
-	* @param  long value
-	* @return mixed
-	*/
-	public function decrement(keyName, long value=1)
+	 * Atomic decrement of a given key, by number $value
+	 *
+	 * @param  string keyName
+	 * @param  long value
+	 * @return mixed
+	 */
+	public function decrement(keyName, long value = 1)
 	{
 		var lastKey, newVal, origVal, success;
 
@@ -334,15 +334,14 @@ namespace Phalcon\Cache\Backend;
 	}
 
 	/**
-	* Immediately invalidates all existing items.
-	*
-	* @return boolean
-	*/
-	public function flush()
+	 * Immediately invalidates all existing items.
+	 *
+	 * @return boolean
+	 */
+	public function flush() -> boolean
 	{
-		var prefixed, options, specialKey, keys, key, value;
+		var options, specialKey, keys, key, value;
 
-		let prefixed = "_PHCX";
 		let options = this->_options;
 
 		if !fetch specialKey, this->_options["statsKey"] {

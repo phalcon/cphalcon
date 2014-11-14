@@ -3710,7 +3710,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 		 * Check every attribute in the model
 		 */
 		let changed = [];
-		for name, type in allAttributes {
+		for name, _ in allAttributes {
 
 			/**
 			 * If some attribute is not present in the snapshot, we assume the record as changed

@@ -702,7 +702,7 @@ PHP_METHOD(Phalcon_Assets_Manager, output) {
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(typeCss);
 	ZVAL_STRING(typeCss, "css", 1);
-	if (Z_TYPE_P(filters) == IS_ARRAY) {
+	if (zephir_fast_count_int(filters TSRMLS_CC)) {
 		ZEPHIR_OBS_VAR(options);
 		zephir_read_property_this(&options, this_ptr, SL("_options"), PH_NOISY_CC);
 		if (Z_TYPE_P(options) == IS_ARRAY) {
@@ -769,7 +769,7 @@ PHP_METHOD(Phalcon_Assets_Manager, output) {
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(&local, resource, "getlocal",  NULL);
 		zephir_check_call_status();
-		if (Z_TYPE_P(filters) == IS_ARRAY) {
+		if (zephir_fast_count_int(filters TSRMLS_CC)) {
 			if (zephir_is_true(local)) {
 				ZEPHIR_CALL_METHOD(&sourcePath, resource, "getrealsourcepath",  NULL);
 				zephir_check_call_status();
@@ -940,7 +940,7 @@ PHP_METHOD(Phalcon_Assets_Manager, output) {
 			}
 		}
 	}
-	if (Z_TYPE_P(filters) == IS_ARRAY) {
+	if (zephir_fast_count_int(filters TSRMLS_CC)) {
 		if (ZEPHIR_IS_TRUE(join)) {
 			zephir_file_put_contents(NULL, completeTargetPath, filteredJoinedContent TSRMLS_CC);
 			ZEPHIR_CALL_METHOD(&targetUri, collection, "gettargeturi",  NULL);

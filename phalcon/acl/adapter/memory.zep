@@ -458,7 +458,7 @@ class Memory extends Adapter
 		if roleName != "*" {
 			return this->_allowOrDeny(roleName, resourceName, access, \Phalcon\Acl::ALLOW);
 		} else {
-			for roleName, tmp in this->_rolesNames {
+			for roleName, _ in this->_rolesNames {
 				this->_allowOrDeny(roleName, resourceName, access, \Phalcon\Acl::ALLOW);
 			}
 		}
