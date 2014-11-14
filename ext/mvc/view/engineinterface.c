@@ -26,6 +26,8 @@ static const zend_function_entry phalcon_mvc_view_engineinterface_method_entry[]
 	PHP_ABSTRACT_ME(Phalcon_Mvc_View_EngineInterface, getContent, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_View_EngineInterface, partial, arginfo_phalcon_mvc_view_engineinterface_partial)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_View_EngineInterface, render, arginfo_phalcon_mvc_view_engineinterface_render)
+	PHP_ABSTRACT_ME(Phalcon_Mvc_View_EngineInterface, addMethod, arginfo_phalcon_mvc_view_engineinterface_addmethod)
+	PHP_ABSTRACT_ME(Phalcon_Mvc_View_EngineInterface, __call, arginfo_phalcon_mvc_view_engineinterface___call)
 	PHP_FE_END
 };
 
@@ -62,3 +64,21 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_View_EngineInterface, partial);
  * @param boolean $mustClean
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_View_EngineInterface, render);
+
+/**
+ * Adds a user-defined method
+ *
+ * @param string $name
+ * @param callable $handler
+ * @return Phalcon\Mvc\View\EngineInterface
+ */
+PHALCON_DOC_METHOD(Phalcon_Mvc_View_EngineInterface, addMethod);
+
+/**
+ * Handles method calls when a method is not implemented
+ *
+ * @param string $method
+ * @param array $arguments
+ * @return mixed
+ */
+PHALCON_DOC_METHOD(Phalcon_Mvc_View_EngineInterface, __call);
