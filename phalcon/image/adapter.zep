@@ -217,7 +217,7 @@ abstract class Adapter
 			let height = this->_height - offset_y;
 		}
 
-		this->{"_crop"}(width, height, offset_y, offset_y);
+		this->{"_crop"}(width, height, offset_x, offset_y);
 
 		return this;
 	}
