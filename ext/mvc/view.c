@@ -42,8 +42,6 @@
 
 #include "internal/arginfo.h"
 
-#include "interned-strings.h"
-
 /**
  * Phalcon\Mvc\View
  *
@@ -132,7 +130,6 @@ PHP_METHOD(Phalcon_Mvc_View, enableLowerCase);
 PHP_METHOD(Phalcon_Mvc_View, disableLowerCase);
 PHP_METHOD(Phalcon_Mvc_View, setConverter);
 PHP_METHOD(Phalcon_Mvc_View, getConverter);
-PHP_METHOD(Phalcon_Mvc_View, __call);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view___construct, 0, 0, 0)
 	ZEND_ARG_INFO(0, options)
@@ -160,11 +157,6 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_getrender, 0, 0, 2)
 	ZEND_ARG_INFO(0, actionName)
 	ZEND_ARG_INFO(0, params)
 	ZEND_ARG_INFO(0, configCallback)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view___call, 0, 0, 1)
-	ZEND_ARG_INFO(0, method)
-	ZEND_ARG_INFO(0, arguments)
 ZEND_END_ARG_INFO()
 
 static const zend_function_entry phalcon_mvc_view_method_entry[] = {
@@ -233,7 +225,6 @@ static const zend_function_entry phalcon_mvc_view_method_entry[] = {
 	PHP_ME(Phalcon_Mvc_View, disableLowerCase, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_View, setConverter, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_View, getConverter, NULL, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Mvc_View, __call, arginfo_phalcon_mvc_view___call, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };
 
@@ -2375,65 +2366,4 @@ PHP_METHOD(Phalcon_Mvc_View, getConverter) {
 	}
 
 	RETURN_MM_NULL();
-}
-
-/*
- * Handles method calls when a method is not implemented
- *
- * @param string $method
- * @param array $arguments
- * @return mixed
- */
-PHP_METHOD(Phalcon_Mvc_View, __call){
-
-	zval *method, *arguments = NULL, *dependency_injector, *exception_message = NULL;
-	zval *service_name, *service = NULL;
-
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 1, &method, &arguments);
-	
-	if (!arguments) {
-		PHALCON_INIT_VAR(arguments);
-		array_init(arguments);
-	}
-
-	dependency_injector = phalcon_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY TSRMLS_CC);
-	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "A dependency injection object is required to access internal services");
-		return;
-	}
-
-	PHALCON_INIT_VAR(service_name);
-	if (phalcon_compare_strict_string(method, SL("get")) 
-		|| phalcon_compare_strict_string(method, SL("getPost"))
-		|| phalcon_compare_strict_string(method, SL("getPut"))
-		|| phalcon_compare_strict_string(method, SL("getQuery"))
-		|| phalcon_compare_strict_string(method, SL("getServer"))) {
-		PHALCON_ZVAL_MAYBE_INTERNED_STRING(service_name, phalcon_interned_request);
-	} else if (phalcon_compare_strict_string(method, SL("getSession"))) {
-		PHALCON_ZVAL_MAYBE_INTERNED_STRING(service_name, phalcon_interned_session);
-	} else if (phalcon_compare_strict_string(method, SL("getParam"))) {
-		PHALCON_ZVAL_MAYBE_INTERNED_STRING(service_name, phalcon_interned_dispatcher);
-	}
-
-	PHALCON_CALL_METHOD(&service, dependency_injector, "getshared", service_name);
-
-	if (Z_TYPE_P(service) != IS_OBJECT) {
-		PHALCON_INIT_NVAR(exception_message);
-		PHALCON_CONCAT_SVS(exception_message, "The injected service '", service_name, "' is not valid");
-		PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_view_exception_ce, exception_message);
-		return;
-	}
-
-	if (phalcon_method_exists(service, method TSRMLS_CC) == FAILURE) {
-		PHALCON_INIT_NVAR(exception_message);
-		PHALCON_CONCAT_SVS(exception_message, "The method \"", method, "\" doesn't exist on view");
-		PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_view_exception_ce, exception_message);
-		return;
-	}
-
-	PHALCON_RETURN_CALL_METHOD(service, Z_STRVAL_P(method), arguments);
-
-	RETURN_MM();
 }
