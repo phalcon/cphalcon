@@ -117,7 +117,7 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_View_Engine_Volt){
  */
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, setOptions){
 
-	zval *options;
+	zval *options, *compiler;
 
 	phalcon_fetch_params(0, 1, 0, &options);
 	
@@ -125,6 +125,13 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, setOptions){
 		PHALCON_THROW_EXCEPTION_STRW(phalcon_mvc_view_exception_ce, "Options parameter must be an array");
 		return;
 	}
+
+	compiler = phalcon_fetch_nproperty_this(this_ptr, SL("_compiler"), PH_NOISY TSRMLS_CC);
+
+	if (Z_TYPE_P(compiler) == IS_OBJECT) {
+		PHALCON_CALL_METHODW(NULL, compiler, "setoptions", options);
+	}
+
 	phalcon_update_property_this(this_ptr, SL("_options"), options TSRMLS_CC);
 	
 }
