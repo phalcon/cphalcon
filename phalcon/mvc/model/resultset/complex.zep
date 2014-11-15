@@ -84,7 +84,7 @@ class Complex extends Resultset implements ResultsetInterface
 	 */
 	public function valid() -> boolean
 	{
-		var result, rows, row, underscore, emptyStr, hydrateMode,
+		var result, rows, row, underscore, hydrateMode,
 			dirtyState, alias, activeRow, type, columnTypes,
 			column, columnValue, value, attribute, source, attributes,
 			columnMap, rowModel, keepSnapshots, sqlAlias, isPartial;
@@ -132,7 +132,7 @@ class Complex extends Resultset implements ResultsetInterface
 				 */
 				let hydrateMode = this->_hydrateMode;
 
-				let underscore = "_", emptyStr = "";
+				let underscore = "_";
 
 				/**
 				 * Each row in a complex result is a Phalcon\Mvc\Model\Row instance

@@ -122,7 +122,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, valid) {
 	zend_bool _2;
 	zephir_nts_static zephir_fcall_cache_entry *_0 = NULL, *_1 = NULL;
 	int dirtyState, ZEPHIR_LAST_CALL_STATUS;
-	zval *result, *rows, *row = NULL, *underscore, *emptyStr, *hydrateMode, *alias = NULL, *activeRow = NULL, *type = NULL, *columnTypes, *column = NULL, *columnValue = NULL, *value = NULL, *attribute = NULL, *source = NULL, *attributes = NULL, *columnMap = NULL, *rowModel = NULL, *keepSnapshots = NULL, *sqlAlias = NULL, *isPartial, **_5, **_8, *_9 = NULL, *_11, *_12 = NULL, _14 = zval_used_for_init;
+	zval *result, *rows, *row = NULL, *underscore, *hydrateMode, *alias = NULL, *activeRow = NULL, *type = NULL, *columnTypes, *column = NULL, *columnValue = NULL, *value = NULL, *attribute = NULL, *source = NULL, *attributes = NULL, *columnMap = NULL, *rowModel = NULL, *keepSnapshots = NULL, *sqlAlias = NULL, *isPartial, **_5, **_8, *_9 = NULL, *_11, *_12 = NULL, _14 = zval_used_for_init;
 
 	ZEPHIR_MM_GROW();
 
@@ -167,8 +167,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, valid) {
 			zephir_read_property_this(&hydrateMode, this_ptr, SL("_hydrateMode"), PH_NOISY_CC);
 			ZEPHIR_INIT_VAR(underscore);
 			ZVAL_STRING(underscore, "_", 1);
-			ZEPHIR_INIT_VAR(emptyStr);
-			ZVAL_STRING(emptyStr, "", 1);
 			do {
 				if (ZEPHIR_IS_LONG(hydrateMode, 0)) {
 					ZEPHIR_INIT_VAR(activeRow);

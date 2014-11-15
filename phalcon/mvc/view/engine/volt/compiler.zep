@@ -337,10 +337,10 @@ class Compiler implements InjectionAwareInterface
 	 */
 	public function attributeReader(array! expr) -> string
 	{
-		var exprCode, loopContext, left, leftType, variable,
+		var exprCode, left, leftType, variable,
 			level, dependencyInjector, leftCode, right;
 
-		let exprCode = null, loopContext = null;
+		let exprCode = null;
 
 		let left = expr["left"];
 

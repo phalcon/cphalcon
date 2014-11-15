@@ -577,7 +577,7 @@ PHP_METHOD(Phalcon_Tag, getValue) {
  */
 PHP_METHOD(Phalcon_Tag, resetInput) {
 
-	zval *_0 = NULL;
+	zval *_0 = NULL, *_1 = NULL;
 
 	ZEPHIR_MM_GROW();
 
@@ -586,7 +586,8 @@ PHP_METHOD(Phalcon_Tag, resetInput) {
 	zephir_update_static_property_ce(phalcon_tag_ce, SL("_displayValues"), &_0 TSRMLS_CC);
 	ZEPHIR_INIT_NVAR(_0);
 	array_init(_0);
-	if (zephir_set_symbol_str(SS("_POST"), _0 TSRMLS_CC) == FAILURE){
+	ZEPHIR_CPY_WRT(_1, _0);
+	if (zephir_set_symbol_str(SS("_POST"), _1 TSRMLS_CC) == FAILURE){
 	  return;
 	}
 	ZEPHIR_MM_RESTORE();

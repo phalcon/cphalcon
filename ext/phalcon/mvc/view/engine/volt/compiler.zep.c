@@ -560,7 +560,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, attributeReader) {
 
 	zephir_nts_static zephir_fcall_cache_entry *_4 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *expr_param = NULL, *exprCode, loopContext, *left, *leftType, *variable, *level, *dependencyInjector, *leftCode = NULL, *right, *_0, *_1 = NULL, *_2 = NULL, *_3 = NULL, *_5, *_6;
+	zval *expr_param = NULL, *exprCode, *left, *leftType, *variable, *level, *dependencyInjector, *leftCode = NULL, *right, *_0, *_1 = NULL, *_2 = NULL, *_3 = NULL, *_5, *_6;
 	zval *expr = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -577,8 +577,6 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, attributeReader) {
 
 	ZEPHIR_INIT_VAR(exprCode);
 	ZVAL_NULL(exprCode);
-	ZEPHIR_SINIT_VAR(loopContext);
-	ZVAL_NULL(&loopContext);
 	ZEPHIR_OBS_VAR(left);
 	zephir_array_fetch_string(&left, expr, SL("left"), PH_NOISY, "phalcon/mvc/view/engine/volt/compiler.zep", 345 TSRMLS_CC);
 	zephir_array_fetch_string(&_0, left, SL("type"), PH_NOISY | PH_READONLY, "phalcon/mvc/view/engine/volt/compiler.zep", 347 TSRMLS_CC);

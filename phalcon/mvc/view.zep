@@ -739,7 +739,7 @@ class View extends Injectable implements ViewInterface
 	 */
 	public function exists(string! view) -> boolean
 	{
-		var basePath, viewsDir, engines, engine, extension;
+		var basePath, viewsDir, engines, extension;
 		boolean exists;
 
 		let basePath = this->_basePath,
@@ -753,10 +753,8 @@ class View extends Injectable implements ViewInterface
 		}
 
 		let exists = false;
-		for extension, engine in engines {
-
+		for extension, _ in engines {
 			let exists = (boolean) file_exists(basePath . viewsDir . view . extension);
-
 			if exists {
 				break;
 			}

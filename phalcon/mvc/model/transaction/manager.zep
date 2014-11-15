@@ -329,11 +329,11 @@ class Manager implements ManagerInterface, \Phalcon\Di\InjectionAwareInterface
 	 */
 	public function collectTransactions()
 	{
-		var transactions, managedTransaction;
+		var transactions;
 
 		let transactions = this->_transactions;
 		if count(transactions) {
-			for managedTransaction in transactions {
+			for _ in transactions {
 				let this->_number--;
 			}
 			let this->_transactions = null;

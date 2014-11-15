@@ -3672,7 +3672,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 */
 	public function getChangedFields()
 	{
-		var metaData, changed, name, type, snapshot,
+		var metaData, changed, name, snapshot,
 			columnMap, allAttributes, value;
 
 		let snapshot = this->_snapshot;
