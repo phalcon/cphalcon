@@ -1,6 +1,6 @@
 #!/bin/sh
 
-ZEND_DONT_UNLOAD_MODULES=1 $(phpenv which php) ./unit-tests/ci/phpunit.php --debug -c unit-tests/phpunit.xml --testsuite=stable
+ZEND_DONT_UNLOAD_MODULES=1 $(phpenv which php) vendor/bin/phpunit --debug -c unit-tests/phpunit.xml unit-tests/
 
 if [ "$(php -r 'echo substr(PHP_VERSION, 0, 3);')" = "5.3" ];
 then
