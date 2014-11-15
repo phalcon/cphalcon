@@ -7399,6 +7399,8 @@ PHP_METHOD(Phalcon_Mvc_Model, reset){
 
 	phalcon_update_property_null(this_ptr, SL("_uniqueParams") TSRMLS_CC);
 	phalcon_update_property_null(this_ptr, SL("_snapshot") TSRMLS_CC);
+	phalcon_update_property_null(this_ptr, SL("_relatedResult") TSRMLS_CC);
+	phalcon_update_property_null(this_ptr, SL("_related") TSRMLS_CC);
 }
 
 /**
