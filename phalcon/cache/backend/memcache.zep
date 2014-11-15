@@ -19,7 +19,10 @@
 
 namespace Phalcon\Cache\Backend;
 
+use Phalcon\Cache\Backend;
+use Phalcon\Cache\BackendInterface;
 use Phalcon\Cache\Exception;
+use Phalcon\Cache\FrontendInterface;
 
 /**
  * Phalcon\Cache\Backend\Memcache
@@ -50,7 +53,7 @@ use Phalcon\Cache\Exception;
  *
  *</code>
  */
-class Memcache extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendInterface
+class Memcache extends Backend implements BackendInterface
 {
 
 	protected _memcache = null;
@@ -61,7 +64,7 @@ class Memcache extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendI
 	 * @param	Phalcon\Cache\FrontendInterface frontend
 	 * @param	array options
 	 */
-	public function __construct(<\Phalcon\Cache\FrontendInterface> frontend, options = null)
+	public function __construct(<FrontendInterface> frontend, options = null)
 	{
 		if typeof options != "array" {
 			let options = [];

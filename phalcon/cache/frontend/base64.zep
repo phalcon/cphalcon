@@ -64,7 +64,7 @@ class Base64 implements \Phalcon\Cache\FrontendInterface
 	 *
 	 * @param array frontendOptions
 	 */
-	public function __construct(frontendOptions=null)
+	public function __construct(frontendOptions = null)
 	{
 		let this->_frontendOptions = frontendOptions;
 	}

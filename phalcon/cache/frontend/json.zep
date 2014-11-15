@@ -116,7 +116,7 @@ class Json implements FrontendInterface
 	/**
 	 * Stops output frontend
 	 */
-	public function stop()
+	public function stop() -> void
 	{
 
 	}
@@ -142,5 +142,4 @@ class Json implements FrontendInterface
 	{
 		return json_decode(data);
 	}
-
 }

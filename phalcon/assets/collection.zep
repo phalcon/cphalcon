@@ -21,6 +21,7 @@ namespace Phalcon\Assets;
 
 use Phalcon\Assets\Resource;
 use Phalcon\Assets\FilterInterface;
+use Phalcon\Assets\Inline;
 
 /**
  * Phalcon\Assets\Collection
@@ -72,7 +73,7 @@ class Collection implements \Countable, \Iterator
 	 * @param Phalcon\Assets\Inline code
 	 * @return Phalcon\Assets\Collection
 	 */
-	public function addInline(<\Phalcon\Assets\Inline> code) -> <Collection>
+	public function addInline(<$Inline> code) -> <Collection>
 	{
 		let this->_codes[] = code;
 		return this;
