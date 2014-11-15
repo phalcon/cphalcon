@@ -601,7 +601,7 @@ PHP_METHOD(Phalcon_Chart_QRcode, save){
 	if (!fp) {
 		PHALCON_INIT_VAR(exception_message);
 		PHALCON_CONCAT_SVS(exception_message, "Unable to open '", filename, "' for writing");
-		PHALCON_THROW_EXCEPTION_ZVAL(phalcon_chart_qrcode_ce, exception_message);
+		PHALCON_THROW_EXCEPTION_ZVAL(phalcon_chart_exception_ce, exception_message);
 		return;
 	}	
 
