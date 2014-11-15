@@ -239,7 +239,7 @@ class QueryBuilder implements AdapterInterface
 		 */
 		let result = totalQuery->execute(),
 			row = result->getFirst(),
-			rowcount = row->rowcount,
+			rowcount = intval(row->rowcount),
 			totalPages = rowcount / limit;
 
 		let intTotalPages = intval(totalPages);
