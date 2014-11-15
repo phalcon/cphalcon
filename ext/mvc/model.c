@@ -6341,15 +6341,15 @@ PHP_METHOD(Phalcon_Mvc_Model, _getRelatedRecords){
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 3, 0, &model_name, &method, &arguments);
-	
+
 	PHALCON_OBS_VAR(manager);
 	phalcon_read_property_this(&manager, this_ptr, SL("_modelsManager"), PH_NOISY TSRMLS_CC);
-	
+
 	PHALCON_INIT_VAR(relation);
 	ZVAL_BOOL(relation, 0);
-	
+
 	PHALCON_INIT_VAR(query_method);
-	
+
 	/** 
 	 * Calling find/findFirst if the method starts with "get"
 	 */
@@ -6359,7 +6359,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _getRelatedRecords){
 	
 		PHALCON_CALL_METHOD(&relation, manager, "getrelationbyalias", model_name, alias);
 	}
-	
+
 	/** 
 	 * Calling count if the method starts with "count"
 	 */
@@ -6373,7 +6373,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _getRelatedRecords){
 			PHALCON_CALL_METHOD(&relation, manager, "getrelationbyalias", model_name, alias);
 		}
 	}
-	
+
 	/** 
 	 * If the relation was found perform the query via the models manager
 	 */
@@ -6384,7 +6384,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _getRelatedRecords){
 		} else {
 			PHALCON_INIT_NVAR(extra_args);
 		}
-	
+
 		PHALCON_INIT_VAR(call_args);
 		array_init_size(call_args, 4);
 		phalcon_array_append(&call_args, relation, PH_SEPARATE);
