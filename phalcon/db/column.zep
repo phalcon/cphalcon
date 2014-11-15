@@ -20,6 +20,7 @@
 namespace Phalcon\Db;
 
 use Phalcon\Db\Exception;
+use Phalcon\Db\ColumnInterface;
 
 /**
  * Phalcon\Db\Column
@@ -44,7 +45,7 @@ use Phalcon\Db\Exception;
  *</code>
  *
  */
-class Column implements \Phalcon\Db\ColumnInterface
+class Column implements ColumnInterface
 {
 
 	/**
@@ -519,5 +520,4 @@ class Column implements \Phalcon\Db\ColumnInterface
 
 		return new self(columnName, definition);
 	}
-
 }

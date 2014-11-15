@@ -862,7 +862,7 @@ class Manager
 	 *
 	 * @param string collectionName
 	 */
-	public function outputJs(collectionName=null)
+	public function outputJs(collectionName = null)
 	{
 		var collection;
 

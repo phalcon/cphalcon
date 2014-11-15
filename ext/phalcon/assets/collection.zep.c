@@ -799,7 +799,7 @@ PHP_METHOD(Phalcon_Assets_Collection, getRealTargetPath) {
 /**
  * Adds a filter to the collection
  *
- * @param Phalcon\Assets\FilterInterface $filter
+ * @param Phalcon\Assets\FilterInterface filter
  * @return Phalcon\Assets\Collection
  */
 PHP_METHOD(Phalcon_Assets_Collection, addFilter) {

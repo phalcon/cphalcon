@@ -19,12 +19,15 @@
 
 namespace Phalcon\Forms\Element;
 
+use Phalcon\Forms\Element;
+use Phalcon\Forms\ElementInterface;
+
 /**
  * Phalcon\Forms\Element\Numeric
  *
  * Component INPUT[type=number] for forms
  */
-class Numeric extends \Phalcon\Forms\Element implements \Phalcon\Forms\ElementInterface
+class Numeric extends Element implements ElementInterface
 {
 
 	/**
@@ -33,9 +36,8 @@ class Numeric extends \Phalcon\Forms\Element implements \Phalcon\Forms\ElementIn
 	 * @param array $attributes
 	 * @return string
 	 */
-	public function render(attributes=null) -> string
+	public function render(attributes = null) -> string
 	{
 		return \Phalcon\Tag::numericField(this->prepareAttributes(attributes));
 	}
-
 }

@@ -113,7 +113,7 @@ PHP_METHOD(Phalcon_Logger_Multiple, setFormatter) {
 	ZEPHIR_OBS_VAR(loggers);
 	zephir_read_property_this(&loggers, this_ptr, SL("_loggers"), PH_NOISY_CC);
 	if (Z_TYPE_P(loggers) == IS_ARRAY) {
-		zephir_is_iterable(loggers, &_1, &_0, 0, 0, "phalcon/logger/multiple.zep", 62);
+		zephir_is_iterable(loggers, &_1, &_0, 0, 0, "phalcon/logger/multiple.zep", 63);
 		for (
 		  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_1, &_0)
@@ -156,7 +156,7 @@ PHP_METHOD(Phalcon_Logger_Multiple, log) {
 	ZEPHIR_OBS_VAR(loggers);
 	zephir_read_property_this(&loggers, this_ptr, SL("_loggers"), PH_NOISY_CC);
 	if (Z_TYPE_P(loggers) == IS_ARRAY) {
-		zephir_is_iterable(loggers, &_1, &_0, 0, 0, "phalcon/logger/multiple.zep", 81);
+		zephir_is_iterable(loggers, &_1, &_0, 0, 0, "phalcon/logger/multiple.zep", 82);
 		for (
 		  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_1, &_0)

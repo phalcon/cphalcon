@@ -22,6 +22,7 @@ namespace Phalcon\Assets;
 use Phalcon\Assets\Resource;
 use Phalcon\Assets\FilterInterface;
 use Phalcon\Assets\Inline;
+use Phalcon\Assets\Resource\Css as ResourceCss;
 
 /**
  * Phalcon\Assets\Collection
@@ -108,7 +109,7 @@ class Collection implements \Countable, \Iterator
 			let collectionAttributes = this->_attributes;
 		}
 
-		let this->_resources[] = new \Phalcon\Assets\Resource\Css(path, collectionLocal, filter, collectionAttributes);
+		let this->_resources[] = new ResourceCss(path, collectionLocal, filter, collectionAttributes);
 
 		return this;
 	}
@@ -398,12 +399,12 @@ class Collection implements \Countable, \Iterator
 	/**
 	 * Adds a filter to the collection
 	 *
-	 * @param Phalcon\Assets\FilterInterface $filter
+	 * @param Phalcon\Assets\FilterInterface filter
 	 * @return Phalcon\Assets\Collection
 	 */
-	public function addFilter(<FilterInterface> $filter) -> <Collection>
+	public function addFilter(<FilterInterface> filter) -> <Collection>
 	{
-		let this->_filters[] = $filter;
+		let this->_filters[] = filter;
 		return this;
 	}
 }

@@ -186,5 +186,4 @@ class Profiler
 	{
 		return this->_activeProfile;
 	}
-
 }

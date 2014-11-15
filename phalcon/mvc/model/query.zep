@@ -2129,7 +2129,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 	 */
 	public function parse() -> array
 	{
-		var intermediate, phql, ast, irPhql, irPhqlCache, uniqueId, type;
+		var intermediate, phql, ast, irPhql, uniqueId, type;
 
 		let intermediate = this->_intermediate;
 		if typeof intermediate == "array" {
@@ -2142,9 +2142,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 		let phql = this->_phql,
 			ast = phql_parse_phql(phql);
 
-		let irPhql = null,
-			irPhqlCache = null,
-			uniqueId = null;
+		let irPhql = null, uniqueId = null;
 
 		if typeof ast == "array" {
 
@@ -2153,13 +2151,13 @@ class Query implements QueryInterface, InjectionAwareInterface
 			 * Parsed ASTs have a unique id
 			 */
 			if fetch uniqueId, ast["id"] {
-				//if fetch irPhql, self::_irPhqlCache[uniqueId] {
-				//	if typeof irPhql == "array" {
+				if fetch irPhql, self::_irPhqlCache[uniqueId] {
+					if typeof irPhql == "array" {
 						//Assign the type to the query
-						//let this->_type = ast["type"];
-						//return irPhql;
-					//}
-				//}
+						let this->_type = ast["type"];
+						return irPhql;
+					}
+				}
 			}
 
 			/**
@@ -2168,7 +2166,8 @@ class Query implements QueryInterface, InjectionAwareInterface
 			if fetch type, ast["type"] {
 
 				let this->_ast = ast,
-										this->_type = type;
+					this->_type = type;
+
 				switch type {
 
 					case PHQL_T_SELECT:
@@ -2201,7 +2200,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 		 * Store the prepared AST in the cache
 		 */
 		if typeof uniqueId == "int" {
-			//let self::_irPhqlCache[uniqueId] = irPhql;
+			let self::_irPhqlCache[uniqueId] = irPhql;
 		}
 
 		let this->_intermediate = irPhql;

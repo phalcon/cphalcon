@@ -179,17 +179,17 @@ abstract class Dialect
 			let operator = expression["op"];
 
 			/**
-			 * Some unary operators uses the left operand...
+			 * Some unary operators use the left operand...
 			 */
 			if fetch left, expression["left"] {
 				return this->getSqlExpression(left, escapeChar) . operator;
 			}
 
 			/**
-			 * ...Others uses the right operand
+			 * ...Others use the right operand
 			 */
 			if fetch right, expression["right"] {
-				return  operator . this->getSqlExpression(right, escapeChar);
+				return operator . this->getSqlExpression(right, escapeChar);
 			}
 
 			throw new Exception("Invalid SQL-unary expression");
@@ -271,13 +271,13 @@ abstract class Dialect
 	}
 
 	/**
-	 * Transform an intermediate representation for a schema/table into a database system valid expression
+	 * Transform an intermediate representation of a schema/table into a database system valid expression
 	 *
 	 * @param array table
 	 * @param string escapeChar
 	 * @return string
 	 */
-	public final function getSqlTable(var table, string escapeChar=null) -> string
+	public final function getSqlTable(var table, string escapeChar = null) -> string
 	{
 		var sqlTable, sqlSchema, aliasName, sqlTableAlias,
 			schemaName, tableName;
@@ -619,5 +619,4 @@ abstract class Dialect
 	{
 		return "ROLLBACK TO SAVEPOINT " . name;
 	}
-
 }

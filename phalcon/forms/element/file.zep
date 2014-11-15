@@ -36,7 +36,7 @@ class File extends Element implements ElementInterface
 	 * @param array attributes
 	 * @return string
 	 */
-	public function render(attributes=null) -> string
+	public function render(attributes = null) -> string
 	{
 		return \Phalcon\Tag::fileField(this->prepareAttributes(attributes));
 	}

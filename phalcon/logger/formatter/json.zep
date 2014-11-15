@@ -51,5 +51,4 @@ class Json extends Formatter implements FormatterInterface
 			"timestamp": timestamp
 		]);
 	}
-
 }

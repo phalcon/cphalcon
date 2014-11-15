@@ -230,7 +230,6 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 			if fetch sharedLock, params["shared_lock"] {
 				let this->_sharedLock = sharedLock;
 			}
-
 		}
 
 		/**

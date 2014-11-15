@@ -97,5 +97,4 @@ class Line extends Formatter implements FormatterInterface
 
 		return format;
 	}
-
 }

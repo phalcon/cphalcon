@@ -19,12 +19,15 @@
 
 namespace Phalcon\Forms\Element;
 
+use Phalcon\Forms\Element;
+use Phalcon\Forms\ElementInterface;
+
 /**
  * Phalcon\Forms\Element\Text
  *
  * Component INPUT[type=text] for forms
  */
-class Text extends \Phalcon\Forms\Element implements \Phalcon\Forms\ElementInterface
+class Text extends Element implements ElementInterface
 {
 
 	/**
@@ -33,9 +36,8 @@ class Text extends \Phalcon\Forms\Element implements \Phalcon\Forms\ElementInter
 	 * @param array attributes
 	 * @return string
 	 */
-	public function render(attributes=null) -> string
+	public function render(attributes = null) -> string
 	{
 		return \Phalcon\Tag::textField(this->prepareAttributes(attributes));
 	}
-
 }

@@ -49,5 +49,4 @@ abstract class Lang
 	{
 		return phql_parse_phql(phql);
 	}
-
 }

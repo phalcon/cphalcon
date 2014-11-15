@@ -19,6 +19,7 @@
 
 namespace Phalcon\Logger;
 
+use Phalcon\Logger;
 use Phalcon\Logger\AdapterInterface;
 use Phalcon\Logger\FormatterInterface;
 use Phalcon\Logger\Exception;
@@ -69,7 +70,7 @@ class Multiple
 	 * @param string message
 	 * @param int type
 	 */
-	public function log(string message, int type=7)
+	public function log(string message, int type = 7)
 	{
 		var loggers, logger;
 
@@ -88,7 +89,7 @@ class Multiple
  	 */
 	public function emergency(string message)
 	{
-		this->log(message, \Phalcon\Logger::EMERGENCY);
+		this->log(message, Logger::EMERGENCY);
 	}
 
 	/**
@@ -99,7 +100,7 @@ class Multiple
  	 */
 	public function debug(string message)
 	{
-		this->log(message, \Phalcon\Logger::DEBUG);
+		this->log(message, Logger::DEBUG);
 	}
 
 	/**
@@ -109,7 +110,7 @@ class Multiple
  	 */
 	public function error(string message)
 	{
-		this->log(message, \Phalcon\Logger::ERROR);
+		this->log(message, Logger::ERROR);
 	}
 
 	/**
@@ -119,7 +120,7 @@ class Multiple
  	 */
 	public function info(string message)
 	{
-		this->log(message, \Phalcon\Logger::INFO);
+		this->log(message, Logger::INFO);
 	}
 
 	/**
@@ -129,7 +130,7 @@ class Multiple
  	 */
 	public function notice(string message)
 	{
-		this->log(message, \Phalcon\Logger::NOTICE);
+		this->log(message, Logger::NOTICE);
 	}
 
 	/**
@@ -139,7 +140,7 @@ class Multiple
  	 */
 	public function warning(string message)
 	{
-		this->log(message, \Phalcon\Logger::WARNING);
+		this->log(message, Logger::WARNING);
 	}
 
 	/**
@@ -149,7 +150,6 @@ class Multiple
  	 */
 	public function alert(string message)
 	{
-		this->log(message, \Phalcon\Logger::ALERT);
+		this->log(message, Logger::ALERT);
 	}
-
 }

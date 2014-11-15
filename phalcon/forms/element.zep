@@ -588,5 +588,4 @@ abstract class Element
 	{
 		return this->{"render"}();
 	}
-
 }

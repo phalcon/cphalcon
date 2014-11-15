@@ -19,12 +19,15 @@
 
 namespace Phalcon\Forms\Element;
 
+use Phalcon\Forms\Element;
+use Phalcon\Forms\ElementInterface;
+
 /**
  * Phalcon\Forms\Element\Radio
  *
  * Component INPUT[type=radio] for forms
  */
-class Radio extends \Phalcon\Forms\Element implements \Phalcon\Forms\ElementInterface
+class Radio extends Element implements ElementInterface
 {
 
 	/**
@@ -33,9 +36,8 @@ class Radio extends \Phalcon\Forms\Element implements \Phalcon\Forms\ElementInte
 	 * @param array attributes
 	 * @return string
 	 */
-	public function render(attributes=null) -> string
+	public function render(attributes = null) -> string
 	{
 		return \Phalcon\Tag::radioField(this->prepareAttributes(attributes, true));
 	}
-
 }

@@ -40,5 +40,4 @@ class Hidden extends Element implements ElementInterface
 	{
 		return \Phalcon\Tag::hiddenField(this->prepareAttributes(attributes));
 	}
-
 }

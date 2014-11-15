@@ -44,8 +44,6 @@ class Syslog extends Formatter implements FormatterInterface
 		if typeof context === "array" {
 			let message = this->interpolate(message, context);
 		}
-
 		return [type, message];
 	}
-
 }

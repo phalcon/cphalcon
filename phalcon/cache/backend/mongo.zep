@@ -391,7 +391,7 @@ class Mongo extends Backend implements BackendInterface
 	 * @param   long $value
 	 * @return  mixed
 	 */
-	public function decrement(keyName, value=1)
+	public function decrement(keyName, value = 1)
 	{
 		var prefixedKey, document, timestamp, lifetime, ttl, modifiedTime, cachedContent;
 
@@ -445,5 +445,4 @@ class Mongo extends Backend implements BackendInterface
 
 		return true;
 	}
-
 }

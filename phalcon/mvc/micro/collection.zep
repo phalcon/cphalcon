@@ -102,7 +102,7 @@ class Collection implements CollectionInterface
 	 * @param boolean lazy
 	 * @return Phalcon\Mvc\Micro\Collection
 	 */
-	public function setHandler(var handler, boolean lazy=false) -> <Collection>
+	public function setHandler(var handler, boolean lazy = false) -> <Collection>
 	{
 		let this->_handler = handler, this->_lazy = lazy;
 		return this;
@@ -249,5 +249,4 @@ class Collection implements CollectionInterface
 		this->_addMap("OPTIONS", routePattern, handler, name);
 		return this;
 	}
-
 }

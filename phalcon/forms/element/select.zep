@@ -19,12 +19,15 @@
 
 namespace Phalcon\Forms\Element;
 
+use Phalcon\Forms\Element;
+use Phalcon\Forms\ElementInterface;
+
 /**
  * Phalcon\Forms\Element\Select
  *
  * Component SELECT (choice) for forms
  */
-class Select extends \Phalcon\Forms\Element implements \Phalcon\Forms\ElementInterface {
+class Select extends Element implements ElementInterface {
 
 	protected _optionsValues;
 
@@ -35,7 +38,7 @@ class Select extends \Phalcon\Forms\Element implements \Phalcon\Forms\ElementInt
 	 * @param object|array options
 	 * @param array attributes
 	 */
-	public function __construct(string name, options=null, attributes=null)
+	public function __construct(string name, options = null, attributes = null)
 	{
 		let this->_optionsValues = options;
 		parent::__construct(name, attributes);
@@ -47,7 +50,7 @@ class Select extends \Phalcon\Forms\Element implements \Phalcon\Forms\ElementInt
 	 * @param array|object options
 	 * @return Phalcon\Forms\Element
 	 */
-	public function setOptions(var options) -> <\Phalcon\Forms\Element>
+	public function setOptions(var options) -> <Element>
 	{
 		let this->_optionsValues = options;
 		return this;
@@ -69,7 +72,7 @@ class Select extends \Phalcon\Forms\Element implements \Phalcon\Forms\ElementInt
 	 * @param array option
 	 * @return this
 	 */
-	public function addOption(var option) -> <\Phalcon\Forms\Element>
+	public function addOption(var option) -> <Element>
 	{
 		let this->_optionsValues[] = option;
 		return this;
@@ -81,7 +84,7 @@ class Select extends \Phalcon\Forms\Element implements \Phalcon\Forms\ElementInt
 	 * @param array attributes
 	 * @return string
 	 */
-	public function render(attributes=null) -> string
+	public function render(attributes = null) -> string
 	{
 
 		/**
@@ -89,5 +92,4 @@ class Select extends \Phalcon\Forms\Element implements \Phalcon\Forms\ElementInt
 		 */
 		return \Phalcon\Tag\Select::selectField(this->prepareAttributes(attributes), this->_optionsValues);
 	}
-
 }

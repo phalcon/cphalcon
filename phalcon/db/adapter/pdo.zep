@@ -435,9 +435,9 @@ abstract class Pdo extends \Phalcon\Db\Adapter
 		if preg_match_all(bindPattern, sql, matches, setOrder) {
 			for placeMatch in matches {
 
-				if ! fetch value, params[placeMatch[1]] {
+				if !fetch value, params[placeMatch[1]] {
 					if isset placeMatch[2] {
-						if ! fetch value, params[placeMatch[2]] {
+						if !fetch value, params[placeMatch[2]] {
 							throw new Exception("Matched parameter wasn't found in parameters list");
 						}
 					} else {

@@ -40,5 +40,4 @@ class Check extends Element implements ElementInterface
 	{
 		return \Phalcon\Tag::checkField(this->prepareAttributes(attributes, true));
 	}
-
 }
