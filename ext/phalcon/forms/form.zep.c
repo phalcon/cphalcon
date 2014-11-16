@@ -515,7 +515,7 @@ PHP_METHOD(Phalcon_Forms_Form, getMessages) {
 	HashPosition _1;
 	zephir_fcall_cache_entry *_0 = NULL, *_4 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *byItemName_param = NULL, *messages, *group, *element = NULL, *elementMessages = NULL, **_3;
+	zval *byItemName_param = NULL, *messages, *group, *elementMessages = NULL, **_3;
 	zend_bool byItemName;
 
 	ZEPHIR_MM_GROW();
@@ -549,7 +549,6 @@ PHP_METHOD(Phalcon_Forms_Form, getMessages) {
 		  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_2, &_1)
 		) {
-			ZEPHIR_GET_HMKEY(element, _2, _1);
 			ZEPHIR_GET_HVALUE(elementMessages, _3);
 			ZEPHIR_CALL_METHOD(NULL, group, "appendmessages", &_4, elementMessages);
 			zephir_check_call_status();

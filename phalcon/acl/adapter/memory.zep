@@ -453,13 +453,13 @@ class Memory extends Adapter
 	 */
 	public function allow(var roleName, var resourceName, var access)
 	{
-		var tmp;
+		var innerRoleName;
 
 		if roleName != "*" {
 			return this->_allowOrDeny(roleName, resourceName, access, \Phalcon\Acl::ALLOW);
 		} else {
-			for roleName, _ in this->_rolesNames {
-				this->_allowOrDeny(roleName, resourceName, access, \Phalcon\Acl::ALLOW);
+			for innerRoleName, _ in this->_rolesNames {
+				this->_allowOrDeny(innerRoleName, resourceName, access, \Phalcon\Acl::ALLOW);
 			}
 		}
 	}
@@ -491,13 +491,13 @@ class Memory extends Adapter
 	 */
 	public function deny(var roleName, var resourceName, var access)
 	{
-		var tmp;
+		var innerRoleName;
 
 		if roleName != "*" {
 			return this->_allowordeny(roleName, resourceName, access, \Phalcon\Acl::DENY);
 		} else {
-			for roleName, tmp in this->_rolesNames {
-				this->_allowordeny(roleName, resourceName, access, \Phalcon\Acl::DENY);
+			for innerRoleName, _ in this->_rolesNames {
+				this->_allowordeny(innerRoleName, resourceName, access, \Phalcon\Acl::DENY);
 			}
 		}
 	}

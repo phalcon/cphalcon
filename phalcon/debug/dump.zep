@@ -219,7 +219,7 @@ class Dump
 			if (in_array(get_class(variable), this->_methods)) {
 				let output .= str_repeat(space, tab) . "[already listed]\n";
 			} else {
-				for key, value in attr {
+				for value in attr {
 					let this->_methods[] = get_class(variable);
 
 					if value == "__construct" {

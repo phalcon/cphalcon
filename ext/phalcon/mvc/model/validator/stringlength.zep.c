@@ -87,8 +87,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_StringLength, validate) {
 
 	zephir_nts_static zephir_fcall_cache_entry *_6 = NULL;
 	zval *_4 = NULL;
+	zend_bool _1, _3;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zend_bool invalidMaximum, invalidMinimum, _1, _3;
 	zval *record, *field = NULL, *isSetMin = NULL, *isSetMax = NULL, *value = NULL, *length = NULL, *maximum = NULL, *minimum = NULL, *message = NULL, *_0 = NULL, *_2 = NULL, *_5 = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -106,7 +106,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_StringLength, validate) {
 	zephir_check_temp_parameter(_0);
 	zephir_check_call_status();
 	if (Z_TYPE_P(field) != IS_STRING) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "Field name must be a string", "phalcon/mvc/model/validator/stringlength.zep", 71);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "Field name must be a string", "phalcon/mvc/model/validator/stringlength.zep", 70);
 		return;
 	}
 	ZEPHIR_INIT_NVAR(_0);
@@ -124,7 +124,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_StringLength, validate) {
 		_1 = !zephir_is_true(isSetMax);
 	}
 	if (_1) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "A minimum or maximum must be set", "phalcon/mvc/model/validator/stringlength.zep", 81);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "A minimum or maximum must be set", "phalcon/mvc/model/validator/stringlength.zep", 80);
 		return;
 	}
 	ZEPHIR_CALL_METHOD(&value, record, "readattribute", NULL, field);
@@ -148,8 +148,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_StringLength, validate) {
 		ZEPHIR_INIT_NVAR(length);
 		ZVAL_LONG(length, zephir_fast_strlen_ev(value));
 	}
-	invalidMaximum = 0;
-	invalidMinimum = 0;
 	if (zephir_is_true(isSetMax)) {
 		ZEPHIR_INIT_NVAR(_0);
 		ZVAL_STRING(_0, "max", ZEPHIR_TEMP_PARAM_COPY);

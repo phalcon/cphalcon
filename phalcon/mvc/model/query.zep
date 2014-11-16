@@ -1311,7 +1311,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 		 */
 		let manager = this->_manager;
 
-		for fromModelName, source in fromModels {
+		for fromModelName, _ in fromModels {
 
 			for joinAlias, joinModel in joinModels {
 

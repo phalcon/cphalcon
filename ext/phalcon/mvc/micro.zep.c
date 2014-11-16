@@ -1090,7 +1090,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle) {
 
 	if (EG(exception)) {
 		ZEPHIR_CPY_WRT(e, EG(exception));
-		if (zephir_instance_of_ev(e, zephir_get_internal_ce(SS("\\exception") TSRMLS_CC) TSRMLS_CC)) {
+		if (zephir_instance_of_ev(e, zend_exception_get_default(TSRMLS_C) TSRMLS_CC)) {
 			zend_clear_exception(TSRMLS_C);
 			ZEPHIR_OBS_NVAR(eventsManager);
 			zephir_read_property_this(&eventsManager, this_ptr, SL("_eventsManager"), PH_NOISY_CC);

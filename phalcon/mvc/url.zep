@@ -23,6 +23,8 @@ use Phalcon\DiInterface;
 use Phalcon\Mvc\RouterInterface;
 use Phalcon\Mvc\Router\RouteInterface;
 use Phalcon\Mvc\Url\Exception;
+use Phalcon\Di\InjectionAwareInterface;
+use Phalcon\Mvc\UrlInterface;
 
 /**
  * Phalcon\Mvc\Url
@@ -39,7 +41,7 @@ use Phalcon\Mvc\Url\Exception;
  *
  *</code>
  */
-class Url implements \Phalcon\Mvc\UrlInterface, \Phalcon\Di\InjectionAwareInterface
+class Url implements UrlInterface, InjectionAwareInterface
 {
 
 	protected _dependencyInjector;
@@ -287,5 +289,4 @@ class Url implements \Phalcon\Mvc\UrlInterface, \Phalcon\Di\InjectionAwareInterf
 	{
 		return this->_basePath . path;
 	}
-
 }

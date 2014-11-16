@@ -180,7 +180,7 @@ class Response implements ResponseInterface, InjectionAwareInterface
 	 */
 	public function setStatusCode(int code, string message = null) -> <ResponseInterface>
 	{
-		var headers, currentHeadersRaw, key, value, defaultMessage;
+		var headers, currentHeadersRaw, key, defaultMessage;
 
 		let headers = this->getHeaders(),
 			currentHeadersRaw = headers->toArray();
@@ -191,7 +191,7 @@ class Response implements ResponseInterface, InjectionAwareInterface
 		 * Before that we would like to unset any existing HTTP/x.y headers
 		 */
 		if typeof currentHeadersRaw == "array" {
-			for key, value in currentHeadersRaw {
+			for key, _ in currentHeadersRaw {
 				if typeof key == "string" && strstr(key, "HTTP/") {
 					headers->remove(key);
 				}

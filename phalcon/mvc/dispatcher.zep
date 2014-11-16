@@ -201,5 +201,4 @@ class Dispatcher extends \Phalcon\Dispatcher implements DispatcherInterface
 	{
 		return this->_activeHandler;
 	}
-
 }

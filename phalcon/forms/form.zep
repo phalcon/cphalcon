@@ -396,7 +396,7 @@ class Form extends Injectable implements \Countable, \Iterator
 	 */
 	public function getMessages(boolean byItemName = false) -> <Group>
 	{
-		var messages, group, element, elementMessages;
+		var messages, group, elementMessages;
 
 		let messages = this->_messages;
 		if byItemName {
@@ -408,7 +408,7 @@ class Form extends Injectable implements \Countable, \Iterator
 
 		let group = new Group();
 		if typeof messages == "array" {
-			for element, elementMessages in messages {
+			for elementMessages in messages {
 				group->appendMessages(elementMessages);
 			}
 		}

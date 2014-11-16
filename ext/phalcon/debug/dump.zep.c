@@ -585,7 +585,6 @@ PHP_METHOD(Phalcon_Debug_Dump, output) {
 			  ; zephir_hash_get_current_data_ex(_38, (void**) &_39, &_37) == SUCCESS
 			  ; zephir_hash_move_forward_ex(_38, &_37)
 			) {
-				ZEPHIR_GET_HMKEY(key, _38, _37);
 				ZEPHIR_GET_HVALUE(value, _39);
 				ZEPHIR_INIT_NVAR(_20);
 				zephir_get_class(_20, variable, 0 TSRMLS_CC);

@@ -21,6 +21,7 @@ namespace Phalcon\Mvc;
 
 use Phalcon\Mvc\Router\Route;
 use Phalcon\Mvc\Router\Exception;
+use Phalcon\Http\RequestInterface;
 
 /**
  * Phalcon\Mvc\Router
@@ -264,13 +265,9 @@ class Router
 	 * @param array defaults
 	 * @return Phalcon\Mvc\Router
 	 */
-	public function setDefaults(defaults) -> <Router>
+	public function setDefaults(array! defaults) -> <Router>
 	{
 		var namespaceName, module, controller, action, params;
-
-		if typeof defaults != "array" {
-			throw new Exception("Defaults must be an array");
-		}
 
 		// Set a default namespace
 		if fetch namespaceName, defaults["namespace"] {
@@ -374,7 +371,7 @@ class Router
 						throw new Exception("A dependency injection container is required to access the 'request' service");
 					}
 
-					let request = <\Phalcon\Http\RequestInterface> dependencyInjector->getShared("request");
+					let request = <RequestInterface> dependencyInjector->getShared("request");
 				}
 
 				/**
@@ -401,7 +398,7 @@ class Router
 						throw new Exception("A dependency injection container is required to access the 'request' service");
 					}
 
-					let request = <\Phalcon\Http\RequestInterface> dependencyInjector->getShared("request");
+					let request = <RequestInterface> dependencyInjector->getShared("request");
 				}
 
 				/**
@@ -797,10 +794,8 @@ class Router
 	 */
 	public function notFound(var paths) -> <Router>
 	{
-		if typeof paths != "array" {
-			if typeof paths != "string" {
-				throw new Exception("The not-found paths must be an array or string");
-			}
+		if typeof paths != "array" && typeof paths != "string" {
+			throw new Exception("The not-found paths must be an array or string");
 		}
 		let this->_notFoundPaths = paths;
 		return this;
@@ -949,5 +944,4 @@ class Router
 	{
 		return true;
 	}
-
 }

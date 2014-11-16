@@ -19,6 +19,10 @@
 
 namespace Phalcon\Cache\Backend;
 
+use Phalcon\Cache\Backend;
+use Phalcon\Cache\BackendInterface;
+use Phalcon\Cache\Exception;
+
 /**
  * Phalcon\Cache\Backend\Xcache
  *
@@ -42,7 +46,7 @@ namespace Phalcon\Cache\Backend;
  *
  *</code>
  */
- class Xcache extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendInterface
+ class Xcache extends Backend implements BackendInterface
  {
 
 	/**
@@ -51,7 +55,7 @@ namespace Phalcon\Cache\Backend;
 	 * @param Phalcon\Cache\FrontendInterface frontend
 	 * @param array options
 	 */
-	public function __construct(frontend, options=null)
+	public function __construct(frontend, options = null)
 	{
 		if typeof options != "array" {
 			let options = [];
@@ -71,7 +75,7 @@ namespace Phalcon\Cache\Backend;
 	 * @param   long lifetime
 	 * @return  mixed
 	 */
-	public function get(var keyName, lifetime=null)
+	public function get(var keyName, lifetime = null)
 	{
 		var frontend, prefixedKey, cachedContent;
 
@@ -89,7 +93,6 @@ namespace Phalcon\Cache\Backend;
 		} else {
 			return frontend->afterRetrieve(cachedContent);
 		}
-
 	}
 
 	/**
@@ -100,7 +103,7 @@ namespace Phalcon\Cache\Backend;
 	 * @param long lifetime
 	 * @param boolean stopBuffer
 	 */
-	public function save(keyName=null, content=null, lifetime=null, stopBuffer=true)
+	public function save(keyName = null, content = null, lifetime = null, stopBuffer = true)
 	{
 		var lastKey, frontend, cachedContent, preparedContent, tmp, tt1, success, isBuffering,
 			options, keys, specialKey;
@@ -112,7 +115,7 @@ namespace Phalcon\Cache\Backend;
 		}
 
 		if !lastKey {
-			throw new \Phalcon\Cache\Exception("Cache must be started first");
+			throw new Exception("Cache must be started first");
 		}
 
 		let frontend = this->_frontend;
@@ -162,7 +165,7 @@ namespace Phalcon\Cache\Backend;
 			let options = this->_options;
 
 			if !isset options["statsKey"] {
-				throw new \Phalcon\Cache\Exception("Unexpected inconsistency in options");
+				throw new Exception("Unexpected inconsistency in options");
 			}
 			let specialKey = options["statsKey"];
 
@@ -193,7 +196,7 @@ namespace Phalcon\Cache\Backend;
 		let prefixedKey = "_PHCX" . this->_prefix . keyName;
 
 		if !fetch specialKey, this->_options["statsKey"] {
-			throw new \Phalcon\Cache\Exception("Unexpected inconsistency in options");
+			throw new Exception("Unexpected inconsistency in options");
 		}
 
 		let keys = xcache_get(specialKey);
@@ -212,7 +215,7 @@ namespace Phalcon\Cache\Backend;
 	 * @param string prefix
 	 * @return array
 	 */
-	public function queryKeys(prefix=null)
+	public function queryKeys(prefix = null)
 	{
 		var options, prefixed, specialKey, keys, retval, key, realKey;
 
@@ -225,7 +228,7 @@ namespace Phalcon\Cache\Backend;
 		let options = this->_options;
 
 		if !isset options["statsKey"] {
-			throw new \Phalcon\Cache\Exception("Unexpected inconsistency in options");
+			throw new Exception("Unexpected inconsistency in options");
 		}
 		let specialKey = options["statsKey"];
 
@@ -253,7 +256,7 @@ namespace Phalcon\Cache\Backend;
 	 * @param   long lifetime
 	 * @return boolean
 	 */
-	public function exists(var keyName=null, lifetime=null)
+	public function exists(var keyName = null, lifetime = null)
 	{
 		var lastKey;
 
@@ -276,7 +279,7 @@ namespace Phalcon\Cache\Backend;
 	* @param  long value
 	* @return mixed
 	*/
-	public function increment(var keyName, long value=1)
+	public function increment(var keyName, long value = 1)
 	{
 		var lastKey, newVal, origVal;
 
@@ -287,7 +290,7 @@ namespace Phalcon\Cache\Backend;
 		}
 
 		if !lastKey {
-			throw new \Phalcon\Cache\Exception("Cache must be started first");
+			throw new Exception("Cache must be started first");
 		}
 
 		if function_exists("xcache_inc") {
@@ -319,7 +322,7 @@ namespace Phalcon\Cache\Backend;
 		}
 
 		if !lastKey {
-			throw new \Phalcon\Cache\Exception("Cache must be started first");
+			throw new Exception("Cache must be started first");
 		}
 
 		if function_exists("xcache_dec") {
@@ -340,18 +343,18 @@ namespace Phalcon\Cache\Backend;
 	 */
 	public function flush() -> boolean
 	{
-		var options, specialKey, keys, key, value;
+		var options, specialKey, keys, key;
 
 		let options = this->_options;
 
 		if !fetch specialKey, this->_options["statsKey"] {
-			throw new \Phalcon\Cache\Exception("Unexpected inconsistency in options");
+			throw new Exception("Unexpected inconsistency in options");
 		}
 
 		let keys = xcache_get(specialKey);
 
 		if typeof keys == "array" {
-			for key, value in keys {
+			for key, _ in keys {
 				unset keys[key];
 				xcache_unset(key);
 			}

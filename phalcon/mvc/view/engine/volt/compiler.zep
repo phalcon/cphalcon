@@ -210,7 +210,7 @@ class Compiler implements InjectionAwareInterface
 	public function addExtension(extension) -> <Compiler>
 	{
 		if typeof extension != "object" {
-			throw new \Phalcon\Mvc\View\Exception("The extension is not valid");
+			throw new Exception("The extension is not valid");
 		}
 
 		/**
@@ -1786,7 +1786,7 @@ class Compiler implements InjectionAwareInterface
 		 * A valid option is required
 		 */
 		if !fetch autoescape, statement["enable"] {
-			throw new \Phalcon\Mvc\View\Exception("Corrupted statement");
+			throw new Exception("Corrupted statement");
 		}
 
 		/**

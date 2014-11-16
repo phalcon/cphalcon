@@ -207,12 +207,12 @@ PHP_METHOD(Phalcon_Http_Response, getDI) {
  */
 PHP_METHOD(Phalcon_Http_Response, setStatusCode) {
 
-	zephir_nts_static zephir_fcall_cache_entry *_6 = NULL;
-	zend_bool _3;
-	HashTable *_1;
-	HashPosition _0;
-	zval *message = NULL, *_9, *_11;
-	zval *code_param = NULL, *message_param = NULL, *headers = NULL, *currentHeadersRaw = NULL, *key = NULL, *value = NULL, *defaultMessage, **_2, _4 = zval_used_for_init, *_5 = NULL, *_7, *_8, _10, *_12;
+	zephir_nts_static zephir_fcall_cache_entry *_7 = NULL;
+	zend_bool _4;
+	HashTable *_2;
+	HashPosition _1;
+	zval *message = NULL, *_10, *_12;
+	zval *code_param = NULL, *message_param = NULL, *headers = NULL, *currentHeadersRaw = NULL, *key = NULL, *defaultMessage, *_0 = NULL, **_3, _5 = zval_used_for_init, *_6 = NULL, *_8, *_9, _11;
 	int code, ZEPHIR_LAST_CALL_STATUS;
 
 	ZEPHIR_MM_GROW();
@@ -232,52 +232,53 @@ PHP_METHOD(Phalcon_Http_Response, setStatusCode) {
 	ZEPHIR_CALL_METHOD(&currentHeadersRaw, headers, "toarray",  NULL);
 	zephir_check_call_status();
 	if (Z_TYPE_P(currentHeadersRaw) == IS_ARRAY) {
-		zephir_is_iterable(currentHeadersRaw, &_1, &_0, 0, 0, "phalcon/http/response.zep", 199);
+		ZEPHIR_INIT_VAR(_0);
+		zephir_is_iterable(currentHeadersRaw, &_2, &_1, 0, 0, "phalcon/http/response.zep", 199);
 		for (
-		  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
-		  ; zephir_hash_move_forward_ex(_1, &_0)
+		  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
+		  ; zephir_hash_move_forward_ex(_2, &_1)
 		) {
-			ZEPHIR_GET_HMKEY(key, _1, _0);
-			ZEPHIR_GET_HVALUE(value, _2);
-			_3 = Z_TYPE_P(key) == IS_STRING;
-			if (_3) {
-				ZEPHIR_SINIT_NVAR(_4);
-				ZVAL_STRING(&_4, "HTTP/", 0);
-				ZEPHIR_CALL_FUNCTION(&_5, "strstr", &_6, key, &_4);
+			ZEPHIR_GET_HMKEY(key, _2, _1);
+			ZEPHIR_GET_HVALUE(_0, _3);
+			_4 = Z_TYPE_P(key) == IS_STRING;
+			if (_4) {
+				ZEPHIR_SINIT_NVAR(_5);
+				ZVAL_STRING(&_5, "HTTP/", 0);
+				ZEPHIR_CALL_FUNCTION(&_6, "strstr", &_7, key, &_5);
 				zephir_check_call_status();
-				_3 = zephir_is_true(_5);
+				_4 = zephir_is_true(_6);
 			}
-			if (_3) {
+			if (_4) {
 				ZEPHIR_CALL_METHOD(NULL, headers, "remove", NULL, key);
 				zephir_check_call_status();
 			}
 		}
 	}
 	if (ZEPHIR_IS_STRING_IDENTICAL(message, "")) {
-		_7 = zephir_fetch_nproperty_this(this_ptr, SL("_statusCodes"), PH_NOISY_CC);
-		if (!(zephir_array_isset_long(_7, code))) {
+		_8 = zephir_fetch_nproperty_this(this_ptr, SL("_statusCodes"), PH_NOISY_CC);
+		if (!(zephir_array_isset_long(_8, code))) {
 			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_http_response_exception_ce, "Non-standard statuscode given withou a message.", "phalcon/http/response.zep", 205);
 			return;
 		}
-		_8 = zephir_fetch_nproperty_this(this_ptr, SL("_statusCodes"), PH_NOISY_CC);
+		_9 = zephir_fetch_nproperty_this(this_ptr, SL("_statusCodes"), PH_NOISY_CC);
 		ZEPHIR_OBS_VAR(defaultMessage);
-		zephir_array_fetch_long(&defaultMessage, _8, code, PH_NOISY, "phalcon/http/response.zep", 208 TSRMLS_CC);
+		zephir_array_fetch_long(&defaultMessage, _9, code, PH_NOISY, "phalcon/http/response.zep", 208 TSRMLS_CC);
 		zephir_get_strval(message, defaultMessage);
 	}
-	ZEPHIR_SINIT_NVAR(_4);
-	ZVAL_LONG(&_4, code);
-	ZEPHIR_INIT_VAR(_9);
-	ZEPHIR_CONCAT_SVSV(_9, "HTTP/1.1 ", &_4, " ", message);
-	ZEPHIR_CALL_METHOD(NULL, headers, "setraw", NULL, _9);
+	ZEPHIR_SINIT_NVAR(_5);
+	ZVAL_LONG(&_5, code);
+	ZEPHIR_INIT_VAR(_10);
+	ZEPHIR_CONCAT_SVSV(_10, "HTTP/1.1 ", &_5, " ", message);
+	ZEPHIR_CALL_METHOD(NULL, headers, "setraw", NULL, _10);
 	zephir_check_call_status();
-	ZEPHIR_SINIT_VAR(_10);
-	ZVAL_LONG(&_10, code);
-	ZEPHIR_INIT_VAR(_11);
-	ZEPHIR_CONCAT_VSV(_11, &_10, " ", message);
+	ZEPHIR_SINIT_VAR(_11);
+	ZVAL_LONG(&_11, code);
 	ZEPHIR_INIT_VAR(_12);
-	ZVAL_STRING(_12, "Status", ZEPHIR_TEMP_PARAM_COPY);
-	ZEPHIR_CALL_METHOD(NULL, headers, "set", NULL, _12, _11);
-	zephir_check_temp_parameter(_12);
+	ZEPHIR_CONCAT_VSV(_12, &_11, " ", message);
+	ZEPHIR_INIT_NVAR(_0);
+	ZVAL_STRING(_0, "Status", ZEPHIR_TEMP_PARAM_COPY);
+	ZEPHIR_CALL_METHOD(NULL, headers, "set", NULL, _0, _12);
+	zephir_check_temp_parameter(_0);
 	zephir_check_call_status();
 	zephir_update_property_this(this_ptr, SL("_headers"), headers TSRMLS_CC);
 	RETURN_THIS();

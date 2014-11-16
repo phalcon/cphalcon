@@ -3564,7 +3564,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	public function hasChanged(var fieldName = null) -> boolean
 	{
 		var snapshot, metaData, columnMap, allAttributes, value,
-			originalValue, name, type;
+			originalValue, name;
 
 		let snapshot = this->_snapshot;
 		if typeof snapshot != "array" {
@@ -3638,7 +3638,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 		/**
 		 * Check every attribute in the model
 		 */
-		for name, type in allAttributes {
+		for name, _ in allAttributes {
 
 			/**
 			 * If some attribute is not present in the snapshot, we assume the record as changed

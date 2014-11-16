@@ -811,7 +811,7 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch) {
 
 		if (EG(exception)) {
 			ZEPHIR_CPY_WRT(e, EG(exception));
-			if (zephir_instance_of_ev(e, zephir_get_internal_ce(SS("\\exception") TSRMLS_CC) TSRMLS_CC)) {
+			if (zephir_instance_of_ev(e, zend_exception_get_default(TSRMLS_C) TSRMLS_CC)) {
 				zend_clear_exception(TSRMLS_C);
 				ZEPHIR_CALL_METHOD(&_7, this_ptr, "_handleexception", NULL, e);
 				zephir_check_call_status();

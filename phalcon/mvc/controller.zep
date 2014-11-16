@@ -70,5 +70,4 @@ abstract class Controller extends Injectable
 			this->{"onConstruct"}();
 		}
 	}
-
 }

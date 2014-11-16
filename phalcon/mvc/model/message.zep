@@ -185,5 +185,4 @@ class Message implements MessageInterface
 	{
 		return new self(message["_message"], message["_field"], message["_type"]);
 	}
-
 }
