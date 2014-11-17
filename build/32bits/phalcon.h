@@ -1353,6 +1353,25 @@ zend_class_entry *phalcon_db_column_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Db_Column);
 
+#define PHALCON_DB_COLUMN_TYPE_INTEGER			0
+#define PHALCON_DB_COLUMN_TYPE_DATE				1
+#define PHALCON_DB_COLUMN_TYPE_VARCHAR			2
+#define PHALCON_DB_COLUMN_TYPE_DECIMAL			3
+#define PHALCON_DB_COLUMN_TYPE_DATETIME			4
+#define PHALCON_DB_COLUMN_TYPE_CHAR				5
+#define PHALCON_DB_COLUMN_TYPE_TEXT				6
+#define PHALCON_DB_COLUMN_TYPE_FLOAT			7
+#define PHALCON_DB_COLUMN_TYPE_BOOLEAN			8
+#define PHALCON_DB_COLUMN_TYPE_DOUBLE			9
+#define PHALCON_DB_COLUMN_TYPE_OTHER			100
+
+#define PHALCON_DB_COLUMN_BIND_PARAM_NULL		0
+#define PHALCON_DB_COLUMN_BIND_PARAM_INT		1
+#define PHALCON_DB_COLUMN_BIND_PARAM_STR		2
+#define PHALCON_DB_COLUMN_BIND_PARAM_BOOL		5
+#define PHALCON_DB_COLUMN_BIND_PARAM_DECIMAL	32
+#define PHALCON_DB_COLUMN_BIND_SKIP				1024
+
 #endif /* PHALCON_DB_COLUMN_H */
 
 
@@ -2969,6 +2988,18 @@ PHALCON_INIT_CLASS(Phalcon_Http_Uri);
 #endif /* PHALCON_HTTP_URI_H */
 
 
+#ifndef PHALCON_HTTP_CLIENT_H
+#define PHALCON_HTTP_CLIENT_H
+
+#include "php_phalcon.h"
+
+zend_class_entry *phalcon_http_client_ce;
+
+PHALCON_INIT_CLASS(Phalcon_Http_Client);
+
+#endif /* PHALCON_HTTP_CLIENT_H */
+
+
 zend_class_entry *phalcon_http_client_exception_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Http_Client_Exception);
@@ -3021,6 +3052,11 @@ PHALCON_INIT_CLASS(Phalcon_Http_Client_Adapter);
 zend_class_entry *phalcon_http_client_adapterinterface_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Http_Client_AdapterInterface);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_client_adapterinterface___construct, 0, 0, 2)
+	ZEND_ARG_INFO(0, uri)
+	ZEND_ARG_INFO(0, method)
+ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_client_adapterinterface_setuseragent, 0, 0, 1)
 	ZEND_ARG_INFO(0, useragent)
@@ -3076,7 +3112,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_client_adapterinterface_delete, 0, 0
 	ZEND_ARG_INFO(0, data)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_client_adapterinterface_setbaseuri, 0, 0, 1)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_client_adapterinterface_setbaseuri, 0, 0, 0)
 	ZEND_ARG_INFO(0, uri)
 ZEND_END_ARG_INFO()
 
@@ -3090,6 +3126,10 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_client_adapterinterface_setmethod, 0, 0, 1)
 	ZEND_ARG_INFO(0, method)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_client_adapterinterface_send, 0, 0, 0)
+	ZEND_ARG_INFO(0, uri)
 ZEND_END_ARG_INFO()
 
 #endif /* PHALCON_HTTP_CLIENT_ADAPTERINTERFACE_H */
@@ -4377,6 +4417,8 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_modelinterface_appendmessage, 0, 0, 1)
 	ZEND_ARG_INFO(0, message)
+	ZEND_ARG_INFO(0, field)
+	ZEND_ARG_INFO(0, type)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_modelinterface_getmessages, 0, 0, 0)
@@ -4877,12 +4919,36 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_metadatainterface_getnotnullatt
 	ZEND_ARG_INFO(0, model)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_metadatainterface_isnotnull, 0, 0, 2)
+	ZEND_ARG_INFO(0, model)
+	ZEND_ARG_INFO(0, attribute)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_metadatainterface_getdatatypes, 0, 0, 1)
 	ZEND_ARG_INFO(0, model)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_metadatainterface_getdatatype, 0, 0, 2)
+	ZEND_ARG_INFO(0, model)
+	ZEND_ARG_INFO(0, attribute)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_metadatainterface_getdatasizes, 0, 0, 1)
+	ZEND_ARG_INFO(0, model)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_metadatainterface_getdatasize, 0, 0, 2)
+	ZEND_ARG_INFO(0, model)
+	ZEND_ARG_INFO(0, attribute)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_metadatainterface_getdatatypesnumeric, 0, 0, 1)
 	ZEND_ARG_INFO(0, model)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_metadatainterface_isnumeric, 0, 0, 2)
+	ZEND_ARG_INFO(0, model)
+	ZEND_ARG_INFO(0, attribute)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_metadatainterface_getidentityfield, 0, 0, 1)
@@ -5312,18 +5378,6 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Resultset);
 
 #define PHALCON_MVC_MODEL_RESULTSET_TYPE_FULL       0
 #define PHALCON_MVC_MODEL_RESULTSET_TYPE_PARTIAL    1
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_resultset_sethydratemode, 0, 0, 1)
-	ZEND_ARG_INFO(0, hydrateMode)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_resultset_delete, 0, 0, 0)
-	ZEND_ARG_INFO(0, conditionCallback)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_resultset_filter, 0, 0, 1)
-	ZEND_ARG_INFO(0, filter)
-ZEND_END_ARG_INFO()
 
 #endif /* PHALCON_MVC_MODEL_RESULTSET_H */
 
@@ -6059,6 +6113,16 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_engineinterface_render, 0, 0, 2)
 	ZEND_ARG_INFO(0, path)
 	ZEND_ARG_INFO(0, params)
 	ZEND_ARG_INFO(0, mustClean)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_engineinterface_addmethod, 0, 0, 2)
+	ZEND_ARG_INFO(0, name)
+	ZEND_ARG_INFO(0, handler)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_engineinterface___call, 0, 0, 1)
+	ZEND_ARG_INFO(0, method)
+	ZEND_ARG_INFO(0, arguments)
 ZEND_END_ARG_INFO()
 
 #endif /* PHALCON_MVC_VIEW_ENGINEINTERFACE_H */
