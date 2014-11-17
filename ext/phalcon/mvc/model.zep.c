@@ -5605,7 +5605,6 @@ PHP_METHOD(Phalcon_Mvc_Model, dump) {
  */
 PHP_METHOD(Phalcon_Mvc_Model, toArray) {
 
-	zend_bool _7;
 	zephir_fcall_cache_entry *_6 = NULL;
 	HashTable *_2;
 	HashPosition _1;
@@ -5651,11 +5650,7 @@ PHP_METHOD(Phalcon_Mvc_Model, toArray) {
 			ZEPHIR_CPY_WRT(attributeField, attribute);
 		}
 		if (Z_TYPE_P(columns) == IS_ARRAY) {
-			_7 = !zephir_fast_in_array(attributeField, columns TSRMLS_CC);
-			if (_7) {
-				_7 = !zephir_fast_in_array(attribute, columns TSRMLS_CC);
-			}
-			if (_7) {
+			if (!(zephir_fast_in_array(attributeField, columns TSRMLS_CC))) {
 				continue;
 			}
 		}

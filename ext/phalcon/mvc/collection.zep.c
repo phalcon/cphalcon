@@ -292,7 +292,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, getEventsManager) {
  *
  * @return Phalcon\Mvc\Model\ManagerInterface
  */
-PHP_METHOD(Phalcon_Mvc_Collection, getModelsManager) {
+PHP_METHOD(Phalcon_Mvc_Collection, getCollectionManager) {
 
 
 	RETURN_MEMBER(this_ptr, "_modelsManager");
@@ -1420,7 +1420,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, findById) {
 			ZEPHIR_CALL_METHOD(NULL, collection, "__construct", NULL);
 			zephir_check_call_status();
 		}
-		ZEPHIR_CALL_METHOD(&_2, collection, "getmodelsmanager", NULL);
+		ZEPHIR_CALL_METHOD(&_2, collection, "getcollectionmanager", NULL);
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(&_3, _2, "isusingimplicitobjectids", NULL, collection);
 		zephir_check_call_status();

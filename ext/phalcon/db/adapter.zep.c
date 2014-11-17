@@ -491,6 +491,7 @@ PHP_METHOD(Phalcon_Db_Adapter, fetchColumn) {
  */
 PHP_METHOD(Phalcon_Db_Adapter, insert) {
 
+	zephir_fcall_cache_entry *_11 = NULL;
 	zval *_5 = NULL;
 	HashTable *_3, *_8;
 	HashPosition _2, _7;
@@ -587,7 +588,7 @@ PHP_METHOD(Phalcon_Db_Adapter, insert) {
 			  ; zephir_hash_move_forward_ex(_8, &_7)
 			) {
 				ZEPHIR_GET_HVALUE(field, _9);
-				ZEPHIR_CALL_METHOD(&_10, this_ptr, "escapeidentifier", NULL, field);
+				ZEPHIR_CALL_METHOD(&_10, this_ptr, "escapeidentifier", &_11, field);
 				zephir_check_call_status();
 				zephir_array_append(&escapedFields, _10, PH_SEPARATE, "phalcon/db/adapter.zep", 367);
 			}
@@ -718,10 +719,11 @@ PHP_METHOD(Phalcon_Db_Adapter, insertAsDict) {
  */
 PHP_METHOD(Phalcon_Db_Adapter, update) {
 
+	zephir_fcall_cache_entry *_3 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
 	HashTable *_1;
 	HashPosition _0;
-	zval *table, *fields, *values, *whereCondition = NULL, *dataTypes = NULL, *placeholders, *updateValues, *position = NULL, *value = NULL, *field = NULL, *bindDataTypes = NULL, *escapedField = NULL, *bindType = NULL, *escapedTable = NULL, *setClause, *updateSql, *conditions, *whereBind, *whereTypes, **_2, *_3 = NULL, *_4 = NULL;
+	zval *table, *fields, *values, *whereCondition = NULL, *dataTypes = NULL, *placeholders, *updateValues, *position = NULL, *value = NULL, *field = NULL, *bindDataTypes = NULL, *escapedField = NULL, *bindType = NULL, *escapedTable = NULL, *setClause, *updateSql, *conditions, *whereBind, *whereTypes, **_2, *_4 = NULL, *_5 = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 3, 2, &table, &fields, &values, &whereCondition, &dataTypes);
@@ -757,20 +759,20 @@ PHP_METHOD(Phalcon_Db_Adapter, update) {
 			return;
 		}
 		if (ZEPHIR_GLOBAL(db).escape_identifiers) {
-			ZEPHIR_CALL_METHOD(&escapedField, this_ptr, "escapeidentifier", NULL, field);
+			ZEPHIR_CALL_METHOD(&escapedField, this_ptr, "escapeidentifier", &_3, field);
 			zephir_check_call_status();
 		} else {
 			ZEPHIR_CPY_WRT(escapedField, field);
 		}
 		if (Z_TYPE_P(value) == IS_OBJECT) {
-			ZEPHIR_INIT_LNVAR(_3);
-			ZEPHIR_CONCAT_VSV(_3, escapedField, " = ", value);
-			zephir_array_append(&placeholders, _3, PH_SEPARATE, "phalcon/db/adapter.zep", 497);
+			ZEPHIR_INIT_LNVAR(_4);
+			ZEPHIR_CONCAT_VSV(_4, escapedField, " = ", value);
+			zephir_array_append(&placeholders, _4, PH_SEPARATE, "phalcon/db/adapter.zep", 497);
 		} else {
 			if (Z_TYPE_P(value) == IS_NULL) {
-				ZEPHIR_INIT_LNVAR(_3);
-				ZEPHIR_CONCAT_VS(_3, escapedField, " = null");
-				zephir_array_append(&placeholders, _3, PH_SEPARATE, "phalcon/db/adapter.zep", 500);
+				ZEPHIR_INIT_LNVAR(_4);
+				ZEPHIR_CONCAT_VS(_4, escapedField, " = null");
+				zephir_array_append(&placeholders, _4, PH_SEPARATE, "phalcon/db/adapter.zep", 500);
 			} else {
 				zephir_array_append(&updateValues, value, PH_SEPARATE, "phalcon/db/adapter.zep", 502);
 				if (Z_TYPE_P(dataTypes) == IS_ARRAY) {
@@ -781,9 +783,9 @@ PHP_METHOD(Phalcon_Db_Adapter, update) {
 					}
 					zephir_array_append(&bindDataTypes, bindType, PH_SEPARATE, "phalcon/db/adapter.zep", 507);
 				}
-				ZEPHIR_INIT_LNVAR(_4);
-				ZEPHIR_CONCAT_VS(_4, escapedField, " = ?");
-				zephir_array_append(&placeholders, _4, PH_SEPARATE, "phalcon/db/adapter.zep", 509);
+				ZEPHIR_INIT_LNVAR(_5);
+				ZEPHIR_CONCAT_VS(_5, escapedField, " = ?");
+				zephir_array_append(&placeholders, _5, PH_SEPARATE, "phalcon/db/adapter.zep", 509);
 			}
 		}
 	}

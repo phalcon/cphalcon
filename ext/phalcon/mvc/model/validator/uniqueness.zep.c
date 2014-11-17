@@ -129,7 +129,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate) {
 	zephir_check_temp_parameter(_0);
 	zephir_check_call_status();
 	if (Z_TYPE_P(field) == IS_ARRAY) {
-		zephir_is_iterable(field, &_2, &_1, 0, 0, "phalcon/mvc/model/validator/uniqueness.zep", 123);
+		zephir_is_iterable(field, &_2, &_1, 0, 0, "phalcon/mvc/model/validator/uniqueness.zep", 124);
 		for (
 		  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_2, &_1)
@@ -144,7 +144,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate) {
 					ZEPHIR_CONCAT_SVS(_5, "Column '", composeField, "' isn't part of the column map");
 					ZEPHIR_CALL_METHOD(NULL, _4, "__construct", &_6, _5);
 					zephir_check_call_status();
-					zephir_throw_exception_debug(_4, "phalcon/mvc/model/validator/uniqueness.zep", 100 TSRMLS_CC);
+					zephir_throw_exception_debug(_4, "phalcon/mvc/model/validator/uniqueness.zep", 101 TSRMLS_CC);
 					ZEPHIR_MM_RESTORE();
 					return;
 				}
@@ -159,7 +159,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate) {
 				ZEPHIR_CONCAT_SVS(_5, "Column '", columnField, "' isn't part of the table columns");
 				ZEPHIR_CALL_METHOD(NULL, _4, "__construct", &_6, _5);
 				zephir_check_call_status();
-				zephir_throw_exception_debug(_4, "phalcon/mvc/model/validator/uniqueness.zep", 110 TSRMLS_CC);
+				zephir_throw_exception_debug(_4, "phalcon/mvc/model/validator/uniqueness.zep", 111 TSRMLS_CC);
 				ZEPHIR_MM_RESTORE();
 				return;
 			}
@@ -167,11 +167,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate) {
 			ZVAL_LONG(&_7, number);
 			ZEPHIR_INIT_LNVAR(_4);
 			ZEPHIR_CONCAT_SVSV(_4, "[", composeField, "] = ?", &_7);
-			zephir_array_append(&conditions, _4, PH_SEPARATE, "phalcon/mvc/model/validator/uniqueness.zep", 116);
+			zephir_array_append(&conditions, _4, PH_SEPARATE, "phalcon/mvc/model/validator/uniqueness.zep", 117);
 			ZEPHIR_CALL_METHOD(&_8, record, "readattribute", NULL, composeField);
 			zephir_check_call_status();
-			zephir_array_append(&bindParams, _8, PH_SEPARATE, "phalcon/mvc/model/validator/uniqueness.zep", 117);
-			zephir_array_append(&bindTypes, bindType, PH_SEPARATE, "phalcon/mvc/model/validator/uniqueness.zep", 118);
+			zephir_array_append(&bindParams, _8, PH_SEPARATE, "phalcon/mvc/model/validator/uniqueness.zep", 118);
+			zephir_array_append(&bindTypes, bindType, PH_SEPARATE, "phalcon/mvc/model/validator/uniqueness.zep", 119);
 			number++;
 		}
 	} else {
@@ -184,7 +184,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate) {
 				ZEPHIR_CONCAT_SVS(_10, "Column '", field, "' isn't part of the column map");
 				ZEPHIR_CALL_METHOD(NULL, _9, "__construct", &_6, _10);
 				zephir_check_call_status();
-				zephir_throw_exception_debug(_9, "phalcon/mvc/model/validator/uniqueness.zep", 130 TSRMLS_CC);
+				zephir_throw_exception_debug(_9, "phalcon/mvc/model/validator/uniqueness.zep", 131 TSRMLS_CC);
 				ZEPHIR_MM_RESTORE();
 				return;
 			}
@@ -199,17 +199,17 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate) {
 			ZEPHIR_CONCAT_SVS(_10, "Column '", columnField, "' isn't part of the table columns");
 			ZEPHIR_CALL_METHOD(NULL, _9, "__construct", &_6, _10);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(_9, "phalcon/mvc/model/validator/uniqueness.zep", 140 TSRMLS_CC);
+			zephir_throw_exception_debug(_9, "phalcon/mvc/model/validator/uniqueness.zep", 141 TSRMLS_CC);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
 		ZEPHIR_INIT_LNVAR(_9);
 		ZEPHIR_CONCAT_SVS(_9, "[", field, "] = ?0");
-		zephir_array_append(&conditions, _9, PH_SEPARATE, "phalcon/mvc/model/validator/uniqueness.zep", 146);
+		zephir_array_append(&conditions, _9, PH_SEPARATE, "phalcon/mvc/model/validator/uniqueness.zep", 147);
 		ZEPHIR_CALL_METHOD(&_8, record, "readattribute", NULL, field);
 		zephir_check_call_status();
-		zephir_array_append(&bindParams, _8, PH_SEPARATE, "phalcon/mvc/model/validator/uniqueness.zep", 147);
-		zephir_array_append(&bindTypes, bindType, PH_SEPARATE, "phalcon/mvc/model/validator/uniqueness.zep", 148);
+		zephir_array_append(&bindParams, _8, PH_SEPARATE, "phalcon/mvc/model/validator/uniqueness.zep", 148);
+		zephir_array_append(&bindTypes, bindType, PH_SEPARATE, "phalcon/mvc/model/validator/uniqueness.zep", 149);
 		number++;
 	}
 	ZEPHIR_CALL_METHOD(&_11, record, "getoperationmade", NULL);
@@ -224,7 +224,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate) {
 		}
 		ZEPHIR_CALL_METHOD(&_8, metaData, "getprimarykeyattributes", NULL, record);
 		zephir_check_call_status();
-		zephir_is_iterable(_8, &_13, &_12, 0, 0, "phalcon/mvc/model/validator/uniqueness.zep", 193);
+		zephir_is_iterable(_8, &_13, &_12, 0, 0, "phalcon/mvc/model/validator/uniqueness.zep", 194);
 		for (
 		  ; zephir_hash_get_current_data_ex(_13, (void**) &_14, &_12) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_13, &_12)
@@ -238,7 +238,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate) {
 				ZEPHIR_CONCAT_SVS(_16, "Column '", primaryField, "' isn't part of the table columns");
 				ZEPHIR_CALL_METHOD(NULL, _15, "__construct", &_6, _16);
 				zephir_check_call_status();
-				zephir_throw_exception_debug(_15, "phalcon/mvc/model/validator/uniqueness.zep", 170 TSRMLS_CC);
+				zephir_throw_exception_debug(_15, "phalcon/mvc/model/validator/uniqueness.zep", 171 TSRMLS_CC);
 				ZEPHIR_MM_RESTORE();
 				return;
 			}
@@ -251,7 +251,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate) {
 					ZEPHIR_CONCAT_SVS(_10, "Column '", primaryField, "' isn't part of the column map");
 					ZEPHIR_CALL_METHOD(NULL, _9, "__construct", &_6, _10);
 					zephir_check_call_status();
-					zephir_throw_exception_debug(_9, "phalcon/mvc/model/validator/uniqueness.zep", 178 TSRMLS_CC);
+					zephir_throw_exception_debug(_9, "phalcon/mvc/model/validator/uniqueness.zep", 179 TSRMLS_CC);
 					ZEPHIR_MM_RESTORE();
 					return;
 				}
@@ -262,11 +262,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate) {
 			ZVAL_LONG(&_7, number);
 			ZEPHIR_INIT_LNVAR(_4);
 			ZEPHIR_CONCAT_SVSV(_4, "[", attributeField, "] <> ?", &_7);
-			zephir_array_append(&conditions, _4, PH_SEPARATE, "phalcon/mvc/model/validator/uniqueness.zep", 187);
+			zephir_array_append(&conditions, _4, PH_SEPARATE, "phalcon/mvc/model/validator/uniqueness.zep", 188);
 			ZEPHIR_CALL_METHOD(&_17, record, "readattribute", NULL, primaryField);
 			zephir_check_call_status();
-			zephir_array_append(&bindParams, _17, PH_SEPARATE, "phalcon/mvc/model/validator/uniqueness.zep", 188);
-			zephir_array_append(&bindTypes, bindType, PH_SEPARATE, "phalcon/mvc/model/validator/uniqueness.zep", 189);
+			zephir_array_append(&bindParams, _17, PH_SEPARATE, "phalcon/mvc/model/validator/uniqueness.zep", 189);
+			zephir_array_append(&bindTypes, bindType, PH_SEPARATE, "phalcon/mvc/model/validator/uniqueness.zep", 190);
 			number++;
 		}
 	}

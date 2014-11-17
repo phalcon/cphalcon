@@ -207,12 +207,13 @@ PHP_METHOD(Phalcon_Http_Response, getDI) {
  */
 PHP_METHOD(Phalcon_Http_Response, setStatusCode) {
 
+	zephir_fcall_cache_entry *_8 = NULL;
 	zephir_nts_static zephir_fcall_cache_entry *_7 = NULL;
 	zend_bool _4;
 	HashTable *_2;
 	HashPosition _1;
-	zval *message = NULL, *_10, *_12;
-	zval *code_param = NULL, *message_param = NULL, *headers = NULL, *currentHeadersRaw = NULL, *key = NULL, *defaultMessage, *_0 = NULL, **_3, _5 = zval_used_for_init, *_6 = NULL, *_8, *_9, _11;
+	zval *message = NULL, *_11, *_13;
+	zval *code_param = NULL, *message_param = NULL, *headers = NULL, *currentHeadersRaw = NULL, *key = NULL, *defaultMessage, *_0 = NULL, **_3, _5 = zval_used_for_init, *_6 = NULL, *_9, *_10, _12;
 	int code, ZEPHIR_LAST_CALL_STATUS;
 
 	ZEPHIR_MM_GROW();
@@ -249,35 +250,35 @@ PHP_METHOD(Phalcon_Http_Response, setStatusCode) {
 				_4 = zephir_is_true(_6);
 			}
 			if (_4) {
-				ZEPHIR_CALL_METHOD(NULL, headers, "remove", NULL, key);
+				ZEPHIR_CALL_METHOD(NULL, headers, "remove", &_8, key);
 				zephir_check_call_status();
 			}
 		}
 	}
 	if (ZEPHIR_IS_STRING_IDENTICAL(message, "")) {
-		_8 = zephir_fetch_nproperty_this(this_ptr, SL("_statusCodes"), PH_NOISY_CC);
-		if (!(zephir_array_isset_long(_8, code))) {
+		_9 = zephir_fetch_nproperty_this(this_ptr, SL("_statusCodes"), PH_NOISY_CC);
+		if (!(zephir_array_isset_long(_9, code))) {
 			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_http_response_exception_ce, "Non-standard statuscode given withou a message.", "phalcon/http/response.zep", 205);
 			return;
 		}
-		_9 = zephir_fetch_nproperty_this(this_ptr, SL("_statusCodes"), PH_NOISY_CC);
+		_10 = zephir_fetch_nproperty_this(this_ptr, SL("_statusCodes"), PH_NOISY_CC);
 		ZEPHIR_OBS_VAR(defaultMessage);
-		zephir_array_fetch_long(&defaultMessage, _9, code, PH_NOISY, "phalcon/http/response.zep", 208 TSRMLS_CC);
+		zephir_array_fetch_long(&defaultMessage, _10, code, PH_NOISY, "phalcon/http/response.zep", 208 TSRMLS_CC);
 		zephir_get_strval(message, defaultMessage);
 	}
 	ZEPHIR_SINIT_NVAR(_5);
 	ZVAL_LONG(&_5, code);
-	ZEPHIR_INIT_VAR(_10);
-	ZEPHIR_CONCAT_SVSV(_10, "HTTP/1.1 ", &_5, " ", message);
-	ZEPHIR_CALL_METHOD(NULL, headers, "setraw", NULL, _10);
+	ZEPHIR_INIT_VAR(_11);
+	ZEPHIR_CONCAT_SVSV(_11, "HTTP/1.1 ", &_5, " ", message);
+	ZEPHIR_CALL_METHOD(NULL, headers, "setraw", NULL, _11);
 	zephir_check_call_status();
-	ZEPHIR_SINIT_VAR(_11);
-	ZVAL_LONG(&_11, code);
-	ZEPHIR_INIT_VAR(_12);
-	ZEPHIR_CONCAT_VSV(_12, &_11, " ", message);
+	ZEPHIR_SINIT_VAR(_12);
+	ZVAL_LONG(&_12, code);
+	ZEPHIR_INIT_VAR(_13);
+	ZEPHIR_CONCAT_VSV(_13, &_12, " ", message);
 	ZEPHIR_INIT_NVAR(_0);
 	ZVAL_STRING(_0, "Status", ZEPHIR_TEMP_PARAM_COPY);
-	ZEPHIR_CALL_METHOD(NULL, headers, "set", NULL, _0, _12);
+	ZEPHIR_CALL_METHOD(NULL, headers, "set", NULL, _0, _13);
 	zephir_check_temp_parameter(_0);
 	zephir_check_call_status();
 	zephir_update_property_this(this_ptr, SL("_headers"), headers TSRMLS_CC);

@@ -661,7 +661,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, rightJoin) {
 	ZEPHIR_INIT_VAR(_1);
 	ZVAL_STRING(_1, "RIGHT", 1);
 	zephir_array_fast_append(_0, _1);
-	zephir_update_property_this(this_ptr, SL("_joins"), _0 TSRMLS_CC);
+	zephir_update_property_array_append(this_ptr, SL("_joins"), _0 TSRMLS_CC);
 	RETURN_THIS();
 
 }

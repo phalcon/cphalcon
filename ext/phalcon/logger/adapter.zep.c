@@ -157,6 +157,7 @@ PHP_METHOD(Phalcon_Logger_Adapter, begin) {
  */
 PHP_METHOD(Phalcon_Logger_Adapter, commit) {
 
+	zephir_fcall_cache_entry *_8 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
 	HashTable *_2;
 	HashPosition _1;
@@ -187,7 +188,7 @@ PHP_METHOD(Phalcon_Logger_Adapter, commit) {
 			zephir_check_call_status();
 			ZEPHIR_CALL_METHOD(&_7, message, "getcontext", NULL);
 			zephir_check_call_status();
-			ZEPHIR_CALL_METHOD(NULL, this_ptr, "loginternal", NULL, _4, _5, _6, _7);
+			ZEPHIR_CALL_METHOD(NULL, this_ptr, "loginternal", &_8, _4, _5, _6, _7);
 			zephir_check_call_status();
 		}
 	}
