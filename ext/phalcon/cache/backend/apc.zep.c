@@ -358,7 +358,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, queryKeys) {
 	zend_object_iterator *_3;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zephir_nts_static zend_class_entry *_1 = NULL;
-	zval *prefix_param = NULL, *prefixPattern = NULL, *apc, *keys, *key = NULL, *item = NULL, *_2, _4 = zval_used_for_init, *_5 = NULL;
+	zval *prefix_param = NULL, *prefixPattern = NULL, *apc, *keys, *key = NULL, *_2 = NULL, _4 = zval_used_for_init, *_5 = NULL;
 	zval *prefix = NULL, *_0;
 
 	ZEPHIR_MM_GROW();
@@ -394,13 +394,14 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, queryKeys) {
 		zephir_check_temp_parameter(_2);
 		zephir_check_call_status();
 	}
+	ZEPHIR_INIT_NVAR(_2);
 	_3 = zephir_get_iterator(apc TSRMLS_CC);
 	_3->funcs->rewind(_3 TSRMLS_CC);
 	for (;_3->funcs->valid(_3 TSRMLS_CC) == SUCCESS && !EG(exception); _3->funcs->move_forward(_3 TSRMLS_CC)) {
 		ZEPHIR_GET_IMKEY(key, _3);
 		{ zval **tmp; 
 		_3->funcs->get_current_data(_3, &tmp TSRMLS_CC);
-		item = *tmp;
+		_ = *tmp;
 		}
 		ZEPHIR_SINIT_NVAR(_4);
 		ZVAL_LONG(&_4, 5);

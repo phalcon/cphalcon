@@ -210,9 +210,9 @@ class Apc extends Backend implements BackendInterface
 	 * @param string prefix
 	 * @return array
 	 */
-	public function queryKeys(string prefix = null)
+	public function queryKeys(string prefix = null) -> array
 	{
-		var prefixPattern, apc, keys, key, item;
+		var prefixPattern, apc, keys, key;
 
 		if !prefix {
 			let prefixPattern = "/^_PHCA/";
@@ -223,7 +223,7 @@ class Apc extends Backend implements BackendInterface
 		let keys = [],
 			apc = new \APCIterator("user", prefixPattern);
 
-		for key, item in iterator(apc) {
+		for key, _ in iterator(apc) {
 			let keys[] = substr(key, 5);
 		}
 

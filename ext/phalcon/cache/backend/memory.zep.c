@@ -216,9 +216,9 @@ PHP_METHOD(Phalcon_Cache_Backend_Memory, delete) {
  */
 PHP_METHOD(Phalcon_Cache_Backend_Memory, queryKeys) {
 
-	HashTable *_1;
-	HashPosition _0;
-	zval *prefix = NULL, *data, *keys = NULL, *index = NULL, *value = NULL, **_2;
+	HashTable *_2;
+	HashPosition _1;
+	zval *prefix = NULL, *data, *keys = NULL, *index = NULL, *_0 = NULL, **_3;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &prefix);
@@ -237,13 +237,14 @@ PHP_METHOD(Phalcon_Cache_Backend_Memory, queryKeys) {
 			ZEPHIR_INIT_NVAR(keys);
 			zephir_array_keys(keys, data TSRMLS_CC);
 		} else {
-			zephir_is_iterable(data, &_1, &_0, 0, 0, "phalcon/cache/backend/memory.zep", 161);
+			ZEPHIR_INIT_VAR(_0);
+			zephir_is_iterable(data, &_2, &_1, 0, 0, "phalcon/cache/backend/memory.zep", 161);
 			for (
-			  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
-			  ; zephir_hash_move_forward_ex(_1, &_0)
+			  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
+			  ; zephir_hash_move_forward_ex(_2, &_1)
 			) {
-				ZEPHIR_GET_HMKEY(index, _1, _0);
-				ZEPHIR_GET_HVALUE(value, _2);
+				ZEPHIR_GET_HMKEY(index, _2, _1);
+				ZEPHIR_GET_HVALUE(_0, _3);
 				zephir_array_append(&keys, index, PH_SEPARATE, "phalcon/cache/backend/memory.zep", 159);
 			}
 		}

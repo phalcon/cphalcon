@@ -372,6 +372,7 @@ PHP_METHOD(Phalcon_Db_Adapter, fetchOne) {
  */
 PHP_METHOD(Phalcon_Db_Adapter, fetchAll) {
 
+	zephir_fcall_cache_entry *_0 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *sqlQuery_param = NULL, *fetchMode = NULL, *bindParams = NULL, *bindTypes = NULL, *results, *result = NULL, *row = NULL;
 	zval *sqlQuery = NULL;
@@ -402,7 +403,7 @@ PHP_METHOD(Phalcon_Db_Adapter, fetchAll) {
 			zephir_check_call_status();
 		}
 		while (1) {
-			ZEPHIR_CALL_METHOD(&row, result, "fetch",  NULL);
+			ZEPHIR_CALL_METHOD(&row, result, "fetch",  &_0);
 			zephir_check_call_status();
 			if (!(zephir_is_true(row))) {
 				break;

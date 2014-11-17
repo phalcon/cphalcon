@@ -297,9 +297,9 @@ class Memcache extends Backend implements BackendInterface
 	 * @param string prefix
 	 * @return array
 	 */
-	public function queryKeys(prefix = null)
+	public function queryKeys(prefix = null) -> array
 	{
-		var memcache, options, keys, specialKey, key, value, realKey;
+		var memcache, options, keys, specialKey, key, realKey;
 
 		let memcache = this->_memcache;
 
@@ -320,7 +320,7 @@ class Memcache extends Backend implements BackendInterface
 		let realKey = [];
 		let keys = memcache->get(specialKey);
 		if typeof keys == "array" {
-			for key, value in keys {
+			for key, _ in keys {
 				if !prefix || starts_with(key, prefix) {
 					let realKey[] = key;
 				}

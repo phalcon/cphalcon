@@ -145,9 +145,9 @@ class Memory extends Backend implements BackendInterface
 	 * @param string|int prefix
 	 * @return array
 	 */
-	public function queryKeys(var prefix = null)
+	public function queryKeys(var prefix = null) -> array
 	{
-		var data, keys, index, value;
+		var data, keys, index;
 
 		let data = this->_data;
 		let keys = [];
@@ -155,7 +155,7 @@ class Memory extends Backend implements BackendInterface
 			if !prefix {
 				let keys = array_keys(data);
 			} else {
-				for index, value in data {
+				for index, _ in data {
 					let keys[] = index;
 				}
 			}
@@ -170,7 +170,7 @@ class Memory extends Backend implements BackendInterface
 	 * @param  long lifetime
 	 * @return boolean
 	 */
-	public function exists(var keyName = null, lifetime = null)
+	public function exists(var keyName = null, lifetime = null) -> boolean
 	{
 		var lastKey;
 
@@ -268,7 +268,7 @@ class Memory extends Backend implements BackendInterface
 	 *
 	 * @return boolean
 	 */
-	public function flush()
+	public function flush() -> boolean
 	{
 		let this->_data = null;
 		return true;
