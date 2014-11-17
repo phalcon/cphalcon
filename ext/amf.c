@@ -617,12 +617,13 @@ static int phalcon_amf_decode_object(zval **val, const char *buf, int pos, int s
 
 static int phalcon_amf_decode_value(zval **val, const char *buf, int pos, int size, int opts, HashTable *sht, HashTable *oht, HashTable *tht TSRMLS_DC) {
 	int old = pos, ofs;
+	unsigned char type;
 	if (pos >= size) {
 		php_error(E_WARNING, "Insufficient type data at position %d", pos);
 		return -1;
 	}
 
-	int type = buf[pos++];
+	type = buf[pos++];
 	switch (type) {
 		case PHALCON_AMF3_UNDEFINED:
 		case PHALCON_AMF3_NULL:
