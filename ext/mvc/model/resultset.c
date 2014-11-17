@@ -829,7 +829,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, update){
 		if (PHALCON_IS_FALSE(transaction)) {
 
 			/** 
-			 * We only can delete resultsets whose every element is a complete object
+			 * We only can update resultsets whose every element is a complete object
 			 */
 			if (phalcon_method_exists_ex(record, SS("getwriteconnection") TSRMLS_CC) == FAILURE) {
 				PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The returned record is not valid");
@@ -860,7 +860,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, update){
 		}
 
 		/** 
-		 * Try to delete the record
+		 * Try to update the record
 		 */
 		PHALCON_CALL_METHOD(&status, record, "save", data);
 		if (!zend_is_true(status)) {
