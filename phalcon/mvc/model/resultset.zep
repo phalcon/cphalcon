@@ -429,6 +429,73 @@ abstract class Resultset
 	}
 
 	/**
+	 * Updates every record in the resultset
+	 *
+	 * @param array data
+	 * @param Closure conditionCallback
+	 * @return boolean
+	 */
+	public function update(var data, <\Closure> conditionCallback = null) -> boolean
+	{
+		boolean transaction;
+		var record, connection = null;
+
+		let transaction = false;
+		for record in iterator(this) {
+
+			if transaction === false {
+
+				/**
+				 * We only can update resultsets if every element is a complete object
+				 */
+				if !method_exists(record, "getWriteConnection") {
+					throw new Exception("The returned record is not valid");
+				}
+
+				let connection = record->getWriteConnection(),
+					transaction = true;
+				connection->begin();
+			}
+
+			/**
+			 * Perform additional validations
+			 */
+			if typeof conditionCallback == "object" {
+				if call_user_func_array(conditionCallback, [record]) === false {
+					continue;
+				}
+			}
+
+			/**
+			 * Try to update the record
+			 */
+			if !record->save(data) {
+
+				/**
+				 * Get the messages from the record that produce the error
+				 */
+				let this->_errorMessages = record->getMessages();
+
+				/**
+				 * Rollback the transaction
+				 */
+				connection->rollback();
+				let transaction = false;
+				break;
+			}
+		}
+
+		/**
+		 * Commit the transaction
+		 */
+		if transaction === true {
+			connection->commit();
+		}
+
+		return true;
+	}
+
+	/**
 	 * Deletes every record in the resultset
 	 *
 	 * @param Closure conditionCallback
