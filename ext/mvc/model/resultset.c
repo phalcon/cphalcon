@@ -81,6 +81,24 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, current);
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, getMessages);
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, delete);
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, filter);
+PHP_METHOD(Phalcon_Mvc_Model_Resultset, update);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_resultset_sethydratemode, 0, 0, 1)
+	ZEND_ARG_INFO(0, hydrateMode)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_resultset_delete, 0, 0, 0)
+	ZEND_ARG_INFO(0, conditionCallback)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_resultset_filter, 0, 0, 1)
+	ZEND_ARG_INFO(0, filter)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_resultset_update, 0, 0, 1)
+	ZEND_ARG_INFO(0, data)
+	ZEND_ARG_INFO(0, conditionCallback)
+ZEND_END_ARG_INFO()
 
 static const zend_function_entry phalcon_mvc_model_resultset_method_entry[] = {
 	PHP_ME(Phalcon_Mvc_Model_Resultset, next, arginfo_iterator_next, ZEND_ACC_PUBLIC)
@@ -104,6 +122,7 @@ static const zend_function_entry phalcon_mvc_model_resultset_method_entry[] = {
 	PHP_ME(Phalcon_Mvc_Model_Resultset, getMessages, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Resultset, delete, arginfo_phalcon_mvc_model_resultset_delete, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Resultset, filter, arginfo_phalcon_mvc_model_resultset_filter, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Resultset, update, arginfo_phalcon_mvc_model_resultset_update, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };
 
@@ -144,7 +163,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, next){
 
 
 	phalcon_property_incr(this_ptr, SL("_pointer") TSRMLS_CC);
-	
+
 }
 
 /**
@@ -170,13 +189,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, rewind){
 
 	type = phalcon_fetch_nproperty_this(this_ptr, SL("_type"), PH_NOISY TSRMLS_CC);
 	if (zend_is_true(type)) {
-	
+
 		/** 
 		 * Here, the resultset act as a result that is fetched one by one
 		 */
 		zval *result = phalcon_fetch_nproperty_this(this_ptr, SL("_result"), PH_NOISY TSRMLS_CC);
 		if (PHALCON_IS_NOT_FALSE(result)) {
-	
+
 			zval *active_row = phalcon_fetch_nproperty_this(this_ptr, SL("_activeRow"), PH_NOISY TSRMLS_CC);
 			if (Z_TYPE_P(active_row) != IS_NULL) {
 				PHALCON_MM_GROW();
@@ -190,7 +209,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, rewind){
 		 */
 		zval *rows = phalcon_fetch_nproperty_this(this_ptr, SL("_rows"), PH_NOISY TSRMLS_CC);
 		if (Z_TYPE_P(rows) == IS_NULL) {
-	
+
 			zval *result = phalcon_fetch_nproperty_this(this_ptr, SL("_result"), PH_NOISY TSRMLS_CC);
 			if (Z_TYPE_P(result) == IS_OBJECT) {
 				zval *r = NULL;
@@ -207,7 +226,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, rewind){
 			zend_hash_internal_pointer_reset_ex(Z_ARRVAL_P(rows), NULL);
 		}
 	}
-	
+
 	phalcon_update_property_this(this_ptr, SL("_pointer"), z_zero TSRMLS_CC);
 }
 
@@ -308,19 +327,19 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, count){
 
 	PHALCON_OBS_VAR(count);
 	phalcon_read_property_this(&count, this_ptr, SL("_count"), PH_NOISY TSRMLS_CC);
-	
+
 	/** 
 	 * We only calculate the row number is it wasn't calculated before
 	 */
 	if (Z_TYPE_P(count) == IS_NULL) {
-	
+
 		PHALCON_INIT_NVAR(count);
 		ZVAL_LONG(count, 0);
-	
+
 		PHALCON_OBS_VAR(type);
 		phalcon_read_property_this(&type, this_ptr, SL("_type"), PH_NOISY TSRMLS_CC);
 		if (zend_is_true(type)) {
-	
+
 			/** 
 			 * Here, the resultset act as a result that is fetched one by one
 			 */
@@ -328,7 +347,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, count){
 			phalcon_read_property_this(&result, this_ptr, SL("_result"), PH_NOISY TSRMLS_CC);
 			if (PHALCON_IS_NOT_FALSE(result)) {
 				PHALCON_CALL_METHOD(&number_rows, result, "numrows");
-	
+
 				PHALCON_INIT_NVAR(count);
 				ZVAL_LONG(count, phalcon_get_intval(number_rows));
 			}
@@ -339,7 +358,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, count){
 			PHALCON_OBS_VAR(rows);
 			phalcon_read_property_this(&rows, this_ptr, SL("_rows"), PH_NOISY TSRMLS_CC);
 			if (Z_TYPE_P(rows) == IS_NULL) {
-	
+
 				PHALCON_OBS_NVAR(result);
 				phalcon_read_property_this(&result, this_ptr, SL("_result"), PH_NOISY TSRMLS_CC);
 				if (Z_TYPE_P(result) == IS_OBJECT) {
@@ -347,14 +366,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, count){
 					phalcon_update_property_this(this_ptr, SL("_rows"), rows TSRMLS_CC);
 				}
 			}
-	
+
 			PHALCON_INIT_NVAR(count);
 			phalcon_fast_count(count, rows TSRMLS_CC);
 		}
-	
+
 		phalcon_update_property_this(this_ptr, SL("_count"), count TSRMLS_CC);
 	}
-	
+
 	RETURN_CCTOR(count);
 }
 
@@ -369,7 +388,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetExists){
 	zval *index, *count = NULL;
 
 	phalcon_fetch_params(0, 1, 0, &index);
-	
+
 	PHALCON_CALL_METHODW(&count, this_ptr, "count");
 	is_smaller_function(return_value, index, count TSRMLS_CC);
 	zval_ptr_dtor(&count);
@@ -388,10 +407,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetGet){
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 1, 0, &index);
-	
+
 	PHALCON_CALL_METHOD(&count, this_ptr, "count");
 	if (PHALCON_LT(index, count)) {
-	
+
 		/** 
 		 * Check if the last record returned is the current requested
 		 */
@@ -401,12 +420,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetGet){
 			PHALCON_RETURN_CALL_METHOD(this_ptr, "current");
 			RETURN_MM();
 		}
-	
+
 		/** 
 		 * Move the cursor to the specific position
 		 */
 		PHALCON_CALL_METHOD(NULL, this_ptr, "seek", index);
-	
+
 		/** 
 		 * Check if the last record returned is the requested
 		 */
@@ -415,10 +434,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetGet){
 			PHALCON_RETURN_CALL_METHOD(this_ptr, "current");
 			RETURN_MM();
 		}
-	
+
 		RETURN_MM_FALSE;
 	}
-	
+
 	PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The index does not exist in the cursor");
 	return;
 }
@@ -434,7 +453,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetSet){
 	zval *index, *value;
 
 	phalcon_fetch_params(0, 2, 0, &index, &value);
-	
+
 	PHALCON_THROW_EXCEPTION_STRW(phalcon_mvc_model_exception_ce, "Cursor is an immutable ArrayAccess object");
 	return;
 }
@@ -449,7 +468,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetUnset){
 	zval *offset;
 
 	phalcon_fetch_params(0, 1, 0, &offset);
-	
+
 	PHALCON_THROW_EXCEPTION_STRW(phalcon_mvc_model_exception_ce, "Cursor is an immutable ArrayAccess object");
 	return;
 }
@@ -485,18 +504,18 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, getFirst){
 		PHALCON_RETURN_CALL_METHOD(this_ptr, "current");
 		RETURN_MM();
 	}
-	
+
 	/** 
 	 * Otherwise re-execute the statement
 	 */
 	PHALCON_CALL_METHOD(NULL, this_ptr, "rewind");
-	
+
 	PHALCON_CALL_METHOD(&valid, this_ptr, "valid");
 	if (PHALCON_IS_NOT_FALSE(valid)) {
 		PHALCON_RETURN_CALL_METHOD(this_ptr, "current");
 		RETURN_MM();
 	}
-	
+
 	RETURN_MM_FALSE;
 }
 
@@ -512,19 +531,19 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, getLast){
 	PHALCON_MM_GROW();
 
 	z_one = PHALCON_GLOBAL(z_one);
-	
+
 	PHALCON_CALL_METHOD(&count, this_ptr, "count");
-	
+
 	PHALCON_INIT_VAR(pre_count);
 	sub_function(pre_count, count, z_one TSRMLS_CC);
 	PHALCON_CALL_METHOD(NULL, this_ptr, "seek", pre_count);
-	
+
 	PHALCON_CALL_METHOD(&valid, this_ptr, "valid");
 	if (PHALCON_IS_NOT_FALSE(valid)) {
 		PHALCON_RETURN_CALL_METHOD(this_ptr, "current");
 		RETURN_MM();
 	}
-	
+
 	RETURN_MM_FALSE;
 }
 
@@ -539,7 +558,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, setIsFresh){
 	zval *is_fresh;
 
 	phalcon_fetch_params(0, 1, 0, &is_fresh);
-	
+
 	phalcon_update_property_this(this_ptr, SL("_isFresh"), is_fresh TSRMLS_CC);
 	RETURN_THISW();
 }
@@ -566,7 +585,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, setHydrateMode){
 	zval *hydrate_mode;
 
 	phalcon_fetch_params(0, 1, 0, &hydrate_mode);
-	
+
 	phalcon_update_property_this(this_ptr, SL("_hydrateMode"), hydrate_mode TSRMLS_CC);
 	RETURN_THISW();
 }
@@ -630,25 +649,25 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, delete){
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 0, 1, &condition_callback);
-	
+
 	if (!condition_callback) {
 		condition_callback = PHALCON_GLOBAL(z_null);
 	}
-	
+
 	PHALCON_INIT_VAR(transaction);
 	ZVAL_FALSE(transaction);
 	PHALCON_CALL_METHOD(NULL, this_ptr, "rewind");
-	
+
 	while (1) {
 		PHALCON_CALL_METHOD(&r0, this_ptr, "valid");
 		if (zend_is_true(r0)) {
 		} else {
 			break;
 		}
-	
+
 		PHALCON_CALL_METHOD(&record, this_ptr, "current");
 		if (PHALCON_IS_FALSE(transaction)) {
-	
+
 			/** 
 			 * We only can delete resultsets whose every element is a complete object
 			 */
@@ -656,30 +675,30 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, delete){
 				PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The returned record is not valid");
 				return;
 			}
-	
+
 			PHALCON_CALL_METHOD(&connection, record, "getwriteconnection");
 			PHALCON_CALL_METHOD(NULL, connection, "begin");
-	
+
 			PHALCON_INIT_NVAR(transaction);
 			ZVAL_TRUE(transaction);
 		}
-	
+
 		/** 
 		 * Perform additional validations
 		 */
 		if (Z_TYPE_P(condition_callback) == IS_OBJECT) {
-	
+
 			PHALCON_INIT_NVAR(parameters);
 			array_init_size(parameters, 1);
 			phalcon_array_append(&parameters, record, PH_SEPARATE);
-	
+
 			PHALCON_INIT_NVAR(status);/**/
 			PHALCON_CALL_USER_FUNC_ARRAY(status, condition_callback, parameters);
 			if (PHALCON_IS_FALSE(status)) {
 				continue;
 			}
 		}
-	
+
 		/** 
 		 * Try to delete the record
 		 */
@@ -690,27 +709,27 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, delete){
 			 */
 			PHALCON_CALL_METHOD(&messages, record, "getmessages");
 			phalcon_update_property_this(this_ptr, SL("_errorMessages"), messages TSRMLS_CC);
-	
+
 			/** 
 			 * Rollback the transaction
 			 */
 			PHALCON_CALL_METHOD(NULL, connection, "rollback");
-	
+
 			PHALCON_INIT_NVAR(transaction);
 			ZVAL_BOOL(transaction, 0);
 			break;
 		}
-	
+
 		PHALCON_CALL_METHOD(NULL, this_ptr, "next");
 	}
-	
+
 	/** 
 	 * Commit the transaction
 	 */
 	if (PHALCON_IS_TRUE(transaction)) {
 		PHALCON_CALL_METHOD(NULL, connection, "commit");
 	}
-	
+
 	RETURN_MM_TRUE;
 }
 
@@ -736,28 +755,28 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, filter){
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 1, 0, &filter);
-	
+
 	PHALCON_INIT_VAR(records);
 	array_init(records);
 	PHALCON_CALL_METHOD(NULL, this_ptr, "rewind");
-	
+
 	PHALCON_INIT_VAR(parameters);
 	array_init(parameters);
-	
+
 	while (1) {
-	
+
 		PHALCON_CALL_METHOD(&r0, this_ptr, "valid");
 		if (zend_is_true(r0)) {
 		} else {
 			break;
 		}
-	
+
 		PHALCON_CALL_METHOD(&record, this_ptr, "current");
 		phalcon_array_update_long(&parameters, 0, record, PH_COPY | PH_SEPARATE);
-	
+
 		PHALCON_INIT_NVAR(processed_record);/**/
 		PHALCON_CALL_USER_FUNC_ARRAY(processed_record, filter, parameters);
-	
+
 		/** 
 		 * Only add processed records to 'records' if the returned value is an array/object
 		 */
@@ -766,10 +785,110 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, filter){
 				continue;
 			}
 		}
-	
+
 		phalcon_array_append(&records, processed_record, PH_SEPARATE);
 		PHALCON_CALL_METHOD(NULL, this_ptr, "next");
 	}
-	
+
 	RETURN_CTOR(records);
+}
+
+/**
+ * Updates every record in the resultset
+ *
+ * @param array $data
+ * @param Closure $conditionCallback
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Resultset, update){
+
+	zval *data, *condition_callback = NULL, *transaction = NULL, *record = NULL;
+	zval *connection = NULL, *parameters = NULL, *status = NULL, *messages = NULL;
+	zval *r0 = NULL;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 1, 1, &data, &condition_callback);
+
+	if (!condition_callback) {
+		condition_callback = PHALCON_GLOBAL(z_null);
+	}
+
+	PHALCON_INIT_VAR(transaction);
+	ZVAL_FALSE(transaction);
+	PHALCON_CALL_METHOD(NULL, this_ptr, "rewind");
+
+	while (1) {
+		PHALCON_CALL_METHOD(&r0, this_ptr, "valid");
+		if (zend_is_true(r0)) {
+		} else {
+			break;
+		}
+
+		PHALCON_CALL_METHOD(&record, this_ptr, "current");
+		if (PHALCON_IS_FALSE(transaction)) {
+
+			/** 
+			 * We only can delete resultsets whose every element is a complete object
+			 */
+			if (phalcon_method_exists_ex(record, SS("getwriteconnection") TSRMLS_CC) == FAILURE) {
+				PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The returned record is not valid");
+				return;
+			}
+
+			PHALCON_CALL_METHOD(&connection, record, "getwriteconnection");
+			PHALCON_CALL_METHOD(NULL, connection, "begin");
+
+			PHALCON_INIT_NVAR(transaction);
+			ZVAL_TRUE(transaction);
+		}
+
+		/** 
+		 * Perform additional validations
+		 */
+		if (Z_TYPE_P(condition_callback) == IS_OBJECT) {
+
+			PHALCON_INIT_NVAR(parameters);
+			array_init_size(parameters, 1);
+			phalcon_array_append(&parameters, record, PH_SEPARATE);
+
+			PHALCON_INIT_NVAR(status);/**/
+			PHALCON_CALL_USER_FUNC_ARRAY(status, condition_callback, parameters);
+			if (PHALCON_IS_FALSE(status)) {
+				continue;
+			}
+		}
+
+		/** 
+		 * Try to delete the record
+		 */
+		PHALCON_CALL_METHOD(&status, record, "save", data);
+		if (!zend_is_true(status)) {
+			/** 
+			 * Get the messages from the record that produce the error
+			 */
+			PHALCON_CALL_METHOD(&messages, record, "getmessages");
+			phalcon_update_property_this(this_ptr, SL("_errorMessages"), messages TSRMLS_CC);
+
+			/** 
+			 * Rollback the transaction
+			 */
+			PHALCON_CALL_METHOD(NULL, connection, "rollback");
+
+			PHALCON_INIT_NVAR(transaction);
+			ZVAL_BOOL(transaction, 0);
+			break;
+		}
+
+		PHALCON_CALL_METHOD(NULL, this_ptr, "next");
+	}
+
+	/** 
+	 * Commit the transaction
+	 */
+	if (PHALCON_IS_TRUE(transaction)) {
+		PHALCON_CALL_METHOD(NULL, connection, "commit");
+	}
+
+	RETURN_MM_TRUE;
 }
