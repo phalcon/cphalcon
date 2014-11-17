@@ -1930,7 +1930,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 							 */
 							if typeof value != "object" {
 								if !isset dataTypeNumeric[field] {
-									if empty value {
+									if value == "" {
 										let isNull = true;
 									}
 								} else {
