@@ -272,7 +272,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Memcache, destroy) {
 
 
 	if (Z_TYPE_P(session_id) == IS_NULL) {
-		ZEPHIR_CALL_METHOD(&session_id, this_ptr, "getid",  NULL);
+		ZEPHIR_CALL_METHOD(&session_id, this_ptr, "getid", NULL);
 		zephir_check_call_status();
 	}
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_memcache"), PH_NOISY_CC);

@@ -250,7 +250,7 @@ PHP_METHOD(Phalcon_Annotations_Collection, get) {
 		  ; zephir_hash_move_forward_ex(_1, &_0)
 		) {
 			ZEPHIR_GET_HVALUE(annotation, _2);
-			ZEPHIR_CALL_METHOD(&_3, annotation, "getname",  NULL);
+			ZEPHIR_CALL_METHOD(&_3, annotation, "getname", NULL);
 			zephir_check_call_status();
 			if (ZEPHIR_IS_EQUAL(name, _3)) {
 				RETURN_CCTOR(annotation);
@@ -300,7 +300,7 @@ PHP_METHOD(Phalcon_Annotations_Collection, getAll) {
 		  ; zephir_hash_move_forward_ex(_1, &_0)
 		) {
 			ZEPHIR_GET_HVALUE(annotation, _2);
-			ZEPHIR_CALL_METHOD(&_3, annotation, "getname",  NULL);
+			ZEPHIR_CALL_METHOD(&_3, annotation, "getname", NULL);
 			zephir_check_call_status();
 			if (ZEPHIR_IS_EQUAL(name, _3)) {
 				zephir_array_append(&found, annotation, PH_SEPARATE, "phalcon/annotations/collection.zep", 179);
@@ -340,7 +340,7 @@ PHP_METHOD(Phalcon_Annotations_Collection, has) {
 		  ; zephir_hash_move_forward_ex(_1, &_0)
 		) {
 			ZEPHIR_GET_HVALUE(annotation, _2);
-			ZEPHIR_CALL_METHOD(&_3, annotation, "getname",  NULL);
+			ZEPHIR_CALL_METHOD(&_3, annotation, "getname", NULL);
 			zephir_check_call_status();
 			if (ZEPHIR_IS_EQUAL(name, _3)) {
 				RETURN_MM_BOOL(1);

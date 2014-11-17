@@ -89,7 +89,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior_SoftDelete, notify) {
 		return;
 	}
 	if (ZEPHIR_IS_STRING(type, "beforeDelete")) {
-		ZEPHIR_CALL_METHOD(&options, this_ptr, "getoptions",  NULL);
+		ZEPHIR_CALL_METHOD(&options, this_ptr, "getoptions", NULL);
 		zephir_check_call_status();
 		ZEPHIR_OBS_VAR(value);
 		if (!(zephir_array_isset_string_fetch(&value, options, SS("value"), 0 TSRMLS_CC))) {
@@ -114,10 +114,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior_SoftDelete, notify) {
 			}
 			ZEPHIR_CALL_METHOD(NULL, updateModel, "writeattribute", NULL, field, value);
 			zephir_check_call_status();
-			ZEPHIR_CALL_METHOD(&_2, updateModel, "save",  NULL);
+			ZEPHIR_CALL_METHOD(&_2, updateModel, "save", NULL);
 			zephir_check_call_status();
 			if (!(zephir_is_true(_2))) {
-				ZEPHIR_CALL_METHOD(&_3, updateModel, "getmessages",  NULL);
+				ZEPHIR_CALL_METHOD(&_3, updateModel, "getmessages", NULL);
 				zephir_check_call_status();
 				zephir_is_iterable(_3, &_5, &_4, 0, 0, "phalcon/mvc/model/behavior/softdelete.zep", 93);
 				for (

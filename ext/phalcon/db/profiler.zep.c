@@ -168,7 +168,7 @@ PHP_METHOD(Phalcon_Db_Profiler, stopProfile) {
 	ZEPHIR_CPY_WRT(activeProfile, _1);
 	ZEPHIR_CALL_METHOD(NULL, activeProfile, "setfinaltime", NULL, finalTime);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&initialTime, activeProfile, "getinitialtime",  NULL);
+	ZEPHIR_CALL_METHOD(&initialTime, activeProfile, "getinitialtime", NULL);
 	zephir_check_call_status();
 	_1 = zephir_fetch_nproperty_this(this_ptr, SL("_totalSeconds"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(_2);

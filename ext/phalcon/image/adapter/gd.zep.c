@@ -899,7 +899,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Gd, _watermark) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'watermark' must be an instance of 'Phalcon\\Image\\Adapter'", "", 0);
 		return;
 	}
-	ZEPHIR_CALL_METHOD(&_0, watermark, "render",  NULL);
+	ZEPHIR_CALL_METHOD(&_0, watermark, "render", NULL);
 	zephir_check_call_status();
 	ZEPHIR_CALL_FUNCTION(&overlay, "imagecreatefromstring", NULL, _0);
 	zephir_check_call_status();
@@ -1138,7 +1138,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Gd, _mask) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'mask' must be an instance of 'Phalcon\\Image\\Adapter'", "", 0);
 		return;
 	}
-	ZEPHIR_CALL_METHOD(&_0, mask, "render",  NULL);
+	ZEPHIR_CALL_METHOD(&_0, mask, "render", NULL);
 	zephir_check_call_status();
 	ZEPHIR_CALL_FUNCTION(&maskImage, "imagecreatefromstring", NULL, _0);
 	zephir_check_call_status();

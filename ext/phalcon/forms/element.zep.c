@@ -363,7 +363,7 @@ PHP_METHOD(Phalcon_Forms_Element, prepareAttributes) {
 	} else {
 		ZEPHIR_CPY_WRT(mergedAttributes, widgetAttributes);
 	}
-	ZEPHIR_CALL_METHOD(&value, this_ptr, "getvalue",  NULL);
+	ZEPHIR_CALL_METHOD(&value, this_ptr, "getvalue", NULL);
 	zephir_check_call_status();
 	if (Z_TYPE_P(value) != IS_NULL) {
 		if (useChecked) {
@@ -625,7 +625,7 @@ PHP_METHOD(Phalcon_Forms_Element, label) {
 	}
 
 
-	ZEPHIR_CALL_METHOD(&internalAttributes, this_ptr, "getattributes",  NULL);
+	ZEPHIR_CALL_METHOD(&internalAttributes, this_ptr, "getattributes", NULL);
 	zephir_check_call_status();
 	ZEPHIR_OBS_VAR(name);
 	if (!(zephir_array_isset_string_fetch(&name, internalAttributes, SS("id"), 0 TSRMLS_CC))) {

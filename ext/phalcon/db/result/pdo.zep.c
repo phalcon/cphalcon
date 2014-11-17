@@ -262,7 +262,7 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, numRows) {
 	if (ZEPHIR_IS_FALSE_IDENTICAL(rowCount)) {
 		ZEPHIR_OBS_VAR(connection);
 		zephir_read_property_this(&connection, this_ptr, SL("_connection"), PH_NOISY_CC);
-		ZEPHIR_CALL_METHOD(&type, connection, "gettype",  NULL);
+		ZEPHIR_CALL_METHOD(&type, connection, "gettype", NULL);
 		zephir_check_call_status();
 		_0 = ZEPHIR_IS_STRING(type, "pgsql");
 		if (!(_0)) {
@@ -271,7 +271,7 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, numRows) {
 		if (_0) {
 			ZEPHIR_OBS_VAR(pdoStatement);
 			zephir_read_property_this(&pdoStatement, this_ptr, SL("_pdoStatement"), PH_NOISY_CC);
-			ZEPHIR_CALL_METHOD(&rowCount, pdoStatement, "rowcount",  NULL);
+			ZEPHIR_CALL_METHOD(&rowCount, pdoStatement, "rowcount", NULL);
 			zephir_check_call_status();
 		}
 		if (ZEPHIR_IS_FALSE_IDENTICAL(rowCount)) {
@@ -295,7 +295,7 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, numRows) {
 					_7 = zephir_fetch_nproperty_this(this_ptr, SL("_bindTypes"), PH_NOISY_CC);
 					ZEPHIR_CALL_METHOD(&result, connection, "query", NULL, _5, _6, _7);
 					zephir_check_call_status();
-					ZEPHIR_CALL_METHOD(&row, result, "fetch",  NULL);
+					ZEPHIR_CALL_METHOD(&row, result, "fetch", NULL);
 					zephir_check_call_status();
 					ZEPHIR_OBS_NVAR(rowCount);
 					zephir_array_fetch_string(&rowCount, row, SL("numrows"), PH_NOISY, "phalcon/db/result/pdo.zep", 208 TSRMLS_CC);
@@ -337,7 +337,7 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, dataSeek) {
 	 pdo_stmt_t *stmt; long n; 
 	ZEPHIR_OBS_VAR(connection);
 	zephir_read_property_this(&connection, this_ptr, SL("_connection"), PH_NOISY_CC);
-	ZEPHIR_CALL_METHOD(&pdo, connection, "getinternalhandler",  NULL);
+	ZEPHIR_CALL_METHOD(&pdo, connection, "getinternalhandler", NULL);
 	zephir_check_call_status();
 	ZEPHIR_OBS_VAR(sqlStatement);
 	zephir_read_property_this(&sqlStatement, this_ptr, SL("_sqlStatement"), PH_NOISY_CC);

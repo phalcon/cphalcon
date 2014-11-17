@@ -209,7 +209,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, logInternal) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_logger_exception_ce, "Cannot send message to the log because it is invalid", "phalcon/logger/adapter/file.zep", 121);
 		return;
 	}
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getformatter",  NULL);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getformatter", NULL);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(_2);
 	ZVAL_LONG(_2, type);

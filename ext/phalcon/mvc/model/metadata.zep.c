@@ -138,7 +138,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, _initialize) {
 				zephir_update_property_array(this_ptr, SL("_metaData"), key, data TSRMLS_CC);
 			} else {
 				if ((zephir_method_exists_ex(model, SS("metadata") TSRMLS_CC) == SUCCESS)) {
-					ZEPHIR_CALL_METHOD(&modelMetadata, model, "metadata",  NULL);
+					ZEPHIR_CALL_METHOD(&modelMetadata, model, "metadata", NULL);
 					zephir_check_call_status();
 					if (Z_TYPE_P(modelMetadata) != IS_ARRAY) {
 						ZEPHIR_INIT_VAR(_0);
@@ -154,7 +154,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, _initialize) {
 				} else {
 					ZEPHIR_OBS_VAR(dependencyInjector);
 					zephir_read_property_this(&dependencyInjector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
-					ZEPHIR_CALL_METHOD(&strategy, this_ptr, "getstrategy",  NULL);
+					ZEPHIR_CALL_METHOD(&strategy, this_ptr, "getstrategy", NULL);
 					zephir_check_call_status();
 					ZEPHIR_CALL_METHOD(&modelMetadata, strategy, "getmetadata", NULL, model, dependencyInjector);
 					zephir_check_call_status();
@@ -185,7 +185,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, _initialize) {
 	if (Z_TYPE_P(strategy) != IS_OBJECT) {
 		ZEPHIR_OBS_NVAR(dependencyInjector);
 		zephir_read_property_this(&dependencyInjector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
-		ZEPHIR_CALL_METHOD(&strategy, this_ptr, "getstrategy",  NULL);
+		ZEPHIR_CALL_METHOD(&strategy, this_ptr, "getstrategy", NULL);
 		zephir_check_call_status();
 	}
 	ZEPHIR_CALL_METHOD(&modelColumnMap, strategy, "getcolumnmaps", NULL, model, dependencyInjector);
@@ -303,9 +303,9 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, readMetaData) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'model' must be an instance of 'Phalcon\\Mvc\\ModelInterface'", "", 0);
 		return;
 	}
-	ZEPHIR_CALL_METHOD(&source, model, "getsource",  NULL);
+	ZEPHIR_CALL_METHOD(&source, model, "getsource", NULL);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&schema, model, "getschema",  NULL);
+	ZEPHIR_CALL_METHOD(&schema, model, "getschema", NULL);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(_0);
 	zephir_get_class(_0, model, 1 TSRMLS_CC);
@@ -349,9 +349,9 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, readMetaDataIndex) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'model' must be an instance of 'Phalcon\\Mvc\\ModelInterface'", "", 0);
 		return;
 	}
-	ZEPHIR_CALL_METHOD(&source, model, "getsource",  NULL);
+	ZEPHIR_CALL_METHOD(&source, model, "getsource", NULL);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&schema, model, "getschema",  NULL);
+	ZEPHIR_CALL_METHOD(&schema, model, "getschema", NULL);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(_0);
 	zephir_get_class(_0, model, 1 TSRMLS_CC);
@@ -412,9 +412,9 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, writeMetaDataIndex) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "Invalid data for index", "phalcon/mvc/model/metadata.zep", 313);
 		return;
 	}
-	ZEPHIR_CALL_METHOD(&source, model, "getsource",  NULL);
+	ZEPHIR_CALL_METHOD(&source, model, "getsource", NULL);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&schema, model, "getschema",  NULL);
+	ZEPHIR_CALL_METHOD(&schema, model, "getschema", NULL);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(_2);
 	zephir_get_class(_2, model, 1 TSRMLS_CC);

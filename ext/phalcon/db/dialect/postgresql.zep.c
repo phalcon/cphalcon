@@ -84,15 +84,15 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, getColumnDefinition) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Column definition must be an object compatible with Phalcon\\Db\\ColumnInterface", "phalcon/db/dialect/postgresql.zep", 50);
 		return;
 	}
-	ZEPHIR_CALL_METHOD(&size, column, "getsize",  NULL);
+	ZEPHIR_CALL_METHOD(&size, column, "getsize", NULL);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&columnType, column, "gettype",  NULL);
+	ZEPHIR_CALL_METHOD(&columnType, column, "gettype", NULL);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(columnSql);
 	ZVAL_STRING(columnSql, "", 1);
 	if (Z_TYPE_P(columnType) == IS_STRING) {
 		zephir_concat_self(&columnSql, columnType TSRMLS_CC);
-		ZEPHIR_CALL_METHOD(&columnType, column, "gettypereference",  NULL);
+		ZEPHIR_CALL_METHOD(&columnType, column, "gettypereference", NULL);
 		zephir_check_call_status();
 	}
 	do {
@@ -121,7 +121,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, getColumnDefinition) {
 			if (ZEPHIR_IS_EMPTY(columnSql)) {
 				zephir_concat_self_str(&columnSql, SL("NUMERIC") TSRMLS_CC);
 			}
-			ZEPHIR_CALL_METHOD(&_1, column, "getscale",  NULL);
+			ZEPHIR_CALL_METHOD(&_1, column, "getscale", NULL);
 			zephir_check_call_status();
 			ZEPHIR_INIT_LNVAR(_0);
 			ZEPHIR_CONCAT_SVSVS(_0, "(", size, ",", _1, ")");
@@ -165,7 +165,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, getColumnDefinition) {
 			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Unrecognized PostgreSQL data type", "phalcon/db/dialect/postgresql.zep", 112);
 			return;
 		}
-		ZEPHIR_CALL_METHOD(&typeValues, column, "gettypevalues",  NULL);
+		ZEPHIR_CALL_METHOD(&typeValues, column, "gettypevalues", NULL);
 		zephir_check_call_status();
 		if (!(ZEPHIR_IS_EMPTY(typeValues))) {
 			if (Z_TYPE_P(typeValues) == IS_ARRAY) {

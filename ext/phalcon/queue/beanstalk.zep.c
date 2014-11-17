@@ -188,7 +188,7 @@ PHP_METHOD(Phalcon_Queue_Beanstalk, put) {
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "write", NULL, serialized);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&response, this_ptr, "readstatus",  &_2);
+	ZEPHIR_CALL_METHOD(&response, this_ptr, "readstatus", &_2);
 	zephir_check_call_status();
 	zephir_array_fetch_long(&status, response, 0, PH_NOISY | PH_READONLY, "phalcon/queue/beanstalk.zep", 131 TSRMLS_CC);
 	if (ZEPHIR_IS_STRING(status, "INSERTED")) {
@@ -230,7 +230,7 @@ PHP_METHOD(Phalcon_Queue_Beanstalk, reserve) {
 	}
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "write", NULL, command);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&response, this_ptr, "readstatus",  &_0);
+	ZEPHIR_CALL_METHOD(&response, this_ptr, "readstatus", &_0);
 	zephir_check_call_status();
 	zephir_array_fetch_long(&_1, response, 0, PH_NOISY | PH_READONLY, "phalcon/queue/beanstalk.zep", 162 TSRMLS_CC);
 	if (ZEPHIR_IS_STRING(_1, "RESERVED")) {
@@ -282,7 +282,7 @@ PHP_METHOD(Phalcon_Queue_Beanstalk, choose) {
 	ZEPHIR_CONCAT_SV(_0, "use ", tube);
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "write", NULL, _0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&response, this_ptr, "readstatus",  &_1);
+	ZEPHIR_CALL_METHOD(&response, this_ptr, "readstatus", &_1);
 	zephir_check_call_status();
 	zephir_array_fetch_long(&_2, response, 0, PH_NOISY | PH_READONLY, "phalcon/queue/beanstalk.zep", 189 TSRMLS_CC);
 	if (ZEPHIR_IS_STRING(_2, "USING")) {
@@ -326,7 +326,7 @@ PHP_METHOD(Phalcon_Queue_Beanstalk, watch) {
 	ZEPHIR_CONCAT_SV(_0, "watch ", tube);
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "write", NULL, _0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&response, this_ptr, "readstatus",  &_1);
+	ZEPHIR_CALL_METHOD(&response, this_ptr, "readstatus", &_1);
 	zephir_check_call_status();
 	zephir_array_fetch_long(&_2, response, 0, PH_NOISY | PH_READONLY, "phalcon/queue/beanstalk.zep", 209 TSRMLS_CC);
 	if (ZEPHIR_IS_STRING(_2, "WATCHING")) {
@@ -355,7 +355,7 @@ PHP_METHOD(Phalcon_Queue_Beanstalk, peekReady) {
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "write", NULL, _0);
 	zephir_check_temp_parameter(_0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&response, this_ptr, "readstatus",  &_1);
+	ZEPHIR_CALL_METHOD(&response, this_ptr, "readstatus", &_1);
 	zephir_check_call_status();
 	zephir_array_fetch_long(&_2, response, 0, PH_NOISY | PH_READONLY, "phalcon/queue/beanstalk.zep", 228 TSRMLS_CC);
 	if (ZEPHIR_IS_STRING(_2, "FOUND")) {
@@ -392,7 +392,7 @@ PHP_METHOD(Phalcon_Queue_Beanstalk, peekBuried) {
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "write", NULL, _0);
 	zephir_check_temp_parameter(_0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&response, this_ptr, "readstatus",  &_1);
+	ZEPHIR_CALL_METHOD(&response, this_ptr, "readstatus", &_1);
 	zephir_check_call_status();
 	zephir_array_fetch_long(&_2, response, 0, PH_NOISY | PH_READONLY, "phalcon/queue/beanstalk.zep", 247 TSRMLS_CC);
 	if (ZEPHIR_IS_STRING(_2, "FOUND")) {
@@ -423,7 +423,7 @@ PHP_METHOD(Phalcon_Queue_Beanstalk, readStatus) {
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "read",  NULL);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "read", NULL);
 	zephir_check_call_status();
 	zephir_fast_explode_str(return_value, SL(" "), _0, LONG_MAX TSRMLS_CC);
 	RETURN_MM();
@@ -456,7 +456,7 @@ PHP_METHOD(Phalcon_Queue_Beanstalk, read) {
 	ZEPHIR_OBS_VAR(connection);
 	zephir_read_property_this(&connection, this_ptr, SL("_connection"), PH_NOISY_CC);
 	if (Z_TYPE_P(connection) != IS_RESOURCE) {
-		ZEPHIR_CALL_METHOD(&connection, this_ptr, "connect",  NULL);
+		ZEPHIR_CALL_METHOD(&connection, this_ptr, "connect", NULL);
 		zephir_check_call_status();
 		if (Z_TYPE_P(connection) != IS_RESOURCE) {
 			RETURN_MM_BOOL(0);
@@ -512,7 +512,7 @@ PHP_METHOD(Phalcon_Queue_Beanstalk, write) {
 	ZEPHIR_OBS_VAR(connection);
 	zephir_read_property_this(&connection, this_ptr, SL("_connection"), PH_NOISY_CC);
 	if (Z_TYPE_P(connection) != IS_RESOURCE) {
-		ZEPHIR_CALL_METHOD(&connection, this_ptr, "connect",  NULL);
+		ZEPHIR_CALL_METHOD(&connection, this_ptr, "connect", NULL);
 		zephir_check_call_status();
 		if (Z_TYPE_P(connection) != IS_RESOURCE) {
 			RETURN_MM_BOOL(0);

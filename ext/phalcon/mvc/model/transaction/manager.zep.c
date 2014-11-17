@@ -422,9 +422,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, commit) {
 		  ; zephir_hash_move_forward_ex(_1, &_0)
 		) {
 			ZEPHIR_GET_HVALUE(transaction, _2);
-			ZEPHIR_CALL_METHOD(&connection, transaction, "getconnection",  NULL);
+			ZEPHIR_CALL_METHOD(&connection, transaction, "getconnection", NULL);
 			zephir_check_call_status();
-			ZEPHIR_CALL_METHOD(&_3, connection, "isundertransaction",  NULL);
+			ZEPHIR_CALL_METHOD(&_3, connection, "isundertransaction", NULL);
 			zephir_check_call_status();
 			if (zephir_is_true(_3)) {
 				ZEPHIR_CALL_METHOD(NULL, connection, "commit", NULL);
@@ -467,9 +467,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, rollback) {
 		  ; zephir_hash_move_forward_ex(_1, &_0)
 		) {
 			ZEPHIR_GET_HVALUE(transaction, _2);
-			ZEPHIR_CALL_METHOD(&connection, transaction, "getconnection",  NULL);
+			ZEPHIR_CALL_METHOD(&connection, transaction, "getconnection", NULL);
 			zephir_check_call_status();
-			ZEPHIR_CALL_METHOD(&_3, connection, "isundertransaction",  NULL);
+			ZEPHIR_CALL_METHOD(&_3, connection, "isundertransaction", NULL);
 			zephir_check_call_status();
 			if (zephir_is_true(_3)) {
 				ZEPHIR_CALL_METHOD(NULL, connection, "rollback", NULL);

@@ -140,7 +140,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Firephp, logInternal) {
 		zephir_check_call_status();
 		zephir_update_static_property_ce(phalcon_logger_adapter_firephp_ce, SL("_initialized"), &(ZEPHIR_GLOBAL(global_true)) TSRMLS_CC);
 	}
-	ZEPHIR_CALL_METHOD(&_4, this_ptr, "getformatter",  NULL);
+	ZEPHIR_CALL_METHOD(&_4, this_ptr, "getformatter", NULL);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(_5);
 	ZVAL_LONG(_5, type);

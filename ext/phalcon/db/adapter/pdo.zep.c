@@ -490,7 +490,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, execute) {
 		if (Z_TYPE_P(statement) == IS_OBJECT) {
 			ZEPHIR_CALL_METHOD(&newStatement, this_ptr, "executeprepared", NULL, statement, bindParams, bindTypes);
 			zephir_check_call_status();
-			ZEPHIR_CALL_METHOD(&affectedRows, newStatement, "rowcount",  NULL);
+			ZEPHIR_CALL_METHOD(&affectedRows, newStatement, "rowcount", NULL);
 			zephir_check_call_status();
 		}
 	} else {
@@ -807,14 +807,14 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, begin) {
 		}
 		_4 = _3;
 		if (_4) {
-			ZEPHIR_CALL_METHOD(&_5, this_ptr, "isnestedtransactionswithsavepoints",  NULL);
+			ZEPHIR_CALL_METHOD(&_5, this_ptr, "isnestedtransactionswithsavepoints", NULL);
 			zephir_check_call_status();
 			_4 = zephir_is_true(_5);
 		}
 		if (_4) {
 			_1 = zephir_fetch_nproperty_this(this_ptr, SL("_eventsManager"), PH_NOISY_CC);
 			ZEPHIR_CPY_WRT(eventsManager, _1);
-			ZEPHIR_CALL_METHOD(&savepointName, this_ptr, "getnestedtransactionsavepointname",  NULL);
+			ZEPHIR_CALL_METHOD(&savepointName, this_ptr, "getnestedtransactionsavepointname", NULL);
 			zephir_check_call_status();
 			if (Z_TYPE_P(eventsManager) == IS_OBJECT) {
 				ZEPHIR_INIT_NVAR(_2);
@@ -887,12 +887,12 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, rollback) {
 		}
 		_4 = _3;
 		if (_4) {
-			ZEPHIR_CALL_METHOD(&_5, this_ptr, "isnestedtransactionswithsavepoints",  NULL);
+			ZEPHIR_CALL_METHOD(&_5, this_ptr, "isnestedtransactionswithsavepoints", NULL);
 			zephir_check_call_status();
 			_4 = zephir_is_true(_5);
 		}
 		if (_4) {
-			ZEPHIR_CALL_METHOD(&savepointName, this_ptr, "getnestedtransactionsavepointname",  NULL);
+			ZEPHIR_CALL_METHOD(&savepointName, this_ptr, "getnestedtransactionsavepointname", NULL);
 			zephir_check_call_status();
 			_1 = zephir_fetch_nproperty_this(this_ptr, SL("_eventsManager"), PH_NOISY_CC);
 			ZEPHIR_CPY_WRT(eventsManager, _1);
@@ -971,14 +971,14 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, commit) {
 		}
 		_4 = _3;
 		if (_4) {
-			ZEPHIR_CALL_METHOD(&_5, this_ptr, "isnestedtransactionswithsavepoints",  NULL);
+			ZEPHIR_CALL_METHOD(&_5, this_ptr, "isnestedtransactionswithsavepoints", NULL);
 			zephir_check_call_status();
 			_4 = zephir_is_true(_5);
 		}
 		if (_4) {
 			_1 = zephir_fetch_nproperty_this(this_ptr, SL("_eventsManager"), PH_NOISY_CC);
 			ZEPHIR_CPY_WRT(eventsManager, _1);
-			ZEPHIR_CALL_METHOD(&savepointName, this_ptr, "getnestedtransactionsavepointname",  NULL);
+			ZEPHIR_CALL_METHOD(&savepointName, this_ptr, "getnestedtransactionsavepointname", NULL);
 			zephir_check_call_status();
 			if (Z_TYPE_P(eventsManager) == IS_OBJECT) {
 				ZEPHIR_INIT_NVAR(_2);

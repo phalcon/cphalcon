@@ -266,7 +266,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, rollback) {
 	}
 	ZEPHIR_OBS_VAR(connection);
 	zephir_read_property_this(&connection, this_ptr, SL("_connection"), PH_NOISY_CC);
-	ZEPHIR_CALL_METHOD(&_4, connection, "rollback",  NULL);
+	ZEPHIR_CALL_METHOD(&_4, connection, "rollback", NULL);
 	zephir_check_call_status();
 	if (zephir_is_true(_4)) {
 		if (!(zephir_is_true(rollbackMessage))) {

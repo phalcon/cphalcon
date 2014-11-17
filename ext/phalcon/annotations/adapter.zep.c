@@ -145,7 +145,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter, get) {
 		_1 = ZEPHIR_IS_FALSE_IDENTICAL(classAnnotations);
 	}
 	if (_1) {
-		ZEPHIR_CALL_METHOD(&reader, this_ptr, "getreader",  NULL);
+		ZEPHIR_CALL_METHOD(&reader, this_ptr, "getreader", NULL);
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(&parsedAnnotations, reader, "parse", NULL, realClassName);
 		zephir_check_call_status();
@@ -216,7 +216,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter, getMethod) {
 	ZEPHIR_CALL_METHOD(&classAnnotations, this_ptr, "get", NULL, className);
 	zephir_check_call_status();
 	if (Z_TYPE_P(classAnnotations) == IS_OBJECT) {
-		ZEPHIR_CALL_METHOD(&methods, classAnnotations, "getmethodsannotations",  NULL);
+		ZEPHIR_CALL_METHOD(&methods, classAnnotations, "getmethodsannotations", NULL);
 		zephir_check_call_status();
 		if (Z_TYPE_P(methods) == IS_ARRAY) {
 			zephir_is_iterable(methods, &_1, &_0, 0, 0, "phalcon/annotations/adapter.zep", 172);
@@ -294,7 +294,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter, getProperty) {
 	ZEPHIR_CALL_METHOD(&classAnnotations, this_ptr, "get", NULL, className);
 	zephir_check_call_status();
 	if (Z_TYPE_P(classAnnotations) == IS_OBJECT) {
-		ZEPHIR_CALL_METHOD(&properties, classAnnotations, "getpropertiesannotations",  NULL);
+		ZEPHIR_CALL_METHOD(&properties, classAnnotations, "getpropertiesannotations", NULL);
 		zephir_check_call_status();
 		if (Z_TYPE_P(properties) == IS_ARRAY) {
 			zephir_is_iterable(properties, &_1, &_0, 0, 0, "phalcon/annotations/adapter.zep", 233);

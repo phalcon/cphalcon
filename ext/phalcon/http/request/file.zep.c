@@ -259,7 +259,7 @@ PHP_METHOD(Phalcon_Http_Request_File, isUploadedFile) {
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_CALL_METHOD(&tmp, this_ptr, "gettempname",  NULL);
+	ZEPHIR_CALL_METHOD(&tmp, this_ptr, "gettempname", NULL);
 	zephir_check_call_status();
 	_0 = Z_TYPE_P(tmp) == IS_STRING;
 	if (_0) {

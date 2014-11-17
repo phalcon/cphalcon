@@ -311,7 +311,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle) {
 	ZEPHIR_CPY_WRT(router, _1);
 	ZEPHIR_CALL_METHOD(NULL, router, "handle", NULL, uri);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&moduleName, router, "getmodulename",  NULL);
+	ZEPHIR_CALL_METHOD(&moduleName, router, "getmodulename", NULL);
 	zephir_check_call_status();
 	if (!(zephir_is_true(moduleName))) {
 		ZEPHIR_OBS_NVAR(moduleName);
@@ -421,23 +421,23 @@ PHP_METHOD(Phalcon_Mvc_Application, handle) {
 	zephir_check_temp_parameter(_2);
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(dispatcher, _1);
-	ZEPHIR_CALL_METHOD(&_1, router, "getmodulename",  NULL);
+	ZEPHIR_CALL_METHOD(&_1, router, "getmodulename", NULL);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(NULL, dispatcher, "setmodulename", NULL, _1);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_6, router, "getnamespacename",  NULL);
+	ZEPHIR_CALL_METHOD(&_6, router, "getnamespacename", NULL);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(NULL, dispatcher, "setnamespacename", NULL, _6);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_8, router, "getcontrollername",  NULL);
+	ZEPHIR_CALL_METHOD(&_8, router, "getcontrollername", NULL);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(NULL, dispatcher, "setcontrollername", NULL, _8);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_9, router, "getactionname",  NULL);
+	ZEPHIR_CALL_METHOD(&_9, router, "getactionname", NULL);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(NULL, dispatcher, "setactionname", NULL, _9);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_10, router, "getparams",  NULL);
+	ZEPHIR_CALL_METHOD(&_10, router, "getparams", NULL);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(NULL, dispatcher, "setparams", NULL, _10);
 	zephir_check_call_status();
@@ -455,9 +455,9 @@ PHP_METHOD(Phalcon_Mvc_Application, handle) {
 			RETURN_MM_BOOL(0);
 		}
 	}
-	ZEPHIR_CALL_METHOD(&controller, dispatcher, "dispatch",  NULL);
+	ZEPHIR_CALL_METHOD(&controller, dispatcher, "dispatch", NULL);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&possibleResponse, dispatcher, "getreturnedvalue",  NULL);
+	ZEPHIR_CALL_METHOD(&possibleResponse, dispatcher, "getreturnedvalue", NULL);
 	zephir_check_call_status();
 	if (Z_TYPE_P(possibleResponse) == IS_OBJECT) {
 		returnedResponse = zephir_instance_of_ev(possibleResponse, phalcon_http_responseinterface_ce TSRMLS_CC);
@@ -484,11 +484,11 @@ PHP_METHOD(Phalcon_Mvc_Application, handle) {
 					zephir_check_call_status();
 				}
 				if (!ZEPHIR_IS_FALSE_IDENTICAL(renderStatus)) {
-					ZEPHIR_CALL_METHOD(&_1, dispatcher, "getcontrollername",  NULL);
+					ZEPHIR_CALL_METHOD(&_1, dispatcher, "getcontrollername", NULL);
 					zephir_check_call_status();
-					ZEPHIR_CALL_METHOD(&_6, dispatcher, "getactionname",  NULL);
+					ZEPHIR_CALL_METHOD(&_6, dispatcher, "getactionname", NULL);
 					zephir_check_call_status();
-					ZEPHIR_CALL_METHOD(&_11, dispatcher, "getparams",  NULL);
+					ZEPHIR_CALL_METHOD(&_11, dispatcher, "getparams", NULL);
 					zephir_check_call_status();
 					ZEPHIR_CALL_METHOD(NULL, view, "render", NULL, _1, _6, _11);
 					zephir_check_call_status();
@@ -508,7 +508,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle) {
 		zephir_check_call_status();
 		ZEPHIR_CPY_WRT(response, _1);
 		if (ZEPHIR_IS_TRUE_IDENTICAL(implicitView)) {
-			ZEPHIR_CALL_METHOD(&_1, view, "getcontent",  NULL);
+			ZEPHIR_CALL_METHOD(&_1, view, "getcontent", NULL);
 			zephir_check_call_status();
 			ZEPHIR_CALL_METHOD(NULL, response, "setcontent", NULL, _1);
 			zephir_check_call_status();

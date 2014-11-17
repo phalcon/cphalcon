@@ -185,12 +185,12 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, getPaginate) {
 		}
 		i = 1;
 		while (1) {
-			ZEPHIR_CALL_METHOD(&valid, items, "valid",  &_6);
+			ZEPHIR_CALL_METHOD(&valid, items, "valid", &_6);
 			zephir_check_call_status();
 			if (ZEPHIR_IS_FALSE(valid)) {
 				break;
 			}
-			ZEPHIR_CALL_METHOD(&_7, items, "current",  &_8);
+			ZEPHIR_CALL_METHOD(&_7, items, "current", &_8);
 			zephir_check_call_status();
 			zephir_array_append(&pageItems, _7, PH_SEPARATE, "phalcon/paginator/adapter/model.zep", 141);
 			if (i >= show) {

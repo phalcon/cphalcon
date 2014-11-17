@@ -679,7 +679,7 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch) {
 		}
 		ZEPHIR_CALL_METHOD(&handler, dependencyInjector, "getshared", NULL, handlerClass);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(&_6, dependencyInjector, "wasfreshinstance",  NULL);
+		ZEPHIR_CALL_METHOD(&_6, dependencyInjector, "wasfreshinstance", NULL);
 		zephir_check_call_status();
 		if (ZEPHIR_IS_TRUE_IDENTICAL(_6)) {
 			wasFresh = 1;

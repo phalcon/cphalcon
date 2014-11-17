@@ -239,7 +239,7 @@ PHP_METHOD(Phalcon_Security, hash) {
 	ZVAL_LONG(&_2, workFactor);
 	ZEPHIR_CALL_FUNCTION(&_3, "sprintf", &_4, &_1, &_2);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_5, this_ptr, "getsaltbytes",  NULL);
+	ZEPHIR_CALL_METHOD(&_5, this_ptr, "getsaltbytes", NULL);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(_6);
 	ZEPHIR_CONCAT_SVSV(_6, "$2a$", _3, "$", _5);

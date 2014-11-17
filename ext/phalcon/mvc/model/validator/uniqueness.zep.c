@@ -100,7 +100,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'record' must be an instance of 'Phalcon\\Mvc\\ModelInterface'", "", 0);
 		return;
 	}
-	ZEPHIR_CALL_METHOD(&dependencyInjector, record, "getdi",  NULL);
+	ZEPHIR_CALL_METHOD(&dependencyInjector, record, "getdi", NULL);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(_0);
 	ZVAL_STRING(_0, "modelsMetadata", ZEPHIR_TEMP_PARAM_COPY);
@@ -212,7 +212,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate) {
 		zephir_array_append(&bindTypes, bindType, PH_SEPARATE, "phalcon/mvc/model/validator/uniqueness.zep", 148);
 		number++;
 	}
-	ZEPHIR_CALL_METHOD(&_11, record, "getoperationmade",  NULL);
+	ZEPHIR_CALL_METHOD(&_11, record, "getoperationmade", NULL);
 	zephir_check_call_status();
 	if (ZEPHIR_IS_LONG(_11, 2)) {
 		if (ZEPHIR_GLOBAL(orm).column_renaming) {

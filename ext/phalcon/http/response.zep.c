@@ -227,9 +227,9 @@ PHP_METHOD(Phalcon_Http_Response, setStatusCode) {
 	}
 
 
-	ZEPHIR_CALL_METHOD(&headers, this_ptr, "getheaders",  NULL);
+	ZEPHIR_CALL_METHOD(&headers, this_ptr, "getheaders", NULL);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&currentHeadersRaw, headers, "toarray",  NULL);
+	ZEPHIR_CALL_METHOD(&currentHeadersRaw, headers, "toarray", NULL);
 	zephir_check_call_status();
 	if (Z_TYPE_P(currentHeadersRaw) == IS_ARRAY) {
 		ZEPHIR_INIT_VAR(_0);
@@ -393,7 +393,7 @@ PHP_METHOD(Phalcon_Http_Response, setHeader) {
 	zephir_get_strval(name, name_param);
 
 
-	ZEPHIR_CALL_METHOD(&headers, this_ptr, "getheaders",  NULL);
+	ZEPHIR_CALL_METHOD(&headers, this_ptr, "getheaders", NULL);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(NULL, headers, "set", NULL, name, value);
 	zephir_check_call_status();
@@ -423,7 +423,7 @@ PHP_METHOD(Phalcon_Http_Response, setRawHeader) {
 	zephir_get_strval(header, header_param);
 
 
-	ZEPHIR_CALL_METHOD(&headers, this_ptr, "getheaders",  NULL);
+	ZEPHIR_CALL_METHOD(&headers, this_ptr, "getheaders", NULL);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(NULL, headers, "setraw", NULL, header);
 	zephir_check_call_status();
@@ -443,7 +443,7 @@ PHP_METHOD(Phalcon_Http_Response, resetHeaders) {
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_CALL_METHOD(&headers, this_ptr, "getheaders",  NULL);
+	ZEPHIR_CALL_METHOD(&headers, this_ptr, "getheaders", NULL);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(NULL, headers, "reset", NULL);
 	zephir_check_call_status();
@@ -475,7 +475,7 @@ PHP_METHOD(Phalcon_Http_Response, setExpires) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'datetime' must be an instance of 'DateTime'", "", 0);
 		return;
 	}
-	ZEPHIR_CALL_METHOD(&headers, this_ptr, "getheaders",  NULL);
+	ZEPHIR_CALL_METHOD(&headers, this_ptr, "getheaders", NULL);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(date);
 	if (zephir_clone(date, datetime TSRMLS_CC) == FAILURE) {
@@ -556,7 +556,7 @@ PHP_METHOD(Phalcon_Http_Response, setContentType) {
 	}
 
 
-	ZEPHIR_CALL_METHOD(&headers, this_ptr, "getheaders",  NULL);
+	ZEPHIR_CALL_METHOD(&headers, this_ptr, "getheaders", NULL);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(name);
 	ZVAL_STRING(name, "Content-Type", 1);
@@ -595,7 +595,7 @@ PHP_METHOD(Phalcon_Http_Response, setEtag) {
 	zephir_get_strval(etag, etag_param);
 
 
-	ZEPHIR_CALL_METHOD(&headers, this_ptr, "getheaders",  NULL);
+	ZEPHIR_CALL_METHOD(&headers, this_ptr, "getheaders", NULL);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(_0);
 	ZVAL_STRING(_0, "Etag", ZEPHIR_TEMP_PARAM_COPY);
@@ -686,7 +686,7 @@ PHP_METHOD(Phalcon_Http_Response, redirect) {
 		}
 	}
 	if (!(zephir_is_true(header))) {
-		ZEPHIR_CALL_METHOD(&dependencyInjector, this_ptr, "getdi",  NULL);
+		ZEPHIR_CALL_METHOD(&dependencyInjector, this_ptr, "getdi", NULL);
 		zephir_check_call_status();
 		ZEPHIR_INIT_NVAR(_4);
 		ZVAL_STRING(_4, "url", ZEPHIR_TEMP_PARAM_COPY);
@@ -797,7 +797,7 @@ PHP_METHOD(Phalcon_Http_Response, appendContent) {
 
 
 
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getcontent",  NULL);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getcontent", NULL);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(_1);
 	ZEPHIR_CONCAT_VV(_1, _0, content);
@@ -958,7 +958,7 @@ PHP_METHOD(Phalcon_Http_Response, setFileToSend) {
 		ZEPHIR_CPY_WRT(basePath, attachmentName);
 	}
 	if (zephir_is_true(attachment)) {
-		ZEPHIR_CALL_METHOD(&headers, this_ptr, "getheaders",  NULL);
+		ZEPHIR_CALL_METHOD(&headers, this_ptr, "getheaders", NULL);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(_0);
 		ZVAL_STRING(_0, "Content-Description: File Transfer", ZEPHIR_TEMP_PARAM_COPY);

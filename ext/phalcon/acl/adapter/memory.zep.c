@@ -202,7 +202,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, addRole) {
 
 
 	if (Z_TYPE_P(role) == IS_OBJECT) {
-		ZEPHIR_CALL_METHOD(&roleName, role, "getname",  NULL);
+		ZEPHIR_CALL_METHOD(&roleName, role, "getname", NULL);
 		zephir_check_call_status();
 		ZEPHIR_CPY_WRT(roleObject, role);
 	} else {
@@ -261,7 +261,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, addInherit) {
 		return;
 	}
 	if (Z_TYPE_P(roleToInherit) == IS_OBJECT) {
-		ZEPHIR_CALL_METHOD(&roleInheritName, roleToInherit, "getname",  NULL);
+		ZEPHIR_CALL_METHOD(&roleInheritName, roleToInherit, "getname", NULL);
 		zephir_check_call_status();
 	} else {
 		ZEPHIR_CPY_WRT(roleInheritName, roleToInherit);
@@ -360,7 +360,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, addResource) {
 
 
 	if (Z_TYPE_P(resourceValue) == IS_OBJECT) {
-		ZEPHIR_CALL_METHOD(&resourceName, resourceValue, "getname",  NULL);
+		ZEPHIR_CALL_METHOD(&resourceName, resourceValue, "getname", NULL);
 		zephir_check_call_status();
 		ZEPHIR_CPY_WRT(resourceObject, resourceValue);
 	} else {

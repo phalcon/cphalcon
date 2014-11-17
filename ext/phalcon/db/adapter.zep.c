@@ -403,7 +403,7 @@ PHP_METHOD(Phalcon_Db_Adapter, fetchAll) {
 			zephir_check_call_status();
 		}
 		while (1) {
-			ZEPHIR_CALL_METHOD(&row, result, "fetch",  &_0);
+			ZEPHIR_CALL_METHOD(&row, result, "fetch", &_0);
 			zephir_check_call_status();
 			if (!(zephir_is_true(row))) {
 				break;
@@ -2369,7 +2369,7 @@ PHP_METHOD(Phalcon_Db_Adapter, createSavepoint) {
 
 	ZEPHIR_OBS_VAR(dialect);
 	zephir_read_property_this(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
-	ZEPHIR_CALL_METHOD(&_0, dialect, "supportssavepoints",  NULL);
+	ZEPHIR_CALL_METHOD(&_0, dialect, "supportssavepoints", NULL);
 	zephir_check_call_status();
 	if (!(zephir_is_true(_0))) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Savepoints are not supported by this database adapter.", "phalcon/db/adapter.zep", 1115);
@@ -2413,13 +2413,13 @@ PHP_METHOD(Phalcon_Db_Adapter, releaseSavepoint) {
 
 	ZEPHIR_OBS_VAR(dialect);
 	zephir_read_property_this(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
-	ZEPHIR_CALL_METHOD(&_0, dialect, "supportssavepoints",  NULL);
+	ZEPHIR_CALL_METHOD(&_0, dialect, "supportssavepoints", NULL);
 	zephir_check_call_status();
 	if (!(zephir_is_true(_0))) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Savepoints are not supported by this database adapter", "phalcon/db/adapter.zep", 1134);
 		return;
 	}
-	ZEPHIR_CALL_METHOD(&_1, dialect, "supportsreleasesavepoints",  NULL);
+	ZEPHIR_CALL_METHOD(&_1, dialect, "supportsreleasesavepoints", NULL);
 	zephir_check_call_status();
 	if (!(zephir_is_true(_1))) {
 		RETURN_MM_BOOL(0);
@@ -2462,7 +2462,7 @@ PHP_METHOD(Phalcon_Db_Adapter, rollbackSavepoint) {
 
 	ZEPHIR_OBS_VAR(dialect);
 	zephir_read_property_this(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
-	ZEPHIR_CALL_METHOD(&_0, dialect, "supportssavepoints",  NULL);
+	ZEPHIR_CALL_METHOD(&_0, dialect, "supportssavepoints", NULL);
 	zephir_check_call_status();
 	if (!(zephir_is_true(_0))) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Savepoints are not supported by this database adapter", "phalcon/db/adapter.zep", 1157);
@@ -2500,7 +2500,7 @@ PHP_METHOD(Phalcon_Db_Adapter, setNestedTransactionsWithSavepoints) {
 		return;
 	}
 	_1 = zephir_fetch_nproperty_this(this_ptr, SL("_dialect"), PH_NOISY_CC);
-	ZEPHIR_CALL_METHOD(&_2, _1, "supportssavepoints",  NULL);
+	ZEPHIR_CALL_METHOD(&_2, _1, "supportssavepoints", NULL);
 	zephir_check_call_status();
 	if (!(zephir_is_true(_2))) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Savepoints are not supported by this database adapter", "phalcon/db/adapter.zep", 1177);

@@ -154,7 +154,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Syslog, logInternal) {
 	zephir_get_arrval(context, context_param);
 
 
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getformatter",  NULL);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getformatter", NULL);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(_1);
 	ZVAL_LONG(_1, type);

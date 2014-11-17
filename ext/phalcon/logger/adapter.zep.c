@@ -179,13 +179,13 @@ PHP_METHOD(Phalcon_Logger_Adapter, commit) {
 		  ; zephir_hash_move_forward_ex(_2, &_1)
 		) {
 			ZEPHIR_GET_HVALUE(message, _3);
-			ZEPHIR_CALL_METHOD(&_4, message, "getmessage",  NULL);
+			ZEPHIR_CALL_METHOD(&_4, message, "getmessage", NULL);
 			zephir_check_call_status();
-			ZEPHIR_CALL_METHOD(&_5, message, "gettype",  NULL);
+			ZEPHIR_CALL_METHOD(&_5, message, "gettype", NULL);
 			zephir_check_call_status();
-			ZEPHIR_CALL_METHOD(&_6, message, "gettime",  NULL);
+			ZEPHIR_CALL_METHOD(&_6, message, "gettime", NULL);
 			zephir_check_call_status();
-			ZEPHIR_CALL_METHOD(&_7, message, "getcontext",  NULL);
+			ZEPHIR_CALL_METHOD(&_7, message, "getcontext", NULL);
 			zephir_check_call_status();
 			ZEPHIR_CALL_METHOD(NULL, this_ptr, "loginternal", NULL, _4, _5, _6, _7);
 			zephir_check_call_status();

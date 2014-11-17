@@ -642,7 +642,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, _getResultset) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'collection' must be an instance of 'Phalcon\\Mvc\\CollectionInterface'", "", 0);
 		return;
 	}
-	ZEPHIR_CALL_METHOD(&source, collection, "getsource",  NULL);
+	ZEPHIR_CALL_METHOD(&source, collection, "getsource", NULL);
 	zephir_check_call_status();
 	if (ZEPHIR_IS_EMPTY(source)) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_collection_exception_ce, "Method getSource() returns empty string", "phalcon/mvc/collection.zep", 375);
@@ -702,7 +702,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, _getResultset) {
 	if (unique == 1) {
 		ZEPHIR_CALL_METHOD(NULL, documentsCursor, "rewind", NULL);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(&document, documentsCursor, "current",  NULL);
+		ZEPHIR_CALL_METHOD(&document, documentsCursor, "current", NULL);
 		zephir_check_call_status();
 		if (Z_TYPE_P(document) == IS_ARRAY) {
 			ZEPHIR_RETURN_CALL_SELF("cloneresult", NULL, base, document);
@@ -752,7 +752,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, _getGroupResultset) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'collection' must be an instance of 'Phalcon\\Mvc\\Collection'", "", 0);
 		return;
 	}
-	ZEPHIR_CALL_METHOD(&source, collection, "getsource",  NULL);
+	ZEPHIR_CALL_METHOD(&source, collection, "getsource", NULL);
 	zephir_check_call_status();
 	if (ZEPHIR_IS_EMPTY(source)) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_collection_exception_ce, "Method getSource() returns empty string", "phalcon/mvc/collection.zep", 484);
@@ -1001,7 +1001,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, validate) {
 	ZEPHIR_CALL_METHOD(&_0, validator, "validate", NULL, this_ptr);
 	zephir_check_call_status();
 	if (ZEPHIR_IS_FALSE_IDENTICAL(_0)) {
-		ZEPHIR_CALL_METHOD(&_1, validator, "getmessages",  NULL);
+		ZEPHIR_CALL_METHOD(&_1, validator, "getmessages", NULL);
 		zephir_check_call_status();
 		zephir_is_iterable(_1, &_3, &_2, 0, 0, "phalcon/mvc/collection.zep", 704);
 		for (
@@ -1309,13 +1309,13 @@ PHP_METHOD(Phalcon_Mvc_Collection, save) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_collection_exception_ce, "A dependency injector container is required to obtain the services related to the ORM", "phalcon/mvc/collection.zep", 912);
 		return;
 	}
-	ZEPHIR_CALL_METHOD(&source, this_ptr, "getsource",  NULL);
+	ZEPHIR_CALL_METHOD(&source, this_ptr, "getsource", NULL);
 	zephir_check_call_status();
 	if (ZEPHIR_IS_EMPTY(source)) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_collection_exception_ce, "Method getSource() returns empty string", "phalcon/mvc/collection.zep", 917);
 		return;
 	}
-	ZEPHIR_CALL_METHOD(&connection, this_ptr, "getconnection",  NULL);
+	ZEPHIR_CALL_METHOD(&connection, this_ptr, "getconnection", NULL);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&collection, connection, "selectcollection", NULL, source);
 	zephir_check_call_status();
@@ -1342,7 +1342,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, save) {
 	}
 	ZEPHIR_INIT_VAR(data);
 	array_init(data);
-	ZEPHIR_CALL_METHOD(&reserved, this_ptr, "getreservedattributes",  NULL);
+	ZEPHIR_CALL_METHOD(&reserved, this_ptr, "getreservedattributes", NULL);
 	zephir_check_call_status();
 	ZEPHIR_CALL_FUNCTION(&properties, "get_object_vars", &_4, this_ptr);
 	zephir_check_call_status();
@@ -1420,7 +1420,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, findById) {
 			ZEPHIR_CALL_METHOD(NULL, collection, "__construct", NULL);
 			zephir_check_call_status();
 		}
-		ZEPHIR_CALL_METHOD(&_2, collection, "getmodelsmanager",  NULL);
+		ZEPHIR_CALL_METHOD(&_2, collection, "getmodelsmanager", NULL);
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(&_3, _2, "isusingimplicitobjectids", NULL, collection);
 		zephir_check_call_status();
@@ -1506,7 +1506,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, findFirst) {
 		ZEPHIR_CALL_METHOD(NULL, collection, "__construct", NULL);
 		zephir_check_call_status();
 	}
-	ZEPHIR_CALL_METHOD(&connection, collection, "getconnection",  NULL);
+	ZEPHIR_CALL_METHOD(&connection, collection, "getconnection", NULL);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(_2);
 	ZVAL_BOOL(_2, 1);
@@ -1584,7 +1584,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, find) {
 		ZEPHIR_CALL_METHOD(NULL, collection, "__construct", NULL);
 		zephir_check_call_status();
 	}
-	ZEPHIR_CALL_METHOD(&_2, collection, "getconnection",  NULL);
+	ZEPHIR_CALL_METHOD(&_2, collection, "getconnection", NULL);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(_3);
 	ZVAL_BOOL(_3, 0);
@@ -1634,7 +1634,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, count) {
 		ZEPHIR_CALL_METHOD(NULL, collection, "__construct", NULL);
 		zephir_check_call_status();
 	}
-	ZEPHIR_CALL_METHOD(&connection, collection, "getconnection",  NULL);
+	ZEPHIR_CALL_METHOD(&connection, collection, "getconnection", NULL);
 	zephir_check_call_status();
 	ZEPHIR_RETURN_CALL_SELF("_getgroupresultset", NULL, parameters, collection, connection);
 	zephir_check_call_status();
@@ -1676,9 +1676,9 @@ PHP_METHOD(Phalcon_Mvc_Collection, aggregate) {
 		ZEPHIR_CALL_METHOD(NULL, model, "__construct", NULL);
 		zephir_check_call_status();
 	}
-	ZEPHIR_CALL_METHOD(&connection, model, "getconnection",  NULL);
+	ZEPHIR_CALL_METHOD(&connection, model, "getconnection", NULL);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&source, model, "getsource",  NULL);
+	ZEPHIR_CALL_METHOD(&source, model, "getsource", NULL);
 	zephir_check_call_status();
 	if (ZEPHIR_IS_EMPTY(source)) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_collection_exception_ce, "Method getSource() returns empty string", "phalcon/mvc/collection.zep", 1185);
@@ -1739,9 +1739,9 @@ PHP_METHOD(Phalcon_Mvc_Collection, summatory) {
 		ZEPHIR_CALL_METHOD(NULL, model, "__construct", NULL);
 		zephir_check_call_status();
 	}
-	ZEPHIR_CALL_METHOD(&connection, model, "getconnection",  NULL);
+	ZEPHIR_CALL_METHOD(&connection, model, "getconnection", NULL);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&source, model, "getsource",  NULL);
+	ZEPHIR_CALL_METHOD(&source, model, "getsource", NULL);
 	zephir_check_call_status();
 	if (ZEPHIR_IS_EMPTY(source)) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_collection_exception_ce, "Method getSource() returns empty string", "phalcon/mvc/collection.zep", 1212);
@@ -1816,9 +1816,9 @@ PHP_METHOD(Phalcon_Mvc_Collection, delete) {
 			RETURN_MM_BOOL(0);
 		}
 	}
-	ZEPHIR_CALL_METHOD(&connection, this_ptr, "getconnection",  NULL);
+	ZEPHIR_CALL_METHOD(&connection, this_ptr, "getconnection", NULL);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&source, this_ptr, "getsource",  NULL);
+	ZEPHIR_CALL_METHOD(&source, this_ptr, "getsource", NULL);
 	zephir_check_call_status();
 	if (ZEPHIR_IS_EMPTY(source)) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_collection_exception_ce, "Method getSource() returns empty string", "phalcon/mvc/collection.zep", 1280);
@@ -1893,7 +1893,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, toArray) {
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_CALL_METHOD(&reserved, this_ptr, "getreservedattributes",  NULL);
+	ZEPHIR_CALL_METHOD(&reserved, this_ptr, "getreservedattributes", NULL);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(data);
 	array_init(data);
@@ -1933,7 +1933,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, serialize) {
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "toarray",  NULL);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "toarray", NULL);
 	zephir_check_call_status();
 	ZEPHIR_RETURN_CALL_FUNCTION("serialize", &_1, _0);
 	zephir_check_call_status();

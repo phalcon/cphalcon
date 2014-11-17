@@ -99,7 +99,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getMetaData) {
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	ZEPHIR_CALL_METHOD(&propertiesAnnotations, reflection, "getpropertiesannotations",  NULL);
+	ZEPHIR_CALL_METHOD(&propertiesAnnotations, reflection, "getpropertiesannotations", NULL);
 	zephir_check_call_status();
 	if (!(zephir_fast_count_int(propertiesAnnotations TSRMLS_CC))) {
 		ZEPHIR_INIT_LNVAR(_1);
@@ -298,7 +298,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getColumnMaps) {
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	ZEPHIR_CALL_METHOD(&propertiesAnnotations, reflection, "getpropertiesannotations",  NULL);
+	ZEPHIR_CALL_METHOD(&propertiesAnnotations, reflection, "getpropertiesannotations", NULL);
 	zephir_check_call_status();
 	if (!(zephir_fast_count_int(propertiesAnnotations TSRMLS_CC))) {
 		ZEPHIR_INIT_LNVAR(_1);

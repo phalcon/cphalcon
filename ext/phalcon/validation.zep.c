@@ -711,7 +711,7 @@ PHP_METHOD(Phalcon_Validation, getValue) {
 			ZEPHIR_OBS_VAR(fieldFilters);
 			if (zephir_array_isset_fetch(&fieldFilters, filters, field, 0 TSRMLS_CC)) {
 				if (zephir_is_true(fieldFilters)) {
-					ZEPHIR_CALL_METHOD(&dependencyInjector, this_ptr, "getdi",  NULL);
+					ZEPHIR_CALL_METHOD(&dependencyInjector, this_ptr, "getdi", NULL);
 					zephir_check_call_status();
 					if (Z_TYPE_P(dependencyInjector) != IS_OBJECT) {
 						ZEPHIR_CALL_CE_STATIC(&dependencyInjector, phalcon_di_ce, "getdefault", &_2);

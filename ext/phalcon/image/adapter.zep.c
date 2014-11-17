@@ -658,7 +658,7 @@ PHP_METHOD(Phalcon_Image_Adapter, watermark) {
 		return;
 	}
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_width"), PH_NOISY_CC);
-	ZEPHIR_CALL_METHOD(&_1, watermark, "getwidth",  NULL);
+	ZEPHIR_CALL_METHOD(&_1, watermark, "getwidth", NULL);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(_2);
 	zephir_sub_function(_2, _0, _1 TSRMLS_CC);
@@ -671,7 +671,7 @@ PHP_METHOD(Phalcon_Image_Adapter, watermark) {
 		}
 	}
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_height"), PH_NOISY_CC);
-	ZEPHIR_CALL_METHOD(&_1, watermark, "getheight",  NULL);
+	ZEPHIR_CALL_METHOD(&_1, watermark, "getheight", NULL);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(_3);
 	zephir_sub_function(_3, _0, _1 TSRMLS_CC);

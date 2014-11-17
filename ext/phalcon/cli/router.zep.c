@@ -345,7 +345,7 @@ PHP_METHOD(Phalcon_Cli_Router, handle) {
 		  ; zephir_hash_move_backwards_ex(_3, &_2)
 		) {
 			ZEPHIR_GET_HVALUE(route, _4);
-			ZEPHIR_CALL_METHOD(&pattern, route, "getcompiledpattern",  NULL);
+			ZEPHIR_CALL_METHOD(&pattern, route, "getcompiledpattern", NULL);
 			zephir_check_call_status();
 			if (zephir_memnstr_str(pattern, SL("^"), "phalcon/cli/router.zep", 233)) {
 				Z_SET_ISREF_P(matches);
@@ -357,7 +357,7 @@ PHP_METHOD(Phalcon_Cli_Router, handle) {
 				ZVAL_BOOL(routeFound, ZEPHIR_IS_EQUAL(pattern, arguments));
 			}
 			if (zephir_is_true(routeFound)) {
-				ZEPHIR_CALL_METHOD(&beforeMatch, route, "getbeforematch",  NULL);
+				ZEPHIR_CALL_METHOD(&beforeMatch, route, "getbeforematch", NULL);
 				zephir_check_call_status();
 				if (Z_TYPE_P(beforeMatch) != IS_NULL) {
 					if (!(zephir_is_callable(beforeMatch TSRMLS_CC))) {
@@ -375,11 +375,11 @@ PHP_METHOD(Phalcon_Cli_Router, handle) {
 				}
 			}
 			if (zephir_is_true(routeFound)) {
-				ZEPHIR_CALL_METHOD(&paths, route, "getpaths",  NULL);
+				ZEPHIR_CALL_METHOD(&paths, route, "getpaths", NULL);
 				zephir_check_call_status();
 				ZEPHIR_CPY_WRT(parts, paths);
 				if (Z_TYPE_P(matches) == IS_ARRAY) {
-					ZEPHIR_CALL_METHOD(&converters, route, "getconverters",  NULL);
+					ZEPHIR_CALL_METHOD(&converters, route, "getconverters", NULL);
 					zephir_check_call_status();
 					zephir_is_iterable(paths, &_8, &_7, 0, 0, "phalcon/cli/router.zep", 312);
 					for (
@@ -674,7 +674,7 @@ PHP_METHOD(Phalcon_Cli_Router, getRouteById) {
 	  ; zephir_hash_move_forward_ex(_2, &_1)
 	) {
 		ZEPHIR_GET_HVALUE(route, _3);
-		ZEPHIR_CALL_METHOD(&_4, route, "getrouteid",  NULL);
+		ZEPHIR_CALL_METHOD(&_4, route, "getrouteid", NULL);
 		zephir_check_call_status();
 		if (ZEPHIR_IS_EQUAL(_4, id)) {
 			RETURN_CCTOR(route);
@@ -721,7 +721,7 @@ PHP_METHOD(Phalcon_Cli_Router, getRouteByName) {
 	  ; zephir_hash_move_forward_ex(_2, &_1)
 	) {
 		ZEPHIR_GET_HVALUE(route, _3);
-		ZEPHIR_CALL_METHOD(&_4, route, "getname",  NULL);
+		ZEPHIR_CALL_METHOD(&_4, route, "getname", NULL);
 		zephir_check_call_status();
 		if (ZEPHIR_IS_EQUAL(_4, name)) {
 			RETURN_CCTOR(route);
