@@ -633,6 +633,7 @@ PHP_METHOD(Phalcon_Config, offsetUnset){
  *</code>
  *
  * @param Phalcon\Config $config
+ * @return Phalcon\Config
  */
 PHP_METHOD(Phalcon_Config, merge){
 
@@ -699,8 +700,10 @@ PHP_METHOD(Phalcon_Config, merge){
 	
 		zend_hash_move_forward_ex(ah0, &hp0);
 	}
-	
+
 	zval_ptr_dtor(&array_config);
+
+	RETURN_THISW();
 }
 
 /**
