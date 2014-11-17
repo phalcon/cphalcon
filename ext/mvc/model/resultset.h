@@ -29,16 +29,4 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Resultset);
 #define PHALCON_MVC_MODEL_RESULTSET_TYPE_FULL       0
 #define PHALCON_MVC_MODEL_RESULTSET_TYPE_PARTIAL    1
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_resultset_sethydratemode, 0, 0, 1)
-	ZEND_ARG_INFO(0, hydrateMode)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_resultset_delete, 0, 0, 0)
-	ZEND_ARG_INFO(0, conditionCallback)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_resultset_filter, 0, 0, 1)
-	ZEND_ARG_INFO(0, filter)
-ZEND_END_ARG_INFO()
-
 #endif /* PHALCON_MVC_MODEL_RESULTSET_H */

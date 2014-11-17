@@ -81,6 +81,24 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, current);
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, getMessages);
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, delete);
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, filter);
+PHP_METHOD(Phalcon_Mvc_Model_Resultset, update);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_resultset_sethydratemode, 0, 0, 1)
+	ZEND_ARG_INFO(0, hydrateMode)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_resultset_delete, 0, 0, 0)
+	ZEND_ARG_INFO(0, conditionCallback)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_resultset_filter, 0, 0, 1)
+	ZEND_ARG_INFO(0, filter)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_resultset_update, 0, 0, 1)
+	ZEND_ARG_INFO(0, data)
+	ZEND_ARG_INFO(0, conditionCallback)
+ZEND_END_ARG_INFO()
 
 static const zend_function_entry phalcon_mvc_model_resultset_method_entry[] = {
 	PHP_ME(Phalcon_Mvc_Model_Resultset, next, arginfo_iterator_next, ZEND_ACC_PUBLIC)
@@ -104,6 +122,7 @@ static const zend_function_entry phalcon_mvc_model_resultset_method_entry[] = {
 	PHP_ME(Phalcon_Mvc_Model_Resultset, getMessages, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Resultset, delete, arginfo_phalcon_mvc_model_resultset_delete, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Resultset, filter, arginfo_phalcon_mvc_model_resultset_filter, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Resultset, update, arginfo_phalcon_mvc_model_resultset_update, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };
 
@@ -772,4 +791,104 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, filter){
 	}
 	
 	RETURN_CTOR(records);
+}
+
+/**
+ * Updates every record in the resultset
+ *
+ * @param array $data
+ * @param Closure $conditionCallback
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Resultset, update){
+
+	zval *data, *condition_callback = NULL, *transaction = NULL, *record = NULL;
+	zval *connection = NULL, *parameters = NULL, *status = NULL, *messages = NULL;
+	zval *r0 = NULL;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 1, 1, &data, &condition_callback);
+	
+	if (!condition_callback) {
+		condition_callback = PHALCON_GLOBAL(z_null);
+	}
+	
+	PHALCON_INIT_VAR(transaction);
+	ZVAL_FALSE(transaction);
+	PHALCON_CALL_METHOD(NULL, this_ptr, "rewind");
+
+	while (1) {
+		PHALCON_CALL_METHOD(&r0, this_ptr, "valid");
+		if (zend_is_true(r0)) {
+		} else {
+			break;
+		}
+	
+		PHALCON_CALL_METHOD(&record, this_ptr, "current");
+		if (PHALCON_IS_FALSE(transaction)) {
+	
+			/** 
+			 * We only can delete resultsets whose every element is a complete object
+			 */
+			if (phalcon_method_exists_ex(record, SS("getwriteconnection") TSRMLS_CC) == FAILURE) {
+				PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The returned record is not valid");
+				return;
+			}
+	
+			PHALCON_CALL_METHOD(&connection, record, "getwriteconnection");
+			PHALCON_CALL_METHOD(NULL, connection, "begin");
+	
+			PHALCON_INIT_NVAR(transaction);
+			ZVAL_TRUE(transaction);
+		}
+	
+		/** 
+		 * Perform additional validations
+		 */
+		if (Z_TYPE_P(condition_callback) == IS_OBJECT) {
+	
+			PHALCON_INIT_NVAR(parameters);
+			array_init_size(parameters, 1);
+			phalcon_array_append(&parameters, record, PH_SEPARATE);
+	
+			PHALCON_INIT_NVAR(status);/**/
+			PHALCON_CALL_USER_FUNC_ARRAY(status, condition_callback, parameters);
+			if (PHALCON_IS_FALSE(status)) {
+				continue;
+			}
+		}
+	
+		/** 
+		 * Try to delete the record
+		 */
+		PHALCON_CALL_METHOD(&status, record, "save", data);
+		if (!zend_is_true(status)) {
+			/** 
+			 * Get the messages from the record that produce the error
+			 */
+			PHALCON_CALL_METHOD(&messages, record, "getmessages");
+			phalcon_update_property_this(this_ptr, SL("_errorMessages"), messages TSRMLS_CC);
+	
+			/** 
+			 * Rollback the transaction
+			 */
+			PHALCON_CALL_METHOD(NULL, connection, "rollback");
+	
+			PHALCON_INIT_NVAR(transaction);
+			ZVAL_BOOL(transaction, 0);
+			break;
+		}
+	
+		PHALCON_CALL_METHOD(NULL, this_ptr, "next");
+	}
+	
+	/** 
+	 * Commit the transaction
+	 */
+	if (PHALCON_IS_TRUE(transaction)) {
+		PHALCON_CALL_METHOD(NULL, connection, "commit");
+	}
+	
+	RETURN_MM_TRUE;
 }
