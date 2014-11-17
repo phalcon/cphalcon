@@ -193,7 +193,7 @@ abstract class Collection implements CollectionInterface, InjectionAwareInterfac
 	 *
 	 * @return Phalcon\Mvc\Model\ManagerInterface
 	 */
-	public function getModelsManager() -> <ManagerInterface>
+	public function getCollectionManager() -> <ManagerInterface>
 	{
 		return this->_modelsManager;
 	}
@@ -1016,7 +1016,7 @@ abstract class Collection implements CollectionInterface, InjectionAwareInterfac
 			/**
 			 * Check if the model use implicit ids
 			 */
-			if collection->getModelsManager()->isUsingImplicitObjectIds(collection) {
+			if collection->getCollectionManager()->isUsingImplicitObjectIds(collection) {
 				let mongoId = new \MongoId(id);
 			} else {
 				let mongoId = id;

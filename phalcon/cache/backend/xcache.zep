@@ -164,10 +164,9 @@ use Phalcon\Cache\Exception;
 		if success {
 			let options = this->_options;
 
-			if !isset options["statsKey"] {
-				throw new Exception("Unexpected inconsistency in options");
-			}
-			let specialKey = options["statsKey"];
+			if !fetch specialKey, this->_options["statsKey"] {
+	                        throw new Exception("Unexpected inconsistency in options");
+        	        }
 
 			/**
 			 * xcache_list() is available only to the administrator (unless XCache was
@@ -225,12 +224,11 @@ use Phalcon\Cache\Exception;
 			let prefixed = "_PHCX" . prefix;
 		}
 
-		let options = this->_options;
+ 		let options = this->_options;
 
-		if !isset options["statsKey"] {
-			throw new Exception("Unexpected inconsistency in options");
+		if !fetch specialKey, this->_options["statsKey"] {
+                	throw new Exception("Unexpected inconsistency in options");
 		}
-		let specialKey = options["statsKey"];
 
 		let retval = [];
 
@@ -240,9 +238,11 @@ use Phalcon\Cache\Exception;
 		*/
 		let keys = xcache_get(specialKey);
 		if typeof keys == "array" {
-			for key in keys {
-				let realKey = substr(key,5,0);
-				let retval[] = realKey;
+			for key, _ in keys {
+				if starts_with(key, prefixed) {
+					let realKey = substr(key, 5);
+					let retval[] = realKey;
+				}
 			}
 		}
 
