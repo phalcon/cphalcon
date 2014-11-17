@@ -19,6 +19,8 @@
 
 namespace Phalcon\Acl;
 
+use Phalcon\Acl\Exception;
+
 /**
  * Phalcon\Acl\Resource
  *
@@ -48,7 +50,7 @@ class $Resource
 	public function __construct(string! name, string description = null)
 	{
 		if name == "*" {
-			throw new \Phalcon\Acl\Exception("Resource name cannot be '*'");
+			throw new Exception("Resource name cannot be '*'");
 		}
 
 		let this->_name = name;
@@ -56,6 +58,4 @@ class $Resource
 			let this->_description = description;
 		}
 	}
-
 }
-

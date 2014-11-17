@@ -98,5 +98,4 @@ class Row implements \ArrayAccess, ResultInterface
 	{
 		return get_object_vars(this);
 	}
-
 }

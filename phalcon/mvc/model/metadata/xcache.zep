@@ -19,6 +19,9 @@
 
 namespace Phalcon\Mvc\Model\MetaData;
 
+use Phalcon\Mvc\Model\MetaData;
+use Phalcon\Mvc\Model\MetaDataInterface;
+
 /**
  * Phalcon\Mvc\Model\MetaData\Xcache
  *
@@ -35,7 +38,7 @@ namespace Phalcon\Mvc\Model\MetaData;
  *	));
  *</code>
  */
-class Xcache extends \Phalcon\Mvc\Model\MetaData implements \Phalcon\Mvc\Model\MetaDataInterface
+class Xcache extends MetaData implements MetaDataInterface
 {
 
 	protected _prefix = "";
@@ -47,7 +50,7 @@ class Xcache extends \Phalcon\Mvc\Model\MetaData implements \Phalcon\Mvc\Model\M
 	 *
 	 * @param array options
 	 */
-	public function __construct(options=null)
+	public function __construct(options = null)
 	{
 		var prefix, ttl;
 
@@ -88,5 +91,4 @@ class Xcache extends \Phalcon\Mvc\Model\MetaData implements \Phalcon\Mvc\Model\M
 	{
 		xcache_set("$PMM$" . this->_prefix . key, data, this->_ttl);
 	}
-
 }

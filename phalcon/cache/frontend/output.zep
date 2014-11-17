@@ -155,7 +155,7 @@ class Output implements FrontendInterface
 	 * @param mixed data
 	 * @return string
 	 */
-	public function beforeStore(data) -> string
+	public function beforeStore(var data) -> string
 	{
 		return data;
 	}
@@ -166,9 +166,8 @@ class Output implements FrontendInterface
 	 * @param mixed data
 	 * @return mixed
 	 */
-	public function afterRetrieve(data)
+	public function afterRetrieve(var data)
 	{
 		return data;
 	}
-
 }

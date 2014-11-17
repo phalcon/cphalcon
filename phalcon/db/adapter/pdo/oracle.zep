@@ -21,6 +21,8 @@
 namespace Phalcon\Db\Adapter\Pdo;
 
 use Phalcon\Db\Column;
+use Phalcon\Db\RawValue;
+use Phalcon\Db\AdapterInterface;
 
 /**
  * Phalcon\Db\Adapter\Pdo\Oracle
@@ -38,7 +40,7 @@ use Phalcon\Db\Column;
  *
  * </code>
  */
-class Oracle extends \Phalcon\Db\Adapter\Pdo implements \Phalcon\Db\AdapterInterface
+class Oracle extends \Phalcon\Db\Adapter\Pdo implements AdapterInterface
 {
 
 	protected _type = "oci";
@@ -52,7 +54,7 @@ class Oracle extends \Phalcon\Db\Adapter\Pdo implements \Phalcon\Db\AdapterInter
 	 * @param array descriptor
 	 * @return boolean
 	 */
-	public function connect(descriptor=null) -> boolean
+	public function connect(descriptor = null) -> boolean
 	{
 		var startup, value, status;
 
@@ -85,7 +87,7 @@ class Oracle extends \Phalcon\Db\Adapter\Pdo implements \Phalcon\Db\AdapterInter
 	 * @param string schema
 	 * @return Phalcon\Db\Column[]
 	 */
-	public function describeColumns(string! table, schema=null) -> <Phalcon\Db\Column[]>
+	public function describeColumns(string! table, schema = null) -> <Column[]>
 	{
 		var columns, oldColumn, field, definition, columnSize,
 			columnPrecision, columnScale, columnType, columnName;
@@ -197,7 +199,7 @@ class Oracle extends \Phalcon\Db\Adapter\Pdo implements \Phalcon\Db\AdapterInter
 			/**
 			 * Create a Phalcon\Db\Column to abstract the column
 			 */
-			let columns[] = new \Phalcon\Db\Column(columnName, definition),
+			let columns[] = new Column(columnName, definition),
 				oldColumn = columnName;
 		}
 
@@ -222,7 +224,7 @@ class Oracle extends \Phalcon\Db\Adapter\Pdo implements \Phalcon\Db\AdapterInter
 	 * @param string sequenceName
 	 * @return int
 	 */
-	public function lastInsertId(sequenceName=null) -> int
+	public function lastInsertId(sequenceName = null) -> int
 	{
 		return this->fetchAll("SELECT " . sequenceName . ".CURRVAL FROM dual", \Phalcon\Db::FETCH_NUM)[0];
 	}
@@ -242,9 +244,9 @@ class Oracle extends \Phalcon\Db\Adapter\Pdo implements \Phalcon\Db\AdapterInter
 	 *
 	 * @return Phalcon\Db\RawValue
 	 */
-	public function getDefaultIdValue()
+	public function getDefaultIdValue() -> <RawValue>
 	{
-		return new \Phalcon\Db\RawValue("default");
+		return new RawValue("default");
 	}
 
 	/**
@@ -256,5 +258,4 @@ class Oracle extends \Phalcon\Db\Adapter\Pdo implements \Phalcon\Db\AdapterInter
 	{
 		return true;
 	}
-
 }

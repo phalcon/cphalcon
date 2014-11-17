@@ -446,5 +446,4 @@ class Application extends Injectable
 		 */
 		return response;
 	}
-
 }

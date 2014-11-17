@@ -19,6 +19,7 @@
 
 namespace Phalcon\Mvc\Model\Validator;
 
+use Phalcon\Mvc\ModelInterface;
 use Phalcon\Mvc\Model\Exception;
 use Phalcon\Mvc\Model\Validator;
 use Phalcon\Mvc\Model\ValidatorInterface;
@@ -56,7 +57,7 @@ class Inclusionin extends Validator implements ValidatorInterface
 	 * @param Phalcon\Mvc\ModelInterface record
 	 * @return boolean
 	 */
-	public function validate(<\Phalcon\Mvc\ModelInterface> record) -> boolean
+	public function validate(<ModelInterface> record) -> boolean
 	{
 		var field, domain, value, message, strict;
 
@@ -82,16 +83,16 @@ class Inclusionin extends Validator implements ValidatorInterface
 		if this->isSetOption("allowEmpty") && empty value {
 			return true;
 		}
-		
+
 		let strict = false;
 		if this->isSetOption("strict") {
 			if typeof strict != "boolean" {
 			    throw new Exception("Option 'strict' must be a boolean");
 			}
-			
+
 			let strict = this->getOption("strict");
-		}		
-		
+		}
+
 		/**
 		 * Check if the value is contained in the array
 		 */

@@ -69,7 +69,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 	 *
 	 * @return Phalcon\DiInterface
 	 */
-	public function getDI() -> <DiInterface>|null
+	public function getDI() -> <DiInterface> | null
 	{
 		var dependencyInjector;
 		if fetch dependencyInjector, this->_params["di"] {
@@ -158,7 +158,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 	 * @param string type
 	 * @return Phalcon\Mvc\Model\Criteria
 	 */
-	public function join(string! model, conditions=null, alias=null, type=null) -> <Criteria>
+	public function join(string! model, conditions = null, alias = null, type = null) -> <Criteria>
 	{
 		var join, mergedJoins, currentJoins;
 
@@ -194,7 +194,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 	 * @param string type
 	 * @return Phalcon\Mvc\Model\Criteria
 	 */
-	public function innerJoin(string! model, conditions=null, alias=null) -> <Criteria>
+	public function innerJoin(string! model, conditions = null, alias = null) -> <Criteria>
 	{
 		var join, mergedJoins, currentJoins;
 
@@ -226,7 +226,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 	 * @param string alias
 	 * @return Phalcon\Mvc\Model\Criteria
 	 */
-	public function leftJoin(string! model, conditions=null, alias=null) -> <Criteria>
+	public function leftJoin(string! model, conditions = null, alias = null) -> <Criteria>
 	{
 		var join, mergedJoins, currentJoins;
 
@@ -258,7 +258,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 	 * @param string alias
 	 * @return Phalcon\Mvc\Model\Criteria
 	 */
-	public function rightJoin(string! model, conditions=null, alias=null) -> <Criteria>
+	public function rightJoin(string! model, conditions = null, alias = null) -> <Criteria>
 	{
 		var join, mergedJoins, currentJoins;
 
@@ -286,7 +286,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 	 * @param array bindTypes
 	 * @return Phalcon\Mvc\Model\Criteria
 	 */
-	public function where(string! conditions, bindParams=null, bindTypes=null) -> <Criteria>
+	public function where(string! conditions, bindParams = null, bindTypes = null) -> <Criteria>
 	{
 		var currentBindParams, mergedParams, mergedParamsTypes, currentBindTypes;
 
@@ -327,7 +327,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 	 * @param array bindTypes
 	 * @return Phalcon\Mvc\Model\Criteria
 	 */
-	public function addWhere(conditions, bindParams=null, bindTypes=null) -> <Criteria>
+	public function addWhere(conditions, bindParams = null, bindTypes = null) -> <Criteria>
 	{
 		return this->andWhere(conditions, bindParams, bindTypes);
 	}
@@ -340,7 +340,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 	 * @param array bindTypes
 	 * @return Phalcon\Mvc\Model\Criteria
 	 */
-	public function andWhere(string! conditions, bindParams=null, bindTypes=null) -> <Criteria>
+	public function andWhere(string! conditions, bindParams = null, bindTypes = null) -> <Criteria>
 	{
 		var currentBindParams, mergedParams, mergedParamsTypes, currentBindTypes, params, currentConditions;
 

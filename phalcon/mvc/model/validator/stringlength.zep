@@ -23,6 +23,7 @@ namespace Phalcon\Mvc\Model\Validator;
 use Phalcon\Mvc\Model\Validator;
 use Phalcon\Mvc\Model\ValidatorInterface;
 use Phalcon\Mvc\Model\Exception;
+use Phalcon\Mvc\ModelInterface;
 
 /**
  * Phalcon\Mvc\Model\Validator\StringLength
@@ -61,7 +62,7 @@ class StringLength extends Validator implements ValidatorInterface
 	 * @param Phalcon\Mvc\ModelInterface record
 	 * @return boolean
 	 */
-	public function validate(<\Phalcon\Mvc\ModelInterface> record) -> boolean
+	public function validate(<ModelInterface> record) -> boolean
 	{
 		var field, isSetMin, isSetMax, value, length, maximum, minimum, message;
 

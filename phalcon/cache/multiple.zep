@@ -20,6 +20,9 @@
 
 namespace Phalcon\Cache;
 
+use Phalcon\Cache\Exception;
+use Phalcon\Cache\BackendInterface;
+
 /**
  * Phalcon\Cache\Multiple
  *
@@ -74,11 +77,11 @@ class Multiple
 	 *
 	 * @param	Phalcon\Cache\BackendInterface[] backends
 	 */
-	public function __construct(backends=null)
+	public function __construct(backends = null)
 	{
 		if typeof backends != "null" {
 			if typeof backends != "array" {
-				throw new \Phalcon\Cache\Exception("The backends must be an array");
+				throw new Exception("The backends must be an array");
 			}
 			let this->_backends = backends;
 		}
@@ -90,14 +93,9 @@ class Multiple
 	 * @param Phalcon\Cache\BackendInterface backend
 	 * @return Phalcon\Cache\Multiple
 	 */
-	public function push(<\Phalcon\Cache\BackendInterface> backend) -> <\Phalcon\Cache\Multiple>
+	public function push(<BackendInterface> backend) -> <Multiple>
 	{
-		if typeof backend != "object" {
-			throw new \Phalcon\Cache\Exception("The backend is not valid");
-		}
-
 		let this->_backends = backend;
-
 		return this;
 	}
 
@@ -108,7 +106,7 @@ class Multiple
 	 * @param   long lifetime
 	 * @return  mixed
 	 */
-	public function get(var keyName, lifetime=null)
+	public function get(var keyName, lifetime = null)
 	{
 		var backend, content;
 
@@ -128,7 +126,7 @@ class Multiple
 	 * @param string|int keyName
 	 * @param long lifetime
 	 */
-	public function start(var keyName, lifetime=null) -> void
+	public function start(var keyName, lifetime = null) -> void
 	{
 		var backend;
 
@@ -145,7 +143,7 @@ class Multiple
 	* @param long lifetime
 	* @param boolean stopBuffer
 	*/
-	public function save(var keyName=null, content=null, lifetime=null, stopBuffer=null) -> void
+	public function save(var keyName = null, content = null, lifetime = null, stopBuffer = null) -> void
 	{
 		var backend;
 
@@ -178,7 +176,7 @@ class Multiple
 	 * @param  long lifetime
 	 * @return boolean
 	 */
-	public function exists(var keyName=null, lifetime=null) -> boolean
+	public function exists(var keyName = null, lifetime = null) -> boolean
 	{
 		var backend;
 
@@ -190,5 +188,4 @@ class Multiple
 
 		return false;
 	}
-
 }

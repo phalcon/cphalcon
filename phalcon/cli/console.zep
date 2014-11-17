@@ -20,6 +20,7 @@
 
 namespace Phalcon\Cli;
 
+use Phalcon\DiInterface;
 use Phalcon\Cli\Router\Route;
 use Phalcon\Events\ManagerInterface;
 use Phalcon\Cli\Console\Exception;
@@ -51,7 +52,7 @@ class Console implements InjectionAwareInterface, EventsAwareInterface
 	 *
 	 * @param Phalcon\DiInterface dependencyInjector
 	 */
-	public function __construct(<\Phalcon\DiInterface> dependencyInjector=null)
+	public function __construct(<DiInterface> dependencyInjector = null)
 	{
 		if typeof dependencyInjector == "object" {
 			let this->_dependencyInjector = dependencyInjector;
@@ -66,7 +67,7 @@ class Console implements InjectionAwareInterface, EventsAwareInterface
 	 *
 	 * @param Phalcon\DiInterface dependencyInjector
 	 */
-	public function setDI(<\Phalcon\DiInterface> dependencyInjector)
+	public function setDI(<DiInterface> dependencyInjector)
 	{
 		let this->_dependencyInjector = dependencyInjector;
 	}
@@ -76,7 +77,7 @@ class Console implements InjectionAwareInterface, EventsAwareInterface
 	 *
 	 * @return Phalcon\DiInterface
 	 */
-	public function getDI() -> <\Phalcon\DiInterface>
+	public function getDI() -> <DiInterface>
 	{
 		return this->_dependencyInjector;
 	}
@@ -309,5 +310,4 @@ class Console implements InjectionAwareInterface, EventsAwareInterface
 
 		return this;
 	}
-
 }

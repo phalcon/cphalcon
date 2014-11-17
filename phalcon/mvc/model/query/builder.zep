@@ -448,7 +448,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 */
 	public function rightJoin(string! model, var conditions = null, var alias = null) -> <Builder>
 	{
-		let this->_joins = [model, conditions, alias, "RIGHT"];
+		let this->_joins[] = [model, conditions, alias, "RIGHT"];
 		return this;
 	}
 

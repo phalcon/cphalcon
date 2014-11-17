@@ -19,6 +19,7 @@
 
 namespace Phalcon\Mvc\Model\Validator;
 
+use Phalcon\Mvc\ModelInterface;
 use Phalcon\Mvc\Model\Validator;
 use Phalcon\Mvc\Model\ValidatorInterface;
 use Phalcon\Mvc\Model\Exception;
@@ -57,7 +58,7 @@ class Exclusionin extends Validator implements ValidatorInterface
 	 * @param Phalcon\Mvc\ModelInterface record
 	 * @return boolean
 	 */
-	public function validate(<\Phalcon\Mvc\ModelInterface> record) -> boolean
+	public function validate(<ModelInterface> record) -> boolean
 	{
 		var field, domain, value, message;
 
@@ -103,5 +104,4 @@ class Exclusionin extends Validator implements ValidatorInterface
 
 		return true;
 	}
-
 }

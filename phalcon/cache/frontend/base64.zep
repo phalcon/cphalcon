@@ -19,6 +19,8 @@
 
 namespace Phalcon\Cache\Frontend;
 
+use Phalcon\Cache\FrontendInterface;
+
 /**
  * Phalcon\Cache\Frontend\Base64
  *
@@ -54,7 +56,7 @@ namespace Phalcon\Cache\Frontend;
  * echo $image;
  *</code>
  */
-class Base64 implements \Phalcon\Cache\FrontendInterface
+class Base64 implements FrontendInterface
 {
 
 	protected _frontendOptions;
@@ -91,7 +93,7 @@ class Base64 implements \Phalcon\Cache\FrontendInterface
 	 *
 	 * @return boolean
 	 */
-	public function isBuffering()
+	public function isBuffering() -> boolean
 	{
 		return false;
 	}
@@ -128,7 +130,7 @@ class Base64 implements \Phalcon\Cache\FrontendInterface
 	 * @param mixed data
 	 * @return string
 	 */
-	public function beforeStore(data) -> string
+	public function beforeStore(var data) -> string
 	{
 		return base64_encode(data);
 	}
@@ -139,9 +141,8 @@ class Base64 implements \Phalcon\Cache\FrontendInterface
 	 * @param mixed data
 	 * @return mixed
 	 */
-	public function afterRetrieve(data) -> string
+	public function afterRetrieve(var data) -> string
 	{
 		return base64_decode(data);
 	}
-
 }

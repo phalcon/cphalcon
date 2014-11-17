@@ -19,10 +19,12 @@
 
 namespace Phalcon\Db\Adapter;
 
+use Phalcon\Db\Adapter;
 use Phalcon\Db\Exception;
 use Phalcon\Db\Column;
 use Phalcon\Db\ResultInterface;
 use Phalcon\Events\ManagerInterface;
+use Phalcon\Db\Result\Pdo as ResultPdo;
 
 /**
  * Phalcon\Db\Adapter\Pdo
@@ -39,7 +41,7 @@ use Phalcon\Events\ManagerInterface;
  *	));
  *</code>
  */
-abstract class Pdo extends \Phalcon\Db\Adapter
+abstract class Pdo extends Adapter
 {
 
 	/**
@@ -279,7 +281,7 @@ abstract class Pdo extends \Phalcon\Db\Adapter
 			if typeof eventsManager == "object" {
 				eventsManager->fire("db:afterQuery", this, bindParams);
 			}
-			return new \Phalcon\Db\Result\Pdo(this, statement, sqlStatement, bindParams, bindTypes);
+			return new ResultPdo(this, statement, sqlStatement, bindParams, bindTypes);
 		}
 
 		return statement;
@@ -300,7 +302,7 @@ abstract class Pdo extends \Phalcon\Db\Adapter
 	 * @param  array bindTypes
 	 * @return boolean
 	 */
-	public function execute(string! sqlStatement, bindParams=null, bindTypes=null) -> boolean
+	public function execute(string! sqlStatement, bindParams = null, bindTypes = null) -> boolean
 	{
 		var eventsManager, affectedRows, pdo, newStatement, statement;
 

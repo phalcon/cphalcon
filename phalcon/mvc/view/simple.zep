@@ -22,6 +22,7 @@ namespace Phalcon\Mvc\View;
 use Phalcon\Di\Injectable;
 use Phalcon\Mvc\View\Exception;
 use Phalcon\Cache\BackendInterface;
+use Phalcon\Mvc\View\Engine\Php as PhpEngine;
 
 /**
  * Phalcon\Mvc\View\Simple
@@ -134,7 +135,7 @@ class Simple extends Injectable
 				 * We use Phalcon\Mvc\View\Engine\Php as default
 				 * Use .phtml as extension for the PHP engine
 				 */
-				let engines[".phtml"] = new \Phalcon\Mvc\View\Engine\Php(this, dependencyInjector);
+				let engines[".phtml"] = new PhpEngine(this, dependencyInjector);
 
 			} else {
 
@@ -690,5 +691,4 @@ class Simple extends Injectable
 		}
 		return null;
 	}
-
 }

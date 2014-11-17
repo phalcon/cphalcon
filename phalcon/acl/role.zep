@@ -19,6 +19,8 @@
 
 namespace Phalcon\Acl;
 
+use Phalcon\Acl\Exception;
+
 /**
  * Phalcon\Acl\Role
  *
@@ -44,10 +46,10 @@ class Role
 	 * @param string name
 	 * @param string description
 	 */
-	public function __construct(string! name, string description=null)
+	public function __construct(string! name, string description = null)
 	{
 		if name == "*" {
-			throw new \Phalcon\Acl\Exception("Role name cannot be '*'");
+			throw new Exception("Role name cannot be '*'");
 		}
 		let this->_name = name;
 

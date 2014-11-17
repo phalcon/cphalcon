@@ -20,6 +20,7 @@
 namespace Phalcon\Di\Service;
 
 use Phalcon\Di\Exception;
+use Phalcon\DiInterface;
 
 /**
  * Phalcon\Di\Service\Builder
@@ -37,7 +38,7 @@ class Builder
 	 * @param array argument
 	 * @return mixed
 	 */
-	private function _buildParameter(<\Phalcon\DiInterface> dependencyInjector, int position, argument)
+	private function _buildParameter(<DiInterface> dependencyInjector, int position, argument)
 	{
 
 		var type, name, value, instanceArguments;
@@ -118,7 +119,7 @@ class Builder
 	 * @param array arguments
 	 * @return array
 	 */
-	private function _buildParameters(<\Phalcon\DiInterface> dependencyInjector, arguments)
+	private function _buildParameters(<DiInterface> dependencyInjector, arguments)
 	{
 		var position, argument, buildArguments;
 
@@ -144,15 +145,11 @@ class Builder
 	 * @param array parameters
 	 * @return mixed
 	 */
-	public function build(<\Phalcon\DiInterface> dependencyInjector, definition, parameters=null)
+	public function build(<DiInterface> dependencyInjector, array! definition, parameters = null)
 	{
 		var className, arguments, paramCalls, methodPosition, method,
 			methodName, methodCall, instance, propertyPosition, property,
-			propertyName, propertyValue;
-
-		if typeof definition != "array" {
-			throw new Exception("The service definition must be an array");
-		}
+			propertyName, propertyValue, reflection;
 
 		/**
 		 * The class name is required
@@ -167,9 +164,19 @@ class Builder
 			 * Build the instance overriding the definition constructor parameters
 			 */
 			if count(parameters) {
-				let instance = create_instance_params(className, parameters);
+				if is_php_version("5.6") {
+					let reflection = new \ReflectionClass(className),
+						instance = reflection->newInstanceArgs(parameters);
+				} else {
+					let instance = create_instance_params(className, parameters);
+				}
 			} else {
-				let instance = create_instance(className);
+				if is_php_version("5.6") {
+					let reflection = new \ReflectionClass(className),
+						instance = reflection->newInstanceArgs(parameters);
+				} else {
+					let instance = create_instance(className);
+				}
 			}
 
 		} else {
@@ -185,7 +192,12 @@ class Builder
 				let instance = create_instance_params(className, this->_buildParameters(dependencyInjector, arguments));
 
 			} else {
-				let instance = create_instance(className);
+				if is_php_version("5.6") {
+					let reflection = new \ReflectionClass(className),
+						instance = reflection->newInstanceArgs(parameters);
+				} else {
+					let instance = create_instance(className);
+				}
 			}
 		}
 
@@ -304,5 +316,4 @@ class Builder
 
 		return instance;
 	}
-
 }

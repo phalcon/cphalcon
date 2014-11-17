@@ -94,5 +94,4 @@ class Apc extends MetaData implements MetaDataInterface
 	{
 		apc_store("$PMM$" . this->_prefix . key, data, this->_ttl);
 	}
-
 }

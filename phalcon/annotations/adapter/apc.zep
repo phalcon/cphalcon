@@ -56,5 +56,4 @@ class Apc extends Adapter implements AdapterInterface
 	{
 		return apc_store(strtolower("_PHAN" . key), data);
 	}
-
 }

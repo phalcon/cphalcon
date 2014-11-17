@@ -104,5 +104,4 @@ class Adapter
 	{
 		return this->_defaultAccess;
 	}
-
 }

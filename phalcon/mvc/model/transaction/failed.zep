@@ -71,5 +71,4 @@ class Failed extends Exception
 	{
 		return this->_record;
 	}
-
 }

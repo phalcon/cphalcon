@@ -20,6 +20,7 @@
 
 namespace Phalcon\Mvc\Model;
 
+use Phalcon\DiInterface;
 use Phalcon\Mvc\Model\Exception;
 use Phalcon\Mvc\Model\ManagerInterface;
 use Phalcon\Mvc\Model\QueryInterface;
@@ -110,7 +111,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 	 * @param string $phql
 	 * @param Phalcon\DiInterface dependencyInjector
 	 */
-	public function __construct(phql = null, <\Phalcon\DiInterface> dependencyInjector = null)
+	public function __construct(phql = null, <DiInterface> dependencyInjector = null)
 	{
 		if typeof phql != "null" {
 			let this->_phql = phql;
@@ -126,7 +127,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 	 *
 	 * @param Phalcon\DiInterface dependencyInjector
 	 */
-	public function setDI(<\Phalcon\DiInterface> dependencyInjector)
+	public function setDI(<DiInterface> dependencyInjector)
 	{
 		var manager, metaData;
 
@@ -151,7 +152,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 	 *
 	 * @return Phalcon\DiInterface
 	 */
-	public function getDI() -> <\Phalcon\DiInterface>
+	public function getDI() -> <DiInterface>
 	{
 		return this->_dependencyInjector;
 	}

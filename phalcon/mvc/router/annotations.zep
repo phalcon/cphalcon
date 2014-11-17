@@ -19,6 +19,7 @@
 
 namespace Phalcon\Mvc\Router;
 
+use Phalcon\DiInterface;
 use Phalcon\Mvc\Router;
 use Phalcon\Annotations\Annotation;
 use Phalcon\Mvc\Router\Exception;
@@ -136,7 +137,7 @@ class Annotations extends Router
 
 						if typeof annotationsService != "object" {
 
-							let dependencyInjector = <\Phalcon\DiInterface> this->_dependencyInjector;
+							let dependencyInjector = <DiInterface> this->_dependencyInjector;
 							if typeof dependencyInjector != "object" {
 								throw new Exception("A dependency injection container is required to access the 'annotations' service");
 							}

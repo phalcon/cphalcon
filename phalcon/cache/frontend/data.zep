@@ -19,6 +19,8 @@
 
 namespace Phalcon\Cache\Frontend;
 
+use Phalcon\Cache\FrontendInterface;
+
 /**
  * Phalcon\Cache\Frontend\Data
  *
@@ -58,7 +60,7 @@ namespace Phalcon\Cache\Frontend;
  *	}
  *</code>
  */
-class Data implements \Phalcon\Cache\FrontendInterface
+class Data implements FrontendInterface
 {
 
 	protected _frontendOptions;
@@ -68,7 +70,7 @@ class Data implements \Phalcon\Cache\FrontendInterface
 	 *
 	 * @param array frontendOptions
 	 */
-	public function __construct(frontendOptions=null)
+	public function __construct(frontendOptions = null)
 	{
 		let this->_frontendOptions = frontendOptions;
 	}
@@ -95,7 +97,7 @@ class Data implements \Phalcon\Cache\FrontendInterface
 	 *
 	 * @return boolean
 	 */
-	public function isBuffering()
+	public function isBuffering() -> boolean
 	{
 		return false;
 	}
@@ -132,7 +134,7 @@ class Data implements \Phalcon\Cache\FrontendInterface
 	 * @param mixed data
 	 * @return string
 	 */
-	public function beforeStore(data)
+	public function beforeStore(var data)
 	{
 		return serialize(data);
 	}
@@ -143,9 +145,8 @@ class Data implements \Phalcon\Cache\FrontendInterface
 	 * @param mixed data
 	 * @return mixed
 	 */
-	public function afterRetrieve(data)
+	public function afterRetrieve(var data)
 	{
 		return unserialize(data);
 	}
-
 }

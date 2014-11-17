@@ -84,5 +84,4 @@ class Session extends MetaData implements MetaDataInterface
 	{
 		let _SESSION["$PMM$" . this->_prefix][key] = data;
 	}
-
 }

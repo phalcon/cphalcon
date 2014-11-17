@@ -44,7 +44,7 @@ class Files extends MetaData implements MetaDataInterface
 	 *
 	 * @param array options
 	 */
-	public function __construct($options = null)
+	public function __construct(options = null)
 	{
 		var metaDataDir;
 		if typeof options == "array" {

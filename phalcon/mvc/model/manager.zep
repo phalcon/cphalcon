@@ -19,6 +19,7 @@
 
 namespace Phalcon\Mvc\Model;
 
+use Phalcon\DiInterface;
 use Phalcon\Mvc\Model\Relation;
 use Phalcon\Mvc\Model\RelationInterface;
 use Phalcon\Mvc\Model\Exception;
@@ -29,6 +30,8 @@ use Phalcon\Mvc\Model\ManagerInterface;
 use Phalcon\Di\InjectionAwareInterface;
 use Phalcon\Events\EventsAwareInterface;
 use Phalcon\Mvc\Model\QueryInterface;
+use Phalcon\Mvc\Model\Query\Builder;
+use Phalcon\Mvc\Model\Query\BuilderInterface;
 use Phalcon\Events\ManagerInterface as EventsManagerInterface;
 
 /**
@@ -147,7 +150,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	 *
 	 * @param Phalcon\DiInterface dependencyInjector
 	 */
-	public function setDI(<\Phalcon\DiInterface> dependencyInjector)
+	public function setDI(<DiInterface> dependencyInjector)
 	{
 		let this->_dependencyInjector = dependencyInjector;
 	}
@@ -157,7 +160,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	 *
 	 * @return Phalcon\DiInterface
 	 */
-	public function getDI() -> <\Phalcon\DiInterface>
+	public function getDI() -> <DiInterface>
 	{
 		return this->_dependencyInjector;
 	}
@@ -433,7 +436,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 			fetch service, connectionServices[get_class_lower(model)];
 		}
 
-		let dependencyInjector = <\Phalcon\DiInterface> this->_dependencyInjector;
+		let dependencyInjector = <DiInterface> this->_dependencyInjector;
 		if typeof dependencyInjector != "object" {
 			throw new Exception("A dependency injector container is required to obtain the services related to the ORM");
 		}
@@ -472,7 +475,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 			fetch service, connectionServices[get_class_lower(model)];
 		}
 
-		let dependencyInjector = <\Phalcon\DiInterface> this->_dependencyInjector;
+		let dependencyInjector = <DiInterface> this->_dependencyInjector;
 		if typeof dependencyInjector != "object" {
 			throw new Exception("A dependency injector container is required to obtain the services related to the ORM");
 		}
@@ -1804,7 +1807,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	{
 		var dependencyInjector, query;
 
-		let dependencyInjector = <\Phalcon\DiInterface> this->_dependencyInjector;
+		let dependencyInjector = <DiInterface> this->_dependencyInjector;
 		if typeof dependencyInjector != "object" {
 			throw new Exception("A dependency injection object is required to access ORM services");
 		}
@@ -1827,11 +1830,11 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	 * @param string|array params
 	 * @return Phalcon\Mvc\Model\Query\BuilderInterface
 	 */
-	public function createBuilder(var params = null) -> <\Phalcon\Mvc\Model\Query\BuilderInterface>
+	public function createBuilder(var params = null) -> <BuilderInterface>
 	{
 		var dependencyInjector;
 
-		let dependencyInjector = <\Phalcon\DiInterface> this->_dependencyInjector;
+		let dependencyInjector = <DiInterface> this->_dependencyInjector;
 		if typeof dependencyInjector != "object" {
 			throw new Exception("A dependency injection object is required to access ORM services");
 		}
@@ -1839,7 +1842,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 		/**
 		 * Create a query builder
 		 */
-		return new \Phalcon\Mvc\Model\Query\Builder(params, dependencyInjector);
+		return new Builder(params, dependencyInjector);
 	}
 
 	/**
@@ -1888,5 +1891,4 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	{
 		return this->_namespaceAliases;
 	}
-
 }

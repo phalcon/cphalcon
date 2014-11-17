@@ -19,6 +19,8 @@
 
 namespace Phalcon\Cache\Frontend;
 
+use Phalcon\Cache\FrontendInterface;
+
 /**
  * Phalcon\Cache\Frontend\None
  *
@@ -55,7 +57,7 @@ namespace Phalcon\Cache\Frontend;
  *	}
  *</code>
  */
-class None implements \Phalcon\Cache\FrontendInterface
+class None implements FrontendInterface
 {
 
 	/**
@@ -63,7 +65,7 @@ class None implements \Phalcon\Cache\FrontendInterface
 	 *
 	 * @return int
 	 */
-	public function getLifetime()
+	public function getLifetime() -> int
 	{
 		return 1;
 	}
@@ -73,7 +75,7 @@ class None implements \Phalcon\Cache\FrontendInterface
 	 *
 	 * @return boolean
 	 */
-	public function isBuffering()
+	public function isBuffering() -> boolean
 	{
 		return false;
 	}
@@ -109,7 +111,7 @@ class None implements \Phalcon\Cache\FrontendInterface
 	 *
 	 * @param mixed $data
 	 */
-	public function beforeStore(data)
+	public function beforeStore(var data)
 	{
 		return data;
 	}
@@ -119,9 +121,8 @@ class None implements \Phalcon\Cache\FrontendInterface
 	 *
 	 * @param mixed $data
 	 */
-	public function afterRetrieve(data)
+	public function afterRetrieve(var data)
 	{
 		return data;
 	}
-
 }

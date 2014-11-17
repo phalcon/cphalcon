@@ -21,6 +21,8 @@
 namespace Phalcon\Db\Adapter\Pdo;
 
 use Phalcon\Db\Column;
+use Phalcon\Db\AdapterInterface;
+use Phalcon\Db\RawValue;
 
 /**
  * Phalcon\Db\Adapter\Pdo\Postgresql
@@ -39,7 +41,7 @@ use Phalcon\Db\Column;
  *
  * </code>
  */
-class Postgresql extends \Phalcon\Db\Adapter\Pdo implements \Phalcon\Db\AdapterInterface
+class Postgresql extends \Phalcon\Db\Adapter\Pdo implements AdapterInterface
 {
 
 	protected _type = "pgsql";
@@ -53,7 +55,7 @@ class Postgresql extends \Phalcon\Db\Adapter\Pdo implements \Phalcon\Db\AdapterI
 	 * @param array $descriptor
 	 * @return boolean
 	 */
-	public function connect(descriptor=null)
+	public function connect(descriptor = null)
 	{
 		var schema, sql;
 
@@ -92,7 +94,7 @@ class Postgresql extends \Phalcon\Db\Adapter\Pdo implements \Phalcon\Db\AdapterI
 	 * @param string schema
 	 * @return Phalcon\Db\Column[]
 	 */
-	public function describeColumns(string table, string schema=null)
+	public function describeColumns(string table, string schema = null)
 	{
 		var columns, columnType, field, definition,
 			oldColumn, columnName, charSize, numericSize, numericScale;
@@ -316,9 +318,9 @@ class Postgresql extends \Phalcon\Db\Adapter\Pdo implements \Phalcon\Db\AdapterI
 	 *
 	 * @return Phalcon\Db\RawValue
 	 */
-	public function getDefaultIdValue() -> <\Phalcon\Db\RawValue>
+	public function getDefaultIdValue() -> <RawValue>
 	{
-		return new \Phalcon\Db\RawValue("default");
+		return new RawValue("default");
 	}
 
 	/**
@@ -330,5 +332,4 @@ class Postgresql extends \Phalcon\Db\Adapter\Pdo implements \Phalcon\Db\AdapterI
 	{
 		return true;
 	}
-
 }

@@ -95,5 +95,4 @@ class Files extends Adapter implements AdapterInterface
 	  		throw new Exception("Annotations directory cannot be written");
 		}
 	}
-
 }

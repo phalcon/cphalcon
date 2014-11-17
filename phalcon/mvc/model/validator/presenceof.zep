@@ -21,6 +21,8 @@ namespace Phalcon\Mvc\Model\Validator;
 
 use Phalcon\Mvc\Model\Exception;
 use Phalcon\Mvc\ModelInterface;
+use Phalcon\Mvc\Model\Validator;
+use Phalcon\Mvc\Model\ValidatorInterface;
 
 /**
  * Phalcon\Mvc\Model\Validator\PresenceOf
@@ -48,7 +50,7 @@ use Phalcon\Mvc\ModelInterface;
  *</code>
  *
  */
-class PresenceOf extends \Phalcon\Mvc\Model\Validator implements \Phalcon\Mvc\Model\ValidatorInterface
+class PresenceOf extends Validator implements ValidatorInterface
 {
 	/**
 	 * Executes the validator
@@ -84,6 +86,5 @@ class PresenceOf extends \Phalcon\Mvc\Model\Validator implements \Phalcon\Mvc\Mo
 		}
 
 		return true;
-
 	}
 }
