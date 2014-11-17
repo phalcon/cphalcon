@@ -22,7 +22,8 @@ namespace Phalcon\Validation\Validator;
 /**
  * Phalcon\Validation\Validator\Between
  *
- * Validates that a value is between a range of two values
+ * Validates that a value is between an inclusive range of two values.
+ * For a value x, the test is passed if minimum<=x<=maximum.
  *
  *<code>
  *use Phalcon\Validation\Validator\Between;
