@@ -7084,6 +7084,7 @@ PHP_METHOD(Phalcon_Mvc_Model, dump){
  *</code>
  *
  * @param array $columns
+ * @param bool $renameColumns
  * @return array
  */
 PHP_METHOD(Phalcon_Mvc_Model, toArray){
