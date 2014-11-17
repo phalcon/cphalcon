@@ -1351,7 +1351,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, save) {
 	  ; zephir_hash_get_current_data_ex(_6, (void**) &_7, &_5) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_6, &_5)
 	) {
-		ZEPHIR_GET_HMKEY(key, _6, _5);
+		ZEPHIR_GET_HKEY(key, _6, _5);
 		ZEPHIR_GET_HVALUE(value, _7);
 		if (ZEPHIR_IS_STRING(key, "_id")) {
 			if (zephir_is_true(value)) {
@@ -1904,7 +1904,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, toArray) {
 	  ; zephir_hash_get_current_data_ex(_3, (void**) &_4, &_2) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_3, &_2)
 	) {
-		ZEPHIR_GET_HMKEY(key, _3, _2);
+		ZEPHIR_GET_HKEY(key, _3, _2);
 		ZEPHIR_GET_HVALUE(value, _4);
 		if (ZEPHIR_IS_STRING(key, "_id")) {
 			if (zephir_is_true(value)) {
@@ -1985,7 +1985,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, unserialize) {
 			  ; zephir_hash_get_current_data_ex(_4, (void**) &_5, &_3) == SUCCESS
 			  ; zephir_hash_move_forward_ex(_4, &_3)
 			) {
-				ZEPHIR_GET_HMKEY(key, _4, _3);
+				ZEPHIR_GET_HKEY(key, _4, _3);
 				ZEPHIR_GET_HVALUE(value, _5);
 				zephir_update_property_zval_zval(this_ptr, key, value TSRMLS_CC);
 			}

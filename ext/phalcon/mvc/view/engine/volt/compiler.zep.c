@@ -2338,7 +2338,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileMacro) {
 		  ; zephir_hash_get_current_data_ex(_4, (void**) &_5, &_3) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_4, &_3)
 		) {
-			ZEPHIR_GET_HMKEY(position, _4, _3);
+			ZEPHIR_GET_HKEY(position, _4, _3);
 			ZEPHIR_GET_HVALUE(parameter, _5);
 			ZEPHIR_OBS_NVAR(variableName);
 			zephir_array_fetch_string(&variableName, parameter, SL("variable"), PH_NOISY, "phalcon/mvc/view/engine/volt/compiler.zep", 1970 TSRMLS_CC);

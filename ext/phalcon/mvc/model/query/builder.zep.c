@@ -1493,7 +1493,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql) {
 			  ; zephir_hash_get_current_data_ex(_8, (void**) &_9, &_7) == SUCCESS
 			  ; zephir_hash_move_forward_ex(_8, &_7)
 			) {
-				ZEPHIR_GET_HMKEY(columnAlias, _8, _7);
+				ZEPHIR_GET_HKEY(columnAlias, _8, _7);
 				ZEPHIR_GET_HVALUE(column, _9);
 				if (Z_TYPE_P(columnAlias) == IS_LONG) {
 					zephir_array_append(&selectedColumns, column, PH_SEPARATE, "phalcon/mvc/model/query/builder.zep", 1046);
@@ -1518,7 +1518,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql) {
 			  ; zephir_hash_get_current_data_ex(_11, (void**) &_12, &_10) == SUCCESS
 			  ; zephir_hash_move_forward_ex(_11, &_10)
 			) {
-				ZEPHIR_GET_HMKEY(modelColumnAlias, _11, _10);
+				ZEPHIR_GET_HKEY(modelColumnAlias, _11, _10);
 				ZEPHIR_GET_HVALUE(model, _12);
 				ZEPHIR_INIT_NVAR(selectedColumn);
 				if (Z_TYPE_P(modelColumnAlias) == IS_LONG) {
@@ -1545,7 +1545,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql) {
 		  ; zephir_hash_get_current_data_ex(_14, (void**) &_15, &_13) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_14, &_13)
 		) {
-			ZEPHIR_GET_HMKEY(modelAlias, _14, _13);
+			ZEPHIR_GET_HKEY(modelAlias, _14, _13);
 			ZEPHIR_GET_HVALUE(model, _15);
 			ZEPHIR_INIT_NVAR(selectedModel);
 			if (Z_TYPE_P(modelAlias) == IS_STRING) {

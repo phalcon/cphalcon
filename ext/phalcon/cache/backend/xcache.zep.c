@@ -528,7 +528,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Xcache, flush) {
 	zephir_check_call_status();
 	if (Z_TYPE_P(keys) == IS_ARRAY) {
 		ZEPHIR_INIT_VAR(_1);
-		zephir_is_iterable(keys, &_3, &_2, 0, 0, "phalcon/cache/backend/xcache.zep", 361);
+		zephir_is_iterable(keys, &_3, &_2, 1, 0, "phalcon/cache/backend/xcache.zep", 361);
 		for (
 		  ; zephir_hash_get_current_data_ex(_3, (void**) &_4, &_2) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_3, &_2)

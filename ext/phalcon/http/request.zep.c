@@ -1447,7 +1447,7 @@ PHP_METHOD(Phalcon_Http_Request, smoothFiles) {
 	  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_1, &_0)
 	) {
-		ZEPHIR_GET_HMKEY(idx, _1, _0);
+		ZEPHIR_GET_HKEY(idx, _1, _0);
 		ZEPHIR_GET_HVALUE(name, _2);
 		ZEPHIR_INIT_NVAR(p);
 		ZEPHIR_CONCAT_VSV(p, prefix, ".", idx);
@@ -1534,7 +1534,7 @@ PHP_METHOD(Phalcon_Http_Request, getHeaders) {
 			  ; zephir_hash_get_current_data_ex(_7, (void**) &_8, &_6) == SUCCESS
 			  ; zephir_hash_move_forward_ex(_7, &_6)
 			) {
-				ZEPHIR_GET_HMKEY(pos, _7, _6);
+				ZEPHIR_GET_HKEY(pos, _7, _6);
 				ZEPHIR_GET_HVALUE(part, _8);
 				ZEPHIR_INIT_NVAR(_3);
 				zephir_fast_strtolower(_3, part);

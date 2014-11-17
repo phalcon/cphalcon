@@ -128,7 +128,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Query) {
 /**
  * Phalcon\Mvc\Model\Query constructor
  *
- * @param string $phql
+ * @param string phql
  * @param Phalcon\DiInterface dependencyInjector
  */
 PHP_METHOD(Phalcon_Mvc_Model_Query, __construct) {
@@ -1343,7 +1343,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getSingleJoin) {
 		  ; zephir_hash_get_current_data_ex(_5, (void**) &_6, &_4) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_5, &_4)
 		) {
-			ZEPHIR_GET_HMKEY(position, _5, _4);
+			ZEPHIR_GET_HKEY(position, _5, _4);
 			ZEPHIR_GET_HVALUE(field, _6);
 			ZEPHIR_OBS_NVAR(referencedField);
 			if (!(zephir_array_isset_fetch(&referencedField, referencedFields, position, 0 TSRMLS_CC))) {
@@ -1692,7 +1692,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getJoins) {
 	  ; zephir_hash_get_current_data_ex(_10, (void**) &_11, &_9) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_10, &_9)
 	) {
-		ZEPHIR_GET_HMKEY(joinAliasName, _10, _9);
+		ZEPHIR_GET_HKEY(joinAliasName, _10, _9);
 		ZEPHIR_GET_HVALUE(joinItem, _11);
 		ZEPHIR_OBS_NVAR(joinExpr);
 		if (zephir_array_isset_string_fetch(&joinExpr, joinItem, SS("conditions"), 0 TSRMLS_CC)) {
@@ -2880,7 +2880,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect) {
 		  ; zephir_hash_get_current_data_ex(_27, (void**) &_28, &_26) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_27, &_26)
 		) {
-			ZEPHIR_GET_HMKEY(wildcard, _27, _26);
+			ZEPHIR_GET_HKEY(wildcard, _27, _26);
 			ZEPHIR_GET_HVALUE(value, _28);
 			if (Z_TYPE_P(wildcard) == IS_LONG) {
 				ZEPHIR_INIT_LNVAR(_20);
@@ -2901,7 +2901,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect) {
 		  ; zephir_hash_get_current_data_ex(_30, (void**) &_31, &_29) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_30, &_29)
 		) {
-			ZEPHIR_GET_HMKEY(typeWildcard, _30, _29);
+			ZEPHIR_GET_HKEY(typeWildcard, _30, _29);
 			ZEPHIR_GET_HVALUE(value, _31);
 			if (Z_TYPE_P(wildcard) == IS_LONG) {
 				ZEPHIR_INIT_LNVAR(_32);
@@ -3030,7 +3030,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeInsert) {
 	  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_2, &_1)
 	) {
-		ZEPHIR_GET_HMKEY(number, _2, _1);
+		ZEPHIR_GET_HKEY(number, _2, _1);
 		ZEPHIR_GET_HVALUE(value, _3);
 		ZEPHIR_OBS_NVAR(exprValue);
 		zephir_array_fetch_string(&exprValue, value, SL("value"), PH_NOISY, "phalcon/mvc/model/query.zep", 2615 TSRMLS_CC);
@@ -3185,7 +3185,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeUpdate) {
 	  ; zephir_hash_get_current_data_ex(_3, (void**) &_4, &_2) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_3, &_2)
 	) {
-		ZEPHIR_GET_HMKEY(number, _3, _2);
+		ZEPHIR_GET_HKEY(number, _3, _2);
 		ZEPHIR_GET_HVALUE(field, _4);
 		ZEPHIR_OBS_NVAR(fieldName);
 		zephir_array_fetch_string(&fieldName, field, SL("name"), PH_NOISY, "phalcon/mvc/model/query.zep", 2737 TSRMLS_CC);

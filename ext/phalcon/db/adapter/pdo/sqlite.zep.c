@@ -452,7 +452,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeReferences) {
 	  ; zephir_hash_get_current_data_ex(_5, (void**) &_6, &_4) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_5, &_4)
 	) {
-		ZEPHIR_GET_HMKEY(number, _5, _4);
+		ZEPHIR_GET_HKEY(number, _5, _4);
 		ZEPHIR_GET_HVALUE(reference, _6);
 		ZEPHIR_INIT_NVAR(constraintName);
 		ZEPHIR_CONCAT_SV(constraintName, "foreign_key_", number);

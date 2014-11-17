@@ -196,7 +196,7 @@ PHP_METHOD(Phalcon_Tag, renderAttributes) {
 	  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_1, &_0)
 	) {
-		ZEPHIR_GET_HMKEY(key, _1, _0);
+		ZEPHIR_GET_HKEY(key, _1, _0);
 		ZEPHIR_GET_HVALUE(value, _2);
 		ZEPHIR_OBS_NVAR(attribute);
 		if (zephir_array_isset_fetch(&attribute, attributes, key, 0 TSRMLS_CC)) {
@@ -208,7 +208,7 @@ PHP_METHOD(Phalcon_Tag, renderAttributes) {
 	  ; zephir_hash_get_current_data_ex(_4, (void**) &_5, &_3) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_4, &_3)
 	) {
-		ZEPHIR_GET_HMKEY(key, _4, _3);
+		ZEPHIR_GET_HKEY(key, _4, _3);
 		ZEPHIR_GET_HVALUE(value, _5);
 		if (!(zephir_array_isset(attrs, key))) {
 			zephir_array_update_zval(&attrs, key, &value, PH_COPY | PH_SEPARATE);
@@ -224,7 +224,7 @@ PHP_METHOD(Phalcon_Tag, renderAttributes) {
 	  ; zephir_hash_get_current_data_ex(_8, (void**) &_9, &_7) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_8, &_7)
 	) {
-		ZEPHIR_GET_HMKEY(key, _8, _7);
+		ZEPHIR_GET_HKEY(key, _8, _7);
 		ZEPHIR_GET_HVALUE(value, _9);
 		_10 = Z_TYPE_P(key) == IS_STRING;
 		if (_10) {

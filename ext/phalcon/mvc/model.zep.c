@@ -777,7 +777,7 @@ PHP_METHOD(Phalcon_Mvc_Model, assign) {
 		  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_1, &_0)
 		) {
-			ZEPHIR_GET_HMKEY(key, _1, _0);
+			ZEPHIR_GET_HKEY(key, _1, _0);
 			ZEPHIR_GET_HVALUE(value, _2);
 			ZEPHIR_OBS_NVAR(keyMapped);
 			if (zephir_array_isset_fetch(&keyMapped, dataColumnMap, key, 0 TSRMLS_CC)) {
@@ -907,7 +907,7 @@ PHP_METHOD(Phalcon_Mvc_Model, cloneResultMap) {
 	  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_2, &_1)
 	) {
-		ZEPHIR_GET_HMKEY(key, _2, _1);
+		ZEPHIR_GET_HKEY(key, _2, _1);
 		ZEPHIR_GET_HVALUE(value, _3);
 		if (Z_TYPE_P(key) == IS_STRING) {
 			if (Z_TYPE_P(columnMap) == IS_ARRAY) {
@@ -989,7 +989,7 @@ PHP_METHOD(Phalcon_Mvc_Model, cloneResultMapHydrate) {
 	  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_1, &_0)
 	) {
-		ZEPHIR_GET_HMKEY(key, _1, _0);
+		ZEPHIR_GET_HKEY(key, _1, _0);
 		ZEPHIR_GET_HVALUE(value, _2);
 		if (Z_TYPE_P(key) == IS_STRING) {
 			if (Z_TYPE_P(columnMap) == IS_ARRAY) {
@@ -1080,7 +1080,7 @@ PHP_METHOD(Phalcon_Mvc_Model, cloneResult) {
 	  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_2, &_1)
 	) {
-		ZEPHIR_GET_HMKEY(key, _2, _1);
+		ZEPHIR_GET_HKEY(key, _2, _1);
 		ZEPHIR_GET_HVALUE(value, _3);
 		if (Z_TYPE_P(key) != IS_STRING) {
 			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "Invalid key in array data provided to dumpResult()", "phalcon/mvc/model.zep", 708);
@@ -2191,7 +2191,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysRestrict) {
 						  ; zephir_hash_get_current_data_ex(_7, (void**) &_8, &_6) == SUCCESS
 						  ; zephir_hash_move_forward_ex(_7, &_6)
 						) {
-							ZEPHIR_GET_HMKEY(position, _7, _6);
+							ZEPHIR_GET_HKEY(position, _7, _6);
 							ZEPHIR_GET_HVALUE(field, _8);
 							ZEPHIR_OBS_NVAR(value);
 							zephir_fetch_property_zval(&value, this_ptr, field, PH_SILENT_CC);
@@ -2321,7 +2321,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysReverseCascade) {
 						  ; zephir_hash_get_current_data_ex(_7, (void**) &_8, &_6) == SUCCESS
 						  ; zephir_hash_move_forward_ex(_7, &_6)
 						) {
-							ZEPHIR_GET_HMKEY(position, _7, _6);
+							ZEPHIR_GET_HKEY(position, _7, _6);
 							ZEPHIR_GET_HVALUE(field, _8);
 							ZEPHIR_OBS_NVAR(value);
 							zephir_fetch_property_zval(&value, this_ptr, field, PH_SILENT_CC);
@@ -2423,7 +2423,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysReverseRestrict) {
 						  ; zephir_hash_get_current_data_ex(_6, (void**) &_7, &_5) == SUCCESS
 						  ; zephir_hash_move_forward_ex(_6, &_5)
 						) {
-							ZEPHIR_GET_HMKEY(position, _6, _5);
+							ZEPHIR_GET_HKEY(position, _6, _5);
 							ZEPHIR_GET_HVALUE(field, _7);
 							ZEPHIR_OBS_NVAR(value);
 							zephir_fetch_property_zval(&value, this_ptr, field, PH_SILENT_CC);
@@ -4636,7 +4636,7 @@ PHP_METHOD(Phalcon_Mvc_Model, setSnapshotData) {
 		  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_1, &_0)
 		) {
-			ZEPHIR_GET_HMKEY(key, _1, _0);
+			ZEPHIR_GET_HKEY(key, _1, _0);
 			ZEPHIR_GET_HVALUE(value, _2);
 			if (Z_TYPE_P(key) != IS_STRING) {
 				continue;
@@ -4793,7 +4793,7 @@ PHP_METHOD(Phalcon_Mvc_Model, hasChanged) {
 	  ; zephir_hash_get_current_data_ex(_6, (void**) &_7, &_5) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_6, &_5)
 	) {
-		ZEPHIR_GET_HMKEY(name, _6, _5);
+		ZEPHIR_GET_HKEY(name, _6, _5);
 		ZEPHIR_GET_HVALUE(_4, _7);
 		ZEPHIR_OBS_NVAR(originalValue);
 		if (!(zephir_array_isset_fetch(&originalValue, snapshot, name, 0 TSRMLS_CC))) {
@@ -5559,7 +5559,7 @@ PHP_METHOD(Phalcon_Mvc_Model, unserialize) {
 			  ; zephir_hash_get_current_data_ex(_5, (void**) &_6, &_4) == SUCCESS
 			  ; zephir_hash_move_forward_ex(_5, &_4)
 			) {
-				ZEPHIR_GET_HMKEY(key, _5, _4);
+				ZEPHIR_GET_HKEY(key, _5, _4);
 				ZEPHIR_GET_HVALUE(value, _6);
 				zephir_update_property_zval_zval(this_ptr, key, value TSRMLS_CC);
 			}

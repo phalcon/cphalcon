@@ -223,7 +223,7 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, _loadTemplateEngines) {
 			  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
 			  ; zephir_hash_move_forward_ex(_2, &_1)
 			) {
-				ZEPHIR_GET_HMKEY(extension, _2, _1);
+				ZEPHIR_GET_HKEY(extension, _2, _1);
 				ZEPHIR_GET_HVALUE(engineService, _3);
 				if (Z_TYPE_P(engineService) == IS_OBJECT) {
 					if (zephir_instance_of_ev(engineService, zend_ce_closure TSRMLS_CC)) {
@@ -320,7 +320,7 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, _internalRender) {
 	  ; zephir_hash_get_current_data_ex(_4, (void**) &_5, &_3) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_4, &_3)
 	) {
-		ZEPHIR_GET_HMKEY(extension, _4, _3);
+		ZEPHIR_GET_HKEY(extension, _4, _3);
 		ZEPHIR_GET_HVALUE(engine, _5);
 		ZEPHIR_INIT_NVAR(viewEnginePath);
 		ZEPHIR_CONCAT_VV(viewEnginePath, viewsDirPath, extension);

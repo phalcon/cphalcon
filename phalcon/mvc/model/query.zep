@@ -108,7 +108,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 	/**
 	 * Phalcon\Mvc\Model\Query constructor
 	 *
-	 * @param string $phql
+	 * @param string phql
 	 * @param Phalcon\DiInterface dependencyInjector
 	 */
 	public function __construct(phql = null, <DiInterface> dependencyInjector = null)
