@@ -73,58 +73,66 @@ PHALCON_INIT_CLASS(Phalcon_Amf){
 	return SUCCESS;
 }
 
+static int phalcon_amf_get_hash_len(HashTable *ht) {
+	HashPosition hp;
+	char *key;
+	uint klen;
+	ulong idx;
+	int ktype, len = 0;
+	for (zend_hash_internal_pointer_reset_ex(ht, &hp) ;; zend_hash_move_forward_ex(ht, &hp)) {
+		ktype = zend_hash_get_current_key_ex(ht, &key, &klen, &idx, 0, &hp);
+		if (ktype == HASH_KEY_NON_EXISTANT) break;
+		if ((ktype != HASH_KEY_IS_LONG) || (idx != len)) return -1;
+		++len;
+	}
+	return len;
+}
+
 static void phalcon_amf_encode_value(smart_str *ss, zval *val, int opts, HashTable *sht, HashTable *oht, HashTable *tht TSRMLS_DC);
-static int phalcon_amf_decode_value(zval **val, const char *buf, int pos, int size, int opts, HashTable *sht, HashTable *oht, HashTable *tht TSRMLS_DC);
 
 static void phalcon_amf_encode_u29(smart_str *ss, int val) {
 	char buf[4];
-	int size;
+	int len;
 	val &= 0x1fffffff;
 	if (val <= 0x7f) {
 		buf[0] = val;
-		size = 1;
+		len = 1;
 	} else if (val <= 0x3fff) {
+		buf[0] = (val >> 7) | 0x80;
 		buf[1] = val & 0x7f;
-		val >>= 7;
-		buf[0] = val | 0x80;
-		size = 2;
+		len = 2;
 	} else if (val <= 0x1fffff) {
+		buf[0] = (val >> 14) | 0x80;
+		buf[1] = (val >> 7) | 0x80;
 		buf[2] = val & 0x7f;
-		val >>= 7;
-		buf[1] = val | 0x80;
-		val >>= 7;
-		buf[0] = val | 0x80;
-		size = 3;
+		len = 3;
 	} else {
+		buf[0] = (val >> 22) | 0x80;
+		buf[1] = (val >> 15) | 0x80;
+		buf[2] = (val >> 8) | 0x80;
 		buf[3] = val;
-		val >>= 8;
-		buf[2] = val | 0x80;
-		val >>= 7;
-		buf[1] = val | 0x80;
-		val >>= 7;
-		buf[0] = val | 0x80;
-		size = 4;
+		len = 4;
 	}
-	smart_str_appendl(ss, buf, size);
+	smart_str_appendl(ss, buf, len);
 }
 
 static void phalcon_amf_encode_double(smart_str *ss, double val) {
-	union { int i; char c; } t;
+	union { int n; char c; } t;
 	union { double d; char c[8]; } u;
 	char buf[8];
-	t.i = 1;
+	t.n = 1;
 	u.d = val;
 	if (!t.c) memcpy(buf, u.c, 8);
-	else { /* little-endian machine */
+	else { /* Little-endian machine */
 		int i;
 		for (i = 0; i < 8; ++i) buf[7 - i] = u.c[i];
 	}
 	smart_str_appendl(ss, buf, 8);
 }
 
-static void phalcon_amf_encode_str(smart_str *ss, const char *str, int len, HashTable *ht TSRMLS_DC) {
+static void phalcon_amf_encode_string(smart_str *ss, const char *str, int len, HashTable *ht TSRMLS_DC) {
 	if (len > PHALCON_AMF3_MAX_INT) len = PHALCON_AMF3_MAX_INT;
-	if (len) { /* empty string is never sent by reference */
+	if (len) { /* Empty string is never sent by reference */
 		int *oidx, nidx;
 		if (zend_hash_find(ht, str, len, (void **)&oidx) == SUCCESS) {
 			phalcon_amf_encode_u29(ss, *oidx << 1);
@@ -148,7 +156,7 @@ static int phalcon_amf_encode_ref(smart_str *ss, zval *val, HashTable *ht TSRMLS
 	return 0;
 }
 
-static void phalcon_amf_encode_hash(smart_str *ss, HashTable *ht, int opts, int prv, HashTable *sht, HashTable *oht, HashTable *tht TSRMLS_DC) {
+static void phalcon_amf_encode_hash(smart_str *ss, HashTable *ht, int opts, HashTable *sht, HashTable *oht, HashTable *tht, int prv TSRMLS_DC) {
 	HashPosition hp;
 	zval **hv;
 	char *key, kbuf[22];
@@ -158,32 +166,17 @@ static void phalcon_amf_encode_hash(smart_str *ss, HashTable *ht, int opts, int 
 		if (zend_hash_get_current_data_ex(ht, (void **)&hv, &hp) != SUCCESS) break;
 		switch (zend_hash_get_current_key_ex(ht, &key, &klen, &idx, 0, &hp)) {
 			case HASH_KEY_IS_STRING:
-				if (klen <= 1) continue; /* empty key can't be represented in PHALCON_AMF3 */
-				if (prv && !key[0]) continue; /* skip private/protected property */
-				phalcon_amf_encode_str(ss, key, klen - 1, sht TSRMLS_CC);
+				if (klen <= 1) continue; /* Empty key can't be represented in PHALCON_AMF3 */
+				if (prv && !key[0]) continue; /* Skip private/protected property */
+				phalcon_amf_encode_string(ss, key, klen - 1, sht TSRMLS_CC);
 				break;
 			case HASH_KEY_IS_LONG:
-				phalcon_amf_encode_str(ss, kbuf, sprintf(kbuf, "%ld", idx), sht TSRMLS_CC);
+				phalcon_amf_encode_string(ss, kbuf, sprintf(kbuf, "%ld", idx), sht TSRMLS_CC);
 				break;
 		}
 		phalcon_amf_encode_value(ss, *hv, opts, sht, oht, tht TSRMLS_CC);
 	}
 	smart_str_appendc(ss, 0x01);
-}
-
-static int phalcon_amf_get_hash_len(HashTable *ht) {
-	HashPosition hp;
-	char *key;
-	uint klen;
-	ulong idx;
-	int ktype, len = 0;
-	for (zend_hash_internal_pointer_reset_ex(ht, &hp) ;; zend_hash_move_forward_ex(ht, &hp)) {
-		ktype = zend_hash_get_current_key_ex(ht, &key, &klen, &idx, 0, &hp);
-		if (ktype == HASH_KEY_NON_EXISTANT) break;
-		if ((ktype != HASH_KEY_IS_LONG) || (idx != len)) return -1;
-		++len;
-	}
-	return len;
 }
 
 static void phalcon_amf_encode_array(smart_str *ss, zval *val, int opts, HashTable *sht, HashTable *oht, HashTable *tht TSRMLS_DC) {
@@ -193,7 +186,7 @@ static void phalcon_amf_encode_array(smart_str *ss, zval *val, int opts, HashTab
 	int len;
 	if (phalcon_amf_encode_ref(ss, val, oht TSRMLS_CC)) return;
 	len = phalcon_amf_get_hash_len(ht);
-	if (len >= 0) { /* encode as dense array */
+	if (len != -1) { /* Encode as dense array */
 		if (len > PHALCON_AMF3_MAX_INT) len = PHALCON_AMF3_MAX_INT;
 		phalcon_amf_encode_u29(ss, (len << 1) | 1);
 		smart_str_appendc(ss, 0x01);
@@ -202,9 +195,9 @@ static void phalcon_amf_encode_array(smart_str *ss, zval *val, int opts, HashTab
 			if (!len--) break;
 			phalcon_amf_encode_value(ss, *hv, opts, sht, oht, tht TSRMLS_CC);
 		}
-	} else { /* encode as associative array */
+	} else { /* Encode as associative array */
 		smart_str_appendc(ss, 0x01);
-		phalcon_amf_encode_hash(ss, ht, opts, 0, sht, oht, tht TSRMLS_CC);
+		phalcon_amf_encode_hash(ss, ht, opts, sht, oht, tht, 0 TSRMLS_CC);
 	}
 }
 
@@ -217,13 +210,14 @@ static void phalcon_amf_encode_object(smart_str *ss, zval *val, int opts, HashTa
 		nidx = zend_hash_num_elements(tht);
 		if (nidx <= PHALCON_AMF3_MAX_INT) zend_hash_add(tht, (char *)&ce, sizeof(ce), &nidx, sizeof(nidx), NULL);
 		smart_str_appendc(ss, 0x0b);
-		if (ce == zend_standard_class_def) smart_str_appendc(ss, 0x01); /* anonymous object */
-		else phalcon_amf_encode_str(ss, ce->name, ce->name_length, sht TSRMLS_CC); /* typed object */
+		if (ce == zend_standard_class_def) smart_str_appendc(ss, 0x01); /* Anonymous object */
+		else phalcon_amf_encode_string(ss, ce->name, ce->name_length, sht TSRMLS_CC); /* Typed object */
 	}
-	phalcon_amf_encode_hash(ss, HASH_OF(val), opts, 1, sht, oht, tht TSRMLS_CC);
+	phalcon_amf_encode_hash(ss, HASH_OF(val), opts, sht, oht, tht, 1 TSRMLS_CC);
 }
 
 static void phalcon_amf_encode_value(smart_str *ss, zval *val, int opts, HashTable *sht, HashTable *oht, HashTable *tht TSRMLS_DC) {
+	int n;
 	switch (Z_TYPE_P(val)) {
 		default:
 			smart_str_appendc(ss, PHALCON_AMF3_UNDEFINED);
@@ -235,13 +229,13 @@ static void phalcon_amf_encode_value(smart_str *ss, zval *val, int opts, HashTab
 			smart_str_appendc(ss, Z_LVAL_P(val) ? PHALCON_AMF3_TRUE : PHALCON_AMF3_FALSE);
 			break;
 		case IS_LONG: {
-			int i = Z_LVAL_P(val);
-			if ((i >= PHALCON_AMF3_MIN_INT) && (i <= PHALCON_AMF3_MAX_INT)) {
+			n = Z_LVAL_P(val);
+			if ((n >= PHALCON_AMF3_MIN_INT) && (n <= PHALCON_AMF3_MAX_INT)) {
 				smart_str_appendc(ss, PHALCON_AMF3_INTEGER);
-				phalcon_amf_encode_u29(ss, i);
+				phalcon_amf_encode_u29(ss, n);
 			} else {
 				smart_str_appendc(ss, PHALCON_AMF3_DOUBLE);
-				phalcon_amf_encode_double(ss, i);
+				phalcon_amf_encode_double(ss, n);
 			}
 			break;
 		}
@@ -251,12 +245,12 @@ static void phalcon_amf_encode_value(smart_str *ss, zval *val, int opts, HashTab
 			break;
 		case IS_STRING:
 			smart_str_appendc(ss, PHALCON_AMF3_STRING);
-			phalcon_amf_encode_str(ss, Z_STRVAL_P(val), Z_STRLEN_P(val), sht TSRMLS_CC);
+			phalcon_amf_encode_string(ss, Z_STRVAL_P(val), Z_STRLEN_P(val), sht TSRMLS_CC);
 			break;
 		case IS_ARRAY:
-			if (!(opts & PHALCON_AMF3_OPTION_FORCE_OBJECT) || (phalcon_amf_get_hash_len(Z_ARRVAL_P(val)) >= 0)) {
+			if (!(opts & PHALCON_AMF3_OPTION_FORCE_OBJECT) || (phalcon_amf_get_hash_len(Z_ARRVAL_P(val)) != -1)) {
 				smart_str_appendc(ss, PHALCON_AMF3_ARRAY);
-				phalcon_amf_encode_array(ss, val, opts, sht, oht, tht TSRMLS_CC);
+				phalcon_amf_encode_array(ss, val, opts, sht, oht, tht TSRMLS_CC); /* Fall through; encode array as object */
 				break;
 			}
 		case IS_OBJECT:
@@ -269,7 +263,6 @@ static void phalcon_amf_encode_value(smart_str *ss, zval *val, int opts, HashTab
 /*
  * decode
  */
-
 typedef struct {
 	int fmt, cnt;
 	char *cls;
@@ -278,55 +271,118 @@ typedef struct {
 	int *flen;
 } PhalconAmfTraits;
 
-static int phalcon_amf_decode_u29(int *val, const char *buf, int pos, int size TSRMLS_DC) {
-	int ofs = 0, res = 0, tmp;
+static void phalcon_amf_store_ref(HashTable *ht, zval *val) {
+	Z_ADDREF_P(val);
+	zend_hash_index_update(ht, zend_hash_num_elements(ht), &val, sizeof val, NULL);
+}
+
+static void phalcon_amf_traits_ptr_dtor(void *p) {
+	PhalconAmfTraits *tr = *((PhalconAmfTraits **)p);
+	int n = tr->cnt;
+	if (n > 0) {
+		while (n--) efree(tr->fld[n]);
+		efree(tr->fld);
+		efree(tr->flen);
+	}
+	efree(tr->cls);
+	efree(tr);
+}
+
+static int phalcon_amf_decode_value(const char *buf, int pos, int size, zval **val, int opts, HashTable *sht, HashTable *oht, HashTable *tht TSRMLS_DC);
+
+static int phalcon_amf_decode_u8(const char *buf, int pos, int size, unsigned char *val TSRMLS_DC) {
+	if (pos >= size) {
+		php_error(E_WARNING, "Insufficient U8 data at position %d", pos);
+		return -1;
+	}
+	*val = buf[pos];
+	return 1;
+}
+
+static int phalcon_amf_decode_u29(const char *buf, int pos, int size, int *val TSRMLS_DC) {
+	int n = 0, ofs = 0;
+	unsigned char b;
 	buf += pos;
 	do {
 		if ((pos + ofs) >= size) {
-			php_error(E_WARNING, "Insufficient integer data at position %d", pos);
+			php_error(E_WARNING, "Insufficient U29 data at position %d", pos);
 			return -1;
 		}
-		tmp = buf[ofs];
-		if (ofs == 3) {
-			res <<= 8;
-			res |= tmp & 0xff;
-		} else {
-			res <<= 7;
-			res |= tmp & 0x7f;
+		b = buf[ofs++];
+		if (ofs == 4) {
+			n <<= 8;
+			n |= b;
+			break;
 		}
-	} while ((++ofs < 4) && (tmp & 0x80));
-	*val = res;
+
+		n <<= 7;
+		n |= b & 0x7f;
+	} while (b & 0x80);
+	*val = n;
 	return ofs;
 }
 
-static int phalcon_amf_decode_double(double *val, const char *buf, int pos, int size TSRMLS_DC) {
-	union { int i; char c; } t;
-	union { double d; char c[8]; } u;
-	if ((pos + 8) > size) {
-		php_error(E_WARNING, "Insufficient number data at position %d", pos);
+static int phalcon_amf_decode_integer(const char *buf, int pos, int size, zval **val TSRMLS_DC) {
+	int n, ofs = phalcon_amf_decode_u29(buf, pos, size, &n TSRMLS_CC);
+	if (ofs < 0) return -1;
+	pos += ofs;
+	if (n & 0x10000000) n -= 0x20000000;
+	ZVAL_RESET(*val);
+	ZVAL_LONG(*val, n);
+	return ofs;
+}
+
+static int phalcon_amf_decode_u32(const char *buf, int pos, int size, zval **val, int sign TSRMLS_DC) {
+	union { int n; char c; } t;
+	union { unsigned n; char c[4]; } u;
+	long n;
+	if ((pos + 4) > size) {
+		php_error(E_WARNING, "Insufficient U32 data at position %d", pos);
 		return -1;
 	}
 	buf += pos;
-	t.i = 1;
+	t.n = 1;
+	if (!t.c) memcpy(u.c, buf, 4);
+	else { /* Little-endian machine */
+		int i;
+		for (i = 0; i < 4; ++i) u.c[i] = buf[3 - i];
+	}
+	if (sign) n = (signed)u.n;
+	else n = u.n;
+	ZVAL_RESET(*val);
+	ZVAL_LONG(*val, n);
+	return 4;
+}
+
+static int phalcon_amf_decode_double(const char *buf, int pos, int size, zval **val TSRMLS_DC) {
+	union { int n; char c; } t;
+	union { double d; char c[8]; } u;
+	if ((pos + 8) > size) {
+		php_error(E_WARNING, "Insufficient IEEE-754 data at position %d", pos);
+		return -1;
+	}
+	buf += pos;
+	t.n = 1;
 	if (!t.c) memcpy(u.c, buf, 8);
-	else { /* little-endian machine */
+	else { /* Little-endian machine */
 		int i;
 		for (i = 0; i < 8; ++i) u.c[i] = buf[7 - i];
 	}
-	*val = u.d;
+	ZVAL_RESET(*val);
+	ZVAL_DOUBLE(*val, u.d);
 	return 8;
 }
 
-static int phalcon_amf_decode_str(const char **str, int *len, zval **val, const char *buf, int pos, int size, int loose, HashTable *ht TSRMLS_DC) {
+static int phalcon_amf_decode_string(const char *buf, int pos, int size, const char **str, int *len, zval **val, HashTable *ht, int blob TSRMLS_DC) {
 	int old = pos, ofs, pfx, def;
-	ofs = phalcon_amf_decode_u29(&pfx, buf, pos, size TSRMLS_CC);
+	ofs = phalcon_amf_decode_u29(buf, pos, size, &pfx TSRMLS_CC);
 	if (ofs < 0) return -1;
 	pos += ofs;
 	def = pfx & 1;
 	pfx >>= 1;
 	if (def) {
 		if ((pos + pfx) > size) {
-			php_error(E_WARNING, "Insufficient data of length %d at position %d", pfx, pos);
+			php_error(E_WARNING, "Invalid length %d at position %d", pfx, old);
 			return -1;
 		}
 		buf += pos;
@@ -338,7 +394,7 @@ static int phalcon_amf_decode_str(const char **str, int *len, zval **val, const 
 			ZVAL_RESET(*val);
 			ZVAL_STRINGL(*val, buf, pfx, 1);
 		}
-		if (loose || pfx) { /* empty string is never sent by reference */
+		if (blob || pfx) { /* Empty string is never sent by reference */
 			zval *hv;
 			if (val) {
 				hv = *val;
@@ -352,7 +408,7 @@ static int phalcon_amf_decode_str(const char **str, int *len, zval **val, const 
 	} else {
 		zval **hv;
 		if (zend_hash_index_find(ht, pfx, (void **)&hv) == FAILURE) {
-			php_error(E_WARNING, "Missing string reference #%d at position %d", pfx, pos);
+			php_error(E_WARNING, "Invalid reference %d at position %d", pfx, old);
 			return -1;
 		}
 		if (str && len) {
@@ -366,70 +422,62 @@ static int phalcon_amf_decode_str(const char **str, int *len, zval **val, const 
 	return pos - old;
 }
 
-static int phalcon_amf_decode_ref(int *len, zval **val, const char *buf, int pos, int size, HashTable *ht TSRMLS_DC) {
-	int ofs, pfx, def;
-	ofs = phalcon_amf_decode_u29(&pfx, buf, pos, size TSRMLS_CC);
+static int phalcon_amf_decode_ref(const char *buf, int pos, int size, int *num, zval **val, HashTable *ht TSRMLS_DC) {
+	int old = pos, ofs, pfx, def;
+	ofs = phalcon_amf_decode_u29(buf, pos, size, &pfx TSRMLS_CC);
 	if (ofs < 0) return -1;
 	pos += ofs;
 	def = pfx & 1;
 	pfx >>= 1;
-	if (def) *len = pfx;
+	if (def) *num = pfx;
 	else {
 		zval **hv;
 		if (zend_hash_index_find(ht, pfx, (void **)&hv) == FAILURE) {
-			php_error(E_WARNING, "Missing object reference #%d at position %d", pfx, pos);
+			php_error(E_WARNING, "Invalid reference %d at position %d", pfx, old);
 			return -1;
 		}
-		*len = -1;
+		*num = -1;
 		*val = *hv;
 		Z_ADDREF_PP(hv);
-	}
-	return ofs;
-}
-
-static void phalcon_amf_store_ref(zval *val, HashTable *ht) {
-	Z_ADDREF_P(val);
-	zend_hash_index_update(ht, zend_hash_num_elements(ht), &val, sizeof(val), NULL);
-}
-
-static int phalcon_amf_decode_date(zval **val, const char *buf, int pos, int size, HashTable *ht TSRMLS_DC) {
-	int old = pos, ofs, pfx;
-	ofs = phalcon_amf_decode_ref(&pfx, val, buf, pos, size, ht TSRMLS_CC);
-	if (ofs < 0) return -1;
-	pos += ofs;
-	if (pfx >= 0) {
-		double d;
-		ofs = phalcon_amf_decode_double(&d, buf, pos, size TSRMLS_CC);
-		if (ofs < 0) return -1;
-		pos += ofs;
-		ZVAL_RESET(*val);
-		ZVAL_DOUBLE(*val, d);
-		phalcon_amf_store_ref(*val, ht);
 	}
 	return pos - old;
 }
 
-static int phalcon_amf_decode_array(zval **val, const char *buf, int pos, int size, int opts, HashTable *sht, HashTable *oht, HashTable *tht TSRMLS_DC) {
-	int old = pos, ofs, len;
-	ofs = phalcon_amf_decode_ref(&len, val, buf, pos, size, oht TSRMLS_CC);
+static int phalcon_amf_decode_date(const char *buf, int pos, int size, zval **val, HashTable *ht TSRMLS_DC) {
+	int old = pos, ofs, pfx;
+	ofs = phalcon_amf_decode_ref(buf, pos, size, &pfx, val, ht TSRMLS_CC);
 	if (ofs < 0) return -1;
 	pos += ofs;
-	if (len >= 0) {
+	if (pfx != -1) {
+		ofs = phalcon_amf_decode_double(buf, pos, size, val TSRMLS_CC);
+		if (ofs < 0) return -1;
+		pos += ofs;
+		phalcon_amf_store_ref(ht, *val);
+	}
+	return pos - old;
+}
+
+static int phalcon_amf_decode_array(const char *buf, int pos, int size, zval **val, int opts, HashTable *sht, HashTable *oht, HashTable *tht TSRMLS_DC) {
+	int old = pos, ofs, len;
+	ofs = phalcon_amf_decode_ref(buf, pos, size, &len, val, oht TSRMLS_CC);
+	if (ofs < 0) return -1;
+	pos += ofs;
+	if (len != -1) {
 		zval *hv;
 		const char *key;
 		char kbuf[64];
 		int klen;
 		ZVAL_RESET(*val);
 		array_init(*val);
-		phalcon_amf_store_ref(*val, oht);
-		for ( ;; ) { /* associative portion */
-			ofs = phalcon_amf_decode_str(&key, &klen, 0, buf, pos, size, 0, sht TSRMLS_CC);
+		phalcon_amf_store_ref(oht, *val);
+		for ( ;; ) { /* Associative portion */
+			ofs = phalcon_amf_decode_string(buf, pos, size, &key, &klen, 0, sht, 0 TSRMLS_CC);
 			if (ofs < 0) return -1;
 			pos += ofs;
 			if (!klen) break;
 			hv = 0;
-			ofs = phalcon_amf_decode_value(&hv, buf, pos, size, opts, sht, oht, tht TSRMLS_CC);
-			if (hv) { /* need a trailing \0 in the key string for a proper call to 'add_assoc_zval_ex' */
+			ofs = phalcon_amf_decode_value(buf, pos, size, &hv, opts, sht, oht, tht TSRMLS_CC);
+			if (hv) { /* Need a trailing \0 in the key name for a proper call to 'add_assoc_zval_ex' */
 				if (klen < sizeof(kbuf)) {
 					memcpy(kbuf, key, klen);
 					kbuf[klen] = 0;
@@ -445,9 +493,9 @@ static int phalcon_amf_decode_array(zval **val, const char *buf, int pos, int si
 			if (ofs < 0) return -1;
 			pos += ofs;
 		}
-		while (len--) { /* dense portion */
+		while (len--) { /* Dense portion */
 			hv = 0;
-			ofs = phalcon_amf_decode_value(&hv, buf, pos, size, opts, sht, oht, tht TSRMLS_CC);
+			ofs = phalcon_amf_decode_value(buf, pos, size, &hv, opts, sht, oht, tht TSRMLS_CC);
 			if (hv) add_next_index_zval(*val, hv);
 			if (ofs < 0) return -1;
 			pos += ofs;
@@ -456,12 +504,12 @@ static int phalcon_amf_decode_array(zval **val, const char *buf, int pos, int si
 	return pos - old;
 }
 
-static int phalcon_amf_decode_object(zval **val, const char *buf, int pos, int size, int opts, HashTable *sht, HashTable *oht, HashTable *tht TSRMLS_DC) {
+static int phalcon_amf_decode_object(const char *buf, int pos, int size, zval **val, int opts, HashTable *sht, HashTable *oht, HashTable *tht TSRMLS_DC) {
 	int old = pos, ofs, pfx;
-	ofs = phalcon_amf_decode_ref(&pfx, val, buf, pos, size, oht TSRMLS_CC);
+	ofs = phalcon_amf_decode_ref(buf, pos, size, &pfx, val, oht TSRMLS_CC);
 	if (ofs < 0) return -1;
 	pos += ofs;
-	if (pfx >= 0) {
+	if (pfx != -1) {
 		int map = opts & PHALCON_AMF3_OPTION_CLASS_MAP;
 		zend_class_entry *ce = 0;
 		PhalconAmfTraits *tr;
@@ -471,35 +519,35 @@ static int phalcon_amf_decode_object(zval **val, const char *buf, int pos, int s
 		int klen;
 		int def = pfx & 1;
 		pfx >>= 1;
-		if (def) { /* new class definition */
+		if (def) { /* New class definition */
 			int i, n = pfx >> 2;
 			const char *cls;
 			int clen;
 			char **fld = NULL;
 			int *flen = NULL;
-			ofs = phalcon_amf_decode_str(&cls, &clen, 0, buf, pos, size, 0, sht TSRMLS_CC);
+			ofs = phalcon_amf_decode_string(buf, pos, size, &cls, &clen, 0, sht, 0 TSRMLS_CC); /* Class name */
 			if (ofs < 0) return -1;
 			pos += ofs;
 			if (n > 0) {
-				if ((pos + n * 2) > size) { /* rough security check */
-					php_error(E_WARNING, "Inappropriate number of declared class members at position %d", pos);
+				if ((pos + n * 2) > size) { /* Rough security check */
+					php_error(E_WARNING, "Invalid number of class members at position %d", old);
 					return -1;
 				}
-				fld = emalloc(sizeof(*fld) * n);
-				flen = emalloc(sizeof(*flen) * n);
-				for (i = 0; i < n; ++i) { /* static member names */
-					ofs = phalcon_amf_decode_str(&key, &klen, 0, buf, pos, size, 0, sht TSRMLS_CC);
+				fld = emalloc(n * sizeof *fld);
+				flen = emalloc(n * sizeof *flen);
+				for (i = 0; i < n; ++i) { /* Static member names */
+					ofs = phalcon_amf_decode_string(buf, pos, size, &key, &klen, 0, sht, 0 TSRMLS_CC);
 					if (ofs < 0) {
 						n = -1;
 						break;
 					}
 					pos += ofs;
 					if (!klen || !key[0]) {
-						php_error(E_WARNING, "Inappropriate class member name at position %d", pos);
+						php_error(E_WARNING, "Invalid class member name at position %d", pos - ofs);
 						n = -1;
 						break;
 					}
-					fld[i] = estrndup(key, klen); /* a trailing \0 is needed later for a key string */
+					fld[i] = estrndup(key, klen); /* Trailing \0 is needed later in a key name */
 					flen[i] = klen + 1;
 				}
 				if (n < 0) {
@@ -517,10 +565,10 @@ static int phalcon_amf_decode_object(zval **val, const char *buf, int pos, int s
 			tr->fld = fld;
 			tr->flen = flen;
 			zend_hash_index_update(tht, zend_hash_num_elements(tht), &tr, sizeof(tr), NULL);
-		} else { /* existing class definition */
+		} else { /* Existing class definition */
 			PhalconAmfTraits **trp;
 			if (zend_hash_index_find(tht, pfx, (void **)&trp) == FAILURE) {
-				php_error(E_WARNING, "Missing class definition #%d at position %d", pfx, pos);
+				php_error(E_WARNING, "Invalid class reference %d at position %d", pfx, old);
 				return -1;
 			}
 			tr = *trp;
@@ -534,16 +582,16 @@ static int phalcon_amf_decode_object(zval **val, const char *buf, int pos, int s
 				if (!(opts & PHALCON_AMF3_OPTION_CLASS_AUTOLOAD)) mode |= ZEND_FETCH_CLASS_NO_AUTOLOAD;
 				ce = zend_fetch_class(tr->cls, tr->clen, mode TSRMLS_CC);
 				if (!ce) {
-					php_error(E_WARNING, "Class '%s' not found at position %d", tr->cls, pos);
+					php_error(E_WARNING, "Class '%s' not found at position %d", tr->cls, old);
 					return -1;
 				}
 				object_init_ex(*val, ce);
 			}
 		}
-		phalcon_amf_store_ref(*val, oht);
-		if (tr->fmt & 1) { /* externalizable */
+		phalcon_amf_store_ref(oht, *val);
+		if (tr->fmt & 1) { /* Externalizable */
 			hv = 0;
-			ofs = phalcon_amf_decode_value(&hv, buf, pos, size, opts, sht, oht, tht TSRMLS_CC);
+			ofs = phalcon_amf_decode_value(buf, pos, size, &hv, opts, sht, oht, tht TSRMLS_CC);
 			if (hv) {
 				if (!map) add_assoc_zval(*val, "_data", hv);
 				else {
@@ -557,7 +605,7 @@ static int phalcon_amf_decode_object(zval **val, const char *buf, int pos, int s
 			int i;
 			for (i = 0; i < tr->cnt; ++i) {
 				hv = 0;
-				ofs = phalcon_amf_decode_value(&hv, buf, pos, size, opts, sht, oht, tht TSRMLS_CC);
+				ofs = phalcon_amf_decode_value(buf, pos, size, &hv, opts, sht, oht, tht TSRMLS_CC);
 				if (hv) {
 					if (!map) add_assoc_zval_ex(*val, tr->fld[i], tr->flen[i], hv);
 					else {
@@ -568,19 +616,19 @@ static int phalcon_amf_decode_object(zval **val, const char *buf, int pos, int s
 				if (ofs < 0) return -1;
 				pos += ofs;
 			}
-			if (tr->fmt & 2) { /* dynamic */
+			if (tr->fmt & 2) { /* Dynamic */
 				for ( ;; ) {
-					ofs = phalcon_amf_decode_str(&key, &klen, 0, buf, pos, size, 0, sht TSRMLS_CC);
+					ofs = phalcon_amf_decode_string(buf, pos, size, &key, &klen, 0, sht, 0 TSRMLS_CC);
 					if (ofs < 0) return -1;
 					pos += ofs;
 					if (!klen) break;
 					if (map && !key[0]) {
-						php_error(E_WARNING, "Inappropriate class member name at position %d", pos);
+						php_error(E_WARNING, "Invalid class member name at position %d", pos - ofs);
 						return -1;
 					}
 					hv = 0;
-					ofs = phalcon_amf_decode_value(&hv, buf, pos, size, opts, sht, oht, tht TSRMLS_CC);
-					if (hv) { /* need a trailing \0 in the key string for a proper call to 'add_property_zval_ex' */
+					ofs = phalcon_amf_decode_value(buf, pos, size, &hv, opts, sht, oht, tht TSRMLS_CC);
+					if (hv) { /* Need a trailing \0 in the key name for a proper call to 'add_property_zval_ex' */
 						if (klen < sizeof(kbuf)) {
 							memcpy(kbuf, key, klen);
 							kbuf[klen] = 0;
@@ -607,7 +655,7 @@ static int phalcon_amf_decode_object(zval **val, const char *buf, int pos, int s
 			}
 		}
 		if (!map && tr->clen) add_assoc_stringl(*val, "_class", tr->cls, tr->clen, 1);
-		else if (ce && (opts & PHALCON_AMF3_OPTION_CLASS_CONSTRUCT)) { /* call the constructor */
+		else if (ce && (opts & PHALCON_AMF3_OPTION_CLASS_CONSTRUCT)) { /* Call the constructor */
 			zend_call_method_with_0_params(val, ce, &ce->constructor, NULL, NULL);
 			if (EG(exception)) return -1;
 		}
@@ -615,15 +663,69 @@ static int phalcon_amf_decode_object(zval **val, const char *buf, int pos, int s
 	return pos - old;
 }
 
-static int phalcon_amf_decode_value(zval **val, const char *buf, int pos, int size, int opts, HashTable *sht, HashTable *oht, HashTable *tht TSRMLS_DC) {
+static int phalcon_amf_decode_vector_item(const char *buf, int pos, int size, zval **val, int opts, HashTable *sht, HashTable *oht, HashTable *tht, int type TSRMLS_DC) {
+	switch (type) {
+		case PHALCON_AMF3_VECTOR_INT:
+			return phalcon_amf_decode_u32(buf, pos, size, val, 1 TSRMLS_CC);
+		case PHALCON_AMF3_VECTOR_UINT:
+			return phalcon_amf_decode_u32(buf, pos, size, val, 0 TSRMLS_CC);
+		case PHALCON_AMF3_VECTOR_DOUBLE:
+			return phalcon_amf_decode_double(buf, pos, size, val TSRMLS_CC);
+		case PHALCON_AMF3_VECTOR_OBJECT:
+			return phalcon_amf_decode_value(buf, pos, size, val, opts, sht, oht, tht TSRMLS_CC);
+		default:
+			return -1;
+	}
+}
+
+static int phalcon_amf_decode_vector(const char *buf, int pos, int size, zval **val, int opts, HashTable *sht, HashTable *oht, HashTable *tht, int type TSRMLS_DC) {
+	int old = pos, ofs, len;
+	ofs = phalcon_amf_decode_ref(buf, pos, size, &len, val, oht TSRMLS_CC);
+	if (ofs < 0) return -1;
+	pos += ofs;
+	if (len != -1) {
+		zval *hv;
+		unsigned char fv;
+		ZVAL_RESET(*val);
+		array_init(*val);
+		phalcon_amf_store_ref(oht, *val);
+		ofs = phalcon_amf_decode_u8(buf, pos, size, &fv TSRMLS_CC); /* 'fixed-vector' marker */
+		if (ofs < 0) return -1;
+		pos += ofs;
+		if (type == PHALCON_AMF3_VECTOR_OBJECT) { /* 'object-type-name' marker */
+			ofs = phalcon_amf_decode_string(buf, pos, size, 0, 0, 0, sht, 0 TSRMLS_CC);
+			if (ofs < 0) return -1;
+			pos += ofs;
+		}
+		while (len--) {
+			hv = 0;
+			ofs = phalcon_amf_decode_vector_item(buf, pos, size, &hv, opts, sht, oht, tht, type TSRMLS_CC);
+			if (hv) add_next_index_zval(*val, hv);
+			if (ofs < 0) return -1;
+			pos += ofs;
+		}
+	}
+	return pos - old;
+}
+
+static int phalcon_amf_decode_dictionary(const char *buf, int pos, int size, zval **val, int opts, HashTable *sht, HashTable *oht, HashTable *tht TSRMLS_DC) {
+	/* No support for dictionary in PHP */
+	php_error(E_WARNING, "Unsupported 'Dictionary' value at position %d", pos);
+	return -1;
+}
+
+static int phalcon_amf_decode_value(const char *buf, int pos, int size, zval **val, int opts, HashTable *sht, HashTable *oht, HashTable *tht TSRMLS_DC) {
 	int old = pos, ofs;
 	unsigned char type;
+
+	ofs = phalcon_amf_decode_u8(buf, pos, size, &type TSRMLS_CC);
+	if (ofs < 0) return -1;
+	pos += ofs;
 	if (pos >= size) {
 		php_error(E_WARNING, "Insufficient type data at position %d", pos);
 		return -1;
 	}
 
-	type = buf[pos++];
 	switch (type) {
 		case PHALCON_AMF3_UNDEFINED:
 		case PHALCON_AMF3_NULL:
@@ -639,68 +741,62 @@ static int phalcon_amf_decode_value(zval **val, const char *buf, int pos, int si
 			ZVAL_TRUE(*val);
 			break;
 		case PHALCON_AMF3_INTEGER: {
-			int i;
-			ofs = phalcon_amf_decode_u29(&i, buf, pos, size TSRMLS_CC);
+			ofs = phalcon_amf_decode_integer(buf, pos, size, val TSRMLS_CC);
 			if (ofs < 0) return -1;
 			pos += ofs;
-			if (i & 0x10000000) i -= 0x20000000;
-			ZVAL_RESET(*val);
-			ZVAL_LONG(*val, i);
 			break;
 		}
 		case PHALCON_AMF3_DOUBLE: {
-			double d;
-			ofs = phalcon_amf_decode_double(&d, buf, pos, size TSRMLS_CC);
+			ofs = phalcon_amf_decode_double(buf, pos, size, val TSRMLS_CC);
 			if (ofs < 0) return -1;
 			pos += ofs;
-			ZVAL_RESET(*val);
-			ZVAL_DOUBLE(*val, d);
 			break;
 		}
 		case PHALCON_AMF3_STRING:
-			ofs = phalcon_amf_decode_str(0, 0, val, buf, pos, size, 0, sht TSRMLS_CC);
+			ofs = phalcon_amf_decode_string(buf, pos, size, 0, 0, val, sht, 0 TSRMLS_CC);
 			if (ofs < 0) return -1;
 			pos += ofs;
 			break;
 		case PHALCON_AMF3_XML:
 		case PHALCON_AMF3_XMLDOC:
 		case PHALCON_AMF3_BYTEARRAY:
-			ofs = phalcon_amf_decode_str(0, 0, val, buf, pos, size, 1, oht TSRMLS_CC);
+			ofs = phalcon_amf_decode_string(buf, pos, size, 0, 0, val, oht, 1 TSRMLS_CC);
 			if (ofs < 0) return -1;
 			pos += ofs;
 			break;
 		case PHALCON_AMF3_DATE:
-			ofs = phalcon_amf_decode_date(val, buf, pos, size, oht TSRMLS_CC);
+			ofs = phalcon_amf_decode_date(buf, pos, size, val, oht TSRMLS_CC);
 			if (ofs < 0) return -1;
 			pos += ofs;
 			break;
 		case PHALCON_AMF3_ARRAY:
-			ofs = phalcon_amf_decode_array(val, buf, pos, size, opts, sht, oht, tht TSRMLS_CC);
+			ofs = phalcon_amf_decode_array(buf, pos, size, val, opts, sht, oht, tht TSRMLS_CC);
 			if (ofs < 0) return -1;
 			pos += ofs;
 			break;
 		case PHALCON_AMF3_OBJECT:
-			ofs = phalcon_amf_decode_object(val, buf, pos, size, opts, sht, oht, tht TSRMLS_CC);
+			ofs = phalcon_amf_decode_object(buf, pos, size, val, opts, sht, oht, tht TSRMLS_CC);
+			if (ofs < 0) return -1;
+			pos += ofs;
+			break;
+		case PHALCON_AMF3_VECTOR_INT:
+		case PHALCON_AMF3_VECTOR_UINT:
+		case PHALCON_AMF3_VECTOR_DOUBLE:
+		case PHALCON_AMF3_VECTOR_OBJECT:
+			ofs = phalcon_amf_decode_vector(buf, pos, size, val, opts, sht, oht, tht, type TSRMLS_CC);
+			if (ofs < 0) return -1;
+			pos += ofs;
+			break;
+		case PHALCON_AMF3_DICTIONARY:
+			ofs = phalcon_amf_decode_dictionary(buf, pos, size, val, opts, sht, oht, tht TSRMLS_CC);
 			if (ofs < 0) return -1;
 			pos += ofs;
 			break;
 		default:
-			php_error(E_WARNING, "Unsupported value type %d at position %d", buf[pos - 1], pos - 1);
+			php_error(E_WARNING, "Unsupported value type %d at position %d", buf[old], old);
 			return -1;
 	}
 	return pos - old;
-}
-
-static void phalcon_amf_traits_ptr_dtor(void *p) {
-	PhalconAmfTraits *tr = *((PhalconAmfTraits **)p);
-	int n = tr->cnt;
-	if (n > 0) {
-		while (n--) efree(tr->fld[n]);
-		efree(tr->fld);
-		efree(tr->flen);
-	}
-	efree(tr->cls);
-	efree(tr);
 }
 
 /**
@@ -765,7 +861,7 @@ PHP_METHOD(Phalcon_Amf, decode){
 	zend_hash_init(&oht, 0, NULL, ZVAL_PTR_DTOR, 0);
 	zend_hash_init(&tht, 0, NULL, phalcon_amf_traits_ptr_dtor, 0);
 
-	ofs = phalcon_amf_decode_value(&return_value, value->value.str.val, pos, Z_STRLEN_P(value), opts, &sht, &oht, &tht TSRMLS_CC);
+	ofs = phalcon_amf_decode_value(value->value.str.val, pos, Z_STRLEN_P(value), &return_value, opts, &sht, &oht, &tht TSRMLS_CC);
 
 	zend_hash_destroy(&sht);
 	zend_hash_destroy(&oht);
