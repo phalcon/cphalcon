@@ -1415,3 +1415,21 @@ void object_properties_init(zend_object *object, zend_class_entry *class_type)
 }
 
 #endif
+
+/**
+ * Checks if property access on object
+ */
+int phalcon_check_property_access_quick(zval *object, const char *property_name, zend_uint property_length, ulong hash, int access TSRMLS_DC)
+{
+	zend_class_entry *ce;
+	zend_property_info *property_info;
+
+	if (Z_TYPE_P(object) == IS_OBJECT) {
+		ce = Z_OBJCE_P(object);
+		if (zend_hash_find(&ce->properties_info, property_name, property_length, (void**) &property_info) == SUCCESS) {
+			return (property_info->flags & access) == access;
+		}
+	}
+
+	return 0;
+}

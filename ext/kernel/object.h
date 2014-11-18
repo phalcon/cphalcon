@@ -259,4 +259,46 @@ int phalcon_create_instance_params(zval *return_value, const zval *class_name, z
 void object_properties_init(zend_object *object, zend_class_entry *class_type);
 #endif
 
+/** Checks if property access on object */
+int phalcon_check_property_access_quick(zval *object, const char *property_name, zend_uint property_length, ulong hash, int access TSRMLS_DC) PHALCON_ATTR_NONNULL;
+
+PHALCON_ATTR_NONNULL static inline int phalcon_check_property_access(zval *object, const char *property_name, zend_uint property_length, int access TSRMLS_DC)
+{
+#ifdef __GNUC__
+	if (__builtin_constant_p(property_name) && __builtin_constant_p(property_length)) {
+		return phalcon_check_property_access_quick(object, property_name, property_length, zend_inline_hash_func(property_name, property_length), access TSRMLS_CC);
+	}
+#endif
+
+	return phalcon_check_property_access_quick(object, property_name, property_length, zend_hash_func(property_name, property_length), access TSRMLS_CC);
+}
+
+PHALCON_ATTR_NONNULL static inline int phalcon_check_property_access_zval(zval *object, const zval *property, int access TSRMLS_DC)
+{
+	if (Z_TYPE_P(property) == IS_STRING) {
+		ulong hash = zend_hash_func(Z_STRVAL_P(property), Z_STRLEN_P(property) + 1);
+		return phalcon_check_property_access_quick(object, Z_STRVAL_P(property), Z_STRLEN_P(property) + 1, hash, access TSRMLS_CC);
+	}
+
+	return 0;
+}
+
+#define PHALCON_PROPERTY_IS_PUBLIC(object, property) \
+	 phalcon_check_property_access(object, property, strlen(property), ZEND_ACC_PUBLIC TSRMLS_CC)
+
+#define PHALCON_PROPERTY_IS_PROTECTED(object, property) \
+	 phalcon_check_property_access(object, property, strlen(property), ZEND_ACC_PROTECTED TSRMLS_CC)
+
+#define PHALCON_PROPERTY_IS_PRIVATE(object, property) \
+	 phalcon_check_property_access(object, property, strlen(property), ZEND_ACC_PRIVATE TSRMLS_CC)
+
+#define PHALCON_PROPERTY_IS_PUBLIC_ZVAL(object, property) \
+	 phalcon_check_property_access_zval(object, property, ZEND_ACC_PUBLIC TSRMLS_CC)
+
+#define PHALCON_PROPERTY_IS_PROTECTED_ZVAL(object, property) \
+	 phalcon_check_property_access_zval(object, property, ZEND_ACC_PROTECTED TSRMLS_CC)
+
+#define PHALCON_PROPERTY_IS_PRIVATE_ZVAL(object, property) \
+	 phalcon_check_property_access_zval(object, property, ZEND_ACC_PRIVATE TSRMLS_CC)
+
 #endif /* PHALCON_KERNEL_OBJECT_H */

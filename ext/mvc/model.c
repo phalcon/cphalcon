@@ -6625,10 +6625,10 @@ PHP_METHOD(Phalcon_Mvc_Model, __callStatic){
  */
 PHP_METHOD(Phalcon_Mvc_Model, __set){
 
-	zval *property, *value, *lower_property = NULL, *values = NULL;
+	zval *property, *value, *lower_property = NULL, *model_name = NULL, *values = NULL;
 	zval *meta_data = NULL, *column_map = NULL, *attributes = NULL;
 	zval *related, *key = NULL, *lower_key = NULL, *item = NULL;
-	zval *model_name = NULL, *manager = NULL, *exception_message = NULL;
+	zval *manager = NULL, *exception_message = NULL;
 	zval *relation = NULL, *referenced_model_name = NULL, *referenced_model = NULL, *type = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
@@ -6638,10 +6638,29 @@ PHP_METHOD(Phalcon_Mvc_Model, __set){
 
 	phalcon_fetch_params(1, 2, 0, &property, &value);
 
+	PHALCON_INIT_NVAR(model_name);
+	phalcon_get_class(model_name, this_ptr, 0 TSRMLS_CC);
+
 	PHALCON_INIT_VAR(lower_property);
 	phalcon_fast_strtolower(lower_property, property);
 
 	if (Z_TYPE_P(property) == IS_STRING) {
+		if (phalcon_isset_property_zval(this_ptr, property TSRMLS_CC)) {
+			if (PHALCON_PROPERTY_IS_PRIVATE_ZVAL(this_ptr, property TSRMLS_CC)) {
+				PHALCON_INIT_NVAR(exception_message);
+				PHALCON_CONCAT_SVSV(exception_message, "Cannot access private property \"", model_name, "::", property);
+				PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
+				return;
+			}
+
+			if (PHALCON_PROPERTY_IS_PROTECTED_ZVAL(this_ptr, property TSRMLS_CC)) {
+				PHALCON_INIT_NVAR(exception_message);
+				PHALCON_CONCAT_SVSV(exception_message, "Cannot access protected property \"", model_name, "::", property);
+				PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
+				return;
+			}
+		}
+
 		PHALCON_CALL_METHOD(&meta_data, this_ptr, "getmodelsmetadata");
 		PHALCON_CALL_METHOD(&column_map, meta_data, "getreversecolumnmap", this_ptr);
 		if (Z_TYPE_P(column_map) != IS_ARRAY) {
@@ -6657,9 +6676,6 @@ PHP_METHOD(Phalcon_Mvc_Model, __set){
 				RETURN_CTOR(value);
 			}
 		}
-
-		PHALCON_INIT_NVAR(model_name);
-		phalcon_get_class(model_name, this_ptr, 0 TSRMLS_CC);
 
 		PHALCON_CALL_METHOD(&manager, this_ptr, "getmodelsmanager");
 
