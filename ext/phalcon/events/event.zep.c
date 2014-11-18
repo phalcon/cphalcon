@@ -45,20 +45,50 @@ ZEPHIR_INIT_CLASS(Phalcon_Events_Event) {
 
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Events, Event, phalcon, events_event, phalcon_events_event_method_entry, 0);
 
+	/**
+	 * Event type
+	 *
+	 * @var string
+	 */
 	zend_declare_property_null(phalcon_events_event_ce, SL("_type"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
+	/**
+	 * Event source
+	 *
+	 * @var object
+	 */
 	zend_declare_property_null(phalcon_events_event_ce, SL("_source"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
+	/**
+	 * Event data
+	 *
+	 * @var mixed
+	 */
 	zend_declare_property_null(phalcon_events_event_ce, SL("_data"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
+	/**
+	 * Is event propagation stopped?
+	 *
+	 * @var boolean
+	 */
 	zend_declare_property_bool(phalcon_events_event_ce, SL("_stopped"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
 
+	/**
+	 * Is event cancelable?
+	 *
+	 * @var boolean
+	 */
 	zend_declare_property_bool(phalcon_events_event_ce, SL("_cancelable"), 1, ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	return SUCCESS;
 
 }
 
+/**
+ * Event type
+ *
+ * @var string
+ */
 PHP_METHOD(Phalcon_Events_Event, setType) {
 
 	zval *type;
@@ -71,6 +101,11 @@ PHP_METHOD(Phalcon_Events_Event, setType) {
 
 }
 
+/**
+ * Event type
+ *
+ * @var string
+ */
 PHP_METHOD(Phalcon_Events_Event, getType) {
 
 
@@ -78,6 +113,11 @@ PHP_METHOD(Phalcon_Events_Event, getType) {
 
 }
 
+/**
+ * Event source
+ *
+ * @var object
+ */
 PHP_METHOD(Phalcon_Events_Event, getSource) {
 
 
@@ -85,6 +125,11 @@ PHP_METHOD(Phalcon_Events_Event, getSource) {
 
 }
 
+/**
+ * Event data
+ *
+ * @var mixed
+ */
 PHP_METHOD(Phalcon_Events_Event, setData) {
 
 	zval *data;
@@ -97,6 +142,11 @@ PHP_METHOD(Phalcon_Events_Event, setData) {
 
 }
 
+/**
+ * Event data
+ *
+ * @var mixed
+ */
 PHP_METHOD(Phalcon_Events_Event, getData) {
 
 
@@ -104,6 +154,11 @@ PHP_METHOD(Phalcon_Events_Event, getData) {
 
 }
 
+/**
+ * Is event cancelable?
+ *
+ * @var boolean
+ */
 PHP_METHOD(Phalcon_Events_Event, getCancelable) {
 
 
@@ -173,7 +228,7 @@ PHP_METHOD(Phalcon_Events_Event, stop) {
 	if (zephir_is_true(_0)) {
 		zephir_update_property_this(this_ptr, SL("_stopped"), (1) ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
 	} else {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_events_exception_ce, "Trying to cancel a non-cancelable event", "phalcon/events/event.zep", 71);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_events_exception_ce, "Trying to cancel a non-cancelable event", "phalcon/events/event.zep", 96);
 		return;
 	}
 

@@ -166,6 +166,8 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, registerEngines) {
 
 	zephir_fetch_params(0, 1, 0, &engines_param);
 
+	engines = engines_param;
+
 
 
 	zephir_update_property_this(this_ptr, SL("_registeredEngines"), engines TSRMLS_CC);
@@ -727,6 +729,8 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, setVars) {
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &params_param, &merge_param);
+
+	params = params_param;
 
 	if (!merge_param) {
 		merge = 1;

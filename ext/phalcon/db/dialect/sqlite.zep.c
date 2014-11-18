@@ -766,6 +766,8 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, createTable) {
 		ZEPHIR_INIT_VAR(schemaName);
 		ZVAL_EMPTY_STRING(schemaName);
 	}
+	definition = definition_param;
+
 
 
 	ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Not implemented yet", "phalcon/db/dialect/sqlite.zep", 328);

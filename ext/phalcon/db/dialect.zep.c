@@ -198,6 +198,8 @@ PHP_METHOD(Phalcon_Db_Dialect, getColumnList) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &columnList_param);
 
+	columnList = columnList_param;
+
 
 
 	ZEPHIR_INIT_VAR(strList);
@@ -238,6 +240,8 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpression) {
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &expression_param, &escapeChar);
+
+	expression = expression_param;
 
 	if (!escapeChar) {
 		ZEPHIR_CPY_WRT(escapeChar, ZEPHIR_GLOBAL(global_null));
@@ -500,6 +504,8 @@ PHP_METHOD(Phalcon_Db_Dialect, select) {
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &definition_param);
+
+	definition = definition_param;
 
 
 

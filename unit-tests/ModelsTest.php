@@ -526,7 +526,7 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 			'kredit' => 21000,
 			'status' => 'A',
 		);
-		$this->assertEquals($persona->toArray(array('nombres', 'cupo', 'estado')), []);//db fields names
+		$this->assertEquals($persona->toArray(array('nombres', 'cupo', 'estado')), array());//db fields names
 		$this->assertEquals($persona->toArray(array('navnes', 'kredit', 'status')), $expected);//mapped fields names
 
 

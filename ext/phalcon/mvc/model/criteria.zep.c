@@ -178,6 +178,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, bind) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &bindParams_param);
 
+	bindParams = bindParams_param;
+
 
 
 	ZEPHIR_INIT_VAR(_0);
@@ -201,6 +203,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, bindTypes) {
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &bindTypes_param);
+
+	bindTypes = bindTypes_param;
 
 
 
@@ -920,6 +924,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, inWhere) {
 		ZEPHIR_INIT_VAR(expr);
 		ZVAL_EMPTY_STRING(expr);
 	}
+	values = values_param;
+
 
 
 	ZEPHIR_OBS_VAR(hiddenParam);
@@ -988,6 +994,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, notInWhere) {
 		ZEPHIR_INIT_VAR(expr);
 		ZVAL_EMPTY_STRING(expr);
 	}
+	values = values_param;
+
 
 
 	ZEPHIR_OBS_VAR(hiddenParam);
@@ -1242,6 +1250,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, cache) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &cache_param);
 
+	cache = cache_param;
+
 
 
 	ZEPHIR_INIT_VAR(_0);
@@ -1386,6 +1396,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, fromInput) {
 		ZEPHIR_INIT_VAR(modelName);
 		ZVAL_EMPTY_STRING(modelName);
 	}
+	data = data_param;
+
 
 
 	if (!(zephir_instance_of_ev(dependencyInjector, phalcon_diinterface_ce TSRMLS_CC))) {

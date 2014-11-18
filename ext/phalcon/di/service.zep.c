@@ -360,6 +360,8 @@ PHP_METHOD(Phalcon_Di_Service, setParameter) {
 	zephir_fetch_params(1, 2, 0, &position_param, &parameter_param);
 
 	position = zephir_get_intval(position_param);
+	parameter = parameter_param;
+
 
 
 	ZEPHIR_OBS_VAR(definition);
@@ -441,6 +443,8 @@ PHP_METHOD(Phalcon_Di_Service, __set_state) {
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &attributes_param);
+
+	attributes = attributes_param;
 
 
 

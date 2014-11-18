@@ -91,6 +91,8 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, __construct) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &descriptor_param);
 
+	descriptor = descriptor_param;
+
 
 
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "connect", NULL, descriptor);

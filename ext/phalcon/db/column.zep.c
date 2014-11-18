@@ -579,6 +579,8 @@ PHP_METHOD(Phalcon_Db_Column, __set_state) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &data_param);
 
+	data = data_param;
+
 
 
 	ZEPHIR_OBS_VAR(columnName);

@@ -103,6 +103,8 @@ PHP_METHOD(Phalcon_Config_Adapter_Yaml, __construct) {
 	ZEPHIR_INIT_VAR(callbacks);
 	array_init(callbacks);
 	} else {
+	callbacks = callbacks_param;
+
 	}
 
 

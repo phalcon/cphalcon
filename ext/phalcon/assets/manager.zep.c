@@ -99,6 +99,8 @@ PHP_METHOD(Phalcon_Assets_Manager, setOptions) {
 
 	zephir_fetch_params(0, 1, 0, &options_param);
 
+	options = options_param;
+
 
 
 	zephir_update_property_this(this_ptr, SL("_options"), options TSRMLS_CC);

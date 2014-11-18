@@ -258,6 +258,8 @@ PHP_METHOD(Phalcon_Di_Service_Builder, build) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 1, &dependencyInjector, &definition_param, &parameters);
 
+	definition = definition_param;
+
 	if (!parameters) {
 		parameters = ZEPHIR_GLOBAL(global_null);
 	}

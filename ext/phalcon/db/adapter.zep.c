@@ -174,6 +174,8 @@ PHP_METHOD(Phalcon_Db_Adapter, __construct) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &descriptor_param);
 
+	descriptor = descriptor_param;
+
 
 
 	ZEPHIR_OBS_VAR(connectionId);
@@ -494,6 +496,8 @@ PHP_METHOD(Phalcon_Db_Adapter, insert) {
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 2, &table, &values_param, &fields, &dataTypes);
+
+	values = values_param;
 
 	if (!fields) {
 		fields = ZEPHIR_GLOBAL(global_null);

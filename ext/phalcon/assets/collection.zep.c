@@ -666,6 +666,8 @@ PHP_METHOD(Phalcon_Assets_Collection, setAttributes) {
 
 	zephir_fetch_params(0, 1, 0, &attributes_param);
 
+	attributes = attributes_param;
+
 
 
 	zephir_update_property_this(this_ptr, SL("_attributes"), attributes TSRMLS_CC);
@@ -685,6 +687,8 @@ PHP_METHOD(Phalcon_Assets_Collection, setFilters) {
 	zval *filters = NULL;
 
 	zephir_fetch_params(0, 1, 0, &filters_param);
+
+	filters = filters_param;
 
 
 

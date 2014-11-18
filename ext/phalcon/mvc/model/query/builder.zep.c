@@ -1014,6 +1014,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, inWhere) {
 		ZEPHIR_INIT_VAR(expr);
 		ZVAL_EMPTY_STRING(expr);
 	}
+	values = values_param;
+
 
 
 	ZEPHIR_OBS_VAR(_0);
@@ -1087,6 +1089,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, notInWhere) {
 		ZEPHIR_INIT_VAR(expr);
 		ZVAL_EMPTY_STRING(expr);
 	}
+	values = values_param;
+
 
 
 	ZEPHIR_OBS_VAR(_0);

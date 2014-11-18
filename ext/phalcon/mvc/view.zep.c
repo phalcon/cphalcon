@@ -615,6 +615,8 @@ PHP_METHOD(Phalcon_Mvc_View, setVars) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &params_param, &merge_param);
 
+	params = params_param;
+
 	if (!merge_param) {
 		merge = 1;
 	} else {
@@ -1031,6 +1033,8 @@ PHP_METHOD(Phalcon_Mvc_View, registerEngines) {
 	zval *engines = NULL;
 
 	zephir_fetch_params(0, 1, 0, &engines_param);
+
+	engines = engines_param;
 
 
 

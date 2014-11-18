@@ -759,6 +759,8 @@ PHP_METHOD(Phalcon_Mvc_Model, assign) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 2, &data_param, &dataColumnMap, &whiteList);
 
+	data = data_param;
+
 	if (!dataColumnMap) {
 		dataColumnMap = ZEPHIR_GLOBAL(global_null);
 	}
@@ -877,6 +879,8 @@ PHP_METHOD(Phalcon_Mvc_Model, cloneResultMap) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 3, 2, &base, &data_param, &columnMap, &dirtyState_param, &keepSnapshots_param);
 
+	data = data_param;
+
 	if (!dirtyState_param) {
 		dirtyState = 0;
 	} else {
@@ -956,6 +960,8 @@ PHP_METHOD(Phalcon_Mvc_Model, cloneResultMapHydrate) {
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 3, 0, &data_param, &columnMap, &hydrationMode_param);
+
+	data = data_param;
 
 	hydrationMode = zephir_get_intval(hydrationMode_param);
 
@@ -4131,6 +4137,8 @@ PHP_METHOD(Phalcon_Mvc_Model, skipAttributes) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &attributes_param);
 
+	attributes = attributes_param;
+
 
 
 	ZEPHIR_INIT_VAR(keysAttributes);
@@ -4184,6 +4192,8 @@ PHP_METHOD(Phalcon_Mvc_Model, skipAttributesOnCreate) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &attributes_param);
 
+	attributes = attributes_param;
+
 
 
 	ZEPHIR_INIT_VAR(keysAttributes);
@@ -4234,6 +4244,8 @@ PHP_METHOD(Phalcon_Mvc_Model, skipAttributesOnUpdate) {
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &attributes_param);
+
+	attributes = attributes_param;
 
 
 
@@ -4600,6 +4612,8 @@ PHP_METHOD(Phalcon_Mvc_Model, setSnapshotData) {
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &data_param, &columnMap);
+
+	data = data_param;
 
 	if (!columnMap) {
 		columnMap = ZEPHIR_GLOBAL(global_null);
@@ -5655,6 +5669,8 @@ PHP_METHOD(Phalcon_Mvc_Model, setup) {
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &options_param);
+
+	options = options_param;
 
 
 

@@ -158,6 +158,8 @@ PHP_METHOD(Phalcon_Loader, setExtensions) {
 
 	zephir_fetch_params(0, 1, 0, &extensions_param);
 
+	extensions = extensions_param;
+
 
 
 	zephir_update_property_this(this_ptr, SL("_extensions"), extensions TSRMLS_CC);
@@ -193,6 +195,8 @@ PHP_METHOD(Phalcon_Loader, registerNamespaces) {
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &namespaces_param, &merge_param);
+
+	namespaces = namespaces_param;
 
 	if (!merge_param) {
 		merge = 0;
@@ -247,6 +251,8 @@ PHP_METHOD(Phalcon_Loader, registerPrefixes) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &prefixes_param, &merge_param);
 
+	prefixes = prefixes_param;
+
 	if (!merge_param) {
 		merge = 0;
 	} else {
@@ -300,6 +306,8 @@ PHP_METHOD(Phalcon_Loader, registerDirs) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &directories_param, &merge_param);
 
+	directories = directories_param;
+
 	if (!merge_param) {
 		merge = 0;
 	} else {
@@ -352,6 +360,8 @@ PHP_METHOD(Phalcon_Loader, registerClasses) {
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &classes_param, &merge_param);
+
+	classes = classes_param;
 
 	if (!merge_param) {
 		merge = 0;

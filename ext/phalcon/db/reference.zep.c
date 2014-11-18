@@ -219,6 +219,8 @@ PHP_METHOD(Phalcon_Db_Reference, __construct) {
 		ZEPHIR_INIT_VAR(name);
 		ZVAL_EMPTY_STRING(name);
 	}
+	definition = definition_param;
+
 
 
 	zephir_update_property_this(this_ptr, SL("_name"), name TSRMLS_CC);
@@ -281,6 +283,8 @@ PHP_METHOD(Phalcon_Db_Reference, __set_state) {
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &data_param);
+
+	data = data_param;
 
 
 

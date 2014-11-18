@@ -94,6 +94,8 @@ PHP_METHOD(Phalcon_Config, __construct) {
 	ZEPHIR_INIT_VAR(arrayConfig);
 	array_init(arrayConfig);
 	} else {
+	arrayConfig = arrayConfig_param;
+
 	}
 
 
@@ -409,6 +411,8 @@ PHP_METHOD(Phalcon_Config, __set_state) {
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &data_param);
+
+	data = data_param;
 
 
 

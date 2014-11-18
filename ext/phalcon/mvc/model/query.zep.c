@@ -274,6 +274,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getQualified) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &expr_param);
 
+	expr = expr_param;
+
 
 
 	ZEPHIR_OBS_VAR(columnName);
@@ -458,6 +460,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getCallArgument) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &argument_param);
 
+	argument = argument_param;
+
 
 
 	zephir_array_fetch_string(&_0, argument, SL("type"), PH_NOISY | PH_READONLY, "phalcon/mvc/model/query.zep", 338 TSRMLS_CC);
@@ -489,6 +493,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getFunctionCall) {
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &expr_param);
+
+	expr = expr_param;
 
 
 
@@ -996,6 +1002,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getSelectColumn) {
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &column_param);
+
+	column = column_param;
 
 
 
@@ -3686,6 +3694,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, setBindParams) {
 
 	zephir_fetch_params(0, 1, 0, &bindParams_param);
 
+	bindParams = bindParams_param;
+
 
 
 	zephir_update_property_this(this_ptr, SL("_bindParams"), bindParams TSRMLS_CC);
@@ -3718,6 +3728,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, setBindTypes) {
 
 	zephir_fetch_params(0, 1, 0, &bindTypes_param);
 
+	bindTypes = bindTypes_param;
+
 
 
 	zephir_update_property_this(this_ptr, SL("_bindTypes"), bindTypes TSRMLS_CC);
@@ -3749,6 +3761,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, setIntermediate) {
 	zval *intermediate = NULL;
 
 	zephir_fetch_params(0, 1, 0, &intermediate_param);
+
+	intermediate = intermediate_param;
 
 
 

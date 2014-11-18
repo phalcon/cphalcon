@@ -168,6 +168,8 @@ PHP_METHOD(Phalcon_Tag, renderAttributes) {
 		ZEPHIR_INIT_VAR(code);
 		ZVAL_EMPTY_STRING(code);
 	}
+	attributes = attributes_param;
+
 
 
 	ZEPHIR_INIT_VAR(order);
@@ -447,6 +449,8 @@ PHP_METHOD(Phalcon_Tag, setDefaults) {
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &values_param, &merge_param);
+
+	values = values_param;
 
 	if (!merge_param) {
 		merge = 0;

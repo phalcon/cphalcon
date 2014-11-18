@@ -255,6 +255,8 @@ PHP_METHOD(Phalcon_Forms_Element, addValidators) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &validators_param, &merge_param);
 
+	validators = validators_param;
+
 	if (!merge_param) {
 		merge = 1;
 	} else {
@@ -447,6 +449,8 @@ PHP_METHOD(Phalcon_Forms_Element, setAttributes) {
 	zval *attributes = NULL;
 
 	zephir_fetch_params(0, 1, 0, &attributes_param);
+
+	attributes = attributes_param;
 
 
 

@@ -182,6 +182,8 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, setOptions) {
 
 	zephir_fetch_params(0, 1, 0, &options_param);
 
+	options = options_param;
+
 
 
 	zephir_update_property_this(this_ptr, SL("_options"), options TSRMLS_CC);
@@ -559,6 +561,8 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, attributeReader) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &expr_param);
 
+	expr = expr_param;
+
 
 
 	ZEPHIR_INIT_VAR(exprCode);
@@ -647,6 +651,8 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, functionCall) {
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &expr_param);
+
+	expr = expr_param;
 
 
 
@@ -873,6 +879,8 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, resolveTest) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &test_param, &left);
 
+	test = test_param;
+
 
 
 	ZEPHIR_OBS_VAR(type);
@@ -956,6 +964,8 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, resolveFilter) {
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &filter_param, &left);
+
+	filter = filter_param;
 
 
 
@@ -1216,6 +1226,8 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, expression) {
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &expr_param);
+
+	expr = expr_param;
 
 
 
@@ -1959,6 +1971,8 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileSet) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &statement_param);
 
+	statement = statement_param;
+
 
 
 	ZEPHIR_OBS_VAR(assignments);
@@ -2126,6 +2140,8 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileEcho) {
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &statement_param);
+
+	statement = statement_param;
 
 
 

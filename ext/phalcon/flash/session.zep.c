@@ -149,6 +149,8 @@ PHP_METHOD(Phalcon_Flash_Session, _setSessionMessages) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &messages_param);
 
+	messages = messages_param;
+
 
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);

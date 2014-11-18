@@ -127,6 +127,8 @@ PHP_METHOD(Phalcon_Session_Adapter, setOptions) {
 
 	zephir_fetch_params(0, 1, 0, &options_param);
 
+	options = options_param;
+
 
 
 	if (zephir_array_isset_string_fetch(&uniqueId, options, SS("uniqueId"), 1 TSRMLS_CC)) {

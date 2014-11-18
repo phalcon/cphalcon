@@ -223,6 +223,8 @@ PHP_METHOD(Phalcon_Forms_Form, setUserOptions) {
 
 	zephir_fetch_params(0, 1, 0, &options_param);
 
+	options = options_param;
+
 
 
 	zephir_update_property_this(this_ptr, SL("_options"), options TSRMLS_CC);
@@ -304,6 +306,8 @@ PHP_METHOD(Phalcon_Forms_Form, bind) {
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 1, &data_param, &entity, &whitelist);
+
+	data = data_param;
 
 	ZEPHIR_SEPARATE_PARAM(entity);
 	if (!whitelist) {

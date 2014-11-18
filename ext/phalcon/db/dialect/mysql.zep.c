@@ -1007,6 +1007,8 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, createTable) {
 		ZEPHIR_INIT_VAR(schemaName);
 		ZVAL_EMPTY_STRING(schemaName);
 	}
+	definition = definition_param;
+
 
 
 	ZEPHIR_OBS_VAR(columns);

@@ -122,6 +122,8 @@ PHP_METHOD(Phalcon_Http_Request_File, __construct) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &file_param, &key);
 
+	file = file_param;
+
 	if (!key) {
 		key = ZEPHIR_GLOBAL(global_null);
 	}

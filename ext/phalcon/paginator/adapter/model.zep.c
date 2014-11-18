@@ -79,6 +79,8 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, __construct) {
 
 	zephir_fetch_params(0, 1, 0, &config_param);
 
+	config = config_param;
+
 
 
 	zephir_update_property_this(this_ptr, SL("_config"), config TSRMLS_CC);

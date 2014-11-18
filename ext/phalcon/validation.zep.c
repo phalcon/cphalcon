@@ -298,6 +298,8 @@ PHP_METHOD(Phalcon_Validation, rules) {
 		ZEPHIR_INIT_VAR(field);
 		ZVAL_EMPTY_STRING(field);
 	}
+	validators = validators_param;
+
 
 
 	zephir_is_iterable(validators, &_1, &_0, 0, 0, "phalcon/validation.zep", 197);
@@ -509,6 +511,8 @@ PHP_METHOD(Phalcon_Validation, setLabels) {
 	zval *labels = NULL;
 
 	zephir_fetch_params(0, 1, 0, &labels_param);
+
+	labels = labels_param;
 
 
 

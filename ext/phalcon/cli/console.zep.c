@@ -201,6 +201,8 @@ PHP_METHOD(Phalcon_Cli_Console, registerModules) {
 
 	zephir_fetch_params(0, 1, 0, &modules_param);
 
+	modules = modules_param;
+
 
 
 	zephir_update_property_this(this_ptr, SL("_modules"), modules TSRMLS_CC);
@@ -228,6 +230,8 @@ PHP_METHOD(Phalcon_Cli_Console, addModules) {
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &modules_param);
+
+	modules = modules_param;
 
 
 

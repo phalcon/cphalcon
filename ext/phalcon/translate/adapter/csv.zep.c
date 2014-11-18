@@ -52,6 +52,8 @@ PHP_METHOD(Phalcon_Translate_Adapter_Csv, __construct) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &options_param);
 
+	options = options_param;
+
 
 
 	ZEPHIR_INIT_VAR(_0);

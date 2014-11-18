@@ -100,6 +100,8 @@ PHP_METHOD(Phalcon_Db, setup) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &options_param);
 
+	options = options_param;
+
 
 
 	ZEPHIR_OBS_VAR(escapeIdentifiers);

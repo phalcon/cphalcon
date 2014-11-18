@@ -452,6 +452,8 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, createTable) {
 
 	zephir_fetch_params(0, 3, 0, &tableName, &schemaName, &definition_param);
 
+	definition = definition_param;
+
 
 
 	ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_db_exception_ce, "Not implemented yet", "phalcon/db/dialect/postgresql.zep", 270);

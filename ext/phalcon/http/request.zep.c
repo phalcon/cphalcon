@@ -1402,6 +1402,16 @@ PHP_METHOD(Phalcon_Http_Request, smoothFiles) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 6, 0, &names_param, &types_param, &tmp_names_param, &sizes_param, &errors_param, &prefix_param);
 
+	names = names_param;
+
+	types = types_param;
+
+	tmp_names = tmp_names_param;
+
+	sizes = sizes_param;
+
+	errors = errors_param;
+
 	zephir_get_strval(prefix, prefix_param);
 
 

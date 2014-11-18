@@ -70,6 +70,8 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, __construct) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &options_param);
 
+	options = options_param;
+
 
 
 	ZEPHIR_OBS_VAR(data);

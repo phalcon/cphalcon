@@ -439,6 +439,8 @@ PHP_METHOD(Phalcon_Mvc_Router, setDefaults) {
 
 	zephir_fetch_params(0, 1, 0, &defaults_param);
 
+	defaults = defaults_param;
+
 
 
 	if (zephir_array_isset_string_fetch(&namespaceName, defaults, SS("namespace"), 1 TSRMLS_CC)) {

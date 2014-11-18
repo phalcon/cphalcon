@@ -137,6 +137,8 @@ PHP_METHOD(Phalcon_Db_Index, __construct) {
 		ZEPHIR_INIT_VAR(name);
 		ZVAL_EMPTY_STRING(name);
 	}
+	columns = columns_param;
+
 	if (!type) {
 		type = ZEPHIR_GLOBAL(global_null);
 	}
@@ -163,6 +165,8 @@ PHP_METHOD(Phalcon_Db_Index, __set_state) {
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &data_param);
+
+	data = data_param;
 
 
 

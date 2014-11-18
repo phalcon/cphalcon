@@ -88,6 +88,8 @@ PHP_METHOD(Phalcon_Annotations_Annotation, __construct) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &reflectionData_param);
 
+	reflectionData = reflectionData_param;
+
 
 
 	zephir_array_fetch_string(&_0, reflectionData, SL("name"), PH_NOISY | PH_READONLY, "phalcon/annotations/annotation.zep", 60 TSRMLS_CC);
@@ -147,6 +149,8 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getExpression) {
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &expr_param);
+
+	expr = expr_param;
 
 
 

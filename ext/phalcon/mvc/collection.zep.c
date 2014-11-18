@@ -579,6 +579,8 @@ PHP_METHOD(Phalcon_Mvc_Collection, cloneResult) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &collection, &document_param);
 
+	document = document_param;
+
 
 
 	if (!(zephir_instance_of_ev(collection, phalcon_mvc_collectioninterface_ce TSRMLS_CC))) {

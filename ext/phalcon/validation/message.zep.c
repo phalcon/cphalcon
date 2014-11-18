@@ -258,6 +258,8 @@ PHP_METHOD(Phalcon_Validation_Message, __set_state) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &message_param);
 
+	message = message_param;
+
 
 
 	object_init_ex(return_value, phalcon_validation_message_ce);
