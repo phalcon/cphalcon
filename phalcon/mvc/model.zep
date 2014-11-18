@@ -3986,8 +3986,23 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 */
 	public function __set(string property, value)
 	{
-		var lowerProperty, related, modelName, manager, lowerKey, relation, referencedModel,
-			key, item;
+		var modelName, reflectionClass, reflectionProperty, lowerProperty, related,
+			manager, lowerKey, relation, referencedModel, key, item;
+
+		if isset this->{property} {
+			let modelName = get_class(this),
+				reflectionClass  = new ReflectionClass(modelName);
+			let reflectionProperty = reflectionClass->getProperty(property);
+			if reflectionProperty->isPrivate() {
+				trigger_error("Cannot access private property " . modelName . "::" . property);
+				return;
+			}
+
+			if reflectionProperty->isProtected() {
+				trigger_error("Cannot access protected property " . modelName . "::" . property);
+				return;
+			}
+		}
 
 		/**
 		 * Values are probably relationships if they are objects
