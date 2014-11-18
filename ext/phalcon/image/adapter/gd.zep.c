@@ -54,7 +54,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Gd, check) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
 	zephir_nts_static zephir_fcall_cache_entry *_3 = NULL, *_7 = NULL, *_9 = NULL;
-	zval *version = NULL, *info = NULL, *matches, *_0, _1 = zval_used_for_init, *_2 = NULL, *_4, *_5, *_6 = NULL, _8, *_10, *_11, *_12;
+	zval *version = NULL, *info = NULL, *matches, *_0, _1 = zval_used_for_init, *_2 = NULL, *_4, *_5 = NULL, *_6 = NULL, _8, *_10, *_11;
 
 	ZEPHIR_MM_GROW();
 
@@ -100,19 +100,19 @@ PHP_METHOD(Phalcon_Image_Adapter_Gd, check) {
 	ZEPHIR_CALL_FUNCTION(&_6, "version_compare", &_9, version, &_1, &_8);
 	zephir_check_call_status();
 	if (!(zephir_is_true(_6))) {
+		ZEPHIR_INIT_NVAR(_5);
+		object_init_ex(_5, phalcon_image_exception_ce);
 		ZEPHIR_INIT_VAR(_10);
-		object_init_ex(_10, phalcon_image_exception_ce);
-		ZEPHIR_INIT_VAR(_11);
-		ZEPHIR_CONCAT_SV(_11, "Phalcon\\Image\\Adapter\\GD requires GD version '2.0.1' or greater, you have ", version);
-		ZEPHIR_CALL_METHOD(NULL, _10, "__construct", NULL, _11);
+		ZEPHIR_CONCAT_SV(_10, "Phalcon\\Image\\Adapter\\GD requires GD version '2.0.1' or greater, you have ", version);
+		ZEPHIR_CALL_METHOD(NULL, _5, "__construct", NULL, _10);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(_10, "phalcon/image/adapter/gd.zep", 47 TSRMLS_CC);
+		zephir_throw_exception_debug(_5, "phalcon/image/adapter/gd.zep", 47 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
 	zephir_update_static_property_ce(phalcon_image_adapter_gd_ce, SL("_checked"), &(ZEPHIR_GLOBAL(global_true)) TSRMLS_CC);
-	_12 = zephir_fetch_static_property_ce(phalcon_image_adapter_gd_ce, SL("_checked") TSRMLS_CC);
-	RETURN_CTOR(_12);
+	_11 = zephir_fetch_static_property_ce(phalcon_image_adapter_gd_ce, SL("_checked") TSRMLS_CC);
+	RETURN_CTOR(_11);
 
 }
 
@@ -241,7 +241,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Gd, __construct) {
 			_18 = !height;
 		}
 		if (_18) {
-			ZEPHIR_INIT_LNVAR(_14);
+			ZEPHIR_INIT_NVAR(_14);
 			object_init_ex(_14, phalcon_image_exception_ce);
 			_2 = zephir_fetch_nproperty_this(this_ptr, SL("_file"), PH_NOISY_CC);
 			ZEPHIR_INIT_LNVAR(_16);

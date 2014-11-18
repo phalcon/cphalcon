@@ -1007,13 +1007,6 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, createTable) {
 		ZEPHIR_INIT_VAR(schemaName);
 		ZVAL_EMPTY_STRING(schemaName);
 	}
-	if (unlikely(Z_TYPE_P(definition_param) != IS_ARRAY)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'definition' must be an array") TSRMLS_CC);
-		RETURN_MM_NULL();
-	}
-
-		definition = definition_param;
-
 
 
 	ZEPHIR_OBS_VAR(columns);

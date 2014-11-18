@@ -79,13 +79,6 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, __construct) {
 
 	zephir_fetch_params(0, 1, 0, &config_param);
 
-	if (unlikely(Z_TYPE_P(config_param) != IS_ARRAY)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'config' must be an array") TSRMLS_CC);
-		RETURN_NULL();
-	}
-
-		config = config_param;
-
 
 
 	zephir_update_property_this(this_ptr, SL("_config"), config TSRMLS_CC);

@@ -396,7 +396,7 @@ PHP_METHOD(Phalcon_Assets_Resource, getContent) {
 	ZEPHIR_INIT_VAR(content);
 	zephir_file_get_contents(content, completePath TSRMLS_CC);
 	if (ZEPHIR_IS_FALSE_IDENTICAL(content)) {
-		ZEPHIR_INIT_LNVAR(_1);
+		ZEPHIR_INIT_NVAR(_1);
 		object_init_ex(_1, phalcon_assets_exception_ce);
 		ZEPHIR_INIT_LNVAR(_2);
 		ZEPHIR_CONCAT_SVS(_2, "Resource's content for '", completePath, "' cannot be read");

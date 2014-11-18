@@ -110,7 +110,7 @@ PHP_METHOD(Phalcon_Annotations_Collection, __construct) {
 		  ; zephir_hash_move_forward_ex(_2, &_1)
 		) {
 			ZEPHIR_GET_HVALUE(annotationData, _3);
-			ZEPHIR_INIT_LNVAR(_4);
+			ZEPHIR_INIT_NVAR(_4);
 			object_init_ex(_4, phalcon_annotations_annotation_ce);
 			ZEPHIR_CALL_METHOD(NULL, _4, "__construct", &_5, annotationData);
 			zephir_check_call_status();

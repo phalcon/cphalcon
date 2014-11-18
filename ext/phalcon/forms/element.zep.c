@@ -255,13 +255,6 @@ PHP_METHOD(Phalcon_Forms_Element, addValidators) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &validators_param, &merge_param);
 
-	if (unlikely(Z_TYPE_P(validators_param) != IS_ARRAY)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'validators' must be an array") TSRMLS_CC);
-		RETURN_MM_NULL();
-	}
-
-		validators = validators_param;
-
 	if (!merge_param) {
 		merge = 1;
 	} else {
@@ -454,13 +447,6 @@ PHP_METHOD(Phalcon_Forms_Element, setAttributes) {
 	zval *attributes = NULL;
 
 	zephir_fetch_params(0, 1, 0, &attributes_param);
-
-	if (unlikely(Z_TYPE_P(attributes_param) != IS_ARRAY)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'attributes' must be an array") TSRMLS_CC);
-		RETURN_NULL();
-	}
-
-		attributes = attributes_param;
 
 
 

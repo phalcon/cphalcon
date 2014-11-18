@@ -298,13 +298,6 @@ PHP_METHOD(Phalcon_Validation, rules) {
 		ZEPHIR_INIT_VAR(field);
 		ZVAL_EMPTY_STRING(field);
 	}
-	if (unlikely(Z_TYPE_P(validators_param) != IS_ARRAY)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'validators' must be an array") TSRMLS_CC);
-		RETURN_MM_NULL();
-	}
-
-		validators = validators_param;
-
 
 
 	zephir_is_iterable(validators, &_1, &_0, 0, 0, "phalcon/validation.zep", 197);
@@ -516,13 +509,6 @@ PHP_METHOD(Phalcon_Validation, setLabels) {
 	zval *labels = NULL;
 
 	zephir_fetch_params(0, 1, 0, &labels_param);
-
-	if (unlikely(Z_TYPE_P(labels_param) != IS_ARRAY)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'labels' must be an array") TSRMLS_CC);
-		RETURN_NULL();
-	}
-
-		labels = labels_param;
 
 
 

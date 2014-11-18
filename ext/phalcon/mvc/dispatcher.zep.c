@@ -213,7 +213,7 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, getPreviousActionName) {
 PHP_METHOD(Phalcon_Mvc_Dispatcher, _throwDispatchException) {
 
 	int exceptionCode, ZEPHIR_LAST_CALL_STATUS;
-	zval *message_param = NULL, *exceptionCode_param = NULL, *dependencyInjector, *response = NULL, *exception, *_0, *_1 = NULL, *_2 = NULL, *_3 = NULL;
+	zval *message_param = NULL, *exceptionCode_param = NULL, *dependencyInjector, *response = NULL, *exception, *_0 = NULL, *_1 = NULL, *_2, *_3 = NULL;
 	zval *message = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -253,24 +253,24 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, _throwDispatchException) {
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	ZEPHIR_INIT_NVAR(_1);
-	ZVAL_STRING(_1, "response", ZEPHIR_TEMP_PARAM_COPY);
-	ZEPHIR_CALL_METHOD(&_3, dependencyInjector, "getshared", NULL, _1);
-	zephir_check_temp_parameter(_1);
+	ZEPHIR_INIT_NVAR(_0);
+	ZVAL_STRING(_0, "response", ZEPHIR_TEMP_PARAM_COPY);
+	ZEPHIR_CALL_METHOD(&_3, dependencyInjector, "getshared", NULL, _0);
+	zephir_check_temp_parameter(_0);
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(response, _3);
+	ZEPHIR_INIT_NVAR(_0);
+	ZVAL_LONG(_0, 404);
 	ZEPHIR_INIT_NVAR(_1);
-	ZVAL_LONG(_1, 404);
-	ZEPHIR_INIT_NVAR(_2);
-	ZVAL_STRING(_2, "Not Found", ZEPHIR_TEMP_PARAM_COPY);
-	ZEPHIR_CALL_METHOD(NULL, response, "setstatuscode", NULL, _1, _2);
-	zephir_check_temp_parameter(_2);
+	ZVAL_STRING(_1, "Not Found", ZEPHIR_TEMP_PARAM_COPY);
+	ZEPHIR_CALL_METHOD(NULL, response, "setstatuscode", NULL, _0, _1);
+	zephir_check_temp_parameter(_1);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(exception);
 	object_init_ex(exception, phalcon_mvc_dispatcher_exception_ce);
-	ZEPHIR_INIT_NVAR(_1);
-	ZVAL_LONG(_1, exceptionCode);
-	ZEPHIR_CALL_METHOD(NULL, exception, "__construct", NULL, message, _1);
+	ZEPHIR_INIT_NVAR(_0);
+	ZVAL_LONG(_0, exceptionCode);
+	ZEPHIR_CALL_METHOD(NULL, exception, "__construct", NULL, message, _0);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&_3, this_ptr, "_handleexception", NULL, exception);
 	zephir_check_call_status();

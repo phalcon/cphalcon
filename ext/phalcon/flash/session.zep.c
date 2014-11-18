@@ -149,13 +149,6 @@ PHP_METHOD(Phalcon_Flash_Session, _setSessionMessages) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &messages_param);
 
-	if (unlikely(Z_TYPE_P(messages_param) != IS_ARRAY)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'messages' must be an array") TSRMLS_CC);
-		RETURN_MM_NULL();
-	}
-
-		messages = messages_param;
-
 
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);

@@ -91,13 +91,6 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, __construct) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &descriptor_param);
 
-	if (unlikely(Z_TYPE_P(descriptor_param) != IS_ARRAY)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'descriptor' must be an array") TSRMLS_CC);
-		RETURN_MM_NULL();
-	}
-
-		descriptor = descriptor_param;
-
 
 
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "connect", NULL, descriptor);
@@ -196,14 +189,14 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, connect) {
 			zephir_array_update_long(&options, 12, &ZEPHIR_GLOBAL(global_true), PH_COPY | PH_SEPARATE, "phalcon/db/adapter/pdo.zep", 142);
 		}
 	}
+	ZEPHIR_INIT_VAR(_5);
+	object_init_ex(_5, php_pdo_get_dbh_ce());
+	_6 = zephir_fetch_nproperty_this(this_ptr, SL("_type"), PH_NOISY_CC);
 	ZEPHIR_INIT_LNVAR(_3);
-	object_init_ex(_3, php_pdo_get_dbh_ce());
-	_5 = zephir_fetch_nproperty_this(this_ptr, SL("_type"), PH_NOISY_CC);
-	ZEPHIR_INIT_VAR(_6);
-	ZEPHIR_CONCAT_VSV(_6, _5, ":", dsnAttributes);
-	ZEPHIR_CALL_METHOD(NULL, _3, "__construct", NULL, _6, username, password, options);
+	ZEPHIR_CONCAT_VSV(_3, _6, ":", dsnAttributes);
+	ZEPHIR_CALL_METHOD(NULL, _5, "__construct", NULL, _3, username, password, options);
 	zephir_check_call_status();
-	zephir_update_property_this(this_ptr, SL("_pdo"), _3 TSRMLS_CC);
+	zephir_update_property_this(this_ptr, SL("_pdo"), _5 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 
 }

@@ -493,7 +493,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, exists) {
 PHP_METHOD(Phalcon_Cache_Backend_File, increment) {
 
 	int value, ZEPHIR_LAST_CALL_STATUS;
-	zval *keyName = NULL, *value_param = NULL, *prefixedKey, *cacheFile, *frontend, *timestamp = NULL, *lifetime, *ttl = NULL, *cachedContent, *result, *_0, *_1 = NULL, *_2, *_3, *_4, *_5, *_6, *_7, *_8;
+	zval *keyName = NULL, *value_param = NULL, *prefixedKey, *cacheFile, *frontend, *timestamp = NULL, *lifetime, *ttl = NULL, *cachedContent, *result, *_0, *_1 = NULL, *_2, *_3, *_4, *_5, *_6 = NULL, *_7;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 2, &keyName, &value_param);
@@ -552,9 +552,9 @@ PHP_METHOD(Phalcon_Cache_Backend_File, increment) {
 			if (zephir_is_numeric(cachedContent)) {
 				ZEPHIR_INIT_VAR(result);
 				ZVAL_LONG(result, (zephir_get_numberval(cachedContent) + value));
-				ZEPHIR_INIT_VAR(_8);
-				zephir_file_put_contents(_8, cacheFile, result TSRMLS_CC);
-				if (ZEPHIR_IS_FALSE_IDENTICAL(_8)) {
+				ZEPHIR_INIT_NVAR(_6);
+				zephir_file_put_contents(_6, cacheFile, result TSRMLS_CC);
+				if (ZEPHIR_IS_FALSE_IDENTICAL(_6)) {
 					ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_cache_exception_ce, "Cache directory could not be written", "phalcon/cache/backend/file.zep", 381);
 					return;
 				}
@@ -576,7 +576,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, increment) {
 PHP_METHOD(Phalcon_Cache_Backend_File, decrement) {
 
 	int value, ZEPHIR_LAST_CALL_STATUS;
-	zval *keyName = NULL, *value_param = NULL, *prefixedKey, *cacheFile, *timestamp = NULL, *lifetime, *ttl = NULL, *cachedContent, *result, *_0, *_1 = NULL, *_2, *_3, *_4, *_5, *_6, *_7, *_8, *_9;
+	zval *keyName = NULL, *value_param = NULL, *prefixedKey, *cacheFile, *timestamp = NULL, *lifetime, *ttl = NULL, *cachedContent, *result, *_0, *_1 = NULL, *_2, *_3, *_4, *_5, *_6, *_7 = NULL, *_8;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 2, &keyName, &value_param);
@@ -634,9 +634,9 @@ PHP_METHOD(Phalcon_Cache_Backend_File, decrement) {
 			if (zephir_is_numeric(cachedContent)) {
 				ZEPHIR_INIT_VAR(result);
 				ZVAL_LONG(result, (zephir_get_numberval(cachedContent) - value));
-				ZEPHIR_INIT_VAR(_9);
-				zephir_file_put_contents(_9, cacheFile, result TSRMLS_CC);
-				if (ZEPHIR_IS_FALSE_IDENTICAL(_9)) {
+				ZEPHIR_INIT_NVAR(_7);
+				zephir_file_put_contents(_7, cacheFile, result TSRMLS_CC);
+				if (ZEPHIR_IS_FALSE_IDENTICAL(_7)) {
 					ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_cache_exception_ce, "Cache directory can't be written", "phalcon/cache/backend/file.zep", 440);
 					return;
 				}

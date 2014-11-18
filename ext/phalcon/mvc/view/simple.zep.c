@@ -166,13 +166,6 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, registerEngines) {
 
 	zephir_fetch_params(0, 1, 0, &engines_param);
 
-	if (unlikely(Z_TYPE_P(engines_param) != IS_ARRAY)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'engines' must be an array") TSRMLS_CC);
-		RETURN_NULL();
-	}
-
-		engines = engines_param;
-
 
 
 	zephir_update_property_this(this_ptr, SL("_registeredEngines"), engines TSRMLS_CC);
@@ -238,7 +231,7 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, _loadTemplateEngines) {
 						ZEPHIR_CALL_METHOD(&engineObject, dependencyInjector, "getshared", &_4, engineService, arguments);
 						zephir_check_call_status();
 					} else {
-						ZEPHIR_INIT_LNVAR(_0);
+						ZEPHIR_INIT_NVAR(_0);
 						object_init_ex(_0, phalcon_mvc_view_exception_ce);
 						ZEPHIR_INIT_LNVAR(_5);
 						ZEPHIR_CONCAT_SV(_5, "Invalid template engine registration for extension: ", extension);
@@ -274,7 +267,7 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, _internalRender) {
 	HashPosition _3;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zend_bool notExists, mustClean;
-	zval *path_param = NULL, *params, *eventsManager, *engines = NULL, *extension = NULL, *engine = NULL, *viewEnginePath = NULL, *viewsDirPath, *_0 = NULL, *_1 = NULL, *_2, **_5, *_8, *_9;
+	zval *path_param = NULL, *params, *eventsManager, *engines = NULL, *extension = NULL, *engine = NULL, *viewEnginePath = NULL, *viewsDirPath, *_0 = NULL, *_1 = NULL, *_2, **_5, *_8;
 	zval *path = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -349,13 +342,13 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, _internalRender) {
 		}
 	}
 	if (notExists == 1) {
+		ZEPHIR_INIT_NVAR(_1);
+		object_init_ex(_1, phalcon_mvc_view_exception_ce);
 		ZEPHIR_INIT_VAR(_8);
-		object_init_ex(_8, phalcon_mvc_view_exception_ce);
-		ZEPHIR_INIT_VAR(_9);
-		ZEPHIR_CONCAT_SVS(_9, "View '", viewsDirPath, "' was not found in the views directory");
-		ZEPHIR_CALL_METHOD(NULL, _8, "__construct", NULL, _9);
+		ZEPHIR_CONCAT_SVS(_8, "View '", viewsDirPath, "' was not found in the views directory");
+		ZEPHIR_CALL_METHOD(NULL, _1, "__construct", NULL, _8);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(_8, "phalcon/mvc/view/simple.zep", 253 TSRMLS_CC);
+		zephir_throw_exception_debug(_1, "phalcon/mvc/view/simple.zep", 253 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -734,13 +727,6 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, setVars) {
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &params_param, &merge_param);
-
-	if (unlikely(Z_TYPE_P(params_param) != IS_ARRAY)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'params' must be an array") TSRMLS_CC);
-		RETURN_MM_NULL();
-	}
-
-		params = params_param;
 
 	if (!merge_param) {
 		merge = 1;

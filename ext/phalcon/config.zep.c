@@ -94,13 +94,6 @@ PHP_METHOD(Phalcon_Config, __construct) {
 	ZEPHIR_INIT_VAR(arrayConfig);
 	array_init(arrayConfig);
 	} else {
-	if (unlikely(Z_TYPE_P(arrayConfig_param) != IS_ARRAY)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'arrayConfig' must be an array") TSRMLS_CC);
-		RETURN_MM_NULL();
-	}
-
-		arrayConfig = arrayConfig_param;
-
 	}
 
 
@@ -115,7 +108,7 @@ PHP_METHOD(Phalcon_Config, __construct) {
 		zephir_check_call_status();
 		ZEPHIR_CPY_WRT(key, _3);
 		if (Z_TYPE_P(value) == IS_ARRAY) {
-			ZEPHIR_INIT_LNVAR(_5);
+			ZEPHIR_INIT_NVAR(_5);
 			object_init_ex(_5, phalcon_config_ce);
 			ZEPHIR_CALL_METHOD(NULL, _5, "__construct", &_6, value);
 			zephir_check_call_status();
@@ -416,13 +409,6 @@ PHP_METHOD(Phalcon_Config, __set_state) {
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &data_param);
-
-	if (unlikely(Z_TYPE_P(data_param) != IS_ARRAY)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'data' must be an array") TSRMLS_CC);
-		RETURN_MM_NULL();
-	}
-
-		data = data_param;
 
 
 

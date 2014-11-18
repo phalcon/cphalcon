@@ -198,13 +198,6 @@ PHP_METHOD(Phalcon_Db_Dialect, getColumnList) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &columnList_param);
 
-	if (unlikely(Z_TYPE_P(columnList_param) != IS_ARRAY)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'columnList' must be an array") TSRMLS_CC);
-		RETURN_MM_NULL();
-	}
-
-		columnList = columnList_param;
-
 
 
 	ZEPHIR_INIT_VAR(strList);
@@ -245,13 +238,6 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpression) {
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &expression_param, &escapeChar);
-
-	if (unlikely(Z_TYPE_P(expression_param) != IS_ARRAY)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'expression' must be an array") TSRMLS_CC);
-		RETURN_MM_NULL();
-	}
-
-		expression = expression_param;
 
 	if (!escapeChar) {
 		ZEPHIR_CPY_WRT(escapeChar, ZEPHIR_GLOBAL(global_null));
@@ -514,13 +500,6 @@ PHP_METHOD(Phalcon_Db_Dialect, select) {
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &definition_param);
-
-	if (unlikely(Z_TYPE_P(definition_param) != IS_ARRAY)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'definition' must be an array") TSRMLS_CC);
-		RETURN_MM_NULL();
-	}
-
-		definition = definition_param;
 
 
 

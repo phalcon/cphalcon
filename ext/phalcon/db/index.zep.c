@@ -137,13 +137,6 @@ PHP_METHOD(Phalcon_Db_Index, __construct) {
 		ZEPHIR_INIT_VAR(name);
 		ZVAL_EMPTY_STRING(name);
 	}
-	if (unlikely(Z_TYPE_P(columns_param) != IS_ARRAY)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'columns' must be an array") TSRMLS_CC);
-		RETURN_MM_NULL();
-	}
-
-		columns = columns_param;
-
 	if (!type) {
 		type = ZEPHIR_GLOBAL(global_null);
 	}
@@ -170,13 +163,6 @@ PHP_METHOD(Phalcon_Db_Index, __set_state) {
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &data_param);
-
-	if (unlikely(Z_TYPE_P(data_param) != IS_ARRAY)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'data' must be an array") TSRMLS_CC);
-		RETURN_MM_NULL();
-	}
-
-		data = data_param;
 
 
 

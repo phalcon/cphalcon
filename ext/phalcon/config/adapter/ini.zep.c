@@ -91,7 +91,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct) {
 	HashPosition _4, _7;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zephir_nts_static zephir_fcall_cache_entry *_0 = NULL, *_13 = NULL;
-	zval *filePath_param = NULL, *iniConfig = NULL, *_1, *_2 = NULL, *_3, *config, *section = NULL, *sections = NULL, *directives = NULL, *path = NULL, *lastValue = NULL, **_6, **_9, *_10 = NULL, _12 = zval_used_for_init;
+	zval *filePath_param = NULL, *iniConfig = NULL, *_1 = NULL, *_2, *_3, *config, *section = NULL, *sections = NULL, *directives = NULL, *path = NULL, *lastValue = NULL, **_6, **_9, *_10 = NULL, _12 = zval_used_for_init;
 	zval *filePath = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -147,12 +147,12 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct) {
 			zephir_check_call_status();
 			zephir_array_append(&sections, _10, PH_SEPARATE, "phalcon/config/adapter/ini.zep", 79);
 		}
-		ZEPHIR_INIT_NVAR(_2);
+		ZEPHIR_INIT_NVAR(_1);
 		ZEPHIR_SINIT_NVAR(_12);
 		ZVAL_STRING(&_12, "array_merge_recursive", 0);
-		ZEPHIR_CALL_USER_FUNC_ARRAY(_2, &_12, sections);
+		ZEPHIR_CALL_USER_FUNC_ARRAY(_1, &_12, sections);
 		zephir_check_call_status();
-		zephir_array_update_zval(&config, section, &_2, PH_COPY | PH_SEPARATE);
+		zephir_array_update_zval(&config, section, &_1, PH_COPY | PH_SEPARATE);
 	}
 	ZEPHIR_CALL_PARENT(NULL, phalcon_config_adapter_ini_ce, this_ptr, "__construct", &_13, config);
 	zephir_check_call_status();

@@ -79,7 +79,7 @@ PHP_METHOD(Phalcon_Di_FactoryDefault, __construct) {
 	zephir_check_temp_parameter(_4);
 	zephir_check_call_status();
 	zephir_array_update_string(&_1, SL("router"), &_2, PH_COPY | PH_SEPARATE);
-	ZEPHIR_INIT_LNVAR(_2);
+	ZEPHIR_INIT_NVAR(_2);
 	object_init_ex(_2, phalcon_di_service_ce);
 	ZEPHIR_INIT_NVAR(_3);
 	ZVAL_STRING(_3, "dispatcher", ZEPHIR_TEMP_PARAM_COPY);
@@ -92,7 +92,7 @@ PHP_METHOD(Phalcon_Di_FactoryDefault, __construct) {
 	zephir_check_temp_parameter(_4);
 	zephir_check_call_status();
 	zephir_array_update_string(&_1, SL("dispatcher"), &_2, PH_COPY | PH_SEPARATE);
-	ZEPHIR_INIT_LNVAR(_2);
+	ZEPHIR_INIT_NVAR(_2);
 	object_init_ex(_2, phalcon_di_service_ce);
 	ZEPHIR_INIT_NVAR(_3);
 	ZVAL_STRING(_3, "url", ZEPHIR_TEMP_PARAM_COPY);
@@ -105,7 +105,7 @@ PHP_METHOD(Phalcon_Di_FactoryDefault, __construct) {
 	zephir_check_temp_parameter(_4);
 	zephir_check_call_status();
 	zephir_array_update_string(&_1, SL("url"), &_2, PH_COPY | PH_SEPARATE);
-	ZEPHIR_INIT_LNVAR(_2);
+	ZEPHIR_INIT_NVAR(_2);
 	object_init_ex(_2, phalcon_di_service_ce);
 	ZEPHIR_INIT_NVAR(_3);
 	ZVAL_STRING(_3, "modelsManager", ZEPHIR_TEMP_PARAM_COPY);
@@ -118,7 +118,7 @@ PHP_METHOD(Phalcon_Di_FactoryDefault, __construct) {
 	zephir_check_temp_parameter(_4);
 	zephir_check_call_status();
 	zephir_array_update_string(&_1, SL("modelsManager"), &_2, PH_COPY | PH_SEPARATE);
-	ZEPHIR_INIT_LNVAR(_2);
+	ZEPHIR_INIT_NVAR(_2);
 	object_init_ex(_2, phalcon_di_service_ce);
 	ZEPHIR_INIT_NVAR(_3);
 	ZVAL_STRING(_3, "modelsMetadata", ZEPHIR_TEMP_PARAM_COPY);
@@ -131,7 +131,7 @@ PHP_METHOD(Phalcon_Di_FactoryDefault, __construct) {
 	zephir_check_temp_parameter(_4);
 	zephir_check_call_status();
 	zephir_array_update_string(&_1, SL("modelsMetadata"), &_2, PH_COPY | PH_SEPARATE);
-	ZEPHIR_INIT_LNVAR(_2);
+	ZEPHIR_INIT_NVAR(_2);
 	object_init_ex(_2, phalcon_di_service_ce);
 	ZEPHIR_INIT_NVAR(_3);
 	ZVAL_STRING(_3, "response", ZEPHIR_TEMP_PARAM_COPY);
@@ -144,7 +144,7 @@ PHP_METHOD(Phalcon_Di_FactoryDefault, __construct) {
 	zephir_check_temp_parameter(_4);
 	zephir_check_call_status();
 	zephir_array_update_string(&_1, SL("response"), &_2, PH_COPY | PH_SEPARATE);
-	ZEPHIR_INIT_LNVAR(_2);
+	ZEPHIR_INIT_NVAR(_2);
 	object_init_ex(_2, phalcon_di_service_ce);
 	ZEPHIR_INIT_NVAR(_3);
 	ZVAL_STRING(_3, "cookies", ZEPHIR_TEMP_PARAM_COPY);
@@ -157,7 +157,7 @@ PHP_METHOD(Phalcon_Di_FactoryDefault, __construct) {
 	zephir_check_temp_parameter(_4);
 	zephir_check_call_status();
 	zephir_array_update_string(&_1, SL("cookies"), &_2, PH_COPY | PH_SEPARATE);
-	ZEPHIR_INIT_LNVAR(_2);
+	ZEPHIR_INIT_NVAR(_2);
 	object_init_ex(_2, phalcon_di_service_ce);
 	ZEPHIR_INIT_NVAR(_3);
 	ZVAL_STRING(_3, "request", ZEPHIR_TEMP_PARAM_COPY);
@@ -170,7 +170,7 @@ PHP_METHOD(Phalcon_Di_FactoryDefault, __construct) {
 	zephir_check_temp_parameter(_4);
 	zephir_check_call_status();
 	zephir_array_update_string(&_1, SL("request"), &_2, PH_COPY | PH_SEPARATE);
-	ZEPHIR_INIT_LNVAR(_2);
+	ZEPHIR_INIT_NVAR(_2);
 	object_init_ex(_2, phalcon_di_service_ce);
 	ZEPHIR_INIT_NVAR(_3);
 	ZVAL_STRING(_3, "filter", ZEPHIR_TEMP_PARAM_COPY);
@@ -183,7 +183,7 @@ PHP_METHOD(Phalcon_Di_FactoryDefault, __construct) {
 	zephir_check_temp_parameter(_4);
 	zephir_check_call_status();
 	zephir_array_update_string(&_1, SL("filter"), &_2, PH_COPY | PH_SEPARATE);
-	ZEPHIR_INIT_LNVAR(_2);
+	ZEPHIR_INIT_NVAR(_2);
 	object_init_ex(_2, phalcon_di_service_ce);
 	ZEPHIR_INIT_NVAR(_3);
 	ZVAL_STRING(_3, "escaper", ZEPHIR_TEMP_PARAM_COPY);
@@ -196,7 +196,7 @@ PHP_METHOD(Phalcon_Di_FactoryDefault, __construct) {
 	zephir_check_temp_parameter(_4);
 	zephir_check_call_status();
 	zephir_array_update_string(&_1, SL("escaper"), &_2, PH_COPY | PH_SEPARATE);
-	ZEPHIR_INIT_LNVAR(_2);
+	ZEPHIR_INIT_NVAR(_2);
 	object_init_ex(_2, phalcon_di_service_ce);
 	ZEPHIR_INIT_NVAR(_3);
 	ZVAL_STRING(_3, "security", ZEPHIR_TEMP_PARAM_COPY);
@@ -209,7 +209,7 @@ PHP_METHOD(Phalcon_Di_FactoryDefault, __construct) {
 	zephir_check_temp_parameter(_4);
 	zephir_check_call_status();
 	zephir_array_update_string(&_1, SL("security"), &_2, PH_COPY | PH_SEPARATE);
-	ZEPHIR_INIT_LNVAR(_2);
+	ZEPHIR_INIT_NVAR(_2);
 	object_init_ex(_2, phalcon_di_service_ce);
 	ZEPHIR_INIT_NVAR(_3);
 	ZVAL_STRING(_3, "crypt", ZEPHIR_TEMP_PARAM_COPY);
@@ -222,7 +222,7 @@ PHP_METHOD(Phalcon_Di_FactoryDefault, __construct) {
 	zephir_check_temp_parameter(_4);
 	zephir_check_call_status();
 	zephir_array_update_string(&_1, SL("crypt"), &_2, PH_COPY | PH_SEPARATE);
-	ZEPHIR_INIT_LNVAR(_2);
+	ZEPHIR_INIT_NVAR(_2);
 	object_init_ex(_2, phalcon_di_service_ce);
 	ZEPHIR_INIT_NVAR(_3);
 	ZVAL_STRING(_3, "annotations", ZEPHIR_TEMP_PARAM_COPY);
@@ -235,7 +235,7 @@ PHP_METHOD(Phalcon_Di_FactoryDefault, __construct) {
 	zephir_check_temp_parameter(_4);
 	zephir_check_call_status();
 	zephir_array_update_string(&_1, SL("annotations"), &_2, PH_COPY | PH_SEPARATE);
-	ZEPHIR_INIT_LNVAR(_2);
+	ZEPHIR_INIT_NVAR(_2);
 	object_init_ex(_2, phalcon_di_service_ce);
 	ZEPHIR_INIT_NVAR(_3);
 	ZVAL_STRING(_3, "flash", ZEPHIR_TEMP_PARAM_COPY);
@@ -248,7 +248,7 @@ PHP_METHOD(Phalcon_Di_FactoryDefault, __construct) {
 	zephir_check_temp_parameter(_4);
 	zephir_check_call_status();
 	zephir_array_update_string(&_1, SL("flash"), &_2, PH_COPY | PH_SEPARATE);
-	ZEPHIR_INIT_LNVAR(_2);
+	ZEPHIR_INIT_NVAR(_2);
 	object_init_ex(_2, phalcon_di_service_ce);
 	ZEPHIR_INIT_NVAR(_3);
 	ZVAL_STRING(_3, "flashSession", ZEPHIR_TEMP_PARAM_COPY);
@@ -261,7 +261,7 @@ PHP_METHOD(Phalcon_Di_FactoryDefault, __construct) {
 	zephir_check_temp_parameter(_4);
 	zephir_check_call_status();
 	zephir_array_update_string(&_1, SL("flashSession"), &_2, PH_COPY | PH_SEPARATE);
-	ZEPHIR_INIT_LNVAR(_2);
+	ZEPHIR_INIT_NVAR(_2);
 	object_init_ex(_2, phalcon_di_service_ce);
 	ZEPHIR_INIT_NVAR(_3);
 	ZVAL_STRING(_3, "tag", ZEPHIR_TEMP_PARAM_COPY);
@@ -274,7 +274,7 @@ PHP_METHOD(Phalcon_Di_FactoryDefault, __construct) {
 	zephir_check_temp_parameter(_4);
 	zephir_check_call_status();
 	zephir_array_update_string(&_1, SL("tag"), &_2, PH_COPY | PH_SEPARATE);
-	ZEPHIR_INIT_LNVAR(_2);
+	ZEPHIR_INIT_NVAR(_2);
 	object_init_ex(_2, phalcon_di_service_ce);
 	ZEPHIR_INIT_NVAR(_3);
 	ZVAL_STRING(_3, "session", ZEPHIR_TEMP_PARAM_COPY);
@@ -287,7 +287,7 @@ PHP_METHOD(Phalcon_Di_FactoryDefault, __construct) {
 	zephir_check_temp_parameter(_4);
 	zephir_check_call_status();
 	zephir_array_update_string(&_1, SL("session"), &_2, PH_COPY | PH_SEPARATE);
-	ZEPHIR_INIT_LNVAR(_2);
+	ZEPHIR_INIT_NVAR(_2);
 	object_init_ex(_2, phalcon_di_service_ce);
 	ZEPHIR_INIT_NVAR(_3);
 	ZVAL_STRING(_3, "sessionBag", ZEPHIR_TEMP_PARAM_COPY);
@@ -298,7 +298,7 @@ PHP_METHOD(Phalcon_Di_FactoryDefault, __construct) {
 	zephir_check_temp_parameter(_4);
 	zephir_check_call_status();
 	zephir_array_update_string(&_1, SL("sessionBag"), &_2, PH_COPY | PH_SEPARATE);
-	ZEPHIR_INIT_LNVAR(_2);
+	ZEPHIR_INIT_NVAR(_2);
 	object_init_ex(_2, phalcon_di_service_ce);
 	ZEPHIR_INIT_NVAR(_3);
 	ZVAL_STRING(_3, "eventsManager", ZEPHIR_TEMP_PARAM_COPY);
@@ -311,7 +311,7 @@ PHP_METHOD(Phalcon_Di_FactoryDefault, __construct) {
 	zephir_check_temp_parameter(_4);
 	zephir_check_call_status();
 	zephir_array_update_string(&_1, SL("eventsManager"), &_2, PH_COPY | PH_SEPARATE);
-	ZEPHIR_INIT_LNVAR(_2);
+	ZEPHIR_INIT_NVAR(_2);
 	object_init_ex(_2, phalcon_di_service_ce);
 	ZEPHIR_INIT_NVAR(_3);
 	ZVAL_STRING(_3, "transactions", ZEPHIR_TEMP_PARAM_COPY);
@@ -324,7 +324,7 @@ PHP_METHOD(Phalcon_Di_FactoryDefault, __construct) {
 	zephir_check_temp_parameter(_4);
 	zephir_check_call_status();
 	zephir_array_update_string(&_1, SL("transactionManager"), &_2, PH_COPY | PH_SEPARATE);
-	ZEPHIR_INIT_LNVAR(_2);
+	ZEPHIR_INIT_NVAR(_2);
 	object_init_ex(_2, phalcon_di_service_ce);
 	ZEPHIR_INIT_NVAR(_3);
 	ZVAL_STRING(_3, "assets", ZEPHIR_TEMP_PARAM_COPY);

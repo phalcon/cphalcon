@@ -615,13 +615,6 @@ PHP_METHOD(Phalcon_Mvc_View, setVars) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &params_param, &merge_param);
 
-	if (unlikely(Z_TYPE_P(params_param) != IS_ARRAY)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'params' must be an array") TSRMLS_CC);
-		RETURN_MM_NULL();
-	}
-
-		params = params_param;
-
 	if (!merge_param) {
 		merge = 1;
 	} else {
@@ -833,22 +826,22 @@ PHP_METHOD(Phalcon_Mvc_View, _loadTemplateEngines) {
 				ZEPHIR_GET_HVALUE(engineService, _4);
 				if (Z_TYPE_P(engineService) == IS_OBJECT) {
 					if (zephir_instance_of_ev(engineService, zend_ce_closure TSRMLS_CC)) {
-						ZEPHIR_INIT_NVAR(_5);
-						ZEPHIR_CALL_USER_FUNC_ARRAY(_5, engineService, arguments);
+						ZEPHIR_INIT_NVAR(_1);
+						ZEPHIR_CALL_USER_FUNC_ARRAY(_1, engineService, arguments);
 						zephir_check_call_status();
-						zephir_array_update_zval(&engines, extension, &_5, PH_COPY | PH_SEPARATE);
+						zephir_array_update_zval(&engines, extension, &_1, PH_COPY | PH_SEPARATE);
 					} else {
 						zephir_array_update_zval(&engines, extension, &engineService, PH_COPY | PH_SEPARATE);
 					}
 				} else {
 					if (Z_TYPE_P(engineService) != IS_STRING) {
-						ZEPHIR_INIT_LNVAR(_1);
-						object_init_ex(_1, phalcon_mvc_view_exception_ce);
+						ZEPHIR_INIT_NVAR(_5);
+						object_init_ex(_5, phalcon_mvc_view_exception_ce);
 						ZEPHIR_INIT_LNVAR(_6);
 						ZEPHIR_CONCAT_SV(_6, "Invalid template engine registration for extension: ", extension);
-						ZEPHIR_CALL_METHOD(NULL, _1, "__construct", &_7, _6);
+						ZEPHIR_CALL_METHOD(NULL, _5, "__construct", &_7, _6);
 						zephir_check_call_status();
-						zephir_throw_exception_debug(_1, "phalcon/mvc/view.zep", 574 TSRMLS_CC);
+						zephir_throw_exception_debug(_5, "phalcon/mvc/view.zep", 574 TSRMLS_CC);
 						ZEPHIR_MM_RESTORE();
 						return;
 					}
@@ -881,7 +874,7 @@ PHP_METHOD(Phalcon_Mvc_View, _engineRender) {
 	int renderLevel, cacheLevel, ZEPHIR_LAST_CALL_STATUS;
 	zend_bool silence, mustClean, _0, notExists;
 	zval *viewPath = NULL;
-	zval *engines, *viewPath_param = NULL, *silence_param = NULL, *mustClean_param = NULL, *cache = NULL, *key = NULL, *lifetime = NULL, *viewsDir, *basePath, *viewsDirPath, *viewOptions, *cacheOptions, *cachedView = NULL, *viewParams, *eventsManager = NULL, *extension = NULL, *engine = NULL, *viewEnginePath = NULL, *_1, *_2, *_3 = NULL, *_5 = NULL, *_6, **_9, *_10 = NULL, *_11, *_12;
+	zval *engines, *viewPath_param = NULL, *silence_param = NULL, *mustClean_param = NULL, *cache = NULL, *key = NULL, *lifetime = NULL, *viewsDir, *basePath, *viewsDirPath, *viewOptions, *cacheOptions, *cachedView = NULL, *viewParams, *eventsManager = NULL, *extension = NULL, *engine = NULL, *viewEnginePath = NULL, *_1, *_2, *_3 = NULL, *_5 = NULL, *_6, **_9, *_10 = NULL, *_11;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 4, 1, &engines, &viewPath_param, &silence_param, &mustClean_param, &cache);
@@ -1003,13 +996,13 @@ PHP_METHOD(Phalcon_Mvc_View, _engineRender) {
 			zephir_check_call_status();
 		}
 		if (!(silence)) {
+			ZEPHIR_INIT_NVAR(_10);
+			object_init_ex(_10, phalcon_mvc_view_exception_ce);
 			ZEPHIR_INIT_VAR(_11);
-			object_init_ex(_11, phalcon_mvc_view_exception_ce);
-			ZEPHIR_INIT_VAR(_12);
-			ZEPHIR_CONCAT_SVS(_12, "View '", viewsDirPath, "' was not found in the views directory");
-			ZEPHIR_CALL_METHOD(NULL, _11, "__construct", NULL, _12);
+			ZEPHIR_CONCAT_SVS(_11, "View '", viewsDirPath, "' was not found in the views directory");
+			ZEPHIR_CALL_METHOD(NULL, _10, "__construct", NULL, _11);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(_11, "phalcon/mvc/view.zep", 709 TSRMLS_CC);
+			zephir_throw_exception_debug(_10, "phalcon/mvc/view.zep", 709 TSRMLS_CC);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
@@ -1038,13 +1031,6 @@ PHP_METHOD(Phalcon_Mvc_View, registerEngines) {
 	zval *engines = NULL;
 
 	zephir_fetch_params(0, 1, 0, &engines_param);
-
-	if (unlikely(Z_TYPE_P(engines_param) != IS_ARRAY)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'engines' must be an array") TSRMLS_CC);
-		RETURN_NULL();
-	}
-
-		engines = engines_param;
 
 
 

@@ -122,13 +122,6 @@ PHP_METHOD(Phalcon_Http_Request_File, __construct) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &file_param, &key);
 
-	if (unlikely(Z_TYPE_P(file_param) != IS_ARRAY)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'file' must be an array") TSRMLS_CC);
-		RETURN_MM_NULL();
-	}
-
-		file = file_param;
-
 	if (!key) {
 		key = ZEPHIR_GLOBAL(global_null);
 	}

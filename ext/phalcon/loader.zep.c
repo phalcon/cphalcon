@@ -158,13 +158,6 @@ PHP_METHOD(Phalcon_Loader, setExtensions) {
 
 	zephir_fetch_params(0, 1, 0, &extensions_param);
 
-	if (unlikely(Z_TYPE_P(extensions_param) != IS_ARRAY)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'extensions' must be an array") TSRMLS_CC);
-		RETURN_NULL();
-	}
-
-		extensions = extensions_param;
-
 
 
 	zephir_update_property_this(this_ptr, SL("_extensions"), extensions TSRMLS_CC);
@@ -200,13 +193,6 @@ PHP_METHOD(Phalcon_Loader, registerNamespaces) {
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &namespaces_param, &merge_param);
-
-	if (unlikely(Z_TYPE_P(namespaces_param) != IS_ARRAY)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'namespaces' must be an array") TSRMLS_CC);
-		RETURN_MM_NULL();
-	}
-
-		namespaces = namespaces_param;
 
 	if (!merge_param) {
 		merge = 0;
@@ -261,13 +247,6 @@ PHP_METHOD(Phalcon_Loader, registerPrefixes) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &prefixes_param, &merge_param);
 
-	if (unlikely(Z_TYPE_P(prefixes_param) != IS_ARRAY)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'prefixes' must be an array") TSRMLS_CC);
-		RETURN_MM_NULL();
-	}
-
-		prefixes = prefixes_param;
-
 	if (!merge_param) {
 		merge = 0;
 	} else {
@@ -321,13 +300,6 @@ PHP_METHOD(Phalcon_Loader, registerDirs) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &directories_param, &merge_param);
 
-	if (unlikely(Z_TYPE_P(directories_param) != IS_ARRAY)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'directories' must be an array") TSRMLS_CC);
-		RETURN_MM_NULL();
-	}
-
-		directories = directories_param;
-
 	if (!merge_param) {
 		merge = 0;
 	} else {
@@ -380,13 +352,6 @@ PHP_METHOD(Phalcon_Loader, registerClasses) {
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &classes_param, &merge_param);
-
-	if (unlikely(Z_TYPE_P(classes_param) != IS_ARRAY)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'classes' must be an array") TSRMLS_CC);
-		RETURN_MM_NULL();
-	}
-
-		classes = classes_param;
 
 	if (!merge_param) {
 		merge = 0;

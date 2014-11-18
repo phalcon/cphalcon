@@ -168,13 +168,6 @@ PHP_METHOD(Phalcon_Tag, renderAttributes) {
 		ZEPHIR_INIT_VAR(code);
 		ZVAL_EMPTY_STRING(code);
 	}
-	if (unlikely(Z_TYPE_P(attributes_param) != IS_ARRAY)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'attributes' must be an array") TSRMLS_CC);
-		RETURN_MM_NULL();
-	}
-
-		attributes = attributes_param;
-
 
 
 	ZEPHIR_INIT_VAR(order);
@@ -454,13 +447,6 @@ PHP_METHOD(Phalcon_Tag, setDefaults) {
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &values_param, &merge_param);
-
-	if (unlikely(Z_TYPE_P(values_param) != IS_ARRAY)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'values' must be an array") TSRMLS_CC);
-		RETURN_MM_NULL();
-	}
-
-		values = values_param;
 
 	if (!merge_param) {
 		merge = 0;

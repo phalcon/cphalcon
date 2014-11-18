@@ -132,11 +132,11 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Oracle, connect) {
  */
 PHP_METHOD(Phalcon_Db_Adapter_Pdo_Oracle, describeColumns) {
 
-	zephir_fcall_cache_entry *_12 = NULL;
+	zephir_fcall_cache_entry *_11 = NULL;
 	HashTable *_5;
 	HashPosition _4;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *table_param = NULL, *schema = NULL, *columns, *oldColumn = NULL, *field = NULL, *definition = NULL, *columnSize = NULL, *columnPrecision = NULL, *columnScale = NULL, *columnType = NULL, *columnName, *_0 = NULL, *_1, *_2 = NULL, *_3 = NULL, **_6, *_7 = NULL, *_8 = NULL, *_9, *_10, *_11 = NULL;
+	zval *table_param = NULL, *schema = NULL, *columns, *oldColumn = NULL, *field = NULL, *definition = NULL, *columnSize = NULL, *columnPrecision = NULL, *columnScale = NULL, *columnType = NULL, *columnName, *_0 = NULL, *_1, *_2 = NULL, *_3 = NULL, **_6, *_7 = NULL, *_8 = NULL, *_9, *_10;
 	zval *table = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -279,11 +279,11 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Oracle, describeColumns) {
 			zephir_array_update_string(&definition, SL("notNull"), &ZEPHIR_GLOBAL(global_true), PH_COPY | PH_SEPARATE);
 		}
 		zephir_array_fetch_long(&columnName, field, 0, PH_NOISY | PH_READONLY, "phalcon/db/adapter/pdo/oracle.zep", 197 TSRMLS_CC);
-		ZEPHIR_INIT_LNVAR(_11);
-		object_init_ex(_11, phalcon_db_column_ce);
-		ZEPHIR_CALL_METHOD(NULL, _11, "__construct", &_12, columnName, definition);
+		ZEPHIR_INIT_NVAR(_8);
+		object_init_ex(_8, phalcon_db_column_ce);
+		ZEPHIR_CALL_METHOD(NULL, _8, "__construct", &_11, columnName, definition);
 		zephir_check_call_status();
-		zephir_array_append(&columns, _11, PH_SEPARATE, "phalcon/db/adapter/pdo/oracle.zep", 202);
+		zephir_array_append(&columns, _8, PH_SEPARATE, "phalcon/db/adapter/pdo/oracle.zep", 202);
 		ZEPHIR_CPY_WRT(oldColumn, columnName);
 	}
 	RETURN_CCTOR(columns);

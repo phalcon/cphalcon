@@ -69,11 +69,11 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_Digit) {
  */
 PHP_METHOD(Phalcon_Validation_Validator_Digit, validate) {
 
-	zephir_nts_static zephir_fcall_cache_entry *_6 = NULL;
+	zephir_nts_static zephir_fcall_cache_entry *_5 = NULL;
 	zend_bool _2;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *field = NULL;
-	zval *validation, *field_param = NULL, *value = NULL, *message = NULL, *label = NULL, *replacePairs, *_0 = NULL, *_1 = NULL, *_3 = NULL, *_4, *_5 = NULL;
+	zval *validation, *field_param = NULL, *value = NULL, *message = NULL, *label = NULL, *replacePairs, *_0 = NULL, *_1 = NULL, *_3 = NULL, *_4 = NULL, *_6;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &validation, &field_param);
@@ -136,16 +136,16 @@ PHP_METHOD(Phalcon_Validation_Validator_Digit, validate) {
 			zephir_check_temp_parameter(_1);
 			zephir_check_call_status();
 		}
-		ZEPHIR_INIT_VAR(_4);
-		object_init_ex(_4, phalcon_validation_message_ce);
-		ZEPHIR_CALL_FUNCTION(&_5, "strtr", &_6, message, replacePairs);
-		zephir_check_call_status();
 		ZEPHIR_INIT_NVAR(_1);
-		ZVAL_STRING(_1, "Digit", ZEPHIR_TEMP_PARAM_COPY);
-		ZEPHIR_CALL_METHOD(NULL, _4, "__construct", NULL, _5, field, _1);
-		zephir_check_temp_parameter(_1);
+		object_init_ex(_1, phalcon_validation_message_ce);
+		ZEPHIR_CALL_FUNCTION(&_4, "strtr", &_5, message, replacePairs);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, _4);
+		ZEPHIR_INIT_VAR(_6);
+		ZVAL_STRING(_6, "Digit", ZEPHIR_TEMP_PARAM_COPY);
+		ZEPHIR_CALL_METHOD(NULL, _1, "__construct", NULL, _4, field, _6);
+		zephir_check_temp_parameter(_6);
+		zephir_check_call_status();
+		ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, _1);
 		zephir_check_call_status();
 		RETURN_MM_BOOL(0);
 	}

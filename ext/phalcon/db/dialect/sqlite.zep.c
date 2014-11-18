@@ -766,13 +766,6 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, createTable) {
 		ZEPHIR_INIT_VAR(schemaName);
 		ZVAL_EMPTY_STRING(schemaName);
 	}
-	if (unlikely(Z_TYPE_P(definition_param) != IS_ARRAY)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'definition' must be an array") TSRMLS_CC);
-		RETURN_MM_NULL();
-	}
-
-		definition = definition_param;
-
 
 
 	ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Not implemented yet", "phalcon/db/dialect/sqlite.zep", 328);

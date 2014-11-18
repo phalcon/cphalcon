@@ -366,7 +366,7 @@ int zephir_compare_strict_bool(zval *op1, zend_bool op2 TSRMLS_DC) {
 /**
  * Do add function keeping ref_count and is_ref
  */
-int zephir_add_function(zval *result, zval *op1, zval *op2 TSRMLS_DC) {
+int zephir_add_function_ex(zval *result, zval *op1, zval *op2 TSRMLS_DC) {
 	int status;
 	int ref_count = Z_REFCOUNT_P(result);
 	int is_ref = Z_ISREF_P(result);

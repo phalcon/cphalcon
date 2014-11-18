@@ -258,13 +258,6 @@ PHP_METHOD(Phalcon_Validation_Message, __set_state) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &message_param);
 
-	if (unlikely(Z_TYPE_P(message_param) != IS_ARRAY)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'message' must be an array") TSRMLS_CC);
-		RETURN_MM_NULL();
-	}
-
-		message = message_param;
-
 
 
 	object_init_ex(return_value, phalcon_validation_message_ce);

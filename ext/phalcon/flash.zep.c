@@ -152,13 +152,6 @@ PHP_METHOD(Phalcon_Flash, setCssClasses) {
 
 	zephir_fetch_params(0, 1, 0, &cssClasses_param);
 
-	if (unlikely(Z_TYPE_P(cssClasses_param) != IS_ARRAY)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'cssClasses' must be an array") TSRMLS_CC);
-		RETURN_NULL();
-	}
-
-		cssClasses = cssClasses_param;
-
 
 
 	zephir_update_property_this(this_ptr, SL("_cssClasses"), cssClasses TSRMLS_CC);

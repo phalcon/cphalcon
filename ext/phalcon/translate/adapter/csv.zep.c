@@ -52,13 +52,6 @@ PHP_METHOD(Phalcon_Translate_Adapter_Csv, __construct) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &options_param);
 
-	if (unlikely(Z_TYPE_P(options_param) != IS_ARRAY)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'options' must be an array") TSRMLS_CC);
-		RETURN_MM_NULL();
-	}
-
-		options = options_param;
-
 
 
 	ZEPHIR_INIT_VAR(_0);

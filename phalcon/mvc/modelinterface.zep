@@ -126,7 +126,7 @@ interface ModelInterface
 	 * @param array columnMap
 	 * @return Phalcon\Mvc\Model
 	 */
-	public function assign(data, columnMap = null);
+	public function assign(array! data, var dataColumnMap = null, var whiteList = null);
 
 	/**
 	 * Assigns values to a model from an array returning a new model

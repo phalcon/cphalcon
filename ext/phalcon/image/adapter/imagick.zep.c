@@ -209,7 +209,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, __construct) {
 			_19 = !height;
 		}
 		if (_19) {
-			ZEPHIR_INIT_LNVAR(_9);
+			ZEPHIR_INIT_NVAR(_9);
 			object_init_ex(_9, phalcon_image_exception_ce);
 			_3 = zephir_fetch_nproperty_this(this_ptr, SL("_file"), PH_NOISY_CC);
 			ZEPHIR_INIT_LNVAR(_11);
@@ -221,7 +221,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, __construct) {
 			return;
 		}
 		_6 = zephir_fetch_nproperty_this(this_ptr, SL("_image"), PH_NOISY_CC);
-		ZEPHIR_INIT_LNVAR(_9);
+		ZEPHIR_INIT_NVAR(_9);
 		object_init_ex(_9, zephir_get_internal_ce(SS("imagickpixel") TSRMLS_CC));
 		if (zephir_has_constructor(_9 TSRMLS_CC)) {
 			ZEPHIR_INIT_VAR(_20);

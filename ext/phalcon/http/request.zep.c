@@ -1351,7 +1351,7 @@ PHP_METHOD(Phalcon_Http_Request, getUploadedFiles) {
 						ZEPHIR_OBS_NVAR(_15);
 						zephir_array_fetch_string(&_15, file, SL("error"), PH_NOISY, "phalcon/http/request.zep", 779 TSRMLS_CC);
 						zephir_array_update_string(&dataFile, SL("error"), &_15, PH_COPY | PH_SEPARATE);
-						ZEPHIR_INIT_LNVAR(_16);
+						ZEPHIR_INIT_NVAR(_16);
 						object_init_ex(_16, phalcon_http_request_file_ce);
 						zephir_array_fetch_string(&_17, file, SL("key"), PH_NOISY | PH_READONLY, "phalcon/http/request.zep", 781 TSRMLS_CC);
 						ZEPHIR_CALL_METHOD(NULL, _16, "__construct", &_18, dataFile, _17);
@@ -1366,7 +1366,7 @@ PHP_METHOD(Phalcon_Http_Request, getUploadedFiles) {
 					_13 = ZEPHIR_IS_LONG(_4, 0);
 				}
 				if (_13) {
-					ZEPHIR_INIT_LNVAR(_16);
+					ZEPHIR_INIT_NVAR(_16);
 					object_init_ex(_16, phalcon_http_request_file_ce);
 					ZEPHIR_CALL_METHOD(NULL, _16, "__construct", &_18, input, prefix);
 					zephir_check_call_status();
@@ -1401,41 +1401,6 @@ PHP_METHOD(Phalcon_Http_Request, smoothFiles) {
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 6, 0, &names_param, &types_param, &tmp_names_param, &sizes_param, &errors_param, &prefix_param);
-
-	if (unlikely(Z_TYPE_P(names_param) != IS_ARRAY)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'names' must be an array") TSRMLS_CC);
-		RETURN_MM_NULL();
-	}
-
-		names = names_param;
-
-	if (unlikely(Z_TYPE_P(types_param) != IS_ARRAY)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'types' must be an array") TSRMLS_CC);
-		RETURN_MM_NULL();
-	}
-
-		types = types_param;
-
-	if (unlikely(Z_TYPE_P(tmp_names_param) != IS_ARRAY)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'tmp_names' must be an array") TSRMLS_CC);
-		RETURN_MM_NULL();
-	}
-
-		tmp_names = tmp_names_param;
-
-	if (unlikely(Z_TYPE_P(sizes_param) != IS_ARRAY)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'sizes' must be an array") TSRMLS_CC);
-		RETURN_MM_NULL();
-	}
-
-		sizes = sizes_param;
-
-	if (unlikely(Z_TYPE_P(errors_param) != IS_ARRAY)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'errors' must be an array") TSRMLS_CC);
-		RETURN_MM_NULL();
-	}
-
-		errors = errors_param;
 
 	zephir_get_strval(prefix, prefix_param);
 

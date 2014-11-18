@@ -209,8 +209,8 @@ PHP_METHOD(Phalcon_Filter, _sanitize) {
 	zephir_nts_static zephir_fcall_cache_entry *_7 = NULL, *_10 = NULL, *_11 = NULL;
 	zval *_1 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *filter = NULL, *_13;
-	zval *value, *filter_param = NULL, *filterObject, *_0, *_2 = NULL, _3 = zval_used_for_init, _4, _5, *_6 = NULL, *_9, *_12;
+	zval *filter = NULL, *_12;
+	zval *value, *filter_param = NULL, *filterObject, *_0, *_2 = NULL, _3 = zval_used_for_init, _4, _5, *_6 = NULL, *_9;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &value, &filter_param);
@@ -327,13 +327,13 @@ PHP_METHOD(Phalcon_Filter, _sanitize) {
 			zephir_fast_strtoupper(return_value, value);
 			RETURN_MM();
 		}
+		ZEPHIR_INIT_NVAR(_2);
+		object_init_ex(_2, phalcon_filter_exception_ce);
 		ZEPHIR_INIT_VAR(_12);
-		object_init_ex(_12, phalcon_filter_exception_ce);
-		ZEPHIR_INIT_VAR(_13);
-		ZEPHIR_CONCAT_SVS(_13, "Sanitize filter '", filter, "' is not supported");
-		ZEPHIR_CALL_METHOD(NULL, _12, "__construct", NULL, _13);
+		ZEPHIR_CONCAT_SVS(_12, "Sanitize filter '", filter, "' is not supported");
+		ZEPHIR_CALL_METHOD(NULL, _2, "__construct", NULL, _12);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(_12, "phalcon/filter.zep", 192 TSRMLS_CC);
+		zephir_throw_exception_debug(_2, "phalcon/filter.zep", 192 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	} while(0);

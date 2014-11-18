@@ -178,13 +178,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, bind) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &bindParams_param);
 
-	if (unlikely(Z_TYPE_P(bindParams_param) != IS_ARRAY)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'bindParams' must be an array") TSRMLS_CC);
-		RETURN_MM_NULL();
-	}
-
-		bindParams = bindParams_param;
-
 
 
 	ZEPHIR_INIT_VAR(_0);
@@ -208,13 +201,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, bindTypes) {
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &bindTypes_param);
-
-	if (unlikely(Z_TYPE_P(bindTypes_param) != IS_ARRAY)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'bindTypes' must be an array") TSRMLS_CC);
-		RETURN_MM_NULL();
-	}
-
-		bindTypes = bindTypes_param;
 
 
 
@@ -934,13 +920,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, inWhere) {
 		ZEPHIR_INIT_VAR(expr);
 		ZVAL_EMPTY_STRING(expr);
 	}
-	if (unlikely(Z_TYPE_P(values_param) != IS_ARRAY)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'values' must be an array") TSRMLS_CC);
-		RETURN_MM_NULL();
-	}
-
-		values = values_param;
-
 
 
 	ZEPHIR_OBS_VAR(hiddenParam);
@@ -1009,13 +988,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, notInWhere) {
 		ZEPHIR_INIT_VAR(expr);
 		ZVAL_EMPTY_STRING(expr);
 	}
-	if (unlikely(Z_TYPE_P(values_param) != IS_ARRAY)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'values' must be an array") TSRMLS_CC);
-		RETURN_MM_NULL();
-	}
-
-		values = values_param;
-
 
 
 	ZEPHIR_OBS_VAR(hiddenParam);
@@ -1270,13 +1242,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, cache) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &cache_param);
 
-	if (unlikely(Z_TYPE_P(cache_param) != IS_ARRAY)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'cache' must be an array") TSRMLS_CC);
-		RETURN_MM_NULL();
-	}
-
-		cache = cache_param;
-
 
 
 	ZEPHIR_INIT_VAR(_0);
@@ -1421,13 +1386,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, fromInput) {
 		ZEPHIR_INIT_VAR(modelName);
 		ZVAL_EMPTY_STRING(modelName);
 	}
-	if (unlikely(Z_TYPE_P(data_param) != IS_ARRAY)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'data' must be an array") TSRMLS_CC);
-		RETURN_MM_NULL();
-	}
-
-		data = data_param;
-
 
 
 	if (!(zephir_instance_of_ev(dependencyInjector, phalcon_diinterface_ce TSRMLS_CC))) {

@@ -471,13 +471,9 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 * @param array whiteList
 	 * @return Phalcon\Mvc\Model
 	 */
-	public function assign(var data, var dataColumnMap = null, var whiteList = null) -> <Model>
+	public function assign(array! data, var dataColumnMap = null, var whiteList = null) -> <Model>
 	{
 		var key, keyMapped, value, attribute, attributeField, possibleSetter, metaData, columnMap, dataMapped;
-
-		if typeof data != "array" {
-			throw new Exception("Data must be an array");
-		}
 
 		// apply column map for data, if exist
 		if typeof dataColumnMap == "array" {
@@ -491,7 +487,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 			let dataMapped = data;
 		}
 
-		if empty dataMapped {
+		if dataMapped === null && dataMapped === "" {
 			return this;
 		}
 
@@ -968,7 +964,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 					/**
 					 * We count how many fields are empty, if all fields are empy we don't perform an 'exist' check
 					 */
-					if empty value {
+					if value === null && value === "" {
 						let numberEmpty++;
 					}
 					let uniqueParams[] = value;
@@ -1930,7 +1926,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 							 */
 							if typeof value != "object" {
 								if !isset dataTypeNumeric[field] {
-									if empty value {
+									if value === null && value === "" {
 										let isNull = true;
 									}
 								} else {
@@ -2169,7 +2165,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 			 */
 			if fetch value, this->{attributeField} {
 
-				if empty value {
+				if value === null && value === "" {
 					if useExplicitIdentity {
 						let values[] = defaultValue, bindTypes[] = bindSkip;
 					}
@@ -2710,7 +2706,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 
 		let metaData = this->getModelsMetaData();
 
-		if !empty data {
+		if !(data === null && data === "") {
 			this->assign(data, null, whiteList);
 		}
 

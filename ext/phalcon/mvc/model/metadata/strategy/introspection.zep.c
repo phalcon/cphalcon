@@ -116,7 +116,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getMetaData) {
 		} else {
 			ZEPHIR_CPY_WRT(completeTable, table);
 		}
-		ZEPHIR_INIT_LNVAR(_1);
+		ZEPHIR_INIT_NVAR(_1);
 		object_init_ex(_1, phalcon_mvc_model_exception_ce);
 		ZEPHIR_INIT_NVAR(_2);
 		zephir_get_class(_2, model, 0 TSRMLS_CC);

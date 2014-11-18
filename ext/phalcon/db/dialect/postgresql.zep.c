@@ -452,13 +452,6 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, createTable) {
 
 	zephir_fetch_params(0, 3, 0, &tableName, &schemaName, &definition_param);
 
-	if (unlikely(Z_TYPE_P(definition_param) != IS_ARRAY)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'definition' must be an array") TSRMLS_CC);
-		RETURN_NULL();
-	}
-
-		definition = definition_param;
-
 
 
 	ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_db_exception_ce, "Not implemented yet", "phalcon/db/dialect/postgresql.zep", 270);

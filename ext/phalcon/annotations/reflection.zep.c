@@ -152,7 +152,7 @@ PHP_METHOD(Phalcon_Annotations_Reflection, getMethodsAnnotations) {
 				) {
 					ZEPHIR_GET_HKEY(methodName, _2, _1);
 					ZEPHIR_GET_HVALUE(reflectionMethod, _3);
-					ZEPHIR_INIT_LNVAR(_4);
+					ZEPHIR_INIT_NVAR(_4);
 					object_init_ex(_4, phalcon_annotations_collection_ce);
 					ZEPHIR_CALL_METHOD(NULL, _4, "__construct", &_5, reflectionMethod);
 					zephir_check_call_status();
@@ -200,7 +200,7 @@ PHP_METHOD(Phalcon_Annotations_Reflection, getPropertiesAnnotations) {
 				) {
 					ZEPHIR_GET_HKEY(property, _2, _1);
 					ZEPHIR_GET_HVALUE(reflectionProperty, _3);
-					ZEPHIR_INIT_LNVAR(_4);
+					ZEPHIR_INIT_NVAR(_4);
 					object_init_ex(_4, phalcon_annotations_collection_ce);
 					ZEPHIR_CALL_METHOD(NULL, _4, "__construct", &_5, reflectionProperty);
 					zephir_check_call_status();

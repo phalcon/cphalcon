@@ -104,8 +104,8 @@ PHP_METHOD(Phalcon_Cli_Router, __construct) {
 
 	zephir_fcall_cache_entry *_3 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *_1, *_5;
-	zval *defaultRoutes_param = NULL, *routes, *_0, *_2 = NULL, *_4, *_6;
+	zval *_1, *_4;
+	zval *defaultRoutes_param = NULL, *routes, *_0 = NULL, *_2 = NULL, *_5;
 	zend_bool defaultRoutes;
 
 	ZEPHIR_MM_GROW();
@@ -132,26 +132,26 @@ PHP_METHOD(Phalcon_Cli_Router, __construct) {
 		zephir_check_temp_parameter(_2);
 		zephir_check_call_status();
 		zephir_array_append(&routes, _0, PH_SEPARATE, "phalcon/cli/router.zep", 91);
-		ZEPHIR_INIT_VAR(_4);
-		object_init_ex(_4, phalcon_cli_router_route_ce);
-		ZEPHIR_INIT_VAR(_5);
-		array_init_size(_5, 5);
-		add_assoc_long_ex(_5, SS("task"), 1);
-		add_assoc_long_ex(_5, SS("action"), 2);
-		add_assoc_long_ex(_5, SS("params"), 3);
 		ZEPHIR_INIT_NVAR(_2);
-		ZVAL_STRING(_2, "#^(?::delimiter)?([a-zA-Z0-9\\_\\-]+):delimiter([a-zA-Z0-9\\.\\_]+)(:delimiter.*)*$#", ZEPHIR_TEMP_PARAM_COPY);
-		ZEPHIR_CALL_METHOD(NULL, _4, "__construct", &_3, _2, _5);
-		zephir_check_temp_parameter(_2);
+		object_init_ex(_2, phalcon_cli_router_route_ce);
+		ZEPHIR_INIT_VAR(_4);
+		array_init_size(_4, 5);
+		add_assoc_long_ex(_4, SS("task"), 1);
+		add_assoc_long_ex(_4, SS("action"), 2);
+		add_assoc_long_ex(_4, SS("params"), 3);
+		ZEPHIR_INIT_VAR(_5);
+		ZVAL_STRING(_5, "#^(?::delimiter)?([a-zA-Z0-9\\_\\-]+):delimiter([a-zA-Z0-9\\.\\_]+)(:delimiter.*)*$#", ZEPHIR_TEMP_PARAM_COPY);
+		ZEPHIR_CALL_METHOD(NULL, _2, "__construct", &_3, _5, _4);
+		zephir_check_temp_parameter(_5);
 		zephir_check_call_status();
-		zephir_array_append(&routes, _4, PH_SEPARATE, "phalcon/cli/router.zep", 97);
+		zephir_array_append(&routes, _2, PH_SEPARATE, "phalcon/cli/router.zep", 97);
 	}
+	ZEPHIR_INIT_NVAR(_0);
+	array_init(_0);
+	zephir_update_property_this(this_ptr, SL("_params"), _0 TSRMLS_CC);
 	ZEPHIR_INIT_NVAR(_2);
 	array_init(_2);
-	zephir_update_property_this(this_ptr, SL("_params"), _2 TSRMLS_CC);
-	ZEPHIR_INIT_VAR(_6);
-	array_init(_6);
-	zephir_update_property_this(this_ptr, SL("_defaultParams"), _6 TSRMLS_CC);
+	zephir_update_property_this(this_ptr, SL("_defaultParams"), _2 TSRMLS_CC);
 	zephir_update_property_this(this_ptr, SL("_routes"), routes TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 

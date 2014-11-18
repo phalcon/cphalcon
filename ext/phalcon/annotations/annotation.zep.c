@@ -88,13 +88,6 @@ PHP_METHOD(Phalcon_Annotations_Annotation, __construct) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &reflectionData_param);
 
-	if (unlikely(Z_TYPE_P(reflectionData_param) != IS_ARRAY)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'reflectionData' must be an array") TSRMLS_CC);
-		RETURN_MM_NULL();
-	}
-
-		reflectionData = reflectionData_param;
-
 
 
 	zephir_array_fetch_string(&_0, reflectionData, SL("name"), PH_NOISY | PH_READONLY, "phalcon/annotations/annotation.zep", 60 TSRMLS_CC);
@@ -154,13 +147,6 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getExpression) {
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &expr_param);
-
-	if (unlikely(Z_TYPE_P(expr_param) != IS_ARRAY)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'expr' must be an array") TSRMLS_CC);
-		RETURN_MM_NULL();
-	}
-
-		expr = expr_param;
 
 
 

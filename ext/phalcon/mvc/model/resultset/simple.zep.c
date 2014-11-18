@@ -297,7 +297,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, toArray) {
 					ZEPHIR_GET_HVALUE(value, _7);
 					ZEPHIR_OBS_NVAR(renamedKey);
 					if (zephir_array_isset_fetch(&renamedKey, columnMap, key, 0 TSRMLS_CC)) {
-						ZEPHIR_INIT_LNVAR(_8);
+						ZEPHIR_INIT_NVAR(_8);
 						object_init_ex(_8, phalcon_mvc_model_exception_ce);
 						ZEPHIR_INIT_LNVAR(_9);
 						ZEPHIR_CONCAT_SVS(_9, "Column '", key, "' is not part of the column map");

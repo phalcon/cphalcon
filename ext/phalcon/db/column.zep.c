@@ -579,13 +579,6 @@ PHP_METHOD(Phalcon_Db_Column, __set_state) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &data_param);
 
-	if (unlikely(Z_TYPE_P(data_param) != IS_ARRAY)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'data' must be an array") TSRMLS_CC);
-		RETURN_MM_NULL();
-	}
-
-		data = data_param;
-
 
 
 	ZEPHIR_OBS_VAR(columnName);
