@@ -174,7 +174,7 @@ PHP_METHOD(Phalcon_Db_Profiler, stopProfile) {
 	ZEPHIR_INIT_VAR(_2);
 	sub_function(_2, finalTime, initialTime TSRMLS_CC);
 	ZEPHIR_INIT_VAR(_3);
-	add_function(_3, _1, _2 TSRMLS_CC);
+	zephir_add_function_ex(_3, _1, _2 TSRMLS_CC);
 	zephir_update_property_this(this_ptr, SL("_totalSeconds"), _3 TSRMLS_CC);
 	zephir_update_property_array_append(this_ptr, SL("_allProfiles"), activeProfile TSRMLS_CC);
 	if ((zephir_method_exists_ex(this_ptr, SS("afterendprofile") TSRMLS_CC) == SUCCESS)) {

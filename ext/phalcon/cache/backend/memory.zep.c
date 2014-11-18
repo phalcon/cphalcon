@@ -338,7 +338,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Memory, increment) {
 		ZVAL_LONG(value, 1);
 	}
 	ZEPHIR_INIT_VAR(result);
-	add_function(result, cachedContent, value TSRMLS_CC);
+	zephir_add_function_ex(result, cachedContent, value TSRMLS_CC);
 	zephir_update_property_array(this_ptr, SL("_data"), lastKey, result TSRMLS_CC);
 	RETURN_CCTOR(result);
 

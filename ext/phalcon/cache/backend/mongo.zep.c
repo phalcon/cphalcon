@@ -609,9 +609,9 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, increment) {
 		}
 		if (zephir_is_numeric(cachedContent)) {
 			ZEPHIR_INIT_VAR(_4);
-			add_function(_4, cachedContent, value TSRMLS_CC);
+			zephir_add_function_ex(_4, cachedContent, value TSRMLS_CC);
 			ZEPHIR_INIT_VAR(_5);
-			add_function(_5, lifetime, timestamp TSRMLS_CC);
+			zephir_add_function_ex(_5, lifetime, timestamp TSRMLS_CC);
 			ZEPHIR_CALL_METHOD(NULL, this_ptr, "save", NULL, prefixedKey, _4, _5);
 			zephir_check_call_status();
 		}
@@ -681,7 +681,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, decrement) {
 			ZEPHIR_INIT_VAR(_5);
 			sub_function(_5, cachedContent, value TSRMLS_CC);
 			ZEPHIR_INIT_VAR(_6);
-			add_function(_6, lifetime, timestamp TSRMLS_CC);
+			zephir_add_function_ex(_6, lifetime, timestamp TSRMLS_CC);
 			ZEPHIR_CALL_METHOD(NULL, this_ptr, "save", NULL, prefixedKey, _5, _6);
 			zephir_check_call_status();
 		}

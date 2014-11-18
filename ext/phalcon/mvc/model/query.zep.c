@@ -3530,7 +3530,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, execute) {
 	if (Z_TYPE_P(defaultBindParams) == IS_ARRAY) {
 		if (Z_TYPE_P(bindParams) == IS_ARRAY) {
 			ZEPHIR_INIT_VAR(mergedParams);
-			add_function(mergedParams, defaultBindParams, bindParams TSRMLS_CC);
+			zephir_add_function_ex(mergedParams, defaultBindParams, bindParams TSRMLS_CC);
 		} else {
 			ZEPHIR_CPY_WRT(mergedParams, defaultBindParams);
 		}
@@ -3542,7 +3542,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, execute) {
 	if (Z_TYPE_P(defaultBindTypes) == IS_ARRAY) {
 		if (Z_TYPE_P(bindTypes) == IS_ARRAY) {
 			ZEPHIR_INIT_VAR(mergedTypes);
-			add_function(mergedTypes, defaultBindTypes, bindTypes TSRMLS_CC);
+			zephir_add_function_ex(mergedTypes, defaultBindTypes, bindTypes TSRMLS_CC);
 		} else {
 			ZEPHIR_CPY_WRT(mergedTypes, defaultBindTypes);
 		}
