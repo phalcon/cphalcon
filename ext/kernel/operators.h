@@ -83,11 +83,11 @@
 void zephir_make_printable_zval(zval *expr, zval *expr_copy, int *use_copy);
 
 #if PHP_VERSION_ID < 50400
-#define zephir_sub_function(result, left, right) sub_function(result, left, right)
-#define zephir_add_function(result, left, right) zephir_add_function_ex(result, left, right TSRMLS_CC)
+#define zephir_sub_function(result, left, right, t) sub_function(result, left, right TSRMLS_CC)
+#define zephir_add_function(result, left, right, t) zephir_add_function_ex(result, left, right TSRMLS_CC)
 #else
-#define zephir_add_function(result, left, right) fast_add_function(result, left, right)
-#define zephir_sub_function(result, left, right) fast_sub_function(result, left, right)
+#define zephir_add_function(result, left, right, t) fast_add_function(result, left, right TSRMLS_CC)
+#define zephir_sub_function(result, left, right, t) fast_sub_function(result, left, right TSRMLS_CC)
 #endif
 
 /** Operator functions */
@@ -162,7 +162,7 @@ double zephir_safe_div_double_zval(double op1, zval *op2 TSRMLS_DC);
 			if (Z_TYPE_P(z) == IS_LONG && Z_TYPE_P(v) == IS_DOUBLE) {  \
 				Z_LVAL_P(z) += Z_DVAL_P(v);  \
 			} else {  \
-				zephir_add_function(&tmp, z, v TSRMLS_CC);  \
+				add_function(&tmp, z, v TSRMLS_CC);  \
 				if (Z_TYPE(tmp) == IS_LONG) {  \
 					Z_LVAL_P(z) = Z_LVAL(tmp);  \
 				} else {  \
@@ -224,7 +224,7 @@ double zephir_safe_div_double_zval(double op1, zval *op2 TSRMLS_DC);
 	{  \
 		zval tmp;  \
 		ZEPHIR_SEPARATE(z);  \
-		zephir_add_function(&tmp, z, v TSRMLS_CC);  \
+		add_function(&tmp, z, v TSRMLS_CC);  \
 		if (Z_TYPE(tmp) == IS_LONG) {  \
 			Z_LVAL_P(z) = Z_LVAL(tmp);  \
 		} else {  \
