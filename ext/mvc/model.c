@@ -6646,18 +6646,14 @@ PHP_METHOD(Phalcon_Mvc_Model, __set){
 
 	if (Z_TYPE_P(property) == IS_STRING) {
 		if (phalcon_isset_property_zval(this_ptr, property TSRMLS_CC)) {
-			if (PHALCON_PROPERTY_IS_PRIVATE_ZVAL(this_ptr, property TSRMLS_CC)) {
-				PHALCON_INIT_NVAR(exception_message);
-				PHALCON_CONCAT_SVSV(exception_message, "Cannot access private property \"", model_name, "::", property);
-				PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
-				return;
+			if (PHALCON_PROPERTY_IS_PRIVATE_ZVAL(this_ptr, property)) {
+				zend_error(E_ERROR, "Cannot access private property %s::%s", Z_STRVAL_P(model_name), Z_STRVAL_P(property));
+				RETURN_MM();
 			}
 
-			if (PHALCON_PROPERTY_IS_PROTECTED_ZVAL(this_ptr, property TSRMLS_CC)) {
-				PHALCON_INIT_NVAR(exception_message);
-				PHALCON_CONCAT_SVSV(exception_message, "Cannot access protected property \"", model_name, "::", property);
-				PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
-				return;
+			if (PHALCON_PROPERTY_IS_PROTECTED_ZVAL(this_ptr, property)) {
+				zend_error(E_ERROR, "Cannot access protected property %s::%s", Z_STRVAL_P(model_name), Z_STRVAL_P(property));
+				RETURN_MM();
 			}
 		}
 
