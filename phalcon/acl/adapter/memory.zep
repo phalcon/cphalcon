@@ -218,7 +218,7 @@ class Memory extends Adapter
 			let this->_roleInherits[roleName] = true;
 		}
 
-		let this->_roleInherits[roleName][] = this->_roleInherits;
+		let this->_roleInherits[roleName][] = roleInheritName;
 
 		return true;
 	}
