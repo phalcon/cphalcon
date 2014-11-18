@@ -27,14 +27,39 @@ namespace Phalcon\Events;
 class Event
 {
 
+	/**
+	 * Event type
+	 *
+	 * @var string
+	 */
 	protected _type { set, get };
 
+	/**
+	 * Event source
+	 *
+	 * @var object
+	 */
 	protected _source { get };
 
+	/**
+	 * Event data
+	 *
+	 * @var mixed
+	 */
 	protected _data { set, get };
 
+	/**
+	 * Is event propagation stopped?
+	 *
+	 * @var boolean
+	 */
 	protected _stopped = false;
 
+	/**
+	 * Is event cancelable?
+	 *
+	 * @var boolean
+	 */
 	protected _cancelable = true { get };
 
 	/**
