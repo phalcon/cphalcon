@@ -222,6 +222,22 @@ class CollectionsTest extends PHPUnit_Framework_TestCase
 		$this->assertTrue($success);
 	}
 
+	public function testGridFS()
+	{
+		$image = new Images();
+		$image->name = 'Phalcon';
+		$success = $image->save('unit-tests/assets/logo.png');
+		$this->assertTrue($success);
+		$this->assertInstanceOf('MongoId', $image->_id);
+		$firstImageId = $image->_id;
+
+		$images = Images::find();
+		$this->assertTrue(is_array($images));
+		$this->assertEquals(count($images), 1);
+		$this->assertEquals($images[0]->name, 'Phalcon');
+		$this->assertInstanceOf('MongoGridFSFile', $images[0]->getFile());
+	}
+
 	public function testExecute()
 	{
 		if (!class_exists('Mongo')) {

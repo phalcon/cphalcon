@@ -18,13 +18,13 @@
   +------------------------------------------------------------------------+
 */
 
-#ifndef PHALCON_ARR_H
-#define PHALCON_ARR_H
+#ifndef PHALCON_MVC_COLLECTION_GRIDFS_H
+#define PHALCON_MVC_COLLECTION_GRIDFS_H
 
 #include "php_phalcon.h"
 
-extern zend_class_entry *phalcon_arr_ce;
+extern zend_class_entry *phalcon_mvc_collection_gridfs_ce;
 
-PHALCON_INIT_CLASS(Phalcon_Arr);
+PHALCON_INIT_CLASS(Phalcon_Mvc_Collection_GridFS);
 
-#endif /* PHALCON_ARR_H */
+#endif /* PHALCON_MVC_COLLECTION_GRIDFS_H */
