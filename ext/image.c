@@ -67,6 +67,7 @@ PHALCON_INIT_CLASS(Phalcon_Image){
 	zend_declare_class_constant_long(phalcon_image_ce, SL("INVERSE"), PHALCON_IMAGE_INVERSE TSRMLS_CC);
 	zend_declare_class_constant_long(phalcon_image_ce, SL("PRECISE"), PHALCON_IMAGE_PRECISE TSRMLS_CC);
 	zend_declare_class_constant_long(phalcon_image_ce, SL("TENSILE"), PHALCON_IMAGE_TENSILE TSRMLS_CC);
+	zend_declare_class_constant_long(phalcon_image_ce, SL("NARROW"),  PHALCON_IMAGE_NARROW TSRMLS_CC);
 
 	/* Flipping directions */
 	zend_declare_class_constant_long(phalcon_image_ce, SL("HORIZONTAL"), PHALCON_IMAGE_HORIZONTAL TSRMLS_CC);

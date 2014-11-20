@@ -32,6 +32,7 @@
 #define PHALCON_IMAGE_INVERSE        5
 #define PHALCON_IMAGE_PRECISE        6
 #define PHALCON_IMAGE_TENSILE        7
+#define PHALCON_IMAGE_NARROW         8
 
 /* Flipping directions */
 #define PHALCON_IMAGE_HORIZONTAL    11
