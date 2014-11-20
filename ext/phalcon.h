@@ -238,6 +238,7 @@
 #include "mvc/collection/message.h"
 #include "mvc/collection/manager.h"
 #include "mvc/collection/managerinterface.h"
+#include "mvc/collection/gridfs.h"
 #include "mvc/controller.h"
 #include "mvc/controllerinterface.h"
 #include "mvc/dispatcher.h"
