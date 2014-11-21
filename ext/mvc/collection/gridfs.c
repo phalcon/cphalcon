@@ -57,6 +57,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_GridFS, delete);
 PHP_METHOD(Phalcon_Mvc_Collection_GridFS, drop);
 PHP_METHOD(Phalcon_Mvc_Collection_GridFS, getFile);
 PHP_METHOD(Phalcon_Mvc_Collection_GridFS, getBytes);
+PHP_METHOD(Phalcon_Mvc_Collection_GridFS, write);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_collection_gridfs_storefile, 0, 0, 1)
 	ZEND_ARG_INFO(0, filename)
@@ -68,6 +69,10 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_collection_gridfs_storebytes, 0, 0, 1
 	ZEND_ARG_INFO(0, bytes)
 	ZEND_ARG_INFO(0, metadata)
 	ZEND_ARG_INFO(0, options)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_collection_gridfs_write, 0, 0, 1)
+	ZEND_ARG_INFO(0, filename)
 ZEND_END_ARG_INFO()
 
 static const zend_function_entry phalcon_mvc_collection_gridfs_method_entry[] = {
@@ -83,6 +88,7 @@ static const zend_function_entry phalcon_mvc_collection_gridfs_method_entry[] = 
 	PHP_ME(Phalcon_Mvc_Collection_GridFS, drop, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Mvc_Collection_GridFS, getFile, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Collection_GridFS, getBytes, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Collection_GridFS, write, NULL, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };
 
@@ -578,6 +584,25 @@ PHP_METHOD(Phalcon_Mvc_Collection_GridFS, getBytes){
 
 	if (Z_TYPE_P(file) == IS_OBJECT) {
 		PHALCON_RETURN_CALL_METHOD(file, "getbytes");
+	} else {
+		RETURN_MM_FALSE;
+	}
+
+	RETURN_MM();
+}
+
+PHP_METHOD(Phalcon_Mvc_Collection_GridFS, write){
+
+	zval *filename, *file = NULL;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 1, 0, &filename);
+
+	PHALCON_CALL_METHOD(&file, this_ptr, "getfile");
+
+	if (Z_TYPE_P(file) == IS_OBJECT) {
+		PHALCON_RETURN_CALL_METHOD(file, "write", filename);
 	} else {
 		RETURN_MM_FALSE;
 	}
