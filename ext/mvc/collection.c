@@ -319,32 +319,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, setId){
  */
 PHP_METHOD(Phalcon_Mvc_Collection, getId){
 
-	zval *id, *collection_manager, *use_implicit_ids = NULL, *mongo_id = NULL;
-	zend_class_entry *ce0;
-
-	PHALCON_MM_GROW();
-
-	id = phalcon_fetch_nproperty_this(this_ptr, SL("_id"), PH_NOISY TSRMLS_CC);
-	if (Z_TYPE_P(id) != IS_OBJECT) {
-		collection_manager = phalcon_fetch_nproperty_this(this_ptr, SL("_collectionManager"), PH_NOISY TSRMLS_CC);
-
-		/**
-		 * Check if the collection use implicit ids
-		 */
-		PHALCON_CALL_METHOD(&use_implicit_ids, collection_manager, "isusingimplicitobjectids", this_ptr);
-		if (zend_is_true(use_implicit_ids)) {
-			ce0 = zend_fetch_class(SL("MongoId"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
-			PHALCON_INIT_VAR(mongo_id);
-			object_init_ex(mongo_id, ce0);
-			if (phalcon_has_constructor(mongo_id TSRMLS_CC)) {
-				PHALCON_CALL_METHOD(NULL, mongo_id, "__construct", id);
-			}
-
-			RETURN_CTOR(mongo_id);
-		}
-	}
-
-	RETURN_CTOR(id);
+	RETURN_MEMBER(this_ptr, "_id");
 }
 
 PHP_METHOD(Phalcon_Mvc_Collection, getIdString){
@@ -355,7 +330,10 @@ PHP_METHOD(Phalcon_Mvc_Collection, getIdString){
 
 	id = phalcon_fetch_nproperty_this(this_ptr, SL("_id"), PH_NOISY TSRMLS_CC);
 
-	convert_to_string_ex(&id);
+	if (Z_TYPE_P(id) == IS_OBJECT) {
+		PHALCON_RETURN_CALL_METHOD(id, "__tostring");
+		RETURN_MM();
+	}
 
 	RETURN_CTOR(id);
 }
@@ -1489,12 +1467,9 @@ PHP_METHOD(Phalcon_Mvc_Collection, save){
 
 		ZVAL_BOOL(mode, (PHALCON_IS_FALSE(exists) ? 1 : 0));
 		phalcon_update_property_long(this_ptr, SL("_operationMade"), (PHALCON_IS_FALSE(exists) ? 1 : 2) TSRMLS_CC);
-	} else {
+	} else {		
+		PHALCON_CALL_METHOD(&exists, this_ptr, "_exists", collection);
 		if (PHALCON_IS_FALSE(mode)) {
-			PHALCON_CALL_METHOD(&exists, this_ptr, "_exists", collection);
-			/**
-			 * If the record already exists we must throw an exception
-			 */
 			if (!zend_is_true(exists)) {
 				PHALCON_INIT_VAR(type);
 				ZVAL_STRING(type, "InvalidUpdateAttempt", 1);
@@ -1512,12 +1487,27 @@ PHP_METHOD(Phalcon_Mvc_Collection, save){
 				phalcon_update_property_this(this_ptr, SL("_errorMessages"), messages TSRMLS_CC);
 				RETURN_MM_FALSE;
 			}
-		}
-	
-		PHALCON_INIT_NVAR(exists);
-		ZVAL_BOOL(exists, (PHALCON_IS_FALSE(mode) ? 1 : 0));
+		} else {
+			if (zend_is_true(exists)) {
+				PHALCON_INIT_VAR(type);
+				ZVAL_STRING(type, "InvalidCreateAttempt", 1);
 
-		phalcon_update_property_long(this_ptr, SL("_operationMade"), (PHALCON_IS_FALSE(exists) ? 1 : 2) TSRMLS_CC);
+				PHALCON_INIT_VAR(message);
+				ZVAL_STRING(message, "Document cannot be created because it already exist", 1);
+
+				PHALCON_INIT_VAR(collection_message);
+				object_init_ex(collection_message, phalcon_mvc_collection_message_ce);
+				PHALCON_CALL_METHOD(NULL, collection_message, "__construct", message, PHALCON_GLOBAL(z_null), type);
+
+				PHALCON_INIT_VAR(messages);
+				array_init_size(messages, 1);
+				phalcon_array_append(&messages, collection_message, PH_SEPARATE);
+				phalcon_update_property_this(this_ptr, SL("_errorMessages"), messages TSRMLS_CC);
+				RETURN_MM_FALSE;
+			}
+		}
+
+		phalcon_update_property_long(this_ptr, SL("_operationMade"), (!PHALCON_IS_FALSE(mode) ? 1 : 2) TSRMLS_CC);
 	}
 
 	PHALCON_INIT_VAR(empty_array);
