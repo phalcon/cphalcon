@@ -1607,7 +1607,7 @@ PHP_METHOD(Phalcon_Mvc_Model, findFirst){
 	} else {
 		PHALCON_CPY_WRT(params, parameters);
 	}
-	
+
 	/** 
 	 * Builds a query with the passed parameters
 	 */
@@ -1620,7 +1620,7 @@ PHP_METHOD(Phalcon_Mvc_Model, findFirst){
 	if (phalcon_method_exists_ex(model, SS("beforequery") TSRMLS_CC) == SUCCESS) {
 		PHALCON_CALL_METHOD(NULL, model, "beforequery", builder);
 	}
-	
+
 	/** 
 	 * Check for bind parameters
 	 */
@@ -1658,7 +1658,6 @@ PHP_METHOD(Phalcon_Mvc_Model, findFirst){
 	PHALCON_INIT_VAR(index);
 	/*PHALCON_CONCAT_SV(index, "?", &tmp);*/
 	ZVAL_LONG(index, 1);
-    
 
 	/**
 	 * We only want the first record
@@ -1675,14 +1674,14 @@ PHP_METHOD(Phalcon_Mvc_Model, findFirst){
 	if (phalcon_array_isset_string_fetch(&cache, params, SS("cache"))) {
 		PHALCON_CALL_METHOD(NULL, query, "cache", cache);
 	}
-	
+
 	unique = PHALCON_GLOBAL(z_true);
-	
+
 	/** 
 	 * Return only the first row
 	 */
 	PHALCON_CALL_METHOD(NULL, query, "setuniquerow", unique);
-	
+
 	/** 
 	 * Execute the query passing the bind-params and casting-types
 	 */
@@ -6431,15 +6430,15 @@ PHP_METHOD(Phalcon_Mvc_Model, __call){
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 1, 1, &method, &arguments);
-	
+
 	if (!arguments) {
 		PHALCON_INIT_VAR(arguments);
 		array_init(arguments);
 	}
-	
+
 	PHALCON_INIT_VAR(model_name);
 	phalcon_get_class(model_name, this_ptr, 0 TSRMLS_CC);
-	
+
 	/** 
 	 * Check if there is a default action using the magic getter
 	 */
@@ -6447,10 +6446,10 @@ PHP_METHOD(Phalcon_Mvc_Model, __call){
 	if (Z_TYPE_P(records) != IS_NULL) {
 		RETURN_CTOR(records);
 	}
-	
+
 	PHALCON_OBS_VAR(models_manager);
 	phalcon_read_property_this(&models_manager, this_ptr, SL("_modelsManager"), PH_NOISY TSRMLS_CC);
-	
+
 	/** 
 	 * Try to find a replacement for the missing method in a behavior/listener
 	 */
@@ -6458,7 +6457,7 @@ PHP_METHOD(Phalcon_Mvc_Model, __call){
 	if (Z_TYPE_P(status) != IS_NULL) {
 		RETURN_CTOR(status);
 	}
-	
+
 	/** 
 	 * The method doesn't exist throw an exception
 	 */
@@ -7282,7 +7281,6 @@ PHP_METHOD(Phalcon_Mvc_Model, setup){
 }
 
 /**
-<<<<<<< HEAD
  * Allows to delete a set of records that match the specified conditions
  *
  * <code>
