@@ -256,10 +256,6 @@ PHP_METHOD(Phalcon_Image_Adapter, resize){
 		tmp_image_width  = phalcon_get_intval(image_width);
 		tmp_image_height = phalcon_get_intval(image_height);
 
-		if ((master == PHALCON_IMAGE_WIDTH && Z_TYPE_P(width) == IS_LONG) || (master == PHALCON_IMAGE_HEIGHT && Z_TYPE_P(height) == IS_LONG)) {
-			master = PHALCON_IMAGE_AUTO;
-		}
-
 		if (Z_TYPE_P(width) != IS_LONG) {
 			if (master == PHALCON_IMAGE_NONE) {
 				tmp_width = tmp_image_width;
@@ -288,24 +284,6 @@ PHP_METHOD(Phalcon_Image_Adapter, resize){
 			tmp_height = 1;
 		}
 
-		switch (master) {
-			case PHALCON_IMAGE_AUTO:
-				if ((tmp_image_width / tmp_width) > (tmp_image_height / tmp_height)) {
-					master = PHALCON_IMAGE_WIDTH;
-				} else {
-					master = PHALCON_IMAGE_HEIGHT;
-				}
-				break;
-
-			case PHALCON_IMAGE_INVERSE:
-				if ((tmp_image_width / tmp_width) > (tmp_image_height / tmp_height)) {
-					master = PHALCON_IMAGE_HEIGHT;
-				} else {
-					master = PHALCON_IMAGE_WIDTH;
-				}
-				break;
-		}
-
 		if (tmp_image_width <= 0) {
 			tmp_image_width = 1;
 		}
@@ -314,7 +292,34 @@ PHP_METHOD(Phalcon_Image_Adapter, resize){
 			tmp_image_height = 1;
 		}
 
+		if (master == PHALCON_IMAGE_NARROW) {
+			if (tmp_width > tmp_image_width) {
+				tmp_width = tmp_image_width;
+			}
+
+			if (tmp_height > tmp_image_height) {
+				tmp_height = tmp_image_height;
+			}
+
+			master = PHALCON_IMAGE_AUTO;
+		}
+
 		switch (master) {
+			case PHALCON_IMAGE_AUTO:
+				if ((tmp_image_width / tmp_width) > (tmp_image_height / tmp_height)) {
+					tmp_height = (int)((tmp_image_height * tmp_width / tmp_image_width) + 0.5);
+				} else {
+					tmp_width = (int)((tmp_image_width * tmp_height / tmp_image_height) + 0.5);
+				}
+				break;
+
+			case PHALCON_IMAGE_INVERSE:
+				if ((tmp_image_width / tmp_width) > (tmp_image_height / tmp_height)) {
+					tmp_width = (int)((tmp_image_width * tmp_height / tmp_image_height) + 0.5);
+				} else {
+					tmp_height = (int)((tmp_image_height * tmp_width / tmp_image_width) + 0.5);
+				}
+				break;
 			case PHALCON_IMAGE_WIDTH:
 				tmp_height = (int)((tmp_image_height * tmp_width / tmp_image_width) + 0.5);
 				break;
@@ -330,14 +335,6 @@ PHP_METHOD(Phalcon_Image_Adapter, resize){
 					tmp_width = (int)((tmp_image_width * tmp_height / tmp_image_height) + 0.5);
 				}
 				break;
-		}
-
-		if (tmp_width <= 0) {
-			tmp_width = 1;
-		}
-
-		if (tmp_height <= 0) {
-			tmp_height = 1;
 		}
 
 		PHALCON_INIT_NVAR(width);
