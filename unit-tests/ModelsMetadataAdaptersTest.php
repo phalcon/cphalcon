@@ -436,4 +436,100 @@ class ModelsMetadataAdaptersTest extends PHPUnit_Framework_TestCase
 		Robots::findFirst();
 	}
 
+	public function testMetadataMongo()
+	{
+		if (!extension_loaded('mongo')) {
+			$this->markTestSkipped('Warning: mongo extension is not loaded');
+			return ;
+		}
+
+		require 'unit-tests/config.db.php';
+		if (empty($configMysql)) {
+			$this->markTestSkipped('Test skipped');
+			return;
+		}
+
+		$di = $this->_getDI();
+
+		$di->set('modelsMetadata', function(){
+			return new Phalcon\Mvc\Model\Metadata\Mongo(array(
+				'mongo' => new MongoClient(),
+				'db' => 'phalcon_test',
+				'collection' => 'caches',
+				'lifetime' => 60,
+			));
+		});
+
+		$metaData = $di->getShared('modelsMetadata');
+
+		$metaData->reset();
+
+		$this->assertTrue($metaData->isEmpty());
+
+		Robots::findFirst();
+
+		$this->assertEquals($metaData->read('meta-robots-robots'), $this->_data['meta-robots-robots']);
+		$this->assertEquals($metaData->read('map-robots'), $this->_data['map-robots']);
+
+		$this->assertFalse($metaData->isEmpty());
+
+		$metaData->reset();
+		$this->assertTrue($metaData->isEmpty());
+
+		Robots::findFirst();
+	}
+
+	public function testMetadataCache()
+	{
+		if (!extension_loaded('mongo')) {
+			$this->markTestSkipped('Warning: mongo extension is not loaded');
+			return ;
+		}
+
+		require 'unit-tests/config.db.php';
+		if (empty($configMysql)) {
+			$this->markTestSkipped('Test skipped');
+			return;
+		}
+
+		$di = $this->_getDI();
+
+		$di->set('mycache', function(){
+			$frontCache = new Phalcon\Cache\Frontend\Output(array(
+				'lifetime' => 60
+			));
+
+			$cache = new Phalcon\Cache\Backend\Mongo($frontCache, array(
+				'server' => 'mongodb://localhost',
+				'db' => 'phalcon_test',
+				'collection' => 'caches'
+			));
+
+			return $cache;
+		});
+
+		$di->set('modelsMetadata', function(){
+			return new Phalcon\Mvc\Model\Metadata\Cache(array(
+				'service' => 'mycache'
+			));
+		});
+
+		$metaData = $di->getShared('modelsMetadata');
+
+		$metaData->reset();
+
+		$this->assertTrue($metaData->isEmpty());
+
+		Robots::findFirst();
+
+		$this->assertEquals($metaData->read('meta-robots-robots'), $this->_data['meta-robots-robots']);
+		$this->assertEquals($metaData->read('map-robots'), $this->_data['map-robots']);
+
+		$this->assertFalse($metaData->isEmpty());
+
+		$metaData->reset();
+		$this->assertTrue($metaData->isEmpty());
+
+		Robots::findFirst();
+	}
 }

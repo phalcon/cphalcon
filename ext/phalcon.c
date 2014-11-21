@@ -561,6 +561,8 @@ static PHP_MINIT_FUNCTION(phalcon)
 	PHALCON_INIT(Phalcon_Mvc_Model_MetaData_Memcache);
 	PHALCON_INIT(Phalcon_Mvc_Model_MetaData_Libmemcached);
 	PHALCON_INIT(Phalcon_Mvc_Model_MetaData_Redis);
+	PHALCON_INIT(Phalcon_Mvc_Model_MetaData_Mongo);
+	PHALCON_INIT(Phalcon_Mvc_Model_MetaData_Cache);
 	PHALCON_INIT(Phalcon_Mvc_Model_Validator_Uniqueness);
 	PHALCON_INIT(Phalcon_Mvc_Model_Validator_PresenceOf);
 	PHALCON_INIT(Phalcon_Mvc_Model_Transaction_Failed);

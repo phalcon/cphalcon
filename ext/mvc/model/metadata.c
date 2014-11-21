@@ -650,9 +650,9 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getAttributes){
 
 	zval *model, *what;
 
-	phalcon_fetch_params(0, 1, 0, &model);
-
 	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 1, 0, &model);
 
 	PHALCON_ALLOC_GHOST_ZVAL(what);
 	ZVAL_LONG(what, PHALCON_MVC_MODEL_METADATA_MODELS_ATTRIBUTES);
