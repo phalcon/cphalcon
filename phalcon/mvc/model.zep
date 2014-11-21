@@ -4136,21 +4136,21 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 			columnMap = metaData->getColumnMap(this);
 		for attribute in metaData->getAttributes(this) {
 			/**
-                         * Check if the columns must be renamed
-                         */
-                        if typeof columnMap == "array" {
-                                if !fetch attributeField, columnMap[attribute] {
-                                        throw new Exception("Column '" . attribute . "' doesn't make part of the column map");
-                                }
-                        } else {
-                                let attributeField = attribute;
-                        }
+			 * Check if the columns must be renamed
+			 */
+			if typeof columnMap == "array" {
+				if !fetch attributeField, columnMap[attribute] {
+					throw new Exception("Column '" . attribute . "' doesn't make part of the column map");
+				}
+			} else {
+				let attributeField = attribute;
+			}
 
-                        if fetch value, this->{attributeField} {
-                                let data[attributeField] = value;
-                        } else {
-                                let data[attributeField] = null;
-                        }
+			if fetch value, this->{attributeField} {
+				let data[attributeField] = value;
+			} else {
+				let data[attributeField] = null;
+			}
 		}
 
 		/**
