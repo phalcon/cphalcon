@@ -124,7 +124,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, __construct){
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 1, 1, &frontend, &options);
-	
+
 	if (!options) {
 		options = PHALCON_GLOBAL(z_null);
 	}
@@ -135,18 +135,19 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, __construct){
 			return;
 		}
 	}
+
 	if (!phalcon_array_isset_string(options, SS("db"))) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "The parameter 'db' is required");
 		return;
 	}
-	
+
 	if (!phalcon_array_isset_string(options, SS("collection"))) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "The parameter 'collection' is required");
 		return;
 	}
-	
+
 	PHALCON_CALL_PARENT(NULL, phalcon_cache_backend_mongo_ce, this_ptr, "__construct", frontend, options);
-	
+
 	PHALCON_MM_RESTORE();
 }
 

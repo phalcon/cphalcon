@@ -3708,9 +3708,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect){
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 3, 0, &intermediate, &bind_params, &bind_types);
-	
+
 	PHALCON_SEPARATE_PARAM(intermediate);
-	
+
 	manager = phalcon_fetch_nproperty_this(this_ptr, SL("_manager"), PH_NOISY TSRMLS_CC);
 	if (Z_TYPE_P(manager) != IS_OBJECT) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "dependency Injector is required to get 'modelsManager' service");
@@ -3726,7 +3726,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect){
 		PHALCON_INIT_NVAR(models_instances);
 		array_init(models_instances);
 	}
-	
+
 	PHALCON_OBS_VAR(models);
 	phalcon_array_fetch_string(&models, intermediate, SL("models"), PH_NOISY);
 	
@@ -3802,10 +3802,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect){
 		}
 	
 	}
-	
+
 	PHALCON_OBS_VAR(columns);
 	phalcon_array_fetch_string(&columns, intermediate, SL("columns"), PH_NOISY);
-	
+
 	/** 
 	 * Check if the resultset have objects and how many of them have
 	 */
@@ -3830,7 +3830,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect){
 	
 		zend_hash_move_forward_ex(ah1, &hp1);
 	}
-	
+
 	/** 
 	 * Check if the resultset to return is complex or simple
 	 */
@@ -3847,35 +3847,35 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect){
 			is_simple_std = 1;
 		}
 	}
-	
+
 	/** 
 	 * Processing selected columns
 	 */
 	PHALCON_INIT_VAR(select_columns);
 	array_init(select_columns);
-	
+
 	PHALCON_INIT_VAR(simple_column_map);
 	array_init(simple_column_map);
-	
+
 	meta_data = phalcon_fetch_nproperty_this(this_ptr, SL("_metaData"), PH_NOISY TSRMLS_CC);
-	
+
 	z_null = PHALCON_GLOBAL(z_null);
-	
+
 	phalcon_is_iterable(columns, &ah2, &hp2, 1, 0);
-	
+
 	while (zend_hash_get_current_data_ex(ah2, (void**) &hd, &hp2) == SUCCESS) {
-	
+
 		zval key = phalcon_get_current_key_w(ah2, &hp2);
 		PHALCON_CPY_WRT_CTOR(alias_copy, &key);
 
 		PHALCON_GET_HVALUE(column);
-	
+
 		PHALCON_OBS_NVAR(type);
 		phalcon_array_fetch_string(&type, column, ISL(type), PH_NOISY);
-	
+
 		PHALCON_OBS_NVAR(sql_column);
 		phalcon_array_fetch_string(&sql_column, column, SL("column"), PH_NOISY);
-	
+
 		/** 
 		 * Complete objects are treated in a different way
 		 */
@@ -3883,7 +3883,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect){
 	
 			PHALCON_OBS_NVAR(model_name);
 			phalcon_array_fetch_string(&model_name, column, SL("model"), PH_NOISY);
-	
+
 			/** 
 			 * Base instance
 			 */
@@ -3894,10 +3894,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect){
 				PHALCON_CALL_METHOD(&instance, manager, "load", model_name);
 				phalcon_array_update_zval(&models_instances, model_name, instance, PH_COPY | PH_SEPARATE);
 			}
-	
+
 			PHALCON_CALL_METHOD(&attributes, meta_data, "getattributes", instance);
 			if (is_complex) {
-	
+
 				/** 
 				 * If the resultset is complex we open every model into their columns
 				 */
@@ -3928,14 +3928,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect){
 	
 					zend_hash_move_forward_ex(ah3, &hp3);
 				}
-	
+
 				/** 
 				 * We cache required meta-data to make its future access faster
 				 */
 				phalcon_array_update_string_multi_2(&columns, alias_copy, SL("instance"),   instance, 0);
 				phalcon_array_update_string_multi_2(&columns, alias_copy, SL("attributes"), attributes, 0);
 				phalcon_array_update_string_multi_2(&columns, alias_copy, SL("columnMap"),  column_map, 0);
-	
+
 				/** 
 				 * Check if the model keeps snapshots
 				 */
@@ -3997,9 +3997,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect){
 	}
 	zend_hash_destroy(ah2);
 	efree(ah2);
-	
+
 	phalcon_array_update_string(&intermediate, SL("columns"), select_columns, PH_COPY | PH_SEPARATE);
-	
+
 	/** 
 	 * The corresponding SQL dialect generates the SQL statement based accordingly with
 	 * the database system
@@ -4066,12 +4066,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect){
 	} else {
 		PHALCON_CPY_WRT(processed_types, bind_types);
 	}
-	
+
 	/** 
 	 * Execute the query
 	 */
 	PHALCON_CALL_METHOD(&result, connection, "query", sql_select, processed, processed_types);
-	
+
 	/** 
 	 * Check if the query has data
 	 */
@@ -4082,14 +4082,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect){
 		PHALCON_INIT_NVAR(result_data);
 		ZVAL_BOOL(result_data, 0);
 	}
-	
+
 	/** 
 	 * Choose a resultset type
 	 */
 	PHALCON_OBS_VAR(cache);
 	phalcon_read_property_this(&cache, this_ptr, SL("_cache"), PH_NOISY TSRMLS_CC);
 	if (!is_complex) {
-	
+
 		/** 
 		 * Select the base object
 		 */
@@ -4099,7 +4099,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect){
 			 */
 			PHALCON_INIT_VAR(result_object);
 			object_init_ex(result_object, phalcon_mvc_model_row_ce);
-	
+
 			/** 
 			 * Standard objects can't keep snapshots
 			 */
@@ -4120,7 +4120,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect){
 			 */
 			PHALCON_CALL_METHOD(&is_keeping_snapshots, manager, "iskeepingsnapshots", model);
 		}
-	
+
 		/** 
 		 * Simple resultsets contains only complete objects
 		 */
@@ -4901,15 +4901,15 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, execute){
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 0, 2, &bind_params, &bind_types);
-	
+
 	if (!bind_params) {
 		bind_params = PHALCON_GLOBAL(z_null);
 	}
-	
+
 	if (!bind_types) {
 		bind_types = PHALCON_GLOBAL(z_null);
 	}
-	
+
 	PHALCON_OBS_VAR(unique_row);
 	phalcon_read_property_this(&unique_row, this_ptr, SL("_uniqueRow"), PH_NOISY TSRMLS_CC);
 	
@@ -4921,7 +4921,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, execute){
 			PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Invalid caching options");
 			return;
 		}
-	
+
 		/** 
 		 * The user must set a cache key
 		 */
@@ -4991,12 +4991,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, execute){
 		phalcon_update_property_this(this_ptr, SL("_cache"), cache TSRMLS_CC);
 		assert(key != NULL);
 	}
-	
+
 	/** 
 	 * The statement is parsed from its PHQL string or a previously processed IR
 	 */
 	PHALCON_CALL_METHOD(&intermediate, this_ptr, "parse");
-	
+
 	/** 
 	 * Check for default bind parameters and merge them with the passed ones
 	 */
@@ -5050,10 +5050,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, execute){
 	} else {
 		PHALCON_CPY_WRT(merged_types, bind_types);
 	}
-	
+
 	PHALCON_OBS_VAR(type);
 	phalcon_read_property_this(&type, this_ptr, SL("_type"), PH_NOISY TSRMLS_CC);
-	
+
 	switch (phalcon_get_intval(type)) {
 	
 		case PHQL_T_SELECT:
@@ -5079,7 +5079,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, execute){
 			return;
 	
 	}
-	
+
 	/** 
 	 * We store the resultset in the cache if any
 	 */
@@ -5096,7 +5096,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, execute){
 		assert(key != NULL);
 		PHALCON_CALL_METHOD(NULL, cache, "save", key, result, lifetime);
 	}
-	
+
 	/** 
 	 * Check if only the first row must be returned
 	 */
