@@ -273,6 +273,8 @@
 #include "mvc/model/metadata/memcache.h"
 #include "mvc/model/metadata/libmemcached.h"
 #include "mvc/model/metadata/redis.h"
+#include "mvc/model/metadata/mongo.h"
+#include "mvc/model/metadata/cache.h"
 #include "mvc/model/metadata/strategy/annotations.h"
 #include "mvc/model/metadata/strategy/introspection.h"
 #include "mvc/model/query.h"

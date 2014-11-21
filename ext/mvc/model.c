@@ -1607,7 +1607,7 @@ PHP_METHOD(Phalcon_Mvc_Model, findFirst){
 	} else {
 		PHALCON_CPY_WRT(params, parameters);
 	}
-	
+
 	/** 
 	 * Builds a query with the passed parameters
 	 */
@@ -1620,7 +1620,7 @@ PHP_METHOD(Phalcon_Mvc_Model, findFirst){
 	if (phalcon_method_exists_ex(model, SS("beforequery") TSRMLS_CC) == SUCCESS) {
 		PHALCON_CALL_METHOD(NULL, model, "beforequery", builder);
 	}
-	
+
 	/** 
 	 * Check for bind parameters
 	 */
@@ -1658,7 +1658,6 @@ PHP_METHOD(Phalcon_Mvc_Model, findFirst){
 	PHALCON_INIT_VAR(index);
 	/*PHALCON_CONCAT_SV(index, "?", &tmp);*/
 	ZVAL_LONG(index, 1);
-    
 
 	/**
 	 * We only want the first record
@@ -1675,14 +1674,14 @@ PHP_METHOD(Phalcon_Mvc_Model, findFirst){
 	if (phalcon_array_isset_string_fetch(&cache, params, SS("cache"))) {
 		PHALCON_CALL_METHOD(NULL, query, "cache", cache);
 	}
-	
+
 	unique = PHALCON_GLOBAL(z_true);
-	
+
 	/** 
 	 * Return only the first row
 	 */
 	PHALCON_CALL_METHOD(NULL, query, "setuniquerow", unique);
-	
+
 	/** 
 	 * Execute the query passing the bind-params and casting-types
 	 */

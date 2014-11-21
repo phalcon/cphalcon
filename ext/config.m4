@@ -178,6 +178,8 @@ mvc/model/metadata/session.c \
 mvc/model/metadata/memcache.c \
 mvc/model/metadata/libmemcached.c \
 mvc/model/metadata/redis.c \
+mvc/model/metadata/mongo.c \
+mvc/model/metadata/cache.c \
 mvc/model/transaction.c \
 mvc/model/validatorinterface.c \
 mvc/model/metadata.c \
