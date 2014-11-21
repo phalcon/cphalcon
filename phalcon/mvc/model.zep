@@ -3885,7 +3885,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	public static function __callStatic(string method, arguments = null)
 	{
 		var extraMethod, type, modelName, value, model,
-			attributes, field, extraMethodFirst, metaData;
+			attributes, field, extraMethodFirst, metaData, conditions;
 
 		let extraMethod = null;
 
@@ -3969,8 +3969,13 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 		/**
 		 * Execute the query
 		 */
+		if is_array(value) {
+			let conditions = field . " in (?0)";
+		} else {
+			let conditions = field . " = ?0";
+		}
 		return {modelName}::{type}([
-			"conditions": field . " = ?0",
+			"conditions": conditions,
 			"bind"      : [value]
 		]);
 	}

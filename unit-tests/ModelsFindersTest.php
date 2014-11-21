@@ -92,6 +92,17 @@ class ModelsFindersTest extends PHPUnit_Framework_TestCase
 
 		$number = Robots::countByType('mechanical');
 		$this->assertEquals($number, 2);
+
+		$robot = Robots::findFirstById(array(1));
+		$this->assertEquals($robot->id, 1);
+
+		$robots = Robots::findById(array(1,2));
+		$this->assertEquals(count($robots), 2);
+		$this->assertEquals($robots[0]->id, 1);
+		$this->assertEquals($robots[1]->id, 2);
+
+		$number = Robots::countById(array(1,2));
+		$this->assertEquals($number, 2);
 	}
 
 	protected function _executeTestsRenamed($di)
@@ -110,6 +121,17 @@ class ModelsFindersTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($robots[0]->code, 1);
 
 		$number = Robotters::countByTheType('mechanical');
+		$this->assertEquals($number, 2);
+
+		$robot = Robotters::findFirstByCode(array(1));
+		$this->assertEquals($robot->code, 1);
+
+		$robots = Robotters::findByCode(array(1,2));
+		$this->assertEquals(count($robots), 2);
+		$this->assertEquals($robots[0]->code, 1);
+		$this->assertEquals($robots[1]->code, 2);
+
+		$number = Robotters::countByCode(array(1,2));
 		$this->assertEquals($number, 2);
 	}
 
