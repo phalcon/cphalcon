@@ -6430,15 +6430,15 @@ PHP_METHOD(Phalcon_Mvc_Model, __call){
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 1, 1, &method, &arguments);
-	
+
 	if (!arguments) {
 		PHALCON_INIT_VAR(arguments);
 		array_init(arguments);
 	}
-	
+
 	PHALCON_INIT_VAR(model_name);
 	phalcon_get_class(model_name, this_ptr, 0 TSRMLS_CC);
-	
+
 	/** 
 	 * Check if there is a default action using the magic getter
 	 */
@@ -6446,10 +6446,10 @@ PHP_METHOD(Phalcon_Mvc_Model, __call){
 	if (Z_TYPE_P(records) != IS_NULL) {
 		RETURN_CTOR(records);
 	}
-	
+
 	PHALCON_OBS_VAR(models_manager);
 	phalcon_read_property_this(&models_manager, this_ptr, SL("_modelsManager"), PH_NOISY TSRMLS_CC);
-	
+
 	/** 
 	 * Try to find a replacement for the missing method in a behavior/listener
 	 */
@@ -6457,7 +6457,7 @@ PHP_METHOD(Phalcon_Mvc_Model, __call){
 	if (Z_TYPE_P(status) != IS_NULL) {
 		RETURN_CTOR(status);
 	}
-	
+
 	/** 
 	 * The method doesn't exist throw an exception
 	 */
@@ -7281,7 +7281,6 @@ PHP_METHOD(Phalcon_Mvc_Model, setup){
 }
 
 /**
-<<<<<<< HEAD
  * Allows to delete a set of records that match the specified conditions
  *
  * <code>

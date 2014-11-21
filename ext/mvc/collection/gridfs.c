@@ -88,7 +88,7 @@ static const zend_function_entry phalcon_mvc_collection_gridfs_method_entry[] = 
 	PHP_ME(Phalcon_Mvc_Collection_GridFS, drop, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Mvc_Collection_GridFS, getFile, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Collection_GridFS, getBytes, NULL, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Mvc_Collection_GridFS, write, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Collection_GridFS, write, arginfo_phalcon_mvc_collection_gridfs_write, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };
 
@@ -140,9 +140,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_GridFS, storeFile){
 
 	PHALCON_CALL_SELF(&mongo_id, "getid");
 
-	convert_to_string_ex(&mongo_id);
-
-	if (PHALCON_IS_EMPTY(mongo_id)) {
+	if (!zend_is_true(mongo_id)) {
 		RETURN_MM_FALSE;
 	}
 
@@ -165,7 +163,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_GridFS, storeFile){
 	phalcon_array_update_string(&metadata, SL("sha1"), sha1, PH_COPY);
 
 	if (PHALCON_IS_TRUE(status)){
-		PHALCON_CALL_METHOD(&status, grid_fs, "storeFile", filename, metadata, options);
+		PHALCON_CALL_METHOD(&status, grid_fs, "storefile", filename, metadata, options);
 
 		if (zend_is_true(status)) {
 			RETURN_MM_TRUE;
@@ -213,9 +211,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_GridFS, storeBytes){
 
 	PHALCON_CALL_SELF(&mongo_id, "getid");
 
-	convert_to_string_ex(&mongo_id);
-
-	if (PHALCON_IS_EMPTY(mongo_id)) {
+	if (!zend_is_true(mongo_id)) {
 		RETURN_MM_FALSE;
 	}
 
@@ -238,7 +234,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_GridFS, storeBytes){
 	phalcon_array_update_string(&metadata, SL("sha1"), sha1, PH_COPY);
 
 	if (PHALCON_IS_TRUE(status)){
-		PHALCON_CALL_METHOD(&status, grid_fs, "storeBytes", bytes, metadata, options);
+		PHALCON_CALL_METHOD(&status, grid_fs, "storebytes", bytes, metadata, options);
 
 		if (zend_is_true(status)) {
 			RETURN_MM_TRUE;
@@ -250,16 +246,12 @@ PHP_METHOD(Phalcon_Mvc_Collection_GridFS, storeBytes){
 
 PHP_METHOD(Phalcon_Mvc_Collection_GridFS, save){
 
-	zval *filedata = NULL, *arr = NULL, *white_list = NULL, *mode = NULL, *isBytes = NULL;
+	zval *filename, *arr = NULL, *white_list = NULL, *mode = NULL;
 	zval *status = NULL;
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 0, 5, &filedata, &arr, &white_list, &mode, &isBytes);
-
-	if (!filedata) {
-		filedata = PHALCON_GLOBAL(z_null);
-	}
+	phalcon_fetch_params(1, 1, 3, &filename, &arr, &white_list, &mode);
 
 	if (!arr) {
 		arr = PHALCON_GLOBAL(z_null);
@@ -271,10 +263,6 @@ PHP_METHOD(Phalcon_Mvc_Collection_GridFS, save){
 
 	if (!mode) {
 		mode = PHALCON_GLOBAL(z_null);
-	}
-
-	if (!isBytes) {
-		isBytes = PHALCON_GLOBAL(z_false);
 	}
 
 	PHALCON_CALL_PARENT(&status, phalcon_mvc_collection_gridfs_ce, this_ptr, "save", arr, white_list, mode);
@@ -283,12 +271,8 @@ PHP_METHOD(Phalcon_Mvc_Collection_GridFS, save){
 		RETURN_MM_FALSE;
 	}
 
-	if (zend_is_true(filedata)) {
-		if (PHALCON_IS_TRUE(isBytes)) {
-			PHALCON_CALL_SELF(&status, "storeBytes", filedata);
-		} else {
-			PHALCON_CALL_SELF(&status, "storeFile", filedata);
-		}
+	if (zend_is_true(filename)) {
+		PHALCON_CALL_SELF(&status, "storefile", filename);
 	}
 
 	RETURN_CTOR(status);
@@ -296,11 +280,12 @@ PHP_METHOD(Phalcon_Mvc_Collection_GridFS, save){
 
 PHP_METHOD(Phalcon_Mvc_Collection_GridFS, saveBytes){
 
-	zval *filedata = NULL, *arr = NULL, *white_list = NULL, *mode = NULL;
+	zval *bytes, *arr = NULL, *white_list = NULL, *mode = NULL;
+	zval *status = NULL;
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 1, 3, &filedata, &arr, &white_list, &mode);
+	phalcon_fetch_params(1, 1, 3, &bytes, &arr, &white_list, &mode);
 
 	if (!arr) {
 		arr = PHALCON_GLOBAL(z_null);
@@ -314,62 +299,29 @@ PHP_METHOD(Phalcon_Mvc_Collection_GridFS, saveBytes){
 		mode = PHALCON_GLOBAL(z_null);
 	}
 
-	PHALCON_RETURN_CALL_SELF("save", filedata, arr, white_list, mode, PHALCON_GLOBAL(z_true));
+	PHALCON_CALL_PARENT(&status, phalcon_mvc_collection_gridfs_ce, this_ptr, "save", arr, white_list, mode);
 
-	RETURN_MM();
-}
-
-PHP_METHOD(Phalcon_Mvc_Collection_GridFS, create){
-
-	zval *filedata = NULL, *data = NULL, *white_list = NULL, *isBytes = NULL;
-	zval *status = NULL;
-
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 0, 4, &filedata, &data, &white_list, &isBytes);
-
-	if (!filedata) {
-		filedata = PHALCON_GLOBAL(z_null);
-	}
-
-	if (!data) {
-		data = PHALCON_GLOBAL(z_null);
-	}
-
-	if (!white_list) {
-		white_list = PHALCON_GLOBAL(z_null);
-	}
-
-	if (!isBytes) {
-		isBytes = PHALCON_GLOBAL(z_false);
-	}
-
-	PHALCON_CALL_PARENT(&status, phalcon_mvc_collection_gridfs_ce, this_ptr, "create", data, white_list);
 	if (PHALCON_IS_FALSE(status)) {
 		RETURN_MM_FALSE;
 	}
 
-	if (zend_is_true(filedata)) {
-		if (PHALCON_IS_TRUE(isBytes)) {
-			PHALCON_CALL_SELF(&status, "storeBytes", filedata);
-		} else {
-			PHALCON_CALL_SELF(&status, "storeFile", filedata);
-		}
+	if (zend_is_true(bytes)) {
+			PHALCON_CALL_SELF(&status, "storebytes", bytes);
 	}
 
 	RETURN_CTOR(status);
 }
 
-PHP_METHOD(Phalcon_Mvc_Collection_GridFS, createBytes){
+PHP_METHOD(Phalcon_Mvc_Collection_GridFS, create){
 
-	zval *filedata = NULL, *data = NULL, *white_list = NULL;
+	zval *filename = NULL, *data = NULL, *white_list = NULL;
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 0, 3, &filedata, &data, &white_list);
+	phalcon_fetch_params(1, 0, 3, &filename, &data, &white_list);
 
-	if (!filedata) {
-		filedata = PHALCON_GLOBAL(z_null);
+	if (!filename) {
+		filename = PHALCON_GLOBAL(z_null);
 	}
 
 	if (!data) {
@@ -380,21 +332,43 @@ PHP_METHOD(Phalcon_Mvc_Collection_GridFS, createBytes){
 		white_list = PHALCON_GLOBAL(z_null);
 	}
 
-	PHALCON_RETURN_CALL_METHOD(this_ptr, "create", filedata, data, white_list, PHALCON_GLOBAL(z_true), PHALCON_GLOBAL(z_true));
+	PHALCON_RETURN_CALL_METHOD(this_ptr, "save", filename, data, white_list, PHALCON_GLOBAL(z_true));
+	RETURN_MM();
+}
+
+PHP_METHOD(Phalcon_Mvc_Collection_GridFS, createBytes){
+
+	zval *bytes = NULL, *data = NULL, *white_list = NULL;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 0, 3, &bytes, &data, &white_list);
+
+	if (!bytes) {
+		bytes = PHALCON_GLOBAL(z_null);
+	}
+
+	if (!data) {
+		data = PHALCON_GLOBAL(z_null);
+	}
+
+	if (!white_list) {
+		white_list = PHALCON_GLOBAL(z_null);
+	}
+
+	PHALCON_RETURN_CALL_METHOD(this_ptr, "savebytes", bytes, data, white_list, PHALCON_GLOBAL(z_true));
 	RETURN_MM();
 }
 
 PHP_METHOD(Phalcon_Mvc_Collection_GridFS, update){
 
-	zval *filedata = NULL, *data = NULL, *white_list = NULL, *isBytes = NULL;
-	zval *status = NULL;
-
+	zval *filename = NULL, *data = NULL, *white_list = NULL, *isBytes = NULL;
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 0, 4, &filedata, &data, &white_list, &isBytes);
+	phalcon_fetch_params(1, 0, 4, &filename, &data, &white_list, &isBytes);
 
-	if (!filedata) {
-		filedata = PHALCON_GLOBAL(z_null);
+	if (!filename) {
+		filename = PHALCON_GLOBAL(z_null);
 	}
 
 	if (!data) {
@@ -405,36 +379,20 @@ PHP_METHOD(Phalcon_Mvc_Collection_GridFS, update){
 		white_list = PHALCON_GLOBAL(z_null);
 	}
 
-	if (!isBytes) {
-		isBytes = PHALCON_GLOBAL(z_false);
-	}
-
-	PHALCON_CALL_PARENT(&status, phalcon_mvc_collection_gridfs_ce, this_ptr, "update", data, white_list);
-	if (PHALCON_IS_FALSE(status)) {
-		RETURN_MM_FALSE;
-	}
-
-	if (zend_is_true(filedata)) {
-		if (PHALCON_IS_TRUE(isBytes)) {
-			PHALCON_CALL_SELF(&status, "storeBytes", filedata);
-		} else {
-			PHALCON_CALL_SELF(&status, "storeFile", filedata);
-		}
-	}
-
-	RETURN_CTOR(status);
+	PHALCON_RETURN_CALL_METHOD(this_ptr, "save", filename, data, white_list, PHALCON_GLOBAL(z_false));
+	RETURN_MM();
 }
 
 PHP_METHOD(Phalcon_Mvc_Collection_GridFS, updateBytes){
 
-	zval *filedata = NULL, *data = NULL, *white_list = NULL;
+	zval *bytes = NULL, *data = NULL, *white_list = NULL;
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 0, 3, &filedata, &data, &white_list);
+	phalcon_fetch_params(1, 0, 3, &bytes, &data, &white_list);
 
-	if (!filedata) {
-		filedata = PHALCON_GLOBAL(z_null);
+	if (!bytes) {
+		bytes = PHALCON_GLOBAL(z_null);
 	}
 
 	if (!data) {
@@ -445,7 +403,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_GridFS, updateBytes){
 		white_list = PHALCON_GLOBAL(z_null);
 	}
 
-	PHALCON_RETURN_CALL_METHOD(this_ptr, "update", filedata, data, white_list, PHALCON_GLOBAL(z_true), PHALCON_GLOBAL(z_true));
+	PHALCON_RETURN_CALL_METHOD(this_ptr, "saveBytes", bytes, data, white_list, PHALCON_GLOBAL(z_false));
 	RETURN_MM();
 }
 
@@ -457,12 +415,6 @@ PHP_METHOD(Phalcon_Mvc_Collection_GridFS, delete){
 	PHALCON_MM_GROW();
 
 	PHALCON_CALL_SELF(&mongo_id, "getid");
-
-	convert_to_string_ex(&mongo_id);
-
-	if (PHALCON_IS_EMPTY(mongo_id)) {
-		RETURN_MM_FALSE;
-	}
 
 	PHALCON_CALL_PARENT(&status, phalcon_mvc_collection_gridfs_ce, this_ptr, "delete");
 	if (PHALCON_IS_FALSE(status)) {
@@ -550,9 +502,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_GridFS, getFile){
 
 	PHALCON_CALL_SELF(&mongo_id, "getid");
 
-	convert_to_string_ex(&mongo_id);
-
-	if (PHALCON_IS_EMPTY(mongo_id)) {
+	if (!zend_is_true(mongo_id)) {
 		RETURN_MM_FALSE;
 	}
 
@@ -570,7 +520,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_GridFS, getFile){
 	array_init_size(criteria, 1);
 	phalcon_array_update_string(&criteria, SL("mongo_id"), mongo_id, PH_COPY);
 
-	PHALCON_RETURN_CALL_METHOD(grid_fs, "findOne", criteria);
+	PHALCON_RETURN_CALL_METHOD(grid_fs, "findone", criteria);
 	RETURN_MM();
 }
 
