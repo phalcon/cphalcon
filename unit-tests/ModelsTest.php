@@ -19,6 +19,7 @@
 */
 
 use Phalcon\Mvc\Model\Message as ModelMessage;
+use Phalcon\Db\Column;
 
 class Issue_1534 extends \Phalcon\Mvc\Model
 {
@@ -359,6 +360,57 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 			$number++;
 		}
 		$this->assertEquals($number, 20);
+
+        //find with in
+        $persons = Robots::find(array(
+            "id in (:ids:)",
+            'bind' => array('ids' => array(1, 2, 3)),
+            'bindTypes' => array('ids' => Column::BIND_PARAM_INT_ARRAY),
+            'order' => 'id'
+        ));
+        $this->assertEquals(3, count($persons));
+        $this->assertEquals('Robotina', $persons[0]->name);
+        $this->assertEquals('Astro Boy', $persons[1]->name);
+        $this->assertEquals('Terminator', $persons[2]->name);
+
+        $persons = Robots::find(array(
+            "id in (:ids:)",
+            'bind' => array('ids' => array(1, 2, 3)),
+            'order' => 'id'
+        ));
+        $this->assertEquals(3, count($persons));
+        $this->assertEquals('Robotina', $persons[0]->name);
+        $this->assertEquals('Astro Boy', $persons[1]->name);
+        $this->assertEquals('Terminator', $persons[2]->name);
+
+        $persons = Robots::find(array(
+            "id in (?0)",
+            'bind' => array(array(1, 2, 3)),
+            'order' => 'id'
+        ));
+        $this->assertEquals(3, count($persons));
+        $this->assertEquals('Robotina', $persons[0]->name);
+        $this->assertEquals('Astro Boy', $persons[1]->name);
+        $this->assertEquals('Terminator', $persons[2]->name);
+
+        $person = Robots::findFirst(array(
+            "name in (?0)",
+            'bind' => array(array('Robotina', 'Astro Boy', 'Terminator')),
+            'order' => 'name'
+        ));
+        $this->assertEquals('Astro Boy', $person->name);
+        $this->assertEquals(2, $person->id);
+
+        $persons = Robots::find(array(
+            "name in (?0)",
+            'bind' => array(array('Robotina', 'Astro Boy', 'hack\'\ " \' or 1')),
+            'order' => 'name'
+        ));
+        $this->assertEquals(2, count($persons));
+        $this->assertEquals('Astro Boy', $persons[0]->name);
+        $this->assertEquals('Robotina', $persons[1]->name);
+
+
 
 		$persona = new Personas($di);
 		$persona->cedula = 'CELL' . mt_rand(0, 999999);

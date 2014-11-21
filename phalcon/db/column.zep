@@ -127,6 +127,25 @@ class Column implements ColumnInterface
 	 */
 	const BIND_PARAM_DECIMAL = 32;
 
+    /**
+     * Represents an array of ints to be expanded by SQL parsing.
+     *
+     * @var integer
+     */
+    const BIND_PARAM_INT_ARRAY = 101;
+    /**
+     * Represents an array of strings to be expanded by SQL parsing.
+     *
+     * @var integer
+     */
+    const BIND_PARAM_STR_ARRAY = 102;
+    /**
+     * Offset by which BIND_PARAM_* constants are detected as arrays of the param type.
+     *
+     * @var integer
+     */
+    const BIND_ARRAY_PARAM_OFFSET = 100;
+
 	/**
 	 * Skip binding by type
 	 */

@@ -21,6 +21,7 @@ namespace Phalcon\Db\Result;
 
 use Phalcon\Db;
 use Phalcon\Db\ResultInterface;
+use Phalcon\Db\Utils\SQLParser;
 
 %{
 #include <ext/pdo/php_pdo_driver.h>
@@ -234,24 +235,27 @@ class Pdo implements ResultInterface
 	 */
 	public function dataSeek(long number)
 	{
-		var connection, pdo, sqlStatement, bindParams, statement;
+		var connection, pdo, statement, expanded;
 		%{ pdo_stmt_t *stmt; long n; }%
 
 		let connection = this->_connection,
-			pdo = connection->getInternalHandler(),
-			sqlStatement = this->_sqlStatement,
-			bindParams = this->_bindParams;
+			pdo = connection->getInternalHandler();
 
 		/**
 		 * PDO doesn't support scrollable cursors, so we need to re-execute the statement
 		 */
-		if typeof bindParams == "array" {
-			let statement = pdo->prepare(sqlStatement);
+		if typeof this->_bindParams == "array" {
+			let expanded = SQLParser::expandListParameters(this->_sqlStatement, this->_bindParams, this->_bindTypes);
+			let this->_sqlStatement = (string) expanded[0],
+				this->_bindParams = expanded[1],
+				this->_bindTypes = expanded[2];
+
+			let statement = connection->prepare(this->_sqlStatement);
 			if typeof statement == "object" {
-				let statement = connection->executePrepared(statement, bindParams, this->_bindTypes);
+				let statement = connection->executePrepared(statement, this->_bindParams, this->_bindTypes);
 			}
 		} else {
-			let statement = pdo->query(sqlStatement);
+			let statement = pdo->query(this->_sqlStatement);
 		}
 
 		let this->_pdoStatement = statement;

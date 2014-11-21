@@ -23,6 +23,7 @@ use Phalcon\Db\Adapter;
 use Phalcon\Db\Exception;
 use Phalcon\Db\Column;
 use Phalcon\Db\ResultInterface;
+use Phalcon\Db\Utils\SQLParser;
 use Phalcon\Events\ManagerInterface;
 use Phalcon\Db\Result\Pdo as ResultPdo;
 
@@ -248,7 +249,7 @@ abstract class Pdo extends Adapter
 	 */
 	public function query(string! sqlStatement, bindParams = null, bindTypes = null) -> <ResultInterface> | boolean
 	{
-		var eventsManager, pdo, statement;
+		var eventsManager, pdo, statement, expanded;
 
 		let eventsManager = <ManagerInterface> this->_eventsManager;
 
@@ -266,7 +267,12 @@ abstract class Pdo extends Adapter
 
 		let pdo = <\Pdo> this->_pdo;
 		if typeof bindParams == "array" {
-			let statement = pdo->prepare(sqlStatement);
+			let expanded = SQLParser::expandListParameters(sqlStatement, bindParams, bindTypes);
+			let sqlStatement = (string) expanded[0],
+				bindParams = expanded[1],
+				bindTypes = expanded[2];
+
+			let statement = this->prepare(sqlStatement);
 			if typeof statement == "object" {
 				let statement = this->executePrepared(statement, bindParams, bindTypes);
 			}
@@ -304,7 +310,7 @@ abstract class Pdo extends Adapter
 	 */
 	public function execute(string! sqlStatement, bindParams = null, bindTypes = null) -> boolean
 	{
-		var eventsManager, affectedRows, pdo, newStatement, statement;
+		var eventsManager, affectedRows, pdo, newStatement, statement, expanded;
 
 		/**
 		 * Execute the beforeQuery event if a EventsManager is available
@@ -326,7 +332,12 @@ abstract class Pdo extends Adapter
 
 		let pdo = <\Pdo> this->_pdo;
 		if typeof bindParams == "array" {
-			let statement = pdo->prepare(sqlStatement);
+			let expanded = SQLParser::expandListParameters(sqlStatement, bindParams, bindTypes);
+			let sqlStatement = (string) expanded[0],
+				bindParams = expanded[1],
+				bindTypes = expanded[2];
+
+			let statement = this->prepare(sqlStatement);
 			if typeof statement == "object" {
 				let newStatement = this->executePrepared(statement, bindParams, bindTypes),
 					affectedRows = newStatement->rowCount();

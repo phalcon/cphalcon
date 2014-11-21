@@ -192,7 +192,7 @@ ALTER SEQUENCE robots_id_seq OWNED BY robots.id;
 -- Name: robots_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('robots_id_seq', 1, false);
+SELECT pg_catalog.setval('robots_id_seq', 4, false);
 
 
 --

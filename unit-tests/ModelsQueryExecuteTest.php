@@ -236,6 +236,26 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 		$this->assertTrue(isset($result[0]->nextId));
 		$this->assertEquals($result[0]->nextId, 2);
 
+		$result = $manager->executeQuery(
+			'SELECT Robots.id+1 AS nextId FROM Robots WHERE id in (?0) order by id',
+			array(array(1,2,3))
+		);
+		$this->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Simple', $result);
+		$this->assertEquals(count($result), 3);
+		$this->assertInstanceOf('Phalcon\Mvc\Model\Row', $result[0]);
+		$this->assertTrue(isset($result[0]->nextId));
+		$this->assertEquals($result[0]->nextId, 2);
+
+		$result = $manager->executeQuery(
+			'SELECT Robots.id+1 AS nextId FROM Robots WHERE id in (:ids:) order by id',
+			array('ids' => array(2,3))
+		);
+		$this->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Simple', $result);
+		$this->assertEquals(count($result), 2);
+		$this->assertInstanceOf('Phalcon\Mvc\Model\Row', $result[0]);
+		$this->assertTrue(isset($result[0]->nextId));
+		$this->assertEquals($result[0]->nextId, 3);
+
 		$result = $manager->executeQuery('SELECT Robots.id+1 AS nextId FROM Robots WHERE id = "1"');
 		$this->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Simple', $result);
 		$this->assertEquals(count($result), 1);
@@ -504,6 +524,26 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 		$this->assertInstanceOf('Phalcon\Mvc\Model\Row', $result[0]);
 		$this->assertTrue(isset($result[0]->nextId));
 		$this->assertEquals($result[0]->nextId, 2);
+
+		$result = $manager->executeQuery(
+			'SELECT Robotters.code+1 AS nextId FROM Robotters WHERE code in (?0) order by code',
+			array(array(1,2,3))
+		);
+		$this->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Simple', $result);
+		$this->assertEquals(count($result), 3);
+		$this->assertInstanceOf('Phalcon\Mvc\Model\Row', $result[0]);
+		$this->assertTrue(isset($result[0]->nextId));
+		$this->assertEquals($result[0]->nextId, 2);
+
+		$result = $manager->executeQuery(
+			'SELECT Robotters.code+1 AS nextId FROM Robotters WHERE code in (:ids:) order by code',
+			array('ids' => array(2,3))
+		);
+		$this->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Simple', $result);
+		$this->assertEquals(count($result), 2);
+		$this->assertInstanceOf('Phalcon\Mvc\Model\Row', $result[0]);
+		$this->assertTrue(isset($result[0]->nextId));
+		$this->assertEquals($result[0]->nextId, 3);
 
 		$result = $manager->executeQuery('SELECT Robotters.code+1 AS nextId FROM Robotters WHERE code = "1"');
 		$this->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Simple', $result);
