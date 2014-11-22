@@ -43,6 +43,8 @@
  * Phalcon\Validation\Validator\StringLength
  *
  * Validates that a string has the specified maximum and minimum constraints
+ * The test is passed if for a string's length L, min<=L<=max, i.e. L must
+ * be at least min, and at most max.
  *
  *<code>
  *use Phalcon\Validation\Validator\StringLength as StringLength;
@@ -116,7 +118,7 @@ PHP_METHOD(Phalcon_Validation_Validator_StringLength, validate) {
 		_1 = !zephir_is_true(isSetMax);
 	}
 	if (_1) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_validation_exception_ce, "A minimum or maximum must be set", "phalcon/validation/validator/stringlength.zep", 60);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_validation_exception_ce, "A minimum or maximum must be set", "phalcon/validation/validator/stringlength.zep", 62);
 		return;
 	}
 	ZEPHIR_CALL_METHOD(&value, validation, "getvalue", NULL, field);

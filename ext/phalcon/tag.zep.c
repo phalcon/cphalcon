@@ -567,17 +567,17 @@ PHP_METHOD(Phalcon_Tag, getValue) {
  */
 PHP_METHOD(Phalcon_Tag, resetInput) {
 
-	zval *_0 = NULL, *_1 = NULL;
+	zval *_0, *_1, *_2 = NULL;
 
 	ZEPHIR_MM_GROW();
 
 	ZEPHIR_INIT_VAR(_0);
 	array_init(_0);
 	zephir_update_static_property_ce(phalcon_tag_ce, SL("_displayValues"), &_0 TSRMLS_CC);
-	ZEPHIR_INIT_NVAR(_0);
-	array_init(_0);
-	ZEPHIR_CPY_WRT(_1, _0);
-	if (zephir_set_symbol_str(SS("_POST"), _1 TSRMLS_CC) == FAILURE){
+	ZEPHIR_INIT_VAR(_1);
+	array_init(_1);
+	ZEPHIR_INIT_VAR(_2);
+	if (zephir_set_symbol_str(SS("_POST"), _2 TSRMLS_CC) == FAILURE){
 	  return;
 	}
 	ZEPHIR_MM_RESTORE();

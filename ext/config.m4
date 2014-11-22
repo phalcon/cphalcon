@@ -2,6 +2,12 @@ PHP_ARG_ENABLE(phalcon, whether to enable phalcon, [ --enable-phalcon   Enable P
 
 if test "$PHP_PHALCON" = "yes"; then
 
+	
+
+	if ! test "x" = "x"; then
+		PHP_EVAL_LIBLINE(, PHALCON_SHARED_LIBADD)
+	fi
+
 	AC_DEFINE(HAVE_PHALCON, 1, [Whether you have Phalcon])
 	phalcon_sources="phalcon.c kernel/main.c kernel/memory.c kernel/exception.c kernel/hash.c kernel/debug.c kernel/backtrace.c kernel/object.c kernel/array.c kernel/extended/array.c kernel/string.c kernel/fcall.c kernel/require.c kernel/file.c kernel/operators.c kernel/concat.c kernel/variables.c kernel/filter.c kernel/iterator.c kernel/exit.c phalcon/acl.zep.c
 	phalcon/acl/adapter.zep.c
@@ -348,7 +354,8 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/assets/filters/jsminifier.c
 	phalcon/assets/filters/cssminifier.c
 	phalcon/mvc/url/utils.c"
-	PHP_NEW_EXTENSION(phalcon, $phalcon_sources, $ext_shared)
+	PHP_NEW_EXTENSION(phalcon, $phalcon_sources, $ext_shared,, )
+	PHP_SUBST(PHALCON_SHARED_LIBADD)
 
 	old_CPPFLAGS=$CPPFLAGS
 	CPPFLAGS="$CPPFLAGS $INCLUDES"
@@ -390,4 +397,5 @@ if test "$PHP_PHALCON" = "yes"; then
 	CPPFLAGS=$old_CPPFLAGS
 
 	PHP_INSTALL_HEADERS([ext/phalcon], [php_PHALCON.h])
+
 fi

@@ -1779,7 +1779,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 	protected final function _prepareInsert() -> array
 	{
 		var ast, qualifiedName, manager, modelName, model, source, schema,
-			sqlAliases, exprValues, exprValue, sqlInsert, metaData, fields,
+			exprValues, exprValue, sqlInsert, metaData, fields,
 			sqlFields, field, name;
 		boolean notQuoting;
 
@@ -1811,9 +1811,8 @@ class Query implements QueryInterface, InjectionAwareInterface
 			let source = [schema, source];
 		}
 
-		let sqlAliases = [],
-			notQuoting = false,
-			exprValues = [];
+		let notQuoting = false,
+		    exprValues = [];
 
 		for exprValue in ast["values"] {
 

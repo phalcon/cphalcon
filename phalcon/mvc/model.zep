@@ -3077,15 +3077,17 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 *
 	 * @return int
 	 */
-	public function getOperationMade()
+	public function getOperationMade() -> int
 	{
 		return this->_operationMade;
 	}
 
 	/**
 	 * Refreshes the model attributes re-querying the record from the database
+	 *
+	 * @return \Phalcon\Mvc\Model
 	 */
-	public function refresh()
+	public function refresh() -> <Model>
 	{
 		var metaData, readConnection, schema, source, table,
 			uniqueKey, uniqueParams, dialect, row, fields, attribute;
@@ -3250,17 +3252,16 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 *
 	 * @param array attributes
 	 */
-	protected function skipAttributesOnCreate(array! attributes)
+	protected function skipAttributesOnCreate(array! attributes) -> void
 	{
-		var keysAttributes, metaData, attribute;
+		var keysAttributes, attribute;
 
 		let keysAttributes = [];
 		for attribute in attributes {
 			let keysAttributes[attribute] = null;
 		}
 
-		let metaData = this->getModelsMetaData();
-		metaData->setAutomaticCreateAttributes(this, keysAttributes);
+		this->getModelsMetaData()->setAutomaticCreateAttributes(this, keysAttributes);
 	}
 
 	/**
@@ -3283,7 +3284,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 *
 	 * @param array attributes
 	 */
-	protected function skipAttributesOnUpdate(array! attributes)
+	protected function skipAttributesOnUpdate(array! attributes) -> void
 	{
 		var keysAttributes, attribute;
 
@@ -3454,7 +3455,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 *
 	 * @param Phalcon\Mvc\Model\BehaviorInterface behavior
 	 */
-	protected function addBehavior(<BehaviorInterface> behavior)
+	protected function addBehavior(<BehaviorInterface> behavior) -> void
 	{
 		(<ManagerInterface> this->_modelsManager)->addBehavior(this, behavior);
 	}
@@ -3478,7 +3479,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 *
 	 * @param boolean keepSnapshots
 	 */
-	protected function keepSnapshots(boolean keepSnapshot)
+	protected function keepSnapshots(boolean keepSnapshot) -> void
 	{
 		(<ManagerInterface> this->_modelsManager)->keepSnapshots(this, keepSnapshot);
 	}
@@ -3546,7 +3547,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 *
 	 * @return array
 	 */
-	public function getSnapshotData()
+	public function getSnapshotData() -> array
 	{
 		return this->_snapshot;
 	}
@@ -3666,7 +3667,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 *
 	 * @return array
 	 */
-	public function getChangedFields()
+	public function getChangedFields() -> array
 	{
 		var metaData, changed, name, snapshot,
 			columnMap, allAttributes, value;
@@ -3756,7 +3757,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 *
 	 * @param boolean dynamicUpdate
 	 */
-	protected function useDynamicUpdate(boolean dynamicUpdate)
+	protected function useDynamicUpdate(boolean dynamicUpdate) -> void
 	{
 		(<ManagerInterface> this->_modelsManager)->useDynamicUpdate(this, dynamicUpdate);
 	}
@@ -4135,22 +4136,23 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 			metaData = this->getModelsMetaData(),
 			columnMap = metaData->getColumnMap(this);
 		for attribute in metaData->getAttributes(this) {
-			/**
-                         * Check if the columns must be renamed
-                         */
-                        if typeof columnMap == "array" {
-                                if !fetch attributeField, columnMap[attribute] {
-                                        throw new Exception("Column '" . attribute . "' doesn't make part of the column map");
-                                }
-                        } else {
-                                let attributeField = attribute;
-                        }
 
-                        if fetch value, this->{attributeField} {
-                                let data[attributeField] = value;
-                        } else {
-                                let data[attributeField] = null;
-                        }
+			/**
+			 * Check if the columns must be renamed
+			 */
+			if typeof columnMap == "array" {
+				if !fetch attributeField, columnMap[attribute] {
+					throw new Exception("Column '" . attribute . "' doesn't make part of the column map");
+				}
+			} else {
+				let attributeField = attribute;
+			}
+
+			if fetch value, this->{attributeField} {
+				let data[attributeField] = value;
+			} else {
+				let data[attributeField] = null;
+			}
 		}
 
 		/**
@@ -4240,7 +4242,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 * @param array $columns
 	 * @return array
 	 */
-	public function toArray(columns=null) -> array
+	public function toArray(columns = null) -> array
 	{
 		var data, metaData, columnMap, attribute,
 			attributeField, value;
@@ -4328,7 +4330,5 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 		if fetch phqlLiterals, options["phqlLiterals"] {
 			globals_set("orm.enable_literals", phqlLiterals);
 		}
-
 	}
-
 }

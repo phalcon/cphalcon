@@ -26,6 +26,8 @@ use Phalcon\Mvc\Micro\MiddlewareInterface;
 use Phalcon\Mvc\Micro\Collection;
 use Phalcon\Mvc\Micro\LazyLoader;
 use Phalcon\Http\ResponseInterface;
+use Phalcon\Di\ServiceInterface;
+use Phalcon\Di\FactoryDefault;
 
 /**
  * Phalcon\Mvc\Micro
@@ -511,13 +513,13 @@ class Micro extends \Phalcon\Di\Injectable implements \ArrayAccess
 	 * @param boolean shared
 	 * @return Phalcon\DI\ServiceInterface
 	 */
-	public function setService(var serviceName, var definition, boolean shared = false) -> <\Phalcon\DI\ServiceInterface>
+	public function setService(var serviceName, var definition, boolean shared = false) -> <ServiceInterface>
 	{
 		var dependencyInjector;
 
 		let dependencyInjector = this->_dependencyInjector;
 		if typeof dependencyInjector != "object" {
-			let dependencyInjector = new \Phalcon\Di\FactoryDefault();
+			let dependencyInjector = new FactoryDefault();
 			let this->_dependencyInjector = dependencyInjector;
 		}
 
@@ -536,7 +538,7 @@ class Micro extends \Phalcon\Di\Injectable implements \ArrayAccess
 
 		let dependencyInjector = this->_dependencyInjector;
 		if typeof dependencyInjector != "object" {
-			let dependencyInjector = new \Phalcon\Di\FactoryDefault();
+			let dependencyInjector = new FactoryDefault();
 			let this->_dependencyInjector = dependencyInjector;
 		}
 
@@ -555,7 +557,7 @@ class Micro extends \Phalcon\Di\Injectable implements \ArrayAccess
 
 		let dependencyInjector = this->_dependencyInjector;
 		if typeof dependencyInjector != "object" {
-			let dependencyInjector = new \Phalcon\Di\FactoryDefault();
+			let dependencyInjector = new FactoryDefault();
 			let this->_dependencyInjector = dependencyInjector;
 		}
 
@@ -574,7 +576,7 @@ class Micro extends \Phalcon\Di\Injectable implements \ArrayAccess
 
 		let dependencyInjector = this->_dependencyInjector;
 		if typeof dependencyInjector != "object" {
-			let dependencyInjector = new \Phalcon\Di\FactoryDefault();
+			let dependencyInjector = new FactoryDefault();
 			let this->_dependencyInjector = dependencyInjector;
 		}
 
@@ -842,6 +844,7 @@ class Micro extends \Phalcon\Di\Injectable implements \ArrayAccess
 					}
 				}
 			}
+
 		} catch \Exception, e {
 
 			/**

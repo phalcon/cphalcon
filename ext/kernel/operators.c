@@ -803,6 +803,13 @@ double zephir_safe_div_zval_long(zval *op1, long op2 TSRMLS_DC) {
 		zend_error(E_WARNING, "Division by zero");
 		return 0;
 	}
+	switch (Z_TYPE_P(op1)) {
+		case IS_ARRAY:
+		case IS_OBJECT:
+		case IS_RESOURCE:
+			zend_error(E_WARNING, "Unsupported operand types");
+			break;
+	}
 	return ((double) zephir_get_numberval(op1)) / (double) op2;
 }
 
@@ -813,6 +820,13 @@ double zephir_safe_div_zval_double(zval *op1, double op2 TSRMLS_DC) {
 	if (!op2) {
 		zend_error(E_WARNING, "Division by zero");
 		return 0;
+	}
+	switch (Z_TYPE_P(op1)) {
+		case IS_ARRAY:
+		case IS_OBJECT:
+		case IS_RESOURCE:
+			zend_error(E_WARNING, "Unsupported operand types");
+			break;
 	}
 	return ((double) zephir_get_numberval(op1)) / op2;
 }
@@ -825,6 +839,13 @@ double zephir_safe_div_long_zval(long op1, zval *op2 TSRMLS_DC) {
 		zend_error(E_WARNING, "Division by zero");
 		return 0;
 	}
+	switch (Z_TYPE_P(op2)) {
+		case IS_ARRAY:
+		case IS_OBJECT:
+		case IS_RESOURCE:
+			zend_error(E_WARNING, "Unsupported operand types");
+			break;
+	}
 	return (double) op1 / ((double) zephir_get_numberval(op2));
 }
 
@@ -835,6 +856,13 @@ double zephir_safe_div_double_zval(double op1, zval *op2 TSRMLS_DC) {
 	if (!zephir_get_numberval(op2)) {
 		zend_error(E_WARNING, "Division by zero");
 		return 0;
+	}
+	switch (Z_TYPE_P(op2)) {
+		case IS_ARRAY:
+		case IS_OBJECT:
+		case IS_RESOURCE:
+			zend_error(E_WARNING, "Unsupported operand types");
+			break;
 	}
 	return op1 / ((double) zephir_get_numberval(op2));
 }
