@@ -1267,8 +1267,8 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _pixelate){
  */
 PHP_METHOD(Phalcon_Image_Adapter_Imagick, _save) {
 
-	zval *file, *quality, *exception_message;
-	zval *constant, *ret = NULL, *extension, *mime = NULL, *format, *type, *im, *fp = NULL, *mode, *compression;
+	zval *file, *quality, *constant, *ret = NULL;
+	zval *extension, *mime = NULL, *format, *type, *im, *fp = NULL, *mode, *compression;
 	zend_class_entry *imagick_ce;
 	char *ext;
 
@@ -1293,18 +1293,21 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _save) {
 
 	ext = Z_STRVAL_P(format);
 
-	PHALCON_INIT_VAR(type);
 	if (strcmp(ext, "gif") == 0) {
+		PHALCON_INIT_VAR(type);
 		ZVAL_LONG(type, 1);
 	} else if (strcmp(ext, "jpg") == 0 || strcmp(ext, "jpeg") == 0) {
+		PHALCON_INIT_VAR(type);
 		ZVAL_LONG(type, 2);
 	} else if (strcmp(ext, "png") == 0) {
+		PHALCON_INIT_VAR(type);
 		ZVAL_LONG(type, 3);
 	} else {
-		PHALCON_INIT_VAR(exception_message);
-		PHALCON_CONCAT_SVS(exception_message, "Installed ImageMagick does not support '", extension, "' images");
-		PHALCON_THROW_EXCEPTION_ZVAL(phalcon_image_exception_ce, exception_message);
-		return;
+		PHALCON_INIT_VAR(type);
+		ZVAL_LONG(type, 2);
+
+		PHALCON_INIT_NVAR(format);
+		ZVAL_STRING(format, "jpg", 1);
 	}
 
 	PHALCON_OBS_VAR(im);
@@ -1363,8 +1366,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _save) {
  */
 PHP_METHOD(Phalcon_Image_Adapter_Imagick, _render) {
 
-	zval *extension, *quality, *exception_message;
-	zval *mime = NULL, *format, *type, *im, *image_string = NULL, *compression;
+	zval *extension, *quality, *mime = NULL, *format, *type, *im, *image_string = NULL, *compression;
 	zend_class_entry *imagick_ce;
 	char *ext;
 
@@ -1389,10 +1391,11 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _render) {
 		PHALCON_INIT_VAR(type);
 		ZVAL_LONG(type, 3);
 	} else {
-		PHALCON_INIT_VAR(exception_message);
-		PHALCON_CONCAT_SVS(exception_message, "Installed ImageMagick does not support '", extension, "' images");
-		PHALCON_THROW_EXCEPTION_ZVAL(phalcon_image_exception_ce, exception_message);
-		return;
+		PHALCON_INIT_VAR(type);
+		ZVAL_LONG(type, 2);
+
+		PHALCON_INIT_NVAR(format);
+		ZVAL_STRING(format, "jpg", 1);
 	}
 
 	PHALCON_OBS_VAR(im);
