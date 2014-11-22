@@ -1346,7 +1346,7 @@ PHP_METHOD(Phalcon_Image_Adapter_GD, _pixelate){
  */
 PHP_METHOD(Phalcon_Image_Adapter_GD, _save) {
 
-	zval *file = NULL, *quality = NULL, *exception_message, *q = NULL;
+	zval *file = NULL, *quality = NULL, *q = NULL;
 	zval *ret = NULL, *extension, *type, *mime = NULL, *constant, *image;
 	const char *func_name = "imagegif";
 	char *ext;
@@ -1367,6 +1367,8 @@ PHP_METHOD(Phalcon_Image_Adapter_GD, _save) {
 
 	ext = Z_STRVAL_P(extension);
 
+	image = phalcon_fetch_nproperty_this(this_ptr, SL("_image"), PH_NOISY TSRMLS_CC);
+
 	if (strcmp(ext, "gif") == 0) {
 		PHALCON_INIT_VAR(type);
 		ZVAL_LONG(type, 1);
@@ -1384,21 +1386,20 @@ PHP_METHOD(Phalcon_Image_Adapter_GD, _save) {
 	} else if (strcmp(ext, "png") == 0) {
 		PHALCON_INIT_VAR(type);
 		ZVAL_LONG(type, 3);
-			
+
 		PHALCON_INIT_NVAR(q);
-		ZVAL_LONG(q, 9);
 
 		func_name = "imagepng";
 	} else {
-		PHALCON_INIT_VAR(exception_message);
-		PHALCON_CONCAT_SVS(exception_message, "Installed GD does not support '", extension, "' images");
-		PHALCON_THROW_EXCEPTION_ZVAL(phalcon_image_exception_ce, exception_message);
-		return;
-	}
-	
-	image = phalcon_fetch_nproperty_this(this_ptr, SL("_image"), PH_NOISY TSRMLS_CC);
+		PHALCON_INIT_VAR(type);
+		ZVAL_LONG(type, 2);
 
-	if (Z_TYPE_P(quality) == IS_LONG) {
+		PHALCON_CPY_WRT(q, quality);
+
+		func_name = "imagejpeg";
+	}
+
+	if (Z_TYPE_P(q) == IS_LONG) {
 		PHALCON_CALL_FUNCTION(&ret, func_name, image, file, q);
 	} else {
 		PHALCON_CALL_FUNCTION(&ret, func_name, image, file);
@@ -1427,7 +1428,7 @@ PHP_METHOD(Phalcon_Image_Adapter_GD, _save) {
  */
 PHP_METHOD(Phalcon_Image_Adapter_GD, _render) {
 
-	zval *extension = NULL, *quality = NULL, *exception_message, *q = NULL;
+	zval *extension = NULL, *quality = NULL, *q = NULL;
 	zval *file, *ret = NULL, *type, *mime = NULL, *image;
 	const char *func_name = "imagegif";
 	char *ext;
@@ -1460,23 +1461,24 @@ PHP_METHOD(Phalcon_Image_Adapter_GD, _render) {
 	} else if (strcmp(ext, "png") == 0) {
 		PHALCON_INIT_VAR(type);
 		ZVAL_LONG(type, 3);
-			
+
 		PHALCON_INIT_NVAR(q);
-		ZVAL_LONG(q, 9);
 
 		func_name = "imagepng";
 	} else {
-		PHALCON_INIT_VAR(exception_message);
-		PHALCON_CONCAT_SVS(exception_message, "Installed GD does not support '", extension, "' images");
-		PHALCON_THROW_EXCEPTION_ZVAL(phalcon_image_exception_ce, exception_message);
-		return;
+		PHALCON_INIT_VAR(type);
+		ZVAL_LONG(type, 2);
+
+		PHALCON_CPY_WRT(q, quality);
+
+		func_name = "imagejpeg";
 	}
 	
 	image = phalcon_fetch_nproperty_this(this_ptr, SL("_image"), PH_NOISY TSRMLS_CC);
 
 	phalcon_ob_start(TSRMLS_C);
 
-	if (Z_TYPE_P(quality) == IS_LONG) {
+	if (Z_TYPE_P(q) == IS_LONG) {
 		PHALCON_CALL_FUNCTION(&ret, func_name, image, file, q);
 	} else {
 		PHALCON_CALL_FUNCTION(&ret, func_name, image, file);

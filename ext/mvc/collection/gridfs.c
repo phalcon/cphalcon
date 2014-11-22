@@ -108,7 +108,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_GridFS, store){
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 1, 2, &file, &metadata, &options, &isBytes);
+	phalcon_fetch_params(1, 1, 3, &file, &metadata, &options, &isBytes);
 
 	if (!metadata) {
 		PHALCON_INIT_VAR(metadata);
@@ -296,7 +296,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_GridFS, saveBytes){
 	}
 
 	if (zend_is_true(bytes)) {
-			PHALCON_CALL_SELF(&status, "store", bytes, PHALCON_GLOBAL(z_true));
+			PHALCON_CALL_SELF(&status, "store", bytes, PHALCON_GLOBAL(z_null), PHALCON_GLOBAL(z_null), PHALCON_GLOBAL(z_true));
 	}
 
 	RETURN_CTOR(status);
