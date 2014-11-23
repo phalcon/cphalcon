@@ -57,7 +57,7 @@ use Phalcon\Di\Exception;
  *
  *</code>
  */
-class Di implements DiInterface
+class Di implements DiInterface, \Phalcon\Events\EventsAwareInterface
 {
 
 	protected _services;
@@ -65,6 +65,13 @@ class Di implements DiInterface
 	protected _sharedInstances;
 
 	protected _freshInstance = false;
+
+	/**
+	 * Events Manager
+	 *
+	 * @var Phalcon\Events\ManagerInterface
+	 */
+	protected _eventsManager;
 
 	protected static _default;
 
@@ -202,7 +209,13 @@ class Di implements DiInterface
 	 */
 	public function get(string! name, parameters = null)
 	{
-		var service, instance, reflection;
+		var service, instance, reflection, eventsManager;
+
+		let eventsManager = <\Phalcon\Events\ManagerInterface> this->getEventsManager();
+
+        if typeof eventsManager == "object" {
+        	eventsManager->fire("di:beforeServiceResolve", this, ["name": name, "parameters": parameters]);
+        }
 
 		if fetch service, this->_services[name] {
 			/**
@@ -251,6 +264,10 @@ class Di implements DiInterface
 				instance->setDI(this);
 			}
 		}
+
+		if typeof eventsManager == "object" {
+        	eventsManager->fire("di:afterServiceResolve", this, ["name": name, "parameters": parameters, "instance": instance]);
+        }
 
 		return instance;
 	}
@@ -371,6 +388,26 @@ class Di implements DiInterface
 	{
 		return false;
 	}
+
+	/**
+     * Sets the event manager
+     *
+     * @param Phalcon\Events\ManagerInterface eventsManager
+     */
+    public function setEventsManager(<\Phalcon\Events\ManagerInterface> eventsManager)
+    {
+    	let this->_eventsManager = eventsManager;
+    }
+
+    /**
+     * Returns the internal event manager
+     *
+     * @return Phalcon\Events\ManagerInterface
+     */
+    public function getEventsManager() -> <\Phalcon\Events\ManagerInterface>
+    {
+    	return this->_eventsManager;
+    }
 
 	/**
 	 * Magic method to get or set services using setters/getters
