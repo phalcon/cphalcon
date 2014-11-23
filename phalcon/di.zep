@@ -213,9 +213,9 @@ class Di implements DiInterface, \Phalcon\Events\EventsAwareInterface
 
 		let eventsManager = <\Phalcon\Events\ManagerInterface> this->getEventsManager();
 
-        if typeof eventsManager == "object" {
-        	eventsManager->fire("di:beforeServiceResolve", this, ["name": name, "parameters": parameters]);
-        }
+		if typeof eventsManager == "object" {
+			eventsManager->fire("di:beforeServiceResolve", this, ["name": name, "parameters": parameters]);
+		}
 
 		if fetch service, this->_services[name] {
 			/**
@@ -266,8 +266,8 @@ class Di implements DiInterface, \Phalcon\Events\EventsAwareInterface
 		}
 
 		if typeof eventsManager == "object" {
-        	eventsManager->fire("di:afterServiceResolve", this, ["name": name, "parameters": parameters, "instance": instance]);
-        }
+			eventsManager->fire("di:afterServiceResolve", this, ["name": name, "parameters": parameters, "instance": instance]);
+		}
 
 		return instance;
 	}
@@ -390,24 +390,24 @@ class Di implements DiInterface, \Phalcon\Events\EventsAwareInterface
 	}
 
 	/**
-     * Sets the event manager
-     *
-     * @param Phalcon\Events\ManagerInterface eventsManager
-     */
-    public function setEventsManager(<\Phalcon\Events\ManagerInterface> eventsManager)
-    {
-    	let this->_eventsManager = eventsManager;
-    }
+	 * Sets the event manager
+	 *
+	 * @param Phalcon\Events\ManagerInterface eventsManager
+	 */
+	public function setEventsManager(<\Phalcon\Events\ManagerInterface> eventsManager)
+	{
+		let this->_eventsManager = eventsManager;
+	}
 
-    /**
-     * Returns the internal event manager
-     *
-     * @return Phalcon\Events\ManagerInterface
-     */
-    public function getEventsManager() -> <\Phalcon\Events\ManagerInterface>
-    {
-    	return this->_eventsManager;
-    }
+	/**
+	 * Returns the internal event manager
+	 *
+	 * @return Phalcon\Events\ManagerInterface
+	 */
+	public function getEventsManager() -> <\Phalcon\Events\ManagerInterface>
+	{
+		return this->_eventsManager;
+	}
 
 	/**
 	 * Magic method to get or set services using setters/getters
