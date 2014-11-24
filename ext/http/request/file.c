@@ -30,6 +30,7 @@
 #include "kernel/object.h"
 #include "kernel/fcall.h"
 #include "kernel/string.h"
+#include "kernel/file.h"
 
 /**
  * Phalcon\Http\Request\File
@@ -121,61 +122,65 @@ PHALCON_INIT_CLASS(Phalcon_Http_Request_File){
  */
 PHP_METHOD(Phalcon_Http_Request_File, __construct){
 
-	zval *file, *name, *temp_name, *size, *type, *error, *key = NULL;
+	zval *file, *key = NULL, *name, *temp_name, *size, *type, *error;
 	zval *constant, *extension = NULL;
 
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 1, 1, &file, &key);
 	
-	if (Z_TYPE_P(file) != IS_ARRAY) { 
-		PHALCON_THROW_EXCEPTION_STR(phalcon_http_request_exception_ce, "Phalcon\\Http\\Request\\File requires a valid uploaded file");
-		return;
-	}
-	if (phalcon_array_isset_string(file, SS("name"))) {
-		PHALCON_OBS_VAR(name);
-		phalcon_array_fetch_string(&name, file, SL("name"), PH_NOISY);
-		phalcon_update_property_this(this_ptr, SL("_name"), name TSRMLS_CC);
-
-		PHALCON_INIT_VAR(constant);
-		if (zend_get_constant(SL("PATHINFO_EXTENSION"), constant TSRMLS_CC)) {
-			PHALCON_CALL_FUNCTION(&extension, "pathinfo", name, constant);
-			phalcon_update_property_this(this_ptr, SL("_extension"), extension TSRMLS_CC);
+	if (Z_TYPE_P(file) != IS_ARRAY) {
+		if (phalcon_file_exists(file TSRMLS_CC) == FAILURE) {
+			PHALCON_THROW_EXCEPTION_STR(phalcon_http_request_exception_ce, "Phalcon\\Http\\Request\\File requires a valid uploaded file");
+			return;
 		}
-	}
-	
-	if (phalcon_array_isset_string(file, SS("tmp_name"))) {
-		PHALCON_OBS_VAR(temp_name);
-		phalcon_array_fetch_string(&temp_name, file, SL("tmp_name"), PH_NOISY);
-		phalcon_update_property_this(this_ptr, SL("_tmp"), temp_name TSRMLS_CC);
-	} else {
-		PHALCON_INIT_VAR(temp_name);
-		ZVAL_NULL(temp_name);
- 	}
-	
-	if (phalcon_array_isset_string(file, SS("size"))) {
-		PHALCON_OBS_VAR(size);
-		phalcon_array_fetch_string(&size, file, SL("size"), PH_NOISY);
-		phalcon_update_property_this(this_ptr, SL("_size"), size TSRMLS_CC);
-	}
-	
-	if (phalcon_array_isset_string(file, SS("type"))) {
-		PHALCON_OBS_VAR(type);
-		phalcon_array_fetch_string(&type, file, SL("type"), PH_NOISY);
-		phalcon_update_property_this(this_ptr, SL("_type"), type TSRMLS_CC);
-	}
 
-	if (phalcon_array_isset_string(file, SS("error"))) {
-		PHALCON_OBS_VAR(error);
-		phalcon_array_fetch_string(&error, file, SL("error"), PH_NOISY);
-		phalcon_update_property_this(this_ptr, SL("_error"), error TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_tmp"), file TSRMLS_CC);
+
+		PHALCON_CALL_PARENT(NULL, phalcon_http_request_file_ce, this_ptr, "__construct", file);
+	} else {
+		if (phalcon_array_isset_string(file, SS("name"))) {
+			PHALCON_OBS_VAR(name);
+			phalcon_array_fetch_string(&name, file, SL("name"), PH_NOISY);
+			phalcon_update_property_this(this_ptr, SL("_name"), name TSRMLS_CC);
+
+			PHALCON_INIT_VAR(constant);
+			if (zend_get_constant(SL("PATHINFO_EXTENSION"), constant TSRMLS_CC)) {
+				PHALCON_CALL_FUNCTION(&extension, "pathinfo", name, constant);
+				phalcon_update_property_this(this_ptr, SL("_extension"), extension TSRMLS_CC);
+			}
+		}
+		
+		if (phalcon_array_isset_string(file, SS("tmp_name"))) {
+			PHALCON_OBS_VAR(temp_name);
+			phalcon_array_fetch_string(&temp_name, file, SL("tmp_name"), PH_NOISY);
+			phalcon_update_property_this(this_ptr, SL("_tmp"), temp_name TSRMLS_CC);
+		}
+		
+		if (phalcon_array_isset_string(file, SS("size"))) {
+			PHALCON_OBS_VAR(size);
+			phalcon_array_fetch_string(&size, file, SL("size"), PH_NOISY);
+			phalcon_update_property_this(this_ptr, SL("_size"), size TSRMLS_CC);
+		}
+		
+		if (phalcon_array_isset_string(file, SS("type"))) {
+			PHALCON_OBS_VAR(type);
+			phalcon_array_fetch_string(&type, file, SL("type"), PH_NOISY);
+			phalcon_update_property_this(this_ptr, SL("_type"), type TSRMLS_CC);
+		}
+
+		if (phalcon_array_isset_string(file, SS("error"))) {
+			PHALCON_OBS_VAR(error);
+			phalcon_array_fetch_string(&error, file, SL("error"), PH_NOISY);
+			phalcon_update_property_this(this_ptr, SL("_error"), error TSRMLS_CC);
+		}
+
+		PHALCON_CALL_PARENT(NULL, phalcon_http_request_file_ce, this_ptr, "__construct", temp_name);
 	}
 
 	if (key) {
 		phalcon_update_property_this(this_ptr, SL("_key"), key TSRMLS_CC);
 	}
-
-	PHALCON_CALL_PARENT(NULL, phalcon_http_request_file_ce, this_ptr, "__construct", temp_name);
 
 	PHALCON_MM_RESTORE();
 }
@@ -232,7 +237,7 @@ PHP_METHOD(Phalcon_Http_Request_File, getType){
  */
 PHP_METHOD(Phalcon_Http_Request_File, getRealType){
 
-	zval *constant, *finfo = NULL, *temp_file, *mime;
+	zval *mime, *constant, *finfo = NULL, *temp_file, *ret = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -255,10 +260,15 @@ PHP_METHOD(Phalcon_Http_Request_File, getRealType){
 
 	temp_file = phalcon_fetch_nproperty_this(this_ptr, SL("_tmp"), PH_NOISY TSRMLS_CC);
 
-	PHALCON_RETURN_CALL_FUNCTION("finfo_file", finfo, temp_file);
+	PHALCON_CALL_FUNCTION(&ret, "finfo_file", finfo, temp_file);
 	PHALCON_CALL_FUNCTION(NULL, "finfo_close", finfo);
 
-	PHALCON_MM_RESTORE();
+	if (zend_is_true(ret)) {
+		phalcon_update_property_this(this_ptr, SL("_real_type"), ret TSRMLS_CC);
+		RETURN_CTOR(ret);
+	}
+
+	RETURN_MM_NULL();
 }
 
 /**

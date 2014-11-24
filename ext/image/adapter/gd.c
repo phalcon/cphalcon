@@ -193,7 +193,7 @@ PHP_METHOD(Phalcon_Image_Adapter_GD, check){
 PHP_METHOD(Phalcon_Image_Adapter_GD, __construct){
 
 	zval *file, *width = NULL, *height = NULL, *exception_message;
-	zval *checked, *realpath, *type, *mime = NULL, *image = NULL, *imageinfo = NULL;
+	zval *checked, *realpath, *type, *format, *mime = NULL, *image = NULL, *imageinfo = NULL;
 	zval *saveflag, *blendmode;
 
 	PHALCON_MM_GROW();
@@ -256,16 +256,20 @@ PHP_METHOD(Phalcon_Image_Adapter_GD, __construct){
 
 		assert(Z_TYPE_P(type) == IS_LONG);
 
+		PHALCON_INIT_VAR(format);
 		switch (Z_LVAL_P(type)) {
 			case 1: // GIF
+				ZVAL_STRING(format, "gif", 1);
 				PHALCON_CALL_FUNCTION(&image, "imagecreatefromgif", realpath);
 				break;
 
 			case 2: // JPEG
+				ZVAL_STRING(format, "jpg", 1);
 				PHALCON_CALL_FUNCTION(&image, "imagecreatefromjpeg", realpath);
 				break;
 
 			case 3: // PNG
+				ZVAL_STRING(format, "png", 1);
 				PHALCON_CALL_FUNCTION(&image, "imagecreatefrompng", realpath);
 				break;
 
@@ -286,6 +290,8 @@ PHP_METHOD(Phalcon_Image_Adapter_GD, __construct){
 			zend_throw_exception_ex(phalcon_image_exception_ce, 0 TSRMLS_CC, "Failed to create image from file '%s'", Z_STRVAL_P(realpath));
 			RETURN_MM();
 		}
+
+		phalcon_update_property_this(this_ptr, SL("_format"), format TSRMLS_CC);
 
 		PHALCON_INIT_VAR(saveflag);
 		ZVAL_TRUE(saveflag);
@@ -316,6 +322,11 @@ PHP_METHOD(Phalcon_Image_Adapter_GD, __construct){
 		ZVAL_LONG(type, 3);
 
 		phalcon_update_property_this(this_ptr, SL("_type"), type TSRMLS_CC);
+
+		PHALCON_INIT_VAR(format);
+		ZVAL_STRING(format, "png", 1);
+
+		phalcon_update_property_this(this_ptr, SL("_format"), format TSRMLS_CC);
 
 		PHALCON_INIT_VAR(mime);
 		ZVAL_STRING(mime, "image/png", 1);
@@ -1391,12 +1402,8 @@ PHP_METHOD(Phalcon_Image_Adapter_GD, _save) {
 
 		func_name = "imagepng";
 	} else {
-		PHALCON_INIT_VAR(type);
-		ZVAL_LONG(type, 2);
-
-		PHALCON_CPY_WRT(q, quality);
-
-		func_name = "imagejpeg";
+		zend_throw_exception_ex(phalcon_image_exception_ce, 0 TSRMLS_CC, "Installed GD does not support '%s' images", Z_STRVAL_P(extension));
+		RETURN_MM();
 	}
 
 	if (Z_TYPE_P(q) == IS_LONG) {
@@ -1466,12 +1473,8 @@ PHP_METHOD(Phalcon_Image_Adapter_GD, _render) {
 
 		func_name = "imagepng";
 	} else {
-		PHALCON_INIT_VAR(type);
-		ZVAL_LONG(type, 2);
-
-		PHALCON_CPY_WRT(q, quality);
-
-		func_name = "imagejpeg";
+		zend_throw_exception_ex(phalcon_image_exception_ce, 0 TSRMLS_CC, "Installed GD does not support '%s' images", Z_STRVAL_P(extension));
+		RETURN_MM();
 	}
 	
 	image = phalcon_fetch_nproperty_this(this_ptr, SL("_image"), PH_NOISY TSRMLS_CC);
