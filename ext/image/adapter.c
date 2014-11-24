@@ -124,6 +124,7 @@ PHALCON_INIT_CLASS(Phalcon_Image_Adapter){
 	zend_declare_property_null(phalcon_image_adapter_ce, SL("_width"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_image_adapter_ce, SL("_height"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_image_adapter_ce, SL("_type"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_image_adapter_ce, SL("_format"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_image_adapter_ce, SL("_mime"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	zend_class_implements(phalcon_image_adapter_ce TSRMLS_CC, 1, phalcon_image_adapterinterface_ce);
@@ -1123,25 +1124,20 @@ PHP_METHOD(Phalcon_Image_Adapter, save){
  */
 PHP_METHOD(Phalcon_Image_Adapter, render){
 
-	zval *ext = NULL, *quality = NULL, *constant, *file;
+	zval *ext = NULL, *quality = NULL, *format;
 
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 0, 2, &ext, &quality);
 
 	if (!ext) {
-		file = phalcon_fetch_nproperty_this(this_ptr, SL("_file"), PH_NOISY TSRMLS_CC);
+		format = phalcon_fetch_nproperty_this(this_ptr, SL("_format"), PH_NOISY TSRMLS_CC);
 
-		PHALCON_INIT_VAR(constant);
-		if (!zend_get_constant(SL("PATHINFO_EXTENSION"), constant TSRMLS_CC)) {
-			RETURN_MM();
-		}
-
-		ext = NULL;
-		PHALCON_CALL_FUNCTION(&ext, "pathinfo", file, constant);
-
-		if (!PHALCON_IS_NOT_EMPTY(ext)) {
+		if (PHALCON_IS_EMPTY(format)) {
+			PHALCON_INIT_VAR(ext);
 			ZVAL_STRING(ext, "png", 1);
+		} else {
+			PHALCON_CPY_WRT(ext, format);
 		}
 	}
 

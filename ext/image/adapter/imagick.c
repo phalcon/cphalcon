@@ -202,7 +202,11 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, __construct){
 		PHALCON_CALL_METHOD(&type, im, "getImageType");
 		phalcon_update_property_this(this_ptr, SL("_type"), type TSRMLS_CC);
 
+		phalcon_update_property_this(this_ptr, SL("_type"), type TSRMLS_CC);
+
 		PHALCON_CALL_METHOD(&format, im, "getImageFormat");
+
+		phalcon_update_property_this(this_ptr, SL("_format"), format TSRMLS_CC);
 
 		PHALCON_INIT_VAR(mime);
 		PHALCON_CONCAT_SV(mime, "image/", format);
@@ -245,6 +249,8 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, __construct){
 		PHALCON_INIT_VAR(format);
 		ZVAL_STRING(format, "png", 1);
 
+		phalcon_update_property_this(this_ptr, SL("_format"), format TSRMLS_CC);
+
 		PHALCON_CALL_METHOD(&ret, im, "setformat", format);
 		PHALCON_CALL_METHOD(&ret, im, "setImageFormat", format);
 
@@ -265,8 +271,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, __construct){
 		phalcon_update_property_this(this_ptr, SL("_mime"), mime TSRMLS_CC);
 	} else {
 		zend_throw_exception_ex(phalcon_image_exception_ce, 0 TSRMLS_CC, "Failed to create image from file '%s'", Z_STRVAL_PP(file));
-		PHALCON_MM_RESTORE();
-		return;
+		RETURN_MM();
 	}
 
 	PHALCON_MM_RESTORE();
@@ -1268,7 +1273,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _pixelate){
 PHP_METHOD(Phalcon_Image_Adapter_Imagick, _save) {
 
 	zval *file, *quality, *constant, *ret = NULL;
-	zval *extension, *mime = NULL, *format, *type, *im, *fp = NULL, *mode, *compression;
+	zval *extension, *format, *type, *mime, *im, *fp = NULL, *mode, *compression;
 	zend_class_entry *imagick_ce;
 	char *ext;
 
@@ -1283,38 +1288,42 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _save) {
 		RETURN_MM();
 	}
 
-	PHALCON_CALL_FUNCTION(&ret, "pathinfo", file, constant);
-
-	PHALCON_INIT_VAR(extension);
-	phalcon_fast_strtolower(extension, ret);
-
-	PHALCON_INIT_VAR(format);
-	phalcon_fast_strtolower(format, extension);
-
-	ext = Z_STRVAL_P(format);
-
-	if (strcmp(ext, "gif") == 0) {
-		PHALCON_INIT_VAR(type);
-		ZVAL_LONG(type, 1);
-	} else if (strcmp(ext, "jpg") == 0 || strcmp(ext, "jpeg") == 0) {
-		PHALCON_INIT_VAR(type);
-		ZVAL_LONG(type, 2);
-	} else if (strcmp(ext, "png") == 0) {
-		PHALCON_INIT_VAR(type);
-		ZVAL_LONG(type, 3);
-	} else {
-		PHALCON_INIT_VAR(type);
-		ZVAL_LONG(type, 2);
-
-		PHALCON_INIT_NVAR(format);
-		ZVAL_STRING(format, "jpg", 1);
-	}
-
 	PHALCON_OBS_VAR(im);
 	phalcon_read_property_this(&im, this_ptr, SL("_image"), PH_NOISY TSRMLS_CC);
 
-	PHALCON_CALL_METHOD(NULL, im, "setformat", format);
-	PHALCON_CALL_METHOD(NULL, im, "setImageFormat", format);
+	PHALCON_CALL_FUNCTION(&ret, "pathinfo", file, constant);
+
+	if (PHALCON_IS_NOT_EMPTY(ret)) {
+		PHALCON_INIT_VAR(extension);
+		phalcon_fast_strtolower(extension, ret);
+
+		PHALCON_INIT_VAR(format);
+		phalcon_fast_strtolower(format, extension);
+
+		ext = Z_STRVAL_P(format);
+
+		PHALCON_INIT_VAR(type);
+		if (strcmp(ext, "gif") == 0) {
+			ZVAL_LONG(type, 1);
+		} else if (strcmp(ext, "jpg") == 0 || strcmp(ext, "jpeg") == 0) {
+			ZVAL_LONG(type, 2);
+		} else if (strcmp(ext, "png") == 0) {
+			ZVAL_LONG(type, 3);
+		} else {
+			zend_throw_exception_ex(phalcon_image_exception_ce, 0 TSRMLS_CC, "Installed ImageMagick does not support '%s' images", Z_STRVAL_P(extension));
+			RETURN_MM();
+		}
+
+		PHALCON_CALL_METHOD(NULL, im, "setformat", format);
+		PHALCON_CALL_METHOD(NULL, im, "setImageFormat", format);
+
+		PHALCON_INIT_VAR(mime);
+		PHALCON_CONCAT_SV(mime, "image/", format);
+	
+		phalcon_update_property_this(this_ptr, SL("_type"), type TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_mime"), mime TSRMLS_CC);
+	}
+
 	PHALCON_CALL_METHOD(NULL, im, "stripImage");
 
 	if (phalcon_get_intval(type) == 1) {
@@ -1343,18 +1352,10 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _save) {
 	}
 
 	if (zend_is_true(ret)) {
-		phalcon_update_property_this(this_ptr, SL("_type"), type TSRMLS_CC);
-
-		PHALCON_CALL_FUNCTION(&mime, "image_type_to_mime_type", type);
-
-		phalcon_update_property_this(this_ptr, SL("_mime"), mime TSRMLS_CC);
-
-		RETVAL_TRUE;
-	} else {
-		RETVAL_FALSE;
+		RETURN_MM_TRUE;
 	}
 
-	PHALCON_MM_RESTORE();
+	RETURN_MM_FALSE;
 }
 
 /**
@@ -1381,35 +1382,31 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _render) {
 
 	ext = Z_STRVAL_P(format);
 
+	PHALCON_INIT_VAR(type);
 	if (strncmp(ext, "gif", 3) == 0) {
-		PHALCON_INIT_VAR(type);
 		ZVAL_LONG(type, 1);
 	} else if (strncmp(ext, "jpg", 3) == 0 || strncmp(ext, "jpeg", 4) == 0) {
-		PHALCON_INIT_VAR(type);
 		ZVAL_LONG(type, 2);
 	} else if (strncmp(ext, "png", 3) == 0) {
-		PHALCON_INIT_VAR(type);
 		ZVAL_LONG(type, 3);
-	} else {
-		PHALCON_INIT_VAR(type);
-		ZVAL_LONG(type, 2);
-
-		PHALCON_INIT_NVAR(format);
-		ZVAL_STRING(format, "jpg", 1);
 	}
 
 	PHALCON_OBS_VAR(im);
 	phalcon_read_property_this(&im, this_ptr, SL("_image"), PH_NOISY TSRMLS_CC);
 
-	PHALCON_CALL_METHOD(NULL, im, "setformat", format);
-	PHALCON_CALL_METHOD(NULL, im, "setImageFormat", format);
+	if (zend_is_true(type)) {
+		PHALCON_CALL_METHOD(NULL, im, "setformat", format);
+		PHALCON_CALL_METHOD(NULL, im, "setImageFormat", format);
+
+		phalcon_update_property_this(this_ptr, SL("_type"), type TSRMLS_CC);
+
+		PHALCON_INIT_VAR(mime);
+		PHALCON_CONCAT_SV(mime, "image/", format);
+
+		phalcon_update_property_this(this_ptr, SL("_mime"), mime TSRMLS_CC);
+	}
+
 	PHALCON_CALL_METHOD(NULL, im, "stripImage");
-
-	phalcon_update_property_this(this_ptr, SL("_type"), type TSRMLS_CC);
-
-	PHALCON_CALL_FUNCTION(&mime, "image_type_to_mime_type", type);
-
-	phalcon_update_property_this(this_ptr, SL("_mime"), mime TSRMLS_CC);
 
 	if (phalcon_get_intval(type) == 1) {
 		PHALCON_CALL_METHOD(NULL, im, "optimizeImageLayers");
@@ -1424,6 +1421,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _render) {
 		PHALCON_CALL_METHOD(NULL, im, "setImageCompressionQuality", quality);
 		PHALCON_CALL_METHOD(&image_string, im, "getImageBlob");
 	}
+
 	RETURN_CTOR(image_string);
 }
 

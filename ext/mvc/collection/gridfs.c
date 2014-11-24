@@ -323,7 +323,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_GridFS, remove){
 PHP_METHOD(Phalcon_Mvc_Collection_GridFS, save){
 
 	zval *filename, *arr = NULL, *white_list = NULL, *mode = NULL;
-	zval *old_sha1 = NULL, *old_md5 = NULL, *sha1 = NULL, *md5 = NULL, *status = NULL;
+	zval *old_sha1, *old_md5, *sha1 = NULL, *md5 = NULL, *status = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -342,8 +342,11 @@ PHP_METHOD(Phalcon_Mvc_Collection_GridFS, save){
 	}
 
 	if (zend_is_true(filename)) {
-		old_sha1 = phalcon_fetch_nproperty_this(this_ptr, SL("sha1"), PH_NOISY TSRMLS_CC);
-		old_md5 = phalcon_fetch_nproperty_this(this_ptr, SL("md5"), PH_NOISY TSRMLS_CC);
+		PHALCON_OBS_VAR(old_sha1);
+		phalcon_read_property_this(&old_sha1, this_ptr, SL("sha1"), PH_NOISY TSRMLS_CC);
+
+		PHALCON_OBS_VAR(old_md5);
+		phalcon_read_property_this(&old_md5, this_ptr, SL("md5"), PH_NOISY TSRMLS_CC);
 
 		PHALCON_CALL_FUNCTION(&sha1, "sha1_file", filename);
 		PHALCON_CALL_FUNCTION(&md5, "md5_file", filename);
@@ -360,9 +363,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_GridFS, save){
 
 	if (zend_is_true(filename)) {
 		PHALCON_CALL_SELF(&status, "store", filename);
-		if (zend_is_true(old_sha1)) {
-			PHALCON_CALL_SELF(NULL, "remove", old_sha1, old_md5);
-		}
+		PHALCON_CALL_SELF(NULL, "remove", old_sha1, old_md5);
 	}
 
 	RETURN_CTOR(status);
