@@ -1322,6 +1322,8 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _save) {
 	
 		phalcon_update_property_this(this_ptr, SL("_type"), type TSRMLS_CC);
 		phalcon_update_property_this(this_ptr, SL("_mime"), mime TSRMLS_CC);
+	} else {
+		type = phalcon_fetch_nproperty_this(this_ptr, SL("_type"), PH_NOISY TSRMLS_CC);
 	}
 
 	PHALCON_CALL_METHOD(NULL, im, "stripImage");
@@ -1382,13 +1384,18 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _render) {
 
 	ext = Z_STRVAL_P(format);
 
-	PHALCON_INIT_VAR(type);
 	if (strncmp(ext, "gif", 3) == 0) {
+		PHALCON_INIT_VAR(type);
 		ZVAL_LONG(type, 1);
 	} else if (strncmp(ext, "jpg", 3) == 0 || strncmp(ext, "jpeg", 4) == 0) {
+		PHALCON_INIT_VAR(type);
 		ZVAL_LONG(type, 2);
 	} else if (strncmp(ext, "png", 3) == 0) {
+		PHALCON_INIT_VAR(type);
 		ZVAL_LONG(type, 3);
+	} else {
+		PHALCON_OBS_VAR(type);
+		phalcon_read_property_this(&type, this_ptr, SL("_type"), PH_NOISY TSRMLS_CC);
 	}
 
 	PHALCON_OBS_VAR(im);
