@@ -427,10 +427,10 @@ abstract class Pdo extends Adapter
 	 */
 	public function convertBoundParams(string! sql, array params = []) -> array
 	{
-		var boundSql, placeHolders, queryParams, bindPattern, matches,
+		var boundSql, placeHolders, bindPattern, matches,
 			setOrder, placeMatch, value;
 
-		let queryParams = [], placeHolders = [],
+		let placeHolders = [],
 			bindPattern = "/\\?([0-9]+)|:([a-zA-Z0-9_]+):/",
 			matches = null, setOrder = 2;
 
