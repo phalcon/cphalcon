@@ -45,6 +45,8 @@ class TransactionTest extends FBase
                 $logger = new PhTLoggerAdapterFile($this->logPath . $fileName);
                 $logger->log('Hello');
 
+                $logger->close();
+
                 $contents = file($this->logPath . $fileName);
                 cleanFile($this->logPath, $fileName);
 
@@ -101,6 +103,8 @@ class TransactionTest extends FBase
 
                 $logger = new PhTLoggerAdapterFile($this->logPath . $fileName);
                 $logger->log('Hello');
+
+                $logger->close();
 
                 $contents = file($this->logPath . $fileName);
                 cleanFile($this->logPath, $fileName);
