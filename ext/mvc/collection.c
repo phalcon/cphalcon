@@ -99,6 +99,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, unserialize);
 PHP_METHOD(Phalcon_Mvc_Collection, execute);
 PHP_METHOD(Phalcon_Mvc_Collection, incr);
 PHP_METHOD(Phalcon_Mvc_Collection, refresh);
+PHP_METHOD(Phalcon_Mvc_Collection, __callStatic);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_collection___construct, 0, 0, 0)
 	ZEND_ARG_INFO(0, dependencyInjector)
@@ -122,6 +123,11 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_collection_incr, 0, 0, 1)
 	ZEND_ARG_INFO(0, field)
 	ZEND_ARG_INFO(0, value)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_collection___callstatic, 0, 0, 1)
+	ZEND_ARG_INFO(0, method)
+	ZEND_ARG_INFO(0, arguments)
 ZEND_END_ARG_INFO()
 
 static const zend_function_entry phalcon_mvc_collection_method_entry[] = {
@@ -172,6 +178,7 @@ static const zend_function_entry phalcon_mvc_collection_method_entry[] = {
 	PHP_ME(Phalcon_Mvc_Collection, execute, arginfo_phalcon_mvc_collection_execute, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Mvc_Collection, incr, arginfo_phalcon_mvc_collection_incr, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Collection, refresh, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Collection, __callStatic, arginfo_phalcon_mvc_collection___callstatic, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_FE_END
 };
 
@@ -1715,9 +1722,10 @@ PHP_METHOD(Phalcon_Mvc_Collection, findById){
  */
 PHP_METHOD(Phalcon_Mvc_Collection, findFirst){
 
-	zval *parameters = NULL, *class_name, *collection, *connection = NULL;
+	zval *parameters = NULL, *params= NULL, *class_name, *collection, *collection_manager = NULL;
+	zval *use_implicit_ids = NULL, *mongo_id = NULL, *conditions, *connection = NULL;
 	zval *unique;
-	zend_class_entry *ce0;
+	zend_class_entry *ce0, *ce1;
 
 	PHALCON_MM_GROW();
 
@@ -1725,13 +1733,6 @@ PHP_METHOD(Phalcon_Mvc_Collection, findFirst){
 
 	if (!parameters) {
 		parameters = PHALCON_GLOBAL(z_null);
-	}
-
-	if (Z_TYPE_P(parameters) != IS_NULL) {
-		if (Z_TYPE_P(parameters) != IS_ARRAY) {
-			PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_collection_exception_ce, "Invalid parameters for findFirst");
-			return;
-		}
 	}
 
 	PHALCON_INIT_VAR(class_name);
@@ -1744,10 +1745,43 @@ PHP_METHOD(Phalcon_Mvc_Collection, findFirst){
 		PHALCON_CALL_METHOD(NULL, collection, "__construct");
 	}
 
+	if (Z_TYPE_P(parameters) != IS_NULL && Z_TYPE_P(parameters) != IS_ARRAY) {
+		if (Z_TYPE_P(parameters) != IS_OBJECT) {
+			PHALCON_CALL_METHOD(&collection_manager, collection, "getcollectionmanager");
+
+			/**
+			 * Check if the collection use implicit ids
+			 */
+			PHALCON_CALL_METHOD(&use_implicit_ids, collection_manager, "isusingimplicitobjectids", collection);
+			if (zend_is_true(use_implicit_ids)) {
+				ce1 = zend_fetch_class(SL("MongoId"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
+				PHALCON_INIT_VAR(mongo_id);
+				object_init_ex(mongo_id, ce1);
+				if (phalcon_has_constructor(mongo_id TSRMLS_CC)) {
+					PHALCON_CALL_METHOD(NULL, mongo_id, "__construct", parameters);
+				}
+			} else {
+				PHALCON_CPY_WRT(mongo_id, parameters);
+			}
+		} else {
+			PHALCON_CPY_WRT(mongo_id, parameters);
+		}
+
+		PHALCON_INIT_VAR(conditions);
+		array_init_size(conditions, 1);
+		phalcon_array_update_string(&conditions, SL("_id"), mongo_id, PH_COPY);
+
+		PHALCON_INIT_VAR(params);
+		array_init_size(params, 1);
+		phalcon_array_append(&params, conditions, 0);
+	} else {
+		PHALCON_CPY_WRT(params, parameters);
+	}
+
 	PHALCON_CALL_METHOD(&connection, collection, "getconnection");
 
 	unique = PHALCON_GLOBAL(z_true);
-	PHALCON_RETURN_CALL_SELF("_getresultset", parameters, collection, connection, unique);
+	PHALCON_RETURN_CALL_SELF("_getresultset", params, collection, connection, unique);
 	RETURN_MM();
 }
 
@@ -2496,4 +2530,107 @@ PHP_METHOD(Phalcon_Mvc_Collection, refresh){
 	}
 
 	RETURN_MM_FALSE;
+}
+
+/**
+ * Handles method calls when a static method is not implemented
+ *
+ * @param string $method
+ * @param array $arguments
+ * @return mixed
+ */
+PHP_METHOD(Phalcon_Mvc_Collection, __callStatic){
+
+	zval *method, *arguments = NULL, *extra_method = NULL;
+	zval *class_name, *exception_message = NULL;
+	zval *collection, *field = NULL, *value, *conditions, *params;
+	zend_class_entry *ce0;
+	const char *type;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 1, 1, &method, &arguments);
+	
+	if (!arguments) {
+		arguments = PHALCON_GLOBAL(z_null);
+	}
+	
+	PHALCON_INIT_VAR(extra_method);
+	
+	/** 
+	 * Check if the method starts with 'findFirst'
+	 */
+	if (phalcon_start_with_str(method, SL("findFirstBy"))) {
+		type = "findfirst";
+		phalcon_substr(extra_method, method, 11, 0);
+	}
+	
+	/** 
+	 * Check if the method starts with 'find'
+	 */
+	if (Z_TYPE_P(extra_method) == IS_NULL) {
+		if (phalcon_start_with_str(method, SL("findBy"))) {
+			type = "find";
+			phalcon_substr(extra_method, method, 6, 0);
+		}
+	}
+	
+	/** 
+	 * Check if the method starts with 'count'
+	 */
+	if (Z_TYPE_P(extra_method) == IS_NULL) {
+		if (phalcon_start_with_str(method, SL("countBy"))) {
+			type = "count";
+			phalcon_substr(extra_method, method, 7, 0);
+		}
+	}
+
+	PHALCON_INIT_VAR(class_name);
+	phalcon_get_called_class(class_name  TSRMLS_CC);
+
+	if (!type) {
+		PHALCON_INIT_VAR(exception_message);
+		PHALCON_CONCAT_SVSVS(exception_message, "The static method \"", method, "\" doesn't exist on collection \"", class_name, "\"");
+		PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_collection_exception_ce, exception_message);
+		return;
+	}
+
+	if (!phalcon_array_isset_long(arguments, 0)) {
+		PHALCON_INIT_NVAR(exception_message);
+		PHALCON_CONCAT_SVS(exception_message, "The static method \"", method, "\" requires one argument");
+		PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_collection_exception_ce, exception_message);
+		return;
+	}
+
+	ce0 = phalcon_fetch_class(class_name TSRMLS_CC);
+
+	PHALCON_INIT_VAR(collection);
+	object_init_ex(collection, ce0);
+	if (phalcon_has_constructor(collection TSRMLS_CC)) {
+		PHALCON_CALL_METHOD(NULL, collection, "__construct");
+	}
+
+	if (!phalcon_isset_property_zval(collection, extra_method TSRMLS_CC)) {
+		PHALCON_INIT_NVAR(field);
+		phalcon_lcfirst(field, extra_method);
+	} else {
+		PHALCON_CPY_WRT(field, extra_method);
+	}
+
+	PHALCON_OBS_VAR(value);
+	phalcon_array_fetch_long(&value, arguments, 0, PH_NOISY);	
+
+	PHALCON_INIT_VAR(conditions);
+	array_init_size(conditions, 1);
+	phalcon_array_update_zval(&conditions, field, value, PH_COPY);
+
+	PHALCON_INIT_VAR(params);
+	array_init_size(params, 1);
+	phalcon_array_append(&params, conditions, 0);
+
+	/** 
+	 * Execute the query
+	 */
+	PHALCON_RETURN_CALL_CE_STATIC(ce0, type, params);
+	RETURN_MM();
 }

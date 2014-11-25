@@ -6481,7 +6481,7 @@ PHP_METHOD(Phalcon_Mvc_Model, __callStatic){
 	zval *model, *meta_data = NULL, *attributes = NULL, *field = NULL, *extra_method_first;
 	zval *conditions, *bind_params, *parameters;
 	zend_class_entry *ce0;
-	const char *type;
+	const char *type = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -6526,7 +6526,7 @@ PHP_METHOD(Phalcon_Mvc_Model, __callStatic){
 	 */
 	PHALCON_INIT_VAR(model_name);
 	phalcon_get_called_class(model_name  TSRMLS_CC);
-	if (!zend_is_true(extra_method)) {
+	if (!type) {
 		/** 
 		 * The method doesn't exist throw an exception
 		 */
