@@ -524,8 +524,6 @@ class Tag
 			let params = parameters;
 		}
 
-		let value = null;
-
 		if !isset params[0] {
 			let params[0] = params["id"];
 		}
@@ -549,30 +547,28 @@ class Tag
 			}
 		}
 
-		let value = self::getValue(id, params);
-
 		/**
 		 * Automatically check inputs
 		 */
-		if fetch currentValue, params["value"] {
-			if value && currentValue == value {
-				let params["checked"] = "checked";
-			}
-		} else {
-			/**
-			* Evaluate the value in POST
-			*/
-			if value {
-				let params["checked"] = "checked";
-			}
+                if isset self::_displayValues[params["name"]] {
+                        let value = self::_displayValues[params["name"]];
+                } else {
+                        if !fetch value, params["value"] {
+                                let value = null;
+                        }
+                }
 
-			/**
-			* Update the value anyways
-			*/
-			let params["value"] = value;
-		}
+                if !fetch currentValue, params["value"] {
+                        if !fetch currentValue, _POST[params["name"]] {
+                                let currentValue = value;
+                        }
+                }
+                if currentValue == value {
+                        let params["checked"] = "checked";
+                }
 
-		let params["type"] = type,
+                let params["value"] = value,
+			params["type"] = type,
 			code = self::renderAttributes("<input", params);
 
 		/**
