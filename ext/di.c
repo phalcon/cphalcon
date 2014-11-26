@@ -535,6 +535,9 @@ static const zend_function_entry phalcon_di_method_entry[] = {
 
 	/* Misc */
 	PHP_ME(Phalcon_DI, __clone, NULL, ZEND_ACC_PUBLIC)
+
+	PHP_MALIAS(Phalcon_DI, __set, set, arginfo___set, ZEND_ACC_PUBLIC)
+	PHP_MALIAS(Phalcon_DI, __get, get, arginfo___get, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };
 
