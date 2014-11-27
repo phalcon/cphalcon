@@ -18,6 +18,8 @@
 */
 
 #include "config/adapter/ini.h"
+#include "config/adapter.h"
+#include "config/adapterinterface.h"
 #include "config/exception.h"
 #include "pconfig.h"
 
@@ -30,6 +32,7 @@
 #include "kernel/array.h"
 #include "kernel/hash.h"
 #include "kernel/operators.h"
+#include "kernel/object.h"
 
 /**
  * Phalcon\Config\Adapter\Ini
@@ -63,14 +66,10 @@
  */
 zend_class_entry *phalcon_config_adapter_ini_ce;
 
-PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct);
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_config_adapter_ini___construct, 0, 0, 1)
-	ZEND_ARG_INFO(0, filePath)
-ZEND_END_ARG_INFO()
+PHP_METHOD(Phalcon_Config_Adapter_Ini, load);
 
 static const zend_function_entry phalcon_config_adapter_ini_method_entry[] = {
-	PHP_ME(Phalcon_Config_Adapter_Ini, __construct, arginfo_phalcon_config_adapter_ini___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_ME(Phalcon_Config_Adapter_Ini, load, arginfo_phalcon_config_adapter_load, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };
 
@@ -122,54 +121,70 @@ static void phalcon_config_adapter_ini_update_zval_directive(zval **arr, zval *s
  */
 PHALCON_INIT_CLASS(Phalcon_Config_Adapter_Ini){
 
-	PHALCON_REGISTER_CLASS_EX(Phalcon\\Config\\Adapter, Ini, config_adapter_ini, phalcon_config_ce, phalcon_config_adapter_ini_method_entry, 0);
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Config\\Adapter, Ini, config_adapter_ini, phalcon_config_adapter_ce, phalcon_config_adapter_ini_method_entry, 0);
+
+	zend_class_implements(phalcon_config_adapter_ini_ce TSRMLS_CC, 1, phalcon_config_adapterinterface_ce);
 
 	return SUCCESS;
 }
 
 /**
- * Phalcon\Config\Adapter\Ini constructor
+ * Load config file
  *
  * @param string $filePath
  */
-PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct){
+PHP_METHOD(Phalcon_Config_Adapter_Ini, load){
 
-	zval **file_path, *ini_config = NULL;
+	zval *file_path, *absolute_path = NULL, *config_dir_path, *base_path, *ini_config = NULL;
 	zval *config, *directives = NULL;
 	zval *section = NULL, *value = NULL, *key = NULL, *directive_parts = NULL;
 	HashTable *ah0, *ah1;
 	HashPosition hp0, hp1;
 	zval **hd;
 
-	phalcon_fetch_params_ex(1, 0, &file_path);
-	PHALCON_ENSURE_IS_STRING(file_path);
-
 	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 1, 1, &file_path, &absolute_path);
+	PHALCON_ENSURE_IS_STRING(&file_path);
+
+	if (absolute_path == NULL) {
+		absolute_path = PHALCON_GLOBAL(z_false);
+	}
+
+	if (zend_is_true(absolute_path)) {
+		PHALCON_CPY_WRT(config_dir_path, file_path);
+	} else {
+		PHALCON_OBS_VAR(base_path);
+		phalcon_read_property_this(&base_path, this_ptr, SL("_basePath"), PH_NOISY TSRMLS_CC);
+
+		PHALCON_INIT_VAR(config_dir_path);
+		PHALCON_CONCAT_VV(config_dir_path, base_path, file_path);
+	}
 
 	/** 
 	 * Use the standard parse_ini_file
 	 */
-	PHALCON_CALL_FUNCTION(&ini_config, "parse_ini_file", *file_path, PHALCON_GLOBAL(z_true));
-	
+	PHALCON_CALL_FUNCTION(&ini_config, "parse_ini_file", config_dir_path, PHALCON_GLOBAL(z_true));
+
 	/** 
 	 * Check if the file had errors
 	 */
 	if (Z_TYPE_P(ini_config) != IS_ARRAY) {
-		zend_throw_exception_ex(phalcon_config_exception_ce, 0 TSRMLS_CC, "Configuration file '%s' cannot be loaded", Z_STRVAL_PP(file_path));
+		zend_throw_exception_ex(phalcon_config_exception_ce, 0 TSRMLS_CC, "Configuration file '%s' cannot be loaded", Z_STRVAL_P(config_dir_path));
 		PHALCON_MM_RESTORE();
 		return;
 	}
-	
+
 	PHALCON_INIT_VAR(config);
 	array_init(config);
-	
+
 	phalcon_is_iterable(ini_config, &ah0, &hp0, 0, 0);
-	
+
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
-	
+
 		PHALCON_GET_HKEY(section, ah0, hp0);
 		PHALCON_GET_HVALUE(directives);
-	
+
 		if (unlikely(Z_TYPE_P(directives) != IS_ARRAY) || zend_hash_num_elements(Z_ARRVAL_P(directives)) == 0) {
 			phalcon_array_update_zval(&config, section, directives, PH_COPY);
 		}
@@ -192,14 +207,13 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct){
 				zend_hash_move_forward_ex(ah1, &hp1);
 			}
 		}
-	
+
 		zend_hash_move_forward_ex(ah0, &hp0);
 	}
-	
-	/** 
-	 * Calls the Phalcon\Config constructor
-	 */
-	PHALCON_CALL_PARENT(NULL, phalcon_config_adapter_ini_ce, this_ptr, "__construct", config);
-	
-	PHALCON_MM_RESTORE();
+
+	if (Z_TYPE_P(config) == IS_ARRAY) {
+		phalcon_config_construct_internal(getThis(), config TSRMLS_CC);
+	}
+
+	RETURN_THIS();
 }

@@ -18,12 +18,16 @@
 */
 
 #include "config/adapter/yaml.h"
+#include "config/adapter.h"
+#include "config/adapterinterface.h"
 #include "pconfig.h"
 
 #include "kernel/main.h"
 #include "kernel/file.h"
 #include "kernel/string.h"
+#include "kernel/concat.h"
 #include "kernel/fcall.h"
+#include "kernel/object.h"
 
 /**
  * Phalcon\Config\Adapter\Yaml
@@ -50,47 +54,58 @@
  */
 zend_class_entry *phalcon_config_adapter_yaml_ce;
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_config_adapter_yaml___construct, 0, 0, 1)
-	ZEND_ARG_INFO(0, filePath)
-ZEND_END_ARG_INFO()
-
-PHP_METHOD(Phalcon_Config_Adapter_Yaml, __construct);
+PHP_METHOD(Phalcon_Config_Adapter_Yaml, load);
 
 static const zend_function_entry phalcon_config_adapter_yaml_method_entry[] = {
-	PHP_ME(Phalcon_Config_Adapter_Yaml, __construct, arginfo_phalcon_config_adapter_yaml___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_ME(Phalcon_Config_Adapter_Yaml, load, arginfo_phalcon_config_adapter_load, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };
-
 
 /**
  * Phalcon\Config\Adapter\Yaml initializer
  */
 PHALCON_INIT_CLASS(Phalcon_Config_Adapter_Yaml){
 
-	PHALCON_REGISTER_CLASS_EX(Phalcon\\Config\\Adapter, Yaml, config_adapter_yaml, phalcon_config_ce, phalcon_config_adapter_yaml_method_entry, 0);
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Config\\Adapter, Yaml, config_adapter_yaml, phalcon_config_adapter_ce, phalcon_config_adapter_yaml_method_entry, 0);
+
+	zend_class_implements(phalcon_config_adapter_yaml_ce TSRMLS_CC, 1, phalcon_config_adapterinterface_ce);
 
 	return SUCCESS;
 }
 
 /**
- * Phalcon\Config\Adapter\Yaml constructor
+ * Load config file
  *
  * @param string $filePath
  */
-PHP_METHOD(Phalcon_Config_Adapter_Yaml, __construct){
+PHP_METHOD(Phalcon_Config_Adapter_Yaml, load){
 
-	zval *file_path, *array = NULL;
+	zval *file_path, *absolute_path = NULL, *config_dir_path, *base_path, *array = NULL;
 
-	phalcon_fetch_params(0, 1, 0, &file_path);
+	PHALCON_MM_GROW();
 
-	PHALCON_CALL_FUNCTIONW(&array, "yaml_parse_file", file_path);
+	phalcon_fetch_params(1, 1, 1, &file_path, &absolute_path);
+	PHALCON_ENSURE_IS_STRING(&file_path);
 
-	if (Z_TYPE_P(array) != IS_ARRAY) {
-		ZVAL_NULL(array);
-		zval_ptr_dtor(&array);
-		return;
+	if (absolute_path == NULL) {
+		absolute_path = PHALCON_GLOBAL(z_false);
 	}
 
-	phalcon_config_construct_internal(getThis(), array TSRMLS_CC);
-	zval_ptr_dtor(&array);
+	if (zend_is_true(absolute_path)) {
+		PHALCON_CPY_WRT(config_dir_path, file_path);
+	} else {
+		PHALCON_OBS_VAR(base_path);
+		phalcon_read_property_this(&base_path, this_ptr, SL("_basePath"), PH_NOISY TSRMLS_CC);
+
+		PHALCON_INIT_VAR(config_dir_path);
+		PHALCON_CONCAT_VV(config_dir_path, base_path, file_path);
+	}
+
+	PHALCON_CALL_FUNCTION(&array, "yaml_parse_file", config_dir_path);
+
+	if (Z_TYPE_P(array) == IS_ARRAY) {
+		phalcon_config_construct_internal(getThis(), array TSRMLS_CC);
+	}
+
+	RETURN_THIS();
 }

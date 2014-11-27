@@ -71,11 +71,13 @@
 #include "cli/task.h"
 
 #include "pconfig.h"
+#include "config/adapter.h"
+#include "config/adapterinterface.h"
+#include "config/exception.h"
 #include "config/adapter/ini.h"
 #include "config/adapter/json.h"
 #include "config/adapter/php.h"
 #include "config/adapter/yaml.h"
-#include "config/exception.h"
 
 #include "crypt.h"
 #include "cryptinterface.h"

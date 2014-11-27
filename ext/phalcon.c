@@ -292,6 +292,7 @@ static PHP_MINIT_FUNCTION(phalcon)
 	PHALCON_INIT(Phalcon_Db_ResultInterface);
 	PHALCON_INIT(Phalcon_DispatcherInterface);
 	PHALCON_INIT(Phalcon_DI_ServiceInterface);
+	PHALCON_INIT(Phalcon_Config_AdapterInterface);
 	PHALCON_INIT(Phalcon_EscaperInterface);
 	PHALCON_INIT(Phalcon_Events_ManagerInterface);
 	PHALCON_INIT(Phalcon_FlashInterface);
@@ -378,6 +379,11 @@ static PHP_MINIT_FUNCTION(phalcon)
 	PHALCON_INIT(Phalcon_Cache_Frontend_Data);
 	PHALCON_INIT(Phalcon_DI_FactoryDefault);
 	PHALCON_INIT(Phalcon_Config);
+	PHALCON_INIT(Phalcon_Config_Adapter);
+	PHALCON_INIT(Phalcon_Config_Adapter_Ini);
+	PHALCON_INIT(Phalcon_Config_Adapter_Json);
+	PHALCON_INIT(Phalcon_Config_Adapter_Php);
+	PHALCON_INIT(Phalcon_Config_Adapter_Yaml);
 	PHALCON_INIT(Phalcon_Mvc_Router);
 	PHALCON_INIT(Phalcon_Acl_Adapter);
 	PHALCON_INIT(Phalcon_Session_Adapter);
@@ -475,10 +481,6 @@ static PHP_MINIT_FUNCTION(phalcon)
 	PHALCON_INIT(Phalcon_Logger_Adapter_File);
 	PHALCON_INIT(Phalcon_Logger_Adapter_Firephp);
 	PHALCON_INIT(Phalcon_Logger_Formatter_Syslog);
-	PHALCON_INIT(Phalcon_Config_Adapter_Ini);
-	PHALCON_INIT(Phalcon_Config_Adapter_Json);
-	PHALCON_INIT(Phalcon_Config_Adapter_Php);
-	PHALCON_INIT(Phalcon_Config_Adapter_Yaml);
 	PHALCON_INIT(Phalcon_Forms_Form);
 	PHALCON_INIT(Phalcon_Forms_Manager);
 	PHALCON_INIT(Phalcon_Forms_Element_Text);

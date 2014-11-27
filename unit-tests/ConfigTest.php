@@ -236,4 +236,12 @@ class ConfigTest extends PHPUnit_Framework_TestCase
 		$config = new Phalcon\Config\Adapter\Yaml('unit-tests/config/config.yml');
 		$this->assertTrue($this->_compareConfig($this->_config, $config));
 	}
+
+	public function testSetBasePath()
+	{
+		$config = new Phalcon\Config\Adapter\Php();
+		$config->setBasePath('unit-tests/');
+		$config->load('config/config.php');
+		$this->assertTrue($this->_compareConfig($this->_config, $config));
+	}
 }
