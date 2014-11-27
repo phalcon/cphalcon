@@ -528,7 +528,7 @@ class Memory extends Adapter
 		let this->_activeResource = resourceName;
 		let this->_activeAccess = access;
 		let accessList = this->_access;
-		let eventsManager = <\Phalcon\Events\Manager> this->_eventsManager;;
+		let eventsManager = <\Phalcon\Events\Manager> this->_eventsManager;
 
 		if typeof eventsManager == "object" {
 			if eventsManager->fire("acl:beforeCheckAccess", this) === false {
