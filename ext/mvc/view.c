@@ -73,6 +73,7 @@ PHP_METHOD(Phalcon_Mvc_View, getLayoutsDir);
 PHP_METHOD(Phalcon_Mvc_View, setPartialsDir);
 PHP_METHOD(Phalcon_Mvc_View, getPartialsDir);
 PHP_METHOD(Phalcon_Mvc_View, setBasePath);
+PHP_METHOD(Phalcon_Mvc_View, getBasePath);
 PHP_METHOD(Phalcon_Mvc_View, getCurrentRenderLevel);
 PHP_METHOD(Phalcon_Mvc_View, getRenderLevel);
 PHP_METHOD(Phalcon_Mvc_View, setRenderLevel);
@@ -168,6 +169,7 @@ static const zend_function_entry phalcon_mvc_view_method_entry[] = {
 	PHP_ME(Phalcon_Mvc_View, setPartialsDir, arginfo_phalcon_mvc_viewinterface_setpartialsdir, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_View, getPartialsDir, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_View, setBasePath, arginfo_phalcon_mvc_viewinterface_setbasepath, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_View, getBasePath, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_View, getCurrentRenderLevel, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_View, getRenderLevel, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_View, setRenderLevel, arginfo_phalcon_mvc_viewinterface_setrenderlevel, ZEND_ACC_PUBLIC)
@@ -417,6 +419,16 @@ PHP_METHOD(Phalcon_Mvc_View, setBasePath){
 	phalcon_add_trailing_slash(base_path);
 	phalcon_update_property_this(this_ptr, SL("_basePath"), *base_path TSRMLS_CC);
 	RETURN_THISW();
+}
+
+/**
+ * Gets base path
+ *
+ * @return string
+ */
+PHP_METHOD(Phalcon_Mvc_View, getBasePath){
+
+	RETURN_MEMBER(this_ptr, "_basePath");
 }
 
 /**

@@ -18,6 +18,8 @@
 */
 
 #include "config/adapter/php.h"
+#include "config/adapter.h"
+#include "config/adapterinterface.h"
 #include "config/exception.h"
 #include "pconfig.h"
 
@@ -26,6 +28,8 @@
 #include "kernel/fcall.h"
 #include "kernel/array.h"
 #include "kernel/require.h"
+#include "kernel/concat.h"
+#include "kernel/object.h"
 
 /**
  * Phalcon\Config\Adapter\Php
@@ -63,14 +67,10 @@
  */
 zend_class_entry *phalcon_config_adapter_php_ce;
 
-PHP_METHOD(Phalcon_Config_Adapter_Php, __construct);
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_config_adapter_php___construct, 0, 0, 1)
-	ZEND_ARG_INFO(0, filePath)
-ZEND_END_ARG_INFO()
+PHP_METHOD(Phalcon_Config_Adapter_Php, load);
 
 static const zend_function_entry phalcon_config_adapter_php_method_entry[] = {
-	PHP_ME(Phalcon_Config_Adapter_Php, __construct, arginfo_phalcon_config_adapter_php___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_ME(Phalcon_Config_Adapter_Php, load, arginfo_phalcon_config_adapter_load, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_FE_END
 };
 
@@ -79,30 +79,50 @@ static const zend_function_entry phalcon_config_adapter_php_method_entry[] = {
  */
 PHALCON_INIT_CLASS(Phalcon_Config_Adapter_Php){
 
-	PHALCON_REGISTER_CLASS_EX(Phalcon\\Config\\Adapter, Php, config_adapter_php, phalcon_config_ce, phalcon_config_adapter_php_method_entry, 0);
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Config\\Adapter, Php, config_adapter_php, phalcon_config_adapter_ce, phalcon_config_adapter_php_method_entry, 0);
+
+	zend_class_implements(phalcon_config_adapter_php_ce TSRMLS_CC, 1, phalcon_config_adapterinterface_ce);
 
 	return SUCCESS;
 }
 
 /**
- * Phalcon\Config\Adapter\Php constructor
+ * Load config file
  *
  * @param string $filePath
  */
-PHP_METHOD(Phalcon_Config_Adapter_Php, __construct){
+PHP_METHOD(Phalcon_Config_Adapter_Php, load){
 
-	zval **file_path, *config = NULL;
+	zval *file_path, *absolute_path = NULL, *config_dir_path, *base_path, *config = NULL;
 
-	phalcon_fetch_params_ex(1, 0, &file_path);
-	PHALCON_ENSURE_IS_STRING(file_path);
+	PHALCON_MM_GROW();
 
-	if (phalcon_require_ret(&config, Z_STRVAL_PP(file_path) TSRMLS_CC) == FAILURE) {
-		zend_throw_exception_ex(phalcon_config_exception_ce, 0 TSRMLS_CC, "Configuration file '%s' cannot be loaded", Z_STRVAL_PP(file_path));
+	phalcon_fetch_params(1, 1, 1, &file_path, &absolute_path);
+	PHALCON_ENSURE_IS_STRING(&file_path);
+
+	if (absolute_path == NULL) {
+		absolute_path = PHALCON_GLOBAL(z_false);
+	}
+
+	if (zend_is_true(absolute_path)) {
+		PHALCON_CPY_WRT(config_dir_path, file_path);
+	} else {
+		PHALCON_OBS_VAR(base_path);
+		phalcon_read_property_this(&base_path, this_ptr, SL("_basePath"), PH_NOISY TSRMLS_CC);
+
+		PHALCON_INIT_VAR(config_dir_path);
+		PHALCON_CONCAT_VV(config_dir_path, base_path, file_path);
+	}
+
+	if (phalcon_require_ret(&config, Z_STRVAL_P(config_dir_path) TSRMLS_CC) == FAILURE) {
+		zend_throw_exception_ex(phalcon_config_exception_ce, 0 TSRMLS_CC, "Configuration file '%s' cannot be loaded", Z_STRVAL_P(config_dir_path));
+		PHALCON_MM_RESTORE();
 		return;
 	}
 
-	PHALCON_MM_GROW();
-	Z_DELREF_P(config);
-	PHALCON_CALL_PARENT(NULL, phalcon_config_adapter_php_ce, this_ptr, "__construct", config);
-	PHALCON_MM_RESTORE();
+	if (Z_TYPE_P(config) == IS_ARRAY) {
+		phalcon_config_construct_internal(getThis(), config TSRMLS_CC);
+	}
+
+	RETURN_THIS();
 }

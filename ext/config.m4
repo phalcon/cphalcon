@@ -232,11 +232,14 @@ mvc/jsonrpc/exception.c \
 jsonrpc/client.c \
 jsonrpc/client/exception.c \
 jsonrpc/client/response.c \
+config.c \
+config/adapter.c \
+config/adapterinterface.c \
+config/exception.c \
 config/adapter/ini.c \
 config/adapter/json.c \
 config/adapter/php.c \
 config/adapter/yaml.c \
-config/exception.c \
 filterinterface.c \
 logger/multiple.c \
 logger/formatter/firephp.c \
@@ -314,7 +317,6 @@ session/adapter/libmemcached.c \
 diinterface.c \
 escaper.c \
 crypt/exception.c \
-config.c \
 events/managerinterface.c \
 events/manager.c \
 events/event.c \

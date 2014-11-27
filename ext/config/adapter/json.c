@@ -19,11 +19,15 @@
 */
 
 #include "config/adapter/json.h"
+#include "config/adapter.h"
+#include "config/adapterinterface.h"
 #include "pconfig.h"
 
 #include "kernel/main.h"
 #include "kernel/file.h"
 #include "kernel/string.h"
+#include "kernel/concat.h"
+#include "kernel/object.h"
 
 /**
  * Phalcon\Config\Adapter\Json
@@ -47,14 +51,10 @@
  */
 zend_class_entry *phalcon_config_adapter_json_ce;
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_config_adapter_json___construct, 0, 0, 1)
-	ZEND_ARG_INFO(0, filePath)
-ZEND_END_ARG_INFO()
-
-PHP_METHOD(Phalcon_Config_Adapter_Json, __construct);
+PHP_METHOD(Phalcon_Config_Adapter_Json, load);
 
 static const zend_function_entry phalcon_config_adapter_json_method_entry[] = {
-	PHP_ME(Phalcon_Config_Adapter_Json, __construct, arginfo_phalcon_config_adapter_json___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_ME(Phalcon_Config_Adapter_Json, load, arginfo_phalcon_config_adapter_load, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_FE_END
 };
 
@@ -64,41 +64,52 @@ static const zend_function_entry phalcon_config_adapter_json_method_entry[] = {
  */
 PHALCON_INIT_CLASS(Phalcon_Config_Adapter_Json){
 
-	PHALCON_REGISTER_CLASS_EX(Phalcon\\Config\\Adapter, Json, config_adapter_json, phalcon_config_ce, phalcon_config_adapter_json_method_entry, 0);
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Config\\Adapter, Json, config_adapter_json, phalcon_config_adapter_ce, phalcon_config_adapter_json_method_entry, 0);
+
+	zend_class_implements(phalcon_config_adapter_json_ce TSRMLS_CC, 1, phalcon_config_adapterinterface_ce);
 
 	return SUCCESS;
 }
 
 /**
- * Phalcon\Config\Adapter\Json constructor
+ * Load config file
  *
  * @param string $filePath
  */
-PHP_METHOD(Phalcon_Config_Adapter_Json, __construct){
+PHP_METHOD(Phalcon_Config_Adapter_Json, load){
 
-	zval *file_path, *contents, *array;
+	zval *file_path, *absolute_path = NULL, *config_dir_path, *base_path, *contents, *array;
 
-	phalcon_fetch_params(0, 1, 0, &file_path);
+	PHALCON_MM_GROW();
 
-	ALLOC_INIT_ZVAL(contents);
-	ALLOC_INIT_ZVAL(array);
-	phalcon_file_get_contents(contents, file_path TSRMLS_CC);
+	phalcon_fetch_params(1, 1, 1, &file_path, &absolute_path);
+	PHALCON_ENSURE_IS_STRING(&file_path);
+
+	if (absolute_path == NULL) {
+		absolute_path = PHALCON_GLOBAL(z_false);
+	}
+
+	if (zend_is_true(absolute_path)) {
+		PHALCON_CPY_WRT(config_dir_path, file_path);
+	} else {
+		PHALCON_OBS_VAR(base_path);
+		phalcon_read_property_this(&base_path, this_ptr, SL("_basePath"), PH_NOISY TSRMLS_CC);
+
+		PHALCON_INIT_VAR(config_dir_path);
+		PHALCON_CONCAT_VV(config_dir_path, base_path, file_path);
+	}
+
+	PHALCON_INIT_VAR(contents);
+	PHALCON_INIT_VAR(array);
+	phalcon_file_get_contents(contents, config_dir_path TSRMLS_CC);
 
 	if (Z_TYPE_P(contents) == IS_STRING) {
-		if (FAILURE == phalcon_json_decode(array, contents, 1 TSRMLS_CC)) {
-			zval_ptr_dtor(&contents);
-			zval_ptr_dtor(&array);
-			return;
+		if (phalcon_json_decode(array, contents, 1 TSRMLS_CC) != FAILURE) {
+			if (Z_TYPE_P(array) == IS_ARRAY) {
+				phalcon_config_construct_internal(getThis(), array TSRMLS_CC);
+			}
 		}
 	}
 
-	zval_ptr_dtor(&contents);
-
-	if (Z_TYPE_P(array) != IS_ARRAY) {
-		zval_dtor(array);
-		array_init_size(array, 0);
-	}
-
-	phalcon_config_construct_internal(getThis(), array TSRMLS_CC);
-	zval_ptr_dtor(&array);
+	RETURN_THIS();
 }
