@@ -414,6 +414,7 @@
 #include "chart/exception.h"
 
 #include "scws.h"
+#include "async.h"
 
 #include "version.h"
 

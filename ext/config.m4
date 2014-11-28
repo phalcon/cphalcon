@@ -412,6 +412,7 @@ chart/qrcode.c \
 chart/captcha.c \
 chart/exception.c \
 scws.c \
+async.c \
 registry.c"
 
 	AC_MSG_CHECKING([Include non-free minifiers])
