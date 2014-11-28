@@ -25,8 +25,8 @@
 zend_class_entry *phalcon_config_adapterinterface_ce;
 
 static const zend_function_entry phalcon_config_adapterinterface_method_entry[] = {
-	PHP_ABSTRACT_ME(Phalcon_Config_AdapterInterface, setBasePath, arginfo_phalcon_config_adapterinterface_setbasepath)
-	PHP_ABSTRACT_ME(Phalcon_Config_AdapterInterface, getBasePath, NULL)
+	ZEND_FENTRY(setBasePath, NULL, arginfo_phalcon_config_adapterinterface_setbasepath, ZEND_ACC_STATIC|ZEND_ACC_ABSTRACT|ZEND_ACC_PUBLIC)
+	ZEND_FENTRY(getBasePath, NULL, NULL, ZEND_ACC_STATIC|ZEND_ACC_ABSTRACT|ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };
 
