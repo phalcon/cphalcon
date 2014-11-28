@@ -135,8 +135,8 @@ PHALCON_INIT_CLASS(Phalcon_Config_Adapter_Ini){
  */
 PHP_METHOD(Phalcon_Config_Adapter_Ini, load){
 
-	zval *file_path, *absolute_path = NULL, *config_dir_path, *base_path, *ini_config = NULL;
-	zval *config, *directives = NULL;
+	zval *file_path, *absolute_path = NULL, *config_dir_path, *base_path;
+	zval *ini_config = NULL, *config, *directives = NULL;
 	zval *section = NULL, *value = NULL, *key = NULL, *directive_parts = NULL;
 	HashTable *ah0, *ah1;
 	HashPosition hp0, hp1;
@@ -154,8 +154,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, load){
 	if (zend_is_true(absolute_path)) {
 		PHALCON_CPY_WRT(config_dir_path, file_path);
 	} else {
-		PHALCON_OBS_VAR(base_path);
-		phalcon_read_property_this(&base_path, this_ptr, SL("_basePath"), PH_NOISY TSRMLS_CC);
+		base_path = phalcon_fetch_static_property_ce(phalcon_config_adapter_ce, SL("_basePath") TSRMLS_CC);
 
 		PHALCON_INIT_VAR(config_dir_path);
 		PHALCON_CONCAT_VV(config_dir_path, base_path, file_path);
