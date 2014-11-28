@@ -35,6 +35,7 @@
 zend_class_entry *phalcon_config_adapter_ce;
 
 PHP_METHOD(Phalcon_Config_Adapter, __construct);
+PHP_METHOD(Phalcon_Config_Adapter, factory);
 PHP_METHOD(Phalcon_Config_Adapter, setBasePath);
 PHP_METHOD(Phalcon_Config_Adapter, getBasePath);
 
@@ -43,10 +44,16 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_config_adapter___construct, 0, 0, 0)
 	ZEND_ARG_INFO(0, absolutePath)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_config_adapter_factory, 0, 0, 0)
+	ZEND_ARG_INFO(0, filePath)
+	ZEND_ARG_INFO(0, absolutePath)
+ZEND_END_ARG_INFO()
+
 static const zend_function_entry phalcon_config_adapter_method_entry[] = {
 	PHP_ME(Phalcon_Config_Adapter, __construct, arginfo_phalcon_config_adapter___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
-	PHP_ME(Phalcon_Config_Adapter, setBasePath, arginfo_phalcon_config_adapterinterface_setbasepath, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Config_Adapter, getBasePath, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Config_Adapter, factory, arginfo_phalcon_config_adapter_factory, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Config_Adapter, setBasePath, arginfo_phalcon_config_adapterinterface_setbasepath, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Config_Adapter, getBasePath, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 
 	ZEND_FENTRY(load, NULL, arginfo_phalcon_config_adapter_load, ZEND_ACC_PUBLIC|ZEND_ACC_ABSTRACT)
 	PHP_FE_END
@@ -59,7 +66,7 @@ PHALCON_INIT_CLASS(Phalcon_Config_Adapter){
 
 	PHALCON_REGISTER_CLASS_EX(Phalcon\\Config, Adapter, config_adapter, phalcon_config_ce, phalcon_config_adapter_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
 
-	zend_declare_property_string(phalcon_config_adapter_ce, SL("_basePath"), "", ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_string(phalcon_config_adapter_ce, SL("_basePath"), "", ZEND_ACC_PROTECTED|ZEND_ACC_STATIC TSRMLS_CC);
 
 	zend_class_implements(phalcon_config_adapter_ce TSRMLS_CC, 1, phalcon_config_adapterinterface_ce);
 
@@ -92,6 +99,40 @@ PHP_METHOD(Phalcon_Config_Adapter, __construct){
 }
 
 /**
+ * Phalcon\Config\Adapter factory
+ *
+ * @param string $filePath
+ * @param string $absolutePath
+ */
+PHP_METHOD(Phalcon_Config_Adapter, factory){
+
+	zval *file_path = NULL, *absolute_path = NULL, *class_name;
+	zend_class_entry *ce0;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 0, 2, &file_path, &absolute_path);
+
+	PHALCON_INIT_VAR(class_name);
+	phalcon_get_called_class(class_name  TSRMLS_CC);
+	ce0 = phalcon_fetch_class(class_name TSRMLS_CC);
+
+	object_init_ex(return_value, ce0);
+
+	if (file_path) {
+		if (absolute_path == NULL) {
+			absolute_path = PHALCON_GLOBAL(z_false);
+		}
+
+		PHALCON_CALL_METHOD(NULL, return_value, "__construct", file_path, absolute_path);
+	} else {
+		PHALCON_CALL_METHOD(NULL, return_value, "__construct");
+	}
+
+	PHALCON_MM_RESTORE();
+}
+
+/**
  * Sets base path
  *
  * @param string $basePath
@@ -104,8 +145,7 @@ PHP_METHOD(Phalcon_Config_Adapter, setBasePath){
 	phalcon_fetch_params_ex(1, 0, &base_path);
 
 	phalcon_add_trailing_slash(base_path);
-	phalcon_update_property_this(this_ptr, SL("_basePath"), *base_path TSRMLS_CC);
-	RETURN_THISW();
+	phalcon_update_static_property_ce(phalcon_config_adapter_ce, SL("_basePath"), *base_path TSRMLS_CC);
 }
 
 /**
@@ -115,5 +155,9 @@ PHP_METHOD(Phalcon_Config_Adapter, setBasePath){
  */
 PHP_METHOD(Phalcon_Config_Adapter, getBasePath){
 
-	RETURN_MEMBER(this_ptr, "_basePath");
+	zval *base_path;
+	
+	base_path = phalcon_fetch_static_property_ce(phalcon_config_adapter_ce, SL("_basePath") TSRMLS_CC);
+
+	RETURN_ZVAL(base_path, 1, 0);
 }
