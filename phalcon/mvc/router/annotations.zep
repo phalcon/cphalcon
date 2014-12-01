@@ -129,8 +129,8 @@ class Annotations extends Router
 						 */
 						let prefix = scope[0];
 
-						if typeof prefix == "string" {
-							if starts_with(realUri, prefix) {
+						if !empty prefix {
+							if !starts_with(realUri, prefix) {
 								continue;
 							}
 						}

@@ -79,6 +79,27 @@ class ProductsController
 
 }
 
+class AboutController
+{
+
+	/**
+	 * @Get("/about")
+	 */
+	public function indexAction()
+	{
+
+	}
+
+	/**
+	 * @Get("/about/team")
+	 */
+	public function saveAction()
+	{
+
+	}
+
+}
+
 class RouterMvcAnnotationsTest extends PHPUnit_Framework_TestCase
 {
 	public function _getDI()
@@ -94,12 +115,25 @@ class RouterMvcAnnotationsTest extends PHPUnit_Framework_TestCase
 
 		$router = new Phalcon\Mvc\Router\Annotations(false);
 		$router->setDI($this->_getDI());
+		$router->addResource('Robots', '/');
+		$router->addResource('Products', '/products');
+		$router->addResource('About', '/about');
+		$router->handle('/products');
+		$this->assertEquals(count($router->getRoutes()), 6);
 
+		$router = new Phalcon\Mvc\Router\Annotations(false);
+		$router->setDI($this->_getDI());
+		$router->addResource('Robots', '/');
+		$router->addResource('Products', '/products');
+		$router->addResource('About', '/about');
+		$router->handle('/about');
+		$this->assertEquals(count($router->getRoutes()), 5);
+
+		$router = new Phalcon\Mvc\Router\Annotations(false);
+		$router->setDI($this->_getDI());
 		$router->addResource('Robots');
 		$router->addResource('Products');
-
 		$router->handle();
-
 		$this->assertEquals(count($router->getRoutes()), 6);
 
 		$route = $router->getRouteByName('save-robot');
