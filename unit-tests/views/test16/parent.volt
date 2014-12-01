@@ -1,0 +1,1 @@
+{{ 'hello1' }}{% block block1 %}{{ 'hello2' }}{% endblock %}

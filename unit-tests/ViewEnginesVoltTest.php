@@ -1083,7 +1083,10 @@ class ViewEnginesVoltTest extends PHPUnit_Framework_TestCase
 		$compilation = $volt->compileString('{# some comment #}{{ "hello" }}{# other comment }}');
 		$this->assertEquals($compilation, "<?php echo 'hello'; ?>");
 
-		//
+		//Autoescape from options
+		$volt->setOption("autoescape", true);
+		$compilation = $volt->compileString('{{ "hello" }}{% autoescape true %}{{ "hello" }}{% autoescape false %}{{ "hello" }}{% endautoescape %}{{ "hello" }}{% endautoescape %}{{ "hello" }}');
+		$this->assertEquals($compilation, "<?php echo \$this->escaper->escapeHtml('hello'); ?><?php echo \$this->escaper->escapeHtml('hello'); ?><?php echo 'hello'; ?><?php echo \$this->escaper->escapeHtml('hello'); ?><?php echo \$this->escaper->escapeHtml('hello'); ?>");
 
 	}
 
@@ -1270,6 +1273,33 @@ Clearly, the song is: <?php echo $this->getContent(); ?>.
 		$this->assertEquals(file_get_contents($path), 'Hello <?php echo $song; ?>!');
 		$this->assertEquals($view->getContent(), 'Hello Lights!');
 
+	}
+
+	public function testVoltCompilerAutoescape()
+	{
+		@unlink('unit-tests/views/test16/parent.volt.php');
+		@unlink('unit-tests/views/test16/parent.volt%%e%%.php');
+		@unlink('unit-tests/views/test16/children.volt.php');
+		@unlink('unit-tests/views/test16/children.volt%%e%%.php');
+		@unlink('unit-tests/views/test16/children2.volt.php');
+
+		$view = new Phalcon\Mvc\View();
+		$view->setViewsDir('unit-tests/views/test16/');
+		$volt = new \Phalcon\Mvc\View\Engine\Volt\Compiler($view);
+		$volt->setOption('autoescape', true);
+
+
+		$volt->compile('unit-tests/views/test16/parent.volt');
+		$compilation = trim(file_get_contents('unit-tests/views/test16/parent.volt.php'));
+		$this->assertEquals($compilation, "<?php echo \$this->escaper->escapeHtml('hello1'); ?><?php echo \$this->escaper->escapeHtml('hello2'); ?>");
+
+		$volt->compile('unit-tests/views/test16/children.volt');
+		$compilation = trim(file_get_contents('unit-tests/views/test16/children.volt.php'));
+		$this->assertEquals($compilation, "<?php echo \$this->escaper->escapeHtml('hello1'); ?><?php echo \$this->escaper->escapeHtml('hello2'); ?><?php echo \$this->escaper->escapeHtml('hello3'); ?>");
+
+		$volt->compile('unit-tests/views/test16/children2.volt');
+		$compilation = trim(file_get_contents('unit-tests/views/test16/children2.volt.php'));
+		$this->assertEquals($compilation, "<?php echo \$this->escaper->escapeHtml('hello1'); ?><?php echo \$this->escaper->escapeHtml('hello2'); ?><?php echo \$this->escaper->escapeHtml('hello3'); ?><?php echo \$this->escaper->escapeHtml('hello4'); ?>");
 	}
 
 	public function testVoltEngine()

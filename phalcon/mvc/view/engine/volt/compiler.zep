@@ -2286,6 +2286,13 @@ class Compiler implements InjectionAwareInterface
 		 */
 		if typeof intermediate == "array" {
 
+			/**
+			 * Autoescape option
+			 */
+			if isset this->_options["autoescape"] {
+				let this->_autoescape = this->_options["autoescape"];
+			}
+
 			let compilation = this->_statementList(intermediate, extendsMode);
 
 			/**
