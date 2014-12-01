@@ -51,10 +51,10 @@
  */
 zend_class_entry *phalcon_config_adapter_json_ce;
 
-PHP_METHOD(Phalcon_Config_Adapter_Json, load);
+PHP_METHOD(Phalcon_Config_Adapter_Json, read);
 
 static const zend_function_entry phalcon_config_adapter_json_method_entry[] = {
-	PHP_ME(Phalcon_Config_Adapter_Json, load, arginfo_phalcon_config_adapter_load, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_ME(Phalcon_Config_Adapter_Json, read, arginfo_phalcon_config_adapter_read, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_FE_END
 };
 
@@ -76,7 +76,7 @@ PHALCON_INIT_CLASS(Phalcon_Config_Adapter_Json){
  *
  * @param string $filePath
  */
-PHP_METHOD(Phalcon_Config_Adapter_Json, load){
+PHP_METHOD(Phalcon_Config_Adapter_Json, read){
 
 	zval *file_path, *absolute_path = NULL, *config_dir_path, *base_path, *contents, *array;
 

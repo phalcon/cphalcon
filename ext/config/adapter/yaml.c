@@ -54,10 +54,10 @@
  */
 zend_class_entry *phalcon_config_adapter_yaml_ce;
 
-PHP_METHOD(Phalcon_Config_Adapter_Yaml, load);
+PHP_METHOD(Phalcon_Config_Adapter_Yaml, read);
 
 static const zend_function_entry phalcon_config_adapter_yaml_method_entry[] = {
-	PHP_ME(Phalcon_Config_Adapter_Yaml, load, arginfo_phalcon_config_adapter_load, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Config_Adapter_Yaml, read, arginfo_phalcon_config_adapter_read, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };
 
@@ -78,7 +78,7 @@ PHALCON_INIT_CLASS(Phalcon_Config_Adapter_Yaml){
  *
  * @param string $filePath
  */
-PHP_METHOD(Phalcon_Config_Adapter_Yaml, load){
+PHP_METHOD(Phalcon_Config_Adapter_Yaml, read){
 
 	zval *file_path, *absolute_path = NULL, *config_dir_path, *base_path = NULL, *array = NULL;
 

@@ -66,10 +66,10 @@
  */
 zend_class_entry *phalcon_config_adapter_ini_ce;
 
-PHP_METHOD(Phalcon_Config_Adapter_Ini, load);
+PHP_METHOD(Phalcon_Config_Adapter_Ini, read);
 
 static const zend_function_entry phalcon_config_adapter_ini_method_entry[] = {
-	PHP_ME(Phalcon_Config_Adapter_Ini, load, arginfo_phalcon_config_adapter_load, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Config_Adapter_Ini, read, arginfo_phalcon_config_adapter_read, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };
 
@@ -133,7 +133,7 @@ PHALCON_INIT_CLASS(Phalcon_Config_Adapter_Ini){
  *
  * @param string $filePath
  */
-PHP_METHOD(Phalcon_Config_Adapter_Ini, load){
+PHP_METHOD(Phalcon_Config_Adapter_Ini, read){
 
 	zval *file_path, *absolute_path = NULL, *config_dir_path, *base_path;
 	zval *ini_config = NULL, *config, *directives = NULL;
@@ -169,7 +169,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, load){
 	 * Check if the file had errors
 	 */
 	if (Z_TYPE_P(ini_config) != IS_ARRAY) {
-		zend_throw_exception_ex(phalcon_config_exception_ce, 0 TSRMLS_CC, "Configuration file '%s' cannot be loaded", Z_STRVAL_P(config_dir_path));
+		zend_throw_exception_ex(phalcon_config_exception_ce, 0 TSRMLS_CC, "Configuration file '%s' cannot be read", Z_STRVAL_P(config_dir_path));
 		PHALCON_MM_RESTORE();
 		return;
 	}

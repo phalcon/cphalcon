@@ -28,7 +28,17 @@ extern zend_class_entry *phalcon_config_adapter_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Config_Adapter);
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_config_adapter_load, 0, 0, 1)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_config_adapter___construct, 0, 0, 0)
+	ZEND_ARG_INFO(0, filePath)
+	ZEND_ARG_INFO(0, absolutePath)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_config_adapter_factory, 0, 0, 0)
+	ZEND_ARG_INFO(0, filePath)
+	ZEND_ARG_INFO(0, absolutePath)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_config_adapter_read, 0, 0, 1)
 	ZEND_ARG_INFO(0, filePath)
 	ZEND_ARG_INFO(0, absolutePath)
 ZEND_END_ARG_INFO()
