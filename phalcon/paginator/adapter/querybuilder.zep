@@ -167,7 +167,7 @@ class QueryBuilder implements AdapterInterface
 	 */
 	public function getPaginate() -> <\stdClass>
 	{
-		var originalBuilder, builder, totalBuilder, totalPages,
+		var originalBuilder, builder, totalBuilder, groupByColumns, totalPages,
 			limit, numberPage, number, query, page, before, items, totalQuery,
 			result, row, rowcount, intTotalPages, next;
 
@@ -220,9 +220,30 @@ class QueryBuilder implements AdapterInterface
 			page->items = items;
 
 		/**
-		 * Change the queried columns by a COUNT(*)
+		 * Check if totalBuilder need some tweaking for aggregated results
+		 * @todo: Support aggregated results by JOIN clausules
 		 */
-		totalBuilder->columns("COUNT(*) [rowcount]");
+		let groupByColumns = originalBuilder->getGroupBy();
+		if groupByColumns {
+			if is_array(groupByColumns) {
+				let groupByColumns = implode(',', groupByColumns);
+			}
+
+			/**
+			 * Change the queried columns by a COUNT(*) equivalent for aggregated results
+			 */
+			totalBuilder->columns("COUNT(DISTINCT " . groupByColumns . ") AS [rowcount]");
+
+			/**
+			 * Remove the 'GROUP BY' clause since 'COUNT(DISTINCT ...)' will produce the same result count
+			 */
+			totalBuilder->groupBy(null);
+		} else {
+			/**
+			 * Change the queried columns by a COUNT(*)
+			 */
+			totalBuilder->columns("COUNT(*) [rowcount]");
+		}
 
 		/**
 		 * Remove the 'ORDER BY' clause, PostgreSQL requires this
@@ -239,13 +260,8 @@ class QueryBuilder implements AdapterInterface
 		 */
 		let result = totalQuery->execute(),
 			row = result->getFirst(),
-			rowcount = row->rowcount,
-			totalPages = rowcount / limit;
-
-		let intTotalPages = intval(totalPages);
-		if intTotalPages != totalPages {
-			let totalPages = intTotalPages + 1;
-		}
+			rowcount = intval(row->rowcount),
+			totalPages = ceil(rowcount / limit);
 
 		if numberPage < totalPages {
 			let next = numberPage + 1;
