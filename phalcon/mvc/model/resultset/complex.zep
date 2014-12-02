@@ -44,7 +44,7 @@ class Complex extends Resultset implements ResultsetInterface
 	 * @param Phalcon\Db\ResultInterface result
 	 * @param Phalcon\Cache\BackendInterface cache
 	 */
-	public function __construct(var columnTypes, <ResultInterface> result, <BackendInterface> cache = null)
+	public function __construct(var columnTypes, result, <BackendInterface> cache = null)
 	{
 
 		/**
