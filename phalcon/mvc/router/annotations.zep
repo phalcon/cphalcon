@@ -341,6 +341,8 @@ class Annotations extends Router
 			 * Add HTTP constraint methods
 			 */
 			if methods !== null {
+				route->via(methods);
+			} else {
 				let methods = annotation->getNamedArgument("methods");
 				if typeof methods == "array" {
 					route->via(methods);
@@ -349,8 +351,6 @@ class Annotations extends Router
 						route->via(methods);
 					}
 				}
-			} else {
-				route->via(methods);
 			}
 
 			/**
