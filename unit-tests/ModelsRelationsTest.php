@@ -18,6 +18,10 @@
   +------------------------------------------------------------------------+
 */
 
+use Some\Objects\NamespaceParts;
+use Some\Persons\NamespaceRobots;
+use Some\Service\NamespaceRobotsParts;
+
 class ModelsRelationsTest extends PHPUnit_Framework_TestCase
 {
 
@@ -227,6 +231,33 @@ class ModelsRelationsTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(count($robotsParts), 2);
 		$this->assertEquals($robotsParts->getFirst()->parts_id, 3);
 
+		//test that alias is based on model name only (not namespace)
+		//hasOne
+		$robot = NamespaceRobots::findFirst();
+		$this->assertEquals(get_class($robot->namespaceRobots), 'Some\Persons\NamespaceRobots');
+		$this->assertEquals($robot->namespaceRobots, $robot->getRelated('Some\Persons\NamespaceRobots'));
+		$this->assertEquals($robot->namespaceRobots, $robot->getRelated('NamespaceRobots'));
+		$this->assertEquals($robot->namespaceRobots->id, $robot->id);
+		//manyToMany
+		$this->assertEquals(get_class($robot->namespaceParts), 'Phalcon\Mvc\Model\Resultset\Simple');
+		$this->assertEquals($robot->namespaceParts, $robot->getRelated('Some\Objects\NamespaceParts'));
+		$this->assertEquals($robot->namespaceParts, $robot->getRelated('NamespaceParts'));
+		$this->assertEquals(count($robot->namespaceParts), 3);
+		//hasMany
+		$this->assertEquals(get_class($robot->namespaceRobotsParts), 'Phalcon\Mvc\Model\Resultset\Simple');
+		$this->assertEquals($robot->namespaceRobotsParts, $robot->getRelated('Some\Service\namespaceRobotsParts'));
+		$this->assertEquals($robot->namespaceRobotsParts, $robot->getRelated('namespaceRobotsParts'));
+		$this->assertEquals(count($robot->namespaceRobotsParts), 3);
+		$parts = NamespaceParts::findFirst();
+		$this->assertEquals(get_class($parts->namespaceRobotsParts), 'Phalcon\Mvc\Model\Resultset\Simple');
+		$this->assertEquals($parts->namespaceRobotsParts, $parts->getRelated('Some\Service\NamespaceRobotsParts'));
+		$this->assertEquals($parts->namespaceRobotsParts, $parts->getRelated('namespaceRobotsParts'));
+		$this->assertEquals(count($parts->namespaceRobotsParts), 1);
+		//belongsTo
+		$robotsParts = NamespaceRobotsParts::findFirst();
+		$this->assertEquals(get_class($robotsParts->namespaceRobots), 'Some\Persons\NamespaceRobots');
+		$this->assertEquals($robotsParts->namespaceRobots, $robotsParts->getRelated('Some\Persons\NamespaceRobots'));
+		$this->assertEquals($robotsParts->namespaceRobots, $robotsParts->getRelated('NamespaceRobots'));
 	}
 
 	public function _executeTestsRenamed($di)

@@ -743,10 +743,11 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 		var referencedFields, var options=null) -> <Relation>
 	{
 		var entityName, referencedEntity, relation,
-			keyRelation, relations, alias, lowerAlias, singleRelations;
+			keyRelation, relations, alias, lowerAlias, lowerAliasNameOnly, singleRelations, slashPos;
 
 		let entityName = get_class_lower(model),
-			referencedEntity = strtolower(referencedModel);
+			referencedEntity = strtolower(referencedModel),
+			lowerAliasNameOnly = null;
 
 		let keyRelation = entityName . "$" . referencedEntity;
 
@@ -781,6 +782,11 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 			let lowerAlias = strtolower(alias);
 		} else {
 			let lowerAlias = referencedEntity;
+
+			let slashPos = strrpos(referencedEntity, "\\");
+			if slashPos !== false {
+				let lowerAliasNameOnly = substr(referencedEntity, slashPos+1);
+			}
 		}
 
 		/**
@@ -791,6 +797,10 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 		let relations[] = relation,
 			this->_aliases[entityName . "$" . lowerAlias] = relation,
 			this->_hasOne[keyRelation] = relations;
+
+		if lowerAliasNameOnly !== null {
+			let this->_aliases[entityName . "$" . lowerAliasNameOnly] = relation;
+		}
 
 		/**
 		 * Get existing relations by model
@@ -825,10 +835,12 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	public function addBelongsTo(<ModelInterface> model, var fields, string! referencedModel,
 		var referencedFields, var options = null) -> <Relation>
 	{
-		var entityName, referencedEntity, relation, keyRelation, relations, alias, lowerAlias, singleRelations;
+		var entityName, referencedEntity, relation, keyRelation, relations, alias, lowerAlias, lowerAliasNameOnly,
+			singleRelations, slashPos;
 
 		let entityName = get_class_lower(model),
-			referencedEntity = strtolower(referencedModel);
+			referencedEntity = strtolower(referencedModel),
+			lowerAliasNameOnly = null;
 
 		let keyRelation = entityName . "$" . referencedEntity;
 
@@ -863,6 +875,11 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 			let lowerAlias = strtolower(alias);
 		} else {
 			let lowerAlias = referencedEntity;
+
+			let slashPos = strrpos(referencedEntity, "\\");
+			if slashPos !== false {
+				let lowerAliasNameOnly = substr(referencedEntity, slashPos+1);
+			}
 		}
 
 		/**
@@ -873,6 +890,10 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 		let relations[] = relation,
 			this->_aliases[entityName . "$" . lowerAlias] = relation,
 			this->_belongsTo[keyRelation] = relations;
+
+		if lowerAliasNameOnly !== null {
+			let this->_aliases[entityName . "$" . lowerAliasNameOnly] = relation;
+		}
 
 		/**
 		 * Get existing relations by model
@@ -907,11 +928,12 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 		var referencedFields, var options = null) -> <Relation>
 	{
 		var entityName, referencedEntity, hasMany, relation,
-			keyRelation, relations, alias, lowerAlias, singleRelations;
+			keyRelation, relations, alias, lowerAlias, lowerAliasNameOnly, singleRelations, slashPos;
 
 		let entityName = get_class_lower(model),
 			referencedEntity = strtolower(referencedModel),
-			keyRelation = entityName . "$" . referencedEntity;
+			keyRelation = entityName . "$" . referencedEntity,
+			lowerAliasNameOnly = null;
 
 		let hasMany = this->_hasMany;
 		if !fetch relations, hasMany[keyRelation] {
@@ -945,6 +967,11 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 			let lowerAlias = strtolower(alias);
 		} else {
 			let lowerAlias = referencedEntity;
+
+			let slashPos = strrpos(referencedEntity, "\\");
+			if slashPos !== false {
+				let lowerAliasNameOnly = substr(referencedEntity, slashPos+1);
+			}
 		}
 
 		/**
@@ -955,6 +982,10 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 		let relations[] = relation,
 			this->_aliases[entityName . "$" . lowerAlias] = relation,
 			this->_hasMany[keyRelation] = relations;
+
+		if lowerAliasNameOnly !== null {
+			let this->_aliases[entityName . "$" . lowerAliasNameOnly] = relation;
+		}
 
 		/**
 		 * Get existing relations by model
@@ -992,13 +1023,14 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	public function addHasManyToMany(<ModelInterface> model, var fields, string! intermediateModel,
 		var intermediateFields, var intermediateReferencedFields, string! referencedModel, var referencedFields, var options = null) -> <Relation>
 	{
-		var entityName, referencedEntity, hasManyToMany, relation,
-			keyRelation, relations, alias, lowerAlias, singleRelations, intermediateEntity;
+		var entityName, referencedEntity, hasManyToMany, relation, keyRelation,
+			relations, alias, lowerAlias, lowerAliasNameOnly, singleRelations, intermediateEntity, slashPos;
 
 		let entityName = get_class_lower(model),
 			intermediateEntity = strtolower(intermediateModel),
 			referencedEntity = strtolower(referencedModel),
-			keyRelation = entityName . "$" . referencedEntity;
+			keyRelation = entityName . "$" . referencedEntity,
+			lowerAliasNameOnly = null;
 
 		let hasManyToMany = this->_hasManyToMany;
 		if !fetch relations, hasManyToMany[keyRelation] {
@@ -1046,6 +1078,11 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 			let lowerAlias = strtolower(alias);
 		} else {
 			let lowerAlias = referencedEntity;
+
+			let slashPos = strrpos(referencedEntity, "\\");
+			if slashPos !== false {
+				let lowerAliasNameOnly = substr(referencedEntity, slashPos+1);
+			}
 		}
 
 		/**
@@ -1057,6 +1094,9 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 		 * Update the global alias
 		 */
 		let this->_aliases[entityName . "$" . lowerAlias] = relation;
+		if lowerAliasNameOnly !== null {
+			let this->_aliases[entityName . "$" . lowerAliasNameOnly] = relation;
+		}
 
 		/**
 		 * Update the relations
