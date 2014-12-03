@@ -4218,7 +4218,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _preSaveRelatedRecords){
 	 * Start an implicit transaction
 	 */
 	PHALCON_CALL_METHOD(NULL, connection, "begin", nesting);
-	
+
 	PHALCON_INIT_VAR(class_name);
 	phalcon_get_class(class_name, this_ptr, 0 TSRMLS_CC);
 	
