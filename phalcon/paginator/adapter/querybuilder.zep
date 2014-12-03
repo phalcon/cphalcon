@@ -240,13 +240,8 @@ class QueryBuilder implements AdapterInterface
 		let result = totalQuery->execute(),
 			row = result->getFirst(),
 			rowcount = intval(row->rowcount),
-			totalPages = rowcount / limit;
-
-		let intTotalPages = intval(totalPages);
-		if intTotalPages != totalPages {
-			let totalPages = intTotalPages + 1;
-		}
-
+			totalPages = ceil(rowcount / limit);
+			
 		if numberPage < totalPages {
 			let next = numberPage + 1;
 		} else {
