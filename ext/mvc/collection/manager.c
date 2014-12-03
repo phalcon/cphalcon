@@ -71,6 +71,28 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, useImplicitObjectIds);
 PHP_METHOD(Phalcon_Mvc_Collection_Manager, isUsingImplicitObjectIds);
 PHP_METHOD(Phalcon_Mvc_Collection_Manager, getConnection);
 PHP_METHOD(Phalcon_Mvc_Collection_Manager, notifyEvent);
+PHP_METHOD(Phalcon_Mvc_Collection_Manager, setSource);
+PHP_METHOD(Phalcon_Mvc_Collection_Manager, getSource);
+PHP_METHOD(Phalcon_Mvc_Collection_Manager, setColumnMap);
+PHP_METHOD(Phalcon_Mvc_Collection_Manager, getColumnMap);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_collection_manager_setsource, 0, 0, 2)
+	ZEND_ARG_INFO(0, collection)
+	ZEND_ARG_INFO(0, source)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_collection_manager_getsource, 0, 0, 1)
+	ZEND_ARG_INFO(0, collection)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_collection_manager_setcolumnmap, 0, 0, 2)
+	ZEND_ARG_INFO(0, collection)
+	ZEND_ARG_INFO(0, schema)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_collection_manager_getcolumnmap, 0, 0, 1)
+	ZEND_ARG_INFO(0, collection)
+ZEND_END_ARG_INFO()
 
 static const zend_function_entry phalcon_mvc_collection_manager_method_entry[] = {
 	PHP_ME(Phalcon_Mvc_Collection_Manager, setDI, arginfo_phalcon_di_injectionawareinterface_setdi, ZEND_ACC_PUBLIC)
@@ -87,6 +109,10 @@ static const zend_function_entry phalcon_mvc_collection_manager_method_entry[] =
 	PHP_ME(Phalcon_Mvc_Collection_Manager, isUsingImplicitObjectIds, arginfo_phalcon_mvc_collection_managerinterface_isusingimplicitobjectids, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Collection_Manager, getConnection, arginfo_phalcon_mvc_collection_managerinterface_getconnection, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Collection_Manager, notifyEvent, arginfo_phalcon_mvc_collection_managerinterface_notifyevent, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Collection_Manager, setSource, arginfo_phalcon_mvc_collection_manager_setsource, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Collection_Manager, getSource, arginfo_phalcon_mvc_collection_manager_getsource, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Collection_Manager, setColumnMap, arginfo_phalcon_mvc_collection_manager_setcolumnmap, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Collection_Manager, getColumnMap, arginfo_phalcon_mvc_collection_manager_getcolumnmap, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };
 
@@ -104,6 +130,8 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Collection_Manager){
 	zend_declare_property_null(phalcon_mvc_collection_manager_ce, SL("_customEventsManager"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_collection_manager_ce, SL("_connectionServices"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_collection_manager_ce, SL("_implicitObjectsIds"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_collection_manager_ce, SL("_sources"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_collection_manager_ce, SL("_columnMaps"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	zend_class_implements(phalcon_mvc_collection_manager_ce TSRMLS_CC, 3, phalcon_di_injectionawareinterface_ce, phalcon_events_eventsawareinterface_ce, phalcon_mvc_collection_managerinterface_ce);
 
@@ -499,3 +527,141 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, notifyEvent){
 	RETURN_CCTOR(status);
 }
 
+/**
+ * Sets the mapped source for a collection
+ *
+ * @param Phalcon\Mvc\Collection $collection
+ * @param string $source
+ */
+PHP_METHOD(Phalcon_Mvc_Collection_Manager, setSource){
+
+	zval *collection, *source, *entity_name;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 2, 0, &collection, &source);
+
+	if (Z_TYPE_P(collection) != IS_OBJECT) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_collection_exception_ce, "Collection is not an object");
+		return;
+	}
+
+	if (Z_TYPE_P(source) != IS_STRING) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_collection_exception_ce, "Source must be a string");
+		return;
+	}
+
+	PHALCON_INIT_VAR(entity_name);
+	phalcon_get_class(entity_name, collection, 1 TSRMLS_CC);
+	phalcon_update_property_array(this_ptr, SL("_sources"), entity_name, source TSRMLS_CC);
+
+	PHALCON_MM_RESTORE();
+}
+
+/**
+ * Returns the mapped source for a collection
+ *
+ * @param Phalcon\Mvc\Collection $collection
+ * @return string
+ */
+PHP_METHOD(Phalcon_Mvc_Collection_Manager, getSource){
+
+	zval *collection, *entity_name, *sources, *source = NULL, *class_name;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 1, 0, &collection);
+
+	if (Z_TYPE_P(collection) != IS_OBJECT) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_collection_exception_ce, "Collection is not an object");
+		return;
+	}
+
+	PHALCON_INIT_VAR(entity_name);
+	phalcon_get_class(entity_name, collection, 1 TSRMLS_CC);
+
+	PHALCON_OBS_VAR(sources);
+	phalcon_read_property_this(&sources, this_ptr, SL("_sources"), PH_NOISY TSRMLS_CC);
+	if (Z_TYPE_P(sources) == IS_ARRAY) { 
+		if (phalcon_array_isset(sources, entity_name)) {
+			PHALCON_OBS_VAR(source);
+			phalcon_array_fetch(&source, sources, entity_name, PH_NOISY);
+			RETURN_CTOR(source);
+		}
+	}
+
+	PHALCON_INIT_VAR(class_name);
+	phalcon_get_class_ns(class_name, collection, 0 TSRMLS_CC);
+
+	PHALCON_INIT_NVAR(source);
+	phalcon_uncamelize(source, class_name);
+	phalcon_update_property_array(this_ptr, SL("_sources"), entity_name, source TSRMLS_CC);
+
+	RETURN_CTOR(source);
+}
+
+/**
+ * Sets the column map for a collection
+ *
+ * @param Phalcon\Mvc\Collection $collection
+ * @param array $columnMap
+ */
+PHP_METHOD(Phalcon_Mvc_Collection_Manager, setColumnMap){
+
+	zval *collection, *column_map, *entity_name;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 2, 0, &collection, &column_map);
+
+	if (Z_TYPE_P(collection) != IS_OBJECT) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_collection_exception_ce, "Collection is not an object");
+		return;
+	}
+
+	if (Z_TYPE_P(column_map) != IS_ARRAY) { 
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_collection_exception_ce, "ColumnMap must be an array");
+		return;
+	}
+
+	PHALCON_INIT_VAR(entity_name);
+	phalcon_get_class(entity_name, collection, 1 TSRMLS_CC);
+	phalcon_update_property_array(this_ptr, SL("_columnMaps"), entity_name, column_map TSRMLS_CC);
+
+	PHALCON_MM_RESTORE();
+}
+
+/**
+ * Returns the column map for a collection
+ *
+ * @param Phalcon\Mvc\Collection $collection
+ * @return array
+ */
+PHP_METHOD(Phalcon_Mvc_Collection_Manager, getColumnMap){
+
+	zval *collection, *entity_name, *column_maps, *column_map = NULL;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 1, 0, &collection);
+
+	if (Z_TYPE_P(collection) != IS_OBJECT) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_collection_exception_ce, "Collection is not an object");
+		return;
+	}
+
+	PHALCON_INIT_VAR(entity_name);
+	phalcon_get_class(entity_name, collection, 1 TSRMLS_CC);
+
+	PHALCON_OBS_VAR(column_maps);
+	phalcon_read_property_this(&column_maps, this_ptr, SL("_columnMaps"), PH_NOISY TSRMLS_CC);
+	if (Z_TYPE_P(column_maps) == IS_ARRAY) { 
+		if (phalcon_array_isset(column_maps, entity_name)) {
+			PHALCON_OBS_VAR(column_map);
+			phalcon_array_fetch(&column_map, column_maps, entity_name, PH_NOISY);
+			RETURN_CTOR(column_map);
+		}
+	}
+
+	RETURN_MM_NULL();
+}
