@@ -202,6 +202,7 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_validate, 0, 0, 1)
 	ZEND_ARG_INFO(0, validator)
 	ZEND_ARG_INFO(0, allow_empty)
+	ZEND_ARG_INFO(0, ex)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_skipoperation, 0, 0, 1)
@@ -2524,7 +2525,7 @@ PHP_METHOD(Phalcon_Mvc_Model, appendMessage){
  */
 PHP_METHOD(Phalcon_Mvc_Model, validate){
 
-	zval *validator, *allow_empty = NULL, *field = NULL, *handler;
+	zval *validator, *allow_empty = NULL, *ex = NULL, *field = NULL, *handler;
 	zval *arguments, *type, *code, *pairs, *message_str, *message = NULL;
 	zval *model_message;
 	zval *status = NULL, *messages = NULL, *errors, *new_errors;
@@ -2532,7 +2533,15 @@ PHP_METHOD(Phalcon_Mvc_Model, validate){
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 1, 1, &validator, &allow_empty);
+	phalcon_fetch_params(1, 1, 2, &validator, &allow_empty, &ex);
+
+	if (!allow_empty) {
+		allow_empty = PHALCON_GLOBAL(z_false);
+	}
+
+	if (!ex) {
+		ex = PHALCON_GLOBAL(z_false);
+	}
 	
 	if (Z_TYPE_P(validator) == IS_ARRAY) {
 		if (!phalcon_array_isset_string(validator, SS("field"))) {
@@ -2558,7 +2567,7 @@ PHP_METHOD(Phalcon_Mvc_Model, validate){
 
 		PHALCON_CALL_METHOD(&value, this_ptr, "readattribute", field);
 
-		if (allow_empty && zend_is_true(allow_empty)) {
+		if (zend_is_true(allow_empty)) {
 			if (PHALCON_IS_EMPTY(value)) {
 				RETURN_THIS();
 			}
@@ -2615,6 +2624,11 @@ PHP_METHOD(Phalcon_Mvc_Model, validate){
 			phalcon_array_append(&errors, model_message, PH_SEPARATE);
 
 			phalcon_update_property_this(this_ptr, SL("_errorMessages"), errors TSRMLS_CC);
+
+			if (zend_is_true(ex)) {
+				PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, message);
+				return;
+			}
 		}
 
 		RETURN_THIS();
@@ -2625,11 +2639,12 @@ PHP_METHOD(Phalcon_Mvc_Model, validate){
 	 */
 	PHALCON_VERIFY_INTERFACE_EX(validator, phalcon_mvc_model_validatorinterface_ce, phalcon_mvc_model_exception_ce, 1);
 
-	if (allow_empty && zend_is_true(allow_empty)) {
-		PHALCON_INIT_VAR(option);
-		ZVAL_STRING(option, "field", 1);
+	PHALCON_INIT_VAR(option);
+	ZVAL_STRING(option, "field", 1);
 
-		PHALCON_CALL_METHOD(&field, validator, "getoption", option);
+	PHALCON_CALL_METHOD(&field, validator, "getoption", option);
+
+	if (zend_is_true(allow_empty)) {
 		PHALCON_CALL_METHOD(&value, this_ptr, "readattribute", field);
 
 		if (PHALCON_IS_EMPTY(value)) {
@@ -2653,6 +2668,13 @@ PHP_METHOD(Phalcon_Mvc_Model, validate){
 				phalcon_update_property_this(this_ptr, SL("_errorMessages"), new_errors TSRMLS_CC);
 			} else {
 				phalcon_update_property_this(this_ptr, SL("_errorMessages"), messages TSRMLS_CC);
+			}
+
+			if (zend_is_true(ex)) {
+				PHALCON_INIT_NVAR(message);
+				PHALCON_CONCAT_SVS(message, "Validation '", field, "' failed");
+				PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, message);
+				return;
 			}
 		}
 		else {

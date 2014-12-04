@@ -62,6 +62,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_flash_session_getmessages, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_flash_session_output, 0, 0, 0)
+	ZEND_ARG_INFO(0, type)
 	ZEND_ARG_INFO(0, remove)
 ZEND_END_ARG_INFO()
 
@@ -232,11 +233,11 @@ PHP_METHOD(Phalcon_Flash_Session, getMessages){
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 0, 2, &type, &remove);
-	
+
 	if (!type) {
 		type = PHALCON_GLOBAL(z_null);
 	}
-	
+
 	if (!remove) {
 		remove = PHALCON_GLOBAL(z_true);
 	}
@@ -279,36 +280,39 @@ PHP_METHOD(Phalcon_Flash_Session, getMessages){
  */
 PHP_METHOD(Phalcon_Flash_Session, output){
 
-	zval *remove = NULL, *messages = NULL, *message = NULL, *type = NULL;
+	zval *type = NULL, *remove = NULL, *messages = NULL, *message = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 0, 1, &remove);
-	
+	phalcon_fetch_params(1, 0, 2, &type, &remove);
+
+	if (!type) {
+		type = PHALCON_GLOBAL(z_null);
+	}
+
 	if (!remove) {
 		remove = PHALCON_GLOBAL(z_true);
 	}
-	
-	PHALCON_CALL_METHOD(&messages, this_ptr, "_getsessionmessages", remove);
+
+	PHALCON_CALL_METHOD(&messages, this_ptr, "getmessages", type, remove);
 	if (Z_TYPE_P(messages) == IS_ARRAY) { 
-	
+
 		phalcon_is_iterable(messages, &ah0, &hp0, 0, 0);
-	
+
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
-	
+
 			PHALCON_GET_HKEY(type, ah0, hp0);
 			PHALCON_GET_HVALUE(message);
-	
+
 			PHALCON_CALL_METHOD(NULL, this_ptr, "outputmessage", type, message);
-	
+
 			zend_hash_move_forward_ex(ah0, &hp0);
 		}
-	
 	}
-	
+
 	PHALCON_MM_RESTORE();
 }
 

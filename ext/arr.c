@@ -46,6 +46,7 @@ PHP_METHOD(Phalcon_Arr, path);
 PHP_METHOD(Phalcon_Arr, set_path);
 PHP_METHOD(Phalcon_Arr, range);
 PHP_METHOD(Phalcon_Arr, get);
+PHP_METHOD(Phalcon_Arr, choice);
 PHP_METHOD(Phalcon_Arr, extract);
 PHP_METHOD(Phalcon_Arr, pluck);
 PHP_METHOD(Phalcon_Arr, unshift);
@@ -88,6 +89,13 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_arr_get, 0, 0, 2)
 	ZEND_ARG_INFO(0, array)
 	ZEND_ARG_INFO(0, key)
 	ZEND_ARG_INFO(0, default_value)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_arr_choice, 0, 0, 3)
+	ZEND_ARG_INFO(0, array)
+	ZEND_ARG_INFO(0, key)
+	ZEND_ARG_INFO(0, value1)
+	ZEND_ARG_INFO(0, value2)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_arr_extract, 0, 0, 2)
@@ -147,6 +155,7 @@ static const zend_function_entry phalcon_arr_method_entry[] = {
 	PHP_ME(Phalcon_Arr, set_path, arginfo_phalcon_arr_set_path, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Arr, range, arginfo_phalcon_arr_range, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Arr, get, arginfo_phalcon_arr_get, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Arr, choice, arginfo_phalcon_arr_choice, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Arr, extract, arginfo_phalcon_arr_extract, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Arr, pluck, arginfo_phalcon_arr_pluck, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Arr, unshift, arginfo_phalcon_arr_unshift, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
@@ -530,6 +539,25 @@ PHP_METHOD(Phalcon_Arr, get){
 	}
 
 	PHALCON_MM_RESTORE();
+}
+
+PHP_METHOD(Phalcon_Arr, choice){
+
+	zval *array, *key, *value1, *value2 = NULL;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 3, 1, &array, &key, &value1, &value2);
+
+	if (!value2) {
+		value2 = PHALCON_GLOBAL(z_null);
+	}
+
+	if (phalcon_array_isset(array, key)) {
+		RETURN_CTOR(value1);
+	}
+
+	RETURN_CTOR(value2);
 }
 
 /**
