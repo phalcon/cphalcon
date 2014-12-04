@@ -101,8 +101,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Php, __construct){
 		return;
 	}
 
-	PHALCON_MM_GROW();
-	Z_DELREF_P(config);
-	PHALCON_CALL_PARENT(NULL, phalcon_config_adapter_php_ce, this_ptr, "__construct", config);
-	PHALCON_MM_RESTORE();
+	if (Z_TYPE_P(config) == IS_ARRAY) {
+		phalcon_config_construct_internal(getThis(), config TSRMLS_CC);
+	}
 }
