@@ -28,6 +28,7 @@ static const zend_function_entry phalcon_session_adapterinterface_method_entry[]
 	PHP_ABSTRACT_ME(Phalcon_Session_AdapterInterface, getOptions, arginfo_phalcon_session_adapterinterface_getoptions)
 	PHP_ABSTRACT_ME(Phalcon_Session_AdapterInterface, get, arginfo_phalcon_session_adapterinterface_get)
 	PHP_ABSTRACT_ME(Phalcon_Session_AdapterInterface, set, arginfo_phalcon_session_adapterinterface_set)
+	PHP_ABSTRACT_ME(Phalcon_Session_AdapterInterface, sets, arginfo_phalcon_session_adapterinterface_sets)
 	PHP_ABSTRACT_ME(Phalcon_Session_AdapterInterface, has, arginfo_phalcon_session_adapterinterface_has)
 	PHP_ABSTRACT_ME(Phalcon_Session_AdapterInterface, remove, arginfo_phalcon_session_adapterinterface_remove)
 	PHP_ABSTRACT_ME(Phalcon_Session_AdapterInterface, getId, arginfo_phalcon_session_adapterinterface_getid)
@@ -81,6 +82,13 @@ PHALCON_DOC_METHOD(Phalcon_Session_AdapterInterface, get);
  *
  * @param string $index
  * @param string $value
+ */
+PHALCON_DOC_METHOD(Phalcon_Session_AdapterInterface, set);
+
+/**
+ * Sets a session variables in an application context
+ *
+ * @param array $data
  */
 PHALCON_DOC_METHOD(Phalcon_Session_AdapterInterface, set);
 

@@ -51,6 +51,7 @@ PHP_METHOD(Phalcon_Session_Adapter, setOptions);
 PHP_METHOD(Phalcon_Session_Adapter, getOptions);
 PHP_METHOD(Phalcon_Session_Adapter, get);
 PHP_METHOD(Phalcon_Session_Adapter, set);
+PHP_METHOD(Phalcon_Session_Adapter, sets);
 PHP_METHOD(Phalcon_Session_Adapter, has);
 PHP_METHOD(Phalcon_Session_Adapter, remove);
 PHP_METHOD(Phalcon_Session_Adapter, getId);
@@ -77,6 +78,7 @@ static const zend_function_entry phalcon_session_adapter_method_entry[] = {
 	PHP_ME(Phalcon_Session_Adapter, getOptions, arginfo_phalcon_session_adapterinterface_getoptions, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Session_Adapter, get, arginfo_phalcon_session_adapterinterface_get, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Session_Adapter, set, arginfo_phalcon_session_adapterinterface_set, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Session_Adapter, sets, arginfo_phalcon_session_adapterinterface_sets, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Session_Adapter, has, arginfo_phalcon_session_adapterinterface_has, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Session_Adapter, remove, arginfo_phalcon_session_adapterinterface_remove, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Session_Adapter, getId, arginfo_phalcon_session_adapterinterface_getid, ZEND_ACC_PUBLIC)
@@ -575,6 +577,42 @@ PHP_METHOD(Phalcon_Session_Adapter, set){
 
 	phalcon_fetch_params(0, 2, 0, &index, &value);
 	phalcon_session_adapter_write_property_internal(getThis(), index, value TSRMLS_CC);
+}
+
+/**
+ * Sets a session variables in an application context
+ *
+ *<code>
+ *	$session->sets(array('auth', 'yes'));
+ *</code>
+ *
+ * @param array $data
+ */
+PHP_METHOD(Phalcon_Session_Adapter, sets){
+
+	zval *data, *index = NULL, *value = NULL;
+	HashTable *ah0;
+	HashPosition hp0;
+	zval **hd;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 1, 0, &data);
+
+	if (Z_TYPE_P(data) == IS_ARRAY) { 
+		phalcon_is_iterable(data, &ah0, &hp0, 0, 0);
+		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
+
+			PHALCON_GET_HKEY(index, ah0, hp0);
+			PHALCON_GET_HVALUE(value);
+
+			PHALCON_CALL_SELF(NULL, "set", index, value);
+
+			zend_hash_move_forward_ex(ah0, &hp0);
+		}
+	}
+
+	PHALCON_MM_RESTORE();
 }
 
 /**
