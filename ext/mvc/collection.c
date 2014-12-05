@@ -104,7 +104,6 @@ PHP_METHOD(Phalcon_Mvc_Collection, execute);
 PHP_METHOD(Phalcon_Mvc_Collection, incr);
 PHP_METHOD(Phalcon_Mvc_Collection, refresh);
 PHP_METHOD(Phalcon_Mvc_Collection, drop);
-PHP_METHOD(Phalcon_Mvc_Collection, __get);
 PHP_METHOD(Phalcon_Mvc_Collection, __callStatic);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_collection___construct, 0, 0, 0)
@@ -146,10 +145,6 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_collection_incr, 0, 0, 1)
 	ZEND_ARG_INFO(0, field)
 	ZEND_ARG_INFO(0, value)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_collection___get, 0, 0, 1)
-	ZEND_ARG_INFO(0, property)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_collection___callstatic, 0, 0, 1)
@@ -210,7 +205,6 @@ static const zend_function_entry phalcon_mvc_collection_method_entry[] = {
 	PHP_ME(Phalcon_Mvc_Collection, incr, arginfo_phalcon_mvc_collection_incr, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Collection, refresh, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Collection, drop, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
-	PHP_ME(Phalcon_Mvc_Collection, __get, arginfo_phalcon_mvc_collection___get, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Collection, __callStatic, arginfo_phalcon_mvc_collection___callstatic, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_FE_END
 };
@@ -881,13 +875,14 @@ PHP_METHOD(Phalcon_Mvc_Collection, cloneResult){
 PHP_METHOD(Phalcon_Mvc_Collection, _getResultset){
 
 	zval *params, *collection, *connection, *unique;
-	zval *source = NULL, *mongo_collection = NULL, *conditions = NULL;
-	zval *fields, *documents_cursor = NULL, *limit, *sort = NULL;
+	zval *source = NULL, *mongo_collection = NULL, *conditions = NULL, *id, *mongo_id;
+	zval *collection_manager = NULL, *use_implicit_ids = NULL, *fields, *documents_cursor = NULL, *limit, *sort = NULL;
 	zval *base = NULL, *document = NULL, *collections, *documents_array = NULL;
 	zval *collection_cloned = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
+	zend_class_entry *ce0;
 
 	PHALCON_MM_GROW();
 
@@ -911,6 +906,27 @@ PHP_METHOD(Phalcon_Mvc_Collection, _getResultset){
 	if (phalcon_array_isset_long(params, 0)) {
 		PHALCON_OBS_VAR(conditions);
 		phalcon_array_fetch_long(&conditions, params, 0, PH_NOISY);
+
+		if (phalcon_array_isset_string(conditions, SS("_id"))) {
+			PHALCON_OBS_VAR(id);
+			phalcon_array_fetch_string(&id, conditions, SL("_id"), PH_NOISY);
+
+			if (Z_TYPE_P(id) != IS_OBJECT) {
+				PHALCON_CALL_METHOD(&collection_manager, collection, "getcollectionmanager");
+
+				PHALCON_CALL_METHOD(&use_implicit_ids, collection_manager, "isusingimplicitobjectids", collection);
+				if (zend_is_true(use_implicit_ids)) {
+					ce0 = zend_fetch_class(SL("MongoId"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
+					PHALCON_INIT_VAR(mongo_id);
+					object_init_ex(mongo_id, ce0);
+					if (phalcon_has_constructor(mongo_id TSRMLS_CC)) {
+						PHALCON_CALL_METHOD(NULL, mongo_id, "__construct", id);
+					}
+
+					phalcon_array_update_string(&conditions, SL("_id"), mongo_id, PH_COPY);
+				}
+			}
+		}		
 	} else {
 		if (phalcon_array_isset_string(params, SS("conditions"))) {
 			PHALCON_OBS_NVAR(conditions);
@@ -2817,32 +2833,6 @@ PHP_METHOD(Phalcon_Mvc_Collection, drop){
 	}
 
 	RETURN_MM_FALSE;
-}
-
-/**
- *  Gets an attribute from the collection
- *
- * @param string $property
- * @return mixed
- */
-PHP_METHOD(Phalcon_Mvc_Collection, __get){
-
-	zval *property, *id_name = NULL, *collection_name;
-
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 0, &property);
-
-	if (phalcon_memnstr_str(property, SL("id"))) {
-		PHALCON_RETURN_CALL_SELF("getid");
-		RETURN_MM();
-	}
-	
-	PHALCON_INIT_VAR(collection_name);
-	phalcon_get_class(collection_name, this_ptr, 0 TSRMLS_CC);
-
-	zend_error(E_NOTICE, "Access to undefined property %s::%s", Z_STRVAL_P(collection_name), Z_STRVAL_P(property));
-	RETURN_MM_NULL();
 }
 
 /**
