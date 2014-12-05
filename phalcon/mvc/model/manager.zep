@@ -1359,7 +1359,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 			 * Compound relation
 			 */
 			let referencedFields = relation->getReferencedFields();
-			for refPosition, field in relation->getReferencedFields() {
+			for refPosition, field in fields {
 				let conditions[] = "[". referencedFields[refPosition] . "] = ?" . refPosition,
 					placeholders[] = record->readAttribute(field);
 			}
