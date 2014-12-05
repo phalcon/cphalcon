@@ -875,13 +875,14 @@ PHP_METHOD(Phalcon_Mvc_Collection, cloneResult){
 PHP_METHOD(Phalcon_Mvc_Collection, _getResultset){
 
 	zval *params, *collection, *connection, *unique;
-	zval *source = NULL, *mongo_collection = NULL, *conditions = NULL;
-	zval *fields, *documents_cursor = NULL, *limit, *sort = NULL;
+	zval *source = NULL, *mongo_collection = NULL, *conditions = NULL, *id, *mongo_id;
+	zval *collection_manager = NULL, *use_implicit_ids = NULL, *fields, *documents_cursor = NULL, *limit, *sort = NULL;
 	zval *base = NULL, *document = NULL, *collections, *documents_array = NULL;
 	zval *collection_cloned = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
+	zend_class_entry *ce0;
 
 	PHALCON_MM_GROW();
 
@@ -905,6 +906,27 @@ PHP_METHOD(Phalcon_Mvc_Collection, _getResultset){
 	if (phalcon_array_isset_long(params, 0)) {
 		PHALCON_OBS_VAR(conditions);
 		phalcon_array_fetch_long(&conditions, params, 0, PH_NOISY);
+
+		if (phalcon_array_isset_string(conditions, SS("_id"))) {
+			PHALCON_OBS_VAR(id);
+			phalcon_array_fetch_string(&id, conditions, SL("_id"), PH_NOISY);
+
+			if (Z_TYPE_P(id) != IS_OBJECT) {
+				PHALCON_CALL_METHOD(&collection_manager, collection, "getcollectionmanager");
+
+				PHALCON_CALL_METHOD(&use_implicit_ids, collection_manager, "isusingimplicitobjectids", collection);
+				if (zend_is_true(use_implicit_ids)) {
+					ce0 = zend_fetch_class(SL("MongoId"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
+					PHALCON_INIT_VAR(mongo_id);
+					object_init_ex(mongo_id, ce0);
+					if (phalcon_has_constructor(mongo_id TSRMLS_CC)) {
+						PHALCON_CALL_METHOD(NULL, mongo_id, "__construct", id);
+					}
+
+					phalcon_array_update_string(&conditions, SL("_id"), mongo_id, PH_COPY);
+				}
+			}
+		}		
 	} else {
 		if (phalcon_array_isset_string(params, SS("conditions"))) {
 			PHALCON_OBS_NVAR(conditions);
@@ -1730,14 +1752,6 @@ PHP_METHOD(Phalcon_Mvc_Collection, save){
 
 	disable_events = phalcon_fetch_static_property_ce(phalcon_mvc_collection_ce, SL("_disableEvents") TSRMLS_CC);
 
-	/**
-	 * Execute the preSave hook
-	 */
-	PHALCON_CALL_METHOD(&status, this_ptr, "_presave", dependency_injector, disable_events, exists);
-	if (PHALCON_IS_FALSE(status)) {
-		RETURN_MM_FALSE;
-	}
-
 	PHALCON_CALL_SELF(&column_map, "getcolumnmap", this_ptr);
 	if (Z_TYPE_P(column_map) != IS_ARRAY) { 
 		PHALCON_CALL_FUNCTION(&attributes, "get_object_vars", this_ptr);
@@ -1803,6 +1817,14 @@ PHP_METHOD(Phalcon_Mvc_Collection, save){
 
 			zend_hash_move_forward_ex(ah0, &hp0);
 		}
+	}
+
+	/**
+	 * Execute the preSave hook
+	 */
+	PHALCON_CALL_METHOD(&status, this_ptr, "_presave", dependency_injector, disable_events, exists);
+	if (PHALCON_IS_FALSE(status)) {
+		RETURN_MM_FALSE;
 	}
 
 	PHALCON_INIT_NVAR(status);
@@ -2824,7 +2846,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, __callStatic){
 
 	zval *method, *arguments = NULL, *extra_method = NULL;
 	zval *class_name, *exception_message = NULL;
-	zval *collection, *field = NULL, *value, *conditions, *params;
+	zval *collection, *extra_method_first = NULL, *field = NULL, *value, *conditions, *params;
 	zend_class_entry *ce0;
 	const char *type = NULL;
 
@@ -2892,8 +2914,20 @@ PHP_METHOD(Phalcon_Mvc_Collection, __callStatic){
 	}
 
 	if (!phalcon_isset_property_zval(collection, extra_method TSRMLS_CC)) {
-		PHALCON_INIT_NVAR(field);
-		phalcon_lcfirst(field, extra_method);
+		PHALCON_INIT_NVAR(extra_method_first);
+		phalcon_lcfirst(extra_method_first, extra_method);
+		if (phalcon_isset_property_zval(collection, extra_method_first TSRMLS_CC)) {
+			PHALCON_CPY_WRT(field, extra_method_first);
+		} else {
+			PHALCON_INIT_NVAR(field);
+			phalcon_uncamelize(field, extra_method);
+			if (!phalcon_isset_property_zval(collection, field TSRMLS_CC)) {
+				PHALCON_INIT_NVAR(exception_message);
+				PHALCON_CONCAT_SVS(exception_message, "Cannot resolve attribute \"", extra_method, "' in the model");
+				PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_collection_exception_ce, exception_message);
+				return;
+			}
+		}
 	} else {
 		PHALCON_CPY_WRT(field, extra_method);
 	}

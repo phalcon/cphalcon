@@ -280,7 +280,7 @@ PHP_METHOD(Phalcon_Flash_Session, getMessages){
  */
 PHP_METHOD(Phalcon_Flash_Session, output){
 
-	zval *type = NULL, *remove = NULL, *messages = NULL, *message = NULL;
+	zval *type = NULL, *remove = NULL, *messages = NULL, *message_type = NULL, *message = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -304,10 +304,10 @@ PHP_METHOD(Phalcon_Flash_Session, output){
 
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 
-			PHALCON_GET_HKEY(type, ah0, hp0);
+			PHALCON_GET_HKEY(message_type, ah0, hp0);
 			PHALCON_GET_HVALUE(message);
 
-			PHALCON_CALL_METHOD(NULL, this_ptr, "outputmessage", type, message);
+			PHALCON_CALL_METHOD(NULL, this_ptr, "outputmessage", message_type, message);
 
 			zend_hash_move_forward_ex(ah0, &hp0);
 		}
