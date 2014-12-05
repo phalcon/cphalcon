@@ -725,7 +725,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, assign){
 		 * Only string keys in the data are valid
 		 */
 		if (Z_TYPE_P(white_list) == IS_ARRAY) {
-			if (!phalcon_fast_in_array(key, white_list)) {
+			if (!phalcon_fast_in_array(key, white_list TSRMLS_CC)) {
 				zend_hash_move_forward_ex(ah0, &hp0);
 				continue;
 			}
