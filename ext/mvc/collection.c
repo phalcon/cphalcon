@@ -2846,7 +2846,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, __callStatic){
 
 	zval *method, *arguments = NULL, *extra_method = NULL;
 	zval *class_name, *exception_message = NULL;
-	zval *collection, *field = NULL, *value, *conditions, *params;
+	zval *collection, *extra_method_first = NULL, *field = NULL, *value, *conditions, *params;
 	zend_class_entry *ce0;
 	const char *type = NULL;
 
@@ -2914,8 +2914,20 @@ PHP_METHOD(Phalcon_Mvc_Collection, __callStatic){
 	}
 
 	if (!phalcon_isset_property_zval(collection, extra_method TSRMLS_CC)) {
-		PHALCON_INIT_NVAR(field);
-		phalcon_lcfirst(field, extra_method);
+		PHALCON_INIT_NVAR(extra_method_first);
+		phalcon_lcfirst(extra_method_first, extra_method);
+		if (phalcon_isset_property_zval(collection, extra_method_first TSRMLS_CC)) {
+			PHALCON_CPY_WRT(field, extra_method_first);
+		} else {
+			PHALCON_INIT_NVAR(field);
+			phalcon_uncamelize(field, extra_method);
+			if (!phalcon_isset_property_zval(collection, field TSRMLS_CC)) {
+				PHALCON_INIT_NVAR(exception_message);
+				PHALCON_CONCAT_SVS(exception_message, "Cannot resolve attribute \"", extra_method, "' in the model");
+				PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_collection_exception_ce, exception_message);
+				return;
+			}
+		}
 	} else {
 		PHALCON_CPY_WRT(field, extra_method);
 	}
