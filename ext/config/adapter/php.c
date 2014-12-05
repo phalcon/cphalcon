@@ -113,6 +113,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Php, read){
 		PHALCON_CONCAT_VV(config_dir_path, base_path, file_path);
 	}
 
+	PHALCON_OBS_VAR(config);
 	if (phalcon_require_ret(&config, Z_STRVAL_P(config_dir_path) TSRMLS_CC) == FAILURE) {
 		zend_throw_exception_ex(phalcon_config_exception_ce, 0 TSRMLS_CC, "Configuration file '%s' cannot be read", Z_STRVAL_P(config_dir_path));
 		PHALCON_MM_RESTORE();
