@@ -29,6 +29,7 @@ static const zend_function_entry phalcon_mvc_collectioninterface_method_entry[] 
 	PHP_ABSTRACT_ME(Phalcon_Mvc_CollectionInterface, getSource, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_CollectionInterface, setConnectionService, arginfo_phalcon_mvc_collectioninterface_setconnectionservice)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_CollectionInterface, getConnection, NULL)
+	PHP_ABSTRACT_ME(Phalcon_Mvc_CollectionInterface, assign, arginfo_phalcon_mvc_collectioninterface_assign)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_CollectionInterface, readAttribute, arginfo_phalcon_mvc_collectioninterface_readattribute)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_CollectionInterface, writeAttribute, arginfo_phalcon_mvc_collectioninterface_writeattribute)
 	ZEND_FENTRY(cloneResult, NULL, arginfo_phalcon_mvc_collectioninterface_cloneresult, ZEND_ACC_STATIC|ZEND_ACC_ABSTRACT|ZEND_ACC_PUBLIC)
@@ -99,6 +100,15 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_CollectionInterface, setConnectionService);
  * @return MongoDb
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_CollectionInterface, getConnection);
+
+/**
+ * Assigns values to a collection from an array
+ *
+ * @param array $data
+ * @param array $whiteList
+ * @return Phalcon\Mvc\Collection
+ */
+PHALCON_DOC_METHOD(Phalcon_Mvc_CollectionInterface, assign);
 
 /**
  * Reads an attribute value by its name

@@ -30,6 +30,7 @@ static const zend_function_entry phalcon_mvc_collection_managerinterface_method_
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Collection_ManagerInterface, getLastInitialized, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Collection_ManagerInterface, setConnectionService, arginfo_phalcon_mvc_collection_managerinterface_setconnectionservice)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Collection_ManagerInterface, useImplicitObjectIds, arginfo_phalcon_mvc_collection_managerinterface_useimplicitobjectids)
+	PHP_ABSTRACT_ME(Phalcon_Mvc_Collection_ManagerInterface, setStrictMode, arginfo_phalcon_mvc_collection_managerinterface_setstrictmode)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Collection_ManagerInterface, isUsingImplicitObjectIds, arginfo_phalcon_mvc_collection_managerinterface_isusingimplicitobjectids)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Collection_ManagerInterface, getConnection, arginfo_phalcon_mvc_collection_managerinterface_getconnection)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Collection_ManagerInterface, notifyEvent, arginfo_phalcon_mvc_collection_managerinterface_notifyevent)
@@ -107,6 +108,22 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_Collection_ManagerInterface, useImplicitObjectIds
  * @return boolean
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_Collection_ManagerInterface, isUsingImplicitObjectIds);
+
+/**
+ * Sets strict collection enbale or disable
+ *
+ * @param Phalcon\Mvc\CollectionInterface $collection
+ * @param boolean $strictMode
+ */
+PHALCON_DOC_METHOD(Phalcon_Mvc_Collection_ManagerInterface, setStrictMode);
+
+/**
+ * Checks if a collection is strict mode
+ *
+ * @param Phalcon\Mvc\CollectionInterface $collection
+ * @return boolean
+ */
+PHALCON_DOC_METHOD(Phalcon_Mvc_Collection_ManagerInterface, isStrictMode);
 
 /**
  * Returns the connection related to a model
