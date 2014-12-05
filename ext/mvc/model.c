@@ -1089,7 +1089,6 @@ PHP_METHOD(Phalcon_Mvc_Model, getWriteConnection){
  *));
  *</code>
  *
- * @param Phalcon\Mvc\Model $object
  * @param array $data
  * @param array $columnMap
  * @return Phalcon\Mvc\Model

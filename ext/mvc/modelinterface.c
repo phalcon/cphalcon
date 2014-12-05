@@ -148,7 +148,6 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_ModelInterface, getWriteConnection);
 /**
  * Assigns values to a model from an array
  *
- * @param Phalcon\Mvc\Model $object
  * @param array $data
  * @param array $columnMap
  * @return Phalcon\Mvc\Model

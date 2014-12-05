@@ -144,7 +144,7 @@ static zval* phalcon_config_read_internal(phalcon_config_object *object, zval *k
 {
 	zval **retval;
 
-	if (UNEXPECTED(!key)) {
+	if (UNEXPECTED(!key) || Z_TYPE_P(key) == IS_NULL) {
 		return EG(uninitialized_zval_ptr);
 	}
 

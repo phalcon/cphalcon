@@ -69,6 +69,8 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, getLastInitialized);
 PHP_METHOD(Phalcon_Mvc_Collection_Manager, setConnectionService);
 PHP_METHOD(Phalcon_Mvc_Collection_Manager, useImplicitObjectIds);
 PHP_METHOD(Phalcon_Mvc_Collection_Manager, isUsingImplicitObjectIds);
+PHP_METHOD(Phalcon_Mvc_Collection_Manager, setStrictMode);
+PHP_METHOD(Phalcon_Mvc_Collection_Manager, isStrictMode);
 PHP_METHOD(Phalcon_Mvc_Collection_Manager, getConnection);
 PHP_METHOD(Phalcon_Mvc_Collection_Manager, notifyEvent);
 PHP_METHOD(Phalcon_Mvc_Collection_Manager, setSource);
@@ -107,6 +109,8 @@ static const zend_function_entry phalcon_mvc_collection_manager_method_entry[] =
 	PHP_ME(Phalcon_Mvc_Collection_Manager, setConnectionService, arginfo_phalcon_mvc_collection_managerinterface_setconnectionservice, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Collection_Manager, useImplicitObjectIds, arginfo_phalcon_mvc_collection_managerinterface_useimplicitobjectids, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Collection_Manager, isUsingImplicitObjectIds, arginfo_phalcon_mvc_collection_managerinterface_isusingimplicitobjectids, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Collection_Manager, setStrictMode, arginfo_phalcon_mvc_collection_managerinterface_setstrictmode, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Collection_Manager, isStrictMode, arginfo_phalcon_mvc_collection_managerinterface_isstrictmode, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Collection_Manager, getConnection, arginfo_phalcon_mvc_collection_managerinterface_getconnection, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Collection_Manager, notifyEvent, arginfo_phalcon_mvc_collection_managerinterface_notifyevent, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Collection_Manager, setSource, arginfo_phalcon_mvc_collection_manager_setsource, ZEND_ACC_PUBLIC)
@@ -130,6 +134,7 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Collection_Manager){
 	zend_declare_property_null(phalcon_mvc_collection_manager_ce, SL("_customEventsManager"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_collection_manager_ce, SL("_connectionServices"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_collection_manager_ce, SL("_implicitObjectsIds"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_collection_manager_ce, SL("_strictModes"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_collection_manager_ce, SL("_sources"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_collection_manager_ce, SL("_columnMaps"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
@@ -406,6 +411,67 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, isUsingImplicitObjectIds){
 		RETURN_CTOR(implicit);
 	}
 	
+	RETURN_MM_TRUE;
+}
+
+/**
+ * Sets if a model strict mode
+ *
+ * @param Phalcon\Mvc\CollectionInterface $collection
+ * @param boolean $strictMode
+ */
+PHP_METHOD(Phalcon_Mvc_Collection_Manager, setStrictMode){
+
+	zval *collection, *strict_mode, *entity_name;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 2, 0, &collection, &strict_mode);
+
+	if (Z_TYPE_P(collection) != IS_OBJECT) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_collection_exception_ce, "A valid collection instance is required");
+		return;
+	}
+
+	PHALCON_INIT_VAR(entity_name);
+	phalcon_get_class(entity_name, collection, 1 TSRMLS_CC);
+	phalcon_update_property_array(this_ptr, SL("_strictModes"), entity_name, strict_mode TSRMLS_CC);
+
+	PHALCON_MM_RESTORE();
+}
+
+/**
+ * Sets if a model strict mode
+ *
+ * @param Phalcon\Mvc\CollectionInterface $model
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Mvc_Collection_Manager, isStrictMode){
+
+	zval *collection, *entity_name, *strict_modes;
+	zval *strict_mode;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 1, 0, &collection);
+
+	if (Z_TYPE_P(collection) != IS_OBJECT) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_collection_exception_ce, "A valid collection instance is required");
+		return;
+	}
+
+	PHALCON_INIT_VAR(entity_name);
+	phalcon_get_class(entity_name, collection, 1 TSRMLS_CC);
+
+	/** 
+	 * All collections use by default are using implicit object ids
+	 */
+	PHALCON_OBS_VAR(strict_modes);
+	phalcon_read_property_this(&strict_modes, this_ptr, SL("_strictModes"), PH_NOISY TSRMLS_CC);
+	if (phalcon_array_isset_fetch(&strict_mode, strict_modes, entity_name)) {
+		RETURN_CTOR(strict_mode);
+	}
+
 	RETURN_MM_TRUE;
 }
 
