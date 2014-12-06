@@ -62,6 +62,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, setEventsManager);
 PHP_METHOD(Phalcon_Mvc_Collection, getEventsManager);
 PHP_METHOD(Phalcon_Mvc_Collection, setColumnMap);
 PHP_METHOD(Phalcon_Mvc_Collection, getColumnMap);
+PHP_METHOD(Phalcon_Mvc_Collection, getColumnName);
 PHP_METHOD(Phalcon_Mvc_Collection, getCollectionManager);
 PHP_METHOD(Phalcon_Mvc_Collection, getReservedAttributes);
 PHP_METHOD(Phalcon_Mvc_Collection, useImplicitObjectIds);
@@ -105,6 +106,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, execute);
 PHP_METHOD(Phalcon_Mvc_Collection, incr);
 PHP_METHOD(Phalcon_Mvc_Collection, refresh);
 PHP_METHOD(Phalcon_Mvc_Collection, drop);
+PHP_METHOD(Phalcon_Mvc_Collection, parse);
 PHP_METHOD(Phalcon_Mvc_Collection, __callStatic);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_collection___construct, 0, 0, 0)
@@ -113,6 +115,10 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_collection_setcolumnmap, 0, 0, 1)
 	ZEND_ARG_INFO(0, columnMap)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_collection_getcolumnname, 0, 0, 1)
+	ZEND_ARG_INFO(0, column)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_collection_setstrictmode, 0, 0, 1)
@@ -148,6 +154,10 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_collection_incr, 0, 0, 1)
 	ZEND_ARG_INFO(0, value)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_collection_parse, 0, 0, 1)
+	ZEND_ARG_INFO(0, conditions)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_collection___callstatic, 0, 0, 1)
 	ZEND_ARG_INFO(0, method)
 	ZEND_ARG_INFO(0, arguments)
@@ -164,6 +174,7 @@ static const zend_function_entry phalcon_mvc_collection_method_entry[] = {
 	PHP_ME(Phalcon_Mvc_Collection, getEventsManager, arginfo_phalcon_events_eventsawareinterface_geteventsmanager, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Mvc_Collection, setColumnMap, arginfo_phalcon_mvc_collection_setcolumnmap, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Collection, getColumnMap, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Collection, getColumnName, arginfo_phalcon_mvc_collection_getcolumnname, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Collection, getCollectionManager, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Collection, getReservedAttributes, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Collection, useImplicitObjectIds, NULL, ZEND_ACC_PROTECTED)
@@ -206,6 +217,7 @@ static const zend_function_entry phalcon_mvc_collection_method_entry[] = {
 	PHP_ME(Phalcon_Mvc_Collection, execute, arginfo_phalcon_mvc_collection_execute, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Mvc_Collection, incr, arginfo_phalcon_mvc_collection_incr, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Collection, refresh, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Collection, parse, arginfo_phalcon_mvc_collection_parse, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Collection, drop, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Mvc_Collection, __callStatic, arginfo_phalcon_mvc_collection___callstatic, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_FE_END
@@ -326,7 +338,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, setId){
 
 	PHALCON_CALL_SELF(&column_map, "getcolumnmap");
 
-	if (Z_TYPE_P(column_map) == IS_ARRAY) { 
+	if (Z_TYPE_P(column_map) == IS_ARRAY) {
 		if (phalcon_array_isset_string(column_map, SS("_id"))) {
 			PHALCON_OBS_NVAR(id_name);
 			phalcon_array_fetch_string(&id_name, column_map, SL("_id"), PH_NOISY);
@@ -524,6 +536,36 @@ PHP_METHOD(Phalcon_Mvc_Collection, getColumnMap){
 
 	collection_manager = phalcon_fetch_nproperty_this(this_ptr, SL("_collectionManager"), PH_NOISY TSRMLS_CC);
 	PHALCON_RETURN_CALL_METHODW(collection_manager, "getcolumnmap", this_ptr);
+}
+
+/**
+ * Returns the column name
+ *
+ * @param string $column
+ * @return string
+ */
+PHP_METHOD(Phalcon_Mvc_Collection, getColumnName){
+
+	zval *column, *column_map = NULL, *name = NULL;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 1, 0, &column);
+	
+	PHALCON_CALL_SELF(&column_map, "getColumnMap");
+
+	if (Z_TYPE_P(column_map) == IS_ARRAY) {
+		if (phalcon_array_isset(column_map, column)) {
+			PHALCON_OBS_VAR(name);
+			phalcon_array_fetch(&name, column_map, column, PH_NOISY);
+		} else {
+			PHALCON_CPY_WRT(name, column);
+		}
+	} else {
+		PHALCON_CPY_WRT(name, column);
+	}
+
+	RETURN_CTOR(name);
 }
 
 /**
@@ -877,14 +919,13 @@ PHP_METHOD(Phalcon_Mvc_Collection, cloneResult){
 PHP_METHOD(Phalcon_Mvc_Collection, _getResultset){
 
 	zval *params, *collection, *connection, *unique;
-	zval *source = NULL, *mongo_collection = NULL, *conditions = NULL, *id, *mongo_id;
-	zval *collection_manager = NULL, *use_implicit_ids = NULL, *fields, *documents_cursor = NULL, *limit, *sort = NULL;
+	zval *source = NULL, *mongo_collection = NULL, *conditions = NULL, *new_conditions = NULL;
+	zval *fields, *documents_cursor = NULL, *limit, *sort = NULL;
 	zval *base = NULL, *document = NULL, *collections, *documents_array = NULL;
 	zval *collection_cloned = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
-	zend_class_entry *ce0;
 
 	PHALCON_MM_GROW();
 
@@ -907,28 +948,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, _getResultset){
 	 */
 	if (phalcon_array_isset_long(params, 0)) {
 		PHALCON_OBS_VAR(conditions);
-		phalcon_array_fetch_long(&conditions, params, 0, PH_NOISY);
-
-		if (phalcon_array_isset_string(conditions, SS("_id"))) {
-			PHALCON_OBS_VAR(id);
-			phalcon_array_fetch_string(&id, conditions, SL("_id"), PH_NOISY);
-
-			if (Z_TYPE_P(id) != IS_OBJECT) {
-				PHALCON_CALL_METHOD(&collection_manager, collection, "getcollectionmanager");
-
-				PHALCON_CALL_METHOD(&use_implicit_ids, collection_manager, "isusingimplicitobjectids", collection);
-				if (zend_is_true(use_implicit_ids)) {
-					ce0 = zend_fetch_class(SL("MongoId"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
-					PHALCON_INIT_VAR(mongo_id);
-					object_init_ex(mongo_id, ce0);
-					if (phalcon_has_constructor(mongo_id TSRMLS_CC)) {
-						PHALCON_CALL_METHOD(NULL, mongo_id, "__construct", id);
-					}
-
-					phalcon_array_update_string(&conditions, SL("_id"), mongo_id, PH_COPY);
-				}
-			}
-		}		
+		phalcon_array_fetch_long(&conditions, params, 0, PH_NOISY);	
 	} else {
 		if (phalcon_array_isset_string(params, SS("conditions"))) {
 			PHALCON_OBS_NVAR(conditions);
@@ -944,6 +964,8 @@ PHP_METHOD(Phalcon_Mvc_Collection, _getResultset){
 		return;
 	}
 
+	PHALCON_CALL_METHOD(&new_conditions, collection, "parse", conditions);
+
 	/**
 	 * Perform the find
 	 */
@@ -952,9 +974,9 @@ PHP_METHOD(Phalcon_Mvc_Collection, _getResultset){
 		PHALCON_OBS_VAR(fields);
 		phalcon_array_fetch_string(&fields, params, SL("fields"), PH_NOISY);
 
-		PHALCON_CALL_METHOD(&documents_cursor, mongo_collection, "find", conditions, fields);
+		PHALCON_CALL_METHOD(&documents_cursor, mongo_collection, "find", new_conditions, fields);
 	} else {
-		PHALCON_CALL_METHOD(&documents_cursor, mongo_collection, "find", conditions);
+		PHALCON_CALL_METHOD(&documents_cursor, mongo_collection, "find", new_conditions);
 	}
 
 	/**
@@ -1050,7 +1072,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, _getResultset){
 PHP_METHOD(Phalcon_Mvc_Collection, _getGroupResultset){
 
 	zval *params, *collection, *connection, *source = NULL;
-	zval *mongo_collection = NULL, *conditions = NULL, *simple = NULL;
+	zval *mongo_collection = NULL, *conditions = NULL, *new_conditions = NULL, *simple = NULL;
 	zval *documents_cursor = NULL, *limit, *sort = NULL;
 
 	PHALCON_MM_GROW();
@@ -1081,6 +1103,8 @@ PHP_METHOD(Phalcon_Mvc_Collection, _getGroupResultset){
 		}
 	}
 
+	PHALCON_CALL_METHOD(&new_conditions, collection, "parse", conditions);
+
 	PHALCON_INIT_VAR(simple);
 	ZVAL_BOOL(simple, 1);
 	if (phalcon_array_isset_string(params, SS("limit"))) {
@@ -1102,7 +1126,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, _getGroupResultset){
 		/**
 		 * Perform the find
 		 */
-		PHALCON_CALL_METHOD(&documents_cursor, mongo_collection, "find", conditions);
+		PHALCON_CALL_METHOD(&documents_cursor, mongo_collection, "find", new_conditions);
 
 		/**
 		 * Check if a 'limit' clause was defined
@@ -2847,6 +2871,85 @@ PHP_METHOD(Phalcon_Mvc_Collection, drop){
 	}
 
 	RETURN_MM_FALSE;
+}
+
+/**
+ * Parses the conditions
+ *
+ * @param array $conditions
+ * @return array
+ */
+PHP_METHOD(Phalcon_Mvc_Collection, parse){
+
+	zval *conditions, *column_map = NULL, *collection_manager = NULL, *use_implicit_ids = NULL, *mongo_id = NULL;
+	zval *key = NULL, *value = NULL, *column = NULL, *value1 = NULL, *value2 = NULL;
+	HashTable *ah0;
+	HashPosition hp0;
+	zval **hd;
+	zend_class_entry *ce0;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 1, 1, &conditions);
+
+	if (Z_TYPE_P(conditions) != IS_ARRAY) {
+		RETURN_CTOR(conditions);
+	}
+
+	PHALCON_SEPARATE_PARAM(conditions);
+
+	PHALCON_CALL_SELF(&column_map, "getcolumnmap");
+
+	PHALCON_CALL_SELF(&collection_manager, "getcollectionmanager");
+	PHALCON_CALL_METHOD(&use_implicit_ids, collection_manager, "isusingimplicitobjectids", this_ptr);
+
+	ce0 = zend_fetch_class(SL("MongoId"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
+
+	phalcon_is_iterable(conditions, &ah0, &hp0, 0, 0);
+
+	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
+
+		PHALCON_GET_HKEY(key, ah0, hp0);
+		PHALCON_GET_HVALUE(value);
+
+		if (Z_TYPE_P(value) == IS_ARRAY) {
+			PHALCON_CALL_SELF(&value1, "parse", value);
+			phalcon_array_update_zval(&conditions, key, value1, PH_COPY);
+		}
+
+		PHALCON_OBS_NVAR(value2);
+		phalcon_array_fetch(&value2, conditions, key, PH_NOISY);
+
+		if (phalcon_array_isset(column_map, key)) {
+			PHALCON_OBS_NVAR(column);
+			phalcon_array_fetch(&column, column_map, key, PH_NOISY);
+		} else {
+			PHALCON_INIT_NVAR(column);
+			ZVAL_STRING(column, Z_STRVAL_P(key), 1);
+		}
+
+		if (!PHALCON_IS_EQUAL(column, key)) {
+			phalcon_array_unset(&conditions, key, 0);
+			phalcon_array_update_zval(&conditions, column, value2, PH_COPY);
+		}
+
+		if (PHALCON_IS_STRING(column, "_id")) {
+			if (Z_TYPE_P(value2) != IS_OBJECT && Z_TYPE_P(value2) != IS_ARRAY) {
+				if (zend_is_true(use_implicit_ids)) {
+					PHALCON_INIT_NVAR(mongo_id);
+					object_init_ex(mongo_id, ce0);
+					if (phalcon_has_constructor(mongo_id TSRMLS_CC)) {
+						PHALCON_CALL_METHOD(NULL, mongo_id, "__construct", value2);
+					}
+					phalcon_array_update_zval(&conditions, column, mongo_id, PH_COPY);
+				}
+			}
+		}
+
+		zend_hash_move_forward_ex(ah0, &hp0);
+	}
+
+	RETURN_CTOR(conditions);
 }
 
 /**
