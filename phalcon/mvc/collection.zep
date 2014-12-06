@@ -446,7 +446,7 @@ abstract class Collection implements CollectionInterface, InjectionAwareInterfac
 				/**
 				 * Assign the values to the base object
 				 */
-				return self::cloneResult(base, document);
+				return static::cloneResult(base, document);
 			}
 			return false;
 		}
@@ -460,7 +460,7 @@ abstract class Collection implements CollectionInterface, InjectionAwareInterfac
 			/**
 			 * Assign the values to the base object
 			 */
-			let collections[] = self::cloneResult(base, document);
+			let collections[] = static::cloneResult(base, document);
 		}
 
 		return collections;
@@ -1026,7 +1026,7 @@ abstract class Collection implements CollectionInterface, InjectionAwareInterfac
 			let mongoId = id;
 		}
 
-		return self::findFirst([["_id": mongoId]]);
+		return static::findFirst([["_id": mongoId]]);
 	}
 
 	/**
@@ -1072,7 +1072,7 @@ abstract class Collection implements CollectionInterface, InjectionAwareInterfac
 
 		let connection = collection->getConnection();
 
-		return self::_getResultset(parameters, collection, connection, true);
+		return static::_getResultset(parameters, collection, connection, true);
 	}
 
 	/**
@@ -1125,7 +1125,7 @@ abstract class Collection implements CollectionInterface, InjectionAwareInterfac
 
 		let className = get_called_class();
 		let collection = new {className}();
-		return self::_getResultset(parameters, collection, collection->getConnection(), false);
+		return static::_getResultset(parameters, collection, collection->getConnection(), false);
 	}
 
 	/**
@@ -1154,7 +1154,7 @@ abstract class Collection implements CollectionInterface, InjectionAwareInterfac
 
 		let connection = collection->getConnection();
 
-		return self::_getGroupResultset(parameters, collection, connection);
+		return static::_getGroupResultset(parameters, collection, connection);
 	}
 
 	/**
