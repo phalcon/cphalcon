@@ -97,6 +97,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, summatory);
 PHP_METHOD(Phalcon_Mvc_Collection, create);
 PHP_METHOD(Phalcon_Mvc_Collection, update);
 PHP_METHOD(Phalcon_Mvc_Collection, delete);
+PHP_METHOD(Phalcon_Mvc_Collection, getOperationMade);
 PHP_METHOD(Phalcon_Mvc_Collection, toArray);
 PHP_METHOD(Phalcon_Mvc_Collection, serialize);
 PHP_METHOD(Phalcon_Mvc_Collection, unserialize);
@@ -198,6 +199,7 @@ static const zend_function_entry phalcon_mvc_collection_method_entry[] = {
 	PHP_ME(Phalcon_Mvc_Collection, create, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Collection, update, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Collection, delete, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Collection, getOperationMade, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Collection, toArray, arginfo_phalcon_mvc_collection_toarray, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Collection, serialize, arginfo_serializable_serialize, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Collection, unserialize, arginfo_serializable_unserialize, ZEND_ACC_PUBLIC)
@@ -2446,6 +2448,18 @@ PHP_METHOD(Phalcon_Mvc_Collection, delete){
 	}
 
 	RETURN_NCTOR(success);
+}
+
+/**
+ * Returns the type of the latest operation performed by the ODM
+ * Returns one of the OP_* class constants
+ *
+ * @return int
+ */
+PHP_METHOD(Phalcon_Mvc_Collection, getOperationMade){
+
+
+	RETURN_MEMBER(this_ptr, "_operationMade");
 }
 
 /**
