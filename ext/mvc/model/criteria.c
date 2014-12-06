@@ -1109,7 +1109,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, notInWhere){
  * Adds the conditions parameter to the criteria
  *
  * @param string $conditions
- * @return Phalcon\Mvc\Model\CriteriaIntreface
+ * @return Phalcon\Mvc\Model\CriteriaInterface
  */
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, conditions){
 
