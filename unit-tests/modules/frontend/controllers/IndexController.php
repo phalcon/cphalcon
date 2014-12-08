@@ -10,4 +10,14 @@ class IndexController extends \Phalcon\Mvc\Controller
 
 	}
 
+	public function forwardAction()
+	{
+		return $this->dispatcher->forward(array(
+			'module' => 'backend',
+			'namespace' => 'Backend\\Controllers\\',
+			'controller' => 'login',
+			'action' => 'index'
+		));
+	}
+
 }

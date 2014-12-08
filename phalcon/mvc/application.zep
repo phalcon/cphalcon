@@ -22,6 +22,7 @@ namespace Phalcon\Mvc;
 use Phalcon\Di\Injectable;
 use Phalcon\Mvc\ViewInterface;
 use Phalcon\Mvc\Application\Exception;
+use Phalcon\Mvc\Application\DispatcherListener;
 use Phalcon\Mvc\ModuleDefinitionInterface;
 use Phalcon\Mvc\RouterInterface;
 use Phalcon\DiInterface;
@@ -107,6 +108,16 @@ class Application extends Injectable
 	}
 
 	/**
+	 * Check, if used implicit view
+	 *
+	 * @return bool
+	 */
+	public function isUseImplicitView() -> bool
+	{
+		return this->_implicitView;
+	}
+
+	/**
 	 * Register an array of modules present in the application
 	 *
 	 *<code>
@@ -128,20 +139,83 @@ class Application extends Injectable
 	 */
 	public function registerModules(modules, boolean merge = false) -> <Application>
 	{
-		var registeredModules;
+		var registeredModules, modulesObjects, module, moduleName, moduleObject, className, path;
 
 		if typeof modules != "array" {
 			throw new Exception("Modules must be an Array");
 		}
 
+		let modulesObjects = [];
+		for moduleName, module in modules {
+			/**
+			 * A module definition must ne an array or an object
+			 */
+			if typeof module != "array" && typeof module != "object" {
+				throw new Exception("Invalid module definition");
+			}
+
+			/**
+			 * An array module definition contains a path to a module definition class
+			 */
+			if typeof module == "array" {
+
+				/**
+				 * Class name used to load the module definition
+				 */
+				if !fetch className, module["className"] {
+					let className = "Module";
+				}
+
+				/**
+				 * If developer specify a path try to include the file
+				 */
+				if fetch path, module["path"] {
+					if !class_exists(className, false) {
+						if file_exists(path) {
+							require path;
+						} else {
+							throw new Exception("Module definition path '" . path . "' doesn't exist");
+						}
+					}
+				}
+
+				let moduleObject = <ModuleDefinitionInterface> this->_dependencyInjector->get(className);
+			} else {
+
+				/**
+				 * A module definition object, can be a Closure instance
+				 */
+				if module instanceof \Closure {
+					let moduleObject = module;
+				} else {
+					if module instanceof ModuleDefinitionInterface {
+						let moduleObject = module;
+					} else {
+						throw new Exception("Invalid module definition");
+					}
+				}
+			}
+
+			// Register autoloaders for module and call initialize function of module, if exists
+			if typeof moduleObject == "object" && moduleObject instanceof ModuleDefinitionInterface {
+				moduleObject->registerAutoloaders(this->_dependencyInjector);
+
+				if method_exists(moduleObject, "initialize") {
+					moduleObject->initialize(this->_dependencyInjector);
+				}
+			}
+
+			let modulesObjects[moduleName] = moduleObject;
+		}
+
 		if merge === false {
-			let this->_modules = modules;
+			let this->_modules = modulesObjects;
 		} else {
 			let registeredModules = this->_modules;
 			if typeof registeredModules == "array" {
-				let this->_modules = array_merge(registeredModules, modules);
+				let this->_modules = array_merge(registeredModules, modulesObjects);
 			} else {
-				let this->_modules = modules;
+				let this->_modules = modulesObjects;
 			}
 		}
 
@@ -189,9 +263,8 @@ class Application extends Injectable
 	public function handle(uri = null) -> <ResponseInterface> | boolean
 	{
 
-		var dependencyInjector, eventsManager, router, dispatcher, response, view,
-			module, moduleObject, moduleName, className, path,
-			implicitView, returnedResponse, controller, possibleResponse,
+		var dependencyInjector, eventsManager, router, dispatcher, dispatcherListener, response, view,
+			moduleName, implicitView, returnedResponse, controller, possibleResponse,
 			renderStatus;
 
 		let dependencyInjector = this->_dependencyInjector;
@@ -200,14 +273,19 @@ class Application extends Injectable
 		}
 
 		let eventsManager = <ManagerInterface> this->_eventsManager;
+		if typeof eventsManager != "object" {
+			let eventsManager = dependencyInjector->getShared("eventsManager");
+		}
+
+		if typeof eventsManager != "object" {
+			throw new Exception("An events manager object is required to access internal services");
+		}
 
 		/**
 		 * Call boot event, this allow the developer to perform initialization actions
 		 */
-		if typeof eventsManager == "object" {
-			if eventsManager->fire("application:boot", this) === false {
-				return false;
-			}
+		if eventsManager->fire("application:boot", this) === false {
+			return false;
 		}
 
 		let router = <RouterInterface> dependencyInjector->getShared("router");
@@ -225,121 +303,28 @@ class Application extends Injectable
 			let moduleName = this->_defaultModule;
 		}
 
-		let moduleObject = null;
-
-		/**
-		 * Process the module definition
-		 */
-		if moduleName {
-
-			if typeof eventsManager == "object" {
-				if eventsManager->fire("application:beforeStartModule", this) === false {
-					return false;
-				}
-			}
-
-			/**
-			 * Check if the module passed by the router is registered in the modules container
-			 */
-			if !fetch module, this->_modules[moduleName] {
-				throw new Exception("Module '" . moduleName . "' isn't registered in the application container");
-			}
-
-			/**
-			 * A module definition must ne an array or an object
-			 */
-			if typeof module != "array" && typeof module != "object" {
-				throw new Exception("Invalid module definition");
-			}
-
-			/**
-			 * An array module definition contains a path to a module definition class
-			 */
-			if typeof module == "array" {
-
-				/**
-				 * Class name used to load the module definition
-				 */
-				if !fetch className, module["className"] {
-					let className = "Module";
-				}
-
-				/**
-				 * If developer specify a path try to include the file
-				 */
-				if fetch path, module["path"] {
-					if !class_exists(className, false) {
-						if file_exists(path) {
-							require path;
-						} else {
-							throw new Exception("Module definition path '" . path . "' doesn't exist");
-						}
-					}
-				}
-
-				let moduleObject = <ModuleDefinitionInterface> dependencyInjector->get(className);
-
-				/**
-				 * 'registerAutoloaders' and 'registerServices' are automatically called
-				 */
-				moduleObject->registerAutoloaders(dependencyInjector);
-				moduleObject->registerServices(dependencyInjector);
-
-			} else {
-
-				/**
-				 * A module definition object, can be a Closure instance
-				 */
-				if module instanceof \Closure {
-					let moduleObject = call_user_func_array(module, [dependencyInjector]);
-				} else {
-					throw new Exception("Invalid module definition");
-				}
-			}
-
-			/**
-			 * Calling afterStartModule event
-			 */
-			if typeof eventsManager == "object" {
-				eventsManager->fire("application:afterStartModule", this, moduleObject);
-			}
-
-		}
-
-		/**
-		 * Check whether use implicit views or not
-		 */
-		let implicitView = this->_implicitView;
-
-		if implicitView === true {
-			let view = <ViewInterface> dependencyInjector->getShared("view");
-		}
-
 		/**
 		 * We get the parameters from the router and assign them to the dispatcher
 		 * Assign the values passed from the router
 		 */
 		let dispatcher = <DispatcherInterface> dependencyInjector->getShared("dispatcher");
-		dispatcher->setModuleName(router->getModuleName());
+		if typeof dispatcher->getEventsManager() != "object" {
+			dispatcher->setEventsManager(eventsManager);
+		}
+		dispatcher->setModuleName(moduleName);
 		dispatcher->setNamespaceName(router->getNamespaceName());
 		dispatcher->setControllerName(router->getControllerName());
 		dispatcher->setActionName(router->getActionName());
 		dispatcher->setParams(router->getParams());
 
-		/**
-		 * Start the view component (start output buffering)
-		 */
-		if implicitView === true {
-			view->start();
-		}
+		let dispatcherListener = new DispatcherListener(this);
+		dispatcher->getEventsManager()->attach("dispatch", dispatcherListener);
 
 		/**
 		 * Calling beforeHandleRequest
 		 */
-		if typeof eventsManager == "object" {
-			if eventsManager->fire("application:beforeHandleRequest", this, dispatcher) === false {
-				return false;
-			}
+		if eventsManager->fire("application:beforeHandleRequest", this, dispatcher) === false {
+			return false;
 		}
 
 		/**
@@ -364,8 +349,15 @@ class Application extends Injectable
 		/**
 		 * Calling afterHandleRequest
 		 */
-		if typeof eventsManager == "object" {
-			eventsManager->fire("application:afterHandleRequest", this, controller);
+		eventsManager->fire("application:afterHandleRequest", this, controller);
+
+		/**
+		 * Check whether use implicit views or not
+		 */
+		let implicitView = this->_implicitView;
+
+		if implicitView === true {
+			let view = <ViewInterface> dependencyInjector->get("view");
 		}
 
 		/**
@@ -380,9 +372,7 @@ class Application extends Injectable
 					/**
 					 * This allows to make a custom view render
 					 */
-					if typeof eventsManager == "object" {
-						let renderStatus = eventsManager->fire("application:viewRender", this, view);
-					}
+					let renderStatus = eventsManager->fire("application:viewRender", this, view);
 
 					/**
 					 * Check if the view process has been treated by the developer
@@ -431,9 +421,7 @@ class Application extends Injectable
 		/**
 		 * Calling beforeSendResponse
 		 */
-		if typeof eventsManager == "object" {
-			eventsManager->fire("application:beforeSendResponse", this, response);
-		}
+		eventsManager->fire("application:beforeSendResponse", this, response);
 
 		/**
 		 * Headers and Cookies are automatically send

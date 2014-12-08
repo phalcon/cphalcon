@@ -635,11 +635,16 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 	 */
 	public function forward(var forward)
 	{
-		var namespaceName, controllerName, params, actionName, taskName;
+		var namespaceName, controllerName, params, actionName, taskName, moduleName;
 
 		if typeof forward != "array" {
 			this->{"_throwDispatchException"}("Forward parameter must be an Array");
 			return null;
+		}
+
+		// Check if we need to forward to another module
+		if fetch moduleName, forward["module"] {
+			let this->_moduleName = moduleName;
 		}
 
 		// Check if we need to forward to another namespace

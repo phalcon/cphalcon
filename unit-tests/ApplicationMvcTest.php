@@ -50,21 +50,8 @@ class ApplicationMvcTest extends PHPUnit_Framework_TestCase
 		$loader->unregister();
 	}
 
-	public function testApplicationModulesDefinition()
+	private function _getModulesDi()
 	{
-
-		// Creates the autoloader
-		$loader = new \Phalcon\Loader();
-
-		$loader->registerNamespaces(array(
-			'Frontend\Controllers' => 'unit-tests/modules/frontend/controllers/',
-			'Backend\Controllers' => 'unit-tests/modules/backend/controllers/'
-		));
-
-		$loader->register();
-
-		$_GET['_url'] = '/index';
-
 		Phalcon\DI::reset();
 
 		$di = new Phalcon\DI\FactoryDefault();
@@ -74,17 +61,33 @@ class ApplicationMvcTest extends PHPUnit_Framework_TestCase
 			$router = new Phalcon\Mvc\Router(false);
 
 			$router->add('/index', array(
+			 'controller' => 'index',
+				'action' => 'index',
+				'module' => 'frontend',
+				'namespace' => 'Frontend\Controllers\\'
+			));
+
+			$router->add('/login', array(
+				'controller' => 'login',
+				'module' => 'backend',
+				'namespace' => 'Backend\Controllers\\'
+			));
+
+			$router->add('/forward', array(
 				'controller' => 'index',
+				'action' => 'forward',
 				'module' => 'frontend',
 				'namespace' => 'Frontend\Controllers\\'
 			));
 
 			return $router;
 		});
+		return $di;
+	}
 
-		$application = new Phalcon\Mvc\Application();
-
-		$application->registerModules(array(
+	public function testApplicationModulesDefinition()
+	{
+		$modules = array(
 			'frontend' => array(
 				'path' => 'unit-tests/modules/frontend/Module.php',
 				'className' => 'Frontend\Module',
@@ -93,13 +96,166 @@ class ApplicationMvcTest extends PHPUnit_Framework_TestCase
 				'path' => 'unit-tests/modules/backend/Module.php',
 				'className' => 'Backend\Module',
 			),
-		));
+		);
 
+		/**
+		 * frontend
+		 */
+		$_GET['_url'] = '/index';
+		$di = $this->_getModulesDi();
+
+		$application = new Phalcon\Mvc\Application();
 		$application->setDi($di);
+		$application->registerModules($modules);
 
 		$this->assertEquals($application->handle()->getContent(), '<html>here</html>'.PHP_EOL);
 
-		$loader->unregister();
+		$registeredModules = $application->getModules();
+		//All modules initialized
+		$this->assertTrue($registeredModules['frontend']->initialized);
+		$this->assertTrue($registeredModules['backend']->initialized);
+		//In used modules registered services
+		$this->assertTrue($registeredModules['frontend']->servicesRegistered);
+		$this->assertFalse($registeredModules['backend']->servicesRegistered);
+
+		//unregister autoloaders of modules for future tests
+		$di->get('backendLoader')->unregister();
+		$di->get('frontendLoader')->unregister();
+
+		/**
+		 * backend
+		 */
+		$_GET['_url'] = '/login';
+		$di = $this->_getModulesDi();
+
+		$application = new Phalcon\Mvc\Application();
+		$application->setDi($di);
+		$application->registerModules($modules);
+
+		$this->assertEquals($application->handle()->getContent(), '<html>here login</html>'.PHP_EOL);
+
+		$registeredModules = $application->getModules();
+		//All modules initialized
+		$this->assertTrue($registeredModules['frontend']->initialized);
+		$this->assertTrue($registeredModules['backend']->initialized);
+		//In used modules registered services
+		$this->assertFalse($registeredModules['frontend']->servicesRegistered);
+		$this->assertTrue($registeredModules['backend']->servicesRegistered);
+
+		//unregister autoloaders of modules for future tests
+		$di->get('backendLoader')->unregister();
+		$di->get('frontendLoader')->unregister();
+
+		/**
+		 * forward from frontend to backend
+		 */
+		$_GET['_url'] = '/forward';
+		$di = $this->_getModulesDi();
+
+		$application = new Phalcon\Mvc\Application();
+		$application->setDi($di);
+		$application->registerModules($modules);
+
+		$this->assertEquals($application->handle()->getContent(), '<html>here login</html>'.PHP_EOL);
+
+		$registeredModules = $application->getModules();
+		//All modules initialized
+		$this->assertTrue($registeredModules['frontend']->initialized);
+		$this->assertTrue($registeredModules['backend']->initialized);
+		//In used modules registered services (frontend forwards to backend, so both modules registered)
+		$this->assertTrue($registeredModules['frontend']->servicesRegistered);
+		$this->assertTrue($registeredModules['backend']->servicesRegistered);
+
+		//unregister autoloaders of modules for future tests
+		$di->get('backendLoader')->unregister();
+		$di->get('frontendLoader')->unregister();
+	}
+
+	public function testApplicationModulesInstances()
+	{
+		require_once 'unit-tests/modules/frontend/Module.php';
+		require_once 'unit-tests/modules/backend/Module.php';
+
+		/**
+		 * frontend
+		 */
+		$_GET['_url'] = '/index';
+		$di = $this->_getModulesDi();
+
+		$application = new Phalcon\Mvc\Application();
+		$application->setDi($di);
+		$application->registerModules(array(
+			'frontend' => new Frontend\Module(),
+			'backend' => new Backend\Module(),
+		));
+
+		$this->assertEquals($application->handle()->getContent(), '<html>here</html>'.PHP_EOL);
+
+		$registeredModules = $application->getModules();
+		//All modules initialized
+		$this->assertTrue($registeredModules['frontend']->initialized);
+		$this->assertTrue($registeredModules['backend']->initialized);
+		//In used modules registered services
+		$this->assertTrue($registeredModules['frontend']->servicesRegistered);
+		$this->assertFalse($registeredModules['backend']->servicesRegistered);
+
+		//unregister autoloaders of modules for future tests
+		$di->get('backendLoader')->unregister();
+		$di->get('frontendLoader')->unregister();
+
+		/**
+		 * backend
+		 */
+		$_GET['_url'] = '/login';
+		$di = $this->_getModulesDi();
+
+		$application = new Phalcon\Mvc\Application();
+		$application->setDi($di);
+		$application->registerModules(array(
+			'frontend' => new Frontend\Module(),
+			'backend' => new Backend\Module(),
+		));
+
+		$this->assertEquals($application->handle()->getContent(), '<html>here login</html>'.PHP_EOL);
+
+		$registeredModules = $application->getModules();
+		//All modules initialized
+		$this->assertTrue($registeredModules['frontend']->initialized);
+		$this->assertTrue($registeredModules['backend']->initialized);
+		//In used modules registered services
+		$this->assertFalse($registeredModules['frontend']->servicesRegistered);
+		$this->assertTrue($registeredModules['backend']->servicesRegistered);
+
+		//unregister autoloaders of modules for future tests
+		$di->get('backendLoader')->unregister();
+		$di->get('frontendLoader')->unregister();
+
+		/**
+		 * forward from frontend to backend
+		 */
+		$_GET['_url'] = '/forward';
+		$di = $this->_getModulesDi();
+
+		$application = new Phalcon\Mvc\Application();
+		$application->setDi($di);
+		$application->registerModules(array(
+			'frontend' => new Frontend\Module(),
+			'backend' => new Backend\Module(),
+		));
+
+		$this->assertEquals($application->handle()->getContent(), '<html>here login</html>'.PHP_EOL);
+
+		$registeredModules = $application->getModules();
+		//All modules initialized
+		$this->assertTrue($registeredModules['frontend']->initialized);
+		$this->assertTrue($registeredModules['backend']->initialized);
+		//In used modules registered services (frontend forwards to backend, so both modules registered)
+		$this->assertTrue($registeredModules['frontend']->servicesRegistered);
+		$this->assertTrue($registeredModules['backend']->servicesRegistered);
+
+		//unregister autoloaders of modules for future tests
+		$di->get('backendLoader')->unregister();
+		$di->get('frontendLoader')->unregister();
 	}
 
 	public function testApplicationModulesDefinitionClosure()
@@ -115,54 +271,56 @@ class ApplicationMvcTest extends PHPUnit_Framework_TestCase
 
 		$loader->register();
 
-		$_GET['_url'] = '/login';
-
-		Phalcon\DI::reset();
-
-		$di = new Phalcon\DI\FactoryDefault();
-
-		$di->set('router', function(){
-
-			$router = new Phalcon\Mvc\Router(false);
-
-			$router->add('/index', array(
-				'controller' => 'index',
-				'module' => 'frontend',
-				'namespace' => 'Frontend\Controllers\\'
-			));
-
-			$router->add('/login', array(
-				'controller' => 'login',
-				'module' => 'backend',
-				'namespace' => 'Backend\Controllers\\'
-			));
-
-			return $router;
-		});
-
-		$application = new Phalcon\Mvc\Application();
-
-		$view = new \Phalcon\Mvc\View();
-
-		$application->registerModules(array(
-			'frontend' => function($di) use ($view) {
-				$di->set('view', function() use ($view) {
+		$modules = array(
+			'frontend' => function($di) {
+				$di->set('view', function() {
 					$view = new \Phalcon\Mvc\View();
 					$view->setViewsDir('unit-tests/modules/frontend/views/');
 					return $view;
 				});
 			},
-			'backend' => function($di) use ($view) {
-				$di->set('view', function() use($view) {
+			'backend' => function($di) {
+				$di->set('view', function() {
+					$view = new \Phalcon\Mvc\View();
 					$view->setViewsDir('unit-tests/modules/backend/views/');
 					return $view;
 				});
 			},
-		));
+		);
 
-		$application->setDi($di);
+		/**
+		 * frontend
+		 */
+		$_GET['_url'] = '/index';
+
+		$application = new Phalcon\Mvc\Application();
+		$application->setDi($this->_getModulesDi());
+		$application->registerModules($modules);
 
 		$this->assertEquals($application->handle()->getContent(), '<html>here</html>'.PHP_EOL);
+
+		/**
+		 * backend
+		 */
+		$_GET['_url'] = '/login';
+
+		$application = new Phalcon\Mvc\Application();
+		$application->setDi($this->_getModulesDi());
+		$application->registerModules($modules);
+
+		$this->assertEquals($application->handle()->getContent(), '<html>here login</html>'.PHP_EOL);
+
+		/**
+		 * forward from frontend to backend
+		 */
+		$_GET['_url'] = '/forward';
+
+		$application = new Phalcon\Mvc\Application();
+		$application->setDi($this->_getModulesDi());
+		$application->registerModules($modules);
+
+		$this->assertEquals($application->handle()->getContent(), '<html>here login</html>'.PHP_EOL);
+
 
 		$loader->unregister();
 	}

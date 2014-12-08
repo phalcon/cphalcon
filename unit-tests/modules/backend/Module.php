@@ -1,6 +1,6 @@
 <?php
 
-namespace Frontend;
+namespace Backend;
 
 class Module implements \Phalcon\Mvc\ModuleDefinitionInterface
 {
@@ -13,29 +13,27 @@ class Module implements \Phalcon\Mvc\ModuleDefinitionInterface
 		$loader = new \Phalcon\Loader();
 
 		$loader->registerNamespaces(array(
-			'Frontend\Controllers' => 'unit-tests/modules/frontend/controllers/',
+			'Backend\Controllers' => 'unit-tests/modules/backend/controllers/'
 		));
 
 		$loader->register();
 
-		$di->set('frontendLoader', $loader);
+		$di->set('backendLoader', $loader);
 	}
 
 	public function registerServices(\Phalcon\DiInterface $di)
 	{
 		$di->set('view', function() {
 			$view = new \Phalcon\Mvc\View();
-			$view->setViewsDir('unit-tests/modules/frontend/views/');
+			$view->setViewsDir('unit-tests/modules/backend/views/');
 			return $view;
 		});
 
 		$this->servicesRegistered = true;
 	}
 
-
 	public function initialize($di)
 	{
 		$this->initialized = true;
 	}
-
 }
