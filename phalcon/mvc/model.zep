@@ -487,7 +487,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 			let dataMapped = data;
 		}
 
-		if dataMapped === null && dataMapped === "" {
+		if count(dataMapped) == 0 {
 			return this;
 		}
 
@@ -962,9 +962,9 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 				if fetch value, this->{attributeField} {
 
 					/**
-					 * We count how many fields are empty, if all fields are empy we don't perform an 'exist' check
+					 * We count how many fields are empty, if all fields are empty we don't perform an 'exist' check
 					 */
-					if value === null && value === "" {
+					if value === null || value === "" {
 						let numberEmpty++;
 					}
 					let uniqueParams[] = value;
@@ -1926,7 +1926,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 							 */
 							if typeof value != "object" {
 								if !isset dataTypeNumeric[field] {
-									if value === null && value === "" {
+									if value === null || value === "" {
 										let isNull = true;
 									}
 								} else {
@@ -2165,7 +2165,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 			 */
 			if fetch value, this->{attributeField} {
 
-				if value === null && value === "" {
+				if value === null || value === "" {
 					if useExplicitIdentity {
 						let values[] = defaultValue, bindTypes[] = bindSkip;
 					}
@@ -2706,7 +2706,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 
 		let metaData = this->getModelsMetaData();
 
-		if !(data === null && data === "") {
+		if typeof data == "array" && count(data)>0 {
 			this->assign(data, null, whiteList);
 		}
 
