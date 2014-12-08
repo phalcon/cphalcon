@@ -19,6 +19,8 @@
 */
 
 #include "arr.h"
+#include "di.h"
+#include "filterinterface.h"
 
 #include <ext/standard/php_array.h>
 #include <ext/spl/spl_array.h>
@@ -32,6 +34,8 @@
 #include "kernel/concat.h"
 #include "kernel/object.h"
 #include "kernel/hash.h"
+
+#include "interned-strings.h"
 
 /**
  * Phalcon\Arr
@@ -57,6 +61,7 @@ PHP_METHOD(Phalcon_Arr, callback);
 PHP_METHOD(Phalcon_Arr, flatten);
 PHP_METHOD(Phalcon_Arr, arrayobject);
 PHP_METHOD(Phalcon_Arr, key);
+PHP_METHOD(Phalcon_Arr, filter);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_arr_is_assoc, 0, 0, 1)
 	ZEND_ARG_INFO(0, array)
@@ -148,6 +153,11 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_arr_key, 0, 0, 1)
 	ZEND_ARG_INFO(0, postion)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_arr_filter, 0, 0, 1)
+	ZEND_ARG_INFO(0, array)
+	ZEND_ARG_INFO(0, callback)
+ZEND_END_ARG_INFO()
+
 static const zend_function_entry phalcon_arr_method_entry[] = {
 	PHP_ME(Phalcon_Arr, is_assoc, arginfo_phalcon_arr_is_assoc, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Arr, is_array, arginfo_phalcon_arr_is_array, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
@@ -166,6 +176,7 @@ static const zend_function_entry phalcon_arr_method_entry[] = {
 	PHP_ME(Phalcon_Arr, flatten, arginfo_phalcon_arr_flatten, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Arr, arrayobject, arginfo_phalcon_arr_arrayobject, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Arr, key, arginfo_phalcon_arr_key, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Arr, filter, arginfo_phalcon_arr_filter, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_FE_END
 };
 
@@ -1120,4 +1131,53 @@ PHP_METHOD(Phalcon_Arr, key){
 	PHALCON_CALL_METHOD(&return_value, arrayiterator, "key");
 
 	PHALCON_MM_RESTORE();
+}
+
+PHP_METHOD(Phalcon_Arr, filter){
+
+	zval *array, *filters = NULL, *service, *dependency_injector = NULL, *filter = NULL;
+	zval *sanizited_value = NULL, *key = NULL, *value = NULL, *filter_value = NULL;
+	HashTable *ah0;
+	HashPosition hp0;
+	zval **hd;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 1, 1, &array, &filters);
+
+	if (!filters) {
+		filters = PHALCON_GLOBAL(z_null);
+	}
+
+	if (Z_TYPE_P(filters) != IS_NULL && !phalcon_is_callable(filters TSRMLS_CC)) {
+		PHALCON_CALL_CE_STATIC(&dependency_injector, phalcon_di_ce, "getdefault");
+
+		PHALCON_INIT_VAR(service);
+		PHALCON_ZVAL_MAYBE_INTERNED_STRING(service, phalcon_interned_filter);
+
+		PHALCON_CALL_METHOD(&filter, dependency_injector, "getshared", service);
+		PHALCON_VERIFY_INTERFACE(filter, phalcon_filterinterface_ce);
+
+		PHALCON_INIT_VAR(sanizited_value);
+		array_init(sanizited_value);
+
+		phalcon_is_iterable(array, &ah0, &hp0, 0, 0);
+
+		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
+
+			PHALCON_GET_HKEY(key, ah0, hp0);
+			PHALCON_GET_HVALUE(value);
+
+			PHALCON_CALL_METHOD(&filter_value, filter, "sanitize", value, filters);
+			phalcon_array_update_zval(&sanizited_value, key, filter_value, PH_COPY);
+
+			zend_hash_move_forward_ex(ah0, &hp0);
+		}
+	} else if (Z_TYPE_P(filters) == IS_NULL) {
+		PHALCON_CALL_FUNCTION(&sanizited_value, "array_filter", array);
+	} else {
+		PHALCON_CALL_FUNCTION(&sanizited_value, "array_filter", array, filters);
+	}
+
+	RETURN_CTOR(sanizited_value);
 }
