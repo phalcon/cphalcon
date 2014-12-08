@@ -325,4 +325,26 @@ class ApplicationMvcTest extends PHPUnit_Framework_TestCase
 		$loader->unregister();
 	}
 
+
+	public function testApplicationModulesRegRoutes()
+	{
+		$_GET['_url'] = '/objects';
+		Phalcon\DI::reset();
+		$di = new Phalcon\DI\FactoryDefault();;
+
+		$application = new Phalcon\Mvc\Application();
+		$application->setDi($di);
+		require_once 'unit-tests/modules/objects/Module.php';
+		$application->registerModules(array(
+			'objects' => new Objects\Module()
+		));
+
+		$this->assertEquals($application->handle()->getContent(), '<html>here objects</html>'.PHP_EOL);
+
+
+		//unregister autoloaders of modules for future tests
+		$di->get('objectsLoader')->unregister();
+
+	}
+
 }
