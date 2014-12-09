@@ -85,6 +85,50 @@ class Manager implements ManagerInterface
 	}
 
 	/**
+	 * Detach the listener from the events manager
+	 *
+	 * @param string eventType
+	 * @param object handler
+	 */
+	public function detach(string! eventType, var handler)
+	{
+		var priorityQueue, newPriorityQueue, key, data;
+
+		if typeof handler != "object" {
+			throw new Exception("Event handler must be an Object");
+		}
+
+		if fetch priorityQueue, this->_events[eventType] {
+
+			if typeof priorityQueue == "object" {
+
+				// SplPriorityQueue hasn't method for element deletion, so we need to rebuild queue
+				let newPriorityQueue = new \SplPriorityQueue();
+				newPriorityQueue->setExtractFlags(\SplPriorityQueue::EXTR_DATA);
+
+				priorityQueue->setExtractFlags(\SplPriorityQueue::EXTR_BOTH);
+				priorityQueue->top();
+
+				while priorityQueue->valid() {
+					let data = priorityQueue->current();
+					priorityQueue->next();
+					if data["data"] !== handler {
+						newPriorityQueue->insert(data["data"], data["priority"]);
+					}
+				}
+
+				let this->_events[eventType] = newPriorityQueue;
+			} else {
+				let key = array_search(handler, priorityQueue, true);
+				if key !== false {
+					unset priorityQueue[key];
+				}
+				let this->_events[eventType] = priorityQueue;
+			}
+		}
+	}
+
+	/**
 	 * Set if priorities are enabled in the EventsManager
 	 *
 	 * @param boolean enablePriorities
@@ -145,7 +189,7 @@ class Manager implements ManagerInterface
 			let this->_events = null;
 		} else {
 			if isset this->_events[type] {
-				unset(this->_events[type]);
+				unset this->_events[type];
 			}
 		}
 	}
@@ -174,8 +218,8 @@ class Manager implements ManagerInterface
 
 		if typeof queue != "array" {
 			if typeof queue == "object" {
-				if !(queue instanceof Event) && !(queue instanceof \SplPriorityQueue) {
-					throw new Exception(sprintf("Unexpected value type: expected object of type Phalcon\\Events\\Event or SplPriorityQueue, %s given", get_class(queue)));
+				if !(queue instanceof \SplPriorityQueue) {
+					throw new Exception(sprintf("Unexpected value type: expected object of type SplPriorityQueue, %s given", get_class(queue)));
 				}
 			} else {
 				throw new Exception("The queue is not valid");
@@ -206,7 +250,7 @@ class Manager implements ManagerInterface
 		// Responses need to be traced?
 		let collect = (boolean) this->_collect;
 
-		if queue == "object" {
+		if typeof queue == "object" {
 
 			// We need to clone the queue before iterate over it
 			let iterator = clone queue;
@@ -218,6 +262,7 @@ class Manager implements ManagerInterface
 
 				// Get the current data
 				let handler = iterator->current();
+				iterator->next();
 
 				// Only handler objects are valid
 				if typeof handler == "object" {

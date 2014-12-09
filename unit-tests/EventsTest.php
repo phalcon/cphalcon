@@ -86,6 +86,7 @@ class LeDummyListener
 		$this->_testCase->assertInstanceOf('LeDummyComponent', $component);
 		$this->_testCase->assertEquals($event->getData(), array("extra","data"));
 		$this->_after++;
+		$this->_testCase->lastListener = $this;
 	}
 
 	public function getBeforeCount()
@@ -102,22 +103,23 @@ class LeDummyListener
 
 class MyFirstWeakrefListener
 {
-    public function afterShow()
-    {
-        echo "show first listener\n";
-    }
+	public function afterShow()
+	{
+		echo "show first listener\n";
+	}
 }
 
 class MySecondWeakrefListener
 {
-    public function afterShow()
-    {
-        echo "show second listener\n";
-    }
+	public function afterShow()
+	{
+		echo "show second listener\n";
+	}
 }
 
 class EventsTest extends PHPUnit_Framework_TestCase
 {
+	public $lastListener = null;
 
 	public function testEvents()
 	{
@@ -158,19 +160,76 @@ class EventsTest extends PHPUnit_Framework_TestCase
 
 		$this->assertEquals($listener2->getBeforeCount(), 2);
 		$this->assertEquals($listener2->getAfterCount(), 2);
+		//ordered by inserting order
+		$this->assertTrue($this->lastListener === $listener2);
 
-		/*
-		//This is failling :(
-		$eventsManager->detach('dummy', $listener);*/
 
-		/*$eventsManager->detachAll('dummy');
+		$eventsManager->detach('dummy', $listener);
 
 		$component->leAction();
 		$component->leAction();
 
 		$this->assertEquals($listener->getBeforeCount(), 4);
-		$this->assertEquals($listener->getAfterCount(), 4);*/
+		$this->assertEquals($listener->getAfterCount(), 4);
 
+		$this->assertEquals($listener2->getBeforeCount(), 4);
+		$this->assertEquals($listener2->getAfterCount(), 4);
+	}
+
+	public function testEventsWithPriority()
+	{
+
+		$eventsManager = new Phalcon\Events\Manager();
+		$eventsManager->enablePriorities(true);
+
+		$listener = new LeDummyListener();
+		$listener->setTestCase($this);
+
+		$eventsManager->attach('dummy', $listener, 100);
+
+		$component = new LeDummyComponent();
+		$component->setEventsManager($eventsManager);
+
+		$another = new LeAnotherComponent();
+		$another->setEventsManager($eventsManager);
+
+		$component->leAction();
+		$component->leAction();
+
+		$another->leAction();
+		$another->leAction();
+		$another->leAction();
+
+		$this->assertEquals($listener->getBeforeCount(), 2);
+		$this->assertEquals($listener->getAfterCount(), 2);
+
+		$listener2 = new LeDummyListener();
+		$listener2->setTestCase($this);
+
+		$eventsManager->attach('dummy', $listener2, 150);
+
+		$component->leAction();
+		$component->leAction();
+
+		$this->assertEquals($listener->getBeforeCount(), 4);
+		$this->assertEquals($listener->getAfterCount(), 4);
+
+		$this->assertEquals($listener2->getBeforeCount(), 2);
+		$this->assertEquals($listener2->getAfterCount(), 2);
+
+		//ordered by priority
+		$this->assertTrue($this->lastListener === $listener);
+
+		$eventsManager->detach('dummy', $listener);
+
+		$component->leAction();
+		$component->leAction();
+
+		$this->assertEquals($listener->getBeforeCount(), 4);
+		$this->assertEquals($listener->getAfterCount(), 4);
+
+		$this->assertEquals($listener2->getBeforeCount(), 4);
+		$this->assertEquals($listener2->getAfterCount(), 4);
 	}
 
 	public function testEventsPropagation()
