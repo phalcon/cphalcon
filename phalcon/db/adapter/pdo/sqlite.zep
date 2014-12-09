@@ -268,8 +268,9 @@ class Sqlite extends \Phalcon\Db\Adapter\Pdo implements AdapterInterface
 
 			/**
 			 * Check if the column is default values
+			 * When field is empty default value is null
 			 */
-			if strcasecmp(field[4], "null") != 0 {
+			if strcasecmp(field[4], "null") != 0 && field[4] != "" {
 				let definition["default"] = preg_replace("/^'|'$/", "", field[4]);
 			}
 

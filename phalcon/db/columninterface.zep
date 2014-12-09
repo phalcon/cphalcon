@@ -141,6 +141,13 @@ interface ColumnInterface
 	public function getBindType();
 
 	/**
+	 * Returns default value of column
+	 *
+	 * @return int
+	 */
+	public function getDefault();
+
+	/**
 	 * Restores the internal state of a Phalcon\Db\Column object
 	 *
 	 * @param array data

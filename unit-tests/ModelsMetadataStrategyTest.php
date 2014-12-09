@@ -61,6 +61,10 @@ class ModelsMetadataStrategyTest extends PHPUnit_Framework_TestCase
 		),
 		10 => array(),
 		11 => array(),
+		12 => array(
+			'type' => 'mechanical',
+			'year' => 1900
+		),
 	);
 
 	public function __construct()

@@ -22,6 +22,7 @@ namespace Phalcon\Mvc\Model\MetaData\Strategy;
 use Phalcon\DiInterface;
 use Phalcon\Db\Column;
 use Phalcon\Mvc\ModelInterface;
+use Phalcon\Mvc\Model\MetaData;
 use Phalcon\Mvc\Model\MetaData\StrategyInterface;
 use Phalcon\Mvc\Model\Exception;
 
@@ -39,7 +40,7 @@ class Annotations implements StrategyInterface
 		var annotations, className, reflection, propertiesAnnotations;
 		var property, propAnnotations, columnAnnotation, columnName, feature;
 		var fieldTypes, fieldBindTypes, numericTyped, primaryKeys, nonPrimaryKeys, identityField,
-			notNull, attributes, automaticDefault;
+			notNull, attributes, automaticDefault, defaultValues, defaultValue;
 
 		if typeof dependencyInjector != "object" {
 			throw new Exception("The dependency injector is invalid");
@@ -71,7 +72,8 @@ class Annotations implements StrategyInterface
 			fieldTypes = [],
 			fieldBindTypes = [],
 			automaticDefault = [],
-			identityField = false;
+			identityField = false,
+			defaultValues = [];
 
 		for property, propAnnotations in propertiesAnnotations {
 
@@ -151,6 +153,14 @@ class Annotations implements StrategyInterface
 				let notNull[] = columnName;
 			}
 
+			/**
+			 * If column has default value or column is nullable and default value is null
+			 */
+			let defaultValue = columnAnnotation->getNamedParameter("default");
+			if defaultValue !== null || columnAnnotation->getNamedParameter("nullable") {
+				let defaultValues[columnName] = defaultValue;
+			}
+
 			let attributes[] = columnName;
 		}
 
@@ -158,16 +168,17 @@ class Annotations implements StrategyInterface
 		 * Create an array using the MODELS_* constants as indexes
 		 */
 		return [
-			0: attributes,
-			1: primaryKeys,
-			2: nonPrimaryKeys,
-			3: notNull,
-			4: fieldTypes,
-			5: numericTyped,
-			8: identityField,
-			9: fieldBindTypes,
-			10: automaticDefault,
-			11: automaticDefault
+			MetaData::MODELS_ATTRIBUTES               : attributes,
+			MetaData::MODELS_PRIMARY_KEY              : primaryKeys,
+			MetaData::MODELS_NON_PRIMARY_KEY          : nonPrimaryKeys,
+			MetaData::MODELS_NOT_NULL                 : notNull,
+			MetaData::MODELS_DATA_TYPES               : fieldTypes,
+			MetaData::MODELS_DATA_TYPES_NUMERIC       : numericTyped,
+			MetaData::MODELS_IDENTITY_COLUMN          : identityField,
+			MetaData::MODELS_DATA_TYPES_BIND          : fieldBindTypes,
+			MetaData::MODELS_AUTOMATIC_DEFAULT_INSERT : automaticDefault,
+			MetaData::MODELS_AUTOMATIC_DEFAULT_UPDATE : automaticDefault,
+			MetaData::MODELS_DEFAULT_VALUES           : defaultValues
 		];
 	}
 

@@ -18,12 +18,12 @@ class Robots extends \Phalcon\Mvc\Model
 	public $name;
 
 	/**
-	 * @Column(type="string", length=32, nullable=false)
+	 * @Column(type="string", length=32, nullable=false, default='mechanical')
 	 */
 	public $type;
 
 	/**
-	 * @Column(type="integer", nullable=false)
+	 * @Column(type="integer", nullable=false, default=1900)
 	 */
 	public $year;
 
