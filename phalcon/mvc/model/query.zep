@@ -2782,7 +2782,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 		 * If there are no records to apply the update we return success
 		 */
 		if !count(records) {
-			return new Status(true, null);
+			return new Status(true);
 		}
 
 		if method_exists(model, "selectWriteConnection") {
@@ -2820,7 +2820,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 		 */
 		connection->commit();
 
-		return new Status(true, null);
+		return new Status(true);
 	}
 
 	/**
@@ -2859,7 +2859,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 		 * If there are no records to delete we return success
 		 */
 		if !count(records) {
-			return new Status(true, null);
+			return new Status(true);
 		}
 
 		if method_exists(model, "selectWriteConnection") {
@@ -2901,7 +2901,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 		/**
 		 * Create a status to report the deletion status
 		 */
-		return new Status(true, null);
+		return new Status(true);
 	}
 
 	/**
@@ -2922,11 +2922,11 @@ class Query implements QueryInterface, InjectionAwareInterface
 		 * Instead of create a PHQL string statement we manually create the IR representation
 		 */
 		let selectIr = [
-			"columns": [[[
+			"columns": [[
 				"type"  : "object",
 				"model" : get_class(model),
 				"column": model->getSource()
-			]]],
+			]],
 			"models":  intermediate["models"],
 			"tables":  intermediate["tables"]
 		];
