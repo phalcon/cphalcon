@@ -431,7 +431,7 @@ class Response implements ResponseInterface, InjectionAwareInterface
 	 */
 	public function redirect(location = null, externalRedirect = false, int statusCode = 302) -> <ResponseInterface>
 	{
-		var header, url, dependencyInjector, matched, message;
+		var header, url, dependencyInjector, matched, message, view;
 
 		if !location {
 			let location = "";
@@ -452,10 +452,16 @@ class Response implements ResponseInterface, InjectionAwareInterface
 			}
 		}
 
+		let dependencyInjector = this->getDI();
+
 		if !header {
-			let dependencyInjector = this->getDI(),
-				url = <UrlInterface> dependencyInjector->getShared("url"),
+			let url = <UrlInterface> dependencyInjector->getShared("url"),
 				header = url->get(location);
+		}
+
+		if dependencyInjector->has("view") {
+			let view = <ViewInterface> dependencyInjector->getShared("view");
+			view->disable();
 		}
 
 		/**
