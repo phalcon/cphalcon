@@ -48,7 +48,7 @@ class Simple extends Injectable
 
 	protected _engines = false;
 
-	protected _registeredEngines;
+	protected _registeredEngines  { get };
 
 	protected _activeRenderPath;
 

@@ -15,7 +15,7 @@
   +------------------------------------------------------------------------+
   | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
   |          Eduar Carvajal <eduar@phalconphp.com>                         |
-  |          Piotr Gasiorowski <p.gasiorowski@vipserv.org>                                  |
+  |          Piotr Gasiorowski <p.gasiorowski@vipserv.org>                 |
   +------------------------------------------------------------------------+
 */
 
@@ -159,6 +159,24 @@ class ViewSimpleTest extends PHPUnit_Framework_TestCase
 
 		// Cache should expire
 		$this->assertEquals("<p></p>", @$view->render('test3/coolVar'));
+	}
+
+	public function testGetRegisteredEngines()
+	{
+		$expected = array(
+			'.mhtml' => 'My_Mustache_Engine',
+			'.phtml' => 'Phalcon\Mvc\View\Engine\Php',
+			'.twig'  => 'My_Twig_Engine',
+			'.volt'  => 'Phalcon\Mvc\View\Engine\Volt',
+		);
+
+		$di   = new Phalcon\DI();
+		$view = new Phalcon\Mvc\View\Simple();
+		$view->setDI($di);
+		$view->setViewsDir('unit-tests/views/');
+
+		$view->registerEngines($expected);
+		$this->assertEquals($expected, $view->getRegisteredEngines());
 	}
 
 	// Setup viewCache service and DI
