@@ -66,10 +66,8 @@ class DispatcherListener
 		if moduleName {
 			let eventsManager = this->_application->getEventsManager();
 
-			if typeof eventsManager == "object" {
-				if eventsManager->fire("application:beforeStartModule", this->_application) === false {
-					return false;
-				}
+			if eventsManager->fire("application:beforeStartModule", this->_application) === false {
+				return false;
 			}
 
 			let modules = this->_application->getModules();
@@ -97,9 +95,7 @@ class DispatcherListener
 			/**
 			 * Calling afterStartModule event
 			 */
-			if typeof eventsManager == "object" {
-				eventsManager->fire("application:afterStartModule", this->_application, module);
-			}
+			eventsManager->fire("application:afterStartModule", this->_application, module);
 		}
 
 		if this->_application->isUseImplicitView() === true {

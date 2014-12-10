@@ -275,10 +275,12 @@ class Application extends Injectable
 		let eventsManager = <ManagerInterface> this->_eventsManager;
 		if typeof eventsManager != "object" {
 			let eventsManager = dependencyInjector->getShared("eventsManager");
-		}
 
-		if typeof eventsManager != "object" {
-			throw new Exception("An events manager object is required to access internal services");
+			if typeof eventsManager != "object" {
+				throw new Exception("An events manager object is required to access internal services");
+			} else {
+				this->setEventsManager(eventsManager);
+			}
 		}
 
 		/**
@@ -331,6 +333,11 @@ class Application extends Injectable
 		 * The dispatcher must return an object
 		 */
 		let controller = dispatcher->dispatch();
+
+		/**
+		 * Not needed after dispatching
+		 */
+		dispatcher->getEventsManager()->detach("dispatch", dispatcherListener);
 
 		/**
 		 * Get the latest value returned by an action
