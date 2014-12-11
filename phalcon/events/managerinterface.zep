@@ -38,6 +38,14 @@ interface ManagerInterface
 	public function attach(eventType, handler);
 
 	/**
+	 * Detach the listener from the events manager
+	 *
+	 * @param string eventType
+	 * @param object handler
+	 */
+	public function detach(eventType, handler);
+
+	/**
 	 * Removes all events from the EventsManager
 	 *
 	 * @param string type
