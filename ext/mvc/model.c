@@ -6607,43 +6607,14 @@ PHP_METHOD(Phalcon_Mvc_Model, __isset){
  * @return string
  */
 PHP_METHOD(Phalcon_Mvc_Model, serialize){
-
-	zval *meta_data = NULL, *attributes = NULL, *null_value, *data;
-	zval *attribute = NULL, *value = NULL;
-	HashTable *ah0;
-	HashPosition hp0;
-	zval **hd;
+	zval *data;
 
 	PHALCON_MM_GROW();
-
-	PHALCON_CALL_METHOD(&meta_data, this_ptr, "getmodelsmetadata");
-	
-	/** 
-	 * We get the model's attributes to only serialize them
-	 */
-	PHALCON_CALL_METHOD(&attributes, meta_data, "getattributes", this_ptr);
-	
-	PHALCON_INIT_VAR(null_value);
 	
 	PHALCON_INIT_VAR(data);
 	array_init(data);
-	
-	phalcon_is_iterable(attributes, &ah0, &hp0, 0, 0);
-	
-	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
-	
-		PHALCON_GET_HVALUE(attribute);
-	
-		if (phalcon_isset_property_zval(this_ptr, attribute TSRMLS_CC)) {
-			PHALCON_OBS_NVAR(value);
-			phalcon_read_property_zval(&value, this_ptr, attribute, PH_NOISY TSRMLS_CC);
-			phalcon_array_update_zval(&data, attribute, value, PH_COPY);
-		} else {
-			phalcon_array_update_zval(&data, attribute, null_value, PH_COPY);
-		}
-	
-		zend_hash_move_forward_ex(ah0, &hp0);
-	}
+
+	PHALCON_CALL_METHOD(&data, this_ptr, "toarray");
 	
 	/** 
 	 * Use the standard serialize function to serialize the array data
