@@ -105,6 +105,7 @@ PHP_METHOD(Phalcon_Tag, getDefault);
 PHP_METHOD(Phalcon_Tag, getDefaults);
 PHP_METHOD(Phalcon_Tag, setDefaultParams);
 PHP_METHOD(Phalcon_Tag, getDefaultParams);
+PHP_METHOD(Phalcon_Tag, choice);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_tag_setdi, 0, 0, 1)
 	ZEND_ARG_INFO(0, dependencyInjector)
@@ -225,6 +226,12 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_tag_setdefaultparams, 0, 0, 1)
 	ZEND_ARG_INFO(0, params)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_tag_choice, 0, 0, 2)
+	ZEND_ARG_INFO(0, expression)
+	ZEND_ARG_INFO(0, value1)
+	ZEND_ARG_INFO(0, value2)
+ZEND_END_ARG_INFO()
+
 static const zend_function_entry phalcon_tag_method_entry[] = {
 	PHP_ME(Phalcon_Tag, setDI, arginfo_phalcon_tag_setdi, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Tag, getDI, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
@@ -285,6 +292,7 @@ static const zend_function_entry phalcon_tag_method_entry[] = {
 	PHP_ME(Phalcon_Tag, getDefaults, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Tag, setDefaultParams, arginfo_phalcon_tag_setdefaultparams, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Tag, getDefaultParams, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Tag, choice, arginfo_phalcon_tag_choice, ZEND_ACC_STATIC|ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };
 
@@ -2316,4 +2324,23 @@ PHP_METHOD(Phalcon_Tag, getDefaultParams){
 	default_params = phalcon_fetch_static_property_ce(phalcon_tag_ce, SL("_defaultParams") TSRMLS_CC);
 
 	RETURN_ZVAL(default_params, 1, 0);
+}
+
+PHP_METHOD(Phalcon_Tag, choice){
+
+	zval *expression, *value1, *value2 = NULL;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 2, 1, &expression, &value1, &value2);
+
+	if (!value2) {
+		value2 = PHALCON_GLOBAL(z_null);
+	}
+
+	if (zend_is_true(expression)) {
+		RETURN_CTOR(value1);
+	}
+
+	RETURN_CTOR(value2);
 }
