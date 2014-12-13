@@ -36,6 +36,7 @@ use Phalcon\Mvc\Model\BehaviorInterface;
 use Phalcon\Mvc\Model\Exception;
 use Phalcon\Mvc\Model\MetadataInterface;
 use Phalcon\Mvc\Model\MessageInterface;
+use Phalcon\Mvc\Model\CriteriaInterface;
 use Phalcon\Events\ManagerInterface as EventsManagerInterface;
 
 /**
@@ -889,8 +890,13 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 			let dependencyInjector = \Phalcon\Di::getDefault();
 		}
 
-		let criteria = new \Phalcon\Mvc\Model\Criteria();
-		criteria->setDI(dependencyInjector);
+		if (dependencyInjector instanceof DiInterface) {
+			let criteria = <CriteriaInterface> dependencyInjector->get("\Phalcon\Mvc\Model\Criteria");
+		} else {
+			let criteria = new \Phalcon\Mvc\Model\Criteria();
+			criteria->setDI(dependencyInjector);
+		}
+
 		criteria->setModelName(get_called_class());
 
 		return criteria;
