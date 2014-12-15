@@ -331,7 +331,6 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns){
 			 */
 			if (phalcon_memnstr_str(column_type, SL("char"))) {
 				phalcon_array_update_string_long(&definition, SL("type"), 5, 0);
-				phalcon_array_update_string_long(&definition, SL("bytes"), 1, 0);
 				break;
 			}
 
