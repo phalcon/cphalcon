@@ -219,7 +219,9 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, describeColumns){
 
 		PHALCON_OBS_NVAR(numeric_size);
 		phalcon_array_fetch_long(&numeric_size, field, 3, PH_NOISY);
-		convert_to_long(numeric_size);
+		if (phalcon_is_numeric(numeric_size)) {
+			convert_to_long(numeric_size);
+		}
 
 		PHALCON_OBS_NVAR(numeric_scale); 
 		phalcon_array_fetch_long(&numeric_scale, field, 4, PH_NOISY);

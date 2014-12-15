@@ -341,6 +341,7 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 				'_type' => 3,
 				'_isNumeric' => true,
 				'_size' => 16,
+				'_bytes' => 128,
 				'_scale' => 2,
 				'_unsigned' => false,
 				'_notNull' => true,
