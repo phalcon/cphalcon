@@ -220,7 +220,6 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeColumns){
 		 * Check the column type to get the correct Phalcon type
 		 */
 		while (1) {
-
 			/**
 			 * Tinyint(1) is boolean
 			 */
@@ -256,7 +255,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeColumns){
 			/**
 			 * Mediumint
 			 */
-			if (phalcon_memnstr_str(column_type, SL("smallint"))) {
+			if (phalcon_memnstr_str(column_type, SL("mediumint"))) {
 				phalcon_array_update_string_long(&definition, SL("type"), 0, 0);
 				phalcon_array_update_string(&definition, SL("isNumeric"), PHALCON_GLOBAL(z_true), PH_COPY);
 				phalcon_array_update_string_long(&definition, SL("bindType"), 1, 0);
@@ -461,17 +460,17 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeColumns){
 		if (!PHALCON_IS_EMPTY(attribute)) {
 			phalcon_array_update_string(&definition, SL("default"), attribute, PH_COPY);
 		}
-	
+
 		/** 
 		 * Every column is stored as a Phalcon\Db\Column
 		 */
 		PHALCON_INIT_NVAR(column);
 		object_init_ex(column, phalcon_db_column_ce);
 		PHALCON_CALL_METHOD(NULL, column, "__construct", column_name, definition);
-	
+
 		phalcon_array_append(&columns, column, PH_SEPARATE);
 		PHALCON_CPY_WRT(old_column, column_name);
-	
+
 		zend_hash_move_forward_ex(ah0, &hp0);
 	}
 	

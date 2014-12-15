@@ -436,7 +436,7 @@ PHP_METHOD(Phalcon_Db_Column, getDefaultValue){
 PHP_METHOD(Phalcon_Db_Column, __set_state){
 
 	zval *data, *definition, *column_name, *column_type = NULL;
-	zval *not_null, *primary, *size, *scale, *dunsigned, *after;
+	zval *not_null, *primary, *size, *bytes, *scale, *dunsigned, *after;
 	zval *is_numeric, *first, *bind_type, *default_value;
 
 	PHALCON_MM_GROW();
@@ -470,6 +470,11 @@ PHP_METHOD(Phalcon_Db_Column, __set_state){
 	
 	if (phalcon_array_isset_string_fetch(&size, data, SS("_size"))) {
 		phalcon_array_update_string(&definition, SL("size"), size, PH_COPY);
+		phalcon_array_update_string(&definition, SL("bytes"), size, PH_COPY);
+	}
+	
+	if (phalcon_array_isset_string_fetch(&bytes, data, SS("_bytes"))) {
+		phalcon_array_update_string(&definition, SL("bytes"), bytes, PH_COPY);
 	}
 	
 	if (phalcon_array_isset_string_fetch(&scale, data, SS("_scale"))) {
