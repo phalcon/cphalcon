@@ -3387,6 +3387,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _preSave){
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
+	double num, max;
 
 	PHALCON_MM_GROW();
 
@@ -3461,8 +3462,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _preSave){
 		PHALCON_CALL_METHOD(&default_values, meta_data, "getdefaultvalues", this_ptr);
 	}
 
-	PHALCON_INIT_VAR(error);
-	ZVAL_BOOL(error, 0);
+	error = PHALCON_GLOBAL(z_false);
 
 	PHALCON_INIT_NVAR(event_name);
 	ZVAL_STRING(event_name, "validation", 1);
@@ -3545,7 +3545,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _preSave){
 
 					PHALCON_CALL_METHOD(NULL, this_ptr, "appendmessage", message, attribute_field, type);
 
-					ZVAL_BOOL(error, 1);
+					error = PHALCON_GLOBAL(z_true);
 				}
 			} else if (Z_TYPE_P(value) != IS_OBJECT) {
 				if (phalcon_array_isset(data_type_numeric, field)) {
@@ -3558,7 +3558,24 @@ PHP_METHOD(Phalcon_Mvc_Model, _preSave){
 
 						PHALCON_CALL_METHOD(NULL, this_ptr, "appendmessage", message, attribute_field, type);
 
-						ZVAL_BOOL(error, 1);
+						error = PHALCON_GLOBAL(z_true);
+					} else {
+						PHALCON_CALL_METHOD(&field_size, meta_data, "getdatabytes", this_ptr, field);
+
+						num = phalcon_get_intval(value);
+						max = pow(2, (Z_LVAL_P(field_size) - 1)) - 1;
+
+						if (num > max) {
+							PHALCON_INIT_NVAR(message);
+							PHALCON_CONCAT_SVS(message, "Value of field '", field, "' is out of range for type");
+
+							PHALCON_INIT_NVAR(type);
+							ZVAL_STRING(type, "tooLarge ", 1);
+
+							PHALCON_CALL_METHOD(NULL, this_ptr, "appendmessage", message, attribute_field, type);
+
+							error = PHALCON_GLOBAL(z_true);
+						}
 					}
 				} else if (phalcon_is_equal_long(field_type, PHALCON_DB_COLUMN_TYPE_VARCHAR TSRMLS_CC)
 					|| phalcon_is_equal_long(field_type, PHALCON_DB_COLUMN_TYPE_CHAR TSRMLS_CC)) {
@@ -3585,7 +3602,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _preSave){
 
 							PHALCON_CALL_METHOD(NULL, this_ptr, "appendmessage", message, attribute_field, type);
 
-							ZVAL_BOOL(error, 1);
+							error = PHALCON_GLOBAL(z_true);
 						}
 					}
 				}
@@ -3914,7 +3931,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowInsert){
 			}
 		}
 	}
-	
+
 	/** 
 	 * The low level insert is performed
 	 */

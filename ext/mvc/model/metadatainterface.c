@@ -35,6 +35,12 @@ static const zend_function_entry phalcon_mvc_model_metadatainterface_method_entr
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_MetaDataInterface, getNonPrimaryKeyAttributes, arginfo_phalcon_mvc_model_metadatainterface_getnonprimarykeyattributes)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_MetaDataInterface, getNotNullAttributes, arginfo_phalcon_mvc_model_metadatainterface_getnotnullattributes)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_MetaDataInterface, getDataTypes, arginfo_phalcon_mvc_model_metadatainterface_getdatatypes)
+	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_MetaDataInterface, getDataType, arginfo_phalcon_mvc_model_metadatainterface_getdatatype)
+	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_MetaDataInterface, getDataSizes, arginfo_phalcon_mvc_model_metadatainterface_getdatasizes)
+	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_MetaDataInterface, getDataSize, arginfo_phalcon_mvc_model_metadatainterface_getdatasize)
+	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_MetaDataInterface, getDataBytes, arginfo_phalcon_mvc_model_metadatainterface_getdatabytes)
+	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_MetaDataInterface, getDataScales, arginfo_phalcon_mvc_model_metadatainterface_getdatascales)
+	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_MetaDataInterface, getDataScale, arginfo_phalcon_mvc_model_metadatainterface_getdatascale)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_MetaDataInterface, getDataTypesNumeric, arginfo_phalcon_mvc_model_metadatainterface_getdatatypesnumeric)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_MetaDataInterface, getIdentityField, arginfo_phalcon_mvc_model_metadatainterface_getidentityfield)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_MetaDataInterface, getBindTypes, arginfo_phalcon_mvc_model_metadatainterface_getbindtypes)
@@ -157,6 +163,54 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, getNotNullAttributes);
  * @return array
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, getDataTypes);
+
+/**
+ * Returns attributes and their data type
+ *
+ * @param Phalcon\Mvc\ModelInterface $model
+ * @return int
+ */
+PHALCON_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, getDataType);
+
+/**
+ * Returns attributes and their data sizes
+ *
+ * @param Phalcon\Mvc\ModelInterface $model
+ * @return array
+ */
+PHALCON_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, getDataSizes);
+
+/**
+ * Returns attributes and their data size
+ *
+ * @param Phalcon\Mvc\ModelInterface $model
+ * @return int
+ */
+PHALCON_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, getDataSize);
+
+/**
+ * Returns attributes and their data bytes
+ *
+ * @param Phalcon\Mvc\ModelInterface $model
+ * @return int
+ */
+PHALCON_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, getDataBytes);
+
+/**
+ * Returns attributes and their data scales
+ *
+ * @param Phalcon\Mvc\ModelInterface $model
+ * @return array
+ */
+PHALCON_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, getDataScales);
+
+/**
+ * Returns attributes and their data scale
+ *
+ * @param Phalcon\Mvc\ModelInterface $model
+ * @return int
+ */
+PHALCON_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, getDataScale);
 
 /**
  * Returns attributes which types are numerical

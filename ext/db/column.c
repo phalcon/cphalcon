@@ -61,6 +61,7 @@ PHP_METHOD(Phalcon_Db_Column, getSchemaName);
 PHP_METHOD(Phalcon_Db_Column, getName);
 PHP_METHOD(Phalcon_Db_Column, getType);
 PHP_METHOD(Phalcon_Db_Column, getSize);
+PHP_METHOD(Phalcon_Db_Column, getBytes);
 PHP_METHOD(Phalcon_Db_Column, getScale);
 PHP_METHOD(Phalcon_Db_Column, isUnsigned);
 PHP_METHOD(Phalcon_Db_Column, isNotNull);
@@ -84,6 +85,7 @@ static const zend_function_entry phalcon_db_column_method_entry[] = {
 	PHP_ME(Phalcon_Db_Column, getName, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Column, getType, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Column, getSize, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Column, getBytes, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Column, getScale, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Column, isUnsigned, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Column, isNotNull, NULL, ZEND_ACC_PUBLIC)
@@ -110,6 +112,7 @@ PHALCON_INIT_CLASS(Phalcon_Db_Column){
 	zend_declare_property_null(phalcon_db_column_ce, SL("_type"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_bool(phalcon_db_column_ce, SL("_isNumeric"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_db_column_ce, SL("_size"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_db_column_ce, SL("_bytes"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_long(phalcon_db_column_ce, SL("_scale"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_bool(phalcon_db_column_ce, SL("_unsigned"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_bool(phalcon_db_column_ce, SL("_notNull"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
@@ -152,7 +155,7 @@ PHALCON_INIT_CLASS(Phalcon_Db_Column){
 PHP_METHOD(Phalcon_Db_Column, __construct){
 
 	zval *column_name, *definition, *type, *not_null;
-	zval *primary, *size, *scale, *dunsigned, *is_numeric;
+	zval *primary, *size, *bytes, *scale, *dunsigned, *is_numeric;
 	zval *auto_increment, *first, *after, *bind_type, *default_value;
 
 	phalcon_fetch_params(0, 2, 0, &column_name, &definition);
@@ -185,8 +188,13 @@ PHP_METHOD(Phalcon_Db_Column, __construct){
 	
 	if (phalcon_array_isset_string_fetch(&size, definition, SS("size"))) {
 		phalcon_update_property_this(this_ptr, SL("_size"), size TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_bytes"), size TSRMLS_CC);
 	}
-	
+
+	if (phalcon_array_isset_string_fetch(&bytes, definition, SS("bytes"))) {
+		phalcon_update_property_this(this_ptr, SL("_bytes"), bytes TSRMLS_CC);
+	}
+
 	/** 
 	 * Check if the column has a decimal scale
 	 */
@@ -296,6 +304,17 @@ PHP_METHOD(Phalcon_Db_Column, getSize){
 
 
 	RETURN_MEMBER(this_ptr, "_size");
+}
+
+/**
+ * Returns column bytes
+ *
+ * @return int
+ */
+PHP_METHOD(Phalcon_Db_Column, getBytes){
+
+
+	RETURN_MEMBER(this_ptr, "_bytes");
 }
 
 /**

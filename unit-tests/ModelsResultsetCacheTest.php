@@ -162,7 +162,7 @@ class ModelsResultsetCacheTest extends PHPUnit_Framework_TestCase
 			$newrobot->name = "Not cached robot";
 			$newrobot->type = "notcached";
 			$newrobot->year = 2014;
-			$newrobot->create();
+			$this->assertTrue($newrobot->create());
 
 			$robotscount = Robots::count(array(
 				'cache' => array('key' => 'some-count'),
