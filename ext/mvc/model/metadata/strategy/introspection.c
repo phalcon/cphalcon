@@ -80,10 +80,10 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getMetaData){
 	zval *schema = NULL, *table = NULL, *read_connection = NULL, *exists = NULL;
 	zval *complete_table = NULL, *exception_message = NULL;
 	zval *columns = NULL, *attributes, *primary_keys, *non_primary_keys;
-	zval *numeric_typed, *not_null, *field_types, *field_sizes;
+	zval *numeric_typed, *not_null, *field_types, *field_sizes, *field_bytes, *field_scales;
 	zval *field_bind_types, *automatic_create_attributes, *automatic_update_attributes;
 	zval *identity_field = NULL, *column = NULL, *field_name = NULL, *feature = NULL;
-	zval *type = NULL, *size = NULL, *bind_type = NULL;
+	zval *type = NULL, *size = NULL, *bytes = NULL, *scale = NULL, *bind_type = NULL;
 	zval *field_default_values, *default_value = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
@@ -166,6 +166,12 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getMetaData){
 	PHALCON_INIT_VAR(field_sizes);
 	array_init(field_sizes);
 
+	PHALCON_INIT_VAR(field_bytes);
+	array_init(field_bytes);
+
+	PHALCON_INIT_VAR(field_scales);
+	array_init(field_scales);
+
 	PHALCON_INIT_VAR(field_bind_types);
 	array_init(field_bind_types);
 
@@ -229,12 +235,24 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getMetaData){
 		 */
 		PHALCON_CALL_METHOD(&type, column, "gettype");
 		phalcon_array_update_zval(&field_types, field_name, type, PH_COPY);
-	
+
 		/** 
 		 * To get the internal size
 		 */
 		PHALCON_CALL_METHOD(&size, column, "getsize");
 		phalcon_array_update_zval(&field_sizes, field_name, size, PH_COPY);
+
+		/** 
+		 * To get the internal bytes
+		 */
+		PHALCON_CALL_METHOD(&bytes, column, "getbytes");
+		phalcon_array_update_zval(&field_bytes, field_name, bytes, PH_COPY);
+
+		/** 
+		 * To get the internal scale
+		 */
+		PHALCON_CALL_METHOD(&scale, column, "getscale");
+		phalcon_array_update_zval(&field_scales, field_name, scale, PH_COPY);		
 
 		/** 
 		 * To mark how the fields must be escaped
@@ -246,14 +264,14 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getMetaData){
 		if (Z_TYPE_P(default_value) != IS_NULL) {
 			phalcon_array_update_zval(&field_default_values, field_name, default_value, PH_COPY);
 		}
-	
+
 		zend_hash_move_forward_ex(ah0, &hp0);
 	}
 
 	/** 
 	 * Create an array using the MODELS_* constants as indexes
 	 */
-	array_init_size(return_value, 12);
+	array_init_size(return_value, 14);
 	phalcon_array_update_long(&return_value, 0,  attributes, PH_COPY);
 	phalcon_array_update_long(&return_value, 1,  primary_keys, PH_COPY);
 	phalcon_array_update_long(&return_value, 2,  non_primary_keys, PH_COPY);
@@ -266,6 +284,8 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getMetaData){
 	phalcon_array_update_long(&return_value, 11, automatic_update_attributes, PH_COPY);
 	phalcon_array_update_long(&return_value, 12, field_default_values, PH_COPY);
 	phalcon_array_update_long(&return_value, 13, field_sizes, PH_COPY);
+	phalcon_array_update_long(&return_value, 14, field_scales, PH_COPY);
+	phalcon_array_update_long(&return_value, 15, field_bytes, PH_COPY);
 
 	PHALCON_MM_RESTORE();
 }

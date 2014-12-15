@@ -72,6 +72,9 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getDataTypes);
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, getDataType);
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, getDataSizes);
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, getDataSize);
+PHP_METHOD(Phalcon_Mvc_Model_MetaData, getDataBytes);
+PHP_METHOD(Phalcon_Mvc_Model_MetaData, getDataScales);
+PHP_METHOD(Phalcon_Mvc_Model_MetaData, getDataScale);
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, getDataTypesNumeric);
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, isNumeric);
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, getIdentityField);
@@ -107,6 +110,9 @@ static const zend_function_entry phalcon_mvc_model_metadata_method_entry[] = {
 	PHP_ME(Phalcon_Mvc_Model_MetaData, getDataType, arginfo_phalcon_mvc_model_metadatainterface_getdatatype, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_MetaData, getDataSizes, arginfo_phalcon_mvc_model_metadatainterface_getdatasizes, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_MetaData, getDataSize, arginfo_phalcon_mvc_model_metadatainterface_getdatasize, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_MetaData, getDataBytes, arginfo_phalcon_mvc_model_metadatainterface_getdatabytes, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_MetaData, getDataScales, arginfo_phalcon_mvc_model_metadatainterface_getdatascales, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_MetaData, getDataScale, arginfo_phalcon_mvc_model_metadatainterface_getdatascale, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_MetaData, getDataTypesNumeric, arginfo_phalcon_mvc_model_metadatainterface_getdatatypesnumeric, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_MetaData, isNumeric, arginfo_phalcon_mvc_model_metadatainterface_isnumeric, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_MetaData, getIdentityField, arginfo_phalcon_mvc_model_metadatainterface_getidentityfield, ZEND_ACC_PUBLIC)
@@ -907,6 +913,105 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getDataSize){
 	}
 
 	RETURN_CTOR(size);
+}
+
+/**
+ * Returns attribute data bytes
+ *
+ *<code>
+ *	print_r($metaData->getDataBytes(new Robots(), 'type'));
+ *</code>
+ *
+ * @param Phalcon\Mvc\ModelInterface $model
+ * @param string $attribute
+ * @return int
+ */
+PHP_METHOD(Phalcon_Mvc_Model_MetaData, getDataBytes){
+
+	zval *model, *attribute, *index, *data = NULL, *bytes;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 2, 0, &model, &attribute);
+	
+	PHALCON_INIT_VAR(index);
+	ZVAL_LONG(index, 15);
+	
+	PHALCON_CALL_METHOD(&data, this_ptr, "readmetadataindex", model, index);
+	if (Z_TYPE_P(data) != IS_ARRAY) { 
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The meta-data is invalid or is corrupt");
+		return;
+	}
+
+	if (phalcon_array_isset(data, attribute)) {
+		PHALCON_OBS_VAR(bytes);
+		phalcon_array_fetch(&bytes, data, attribute, PH_NOISY);
+	} else {
+		PHALCON_INIT_VAR(bytes);
+	}
+
+	RETURN_CTOR(bytes);
+}
+
+/**
+ * Returns attributes and their data scales
+ *
+ *<code>
+ *	print_r($metaData->getDataScales(new Robots()));
+ *</code>
+ *
+ * @param Phalcon\Mvc\ModelInterface $model
+ * @return array
+ */
+PHP_METHOD(Phalcon_Mvc_Model_MetaData, getDataScales){
+
+	zval *model, *index, *data = NULL;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 1, 0, &model);
+	
+	PHALCON_INIT_VAR(index);
+	ZVAL_LONG(index, 14);
+	
+	PHALCON_CALL_METHOD(&data, this_ptr, "readmetadataindex", model, index);
+	if (Z_TYPE_P(data) != IS_ARRAY) { 
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The meta-data is invalid or is corrupt");
+		return;
+	}
+	
+	RETURN_CTOR(data);
+}
+
+/**
+ * Returns attribute data scale
+ *
+ *<code>
+ *	print_r($metaData->getDataScale(new Robots(), 'type'));
+ *</code>
+ *
+ * @param Phalcon\Mvc\ModelInterface $model
+ * @param string $attribute
+ * @return int
+ */
+PHP_METHOD(Phalcon_Mvc_Model_MetaData, getDataScale){
+
+	zval *model, *attribute, *data = NULL, *scale;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 2, 0, &model, &attribute);
+	
+	PHALCON_CALL_METHOD(&data, this_ptr, "getdatasizes", model);
+
+	if (phalcon_array_isset(data, attribute)) {
+		PHALCON_OBS_VAR(scale);
+		phalcon_array_fetch(&scale, data, attribute, PH_NOISY);
+	} else {
+		PHALCON_INIT_VAR(scale);
+	}
+
+	RETURN_CTOR(scale);
 }
 
 /**

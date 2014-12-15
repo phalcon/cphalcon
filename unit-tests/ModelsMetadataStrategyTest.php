@@ -68,6 +68,18 @@ class ModelsMetadataStrategyTest extends PHPUnit_Framework_TestCase
 			'type' => 32,
 			'year' => 11,
 		),
+		14 => array(
+			'id' => 0,
+			'name' => 0,
+			'type' => 0,
+			'year' => 0,
+		),
+		15 => array(
+			'id' => 32,
+			'name' => 70,
+			'type' => 32,
+			'year' => 32,
+		),
 	);
 
 	public function __construct()
@@ -90,7 +102,6 @@ class ModelsMetadataStrategyTest extends PHPUnit_Framework_TestCase
 
 	protected function _getDI()
 	{
-
 		Phalcon\DI::reset();
 
 		$di = new Phalcon\DI();

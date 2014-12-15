@@ -386,7 +386,10 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 		//Update
 		$persona->cupo = 150000;
 		$persona->telefono = '123';
-		$this->assertTrue($persona->update());
+		if(!$persona->update()) {
+			var_dump($persona->getMessages());
+			exit;
+		}
 
 		//Checking correct update
 		$persona = Personas::findFirst(array("estado='X'"));
