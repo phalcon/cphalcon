@@ -952,7 +952,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 	 * @return mixed
 	 */
 	public function getContentType()
-    {
+	{
 		var contentType;
 
 		if fetch contentType, _SERVER["CONTENT_TYPE"] {
