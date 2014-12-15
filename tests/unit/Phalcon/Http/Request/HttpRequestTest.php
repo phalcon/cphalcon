@@ -267,7 +267,7 @@ class HttpRequestTest extends Helper\HttpBase
                 $request = $this->getRequestObject();
                 $this->setServerVar('CONTENT_TYPE', 'application/soap+xml');
                 $actual = $request->isSoapRequested();
-                $this->setServerVar('CONTENT_TYPE', '');
+                $this->unsetServerVar('CONTENT_TYPE');
 
                 expect($actual)->true();
             }
@@ -569,21 +569,41 @@ class HttpRequestTest extends Helper\HttpBase
 
     }
 
+    public function testHttpRequestContentType()
+    {
+        $request = $this->getRequestObject();
+
+        $this->setServerVar('CONTENT_TYPE', 'application/xhtml+xml');
+        $contentType = $request->getContentType();
+        $this->assertEquals($contentType, 'application/xhtml+xml');
+        $this->unsetServerVar('CONTENT_TYPE');
+
+        $this->setServerVar('HTTP_CONTENT_TYPE', 'application/xhtml+xml');
+        $contentType = $request->getContentType();
+        $this->assertEquals($contentType, 'application/xhtml+xml');
+        $this->unsetServerVar('HTTP_CONTENT_TYPE');
+    }
+
     public function testHttpRequestAcceptableContent()
     {
         $request = $this->getRequestObject();
 
-        $_SERVER['HTTP_ACCEPT'] = 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8';
+        $_SERVER['HTTP_ACCEPT'] = 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8,application/json; level=2; q=0.7';
         $accept = $request->getAcceptableContent();
-        $this->assertEquals(count($accept), 4);
+        $this->assertEquals(count($accept), 5);
 
         $firstAccept = $accept[0];
         $this->assertEquals($firstAccept['accept'], 'text/html');
         $this->assertEquals($firstAccept['quality'], 1);
 
-        $lastAccept = $accept[3];
-        $this->assertEquals($lastAccept['accept'], '*/*');
-        $this->assertEquals($lastAccept['quality'], 0.8);
+        $fourthAccept = $accept[3];
+        $this->assertEquals($fourthAccept['accept'], '*/*');
+        $this->assertEquals($fourthAccept['quality'], 0.8);
+
+        $lastAccept = $accept[4];
+        $this->assertEquals($lastAccept['accept'], 'application/json');
+        $this->assertEquals($lastAccept['quality'], 0.7);
+        $this->assertEquals($lastAccept['level'], 2);
 
         $this->assertEquals($request->getBestAccept(), 'text/html');
 
@@ -613,17 +633,21 @@ class HttpRequestTest extends Helper\HttpBase
     {
         $request = $this->getRequestObject();
 
-        $_SERVER['HTTP_ACCEPT_LANGUAGE'] = 'es,es-ar;q=0.8,en;q=0.5,en-us;q=0.3';
+        $_SERVER['HTTP_ACCEPT_LANGUAGE'] = 'es,es-ar;q=0.8,en;q=0.5,en-us;q=0.3,de-de; q=0.9';
         $accept = $request->getLanguages();
-        $this->assertEquals(count($accept), 4);
+        $this->assertEquals(count($accept), 5);
 
         $firstAccept = $accept[0];
         $this->assertEquals($firstAccept['language'], 'es');
         $this->assertEquals($firstAccept['quality'], 1);
 
-        $lastAccept = $accept[3];
-        $this->assertEquals($lastAccept['language'], 'en-us');
-        $this->assertEquals($lastAccept['quality'], 0.3);
+        $fourthAccept = $accept[3];
+        $this->assertEquals($fourthAccept['language'], 'en-us');
+        $this->assertEquals($fourthAccept['quality'], 0.3);
+
+        $lastAccept = $accept[4];
+        $this->assertEquals($lastAccept['language'], 'de-de');
+        $this->assertEquals($lastAccept['quality'], 0.9);
 
         $this->assertEquals($request->getBestLanguage(), 'es');
 
