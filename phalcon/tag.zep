@@ -524,8 +524,6 @@ class Tag
 			let params = parameters;
 		}
 
-		let value = null;
-
 		if !isset params[0] {
 			let params[0] = params["id"];
 		}
@@ -549,16 +547,21 @@ class Tag
 			}
 		}
 
-		let value = self::getValue(id, params);
-
 		/**
 		 * Automatically check inputs
 		 */
 		if fetch currentValue, params["value"] {
+			unset params["value"];
+			
+			let value = self::getValue(id, params);
+			
 			if value && currentValue == value {
 				let params["checked"] = "checked";
 			}
+			let params["value"] = currentValue;
 		} else {
+			let value = self::getValue(id, params);
+			
 			/**
 			* Evaluate the value in POST
 			*/
