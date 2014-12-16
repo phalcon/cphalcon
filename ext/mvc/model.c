@@ -3381,7 +3381,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _preSave){
 	zval *meta_data, *exists, *identity_field, *event_name = NULL;
 	zval *status = NULL, *attributes = NULL, *data_type_numeric = NULL, *data_types = NULL;
 	zval *column_map = NULL, *automatic_attributes = NULL, *default_values = NULL, *error = NULL;
-	zval *field = NULL, *field_type = NULL, *is_not_null = NULL, *field_size = NULL;
+	zval *field = NULL, *field_type = NULL, *is_not_null = NULL, *field_size = NULL, *field_scale = NULL;
 	zval *attribute_field = NULL, *value = NULL, *message = NULL, *type = NULL, *length = NULL;
 	zval *skipped, *exception_message = NULL;
 	HashTable *ah0;
@@ -3559,6 +3559,42 @@ PHP_METHOD(Phalcon_Mvc_Model, _preSave){
 						PHALCON_CALL_METHOD(NULL, this_ptr, "appendmessage", message, attribute_field, type);
 
 						error = PHALCON_GLOBAL(z_true);
+					} else if (phalcon_is_equal_long(field_type, PHALCON_DB_COLUMN_TYPE_DECIMAL TSRMLS_CC)) {
+						PHALCON_CALL_METHOD(&field_size, meta_data, "getdatasize", this_ptr, field);
+						PHALCON_CALL_METHOD(&field_scale, meta_data, "getdatascale", this_ptr, field);
+
+						PHALCON_INIT_NVAR(length);
+						phalcon_fast_strpos_str(length, value, SL("."));
+
+						if (!zend_is_true(length)) {
+							PHALCON_INIT_NVAR(length);
+							phalcon_fast_strlen(length, value);
+						} else if (PHALCON_LT_LONG(field_scale, (Z_LVAL_P(field_size)-Z_LVAL_P(length)))) {
+							PHALCON_INIT_NVAR(message);
+							PHALCON_CONCAT_SVS(message, "Value of field '", field, "' is out of range for type");
+
+							PHALCON_INIT_NVAR(type);
+							ZVAL_STRING(type, "tooLarge ", 1);
+
+							PHALCON_CALL_METHOD(NULL, this_ptr, "appendmessage", message, attribute_field, type);
+
+							error = PHALCON_GLOBAL(z_true);
+
+							zend_hash_move_forward_ex(ah0, &hp0);
+							continue;
+						}
+
+						if (PHALCON_GT_LONG(length, (Z_LVAL_P(field_size)-Z_LVAL_P(field_scale)+1))) {
+							PHALCON_INIT_NVAR(message);
+							PHALCON_CONCAT_SVS(message, "Value of field '", field, "' is out of range for type");
+
+							PHALCON_INIT_NVAR(type);
+							ZVAL_STRING(type, "tooLarge ", 1);
+
+							PHALCON_CALL_METHOD(NULL, this_ptr, "appendmessage", message, attribute_field, type);
+
+							error = PHALCON_GLOBAL(z_true);
+						}
 					} else {
 						PHALCON_CALL_METHOD(&field_size, meta_data, "getdatabytes", this_ptr, field);
 

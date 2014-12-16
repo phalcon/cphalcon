@@ -233,6 +233,11 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Oracle, describeColumns){
 				phalcon_array_update_string(&definition, SL("size"), column_precision, PH_COPY);
 				phalcon_array_update_string(&definition, SL("scale"), column_scale, PH_COPY);
 				phalcon_array_update_string_long(&definition, SL("bindType"), 32, 0);
+				if (phalcon_is_numeric(column_precision)) {
+					phalcon_array_update_string_long(&definition, SL("bytes"), Z_LVAL_P(column_precision) * 8, 0);
+				} else {
+					phalcon_array_update_string_long(&definition, SL("bytes"), 80, 0);
+				}
 				break;
 			}
 
@@ -253,6 +258,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Oracle, describeColumns){
 				phalcon_array_update_string_bool(&definition, SL("isNumeric"), 1, 0);
 				phalcon_array_update_string(&definition, SL("size"), column_precision, PH_COPY);
 				phalcon_array_update_string_long(&definition, SL("bindType"), 1, 0);
+				phalcon_array_update_string_long(&definition, SL("bytes"), 32, 0);
 				break;
 			}
 

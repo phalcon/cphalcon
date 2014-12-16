@@ -349,11 +349,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeColumns){
 				phalcon_array_update_string_bool(&definition, SL("isNumeric"), 1, 0);
 				phalcon_array_update_string_long(&definition, SL("bindType"), 32, 0);
 				if (phalcon_is_numeric(match_one)) {
-					if (phalcon_is_numeric(match_two) && PHALCON_GT(match_two, match_one)) {
-						phalcon_array_update_string_long(&definition, SL("bytes"), (Z_LVAL_P(match_two) + 2) * 8, 0);
-					} else {
-						phalcon_array_update_string_long(&definition, SL("bytes"), Z_LVAL_P(match_one) * 8, 0);
-					}
+					phalcon_array_update_string_long(&definition, SL("bytes"), Z_LVAL_P(match_one) * 8, 0);
 				} else {
 					phalcon_array_update_string_long(&definition, SL("bytes"), 40, 0);
 				}
