@@ -1002,7 +1002,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getDataScale){
 
 	phalcon_fetch_params(1, 2, 0, &model, &attribute);
 	
-	PHALCON_CALL_METHOD(&data, this_ptr, "getdatasizes", model);
+	PHALCON_CALL_METHOD(&data, this_ptr, "getdatascales", model);
 
 	if (phalcon_array_isset(data, attribute)) {
 		PHALCON_OBS_VAR(scale);

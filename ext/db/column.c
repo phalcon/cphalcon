@@ -185,7 +185,7 @@ PHP_METHOD(Phalcon_Db_Column, __construct){
 	if (phalcon_array_isset_string_fetch(&primary, definition, SS("primary"))) {
 		phalcon_update_property_this(this_ptr, SL("_primary"), primary TSRMLS_CC);
 	}
-	
+
 	if (phalcon_array_isset_string_fetch(&size, definition, SS("size"))) {
 		phalcon_update_property_this(this_ptr, SL("_size"), size TSRMLS_CC);
 		phalcon_update_property_this(this_ptr, SL("_bytes"), size TSRMLS_CC);
