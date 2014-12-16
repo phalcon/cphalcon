@@ -1921,12 +1921,13 @@ PHP_METHOD(Phalcon_Mvc_Model, _exists){
 	} else {
 		PHALCON_SEPARATE_PARAM(table);
 	}
-	
+
 	/** 
 	 * Builds a unique primary key condition
 	 */
 	PHALCON_OBS_VAR(unique_key);
 	phalcon_read_property_this(&unique_key, this_ptr, SL("_uniqueKey"), PH_NOISY TSRMLS_CC);
+
 	if (Z_TYPE_P(unique_key) == IS_NULL) {
 		PHALCON_CALL_METHOD(&build, this_ptr, "_rebuild", meta_data, connection);
 
@@ -1940,7 +1941,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _exists){
 
 	PHALCON_OBS_VAR(seen_rawvalues);
 	phalcon_read_property_this(&seen_rawvalues, this_ptr, SL("_seenRawvalues"), PH_NOISY TSRMLS_CC);	
-	
+
 	/** 
 	 * If we already know if the record exists we don't check it
 	 */
@@ -1966,11 +1967,11 @@ PHP_METHOD(Phalcon_Mvc_Model, _exists){
 	} else {
 		PHALCON_CPY_WRT(table, source);
 	}
-	
+
 	PHALCON_CALL_METHOD(&escaped_table, connection, "escapeidentifier", table);
-	
+
 	PHALCON_INIT_VAR(null_mode);
-	
+
 	/** 
 	 * Here we use a single COUNT(*) without PHQL to make the execution faster
 	 */
@@ -3382,7 +3383,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _preSave){
 	zval *status = NULL, *attributes = NULL, *data_type_numeric = NULL, *data_types = NULL;
 	zval *column_map = NULL, *automatic_attributes = NULL, *default_values = NULL, *error = NULL;
 	zval *field = NULL, *field_type = NULL, *is_not_null = NULL, *field_size = NULL, *field_scale = NULL;
-	zval *attribute_field = NULL, *value = NULL, *message = NULL, *type = NULL, *length = NULL;
+	zval *attribute_field = NULL, *value = NULL, *str_value = NULL, *message = NULL, *type = NULL, *length = NULL, *pos = NULL;
 	zval *skipped, *exception_message = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
@@ -3563,15 +3564,23 @@ PHP_METHOD(Phalcon_Mvc_Model, _preSave){
 						PHALCON_CALL_METHOD(&field_size, meta_data, "getdatasize", this_ptr, field);
 						PHALCON_CALL_METHOD(&field_scale, meta_data, "getdatascale", this_ptr, field);
 
-						PHALCON_INIT_NVAR(length);
-						phalcon_fast_strpos_str(length, value, SL("."));
+						PHALCON_INIT_NVAR(str_value);
+                        phalcon_strval(str_value, value);
 
-						if (!zend_is_true(length)) {
-							PHALCON_INIT_NVAR(length);
-							phalcon_fast_strlen(length, value);
-						} else if (PHALCON_LT_LONG(field_scale, (Z_LVAL_P(field_size)-Z_LVAL_P(length)))) {
+						PHALCON_INIT_NVAR(length);
+						phalcon_fast_strlen(length, value);
+
+						PHALCON_INIT_NVAR(pos);
+						phalcon_fast_strpos_str(pos, str_value, SL("."));
+
+						if (!phalcon_is_numeric(pos)) {
+							PHALCON_INIT_NVAR(pos);
+							ZVAL_LONG(pos, Z_LVAL_P(length));
+						}
+
+						if (phalcon_is_numeric(field_scale) && PHALCON_LT_LONG(field_scale, (Z_LVAL_P(length)-Z_LVAL_P(pos)-1))) {
 							PHALCON_INIT_NVAR(message);
-							PHALCON_CONCAT_SVS(message, "Value of field '", field, "' is out of range for type");
+							PHALCON_CONCAT_SVSV(message, "Value of field '", field, "' scale is out of range for type ", field_type);
 
 							PHALCON_INIT_NVAR(type);
 							ZVAL_STRING(type, "tooLarge ", 1);
@@ -3584,9 +3593,9 @@ PHP_METHOD(Phalcon_Mvc_Model, _preSave){
 							continue;
 						}
 
-						if (PHALCON_GT_LONG(length, (Z_LVAL_P(field_size)-Z_LVAL_P(field_scale)+1))) {
+						if (PHALCON_GT_LONG(pos, (Z_LVAL_P(field_size)-Z_LVAL_P(field_scale)+1))) {
 							PHALCON_INIT_NVAR(message);
-							PHALCON_CONCAT_SVS(message, "Value of field '", field, "' is out of range for type");
+							PHALCON_CONCAT_SVSV(message, "Value of field '", field, "' is out of range for type ", field_type);
 
 							PHALCON_INIT_NVAR(type);
 							ZVAL_STRING(type, "tooLarge ", 1);
@@ -3603,7 +3612,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _preSave){
 
 						if (num > max) {
 							PHALCON_INIT_NVAR(message);
-							PHALCON_CONCAT_SVS(message, "Value of field '", field, "' is out of range for type");
+							PHALCON_CONCAT_SVSV(message, "Value of field '", field, "' is out of range for type ", field_type);
 
 							PHALCON_INIT_NVAR(type);
 							ZVAL_STRING(type, "tooLarge ", 1);
@@ -4743,7 +4752,7 @@ PHP_METHOD(Phalcon_Mvc_Model, save){
 				RETURN_MM_FALSE;
 			} else if (zend_is_true(exists) && !zend_is_true(exists2)) {
 				PHALCON_INIT_VAR(type);
-				ZVAL_STRING(type, "InvalidUpdateAttempt", 1);
+				ZVAL_STRING(type, "InvalidUpdateAttempt2", 1);
 
 				PHALCON_INIT_VAR(message);
 				ZVAL_STRING(message, "Record cannot be updated because it does not exist", 1);
