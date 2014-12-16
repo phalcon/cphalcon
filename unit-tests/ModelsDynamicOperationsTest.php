@@ -100,7 +100,7 @@ class ModelsDynamicOperationsTest extends PHPUnit_Framework_TestCase
 		$persona = Dynamic\Personas::findFirst();
 		$this->assertTrue($persona->save());
 
-		$this->assertEquals(count($tracer), 3);
+		$this->assertEquals(count($tracer), 4);
 
 		$persona->nombres = 'Other Name '.mt_rand(0, 150000);
 		$this->assertTrue($persona->save());
