@@ -153,7 +153,9 @@ PHP_METHOD(Phalcon_Mvc_Model, readAttribute);
 PHP_METHOD(Phalcon_Mvc_Model, writeAttribute);
 PHP_METHOD(Phalcon_Mvc_Model, skipAttributes);
 PHP_METHOD(Phalcon_Mvc_Model, skipAttributesOnCreate);
+PHP_METHOD(Phalcon_Mvc_Model, getSkipAttributesOnCreate);
 PHP_METHOD(Phalcon_Mvc_Model, skipAttributesOnUpdate);
+PHP_METHOD(Phalcon_Mvc_Model, getSkipAttributesOnUpdate);
 PHP_METHOD(Phalcon_Mvc_Model, hasOne);
 PHP_METHOD(Phalcon_Mvc_Model, belongsTo);
 PHP_METHOD(Phalcon_Mvc_Model, hasMany);
@@ -385,7 +387,9 @@ static const zend_function_entry phalcon_mvc_model_method_entry[] = {
 	PHP_ME(Phalcon_Mvc_Model, writeAttribute, arginfo_phalcon_mvc_modelinterface_writeattribute, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model, skipAttributes, arginfo_phalcon_mvc_model_skipattributes, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Mvc_Model, skipAttributesOnCreate, arginfo_phalcon_mvc_model_skipattributesoncreate, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Mvc_Model, getSkipAttributesOnCreate, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model, skipAttributesOnUpdate, arginfo_phalcon_mvc_model_skipattributesonupdate, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Mvc_Model, getSkipAttributesOnUpdate, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model, hasOne, arginfo_phalcon_mvc_model_hasone, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model, belongsTo, arginfo_phalcon_mvc_model_belongsto, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model, hasMany, arginfo_phalcon_mvc_model_hasmany, ZEND_ACC_PUBLIC)
@@ -1689,13 +1693,11 @@ PHP_METHOD(Phalcon_Mvc_Model, findFirst){
 
 	if (zend_is_true(result)) {
 		RETURN_CTOR(result);
-	}
-
-	if (zend_is_true(auto_create)) {
+	} else if (zend_is_true(auto_create)) {
 		RETURN_CTOR(model);
 	}
 
-	RETURN_MM();
+	RETURN_MM_FALSE;
 }
 
 /**
@@ -1740,7 +1742,7 @@ PHP_METHOD(Phalcon_Mvc_Model, query){
  *
  * @param Phalcon\Mvc\Model\MetadataInterface $metaData
  * @param Phalcon\Db\AdapterInterface $connection
- * @return mixed
+ * @return boolean
  */
 PHP_METHOD(Phalcon_Mvc_Model, _reBuild){
 
@@ -1923,12 +1925,20 @@ PHP_METHOD(Phalcon_Mvc_Model, _exists){
 	}
 
 	/** 
+	 * If we already know if the record exists we don't check it
+	 */
+	PHALCON_OBS_VAR(dirty_state);
+	phalcon_read_property_this(&dirty_state, this_ptr, SL("_dirtyState"), PH_NOISY TSRMLS_CC);
+
+	/** 
 	 * Builds a unique primary key condition
 	 */
 	PHALCON_OBS_VAR(unique_key);
 	phalcon_read_property_this(&unique_key, this_ptr, SL("_uniqueKey"), PH_NOISY TSRMLS_CC);
 
 	if (Z_TYPE_P(unique_key) == IS_NULL) {
+		ZVAL_TRUE(dirty_state);
+
 		PHALCON_CALL_METHOD(&build, this_ptr, "_rebuild", meta_data, connection);
 
 		if (!PHALCON_IS_TRUE(build)) {
@@ -1939,21 +1949,16 @@ PHP_METHOD(Phalcon_Mvc_Model, _exists){
 		phalcon_read_property_this(&unique_key, this_ptr, SL("_uniqueKey"), PH_NOISY TSRMLS_CC);
 	}
 
-	PHALCON_OBS_VAR(seen_rawvalues);
-	phalcon_read_property_this(&seen_rawvalues, this_ptr, SL("_seenRawvalues"), PH_NOISY TSRMLS_CC);	
-
-	/** 
-	 * If we already know if the record exists we don't check it
-	 */
-	PHALCON_OBS_VAR(dirty_state);
-	phalcon_read_property_this(&dirty_state, this_ptr, SL("_dirtyState"), PH_NOISY TSRMLS_CC);
 	if (!zend_is_true(dirty_state)) {
 		RETURN_MM_TRUE;
 	}
 
+	PHALCON_OBS_VAR(seen_rawvalues);
+	phalcon_read_property_this(&seen_rawvalues, this_ptr, SL("_seenRawvalues"), PH_NOISY TSRMLS_CC);
+
 	PHALCON_OBS_VAR(unique_params);
 	phalcon_read_property_this(&unique_params, this_ptr, SL("_uniqueParams"), PH_NOISY TSRMLS_CC);
-	
+
 	PHALCON_OBS_VAR(unique_types);
 	phalcon_read_property_this(&unique_types, this_ptr, SL("_uniqueTypes"), PH_NOISY TSRMLS_CC);
 	
@@ -1988,9 +1993,9 @@ PHP_METHOD(Phalcon_Mvc_Model, _exists){
 	if (zend_is_true(row_count)) {
 		phalcon_update_property_long(this_ptr, SL("_dirtyState"), 0 TSRMLS_CC);
 		RETURN_MM_TRUE;
-	} else {
-		phalcon_update_property_long(this_ptr, SL("_dirtyState"), 1 TSRMLS_CC);
 	}
+
+	phalcon_update_property_long(this_ptr, SL("_dirtyState"), 1 TSRMLS_CC);
 	
 	RETURN_MM_FALSE;
 }
@@ -4257,7 +4262,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowUpdate){
 			zend_hash_move_forward_ex(ah1, &hp1);
 		}
 	}
-	
+
 	/** 
 	 * We build the conditions as an array
 	 */
@@ -4271,6 +4276,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowUpdate){
 	 * Perform the low level update
 	 */
 	PHALCON_RETURN_CALL_METHOD(connection, "update", table, fields, values, conditions, bind_types);
+
 	RETURN_MM();
 }
 
@@ -4659,7 +4665,7 @@ PHP_METHOD(Phalcon_Mvc_Model, save){
 	 * Get the reversed column map for future renamings
 	 */
 	PHALCON_CALL_METHOD(&attributes, meta_data, "getcolumnmap", this_ptr);
-	if (Z_TYPE_P(attributes) != IS_ARRAY) { 
+	if (Z_TYPE_P(attributes) != IS_ARRAY) {
 		/** 
 		 * Use the standard column map if there are no renamings
 		 */
@@ -4752,7 +4758,7 @@ PHP_METHOD(Phalcon_Mvc_Model, save){
 				RETURN_MM_FALSE;
 			} else if (zend_is_true(exists) && !zend_is_true(exists2)) {
 				PHALCON_INIT_VAR(type);
-				ZVAL_STRING(type, "InvalidUpdateAttempt2", 1);
+				ZVAL_STRING(type, "InvalidUpdateAttempt", 1);
 
 				PHALCON_INIT_VAR(message);
 				ZVAL_STRING(message, "Record cannot be updated because it does not exist", 1);
@@ -4854,7 +4860,7 @@ PHP_METHOD(Phalcon_Mvc_Model, save){
 	
 		RETURN_MM_FALSE;
 	}
-	
+
 	/** 
 	 * Depending if the record exists we do an update or an insert operation
 	 */
@@ -5635,6 +5641,24 @@ PHP_METHOD(Phalcon_Mvc_Model, skipAttributesOnCreate){
 }
 
 /**
+ * Returns attributes that must be ignored from the INSERT SQL generation
+ *
+ *<code>
+ * $robot = Robots::findFirst();
+ * print_r($robot->getSkipAttributesOnCreate());
+ *</code>
+ *
+ * @return array
+ */
+PHP_METHOD(Phalcon_Mvc_Model, getSkipAttributesOnCreate){
+
+	zval *meta_data = NULL;
+
+	PHALCON_CALL_METHODW(&meta_data, this_ptr, "getmodelsmetadata");
+	PHALCON_RETURN_CALL_METHODW(meta_data, "getautomaticcreateattributes", this_ptr);
+}
+
+/**
  * Sets a list of attributes that must be skipped from the
  * generated UPDATE statement
  *
@@ -5695,6 +5719,24 @@ PHP_METHOD(Phalcon_Mvc_Model, skipAttributesOnUpdate){
 	PHALCON_CALL_METHOD(NULL, meta_data, "setautomaticupdateattributes", this_ptr, keys_attributes, replace);
 	
 	PHALCON_MM_RESTORE();
+}
+
+/**
+ * Returns attributes that must be ignored from the UPDATE SQL generation
+ *
+ *<code>
+ * $robot = Robots::findFirst();
+ * print_r($robot->getSkipAttributesOnUpdate());
+ *</code>
+ *
+ * @return array
+ */
+PHP_METHOD(Phalcon_Mvc_Model, getSkipAttributesOnUpdate){
+
+	zval *meta_data = NULL;
+
+	PHALCON_CALL_METHODW(&meta_data, this_ptr, "getmodelsmetadata");
+	PHALCON_RETURN_CALL_METHODW(meta_data, "getautomaticupdateattributes", this_ptr);
 }
 
 /**

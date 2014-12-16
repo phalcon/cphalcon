@@ -100,19 +100,20 @@ class ModelsDynamicOperationsTest extends PHPUnit_Framework_TestCase
 		$persona = Dynamic\Personas::findFirst();
 		$this->assertTrue($persona->save());
 
-		$this->assertEquals(count($tracer), 3);
+		$this->assertEquals(count($tracer), 4);
 
 		$persona->nombres = 'Other Name '.mt_rand(0, 150000);
 		$this->assertTrue($persona->save());
 
-		$this->assertEquals('UPDATE `personas` SET `nombres` = ? WHERE `cedula` = ?', $tracer[3]);
+		$this->assertEquals('SELECT COUNT(*) "rowcount" FROM `personas` WHERE `cedula` = ?', $tracer[3]);
+		$this->assertEquals('UPDATE `personas` SET `nombres` = ? WHERE `cedula` = ?', $tracer[4]);
 		$this->assertEquals($persona->getChangedFields(), array('nombres'));
 
 		$persona->nombres = 'Other Name '.mt_rand(0, 150000);
 		$persona->direccion = 'Address '.mt_rand(0, 150000);
 		$this->assertTrue($persona->save());
 
-		$this->assertEquals('UPDATE `personas` SET `nombres` = ?, `direccion` = ? WHERE `cedula` = ?', $tracer[4]);
+		$this->assertEquals('UPDATE `personas` SET `nombres` = ?, `direccion` = ? WHERE `cedula` = ?', $tracer[5]);
 		$this->assertEquals($persona->getChangedFields(), array('nombres', 'direccion'));
 	}
 
@@ -121,19 +122,19 @@ class ModelsDynamicOperationsTest extends PHPUnit_Framework_TestCase
 		$personer = Dynamic\Personers::findFirst();
 		$this->assertTrue($personer->save());
 
-		$this->assertEquals(count($tracer), 5);
+		$this->assertEquals(count($tracer), 6);
 
 		$personer->navnes = 'Other Name '.mt_rand(0, 150000);
 		$this->assertTrue($personer->save());
 
-		$this->assertEquals('UPDATE `personas` SET `nombres` = ? WHERE `cedula` = ?', $tracer[5]);
+		$this->assertEquals('UPDATE `personas` SET `nombres` = ? WHERE `cedula` = ?', $tracer[6]);
 		$this->assertEquals($personer->getChangedFields(), array('navnes'));
 
 		$personer->navnes = 'Other Name '.mt_rand(0, 150000);
 		$personer->adresse = 'Address '.mt_rand(0, 150000);
 		$this->assertTrue($personer->save());
 
-		$this->assertEquals('UPDATE `personas` SET `nombres` = ?, `direccion` = ? WHERE `cedula` = ?', $tracer[6]);
+		$this->assertEquals('UPDATE `personas` SET `nombres` = ?, `direccion` = ? WHERE `cedula` = ?', $tracer[7]);
 		$this->assertEquals($personer->getChangedFields(), array('navnes', 'adresse'));
 	}
 
