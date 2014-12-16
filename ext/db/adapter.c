@@ -777,7 +777,7 @@ PHP_METHOD(Phalcon_Db_Adapter, update){
 		PHALCON_INIT_NVAR(update_sql);
 		PHALCON_CONCAT_SVSV(update_sql, "UPDATE ", escaped_table, " SET ", set_clause);
 	}
-	
+
 	/** 
 	 * Perform the update via execute
 	 */
