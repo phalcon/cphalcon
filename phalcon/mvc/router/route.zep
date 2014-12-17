@@ -20,13 +20,16 @@
 namespace Phalcon\Mvc\Router;
 
 use Phalcon\Mvc\Router\Exception;
+use Phalcon\Mvc\Router\RouteInterface;
+use Phalcon\Mvc\Router\GroupInterface;
 
 /**
  * Phalcon\Mvc\Router\Route
  *
  * This class represents every route added to the router
+ * @package Phalcon\Mvc\Router
  */
-class Route
+class Route implements RouteInterface
 {
 
 	protected _pattern;
@@ -58,7 +61,7 @@ class Route
 	 * @param array paths
 	 * @param array|string httpMethods
 	 */
-	public function __construct(string! pattern, paths=null, httpMethods = null)
+	public function __construct(string! pattern, paths = null, httpMethods = null)
 	{
 		var routeId, uniqueId;
 
@@ -86,7 +89,7 @@ class Route
 	 * @param string pattern
 	 * @return string
 	 */
-	public function compilePattern(string! pattern)
+	public function compilePattern(string! pattern) -> string
 	{
 		var idPattern;
 
@@ -149,9 +152,9 @@ class Route
 	 *</code>
 	 *
 	 * @param string|array httpMethods
-	 * @return Phalcon\Mvc\Router\Route
+	 * @return Phalcon\Mvc\Router\RouteInterface
 	 */
-	public function via(httpMethods) -> <Route>
+	public function via(httpMethods) -> <RouteInterface>
 	{
 		let this->_methods = httpMethods;
 		return this;
@@ -301,7 +304,7 @@ class Route
 	 * @param string pattern
 	 * @param array paths
 	 */
-	public function reConfigure(string! pattern, paths = null)
+	public function reConfigure(string! pattern, array! paths = null) -> void
 	{
 		var moduleName, controllerName, actionName,
 			parts, routePaths, realClassName, namespaceName,
@@ -439,9 +442,9 @@ class Route
 	 *</code>
 	 *
 	 * @param string name
-	 * @return Phalcon\Mvc\Router\Route
+	 * @return Phalcon\Mvc\Router\RouteInterface
 	 */
-	public function setName(string! name) -> <Route>
+	public function setName(string! name) -> <RouteInterface>
 	{
 		let this->_name = name;
 		return this;
@@ -453,9 +456,9 @@ class Route
 	 * If the callback returns false the route is treaded as not matched
 	 *
 	 * @param callback callback
-	 * @return Phalcon\Mvc\Router\Route
+	 * @return Phalcon\Mvc\Router\RouteInterface
 	 */
-	public function beforeMatch(var callback) -> <Route>
+	public function beforeMatch(var callback) -> <RouteInterface>
 	{
 		let this->_beforeMatch = callback;
 		return this;
@@ -506,7 +509,7 @@ class Route
 	 *
 	 * @return array
 	 */
-	public function getPaths()
+	public function getPaths() -> array
 	{
 		return this->_paths;
 	}
@@ -516,7 +519,7 @@ class Route
 	 *
 	 * @return array
 	 */
-	public function getReversedPaths()
+	public function getReversedPaths() -> array
 	{
 		var reversed, path, position;
 
@@ -536,9 +539,9 @@ class Route
 	 *</code>
 	 *
 	 * @param string|array httpMethods
-	 * @return Phalcon\Mvc\Router\Route
+	 * @return Phalcon\Mvc\Router\RouteInterface
 	 */
-	public function setHttpMethods(httpMethods) -> <Route>
+	public function setHttpMethods(httpMethods) -> <RouteInterface>
 	{
 		let this->_methods = httpMethods;
 		return this;
@@ -549,7 +552,7 @@ class Route
 	 *
 	 * @return string|array
 	 */
-	public function getHttpMethods()
+	public function getHttpMethods() -> array | string
 	{
 		return this->_methods;
 	}
@@ -562,9 +565,9 @@ class Route
 	 *</code>
 	 *
 	 * @param string|array httpMethods
-	 * @return Phalcon\Mvc\Router\Route
+	 * @return Phalcon\Mvc\Router\RouteInterface
 	 */
-	public function setHostname(hostname) -> <Route>
+	public function setHostname(hostname) -> <RouteInterface>
 	{
 		let this->_hostname = hostname;
 		return this;
@@ -584,9 +587,9 @@ class Route
 	 * Sets the group associated with the route
 	 *
 	 * @param Phalcon\Mvc\Router\Group group
-	 * @return Phalcon\Mvc\RouteInterface
+	 * @return  Phalcon\Mvc\Router\RouteInterface
 	 */
-	public function setGroup(group) -> <Route>
+	public function setGroup(group) -> <RouteInterface>
 	{
 		let this->_group = group;
 		return this;
@@ -595,9 +598,9 @@ class Route
 	/**
 	 * Returns the group associated with the route
 	 *
-	 * @return Phalcon\Mvc\Router\Group|null
+	 * @return Phalcon\Mvc\Router\Group | null
 	 */
-	public function getGroup()
+	public function getGroup() -> <GroupInterface> | null
 	{
 		return this->_group;
 	}
@@ -607,9 +610,9 @@ class Route
 	 *
 	 * @param string name
 	 * @param callable converter
-	 * @return Phalcon\Mvc\Router\Route
+	 * @return Phalcon\Mvc\Router\RouteInterface
 	 */
-	public function convert(string! name, converter) -> <Route>
+	public function convert(string! name, converter) -> <RouteInterface>
 	{
 		let this->_converters[name] = converter;
 		return this;
@@ -628,7 +631,7 @@ class Route
 	/**
 	 * Resets the internal route id generator
 	 */
-	public static function reset()
+	public static function reset() -> void
 	{
 		let self::_uniqueId = null;
 	}
