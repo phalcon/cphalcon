@@ -525,10 +525,10 @@ class Cookie implements InjectionAwareInterface
 	/**
 	 * Magic __toString method converts the cookie's value to string
 	 *
-	 * @return mixed
+	 * @return string
 	 */
-	public function __toString()
+	public function __toString() -> string
 	{
-		return this->getValue();
+		return (string)this->getValue();
 	}
 }
