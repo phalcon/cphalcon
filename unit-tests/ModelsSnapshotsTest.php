@@ -204,7 +204,7 @@ class ModelsSnapshotsTest extends PHPUnit_Framework_TestCase
 			$this->assertTrue($row->robot->hasChanged());
 			$this->assertEquals($row->robot->getChangedFields(), array('name', 'year'));
 
-			$this->assertFalse($row->parts->hasSnapshotData());
+			$this->assertTrue($row->parts->hasSnapshotData());
 		}
 	}
 

@@ -302,7 +302,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, valid){
 							if (!phalcon_array_isset_string_fetch(&keep_snapshots, column, SS("keepSnapshots"))) {
 								keep_snapshots = PHALCON_GLOBAL(z_false);
 							}
-	
+
 							/** 
 							 * Get the base instance
 							 */
@@ -310,21 +310,20 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, valid){
 								php_error_docref(NULL TSRMLS_CC, E_NOTICE, "Undefined index: instance");
 								instance = PHALCON_GLOBAL(z_null);
 							}
-	
+
 							/** 
 							 * Assign the values to the attributes using a column map
 							 */
-							PHALCON_CALL_CE_STATIC(&value, phalcon_mvc_model_ce, "cloneresultmap", instance, row_model, column_map, dirty_state, keep_snapshots, PHALCON_GLOBAL(z_true));
+							PHALCON_CALL_CE_STATIC(&value, phalcon_mvc_model_ce, "cloneresultmap", instance, row_model, column_map, dirty_state, keep_snapshots);
 							break;
 						}
-	
+
 						default:
 							/** 
 							 * Other kinds of hydrations
 							 */
 							PHALCON_CALL_CE_STATIC(&value, phalcon_mvc_model_ce, "cloneresultmaphydrate", row_model, column_map, hydrate_mode);
 							break;
-	
 					}
 	
 					/** 

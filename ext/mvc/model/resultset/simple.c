@@ -258,11 +258,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, valid){
 				 */
 				PHALCON_OBS_VAR(model);
 				phalcon_read_property_this(&model, this_ptr, SL("_model"), PH_NOISY TSRMLS_CC);
-		
+
 				/** 
 				 * Performs the standard hydration based on objects
 				 */
-				PHALCON_CALL_CE_STATIC(&active_row, phalcon_mvc_model_ce, "cloneresultmap", model, row, column_map, dirty_state, keep_snapshots, PHALCON_GLOBAL(z_true));
+				PHALCON_CALL_CE_STATIC(&active_row, phalcon_mvc_model_ce, "cloneresultmap", model, row, column_map, dirty_state, keep_snapshots);
 
 				phalcon_update_property_array(this_ptr, SL("_rowsModels"), key, active_row TSRMLS_CC);
 			} else {

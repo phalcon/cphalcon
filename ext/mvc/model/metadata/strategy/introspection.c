@@ -312,6 +312,10 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getColumnMaps){
 
 	phalcon_fetch_params(1, 2, 0, &model, &dependency_injector);
 
+	if (!PHALCON_GLOBAL(orm).column_renaming) {
+		RETURN_MM_NULL();
+	}
+
 	PHALCON_INIT_VAR(ordered_column_map);
 	PHALCON_INIT_VAR(reversed_column_map);
 
