@@ -20,9 +20,11 @@
 namespace Phalcon\Mvc;
 
 use Phalcon\DiInterface;
+use Phalcon\Mvc\RouterInterface;
 use Phalcon\Mvc\Router\Route;
 use Phalcon\Mvc\Router\Exception;
 use Phalcon\Http\RequestInterface;
+use Phalcon\DI\InjectionAwareInterface;
 
 /**
  * Phalcon\Mvc\Router
@@ -50,7 +52,7 @@ use Phalcon\Http\RequestInterface;
  *</code>
  *
  */
-class Router
+class Router implements RouterInterface, InjectionAwareInterface
 {
 	protected _dependencyInjector;
 
