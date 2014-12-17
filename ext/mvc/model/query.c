@@ -4545,17 +4545,17 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeUpdate){
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 3, 0, &intermediate, &bind_params, &bind_types);
-	
+
 	PHALCON_OBS_VAR(models);
 	phalcon_array_fetch_string(&models, intermediate, SL("models"), PH_NOISY);
 	if (phalcon_array_isset_long(models, 1)) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Updating several models at the same time is still not supported");
 		return;
 	}
-	
+
 	PHALCON_OBS_VAR(model_name);
 	phalcon_array_fetch_long(&model_name, models, 0, PH_NOISY);
-	
+
 	/** 
 	 * Load the model from the modelsManager or from the _modelsInstances property
 	 */
@@ -4573,48 +4573,52 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeUpdate){
 
 		PHALCON_CALL_METHOD(&model, manager, "load", model_name);
 	}
-	
+
 	PHALCON_CALL_METHOD(&connection, model, "getwriteconnection", intermediate, bind_params, bind_types);
-	
+
 	PHALCON_CALL_METHOD(&dialect, connection, "getdialect");
-	
+
 	PHALCON_INIT_VAR(double_colon);
 	ZVAL_STRING(double_colon, ":", 1);
-	
+
 	PHALCON_INIT_VAR(empty_string);
 	ZVAL_EMPTY_STRING(empty_string);
-	
+
 	PHALCON_OBS_VAR(fields);
 	phalcon_array_fetch_string(&fields, intermediate, SL("fields"), PH_NOISY);
-	
+
 	PHALCON_OBS_VAR(values);
 	phalcon_array_fetch_string(&values, intermediate, SL("values"), PH_NOISY);
-	
+
 	/** 
 	 * update_values is applied to every record
 	 */
 	PHALCON_INIT_VAR(update_values);
 	array_init(update_values);
-	
+
 	/** 
 	 * If a placeholder is unused in the update values, we assume that it's used in the
 	 * SELECT
 	 */
 	PHALCON_CPY_WRT(select_bind_params, bind_params);
 	PHALCON_CPY_WRT(select_bind_types, bind_types);
-	
+
 	PHALCON_INIT_VAR(null_value);
-	
+
 	phalcon_is_iterable(fields, &ah0, &hp0, 0, 0);
-	
+
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
 		PHALCON_GET_HKEY(number, ah0, hp0);
 		PHALCON_GET_HVALUE(field);
 	
 		PHALCON_OBS_NVAR(field_name);
-		phalcon_array_fetch_string(&field_name, field, ISL(name), PH_NOISY);
-	
+		if (phalcon_array_isset_string(field, ISS(balias))) {
+			phalcon_array_fetch_string(&field_name, field, ISL(balias), PH_NOISY);
+		} else {
+			phalcon_array_fetch_string(&field_name, field, ISL(name), PH_NOISY);
+		}
+
 		PHALCON_OBS_NVAR(value);
 		phalcon_array_fetch(&value, values, number, PH_NOISY);
 	
@@ -4658,7 +4662,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeUpdate){
 					PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
 					return;
 				}
-	
+
 				break;
 
 			default:
@@ -4667,15 +4671,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeUpdate){
 				PHALCON_INIT_NVAR(update_value);
 				object_init_ex(update_value, phalcon_db_rawvalue_ce);
 				PHALCON_CALL_METHOD(NULL, update_value, "__construct", update_expr);
-	
+
 				break;
-	
 		}
 		phalcon_array_update_zval(&update_values, field_name, update_value, PH_COPY | PH_SEPARATE);
-	
+
 		zend_hash_move_forward_ex(ah0, &hp0);
 	}
-	
+
 	/** 
 	 * We need to query the records related to the update
 	 */
@@ -4692,22 +4695,22 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeUpdate){
 	
 		RETURN_MM();
 	}
-	
+
 	PHALCON_CALL_METHOD(&connection, model, "getwriteconnection");
-	
+
 	/** 
 	 * Create a transaction in the write connection
 	 */
 	PHALCON_CALL_METHOD(NULL, connection, "begin");
 	PHALCON_CALL_METHOD(NULL, records, "rewind");
-	
+
 	while (1) {
 		PHALCON_CALL_METHOD(&r0, records, "valid");
 		if (PHALCON_IS_NOT_FALSE(r0)) {
 		} else {
 			break;
 		}
-	
+
 		/** 
 		 * Get the current record in the iterator
 		 */
@@ -4729,23 +4732,23 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeUpdate){
 	
 			RETURN_MM();
 		}
-	
+
 		/** 
 		 * Move the cursor to the next record
 		 */
 		PHALCON_CALL_METHOD(NULL, records, "next");
 	}
-	
+
 	/** 
 	 * Commit transaction on success
 	 */
 	PHALCON_CALL_METHOD(NULL, connection, "commit");
-	
+
 	PHALCON_INIT_NVAR(success);
 	ZVAL_TRUE(success);
 	object_init_ex(return_value, phalcon_mvc_model_query_status_ce);
 	PHALCON_CALL_METHOD(NULL, return_value, "__construct", success, null_value);
-	
+
 	RETURN_MM();
 }
 

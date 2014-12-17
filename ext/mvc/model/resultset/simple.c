@@ -258,7 +258,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, valid){
 				 */
 				PHALCON_OBS_VAR(model);
 				phalcon_read_property_this(&model, this_ptr, SL("_model"), PH_NOISY TSRMLS_CC);
-		
+
 				/** 
 				 * Performs the standard hydration based on objects
 				 */

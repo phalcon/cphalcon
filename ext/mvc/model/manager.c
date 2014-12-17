@@ -1235,7 +1235,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, isKeepingSnapshots){
 		}
 	}
 	
-	RETURN_MM_FALSE;
+	RETURN_MM_TRUE;
 }
 
 /**
@@ -1286,7 +1286,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, isUsingDynamicUpdate){
 		}
 	}
 	
-	RETURN_MM_FALSE;
+	RETURN_MM_TRUE;
 }
 
 /**

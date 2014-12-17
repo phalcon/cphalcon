@@ -838,7 +838,7 @@ PHP_METHOD(Phalcon_Db_Adapter, delete){
 	} else {
 		PHALCON_CONCAT_SV(sql, "DELETE FROM ", escaped_table);
 	}
-	
+
 	/** 
 	 * Perform the update via execute
 	 */

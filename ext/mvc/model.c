@@ -118,6 +118,9 @@ PHP_METHOD(Phalcon_Mvc_Model, cloneResult);
 PHP_METHOD(Phalcon_Mvc_Model, find);
 PHP_METHOD(Phalcon_Mvc_Model, findFirst);
 PHP_METHOD(Phalcon_Mvc_Model, query);
+PHP_METHOD(Phalcon_Mvc_Model, build);
+PHP_METHOD(Phalcon_Mvc_Model, getUniqueKey);
+PHP_METHOD(Phalcon_Mvc_Model, getUniqueParams);
 PHP_METHOD(Phalcon_Mvc_Model, _reBuild);
 PHP_METHOD(Phalcon_Mvc_Model, _exists);
 PHP_METHOD(Phalcon_Mvc_Model, _groupResult);
@@ -352,6 +355,9 @@ static const zend_function_entry phalcon_mvc_model_method_entry[] = {
 	PHP_ME(Phalcon_Mvc_Model, find, arginfo_phalcon_mvc_modelinterface_find, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Mvc_Model, findFirst, arginfo_phalcon_mvc_modelinterface_findfirst, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Mvc_Model, query, arginfo_phalcon_mvc_modelinterface_query, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Mvc_Model, build, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model, getUniqueKey, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model, getUniqueParams, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model, _reBuild, NULL, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Mvc_Model, _exists, NULL, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Mvc_Model, _groupResult, NULL, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
@@ -1182,7 +1188,7 @@ PHP_METHOD(Phalcon_Mvc_Model, cloneResultMap){
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 3, 2, &base, &data, &column_map, &dirty_state, &keep_snapshots);
+	phalcon_fetch_params(1, 3, 3, &base, &data, &column_map, &dirty_state, &keep_snapshots);
 	
 	if (!dirty_state) {
 		dirty_state = PHALCON_GLOBAL(z_zero);
@@ -1241,9 +1247,10 @@ PHP_METHOD(Phalcon_Mvc_Model, cloneResultMap){
 	
 		zend_hash_move_forward_ex(ah0, &hp0);
 	}
-	
+
 	if (zend_is_true(keep_snapshots)) {
 		PHALCON_CALL_METHOD(NULL, object, "setsnapshotdata", data, column_map);
+		PHALCON_CALL_METHOD(NULL, object, "build");
 	}
 	
 	/** 
@@ -1740,6 +1747,45 @@ PHP_METHOD(Phalcon_Mvc_Model, query){
 /**
  * Builds a unique primary key condition
  *
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Mvc_Model, build){
+
+	zval *meta_data = NULL, *read_connection = NULL;
+
+	PHALCON_MM_GROW();
+
+	PHALCON_CALL_METHOD(&meta_data, this_ptr, "getmodelsmetadata");
+	PHALCON_CALL_METHOD(&read_connection, this_ptr, "getreadconnection");
+
+	PHALCON_RETURN_CALL_METHOD(this_ptr, "_rebuild", meta_data, read_connection);
+
+	PHALCON_MM_RESTORE();
+}
+
+/**
+ * Gets a unique key
+ *
+ * @return string
+ */
+PHP_METHOD(Phalcon_Mvc_Model, getUniqueKey){
+
+	RETURN_MEMBER(this_ptr, "_uniqueKey");
+}
+
+/**
+ * Gets a unique params
+ *
+ * @return array
+ */
+PHP_METHOD(Phalcon_Mvc_Model, getUniqueParams){
+
+	RETURN_MEMBER(this_ptr, "_uniqueParams");
+}
+
+/**
+ * Builds a unique primary key condition
+ *
  * @param Phalcon\Mvc\Model\MetadataInterface $metaData
  * @param Phalcon\Db\AdapterInterface $connection
  * @return boolean
@@ -1911,8 +1957,8 @@ PHP_METHOD(Phalcon_Mvc_Model, _exists){
 	zval *meta_data, *connection, *table = NULL;
 	zval *unique_key, *build = NULL, *unique_params, *unique_types;
 	zval *dirty_state, *schema = NULL, *source = NULL;
-	zval *escaped_table = NULL, *null_mode, *select, *num = NULL;
-	zval *row_count, *seen_rawvalues;
+	zval *escaped_table = NULL, *null_mode, *select;
+	zval *row = NULL, *column_map = NULL, *seen_rawvalues;
 
 	PHALCON_MM_GROW();
 
@@ -1981,17 +2027,17 @@ PHP_METHOD(Phalcon_Mvc_Model, _exists){
 	 * Here we use a single COUNT(*) without PHQL to make the execution faster
 	 */
 	PHALCON_INIT_VAR(select);
-	PHALCON_CONCAT_SVSV(select, "SELECT COUNT(*) \"rowcount\" FROM ", escaped_table, " WHERE ", unique_key);
-	PHALCON_CALL_METHOD(&num, connection, "fetchone", select, null_mode, unique_params, unique_types);
+	PHALCON_CONCAT_SVSVS(select, "SELECT * FROM ", escaped_table, " WHERE ", unique_key, " LIMIT 1");
+	PHALCON_CALL_METHOD(&row, connection, "fetchone", select, null_mode, unique_params, unique_types);
 	
 	if (zend_is_true(seen_rawvalues)) {
 		phalcon_update_property_this(this_ptr, SL("_uniqueKey"), PHALCON_GLOBAL(z_null) TSRMLS_CC);
 	}
 
-	PHALCON_OBS_VAR(row_count);
-	phalcon_array_fetch_string(&row_count, num, SL("rowcount"), PH_NOISY);
-	if (zend_is_true(row_count)) {
+	if (Z_TYPE_P(row) == IS_ARRAY && phalcon_fast_count_ev(row TSRMLS_CC)) {
 		phalcon_update_property_long(this_ptr, SL("_dirtyState"), 0 TSRMLS_CC);
+		PHALCON_CALL_METHOD(&column_map, meta_data, "getcolumnmap", this_ptr);
+		PHALCON_CALL_METHOD(NULL, this_ptr, "setsnapshotdata", row, column_map);
 		RETURN_MM_TRUE;
 	}
 
@@ -4023,7 +4069,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowInsert){
 		 */
 		phalcon_update_property_null(this_ptr, SL("_uniqueParams") TSRMLS_CC);
 	}
-	
+
 	RETURN_CTOR(success);
 }
 
@@ -4044,7 +4090,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowUpdate){
 	zval *column_map = NULL, *field = NULL, *exception_message = NULL;
 	zval *attribute_field = NULL, *value = NULL, *bind_type = NULL, *changed = NULL;
 	zval *snapshot_value = NULL, *unique_key, *unique_params = NULL;
-	zval *unique_types, *primary_keys = NULL, *conditions;
+	zval *unique_types, *primary_keys = NULL, *conditions, *ret = NULL, *type, *message;
 	HashTable *ah0, *ah1;
 	HashPosition hp0, hp1;
 	zval **hd;
@@ -4067,10 +4113,10 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowUpdate){
 	
 	PHALCON_INIT_VAR(bind_types);
 	array_init(bind_types);
-	
+
 	PHALCON_OBS_VAR(manager);
 	phalcon_read_property_this(&manager, this_ptr, SL("_modelsManager"), PH_NOISY TSRMLS_CC);
-	
+
 	/** 
 	 * Check if the model must use dynamic update
 	 */
@@ -4084,7 +4130,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowUpdate){
 			i_use_dynamic_update = 0;
 		}
 	}
-	
+
 	PHALCON_CALL_METHOD(&bind_data_types, meta_data, "getbindtypes", this_ptr);
 	PHALCON_CALL_METHOD(&non_primary, meta_data, "getnonprimarykeyattributes", this_ptr);
 	PHALCON_CALL_METHOD(&automatic_attributes, meta_data, "getautomaticupdateattributes", this_ptr);
@@ -4093,7 +4139,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowUpdate){
 	} else {
 		PHALCON_INIT_VAR(column_map);
 	}
-	
+
 	/** 
 	 * We only make the update based on the non-primary attributes, values in primary
 	 * key attributes are ignored
@@ -4103,9 +4149,9 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowUpdate){
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
 		PHALCON_GET_HVALUE(field);
-	
+
 		if (!phalcon_array_isset(automatic_attributes, field)) {
-	
+
 			/** 
 			 * Check a bind type for field to update
 			 */
@@ -4115,7 +4161,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowUpdate){
 				PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
 				return;
 			}
-	
+
 			/** 
 			 * Check if the model has a column map
 			 */
@@ -4132,12 +4178,12 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowUpdate){
 			} else {
 				PHALCON_CPY_WRT(attribute_field, field);
 			}
-	
+
 			/** 
 			 * If a field isn't set we pass a null value
 			 */
 			if (phalcon_isset_property_zval(this_ptr, attribute_field TSRMLS_CC)) {
-	
+
 				/** 
 				 * Get the field's value
 				 */
@@ -4172,7 +4218,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowUpdate){
 							ZVAL_BOOL(changed, 0);
 						}
 					}
-	
+
 					/** 
 					 * Only changed values are added to the SQL Update
 					 */
@@ -4275,9 +4321,23 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowUpdate){
 	/** 
 	 * Perform the low level update
 	 */
-	PHALCON_RETURN_CALL_METHOD(connection, "update", table, fields, values, conditions, bind_types);
+	PHALCON_CALL_METHOD(&ret, connection, "update", table, fields, values, conditions, bind_types);
+	if (zend_is_true(ret)) {
+		PHALCON_CALL_METHOD(&ret, connection, "affectedrows");
+		if (zend_is_true(ret)) {
+			RETURN_MM_TRUE;
+		}
+	}
 
-	RETURN_MM();
+	PHALCON_INIT_VAR(type);
+	ZVAL_STRING(type, "InvalidUpdateAttempt", 1);
+
+	PHALCON_INIT_VAR(message);
+	ZVAL_STRING(message, "Record updated fail", 1);
+
+	PHALCON_CALL_METHOD(NULL, this_ptr, "appendmessage", message, PHALCON_GLOBAL(z_null), type);
+
+	RETURN_MM_FALSE;
 }
 
 /**
@@ -4634,11 +4694,11 @@ PHP_METHOD(Phalcon_Mvc_Model, _postSaveRelatedRecords){
 PHP_METHOD(Phalcon_Mvc_Model, save){
 
 	zval *data = NULL, *white_list = NULL, *exists = NULL, *exists_check = NULL, *exists2 = NULL;
-	zval *type, *message, *model_message, *messages, *meta_data = NULL, *attributes = NULL;
+	zval *type, *message, *meta_data = NULL, *attributes = NULL;
 	zval *attribute = NULL, *value = NULL, *possible_setter = NULL, *bind_params, *write_connection = NULL;
 	zval *related, *status = NULL, *schema = NULL, *source = NULL, *table = NULL, *read_connection = NULL;
 	zval *error_messages = NULL, *identity_field = NULL, *related_key = NULL;
-	zval *nesting = NULL, *exception, *success = NULL, *new_success = NULL;
+	zval *nesting = NULL, *exception, *success = NULL, *new_success = NULL, *snapshot_data = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -4730,7 +4790,7 @@ PHP_METHOD(Phalcon_Mvc_Model, save){
 	/** 
 	 * Create/Get the current database connection
 	 */
-	PHALCON_CALL_METHOD(&read_connection, this_ptr, "getreadconnection", PHALCON_GLOBAL(z_null), bind_params, PHALCON_GLOBAL(z_null));
+	PHALCON_CALL_METHOD(&read_connection, this_ptr, "getreadconnection", PHALCON_GLOBAL(z_null), bind_params);
 
 	/** 
 	 * We need to check if the record exists
@@ -4747,14 +4807,7 @@ PHP_METHOD(Phalcon_Mvc_Model, save){
 				PHALCON_INIT_VAR(message);
 				ZVAL_STRING(message, "Record cannot be created because it already exists", 1);
 
-				PHALCON_INIT_VAR(model_message);
-				object_init_ex(model_message, phalcon_mvc_model_message_ce);
-				PHALCON_CALL_METHOD(NULL, model_message, "__construct", message, PHALCON_GLOBAL(z_null), type);
-
-				PHALCON_INIT_VAR(messages);
-				array_init_size(messages, 1);
-				phalcon_array_append(&messages, model_message, PH_SEPARATE);
-				phalcon_update_property_this(this_ptr, SL("_errorMessages"), messages TSRMLS_CC);
+				PHALCON_CALL_METHOD(NULL, this_ptr, "appendmessage", message, PHALCON_GLOBAL(z_null), type);
 				RETURN_MM_FALSE;
 			} else if (zend_is_true(exists) && !zend_is_true(exists2)) {
 				PHALCON_INIT_VAR(type);
@@ -4763,14 +4816,7 @@ PHP_METHOD(Phalcon_Mvc_Model, save){
 				PHALCON_INIT_VAR(message);
 				ZVAL_STRING(message, "Record cannot be updated because it does not exist", 1);
 
-				PHALCON_INIT_VAR(model_message);
-				object_init_ex(model_message, phalcon_mvc_model_message_ce);
-				PHALCON_CALL_METHOD(NULL, model_message, "__construct", message, PHALCON_GLOBAL(z_null), type);
-
-				PHALCON_INIT_VAR(messages);
-				array_init_size(messages, 1);
-				phalcon_array_append(&messages, model_message, PH_SEPARATE);
-				phalcon_update_property_this(this_ptr, SL("_errorMessages"), messages TSRMLS_CC);
+				PHALCON_CALL_METHOD(NULL, this_ptr, "appendmessage", message, PHALCON_GLOBAL(z_null), type);
 				RETURN_MM_FALSE;
 			}
 		} else {
@@ -4783,7 +4829,7 @@ PHP_METHOD(Phalcon_Mvc_Model, save){
 	} else {
 		phalcon_update_property_long(this_ptr, SL("_operationMade"), 1 TSRMLS_CC);
 	}
-	
+
 	/** 
 	 * Create/Get the current database connection
 	 */
@@ -4871,13 +4917,6 @@ PHP_METHOD(Phalcon_Mvc_Model, save){
 	}
 	
 	/** 
-	 * Change the dirty state to persistent
-	 */
-	if (zend_is_true(success)) {
-		phalcon_update_property_long(this_ptr, SL("_dirtyState"), 0 TSRMLS_CC);
-	}
-	
-	/** 
 	 * _postSave() makes all the validations
 	 */
 	if (PHALCON_GLOBAL(orm).events) {
@@ -4916,6 +4955,15 @@ PHP_METHOD(Phalcon_Mvc_Model, save){
 
 			zend_hash_move_forward_ex(ah0, &hp0);
 		}
+	}
+	
+	/** 
+	 * Change the dirty state to persistent
+	 */
+	if (zend_is_true(new_success)) {
+		phalcon_update_property_long(this_ptr, SL("_dirtyState"), 0 TSRMLS_CC);
+		PHALCON_CALL_METHOD(&snapshot_data, this_ptr, "toarray");
+		PHALCON_CALL_METHOD(NULL, this_ptr, "setsnapshotdata", snapshot_data);
 	}
 	
 	RETURN_CTOR(new_success);
@@ -6006,7 +6054,7 @@ PHP_METHOD(Phalcon_Mvc_Model, setSnapshotData){
 	if (!column_map) {
 		column_map = PHALCON_GLOBAL(z_null);
 	}
-	
+
 	if (Z_TYPE_P(data) != IS_ARRAY) { 
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The snapshot data must be an array");
 		return;
@@ -6034,7 +6082,7 @@ PHP_METHOD(Phalcon_Mvc_Model, setSnapshotData){
 				zend_hash_move_forward_ex(ah0, &hp0);
 				continue;
 			}
-	
+
 			/** 
 			 * Every field must be part of the column map
 			 */
@@ -6044,18 +6092,18 @@ PHP_METHOD(Phalcon_Mvc_Model, setSnapshotData){
 				PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
 				return;
 			}
-	
+
 			PHALCON_OBS_NVAR(attribute);
 			phalcon_array_fetch(&attribute, column_map, key, PH_NOISY);
 			phalcon_array_update_zval(&snapshot, attribute, value, PH_COPY);
-	
+
 			zend_hash_move_forward_ex(ah0, &hp0);
 		}
-	
+
 		phalcon_update_property_this(this_ptr, SL("_snapshot"), snapshot TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-	
+
 	phalcon_update_property_this(this_ptr, SL("_snapshot"), data TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
@@ -6096,7 +6144,8 @@ PHP_METHOD(Phalcon_Mvc_Model, getSnapshotData){
  * Check if a specific attribute has changed
  * This only works if the model is keeping data snapshots
  *
- * @param boolean $fieldName
+ * @param string $fieldName
+ * @return boolean
  */
 PHP_METHOD(Phalcon_Mvc_Model, hasChanged){
 
