@@ -314,7 +314,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, valid){
 							/** 
 							 * Assign the values to the attributes using a column map
 							 */
-							PHALCON_CALL_CE_STATIC(&value, phalcon_mvc_model_ce, "cloneresultmap", instance, row_model, column_map, dirty_state, keep_snapshots);
+							PHALCON_CALL_CE_STATIC(&value, phalcon_mvc_model_ce, "cloneresultmap", instance, row_model, column_map, dirty_state, keep_snapshots, PHALCON_GLOBAL(z_true));
 							break;
 						}
 	
