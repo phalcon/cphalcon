@@ -50,7 +50,7 @@ use Phalcon\Http\RequestInterface;
  *</code>
  *
  */
-class Router
+class Router implements RouterInterface
 {
 	protected _dependencyInjector;
 
