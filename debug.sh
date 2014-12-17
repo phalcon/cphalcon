@@ -1,0 +1,1 @@
+cd ext && ./configure CFLAGS="-O0 -g3 -Wall" && ulimit -c unlimited && sudo service apport stop && make && sudo make install
