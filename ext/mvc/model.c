@@ -3975,7 +3975,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowInsert){
 					if (Z_TYPE_P(value) != IS_NULL || !phalcon_fast_in_array(field, not_null TSRMLS_CC) || !phalcon_array_isset(default_values, field)) {						
 						phalcon_array_append(&fields, field, PH_SEPARATE);
 						phalcon_array_append(&values, value, PH_SEPARATE);
-		
+
 						PHALCON_OBS_NVAR(bind_type);
 						phalcon_array_fetch(&bind_type, bind_data_types, field, PH_NOISY);
 						phalcon_array_append(&bind_types, bind_type, PH_SEPARATE);
@@ -4808,7 +4808,7 @@ PHP_METHOD(Phalcon_Mvc_Model, save){
 					 */
 					phalcon_update_property_zval_zval(this_ptr, attribute, value TSRMLS_CC);
 				}
-			
+
 			}
 		}
 
@@ -6947,7 +6947,7 @@ PHP_METHOD(Phalcon_Mvc_Model, __set){
 				phalcon_is_iterable(values, &ah0, &hp0, 0, 0);
 
 				while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
-				
+
 					PHALCON_GET_HKEY(key, ah0, hp0);
 					PHALCON_GET_HVALUE(item);
 
