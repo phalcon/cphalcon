@@ -871,7 +871,7 @@ PHP_METHOD(Phalcon_Mvc_Model, getColumnMap){
 	/** 
 	 * Check if column renaming is globally activated
 	 */
-	if (PHALCON_GLOBAL(orm).column_renaming) {
+	if (likely(PHALCON_GLOBAL(orm).column_renaming)) {
 		PHALCON_OBS_VAR(tmp);
 		phalcon_read_property_this(&tmp, this_ptr, SL("_columnMap"), PH_NOISY TSRMLS_CC);
 
@@ -2426,24 +2426,26 @@ PHP_METHOD(Phalcon_Mvc_Model, fireEvent){
 
 	PHALCON_MM_GROW();
 
-	PHALCON_INIT_VAR(lower);
-	tmp = zend_str_tolower_dup(Z_STRVAL_PP(event_name), Z_STRLEN_PP(event_name));
-	ZVAL_STRINGL(lower, tmp, Z_STRLEN_PP(event_name), 0);
+	if (likely(PHALCON_GLOBAL(orm).events)) {
+		PHALCON_INIT_VAR(lower);
+		tmp = zend_str_tolower_dup(Z_STRVAL_PP(event_name), Z_STRLEN_PP(event_name));
+		ZVAL_STRINGL(lower, tmp, Z_STRLEN_PP(event_name), 0);
 
-	/** 
-	 * Check if there is a method with the same name of the event
-	 */
-	if (phalcon_method_exists_ex(this_ptr, Z_STRVAL_P(lower), Z_STRLEN_P(lower)+1  TSRMLS_CC) == SUCCESS) {
-		PHALCON_CALL_METHOD(NULL, this_ptr, Z_STRVAL_P(lower));
+		/** 
+		 * Check if there is a method with the same name of the event
+		 */
+		if (phalcon_method_exists_ex(this_ptr, Z_STRVAL_P(lower), Z_STRLEN_P(lower)+1  TSRMLS_CC) == SUCCESS) {
+			PHALCON_CALL_METHOD(NULL, this_ptr, Z_STRVAL_P(lower));
+		}
+
+		PHALCON_OBS_VAR(models_manager);
+		phalcon_read_property_this(&models_manager, this_ptr, SL("_modelsManager"), PH_NOISY TSRMLS_CC);
+
+		/** 
+		 * Send a notification to the events manager
+		 */
+		PHALCON_RETURN_CALL_METHOD(models_manager, "notifyevent", *event_name, this_ptr);
 	}
-
-	PHALCON_OBS_VAR(models_manager);
-	phalcon_read_property_this(&models_manager, this_ptr, SL("_modelsManager"), PH_NOISY TSRMLS_CC);
-
-	/** 
-	 * Send a notification to the events manager
-	 */
-	PHALCON_RETURN_CALL_METHOD(models_manager, "notifyevent", *event_name, this_ptr);
 	RETURN_MM();
 }
 
@@ -2465,29 +2467,31 @@ PHP_METHOD(Phalcon_Mvc_Model, fireEventCancel){
 
 	PHALCON_MM_GROW();
 
-	PHALCON_INIT_VAR(lower);
-	tmp = zend_str_tolower_dup(Z_STRVAL_PP(event_name), Z_STRLEN_PP(event_name));
-	ZVAL_STRINGL(lower, tmp, Z_STRLEN_PP(event_name), 0);
+	if (likely(PHALCON_GLOBAL(orm).events)) {
+		PHALCON_INIT_VAR(lower);
+		tmp = zend_str_tolower_dup(Z_STRVAL_PP(event_name), Z_STRLEN_PP(event_name));
+		ZVAL_STRINGL(lower, tmp, Z_STRLEN_PP(event_name), 0);
 
-	/**
-	 * Check if there is a method with the same name of the event
-	 */
-	if (phalcon_method_exists_ex(this_ptr, Z_STRVAL_P(lower), Z_STRLEN_P(lower)+1  TSRMLS_CC) == SUCCESS) {
-		PHALCON_CALL_METHOD(&status, this_ptr, Z_STRVAL_P(lower));
+		/**
+		 * Check if there is a method with the same name of the event
+		 */
+		if (phalcon_method_exists_ex(this_ptr, Z_STRVAL_P(lower), Z_STRLEN_P(lower)+1  TSRMLS_CC) == SUCCESS) {
+			PHALCON_CALL_METHOD(&status, this_ptr, Z_STRVAL_P(lower));
+			if (PHALCON_IS_FALSE(status)) {
+				RETURN_MM_FALSE;
+			}
+		}
+
+		PHALCON_OBS_VAR(models_manager);
+		phalcon_read_property_this(&models_manager, this_ptr, SL("_modelsManager"), PH_NOISY TSRMLS_CC);
+
+		/** 
+		 * Send a notification to the events manager
+		 */
+		PHALCON_CALL_METHOD(&status, models_manager, "notifyevent", *event_name, this_ptr);
 		if (PHALCON_IS_FALSE(status)) {
 			RETURN_MM_FALSE;
 		}
-	}
-
-	PHALCON_OBS_VAR(models_manager);
-	phalcon_read_property_this(&models_manager, this_ptr, SL("_modelsManager"), PH_NOISY TSRMLS_CC);
-
-	/** 
-	 * Send a notification to the events manager
-	 */
-	PHALCON_CALL_METHOD(&status, models_manager, "notifyevent", *event_name, this_ptr);
-	if (PHALCON_IS_FALSE(status)) {
-		RETURN_MM_FALSE;
 	}
 
 	RETURN_MM_TRUE;
@@ -2507,7 +2511,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _cancelOperation){
 	PHALCON_OBS_VAR(operation_made);
 	phalcon_read_property_this(&operation_made, this_ptr, SL("_operationMade"), PH_NOISY TSRMLS_CC);
 	if (PHALCON_IS_LONG(operation_made, 3)) {
-		PHALCON_INIT_VAR(event_name);
+		PHALCON_INIT_NVAR(event_name);
 		ZVAL_STRING(event_name, "notDeleted", 1);
 	} else {
 		PHALCON_INIT_NVAR(event_name);
@@ -2882,7 +2886,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysRestrict){
 	zval *field = NULL, *position = NULL, *value = NULL, *referenced_field = NULL;
 	zval *condition = NULL, *extra_conditions = NULL, *join_conditions = NULL;
 	zval *parameters = NULL, *rowcount = NULL, *user_message = NULL, *joined_fields = NULL;
-	zval *type = NULL, *event_name;
+	zval *type = NULL, *event_name = NULL;
 	HashTable *ah0, *ah1;
 	HashPosition hp0, hp1;
 	zval **hd;
@@ -3067,12 +3071,10 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysRestrict){
 		 * Call 'onValidationFails' if the validation fails
 		 */
 		if (PHALCON_IS_TRUE(error)) {
-			if (PHALCON_GLOBAL(orm).events) {
-				PHALCON_INIT_VAR(event_name);
-				ZVAL_STRING(event_name, "onValidationFails", 1);
-				PHALCON_CALL_METHOD(NULL, this_ptr, "fireevent", event_name);
-				PHALCON_CALL_METHOD(NULL, this_ptr, "_canceloperation");
-			}
+			PHALCON_INIT_NVAR(event_name);
+			ZVAL_STRING(event_name, "onValidationFails", 1);
+			PHALCON_CALL_METHOD(NULL, this_ptr, "fireevent", event_name);
+			PHALCON_CALL_METHOD(NULL, this_ptr, "_canceloperation");
 			RETURN_MM_FALSE;
 		}
 	}
@@ -3093,7 +3095,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysReverseRestrict){
 	zval *bind_params = NULL, *field = NULL, *position = NULL, *value = NULL, *referenced_field = NULL;
 	zval *condition = NULL, *extra_conditions = NULL, *join_conditions = NULL;
 	zval *parameters = NULL, *rowcount = NULL, *user_message = NULL, *type = NULL;
-	zval *event_name;
+	zval *event_name = NULL;
 	HashTable *ah0, *ah1;
 	HashPosition hp0, hp1;
 	zval **hd;
@@ -3266,12 +3268,11 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysReverseRestrict){
 		 * Call validation fails event
 		 */
 		if (PHALCON_IS_TRUE(error)) {
-			if (PHALCON_GLOBAL(orm).events) {
-				PHALCON_INIT_VAR(event_name);
-				ZVAL_STRING(event_name, "onValidationFails", 1);
-				PHALCON_CALL_METHOD(NULL, this_ptr, "fireevent", event_name);
-				PHALCON_CALL_METHOD(NULL, this_ptr, "_canceloperation");
-			}
+			PHALCON_INIT_NVAR(event_name);
+			ZVAL_STRING(event_name, "onValidationFails", 1);
+			PHALCON_CALL_METHOD(NULL, this_ptr, "fireevent", event_name);
+			PHALCON_CALL_METHOD(NULL, this_ptr, "_canceloperation");
+
 			RETURN_MM_FALSE;
 		}
 	}
@@ -3481,9 +3482,9 @@ PHP_METHOD(Phalcon_Mvc_Model, _preSave){
 	/** 
 	 * Run Validation Callbacks Before
 	 */
-	if (PHALCON_GLOBAL(orm).events) {
+	if (likely(PHALCON_GLOBAL(orm).events)) {
 
-		PHALCON_INIT_VAR(event_name);
+		PHALCON_INIT_NVAR(event_name);
 		ZVAL_STRING(event_name, "beforeValidation", 1);
 
 		/** 
@@ -3549,11 +3550,10 @@ PHP_METHOD(Phalcon_Mvc_Model, _preSave){
 	 */
 	PHALCON_CALL_METHOD(&status, this_ptr, "fireeventcancel", event_name);
 	if (PHALCON_IS_FALSE(status)) {
-		if (PHALCON_GLOBAL(orm).events) {
-			PHALCON_INIT_NVAR(event_name);
-			ZVAL_STRING(event_name, "onValidationFails", 1);
-			PHALCON_CALL_METHOD(NULL, this_ptr, "fireevent", event_name);
-		}
+		PHALCON_INIT_NVAR(event_name);
+		ZVAL_STRING(event_name, "onValidationFails", 1);
+		PHALCON_CALL_METHOD(NULL, this_ptr, "fireevent", event_name);
+
 		RETURN_MM_FALSE;
 	}
 
@@ -3734,19 +3734,18 @@ PHP_METHOD(Phalcon_Mvc_Model, _preSave){
 	}
 
 	if (PHALCON_IS_TRUE(error)) {
-		if (PHALCON_GLOBAL(orm).events) {
-			PHALCON_INIT_NVAR(event_name);
-			ZVAL_STRING(event_name, "onValidationFails", 1);
-			PHALCON_CALL_METHOD(NULL, this_ptr, "fireevent", event_name);
-			PHALCON_CALL_METHOD(NULL, this_ptr, "_canceloperation");
-		}
+		PHALCON_INIT_NVAR(event_name);
+		ZVAL_STRING(event_name, "onValidationFails", 1);
+		PHALCON_CALL_METHOD(NULL, this_ptr, "fireevent", event_name);
+		PHALCON_CALL_METHOD(NULL, this_ptr, "_canceloperation");
+
 		RETURN_MM_FALSE;
 	}
 
 	/** 
 	 * Run Validation
 	 */
-	if (PHALCON_GLOBAL(orm).events) {
+	if (likely(PHALCON_GLOBAL(orm).events)) {
 		if (!zend_is_true(exists)) {
 			PHALCON_INIT_NVAR(event_name);
 			ZVAL_STRING(event_name, "afterValidationOnCreate", 1);
@@ -3828,28 +3827,32 @@ PHP_METHOD(Phalcon_Mvc_Model, _postSave){
 
 	phalcon_fetch_params(1, 2, 0, &success, &exists);
 
-	if (PHALCON_IS_TRUE(success)) {
-		if (zend_is_true(exists)) {
-			PHALCON_INIT_VAR(event_name);
-			ZVAL_STRING(event_name, "afterUpdate", 1);
-		} else {
+	if (likely(PHALCON_GLOBAL(orm).events)) {
+		if (PHALCON_IS_TRUE(success)) {
+			if (zend_is_true(exists)) {
+				PHALCON_INIT_NVAR(event_name);
+				ZVAL_STRING(event_name, "afterUpdate", 1);
+			} else {
+				PHALCON_INIT_NVAR(event_name);
+				ZVAL_STRING(event_name, "afterCreate", 1);
+			}
+			PHALCON_CALL_METHOD(NULL, this_ptr, "fireevent", event_name);
+
 			PHALCON_INIT_NVAR(event_name);
-			ZVAL_STRING(event_name, "afterCreate", 1);
+			ZVAL_STRING(event_name, "afterSave", 1);
+			PHALCON_CALL_METHOD(NULL, this_ptr, "fireevent", event_name);
+
+			RETURN_CTOR(success);
 		}
-		PHALCON_CALL_METHOD(NULL, this_ptr, "fireevent", event_name);
 
 		PHALCON_INIT_NVAR(event_name);
-		ZVAL_STRING(event_name, "afterSave", 1);
+		ZVAL_STRING(event_name, "notSave", 1);
 		PHALCON_CALL_METHOD(NULL, this_ptr, "fireevent", event_name);
-
-		RETURN_CTOR(success);
+		PHALCON_CALL_METHOD(NULL, this_ptr, "_canceloperation");
+		RETURN_MM_FALSE;
 	}
 
-	PHALCON_INIT_NVAR(event_name);
-	ZVAL_STRING(event_name, "notSave", 1);
-	PHALCON_CALL_METHOD(NULL, this_ptr, "fireevent", event_name);
-	PHALCON_CALL_METHOD(NULL, this_ptr, "_canceloperation");
-	RETURN_MM_FALSE;
+	RETURN_CTOR(success);
 }
 
 /**
@@ -4710,7 +4713,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _postSaveRelatedRecords){
 PHP_METHOD(Phalcon_Mvc_Model, save){
 
 	zval *data = NULL, *white_list = NULL, *exists = NULL, *exists_check = NULL, *exists2 = NULL;
-	zval *type, *message, *meta_data = NULL, *attributes = NULL;
+	zval *event_name = NULL, *type, *message, *meta_data = NULL, *attributes = NULL;
 	zval *attribute = NULL, *value = NULL, *possible_setter = NULL, *bind_params, *write_connection = NULL;
 	zval *related, *status = NULL, *schema = NULL, *source = NULL, *table = NULL, *read_connection = NULL;
 	zval *error_messages = NULL, *identity_field = NULL, *related_key = NULL;
@@ -4846,6 +4849,13 @@ PHP_METHOD(Phalcon_Mvc_Model, save){
 		phalcon_update_property_long(this_ptr, SL("_operationMade"), 1 TSRMLS_CC);
 	}
 
+	PHALCON_INIT_NVAR(event_name);
+	ZVAL_STRING(event_name, "beforeOperation", 1);
+	PHALCON_CALL_METHOD(&status, this_ptr, "fireeventcancel", event_name);
+	if (PHALCON_IS_FALSE(status)) {
+		RETURN_MM_FALSE;
+	}
+
 	/** 
 	 * Create/Get the current database connection
 	 */
@@ -4935,11 +4945,7 @@ PHP_METHOD(Phalcon_Mvc_Model, save){
 	/** 
 	 * _postSave() makes all the validations
 	 */
-	if (PHALCON_GLOBAL(orm).events) {
-		PHALCON_CALL_METHOD(&new_success, this_ptr, "_postsave", success, exists);
-	} else {
-		PHALCON_CPY_WRT(new_success, success);
-	}
+	PHALCON_CALL_METHOD(&new_success, this_ptr, "_postsave", success, exists);
 
 	if (Z_TYPE_P(related) == IS_ARRAY) { 
 
@@ -4980,6 +4986,10 @@ PHP_METHOD(Phalcon_Mvc_Model, save){
 		phalcon_update_property_long(this_ptr, SL("_dirtyState"), 0 TSRMLS_CC);
 		PHALCON_CALL_METHOD(&snapshot_data, this_ptr, "toarray");
 		PHALCON_CALL_METHOD(NULL, this_ptr, "setsnapshotdata", snapshot_data);
+
+		PHALCON_INIT_NVAR(event_name);
+		ZVAL_STRING(event_name, "afterOperation", 1);
+		PHALCON_CALL_METHOD(NULL, this_ptr, "fireevent", event_name);
 	}
 
 	RETURN_CTOR(new_success);
@@ -5117,6 +5127,13 @@ PHP_METHOD(Phalcon_Mvc_Model, delete){
 	 * Operation made is OP_DELETE
 	 */
 	phalcon_update_property_long(this_ptr, SL("_operationMade"), 3 TSRMLS_CC);
+
+	PHALCON_INIT_NVAR(event_name);
+	ZVAL_STRING(event_name, "beforeOperation", 1);
+	PHALCON_CALL_METHOD(&status, this_ptr, "fireeventcancel", event_name);
+	if (PHALCON_IS_FALSE(status)) {
+		RETURN_MM_FALSE;
+	}
 
 	PHALCON_INIT_VAR(empty_array);
 	array_init(empty_array);
@@ -5256,27 +5273,26 @@ PHP_METHOD(Phalcon_Mvc_Model, delete){
 	 */
 	PHALCON_INIT_VAR(delete_conditions);
 	phalcon_fast_join_str(delete_conditions, SL(" AND "), conditions TSRMLS_CC);
-	if (PHALCON_GLOBAL(orm).events) {
-		phalcon_update_property_bool(this_ptr, SL("_skipped"), 0 TSRMLS_CC);
 
-		PHALCON_INIT_VAR(event_name);
-		ZVAL_STRING(event_name, "beforeDelete", 1);
+	phalcon_update_property_bool(this_ptr, SL("_skipped"), 0 TSRMLS_CC);
 
+	PHALCON_INIT_NVAR(event_name);
+	ZVAL_STRING(event_name, "beforeDelete", 1);
+
+	/** 
+	 * Fire the beforeDelete event
+	 */
+	PHALCON_CALL_METHOD(&status, this_ptr, "fireeventcancel", event_name);
+	if (PHALCON_IS_FALSE(status)) {
+		RETURN_MM_FALSE;
+	} else {
 		/** 
-		 * Fire the beforeDelete event
+		 * The operation can be skipped
 		 */
-		PHALCON_CALL_METHOD(&status, this_ptr, "fireeventcancel", event_name);
-		if (PHALCON_IS_FALSE(status)) {
-			RETURN_MM_FALSE;
-		} else {
-			/** 
-			 * The operation can be skipped
-			 */
-			PHALCON_OBS_VAR(skipped);
-			phalcon_read_property_this(&skipped, this_ptr, SL("_skipped"), PH_NOISY TSRMLS_CC);
-			if (PHALCON_IS_TRUE(skipped)) {
-				RETURN_MM_TRUE;
-			}
+		PHALCON_OBS_VAR(skipped);
+		phalcon_read_property_this(&skipped, this_ptr, SL("_skipped"), PH_NOISY TSRMLS_CC);
+		if (PHALCON_IS_TRUE(skipped)) {
+			RETURN_MM_TRUE;
 		}
 	}
 
@@ -5306,18 +5322,20 @@ PHP_METHOD(Phalcon_Mvc_Model, delete){
 		}
 	}
 
-	if (PHALCON_GLOBAL(orm).events) {
-		if (zend_is_true(success)) {
-			PHALCON_INIT_NVAR(event_name);
-			ZVAL_STRING(event_name, "afterDelete", 1);
-			PHALCON_CALL_METHOD(NULL, this_ptr, "fireevent", event_name);
-		}
-	}
-
 	/** 
 	 * Force perform the record existence checking again
 	 */
 	phalcon_update_property_long(this_ptr, SL("_dirtyState"), 2 TSRMLS_CC);
+
+	if (zend_is_true(success)) {
+		PHALCON_INIT_NVAR(event_name);
+		ZVAL_STRING(event_name, "afterDelete", 1);
+		PHALCON_CALL_METHOD(NULL, this_ptr, "fireevent", event_name);
+
+		PHALCON_INIT_NVAR(event_name);
+		ZVAL_STRING(event_name, "afterOperation", 1);
+		PHALCON_CALL_METHOD(NULL, this_ptr, "fireevent", event_name);
+	}
 
 	RETURN_CTOR(success);
 }
