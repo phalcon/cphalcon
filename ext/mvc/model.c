@@ -1540,7 +1540,9 @@ PHP_METHOD(Phalcon_Mvc_Model, find){
 	PHALCON_CALL_METHOD(NULL, builder, "from", model_name);
 
 	if (phalcon_method_exists_ex(model, SS("beforequery") TSRMLS_CC) == SUCCESS) {
+		Z_SET_ISREF_P(builder);
 		PHALCON_CALL_METHOD(NULL, model, "beforequery", builder);
+		Z_UNSET_ISREF_P(builder);
 	}
 
 	PHALCON_CALL_METHOD(&query, builder, "getquery");
@@ -1584,6 +1586,12 @@ PHP_METHOD(Phalcon_Mvc_Model, find){
 			PHALCON_OBS_VAR(hydration);
 			phalcon_array_fetch_string(&hydration, params, SL("hydration"), PH_NOISY);
 			PHALCON_CALL_METHOD(NULL, resultset, "sethydratemode", hydration);
+		}
+
+		if (phalcon_method_exists_ex(model, SS("afterquery") TSRMLS_CC) == SUCCESS) {
+			Z_SET_ISREF_P(resultset);
+			PHALCON_CALL_METHOD(NULL, model, "afterquery", resultset);
+			Z_UNSET_ISREF_P(resultset);
 		}
 	}
 
@@ -1665,7 +1673,9 @@ PHP_METHOD(Phalcon_Mvc_Model, findFirst){
 	PHALCON_CALL_METHOD(NULL, builder, "from", model_name);
 
 	if (phalcon_method_exists_ex(model, SS("beforequery") TSRMLS_CC) == SUCCESS) {
+		Z_SET_ISREF_P(builder);
 		PHALCON_CALL_METHOD(NULL, model, "beforequery", builder);
+		Z_UNSET_ISREF_P(builder);
 	}
 
 	/** 
@@ -1735,6 +1745,12 @@ PHP_METHOD(Phalcon_Mvc_Model, findFirst){
 	PHALCON_CALL_METHOD(&result, query, "execute", bind_params, bind_types);
 
 	if (zend_is_true(result)) {
+		if (phalcon_method_exists_ex(model, SS("afterquery") TSRMLS_CC) == SUCCESS) {
+			Z_SET_ISREF_P(result);
+			PHALCON_CALL_METHOD(NULL, model, "afterquery", result);
+			Z_UNSET_ISREF_P(result);
+		}
+
 		RETURN_CTOR(result);
 	} else if (zend_is_true(auto_create)) {
 		RETURN_CTOR(model);
@@ -4915,7 +4931,7 @@ PHP_METHOD(Phalcon_Mvc_Model, save){
 		/** 
 		 * Throw exceptions on failed saves?
 		 */
-		if (PHALCON_GLOBAL(orm).exception_on_failed_save) {
+		if (unlikely(PHALCON_GLOBAL(orm).exception_on_failed_save)) {
 			PHALCON_OBS_NVAR(error_messages);
 			phalcon_read_property_this(&error_messages, this_ptr, SL("_errorMessages"), PH_NOISY TSRMLS_CC);
 
