@@ -1542,7 +1542,7 @@ PHP_METHOD(Phalcon_Mvc_Model, find){
 	PHALCON_INIT_NVAR(event_name);
 	ZVAL_STRING(event_name, "beforequery", 1);
 
-	PHALCON_CALL_METHOD(NULL, this_ptr, "fireevent", event_name);
+	PHALCON_CALL_METHOD(NULL, model, "fireevent", event_name);
 
 	if (phalcon_method_exists_ex(model, SS("beforequery") TSRMLS_CC) == SUCCESS) {
 		Z_SET_ISREF_P(builder);
@@ -1597,7 +1597,7 @@ PHP_METHOD(Phalcon_Mvc_Model, find){
 		PHALCON_INIT_NVAR(event_name);
 		ZVAL_STRING(event_name, "afterquery", 1);
 
-		PHALCON_CALL_METHOD(NULL, this_ptr, "fireevent", event_name);
+		PHALCON_CALL_METHOD(NULL, model, "fireevent", event_name);
 
 		if (phalcon_method_exists_ex(model, SS("afterquery") TSRMLS_CC) == SUCCESS) {
 			Z_SET_ISREF_P(resultset);
@@ -1636,7 +1636,7 @@ PHP_METHOD(Phalcon_Mvc_Model, findFirst){
 
 	zval *parameters = NULL, *auto_create = NULL, *model_name, *params = NULL, *builder;
 	zval *query = NULL, *bind_params = NULL, *bind_types = NULL, *cache;
-	zval *unique, *index, tmp = zval_used_for_init;
+	zval *event_name = NULL, *unique, *index, tmp = zval_used_for_init;
 	zval *dependency_injector = NULL, *manager, *model = NULL;
 	zval *result = NULL;
 
@@ -1682,6 +1682,11 @@ PHP_METHOD(Phalcon_Mvc_Model, findFirst){
 	PHALCON_CALL_METHOD(NULL, builder, "__construct", params);
 
 	PHALCON_CALL_METHOD(NULL, builder, "from", model_name);
+
+	PHALCON_INIT_NVAR(event_name);
+	ZVAL_STRING(event_name, "beforequery", 1);
+
+	PHALCON_CALL_METHOD(NULL, model, "fireevent", event_name);
 
 	if (phalcon_method_exists_ex(model, SS("beforequery") TSRMLS_CC) == SUCCESS) {
 		Z_SET_ISREF_P(builder);
@@ -1756,6 +1761,12 @@ PHP_METHOD(Phalcon_Mvc_Model, findFirst){
 	PHALCON_CALL_METHOD(&result, query, "execute", bind_params, bind_types);
 
 	if (zend_is_true(result)) {
+
+		PHALCON_INIT_NVAR(event_name);
+		ZVAL_STRING(event_name, "afterquery", 1);
+
+		PHALCON_CALL_METHOD(NULL, model, "fireevent", event_name);
+
 		if (phalcon_method_exists_ex(model, SS("afterquery") TSRMLS_CC) == SUCCESS) {
 			Z_SET_ISREF_P(result);
 			PHALCON_CALL_METHOD(NULL, model, "afterquery", result);
