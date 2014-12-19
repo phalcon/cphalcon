@@ -100,7 +100,7 @@ PHP_METHOD(Phalcon_Config_Adapter, __construct){
  */
 PHP_METHOD(Phalcon_Config_Adapter, factory){
 
-	zval *file_path = NULL, *absolute_path = NULL, *instances, *class_name;
+	zval *file_path = NULL, *absolute_path = NULL, *instances, *instance = NULL, *class_name;
 	zend_class_entry *ce0;
 
 	PHALCON_MM_GROW();
@@ -108,7 +108,7 @@ PHP_METHOD(Phalcon_Config_Adapter, factory){
 	phalcon_fetch_params(1, 0, 2, &file_path, &absolute_path);
 
 	instances = phalcon_fetch_static_property_ce(phalcon_config_adapter_ce, SL("_instances") TSRMLS_CC);
-	if (!phalcon_array_isset_fetch(&return_value, instances, file_path)) {
+	if (!phalcon_array_isset_fetch(&instance, instances, file_path)) {
 		PHALCON_INIT_VAR(class_name);
 		phalcon_get_called_class(class_name  TSRMLS_CC);
 		ce0 = phalcon_fetch_class(class_name TSRMLS_CC);
@@ -126,9 +126,10 @@ PHP_METHOD(Phalcon_Config_Adapter, factory){
 		}
 
 		phalcon_update_static_property_array_multi_ce(phalcon_config_adapter_ce, SL("_instances"), return_value TSRMLS_CC, SL("z"), 1, file_path);
+		RETURN_MM();
 	}
 
-	PHALCON_MM_RESTORE();
+	RETURN_CTOR(instance);
 }
 
 /**
