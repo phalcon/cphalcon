@@ -269,7 +269,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, __construct){
 
 						phalcon_array_update_zval(&merged_conditions, single_condition_key, new_condition_string, PH_COPY);
 
-						phalcon_array_update_zval(&merged_bind_params, single_condition_key, single_condition_array, PH_COPY);
+						if (Z_TYPE_P(single_condition_array) == IS_ARRAY) {
+							phalcon_array_merge_recursive_n(&merged_bind_params, single_condition_array);
+						} else {
+							phalcon_array_update_zval(&merged_bind_params, single_condition_key, single_condition_array, PH_COPY);
+						}
 					}
 
 					zend_hash_move_forward_ex(ah0, &hp0);

@@ -7314,7 +7314,7 @@ PHP_METHOD(Phalcon_Mvc_Model, toArray){
 
 	zval *columns = NULL, *rename_columns = NULL, *meta_data = NULL, *data, *null_value, *attributes = NULL;
 	zval *column_map = NULL, *attribute = NULL, *exception_message = NULL;
-	zval *attribute_field = NULL, *value = NULL;
+	zval *attribute_field = NULL, *possible_getter = NULL, *possible_value = NULL, *value = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -7375,7 +7375,13 @@ PHP_METHOD(Phalcon_Mvc_Model, toArray){
 			}
 		}
 
-		if (phalcon_isset_property_zval(this_ptr, attribute_field TSRMLS_CC)) {
+		PHALCON_INIT_NVAR(possible_getter);
+		PHALCON_CONCAT_SV(possible_getter, "get", attribute_field);
+		zend_str_tolower(Z_STRVAL_P(possible_getter), Z_STRLEN_P(possible_getter));
+		if (phalcon_method_exists_ex(this_ptr, Z_STRVAL_P(possible_getter), Z_STRLEN_P(possible_getter)+1 TSRMLS_CC) == SUCCESS) {
+			PHALCON_CALL_METHOD(&possible_value, this_ptr, Z_STRVAL_P(possible_getter));
+			phalcon_array_update_zval(&data, attribute_field, possible_value, PH_COPY);
+		} else if (phalcon_isset_property_zval(this_ptr, attribute_field TSRMLS_CC)) {
 			PHALCON_OBS_NVAR(value);
 			phalcon_read_property_zval(&value, this_ptr, attribute_field, PH_NOISY TSRMLS_CC);
 			phalcon_array_update_zval(&data, attribute_field, value, PH_COPY);
