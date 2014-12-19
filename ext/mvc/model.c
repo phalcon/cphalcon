@@ -1497,7 +1497,7 @@ PHP_METHOD(Phalcon_Mvc_Model, find){
 
 	zval *parameters = NULL, *model_name, *params = NULL, *builder;
 	zval *query = NULL, *bind_params = NULL, *bind_types = NULL, *cache;
-	zval *resultset = NULL, *hydration;
+	zval *event_name = NULL, *resultset = NULL, *hydration;
 	zval *dependency_injector = NULL, *manager, *model = NULL;
 
 	PHALCON_MM_GROW();
@@ -1539,11 +1539,10 @@ PHP_METHOD(Phalcon_Mvc_Model, find){
 
 	PHALCON_CALL_METHOD(NULL, builder, "from", model_name);
 
-	if (phalcon_method_exists_ex(model, SS("beforequery") TSRMLS_CC) == SUCCESS) {
-		Z_SET_ISREF_P(builder);
-		PHALCON_CALL_METHOD(NULL, model, "beforequery", builder);
-		Z_UNSET_ISREF_P(builder);
-	}
+	PHALCON_INIT_NVAR(event_name);
+	ZVAL_STRING(event_name, "beforequery", 1);
+
+	PHALCON_CALL_METHOD(NULL, model, "fireevent", event_name, builder);
 
 	PHALCON_CALL_METHOD(&query, builder, "getquery");
 
@@ -1588,11 +1587,11 @@ PHP_METHOD(Phalcon_Mvc_Model, find){
 			PHALCON_CALL_METHOD(NULL, resultset, "sethydratemode", hydration);
 		}
 
-		if (phalcon_method_exists_ex(model, SS("afterquery") TSRMLS_CC) == SUCCESS) {
-			Z_SET_ISREF_P(resultset);
-			PHALCON_CALL_METHOD(NULL, model, "afterquery", resultset);
-			Z_UNSET_ISREF_P(resultset);
-		}
+
+		PHALCON_INIT_NVAR(event_name);
+		ZVAL_STRING(event_name, "afterquery", 1);
+
+		PHALCON_CALL_METHOD(NULL, model, "fireevent", event_name, resultset);
 	}
 
 	RETURN_CTOR(resultset);
@@ -1625,7 +1624,7 @@ PHP_METHOD(Phalcon_Mvc_Model, findFirst){
 
 	zval *parameters = NULL, *auto_create = NULL, *model_name, *params = NULL, *builder;
 	zval *query = NULL, *bind_params = NULL, *bind_types = NULL, *cache;
-	zval *unique, *index, tmp = zval_used_for_init;
+	zval *event_name = NULL, *unique, *index, tmp = zval_used_for_init;
 	zval *dependency_injector = NULL, *manager, *model = NULL;
 	zval *result = NULL;
 
@@ -1672,11 +1671,10 @@ PHP_METHOD(Phalcon_Mvc_Model, findFirst){
 
 	PHALCON_CALL_METHOD(NULL, builder, "from", model_name);
 
-	if (phalcon_method_exists_ex(model, SS("beforequery") TSRMLS_CC) == SUCCESS) {
-		Z_SET_ISREF_P(builder);
-		PHALCON_CALL_METHOD(NULL, model, "beforequery", builder);
-		Z_UNSET_ISREF_P(builder);
-	}
+	PHALCON_INIT_NVAR(event_name);
+	ZVAL_STRING(event_name, "beforequery", 1);
+
+	PHALCON_CALL_METHOD(NULL, model, "fireevent", event_name, builder);
 
 	/** 
 	 * Check for bind parameters
@@ -1745,11 +1743,11 @@ PHP_METHOD(Phalcon_Mvc_Model, findFirst){
 	PHALCON_CALL_METHOD(&result, query, "execute", bind_params, bind_types);
 
 	if (zend_is_true(result)) {
-		if (phalcon_method_exists_ex(model, SS("afterquery") TSRMLS_CC) == SUCCESS) {
-			Z_SET_ISREF_P(result);
-			PHALCON_CALL_METHOD(NULL, model, "afterquery", result);
-			Z_UNSET_ISREF_P(result);
-		}
+
+		PHALCON_INIT_NVAR(event_name);
+		ZVAL_STRING(event_name, "afterquery", 1);
+
+		PHALCON_CALL_METHOD(NULL, model, "fireevent", event_name, result);
 
 		RETURN_CTOR(result);
 	} else if (zend_is_true(auto_create)) {
@@ -2433,25 +2431,29 @@ PHP_METHOD(Phalcon_Mvc_Model, average){
  */
 PHP_METHOD(Phalcon_Mvc_Model, fireEvent){
 
-	zval **event_name, *models_manager;
+	zval *event_name, *data = NULL, *models_manager;
 	zval *lower;
 	char *tmp;
 
-	phalcon_fetch_params_ex(1, 0, &event_name);
-	PHALCON_ENSURE_IS_STRING(event_name);
-
 	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 1, 1, &event_name, &data);
+	PHALCON_ENSURE_IS_STRING(&event_name);
 
 	if (likely(PHALCON_GLOBAL(orm).events)) {
 		PHALCON_INIT_VAR(lower);
-		tmp = zend_str_tolower_dup(Z_STRVAL_PP(event_name), Z_STRLEN_PP(event_name));
-		ZVAL_STRINGL(lower, tmp, Z_STRLEN_PP(event_name), 0);
+		tmp = zend_str_tolower_dup(Z_STRVAL_P(event_name), Z_STRLEN_P(event_name));
+		ZVAL_STRINGL(lower, tmp, Z_STRLEN_P(event_name), 0);
 
 		/** 
 		 * Check if there is a method with the same name of the event
 		 */
 		if (phalcon_method_exists_ex(this_ptr, Z_STRVAL_P(lower), Z_STRLEN_P(lower)+1  TSRMLS_CC) == SUCCESS) {
-			PHALCON_CALL_METHOD(NULL, this_ptr, Z_STRVAL_P(lower));
+			if (!data) {
+				PHALCON_CALL_METHOD(NULL, this_ptr, Z_STRVAL_P(lower));
+			} else {
+				PHALCON_CALL_METHOD(NULL, this_ptr, Z_STRVAL_P(lower), data);
+			}
 		}
 
 		PHALCON_OBS_VAR(models_manager);
@@ -2460,7 +2462,7 @@ PHP_METHOD(Phalcon_Mvc_Model, fireEvent){
 		/** 
 		 * Send a notification to the events manager
 		 */
-		PHALCON_RETURN_CALL_METHOD(models_manager, "notifyevent", *event_name, this_ptr);
+		PHALCON_RETURN_CALL_METHOD(models_manager, "notifyevent", event_name, this_ptr);
 	}
 	RETURN_MM();
 }
@@ -7313,8 +7315,8 @@ PHP_METHOD(Phalcon_Mvc_Model, dump){
 PHP_METHOD(Phalcon_Mvc_Model, toArray){
 
 	zval *columns = NULL, *rename_columns = NULL, *meta_data = NULL, *data, *null_value, *attributes = NULL;
-	zval *column_map = NULL, *attribute = NULL, *exception_message = NULL;
-	zval *attribute_field = NULL, *value = NULL;
+	zval *column_map = NULL, *attribute = NULL, *exception_message = NULL, *event_name = NULL;
+	zval *attribute_field = NULL, *possible_getter = NULL, *possible_value = NULL, *value = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -7375,7 +7377,13 @@ PHP_METHOD(Phalcon_Mvc_Model, toArray){
 			}
 		}
 
-		if (phalcon_isset_property_zval(this_ptr, attribute_field TSRMLS_CC)) {
+		PHALCON_INIT_NVAR(possible_getter);
+		PHALCON_CONCAT_SV(possible_getter, "get", attribute_field);
+		zend_str_tolower(Z_STRVAL_P(possible_getter), Z_STRLEN_P(possible_getter));
+		if (phalcon_method_exists_ex(this_ptr, Z_STRVAL_P(possible_getter), Z_STRLEN_P(possible_getter)+1 TSRMLS_CC) == SUCCESS) {
+			PHALCON_CALL_METHOD(&possible_value, this_ptr, Z_STRVAL_P(possible_getter));
+			phalcon_array_update_zval(&data, attribute_field, possible_value, PH_COPY);
+		} else if (phalcon_isset_property_zval(this_ptr, attribute_field TSRMLS_CC)) {
 			PHALCON_OBS_NVAR(value);
 			phalcon_read_property_zval(&value, this_ptr, attribute_field, PH_NOISY TSRMLS_CC);
 			phalcon_array_update_zval(&data, attribute_field, value, PH_COPY);
@@ -7385,6 +7393,11 @@ PHP_METHOD(Phalcon_Mvc_Model, toArray){
 
 		zend_hash_move_forward_ex(ah0, &hp0);
 	}
+
+	PHALCON_INIT_NVAR(event_name);
+	ZVAL_STRING(event_name, "aftertoarray", 1);
+
+	PHALCON_CALL_METHOD(NULL, this_ptr, "fireevent", event_name, data);
 
 	RETURN_CTOR(data);
 }
