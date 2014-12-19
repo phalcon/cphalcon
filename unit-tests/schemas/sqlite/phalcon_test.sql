@@ -4461,8 +4461,8 @@ CREATE TABLE `prueba` (
 CREATE TABLE `robots` (
   `id` INTEGER NOT NULL PRIMARY KEY,
   `name` varchar(70) NOT NULL,
-  `type` varchar(32) NOT NULL,
-  `year` int(11) NOT NULL
+  `type` varchar(32) NOT NULL default 'mechanical',
+  `year` int(11) NOT NULL default 1900
 );
 INSERT INTO "robots" VALUES(1,'Robotina','mechanical',1972);
 INSERT INTO "robots" VALUES(2,'Astro Boy','mechanical',1952);

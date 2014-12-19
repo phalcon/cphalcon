@@ -77,6 +77,8 @@ abstract class MetaData implements InjectionAwareInterface
 
 	const MODELS_AUTOMATIC_DEFAULT_UPDATE = 11;
 
+	const MODELS_DEFAULT_VALUES = 12;
+
 	const MODELS_COLUMN_MAP = 0;
 
 	const MODELS_REVERSE_COLUMN_MAP = 1;
@@ -392,7 +394,7 @@ abstract class MetaData implements InjectionAwareInterface
 	 *	print_r($metaData->getAttributes(new Robots()));
 	 *</code>
 	 *
-     * @param	Phalcon\Mvc\ModelInterface $model
+	 * @param	Phalcon\Mvc\ModelInterface $model
 	 * @return 	array
 	 */
 	public function getAttributes(<ModelInterface> model)
@@ -432,7 +434,7 @@ abstract class MetaData implements InjectionAwareInterface
 	 *	print_r($metaData->getNonPrimaryKeyAttributes(new Robots()));
 	 *</code>
 	 *
-     * @param	Phalcon\Mvc\ModelInterface model
+	 * @param	Phalcon\Mvc\ModelInterface model
 	 * @return 	array
 	 */
 	public function getNonPrimaryKeyAttributes(<ModelInterface> model)
@@ -452,7 +454,7 @@ abstract class MetaData implements InjectionAwareInterface
 	 *	print_r($metaData->getNotNullAttributes(new Robots()));
 	 *</code>
 	 *
-     * @param	Phalcon\Mvc\ModelInterface model
+	 * @param	Phalcon\Mvc\ModelInterface model
 	 * @return array
 	 */
 	public function getNotNullAttributes(<ModelInterface> model)
@@ -472,7 +474,7 @@ abstract class MetaData implements InjectionAwareInterface
 	 *	print_r($metaData->getDataTypes(new Robots()));
 	 *</code>
 	 *
-     * @param	Phalcon\Mvc\ModelInterface model
+	 * @param	Phalcon\Mvc\ModelInterface model
 	 * @return array
 	 */
 	public function getDataTypes(<ModelInterface> model)
@@ -492,7 +494,7 @@ abstract class MetaData implements InjectionAwareInterface
 	 *	print_r($metaData->getDataTypesNumeric(new Robots()));
 	 *</code>
 	 *
-     * @param  Phalcon\Mvc\ModelInterface model
+	 * @param  Phalcon\Mvc\ModelInterface model
 	 * @return array
 	 */
 	public function getDataTypesNumeric(<ModelInterface> model)
@@ -527,7 +529,7 @@ abstract class MetaData implements InjectionAwareInterface
 	 *	print_r($metaData->getBindTypes(new Robots()));
 	 *</code>
 	 *
-     * @param	Phalcon\Mvc\ModelInterface model
+	 * @param	Phalcon\Mvc\ModelInterface model
 	 * @return array
 	 */
 	public function getBindTypes(<ModelInterface> model)
@@ -547,7 +549,7 @@ abstract class MetaData implements InjectionAwareInterface
 	 *	print_r($metaData->getAutomaticCreateAttributes(new Robots()));
 	 *</code>
 	 *
-     * @param	Phalcon\Mvc\ModelInterface model
+	 * @param	Phalcon\Mvc\ModelInterface model
 	 * @return array
 	 */
 	public function getAutomaticCreateAttributes(<ModelInterface> model)
@@ -567,7 +569,7 @@ abstract class MetaData implements InjectionAwareInterface
 	 *	print_r($metaData->getAutomaticUpdateAttributes(new Robots()));
 	 *</code>
 	 *
-     * @param	Phalcon\Mvc\ModelInterface model
+	 * @param	Phalcon\Mvc\ModelInterface model
 	 * @return array
 	 */
 	public function getAutomaticUpdateAttributes(<ModelInterface> model)
@@ -611,13 +613,33 @@ abstract class MetaData implements InjectionAwareInterface
 	}
 
 	/**
+	 * Returns attributes (which have default values) and their default values
+	 *
+	 *<code>
+	 *	print_r($metaData->getDefaultValues(new Robots()));
+	 *</code>
+	 *
+	 * @param	Phalcon\Mvc\ModelInterface model
+	 * @return array
+	 */
+	public function getDefaultValues(<ModelInterface> model)
+	{
+		var data;
+		let data = this->readMetaDataIndex(model, self::MODELS_DEFAULT_VALUES);
+		if typeof data != "array" {
+			throw new Exception("The meta-data is invalid or is corrupt");
+		}
+		return data;
+	}
+
+	/**
 	 * Returns the column map if any
 	 *
 	 *<code>
 	 *	print_r($metaData->getColumnMap(new Robots()));
 	 *</code>
 	 *
-     * @param	Phalcon\Mvc\ModelInterface model
+	 * @param	Phalcon\Mvc\ModelInterface model
 	 * @return array
 	 */
 	public function getColumnMap(<ModelInterface> model) -> array
@@ -638,7 +660,7 @@ abstract class MetaData implements InjectionAwareInterface
 	 *	print_r($metaData->getReverseColumnMap(new Robots()));
 	 *</code>
 	 *
-     * @param	Phalcon\Mvc\ModelInterface model
+	 * @param	Phalcon\Mvc\ModelInterface model
 	 * @return array
 	 */
 	public function getReverseColumnMap(<ModelInterface> model) -> array

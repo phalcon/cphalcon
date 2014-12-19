@@ -209,6 +209,19 @@ class ModelsMetadataTest extends PHPUnit_Framework_TestCase
 		$btAttributes = $metaData->getBindTypes($personas);
 		$this->assertEquals($btAttributes, $bindTypes);
 
+		$defValues = array(
+			'nombres' => '',
+			'telefono' => null,
+			'direccion' => null,
+			'email' => null,
+			'fecha_nacimiento' => '1970-01-01',
+			'ciudad_id' => '0',
+			'creado_at' => null,
+		);
+
+		$modelDefValues = $metaData->getDefaultValues($personas);
+		$this->assertEquals($defValues, $modelDefValues);
+
 		$robots = new Robots($di);
 
 		//Robots
@@ -239,6 +252,14 @@ class ModelsMetadataTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($pnpkAttributes, $npkAttributes);
 
 		$this->assertEquals($metaData->getIdentityField($robots), 'id');
+
+		$defValues = array(
+			'type' => 'mechanical',
+			'year' => 1900
+		);
+
+		$modelDefValues = $metaData->getDefaultValues($robots);
+		$this->assertEquals($defValues, $modelDefValues);
 
 	}
 

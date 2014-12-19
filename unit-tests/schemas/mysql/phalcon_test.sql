@@ -269,8 +269,8 @@ DROP TABLE IF EXISTS `robots`;
 CREATE TABLE `robots` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(70) COLLATE utf8_unicode_ci NOT NULL,
-  `type` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
-  `year` int(11) NOT NULL,
+  `type` varchar(32) COLLATE utf8_unicode_ci NOT NULL default 'mechanical',
+  `year` int(11) NOT NULL default 1900,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;

@@ -160,8 +160,8 @@ SELECT pg_catalog.setval('prueba_id_seq', 636, true);
 CREATE TABLE robots (
     id integer NOT NULL,
     name character varying(70) NOT NULL,
-    type character varying(32) NOT NULL,
-    year integer NOT NULL
+    type character varying(32) DEFAULT 'mechanical'::character varying NOT NULL,
+    year integer DEFAULT 1900 NOT NULL
 );
 
 
