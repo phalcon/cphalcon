@@ -26,6 +26,7 @@
 #include "kernel/object.h"
 #include "kernel/string.h"
 #include "kernel/fcall.h"
+#include "kernel/array.h"
 
 /**
  * Phalcon\Config\Adapter
@@ -59,6 +60,7 @@ PHALCON_INIT_CLASS(Phalcon_Config_Adapter){
 	PHALCON_REGISTER_CLASS_EX(Phalcon\\Config, Adapter, config_adapter, phalcon_config_ce, phalcon_config_adapter_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
 
 	zend_declare_property_string(phalcon_config_adapter_ce, SL("_basePath"), "", ZEND_ACC_PROTECTED|ZEND_ACC_STATIC TSRMLS_CC);
+	zend_declare_property_null(phalcon_config_adapter_ce, SL("_instances"), ZEND_ACC_PROTECTED|ZEND_ACC_STATIC TSRMLS_CC);
 
 	zend_class_implements(phalcon_config_adapter_ce TSRMLS_CC, 1, phalcon_config_adapterinterface_ce);
 
@@ -98,27 +100,32 @@ PHP_METHOD(Phalcon_Config_Adapter, __construct){
  */
 PHP_METHOD(Phalcon_Config_Adapter, factory){
 
-	zval *file_path = NULL, *absolute_path = NULL, *class_name;
+	zval *file_path = NULL, *absolute_path = NULL, *instances, *class_name;
 	zend_class_entry *ce0;
 
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 0, 2, &file_path, &absolute_path);
 
-	PHALCON_INIT_VAR(class_name);
-	phalcon_get_called_class(class_name  TSRMLS_CC);
-	ce0 = phalcon_fetch_class(class_name TSRMLS_CC);
+	instances = phalcon_fetch_static_property_ce(phalcon_config_adapter_ce, SL("_instances") TSRMLS_CC);
+	if (!phalcon_array_isset_fetch(&return_value, instances, file_path)) {
+		PHALCON_INIT_VAR(class_name);
+		phalcon_get_called_class(class_name  TSRMLS_CC);
+		ce0 = phalcon_fetch_class(class_name TSRMLS_CC);
 
-	object_init_ex(return_value, ce0);
+		object_init_ex(return_value, ce0);
 
-	if (file_path) {
-		if (absolute_path == NULL) {
-			absolute_path = PHALCON_GLOBAL(z_false);
+		if (file_path) {
+			if (absolute_path == NULL) {
+				absolute_path = PHALCON_GLOBAL(z_false);
+			}
+
+			PHALCON_CALL_METHOD(NULL, return_value, "__construct", file_path, absolute_path);
+		} else {
+			PHALCON_CALL_METHOD(NULL, return_value, "__construct");
 		}
 
-		PHALCON_CALL_METHOD(NULL, return_value, "__construct", file_path, absolute_path);
-	} else {
-		PHALCON_CALL_METHOD(NULL, return_value, "__construct");
+		phalcon_update_static_property_array_multi_ce(phalcon_config_adapter_ce, SL("_instances"), return_value TSRMLS_CC, SL("z"), 1, file_path);
 	}
 
 	PHALCON_MM_RESTORE();
