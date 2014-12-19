@@ -1497,7 +1497,7 @@ PHP_METHOD(Phalcon_Mvc_Model, find){
 
 	zval *parameters = NULL, *model_name, *params = NULL, *builder;
 	zval *query = NULL, *bind_params = NULL, *bind_types = NULL, *cache;
-	zval *resultset = NULL, *hydration;
+	zval *event_name = NULL, *resultset = NULL, *hydration;
 	zval *dependency_injector = NULL, *manager, *model = NULL;
 
 	PHALCON_MM_GROW();
@@ -1538,6 +1538,11 @@ PHP_METHOD(Phalcon_Mvc_Model, find){
 	PHALCON_CALL_METHOD(NULL, builder, "__construct", params);
 
 	PHALCON_CALL_METHOD(NULL, builder, "from", model_name);
+
+	PHALCON_INIT_NVAR(event_name);
+	ZVAL_STRING(event_name, "beforequery", 1);
+
+	PHALCON_CALL_METHOD(NULL, this_ptr, "fireevent", event_name);
 
 	if (phalcon_method_exists_ex(model, SS("beforequery") TSRMLS_CC) == SUCCESS) {
 		Z_SET_ISREF_P(builder);
@@ -1587,6 +1592,12 @@ PHP_METHOD(Phalcon_Mvc_Model, find){
 			phalcon_array_fetch_string(&hydration, params, SL("hydration"), PH_NOISY);
 			PHALCON_CALL_METHOD(NULL, resultset, "sethydratemode", hydration);
 		}
+
+
+		PHALCON_INIT_NVAR(event_name);
+		ZVAL_STRING(event_name, "afterquery", 1);
+
+		PHALCON_CALL_METHOD(NULL, this_ptr, "fireevent", event_name);
 
 		if (phalcon_method_exists_ex(model, SS("afterquery") TSRMLS_CC) == SUCCESS) {
 			Z_SET_ISREF_P(resultset);
@@ -7313,7 +7324,7 @@ PHP_METHOD(Phalcon_Mvc_Model, dump){
 PHP_METHOD(Phalcon_Mvc_Model, toArray){
 
 	zval *columns = NULL, *rename_columns = NULL, *meta_data = NULL, *data, *null_value, *attributes = NULL;
-	zval *column_map = NULL, *attribute = NULL, *exception_message = NULL;
+	zval *column_map = NULL, *attribute = NULL, *exception_message = NULL, *event_name = NULL;
 	zval *attribute_field = NULL, *possible_getter = NULL, *possible_value = NULL, *value = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
@@ -7390,6 +7401,17 @@ PHP_METHOD(Phalcon_Mvc_Model, toArray){
 		}
 
 		zend_hash_move_forward_ex(ah0, &hp0);
+	}
+
+	PHALCON_INIT_NVAR(event_name);
+	ZVAL_STRING(event_name, "aftertoarray", 1);
+
+	PHALCON_CALL_METHOD(NULL, this_ptr, "fireevent", event_name);
+
+	if (phalcon_method_exists_ex(this_ptr, SS("aftertoarray") TSRMLS_CC) == SUCCESS) {
+		Z_SET_ISREF_P(data);
+		PHALCON_CALL_METHOD(NULL, this_ptr, "aftertoarray", data);
+		Z_UNSET_ISREF_P(data);
 	}
 
 	RETURN_CTOR(data);
