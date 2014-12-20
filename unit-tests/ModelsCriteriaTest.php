@@ -76,6 +76,7 @@ class ModelsCriteriaTest extends PHPUnit_Framework_TestCase
 		$this->_executeTestsFromInput($di);
 		$this->_executeTestIssues2131($di);
 		$this->_executeJoinTests($di, "mysql");
+		$this->_executeTestRawSQL($di);
 	}
 
 	public function testModelsPostgresql()
@@ -98,6 +99,7 @@ class ModelsCriteriaTest extends PHPUnit_Framework_TestCase
 		$this->_executeTestsFromInput($di);
 		$this->_executeTestIssues2131($di);
 		$this->_executeJoinTests($di, "postgresql");
+		$this->_executeTestRawSQL($di);
 	}
 
 	public function testModelsSQLite()
@@ -120,6 +122,7 @@ class ModelsCriteriaTest extends PHPUnit_Framework_TestCase
 		$this->_executeTestsFromInput($di);
 		$this->_executeTestIssues2131($di);
 		$this->_executeJoinTests($di, "sqlite");
+		$this->_executeTestRawSQL($di);
 	}
 
 	protected function _executeTestsNormal($di)
@@ -406,6 +409,22 @@ class ModelsCriteriaTest extends PHPUnit_Framework_TestCase
 
 		$personas = Personas::query()->where("estado='I'")->cache(array("key" => "cache-2131"))->execute();
 		$this->assertFalse($personas->isFresh());
+	}
+	
+	public function _executeTestRawSQL($di)
+	{
+		$personas = Personas::query()->where("estado='Z'")->execute();
+		$this->assertTrue(count($personas) == 0);
+
+		$ret = Personas::query()->update(array("estado" => "Z"))->where("estado='I'")->execute(TRUE);
+
+		$personas = Personas::query()->where("estado='Z'")->execute();
+		$this->assertTrue(count($personas) == 1);
+
+		$ret = Personas::query()->update(array("estado" => "I"))->where("estado='Z'")->execute(TRUE);
+
+		$personas = Personas::query()->where("estado='Z'")->execute();
+		$this->assertTrue(count($personas) == 0);
 	}
 
 }

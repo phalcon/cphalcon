@@ -4877,7 +4877,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeDelete){
 		PHALCON_CALL_METHOD(&dialect, connection, "getdialect");
 
 		PHALCON_CALL_METHOD(&delete_sql, dialect, "delete", intermediate);
-		zend_print_zval_r(delete_sql, 0);
 		PHALCON_CALL_METHOD(&success, connection, "execute", delete_sql, bind_params, bind_types);
 	}
 

@@ -283,7 +283,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, getModelName){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, bind){
 
-	zval *bind_params, *merge = NULL, *current_bind_params, *merged_params;
+	zval *bind_params, *merge = NULL, *current_bind_params, *merged_params = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -327,7 +327,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, bind){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, bindTypes){
 
-	zval *bind_types, *merge = NULL, *current_bind_types, *merged_types;
+	zval *bind_types, *merge = NULL, *current_bind_types, *merged_types = NULL;
 
 	phalcon_fetch_params(0, 1, 0, &bind_types, &merge);
 
