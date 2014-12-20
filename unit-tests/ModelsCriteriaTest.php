@@ -419,7 +419,7 @@ class ModelsCriteriaTest extends PHPUnit_Framework_TestCase
 		$ret = Personas::query()->update(array("estado" => "Z"))->where("estado='I'")->execute(TRUE);
 
 		$personas = Personas::query()->where("estado='Z'")->execute();
-		$this->assertTrue(count($personas) == 1);
+		$this->assertTrue(count($personas) > 0);
 
 		$ret = Personas::query()->update(array("estado" => "I"))->where("estado='Z'")->execute(TRUE);
 
