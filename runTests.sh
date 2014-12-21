@@ -1,5 +1,8 @@
 #!/bin/sh
 
+# Exit the script as soon as something fails
+set -e
+
 ZEND_DONT_UNLOAD_MODULES=1 $(phpenv which php) ./unit-tests/ci/phpunit.php --debug -c unit-tests/phpunit.xml --testsuite=stable
 
 if [ "$(php -r 'echo substr(PHP_VERSION, 0, 3);')" = "5.3" ];
