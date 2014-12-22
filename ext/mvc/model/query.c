@@ -3454,7 +3454,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareDelete){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Query, parse){
 
-	zval *intermediate, *phql, *ast, *ir_phql = NULL, *ir_phql_cache = NULL;
+	zval *intermediate, *phql, *ast = NULL, *ir_phql = NULL, *ir_phql_cache = NULL, *ir_phql_cache2;
 	zval *unique_id = NULL, *type = NULL, *exception_message;
 	zval *manager, *model_names = NULL, *tables = NULL, *key_schema, *key_source, *key = NULL, *model_name = NULL, *model = NULL, *table = NULL;
 	zval *old_schema = NULL, *old_source = NULL, *schema = NULL, *source = NULL;	
@@ -3466,17 +3466,35 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, parse){
 	PHALCON_MM_GROW();
 
 	intermediate = phalcon_fetch_nproperty_this(this_ptr, SL("_intermediate"), PH_NOISY TSRMLS_CC);
-	if (Z_TYPE_P(intermediate) == IS_ARRAY) { 
+	if (Z_TYPE_P(intermediate) == IS_ARRAY) {
 		RETURN_CTOR(intermediate);
 	}
 
 	phql = phalcon_fetch_nproperty_this(this_ptr, SL("_phql"), PH_NOISY TSRMLS_CC);
+
 	/** 
 	 * This function parses the PHQL statement
 	 */
-	PHALCON_INIT_VAR(ast);
+	PHALCON_INIT_NVAR(ast);
 	if (phql_parse_phql(ast, phql TSRMLS_CC) == FAILURE) {
 		RETURN_MM();
+	}
+
+	/** 
+	 * A valid AST must have a type
+	 */
+	if (Z_TYPE_P(ast) == IS_ARRAY && phalcon_array_isset_string(ast, ISS(type))) {
+		phalcon_update_property_this(this_ptr, SL("_ast"), ast TSRMLS_CC);
+
+		/** 
+		 * Produce an independent database system representation
+		 */
+		PHALCON_OBS_NVAR(type);
+		phalcon_array_fetch_string(&type, ast, ISL(type), PH_NOISY);
+		phalcon_update_property_this(this_ptr, SL("_type"), type TSRMLS_CC);
+	} else {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Corrupted AST");
+		return;
 	}
 
 	PHALCON_INIT_VAR(ir_phql);
@@ -3485,133 +3503,121 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, parse){
 
 	PHALCON_INIT_VAR(unique_id);
 
-	if (Z_TYPE_P(ast) == IS_ARRAY) {
-		if (PHALCON_GLOBAL(orm).enable_ast_cache) {
+	if (PHALCON_GLOBAL(orm).enable_ast_cache) {
+		/** 
+		 * Check if the prepared PHQL is already cached
+		 */
+		if (phalcon_array_isset_string(ast, SS("id"))) {
+
 			/** 
-			 * Check if the prepared PHQL is already cached
+			 * Parsed ASTs have a unique id
 			 */
-			if (phalcon_array_isset_string(ast, SS("id"))) {
+			PHALCON_OBS_NVAR(unique_id);
+			phalcon_array_fetch_string(&unique_id, ast, SL("id"), PH_NOISY);
 
-				/** 
-				 * Parsed ASTs have a unique id
-				 */
-				PHALCON_OBS_NVAR(unique_id);
-				phalcon_array_fetch_string(&unique_id, ast, SL("id"), PH_NOISY);
+			PHALCON_OBS_NVAR(ir_phql_cache);
+			phalcon_read_static_property(&ir_phql_cache, SL("phalcon\\mvc\\model\\query"), SL("_irPhqlCache") TSRMLS_CC);
 
-				PHALCON_OBS_NVAR(ir_phql_cache);
-				phalcon_read_static_property(&ir_phql_cache, SL("phalcon\\mvc\\model\\query"), SL("_irPhqlCache") TSRMLS_CC);
-				if (phalcon_array_isset(ir_phql_cache, unique_id)) {
+			if (phalcon_array_isset_fetch(&ir_phql_cache2, ir_phql_cache, type) && phalcon_array_isset(ir_phql_cache2, unique_id)) {
+				PHALCON_OBS_NVAR(ir_phql);
+				phalcon_array_fetch(&ir_phql, ir_phql_cache2, unique_id, PH_NOISY);
 
-					PHALCON_OBS_NVAR(ir_phql);
-					phalcon_array_fetch(&ir_phql, ir_phql_cache, unique_id, PH_NOISY);
-					if (Z_TYPE_P(ir_phql) == IS_ARRAY) {
-						if (phalcon_array_isset_string_fetch(&model_names, ir_phql, SS("models")) && phalcon_array_isset_string_fetch(&tables, ir_phql, SS("tables"))) {
-							// Obtain the real source including the schema again
-							manager = phalcon_fetch_nproperty_this(this_ptr, SL("_manager"), PH_NOISY TSRMLS_CC);
+				if (Z_TYPE_P(ir_phql) == IS_ARRAY) {
+					if (phalcon_array_isset_string_fetch(&model_names, ir_phql, SS("models")) && phalcon_array_isset_string_fetch(&tables, ir_phql, SS("tables"))) {
+						// Obtain the real source including the schema again
+						manager = phalcon_fetch_nproperty_this(this_ptr, SL("_manager"), PH_NOISY TSRMLS_CC);
 
-							if (Z_TYPE_P(manager) != IS_OBJECT) {
-								PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "dependency Injector is required to get 'modelsManager' service");
-								return;
-							}
+						if (Z_TYPE_P(manager) != IS_OBJECT) {
+							PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "dependency Injector is required to get 'modelsManager' service");
+							return;
+						}
 
-							PHALCON_INIT_VAR(key_schema);
-							ZVAL_LONG(key_schema, 1);
+						PHALCON_INIT_VAR(key_schema);
+						ZVAL_LONG(key_schema, 1);
 
-							PHALCON_INIT_VAR(key_source);
-							ZVAL_LONG(key_source, 0);
+						PHALCON_INIT_VAR(key_source);
+						ZVAL_LONG(key_source, 0);
 
-							phalcon_is_iterable(model_names, &ah0, &hp0, 0, 0);
+						phalcon_is_iterable(model_names, &ah0, &hp0, 0, 0);
 
-							while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
-								PHALCON_GET_HKEY(key, ah0, hp0);
-								PHALCON_GET_HVALUE(model_name);
+						while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
+							PHALCON_GET_HKEY(key, ah0, hp0);
+							PHALCON_GET_HVALUE(model_name);
 
-								PHALCON_OBS_NVAR(table);
-								phalcon_array_fetch(&table, tables, key, PH_NOISY);
+							PHALCON_OBS_NVAR(table);
+							phalcon_array_fetch(&table, tables, key, PH_NOISY);
 
-								PHALCON_CALL_METHOD(&model, manager, "load", model_name);
+							PHALCON_CALL_METHOD(&model, manager, "load", model_name);
 
-								PHALCON_CALL_METHOD(&source, model, "getsource");
+							PHALCON_CALL_METHOD(&source, model, "getsource");
 
-								if (Z_TYPE_P(table) == IS_ARRAY) {
-									PHALCON_OBS_NVAR(old_schema);
-									phalcon_array_fetch(&old_schema, table, key_schema, PH_NOISY);
+							if (Z_TYPE_P(table) == IS_ARRAY) {
+								PHALCON_OBS_NVAR(old_schema);
+								phalcon_array_fetch(&old_schema, table, key_schema, PH_NOISY);
 
-									PHALCON_CALL_METHOD(&schema, model, "getschema");
+								PHALCON_CALL_METHOD(&schema, model, "getschema");
 
-									if (!phalcon_is_equal(old_schema, schema TSRMLS_CC)) {
-										i_cache = 0;
-										break;
-									}
-
-									PHALCON_OBS_NVAR(old_source);
-									phalcon_array_fetch(&old_source, table, key_source, PH_NOISY);
-
-									if (!phalcon_is_equal(old_source, source TSRMLS_CC)) {
-										i_cache = 0;
-										break;
-									}
-								} else if (!phalcon_is_equal(table, source TSRMLS_CC)) {
+								if (!phalcon_is_equal(old_schema, schema TSRMLS_CC)) {
 									i_cache = 0;
 									break;
 								}
 
-								zend_hash_move_forward_ex(ah0, &hp0);
-							}
-						}
+								PHALCON_OBS_NVAR(old_source);
+								phalcon_array_fetch(&old_source, table, key_source, PH_NOISY);
 
-						if (i_cache) {
-							/** 
-							 * Assign the type to the query
-							 */
-							PHALCON_OBS_VAR(type);
-							phalcon_array_fetch_string(&type, ast, ISL(type), PH_NOISY);
-							phalcon_update_property_this(this_ptr, SL("_type"), type TSRMLS_CC);
-							RETURN_CTOR(ir_phql);
+								if (!phalcon_is_equal(old_source, source TSRMLS_CC)) {
+									i_cache = 0;
+									break;
+								}
+							} else if (!phalcon_is_equal(table, source TSRMLS_CC)) {
+								i_cache = 0;
+								break;
+							}
+
+							zend_hash_move_forward_ex(ah0, &hp0);
 						}
+					}
+
+					if (i_cache) {
+						RETURN_CTOR(ir_phql);
 					}
 				}
 			}
 		}
+	}
 
-		/** 
-		 * A valid AST must have a type
-		 */
-		if (phalcon_array_isset_string(ast, ISS(type))) {
-			phalcon_update_property_this(this_ptr, SL("_ast"), ast TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_ast"), ast TSRMLS_CC);
 
-			/** 
-			 * Produce an independent database system representation
-			 */
-			PHALCON_OBS_NVAR(type);
-			phalcon_array_fetch_string(&type, ast, ISL(type), PH_NOISY);
-			phalcon_update_property_this(this_ptr, SL("_type"), type TSRMLS_CC);
+	/** 
+	 * Produce an independent database system representation
+	 */
+	PHALCON_OBS_NVAR(type);
+	phalcon_array_fetch_string(&type, ast, ISL(type), PH_NOISY);
+	phalcon_update_property_this(this_ptr, SL("_type"), type TSRMLS_CC);
 
-			switch (phalcon_get_intval(type)) {
+	switch (phalcon_get_intval(type)) {
 
-				case PHQL_T_SELECT:
-					PHALCON_CALL_METHOD(&ir_phql, this_ptr, "_prepareselect");
-					break;
+		case PHQL_T_SELECT:
+			PHALCON_CALL_METHOD(&ir_phql, this_ptr, "_prepareselect");
+			break;
 
-				case PHQL_T_INSERT:
-					PHALCON_CALL_METHOD(&ir_phql, this_ptr, "_prepareinsert");
-					break;
+		case PHQL_T_INSERT:
+			PHALCON_CALL_METHOD(&ir_phql, this_ptr, "_prepareinsert");
+			break;
 
-				case PHQL_T_UPDATE:
-					PHALCON_CALL_METHOD(&ir_phql, this_ptr, "_prepareupdate");
-					break;
+		case PHQL_T_UPDATE:
+			PHALCON_CALL_METHOD(&ir_phql, this_ptr, "_prepareupdate");
+			break;
 
-				case PHQL_T_DELETE:
-					PHALCON_CALL_METHOD(&ir_phql, this_ptr, "_preparedelete");
-					break;
+		case PHQL_T_DELETE:
+			PHALCON_CALL_METHOD(&ir_phql, this_ptr, "_preparedelete");
+			break;
 
-				default:
-					PHALCON_INIT_VAR(exception_message);
-					PHALCON_CONCAT_SVSV(exception_message, "Unknown statement ", type, ", when preparing: ", phql);
-					PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
-					return;
-			}
-		}
+		default:
+			PHALCON_INIT_VAR(exception_message);
+			PHALCON_CONCAT_SVSV(exception_message, "Unknown statement ", type, ", when preparing: ", phql);
+			PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
+			return;
 	}
 
 	if (Z_TYPE_P(ir_phql) != IS_ARRAY) { 
@@ -3628,7 +3634,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, parse){
 				PHALCON_INIT_NVAR(ir_phql_cache);
 				array_init(ir_phql_cache);
 			}
-			phalcon_array_update_zval(&ir_phql_cache, unique_id, ir_phql, PH_COPY | PH_SEPARATE);
+
+			phalcon_array_update_multi_2(&ir_phql_cache, type, unique_id, ir_phql, PH_COPY);
 			phalcon_update_static_property_ce(phalcon_mvc_model_query_ce, SL("_irPhqlCache"), ir_phql_cache TSRMLS_CC);
 		}
 	}
@@ -4930,92 +4937,97 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, execute){
 		use_rawsql = PHALCON_GLOBAL(z_false);
 	}
 
-	PHALCON_OBS_VAR(unique_row);
-	phalcon_read_property_this(&unique_row, this_ptr, SL("_uniqueRow"), PH_NOISY TSRMLS_CC);
-
 	cache_options = phalcon_fetch_nproperty_this(this_ptr, SL("_cacheOptions"), PH_NOISY TSRMLS_CC);
 	cache_options_is_not_null = (Z_TYPE_P(cache_options) != IS_NULL); /* to keep scan-build happy */
 
-	if (cache_options_is_not_null) {
-		if (Z_TYPE_P(cache_options) != IS_ARRAY) { 
-			PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Invalid caching options");
-			return;
-		}
-
-		/** 
-		 * The user must set a cache key
-		 */
-		if (!phalcon_array_isset_string_fetch(&key, cache_options, SS("key"))) {
-			PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "A cache key must be provided to identify the cached resultset in the cache backend");
-			return;
-		}
-
-		/** 
-		 * 'modelsCache' is the default name for the models cache service
-		 */
-		if (!phalcon_array_isset_string_fetch(&cache_service, cache_options, SS("service"))) {
-			PHALCON_INIT_VAR(cache_service);
-			PHALCON_ZVAL_MAYBE_INTERNED_STRING(cache_service, phalcon_interned_modelsCache);
-		}
-
-		PHALCON_OBS_VAR(dependency_injector);
-		phalcon_read_property_this(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY TSRMLS_CC);
-
-		PHALCON_CALL_METHOD(&cache, dependency_injector, "getshared", cache_service);
-		if (Z_TYPE_P(cache) != IS_OBJECT) {
-			PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The cache service must be an object");
-			return;
-		}
-
-		PHALCON_VERIFY_INTERFACE(cache, phalcon_cache_backendinterface_ce);
-
-		/**
-		 * By defaut use use 3600 seconds (1 hour) as cache lifetime
-		 */
-		if (!phalcon_array_isset_string_fetch(&lifetime, cache_options, SS("lifetime"))) {
-			PHALCON_CALL_METHOD(&frontend, cache, "getfrontend");
-
-			if (Z_TYPE_P(frontend) == IS_OBJECT) {
-				PHALCON_VERIFY_INTERFACE_EX(frontend, phalcon_cache_frontendinterface_ce, phalcon_mvc_model_exception_ce, 1);
-				PHALCON_CALL_METHOD(&lifetime, frontend, "getlifetime");
-			}
-			else {
-				PHALCON_INIT_VAR(lifetime);
-				ZVAL_LONG(lifetime, 3600);
-			}
-		}
-
-		PHALCON_CALL_METHOD(&result, cache, "get", key, lifetime);
-		if (Z_TYPE_P(result) != IS_NULL) {
-			if (Z_TYPE_P(result) != IS_OBJECT) {
-				PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The cache didn't return a valid resultset");
-				return;
-			}
-
-			PHALCON_INIT_VAR(is_fresh);
-			ZVAL_BOOL(is_fresh, 0);
-			PHALCON_CALL_METHOD(NULL, result, "setisfresh", is_fresh);
-
-			/** 
-			 * Check if only the first row must be returned
-			 */
-			if (zend_is_true(unique_row)) {
-				PHALCON_CALL_METHOD(&prepared_result, result, "getfirst");
-			} else {
-				PHALCON_CPY_WRT(prepared_result, result);
-			}
-
-			RETURN_CTOR(prepared_result);
-		}
-
-		phalcon_update_property_this(this_ptr, SL("_cache"), cache TSRMLS_CC);
-		assert(key != NULL);
-	}
+	PHALCON_OBS_VAR(unique_row);
+	phalcon_read_property_this(&unique_row, this_ptr, SL("_uniqueRow"), PH_NOISY TSRMLS_CC);
 
 	/** 
 	 * The statement is parsed from its PHQL string or a previously processed IR
 	 */
 	PHALCON_CALL_METHOD(&intermediate, this_ptr, "parse");
+
+	PHALCON_OBS_VAR(type);
+	phalcon_read_property_this(&type, this_ptr, SL("_type"), PH_NOISY TSRMLS_CC);
+
+	if (phalcon_get_intval(type) == PHQL_T_SELECT) {
+		if (cache_options_is_not_null) {
+			if (Z_TYPE_P(cache_options) != IS_ARRAY) { 
+				PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Invalid caching options");
+				return;
+			}
+
+			/** 
+			 * The user must set a cache key
+			 */
+			if (!phalcon_array_isset_string_fetch(&key, cache_options, SS("key"))) {
+				PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "A cache key must be provided to identify the cached resultset in the cache backend");
+				return;
+			}
+
+			/** 
+			 * 'modelsCache' is the default name for the models cache service
+			 */
+			if (!phalcon_array_isset_string_fetch(&cache_service, cache_options, SS("service"))) {
+				PHALCON_INIT_VAR(cache_service);
+				PHALCON_ZVAL_MAYBE_INTERNED_STRING(cache_service, phalcon_interned_modelsCache);
+			}
+
+			PHALCON_OBS_VAR(dependency_injector);
+			phalcon_read_property_this(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY TSRMLS_CC);
+
+			PHALCON_CALL_METHOD(&cache, dependency_injector, "getshared", cache_service);
+			if (Z_TYPE_P(cache) != IS_OBJECT) {
+				PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The cache service must be an object");
+				return;
+			}
+
+			PHALCON_VERIFY_INTERFACE(cache, phalcon_cache_backendinterface_ce);
+
+			/**
+			 * By defaut use use 3600 seconds (1 hour) as cache lifetime
+			 */
+			if (!phalcon_array_isset_string_fetch(&lifetime, cache_options, SS("lifetime"))) {
+				PHALCON_CALL_METHOD(&frontend, cache, "getfrontend");
+
+				if (Z_TYPE_P(frontend) == IS_OBJECT) {
+					PHALCON_VERIFY_INTERFACE_EX(frontend, phalcon_cache_frontendinterface_ce, phalcon_mvc_model_exception_ce, 1);
+					PHALCON_CALL_METHOD(&lifetime, frontend, "getlifetime");
+				}
+				else {
+					PHALCON_INIT_VAR(lifetime);
+					ZVAL_LONG(lifetime, 3600);
+				}
+			}
+
+			PHALCON_CALL_METHOD(&result, cache, "get", key, lifetime);
+			if (Z_TYPE_P(result) != IS_NULL) {
+				if (Z_TYPE_P(result) != IS_OBJECT) {
+					PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The cache didn't return a valid resultset");
+					return;
+				}
+
+				PHALCON_INIT_VAR(is_fresh);
+				ZVAL_BOOL(is_fresh, 0);
+				PHALCON_CALL_METHOD(NULL, result, "setisfresh", is_fresh);
+
+				/** 
+				 * Check if only the first row must be returned
+				 */
+				if (zend_is_true(unique_row)) {
+					PHALCON_CALL_METHOD(&prepared_result, result, "getfirst");
+				} else {
+					PHALCON_CPY_WRT(prepared_result, result);
+				}
+
+				RETURN_CTOR(prepared_result);
+			}
+
+			phalcon_update_property_this(this_ptr, SL("_cache"), cache TSRMLS_CC);
+			assert(key != NULL);
+		}
+	}
 
 	/** 
 	 * Check for default bind parameters and merge them with the passed ones
@@ -5070,9 +5082,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, execute){
 	} else {
 		PHALCON_CPY_WRT(merged_types, bind_types);
 	}
-
-	PHALCON_OBS_VAR(type);
-	phalcon_read_property_this(&type, this_ptr, SL("_type"), PH_NOISY TSRMLS_CC);
 
 	switch (phalcon_get_intval(type)) {
 

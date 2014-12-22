@@ -350,7 +350,8 @@ class ModelsCriteriaTest extends PHPUnit_Framework_TestCase
 
 		$data = array();
 		$criteria = \Phalcon\Mvc\Model\Criteria::fromInput($di, "Robots", $data);
-		$this->assertEquals($criteria->getParams(), NULL);
+		$params = $criteria->getParams();
+		$this->assertTrue(empty($params));
 		$this->assertEquals($criteria->getModelName(), "Robots");
 
 		$data = array('id' => 1);
@@ -413,17 +414,17 @@ class ModelsCriteriaTest extends PHPUnit_Framework_TestCase
 	
 	public function _executeTestRawSQL($di)
 	{
-		$personas = Personas::query()->where("estado='Z'")->execute();
+		$personas = Personas::query()->where("estado='X'")->execute();
 		$this->assertTrue(count($personas) == 0);
 
-		$ret = Personas::query()->update(array("estado" => "Z"))->where("estado='I'")->execute(TRUE);
+		$ret = Personas::query()->update(array("estado" => "X"))->where("estado='I'")->execute(TRUE);
 
-		$personas = Personas::query()->where("estado='Z'")->execute();
+		$personas = Personas::query()->where("estado='X'")->execute();
 		$this->assertTrue(count($personas) > 0);
 
-		$ret = Personas::query()->update(array("estado" => "I"))->where("estado='Z'")->execute(TRUE);
+		$ret = Personas::query()->update(array("estado" => "I"))->where("estado='X'")->execute(TRUE);
 
-		$personas = Personas::query()->where("estado='Z'")->execute();
+		$personas = Personas::query()->where("estado='X'")->execute();
 		$this->assertTrue(count($personas) == 0);
 	}
 
