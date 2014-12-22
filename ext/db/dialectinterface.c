@@ -27,6 +27,8 @@ static const zend_function_entry phalcon_db_dialectinterface_method_entry[] = {
 	PHP_ABSTRACT_ME(Phalcon_Db_DialectInterface, forUpdate, arginfo_phalcon_db_dialectinterface_forupdate)
 	PHP_ABSTRACT_ME(Phalcon_Db_DialectInterface, sharedLock, arginfo_phalcon_db_dialectinterface_sharedlock)
 	PHP_ABSTRACT_ME(Phalcon_Db_DialectInterface, select, arginfo_phalcon_db_dialectinterface_select)
+	PHP_ABSTRACT_ME(Phalcon_Db_DialectInterface, update, arginfo_phalcon_db_dialectinterface_update)
+	PHP_ABSTRACT_ME(Phalcon_Db_DialectInterface, delete, arginfo_phalcon_db_dialectinterface_delete)
 	PHP_ABSTRACT_ME(Phalcon_Db_DialectInterface, getColumnList, arginfo_phalcon_db_dialectinterface_getcolumnlist)
 	PHP_ABSTRACT_ME(Phalcon_Db_DialectInterface, getColumnDefinition, arginfo_phalcon_db_dialectinterface_getcolumndefinition)
 	PHP_ABSTRACT_ME(Phalcon_Db_DialectInterface, addColumn, arginfo_phalcon_db_dialectinterface_addcolumn)
@@ -100,6 +102,22 @@ PHALCON_DOC_METHOD(Phalcon_Db_DialectInterface, sharedLock);
  * @return string
  */
 PHALCON_DOC_METHOD(Phalcon_Db_DialectInterface, select);
+
+/**
+ * Builds a UPDATE statement
+ *
+ * @param array $definition
+ * @return string
+ */
+PHALCON_DOC_METHOD(Phalcon_Db_DialectInterface, update);
+
+/**
+ * Builds a DELETE statement
+ *
+ * @param array $definition
+ * @return string
+ */
+PHALCON_DOC_METHOD(Phalcon_Db_DialectInterface, delete);
 
 /**
  * Gets a list of columns

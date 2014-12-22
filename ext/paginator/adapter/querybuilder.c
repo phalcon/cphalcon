@@ -115,12 +115,12 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, __construct){
 	long int i_limit;
 
 	phalcon_fetch_params(0, 1, 0, &config);
-	
+
 	if (!phalcon_array_isset_string_fetch(&builder, config, SS("builder"))) {
 		PHALCON_THROW_EXCEPTION_STRW(phalcon_paginator_exception_ce, "Parameter 'builder' is required");
 		return;
 	}
-	
+
 	PHALCON_VERIFY_INTERFACE_EX(builder, phalcon_mvc_model_query_builderinterface_ce, phalcon_paginator_exception_ce, 0);
 
 	phalcon_update_property_this(this_ptr, SL("_builder"), builder TSRMLS_CC);
@@ -137,7 +137,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, __construct){
 	}
 
 	phalcon_update_property_this(this_ptr, SL("_limitRows"), limit TSRMLS_CC);
-	
+
 	if (phalcon_array_isset_string_fetch(&page, config, SS("page"))) {
 		phalcon_update_property_this(this_ptr, SL("_page"), page TSRMLS_CC);
 	}
@@ -154,7 +154,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, setCurrentPage){
 
 	phalcon_fetch_params_ex(1, 0, &current_page);
 	PHALCON_ENSURE_IS_LONG(current_page);
-	
+
 	phalcon_update_property_this(this_ptr, SL("_page"), *current_page TSRMLS_CC);
 	RETURN_THISW();
 }
@@ -252,19 +252,19 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, getPaginate){
 	PHALCON_MM_GROW();
 
 	original_builder = phalcon_fetch_nproperty_this(this_ptr, SL("_builder"), PH_NOISY TSRMLS_CC);
-	
+
 	/* Make a copy of the original builder to leave it as it is */
 	PHALCON_INIT_VAR(builder);
 	if (phalcon_clone(builder, original_builder TSRMLS_CC) == FAILURE) {
 		RETURN_MM();
 	}
-	
+
 	/* make a copy of the original builder to count the total of records */
 	PHALCON_INIT_VAR(total_builder);
 	if (phalcon_clone(total_builder, builder TSRMLS_CC) == FAILURE) {
 		RETURN_MM();
 	}
-	
+
 	limit         = phalcon_fetch_nproperty_this(this_ptr, SL("_limitRows"), PH_NOISY TSRMLS_CC);
 	number_page   = phalcon_fetch_nproperty_this(this_ptr, SL("_page"), PH_NOISY TSRMLS_CC);
 	i_limit       = phalcon_get_intval(limit);
@@ -291,15 +291,15 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, getPaginate){
 		ZVAL_LONG(number, i_number);
 		PHALCON_CALL_METHOD(NULL, builder, "limit", limit, number);
 	}
-	
+
 	PHALCON_CALL_METHOD(&query, builder, "getquery");
 
 	/* Execute the query an return the requested slice of data */
 	PHALCON_CALL_METHOD(&items, query, "execute");
-	
+
 	/* Remove the 'ORDER BY' clause, PostgreSQL requires this */
 	PHALCON_CALL_METHOD(NULL, total_builder, "orderby", PHALCON_GLOBAL(z_null));
-	
+
 	/* Obtain the PHQL for the total query */
 	PHALCON_CALL_METHOD(&total_query, total_builder, "getquery");
 
@@ -352,17 +352,17 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, getPaginate){
 	 * Replace the placeholders
 	 */
 	if (Z_TYPE_P(bind_params) == IS_ARRAY) { 
-	
+
 		PHALCON_INIT_VAR(processed);
 		array_init(processed);
-	
+
 		phalcon_is_iterable(bind_params, &ah0, &hp0, 0, 0);
-	
+
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
-	
+
 			PHALCON_GET_HKEY(wildcard, ah0, hp0);
 			PHALCON_GET_HVALUE(value);
-	
+
 			if (Z_TYPE_P(wildcard) == IS_LONG) {
 				PHALCON_INIT_NVAR(string_wildcard);
 				PHALCON_CONCAT_SV(string_wildcard, ":", wildcard);
@@ -370,29 +370,29 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, getPaginate){
 			} else {
 				phalcon_array_update_zval(&processed, wildcard, value, PH_COPY);
 			}
-	
+
 			zend_hash_move_forward_ex(ah0, &hp0);
 		}
-	
+
 	} else {
 		PHALCON_CPY_WRT(processed, bind_params);
 	}
-	
+
 	/** 
 	 * Replace the bind Types
 	 */
 	if (Z_TYPE_P(bind_types) == IS_ARRAY) { 
-	
+
 		PHALCON_INIT_VAR(processed_types);
 		array_init(processed_types);
-	
+
 		phalcon_is_iterable(bind_types, &ah0, &hp0, 0, 0);
-	
+
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
-	
+
 			PHALCON_GET_HKEY(wildcard, ah0, hp0);
 			PHALCON_GET_HVALUE(value);
-	
+
 			if (Z_TYPE_P(wildcard) == IS_LONG) {
 				PHALCON_INIT_NVAR(string_wildcard);
 				PHALCON_CONCAT_SV(string_wildcard, ":", wildcard);
@@ -400,20 +400,20 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, getPaginate){
 			} else {
 				phalcon_array_update_zval(&processed_types, wildcard, value, PH_COPY | PH_SEPARATE);
 			}
-	
+
 			zend_hash_move_forward_ex(ah0, &hp0);
 		}
-	
+
 	} else {
 		PHALCON_CPY_WRT(processed_types, bind_types);
 	}
 
 	PHALCON_CALL_METHOD(&result, connection, "query", sql, processed, processed_types);
 	PHALCON_CALL_METHOD(&row, result, "fetch");
-	
+
 	PHALCON_OBS_VAR(rowcount);
 	phalcon_array_fetch_string(&rowcount, row, SL("rowcount"), PH_NOISY);
-	
+
 	i_rowcount    = phalcon_get_intval(rowcount);
 	tp            = ldiv(i_rowcount, i_limit);
 	i_total_pages = tp.quot + (tp.rem ? 1 : 0);
@@ -428,6 +428,6 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, getPaginate){
 	phalcon_update_property_long(return_value, SL("current"),     i_number_page TSRMLS_CC);
 	phalcon_update_property_long(return_value, SL("total_pages"), i_total_pages TSRMLS_CC);
 	phalcon_update_property_long(return_value, SL("total_items"), i_rowcount TSRMLS_CC);
-	
+
 	PHALCON_MM_RESTORE();
 }
