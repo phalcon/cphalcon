@@ -180,13 +180,12 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 
 	zend_phalcon_globals *phalcon_globals_ptr = PHALCON_VGLOBAL;
 	phql_parser_status *parser_status = NULL;
-	int scanner_status, status = SUCCESS, error_length, cache_level;
+	int scanner_status, status = SUCCESS, error_length;
 	phql_scanner_state *state;
 	phql_scanner_token token;
-	unsigned long phql_key = 0;
 	void* phql_parser;
 	char *error;
-	zval **temp_ast;
+	zval *unique_id;
 
 	if (!phql) {
 		MAKE_STD_ZVAL(*error_msg);
@@ -194,18 +193,14 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 		return FAILURE;
 	}
 
-	cache_level = phalcon_globals_ptr->orm.cache_level;
-	if (cache_level >= 0) {
+	MAKE_STD_ZVAL(unique_id);
+	ZVAL_LONG(unique_id, zend_inline_hash_func(phql, phql_length + 1));
 
-		phql_key = zend_inline_hash_func(phql, phql_length + 1);
+	phalcon_orm_get_prepared_ast(result, unique_id TSRMLS_CC);
 
-		if (phalcon_globals_ptr->orm.parser_cache != NULL) {
-			if (zend_hash_index_find(phalcon_globals_ptr->orm.parser_cache, phql_key, (void**) &temp_ast) == SUCCESS) {
-				ZVAL_ZVAL(*result, *temp_ast, 1, 0);
-				Z_SET_REFCOUNT_P(*result, 1);
-				return SUCCESS;
-			}
-		}
+	if (Z_TYPE_PP(result) == IS_ARRAY) {
+		zval_ptr_dtor(&unique_id);
+		return SUCCESS;
 	}
 
 	phql_parser = phql_Alloc(phql_wrapper_alloc);
@@ -579,29 +574,15 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 				/**
 				 * Store the parsed definition in the cache
 				 */
-				if (cache_level >= 0) {
-
-					if (!phalcon_globals_ptr->orm.parser_cache) {
-						ALLOC_HASHTABLE(phalcon_globals_ptr->orm.parser_cache);
-						zend_hash_init(phalcon_globals_ptr->orm.parser_cache, 0, NULL, ZVAL_PTR_DTOR, 0);
-					}
-
-					Z_ADDREF_PP(result);
-
-					zend_hash_index_update(
-						phalcon_globals_ptr->orm.parser_cache,
-						phql_key,
-						result,
-						sizeof(zval *),
-						NULL
-					);
-				}
+				phalcon_orm_set_prepared_ast(unique_id, *result);
 
 			} else {
 				efree(parser_status->ret);
 			}
 		}
 	}
+
+	zval_ptr_dtor(&unique_id);
 
 	efree(parser_status);
 	efree(state);

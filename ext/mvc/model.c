@@ -7509,7 +7509,7 @@ PHP_METHOD(Phalcon_Mvc_Model, setup){
  * Allows to delete a set of records that match the specified conditions
  *
  * <code>
- *$robot = Robots::remove("id=100")
+ * $robot = Robots::remove("id=100")
  * </code>
  *
  * @param 	array $parameters

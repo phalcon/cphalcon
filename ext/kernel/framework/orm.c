@@ -18,6 +18,9 @@
 */
 
 #include "php_phalcon.h"
+
+#include "kernel/memory.h"
+
 #include <ext/standard/php_smart_str.h>
 
 /**
@@ -26,12 +29,6 @@
 void phalcon_orm_destroy_cache(TSRMLS_D) {
 
 	zend_phalcon_globals *phalcon_globals_ptr = PHALCON_VGLOBAL;
-
-	if (phalcon_globals_ptr->orm.parser_cache != NULL) {
-		zend_hash_destroy(phalcon_globals_ptr->orm.parser_cache);
-		FREE_HASHTABLE(phalcon_globals_ptr->orm.parser_cache);
-		phalcon_globals_ptr->orm.parser_cache = NULL;
-	}
 
 	if (phalcon_globals_ptr->orm.ast_cache != NULL) {
 		zend_hash_destroy(phalcon_globals_ptr->orm.ast_cache);
@@ -49,7 +46,7 @@ void phalcon_orm_get_prepared_ast(zval **return_value, zval *unique_id TSRMLS_DC
 	zval **temp_ast;
 
 	if (Z_TYPE_P(unique_id) == IS_LONG) {
-		if (phalcon_globals_ptr->orm.cache_level >= 1) {
+		if (phalcon_globals_ptr->orm.cache_level >= 0) {
 			if (phalcon_globals_ptr->orm.ast_cache != NULL) {
 				if (zend_hash_index_find(phalcon_globals_ptr->orm.ast_cache, Z_LVAL_P(unique_id), (void**) &temp_ast) == SUCCESS) {
 					ZVAL_ZVAL(*return_value, *temp_ast, 1, 0);
@@ -67,21 +64,23 @@ void phalcon_orm_get_prepared_ast(zval **return_value, zval *unique_id TSRMLS_DC
 void phalcon_orm_set_prepared_ast(zval *unique_id, zval *prepared_ast TSRMLS_DC) {
 
 	zend_phalcon_globals *phalcon_globals_ptr = PHALCON_VGLOBAL;
+	zval *copy_result;
 
 	if (Z_TYPE_P(unique_id) == IS_LONG) {
-		if (phalcon_globals_ptr->orm.cache_level >= 1) {
+		if (phalcon_globals_ptr->orm.cache_level >= 0) {
 
 			if (!phalcon_globals_ptr->orm.ast_cache) {
 				ALLOC_HASHTABLE(phalcon_globals_ptr->orm.ast_cache);
 				zend_hash_init(phalcon_globals_ptr->orm.ast_cache, 0, NULL, ZVAL_PTR_DTOR, 0);
 			}
 
-			Z_ADDREF_P(prepared_ast);
+			MAKE_STD_ZVAL(copy_result);
+			ZVAL_ZVAL(copy_result, prepared_ast, 1, 0);
 
 			zend_hash_index_update(
 				phalcon_globals_ptr->orm.ast_cache,
 				Z_LVAL_P(unique_id),
-				prepared_ast,
+				&copy_result,
 				sizeof(zval *),
 				NULL
 			);
