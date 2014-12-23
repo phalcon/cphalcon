@@ -574,7 +574,7 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 				/**
 				 * Store the parsed definition in the cache
 				 */
-				phalcon_orm_set_prepared_ast(unique_id, *result);
+				phalcon_orm_set_prepared_ast(unique_id, *result TSRMLS_CC);
 
 			} else {
 				efree(parser_status->ret);

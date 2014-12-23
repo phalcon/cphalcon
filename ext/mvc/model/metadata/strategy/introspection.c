@@ -299,8 +299,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getMetaData){
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getColumnMaps){
 
-	zval *model, *dependency_injector, *class_name;
-	zval *schema = NULL, *table = NULL, *read_connection = NULL, *exists = NULL;
+	zval *model, *dependency_injector;
 	zval *columns = NULL, *column = NULL, *field_name = NULL, *ordered_column_map = NULL;
 	zval *reversed_column_map = NULL, *user_column_map = NULL;
 	zval *user_name = NULL, *name = NULL;
@@ -329,26 +328,8 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getColumnMaps){
 			PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "columnMap() not returned an array");
 			return;
 		}
-	
-		PHALCON_INIT_VAR(class_name);
-		phalcon_get_class(class_name, model, 0 TSRMLS_CC);
-		
-		PHALCON_CALL_METHOD(&schema, model, "getschema");
-		PHALCON_CALL_METHOD(&table, model, "getsource");
 
-		/** 
-		 * Check if the mapped table exists on the database
-		 */
-		PHALCON_CALL_METHOD(&read_connection, model, "getreadconnection");
-		PHALCON_CALL_METHOD(&exists, read_connection, "tableexists", table, schema);
-		if (zend_is_true(exists)) {
-			/** 
-			 * Try to describe the table
-			 */
-			PHALCON_CALL_METHOD(&columns, read_connection, "describecolumns", table, schema);
-		} else {
-			columns = PHALCON_GLOBAL(z_null);
-		}
+		PHALCON_CALL_METHOD(&columns, model, "getcolumns");
 
 		array_init(ordered_column_map);
 		array_init(reversed_column_map);
