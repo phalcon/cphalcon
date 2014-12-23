@@ -121,20 +121,20 @@ class ModelsDynamicOperationsTest extends PHPUnit_Framework_TestCase
 		$personer = Dynamic\Personers::findFirst();
 		$this->assertTrue($personer->save());
 
-		$this->assertEquals(count($tracer), 5);
+		$this->assertEquals(count($tracer), 3);
 
 		$personer->navnes = 'Other Name '.mt_rand(0, 150000);
 		$this->assertEquals($personer->getChangedFields(), array('navnes'));
 		$this->assertTrue($personer->save());
 
-		$this->assertEquals('UPDATE `personas` SET `nombres` = ? WHERE `cedula` = ?', $tracer[5]);
+		$this->assertEquals('UPDATE `personas` SET `nombres` = ? WHERE `cedula` = ?', $tracer[3]);
 
 		$personer->navnes = 'Other Name '.mt_rand(0, 150000);
 		$personer->adresse = 'Address '.mt_rand(0, 150000);
 		$this->assertEquals($personer->getChangedFields(), array('navnes', 'adresse'));
 		$this->assertTrue($personer->save());
 
-		$this->assertEquals('UPDATE `personas` SET `nombres` = ?, `direccion` = ? WHERE `cedula` = ?', $tracer[6]);
+		$this->assertEquals('UPDATE `personas` SET `nombres` = ?, `direccion` = ? WHERE `cedula` = ?', $tracer[4]);
 	}
 
 }

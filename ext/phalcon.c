@@ -640,7 +640,6 @@ static PHP_MSHUTDOWN_FUNCTION(phalcon){
 
 	phalcon_deinitialize_memory(TSRMLS_C);
 
-	assert(PHALCON_GLOBAL(orm).parser_cache == NULL);
 	assert(PHALCON_GLOBAL(orm).ast_cache == NULL);
 
 	UNREGISTER_INI_ENTRIES();

@@ -59,7 +59,6 @@ typedef struct _phalcon_symbol_table {
 
 /** ORM options */
 typedef struct _phalcon_orm_options {
-	HashTable *parser_cache;
 	HashTable *ast_cache;
 	int cache_level;
 	int unique_cache_id;

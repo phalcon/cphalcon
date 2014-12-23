@@ -20,6 +20,8 @@
 #include "kernel/exception.h"
 #include "kernel/array.h"
 
+#include "kernel/framework/orm.h"
+
 #include "interned-strings.h"
 
 static zval *phql_ret_literal_zval(int type, phql_parser_token *T)
@@ -455,7 +457,7 @@ static zval *phql_ret_func_call(phql_parser_token *name, zval *arguments, zval *
 }
 
 
-/* #line 459 "parser.c" */
+/* #line 461 "parser.c" */
 /* Next is all token values, in a form suitable for use by makeheaders.
 ** This section will be null unless lemon is run with the -m switch.
 */
@@ -1213,7 +1215,7 @@ static void yy_destructor(YYCODETYPE yymajor, YYMINORTYPE *yypminor){
     case 73:
     case 74:
     case 75:
-/* #line 558 "parser.y" */
+/* #line 560 "parser.y" */
 {
 	if ((yypminor->yy0)) {
 		if ((yypminor->yy0)->free_flag) {
@@ -1222,7 +1224,7 @@ static void yy_destructor(YYCODETYPE yymajor, YYMINORTYPE *yypminor){
 		efree((yypminor->yy0));
 	}
 }
-/* #line 1226 "parser.c" */
+/* #line 1228 "parser.c" */
       break;
     case 78:
     case 79:
@@ -1255,9 +1257,9 @@ static void yy_destructor(YYCODETYPE yymajor, YYMINORTYPE *yypminor){
     case 120:
     case 121:
     case 124:
-/* #line 571 "parser.y" */
+/* #line 573 "parser.y" */
 { zval_ptr_dtor(&(yypminor->yy158)); }
-/* #line 1261 "parser.c" */
+/* #line 1263 "parser.c" */
       break;
     case 84:
     case 85:
@@ -1270,9 +1272,9 @@ static void yy_destructor(YYCODETYPE yymajor, YYMINORTYPE *yypminor){
     case 109:
     case 122:
     case 123:
-/* #line 863 "parser.y" */
+/* #line 865 "parser.y" */
 { phalcon_safe_zval_ptr_dtor((yypminor->yy158)); }
-/* #line 1276 "parser.c" */
+/* #line 1278 "parser.c" */
       break;
     default:  break;   /* If no destructor action specified: do nothing */
   }
@@ -1631,11 +1633,11 @@ static void yy_reduce(
   **     break;
   */
       case 0:
-/* #line 567 "parser.y" */
+/* #line 569 "parser.y" */
 {
 	status->ret = yymsp[0].minor.yy158;
 }
-/* #line 1639 "parser.c" */
+/* #line 1641 "parser.c" */
         break;
       case 1:
       case 2:
@@ -1656,43 +1658,43 @@ static void yy_reduce(
       case 121:
       case 126:
       case 133:
-/* #line 573 "parser.y" */
+/* #line 575 "parser.y" */
 {
 	yygotominor.yy158 = yymsp[0].minor.yy158;
 }
-/* #line 1664 "parser.c" */
+/* #line 1666 "parser.c" */
         break;
       case 5:
-/* #line 591 "parser.y" */
+/* #line 593 "parser.y" */
 {
 	yygotominor.yy158 = phql_ret_select_statement(yymsp[-5].minor.yy158, yymsp[-4].minor.yy158, yymsp[-1].minor.yy158, yymsp[-3].minor.yy158, yymsp[-2].minor.yy158, yymsp[0].minor.yy158);
 }
-/* #line 1671 "parser.c" */
+/* #line 1673 "parser.c" */
         break;
       case 6:
-/* #line 597 "parser.y" */
+/* #line 599 "parser.y" */
 {
 	yygotominor.yy158 = phql_ret_select_clause(yymsp[-4].minor.yy158, yymsp[-3].minor.yy158, yymsp[-1].minor.yy158, yymsp[0].minor.yy158);
   yy_destructor(32,&yymsp[-5].minor);
   yy_destructor(33,&yymsp[-2].minor);
 }
-/* #line 1680 "parser.c" */
+/* #line 1682 "parser.c" */
         break;
       case 7:
-/* #line 603 "parser.y" */
+/* #line 605 "parser.y" */
 {
 	yygotominor.yy158 = phql_ret_distinct_all(1);
   yy_destructor(34,&yymsp[0].minor);
 }
-/* #line 1688 "parser.c" */
+/* #line 1690 "parser.c" */
         break;
       case 8:
-/* #line 607 "parser.y" */
+/* #line 609 "parser.y" */
 {
 	yygotominor.yy158 = phql_ret_distinct_all(0);
   yy_destructor(35,&yymsp[0].minor);
 }
-/* #line 1696 "parser.c" */
+/* #line 1698 "parser.c" */
         break;
       case 9:
       case 20:
@@ -1706,11 +1708,11 @@ static void yy_reduce(
       case 81:
       case 120:
       case 122:
-/* #line 611 "parser.y" */
+/* #line 613 "parser.y" */
 {
 	yygotominor.yy158 = NULL;
 }
-/* #line 1714 "parser.c" */
+/* #line 1716 "parser.c" */
         break;
       case 10:
       case 17:
@@ -1720,197 +1722,197 @@ static void yy_reduce(
       case 64:
       case 71:
       case 123:
-/* #line 617 "parser.y" */
+/* #line 619 "parser.y" */
 {
 	yygotominor.yy158 = phql_ret_zval_list(yymsp[-2].minor.yy158, yymsp[0].minor.yy158);
   yy_destructor(31,&yymsp[-1].minor);
 }
-/* #line 1729 "parser.c" */
+/* #line 1731 "parser.c" */
         break;
       case 11:
       case 43:
       case 46:
       case 124:
-/* #line 621 "parser.y" */
+/* #line 623 "parser.y" */
 {
 	yygotominor.yy158 = phql_ret_zval_list(yymsp[0].minor.yy158, NULL);
 }
-/* #line 1739 "parser.c" */
+/* #line 1741 "parser.c" */
         break;
       case 12:
       case 125:
-/* #line 627 "parser.y" */
+/* #line 629 "parser.y" */
 {
 	yygotominor.yy158 = phql_ret_column_item(PHQL_T_STARALL, NULL, NULL, NULL);
   yy_destructor(23,&yymsp[0].minor);
 }
-/* #line 1748 "parser.c" */
+/* #line 1750 "parser.c" */
         break;
       case 13:
-/* #line 631 "parser.y" */
+/* #line 633 "parser.y" */
 {
 	yygotominor.yy158 = phql_ret_column_item(PHQL_T_DOMAINALL, NULL, yymsp[-2].minor.yy0, NULL);
   yy_destructor(37,&yymsp[-1].minor);
   yy_destructor(23,&yymsp[0].minor);
 }
-/* #line 1757 "parser.c" */
+/* #line 1759 "parser.c" */
         break;
       case 14:
-/* #line 635 "parser.y" */
+/* #line 637 "parser.y" */
 {
 	yygotominor.yy158 = phql_ret_column_item(PHQL_T_EXPR, yymsp[-2].minor.yy158, NULL, yymsp[0].minor.yy0);
   yy_destructor(38,&yymsp[-1].minor);
 }
-/* #line 1765 "parser.c" */
+/* #line 1767 "parser.c" */
         break;
       case 15:
-/* #line 639 "parser.y" */
+/* #line 641 "parser.y" */
 {
 	yygotominor.yy158 = phql_ret_column_item(PHQL_T_EXPR, yymsp[-1].minor.yy158, NULL, yymsp[0].minor.yy0);
 }
-/* #line 1772 "parser.c" */
+/* #line 1774 "parser.c" */
         break;
       case 16:
-/* #line 643 "parser.y" */
+/* #line 645 "parser.y" */
 {
 	yygotominor.yy158 = phql_ret_column_item(PHQL_T_EXPR, yymsp[0].minor.yy158, NULL, NULL);
 }
-/* #line 1779 "parser.c" */
+/* #line 1781 "parser.c" */
         break;
       case 21:
-/* #line 667 "parser.y" */
+/* #line 669 "parser.y" */
 {
 	yygotominor.yy158 = phql_ret_zval_list(yymsp[-1].minor.yy158, yymsp[0].minor.yy158);
 }
-/* #line 1786 "parser.c" */
+/* #line 1788 "parser.c" */
         break;
       case 24:
-/* #line 684 "parser.y" */
+/* #line 686 "parser.y" */
 {
 	yygotominor.yy158 = phql_ret_join_item(yymsp[-3].minor.yy158, yymsp[-2].minor.yy158, yymsp[-1].minor.yy158, yymsp[0].minor.yy158);
 }
-/* #line 1793 "parser.c" */
+/* #line 1795 "parser.c" */
         break;
       case 25:
-/* #line 690 "parser.y" */
+/* #line 692 "parser.y" */
 {
 	yygotominor.yy158 = phql_ret_qualified_name(NULL, NULL, yymsp[0].minor.yy0);
   yy_destructor(38,&yymsp[-1].minor);
 }
-/* #line 1801 "parser.c" */
+/* #line 1803 "parser.c" */
         break;
       case 26:
       case 47:
       case 145:
-/* #line 694 "parser.y" */
+/* #line 696 "parser.y" */
 {
 	yygotominor.yy158 = phql_ret_qualified_name(NULL, NULL, yymsp[0].minor.yy0);
 }
-/* #line 1810 "parser.c" */
+/* #line 1812 "parser.c" */
         break;
       case 28:
-/* #line 704 "parser.y" */
+/* #line 706 "parser.y" */
 {
 	yygotominor.yy158 = phql_ret_join_type(PHQL_T_INNERJOIN);
   yy_destructor(39,&yymsp[-1].minor);
   yy_destructor(40,&yymsp[0].minor);
 }
-/* #line 1819 "parser.c" */
+/* #line 1821 "parser.c" */
         break;
       case 29:
-/* #line 708 "parser.y" */
+/* #line 710 "parser.y" */
 {
 	yygotominor.yy158 = phql_ret_join_type(PHQL_T_CROSSJOIN);
   yy_destructor(41,&yymsp[-1].minor);
   yy_destructor(40,&yymsp[0].minor);
 }
-/* #line 1828 "parser.c" */
+/* #line 1830 "parser.c" */
         break;
       case 30:
-/* #line 712 "parser.y" */
+/* #line 714 "parser.y" */
 {
 	yygotominor.yy158 = phql_ret_join_type(PHQL_T_LEFTJOIN);
   yy_destructor(42,&yymsp[-2].minor);
   yy_destructor(43,&yymsp[-1].minor);
   yy_destructor(40,&yymsp[0].minor);
 }
-/* #line 1838 "parser.c" */
+/* #line 1840 "parser.c" */
         break;
       case 31:
-/* #line 716 "parser.y" */
+/* #line 718 "parser.y" */
 {
 	yygotominor.yy158 = phql_ret_join_type(PHQL_T_LEFTJOIN);
   yy_destructor(42,&yymsp[-1].minor);
   yy_destructor(40,&yymsp[0].minor);
 }
-/* #line 1847 "parser.c" */
+/* #line 1849 "parser.c" */
         break;
       case 32:
-/* #line 720 "parser.y" */
+/* #line 722 "parser.y" */
 {
 	yygotominor.yy158 = phql_ret_join_type(PHQL_T_RIGHTJOIN);
   yy_destructor(44,&yymsp[-2].minor);
   yy_destructor(43,&yymsp[-1].minor);
   yy_destructor(40,&yymsp[0].minor);
 }
-/* #line 1857 "parser.c" */
+/* #line 1859 "parser.c" */
         break;
       case 33:
-/* #line 724 "parser.y" */
+/* #line 726 "parser.y" */
 {
 	yygotominor.yy158 = phql_ret_join_type(PHQL_T_RIGHTJOIN);
   yy_destructor(44,&yymsp[-1].minor);
   yy_destructor(40,&yymsp[0].minor);
 }
-/* #line 1866 "parser.c" */
+/* #line 1868 "parser.c" */
         break;
       case 34:
-/* #line 728 "parser.y" */
+/* #line 730 "parser.y" */
 {
 	yygotominor.yy158 = phql_ret_join_type(PHQL_T_FULLJOIN);
   yy_destructor(45,&yymsp[-2].minor);
   yy_destructor(43,&yymsp[-1].minor);
   yy_destructor(40,&yymsp[0].minor);
 }
-/* #line 1876 "parser.c" */
+/* #line 1878 "parser.c" */
         break;
       case 35:
-/* #line 732 "parser.y" */
+/* #line 734 "parser.y" */
 {
 	yygotominor.yy158 = phql_ret_join_type(PHQL_T_FULLJOIN);
   yy_destructor(45,&yymsp[-1].minor);
   yy_destructor(40,&yymsp[0].minor);
 }
-/* #line 1885 "parser.c" */
+/* #line 1887 "parser.c" */
         break;
       case 36:
-/* #line 736 "parser.y" */
+/* #line 738 "parser.y" */
 {
 	yygotominor.yy158 = phql_ret_join_type(PHQL_T_INNERJOIN);
   yy_destructor(40,&yymsp[0].minor);
 }
-/* #line 1893 "parser.c" */
+/* #line 1895 "parser.c" */
         break;
       case 37:
-/* #line 742 "parser.y" */
+/* #line 744 "parser.y" */
 {
 	yygotominor.yy158 = yymsp[0].minor.yy158;
   yy_destructor(46,&yymsp[-1].minor);
 }
-/* #line 1901 "parser.c" */
+/* #line 1903 "parser.c" */
         break;
       case 39:
-/* #line 753 "parser.y" */
+/* #line 755 "parser.y" */
 {
 	yygotominor.yy158 = phql_ret_insert_statement2(yymsp[-4].minor.yy158, NULL, yymsp[-1].minor.yy158);
   yy_destructor(31,&yymsp[-3].minor);
   yy_destructor(47,&yymsp[-2].minor);
   yy_destructor(48,&yymsp[0].minor);
 }
-/* #line 1911 "parser.c" */
+/* #line 1913 "parser.c" */
         break;
       case 40:
-/* #line 757 "parser.y" */
+/* #line 759 "parser.y" */
 {
 	yygotominor.yy158 = phql_ret_insert_statement(yymsp[-4].minor.yy158, NULL, yymsp[-1].minor.yy158);
   yy_destructor(49,&yymsp[-6].minor);
@@ -1919,10 +1921,10 @@ static void yy_reduce(
   yy_destructor(47,&yymsp[-2].minor);
   yy_destructor(48,&yymsp[0].minor);
 }
-/* #line 1923 "parser.c" */
+/* #line 1925 "parser.c" */
         break;
       case 41:
-/* #line 761 "parser.y" */
+/* #line 763 "parser.y" */
 {
 	yygotominor.yy158 = phql_ret_insert_statement(yymsp[-7].minor.yy158, yymsp[-5].minor.yy158, yymsp[-1].minor.yy158);
   yy_destructor(49,&yymsp[-9].minor);
@@ -1933,408 +1935,408 @@ static void yy_reduce(
   yy_destructor(47,&yymsp[-2].minor);
   yy_destructor(48,&yymsp[0].minor);
 }
-/* #line 1937 "parser.c" */
+/* #line 1939 "parser.c" */
         break;
       case 48:
-/* #line 799 "parser.y" */
+/* #line 801 "parser.y" */
 {
 	yygotominor.yy158 = phql_ret_update_statement(yymsp[-2].minor.yy158, yymsp[-1].minor.yy158, yymsp[0].minor.yy158);
 }
-/* #line 1944 "parser.c" */
+/* #line 1946 "parser.c" */
         break;
       case 49:
-/* #line 805 "parser.y" */
+/* #line 807 "parser.y" */
 {
 	yygotominor.yy158 = phql_ret_update_clause(yymsp[-2].minor.yy158, yymsp[0].minor.yy158);
   yy_destructor(52,&yymsp[-3].minor);
   yy_destructor(53,&yymsp[-1].minor);
 }
-/* #line 1953 "parser.c" */
+/* #line 1955 "parser.c" */
         break;
       case 52:
-/* #line 821 "parser.y" */
+/* #line 823 "parser.y" */
 {
 	yygotominor.yy158 = phql_ret_update_item(yymsp[-2].minor.yy158, yymsp[0].minor.yy158);
   yy_destructor(3,&yymsp[-1].minor);
 }
-/* #line 1961 "parser.c" */
+/* #line 1963 "parser.c" */
         break;
       case 54:
-/* #line 833 "parser.y" */
+/* #line 835 "parser.y" */
 {
 	yygotominor.yy158 = phql_ret_delete_statement(yymsp[-2].minor.yy158, yymsp[-1].minor.yy158, yymsp[0].minor.yy158);
 }
-/* #line 1968 "parser.c" */
+/* #line 1970 "parser.c" */
         break;
       case 55:
-/* #line 839 "parser.y" */
+/* #line 841 "parser.y" */
 {
 	yygotominor.yy158 = phql_ret_delete_clause(yymsp[0].minor.yy158);
   yy_destructor(54,&yymsp[-2].minor);
   yy_destructor(33,&yymsp[-1].minor);
 }
-/* #line 1977 "parser.c" */
+/* #line 1979 "parser.c" */
         break;
       case 56:
-/* #line 845 "parser.y" */
+/* #line 847 "parser.y" */
 {
 	yygotominor.yy158 = phql_ret_assoc_name(yymsp[-2].minor.yy158, yymsp[0].minor.yy0);
   yy_destructor(38,&yymsp[-1].minor);
 }
-/* #line 1985 "parser.c" */
+/* #line 1987 "parser.c" */
         break;
       case 57:
-/* #line 849 "parser.y" */
+/* #line 851 "parser.y" */
 {
 	yygotominor.yy158 = phql_ret_assoc_name(yymsp[-1].minor.yy158, yymsp[0].minor.yy0);
 }
-/* #line 1992 "parser.c" */
+/* #line 1994 "parser.c" */
         break;
       case 58:
-/* #line 853 "parser.y" */
+/* #line 855 "parser.y" */
 {
 	yygotominor.yy158 = phql_ret_assoc_name(yymsp[0].minor.yy158, NULL);
 }
-/* #line 1999 "parser.c" */
+/* #line 2001 "parser.c" */
         break;
       case 60:
-/* #line 865 "parser.y" */
+/* #line 867 "parser.y" */
 {
 	yygotominor.yy158 = yymsp[0].minor.yy158;
   yy_destructor(55,&yymsp[-1].minor);
 }
-/* #line 2007 "parser.c" */
+/* #line 2009 "parser.c" */
         break;
       case 62:
-/* #line 875 "parser.y" */
+/* #line 877 "parser.y" */
 {
 	yygotominor.yy158 = yymsp[0].minor.yy158;
   yy_destructor(56,&yymsp[-2].minor);
   yy_destructor(57,&yymsp[-1].minor);
 }
-/* #line 2016 "parser.c" */
+/* #line 2018 "parser.c" */
         break;
       case 66:
-/* #line 895 "parser.y" */
+/* #line 897 "parser.y" */
 {
 	yygotominor.yy158 = phql_ret_order_item(yymsp[0].minor.yy158, 0);
 }
-/* #line 2023 "parser.c" */
+/* #line 2025 "parser.c" */
         break;
       case 67:
-/* #line 899 "parser.y" */
+/* #line 901 "parser.y" */
 {
 	yygotominor.yy158 = phql_ret_order_item(yymsp[-1].minor.yy158, PHQL_T_ASC);
   yy_destructor(58,&yymsp[0].minor);
 }
-/* #line 2031 "parser.c" */
+/* #line 2033 "parser.c" */
         break;
       case 68:
-/* #line 903 "parser.y" */
+/* #line 905 "parser.y" */
 {
 	yygotominor.yy158 = phql_ret_order_item(yymsp[-1].minor.yy158, PHQL_T_DESC);
   yy_destructor(59,&yymsp[0].minor);
 }
-/* #line 2039 "parser.c" */
+/* #line 2041 "parser.c" */
         break;
       case 69:
-/* #line 909 "parser.y" */
+/* #line 911 "parser.y" */
 {
 	yygotominor.yy158 = yymsp[0].minor.yy158;
   yy_destructor(60,&yymsp[-2].minor);
   yy_destructor(57,&yymsp[-1].minor);
 }
-/* #line 2048 "parser.c" */
+/* #line 2050 "parser.c" */
         break;
       case 74:
-/* #line 935 "parser.y" */
+/* #line 937 "parser.y" */
 {
 	yygotominor.yy158 = yymsp[0].minor.yy158;
   yy_destructor(61,&yymsp[-1].minor);
 }
-/* #line 2056 "parser.c" */
+/* #line 2058 "parser.c" */
         break;
       case 76:
       case 80:
-/* #line 945 "parser.y" */
+/* #line 947 "parser.y" */
 {
 	yygotominor.yy158 = phql_ret_limit_clause(yymsp[0].minor.yy158, NULL);
   yy_destructor(62,&yymsp[-1].minor);
 }
-/* #line 2065 "parser.c" */
+/* #line 2067 "parser.c" */
         break;
       case 77:
-/* #line 949 "parser.y" */
+/* #line 951 "parser.y" */
 {
 	yygotominor.yy158 = phql_ret_limit_clause(yymsp[0].minor.yy158, yymsp[-2].minor.yy158);
   yy_destructor(62,&yymsp[-3].minor);
   yy_destructor(31,&yymsp[-1].minor);
 }
-/* #line 2074 "parser.c" */
+/* #line 2076 "parser.c" */
         break;
       case 78:
-/* #line 953 "parser.y" */
+/* #line 955 "parser.y" */
 {
 	yygotominor.yy158 = phql_ret_limit_clause(yymsp[-2].minor.yy158, yymsp[0].minor.yy158);
   yy_destructor(62,&yymsp[-3].minor);
   yy_destructor(63,&yymsp[-1].minor);
 }
-/* #line 2083 "parser.c" */
+/* #line 2085 "parser.c" */
         break;
       case 82:
       case 134:
-/* #line 971 "parser.y" */
+/* #line 973 "parser.y" */
 {
 	yygotominor.yy158 = phql_ret_literal_zval(PHQL_T_INTEGER, yymsp[0].minor.yy0);
 }
-/* #line 2091 "parser.c" */
+/* #line 2093 "parser.c" */
         break;
       case 83:
       case 140:
-/* #line 975 "parser.y" */
+/* #line 977 "parser.y" */
 {
 	yygotominor.yy158 = phql_ret_placeholder_zval(PHQL_T_NPLACEHOLDER, yymsp[0].minor.yy0);
 }
-/* #line 2099 "parser.c" */
+/* #line 2101 "parser.c" */
         break;
       case 84:
       case 141:
-/* #line 979 "parser.y" */
+/* #line 981 "parser.y" */
 {
 	yygotominor.yy158 = phql_ret_placeholder_zval(PHQL_T_SPLACEHOLDER, yymsp[0].minor.yy0);
 }
-/* #line 2107 "parser.c" */
+/* #line 2109 "parser.c" */
         break;
       case 85:
-/* #line 985 "parser.y" */
+/* #line 987 "parser.y" */
 {
 	yygotominor.yy158 = phql_ret_expr(PHQL_T_MINUS, NULL, yymsp[0].minor.yy158);
   yy_destructor(26,&yymsp[-1].minor);
 }
-/* #line 2115 "parser.c" */
+/* #line 2117 "parser.c" */
         break;
       case 86:
-/* #line 989 "parser.y" */
+/* #line 991 "parser.y" */
 {
 	yygotominor.yy158 = phql_ret_expr(PHQL_T_SUB, yymsp[-2].minor.yy158, yymsp[0].minor.yy158);
   yy_destructor(26,&yymsp[-1].minor);
 }
-/* #line 2123 "parser.c" */
+/* #line 2125 "parser.c" */
         break;
       case 87:
-/* #line 993 "parser.y" */
+/* #line 995 "parser.y" */
 {
 	yygotominor.yy158 = phql_ret_expr(PHQL_T_ADD, yymsp[-2].minor.yy158, yymsp[0].minor.yy158);
   yy_destructor(25,&yymsp[-1].minor);
 }
-/* #line 2131 "parser.c" */
+/* #line 2133 "parser.c" */
         break;
       case 88:
-/* #line 997 "parser.y" */
+/* #line 999 "parser.y" */
 {
 	yygotominor.yy158 = phql_ret_expr(PHQL_T_MUL, yymsp[-2].minor.yy158, yymsp[0].minor.yy158);
   yy_destructor(23,&yymsp[-1].minor);
 }
-/* #line 2139 "parser.c" */
+/* #line 2141 "parser.c" */
         break;
       case 89:
-/* #line 1001 "parser.y" */
+/* #line 1003 "parser.y" */
 {
 	yygotominor.yy158 = phql_ret_expr(PHQL_T_DIV, yymsp[-2].minor.yy158, yymsp[0].minor.yy158);
   yy_destructor(22,&yymsp[-1].minor);
 }
-/* #line 2147 "parser.c" */
+/* #line 2149 "parser.c" */
         break;
       case 90:
-/* #line 1005 "parser.y" */
+/* #line 1007 "parser.y" */
 {
 	yygotominor.yy158 = phql_ret_expr(PHQL_T_MOD, yymsp[-2].minor.yy158, yymsp[0].minor.yy158);
   yy_destructor(24,&yymsp[-1].minor);
 }
-/* #line 2155 "parser.c" */
+/* #line 2157 "parser.c" */
         break;
       case 91:
-/* #line 1009 "parser.y" */
+/* #line 1011 "parser.y" */
 {
 	yygotominor.yy158 = phql_ret_expr(PHQL_T_AND, yymsp[-2].minor.yy158, yymsp[0].minor.yy158);
   yy_destructor(15,&yymsp[-1].minor);
 }
-/* #line 2163 "parser.c" */
+/* #line 2165 "parser.c" */
         break;
       case 92:
-/* #line 1013 "parser.y" */
+/* #line 1015 "parser.y" */
 {
 	yygotominor.yy158 = phql_ret_expr(PHQL_T_OR, yymsp[-2].minor.yy158, yymsp[0].minor.yy158);
   yy_destructor(16,&yymsp[-1].minor);
 }
-/* #line 2171 "parser.c" */
+/* #line 2173 "parser.c" */
         break;
       case 93:
-/* #line 1017 "parser.y" */
+/* #line 1019 "parser.y" */
 {
 	yygotominor.yy158 = phql_ret_expr(PHQL_T_BITWISE_AND, yymsp[-2].minor.yy158, yymsp[0].minor.yy158);
   yy_destructor(19,&yymsp[-1].minor);
 }
-/* #line 2179 "parser.c" */
+/* #line 2181 "parser.c" */
         break;
       case 94:
-/* #line 1021 "parser.y" */
+/* #line 1023 "parser.y" */
 {
 	yygotominor.yy158 = phql_ret_expr(PHQL_T_BITWISE_OR, yymsp[-2].minor.yy158, yymsp[0].minor.yy158);
   yy_destructor(20,&yymsp[-1].minor);
 }
-/* #line 2187 "parser.c" */
+/* #line 2189 "parser.c" */
         break;
       case 95:
-/* #line 1025 "parser.y" */
+/* #line 1027 "parser.y" */
 {
 	yygotominor.yy158 = phql_ret_expr(PHQL_T_BITWISE_XOR, yymsp[-2].minor.yy158, yymsp[0].minor.yy158);
   yy_destructor(21,&yymsp[-1].minor);
 }
-/* #line 2195 "parser.c" */
+/* #line 2197 "parser.c" */
         break;
       case 96:
-/* #line 1029 "parser.y" */
+/* #line 1031 "parser.y" */
 {
 	yygotominor.yy158 = phql_ret_expr(PHQL_T_EQUALS, yymsp[-2].minor.yy158, yymsp[0].minor.yy158);
   yy_destructor(3,&yymsp[-1].minor);
 }
-/* #line 2203 "parser.c" */
+/* #line 2205 "parser.c" */
         break;
       case 97:
-/* #line 1033 "parser.y" */
+/* #line 1035 "parser.y" */
 {
 	yygotominor.yy158 = phql_ret_expr(PHQL_T_NOTEQUALS, yymsp[-2].minor.yy158, yymsp[0].minor.yy158);
   yy_destructor(4,&yymsp[-1].minor);
 }
-/* #line 2211 "parser.c" */
+/* #line 2213 "parser.c" */
         break;
       case 98:
-/* #line 1037 "parser.y" */
+/* #line 1039 "parser.y" */
 {
 	yygotominor.yy158 = phql_ret_expr(PHQL_T_LESS, yymsp[-2].minor.yy158, yymsp[0].minor.yy158);
   yy_destructor(5,&yymsp[-1].minor);
 }
-/* #line 2219 "parser.c" */
+/* #line 2221 "parser.c" */
         break;
       case 99:
-/* #line 1041 "parser.y" */
+/* #line 1043 "parser.y" */
 {
 	yygotominor.yy158 = phql_ret_expr(PHQL_T_GREATER, yymsp[-2].minor.yy158, yymsp[0].minor.yy158);
   yy_destructor(6,&yymsp[-1].minor);
 }
-/* #line 2227 "parser.c" */
+/* #line 2229 "parser.c" */
         break;
       case 100:
-/* #line 1045 "parser.y" */
+/* #line 1047 "parser.y" */
 {
 	yygotominor.yy158 = phql_ret_expr(PHQL_T_GREATEREQUAL, yymsp[-2].minor.yy158, yymsp[0].minor.yy158);
   yy_destructor(7,&yymsp[-1].minor);
 }
-/* #line 2235 "parser.c" */
+/* #line 2237 "parser.c" */
         break;
       case 101:
-/* #line 1049 "parser.y" */
+/* #line 1051 "parser.y" */
 {
 	yygotominor.yy158 = phql_ret_expr(PHQL_T_TS_MATCHES, yymsp[-2].minor.yy158, yymsp[0].minor.yy158);
   yy_destructor(9,&yymsp[-1].minor);
 }
-/* #line 2243 "parser.c" */
+/* #line 2245 "parser.c" */
         break;
       case 102:
-/* #line 1053 "parser.y" */
+/* #line 1055 "parser.y" */
 {
 	yygotominor.yy158 = phql_ret_expr(PHQL_T_TS_OR, yymsp[-2].minor.yy158, yymsp[0].minor.yy158);
   yy_destructor(10,&yymsp[-1].minor);
 }
-/* #line 2251 "parser.c" */
+/* #line 2253 "parser.c" */
         break;
       case 103:
-/* #line 1057 "parser.y" */
+/* #line 1059 "parser.y" */
 {
 	yygotominor.yy158 = phql_ret_expr(PHQL_T_TS_AND, yymsp[-2].minor.yy158, yymsp[0].minor.yy158);
   yy_destructor(11,&yymsp[-1].minor);
 }
-/* #line 2259 "parser.c" */
+/* #line 2261 "parser.c" */
         break;
       case 104:
-/* #line 1061 "parser.y" */
+/* #line 1063 "parser.y" */
 {
 	yygotominor.yy158 = phql_ret_expr(PHQL_T_TS_NEGATE, yymsp[-2].minor.yy158, yymsp[0].minor.yy158);
   yy_destructor(12,&yymsp[-1].minor);
 }
-/* #line 2267 "parser.c" */
+/* #line 2269 "parser.c" */
         break;
       case 105:
-/* #line 1065 "parser.y" */
+/* #line 1067 "parser.y" */
 {
 	yygotominor.yy158 = phql_ret_expr(PHQL_T_TS_CONTAINS_ANOTHER, yymsp[-2].minor.yy158, yymsp[0].minor.yy158);
   yy_destructor(13,&yymsp[-1].minor);
 }
-/* #line 2275 "parser.c" */
+/* #line 2277 "parser.c" */
         break;
       case 106:
-/* #line 1069 "parser.y" */
+/* #line 1071 "parser.y" */
 {
 	yygotominor.yy158 = phql_ret_expr(PHQL_T_TS_CONTAINS_IN, yymsp[-2].minor.yy158, yymsp[0].minor.yy158);
   yy_destructor(14,&yymsp[-1].minor);
 }
-/* #line 2283 "parser.c" */
+/* #line 2285 "parser.c" */
         break;
       case 107:
-/* #line 1073 "parser.y" */
+/* #line 1075 "parser.y" */
 {
 	yygotominor.yy158 = phql_ret_expr(PHQL_T_LESSEQUAL, yymsp[-2].minor.yy158, yymsp[0].minor.yy158);
   yy_destructor(8,&yymsp[-1].minor);
 }
-/* #line 2291 "parser.c" */
+/* #line 2293 "parser.c" */
         break;
       case 108:
-/* #line 1077 "parser.y" */
+/* #line 1079 "parser.y" */
 {
 	yygotominor.yy158 = phql_ret_expr(PHQL_T_LIKE, yymsp[-2].minor.yy158, yymsp[0].minor.yy158);
   yy_destructor(17,&yymsp[-1].minor);
 }
-/* #line 2299 "parser.c" */
+/* #line 2301 "parser.c" */
         break;
       case 109:
-/* #line 1081 "parser.y" */
+/* #line 1083 "parser.y" */
 {
 	yygotominor.yy158 = phql_ret_expr(PHQL_T_NLIKE, yymsp[-3].minor.yy158, yymsp[0].minor.yy158);
   yy_destructor(29,&yymsp[-2].minor);
   yy_destructor(17,&yymsp[-1].minor);
 }
-/* #line 2308 "parser.c" */
+/* #line 2310 "parser.c" */
         break;
       case 110:
-/* #line 1085 "parser.y" */
+/* #line 1087 "parser.y" */
 {
 	yygotominor.yy158 = phql_ret_expr(PHQL_T_ILIKE, yymsp[-2].minor.yy158, yymsp[0].minor.yy158);
   yy_destructor(18,&yymsp[-1].minor);
 }
-/* #line 2316 "parser.c" */
+/* #line 2318 "parser.c" */
         break;
       case 111:
-/* #line 1089 "parser.y" */
+/* #line 1091 "parser.y" */
 {
 	yygotominor.yy158 = phql_ret_expr(PHQL_T_NILIKE, yymsp[-3].minor.yy158, yymsp[0].minor.yy158);
   yy_destructor(29,&yymsp[-2].minor);
   yy_destructor(18,&yymsp[-1].minor);
 }
-/* #line 2325 "parser.c" */
+/* #line 2327 "parser.c" */
         break;
       case 112:
-/* #line 1093 "parser.y" */
+/* #line 1095 "parser.y" */
 {
 	yygotominor.yy158 = phql_ret_expr(PHQL_T_IN, yymsp[-4].minor.yy158, yymsp[-1].minor.yy158);
   yy_destructor(28,&yymsp[-3].minor);
   yy_destructor(47,&yymsp[-2].minor);
   yy_destructor(48,&yymsp[0].minor);
 }
-/* #line 2335 "parser.c" */
+/* #line 2337 "parser.c" */
         break;
       case 113:
-/* #line 1097 "parser.y" */
+/* #line 1099 "parser.y" */
 {
 	yygotominor.yy158 = phql_ret_expr(PHQL_T_NOTIN, yymsp[-5].minor.yy158, yymsp[-1].minor.yy158);
   yy_destructor(29,&yymsp[-4].minor);
@@ -2342,18 +2344,18 @@ static void yy_reduce(
   yy_destructor(47,&yymsp[-2].minor);
   yy_destructor(48,&yymsp[0].minor);
 }
-/* #line 2346 "parser.c" */
+/* #line 2348 "parser.c" */
         break;
       case 114:
-/* #line 1101 "parser.y" */
+/* #line 1103 "parser.y" */
 {
 	yygotominor.yy158 = phql_ret_expr(PHQL_T_AGAINST, yymsp[-2].minor.yy158, yymsp[0].minor.yy158);
   yy_destructor(1,&yymsp[-1].minor);
 }
-/* #line 2354 "parser.c" */
+/* #line 2356 "parser.c" */
         break;
       case 115:
-/* #line 1105 "parser.y" */
+/* #line 1107 "parser.y" */
 {
 	yygotominor.yy158 = phql_ret_expr(PHQL_T_CAST, yymsp[-3].minor.yy158, phql_ret_raw_qualified_name(yymsp[-1].minor.yy0, NULL));
   yy_destructor(67,&yymsp[-5].minor);
@@ -2361,10 +2363,10 @@ static void yy_reduce(
   yy_destructor(38,&yymsp[-2].minor);
   yy_destructor(48,&yymsp[0].minor);
 }
-/* #line 2365 "parser.c" */
+/* #line 2367 "parser.c" */
         break;
       case 116:
-/* #line 1109 "parser.y" */
+/* #line 1111 "parser.y" */
 {
 	yygotominor.yy158 = phql_ret_expr(PHQL_T_CONVERT, yymsp[-3].minor.yy158, phql_ret_raw_qualified_name(yymsp[-1].minor.yy0, NULL));
   yy_destructor(68,&yymsp[-5].minor);
@@ -2372,139 +2374,139 @@ static void yy_reduce(
   yy_destructor(69,&yymsp[-2].minor);
   yy_destructor(48,&yymsp[0].minor);
 }
-/* #line 2376 "parser.c" */
+/* #line 2378 "parser.c" */
         break;
       case 118:
-/* #line 1119 "parser.y" */
+/* #line 1121 "parser.y" */
 {
 	yygotominor.yy158 = phql_ret_func_call(yymsp[-4].minor.yy0, yymsp[-1].minor.yy158, yymsp[-2].minor.yy158);
   yy_destructor(47,&yymsp[-3].minor);
   yy_destructor(48,&yymsp[0].minor);
 }
-/* #line 2385 "parser.c" */
+/* #line 2387 "parser.c" */
         break;
       case 119:
-/* #line 1125 "parser.y" */
+/* #line 1127 "parser.y" */
 {
 	yygotominor.yy158 = phql_ret_distinct();
   yy_destructor(34,&yymsp[0].minor);
 }
-/* #line 2393 "parser.c" */
+/* #line 2395 "parser.c" */
         break;
       case 127:
-/* #line 1163 "parser.y" */
+/* #line 1165 "parser.y" */
 {
 	yygotominor.yy158 = phql_ret_expr(PHQL_T_ISNULL, yymsp[-2].minor.yy158, NULL);
   yy_destructor(27,&yymsp[-1].minor);
   yy_destructor(70,&yymsp[0].minor);
 }
-/* #line 2402 "parser.c" */
+/* #line 2404 "parser.c" */
         break;
       case 128:
-/* #line 1167 "parser.y" */
+/* #line 1169 "parser.y" */
 {
 	yygotominor.yy158 = phql_ret_expr(PHQL_T_ISNOTNULL, yymsp[-3].minor.yy158, NULL);
   yy_destructor(27,&yymsp[-2].minor);
   yy_destructor(29,&yymsp[-1].minor);
   yy_destructor(70,&yymsp[0].minor);
 }
-/* #line 2412 "parser.c" */
+/* #line 2414 "parser.c" */
         break;
       case 129:
-/* #line 1171 "parser.y" */
+/* #line 1173 "parser.y" */
 {
 	yygotominor.yy158 = phql_ret_expr(PHQL_T_BETWEEN, yymsp[-2].minor.yy158, yymsp[0].minor.yy158);
   yy_destructor(2,&yymsp[-1].minor);
 }
-/* #line 2420 "parser.c" */
+/* #line 2422 "parser.c" */
         break;
       case 130:
-/* #line 1175 "parser.y" */
+/* #line 1177 "parser.y" */
 {
 	yygotominor.yy158 = phql_ret_expr(PHQL_T_NOT, NULL, yymsp[0].minor.yy158);
   yy_destructor(29,&yymsp[-1].minor);
 }
-/* #line 2428 "parser.c" */
+/* #line 2430 "parser.c" */
         break;
       case 131:
-/* #line 1179 "parser.y" */
+/* #line 1181 "parser.y" */
 {
 	yygotominor.yy158 = phql_ret_expr(PHQL_T_BITWISE_NOT, NULL, yymsp[0].minor.yy158);
   yy_destructor(30,&yymsp[-1].minor);
 }
-/* #line 2436 "parser.c" */
+/* #line 2438 "parser.c" */
         break;
       case 132:
-/* #line 1183 "parser.y" */
+/* #line 1185 "parser.y" */
 {
 	yygotominor.yy158 = phql_ret_expr(PHQL_T_ENCLOSED, yymsp[-1].minor.yy158, NULL);
   yy_destructor(47,&yymsp[-2].minor);
   yy_destructor(48,&yymsp[0].minor);
 }
-/* #line 2445 "parser.c" */
+/* #line 2447 "parser.c" */
         break;
       case 135:
-/* #line 1195 "parser.y" */
+/* #line 1197 "parser.y" */
 {
 	yygotominor.yy158 = phql_ret_literal_zval(PHQL_T_STRING, yymsp[0].minor.yy0);
 }
-/* #line 2452 "parser.c" */
+/* #line 2454 "parser.c" */
         break;
       case 136:
-/* #line 1199 "parser.y" */
+/* #line 1201 "parser.y" */
 {
 	yygotominor.yy158 = phql_ret_literal_zval(PHQL_T_DOUBLE, yymsp[0].minor.yy0);
 }
-/* #line 2459 "parser.c" */
+/* #line 2461 "parser.c" */
         break;
       case 137:
-/* #line 1203 "parser.y" */
+/* #line 1205 "parser.y" */
 {
 	yygotominor.yy158 = phql_ret_literal_zval(PHQL_T_NULL, NULL);
   yy_destructor(70,&yymsp[0].minor);
 }
-/* #line 2467 "parser.c" */
+/* #line 2469 "parser.c" */
         break;
       case 138:
-/* #line 1207 "parser.y" */
+/* #line 1209 "parser.y" */
 {
 	yygotominor.yy158 = phql_ret_literal_zval(PHQL_T_TRUE, NULL);
   yy_destructor(73,&yymsp[0].minor);
 }
-/* #line 2475 "parser.c" */
+/* #line 2477 "parser.c" */
         break;
       case 139:
-/* #line 1211 "parser.y" */
+/* #line 1213 "parser.y" */
 {
 	yygotominor.yy158 = phql_ret_literal_zval(PHQL_T_FALSE, NULL);
   yy_destructor(74,&yymsp[0].minor);
 }
-/* #line 2483 "parser.c" */
+/* #line 2485 "parser.c" */
         break;
       case 142:
-/* #line 1225 "parser.y" */
+/* #line 1227 "parser.y" */
 {
 	yygotominor.yy158 = phql_ret_qualified_name(yymsp[-4].minor.yy0, yymsp[-2].minor.yy0, yymsp[0].minor.yy0);
   yy_destructor(75,&yymsp[-3].minor);
   yy_destructor(37,&yymsp[-1].minor);
 }
-/* #line 2492 "parser.c" */
+/* #line 2494 "parser.c" */
         break;
       case 143:
-/* #line 1229 "parser.y" */
+/* #line 1231 "parser.y" */
 {
 	yygotominor.yy158 = phql_ret_qualified_name(yymsp[-2].minor.yy0, NULL, yymsp[0].minor.yy0);
   yy_destructor(75,&yymsp[-1].minor);
 }
-/* #line 2500 "parser.c" */
+/* #line 2502 "parser.c" */
         break;
       case 144:
-/* #line 1233 "parser.y" */
+/* #line 1235 "parser.y" */
 {
 	yygotominor.yy158 = phql_ret_qualified_name(NULL, yymsp[-2].minor.yy0, yymsp[0].minor.yy0);
   yy_destructor(37,&yymsp[-1].minor);
 }
-/* #line 2508 "parser.c" */
+/* #line 2510 "parser.c" */
         break;
   };
   yygoto = yyRuleInfo[yyruleno].lhs;
@@ -2546,7 +2548,7 @@ static void yy_syntax_error(
 ){
   phql_ARG_FETCH;
 #define TOKEN (yyminor.yy0)
-/* #line 491 "parser.y" */
+/* #line 493 "parser.y" */
 
 	if (status->scanner_state->start_length) {
 		{
@@ -2613,7 +2615,7 @@ static void yy_syntax_error(
 
 	status->status = PHQL_PARSING_FAILED;
 
-/* #line 2617 "parser.c" */
+/* #line 2619 "parser.c" */
   phql_ARG_STORE; /* Suppress warning about unused %extra_argument variable */
 }
 
@@ -2966,13 +2968,12 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 
 	zend_phalcon_globals *phalcon_globals_ptr = PHALCON_VGLOBAL;
 	phql_parser_status *parser_status = NULL;
-	int scanner_status, status = SUCCESS, error_length, cache_level;
+	int scanner_status, status = SUCCESS, error_length;
 	phql_scanner_state *state;
 	phql_scanner_token token;
-	unsigned long phql_key = 0;
 	void* phql_parser;
 	char *error;
-	zval **temp_ast;
+	zval *unique_id;
 
 	if (!phql) {
 		MAKE_STD_ZVAL(*error_msg);
@@ -2980,18 +2981,14 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 		return FAILURE;
 	}
 
-	cache_level = phalcon_globals_ptr->orm.cache_level;
-	if (cache_level >= 0) {
+	MAKE_STD_ZVAL(unique_id);
+	ZVAL_LONG(unique_id, zend_inline_hash_func(phql, phql_length + 1));
 
-		phql_key = zend_inline_hash_func(phql, phql_length + 1);
+	phalcon_orm_get_prepared_ast(result, unique_id TSRMLS_CC);
 
-		if (phalcon_globals_ptr->orm.parser_cache != NULL) {
-			if (zend_hash_index_find(phalcon_globals_ptr->orm.parser_cache, phql_key, (void**) &temp_ast) == SUCCESS) {
-				ZVAL_ZVAL(*result, *temp_ast, 1, 0);
-				Z_SET_REFCOUNT_P(*result, 1);
-				return SUCCESS;
-			}
-		}
+	if (Z_TYPE_PP(result) == IS_ARRAY) {
+		zval_ptr_dtor(&unique_id);
+		return SUCCESS;
 	}
 
 	phql_parser = phql_Alloc(phql_wrapper_alloc);
@@ -3365,29 +3362,15 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 				/**
 				 * Store the parsed definition in the cache
 				 */
-				if (cache_level >= 0) {
-
-					if (!phalcon_globals_ptr->orm.parser_cache) {
-						ALLOC_HASHTABLE(phalcon_globals_ptr->orm.parser_cache);
-						zend_hash_init(phalcon_globals_ptr->orm.parser_cache, 0, NULL, ZVAL_PTR_DTOR, 0);
-					}
-
-					Z_ADDREF_PP(result);
-
-					zend_hash_index_update(
-						phalcon_globals_ptr->orm.parser_cache,
-						phql_key,
-						result,
-						sizeof(zval *),
-						NULL
-					);
-				}
+				phalcon_orm_set_prepared_ast(unique_id, *result TSRMLS_CC);
 
 			} else {
 				efree(parser_status->ret);
 			}
 		}
 	}
+
+	zval_ptr_dtor(&unique_id);
 
 	efree(parser_status);
 	efree(state);

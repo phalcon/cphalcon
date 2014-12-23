@@ -103,6 +103,7 @@ PHP_METHOD(Phalcon_Mvc_Model, getSource);
 PHP_METHOD(Phalcon_Mvc_Model, setSchema);
 PHP_METHOD(Phalcon_Mvc_Model, getSchema);
 PHP_METHOD(Phalcon_Mvc_Model, getColumnMap);
+PHP_METHOD(Phalcon_Mvc_Model, getColumns);
 PHP_METHOD(Phalcon_Mvc_Model, setConnectionService);
 PHP_METHOD(Phalcon_Mvc_Model, setReadConnectionService);
 PHP_METHOD(Phalcon_Mvc_Model, setWriteConnectionService);
@@ -341,6 +342,7 @@ static const zend_function_entry phalcon_mvc_model_method_entry[] = {
 	PHP_ME(Phalcon_Mvc_Model, setSchema, arginfo_phalcon_mvc_model_setschema, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Mvc_Model, getSchema, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model, getColumnMap, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model, getColumns, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model, setConnectionService, arginfo_phalcon_mvc_modelinterface_setconnectionservice, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model, setReadConnectionService, arginfo_phalcon_mvc_modelinterface_setreadconnectionservice, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model, setWriteConnectionService, arginfo_phalcon_mvc_modelinterface_setwriteconnectionservice, ZEND_ACC_PUBLIC)
@@ -860,7 +862,7 @@ PHP_METHOD(Phalcon_Mvc_Model, getSchema){
 /**
  * Returns the column map if any
  *
- * @return string
+ * @return array
  */
 PHP_METHOD(Phalcon_Mvc_Model, getColumnMap){
 
@@ -888,6 +890,23 @@ PHP_METHOD(Phalcon_Mvc_Model, getColumnMap){
 	}
 
 	RETURN_CTOR(column_map);
+}
+
+/**
+ * Returns the columns
+ *
+ * @return array
+ */
+PHP_METHOD(Phalcon_Mvc_Model, getColumns){
+
+	zval *meta_data = NULL;
+
+	PHALCON_MM_GROW();
+
+	PHALCON_CALL_METHOD(&meta_data, this_ptr, "getmodelsmetadata");
+	PHALCON_RETURN_CALL_METHOD(meta_data, "getattributes", this_ptr);
+
+	PHALCON_MM_RESTORE();
 }
 
 /**
@@ -5742,8 +5761,12 @@ PHP_METHOD(Phalcon_Mvc_Model, getSkipAttributesOnCreate){
 
 	zval *meta_data = NULL;
 
-	PHALCON_CALL_METHODW(&meta_data, this_ptr, "getmodelsmetadata");
-	PHALCON_RETURN_CALL_METHODW(meta_data, "getautomaticcreateattributes", this_ptr);
+	PHALCON_MM_GROW();
+
+	PHALCON_CALL_METHOD(&meta_data, this_ptr, "getmodelsmetadata");
+	PHALCON_RETURN_CALL_METHOD(meta_data, "getautomaticcreateattributes", this_ptr);
+
+	PHALCON_MM_RESTORE();
 }
 
 /**
@@ -7509,7 +7532,7 @@ PHP_METHOD(Phalcon_Mvc_Model, setup){
  * Allows to delete a set of records that match the specified conditions
  *
  * <code>
- *$robot = Robots::remove("id=100")
+ * $robot = Robots::remove("id=100")
  * </code>
  *
  * @param 	array $parameters

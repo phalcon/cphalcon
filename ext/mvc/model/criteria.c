@@ -2191,8 +2191,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, _generateUpdate) {
 	zval *column_map = NULL, *attribute_field = NULL, *exception_message;
 	zval *primary_key_condition, *phql, *bind_params, *columns, *updated_columns;
 	zval *column = NULL, *value = NULL, *bind_name = NULL, *updated_column = NULL, *joined_columns = NULL;
-	HashTable *ah0;
-	HashPosition hp0;
+	zval *order, *order_items, *order_item = NULL, *escaped_item = NULL, *joined_items = NULL;
+	zval *limit, *offset, *number;
+	HashTable *ah0, *ah1;
+	HashPosition hp0, hp1;
 	zval **hd;
 	zend_class_entry *ce0;
 
@@ -2330,6 +2332,69 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, _generateUpdate) {
 		}
 	}
 
+	/**
+	 * Process order clause
+	 */
+	PHALCON_OBS_VAR(order);
+	phalcon_read_property_this(&order, this_ptr, SL("_order"), PH_NOISY TSRMLS_CC);
+	if (PHALCON_IS_NOT_EMPTY(order)) {
+		if (Z_TYPE_P(order) == IS_ARRAY) {
+
+			PHALCON_INIT_VAR(order_items);
+			array_init(order_items);
+
+			phalcon_is_iterable(order, &ah1, &hp1, 0, 0);
+
+			while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
+
+				PHALCON_GET_HVALUE(order_item);
+
+				if (phalcon_is_numeric(order_item)) {
+					phalcon_array_append(&order_items, order_item, PH_COPY);
+				} else {
+					if (phalcon_memnstr_str(order_item, SL("."))) {
+						phalcon_array_append(&order_items, order_item, PH_COPY);
+					} else {
+						PHALCON_INIT_NVAR(escaped_item);
+						PHALCON_CONCAT_SVS(escaped_item, "[", order_item, "]");
+						phalcon_array_append(&order_items, escaped_item, PH_COPY);
+					}
+				}
+
+				zend_hash_move_forward_ex(ah1, &hp1);
+			}
+
+			PHALCON_INIT_NVAR(joined_items);
+			phalcon_fast_join_str(joined_items, SL(", "), order_items TSRMLS_CC);
+			PHALCON_SCONCAT_SV(phql, " ORDER BY ", joined_items);
+		} else {
+			PHALCON_SCONCAT_SV(phql, " ORDER BY ", order);
+		}
+	}
+
+	/**
+	 * Process limit parameters
+	 */
+	limit = phalcon_fetch_nproperty_this(this_ptr, SL("_limit"), PH_NOISY TSRMLS_CC);
+	if (Z_TYPE_P(limit) != IS_NULL) {
+		if (Z_TYPE_P(limit) == IS_ARRAY) {
+			PHALCON_OBS_VAR(number);
+			phalcon_array_fetch_string(&number, limit, SL("number"), PH_NOISY);
+			if (phalcon_array_isset_string_fetch(&offset, limit, SS("offset")) && Z_TYPE_P(offset) != IS_NULL) {
+				PHALCON_SCONCAT_SVSV(phql, " LIMIT ", number, " OFFSET ", offset);
+			} else {
+				PHALCON_SCONCAT_SV(phql, " LIMIT ", number);
+			}
+		} else {
+			PHALCON_SCONCAT_SV(phql, " LIMIT ", limit);
+
+			offset = phalcon_fetch_nproperty_this(this_ptr, SL("_offset"), PH_NOISY TSRMLS_CC);
+			if (Z_TYPE_P(offset) != IS_NULL) {
+				PHALCON_SCONCAT_SV(phql, " OFFSET ", offset);
+			}
+		}
+	}
+
 	RETURN_CTOR(phql);
 }
 
@@ -2345,7 +2410,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, _generateDelete) {
 	zval *no_primary = NULL, *primary_keys = NULL, *first_primary_key;
 	zval *column_map = NULL, *attribute_field = NULL, *exception_message;
 	zval *primary_key_condition, *phql;
+	zval *order, *order_items, *order_item = NULL, *escaped_item = NULL, *joined_items = NULL;
+	zval *limit, *offset, *number;
 	zend_class_entry *ce0;
+	HashTable *ah0;
+	HashPosition hp0;
+	zval **hd;
 
 	PHALCON_MM_GROW();
 
@@ -2366,14 +2436,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, _generateDelete) {
 	phalcon_read_property_this(&conditions, this_ptr, SL("_conditions"), PH_NOISY TSRMLS_CC);
 	if (phalcon_is_numeric(conditions)) {
 
-		/** 
+		/**
 		 * If the conditions is a single numeric field. We internally create a condition
 		 * using the related primary key
 		 */
 		PHALCON_INIT_VAR(service_name);
 		PHALCON_ZVAL_MAYBE_INTERNED_STRING(service_name, phalcon_interned_modelsMetadata);
 
-		/** 
+		/**
 		 * Get the models metadata service to obtain the column names, column map and
 		 * primary key
 		 */
@@ -2397,7 +2467,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, _generateDelete) {
 				PHALCON_OBS_VAR(first_primary_key);
 				phalcon_array_fetch_long(&first_primary_key, primary_keys, 0, PH_NOISY);
 
-				/** 
+				/**
 				 * The PHQL contains the renamed columns if available
 				 */
 				if (PHALCON_GLOBAL(orm).column_renaming) {
@@ -2428,7 +2498,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, _generateDelete) {
 			}
 		}
 
-		/** 
+		/**
 		 * A primary key is mandatory in these cases
 		 */
 		if (PHALCON_IS_TRUE(no_primary)) {
@@ -2440,12 +2510,75 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, _generateDelete) {
 	PHALCON_INIT_VAR(phql);
 	PHALCON_CONCAT_SVS(phql, " DELETE FROM [", model, "]");
 
-	/** 
+	/**
 	 * Only append conditions if it's string
 	 */
 	if (Z_TYPE_P(conditions) == IS_STRING) {
 		if (PHALCON_IS_NOT_EMPTY(conditions)) {
 			PHALCON_SCONCAT_SV(phql, " WHERE ", conditions);
+		}
+	}
+
+	/**
+	 * Process order clause
+	 */
+	PHALCON_OBS_VAR(order);
+	phalcon_read_property_this(&order, this_ptr, SL("_order"), PH_NOISY TSRMLS_CC);
+	if (PHALCON_IS_NOT_EMPTY(order)) {
+		if (Z_TYPE_P(order) == IS_ARRAY) {
+
+			PHALCON_INIT_VAR(order_items);
+			array_init(order_items);
+
+			phalcon_is_iterable(order, &ah0, &hp0, 0, 0);
+
+			while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
+
+				PHALCON_GET_HVALUE(order_item);
+
+				if (phalcon_is_numeric(order_item)) {
+					phalcon_array_append(&order_items, order_item, PH_COPY);
+				} else {
+					if (phalcon_memnstr_str(order_item, SL("."))) {
+						phalcon_array_append(&order_items, order_item, PH_COPY);
+					} else {
+						PHALCON_INIT_NVAR(escaped_item);
+						PHALCON_CONCAT_SVS(escaped_item, "[", order_item, "]");
+						phalcon_array_append(&order_items, escaped_item, PH_COPY);
+					}
+				}
+
+				zend_hash_move_forward_ex(ah0, &hp0);
+			}
+
+			PHALCON_INIT_NVAR(joined_items);
+			phalcon_fast_join_str(joined_items, SL(", "), order_items TSRMLS_CC);
+			PHALCON_SCONCAT_SV(phql, " ORDER BY ", joined_items);
+		} else {
+			PHALCON_SCONCAT_SV(phql, " ORDER BY ", order);
+		}
+	}
+
+	/**
+	 * Process limit parameters
+	 */
+	limit = phalcon_fetch_nproperty_this(this_ptr, SL("_limit"), PH_NOISY TSRMLS_CC);
+	if (Z_TYPE_P(limit) != IS_NULL) {
+		if (Z_TYPE_P(limit) == IS_ARRAY) {
+			PHALCON_OBS_VAR(number);
+			phalcon_array_fetch_string(&number, limit, SL("number"), PH_NOISY);
+			if (phalcon_array_isset_string_fetch(&offset, limit, SS("offset")) && Z_TYPE_P(offset) != IS_NULL) {
+				PHALCON_SCONCAT_SVSV(phql, " LIMIT ", number, " OFFSET ", offset);
+			} else {
+				PHALCON_SCONCAT_SV(phql, " LIMIT ", number);
+			}
+		} else {
+			PHALCON_SCONCAT_SV(phql, " LIMIT ", limit);
+
+			offset = phalcon_fetch_nproperty_this(this_ptr, SL("_offset"), PH_NOISY TSRMLS_CC);
+			if (Z_TYPE_P(offset) != IS_NULL) {
+				PHALCON_SCONCAT_SV(phql, " OFFSET ", offset);
+			}
 		}
 	}
 

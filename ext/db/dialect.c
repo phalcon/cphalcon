@@ -959,13 +959,14 @@ PHP_METHOD(Phalcon_Db_Dialect, select){
 PHP_METHOD(Phalcon_Db_Dialect, update){
 
 	zval *definition, *tables, *fields, *values, *escape_char;
-	zval *sql, *updated_tables, *table = NULL, *tables_sql = NULL;
-	zval *updated_fields, *position = NULL, *column = NULL, *column_name = NULL, *columns_sql = NULL;
-	zval *value_expr = NULL, *value = NULL, *value_expression = NULL, *column_sql = NULL;
+	zval *sql, *updated_tables, *table = NULL, *table_expression = NULL, *tables_sql = NULL;
+	zval *updated_fields, *position = NULL, *column = NULL, *column_name = NULL, *column_expression = NULL, *columns_sql = NULL;
+	zval *value_expr = NULL, *value = NULL, *value_expression = NULL;
 	zval *where_conditions, *where_expression = NULL;
+	zval *order_fields, *order_items, *order_item = NULL, *order_expression = NULL, *order_sql_item = NULL, *sql_order_type = NULL, *order_sql_item_type = NULL, *order_sql;
 	zval *limit_value, *number, *offset, *tmp1 = NULL, *tmp2 = NULL;
-	HashTable *ah0, *ah1;
-	HashPosition hp0, hp1;
+	HashTable *ah0, *ah1, *ah2;
+	HashPosition hp0, hp1, hp2;
 	zval **hd;
 
 	PHALCON_MM_GROW();
@@ -1010,7 +1011,10 @@ PHP_METHOD(Phalcon_Db_Dialect, update){
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 
 		PHALCON_GET_HVALUE(table);
-		phalcon_array_append(&updated_tables, table, PH_SEPARATE);
+
+		PHALCON_CALL_METHOD(&table_expression, this_ptr, "getsqltable", table, escape_char);
+
+		phalcon_array_append(&updated_tables, table_expression, PH_COPY);
 
 		zend_hash_move_forward_ex(ah0, &hp0);
 	}
@@ -1046,10 +1050,10 @@ PHP_METHOD(Phalcon_Db_Dialect, update){
 
 		PHALCON_CALL_METHOD(&value_expression, this_ptr, "getsqlexpression", value, escape_char);
 
-		PHALCON_INIT_NVAR(column_sql);
-		PHALCON_CONCAT_VSV(column_sql, column_name, " = ", value_expression);
+		PHALCON_INIT_NVAR(column_expression);
+		PHALCON_CONCAT_VSV(column_expression, column_name, " = ", value_expression);
 
-		phalcon_array_append(&updated_fields, column_sql, PH_COPY);
+		phalcon_array_append(&updated_fields, column_expression, PH_COPY);
 
 		zend_hash_move_forward_ex(ah1, &hp1);
 	}
@@ -1068,6 +1072,45 @@ PHP_METHOD(Phalcon_Db_Dialect, update){
 		} else {
 			PHALCON_SCONCAT_SV(sql, " WHERE ", where_conditions);
 		}
+	}
+
+	/* Check for a ORDER clause */
+	if (phalcon_array_isset_string_fetch(&order_fields, definition, SS("order"))) {
+		PHALCON_INIT_VAR(order_items);
+		array_init(order_items);
+
+		phalcon_is_iterable(order_fields, &ah2, &hp2, 0, 0);
+
+		while (zend_hash_get_current_data_ex(ah2, (void**) &hd, &hp2) == SUCCESS) {
+
+			PHALCON_GET_HVALUE(order_item);
+
+			PHALCON_OBS_NVAR(order_expression);
+			phalcon_array_fetch_long(&order_expression, order_item, 0, PH_NOISY);
+
+			PHALCON_CALL_METHOD(&order_sql_item, this_ptr, "getsqlexpression", order_expression, escape_char);
+
+			/**
+			 * In the numeric 1 position could be a ASC/DESC clause
+			 */
+			if (phalcon_array_isset_long(order_item, 1)) {
+				PHALCON_OBS_NVAR(sql_order_type);
+				phalcon_array_fetch_long(&sql_order_type, order_item, 1, PH_NOISY);
+
+				PHALCON_INIT_NVAR(order_sql_item_type);
+				PHALCON_CONCAT_VSV(order_sql_item_type, order_sql_item, " ", sql_order_type);
+			} else {
+				PHALCON_CPY_WRT(order_sql_item_type, order_sql_item);
+			}
+
+			phalcon_array_append(&order_items, order_sql_item_type, PH_SEPARATE);
+
+			zend_hash_move_forward_ex(ah2, &hp2);
+		}
+
+		PHALCON_INIT_VAR(order_sql);
+		phalcon_fast_join_str(order_sql, SL(", "), order_items TSRMLS_CC);
+		PHALCON_SCONCAT_SV(sql, " ORDER BY ", order_sql);
 	}
 
 	/** 
@@ -1110,9 +1153,10 @@ PHP_METHOD(Phalcon_Db_Dialect, delete){
 	zval *definition, *tables, *escape_char;
 	zval *sql, *updated_tables, *table = NULL, *sql_table = NULL, *tables_sql = NULL;
 	zval *where_conditions, *where_expression = NULL;
+	zval *order_fields, *order_items, *order_item = NULL, *order_expression = NULL, *order_sql_item = NULL, *sql_order_type = NULL, *order_sql_item_type = NULL, *order_sql;
 	zval *limit_value, *number, *offset, *tmp1 = NULL, *tmp2 = NULL;
-	HashTable *ah0;
-	HashPosition hp0;
+	HashTable *ah0, *ah1;
+	HashPosition hp0, hp1;
 	zval **hd;
 
 	PHALCON_MM_GROW();
@@ -1170,7 +1214,46 @@ PHP_METHOD(Phalcon_Db_Dialect, delete){
 		}
 	}
 
-	/** 
+	/* Check for a ORDER clause */
+	if (phalcon_array_isset_string_fetch(&order_fields, definition, SS("order"))) {
+		PHALCON_INIT_VAR(order_items);
+		array_init(order_items);
+
+		phalcon_is_iterable(order_fields, &ah1, &hp1, 0, 0);
+
+		while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
+
+			PHALCON_GET_HVALUE(order_item);
+
+			PHALCON_OBS_NVAR(order_expression);
+			phalcon_array_fetch_long(&order_expression, order_item, 0, PH_NOISY);
+
+			PHALCON_CALL_METHOD(&order_sql_item, this_ptr, "getsqlexpression", order_expression, escape_char);
+
+			/**
+			 * In the numeric 1 position could be a ASC/DESC clause
+			 */
+			if (phalcon_array_isset_long(order_item, 1)) {
+				PHALCON_OBS_NVAR(sql_order_type);
+				phalcon_array_fetch_long(&sql_order_type, order_item, 1, PH_NOISY);
+
+				PHALCON_INIT_NVAR(order_sql_item_type);
+				PHALCON_CONCAT_VSV(order_sql_item_type, order_sql_item, " ", sql_order_type);
+			} else {
+				PHALCON_CPY_WRT(order_sql_item_type, order_sql_item);
+			}
+
+			phalcon_array_append(&order_items, order_sql_item_type, PH_SEPARATE);
+
+			zend_hash_move_forward_ex(ah1, &hp1);
+		}
+
+		PHALCON_INIT_VAR(order_sql);
+		phalcon_fast_join_str(order_sql, SL(", "), order_items TSRMLS_CC);
+		PHALCON_SCONCAT_SV(sql, " ORDER BY ", order_sql);
+	}
+
+	/**
 	 * Check for a LIMIT condition
 	 */
 	if (phalcon_array_isset_string_fetch(&limit_value, definition, SS("limit"))) {

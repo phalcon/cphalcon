@@ -52,6 +52,8 @@
 #include "kernel/exception.h"
 #include "kernel/array.h"
 
+#include "kernel/framework/orm.h"
+
 #include "interned-strings.h"
 
 static zval *phql_ret_literal_zval(int type, phql_parser_token *T)
