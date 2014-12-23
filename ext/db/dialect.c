@@ -960,7 +960,7 @@ PHP_METHOD(Phalcon_Db_Dialect, update){
 
 	zval *definition, *tables, *fields, *values, *escape_char;
 	zval *sql, *updated_tables, *table = NULL, *table_expression = NULL, *tables_sql = NULL;
-	zval *updated_fields, *position = NULL, *column = NULL, *column_expression = NULL, *columns_sql = NULL;
+	zval *updated_fields, *position = NULL, *column = NULL, *column_name = NULL, *column_expression = NULL, *columns_sql = NULL;
 	zval *value_expr = NULL, *value = NULL, *value_expression = NULL;
 	zval *where_conditions, *where_expression = NULL;
 	zval *order_fields, *order_items, *order_item = NULL, *order_expression = NULL, *order_sql_item = NULL, *sql_order_type = NULL, *order_sql_item_type = NULL, *order_sql;
@@ -1039,8 +1039,8 @@ PHP_METHOD(Phalcon_Db_Dialect, update){
 			return;
 		}
 
-		PHALCON_OBS_NVAR(column_expression);
-		phalcon_array_fetch_string(&column_expression, column, SL("name"), PH_NOISY);
+		PHALCON_OBS_NVAR(column_name);
+		phalcon_array_fetch_string(&column_name, column, SL("name"), PH_NOISY);
 
 		PHALCON_OBS_NVAR(value_expr);
 		phalcon_array_fetch(&value_expr, values, position, PH_NOISY);
@@ -1050,7 +1050,8 @@ PHP_METHOD(Phalcon_Db_Dialect, update){
 
 		PHALCON_CALL_METHOD(&value_expression, this_ptr, "getsqlexpression", value, escape_char);
 
-		PHALCON_SCONCAT_SV(column_expression, " = ", value_expression);
+		PHALCON_INIT_NVAR(column_expression);
+		PHALCON_CONCAT_VSV(column_expression, column_name, " = ", value_expression);
 
 		phalcon_array_append(&updated_fields, column_expression, PH_COPY);
 

@@ -901,8 +901,12 @@ PHP_METHOD(Phalcon_Mvc_Model, getColumns){
 
 	zval *meta_data = NULL;
 
-	PHALCON_CALL_METHODW(&meta_data, this_ptr, "getmodelsmetadata");
-	PHALCON_RETURN_CALL_METHODW(meta_data, "getattributes", this_ptr);
+	PHALCON_MM_GROW();
+
+	PHALCON_CALL_METHOD(&meta_data, this_ptr, "getmodelsmetadata");
+	PHALCON_RETURN_CALL_METHOD(meta_data, "getattributes", this_ptr);
+
+	PHALCON_MM_RESTORE();
 }
 
 /**
@@ -5757,8 +5761,12 @@ PHP_METHOD(Phalcon_Mvc_Model, getSkipAttributesOnCreate){
 
 	zval *meta_data = NULL;
 
-	PHALCON_CALL_METHODW(&meta_data, this_ptr, "getmodelsmetadata");
-	PHALCON_RETURN_CALL_METHODW(meta_data, "getautomaticcreateattributes", this_ptr);
+	PHALCON_MM_GROW();
+
+	PHALCON_CALL_METHOD(&meta_data, this_ptr, "getmodelsmetadata");
+	PHALCON_RETURN_CALL_METHOD(meta_data, "getautomaticcreateattributes", this_ptr);
+
+	PHALCON_MM_RESTORE();
 }
 
 /**

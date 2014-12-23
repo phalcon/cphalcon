@@ -300,11 +300,10 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getMetaData){
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getColumnMaps){
 
 	zval *model, *dependency_injector;
-	zval *columns = NULL, *column = NULL, *field_name = NULL, *ordered_column_map = NULL;
-	zval *reversed_column_map = NULL, *user_column_map = NULL;
+	zval *ordered_column_map = NULL, *columns = NULL, *column_name = NULL, *reversed_column_map = NULL;
 	zval *user_name = NULL, *name = NULL;
-	HashTable *ah0;
-	HashPosition hp0;
+	HashTable *ah0, *ah1;
+	HashPosition hp0, hp1;
 	zval **hd;
 
 	PHALCON_MM_GROW();
@@ -315,59 +314,50 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getColumnMaps){
 		RETURN_MM_NULL();
 	}
 
-	PHALCON_INIT_VAR(ordered_column_map);
-	PHALCON_INIT_VAR(reversed_column_map);
-
 	/** 
 	 * Check for a columnMap() method on the model
 	 */
 	if (phalcon_method_exists_ex(model, SS("columnmap") TSRMLS_CC) == SUCCESS) {
 	
-		PHALCON_CALL_METHOD(&user_column_map, model, "columnmap");
-		if (Z_TYPE_P(user_column_map) != IS_ARRAY) { 
+		PHALCON_CALL_METHOD(&ordered_column_map, model, "columnmap");
+		if (Z_TYPE_P(ordered_column_map) != IS_ARRAY) { 
 			PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "columnMap() not returned an array");
 			return;
 		}
 
 		PHALCON_CALL_METHOD(&columns, model, "getcolumns");
 
-		array_init(ordered_column_map);
-		array_init(reversed_column_map);
-
 		if (Z_TYPE_P(columns) == IS_ARRAY) {
 
-			phalcon_is_iterable(columns, &ah0, &hp0, 0, 0);
+			phalcon_is_iterable(columns, &ah0, &hp0, 0, 0);	
 			while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
-				PHALCON_GET_HVALUE(column);
-				PHALCON_CALL_METHOD(&field_name, column, "getname");
 
-				phalcon_array_update_zval(&ordered_column_map, field_name, field_name, PH_COPY);
+				PHALCON_GET_HVALUE(column_name);
 
+				if (!phalcon_array_isset(ordered_column_map, column_name)) {
+					phalcon_array_update_zval(&ordered_column_map, column_name, column_name, PH_COPY);
+				}
+		
 				zend_hash_move_forward_ex(ah0, &hp0);
 			}
 		}
 
-		phalcon_is_iterable(user_column_map, &ah0, &hp0, 0, 0);	
-		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
+		PHALCON_INIT_VAR(reversed_column_map);
+		array_init(reversed_column_map);
 
-			PHALCON_GET_HKEY(name, ah0, hp0);
-			PHALCON_GET_HVALUE(user_name);
-	
-			phalcon_array_update_zval(&ordered_column_map, name, user_name, PH_COPY);
-	
-			zend_hash_move_forward_ex(ah0, &hp0);
-		}
+		phalcon_is_iterable(ordered_column_map, &ah1, &hp1, 0, 0);	
+		while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
 
-		phalcon_is_iterable(ordered_column_map, &ah0, &hp0, 0, 0);	
-		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
-
-			PHALCON_GET_HKEY(name, ah0, hp0);
+			PHALCON_GET_HKEY(name, ah1, hp1);
 			PHALCON_GET_HVALUE(user_name);
 
 			phalcon_array_update_zval(&reversed_column_map, user_name, name, PH_COPY);
 	
-			zend_hash_move_forward_ex(ah0, &hp0);
+			zend_hash_move_forward_ex(ah1, &hp1);
 		}
+	} else {
+		PHALCON_INIT_NVAR(ordered_column_map);
+		PHALCON_INIT_VAR(reversed_column_map);
 	}
 	
 	/** 
