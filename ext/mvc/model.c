@@ -5848,6 +5848,7 @@ PHP_METHOD(Phalcon_Mvc_Model, getSkipAttributesOnUpdate){
 
 	PHALCON_CALL_METHODW(&meta_data, this_ptr, "getmodelsmetadata");
 	PHALCON_RETURN_CALL_METHODW(meta_data, "getautomaticupdateattributes", this_ptr);
+	zval_ptr_dtor(&meta_data);
 }
 
 /**
