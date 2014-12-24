@@ -2308,7 +2308,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, _generateUpdate) {
 			PHALCON_CONCAT_VS(updated_column, column, " = null");
 		} else {
 			PHALCON_INIT_NVAR(bind_name);
-			PHALCON_CONCAT_SV(bind_name, "pha", column);
+			PHALCON_CONCAT_SV(bind_name, "phu", column);
 
 			PHALCON_INIT_NVAR(updated_column);
 			PHALCON_CONCAT_VSVS(updated_column, column, " = :", bind_name, ":");
