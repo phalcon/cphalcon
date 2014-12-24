@@ -154,6 +154,10 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_MetaData){
 	zend_declare_class_constant_long(phalcon_mvc_model_metadata_ce, SL("MODELS_DATA_TYPES_BIND"),          PHALCON_MVC_MODEL_METADATA_MODELS_DATA_TYPES_BIND          TSRMLS_CC);
 	zend_declare_class_constant_long(phalcon_mvc_model_metadata_ce, SL("MODELS_AUTOMATIC_DEFAULT_INSERT"), PHALCON_MVC_MODEL_METADATA_MODELS_AUTOMATIC_DEFAULT_INSERT TSRMLS_CC);
 	zend_declare_class_constant_long(phalcon_mvc_model_metadata_ce, SL("MODELS_AUTOMATIC_DEFAULT_UPDATE"), PHALCON_MVC_MODEL_METADATA_MODELS_AUTOMATIC_DEFAULT_UPDATE TSRMLS_CC);
+	zend_declare_class_constant_long(phalcon_mvc_model_metadata_ce, SL("MODELS_DATA_DEFAULT_VALUE"), PHALCON_MVC_MODEL_METADATA_MODELS_DATA_DEFAULT_VALUE TSRMLS_CC);
+	zend_declare_class_constant_long(phalcon_mvc_model_metadata_ce, SL("MODELS_DATA_SZIE"), PHALCON_MVC_MODEL_METADATA_MODELS_DATA_SZIE TSRMLS_CC);
+	zend_declare_class_constant_long(phalcon_mvc_model_metadata_ce, SL("MODELS_DATA_SCALE"), PHALCON_MVC_MODEL_METADATA_MODELS_DATA_SCALE TSRMLS_CC);
+	zend_declare_class_constant_long(phalcon_mvc_model_metadata_ce, SL("MODELS_DATA_BYTE"), PHALCON_MVC_MODEL_METADATA_MODELS_DATA_BYTE TSRMLS_CC);
 
 	zend_declare_class_constant_long(phalcon_mvc_model_metadata_ce, SL("MODELS_COLUMN_MAP"),         PHALCON_MVC_MODEL_METADATA_MODELS_COLUMN_MAP         TSRMLS_CC);
 	zend_declare_class_constant_long(phalcon_mvc_model_metadata_ce, SL("MODELS_REVERSE_COLUMN_MAP"), PHALCON_MVC_MODEL_METADATA_MODELS_REVERSE_COLUMN_MAP TSRMLS_CC);
