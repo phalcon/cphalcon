@@ -670,14 +670,15 @@ PHP_METHOD(Phalcon_Mvc_Model, getEventsManager){
  */
 PHP_METHOD(Phalcon_Mvc_Model, getModelsMetaData){
 
-	zval *meta_data = NULL, *dependency_injector, *service;
+	zval *meta_data = NULL, *dependency_injector, *service_name, *service = NULL;
 
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(meta_data);
 	phalcon_read_property_this(&meta_data, this_ptr, SL("_modelsMetaData"), PH_NOISY TSRMLS_CC);
-	if (Z_TYPE_P(meta_data) != IS_OBJECT) {
-
+	if (Z_TYPE_P(meta_data) == IS_OBJECT) {
+		PHALCON_CPY_WRT(service, meta_data);
+	} else {
 		/** 
 		 * Check if the DI is valid
 		 */
@@ -688,27 +689,27 @@ PHP_METHOD(Phalcon_Mvc_Model, getModelsMetaData){
 			return;
 		}
 
-		PHALCON_INIT_VAR(service);
-		ZVAL_STRING(service, "modelsMetadata", 1);
+		PHALCON_INIT_VAR(service_name);
+		ZVAL_STRING(service_name, "modelsMetadata", 1);
 
 		/** 
 		 * Obtain the models-metadata service from the DI
 		 */
-		PHALCON_CALL_METHOD(&meta_data, dependency_injector, "getshared", service);
-		if (Z_TYPE_P(meta_data) != IS_OBJECT) {
+		PHALCON_CALL_METHOD(&service, dependency_injector, "getshared", service_name);
+		if (Z_TYPE_P(service) != IS_OBJECT) {
 			PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The injected service 'modelsMetadata' is not valid");
 			return;
 		}
 
-		PHALCON_VERIFY_INTERFACE(meta_data, phalcon_mvc_model_metadatainterface_ce);
+		PHALCON_VERIFY_INTERFACE(service, phalcon_mvc_model_metadatainterface_ce);
 
 		/** 
 		 * Update the models-metada property
 		 */
-		phalcon_update_property_this(this_ptr, SL("_modelsMetaData"), meta_data TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_modelsMetaData"), service TSRMLS_CC);
 	}
 
-	RETURN_CTOR(meta_data);
+	RETURN_CTOR(service);
 }
 
 /**
