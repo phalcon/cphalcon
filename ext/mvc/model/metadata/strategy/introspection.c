@@ -18,6 +18,7 @@
 */
 
 #include "mvc/model/metadata/strategy/introspection.h"
+#include "mvc/model/metadata.h"
 #include "mvc/model/exception.h"
 
 #include "kernel/main.h"
@@ -272,20 +273,20 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getMetaData){
 	 * Create an array using the MODELS_* constants as indexes
 	 */
 	array_init_size(return_value, 14);
-	phalcon_array_update_long(&return_value, 0,  attributes, PH_COPY);
-	phalcon_array_update_long(&return_value, 1,  primary_keys, PH_COPY);
-	phalcon_array_update_long(&return_value, 2,  non_primary_keys, PH_COPY);
-	phalcon_array_update_long(&return_value, 3,  not_null, PH_COPY);
-	phalcon_array_update_long(&return_value, 4,  field_types, PH_COPY);
-	phalcon_array_update_long(&return_value, 5,  numeric_typed, PH_COPY);
-	phalcon_array_update_long(&return_value, 8,  identity_field, PH_COPY);
-	phalcon_array_update_long(&return_value, 9,  field_bind_types, PH_COPY);
-	phalcon_array_update_long(&return_value, 10, automatic_create_attributes, PH_COPY);
-	phalcon_array_update_long(&return_value, 11, automatic_update_attributes, PH_COPY);
-	phalcon_array_update_long(&return_value, 12, field_default_values, PH_COPY);
-	phalcon_array_update_long(&return_value, 13, field_sizes, PH_COPY);
-	phalcon_array_update_long(&return_value, 14, field_scales, PH_COPY);
-	phalcon_array_update_long(&return_value, 15, field_bytes, PH_COPY);
+	phalcon_array_update_long(&return_value, PHALCON_MVC_MODEL_METADATA_MODELS_ATTRIBUTES,  attributes, PH_COPY);
+	phalcon_array_update_long(&return_value, PHALCON_MVC_MODEL_METADATA_MODELS_PRIMARY_KEY,  primary_keys, PH_COPY);
+	phalcon_array_update_long(&return_value, PHALCON_MVC_MODEL_METADATA_MODELS_NON_PRIMARY_KEY,  non_primary_keys, PH_COPY);
+	phalcon_array_update_long(&return_value, PHALCON_MVC_MODEL_METADATA_MODELS_NOT_NULL,  not_null, PH_COPY);
+	phalcon_array_update_long(&return_value, PHALCON_MVC_MODEL_METADATA_MODELS_DATA_TYPES,  field_types, PH_COPY);
+	phalcon_array_update_long(&return_value, PHALCON_MVC_MODEL_METADATA_MODELS_DATA_TYPES_NUMERIC,  numeric_typed, PH_COPY);
+	phalcon_array_update_long(&return_value, PHALCON_MVC_MODEL_METADATA_MODELS_IDENTITY_COLUMN,  identity_field, PH_COPY);
+	phalcon_array_update_long(&return_value, PHALCON_MVC_MODEL_METADATA_MODELS_DATA_TYPES_BIND,  field_bind_types, PH_COPY);
+	phalcon_array_update_long(&return_value, PHALCON_MVC_MODEL_METADATA_MODELS_AUTOMATIC_DEFAULT_INSERT, automatic_create_attributes, PH_COPY);
+	phalcon_array_update_long(&return_value, PHALCON_MVC_MODEL_METADATA_MODELS_AUTOMATIC_DEFAULT_UPDATE, automatic_update_attributes, PH_COPY);
+	phalcon_array_update_long(&return_value, PHALCON_MVC_MODEL_METADATA_MODELS_DATA_DEFAULT_VALUE, field_default_values, PH_COPY);
+	phalcon_array_update_long(&return_value, PHALCON_MVC_MODEL_METADATA_MODELS_DATA_SZIE, field_sizes, PH_COPY);
+	phalcon_array_update_long(&return_value, PHALCON_MVC_MODEL_METADATA_MODELS_DATA_SCALE, field_scales, PH_COPY);
+	phalcon_array_update_long(&return_value, PHALCON_MVC_MODEL_METADATA_MODELS_DATA_BYTE, field_bytes, PH_COPY);
 
 	PHALCON_MM_RESTORE();
 }
