@@ -6878,7 +6878,7 @@ PHP_METHOD(Phalcon_Mvc_Model, __callStatic){
  */
 PHP_METHOD(Phalcon_Mvc_Model, __set){
 
-	zval *property, *value, *lower_property = NULL, *model_name = NULL, *values = NULL;
+	zval *property, *value, *lower_property = NULL, *possible_setter = NULL, *model_name = NULL, *values = NULL;
 	zval *meta_data = NULL, *column_map = NULL, *attributes = NULL;
 	zval *related, *key = NULL, *lower_key = NULL, *item = NULL;
 	zval *manager = NULL, *exception_message = NULL;
@@ -6898,6 +6898,14 @@ PHP_METHOD(Phalcon_Mvc_Model, __set){
 	phalcon_fast_strtolower(lower_property, property);
 
 	if (Z_TYPE_P(property) == IS_STRING) {
+		PHALCON_INIT_NVAR(possible_setter);
+		PHALCON_CONCAT_SV(possible_setter, "set", property);
+		zend_str_tolower(Z_STRVAL_P(possible_setter), Z_STRLEN_P(possible_setter));
+		if (phalcon_method_exists_ex(this_ptr, Z_STRVAL_P(possible_setter), Z_STRLEN_P(possible_setter)+1 TSRMLS_CC) == SUCCESS) {
+			PHALCON_CALL_METHOD(NULL, this_ptr, Z_STRVAL_P(possible_setter), value);
+			RETURN_CTOR(value);
+		}
+
 		if (phalcon_isset_property_zval(this_ptr, property TSRMLS_CC)) {
 			if (PHALCON_PROPERTY_IS_PRIVATE_ZVAL(this_ptr, property)) {
 				zend_error(E_ERROR, "Cannot access private property %s::%s", Z_STRVAL_P(model_name), Z_STRVAL_P(property));
@@ -7051,7 +7059,7 @@ PHP_METHOD(Phalcon_Mvc_Model, __set){
  */
 PHP_METHOD(Phalcon_Mvc_Model, __get){
 
-	zval *property, *meta_data = NULL, *column_map = NULL, *attributes = NULL;
+	zval *property, *possible_getter = NULL, *meta_data = NULL, *column_map = NULL, *attributes = NULL;
 	zval *model_name, *manager = NULL, *lower_property, *related_result;
 	zval *relation = NULL, *call_args, *call_object, *result;
 
@@ -7060,6 +7068,14 @@ PHP_METHOD(Phalcon_Mvc_Model, __get){
 	phalcon_fetch_params(1, 1, 0, &property);
 
 	if (Z_TYPE_P(property) == IS_STRING) {
+		PHALCON_INIT_NVAR(possible_getter);
+		PHALCON_CONCAT_SV(possible_getter, "get", property);
+		zend_str_tolower(Z_STRVAL_P(possible_getter), Z_STRLEN_P(possible_getter));
+		if (phalcon_method_exists_ex(this_ptr, Z_STRVAL_P(possible_getter), Z_STRLEN_P(possible_getter)+1 TSRMLS_CC) == SUCCESS) {
+			PHALCON_CALL_METHOD(&return_value, this_ptr, Z_STRVAL_P(possible_getter));
+			RETURN_MM();
+		}
+
 		PHALCON_CALL_METHOD(&meta_data, this_ptr, "getmodelsmetadata");
 		PHALCON_CALL_METHOD(&column_map, meta_data, "getreversecolumnmap", this_ptr);
 		if (Z_TYPE_P(column_map) != IS_ARRAY) {
