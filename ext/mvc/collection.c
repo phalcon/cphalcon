@@ -3018,11 +3018,14 @@ PHP_METHOD(Phalcon_Mvc_Collection, parse){
  */
 PHP_METHOD(Phalcon_Mvc_Collection, __set){
 
-	zval *property, *value, *possible_setter = NULL;
+	zval *property, *value, *class_name, *possible_setter = NULL;
 
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 2, 0, &property, &value);
+
+	PHALCON_INIT_VAR(class_name);
+	phalcon_get_class(class_name, this_ptr, 0 TSRMLS_CC);
 
 	if (Z_TYPE_P(property) == IS_STRING) {
 		PHALCON_INIT_NVAR(possible_setter);
@@ -3031,6 +3034,18 @@ PHP_METHOD(Phalcon_Mvc_Collection, __set){
 		if (phalcon_method_exists_ex(this_ptr, Z_STRVAL_P(possible_setter), Z_STRLEN_P(possible_setter)+1 TSRMLS_CC) == SUCCESS) {
 			PHALCON_CALL_METHOD(NULL, this_ptr, Z_STRVAL_P(possible_setter), value);
 			RETURN_CTOR(value);
+		}
+
+		if (phalcon_isset_property_zval(this_ptr, property TSRMLS_CC)) {
+			if (PHALCON_PROPERTY_IS_PRIVATE_ZVAL(this_ptr, property)) {
+				zend_error(E_ERROR, "Cannot access private property %s::%s", Z_STRVAL_P(class_name), Z_STRVAL_P(property));
+				RETURN_MM();
+			}
+
+			if (PHALCON_PROPERTY_IS_PROTECTED_ZVAL(this_ptr, property)) {
+				zend_error(E_ERROR, "Cannot access protected property %s::%s", Z_STRVAL_P(class_name), Z_STRVAL_P(property));
+				RETURN_MM();
+			}
 		}
 	}
 
@@ -3047,7 +3062,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, __set){
  */
 PHP_METHOD(Phalcon_Mvc_Collection, __get){
 
-	zval *property, *possible_getter = NULL, *class_name = NULL;
+	zval *property, *possible_getter = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -3061,12 +3076,12 @@ PHP_METHOD(Phalcon_Mvc_Collection, __get){
 			PHALCON_CALL_METHOD(&return_value, this_ptr, Z_STRVAL_P(possible_getter));
 			RETURN_MM();
 		}
+
+		if (phalcon_isset_property_zval(this_ptr, property TSRMLS_CC)) {
+			RETURN_MM_NULL();
+		}
 	}
 
-	PHALCON_INIT_VAR(class_name);
-	phalcon_get_class(class_name, this_ptr, 0 TSRMLS_CC);
-
-	zend_error(E_NOTICE, "Access to undefined property %s::%s", Z_STRVAL_P(class_name), Z_STRVAL_P(property));
 	RETURN_MM_NULL();
 }
 

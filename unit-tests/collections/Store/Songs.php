@@ -4,6 +4,7 @@ namespace Store;
 
 class Songs extends \Phalcon\Mvc\Collection
 {
+	public $trace;
 
 	protected function _trace($method)
 	{
