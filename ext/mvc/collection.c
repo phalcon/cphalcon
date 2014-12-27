@@ -107,6 +107,8 @@ PHP_METHOD(Phalcon_Mvc_Collection, incr);
 PHP_METHOD(Phalcon_Mvc_Collection, refresh);
 PHP_METHOD(Phalcon_Mvc_Collection, drop);
 PHP_METHOD(Phalcon_Mvc_Collection, parse);
+PHP_METHOD(Phalcon_Mvc_Collection, __set);
+PHP_METHOD(Phalcon_Mvc_Collection, __get);
 PHP_METHOD(Phalcon_Mvc_Collection, __callStatic);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_collection___construct, 0, 0, 0)
@@ -156,6 +158,15 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_collection_parse, 0, 0, 1)
 	ZEND_ARG_INFO(0, conditions)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_collection___set, 0, 0, 2)
+	ZEND_ARG_INFO(0, property)
+	ZEND_ARG_INFO(0, value)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_collection___get, 0, 0, 1)
+	ZEND_ARG_INFO(0, property)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_collection___callstatic, 0, 0, 1)
@@ -219,6 +230,8 @@ static const zend_function_entry phalcon_mvc_collection_method_entry[] = {
 	PHP_ME(Phalcon_Mvc_Collection, refresh, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Collection, parse, arginfo_phalcon_mvc_collection_parse, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Collection, drop, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Mvc_Collection, __set, arginfo_phalcon_mvc_collection___set, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Collection, __get, arginfo_phalcon_mvc_collection___get, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Collection, __callStatic, arginfo_phalcon_mvc_collection___callstatic, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_FE_END
 };
@@ -946,17 +959,15 @@ PHP_METHOD(Phalcon_Mvc_Collection, _getResultset){
 	/**
 	 * Convert the string to an array
 	 */
-	if (phalcon_array_isset_long(params, 0)) {
+	if (phalcon_array_isset_string(params, SS("conditions"))) {
+		PHALCON_OBS_NVAR(conditions);
+		phalcon_array_fetch_string(&conditions, params, SL("conditions"), PH_NOISY);
+	} else if (phalcon_array_isset_long(params, 0)) {
 		PHALCON_OBS_VAR(conditions);
 		phalcon_array_fetch_long(&conditions, params, 0, PH_NOISY);	
 	} else {
-		if (phalcon_array_isset_string(params, SS("conditions"))) {
-			PHALCON_OBS_NVAR(conditions);
-			phalcon_array_fetch_string(&conditions, params, SL("conditions"), PH_NOISY);
-		} else {
-			PHALCON_INIT_NVAR(conditions);
-			array_init(conditions);
-		}
+		PHALCON_INIT_NVAR(conditions);
+		array_init(conditions);
 	}
 
 	if (Z_TYPE_P(conditions) != IS_ARRAY) {
@@ -2996,6 +3007,67 @@ PHP_METHOD(Phalcon_Mvc_Collection, parse){
 	}
 
 	RETURN_CTOR(conditions);
+}
+
+
+/**
+ * Magic method to assign values to the the model
+ *
+ * @param string $property
+ * @param mixed $value
+ */
+PHP_METHOD(Phalcon_Mvc_Collection, __set){
+
+	zval *property, *value, *possible_setter = NULL;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 2, 0, &property, &value);
+
+	if (Z_TYPE_P(property) == IS_STRING) {
+		PHALCON_INIT_NVAR(possible_setter);
+		PHALCON_CONCAT_SV(possible_setter, "set", property);
+		zend_str_tolower(Z_STRVAL_P(possible_setter), Z_STRLEN_P(possible_setter));
+		if (phalcon_method_exists_ex(this_ptr, Z_STRVAL_P(possible_setter), Z_STRLEN_P(possible_setter)+1 TSRMLS_CC) == SUCCESS) {
+			PHALCON_CALL_METHOD(NULL, this_ptr, Z_STRVAL_P(possible_setter), value);
+			RETURN_CTOR(value);
+		}
+	}
+
+	phalcon_update_property_zval_zval(this_ptr, property, value TSRMLS_CC);
+
+	RETURN_CTOR(value);
+}
+
+/**
+ * Magic method to get related records using the relation alias as a property
+ *
+ * @param string $property
+ * @return Phalcon\Mvc\Model\Resultset
+ */
+PHP_METHOD(Phalcon_Mvc_Collection, __get){
+
+	zval *property, *possible_getter = NULL, *class_name = NULL;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 1, 0, &property);
+
+	if (Z_TYPE_P(property) == IS_STRING) {
+		PHALCON_INIT_NVAR(possible_getter);
+		PHALCON_CONCAT_SV(possible_getter, "get", property);
+		zend_str_tolower(Z_STRVAL_P(possible_getter), Z_STRLEN_P(possible_getter));
+		if (phalcon_method_exists_ex(this_ptr, Z_STRVAL_P(possible_getter), Z_STRLEN_P(possible_getter)+1 TSRMLS_CC) == SUCCESS) {
+			PHALCON_CALL_METHOD(&return_value, this_ptr, Z_STRVAL_P(possible_getter));
+			RETURN_MM();
+		}
+	}
+
+	PHALCON_INIT_VAR(class_name);
+	phalcon_get_class(class_name, this_ptr, 0 TSRMLS_CC);
+
+	zend_error(E_NOTICE, "Access to undefined property %s::%s", Z_STRVAL_P(class_name), Z_STRVAL_P(property));
+	RETURN_MM_NULL();
 }
 
 /**
