@@ -1667,13 +1667,14 @@ PHP_METHOD(Phalcon_Mvc_Collection, appendMessage){
  */
 PHP_METHOD(Phalcon_Mvc_Collection, save){
 
-	zval *arr = NULL, *white_list = NULL, *mode = NULL, *source = NULL, *connection = NULL;
+	zval *arr = NULL, *white_list = NULL, *mode = NULL;
+	zval *column_map = NULL, *attributes = NULL, *reserved = NULL, *key = NULL, *new_value = NULL, *possible_setter = NULL;
+	zval *source = NULL, *connection = NULL;
 	zval *collection = NULL, *exists = NULL, *empty_array, *disable_events;
 	zval *type, *message, *collection_message, *messages, *status = NULL, *data;
-	zval *column_map = NULL, *attributes = NULL, *reserved = NULL;
 	zval *attribute = NULL, *attribute_field = NULL, *value = NULL, *success = NULL, *options;
-	HashTable *ah0;
-	HashPosition hp0;
+	HashTable *ah0, *ah1;
+	HashPosition hp0, hp1;
 	zval **hd;
 	zval *dependency_injector, *ok, *id;
 	zval *params[2];
@@ -1699,6 +1700,82 @@ PHP_METHOD(Phalcon_Mvc_Collection, save){
 
 	if (!mode) {
 		mode = PHALCON_GLOBAL(z_null);
+	}
+
+	if (Z_TYPE_P(arr) != IS_NULL) {
+		if (Z_TYPE_P(arr) != IS_ARRAY) {
+			PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_collection_exception_ce, "Data passed to save() must be an array");
+			return;
+		}
+	}
+
+	PHALCON_CALL_SELF(&column_map, "getcolumnmap", this_ptr);
+	if (Z_TYPE_P(column_map) != IS_ARRAY) {
+		PHALCON_CALL_FUNCTION(&attributes, "get_object_vars", this_ptr);
+	} else {
+		PHALCON_CPY_WRT(attributes, column_map);
+	}
+	PHALCON_CALL_METHOD(&reserved, this_ptr, "getreservedattributes");
+
+	if ( Z_TYPE_P(arr) == IS_ARRAY) {
+		/**
+		 * We only assign values to the public properties
+		 */
+		phalcon_is_iterable(arr, &ah0, &hp0, 0, 0);
+		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
+
+			PHALCON_GET_HKEY(key, ah0, hp0);
+			PHALCON_GET_HVALUE(new_value);
+
+			if (phalcon_array_isset(reserved, attribute)) {
+				zend_hash_move_forward_ex(ah0, &hp0);
+				continue;
+			}
+
+			if (Z_TYPE_P(white_list) == IS_ARRAY && !phalcon_fast_in_array(attribute, white_list TSRMLS_CC)) {
+				zend_hash_move_forward_ex(ah0, &hp0);
+				continue;
+			}
+
+			if (Z_TYPE_P(column_map) == IS_ARRAY) {
+				if (phalcon_array_isset(column_map, attribute)) {
+					PHALCON_OBS_NVAR(attribute_field);
+					phalcon_array_fetch(&attribute_field, column_map, attribute, PH_NOISY);
+
+					PHALCON_INIT_NVAR(possible_setter);
+					PHALCON_CONCAT_SV(possible_setter, "set", attribute_field);
+					zend_str_tolower(Z_STRVAL_P(possible_setter), Z_STRLEN_P(possible_setter));
+					if (phalcon_method_exists_ex(this_ptr, Z_STRVAL_P(possible_setter), Z_STRLEN_P(possible_setter)+1 TSRMLS_CC) == SUCCESS) {
+						PHALCON_CALL_METHOD(NULL, this_ptr, Z_STRVAL_P(possible_setter), new_value);
+					} else {
+						phalcon_update_property_zval_zval(this_ptr, attribute_field, new_value TSRMLS_CC);
+					}
+				} else if (phalcon_fast_in_array(attribute, column_map TSRMLS_CC)) {
+					PHALCON_INIT_NVAR(possible_setter);
+					PHALCON_CONCAT_SV(possible_setter, "set", attribute);
+					zend_str_tolower(Z_STRVAL_P(possible_setter), Z_STRLEN_P(possible_setter));
+					if (phalcon_method_exists_ex(this_ptr, Z_STRVAL_P(possible_setter), Z_STRLEN_P(possible_setter)+1 TSRMLS_CC) == SUCCESS) {
+						PHALCON_CALL_METHOD(NULL, this_ptr, Z_STRVAL_P(possible_setter), new_value);
+					} else {
+						phalcon_update_property_zval_zval(this_ptr, attribute, new_value TSRMLS_CC);
+					}
+				}
+			} else if (Z_TYPE_P(attributes) == IS_ARRAY && phalcon_array_isset(attributes, attribute)) {
+				PHALCON_OBS_NVAR(attribute_field);
+				phalcon_array_fetch(&attribute_field, column_map, attribute, PH_NOISY);
+
+				PHALCON_INIT_NVAR(possible_setter);
+				PHALCON_CONCAT_SV(possible_setter, "set", attribute_field);
+				zend_str_tolower(Z_STRVAL_P(possible_setter), Z_STRLEN_P(possible_setter));
+				if (phalcon_method_exists_ex(this_ptr, Z_STRVAL_P(possible_setter), Z_STRLEN_P(possible_setter)+1 TSRMLS_CC) == SUCCESS) {
+					PHALCON_CALL_METHOD(NULL, this_ptr, Z_STRVAL_P(possible_setter), new_value);
+				} else {
+					phalcon_update_property_zval_zval(this_ptr, attribute_field, new_value TSRMLS_CC);
+				}
+			}
+
+			zend_hash_move_forward_ex(ah0, &hp0);
+		}
 	}
 
 	PHALCON_CALL_METHOD(&source, this_ptr, "getsource");
@@ -1778,41 +1855,25 @@ PHP_METHOD(Phalcon_Mvc_Collection, save){
 
 	disable_events = phalcon_fetch_static_property_ce(phalcon_mvc_collection_ce, SL("_disableEvents") TSRMLS_CC);
 
-	PHALCON_CALL_SELF(&column_map, "getcolumnmap", this_ptr);
-	if (Z_TYPE_P(column_map) != IS_ARRAY) { 
-		PHALCON_CALL_FUNCTION(&attributes, "get_object_vars", this_ptr);
-	} else {
-		PHALCON_CPY_WRT(attributes, column_map);
+	/**
+	 * Execute the preSave hook
+	 */
+	PHALCON_CALL_METHOD(&status, this_ptr, "_presave", dependency_injector, disable_events, exists);
+	if (PHALCON_IS_FALSE(status)) {
+		RETURN_MM_FALSE;
 	}
-
-	if (Z_TYPE_P(arr) != IS_NULL) {
-		if (Z_TYPE_P(arr) != IS_ARRAY) { 
-			PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_collection_exception_ce, "Data passed to save() must be an array");
-			return;
-		}
-	}
-
-	PHALCON_CALL_METHOD(&reserved, this_ptr, "getreservedattributes");
 
 	PHALCON_INIT_VAR(data);
 	array_init(data);
 
 	if (Z_TYPE_P(attributes) == IS_ARRAY) {
-		/**
-		 * We only assign values to the public properties
-		 */
-		phalcon_is_iterable(attributes, &ah0, &hp0, 0, 0);
-		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
+		phalcon_is_iterable(attributes, &ah1, &hp1, 0, 0);
+		while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
 
-			PHALCON_GET_HKEY(attribute, ah0, hp0);
+			PHALCON_GET_HKEY(attribute, ah1, hp1);
 
 			if (phalcon_array_isset(reserved, attribute)) {
-				zend_hash_move_forward_ex(ah0, &hp0);
-				continue;
-			}
-
-			if (Z_TYPE_P(white_list) == IS_ARRAY && !phalcon_fast_in_array(attribute, white_list TSRMLS_CC)) {
-				zend_hash_move_forward_ex(ah0, &hp0);
+				zend_hash_move_forward_ex(ah1, &hp1);
 				continue;
 			}
 
@@ -1827,13 +1888,6 @@ PHP_METHOD(Phalcon_Mvc_Collection, save){
 				PHALCON_CPY_WRT(attribute_field, attribute);
 			}
 
-			if (Z_TYPE_P(arr) == IS_ARRAY && phalcon_array_isset(arr, attribute_field)) {				
-				PHALCON_OBS_NVAR(value);
-				phalcon_array_fetch(&value, arr, attribute_field, PH_NOISY);
-
-				phalcon_update_property_zval_zval(this_ptr, attribute_field, value TSRMLS_CC);
-			}
-
 			if (phalcon_isset_property_zval(this_ptr, attribute_field TSRMLS_CC)) {
 				PHALCON_OBS_NVAR(value);
 				phalcon_read_property_zval(&value, this_ptr, attribute_field, PH_NOISY TSRMLS_CC);
@@ -1841,16 +1895,8 @@ PHP_METHOD(Phalcon_Mvc_Collection, save){
 				phalcon_array_update_zval(&data, attribute, value, PH_COPY);
 			}
 
-			zend_hash_move_forward_ex(ah0, &hp0);
+			zend_hash_move_forward_ex(ah1, &hp1);
 		}
-	}
-
-	/**
-	 * Execute the preSave hook
-	 */
-	PHALCON_CALL_METHOD(&status, this_ptr, "_presave", dependency_injector, disable_events, exists);
-	if (PHALCON_IS_FALSE(status)) {
-		RETURN_MM_FALSE;
 	}
 
 	PHALCON_INIT_NVAR(status);
