@@ -3689,7 +3689,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _preSave){
 
 						if (!phalcon_is_numeric(pos)) {
 							PHALCON_INIT_NVAR(pos);
-							ZVAL_LONG(pos, Z_LVAL_P(length));
+							ZVAL_LONG(pos, Z_LVAL_P(length) - 1);
 						}
 
 						if (phalcon_is_numeric(field_scale) && PHALCON_LT_LONG(field_scale, (Z_LVAL_P(length)-Z_LVAL_P(pos)-1))) {
@@ -3707,7 +3707,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _preSave){
 							continue;
 						}
 
-						if (PHALCON_GT_LONG(pos, (Z_LVAL_P(field_size)-Z_LVAL_P(field_scale)+1))) {
+						if (PHALCON_GE_LONG(pos, (Z_LVAL_P(field_size)-Z_LVAL_P(field_scale)))) {
 							PHALCON_INIT_NVAR(message);
 							PHALCON_CONCAT_SVSV(message, "Value of field '", field, "' is out of range for type ", field_type);
 
