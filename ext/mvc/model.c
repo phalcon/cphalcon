@@ -2585,17 +2585,29 @@ PHP_METHOD(Phalcon_Mvc_Model, _cancelOperation){
  */
 PHP_METHOD(Phalcon_Mvc_Model, appendMessage){
 
-	zval *message, *field = NULL, *type = NULL, *exception_message, *model_message;
+	zval *message, *field = NULL, *type = NULL, *code = NULL, *custom_message = NULL, *exception_message, *model_message;
+	zval *message_message = NULL, *message_field = NULL, *message_type = NULL, *message_code = NULL; 
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 1, 2, &message, &field, &type);
+	phalcon_fetch_params(1, 1, 3, &message, &field, &type, &code);
+
+	if (!field) {
+		field = PHALCON_GLOBAL(z_null);
+	}
+
+	if (!type) {
+		type = PHALCON_GLOBAL(z_null);
+	} else {
+		PHALCON_SEPARATE_PARAM(type);
+	}
+
+	if (!code) {
+		code = PHALCON_GLOBAL(z_null);
+	}
 
 	if (Z_TYPE_P(message) != IS_OBJECT) {
-		if (!field || !type) {
-			if (type) {
-				PHALCON_SEPARATE_PARAM(type);
-			}
+		if (PHALCON_IS_EMPTY(field) || PHALCON_IS_EMPTY(type)) {
 
 			PHALCON_INIT_NVAR(type);
 			ZVAL_STRING(type, zend_zval_type_name(message), 1);
@@ -2606,12 +2618,28 @@ PHP_METHOD(Phalcon_Mvc_Model, appendMessage){
 			return;
 		}
 
+		if (phalcon_method_exists_ex(this_ptr, SS("messages") TSRMLS_CC) == SUCCESS) {
+			PHALCON_CALL_METHOD(&custom_message, this_ptr, "messages", message, field, type, code);
+		} else {
+			PHALCON_CPY_WRT(custom_message, message);
+		}
+
 		PHALCON_INIT_VAR(model_message);
 		object_init_ex(model_message, phalcon_mvc_model_message_ce);
-		PHALCON_CALL_METHOD(NULL, model_message, "__construct", message, field, type);
+		PHALCON_CALL_METHOD(NULL, model_message, "__construct", custom_message, field, type, code);
 
 		phalcon_update_property_array_append(this_ptr, SL("_errorMessages"), model_message TSRMLS_CC);
 	} else {
+		if (phalcon_method_exists_ex(this_ptr, SS("messages") TSRMLS_CC) == SUCCESS) {
+			PHALCON_CALL_METHOD(&message_message, message, "getmessage");
+			PHALCON_CALL_METHOD(&message_field, message, "getfield");
+			PHALCON_CALL_METHOD(&message_type, message, "gettype");
+			PHALCON_CALL_METHOD(&message_code, message, "getcode");
+			PHALCON_CALL_METHOD(&custom_message, this_ptr, "messages", message_message, message_field, message_type, message_code);
+
+			PHALCON_CALL_METHOD(NULL, message, "setmessage", custom_message);
+		}
+
 		phalcon_update_property_array_append(this_ptr, SL("_errorMessages"), message TSRMLS_CC);
 	}
 
@@ -2649,7 +2677,6 @@ PHP_METHOD(Phalcon_Mvc_Model, validate){
 
 	zval *validator, *allow_empty = NULL, *ex = NULL, *field = NULL, *handler;
 	zval *arguments, *type, *code, *pairs, *message_str, *message = NULL;
-	zval *model_message;
 	zval *status = NULL, *messages = NULL, *errors, *new_errors;
 	zval *option, *value = NULL;
 
@@ -2732,20 +2759,7 @@ PHP_METHOD(Phalcon_Mvc_Model, validate){
 				code = PHALCON_GLOBAL(z_zero);
 			}
 
-			PHALCON_INIT_VAR(model_message);
-			object_init_ex(model_message, phalcon_mvc_model_message_ce);
-			PHALCON_CALL_METHOD(NULL, model_message, "__construct", message, field, type, code);
-
-			PHALCON_INIT_VAR(new_errors);
-			errors = phalcon_fetch_nproperty_this(this_ptr, SL("_errorMessages"), PH_NOISY TSRMLS_CC);
-			if (Z_TYPE_P(errors) != IS_ARRAY) {
-				PHALCON_INIT_VAR(errors);
-				array_init_size(errors, 1);
-			}
-
-			phalcon_array_append(&errors, model_message, PH_SEPARATE);
-
-			phalcon_update_property_this(this_ptr, SL("_errorMessages"), errors TSRMLS_CC);
+			PHALCON_CALL_METHOD(NULL, this_ptr, "appendmessage", message, field, type, code);
 
 			if (zend_is_true(ex)) {
 				PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, message);
