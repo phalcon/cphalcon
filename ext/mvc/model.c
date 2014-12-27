@@ -3711,7 +3711,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _preSave){
 							PHALCON_CONCAT_SVSV(message, "Value of field '", field, "' scale is out of range for type ", field_type);
 
 							PHALCON_INIT_NVAR(type);
-							ZVAL_STRING(type, "tooLarge ", 1);
+							ZVAL_STRING(type, "tooLarge", 1);
 
 							PHALCON_CALL_METHOD(NULL, this_ptr, "appendmessage", message, attribute_field, type);
 
@@ -3726,7 +3726,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _preSave){
 							PHALCON_CONCAT_SVSV(message, "Value of field '", field, "' is out of range for type ", field_type);
 
 							PHALCON_INIT_NVAR(type);
-							ZVAL_STRING(type, "tooLarge ", 1);
+							ZVAL_STRING(type, "tooLarge", 1);
 
 							PHALCON_CALL_METHOD(NULL, this_ptr, "appendmessage", message, attribute_field, type);
 
@@ -3743,7 +3743,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _preSave){
 							PHALCON_CONCAT_SVSV(message, "Value of field '", field, "' is out of range for type ", field_type);
 
 							PHALCON_INIT_NVAR(type);
-							ZVAL_STRING(type, "tooLarge ", 1);
+							ZVAL_STRING(type, "tooLarge", 1);
 
 							PHALCON_CALL_METHOD(NULL, this_ptr, "appendmessage", message, attribute_field, type);
 
