@@ -3721,7 +3721,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _preSave){
 							continue;
 						}
 
-						if (PHALCON_GE_LONG(pos, (Z_LVAL_P(field_size)-Z_LVAL_P(field_scale)))) {
+						if (PHALCON_GT_LONG(pos, (Z_LVAL_P(field_size)-Z_LVAL_P(field_scale)))) {
 							PHALCON_INIT_NVAR(message);
 							PHALCON_CONCAT_SVSV(message, "Value of field '", field, "' is out of range for type ", field_type);
 
