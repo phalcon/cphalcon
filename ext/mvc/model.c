@@ -3760,6 +3760,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _preSave){
 					PHALCON_CALL_METHOD(&field_size, meta_data, "getdatasize", this_ptr, field);
 					if (Z_TYPE_P(field_size) != IS_NULL) {
 						if (phalcon_function_exists_ex(SS("mb_strlen") TSRMLS_CC) == SUCCESS) {
+							convert_to_string_ex(&value);
 							PHALCON_CALL_FUNCTION(&length, "mb_strlen", value);
 						} else {						
 							PHALCON_INIT_NVAR(length);
