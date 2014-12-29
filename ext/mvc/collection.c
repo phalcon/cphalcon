@@ -919,6 +919,10 @@ PHP_METHOD(Phalcon_Mvc_Collection, cloneResult){
 		zend_hash_move_forward_ex(ah0, &hp0);
 	}
 
+	if (phalcon_method_exists_ex(cloned_collection, SS("afterfetch") TSRMLS_CC) == SUCCESS) {
+		PHALCON_CALL_METHOD(NULL, cloned_collection, "afterfetch");
+	}
+
 	RETURN_CTOR(cloned_collection);
 }
 
