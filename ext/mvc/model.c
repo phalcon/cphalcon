@@ -6901,9 +6901,11 @@ PHP_METHOD(Phalcon_Mvc_Model, __set){
 		PHALCON_INIT_NVAR(possible_setter);
 		PHALCON_CONCAT_SV(possible_setter, "set", property);
 		zend_str_tolower(Z_STRVAL_P(possible_setter), Z_STRLEN_P(possible_setter));
-		if (phalcon_method_exists_ex(this_ptr, Z_STRVAL_P(possible_setter), Z_STRLEN_P(possible_setter)+1 TSRMLS_CC) == SUCCESS) {
-			PHALCON_CALL_METHOD(NULL, this_ptr, Z_STRVAL_P(possible_setter), value);
-			RETURN_CTOR(value);
+		if (!phalcon_compare_strict_string(possible_setter, SL("setup"))) {
+			if (phalcon_method_exists_ex(this_ptr, Z_STRVAL_P(possible_setter), Z_STRLEN_P(possible_setter)+1 TSRMLS_CC) == SUCCESS) {
+				PHALCON_CALL_METHOD(NULL, this_ptr, Z_STRVAL_P(possible_setter), value);
+				RETURN_CTOR(value);
+			}
 		}
 
 		if (phalcon_isset_property_zval(this_ptr, property TSRMLS_CC)) {
