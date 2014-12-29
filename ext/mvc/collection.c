@@ -2996,25 +2996,32 @@ PHP_METHOD(Phalcon_Mvc_Collection, parse){
  */
 PHP_METHOD(Phalcon_Mvc_Collection, __set){
 
-	zval *property, *value, *class_name, *possible_setter = NULL;
+	zval *property, *value, *possible_setter = NULL, *class_name, *method_exists = NULL;
 
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 2, 0, &property, &value);
 
-	PHALCON_INIT_VAR(class_name);
-	phalcon_get_class(class_name, this_ptr, 0 TSRMLS_CC);
-
 	if (Z_TYPE_P(property) == IS_STRING) {
 		PHALCON_INIT_NVAR(possible_setter);
 		PHALCON_CONCAT_SV(possible_setter, "set", property);
 		zend_str_tolower(Z_STRVAL_P(possible_setter), Z_STRLEN_P(possible_setter));
-		if (phalcon_method_exists_ex(this_ptr, Z_STRVAL_P(possible_setter), Z_STRLEN_P(possible_setter)+1 TSRMLS_CC) == SUCCESS) {
-			PHALCON_CALL_METHOD(NULL, this_ptr, Z_STRVAL_P(possible_setter), value);
-			RETURN_CTOR(value);
+
+		PHALCON_INIT_VAR(class_name);
+		ZVAL_STRING(class_name, "Phalcon\\Mvc\\Collection", 1);
+
+		PHALCON_CALL_FUNCTION(&method_exists, "method_exists", class_name, possible_setter);
+		if (!zend_is_true(method_exists)) {
+			if (phalcon_method_exists_ex(this_ptr, Z_STRVAL_P(possible_setter), Z_STRLEN_P(possible_setter)+1 TSRMLS_CC) == SUCCESS) {
+				PHALCON_CALL_METHOD(NULL, this_ptr, Z_STRVAL_P(possible_setter), value);
+				RETURN_CTOR(value);
+			}
 		}
 
 		if (phalcon_isset_property_zval(this_ptr, property TSRMLS_CC)) {
+			PHALCON_INIT_NVAR(class_name);
+			phalcon_get_class(class_name, this_ptr, 0 TSRMLS_CC);
+
 			if (PHALCON_PROPERTY_IS_PRIVATE_ZVAL(this_ptr, property)) {
 				zend_error(E_ERROR, "Cannot access private property %s::%s", Z_STRVAL_P(class_name), Z_STRVAL_P(property));
 				RETURN_MM();
@@ -3040,7 +3047,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, __set){
  */
 PHP_METHOD(Phalcon_Mvc_Collection, __get){
 
-	zval *property, *possible_getter = NULL;
+	zval *property, *possible_getter = NULL, *class_name, *method_exists = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -3050,9 +3057,16 @@ PHP_METHOD(Phalcon_Mvc_Collection, __get){
 		PHALCON_INIT_NVAR(possible_getter);
 		PHALCON_CONCAT_SV(possible_getter, "get", property);
 		zend_str_tolower(Z_STRVAL_P(possible_getter), Z_STRLEN_P(possible_getter));
-		if (phalcon_method_exists_ex(this_ptr, Z_STRVAL_P(possible_getter), Z_STRLEN_P(possible_getter)+1 TSRMLS_CC) == SUCCESS) {
-			PHALCON_CALL_METHOD(&return_value, this_ptr, Z_STRVAL_P(possible_getter));
-			RETURN_MM();
+
+		PHALCON_INIT_VAR(class_name);
+		ZVAL_STRING(class_name, "Phalcon\\Mvc\\Collection", 1);
+
+		PHALCON_CALL_FUNCTION(&method_exists, "method_exists", class_name, possible_getter);
+		if (!zend_is_true(method_exists)) {
+			if (phalcon_method_exists_ex(this_ptr, Z_STRVAL_P(possible_getter), Z_STRLEN_P(possible_getter)+1 TSRMLS_CC) == SUCCESS) {
+				PHALCON_CALL_METHOD(&return_value, this_ptr, Z_STRVAL_P(possible_getter));
+				RETURN_MM();
+			}
 		}
 
 		if (phalcon_isset_property_zval(this_ptr, property TSRMLS_CC)) {
