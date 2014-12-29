@@ -134,7 +134,6 @@ PHP_METHOD(Phalcon_Mvc_Collection_Document, offsetGet){
  *
  * @param string $index
  * @param mixed $value
- * @param Phalcon\Mvc\ModelInterface $value
  */
 PHP_METHOD(Phalcon_Mvc_Collection_Document, offsetSet){
 

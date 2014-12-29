@@ -479,7 +479,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, isStrictMode){
  * Returns the connection related to a model
  *
  * @param Phalcon\Mvc\CollectionInterface $model
- * @return Phalcon\Db\AdapterInterface(?) MongoDB
+ * @return MongoDB
  */
 PHP_METHOD(Phalcon_Mvc_Collection_Manager, getConnection){
 
@@ -529,7 +529,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, getConnection){
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_collection_exception_ce, "Invalid injected connection service");
 		return;
 	}
-	
+
 	/* PHALCON_VERIFY_INTERFACE(connection, phalcon_db_adapterinterface_ce); */
 	RETURN_CCTOR(connection);
 }

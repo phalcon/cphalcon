@@ -61,7 +61,7 @@ class CollectionsTest extends PHPUnit_Framework_TestCase
 		});
 
 		$songs = Songs::find();
-		$this->assertTrue(is_array($songs));
+		$this->assertTrue(is_object($songs));
 
 		foreach($songs as $song){
 			$this->assertTrue($song->delete());
@@ -76,7 +76,7 @@ class CollectionsTest extends PHPUnit_Framework_TestCase
 		$firstSongId = $song->_id;
 
 		$songs = Songs::find();
-		$this->assertTrue(is_array($songs));
+		$this->assertTrue(is_object($songs));
 		$this->assertEquals(count($songs), 1);
 		$this->assertEquals($songs[0]->name, 'Lotus Flower');
 		$this->assertEquals($songs[0]->artist, 'Radiohead');
@@ -91,7 +91,7 @@ class CollectionsTest extends PHPUnit_Framework_TestCase
 		$secondSongId = $song->_id;
 
 		$songs = Songs::find();
-		$this->assertTrue(is_array($songs));
+		$this->assertTrue(is_object($songs));
 		$this->assertEquals(count($songs), 2);
 		$this->assertEquals($songs[0]->name, 'Lotus Flower');
 		$this->assertEquals($songs[0]->artist, 'Radiohead');
@@ -108,7 +108,7 @@ class CollectionsTest extends PHPUnit_Framework_TestCase
 		$this->assertNotEquals((string) $secondSongId->{'$id'}, (string) $song->_id->{'$id'});
 
 		$songs = Songs::find();
-		$this->assertTrue(is_array($songs));
+		$this->assertTrue(is_object($songs));
 		$this->assertEquals(count($songs), 3);
 
 		$song = Songs::findFirst();
@@ -142,7 +142,7 @@ class CollectionsTest extends PHPUnit_Framework_TestCase
 		$songs = Songs::find(array(
 			array('artist' => 'Massive Attack')
 		));
-		$this->assertTrue(is_array($songs));
+		$this->assertTrue(is_object($songs));
 		$this->assertEquals(count($songs), 2);
 		$this->assertEquals($songs[0]->name, 'Teardrop');
 		$this->assertEquals($songs[1]->name, 'Paradise Circus');
@@ -150,7 +150,7 @@ class CollectionsTest extends PHPUnit_Framework_TestCase
 		$songs = Songs::find(array(
 			'conditions' => array('artist' => 'Massive Attack')
 		));
-		$this->assertTrue(is_array($songs));
+		$this->assertTrue(is_object($songs));
 		$this->assertEquals(count($songs), 2);
 		$this->assertEquals($songs[0]->name, 'Teardrop');
 		$this->assertEquals($songs[1]->name, 'Paradise Circus');
@@ -159,7 +159,7 @@ class CollectionsTest extends PHPUnit_Framework_TestCase
 			'conditions' => array('artist' => 'Massive Attack'),
 			'sort' => array('name' => 1)
 		));
-		$this->assertTrue(is_array($songs));
+		$this->assertTrue(is_object($songs));
 		$this->assertEquals(count($songs), 2);
 		$this->assertEquals($songs[0]->name, 'Paradise Circus');
 		$this->assertEquals($songs[1]->name, 'Teardrop');
@@ -169,7 +169,8 @@ class CollectionsTest extends PHPUnit_Framework_TestCase
 			'sort' => array('name' => 1),
 			'limit' => 1
 		));
-		$this->assertTrue(is_array($songs));
+
+		$this->assertTrue(is_object($songs));
 		$this->assertEquals(count($songs), 1);
 		$this->assertEquals($songs[0]->name, 'Paradise Circus');
 
@@ -177,7 +178,7 @@ class CollectionsTest extends PHPUnit_Framework_TestCase
 			'conditions' => array('artist' => 'Massive Attack'),
 			'limit' => 1
 		));
-		$this->assertTrue(is_array($songs));
+		$this->assertTrue(is_object($songs));
 		$this->assertEquals(count($songs), 1);
 		$this->assertEquals($songs[0]->name, 'Teardrop');
 
@@ -232,8 +233,9 @@ class CollectionsTest extends PHPUnit_Framework_TestCase
 		$firstImageId = $image->_id;
 
 		$images = Images::find();
-		$this->assertTrue(is_array($images));
-		$this->assertEquals(count($images), 1);
+		$this->assertTrue(is_object($images));
+		$this->assertEquals(count($images), 1);	
+
 		$this->assertEquals($images[0]->name, 'Phalcon');
 		$this->assertInstanceOf('MongoGridFSFile', $images[0]->getFile());
 	}

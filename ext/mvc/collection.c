@@ -15,12 +15,14 @@
   | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
   |          Eduar Carvajal <eduar@phalconphp.com>                         |
   |          Kenji Minamoto <kenji.minamoto@gmail.com>                     |
+  |          ZhuZongXin <dreamsxin@qq.com>                                 |
   +------------------------------------------------------------------------+
 */
 
 #include "mvc/collection.h"
 #include "mvc/collectioninterface.h"
 #include "mvc/collection/document.h"
+#include "mvc/collection/resultset.h"
 #include "mvc/collection/exception.h"
 #include "mvc/collection/message.h"
 #include "mvc/collection/managerinterface.h"
@@ -934,11 +936,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, _getResultset){
 	zval *params, *collection, *connection, *unique;
 	zval *source = NULL, *mongo_collection = NULL, *conditions = NULL, *new_conditions = NULL;
 	zval *fields, *documents_cursor = NULL, *limit, *sort = NULL;
-	zval *base = NULL, *document = NULL, *collections, *documents_array = NULL;
-	zval *collection_cloned = NULL;
-	HashTable *ah0;
-	HashPosition hp0;
-	zval **hd;
+	zval *base = NULL, *document = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -1046,30 +1044,10 @@ PHP_METHOD(Phalcon_Mvc_Collection, _getResultset){
 		RETURN_MM_FALSE;
 	}
 
-	/**
-	 * Requesting a complete resultset
-	 */
-	PHALCON_INIT_VAR(collections);
-	array_init(collections);
+	object_init_ex(return_value, phalcon_mvc_collection_resultset_ce);
+	PHALCON_CALL_METHOD(NULL, return_value, "__construct", collection, documents_cursor);
 
-	PHALCON_CALL_FUNCTION(&documents_array, "iterator_to_array", documents_cursor);
-
-	phalcon_is_iterable(documents_array, &ah0, &hp0, 0, 0);
-
-	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
-
-		PHALCON_GET_HVALUE(document);
-
-		/**
-		 * Assign the values to the base object
-		 */
-		PHALCON_CALL_SELF(&collection_cloned, "cloneresult", base, document);
-		phalcon_array_append(&collections, collection_cloned, PH_SEPARATE);
-
-		zend_hash_move_forward_ex(ah0, &hp0);
-	}
-
-	RETURN_CTOR(collections);
+	RETURN_MM();
 }
 
 /**
@@ -3011,7 +2989,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, parse){
 
 
 /**
- * Magic method to assign values to the the model
+ * Magic method to assign values to the the collection
  *
  * @param string $property
  * @param mixed $value
@@ -3058,7 +3036,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, __set){
  * Magic method to get related records using the relation alias as a property
  *
  * @param string $property
- * @return Phalcon\Mvc\Model\Resultset
+ * @return mixed
  */
 PHP_METHOD(Phalcon_Mvc_Collection, __get){
 
@@ -3173,7 +3151,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, __callStatic){
 			phalcon_uncamelize(field, extra_method);
 			if (!phalcon_isset_property_zval(collection, field TSRMLS_CC)) {
 				PHALCON_INIT_NVAR(exception_message);
-				PHALCON_CONCAT_SVS(exception_message, "Cannot resolve attribute \"", extra_method, "' in the model");
+				PHALCON_CONCAT_SVS(exception_message, "Cannot resolve attribute \"", extra_method, "' in the collection");
 				PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_collection_exception_ce, exception_message);
 				return;
 			}

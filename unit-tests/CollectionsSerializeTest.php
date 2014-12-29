@@ -62,7 +62,7 @@ class CollectionsSerializeTest extends PHPUnit_Framework_TestCase
 		});
 
 		$songs = Store\Songs::find();
-		$this->assertTrue(is_array($songs));
+		$this->assertTrue(is_object($songs));
 
 		foreach($songs as $song){
 			$this->assertTrue($song->delete());
