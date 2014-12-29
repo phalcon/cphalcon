@@ -6878,8 +6878,8 @@ PHP_METHOD(Phalcon_Mvc_Model, __callStatic){
  */
 PHP_METHOD(Phalcon_Mvc_Model, __set){
 
-	zval *property, *value, *lower_property = NULL, *possible_setter = NULL, *model_name = NULL, *values = NULL;
-	zval *meta_data = NULL, *column_map = NULL, *attributes = NULL;
+	zval *property, *value, *lower_property = NULL, *possible_setter = NULL, *method_exists = NULL, *class_name = NULL;
+	zval *model_name = NULL, *values = NULL, *meta_data = NULL, *column_map = NULL, *attributes = NULL;
 	zval *related, *key = NULL, *lower_key = NULL, *item = NULL;
 	zval *manager = NULL, *exception_message = NULL;
 	zval *relation = NULL, *referenced_model_name = NULL, *referenced_model = NULL, *type = NULL;
@@ -6901,7 +6901,12 @@ PHP_METHOD(Phalcon_Mvc_Model, __set){
 		PHALCON_INIT_NVAR(possible_setter);
 		PHALCON_CONCAT_SV(possible_setter, "set", property);
 		zend_str_tolower(Z_STRVAL_P(possible_setter), Z_STRLEN_P(possible_setter));
-		if (!phalcon_compare_strict_string(possible_setter, SL("setup"))) {
+
+		PHALCON_INIT_VAR(class_name);
+		ZVAL_STRING(class_name, "Phalcon\\Mvc\\Model", 1);
+
+		PHALCON_CALL_FUNCTION(&method_exists, "method_exists", class_name, possible_setter);
+		if (!zend_is_true(method_exists)) {
 			if (phalcon_method_exists_ex(this_ptr, Z_STRVAL_P(possible_setter), Z_STRLEN_P(possible_setter)+1 TSRMLS_CC) == SUCCESS) {
 				PHALCON_CALL_METHOD(NULL, this_ptr, Z_STRVAL_P(possible_setter), value);
 				RETURN_CTOR(value);
@@ -7061,7 +7066,8 @@ PHP_METHOD(Phalcon_Mvc_Model, __set){
  */
 PHP_METHOD(Phalcon_Mvc_Model, __get){
 
-	zval *property, *possible_getter = NULL, *meta_data = NULL, *column_map = NULL, *attributes = NULL;
+	zval *property, *possible_getter = NULL, *class_name, *method_exists = NULL;
+	zval *meta_data = NULL, *column_map = NULL, *attributes = NULL;
 	zval *model_name, *manager = NULL, *lower_property, *related_result;
 	zval *relation = NULL, *call_args, *call_object, *result;
 
@@ -7073,9 +7079,16 @@ PHP_METHOD(Phalcon_Mvc_Model, __get){
 		PHALCON_INIT_NVAR(possible_getter);
 		PHALCON_CONCAT_SV(possible_getter, "get", property);
 		zend_str_tolower(Z_STRVAL_P(possible_getter), Z_STRLEN_P(possible_getter));
-		if (phalcon_method_exists_ex(this_ptr, Z_STRVAL_P(possible_getter), Z_STRLEN_P(possible_getter)+1 TSRMLS_CC) == SUCCESS) {
-			PHALCON_CALL_METHOD(&return_value, this_ptr, Z_STRVAL_P(possible_getter));
-			RETURN_MM();
+
+		PHALCON_INIT_VAR(class_name);
+		ZVAL_STRING(class_name, "Phalcon\\Mvc\\Model", 1);
+
+		PHALCON_CALL_FUNCTION(&method_exists, "method_exists", class_name, possible_getter);
+		if (!zend_is_true(method_exists)) {
+			if (phalcon_method_exists_ex(this_ptr, Z_STRVAL_P(possible_getter), Z_STRLEN_P(possible_getter)+1 TSRMLS_CC) == SUCCESS) {
+				PHALCON_CALL_METHOD(&return_value, this_ptr, Z_STRVAL_P(possible_getter));
+				RETURN_MM();
+			}
 		}
 
 		PHALCON_CALL_METHOD(&meta_data, this_ptr, "getmodelsmetadata");
