@@ -138,6 +138,7 @@ mvc/collection/document.c \
 mvc/collection/messageinterface.c \
 mvc/collection/message.c \
 mvc/collection/gridfs.c \
+mvc/collection/resultset.c \
 mvc/routerinterface.c \
 mvc/urlinterface.c \
 mvc/user/component.c \
