@@ -79,7 +79,7 @@ class Libmemcached extends Backend implements BackendInterface
 		}
 
 		if !isset options["servers"] {
-            let servers = [0: ["host": "127.0.0.1", "port": 11211, "weight": 1]];
+			let servers = [0: ["host": "127.0.0.1", "port": 11211, "weight": 1]];
 			let options["servers"] = servers;
 		}
 
