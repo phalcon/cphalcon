@@ -15,7 +15,7 @@
   +------------------------------------------------------------------------+
   | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
   |          Eduar Carvajal <eduar@phalconphp.com>                         |
-  |          Piotr Gasiorowski <p.gasiorowski@vipserv.org>                 |
+  |          Piotr Gasiorowski <p.gasiorowski@vipserv.org>                                  |
   +------------------------------------------------------------------------+
 */
 
@@ -179,7 +179,32 @@ class ViewSimpleTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($expected, $view->getRegisteredEngines());
 	}
 
-	// Setup viewCache service and DI
+		public function testRenderWithFilenameWithEngineExtension()
+	{
+		$view = new View;
+		$view->setDI(new Di);
+
+		$view->registerEngines(array('.mhtml' => 'Phalcon\\Mvc\\View\\Engine\\Volt'));
+		$view->setViewsDir('unit-tests/views/');
+		$view->setParamToView('name', 'FooBar');
+
+		$this->assertEquals('Hello FooBar', $view->render('test4/index.mhtml'));
+	}
+
+	public function testRenderWithFilenameWithEngineWithoutEngineRegistered()
+	{
+		$this->setExpectedException('Phalcon\Mvc\View\Exception');
+
+		$view = new View;
+		$view->setDI(new Di);
+
+		$view->setViewsDir('unit-tests/views/');
+		$view->setParamToView('name', 'FooBar');
+
+		$this->assertEquals('Hello FooBar', $view->render('test4/index.mhtml'));
+	}
+
+    // Setup viewCache service and DI
 	private function _getDI()
 	{
 		$di = new Di;
