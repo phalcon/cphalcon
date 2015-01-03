@@ -16,26 +16,14 @@ Clone zephir repo:
 
     git clone https://github.com/phalcon/zephir.git
 
-clone json-c repo:
-
-    git clone https://github.com/json-c/json-c.git
-
 Install required packages:
 
     sudo apt-get install php5-dev php5-mysql gcc make re2c libpcre3-dev
 
-Compile json-c:
-
-    cd json-c
-    sudo sh autogen.sh
-    sudo ./configure
-    sudo make
-    sudo make install
-    cd ..
-
-Compile zephir:
+Compile json-c and zephir:
 
     cd zephir
+    sudo ./install-json
     sudo ./install
     cd ..
 
