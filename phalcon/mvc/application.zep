@@ -159,6 +159,23 @@ class Application extends Injectable
 	}
 
 	/**
+	 * Gets the module definition registered in the application via module name
+	 *
+	 * @param string name
+	 * @return array|object
+	 */
+	public function getModule(string! name)
+	{
+		var module;
+
+		if !fetch module, this->_modules[name] {
+			throw new Exception("Module '" . name . "' isn't registered in the application container");
+		}
+
+		return module;
+	}
+
+	/**
 	 * Sets the module name to be used if the router doesn't return a valid module
 	 *
 	 * @param string defaultModule
@@ -239,11 +256,9 @@ class Application extends Injectable
 			}
 
 			/**
-			 * Check if the module passed by the router is registered in the modules container
+			 * Gets the module definition
 			 */
-			if !fetch module, this->_modules[moduleName] {
-				throw new Exception("Module '" . moduleName . "' isn't registered in the application container");
-			}
+			let module = this->getModule(moduleName);
 
 			/**
 			 * A module definition must ne an array or an object
