@@ -79,7 +79,7 @@ class Libmemcached extends Backend implements BackendInterface
 		}
 
 		if !isset options["servers"] {
-            let servers = [0: ["host": "127.0.0.1", "port": 11211, "weigth": 1]];
+			let servers = [0: ["host": "127.0.0.1", "port": 11211, "weight": 1]];
 			let options["servers"] = servers;
 		}
 
@@ -229,17 +229,19 @@ class Libmemcached extends Backend implements BackendInterface
 			throw new Exception("Unexpected inconsistency in options");
 		}
 
-		/**
-		* Update the stats key
-		*/
-		let keys = memcache->get(specialKey);
-		if typeof keys != "array" {
-			let keys = [];
-		}
+		if specialKey != "" {
+			/**
+			 * Update the stats key
+			 */
+			let keys = memcache->get(specialKey);
+			if typeof keys != "array" {
+				let keys = [];
+			}
 
-		if !isset keys[lastKey] {
-			let keys[lastKey] = tt1;
-			memcache->set(specialKey, keys);
+			if !isset keys[lastKey] {
+				let keys[lastKey] = tt1;
+				memcache->set(specialKey, keys);
+			}
 		}
 
 		let isBuffering = frontend->isBuffering();
@@ -278,10 +280,12 @@ class Libmemcached extends Backend implements BackendInterface
 			throw new Exception("Unexpected inconsistency in options");
 		}
 
-		let keys = memcache->get(specialKey);
-		if typeof keys == "array" {
-			unset keys[prefixedKey];
-			memcache->set(specialKey, keys);
+		if specialKey != "" {
+			let keys = memcache->get(specialKey);
+			if typeof keys == "array" {
+				unset keys[prefixedKey];
+				memcache->set(specialKey, keys);
+			}
 		}
 
 		/**
@@ -311,6 +315,10 @@ class Libmemcached extends Backend implements BackendInterface
 
 		if !fetch specialKey, options["statsKey"] {
 			throw new Exception("Unexpected inconsistency in options");
+		}
+
+		if specialKey == "" {
+			throw new Exception("Cached keys were disabled (options['statsKey'] == ''), you shouldn't use this function");
 		}
 
 		/**
@@ -449,6 +457,10 @@ class Libmemcached extends Backend implements BackendInterface
 			throw new Exception("Unexpected inconsistency in options");
 		}
 
+		if specialKey == "" {
+			throw new Exception("Cached keys were disabled (options['statsKey'] == ''), flush of memcached phalcon-related keys isn't implemented for now");
+		}
+
 		/**
 		 * Get the key from memcached
 		 */
@@ -459,6 +471,7 @@ class Libmemcached extends Backend implements BackendInterface
 			}
 			memcache->set(specialKey, keys);
 		}
+
 		return true;
 	}
 }
