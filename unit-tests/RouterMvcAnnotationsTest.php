@@ -79,6 +79,27 @@ class ProductsController
 
 }
 
+class AboutController
+{
+
+	/**
+	 * @Get("/about/team")
+	 */
+	public function teamAction()
+	{
+
+	}
+
+	/**
+	 * @Post("/about/team")
+	 */
+	public function teamPostAction()
+	{
+
+	}
+
+}
+
 class RouterMvcAnnotationsTest extends PHPUnit_Framework_TestCase
 {
 	public function _getDI()
@@ -94,13 +115,27 @@ class RouterMvcAnnotationsTest extends PHPUnit_Framework_TestCase
 
 		$router = new Phalcon\Mvc\Router\Annotations(false);
 		$router->setDI($this->_getDI());
+		$router->addResource('Robots', '/');
+		$router->addResource('Products', '/products');
+		$router->addResource('About', '/about');
+		$router->handle('/products');
+		$this->assertEquals(count($router->getRoutes()), 6);
 
+		$router = new Phalcon\Mvc\Router\Annotations(false);
+		$router->setDI($this->_getDI());
+		$router->addResource('Robots', '/');
+		$router->addResource('Products', '/products');
+		$router->addResource('About', '/about');
+		$router->handle('/about');
+		$this->assertEquals(count($router->getRoutes()), 5);
+
+		$router = new Phalcon\Mvc\Router\Annotations(false);
+		$router->setDI($this->_getDI());
 		$router->addResource('Robots');
 		$router->addResource('Products');
-
+        $router->addResource('About');
 		$router->handle();
-
-		$this->assertEquals(count($router->getRoutes()), 6);
+		$this->assertEquals(count($router->getRoutes()), 8);
 
 		$route = $router->getRouteByName('save-robot');
 		$this->assertTrue(is_object($route));
@@ -160,6 +195,20 @@ class RouterMvcAnnotationsTest extends PHPUnit_Framework_TestCase
 				'action' => 'save',
 				'params' => array()
 			),
+            array(
+                'uri' => '/about/team',
+                'method' => 'GET',
+                'controller' => 'about',
+                'action' => 'team',
+                'params' => array()
+            ),
+            array(
+                'uri' => '/about/team',
+                'method' => 'POST',
+                'controller' => 'about',
+                'action' => 'teampost',
+                'params' => array()
+            ),
 		);
 
 		foreach ($routes as $route) {
