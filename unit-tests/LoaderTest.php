@@ -81,9 +81,12 @@ class LoaderTest extends PHPUnit_Framework_TestCase
 
 		$loader->registerDirs(array(
 			"unit-tests/vendor/example/dialects", //missing trailing slash
+		));
+
+		$loader->registerDirs(array(
 			"unit-tests/vendor/example/types",
 			"unit-tests/vendor",
-		));
+		), true);
 
 		$loader->register();
 
