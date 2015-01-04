@@ -233,7 +233,7 @@ class Application extends Injectable
 		if moduleName {
 
 			if typeof eventsManager == "object" {
-				if eventsManager->fire("application:beforeStartModule", this) === false {
+				if eventsManager->fire("application:beforeStartModule", this, moduleName) === false {
 					return false;
 				}
 			}
