@@ -405,14 +405,15 @@ PHP_METHOD(Phalcon_Mvc_Url, get){
  * Generates a URL for a static resource
  *
  * @param string|array $uri
+ * @param array $args
  * @return string
  */
 PHP_METHOD(Phalcon_Mvc_Url, getStatic){
 
-	zval **uri = NULL, *static_base_uri, *base_uri = NULL;
-	zval *matched, *pattern;
+	zval **uri = NULL, **args = NULL, *static_base_uri, *base_uri = NULL;
+	zval *matched, *pattern, *query_string;
 
-	phalcon_fetch_params_ex(0, 1, &uri);
+	phalcon_fetch_params_ex(0, 2, &uri, &args);
 
 	PHALCON_MM_GROW();
 
@@ -432,16 +433,28 @@ PHP_METHOD(Phalcon_Mvc_Url, getStatic){
 			}
 		}
 	}
-	
+
 	static_base_uri = phalcon_fetch_nproperty_this(this_ptr, SL("_staticBaseUri"), PH_NOISY TSRMLS_CC);
 	if (Z_TYPE_P(static_base_uri) != IS_NULL) {
 		PHALCON_CONCAT_VV(return_value, static_base_uri, *uri);
-		RETURN_MM();
+	} else {	
+		PHALCON_CALL_METHOD(&base_uri, this_ptr, "getbaseuri");
+		PHALCON_CONCAT_VV(return_value, base_uri, *uri);
 	}
-	
-	PHALCON_CALL_METHOD(&base_uri, this_ptr, "getbaseuri");
-	PHALCON_CONCAT_VV(return_value, base_uri, *uri);
-	
+
+	if (args) {
+		PHALCON_INIT_VAR(query_string);
+		phalcon_http_build_query(query_string, *args, "&" TSRMLS_CC);
+		if (Z_TYPE_P(query_string) == IS_STRING && Z_STRLEN_P(query_string)) {
+			if (phalcon_memnstr_str(return_value, "?", 1)) {
+				PHALCON_SCONCAT_SV(return_value, "&", query_string);
+			}
+			else {
+				PHALCON_SCONCAT_SV(return_value, "?", query_string);
+			}
+		}
+	}
+
 	RETURN_MM();
 }
 
