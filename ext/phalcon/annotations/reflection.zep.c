@@ -150,7 +150,7 @@ PHP_METHOD(Phalcon_Annotations_Reflection, getMethodsAnnotations) {
 				  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
 				  ; zephir_hash_move_forward_ex(_2, &_1)
 				) {
-					ZEPHIR_GET_HKEY(methodName, _2, _1);
+					ZEPHIR_GET_HMKEY(methodName, _2, _1);
 					ZEPHIR_GET_HVALUE(reflectionMethod, _3);
 					ZEPHIR_INIT_NVAR(_4);
 					object_init_ex(_4, phalcon_annotations_collection_ce);
@@ -198,7 +198,7 @@ PHP_METHOD(Phalcon_Annotations_Reflection, getPropertiesAnnotations) {
 				  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
 				  ; zephir_hash_move_forward_ex(_2, &_1)
 				) {
-					ZEPHIR_GET_HKEY(property, _2, _1);
+					ZEPHIR_GET_HMKEY(property, _2, _1);
 					ZEPHIR_GET_HVALUE(reflectionProperty, _3);
 					ZEPHIR_INIT_NVAR(_4);
 					object_init_ex(_4, phalcon_annotations_collection_ce);

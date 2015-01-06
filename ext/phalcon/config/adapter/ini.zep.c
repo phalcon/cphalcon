@@ -132,7 +132,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct) {
 	  ; zephir_hash_get_current_data_ex(_5, (void**) &_6, &_4) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_5, &_4)
 	) {
-		ZEPHIR_GET_HKEY(section, _5, _4);
+		ZEPHIR_GET_HMKEY(section, _5, _4);
 		ZEPHIR_GET_HVALUE(directives, _6);
 		ZEPHIR_INIT_NVAR(sections);
 		array_init(sections);

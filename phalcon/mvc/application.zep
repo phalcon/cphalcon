@@ -126,13 +126,9 @@ class Application extends Injectable
 	 * @param boolean merge
 	 * @param Phalcon\Mvc\Application
 	 */
-	public function registerModules(modules, boolean merge = false) -> <Application>
+	public function registerModules(array modules, boolean merge = false) -> <Application>
 	{
 		var registeredModules;
-
-		if typeof modules != "array" {
-			throw new Exception("Modules must be an Array");
-		}
 
 		if merge === false {
 			let this->_modules = modules;

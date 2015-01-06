@@ -156,6 +156,13 @@ ZEPHIR_DOC_METHOD(Phalcon_Db_ColumnInterface, getAfterPosition);
 ZEPHIR_DOC_METHOD(Phalcon_Db_ColumnInterface, getBindType);
 
 /**
+ * Returns default value of column
+ *
+ * @return int
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Db_ColumnInterface, getDefault);
+
+/**
  * Restores the internal state of a Phalcon\Db\Column object
  *
  * @param array data

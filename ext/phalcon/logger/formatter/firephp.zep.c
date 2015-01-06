@@ -254,7 +254,7 @@ PHP_METHOD(Phalcon_Logger_Formatter_Firephp, format) {
 		  ; zephir_hash_get_current_data_ex(_10, (void**) &_11, &_9) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_10, &_9)
 		) {
-			ZEPHIR_GET_HKEY(key, _10, _9);
+			ZEPHIR_GET_HMKEY(key, _10, _9);
 			ZEPHIR_GET_HVALUE(backtraceItem, _11);
 			zephir_array_unset_string(&backtraceItem, SS("object"), PH_SEPARATE);
 			zephir_array_unset_string(&backtraceItem, SS("args"), PH_SEPARATE);

@@ -79,10 +79,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, __construct) {
 	}
 
 
-	if (!(zephir_instance_of_ev(result, phalcon_db_resultinterface_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'result' must be an instance of 'Phalcon\\Db\\ResultInterface'", "", 0);
-		return;
-	}
 	_0 = Z_TYPE_P(cache) != IS_NULL;
 	if (_0) {
 		_0 = !zephir_instance_of_ev(cache, phalcon_cache_backendinterface_ce TSRMLS_CC);

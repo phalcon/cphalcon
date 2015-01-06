@@ -174,7 +174,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, connect) {
 		  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_1, &_0)
 		) {
-			ZEPHIR_GET_HKEY(key, _1, _0);
+			ZEPHIR_GET_HMKEY(key, _1, _0);
 			ZEPHIR_GET_HVALUE(value, _2);
 			ZEPHIR_INIT_LNVAR(_3);
 			ZEPHIR_CONCAT_VSV(_3, key, "=", value);
@@ -630,7 +630,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, convertBoundParams) {
 	zephir_nts_static zephir_fcall_cache_entry *_2 = NULL, *_8 = NULL;
 	int setOrder, ZEPHIR_LAST_CALL_STATUS;
 	zval *params = NULL;
-	zval *sql_param = NULL, *params_param = NULL, *boundSql = NULL, *placeHolders, *queryParams, *bindPattern, *matches, *placeMatch = NULL, *value = NULL, *_0 = NULL, *_1 = NULL, **_5, *_6, *_7;
+	zval *sql_param = NULL, *params_param = NULL, *boundSql = NULL, *placeHolders, *bindPattern, *matches, *placeMatch = NULL, *value = NULL, *_0 = NULL, *_1 = NULL, **_5, *_6, *_7;
 	zval *sql = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -655,8 +655,6 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, convertBoundParams) {
 	}
 
 
-	ZEPHIR_INIT_VAR(queryParams);
-	array_init(queryParams);
 	ZEPHIR_INIT_VAR(placeHolders);
 	array_init(placeHolders);
 	ZEPHIR_INIT_VAR(bindPattern);

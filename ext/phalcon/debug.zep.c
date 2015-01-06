@@ -392,7 +392,7 @@ PHP_METHOD(Phalcon_Debug, _getArrayDump) {
 				  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
 				  ; zephir_hash_move_forward_ex(_1, &_0)
 				) {
-					ZEPHIR_GET_HKEY(k, _1, _0);
+					ZEPHIR_GET_HMKEY(k, _1, _0);
 					ZEPHIR_GET_HVALUE(v, _2);
 					ZEPHIR_CALL_FUNCTION(&_3, "is_scalar", &_4, v);
 					zephir_check_call_status();
@@ -938,7 +938,7 @@ PHP_METHOD(Phalcon_Debug, onUncaughtException) {
 		  ; zephir_hash_get_current_data_ex(_18, (void**) &_19, &_17) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_18, &_17)
 		) {
-			ZEPHIR_GET_HKEY(keyRequest, _18, _17);
+			ZEPHIR_GET_HMKEY(keyRequest, _18, _17);
 			ZEPHIR_GET_HVALUE(value, _19);
 			ZEPHIR_INIT_LNVAR(_20);
 			ZEPHIR_CONCAT_SVSVS(_20, "<tr><td class=\"key\">", keyRequest, "</td><td>", value, "</td></tr>");
@@ -953,7 +953,7 @@ PHP_METHOD(Phalcon_Debug, onUncaughtException) {
 		  ; zephir_hash_get_current_data_ex(_22, (void**) &_23, &_21) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_22, &_21)
 		) {
-			ZEPHIR_GET_HKEY(keyServer, _22, _21);
+			ZEPHIR_GET_HMKEY(keyServer, _22, _21);
 			ZEPHIR_GET_HVALUE(value, _23);
 			ZEPHIR_INIT_LNVAR(_20);
 			ZEPHIR_CONCAT_SVSVS(_20, "<tr><td class=\"key\">", keyServer, "</td><td>", value, "</td></tr>");
@@ -969,7 +969,7 @@ PHP_METHOD(Phalcon_Debug, onUncaughtException) {
 		  ; zephir_hash_get_current_data_ex(_26, (void**) &_27, &_25) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_26, &_25)
 		) {
-			ZEPHIR_GET_HKEY(keyFile, _26, _25);
+			ZEPHIR_GET_HMKEY(keyFile, _26, _25);
 			ZEPHIR_GET_HVALUE(value, _27);
 			ZEPHIR_INIT_LNVAR(_20);
 			ZEPHIR_CONCAT_SVSVS(_20, "<tr><td>", keyFile, "</th><td>", value, "</td></tr>");
@@ -991,7 +991,7 @@ PHP_METHOD(Phalcon_Debug, onUncaughtException) {
 			  ; zephir_hash_get_current_data_ex(_30, (void**) &_31, &_29) == SUCCESS
 			  ; zephir_hash_move_forward_ex(_30, &_29)
 			) {
-				ZEPHIR_GET_HKEY(keyVar, _30, _29);
+				ZEPHIR_GET_HMKEY(keyVar, _30, _29);
 				ZEPHIR_GET_HVALUE(dataVar, _31);
 				zephir_array_fetch_long(&_33, dataVar, 0, PH_NOISY | PH_READONLY, "phalcon/debug.zep", 774 TSRMLS_CC);
 				ZEPHIR_CALL_METHOD(&_32, this_ptr, "_getvardump", &_34, _33);

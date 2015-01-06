@@ -104,8 +104,8 @@ class Annotations extends Router
 
 		if !uri {
 			/**
-		 	 * If 'uri' isn't passed as parameter it reads _GET['_url']
-		 	 */
+			 * If 'uri' isn't passed as parameter it reads _GET['_url']
+			 */
 			let realUri = this->getRewriteUri();
 		} else {
 			let realUri = uri;

@@ -864,7 +864,7 @@ PHP_METHOD(Phalcon_Debug_Dump, vars) {
 	  ; zephir_hash_get_current_data_ex(_3, (void**) &_4, &_2) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_3, &_2)
 	) {
-		ZEPHIR_GET_HKEY(key, _3, _2);
+		ZEPHIR_GET_HMKEY(key, _3, _2);
 		ZEPHIR_GET_HVALUE(value, _4);
 		ZEPHIR_INIT_LNVAR(_6);
 		ZEPHIR_CONCAT_SV(_6, "var ", key);
