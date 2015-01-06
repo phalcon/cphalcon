@@ -21,7 +21,7 @@
  */
 
 namespace Phalcon\Test;
-    
+
 use \Phalcon\Mvc\Model\Manager as PhModelManager;
 use \Phalcon\Events\Manager as PhEventsManager;
 use \Phalcon\Logger\Adapter\File as PhLogger;
@@ -40,117 +40,123 @@ use \Phalcon\Exception as PhException;
 
 abstract class ModelTestCase extends UnitTestCase
 {
-    /**
-     * Sets the test up by loading the DI container and other stuff
-     *
-     * @author Nikos Dimopoulos <nikos@phalconphp.com>
-     * @since  2012-09-20
-     */
-    protected function setUp()
-    {
-        parent::setUp();
+	/**
+	 * Sets the test up by loading the DI container and other stuff
+	 *
+	 * @author Nikos Dimopoulos <nikos@phalconphp.com>
+	 * @since  2012-09-20
+	 */
+	protected function setUp()
+	{
+		parent::setUp();
 
-        // Set Models manager
-        $this->di->set(
-            'modelsManager',
-            function () {
-                return new PhModelManager();
-            }
-        );
+		// Set Models manager
+		$this->di->set(
+			'modelsManager',
+			function () {
+				return new PhModelManager();
+			}
+		);
 
-        // Set Models metadata
-        $this->di->set(
-            'modelsMetadata',
-            function () {
-                return new PhMetadataMemory();
-            }
-        );
+		// Set Models metadata
+		$this->di->set(
+			'modelsMetadata',
+			function () {
+				return new PhMetadataMemory();
+			}
+		);
 
-        // Set the connection to the db (defaults to mysql)
-        $this->setDb();
-    }
+		// Set the connection to the db (defaults to mysql)
+		$this->setDb();
+	}
 
-    /**
-     * Sets the database adapter in the DI container
-     *
-     * @param string $dbType Sets the database type for the test
-     *
-     * @author Nikos Dimopoulos <nikos@phalconphp.com>
-     * @since  2012-09-20
-     */
-    protected function setDb($dbType = 'mysql')
-    {
-        $config = $this->config;
+	/**
+	 * Sets the database adapter in the DI container
+	 *
+	 * @param string $dbType Sets the database type for the test
+	 *
+	 * @author Nikos Dimopoulos <nikos@phalconphp.com>
+	 * @since  2012-09-20
+	 */
+	protected function setDb($dbType = 'mysql')
+	{
+		$config = $this->config;
+		if (empty($config['db'][$dbType])) {
+			$this->markTestSkipped("Warning: database connection ({$dbType}) not configured");
+			return false;
+		}
 
-        if ($this->di->has('db')) {
-            $db    = $this->di->get('db');
-            $class = '\Phalcon\Db\Adapter\Pdo\\' . ucfirst($dbType);
-            if (get_class($db) == $class) {
-                return $db;
-            }
-        }
+		if ($this->di->has('db')) {
+			$db    = $this->di->get('db');
+			$class = '\\Phalcon\\Db\\Adapter\\Pdo\\' . ucfirst($dbType);
+			if (get_class($db) == $class) {
+				return $db;
+			}
+		}
 
-        // Set the connection to whatever we chose
-        $this->di->set(
-            'db',
-            function () use ($dbType, $config) {
-                $params = $config['db'][$dbType];
-                $class  = '\Phalcon\Db\Adapter\Pdo\\' . ucfirst($dbType);
+		// Set the connection to whatever we chose
+		$this->di->set(
+			'db',
+			function () use ($dbType, $config) {
+				$params = $config['db'][$dbType];
+				$class  = '\\Phalcon\\Db\\Adapter\\Pdo\\' . ucfirst($dbType);
 
-                $conn = new $class($params);
-                return $conn;
-            }
-        );
-    }
+				$conn = new $class($params);
+				return $conn;
+			}
+		);
 
-    /**
-     * Empties a table in the database.
-     *
-     * @param $table
-     *
-     * @return boolean
-     *
-     * @author Nikos Dimopoulos <nikos@phalconphp.com>
-     * @since  2012-11-08
-     */
-    public function emptyTable($table)
-    {
-        $connection = $this->di->get('db');
+		return true;
+	}
 
-        $success = $connection->delete($table);
+	/**
+	 * Empties a table in the database.
+	 *
+	 * @param $table
+	 *
+	 * @return boolean
+	 *
+	 * @author Nikos Dimopoulos <nikos@phalconphp.com>
+	 * @since  2012-11-08
+	 */
+	public function emptyTable($table)
+	{
+		$connection = $this->di->get('db');
 
-        return $success;
-    }
+		$success = $connection->delete($table);
 
-    /**
-     * Populates a table with default data
-     *
-     * @param      $table
-     * @param null $records
-     *
-     * @author Nikos Dimopoulos <nikos@phalconphp.com>
-     * @since  2012-11-08
-     */
-    public function populateTable($table, $records = null)
-    {
-        // Empty the table first
-        $this->emptyTable($table);
+		return $success;
+	}
 
-        $connection = $this->di->get('db');
-        $parts      = explode('_', $table);
-        $suffix     = '';
+	/**
+	 * Populates a table with default data
+	 *
+	 * @param      $table
+	 * @param null $records
+	 *
+	 * @author Nikos Dimopoulos <nikos@phalconphp.com>
+	 * @since  2012-11-08
+	 */
+	public function populateTable($table, $records = null)
+	{
+		// Empty the table first
+		$this->emptyTable($table);
 
-        foreach ($parts as $part) {
-            $suffix .= ucfirst($part);
-        }
+		$connection = $this->di->get('db');
+		$parts      = explode('_', $table);
+		$suffix     = '';
 
-        $class = 'Phalcon\Test\Fixtures\\' . $suffix;
+		foreach ($parts as $part) {
+			$suffix .= ucfirst($part);
+		}
 
-        $data = $class::get($records);
+		$class = 'Phalcon\Test\Fixtures\\' . $suffix;
 
-        foreach ($data as $record) {
-            $sql = "INSERT INTO {$table} VALUES " . $record;
-            $connection->execute($sql);
-        }
-    }
+		$data = $class::get($records);
+
+		foreach ($data as $record) {
+			$sql = "INSERT INTO {$table} VALUES " . $record;
+			$connection->execute($sql);
+		}
+	}
 }

@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -17,15 +17,28 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
-
+#include "cache/backendinterface.h"
 #include "kernel/main.h"
+
+zend_class_entry *phalcon_cache_backendinterface_ce;
+
+static const zend_function_entry phalcon_cache_backendinterface_method_entry[] = {
+	PHP_ABSTRACT_ME(Phalcon_Cache_BackendInterface, start, arginfo_phalcon_cache_backendinterface_start)
+	PHP_ABSTRACT_ME(Phalcon_Cache_BackendInterface, stop, arginfo_phalcon_cache_backendinterface_stop)
+	PHP_ABSTRACT_ME(Phalcon_Cache_BackendInterface, getFrontend, NULL)
+	PHP_ABSTRACT_ME(Phalcon_Cache_BackendInterface, getOptions, NULL)
+	PHP_ABSTRACT_ME(Phalcon_Cache_BackendInterface, isFresh, NULL)
+	PHP_ABSTRACT_ME(Phalcon_Cache_BackendInterface, isStarted, NULL)
+	PHP_ABSTRACT_ME(Phalcon_Cache_BackendInterface, setLastKey, arginfo_phalcon_cache_backendinterface_setlastkey)
+	PHP_ABSTRACT_ME(Phalcon_Cache_BackendInterface, getLastKey, NULL)
+	PHP_ABSTRACT_ME(Phalcon_Cache_BackendInterface, get, arginfo_phalcon_cache_backendinterface_get)
+	PHP_ABSTRACT_ME(Phalcon_Cache_BackendInterface, save, arginfo_phalcon_cache_backendinterface_save)
+	PHP_ABSTRACT_ME(Phalcon_Cache_BackendInterface, delete, arginfo_phalcon_cache_backendinterface_delete)
+	PHP_ABSTRACT_ME(Phalcon_Cache_BackendInterface, queryKeys, arginfo_phalcon_cache_backendinterface_querykeys)
+	PHP_ABSTRACT_ME(Phalcon_Cache_BackendInterface, exists, arginfo_phalcon_cache_backendinterface_exists)
+	PHP_ABSTRACT_ME(Phalcon_Cache_BackendInterface, flush, NULL)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Cache\BackendInterface initializer
@@ -139,3 +152,27 @@ PHALCON_DOC_METHOD(Phalcon_Cache_BackendInterface, queryKeys);
  */
 PHALCON_DOC_METHOD(Phalcon_Cache_BackendInterface, exists);
 
+/**
+ * Increment $key by $value
+ *
+ * @param $key
+ * @param $value
+ * @return mixed
+ */
+PHALCON_DOC_METHOD(Phalcon_Cache_BackendInterface, increment);
+
+/**
+ * Decrement $key by $value
+ *
+ * @param $key
+ * @param $value
+ * @return mixed
+ */
+PHALCON_DOC_METHOD(Phalcon_Cache_BackendInterface, decrement);
+
+/**
+ * Immediately invalidates all existing items.
+ * 
+ * @return boolean
+ */
+PHALCON_DOC_METHOD(Phalcon_Cache_BackendInterface, flush);

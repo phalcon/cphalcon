@@ -7,7 +7,7 @@
  *
  * PhalconPHP Framework
  *
- * @copyright (c) 2011-2013 Phalcon Team
+ * @copyright (c) 2011-2014 Phalcon Team
  * @link      http://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>
@@ -191,7 +191,7 @@ class UnitTest extends PhTestUnitTestCase
         $this->assertTrue(is_array($intermediate));
         $this->assertEquals(count($intermediate), 1);
 
-        $intermediate = $volt->parse('{{ --10 }}');
+        $intermediate = $volt->parse('{{ -+10 }}');
         $this->assertTrue(is_array($intermediate));
         $this->assertEquals(count($intermediate), 1);
 

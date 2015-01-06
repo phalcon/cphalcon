@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -17,25 +17,15 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
-
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
+#include "mvc/model/query/lang.h"
+#include "mvc/model/query/scanner.h"
+#include "mvc/model/query/phql.h"
+#include "mvc/model/exception.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
-
 #include "kernel/exception.h"
 #include "kernel/fcall.h"
-#include "mvc/model/query/scanner.h"
-#include "mvc/model/query/phql.h"
 
 /**
  * Phalcon\Mvc\Model\Query\Lang
@@ -54,7 +44,18 @@
  * $intermediate = Phalcon\Mvc\Model\Query\Lang::parsePHQL("SELECT r.* FROM Robots r LIMIT 10");
  * </code>
  */
+zend_class_entry *phalcon_mvc_model_query_lang_ce;
 
+PHP_METHOD(Phalcon_Mvc_Model_Query_Lang, parsePHQL);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_query_lang_parsephql, 0, 0, 1)
+	ZEND_ARG_INFO(0, phql)
+ZEND_END_ARG_INFO()
+
+static const zend_function_entry phalcon_mvc_model_query_lang_method_entry[] = {
+	PHP_ME(Phalcon_Mvc_Model_Query_Lang, parsePHQL, arginfo_phalcon_mvc_model_query_lang_parsephql, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Mvc\Model\Query\Lang initializer
@@ -74,24 +75,19 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Query_Lang){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Query_Lang, parsePHQL){
 
-	zval *phql, *intermediate;
+	zval *phql;
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &phql) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &phql);
+	
 	if (Z_TYPE_P(phql) != IS_STRING) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "PHQL statement must be string");
 		return;
 	}
-	
-	PHALCON_INIT_VAR(intermediate);
-	if (phql_parse_phql(intermediate, phql TSRMLS_CC) == FAILURE) {
-		return;
+	if (phql_parse_phql(return_value, phql TSRMLS_CC) == FAILURE) {
+		RETURN_MM();
 	}
-	
-	RETURN_CTOR(intermediate);
+	RETURN_MM();
 }
 

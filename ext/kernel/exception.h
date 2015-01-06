@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -17,15 +17,30 @@
   +------------------------------------------------------------------------+
 */
 
+#ifndef PHALCON_KERNEL_EXCEPTION_H
+#define PHALCON_KERNEL_EXCEPTION_H
+
+#include "php_phalcon.h"
+
 /** Exceptions */
-#define PHALCON_THROW_EXCEPTION_STR(class_entry, message) phalcon_throw_exception_string(class_entry, message, strlen(message) TSRMLS_CC);
-#define PHALCON_THROW_EXCEPTION_ZVAL(class_entry, message) phalcon_throw_exception_zval(class_entry, message TSRMLS_CC);
+#define PHALCON_THROW_EXCEPTION_STR(class_entry, message) \
+	do { \
+		phalcon_throw_exception_string(class_entry, message TSRMLS_CC); \
+		PHALCON_MM_RESTORE(); \
+	} while (0)
+
+#define PHALCON_THROW_EXCEPTION_ZVAL(class_entry, message) \
+	do { \
+		phalcon_throw_exception_zval(class_entry, message TSRMLS_CC); \
+		PHALCON_MM_RESTORE(); \
+	} while (0)
+
+#define PHALCON_THROW_EXCEPTION_STRW(class_entry, message)  phalcon_throw_exception_string(class_entry, message TSRMLS_CC)
+#define PHALCON_THROW_EXCEPTION_ZVALW(class_entry, message) phalcon_throw_exception_zval(class_entry, message TSRMLS_CC)
 
 /** Throw Exceptions */
-extern void phalcon_throw_exception(zval *object TSRMLS_DC);
-extern void phalcon_throw_exception_string(zend_class_entry *ce, char *message, zend_uint message_len TSRMLS_DC);
-extern void phalcon_throw_exception_zval(zend_class_entry *ce, zval *message TSRMLS_DC);
-extern void phalcon_throw_exception_internal(zval *exception TSRMLS_DC);
+void phalcon_throw_exception(zval *object TSRMLS_DC) PHALCON_ATTR_NONNULL;
+void phalcon_throw_exception_string(zend_class_entry *ce, const char *message TSRMLS_DC) PHALCON_ATTR_NONNULL;
+void phalcon_throw_exception_zval(zend_class_entry *ce, zval *message TSRMLS_DC) PHALCON_ATTR_NONNULL;
 
-/** Catch Exceptions */
-extern void phalcon_try_execute(zval *success, zval *return_value, zval *call_object, zval *params, zval **exception TSRMLS_DC);
+#endif /* PHALCON_KERNEL_EXCEPTION_H */

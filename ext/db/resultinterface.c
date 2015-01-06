@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -17,15 +17,22 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
-
+#include "db/resultinterface.h"
 #include "kernel/main.h"
+
+zend_class_entry *phalcon_db_resultinterface_ce;
+
+static const zend_function_entry phalcon_db_resultinterface_method_entry[] = {
+	PHP_ABSTRACT_ME(Phalcon_Db_ResultInterface, execute, arginfo_phalcon_db_resultinterface_execute)
+	PHP_ABSTRACT_ME(Phalcon_Db_ResultInterface, fetch, arginfo_phalcon_db_resultinterface_fetch)
+	PHP_ABSTRACT_ME(Phalcon_Db_ResultInterface, fetchArray, arginfo_phalcon_db_resultinterface_fetcharray)
+	PHP_ABSTRACT_ME(Phalcon_Db_ResultInterface, fetchAll, arginfo_phalcon_db_resultinterface_fetchall)
+	PHP_ABSTRACT_ME(Phalcon_Db_ResultInterface, numRows, arginfo_phalcon_db_resultinterface_numrows)
+	PHP_ABSTRACT_ME(Phalcon_Db_ResultInterface, dataSeek, arginfo_phalcon_db_resultinterface_dataseek)
+	PHP_ABSTRACT_ME(Phalcon_Db_ResultInterface, setFetchMode, arginfo_phalcon_db_resultinterface_setfetchmode)
+	PHP_ABSTRACT_ME(Phalcon_Db_ResultInterface, getInternalResult, arginfo_phalcon_db_resultinterface_getinternalresult)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Db\ResultInterface initializer
@@ -36,17 +43,6 @@ PHALCON_INIT_CLASS(Phalcon_Db_ResultInterface){
 
 	return SUCCESS;
 }
-
-/**
- * Phalcon\Db\Result\Pdo constructor
- *
- * @param Phalcon\Db\AdapterInterface $connection
- * @param string $sqlStatement
- * @param array $bindParams
- * @param array $bindTypes
- * @param \PDOStatement $result
- */
-PHALCON_DOC_METHOD(Phalcon_Db_ResultInterface, __construct);
 
 /**
  * Allows to executes the statement again. Some database systems don't support scrollable cursors,
@@ -107,4 +103,3 @@ PHALCON_DOC_METHOD(Phalcon_Db_ResultInterface, setFetchMode);
  * @return \PDOStatement
  */
 PHALCON_DOC_METHOD(Phalcon_Db_ResultInterface, getInternalResult);
-

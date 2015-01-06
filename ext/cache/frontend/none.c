@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -17,17 +17,9 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
-
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
+#include "cache/frontend/none.h"
+#include "cache/frontend/data.h"
+#include "cache/frontendinterface.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
@@ -67,14 +59,25 @@
  *	}
  *</code>
  */
+zend_class_entry *phalcon_cache_frontend_none_ce;
 
+PHP_METHOD(Phalcon_Cache_Frontend_None, getLifetime);
+PHP_METHOD(Phalcon_Cache_Frontend_None, beforeStore);
+PHP_METHOD(Phalcon_Cache_Frontend_None, afterRetrieve);
+
+static const zend_function_entry phalcon_cache_frontend_none_method_entry[] = {
+	PHP_ME(Phalcon_Cache_Frontend_None, getLifetime, arginfo_phalcon_cache_frontendinterface_empty, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Cache_Frontend_None, beforeStore, arginfo_phalcon_cache_frontendinterface_beforestore, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Cache_Frontend_None, afterRetrieve, arginfo_phalcon_cache_frontendinterface_afterretrieve, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Cache\Frontend\None initializer
  */
 PHALCON_INIT_CLASS(Phalcon_Cache_Frontend_None){
 
-	PHALCON_REGISTER_CLASS(Phalcon\\Cache\\Frontend, None, cache_frontend_none, phalcon_cache_frontend_none_method_entry, 0);
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Cache\\Frontend, None, cache_frontend_none, phalcon_cache_frontend_data_ce, phalcon_cache_frontend_none_method_entry, 0);
 
 	zend_class_implements(phalcon_cache_frontend_none_ce TSRMLS_CC, 1, phalcon_cache_frontendinterface_ce);
 
@@ -93,46 +96,6 @@ PHP_METHOD(Phalcon_Cache_Frontend_None, getLifetime){
 }
 
 /**
- * Check whether if frontend is buffering output, always false
- *
- * @return boolean
- */
-PHP_METHOD(Phalcon_Cache_Frontend_None, isBuffering){
-
-
-	RETURN_FALSE;
-}
-
-/**
- * Starts output frontend
- */
-PHP_METHOD(Phalcon_Cache_Frontend_None, start){
-
-
-	
-}
-
-/**
- * Returns output cached content
- *
- * @return string
- */
-PHP_METHOD(Phalcon_Cache_Frontend_None, getContent){
-
-
-	
-}
-
-/**
- * Stops output frontend
- */
-PHP_METHOD(Phalcon_Cache_Frontend_None, stop){
-
-
-	
-}
-
-/**
  * Prepare data to be stored
  *
  * @param mixed $data
@@ -141,11 +104,8 @@ PHP_METHOD(Phalcon_Cache_Frontend_None, beforeStore){
 
 	zval *data;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &data) == FAILURE) {
-		RETURN_NULL();
-	}
-
-	RETURN_CCTORW(data);
+	phalcon_fetch_params(0, 1, 0, &data);
+	RETURN_ZVAL(data, 1, 0);
 }
 
 /**
@@ -157,10 +117,6 @@ PHP_METHOD(Phalcon_Cache_Frontend_None, afterRetrieve){
 
 	zval *data;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &data) == FAILURE) {
-		RETURN_NULL();
-	}
-
-	RETURN_CCTORW(data);
+	phalcon_fetch_params(0, 1, 0, &data);
+	RETURN_ZVAL(data, 1, 0);
 }
-

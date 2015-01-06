@@ -51,7 +51,7 @@ class DbProfilerListener
 
 	public function beforeQuery($event, $connection)
 	{
-		 $this->_profiler->startProfile($connection->getSQLStatement());
+		 $this->_profiler->startProfile($connection->getSQLStatement(), $connection->getSQLVariables(), $connection->getSQLBindTypes());
 	}
 
 	public function afterQuery($event, $connection)
@@ -72,6 +72,10 @@ class DbProfilerTest extends PHPUnit_Framework_TestCase
 	{
 
 		require 'unit-tests/config.db.php';
+		if (empty($configMysql)) {
+			$this->markTestSkipped("Skipped");
+			return;
+		}
 
 		$connection = new Phalcon\Db\Adapter\Pdo\Mysql($configMysql);
 
@@ -82,8 +86,26 @@ class DbProfilerTest extends PHPUnit_Framework_TestCase
 	{
 
 		require 'unit-tests/config.db.php';
+		if (empty($configPostgresql)) {
+			$this->markTestSkipped("Skipped");
+			return;
+		}
 
 		$connection = new Phalcon\Db\Adapter\Pdo\Postgresql($configPostgresql);
+
+		$this->_executeTests($connection);
+	}
+
+	public function testDbSqlite()
+	{
+
+		require 'unit-tests/config.db.php';
+		if (empty($configSqlite)) {
+			$this->markTestSkipped("Skipped");
+			return;
+		}
+
+		$connection = new Phalcon\Db\Adapter\Pdo\Sqlite($configSqlite);
 
 		$this->_executeTests($connection);
 	}

@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -17,15 +17,21 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
-
+#include "di/serviceinterface.h"
 #include "kernel/main.h"
+
+zend_class_entry *phalcon_di_serviceinterface_ce;
+
+static const zend_function_entry phalcon_di_serviceinterface_method_entry[] = {
+	PHP_ABSTRACT_ME(Phalcon_DI_ServiceInterface, getName, arginfo_phalcon_di_serviceinterface_getname)
+	PHP_ABSTRACT_ME(Phalcon_DI_ServiceInterface, setShared, arginfo_phalcon_di_serviceinterface_setshared)
+	PHP_ABSTRACT_ME(Phalcon_DI_ServiceInterface, isShared, arginfo_phalcon_di_serviceinterface_isshared)
+	PHP_ABSTRACT_ME(Phalcon_DI_ServiceInterface, setDefinition, arginfo_phalcon_di_serviceinterface_setdefinition)
+	PHP_ABSTRACT_ME(Phalcon_DI_ServiceInterface, getDefinition, arginfo_phalcon_di_serviceinterface_getdefinition)
+	PHP_ABSTRACT_ME(Phalcon_DI_ServiceInterface, isResolved, arginfo_phalcon_di_serviceinterface_isresolved)
+	PHP_ABSTRACT_ME(Phalcon_DI_ServiceInterface, resolve, arginfo_phalcon_di_serviceinterface_resolve)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\DI\ServiceInterface initializer
@@ -38,23 +44,14 @@ PHALCON_INIT_CLASS(Phalcon_DI_ServiceInterface){
 }
 
 /**
- * Phalcon\DI\ServiceInterface
+ * Returns the name of the service
  *
- * @param string $name
- * @param mixed $definition
- * @param boolean $shared
- */
-PHALCON_DOC_METHOD(Phalcon_DI_ServiceInterface, __construct);
-
-/**
- * Returns the service's name
- *
- * @param string
+ * @return string
  */
 PHALCON_DOC_METHOD(Phalcon_DI_ServiceInterface, getName);
 
 /**
- * Sets if the service is shared or not
+ * Sets whether the service is shared or not
  *
  * @param boolean $shared
  */
@@ -86,15 +83,13 @@ PHALCON_DOC_METHOD(Phalcon_DI_ServiceInterface, getDefinition);
  *
  * @param array $parameters
  * @param Phalcon\DiInterface $dependencyInjector
- * @return mixed
+ * @return object
  */
 PHALCON_DOC_METHOD(Phalcon_DI_ServiceInterface, resolve);
 
 /**
- * Restore the interal state of a service
+ * Checks if the service was resolved
  *
- * @param array $attributes
- * @return Phalcon\DI\ServiceInterface
+ * @return bool
  */
-PHALCON_DOC_METHOD(Phalcon_DI_ServiceInterface, __set_state);
-
+PHALCON_DOC_METHOD(Phalcon_DI_ServiceInterface, isResolved);

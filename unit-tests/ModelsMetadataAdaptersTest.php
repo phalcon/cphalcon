@@ -18,6 +18,8 @@
   +------------------------------------------------------------------------+
 */
 
+require_once 'helpers/xcache.php';
+
 class ModelsMetadataAdaptersTest extends PHPUnit_Framework_TestCase
 {
 
@@ -100,13 +102,18 @@ class ModelsMetadataAdaptersTest extends PHPUnit_Framework_TestCase
 		$di->set('db', function(){
 			require 'unit-tests/config.db.php';
 			return new Phalcon\Db\Adapter\Pdo\Mysql($configMysql);
-		});
+		}, true);
 
 		return $di;
 	}
 
 	public function testMetadataMemory()
 	{
+		require 'unit-tests/config.db.php';
+		if (empty($configMysql)) {
+			$this->markTestSkipped('Test skipped');
+			return;
+		}
 
 		$di = $this->_getDI();
 
@@ -124,14 +131,21 @@ class ModelsMetadataAdaptersTest extends PHPUnit_Framework_TestCase
 
 		$this->assertFalse($metaData->isEmpty());
 
-		Robots::findFirst();
+		$metaData->reset();
+		$this->assertTrue($metaData->isEmpty());
 
+		Robots::findFirst();
 	}
 
 	public function testMetadataSession()
 	{
-
 		@session_start();
+
+		require 'unit-tests/config.db.php';
+		if (empty($configMysql)) {
+			$this->markTestSkipped('Test skipped');
+			return;
+		}
 
 		$di = $this->_getDI();
 
@@ -157,14 +171,21 @@ class ModelsMetadataAdaptersTest extends PHPUnit_Framework_TestCase
 
 		$this->assertFalse($metaData->isEmpty());
 
-		Robots::findFirst();
+		$metaData->reset();
+		$this->assertTrue($metaData->isEmpty());
 
+		Robots::findFirst();
 	}
 
 	public function testMetadataApc()
 	{
+		require 'unit-tests/config.db.php';
+		if (empty($configMysql)) {
+			$this->markTestSkipped('Test skipped');
+			return;
+		}
 
-		if (!extension_loaded('apc')) {
+		if (!function_exists('apc_fetch')) {
 			$this->markTestSkipped('apc extension is not loaded');
 			return false;
 		}
@@ -193,12 +214,62 @@ class ModelsMetadataAdaptersTest extends PHPUnit_Framework_TestCase
 
 		$this->assertFalse($metaData->isEmpty());
 
+		$metaData->reset();
+		$this->assertTrue($metaData->isEmpty());
+
+		Robots::findFirst();
+	}
+
+	public function testMetadataXcache()
+	{
+		require 'unit-tests/config.db.php';
+		if (empty($configMysql)) {
+			$this->markTestSkipped('Test skipped');
+			return;
+		}
+
+		if (!function_exists('xcache_get')) {
+			$this->markTestSkipped('xcache extension is not loaded');
+			return false;
+		}
+
+		xcache_unset('$PMM$my-local-app');
+
+		$di = $this->_getDI();
+
+		$di->set('modelsMetadata', function(){
+			return new Phalcon\Mvc\Model\Metadata\Xcache(array(
+				'prefix' => 'my-local-app',
+				'lifetime' => 60
+			));
+		});
+
+		$metaData = $di->getShared('modelsMetadata');
+
+		$metaData->reset();
+
+		$this->assertTrue($metaData->isEmpty());
+
 		Robots::findFirst();
 
+		$this->assertEquals(apc_fetch('$PMM$my-local-appmeta-robots-robots'), $this->_data['meta-robots-robots']);
+		$this->assertEquals(apc_fetch('$PMM$my-local-appmap-robots'), $this->_data['map-robots']);
+
+		$this->assertFalse($metaData->isEmpty());
+
+		$metaData->reset();
+		$this->assertTrue($metaData->isEmpty());
+
+		Robots::findFirst();
 	}
 
 	public function testMetadataFiles()
 	{
+		require 'unit-tests/config.db.php';
+		if (empty($configMysql)) {
+			$this->markTestSkipped('Test skipped');
+			return;
+		}
 
 		$di = $this->_getDI();
 
@@ -207,9 +278,6 @@ class ModelsMetadataAdaptersTest extends PHPUnit_Framework_TestCase
 				'metaDataDir' => 'unit-tests/cache/',
 			));
 		});
-
-		@unlink('unit-tests/cache/meta-robots-robots.php');
-		@unlink('unit-tests/cache/map-robots.php');
 
 		$metaData = $di->getShared('modelsMetadata');
 
@@ -223,6 +291,9 @@ class ModelsMetadataAdaptersTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(require 'unit-tests/cache/map-robots.php', $this->_data['map-robots']);
 
 		$this->assertFalse($metaData->isEmpty());
+
+		$metaData->reset();
+		$this->assertTrue($metaData->isEmpty());
 
 		Robots::findFirst();
 	}

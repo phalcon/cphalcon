@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -19,67 +19,81 @@
 
 const phvolt_token_names phvolt_tokens[] =
 {
-  { PHVOLT_T_INTEGER,       	"INTEGER" },
-  { PHVOLT_T_DOUBLE,        	"DOUBLE" },
-  { PHVOLT_T_STRING,        	"STRING" },
-  { PHVOLT_T_IDENTIFIER,    	"IDENTIFIER" },
-  { PHVOLT_T_MINUS,         	"MINUS" },
-  { PHVOLT_T_ADD,           	"+" },
-  { PHVOLT_T_SUB,           	"-" },
-  { PHVOLT_T_MUL,           	"*" },
-  { PHVOLT_T_DIV,           	"/" },
-  { PHVOLT_T_MOD,           	"%%" },
-  { PHVOLT_T_NOT,           	"!" },
-  { PHVOLT_T_CONCAT,           	"~" },
-  { PHVOLT_T_AND,           	"AND" },
-  { PHVOLT_T_OR,            	"OR" },
-  { PHVOLT_T_DOT,           	"DOT" },
-  { PHVOLT_T_COMMA,         	"COMMA" },
-  { PHVOLT_T_EQUALS,        	"EQUALS" },
-  { PHVOLT_T_NOTEQUALS,     	"NOT EQUALS" },
-  { PHVOLT_T_IDENTICAL,     	"IDENTICAL" },
-  { PHVOLT_T_NOTIDENTICAL,  	"NOT IDENTICAL" },
-  { PHVOLT_T_NOT,           	"NOT" },
-  { PHVOLT_T_RANGE,           	"RANGE" },
-  { PHVOLT_T_COLON,       		"COLON" },
-  { PHVOLT_T_QUESTION,       	"QUESTION MARK" },
-  { PHVOLT_T_LESS,          	"<" },
-  { PHVOLT_T_LESSEQUAL,     	"<=" },
-  { PHVOLT_T_GREATER,       	">" },
-  { PHVOLT_T_GREATEREQUAL,  	">=" },
-  { PHVOLT_T_PARENTHESES_OPEN,  "(" },
-  { PHVOLT_T_PARENTHESES_CLOSE, ")" },
-  { PHVOLT_T_SBRACKET_OPEN,  	"[" },
-  { PHVOLT_T_SBRACKET_CLOSE, 	"]" },
-  { PHVOLT_T_OPEN_DELIMITER, 	"{%" },
-  { PHVOLT_T_CLOSE_DELIMITER, 	"%}" },
-  { PHVOLT_T_OPEN_EDELIMITER, 	"{{" },
-  { PHVOLT_T_CLOSE_EDELIMITER, 	"}}" },
-  { PHVOLT_T_IF,           		"IF" },
-  { PHVOLT_T_ELSE,           	"ELSE" },
-  { PHVOLT_T_ELSEIF,           	"ELSEIF" },
-  { PHVOLT_T_ELSEFOR,           "ELSEFOR" },
-  { PHVOLT_T_ENDIF,           	"ENDIF" },
-  { PHVOLT_T_FOR,           	"FOR" },
-  { PHVOLT_T_IN, 	          	"IN" },
-  { PHVOLT_T_ENDFOR,           	"ENDFOR" },
-  { PHVOLT_T_SET,           	"SET" },
-  { PHVOLT_T_ASSIGN,           	"ASSIGN" },
-  { PHVOLT_T_BLOCK,           	"BLOCK" },
-  { PHVOLT_T_ENDBLOCK,          "ENDBLOCK" },
-  { PHVOLT_T_CACHE,           	"CACHE" },
-  { PHVOLT_T_ENDCACHE,        	"ENDCACHE" },
-  { PHVOLT_T_EXTENDS,			"EXTENDS" },
-  { PHVOLT_T_IS,				"IS" },
-  { PHVOLT_T_DEFINED,			"DEFINED" },
-  { PHVOLT_T_INCLUDE,			"INCLUDE" },
-  { PHVOLT_T_DO,				"DO" },
-  { PHVOLT_T_IGNORE,			"WHITESPACE" },
-  { PHVOLT_T_AUTOESCAPE,		"AUTOESCAPE" },
-  { PHVOLT_T_ENDAUTOESCAPE,		"ENDAUTOESCAPE" },
-  { PHVOLT_T_CONTINUE,			"CONTINUE" },
-  { PHVOLT_T_BREAK,				"BREAK" },
-  {  0, NULL }
+  { SL("INTEGER"),        PHVOLT_T_INTEGER },
+  { SL("DOUBLE"),         PHVOLT_T_DOUBLE },
+  { SL("STRING"),         PHVOLT_T_STRING },
+  { SL("IDENTIFIER"),     PHVOLT_T_IDENTIFIER },
+  { SL("MINUS"),          PHVOLT_T_MINUS },
+  { SL("+"),              PHVOLT_T_ADD },
+  { SL("-"),              PHVOLT_T_SUB },
+  { SL("*"),              PHVOLT_T_MUL },
+  { SL("/"),              PHVOLT_T_DIV },
+  { SL("%%"),             PHVOLT_T_MOD },
+  { SL("!"),              PHVOLT_T_NOT },
+  { SL("~"),              PHVOLT_T_CONCAT },
+  { SL("AND"),            PHVOLT_T_AND },
+  { SL("OR"),             PHVOLT_T_OR },
+  { SL("DOT"),            PHVOLT_T_DOT },
+  { SL("COMMA"),          PHVOLT_T_COMMA },
+  { SL("EQUALS"),         PHVOLT_T_EQUALS },
+  { SL("NOT EQUALS"),     PHVOLT_T_NOTEQUALS },
+  { SL("IDENTICAL"),      PHVOLT_T_IDENTICAL },
+  { SL("NOT IDENTICAL"),  PHVOLT_T_NOTIDENTICAL },
+  { SL("NOT"),            PHVOLT_T_NOT },
+  { SL("RANGE"),          PHVOLT_T_RANGE },
+  { SL("COLON"),          PHVOLT_T_COLON },
+  { SL("QUESTION MARK"),  PHVOLT_T_QUESTION },
+  { SL("<"),              PHVOLT_T_LESS },
+  { SL("<="),             PHVOLT_T_LESSEQUAL },
+  { SL(">"),              PHVOLT_T_GREATER },
+  { SL(">="),             PHVOLT_T_GREATEREQUAL },
+  { SL("("),              PHVOLT_T_PARENTHESES_OPEN },
+  { SL(")"),              PHVOLT_T_PARENTHESES_CLOSE },
+  { SL("["),              PHVOLT_T_SBRACKET_OPEN },
+  { SL("]"),              PHVOLT_T_SBRACKET_CLOSE },
+  { SL("{"),              PHVOLT_T_CBRACKET_OPEN },
+  { SL("}"),              PHVOLT_T_CBRACKET_CLOSE },
+  { SL("{%"),             PHVOLT_T_OPEN_DELIMITER },
+  { SL("%}"),             PHVOLT_T_CLOSE_DELIMITER },
+  { SL("{{"),             PHVOLT_T_OPEN_EDELIMITER },
+  { SL("}}"),             PHVOLT_T_CLOSE_EDELIMITER },
+  { SL("IF"),             PHVOLT_T_IF },
+  { SL("ELSE"),           PHVOLT_T_ELSE },
+  { SL("ELSEIF"),         PHVOLT_T_ELSEIF },
+  { SL("ELSEFOR"),        PHVOLT_T_ELSEFOR },
+  { SL("ENDIF"),          PHVOLT_T_ENDIF },
+  { SL("FOR"),            PHVOLT_T_FOR },
+  { SL("IN"),             PHVOLT_T_IN },
+  { SL("ENDFOR"),         PHVOLT_T_ENDFOR },
+  { SL("SET"),            PHVOLT_T_SET },
+  { SL("ASSIGN"),         PHVOLT_T_ASSIGN },
+  { SL("+="),             PHVOLT_T_ADD_ASSIGN },
+  { SL("-="),             PHVOLT_T_SUB_ASSIGN },
+  { SL("*="),             PHVOLT_T_MUL_ASSIGN },
+  { SL("/="),             PHVOLT_T_DIV_ASSIGN },
+  { SL("++"),             PHVOLT_T_INCR },
+  { SL("--"),             PHVOLT_T_DECR },
+  { SL("BLOCK"),          PHVOLT_T_BLOCK },
+  { SL("ENDBLOCK"),       PHVOLT_T_ENDBLOCK },
+  { SL("CACHE"),          PHVOLT_T_CACHE },
+  { SL("ENDCACHE"),       PHVOLT_T_ENDCACHE },
+  { SL("EXTENDS"),        PHVOLT_T_EXTENDS },
+  { SL("IS"),             PHVOLT_T_IS },
+  { SL("DEFINED"),        PHVOLT_T_DEFINED },
+  { SL("INCLUDE"),        PHVOLT_T_INCLUDE },
+  { SL("DO"),             PHVOLT_T_DO },
+  { SL("WHITESPACE"),     PHVOLT_T_IGNORE },
+  { SL("AUTOESCAPE"),     PHVOLT_T_AUTOESCAPE },
+  { SL("ENDAUTOESCAPE"),  PHVOLT_T_ENDAUTOESCAPE },
+  { SL("CONTINUE"),       PHVOLT_T_CONTINUE },
+  { SL("BREAK"),          PHVOLT_T_BREAK },
+  { SL("WITH"),           PHVOLT_T_WITH },
+  { SL("RETURN"),         PHVOLT_T_RETURN },
+  { SL("MACRO"),          PHVOLT_T_MACRO },
+  { SL("ENDMACRO"),       PHVOLT_T_ENDMACRO },
+  { SL("CALL"),           PHVOLT_T_CALL },
+  { SL("WITH"),           PHVOLT_T_WITH },
+  { NULL, 0, 0 }
 };
 
 /**
@@ -110,6 +124,9 @@ static void phvolt_parse_with_token(void* phvolt_parser, int opcode, int parserc
 	pToken->free_flag = 1;
 
 	phvolt_(phvolt_parser, parsercode, pToken, parser_status);
+
+	token->value = NULL;
+	token->len = 0;
 }
 
 /**
@@ -133,24 +150,29 @@ static void phvolt_create_error_msg(phvolt_parser_status *parser_status, char *m
 static void phvolt_scanner_error_msg(phvolt_parser_status *parser_status, zval **error_msg TSRMLS_DC){
 
 	char *error, *error_part;
+	int length;
 	phvolt_scanner_state *state = parser_status->scanner_state;
 
-	PHALCON_INIT_VAR(*error_msg);
+	MAKE_STD_ZVAL(*error_msg);
 	if (state->start) {
-		error = emalloc(sizeof(char) * 64 + state->start_length +  Z_STRLEN_P(state->active_file));
+		error = emalloc(sizeof(char) * 72 + state->start_length +  Z_STRLEN_P(state->active_file));
 		if (state->start_length > 16) {
+			length = 72 + Z_STRLEN_P(state->active_file);
 			error_part = estrndup(state->start, 16);
-			sprintf(error, "Parsing error before '%s...' in %s on line %d", error_part, Z_STRVAL_P(state->active_file), state->active_line);
-			efree(error_part);
+			snprintf(error, length, "Scanning error before '%s...' in %s on line %d", error_part, Z_STRVAL_P(state->active_file), state->active_line);
+			error[length - 1] = '\0';
 		} else {
-			sprintf(error, "Parsing error before '%s' in %s on line %d", state->start, Z_STRVAL_P(state->active_file), state->active_line);
+			length = 48 + state->start_length + Z_STRLEN_P(state->active_file);
+			snprintf(error, length, "Scanning error before '%s' in %s on line %d", state->start, Z_STRVAL_P(state->active_file), state->active_line);
 		}
-		ZVAL_STRING(*error_msg, error, 1);
 	} else {
 		error = emalloc(sizeof(char) * (32 + Z_STRLEN_P(state->active_file)));
-		sprintf(error, "Parsing error near to EOF in %s", Z_STRVAL_P(state->active_file));
-		ZVAL_STRING(*error_msg, error, 1);
+		length = 32 + Z_STRLEN_P(state->active_file);
+		snprintf(error, length, "Scanning error near to EOF in %s", Z_STRVAL_P(state->active_file));
 	}
+
+	error[length - 1] = '\0';
+	ZVAL_STRING(*error_msg, error, 1);
 	efree(error);
 }
 
@@ -164,12 +186,19 @@ int phvolt_parse_view(zval *result, zval *view_code, zval *template_path TSRMLS_
 	ZVAL_NULL(result);
 
 	if (Z_TYPE_P(view_code) != IS_STRING) {
-		phalcon_throw_exception_string(phalcon_mvc_view_exception_ce, SL("View code must be a string") TSRMLS_CC);
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "View code must be a string");
 		return FAILURE;
 	}
 
-	if(phvolt_internal_parse_view(&result, view_code, template_path, &error_msg TSRMLS_CC) == FAILURE){
-		phalcon_throw_exception_string(phalcon_mvc_view_exception_ce, Z_STRVAL_P(error_msg), Z_STRLEN_P(error_msg) TSRMLS_CC);
+	if (phvolt_internal_parse_view(&result, view_code, template_path, &error_msg TSRMLS_CC) == FAILURE) {
+		if (likely(error_msg != NULL)) {
+			PHALCON_THROW_EXCEPTION_STRW(phalcon_mvc_view_exception_ce, Z_STRVAL_P(error_msg));
+			zval_ptr_dtor(&error_msg);
+		}
+		else {
+			PHALCON_THROW_EXCEPTION_STRW(phalcon_mvc_view_exception_ce, "Error parsing the view");
+		}
+
 		return FAILURE;
 	}
 
@@ -182,10 +211,10 @@ int phvolt_parse_view(zval *result, zval *view_code, zval *template_path TSRMLS_
 int phvolt_is_blank_string(phvolt_scanner_token *token){
 
 	char *marker = token->value;
-	unsigned int ch, i;
+	int i;
 
 	for (i = 0; i < token->len; i++) {
-		ch = *marker;
+		char ch = *marker;
 		if (ch != ' ' && ch != '\t' && ch != '\n' && ch != '\r' && ch != 11) {
 			return 0;
 		}
@@ -209,7 +238,7 @@ int phvolt_internal_parse_view(zval **result, zval *view_code, zval *template_pa
 
 	/** Check if the view has code */
 	if (!Z_STRVAL_P(view_code)) {
-		PHALCON_INIT_VAR(*error_msg);
+		MAKE_STD_ZVAL(*error_msg);
 		ZVAL_STRING(*error_msg, "View code cannot be null", 1);
 		return FAILURE;
 	}
@@ -221,6 +250,11 @@ int phvolt_internal_parse_view(zval **result, zval *view_code, zval *template_pa
 
 	/** Start the reentrant parser */
 	phvolt_parser = phvolt_Alloc(phvolt_wrapper_alloc);
+	if (unlikely(!phvolt_parser)) {
+		MAKE_STD_ZVAL(*error_msg);
+		ZVAL_STRING(*error_msg, "Memory allocation error", 1);
+		return FAILURE;
+	}
 
 	parser_status = emalloc(sizeof(phvolt_parser_status));
 	state = emalloc(sizeof(phvolt_scanner_state));
@@ -228,6 +262,7 @@ int phvolt_internal_parse_view(zval **result, zval *view_code, zval *template_pa
 	parser_status->status = PHVOLT_PARSING_OK;
 	parser_status->scanner_state = state;
 	parser_status->ret = NULL;
+	parser_status->token = &token;
 	parser_status->syntax_error = NULL;
 
 	/** Initialize the scanner state */
@@ -242,6 +277,7 @@ int phvolt_internal_parse_view(zval **result, zval *view_code, zval *template_pa
 	state->statement_position = 0;
 	state->extends_mode = 0;
 	state->block_level = 0;
+	state->macro_level = 0;
 	state->start_length = 0;
 	state->old_if_level = 0;
 	state->if_level = 0;
@@ -250,13 +286,16 @@ int phvolt_internal_parse_view(zval **result, zval *view_code, zval *template_pa
 
 	state->end = state->start;
 
-	while(0 <= (scanner_status = phvolt_get_token(state, &token))) {
+	token.value = NULL;
+	token.len = 0;
+
+	while (0 <= (scanner_status = phvolt_get_token(state, &token))) {
 
 		state->active_token = token.opcode;
 
 		state->start_length = (Z_STRVAL_P(view_code) + Z_STRLEN_P(view_code) - state->start);
 
-		switch(token.opcode){
+		switch (token.opcode) {
 
 			case PHVOLT_T_IGNORE:
 				break;
@@ -345,6 +384,12 @@ int phvolt_internal_parse_view(zval **result, zval *view_code, zval *template_pa
 				break;
 			case PHVOLT_T_SBRACKET_CLOSE:
 				phvolt_(phvolt_parser, PHVOLT_SBRACKET_CLOSE, NULL, parser_status);
+				break;
+			case PHVOLT_T_CBRACKET_OPEN:
+				phvolt_(phvolt_parser, PHVOLT_CBRACKET_OPEN, NULL, parser_status);
+				break;
+			case PHVOLT_T_CBRACKET_CLOSE:
+				phvolt_(phvolt_parser, PHVOLT_CBRACKET_CLOSE, NULL, parser_status);
 				break;
 
 			case PHVOLT_T_OPEN_DELIMITER:
@@ -456,7 +501,7 @@ int phvolt_internal_parse_view(zval **result, zval *view_code, zval *template_pa
 			case PHVOLT_T_RAW_FRAGMENT:
 				if (token.len > 0) {
 					if (state->extends_mode == 1 && state->block_level == 0){
-						if(!phvolt_is_blank_string(&token)){
+						if (!phvolt_is_blank_string(&token)) {
 							phvolt_create_error_msg(parser_status, "Child templates only may contain blocks");
 							parser_status->status = PHVOLT_PARSING_FAILED;
 						}
@@ -484,6 +529,25 @@ int phvolt_internal_parse_view(zval **result, zval *view_code, zval *template_pa
 			case PHVOLT_T_ASSIGN:
 				phvolt_(phvolt_parser, PHVOLT_ASSIGN, NULL, parser_status);
 				break;
+			case PHVOLT_T_ADD_ASSIGN:
+				phvolt_(phvolt_parser, PHVOLT_ADD_ASSIGN, NULL, parser_status);
+				break;
+			case PHVOLT_T_SUB_ASSIGN:
+				phvolt_(phvolt_parser, PHVOLT_SUB_ASSIGN, NULL, parser_status);
+				break;
+			case PHVOLT_T_MUL_ASSIGN:
+				phvolt_(phvolt_parser, PHVOLT_MUL_ASSIGN, NULL, parser_status);
+				break;
+			case PHVOLT_T_DIV_ASSIGN:
+				phvolt_(phvolt_parser, PHVOLT_DIV_ASSIGN, NULL, parser_status);
+				break;
+
+			case PHVOLT_T_INCR:
+				phvolt_(phvolt_parser, PHVOLT_INCR, NULL, parser_status);
+				break;
+			case PHVOLT_T_DECR:
+				phvolt_(phvolt_parser, PHVOLT_DECR, NULL, parser_status);
+				break;
 
 			case PHVOLT_T_BLOCK:
 				if (state->block_level > 0) {
@@ -500,6 +564,28 @@ int phvolt_internal_parse_view(zval **result, zval *view_code, zval *template_pa
 				phvolt_(phvolt_parser, PHVOLT_ENDBLOCK, NULL, parser_status);
 				break;
 
+			case PHVOLT_T_MACRO:
+				if (state->macro_level > 0) {
+					phvolt_create_error_msg(parser_status, "Embedding macros into other macros is not allowed");
+					parser_status->status = PHVOLT_PARSING_FAILED;
+					break;
+				} else {
+					state->macro_level++;
+				}
+				phvolt_(phvolt_parser, PHVOLT_MACRO, NULL, parser_status);
+				break;
+			case PHVOLT_T_ENDMACRO:
+				state->macro_level--;
+				phvolt_(phvolt_parser, PHVOLT_ENDMACRO, NULL, parser_status);
+				break;
+
+			case PHVOLT_T_CALL:
+				phvolt_(phvolt_parser, PHVOLT_CALL, NULL, parser_status);
+				break;
+			case PHVOLT_T_ENDCALL:
+				phvolt_(phvolt_parser, PHVOLT_ENDCALL, NULL, parser_status);
+				break;
+
 			case PHVOLT_T_CACHE:
 				phvolt_(phvolt_parser, PHVOLT_CACHE, NULL, parser_status);
 				break;
@@ -511,12 +597,19 @@ int phvolt_internal_parse_view(zval **result, zval *view_code, zval *template_pa
 				phvolt_(phvolt_parser, PHVOLT_INCLUDE, NULL, parser_status);
 				break;
 
+			case PHVOLT_T_WITH:
+				phvolt_(phvolt_parser, PHVOLT_WITH, NULL, parser_status);
+				break;
+
 			case PHVOLT_T_DEFINED:
 				phvolt_(phvolt_parser, PHVOLT_DEFINED, NULL, parser_status);
 				break;
 
 			case PHVOLT_T_DO:
 				phvolt_(phvolt_parser, PHVOLT_DO, NULL, parser_status);
+				break;
+			case PHVOLT_T_RETURN:
+				phvolt_(phvolt_parser, PHVOLT_RETURN, NULL, parser_status);
 				break;
 
 			case PHVOLT_T_AUTOESCAPE:
@@ -550,8 +643,8 @@ int phvolt_internal_parse_view(zval **result, zval *view_code, zval *template_pa
 				parser_status->status = PHVOLT_PARSING_FAILED;
 				if (!*error_msg) {
 					error = emalloc(sizeof(char) * (48 + Z_STRLEN_P(state->active_file)));
-					sprintf(error, "Scanner: unknown opcode %d on in %s line %d", token.opcode, Z_STRVAL_P(state->active_file), state->active_line);
-					PHALCON_INIT_VAR(*error_msg);
+					snprintf(error, 48 + Z_STRLEN_P(state->active_file) + state->active_line, "Scanner: unknown opcode %d on in %s line %d", token.opcode, Z_STRVAL_P(state->active_file), state->active_line);
+					MAKE_STD_ZVAL(*error_msg);
 					ZVAL_STRING(*error_msg, error, 1);
 					efree(error);
 				}
@@ -588,7 +681,7 @@ int phvolt_internal_parse_view(zval **result, zval *view_code, zval *template_pa
 		status = FAILURE;
 		if (parser_status->syntax_error) {
 			if (!*error_msg) {
-				PHALCON_INIT_VAR(*error_msg);
+				MAKE_STD_ZVAL(*error_msg);
 				ZVAL_STRING(*error_msg, parser_status->syntax_error, 1);
 			}
 			efree(parser_status->syntax_error);

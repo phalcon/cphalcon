@@ -48,6 +48,14 @@ class RobotsController
 
 	}
 
+	/**
+	 * @Route("/delete/{id:[0-9]+}", methods={"POST", "DELETE"}, name="delete-robot")
+	 */
+	public function deleteRobotAction()
+	{
+
+	}
+
 }
 
 class ProductsController
@@ -79,6 +87,19 @@ class ProductsController
 
 }
 
+class MainController
+{
+
+	/**
+	 * @Get("/")
+	 */
+	public function indexAction()
+	{
+
+	}
+
+}
+
 class RouterMvcAnnotationsTest extends PHPUnit_Framework_TestCase
 {
 	public function _getDI()
@@ -97,10 +118,11 @@ class RouterMvcAnnotationsTest extends PHPUnit_Framework_TestCase
 
 		$router->addResource('Robots');
 		$router->addResource('Products');
+		$router->addResource('Main');
 
 		$router->handle();
 
-		$this->assertEquals(count($router->getRoutes()), 6);
+		$this->assertEquals(count($router->getRoutes()), 8);
 
 		$route = $router->getRouteByName('save-robot');
 		$this->assertTrue(is_object($route));
@@ -114,50 +136,64 @@ class RouterMvcAnnotationsTest extends PHPUnit_Framework_TestCase
 			array(
 				'uri' => '/products/save',
 				'method' => 'PUT',
-				'controller' => 'products',
+				'controller' => 'Products',
 				'action' => 'save',
 				'params' => array()
 			),
 			array(
 				'uri' => '/products/save',
 				'method' => 'POST',
-				'controller' => 'products',
+				'controller' => 'Products',
 				'action' => 'save',
 				'params' => array()
 			),
 			array(
 				'uri' => '/products/edit/100',
 				'method' => 'GET',
-				'controller' => 'products',
+				'controller' => 'Products',
 				'action' => 'edit',
 				'params' => array('id' => '100')
 			),
 			array(
 				'uri' => '/products',
 				'method' => 'GET',
-				'controller' => 'products',
+				'controller' => 'Products',
 				'action' => 'index',
 				'params' => array()
 			),
 			array(
 				'uri' => '/robots/edit/100',
 				'method' => 'GET',
-				'controller' => 'robots',
+				'controller' => 'Robots',
 				'action' => 'edit',
 				'params' => array('id' => '100')
 			),
 			array(
 				'uri' => '/robots',
 				'method' => 'GET',
-				'controller' => 'robots',
+				'controller' => 'Robots',
 				'action' => 'index',
 				'params' => array()
 			),
 			array(
 				'uri' => '/robots/save',
 				'method' => 'PUT',
-				'controller' => 'robots',
+				'controller' => 'Robots',
 				'action' => 'save',
+				'params' => array()
+			),
+			array(
+				'uri' => '/robots/delete/100',
+				'method' => 'POST',
+				'controller' => 'Robots',
+				'action' => 'deleteRobot',
+				'params' => array('id' => '100')
+			),
+			array(
+				'uri' => '/',
+				'method' => 'GET',
+				'controller' => 'Main',
+				'action' => 'index',
 				'params' => array()
 			),
 		);
@@ -170,6 +206,7 @@ class RouterMvcAnnotationsTest extends PHPUnit_Framework_TestCase
 			$this->assertEquals($router->getControllerName(), $route['controller']);
 			$this->assertEquals($router->getActionName(), $route['action']);
 			$this->assertEquals($router->getParams(), $route['params']);
+			$this->assertEquals($router->isExactControllerName(), true);
 		}
 	}
 

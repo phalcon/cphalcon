@@ -2,7 +2,7 @@
 New BSD License
 ===============
 
-Copyright (c) 2011-2013, Phalcon Framework Team
+Copyright (c) 2011-2014, Phalcon Framework Team
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:

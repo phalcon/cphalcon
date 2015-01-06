@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -17,21 +17,11 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
-
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
+#include "acl/adapter.h"
+#include "acl/adapterinterface.h"
+#include "events/eventsawareinterface.h"
 
 #include "kernel/main.h"
-#include "kernel/memory.h"
-
 #include "kernel/object.h"
 
 /**
@@ -39,7 +29,26 @@
  *
  * Adapter for Phalcon\Acl adapters
  */
+PHP_METHOD(Phalcon_Acl_Adapter, setEventsManager);
+PHP_METHOD(Phalcon_Acl_Adapter, getEventsManager);
+PHP_METHOD(Phalcon_Acl_Adapter, setDefaultAction);
+PHP_METHOD(Phalcon_Acl_Adapter, getDefaultAction);
+PHP_METHOD(Phalcon_Acl_Adapter, getActiveRole);
+PHP_METHOD(Phalcon_Acl_Adapter, getActiveResource);
+PHP_METHOD(Phalcon_Acl_Adapter, getActiveAccess);
 
+zend_class_entry *phalcon_acl_adapter_ce;
+
+static const zend_function_entry phalcon_acl_adapter_method_entry[] = {
+	PHP_ME(Phalcon_Acl_Adapter, setEventsManager, arginfo_phalcon_events_eventsawareinterface_seteventsmanager, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Acl_Adapter, getEventsManager, arginfo_phalcon_events_eventsawareinterface_geteventsmanager, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Acl_Adapter, setDefaultAction, arginfo_phalcon_acl_adapter_setdefaultaction, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Acl_Adapter, getDefaultAction, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Acl_Adapter, getActiveRole, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Acl_Adapter, getActiveResource, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Acl_Adapter, getActiveAccess, NULL, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Acl\Adapter initializer
@@ -55,7 +64,7 @@ PHALCON_INIT_CLASS(Phalcon_Acl_Adapter){
 	zend_declare_property_null(phalcon_acl_adapter_ce, SL("_activeResource"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_acl_adapter_ce, SL("_activeAccess"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
-	zend_class_implements(phalcon_acl_adapter_ce TSRMLS_CC, 1, phalcon_events_eventsawareinterface_ce);
+	zend_class_implements(phalcon_acl_adapter_ce TSRMLS_CC, 2, phalcon_events_eventsawareinterface_ce, phalcon_acl_adapterinterface_ce);
 
 	return SUCCESS;
 }
@@ -69,10 +78,8 @@ PHP_METHOD(Phalcon_Acl_Adapter, setEventsManager){
 
 	zval *events_manager;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &events_manager) == FAILURE) {
-		RETURN_NULL();
-	}
-
+	phalcon_fetch_params(0, 1, 0, &events_manager);
+	
 	phalcon_update_property_this(this_ptr, SL("_eventsManager"), events_manager TSRMLS_CC);
 	
 }
@@ -97,10 +104,8 @@ PHP_METHOD(Phalcon_Acl_Adapter, setDefaultAction){
 
 	zval *default_access;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &default_access) == FAILURE) {
-		RETURN_NULL();
-	}
-
+	phalcon_fetch_params(0, 1, 0, &default_access);
+	
 	phalcon_update_property_this(this_ptr, SL("_defaultAccess"), default_access TSRMLS_CC);
 	
 }
@@ -148,4 +153,3 @@ PHP_METHOD(Phalcon_Acl_Adapter, getActiveAccess){
 
 	RETURN_MEMBER(this_ptr, "_activeAccess");
 }
-

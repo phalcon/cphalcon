@@ -59,7 +59,7 @@ class PaginatorTest extends PHPUnit_Framework_TestCase
 		$di->set('db', function() {
 			require 'unit-tests/config.db.php';
 			return new Phalcon\Db\Adapter\Pdo\Mysql($configMysql);
-		});
+		}, true);
 
 		/*$di->set('db', function() {
 
@@ -85,7 +85,7 @@ class PaginatorTest extends PHPUnit_Framework_TestCase
 		    $connection->setEventsManager($eventsManager);
 
 		    return $connection;
-		});*/
+		}, true);*/
 
 		return $di;
 	}
@@ -224,6 +224,12 @@ class PaginatorTest extends PHPUnit_Framework_TestCase
 
 	public function testModelPaginator()
 	{
+		require 'unit-tests/config.db.php';
+		if (empty($configMysql)) {
+			$this->markTestSkipped('Test skipped');
+			return;
+		}
+
 		$this->_loadDI();
 
 		$personnes = Personnes::find();
@@ -280,6 +286,12 @@ class PaginatorTest extends PHPUnit_Framework_TestCase
 
 	public function testModelPaginatorBind()
 	{
+		require 'unit-tests/config.db.php';
+		if (empty($configMysql)) {
+			$this->markTestSkipped('Test skipped');
+			return;
+		}
+
 		$this->_loadDI();
 
 		$personnes = Personnes::find(array(
@@ -311,13 +323,18 @@ class PaginatorTest extends PHPUnit_Framework_TestCase
 
 	public function testQueryBuilderPaginator()
 	{
+		require 'unit-tests/config.db.php';
+		if (empty($configMysql)) {
+			$this->markTestSkipped('Test skipped');
+			return;
+		}
 
 		$di = $this->_loadDI();
 
 		$builder = $di['modelsManager']->createBuilder()
-	        		->columns('cedula, nombres')
-	        		->from('Personnes')
-	        		->orderBy('cedula');
+					->columns('cedula, nombres')
+					->from('Personnes')
+					->orderBy('cedula');
 
 		$paginator = new Phalcon\Paginator\Adapter\QueryBuilder(array(
 			"builder" => $builder,
@@ -369,6 +386,93 @@ class PaginatorTest extends PHPUnit_Framework_TestCase
 
 		$this->assertEquals($page->current, 218);
 		$this->assertEquals($page->total_pages, 218);
+
+		// test of getter/setters of querybuilder adapter
+
+        // -- current page --
+		$currentPage = $paginator->getCurrentPage();
+		$this->assertEquals($currentPage, 218);
+
+		// -- limit --
+		$rowsLimit = $paginator->getLimit();
+		$this->assertEquals($rowsLimit, 10);
+
+		$setterResult = $paginator->setLimit(25);
+		$rowsLimit = $paginator->getLimit();
+		$this->assertEquals($rowsLimit, 25);
+		$this->assertEquals($setterResult, $paginator);
+
+		// -- builder --
+		$queryBuilder = $paginator->getQueryBuilder();
+		$this->assertEquals($builder, $queryBuilder);
+
+		$builder2 = $di['modelsManager']->createBuilder()
+			->columns('cedula, nombres')
+			->from('Personnes');
+
+		$setterResult = $paginator->setQueryBuilder($builder2);
+		$queryBuilder = $paginator->getQueryBuilder();
+		$this->assertEquals($builder2, $queryBuilder);
+		$this->assertEquals($setterResult, $paginator);
 	}
 
+	public function testIssue2301()
+	{
+		require 'unit-tests/config.db.php';
+		if (empty($configMysql)) {
+			$this->markTestSkipped('Test skipped');
+			return;
+		}
+
+		$this->_loadDI();
+
+		$personnes = Personnes::find(array(
+			'limit' => 11
+		));
+
+		$paginator = new Phalcon\Paginator\Adapter\Model(array(
+			'data' => $personnes,
+			'limit' => 10,
+			'page' => 1
+		));
+
+		//First Page
+		$page = $paginator->getPaginate();
+		$this->assertEquals(get_class($page), 'stdClass');
+
+		$this->assertEquals(count($page->items), 10);
+
+		$this->assertEquals($page->before, 1);
+		$this->assertEquals($page->next, 2);
+		$this->assertEquals($page->last, 2);
+
+		$this->assertEquals($page->current, 1);
+		$this->assertEquals($page->total_pages, 2);
+	}
+
+	public function testIssue2739()
+	{
+		require 'unit-tests/config.db.php';
+		if (empty($configMysql)) {
+			$this->markTestSkipped('Test skipped');
+			return;
+		}
+
+		$di = $this->_loadDI();
+
+		$builder = $di['modelsManager']->createBuilder()
+					->columns('Robots.name')
+					->from('Robots')
+					->join('RobotsParts', 'Robots.id = p.robots_id', 'p');
+
+		$paginator = new Phalcon\Paginator\Adapter\QueryBuilder(array(
+			"builder" => $builder,
+			"limit"=> 10,
+			"page" => 1
+		));
+
+		$page = $paginator->getPaginate();
+
+		$this->assertEquals(get_class($page), 'stdClass');
+	}
 }

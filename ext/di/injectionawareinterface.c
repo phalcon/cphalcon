@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -17,15 +17,17 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
+#include "di/injectionawareinterface.h"
 
 #include "kernel/main.h"
+
+zend_class_entry *phalcon_di_injectionawareinterface_ce;
+
+static const zend_function_entry phalcon_di_injectionawareinterface_method_entry[] = {
+	PHP_ABSTRACT_ME(Phalcon_DI_InjectionAwareInterface, setDI, arginfo_phalcon_di_injectionawareinterface_setdi)
+	PHP_ABSTRACT_ME(Phalcon_DI_InjectionAwareInterface, getDI, arginfo_phalcon_di_injectionawareinterface_getdi)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\DI\InjectionAwareInterface initializer

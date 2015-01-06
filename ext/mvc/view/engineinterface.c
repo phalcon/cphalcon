@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -17,15 +17,17 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
-
+#include "mvc/view/engineinterface.h"
 #include "kernel/main.h"
+
+zend_class_entry *phalcon_mvc_view_engineinterface_ce;
+
+static const zend_function_entry phalcon_mvc_view_engineinterface_method_entry[] = {
+	PHP_ABSTRACT_ME(Phalcon_Mvc_View_EngineInterface, getContent, NULL)
+	PHP_ABSTRACT_ME(Phalcon_Mvc_View_EngineInterface, partial, arginfo_phalcon_mvc_view_engineinterface_partial)
+	PHP_ABSTRACT_ME(Phalcon_Mvc_View_EngineInterface, render, arginfo_phalcon_mvc_view_engineinterface_render)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Mvc\View\EngineInterface initializer
@@ -36,14 +38,6 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_View_EngineInterface){
 
 	return SUCCESS;
 }
-
-/**
- * Phalcon\Mvc\View\Engine constructor
- *
- * @param Phalcon\Mvc\ViewInterface $view
- * @param Phalcon\DiInterface $dependencyInjector
- */
-PHALCON_DOC_METHOD(Phalcon_Mvc_View_EngineInterface, __construct);
 
 /**
  * Returns cached ouput on another view stage
@@ -68,4 +62,3 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_View_EngineInterface, partial);
  * @param boolean $mustClean
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_View_EngineInterface, render);
-

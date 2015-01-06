@@ -60,13 +60,18 @@ class ModelsQueryBuilderTest extends PHPUnit_Framework_TestCase
 		$di->set('db', function(){
 			require 'unit-tests/config.db.php';
 			return new Phalcon\Db\Adapter\Pdo\Mysql($configMysql);
-		});
+		}, true);
 
 		return $di;
 	}
 
 	public function testAction()
 	{
+		require 'unit-tests/config.db.php';
+		if (empty($configMysql)) {
+			$this->markTestSkipped("Test skipped");
+			return;
+		}
 
 		$di = $this->_getDI();
 
@@ -195,6 +200,15 @@ class ModelsQueryBuilderTest extends PHPUnit_Framework_TestCase
 
 		$builder = new Builder();
 		$phql = $builder->setDi($di)
+						->from('Robots')
+						->leftJoin('RobotsParts', 'Robots.id = RobotsParts.robots_id')
+						->leftJoin('Parts', 'Parts.id = RobotsParts.parts_id')
+						->where('Robots.id > 0')
+						->getPhql();
+		$this->assertEquals($phql, 'SELECT [Robots].* FROM [Robots] LEFT JOIN [RobotsParts] ON Robots.id = RobotsParts.robots_id LEFT JOIN [Parts] ON Parts.id = RobotsParts.parts_id WHERE Robots.id > 0');
+
+		$builder = new Builder();
+		$phql = $builder->setDi($di)
 						->addFrom('Robots', 'r')
 						->getPhql();
 		$this->assertEquals($phql, 'SELECT [r].* FROM [Robots] AS [r]');
@@ -250,4 +264,265 @@ class ModelsQueryBuilderTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($phql, 'SELECT [Robots].* FROM [Robots] LIMIT 10 OFFSET 5');
 	}
 
+	public function testIssue701()
+	{
+		require 'unit-tests/config.db.php';
+		if (empty($configMysql)) {
+			$this->markTestSkipped("Test skipped");
+			return;
+		}
+
+		$di = $this->_getDI();
+
+		$builder = new Builder();
+		$phql = $builder->setDi($di)
+			->from('Robots')
+			->leftJoin('RobotsParts', 'Robots.id = RobotsParts.robots_id')
+			->leftJoin('Parts', 'Parts.id = RobotsParts.parts_id')
+			->where('Robots.id > :1: AND Robots.id < :2:', array(1 => 0, 2 => 1000))
+		;
+
+		$params = $phql->getQuery()->getBindParams();
+		$this->assertEquals($params[1], 0);
+		$this->assertEquals($params[2], 1000);
+
+		$phql->andWhere('Robots.name = :name:', array('name' => 'Voltron'));
+
+		$params = $phql->getQuery()->getBindParams();
+		$this->assertEquals($params[1], 0);
+		$this->assertEquals($params[2], 1000);
+		$this->assertEquals($params['name'], 'Voltron');
+	}
+
+	public function testIssue1115()
+	{
+		require 'unit-tests/config.db.php';
+		if (empty($configMysql)) {
+			$this->markTestSkipped("Test skipped");
+			return;
+		}
+
+		$di = $this->_getDI();
+
+		$builder = new Builder();
+		$phql = $builder->setDi($di)
+			->columns(array('Robots.name'))
+			->from('Robots')
+			->having('Robots.price > 1000')
+			->getPhql();
+		$this->assertEquals($phql, 'SELECT Robots.name FROM [Robots] HAVING Robots.price > 1000');
+	}
+
+	public function testSelectDistinctAll()
+	{
+		require 'unit-tests/config.db.php';
+		if (empty($configMysql)) {
+			$this->markTestSkipped("Test skipped");
+			return;
+		}
+
+		$di = $this->_getDI();
+
+		$builder = new Builder();
+		$phql = $builder->setDi($di)
+			->distinct(true)
+			->columns(array('Robots.name'))
+			->from('Robots')
+			->getPhql();
+		$this->assertEquals($phql, 'SELECT DISTINCT Robots.name FROM [Robots]');
+
+		$builder = new Builder();
+		$phql = $builder->setDi($di)
+			->distinct(false)
+			->columns(array('Robots.name'))
+			->from('Robots')
+			->getPhql();
+		$this->assertEquals($phql, 'SELECT ALL Robots.name FROM [Robots]');
+
+		$builder = new Builder();
+		$phql = $builder->setDi($di)
+			->distinct(true)
+			->distinct(null)
+			->columns(array('Robots.name'))
+			->from('Robots')
+			->getPhql();
+		$this->assertEquals($phql, 'SELECT Robots.name FROM [Robots]');
+	}
+	
+	/**
+	 * Test checks passing query params and dependency injector into
+	 * constructor
+	 */
+	public function testConstructor()
+	{
+		require 'unit-tests/config.db.php';
+		if (empty($configMysql)) {
+			$this->markTestSkipped("Test skipped");
+			return;
+		}
+
+		$di = $this->_getDI();
+
+		$params = array(
+			'models'     => 'Robots',
+			'columns'    => array('id', 'name', 'status'),
+			'conditions' => "a > 5",			
+			'group'      => array('type', 'source'),
+			'having'     => "b < 5",
+			'order'      => array('name', 'created'),
+			'limit'      => 10,
+			'offset'     => 15, 
+		);
+
+		$builder = new Builder($params, $di);
+
+		$expectedPhql = "SELECT id, name, status FROM [Robots] "
+			. "WHERE a > 5 GROUP BY [type], [source] "
+			. "HAVING b < 5 ORDER BY [name], [created] "
+			. "LIMIT 10 OFFSET 15";
+
+		$this->assertEquals($expectedPhql, $builder->getPhql());
+		$this->assertEquals($di, $builder->getDI());		
+	}
+	
+	/**
+	 * Test checks passing 'limit'/'offset' query param into constructor.
+	 * limit key can take:
+	 * - signle numeric value
+	 * - array of 2 values (limit, offset)
+	 */
+	public function testConstructorLimit()
+	{
+		require 'unit-tests/config.db.php';
+		if (empty($configMysql)) {
+			$this->markTestSkipped("Test skipped");
+			return;
+		}
+
+		// separate limit and offset
+
+		$params = array(
+			'models' => 'Robots',
+			'limit'  => 10,
+			'offset' => 15, 
+		);
+
+		$builderLimitAndOffset = new Builder($params);
+		
+		// separate limit with offset
+
+		$params = array(
+			'models' => 'Robots',
+			'limit'  => array(10, 15), 
+		);
+
+		$builderLimitWithOffset = new Builder($params);
+		
+		$expectedPhql = "SELECT [Robots].* FROM [Robots] "
+			. "LIMIT 10 OFFSET 15";
+		
+		$this->assertEquals($expectedPhql, $builderLimitAndOffset->getPhql());
+		$this->assertEquals($expectedPhql, $builderLimitWithOffset->getPhql());
+	}	
+
+	/**
+	 * Test checks passing 'condition' query param into constructor.
+	 * Conditions can now be passed as an string(as before) and
+	 * as an array of 3 elements:
+	 * - condition string for example "age > :age: AND created > :created:"
+	 * - bind params for example array('age' => 18, 'created' => '2013-09-01')
+	 * - bind types for example array('age' => PDO::PARAM_INT, 'created' => PDO::PARAM_STR)
+	 * 
+	 * First two params are REQUIRED, bind types are optional.
+	 */
+	public function testConstructorConditions()
+	{
+		require 'unit-tests/config.db.php';
+		if (empty($configMysql)) {
+			$this->markTestSkipped("Test skipped");
+			return;
+		}
+
+		// ------------- test for setters(classic) way ----------------
+		
+		$standardBuilder = new Builder();
+		$standardBuilder->from('Robots')
+			->where(
+				"year > :min: AND year < :max:",
+				array("min" => '2013-01-01',   'max' => '2100-01-01'),
+				array("min" => PDO::PARAM_STR, 'max' => PDO::PARAM_STR)
+			);
+
+		$standardResult = $standardBuilder->getQuery()->execute();
+
+		// --------------- test for single condition ------------------
+		$params = array(
+			'models'     => 'Robots',
+			'conditions' => array(
+				array(
+					"year > :min: AND year < :max:",
+					array("min" => '2013-01-01',   'max' => '2100-01-01'),
+					array("min" => PDO::PARAM_STR, 'max' => PDO::PARAM_STR),
+				),
+			),
+		);
+
+		$builderWithSingleCondition = new Builder($params);
+		$singleConditionResult      = $builderWithSingleCondition->getQuery()->execute();		
+
+		// ------------- test for multiple conditions ----------------
+
+		$params = array(
+			'models'     => 'Robots',
+			'conditions' => array(
+				array(
+					"year > :min:",
+					array("min" => '2000-01-01'),
+					array("min" => PDO::PARAM_STR),
+				),
+				array(
+					"year < :max:",
+					array('max' => '2100-01-01'),
+					array("max" => PDO::PARAM_STR),
+				),				
+			),
+		);		
+		
+		// conditions are merged!
+		$builderMultipleConditions = new Builder($params);
+		$multipleConditionResult   = $builderMultipleConditions->getQuery()->execute();				
+
+		$expectedPhql = "SELECT [Robots].* FROM [Robots] "
+			. "WHERE year > :min: AND year < :max:";
+
+		/* ------------ ASSERTING --------- */
+
+		$this->assertEquals($expectedPhql, $standardBuilder->getPhql());
+		$this->assertInstanceOf("Phalcon\Mvc\Model\Resultset\Simple", $standardResult);
+
+		$this->assertEquals($expectedPhql, $builderWithSingleCondition->getPhql());
+		$this->assertInstanceOf("Phalcon\Mvc\Model\Resultset\Simple", $singleConditionResult);
+
+		$this->assertEquals($expectedPhql, $builderMultipleConditions->getPhql());
+		$this->assertInstanceOf("Phalcon\Mvc\Model\Resultset\Simple", $multipleConditionResult);		
+    }
+
+	public function testGroup()
+	{
+		require 'unit-tests/config.db.php';
+		if (empty($configMysql)) {
+			$this->markTestSkipped("Test skipped");
+			return;
+		}
+
+		$di = $this->_getDI();
+
+		$builder = new Builder();
+		$phql = $builder->setDi($di)
+						->columns(array('name', 'SUM(price)'))
+						->from('Robots')
+						->groupBy('id, name')
+						->getPhql();
+		$this->assertEquals($phql, 'SELECT name, SUM(price) FROM [Robots] GROUP BY [id], [name]');
+	}
 }

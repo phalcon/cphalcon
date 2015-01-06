@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -17,15 +17,27 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
-
+#include "db/columninterface.h"
 #include "kernel/main.h"
+
+zend_class_entry *phalcon_db_columninterface_ce;
+
+static const zend_function_entry phalcon_db_columninterface_method_entry[] = {
+	PHP_ABSTRACT_ME(Phalcon_Db_ColumnInterface, getSchemaName, NULL)
+	PHP_ABSTRACT_ME(Phalcon_Db_ColumnInterface, getName, NULL)
+	PHP_ABSTRACT_ME(Phalcon_Db_ColumnInterface, getType, NULL)
+	PHP_ABSTRACT_ME(Phalcon_Db_ColumnInterface, getSize, NULL)
+	PHP_ABSTRACT_ME(Phalcon_Db_ColumnInterface, getScale, NULL)
+	PHP_ABSTRACT_ME(Phalcon_Db_ColumnInterface, isUnsigned, NULL)
+	PHP_ABSTRACT_ME(Phalcon_Db_ColumnInterface, isNotNull, NULL)
+	PHP_ABSTRACT_ME(Phalcon_Db_ColumnInterface, isPrimary, NULL)
+	PHP_ABSTRACT_ME(Phalcon_Db_ColumnInterface, isAutoIncrement, NULL)
+	PHP_ABSTRACT_ME(Phalcon_Db_ColumnInterface, isNumeric, NULL)
+	PHP_ABSTRACT_ME(Phalcon_Db_ColumnInterface, isFirst, NULL)
+	PHP_ABSTRACT_ME(Phalcon_Db_ColumnInterface, getAfterPosition, NULL)
+	PHP_ABSTRACT_ME(Phalcon_Db_ColumnInterface, getBindType, NULL)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Db\ColumnInterface initializer
@@ -36,14 +48,6 @@ PHALCON_INIT_CLASS(Phalcon_Db_ColumnInterface){
 
 	return SUCCESS;
 }
-
-/**
- * Phalcon\Db\ColumnInterface constructor
- *
- * @param string $columnName
- * @param array $definition
- */
-PHALCON_DOC_METHOD(Phalcon_Db_ColumnInterface, __construct);
 
 /**
  * Returns schema's table related to column
@@ -135,12 +139,3 @@ PHALCON_DOC_METHOD(Phalcon_Db_ColumnInterface, getAfterPosition);
  * @return int
  */
 PHALCON_DOC_METHOD(Phalcon_Db_ColumnInterface, getBindType);
-
-/**
- * Restores the internal state of a Phalcon\Db\Column object
- *
- * @param array $data
- * @return \Phalcon\Db\ColumnInterface
- */
-PHALCON_DOC_METHOD(Phalcon_Db_ColumnInterface, __set_state);
-

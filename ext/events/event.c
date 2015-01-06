@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -17,21 +17,11 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
-
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
+#include "events/event.h"
+#include "events/exception.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
-
 #include "kernel/object.h"
 #include "kernel/operators.h"
 #include "kernel/exception.h"
@@ -41,7 +31,51 @@
  *
  * This class offers contextual information of a fired event in the EventsManager
  */
+zend_class_entry *phalcon_events_event_ce;
 
+PHP_METHOD(Phalcon_Events_Event, __construct);
+PHP_METHOD(Phalcon_Events_Event, setType);
+PHP_METHOD(Phalcon_Events_Event, getType);
+PHP_METHOD(Phalcon_Events_Event, getSource);
+PHP_METHOD(Phalcon_Events_Event, setData);
+PHP_METHOD(Phalcon_Events_Event, getData);
+PHP_METHOD(Phalcon_Events_Event, setCancelable);
+PHP_METHOD(Phalcon_Events_Event, getCancelable);
+PHP_METHOD(Phalcon_Events_Event, stop);
+PHP_METHOD(Phalcon_Events_Event, isStopped);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_events_event___construct, 0, 0, 2)
+	ZEND_ARG_INFO(0, type)
+	ZEND_ARG_INFO(0, source)
+	ZEND_ARG_INFO(0, data)
+	ZEND_ARG_INFO(0, cancelable)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_events_event_settype, 0, 0, 1)
+	ZEND_ARG_INFO(0, eventType)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_events_event_setdata, 0, 0, 1)
+	ZEND_ARG_INFO(0, data)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_events_event_setcancelable, 0, 0, 1)
+	ZEND_ARG_INFO(0, cancelable)
+ZEND_END_ARG_INFO()
+
+static const zend_function_entry phalcon_events_event_method_entry[] = {
+	PHP_ME(Phalcon_Events_Event, __construct, arginfo_phalcon_events_event___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_ME(Phalcon_Events_Event, setType, arginfo_phalcon_events_event_settype, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Events_Event, getType, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Events_Event, getSource, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Events_Event, setData, arginfo_phalcon_events_event_setdata, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Events_Event, getData, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Events_Event, setCancelable, arginfo_phalcon_events_event_setcancelable, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Events_Event, getCancelable, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Events_Event, stop, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Events_Event, isStopped, NULL, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Events\Event initializer
@@ -71,17 +105,14 @@ PHP_METHOD(Phalcon_Events_Event, __construct){
 
 	zval *type, *source, *data = NULL, *cancelable = NULL;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 2, 2, &type, &source, &data, &cancelable);
+	phalcon_fetch_params(0, 2, 2, &type, &source, &data, &cancelable);
 	
 	if (!data) {
-		PHALCON_INIT_VAR(data);
+		data = PHALCON_GLOBAL(z_null);
 	}
 	
 	if (!cancelable) {
-		PHALCON_INIT_VAR(cancelable);
-		ZVAL_BOOL(cancelable, 1);
+		cancelable = PHALCON_GLOBAL(z_true);
 	}
 	
 	phalcon_update_property_this(this_ptr, SL("_type"), type TSRMLS_CC);
@@ -93,8 +124,6 @@ PHP_METHOD(Phalcon_Events_Event, __construct){
 	if (PHALCON_IS_NOT_TRUE(cancelable)) {
 		phalcon_update_property_this(this_ptr, SL("_cancelable"), cancelable TSRMLS_CC);
 	}
-	
-	PHALCON_MM_RESTORE();
 }
 
 /**
@@ -193,18 +222,13 @@ PHP_METHOD(Phalcon_Events_Event, stop){
 
 	zval *cancelable;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_OBS_VAR(cancelable);
-	phalcon_read_property_this(&cancelable, this_ptr, SL("_cancelable"), PH_NOISY_CC);
+	cancelable = phalcon_fetch_nproperty_this(this_ptr, SL("_cancelable"), PH_NOISY TSRMLS_CC);
 	if (zend_is_true(cancelable)) {
 		phalcon_update_property_bool(this_ptr, SL("_stopped"), 1 TSRMLS_CC);
 	} else {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_events_exception_ce, "Trying to cancel a non-cancelable event");
+		PHALCON_THROW_EXCEPTION_STRW(phalcon_events_exception_ce, "Trying to cancel a non-cancelable event");
 		return;
 	}
-	
-	PHALCON_MM_RESTORE();
 }
 
 /**
@@ -215,4 +239,3 @@ PHP_METHOD(Phalcon_Events_Event, isStopped){
 
 	RETURN_MEMBER(this_ptr, "_stopped");
 }
-

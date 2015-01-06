@@ -8,7 +8,7 @@
  *
  * PhalconPHP Framework
  *
- * @copyright (c) 2011-2013 Phalcon Team
+ * @copyright (c) 2011-2014 Phalcon Team
  * @link      http://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>
@@ -42,6 +42,8 @@ define('PATH_CONTROLLERS', $root . '/tests/app/controllers/');
 define('PATH_COLLECTIONS', $root . '/tests/app/collections/');
 define('PATH_VENDORS', $root . '/tests/app/vendor/');
 define('PATH_TASKS', $root . '/tests/app/tasks/');
+
+define('PATH_CONFIGS', $root . '/tests/app/configs/');
 
 error_reporting(E_ALL);
 set_include_path(

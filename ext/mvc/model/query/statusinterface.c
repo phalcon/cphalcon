@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -17,15 +17,17 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
-
+#include "mvc/model/query/statusinterface.h"
 #include "kernel/main.h"
+
+zend_class_entry *phalcon_mvc_model_query_statusinterface_ce;
+
+static const zend_function_entry phalcon_mvc_model_query_statusinterface_method_entry[] = {
+	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_Query_StatusInterface, getModel, NULL)
+	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_Query_StatusInterface, getMessages, NULL)
+	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_Query_StatusInterface, success, NULL)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Mvc\Model\Query\StatusInterface initializer
@@ -36,14 +38,6 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Query_StatusInterface){
 
 	return SUCCESS;
 }
-
-/**
- * Phalcon\Mvc\Model\Query\Status
- *
- * @param boolean $success
- * @param Phalcon\Mvc\ModelInterface $model
- */
-PHALCON_DOC_METHOD(Phalcon_Mvc_Model_Query_StatusInterface, __construct);
 
 /**
  * Returns the model which executed the action
@@ -65,4 +59,3 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_Model_Query_StatusInterface, getMessages);
  * @return boolean
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_Model_Query_StatusInterface, success);
-

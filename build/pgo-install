@@ -1,0 +1,65 @@
+#!/bin/bash
+
+#  Phalcon Framework
+#
+#  Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)
+#
+#  This source file is subject to the New BSD License that is bundled
+#  with this package in the file docs/LICENSE.txt.
+#
+#  If you did not receive a copy of the license and are unable to
+#  obtain it through the world-wide-web, please send an email
+#  to license@phalconphp.com so we can send you a copy immediately.
+#
+#  Authors: Andres Gutierrez <andres@phalconphp.com>
+#            Eduar Carvajal <eduar@phalconphp.com>
+
+export GCC_GENERATE_TEST_COVERAGE_FILES="YES"
+export GCC_INSTRUMENT_PROGRAM_FLOW_ARCS="YES"
+
+export CC="gcc"
+export CFLAGS="-march=native -mtune=native -O2 -fno-delete-null-pointer-checks -finline-functions -fno-builtin-memcmp -fprofile-generate -lgcov -pg"
+export CPPFLAGS="-DPHALCON_RELEASE"
+echo "int main() {}" > t.c
+gcc $CFLAGS t.c -o t 2> t.t
+if [ $? != 0 ]; then
+        chmod +x gcccpuopt
+        BFLAGS=`./gcccpuopt`
+        export CFLAGS="-O2 --coverage -fno-delete-null-pointer-checks -finline-functions $BFLAGS -fno-builtin-memcmp -fprofile-generate -lgcov -pg"
+        gcc $CFLAGS t.c -o t 2> t.t
+        if [ $? != 0 ]; then
+                export CFLAGS="-O2 -fno-delete-null-pointer-checks"
+        fi
+fi
+if [ $(gcc -dumpversion | cut -f1 -d.) -ge 4 ]; then
+	gcc $CFLAGS -fvisibility=hidden t.c -o t 2> t.t && export CFLAGS="$CFLAGS -fvisibility=hidden"
+fi
+#gcc $CFLAGS -flto t.c -o t 2> t.t && { export CFLAGS="$CFLAGS -flto"; export LDFLAGS="$LDFLAGS $CFLAGS"; }
+rm -f t.t t.c t
+
+#Check processor architecture
+if [ -z $1 ]; then
+	DIR="32bits"
+	gcc gccarch.c -o gccarch
+	if [ -f gccarch ]; then
+		P64BITS=`./gccarch`
+		if [ "$P64BITS" == "1" ]; then
+			DIR="64bits"
+		fi
+	fi
+else
+	DIR=$1
+fi
+
+#Move to specified architecture
+cd $DIR
+
+#Clean current compilation
+if [ -f Makefile ]; then
+	make clean
+	phpize --clean
+fi
+
+#Perform the compilation
+phpize && ./configure --enable-phalcon && make && make install && echo -e "\nThanks for compiling Phalcon!\nBuild succeed: Please restart your web server to complete the installation"
+

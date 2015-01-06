@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -17,29 +17,40 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
-
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
+#include "annotations/adapter/memory.h"
+#include "annotations/adapter.h"
+#include "annotations/adapterinterface.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
-
 #include "kernel/object.h"
+#include "kernel/string.h"
 #include "kernel/array.h"
 
 /**
  * Phalcon\Annotations\Adapter\Memory
  *
- * Stores the parsed annotations in memory. This adapter is the suitable for development/testing
+ * Stores the parsed annotations in memory. This adapter is the suitable development/testing
  */
+zend_class_entry *phalcon_annotations_adapter_memory_ce;
+
+PHP_METHOD(Phalcon_Annotations_Adapter_Memory, read);
+PHP_METHOD(Phalcon_Annotations_Adapter_Memory, write);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_annotations_adapter_memory_read, 0, 0, 1)
+	ZEND_ARG_INFO(0, key)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_annotations_adapter_memory_write, 0, 0, 2)
+	ZEND_ARG_INFO(0, key)
+	ZEND_ARG_INFO(0, data)
+ZEND_END_ARG_INFO()
+
+static const zend_function_entry phalcon_annotations_adapter_memory_method_entry[] = {
+	PHP_ME(Phalcon_Annotations_Adapter_Memory, read, arginfo_phalcon_annotations_adapter_memory_read, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Annotations_Adapter_Memory, write, arginfo_phalcon_annotations_adapter_memory_write, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
 
 
 /**
@@ -47,7 +58,7 @@
  */
 PHALCON_INIT_CLASS(Phalcon_Annotations_Adapter_Memory){
 
-	PHALCON_REGISTER_CLASS_EX(Phalcon\\Annotations\\Adapter, Memory, annotations_adapter_memory, "phalcon\\annotations\\adapter", phalcon_annotations_adapter_memory_method_entry, 0);
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Annotations\\Adapter, Memory, annotations_adapter_memory, phalcon_annotations_adapter_ce, phalcon_annotations_adapter_memory_method_entry, 0);
 
 	zend_declare_property_null(phalcon_annotations_adapter_memory_ce, SL("_data"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
@@ -57,47 +68,44 @@ PHALCON_INIT_CLASS(Phalcon_Annotations_Adapter_Memory){
 }
 
 /**
- * Reads meta-data from memory
+ * Reads parsed annotations from memory
  *
  * @param string $key
- * @return array
+ * @return Phalcon\Annotations\Reflection
  */
 PHP_METHOD(Phalcon_Annotations_Adapter_Memory, read){
 
-	zval *key, *data, *annotations;
+	zval *key, *data, *lowercased_key, *annotations;
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &key) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
-	PHALCON_OBS_VAR(data);
-	phalcon_read_property_this(&data, this_ptr, SL("_data"), PH_NOISY_CC);
-	if (phalcon_array_isset(data, key)) {
-		PHALCON_OBS_VAR(annotations);
-		phalcon_array_fetch(&annotations, data, key, PH_NOISY_CC);
-		RETURN_CCTOR(annotations);
+	phalcon_fetch_params(1, 1, 0, &key);
+	
+	data = phalcon_fetch_nproperty_this(this_ptr, SL("_data"), PH_NOISY TSRMLS_CC);
+	
+	PHALCON_INIT_VAR(lowercased_key);
+	phalcon_fast_strtolower(lowercased_key, key);
+	if (phalcon_array_isset_fetch(&annotations, data, lowercased_key)) {
+		RETURN_CTOR(annotations);
 	}
 	
 	RETURN_MM_NULL();
 }
 
 /**
- * Writes the meta-data to files
+ * Writes parsed annotations to memory
  *
  * @param string $key
- * @param array $data
+ * @param Phalcon\Annotations\Reflection $data
  */
 PHP_METHOD(Phalcon_Annotations_Adapter_Memory, write){
 
-	zval *key, *data;
+	zval *key, *data, *lowercased_key;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &key, &data) == FAILURE) {
-		RETURN_NULL();
-	}
-
-	phalcon_update_property_array(this_ptr, SL("_data"), key, data TSRMLS_CC);
+	phalcon_fetch_params(0, 2, 0, &key, &data);
 	
+	MAKE_STD_ZVAL(lowercased_key);
+	phalcon_fast_strtolower(lowercased_key, key);
+	phalcon_update_property_array(this_ptr, SL("_data"), lowercased_key, data TSRMLS_CC);
+	zval_ptr_dtor(&lowercased_key);
 }
-

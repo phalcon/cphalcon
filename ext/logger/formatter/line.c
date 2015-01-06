@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -17,21 +17,14 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
+#include "logger/formatter/line.h"
+#include "logger/formatter.h"
+#include "logger/formatterinterface.h"
 
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
-
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
+#include <ext/date/php_date.h>
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
-
 #include "kernel/object.h"
 #include "kernel/string.h"
 #include "kernel/fcall.h"
@@ -40,16 +33,46 @@
 /**
  * Phalcon\Logger\Formatter\Line
  *
- * Formats messages using a one-line string
+ * Formats messages using an one-line string
  */
+zend_class_entry *phalcon_logger_formatter_line_ce;
 
+PHP_METHOD(Phalcon_Logger_Formatter_Line, __construct);
+PHP_METHOD(Phalcon_Logger_Formatter_Line, setFormat);
+PHP_METHOD(Phalcon_Logger_Formatter_Line, getFormat);
+PHP_METHOD(Phalcon_Logger_Formatter_Line, setDateFormat);
+PHP_METHOD(Phalcon_Logger_Formatter_Line, getDateFormat);
+PHP_METHOD(Phalcon_Logger_Formatter_Line, format);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_logger_formatter_line___construct, 0, 0, 0)
+	ZEND_ARG_INFO(0, format)
+	ZEND_ARG_INFO(0, dateFormat)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_logger_formatter_line_setformat, 0, 0, 1)
+	ZEND_ARG_INFO(0, format)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_logger_formatter_line_setdateformat, 0, 0, 1)
+	ZEND_ARG_INFO(0, date)
+ZEND_END_ARG_INFO()
+
+static const zend_function_entry phalcon_logger_formatter_line_method_entry[] = {
+	PHP_ME(Phalcon_Logger_Formatter_Line, __construct, arginfo_phalcon_logger_formatter_line___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_ME(Phalcon_Logger_Formatter_Line, setFormat, arginfo_phalcon_logger_formatter_line_setformat, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Logger_Formatter_Line, getFormat, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Logger_Formatter_Line, setDateFormat, arginfo_phalcon_logger_formatter_line_setdateformat, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Logger_Formatter_Line, getDateFormat, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Logger_Formatter_Line, format, arginfo_phalcon_logger_formatterinterface_format, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Logger\Formatter\Line initializer
  */
 PHALCON_INIT_CLASS(Phalcon_Logger_Formatter_Line){
 
-	PHALCON_REGISTER_CLASS_EX(Phalcon\\Logger\\Formatter, Line, logger_formatter_line, "phalcon\\logger\\formatter", phalcon_logger_formatter_line_method_entry, 0);
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Logger\\Formatter, Line, logger_formatter_line, phalcon_logger_formatter_ce, phalcon_logger_formatter_line_method_entry, 0);
 
 	zend_declare_property_string(phalcon_logger_formatter_line_ce, SL("_dateFormat"), "D, d M y H:i:s O", ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_string(phalcon_logger_formatter_line_ce, SL("_format"), "[%date%][%type%] %message%", ZEND_ACC_PROTECTED TSRMLS_CC);
@@ -69,28 +92,15 @@ PHP_METHOD(Phalcon_Logger_Formatter_Line, __construct){
 
 	zval *format = NULL, *date_format = NULL;
 
-	PHALCON_MM_GROW();
-
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|zz", &format, &date_format) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
-	if (!format) {
-		PHALCON_INIT_VAR(format);
-	}
+	phalcon_fetch_params(0, 0, 2, &format, &date_format);
 	
-	if (!date_format) {
-		PHALCON_INIT_VAR(date_format);
-	}
-	
-	if (Z_TYPE_P(format) != IS_NULL) {
+	if (format && Z_TYPE_P(format) != IS_NULL) {
 		phalcon_update_property_this(this_ptr, SL("_format"), format TSRMLS_CC);
 	}
-	if (Z_TYPE_P(date_format) != IS_NULL) {
+
+	if (date_format && Z_TYPE_P(date_format) != IS_NULL) {
 		phalcon_update_property_this(this_ptr, SL("_dateFormat"), date_format TSRMLS_CC);
 	}
-	
-	PHALCON_MM_RESTORE();
 }
 
 /**
@@ -102,10 +112,8 @@ PHP_METHOD(Phalcon_Logger_Formatter_Line, setFormat){
 
 	zval *format;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &format) == FAILURE) {
-		RETURN_NULL();
-	}
-
+	phalcon_fetch_params(0, 1, 0, &format);
+	
 	phalcon_update_property_this(this_ptr, SL("_format"), format TSRMLS_CC);
 	
 }
@@ -130,10 +138,8 @@ PHP_METHOD(Phalcon_Logger_Formatter_Line, setDateFormat){
 
 	zval *date;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &date) == FAILURE) {
-		RETURN_NULL();
-	}
-
+	phalcon_fetch_params(0, 1, 0, &date);
+	
 	phalcon_update_property_this(this_ptr, SL("_dateFormat"), date TSRMLS_CC);
 	
 }
@@ -155,37 +161,36 @@ PHP_METHOD(Phalcon_Logger_Formatter_Line, getDateFormat){
  * @param string $message
  * @param int $type
  * @param int $timestamp
+ * @param array $context
+ * @return string
  */
 PHP_METHOD(Phalcon_Logger_Formatter_Line, format){
 
-	zval *message, *type, *timestamp, *format = NULL, *date_format;
-	zval *date, *date_wildcard, *new_format = NULL, *type_string;
-	zval *type_wildcard, *message_wildcard, *eol;
+	zval *message, *type, *timestamp, *context, *format = NULL, *date_format;
+	zval *date, *date_wildcard, *new_format = NULL, *type_string = NULL;
+	zval *type_wildcard, *message_wildcard;
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzz", &message, &type, &timestamp) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 4, 0, &message, &type, &timestamp, &context);
+	
 	PHALCON_OBS_VAR(format);
-	phalcon_read_property_this(&format, this_ptr, SL("_format"), PH_NOISY_CC);
+	phalcon_read_property_this(&format, this_ptr, SL("_format"), PH_NOISY TSRMLS_CC);
 	
 	/** 
 	 * Check if the format has the %date% placeholder
 	 */
-	if (phalcon_memnstr_str(format, SL("%date%") TSRMLS_CC)) {
-		PHALCON_OBS_VAR(date_format);
-		phalcon_read_property_this(&date_format, this_ptr, SL("_dateFormat"), PH_NOISY_CC);
+	if (phalcon_memnstr_str(format, SL("%date%"))) {
+		date_format = phalcon_fetch_nproperty_this(this_ptr, SL("_dateFormat"), PH_NOISY TSRMLS_CC);
 	
 		PHALCON_INIT_VAR(date);
-		PHALCON_CALL_FUNC_PARAMS_2(date, "date", date_format, timestamp);
+		phalcon_date(date, date_format, timestamp TSRMLS_CC);
 	
 		PHALCON_INIT_VAR(date_wildcard);
 		ZVAL_STRING(date_wildcard, "%date%", 1);
 	
 		PHALCON_INIT_VAR(new_format);
-		phalcon_fast_str_replace(new_format, date_wildcard, date, format TSRMLS_CC);
+		phalcon_fast_str_replace(new_format, date_wildcard, date, format);
 	} else {
 		PHALCON_CPY_WRT(new_format, format);
 	}
@@ -193,15 +198,14 @@ PHP_METHOD(Phalcon_Logger_Formatter_Line, format){
 	/** 
 	 * Check if the format has the %type% placeholder
 	 */
-	if (phalcon_memnstr_str(format, SL("%type%") TSRMLS_CC)) {
-		PHALCON_INIT_VAR(type_string);
-		PHALCON_CALL_METHOD_PARAMS_1(type_string, this_ptr, "gettypestring", type);
+	if (phalcon_memnstr_str(format, SL("%type%"))) {
+		PHALCON_CALL_METHOD(&type_string, this_ptr, "gettypestring", type);
 	
 		PHALCON_INIT_VAR(type_wildcard);
 		ZVAL_STRING(type_wildcard, "%type%", 1);
 	
 		PHALCON_INIT_NVAR(format);
-		phalcon_fast_str_replace(format, type_wildcard, type_string, new_format TSRMLS_CC);
+		phalcon_fast_str_replace(format, type_wildcard, type_string, new_format);
 	} else {
 		PHALCON_CPY_WRT(format, new_format);
 	}
@@ -210,14 +214,15 @@ PHP_METHOD(Phalcon_Logger_Formatter_Line, format){
 	ZVAL_STRING(message_wildcard, "%message%", 1);
 	
 	PHALCON_INIT_NVAR(new_format);
-	phalcon_fast_str_replace(new_format, message_wildcard, message, format TSRMLS_CC);
+	phalcon_fast_str_replace(new_format, message_wildcard, message, format);
 	
-	PHALCON_INIT_VAR(eol);
-	ZVAL_STRING(eol, PHP_EOL, 1);
-	
-	PHALCON_INIT_NVAR(format);
-	PHALCON_CONCAT_VV(format, new_format, eol);
-	
-	RETURN_CCTOR(format);
-}
+	if (Z_TYPE_P(context) == IS_ARRAY && zend_hash_num_elements(Z_ARRVAL_P(context)) > 0) {
+		PHALCON_CALL_METHOD(&format, this_ptr, "interpolate", new_format, context);
+	}
+	else {
+		PHALCON_CPY_WRT(format, new_format);
+	}
 
+	PHALCON_CONCAT_VS(return_value, format, PHP_EOL);
+	RETURN_MM();
+}

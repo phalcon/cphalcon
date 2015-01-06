@@ -34,8 +34,8 @@ class ModelsRelationsTest extends PHPUnit_Framework_TestCase
 	public function modelsAutoloader($className)
 	{
 		$className = str_replace('\\', DIRECTORY_SEPARATOR, $className);
-		if (file_exists('unit-tests/models/'.$className.'.php')) {
-			require 'unit-tests/models/'.$className.'.php';
+		if (file_exists('unit-tests/models/Relations/' . $className . '.php')) {
+			require 'unit-tests/models/Relations/' . $className . '.php';
 		}
 	}
 
@@ -59,28 +59,39 @@ class ModelsRelationsTest extends PHPUnit_Framework_TestCase
 
 	public function testModelsMysql()
 	{
+		require 'unit-tests/config.db.php';
+		if (empty($configMysql)) {
+			$this->markTestSkipped("Skipped");
+			return;
+		}
 
 		$di = $this->_getDI();
 
 		$di->set('db', function(){
 			require 'unit-tests/config.db.php';
 			return new Phalcon\Db\Adapter\Pdo\Mysql($configMysql);
-		});
+		}, true);
 
 		$this->_executeTestsNormal($di);
 		$this->_executeTestsRenamed($di);
-
+		$this->_testIssue938($di);
+		$this->_testIssue2244($di);
 	}
 
 	public function testModelsPostgresql()
 	{
+		require 'unit-tests/config.db.php';
+		if (empty($configPostgresql)) {
+			$this->markTestSkipped("Skipped");
+			return;
+		}
 
 		$di = $this->_getDI();
 
 		$di->set('db', function(){
 			require 'unit-tests/config.db.php';
 			return new Phalcon\Db\Adapter\Pdo\Postgresql($configPostgresql);
-		});
+		}, true);
 
 		$this->_executeTestsNormal($di);
 		$this->_executeTestsRenamed($di);
@@ -89,17 +100,22 @@ class ModelsRelationsTest extends PHPUnit_Framework_TestCase
 
 	public function testModelsSqlite()
 	{
+		require 'unit-tests/config.db.php';
+		if (empty($configSqlite)) {
+			$this->markTestSkipped("Skipped");
+			return;
+		}
 
 		$di = $this->_getDI();
 
 		$di->set('db', function(){
 			require 'unit-tests/config.db.php';
 			return new Phalcon\Db\Adapter\Pdo\Sqlite($configSqlite);
-		});
+		}, true);
 
 		$this->_executeTestsNormal($di);
 		$this->_executeTestsRenamed($di);
-
+		$this->_testIssue938($di);
 	}
 
 	public function _executeTestsNormal($di)
@@ -107,31 +123,43 @@ class ModelsRelationsTest extends PHPUnit_Framework_TestCase
 
 		$manager = $di->getShared('modelsManager');
 
-		$success = $manager->existsBelongsTo('RobotsParts', 'Robots');
+		$success = $manager->existsBelongsTo('RelationsRobotsParts', 'RelationsRobots');
 		$this->assertTrue($success);
 
-		$success = $manager->existsBelongsTo('RobotsParts', 'Parts');
+		$success = $manager->existsBelongsTo('RelationsRobotsParts', 'RelationsParts');
 		$this->assertTrue($success);
 
-		$success = $manager->existsHasMany('Robots', 'RobotsParts');
+		$success = $manager->existsHasMany('RelationsRobots', 'RelationsRobotsParts');
 		$this->assertTrue($success);
 
-		$success = $manager->existsHasMany('Parts', 'RobotsParts');
+		$success = $manager->existsHasMany('RelationsParts', 'RelationsRobotsParts');
 		$this->assertTrue($success);
 
-		$robot = Robots::findFirst();
+		$success = $manager->existsHasManyToMany('RelationsRobots', 'RelationsParts');
+		$this->assertTrue($success);
+
+		$robot = RelationsRobots::findFirst();
 		$this->assertNotEquals($robot, false);
 
-		$robotsParts = $robot->getRobotsParts();
+		$robotsParts = $robot->getRelationsRobotsParts();
 		$this->assertEquals(get_class($robotsParts), 'Phalcon\Mvc\Model\Resultset\Simple');
 		$this->assertEquals(count($robotsParts), 3);
 
+		$parts = $robot->getRelationsParts();
+		$this->assertEquals(get_class($parts), 'Phalcon\Mvc\Model\Resultset\Simple');
+		$this->assertEquals(count($parts), 3);
+
 		/** Passing parameters to magic methods **/
-		$robotsParts = $robot->getRobotsParts("parts_id = 1");
+		$robotsParts = $robot->getRelationsRobotsParts("parts_id = 1");
 		$this->assertEquals(get_class($robotsParts), 'Phalcon\Mvc\Model\Resultset\Simple');
 		$this->assertEquals(count($robotsParts), 1);
 
-		$robotsParts = $robot->getRobotsParts(array(
+		/** Passing parameters to magic methods **/
+		$parts = $robot->getRelationsParts("RelationsParts.id = 1");
+		$this->assertEquals(get_class($parts), 'Phalcon\Mvc\Model\Resultset\Simple');
+		$this->assertEquals(count($parts), 1);
+
+		$robotsParts = $robot->getRelationsRobotsParts(array(
 			"parts_id > :parts_id:",
 			"bind" => array("parts_id" => 1)
 		));
@@ -139,7 +167,15 @@ class ModelsRelationsTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(count($robotsParts), 2);
 		$this->assertEquals($robotsParts->getFirst()->parts_id, 2);
 
-		$robotsParts = $robot->getRobotsParts(array(
+		$parts = $robot->getRelationsParts(array(
+			"RelationsParts.id > :id:",
+			"bind" => array("id" => 1)
+		));
+		$this->assertEquals(get_class($parts), 'Phalcon\Mvc\Model\Resultset\Simple');
+		$this->assertEquals(count($parts), 2);
+		$this->assertEquals($parts->getFirst()->id, 2);
+
+		$robotsParts = $robot->getRelationsRobotsParts(array(
 			"parts_id > :parts_id:",
 			"bind" => array("parts_id" => 1),
 			"order" => "parts_id DESC"
@@ -149,27 +185,27 @@ class ModelsRelationsTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($robotsParts->getFirst()->parts_id, 3);
 
 		/** Magic counting */
-		$number = $robot->countRobotsParts();
+		$number = $robot->countRelationsRobotsParts();
 		$this->assertEquals($number, 3);
 
-		$part = Parts::findFirst();
+		$part = RelationsParts::findFirst();
 		$this->assertNotEquals($part, false);
 
-		$robotsParts = $part->getRobotsParts();
+		$robotsParts = $part->getRelationsRobotsParts();
 		$this->assertEquals(get_class($robotsParts), 'Phalcon\Mvc\Model\Resultset\Simple');
 		$this->assertEquals(count($robotsParts), 1);
 
-		$number = $part->countRobotsParts();
+		$number = $part->countRelationsRobotsParts();
 		$this->assertEquals($number, 1);
 
-		$robotPart = RobotsParts::findFirst();
+		$robotPart = RelationsRobotsParts::findFirst();
 		$this->assertNotEquals($robotPart, false);
 
-		$robot = $robotPart->getRobots();
-		$this->assertEquals(get_class($robot), 'Robots');
+		$robot = $robotPart->getRelationsRobots();
+		$this->assertEquals(get_class($robot), 'RelationsRobots');
 
-		$part = $robotPart->getParts();
-		$this->assertEquals(get_class($part), 'Parts');
+		$part = $robotPart->getRelationsParts();
+		$this->assertEquals(get_class($part), 'RelationsParts');
 
 		/** Relations in namespaced models */
 		$robot = Some\Robots::findFirst();
@@ -286,4 +322,62 @@ class ModelsRelationsTest extends PHPUnit_Framework_TestCase
 
 	}
 
+	protected function _testIssue938($di)
+	{
+		$manager = $di->getShared('modelsManager');
+		$db      = $di->getShared('db');
+
+		$this->assertTrue($db->delete('m2m_robots_parts'));
+		$this->assertTrue($db->delete('m2m_parts'));
+		$this->assertTrue($db->delete('m2m_robots'));
+
+		$success = $manager->existsHasManyToMany('M2MRobots', 'M2MParts');
+		$this->assertTrue($success);
+
+		$robot = new M2MRobots();
+		$robot->name = 'M2M';
+
+		$part1 = new M2MParts();
+		$part1->name = 'Part 1';
+
+		$part2 = new M2MParts();
+		$part2->name = 'Part 2';
+
+		$part3 = new M2MParts();
+		$part3->name = 'Part 3';
+
+		$part4 = new M2MParts();
+		$part4->name = 'Part 4';
+
+		$this->assertTrue($part1->save());
+		$this->assertTrue($part2->save());
+
+		$robot->m2mparts = array($part1, $part2, $part3, $part4);
+
+		$this->assertTrue($robot->save());
+
+		$parts = M2MParts::find(array('order' => 'id'));
+		$this->assertEquals(count($parts), 4);
+
+		$rp = M2MRobotsParts::find(array('order' => 'robots_id, parts_id'));
+		$this->assertEquals(count($rp), 4);
+
+		for ($i=0; $i<count($rp); ++$i) {
+			$this->assertEquals($parts[$i]->name, 'Part '. ($i+1));
+			$this->assertEquals($rp[$i]->parts_id, $parts[$i]->id);
+			$this->assertEquals($rp[$i]->robots_id, $robot->id);
+		}
+	}
+
+	protected function _testIssue2244($di)
+	{
+		$options = array('order' => '', 'conditions' => '');
+
+		$robot = RelationsRobots::findFirst();
+		$this->assertNotEquals($robot, false);
+
+		$robotsParts = $robot->getRelationsRobotsParts($options);
+		$this->assertEquals(get_class($robotsParts), 'Phalcon\Mvc\Model\Resultset\Simple');
+		$this->assertEquals(count($robotsParts), 3);
+	}
 }

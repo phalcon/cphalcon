@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -17,24 +17,16 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
-
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
+#include "acl/role.h"
+#include "acl/roleinterface.h"
+#include "acl/exception.h"
 
 #include "kernel/main.h"
-#include "kernel/memory.h"
-
-#include "kernel/operators.h"
 #include "kernel/exception.h"
 #include "kernel/object.h"
+#include "kernel/operators.h"
+
+#include "internal/arginfo.h"
 
 /**
  * Phalcon\Acl\Role
@@ -42,6 +34,25 @@
  * This class defines role entity and its description
  *
  */
+zend_class_entry *phalcon_acl_role_ce;
+
+PHP_METHOD(Phalcon_Acl_Role, __construct);
+PHP_METHOD(Phalcon_Acl_Role, getName);
+PHP_METHOD(Phalcon_Acl_Role, getDescription);
+PHP_METHOD(Phalcon_Acl_Role, __toString);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_acl_role___construct, 0, 0, 1)
+	ZEND_ARG_INFO(0, name)
+	ZEND_ARG_INFO(0, description)
+ZEND_END_ARG_INFO()
+
+static const zend_function_entry phalcon_acl_role_method_entry[] = {
+	PHP_ME(Phalcon_Acl_Role, __construct, arginfo_phalcon_acl_role___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_ME(Phalcon_Acl_Role, getName, arginfo_phalcon_acl_roleinterface_getname, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Acl_Role, getDescription, arginfo_phalcon_acl_roleinterface_getdescription, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Acl_Role, __toString, arginfo___tostring, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
 
 
 /**
@@ -69,26 +80,17 @@ PHP_METHOD(Phalcon_Acl_Role, __construct){
 
 	zval *name, *description = NULL;
 
-	PHALCON_MM_GROW();
-
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &name, &description) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
-	if (!description) {
-		PHALCON_INIT_VAR(description);
-	}
+	phalcon_fetch_params(0, 1, 1, &name, &description);
 	
 	if (PHALCON_IS_STRING(name, "*")) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_acl_exception_ce, "Role name cannot be \"*\"");
 		return;
 	}
+
 	phalcon_update_property_this(this_ptr, SL("_name"), name TSRMLS_CC);
-	if (Z_TYPE_P(description) != IS_NULL) {
+	if (description && Z_TYPE_P(description) != IS_NULL) {
 		phalcon_update_property_this(this_ptr, SL("_description"), description TSRMLS_CC);
 	}
-	
-	PHALCON_MM_RESTORE();
 }
 
 /**

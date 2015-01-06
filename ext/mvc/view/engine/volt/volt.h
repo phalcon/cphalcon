@@ -3,7 +3,7 @@
 	+------------------------------------------------------------------------+
 	| Phalcon Framework                                                      |
 	+------------------------------------------------------------------------+
-	| Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+	| Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
 	+------------------------------------------------------------------------+
 	| This source file is subject to the New BSD License that is bundled     |
 	| with this package in the file docs/LICENSE.txt.                        |
@@ -17,23 +17,32 @@
 	+------------------------------------------------------------------------+
 */
 
+#ifndef PHALCON_MVC_VIEW_ENGINE_VOLT_VOLT_H
+#define PHALCON_MVC_VIEW_ENGINE_VOLT_VOLT_H
+
+#include "php_phalcon.h"
+#include "mvc/view/engine/volt/volt.h"
+
 typedef struct _phvolt_parser_token {
-	int opcode;
 	char *token;
+	int opcode;
 	int token_len;
 	int free_flag;
 } phvolt_parser_token;
 
 typedef struct _phvolt_parser_status {
-	int status;
 	zval *ret;
 	phvolt_scanner_state *scanner_state;
-	char *syntax_error;
+	int status;
 	zend_uint syntax_error_len;
+	char *syntax_error;
+	phvolt_scanner_token *token;
 } phvolt_parser_status;
 
 #define PHVOLT_PARSING_OK 1
 #define PHVOLT_PARSING_FAILED 0
 
-extern int phvolt_parse_view(zval *result, zval *view_code, zval *template_path TSRMLS_DC);
+int phvolt_parse_view(zval *result, zval *view_code, zval *template_path TSRMLS_DC);
 int phvolt_internal_parse_view(zval **result, zval *view_code, zval *template_path, zval **error_msg TSRMLS_DC);
+
+#endif /* PHALCON_MVC_VIEW_ENGINE_VOLT_VOLT_H */

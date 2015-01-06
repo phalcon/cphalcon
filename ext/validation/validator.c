@@ -1,9 +1,8 @@
-
 /*
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -17,31 +16,42 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
-
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
+#include "validation/validator.h"
+#include "validation/validatorinterface.h"
+#include "validation/exception.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
-
 #include "kernel/exception.h"
 #include "kernel/object.h"
 #include "kernel/array.h"
+#include "kernel/fcall.h"
+
+#include "interned-strings.h"
 
 /**
  * Phalcon\Validation\Validator
  *
  * This is a base class for validators
  */
+zend_class_entry *phalcon_validation_validator_ce;
 
+PHP_METHOD(Phalcon_Validation_Validator, __construct);
+PHP_METHOD(Phalcon_Validation_Validator, isSetOption);
+PHP_METHOD(Phalcon_Validation_Validator, getOption);
+PHP_METHOD(Phalcon_Validation_Validator, setOption);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_validation_validator___construct, 0, 0, 0)
+	ZEND_ARG_INFO(0, options)
+ZEND_END_ARG_INFO()
+
+static const zend_function_entry phalcon_validation_validator_method_entry[] = {
+	PHP_ME(Phalcon_Validation_Validator, __construct, arginfo_phalcon_validation_validator___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_ME(Phalcon_Validation_Validator, isSetOption, arginfo_phalcon_validation_validatorinterface_issetoption, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Validation_Validator, getOption, arginfo_phalcon_validation_validatorinterface_getoption, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Validation_Validator, setOption, arginfo_phalcon_validation_validatorinterface_setoption, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Validation\Validator initializer
@@ -52,7 +62,37 @@ PHALCON_INIT_CLASS(Phalcon_Validation_Validator){
 
 	zend_declare_property_null(phalcon_validation_validator_ce, SL("_options"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
+	zend_class_implements(phalcon_validation_validator_ce TSRMLS_CC, 1, phalcon_validation_validatorinterface_ce);
+
 	return SUCCESS;
+}
+
+int phalcon_validation_validator_getoption_helper(const zend_class_entry *ce, zval **result, zval *this_ptr, const char *option TSRMLS_DC)
+{
+	zval *opt;
+	zval *params[1];
+
+	if (is_phalcon_class(ce)) {
+		zval *value;
+		zval *options = phalcon_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY TSRMLS_CC);
+
+		MAKE_STD_ZVAL(*result);
+		if (phalcon_array_isset_string_fetch(&value, options, option, strlen(option)+1)) {
+			ZVAL_ZVAL(*result, value, 1, 0);
+		}
+		else {
+			ZVAL_NULL(*result);
+		}
+
+		return SUCCESS;
+	}
+
+	PHALCON_ALLOC_GHOST_ZVAL(opt);
+	PHALCON_ZVAL_MAYBE_INTERNED_STRING(opt, option);
+	params[0] = opt;
+
+	ALLOC_INIT_ZVAL(*result);
+	return phalcon_return_call_method(*result, NULL, this_ptr, "getoption", 1, params TSRMLS_CC);
 }
 
 /**
@@ -64,24 +104,20 @@ PHP_METHOD(Phalcon_Validation_Validator, __construct){
 
 	zval *options = NULL;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 0, 1, &options);
+	phalcon_fetch_params(0, 0, 1, &options);
 	
 	if (!options) {
-		PHALCON_INIT_VAR(options);
+		options = PHALCON_GLOBAL(z_null);
 	}
 	
 	if (Z_TYPE_P(options) != IS_ARRAY) { 
 		if (Z_TYPE_P(options) != IS_NULL) {
-			PHALCON_THROW_EXCEPTION_STR(phalcon_validation_exception_ce, "The attribute must be a string");
+			PHALCON_THROW_EXCEPTION_STRW(phalcon_validation_exception_ce, "Options must be an array");
 			return;
 		}
 	} else {
 		phalcon_update_property_this(this_ptr, SL("_options"), options TSRMLS_CC);
 	}
-	
-	PHALCON_MM_RESTORE();
 }
 
 /**
@@ -94,19 +130,10 @@ PHP_METHOD(Phalcon_Validation_Validator, isSetOption){
 
 	zval *key, *options;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 0, &key);
+	phalcon_fetch_params(0, 1, 0, &key);
 	
-	PHALCON_OBS_VAR(options);
-	phalcon_read_property_this(&options, this_ptr, SL("_options"), PH_NOISY_CC);
-	if (Z_TYPE_P(options) == IS_ARRAY) { 
-		if (phalcon_array_isset(options, key)) {
-			RETURN_MM_TRUE;
-		}
-	}
-	
-	RETURN_MM_FALSE;
+	options = phalcon_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY TSRMLS_CC);
+	RETURN_BOOL(phalcon_array_isset(options, key));
 }
 
 /**
@@ -118,23 +145,13 @@ PHP_METHOD(Phalcon_Validation_Validator, isSetOption){
  */
 PHP_METHOD(Phalcon_Validation_Validator, getOption){
 
-	zval *key, *options, *value;
+	zval **key;
+	zval *tmp = NULL;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 0, &key);
-	
-	PHALCON_OBS_VAR(options);
-	phalcon_read_property_this(&options, this_ptr, SL("_options"), PH_NOISY_CC);
-	if (Z_TYPE_P(options) == IS_ARRAY) { 
-		if (phalcon_array_isset(options, key)) {
-			PHALCON_OBS_VAR(value);
-			phalcon_array_fetch(&value, options, key, PH_NOISY_CC);
-			RETURN_CCTOR(value);
-		}
-	}
-	
-	RETURN_MM_NULL();
+	phalcon_fetch_params_ex(1, 0, &key);
+	PHALCON_ENSURE_IS_STRING(key);
+	phalcon_validation_validator_getoption_helper(phalcon_validation_validator_ce, &tmp, getThis(), Z_STRVAL_PP(key) TSRMLS_CC);
+	RETURN_ZVAL(tmp, 1, 1);
 }
 
 /**
@@ -152,4 +169,3 @@ PHP_METHOD(Phalcon_Validation_Validator, setOption){
 	phalcon_update_property_array(this_ptr, SL("_options"), key, value TSRMLS_CC);
 	
 }
-

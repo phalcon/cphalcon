@@ -8,7 +8,14 @@
 	convertWarningsToExceptions="true"
 	processIsolation="false"
 	stopOnFailure="false"
-	syntaxCheck="false">
+	syntaxCheck="true"
+	strict="true"
+	timeoutForSmallTests="10"
+	timeoutForMediumTests="50"
+	imeoutForLargeTests="600">
+	<php>
+		<ini name="report_memleaks" value="on"/>
+	</php>
 	<testsuites>
 		<testsuite name="Phalcon PHP Framework">
 
@@ -17,6 +24,7 @@
 			<file>unit-tests/ConfigTest.php</file>
 			<file>unit-tests/DiTest.php</file>
 			<file>unit-tests/EventsTest.php</file>
+			<file>unit-tests/RequestTest.php</file>
 			<file>unit-tests/ResponseTest.php</file>
 			<file>unit-tests/DispatcherMvcTest.php</file>
 			<file>unit-tests/DispatcherMvcEventsTest.php</file>
@@ -24,7 +32,7 @@
 
 			<!-- Annotations -->
 			<file>unit-tests/AnnotationsTest.php</file>
-			<file>unit-tests/AnnotationsAdapterTest.php</file>
+			<file>unit-tests/AnnotationsAdaptersTest.php</file>
 
 			<!-- MVC Routing -->
 			<file>unit-tests/RouterMvcTest.php</file>
@@ -36,7 +44,7 @@
 			<file>unit-tests/DbDialectTest.php</file>
 			<file>unit-tests/DbBindTest.php</file>
 			<file>unit-tests/DbProfilerTest.php</file>
-			<file>unit-tests/DbLoggerTest.php</file>
+			<!--<file>unit-tests/DbLoggerTest.php</file>-->
 
 			<!-- ORM tests / First Part -->
 			<file>unit-tests/ModelsMetadataTest.php</file>
@@ -76,19 +84,24 @@
 
 			<!-- View/Templating tests -->
 			<file>unit-tests/ViewTest.php</file>
-			<file>unit-tests/ViewEnginesTest.php</file>
-			<!--<file>unit-tests/ViewEnginesVoltTest.php</file>-->
+			<!--<file>unit-tests/ViewEnginesTest.php</file>-->
+			<file>unit-tests/ViewEnginesVoltTest.php</file>
 			<file>unit-tests/ViewCacheTest.php</file>
+			<file>unit-tests/ViewSimpleTest.php</file>
 
 			<!-- Other components -->
-			<file>unit-tests/ControllersTest.php</file>
+			<!-- <file>unit-tests/ControllersTest.php</file> -->
 			<file>unit-tests/SessionTest.php</file>
+			<file>unit-tests/SessionBagTest.php</file>
 			<file>unit-tests/PaginatorTest.php</file>
 			<file>unit-tests/LoaderTest.php</file>
 			<file>unit-tests/ValidationTest.php</file>
 			<file>unit-tests/FormsTest.php</file>
 			<file>unit-tests/AssetsTest.php</file>
 			<file>unit-tests/CryptTest.php</file>
+			<file>unit-tests/SecurityTest.php</file>
+			<file>unit-tests/BeanstalkTest.php</file>
+			<file>unit-tests/TranslateTest.php</file>
 
 			<!-- Complex components/Integral tests -->
 			<file>unit-tests/ModelsResultsetCacheTest.php</file>
@@ -105,6 +118,13 @@
 			<file>unit-tests/TasksCliTest.php</file>
 			<file>unit-tests/ConsoleCliTest.php</file>
 
+			<!-- Image -->
+			<file>unit-tests/ImageTest.php</file>
+
+			<file>unit-tests/Issue1801.php</file>
+		</testsuite>
+		<testsuite name="PHPT Test Suite">
+			<file>unit-tests/PHPTTestSuite.php</file>
 		</testsuite>
 	</testsuites>
 </phpunit>

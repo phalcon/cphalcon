@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -17,24 +17,16 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
-
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
+#include "mvc/model/message.h"
+#include "mvc/model/messageinterface.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
-
 #include "kernel/object.h"
 #include "kernel/array.h"
 #include "kernel/fcall.h"
+
+#include "internal/arginfo.h"
 
 /**
  * Phalcon\Mvc\Model\Message
@@ -53,7 +45,8 @@
  *        $text = "A robot cannot be named Peter";
  *        $field = "name";
  *        $type = "InvalidValue";
- *        $message = new Message($text, $field, $type);
+ *        $code = 103;
+ *        $message = new Message($text, $field, $type, $code);
  *        $this->appendMessage($message);
  *     }
  *   }
@@ -62,7 +55,52 @@
  * </code>
  *
  */
+zend_class_entry *phalcon_mvc_model_message_ce;
 
+PHP_METHOD(Phalcon_Mvc_Model_Message, __construct);
+PHP_METHOD(Phalcon_Mvc_Model_Message, setType);
+PHP_METHOD(Phalcon_Mvc_Model_Message, getType);
+PHP_METHOD(Phalcon_Mvc_Model_Message, setCode);
+PHP_METHOD(Phalcon_Mvc_Model_Message, getCode);
+PHP_METHOD(Phalcon_Mvc_Model_Message, setMessage);
+PHP_METHOD(Phalcon_Mvc_Model_Message, getMessage);
+PHP_METHOD(Phalcon_Mvc_Model_Message, setField);
+PHP_METHOD(Phalcon_Mvc_Model_Message, getField);
+PHP_METHOD(Phalcon_Mvc_Model_Message, setModel);
+PHP_METHOD(Phalcon_Mvc_Model_Message, getModel);
+PHP_METHOD(Phalcon_Mvc_Model_Message, __toString);
+PHP_METHOD(Phalcon_Mvc_Model_Message, __set_state);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_message___construct, 0, 0, 1)
+	ZEND_ARG_INFO(0, message)
+	ZEND_ARG_INFO(0, field)
+	ZEND_ARG_INFO(0, type)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_message_setmodel, 0, 0, 1)
+	ZEND_ARG_INFO(0, model)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_message_setcode, 0, 0, 1)
+	ZEND_ARG_INFO(0, code)
+ZEND_END_ARG_INFO()
+
+static const zend_function_entry phalcon_mvc_model_message_method_entry[] = {
+	PHP_ME(Phalcon_Mvc_Model_Message, __construct, arginfo_phalcon_mvc_model_message___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_ME(Phalcon_Mvc_Model_Message, setType, arginfo_phalcon_mvc_model_messageinterface_settype, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Message, getType, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Message, setCode, arginfo_phalcon_mvc_model_message_setcode, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Message, getCode, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Message, setMessage, arginfo_phalcon_mvc_model_messageinterface_setmessage, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Message, getMessage, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Message, setField, arginfo_phalcon_mvc_model_messageinterface_setfield, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Message, getField, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Message, setModel, arginfo_phalcon_mvc_model_message_setmodel, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Message, getModel, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Message, __toString, arginfo___tostring, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Message, __set_state, arginfo___set_state, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Mvc\Model\Message initializer
@@ -75,6 +113,7 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Message){
 	zend_declare_property_null(phalcon_mvc_model_message_ce, SL("_message"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_model_message_ce, SL("_field"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_model_message_ce, SL("_model"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_long(phalcon_mvc_model_message_ce, SL("_code"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	zend_class_implements(phalcon_mvc_model_message_ce TSRMLS_CC, 1, phalcon_mvc_model_messageinterface_ce);
 
@@ -91,22 +130,24 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Message){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Message, __construct){
 
-	zval *message, *field = NULL, *type = NULL, *model = NULL;
+	zval *message, *field = NULL, *type = NULL, *model = NULL, *code = NULL;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 3, &message, &field, &type, &model);
+	phalcon_fetch_params(0, 1, 4, &message, &field, &type, &code, &model);
 	
 	if (!field) {
-		PHALCON_INIT_VAR(field);
+		field = PHALCON_GLOBAL(z_null);
 	}
 	
 	if (!type) {
-		PHALCON_INIT_VAR(type);
+		type = PHALCON_GLOBAL(z_null);
 	}
 	
 	if (!model) {
-		PHALCON_INIT_VAR(model);
+		model = PHALCON_GLOBAL(z_null);
+	}
+
+	if (!code) {
+		code = PHALCON_GLOBAL(z_zero);
 	}
 	
 	phalcon_update_property_this(this_ptr, SL("_message"), message TSRMLS_CC);
@@ -115,8 +156,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Message, __construct){
 	if (Z_TYPE_P(model) == IS_OBJECT) {
 		phalcon_update_property_this(this_ptr, SL("_model"), model TSRMLS_CC);
 	}
-	
-	PHALCON_MM_RESTORE();
+	phalcon_update_property_this(this_ptr, SL("_code"), code TSRMLS_CC);
 }
 
 /**
@@ -144,6 +184,32 @@ PHP_METHOD(Phalcon_Mvc_Model_Message, getType){
 
 
 	RETURN_MEMBER(this_ptr, "_type");
+}
+
+/**
+ * Sets message code
+ *
+ * @param string $code
+ * @return Phalcon\Mvc\Model\Message
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Message, setCode){
+
+	zval *code;
+
+	phalcon_fetch_params(0, 1, 0, &code);
+
+	phalcon_update_property_this(this_ptr, SL("_code"), code TSRMLS_CC);
+	RETURN_THISW();
+}
+
+/**
+ * Returns message code
+ *
+ * @return string
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Message, getCode){
+
+	RETURN_MEMBER(this_ptr, "_code");
 }
 
 /**
@@ -246,25 +312,27 @@ PHP_METHOD(Phalcon_Mvc_Model_Message, __toString){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Message, __set_state){
 
-	zval *message, *message_text, *field, *type, *message_object;
+	zval *message, *message_text, *field, *type, *code;
 
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 1, 0, &message);
 	
 	PHALCON_OBS_VAR(message_text);
-	phalcon_array_fetch_string(&message_text, message, SL("_message"), PH_NOISY_CC);
-	
+	phalcon_array_fetch_string(&message_text, message, SL("_message"), PH_NOISY);
+
 	PHALCON_OBS_VAR(field);
-	phalcon_array_fetch_string(&field, message, SL("_field"), PH_NOISY_CC);
-	
+	phalcon_array_fetch_string(&field, message, SL("_field"), PH_NOISY);
+
 	PHALCON_OBS_VAR(type);
-	phalcon_array_fetch_string(&type, message, SL("_type"), PH_NOISY_CC);
+	phalcon_array_fetch_string(&type, message, SL("_type"), PH_NOISY);
+
+	PHALCON_OBS_VAR(code);
+	phalcon_array_fetch_string(&code, message, SL("_code"), PH_NOISY);
+
+	object_init_ex(return_value, phalcon_mvc_model_message_ce);
+	PHALCON_CALL_METHOD(NULL, return_value, "__construct", message_text, field, type, code);
 	
-	PHALCON_INIT_VAR(message_object);
-	object_init_ex(message_object, phalcon_mvc_model_message_ce);
-	PHALCON_CALL_METHOD_PARAMS_3_NORETURN(message_object, "__construct", message_text, field, type);
-	
-	RETURN_CTOR(message_object);
+	RETURN_MM();
 }
 

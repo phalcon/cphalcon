@@ -59,8 +59,16 @@ class ModelsTransactionsTest extends PHPUnit_Framework_TestCase {
 		return $di;
 	}
 
+	/**
+	 * @large
+	 */
 	public function testTransactionsMysql()
 	{
+		require 'unit-tests/config.db.php';
+		if (empty($configMysql)) {
+			$this->markTestSkipped("Skipped");
+			return;
+		}
 
 		$di = $this->_getDI();
 
@@ -72,21 +80,37 @@ class ModelsTransactionsTest extends PHPUnit_Framework_TestCase {
 		$this->_executeTests($di);
 	}
 
+	/**
+	 * @large
+	 */
 	public function testTransactionsPostgresql()
 	{
+		require 'unit-tests/config.db.php';
+		if (empty($configPostgresql)) {
+			$this->markTestSkipped("Skipped");
+			return;
+		}
 
 		$di = $this->_getDI();
 
 		$di->set('db', function(){
 			require 'unit-tests/config.db.php';
-			return new Phalcon\Db\Adapter\Pdo\Mysql($configMysql);
+			return new Phalcon\Db\Adapter\Pdo\Postgresql($configPostgresql);
 		});
 
 		$this->_executeTests($di);
 	}
 
+	/**
+	 * @large
+	 */
 	public function testTransactionsSqlite()
 	{
+		require 'unit-tests/config.db.php';
+		if (empty($configSqlite)) {
+			$this->markTestSkipped("Skipped");
+			return;
+		}
 
 		$di = $this->_getDI();
 

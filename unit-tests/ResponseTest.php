@@ -137,8 +137,6 @@ class ResponseTest extends PHPUnit_Framework_TestCase
 
 	public function testRedirect()
 	{
-
-
 		//local URI
 		$this->_response->resetHeaders();
 
@@ -146,8 +144,8 @@ class ResponseTest extends PHPUnit_Framework_TestCase
 
 		$this->assertEquals(Phalcon\Http\Response\Headers::__set_state(array(
 			'_headers' => array(
-				'HTTP/1.1 302 Redirect' => false,
-				'Status' => '302 Redirect',
+				'HTTP/1.1 302 Found' => false,
+				'Status' => '302 Found',
 				'Location' => '/some/local/uri'
 			)
 		)), $this->_response->getHeaders());
@@ -159,8 +157,8 @@ class ResponseTest extends PHPUnit_Framework_TestCase
 
 		$this->assertEquals(Phalcon\Http\Response\Headers::__set_state(array(
 			'_headers' => array(
-				'HTTP/1.1 302 Redirect' => false,
-				'Status' => '302 Redirect',
+				'HTTP/1.1 302 Found' => false,
+				'Status' => '302 Found',
 				'Location' => 'http://google.com'
 			)
 		)), $this->_response->getHeaders());
@@ -172,12 +170,11 @@ class ResponseTest extends PHPUnit_Framework_TestCase
 
 		$this->assertEquals(Phalcon\Http\Response\Headers::__set_state(array(
 			'_headers' => array(
-				'HTTP/1.1 301 Redirect' => false,
-				'Status' => '301 Redirect',
+				'HTTP/1.1 301 Moved Permanently' => false,
+				'Status' => '301 Moved Permanently',
 				'Location' => 'http://google.com'
 			)
 		)), $this->_response->getHeaders());
-
 	}
 
 	public function testContent()
@@ -191,4 +188,45 @@ class ResponseTest extends PHPUnit_Framework_TestCase
 
 	}
 
+	public function testSetFileToSend()
+	{
+		$filename = __FILE__;
+		$this->_response->setFileToSend($filename);
+		ob_start();
+		$this->_response->send();
+		$actual   = ob_get_clean();
+		$expected = file_get_contents($filename);
+		$this->assertEquals($actual, $expected);
+		$this->assertEquals($this->_response->isSent(), true);
+	}
+
+	public function testMultipleHttpHeadersBug1892()
+	{
+		$this->_response->resetHeaders();
+		$this->_response->setStatusCode(200, 'OK');
+		$this->_response->setStatusCode(404, 'Not Found');
+		$this->_response->setStatusCode(409, 'Conflict');
+
+		$expected = array(
+			'HTTP/1.1 409 Conflict' => null,
+			'Status'                => '409 Conflict',
+		);
+
+		$this->assertEquals($expected, $this->_response->getHeaders()->toArray());
+	}
+
+	public function testIssue1182()
+	{
+		$this->_response->resetHeaders();
+
+		$this->_response->redirect("http://google.com", false, 301);
+
+		$this->assertEquals(Phalcon\Http\Response\Headers::__set_state(array(
+			'_headers' => array(
+				'HTTP/1.1 301 Moved Permanently' => false,
+				'Status' => '301 Moved Permanently',
+				'Location' => 'http://google.com'
+			)
+		)), $this->_response->getHeaders());
+	}
 }

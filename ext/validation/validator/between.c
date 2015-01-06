@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -17,24 +17,20 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
-
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
+#include "validation/validator/between.h"
+#include "validation/validator.h"
+#include "validation/validatorinterface.h"
+#include "validation/message.h"
+#include "validation/exception.h"
+#include "validation.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
-
 #include "kernel/fcall.h"
 #include "kernel/operators.h"
 #include "kernel/concat.h"
+
+#include "interned-strings.h"
 
 /**
  * Phalcon\Validation\Validator\Between
@@ -51,14 +47,21 @@
  *)));
  *</code>
  */
+zend_class_entry *phalcon_validation_validator_between_ce;
 
+PHP_METHOD(Phalcon_Validation_Validator_Between, validate);
+
+static const zend_function_entry phalcon_validation_validator_between_method_entry[] = {
+	PHP_ME(Phalcon_Validation_Validator_Between, validate, arginfo_phalcon_validation_validatorinterface_validate, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Validation\Validator\Between initializer
  */
 PHALCON_INIT_CLASS(Phalcon_Validation_Validator_Between){
 
-	PHALCON_REGISTER_CLASS_EX(Phalcon\\Validation\\Validator, Between, validation_validator_between, "phalcon\\validation\\validator", phalcon_validation_validator_between_method_entry, 0);
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Validation\\Validator, Between, validation_validator_between, phalcon_validation_validator_ce, phalcon_validation_validator_between_method_entry, 0);
 
 	zend_class_implements(phalcon_validation_validator_between_ce TSRMLS_CC, 1, phalcon_validation_validatorinterface_ce);
 
@@ -74,30 +77,30 @@ PHALCON_INIT_CLASS(Phalcon_Validation_Validator_Between){
  */
 PHP_METHOD(Phalcon_Validation_Validator_Between, validate){
 
-	zval *validator, *attribute, *value, *option = NULL, *minimum;
-	zval *maximum, *valid = NULL, *type, *message_str = NULL, *message;
+	zval *validator, *attribute, *value = NULL, *allow_empty, *minimum;
+	zval *maximum, *label, *pairs, *valid, *message_str, *prepared = NULL, *message, *code;
+	zend_class_entry *ce = Z_OBJCE_P(getThis());
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &validator, &attribute) == FAILURE) {
-		RETURN_MM_NULL();
+	phalcon_fetch_params(1, 2, 0, &validator, &attribute);
+	
+	PHALCON_VERIFY_CLASS_EX(validator, phalcon_validation_ce, phalcon_validation_exception_ce, 1);
+
+	PHALCON_CALL_METHOD(&value, validator, "getvalue", attribute);
+	
+	PHALCON_OBS_VAR(allow_empty);
+	RETURN_MM_ON_FAILURE(phalcon_validation_validator_getoption_helper(ce, &allow_empty, getThis(), phalcon_interned_allowEmpty TSRMLS_CC));
+	if (zend_is_true(allow_empty) && phalcon_validation_validator_isempty_helper(value)) {
+		RETURN_MM_TRUE;
 	}
 
-	PHALCON_INIT_VAR(value);
-	PHALCON_CALL_METHOD_PARAMS_1(value, validator, "getvalue", attribute);
-	
-	PHALCON_INIT_VAR(option);
-	ZVAL_STRING(option, "minimum", 1);
-	
-	PHALCON_INIT_VAR(minimum);
-	PHALCON_CALL_METHOD_PARAMS_1(minimum, this_ptr, "getoption", option);
-	
-	PHALCON_INIT_NVAR(option);
-	ZVAL_STRING(option, "maximum", 1);
-	
-	PHALCON_INIT_VAR(maximum);
-	PHALCON_CALL_METHOD_PARAMS_1(maximum, this_ptr, "getoption", option);
-	
+	PHALCON_OBS_VAR(minimum);
+	RETURN_MM_ON_FAILURE(phalcon_validation_validator_getoption_helper(ce, &minimum, getThis(), "minimum" TSRMLS_CC));
+
+	PHALCON_OBS_VAR(maximum);
+	RETURN_MM_ON_FAILURE(phalcon_validation_validator_getoption_helper(ce, &maximum, getThis(), "maximum" TSRMLS_CC));
+
 	PHALCON_INIT_VAR(valid);
 	is_smaller_or_equal_function(valid, minimum, value TSRMLS_CC);
 	if (zend_is_true(valid)) {
@@ -105,28 +108,42 @@ PHP_METHOD(Phalcon_Validation_Validator_Between, validate){
 	}
 	
 	if (PHALCON_IS_FALSE(valid)) {
-	
-		PHALCON_INIT_VAR(type);
-		ZVAL_STRING(type, "Between", 1);
-	
-		PHALCON_INIT_NVAR(option);
-		ZVAL_STRING(option, "message", 1);
-	
-		PHALCON_INIT_VAR(message_str);
-		PHALCON_CALL_METHOD_PARAMS_1(message_str, this_ptr, "getoption", option);
-		if (!zend_is_true(message_str)) {
-			PHALCON_INIT_NVAR(message_str);
-			PHALCON_CONCAT_VS(message_str, attribute, " is not between a valid range");
+		PHALCON_OBS_VAR(label);
+		RETURN_MM_ON_FAILURE(phalcon_validation_validator_getoption_helper(ce, &label, getThis(), phalcon_interned_label TSRMLS_CC));
+		if (!zend_is_true(label)) {
+			PHALCON_CALL_METHOD(&label, validator, "getlabel", attribute);
+			if (!zend_is_true(label)) {
+				PHALCON_CPY_WRT(label, attribute);
+			}
 		}
+
+		PHALCON_ALLOC_GHOST_ZVAL(pairs);
+		array_init_size(pairs, 3);
+		Z_ADDREF_P(label);   add_assoc_zval_ex(pairs, SS(":field"), label);
+		Z_ADDREF_P(minimum); add_assoc_zval_ex(pairs, SS(":min"), minimum);
+		Z_ADDREF_P(maximum); add_assoc_zval_ex(pairs, SS(":max"), maximum);
 	
-		PHALCON_INIT_VAR(message);
-		object_init_ex(message, phalcon_validation_message_ce);
-		PHALCON_CALL_METHOD_PARAMS_3_NORETURN(message, "__construct", message_str, attribute, type);
+		PHALCON_OBS_VAR(message_str);
+		RETURN_MM_ON_FAILURE(phalcon_validation_validator_getoption_helper(ce, &message_str, getThis(), phalcon_interned_message TSRMLS_CC));
+		if (!zend_is_true(message_str)) {
+			PHALCON_OBSERVE_OR_NULLIFY_VAR(message_str);
+			RETURN_MM_ON_FAILURE(phalcon_validation_getdefaultmessage_helper(Z_OBJCE_P(validator), &message_str, validator, "Between" TSRMLS_CC));
+		}
+
+		PHALCON_OBS_VAR(code);
+		RETURN_MM_ON_FAILURE(phalcon_validation_validator_getoption_helper(ce, &code, getThis(), phalcon_interned_code TSRMLS_CC));
+		if (Z_TYPE_P(code) == IS_NULL) {
+			ZVAL_LONG(code, 0);
+		}
+
+		PHALCON_CALL_FUNCTION(&prepared, "strtr", message_str, pairs);
 	
-		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(validator, "appendmessage", message);
+		message = phalcon_validation_message_construct_helper(prepared, attribute, "Between", code TSRMLS_CC);
+		Z_DELREF_P(message);
+	
+		PHALCON_CALL_METHOD(NULL, validator, "appendmessage", message);
 		RETURN_MM_FALSE;
 	}
 	
 	RETURN_MM_TRUE;
 }
-

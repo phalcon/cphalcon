@@ -1,21 +1,26 @@
 
 /*
-	+------------------------------------------------------------------------+
-	| Phalcon Framework                                                      |
-	+------------------------------------------------------------------------+
-	| Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
-	+------------------------------------------------------------------------+
-	| This source file is subject to the New BSD License that is bundled     |
-	| with this package in the file docs/LICENSE.txt.                        |
-	|                                                                        |
-	| If you did not receive a copy of the license and are unable to         |
-	| obtain it through the world-wide-web, please send an email             |
-	| to license@phalconphp.com so we can send you a copy immediately.       |
-	+------------------------------------------------------------------------+
-	| Authors: Andres Gutierrez <andres@phalconphp.com>                      |
-	|          Eduar Carvajal <eduar@phalconphp.com>                         |
-	+------------------------------------------------------------------------+
+ +------------------------------------------------------------------------+
+ | Phalcon Framework                                                      |
+ +------------------------------------------------------------------------+
+ | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
+ +------------------------------------------------------------------------+
+ | This source file is subject to the New BSD License that is bundled     |
+ | with this package in the file docs/LICENSE.txt.                        |
+ |                                                                        |
+ | If you did not receive a copy of the license and are unable to         |
+ | obtain it through the world-wide-web, please send an email             |
+ | to license@phalconphp.com so we can send you a copy immediately.       |
+ +------------------------------------------------------------------------+
+ | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
+ |          Eduar Carvajal <eduar@phalconphp.com>                         |
+ +------------------------------------------------------------------------+
 */
+
+#ifndef PHALCON_MVC_VIEW_ENGINE_VOLT_SCANNER_H
+#define PHALCON_MVC_VIEW_ENGINE_VOLT_SCANNER_H
+
+#include "php_phalcon.h"
 
 #define PHVOLT_RAW_BUFFER_SIZE 256
 
@@ -66,11 +71,20 @@
 #define PHVOLT_T_ASSIGN '='
 #define PHVOLT_T_COLON 277
 #define PHVOLT_T_QUESTION '?'
+#define PHVOLT_T_POW 278
+#define PHVOLT_T_INCR 279
+#define PHVOLT_T_DECR 280
+#define PHVOLT_T_ADD_ASSIGN 281
+#define PHVOLT_T_SUB_ASSIGN 282
+#define PHVOLT_T_MUL_ASSIGN 283
+#define PHVOLT_T_DIV_ASSIGN 284
 
 #define PHVOLT_T_PARENTHESES_OPEN '('
 #define PHVOLT_T_PARENTHESES_CLOSE ')'
 #define PHVOLT_T_SBRACKET_OPEN '['
 #define PHVOLT_T_SBRACKET_CLOSE ']'
+#define PHVOLT_T_CBRACKET_OPEN '{'
+#define PHVOLT_T_CBRACKET_CLOSE '}'
 
 /** Reserved words */
 #define PHVOLT_T_IF 300
@@ -95,6 +109,12 @@
 #define PHVOLT_T_CONTINUE 319
 #define PHVOLT_T_BREAK 320
 #define PHVOLT_T_ELSEFOR 321
+#define PHVOLT_T_MACRO 322
+#define PHVOLT_T_ENDMACRO 323
+#define PHVOLT_T_WITH 324
+#define PHVOLT_T_CALL 325
+#define PHVOLT_T_ENDCALL 326
+#define PHVOLT_T_RETURN 327
 
 /** Delimiters */
 #define PHVOLT_T_OPEN_DELIMITER  330
@@ -124,22 +144,24 @@
 
 /* List of tokens and their names */
 typedef struct _phvolt_token_names {
-	unsigned int code;
 	char *name;
+	int len;
+	unsigned int code;
 } phvolt_token_names;
 
 /* Active token state */
 typedef struct _phvolt_scanner_state {
 	int active_token;
+	int mode;
 	char* start;
 	char* end;
 	unsigned int start_length;
-	int mode;
 	unsigned int active_line;
 	zval *active_file;
 	unsigned int statement_position;
 	unsigned int extends_mode;
 	unsigned int block_level;
+	unsigned int macro_level;
 	char *raw_buffer;
 	unsigned int raw_buffer_cursor;
 	unsigned int raw_buffer_size;
@@ -152,10 +174,13 @@ typedef struct _phvolt_scanner_state {
 /* Extra information tokens */
 typedef struct _phvolt_scanner_token {
 	int opcode;
-	char *value;
 	int len;
+	char *value;
 } phvolt_scanner_token;
 
 int phvolt_get_token(phvolt_scanner_state *s, phvolt_scanner_token *token);
 
 extern const phvolt_token_names phvolt_tokens[];
+
+#endif  /* PHALCON_MVC_VIEW_ENGINE_VOLT_SCANNER_H */
+

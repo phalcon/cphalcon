@@ -78,7 +78,7 @@ class ConfigTest extends PHPUnit_Framework_TestCase
 		$this->assertTrue($this->_compareConfig($this->_config, $config));
 	}
 
-	public function testStandarConfig()
+	public function testStandardConfig()
 	{
 		$config = new Phalcon\Config($this->_config);
 		$this->_compareConfig($this->_config, $config);
@@ -185,4 +185,55 @@ class ConfigTest extends PHPUnit_Framework_TestCase
 
 	}
 
+	public function testIniConfigDirective()
+	{
+		$config = new \Phalcon\Config\Adapter\Ini('unit-tests/config/directive.ini');
+		$actual = $config->toArray();
+		$expected = array(
+			'test' => array(
+				'parent' => array(
+					'property' => 1,
+					'property2' => 'yeah',
+					'property3' => array('baseuri' => '/phalcon/'),
+					'property4' => array(
+						'models' => array('metadata' => 'memory'),
+					),
+					'property5' => array(
+						'database' => array(
+							'adapter' => 'mysql',
+							'host' => 'localhost',
+							'username' => 'user',
+							'password' => 'passwd',
+							'name' => 'demo'),
+					),
+					'property6' => array(
+						'test' => array('a', 'b', 'c'),
+					),
+				),
+			),
+		);
+
+		$this->assertEquals($actual, $expected);
+	}
+
+	public function testPhpConfig()
+	{
+		$config = new Phalcon\Config\Adapter\Php('unit-tests/config/config.php');
+		$this->assertTrue($this->_compareConfig($this->_config, $config));
+	}
+
+	public function testJsonConfig()
+	{
+		$config = new Phalcon\Config\Adapter\Json('unit-tests/config/config.json');
+		$this->assertTrue($this->_compareConfig($this->_config, $config));
+	}
+
+	public function testYamlConfig()
+	{
+		if (!function_exists("yaml_parse_file")) {
+			return false;
+		}
+		$config = new Phalcon\Config\Adapter\Yaml('unit-tests/config/config.yml');
+		$this->assertTrue($this->_compareConfig($this->_config, $config));
+	}
 }

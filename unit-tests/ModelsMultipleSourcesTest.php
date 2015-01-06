@@ -55,22 +55,26 @@ class ModelsMultipleSourcesTest extends PHPUnit_Framework_TestCase
 
 		$di->set('db', function() {
 			throw new Exception('Using default database source');
-		});
+		}, true);
 
 		$di->set('dbOne', function() {
 			require 'unit-tests/config.db.php';
 			return new Phalcon\Db\Adapter\Pdo\Mysql($configMysql);
-		});
+		}, true);
 
 		$di->set('dbTwo', function() {
 			require 'unit-tests/config.db.php';
 			return new Phalcon\Db\Adapter\Pdo\Mysql($configMysql);
-		});
-
+		}, true);
 	}
 
 	public function testSourcesStatic()
 	{
+		require 'unit-tests/config.db.php';
+		if (empty($configMysql)) {
+			$this->marktestSkipped('Test skipped');
+			return;
+		}
 
 		$this->_prepareDI();
 
@@ -89,6 +93,11 @@ class ModelsMultipleSourcesTest extends PHPUnit_Framework_TestCase
 
 	public function testSourcesInstance()
 	{
+		require 'unit-tests/config.db.php';
+		if (empty($configMysql)) {
+			$this->marktestSkipped('Test skipped');
+			return;
+		}
 
 		$this->_prepareDI();
 

@@ -7,7 +7,7 @@
  *
  * PhalconPHP Framework
  *
- * @copyright (c) 2011-2013 Phalcon Team
+ * @copyright (c) 2011-2014 Phalcon Team
  * @link      http://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>
@@ -22,37 +22,58 @@
 
 namespace Phalcon\Test\Security;
 
-use \Phalcon\Test\UnitTestCase as PhTestUnitTestCase;
-
-use \Phalcon\Security as PhSecurity;
-
-class UnitTest extends PhTestUnitTestCase
+class UnitTest extends \Phalcon\Test\UnitTestCase
 {
-    /**
-     * Tests the hash for the security component
-     *
-     * @author Nikos Dimopoulos <nikos@phalconphp.com>
-     * @since  2013-03-02
-     */
-    public function testHash()
-    {
+	/**
+	 * Tests the hash for the security component
+	 *
+	 * @author Nikos Dimopoulos <nikos@phalconphp.com>
+	 * @since  2013-03-02
+	 * @requires extension openssl
+	 */
+	public function testHash()
+	{
+		$security = new \Phalcon\Security();
 
-        if (!extension_loaded('openssl')) {
-            $this->markTestSkipped('Warning: openssl extension is not loaded');
-            return;
-        }
+		for ($i = 8; $i < 12; $i++) {
+			$hash = $security->hash('a', $i);
+			$this->assertTrue($security->checkHash('a', $hash));
+		}
 
-        $security = new PhSecurity();
+		for ($i = 8; $i < 12; $i++) {
+			$hash = $security->hash('aaaaaaaaaaaaaa', $i);
+			$this->assertTrue($security->checkHash('aaaaaaaaaaaaaa', $hash));
+		}
+	}
 
-        for ($i = 8; $i < 12; $i++) {
-            $hash = $security->hash('a', $i);
-            $this->assertTrue($security->checkHash('a', $hash));
-        }
+	/**
+	 * Tests \Phalcon\Security::computeHmac()
+	 *
+	 * @author Vladimir Kolesnikov <vladimir@extrememember.com>
+	 * @since 2013-10-08
+	 * @requires function hash_hmac
+	 */
+	public function testComputeHMAC()
+	{
+		$s = new \Phalcon\Security();
+		$k = md5('test', true);
+		$keys = array(
+			substr($k, 0, strlen($k)/2),
+			$k,
+			$k . $k
+		);
 
-        for ($i = 8; $i < 12; $i++) {
-            $hash = $security->hash('aaaaaaaaaaaaaa', $i);
-            $this->assertTrue($security->checkHash('aaaaaaaaaaaaaa', $hash));
-        }
-    }
+		$data = array();
+		for ($i=1; $i<256; ++$i) {
+			$data[] = str_repeat('a', $i);
+		}
+
+		foreach ($keys as $key) {
+			foreach ($data as $text) {
+				$actual   = $s->computeHmac($text, $key, 'md5');
+				$expected = hash_hmac('md5', $text, $key);
+				$this->assertEquals($expected, $actual);
+			}
+		}
+	}
 }
-

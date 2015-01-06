@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -17,15 +17,16 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
-
+#include "db/indexinterface.h"
 #include "kernel/main.h"
+
+zend_class_entry *phalcon_db_indexinterface_ce;
+
+static const zend_function_entry phalcon_db_indexinterface_method_entry[] = {
+	PHP_ABSTRACT_ME(Phalcon_Db_IndexInterface, getName, NULL)
+	PHP_ABSTRACT_ME(Phalcon_Db_IndexInterface, getColumns, NULL)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Db\IndexInterface initializer
@@ -36,14 +37,6 @@ PHALCON_INIT_CLASS(Phalcon_Db_IndexInterface){
 
 	return SUCCESS;
 }
-
-/**
- * Phalcon\Db\Index constructor
- *
- * @param string $indexName
- * @param array $columns
- */
-PHALCON_DOC_METHOD(Phalcon_Db_IndexInterface, __construct);
 
 /**
  * Gets the index name
@@ -58,12 +51,3 @@ PHALCON_DOC_METHOD(Phalcon_Db_IndexInterface, getName);
  * @return array
  */
 PHALCON_DOC_METHOD(Phalcon_Db_IndexInterface, getColumns);
-
-/**
- * Restore a Phalcon\Db\Index object from export
- *
- * @param array $data
- * @return Phalcon\Db\IndexInterface
- */
-PHALCON_DOC_METHOD(Phalcon_Db_IndexInterface, __set_state);
-

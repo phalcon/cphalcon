@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -18,18 +18,18 @@
   +------------------------------------------------------------------------+
 */
 
+#ifndef PHALCON_VERSION_H
+#define PHALCON_VERSION_H
+
+#include "php_phalcon.h"
+
+#define PHALCON_VERSION_ALPHA      1
+#define PHALCON_VERSION_BETA       2
+#define PHALCON_VERSION_RC         3
+#define PHALCON_VERSION_STABLE     4
+
 extern zend_class_entry *phalcon_version_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Version);
 
-PHP_METHOD(Phalcon_Version, _getVersion);
-PHP_METHOD(Phalcon_Version, get);
-PHP_METHOD(Phalcon_Version, getId);
-
-PHALCON_INIT_FUNCS(phalcon_version_method_entry){
-	PHP_ME(Phalcon_Version, _getVersion, NULL, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC) 
-	PHP_ME(Phalcon_Version, get, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
-	PHP_ME(Phalcon_Version, getId, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
-	PHP_FE_END
-};
-
+#endif /* PHALCON_VERSION_H */

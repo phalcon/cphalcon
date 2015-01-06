@@ -20,6 +20,10 @@
 
 use Phalcon\Mvc\Model\Message as ModelMessage;
 
+class Issue_1534 extends \Phalcon\Mvc\Model
+{
+}
+
 class ModelsTest extends PHPUnit_Framework_TestCase
 {
 
@@ -31,6 +35,13 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 	public function __destruct()
 	{
 		spl_autoload_unregister(array($this, 'modelsAutoloader'));
+	}
+
+	public function tearDown()
+	{
+		Phalcon\Mvc\Model::setup(array(
+			'phqlLiterals' => true,
+		));
 	}
 
 	public function modelsAutoloader($className)
@@ -60,25 +71,51 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 			return new Phalcon\Mvc\Model\Metadata\Memory();
 		});
 
-		$di->set('db', $dbService);
+		$di->set('db', $dbService, true);
 
 		return $di;
 	}
 
 	public function testModelsMysql()
 	{
+		require 'unit-tests/config.db.php';
+		if (empty($configMysql)) {
+			$this->markTestSkipped("Skipped");
+			return;
+		}
 
 		$di = $this->_getDI(function(){
 			require 'unit-tests/config.db.php';
-			return new Phalcon\Db\Adapter\Pdo\Mysql($configMysql);
+			$db = new Phalcon\Db\Adapter\Pdo\Mysql($configMysql);
+		/*
+			$em = new \Phalcon\Events\Manager();
+			$em->attach('db', function($event, $connection) {
+				if ($event->getType() == 'beforeQuery') {
+					echo $connection->getSQLStatement(), PHP_EOL;
+					print_r($connection->getSQLVariables());
+				}
+			});
+
+			$db->setEventsManager($em);
+		*/
+			return $db;
 		});
 
 		$this->_executeTestsNormal($di);
 		$this->_executeTestsRenamed($di);
+
+		$this->issue1534($di);
+		$this->issue886($di);
 	}
 
 	public function testModelsPostgresql()
 	{
+		require 'unit-tests/config.db.php';
+		if (empty($configPostgresql)) {
+			$this->markTestSkipped("Skipped");
+			return;
+		}
+
 		$di = $this->_getDI(function(){
 			require 'unit-tests/config.db.php';
 			return new Phalcon\Db\Adapter\Pdo\Postgresql($configPostgresql);
@@ -86,10 +123,18 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 
 		$this->_executeTestsNormal($di);
 		$this->_executeTestsRenamed($di);
+
+		$this->issue886($di);
 	}
 
 	public function testModelsSqlite()
 	{
+		require 'unit-tests/config.db.php';
+		if (empty($configSqlite)) {
+			$this->markTestSkipped("Skipped");
+			return;
+		}
+
 		$di = $this->_getDI(function(){
 			require 'unit-tests/config.db.php';
 			return new Phalcon\Db\Adapter\Pdo\Sqlite($configSqlite);
@@ -97,6 +142,78 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 
 		$this->_executeTestsNormal($di);
 		$this->_executeTestsRenamed($di);
+
+		$this->issue886($di);
+	}
+
+	protected function issue1534($di)
+	{
+		$db = $di->getShared('db');
+		$this->_prepareDb($di->getShared('db'));
+
+		$this->assertTrue($db->delete('issue_1534'));
+
+		$product = new Issue_1534();
+		$product->language = new \Phalcon\Db\RawValue('default(language)');
+		$product->name     = 'foo';
+		$product->slug     = 'bar';
+		$product->brand    = new \Phalcon\Db\RawValue('default');
+		$product->sort     = new \Phalcon\Db\RawValue('default');
+		$this->assertTrue($product->save());
+		$this->assertEquals(1, Issue_1534::count());
+
+		$entry = Issue_1534::findFirst();
+		$this->assertEquals('bb', $entry->language);
+		$this->assertEquals('0', $entry->sort);
+		$this->assertTrue($entry->brand === NULL);
+
+		$this->assertTrue($entry->delete());
+
+		$product = new Issue_1534();
+		$product->language = 'en';
+		$product->name     = 'foo';
+		$product->slug     = 'bar';
+		$product->brand    = 'brand';
+		$product->sort     = 1;
+		$this->assertTrue($product->save());
+		$this->assertEquals(1, Issue_1534::count());
+
+		$entry = Issue_1534::findFirst();
+		$entry->brand    = new \Phalcon\Db\RawValue('default');
+		$entry->sort     = new \Phalcon\Db\RawValue('default');
+		$this->assertTrue($entry->save());
+		$this->assertEquals(1, Issue_1534::count());
+
+		$entry = Issue_1534::findFirst();
+		$this->assertEquals('0', $entry->sort);
+		$this->assertTrue($entry->brand === NULL);
+
+/* FIXME: this does not work yet
+		$entry->language = new \Phalcon\Db\RawValue('default(language)');
+		$entry->language = 'es';
+		$this->assertTrue($entry->save());
+		$this->assertEquals(1, Issue_1534::count());
+
+		$entry = Issue_1534::findFirst();
+		$this->assertEquals('es', $entry->language);
+		$this->assertEquals('0', $entry->sort);
+		$this->assertTrue($entry->brand === NULL);
+*/
+
+		$this->assertTrue($db->delete('issue_1534'));
+	}
+
+	protected function issue886($di)
+	{
+		$this->_prepareDb($di->getShared('db'));
+
+		Phalcon\Mvc\Model::setup(array(
+			'phqlLiterals' => false,
+		));
+
+		$people = People::findFirst();
+		$this->assertTrue(is_object($people));
+		$this->assertEquals(get_class($people), 'People');
 	}
 
 	protected function _executeTestsNormal($di){
@@ -224,21 +341,25 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 				'_type' => 'PresenceOf',
 				'_message' => 'tipo_documento_id is required',
 				'_field' => 'tipo_documento_id',
+				'_code' => 0,
 			)),
 			1 => ModelMessage::__set_state(array(
 				'_type' => 'PresenceOf',
 				'_message' => 'nombres is required',
 				'_field' => 'nombres',
+				'_code' => 0,
 			)),
 			2 => ModelMessage::__set_state(array(
 				'_type' => 'PresenceOf',
 				'_message' => 'cupo is required',
 				'_field' => 'cupo',
+				'_code' => 0,
 			)),
 			3 => ModelMessage::__set_state(array(
 				'_type' => 'PresenceOf',
 				'_message' => 'estado is required',
 				'_field' => 'estado',
+				'_code' => 0,
 			)),
 		);
 		$this->assertEquals($persona->getMessages(), $messages);
@@ -351,6 +472,15 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 
 		$this->assertEquals($persona->toArray(), $expected);
 
+		// Issue 1701
+		$expected = array(
+			'nombres' => 'LOST CREATE',
+			'cupo' => 21000,
+			'estado' => 'A',
+		);
+
+		$this->assertEquals($persona->toArray(array('nombres', 'cupo', 'estado')), $expected);
+
 		//Refresh
 		$persona = Personas::findFirst();
 
@@ -368,6 +498,19 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 		$persona->refresh();
 		$this->assertEquals($personaData, $persona->toArray());
 
+		// Issue 1314
+		$parts = new Parts2();
+		$parts->save();
+
+		// Issue 1506
+		$persona = Personas::findFirst(array('columns' => 'nombres, telefono, estado', "nombres = 'LOST CREATE'"));
+		$expected = array(
+			'nombres'  => 'LOST CREATE',
+			'telefono' => '1',
+			'estado' => 'A'
+		);
+
+		$this->assertEquals($expected, $persona->toArray());
 	}
 
 	protected function _executeTestsRenamed($di)
@@ -482,21 +625,25 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 				'_type' => 'PresenceOf',
 				'_message' => 'slagBorgerId is required',
 				'_field' => 'slagBorgerId',
+				'_code' => 0,
 			)),
 			1 => ModelMessage::__set_state(array(
 				'_type' => 'PresenceOf',
 				'_message' => 'navnes is required',
 				'_field' => 'navnes',
+				'_code' => 0,
 			)),
 			2 => ModelMessage::__set_state(array(
 				'_type' => 'PresenceOf',
 				'_message' => 'kredit is required',
 				'_field' => 'kredit',
+				'_code' => 0,
 			)),
 			3 => ModelMessage::__set_state(array(
 				'_type' => 'PresenceOf',
 				'_message' => 'status is required',
 				'_field' => 'status',
+				'_code' => 0,
 			)),
 		);
 		$this->assertEquals($personer->getMessages(), $messages);
@@ -615,5 +762,4 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 		$personer->refresh();
 		$this->assertEquals($personerData, $personer->toArray());
 	}
-
 }

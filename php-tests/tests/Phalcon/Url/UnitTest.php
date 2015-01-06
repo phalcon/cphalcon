@@ -7,7 +7,7 @@
  *
  * PhalconPHP Framework
  *
- * @copyright (c) 2011-2013 Phalcon Team
+ * @copyright (c) 2011-2014 Phalcon Team
  * @link      http://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>
@@ -232,5 +232,22 @@ class UnitTest extends PhTestUnitTestCase
 
         $this->assertEquals($expected, $actual, 'External Site Url not correct');
 
+    }
+
+    /**
+     * @ticket 1960
+     * @author Vladimir Kolesnikov <vladimir@extrememember.com>
+     * @since 2014-02-02
+     */
+    public function testIssue1960()
+    {
+    	$url = new \Phalcon\Mvc\Url();
+    	$url->setDI($this->di);
+
+    	$params   = 'http://www.google.com/';
+    	$expected = 'http://www.google.com/';
+    	$actual   = $url->get($params);
+
+    	$this->assertEquals($expected, $actual, 'External Site Url not correct');
     }
 }

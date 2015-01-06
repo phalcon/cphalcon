@@ -79,6 +79,7 @@ class DbDialectTest extends PHPUnit_Framework_TestCase
 			'index1' => new Index("index1", array('column1')),
 			'index2' => new Index("index2", array('column1', 'column2')),
 			'PRIMARY' => new Index("PRIMARY", array('column3')),
+			'index4' => new Index("index4", array('column4'), 'UNIQUE'),
 		);
 	}
 
@@ -201,6 +202,11 @@ class DbDialectTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($index3->getName(), 'PRIMARY');
 		$this->assertEquals($index3->getColumns(), array('column3'));
 
+		$index4 = $indexes['index4'];
+		$this->assertEquals($index4->getName(), 'index4');
+		$this->assertEquals($index4->getColumns(), array('column4'));
+		$this->assertEquals($index4->getType(), 'UNIQUE');
+
 	}
 
 	public function testReferences()
@@ -220,6 +226,27 @@ class DbDialectTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($reference2->getReferencedTable(), 'ref_table');
 		$this->assertEquals($reference2->getReferencedColumns(), array('column5', 'column6'));
 
+	}
+
+	public function testSavepoints()
+	{
+	// MySQL
+		$dialect = new \Phalcon\Db\Dialect\Mysql();
+
+		$this->assertEquals($dialect->createSavepoint('PHALCON_SAVEPOINT_1'), 'SAVEPOINT PHALCON_SAVEPOINT_1');
+		$this->assertEquals($dialect->releaseSavepoint('PHALCON_SAVEPOINT_1'), 'RELEASE SAVEPOINT PHALCON_SAVEPOINT_1');
+		$this->assertEquals($dialect->rollbackSavepoint('PHALCON_SAVEPOINT_1'), 'ROLLBACK TO SAVEPOINT PHALCON_SAVEPOINT_1');
+		$this->assertTrue($dialect->supportsSavepoints());
+		$this->assertTrue($dialect->supportsReleaseSavepoints());
+
+	// SQLite
+		$dialect = new \Phalcon\Db\Dialect\Sqlite();
+
+		$this->assertEquals($dialect->createSavepoint('PHALCON_SAVEPOINT_1'), 'SAVEPOINT PHALCON_SAVEPOINT_1');
+		$this->assertEquals($dialect->releaseSavepoint('PHALCON_SAVEPOINT_1'), 'RELEASE SAVEPOINT PHALCON_SAVEPOINT_1');
+		$this->assertEquals($dialect->rollbackSavepoint('PHALCON_SAVEPOINT_1'), 'ROLLBACK TO SAVEPOINT PHALCON_SAVEPOINT_1');
+		$this->assertTrue($dialect->supportsSavepoints());
+		$this->assertTrue($dialect->supportsReleaseSavepoints());
 	}
 
 	public function testMysqlDialect()
@@ -290,6 +317,8 @@ class DbDialectTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($dialect->addIndex('table', 'schema', $indexes['index2']), 'ALTER TABLE `schema`.`table` ADD INDEX `index2` (`column1`, `column2`)');
 		$this->assertEquals($dialect->addIndex('table', null, $indexes['PRIMARY']), 'ALTER TABLE `table` ADD INDEX `PRIMARY` (`column3`)');
 		$this->assertEquals($dialect->addIndex('table', 'schema', $indexes['PRIMARY']), 'ALTER TABLE `schema`.`table` ADD INDEX `PRIMARY` (`column3`)');
+		$this->assertEquals($dialect->addIndex('table', null, $indexes['index4']), 'ALTER TABLE `table` ADD UNIQUE INDEX `index4` (`column4`)');
+		$this->assertEquals($dialect->addIndex('table', 'schema', $indexes['index4']), 'ALTER TABLE `schema`.`table` ADD UNIQUE INDEX `index4` (`column4`)');
 
 		//Drop Index
 		$this->assertEquals($dialect->dropIndex('table', null, 'index1'), 'ALTER TABLE `table` DROP INDEX `index1`');
@@ -306,10 +335,10 @@ class DbDialectTest extends PHPUnit_Framework_TestCase
 		$references = $this->getReferences();
 
 		//Add Foreign Key
-		$this->assertEquals($dialect->addForeignKey('table', null, $references['fk1']), 'ALTER TABLE `table` ADD FOREIGN KEY `fk1`(`column1`) REFERENCES `ref_table`(`column2`)');
-		$this->assertEquals($dialect->addForeignKey('table', 'schema', $references['fk1']), 'ALTER TABLE `schema`.`table` ADD FOREIGN KEY `fk1`(`column1`) REFERENCES `ref_table`(`column2`)');
-		$this->assertEquals($dialect->addForeignKey('table', null, $references['fk2']), 'ALTER TABLE `table` ADD FOREIGN KEY `fk2`(`column3`, `column4`) REFERENCES `ref_table`(`column5`, `column6`)');
-		$this->assertEquals($dialect->addForeignKey('table', 'schema', $references['fk2']), 'ALTER TABLE `schema`.`table` ADD FOREIGN KEY `fk2`(`column3`, `column4`) REFERENCES `ref_table`(`column5`, `column6`)');
+		$this->assertEquals($dialect->addForeignKey('table', null, $references['fk1']), 'ALTER TABLE `table` ADD CONSTRAINT `fk1` FOREIGN KEY (`column1`) REFERENCES `ref_table`(`column2`)');
+		$this->assertEquals($dialect->addForeignKey('table', 'schema', $references['fk1']), 'ALTER TABLE `schema`.`table` ADD CONSTRAINT `fk1` FOREIGN KEY (`column1`) REFERENCES `ref_table`(`column2`)');
+		$this->assertEquals($dialect->addForeignKey('table', null, $references['fk2']), 'ALTER TABLE `table` ADD CONSTRAINT `fk2` FOREIGN KEY (`column3`, `column4`) REFERENCES `ref_table`(`column5`, `column6`)');
+		$this->assertEquals($dialect->addForeignKey('table', 'schema', $references['fk2']), 'ALTER TABLE `schema`.`table` ADD CONSTRAINT `fk2` FOREIGN KEY (`column3`, `column4`) REFERENCES `ref_table`(`column5`, `column6`)');
 
 		$this->assertEquals($dialect->dropForeignKey('table', null, 'fk1'), 'ALTER TABLE `table` DROP FOREIGN KEY `fk1`');
 		$this->assertEquals($dialect->dropForeignKey('table', 'schema', 'fk1'), 'ALTER TABLE `schema`.`table` DROP FOREIGN KEY `fk1`');
@@ -321,10 +350,12 @@ class DbDialectTest extends PHPUnit_Framework_TestCase
 				$columns['column2'],
 			)
 		);
-		$this->assertEquals($dialect->createTable('table', null, $definition), 'CREATE TABLE `table` (
-	`column1` VARCHAR(10),
-	`column2` INT(18) UNSIGNED
-)');
+
+		$expected  = "CREATE TABLE `table` (\n";
+		$expected .= "	`column1` VARCHAR(10),\n";
+		$expected .= "	`column2` INT(18) UNSIGNED\n";
+		$expected .= ")";
+		$this->assertEquals($dialect->createTable('table', null, $definition), $expected);
 
 		$definition = array(
 			'columns' => array(
@@ -336,13 +367,179 @@ class DbDialectTest extends PHPUnit_Framework_TestCase
 				$indexes['PRIMARY']
 			)
 		);
-		$this->assertEquals($dialect->createTable('table', null, $definition), 'CREATE TABLE `table` (
-	`column2` INT(18) UNSIGNED,
-	`column3` DECIMAL(10,2) NOT NULL,
-	`column1` VARCHAR(10),
-	PRIMARY KEY (`column3`)
-)');
 
+		$expected  = "CREATE TABLE `table` (\n";
+		$expected .= "	`column2` INT(18) UNSIGNED,\n";
+		$expected .= "	`column3` DECIMAL(10,2) NOT NULL,\n";
+		$expected .= "	`column1` VARCHAR(10),\n";
+		$expected .= "	PRIMARY KEY (`column3`)\n";
+		$expected .= ")";
+		$this->assertEquals($dialect->createTable('table', null, $definition), $expected);
+
+	}
+
+	public function testSQLiteDialect()
+	{
+
+		$dialect = new \Phalcon\Db\Dialect\Sqlite();
+
+		$columns = $dialect->getColumnList(array('column1', 'column2', 'column3'));
+		$this->assertEquals($columns, '"column1", "column2", "column3"');
+
+		$columns = $this->getColumns();
+
+		//Column definitions
+		$this->assertEquals($dialect->getColumnDefinition($columns['column1']), 'VARCHAR(10)');
+		$this->assertEquals($dialect->getColumnDefinition($columns['column2']), 'INT');
+		$this->assertEquals($dialect->getColumnDefinition($columns['column3']), 'NUMERIC(10,2)');
+		$this->assertEquals($dialect->getColumnDefinition($columns['column4']), 'CHARACTER(100)');
+		$this->assertEquals($dialect->getColumnDefinition($columns['column5']), 'DATE');
+		$this->assertEquals($dialect->getColumnDefinition($columns['column6']), 'TIMESTAMP');
+		$this->assertEquals($dialect->getColumnDefinition($columns['column7']), 'TEXT');
+		$this->assertEquals($dialect->getColumnDefinition($columns['column8']), 'FLOAT');
+
+		//Add Columns
+		$this->assertEquals($dialect->addColumn('table', null,     $columns['column1']), 'ALTER TABLE "table" ADD COLUMN "column1" VARCHAR(10)');
+		$this->assertEquals($dialect->addColumn('table', 'schema', $columns['column1']), 'ALTER TABLE "schema"."table" ADD COLUMN "column1" VARCHAR(10)');
+		$this->assertEquals($dialect->addColumn('table', null,     $columns['column2']), 'ALTER TABLE "table" ADD COLUMN "column2" INT');
+		$this->assertEquals($dialect->addColumn('table', 'schema', $columns['column2']), 'ALTER TABLE "schema"."table" ADD COLUMN "column2" INT');
+		$this->assertEquals($dialect->addColumn('table', null,     $columns['column3']), 'ALTER TABLE "table" ADD COLUMN "column3" NUMERIC(10,2) NOT NULL');
+		$this->assertEquals($dialect->addColumn('table', 'schema', $columns['column3']), 'ALTER TABLE "schema"."table" ADD COLUMN "column3" NUMERIC(10,2) NOT NULL');
+		$this->assertEquals($dialect->addColumn('table', null,     $columns['column4']), 'ALTER TABLE "table" ADD COLUMN "column4" CHARACTER(100) NOT NULL');
+		$this->assertEquals($dialect->addColumn('table', 'schema', $columns['column4']), 'ALTER TABLE "schema"."table" ADD COLUMN "column4" CHARACTER(100) NOT NULL');
+		$this->assertEquals($dialect->addColumn('table', null,     $columns['column5']), 'ALTER TABLE "table" ADD COLUMN "column5" DATE NOT NULL');
+		$this->assertEquals($dialect->addColumn('table', 'schema', $columns['column5']), 'ALTER TABLE "schema"."table" ADD COLUMN "column5" DATE NOT NULL');
+		$this->assertEquals($dialect->addColumn('table', null,     $columns['column6']), 'ALTER TABLE "table" ADD COLUMN "column6" TIMESTAMP NOT NULL');
+		$this->assertEquals($dialect->addColumn('table', 'schema', $columns['column6']), 'ALTER TABLE "schema"."table" ADD COLUMN "column6" TIMESTAMP NOT NULL');
+		$this->assertEquals($dialect->addColumn('table', null,     $columns['column7']), 'ALTER TABLE "table" ADD COLUMN "column7" TEXT NOT NULL');
+		$this->assertEquals($dialect->addColumn('table', 'schema', $columns['column7']), 'ALTER TABLE "schema"."table" ADD COLUMN "column7" TEXT NOT NULL');
+		$this->assertEquals($dialect->addColumn('table', null,     $columns['column8']), 'ALTER TABLE "table" ADD COLUMN "column8" FLOAT NOT NULL');
+		$this->assertEquals($dialect->addColumn('table', 'schema', $columns['column8']), 'ALTER TABLE "schema"."table" ADD COLUMN "column8" FLOAT NOT NULL');
+
+		//Modify Columns
+		try {
+			$dialect->modifyColumn('table', null, $columns['column1']);
+			$this->assertTrue(false);
+		}
+		catch (Phalcon\Db\Exception $ex) {
+			$this->assertTrue(true);
+		}
+		catch (Exception $e) {
+			$this->assertTrue(false);
+		}
+
+		//Drop Columns
+		try {
+			$dialect->dropColumn('table', null, 'column1');
+			$this->assertTrue(false);
+		}
+		catch (Phalcon\Db\Exception $ex) {
+			$this->assertTrue(true);
+		}
+		catch (Exception $e) {
+			$this->assertTrue(false);
+		}
+
+		$indexes = $this->getIndexes();
+
+		//Add Index
+		$this->assertEquals($dialect->addIndex('table', null,     $indexes['index1']),  'CREATE INDEX "index1" ON "table" ("column1")');
+		$this->assertEquals($dialect->addIndex('table', 'schema', $indexes['index1']),  'CREATE INDEX "schema"."index1" ON "table" ("column1")');
+		$this->assertEquals($dialect->addIndex('table', null,     $indexes['index2']),  'CREATE INDEX "index2" ON "table" ("column1", "column2")');
+		$this->assertEquals($dialect->addIndex('table', 'schema', $indexes['index2']),  'CREATE INDEX "schema"."index2" ON "table" ("column1", "column2")');
+
+		//Drop Index
+		$this->assertEquals($dialect->dropIndex('table', null, 'index1'), 'DROP INDEX "index1"');
+		$this->assertEquals($dialect->dropIndex('table', 'schema', 'index1'), 'DROP INDEX "schema"."index1"');
+
+		//Add Primary Key
+		try {
+			$dialect->addPrimaryKey('table', null, $indexes['PRIMARY']);
+			$this->assertTrue(false);
+		}
+		catch (Phalcon\Db\Exception $ex) {
+			$this->assertTrue(true);
+		}
+		catch (Exception $e) {
+			$this->assertTrue(false);
+		}
+
+		//Drop Primary Key
+		try {
+			$dialect->dropPrimaryKey('table', null);
+			$this->assertTrue(false);
+		}
+		catch (Phalcon\Db\Exception $ex) {
+			$this->assertTrue(true);
+		}
+		catch (Exception $e) {
+			$this->assertTrue(false);
+		}
+
+		$references = $this->getReferences();
+
+		//Add Foreign Key
+		try {
+			$dialect->addForeignKey('table', null, $references['fk1']);
+			$this->assertTrue(false);
+		}
+		catch (Phalcon\Db\Exception $ex) {
+			$this->assertTrue(true);
+		}
+		catch (Exception $e) {
+			$this->assertTrue(false);
+		}
+
+		try {
+			$dialect->dropForeignKey('table', null, 'fk1');
+			$this->assertTrue(false);
+		}
+		catch (Phalcon\Db\Exception $ex) {
+			$this->assertTrue(true);
+		}
+		catch (Exception $e) {
+			$this->assertTrue(false);
+		}
+
+		//Create tables
+		// Not implemented yet
+	}
+
+	public function testViews()
+	{
+	// MySQL
+		$dialect = new \Phalcon\Db\Dialect\Mysql();
+
+		$definition = array(
+			'sql' => 'SELECT 1',
+		);
+
+		//Create View
+		$this->assertEquals($dialect->createView('test_view', $definition, null), 'CREATE VIEW `test_view` AS SELECT 1');
+		$this->assertEquals($dialect->createView('test_view', $definition, 'schema'), 'CREATE VIEW `schema`.`test_view` AS SELECT 1');
+
+		//Drop View
+		$this->assertEquals($dialect->dropView('test_view', null, false), 'DROP VIEW test_view');
+		$this->assertEquals($dialect->dropView('test_view', null, true), 'DROP VIEW IF EXISTS test_view');
+		$this->assertEquals($dialect->dropView('test_view', 'schema', false), 'DROP VIEW schema.test_view');
+		$this->assertEquals($dialect->dropView('test_view', 'schema', true), 'DROP VIEW IF EXISTS schema.test_view');
+
+		$this->assertEquals($dialect->listViews(), 'SELECT `TABLE_NAME` AS view_name FROM `INFORMATION_SCHEMA`.`VIEWS` ORDER BY view_name');
+
+	// SQLite
+		$dialect = new \Phalcon\Db\Dialect\Sqlite();
+
+		//Create View
+		$this->assertEquals($dialect->createView('test_view', $definition, null), 'CREATE VIEW "test_view" AS SELECT 1');
+		$this->assertEquals($dialect->createView('test_view', $definition, 'schema'), 'CREATE VIEW "schema"."test_view" AS SELECT 1');
+
+		//Drop View
+		$this->assertEquals($dialect->dropView('test_view', null, false), 'DROP VIEW "test_view"');
+		$this->assertEquals($dialect->dropView('test_view', null, true), 'DROP VIEW IF EXISTS "test_view"');
+		$this->assertEquals($dialect->dropView('test_view', 'schema', false), 'DROP VIEW "schema"."test_view"');
+		$this->assertEquals($dialect->dropView('test_view', 'schema', true), 'DROP VIEW IF EXISTS "schema"."test_view"');
+
+		$this->assertEquals($dialect->listViews(), "SELECT tbl_name FROM sqlite_master WHERE type = 'view' ORDER BY tbl_name");
 	}
 
 }

@@ -1,0 +1,13 @@
+phalcon:
+  baseuri: /phalcon/
+models:
+  metadata: memory
+database:
+  adapter: mysql
+  host: localhost
+  username: user
+  password: passwd
+  name: demo
+test:
+  parent:
+    property2: yeah

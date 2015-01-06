@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -17,18 +17,13 @@
   +------------------------------------------------------------------------+
 */
 
+#ifndef PHALCON_FORMS_ELEMENT_FILE_H
+#define PHALCON_FORMS_ELEMENT_FILE_H
+
+#include "php_phalcon.h"
+
 extern zend_class_entry *phalcon_forms_element_file_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Forms_Element_File);
 
-PHP_METHOD(Phalcon_Forms_Element_File, render);
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_element_file_render, 0, 0, 0)
-	ZEND_ARG_INFO(0, attributes)
-ZEND_END_ARG_INFO()
-
-PHALCON_INIT_FUNCS(phalcon_forms_element_file_method_entry){
-	PHP_ME(Phalcon_Forms_Element_File, render, arginfo_phalcon_forms_element_file_render, ZEND_ACC_PUBLIC) 
-	PHP_FE_END
-};
-
+#endif /* PHALCON_FORMS_ELEMENT_FILE_H */

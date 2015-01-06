@@ -4,7 +4,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2012 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -34,8 +34,8 @@ class ModelsRelationsMagicTest extends PHPUnit_Framework_TestCase
 	public function modelsAutoloader($className)
 	{
 		$className = str_replace('\\', DIRECTORY_SEPARATOR, $className);
-		if (file_exists('unit-tests/models/'.$className.'.php')) {
-			require 'unit-tests/models/'.$className.'.php';
+		if (file_exists('unit-tests/models/' . $className . '.php')) {
+			require 'unit-tests/models/' . $className . '.php';
 		}
 	}
 
@@ -63,13 +63,17 @@ class ModelsRelationsMagicTest extends PHPUnit_Framework_TestCase
 		$di = $this->_getDI();
 
 		require 'unit-tests/config.db.php';
+		if (empty($configMysql)) {
+			$this->markTestSkipped('Test skipped');
+			return;
+		}
+
 		$connection = new Phalcon\Db\Adapter\Pdo\Mysql($configMysql);
 
-		$di->set('db', $connection);
+		$di->set('db', $connection, true);
 
 		$this->_executeQueryRelated();
 		$this->_executeSaveRelatedBelongsTo($connection);
-		//$this->_executeSaveRelatedHasMany($connection);
 	}
 
 	/*public function testModelsPostgresql()
@@ -80,11 +84,10 @@ class ModelsRelationsMagicTest extends PHPUnit_Framework_TestCase
 		$di->set('db', function(){
 			require 'unit-tests/config.db.php';
 			return new Phalcon\Db\Adapter\Pdo\Postgresql($configPostgresql);
-		});
+		}, true);
 
-		$this->_executeTestsNormal($di);
-		$this->_executeTestsRenamed($di);
-
+		$this->_executeQueryRelated();
+		$this->_executeSaveRelatedBelongsTo($connection);
 	}
 
 	public function testModelsSqlite()
@@ -95,11 +98,10 @@ class ModelsRelationsMagicTest extends PHPUnit_Framework_TestCase
 		$di->set('db', function(){
 			require 'unit-tests/config.db.php';
 			return new Phalcon\Db\Adapter\Pdo\Sqlite($configSqlite);
-		});
+		}, true);
 
-		$this->_executeTestsNormal($di);
-		$this->_executeTestsRenamed($di);
-
+		$this->_executeQueryRelated();
+		$this->_executeSaveRelatedBelongsTo($connection);
 	}*/
 
 	public function _executeQueryRelated()
@@ -171,12 +173,5 @@ class ModelsRelationsMagicTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($artist->getDirtyState(), Phalcon\Mvc\Model::DIRTY_STATE_PERSISTENT);
 		$this->assertEquals($album->getDirtyState(), Phalcon\Mvc\Model::DIRTY_STATE_PERSISTENT);
 	}
-
-	/*public function _executeSaveRelatedHasMany($connection)
-	{
-		$artist = new AlbumORama\Artists();
-
-		$artist->albums
-	}*/
 
 }

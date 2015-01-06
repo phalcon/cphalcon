@@ -3,7 +3,7 @@
 	+------------------------------------------------------------------------+
 	| Phalcon Framework                                                      |
 	+------------------------------------------------------------------------+
-	| Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+	| Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
 	+------------------------------------------------------------------------+
 	| This source file is subject to the New BSD License that is bundled     |
 	| with this package in the file docs/LICENSE.txt.                        |
@@ -17,24 +17,31 @@
 	+------------------------------------------------------------------------+
 */
 
+#ifndef PHALCON_ANNOTATIONS_ANNOT_H
+#define PHALCON_ANNOTATIONS_ANNOT_H
+
+#include <Zend/zend.h>
+#include "annotations/scanner.h"
+
 typedef struct _phannot_parser_token {
-	int opcode;
 	char *token;
+	int opcode;
 	int token_len;
 	int free_flag;
 } phannot_parser_token;
 
 typedef struct _phannot_parser_status {
-	int status;
 	zval *ret;
 	phannot_scanner_state *scanner_state;
 	phannot_scanner_token *token;
 	char *syntax_error;
-	zend_uint syntax_error_len;
+	int status;
 } phannot_parser_status;
 
 #define PHANNOT_PARSING_OK 1
 #define PHANNOT_PARSING_FAILED 0
 
-extern int phannot_parse_annotations(zval *result, zval *view_code, zval *template_path, zval *line TSRMLS_DC);
-int phannot_internal_parse_annotations(zval **result, zval *view_code, zval *template_path, zval *line, zval **error_msg TSRMLS_DC);
+int phannot_parse_annotations(zval *result, const char *comment, zend_uint comment_len, const char *file_path, zend_uint line TSRMLS_DC);
+int phannot_internal_parse_annotations(zval **result, const char *comment, zend_uint comment_len, const char *file_path, zend_uint line, char **error_msg TSRMLS_DC);
+
+#endif /* PHALCON_ANNOTATIONS_ANNOT_H */

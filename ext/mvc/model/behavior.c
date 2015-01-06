@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -17,21 +17,10 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
-
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
+#include "mvc/model/behavior.h"
+#include "mvc/model/behaviorinterface.h"
 
 #include "kernel/main.h"
-#include "kernel/memory.h"
-
 #include "kernel/object.h"
 #include "kernel/array.h"
 
@@ -40,7 +29,27 @@
  *
  * This is an optional base class for ORM behaviors
  */
+zend_class_entry *phalcon_mvc_model_behavior_ce;
 
+PHP_METHOD(Phalcon_Mvc_Model_Behavior, __construct);
+PHP_METHOD(Phalcon_Mvc_Model_Behavior, mustTakeAction);
+PHP_METHOD(Phalcon_Mvc_Model_Behavior, getOptions);
+PHP_METHOD(Phalcon_Mvc_Model_Behavior, notify);
+PHP_METHOD(Phalcon_Mvc_Model_Behavior, missingMethod);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_behavior___construct, 0, 0, 0)
+	ZEND_ARG_INFO(0, options)
+ZEND_END_ARG_INFO()
+
+
+static const zend_function_entry phalcon_mvc_model_behavior_method_entry[] = {
+	PHP_ME(Phalcon_Mvc_Model_Behavior, __construct, arginfo_phalcon_mvc_model_behavior___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_ME(Phalcon_Mvc_Model_Behavior, mustTakeAction, NULL, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Mvc_Model_Behavior, getOptions, NULL, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Mvc_Model_Behavior, notify, arginfo_phalcon_mvc_model_behaviorinterface_notify, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Behavior, missingMethod, arginfo_phalcon_mvc_model_behaviorinterface_missingmethod, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Mvc\Model\Behavior initializer
@@ -50,6 +59,8 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Behavior){
 	PHALCON_REGISTER_CLASS(Phalcon\\Mvc\\Model, Behavior, mvc_model_behavior, phalcon_mvc_model_behavior_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
 
 	zend_declare_property_null(phalcon_mvc_model_behavior_ce, SL("_options"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
+	zend_class_implements(phalcon_mvc_model_behavior_ce TSRMLS_CC, 1, phalcon_mvc_model_behaviorinterface_ce);
 
 	return SUCCESS;
 }
@@ -63,19 +74,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior, __construct){
 
 	zval *options = NULL;
 
-	PHALCON_MM_GROW();
-
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &options) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(0, 0, 1, &options);
+	
 	if (!options) {
-		PHALCON_INIT_VAR(options);
+		options = PHALCON_GLOBAL(z_null);
 	}
 	
 	phalcon_update_property_this(this_ptr, SL("_options"), options TSRMLS_CC);
-	
-	PHALCON_MM_RESTORE();
 }
 
 /**
@@ -87,19 +92,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior, mustTakeAction){
 
 	zval *event_name, *options;
 
-	PHALCON_MM_GROW();
-
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &event_name) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
-	PHALCON_OBS_VAR(options);
-	phalcon_read_property_this(&options, this_ptr, SL("_options"), PH_NOISY_CC);
+	phalcon_fetch_params(0, 1, 0, &event_name);
+	
+	options = phalcon_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY TSRMLS_CC);
 	if (phalcon_array_isset(options, event_name)) {
-		RETURN_MM_TRUE;
+		RETURN_TRUE;
 	}
 	
-	RETURN_MM_FALSE;
+	RETURN_FALSE;
 }
 
 /**
@@ -112,29 +112,17 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior, getOptions){
 
 	zval *event_name = NULL, *options, *event_options;
 
-	PHALCON_MM_GROW();
-
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &event_name) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
-	if (!event_name) {
-		PHALCON_INIT_VAR(event_name);
-	}
+	phalcon_fetch_params(0, 0, 1, &event_name);
 	
-	PHALCON_OBS_VAR(options);
-	phalcon_read_property_this(&options, this_ptr, SL("_options"), PH_NOISY_CC);
-	if (Z_TYPE_P(event_name) != IS_NULL) {
-		if (phalcon_array_isset(options, event_name)) {
-			PHALCON_OBS_VAR(event_options);
-			phalcon_array_fetch(&event_options, options, event_name, PH_NOISY_CC);
-			RETURN_CCTOR(event_options);
+	options = phalcon_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY TSRMLS_CC);
+	if (event_name && Z_TYPE_P(event_name) != IS_NULL) {
+		if (phalcon_array_isset_fetch(&event_options, options, event_name)) {
+			RETURN_ZVAL(event_options, 1, 0);
 		}
-		RETURN_MM_NULL();
+		RETURN_NULL();
 	}
 	
-	
-	RETURN_CCTOR(options);
+	RETURN_ZVAL(options, 1, 0);
 }
 
 /**
@@ -147,10 +135,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior, notify){
 
 	zval *type, *model;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &type, &model) == FAILURE) {
-		RETURN_NULL();
-	}
-
+	phalcon_fetch_params(0, 2, 0, &type, &model);
+	
 	RETURN_NULL();
 }
 
@@ -165,16 +151,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior, missingMethod){
 
 	zval *model, *method, *arguments = NULL;
 
-	PHALCON_MM_GROW();
-
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz|z", &model, &method, &arguments) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
-	if (!arguments) {
-		PHALCON_INIT_VAR(arguments);
-	}
+	phalcon_fetch_params(0, 2, 1, &model, &method, &arguments);
 	
-	RETURN_MM_NULL();
+	RETURN_NULL();
 }
-

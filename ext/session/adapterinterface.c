@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -17,15 +17,24 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
-
+#include "session/adapterinterface.h"
 #include "kernel/main.h"
+
+zend_class_entry *phalcon_session_adapterinterface_ce;
+
+static const zend_function_entry phalcon_session_adapterinterface_method_entry[] = {
+	PHP_ABSTRACT_ME(Phalcon_Session_AdapterInterface, start, arginfo_phalcon_session_adapterinterface_start)
+	PHP_ABSTRACT_ME(Phalcon_Session_AdapterInterface, setOptions, arginfo_phalcon_session_adapterinterface_setoptions)
+	PHP_ABSTRACT_ME(Phalcon_Session_AdapterInterface, getOptions, arginfo_phalcon_session_adapterinterface_getoptions)
+	PHP_ABSTRACT_ME(Phalcon_Session_AdapterInterface, get, arginfo_phalcon_session_adapterinterface_get)
+	PHP_ABSTRACT_ME(Phalcon_Session_AdapterInterface, set, arginfo_phalcon_session_adapterinterface_set)
+	PHP_ABSTRACT_ME(Phalcon_Session_AdapterInterface, has, arginfo_phalcon_session_adapterinterface_has)
+	PHP_ABSTRACT_ME(Phalcon_Session_AdapterInterface, remove, arginfo_phalcon_session_adapterinterface_remove)
+	PHP_ABSTRACT_ME(Phalcon_Session_AdapterInterface, getId, arginfo_phalcon_session_adapterinterface_getid)
+	PHP_ABSTRACT_ME(Phalcon_Session_AdapterInterface, isStarted, arginfo_phalcon_session_adapterinterface_isstarted)
+	PHP_ABSTRACT_ME(Phalcon_Session_AdapterInterface, destroy, arginfo_phalcon_session_adapterinterface_destroy)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Session\AdapterInterface initializer
@@ -36,13 +45,6 @@ PHALCON_INIT_CLASS(Phalcon_Session_AdapterInterface){
 
 	return SUCCESS;
 }
-
-/**
- * Phalcon\Session construtor
- *
- * @param array $options
- */
-PHALCON_DOC_METHOD(Phalcon_Session_AdapterInterface, __construct);
 
 /**
  * Starts session, optionally using an adapter
@@ -117,4 +119,3 @@ PHALCON_DOC_METHOD(Phalcon_Session_AdapterInterface, isStarted);
  * @return boolean
  */
 PHALCON_DOC_METHOD(Phalcon_Session_AdapterInterface, destroy);
-

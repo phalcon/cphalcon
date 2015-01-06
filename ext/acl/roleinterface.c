@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -17,15 +17,16 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
-
+#include "acl/roleinterface.h"
 #include "kernel/main.h"
+
+zend_class_entry *phalcon_acl_roleinterface_ce;
+
+static const zend_function_entry phalcon_acl_roleinterface_method_entry[] = {
+	PHP_ABSTRACT_ME(Phalcon_Acl_RoleInterface, getName, arginfo_phalcon_acl_roleinterface_getname)
+	PHP_ABSTRACT_ME(Phalcon_Acl_RoleInterface, getDescription, arginfo_phalcon_acl_roleinterface_getdescription)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Acl\RoleInterface initializer
@@ -36,14 +37,6 @@ PHALCON_INIT_CLASS(Phalcon_Acl_RoleInterface){
 
 	return SUCCESS;
 }
-
-/**
- * Phalcon\Acl\Role constructor
- *
- * @param string $name
- * @param string $description
- */
-PHALCON_DOC_METHOD(Phalcon_Acl_RoleInterface, __construct);
 
 /**
  * Returns the role name
@@ -58,11 +51,3 @@ PHALCON_DOC_METHOD(Phalcon_Acl_RoleInterface, getName);
  * @return string
  */
 PHALCON_DOC_METHOD(Phalcon_Acl_RoleInterface, getDescription);
-
-/**
- * Magic method __toString
- *
- * @return string
- */
-PHALCON_DOC_METHOD(Phalcon_Acl_RoleInterface, __toString);
-

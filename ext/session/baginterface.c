@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -17,15 +17,20 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
-
+#include "session/baginterface.h"
 #include "kernel/main.h"
+
+zend_class_entry *phalcon_session_baginterface_ce;
+
+static const zend_function_entry phalcon_session_baginterface_method_entry[] = {
+	PHP_ABSTRACT_ME(Phalcon_Session_BagInterface, initialize, NULL)
+	PHP_ABSTRACT_ME(Phalcon_Session_BagInterface, destroy, NULL)
+	PHP_ABSTRACT_ME(Phalcon_Session_BagInterface, set, arginfo_phalcon_session_baginterface_set)
+	PHP_ABSTRACT_ME(Phalcon_Session_BagInterface, get, arginfo_phalcon_session_baginterface_get)
+	PHP_ABSTRACT_ME(Phalcon_Session_BagInterface, has, arginfo_phalcon_session_baginterface_has)
+	PHP_ABSTRACT_ME(Phalcon_Session_BagInterface, remove, arginfo_phalcon_session_baginterface_remove)
+	PHP_FE_END
+};
 
 /**
  * Phalcon\Session\BagInterface initializer
@@ -73,26 +78,8 @@ PHALCON_DOC_METHOD(Phalcon_Session_BagInterface, get);
 PHALCON_DOC_METHOD(Phalcon_Session_BagInterface, has);
 
 /**
- * Setter of values
+ * Unset property
  *
  * @param string $property
- * @param string $value
  */
-PHALCON_DOC_METHOD(Phalcon_Session_BagInterface, __set);
-
-/**
- * Getter of values
- *
- * @param string $property
- * @return mixed
- */
-PHALCON_DOC_METHOD(Phalcon_Session_BagInterface, __get);
-
-/**
- * Isset property
- *
- * @param string $property
- * @return boolean
- */
-PHALCON_DOC_METHOD(Phalcon_Session_BagInterface, __isset);
-
+PHALCON_DOC_METHOD(Phalcon_Session_BagInterface, remove);
