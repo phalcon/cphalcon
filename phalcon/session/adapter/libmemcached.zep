@@ -64,7 +64,7 @@ class Libmemcached extends Adapter implements AdapterInterface
 	 */
 	public function __construct(options = null)
 	{
-		var servers, client, lifetime, prefix;
+		var servers, client, lifetime, prefix, statsKey;
 
 		if typeof options != "array" {
 			throw new Exception("The options must be an array");
@@ -94,9 +94,15 @@ class Libmemcached extends Adapter implements AdapterInterface
 			let prefix = options["prefix"];
 		}
 
+		if !fetch statsKey, options["statsKey"] {
+			let statsKey = NULL;
+		} else {
+			let statsKey = options["statsKey"];
+		}
+
 		let this->_libmemcached = new Libmemcached(
 			new FrontendData(["lifetime": this->_lifetime]),
-			["servers": servers, "client": client, "prefix": prefix]
+			["servers": servers, "client": client, "prefix": prefix, "statsKey": statsKey]
 		);
 
 		session_set_save_handler(
