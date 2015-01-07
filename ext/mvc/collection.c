@@ -1661,11 +1661,11 @@ PHP_METHOD(Phalcon_Mvc_Collection, appendMessage){
 PHP_METHOD(Phalcon_Mvc_Collection, save){
 
 	zval *arr = NULL, *white_list = NULL, *mode = NULL;
-	zval *column_map = NULL, *attributes = NULL, *reserved = NULL, *key = NULL, *new_value = NULL, *possible_setter = NULL;
+	zval *column_map = NULL, *attributes = NULL, *reserved = NULL, *attribute = NULL, *attribute_field = NULL, *new_value = NULL, *possible_setter = NULL;
 	zval *source = NULL, *connection = NULL;
 	zval *collection = NULL, *exists = NULL, *empty_array, *disable_events;
 	zval *type, *message, *collection_message, *messages, *status = NULL, *data;
-	zval *attribute = NULL, *attribute_field = NULL, *value = NULL, *success = NULL, *options;
+	zval *value = NULL, *success = NULL, *options;
 	HashTable *ah0, *ah1;
 	HashPosition hp0, hp1;
 	zval **hd;
@@ -1717,7 +1717,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, save){
 		phalcon_is_iterable(arr, &ah0, &hp0, 0, 0);
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 
-			PHALCON_GET_HKEY(key, ah0, hp0);
+			PHALCON_GET_HKEY(attribute, ah0, hp0);
 			PHALCON_GET_HVALUE(new_value);
 
 			if (phalcon_array_isset(reserved, attribute)) {
@@ -1754,16 +1754,13 @@ PHP_METHOD(Phalcon_Mvc_Collection, save){
 					}
 				}
 			} else if (Z_TYPE_P(attributes) == IS_ARRAY && phalcon_array_isset(attributes, attribute)) {
-				PHALCON_OBS_NVAR(attribute_field);
-				phalcon_array_fetch(&attribute_field, column_map, attribute, PH_NOISY);
-
 				PHALCON_INIT_NVAR(possible_setter);
-				PHALCON_CONCAT_SV(possible_setter, "set", attribute_field);
+				PHALCON_CONCAT_SV(possible_setter, "set", attribute);
 				zend_str_tolower(Z_STRVAL_P(possible_setter), Z_STRLEN_P(possible_setter));
 				if (phalcon_method_exists_ex(this_ptr, Z_STRVAL_P(possible_setter), Z_STRLEN_P(possible_setter)+1 TSRMLS_CC) == SUCCESS) {
 					PHALCON_CALL_METHOD(NULL, this_ptr, Z_STRVAL_P(possible_setter), new_value);
 				} else {
-					phalcon_update_property_zval_zval(this_ptr, attribute_field, new_value TSRMLS_CC);
+					phalcon_update_property_zval_zval(this_ptr, attribute, new_value TSRMLS_CC);
 				}
 			}
 
