@@ -153,7 +153,7 @@ class Redis extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendInte
 			return cachedContent;
 		}
 
-		frontend->afterRetrieve(cachedContent);
+		return frontend->afterRetrieve(cachedContent);
 	}
 
 	/**
