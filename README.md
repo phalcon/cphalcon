@@ -3,44 +3,59 @@ Phalcon Framework
 
 Phalcon is an open source web framework delivered as a C extension for the PHP language providing high performance and lower resource consumption.
 
-This readme provides an introduction to contributing to Phalcon 2.0
+This readme provides an introduction to contributing to `Phalcon 2.0`.
 
 Get Started
 -----------
 
-Clone phalcon 2.0 repo:
+Clone `Phalcon 2.0` repo:
 
-    git clone -b 2.0.0 https://github.com/phalcon/cphalcon.git
+```bash
+git clone -b 2.0.0 https://github.com/phalcon/cphalcon.git
+```
 
-Clone zephir repo:
+Clone [Zephir](https://github.com/phalcon/zephir) repo:
 
-    git clone https://github.com/phalcon/zephir.git
+```bash
+git clone https://github.com/phalcon/zephir.git
+```
+
+Clone [json-c](https://github.com/json-c/json-c.git) repo:
+
+```bash
+git clone https://github.com/json-c/json-c.git
+```
 
 Install required packages:
 
-    sudo apt-get install php5-dev php5-mysql gcc make re2c libpcre3-dev
+```bash
+sudo apt-get install php5-dev php5-mysql gcc make re2c libpcre3-dev
+```
 
-Compile json-c and zephir:
+Compile `json-c` and `Zephir`:
 
-    cd zephir
-    sudo ./install-json
-    sudo ./install
-    cd ..
+```bash
+cd zephir
+sudo ./install-json
+sudo ./install
+cd ..
+```
 
-Compile phalcon:
+Compile `Phalcon`:
 
-    cd cphalcon
-    ../zephir/bin/zephir generate
-    ../zephir/bin/zephir compile
+```bash
+cd cphalcon
+../zephir/bin/zephir generate
+../zephir/bin/zephir compile
+```
 
+Add extension to your `php.ini`:
 
-Add extension to your php.ini
+```ini
+extension=phalcon.so
+```
 
-    extension=phalcon.so
-
-
-Finally restart the webserver
-
+Finally restart the webserver!
 
 External Links
 --------------
@@ -57,4 +72,5 @@ Phalcon Framework is built under Travis CI service. Every commit pushed to this 
 
 License
 -------
+
 Phalcon is open-sourced software licensed under the New BSD License. See the docs/LICENSE.txt file for more information.
