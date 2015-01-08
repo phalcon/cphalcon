@@ -426,6 +426,16 @@ class Cookie implements InjectionAwareInterface
 	}
 
 	/**
+	 * Returns the current cookie's name
+	 *
+	 * @return string
+	 */
+	public function getName() -> string
+	{
+		return this->_name;
+	}
+
+	/**
 	 * Returns the current cookie's path
 	 *
 	 * @return string
