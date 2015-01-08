@@ -3693,7 +3693,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _preSave){
 						PHALCON_CALL_METHOD(&field_scale, meta_data, "getdatascale", this_ptr, field);
 
 						PHALCON_INIT_NVAR(str_value);
-                        phalcon_strval(str_value, value);
+						phalcon_strval(str_value, value);
 
 						PHALCON_INIT_NVAR(length);
 						phalcon_fast_strlen(length, value);
@@ -3735,19 +3735,36 @@ PHP_METHOD(Phalcon_Mvc_Model, _preSave){
 					} else {
 						PHALCON_CALL_METHOD(&field_size, meta_data, "getdatabytes", this_ptr, field);
 
-						num = phalcon_get_intval(value);
-						max = pow(2, (Z_LVAL_P(field_size) - 1)) - 1;
+						PHALCON_INIT_NVAR(str_value);
+						phalcon_strval(str_value, value);
 
-						if (num > max) {
+						PHALCON_INIT_NVAR(pos);
+						phalcon_fast_strpos_str(pos, str_value, SL("."));
+
+						if (phalcon_is_numeric(pos)) {
 							PHALCON_INIT_NVAR(message);
-							PHALCON_CONCAT_SVSV(message, "Value of field '", field, "' is out of range for type ", field_type);
+							PHALCON_CONCAT_SVS(message, "Value of field '", field, "' must be int");
 
 							PHALCON_INIT_NVAR(type);
-							ZVAL_STRING(type, "tooLarge", 1);
+							ZVAL_STRING(type, "Numericality", 1);
 
 							PHALCON_CALL_METHOD(NULL, this_ptr, "appendmessage", message, attribute_field, type);
-
 							error = PHALCON_GLOBAL(z_true);
+						} else {
+							num = phalcon_get_intval(value);
+							max = pow(2, (Z_LVAL_P(field_size) - 1)) - 1;
+
+							if (num > max) {
+								PHALCON_INIT_NVAR(message);
+								PHALCON_CONCAT_SVSV(message, "Value of field '", field, "' is out of range for type ", field_type);
+
+								PHALCON_INIT_NVAR(type);
+								ZVAL_STRING(type, "tooLarge", 1);
+
+								PHALCON_CALL_METHOD(NULL, this_ptr, "appendmessage", message, attribute_field, type);
+
+								error = PHALCON_GLOBAL(z_true);
+							}
 						}
 					}
 				} else if (phalcon_is_equal_long(field_type, PHALCON_DB_COLUMN_TYPE_VARCHAR TSRMLS_CC)
