@@ -658,7 +658,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, createTable){
 	zval *columns = NULL, *column = NULL, *column_name = NULL, *column_definition = NULL;
 	zval *column_line = NULL, *attribute = NULL, *indexes, *index = NULL;
 	zval *index_name = NULL, *column_list = NULL, *referenced_column_list = NULL, *index_sql = NULL, *references;
-	zval *reference = NULL, *name = NULL, *referenced_table = NULL, *referenced_columns = NULL, *referenced_Schema = NULL;
+	zval *reference = NULL, *name = NULL, *referenced_table = NULL, *referenced_columns = NULL, *referenced_schema = NULL;
 	zval *constaint_sql = NULL, *reference_sql = NULL, *joined_lines;
 	zval *index_type = NULL;
 	HashTable *ah0, *ah1, *ah2;
