@@ -803,23 +803,18 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, createTable){
 			PHALCON_CALL_METHOD(&name, reference, "getname");
 			PHALCON_CALL_METHOD(&columns, reference, "getcolumns");
 			PHALCON_CALL_METHOD(&column_list, this_ptr, "getcolumnlist", columns);
+			PHALCON_CALL_METHOD(&referenced_schema, reference, "getreferencedschema");
 			PHALCON_CALL_METHOD(&referenced_table, reference, "getreferencedtable");
 			PHALCON_CALL_METHOD(&referenced_columns, reference, "getreferencedcolumns");
 			PHALCON_CALL_METHOD(&referenced_column_list, this_ptr, "getcolumnlist", referenced_columns);
 	
 			PHALCON_INIT_NVAR(constaint_sql);
-			PHALCON_CONCAT_SVSVS(constaint_sql, "CONSTRAINT `", name, "` FOREIGN KEY (", column_list, ") ");
+			PHALCON_CONCAT_SVSVS(constaint_sql, "CONSTRAINT `", name, "` FOREIGN KEY (", column_list, ") REFERENCES `");
 			
 			PHALCON_INIT_NVAR(reference_sql);
-			PHALCON_CONCAT_VS(reference_sql, constaint_sql, "REFERENCES ");
-			/** 
-			 * Add the schema
-			 */
-			PHALCON_CALL_METHOD(&referenced_schema, reference, "getreferencedschema");
-			if (zend_is_true(referenced_schema)) {
-				PHALCON_SCONCAT_SVS(reference_sql, "`", referenced_schema, "`.");
-			}
-			PHALCON_CONCAT_SVSVS(reference_sql, "`", referenced_table, "`(", referenced_column_list, ")");
+			if(zend_is_true(referenced_schema))
+				PHALCON_CONCAT_VVS(reference_sql, constaint_sql, referenced_schema, "`.`");
+			PHALCON_CONCAT_VSVS(reference_sql, referenced_table, "`(", referenced_column_list, ")");
 			phalcon_array_append(&create_lines, reference_sql, PH_SEPARATE);
 	
 			zend_hash_move_forward_ex(ah2, &hp2);
