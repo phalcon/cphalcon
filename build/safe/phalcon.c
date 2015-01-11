@@ -13472,201 +13472,6 @@ ZEND_END_ARG_INFO()
 
 
 
-
-#ifndef PHALCON_EXCEPTION_H
-#define PHALCON_EXCEPTION_H
-
-
-zend_class_entry *phalcon_exception_ce;
-
-PHALCON_INIT_CLASS(Phalcon_Exception);
-
-#endif /* PHALCON_EXCEPTION_H */
-
-
-
-
-#ifndef PHALCON_EXCEPTION_H
-#define PHALCON_EXCEPTION_H
-
-
-zend_class_entry *phalcon_exception_ce;
-
-PHALCON_INIT_CLASS(Phalcon_Exception);
-
-#endif /* PHALCON_EXCEPTION_H */
-
-
-
-
-#ifndef PHALCON_EXCEPTION_H
-#define PHALCON_EXCEPTION_H
-
-
-zend_class_entry *phalcon_exception_ce;
-
-PHALCON_INIT_CLASS(Phalcon_Exception);
-
-#endif /* PHALCON_EXCEPTION_H */
-
-
-
-
-#ifndef PHALCON_EXCEPTION_H
-#define PHALCON_EXCEPTION_H
-
-
-zend_class_entry *phalcon_exception_ce;
-
-PHALCON_INIT_CLASS(Phalcon_Exception);
-
-#endif /* PHALCON_EXCEPTION_H */
-
-
-
-
-#ifndef PHALCON_DISPATCHER_H
-#define PHALCON_DISPATCHER_H
-
-
-zend_class_entry *phalcon_dispatcher_ce;
-
-PHALCON_INIT_CLASS(Phalcon_Dispatcher);
-
-#endif /* PHALCON_DISPATCHER_H */
-
-
-
-
-#ifndef PHALCON_EXCEPTION_H
-#define PHALCON_EXCEPTION_H
-
-
-zend_class_entry *phalcon_exception_ce;
-
-PHALCON_INIT_CLASS(Phalcon_Exception);
-
-#endif /* PHALCON_EXCEPTION_H */
-
-
-
-
-#ifndef PHALCON_EXCEPTION_H
-#define PHALCON_EXCEPTION_H
-
-
-zend_class_entry *phalcon_exception_ce;
-
-PHALCON_INIT_CLASS(Phalcon_Exception);
-
-#endif /* PHALCON_EXCEPTION_H */
-
-
-
-
-#ifndef PHALCON_EXCEPTION_H
-#define PHALCON_EXCEPTION_H
-
-
-zend_class_entry *phalcon_exception_ce;
-
-PHALCON_INIT_CLASS(Phalcon_Exception);
-
-#endif /* PHALCON_EXCEPTION_H */
-
-
-
-
-#ifndef PHALCON_EXCEPTION_H
-#define PHALCON_EXCEPTION_H
-
-
-zend_class_entry *phalcon_exception_ce;
-
-PHALCON_INIT_CLASS(Phalcon_Exception);
-
-#endif /* PHALCON_EXCEPTION_H */
-
-
-
-
-#ifndef PHALCON_EXCEPTION_H
-#define PHALCON_EXCEPTION_H
-
-
-zend_class_entry *phalcon_exception_ce;
-
-PHALCON_INIT_CLASS(Phalcon_Exception);
-
-#endif /* PHALCON_EXCEPTION_H */
-
-
-
-
-#ifndef PHALCON_EXCEPTION_H
-#define PHALCON_EXCEPTION_H
-
-
-zend_class_entry *phalcon_exception_ce;
-
-PHALCON_INIT_CLASS(Phalcon_Exception);
-
-#endif /* PHALCON_EXCEPTION_H */
-
-
-
-
-#ifndef PHALCON_EXCEPTION_H
-#define PHALCON_EXCEPTION_H
-
-
-zend_class_entry *phalcon_exception_ce;
-
-PHALCON_INIT_CLASS(Phalcon_Exception);
-
-#endif /* PHALCON_EXCEPTION_H */
-
-
-
-
-#ifndef PHALCON_EXCEPTION_H
-#define PHALCON_EXCEPTION_H
-
-
-zend_class_entry *phalcon_exception_ce;
-
-PHALCON_INIT_CLASS(Phalcon_Exception);
-
-#endif /* PHALCON_EXCEPTION_H */
-
-
-
-
-#ifndef PHALCON_EXCEPTION_H
-#define PHALCON_EXCEPTION_H
-
-
-zend_class_entry *phalcon_exception_ce;
-
-PHALCON_INIT_CLASS(Phalcon_Exception);
-
-#endif /* PHALCON_EXCEPTION_H */
-
-
-
-
-#ifndef PHALCON_EXCEPTION_H
-#define PHALCON_EXCEPTION_H
-
-
-zend_class_entry *phalcon_exception_ce;
-
-PHALCON_INIT_CLASS(Phalcon_Exception);
-
-#endif /* PHALCON_EXCEPTION_H */
-
-
-
 #ifndef PHALCON_FORMS_ELEMENT_HELPERS_H
 #define PHALCON_FORMS_ELEMENT_HELPERS_H
 
@@ -13698,131 +13503,6 @@ static inline void phalcon_forms_element_render_helper(const char *method, int u
 
 
 
-
-#ifndef PHALCON_EXCEPTION_H
-#define PHALCON_EXCEPTION_H
-
-
-zend_class_entry *phalcon_exception_ce;
-
-PHALCON_INIT_CLASS(Phalcon_Exception);
-
-#endif /* PHALCON_EXCEPTION_H */
-
-
-
-
-#ifndef PHALCON_EXCEPTION_H
-#define PHALCON_EXCEPTION_H
-
-
-zend_class_entry *phalcon_exception_ce;
-
-PHALCON_INIT_CLASS(Phalcon_Exception);
-
-#endif /* PHALCON_EXCEPTION_H */
-
-
-
-
-#ifndef PHALCON_EXCEPTION_H
-#define PHALCON_EXCEPTION_H
-
-
-zend_class_entry *phalcon_exception_ce;
-
-PHALCON_INIT_CLASS(Phalcon_Exception);
-
-#endif /* PHALCON_EXCEPTION_H */
-
-
-
-
-#ifndef PHALCON_EXCEPTION_H
-#define PHALCON_EXCEPTION_H
-
-
-zend_class_entry *phalcon_exception_ce;
-
-PHALCON_INIT_CLASS(Phalcon_Exception);
-
-#endif /* PHALCON_EXCEPTION_H */
-
-
-
-
-#ifndef PHALCON_DISPATCHERINTERFACE_H
-#define PHALCON_DISPATCHERINTERFACE_H
-
-
-zend_class_entry *phalcon_dispatcherinterface_ce;
-
-PHALCON_INIT_CLASS(Phalcon_DispatcherInterface);
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_dispatcherinterface_setactionsuffix, 0, 0, 1)
-	ZEND_ARG_INFO(0, actionSuffix)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_dispatcherinterface_setdefaultnamespace, 0, 0, 1)
-	ZEND_ARG_INFO(0, namespace)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_dispatcherinterface_setdefaultaction, 0, 0, 1)
-	ZEND_ARG_INFO(0, actionName)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_dispatcherinterface_setactionname, 0, 0, 1)
-	ZEND_ARG_INFO(0, actionName)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_dispatcherinterface_setparams, 0, 0, 1)
-	ZEND_ARG_INFO(0, params)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_dispatcherinterface_setparam, 0, 0, 2)
-	ZEND_ARG_INFO(0, param)
-	ZEND_ARG_INFO(0, value)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_dispatcherinterface_getparam, 0, 0, 1)
-	ZEND_ARG_INFO(0, param)
-	ZEND_ARG_INFO(0, filters)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_dispatcherinterface_forward, 0, 0, 1)
-	ZEND_ARG_INFO(0, forward)
-ZEND_END_ARG_INFO()
-
-#endif /* PHALCON_DISPATCHERINTERFACE_H */
-
-
-
-
-#ifndef PHALCON_DISPATCHER_H
-#define PHALCON_DISPATCHER_H
-
-
-zend_class_entry *phalcon_dispatcher_ce;
-
-PHALCON_INIT_CLASS(Phalcon_Dispatcher);
-
-#endif /* PHALCON_DISPATCHER_H */
-
-
-
-
-#ifndef PHALCON_EXCEPTION_H
-#define PHALCON_EXCEPTION_H
-
-
-zend_class_entry *phalcon_exception_ce;
-
-PHALCON_INIT_CLASS(Phalcon_Exception);
-
-#endif /* PHALCON_EXCEPTION_H */
-
-
-
 #ifndef PHALCON_MVC_VIEW_ENGINE_HELPERS_H
 #define PHALCON_MVC_VIEW_ENGINE_HELPERS_H
 
@@ -13830,84 +13510,6 @@ PHALCON_INIT_CLASS(Phalcon_Exception);
 PHALCON_STATIC zend_bool phalcon_mvc_view_engine_php_symtable_merger(HashTable *ht, void *pData, zend_hash_key *hash_key, void *pParam);
 
 #endif /* PHALCON_MBC_VIEW_ENGINE_HELPERS_H */
-
-
-
-
-#ifndef PHALCON_EXCEPTION_H
-#define PHALCON_EXCEPTION_H
-
-
-zend_class_entry *phalcon_exception_ce;
-
-PHALCON_INIT_CLASS(Phalcon_Exception);
-
-#endif /* PHALCON_EXCEPTION_H */
-
-
-
-
-#ifndef PHALCON_EXCEPTION_H
-#define PHALCON_EXCEPTION_H
-
-
-zend_class_entry *phalcon_exception_ce;
-
-PHALCON_INIT_CLASS(Phalcon_Exception);
-
-#endif /* PHALCON_EXCEPTION_H */
-
-
-
-
-#ifndef PHALCON_EXCEPTION_H
-#define PHALCON_EXCEPTION_H
-
-
-zend_class_entry *phalcon_exception_ce;
-
-PHALCON_INIT_CLASS(Phalcon_Exception);
-
-#endif /* PHALCON_EXCEPTION_H */
-
-
-
-
-#ifndef PHALCON_EXCEPTION_H
-#define PHALCON_EXCEPTION_H
-
-
-zend_class_entry *phalcon_exception_ce;
-
-PHALCON_INIT_CLASS(Phalcon_Exception);
-
-#endif /* PHALCON_EXCEPTION_H */
-
-
-
-
-#ifndef PHALCON_EXCEPTION_H
-#define PHALCON_EXCEPTION_H
-
-
-zend_class_entry *phalcon_exception_ce;
-
-PHALCON_INIT_CLASS(Phalcon_Exception);
-
-#endif /* PHALCON_EXCEPTION_H */
-
-
-
-
-#ifndef PHALCON_EXCEPTION_H
-#define PHALCON_EXCEPTION_H
-
-
-zend_class_entry *phalcon_exception_ce;
-
-PHALCON_INIT_CLASS(Phalcon_Exception);
-
-#endif /* PHALCON_EXCEPTION_H */
 
 
 
@@ -42585,8 +42187,8 @@ static PHP_METHOD(Phalcon_Db_Dialect_Mysql, createTable){
 	zval *columns = NULL, *column = NULL, *column_name = NULL, *column_definition = NULL;
 	zval *column_line = NULL, *attribute = NULL, *indexes, *index = NULL;
 	zval *index_name = NULL, *column_list = NULL, *referenced_column_list = NULL, *index_sql = NULL, *references;
-	zval *reference = NULL, *name = NULL, *referenced_table = NULL, *referenced_columns = NULL;
-	zval *constaint_sql = NULL, *reference_sql = NULL, *joined_lines;
+	zval *reference = NULL, *name = NULL, *referenced_table = NULL, *referenced_columns = NULL, *referenced_schema = NULL;
+	zval *constaint_sql = NULL, *joined_lines, *reference_sql = NULL;
 	zval *index_type = NULL;
 	HashTable *ah0, *ah1, *ah2;
 	HashPosition hp0, hp1, hp2;
@@ -42709,15 +42311,19 @@ static PHP_METHOD(Phalcon_Db_Dialect_Mysql, createTable){
 			PHALCON_CALL_METHOD(&name, reference, "getname");
 			PHALCON_CALL_METHOD(&columns, reference, "getcolumns");
 			PHALCON_CALL_METHOD(&column_list, this_ptr, "getcolumnlist", columns);
+			PHALCON_CALL_METHOD(&referenced_schema, reference, "getreferencedschema");
 			PHALCON_CALL_METHOD(&referenced_table, reference, "getreferencedtable");
 			PHALCON_CALL_METHOD(&referenced_columns, reference, "getreferencedcolumns");
 			PHALCON_CALL_METHOD(&referenced_column_list, this_ptr, "getcolumnlist", referenced_columns);
 	
 			PHALCON_INIT_NVAR(constaint_sql);
-			PHALCON_CONCAT_SVSVS(constaint_sql, "CONSTRAINT `", name, "` FOREIGN KEY (", column_list, ")");
-	
-			PHALCON_INIT_NVAR(reference_sql);
-			PHALCON_CONCAT_VSVSVS(reference_sql, constaint_sql, " REFERENCES `", referenced_table, "`(", referenced_column_list, ")");
+			PHALCON_CONCAT_SVSVS(constaint_sql, "CONSTRAINT `", name, "` FOREIGN KEY (", column_list, ") REFERENCES ");
+			
+			if(zend_is_true(referenced_schema))
+				PHALCON_SCONCAT_SVS(constaint_sql,"`", referenced_schema, "`.");
+			PHALCON_INIT_NVAR(reference_sql);		
+			PHALCON_CONCAT_VSVSVS(reference_sql, constaint_sql, "`", referenced_table, "`(", referenced_column_list, ")");
+			
 			phalcon_array_append(&create_lines, reference_sql, PH_SEPARATE);
 	
 			zend_hash_move_forward_ex(ah2, &hp2);
@@ -50973,6 +50579,7 @@ static PHP_METHOD(Phalcon_Http_Request, getClientCharsets);
 static PHP_METHOD(Phalcon_Http_Request, getBestCharset);
 static PHP_METHOD(Phalcon_Http_Request, getLanguages);
 static PHP_METHOD(Phalcon_Http_Request, getBestLanguage);
+static PHP_METHOD(Phalcon_Http_Request, getBestLanguageFamily);
 static PHP_METHOD(Phalcon_Http_Request, getBasicAuth);
 static PHP_METHOD(Phalcon_Http_Request, getDigestAuth);
 
@@ -51023,6 +50630,7 @@ static const zend_function_entry phalcon_http_request_method_entry[] = {
 	PHP_ME(Phalcon_Http_Request, getBestCharset, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Request, getLanguages, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Request, getBestLanguage, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Request, getBestLanguageFamily, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Request, getBasicAuth, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Request, getDigestAuth, NULL, ZEND_ACC_PUBLIC)
 	PHP_FE_END
@@ -52516,7 +52124,6 @@ static PHP_METHOD(Phalcon_Http_Request, getLanguages){
 static PHP_METHOD(Phalcon_Http_Request, getBestLanguage){
 
 	zval *languages = NULL, *quality_index;
-
 	PHALCON_MM_GROW();
 
 	PHALCON_CALL_METHOD(&languages, this_ptr, "getlanguages");
@@ -52524,8 +52131,20 @@ static PHP_METHOD(Phalcon_Http_Request, getBestLanguage){
 	PHALCON_INIT_VAR(quality_index);
 	ZVAL_STRING(quality_index, "language", 1);
 	PHALCON_RETURN_CALL_METHOD(this_ptr, "_getbestquality", languages, quality_index);
+	
 	RETURN_MM();
 }
+
+static PHP_METHOD(Phalcon_Http_Request, getBestLanguageFamily){
+	zval *lang = NULL, *real = NULL;
+	PHALCON_MM_GROW();
+	PHALCON_CALL_METHOD(&lang, this_ptr, "getBestLanguage");
+	PHALCON_INIT_VAR(real);
+	phalcon_substr(real, lang, 0, 2);
+	RETURN_ZVAL(real, 1, 0);
+	RETURN_MM();
+}
+
 
 static PHP_METHOD(Phalcon_Http_Request, getBasicAuth){
 
@@ -52673,6 +52292,7 @@ static const zend_function_entry phalcon_http_requestinterface_method_entry[] = 
 	PHP_ABSTRACT_ME(Phalcon_Http_RequestInterface, getBestCharset, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Http_RequestInterface, getLanguages, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Http_RequestInterface, getBestLanguage, NULL)
+	PHP_ABSTRACT_ME(Phalcon_Http_RequestInterface, getBestLanguageFamily, NULL)
 	PHP_FE_END
 };
 
@@ -52682,6 +52302,7 @@ PHALCON_INIT_CLASS(Phalcon_Http_RequestInterface){
 
 	return SUCCESS;
 }
+
 
 
 
