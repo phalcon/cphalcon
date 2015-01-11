@@ -61,6 +61,7 @@ static const zend_function_entry phalcon_http_requestinterface_method_entry[] = 
 	PHP_ABSTRACT_ME(Phalcon_Http_RequestInterface, getBestCharset, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Http_RequestInterface, getLanguages, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Http_RequestInterface, getBestLanguage, NULL)
+	PHP_ABSTRACT_ME(Phalcon_Http_RequestInterface, getBestLanguageFamily, NULL)
 	PHP_FE_END
 };
 
@@ -345,3 +346,10 @@ PHALCON_DOC_METHOD(Phalcon_Http_RequestInterface, getLanguages);
  * @return string
  */
 PHALCON_DOC_METHOD(Phalcon_Http_RequestInterface, getBestLanguage);
+
+/**
+ * Gets best language family accepted by the browser/client from $_SERVER['HTTP_ACCEPT_LANGUAGE']
+ *
+ * @return string
+ */
+PHALCON_DOC_METHOD(Phalcon_Http_RequestInterface, getBestLanguageFamily)
