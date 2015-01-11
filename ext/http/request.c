@@ -110,6 +110,7 @@ PHP_METHOD(Phalcon_Http_Request, getClientCharsets);
 PHP_METHOD(Phalcon_Http_Request, getBestCharset);
 PHP_METHOD(Phalcon_Http_Request, getLanguages);
 PHP_METHOD(Phalcon_Http_Request, getBestLanguage);
+PHP_METHOD(Phalcon_Http_Request, getBestLanguageFamily);
 PHP_METHOD(Phalcon_Http_Request, getBasicAuth);
 PHP_METHOD(Phalcon_Http_Request, getDigestAuth);
 
@@ -160,6 +161,7 @@ static const zend_function_entry phalcon_http_request_method_entry[] = {
 	PHP_ME(Phalcon_Http_Request, getBestCharset, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Request, getLanguages, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Request, getBestLanguage, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Request, getBestLanguageFamily, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Request, getBasicAuth, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Request, getDigestAuth, NULL, ZEND_ACC_PUBLIC)
 	PHP_FE_END
@@ -1987,7 +1989,6 @@ PHP_METHOD(Phalcon_Http_Request, getLanguages){
 PHP_METHOD(Phalcon_Http_Request, getBestLanguage){
 
 	zval *languages = NULL, *quality_index;
-
 	PHALCON_MM_GROW();
 
 	PHALCON_CALL_METHOD(&languages, this_ptr, "getlanguages");
@@ -1995,8 +1996,25 @@ PHP_METHOD(Phalcon_Http_Request, getBestLanguage){
 	PHALCON_INIT_VAR(quality_index);
 	ZVAL_STRING(quality_index, "language", 1);
 	PHALCON_RETURN_CALL_METHOD(this_ptr, "_getbestquality", languages, quality_index);
+	
 	RETURN_MM();
 }
+
+/**
+ * Gets best language family accepted by the browser/client from $_SERVER['HTTP_ACCEPT_LANGUAGE']
+ *
+ * @return string
+ */
+PHP_METHOD(Phalcon_Http_Request, getBestLanguageFamily){
+	zval *lang = NULL, *real = NULL;
+	PHALCON_MM_GROW();
+	PHALCON_CALL_METHOD(&lang, this_ptr, "getBestLanguage");
+	PHALCON_INIT_VAR(real);
+	phalcon_substr(real, lang, 0, 2);
+	RETURN_ZVAL(real, 1, 0);
+	RETURN_MM();
+}
+
 
 /**
  * Gets auth info accepted by the browser/client from $_SERVER['PHP_AUTH_USER']
