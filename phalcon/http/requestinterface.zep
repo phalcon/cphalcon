@@ -295,9 +295,10 @@ interface RequestInterface
 	/**
 	 * Gets best language accepted by the browser/client from $_SERVER['HTTP_ACCEPT_LANGUAGE']
 	 *
+	 * @param bool fullLanguage
 	 * @return string
 	 */
-	public function getBestLanguage();
+	public function getBestLanguage(fullLanguage = false);
 
 	/**
 	 * Gets auth info accepted by the browser/client from $_SERVER['PHP_AUTH_USER']
