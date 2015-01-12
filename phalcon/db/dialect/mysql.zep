@@ -585,8 +585,9 @@ class MySQL extends Dialect //implements Phalcon\Db\DialectInterface
 			for reference in references {
 				let referenceSql = "CONSTRAINT `" . reference->getName() . "` FOREIGN KEY (" . this->getColumnList(reference->getColumns()) . ")"
 					. " REFERENCES `";
-				if(reference->getReferencedSchema() != NULL)
+				if reference->getReferencedSchema() != NULL {
 					let referenceSql .= reference->getReferencedSchema() . "`.`";
+				}
 				let referenceSql .= reference->getReferencedTable() . "`(" . this->getColumnList(reference->getReferencedColumns()) . ")";
 
 				let onDelete = reference->getOnDelete();

@@ -1026,10 +1026,14 @@ class Request implements RequestInterface, InjectionAwareInterface
 	 */
 	public function getBestLanguage(fullLanguage = false) -> string
 	{
-		if(fullLanguage)
+		if fullLanguage
+		{
 			return this->_getBestQuality(this->getLanguages(), "language");
+		}
 		else
+		{
 			return substr(this->_getBestQuality(this->getLanguages(), "language"), 0 ,2);
+		}
 	}
 
 
