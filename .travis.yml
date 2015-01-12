@@ -29,6 +29,7 @@ before_script:
  - ./vendor/bin/zephir generate
  - (cd ext; export CFLAGS="-g3 -O1 -std=gnu90 -Wall -DZEPHIR_RELEASE=1"; phpize && ./configure --enable-phalcon && make --silent -j4 && sudo make --silent install && phpenv config-add ../unit-tests/ci/phalcon.ini)
  - ulimit -c unlimited || true
+ - phpenv config-add ./unit-tests/ci/redis.ini
 
 script:
  - ./runTests.sh
