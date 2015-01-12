@@ -256,12 +256,13 @@ class Redis extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendInte
 	/**
 	 * Deletes a value from the cache by its key
 	 *
-	 * @param int|string keyName
-	 * @return boolean
+	 * @param int|string|array keyName
+	 * @return long
 	 */
 	public function delete(keyName)
 	{
-		var redis, prefix, prefixedKey, lastKey, options, specialKey;
+		var redis, prefix, prefixedKey, lastKey, options, specialKey, key;
+		var lastKeys = [];
 
 		let redis = this->_redis;
 		if typeof redis != "object" {
@@ -270,22 +271,28 @@ class Redis extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendInte
 		}
 
 		let prefix = this->_prefix;
-		let prefixedKey = prefix . keyName;
-		let lastKey = "_PHCR" . prefixedKey;
 		let options = this->_options;
 
 		if !isset options["statsKey"] {
 			throw new Exception("Unexpected inconsistency in options");
 		}
-
 		let specialKey = options["statsKey"];
+		if typeof keyName == "array" {
+			for key in keyName {
+				let prefixedKey = prefix . key;
+				let lastKeys[] = "_PHCR" . prefixedKey;
+				redis->sRem(specialKey, prefixedKey);
+			}
+			return redis->delete(lastKeys);
+		}
 
+		let prefixedKey = prefix . keyName;
+		let lastKey = "_PHCR" . prefixedKey;
 		redis->sRem(specialKey, prefixedKey);
-
 		/**
 		* Delete the key from redis
 		*/
-		redis->delete(lastKey);
+		return redis->delete(lastKey);
 	}
 
 	/**
