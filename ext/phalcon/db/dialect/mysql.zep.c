@@ -978,8 +978,8 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, createTable) {
 	int ZEPHIR_LAST_CALL_STATUS;
 	HashTable *_2, *_12, *_18;
 	HashPosition _1, _11, _17;
-	zval *definition = NULL;
-	zval *tableName_param = NULL, *schemaName_param = NULL, *definition_param = NULL, *temporary = NULL, *options, *table = NULL, *createLines, *columns, *column = NULL, *indexes, *index = NULL, *reference = NULL, *references, *indexName = NULL, *indexSql = NULL, *sql, *columnLine = NULL, *indexType = NULL, *referenceSql = NULL, *onDelete = NULL, *onUpdate = NULL, *defaultValue = NULL, **_3, *_4 = NULL, *_5 = NULL, _7 = zval_used_for_init, *_8 = NULL, *_10 = NULL, **_13, *_15 = NULL, *_16 = NULL, **_19, *_20 = NULL, *_21 = NULL, *_22;
+	zval *definition = NULL;	
+	zval *tableName_param = NULL, *schemaName_param = NULL, *definition_param = NULL, *temporary = NULL, *options, *table = NULL, *createLines, *columns, *column = NULL, *indexes, *index = NULL, *reference = NULL, *references, *indexName = NULL, *indexSql = NULL, *sql, *columnLine = NULL, *indexType = NULL, *referenceSql = NULL, *onDelete = NULL, *onUpdate = NULL, *defaultValue = NULL, **_3, *_4 = NULL, *_5 = NULL, _7 = zval_used_for_init, *_8 = NULL, *_10 = NULL, **_13, *_15 = NULL, *_16 = NULL, **_19, *_20 = NULL, *_21 = NULL, *_22, *referencedSchema = NULL;
 	zval *tableName = NULL, *schemaName = NULL, *_0 = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -1133,6 +1133,8 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, createTable) {
 			zephir_check_call_status();
 			ZEPHIR_CALL_METHOD(&_5, this_ptr, "getcolumnlist", &_14, _8);
 			zephir_check_call_status();
+			ZEPHIR_CALL_METHOD(&referencedSchema, reference, "getreferencedschema", NULL);
+			zephir_check_call_status();
 			ZEPHIR_CALL_METHOD(&_15, reference, "getreferencedtable", NULL);
 			zephir_check_call_status();
 			ZEPHIR_CALL_METHOD(&_20, reference, "getreferencedcolumns", NULL);
@@ -1140,7 +1142,10 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, createTable) {
 			ZEPHIR_CALL_METHOD(&_16, this_ptr, "getcolumnlist", &_14, _20);
 			zephir_check_call_status();
 			ZEPHIR_INIT_NVAR(referenceSql);
-			ZEPHIR_CONCAT_SVSVSSVSVS(referenceSql, "CONSTRAINT `", _4, "` FOREIGN KEY (", _5, ")", " REFERENCES `", _15, "`(", _16, ")");
+			ZEPHIR_CONCAT_SVSVSS(referenceSql, "CONSTRAINT `", _4, "` FOREIGN KEY (", _5, ")", " REFERENCES `");
+			if(zephir_is_true(referencedSchema))
+				ZEPHIR_CONCAT_VS(referenceSql, referencedSchema, "`.`")
+			ZEPHIR_CONCAT_VSVS(referenceSql, _15, "`(", _16, ")");
 			ZEPHIR_CALL_METHOD(&onDelete, reference, "getondelete", NULL);
 			zephir_check_call_status();
 			if (!(ZEPHIR_IS_EMPTY(onDelete))) {
