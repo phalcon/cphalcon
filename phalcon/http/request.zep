@@ -1075,4 +1075,14 @@ class Request implements RequestInterface, InjectionAwareInterface
 		return auth;
 	}
 
+	/**
+	 * Gets payload from request's content
+	 */
+	public function getPayload() -> array
+	{
+		var requestBody;
+		
+		let requestBody = file_get_contents("php://input");
+		return (array) json_decode(requestBody);
+	}
 }
