@@ -584,7 +584,11 @@ class MySQL extends Dialect //implements Phalcon\Db\DialectInterface
 		if fetch references, definition["references"] {
 			for reference in references {
 				let referenceSql = "CONSTRAINT `" . reference->getName() . "` FOREIGN KEY (" . this->getColumnList(reference->getColumns()) . ")"
-					. " REFERENCES `" . reference->getReferencedTable() . "`(" . this->getColumnList(reference->getReferencedColumns()) . ")";
+					. " REFERENCES `";
+				if reference->getReferencedSchema() != NULL {
+					let referenceSql .= reference->getReferencedSchema() . "`.`";
+				}
+				let referenceSql .= reference->getReferencedTable() . "`(" . this->getColumnList(reference->getReferencedColumns()) . ")";
 
 				let onDelete = reference->getOnDelete();
 				if !empty onDelete {
@@ -797,13 +801,14 @@ class MySQL extends Dialect //implements Phalcon\Db\DialectInterface
 	 */
 	public function describeReferences(string! table, schema = null) -> string
 	{
-		var sql = "SELECT TABLE_NAME,COLUMN_NAME,CONSTRAINT_NAME,REFERENCED_TABLE_SCHEMA,REFERENCED_TABLE_NAME,REFERENCED_COLUMN_NAME FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE REFERENCED_TABLE_NAME IS NOT NULL AND ";
+		var sql = "select a.TABLE_NAME,a.COLUMN_NAME,a.CONSTRAINT_NAME,a.REFERENCED_TABLE_SCHEMA,a.REFERENCED_TABLE_NAME,a.REFERENCED_COLUMN_NAME,b.update_rule,b.delete_rule from information_schema.KEY_COLUMN_USAGE as a join information_schema.REFERENTIAL_CONSTRAINTS as b on a.CONSTRAINT_NAME = b.CONSTRAINT_NAME and a.CONSTRAINT_SCHEMA = b.constraint_schema where a.REFERENCED_TABLE_NAME is not null and ";
 		if schema {
-			let sql .= "CONSTRAINT_SCHEMA = '" . schema . "' AND TABLE_NAME = '" . table . "'";
+			let sql .= "a.CONSTRAINT_SCHEMA = '" . schema . "' AND a.TABLE_NAME = '" . table . "'";
 		} else {
-			let sql .= "TABLE_NAME = '" . table . "'";
+			let sql .= "a.TABLE_NAME = '" . table . "'";
 		}
 		return sql;
+		
 	}
 
 	/**
