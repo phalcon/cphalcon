@@ -132,7 +132,7 @@ class Mongo extends Backend implements BackendInterface
 			* Make the connection and get the collection
 			*/
 			let mongoCollection = mongo->selectDb(database)->selectCollection(collection),
-				_collection = mongoCollection;
+				this->_collection = mongoCollection;
 		}
 
 		return mongoCollection;
