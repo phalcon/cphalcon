@@ -1062,18 +1062,17 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle){
 	 * Check if the returned object is already a response
 	 */
 	if (Z_TYPE_P(returned_value) == IS_OBJECT) {
-		int returned_response =
-				(Z_TYPE_P(returned_value) == IS_OBJECT)
-			 && (instanceof_function_ex(Z_OBJCE_P(returned_value), phalcon_http_responseinterface_ce, 1 TSRMLS_CC))
-		;
-
-		PHALCON_CALL_METHOD(&returned_response_sent, returned_value, "issent");
+		int returned_response = instanceof_function_ex(Z_OBJCE_P(returned_value), phalcon_http_responseinterface_ce, 1 TSRMLS_CC);
 		
-		if (returned_response && PHALCON_IS_FALSE(returned_response_sent)) {
-			/** 
-			 * Automatically send the responses
-			 */
-			PHALCON_CALL_METHOD(NULL, returned_value, "send");
+		if (returned_response) {
+			PHALCON_CALL_METHOD(&returned_response_sent, returned_value, "issent");
+		
+			if (PHALCON_IS_FALSE(returned_response_sent)) {
+				/** 
+				 * Automatically send the responses
+				 */
+				PHALCON_CALL_METHOD(NULL, returned_value, "send");
+			}
 		}
 	}
 	
