@@ -49,7 +49,7 @@ class Database extends Adapter
 		let this->_options = [];
 		if typeof options == "array" {
 			if isset options["db"] {
-				let this->_db = options["db"];
+				let this->_db = \Phalcon\Di::getDefault()->getShared(options["db"]);
 			}
 			if isset options["roles"] {
 				let this->_options["roles"]= options["roles"];
@@ -66,10 +66,8 @@ class Database extends Adapter
 			if isset options["rolesInherits"] {
 				let this->_options["rolesInherits"] = options["rolesInherits"];
 			}
-			
 		}
-		if typeof this->_db != "object"
-		{
+		if typeof this->_db != "object" {
 			let this->_db = \Phalcon\Di::getDefault()->getShared("db");
 		}
 		if !isset this->_options["roles"] {
@@ -80,17 +78,28 @@ class Database extends Adapter
 			let this->_options["resourcesAccesses"] = "resources_accesses";
 		}
 		
+		if !this->_db->tableExists(this->_options["resourcesAccesses"])
+			throw new Exception("Table '" . this->_options["resourcesAccesses"] . "' does not exist");
+		
 		if !isset this->_options["resources"] {
 			let this->_options["resources"] = "resources";
 		}
+		if !this->_db->tableExists(this->_options["resources"])
+			throw new Exception("Table '" . this->_options["resources"] . "' does not exist");
 		
 		if !isset this->_options["accessList"] {
 			let this->_options["accessList"] = "access_list";
 		}
+		if !this->_db->tableExists(this->_options["accessList"])
+			throw new Exception("Table '" . this->_options["accessList"] . "' does not exist");
 		
 		if !isset this->_options["rolesInherits"] {
 			let this->_options["rolesInherits"] = "roles_inherits";
 		}
+		if !this->_db->tableExists(this->_options["rolesInherits"])
+			throw new Exception("Table '" . this->_options["rolesInherits"] . "' does not exist");
+		
+		
     }
 
     /**
