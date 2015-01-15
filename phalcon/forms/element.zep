@@ -475,6 +475,9 @@ abstract class Element
 		let form = this->_form;
 		if typeof form == "object" {
 			let value = form->getValue(name);
+			if typeof value == "null" && \Phalcon\Tag::hasValue(name) {
+				let value = \Phalcon\Tag::getValue(name);
+			}
 		}
 
 		/**
