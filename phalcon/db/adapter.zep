@@ -1034,7 +1034,7 @@ abstract class Adapter implements EventsAwareInterface
 	{
 		var references, reference,
 			arrayReference, constraintName, referenceObjects, name,
-			referencedSchema, referencedTable, columns, referencedColumns;
+			referencedSchema, referencedTable, columns, referencedColumns, onUpdate, onDelete;
 
 		let references = [];
 
@@ -1046,11 +1046,23 @@ abstract class Adapter implements EventsAwareInterface
 				let referencedTable = reference[4];
 				let columns = [];
 				let referencedColumns = [];
+				if count(reference) > 5
+				{
+					let onUpdate = reference[6];
+					let onDelete = reference[7];
+				}
+				else
+				{
+					let onUpdate = null;
+					let onDelete = null;
+				}
 			} else {
 				let referencedSchema = references[constraintName]["referencedSchema"];
 				let referencedTable = references[constraintName]["referencedTable"];
 				let columns = references[constraintName]["columns"];
 				let referencedColumns = references[constraintName]["referencedColumns"];
+				let onUpdate = references[constraintName]["onUpdate"];
+				let onDelete = references[constraintName]["onDelete"];
 			}
 
 			let columns[] = reference[1],
@@ -1060,7 +1072,10 @@ abstract class Adapter implements EventsAwareInterface
 				"referencedSchema"  : referencedSchema,
 				"referencedTable"   : referencedTable,
 				"columns"           : columns,
-				"referencedColumns" : referencedColumns
+				"referencedColumns" : referencedColumns,
+				"referencedColumns" : referencedColumns,
+				"onUpdate" : onUpdate,
+				"onDelete" : onDelete
 			];
 		}
 
@@ -1070,7 +1085,10 @@ abstract class Adapter implements EventsAwareInterface
 				"referencedSchema"	: arrayReference["referencedSchema"],
 				"referencedTable"	: arrayReference["referencedTable"],
 				"columns"			: arrayReference["columns"],
-				"referencedColumns" : arrayReference["referencedColumns"]
+				"referencedColumns" : arrayReference["referencedColumns"],
+				"referencedColumns" : arrayReference["referencedColumns"],
+				"onUpdate" : arrayReference["onUpdate"],
+				"onDelete" : arrayReference["onDelete"]
 			]);
 		}
 

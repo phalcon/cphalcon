@@ -126,11 +126,15 @@ class Reference implements ReferenceInterface
 		}
 
 		if fetch onDelete, definition["onDelete"] {
-			let this->_onDelete = onDelete;
+			if onDelete != null {
+				let this->_onDelete = onDelete;
+			}
 		}
 
 		if fetch onUpdate, definition["onUpdate"] {
-			let this->_onUpdate = onUpdate;
+			if onUpdate != null {
+				let this->_onUpdate = onUpdate;
+			}
 		}
 
 		if count(columns) != count(referencedColumns) {
