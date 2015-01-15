@@ -2703,7 +2703,8 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	{
 		var metaData, related, schema, writeConnection, readConnection,
 			source, table, identityField, exists, success;
-
+		var key, value, haschanged;
+		
 		let metaData = this->getModelsMetaData();
 
 		if typeof data == "array" && count(data)>0 {
@@ -2724,7 +2725,25 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 				return false;
 			}
 		}
-
+		/**
+		* Verify if any fields changed, if there are no changes, skip saving.
+		*/
+		if this->hasSnapshotData() {
+			let haschanged = false;
+			for key, value in this->_snapshot {
+				if value != this->{key} {
+					let haschanged = true;
+					break;
+				}
+			}
+			if !haschanged {
+				if typeof related == "array" {
+					let success = this->_postSaveRelatedRecords(writeConnection, related);
+				}
+				return true;
+			}
+		}
+		
 		let schema = this->getSchema(),
 			source = this->getSource();
 
