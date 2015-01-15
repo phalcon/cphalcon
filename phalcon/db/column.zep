@@ -469,7 +469,7 @@ class Column implements ColumnInterface
 		}
 
 		if fetch columnTypeValues,  data["_typeValues"] {
-			let definition["typeValeus"] = columnTypeValues;
+			let definition["typeValues"] = columnTypeValues;
 		}
 
 		if fetch notNull, data["_notNull"] {
