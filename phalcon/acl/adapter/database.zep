@@ -77,28 +77,27 @@ class Database extends Adapter
 		if !isset this->_options["resourcesAccesses"] {
 			let this->_options["resourcesAccesses"] = "resources_accesses";
 		}
-		
-		if !this->_db->tableExists(this->_options["resourcesAccesses"])
+		if !this->_db->tableExists(this->_options["resourcesAccesses"]) {
 			throw new Exception("Table '" . this->_options["resourcesAccesses"] . "' does not exist");
-		
+		}
 		if !isset this->_options["resources"] {
 			let this->_options["resources"] = "resources";
 		}
-		if !this->_db->tableExists(this->_options["resources"])
+		if !this->_db->tableExists(this->_options["resources"]) {
 			throw new Exception("Table '" . this->_options["resources"] . "' does not exist");
-		
+		}
 		if !isset this->_options["accessList"] {
 			let this->_options["accessList"] = "access_list";
 		}
-		if !this->_db->tableExists(this->_options["accessList"])
+		if !this->_db->tableExists(this->_options["accessList"]) {
 			throw new Exception("Table '" . this->_options["accessList"] . "' does not exist");
-		
+		}
 		if !isset this->_options["rolesInherits"] {
 			let this->_options["rolesInherits"] = "roles_inherits";
 		}
-		if !this->_db->tableExists(this->_options["rolesInherits"])
+		if !this->_db->tableExists(this->_options["rolesInherits"]) {
 			throw new Exception("Table '" . this->_options["rolesInherits"] . "' does not exist");
-		
+		}
 		
     }
 
