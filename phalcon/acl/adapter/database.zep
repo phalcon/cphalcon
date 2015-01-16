@@ -340,6 +340,21 @@ class Database extends Adapter
         }
         return roles;
     }
+	
+	/**
+	 * Return an array with every access registered in the list
+	 *
+	 * @return []
+	 */
+    public function getAccess(roleFilter = null)
+    {
+		var sql;
+        let sql = "SELECT * FROM " . this->_options["accessList"];
+		if roleFilter {
+			let sql .= " where roles_name = '". roleFilter . "'";
+		}
+		return this->_db->fetchAll(sql, Db::FETCH_ASSOC);
+    }
 
    /**
 	 * Removes an access from a resource
