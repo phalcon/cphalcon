@@ -141,6 +141,44 @@ class Database extends Adapter
         }
         return true;
     }
+	
+	 /**
+	 * Remove a role to the ACL list
+	 *
+	 * Example:
+	 * <code>
+	 * 	$acl->removeRole(new $Phalcon\Acl\Role("administrator"));
+	 * 	$acl->removeRole("administrator");
+	 * </code>
+	 *
+	 * @param  Phalcon\Acl\RoleInterface role
+	 * @return boolean
+	 */
+    public function removeRole(var role) -> boolean
+    {
+		var exists, sql, roleObject;
+		
+		if typeof role == "object" {
+			let roleObject = role;
+		} else {
+			let roleObject = new \Phalcon\Acl\Role(role);
+		}
+		
+		let sql = "SELECT count(*) FROM " . this->_options["roles"] . " WHERE name = ?";
+        let exists =this->_db->fetchOne(sql, null,[roleObject->getName()]);
+
+        if exists[0] {
+		   this->removeInherit(roleObject->getName());
+		   let sql = "DELETE FROM " . this->_options["accessList"] . " where roles_name = ?";
+		   this->_db->execute(sql, [roleObject->getName()]);
+		   let sql = "DELETE FROM " . this->_options["roles"] ." where name = ?";
+           this->_db->execute(sql,[roleObject->getName()]);
+        }
+		else {
+			return false;
+		}
+        return true;
+    }
 
     /**
 	 * Do a role inherit from another existing role
@@ -177,6 +215,41 @@ class Database extends Adapter
                 [roleName, roleToInherit]
             );
         }
+    }
+	
+	/**
+	 * Remove role inherit from existing role
+	 *
+	 * @param string roleName
+	 * @param string roleInheritToRemove
+	 */
+    public function removeInherit(var roleName, roleInheritToRemove = null)
+    {
+		var exists, inherit;
+		
+        var sql = "SELECT COUNT(*) FROM ";
+		let sql .= this->_options["roles"] . " WHERE name = ?";
+		
+        let exists =this->_db->fetchOne(sql, null, [roleName]);
+        if !exists[0] {
+            throw new Exception("Role '" . roleName . "' does not exist in the role list");
+        }
+		if roleInheritToRemove {
+			let exists = this->_db->fetchOne(sql, null, [roleInheritToRemove]);
+			if !exists[0] {
+				throw new Exception("Role '" . roleInheritToRemove . "' does not exist in the role list");
+			}
+			return this->_db->execute("DELETE FROM ". this->_options["rolesInherits"]. " WHERE roles_name = ? AND roles_inherit = ?", [roleName, roleInheritToRemove]);
+		}
+		else {
+			let sql = "SELECT * FROM ". this->_options["rolesInherits"] . " where roles_name = '";
+			let sql .= roleName. "' or roles_inherit = '".roleName."'";
+			let exists = this->_db->fetchAll(sql, Db::FETCH_ASSOC);
+			for inherit in exists {
+				this->removeInherit(inherit["roles_name"], inherit["roles_inherit"]);
+			}
+			return true;
+		}	
     }
 
     /**
@@ -255,7 +328,7 @@ class Database extends Adapter
             [resourceObject->getName()]
         );
 
-        if !$exists[0] {
+        if !exists[0] {
            this->_db->execute(
                 "INSERT INTO " . this->_options["resources"] . " VALUES (?, ?)",
                 [resourceObject->getName(), resourceObject->getDescription()]
@@ -268,6 +341,47 @@ class Database extends Adapter
 		
         return true;
     }
+	
+	/**
+	 * Remove a resource to the ACL list
+	 *
+	 * Access names can be a particular action, by example
+	 * search, update, delete, etc or a list of them
+	 *
+	 * Example:
+	 * <code>
+	 * //Add a resource to the the list allowing access to an action
+	 * $acl->removeResource(new $Phalcon\Acl\Resource("customers"), "search");
+	 * $acl->removeResource("customers", "search");
+	 *
+	 * //Add a resource  with an access list
+	 * $acl->removeResource(new $Phalcon\Acl\Resource("customers"), array("create", "search"));
+	 * $acl->removeResource("customers", array("create", "search"));
+	 * </code>
+	 *
+	 * @param   Phalcon\Acl\Resource resource
+	 * @param   array accessList
+	 * @return  boolean
+	 */
+    public function removeResource(var resourceValue) -> boolean
+    {
+		var resourceName ,access;
+        if typeof resourceValue == "object" {
+            let resourceName = resourceValue->getName();
+        }
+		else {
+			let resourceName = resourceValue;
+		}
+        if !this->isResource(resourceValue) {
+			throw new Exception("Resource '" . resourceName . "' does not exist in ACL");
+        }
+		for access in this->getResourcesAccess(resourceName) {
+			this->removeResourceAccess(access["resources_name"], access["access_name"]);
+		}
+		this->_db->execute("DELETE FROM ".this->_options["resources"]." where name = ?", [resourceName]);
+        return true;
+    }
+	
 
     /**
 	 * Adds access to resources
@@ -306,6 +420,32 @@ class Database extends Adapter
         }
         return true;
     }
+	
+	/**
+	 * Remove access to resources
+	 *
+	 * @param string resourceName
+	 * @param mixed accessList
+	 * @return boolean
+	 */
+    public function removeResourceAccess(var resourceName, var accessList) -> boolean
+    {
+		var accessName;
+        if !this->isResource(resourceName) {
+            throw new Exception("Resource '" . resourceName . "' does not exist in ACL");
+        }
+
+        var sql = "DELETE FROM ";
+		let sql .= this->_options["resourcesAccesses"] . " WHERE resources_name = ? AND access_name = ?";
+        if typeof accessList == "array" {
+			for accessName in accessList {
+				this->_db->execute(sql,[resourceName, accessName]);
+            }
+        } else {
+			this->_db->execute(sql,[resourceName, accessList]);
+        }
+        return true;
+    }
 
     /**
 	 * Return an array with every resource registered in the list
@@ -322,6 +462,28 @@ class Database extends Adapter
             let resources[] = new $Resource(row["name"], row["description"]);
         }
         return resources;
+    }
+	
+	/**
+	 * Return an array with every resource registered in the list
+	 *
+	 * @param mixed resourceValue
+	 * @return []
+	 */
+    public function getResourcesAccess(var resourceValue)
+    {
+		var resourceName, sql;
+		if typeof resourceValue == "object" {
+			let resourceName = resourceValue->getName();
+		}
+		else {
+			let resourceName = resourceValue;
+		}
+        if !this->isResource(resourceName) {
+			 throw new Exception("Resource '" . resourceName . "' does not exist in ACL");
+		}	
+		let sql = "SELECT * FROM " . this->_options["resourcesAccesses"] . " where resources_name = '". resourceName . "'";
+		return this->_db->fetchAll(sql, Db::FETCH_ASSOC);
     }
 
     /**
