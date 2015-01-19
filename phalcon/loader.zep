@@ -166,7 +166,7 @@ class Loader implements EventsAwareInterface
 		if merge {
 			let currentPrefixes = this->_prefixes;
 			if typeof currentPrefixes == "array" {
-				let mergedPrefixes = currentPrefixes->merge(prefixes);
+				let mergedPrefixes = array_merge(currentPrefixes, prefixes);
 			} else {
 				let mergedPrefixes = prefixes;
 			}
@@ -201,7 +201,7 @@ class Loader implements EventsAwareInterface
 		if merge {
 			let currentDirectories = this->_directories;
 			if typeof currentDirectories == "array" {
-				let mergedDirectories = array_merge(currentDirectories,directories);
+				let mergedDirectories = array_merge(currentDirectories, directories);
 			} else {
 				let mergedDirectories = directories;
 			}
@@ -236,7 +236,7 @@ class Loader implements EventsAwareInterface
 		if merge {
 			let currentClasses = this->_classes;
 			if typeof currentClasses == "array" {
-				let mergedClasses = currentClasses->merge(classes);
+				let mergedClasses = array_merge(currentClasses, classes);
 			} else {
 				let mergedClasses = classes;
 			}
