@@ -781,11 +781,20 @@ PHP_METHOD(Phalcon_Http_Cookie, getHttpOnly) {
 /**
  * Magic __toString method converts the cookie's value to string
  *
- * @return mixed
+ * @return string
  */
 PHP_METHOD(Phalcon_Http_Cookie, __toString) {
 
+	zval *_1 = NULL;
+	int ZEPHIR_LAST_CALL_STATUS;
+	zval *_0 = NULL;
 
+	ZEPHIR_MM_GROW();
+
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getvalue", NULL);
+	zephir_check_call_status();
+	zephir_get_strval(_1, _0);
+	RETURN_CTOR(_1);
 
 }
 

@@ -183,6 +183,14 @@ interface MetaDataInterface
 	public function setAutomaticUpdateAttributes(<ModelInterface> model, attributes);
 
 	/**
+	 * Returns attributes (which have default values) and their default values
+	 *
+	 * @param Phalcon\Mvc\ModelInterface model
+	 * @return array
+	 */
+	public function getDefaultValues(<ModelInterface> model);
+
+	/**
 	 * Returns the column map if any
 	 *
 	 * @param Phalcon\Mvc\ModelInterface model

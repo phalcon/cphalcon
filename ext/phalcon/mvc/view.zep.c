@@ -824,7 +824,7 @@ PHP_METHOD(Phalcon_Mvc_View, _loadTemplateEngines) {
 			  ; zephir_hash_get_current_data_ex(_3, (void**) &_4, &_2) == SUCCESS
 			  ; zephir_hash_move_forward_ex(_3, &_2)
 			) {
-				ZEPHIR_GET_HKEY(extension, _3, _2);
+				ZEPHIR_GET_HMKEY(extension, _3, _2);
 				ZEPHIR_GET_HVALUE(engineService, _4);
 				if (Z_TYPE_P(engineService) == IS_OBJECT) {
 					if (zephir_instance_of_ev(engineService, zend_ce_closure TSRMLS_CC)) {
@@ -959,7 +959,7 @@ PHP_METHOD(Phalcon_Mvc_View, _engineRender) {
 	  ; zephir_hash_get_current_data_ex(_8, (void**) &_9, &_7) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_8, &_7)
 	) {
-		ZEPHIR_GET_HKEY(extension, _8, _7);
+		ZEPHIR_GET_HMKEY(extension, _8, _7);
 		ZEPHIR_GET_HVALUE(engine, _9);
 		ZEPHIR_INIT_NVAR(viewEnginePath);
 		ZEPHIR_CONCAT_VV(viewEnginePath, viewsDirPath, extension);
@@ -1094,7 +1094,7 @@ PHP_METHOD(Phalcon_Mvc_View, exists) {
 	  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_2, &_1)
 	) {
-		ZEPHIR_GET_HKEY(extension, _2, _1);
+		ZEPHIR_GET_HMKEY(extension, _2, _1);
 		ZEPHIR_GET_HVALUE(_0, _3);
 		ZEPHIR_INIT_LNVAR(_4);
 		ZEPHIR_CONCAT_VVVV(_4, basePath, viewsDir, view, extension);
@@ -1756,7 +1756,7 @@ PHP_METHOD(Phalcon_Mvc_View, cache) {
 		  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_1, &_0)
 		) {
-			ZEPHIR_GET_HKEY(key, _1, _0);
+			ZEPHIR_GET_HMKEY(key, _1, _0);
 			ZEPHIR_GET_HVALUE(value, _2);
 			zephir_array_update_zval(&cacheOptions, key, &value, PH_COPY | PH_SEPARATE);
 		}

@@ -1688,7 +1688,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 		/**
 		 * Get belongs-to relations
 		 */
-		let belongsTo = this->_hasManySingle;
+		let belongsTo = this->_belongsToSingle;
 		if typeof belongsTo == "array" {
 			if fetch relations, belongsTo[entityName] {
 				for relation in relations {

@@ -1429,7 +1429,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, fromInput) {
 		  ; zephir_hash_get_current_data_ex(_4, (void**) &_5, &_3) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_4, &_3)
 		) {
-			ZEPHIR_GET_HKEY(field, _4, _3);
+			ZEPHIR_GET_HMKEY(field, _4, _3);
 			ZEPHIR_GET_HVALUE(value, _5);
 			ZEPHIR_OBS_NVAR(type);
 			if (zephir_array_isset_fetch(&type, dataTypes, field, 0 TSRMLS_CC)) {

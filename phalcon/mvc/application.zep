@@ -137,13 +137,9 @@ class Application extends Injectable
 	 * @param boolean merge
 	 * @param Phalcon\Mvc\Application
 	 */
-	public function registerModules(modules, boolean merge = false) -> <Application>
+	public function registerModules(array modules, boolean merge = false) -> <Application>
 	{
 		var registeredModules, modulesObjects, module, moduleName, moduleObject, className, path;
-
-		if typeof modules != "array" {
-			throw new Exception("Modules must be an Array");
-		}
 
 		let modulesObjects = [];
 		for moduleName, module in modules {
@@ -230,6 +226,23 @@ class Application extends Injectable
 	public function getModules()
 	{
 		return this->_modules;
+	}
+
+	/**
+	 * Gets the module definition registered in the application via module name
+	 *
+	 * @param string name
+	 * @return array|object
+	 */
+	public function getModule(string! name)
+	{
+		var module;
+
+		if !fetch module, this->_modules[name] {
+			throw new Exception("Module '" . name . "' isn't registered in the application container");
+		}
+
+		return module;
 	}
 
 	/**

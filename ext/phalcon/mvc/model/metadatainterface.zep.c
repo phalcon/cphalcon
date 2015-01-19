@@ -195,6 +195,14 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, setAutomaticCreateAttribu
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, setAutomaticUpdateAttributes);
 
 /**
+ * Returns attributes (which have default values) and their default values
+ *
+ * @param Phalcon\Mvc\ModelInterface model
+ * @return array
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, getDefaultValues);
+
+/**
  * Returns the column map if any
  *
  * @param Phalcon\Mvc\ModelInterface model

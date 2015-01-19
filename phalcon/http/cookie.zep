@@ -426,6 +426,16 @@ class Cookie implements InjectionAwareInterface
 	}
 
 	/**
+	 * Returns the current cookie's name
+	 *
+	 * @return string
+	 */
+	public function getName() -> string
+	{
+		return this->_name;
+	}
+
+	/**
 	 * Returns the current cookie's path
 	 *
 	 * @return string
@@ -525,10 +535,10 @@ class Cookie implements InjectionAwareInterface
 	/**
 	 * Magic __toString method converts the cookie's value to string
 	 *
-	 * @return mixed
+	 * @return string
 	 */
-	public function __toString()
+	public function __toString() -> string
 	{
-
+		return (string)this->getValue();
 	}
 }

@@ -153,7 +153,7 @@ PHP_METHOD(Phalcon_Filter, sanitize) {
 					  ; zephir_hash_get_current_data_ex(_5, (void**) &_6, &_4) == SUCCESS
 					  ; zephir_hash_move_forward_ex(_5, &_4)
 					) {
-						ZEPHIR_GET_HKEY(itemKey, _5, _4);
+						ZEPHIR_GET_HMKEY(itemKey, _5, _4);
 						ZEPHIR_GET_HVALUE(itemValue, _6);
 						ZEPHIR_CALL_METHOD(&_7, this_ptr, "_sanitize", &_8, itemValue, filter);
 						zephir_check_call_status();
@@ -182,7 +182,7 @@ PHP_METHOD(Phalcon_Filter, sanitize) {
 		  ; zephir_hash_get_current_data_ex(_10, (void**) &_11, &_9) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_10, &_9)
 		) {
-			ZEPHIR_GET_HKEY(itemKey, _10, _9);
+			ZEPHIR_GET_HMKEY(itemKey, _10, _9);
 			ZEPHIR_GET_HVALUE(itemValue, _11);
 			ZEPHIR_CALL_METHOD(&_7, this_ptr, "_sanitize", &_8, itemValue, filters);
 			zephir_check_call_status();

@@ -33,7 +33,7 @@ interface ManagerInterface
 	 * Attach a listener to the events manager
 	 *
 	 * @param string eventType
-	 * @param object handler
+	 * @param object|callable handler
 	 */
 	public function attach(eventType, handler);
 

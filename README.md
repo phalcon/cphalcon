@@ -3,56 +3,59 @@ Phalcon Framework
 
 Phalcon is an open source web framework delivered as a C extension for the PHP language providing high performance and lower resource consumption.
 
-This readme provides an introduction to contributing to Phalcon 2.0
+This readme provides an introduction to contributing to `Phalcon 2.0`.
 
 Get Started
 -----------
 
-Clone phalcon 2.0 repo:
+Clone `Phalcon 2.0` repo:
 
-    git clone -b 2.0.0 https://github.com/phalcon/cphalcon.git
+```bash
+git clone -b 2.0.0 https://github.com/phalcon/cphalcon.git
+```
 
-Clone zephir repo:
+Clone [Zephir](https://github.com/phalcon/zephir) repo:
 
-    git clone https://github.com/phalcon/zephir.git
+```bash
+git clone https://github.com/phalcon/zephir.git
+```
 
-clone json-c repo:
+Clone [json-c](https://github.com/json-c/json-c.git) repo:
 
-    git clone https://github.com/json-c/json-c.git
+```bash
+git clone https://github.com/json-c/json-c.git
+```
 
 Install required packages:
 
-    sudo apt-get install php5-dev php5-mysql gcc make re2c libpcre3-dev
+```bash
+sudo apt-get install php5-dev php5-mysql gcc make re2c libpcre3-dev
+```
 
-Compile json-c:
+Compile `json-c` and `Zephir`:
 
-    cd json-c
-    sudo sh autogen.sh
-    sudo ./configure
-    sudo make
-    sudo make install
-    cd ..
+```bash
+cd zephir
+sudo ./install-json
+sudo ./install
+cd ..
+```
 
-Compile zephir:
+Compile `Phalcon`:
 
-    cd zephir
-    sudo ./install
-    cd ..
+```bash
+cd cphalcon
+../zephir/bin/zephir generate
+../zephir/bin/zephir compile
+```
 
-Compile phalcon:
+Add extension to your `php.ini`:
 
-    cd cphalcon
-    ../zephir/bin/zephir generate
-    ../zephir/bin/zephir compile
+```ini
+extension=phalcon.so
+```
 
-
-Add extension to your php.ini
-
-    extension=phalcon.so
-
-
-Finally restart the webserver
-
+Finally restart the webserver!
 
 External Links
 --------------
@@ -69,4 +72,5 @@ Phalcon Framework is built under Travis CI service. Every commit pushed to this 
 
 License
 -------
+
 Phalcon is open-sourced software licensed under the New BSD License. See the docs/LICENSE.txt file for more information.

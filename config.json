@@ -7,9 +7,9 @@
         "static-constant-class-folding": true
     },
     "namespace": "phalcon",
-    "name": "",
-    "description": "",
-    "author": "Phalcon Team",
+    "name": "phalcon",
+    "description": "Web framework delivered as a C-extension for PHP",
+    "author": "Phalcon Team and Contributors",
     "version": "2.0.0b",
     "verbose": false,
     "optimizer-dirs": [

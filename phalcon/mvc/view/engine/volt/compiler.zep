@@ -986,7 +986,7 @@ class Compiler implements InjectionAwareInterface
 		 * "sort" calls "sort" method in the engine adapter
 		 */
 		if name == "sort" {
-			return "this->sort(" . arguments . ")";
+			return "$this->sort(" . arguments . ")";
 		}
 
 		/**

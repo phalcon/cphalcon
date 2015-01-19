@@ -161,7 +161,50 @@ class ViewSimpleTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals("<p></p>", @$view->render('test3/coolVar'));
 	}
 
-	// Setup viewCache service and DI
+	public function testGetRegisteredEngines()
+	{
+		$expected = array(
+			'.mhtml' => 'My_Mustache_Engine',
+			'.phtml' => 'Phalcon\Mvc\View\Engine\Php',
+			'.twig'  => 'My_Twig_Engine',
+			'.volt'  => 'Phalcon\Mvc\View\Engine\Volt',
+		);
+
+		$di   = new Phalcon\DI();
+		$view = new Phalcon\Mvc\View\Simple();
+		$view->setDI($di);
+		$view->setViewsDir('unit-tests/views/');
+
+		$view->registerEngines($expected);
+		$this->assertEquals($expected, $view->getRegisteredEngines());
+	}
+
+		public function testRenderWithFilenameWithEngineExtension()
+	{
+		$view = new View;
+		$view->setDI(new Di);
+
+		$view->registerEngines(array('.mhtml' => 'Phalcon\\Mvc\\View\\Engine\\Volt'));
+		$view->setViewsDir('unit-tests/views/');
+		$view->setParamToView('name', 'FooBar');
+
+		$this->assertEquals('Hello FooBar', $view->render('test4/index.mhtml'));
+	}
+
+	public function testRenderWithFilenameWithEngineWithoutEngineRegistered()
+	{
+		$this->setExpectedException('Phalcon\Mvc\View\Exception');
+
+		$view = new View;
+		$view->setDI(new Di);
+
+		$view->setViewsDir('unit-tests/views/');
+		$view->setParamToView('name', 'FooBar');
+
+		$this->assertEquals('Hello FooBar', $view->render('test4/index.mhtml'));
+	}
+
+    // Setup viewCache service and DI
 	private function _getDI()
 	{
 		$di = new Di;

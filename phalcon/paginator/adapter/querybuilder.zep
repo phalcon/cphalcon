@@ -169,7 +169,7 @@ class QueryBuilder implements AdapterInterface
 	{
 		var originalBuilder, builder, totalBuilder, totalPages,
 			limit, numberPage, number, query, page, before, items, totalQuery,
-			result, row, rowcount, intTotalPages, next;
+			result, row, rowcount, next;
 
 		let originalBuilder = this->_builder;
 

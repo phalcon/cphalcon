@@ -17,8 +17,8 @@
 #include "kernel/object.h"
 #include "kernel/exception.h"
 #include "ext/spl/spl_exceptions.h"
-#include "kernel/fcall.h"
 #include "kernel/operators.h"
+#include "kernel/fcall.h"
 #include "kernel/require.h"
 #include "kernel/hash.h"
 #include "kernel/string.h"
@@ -188,7 +188,6 @@ PHP_METHOD(Phalcon_Loader, getExtensions) {
  */
 PHP_METHOD(Phalcon_Loader, registerNamespaces) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
 	zend_bool merge;
 	zval *namespaces_param = NULL, *merge_param = NULL, *currentNamespaces, *mergedNamespaces = NULL;
 	zval *namespaces = NULL;
@@ -209,8 +208,8 @@ PHP_METHOD(Phalcon_Loader, registerNamespaces) {
 		ZEPHIR_OBS_VAR(currentNamespaces);
 		zephir_read_property_this(&currentNamespaces, this_ptr, SL("_namespaces"), PH_NOISY_CC);
 		if (Z_TYPE_P(currentNamespaces) == IS_ARRAY) {
-			ZEPHIR_CALL_METHOD(&mergedNamespaces, currentNamespaces, "merge", NULL, namespaces);
-			zephir_check_call_status();
+			ZEPHIR_INIT_VAR(mergedNamespaces);
+			zephir_fast_array_merge(mergedNamespaces, &(currentNamespaces), &(namespaces) TSRMLS_CC);
 		} else {
 			ZEPHIR_CPY_WRT(mergedNamespaces, namespaces);
 		}
@@ -298,7 +297,6 @@ PHP_METHOD(Phalcon_Loader, getPrefixes) {
  */
 PHP_METHOD(Phalcon_Loader, registerDirs) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
 	zend_bool merge;
 	zval *directories_param = NULL, *merge_param = NULL, *currentDirectories, *mergedDirectories = NULL;
 	zval *directories = NULL;
@@ -319,8 +317,8 @@ PHP_METHOD(Phalcon_Loader, registerDirs) {
 		ZEPHIR_OBS_VAR(currentDirectories);
 		zephir_read_property_this(&currentDirectories, this_ptr, SL("_directories"), PH_NOISY_CC);
 		if (Z_TYPE_P(currentDirectories) == IS_ARRAY) {
-			ZEPHIR_CALL_METHOD(&mergedDirectories, currentDirectories, "merge", NULL, directories);
-			zephir_check_call_status();
+			ZEPHIR_INIT_VAR(mergedDirectories);
+			zephir_fast_array_merge(mergedDirectories, &(currentDirectories), &(directories) TSRMLS_CC);
 		} else {
 			ZEPHIR_CPY_WRT(mergedDirectories, directories);
 		}

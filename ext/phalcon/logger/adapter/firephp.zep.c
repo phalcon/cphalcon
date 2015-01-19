@@ -157,7 +157,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Firephp, logInternal) {
 	  ; zephir_hash_get_current_data_ex(_9, (void**) &_10, &_8) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_9, &_8)
 	) {
-		ZEPHIR_GET_HKEY(key, _9, _8);
+		ZEPHIR_GET_HMKEY(key, _9, _8);
 		ZEPHIR_GET_HVALUE(chString, _10);
 		ZEPHIR_OBS_NVAR(_1);
 		zephir_read_static_property_ce(&_1, phalcon_logger_adapter_firephp_ce, SL("_index") TSRMLS_CC);

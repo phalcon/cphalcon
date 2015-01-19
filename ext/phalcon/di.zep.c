@@ -83,9 +83,17 @@ ZEPHIR_INIT_CLASS(Phalcon_Di) {
 
 	zend_declare_property_bool(phalcon_di_ce, SL("_freshInstance"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
 
+	/**
+	 * Events Manager
+	 *
+	 * @var Phalcon\Events\ManagerInterface
+	 */
+	zend_declare_property_null(phalcon_di_ce, SL("_eventsManager"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_declare_property_null(phalcon_di_ce, SL("_default"), ZEND_ACC_PROTECTED|ZEND_ACC_STATIC TSRMLS_CC);
 
 	zend_class_implements(phalcon_di_ce TSRMLS_CC, 1, phalcon_diinterface_ce);
+	zend_class_implements(phalcon_di_ce TSRMLS_CC, 1, phalcon_events_eventsawareinterface_ce);
 	return SUCCESS;
 
 }
@@ -359,7 +367,7 @@ PHP_METHOD(Phalcon_Di, getRaw) {
 	ZEPHIR_CONCAT_SVS(_2, "Service '", name, "' wasn't found in the dependency injection container");
 	ZEPHIR_CALL_METHOD(NULL, _1, "__construct", NULL, _2);
 	zephir_check_call_status();
-	zephir_throw_exception_debug(_1, "phalcon/di.zep", 176 TSRMLS_CC);
+	zephir_throw_exception_debug(_1, "phalcon/di.zep", 183 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 	return;
 
@@ -404,7 +412,7 @@ PHP_METHOD(Phalcon_Di, getService) {
 	ZEPHIR_CONCAT_SVS(_2, "Service '", name, "' wasn't found in the dependency injection container");
 	ZEPHIR_CALL_METHOD(NULL, _1, "__construct", NULL, _2);
 	zephir_check_call_status();
-	zephir_throw_exception_debug(_1, "phalcon/di.zep", 193 TSRMLS_CC);
+	zephir_throw_exception_debug(_1, "phalcon/di.zep", 200 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 	return;
 
@@ -419,9 +427,10 @@ PHP_METHOD(Phalcon_Di, getService) {
  */
 PHP_METHOD(Phalcon_Di, get) {
 
+	zval *_1 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *name_param = NULL, *parameters = NULL, *service, *instance = NULL, *reflection = NULL, *_0, *_1;
-	zval *name = NULL, *_2;
+	zval *name_param = NULL, *parameters = NULL, *service, *instance = NULL, *reflection = NULL, *eventsManager = NULL, *_0 = NULL, *_2 = NULL, *_3;
+	zval *name = NULL, *_4;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &name_param, &parameters);
@@ -442,9 +451,23 @@ PHP_METHOD(Phalcon_Di, get) {
 	}
 
 
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "geteventsmanager", NULL);
+	zephir_check_call_status();
+	ZEPHIR_CPY_WRT(eventsManager, _0);
+	if (Z_TYPE_P(eventsManager) == IS_OBJECT) {
+		ZEPHIR_INIT_VAR(_1);
+		array_init_size(_1, 3);
+		zephir_array_update_string(&_1, SL("name"), &name, PH_COPY | PH_SEPARATE);
+		zephir_array_update_string(&_1, SL("parameters"), &parameters, PH_COPY | PH_SEPARATE);
+		ZEPHIR_INIT_VAR(_2);
+		ZVAL_STRING(_2, "di:beforeServiceResolve", ZEPHIR_TEMP_PARAM_COPY);
+		ZEPHIR_CALL_METHOD(NULL, eventsManager, "fire", NULL, _2, this_ptr, _1);
+		zephir_check_temp_parameter(_2);
+		zephir_check_call_status();
+	}
 	ZEPHIR_OBS_VAR(service);
-	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_services"), PH_NOISY_CC);
-	if (zephir_array_isset_fetch(&service, _0, name, 0 TSRMLS_CC)) {
+	_3 = zephir_fetch_nproperty_this(this_ptr, SL("_services"), PH_NOISY_CC);
+	if (zephir_array_isset_fetch(&service, _3, name, 0 TSRMLS_CC)) {
 		ZEPHIR_CALL_METHOD(&instance, service, "resolve", NULL, parameters, this_ptr);
 		zephir_check_call_status();
 	} else {
@@ -492,13 +515,13 @@ PHP_METHOD(Phalcon_Di, get) {
 				}
 			}
 		} else {
-			ZEPHIR_INIT_VAR(_1);
-			object_init_ex(_1, phalcon_di_exception_ce);
-			ZEPHIR_INIT_VAR(_2);
-			ZEPHIR_CONCAT_SVS(_2, "Service '", name, "' wasn't found in the dependency injection container");
-			ZEPHIR_CALL_METHOD(NULL, _1, "__construct", NULL, _2);
+			ZEPHIR_INIT_NVAR(_2);
+			object_init_ex(_2, phalcon_di_exception_ce);
+			ZEPHIR_INIT_VAR(_4);
+			ZEPHIR_CONCAT_SVS(_4, "Service '", name, "' wasn't found in the dependency injection container");
+			ZEPHIR_CALL_METHOD(NULL, _2, "__construct", NULL, _4);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(_1, "phalcon/di.zep", 242 TSRMLS_CC);
+			zephir_throw_exception_debug(_2, "phalcon/di.zep", 255 TSRMLS_CC);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
@@ -508,6 +531,18 @@ PHP_METHOD(Phalcon_Di, get) {
 			ZEPHIR_CALL_METHOD(NULL, instance, "setdi", NULL, this_ptr);
 			zephir_check_call_status();
 		}
+	}
+	if (Z_TYPE_P(eventsManager) == IS_OBJECT) {
+		ZEPHIR_INIT_NVAR(_1);
+		array_init_size(_1, 5);
+		zephir_array_update_string(&_1, SL("name"), &name, PH_COPY | PH_SEPARATE);
+		zephir_array_update_string(&_1, SL("parameters"), &parameters, PH_COPY | PH_SEPARATE);
+		zephir_array_update_string(&_1, SL("instance"), &instance, PH_COPY | PH_SEPARATE);
+		ZEPHIR_INIT_NVAR(_2);
+		ZVAL_STRING(_2, "di:afterServiceResolve", ZEPHIR_TEMP_PARAM_COPY);
+		ZEPHIR_CALL_METHOD(NULL, eventsManager, "fire", NULL, _2, this_ptr, _1);
+		zephir_check_temp_parameter(_2);
+		zephir_check_call_status();
 	}
 	RETURN_CCTOR(instance);
 
@@ -757,6 +792,39 @@ PHP_METHOD(Phalcon_Di, offsetUnset) {
 }
 
 /**
+ * Sets the event manager
+ *
+ * @param Phalcon\Events\ManagerInterface eventsManager
+ */
+PHP_METHOD(Phalcon_Di, setEventsManager) {
+
+	zval *eventsManager;
+
+	zephir_fetch_params(0, 1, 0, &eventsManager);
+
+
+
+	if (!(zephir_instance_of_ev(eventsManager, phalcon_events_managerinterface_ce TSRMLS_CC))) {
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(spl_ce_InvalidArgumentException, "Parameter 'eventsManager' must be an instance of 'Phalcon\\Events\\ManagerInterface'", "", 0);
+		return;
+	}
+	zephir_update_property_this(this_ptr, SL("_eventsManager"), eventsManager TSRMLS_CC);
+
+}
+
+/**
+ * Returns the internal event manager
+ *
+ * @return Phalcon\Events\ManagerInterface
+ */
+PHP_METHOD(Phalcon_Di, getEventsManager) {
+
+
+	RETURN_MEMBER(this_ptr, "_eventsManager");
+
+}
+
+/**
  * Magic method to get or set services using setters/getters
  *
  * @param string method
@@ -829,7 +897,7 @@ PHP_METHOD(Phalcon_Di, __call) {
 	ZEPHIR_CONCAT_SVS(_6, "Call to undefined method or service '", method, "'");
 	ZEPHIR_CALL_METHOD(NULL, _5, "__construct", NULL, _6);
 	zephir_check_call_status();
-	zephir_throw_exception_debug(_5, "phalcon/di.zep", 415 TSRMLS_CC);
+	zephir_throw_exception_debug(_5, "phalcon/di.zep", 452 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 	return;
 

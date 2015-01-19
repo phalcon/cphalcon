@@ -340,7 +340,7 @@ PHP_METHOD(Phalcon_Di_Service_Builder, build) {
 		  ; zephir_hash_get_current_data_ex(_3, (void**) &_4, &_2) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_3, &_2)
 		) {
-			ZEPHIR_GET_HKEY(methodPosition, _3, _2);
+			ZEPHIR_GET_HMKEY(methodPosition, _3, _2);
 			ZEPHIR_GET_HVALUE(method, _4);
 			if (Z_TYPE_P(method) != IS_ARRAY) {
 				ZEPHIR_INIT_NVAR(_5);

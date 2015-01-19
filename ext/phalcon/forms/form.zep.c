@@ -654,7 +654,7 @@ PHP_METHOD(Phalcon_Forms_Form, add) {
 		  ; zephir_hash_get_current_data_ex(_4, (void**) &_5, &_3) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_4, &_3)
 		) {
-			ZEPHIR_GET_HKEY(key, _4, _3);
+			ZEPHIR_GET_HMKEY(key, _4, _3);
 			ZEPHIR_GET_HVALUE(value, _5);
 			if (ZEPHIR_IS_EQUAL(key, postion)) {
 				if (type) {

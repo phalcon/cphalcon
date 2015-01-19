@@ -28,6 +28,7 @@ use Phalcon\Mvc\Micro\LazyLoader;
 use Phalcon\Http\ResponseInterface;
 use Phalcon\Di\ServiceInterface;
 use Phalcon\Di\FactoryDefault;
+use Phalcon\Di\Injectable;
 
 /**
  * Phalcon\Mvc\Micro
@@ -48,7 +49,7 @@ use Phalcon\Di\FactoryDefault;
  *
  *</code>
  */
-class Micro extends \Phalcon\Di\Injectable implements \ArrayAccess
+class Micro extends Injectable implements \ArrayAccess
 {
 
 	protected _dependencyInjector;
@@ -78,7 +79,7 @@ class Micro extends \Phalcon\Di\Injectable implements \ArrayAccess
 	*
 	* @param Phalcon\DiInterface $dependencyInjector
 	*/
-	public function __construct(<DiInterface> dependencyInjector=null)
+	public function __construct(<DiInterface> dependencyInjector = null)
 	{
 		if typeof dependencyInjector == "object" {
 			if dependencyInjector instanceof DiInterface {

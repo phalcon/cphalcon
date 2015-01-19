@@ -80,15 +80,22 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Query_Status) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Query_Status, __construct) {
 
-	zval *success_param = NULL, *model;
-	zend_bool success;
+	zval *success_param = NULL, *model = NULL;
+	zend_bool success, _0;
 
-	zephir_fetch_params(0, 2, 0, &success_param, &model);
+	zephir_fetch_params(0, 1, 1, &success_param, &model);
 
 	success = zephir_get_boolval(success_param);
+	if (!model) {
+		model = ZEPHIR_GLOBAL(global_null);
+	}
 
 
-	if (!(zephir_instance_of_ev(model, phalcon_mvc_modelinterface_ce TSRMLS_CC))) {
+	_0 = Z_TYPE_P(model) != IS_NULL;
+	if (_0) {
+		_0 = !zephir_instance_of_ev(model, phalcon_mvc_modelinterface_ce TSRMLS_CC);
+	}
+	if (_0) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(spl_ce_InvalidArgumentException, "Parameter 'model' must be an instance of 'Phalcon\\Mvc\\ModelInterface'", "", 0);
 		return;
 	}

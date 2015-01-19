@@ -455,7 +455,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, queryKeys) {
 	  ; zephir_hash_get_current_data_ex(_7, (void**) &_8, &_6) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_7, &_6)
 	) {
-		ZEPHIR_GET_HKEY(index, _7, _6);
+		ZEPHIR_GET_HMKEY(index, _7, _6);
 		ZEPHIR_GET_HVALUE(key, _8);
 		if (ZEPHIR_IS_STRING(index, "key")) {
 			zephir_array_append(&keys, key, PH_SEPARATE, "phalcon/cache/backend/mongo.zep", 300);

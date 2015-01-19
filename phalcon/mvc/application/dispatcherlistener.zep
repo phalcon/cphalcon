@@ -66,7 +66,7 @@ class DispatcherListener
 		if moduleName {
 			let eventsManager = this->_application->getEventsManager();
 
-			if eventsManager->fire("application:beforeStartModule", this->_application) === false {
+			if eventsManager->fire("application:beforeStartModule", this->_application, moduleName) === false {
 				return false;
 			}
 

@@ -20,6 +20,8 @@ PHP_METHOD(Phalcon_Di, offsetExists);
 PHP_METHOD(Phalcon_Di, offsetSet);
 PHP_METHOD(Phalcon_Di, offsetGet);
 PHP_METHOD(Phalcon_Di, offsetUnset);
+PHP_METHOD(Phalcon_Di, setEventsManager);
+PHP_METHOD(Phalcon_Di, getEventsManager);
 PHP_METHOD(Phalcon_Di, __call);
 PHP_METHOD(Phalcon_Di, setDefault);
 PHP_METHOD(Phalcon_Di, getDefault);
@@ -90,6 +92,10 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_di_offsetunset, 0, 0, 1)
 	ZEND_ARG_INFO(0, name)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_di_seteventsmanager, 0, 0, 1)
+	ZEND_ARG_OBJ_INFO(0, eventsManager, Phalcon\\Events\\ManagerInterface, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_di___call, 0, 0, 1)
 	ZEND_ARG_INFO(0, method)
 	ZEND_ARG_INFO(0, arguments)
@@ -117,6 +123,8 @@ ZEPHIR_INIT_FUNCS(phalcon_di_method_entry) {
 	PHP_ME(Phalcon_Di, offsetSet, arginfo_phalcon_di_offsetset, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Di, offsetGet, arginfo_phalcon_di_offsetget, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Di, offsetUnset, arginfo_phalcon_di_offsetunset, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Di, setEventsManager, arginfo_phalcon_di_seteventsmanager, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Di, getEventsManager, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Di, __call, arginfo_phalcon_di___call, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Di, setDefault, arginfo_phalcon_di_setdefault, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Di, getDefault, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)

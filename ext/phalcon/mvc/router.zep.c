@@ -637,7 +637,7 @@ PHP_METHOD(Phalcon_Mvc_Router, handle) {
 				  ; zephir_hash_get_current_data_ex(_12, (void**) &_13, &_11) == SUCCESS
 				  ; zephir_hash_move_forward_ex(_12, &_11)
 				) {
-					ZEPHIR_GET_HKEY(part, _12, _11);
+					ZEPHIR_GET_HMKEY(part, _12, _11);
 					ZEPHIR_GET_HVALUE(position, _13);
 					ZEPHIR_OBS_NVAR(matchPosition);
 					if (zephir_array_isset_fetch(&matchPosition, matches, position, 0 TSRMLS_CC)) {

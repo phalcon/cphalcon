@@ -224,7 +224,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter, getMethod) {
 			  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
 			  ; zephir_hash_move_forward_ex(_1, &_0)
 			) {
-				ZEPHIR_GET_HKEY(name, _1, _0);
+				ZEPHIR_GET_HMKEY(name, _1, _0);
 				ZEPHIR_GET_HVALUE(method, _2);
 				if (ZEPHIR_IS_EQUAL(name, methodName)) {
 					RETURN_CCTOR(method);
@@ -302,7 +302,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter, getProperty) {
 			  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
 			  ; zephir_hash_move_forward_ex(_1, &_0)
 			) {
-				ZEPHIR_GET_HKEY(name, _1, _0);
+				ZEPHIR_GET_HMKEY(name, _1, _0);
 				ZEPHIR_GET_HVALUE(property, _2);
 				if (ZEPHIR_IS_EQUAL(name, propertyName)) {
 					RETURN_CCTOR(property);

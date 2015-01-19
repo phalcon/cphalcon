@@ -58,7 +58,7 @@ class Status implements StatusInterface
 	 * @param boolean success
 	 * @param Phalcon\Mvc\ModelInterface model
 	 */
-	public function __construct(boolean success, <ModelInterface> model)
+	public function __construct(boolean success, <ModelInterface> model = null)
 	{
 		let this->_success = success,
 			this->_model = model;

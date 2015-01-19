@@ -293,7 +293,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, toArray) {
 				  ; zephir_hash_get_current_data_ex(_6, (void**) &_7, &_5) == SUCCESS
 				  ; zephir_hash_move_forward_ex(_6, &_5)
 				) {
-					ZEPHIR_GET_HKEY(key, _6, _5);
+					ZEPHIR_GET_HMKEY(key, _6, _5);
 					ZEPHIR_GET_HVALUE(value, _7);
 					ZEPHIR_OBS_NVAR(renamedKey);
 					if (zephir_array_isset_fetch(&renamedKey, columnMap, key, 0 TSRMLS_CC)) {

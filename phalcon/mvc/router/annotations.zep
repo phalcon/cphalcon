@@ -104,8 +104,8 @@ class Annotations extends Router
 
 		if !uri {
 			/**
-		 	 * If 'uri' isn't passed as parameter it reads _GET['_url']
-		 	 */
+			 * If 'uri' isn't passed as parameter it reads _GET['_url']
+			 */
 			let realUri = this->getRewriteUri();
 		} else {
 			let realUri = uri;
@@ -129,8 +129,8 @@ class Annotations extends Router
 						 */
 						let prefix = scope[0];
 
-						if typeof prefix == "string" {
-							if starts_with(realUri, prefix) {
+						if !empty prefix {
+							if !starts_with(realUri, prefix) {
 								continue;
 							}
 						}
@@ -341,6 +341,8 @@ class Annotations extends Router
 			 * Add HTTP constraint methods
 			 */
 			if methods !== null {
+				route->via(methods);
+			} else {
 				let methods = annotation->getNamedArgument("methods");
 				if typeof methods == "array" {
 					route->via(methods);
@@ -349,8 +351,6 @@ class Annotations extends Router
 						route->via(methods);
 					}
 				}
-			} else {
-				route->via(methods);
 			}
 
 			/**

@@ -44,7 +44,7 @@ class Manager implements ManagerInterface
 	 * Attach a listener to the events manager
 	 *
 	 * @param string eventType
-	 * @param object handler
+	 * @param object|callable handler
 	 * @param int priority
 	 */
 	public function attach(string! eventType, var handler, int! priority = 100)

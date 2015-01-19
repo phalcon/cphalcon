@@ -130,7 +130,7 @@ class Loader implements EventsAwareInterface
 		if merge {
 			let currentNamespaces = this->_namespaces;
 			if typeof currentNamespaces == "array" {
-				let mergedNamespaces = currentNamespaces->merge(namespaces);
+				let mergedNamespaces = array_merge(currentNamespaces, namespaces);
 			} else {
 				let mergedNamespaces = namespaces;
 			}
@@ -201,7 +201,7 @@ class Loader implements EventsAwareInterface
 		if merge {
 			let currentDirectories = this->_directories;
 			if typeof currentDirectories == "array" {
-				let mergedDirectories = currentDirectories->merge(directories);
+				let mergedDirectories = array_merge(currentDirectories,directories);
 			} else {
 				let mergedDirectories = directories;
 			}

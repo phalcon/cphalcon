@@ -27,10 +27,13 @@ class LoaderTest extends PHPUnit_Framework_TestCase
 		$loader = new Phalcon\Loader();
 
 		$loader->registerNamespaces(array(
-			"Example\Base" => "unit-tests/vendor/example/base/",
-			"Example\Adapter" => "unit-tests/vendor/example/adapter/",
-			"Example" => "unit-tests/vendor/example/"
+			"Example\\Base" => "unit-tests/vendor/example/base/",
 		));
+
+		$loader->registerNamespaces(array(
+			"Example\\Adapter" => "unit-tests/vendor/example/adapter/",
+			"Example" => "unit-tests/vendor/example/"
+		), true);
 
 		$loader->register();
 
@@ -54,10 +57,13 @@ class LoaderTest extends PHPUnit_Framework_TestCase
 		$loader->setExtensions(array('inc', 'php'));
 
 		$loader->registerNamespaces(array(
-			"Example\Base" => "unit-tests/vendor/example/base/",
-			"Example\Adapter" => "unit-tests/vendor/example/adapter/",
-			"Example" => "unit-tests/vendor/example/"
+			"Example\\Base" => "unit-tests/vendor/example/base/",
+			"Example\\Adapter" => "unit-tests/vendor/example/adapter/",
 		));
+
+		$loader->registerNamespaces(array(
+			"Example" => "unit-tests/vendor/example/"
+		), true);
 
 		$loader->register();
 
@@ -75,9 +81,12 @@ class LoaderTest extends PHPUnit_Framework_TestCase
 
 		$loader->registerDirs(array(
 			"unit-tests/vendor/example/dialects", //missing trailing slash
+		));
+
+		$loader->registerDirs(array(
 			"unit-tests/vendor/example/types",
 			"unit-tests/vendor",
-		));
+		), true);
 
 		$loader->register();
 
