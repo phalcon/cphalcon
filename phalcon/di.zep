@@ -261,11 +261,21 @@ class Di implements DiInterface, \Phalcon\Events\EventsAwareInterface
 		 */
 		if typeof instance == "object" {
 			if method_exists(instance, "setDI") {
+//			if instance instanceof "Phalcon\\Di\\InjectionAwareInterface" {
 				instance->setDI(this);
 			}
 		}
 
 		if typeof eventsManager == "object" {
+			/**
+			 * Pass the EventsManager if the instance implements \Phalcon\Events\EventsAwareInterface
+			 */
+			if typeof instance == "object" {
+				if instance instanceof "Phalcon\\Events\\EventsAwareInterface" {
+					instance->setEventsManager(eventsManager);
+				}
+			}
+
 			eventsManager->fire("di:afterServiceResolve", this, ["name": name, "parameters": parameters, "instance": instance]);
 		}
 
