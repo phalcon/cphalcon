@@ -49,7 +49,7 @@ class SQLParser
 	 *
 	 * @return array
 	 */
-	static public function getPlaceholderPositions(string statement, boolean isPositional = true)
+	public static function getPlaceholderPositions(string statement, boolean isPositional = true)
 	{
 		var matches = null, fragment, placeholder, paramMap = [];
 		string match, token;
@@ -85,7 +85,7 @@ class SQLParser
 	 *
 	 * @throws Exception
 	 */
-	static public function expandListParameters(string query, var params, var types)
+	public static function expandListParameters(string query, var params, var types)
 	{
 		var arrayPositions = [], isPositional, bindIndex = -1, name, paramOffset,
 			queryOffset, needle, needlePos, typesOrd, paramsOrd, paramPos, count,
