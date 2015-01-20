@@ -4,7 +4,7 @@
 	+------------------------------------------------------------------------+
 	| Phalcon Framework                                                      |
 	+------------------------------------------------------------------------+
-	| Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
+	| Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
 	+------------------------------------------------------------------------+
 	| This source file is subject to the New BSD License that is bundled     |
 	| with this package in the file docs/LICENSE.txt.                        |
@@ -27,6 +27,7 @@ class ImageTest extends PHPUnit_Framework_TestCase
 	public function testGD()
 	{
 		if (!function_exists('gd_info')) {
+			$this->markTestSkipped("Skipped");
 			return;
 		}
 
@@ -167,10 +168,9 @@ class ImageTest extends PHPUnit_Framework_TestCase
 	public function testImagick()
 	{
 		if (!class_exists('imagick')) {
+			$this->markTestSkipped("Skipped");
 			return;
 		}
-
-		\Phalcon\Image\Adapter\Imagick::setResourceLimit(6, 1);
 
 		@unlink('unit-tests/assets/production/imagick-new.jpg');
 		@unlink('unit-tests/assets/production/imagick-resize.jpg');
@@ -186,10 +186,12 @@ class ImageTest extends PHPUnit_Framework_TestCase
 
 		// Create new image
 		$image = new Phalcon\Image\Adapter\Imagick('unit-tests/assets/production/imagick-new.jpg', 100, 100);
+		$image->setResourceLimit(6, 1);
 		$image->save();
 		$this->assertTrue(file_exists('unit-tests/assets/production/imagick-new.jpg'));
 
 		$image = new Phalcon\Image\Adapter\Imagick('unit-tests/assets/phalconphp.jpg');
+		$image->setResourceLimit(6, 1);
 
 		 // Resize to 200 pixels on the shortest side
 		$image->resize(200, 200)->save('unit-tests/assets/production/imagick-resize.jpg');
@@ -221,6 +223,7 @@ class ImageTest extends PHPUnit_Framework_TestCase
 		// Crop the image to 200x200 pixels, from the center
 
 		$image = new Phalcon\Image\Adapter\Imagick('unit-tests/assets/phalconphp.jpg');
+		$image->setResourceLimit(6, 1);
 		$image->crop(200, 200)->save('unit-tests/assets/production/imagick-crop.jpg');
 		$this->assertTrue(file_exists('unit-tests/assets/production/imagick-crop.jpg'));
 
@@ -260,11 +263,13 @@ class ImageTest extends PHPUnit_Framework_TestCase
 
 		// Add a watermark to the bottom right of the image
 		$mark = new Phalcon\Image\Adapter\Imagick('unit-tests/assets/logo.png');
+		$image->setResourceLimit(6, 1);
 		$image->watermark($mark, TRUE, TRUE)->save('unit-tests/assets/production/imagick-watermark.jpg');
 		$this->assertTrue(file_exists('unit-tests/assets/production/imagick-watermark.jpg'));
 
 		// Mask image
 		$mask = new Phalcon\Image\Adapter\Imagick('unit-tests/assets/logo.png');
+		$image->setResourceLimit(6, 1);
 		$image->mask($mask)->save('unit-tests/assets/production/imagick-mask.jpg');
 		$this->assertTrue(file_exists('unit-tests/assets/production/imagick-mask.jpg'));
 
