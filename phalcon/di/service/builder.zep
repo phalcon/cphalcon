@@ -173,7 +173,7 @@ class Builder
 			} else {
 				if is_php_version("5.6") {
 					let reflection = new \ReflectionClass(className),
-						instance = reflection->newInstanceArgs(parameters);
+						instance = reflection->newInstance();
 				} else {
 					let instance = create_instance(className);
 				}
@@ -194,7 +194,7 @@ class Builder
 			} else {
 				if is_php_version("5.6") {
 					let reflection = new \ReflectionClass(className),
-						instance = reflection->newInstanceArgs(parameters);
+						instance = reflection->newInstance();
 				} else {
 					let instance = create_instance(className);
 				}
