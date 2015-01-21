@@ -137,9 +137,6 @@ abstract class Adapter
 	 *<code>
 	 *	var_dump($session->has('auth'));
 	 *</code>
-	 *
-	 * @param string index
-	 * @return boolean
 	 */
 	public function has(string index) -> boolean
 	{
@@ -152,8 +149,6 @@ abstract class Adapter
 	 *<code>
 	 *	$session->remove('auth');
 	 *</code>
-	 *
-	 * @param string index
 	 */
 	public function remove(string index)
 	{
@@ -166,8 +161,6 @@ abstract class Adapter
 	 *<code>
 	 *	echo $session->getId();
 	 *</code>
-	 *
-	 * @return string
 	 */
 	public function getId() -> string
 	{
@@ -180,8 +173,6 @@ abstract class Adapter
 	 *<code>
 	 *	var_dump($session->isStarted());
 	 *</code>
-	 *
-	 * @return boolean
 	 */
 	public function isStarted() -> boolean
 	{
@@ -194,8 +185,6 @@ abstract class Adapter
 	 *<code>
 	 *	var_dump(session->destroy());
 	 *</code>
-	 *
-	 * @return boolean
 	 */
 	public function destroy() -> boolean
 	{

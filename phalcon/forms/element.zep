@@ -30,7 +30,7 @@ use Phalcon\Validation\ValidatorInterface;
  *
  * This is a base class for form elements
  */
-abstract class Element
+abstract class Element implements ElementInterface
 {
 
 	protected _form;

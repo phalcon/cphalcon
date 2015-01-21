@@ -42,11 +42,8 @@ abstract class Behavior
 
 	/**
 	 * Checks whether the behavior must take action on certain event
-	 *
-	 * @param string eventName
-	 * @return boolean
 	 */
-	protected function mustTakeAction(string! eventName)
+	protected function mustTakeAction(string! eventName) -> boolean
 	{
 		return isset this->_options[eventName];
 	}

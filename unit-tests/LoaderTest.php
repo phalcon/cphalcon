@@ -133,8 +133,11 @@ class LoaderTest extends PHPUnit_Framework_TestCase
 
 		$loader->registerClasses(array(
 			"MoiTest" => "unit-tests/vendor/example/test/MoiTest.php",
-			"LeTest" => "unit-tests/vendor/example/test/LeTest.php",
 		));
+
+		$loader->registerClasses(array(
+			"LeTest" => "unit-tests/vendor/example/test/LeTest.php",
+		), true);
 
 		$loader->register();
 
@@ -156,6 +159,10 @@ class LoaderTest extends PHPUnit_Framework_TestCase
 			"Pseudo" => "unit-tests/vendor/example/Pseudo/",
 		));
 
+		$loader->registerPrefixes(array(
+			"SecondPseudo" => "unit-tests/vendor/example/SecondPseudo/",
+		), true);
+
 		$loader->register();
 
 		$pseudoClass = new Pseudo_Some_Something();
@@ -163,6 +170,12 @@ class LoaderTest extends PHPUnit_Framework_TestCase
 
 		$pseudoClass = new Pseudo_Base();
 		$this->assertEquals(get_class($pseudoClass), 'Pseudo_Base');
+
+		$pseudoClass = new SecondPseudo_Some_Something();
+		$this->assertEquals(get_class($pseudoClass), 'SecondPseudo_Some_Something');
+
+		$pseudoClass = new SecondPseudo_Base();
+		$this->assertEquals(get_class($pseudoClass), 'SecondPseudo_Base');
 
 		$loader->unregister();
 	}

@@ -75,8 +75,8 @@ class Index implements IndexInterface
 	{
 		var indexName, columns, type;
 
-		if !fetch indexName, data["_indexName"] {
-			throw new Exception("_indexName parameter is required");
+		if !fetch indexName, data["_name"] {
+			throw new Exception("_name parameter is required");
 		}
 
 		if !fetch columns, data["_columns"] {

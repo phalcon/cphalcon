@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -674,13 +674,9 @@ class Imagick extends \Phalcon\Image\Adapter implements \Phalcon\Image\AdapterIn
 	 * @param int type Refer to the list of resourcetype constants (@see http://php.net/manual/ru/imagick.constants.php#imagick.constants.resourcetypes.)
 	 * @param int limit The resource limit. The unit depends on the type of the resource being limited.
 	 */
-	public static function setResourceLimit(int type, int limit)
+	public function setResourceLimit(int type, int limit)
 	{
-		if !self::_checked {
-			self::check();
-		}
-
-		forward_static_call(["\Imagick", "setResourceLimit"], type, limit);
+		this->_image->setResourceLimit(type, limit);
 	}
 
 }
