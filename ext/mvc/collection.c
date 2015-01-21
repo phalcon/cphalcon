@@ -2959,14 +2959,13 @@ PHP_METHOD(Phalcon_Mvc_Collection, parse){
 		if (phalcon_array_isset(column_map, key)) {
 			PHALCON_OBS_NVAR(column);
 			phalcon_array_fetch(&column, column_map, key, PH_NOISY);
-		} else {
-			PHALCON_INIT_NVAR(column);
-			ZVAL_STRING(column, Z_STRVAL_P(key), 1);
-		}
 
-		if (!PHALCON_IS_EQUAL(column, key)) {
-			phalcon_array_unset(&conditions, key, 0);
-			phalcon_array_update_zval(&conditions, column, value2, PH_COPY);
+			if (!PHALCON_IS_EQUAL(column, key)) {
+				phalcon_array_unset(&conditions, key, 0);
+				phalcon_array_update_zval(&conditions, column, value2, PH_COPY);
+			}
+		} else {
+			PHALCON_CPY_WRT(column, key);
 		}
 
 		if (PHALCON_IS_STRING(column, "_id")) {
