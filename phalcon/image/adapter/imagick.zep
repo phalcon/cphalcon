@@ -36,7 +36,8 @@ use Phalcon\Image\Exception;
  */
 class Imagick extends \Phalcon\Image\Adapter implements \Phalcon\Image\AdapterInterface
 {
-	protected _version = 0;
+	protected static _version = 0;
+	protected static _checked = false;
 
 	/**
 	 * Checks if Imagick is enabled
@@ -54,7 +55,7 @@ class Imagick extends \Phalcon\Image\Adapter implements \Phalcon\Image\AdapterIn
 		}
 
 		if defined("Imagick::IMAGICK_EXTNUM") {
-			let this->_version = constant("Imagick::IMAGICK_EXTNUM");
+			let self::_version = constant("Imagick::IMAGICK_EXTNUM");
 		}
 
 		let self::_checked = true;
@@ -275,7 +276,7 @@ class Imagick extends \Phalcon\Image\Adapter implements \Phalcon\Image\AdapterIn
 	{
 		var reflection, fade, pseudo, image, pixel, ret;
 
-		if this->_version >= 30100 {
+		if self::_version >= 30100 {
 			let reflection = clone this->_image;
 		} else {
 			let reflection = clone this->_image->$clone();
