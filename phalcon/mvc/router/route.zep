@@ -26,7 +26,7 @@ use Phalcon\Mvc\Router\Exception;
  *
  * This class represents every route added to the router
  */
-class Route
+class Route implements RouteInterface
 {
 
 	protected _pattern;
