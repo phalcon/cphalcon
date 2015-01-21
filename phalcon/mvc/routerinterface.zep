@@ -29,38 +29,28 @@ interface RouterInterface
 
 	/**
 	 * Sets the name of the default module
-	 *
-	 * @param string moduleName
 	 */
-	public function setDefaultModule(moduleName);
+	public function setDefaultModule(string! moduleName);
 
 	/**
 	 * Sets the default controller name
-	 *
-	 * @param string controllerName
 	 */
-	public function setDefaultController(controllerName);
+	public function setDefaultController(string! controllerName);
 
 	/**
 	 * Sets the default action name
-	 *
-	 * @param string actionName
 	 */
-	public function setDefaultAction(actionName);
+	public function setDefaultAction(string! actionName);
 
 	/**
 	 * Sets an array of default paths
-	 *
-	 * @param array defaults
 	 */
-	public function setDefaults(defaults);
+	public function setDefaults(array! defaults);
 
 	/**
 	 * Handles routing information received from the rewrite engine
-	 *
-	 * @param string uri
 	 */
-	public function handle(uri=null);
+	public function handle(string uri = null);
 
 	/**
 	 * Adds a route to the router on any HTTP method
