@@ -20,7 +20,6 @@
 namespace Phalcon\Mvc;
 
 use Phalcon\DiInterface;
-use Phalcon\Mvc\ModelInterface;
 use Phalcon\Mvc\Model\TransactionInterface;
 use Phalcon\Mvc\Model\MessageInterface;
 
@@ -112,26 +111,17 @@ interface ModelInterface
 	 * @param boolean keepSnapshots
 	 * @return Phalcon\Mvc\Model result
 	 */
-	public static function cloneResultMap(base, array! data, var columnMap, dirtyState = 0, keepSnapshots = null);
+	public static function cloneResultMap(var base, array! data, array columnMap, int dirtyState = 0, boolean keepSnapshots = false);
 
 	/**
 	 * Assigns values to a model from an array returning a new model
-	 *
-	 * @param Phalcon\Mvc\ModelInterface base
-	 * @param array data
-	 * @param int dirtyState
-	 * @return Phalcon\Mvc\ModelInterface
 	 */
-	public static function cloneResult(<ModelInterface> base, data, dirtyState = 0);
+	public static function cloneResult(<ModelInterface> base, array data, int dirtyState = 0) -> <ModelInterface>;
 
 	/**
 	 * Returns an hydrated result based on the data and the column map
-	 *
-	 * @param array data
-	 * @param array columnMap
-	 * @param int hydrationMode
 	 */
-	public static function cloneResultMapHydrate(array! data, var columnMap, int hydrationMode);
+	public static function cloneResultMapHydrate(array! data, array columnMap, int hydrationMode) -> var;
 
 	/**
 	 * Allows to query a set of records that match the specified conditions

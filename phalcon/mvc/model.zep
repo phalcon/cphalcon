@@ -502,13 +502,8 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 *</code>
 	 *
 	 * @param Phalcon\Mvc\ModelInterface|Phalcon\Mvc\Model\Row base
-	 * @param array data
-	 * @param array columnMap
-	 * @param int dirtyState
-	 * @param boolean keepSnapshots
-	 * @return Phalcon\Mvc\Model
 	 */
-	public static function cloneResultMap(var base, array! data, var columnMap, int dirtyState = 0, boolean keepSnapshots = null) -> <Model>
+	public static function cloneResultMap(var base, array! data, array columnMap, int dirtyState = 0, boolean keepSnapshots = false) -> <Model>
 	{
 		var instance, attribute, key, value;
 
@@ -560,24 +555,10 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 
 	/**
 	 * Returns an hydrated result based on the data and the column map
-	 *
-	 * @param array data
-	 * @param array columnMap
-	 * @param int hydrationMode
-	 * @return mixed
 	 */
-	public static function cloneResultMapHydrate(array! data, var columnMap, int hydrationMode)
+	public static function cloneResultMapHydrate(array! data, array columnMap, int hydrationMode) -> var
 	{
 		var hydrateArray, hydrateObject, key, value, attribute;
-
-		/**
-		 * If there is no column map and the hydration mode is arrays return the data as it is
-		 */
-		if typeof columnMap != "array" {
-			if hydrationMode == Resultset::HYDRATE_ARRAYS {
-				return data;
-			}
-		}
 
 		/**
 		 * Create the destination object according to the hydration mode
@@ -631,20 +612,10 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 *  'year' => 1952
 	 *));
 	 *</code>
-	 *
-	 * @param Phalcon\Mvc\ModelInterface $base
-	 * @param array data
-	 * @param int dirtyState
-	 * @return Phalcon\Mvc\ModelInterface
 	 */
-	public static function cloneResult(<ModelInterface> base, data, int dirtyState = 0)
+	public static function cloneResult(<ModelInterface> base, array data, int dirtyState = 0) -> <ModelInterface>
 	{
 		var instance, key, value;
-
-		if typeof data != "array" {
-			throw new Exception("Data to dump in the object must be an Array");
-		}
-
 		/**
 		 * Clone the base record
 		 */
