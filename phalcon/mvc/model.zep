@@ -72,7 +72,7 @@ use Phalcon\Events\ManagerInterface as EventsManagerInterface;
  */
 abstract class Model implements ModelInterface, ResultInterface, InjectionAwareInterface, \Serializable
 {
-
+	
 	protected _dependencyInjector;
 
 	protected _modelsManager;
@@ -98,6 +98,10 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	protected _related;
 
 	protected _snapshot;
+	
+	protected _scopes;
+	
+	protected _combinedScopes;
 
 	const OP_NONE = 0;
 
@@ -115,9 +119,6 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 
 	/**
 	 * Phalcon\Mvc\Model constructor
-	 *
-	 * @param Phalcon\DiInterface dependencyInjector
-	 * @param Phalcon\Mvc\Model\ManagerInterface modelsManager
 	 */
 	public final function __construct(<DiInterface> dependencyInjector = null, <ManagerInterface> modelsManager = null)
 	{
@@ -154,7 +155,14 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 		 * The manager always initializes the object
 		 */
 		modelsManager->initialize(this);
-
+		
+		/**
+		* Retrieves the scopes
+		*/
+		if method_exists(this, "scope") {
+			let this->_scopes = this->{"scope"}();
+		}
+		
 		/**
 		 * This allows the developer to execute initialization stuff every time an instance is created
 		 */
@@ -165,18 +173,14 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 
 	/**
 	 * Sets the dependency injection container
-	 *
-	 * @param Phalcon\DiInterface dependencyInjector
 	 */
-	public function setDI(<DiInterface> dependencyInjector)
+	public function setDI(<DiInterface> dependencyInjector) -> void
 	{
 		let this->_dependencyInjector = dependencyInjector;
 	}
 
 	/**
 	 * Returns the dependency injection container
-	 *
-	 * @return Phalcon\DiInterface
 	 */
 	public function getDI() -> <DiInterface>
 	{
@@ -185,18 +189,14 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 
 	/**
 	 * Sets a custom events manager
-	 *
-	 * @param Phalcon\Events\ManagerInterface eventsManager
 	 */
-	protected function setEventsManager(<EventsManagerInterface> eventsManager)
+	protected function setEventsManager(<EventsManagerInterface> eventsManager) -> void
 	{
 		this->_modelsManager->setCustomEventsManager(this, eventsManager);
 	}
 
 	/**
 	 * Returns the custom events manager
-	 *
-	 * @return Phalcon\Events\ManagerInterface
 	 */
 	protected function getEventsManager() -> <EventsManagerInterface>
 	{
@@ -205,8 +205,6 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 
 	/**
 	 * Returns the models meta-data service related to the entity instance
-	 *
-	 * @return Phalcon\Mvc\Model\MetaDataInterface
 	 */
 	public function getModelsMetaData() -> <MetadataInterface>
 	{
@@ -241,8 +239,6 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 
 	/**
 	 * Returns the models manager related to the entity instance
-	 *
-	 * @return Phalcon\Mvc\Model\ManagerInterface
 	 */
 	public function getModelsManager() -> <ManagerInterface>
 	{
@@ -284,9 +280,6 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 *}
 	 *
 	 *</code>
-	 *
-	 * @param Phalcon\Mvc\Model\TransactionInterface $transaction
-	 * @return Phalcon\Mvc\Model
 	 */
 	public function setTransaction(<TransactionInterface> transaction) -> <Model>
 	{
@@ -299,9 +292,6 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 
 	/**
 	 * Sets table name which model should be mapped
-	 *
-	 * @param string source
-	 * @return Phalcon\Mvc\Model
 	 */
 	protected function setSource(string! source) -> <Model>
 	{
@@ -311,8 +301,6 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 
 	/**
 	 * Returns table name mapped in the model
-	 *
-	 * @return string
 	 */
 	public function getSource() -> string
 	{
@@ -321,9 +309,6 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 
 	/**
 	 * Sets schema name where table mapped is located
-	 *
-	 * @param string schema
-	 * @return Phalcon\Mvc\Model
 	 */
 	protected function setSchema(string! schema) -> <Model>
 	{
@@ -332,8 +317,6 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 
 	/**
 	 * Returns schema name where table mapped is located
-	 *
-	 * @return string
 	 */
 	public function getSchema() -> string
 	{
@@ -342,9 +325,6 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 
 	/**
 	 * Sets the DependencyInjection connection service name
-	 *
-	 * @param string connectionService
-	 * @return Phalcon\Mvc\Model
 	 */
 	public function setConnectionService(string! connectionService) -> <Model>
 	{
@@ -354,9 +334,6 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 
 	/**
 	 * Sets the DependencyInjection connection service name used to read data
-	 *
-	 * @param string connectionService
-	 * @return Phalcon\Mvc\Model
 	 */
 	public function setReadConnectionService(string! connectionService) -> <Model>
 	{
@@ -366,9 +343,6 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 
 	/**
 	 * Sets the DependencyInjection connection service name used to write data
-	 *
-	 * @param string connectionService
-	 * @return Phalcon\Mvc\Model
 	 */
 	public function setWriteConnectionService(string! connectionService) -> <Model>
 	{
@@ -377,8 +351,6 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 
 	/**
 	 * Returns the DependencyInjection connection service name used to read data related the model
-	 *
-	 * @return string
 	 */
 	public function getReadConnectionService() -> string
 	{
@@ -387,8 +359,6 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 
 	/**
 	 * Returns the DependencyInjection connection service name used to write data related to the model
-	 *
-	 * @return string
 	 */
 	public function getWriteConnectionService() -> string
 	{
@@ -397,11 +367,8 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 
 	/**
 	 * Sets the dirty state of the object using one of the DIRTY_STATE_* constants
-	 *
-	 * @param int dirtyState
-	 * @return Phalcon\Mvc\Model
 	 */
-	public function setDirtyState(int dirtyState) -> <\Phalcon\Mvc\Model>
+	public function setDirtyState(int dirtyState) -> <Model>
 	{
 		let this->_dirtyState = dirtyState;
 		return this;
@@ -409,8 +376,6 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 
 	/**
 	 * Returns one of the DIRTY_STATE_* constants telling if the record exists in the database or not
-	 *
-	 * @return int
 	 */
 	public function getDirtyState() -> int
 	{
@@ -419,8 +384,6 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 
 	/**
 	 * Gets the connection used to read data for the model
-	 *
-	 * @return Phalcon\Db\AdapterInterface
 	 */
 	public function getReadConnection() -> <AdapterInterface>
 	{
@@ -429,8 +392,6 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 
 	/**
 	 * Gets the connection used to write data to the model
-	 *
-	 * @return Phalcon\Db\AdapterInterface
 	 */
 	public function getWriteConnection() -> <AdapterInterface>
 	{
@@ -465,13 +426,8 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 * $robot->assign($_POST, null, array('name', 'year');
 	 *
 	 *</code>
-	 *
-	 * @param array data
-	 * @param array dataColumnMap array to transform keys of data to another
-	 * @param array whiteList
-	 * @return Phalcon\Mvc\Model
 	 */
-	public function assign(array! data, var dataColumnMap = null, var whiteList = null) -> <Model>
+	public function assign(array! data, array dataColumnMap = null, array whiteList = null) -> <Model>
 	{
 		var key, keyMapped, value, attribute, attributeField, possibleSetter, metaData, columnMap, dataMapped;
 
@@ -546,13 +502,8 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 *</code>
 	 *
 	 * @param Phalcon\Mvc\ModelInterface|Phalcon\Mvc\Model\Row base
-	 * @param array data
-	 * @param array columnMap
-	 * @param int dirtyState
-	 * @param boolean keepSnapshots
-	 * @return Phalcon\Mvc\Model
 	 */
-	public static function cloneResultMap(var base, array! data, var columnMap, int dirtyState = 0, boolean keepSnapshots = null) -> <Model>
+	public static function cloneResultMap(var base, array! data, array columnMap, int dirtyState = 0, boolean keepSnapshots = false) -> <Model>
 	{
 		var instance, attribute, key, value;
 
@@ -604,24 +555,10 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 
 	/**
 	 * Returns an hydrated result based on the data and the column map
-	 *
-	 * @param array data
-	 * @param array columnMap
-	 * @param int hydrationMode
-	 * @return mixed
 	 */
-	public static function cloneResultMapHydrate(array! data, var columnMap, int hydrationMode)
+	public static function cloneResultMapHydrate(array! data, array columnMap, int hydrationMode) -> var
 	{
 		var hydrateArray, hydrateObject, key, value, attribute;
-
-		/**
-		 * If there is no column map and the hydration mode is arrays return the data as it is
-		 */
-		if typeof columnMap != "array" {
-			if hydrationMode == Resultset::HYDRATE_ARRAYS {
-				return data;
-			}
-		}
 
 		/**
 		 * Create the destination object according to the hydration mode
@@ -675,20 +612,10 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 *  'year' => 1952
 	 *));
 	 *</code>
-	 *
-	 * @param Phalcon\Mvc\ModelInterface $base
-	 * @param array data
-	 * @param int dirtyState
-	 * @return Phalcon\Mvc\ModelInterface
 	 */
-	public static function cloneResult(<ModelInterface> base, var data, int dirtyState = 0)
+	public static function cloneResult(<ModelInterface> base, array data, int dirtyState = 0) -> <ModelInterface>
 	{
 		var instance, key, value;
-
-		if typeof data != "array" {
-			throw new Exception("Data to dump in the object must be an Array");
-		}
-
 		/**
 		 * Clone the base record
 		 */
@@ -741,9 +668,6 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 *	   echo $robot->name, "\n";
 	 * }
 	 * </code>
-	 *
-	 * @param 	array parameters
-	 * @return  Phalcon\Mvc\Model\ResultsetInterface
 	 */
 	public static function find(var parameters = null) -> <ResultsetInterface>
 	{
@@ -798,6 +722,76 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 
 		return resultset;
 	}
+	
+	/**
+	 * Allows to query the record that match the specified conditions
+	 *
+	 * <code>
+	 *
+	 * //What's the first robot in robots table?
+	 * $robot = Robots::findAll();
+	 * echo "The robot name is ", $robot->name;
+	 *
+	 * //What's the first mechanical robot in robots table?
+	 * $robot = Robots::findAll("type='mechanical'");
+	 * echo "The first mechanical robot name is ", $robot->name;
+	 *
+	 * //Get first virtual robot ordered by name
+	 * $robot = Robots::findAll(array("type='virtual'", "order" => "name"));
+	 * echo "The first virtual robot name is ", $robot->name;
+	 *
+	 * </code>
+	 */
+	public function findAll(var parameters = null) -> <ResultsetInterface>
+	{
+		var params, builder, query, bindParams, bindTypes, cache;
+		if typeof parameters != "array" {
+			let params = [];
+			if typeof parameters != "null" {
+				let params[] = parameters;
+			}
+		} else {
+			let params = parameters;
+		}
+		if typeof this->_combinedScopes != "null" {
+			let params = array_merge_recursive(params, this->_combinedScopes);
+			let this->_combinedScopes = null;
+		}
+		
+		if isset params["limit"] && typeof params["limit"] == "array" {
+			if isset parameters["limit"] {
+				let params["limit"] = parameters["limit"];
+			}
+			else {
+				let params["limit"] = params["limit"][0];
+			}
+		}
+		
+		/**
+		 * Builds a query with the passed parameters
+		 */
+		let builder = new Builder(params);
+		builder->from(get_called_class());
+
+		let query = builder->getQuery();
+		
+		/**
+		 * Check for bind parameters
+		 */
+		let bindParams = null, bindTypes = null;
+		if fetch bindParams, params["bind"] {
+			fetch bindTypes, params["bindTypes"];
+		}
+		
+		/**
+		 * Pass the cache options to the query
+		 */
+		if fetch cache, params["cache"] {
+			query->cache(cache);
+		}
+		
+		return query->execute(bindParams, bindTypes);
+	}
 
 	/**
 	 * Allows to query the first record that match the specified conditions
@@ -817,11 +811,8 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 * echo "The first virtual robot name is ", $robot->name;
 	 *
 	 * </code>
-	 *
-	 * @param array parameters
-	 * @return Phalcon\Mvc\Model
 	 */
-	public static function findFirst(parameters = null) -> <Model>
+	public static function findFirst(var parameters = null) -> <Model>
 	{
 		var params, builder, query, bindParams, bindTypes, cache;
 
@@ -874,9 +865,6 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 
 	/**
 	 * Create a criteria for a specific model
-	 *
-	 * @param Phalcon\DiInterface dependencyInjector
-	 * @return Phalcon\Mvc\Model\Criteria
 	 */
 	public static function query(<DiInterface> dependencyInjector = null) -> <\Phalcon\Mvc\Model\Criteria>
 	{
@@ -898,11 +886,6 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 
 	/**
 	 * Checks if the current record already exists or not
-	 *
-	 * @param Phalcon\Mvc\Model\MetadataInterface metaData
-	 * @param Phalcon\Db\AdapterInterface connection
-	 * @param string|array table
-	 * @return boolean
 	 */
 	protected function _exists(<MetadataInterface> metaData, <AdapterInterface> connection, var table = null) -> boolean
 	{
@@ -1047,11 +1030,6 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 
 	/**
 	 * Generate a PHQL SELECT statement for an aggregate
-	 *
-	 * @param string function
-	 * @param string alias
-	 * @param array parameters
-	 * @return Phalcon\Mvc\Model\ResultsetInterface
 	 */
 	protected static function _groupResult(string! functionName, string! alias, var parameters) -> <ResultsetInterface>
 	{
@@ -1142,11 +1120,8 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 * echo "There are ", $number, " mechanical robots\n";
 	 *
 	 * </code>
-	 *
-	 * @param array parameters
-	 * @return mixed
 	 */
-	public static function count(var parameters = null)
+	public static function count(var parameters = null) -> int
 	{
 		return self::_groupResult("COUNT", "rowcount", parameters);
 	}
@@ -1165,11 +1140,8 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 * echo "The total price of mechanical robots is  ", $sum, "\n";
 	 *
 	 * </code>
-	 *
-	 * @param array parameters
-	 * @return mixed
 	 */
-	public static function sum(var parameters = null)
+	public static function sum(var parameters = null) -> double
 	{
 		return self::_groupResult("SUM", "sumatory", parameters);
 	}
@@ -1188,11 +1160,8 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 * echo "The maximum robot id of mechanical robots is ", $id, "\n";
 	 *
 	 * </code>
-	 *
-	 * @param array parameters
-	 * @return mixed
 	 */
-	public static function maximum(var parameters = null)
+	public static function maximum(var parameters = null) -> double
 	{
 		return self::_groupResult("MAX", "maximum", parameters);
 	}
@@ -1211,11 +1180,8 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 * echo "The minimum robot id of mechanical robots is ", $id;
 	 *
 	 * </code>
-	 *
-	 * @param array parameters
-	 * @return mixed
 	 */
-	public static function minimum(parameters = null)
+	public static function minimum(var parameters = null) -> double
 	{
 		return self::_groupResult("MIN", "minimum", parameters);
 	}
@@ -1234,20 +1200,14 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 * echo "The average price of mechanical robots is ", $average, "\n";
 	 *
 	 * </code>
-	 *
-	 * @param array parameters
-	 * @return double
 	 */
-	public static function average(var parameters = null)
+	public static function average(var parameters = null) -> double
 	{
 		return self::_groupResult("AVG", "average", parameters);
 	}
 
 	/**
 	 * Fires an event, implicitly calls behaviors and listeners in the events manager are notified
-	 *
-	 * @param string eventName
-	 * @return boolean
 	 */
 	public function fireEvent(string! eventName) -> boolean
 	{
@@ -1268,11 +1228,8 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	/**
 	 * Fires an event, implicitly calls behaviors and listeners in the events manager are notified
 	 * This method stops if one of the callbacks/listeners returns boolean false
-	 *
-	 * @param string eventName
-	 * @return boolean
 	 */
-	public function fireEventCancel(string! eventName)
+	public function fireEventCancel(string! eventName) -> boolean
 	{
 
 		/**
@@ -1296,7 +1253,6 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 
 	/**
 	 * Cancel the current operation
-	 *
 	 */
 	protected function _cancelOperation()
 	{
@@ -1325,9 +1281,6 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 *   }
 	 * }
 	 * </code>
-	 *
-	 * @param Phalcon\Mvc\Model\MessageInterface message
-	 * @return Phalcon\Mvc\Model
 	 */
 	public function appendMessage(<MessageInterface> message) -> <Model>
 	{
@@ -1357,21 +1310,10 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 *
 	 *}
 	 *</code>
-	 *
-	 * @param object validator
-	 * @return Phalcon\Mvc\Model
 	 */
-	protected function validate(validator) -> <Model>
+	protected function validate(<\Phalcon\Mvc\Model\ValidatorInterface> validator) -> <Model>
 	{
 		var message;
-
-		/**
-		 * Valid validators are objects
-		 */
-		if typeof validator != "object" {
-			throw new Exception("Validator must be an Object");
-		}
-
 		/**
 		 * Call the validation, if it returns false we append the messages to the current object
 		 */
@@ -1406,8 +1348,6 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 *
 	 *}
 	 *</code>
-	 *
-	 * @return boolean
 	 */
 	public function validationHasFailed() -> boolean
 	{
@@ -1458,8 +1398,6 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	/**
 	 * Reads "belongs to" relations and check the virtual foreign keys when inserting or updating records
 	 * to verify that inserted/updated values are present in the related entity
-	 *
-	 * @return boolean
 	 */
 	protected function _checkForeignKeysRestrict() -> boolean
 	{
@@ -1586,8 +1524,6 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 
 	/**
 	 * Reads both "hasMany" and "hasOne" relations and checks the virtual foreign keys (cascade) when deleting records
-	 *
-	 * @return boolean
 	 */
 	protected function _checkForeignKeysReverseCascade() -> boolean
 	{
@@ -1696,8 +1632,6 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 
 	/**
 	 * Reads both "hasMany" and "hasOne" relations and checks the virtual foreign keys (restrict) when deleting records
-	 *
-	 * @return boolean
 	 */
 	protected function _checkForeignKeysReverseRestrict() -> boolean
 	{
@@ -1822,11 +1756,6 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 
 	/**
 	 * Executes internal hooks before save a record
-	 *
-	 * @param Phalcon\Mvc\Model\MetadataInterface metaData
-	 * @param boolean exists
-	 * @param string identityField
-	 * @return boolean
 	 */
 	protected function _preSave(<MetadataInterface> metaData, boolean exists, var identityField) -> boolean
 	{
@@ -2037,10 +1966,6 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 
 	/**
 	 * Executes internal events after save a record
-	 *
-	 * @param boolean success
-	 * @param boolean exists
-	 * @return boolean
 	 */
 	protected function _postSave(boolean success, boolean exists) -> boolean
 	{
@@ -2059,15 +1984,9 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 
 	/**
 	 * Sends a pre-build INSERT SQL statement to the relational database system
-	 *
-	 * @param Phalcon\Mvc\Model\MetadataInterface metaData
-	 * @param Phalcon\Db\AdapterInterface connection
-	 * @param string|array table
-	 * @param boolean|string identityField
-	 * @return boolean
 	 */
 	protected function _doLowInsert(<MetadataInterface> metaData, <AdapterInterface> connection,
-		table, identityField)
+		var table, var identityField) -> boolean
 	{
 		var bindSkip, fields, values, bindTypes, attributes, bindDataTypes, automaticAttributes,
 			field, columnMap, value, attributeField, success, bindType, defaultValue, sequenceName;
@@ -2228,11 +2147,6 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 
 	/**
 	 * Sends a pre-build UPDATE SQL statement to the relational database system
-	 *
-	 * @param Phalcon\Mvc\Model\MetaDataInterface metaData
-	 * @param Phalcon\Db\AdapterInterface connection
-	 * @param string|array table
-	 * @return boolean
 	 */
 	protected function _doLowUpdate(<\Phalcon\Mvc\Model\MetaDataInterface> metaData, <AdapterInterface> connection, var table) -> boolean
 	{
@@ -2393,12 +2307,9 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 
 	/**
 	 * Saves related records that must be stored prior to save the master record
-	 *
-	 * @param Phalcon\Db\AdapterInterface connection
 	 * @param Phalcon\Mvc\ModelInterface[] related
-	 * @return boolean
 	 */
-	protected function _preSaveRelatedRecords(<AdapterInterface> connection, related) -> boolean
+	protected function _preSaveRelatedRecords(<AdapterInterface> connection, array related) -> boolean
 	{
 		var className, manager, type, relation, columns, referencedFields,
 			referencedModel, message, nesting, name, record;
@@ -2490,12 +2401,9 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 
 	/**
 	 * Save the related records assigned in the has-one/has-many relations
-	 *
-	 * @param  Phalcon\Db\AdapterInterface connection
 	 * @param  Phalcon\Mvc\ModelInterface[] related
-	 * @return boolean
 	 */
-	protected function _postSaveRelatedRecords(<AdapterInterface> connection, related) -> boolean
+	protected function _postSaveRelatedRecords(<AdapterInterface> connection, array related) -> boolean
 	{
 		var nesting, className, manager, relation, name, record, message,
 			columns, referencedModel, referencedFields, relatedRecords, value,
@@ -2694,12 +2602,8 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 *	$robot->name = "Biomass";
 	 *	$robot->save();
 	 *</code>
-	 *
-	 * @param array data
-	 * @param array whiteList
-	 * @return boolean
 	 */
-	public function save(var data = null, var whiteList = null) -> boolean
+	public function save(array data = null, array whiteList = null) -> boolean
 	{
 		var metaData, related, schema, writeConnection, readConnection,
 			source, table, identityField, exists, success;
@@ -2852,12 +2756,8 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 *      'year' => 1952
 	 *  ));
 	 *</code>
-	 *
-	 * @param array data
-	 * @param array whiteList
-	 * @return boolean
 	 */
-	public function create(var data = null, var whiteList = null) -> boolean
+	public function create(array data = null, array whiteList = null) -> boolean
 	{
 		var metaData;
 
@@ -2890,12 +2790,8 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 *	$robot->name = "Biomass";
 	 *	$robot->update();
 	 *</code>
-	 *
-	 * @param array data
-	 * @param array whiteList
-	 * @return boolean
 	 */
-	public function update(var data = null, var whiteList = null) -> boolean
+	public function update(array data = null, array whiteList = null) -> boolean
 	{
 		var metaData;
 
@@ -2929,8 +2825,6 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 *   $robot->delete();
 	 *}
 	 * </code>
-	 *
-	 * @return boolean
 	 */
 	public function delete() -> boolean
 	{
@@ -3074,8 +2968,6 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	/**
 	 * Returns the type of the latest operation performed by the ORM
 	 * Returns one of the OP_* class constants
-	 *
-	 * @return int
 	 */
 	public function getOperationMade() -> int
 	{
@@ -3084,8 +2976,6 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 
 	/**
 	 * Refreshes the model attributes re-querying the record from the database
-	 *
-	 * @return \Phalcon\Mvc\Model
 	 */
 	public function refresh() -> <Model>
 	{
@@ -3189,11 +3079,8 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 * <code>
 	 * 	$robot->writeAttribute('name', 'Rosey');
 	 * </code>
-	 *
-	 * @param string attribute
-	 * @param mixed value
 	 */
-	public function writeAttribute(string! attribute, value)
+	public function writeAttribute(string! attribute, var value)
 	{
 		let this->{attribute} = value;
 	}
@@ -3215,8 +3102,6 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 *
 	 *}
 	 *</code>
-	 *
-	 * @param array attributes
 	 */
 	protected function skipAttributes(array! attributes)
 	{
@@ -3249,8 +3134,6 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 *
 	 *}
 	 *</code>
-	 *
-	 * @param array attributes
 	 */
 	protected function skipAttributesOnCreate(array! attributes) -> void
 	{
@@ -3281,8 +3164,6 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 *
 	 *}
 	 *</code>
-	 *
-	 * @param array attributes
 	 */
 	protected function skipAttributesOnUpdate(array! attributes) -> void
 	{
@@ -3312,14 +3193,8 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 *
 	 *}
 	 *</code>
-	 *
-	 * @param	mixed fields
-	 * @param	string referenceModel
-	 * @param	mixed referencedFields
-	 * @param   array options
-	 * @return  Phalcon\Mvc\Model\Relation
 	 */
-	protected function hasOne(var fields, string! referenceModel, var referencedFields, options = null) -> <Relation>
+	protected function hasOne(var fields, string! referenceModel, var referencedFields, array options = null) -> <Relation>
 	{
 		return (<ManagerInterface> this->_modelsManager)->addHasOne(this, fields, referenceModel, referencedFields, options);
 	}
@@ -3340,14 +3215,8 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 *
 	 *}
 	 *</code>
-	 *
-	 * @param	mixed fields
-	 * @param	string referenceModel
-	 * @param	mixed referencedFields
-	 * @param   array options
-	 * @return  Phalcon\Mvc\Model\Relation
 	 */
-	protected function belongsTo(var fields, string! referenceModel, var referencedFields, options = null) -> <Relation>
+	protected function belongsTo(var fields, string! referenceModel, var referencedFields, array options = null) -> <Relation>
 	{
 		return (<ManagerInterface> this->_modelsManager)->addBelongsTo(this, fields, referenceModel, referencedFields, options);
 	}
@@ -3368,14 +3237,8 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 *
 	 *}
 	 *</code>
-	 *
-	 * @param	mixed fields
-	 * @param	string referenceModel
-	 * @param	mixed referencedFields
-	 * @param   array options
-	 * @return  Phalcon\Mvc\Model\Relation
 	 */
-	protected function hasMany(var fields, string! referenceModel, var referencedFields, options = null) -> <Relation>
+	protected function hasMany(var fields, string! referenceModel, var referencedFields, array options = null) -> <Relation>
 	{
 		return (<ManagerInterface> this->_modelsManager)->addHasMany(this, fields, referenceModel, referencedFields, options);
 	}
@@ -3404,18 +3267,9 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 *
 	 *}
 	 *</code>
-	 *
-	 * @param	string|array fields
-	 * @param	string intermediateModel
-	 * @param	string|array intermediateFields
-	 * @param	string|array intermediateReferencedFields
-	 * @param	string referencedModel
-	 * @param   string|array referencedFields
-	 * @param   array options
-	 * @return  Phalcon\Mvc\Model\Relation
 	 */
 	protected function hasManyToMany(var fields, string! intermediateModel, var intermediateFields, var intermediateReferencedFields,
-		string! referenceModel, var referencedFields, options = null) -> <Relation>
+		string! referenceModel, var referencedFields, array options = null) -> <Relation>
 	{
 		return (<ManagerInterface> this->_modelsManager)->addHasManyToMany(
 			this,
@@ -3452,8 +3306,6 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 *
 	 *}
 	 *</code>
-	 *
-	 * @param Phalcon\Mvc\Model\BehaviorInterface behavior
 	 */
 	protected function addBehavior(<BehaviorInterface> behavior) -> void
 	{
@@ -3476,10 +3328,8 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 *
 	 *}
 	 *</code>
-	 *
-	 * @param boolean keepSnapshots
 	 */
-	protected function keepSnapshots(boolean keepSnapshot) -> void
+	protected function keepSnapshots(boolean! keepSnapshot) -> void
 	{
 		(<ManagerInterface> this->_modelsManager)->keepSnapshots(this, keepSnapshot);
 	}
@@ -3487,11 +3337,8 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	/**
 	 * Sets the record's snapshot data.
 	 * This method is used internally to set snapshot data when the model was set up to keep snapshot data
-	 *
-	 * @param array data
-	 * @param array columnMap
 	 */
-	public function setSnapshotData(array! data, columnMap = null)
+	public function setSnapshotData(array! data,array columnMap = null)
 	{
 		var key, value, snapshot, attribute;
 
@@ -3529,8 +3376,6 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 
 	/**
 	 * Checks if the object has internal snapshot data
-	 *
-	 * @return boolean
 	 */
 	public function hasSnapshotData() -> boolean
 	{
@@ -3544,8 +3389,6 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 
 	/**
 	 * Returns the internal snapshot data
-	 *
-	 * @return array
 	 */
 	public function getSnapshotData() -> array
 	{
@@ -3555,8 +3398,6 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	/**
 	 * Check if a specific attribute has changed
 	 * This only works if the model is keeping data snapshots
-	 *
-	 * @param string|array fieldName
 	 */
 	public function hasChanged(var fieldName = null) -> boolean
 	{
@@ -3664,8 +3505,6 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 
 	/**
 	 * Returns a list of changed values
-	 *
-	 * @return array
 	 */
 	public function getChangedFields() -> array
 	{
@@ -3754,22 +3593,16 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 *
 	 *}
 	 *</code>
-	 *
-	 * @param boolean dynamicUpdate
 	 */
-	protected function useDynamicUpdate(boolean dynamicUpdate) -> void
+	protected function useDynamicUpdate(boolean! dynamicUpdate) -> void
 	{
 		(<ManagerInterface> this->_modelsManager)->useDynamicUpdate(this, dynamicUpdate);
 	}
 
 	/**
 	 * Returns related records based on defined relations
-	 *
-	 * @param string alias
-	 * @param array arguments
-	 * @return Phalcon\Mvc\Model\ResultsetInterface
 	 */
-	public function getRelated(string alias, arguments = null) -> <ResultsetInterface>
+	public function getRelated(string! alias, array arguments = null) -> <ResultsetInterface>
 	{
 		var relation, className, manager;
 
@@ -3794,13 +3627,8 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 
 	/**
 	 * Returns related records defined relations depending on the method name
-	 *
-	 * @param string modelName
-	 * @param string method
-	 * @param array arguments
-	 * @return mixed
 	 */
-	protected function _getRelatedRecords(string! modelName, string! method, var arguments)
+	protected function _getRelatedRecords(string! modelName, string! method, var arguments) -> var | null
 	{
 		var manager, relation, queryMethod, extraArgs;
 
@@ -3842,17 +3670,21 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 
 	/**
 	 * Handles method calls when a method is not implemented
-	 *
-	 * @param	string method
-	 * @param	array arguments
-	 * @return	mixed
 	 */
-	public function __call(string method, arguments = null)
+	public function __call(string! method, array arguments = null) -> var
 	{
 		var modelName, status, records;
 
 		let modelName = get_class(this);
-
+		
+		if isset this->_scopes[method] {
+			if typeof this->_combinedScopes  == "null" {
+				let this->_combinedScopes = [];
+			}
+			let this->_combinedScopes = array_merge_recursive(this->_combinedScopes, this->_scopes[method]);
+			return this;
+		}
+		
 		/**
 		 * Check if there is a default action using the magic getter
 		 */
@@ -3877,18 +3709,19 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 
 	/**
 	 * Handles method calls when a static method is not implemented
-	 *
-	 * @param	string method
-	 * @param	array arguments
-	 * @return	mixed
 	 */
-	public static function __callStatic(string method, arguments = null)
+	public static function __callStatic(string! method, array arguments = null) -> var
 	{
 		var extraMethod, type, modelName, value, model,
 			attributes, field, extraMethodFirst, metaData;
 
 		let extraMethod = null;
-
+		
+		if(method == "model") {
+			let modelName = get_called_class();
+			return new {modelName}();
+		}
+		
 		/**
 		 * Check if the method starts with "findFirst"
 		 */
@@ -3977,11 +3810,8 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 
 	/**
 	 * Magic method to assign values to the the model
-	 *
-	 * @param string property
-	 * @param mixed value
 	 */
-	public function __set(string property, value)
+	public function __set(string! property,var value)
 	{
 		var lowerProperty, related, modelName, manager, lowerKey, relation, referencedModel,
 			key, item;
@@ -4043,8 +3873,6 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 
 	/**
 	 * Magic method to get related records using the relation alias as a property
-	 *
-	 * @param string property
 	 * @return Phalcon\Mvc\Model\Resultset|Phalcon\Mvc\Model
 	 */
 	public function __get(string! property)
@@ -4105,9 +3933,6 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 
 	/**
 	 * Magic method to check if a property is a valid relation
-	 *
-	 * @param string property
-	 * @return boolean
 	 */
 	public function __isset(string! property) -> boolean
 	{
@@ -4125,8 +3950,6 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 
 	/**
 	 * Serializes the object ignoring connections, services, related objects or static properties
-	 *
-	 * @return string
 	 */
 	public function serialize() -> string
 	{
@@ -4163,10 +3986,8 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 
 	/**
 	 * Unserializes the object from a serialized string
-	 *
-	 * @param string data
 	 */
-	public function unserialize(var data)
+	public function unserialize(string data)
 	{
 		var attributes, dependencyInjector, manager, key, value;
 
@@ -4224,10 +4045,8 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 *<code>
 	 * var_dump($robot->dump());
 	 *</code>
-	 *
-	 * @return array
 	 */
-	public function dump()
+	public function dump() -> array
 	{
 		return get_object_vars(this);
 	}
@@ -4238,11 +4057,8 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 *<code>
 	 * print_r($robot->toArray());
 	 *</code>
-	 *
-	 * @param array $columns
-	 * @return array
 	 */
-	public function toArray(columns = null) -> array
+	public function toArray(array columns = null) -> array
 	{
 		var data, metaData, columnMap, attribute,
 			attributeField, value;
@@ -4281,8 +4097,6 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 
 	/**
 	 * Enables/disables options in the ORM
-	 *
-	 * @param array options
 	 */
 	public static function setup(array! options) -> void
 	{
