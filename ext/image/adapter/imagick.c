@@ -1438,6 +1438,10 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, __destruct){
 	}
 }
 
+/**
+ * Get instance
+ * @return \Imagick
+ */
 PHP_METHOD(Phalcon_Image_Adapter_Imagick, getInternalImInstance)
 {
 	RETURN_MEMBER(getThis(), "_image");
