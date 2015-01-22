@@ -34,100 +34,74 @@ interface ModelInterface
 
 	/**
 	 * Sets a transaction related to the Model instance
-	 *
-	 * @param Phalcon\Mvc\Model\TransactionInterface transaction
-	 * @return Phalcon\Mvc\ModelInterface
 	 */
 	public function setTransaction(<TransactionInterface> transaction) -> <ModelInterface>;
 
 	/**
 	 * Returns table name mapped in the model
-	 *
-	 * @return string
 	 */
-	public function getSource();
+	public function getSource() -> string;
 
 	/**
 	 * Returns schema name where table mapped is located
-	 *
-	 * @return string
 	 */
-	public function getSchema();
+	public function getSchema() -> string;
 
 	/**
 	 * Sets both read/write connection services
-	 *
-	 * @param string connectionService
 	 */
-	public function setConnectionService(string connectionService) -> void;
+	public function setConnectionService(string! connectionService) -> void;
 
 	/**
 	 * Sets the DependencyInjection connection service used to write data
-	 *
-	 * @param string connectionService
 	 */
-	public function setWriteConnectionService(string connectionService) -> void;
+	public function setWriteConnectionService(string! connectionService) -> void;
 
 	/**
 	 * Sets the DependencyInjection connection service used to read data
-	 *
-	 * @param string connectionService
 	 */
-	public function setReadConnectionService(string connectionService) -> void;
+	public function setReadConnectionService(string! connectionService) -> void;
 
 	/**
 	 * Returns DependencyInjection connection service used to read data
-	 *
-	 * @return string
 	 */
 	public function getReadConnectionService() -> string;
 
 	/**
 	 * Returns DependencyInjection connection service used to write data
-	 *
-	 * @return string
 	 */
 	public function getWriteConnectionService() -> string;
 
 	/**
 	 * Gets internal database connection
-	 *
-	 * @return Phalcon\Db\AdapterInterface
 	 */
 	public function getReadConnection() -> <\Phalcon\Db\AdapterInterface>;
 
 	/**
 	 * Gets internal database connection
-	 *
-	 * @return Phalcon\Db\AdapterInterface
 	 */
 	public function getWriteConnection() -> <\Phalcon\Db\AdapterInterface>;
 
 	/**
 	 * Sets the dirty state of the object using one of the DIRTY_STATE_* constants
-	 *
-	 * @param int dirtyState
-	 * @return Phalcon\Mvc\ModelInterface
 	 */
-	public function setDirtyState(int dirtyState) -> <\Phalcon\Mvc\ModelInterface>;
+	public function setDirtyState(int dirtyState) -> <ModelInterface>;
 
 	/**
 	 * Returns one of the DIRTY_STATE_* constants telling if the record exists in the database or not
-	 *
-	 * @return int
 	 */
 	public function getDirtyState() -> int;
 
 	/**
 	 * Assigns values to a model from an array
-	 *
-	 * @param Phalcon\Mvc\Model object
-	 * @param array data
-	 * @param array columnMap
-	 * @return Phalcon\Mvc\Model
 	 */
-	public function assign(array! data, var dataColumnMap = null, var whiteList = null);
+	public function assign(array! data, array dataColumnMap = null, array whiteList = null) -> <ModelInterface>;
 
+	/**
+	 * Allows to query the first record that match the specified conditions
+	 */
+	public function findAll(var parameters = null) -> <\Phalcon\Mvc\Model\ResultsetInterface>;
+	
 	/**
 	 * Assigns values to a model from an array returning a new model
 	 *
@@ -161,98 +135,64 @@ interface ModelInterface
 
 	/**
 	 * Allows to query a set of records that match the specified conditions
-	 *
-	 * @param 	array parameters
-	 * @return  Phalcon\Mvc\Model\ResultsetInterface
 	 */
-	public static function find(parameters = null);
+	public static function find(var parameters = null) -> <\Phalcon\Mvc\Model\ResultsetInterface>;
 
 	/**
 	 * Allows to query the first record that match the specified conditions
-	 *
-	 * @param array parameters
-	 * @return Phalcon\Mvc\ModelInterface
 	 */
-	public static function findFirst(parameters = null);
+	public static function findFirst(var parameters = null) -> <ModelInterface>;
 
 	/**
 	 * Create a criteria for a especific model
-	 *
-	 * @param Phalcon\DiInterface dependencyInjector
-	 * @return Phalcon\Mvc\Model\CriteriaInterface
 	 */
-	public static function query(<DiInterface> dependencyInjector = null);
+	public static function query(<DiInterface> dependencyInjector = null) -> <\Phalcon\Mvc\Model\CriteriaInterface>;
 
 	/**
 	 * Allows to count how many records match the specified conditions
-	 *
-	 * @param array parameters
-	 * @return int
 	 */
-	public static function count(parameters = null);
+	public static function count(var parameters = null) -> int;
 
 	/**
 	 * Allows to calculate a summatory on a column that match the specified conditions
-	 *
-	 * @param array parameters
-	 * @return double
 	 */
-	public static function sum(parameters = null);
+	public static function sum(var parameters = null) -> double;
 
 	/**
 	 * Allows to get the maximum value of a column that match the specified conditions
-	 *
-	 * @param array parameters
-	 * @return mixed
 	 */
-	public static function maximum(parameters = null);
+	public static function maximum(var parameters = null) -> var;
 
 	/**
 	 * Allows to get the minimum value of a column that match the specified conditions
-	 *
-	 * @param array parameters
-	 * @return mixed
 	 */
-	public static function minimum(parameters = null);
+	public static function minimum(var parameters = null) -> var;
 
 	/**
 	 * Allows to calculate the average value on a column matching the specified conditions
-	 *
-	 * @param array parameters
-	 * @return double
 	 */
-	public static function average(parameters = null);
+	public static function average(var parameters = null) -> double;
 
 	/**
 	 * Fires an event, implicitly calls behaviors and listeners in the events manager are notified
-	 *
-	 * @param string eventName
-	 * @return boolean
 	 */
-	public function fireEvent(eventName);
+	public function fireEvent(string! eventName) -> boolean;
 
 	/**
 	 * Fires an event, implicitly calls behaviors and listeners in the events manager are notified
 	 * This method stops if one of the callbacks/listeners returns boolean false
-	 *
-	 * @param string eventName
-	 * @return boolean
 	 */
-	public function fireEventCancel(eventName);
+	public function fireEventCancel(string! eventName) -> boolean;
 
 	/**
 	 * Appends a customized message on the validation process
-	 *
-	 * @param Phalcon\Mvc\Model\MessageInterface message
 	 */
 	public function appendMessage(<MessageInterface> message);
 
 	/**
 	 * Check whether validation process has generated any messages
-	 *
-	 * @return boolean
 	 */
-	public function validationHasFailed();
+	public function validationHasFailed() -> boolean;
 
 	/**
 	 * Returns all the validation messages
@@ -263,91 +203,60 @@ interface ModelInterface
 
 	/**
 	 * Inserts or updates a model instance. Returning true on success or false otherwise.
-	 *
-	 * @param  array data
-	 * @param  array whiteList
-	 * @return boolean
 	 */
-	public function save(data = null, whiteList = null);
+	public function save(array data = null, array whiteList = null) -> boolean;
 
 	/**
 	 * Inserts a model instance. If the instance already exists in the persistance it will throw an exception
 	 * Returning true on success or false otherwise.
-	 *
-	 * @param  array data
-	 * @param  array whiteList
-	 * @return boolean
 	 */
-	public function create(data = null, whiteList = null);
+	public function create(array data = null, array whiteList = null) -> boolean;
 
 	/**
 	 * Updates a model instance. If the instance doesn't exist in the persistance it will throw an exception
 	 * Returning true on success or false otherwise.
-	 *
-	 * @param  array data
-	 * @param  array whiteList
-	 * @return boolean
 	 */
-	public function update(data = null, whiteList = null);
+	public function update(array data = null, array whiteList = null) -> boolean;
 
 	/**
 	 * Deletes a model instance. Returning true on success or false otherwise.
-	 *
-	 * @return boolean
 	 */
-	public function delete();
+	public function delete() -> boolean;
 
 	/**
 	 * Returns the type of the latest operation performed by the ORM
 	 * Returns one of the OP_* class constants
-	 *
-	 * @return int
 	 */
-	public function getOperationMade();
+	public function getOperationMade() -> int;
 
 	/**
 	 * Refreshes the model attributes re-querying the record from the database
 	 */
-	public function refresh();
+	public function refresh() -> void;
 
 	/**
 	 * Skips the current operation forcing a success state
-	 *
-	 * @param boolean skip
 	 */
-	public function skipOperation(boolean skip);
+	public function skipOperation(boolean! skip) -> void;
 
 	/**
 	 * Reads an attribute value by its name
-	 *
-	 * @param string attribute
-	 * @return mixed
 	 */
-	public function readAttribute(attribute);
+	public function readAttribute(string! attribute) -> var;
 
 	/**
 	 * Writes an attribute value by its name
-	 *
-	 * @param string attribute
-	 * @param mixed value
 	 */
-	public function writeAttribute(attribute, value);
+	public function writeAttribute(string! attribute, var value) -> void;
 
 	/**
 	 * Returns related records based on defined relations
-	 *
-	 * @param string alias
-	 * @param array arguments
-	 * @return Phalcon\Mvc\Model\ResultsetInterface
 	 */
-	public function getRelated(alias, arguments = null);
+	public function getRelated(string! alias,array arguments = null) -> <\Phalcon\Mvc\Model\ResultsetInterface>;
 
 	/**
 	 * Sets the record's snapshot data.
 	 * This method is used internally to set snapshot data when the model was set up to keep snapshot data
-	 *
-	 * @param array data
-	 * @param array columnMap
 	 */
-	public function setSnapshotData(array! data, columnMap = null);
+	public function setSnapshotData(array! data, array columnMap = null) -> void;
 }
