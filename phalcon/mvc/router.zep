@@ -51,7 +51,7 @@ use Phalcon\Http\RequestInterface;
  *</code>
  *
  */
-class Router implements InjectionAwareInterface
+class Router implements InjectionAwareInterface,RouterInterface
 {
 	protected _dependencyInjector;
 
@@ -95,8 +95,6 @@ class Router implements InjectionAwareInterface
 
 	/**
 	 * Phalcon\Mvc\Router constructor
-	 *
-	 * @param boolean defaultRoutes
 	 */
 	public function __construct(boolean defaultRoutes = true)
 	{
@@ -126,8 +124,6 @@ class Router implements InjectionAwareInterface
 
 	/**
 	 * Sets the dependency injector
-	 *
-	 * @param Phalcon\DiInterface dependencyInjector
 	 */
 	public function setDI(<DiInterface> dependencyInjector)
 	{
@@ -136,8 +132,6 @@ class Router implements InjectionAwareInterface
 
 	/**
 	 * Returns the internal dependency injector
-	 *
-	 * @return Phalcon\DiInterface
 	 */
 	public function getDI() -> <DiInterface>
 	{
@@ -146,8 +140,6 @@ class Router implements InjectionAwareInterface
 
 	/**
 	 * Get rewrite info. This info is read from $_GET['_url']. This returns '/' if the rewrite information cannot be read
-	 *
-	 * @return string
 	 */
 	public function getRewriteUri() -> string
 	{
@@ -185,7 +177,6 @@ class Router implements InjectionAwareInterface
 	 *</code>
 	 *
 	 * @param string uriSource
-	 * @return Phalcon\Mvc\Router
 	 */
 	public function setUriSource(var uriSource) -> <Router>
 	{
@@ -195,9 +186,6 @@ class Router implements InjectionAwareInterface
 
 	/**
 	 * Set whether router must remove the extra slashes in the handled routes
-	 *
-	 * @param boolean remove
-	 * @return Phalcon\Mvc\Router
 	 */
 	public function removeExtraSlashes(boolean remove) -> <Router>
 	{
@@ -207,9 +195,6 @@ class Router implements InjectionAwareInterface
 
 	/**
 	 * Sets the name of the default namespace
-	 *
-	 * @param string namespaceName
-	 * @return Phalcon\Mvc\Router
 	 */
 	public function setDefaultNamespace(string! namespaceName) -> <Router>
 	{
@@ -219,9 +204,6 @@ class Router implements InjectionAwareInterface
 
 	/**
 	 * Sets the name of the default module
-	 *
-	 * @param string moduleName
-	 * @return Phalcon\Mvc\Router
 	 */
 	public function setDefaultModule(string! moduleName) -> <Router>
 	{
@@ -231,9 +213,6 @@ class Router implements InjectionAwareInterface
 
 	/**
 	 * Sets the default controller name
-	 *
-	 * @param string controllerName
-	 * @return Phalcon\Mvc\Router
 	 */
 	public function setDefaultController(string! controllerName) -> <Router>
 	{
@@ -243,9 +222,6 @@ class Router implements InjectionAwareInterface
 
 	/**
 	 * Sets the default action name
-	 *
-	 * @param string actionName
-	 * @return Phalcon\Mvc\Router
 	 */
 	public function setDefaultAction(string! actionName) -> <Router>
 	{
@@ -263,9 +239,6 @@ class Router implements InjectionAwareInterface
 	 *		'action' => 'index'
 	 * ));
 	 *</code>
-	 *
-	 * @param array defaults
-	 * @return Phalcon\Mvc\Router
 	 */
 	public function setDefaults(array! defaults) -> <Router>
 	{
@@ -309,10 +282,8 @@ class Router implements InjectionAwareInterface
 	 * //Manually passing an URL
 	 * $router->handle('/posts/edit/1');
 	 *</code>
-	 *
-	 * @param string uri
 	 */
-	public function handle(uri = null)
+	public function handle(string uri = null)
 	{
 		var realUri, request, currentHostName, routeFound, parts,
 			params, matches, notFoundPaths,
@@ -636,7 +607,6 @@ class Router implements InjectionAwareInterface
 	 * $router->add('/about', 'About::index');
 	 *</code>
 	 *
-	 * @param string pattern
 	 * @param string/array paths
 	 * @param string httpMethods
 	 * @return Phalcon\Mvc\Router\Route
@@ -656,9 +626,7 @@ class Router implements InjectionAwareInterface
 	/**
 	 * Adds a route to the router that only match if the HTTP method is GET
 	 *
-	 * @param string pattern
 	 * @param string/array paths
-	 * @return Phalcon\Mvc\Router\Route
 	 */
 	public function addGet(string! pattern, paths = null) -> <Route>
 	{
@@ -668,11 +636,9 @@ class Router implements InjectionAwareInterface
 	/**
 	 * Adds a route to the router that only match if the HTTP method is POST
 	 *
-	 * @param string pattern
 	 * @param string/array paths
-	 * @return Phalcon\Mvc\Router\Route
 	 */
-	public function addPost(string! pattern, paths = null) -> <Route>
+	public function addPost(string! pattern, var paths = null) -> <Route>
 	{
 		return this->add(pattern, paths, "POST");
 	}
@@ -680,9 +646,7 @@ class Router implements InjectionAwareInterface
 	/**
 	 * Adds a route to the router that only match if the HTTP method is PUT
 	 *
-	 * @param string pattern
 	 * @param string/array paths
-	 * @return Phalcon\Mvc\Router\Route
 	 */
 	public function addPut(string! pattern, paths = null) -> <Route>
 	{
@@ -792,7 +756,6 @@ class Router implements InjectionAwareInterface
 	 * Set a group of paths to be returned when none of the defined routes are matched
 	 *
 	 * @param array paths
-	 * @return Phalcon\Mvc\Router
 	 */
 	public function notFound(var paths) -> <Router>
 	{
@@ -813,8 +776,6 @@ class Router implements InjectionAwareInterface
 
 	/**
 	 * Returns the processed namespace name
-	 *
-	 * @return string
 	 */
 	public function getNamespaceName() -> string
 	{
@@ -823,8 +784,6 @@ class Router implements InjectionAwareInterface
 
 	/**
 	 * Returns the processed module name
-	 *
-	 * @return string
 	 */
 	public function getModuleName() -> string
 	{
@@ -833,8 +792,6 @@ class Router implements InjectionAwareInterface
 
 	/**
 	 * Returns the processed controller name
-	 *
-	 * @return string
 	 */
 	public function getControllerName() -> string
 	{
@@ -843,8 +800,6 @@ class Router implements InjectionAwareInterface
 
 	/**
 	 * Returns the processed action name
-	 *
-	 * @return string
 	 */
 	public function getActionName() -> string
 	{
@@ -853,18 +808,14 @@ class Router implements InjectionAwareInterface
 
 	/**
 	 * Returns the processed parameters
-	 *
-	 * @return array
 	 */
-	public function getParams()
+	public function getParams() -> array
 	{
 		return this->_params;
 	}
 
 	/**
 	 * Returns the route that matchs the handled URI
-	 *
-	 * @return Phalcon\Mvc\Router\Route
 	 */
 	public function getMatchedRoute() -> <Route>
 	{
@@ -873,18 +824,14 @@ class Router implements InjectionAwareInterface
 
 	/**
 	 * Returns the sub expressions in the regular expression matched
-	 *
-	 * @return array
 	 */
-	public function getMatches()
+	public function getMatches() -> array
 	{
 		return this->_matches;
 	}
 
 	/**
 	 * Checks if the router macthes any of the defined routes
-	 *
-	 * @return bool
 	 */
 	public function wasMatched() -> boolean
 	{
@@ -903,9 +850,6 @@ class Router implements InjectionAwareInterface
 
 	/**
 	 * Returns a route object by its id
-	 *
-	 * @param int id
-	 * @return Phalcon\Mvc\Router\Route
 	 */
 	public function getRouteById(var id) -> <Route> | boolean
 	{
@@ -916,14 +860,12 @@ class Router implements InjectionAwareInterface
 				return route;
 			}
 		}
+
 		return false;
 	}
 
 	/**
 	 * Returns a route object by its name
-	 *
-	 * @param string name
-	 * @return Phalcon\Mvc\Router\Route | boolean
 	 */
 	public function getRouteByName(string! name) -> <Route> | boolean
 	{
@@ -939,8 +881,6 @@ class Router implements InjectionAwareInterface
 
 	/**
 	 * Returns whether controller name should not be mangled
-	 *
-	 * @return boolean
 	 */
 	public function isExactControllerName() -> boolean
 	{

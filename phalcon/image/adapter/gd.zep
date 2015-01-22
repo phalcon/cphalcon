@@ -21,6 +21,8 @@ namespace Phalcon\Image\Adapter;
 
 class Gd extends \Phalcon\Image\Adapter implements \Phalcon\Image\AdapterInterface
 {
+	protected static _checked = false;
+
 	public static function check()
 	{
 		var version, info, matches;

@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -36,7 +36,8 @@ use Phalcon\Image\Exception;
  */
 class Imagick extends \Phalcon\Image\Adapter implements \Phalcon\Image\AdapterInterface
 {
-	protected _version = 0;
+	protected static _version = 0;
+	protected static _checked = false;
 
 	/**
 	 * Checks if Imagick is enabled
@@ -54,7 +55,7 @@ class Imagick extends \Phalcon\Image\Adapter implements \Phalcon\Image\AdapterIn
 		}
 
 		if defined("Imagick::IMAGICK_EXTNUM") {
-			let this->_version = constant("Imagick::IMAGICK_EXTNUM");
+			let self::_version = constant("Imagick::IMAGICK_EXTNUM");
 		}
 
 		let self::_checked = true;
@@ -275,7 +276,7 @@ class Imagick extends \Phalcon\Image\Adapter implements \Phalcon\Image\AdapterIn
 	{
 		var reflection, fade, pseudo, image, pixel, ret;
 
-		if this->_version >= 30100 {
+		if self::_version >= 30100 {
 			let reflection = clone this->_image;
 		} else {
 			let reflection = clone this->_image->$clone();
@@ -674,13 +675,9 @@ class Imagick extends \Phalcon\Image\Adapter implements \Phalcon\Image\AdapterIn
 	 * @param int type Refer to the list of resourcetype constants (@see http://php.net/manual/ru/imagick.constants.php#imagick.constants.resourcetypes.)
 	 * @param int limit The resource limit. The unit depends on the type of the resource being limited.
 	 */
-	public static function setResourceLimit(int type, int limit)
+	public function setResourceLimit(int type, int limit)
 	{
-		if !self::_checked {
-			self::check();
-		}
-
-		forward_static_call(["\Imagick", "setResourceLimit"], type, limit);
+		this->_image->setResourceLimit(type, limit);
 	}
 
 }
