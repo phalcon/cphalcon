@@ -2324,25 +2324,20 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 							 * We must use the type of snapshotValue.
 							 */
 							if value === null {
-								echo "null value\n";
 								let changed = snapshotValue !== null;
 							} else {
 								if snapshotValue === null {
-									echo "null snapshot\n";
 									let changed = true;
 								} else {
 									switch (bindType) {
 										case Column::TYPE_BOOLEAN:
-											echo "boolean\n";
 											let changed = (boolean)snapshotValue !== (boolean)value;
 											break;
 										case Column::TYPE_INTEGER:
-											echo "integer\n";
 											let changed = (int)snapshotValue !== (int)value;
 											break;
 										case Column::TYPE_DECIMAL:
 										case Column::TYPE_FLOAT:
-											echo "double\n";
 											let changed = floatval(snapshotValue) !== floatval(value);
 											break;
 										case Column::TYPE_DATE:
@@ -2351,7 +2346,6 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 										case Column::TYPE_CHAR:
 										case Column::TYPE_TEXT:
 										case Column::TYPE_VARCHAR:
-											echo "string\n";
 											let changed = (string)snapshotValue !== (string)value;
 											break;
 
@@ -2359,7 +2353,6 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 										 * Any other type is not really supported...
 										 */
 										default:
-											echo "other\n";
 											let changed = value != snapshotValue;
 									}
 								}
