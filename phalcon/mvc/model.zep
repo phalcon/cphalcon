@@ -37,6 +37,7 @@ use Phalcon\Mvc\Model\Exception;
 use Phalcon\Mvc\Model\MetadataInterface;
 use Phalcon\Mvc\Model\MessageInterface;
 use Phalcon\Events\ManagerInterface as EventsManagerInterface;
+use Phalcon\Db\Column;
 
 /**
  * Phalcon\Mvc\Model
@@ -2314,7 +2315,60 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 						if !fetch snapshotValue, snapshot[attributeField] {
 							let changed = true;
 						} else {
-							let changed = value != snapshotValue;
+							/**
+							 * See https://github.com/phalcon/cphalcon/issues/3247
+							 * Take a TEXT column with value '4' and replace it by
+							 * the value '4.0'. For PHP '4' and '4.0' are the same.
+							 * We can't use simple comparison...
+							 *
+							 * We must use the type of snapshotValue.
+							 */
+							var_dump(value, snapshotValue, bindType, "======");
+							if value === null {
+								echo "null value\n";
+								let changed = snapshotValue !== null;
+							} else {
+								if snapshotValue === null {
+									echo "null snapshot\n";
+									let changed = true;
+								} else {
+									switch (bindType) {
+										case Column::TYPE_BOOLEAN:
+											echo "boolean\n";
+											let changed = (boolean)snapshotValue !== (boolean)value;
+											var_dump((boolean)value, (boolean)snapshotValue, changed);
+											break;
+										case Column::TYPE_INTEGER:
+											echo "integer\n";
+											let changed = (int)snapshotValue !== (int)value;
+											var_dump((int)value, (int)snapshotValue, changed);
+											break;
+										case Column::TYPE_DECIMAL:
+										case Column::TYPE_FLOAT:
+											echo "double\n";
+											let changed = floatval(snapshotValue) !== floatval(value);
+											var_dump(floatval(value), floatval(snapshotValue), changed);
+											break;
+										case Column::TYPE_DATE:
+										case Column::TYPE_VARCHAR:
+										case Column::TYPE_DATETIME:
+										case Column::TYPE_CHAR:
+										case Column::TYPE_TEXT:
+										case Column::TYPE_VARCHAR:
+											echo "string\n";
+											let changed = (string)snapshotValue !== (string)value;
+											var_dump((string)value, (string)snapshotValue, changed);
+											break;
+
+										/**
+										 * Any other type is not really supported...
+										 */
+										default:
+											echo "other\n";
+											let changed = value != snapshotValue;
+									}
+								}
+							}
 						}
 
 						/**
