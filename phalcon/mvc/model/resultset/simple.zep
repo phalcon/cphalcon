@@ -42,14 +42,8 @@ class Simple extends Resultset
 
 	/**
 	 * Phalcon\Mvc\Model\Resultset\Simple constructor
-	 *
-	 * @param array columnMap
-	 * @param Phalcon\Mvc\ModelInterface|Phalcon\Mvc\Model\Row model
-	 * @param Phalcon\Db\Result\Pdo|null result
-	 * @param Phalcon\Cache\BackendInterface cache
-	 * @param boolean keepSnapshots
 	 */
-	public function __construct(var columnMap, var model, result, <BackendInterface> cache=null, keepSnapshots = null)
+	public function __construct(array columnMap, var model, var result, <BackendInterface> cache=null, boolean keepSnapshots = false)
 	{
 		var rowCount;
 
@@ -171,9 +165,6 @@ class Simple extends Resultset
 	 * Returns a complete resultset as an array, if the resultset has a big number of rows
 	 * it could consume more memory than currently it does. Export the resultset to an array
 	 * couldn't be faster with a large number of records
-	 *
-	 * @param boolean renameColumns
-	 * @return array
 	 */
 	public function toArray(boolean renameColumns = true) -> array
 	{
@@ -256,7 +247,7 @@ class Simple extends Resultset
 						/**
 						 * Check if the key is part of the column map
 						 */
-						if fetch renamedKey, columnMap[key] {
+						if !fetch renamedKey, columnMap[key] {
 							throw new Exception("Column '" . key . "' is not part of the column map");
 						}
 
@@ -281,8 +272,6 @@ class Simple extends Resultset
 
 	/**
 	 * Serializing a resultset will dump all related rows into a big array
-	 *
-	 * @return string
 	 */
 	public function serialize() -> string
 	{
@@ -306,8 +295,6 @@ class Simple extends Resultset
 
 	/**
 	 * Unserializing a resultset will allow to only works on the rows present in the saved state
-	 *
-	 * @param string data
 	 */
 	public function unserialize(string! data)
 	{

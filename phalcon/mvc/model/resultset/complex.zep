@@ -39,12 +39,8 @@ class Complex extends Resultset implements ResultsetInterface
 
 	/**
 	 * Phalcon\Mvc\Model\Resultset\Complex constructor
-	 *
-	 * @param array columnTypes
-	 * @param Phalcon\Db\ResultInterface result
-	 * @param Phalcon\Cache\BackendInterface cache
 	 */
-	public function __construct(var columnTypes, result, <BackendInterface> cache = null)
+	public function __construct(array columnTypes, var result, <BackendInterface> cache = null)
 	{
 
 		/**
@@ -79,8 +75,6 @@ class Complex extends Resultset implements ResultsetInterface
 
 	/**
 	 * Check whether internal resource has rows to fetch
-	 *
-	 * @return boolean
 	 */
 	public function valid() -> boolean
 	{
@@ -287,10 +281,8 @@ class Complex extends Resultset implements ResultsetInterface
 	/**
 	 * Returns a complete resultset as an array, if the resultset has a big number of rows
 	 * it could consume more memory than currently it does.
-	 *
-	 * @return array
 	 */
-	public function toArray() -> string
+	public function toArray() -> array
 	{
 		var records, current;
 		let records = [];
@@ -302,10 +294,8 @@ class Complex extends Resultset implements ResultsetInterface
 
 	/**
 	 * Serializing a resultset will dump all related rows into a big array
-	 *
-	 * @return string
 	 */
-	public function serialize()
+	public function serialize() -> string | null
 	{
 		var records, cache, columnTypes, hydrateMode, serialized;
 
@@ -337,10 +327,8 @@ class Complex extends Resultset implements ResultsetInterface
 
 	/**
 	 * Unserializing a resultset will allow to only works on the rows present in the saved state
-	 *
-	 * @param string data
 	 */
-	public function unserialize(data) -> void
+	public function unserialize(string! data) -> void
 	{
 		var resultset;
 
