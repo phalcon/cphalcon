@@ -139,7 +139,7 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_collection_summatory, 0, 0, 1)
 	ZEND_ARG_INFO(0, field)
-	ZEND_ARG_INFO(0, conditions)
+	ZEND_ARG_INFO(0, condition)
 	ZEND_ARG_INFO(0, finalize)
 ZEND_END_ARG_INFO()
 
@@ -2268,33 +2268,33 @@ PHP_METHOD(Phalcon_Mvc_Collection, aggregate){
 /**
  * Allows to perform a summatory group for a column in the collection
  *
- * @param string $field
- * @param array $conditions
+ * @param array $fields
+ * @param array $condition
  * @param string $finalize
  * @return array
  */
 PHP_METHOD(Phalcon_Mvc_Collection, summatory){
 
-	zval *field, *conditions = NULL, *finalize = NULL, *class_name;
+	zval *fields, *condition = NULL, *finalize = NULL, *class_name;
 	zval *connection = NULL, *source = NULL, *collection = NULL;
-	zval *keys, *empty_array, *initial, *reduce, *group = NULL;
+	zval *keys, *options, *initial, *reduce, *group = NULL;
 	zval *retval, *first_retval, *summatory;
 	zend_class_entry *ce0;
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 1, 2, &field, &conditions, &finalize);
+	phalcon_fetch_params(1, 1, 2, &fields, &condition, &finalize);
 
-	if (!conditions) {
-		conditions = PHALCON_GLOBAL(z_null);
+	if (!condition) {
+		condition = PHALCON_GLOBAL(z_null);
 	}
 
 	if (!finalize) {
 		finalize = PHALCON_GLOBAL(z_null);
 	}
 
-	if (Z_TYPE_P(field) != IS_STRING) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_collection_exception_ce, "Invalid field name for group");
+	if (Z_TYPE_P(fields) != IS_ARRAY) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_collection_exception_ce, "Invalid fields for group");
 		return;
 	}
 
@@ -2321,26 +2321,33 @@ PHP_METHOD(Phalcon_Mvc_Collection, summatory){
 	PHALCON_INIT_VAR(keys);
 	array_init(keys);
 
-	PHALCON_INIT_VAR(empty_array);
-	array_init(empty_array);
+	PHALCON_INIT_VAR(options);
+	array_init(options);
+
+	if (!PHALCON_IS_EMPTY(condition)) {
+		phalcon_array_update_string(&options, SL("condition"), condition, PH_COPY);
+	}
+
+	if (!PHALCON_IS_EMPTY(finalize)) {
+		phalcon_array_update_string(&options, SL("finalize"), finalize, PH_COPY);
+	}
 
 	/**
 	 * Uses a javascript hash to group the results
 	 */
 	PHALCON_INIT_VAR(initial);
 	array_init_size(initial, 1);
-	phalcon_array_update_string(&initial, SL("summatory"), empty_array, PH_COPY);
+	phalcon_array_update_string(&initial, SL("summatory"), fields, PH_COPY);
 
 	/**
 	 * Uses a javascript hash to group the results, however this is slow with larger
 	 * datasets
 	 */
 	PHALCON_INIT_VAR(reduce);
-	PHALCON_CONCAT_SVSVSVS(reduce, "function (curr, result) { if (typeof result.summatory[curr.", field, "] === \"undefined\") { result.summatory[curr.", field, "] = 1; } else { result.summatory[curr.", field, "]++; } }");
+	ZVAL_STRING(reduce, "function (curr, result) { for (var key in result.summatory) {if (typeof curr[key] !== \"undefined\") { if (typeof curr[key] === \"string\") {result.summatory[key] += curr[key].trim().length > 0 ? parseFloat(curr[key].trim()) : 0;} else {result.summatory[key] += curr[key];} } }}", PH_COPY);
 
-	PHALCON_CALL_METHOD(&group, collection, "group", keys, initial, reduce);
+	PHALCON_CALL_METHOD(&group, collection, "group", keys, initial, reduce, options);
 	if (phalcon_array_isset_string(group, SS("retval"))) {
-
 		PHALCON_OBS_VAR(retval);
 		phalcon_array_fetch_string(&retval, group, SL("retval"), PH_NOISY);
 		if (phalcon_array_isset_long(retval, 0)) {
