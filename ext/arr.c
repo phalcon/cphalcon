@@ -62,6 +62,7 @@ PHP_METHOD(Phalcon_Arr, flatten);
 PHP_METHOD(Phalcon_Arr, arrayobject);
 PHP_METHOD(Phalcon_Arr, key);
 PHP_METHOD(Phalcon_Arr, filter);
+PHP_METHOD(Phalcon_Arr, sum);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_arr_is_assoc, 0, 0, 1)
 	ZEND_ARG_INFO(0, array)
@@ -158,6 +159,11 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_arr_filter, 0, 0, 1)
 	ZEND_ARG_INFO(0, callback)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_arr_sum, 0, 0, 1)
+	ZEND_ARG_INFO(0, array)
+	ZEND_ARG_INFO(0, path)
+ZEND_END_ARG_INFO()
+
 static const zend_function_entry phalcon_arr_method_entry[] = {
 	PHP_ME(Phalcon_Arr, is_assoc, arginfo_phalcon_arr_is_assoc, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Arr, is_array, arginfo_phalcon_arr_is_array, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
@@ -177,6 +183,7 @@ static const zend_function_entry phalcon_arr_method_entry[] = {
 	PHP_ME(Phalcon_Arr, arrayobject, arginfo_phalcon_arr_arrayobject, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Arr, key, arginfo_phalcon_arr_key, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Arr, filter, arginfo_phalcon_arr_filter, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Arr, sum, arginfo_phalcon_arr_sum, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_FE_END
 };
 
@@ -260,7 +267,7 @@ PHP_METHOD(Phalcon_Arr, is_array){
 PHP_METHOD(Phalcon_Arr, path){
 
 	zval *array, *path, *default_value = NULL, *delimiter = NULL;
-	zval *is_array, *keys = NULL, *key = NULL, *values = NULL, *is_digit = NULL, *arr = NULL, *value = NULL;
+	zval *is_array = NULL, *keys = NULL, *key = NULL, *values = NULL, *arr = NULL, *value = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -271,7 +278,11 @@ PHP_METHOD(Phalcon_Arr, path){
 
 	PHALCON_SEPARATE_PARAM(array);
 
-	PHALCON_INIT_VAR(is_array);
+	if (!delimiter) {
+		PHALCON_OBS_VAR(delimiter);
+		phalcon_read_static_property(&delimiter, SL("phalcon\\arr"), SL("delimiter") TSRMLS_CC);
+	}
+
 	PHALCON_CALL_SELF(&is_array, "is_array", array);
 	if (!zend_is_true(is_array)) {
 		goto end;
@@ -284,17 +295,11 @@ PHP_METHOD(Phalcon_Arr, path){
 			RETURN_CCTOR(values);
 		}
 
-		if (!delimiter) {
-			PHALCON_INIT_VAR(delimiter);
-			phalcon_read_static_property(&delimiter, SL("phalcon\\arr"), SL("delimiter") TSRMLS_CC);
-		}
-
 		PHALCON_INIT_VAR(keys);
 		phalcon_fast_explode(keys, delimiter, path);
 	}
 
 	do {
-		PHALCON_INIT_NVAR(key);
 		Z_SET_ISREF_P(keys);
 		PHALCON_CALL_FUNCTION(&key, "array_shift", keys);
 		Z_UNSET_ISREF_P(keys);
@@ -303,18 +308,10 @@ PHP_METHOD(Phalcon_Arr, path){
 			break;
 		}
 
-		PHALCON_INIT_NVAR(is_digit);
-		PHALCON_CALL_FUNCTION(&is_digit, "ctype_digit", key);
-	
-		if (zend_is_true(is_digit)) {
-			convert_to_long(key);
-		}
-
 		if (phalcon_array_isset(array, key)) {
 			PHALCON_OBS_NVAR(values);
 			phalcon_array_fetch(&values, array, key, PH_NOISY);
 			if (phalcon_fast_count_ev(keys TSRMLS_CC) > 0) {
-				PHALCON_INIT_NVAR(is_array);
 				PHALCON_CALL_SELF(&is_array, "is_array", values);
 				if (zend_is_true(is_array)) {
 					PHALCON_CPY_WRT(array, values);
@@ -334,7 +331,6 @@ PHP_METHOD(Phalcon_Arr, path){
 			while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 				PHALCON_GET_HVALUE(arr);
 
-				PHALCON_INIT_NVAR(value);
 				PHALCON_CALL_SELF(&value, "path", arr, keys);
 				
 				if (Z_TYPE_P(value) != IS_NULL) {
@@ -1199,4 +1195,41 @@ PHP_METHOD(Phalcon_Arr, filter){
 	}
 
 	RETURN_CTOR(sanizited_value);
+}
+
+/**
+ * Return the sum of all the values in the array using a dot separated path.
+ *
+ * @param array $array
+ * @param mixed $path
+ * @param mixed $default
+ * @param string $delimiter
+ * @return mixed
+ */
+PHP_METHOD(Phalcon_Arr, sum){
+
+	zval *array, *path, *default_value = NULL, *delimiter = NULL;
+	zval *values = NULL;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 2, 2, &array, &path, &default_value, &delimiter);
+
+	if (!default_value) {
+		default_value = PHALCON_GLOBAL(z_null);
+	}
+
+	if (!delimiter) {
+		PHALCON_OBS_VAR(delimiter);
+		phalcon_read_static_property(&delimiter, SL("phalcon\\arr"), SL("delimiter") TSRMLS_CC);
+	}
+
+	PHALCON_CALL_SELF(&values, "path", array, path, default_value, delimiter);
+
+	if (Z_TYPE_P(values) == IS_ARRAY) {
+		PHALCON_CALL_FUNCTION(&return_value, "array_sum", values);
+		RETURN_MM();
+	} else {
+		RETURN_CCTOR(values);
+	}
 }
