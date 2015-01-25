@@ -573,8 +573,12 @@ class Router implements RouterInterface
 			 */
 			if fetch paramsStr, parts["params"] {
 				let strParams = substr(paramsStr, 1);
-				if strParams {
-					let params = explode("/", strParams);
+				if strParams !== false {
+					if strParams {
+						let params = explode("/", strParams);
+					} else {
+						let params = [strParams];
+					}
 				}
 				unset parts["params"];
 			}
