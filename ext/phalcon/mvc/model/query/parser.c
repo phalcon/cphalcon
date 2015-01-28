@@ -3023,7 +3023,7 @@ static void phql_scanner_error_msg(phql_parser_status *parser_status, zval **err
 	unsigned int length;
 	phql_scanner_state *state = parser_status->scanner_state;
 
-	ZEPHIR_INIT_VAR(*error_msg);
+	MAKE_STD_ZVAL(*error_msg);
 	if (state->start) {
 		length = 64 + state->start_length + parser_status->phql_length;
 		error = emalloc(sizeof(char) * length);

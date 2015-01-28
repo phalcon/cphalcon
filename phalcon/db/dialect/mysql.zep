@@ -25,13 +25,14 @@ use Phalcon\Db\Exception;
 use Phalcon\Db\IndexInterface;
 use Phalcon\Db\ColumnInterface;
 use Phalcon\Db\ReferenceInterface;
+use Phalcon\Db\DialectInterface;
 
 /**
  * Phalcon\Db\Dialect\Mysql
  *
  * Generates database specific SQL for the MySQL RBDM
  */
-class MySQL extends Dialect //implements Phalcon\Db\DialectInterface
+class MySQL extends Dialect implements DialectInterface
 {
 
 	protected _escapeChar = "`";

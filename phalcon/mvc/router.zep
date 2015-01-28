@@ -98,10 +98,9 @@ class Router implements InjectionAwareInterface,RouterInterface
 	 */
 	public function __construct(boolean defaultRoutes = true)
 	{
-		var routes;
-
-		let routes = [];
-		if defaultRoutes === true {
+		array routes = [];
+		
+		if defaultRoutes {
 
 			// Two routes are added by default to match /:controller/:action and
 			// /:controller/:action/:params
