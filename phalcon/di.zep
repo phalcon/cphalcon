@@ -21,9 +21,11 @@
 namespace Phalcon;
 
 use Phalcon\DiInterface;
+use Phalcon\Di\InjectionAwareInterface;
 use Phalcon\Di\Service;
 use Phalcon\Di\ServiceInterface;
 use Phalcon\Di\Exception;
+use Phalcon\Events\EventsAwareInterface;
 
 /**
  * Phalcon\Di
@@ -260,7 +262,7 @@ class Di implements DiInterface, \Phalcon\Events\EventsAwareInterface
 		 * Pass the DI itself if the instance implements \Phalcon\Di\InjectionAwareInterface
 		 */
 		if typeof instance == "object" {
-			if instance instanceof "Phalcon\\Di\\InjectionAwareInterface" {
+			if instance instanceof InjectionAwareInterface {
 				instance->setDI(this);
 			}
 		}
@@ -270,7 +272,7 @@ class Di implements DiInterface, \Phalcon\Events\EventsAwareInterface
 			 * Pass the EventsManager if the instance implements \Phalcon\Events\EventsAwareInterface
 			 */
 			if typeof instance == "object" {
-				if instance instanceof "Phalcon\\Events\\EventsAwareInterface" {
+				if instance instanceof EventsAwareInterface {
 					instance->setEventsManager(eventsManager);
 				}
 			}
