@@ -850,9 +850,9 @@ class Request implements RequestInterface, InjectionAwareInterface
 		var name, value, headers, contentHeaders;
 
 		let headers = [];
-    	let contentHeaders = ["CONTENT_TYPE": true, "CONTENT_LENGTH": true];
+		let contentHeaders = ["CONTENT_TYPE": true, "CONTENT_LENGTH": true];
 
-    	for name, value in _SERVER {
+		for name, value in _SERVER {
 			if starts_with(name, "HTTP_") {
 				let name = ucwords(strtolower(str_replace("_", " ", substr(name, 5)))),
 					name = str_replace(" ", "-", name);
