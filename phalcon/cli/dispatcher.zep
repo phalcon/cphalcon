@@ -20,6 +20,8 @@
 
 namespace Phalcon\Cli;
 
+use Phalcon\Events\ManagerInterface;
+
 /**
  * Phalcon\Cli\Dispatcher
  *
@@ -132,7 +134,7 @@ class Dispatcher extends \Phalcon\Dispatcher
 	protected function _handleException(<\Exception> exception)
 	{
 		var eventsManager;
-		let eventsManager = <\Phalcon\Events\Manager> this->_eventsManager;
+		let eventsManager = <ManagerInterface> this->_eventsManager;
 		if typeof eventsManager == "object" {
 			if eventsManager->fire("dispatch:beforeException", this, exception) === false {
 				return false;
@@ -145,7 +147,7 @@ class Dispatcher extends \Phalcon\Dispatcher
 	 *
 	 * @return Phalcon\CLI\Task
 	 */
-	public function getLastTask() -> <\Phalcon\CLI\Task>
+	public function getLastTask() -> <\Phalcon\Cli\Task>
 	{
 		return this->_lastHandler;
 	}
@@ -155,7 +157,7 @@ class Dispatcher extends \Phalcon\Dispatcher
 	 *
 	 * @return Phalcon\CLI\Task
 	 */
-	public function getActiveTask() -> <\Phalcon\CLI\Task>
+	public function getActiveTask() -> <\Phalcon\Cli\Task>
 	{
 		return this->_activeHandler;
 	}
