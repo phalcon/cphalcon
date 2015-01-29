@@ -318,15 +318,18 @@ class Request implements RequestInterface, InjectionAwareInterface
 	 */
 	public final function getHeader(string! header) -> string
 	{
-		var serverValue, headerValue;
+		var value, name;
 
-		if fetch serverValue, _SERVER[header] {
-			return serverValue;
+		let name = strtoupper(strtr(header, "-", "_"));
+
+		if fetch value, _SERVER[name] {
+			return value;
 		} else {
-			if fetch headerValue, _SERVER["HTTP_" . header] {
-				return headerValue;
+			if fetch value, _SERVER["HTTP_" . name] {
+				return value;
 			}
 		}
+
 		return "";
 	}
 
@@ -353,13 +356,13 @@ class Request implements RequestInterface, InjectionAwareInterface
 	}
 
 	/**
-	 * Checks whether request has been made using ajax. Checks if $_SERVER['HTTP_X_REQUESTED_WITH']==='XMLHttpRequest'
+	 * Checks whether request has been made using ajax
 	 *
 	 * @return boolean
 	 */
 	public function isAjax() -> boolean
 	{
-		return this->getHeader("HTTP_X_REQUESTED_WITH") === "XMLHttpRequest";
+		return isset _SERVER["HTTP_X_REQUESTED_WITH"] && _SERVER["HTTP_X_REQUESTED_WITH"] === "XMLHttpRequest";
 	}
 
 	/**
@@ -836,6 +839,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 
 		return files;
 	}
+
 	/**
 	 * Returns the available headers in the request
 	 *
@@ -843,24 +847,23 @@ class Request implements RequestInterface, InjectionAwareInterface
 	 */
 	public function getHeaders() -> array
 	{
-		var headers, key, value, parts, pos, part;
+		var name, value, headers, contentHeaders;
 
 		let headers = [];
-		for key, value in _SERVER {
-			if starts_with(key, "HTTP_") {
+    	let contentHeaders = ["CONTENT_TYPE": true, "CONTENT_LENGTH": true];
 
-				let key = str_replace("HTTP_", "", key),
-				    parts = explode("_", key),
-				    key = "";
-
-				for pos, part in parts {
-					let parts[pos] = ucfirst(strtolower(part));
-				}
-
-				let key = implode("-", parts),
-					headers[key] = value;
+    	for name, value in _SERVER {
+			if starts_with(name, "HTTP_") {
+				let name = ucwords(strtolower(str_replace("_", " ", substr(name, 5)))),
+					name = str_replace(" ", "-", name);
+				let headers[name] = value;
+			} elseif isset(contentHeaders[name]) {
+				let name = ucwords(strtolower(str_replace("_", " ", name))),
+					name = str_replace(" ", "-", name);
+				let headers[name] = value;
 			}
 		}
+
 		return headers;
 	}
 
