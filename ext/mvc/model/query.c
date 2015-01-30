@@ -4910,7 +4910,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeDelete){
 PHP_METHOD(Phalcon_Mvc_Model_Query, execute){
 
 	zval *bind_params = NULL, *bind_types = NULL, *use_rawsql = NULL, *unique_row;
-	zval *cache_options, *key = NULL, *lifetime = NULL, *cache_service = NULL;
+	zval *cache_options, *cache_key = NULL, *key = NULL, *lifetime = NULL, *cache_service = NULL;
 	zval *dependency_injector, *cache = NULL, *frontend = NULL, *result = NULL, *is_fresh;
 	zval *prepared_result = NULL, *intermediate = NULL, *default_bind_params;
 	zval *merged_params = NULL, *default_bind_types;
@@ -4961,7 +4961,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, execute){
 			/** 
 			 * The user must set a cache key
 			 */
-			if (!phalcon_array_isset_string_fetch(&key, cache_options, SS("key"))) {
+			if (!phalcon_array_isset_string_fetch(&cache_key, cache_options, SS("key"))) {
 				PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "A cache key must be provided to identify the cached resultset in the cache backend");
 				return;
 			}
@@ -5001,7 +5001,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, execute){
 				}
 			}
 
-			PHALCON_CALL_METHOD(&result, cache, "get", key, lifetime);
+			PHALCON_CALL_METHOD(&result, cache, "get", cache_key, lifetime);
 			if (Z_TYPE_P(result) != IS_NULL) {
 				if (Z_TYPE_P(result) != IS_OBJECT) {
 					PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The cache didn't return a valid resultset");
@@ -5123,7 +5123,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, execute){
 		}
 
 		assert(key != NULL);
-		PHALCON_CALL_METHOD(NULL, cache, "save", key, result, lifetime);
+		PHALCON_CALL_METHOD(NULL, cache, "save", cache_key, result, lifetime);
 	}
 
 	/** 

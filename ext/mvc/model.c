@@ -1516,7 +1516,7 @@ PHP_METHOD(Phalcon_Mvc_Model, cloneResult){
 PHP_METHOD(Phalcon_Mvc_Model, find){
 
 	zval *parameters = NULL, *model_name, *params = NULL, *builder;
-	zval *query = NULL, *bind_params = NULL, *bind_types = NULL, *cache;
+	zval *query = NULL, *cache;
 	zval *event_name = NULL, *resultset = NULL, *hydration;
 	zval *dependency_injector = NULL, *manager, *model = NULL;
 
@@ -1566,23 +1566,6 @@ PHP_METHOD(Phalcon_Mvc_Model, find){
 
 	PHALCON_CALL_METHOD(&query, builder, "getquery");
 
-	PHALCON_INIT_VAR(bind_params);
-
-	PHALCON_INIT_VAR(bind_types);
-
-	/** 
-	 * Check for bind parameters
-	 */
-	if (phalcon_array_isset_string(params, SS("bind"))) {
-
-		PHALCON_OBS_NVAR(bind_params);
-		phalcon_array_fetch_string(&bind_params, params, SL("bind"), PH_NOISY);
-		if (phalcon_array_isset_string(params, SS("bindTypes"))) {
-			PHALCON_OBS_NVAR(bind_types);
-			phalcon_array_fetch_string(&bind_types, params, SL("bindTypes"), PH_NOISY);
-		}
-	}
-
 	/** 
 	 * Pass the cache options to the query
 	 */
@@ -1595,7 +1578,7 @@ PHP_METHOD(Phalcon_Mvc_Model, find){
 	/** 
 	 * Execute the query passing the bind-params and casting-types
 	 */
-	PHALCON_CALL_METHOD(&resultset, query, "execute", bind_params, bind_types);
+	PHALCON_CALL_METHOD(&resultset, query, "execute");
 
 	/** 
 	 * Define an hydration mode

@@ -808,17 +808,22 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, orWhere) {
  * @param string $expr
  * @param mixed $minimum
  * @param mixed $maximum
+ * @param boolean $useOrWhere
  * @return Phalcon\Mvc\Model\CriteriaInterface
  */
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, betweenWhere) {
 
-	zval *expr, *minimum, *maximum, *hidden_param;
+	zval *expr, *minimum, *maximum, *use_orwhere = NULL, *hidden_param;
 	zval *next_hidden_param, *minimum_key, *maximum_key;
 	zval *conditions, *bind_params;
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 3, 0, &expr, &minimum, &maximum);
+	phalcon_fetch_params(1, 3, 1, &expr, &minimum, &maximum, &use_orwhere);
+
+	if (!use_orwhere) {
+		use_orwhere = PHALCON_GLOBAL(z_false);
+	}
 
 	PHALCON_OBS_VAR(hidden_param);
 	phalcon_read_property_this(&hidden_param, this_ptr, SL("_hiddenParamNumber"), PH_NOISY TSRMLS_CC);
@@ -852,7 +857,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, betweenWhere) {
 	/** 
 	 * Append the BETWEEN to the current conditions using and 'and'
 	 */
-	PHALCON_CALL_METHOD(NULL, this_ptr, "andwhere", conditions, bind_params);
+	if (zend_is_true(use_orwhere)) {
+		PHALCON_CALL_METHOD(NULL, this_ptr, "orwhere", conditions, bind_params);
+	} else {
+		PHALCON_CALL_METHOD(NULL, this_ptr, "andwhere", conditions, bind_params);
+	}
 	phalcon_increment(next_hidden_param);
 	phalcon_update_property_this(this_ptr, SL("_hiddenParamNumber"), next_hidden_param TSRMLS_CC);
 	RETURN_THIS();
@@ -868,17 +877,22 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, betweenWhere) {
  * @param string $expr
  * @param mixed $minimum
  * @param mixed $maximum
+ * @param boolean $useOrWhere
  * @return Phalcon\Mvc\Model\CriteriaInterface
  */
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, notBetweenWhere) {
 
-	zval *expr, *minimum, *maximum, *hidden_param;
+	zval *expr, *minimum, *maximum, *use_orwhere = NULL, *hidden_param;
 	zval *next_hidden_param, *minimum_key, *maximum_key;
 	zval *conditions, *bind_params;
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 3, 0, &expr, &minimum, &maximum);
+	phalcon_fetch_params(1, 3, 1, &expr, &minimum, &maximum, &use_orwhere);
+
+	if (!use_orwhere) {
+		use_orwhere = PHALCON_GLOBAL(z_false);
+	}
 
 	PHALCON_OBS_VAR(hidden_param);
 	phalcon_read_property_this(&hidden_param, this_ptr, SL("_hiddenParamNumber"), PH_NOISY TSRMLS_CC);
@@ -912,7 +926,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, notBetweenWhere) {
 	/** 
 	 * Append the BETWEEN to the current conditions using and 'and'
 	 */
-	PHALCON_CALL_METHOD(NULL, this_ptr, "andwhere", conditions, bind_params);
+	if (zend_is_true(use_orwhere)) {
+		PHALCON_CALL_METHOD(NULL, this_ptr, "orwhere", conditions, bind_params);
+	} else {
+		PHALCON_CALL_METHOD(NULL, this_ptr, "andwhere", conditions, bind_params);
+	}
 	phalcon_increment(next_hidden_param);
 	phalcon_update_property_this(this_ptr, SL("_hiddenParamNumber"), next_hidden_param TSRMLS_CC);
 	RETURN_THIS();
@@ -931,7 +949,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, notBetweenWhere) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, inWhere) {
 
-	zval *expr, *values, *hidden_param, *bind_params;
+	zval *expr, *values, *use_orwhere = NULL, *hidden_param, *bind_params;
 	zval *bind_keys, *value = NULL, *key = NULL, *query_key = NULL, *joined_keys;
 	zval *conditions;
 	HashTable *ah0;
@@ -940,7 +958,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, inWhere) {
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 2, 0, &expr, &values);
+	phalcon_fetch_params(1, 2, 1, &expr, &values, &use_orwhere);
+
+	if (!use_orwhere) {
+		use_orwhere = PHALCON_GLOBAL(z_false);
+	}
 
 	if (Z_TYPE_P(values) != IS_ARRAY) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Values must be an array");
@@ -990,7 +1012,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, inWhere) {
 	/** 
 	 * Append the IN to the current conditions using and 'and'
 	 */
-	PHALCON_CALL_METHOD(NULL, this_ptr, "andwhere", conditions, bind_params);
+	if (zend_is_true(use_orwhere)) {
+		PHALCON_CALL_METHOD(NULL, this_ptr, "orwhere", conditions, bind_params);
+	} else {
+		PHALCON_CALL_METHOD(NULL, this_ptr, "andwhere", conditions, bind_params);
+	}
 	phalcon_update_property_this(this_ptr, SL("_hiddenParamNumber"), hidden_param TSRMLS_CC);
 
 	RETURN_THIS();
@@ -1005,11 +1031,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, inWhere) {
  *
  * @param string $expr
  * @param array $values
+ * @param boolean $useOrWhere
  * @return Phalcon\Mvc\Model\CriteriaInterface
  */
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, notInWhere) {
 
-	zval *expr, *values, *hidden_param, *bind_params;
+	zval *expr, *values, *use_orwhere = NULL, *hidden_param, *bind_params;
 	zval *bind_keys, *value = NULL, *key = NULL, *query_key = NULL, *joined_keys;
 	zval *conditions;
 	HashTable *ah0;
@@ -1018,7 +1045,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, notInWhere) {
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 2, 0, &expr, &values);
+	phalcon_fetch_params(1, 2, 1, &expr, &values, &use_orwhere);
+
+	if (!use_orwhere) {
+		use_orwhere = PHALCON_GLOBAL(z_false);
+	}
 
 	if (Z_TYPE_P(values) != IS_ARRAY) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Values must be an array");
@@ -1068,7 +1099,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, notInWhere) {
 	/** 
 	 * Append the IN to the current conditions using and 'and'
 	 */
-	PHALCON_CALL_METHOD(NULL, this_ptr, "andwhere", conditions, bind_params);
+	if (zend_is_true(use_orwhere)) {
+		PHALCON_CALL_METHOD(NULL, this_ptr, "orwhere", conditions, bind_params);
+	} else {
+		PHALCON_CALL_METHOD(NULL, this_ptr, "andwhere", conditions, bind_params);
+	}
 	phalcon_update_property_this(this_ptr, SL("_hiddenParamNumber"), hidden_param TSRMLS_CC);
 
 	RETURN_THIS();
