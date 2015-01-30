@@ -185,7 +185,7 @@ abstract class Adapter
  	 */
 	public function crop(int width, int height, int offset_x = null, int offset_y = null) -> <Adapter>
 	{
-		if !offset_x {
+		if is_null(offset_x) {
 			let offset_x = ((this->_width - width) / 2);
 		} else {
 			if offset_x < 0 {
@@ -197,7 +197,7 @@ abstract class Adapter
 			}
 		}
 
-		if !offset_y {
+		if is_null(offset_y) {
 			let offset_y = ((this->_height - height) / 2);
 		} else {
 			if offset_y < 0 {
