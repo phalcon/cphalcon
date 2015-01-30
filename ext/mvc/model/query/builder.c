@@ -1042,6 +1042,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, betweenWhere){
  * @param string $expr
  * @param mixed $minimum
  * @param mixed $maximum
+ * @param boolean $useOrWhere
  * @return Phalcon\Mvc\Model\Query\Builder
  */
 PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, notBetweenWhere){
@@ -1112,6 +1113,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, notBetweenWhere){
  *
  * @param string $expr
  * @param array $values
+ * @param boolean $useOrWhere
  * @return Phalcon\Mvc\Model\Query\Builder
  */
 PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, inWhere){
@@ -1198,6 +1200,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, inWhere){
  *
  * @param string $expr
  * @param array $values
+ * @param boolean $useOrWhere
  * @return Phalcon\Mvc\Model\Query\Builder
  */
 PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, notInWhere){
@@ -1211,7 +1214,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, notInWhere){
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 2, 0, &expr, &values);
+	phalcon_fetch_params(1, 2, 1, &expr, &values, &use_orwhere);
 
 	if (!use_orwhere) {
 		use_orwhere = PHALCON_GLOBAL(z_false);
