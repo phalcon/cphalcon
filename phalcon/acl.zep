@@ -65,8 +65,8 @@ namespace Phalcon;
 abstract class Acl
 {
 
-	const ALLOW = true;
+	const ALLOW = 1;
 
-	const DENY = false;
+	const DENY = 0;
 
 }
