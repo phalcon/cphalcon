@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -29,23 +29,28 @@ interface AdapterInterface
 
 	/**
 	 * Phalcon\Paginator\AdapterInterface constructor
-	 *
-	 * @param array config
 	 */
 	public function __construct(array config);
 
 	/**
 	 * Set the current page number
-	 *
-	 * @param int page
 	 */
-	public function setCurrentPage(page);
+	public function setCurrentPage(int page);
 
 	/**
 	 * Returns a slice of the resultset to show in the pagination
 	 *
-	 * @return stdClass
+	 * @return \stdclass
 	 */
- 	public function getPaginate();
+	public function getPaginate();
 
+	/**
+	 * Set current rows limit
+	 */
+	public function setLimit(int limit);
+
+	/**
+	 * Get current rows limit
+	 */
+	public function getLimit();
 }

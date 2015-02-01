@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -64,8 +64,6 @@ class NativeArray implements AdapterInterface
 
 	/**
 	 * Phalcon\Paginator\Adapter\NativeArray constructor
-	 *
-	 * @param array config
 	 */
 	public function __construct(array config)
 	{
@@ -82,8 +80,6 @@ class NativeArray implements AdapterInterface
 
 	/**
 	 * Set the current page number
-	 *
-	 * @param int page
 	 */
 	public function setCurrentPage(int page)
 	{
@@ -91,11 +87,27 @@ class NativeArray implements AdapterInterface
 	}
 
 	/**
-	 * Returns a slice of the resultset to show in the pagination
-	 *
-	 * @return stdClass
+	 * Set current rows limit
 	 */
-	public function getPaginate() -> <stdClass>
+	public function setLimit(int limitRows) -> <NativeArray>
+	{
+		let this->_limitRows = limitRows;
+
+		return this;
+	}
+
+	/**
+	 * Get current rows limit
+	 */
+	public function getLimit() -> int
+	{
+		return this->_limitRows;
+	}
+
+	/**
+	 * Returns a slice of the resultset to show in the pagination
+	 */
+	public function getPaginate() -> <\stdClass>
 	{
 		var config, items, page;
 		int show, pageNumber, totalPages, number, before, next;
