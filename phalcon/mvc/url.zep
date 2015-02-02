@@ -251,7 +251,12 @@ class Url implements UrlInterface, InjectionAwareInterface
 		}
 
 		if local {
-			let uri = baseUri . uri;
+			if ((substr(baseUri, -1) == "/") && (substr(uri, 0, 1) == "/")) {
+				let uri = baseUri . substr(uri, 1);
+			}
+			else {
+				let uri = baseUri . uri;
+			}
 		}
 
 		if args {
