@@ -302,6 +302,12 @@ class AnnotationsTest extends PHPUnit_Framework_TestCase
 	{
 		$reader = new Phalcon\Annotations\Reader();
 
-		$parsing = $reader->parse('TestInvalid');
+		try {
+			$parsing = $reader->parse('TestInvalid');
+			$this->assertFalse();
+		}
+		catch (\Exception $e) {
+			$this->assertRegExp('/Syntax error, unexpected EOF in .*/', $e->getMessage());
+		}
 	}
 }
