@@ -3078,7 +3078,7 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 	zval **temp_ast;
 
 	if (!phql) {
-		ZEPHIR_INIT_VAR(*error_msg);
+		MAKE_STD_ZVAL(*error_msg);
 		ZVAL_STRING(*error_msg, "PHQL statement cannot be NULL", 1);
 		return FAILURE;
 	}
@@ -3216,7 +3216,7 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 				if (parser_status->enable_literals) {
 					phql_parse_with_token(phql_parser, PHQL_T_INTEGER, PHQL_INTEGER, &token, parser_status);
 				} else {
-					ZEPHIR_INIT_VAR(*error_msg);
+					MAKE_STD_ZVAL(*error_msg);
 					ZVAL_STRING(*error_msg, "Literals are disabled in PHQL statements", 1);
 					parser_status->status = PHQL_PARSING_FAILED;
 				}
@@ -3225,7 +3225,7 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 				if (parser_status->enable_literals) {
 					phql_parse_with_token(phql_parser, PHQL_T_DOUBLE, PHQL_DOUBLE, &token, parser_status);
 				} else {
-					ZEPHIR_INIT_VAR(*error_msg);
+					MAKE_STD_ZVAL(*error_msg);
 					ZVAL_STRING(*error_msg, "Literals are disabled in PHQL statements", 1);
 					parser_status->status = PHQL_PARSING_FAILED;
 				}
@@ -3234,7 +3234,7 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 				if (parser_status->enable_literals) {
 					phql_parse_with_token(phql_parser, PHQL_T_STRING, PHQL_STRING, &token, parser_status);
 				} else {
-					ZEPHIR_INIT_VAR(*error_msg);
+					MAKE_STD_ZVAL(*error_msg);
 					ZVAL_STRING(*error_msg, "Literals are disabled in PHQL statements", 1);
 					parser_status->status = PHQL_PARSING_FAILED;
 				}
@@ -3243,7 +3243,7 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 				if (parser_status->enable_literals) {
 					phql_(phql_parser, PHQL_TRUE, NULL, parser_status);
 				} else {
-					ZEPHIR_INIT_VAR(*error_msg);
+					MAKE_STD_ZVAL(*error_msg);
 					ZVAL_STRING(*error_msg, "Literals are disabled in PHQL statements", 1);
 					parser_status->status = PHQL_PARSING_FAILED;
 				}
@@ -3252,7 +3252,7 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 				if (parser_status->enable_literals) {
 					phql_(phql_parser, PHQL_FALSE, NULL, parser_status);
 				} else {
-					ZEPHIR_INIT_VAR(*error_msg);
+					MAKE_STD_ZVAL(*error_msg);
 					ZVAL_STRING(*error_msg, "Literals are disabled in PHQL statements", 1);
 					parser_status->status = PHQL_PARSING_FAILED;
 				}
@@ -3376,7 +3376,7 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 				error = emalloc(error_length);
 				snprintf(error, error_length, "Scanner: Unknown opcode %c", token.opcode);
 				error[error_length - 1] = '\0';
-				ZEPHIR_INIT_VAR(*error_msg);
+				MAKE_STD_ZVAL(*error_msg);
 				ZVAL_STRING(*error_msg, error, 1);
 				efree(error);
 				break;
@@ -3413,7 +3413,7 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 		status = FAILURE;
 		if (parser_status->syntax_error) {
 			if (!*error_msg) {
-				ZEPHIR_INIT_VAR(*error_msg);
+				MAKE_STD_ZVAL(*error_msg);
 				ZVAL_STRING(*error_msg, parser_status->syntax_error, 1);
 			}
 			efree(parser_status->syntax_error);
