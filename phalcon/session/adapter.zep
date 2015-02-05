@@ -137,6 +137,8 @@ abstract class Adapter
 	 *<code>
 	 *	var_dump($session->has('auth'));
 	 *</code>
+	 *
+	 * @param string index
 	 */
 	public function has(string index) -> boolean
 	{
@@ -165,6 +167,20 @@ abstract class Adapter
 	public function getId() -> string
 	{
 		return session_id();
+	}
+	
+	/**
+	 * Set the current session id
+	 *
+	 *<code>
+	 *	$session->setId($id);
+	 *</code>
+	 *
+	 * @param string id
+	 */
+	public function setId(string id)
+	{
+		session_id(id);
 	}
 
 	/**
