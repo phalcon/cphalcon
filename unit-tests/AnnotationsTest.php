@@ -19,6 +19,7 @@
 */
 
 require_once 'annotations/TestClass.php';
+require_once 'annotations/TestInvalid.php';
 
 class AnnotationsTest extends PHPUnit_Framework_TestCase
 {
@@ -297,4 +298,16 @@ class AnnotationsTest extends PHPUnit_Framework_TestCase
 
 	}
 
+	public function testInvalidAnnotation()
+	{
+		$reader = new Phalcon\Annotations\Reader();
+
+		try {
+			$parsing = $reader->parse('TestInvalid');
+			$this->assertFalse();
+		}
+		catch (\Exception $e) {
+			$this->assertRegExp('/Syntax error, unexpected EOF in .*/', $e->getMessage());
+		}
+	}
 }
