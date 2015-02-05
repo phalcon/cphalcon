@@ -43,7 +43,7 @@ use Phalcon\Session\BagInterface;
  * @property \Phalcon\Flash\Session $flashSession
  * @property \Phalcon\Session\Adapter\Files|\Phalcon\Session\Adapter|\Phalcon\Session\AdapterInterface $session
  * @property \Phalcon\Events\Manager $eventsManager
- * @property \Phalcon\Db $db
+ * @property \Phalcon\Db\AdapterInterface $db
  * @property \Phalcon\Security $security
  * @property \Phalcon\Crypt $crypt
  * @property \Phalcon\Tag $tag
