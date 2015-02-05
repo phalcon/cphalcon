@@ -83,6 +83,7 @@
 			<file>unit-tests/SessionTest.php</file>
 			<file>unit-tests/TagTest.php</file>
 			<file>unit-tests/TasksCliTest.php</file>
+			<file>unit-tests/UrlTest.php</file>
 			<file>unit-tests/ValidationTest.php</file>
 			<file>unit-tests/ViewCacheTest.php</file>
 			<file>unit-tests/ViewEnginesTest.php</file>
