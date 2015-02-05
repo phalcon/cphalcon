@@ -181,6 +181,9 @@ class Tag
 	{
 		var di;
 		let di = self::_dependencyInjector;
+		if typeof di != "object" {
+			let di = \Phalcon\Di::getDefault();
+		}
 		return di;
 	}
 
