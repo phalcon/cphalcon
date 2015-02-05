@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -47,8 +47,6 @@ class Model implements AdapterInterface
 
 	/**
 	 * Phalcon\Paginator\Adapter\Model constructor
-	 *
-	 * @param array config
 	 */
 	public function __construct(array! config)
 	{
@@ -65,8 +63,6 @@ class Model implements AdapterInterface
 
 	/**
 	 * Set the current page number
-	 *
-	 * @param int page
 	 */
 	public function setCurrentPage(int page) -> void
 	{
@@ -74,11 +70,27 @@ class Model implements AdapterInterface
 	}
 
 	/**
-	 * Returns a slice of the resultset to show in the pagination
-	 *
-	 * @return stdClass
+	 * Set current rows limit
 	 */
-	public function getPaginate() -> <stdclass>
+	public function setLimit(int limitRows) -> <Model>
+	{
+		let this->_limitRows = limitRows;
+
+		return this;
+	}
+
+	/**
+	 * Get current rows limit
+	 */
+	public function getLimit() -> int
+	{
+		return this->_limitRows;
+	}
+
+	/**
+	 * Returns a slice of the resultset to show in the pagination
+	 */
+	public function getPaginate() -> <\stdclass>
 	{
 		var config, items, pageItems, page, valid;
 		int pageNumber, show, n, start, lastPage, totalPages,

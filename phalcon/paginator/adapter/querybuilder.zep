@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -65,8 +65,6 @@ class QueryBuilder implements AdapterInterface
 
 	/**
 	 * Phalcon\Paginator\Adapter\QueryBuilder
-	 *
-	 * @param array config
 	 */
 	public function __construct(array config)
 	{
@@ -93,8 +91,6 @@ class QueryBuilder implements AdapterInterface
 
 	/**
 	 * Set the current page number
-	 *
-	 * @param int page
 	 */
 	public function setCurrentPage(int currentPage) -> <QueryBuilder>
 	{
@@ -114,10 +110,6 @@ class QueryBuilder implements AdapterInterface
 
 	/**
 	 * Set current rows limit
-	 *
-	 * @param int $limit
-	 *
-	 * @return Phalcon\Paginator\Adapter\QueryBuilder $this Fluent interface
 	 */
 	public function setLimit(int limitRows) -> <QueryBuilder>
 	{
@@ -128,8 +120,6 @@ class QueryBuilder implements AdapterInterface
 
 	/**
 	 * Get current rows limit
-	 *
-	 * @return int $limit
 	 */
 	public function getLimit() -> int
 	{
@@ -138,10 +128,6 @@ class QueryBuilder implements AdapterInterface
 
 	/**
 	 * Set query builder object
-	 *
-	 * @param Phalcon\Mvc\Model\Query\BuilderInterface $builder
-	 *
-	 * @return Phalcon\Paginator\Adapter\QueryBuilder $this Fluent interface
 	 */
 	public function setQueryBuilder(<Builder> builder) -> <QueryBuilder>
 	{
@@ -152,8 +138,6 @@ class QueryBuilder implements AdapterInterface
 
 	/**
 	 * Get query builder object
-	 *
-	 * @return Phalcon\Mvc\Model\Query\BuilderInterface $builder
 	 */
 	public function getQueryBuilder() -> <Builder>
 	{
@@ -162,8 +146,6 @@ class QueryBuilder implements AdapterInterface
 
 	/**
 	 * Returns a slice of the resultset to show in the pagination
-	 *
-	 * @return stdClass
 	 */
 	public function getPaginate() -> <\stdClass>
 	{

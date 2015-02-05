@@ -117,7 +117,11 @@ class Config implements \ArrayAccess, \Countable
 	 */
 	public function offsetSet(string! index, var value)
 	{
-	    let this->{index} = value;
+		if typeof value === "array" {
+			let this->{index} = new self(value);
+		} else {
+	    		let this->{index} = value;
+	    }
 	}
 
 	/**

@@ -516,9 +516,9 @@ class Memory extends Adapter
 	  * @param  string roleName
 	  * @param  string resourceName
 	  * @param  string access
-	  * @return int|boolean
+	  * @return boolean
 	  */
-	public function isAllowed(var roleName, var resourceName, var access) -> int|boolean
+	public function isAllowed(var roleName, var resourceName, var access) -> boolean
 	{
 		var eventsManager, accessList, accessKey,
 			haveAccess = null, roleInherits, inheritedRole, rolesNames,
@@ -541,7 +541,7 @@ class Memory extends Adapter
 		 */
 		let rolesNames = this->_rolesNames;
 		if !isset rolesNames[roleName] {
-			return this->_defaultAccess;
+			return (this->_defaultAccess == \Phalcon\Acl::ALLOW);
 		}
 
 		let accessKey = roleName . "!" . resourceName . "!" . access;
@@ -639,10 +639,10 @@ class Memory extends Adapter
 		}
 
 		if haveAccess == null {
-			return 0;
+			return false;
 		}
 
-		return haveAccess;
+		return (haveAccess == \Phalcon\Acl::ALLOW);
 	}
 
 	/**

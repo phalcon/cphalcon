@@ -67,7 +67,11 @@ class PhannotParseAnnotationsOptimizer extends OptimizerAbstract
 		$symbolVariable->setDynamicTypes('array');
 
 		$resolvedParams = $call->getReadOnlyResolvedParams($expression['parameters'], $context, $expression);
-		$context->codePrinter->output('phannot_parse_annotations(' . $symbolVariable->getName() . ', ' . $resolvedParams[0] . ', ' . $resolvedParams[1] . ', ' . $resolvedParams[2] . ' TSRMLS_CC);');
+
+		$context->codePrinter->output('if (phannot_parse_annotations(' . $symbolVariable->getName() . ', ' . $resolvedParams[0] . ', ' . $resolvedParams[1] . ', ' . $resolvedParams[2] . ' TSRMLS_CC) == FAILURE) {');
+        $context->codePrinter->output("\t" . 'RETURN_MM();');
+        $context->codePrinter->output('}');
+
 		return new CompiledExpression('variable', $symbolVariable->getRealName(), $expression);
 	}
 
