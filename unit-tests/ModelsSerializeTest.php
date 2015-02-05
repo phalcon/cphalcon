@@ -76,7 +76,8 @@ class ModelsSerializeTest extends PHPUnit_Framework_TestCase
 		$robot = unserialize($serialized);
 
 		$this->assertTrue($robot->save());
-
+		
+		$robot->toArray();
 	}
 
 }
