@@ -53,6 +53,8 @@ abstract class Logger
 	const ALERT = 2;
 
 	const CRITICAL = 1;
+	
+	const EMERGENCE = 0;
 
 	const EMERGENCY = 0;
 
