@@ -474,18 +474,10 @@ abstract class Element implements ElementInterface
 		 */
 		let form = this->_form;
 		if typeof form == "object" {
-
-			/**
-			 * Check if the tag has a default value
-			 */
-			if !\Phalcon\Tag::hasValue(name) {
-
-				/**
-				 * Gets the possible value for the widget
-				 */
-				let value = form->getValue(name);
+			let value = form->getValue(name);
+			if typeof value == "null" && \Phalcon\Tag::hasValue(name) {
+				let value = \Phalcon\Tag::getValue(name);
 			}
-
 		}
 
 		/**

@@ -623,6 +623,11 @@ class Form extends Injectable implements \Countable, \Iterator
 				return value;
 			}
 		}
+		
+		let method = "get" . name;
+		if method_exists(this, method) {
+			return this->{method}();
+		}
 
 		return null;
 	}
