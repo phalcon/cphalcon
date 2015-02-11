@@ -45,7 +45,7 @@ abstract class Adapter implements EventsAwareInterface
 	/**
 	 * Descriptor used to connect to a database
 	 *
-	 * @var stdClassxcvb
+	 * @var \stdClass
 	 */
 	protected _descriptor;
 
