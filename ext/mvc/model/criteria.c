@@ -1296,7 +1296,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, getLimit){
 	zval *params, *limit;
 
 	params = phalcon_fetch_nproperty_this(this_ptr, SL("_params"), PH_NOISY TSRMLS_CC);
-	if (phalcon_array_isset_long_fetch(&limit, params, SS("limit"))) {
+	if (phalcon_array_isset_string_fetch(&limit, params, SS("limit"))) {
 		RETURN_ZVAL(limit, 1, 0);
 	}
 	
