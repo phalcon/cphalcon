@@ -331,7 +331,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Message, __set_state){
 	phalcon_array_fetch_string(&type, message, SL("_type"), PH_NOISY);
 
 	PHALCON_OBS_VAR(code);
-	phalcon_array_fetch_long(&code, message, SL("_code"), PH_NOISY);
+	phalcon_array_fetch_string(&code, message, SL("_code"), PH_NOISY);
 
 	object_init_ex(return_value, phalcon_mvc_model_message_ce);
 	PHALCON_CALL_METHOD(NULL, return_value, "__construct", message_text, field, type, code);
