@@ -483,7 +483,7 @@ abstract class Element implements ElementInterface
 			 * Check if the tag has a default value
 			 */
 			if typeof value == "null" && \Phalcon\Tag::hasValue(name) {
-				let value = \Phalcon\Tag::getValue(name)
+				let value = \Phalcon\Tag::getValue(name);
 			}
 
 		}
