@@ -624,6 +624,14 @@ class Form extends Injectable implements \Countable, \Iterator
 			}
 		}
 
+		/**
+		 * Check if form has a getter
+		 */
+		let method = "get" . name;
+		if method_exists(this, method) {
+			return this->{method}();
+		}
+
 		return null;
 	}
 
