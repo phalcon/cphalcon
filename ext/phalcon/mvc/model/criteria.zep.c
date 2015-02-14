@@ -195,7 +195,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, bind) {
  * Sets the bind types in the criteria
  * This method replaces all previously set bound parameters
  *
- * @param string bindTypes
+ * @param array bindTypes
  * @return Phalcon\Mvc\Model\Criteria
  */
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, bindTypes) {
