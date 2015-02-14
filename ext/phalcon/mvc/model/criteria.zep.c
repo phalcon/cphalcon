@@ -44,8 +44,9 @@
 /**
  * Phalcon\Mvc\Model\Criteria
  *
- * This class allows to build the array parameter required by Phalcon\Mvc\Model::find
- * and Phalcon\Mvc\Model::findFirst using an object-oriented interface
+ * This class is used to build the array parameter required by
+ * Phalcon\Mvc\Model::find() and Phalcon\Mvc\Model::findFirst()
+ * using an object-oriented interface.
  *
  *<code>
  *$robots = Robots::query()
@@ -53,6 +54,7 @@
  *    ->andWhere("year < 2000")
  *    ->bind(array("type" => "mechanical"))
  *    ->order("name")
+ *    ->limit(5, 10)
  *    ->execute();
  *</code>
  */
@@ -593,6 +595,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, where) {
 /**
  * Appends a condition to the current conditions using an AND operator (deprecated)
  *
+ * @deprecated 1.0.0
+ * @see \Phalcon\Mvc\Model\Criteria::andWhere()
  * @param string conditions
  * @param array bindParams
  * @param array bindTypes
@@ -1067,6 +1071,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, conditions) {
 /**
  * Adds the order-by parameter to the criteria (deprecated)
  *
+ * @deprecated 1.2.1
+ * @see \Phalcon\Mvc\Model\Criteria::orderBy()
  * @param string orderColumns
  * @return Phalcon\Mvc\Model\Criteria
  */
@@ -1240,7 +1246,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, sharedLock) {
  * This method replaces all previously set cache options
  *
  * @param array options
- * @return Phalcon\Mvc\Model\CriteriaInterface
+ * @return Phalcon\Mvc\Model\Criteria
  */
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, cache) {
 
@@ -1280,7 +1286,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, getWhere) {
 }
 
 /**
- * Return the columns to be queried
+ * Returns the columns to be queried
  *
  * @return string|array
  */
@@ -1316,9 +1322,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, getConditions) {
 }
 
 /**
- * Returns the limit parameter in the criteria
+ * Returns the limit parameter in the criteria, which will be
+ * an integer if limit was set without an offset,
+ * an array with 'number' and 'offset' keys if an offset was set with the limit,
+ * or null if limit has not been set.
  *
- * @return string|null
+ * @return int|array|null
  */
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, getLimit) {
 
@@ -1326,7 +1335,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, getLimit) {
 
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_params"), PH_NOISY_CC);
-	if (zephir_array_isset_string_fetch(&limit, _0, SS("order"), 1 TSRMLS_CC)) {
+	if (zephir_array_isset_string_fetch(&limit, _0, SS("limit"), 1 TSRMLS_CC)) {
 		RETURN_CTORW(limit);
 	}
 	RETURN_NULL();
