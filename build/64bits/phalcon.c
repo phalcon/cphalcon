@@ -23671,7 +23671,7 @@ static PHP_METHOD(Phalcon_Version, _getVersion){
 	array_init_size(return_value, 5);
 	add_next_index_long(return_value, 1);
 	add_next_index_long(return_value, 3);
-	add_next_index_long(return_value, 4);
+	add_next_index_long(return_value, 5);
 	add_next_index_long(return_value, PHALCON_VERSION_STABLE);
 	add_next_index_long(return_value, 1);
 }
