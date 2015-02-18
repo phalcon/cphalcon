@@ -75,17 +75,17 @@ class QueryBuilder implements AdapterInterface
 		if !fetch builder, config["builder"] {
 			throw new Exception("Parameter 'builder' is required");
 		} else {
-			let this->_builder = builder;
+			this->setQueryBuilder(builder);
 		}
 
 		if !fetch limit, config["limit"] {
 			throw new Exception("Parameter 'limit' is required");
 		} else {
-			let this->_limitRows = limit;
+			this->setLimit(limit);
 		}
 
 		if fetch page, config["page"] {
-			let this->_page = page;
+			this->setCurrentPage(page);
 		}
 	}
 
