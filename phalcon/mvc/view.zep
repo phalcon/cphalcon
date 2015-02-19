@@ -1432,4 +1432,18 @@ class View extends Injectable implements ViewInterface
 		return this->_disabled;
 	}
 
+    /**
+     * Magic method to retrieve if a variable is set in the view
+     *
+     *<code>
+     *  echo isset($this->view->products);
+     *</code>
+     *
+     * @param string key
+     * @return boolean
+     */
+    public function __isset(string! key)
+    {
+        return isset(this->_viewParams[key]);
+    }
 }
