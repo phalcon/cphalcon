@@ -62,7 +62,7 @@ class Url extends Validator implements ValidatorInterface
 		var field, value, message;
 
 		let field = this->getOption("field");
-		if typeof field == "string" {
+		if typeof field != "string" {
 			throw new Exception("Field name must be a string");
 		}
 
