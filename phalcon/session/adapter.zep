@@ -208,4 +208,43 @@ abstract class Adapter
 		return session_destroy();
 	}
 
+	/**
+	 * Alias: Gets a session variable from an application context
+	 *
+	 * @param string index
+	 * @return mixed
+	 */
+	public function __get(string index)
+	{
+		return this->get(index);
+	}
+
+	/**
+	 * Alias: Sets a session variable in an application context
+	 *
+	 * @param string index
+	 * @param string value
+	 */
+	public function __set(string index, value)
+	{
+		return this->set(index, value);
+	}
+
+	/**
+	 * Alias: Check whether a session variable is set in an application context
+	 *
+	 * @param string index
+	 */
+	public function __isset(string index) -> boolean
+	{
+		return this->has(index);
+	}
+
+	/**
+	 * Alias: Removes a session variable from an application context
+	 */
+	public function __unset(string index)
+	{
+		return this->remove(index);
+	}
 }
