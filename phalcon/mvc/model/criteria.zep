@@ -185,13 +185,11 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 	 *	$criteria->innerJoin('Robots');
 	 *	$criteria->innerJoin('Robots', 'r.id = RobotsParts.robots_id');
 	 *	$criteria->innerJoin('Robots', 'r.id = RobotsParts.robots_id', 'r');
-	 *	$criteria->innerJoin('Robots', 'r.id = RobotsParts.robots_id', 'r', 'LEFT');
 	 *</code>
 	 *
 	 * @param string model
 	 * @param string conditions
 	 * @param string alias
-	 * @param string type
 	 * @return Phalcon\Mvc\Model\Criteria
 	 */
 	public function innerJoin(string! model, conditions = null, alias = null) -> <Criteria>
