@@ -256,7 +256,7 @@ class Simple extends Resultset
 						/**
 						 * Check if the key is part of the column map
 						 */
-						if fetch renamedKey, columnMap[key] {
+						if !fetch renamedKey, columnMap[key] {
 							throw new Exception("Column '" . key . "' is not part of the column map");
 						}
 
