@@ -1427,7 +1427,7 @@ class View extends Injectable implements ViewInterface
 	 *
 	 * @return boolean
 	 */
-	public function isDisabled()
+	public function isDisabled() -> boolean
 	{
 		return this->_disabled;
 	}
