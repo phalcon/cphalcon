@@ -65,7 +65,7 @@ class File extends Adapter implements AdapterInterface
 	 */
 	public function __construct(string! name, options = null)
 	{
-		var mode, handler;
+		var mode = null, handler;
 
 		if typeof options === "array" {
 			if fetch mode, options["mode"] {
@@ -73,7 +73,9 @@ class File extends Adapter implements AdapterInterface
 					throw new Exception("Logger must be opened in append or write mode");
 				}
 			}
-		} else {
+		}
+
+		if mode === null {
 			let mode = "ab";
 		}
 
