@@ -275,4 +275,11 @@ interface ViewInterface
 	 */
 	public function reset();
 
+	/**
+	 * Whether the automatic rendering is disabled
+	 *
+	 * @return boolean
+	 */
+	public function isDisabled();
+
 }

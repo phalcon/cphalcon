@@ -1422,4 +1422,14 @@ class View extends Injectable implements ViewInterface
 		return null;
 	}
 
+	/**
+	 * Whether automatic rendering is enabled
+	 *
+	 * @return boolean
+	 */
+	public function isDisabled() -> boolean
+	{
+		return this->_disabled;
+	}
+
 }
