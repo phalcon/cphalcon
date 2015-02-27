@@ -2229,7 +2229,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 	protected final function _executeSelect(var intermediate, var bindParams, var bindTypes) -> <ResultsetInterface>
 	{
 
-		var manager, modelName, models, model, connection, connections,
+		var manager, modelName, models, model, connection, connectionTypes,
 			columns, column, selectColumns, simpleColumnMap, metaData, aliasCopy,
 			sqlColumn, attributes, instance, columnMap, attribute,
 			columnAlias, sqlAlias, dialect, sqlSelect,
