@@ -2223,12 +2223,13 @@ class Query implements QueryInterface, InjectionAwareInterface
 	 * @param array intermediate
 	 * @param array bindParams
 	 * @param array bindTypes
+	 * @throws Phalcon\Mvc\Model\Exception
 	 * @return Phalcon\Mvc\Model\ResultsetInterface
 	 */
 	protected final function _executeSelect(var intermediate, var bindParams, var bindTypes) -> <ResultsetInterface>
 	{
 
-		var manager, modelName, models, model, connection, connections,
+		var manager, modelName, models, model, connection, connectionTypes,
 			columns, column, selectColumns, simpleColumnMap, metaData, aliasCopy,
 			sqlColumn, attributes, instance, columnMap, attribute,
 			columnAlias, sqlAlias, dialect, sqlSelect,
@@ -2239,62 +2240,40 @@ class Query implements QueryInterface, InjectionAwareInterface
 
 		let manager = this->_manager;
 
+		/**
+		 * Get a database connection
+		 */
+		let connectionTypes = [];
 		let models = intermediate["models"];
 
-		if count(models) == 1 {
-
+		for modelName in models {
 			/**
-			 * Load first model if is not loaded
+			 * Load model if it is not loaded
 			 */
-			let modelName = models[0];
 			if !fetch model, this->_modelsInstances[modelName] {
 				let model = manager->load(modelName),
 					this->_modelsInstances[modelName] = model;
 			}
 
 			/**
-			 * The 'selectConnection' method could be implemented in a
+			 * Get database connection
 			 */
 			if method_exists(model, "selectReadConnection") {
+				// use selectReadConnection() if implemented in extended Model class
 				let connection = model->selectReadConnection(intermediate, bindParams, bindTypes);
 				if typeof connection != "object" {
 					throw new Exception("'selectReadConnection' didn't return a valid connection");
 				}
 			} else {
-
-				/**
-				 * Get the current connection to the model
-				 */
 				let connection = model->getReadConnection();
 			}
 
-		} else {
-
 			/**
-			 * Check if all the models belongs to the same connection
+			 * More than one type of connection is not allowed
 			 */
-			let connections = [];
-			for modelName in models {
-
-				if !fetch model, this->_modelsInstances[modelName] {
-					let model = manager->load(modelName),
-						this->_modelsInstances[modelName] = model;
-				}
-
-				/**
-				 * Get the models connection
-				 * Mark the type of connection in the connection flags
-				 */
-				let connection = model->getReadConnection(),
-					connections[connection->getType()] = true;
-
-				/**
-				 * More than one type of connection is not allowed
-				 */
-				if count(connections) == 2 {
-					throw new Exception("Cannot use models of different database systems in the same query");
-				}
-
+			let connectionTypes[connection->getType()] = true;
+			if count(connectionTypes) == 2 {
+				throw new Exception("Cannot use models of different database systems in the same query");
 			}
 		}
 
