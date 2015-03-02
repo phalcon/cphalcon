@@ -29,7 +29,7 @@
 #include <TSRM/TSRM.h>
 #endif
 
-#define PHP_PHALCON_VERSION "Dao-1.3.4"
+#define PHP_PHALCON_VERSION "Dao-1.3.5"
 #define PHP_PHALCON_EXTNAME "phalcon"
 
 #define PHALCON_NUM_PREALLOCATED_FRAMES 25
@@ -59,7 +59,6 @@ typedef struct _phalcon_symbol_table {
 
 /** ORM options */
 typedef struct _phalcon_orm_options {
-	HashTable *parser_cache;
 	HashTable *ast_cache;
 	int cache_level;
 	int unique_cache_id;
