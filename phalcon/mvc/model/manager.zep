@@ -300,6 +300,8 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 		if fetch model, this->_initialized[strtolower(modelName)] {
 			if newInstance {
 				return new {modelName}(this->_dependencyInjector, this);
+			} else {
+				model->reset();
 			}
 			return model;
 		}
