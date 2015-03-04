@@ -218,6 +218,7 @@ class LoaderTest extends PHPUnit_Framework_TestCase
 			'beforeCheckClass' => NULL,
 			'beforeCheckPath' => 'unit-tests/vendor/example/other/VousTest3.php',
 			'pathFound' => 'unit-tests/vendor/example/other/VousTest3.php',
+			'afterCheckClass' => 'unit-tests/vendor/example/other/VousTest3.php',
 		));
 
 		$loader->unregister();
