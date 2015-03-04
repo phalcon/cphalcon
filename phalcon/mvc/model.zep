@@ -3046,7 +3046,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 		 * Join the conditions in the array using an AND operator
 		 * Do the deletion
 		 */
-		let success = writeConnection->delete(table, join(" AND ", $conditions), values, bindTypes);
+		let success = writeConnection->delete(table, join(" AND ", conditions), values, bindTypes);
 
 		/**
 		 * Check if there is virtual foreign keys with cascade action

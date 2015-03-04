@@ -197,9 +197,9 @@ abstract class Text
 		 * 'lower' checks for the mbstring extension to make a correct lowercase transformation
 		 */
 		if function_exists("mb_strtolower") {
-			return mb_strtolower($str);
+			return mb_strtolower(str);
 		}
-		return strtolower($str);
+		return strtolower(str);
 	}
 
 	/**
