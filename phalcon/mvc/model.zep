@@ -4331,4 +4331,13 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 			globals_set("orm.enable_literals", phqlLiterals);
 		}
 	}
+	
+	/**
+	 * Reset a model instance data
+	 */
+	public function reset()
+	{
+		let this->_uniqueParams = null;
+		let this->_snapshot = null;
+	}
 }
