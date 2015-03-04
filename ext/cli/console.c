@@ -112,6 +112,8 @@ PHALCON_INIT_CLASS(Phalcon_CLI_Console){
 
 /**
  * Phalcon\CLI\Console constructor
+ * 
+ * @param Phalcon\DiInterface $dependencyInjector
  */
 PHP_METHOD(Phalcon_CLI_Console, __construct){
 
