@@ -407,7 +407,7 @@ PHP_METHOD(Phalcon_Mvc_View, getPartialsDir){
  * 	$view->setBasePath(__DIR__ . '/');
  * </code>
  *
- * @param string $basePath
+ * @param string|array $basePath
  * @return Phalcon\Mvc\View
  */
 PHP_METHOD(Phalcon_Mvc_View, setBasePath){

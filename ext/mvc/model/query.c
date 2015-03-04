@@ -5122,7 +5122,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, execute){
 			return;
 		}
 
-		assert(key != NULL);
+		assert(cache_key != NULL);
 		PHALCON_CALL_METHOD(NULL, cache, "save", cache_key, result, lifetime);
 	}
 

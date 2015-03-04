@@ -482,7 +482,7 @@ PHP_METHOD(Phalcon_Loader, unregister){
 PHP_METHOD(Phalcon_Loader, findFile){
 
 	zval *class_name, *directory, *extensions, *ds = NULL;
-	zval *events_manager, *event_name = NULL, *directories, *dir = NULL;
+	zval *events_manager, *event_name = NULL, *directories = NULL, *dir = NULL;
 	zval *fixed_dir = NULL, *extension = NULL, *file_path = NULL;
 	HashTable *ah0, *ah1;
 	HashPosition hp0, hp1;
@@ -504,9 +504,9 @@ PHP_METHOD(Phalcon_Loader, findFile){
 
 		PHALCON_INIT_VAR(directories);
 		array_init(directories);
-		phalcon_array_append(&directories, directory, 0);
+		phalcon_array_append(&directories, directory, PH_COPY);
 	} else {
-		PHALCON_CPY_WRT(directories, directory);
+		PHALCON_CPY_WRT_CTOR(directories, directory);
 	}
 
 	if (ds == NULL) {
@@ -591,7 +591,7 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 	zval *ns_prefix = NULL, *ns_prefixed = NULL, *file_name = NULL;
 	zval *pseudo_separator, *prefixes;
 	zval *prefix = NULL, *ds_class_name, *ns_class_name;
-	zval *directories, *require = NULL, *found = NULL;
+	zval *directories, *found = NULL;
 	HashTable *ah0, *ah1;
 	HashPosition hp0, hp1;
 	zval **hd;
@@ -600,8 +600,6 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 1, 0, &class_name);
-
-	require = PHALCON_GLOBAL(z_false);
 
 	PHALCON_OBS_VAR(events_manager);
 	phalcon_read_property_this(&events_manager, this_ptr, SL("_eventsManager"), PH_NOISY TSRMLS_CC);
@@ -632,11 +630,11 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 
 			RETURN_MM_ON_FAILURE(phalcon_require(Z_STRVAL_P(file_path) TSRMLS_CC));
 
-			require = PHALCON_GLOBAL(z_true);
+			found = PHALCON_GLOBAL(z_true);
 		}
 	}
 
-	if (!zend_is_true(require)) {
+	if (found == NULL || !zend_is_true(found)) {
 		PHALCON_OBS_VAR(extensions);
 		phalcon_read_property_this(&extensions, this_ptr, SL("_extensions"), PH_NOISY TSRMLS_CC);
 
@@ -678,10 +676,9 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 					phalcon_possible_autoload_filepath(file_name, ns_prefix, class_name, ds, NULL TSRMLS_CC);
 					if (zend_is_true(file_name)) {
 
-						PHALCON_CALL_SELF(&found, "findfile", file_name, directory, extensions, ds);
+						PHALCON_CALL_METHOD(&found, this_ptr, "findfile", file_name, directory, extensions, ds);
 
 						if (zend_is_true(found)) {
-							require = PHALCON_GLOBAL(z_true);
 							break;
 						}
 					}
@@ -692,7 +689,7 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 		}
 	}
 
-	if (!zend_is_true(require)) {
+	if (found == NULL || !zend_is_true(found)) {
 		PHALCON_INIT_VAR(pseudo_separator);
 		ZVAL_STRING(pseudo_separator, "_", 1);
 
@@ -722,10 +719,9 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 					phalcon_possible_autoload_filepath(file_name, prefix, class_name, ds, pseudo_separator TSRMLS_CC);
 					if (zend_is_true(file_name)) {
 
-						PHALCON_CALL_SELF(&found, "findfile", file_name, directory, extensions, ds);
+						PHALCON_CALL_METHOD(&found, this_ptr, "findfile", file_name, directory, extensions, ds);
 
 						if (zend_is_true(found)) {
-							require = PHALCON_GLOBAL(z_true);
 							break;
 						}
 					}
@@ -736,7 +732,7 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 		}
 	}
 
-	if (!zend_is_true(require)) {
+	if (found == NULL || !zend_is_true(found)) {
 		/** 
 		 * Change the pseudo-separator by the directory separator in the class name
 		 */
@@ -755,11 +751,7 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 		PHALCON_OBS_VAR(directories);
 		phalcon_read_property_this(&directories, this_ptr, SL("_directories"), PH_NOISY TSRMLS_CC);
 
-		PHALCON_CALL_SELF(&found, "findfile", ns_class_name, directories, extensions, ds);
-
-		if (zend_is_true(found)) {
-			require = PHALCON_GLOBAL(z_true);
-		}
+		PHALCON_CALL_METHOD(&found, this_ptr, "findfile", ns_class_name, directories, extensions, ds);
 	}
 
 	/** 
@@ -771,7 +763,7 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 		PHALCON_CALL_METHOD(NULL, events_manager, "fire", event_name, this_ptr, class_name);
 	}
 
-	if (zend_is_true(require)) {
+	if (found != NULL && zend_is_true(found)) {
 		RETURN_MM_TRUE;
 	}
 
