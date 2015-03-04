@@ -682,6 +682,7 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 
 						if (zend_is_true(found)) {
 							require = PHALCON_GLOBAL(z_true);
+							break;
 						}
 					}
 				}
@@ -725,6 +726,7 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 
 						if (zend_is_true(found)) {
 							require = PHALCON_GLOBAL(z_true);
+							break;
 						}
 					}
 				}
