@@ -106,6 +106,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_loader_findfile, 0, 0, 3)
 	ZEND_ARG_INFO(0, className)
 	ZEND_ARG_INFO(0, directory)
 	ZEND_ARG_INFO(0, extensions)
+	ZEND_ARG_INFO(0, ds)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_loader_autoload, 0, 0, 1)
@@ -477,6 +478,7 @@ PHP_METHOD(Phalcon_Loader, unregister){
  * @param string $className
  * @param array|string $directory
  * @param array $extensions
+ * @param string $ds
  * @return boolean
  */
 PHP_METHOD(Phalcon_Loader, findFile){
