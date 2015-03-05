@@ -669,7 +669,7 @@ class Debug
 		/**
 		 * Escape the exception's message avoiding possible XSS injections?
 		 */
-		let escapedMessage = $this->_escapeString(exception->getMessage());
+		let escapedMessage = this->_escapeString(exception->getMessage());
 
 		/**
 		 * CSS static sources to style the error presentation

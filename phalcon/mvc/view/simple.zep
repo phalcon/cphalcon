@@ -631,7 +631,7 @@ class Simple extends Injectable
 	 */
 	public function getParamsToView()
 	{
-		return $this->_viewParams;
+		return this->_viewParams;
 	}
 
 	/**

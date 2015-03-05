@@ -226,7 +226,7 @@ abstract class Resultset
 				 */
 				let rows = this->_rows;
 				if rows === null {
-					let result = $this->_result;
+					let result = this->_result;
 					if typeof result == "object" {
 						let rows = result->fetchAll(),
 							this->_rows = rows;
