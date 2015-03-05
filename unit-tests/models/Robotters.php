@@ -19,7 +19,9 @@ class Robotters extends Phalcon\Mvc\Model
 			'id' => 'code',
 			'name' => 'theName',
 			'type' => 'theType',
-			'year' => 'theYear'
+			'year' => 'theYear',
+			'datetime' => 'theDatetime',
+			'text' => 'theText'
 		);
 	}
 

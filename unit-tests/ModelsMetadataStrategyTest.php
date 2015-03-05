@@ -27,6 +27,8 @@ class ModelsMetadataStrategyTest extends PHPUnit_Framework_TestCase
 			1 => 'name',
 			2 => 'type',
 			3 => 'year',
+			4 => 'datetime',
+			5 => 'text',
 		),
 		1 => array(
 			0 => 'id',
@@ -35,18 +37,24 @@ class ModelsMetadataStrategyTest extends PHPUnit_Framework_TestCase
 			0 => 'name',
 			1 => 'type',
 			2 => 'year',
+			3 => 'datetime',
+			4 => 'text',
 		),
 		3 => array(
 			0 => 'id',
 			1 => 'name',
 			2 => 'type',
 			3 => 'year',
+			4 => 'datetime',
+			5 => 'text',
 		),
 		4 => array(
 			'id' => 0,
 			'name' => 2,
 			'type' => 2,
 			'year' => 0,
+			'datetime' => 4,
+			'text' => 6
 		),
 		5 => array(
 			'id' => true,
@@ -58,6 +66,8 @@ class ModelsMetadataStrategyTest extends PHPUnit_Framework_TestCase
 			'name' => 2,
 			'type' => 2,
 			'year' => 1,
+			'datetime' => 2,
+			'text' => 2
 		),
 		10 => array(),
 		11 => array(),

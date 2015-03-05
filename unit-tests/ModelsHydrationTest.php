@@ -139,7 +139,7 @@ class ModelsHydrationTest extends PHPUnit_Framework_TestCase
 		$robots->setHydrateMode(Phalcon\Mvc\Model\Resultset::HYDRATE_ARRAYS);
 		foreach ($robots as $robot) {
 			$this->assertTrue(is_array($robot));
-			$this->assertEquals(count($robot), 4);
+			$this->assertEquals(count($robot), 6);
 			$number++;
 		}
 
@@ -209,7 +209,7 @@ class ModelsHydrationTest extends PHPUnit_Framework_TestCase
 		$robots->setHydrateMode(Phalcon\Mvc\Model\Resultset::HYDRATE_ARRAYS);
 		foreach ($robots as $robot) {
 			$this->assertTrue(is_array($robot));
-			$this->assertEquals(count($robot), 4);
+			$this->assertEquals(count($robot), 6);
 			$number++;
 		}
 
@@ -312,7 +312,7 @@ class ModelsHydrationTest extends PHPUnit_Framework_TestCase
 			$this->assertTrue(is_array($row));
 			$this->assertTrue(is_numeric($row['id']));
 			$this->assertEquals(gettype($row['robots']), 'array');
-			$this->assertEquals(count($row['robots']), 4);
+			$this->assertEquals(count($row['robots']), 6);
 			$this->assertEquals(gettype($row['robotsParts']), 'array');
 			$this->assertEquals(count($row['robotsParts']), 3);
 		}

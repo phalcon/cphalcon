@@ -90,6 +90,8 @@ class ModelsEventsTest extends PHPUnit_Framework_TestCase
 		$robot->name = 'Test';
 		$robot->year = 2000;
 		$robot->type = 'Some Type';
+		$robot->datetime = '1970/01/01 00:00:00';
+		$robot->text = 'text';
 
 		$robot->trace = &$trace;
 

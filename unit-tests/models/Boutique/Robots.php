@@ -27,4 +27,13 @@ class Robots extends \Phalcon\Mvc\Model
 	 */
 	public $year;
 
+	/**
+	 * @Column(type="datetime", nullable=false)
+	 */
+	public $datetime;
+
+	/**
+	 * @Column(type="text", nullable=false)
+	 */
+	public $text;
 }
