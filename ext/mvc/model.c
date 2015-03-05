@@ -4834,11 +4834,15 @@ PHP_METHOD(Phalcon_Mvc_Model, save){
 				PHALCON_OBS_NVAR(value);
 				phalcon_array_fetch(&value, data, attribute, PH_NOISY);
 
-				PHALCON_INIT_NVAR(possible_setter);
-				PHALCON_CONCAT_SV(possible_setter, "set", attribute);
-				zend_str_tolower(Z_STRVAL_P(possible_setter), Z_STRLEN_P(possible_setter));
-				if (phalcon_method_exists_ex(this_ptr, Z_STRVAL_P(possible_setter), Z_STRLEN_P(possible_setter)+1 TSRMLS_CC) == SUCCESS) {
-					PHALCON_CALL_METHOD(NULL, this_ptr, Z_STRVAL_P(possible_setter), value);
+				if (PHALCON_GLOBAL(orm).enable_property_method) {
+					PHALCON_INIT_NVAR(possible_setter);
+					PHALCON_CONCAT_SV(possible_setter, "set", attribute);
+					zend_str_tolower(Z_STRVAL_P(possible_setter), Z_STRLEN_P(possible_setter));
+					if (phalcon_method_exists_ex(this_ptr, Z_STRVAL_P(possible_setter), Z_STRLEN_P(possible_setter)+1 TSRMLS_CC) == SUCCESS) {
+						PHALCON_CALL_METHOD(NULL, this_ptr, Z_STRVAL_P(possible_setter), value);
+					} else {
+						phalcon_update_property_zval_zval(this_ptr, attribute, value TSRMLS_CC);
+					}
 				} else {
 					/** 
 					 * Otherwise we assign the attribute directly
@@ -6898,18 +6902,20 @@ PHP_METHOD(Phalcon_Mvc_Model, __set){
 	phalcon_fast_strtolower(lower_property, property);
 
 	if (Z_TYPE_P(property) == IS_STRING) {
-		PHALCON_INIT_NVAR(possible_setter);
-		PHALCON_CONCAT_SV(possible_setter, "set", property);
-		zend_str_tolower(Z_STRVAL_P(possible_setter), Z_STRLEN_P(possible_setter));
+		if (PHALCON_GLOBAL(orm).enable_property_method) {
+			PHALCON_INIT_NVAR(possible_setter);
+			PHALCON_CONCAT_SV(possible_setter, "set", property);
+			zend_str_tolower(Z_STRVAL_P(possible_setter), Z_STRLEN_P(possible_setter));
 
-		PHALCON_INIT_VAR(class_name);
-		ZVAL_STRING(class_name, "Phalcon\\Mvc\\Model", 1);
+			PHALCON_INIT_VAR(class_name);
+			ZVAL_STRING(class_name, "Phalcon\\Mvc\\Model", 1);
 
-		PHALCON_CALL_FUNCTION(&method_exists, "method_exists", class_name, possible_setter);
-		if (!zend_is_true(method_exists)) {
-			if (phalcon_method_exists_ex(this_ptr, Z_STRVAL_P(possible_setter), Z_STRLEN_P(possible_setter)+1 TSRMLS_CC) == SUCCESS) {
-				PHALCON_CALL_METHOD(NULL, this_ptr, Z_STRVAL_P(possible_setter), value);
-				RETURN_CTOR(value);
+			PHALCON_CALL_FUNCTION(&method_exists, "method_exists", class_name, possible_setter);
+			if (!zend_is_true(method_exists)) {
+				if (phalcon_method_exists_ex(this_ptr, Z_STRVAL_P(possible_setter), Z_STRLEN_P(possible_setter)+1 TSRMLS_CC) == SUCCESS) {
+					PHALCON_CALL_METHOD(NULL, this_ptr, Z_STRVAL_P(possible_setter), value);
+					RETURN_CTOR(value);
+				}
 			}
 		}
 
@@ -7076,18 +7082,20 @@ PHP_METHOD(Phalcon_Mvc_Model, __get){
 	phalcon_fetch_params(1, 1, 0, &property);
 
 	if (Z_TYPE_P(property) == IS_STRING) {
-		PHALCON_INIT_NVAR(possible_getter);
-		PHALCON_CONCAT_SV(possible_getter, "get", property);
-		zend_str_tolower(Z_STRVAL_P(possible_getter), Z_STRLEN_P(possible_getter));
+		if (PHALCON_GLOBAL(orm).enable_property_method) {
+			PHALCON_INIT_NVAR(possible_getter);
+			PHALCON_CONCAT_SV(possible_getter, "get", property);
+			zend_str_tolower(Z_STRVAL_P(possible_getter), Z_STRLEN_P(possible_getter));
 
-		PHALCON_INIT_VAR(class_name);
-		ZVAL_STRING(class_name, "Phalcon\\Mvc\\Model", 1);
+			PHALCON_INIT_VAR(class_name);
+			ZVAL_STRING(class_name, "Phalcon\\Mvc\\Model", 1);
 
-		PHALCON_CALL_FUNCTION(&method_exists, "method_exists", class_name, possible_getter);
-		if (!zend_is_true(method_exists)) {
-			if (phalcon_method_exists_ex(this_ptr, Z_STRVAL_P(possible_getter), Z_STRLEN_P(possible_getter)+1 TSRMLS_CC) == SUCCESS) {
-				PHALCON_CALL_METHOD(&return_value, this_ptr, Z_STRVAL_P(possible_getter));
-				RETURN_MM();
+			PHALCON_CALL_FUNCTION(&method_exists, "method_exists", class_name, possible_getter);
+			if (!zend_is_true(method_exists)) {
+				if (phalcon_method_exists_ex(this_ptr, Z_STRVAL_P(possible_getter), Z_STRLEN_P(possible_getter)+1 TSRMLS_CC) == SUCCESS) {
+					PHALCON_CALL_METHOD(&return_value, this_ptr, Z_STRVAL_P(possible_getter));
+					RETURN_MM();
+				}
 			}
 		}
 
@@ -7448,18 +7456,28 @@ PHP_METHOD(Phalcon_Mvc_Model, toArray){
 			}
 		}
 
-		PHALCON_INIT_NVAR(possible_getter);
-		PHALCON_CONCAT_SV(possible_getter, "get", attribute_field);
-		zend_str_tolower(Z_STRVAL_P(possible_getter), Z_STRLEN_P(possible_getter));
-		if (phalcon_method_exists_ex(this_ptr, Z_STRVAL_P(possible_getter), Z_STRLEN_P(possible_getter)+1 TSRMLS_CC) == SUCCESS) {
-			PHALCON_CALL_METHOD(&possible_value, this_ptr, Z_STRVAL_P(possible_getter));
-			phalcon_array_update_zval(&data, attribute_field, possible_value, PH_COPY);
-		} else if (phalcon_isset_property_zval(this_ptr, attribute_field TSRMLS_CC)) {
-			PHALCON_OBS_NVAR(value);
-			phalcon_read_property_zval(&value, this_ptr, attribute_field, PH_NOISY TSRMLS_CC);
-			phalcon_array_update_zval(&data, attribute_field, value, PH_COPY);
+		if (PHALCON_GLOBAL(orm).enable_property_method) {
+			PHALCON_INIT_NVAR(possible_getter);
+			PHALCON_CONCAT_SV(possible_getter, "get", attribute_field);
+			zend_str_tolower(Z_STRVAL_P(possible_getter), Z_STRLEN_P(possible_getter));
+			if (phalcon_method_exists_ex(this_ptr, Z_STRVAL_P(possible_getter), Z_STRLEN_P(possible_getter)+1 TSRMLS_CC) == SUCCESS) {
+				PHALCON_CALL_METHOD(&possible_value, this_ptr, Z_STRVAL_P(possible_getter));
+				phalcon_array_update_zval(&data, attribute_field, possible_value, PH_COPY);
+			} else if (phalcon_isset_property_zval(this_ptr, attribute_field TSRMLS_CC)) {
+				PHALCON_OBS_NVAR(value);
+				phalcon_read_property_zval(&value, this_ptr, attribute_field, PH_NOISY TSRMLS_CC);
+				phalcon_array_update_zval(&data, attribute_field, value, PH_COPY);
+			} else {
+				phalcon_array_update_zval(&data, attribute_field, null_value, PH_COPY);
+			}
 		} else {
-			phalcon_array_update_zval(&data, attribute_field, null_value, PH_COPY);
+			if (phalcon_isset_property_zval(this_ptr, attribute_field TSRMLS_CC)) {
+				PHALCON_OBS_NVAR(value);
+				phalcon_read_property_zval(&value, this_ptr, attribute_field, PH_NOISY TSRMLS_CC);
+				phalcon_array_update_zval(&data, attribute_field, value, PH_COPY);
+			} else {
+				phalcon_array_update_zval(&data, attribute_field, null_value, PH_COPY);
+			}
 		}
 
 		zend_hash_move_forward_ex(ah0, &hp0);
@@ -7490,7 +7508,7 @@ PHP_METHOD(Phalcon_Mvc_Model, setup){
 	zval *options, *disable_events, *virtual_foreign_keys;
 	zval *column_renaming, *not_null_validations, *length_validations;
 	zval *exception_on_failed_save, *phql_literals;
-	zval *phql_cache;
+	zval *phql_cache, *property_method;
 
 	PHALCON_MM_GROW();
 
@@ -7571,6 +7589,15 @@ PHP_METHOD(Phalcon_Mvc_Model, setup){
 		PHALCON_OBS_VAR(phql_cache);
 		phalcon_array_fetch_string(&phql_cache, options, SL("astCache"), PH_NOISY);
 		PHALCON_GLOBAL(orm).enable_ast_cache = zend_is_true(phql_cache);
+	}
+
+	/** 
+	 * Enables/Disables property method
+	 */
+	if (phalcon_array_isset_string(options, SS("propertyMethod"))) {
+		PHALCON_OBS_VAR(property_method);
+		phalcon_array_fetch_string(&property_method, options, SL("propertyMethod"), PH_NOISY);
+		PHALCON_GLOBAL(orm).enable_property_method = zend_is_true(property_method);
 	}
 
 	PHALCON_MM_RESTORE();
