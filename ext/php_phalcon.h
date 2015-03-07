@@ -70,6 +70,7 @@ typedef struct _phalcon_orm_options {
 	zend_bool exception_on_failed_save;
 	zend_bool enable_literals;
 	zend_bool enable_ast_cache;
+	zend_bool enable_property_method;
 } phalcon_orm_options;
 
 /** DB options */
