@@ -354,6 +354,15 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, describeColumns){
 			}
 
 			/**
+			 * JSON
+			 */
+			if (phalcon_memnstr_str(column_type, SL("json"))) {
+				phalcon_array_update_string_long(&definition, SL("type"), PHALCON_DB_COLUMN_TYPE_JSON, 0);
+				phalcon_array_update_string(&definition, SL("size"), char_size, PH_COPY);
+				break;
+			}
+
+			/**
 			 * By default is string
 			 */
 			phalcon_array_update_string_long(&definition, SL("type"), PHALCON_DB_COLUMN_TYPE_OTHER, 0);

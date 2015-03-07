@@ -104,6 +104,7 @@ PHP_METHOD(Phalcon_Mvc_Model, setSchema);
 PHP_METHOD(Phalcon_Mvc_Model, getSchema);
 PHP_METHOD(Phalcon_Mvc_Model, getColumnMap);
 PHP_METHOD(Phalcon_Mvc_Model, getColumns);
+PHP_METHOD(Phalcon_Mvc_Model, getDataTypes);
 PHP_METHOD(Phalcon_Mvc_Model, setConnectionService);
 PHP_METHOD(Phalcon_Mvc_Model, setReadConnectionService);
 PHP_METHOD(Phalcon_Mvc_Model, setWriteConnectionService);
@@ -343,6 +344,7 @@ static const zend_function_entry phalcon_mvc_model_method_entry[] = {
 	PHP_ME(Phalcon_Mvc_Model, getSchema, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model, getColumnMap, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model, getColumns, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model, getDataTypes, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model, setConnectionService, arginfo_phalcon_mvc_modelinterface_setconnectionservice, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model, setReadConnectionService, arginfo_phalcon_mvc_modelinterface_setreadconnectionservice, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model, setWriteConnectionService, arginfo_phalcon_mvc_modelinterface_setwriteconnectionservice, ZEND_ACC_PUBLIC)
@@ -911,6 +913,23 @@ PHP_METHOD(Phalcon_Mvc_Model, getColumns){
 }
 
 /**
+ * Returns the columns data types
+ *
+ * @return array
+ */
+PHP_METHOD(Phalcon_Mvc_Model, getDataTypes){
+
+	zval *meta_data = NULL;
+
+	PHALCON_MM_GROW();
+
+	PHALCON_CALL_METHOD(&meta_data, this_ptr, "getmodelsmetadata");
+	PHALCON_RETURN_CALL_METHOD(meta_data, "getdatatypes", this_ptr);
+
+	PHALCON_MM_RESTORE();
+}
+
+/**
  * Sets the DependencyInjection connection service name
  *
  * @param string $connectionService
@@ -1232,19 +1251,21 @@ PHP_METHOD(Phalcon_Mvc_Model, assign){
  * @param array $columnMap
  * @param int $dirtyState
  * @param boolean $keepSnapshots
+ * @param Phalcon\Mvc\Model $sourceModel
  * @return Phalcon\Mvc\Model
  */
 PHP_METHOD(Phalcon_Mvc_Model, cloneResultMap){
 
-	zval *base, *data, *column_map, *dirty_state = NULL, *keep_snapshots = NULL;
+	zval *base, *data, *column_map, *dirty_state = NULL, *keep_snapshots = NULL, *source_model = NULL;
 	zval *object, *value = NULL, *key = NULL, *attribute = NULL, *exception_message = NULL;
+	zval *data_types = NULL, *field_type = NULL, *convert_value = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 3, 3, &base, &data, &column_map, &dirty_state, &keep_snapshots);
+	phalcon_fetch_params(1, 3, 3, &base, &data, &column_map, &dirty_state, &keep_snapshots, &source_model);
 
 	if (!dirty_state) {
 		dirty_state = PHALCON_GLOBAL(z_zero);
@@ -1257,6 +1278,10 @@ PHP_METHOD(Phalcon_Mvc_Model, cloneResultMap){
 	if (Z_TYPE_P(data) != IS_ARRAY) { 
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Data to dump in the object must be an Array");
 		return;
+	}
+
+	if (source_model && Z_TYPE_P(source_model) == IS_OBJECT) {
+		PHALCON_CALL_METHOD(&data_types, source_model, "getdatatypes");
 	}
 
 	PHALCON_INIT_VAR(object);
@@ -1278,6 +1303,24 @@ PHP_METHOD(Phalcon_Mvc_Model, cloneResultMap){
 
 		if (Z_TYPE_P(key) == IS_STRING) {
 
+			if (PHALCON_GLOBAL(orm).enable_auto_convert && data_types) {
+				if (phalcon_array_isset(data_types, key)) {
+					PHALCON_OBS_NVAR(field_type);
+					phalcon_array_fetch(&field_type, data_types, key, PH_NOISY);
+
+					if (phalcon_is_equal_long(field_type, PHALCON_DB_COLUMN_TYPE_JSON TSRMLS_CC)) {
+						PHALCON_INIT_NVAR(convert_value);
+						RETURN_MM_ON_FAILURE(phalcon_json_decode(convert_value, value, 0 TSRMLS_CC));
+					} else {
+						PHALCON_CPY_WRT(convert_value, value);
+					}
+				} else {
+					PHALCON_CPY_WRT(convert_value, value);
+				}
+			} else {
+				PHALCON_CPY_WRT(convert_value, value);
+			}
+
 			/** 
 			 * Only string keys in the data are valid
 			 */
@@ -1289,7 +1332,7 @@ PHP_METHOD(Phalcon_Mvc_Model, cloneResultMap){
 				if (phalcon_array_isset(column_map, key)) {
 					PHALCON_OBS_NVAR(attribute);
 					phalcon_array_fetch(&attribute, column_map, key, PH_NOISY);
-					phalcon_update_property_zval_zval(object, attribute, value TSRMLS_CC);
+					phalcon_update_property_zval_zval(object, attribute, convert_value TSRMLS_CC);
 				} else {
 					PHALCON_INIT_NVAR(exception_message);
 					PHALCON_CONCAT_SVS(exception_message, "Column \"", key, "\" doesn't make part of the column map");
@@ -1297,7 +1340,7 @@ PHP_METHOD(Phalcon_Mvc_Model, cloneResultMap){
 					return;
 				}
 			} else {
-				phalcon_update_property_zval_zval(object, key, value TSRMLS_CC);
+				phalcon_update_property_zval_zval(object, key, convert_value TSRMLS_CC);
 			}
 		}
 
@@ -1323,6 +1366,7 @@ PHP_METHOD(Phalcon_Mvc_Model, cloneResultMap){
 /**
  * Returns an hydrated result based on the data and the column map
  *
+ * @param Phalcon\Mvc\Model $sourceModel
  * @param array $data
  * @param array $columnMap
  * @param int $hydrationMode
@@ -1330,19 +1374,24 @@ PHP_METHOD(Phalcon_Mvc_Model, cloneResultMap){
  */
 PHP_METHOD(Phalcon_Mvc_Model, cloneResultMapHydrate){
 
-	zval *data, *column_map, *hydration_mode, *hydrate = NULL;
+	zval *data, *column_map, *hydration_mode, *source_model = NULL, *hydrate = NULL;
 	zval *value = NULL, *key = NULL, *exception_message = NULL, *attribute = NULL;
+	zval *data_types = NULL, *field_type = NULL, *convert_value = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 3, 0, &data, &column_map, &hydration_mode);
+	phalcon_fetch_params(1, 3, 1, &data, &column_map, &hydration_mode, &source_model);
 
 	if (Z_TYPE_P(data) != IS_ARRAY) { 
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Data to hidrate must be an Array");
 		return;
+	}
+
+	if (source_model && Z_TYPE_P(source_model) == IS_OBJECT) {
+		PHALCON_CALL_METHOD(&data_types, source_model, "getdatatypes");
 	}
 
 	/** 
@@ -1374,6 +1423,25 @@ PHP_METHOD(Phalcon_Mvc_Model, cloneResultMapHydrate){
 		PHALCON_GET_HVALUE(value);
 
 		if (Z_TYPE_P(key) == IS_STRING) {
+
+			if (PHALCON_GLOBAL(orm).enable_auto_convert && data_types) {
+				if (phalcon_array_isset(data_types, key)) {
+					PHALCON_OBS_NVAR(field_type);
+					phalcon_array_fetch(&field_type, data_types, key, PH_NOISY);
+
+					if (phalcon_is_equal_long(field_type, PHALCON_DB_COLUMN_TYPE_JSON TSRMLS_CC)) {
+						PHALCON_INIT_NVAR(convert_value);
+						RETURN_MM_ON_FAILURE(phalcon_json_decode(convert_value, value, 1 TSRMLS_CC));
+					} else {
+						PHALCON_CPY_WRT(convert_value, value);
+					}
+				} else {
+					PHALCON_CPY_WRT(convert_value, value);
+				}
+			} else {
+				PHALCON_CPY_WRT(convert_value, value);
+			}
+
 			if (Z_TYPE_P(column_map) == IS_ARRAY) { 
 
 				/** 
@@ -1389,15 +1457,15 @@ PHP_METHOD(Phalcon_Mvc_Model, cloneResultMapHydrate){
 				PHALCON_OBS_NVAR(attribute);
 				phalcon_array_fetch(&attribute, column_map, key, PH_NOISY);
 				if (PHALCON_IS_LONG(hydration_mode, 1)) {
-					phalcon_array_update_zval(&hydrate, attribute, value, PH_COPY | PH_SEPARATE);
+					phalcon_array_update_zval(&hydrate, attribute, convert_value, PH_COPY | PH_SEPARATE);
 				} else {
-					phalcon_update_property_zval_zval(hydrate, attribute, value TSRMLS_CC);
+					phalcon_update_property_zval_zval(hydrate, attribute, convert_value TSRMLS_CC);
 				}
 			} else {
 				if (PHALCON_IS_LONG(hydration_mode, 1)) {
-					phalcon_array_update_zval(&hydrate, key, value, PH_COPY | PH_SEPARATE);
+					phalcon_array_update_zval(&hydrate, key, convert_value, PH_COPY | PH_SEPARATE);
 				} else {
-					phalcon_update_property_zval_zval(hydrate, key, value TSRMLS_CC);
+					phalcon_update_property_zval_zval(hydrate, key, convert_value TSRMLS_CC);
 				}
 			}
 		}
@@ -3659,7 +3727,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _preSave){
 
 					error = PHALCON_GLOBAL(z_true);
 				}
-			} else if (Z_TYPE_P(value) != IS_OBJECT) {
+			} else if (Z_TYPE_P(value) != IS_OBJECT || !instanceof_function(Z_OBJCE_P(value), phalcon_db_rawvalue_ce TSRMLS_CC)) {
 				if (phalcon_array_isset(data_type_numeric, field)) {
 					if (!phalcon_is_numeric(value)) {
 						PHALCON_INIT_NVAR(message);
@@ -3926,7 +3994,8 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowInsert){
 	zval *value = NULL, *bind_type = NULL, *default_value = NULL, *use_explicit_identity = NULL;
 	zval *success = NULL, *sequence_name = NULL, *support_sequences = NULL;
 	zval *schema = NULL, *source = NULL, *last_insert_id = NULL;
-	zval *not_null = NULL, *default_values = NULL;
+	zval *not_null = NULL, *default_values = NULL, *data_types = NULL, *field_type = NULL;
+	zval *convert_value = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -3955,6 +4024,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowInsert){
 	PHALCON_CALL_METHOD(&automatic_attributes, meta_data, "getautomaticcreateattributes", this_ptr);
 	PHALCON_CALL_METHOD(&not_null, meta_data, "getnotnullattributes", this_ptr);
 	PHALCON_CALL_METHOD(&default_values, meta_data, "getdefaultvalues", this_ptr);
+	PHALCON_CALL_METHOD(&data_types, meta_data, "getdatatypes", this_ptr);
 
 	PHALCON_CALL_SELF(&column_map, "getcolumnmap");
 
@@ -3995,7 +4065,6 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowInsert){
 				 * This isset checks that the property be defined in the model
 				 */
 				if (phalcon_isset_property_zval(this_ptr, attribute_field TSRMLS_CC)) {
-
 					/** 
 					 * Every column must have a bind data type defined
 					 */
@@ -4009,9 +4078,28 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowInsert){
 					PHALCON_OBS_NVAR(value);
 					phalcon_read_property_zval(&value, this_ptr, attribute_field, PH_NOISY TSRMLS_CC);
 
-					if (Z_TYPE_P(value) != IS_NULL || !phalcon_fast_in_array(field, not_null TSRMLS_CC) || !phalcon_array_isset(default_values, field)) {						
+					if (Z_TYPE_P(value) != IS_NULL || !phalcon_fast_in_array(field, not_null TSRMLS_CC) || !phalcon_array_isset(default_values, field)) {
+
+						if (PHALCON_GLOBAL(orm).enable_auto_convert) {
+							if (Z_TYPE_P(value) != IS_OBJECT || !instanceof_function(Z_OBJCE_P(value), phalcon_db_rawvalue_ce TSRMLS_CC)) {
+								PHALCON_OBS_NVAR(field_type);
+								phalcon_array_fetch(&field_type, data_types, field, PH_NOISY);
+
+								if (phalcon_is_equal_long(field_type, PHALCON_DB_COLUMN_TYPE_JSON TSRMLS_CC)) {
+									PHALCON_INIT_NVAR(convert_value);
+									RETURN_MM_ON_FAILURE(phalcon_json_encode(convert_value, value, 0 TSRMLS_CC));
+								} else {
+									PHALCON_CPY_WRT(convert_value, value);
+								}
+							} else {
+								PHALCON_CPY_WRT(convert_value, value);
+							}
+						} else {
+							PHALCON_CPY_WRT(convert_value, value);
+						}
+
 						phalcon_array_append(&fields, field, PH_SEPARATE);
-						phalcon_array_append(&values, value, PH_SEPARATE);
+						phalcon_array_append(&values, convert_value, PH_SEPARATE);
 
 						PHALCON_OBS_NVAR(bind_type);
 						phalcon_array_fetch(&bind_type, bind_data_types, field, PH_NOISY);
@@ -4167,6 +4255,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowUpdate){
 	zval *attribute_field = NULL, *value = NULL, *bind_type = NULL, *changed = NULL;
 	zval *snapshot_value = NULL, *unique_key, *unique_params = NULL;
 	zval *unique_types, *primary_keys = NULL, *conditions, *ret = NULL, *type, *message;
+	zval *data_types = NULL, *field_type = NULL, *convert_value = NULL;
 	HashTable *ah0, *ah1;
 	HashPosition hp0, hp1;
 	zval **hd;
@@ -4210,6 +4299,8 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowUpdate){
 	PHALCON_CALL_METHOD(&bind_data_types, meta_data, "getbindtypes", this_ptr);
 	PHALCON_CALL_METHOD(&non_primary, meta_data, "getnonprimarykeyattributes", this_ptr);
 	PHALCON_CALL_METHOD(&automatic_attributes, meta_data, "getautomaticupdateattributes", this_ptr);
+	PHALCON_CALL_METHOD(&data_types, meta_data, "getdatatypes", this_ptr);
+
 	PHALCON_CALL_SELF(&column_map, "getcolumnmap");
 
 	/** 
@@ -4262,12 +4353,30 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowUpdate){
 				PHALCON_OBS_NVAR(value);
 				phalcon_read_property_zval(&value, this_ptr, attribute_field, PH_NOISY TSRMLS_CC);
 
+				if (PHALCON_GLOBAL(orm).enable_auto_convert) {
+					if (Z_TYPE_P(value) != IS_OBJECT || !instanceof_function(Z_OBJCE_P(value), phalcon_db_rawvalue_ce TSRMLS_CC)) {
+						PHALCON_OBS_NVAR(field_type);
+						phalcon_array_fetch(&field_type, data_types, field, PH_NOISY);
+
+						if (phalcon_is_equal_long(field_type, PHALCON_DB_COLUMN_TYPE_JSON TSRMLS_CC)) {
+							PHALCON_INIT_NVAR(convert_value);
+							RETURN_MM_ON_FAILURE(phalcon_json_encode(convert_value, value, 0 TSRMLS_CC));
+						} else {
+							PHALCON_CPY_WRT(convert_value, value);
+						}
+					} else {
+						PHALCON_CPY_WRT(convert_value, value);
+					}
+				} else {
+					PHALCON_CPY_WRT(convert_value, value);
+				}
+
 				/** 
 				 * When dynamic update is not used we pass every field to the update
 				 */
 				if (!i_use_dynamic_update) {
 					phalcon_array_append(&fields, field, PH_SEPARATE);
-					phalcon_array_append(&values, value, PH_SEPARATE);
+					phalcon_array_append(&values, convert_value, PH_SEPARATE);
 
 					PHALCON_OBS_NVAR(bind_type);
 					phalcon_array_fetch(&bind_type, bind_data_types, field, PH_NOISY);
@@ -4282,7 +4391,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowUpdate){
 					} else {
 						PHALCON_OBS_NVAR(snapshot_value);
 						phalcon_array_fetch(&snapshot_value, snapshot, attribute_field, PH_NOISY);
-						if (!PHALCON_IS_EQUAL(value, snapshot_value)) {
+						if (!PHALCON_IS_EQUAL(convert_value, snapshot_value)) {
 							PHALCON_INIT_NVAR(changed);
 							ZVAL_BOOL(changed, 1);
 						} else {
@@ -4296,7 +4405,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowUpdate){
 					 */
 					if (zend_is_true(changed)) {
 						phalcon_array_append(&fields, field, PH_SEPARATE);
-						phalcon_array_append(&values, value, PH_SEPARATE);
+						phalcon_array_append(&values, convert_value, PH_SEPARATE);
 
 						PHALCON_OBS_NVAR(bind_type);
 						phalcon_array_fetch(&bind_type, bind_data_types, field, PH_NOISY);
@@ -7499,7 +7608,9 @@ PHP_METHOD(Phalcon_Mvc_Model, toArray){
  * columnRenaming        — Enables/Disables column renaming
  * notNullValidations    — Enables/Disables automatic not null validation
  * exceptionOnFailedSave — Enables/Disables throws an exception if the saving process fails
- * phqlLiterals          — Enables/Disables literals in PHQL this improves the security of applications  
+ * phqlLiterals          — Enables/Disables literals in PHQL this improves the security of applications
+ * propertyMethod        — Enables/Disables property method
+ * autoConvert           — Enables/Disables auto convert
  *
  * @param array $options
  */
@@ -7508,7 +7619,7 @@ PHP_METHOD(Phalcon_Mvc_Model, setup){
 	zval *options, *disable_events, *virtual_foreign_keys;
 	zval *column_renaming, *not_null_validations, *length_validations;
 	zval *exception_on_failed_save, *phql_literals;
-	zval *phql_cache, *property_method;
+	zval *phql_cache, *property_method, *auto_convert;
 
 	PHALCON_MM_GROW();
 
@@ -7598,6 +7709,15 @@ PHP_METHOD(Phalcon_Mvc_Model, setup){
 		PHALCON_OBS_VAR(property_method);
 		phalcon_array_fetch_string(&property_method, options, SL("propertyMethod"), PH_NOISY);
 		PHALCON_GLOBAL(orm).enable_property_method = zend_is_true(property_method);
+	}
+
+	/** 
+	 * Enables/Disables auto convert
+	 */
+	if (phalcon_array_isset_string(options, SS("autoConvert"))) {
+		PHALCON_OBS_VAR(auto_convert);
+		phalcon_array_fetch_string(&auto_convert, options, SL("autoConvert"), PH_NOISY);
+		PHALCON_GLOBAL(orm).enable_auto_convert = zend_is_true(auto_convert);
 	}
 
 	PHALCON_MM_RESTORE();

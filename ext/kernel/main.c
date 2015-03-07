@@ -61,6 +61,7 @@ void php_phalcon_init_globals(zend_phalcon_globals *phalcon_globals TSRMLS_DC) {
 	phalcon_globals->orm.unique_cache_id = 0;
 	phalcon_globals->orm.ast_cache = NULL;
 	phalcon_globals->orm.enable_property_method = 1;
+	phalcon_globals->orm.enable_auto_convert = 1;
 
 	/* Security options */
 	phalcon_globals->security.crypt_std_des_supported  = zend_hash_quick_exists(constants, SS("CRYPT_STD_DES"),  zend_inline_hash_func(SS("CRYPT_STD_DES")));

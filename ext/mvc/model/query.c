@@ -4132,7 +4132,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect){
 		 * Simple resultsets contains only complete objects
 		 */
 		object_init_ex(return_value, phalcon_mvc_model_resultset_simple_ce);
-		PHALCON_CALL_METHOD(NULL, return_value, "__construct", simple_column_map, result_object, result_data, cache, is_keeping_snapshots);
+		PHALCON_CALL_METHOD(NULL, return_value, "__construct", simple_column_map, result_object, result_data, cache, is_keeping_snapshots, model);
 
 		RETURN_MM();
 	}
@@ -4141,7 +4141,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect){
 	 * Complex resultsets may contain complete objects and scalars
 	 */
 	object_init_ex(return_value, phalcon_mvc_model_resultset_complex_ce);
-	PHALCON_CALL_METHOD(NULL, return_value, "__construct", columns, result_data, cache);
+	PHALCON_CALL_METHOD(NULL, return_value, "__construct", columns, result_data, cache, model);
 
 	RETURN_MM();
 }
