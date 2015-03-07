@@ -57,6 +57,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_resultset_simple___construct, 0
 	ZEND_ARG_INFO(0, result)
 	ZEND_ARG_INFO(0, cache)
 	ZEND_ARG_INFO(0, keepSnapshots)
+	ZEND_ARG_INFO(0, sourceModel)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_resultset_simple_toarray, 0, 0, 0)
@@ -79,6 +80,7 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Resultset_Simple){
 
 	PHALCON_REGISTER_CLASS_EX(Phalcon\\Mvc\\Model\\Resultset, Simple, mvc_model_resultset_simple, phalcon_mvc_model_resultset_ce, phalcon_mvc_model_resultset_simple_method_entry, 0);
 
+	zend_declare_property_null(phalcon_mvc_model_resultset_simple_ce, SL("_sourceModel"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_model_resultset_simple_ce, SL("_model"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_model_resultset_simple_ce, SL("_columnMap"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_bool(phalcon_mvc_model_resultset_simple_ce, SL("_keepSnapshots"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
@@ -101,12 +103,12 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Resultset_Simple){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, __construct){
 
-	zval *column_map, *model, *result, *cache = NULL, *keep_snapshots = NULL;
+	zval *column_map, *model, *result, *cache = NULL, *keep_snapshots = NULL, *source_model = NULL;
 	zval *fetch_assoc, *limit, *row_count = NULL, *big_resultset;
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 3, 2, &column_map, &model, &result, &cache, &keep_snapshots);
+	phalcon_fetch_params(1, 3, 3, &column_map, &model, &result, &cache, &keep_snapshots, &source_model);
 
 	if (!cache) {
 		cache = PHALCON_GLOBAL(z_null);
@@ -116,10 +118,16 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, __construct){
 		keep_snapshots = PHALCON_GLOBAL(z_null);
 	}
 
+	if (!source_model) {
+		source_model = PHALCON_GLOBAL(z_null);
+	}
+
 	phalcon_update_property_this(this_ptr, SL("_model"), model TSRMLS_CC);
 	phalcon_update_property_this(this_ptr, SL("_result"), result TSRMLS_CC);
 	phalcon_update_property_this(this_ptr, SL("_cache"), cache TSRMLS_CC);
 	phalcon_update_property_this(this_ptr, SL("_columnMap"), column_map TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_sourceModel"), source_model TSRMLS_CC);
+
 	if (Z_TYPE_P(result) != IS_OBJECT) {
 		RETURN_MM_NULL();
 	}
@@ -171,7 +179,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, __construct){
 PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, valid){
 
 	zval *type, *result = NULL, *row = NULL, *rows = NULL, *dirty_state, *hydrate_mode;
-	zval *keep_snapshots, *column_map, *model, *active_row = NULL, *key = NULL, *rows_objects;
+	zval *keep_snapshots, *column_map, *source_model, *model, *active_row = NULL, *key = NULL, *rows_objects;
 
 	PHALCON_MM_GROW();
 
@@ -244,6 +252,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, valid){
 
 	PHALCON_CALL_SELF(&key, "key");
 
+	PHALCON_OBS_VAR(source_model);
+	phalcon_read_property_this(&source_model, this_ptr, SL("_sourceModel"), PH_NOISY TSRMLS_CC);
+
 	/** 
 	 * Hydrate based on the current hydration
 	 */
@@ -262,7 +273,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, valid){
 				/** 
 				 * Performs the standard hydration based on objects
 				 */
-				PHALCON_CALL_CE_STATIC(&active_row, phalcon_mvc_model_ce, "cloneresultmap", model, row, column_map, dirty_state, keep_snapshots);
+				PHALCON_CALL_CE_STATIC(&active_row, phalcon_mvc_model_ce, "cloneresultmap", model, row, column_map, dirty_state, keep_snapshots, source_model);
 
 				phalcon_update_property_array(this_ptr, SL("_rowsModels"), key, active_row TSRMLS_CC);
 			} else {
@@ -278,7 +289,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, valid){
 				/** 
 				 * Other kinds of hydrations
 				 */
-				PHALCON_CALL_CE_STATIC(&active_row, phalcon_mvc_model_ce, "cloneresultmaphydrate", row, column_map, hydrate_mode);
+				PHALCON_CALL_CE_STATIC(&active_row, phalcon_mvc_model_ce, "cloneresultmaphydrate", row, column_map, hydrate_mode, source_model);
 
 				phalcon_update_property_array(this_ptr, SL("_rowsModels"), key, active_row TSRMLS_CC);
 			} else {

@@ -1134,6 +1134,8 @@ int phalcon_json_encode(zval *return_value, zval *v, int opts TSRMLS_DC)
 	php_json_encode(&buf, v, opts TSRMLS_CC);
 	smart_str_0(&buf);
 	ZVAL_STRINGL(return_value, buf.c, buf.len, 1);
+	smart_str_free(&buf);
+
 	return SUCCESS;
 }
 

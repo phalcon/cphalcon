@@ -71,6 +71,7 @@ typedef struct _phalcon_orm_options {
 	zend_bool enable_literals;
 	zend_bool enable_ast_cache;
 	zend_bool enable_property_method;
+	zend_bool enable_auto_convert;
 } phalcon_orm_options;
 
 /** DB options */

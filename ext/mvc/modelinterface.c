@@ -179,6 +179,7 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_ModelInterface, cloneResult);
 /**
  * Returns an hydrated result based on the data and the column map
  *
+ * @param Phalcon\Mvc\Model $base
  * @param array $data
  * @param array $columnMap
  * @param int $hydrationMode
