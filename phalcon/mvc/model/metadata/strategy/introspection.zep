@@ -64,7 +64,7 @@ class Introspection implements StrategyInterface
 			/**
 			 * The table not exists
 			 */
-			throw new Exception("Table '" . completeTable . "' doesn't exist on database when dumping meta-data for " . get_class(model));
+			throw new Exception("Table '" . completeTable . "' doesn't exist in database when dumping meta-data for " . get_class(model));
 		}
 
 		/**
