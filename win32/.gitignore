@@ -1,0 +1,10 @@
+
+*.ncb
+*.suo
+*.user
+*.backup
+/Debug TS
+/Debug NTS
+/Release TS
+/Release NTS
+/dependencies/php

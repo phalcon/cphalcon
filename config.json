@@ -1,0 +1,89 @@
+{
+    "optimizations": {
+        "static-type-inference": true,
+        "static-type-inference-second-pass": true,
+        "local-context-pass": true,
+        "constant-folding": true,
+        "static-constant-class-folding": true
+    },
+    "namespace": "phalcon",
+    "name": "phalcon",
+    "description": "Web framework delivered as a C-extension for PHP",
+    "author": "Phalcon Team and Contributors",
+    "version": "2.0.0b",
+    "verbose": false,
+    "optimizer-dirs": [
+        "optimizers"
+    ],
+    "constants-sources": [
+        "ext/phalcon/mvc/model/query/scanner.h",
+        "ext/phalcon/annotations/scanner.h",
+        "ext/phalcon/mvc/view/engine/volt/scanner.h"
+    ],
+    "extra-sources": [
+        "phalcon/annotations/scanner.c",
+        "phalcon/annotations/parser.c",
+        "phalcon/mvc/model/orm.c",
+        "phalcon/mvc/model/query/scanner.c",
+        "phalcon/mvc/model/query/parser.c",
+        "phalcon/mvc/view/engine/volt/parser.c",
+        "phalcon/mvc/view/engine/volt/scanner.c",
+        "phalcon/assets/filters/jsminifier.c",
+        "phalcon/assets/filters/cssminifier.c",
+        "phalcon/mvc/url/utils.c"
+    ],
+    "globals": {
+        "db.escape_identifiers": {
+            "type": "bool",
+            "default": true
+        },
+        "orm.parser_cache": {
+            "type": "hash",
+            "default": "NULL"
+        },
+        "orm.ast_cache": {
+            "type": "hash",
+            "default": "NULL"
+        },
+        "orm.cache_level": {
+            "type": "int",
+            "default": 3
+        },
+        "orm.unique_cache_id": {
+            "type": "int",
+            "default": 3
+        },
+        "orm.events": {
+            "type": "bool",
+            "default": true
+        },
+        "orm.virtual_foreign_keys": {
+            "type": "bool",
+            "default": true
+        },
+        "orm.column_renaming": {
+            "type": "bool",
+            "default": true
+        },
+        "orm.not_null_validations": {
+            "type": "bool",
+            "default": true
+        },
+        "orm.exception_on_failed_save": {
+            "type": "bool",
+            "default": false
+        },
+        "orm.enable_literals": {
+            "type": "bool",
+            "default": true
+        }
+    },
+    "destructors": {
+        "request": [
+            {
+                "include": "phalcon/mvc/model/orm.h",
+                "code": "phalcon_orm_destroy_cache(TSRMLS_C)"
+            }
+        ]
+    }
+}

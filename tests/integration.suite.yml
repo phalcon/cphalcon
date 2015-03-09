@@ -1,0 +1,6 @@
+class_name: IntegrationTester
+modules:
+    enabled: [IntegrationHelper, Phalcon1]
+    config:
+        Phalcon1:
+            bootstrap: '/tests/_support/_config/bootstrap.php'
