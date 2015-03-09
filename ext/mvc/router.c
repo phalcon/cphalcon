@@ -940,7 +940,7 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 			} else {
 				phalcon_substr(str_params, params_str, 0, 0);
 			}
-			if (zend_is_true(str_params)) {
+			if (!PHALCON_IS_EMPTY(str_params)) {
 				zval slash;
 				ZVAL_STRINGL(&slash, "/", 1, 0);
 
