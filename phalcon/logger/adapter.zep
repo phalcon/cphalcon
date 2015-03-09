@@ -145,7 +145,7 @@ abstract class Adapter
  	 */
 	public function critical(string! message, array! context = null) -> <AdapterInterface>
 	{
-		this->log(\Phalcon\Logger::CRITICAL, message, context);
+		this->log(Logger::CRITICAL, message, context);
 		return this;
 	}
 	
@@ -170,7 +170,7 @@ abstract class Adapter
 	/**
  	 * Sends/Writes an error message to the log
  	 */
-	public function error(string! message, var context = null) -> <AdapterInterface>
+	public function error(string! message, array! context = null) -> <AdapterInterface>
 	{
 		this->log(Logger::ERROR, message, context);
 		return this;
