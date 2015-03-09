@@ -41,7 +41,7 @@ abstract class Adapter
 	protected _transaction = false;
 
 	/**
-	 * Array with messages queued in the transacction
+	 * Array with messages queued in the transaction
 	 *
 	 * @var array
 	 */
