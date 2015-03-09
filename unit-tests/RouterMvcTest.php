@@ -863,9 +863,9 @@ class RouterMvcTest extends PHPUnit_Framework_TestCase
 	public function testIssues6787()
 	{
 		$router = new Phalcon\Mvc\Router(false);
-		$router->add("/test/:params", [
-			"params" => 1
-		]);
+		$router->add('/test/:params', array(
+			'params' => 1
+		));
 
 		$router->handle('/test/0');
 		$this->assertEquals($router->getParams(), array(0 => '0'));

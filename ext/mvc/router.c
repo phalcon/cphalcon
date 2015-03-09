@@ -940,12 +940,16 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 			} else {
 				phalcon_substr(str_params, params_str, 0, 0);
 			}
-			if (!PHALCON_IS_EMPTY(str_params)) {
+			if (zend_is_true(str_params)) {
 				zval slash;
 				ZVAL_STRINGL(&slash, "/", 1, 0);
 
 				PHALCON_INIT_NVAR(params);
 				phalcon_fast_explode(params, &slash, str_params);
+			} else if (!PHALCON_IS_EMPTY(str_params)) {
+				PHALCON_INIT_NVAR(params);
+				array_init_size(params, 1);
+				phalcon_array_append(&params, str_params, PH_COPY);
 			}
 
 			phalcon_array_unset_string(&parts, SS("params"), PH_SEPARATE);
