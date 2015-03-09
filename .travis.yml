@@ -1,10 +1,19 @@
-language: php
+language:
+  - php
+  - c
 
 php:
   - 5.3
   - 5.4
   - 5.5
   - 5.6
+
+compiler:
+  - gcc
+  - clang
+
+cache:
+  - apt
 
 services:
   - mongodb
@@ -42,3 +51,7 @@ notifications:
     - andres@phalconphp.com
     - eduar@phalconphp.com
     - nikos@phalconphp.com
+
+matrix:
+  allow_failures:
+  - compiler: clang
