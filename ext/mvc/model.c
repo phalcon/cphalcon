@@ -5736,7 +5736,8 @@ PHP_METHOD(Phalcon_Mvc_Model, getSnapshotData){
  * Check if a specific attribute has changed
  * This only works if the model is keeping data snapshots
  *
- * @param boolean $fieldName
+ * @param string $fieldName
+ * @return boolean
  */
 PHP_METHOD(Phalcon_Mvc_Model, hasChanged){
 
