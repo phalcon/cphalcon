@@ -1440,7 +1440,7 @@ int phannot_internal_parse_annotations(zval **result, zval *comment, zval *file_
 
 	if (Z_STRLEN(processed_comment) < 2) {
 		ZVAL_BOOL(*result, 0);
-		efree(Z_STRVAL(processed_comment));
+		str_efree(Z_STRVAL(processed_comment));
 		return SUCCESS;
 	}
 
