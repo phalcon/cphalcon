@@ -197,7 +197,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, describeColumns){
 	PHALCON_CALL_METHOD(&describe, this_ptr, "fetchall", sql, fetch_num);
 	
 	/** 
-	 * 0:name, 1:type, 2:size, 3:numericsize, 4: null, 5: key, 6: extra, 7: position
+	 * 0:name, 1:type, 2:size, 3:numeric size, 4:numeric scale, 5: null, 6: key, 7: extra, 8: position, 9: element type
 	 */
 	PHALCON_INIT_VAR(old_column);
 	
@@ -358,6 +358,15 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, describeColumns){
 			 */
 			if (phalcon_memnstr_str(column_type, SL("json"))) {
 				phalcon_array_update_string_long(&definition, SL("type"), PHALCON_DB_COLUMN_TYPE_JSON, 0);
+				phalcon_array_update_string(&definition, SL("size"), char_size, PH_COPY);
+				break;
+			}
+
+			/**
+			 * ARRAY
+			 */
+			if (phalcon_memnstr_str(column_type, SL("ARRAY"))) {
+				phalcon_array_update_string_long(&definition, SL("type"), PHALCON_DB_COLUMN_TYPE_ARRAY, 0);
 				phalcon_array_update_string(&definition, SL("size"), char_size, PH_COPY);
 				break;
 			}
