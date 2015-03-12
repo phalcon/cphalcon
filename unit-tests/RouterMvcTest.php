@@ -951,6 +951,14 @@ class RouterMvcTest extends PHPUnit_Framework_TestCase
 		$router->handle('/c/a/p');
 
 		$this->assertEquals($router->getMatches(), array(0 => '/c/a/p', 1 => 'c/a/p', 2 => 'c', 3 => '/a/p', 4 => 'a', 5 => '/p', 6 => 'p'));
+
+		$router->handle('/c/a');
+
+		$this->assertEquals($router->getMatches(), array(0 => '/c/a', 1 => 'c/a', 2 => 'c', 3 => '/a', 4 => 'a'));
+
+		$router->handle('/c');
+
+		$this->assertEquals($router->getMatches(), array(0 => '/c', 1 => 'c', 2 => 'c'));
 	}
 
 }
