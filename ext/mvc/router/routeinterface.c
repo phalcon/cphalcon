@@ -52,6 +52,7 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Router_RouteInterface){
  * Replaces placeholders from pattern returning a valid PCRE regular expression
  *
  * @param string $pattern
+ * @param array $paths
  * @return string
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_Router_RouteInterface, compilePattern);

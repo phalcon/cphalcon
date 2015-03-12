@@ -992,15 +992,16 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
  * @param string $pattern
  * @param string/array $paths
  * @param string $httpMethods
+ * @param array $regex
  * @return Phalcon\Mvc\Router\Route
  */
 PHP_METHOD(Phalcon_Mvc_Router, add){
 
-	zval *pattern, *paths = NULL, *http_methods = NULL;
+	zval *pattern, *paths = NULL, *http_methods = NULL, *regex = NULL;
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 1, 2, &pattern, &paths, &http_methods);
+	phalcon_fetch_params(1, 1, 3, &pattern, &paths, &http_methods, &regex);
 
 	if (!paths) {
 		paths = PHALCON_GLOBAL(z_null);
@@ -1010,11 +1011,15 @@ PHP_METHOD(Phalcon_Mvc_Router, add){
 		http_methods = PHALCON_GLOBAL(z_null);
 	}
 
+	if (!regex) {
+		regex = PHALCON_GLOBAL(z_null);
+	}
+
 	/**
 	 * Every route is internally stored as a Phalcon\Mvc\Router\Route
 	 */
 	object_init_ex(return_value, phalcon_mvc_router_route_ce);
-	PHALCON_CALL_METHOD(NULL, return_value, "__construct", pattern, paths, http_methods);
+	PHALCON_CALL_METHOD(NULL, return_value, "__construct", pattern, paths, http_methods, regex);
 
 	phalcon_update_property_array_append(this_ptr, SL("_routes"), return_value TSRMLS_CC);
 	RETURN_MM();
