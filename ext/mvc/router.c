@@ -946,6 +946,10 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 
 				PHALCON_INIT_NVAR(params);
 				phalcon_fast_explode(params, &slash, str_params);
+			} else if (!PHALCON_IS_EMPTY(str_params)) {
+				PHALCON_INIT_NVAR(params);
+				array_init_size(params, 1);
+				phalcon_array_append(&params, str_params, PH_COPY);
 			}
 
 			phalcon_array_unset_string(&parts, SS("params"), PH_SEPARATE);
