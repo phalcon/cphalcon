@@ -906,7 +906,7 @@ class RouterMvcTest extends PHPUnit_Framework_TestCase
 			"controller" => 1,
 			"action" => 2,
 			"params" => 3,
-		), NULL, array(
+		), array(
 			':controller' => '([a-zA-Z0-9_-]+)',
 			':action' => '([a-zA-Z0-9_-]+)',
 			':params' => '(/[a-zA-Z0-9_-]+)?',
@@ -924,7 +924,7 @@ class RouterMvcTest extends PHPUnit_Framework_TestCase
 			"controller" => 1,
 			"action" => 2,
 			"params" => 3,
-		), NULL, array(
+		), array(
 			':controller' => '/([a-zA-Z0-9_-]+)',
 			':action' => '/([a-zA-Z0-9_-]+)',
 			':params' => '(/[a-zA-Z0-9_-]+)?',
@@ -942,7 +942,7 @@ class RouterMvcTest extends PHPUnit_Framework_TestCase
 			"controller" => 2,
 			"action" => 4,
 			"params" => 5,
-		), NULL, array(
+		), array(
 			':controller' => '([a-zA-Z0-9_-]+)',
 			':action' => '([a-zA-Z0-9_-]+)',
 			':params' => '([a-zA-Z0-9_-]+)?',

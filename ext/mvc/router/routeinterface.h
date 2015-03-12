@@ -49,4 +49,8 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_router_routeinterface_sethttpmethods,
 	ZEND_ARG_INFO(0, httpMethods)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_router_routeinterface_setdefaults, 0, 0, 1)
+	ZEND_ARG_INFO(0, defaults)
+ZEND_END_ARG_INFO()
+
 #endif /* PHALCON_MVC_ROUTER_ROUTEINTERFACE_H */
