@@ -1840,11 +1840,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getQuery){
 
-	zval *phql = NULL, *dependency_injector, *bind_params;
-	zval *bind_types, *key = NULL, *value = NULL, *wildcard = NULL, *replaced_phql = NULL;
-	HashTable *ah0;
-	HashPosition hp0;
-	zval **hd;
+	zval *phql = NULL, *dependency_injector, *bind_params, *bind_types;
 
 	PHALCON_MM_GROW();
 
