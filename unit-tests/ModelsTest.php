@@ -750,4 +750,14 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 		$personer->refresh();
 		$this->assertEquals($personerData, $personer->toArray());
 	}
+
+	public function testRawValue() {
+		$parameters = array(
+			'conditions' => ' :rawsql: ',
+			'bind' => array('rawsql' => new Phalcon\Db\RawValue("estado='I'")),
+		);
+
+		$people = People::findFirst($parameters);
+		$this->assertTrue(is_object($people));
+	}
 }

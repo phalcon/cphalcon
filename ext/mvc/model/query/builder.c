@@ -1856,33 +1856,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getQuery){
 	bind_params = phalcon_fetch_nproperty_this(this_ptr, SL("_bindParams"), PH_NOISY TSRMLS_CC);
 	bind_types = phalcon_fetch_nproperty_this(this_ptr, SL("_bindTypes"), PH_NOISY TSRMLS_CC);
 
-	if (Z_TYPE_P(bind_params) == IS_ARRAY) {
-		phalcon_is_iterable(bind_params, &ah0, &hp0, 0, 0);
-		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
-
-			PHALCON_GET_HKEY(key, ah0, hp0);
-			PHALCON_GET_HVALUE(value);
-
-			if (Z_TYPE_P(value) == IS_OBJECT && instanceof_function(Z_OBJCE_P(value), phalcon_db_rawvalue_ce TSRMLS_CC)) {
-				PHALCON_INIT_NVAR(wildcard);
-				PHALCON_CONCAT_SVS(wildcard, ":", key, ":");
-
-				convert_to_string(value);
-
-				PHALCON_INIT_NVAR(replaced_phql);
-				phalcon_fast_str_replace(replaced_phql, wildcard, value, phql);
-
-				PHALCON_INIT_NVAR(phql);
-				ZVAL_STRING(phql, Z_STRVAL_P(replaced_phql), 1);
-
-				phalcon_array_unset(&bind_params, key, PH_SEPARATE);
-				phalcon_array_unset(&bind_types, key, PH_SEPARATE);
-			}
-
-			zend_hash_move_forward_ex(ah0, &hp0);
-		}
-	}
-
 	dependency_injector = phalcon_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY TSRMLS_CC);
 
 	object_init_ex(return_value, phalcon_mvc_model_query_ce);
