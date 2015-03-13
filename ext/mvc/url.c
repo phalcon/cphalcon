@@ -24,6 +24,8 @@
 #include "diinterface.h"
 #include "di/injectionawareinterface.h"
 
+#include <Zend/zend_closures.h>
+
 #include "kernel/main.h"
 #include "kernel/memory.h"
 #include "kernel/exception.h"
@@ -297,6 +299,7 @@ PHP_METHOD(Phalcon_Mvc_Url, get){
 	zval *pattern = NULL, *paths = NULL, *processed_uri, **args = NULL, *query_string;
 	zval *matched, *regexp;
 	zval **z_local = NULL;
+	zval *generator = NULL, *arguments;
 	int local = 1;
 
 	phalcon_fetch_params_ex(0, 3, &uri, &args, &z_local);
@@ -362,19 +365,34 @@ PHP_METHOD(Phalcon_Mvc_Url, get){
 		}
 
 		PHALCON_CALL_METHOD(&pattern, route, "getpattern");
-	
+
 		/** 
 		 * Return the reversed paths
 		 */
 		PHALCON_CALL_METHOD(&paths, route, "getreversedpaths");
 
 		/** 
-		 * Replace the patterns by its variables
+		 * Return the Url Generator
 		 */
-		PHALCON_INIT_VAR(processed_uri);
-		phalcon_replace_paths(processed_uri, pattern, paths, *uri TSRMLS_CC);
+		PHALCON_CALL_METHOD(&generator, route, "geturlgenerator");
 
-		PHALCON_CONCAT_VV(return_value, base_uri, processed_uri);
+		if (phalcon_is_callable(generator TSRMLS_CC) ||
+			(Z_TYPE_P(generator) == IS_OBJECT && instanceof_function(Z_OBJCE_P(generator), zend_ce_closure TSRMLS_CC))) {
+			PHALCON_INIT_VAR(arguments);
+			array_init_size(arguments, 3);
+			phalcon_array_append(&arguments, base_uri, 0);
+			phalcon_array_append(&arguments, paths, 0);
+			phalcon_array_append(&arguments, *uri, 0);
+			PHALCON_CALL_USER_FUNC_ARRAY(return_value, generator, arguments);
+		} else {
+			/** 
+			 * Replace the patterns by its variables
+			 */
+			PHALCON_INIT_VAR(processed_uri);
+			phalcon_replace_paths(processed_uri, pattern, paths, *uri TSRMLS_CC);
+
+			PHALCON_CONCAT_VV(return_value, base_uri, processed_uri);
+		}
 	}
 	else {
 		if (local) {

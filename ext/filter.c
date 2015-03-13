@@ -295,15 +295,8 @@ PHP_METHOD(Phalcon_Filter, _sanitize){
 		/** 
 		 * If the filter is a closure we call it in the PHP userland
 		 */
-		if (phalcon_is_callable(filter_object TSRMLS_CC)) {
-			PHALCON_INIT_VAR(arguments);
-			array_init_size(arguments, 1);
-			phalcon_array_append(&arguments, value, 0);
-			PHALCON_CALL_USER_FUNC_ARRAY(return_value, filter_object, arguments);
-			RETURN_MM();
-		}
-
-		if (instanceof_function(Z_OBJCE_P(filter_object), zend_ce_closure TSRMLS_CC)) {
+		if (phalcon_is_callable(filter_object TSRMLS_CC) ||
+			(Z_TYPE_P(filter_object) == IS_OBJECT && instanceof_function(Z_OBJCE_P(filter_object), zend_ce_closure TSRMLS_CC))) {
 			PHALCON_INIT_VAR(arguments);
 			array_init_size(arguments, 1);
 			phalcon_array_append(&arguments, value, 0);
