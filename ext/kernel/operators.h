@@ -80,6 +80,7 @@ int phalcon_compare_strict_long(zval *op1, long op2 TSRMLS_DC);
 
 void phalcon_cast(zval *result, zval *var, zend_uint type);
 long phalcon_get_intval(const zval *op);
+double phalcon_get_double(const zval *op);
 int phalcon_is_numeric(const zval *op);
 
 int phalcon_is_equal(zval *op1, zval *op2 TSRMLS_DC);
