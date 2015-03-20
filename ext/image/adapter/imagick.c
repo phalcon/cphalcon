@@ -25,7 +25,12 @@
 #include "image/adapterinterface.h"
 #include "image/exception.h"
 
+#include <string.h>
 #include <stdlib.h>
+
+#ifdef PHALCON_USE_MAGICKWAND
+#include <wand/MagickWand.h>
+#endif
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
@@ -84,6 +89,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, curves_graph);
 PHP_METHOD(Phalcon_Image_Adapter_Imagick, vignette);
 PHP_METHOD(Phalcon_Image_Adapter_Imagick, earlybird);
 PHP_METHOD(Phalcon_Image_Adapter_Imagick, inkwell);
+PHP_METHOD(Phalcon_Image_Adapter_Imagick, convert);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_image_adapter_imagick___construct, 0, 0, 1)
 	ZEND_ARG_INFO(0, file)
@@ -136,6 +142,10 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_image_adapter_imagick_vignette, 0, 0, 1)
 	ZEND_ARG_INFO(0, crop_factor)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_image_adapter_imagick_convert, 0, 0, 1)
+	ZEND_ARG_INFO(0, command)
+ZEND_END_ARG_INFO()
+
 static const zend_function_entry phalcon_image_adapter_imagick_method_entry[] = {
 	PHP_ME(Phalcon_Image_Adapter_Imagick, check, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Image_Adapter_Imagick, __construct, arginfo_phalcon_image_adapter_imagick___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
@@ -166,6 +176,7 @@ static const zend_function_entry phalcon_image_adapter_imagick_method_entry[] = 
 	PHP_ME(Phalcon_Image_Adapter_Imagick, vignette, arginfo_phalcon_image_adapter_imagick_vignette, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Image_Adapter_Imagick, earlybird, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Image_Adapter_Imagick, inkwell, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Image_Adapter_Imagick, convert, arginfo_phalcon_image_adapter_imagick_convert, ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
 	PHP_FE_END
 };
 
@@ -1943,14 +1954,12 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, vignette)
  */
 PHP_METHOD(Phalcon_Image_Adapter_Imagick, earlybird)
 {
-	zval *im, *tmp0 = NULL, *tmp1 = NULL, *tmp2 = NULL, *tmp3 = NULL;
+	zval *tmp0 = NULL, *tmp1 = NULL, *tmp2 = NULL, *tmp3 = NULL;
 	zend_class_entry *imagick_ce;
 
 	PHALCON_MM_GROW();
 
 	imagick_ce = zend_fetch_class(SL("Imagick"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
-
-	im = phalcon_fetch_nproperty_this(this_ptr, SL("_image"), PH_NOISY TSRMLS_CC);
 
 	PHALCON_INIT_NVAR(tmp0);
 	ZVAL_LONG(tmp0, -32);
@@ -2028,14 +2037,9 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, earlybird)
  */
 PHP_METHOD(Phalcon_Image_Adapter_Imagick, inkwell)
 {
-	zval *im, *tmp0 = NULL, *tmp1 = NULL;
-	zend_class_entry *imagick_ce;
+	zval *tmp0 = NULL, *tmp1 = NULL;
 
 	PHALCON_MM_GROW();
-
-	imagick_ce = zend_fetch_class(SL("Imagick"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
-
-	im = phalcon_fetch_nproperty_this(this_ptr, SL("_image"), PH_NOISY TSRMLS_CC);
 
 	PHALCON_INIT_NVAR(tmp0);
 	ZVAL_LONG(tmp0, -100);
@@ -2056,4 +2060,81 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, inkwell)
 	PHALCON_CALL_SELF(NULL, "brightness_contrast", tmp0, tmp1);
 
 	RETURN_THIS();
+}
+
+PHP_METHOD(Phalcon_Image_Adapter_Imagick, convert)
+{
+	zval *command, *command_parts = NULL, *value = NULL;
+	HashTable *ah0;
+	HashPosition hp0;
+	zval **hd;
+	char **argv;
+	int argc, i = 0;
+
+#ifdef PHALCON_USE_MAGICKWAND
+	ExceptionInfo *exception = NULL;
+	ImageInfo *image_info = NULL;
+	MagickBooleanType status;
+#endif
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 1, 0, &command);
+#ifdef PHALCON_USE_MAGICKWAND
+
+	if (Z_TYPE_P(command) != IS_ARRAY) {
+		PHALCON_INIT_VAR(command_parts);
+		phalcon_fast_explode_str(command_parts, SL(" "), command);
+	}
+
+	if (Z_TYPE_P(command) != IS_ARRAY) {
+		argc = zend_hash_num_elements(Z_ARRVAL_P(command_parts));
+	} else {
+		argc = zend_hash_num_elements(Z_ARRVAL_P(command));
+	}
+
+	argv = emalloc(sizeof(char*) * argc);
+
+	if (Z_TYPE_P(command) != IS_ARRAY) {
+		phalcon_is_iterable(command_parts, &ah0, &hp0, 0, 0);
+	} else {
+		phalcon_is_iterable(command, &ah0, &hp0, 0, 0);
+	}
+
+	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
+
+		PHALCON_GET_HVALUE(value);
+		convert_to_string(value);
+
+		argv[i] = estrdup(Z_STRVAL_P(value));
+
+		i++;
+
+		zend_hash_move_forward_ex(ah0, &hp0);
+	}
+
+	MagickCoreGenesis(*argv, MagickTrue);
+	exception = AcquireExceptionInfo();
+	image_info = AcquireImageInfo();
+
+	status = MagickCommandGenesis(image_info, ConvertImageCommand, argc, argv, (char **)NULL, exception);
+
+	image_info = DestroyImageInfo(image_info);
+	exception = DestroyExceptionInfo(exception);
+
+	MagickCoreTerminus();
+
+	for (i = 0; i < argc; i++) {
+		efree(argv[i]);
+	}
+
+	efree(argv);
+
+	if (status == 0) {
+		RETURN_MM_TRUE;
+	}
+
+#endif
+
+	RETURN_MM_FALSE;
 }

@@ -300,6 +300,21 @@ class ImageTest extends PHPUnit_Framework_TestCase
 		//$data = $image->render('png');
 	}
 
+	public function testFilter()
+	{
+		// \Phalcon\Image\Adapter\Imagick::setResourceLimit(6, 4);
+
+		// $image = new \Phalcon\Image\Adapter\Imagick('unit-tests/assets/phalconphp.jpg');
+		// $image->earlybird()->save('unit-tests/assets/production/earlybird.jpg');
+		// $this->assertTrue(file_exists('unit-tests/assets/production/earlybird.jpg'));
+
+		// $image = new \Phalcon\Image\Adapter\Imagick('unit-tests/assets/phalconphp.jpg');
+		// $image->inkwell()->save('unit-tests/assets/production/inkwell.jpg');
+		// $this->assertTrue(file_exists('unit-tests/assets/production/inkwell.jpg'));
+
+		// Phalcon\Image\Adapter\Imagick::convert(array('convert', 'unit-tests/assets/phalconphp.jpg', '+dither', '-colors', '2', '-colorspace', 'gray', '-contrast-stretch', '0', '2colorthresh.gif'));
+	}
+
 	public function testIssues2259()
 	{
 		if (!function_exists('gd_info')) {
