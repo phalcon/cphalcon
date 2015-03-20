@@ -2285,101 +2285,91 @@ class Compiler implements InjectionAwareInterface
 		/**
 		 * The parsing must return a valid array
 		 */
-		if typeof intermediate == "array" {
-
-			let compilation = this->_statementList(intermediate, extendsMode);
-
-			/**
-			 * Check if the template is extending another
-			 */
-			let extended = this->_extended;
-			if extended === true {
-
-				/**
-				 * Multiple-Inheritance is allowed
-				 */
-				if extendsMode === true {
-					let finalCompilation = [];
-				} else {
-					let finalCompilation = null;
-				}
-
-				let blocks = this->_blocks;
-				let extendedBlocks = this->_extendedBlocks;
-
-				for name, block in extendedBlocks {
-
-					/**
-					 * If name is a string then is a block name
-					 */
-					if typeof name == "string" {
-
-						if typeof block == "array" {
-							if isset blocks[name] {
-								/**
-								 * The block is set in the local template
-								 */
-								let localBlock = blocks[name],
-									this->_currentBlock = name,
-									blockCompilation = this->_statementList(localBlock);
-							} else {
-								/**
-								 * The block is not set local only in the extended template
-								 */
-								let blockCompilation = this->_statementList(block);
-							}
-						} else {
-							if isset blocks[name] {
-								/**
-								 * The block is set in the local template
-								 */
-								let localBlock = blocks[name],
-									this->_currentBlock = name,
-									blockCompilation = this->_statementList(localBlock);
-							} else {
-								let blockCompilation = block;
-							}
-						}
-
-						if typeof blockCompilation == "array" {
-							print_r(blockCompilation);
-						}
-
-						if extendsMode === true {
-							let finalCompilation[name] = blockCompilation;
-						} else {
-							let finalCompilation .= blockCompilation;
-						}
-					} else {
-
-						if typeof block == "array" {
-							print_r(block);
-						}
-
-						/**
-						 * Here the block is an already compiled text
-						 */
-						if extendsMode === true {
-							let finalCompilation[] = block;
-						} else {
-							let finalCompilation .= block;
-						}
-					}
-				}
-
-				return finalCompilation;
-			}
-
-			if extendsMode === true {
-				/**
-				 * In extends mode we return the template blocks instead of the compilation
-				 */
-				return this->_blocks;
-			}
-			return compilation;
+		if typeof intermediate != "array" {
+			throw new Exception("Invalid intermediate representation");
 		}
 
-		throw new Exception("Invalid intermediate representation");
+		let compilation = this->_statementList(intermediate, extendsMode);
+
+		/**
+		 * Check if the template is extending another
+		 */
+		let extended = this->_extended;
+		if extended === true {
+
+			/**
+			 * Multiple-Inheritance is allowed
+			 */
+			if extendsMode === true {
+				let finalCompilation = [];
+			} else {
+				let finalCompilation = null;
+			}
+
+			let blocks = this->_blocks;
+			let extendedBlocks = this->_extendedBlocks;
+
+			for name, block in extendedBlocks {
+
+				/**
+				 * If name is a string then is a block name
+				 */
+				if typeof name == "string" {
+
+					if isset blocks[name] {
+						/**
+						 * The block is set in the local template
+						 */
+						let localBlock = blocks[name],
+							this->_currentBlock = name,
+							blockCompilation = this->_statementList(localBlock);
+					} else {
+						if typeof block == "array" {
+							/**
+							 * The block is not set local only in the extended template
+							 */
+							let blockCompilation = this->_statementList(block);
+						} else {
+							let blockCompilation = block;
+						}
+					}
+
+					if typeof blockCompilation == "array" {
+						print_r(blockCompilation);
+					}
+
+					if extendsMode === true {
+						let finalCompilation[name] = blockCompilation;
+					} else {
+						let finalCompilation .= blockCompilation;
+					}
+				} else {
+
+					if typeof block == "array" {
+						print_r(block);
+					}
+
+					/**
+					 * Here the block is an already compiled text
+					 */
+					if extendsMode === true {
+						let finalCompilation[] = block;
+					} else {
+						let finalCompilation .= block;
+					}
+				}
+			}
+
+			return finalCompilation;
+		}
+
+		if extendsMode === true {
+			/**
+			 * In extends mode we return the template blocks instead of the compilation
+			 */
+			return this->_blocks;
+		}
+		return compilation;
 	}
 
 	/**
