@@ -108,7 +108,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_criteria_rightjoin, 0, 0, 1)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_criteria_cache, 0, 0, 1)
-	ZEND_ARG_INFO(0, option)
+	ZEND_ARG_ARRAY_INFO(0, options, 0)
 ZEND_END_ARG_INFO()
 
 static const zend_function_entry phalcon_mvc_model_criteria_method_entry[] = {
@@ -234,7 +234,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, getModelName){
  * Sets the bound parameters in the criteria
  * This method replaces all previously set bound parameters
  *
- * @param string $bindParams
+ * @param array $bindParams
  * @return Phalcon\Mvc\Model\CriteriaInterface
  */
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, bind){
@@ -256,7 +256,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, bind){
  * Sets the bind types in the criteria
  * This method replaces all previously set bound parameters
  *
- * @param string $bindTypes
+ * @param array $bindTypes
  * @return Phalcon\Mvc\Model\CriteriaInterface
  */
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, bindTypes){
@@ -644,6 +644,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, where){
 /**
  * Appends a condition to the current conditions using an AND operator (deprecated)
  *
+ * @deprecated 1.0.0
+ * @see \Phalcon\Mvc\Model\Criteria::andWhere()
  * @param string $conditions
  * @param array $bindParams
  * @param array $bindTypes
@@ -1129,6 +1131,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, conditions){
 /**
  * Adds the order-by parameter to the criteria (deprecated)
  *
+ * @deprecated 1.2.1
+ * @see \Phalcon\Mvc\Model\Criteria::orderBy()
  * @param string $orderColumns
  * @return Phalcon\Mvc\Model\CriteriaInterface
  */
@@ -1249,7 +1253,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, getWhere){
 }
 
 /**
- * Return the columns to be queried
+ * Returns the columns to be queried
  *
  * @return string|array
  */
@@ -1285,7 +1289,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, getConditions){
 /**
  * Returns the limit parameter in the criteria
  *
- * @return string
+ * @return int
  */
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, getLimit){
 
