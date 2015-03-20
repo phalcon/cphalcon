@@ -312,7 +312,9 @@ class ImageTest extends PHPUnit_Framework_TestCase
 		// $image->inkwell()->save('unit-tests/assets/production/inkwell.jpg');
 		// $this->assertTrue(file_exists('unit-tests/assets/production/inkwell.jpg'));
 
-		// Phalcon\Image\Adapter\Imagick::convert(array('convert', 'unit-tests/assets/phalconphp.jpg', '+dither', '-colors', '2', '-colorspace', 'gray', '-contrast-stretch', '0', '2colorthresh.gif'));
+		// Phalcon\Image\Adapter\Imagick::convert(array('convert', 'unit-tests/assets/phalconphp.jpg', '+dither', '-colors', '2', '-colorspace', 'gray', '-contrast-stretch', '0', '2colorthresh.jpg'));
+
+		// Phalcon\Image\Adapter\Imagick::convert(array('convert', 'unit-tests/assets/phalconphp.jpg', '-recolor', '1.275 0 0 0 1.159 0 0 0 1.214', 'whitebalance.jpg'));
 	}
 
 	public function testIssues2259()
