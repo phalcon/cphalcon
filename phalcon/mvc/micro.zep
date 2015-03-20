@@ -436,7 +436,7 @@ class Micro extends Injectable implements \ArrayAccess
 				 */
 				let route = this->map(prefixedPattern, realHandler);
 
-				if typeof methods == "string" || typeof methods == "array" {
+				if (typeof methods == "string" && methods != "") || typeof methods == "array" {
 					route->via(methods);
 				}
 
