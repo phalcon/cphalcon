@@ -379,7 +379,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 *	$builder->join('Robots');
 	 *	$builder->join('Robots', 'r.id = RobotsParts.robots_id');
 	 *	$builder->join('Robots', 'r.id = RobotsParts.robots_id', 'r');
-	 *	$builder->join('Robots', 'r.id = RobotsParts.robots_id', 'r', 'LEFT');
+	 *	$builder->join('Robots', 'r.id = RobotsParts.robots_id', 'r', 'INNER');
 	 *</code>
 	 *
 	 * @param string model
@@ -401,7 +401,6 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 *	$builder->innerJoin('Robots');
 	 *	$builder->innerJoin('Robots', 'r.id = RobotsParts.robots_id');
 	 *	$builder->innerJoin('Robots', 'r.id = RobotsParts.robots_id', 'r');
-	 *	$builder->innerJoin('Robots', 'r.id = RobotsParts.robots_id', 'r', 'LEFT');
 	 *</code>
 	 *
 	 * @param string model
