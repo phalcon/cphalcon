@@ -187,7 +187,66 @@ class Request implements RequestInterface, InjectionAwareInterface
 		}
 		return post;
 	}
+	
+	/**
+	 * Gets a variable from put request
+	 *
+	 *<code>
+	 *	//Returns value from $_PUT["user_email"] without sanitizing
+	 *	$userEmail = $request->getPut("user_email");
+	 *
+	 *	//Returns value from $_PUT["user_email"] with sanitizing
+	 *	$userEmail = $request->getPut("user_email", "email");
+	 *</code>
+	 *
+	 * @param string name
+	 * @param string|array filters
+	 * @param mixed defaultValue
+	 * @param boolean notAllowEmpty
+	 * @param boolean noRecursive
+	 * @return mixed
+	 */
+	public function getPut(string! name = null, filters = null, defaultValue = null, notAllowEmpty = false, noRecursive = false)
+	{
+		var put, value, filter, dependencyInjector;
+		
+		let put = [];
+		parse_str(file_get_contents("php://input"), put);
+		
+		if name !== null {
+			if fetch value, put[name] {
+				if filters !== null {
+					let filter = this->_filter;
+					if typeof filter != "object" {
+						let dependencyInjector = <DiInterface> this->_dependencyInjector;
+						if typeof dependencyInjector != "object" {
+							throw new Exception("A dependency injection object is required to access the 'filter' service");
+						}
+						let filter = <\Phalcon\Filter> dependencyInjector->getShared("filter");
+						let this->_filter = filter;
+					}
 
+					let value = filter->sanitize(value, filters, noRecursive);
+
+					if (empty(value) && notAllowEmpty === true) {
+						return defaultValue;
+					}
+
+					return value;
+
+				} else {
+				 	if empty(value) && notAllowEmpty === true {
+				 		return defaultValue;
+				 	}
+					return value;
+
+				}
+			}
+			return defaultValue;
+		}
+		return put;
+	}
+	
 	/**
 	 * Gets variable from $_GET superglobal applying filters if needed
 	 * If no parameters are given the $_GET superglobal is returned
