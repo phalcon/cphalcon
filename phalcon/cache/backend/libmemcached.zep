@@ -112,11 +112,13 @@ class Libmemcached extends Backend implements BackendInterface
 			throw new Exception("Cannot connect to Memcached server");
 		}
 
-		let client = options["client"];
-		if typeof client == "array" {
-			memcache->setOptions(client);
-		} else {
-			throw new Exception("Client options must be instance of array");
+		if isset options["client"] {
+			let client = options["client"];
+			if typeof client == "array" {
+				memcache->setOptions(client);
+			} else {
+				throw new Exception("Client options must be instance of array");
+			}
 		}
 
 		let this->_memcache = memcache;
