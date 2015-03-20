@@ -293,6 +293,8 @@ class Form extends Injectable implements \Countable, \Iterator
 		 */
 		if typeof entity == "object" {
 			this->bind(data, entity);
+		} elseif typeof this->_entity == "object" {
+			this->bind(data, this->_entity);
 		}
 
 		/**
