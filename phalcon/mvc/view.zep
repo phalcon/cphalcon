@@ -1442,7 +1442,7 @@ class View extends Injectable implements ViewInterface
      * @param string key
      * @return boolean
      */
-    public function __isset(string! key)
+    public function __isset(string! key) -> boolean
     {
         return isset(this->_viewParams[key]);
     }
