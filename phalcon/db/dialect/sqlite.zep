@@ -453,7 +453,7 @@ class Sqlite extends Dialect implements DialectInterface
 	}
 
 	/**
-	 * List all tables on database
+	 * List all tables in database
 	 *
 	 *<code>
 	 *	print_r($dialect->listTables("blog"))

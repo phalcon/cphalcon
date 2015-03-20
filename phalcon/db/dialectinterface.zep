@@ -201,7 +201,7 @@ interface DialectInterface
 	public function describeColumns(table, schema=null);
 
 	/**
-	 * List all tables on database
+	 * List all tables in database
 	 *
 	 * @param       string schemaName
 	 * @return      array
