@@ -160,6 +160,8 @@ class ModelsResultsetCacheTest extends PHPUnit_Framework_TestCase
 			$newrobot->name = "Not cached robot";
 			$newrobot->type = "notcached";
 			$newrobot->year = 2014;
+			$newrobot->datetime = '2015-03-05 04:16:17';
+			$newrobot->text = 'Not cached robot';
 			$newrobot->create();
 
 			$robotscount = Robots::count(array(

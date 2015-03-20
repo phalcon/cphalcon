@@ -340,6 +340,7 @@ ext/mvc/view/engine/volt/lemon
 .temp/
 /vendor/
 composer.lock
+composer.phar
 php-tests/tests/var/logs/*.log
 compile-errors.log
 compile.log
