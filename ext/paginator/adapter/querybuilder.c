@@ -22,6 +22,7 @@
 #include "paginator/exception.h"
 #include "mvc/model/query/builderinterface.h"
 #include "mvc/model/managerinterface.h"
+#include "db/rawvalue.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
@@ -32,6 +33,7 @@
 #include "kernel/fcall.h"
 #include "kernel/hash.h"
 #include "kernel/concat.h"
+#include "kernel/string.h"
 
 #include "internal/arginfo.h"
 
@@ -241,7 +243,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, getPaginate){
 	zval *models = NULL, *model_name = NULL, *model = NULL, *connection = NULL;
 	zval *bind_params = NULL, *bind_types = NULL, *processed = NULL;
 	zval *value = NULL, *wildcard = NULL, *string_wildcard = NULL, *processed_types = NULL;
-	zval *intermediate = NULL, *select_column = NULL, *dialect = NULL, *sql_select = NULL, *sql;
+	zval *intermediate = NULL, *select_column = NULL, *dialect = NULL, *sql_select = NULL, *sql, *sql_tmp = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -351,7 +353,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, getPaginate){
 	/** 
 	 * Replace the placeholders
 	 */
-	if (Z_TYPE_P(bind_params) == IS_ARRAY) { 
+	if (Z_TYPE_P(bind_params) == IS_ARRAY) {
 
 		PHALCON_INIT_VAR(processed);
 		array_init(processed);
@@ -363,7 +365,21 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, getPaginate){
 			PHALCON_GET_HKEY(wildcard, ah0, hp0);
 			PHALCON_GET_HVALUE(value);
 
-			if (Z_TYPE_P(wildcard) == IS_LONG) {
+			if (Z_TYPE_P(value) == IS_OBJECT && instanceof_function(Z_OBJCE_P(value), phalcon_db_rawvalue_ce TSRMLS_CC)) {
+				PHALCON_INIT_NVAR(string_wildcard);
+				PHALCON_CONCAT_SV(string_wildcard, ":", wildcard);
+
+				SEPARATE_ZVAL(&value);
+				convert_to_string(value);
+
+				PHALCON_INIT_NVAR(sql_tmp);
+				phalcon_fast_str_replace(sql_tmp, string_wildcard, value, sql);
+
+				PHALCON_INIT_NVAR(sql);
+				ZVAL_STRING(sql, Z_STRVAL_P(sql_tmp), 1);
+
+				phalcon_array_unset(&bind_types, wildcard, PH_SEPARATE);
+			} else if (Z_TYPE_P(wildcard) == IS_LONG) {
 				PHALCON_INIT_NVAR(string_wildcard);
 				PHALCON_CONCAT_SV(string_wildcard, ":", wildcard);
 				phalcon_array_update_zval(&processed, string_wildcard, value, PH_COPY);
