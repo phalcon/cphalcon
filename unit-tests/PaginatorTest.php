@@ -389,7 +389,7 @@ class PaginatorTest extends PHPUnit_Framework_TestCase
 
 		// test of getter/setters of querybuilder adapter
 
-        // -- current page --
+		// -- current page --
 		$currentPage = $paginator->getCurrentPage();
 		$this->assertEquals($currentPage, 218);
 
@@ -414,6 +414,26 @@ class PaginatorTest extends PHPUnit_Framework_TestCase
 		$queryBuilder = $paginator->getQueryBuilder();
 		$this->assertEquals($builder2, $queryBuilder);
 		$this->assertEquals($setterResult, $paginator);
+
+		// test raw value
+		$builder = $di['modelsManager']->createBuilder()
+					->columns('cedula, nombres')
+					->from('Personnes')
+					->where('tipo_documento_id = :tipo_documento_id:', array('tipo_documento_id' => 1))
+					->orderBy('cedula');
+
+		$paginator = new Phalcon\Paginator\Adapter\QueryBuilder(array(
+			"builder" => $builder,
+			"limit"=> 10,
+			"page" => 1
+		));
+
+		$page = $paginator->getPaginate();
+
+		$this->assertEquals(get_class($page), 'stdClass');
+		$this->assertTrue(count($page->items) > 0);
+		$this->assertEquals($page->current, 1);
+		$this->assertTrue($page->total_pages > 0);
 	}
 
 	public function testIssue2301()
