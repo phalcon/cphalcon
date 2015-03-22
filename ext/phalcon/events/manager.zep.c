@@ -432,7 +432,7 @@ PHP_METHOD(Phalcon_Events_Manager, fireQueue) {
 	}
 	_5 = Z_TYPE_P(event) != IS_OBJECT;
 	if (!(_5)) {
-		_5 = !(zephir_instance_of_ev(event, phalcon_events_event_ce TSRMLS_CC));
+		_5 = !((zephir_instance_of_ev(event, phalcon_events_event_ce TSRMLS_CC)));
 	}
 	if (_5) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_events_exception_ce, "The event is not valid", "phalcon/events/manager.zep", 230);

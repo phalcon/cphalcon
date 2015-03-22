@@ -2,7 +2,7 @@
   +------------------------------------------------------------------------+
   | Zephir Language                                                        |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2014 Zephir Team (http://www.zephir-lang.com)       |
+  | Copyright (c) 2011-2015 Zephir Team (http://www.zephir-lang.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -34,6 +34,7 @@
 #include <ext/standard/php_http.h>
 #include "ext/standard/base64.h"
 #include "ext/standard/md5.h"
+#include "ext/standard/crc32.h"
 #include "ext/standard/url.h"
 #include "ext/standard/html.h"
 #include "ext/date/php_date.h"
@@ -1167,6 +1168,31 @@ void zephir_md5(zval *return_value, zval *str) {
 	make_digest(hexdigest, digest);
 
 	ZVAL_STRINGL(return_value, hexdigest, 32, 1);
+}
+
+void zephir_crc32(zval *return_value, zval *str TSRMLS_DC) {
+
+	zval copy;
+	int use_copy = 0;
+	size_t nr;
+	char *p;
+	php_uint32 crc;
+	php_uint32 crcinit = 0;
+
+	if (Z_TYPE_P(str) != IS_STRING) {
+		zend_make_printable_zval(str, &copy, &use_copy);
+		if (use_copy) {
+			str = &copy;
+		}
+	}
+	p = Z_STRVAL_P(str);
+	nr = Z_STRLEN_P(str);
+
+	crc = crcinit^0xFFFFFFFF;
+	for (; nr--; ++p) {
+		crc = ((crc >> 8) & 0x00FFFFFF) ^ crc32tab[(crc ^ (*p)) & 0xFF ];
+	}
+	RETVAL_LONG(crc^0xFFFFFFFF);
 }
 
 #if ZEPHIR_USE_PHP_PCRE

@@ -3,7 +3,7 @@
 	+------------------------------------------------------------------------+
 	| Zephir Language                                                        |
 	+------------------------------------------------------------------------+
-	| Copyright (c) 2011-2014 Zephir Team  (http://www.zephir-lang.com)      |
+	| Copyright (c) 2011-2015 Zephir Team  (http://www.zephir-lang.com)      |
 	+------------------------------------------------------------------------+
 	| This source file is subject to the New BSD License that is bundled     |
 	| with this package in the file docs/LICENSE.txt.                        |
@@ -37,7 +37,7 @@ int zephir_hash_unset(HashTable *ht, zval *offset);
 static zend_always_inline int zephir_hash_get_current_data_ex(HashTable *ht, void **pData, HashPosition *pos)
 {
 	Bucket *p;
-	p = pos ? (*pos) : ht->pInternalPointer;  
+	p = pos ? (*pos) : ht->pInternalPointer;
 	if (p) {
 		*pData = p->pData;
 		return SUCCESS;

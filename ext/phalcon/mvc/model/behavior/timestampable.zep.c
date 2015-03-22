@@ -19,6 +19,7 @@
 #include "kernel/operators.h"
 #include "kernel/array.h"
 #include "Zend/zend_closures.h"
+#include "kernel/time.h"
 #include "kernel/hash.h"
 #include "ext/spl/spl_exceptions.h"
 
@@ -121,8 +122,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior_Timestampable, notify) {
 			}
 		}
 		if (Z_TYPE_P(timestamp) == IS_NULL) {
-			ZEPHIR_CALL_FUNCTION(&timestamp, "time", NULL);
-			zephir_check_call_status();
+			ZEPHIR_INIT_NVAR(timestamp);
+			zephir_time(timestamp);
 		}
 		if (Z_TYPE_P(field) == IS_ARRAY) {
 			zephir_is_iterable(field, &_2, &_1, 0, 0, "phalcon/mvc/model/behavior/timestampable.zep", 98);

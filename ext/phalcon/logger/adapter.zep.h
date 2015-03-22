@@ -29,48 +29,48 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_logger_adapter_critical, 0, 0, 1)
 	ZEND_ARG_INFO(0, message)
-	ZEND_ARG_INFO(0, context)
+	ZEND_ARG_ARRAY_INFO(0, context, 1)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_logger_adapter_emergency, 0, 0, 1)
 	ZEND_ARG_INFO(0, message)
-	ZEND_ARG_INFO(0, context)
+	ZEND_ARG_ARRAY_INFO(0, context, 1)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_logger_adapter_debug, 0, 0, 1)
 	ZEND_ARG_INFO(0, message)
-	ZEND_ARG_INFO(0, context)
+	ZEND_ARG_ARRAY_INFO(0, context, 1)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_logger_adapter_error, 0, 0, 1)
 	ZEND_ARG_INFO(0, message)
-	ZEND_ARG_INFO(0, context)
+	ZEND_ARG_ARRAY_INFO(0, context, 1)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_logger_adapter_info, 0, 0, 1)
 	ZEND_ARG_INFO(0, message)
-	ZEND_ARG_INFO(0, context)
+	ZEND_ARG_ARRAY_INFO(0, context, 1)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_logger_adapter_notice, 0, 0, 1)
 	ZEND_ARG_INFO(0, message)
-	ZEND_ARG_INFO(0, context)
+	ZEND_ARG_ARRAY_INFO(0, context, 1)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_logger_adapter_warning, 0, 0, 1)
 	ZEND_ARG_INFO(0, message)
-	ZEND_ARG_INFO(0, context)
+	ZEND_ARG_ARRAY_INFO(0, context, 1)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_logger_adapter_alert, 0, 0, 1)
 	ZEND_ARG_INFO(0, message)
-	ZEND_ARG_INFO(0, context)
+	ZEND_ARG_ARRAY_INFO(0, context, 1)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_logger_adapter_log, 0, 0, 1)
 	ZEND_ARG_INFO(0, type)
 	ZEND_ARG_INFO(0, message)
-	ZEND_ARG_INFO(0, context)
+	ZEND_ARG_ARRAY_INFO(0, context, 1)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_logger_adapter_method_entry) {

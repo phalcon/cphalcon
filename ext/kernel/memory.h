@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Zephir Language                                                        |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2014 Zephir Team (http://www.zephir-lang.com)       |
+  | Copyright (c) 2011-2015 Zephir Team (http://www.zephir-lang.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -160,6 +160,7 @@ void zephir_deinitialize_memory(TSRMLS_D);
 	}
 
 #define ZEPHIR_CPY_WRT(d, v) \
+	Z_ADDREF_P(v); \
 	if (d) { \
 		if (Z_REFCOUNT_P(d) > 0) { \
 			zephir_ptr_dtor(&d); \
@@ -167,7 +168,6 @@ void zephir_deinitialize_memory(TSRMLS_D);
 	} else { \
 		zephir_memory_observe(&d TSRMLS_CC); \
 	} \
-	Z_ADDREF_P(v); \
 	d = v;
 
 #define ZEPHIR_CPY_WRT_CTOR(d, v) \

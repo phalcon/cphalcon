@@ -16,6 +16,7 @@
 #include "kernel/exception.h"
 #include "kernel/fcall.h"
 #include "kernel/memory.h"
+#include "kernel/string.h"
 #include "kernel/operators.h"
 #include "kernel/array.h"
 
@@ -80,10 +81,11 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Validator_PresenceOf) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Validator_PresenceOf, validate) {
 
-	zephir_nts_static zephir_fcall_cache_entry *_3 = NULL;
-	zval *_1;
+	zephir_nts_static zephir_fcall_cache_entry *_5 = NULL;
+	zval *_3;
+	zend_bool _1, _2;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *record, *field = NULL, *value = NULL, *message = NULL, *_0 = NULL, *_2 = NULL;
+	zval *record, *field = NULL, *value = NULL, *message = NULL, *_0 = NULL, *_4 = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &record);
@@ -105,7 +107,15 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_PresenceOf, validate) {
 	}
 	ZEPHIR_CALL_METHOD(&value, record, "readattribute", NULL, field);
 	zephir_check_call_status();
-	if (ZEPHIR_IS_EMPTY(value)) {
+	_1 = Z_TYPE_P(value) == IS_NULL;
+	if (!(_1)) {
+		_2 = Z_TYPE_P(value) == IS_STRING;
+		if (_2) {
+			_2 = !(zephir_fast_strlen_ev(value));
+		}
+		_1 = _2;
+	}
+	if (_1) {
 		ZEPHIR_INIT_NVAR(_0);
 		ZVAL_STRING(_0, "message", ZEPHIR_TEMP_PARAM_COPY);
 		ZEPHIR_CALL_METHOD(&message, this_ptr, "getoption", NULL, _0);
@@ -115,14 +125,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_PresenceOf, validate) {
 			ZEPHIR_INIT_NVAR(message);
 			ZVAL_STRING(message, "':field' is required", 1);
 		}
-		ZEPHIR_INIT_VAR(_1);
-		array_init_size(_1, 2);
-		zephir_array_update_string(&_1, SL(":field"), &field, PH_COPY | PH_SEPARATE);
-		ZEPHIR_CALL_FUNCTION(&_2, "strtr", &_3, message, _1);
+		ZEPHIR_INIT_VAR(_3);
+		array_init_size(_3, 2);
+		zephir_array_update_string(&_3, SL(":field"), &field, PH_COPY | PH_SEPARATE);
+		ZEPHIR_CALL_FUNCTION(&_4, "strtr", &_5, message, _3);
 		zephir_check_call_status();
 		ZEPHIR_INIT_NVAR(_0);
 		ZVAL_STRING(_0, "PresenceOf", ZEPHIR_TEMP_PARAM_COPY);
-		ZEPHIR_CALL_METHOD(NULL, this_ptr, "appendmessage", NULL, _2, field, _0);
+		ZEPHIR_CALL_METHOD(NULL, this_ptr, "appendmessage", NULL, _4, field, _0);
 		zephir_check_temp_parameter(_0);
 		zephir_check_call_status();
 		RETURN_MM_BOOL(0);

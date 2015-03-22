@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Zephir Language                                                        |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2014 Zephir Team (http://www.zephir-lang.com)       |
+  | Copyright (c) 2011-2015 Zephir Team (http://www.zephir-lang.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -866,3 +866,73 @@ double zephir_safe_div_double_zval(double op1, zval *op2 TSRMLS_DC) {
 	}
 	return op1 / ((double) zephir_get_numberval(op2));
 }
+
+void zephir_floor(zval *return_value, zval *op1 TSRMLS_DC)
+{
+	convert_scalar_to_number_ex(&op1);
+
+	if (Z_TYPE_PP(&op1) == IS_DOUBLE) {
+		RETURN_DOUBLE(floor(Z_DVAL_PP(&op1)));
+	} else if (Z_TYPE_PP(&op1) == IS_LONG) {
+		convert_to_double_ex(&op1);
+		RETURN_DOUBLE(Z_DVAL_PP(&op1));
+	}
+	RETURN_FALSE;
+}
+
+void zephir_ceil(zval *return_value, zval *op1 TSRMLS_DC)
+{
+	convert_scalar_to_number_ex(&op1);
+
+	if (Z_TYPE_PP(&op1) == IS_DOUBLE) {
+		RETURN_DOUBLE(ceil(Z_DVAL_PP(&op1)));
+	} else if (Z_TYPE_PP(&op1) == IS_LONG) {
+		convert_to_double_ex(&op1);
+		RETURN_DOUBLE(Z_DVAL_PP(&op1));
+	}
+	RETURN_FALSE;
+}
+
+#if PHP_VERSION_ID < 50600
+#include "zend_multiply.h"
+int zephir_pow_function_ex(zval *return_value, zval *zbase, zval *zexp TSRMLS_DC)
+{
+	/* make sure we're dealing with numbers */
+	convert_scalar_to_number(zbase TSRMLS_CC);
+	convert_scalar_to_number(zexp TSRMLS_CC);
+
+	/* if both base and exponent were longs, we'll try to get a long out */
+	if (Z_TYPE_P(zbase) == IS_LONG && Z_TYPE_P(zexp) == IS_LONG && Z_LVAL_P(zexp) >= 0) {
+		long l1 = 1, l2 = Z_LVAL_P(zbase), i = Z_LVAL_P(zexp);
+		
+		if (i == 0) {
+			RETURN_LONG(1L);
+		} else if (l2 == 0) {
+			RETURN_LONG(0);
+		}
+
+		/* calculate pow(long,long) in O(log exp) operations, bail if overflow */
+		while (i >= 1) {
+			int overflow;
+			double dval = 0.0;
+
+			if (i % 2) {
+				--i;
+				ZEND_SIGNED_MULTIPLY_LONG(l1,l2,l1,dval,overflow);
+				if (overflow) RETURN_DOUBLE(dval * pow(l2,i));
+			} else {
+				i /= 2;
+				ZEND_SIGNED_MULTIPLY_LONG(l2,l2,l2,dval,overflow);
+				if (overflow) RETURN_DOUBLE((double)l1 * pow(dval,i));
+			}
+			if (i == 0) {
+				RETURN_LONG(l1);
+			}
+		}
+	}
+	convert_to_double(zbase);
+	convert_to_double(zexp);
+	
+	RETURN_DOUBLE(pow(Z_DVAL_P(zbase), Z_DVAL_P(zexp)));
+}
+#endif

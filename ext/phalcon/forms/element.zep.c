@@ -66,6 +66,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Forms_Element) {
 
 	zend_declare_property_null(phalcon_forms_element_ce, SL("_messages"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
+	zend_class_implements(phalcon_forms_element_ce TSRMLS_CC, 1, phalcon_forms_elementinterface_ce);
 	return SUCCESS;
 
 }
@@ -689,9 +690,10 @@ PHP_METHOD(Phalcon_Forms_Element, getDefault) {
  */
 PHP_METHOD(Phalcon_Forms_Element, getValue) {
 
+	zephir_nts_static zephir_fcall_cache_entry *_2 = NULL, *_3 = NULL;
+	zend_bool _0;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zephir_nts_static zephir_fcall_cache_entry *_1 = NULL;
-	zval *name, *form, *value = NULL, *_0 = NULL;
+	zval *name, *form, *value = NULL, *_1 = NULL;
 
 	ZEPHIR_MM_GROW();
 
@@ -702,10 +704,16 @@ PHP_METHOD(Phalcon_Forms_Element, getValue) {
 	ZEPHIR_OBS_VAR(form);
 	zephir_read_property_this(&form, this_ptr, SL("_form"), PH_NOISY_CC);
 	if (Z_TYPE_P(form) == IS_OBJECT) {
-		ZEPHIR_CALL_CE_STATIC(&_0, phalcon_tag_ce, "hasvalue", &_1, name);
+		ZEPHIR_CALL_METHOD(&value, form, "getvalue", NULL, name);
 		zephir_check_call_status();
-		if (!(zephir_is_true(_0))) {
-			ZEPHIR_CALL_METHOD(&value, form, "getvalue", NULL, name);
+		_0 = Z_TYPE_P(value) == IS_NULL;
+		if (_0) {
+			ZEPHIR_CALL_CE_STATIC(&_1, phalcon_tag_ce, "hasvalue", &_2, name);
+			zephir_check_call_status();
+			_0 = zephir_is_true(_1);
+		}
+		if (_0) {
+			ZEPHIR_CALL_CE_STATIC(&value, phalcon_tag_ce, "getvalue", &_3, name);
 			zephir_check_call_status();
 		}
 	}

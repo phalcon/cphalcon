@@ -367,7 +367,7 @@ PHP_METHOD(Phalcon_Di, getRaw) {
 	ZEPHIR_CONCAT_SVS(_2, "Service '", name, "' wasn't found in the dependency injection container");
 	ZEPHIR_CALL_METHOD(NULL, _1, "__construct", NULL, _2);
 	zephir_check_call_status();
-	zephir_throw_exception_debug(_1, "phalcon/di.zep", 183 TSRMLS_CC);
+	zephir_throw_exception_debug(_1, "phalcon/di.zep", 185 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 	return;
 
@@ -412,7 +412,7 @@ PHP_METHOD(Phalcon_Di, getService) {
 	ZEPHIR_CONCAT_SVS(_2, "Service '", name, "' wasn't found in the dependency injection container");
 	ZEPHIR_CALL_METHOD(NULL, _1, "__construct", NULL, _2);
 	zephir_check_call_status();
-	zephir_throw_exception_debug(_1, "phalcon/di.zep", 200 TSRMLS_CC);
+	zephir_throw_exception_debug(_1, "phalcon/di.zep", 202 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 	return;
 
@@ -521,18 +521,24 @@ PHP_METHOD(Phalcon_Di, get) {
 			ZEPHIR_CONCAT_SVS(_4, "Service '", name, "' wasn't found in the dependency injection container");
 			ZEPHIR_CALL_METHOD(NULL, _2, "__construct", NULL, _4);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(_2, "phalcon/di.zep", 255 TSRMLS_CC);
+			zephir_throw_exception_debug(_2, "phalcon/di.zep", 257 TSRMLS_CC);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
 	}
 	if (Z_TYPE_P(instance) == IS_OBJECT) {
-		if ((zephir_method_exists_ex(instance, SS("setdi") TSRMLS_CC) == SUCCESS)) {
+		if (zephir_instance_of_ev(instance, phalcon_di_injectionawareinterface_ce TSRMLS_CC)) {
 			ZEPHIR_CALL_METHOD(NULL, instance, "setdi", NULL, this_ptr);
 			zephir_check_call_status();
 		}
 	}
 	if (Z_TYPE_P(eventsManager) == IS_OBJECT) {
+		if (Z_TYPE_P(instance) == IS_OBJECT) {
+			if (zephir_instance_of_ev(instance, phalcon_events_eventsawareinterface_ce TSRMLS_CC)) {
+				ZEPHIR_CALL_METHOD(NULL, instance, "seteventsmanager", NULL, eventsManager);
+				zephir_check_call_status();
+			}
+		}
 		ZEPHIR_INIT_NVAR(_1);
 		array_init_size(_1, 5);
 		zephir_array_update_string(&_1, SL("name"), &name, PH_COPY | PH_SEPARATE);
@@ -897,7 +903,7 @@ PHP_METHOD(Phalcon_Di, __call) {
 	ZEPHIR_CONCAT_SVS(_6, "Call to undefined method or service '", method, "'");
 	ZEPHIR_CALL_METHOD(NULL, _5, "__construct", NULL, _6);
 	zephir_check_call_status();
-	zephir_throw_exception_debug(_5, "phalcon/di.zep", 452 TSRMLS_CC);
+	zephir_throw_exception_debug(_5, "phalcon/di.zep", 463 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 	return;
 

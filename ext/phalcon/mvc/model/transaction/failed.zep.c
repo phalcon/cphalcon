@@ -86,7 +86,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Failed, __construct) {
 
 	_0 = Z_TYPE_P(record) != IS_NULL;
 	if (_0) {
-		_0 = !zephir_instance_of_ev(record, phalcon_mvc_modelinterface_ce TSRMLS_CC);
+		_0 = !(zephir_instance_of_ev(record, phalcon_mvc_modelinterface_ce TSRMLS_CC));
 	}
 	if (_0) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'record' must be an instance of 'Phalcon\\Mvc\\ModelInterface'", "", 0);

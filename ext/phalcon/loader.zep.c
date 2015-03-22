@@ -242,7 +242,6 @@ PHP_METHOD(Phalcon_Loader, getNamespaces) {
  */
 PHP_METHOD(Phalcon_Loader, registerPrefixes) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
 	zend_bool merge;
 	zval *prefixes_param = NULL, *merge_param = NULL, *currentPrefixes, *mergedPrefixes = NULL;
 	zval *prefixes = NULL;
@@ -263,8 +262,8 @@ PHP_METHOD(Phalcon_Loader, registerPrefixes) {
 		ZEPHIR_OBS_VAR(currentPrefixes);
 		zephir_read_property_this(&currentPrefixes, this_ptr, SL("_prefixes"), PH_NOISY_CC);
 		if (Z_TYPE_P(currentPrefixes) == IS_ARRAY) {
-			ZEPHIR_CALL_METHOD(&mergedPrefixes, currentPrefixes, "merge", NULL, prefixes);
-			zephir_check_call_status();
+			ZEPHIR_INIT_VAR(mergedPrefixes);
+			zephir_fast_array_merge(mergedPrefixes, &(currentPrefixes), &(prefixes) TSRMLS_CC);
 		} else {
 			ZEPHIR_CPY_WRT(mergedPrefixes, prefixes);
 		}
@@ -351,7 +350,6 @@ PHP_METHOD(Phalcon_Loader, getDirs) {
  */
 PHP_METHOD(Phalcon_Loader, registerClasses) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
 	zend_bool merge;
 	zval *classes_param = NULL, *merge_param = NULL, *mergedClasses = NULL, *currentClasses;
 	zval *classes = NULL;
@@ -372,8 +370,8 @@ PHP_METHOD(Phalcon_Loader, registerClasses) {
 		ZEPHIR_OBS_VAR(currentClasses);
 		zephir_read_property_this(&currentClasses, this_ptr, SL("_classes"), PH_NOISY_CC);
 		if (Z_TYPE_P(currentClasses) == IS_ARRAY) {
-			ZEPHIR_CALL_METHOD(&mergedClasses, currentClasses, "merge", NULL, classes);
-			zephir_check_call_status();
+			ZEPHIR_INIT_VAR(mergedClasses);
+			zephir_fast_array_merge(mergedClasses, &(currentClasses), &(classes) TSRMLS_CC);
 		} else {
 			ZEPHIR_CPY_WRT(mergedClasses, classes);
 		}

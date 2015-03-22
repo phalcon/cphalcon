@@ -16,15 +16,15 @@
 #include "kernel/array.h"
 #include "kernel/memory.h"
 #include "kernel/exception.h"
-#include "kernel/operators.h"
 #include "kernel/fcall.h"
+#include "kernel/operators.h"
 
 
 /*
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -86,11 +86,10 @@ ZEPHIR_INIT_CLASS(Phalcon_Paginator_Adapter_QueryBuilder) {
 
 /**
  * Phalcon\Paginator\Adapter\QueryBuilder
- *
- * @param array config
  */
 PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, __construct) {
 
+	int ZEPHIR_LAST_CALL_STATUS;
 	zval *config_param = NULL, *builder, *limit, *page;
 	zval *config = NULL;
 
@@ -103,20 +102,24 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, __construct) {
 	zephir_update_property_this(this_ptr, SL("_config"), config TSRMLS_CC);
 	ZEPHIR_OBS_VAR(builder);
 	if (!(zephir_array_isset_string_fetch(&builder, config, SS("builder"), 0 TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_paginator_exception_ce, "Parameter 'builder' is required", "phalcon/paginator/adapter/querybuilder.zep", 78);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_paginator_exception_ce, "Parameter 'builder' is required", "phalcon/paginator/adapter/querybuilder.zep", 76);
 		return;
 	} else {
-		zephir_update_property_this(this_ptr, SL("_builder"), builder TSRMLS_CC);
+		ZEPHIR_CALL_METHOD(NULL, this_ptr, "setquerybuilder", NULL, builder);
+		zephir_check_call_status();
 	}
 	ZEPHIR_OBS_VAR(limit);
 	if (!(zephir_array_isset_string_fetch(&limit, config, SS("limit"), 0 TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_paginator_exception_ce, "Parameter 'limit' is required", "phalcon/paginator/adapter/querybuilder.zep", 84);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_paginator_exception_ce, "Parameter 'limit' is required", "phalcon/paginator/adapter/querybuilder.zep", 82);
 		return;
 	} else {
-		zephir_update_property_this(this_ptr, SL("_limitRows"), limit TSRMLS_CC);
+		ZEPHIR_CALL_METHOD(NULL, this_ptr, "setlimit", NULL, limit);
+		zephir_check_call_status();
 	}
-	if (zephir_array_isset_string_fetch(&page, config, SS("page"), 1 TSRMLS_CC)) {
-		zephir_update_property_this(this_ptr, SL("_page"), page TSRMLS_CC);
+	ZEPHIR_OBS_VAR(page);
+	if (zephir_array_isset_string_fetch(&page, config, SS("page"), 0 TSRMLS_CC)) {
+		ZEPHIR_CALL_METHOD(NULL, this_ptr, "setcurrentpage", NULL, page);
+		zephir_check_call_status();
 	}
 	ZEPHIR_MM_RESTORE();
 
@@ -124,8 +127,6 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, __construct) {
 
 /**
  * Set the current page number
- *
- * @param int page
  */
 PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, setCurrentPage) {
 
@@ -158,10 +159,6 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, getCurrentPage) {
 
 /**
  * Set current rows limit
- *
- * @param int $limit
- *
- * @return Phalcon\Paginator\Adapter\QueryBuilder $this Fluent interface
  */
 PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, setLimit) {
 
@@ -182,8 +179,6 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, setLimit) {
 
 /**
  * Get current rows limit
- *
- * @return int $limit
  */
 PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, getLimit) {
 
@@ -194,10 +189,6 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, getLimit) {
 
 /**
  * Set query builder object
- *
- * @param Phalcon\Mvc\Model\Query\BuilderInterface $builder
- *
- * @return Phalcon\Paginator\Adapter\QueryBuilder $this Fluent interface
  */
 PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, setQueryBuilder) {
 
@@ -218,8 +209,6 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, setQueryBuilder) {
 
 /**
  * Get query builder object
- *
- * @return Phalcon\Mvc\Model\Query\BuilderInterface $builder
  */
 PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, getQueryBuilder) {
 
@@ -230,14 +219,11 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, getQueryBuilder) {
 
 /**
  * Returns a slice of the resultset to show in the pagination
- *
- * @return stdClass
  */
 PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, getPaginate) {
 
-	zephir_nts_static zephir_fcall_cache_entry *_5 = NULL;
 	int numberPage, before, ZEPHIR_LAST_CALL_STATUS;
-	zval *originalBuilder, *builder, *totalBuilder, *totalPages = NULL, *limit, *number, *query = NULL, *page, *items = NULL, *totalQuery = NULL, *result = NULL, *row = NULL, *rowcount, *next = NULL, *_0, *_1, *_2 = NULL, *_3, _4;
+	zval *originalBuilder, *builder, *totalBuilder, *totalPages, *limit, *number, *query = NULL, *page, *items = NULL, *totalQuery = NULL, *result = NULL, *row = NULL, *rowcount, *next = NULL, *_0, *_1, *_2 = NULL, *_3, _4;
 
 	ZEPHIR_MM_GROW();
 
@@ -305,10 +291,12 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, getPaginate) {
 	zephir_read_property(&_3, row, SL("rowcount"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(rowcount);
 	ZVAL_LONG(rowcount, zephir_get_intval(_3));
+	ZEPHIR_INIT_NVAR(_2);
 	ZEPHIR_SINIT_VAR(_4);
 	div_function(&_4, rowcount, limit TSRMLS_CC);
-	ZEPHIR_CALL_FUNCTION(&totalPages, "ceil", &_5, &_4);
-	zephir_check_call_status();
+	zephir_ceil(_2, &_4);
+	ZEPHIR_INIT_VAR(totalPages);
+	ZVAL_LONG(totalPages, zephir_get_intval(_2));
 	if (ZEPHIR_GT_LONG(totalPages, numberPage)) {
 		ZEPHIR_INIT_VAR(next);
 		ZVAL_LONG(next, (numberPage + 1));

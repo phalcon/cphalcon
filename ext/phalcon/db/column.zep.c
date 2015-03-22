@@ -604,7 +604,7 @@ PHP_METHOD(Phalcon_Db_Column, __set_state) {
 		zephir_array_update_string(&definition, SL("typeReference"), &_0, PH_COPY | PH_SEPARATE);
 	}
 	if (zephir_array_isset_string_fetch(&columnTypeValues, data, SS("_typeValues"), 1 TSRMLS_CC)) {
-		zephir_array_update_string(&definition, SL("typeValeus"), &columnTypeValues, PH_COPY | PH_SEPARATE);
+		zephir_array_update_string(&definition, SL("typeValues"), &columnTypeValues, PH_COPY | PH_SEPARATE);
 	}
 	if (zephir_array_isset_string_fetch(&notNull, data, SS("_notNull"), 1 TSRMLS_CC)) {
 		zephir_array_update_string(&definition, SL("notNull"), &notNull, PH_COPY | PH_SEPARATE);

@@ -20,6 +20,7 @@
 #include "kernel/fcall.h"
 #include "kernel/array.h"
 #include "kernel/concat.h"
+#include "kernel/time.h"
 
 
 /*
@@ -440,7 +441,7 @@ PHP_METHOD(Phalcon_Http_Cookie, delete) {
 
 	zephir_nts_static zephir_fcall_cache_entry *_5 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *name, *domain, *path, *secure, *httpOnly, *dependencyInjector = NULL, *session = NULL, *_0, *_1 = NULL, *_2, *_3, _4;
+	zval *name, *domain, *path, *secure, *httpOnly, *dependencyInjector = NULL, *session = NULL, *_0, *_1 = NULL, *_2 = NULL, *_3, _4;
 
 	ZEPHIR_MM_GROW();
 
@@ -469,10 +470,10 @@ PHP_METHOD(Phalcon_Http_Cookie, delete) {
 		zephir_check_call_status();
 	}
 	zephir_update_property_this(this_ptr, SL("_value"), ZEPHIR_GLOBAL(global_null) TSRMLS_CC);
-	ZEPHIR_CALL_FUNCTION(&_1, "time", NULL);
-	zephir_check_call_status();
+	ZEPHIR_INIT_NVAR(_2);
+	zephir_time(_2);
 	ZEPHIR_SINIT_VAR(_4);
-	ZVAL_LONG(&_4, (zephir_get_numberval(_1) - 691200));
+	ZVAL_LONG(&_4, (zephir_get_numberval(_2) - 691200));
 	ZEPHIR_CALL_FUNCTION(NULL, "setcookie", &_5, name, ZEPHIR_GLOBAL(global_null), &_4, path, domain, secure, httpOnly);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
@@ -597,6 +598,18 @@ PHP_METHOD(Phalcon_Http_Cookie, setPath) {
 	}
 	zephir_update_property_this(this_ptr, SL("_path"), path TSRMLS_CC);
 	RETURN_THIS();
+
+}
+
+/**
+ * Returns the current cookie's name
+ *
+ * @return string
+ */
+PHP_METHOD(Phalcon_Http_Cookie, getName) {
+
+
+	RETURN_MEMBER(this_ptr, "_name");
 
 }
 

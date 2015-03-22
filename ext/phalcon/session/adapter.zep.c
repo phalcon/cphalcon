@@ -239,7 +239,6 @@ PHP_METHOD(Phalcon_Session_Adapter, set) {
  *</code>
  *
  * @param string index
- * @return boolean
  */
 PHP_METHOD(Phalcon_Session_Adapter, has) {
 
@@ -266,8 +265,6 @@ PHP_METHOD(Phalcon_Session_Adapter, has) {
  *<code>
  *	$session->remove('auth');
  *</code>
- *
- * @param string index
  */
 PHP_METHOD(Phalcon_Session_Adapter, remove) {
 
@@ -295,8 +292,6 @@ PHP_METHOD(Phalcon_Session_Adapter, remove) {
  *<code>
  *	echo $session->getId();
  *</code>
- *
- * @return string
  */
 PHP_METHOD(Phalcon_Session_Adapter, getId) {
 
@@ -311,13 +306,38 @@ PHP_METHOD(Phalcon_Session_Adapter, getId) {
 }
 
 /**
+ * Set the current session id
+ *
+ *<code>
+ *	$session->setId($id);
+ *</code>
+ *
+ * @param string id
+ */
+PHP_METHOD(Phalcon_Session_Adapter, setId) {
+
+	int ZEPHIR_LAST_CALL_STATUS;
+	zval *id_param = NULL;
+	zval *id = NULL;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &id_param);
+
+	zephir_get_strval(id, id_param);
+
+
+	ZEPHIR_CALL_FUNCTION(NULL, "session_id", NULL, id);
+	zephir_check_call_status();
+	ZEPHIR_MM_RESTORE();
+
+}
+
+/**
  * Check whether the session has been started
  *
  *<code>
  *	var_dump($session->isStarted());
  *</code>
- *
- * @return boolean
  */
 PHP_METHOD(Phalcon_Session_Adapter, isStarted) {
 
@@ -332,8 +352,6 @@ PHP_METHOD(Phalcon_Session_Adapter, isStarted) {
  *<code>
  *	var_dump(session->destroy());
  *</code>
- *
- * @return boolean
  */
 PHP_METHOD(Phalcon_Session_Adapter, destroy) {
 
@@ -343,6 +361,98 @@ PHP_METHOD(Phalcon_Session_Adapter, destroy) {
 
 	zephir_update_property_this(this_ptr, SL("_started"), (0) ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
 	ZEPHIR_RETURN_CALL_FUNCTION("session_destroy", NULL);
+	zephir_check_call_status();
+	RETURN_MM();
+
+}
+
+/**
+ * Alias: Gets a session variable from an application context
+ *
+ * @param string index
+ * @return mixed
+ */
+PHP_METHOD(Phalcon_Session_Adapter, __get) {
+
+	int ZEPHIR_LAST_CALL_STATUS;
+	zval *index_param = NULL;
+	zval *index = NULL;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &index_param);
+
+	zephir_get_strval(index, index_param);
+
+
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "get", NULL, index);
+	zephir_check_call_status();
+	RETURN_MM();
+
+}
+
+/**
+ * Alias: Sets a session variable in an application context
+ *
+ * @param string index
+ * @param string value
+ */
+PHP_METHOD(Phalcon_Session_Adapter, __set) {
+
+	int ZEPHIR_LAST_CALL_STATUS;
+	zval *index_param = NULL, *value;
+	zval *index = NULL;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 2, 0, &index_param, &value);
+
+	zephir_get_strval(index, index_param);
+
+
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "set", NULL, index, value);
+	zephir_check_call_status();
+	RETURN_MM();
+
+}
+
+/**
+ * Alias: Check whether a session variable is set in an application context
+ *
+ * @param string index
+ */
+PHP_METHOD(Phalcon_Session_Adapter, __isset) {
+
+	int ZEPHIR_LAST_CALL_STATUS;
+	zval *index_param = NULL;
+	zval *index = NULL;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &index_param);
+
+	zephir_get_strval(index, index_param);
+
+
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "has", NULL, index);
+	zephir_check_call_status();
+	RETURN_MM();
+
+}
+
+/**
+ * Alias: Removes a session variable from an application context
+ */
+PHP_METHOD(Phalcon_Session_Adapter, __unset) {
+
+	int ZEPHIR_LAST_CALL_STATUS;
+	zval *index_param = NULL;
+	zval *index = NULL;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &index_param);
+
+	zephir_get_strval(index, index_param);
+
+
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "remove", NULL, index);
 	zephir_check_call_status();
 	RETURN_MM();
 

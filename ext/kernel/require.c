@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Zephir Language                                                        |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2014 Zephir Team (http://www.zephir-lang.com)       |
+  | Copyright (c) 2011-2015 Zephir Team (http://www.zephir-lang.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -40,7 +40,7 @@
 int zephir_require_ret(zval **return_value_ptr, const char *require_path TSRMLS_DC)
 {
 	zend_file_handle file_handle;
-	int ret, use_ret;
+	int ret, use_ret, mode;
 
 #ifndef ZEPHIR_RELEASE
 	if (return_value_ptr && *return_value_ptr) {
@@ -55,9 +55,16 @@ int zephir_require_ret(zval **return_value_ptr, const char *require_path TSRMLS_
 		return FAILURE;
 	}
 
+	mode = ENFORCE_SAFE_MODE | USE_PATH | STREAM_OPEN_FOR_INCLUDE;
+
+	if (strlen(require_path) < 7 || memcmp(require_path, "phar://", 7)) {
+		/* No phar archive */
+		mode |= IGNORE_URL;
+	}
+
 	use_ret = !!return_value_ptr;
 
-	ret = php_stream_open_for_zend_ex(require_path, &file_handle, ENFORCE_SAFE_MODE | USE_PATH | STREAM_OPEN_FOR_INCLUDE | IGNORE_URL TSRMLS_CC);
+	ret = php_stream_open_for_zend_ex(require_path, &file_handle, mode TSRMLS_CC);
 	if (ret == SUCCESS) {
 
 		int dummy = 1;

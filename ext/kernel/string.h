@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Zephir Language                                                        |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2014 Zephir Team (http://www.zephir-lang.com)       |
+  | Copyright (c) 2011-2015 Zephir Team (http://www.zephir-lang.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -86,6 +86,7 @@ void zephir_base64_decode(zval *return_value, zval *data);
 
 /** Hash */
 void zephir_md5(zval *return_value, zval *str);
+void zephir_crc32(zval *return_value, zval *str TSRMLS_DC);
 
 /** JSON */
 int zephir_json_encode(zval *return_value, zval **return_value_ptr, zval *v, int opts TSRMLS_DC);

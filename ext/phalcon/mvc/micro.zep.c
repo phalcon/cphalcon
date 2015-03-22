@@ -111,7 +111,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, __construct) {
 
 	_0 = Z_TYPE_P(dependencyInjector) != IS_NULL;
 	if (_0) {
-		_0 = !zephir_instance_of_ev(dependencyInjector, phalcon_diinterface_ce TSRMLS_CC);
+		_0 = !(zephir_instance_of_ev(dependencyInjector, phalcon_diinterface_ce TSRMLS_CC));
 	}
 	if (_0) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'dependencyInjector' must be an instance of 'Phalcon\\DiInterface'", "", 0);
@@ -491,7 +491,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, options) {
  */
 PHP_METHOD(Phalcon_Mvc_Micro, mount) {
 
-	zend_bool _5;
+	zend_bool _5, _6;
 	zephir_fcall_cache_entry *_4 = NULL;
 	HashTable *_2;
 	HashPosition _1;
@@ -571,10 +571,14 @@ PHP_METHOD(Phalcon_Mvc_Micro, mount) {
 			ZEPHIR_CALL_METHOD(&route, this_ptr, "map", &_4, prefixedPattern, realHandler);
 			zephir_check_call_status();
 			_5 = Z_TYPE_P(methods) == IS_STRING;
-			if (!(_5)) {
-				_5 = Z_TYPE_P(methods) == IS_ARRAY;
-			}
 			if (_5) {
+				_5 = !ZEPHIR_IS_STRING(methods, "");
+			}
+			_6 = _5;
+			if (!(_6)) {
+				_6 = Z_TYPE_P(methods) == IS_ARRAY;
+			}
+			if (_6) {
 				ZEPHIR_CALL_METHOD(NULL, route, "via", NULL, methods);
 				zephir_check_call_status();
 			}

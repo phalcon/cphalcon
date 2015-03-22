@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Zephir Language                                                        |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2014 Zephir Team (http://www.zephir-lang.com)       |
+  | Copyright (c) 2011-2015 Zephir Team (http://www.zephir-lang.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -410,7 +410,7 @@ int zephir_call_user_function(zval **object_pp, zend_class_entry *obj_ce, zephir
 
 	if (!cache_entry || !*cache_entry) {
 		if (zephir_globals_ptr->cache_enabled) {
-			fcall_key_hash = zephir_make_fcall_key(&fcall_key, &fcall_key_len, (object_pp ? Z_OBJCE_PP(object_pp) : obj_ce), type, function_name TSRMLS_CC);
+			fcall_key_hash = zephir_make_fcall_key(&fcall_key, &fcall_key_len, (object_pp && type != zephir_fcall_ce ? Z_OBJCE_PP(object_pp) : obj_ce), type, function_name TSRMLS_CC);
 		}
 	}
 
@@ -488,7 +488,7 @@ int zephir_call_user_function(zval **object_pp, zend_class_entry *obj_ce, zephir
 	EG(scope) = old_scope;
 
 	if (!cache_entry || !*cache_entry) {
-		if (EXPECTED(status != FAILURE) && fcall_key && !temp_cache_entry) {
+		if (EXPECTED(status != FAILURE) && fcall_key && !temp_cache_entry && fcic.initialized) {
 #ifndef ZEPHIR_RELEASE
 			zephir_fcall_cache_entry *temp_cache_entry = malloc(sizeof(zephir_fcall_cache_entry));
 			temp_cache_entry->f     = fcic.function_handler;

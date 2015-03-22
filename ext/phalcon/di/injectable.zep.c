@@ -44,6 +44,31 @@
  *
  * This class allows to access services in the services container by just only accessing a public property
  * with the same name of a registered service
+ * 
+ * @property \Phalcon\Mvc\Dispatcher|\Phalcon\Mvc\DispatcherInterface $dispatcher;
+ * @property \Phalcon\Mvc\Router|\Phalcon\Mvc\RouterInterface $router
+ * @property \Phalcon\Mvc\Url|\Phalcon\Mvc\UrlInterface $url
+ * @property \Phalcon\Http\Request|\Phalcon\HTTP\RequestInterface $request
+ * @property \Phalcon\Http\Response|\Phalcon\HTTP\ResponseInterface $response
+ * @property \Phalcon\Http\Response\Cookies|\Phalcon\Http\Response\CookiesInterface $cookies
+ * @property \Phalcon\Filter|\Phalcon\FilterInterface $filter
+ * @property \Phalcon\Flash\Direct $flash
+ * @property \Phalcon\Flash\Session $flashSession
+ * @property \Phalcon\Session\Adapter\Files|\Phalcon\Session\Adapter|\Phalcon\Session\AdapterInterface $session
+ * @property \Phalcon\Events\Manager $eventsManager
+ * @property \Phalcon\Db\AdapterInterface $db
+ * @property \Phalcon\Security $security
+ * @property \Phalcon\Crypt $crypt
+ * @property \Phalcon\Tag $tag
+ * @property \Phalcon\Escaper|\Phalcon\EscaperInterface $escaper
+ * @property \Phalcon\Annotations\Adapter\Memory|\Phalcon\Annotations\Adapter $annotations
+ * @property \Phalcon\Mvc\Model\Manager|\Phalcon\Mvc\Model\ManagerInterface $modelsManager
+ * @property \Phalcon\Mvc\Model\MetaData\Memory|\Phalcon\Mvc\Model\MetadataInterface $modelsMetadata
+ * @property \Phalcon\Mvc\Model\Transaction\Manager $transactionManager
+ * @property \Phalcon\Assets\Manager $assets
+ * @property \Phalcon\DI|\Phalcon\DiInterface $di
+ * @property \Phalcon\Session\Bag $persistent
+ * @property \Phalcon\Mvc\View|\Phalcon\Mvc\ViewInterface $view
  */
 ZEPHIR_INIT_CLASS(Phalcon_Di_Injectable) {
 
@@ -87,7 +112,7 @@ PHP_METHOD(Phalcon_Di_Injectable, setDI) {
 		return;
 	}
 	if (Z_TYPE_P(dependencyInjector) != IS_OBJECT) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_di_exception_ce, "Dependency Injector is invalid", "phalcon/di/injectable.zep", 60);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_di_exception_ce, "Dependency Injector is invalid", "phalcon/di/injectable.zep", 85);
 		return;
 	}
 	zephir_update_property_this(this_ptr, SL("_dependencyInjector"), dependencyInjector TSRMLS_CC);
@@ -185,7 +210,7 @@ PHP_METHOD(Phalcon_Di_Injectable, __get) {
 		ZEPHIR_CALL_CE_STATIC(&dependencyInjector, phalcon_di_ce, "getdefault", &_1);
 		zephir_check_call_status();
 		if (Z_TYPE_P(dependencyInjector) != IS_OBJECT) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_di_exception_ce, "A dependency injection object is required to access the application services", "phalcon/di/injectable.zep", 114);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_di_exception_ce, "A dependency injection object is required to access the application services", "phalcon/di/injectable.zep", 139);
 			return;
 		}
 	}

@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Zephir Language                                                        |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2014 Zephir Team (http://www.zephir-lang.com)       |
+  | Copyright (c) 2011-2015 Zephir Team (http://www.zephir-lang.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -49,6 +49,7 @@ int zephir_clone(zval *destiny, zval *obj TSRMLS_DC);
 int zephir_instance_of(zval *result, const zval *object, const zend_class_entry *ce TSRMLS_DC);
 int zephir_is_instance_of(zval *object, const char *class_name, unsigned int class_length TSRMLS_DC);
 int zephir_instance_of_ev(const zval *object, const zend_class_entry *ce TSRMLS_DC);
+int zephir_zval_is_traversable(zval *object TSRMLS_DC);
 
 /** Method exists */
 int zephir_method_exists(const zval *object, const zval *method_name TSRMLS_DC);

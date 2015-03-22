@@ -19,6 +19,7 @@
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
 #include "kernel/array.h"
+#include "kernel/time.h"
 #include "kernel/string.h"
 #include "kernel/hash.h"
 #include "kernel/concat.h"
@@ -282,7 +283,7 @@ PHP_METHOD(Phalcon_Debug, debugVar) {
 	int ZEPHIR_LAST_CALL_STATUS;
 	zephir_nts_static zephir_fcall_cache_entry *_2 = NULL;
 	zval *_0;
-	zval *varz, *key = NULL, *_1 = NULL;
+	zval *varz, *key = NULL, *_1 = NULL, *_3;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &varz, &key);
@@ -298,9 +299,9 @@ PHP_METHOD(Phalcon_Debug, debugVar) {
 	ZEPHIR_CALL_FUNCTION(&_1, "debug_backtrace", &_2);
 	zephir_check_call_status();
 	zephir_array_fast_append(_0, _1);
-	ZEPHIR_CALL_FUNCTION(&_1, "time", NULL);
-	zephir_check_call_status();
-	zephir_array_fast_append(_0, _1);
+	ZEPHIR_INIT_VAR(_3);
+	zephir_time(_3);
+	zephir_array_fast_append(_0, _3);
 	zephir_update_property_array_append(this_ptr, SL("_data"), _0 TSRMLS_CC);
 	RETURN_THIS();
 

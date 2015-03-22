@@ -115,7 +115,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, __construct) {
 
 	_0 = Z_TYPE_P(dependencyInjector) != IS_NULL;
 	if (_0) {
-		_0 = !zephir_instance_of_ev(dependencyInjector, phalcon_diinterface_ce TSRMLS_CC);
+		_0 = !(zephir_instance_of_ev(dependencyInjector, phalcon_diinterface_ce TSRMLS_CC));
 	}
 	if (_0) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'dependencyInjector' must be an instance of 'Phalcon\\DiInterface'", "", 0);
@@ -123,7 +123,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, __construct) {
 	}
 	_1 = Z_TYPE_P(modelsManager) != IS_NULL;
 	if (_1) {
-		_1 = !zephir_instance_of_ev(modelsManager, phalcon_mvc_collection_managerinterface_ce TSRMLS_CC);
+		_1 = !(zephir_instance_of_ev(modelsManager, phalcon_mvc_collection_managerinterface_ce TSRMLS_CC));
 	}
 	if (_1) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'modelsManager' must be an instance of 'Phalcon\\Mvc\\Collection\\ManagerInterface'", "", 0);

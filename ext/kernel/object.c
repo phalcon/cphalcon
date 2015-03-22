@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Zephir Language                                                        |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2014 Zephir Team (http://www.zephir-lang.com)       |
+  | Copyright (c) 2011-2015 Zephir Team (http://www.zephir-lang.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -24,6 +24,7 @@
 
 #include <php.h>
 #include "php_ext.h"
+
 #include <Zend/zend_closures.h>
 
 #include "kernel/main.h"
@@ -94,6 +95,31 @@ int zephir_is_instance_of(zval *object, const char *class_name, unsigned int cla
 		temp_ce = zend_fetch_class(class_name, class_length, ZEND_FETCH_CLASS_DEFAULT TSRMLS_CC);
 		if (temp_ce) {
 			return instanceof_function(ce, temp_ce TSRMLS_CC);
+		}
+	}
+
+	return 0;
+}
+
+int zephir_zval_is_traversable(zval *object TSRMLS_DC) {
+
+	zend_class_entry *ce;
+	zend_uint i;
+
+	if (Z_TYPE_P(object) == IS_OBJECT) {
+		ce = Z_OBJCE_P(object);
+
+		if (ce->get_iterator || (ce->parent && ce->parent->get_iterator)) {
+			return 1;
+		}
+
+		for (i = 0; i < ce->num_interfaces; i++) {
+			if (ce->interfaces[i] == zend_ce_aggregate ||
+				ce->interfaces[i] == zend_ce_iterator ||
+				ce->interfaces[i] == zend_ce_traversable
+			) {
+				return 1;
+			}
 		}
 	}
 
@@ -1068,7 +1094,8 @@ int zephir_update_property_array_multi(zval *object, const char *property, zend_
 					if (zephir_array_isset_string_fetch(&fetched, p, s, l + 1, 0 TSRMLS_CC)) {
 						if (Z_TYPE_P(fetched) == IS_ARRAY) {
 							if (i == (types_length - 1)) {
-								zephir_array_update_string(&fetched, s, l, value, PH_COPY | PH_SEPARATE);
+								re_update = Z_REFCOUNT_P(p) > 1 && !Z_ISREF_P(p);
+								zephir_array_update_string(&p, s, l, value, PH_COPY | PH_SEPARATE);
 							} else {
 								p = fetched;
 							}
@@ -1100,7 +1127,8 @@ int zephir_update_property_array_multi(zval *object, const char *property, zend_
 					if (zephir_array_isset_long_fetch(&fetched, p, ll, 0 TSRMLS_CC)) {
 						if (Z_TYPE_P(fetched) == IS_ARRAY) {
 							if (i == (types_length - 1)) {
-								zephir_array_update_long(&fetched, ll, value, PH_COPY | PH_SEPARATE ZEPHIR_DEBUG_PARAMS_DUMMY);
+								re_update = Z_REFCOUNT_P(p) > 1 && !Z_ISREF_P(p);
+								zephir_array_update_long(&p, ll, value, PH_COPY | PH_SEPARATE ZEPHIR_DEBUG_PARAMS_DUMMY);
 							} else {
 								p = fetched;
 							}
@@ -1132,7 +1160,8 @@ int zephir_update_property_array_multi(zval *object, const char *property, zend_
 					if (zephir_array_isset_fetch(&fetched, p, item, 0 TSRMLS_CC)) {
 						if (Z_TYPE_P(fetched) == IS_ARRAY) {
 							if (i == (types_length - 1)) {
-								zephir_array_update_zval(&fetched, item, value, PH_COPY | PH_SEPARATE);
+								re_update = Z_REFCOUNT_P(p) > 1 && !Z_ISREF_P(p);
+								zephir_array_update_zval(&p, item, value, PH_COPY | PH_SEPARATE);
 							} else {
 								p = fetched;
 							}

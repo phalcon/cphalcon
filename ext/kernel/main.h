@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Zephir Language                                                        |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2014 Zephir Team (http://www.zephir-lang.com)       |
+  | Copyright (c) 2011-2015 Zephir Team (http://www.zephir-lang.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -450,7 +450,7 @@ static inline char *_str_erealloc(char *str, size_t new_len, size_t old_len) {
 		INIT_NS_CLASS_ENTRY(ce, #ns, #class_name, methods); \
 		lower_ns## _ ##lcname## _ce = zend_register_internal_class_ex(&ce, parent_ce, NULL TSRMLS_CC); \
 		if (!lower_ns## _ ##lcname## _ce) { \
-			fprintf(stderr, "Phalcon Error: Class to extend '%s' was not found when registering class '%s'\n", (parent_ce ? parent_ce->name : "(null)"), ZEND_NS_NAME(#ns, #class_name)); \
+			fprintf(stderr, "Zephir Error: Class to extend '%s' was not found when registering class '%s'\n", (parent_ce ? parent_ce->name : "(null)"), ZEND_NS_NAME(#ns, #class_name)); \
 			return FAILURE; \
 		} \
 		lower_ns## _ ##lcname## _ce->ce_flags |= flags;  \

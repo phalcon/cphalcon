@@ -217,7 +217,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Db_DialectInterface, tableExists);
 ZEPHIR_DOC_METHOD(Phalcon_Db_DialectInterface, describeColumns);
 
 /**
- * List all tables on database
+ * List all tables in database
  *
  * @param       string schemaName
  * @return      array

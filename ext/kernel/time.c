@@ -12,18 +12,48 @@
   | obtain it through the world-wide-web, please send an email             |
   | to license@zephir-lang.com so we can send you a copy immediately.      |
   +------------------------------------------------------------------------+
-  | Authors: Andres Gutierrez <andres@zephir-lang.com>                     |
-  |          Eduar Carvajal <eduar@zephir-lang.com>                        |
-  |          Vladimir Kolesnikov <vladimir@extrememember.com>              |
-  +------------------------------------------------------------------------+
 */
 
-#ifndef ZEPHIR_KERNEL_SESSION_H
-#define ZEPHIR_KERNEL_SESSION_H
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
 
-void zephir_session_start(TSRMLS_D);
-void zephir_session_destroy(TSRMLS_D);
-void zephir_get_session_id(zval *return_value, zval **return_value_ptr TSRMLS_DC);
-void zephir_set_session_id(zval *sid TSRMLS_DC);
+#ifdef PHP_WIN32
+#include "win32/time.h"
+#elif defined(NETWARE)
+#include <sys/timeval.h>
+#include <sys/time.h>
+#else
+#include <sys/time.h>
+#endif
 
-#endif /* ZEPHIR_KERNEL_SESSION_H */
+#include <ctype.h>
+
+#include "php.h"
+#include "php_ext.h"
+
+#include "kernel/main.h"
+#include "kernel/time.h"
+#include "kernel/operators.h"
+
+void zephir_time(zval *return_value)
+{
+	RETURN_LONG(time(NULL));
+}
+
+void zephir_microtime(zval *return_value, zval *get_as_float)
+{
+	struct timeval tp = {0};
+	char ret[100];
+
+	if (gettimeofday(&tp, NULL)) {
+		RETURN_FALSE;
+	}
+
+	if (get_as_float && ZEPHIR_IS_TRUE(get_as_float)) {
+		RETURN_DOUBLE((double)(tp.tv_sec + tp.tv_usec / MICRO_IN_SEC));
+	}
+
+	snprintf(ret, 100, "%.8F %ld", tp.tv_usec / MICRO_IN_SEC, tp.tv_sec);
+	RETURN_STRING(ret, 1);
+}

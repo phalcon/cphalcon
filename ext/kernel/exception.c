@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Zephir Language                                                        |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2014 Zephir Team (http://www.zephir-lang.com)       |
+  | Copyright (c) 2011-2015 Zephir Team (http://www.zephir-lang.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -30,6 +30,7 @@
 #include "kernel/main.h"
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
+#include "kernel/operators.h"
 
 #include "Zend/zend_exceptions.h"
 
@@ -47,16 +48,26 @@ void zephir_throw_exception(zval *object TSRMLS_DC){
 void zephir_throw_exception_debug(zval *object, const char *file, zend_uint line TSRMLS_DC){
 
 	zend_class_entry *default_exception_ce;
+	int ZEPHIR_LAST_CALL_STATUS = 0;
+	zval *curline = NULL;
+
+	ZEPHIR_MM_GROW();
 
 	Z_ADDREF_P(object);
 
 	if (line > 0) {
-		default_exception_ce = zend_exception_get_default(TSRMLS_C);
-		zend_update_property_string(default_exception_ce, object, "file", sizeof("file")-1, file TSRMLS_CC);
-		zend_update_property_long(default_exception_ce, object, "line", sizeof("line")-1, line TSRMLS_CC);
+		curline = 0;
+		ZEPHIR_CALL_METHOD(&curline, object, "getline", NULL);
+		zephir_check_call_status();
+		if (ZEPHIR_IS_LONG(curline, 0)) {
+			default_exception_ce = zend_exception_get_default(TSRMLS_C);
+			zend_update_property_string(default_exception_ce, object, "file", sizeof("file")-1, file TSRMLS_CC);
+			zend_update_property_long(default_exception_ce, object, "line", sizeof("line")-1, line TSRMLS_CC);
+		}
 	}
 
 	zend_throw_exception_object(object TSRMLS_CC);
+	ZEPHIR_MM_RESTORE();
 }
 
 /**

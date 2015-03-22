@@ -16,6 +16,7 @@ PHP_METHOD(Phalcon_Http_Cookie, isUsingEncryption);
 PHP_METHOD(Phalcon_Http_Cookie, setExpiration);
 PHP_METHOD(Phalcon_Http_Cookie, getExpiration);
 PHP_METHOD(Phalcon_Http_Cookie, setPath);
+PHP_METHOD(Phalcon_Http_Cookie, getName);
 PHP_METHOD(Phalcon_Http_Cookie, getPath);
 PHP_METHOD(Phalcon_Http_Cookie, setDomain);
 PHP_METHOD(Phalcon_Http_Cookie, getDomain);
@@ -86,6 +87,7 @@ ZEPHIR_INIT_FUNCS(phalcon_http_cookie_method_entry) {
 	PHP_ME(Phalcon_Http_Cookie, setExpiration, arginfo_phalcon_http_cookie_setexpiration, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Cookie, getExpiration, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Cookie, setPath, arginfo_phalcon_http_cookie_setpath, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Cookie, getName, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Cookie, getPath, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Cookie, setDomain, arginfo_phalcon_http_cookie_setdomain, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Cookie, getDomain, NULL, ZEND_ACC_PUBLIC)

@@ -3,7 +3,7 @@
 	+------------------------------------------------------------------------+
 	| Zephir Language                                                        |
 	+------------------------------------------------------------------------+
-	| Copyright (c) 2011-2014 Zephir Team  (http://www.zephir-lang.com)      |
+	| Copyright (c) 2011-2015 Zephir Team  (http://www.zephir-lang.com)      |
 	+------------------------------------------------------------------------+
 	| This source file is subject to the New BSD License that is bundled     |
 	| with this package in the file docs/LICENSE.txt.                        |
@@ -19,7 +19,7 @@
 */
 
 #ifndef ZEPHIR_KERNEL_ITERATOR_H
-#define ZEPHIR_KERNEL_ITERATOR_H	
+#define ZEPHIR_KERNEL_ITERATOR_H
 
 zend_object_iterator *zephir_get_iterator(zval *iterator TSRMLS_DC);
 

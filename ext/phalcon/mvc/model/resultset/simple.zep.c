@@ -93,7 +93,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, __construct) {
 
 	_0 = Z_TYPE_P(cache) != IS_NULL;
 	if (_0) {
-		_0 = !zephir_instance_of_ev(cache, phalcon_cache_backendinterface_ce TSRMLS_CC);
+		_0 = !(zephir_instance_of_ev(cache, phalcon_cache_backendinterface_ce TSRMLS_CC));
 	}
 	if (_0) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'cache' must be an instance of 'Phalcon\\Cache\\BackendInterface'", "", 0);
@@ -296,7 +296,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, toArray) {
 					ZEPHIR_GET_HMKEY(key, _6, _5);
 					ZEPHIR_GET_HVALUE(value, _7);
 					ZEPHIR_OBS_NVAR(renamedKey);
-					if (zephir_array_isset_fetch(&renamedKey, columnMap, key, 0 TSRMLS_CC)) {
+					if (!(zephir_array_isset_fetch(&renamedKey, columnMap, key, 0 TSRMLS_CC))) {
 						ZEPHIR_INIT_NVAR(_8);
 						object_init_ex(_8, phalcon_mvc_model_exception_ce);
 						ZEPHIR_INIT_LNVAR(_9);

@@ -72,6 +72,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Router_Route) {
 
 	zend_declare_property_null(phalcon_mvc_router_route_ce, SL("_uniqueId"), ZEND_ACC_PROTECTED|ZEND_ACC_STATIC TSRMLS_CC);
 
+	zend_class_implements(phalcon_mvc_router_route_ce TSRMLS_CC, 1, phalcon_mvc_router_routeinterface_ce);
 	return SUCCESS;
 
 }
@@ -330,7 +331,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, extractNamedParams) {
 										}
 										_9 = _10;
 									}
-									_7 = !_9;
+									_7 = !(_9);
 								}
 								if (_7) {
 									notValid = 1;

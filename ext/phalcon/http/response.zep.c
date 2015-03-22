@@ -156,7 +156,7 @@ PHP_METHOD(Phalcon_Http_Response, getDI) {
 		ZEPHIR_CALL_CE_STATIC(&dependencyInjector, phalcon_di_ce, "getdefault", &_1);
 		zephir_check_call_status();
 		if (Z_TYPE_P(dependencyInjector) != IS_OBJECT) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_http_response_exception_ce, "A dependency injection object is required to access the 'url' service", "phalcon/http/response.zep", 102);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_http_response_exception_ce, "A dependency injection object is required to access the 'url' service", "phalcon/http/response.zep", 103);
 			return;
 		}
 		zephir_update_property_this(this_ptr, SL("_dependencyInjector"), dependencyInjector TSRMLS_CC);
@@ -206,7 +206,7 @@ PHP_METHOD(Phalcon_Http_Response, setStatusCode) {
 	zephir_check_call_status();
 	if (Z_TYPE_P(currentHeadersRaw) == IS_ARRAY) {
 		ZEPHIR_INIT_VAR(_0);
-		zephir_is_iterable(currentHeadersRaw, &_2, &_1, 0, 0, "phalcon/http/response.zep", 138);
+		zephir_is_iterable(currentHeadersRaw, &_2, &_1, 0, 0, "phalcon/http/response.zep", 139);
 		for (
 		  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_2, &_1)
@@ -294,12 +294,12 @@ PHP_METHOD(Phalcon_Http_Response, setStatusCode) {
 		}
 		_11 = zephir_fetch_nproperty_this(this_ptr, SL("_statusCodes"), PH_NOISY_CC);
 		if (!(zephir_array_isset_long(_11, code))) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_http_response_exception_ce, "Non-standard statuscode given withou a message.", "phalcon/http/response.zep", 212);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_http_response_exception_ce, "Non-standard statuscode given withou a message.", "phalcon/http/response.zep", 213);
 			return;
 		}
 		_12 = zephir_fetch_nproperty_this(this_ptr, SL("_statusCodes"), PH_NOISY_CC);
 		ZEPHIR_OBS_VAR(defaultMessage);
-		zephir_array_fetch_long(&defaultMessage, _12, code, PH_NOISY, "phalcon/http/response.zep", 215 TSRMLS_CC);
+		zephir_array_fetch_long(&defaultMessage, _12, code, PH_NOISY, "phalcon/http/response.zep", 216 TSRMLS_CC);
 		zephir_get_strval(message, defaultMessage);
 	}
 	ZEPHIR_SINIT_NVAR(_5);
@@ -761,7 +761,7 @@ PHP_METHOD(Phalcon_Http_Response, redirect) {
 		statusCode = 302;
 		_7 = zephir_fetch_nproperty_this(this_ptr, SL("_statusCodes"), PH_NOISY_CC);
 		ZEPHIR_OBS_VAR(message);
-		zephir_array_fetch_long(&message, _7, 302, PH_NOISY, "phalcon/http/response.zep", 478 TSRMLS_CC);
+		zephir_array_fetch_long(&message, _7, 302, PH_NOISY, "phalcon/http/response.zep", 479 TSRMLS_CC);
 	} else {
 		ZEPHIR_OBS_NVAR(message);
 		_7 = zephir_fetch_nproperty_this(this_ptr, SL("_statusCodes"), PH_NOISY_CC);
@@ -946,7 +946,7 @@ PHP_METHOD(Phalcon_Http_Response, send) {
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_sent"), PH_NOISY_CC);
 	if (zephir_is_true(_0)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_http_response_exception_ce, "Response was already sent", "phalcon/http/response.zep", 598);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_http_response_exception_ce, "Response was already sent", "phalcon/http/response.zep", 599);
 		return;
 	}
 	ZEPHIR_OBS_VAR(headers);

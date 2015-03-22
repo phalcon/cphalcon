@@ -106,7 +106,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_Csv, __construct) {
 		zephir_check_call_status();
 		_16 = ZEPHIR_IS_STRING_IDENTICAL(_14, "#");
 		if (!(_16)) {
-			_16 = !zephir_array_isset_long(data, 1);
+			_16 = !(zephir_array_isset_long(data, 1));
 		}
 		if (_16) {
 			continue;

@@ -99,7 +99,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Url, validate) {
 	ZEPHIR_CALL_METHOD(&field, this_ptr, "getoption", NULL, _0);
 	zephir_check_temp_parameter(_0);
 	zephir_check_call_status();
-	if (Z_TYPE_P(field) == IS_STRING) {
+	if (Z_TYPE_P(field) != IS_STRING) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "Field name must be a string", "phalcon/mvc/model/validator/url.zep", 66);
 		return;
 	}

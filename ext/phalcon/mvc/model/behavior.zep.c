@@ -74,8 +74,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior, __construct) {
 
 /**
  * Checks whether the behavior must take action on certain event
- *
- * @param string eventName
  */
 PHP_METHOD(Phalcon_Mvc_Model_Behavior, mustTakeAction) {
 

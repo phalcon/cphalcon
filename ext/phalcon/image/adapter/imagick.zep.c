@@ -20,14 +20,13 @@
 #include "kernel/file.h"
 #include "kernel/concat.h"
 #include "ext/spl/spl_exceptions.h"
-#include "kernel/array.h"
 
 
 /*
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -57,7 +56,9 @@ ZEPHIR_INIT_CLASS(Phalcon_Image_Adapter_Imagick) {
 
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Image\\Adapter, Imagick, phalcon, image_adapter_imagick, phalcon_image_adapter_ce, phalcon_image_adapter_imagick_method_entry, 0);
 
-	zend_declare_property_long(phalcon_image_adapter_imagick_ce, SL("_version"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_long(phalcon_image_adapter_imagick_ce, SL("_version"), 0, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC TSRMLS_CC);
+
+	zend_declare_property_bool(phalcon_image_adapter_imagick_ce, SL("_checked"), 0, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC TSRMLS_CC);
 
 	zend_class_implements(phalcon_image_adapter_imagick_ce TSRMLS_CC, 1, phalcon_image_adapterinterface_ce);
 	return SUCCESS;
@@ -84,7 +85,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, check) {
 	ZEPHIR_SINIT_VAR(_1);
 	ZVAL_STRING(&_1, "imagick", 0);
 	if (!(zephir_class_exists(&_1, 1 TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_image_exception_ce, "Imagick is not installed, or the extension is not loaded", "phalcon/image/adapter/imagick.zep", 53);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_image_exception_ce, "Imagick is not installed, or the extension is not loaded", "phalcon/image/adapter/imagick.zep", 54);
 		return;
 	}
 	ZEPHIR_SINIT_VAR(_2);
@@ -96,7 +97,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, check) {
 		ZVAL_STRING(&_2, "Imagick::IMAGICK_EXTNUM", 0);
 		ZEPHIR_CALL_FUNCTION(&_5, "constant", &_6, &_2);
 		zephir_check_call_status();
-		zephir_update_property_this(this_ptr, SL("_version"), _5 TSRMLS_CC);
+		zephir_update_static_property_ce(phalcon_image_adapter_imagick_ce, SL("_version"), &_5 TSRMLS_CC);
 	}
 	zephir_update_static_property_ce(phalcon_image_adapter_imagick_ce, SL("_checked"), &(ZEPHIR_GLOBAL(global_true)) TSRMLS_CC);
 	_7 = zephir_fetch_static_property_ce(phalcon_image_adapter_imagick_ce, SL("_checked") TSRMLS_CC);
@@ -174,7 +175,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, __construct) {
 			ZEPHIR_CONCAT_SVS(_11, "Imagick::readImage ", _10, " failed");
 			ZEPHIR_CALL_METHOD(NULL, _9, "__construct", NULL, _11);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(_9, "phalcon/image/adapter/imagick.zep", 86 TSRMLS_CC);
+			zephir_throw_exception_debug(_9, "phalcon/image/adapter/imagick.zep", 87 TSRMLS_CC);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
@@ -216,7 +217,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, __construct) {
 			ZEPHIR_CONCAT_SV(_11, "Failed to create image from file ", _3);
 			ZEPHIR_CALL_METHOD(NULL, _9, "__construct", NULL, _11);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(_9, "phalcon/image/adapter/imagick.zep", 102 TSRMLS_CC);
+			zephir_throw_exception_debug(_9, "phalcon/image/adapter/imagick.zep", 103 TSRMLS_CC);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
@@ -363,7 +364,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _liquidRescale) {
 		ZEPHIR_CALL_METHOD(&ret, _2, "liquidrescaleimage", NULL, _1, _3, _4, _5);
 		zephir_check_call_status();
 		if (!ZEPHIR_IS_TRUE_IDENTICAL(ret)) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_image_exception_ce, "Imagick::liquidRescale failed", "phalcon/image/adapter/imagick.zep", 156);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_image_exception_ce, "Imagick::liquidRescale failed", "phalcon/image/adapter/imagick.zep", 157);
 			return;
 		}
 		_6 = zephir_fetch_nproperty_this(this_ptr, SL("_image"), PH_NOISY_CC);
@@ -627,7 +628,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _reflection) {
 	fade_in = zephir_get_boolval(fade_in_param);
 
 
-	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_version"), PH_NOISY_CC);
+	_0 = zephir_fetch_static_property_ce(phalcon_image_adapter_imagick_ce, SL("_version") TSRMLS_CC);
 	ZEPHIR_INIT_VAR(reflection);
 	if (ZEPHIR_GE_LONG(_0, 30100)) {
 		_1 = zephir_fetch_nproperty_this(this_ptr, SL("_image"), PH_NOISY_CC);
@@ -711,7 +712,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _reflection) {
 		ZEPHIR_CALL_METHOD(&ret, reflection, "compositeimage", &_16, fade, _12, _3, _6);
 		zephir_check_call_status();
 		if (!ZEPHIR_IS_TRUE_IDENTICAL(ret)) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_image_exception_ce, "Imagick::compositeImage failed", "phalcon/image/adapter/imagick.zep", 307);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_image_exception_ce, "Imagick::compositeImage failed", "phalcon/image/adapter/imagick.zep", 308);
 			return;
 		}
 		ZEPHIR_SINIT_NVAR(_14);
@@ -789,7 +790,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _reflection) {
 		ZEPHIR_CALL_METHOD(&ret, image, "compositeimage", &_31, _30, _18, _3, _6);
 		zephir_check_call_status();
 		if (!ZEPHIR_IS_TRUE_IDENTICAL(ret)) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_image_exception_ce, "Imagick::compositeImage failed", "phalcon/image/adapter/imagick.zep", 332);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_image_exception_ce, "Imagick::compositeImage failed", "phalcon/image/adapter/imagick.zep", 333);
 			return;
 		}
 		_32 = zephir_fetch_nproperty_this(this_ptr, SL("_image"), PH_NOISY_CC);
@@ -818,7 +819,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _reflection) {
 		ZEPHIR_CALL_METHOD(&ret, image, "compositeimage", &_31, reflection, _2, _3, _1);
 		zephir_check_call_status();
 		if (!ZEPHIR_IS_TRUE_IDENTICAL(ret)) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_image_exception_ce, "Imagick::compositeImage failed", "phalcon/image/adapter/imagick.zep", 347);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_image_exception_ce, "Imagick::compositeImage failed", "phalcon/image/adapter/imagick.zep", 348);
 			return;
 		}
 		ZEPHIR_CALL_METHOD(&_9, image, "nextimage", &_33);
@@ -913,7 +914,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _watermark) {
 		ZEPHIR_CALL_METHOD(&ret, _3, "compositeimage", NULL, watermark, _5, _1, _7);
 		zephir_check_call_status();
 		if (!ZEPHIR_IS_TRUE_IDENTICAL(ret)) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_image_exception_ce, "Imagick::compositeImage failed", "phalcon/image/adapter/imagick.zep", 389);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_image_exception_ce, "Imagick::compositeImage failed", "phalcon/image/adapter/imagick.zep", 390);
 			return;
 		}
 		_8 = zephir_fetch_nproperty_this(this_ptr, SL("_image"), PH_NOISY_CC);
@@ -1112,7 +1113,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _mask) {
 		ZEPHIR_CALL_METHOD(&ret, _4, "compositeimage", NULL, mask, _6, _2, _8);
 		zephir_check_call_status();
 		if (!ZEPHIR_IS_TRUE_IDENTICAL(ret)) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_image_exception_ce, "Imagick::compositeImage failed", "phalcon/image/adapter/imagick.zep", 488);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_image_exception_ce, "Imagick::compositeImage failed", "phalcon/image/adapter/imagick.zep", 489);
 			return;
 		}
 		_9 = zephir_fetch_nproperty_this(this_ptr, SL("_image"), PH_NOISY_CC);
@@ -1237,7 +1238,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _background) {
 		ZEPHIR_CALL_METHOD(&ret, background, "compositeimage", &_24, _21, _22, _5, _23);
 		zephir_check_call_status();
 		if (!ZEPHIR_IS_TRUE_IDENTICAL(ret)) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_image_exception_ce, "Imagick::compositeImage failed", "phalcon/image/adapter/imagick.zep", 532);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_image_exception_ce, "Imagick::compositeImage failed", "phalcon/image/adapter/imagick.zep", 533);
 			return;
 		}
 		_25 = zephir_fetch_nproperty_this(this_ptr, SL("_image"), PH_NOISY_CC);
@@ -1560,9 +1561,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, getInternalImInstance) {
  */
 PHP_METHOD(Phalcon_Image_Adapter_Imagick, setResourceLimit) {
 
-	zephir_nts_static zephir_fcall_cache_entry *_5 = NULL;
-	zval *_1;
-	zval *type_param = NULL, *limit_param = NULL, *_0, *_2 = NULL, _3, _4;
+	zval *type_param = NULL, *limit_param = NULL, *_0, *_1, *_2;
 	int type, limit, ZEPHIR_LAST_CALL_STATUS;
 
 	ZEPHIR_MM_GROW();
@@ -1572,24 +1571,12 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, setResourceLimit) {
 	limit = zephir_get_intval(limit_param);
 
 
-	_0 = zephir_fetch_static_property_ce(phalcon_image_adapter_imagick_ce, SL("_checked") TSRMLS_CC);
-	if (!(zephir_is_true(_0))) {
-		ZEPHIR_CALL_SELF(NULL, "check", NULL);
-		zephir_check_call_status();
-	}
+	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_image"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(_1);
-	array_init_size(_1, 3);
+	ZVAL_LONG(_1, type);
 	ZEPHIR_INIT_VAR(_2);
-	ZVAL_STRING(_2, "\Imagick", 1);
-	zephir_array_fast_append(_1, _2);
-	ZEPHIR_INIT_NVAR(_2);
-	ZVAL_STRING(_2, "setResourceLimit", 1);
-	zephir_array_fast_append(_1, _2);
-	ZEPHIR_SINIT_VAR(_3);
-	ZVAL_LONG(&_3, type);
-	ZEPHIR_SINIT_VAR(_4);
-	ZVAL_LONG(&_4, limit);
-	ZEPHIR_CALL_FUNCTION(NULL, "forward_static_call", &_5, _1, &_3, &_4);
+	ZVAL_LONG(_2, limit);
+	ZEPHIR_CALL_METHOD(NULL, _0, "setresourcelimit", NULL, _1, _2);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 

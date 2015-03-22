@@ -290,3 +290,10 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_ViewInterface, enable);
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ViewInterface, reset);
 
+/**
+ * Whether the automatic rendering is disabled
+ *
+ * @return boolean
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_ViewInterface, isDisabled);
+

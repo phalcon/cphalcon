@@ -60,7 +60,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Adapter) {
 	/**
 	 * Descriptor used to connect to a database
 	 *
-	 * @var stdClassxcvb
+	 * @var \stdClass
 	 */
 	zend_declare_property_null(phalcon_db_adapter_ce, SL("_descriptor"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
@@ -451,7 +451,7 @@ PHP_METHOD(Phalcon_Db_Adapter, fetchColumn) {
 	ZVAL_LONG(_0, 2);
 	ZEPHIR_CALL_METHOD(&row, this_ptr, "fetchone", NULL, sqlQuery, _0, placeholders);
 	zephir_check_call_status();
-	_1 = !ZEPHIR_IS_EMPTY(row);
+	_1 = !(ZEPHIR_IS_EMPTY(row));
 	if (_1) {
 		_1 = zephir_array_isset(row, column);
 	}

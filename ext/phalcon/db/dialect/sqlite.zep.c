@@ -1073,7 +1073,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, describeColumns) {
 }
 
 /**
- * List all tables on database
+ * List all tables in database
  *
  *<code>
  *	print_r($dialect->listTables("blog"))

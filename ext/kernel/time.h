@@ -12,18 +12,16 @@
   | obtain it through the world-wide-web, please send an email             |
   | to license@zephir-lang.com so we can send you a copy immediately.      |
   +------------------------------------------------------------------------+
-  | Authors: Andres Gutierrez <andres@zephir-lang.com>                     |
-  |          Eduar Carvajal <eduar@zephir-lang.com>                        |
-  |          Vladimir Kolesnikov <vladimir@extrememember.com>              |
-  +------------------------------------------------------------------------+
 */
 
-#ifndef ZEPHIR_KERNEL_SESSION_H
-#define ZEPHIR_KERNEL_SESSION_H
+#ifndef ZEPHIR_KERNEL_TIME_H
+#define ZEPHIR_KERNEL_TIME_H
 
-void zephir_session_start(TSRMLS_D);
-void zephir_session_destroy(TSRMLS_D);
-void zephir_get_session_id(zval *return_value, zval **return_value_ptr TSRMLS_DC);
-void zephir_set_session_id(zval *sid TSRMLS_DC);
+#define MICRO_IN_SEC 1000000.00
 
-#endif /* ZEPHIR_KERNEL_SESSION_H */
+void zephir_time(zval *return_value);
+#ifdef HAVE_GETTIMEOFDAY
+void zephir_microtime(zval *return_value, zval *get_as_float);
+#endif
+
+#endif /* ZEPHIR_KERNEL_TIME_H */

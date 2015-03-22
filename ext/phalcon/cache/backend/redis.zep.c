@@ -125,7 +125,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Redis, __construct) {
 	if (!(zephir_array_isset_string(options, SS("persistent")))) {
 		zephir_array_update_string(&options, SL("persistent"), &ZEPHIR_GLOBAL(global_false), PH_COPY | PH_SEPARATE);
 	}
-	_1 = !zephir_array_isset_string(options, SS("statsKey"));
+	_1 = !(zephir_array_isset_string(options, SS("statsKey")));
 	if (!(_1)) {
 		zephir_array_fetch_string(&_2, options, SL("statsKey"), PH_NOISY | PH_READONLY, "phalcon/cache/backend/redis.zep", 83 TSRMLS_CC);
 		_1 = ZEPHIR_IS_EMPTY(_2);
@@ -161,15 +161,15 @@ PHP_METHOD(Phalcon_Cache_Backend_Redis, _connect) {
 		zephir_check_call_status();
 	}
 	ZEPHIR_OBS_VAR(host);
-	_0 = !zephir_array_isset_string_fetch(&host, options, SS("host"), 0 TSRMLS_CC);
+	_0 = !(zephir_array_isset_string_fetch(&host, options, SS("host"), 0 TSRMLS_CC));
 	if (!(_0)) {
 		ZEPHIR_OBS_VAR(port);
-		_0 = !zephir_array_isset_string_fetch(&port, options, SS("port"), 0 TSRMLS_CC);
+		_0 = !(zephir_array_isset_string_fetch(&port, options, SS("port"), 0 TSRMLS_CC));
 	}
 	_1 = _0;
 	if (!(_1)) {
 		ZEPHIR_OBS_VAR(persistent);
-		_1 = !zephir_array_isset_string_fetch(&persistent, options, SS("persistent"), 0 TSRMLS_CC);
+		_1 = !(zephir_array_isset_string_fetch(&persistent, options, SS("persistent"), 0 TSRMLS_CC));
 	}
 	if (_1) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_cache_exception_ce, "Unexpected inconsistency in options", "phalcon/cache/backend/redis.zep", 101);
@@ -243,9 +243,9 @@ PHP_METHOD(Phalcon_Cache_Backend_Redis, get) {
 	if (zephir_is_numeric(cachedContent)) {
 		RETURN_CCTOR(cachedContent);
 	}
-	ZEPHIR_CALL_METHOD(NULL, frontend, "afterretrieve", NULL, cachedContent);
+	ZEPHIR_RETURN_CALL_METHOD(frontend, "afterretrieve", NULL, cachedContent);
 	zephir_check_call_status();
-	ZEPHIR_MM_RESTORE();
+	RETURN_MM();
 
 }
 
@@ -463,7 +463,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Redis, queryKeys) {
 			ZEPHIR_GET_HVALUE(key, _2);
 			_3 = zephir_is_true(prefix);
 			if (_3) {
-				_3 = !zephir_start_with(key, prefix, NULL);
+				_3 = !(zephir_start_with(key, prefix, NULL));
 			}
 			if (_3) {
 				zephir_array_unset(&keys, key, PH_SEPARATE);
