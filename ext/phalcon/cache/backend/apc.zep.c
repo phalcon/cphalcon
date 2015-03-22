@@ -20,6 +20,7 @@
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/exception.h"
 #include "kernel/iterator.h"
+#include "kernel/string.h"
 #include "kernel/array.h"
 
 
@@ -354,7 +355,6 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, delete) {
  */
 PHP_METHOD(Phalcon_Cache_Backend_Apc, queryKeys) {
 
-	zephir_nts_static zephir_fcall_cache_entry *_6 = NULL;
 	zend_object_iterator *_3;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zephir_nts_static zend_class_entry *_1 = NULL;
@@ -405,8 +405,8 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, queryKeys) {
 		}
 		ZEPHIR_SINIT_NVAR(_4);
 		ZVAL_LONG(&_4, 5);
-		ZEPHIR_CALL_FUNCTION(&_5, "substr", &_6, key, &_4);
-		zephir_check_call_status();
+		ZEPHIR_INIT_NVAR(_5);
+		zephir_substr(_5, key, 5 , 0, ZEPHIR_SUBSTR_NO_LENGTH);
 		zephir_array_append(&keys, _5, PH_SEPARATE, "phalcon/cache/backend/apc.zep", 227);
 	}
 	_3->funcs->dtor(_3 TSRMLS_CC);

@@ -137,7 +137,7 @@ PHP_METHOD(Phalcon_Db_Profiler, startProfile) {
 		zephir_check_call_status();
 	}
 	ZEPHIR_INIT_VAR(_0);
-	zephir_microtime(_0, ZEPHIR_GLOBAL(global_true));
+	zephir_microtime(_0, ZEPHIR_GLOBAL(global_true) TSRMLS_CC);
 	ZEPHIR_CALL_METHOD(NULL, activeProfile, "setinitialtime", NULL, _0);
 	zephir_check_call_status();
 	if ((zephir_method_exists_ex(this_ptr, SS("beforestartprofile") TSRMLS_CC) == SUCCESS)) {
@@ -162,7 +162,7 @@ PHP_METHOD(Phalcon_Db_Profiler, stopProfile) {
 	ZEPHIR_MM_GROW();
 
 	ZEPHIR_INIT_VAR(finalTime);
-	zephir_microtime(finalTime, ZEPHIR_GLOBAL(global_true));
+	zephir_microtime(finalTime, ZEPHIR_GLOBAL(global_true) TSRMLS_CC);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_activeProfile"), PH_NOISY_CC);
 	ZEPHIR_CPY_WRT(activeProfile, _0);
 	ZEPHIR_CALL_METHOD(NULL, activeProfile, "setfinaltime", NULL, finalTime);

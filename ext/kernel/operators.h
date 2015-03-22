@@ -154,6 +154,7 @@ double zephir_safe_div_double_zval(double op1, zval *op2 TSRMLS_DC);
 
 void zephir_floor(zval *return_value, zval *op1 TSRMLS_DC);
 void zephir_ceil(zval *return_value, zval *op1 TSRMLS_DC);
+void zephir_round(zval *return_value, zval *op1, zval *op2, zval *op3 TSRMLS_DC);
 void zephir_pow(zval *return_value, zval *op1, zval *op2 TSRMLS_DC);
 
 #define zephir_get_numberval(z) (Z_TYPE_P(z) == IS_LONG ? Z_LVAL_P(z) : zephir_get_doubleval(z))

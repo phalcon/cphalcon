@@ -183,8 +183,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct) {
 PHP_METHOD(Phalcon_Config_Adapter_Ini, _parseIniString) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zephir_nts_static zephir_fcall_cache_entry *_2 = NULL;
-	zval *path_param = NULL, *value, *pos, *key = NULL, _0, _1 = zval_used_for_init, *_3 = NULL, *_4 = NULL;
+	zval *path_param = NULL, *value, *pos, *key, _0, _1, _2, *_3, *_4 = NULL;
 	zval *path = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -214,12 +213,12 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, _parseIniString) {
 	}
 	ZEPHIR_SINIT_VAR(_1);
 	ZVAL_LONG(&_1, 0);
-	ZEPHIR_CALL_FUNCTION(&key, "substr", &_2, path, &_1, pos);
-	zephir_check_call_status();
-	ZEPHIR_SINIT_NVAR(_1);
-	ZVAL_LONG(&_1, (zephir_get_numberval(pos) + 1));
-	ZEPHIR_CALL_FUNCTION(&_3, "substr", &_2, path, &_1);
-	zephir_check_call_status();
+	ZEPHIR_INIT_VAR(key);
+	zephir_substr(key, path, 0 , zephir_get_intval(pos), 0);
+	ZEPHIR_SINIT_VAR(_2);
+	ZVAL_LONG(&_2, (zephir_get_numberval(pos) + 1));
+	ZEPHIR_INIT_VAR(_3);
+	zephir_substr(_3, path, zephir_get_intval(&_2), 0, ZEPHIR_SUBSTR_NO_LENGTH);
 	zephir_get_strval(path, _3);
 	array_init_size(return_value, 2);
 	ZEPHIR_CALL_METHOD(&_4, this_ptr, "_parseinistring", NULL, path, value);

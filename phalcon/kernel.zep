@@ -36,6 +36,8 @@ class Kernel
 	{
 		%{
 
+		{
+
 		char *arKey = Z_STRVAL_P(key), *strKey;
 		unsigned int nKeyLength = strlen(key);
 		register ulong hash = 5381;
@@ -74,6 +76,8 @@ class Kernel
 		snprintf(strKey, 24, "%lu", hash);
 
 		RETURN_MM_STRING(strKey, 0);
+
+		}
 
 		}%
 	}

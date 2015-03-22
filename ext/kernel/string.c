@@ -918,9 +918,10 @@ int zephir_spprintf(char **message, int max_len, char *format, ...)
 /**
  * Makes a substr like the PHP function. This function SUPPORT negative from and length
  */
-void zephir_substr(zval *return_value, zval *str, long f, long l) {
-
-	long str_len;
+void zephir_substr(zval *return_value, zval *str, long f, long l, int flags) {
+	zval copy;
+	int use_copy = 0;
+	int str_len;
 
 	if (Z_TYPE_P(str) != IS_STRING) {
 
@@ -928,21 +929,22 @@ void zephir_substr(zval *return_value, zval *str, long f, long l) {
 			RETURN_FALSE;
 		}
 
-		if (Z_TYPE_P(str) == IS_LONG) {
-			RETURN_EMPTY_STRING();
+		if (Z_TYPE_P(str) != IS_STRING) {
+			zend_make_printable_zval(str, &copy, &use_copy);
+			if (use_copy) {
+				str = &copy;
+			}
 		}
-
-		zend_error(E_WARNING, "Invalid arguments supplied for zephir_substr()");
-		RETURN_FALSE;
 	}
 
 	str_len = Z_STRLEN_P(str);
+	if (flags & ZEPHIR_SUBSTR_NO_LENGTH == ZEPHIR_SUBSTR_NO_LENGTH) {
+		l = str_len;
+	}
 
 	if ((l < 0 && -l > str_len)) {
 		RETURN_FALSE;
 	} else if (l > str_len) {
-		l = str_len;
-	} else if (l == 0) {
 		l = str_len;
 	}
 
@@ -982,10 +984,6 @@ void zephir_substr(zval *return_value, zval *str, long f, long l) {
 
 	if ((f + l) > str_len) {
 		l = str_len - f;
-	}
-
-	if (l <= 0){
-		RETURN_EMPTY_STRING();
 	}
 
 	RETURN_STRINGL(Z_STRVAL_P(str) + f, l, 1);

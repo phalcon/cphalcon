@@ -19,10 +19,10 @@
 #include "kernel/fcall.h"
 #include "kernel/concat.h"
 #include "kernel/operators.h"
+#include "kernel/string.h"
 #include "kernel/file.h"
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/hash.h"
-#include "kernel/string.h"
 
 ZEPHIR_INIT_CLASS(Phalcon_Translate_Adapter_Csv) {
 
@@ -43,10 +43,10 @@ ZEPHIR_INIT_CLASS(Phalcon_Translate_Adapter_Csv) {
  */
 PHP_METHOD(Phalcon_Translate_Adapter_Csv, __construct) {
 
-	zend_bool _16;
+	zend_bool _14;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zephir_nts_static zephir_fcall_cache_entry *_5 = NULL, *_11 = NULL, *_15 = NULL;
-	zval *options_param = NULL, *_0, *_1, *file = NULL, *_3, _4 = zval_used_for_init, *_6, *_7, *_8, *data = NULL, *_9, *_10, *_12, _13 = zval_used_for_init, *_14 = NULL, *_17, *_18 = NULL;
+	zephir_nts_static zephir_fcall_cache_entry *_5 = NULL, *_11 = NULL;
+	zval *options_param = NULL, *_0, *_1, *file = NULL, *_3, _4 = zval_used_for_init, *_6 = NULL, *_7, *_8, *data = NULL, *_9, *_10, *_12, _13 = zval_used_for_init, *_15, *_16 = NULL;
 	zval *options = NULL, *_2;
 
 	ZEPHIR_MM_GROW();
@@ -102,19 +102,19 @@ PHP_METHOD(Phalcon_Translate_Adapter_Csv, __construct) {
 		ZVAL_LONG(&_4, 0);
 		ZEPHIR_SINIT_NVAR(_13);
 		ZVAL_LONG(&_13, 1);
-		ZEPHIR_CALL_FUNCTION(&_14, "substr", &_15, _12, &_4, &_13);
-		zephir_check_call_status();
-		_16 = ZEPHIR_IS_STRING_IDENTICAL(_14, "#");
-		if (!(_16)) {
-			_16 = !(zephir_array_isset_long(data, 1));
+		ZEPHIR_INIT_NVAR(_6);
+		zephir_substr(_6, _12, 0 , 1 , 0);
+		_14 = ZEPHIR_IS_STRING_IDENTICAL(_6, "#");
+		if (!(_14)) {
+			_14 = !(zephir_array_isset_long(data, 1));
 		}
-		if (_16) {
+		if (_14) {
 			continue;
 		}
-		zephir_array_fetch_long(&_17, data, 1, PH_NOISY | PH_READONLY, "phalcon/translate/adapter/csv.zep", 71 TSRMLS_CC);
-		ZEPHIR_OBS_NVAR(_18);
-		zephir_array_fetch_long(&_18, data, 0, PH_NOISY, "phalcon/translate/adapter/csv.zep", 71 TSRMLS_CC);
-		zephir_update_property_array(this_ptr, SL("_translate"), _18, _17 TSRMLS_CC);
+		zephir_array_fetch_long(&_15, data, 1, PH_NOISY | PH_READONLY, "phalcon/translate/adapter/csv.zep", 71 TSRMLS_CC);
+		ZEPHIR_OBS_NVAR(_16);
+		zephir_array_fetch_long(&_16, data, 0, PH_NOISY, "phalcon/translate/adapter/csv.zep", 71 TSRMLS_CC);
+		zephir_update_property_array(this_ptr, SL("_translate"), _16, _15 TSRMLS_CC);
 	}
 	zephir_fclose(file TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();

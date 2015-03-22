@@ -1618,10 +1618,10 @@ PHP_METHOD(Phalcon_Http_Request, smoothFiles) {
 PHP_METHOD(Phalcon_Http_Request, getHeaders) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zephir_nts_static zephir_fcall_cache_entry *_7 = NULL, *_9 = NULL;
+	zephir_nts_static zephir_fcall_cache_entry *_9 = NULL;
 	HashTable *_1;
 	HashPosition _0;
-	zval *name = NULL, *value = NULL, *headers, *contentHeaders, *_SERVER, **_2, *_3 = NULL, *_4 = NULL, _5 = zval_used_for_init, *_6 = NULL, _8 = zval_used_for_init, *_10 = NULL, _11 = zval_used_for_init, _12 = zval_used_for_init;
+	zval *name = NULL, *value = NULL, *headers, *contentHeaders, *_SERVER, **_2, *_3 = NULL, *_4 = NULL, _5 = zval_used_for_init, *_6 = NULL, _7 = zval_used_for_init, _8 = zval_used_for_init, *_10 = NULL, _11 = zval_used_for_init, _12 = zval_used_for_init;
 
 	ZEPHIR_MM_GROW();
 
@@ -1644,13 +1644,13 @@ PHP_METHOD(Phalcon_Http_Request, getHeaders) {
 			ZEPHIR_INIT_NVAR(_4);
 			ZEPHIR_SINIT_NVAR(_5);
 			ZVAL_LONG(&_5, 5);
-			ZEPHIR_CALL_FUNCTION(&_6, "substr", &_7, name, &_5);
-			zephir_check_call_status();
-			ZEPHIR_SINIT_NVAR(_5);
-			ZVAL_STRING(&_5, "_", 0);
+			ZEPHIR_INIT_NVAR(_6);
+			zephir_substr(_6, name, 5 , 0, ZEPHIR_SUBSTR_NO_LENGTH);
+			ZEPHIR_SINIT_NVAR(_7);
+			ZVAL_STRING(&_7, "_", 0);
 			ZEPHIR_SINIT_NVAR(_8);
 			ZVAL_STRING(&_8, " ", 0);
-			zephir_fast_str_replace(_4, &_5, &_8, _6 TSRMLS_CC);
+			zephir_fast_str_replace(_4, &_7, &_8, _6 TSRMLS_CC);
 			zephir_fast_strtolower(_3, _4);
 			ZEPHIR_CALL_FUNCTION(&name, "ucwords", &_9, _3);
 			zephir_check_call_status();
@@ -1667,19 +1667,19 @@ PHP_METHOD(Phalcon_Http_Request, getHeaders) {
 			ZEPHIR_INIT_NVAR(_4);
 			ZEPHIR_SINIT_NVAR(_5);
 			ZVAL_STRING(&_5, "_", 0);
-			ZEPHIR_SINIT_NVAR(_8);
-			ZVAL_STRING(&_8, " ", 0);
-			zephir_fast_str_replace(_4, &_5, &_8, name TSRMLS_CC);
+			ZEPHIR_SINIT_NVAR(_7);
+			ZVAL_STRING(&_7, " ", 0);
+			zephir_fast_str_replace(_4, &_5, &_7, name TSRMLS_CC);
 			zephir_fast_strtolower(_3, _4);
 			ZEPHIR_CALL_FUNCTION(&name, "ucwords", &_9, _3);
 			zephir_check_call_status();
-			ZEPHIR_INIT_NVAR(_10);
+			ZEPHIR_INIT_NVAR(_6);
+			ZEPHIR_SINIT_NVAR(_8);
+			ZVAL_STRING(&_8, " ", 0);
 			ZEPHIR_SINIT_NVAR(_11);
-			ZVAL_STRING(&_11, " ", 0);
-			ZEPHIR_SINIT_NVAR(_12);
-			ZVAL_STRING(&_12, "-", 0);
-			zephir_fast_str_replace(_10, &_11, &_12, name TSRMLS_CC);
-			ZEPHIR_CPY_WRT(name, _10);
+			ZVAL_STRING(&_11, "-", 0);
+			zephir_fast_str_replace(_6, &_8, &_11, name TSRMLS_CC);
+			ZEPHIR_CPY_WRT(name, _6);
 			zephir_array_update_zval(&headers, name, &value, PH_COPY | PH_SEPARATE);
 		}
 	}

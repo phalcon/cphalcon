@@ -304,12 +304,12 @@ PHP_METHOD(Phalcon_Cli_Router, handle) {
 
 	zval *_16 = NULL;
 	zval *_6 = NULL, *_11 = NULL;
-	zephir_nts_static zephir_fcall_cache_entry *_5 = NULL, *_18 = NULL, *_20 = NULL;
+	zephir_nts_static zephir_fcall_cache_entry *_5 = NULL, *_19 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
 	HashTable *_3, *_8;
 	HashPosition _2, _7;
 	zend_bool _0;
-	zval *arguments = NULL, *moduleName = NULL, *taskName = NULL, *actionName = NULL, *params = NULL, *route = NULL, *parts = NULL, *pattern = NULL, *routeFound = NULL, *matches, *paths = NULL, *beforeMatch = NULL, *converters = NULL, *converter = NULL, *part = NULL, *position = NULL, *matchPosition = NULL, *strParams = NULL, *_1, **_4, **_9, *_10 = NULL, *_12, *_13, *_14, *_15, _17, *_19 = NULL;
+	zval *arguments = NULL, *moduleName = NULL, *taskName = NULL, *actionName = NULL, *params = NULL, *route = NULL, *parts = NULL, *pattern = NULL, *routeFound = NULL, *matches, *paths = NULL, *beforeMatch = NULL, *converters = NULL, *converter = NULL, *part = NULL, *position = NULL, *matchPosition = NULL, *strParams, *_1, **_4, **_9, *_10 = NULL, *_12, *_13, *_14, *_15, _17, *_18 = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &arguments);
@@ -476,13 +476,13 @@ PHP_METHOD(Phalcon_Cli_Router, handle) {
 				zephir_get_strval(_16, params);
 				ZEPHIR_SINIT_VAR(_17);
 				ZVAL_LONG(&_17, 1);
-				ZEPHIR_CALL_FUNCTION(&strParams, "substr", &_18, _16, &_17);
-				zephir_check_call_status();
+				ZEPHIR_INIT_VAR(strParams);
+				zephir_substr(strParams, _16, 1 , 0, ZEPHIR_SUBSTR_NO_LENGTH);
 				if (zephir_is_true(strParams)) {
 					ZEPHIR_INIT_NVAR(params);
-					ZEPHIR_CALL_CE_STATIC(&_19, phalcon_cli_router_route_ce, "getdelimiter", &_20);
+					ZEPHIR_CALL_CE_STATIC(&_18, phalcon_cli_router_route_ce, "getdelimiter", &_19);
 					zephir_check_call_status();
-					zephir_fast_explode(params, _19, strParams, LONG_MAX TSRMLS_CC);
+					zephir_fast_explode(params, _18, strParams, LONG_MAX TSRMLS_CC);
 				} else {
 					ZEPHIR_INIT_NVAR(params);
 					array_init(params);

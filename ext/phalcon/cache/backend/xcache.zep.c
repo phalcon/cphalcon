@@ -303,7 +303,6 @@ PHP_METHOD(Phalcon_Cache_Backend_Xcache, delete) {
  */
 PHP_METHOD(Phalcon_Cache_Backend_Xcache, queryKeys) {
 
-	zephir_nts_static zephir_fcall_cache_entry *_6 = NULL;
 	HashTable *_3;
 	HashPosition _2;
 	int ZEPHIR_LAST_CALL_STATUS;
@@ -347,8 +346,8 @@ PHP_METHOD(Phalcon_Cache_Backend_Xcache, queryKeys) {
 			if (zephir_start_with(key, prefixed, NULL)) {
 				ZEPHIR_SINIT_NVAR(_5);
 				ZVAL_LONG(&_5, 5);
-				ZEPHIR_CALL_FUNCTION(&realKey, "substr", &_6, key, &_5);
-				zephir_check_call_status();
+				ZEPHIR_INIT_NVAR(realKey);
+				zephir_substr(realKey, key, 5 , 0, ZEPHIR_SUBSTR_NO_LENGTH);
 				zephir_array_append(&retval, realKey, PH_SEPARATE, "phalcon/cache/backend/xcache.zep", 244);
 			}
 		}

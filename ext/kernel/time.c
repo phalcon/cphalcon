@@ -41,7 +41,7 @@ void zephir_time(zval *return_value)
 	RETURN_LONG(time(NULL));
 }
 
-void zephir_microtime(zval *return_value, zval *get_as_float)
+void zephir_microtime(zval *return_value, zval *get_as_float TSRMLS_DC)
 {
 	struct timeval tp = {0};
 	char ret[100];

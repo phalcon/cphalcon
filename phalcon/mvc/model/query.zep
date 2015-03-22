@@ -210,14 +210,13 @@ class Query implements QueryInterface, InjectionAwareInterface
 		/**
 		 * Check if the qualified name has a domain
 		 */
-		if isset expr["domain"] {
+		if fetch columnDomain, expr["domain"] {
 
 			let sqlAliases = this->_sqlAliases;
 
 			/**
 			 * The column has a domain, we need to check if it"s an alias
 			 */
-			let columnDomain = expr["domain"];
 			if !fetch source, sqlAliases[columnDomain] {
 				throw new Exception("Unknown model or alias '" . columnDomain . "' (1), when preparing: " . this->_phql);
 			}
@@ -3219,5 +3218,4 @@ class Query implements QueryInterface, InjectionAwareInterface
 	{
 		return this->_cacheOptions;
 	}
-
 }

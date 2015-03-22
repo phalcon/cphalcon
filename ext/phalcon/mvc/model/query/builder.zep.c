@@ -19,9 +19,9 @@
 #include "kernel/hash.h"
 #include "kernel/operators.h"
 #include "kernel/string.h"
-#include "kernel/fcall.h"
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/concat.h"
+#include "kernel/fcall.h"
 
 
 /*
@@ -118,12 +118,10 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Query_Builder) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, __construct) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
-	zephir_nts_static zephir_fcall_cache_entry *_7 = NULL;
 	HashTable *_2;
 	HashPosition _1;
 	zend_bool _0;
-	zval *params = NULL, *dependencyInjector = NULL, *conditions = NULL, *columns, *groupClause, *havingClause, *limitClause, *forUpdate, *sharedLock, *orderClause, *offsetClause, *joinsClause, *singleConditionArray = NULL, *limit, *offset, *fromClause, *mergedConditions, *mergedParams = NULL, *mergedTypes = NULL, *singleCondition = NULL, *singleParams = NULL, *singleTypes = NULL, **_3, *_4 = NULL, *_5, *_6 = NULL, *_8 = NULL;
+	zval *params = NULL, *dependencyInjector = NULL, *conditions = NULL, *columns, *groupClause, *havingClause, *limitClause, *forUpdate, *sharedLock, *orderClause, *offsetClause, *joinsClause, *singleConditionArray = NULL, *limit, *offset, *fromClause, *mergedConditions, *mergedParams = NULL, *mergedTypes = NULL, *singleCondition = NULL, *singleParams = NULL, *singleTypes = NULL, **_3, *_4 = NULL, *_5;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 2, &params, &dependencyInjector);
@@ -225,16 +223,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, __construct) {
 			if (Z_TYPE_P(limitClause) == IS_ARRAY) {
 				ZEPHIR_OBS_VAR(limit);
 				if (zephir_array_isset_long_fetch(&limit, limitClause, 0, 0 TSRMLS_CC)) {
-					ZEPHIR_CALL_FUNCTION(&_6, "is_int", &_7, limit);
-					zephir_check_call_status();
-					if (zephir_is_true(_6)) {
+					if (Z_TYPE_P(limit) == IS_LONG) {
 						zephir_update_property_this(this_ptr, SL("_limit"), limit TSRMLS_CC);
 					}
 					ZEPHIR_OBS_VAR(offset);
 					if (zephir_array_isset_long_fetch(&offset, limitClause, 1, 0 TSRMLS_CC)) {
-						ZEPHIR_CALL_FUNCTION(&_8, "is_int", &_7, offset);
-						zephir_check_call_status();
-						if (zephir_is_true(_8)) {
+						if (Z_TYPE_P(offset) == IS_LONG) {
 							zephir_update_property_this(this_ptr, SL("_offset"), offset TSRMLS_CC);
 						}
 					}

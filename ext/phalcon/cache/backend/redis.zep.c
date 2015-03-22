@@ -19,8 +19,8 @@
 #include "kernel/operators.h"
 #include "kernel/fcall.h"
 #include "kernel/concat.h"
-#include "kernel/hash.h"
 #include "kernel/string.h"
+#include "kernel/hash.h"
 
 
 /*
@@ -260,7 +260,6 @@ PHP_METHOD(Phalcon_Cache_Backend_Redis, get) {
 PHP_METHOD(Phalcon_Cache_Backend_Redis, save) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zephir_nts_static zephir_fcall_cache_entry *_1 = NULL;
 	zval *keyName = NULL, *content = NULL, *lifetime = NULL, *stopBuffer = NULL, *prefixedKey = NULL, *lastKey = NULL, *prefix, *frontend, *redis = NULL, *cachedContent = NULL, *preparedContent = NULL, *tmp, *tt1 = NULL, *success = NULL, *options, *specialKey, *isBuffering = NULL, _0;
 
 	ZEPHIR_MM_GROW();
@@ -285,8 +284,8 @@ PHP_METHOD(Phalcon_Cache_Backend_Redis, save) {
 		zephir_read_property_this(&lastKey, this_ptr, SL("_lastKey"), PH_NOISY_CC);
 		ZEPHIR_SINIT_VAR(_0);
 		ZVAL_LONG(&_0, 5);
-		ZEPHIR_CALL_FUNCTION(&prefixedKey, "substr", &_1, lastKey, &_0);
-		zephir_check_call_status();
+		ZEPHIR_INIT_VAR(prefixedKey);
+		zephir_substr(prefixedKey, lastKey, 5 , 0, ZEPHIR_SUBSTR_NO_LENGTH);
 	} else {
 		ZEPHIR_OBS_VAR(prefix);
 		zephir_read_property_this(&prefix, this_ptr, SL("_prefix"), PH_NOISY_CC);

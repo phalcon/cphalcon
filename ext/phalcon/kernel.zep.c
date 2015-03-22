@@ -77,6 +77,8 @@ PHP_METHOD(Phalcon_Kernel, preComputeHashKey) {
 
 	
 
+		{
+
 		char *arKey = Z_STRVAL_P(key), *strKey;
 		unsigned int nKeyLength = strlen(key);
 		register ulong hash = 5381;
@@ -115,6 +117,8 @@ PHP_METHOD(Phalcon_Kernel, preComputeHashKey) {
 		snprintf(strKey, 24, "%lu", hash);
 
 		RETURN_MM_STRING(strKey, 0);
+
+		}
 
 		
 	ZEPHIR_MM_RESTORE();

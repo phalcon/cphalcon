@@ -24,6 +24,7 @@
 
 #include "php.h"
 #include "ext/standard/php_string.h"
+#include "ext/standard/php_math.h"
 #include "php_ext.h"
 #include "kernel/main.h"
 #include "kernel/memory.h"
@@ -891,6 +892,43 @@ void zephir_ceil(zval *return_value, zval *op1 TSRMLS_DC)
 		RETURN_DOUBLE(Z_DVAL_PP(&op1));
 	}
 	RETURN_FALSE;
+}
+
+extern double _php_math_round(double value, int places, int mode);
+
+void zephir_round(zval *return_value, zval *op1, zval *op2, zval *op3 TSRMLS_DC)
+{
+	int places = 0;
+	long mode = PHP_ROUND_HALF_UP;
+	double return_val;
+
+	convert_scalar_to_number_ex(&op1);
+
+	if (op2) {
+		places = zephir_get_intval_ex(op2);
+	}
+	if (op3) {
+		mode = zephir_get_intval_ex(op3);
+	}
+
+	switch (Z_TYPE_PP(&op1)) {
+		case IS_LONG:
+			/* Simple case - long that doesn't need to be rounded. */
+			if (places >= 0) {
+				RETURN_DOUBLE((double) Z_LVAL_PP(&op1));
+			}
+			/* break omitted intentionally */
+
+		case IS_DOUBLE:
+			return_val = (Z_TYPE_PP(&op1) == IS_LONG) ? (double)Z_LVAL_PP(&op1) : Z_DVAL_PP(&op1);
+			return_val = _php_math_round(return_val, places, mode);
+			RETURN_DOUBLE(return_val);
+			break;
+
+		default:
+			RETURN_FALSE;
+			break;
+	}
 }
 
 #if PHP_VERSION_ID < 50600

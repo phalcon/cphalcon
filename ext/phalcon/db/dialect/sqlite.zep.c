@@ -19,6 +19,7 @@
 #include "kernel/operators.h"
 #include "kernel/concat.h"
 #include "kernel/hash.h"
+#include "kernel/string.h"
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/array.h"
 
@@ -66,11 +67,11 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Dialect_Sqlite) {
  */
 PHP_METHOD(Phalcon_Db_Dialect_Sqlite, getColumnDefinition) {
 
-	zephir_nts_static zephir_fcall_cache_entry *_7 = NULL, *_9 = NULL;
+	zephir_nts_static zephir_fcall_cache_entry *_7 = NULL;
 	HashTable *_4;
 	HashPosition _3;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *column, *columnSql, *type = NULL, *typeValues = NULL, *_0 = NULL, *_1 = NULL, *_2 = NULL, *value = NULL, *valueSql, **_5, _6 = zval_used_for_init, _8, *_10 = NULL, *_11 = NULL;
+	zval *column, *columnSql, *type = NULL, *typeValues = NULL, *_0 = NULL, *_1 = NULL, *_2 = NULL, *value = NULL, *valueSql, **_5, _6 = zval_used_for_init, _8 = zval_used_for_init, *_9, *_10 = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &column);
@@ -188,18 +189,18 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, getColumnDefinition) {
 				ZVAL_LONG(&_6, 0);
 				ZEPHIR_SINIT_VAR(_8);
 				ZVAL_LONG(&_8, -2);
-				ZEPHIR_CALL_FUNCTION(&_2, "substr", &_9, valueSql, &_6, &_8);
-				zephir_check_call_status();
+				ZEPHIR_INIT_VAR(_9);
+				zephir_substr(_9, valueSql, 0 , -2 , 0);
 				ZEPHIR_INIT_VAR(_10);
-				ZEPHIR_CONCAT_SVS(_10, "(", _2, ")");
+				ZEPHIR_CONCAT_SVS(_10, "(", _9, ")");
 				zephir_concat_self(&columnSql, _10 TSRMLS_CC);
 			} else {
-				ZEPHIR_SINIT_NVAR(_6);
-				ZVAL_STRING(&_6, "\"", 0);
-				ZEPHIR_CALL_FUNCTION(&_11, "addcslashes", &_7, typeValues, &_6);
+				ZEPHIR_SINIT_NVAR(_8);
+				ZVAL_STRING(&_8, "\"", 0);
+				ZEPHIR_CALL_FUNCTION(&_2, "addcslashes", &_7, typeValues, &_8);
 				zephir_check_call_status();
 				ZEPHIR_INIT_LNVAR(_10);
-				ZEPHIR_CONCAT_SVS(_10, "(\"", _11, "\")");
+				ZEPHIR_CONCAT_SVS(_10, "(\"", _2, "\")");
 				zephir_concat_self(&columnSql, _10 TSRMLS_CC);
 			}
 		}

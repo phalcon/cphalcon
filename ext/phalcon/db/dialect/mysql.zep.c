@@ -19,9 +19,9 @@
 #include "kernel/operators.h"
 #include "kernel/concat.h"
 #include "kernel/hash.h"
+#include "kernel/string.h"
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/array.h"
-#include "kernel/string.h"
 
 
 /*
@@ -65,11 +65,11 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Dialect_MySQL) {
  */
 PHP_METHOD(Phalcon_Db_Dialect_MySQL, getColumnDefinition) {
 
-	zephir_nts_static zephir_fcall_cache_entry *_9 = NULL, *_11 = NULL;
+	zephir_nts_static zephir_fcall_cache_entry *_9 = NULL;
 	HashTable *_6;
 	HashPosition _5;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *column, *columnSql, *size = NULL, *scale = NULL, *type = NULL, *typeValues = NULL, *_0 = NULL, *_1 = NULL, *_2 = NULL, *_3 = NULL, *_4 = NULL, *value = NULL, *valueSql, **_7, _8 = zval_used_for_init, _10;
+	zval *column, *columnSql, *size = NULL, *scale = NULL, *type = NULL, *typeValues = NULL, *_0 = NULL, *_1 = NULL, *_2 = NULL, *_3 = NULL, *_4 = NULL, *value = NULL, *valueSql, **_7, _8 = zval_used_for_init, _10 = zval_used_for_init, *_11;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &column);
@@ -229,18 +229,18 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, getColumnDefinition) {
 				ZVAL_LONG(&_8, 0);
 				ZEPHIR_SINIT_VAR(_10);
 				ZVAL_LONG(&_10, -2);
-				ZEPHIR_CALL_FUNCTION(&_2, "substr", &_11, valueSql, &_8, &_10);
-				zephir_check_call_status();
+				ZEPHIR_INIT_VAR(_11);
+				zephir_substr(_11, valueSql, 0 , -2 , 0);
 				ZEPHIR_INIT_LNVAR(_4);
-				ZEPHIR_CONCAT_SVS(_4, "(", _2, ")");
+				ZEPHIR_CONCAT_SVS(_4, "(", _11, ")");
 				zephir_concat_self(&columnSql, _4 TSRMLS_CC);
 			} else {
-				ZEPHIR_SINIT_NVAR(_8);
-				ZVAL_STRING(&_8, "\"", 0);
-				ZEPHIR_CALL_FUNCTION(&_3, "addcslashes", &_9, typeValues, &_8);
+				ZEPHIR_SINIT_NVAR(_10);
+				ZVAL_STRING(&_10, "\"", 0);
+				ZEPHIR_CALL_FUNCTION(&_2, "addcslashes", &_9, typeValues, &_10);
 				zephir_check_call_status();
 				ZEPHIR_INIT_LNVAR(_4);
-				ZEPHIR_CONCAT_SVS(_4, "(\"", _3, "\")");
+				ZEPHIR_CONCAT_SVS(_4, "(\"", _2, "\")");
 				zephir_concat_self(&columnSql, _4 TSRMLS_CC);
 			}
 		}

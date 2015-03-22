@@ -361,7 +361,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, convertEncoding) {
  */
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, slice) {
 
-	zephir_nts_static zephir_fcall_cache_entry *_7 = NULL, *_9 = NULL;
+	zephir_nts_static zephir_fcall_cache_entry *_7 = NULL;
 	zend_bool _2;
 	zephir_fcall_cache_entry *_1 = NULL, *_4 = NULL, *_5 = NULL, *_8 = NULL;
 	int position, ZEPHIR_LAST_CALL_STATUS;
@@ -432,12 +432,10 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, slice) {
 		RETURN_MM();
 	}
 	if (Z_TYPE_P(length) != IS_NULL) {
-		ZEPHIR_RETURN_CALL_FUNCTION("substr", &_9, value, start, length);
-		zephir_check_call_status();
+		zephir_substr(return_value, value, zephir_get_intval(start), zephir_get_intval(length), 0);
 		RETURN_MM();
 	}
-	ZEPHIR_RETURN_CALL_FUNCTION("substr", &_9, value, start);
-	zephir_check_call_status();
+	zephir_substr(return_value, value, zephir_get_intval(start), 0, ZEPHIR_SUBSTR_NO_LENGTH);
 	RETURN_MM();
 
 }

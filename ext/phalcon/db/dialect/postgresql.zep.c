@@ -19,6 +19,7 @@
 #include "kernel/operators.h"
 #include "kernel/concat.h"
 #include "kernel/hash.h"
+#include "kernel/string.h"
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/array.h"
 
@@ -65,11 +66,11 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Dialect_Postgresql) {
  */
 PHP_METHOD(Phalcon_Db_Dialect_Postgresql, getColumnDefinition) {
 
-	zephir_nts_static zephir_fcall_cache_entry *_6 = NULL, *_9 = NULL;
+	zephir_nts_static zephir_fcall_cache_entry *_6 = NULL;
 	HashTable *_3;
 	HashPosition _2;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *column, *size = NULL, *columnType = NULL, *columnSql, *typeValues = NULL, *_0 = NULL, *_1 = NULL, *value = NULL, *valueSql, **_4, _5 = zval_used_for_init, _7, *_8 = NULL, *_10 = NULL;
+	zval *column, *size = NULL, *columnType = NULL, *columnSql, *typeValues = NULL, *_0 = NULL, *_1 = NULL, *value = NULL, *valueSql, **_4, _5 = zval_used_for_init, _7 = zval_used_for_init, *_8, *_9 = NULL, *_10 = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &column);
@@ -189,19 +190,19 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, getColumnDefinition) {
 				ZVAL_LONG(&_5, 0);
 				ZEPHIR_SINIT_VAR(_7);
 				ZVAL_LONG(&_7, -2);
-				ZEPHIR_CALL_FUNCTION(&_8, "substr", &_9, valueSql, &_5, &_7);
-				zephir_check_call_status();
-				ZEPHIR_INIT_VAR(_10);
-				ZEPHIR_CONCAT_SVS(_10, "(", _8, ")");
-				zephir_concat_self(&columnSql, _10 TSRMLS_CC);
+				ZEPHIR_INIT_VAR(_8);
+				zephir_substr(_8, valueSql, 0 , -2 , 0);
+				ZEPHIR_INIT_VAR(_9);
+				ZEPHIR_CONCAT_SVS(_9, "(", _8, ")");
+				zephir_concat_self(&columnSql, _9 TSRMLS_CC);
 			} else {
-				ZEPHIR_SINIT_NVAR(_5);
-				ZVAL_STRING(&_5, "\"", 0);
-				ZEPHIR_CALL_FUNCTION(&_8, "addcslashes", &_6, typeValues, &_5);
+				ZEPHIR_SINIT_NVAR(_7);
+				ZVAL_STRING(&_7, "\"", 0);
+				ZEPHIR_CALL_FUNCTION(&_10, "addcslashes", &_6, typeValues, &_7);
 				zephir_check_call_status();
-				ZEPHIR_INIT_LNVAR(_10);
-				ZEPHIR_CONCAT_SVS(_10, "(\"", _8, "\")");
-				zephir_concat_self(&columnSql, _10 TSRMLS_CC);
+				ZEPHIR_INIT_LNVAR(_9);
+				ZEPHIR_CONCAT_SVS(_9, "(\"", _10, "\")");
+				zephir_concat_self(&columnSql, _9 TSRMLS_CC);
 			}
 		}
 	} while(0);
