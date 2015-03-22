@@ -235,7 +235,7 @@ class Pdo implements ResultInterface
 	public function dataSeek(long number)
 	{
 		var connection, pdo, sqlStatement, bindParams, statement;
-		%{ pdo_stmt_t *stmt; long n; }%
+		%{ { pdo_stmt_t *stmt; long n; }%
 
 		let connection = this->_connection,
 			pdo = connection->getInternalHandler(),
@@ -278,6 +278,8 @@ class Pdo implements ResultInterface
 			}
 
 			n++;
+		}
+
 		}
 
 		}%

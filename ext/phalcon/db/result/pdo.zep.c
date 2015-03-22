@@ -334,7 +334,7 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, dataSeek) {
 	number = zephir_get_intval(number_param);
 
 
-	 pdo_stmt_t *stmt; long n; 
+	 { pdo_stmt_t *stmt; long n; 
 	ZEPHIR_OBS_VAR(connection);
 	zephir_read_property_this(&connection, this_ptr, SL("_connection"), PH_NOISY_CC);
 	ZEPHIR_CALL_METHOD(&pdo, connection, "getinternalhandler", NULL);
@@ -379,6 +379,8 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, dataSeek) {
 			}
 
 			n++;
+		}
+
 		}
 
 		
