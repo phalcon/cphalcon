@@ -938,7 +938,7 @@ void zephir_substr(zval *return_value, zval *str, long f, long l, int flags) {
 	}
 
 	str_len = Z_STRLEN_P(str);
-	if (flags & ZEPHIR_SUBSTR_NO_LENGTH == ZEPHIR_SUBSTR_NO_LENGTH) {
+	if ((flags & ZEPHIR_SUBSTR_NO_LENGTH) == ZEPHIR_SUBSTR_NO_LENGTH) {
 		l = str_len;
 	}
 

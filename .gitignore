@@ -347,4 +347,9 @@ compile.log
 .vagrant
 Vagrantfile
 tests/_output/*
-
+build/.gitignore
+build/32bits/tests/
+build/64bits/tests/
+build/README.md
+build/install-gentoo
+build/safe/tests/

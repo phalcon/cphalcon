@@ -348,6 +348,14 @@ static inline char *_str_erealloc(char *str, size_t new_len, size_t old_len) {
 }
 #endif
 
+#ifndef str_efree
+#define str_efree(s) do { \
+	if (!IS_INTERNED(s)) { \
+		efree((char*)s); \
+	} \
+} while (0)
+#endif
+
 /** Get the current hash key without copying the hash key */
 #define ZEPHIR_GET_HKEY(var, hash, hash_position) \
 	zephir_get_current_key(&var, hash, &hash_position TSRMLS_CC);

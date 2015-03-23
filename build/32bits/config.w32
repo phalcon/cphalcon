@@ -1,5 +1,6 @@
-ARG_ENABLE("phalcon", "enable phalcon framework", "no", "-Iext/phalcon");
+ARG_ENABLE("phalcon", "enable phalcon", "no");
 
 if (PHP_PHALCON != "no") {
-  EXTENSION("phalcon", "phalcon.c");
+  EXTENSION("phalcon", "phalcon.c", null, "-I"+configure_module_dirname);
+  ADD_FLAG("CFLAGS_PHALCON", "/D ZEPHIR_RELEASE");
 }

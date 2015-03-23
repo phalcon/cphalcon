@@ -39,7 +39,7 @@ class Kernel
 		{
 
 		char *arKey = Z_STRVAL_P(key), *strKey;
-		unsigned int nKeyLength = strlen(key);
+		int nKeyLength = strlen(key);
 		register ulong hash = 5381;
 
 		nKeyLength++;

@@ -294,7 +294,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, getPaginate) {
 	ZEPHIR_INIT_NVAR(_2);
 	ZEPHIR_SINIT_VAR(_4);
 	div_function(&_4, rowcount, limit TSRMLS_CC);
-	zephir_ceil(_2, &_4);
+	zephir_ceil(_2, &_4 TSRMLS_CC);
 	ZEPHIR_INIT_VAR(totalPages);
 	ZVAL_LONG(totalPages, zephir_get_intval(_2));
 	if (ZEPHIR_GT_LONG(totalPages, numberPage)) {

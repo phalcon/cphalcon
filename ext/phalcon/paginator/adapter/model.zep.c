@@ -177,7 +177,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, getPaginate) {
 	ZEPHIR_INIT_VAR(_2);
 	ZEPHIR_SINIT_VAR(_3);
 	ZVAL_DOUBLE(&_3, zephir_safe_div_long_long(lastPage, show TSRMLS_CC));
-	zephir_ceil(_2, &_3);
+	zephir_ceil(_2, &_3 TSRMLS_CC);
 	totalPages = zephir_get_intval(_2);
 	if (Z_TYPE_P(items) != IS_OBJECT) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_paginator_exception_ce, "Invalid data for paginator", "phalcon/paginator/adapter/model.zep", 121);
