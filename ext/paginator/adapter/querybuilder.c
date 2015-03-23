@@ -241,7 +241,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, getPaginate){
 	zval *models = NULL, *model_name = NULL, *model = NULL, *connection = NULL;
 	zval *bind_params = NULL, *bind_types = NULL, *processed = NULL;
 	zval *value = NULL, *wildcard = NULL, *string_wildcard = NULL, *processed_types = NULL;
-	zval *intermediate = NULL, *tables, *table, *table_name = NULL, *select_column, *dialect = NULL, *sql_select = NULL, *sql;
+	zval *intermediate = NULL, *tables, *table, *table_name = NULL, *sql_table = NULL, *select_column, *dialect = NULL, *sql_select = NULL, *sql;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -354,12 +354,15 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, getPaginate){
 		PHALCON_CPY_WRT(table_name, table);
 	}
 
+	PHALCON_CALL_METHOD(&dialect, connection, "getdialect");
+
+	PHALCON_CALL_METHOD(&sql_table, dialect, "getsqltable", table_name);
+
 	PHALCON_INIT_VAR(select_column);
-	PHALCON_CONCAT_VS(select_column, table_name, ".*");	
+	PHALCON_CONCAT_VS(select_column, sql_table, ".*");	
 
 	phalcon_array_update_string(&intermediate, SL("columns"), select_column, PH_COPY | PH_SEPARATE);
 
-	PHALCON_CALL_METHOD(&dialect, connection, "getdialect");
 	PHALCON_CALL_METHOD(&sql_select, dialect, "select", intermediate);
 
 	PHALCON_CALL_METHOD(&bind_params, total_query, "getbindparams");
