@@ -51,6 +51,7 @@ class DispatcherCliTest extends PHPUnit_Framework_TestCase
 		$dispatcher->setDI($di);
 		$dispatcher->dispatch();
 		$this->assertEquals($dispatcher->getTaskName(), 'main');
+		$this->assertEquals($dispatcher->getTaskClass(), 'MainTask');
 		$this->assertEquals($dispatcher->getActionName(), 'main');
 		$this->assertEquals($dispatcher->getParams(), array());
 		$this->assertEquals($dispatcher->getReturnedValue(), 'mainAction');

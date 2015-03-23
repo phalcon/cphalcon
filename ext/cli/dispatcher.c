@@ -245,7 +245,7 @@ PHP_METHOD(Phalcon_CLI_Dispatcher, getTaskClass){
 
 	PHALCON_MM_GROW();
 
-	PHALCON_RETURN_CALL_METHOD(this_ptr, "gethandlername");
+	PHALCON_RETURN_CALL_METHOD(this_ptr, "gethandlerclass");
 	RETURN_MM();
 }
 
