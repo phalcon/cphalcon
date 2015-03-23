@@ -36,6 +36,7 @@
 #include "kernel/string.h"
 
 #include "internal/arginfo.h"
+#include "interned-strings.h"
 
 /**
  * Phalcon\Paginator\Adapter\QueryBuilder
@@ -243,7 +244,8 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, getPaginate){
 	zval *models = NULL, *model_name = NULL, *model = NULL, *connection = NULL;
 	zval *bind_params = NULL, *bind_types = NULL, *processed = NULL;
 	zval *value = NULL, *wildcard = NULL, *string_wildcard = NULL, *processed_types = NULL;
-	zval *intermediate = NULL, *select_column = NULL, *dialect = NULL, *sql_select = NULL, *sql, *sql_tmp = NULL;
+	zval *intermediate = NULL, *columns, *type = NULL, *column = NULL, *sql_column = NULL;
+	zval *dialect = NULL, *sql_select = NULL, *sql, *sql_tmp = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -338,8 +340,34 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, getPaginate){
 
 	PHALCON_CALL_METHOD(&intermediate, total_query, "parse");
 
-	PHALCON_CALL_METHOD(&select_column, builder, "getgroupby");
-	PHALCON_CALL_METHOD(NULL, builder, "columns", select_column);
+	PHALCON_OBS_VAR(columns);
+	phalcon_array_fetch_string(&columns, intermediate, ISL(columns), PH_NOISY);
+
+	phalcon_is_iterable(columns, &ah0, &hp0, 0, 0);
+
+	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
+
+		PHALCON_GET_HVALUE(column);
+
+		PHALCON_OBS_NVAR(type);
+		phalcon_array_fetch_string(&type, column, ISL(type), PH_NOISY);
+
+		PHALCON_OBS_NVAR(sql_column);
+		phalcon_array_fetch_string(&sql_column, column, ISL(column), PH_NOISY);
+
+		/**
+		 * Complete objects are treated in a different way
+		 */
+		if (PHALCON_IS_STRING(type, "object")) {
+			PHALCON_OBS_NVAR(columns);
+			ZVAL_STRING(columns, "*", 1);
+			break;
+		}
+
+		zend_hash_move_forward_ex(ah0, &hp0);
+	}
+
+	phalcon_array_update_string(&intermediate, ISL(column), columns, PH_COPY);
 
 	PHALCON_CALL_METHOD(&dialect, connection, "getdialect");
 	PHALCON_CALL_METHOD(&sql_select, dialect, "select", intermediate);
@@ -350,7 +378,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, getPaginate){
 	PHALCON_INIT_VAR(sql);
 	PHALCON_CONCAT_SVS(sql, "SELECT COUNT(*) \"rowcount\" FROM (", sql_select, ") AS T");
 
-	/** 
+	/**
 	 * Replace the placeholders
 	 */
 	if (Z_TYPE_P(bind_params) == IS_ARRAY) {
@@ -394,7 +422,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, getPaginate){
 		PHALCON_CPY_WRT(processed, bind_params);
 	}
 
-	/** 
+	/**
 	 * Replace the bind Types
 	 */
 	if (Z_TYPE_P(bind_types) == IS_ARRAY) { 
