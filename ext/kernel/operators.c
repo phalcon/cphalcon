@@ -932,8 +932,8 @@ void zephir_round(zval *return_value, zval *op1, zval *op2, zval *op3 TSRMLS_DC)
 }
 
 #if PHP_VERSION_ID < 50600
-#include "zend_multiply.h"
-int zephir_pow_function_ex(zval *return_value, zval *zbase, zval *zexp TSRMLS_DC)
+#include "Zend/zend_multiply.h"
+void zephir_pow_function_ex(zval *return_value, zval *zbase, zval *zexp TSRMLS_DC)
 {
 	/* make sure we're dealing with numbers */
 	convert_scalar_to_number(zbase TSRMLS_CC);
@@ -942,7 +942,7 @@ int zephir_pow_function_ex(zval *return_value, zval *zbase, zval *zexp TSRMLS_DC
 	/* if both base and exponent were longs, we'll try to get a long out */
 	if (Z_TYPE_P(zbase) == IS_LONG && Z_TYPE_P(zexp) == IS_LONG && Z_LVAL_P(zexp) >= 0) {
 		long l1 = 1, l2 = Z_LVAL_P(zbase), i = Z_LVAL_P(zexp);
-		
+
 		if (i == 0) {
 			RETURN_LONG(1L);
 		} else if (l2 == 0) {
@@ -956,12 +956,12 @@ int zephir_pow_function_ex(zval *return_value, zval *zbase, zval *zexp TSRMLS_DC
 
 			if (i % 2) {
 				--i;
-				ZEND_SIGNED_MULTIPLY_LONG(l1,l2,l1,dval,overflow);
-				if (overflow) RETURN_DOUBLE(dval * pow(l2,i));
+				ZEND_SIGNED_MULTIPLY_LONG(l1, l2, l1, dval, overflow);
+				if (overflow) RETURN_DOUBLE(dval * pow(l2, i));
 			} else {
 				i /= 2;
-				ZEND_SIGNED_MULTIPLY_LONG(l2,l2,l2,dval,overflow);
-				if (overflow) RETURN_DOUBLE((double)l1 * pow(dval,i));
+				ZEND_SIGNED_MULTIPLY_LONG(l2, l2, l2, dval,overflow);
+				if (overflow) RETURN_DOUBLE((double)l1 * pow(dval, i));
 			}
 			if (i == 0) {
 				RETURN_LONG(l1);
@@ -970,7 +970,7 @@ int zephir_pow_function_ex(zval *return_value, zval *zbase, zval *zexp TSRMLS_DC
 	}
 	convert_to_double(zbase);
 	convert_to_double(zexp);
-	
+
 	RETURN_DOUBLE(pow(Z_DVAL_P(zbase), Z_DVAL_P(zexp)));
 }
 #endif
