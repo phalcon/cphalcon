@@ -980,7 +980,6 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _text) {
 				PHALCON_INIT_NVAR(offset_y);
 				ZVAL_LONG(offset_y, 0);
 
-				PHALCON_INIT_VAR(gravity);
 				phalcon_get_class_constant(gravity, imagick_ce, SS("GRAVITY_CENTER") TSRMLS_CC);
 			}
 		} else if (Z_TYPE_P(offset_y) == IS_LONG) {
