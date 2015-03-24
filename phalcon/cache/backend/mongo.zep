@@ -109,7 +109,7 @@ class Mongo extends Backend implements BackendInterface
 				if !server || typeof server != "string" {
 					throw new Exception("The backend requires a valid MongoDB connection string");
 				}
-				let mongo = new \MongoClient();
+				let mongo = new \MongoClient(server);
 			}
 
 			/**
@@ -131,7 +131,8 @@ class Mongo extends Backend implements BackendInterface
 			/**
 			* Make the connection and get the collection
 			*/
-			mongo->selectDb(database)->selectCollection(collection);
+			let mongoCollection = mongo->selectDb(database)->selectCollection(collection),
+				this->_collection = mongoCollection;
 		}
 
 		return mongoCollection;
