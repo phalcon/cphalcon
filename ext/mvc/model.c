@@ -103,6 +103,7 @@ PHP_METHOD(Phalcon_Mvc_Model, getSource);
 PHP_METHOD(Phalcon_Mvc_Model, setSchema);
 PHP_METHOD(Phalcon_Mvc_Model, getSchema);
 PHP_METHOD(Phalcon_Mvc_Model, getColumnMap);
+PHP_METHOD(Phalcon_Mvc_Model, getReverseColumnMap);
 PHP_METHOD(Phalcon_Mvc_Model, getColumns);
 PHP_METHOD(Phalcon_Mvc_Model, getDataTypes);
 PHP_METHOD(Phalcon_Mvc_Model, setConnectionService);
@@ -343,6 +344,7 @@ static const zend_function_entry phalcon_mvc_model_method_entry[] = {
 	PHP_ME(Phalcon_Mvc_Model, setSchema, arginfo_phalcon_mvc_model_setschema, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Mvc_Model, getSchema, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model, getColumnMap, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model, getReverseColumnMap, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model, getColumns, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model, getDataTypes, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model, setConnectionService, arginfo_phalcon_mvc_modelinterface_setconnectionservice, ZEND_ACC_PUBLIC)
@@ -888,6 +890,27 @@ PHP_METHOD(Phalcon_Mvc_Model, getColumnMap){
 		} else {
 			PHALCON_CPY_WRT(column_map, tmp);
 		}
+	} else {
+		PHALCON_INIT_NVAR(column_map);
+	}
+
+	RETURN_CTOR(column_map);
+}
+
+/**
+ * Returns the reverse column map if any
+ *
+ * @return array
+ */
+PHP_METHOD(Phalcon_Mvc_Model, getReverseColumnMap){
+
+	zval *meta_data = NULL, *column_map = NULL;
+
+	PHALCON_MM_GROW();
+
+	if (likely(PHALCON_GLOBAL(orm).column_renaming)) {
+		PHALCON_CALL_METHOD(&meta_data, this_ptr, "getmodelsmetadata");
+		PHALCON_CALL_METHOD(&column_map, meta_data, "getreversecolumnmap", this_ptr);
 	} else {
 		PHALCON_INIT_NVAR(column_map);
 	}
