@@ -78,6 +78,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _pixelate);
 PHP_METHOD(Phalcon_Image_Adapter_Imagick, _save);
 PHP_METHOD(Phalcon_Image_Adapter_Imagick, _render);
 PHP_METHOD(Phalcon_Image_Adapter_Imagick, __destruct);
+PHP_METHOD(Phalcon_Image_Adapter_Imagick, shadow);
 PHP_METHOD(Phalcon_Image_Adapter_Imagick, getInternalImInstance);
 PHP_METHOD(Phalcon_Image_Adapter_Imagick, setResourceLimit);
 PHP_METHOD(Phalcon_Image_Adapter_Imagick, colorize);
@@ -95,6 +96,14 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_image_adapter_imagick___construct, 0, 0, 
 	ZEND_ARG_INFO(0, file)
 	ZEND_ARG_INFO(0, width)
 	ZEND_ARG_INFO(0, height)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_image_adapter_imagick_shadow, 0, 0, 0)
+	ZEND_ARG_INFO(0, color)
+	ZEND_ARG_INFO(0, opacity)
+	ZEND_ARG_INFO(0, sigma)
+	ZEND_ARG_INFO(0, x)
+	ZEND_ARG_INFO(0, y)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_image_adapter_imagick_setresourcelimit, 0, 0, 2)
@@ -165,6 +174,7 @@ static const zend_function_entry phalcon_image_adapter_imagick_method_entry[] = 
 	PHP_ME(Phalcon_Image_Adapter_Imagick, _save, arginfo_phalcon_image_adapter__save, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Image_Adapter_Imagick, _render, arginfo_phalcon_image_adapter__render, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Image_Adapter_Imagick, __destruct, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_DTOR)
+	PHP_ME(Phalcon_Image_Adapter_Imagick, shadow, arginfo_phalcon_image_adapter_imagick_shadow, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Image_Adapter_Imagick, getInternalImInstance, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Image_Adapter_Imagick, setResourceLimit, arginfo_phalcon_image_adapter_imagick_setresourcelimit, ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Image_Adapter_Imagick, colorize, arginfo_phalcon_image_adapter_imagick_colorize, ZEND_ACC_PUBLIC)
@@ -947,17 +957,117 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _text) {
 
 	PHALCON_INIT_VAR(gravity);
 
-	if (Z_TYPE_P(offset_x) == IS_BOOL) {
-		if (Z_TYPE_P(offset_y) == IS_BOOL) {
-			if (zend_is_true(offset_x) && zend_is_true(offset_y)) {
+	if (PHALCON_IS_TRUE(offset_x)) {
+		if (PHALCON_IS_TRUE(offset_y)) {
+			PHALCON_INIT_NVAR(offset_x);
+			ZVAL_LONG(offset_x, 0);
+
+			PHALCON_INIT_NVAR(offset_y);
+			ZVAL_LONG(offset_y, 0);
+
+			phalcon_get_class_constant(gravity, imagick_ce, SS("GRAVITY_SOUTHEAST") TSRMLS_CC);
+		} else if (PHALCON_IS_FALSE(offset_y)) {
+			PHALCON_INIT_NVAR(offset_x);
+			ZVAL_LONG(offset_x, 0);
+
+			PHALCON_INIT_NVAR(offset_y);
+			ZVAL_LONG(offset_y, 0);
+
+			phalcon_get_class_constant(gravity, imagick_ce, SS("GRAVITY_NORTHEAST") TSRMLS_CC);
+		}  else if (Z_TYPE_P(offset_y) == IS_LONG) {
+			y = phalcon_get_intval(offset_y);
+			if (y < 0) {
 				PHALCON_INIT_NVAR(offset_x);
 				ZVAL_LONG(offset_x, 0);
 
 				PHALCON_INIT_NVAR(offset_y);
+				ZVAL_LONG(offset_y, y * -1);
+
+				phalcon_get_class_constant(gravity, imagick_ce, SS("GRAVITY_SOUTHEAST") TSRMLS_CC);
+			} else {
+				PHALCON_INIT_NVAR(offset_x);
+				ZVAL_LONG(offset_x, 0);
+
+				phalcon_get_class_constant(gravity, imagick_ce, SS("GRAVITY_NORTHEAST") TSRMLS_CC);
+			}
+		} else {
+			PHALCON_INIT_NVAR(offset_x);
+			ZVAL_LONG(offset_x, 0);
+
+			PHALCON_INIT_NVAR(offset_y);
+			ZVAL_LONG(offset_y, 0);
+
+			phalcon_get_class_constant(gravity, imagick_ce, SS("GRAVITY_EAST") TSRMLS_CC);
+		}
+	} else if (PHALCON_IS_FALSE(offset_x)) {
+		if (PHALCON_IS_TRUE(offset_y)) {
+			PHALCON_INIT_NVAR(offset_x);
+			ZVAL_LONG(offset_x, 0);
+
+			PHALCON_INIT_NVAR(offset_y);
+			ZVAL_LONG(offset_y, 0);
+
+			phalcon_get_class_constant(gravity, imagick_ce, SS("GRAVITY_SOUTHWEST") TSRMLS_CC);
+		} else if (PHALCON_IS_FALSE(offset_y)) {
+			PHALCON_INIT_NVAR(offset_x);
+			ZVAL_LONG(offset_x, 0);
+
+			PHALCON_INIT_NVAR(offset_y);
+			ZVAL_LONG(offset_y, 0);
+
+			phalcon_get_class_constant(gravity, imagick_ce, SS("GRAVITY_NORTHWEST") TSRMLS_CC);
+		}  else if (Z_TYPE_P(offset_y) == IS_LONG) {
+			y = phalcon_get_intval(offset_y);
+			if (y < 0) {
+				PHALCON_INIT_NVAR(offset_x);
+				ZVAL_LONG(offset_x, 0);
+
+				PHALCON_INIT_NVAR(offset_y);
+				ZVAL_LONG(offset_y, y * -1);
+
+				phalcon_get_class_constant(gravity, imagick_ce, SS("GRAVITY_SOUTHWEST") TSRMLS_CC);
+			} else {
+				PHALCON_INIT_NVAR(offset_x);
+				ZVAL_LONG(offset_x, 0);
+
+				phalcon_get_class_constant(gravity, imagick_ce, SS("GRAVITY_NORTHWEST") TSRMLS_CC);
+			}
+		} else {
+			PHALCON_INIT_NVAR(offset_x);
+			ZVAL_LONG(offset_x, 0);
+
+			PHALCON_INIT_NVAR(offset_y);
+			ZVAL_LONG(offset_y, 0);
+
+			phalcon_get_class_constant(gravity, imagick_ce, SS("GRAVITY_WEST") TSRMLS_CC);
+		}
+	} else if (Z_TYPE_P(offset_x) == IS_LONG) {
+		x = phalcon_get_intval(offset_x);
+		if (x < 0) {
+			PHALCON_INIT_NVAR(offset_x);
+			ZVAL_LONG(offset_x, x  * -1);
+
+			if (PHALCON_IS_TRUE(offset_y)) {
+				PHALCON_INIT_NVAR(offset_y);
 				ZVAL_LONG(offset_y, 0);
 
 				phalcon_get_class_constant(gravity, imagick_ce, SS("GRAVITY_SOUTHEAST") TSRMLS_CC);
-			} else if (zend_is_true(offset_x)) {
+			} else if (PHALCON_IS_FALSE(offset_y)) {
+				PHALCON_INIT_NVAR(offset_y);
+				ZVAL_LONG(offset_y, 0);
+
+				phalcon_get_class_constant(gravity, imagick_ce, SS("GRAVITY_NORTHEAST") TSRMLS_CC);
+			}  else if (Z_TYPE_P(offset_y) == IS_LONG) {
+				y = phalcon_get_intval(offset_y);
+				if (y < 0) {
+					PHALCON_INIT_NVAR(offset_y);
+					ZVAL_LONG(offset_y, y * -1);
+
+					phalcon_get_class_constant(gravity, imagick_ce, SS("GRAVITY_SOUTHEAST") TSRMLS_CC);
+				} else {
+					phalcon_get_class_constant(gravity, imagick_ce, SS("GRAVITY_NORTHEAST") TSRMLS_CC);
+				}
+			} else {
 				PHALCON_INIT_NVAR(offset_x);
 				ZVAL_LONG(offset_x, 0);
 
@@ -965,129 +1075,70 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _text) {
 				ZVAL_LONG(offset_y, 0);
 
 				phalcon_get_class_constant(gravity, imagick_ce, SS("GRAVITY_EAST") TSRMLS_CC);
-			} else if (zend_is_true(offset_y)) {
-				PHALCON_INIT_NVAR(offset_x);
-				ZVAL_LONG(offset_x, 0);
-
+			}
+		} else {
+			if (PHALCON_IS_TRUE(offset_y)) {
 				PHALCON_INIT_NVAR(offset_y);
 				ZVAL_LONG(offset_y, 0);
 
-				phalcon_get_class_constant(gravity, imagick_ce, SS("GRAVITY_SOUTH") TSRMLS_CC);
-			} else {
-				PHALCON_INIT_NVAR(offset_x);
-				ZVAL_LONG(offset_x, 0);
-
+				phalcon_get_class_constant(gravity, imagick_ce, SS("GRAVITY_SOUTHWEST") TSRMLS_CC);
+			} else if (PHALCON_IS_FALSE(offset_y)) {
 				PHALCON_INIT_NVAR(offset_y);
 				ZVAL_LONG(offset_y, 0);
 
-				PHALCON_INIT_VAR(gravity);
-				phalcon_get_class_constant(gravity, imagick_ce, SS("GRAVITY_CENTER") TSRMLS_CC);
-			}
-		} else if (Z_TYPE_P(offset_y) == IS_LONG) {
-			y = phalcon_get_intval(offset_y);
-
-			if (zend_is_true(offset_x)) {
+				phalcon_get_class_constant(gravity, imagick_ce, SS("GRAVITY_NORTHWEST") TSRMLS_CC);
+			}  else if (Z_TYPE_P(offset_y) == IS_LONG) {
+				y = phalcon_get_intval(offset_y);
 				if (y < 0) {
-					PHALCON_INIT_NVAR(offset_x);
-					ZVAL_LONG(offset_x, 0);
-
-					PHALCON_INIT_NVAR(offset_y);
-					ZVAL_LONG(offset_y, y * -1);
-
-					phalcon_get_class_constant(gravity, imagick_ce, SS("GRAVITY_SOUTHEAST") TSRMLS_CC);
-				} else {
-					PHALCON_INIT_NVAR(offset_x);
-					ZVAL_LONG(offset_x, 0);
-
-					phalcon_get_class_constant(gravity, imagick_ce, SS("GRAVITY_NORTHEAST") TSRMLS_CC);
-				}
-			} else {
-				if (y < 0) {
-					PHALCON_INIT_NVAR(offset_x);
-					ZVAL_LONG(offset_x, 0);
-
-					PHALCON_INIT_NVAR(offset_y);
-					ZVAL_LONG(offset_y, y * -1);
-
-					phalcon_get_class_constant(gravity, imagick_ce, SS("GRAVITY_SOUTH") TSRMLS_CC);
-				} else {
-					PHALCON_INIT_NVAR(offset_x);
-					ZVAL_LONG(offset_x, 0);
-
-					phalcon_get_class_constant(gravity, imagick_ce, SS("GRAVITY_NORTH") TSRMLS_CC);
-				}
-			}
-		}
-	} else if (Z_TYPE_P(offset_x) == IS_LONG) {
-		x = phalcon_get_intval(offset_x);
-		if (Z_TYPE_P(offset_y) == IS_BOOL) {
-			if (zend_is_true(offset_y)) {
-				if (x < 0) {
-					PHALCON_INIT_NVAR(offset_x);
-					ZVAL_LONG(offset_x, x * -1);
-
-					PHALCON_INIT_NVAR(offset_y);
-					ZVAL_LONG(offset_y, 0);
-
-					phalcon_get_class_constant(gravity, imagick_ce, SS("GRAVITY_SOUTHEAST") TSRMLS_CC);
-				} else {
-					PHALCON_INIT_NVAR(offset_y);
-					ZVAL_LONG(offset_y, 0);
-
-					phalcon_get_class_constant(gravity, imagick_ce, SS("GRAVITY_SOUTH") TSRMLS_CC);
-				}
-			} else {
-				if (x < 0) {
-					PHALCON_INIT_NVAR(offset_x);
-					ZVAL_LONG(offset_x, x * -1);
-
-					PHALCON_INIT_NVAR(offset_y);
-					ZVAL_LONG(offset_y, 0);
-
-					phalcon_get_class_constant(gravity, imagick_ce, SS("GRAVITY_EAST") TSRMLS_CC);
-				} else {
-					PHALCON_INIT_NVAR(offset_y);
-					ZVAL_LONG(offset_y, 0);
-
-					phalcon_get_class_constant(gravity, imagick_ce, SS("GRAVITY_WEST") TSRMLS_CC);
-				}
-			}
-		} else if (Z_TYPE_P(offset_y) == IS_LONG) {
-
-			x = phalcon_get_intval(offset_x);
-			y = phalcon_get_intval(offset_y);
-
-			if (x < 0) {
-				if (y < 0) {
-					PHALCON_INIT_NVAR(offset_x);
-					ZVAL_LONG(offset_x, x * -1);
-
-					PHALCON_INIT_NVAR(offset_y);
-					ZVAL_LONG(offset_y, y * -1);
-
-					phalcon_get_class_constant(gravity, imagick_ce, SS("GRAVITY_SOUTHEAST") TSRMLS_CC);
-				} else {					
-					PHALCON_INIT_NVAR(offset_x);
-					ZVAL_LONG(offset_x, x * -1);
-
-					phalcon_get_class_constant(gravity, imagick_ce, SS("GRAVITY_NORTHEAST") TSRMLS_CC);
-				}
-			} else {
-				if (y < 0) {
-					PHALCON_INIT_NVAR(offset_x);
-					ZVAL_LONG(offset_x, 0);
-
 					PHALCON_INIT_NVAR(offset_y);
 					ZVAL_LONG(offset_y, y * -1);
 
 					phalcon_get_class_constant(gravity, imagick_ce, SS("GRAVITY_SOUTHWEST") TSRMLS_CC);
-				} else {					
-					PHALCON_INIT_NVAR(offset_x);
-					ZVAL_LONG(offset_x, 0);
-
+				} else {
 					phalcon_get_class_constant(gravity, imagick_ce, SS("GRAVITY_NORTHWEST") TSRMLS_CC);
 				}
+			} else {
+				PHALCON_INIT_NVAR(offset_x);
+				ZVAL_LONG(offset_x, 0);
+
+				PHALCON_INIT_NVAR(offset_y);
+				ZVAL_LONG(offset_y, 0);
+
+				phalcon_get_class_constant(gravity, imagick_ce, SS("GRAVITY_WEST") TSRMLS_CC);
 			}
+		}
+	} else {
+		PHALCON_INIT_NVAR(offset_x);
+		ZVAL_LONG(offset_x, 0);
+
+		if (PHALCON_IS_TRUE(offset_y)) {
+			PHALCON_INIT_NVAR(offset_y);
+			ZVAL_LONG(offset_y, 0);
+
+			phalcon_get_class_constant(gravity, imagick_ce, SS("GRAVITY_SOUTH") TSRMLS_CC);
+		} else if (PHALCON_IS_FALSE(offset_y)) {
+			PHALCON_INIT_NVAR(offset_y);
+			ZVAL_LONG(offset_y, 0);
+
+			phalcon_get_class_constant(gravity, imagick_ce, SS("GRAVITY_NORTH") TSRMLS_CC);
+		}  else if (Z_TYPE_P(offset_y) == IS_LONG) {
+			y = phalcon_get_intval(offset_y);
+			if (y < 0) {
+				PHALCON_INIT_NVAR(offset_y);
+				ZVAL_LONG(offset_y, y * -1);
+
+				phalcon_get_class_constant(gravity, imagick_ce, SS("GRAVITY_SOUTH") TSRMLS_CC);
+			} else {
+				phalcon_get_class_constant(gravity, imagick_ce, SS("GRAVITY_NORTH") TSRMLS_CC);
+			}
+		} else {
+			PHALCON_INIT_NVAR(offset_x);
+			ZVAL_LONG(offset_x, 0);
+
+			PHALCON_INIT_NVAR(offset_y);
+			ZVAL_LONG(offset_y, 0);
+
+			phalcon_get_class_constant(gravity, imagick_ce, SS("GRAVITY_CENTER") TSRMLS_CC);
 		}
 	}
 
@@ -1500,6 +1551,75 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, __destruct){
 	if (Z_TYPE_P(im) == IS_OBJECT) {
 		PHALCON_CALL_METHODW(NULL, im, "destroy");
 	}
+}
+
+PHP_METHOD(Phalcon_Image_Adapter_Imagick, shadow)
+{
+	zval *color = NULL, *opacity = NULL, *sigma = NULL, *x = NULL, *y = NULL;
+	zval *im, *version, *shadow, *imagickpixel, *composite;
+	zend_class_entry *imagickpixel_ce, *imagick_ce;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 0, 5, &color, &opacity, &sigma, &x, &y);
+
+	imagickpixel_ce = zend_fetch_class(SL("ImagickPixel"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
+	imagick_ce = zend_fetch_class(SL("Imagick"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
+
+	if (!color) {
+		PHALCON_INIT_VAR(color);
+		ZVAL_STRING(color, "black", 1);
+	}
+
+	if (!opacity) {
+		PHALCON_INIT_VAR(opacity);
+		ZVAL_LONG(opacity, 80);
+	}
+
+	if (!sigma) {
+		PHALCON_INIT_VAR(sigma);
+		ZVAL_LONG(sigma, 3);
+	}
+
+	if (!x) {
+		PHALCON_INIT_VAR(x);
+		ZVAL_LONG(x, 5);
+	}
+
+	if (!y) {
+		PHALCON_INIT_VAR(y);
+		ZVAL_LONG(y, 5);
+	}
+
+	im           = phalcon_fetch_nproperty_this(this_ptr, SL("_image"), PH_NOISY TSRMLS_CC);
+	version      = phalcon_fetch_static_property_ce(phalcon_image_adapter_imagick_ce, SL("_version") TSRMLS_CC);
+
+	PHALCON_INIT_VAR(shadow);
+	if (phalcon_get_intval(version) >= 30100) {
+		if (FAILURE == phalcon_clone(shadow, im TSRMLS_CC)) {
+			RETURN_MM();
+		}
+	} else {
+		PHALCON_CALL_METHOD(&shadow, im, "clone");
+	}
+
+	PHALCON_INIT_VAR(imagickpixel);
+	object_init_ex(imagickpixel, imagickpixel_ce);
+	PHALCON_CALL_METHOD(NULL, imagickpixel, "__construct", color);
+
+	PHALCON_CALL_METHOD(NULL, shadow, "setimagebackgroundcolor", imagickpixel);
+	PHALCON_CALL_METHOD(NULL, shadow, "shadowimage", opacity, sigma, x, y);
+
+	PHALCON_INIT_VAR(composite);
+	phalcon_get_class_constant(composite, imagick_ce, SS("COMPOSITE_OVER") TSRMLS_CC);
+	PHALCON_CALL_METHOD(NULL, shadow, "compositeimage", im, composite, PHALCON_GLOBAL(z_zero), PHALCON_GLOBAL(z_zero));
+
+	PHALCON_CALL_METHOD(NULL, im, "clear");
+	PHALCON_CALL_METHOD(NULL, im, "destroy");
+	
+	phalcon_update_property_this(this_ptr, SL("_image"), shadow TSRMLS_CC);
+ 
+	RETURN_THIS();
 }
 
 PHP_METHOD(Phalcon_Image_Adapter_Imagick, getInternalImInstance)

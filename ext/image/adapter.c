@@ -735,8 +735,8 @@ PHP_METHOD(Phalcon_Image_Adapter, watermark){
  * Add a text to an image with a specified opacity.
  *
  * @param string text
- * @param int $offset_x offset from the left, If less than 0 offset from the right, If true right the x offset
- * @param int $offset_y offset from the top, If less than 0 offset from the bottom, If true bottom the Y offset
+ * @param int $offset_x offset from the left, If less than 0 offset from the right, If true right the x offset, If NULL center
+ * @param int $offset_y offset from the top, If less than 0 offset from the bottom, If true bottom the Y offset, If NULL center
  * @param int $opacity opacity of text: 1-100
  * @param string $color hexadecimal color value
  * @param int $size font pointsize
@@ -755,17 +755,15 @@ PHP_METHOD(Phalcon_Image_Adapter, text){
 
 	PHALCON_MM_GROW();
 
-	if (!ofs_x || Z_TYPE_PP(ofs_x) == IS_NULL) {
-		PHALCON_INIT_VAR(offset_x);
-		ZVAL_FALSE(offset_x);
+	if (!ofs_x) {
+		offset_x = PHALCON_GLOBAL(z_null);
 	}
 	else {
 		PHALCON_CPY_WRT_CTOR(offset_x, *ofs_x);
 	}
 
-	if (!ofs_y || Z_TYPE_PP(ofs_y) == IS_NULL) {
-		PHALCON_INIT_VAR(offset_y);
-		ZVAL_FALSE(offset_y);
+	if (!ofs_y) {
+		offset_y = PHALCON_GLOBAL(z_null);
 	}
 	else {
 		PHALCON_CPY_WRT_CTOR(offset_y, *ofs_y);

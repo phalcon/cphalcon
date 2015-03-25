@@ -270,6 +270,18 @@ class ImageTest extends PHPUnit_Framework_TestCase
 
 		// Add a text to the bottom right of the image
 		$image->text('hello', TRUE, TRUE);
+		$image->text('world', FALSE, FALSE);
+
+		$image = new Phalcon\Image\Adapter\Imagick(NULL, 250, 250);
+		$image->background('#FFFFFF');
+		 // center
+		$image->text('phalcon', NULL, NULL, 100,  '#000000', 60, "unit-tests/fonts/wqy-microhei.ttc");
+		// north
+		$image->text('hello', NULL, FALSE, 100,  '#000000', 60, "unit-tests/fonts/wqy-microhei.ttc");
+		// south
+		$image->text('world', NULL, TRUE, 100,  '#000000', 60, "unit-tests/fonts/wqy-microhei.ttc");
+		$image->save('unit-tests/assets/text.jpg');
+		$this->assertTrue(file_exists('unit-tests/assets/text.jpg'));
 
 		// Set font size
 		//$image->text('hello', TRUE, TRUE, NULL, NULL, 12);
