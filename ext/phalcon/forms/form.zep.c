@@ -635,10 +635,6 @@ PHP_METHOD(Phalcon_Forms_Form, add) {
 	}
 
 
-	if (!(zephir_instance_of_ev(element, phalcon_forms_elementinterface_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'element' must be an instance of 'Phalcon\\Forms\\ElementInterface'", "", 0);
-		return;
-	}
 	ZEPHIR_CALL_METHOD(&name, element, "getname", NULL);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(NULL, element, "setform", NULL, this_ptr);

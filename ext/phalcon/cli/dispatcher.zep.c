@@ -223,10 +223,6 @@ PHP_METHOD(Phalcon_Cli_Dispatcher, _handleException) {
 
 
 
-	if (!(zephir_instance_of_ev(exception, zend_exception_get_default(TSRMLS_C) TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'exception' must be an instance of 'Exception'", "", 0);
-		return;
-	}
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_eventsManager"), PH_NOISY_CC);
 	ZEPHIR_CPY_WRT(eventsManager, _0);
 	if (Z_TYPE_P(eventsManager) == IS_OBJECT) {

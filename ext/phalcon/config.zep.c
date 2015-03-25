@@ -328,10 +328,6 @@ PHP_METHOD(Phalcon_Config, merge) {
 
 
 
-	if (!(zephir_instance_of_ev(config, phalcon_config_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'config' must be an instance of 'Phalcon\\Config'", "", 0);
-		return;
-	}
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "_merge", &_0, config);
 	zephir_check_call_status();
 	RETURN_MM();
@@ -459,10 +455,6 @@ PHP_METHOD(Phalcon_Config, _merge) {
 	}
 
 
-	if (!(zephir_instance_of_ev(config, phalcon_config_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'config' must be an instance of 'Phalcon\\Config'", "", 0);
-		return;
-	}
 	if (Z_TYPE_P(instance) != IS_OBJECT) {
 		ZEPHIR_CPY_WRT(instance, this_ptr);
 	}

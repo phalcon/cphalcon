@@ -17,9 +17,9 @@
 #include "kernel/array.h"
 #include "kernel/object.h"
 #include "kernel/operators.h"
-#include "kernel/exception.h"
 #include "kernel/string.h"
 #include "ext/spl/spl_exceptions.h"
+#include "kernel/exception.h"
 #include "kernel/hash.h"
 #include "kernel/concat.h"
 
@@ -188,10 +188,6 @@ PHP_METHOD(Phalcon_Mvc_Router, setDI) {
 
 
 
-	if (!(zephir_instance_of_ev(dependencyInjector, phalcon_diinterface_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(spl_ce_InvalidArgumentException, "Parameter 'dependencyInjector' must be an instance of 'Phalcon\\DiInterface'", "", 0);
-		return;
-	}
 	zephir_update_property_this(this_ptr, SL("_dependencyInjector"), dependencyInjector TSRMLS_CC);
 
 }
@@ -1090,10 +1086,6 @@ PHP_METHOD(Phalcon_Mvc_Router, mount) {
 
 
 
-	if (!(zephir_instance_of_ev(group, phalcon_mvc_router_group_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'group' must be an instance of 'Phalcon\\Mvc\\Router\\Group'", "", 0);
-		return;
-	}
 	if (Z_TYPE_P(group) != IS_OBJECT) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_router_exception_ce, "The group of routes is not valid", "phalcon/mvc/router.zep", 715);
 		return;

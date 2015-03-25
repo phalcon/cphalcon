@@ -12,7 +12,6 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
-#include "kernel/object.h"
 #include "kernel/exception.h"
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
@@ -20,6 +19,7 @@
 #include "kernel/array.h"
 #include "kernel/operators.h"
 #include "kernel/hash.h"
+#include "kernel/object.h"
 #include "ext/spl/spl_exceptions.h"
 
 
@@ -73,10 +73,6 @@ PHP_METHOD(Phalcon_Di_Service_Builder, _buildParameter) {
 	position = zephir_get_intval(position_param);
 
 
-	if (!(zephir_instance_of_ev(dependencyInjector, phalcon_diinterface_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'dependencyInjector' must be an instance of 'Phalcon\\DiInterface'", "", 0);
-		return;
-	}
 	if (Z_TYPE_P(argument) != IS_ARRAY) {
 		ZEPHIR_INIT_VAR(_0);
 		object_init_ex(_0, phalcon_di_exception_ce);
@@ -212,10 +208,6 @@ PHP_METHOD(Phalcon_Di_Service_Builder, _buildParameters) {
 
 
 
-	if (!(zephir_instance_of_ev(dependencyInjector, phalcon_diinterface_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'dependencyInjector' must be an instance of 'Phalcon\\DiInterface'", "", 0);
-		return;
-	}
 	if (Z_TYPE_P(arguments) != IS_ARRAY) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_di_exception_ce, "Definition arguments must be an array", "phalcon/di/service/builder.zep", 130);
 		return;
@@ -265,10 +257,6 @@ PHP_METHOD(Phalcon_Di_Service_Builder, build) {
 	}
 
 
-	if (!(zephir_instance_of_ev(dependencyInjector, phalcon_diinterface_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'dependencyInjector' must be an instance of 'Phalcon\\DiInterface'", "", 0);
-		return;
-	}
 	ZEPHIR_OBS_VAR(className);
 	if (!(zephir_array_isset_string_fetch(&className, definition, SS("className"), 0 TSRMLS_CC))) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_di_exception_ce, "Invalid service definition. Missing 'className' parameter", "phalcon/di/service/builder.zep", 158);

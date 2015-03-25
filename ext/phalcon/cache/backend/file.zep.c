@@ -12,10 +12,10 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
-#include "kernel/object.h"
-#include "kernel/exception.h"
 #include "kernel/array.h"
+#include "kernel/exception.h"
 #include "kernel/memory.h"
+#include "kernel/object.h"
 #include "kernel/fcall.h"
 #include "kernel/concat.h"
 #include "kernel/file.h"
@@ -111,10 +111,6 @@ PHP_METHOD(Phalcon_Cache_Backend_File, __construct) {
 	}
 
 
-	if (!(zephir_instance_of_ev(frontend, phalcon_cache_frontendinterface_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'frontend' must be an instance of 'Phalcon\\Cache\\FrontendInterface'", "", 0);
-		return;
-	}
 	if (!(zephir_array_isset_string(options, SS("cacheDir")))) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_cache_exception_ce, "Cache directory must be specified with the option cacheDir", "phalcon/cache/backend/file.zep", 75);
 		return;

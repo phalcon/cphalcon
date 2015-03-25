@@ -219,10 +219,6 @@ PHP_METHOD(Phalcon_Db_Adapter, setEventsManager) {
 
 
 
-	if (!(zephir_instance_of_ev(eventsManager, phalcon_events_managerinterface_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(spl_ce_InvalidArgumentException, "Parameter 'eventsManager' must be an instance of 'Phalcon\\Events\\ManagerInterface'", "", 0);
-		return;
-	}
 	zephir_update_property_this(this_ptr, SL("_eventsManager"), eventsManager TSRMLS_CC);
 
 }
@@ -252,10 +248,6 @@ PHP_METHOD(Phalcon_Db_Adapter, setDialect) {
 
 
 
-	if (!(zephir_instance_of_ev(dialect, phalcon_db_dialectinterface_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(spl_ce_InvalidArgumentException, "Parameter 'dialect' must be an instance of 'Phalcon\\Db\\DialectInterface'", "", 0);
-		return;
-	}
 	zephir_update_property_this(this_ptr, SL("_dialect"), dialect TSRMLS_CC);
 
 }
@@ -1480,10 +1472,6 @@ PHP_METHOD(Phalcon_Db_Adapter, addColumn) {
 	}
 
 
-	if (!(zephir_instance_of_ev(column, phalcon_db_columninterface_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'column' must be an instance of 'Phalcon\\Db\\ColumnInterface'", "", 0);
-		return;
-	}
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_dialect"), PH_NOISY_CC);
 	ZEPHIR_CALL_METHOD(&_1, _0, "addcolumn", NULL, tableName, schemaName, column);
 	zephir_check_call_status();
@@ -1534,10 +1522,6 @@ PHP_METHOD(Phalcon_Db_Adapter, modifyColumn) {
 	}
 
 
-	if (!(zephir_instance_of_ev(column, phalcon_db_columninterface_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'column' must be an instance of 'Phalcon\\Db\\ColumnInterface'", "", 0);
-		return;
-	}
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_dialect"), PH_NOISY_CC);
 	ZEPHIR_CALL_METHOD(&_1, _0, "modifycolumn", NULL, tableName, schemaName, column);
 	zephir_check_call_status();
@@ -1639,10 +1623,6 @@ PHP_METHOD(Phalcon_Db_Adapter, addIndex) {
 	}
 
 
-	if (!(zephir_instance_of_ev(index, phalcon_db_indexinterface_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'index' must be an instance of 'Phalcon\\Db\\IndexInterface'", "", 0);
-		return;
-	}
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_dialect"), PH_NOISY_CC);
 	ZEPHIR_CALL_METHOD(&_1, _0, "addindex", NULL, tableName, schemaName, index);
 	zephir_check_call_status();
@@ -1743,10 +1723,6 @@ PHP_METHOD(Phalcon_Db_Adapter, addPrimaryKey) {
 	}
 
 
-	if (!(zephir_instance_of_ev(index, phalcon_db_indexinterface_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'index' must be an instance of 'Phalcon\\Db\\IndexInterface'", "", 0);
-		return;
-	}
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_dialect"), PH_NOISY_CC);
 	ZEPHIR_CALL_METHOD(&_1, _0, "addprimarykey", NULL, tableName, schemaName, index);
 	zephir_check_call_status();
@@ -1846,10 +1822,6 @@ PHP_METHOD(Phalcon_Db_Adapter, addForeignKey) {
 	}
 
 
-	if (!(zephir_instance_of_ev(reference, phalcon_db_referenceinterface_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'reference' must be an instance of 'Phalcon\\Db\\ReferenceInterface'", "", 0);
-		return;
-	}
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_dialect"), PH_NOISY_CC);
 	ZEPHIR_CALL_METHOD(&_1, _0, "addforeignkey", NULL, tableName, schemaName, reference);
 	zephir_check_call_status();
@@ -1936,10 +1908,6 @@ PHP_METHOD(Phalcon_Db_Adapter, getColumnDefinition) {
 
 
 
-	if (!(zephir_instance_of_ev(column, phalcon_db_columninterface_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'column' must be an instance of 'Phalcon\\Db\\ColumnInterface'", "", 0);
-		return;
-	}
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_dialect"), PH_NOISY_CC);
 	ZEPHIR_RETURN_CALL_METHOD(_0, "getcolumndefinition", NULL, column);
 	zephir_check_call_status();

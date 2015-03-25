@@ -13,9 +13,9 @@
 
 #include "kernel/main.h"
 #include "kernel/object.h"
-#include "kernel/exception.h"
 #include "kernel/fcall.h"
 #include "kernel/memory.h"
+#include "kernel/exception.h"
 #include "kernel/operators.h"
 #include "kernel/array.h"
 #include "kernel/concat.h"
@@ -134,7 +134,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Query) {
 PHP_METHOD(Phalcon_Mvc_Model_Query, __construct) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zend_bool _0;
 	zval *phql = NULL, *dependencyInjector = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -148,14 +147,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, __construct) {
 	}
 
 
-	_0 = Z_TYPE_P(dependencyInjector) != IS_NULL;
-	if (_0) {
-		_0 = !(zephir_instance_of_ev(dependencyInjector, phalcon_diinterface_ce TSRMLS_CC));
-	}
-	if (_0) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'dependencyInjector' must be an instance of 'Phalcon\\DiInterface'", "", 0);
-		return;
-	}
 	if (Z_TYPE_P(phql) != IS_NULL) {
 		zephir_update_property_this(this_ptr, SL("_phql"), phql TSRMLS_CC);
 	}
@@ -182,10 +173,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, setDI) {
 
 
 
-	if (!(zephir_instance_of_ev(dependencyInjector, phalcon_diinterface_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'dependencyInjector' must be an instance of 'Phalcon\\DiInterface'", "", 0);
-		return;
-	}
 	ZEPHIR_INIT_VAR(_0);
 	ZVAL_STRING(_0, "modelsManager", ZEPHIR_TEMP_PARAM_COPY);
 	ZEPHIR_CALL_METHOD(&manager, dependencyInjector, "getshared", NULL, _0);
@@ -1123,10 +1110,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getTable) {
 
 
 
-	if (!(zephir_instance_of_ev(manager, phalcon_mvc_model_managerinterface_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'manager' must be an instance of 'Phalcon\\Mvc\\Model\\ManagerInterface'", "", 0);
-		return;
-	}
 	ZEPHIR_OBS_VAR(modelName);
 	if (zephir_array_isset_string_fetch(&modelName, qualifiedName, SS("name"), 0 TSRMLS_CC)) {
 		ZEPHIR_CALL_METHOD(&model, manager, "load", NULL, modelName);
@@ -1165,10 +1148,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getJoin) {
 
 
 
-	if (!(zephir_instance_of_ev(manager, phalcon_mvc_model_managerinterface_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'manager' must be an instance of 'Phalcon\\Mvc\\Model\\ManagerInterface'", "", 0);
-		return;
-	}
 	ZEPHIR_OBS_VAR(qualified);
 	if (zephir_array_isset_string_fetch(&qualified, join, SS("qualified"), 0 TSRMLS_CC)) {
 		zephir_array_fetch_string(&_0, qualified, SL("type"), PH_NOISY | PH_READONLY, "phalcon/mvc/model/query.zep", 789 TSRMLS_CC);
@@ -1285,10 +1264,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getSingleJoin) {
 	ZVAL_NULL(sqlJoinConditions);
 
 
-	if (!(zephir_instance_of_ev(relation, phalcon_mvc_model_relationinterface_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'relation' must be an instance of 'Phalcon\\Mvc\\Model\\RelationInterface'", "", 0);
-		return;
-	}
 	ZEPHIR_CALL_METHOD(&fields, relation, "getfields", NULL);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&referencedFields, relation, "getreferencedfields", NULL);
@@ -1393,10 +1368,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getMultiJoin) {
 
 
 
-	if (!(zephir_instance_of_ev(relation, phalcon_mvc_model_relationinterface_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'relation' must be an instance of 'Phalcon\\Mvc\\Model\\RelationInterface'", "", 0);
-		return;
-	}
 	ZEPHIR_INIT_VAR(sqlJoins);
 	array_init(sqlJoins);
 	ZEPHIR_CALL_METHOD(&fields, relation, "getfields", NULL);
@@ -3376,10 +3347,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getRelatedRecords) {
 
 
 
-	if (!(zephir_instance_of_ev(model, phalcon_mvc_modelinterface_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'model' must be an instance of 'Phalcon\\Mvc\\ModelInterface'", "", 0);
-		return;
-	}
 	ZEPHIR_INIT_VAR(selectIr);
 	array_init_size(selectIr, 5);
 	ZEPHIR_INIT_VAR(_0);

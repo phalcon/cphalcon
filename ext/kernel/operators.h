@@ -91,7 +91,7 @@ void zephir_make_printable_zval(zval *expr, zval *expr_copy, int *use_copy);
 #endif
 
 #if PHP_VERSION_ID < 50600
-int zephir_pow_function_ex(zval *return_value, zval *zbase, zval *zexp TSRMLS_DC);
+void zephir_pow_function_ex(zval *return_value, zval *zbase, zval *zexp TSRMLS_DC);
 #define zephir_pow_function(result, op1, op2) zephir_pow_function_ex(result, op1, op2 TSRMLS_CC)
 #else
 #define zephir_pow_function(result, op1, op2) pow_function(result, op1, op2 TSRMLS_CC)

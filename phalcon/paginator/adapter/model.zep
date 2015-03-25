@@ -130,7 +130,7 @@ class Model implements AdapterInterface
 		if n > 0 {
 
 			/**
-			 * Seek to the desired position</comment>
+			 * Seek to the desired position
 			 */
 			if start <= n {
 				items->seek(start);

@@ -12,15 +12,15 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
-#include "kernel/object.h"
-#include "kernel/exception.h"
 #include "kernel/fcall.h"
 #include "kernel/memory.h"
 #include "kernel/hash.h"
 #include "kernel/array.h"
+#include "kernel/exception.h"
 #include "kernel/concat.h"
 #include "kernel/operators.h"
 #include "kernel/string.h"
+#include "kernel/object.h"
 
 
 /*
@@ -96,10 +96,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate) {
 
 
 
-	if (!(zephir_instance_of_ev(record, phalcon_mvc_modelinterface_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'record' must be an instance of 'Phalcon\\Mvc\\ModelInterface'", "", 0);
-		return;
-	}
 	ZEPHIR_CALL_METHOD(&dependencyInjector, record, "getdi", NULL);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(_0);

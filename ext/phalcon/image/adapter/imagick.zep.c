@@ -877,10 +877,6 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _watermark) {
 	opacity = zephir_get_intval(opacity_param);
 
 
-	if (!(zephir_instance_of_ev(image, phalcon_image_adapter_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'image' must be an instance of 'Phalcon\\Image\\Adapter'", "", 0);
-		return;
-	}
 	opacity = (long) (zephir_safe_div_long_long(opacity, 100 TSRMLS_CC));
 	ZEPHIR_INIT_VAR(watermark);
 	object_init_ex(watermark, zephir_get_internal_ce(SS("imagick") TSRMLS_CC));
@@ -1076,10 +1072,6 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _mask) {
 
 
 
-	if (!(zephir_instance_of_ev(image, phalcon_image_adapter_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'image' must be an instance of 'Phalcon\\Image\\Adapter'", "", 0);
-		return;
-	}
 	ZEPHIR_INIT_VAR(mask);
 	object_init_ex(mask, zephir_get_internal_ce(SS("imagick") TSRMLS_CC));
 	if (zephir_has_constructor(mask TSRMLS_CC)) {

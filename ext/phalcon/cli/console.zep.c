@@ -13,9 +13,9 @@
 
 #include "kernel/main.h"
 #include "kernel/object.h"
-#include "kernel/exception.h"
 #include "kernel/memory.h"
 #include "ext/spl/spl_exceptions.h"
+#include "kernel/exception.h"
 #include "kernel/array.h"
 #include "kernel/fcall.h"
 #include "kernel/operators.h"
@@ -78,8 +78,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Cli_Console) {
  */
 PHP_METHOD(Phalcon_Cli_Console, __construct) {
 
-	zend_bool _0;
-	zval *dependencyInjector = NULL, *_1, *_2;
+	zval *dependencyInjector = NULL, *_0, *_1;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &dependencyInjector);
@@ -89,23 +88,15 @@ PHP_METHOD(Phalcon_Cli_Console, __construct) {
 	}
 
 
-	_0 = Z_TYPE_P(dependencyInjector) != IS_NULL;
-	if (_0) {
-		_0 = !(zephir_instance_of_ev(dependencyInjector, phalcon_diinterface_ce TSRMLS_CC));
-	}
-	if (_0) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'dependencyInjector' must be an instance of 'Phalcon\\DiInterface'", "", 0);
-		return;
-	}
 	if (Z_TYPE_P(dependencyInjector) == IS_OBJECT) {
 		zephir_update_property_this(this_ptr, SL("_dependencyInjector"), dependencyInjector TSRMLS_CC);
 	}
+	ZEPHIR_INIT_VAR(_0);
+	array_init(_0);
+	zephir_update_property_this(this_ptr, SL("_arguments"), _0 TSRMLS_CC);
 	ZEPHIR_INIT_VAR(_1);
 	array_init(_1);
-	zephir_update_property_this(this_ptr, SL("_arguments"), _1 TSRMLS_CC);
-	ZEPHIR_INIT_VAR(_2);
-	array_init(_2);
-	zephir_update_property_this(this_ptr, SL("_options"), _2 TSRMLS_CC);
+	zephir_update_property_this(this_ptr, SL("_options"), _1 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -123,10 +114,6 @@ PHP_METHOD(Phalcon_Cli_Console, setDI) {
 
 
 
-	if (!(zephir_instance_of_ev(dependencyInjector, phalcon_diinterface_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(spl_ce_InvalidArgumentException, "Parameter 'dependencyInjector' must be an instance of 'Phalcon\\DiInterface'", "", 0);
-		return;
-	}
 	zephir_update_property_this(this_ptr, SL("_dependencyInjector"), dependencyInjector TSRMLS_CC);
 
 }
@@ -156,10 +143,6 @@ PHP_METHOD(Phalcon_Cli_Console, setEventsManager) {
 
 
 
-	if (!(zephir_instance_of_ev(eventsManager, phalcon_events_managerinterface_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(spl_ce_InvalidArgumentException, "Parameter 'eventsManager' must be an instance of 'Phalcon\\Events\\ManagerInterface'", "", 0);
-		return;
-	}
 	zephir_update_property_this(this_ptr, SL("_eventsManager"), eventsManager TSRMLS_CC);
 
 }

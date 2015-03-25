@@ -227,10 +227,6 @@ PHP_METHOD(Phalcon_Validation, add) {
 	zephir_get_strval(field, field_param);
 
 
-	if (!(zephir_instance_of_ev(validator, phalcon_validation_validatorinterface_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'validator' must be an instance of 'Phalcon\\Validation\\ValidatorInterface'", "", 0);
-		return;
-	}
 	ZEPHIR_INIT_VAR(_0);
 	array_init_size(_0, 3);
 	zephir_array_fast_append(_0, field);
@@ -259,10 +255,6 @@ PHP_METHOD(Phalcon_Validation, rule) {
 	zephir_get_strval(field, field_param);
 
 
-	if (!(zephir_instance_of_ev(validator, phalcon_validation_validatorinterface_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'validator' must be an instance of 'Phalcon\\Validation\\ValidatorInterface'", "", 0);
-		return;
-	}
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "add", NULL, field, validator);
 	zephir_check_call_status();
 	RETURN_MM();
@@ -573,10 +565,6 @@ PHP_METHOD(Phalcon_Validation, appendMessage) {
 
 
 
-	if (!(zephir_instance_of_ev(message, phalcon_validation_messageinterface_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'message' must be an instance of 'Phalcon\\Validation\\MessageInterface'", "", 0);
-		return;
-	}
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_messages"), PH_NOISY_CC);
 	ZEPHIR_CALL_METHOD(NULL, _0, "appendmessage", NULL, message);
 	zephir_check_call_status();

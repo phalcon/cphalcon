@@ -13,11 +13,11 @@
 
 #include "kernel/main.h"
 #include "kernel/object.h"
-#include "kernel/exception.h"
 #include "kernel/fcall.h"
 #include "kernel/memory.h"
 #include "kernel/operators.h"
 #include "ext/spl/spl_exceptions.h"
+#include "kernel/exception.h"
 #include "kernel/hash.h"
 #include "kernel/array.h"
 #include "kernel/concat.h"
@@ -98,7 +98,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Micro) {
 PHP_METHOD(Phalcon_Mvc_Micro, __construct) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zend_bool _0;
 	zval *dependencyInjector = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -109,14 +108,6 @@ PHP_METHOD(Phalcon_Mvc_Micro, __construct) {
 	}
 
 
-	_0 = Z_TYPE_P(dependencyInjector) != IS_NULL;
-	if (_0) {
-		_0 = !(zephir_instance_of_ev(dependencyInjector, phalcon_diinterface_ce TSRMLS_CC));
-	}
-	if (_0) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'dependencyInjector' must be an instance of 'Phalcon\\DiInterface'", "", 0);
-		return;
-	}
 	if (Z_TYPE_P(dependencyInjector) == IS_OBJECT) {
 		if (zephir_instance_of_ev(dependencyInjector, phalcon_diinterface_ce TSRMLS_CC)) {
 			ZEPHIR_CALL_METHOD(NULL, this_ptr, "setdi", NULL, dependencyInjector);
@@ -142,10 +133,6 @@ PHP_METHOD(Phalcon_Mvc_Micro, setDI) {
 
 
 
-	if (!(zephir_instance_of_ev(dependencyInjector, phalcon_diinterface_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'dependencyInjector' must be an instance of 'Phalcon\\DiInterface'", "", 0);
-		return;
-	}
 	ZEPHIR_INIT_VAR(_1);
 	ZVAL_STRING(_1, "application", ZEPHIR_TEMP_PARAM_COPY);
 	ZEPHIR_CALL_METHOD(&_0, dependencyInjector, "has", NULL, _1);
@@ -503,10 +490,6 @@ PHP_METHOD(Phalcon_Mvc_Micro, mount) {
 
 
 
-	if (!(zephir_instance_of_ev(collection, phalcon_mvc_micro_collection_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'collection' must be an instance of 'Phalcon\\Mvc\\Micro\\Collection'", "", 0);
-		return;
-	}
 	if (Z_TYPE_P(collection) != IS_OBJECT) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_micro_exception_ce, "Collection is not valid", "phalcon/mvc/micro.zep", 376);
 		return;

@@ -389,10 +389,6 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, processControllerAnnotation) {
 	}
 
 
-	if (!(zephir_instance_of_ev(annotation, phalcon_annotations_annotation_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'annotation' must be an instance of 'Phalcon\\Annotations\\Annotation'", "", 0);
-		return;
-	}
 	ZEPHIR_CALL_METHOD(&_0, annotation, "getname", NULL);
 	zephir_check_call_status();
 	if (ZEPHIR_IS_STRING(_0, "RoutePrefix")) {
@@ -474,10 +470,6 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, processActionAnnotation) {
 	}
 
 
-	if (!(zephir_instance_of_ev(annotation, phalcon_annotations_annotation_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'annotation' must be an instance of 'Phalcon\\Annotations\\Annotation'", "", 0);
-		return;
-	}
 	isRoute = 0;
 	ZEPHIR_INIT_VAR(methods);
 	ZVAL_NULL(methods);

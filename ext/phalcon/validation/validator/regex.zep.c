@@ -12,8 +12,6 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
-#include "kernel/object.h"
-#include "kernel/exception.h"
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
 #include "kernel/operators.h"
@@ -79,10 +77,6 @@ PHP_METHOD(Phalcon_Validation_Validator_Regex, validate) {
 
 
 
-	if (!(zephir_instance_of_ev(validation, phalcon_validation_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'validation' must be an instance of 'Phalcon\\Validation'", "", 0);
-		return;
-	}
 	ZEPHIR_INIT_VAR(matches);
 	ZVAL_NULL(matches);
 	ZEPHIR_CALL_METHOD(&value, validation, "getvalue", NULL, field);

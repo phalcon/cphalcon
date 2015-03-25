@@ -12,8 +12,8 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
-#include "kernel/object.h"
 #include "kernel/exception.h"
+#include "kernel/object.h"
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
 #include "kernel/array.h"
@@ -68,10 +68,6 @@ PHP_METHOD(Phalcon_Annotations_Adapter, setReader) {
 
 
 
-	if (!(zephir_instance_of_ev(reader, phalcon_annotations_readerinterface_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(spl_ce_InvalidArgumentException, "Parameter 'reader' must be an instance of 'Phalcon\\Annotations\\ReaderInterface'", "", 0);
-		return;
-	}
 	if (Z_TYPE_P(reader) != IS_OBJECT) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_annotations_exception_ce, "Invalid annotations reader", "phalcon/annotations/adapter.zep", 47);
 		return;

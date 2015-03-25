@@ -13,10 +13,10 @@
 
 #include "kernel/main.h"
 #include "kernel/object.h"
-#include "kernel/exception.h"
 #include "kernel/memory.h"
 #include "kernel/operators.h"
 #include "kernel/array.h"
+#include "kernel/exception.h"
 #include "kernel/fcall.h"
 #include "kernel/concat.h"
 #include "ext/spl/spl_exceptions.h"
@@ -106,7 +106,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Application) {
  */
 PHP_METHOD(Phalcon_Mvc_Application, __construct) {
 
-	zend_bool _0;
 	zval *dependencyInjector = NULL;
 
 	zephir_fetch_params(0, 0, 1, &dependencyInjector);
@@ -116,14 +115,6 @@ PHP_METHOD(Phalcon_Mvc_Application, __construct) {
 	}
 
 
-	_0 = Z_TYPE_P(dependencyInjector) != IS_NULL;
-	if (_0) {
-		_0 = !(zephir_instance_of_ev(dependencyInjector, phalcon_diinterface_ce TSRMLS_CC));
-	}
-	if (_0) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(spl_ce_InvalidArgumentException, "Parameter 'dependencyInjector' must be an instance of 'Phalcon\\DiInterface'", "", 0);
-		return;
-	}
 	if (Z_TYPE_P(dependencyInjector) == IS_OBJECT) {
 		zephir_update_property_this(this_ptr, SL("_dependencyInjector"), dependencyInjector TSRMLS_CC);
 	}

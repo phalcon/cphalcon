@@ -12,11 +12,11 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
-#include "kernel/object.h"
-#include "kernel/exception.h"
 #include "kernel/fcall.h"
 #include "kernel/memory.h"
 #include "kernel/operators.h"
+#include "kernel/exception.h"
+#include "kernel/object.h"
 #include "kernel/string.h"
 #include "kernel/array.h"
 #include "ext/spl/spl_exceptions.h"
@@ -99,10 +99,6 @@ PHP_METHOD(Phalcon_Validation_Validator_StringLength, validate) {
 	}
 
 
-	if (!(zephir_instance_of_ev(validation, phalcon_validation_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'validation' must be an instance of 'Phalcon\\Validation'", "", 0);
-		return;
-	}
 	ZEPHIR_INIT_VAR(_0);
 	ZVAL_STRING(_0, "min", ZEPHIR_TEMP_PARAM_COPY);
 	ZEPHIR_CALL_METHOD(&isSetMin, this_ptr, "issetoption", NULL, _0);

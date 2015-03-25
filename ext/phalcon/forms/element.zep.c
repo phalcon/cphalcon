@@ -15,8 +15,8 @@
 #include "kernel/object.h"
 #include "kernel/operators.h"
 #include "kernel/memory.h"
-#include "kernel/exception.h"
 #include "ext/spl/spl_exceptions.h"
+#include "kernel/exception.h"
 #include "kernel/array.h"
 #include "kernel/fcall.h"
 #include "kernel/concat.h"
@@ -113,10 +113,6 @@ PHP_METHOD(Phalcon_Forms_Element, setForm) {
 
 
 
-	if (!(zephir_instance_of_ev(form, phalcon_forms_form_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(spl_ce_InvalidArgumentException, "Parameter 'form' must be an instance of 'Phalcon\\Forms\\Form'", "", 0);
-		return;
-	}
 	zephir_update_property_this(this_ptr, SL("_form"), form TSRMLS_CC);
 	RETURN_THISW();
 
@@ -294,10 +290,6 @@ PHP_METHOD(Phalcon_Forms_Element, addValidator) {
 
 
 
-	if (!(zephir_instance_of_ev(validator, phalcon_validation_validatorinterface_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(spl_ce_InvalidArgumentException, "Parameter 'validator' must be an instance of 'Phalcon\\Validation\\ValidatorInterface'", "", 0);
-		return;
-	}
 	zephir_update_property_array_append(this_ptr, SL("_validators"), validator TSRMLS_CC);
 	RETURN_THISW();
 
@@ -786,10 +778,6 @@ PHP_METHOD(Phalcon_Forms_Element, setMessages) {
 
 
 
-	if (!(zephir_instance_of_ev(group, phalcon_validation_message_group_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(spl_ce_InvalidArgumentException, "Parameter 'group' must be an instance of 'Phalcon\\Validation\\Message\\Group'", "", 0);
-		return;
-	}
 	zephir_update_property_this(this_ptr, SL("_messages"), group TSRMLS_CC);
 	RETURN_THISW();
 
@@ -811,10 +799,6 @@ PHP_METHOD(Phalcon_Forms_Element, appendMessage) {
 
 
 
-	if (!(zephir_instance_of_ev(message, phalcon_validation_messageinterface_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'message' must be an instance of 'Phalcon\\Validation\\MessageInterface'", "", 0);
-		return;
-	}
 	ZEPHIR_OBS_VAR(messages);
 	zephir_read_property_this(&messages, this_ptr, SL("_messages"), PH_NOISY_CC);
 	if (Z_TYPE_P(messages) != IS_OBJECT) {

@@ -12,12 +12,12 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
-#include "kernel/object.h"
-#include "kernel/exception.h"
 #include "kernel/memory.h"
 #include "kernel/array.h"
 #include "kernel/operators.h"
 #include "kernel/fcall.h"
+#include "kernel/object.h"
+#include "kernel/exception.h"
 #include "kernel/concat.h"
 #include "kernel/string.h"
 #include "kernel/hash.h"
@@ -104,10 +104,6 @@ PHP_METHOD(Phalcon_Cache_Backend_Redis, __construct) {
 	}
 
 
-	if (!(zephir_instance_of_ev(frontend, phalcon_cache_frontendinterface_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'frontend' must be an instance of 'Phalcon\\Cache\\FrontendInterface'", "", 0);
-		return;
-	}
 	if (Z_TYPE_P(options) != IS_ARRAY) {
 		ZEPHIR_INIT_NVAR(options);
 		array_init(options);

@@ -12,14 +12,14 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
-#include "kernel/object.h"
-#include "kernel/exception.h"
 #include "kernel/array.h"
 #include "kernel/memory.h"
+#include "kernel/object.h"
 #include "kernel/hash.h"
 #include "kernel/operators.h"
 #include "kernel/string.h"
 #include "ext/spl/spl_exceptions.h"
+#include "kernel/exception.h"
 #include "kernel/concat.h"
 #include "kernel/fcall.h"
 
@@ -118,10 +118,9 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Query_Builder) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, __construct) {
 
-	HashTable *_2;
-	HashPosition _1;
-	zend_bool _0;
-	zval *params = NULL, *dependencyInjector = NULL, *conditions = NULL, *columns, *groupClause, *havingClause, *limitClause, *forUpdate, *sharedLock, *orderClause, *offsetClause, *joinsClause, *singleConditionArray = NULL, *limit, *offset, *fromClause, *mergedConditions, *mergedParams = NULL, *mergedTypes = NULL, *singleCondition = NULL, *singleParams = NULL, *singleTypes = NULL, **_3, *_4 = NULL, *_5;
+	HashTable *_1;
+	HashPosition _0;
+	zval *params = NULL, *dependencyInjector = NULL, *conditions = NULL, *columns, *groupClause, *havingClause, *limitClause, *forUpdate, *sharedLock, *orderClause, *offsetClause, *joinsClause, *singleConditionArray = NULL, *limit, *offset, *fromClause, *mergedConditions, *mergedParams = NULL, *mergedTypes = NULL, *singleCondition = NULL, *singleParams = NULL, *singleTypes = NULL, **_2, *_3 = NULL, *_4;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 2, &params, &dependencyInjector);
@@ -134,14 +133,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, __construct) {
 	}
 
 
-	_0 = Z_TYPE_P(dependencyInjector) != IS_NULL;
-	if (_0) {
-		_0 = !(zephir_instance_of_ev(dependencyInjector, phalcon_diinterface_ce TSRMLS_CC));
-	}
-	if (_0) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'dependencyInjector' must be an instance of 'Phalcon\\DiInterface'", "", 0);
-		return;
-	}
 	if (Z_TYPE_P(params) == IS_ARRAY) {
 		ZEPHIR_OBS_VAR(conditions);
 		if (zephir_array_isset_long_fetch(&conditions, params, 0, 0 TSRMLS_CC)) {
@@ -156,12 +147,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, __construct) {
 					array_init(mergedParams);
 					ZEPHIR_INIT_VAR(mergedTypes);
 					array_init(mergedTypes);
-					zephir_is_iterable(conditions, &_2, &_1, 0, 0, "phalcon/mvc/model/query/builder.zep", 140);
+					zephir_is_iterable(conditions, &_1, &_0, 0, 0, "phalcon/mvc/model/query/builder.zep", 140);
 					for (
-					  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
-					  ; zephir_hash_move_forward_ex(_2, &_1)
+					  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
+					  ; zephir_hash_move_forward_ex(_1, &_0)
 					) {
-						ZEPHIR_GET_HVALUE(singleConditionArray, _3);
+						ZEPHIR_GET_HVALUE(singleConditionArray, _2);
 						if (Z_TYPE_P(singleConditionArray) == IS_ARRAY) {
 							ZEPHIR_OBS_NVAR(singleCondition);
 							zephir_array_isset_long_fetch(&singleCondition, singleConditionArray, 0, 0 TSRMLS_CC);
@@ -173,20 +164,20 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, __construct) {
 								zephir_array_append(&mergedConditions, singleCondition, PH_SEPARATE, "phalcon/mvc/model/query/builder.zep", 127);
 							}
 							if (Z_TYPE_P(singleParams) == IS_ARRAY) {
-								ZEPHIR_INIT_LNVAR(_4);
-								zephir_add_function_ex(_4, mergedParams, singleParams TSRMLS_CC);
-								ZEPHIR_CPY_WRT(mergedParams, _4);
+								ZEPHIR_INIT_LNVAR(_3);
+								zephir_add_function_ex(_3, mergedParams, singleParams TSRMLS_CC);
+								ZEPHIR_CPY_WRT(mergedParams, _3);
 							}
 							if (Z_TYPE_P(singleTypes) == IS_ARRAY) {
-								ZEPHIR_INIT_LNVAR(_4);
-								zephir_add_function_ex(_4, mergedTypes, singleTypes TSRMLS_CC);
-								ZEPHIR_CPY_WRT(mergedTypes, _4);
+								ZEPHIR_INIT_LNVAR(_3);
+								zephir_add_function_ex(_3, mergedTypes, singleTypes TSRMLS_CC);
+								ZEPHIR_CPY_WRT(mergedTypes, _3);
 							}
 						}
 					}
-					ZEPHIR_INIT_VAR(_5);
-					zephir_fast_join_str(_5, SL(" AND "), mergedConditions TSRMLS_CC);
-					zephir_update_property_this(this_ptr, SL("_conditions"), _5 TSRMLS_CC);
+					ZEPHIR_INIT_VAR(_4);
+					zephir_fast_join_str(_4, SL(" AND "), mergedConditions TSRMLS_CC);
+					zephir_update_property_this(this_ptr, SL("_conditions"), _4 TSRMLS_CC);
 					zephir_update_property_this(this_ptr, SL("_bindParams"), mergedParams TSRMLS_CC);
 					zephir_update_property_this(this_ptr, SL("_bindTypes"), mergedTypes TSRMLS_CC);
 				} else {
@@ -270,10 +261,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, setDI) {
 
 
 
-	if (!(zephir_instance_of_ev(dependencyInjector, phalcon_diinterface_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(spl_ce_InvalidArgumentException, "Parameter 'dependencyInjector' must be an instance of 'Phalcon\\DiInterface'", "", 0);
-		return;
-	}
 	zephir_update_property_this(this_ptr, SL("_dependencyInjector"), dependencyInjector TSRMLS_CC);
 	RETURN_THISW();
 

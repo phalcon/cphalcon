@@ -368,10 +368,6 @@ PHP_METHOD(Phalcon_Assets_Manager, addResourceByType) {
 	}
 
 
-	if (!(zephir_instance_of_ev(resource, phalcon_assets_resource_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'resource' must be an instance of 'Phalcon\\Assets\\Resource'", "", 0);
-		return;
-	}
 	ZEPHIR_OBS_VAR(collection);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_collections"), PH_NOISY_CC);
 	if (!(zephir_array_isset_fetch(&collection, _0, type, 0 TSRMLS_CC))) {
@@ -416,10 +412,6 @@ PHP_METHOD(Phalcon_Assets_Manager, addInlineCodeByType) {
 	}
 
 
-	if (!(zephir_instance_of_ev(code, phalcon_assets_inline_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'code' must be an instance of 'Phalcon\\Assets\\Inline'", "", 0);
-		return;
-	}
 	ZEPHIR_OBS_VAR(collection);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_collections"), PH_NOISY_CC);
 	if (!(zephir_array_isset_fetch(&collection, _0, type, 0 TSRMLS_CC))) {
@@ -455,10 +447,6 @@ PHP_METHOD(Phalcon_Assets_Manager, addResource) {
 
 
 
-	if (!(zephir_instance_of_ev(resource, phalcon_assets_resource_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'resource' must be an instance of 'Phalcon\\Assets\\Resource'", "", 0);
-		return;
-	}
 	ZEPHIR_CALL_METHOD(&_0, resource, "gettype", NULL);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "addresourcebytype", NULL, _0, resource);
@@ -483,10 +471,6 @@ PHP_METHOD(Phalcon_Assets_Manager, addInlineCode) {
 
 
 
-	if (!(zephir_instance_of_ev(code, phalcon_assets_resource_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'code' must be an instance of 'Phalcon\\Assets\\Resource'", "", 0);
-		return;
-	}
 	ZEPHIR_CALL_METHOD(&_0, code, "gettype", NULL);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "addinlinecodebytype", NULL, _0, code);
@@ -527,10 +511,6 @@ PHP_METHOD(Phalcon_Assets_Manager, set) {
 	}
 
 
-	if (!(zephir_instance_of_ev(collection, phalcon_assets_collection_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'collection' must be an instance of 'Phalcon\\Assets\\Collection'", "", 0);
-		return;
-	}
 	zephir_update_property_array(this_ptr, SL("_collections"), id, collection TSRMLS_CC);
 	RETURN_THIS();
 
@@ -681,10 +661,6 @@ PHP_METHOD(Phalcon_Assets_Manager, output) {
 	ZVAL_NULL(targetBasePath);
 
 
-	if (!(zephir_instance_of_ev(collection, phalcon_assets_collection_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'collection' must be an instance of 'Phalcon\\Assets\\Collection'", "", 0);
-		return;
-	}
 	ZEPHIR_OBS_VAR(useImplicitOutput);
 	zephir_read_property_this(&useImplicitOutput, this_ptr, SL("_implicitOutput"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(output);
@@ -992,10 +968,6 @@ PHP_METHOD(Phalcon_Assets_Manager, outputInline) {
 
 
 
-	if (!(zephir_instance_of_ev(collection, phalcon_assets_collection_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'collection' must be an instance of 'Phalcon\\Assets\\Collection'", "", 0);
-		return;
-	}
 	ZEPHIR_INIT_VAR(output);
 	ZVAL_STRING(output, "", 1);
 	ZEPHIR_INIT_VAR(html);

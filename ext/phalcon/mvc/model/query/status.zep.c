@@ -13,7 +13,6 @@
 
 #include "kernel/main.h"
 #include "kernel/object.h"
-#include "kernel/exception.h"
 #include "kernel/operators.h"
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
@@ -81,7 +80,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Query_Status) {
 PHP_METHOD(Phalcon_Mvc_Model_Query_Status, __construct) {
 
 	zval *success_param = NULL, *model = NULL;
-	zend_bool success, _0;
+	zend_bool success;
 
 	zephir_fetch_params(0, 1, 1, &success_param, &model);
 
@@ -91,14 +90,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Status, __construct) {
 	}
 
 
-	_0 = Z_TYPE_P(model) != IS_NULL;
-	if (_0) {
-		_0 = !(zephir_instance_of_ev(model, phalcon_mvc_modelinterface_ce TSRMLS_CC));
-	}
-	if (_0) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(spl_ce_InvalidArgumentException, "Parameter 'model' must be an instance of 'Phalcon\\Mvc\\ModelInterface'", "", 0);
-		return;
-	}
 	zephir_update_property_this(this_ptr, SL("_success"), success ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
 	zephir_update_property_this(this_ptr, SL("_model"), model TSRMLS_CC);
 

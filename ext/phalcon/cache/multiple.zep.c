@@ -131,10 +131,6 @@ PHP_METHOD(Phalcon_Cache_Multiple, push) {
 
 
 
-	if (!(zephir_instance_of_ev(backend, phalcon_cache_backendinterface_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(spl_ce_InvalidArgumentException, "Parameter 'backend' must be an instance of 'Phalcon\\Cache\\BackendInterface'", "", 0);
-		return;
-	}
 	zephir_update_property_this(this_ptr, SL("_backends"), backend TSRMLS_CC);
 	RETURN_THISW();
 
