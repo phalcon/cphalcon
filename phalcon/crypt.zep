@@ -69,9 +69,6 @@ class Crypt implements \Phalcon\CryptInterface
 
 	/**
 	 * Sets the cipher algorithm
-	 *
-	 * @param string cipher
-	 * @return Phalcon\Crypt
 	 */
 	public function setCipher(string! cipher) -> <Crypt>
 	{
@@ -81,8 +78,6 @@ class Crypt implements \Phalcon\CryptInterface
 
 	/**
 	 * Returns the current cipher
-	 *
-	 * @return string
 	 */
 	public function getCipher() -> string
 	{
@@ -91,9 +86,6 @@ class Crypt implements \Phalcon\CryptInterface
 
 	/**
 	 * Sets the encrypt/decrypt mode
-	 *
-	 * @param string cipher
-	 * @return Phalcon\Crypt
 	 */
 	public function setMode(string! mode) -> <Crypt>
 	{
@@ -103,8 +95,6 @@ class Crypt implements \Phalcon\CryptInterface
 
 	/**
 	 * Returns the current encryption mode
-	 *
-	 * @return string
 	 */
 	public function getMode() -> string
 	{
@@ -113,9 +103,6 @@ class Crypt implements \Phalcon\CryptInterface
 
 	/**
 	 * Sets the encryption key
-	 *
-	 * @param string key
-	 * @return Phalcon\Crypt
 	 */
 	public function setKey(string! key) -> <Crypt>
 	{
@@ -125,8 +112,6 @@ class Crypt implements \Phalcon\CryptInterface
 
 	/**
 	 * Returns the encryption key
-	 *
-	 * @return string
 	 */
 	public function getKey() -> string
 	{
@@ -306,10 +291,6 @@ class Crypt implements \Phalcon\CryptInterface
 	 *<code>
 	 *	$encrypted = $crypt->encrypt("Ultra-secret text", "encrypt password");
 	 *</code>
-	 *
-	 * @param string text
-	 * @param string key
-	 * @return string
 	 */
 	public function encrypt(string! text, string! key = null) -> string
 	{
@@ -364,10 +345,6 @@ class Crypt implements \Phalcon\CryptInterface
 	 *<code>
 	 *	echo $crypt->decrypt($encrypted, "decrypt password");
 	 *</code>
-	 *
-	 * @param string text
-	 * @param string key
-	 * @return string
 	 */
 	public function decrypt(string! text, key = null) -> string
 	{
@@ -415,11 +392,6 @@ class Crypt implements \Phalcon\CryptInterface
 
 	/**
 	 * Encrypts a text returning the result as a base64 string
-	 *
-	 * @param string text
-	 * @param string key
-	 * @param boolean safe
-	 * @return string
 	 */
 	public function encryptBase64(string! text, key = null, boolean! safe = false) -> string
 	{
@@ -431,11 +403,6 @@ class Crypt implements \Phalcon\CryptInterface
 
 	/**
 	 * Decrypt a text that is coded as a base64 string
-	 *
-	 * @param string text
-	 * @param string key
-	 * @param boolean safe
-	 * @return string
 	 */
 	public function decryptBase64(string! text, key = null, boolean! safe = false) -> string
 	{
@@ -447,20 +414,16 @@ class Crypt implements \Phalcon\CryptInterface
 
 	/**
 	 * Returns a list of available cyphers
-	 *
-	 * @return array
 	 */
-	public function getAvailableCiphers()
+	public function getAvailableCiphers() -> array
 	{
 		return mcrypt_list_algorithms();
 	}
 
 	/**
 	 * Returns a list of available modes
-	 *
-	 * @return array
 	 */
-	public function getAvailableModes()
+	public function getAvailableModes() -> array
 	{
 		return mcrypt_list_modes();
 	}
