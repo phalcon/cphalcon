@@ -1253,7 +1253,6 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 */
 	public function fireEvent(string! eventName) -> boolean
 	{
-
 		/**
 		 * Check if there is a method with the same name of the event
 		 */
@@ -1276,7 +1275,6 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 */
 	public function fireEventCancel(string! eventName)
 	{
-
 		/**
 		 * Check if there is a method with the same name of the event
 		 */
@@ -1480,107 +1478,105 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 		 * We check if some of the belongsTo relations act as virtual foreign key
 		 */
 		let belongsTo = manager->getBelongsTo(this);
-		if count(belongsTo) {
 
-			let error = false;
-			for relation in belongsTo {
+		let error = false;
+		for relation in belongsTo {
 
-				let foreignKey = relation->getForeignKey();
-				if foreignKey !== false {
+			let foreignKey = relation->getForeignKey();
+			if foreignKey !== false {
 
-					/**
-					 * By default action is restrict
-					 */
-					let action = Relation::ACTION_RESTRICT;
+				/**
+				 * By default action is restrict
+				 */
+				let action = Relation::ACTION_RESTRICT;
 
-					/**
-					 * Try to find a different action in the foreign key's options
-					 */
-					if typeof foreignKey == "array" {
-						if isset foreignKey["action"] {
-							let action = (int) foreignKey["action"];
-						}
+				/**
+				 * Try to find a different action in the foreign key's options
+				 */
+				if typeof foreignKey == "array" {
+					if isset foreignKey["action"] {
+						let action = (int) foreignKey["action"];
 					}
+				}
+
+				/**
+				 * Check only if the operation is restrict
+				 */
+				if action == Relation::ACTION_RESTRICT {
 
 					/**
-					 * Check only if the operation is restrict
+					 * Load the referenced model if needed
 					 */
-					if action == Relation::ACTION_RESTRICT {
+					let referencedModel = manager->load(relation->getReferencedModel());
 
+					/**
+					 * Since relations can have multiple columns or a single one, we need to build a condition for each of these cases
+					 */
+					let conditions = [], bindParams = [];
+
+					let fields = relation->getFields(),
+						referencedFields = relation->getReferencedFields();
+
+					if typeof fields == "array" {
 						/**
-						 * Load the referenced model if needed
+						 * Create a compound condition
 						 */
-						let referencedModel = manager->load(relation->getReferencedModel());
-
-						/**
-						 * Since relations can have multiple columns or a single one, we need to build a condition for each of these cases
-						 */
-						let conditions = [], bindParams = [];
-
-						let fields = relation->getFields(),
-							referencedFields = relation->getReferencedFields();
-
-						if typeof fields == "array" {
-							/**
-							 * Create a compound condition
-							 */
-							for position, field in fields {
-								fetch value, this->{field};
-								let conditions[] = "[" . referencedFields[position] . "] = ?" . position,
-									bindParams[] = value;
-							}
-						} else {
-							fetch value, this->{fields};
-							let conditions[] = "[" . referencedFields . "] = ?0",
+						for position, field in fields {
+							fetch value, this->{field};
+							let conditions[] = "[" . referencedFields[position] . "] = ?" . position,
 								bindParams[] = value;
 						}
-
-						/**
-						 * Check if the virtual foreign key has extra conditions
-						 */
-						if fetch extraConditions, foreignKey["conditions"] {
-							let conditions[] = extraConditions;
-						}
-
-						/**
-						 * We don't trust the actual values in the object and pass the values using bound parameters
-						 * Let's make the checking
-						 */
-						if !referencedModel->count([join(" AND ", conditions), "bind": bindParams]) {
-
-							/**
-							 * Get the user message or produce a new one
-							 */
-							if !fetch message, foreignKey["message"] {
-								if typeof fields == "array" {
-									let message = "Value of fields \"" . join(", ", fields) . "\" does not exist on referenced table";
-								} else {
-									let message = "Value of field \"" . fields . "\" does not exist on referenced table";
-								}
-							}
-
-							/**
-							 * Create a message
-							 */
-							this->appendMessage(new Message(message, fields, "ConstraintViolation"));
-							let error = true;
-							break;
-						}
-
+					} else {
+						fetch value, this->{fields};
+						let conditions[] = "[" . referencedFields . "] = ?0",
+							bindParams[] = value;
 					}
-				}
-			}
 
-			/**
-			 * Call 'onValidationFails' if the validation fails
-			 */
-			if error === true {
-				if globals_get("orm.events") {
-					this->fireEvent("onValidationFails");
-					this->_cancelOperation();
+					/**
+					 * Check if the virtual foreign key has extra conditions
+					 */
+					if fetch extraConditions, foreignKey["conditions"] {
+						let conditions[] = extraConditions;
+					}
+
+					/**
+					 * We don't trust the actual values in the object and pass the values using bound parameters
+					 * Let's make the checking
+					 */
+					if !referencedModel->count([join(" AND ", conditions), "bind": bindParams]) {
+
+						/**
+						 * Get the user message or produce a new one
+						 */
+						if !fetch message, foreignKey["message"] {
+							if typeof fields == "array" {
+								let message = "Value of fields \"" . join(", ", fields) . "\" does not exist on referenced table";
+							} else {
+								let message = "Value of field \"" . fields . "\" does not exist on referenced table";
+							}
+						}
+
+						/**
+						 * Create a message
+						 */
+						this->appendMessage(new Message(message, fields, "ConstraintViolation"));
+						let error = true;
+						break;
+					}
+
 				}
-				return false;
 			}
+		}
+
+		/**
+		 * Call 'onValidationFails' if the validation fails
+		 */
+		if error === true {
+			if globals_get("orm.events") {
+				this->fireEvent("onValidationFails");
+				this->_cancelOperation();
+			}
+			return false;
 		}
 
 		return true;
@@ -1593,7 +1589,6 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 */
 	protected function _checkForeignKeysReverseCascade() -> boolean
 	{
-
 		var manager, relations, relation, foreignKey,
 			resulset, conditions, bindParams, referencedModel,
 			referencedFields, fields, field, position, value,
@@ -1610,87 +1605,85 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 		 */
 		let relations = manager->getHasOneAndHasMany(this);
 
-		if count(relations) {
+		for relation in relations {
 
-			for relation in relations {
+			/**
+			 * Check if the relation has a virtual foreign key
+			 */
+			let foreignKey = relation->getForeignKey();
+			if foreignKey === false {
+				continue;
+			}
 
-				/**
-				 * Check if the relation has a virtual foreign key
-				 */
-				let foreignKey = relation->getForeignKey();
-				if foreignKey !== false {
+			/**
+			 * By default action is restrict
+			 */
+			let action = Relation::NO_ACTION;
 
-					/**
-					 * By default action is restrict
-					 */
-					let action = Relation::NO_ACTION;
-
-					/**
-					 * Try to find a different action in the foreign key's options
-					 */
-					if typeof foreignKey == "array" {
-						if isset foreignKey["action"] {
-							let action = (int) foreignKey["action"];
-						}
-					}
-
-					/**
-					 * Check only if the operation is restrict
-					 */
-					if action == Relation::ACTION_CASCADE {
-
-						/**
-						 * Load a plain instance from the models manager
-						 */
-						let referencedModel = manager->load(relation->getReferencedModel());
-
-						let fields = relation->getFields(),
-							referencedFields = relation->getReferencedFields();
-
-						/**
-						 * Create the checking conditions. A relation can has many fields or a single one
-						 */
-						let conditions = [], bindParams = [];
-
-						if typeof fields == "array" {
-							for position, field in fields {
-								fetch value, this->{field};
-								let conditions[] = "[". referencedFields[position] . "] = ?" . position,
-									bindParams[] = value;
-							}
-						} else {
-							fetch value, this->{fields};
-							let conditions[] = "[" . referencedFields . "] = ?0",
-								bindParams[] = value;
-						}
-
-						/**
-						 * Check if the virtual foreign key has extra conditions
-						 */
-						if fetch extraConditions, foreignKey["conditions"] {
-							let conditions[] = extraConditions;
-						}
-
-						/**
-						 * We don't trust the actual values in the object and then we're passing the values using bound parameters
-						 * Let's make the checking
-						 */
-						let resulset = referencedModel->find([
-							join(" AND ", conditions),
-							"bind": bindParams
-						]);
-
-						/**
-						 * Delete the resultset
-						 * Stop the operation if needed
-						 */
-						if resulset->delete() === false {
-							return false;
-						}
-					}
+			/**
+			 * Try to find a different action in the foreign key's options
+			 */
+			if typeof foreignKey == "array" {
+				if isset foreignKey["action"] {
+					let action = (int) foreignKey["action"];
 				}
 			}
 
+			/**
+			 * Check only if the operation is restrict
+			 */
+			if action != Relation::ACTION_CASCADE {
+				continue;
+			}
+
+			/**
+			 * Load a plain instance from the models manager
+			 */
+			let referencedModel = manager->load(relation->getReferencedModel());
+
+			let fields = relation->getFields(),
+				referencedFields = relation->getReferencedFields();
+
+			/**
+			 * Create the checking conditions. A relation can has many fields or a single one
+			 */
+			let conditions = [], bindParams = [];
+
+			if typeof fields == "array" {
+				for position, field in fields {
+					fetch value, this->{field};
+					let conditions[] = "[". referencedFields[position] . "] = ?" . position,
+						bindParams[] = value;
+				}
+			} else {
+				fetch value, this->{fields};
+				let conditions[] = "[" . referencedFields . "] = ?0",
+					bindParams[] = value;
+			}
+
+			/**
+			 * Check if the virtual foreign key has extra conditions
+			 */
+			if fetch extraConditions, foreignKey["conditions"] {
+				let conditions[] = extraConditions;
+			}
+
+			/**
+			 * We don't trust the actual values in the object and then we're passing the values using bound parameters
+			 * Let's make the checking
+			 */
+			let resulset = referencedModel->find([
+				join(" AND ", conditions),
+				"bind": bindParams
+			]);
+
+			/**
+			 * Delete the resultset
+			 * Stop the operation if needed
+			 */
+			if resulset->delete() === false {
+				return false;
+			}
 		}
 
 		return true;
@@ -1719,104 +1712,104 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 		 * We check if some of the hasOne/hasMany relations is a foreign key
 		 */
 		let relations = manager->getHasOneAndHasMany(this);
-		if count(relations) {
 
-			let error = false;
-			for relation in relations {
+		let error = false;
+		for relation in relations {
 
-				/**
-				 * Check if the relation has a virtual foreign key
-				 */
-				let foreignKey = relation->getForeignKey();
-				if foreignKey !== false {
+			/**
+			 * Check if the relation has a virtual foreign key
+			 */
+			let foreignKey = relation->getForeignKey();
+			if foreignKey === false {
+				continue;
+			}
 
-					/**
-					 * By default action is restrict
-					 */
-					let action = Relation::ACTION_RESTRICT;
+			/**
+			 * By default action is restrict
+			 */
+			let action = Relation::ACTION_RESTRICT;
 
-					/**
-					 * Try to find a different action in the foreign key's options
-					 */
-					if typeof foreignKey == "array" {
-						if isset foreignKey["action"] {
-							let action = (int) foreignKey["action"];
-						}
-					}
-
-					/**
-					 * Check only if the operation is restrict
-					 */
-					if action == Relation::ACTION_RESTRICT {
-
-						let relationClass = relation->getReferencedModel();
-
-						/**
-						 * Load a plain instance from the models manager
-						 */
-						let referencedModel = manager->load(relationClass);
-
-						let fields = relation->getFields(),
-							referencedFields = relation->getReferencedFields();
-
-						/**
-						 * Create the checking conditions. A relation can has many fields or a single one
-						 */
-						let conditions = [], bindParams = [];
-
-						if typeof fields == "array" {
-							for position, field in fields {
-								fetch value, this->{field};
-								let conditions[] = "[" . referencedFields[position] . "] = ?" . position,
-									bindParams[] = value;
-							}
-						} else {
-							fetch value, this->{fields};
-							let conditions[] = "[" . referencedFields . "] = ?0",
-								bindParams[] = value;
-						}
-
-						/**
-						 * Check if the virtual foreign key has extra conditions
-						 */
-						if fetch extraConditions, foreignKey["conditions"] {
-							let conditions[] = extraConditions;
-						}
-
-						/**
-						 * We don't trust the actual values in the object and then we're passing the values using bound parameters
-						 * Let's make the checking
-						 */
-						if referencedModel->count([join(" AND ", conditions), "bind": bindParams]) {
-
-							/**
-							 * Create a new message
-							 */
-							if !fetch message, foreignKey["message"] {
-								let message = "Record is referenced by model " . relationClass;
-							}
-
-							/**
-							 * Create a message
-							 */
-							this->appendMessage(new Message(message, fields, "ConstraintViolation"));
-							let error = true;
-							break;
-						}
-					}
+			/**
+			 * Try to find a different action in the foreign key's options
+			 */
+			if typeof foreignKey == "array" {
+				if isset foreignKey["action"] {
+					let action = (int) foreignKey["action"];
 				}
 			}
 
 			/**
-			 * Call validation fails event
+			 * Check only if the operation is restrict
 			 */
-			if error === true {
-				if globals_get("orm.events") {
-					this->fireEvent("onValidationFails");
-					this->_cancelOperation();
-				}
-				return false;
+			if action != Relation::ACTION_RESTRICT {
+				continue;
 			}
+
+			let relationClass = relation->getReferencedModel();
+
+			/**
+			 * Load a plain instance from the models manager
+			 */
+			let referencedModel = manager->load(relationClass);
+
+			let fields = relation->getFields(),
+				referencedFields = relation->getReferencedFields();
+
+			/**
+			 * Create the checking conditions. A relation can has many fields or a single one
+			 */
+			let conditions = [], bindParams = [];
+
+			if typeof fields == "array" {
+				for position, field in fields {
+					fetch value, this->{field};
+					let conditions[] = "[" . referencedFields[position] . "] = ?" . position,
+						bindParams[] = value;
+				}
+			} else {
+				fetch value, this->{fields};
+				let conditions[] = "[" . referencedFields . "] = ?0",
+					bindParams[] = value;
+			}
+
+			/**
+			 * Check if the virtual foreign key has extra conditions
+			 */
+			if fetch extraConditions, foreignKey["conditions"] {
+				let conditions[] = extraConditions;
+			}
+
+			/**
+			 * We don't trust the actual values in the object and then we're passing the values using bound parameters
+			 * Let's make the checking
+			 */
+			if referencedModel->count([join(" AND ", conditions), "bind": bindParams]) {
+
+				/**
+				 * Create a new message
+				 */
+				if !fetch message, foreignKey["message"] {
+					let message = "Record is referenced by model " . relationClass;
+				}
+
+				/**
+				 * Create a message
+				 */
+				this->appendMessage(new Message(message, fields, "ConstraintViolation"));
+				let error = true;
+				break;
+			}
+		}
+
+		/**
+		 * Call validation fails event
+		 */
+		if error === true {
+			if globals_get("orm.events") {
+				this->fireEvent("onValidationFails");
+				this->_cancelOperation();
+			}
+			return false;
 		}
 
 		return true;
@@ -1832,7 +1825,6 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 */
 	protected function _preSave(<MetadataInterface> metaData, boolean exists, var identityField) -> boolean
 	{
-
 		var notNull, columnMap, dataTypeNumeric, automaticAttributes, field, attributeField, value;
 		boolean error, isNull;
 
@@ -1905,59 +1897,60 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 					/**
 					 * We don't check fields that must be omitted
 					 */
-					if !isset automaticAttributes[field] {
+					if isset automaticAttributes[field] {
+						continue;
+					}
 
-						let isNull = false;
+					let isNull = false;
 
-						if typeof columnMap == "array" {
-							if !fetch attributeField, columnMap[field] {
-								throw new Exception("Column '" . field . "' isn't part of the column map");
+					if typeof columnMap == "array" {
+						if !fetch attributeField, columnMap[field] {
+							throw new Exception("Column '" . field . "' isn't part of the column map");
+						}
+					} else {
+						let attributeField = field;
+					}
+
+					/**
+					 * Field is null when: 1) is not set, 2) is numeric but its value is not numeric, 3) is null or 4) is empty string
+					 * Read the attribute from the this_ptr using the real or renamed name
+					 */
+					if fetch value, this->{attributeField} {
+
+						/**
+						 * Objects are never treated as null, numeric fields must be numeric to be accepted as not null
+						 */
+						if typeof value != "object" {
+							if !isset dataTypeNumeric[field] {
+								if value === null || value === "" {
+									let isNull = true;
+								}
+							} else {
+								if !is_numeric(value) {
+									let isNull = true;
+								}
 							}
-						} else {
-							let attributeField = field;
+						}
+					} else {
+						let isNull = true;
+					}
+
+					if isNull === true {
+
+						if !exists {
+							/**
+							 * The identity field can be null
+							 */
+							if field == identityField {
+								continue;
+							}
 						}
 
 						/**
-						 * Field is null when: 1) is not set, 2) is numeric but its value is not numeric, 3) is null or 4) is empty string
-						 * Read the attribute from the this_ptr using the real or renamed name
+						 * A implicit PresenceOf message is created
 						 */
-						if fetch value, this->{attributeField} {
-
-							/**
-							 * Objects are never treated as null, numeric fields must be numeric to be accepted as not null
-							 */
-							if typeof value != "object" {
-								if !isset dataTypeNumeric[field] {
-									if value === null || value === "" {
-										let isNull = true;
-									}
-								} else {
-									if !is_numeric(value) {
-										let isNull = true;
-									}
-								}
-							}
-						} else {
-							let isNull = true;
-						}
-
-						if isNull === true {
-
-							if !exists {
-								/**
-								 * The identity field can be null
-								 */
-								if field == identityField {
-									continue;
-								}
-							}
-
-							/**
-							 * A implicit PresenceOf message is created
-							 */
-							let this->_errorMessages[] = new Message(attributeField . " is required", attributeField, "PresenceOf"),
-								error = true;
-						}
+						let this->_errorMessages[] = new Message(attributeField . " is required", attributeField, "PresenceOf"),
+							error = true;
 					}
 				}
 
@@ -2046,7 +2039,6 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 */
 	protected function _postSave(boolean success, boolean exists) -> boolean
 	{
-
 		if success === true {
 			if exists {
 				this->fireEvent("afterUpdate");
@@ -2096,42 +2088,43 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 		 */
 		for field in attributes {
 
-			if !isset automaticAttributes[field] {
+			if isset automaticAttributes[field] {
+				continue;
+			}
 
-				/**
-				 * Check if the model has a column map
-				 */
-				if typeof columnMap == "array" {
-					if !fetch attributeField, columnMap[field] {
-						throw new Exception("Column '" . field . "' isn't part of the column map");
-					}
-				} else {
-					let attributeField = field;
+			/**
+			 * Check if the model has a column map
+			 */
+			if typeof columnMap == "array" {
+				if !fetch attributeField, columnMap[field] {
+					throw new Exception("Column '" . field . "' isn't part of the column map");
 				}
+			} else {
+				let attributeField = field;
+			}
+
+			/**
+			 * Check every attribute in the model except identity field
+			 */
+			if field != identityField {
+
+				let fields[] = field;
 
 				/**
-				 * Check every attribute in the model except identity field
+				 * This isset checks that the property be defined in the model
 				 */
-				if field != identityField {
-
-					let fields[] = field;
+				if fetch value, this->{attributeField} {
 
 					/**
-					 * This isset checks that the property be defined in the model
+					 * Every column must have a bind data type defined
 					 */
-					if fetch value, this->{attributeField} {
-
-						/**
-						 * Every column must have a bind data type defined
-						 */
-						if !fetch bindType, bindDataTypes[field] {
-							throw new Exception("Column '" . field . "' have not defined a bind data type");
-						}
-
-						let values[] = value, bindTypes[] = bindType;
-					} else {
-						let values[] = null, bindTypes[] = bindSkip;
+					if !fetch bindType, bindDataTypes[field] {
+						throw new Exception("Column '" . field . "' have not defined a bind data type");
 					}
+
+					let values[] = value, bindTypes[] = bindType;
+				} else {
+					let values[] = null, bindTypes[] = bindSkip;
 				}
 			}
 		}
@@ -2276,36 +2269,55 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 		 */
 		for field in nonPrimary {
 
-			if !isset automaticAttributes[field] {
+			if isset automaticAttributes[field] {
+				continue;
+			}
 
-				/**
-				 * Check a bind type for field to update
-				 */
-				if !fetch bindType, bindDataTypes[field] {
-					throw new Exception("Column '" . field . "' have not defined a bind data type");
+			/**
+			 * Check a bind type for field to update
+			 */
+			if !fetch bindType, bindDataTypes[field] {
+				throw new Exception("Column '" . field . "' have not defined a bind data type");
+			}
+
+			/**
+			 * Check if the model has a column map
+			 */
+			if typeof columnMap == "array" {
+				if !fetch attributeField, columnMap[field] {
+					throw new Exception("Column '" . field . "' isn't part of the column map");
 				}
+			} else {
+				let attributeField = field;
+			}
+
+			/**
+			 * Get the field's value
+			 * If a field isn't set we pass a null value
+			 */
+			if fetch value, this->{attributeField} {
 
 				/**
-				 * Check if the model has a column map
+				 * When dynamic update is not used we pass every field to the update
 				 */
-				if typeof columnMap == "array" {
-					if !fetch attributeField, columnMap[field] {
-						throw new Exception("Column '" . field . "' isn't part of the column map");
-					}
+				if !useDynamicUpdate {
+					let fields[] = field, values[] = value;
+					let bindTypes[] = bindType;
 				} else {
-					let attributeField = field;
-				}
-
-				/**
-				 * Get the field's value
-				 * If a field isn't set we pass a null value
-				 */
-				if fetch value, this->{attributeField} {
 
 					/**
-					 * When dynamic update is not used we pass every field to the update
+					 * If the field is not part of the snapshot we add them as changed
 					 */
-					if !useDynamicUpdate {
+					if !fetch snapshotValue, snapshot[attributeField] {
+						let changed = true;
+					} else {
+						let changed = value != snapshotValue;
+					}
+
+					/**
+					 * Only changed values are added to the SQL Update
+					 */
+					if changed {
 						let fields[] = field, values[] = value;
 						let bindTypes[] = bindType;
 					} else {
@@ -2368,10 +2380,10 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 							let bindTypes[] = bindType;
 						}
 					}
-
-				} else {
-					let fields[] = field, values[] = null, bindTypes[] = bindSkip;
 				}
+
+			} else {
+				let fields[] = field, values[] = null, bindTypes[] = bindSkip;
 			}
 		}
 
@@ -2472,59 +2484,59 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 				/**
 				 * Only belongsTo are stored before save the master record
 				 */
-				if type == Relation::BELONGS_TO {
+				if type != Relation::BELONGS_TO {
+					continue;
+				}
 
-					if typeof record != "object" {
-						connection->rollback(nesting);
-						throw new Exception("Only objects can be stored as part of belongs-to relations");
-					}
+				if typeof record != "object" {
+					connection->rollback(nesting);
+					throw new Exception("Only objects can be stored as part of belongs-to relations");
+				}
 
-					let columns = relation->getFields(),
-						referencedModel = relation->getReferencedModel(),
-						referencedFields = relation->getReferencedFields();
+				let columns = relation->getFields(),
+					referencedModel = relation->getReferencedModel(),
+					referencedFields = relation->getReferencedFields();
 
-					if typeof columns == "array" {
-						connection->rollback(nesting);
-						throw new Exception("Not implemented");
-					}
+				if typeof columns == "array" {
+					connection->rollback(nesting);
+					throw new Exception("Not implemented");
+				}
+
+				/**
+				 * If dynamic update is enabled, saving the record must not take any action
+				 */
+				if !record->save() {
 
 					/**
-					 * If dynamic update is enabled, saving the record must not take any action
+					 * Get the validation messages generated by the referenced model
 					 */
-					if !record->save() {
+					for message in record->getMessages() {
 
 						/**
-						 * Get the validation messages generated by the referenced model
+						 * Set the related model
 						 */
-						for message in record->getMessages() {
-
-							/**
-							 * Set the related model
-							 */
-							if typeof message == "object" {
-								message->setModel(record);
-							}
-
-							/**
-							 * Appends the messages to the current model
-							 */
-							this->appendMessage(message);
+						if typeof message == "object" {
+							message->setModel(record);
 						}
 
 						/**
-						 * Rollback the implicit transaction
+						 * Appends the messages to the current model
 						 */
-						connection->rollback(nesting);
-						return false;
+						this->appendMessage(message);
 					}
 
 					/**
-					 * Read the attribute from the referenced model and assigns it to the current model
-					 * Assign it to the model
+					 * Rollback the implicit transaction
 					 */
-					let this->{columns} = record->readAttribute(referencedFields);
+					connection->rollback(nesting);
+					return false;
 				}
 
+				/**
+				 * Read the attribute from the referenced model and assigns it to the current model
+				 * Assign it to the model
+				 */
+				let this->{columns} = record->readAttribute(referencedFields);
 			}
 		}
 
