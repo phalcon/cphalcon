@@ -2458,7 +2458,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 							/**
 							 * Set the related model
 							 */
-							if typeof record == "object" {
+							if typeof message == "object" {
 								message->setModel(record);
 							}
 
@@ -2644,7 +2644,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 								/**
 								 * Set the related model
 								 */
-								if typeof message != "object" {
+								if typeof message == "object" {
 									message->setModel(record);
 								}
 
