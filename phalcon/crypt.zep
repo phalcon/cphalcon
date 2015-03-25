@@ -117,7 +117,7 @@ class Crypt implements \Phalcon\CryptInterface
 	 * @param string key
 	 * @return Phalcon\Crypt
 	 */
-	public function setKey(string! key) -> <\Phalcon\Crypt>
+	public function setKey(string! key) -> <Crypt>
 	{
 		let this->_key = key;
 		return this;
