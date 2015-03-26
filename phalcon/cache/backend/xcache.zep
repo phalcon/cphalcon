@@ -151,11 +151,11 @@ use Phalcon\Cache\Exception;
 
 		let isBuffering = frontend->isBuffering();
 
-		if !stopBuffer {
+		if stopBuffer === true {
 			frontend->stop();
 		}
 
-		if isBuffering == true {
+		if isBuffering === true {
 			echo cachedContent;
 		}
 

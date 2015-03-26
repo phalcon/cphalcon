@@ -242,11 +242,11 @@ class Redis extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendInte
 
 		let isBuffering = frontend->isBuffering();
 
-		if !stopBuffer {
+		if stopBuffer === true {
 			frontend->stop();
 		}
 
-		if isBuffering == true {
+		if isBuffering === true {
 			echo cachedContent;
 		}
 

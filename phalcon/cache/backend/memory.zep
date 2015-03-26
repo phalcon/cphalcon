@@ -108,11 +108,13 @@ class Memory extends Backend implements BackendInterface
 		let preparedContent = frontend->beforeStore(cachedContent),
 			this->_data[lastKey] = preparedContent;
 
+		let isBuffering = frontend->isBuffering();
+
 		if stopBuffer === true {
 			frontend->stop();
 		}
 
-		if frontend->isBuffering() === true {
+		if isBuffering === true {
 			echo cachedContent;
 		}
 

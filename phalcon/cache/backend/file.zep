@@ -214,11 +214,11 @@ class File extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendInter
 
 		let isBuffering = frontend->isBuffering();
 
-		if stopBuffer == true {
+		if stopBuffer === true {
 			frontend->stop();
 		}
 
-		if isBuffering {
+		if isBuffering === true {
 			echo cachedContent;
 		}
 
