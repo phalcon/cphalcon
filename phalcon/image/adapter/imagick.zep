@@ -65,8 +65,6 @@ class Imagick extends \Phalcon\Image\Adapter implements \Phalcon\Image\AdapterIn
 
 	/**
 	 * \Phalcon\Image\Imagick constructor
-	 *
-	 * @param string $file
 	 */
 	public function __construct(string! file, int width = null, int height = null)
 	{
@@ -119,9 +117,6 @@ class Imagick extends \Phalcon\Image\Adapter implements \Phalcon\Image\AdapterIn
 
 	/**
 	 * Execute a resize.
-	 *
-	 * @param int $width
-	 * @param int $height
 	 */
 	protected function _resize(int width, int height)
 	{
@@ -168,11 +163,6 @@ class Imagick extends \Phalcon\Image\Adapter implements \Phalcon\Image\AdapterIn
 
 	/**
 	 * Execute a crop.
-	 *
-	 * @param int $width
-	 * @param int $height
-	 * @param int $offsetX
-	 * @param int $offsetY
 	 */
 	protected function _crop(int width, int height, int offsetX, int offsetY)
 	{
@@ -198,8 +188,6 @@ class Imagick extends \Phalcon\Image\Adapter implements \Phalcon\Image\AdapterIn
 
 	/**
 	 * Execute a rotation.
-	 *
-	 * @param int $degrees
 	 */
 	protected function _rotate(int degrees)
 	{
@@ -223,8 +211,6 @@ class Imagick extends \Phalcon\Image\Adapter implements \Phalcon\Image\AdapterIn
 
 	/**
 	 * Execute a flip.
-	 *
-	 * @param int $direction
 	 */
 	protected function _flip(int direction)
 	{
@@ -247,8 +233,6 @@ class Imagick extends \Phalcon\Image\Adapter implements \Phalcon\Image\AdapterIn
 
 	/**
 	 * Execute a sharpen.
-	 *
-	 * @param int $amount
 	 */
 	protected function _sharpen(int amount)
 	{
@@ -267,10 +251,6 @@ class Imagick extends \Phalcon\Image\Adapter implements \Phalcon\Image\AdapterIn
 
 	/**
 	 * Execute a reflection.
-	 *
-	 * @param int $height
-	 * @param int $opacity
-	 * @param boolean $fadeIn
 	 */
 	protected function _reflection(int height, int opacity, boolean fadeIn)
 	{
@@ -365,11 +345,6 @@ class Imagick extends \Phalcon\Image\Adapter implements \Phalcon\Image\AdapterIn
 
 	/**
 	 * Execute a watermarking.
-	 *
-	 * @param \Phalcon\Image\Adapter $watermark
-	 * @param int $offsetX
-	 * @param int $offsetY
-	 * @param int $opacity
 	 */
 	protected function _watermark(<\Phalcon\Image\Adapter> image, int offsetX, int offsetY, int opacity)
 	{
@@ -401,16 +376,6 @@ class Imagick extends \Phalcon\Image\Adapter implements \Phalcon\Image\AdapterIn
 
 	/**
 	 * Execute a text
-	 *
-	 * @param string text
-	 * @param int $offsetX
-	 * @param int $offsetY
-	 * @param int $opacity
-	 * @param int $r
-	 * @param int $g
-	 * @param int $b
-	 * @param int $size
-	 * @param string $fontfile
 	 */
 	protected function _text(string text, int offsetX, int offsetY, int opacity, int r, int g, int b, int size, string fontfile)
 	{
@@ -500,11 +465,6 @@ class Imagick extends \Phalcon\Image\Adapter implements \Phalcon\Image\AdapterIn
 
 	/**
 	 * Execute a background.
-	 *
-	 * @param int $r
-	 * @param int $g
-	 * @param int $b
-	 * @param int $opacity
 	 */
 	protected function _background(int r, int g, int b, int opacity)
 	{
@@ -586,10 +546,6 @@ class Imagick extends \Phalcon\Image\Adapter implements \Phalcon\Image\AdapterIn
 
 	/**
 	 * Execute a save.
-	 *
-	 * @param string $file
-	 * @param int $quality
-	 * @return boolean
 	 */
 	protected function _save(string file, int quality)
 	{
@@ -620,12 +576,8 @@ class Imagick extends \Phalcon\Image\Adapter implements \Phalcon\Image\AdapterIn
 
 	/**
 	 * Execute a render.
-	 *
-	 * @param string $type
-	 * @param int $quality
-	 * @return string
 	 */
-	protected function _render(string extension, int quality)
+	protected function _render(string extension, int quality) -> string
 	{
 		var image;
 
@@ -663,7 +615,6 @@ class Imagick extends \Phalcon\Image\Adapter implements \Phalcon\Image\AdapterIn
 
 	/**
 	 * Get instance
-	 * @return \Imagick
 	 */
 	public function getInternalImInstance() -> <\Imagick>
 	{

@@ -70,11 +70,6 @@ abstract class Adapter
 
 	/**
  	 * Resize the image to the given size
-	 *
-	 * @param int width
-	 * @param int height
-	 * @param int master
- 	 * @return Phalcon\Image\Adapter
  	 */
 	//Phalcon\Image::AUTO
 	public function resize(int width = null, int height = null, int master = 7) -> <Adapter>
@@ -166,9 +161,8 @@ abstract class Adapter
 	 * @param int $height  new height
 	 * @param int $deltaX How much the seam can traverse on x-axis. Passing 0 causes the seams to be straight.
 	 * @param int $rigidity Introduces a bias for non-straight seams. This parameter is typically 0.
-	 * @return Phalcon\Image\Adapter
 	 */
-	public function liquidRescale(int width, int height, int deltaX = 0, int rigidity = 0) -> <\Phalcon\Image\Adapter>
+	public function liquidRescale(int width, int height, int deltaX = 0, int rigidity = 0) -> <Adapter>
 	{
 		this->{"_liquidRescale"}(width, height, deltaX, rigidity);
 		return this;
@@ -176,12 +170,6 @@ abstract class Adapter
 
 	/**
  	 * Crop an image to the given size
- 	 *
- 	 * @param int width
- 	 * @param int height
- 	 * @param int offsetX
- 	 * @param int offsetY
- 	 * @return Phalcon\Image\Adapter
  	 */
 	public function crop(int width, int height, int offsetX = null, int offsetY = null) -> <Adapter>
 	{
@@ -224,9 +212,6 @@ abstract class Adapter
 
 	/**
  	 * Rotate the image by a given amount
- 	 *
- 	 * @param int degrees
- 	 * @return Phalcon\Image\Adapter
  	 */
 	public function rotate(int degrees) -> <Adapter>
 	{
@@ -247,9 +232,6 @@ abstract class Adapter
 
 	/**
  	 * Flip the image along the horizontal or vertical axis
- 	 *
- 	 * @param int direction
- 	 * @return Phalcon\Image\Adapter
  	 */
 	public function flip(int direction) -> <Adapter>
 	{
@@ -263,9 +245,6 @@ abstract class Adapter
 
 	/**
  	 * Sharpen the image by a given amount
- 	 *
- 	 * @param int amount
- 	 * @return Phalcon\Image\Adapter
  	 */
 	public function sharpen(int amount) -> <Adapter>
 	{
@@ -283,11 +262,6 @@ abstract class Adapter
 
 	/**
  	 * Add a reflection to an image
- 	 *
- 	 * @param int height
- 	 * @param int opacity
- 	 * @param boolean fadeIn
- 	 * @return Phalcon\Image\Adapter
  	 */
 	public function reflection(int height, int opacity = 100, boolean fadeIn = false) -> <Adapter>
 	{
@@ -313,7 +287,6 @@ abstract class Adapter
  	 * @param int offsetX
  	 * @param int offsetY
  	 * @param int opacity
- 	 * @return Phalcon\Image\Adapter
  	 */
 	public function watermark(<Adapter> watermark, int offsetX = 0, int offsetY = 0, int opacity = 100) -> <Adapter>
 	{
@@ -354,15 +327,6 @@ abstract class Adapter
 
 	/**
  	 * Add a text to an image with a specified opacity
- 	 *
- 	 * @param string text
- 	 * @param int offsetX
- 	 * @param int offsetY
- 	 * @param int opacity
- 	 * @param string color
- 	 * @param int size
- 	 * @param string fontfile
- 	 * @return Phalcon\Image\Adapter
  	 */
 	public function text(string text, int offsetX = 0, int offsetY = 0, int opacity = 100, string color = "000000", int size = 12, string fontfile = null) -> <Adapter>
 	{
@@ -395,7 +359,6 @@ abstract class Adapter
  	 * Composite one image onto another
  	 *
  	 * @param Phalcon\Image\Adapter watermark
- 	 * @return Phalcon\Image\Adapter
  	 */
 	public function mask(<Adapter> watermark) -> <Adapter>
 	{
@@ -405,10 +368,6 @@ abstract class Adapter
 
 	/**
  	 * Set the background color of an image
- 	 *
- 	 * @param string color
- 	 * @param int opacity
- 	 * @return Phalcon\Image\Adapter
  	 */
 	public function background(string color, int opacity = 100) -> <Adapter>
 	{
@@ -430,9 +389,6 @@ abstract class Adapter
 
 	/**
  	 * Blur image
- 	 *
- 	 * @param int radius
- 	 * @return Phalcon\Image\Adapter
  	 */
 	public function blur(int radius) -> <Adapter>
 	{
@@ -450,9 +406,6 @@ abstract class Adapter
 
 	/**
  	 * Pixelate image
- 	 *
- 	 * @param int amount
- 	 * @return Phalcon\Image\Adapter
  	 */
 	public function pixelate(int amount) -> <Adapter>
 	{
@@ -466,10 +419,6 @@ abstract class Adapter
 
 	/**
  	 * Save the image
- 	 *
-	 * @param string file
-	 * @param int quality
- 	 * @return Phalcon\Image\Adapter
  	 */
 	public function save(string file = null, int quality = 100) -> <Adapter>
 	{
@@ -491,10 +440,6 @@ abstract class Adapter
 
 	/**
  	 * Render the image and return the binary string
- 	 *
-	 * @param string ext
-	 * @param int quality
- 	 * @return string
  	 */
 	public function render(string ext = null, int quality = 100) -> string
 	{
