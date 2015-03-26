@@ -143,16 +143,16 @@ class Imagick extends \Phalcon\Image\Adapter implements \Phalcon\Image\AdapterIn
 	 *
 	 * @param int $width   new width
 	 * @param int $height  new height
-	 * @param int $delta_x How much the seam can traverse on x-axis. Passing 0 causes the seams to be straight.
+	 * @param int $deltaX How much the seam can traverse on x-axis. Passing 0 causes the seams to be straight.
 	 * @param int $rigidity Introduces a bias for non-straight seams. This parameter is typically 0.
 	 */
-	protected function _liquidRescale(int width, int height, int delta_x, int rigidity)
+	protected function _liquidRescale(int width, int height, int deltaX, int rigidity)
 	{
 		var ret;
 		this->_image->setIteratorIndex(0);
 
 		loop {
-			let ret = this->_image->liquidRescaleImage(width, height, delta_x, rigidity);
+			let ret = this->_image->liquidRescaleImage(width, height, deltaX, rigidity);
 			if ret !== true {
 				throw new Exception("Imagick::liquidRescale failed");
 			}
@@ -171,10 +171,10 @@ class Imagick extends \Phalcon\Image\Adapter implements \Phalcon\Image\AdapterIn
 	 *
 	 * @param int $width
 	 * @param int $height
-	 * @param int $offset_x
-	 * @param int $offset_y
+	 * @param int $offsetX
+	 * @param int $offsetY
 	 */
-	protected function _crop(int width, int height, int offset_x, int offset_y)
+	protected function _crop(int width, int height, int offsetX, int offsetY)
 	{
 		var image;
 
@@ -184,7 +184,7 @@ class Imagick extends \Phalcon\Image\Adapter implements \Phalcon\Image\AdapterIn
 
 		loop {
 
-			image->cropImage(width, height, offset_x, offset_y);
+			image->cropImage(width, height, offsetX, offsetY);
 			image->setImagePage(width, height, 0, 0);
 
 			if !image->nextImage() {
@@ -270,9 +270,9 @@ class Imagick extends \Phalcon\Image\Adapter implements \Phalcon\Image\AdapterIn
 	 *
 	 * @param int $height
 	 * @param int $opacity
-	 * @param boolean $fade_in
+	 * @param boolean $fadeIn
 	 */
-	protected function _reflection(int height, int opacity, boolean fade_in)
+	protected function _reflection(int height, int opacity, boolean fadeIn)
 	{
 		var reflection, fade, pseudo, image, pixel, ret;
 
@@ -293,7 +293,7 @@ class Imagick extends \Phalcon\Image\Adapter implements \Phalcon\Image\AdapterIn
 			}
 		}
 
-		let pseudo = fade_in ? "gradient:black-transparent" : "gradient:transparent-black",
+		let pseudo = fadeIn ? "gradient:black-transparent" : "gradient:transparent-black",
 			fade = new \Imagick();
 
 		fade->newPseudoImage(reflection->getImageWidth(), reflection->getImageHeight(), pseudo);
@@ -367,11 +367,11 @@ class Imagick extends \Phalcon\Image\Adapter implements \Phalcon\Image\AdapterIn
 	 * Execute a watermarking.
 	 *
 	 * @param \Phalcon\Image\Adapter $watermark
-	 * @param int $offset_x
-	 * @param int $offset_y
+	 * @param int $offsetX
+	 * @param int $offsetY
 	 * @param int $opacity
 	 */
-	protected function _watermark(<\Phalcon\Image\Adapter> image, int offset_x, int offset_y, int opacity)
+	protected function _watermark(<\Phalcon\Image\Adapter> image, int offsetX, int offsetY, int opacity)
 	{
 		var watermark, ret;
 
@@ -384,7 +384,7 @@ class Imagick extends \Phalcon\Image\Adapter implements \Phalcon\Image\AdapterIn
 		this->_image->setIteratorIndex(0);
 
 		loop {
-			let ret = this->_image->compositeImage(watermark, constant("Imagick::COMPOSITE_OVER"), offset_x, offset_y);
+			let ret = this->_image->compositeImage(watermark, constant("Imagick::COMPOSITE_OVER"), offsetX, offsetY);
 
 			if ret !== true {
 				throw new Exception("Imagick::compositeImage failed");
@@ -403,8 +403,8 @@ class Imagick extends \Phalcon\Image\Adapter implements \Phalcon\Image\AdapterIn
 	 * Execute a text
 	 *
 	 * @param string text
-	 * @param int $offset_x
-	 * @param int $offset_y
+	 * @param int $offsetX
+	 * @param int $offsetY
 	 * @param int $opacity
 	 * @param int $r
 	 * @param int $g
@@ -412,7 +412,7 @@ class Imagick extends \Phalcon\Image\Adapter implements \Phalcon\Image\AdapterIn
 	 * @param int $size
 	 * @param string $fontfile
 	 */
-	protected function _text(string text, int offset_x, int offset_y, int opacity, int r, int g, int b, int size, string fontfile)
+	protected function _text(string text, int offsetX, int offsetY, int opacity, int r, int g, int b, int size, string fontfile)
 	{
 		var draw, color, pixel, gravity;
 
@@ -437,17 +437,17 @@ class Imagick extends \Phalcon\Image\Adapter implements \Phalcon\Image\AdapterIn
 			draw->setfillopacity(opacity);
 		}
 
-		if offset_x < 0 {
-			let offset_x = abs(offset_x);
-			if offset_y < 0 {
-				let offset_y = abs(offset_y);
+		if offsetX < 0 {
+			let offsetX = abs(offsetX);
+			if offsetY < 0 {
+				let offsetY = abs(offsetY);
 				let gravity = constant("Imagick::GRAVITY_SOUTHEAST");
 			} else {
 				let gravity = constant("Imagick::GRAVITY_NORTHEAST");
 			}
 		} else {
 			/*if y < 0 { where y comes from??
-				let offset_y = abs(offset_y);
+				let offsetY = abs(offsetY);
 				let gravity = constant("Imagick::GRAVITY_SOUTHWEST");
 			} else {
 				let gravity = constant("Imagick::GRAVITY_NORTHWEST");
@@ -459,7 +459,7 @@ class Imagick extends \Phalcon\Image\Adapter implements \Phalcon\Image\AdapterIn
 		this->_image->setIteratorIndex(0);
 
 		loop {
-			this->_image->annotateImage(draw, offset_x, offset_y, 0, text);
+			this->_image->annotateImage(draw, offsetX, offsetY, 0, text);
 			if this->_image->nextImage() === false {
 				break;
 			}
