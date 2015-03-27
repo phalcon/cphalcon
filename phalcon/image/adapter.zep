@@ -70,11 +70,6 @@ abstract class Adapter
 
 	/**
  	 * Resize the image to the given size
-	 *
-	 * @param int width
-	 * @param int height
-	 * @param int master
- 	 * @return Phalcon\Image\Adapter
  	 */
 	//Phalcon\Image::AUTO
 	public function resize(int width = null, int height = null, int master = 7) -> <Adapter>
@@ -164,69 +159,59 @@ abstract class Adapter
 	 *
 	 * @param int $width   new width
 	 * @param int $height  new height
-	 * @param int $delta_x How much the seam can traverse on x-axis. Passing 0 causes the seams to be straight.
+	 * @param int $deltaX How much the seam can traverse on x-axis. Passing 0 causes the seams to be straight.
 	 * @param int $rigidity Introduces a bias for non-straight seams. This parameter is typically 0.
-	 * @return Phalcon\Image\Adapter
 	 */
-	public function liquidRescale(int width, int height, int delta_x = 0, int rigidity = 0) -> <\Phalcon\Image\Adapter>
+	public function liquidRescale(int width, int height, int deltaX = 0, int rigidity = 0) -> <Adapter>
 	{
-		this->{"_liquidRescale"}(width, height, delta_x, rigidity);
+		this->{"_liquidRescale"}(width, height, deltaX, rigidity);
 		return this;
 	}
 
 	/**
  	 * Crop an image to the given size
- 	 *
- 	 * @param int width
- 	 * @param int height
- 	 * @param int offset_x
- 	 * @param int offset_y
- 	 * @return Phalcon\Image\Adapter
  	 */
-	public function crop(int width, int height, int offset_x = null, int offset_y = null) -> <Adapter>
+	public function crop(int width, int height, int offsetX = null, int offsetY = null) -> <Adapter>
 	{
-		if is_null(offset_x) {
-			let offset_x = ((this->_width - width) / 2);
+		if is_null(offsetX) {
+			let offsetX = ((this->_width - width) / 2);
 		} else {
-			if offset_x < 0 {
-				let offset_x = this->_width - width + offset_x;
+			if offsetX < 0 {
+				let offsetX = this->_width - width + offsetX;
 			}
 
-			if offset_x > this->_width {
-				let offset_x = (int) this->_width;
+			if offsetX > this->_width {
+				let offsetX = (int) this->_width;
 			}
 		}
 
-		if is_null(offset_y) {
-			let offset_y = ((this->_height - height) / 2);
+		if is_null(offsetY) {
+			let offsetY = ((this->_height - height) / 2);
 		} else {
-			if offset_y < 0 {
-				let offset_y = this->_height - height + offset_y;
+			if offsetY < 0 {
+				let offsetY = this->_height - height + offsetY;
 			}
 
-			if offset_y > this->_height {
-				let offset_y = (int) this->_height;
+			if offsetY > this->_height {
+				let offsetY = (int) this->_height;
 			}
 		}
 
-		if width > (this->_width - offset_x) {
-			let width = this->_width - offset_x;
+		if width > (this->_width - offsetX) {
+			let width = this->_width - offsetX;
 		}
 
-		if height > (this->_height - offset_y) {
-			let height = this->_height - offset_y;
+		if height > (this->_height - offsetY) {
+			let height = this->_height - offsetY;
 		}
 
-		this->{"_crop"}(width, height, offset_x, offset_y);
+		this->{"_crop"}(width, height, offsetX, offsetY);
 
 		return this;
 	}
 
 	/**
  	 * Rotate the image by a given amount
- 	 *
- 	 * @param int degrees
- 	 * @return Phalcon\Image\Adapter
  	 */
 	public function rotate(int degrees) -> <Adapter>
 	{
@@ -247,9 +232,6 @@ abstract class Adapter
 
 	/**
  	 * Flip the image along the horizontal or vertical axis
- 	 *
- 	 * @param int direction
- 	 * @return Phalcon\Image\Adapter
  	 */
 	public function flip(int direction) -> <Adapter>
 	{
@@ -263,9 +245,6 @@ abstract class Adapter
 
 	/**
  	 * Sharpen the image by a given amount
- 	 *
- 	 * @param int amount
- 	 * @return Phalcon\Image\Adapter
  	 */
 	public function sharpen(int amount) -> <Adapter>
 	{
@@ -283,13 +262,8 @@ abstract class Adapter
 
 	/**
  	 * Add a reflection to an image
- 	 *
- 	 * @param int height
- 	 * @param int opacity
- 	 * @param boolean fade_in
- 	 * @return Phalcon\Image\Adapter
  	 */
-	public function reflection(int height, int opacity = 100, boolean fade_in = false) -> <Adapter>
+	public function reflection(int height, int opacity = 100, boolean fadeIn = false) -> <Adapter>
 	{
 		if height <= 0 || height > this->_height {
 			let height = (int) this->_height;
@@ -301,7 +275,7 @@ abstract class Adapter
 			let opacity = 100;
 		}
 
-		this->{"_reflection"}(height, opacity, fade_in);
+		this->{"_reflection"}(height, opacity, fadeIn);
 
 		return this;
 	}
@@ -310,32 +284,31 @@ abstract class Adapter
  	 * Add a watermark to an image with a specified opacity
  	 *
  	 * @param Phalcon\Image\Adapter watermark
- 	 * @param int offset_x
- 	 * @param int offset_y
+ 	 * @param int offsetX
+ 	 * @param int offsetY
  	 * @param int opacity
- 	 * @return Phalcon\Image\Adapter
  	 */
-	public function watermark(<Adapter> watermark, int offset_x = 0, int offset_y = 0, int opacity = 100) -> <Adapter>
+	public function watermark(<Adapter> watermark, int offsetX = 0, int offsetY = 0, int opacity = 100) -> <Adapter>
 	{
 		int tmp;
 
 		let tmp = this->_width - watermark->getWidth();
 
-		if offset_x < 0 {
-			let offset_x = 0;
+		if offsetX < 0 {
+			let offsetX = 0;
 		} else {
-			if offset_x > tmp {
-				let offset_x = tmp;
+			if offsetX > tmp {
+				let offsetX = tmp;
 			}
 		}
 
 		let tmp = this->_height - watermark->getHeight();
 
-		if offset_y < 0 {
-			let offset_y = 0;
+		if offsetY < 0 {
+			let offsetY = 0;
 		} else {
-			if offset_y > tmp {
-				let offset_y = tmp;
+			if offsetY > tmp {
+				let offsetY = tmp;
 			}
 		}
 
@@ -347,24 +320,15 @@ abstract class Adapter
 			}
 		}
 
-		this->{"_watermark"}(watermark, offset_x, offset_y, opacity);
+		this->{"_watermark"}(watermark, offsetX, offsetY, opacity);
 
 		return this;
 	}
 
 	/**
  	 * Add a text to an image with a specified opacity
- 	 *
- 	 * @param string text
- 	 * @param int offset_x
- 	 * @param int offset_y
- 	 * @param int opacity
- 	 * @param string color
- 	 * @param int size
- 	 * @param string fontfile
- 	 * @return Phalcon\Image\Adapter
  	 */
-	public function text(string text, int offset_x = 0, int offset_y = 0, int opacity = 100, string color = "000000", int size = 12, string fontfile = null) -> <Adapter>
+	public function text(string text, int offsetX = 0, int offsetY = 0, int opacity = 100, string color = "000000", int size = 12, string fontfile = null) -> <Adapter>
 	{
 		var colors;
 
@@ -386,7 +350,7 @@ abstract class Adapter
 
 		let colors = array_map("hexdec", str_split(color, 2));
 
-		this->{"_text"}(text, offset_x, offset_y, opacity, colors[0], colors[1], colors[2], size, fontfile);
+		this->{"_text"}(text, offsetX, offsetY, opacity, colors[0], colors[1], colors[2], size, fontfile);
 
 		return this;
 	}
@@ -395,7 +359,6 @@ abstract class Adapter
  	 * Composite one image onto another
  	 *
  	 * @param Phalcon\Image\Adapter watermark
- 	 * @return Phalcon\Image\Adapter
  	 */
 	public function mask(<Adapter> watermark) -> <Adapter>
 	{
@@ -405,10 +368,6 @@ abstract class Adapter
 
 	/**
  	 * Set the background color of an image
- 	 *
- 	 * @param string color
- 	 * @param int opacity
- 	 * @return Phalcon\Image\Adapter
  	 */
 	public function background(string color, int opacity = 100) -> <Adapter>
 	{
@@ -430,9 +389,6 @@ abstract class Adapter
 
 	/**
  	 * Blur image
- 	 *
- 	 * @param int radius
- 	 * @return Phalcon\Image\Adapter
  	 */
 	public function blur(int radius) -> <Adapter>
 	{
@@ -450,9 +406,6 @@ abstract class Adapter
 
 	/**
  	 * Pixelate image
- 	 *
- 	 * @param int amount
- 	 * @return Phalcon\Image\Adapter
  	 */
 	public function pixelate(int amount) -> <Adapter>
 	{
@@ -466,10 +419,6 @@ abstract class Adapter
 
 	/**
  	 * Save the image
- 	 *
-	 * @param string file
-	 * @param int quality
- 	 * @return Phalcon\Image\Adapter
  	 */
 	public function save(string file = null, int quality = 100) -> <Adapter>
 	{
@@ -491,10 +440,6 @@ abstract class Adapter
 
 	/**
  	 * Render the image and return the binary string
- 	 *
-	 * @param string ext
-	 * @param int quality
- 	 * @return string
  	 */
 	public function render(string ext = null, int quality = 100) -> string
 	{
