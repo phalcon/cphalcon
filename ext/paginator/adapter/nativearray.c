@@ -135,7 +135,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_NativeArray, setCurrentPage){
 /**
  * Returns a slice of the resultset to show in the pagination
  *
- * @return stdClass
+ * @return \stdClass
  */
 PHP_METHOD(Phalcon_Paginator_Adapter_NativeArray, getPaginate){
 
