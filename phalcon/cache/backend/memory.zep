@@ -85,7 +85,7 @@ class Memory extends Backend implements BackendInterface
 	 */
 	public function save(var keyName = null, var content = null, lifetime = null, stopBuffer = true) -> void
 	{
-		var lastKey, frontend, cachedContent, preparedContent;
+		var lastKey, frontend, cachedContent, preparedContent, isBuffering;
 
 		if keyName === null {
 			let lastKey = this->_lastKey;
