@@ -5586,21 +5586,27 @@ PHP_METHOD(Phalcon_Mvc_Model, setup) {
 
 	ZEPHIR_OBS_VAR(disableEvents);
 	if (zephir_array_isset_string_fetch(&disableEvents, options, SS("events"), 0 TSRMLS_CC)) {
+		ZEPHIR_GLOBAL(orm).events = zend_is_true(disableEvents);
 	}
 	ZEPHIR_OBS_VAR(virtualForeignKeys);
 	if (zephir_array_isset_string_fetch(&virtualForeignKeys, options, SS("virtualForeignKeys"), 0 TSRMLS_CC)) {
+		ZEPHIR_GLOBAL(orm).virtual_foreign_keys = zend_is_true(virtualForeignKeys);
 	}
 	ZEPHIR_OBS_VAR(columnRenaming);
 	if (zephir_array_isset_string_fetch(&columnRenaming, options, SS("columnRenaming"), 0 TSRMLS_CC)) {
+		ZEPHIR_GLOBAL(orm).column_renaming = zend_is_true(columnRenaming);
 	}
 	ZEPHIR_OBS_VAR(notNullValidations);
 	if (zephir_array_isset_string_fetch(&notNullValidations, options, SS("notNullValidations"), 0 TSRMLS_CC)) {
+		ZEPHIR_GLOBAL(orm).not_null_validations = zend_is_true(notNullValidations);
 	}
 	ZEPHIR_OBS_VAR(exceptionOnFailedSave);
 	if (zephir_array_isset_string_fetch(&exceptionOnFailedSave, options, SS("exceptionOnFailedSave"), 0 TSRMLS_CC)) {
+		ZEPHIR_GLOBAL(orm).exception_on_failed_save = zend_is_true(exceptionOnFailedSave);
 	}
 	ZEPHIR_OBS_VAR(phqlLiterals);
 	if (zephir_array_isset_string_fetch(&phqlLiterals, options, SS("phqlLiterals"), 0 TSRMLS_CC)) {
+		ZEPHIR_GLOBAL(orm).enable_literals = zend_is_true(phqlLiterals);
 	}
 	ZEPHIR_MM_RESTORE();
 

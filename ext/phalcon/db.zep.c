@@ -106,6 +106,7 @@ PHP_METHOD(Phalcon_Db, setup) {
 
 	ZEPHIR_OBS_VAR(escapeIdentifiers);
 	if (zephir_array_isset_string_fetch(&escapeIdentifiers, options, SS("escapeSqlIdentifiers"), 0 TSRMLS_CC)) {
+		ZEPHIR_GLOBAL(db).escape_identifiers = zend_is_true(escapeIdentifiers);
 	}
 	ZEPHIR_MM_RESTORE();
 
