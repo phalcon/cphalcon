@@ -61,7 +61,7 @@
 			<file>unit-tests/ModelsMetadataTest.php</file>
 			<file>unit-tests/ModelsMultipleSourcesTest.php</file>
 			<file>unit-tests/ModelsQueryBuilderTest.php</file>
-			<!--<file>unit-tests/ModelsQueryExecuteTest.php</file>-->
+			<file>unit-tests/ModelsQueryExecuteTest.php</file>
 			<!--<file>unit-tests/ModelsQueryParsingTest.php</file>-->
 			<file>unit-tests/ModelsRelationsMagicTest.php</file>
 			<file>unit-tests/ModelsRelationsTest.php</file>
