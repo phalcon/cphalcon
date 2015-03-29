@@ -73,21 +73,21 @@ class DbTest extends PHPUnit_Framework_TestCase
 		try {
 			$connection = new Phalcon\Db\Adapter\Pdo\Postgresql($configPostgresql);
 			$this->assertTrue(is_object($connection));
-		} catch(Exception $e) {
+		} catch (Exception $e) {
 			$this->assertTrue(false);
 		}
 
 		try {
 			$connection = new Phalcon\Db\Adapter\Pdo\Postgresql($configPostgresqlDefault);
 			$this->assertTrue(is_object($connection));
-		} catch(Exception $e) {
+		} catch (Exception $e) {
 			$this->assertTrue(false);
 		}
 
 		try {
 			$connection = new Phalcon\Db\Adapter\Pdo\Postgresql($configPostgresqlNonExists);
 			$this->assertFalse(is_object($connection));
-		} catch(Exception $e) {
+		} catch (Exception $e) {
 			$this->assertTrue(true);
 		}
 
@@ -225,23 +225,25 @@ class DbTest extends PHPUnit_Framework_TestCase
 		$row = $connection->fetchOne('select count(*) as cnt from prueba where nombre=? and estado=?', Phalcon\Db::FETCH_ASSOC, array("LOL array syntax 3", "E"));
 		$this->assertEquals($row['cnt'], 1);
 
-        //test insertAsDict and updateAsDict
-        $success = $connection->insertAsDict('prueba', array(
-                'nombre' => "LOL insertAsDict",
-                'estado' => "E"
-            ));
-        $this->assertTrue($success);
-        $row = $connection->fetchOne('select count(*) as cnt from prueba where nombre=? and estado=?', Phalcon\Db::FETCH_ASSOC, array("LOL insertAsDict", "E"));
-        $this->assertEquals($row['cnt'], 1);
-        $success = $connection->updateAsDict('prueba', array(
-                'nombre' => "LOL updateAsDict",
-                'estado' => "X"
-            ),
-            "nombre='LOL insertAsDict' and estado = 'E'"
-        );
-        $this->assertTrue($success);
-        $row = $connection->fetchOne('select count(*) as cnt from prueba where nombre=? and estado=?', Phalcon\Db::FETCH_ASSOC, array("LOL updateAsDict", "X"));
-        $this->assertEquals($row['cnt'], 1);
+		//test insertAsDict and updateAsDict
+		$success = $connection->insertAsDict('prueba', array(
+			'nombre' => "LOL insertAsDict",
+			'estado' => "E"
+		));
+
+		$this->assertTrue($success);
+		$row = $connection->fetchOne('select count(*) as cnt from prueba where nombre=? and estado=?', Phalcon\Db::FETCH_ASSOC, array("LOL insertAsDict", "E"));
+		$this->assertEquals($row['cnt'], 1);
+		$success = $connection->updateAsDict('prueba',
+			array(
+				'nombre' => "LOL updateAsDict",
+				'estado' => "X"
+			),
+			"nombre='LOL insertAsDict' and estado = 'E'"
+		);
+		$this->assertTrue($success);
+		$row = $connection->fetchOne('select count(*) as cnt from prueba where nombre=? and estado=?', Phalcon\Db::FETCH_ASSOC, array("LOL updateAsDict", "X"));
+		$this->assertEquals($row['cnt'], 1);
 
 		$connection->delete("prueba", "estado='X'");
 		$this->assertTrue($success);
@@ -263,14 +265,14 @@ class DbTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(count($rows), 10);
 		$this->assertEquals(count($rows[0]), 11);
 
-        $id = $connection->fetchColumn("SELECT id FROM robots ORDER BY year DESC");
-        $this->assertEquals($id, 3);
+		$id = $connection->fetchColumn("SELECT id FROM robots ORDER BY year DESC");
+		$this->assertEquals($id, 3);
 
-        $type = $connection->fetchColumn("SELECT * FROM robots where id=?", array(1), 2);
-        $this->assertEquals($type, 'mechanical');
+		$type = $connection->fetchColumn("SELECT * FROM robots where id=?", array(1), 2);
+		$this->assertEquals($type, 'mechanical');
 
-        $type = $connection->fetchColumn("SELECT * FROM robots where id=?", array(1), 'type');
-        $this->assertEquals($type, 'mechanical');
+		$type = $connection->fetchColumn("SELECT * FROM robots where id=?", array(1), 'type');
+		$this->assertEquals($type, 'mechanical');
 
 		//Auto-Increment/Serial Columns
 		$sql = 'INSERT INTO subscriptores(id, email, created_at, status) VALUES ('.$connection->getDefaultIdValue().', ?, ?, ?)';
@@ -369,5 +371,4 @@ class DbTest extends PHPUnit_Framework_TestCase
 		$success = $connection->rollback(); // rollback - real rollback
 		$this->assertTrue($success);
 	}
-
 }

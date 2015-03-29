@@ -162,5 +162,4 @@ class DbProfilerTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(count($profiler->getProfiles()), 0);
 		$this->assertEquals($profiler->getNumberTotalStatements(), 0);
 	}
-
 }
