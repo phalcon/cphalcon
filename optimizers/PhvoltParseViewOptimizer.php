@@ -62,7 +62,7 @@ class PhvoltParseViewOptimizer extends OptimizerAbstract
 
 		$symbolVariable->setDynamicTypes('array');
 
-		$resolvedParams = $call->getReadOnlyResolvedParams($expression['parameters'], $context, $expression);
+		$resolvedParams = $call->getResolvedParams($expression['parameters'], $context, $expression);
 
 		$context->headersManager->add('phalcon/mvc/view/engine/volt/scanner', HeadersManager::POSITION_LAST);
 		$context->headersManager->add('phalcon/mvc/view/engine/volt/volt',    HeadersManager::POSITION_LAST);

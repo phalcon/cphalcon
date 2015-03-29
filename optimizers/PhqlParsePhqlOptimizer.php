@@ -62,7 +62,7 @@ class PhqlParsePhqlOptimizer extends OptimizerAbstract
 
 		$symbolVariable->setDynamicTypes('array');
 
-		$resolvedParams = $call->getReadOnlyResolvedParams($expression['parameters'], $context, $expression);
+		$resolvedParams = $call->getResolvedParams($expression['parameters'], $context, $expression);
 
 		$context->headersManager->add('phalcon/mvc/model/query/scanner', HeadersManager::POSITION_LAST);
 		$context->headersManager->add('phalcon/mvc/model/query/phql', HeadersManager::POSITION_LAST);

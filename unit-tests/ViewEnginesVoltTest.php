@@ -91,7 +91,7 @@ function phalcon_prepare_virtual_path($path, $separator) {
 class ViewEnginesVoltTest extends PHPUnit_Framework_TestCase
 {
 
-	public function ytestVoltParser()
+	public function testVoltParser()
 	{
 
 		$volt = new Compiler();
@@ -111,7 +111,6 @@ class ViewEnginesVoltTest extends PHPUnit_Framework_TestCase
 
 		//Common Expressions
 		$intermediate = $volt->parse('hello');
-		$this->assertTrue(is_array($intermediate));
 		$this->assertEquals(count($intermediate), 1);
 
 		$intermediate = $volt->parse('{{ 1 }}');
