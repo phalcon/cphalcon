@@ -44,6 +44,7 @@ PHP_METHOD(Phalcon_Http_Client_Adapter, setHeader);
 PHP_METHOD(Phalcon_Http_Client_Adapter, setHeaders);
 PHP_METHOD(Phalcon_Http_Client_Adapter, setData);
 PHP_METHOD(Phalcon_Http_Client_Adapter, setFile);
+PHP_METHOD(Phalcon_Http_Client_Adapter, setFiles);
 PHP_METHOD(Phalcon_Http_Client_Adapter, getPath);
 PHP_METHOD(Phalcon_Http_Client_Adapter, get);
 PHP_METHOD(Phalcon_Http_Client_Adapter, head);
@@ -63,7 +64,8 @@ static const zend_function_entry phalcon_http_client_adapter_method_entry[] = {
 	PHP_ME(Phalcon_Http_Client_Adapter, setHeader, arginfo_phalcon_http_client_adapterinterface_setheader, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Client_Adapter, setHeaders, arginfo_phalcon_http_client_adapterinterface_setheaders, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Client_Adapter, setData, arginfo_phalcon_http_client_adapterinterface_setdata, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Http_Client_Adapter, setFile, arginfo_phalcon_http_client_adapterinterface_setfile, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Client_Adapter, setFile, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Client_Adapter, setFiles, arginfo_phalcon_http_client_adapterinterface_setfiles, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Client_Adapter, getPath, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Client_Adapter, get, arginfo_phalcon_http_client_adapterinterface_get, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Client_Adapter, head, arginfo_phalcon_http_client_adapterinterface_head, ZEND_ACC_PUBLIC)
@@ -260,6 +262,36 @@ PHP_METHOD(Phalcon_Http_Client_Adapter, setFile){
 	}
 
 	phalcon_update_property_this(this_ptr, SL("_files"), files TSRMLS_CC);
+
+	zend_error_noreturn(E_DEPRECATED, "Method Phalcon\\Http\\Client\\Adapter::setFile is deprecated, please use Phalcon\\Http\\Client\\Adapter::setFiles instead");
+
+	RETURN_THIS();
+}
+
+/**
+ * Set send files
+ *
+ * @param array|string $files
+ * @return Phalcon\Http\Client\Adapter
+ */
+PHP_METHOD(Phalcon_Http_Client_Adapter, setFiles){
+
+	zval *files, *arr = NULL;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 1, 0, &files);
+
+	if (Z_TYPE_P(files) != IS_ARRAY) {
+		PHALCON_INIT_VAR(arr);
+		array_init(arr);
+
+		phalcon_array_append(&arr, files, PH_COPY);
+	} else {
+		PHALCON_CPY_WRT(arr, files);
+	}
+
+	phalcon_update_property_this(this_ptr, SL("_files"), arr TSRMLS_CC);
 
 	RETURN_THIS();
 }
