@@ -52,4 +52,30 @@ class HttpClientTest extends PHPUnit_Framework_TestCase
 
 		$this->assertEquals($response->getStatusCode(), 200);
 	}
+
+	public function testRest()
+	{
+		/*
+		$client = Phalcon\Http\Client::factory('http://localhost/');
+		$client->setData(json_encode(array('query' => 'pahlcon')), 'application/json');
+		$response = $client->get();
+
+		$this->assertEquals($response->getStatusCode(), 200);
+		*/
+	}
+
+	public function testUpload()
+	{
+		/*
+		$client = Phalcon\Http\Client::factory('http://localhost/');
+		$client->setData(array(
+				new CURLFile('phalcon.jpg')
+		));
+		// or
+		$client->setFiles('phalcon.jpg');
+		// or
+		$client->setFiles(array('phalcon.jpg'));
+		$response = $client->post();
+		*/
+	}
 }
