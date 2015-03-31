@@ -435,6 +435,28 @@ class PaginatorTest extends PHPUnit_Framework_TestCase
 		$this->assertTrue(count($page->items) > 0);
 		$this->assertEquals($page->current, 1);
 		$this->assertTrue($page->total_pages > 0);
+
+		$bind_params = array('rawsql' => new Phalcon\Db\RawValue('tipo_documento_id=1'));
+		$bind_types = array('rawsql' => PDO::PARAM_STR);
+
+		$users = $di->modelsManager->createBuilder()->from('Personnes')->andwhere(":rawsql:", $bind_params, $bind_types);
+		$paginator = new \Phalcon\Paginator\Adapter\QueryBuilder(array(
+			"builder" => $users,
+			"limit" => 10,
+			"page" => 1
+		));
+		$page = $paginator->getPaginate();
+
+		$this->assertEquals($bind_params, array('rawsql' => new Phalcon\Db\RawValue('tipo_documento_id=1')));
+		$this->assertEquals($bind_types, array('rawsql' => PDO::PARAM_STR));
+
+		$bind_params = array('rawsql' => new Phalcon\Db\RawValue('tipo_documento_id=1'), 'estado' => 'A');
+		$bind_types = array('rawsql' => PDO::PARAM_STR , 'estado' => PDO::PARAM_STR);
+
+		$users = $di->modelsManager->executeQuery("SELECT * FROM Personnes WHERE :rawsql: AND estado = :estado: LIMIT 2", $bind_params, $bind_types);
+
+		$this->assertEquals($bind_params, array('rawsql' => new Phalcon\Db\RawValue('tipo_documento_id=1'), 'estado' => 'A'));
+		$this->assertEquals($bind_types, array('rawsql' => PDO::PARAM_STR , 'estado' => PDO::PARAM_STR));
 	}
 
 	public function testIssue2301()
