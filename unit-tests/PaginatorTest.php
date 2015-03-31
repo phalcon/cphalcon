@@ -417,9 +417,10 @@ class PaginatorTest extends PHPUnit_Framework_TestCase
 
 		// test raw value
 		$builder = $di['modelsManager']->createBuilder()
-					->columns('cedula, nombres')
+					->columns('*')
 					->from('Personnes')
 					->where('tipo_documento_id = :tipo_documento_id:', array('tipo_documento_id' => 1))
+					->andWhere('estado = :estado:', array('estado' => new Phalcon\Db\RawValue("'A'")))
 					->orderBy('cedula');
 
 		$paginator = new Phalcon\Paginator\Adapter\QueryBuilder(array(
