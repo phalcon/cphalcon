@@ -2703,7 +2703,8 @@ class Compiler implements InjectionAwareInterface
 	 */
 	public function parse(string! viewCode)
 	{
-		return phvolt_parse_view(viewCode, "eval code");
+		var currentPath = "eval code";
+		return phvolt_parse_view(viewCode, currentPath);
 	}
 
 }
