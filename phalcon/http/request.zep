@@ -187,7 +187,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 		}
 		return post;
 	}
-	
+
 	/**
 	 * Gets a variable from put request
 	 *
@@ -209,10 +209,10 @@ class Request implements RequestInterface, InjectionAwareInterface
 	public function getPut(string! name = null, filters = null, defaultValue = null, notAllowEmpty = false, noRecursive = false)
 	{
 		var put, value, filter, dependencyInjector;
-		
+
 		let put = [];
 		parse_str(file_get_contents("php://input"), put);
-		
+
 		if name !== null {
 			if fetch value, put[name] {
 				if filters !== null {
@@ -246,7 +246,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 		}
 		return put;
 	}
-	
+
 	/**
 	 * Gets variable from $_GET superglobal applying filters if needed
 	 * If no parameters are given the $_GET superglobal is returned
@@ -1136,5 +1136,4 @@ class Request implements RequestInterface, InjectionAwareInterface
 
 		return auth;
 	}
-
 }

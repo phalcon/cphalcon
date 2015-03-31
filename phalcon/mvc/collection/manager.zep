@@ -312,5 +312,4 @@ class Manager implements InjectionAwareInterface, EventsAwareInterface
 
 		return status;
 	}
-
 }

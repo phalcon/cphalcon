@@ -618,10 +618,9 @@ class Compiler implements InjectionAwareInterface
 			}
 
 			/**
-			 * The function doesn\t exist throw an exception
+			 * The function doesn't exist throw an exception
 			 */
 			throw new Exception("Undefined function '" . name . "' in " . expr["file"] . " on line " . expr["line"]);
-
 		}
 
 		return this->expression(nameExpr) . "(" . arguments . ")";
@@ -745,15 +744,17 @@ class Compiler implements InjectionAwareInterface
 		if type == PHVOLT_T_IDENTIFIER {
 			let name = filter["value"];
 		} else {
-			if type == PHVOLT_T_FCALL {
-				let functionName = filter["name"];
-				let name = functionName["value"];
-			} else {
+
+			if type != PHVOLT_T_FCALL {
+
 				/**
 				 * Unknown filter throw an exception
 				 */
 				throw new Exception("Unknown filter type in " . filter["file"] . " on line " . filter["line"]);
 			}
+
+			let functionName = filter["name"],
+				name = functionName["value"];
 		}
 
 		let funcArguments = null, arguments = null;
@@ -2705,5 +2706,4 @@ class Compiler implements InjectionAwareInterface
 	{
 		return phvolt_parse_view(viewCode, "eval code");
 	}
-
 }

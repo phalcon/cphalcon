@@ -725,5 +725,4 @@ abstract class MetaData implements InjectionAwareInterface
 		let this->_metaData = [],
 			this->_columnMap = [];
 	}
-
 }

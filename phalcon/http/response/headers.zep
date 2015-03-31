@@ -19,12 +19,14 @@
 
 namespace Phalcon\Http\Response;
 
+use Phalcon\Http\Response\HeadersInterface;
+
 /**
  * Phalcon\Http\Response\Headers
  *
  * This class is a bag to manage the response headers
  */
-class Headers implements \Phalcon\Http\Response\HeadersInterface
+class Headers implements HeadersInterface
 {
 	protected _headers;
 
@@ -136,5 +138,4 @@ class Headers implements \Phalcon\Http\Response\HeadersInterface
 		}
 		return headers;
 	}
-
 }

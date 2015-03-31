@@ -238,5 +238,4 @@ abstract class Adapter
 		 */
 		return new Collection();
 	}
-
 }

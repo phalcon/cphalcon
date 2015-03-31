@@ -24,6 +24,7 @@ use Phalcon\Logger\Adapter;
 use Phalcon\Logger\AdapterInterface;
 use Phalcon\Logger\Exception;
 use Phalcon\Logger\FormatterInterface;
+use Phalcon\Logger\Formatter\Firephp as FirePhpFormatter;
 
 /**
  * Phalcon\Logger\Adapter\Firephp
@@ -51,7 +52,7 @@ class Firephp extends Adapter implements AdapterInterface
 	public function getFormatter() -> <FormatterInterface>
 	{
 		if typeof this->_formatter !== "object" {
-			let this->_formatter = new \Phalcon\Logger\Formatter\Firephp();
+			let this->_formatter = new FirePhpFormatter();
 		}
 
 		return this->_formatter;
@@ -87,6 +88,7 @@ class Firephp extends Adapter implements AdapterInterface
 			chunk = str_split(format, 4500);
 
 		for key, chString in chunk {
+
 			let content = "X-Wf-1-1-1-" . self::_index . ": " . chString;
 
 			if isset(chunk[key + 1]) {

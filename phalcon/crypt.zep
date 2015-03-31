@@ -49,11 +49,17 @@ class Crypt implements \Phalcon\CryptInterface
 	protected _cipher = "rijndael-256";
 
 	const PADDING_DEFAULT = 0;
+
 	const PADDING_ANSI_X_923 = 1;
+
 	const PADDING_PKCS7 = 2;
+
 	const PADDING_ISO_10126 = 3;
+
 	const PADDING_ISO_IEC_7816_4 = 4;
+
 	const PADDING_ZERO = 5;
+
 	const PADDING_SPACE = 6;
 
 	/**
@@ -188,9 +194,7 @@ class Crypt implements \Phalcon\CryptInterface
 				default:
 					let paddingSize = 0;
 					break;
-
 			}
-
 		}
 
 		if !paddingSize {
@@ -236,6 +240,7 @@ class Crypt implements \Phalcon\CryptInterface
 						}
 					}
 					break;
+
 				case self::PADDING_PKCS7:
 					let last = substr(text, length - 1, 1);
 					let ord = (int) ord(last);
@@ -245,8 +250,8 @@ class Crypt implements \Phalcon\CryptInterface
 						if substr(text, length - paddingSize) != padding {
 							let paddingSize = 0;
 						}
-					}	
-					break;	
+					}
+					break;
 
 				case self::PADDING_ISO_10126:
 					let last = substr(text, length - 1, 1);
@@ -464,5 +469,4 @@ class Crypt implements \Phalcon\CryptInterface
 	{
 		return mcrypt_list_modes();
 	}
-
 }

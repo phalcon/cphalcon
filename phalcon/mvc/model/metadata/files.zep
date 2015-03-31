@@ -86,5 +86,4 @@ class Files extends MetaData implements MetaDataInterface
 			throw new Exception("Meta-Data directory cannot be written");
 		}
 	}
-
 }
