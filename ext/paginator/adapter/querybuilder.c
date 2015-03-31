@@ -246,8 +246,9 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, getPaginate){
 	zval *value = NULL, *wildcard = NULL, *string_wildcard = NULL, *processed_types = NULL;
 	zval *intermediate = NULL, *columns, *type = NULL, *column = NULL, *sql_column = NULL;
 	zval *dialect = NULL, *sql_select = NULL, *sql, *sql_tmp = NULL;
-	HashTable *ah0;
-	HashPosition hp0;
+	zval *paginate;
+	HashTable *ah0, *ah1, *ah2;
+	HashPosition hp0, hp1, hp2;
 	zval **hd;
 	long int i_limit, i_number_page, i_number, i_before, i_rowcount;
 	long int i_total_pages, i_next;
@@ -386,18 +387,19 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, getPaginate){
 		PHALCON_INIT_VAR(processed);
 		array_init(processed);
 
-		phalcon_is_iterable(bind_params, &ah0, &hp0, 0, 0);
+		phalcon_is_iterable(bind_params, &ah1, &hp1, 0, 0);
 
-		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
+		while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
 
-			PHALCON_GET_HKEY(wildcard, ah0, hp0);
+			PHALCON_GET_HKEY(wildcard, ah1, hp1);
 			PHALCON_GET_HVALUE(value);
+
+			SEPARATE_ZVAL(&value);
 
 			if (Z_TYPE_P(value) == IS_OBJECT && instanceof_function(Z_OBJCE_P(value), phalcon_db_rawvalue_ce TSRMLS_CC)) {
 				PHALCON_INIT_NVAR(string_wildcard);
 				PHALCON_CONCAT_SV(string_wildcard, ":", wildcard);
 
-				SEPARATE_ZVAL(&value);
 				convert_to_string(value);
 
 				PHALCON_INIT_NVAR(sql_tmp);
@@ -415,7 +417,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, getPaginate){
 				phalcon_array_update_zval(&processed, wildcard, value, PH_COPY);
 			}
 
-			zend_hash_move_forward_ex(ah0, &hp0);
+			zend_hash_move_forward_ex(ah1, &hp1);
 		}
 
 	} else {
@@ -430,22 +432,24 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, getPaginate){
 		PHALCON_INIT_VAR(processed_types);
 		array_init(processed_types);
 
-		phalcon_is_iterable(bind_types, &ah0, &hp0, 0, 0);
+		phalcon_is_iterable(bind_types, &ah2, &hp2, 0, 0);
 
-		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
+		while (zend_hash_get_current_data_ex(ah2, (void**) &hd, &hp2) == SUCCESS) {
 
-			PHALCON_GET_HKEY(wildcard, ah0, hp0);
+			PHALCON_GET_HKEY(wildcard, ah2, hp2);
 			PHALCON_GET_HVALUE(value);
+
+			SEPARATE_ZVAL(&value);
 
 			if (Z_TYPE_P(wildcard) == IS_LONG) {
 				PHALCON_INIT_NVAR(string_wildcard);
 				PHALCON_CONCAT_SV(string_wildcard, ":", wildcard);
-				phalcon_array_update_zval(&processed_types, string_wildcard, value, PH_COPY | PH_SEPARATE);
+				phalcon_array_update_zval(&processed_types, string_wildcard, value, PH_COPY);
 			} else {
-				phalcon_array_update_zval(&processed_types, wildcard, value, PH_COPY | PH_SEPARATE);
+				phalcon_array_update_zval(&processed_types, wildcard, value, PH_COPY);
 			}
 
-			zend_hash_move_forward_ex(ah0, &hp0);
+			zend_hash_move_forward_ex(ah2, &hp2);
 		}
 
 	} else {
@@ -463,15 +467,16 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, getPaginate){
 	i_total_pages = tp.quot + (tp.rem ? 1 : 0);
 	i_next        = (i_number_page < i_total_pages) ? (i_number_page + 1) : i_total_pages;
 
-	object_init(return_value);
-	phalcon_update_property_zval(return_value, SL("items"),       items TSRMLS_CC);
-	phalcon_update_property_long(return_value, SL("before"),      i_before TSRMLS_CC);
-	phalcon_update_property_long(return_value, SL("first"),       1 TSRMLS_CC);
-	phalcon_update_property_long(return_value, SL("next"),        i_next TSRMLS_CC);
-	phalcon_update_property_long(return_value, SL("last"),        i_total_pages TSRMLS_CC);
-	phalcon_update_property_long(return_value, SL("current"),     i_number_page TSRMLS_CC);
-	phalcon_update_property_long(return_value, SL("total_pages"), i_total_pages TSRMLS_CC);
-	phalcon_update_property_long(return_value, SL("total_items"), i_rowcount TSRMLS_CC);
+	PHALCON_INIT_VAR(paginate);
+	object_init(paginate);
+	phalcon_update_property_zval(paginate, SL("items"),       items TSRMLS_CC);
+	phalcon_update_property_long(paginate, SL("before"),      i_before TSRMLS_CC);
+	phalcon_update_property_long(paginate, SL("first"),       1 TSRMLS_CC);
+	phalcon_update_property_long(paginate, SL("next"),        i_next TSRMLS_CC);
+	phalcon_update_property_long(paginate, SL("last"),        i_total_pages TSRMLS_CC);
+	phalcon_update_property_long(paginate, SL("current"),     i_number_page TSRMLS_CC);
+	phalcon_update_property_long(paginate, SL("total_pages"), i_total_pages TSRMLS_CC);
+	phalcon_update_property_long(paginate, SL("total_items"), i_rowcount TSRMLS_CC);
 
-	PHALCON_MM_RESTORE();
+	RETURN_CTOR(paginate);
 }
