@@ -24,6 +24,7 @@
 #include "php_ext.h"
 #include "kernel/main.h"
 #include "kernel/memory.h"
+#include "kernel/extended/fcall.h"
 #include <Zend/zend_hash.h>
 #include <Zend/zend.h>
 
@@ -667,7 +668,11 @@ ZEPHIR_ATTR_WARN_UNUSED_RESULT ZEPHIR_ATTR_NONNULL static inline int zephir_has_
 int zephir_call_function(zend_fcall_info *fci, zend_fcall_info_cache *fci_cache TSRMLS_DC);
 #define ZEPHIR_ZEND_CALL_FUNCTION_WRAPPER zephir_call_function
 #else
+#if PHP_VERSION_ID >= 50600
+#define ZEPHIR_ZEND_CALL_FUNCTION_WRAPPER zephir_call_function_opt
+#else
 #define ZEPHIR_ZEND_CALL_FUNCTION_WRAPPER zend_call_function
+#endif
 #endif
 
 #ifndef zend_error_noreturn

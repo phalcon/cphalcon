@@ -70,6 +70,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Query_Lang) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Query_Lang, parsePHQL) {
 
+	int ZEPHIR_LAST_CALL_STATUS;
 	zval *phql_param = NULL;
 	zval *phql = NULL;
 
@@ -89,9 +90,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Lang, parsePHQL) {
 	}
 
 
-	if (phql_parse_phql(return_value, phql TSRMLS_CC) == FAILURE) {
-		RETURN_MM();
-	}
+	ZEPHIR_LAST_CALL_STATUS = (phql_parse_phql(return_value, phql TSRMLS_CC) != FAILURE);
+	zephir_check_call_status();
 	RETURN_MM();
 
 }

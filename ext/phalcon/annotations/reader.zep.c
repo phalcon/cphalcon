@@ -65,7 +65,7 @@ PHP_METHOD(Phalcon_Annotations_Reader, parse) {
 	HashTable *_3, *_9;
 	HashPosition _2, _8;
 	int line, ZEPHIR_LAST_CALL_STATUS;
-	zval *className_param = NULL, *annotations, *reflection, *comment = NULL, *properties = NULL, *methods = NULL, *property = NULL, *method = NULL, *classAnnotations, *annotationsProperties, *propertyAnnotations = NULL, *annotationsMethods, *methodAnnotations = NULL, *_0 = NULL, *_1 = NULL, **_4, _6 = zval_used_for_init, *_7 = NULL, **_10;
+	zval *className_param = NULL, *annotations, *reflection, *comment = NULL, *properties = NULL, *methods = NULL, *property = NULL, *method = NULL, *classAnnotations, *annotationsProperties, *propertyAnnotations = NULL, *annotationsMethods, *methodAnnotations = NULL, *_0 = NULL, *_1 = NULL, **_4, *_6 = NULL, *_7 = NULL, **_10;
 	zval *className = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -113,9 +113,9 @@ PHP_METHOD(Phalcon_Annotations_Reader, parse) {
 				ZEPHIR_INIT_NVAR(propertyAnnotations);
 				ZEPHIR_CALL_METHOD(&_0, reflection, "getfilename", &_5);
 				zephir_check_call_status();
-				ZEPHIR_SINIT_NVAR(_6);
-				ZVAL_LONG(&_6, line);
-				if (phannot_parse_annotations(propertyAnnotations, comment, _0, &_6 TSRMLS_CC) == FAILURE) {
+				ZEPHIR_INIT_NVAR(_6);
+				ZVAL_LONG(_6, line);
+				if (phannot_parse_annotations(propertyAnnotations, comment, _0, _6 TSRMLS_CC) == FAILURE) {
 					RETURN_MM();
 				}
 				if (Z_TYPE_P(propertyAnnotations) == IS_ARRAY) {

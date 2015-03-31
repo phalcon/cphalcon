@@ -686,6 +686,7 @@ int zephir_start_with(const zval *str, const zval *compared, zval *case_sensitiv
 	op1_cursor = Z_STRVAL_P(str);
 	op2_cursor = Z_STRVAL_P(compared);
 	for (i = 0; i < Z_STRLEN_P(compared); i++) {
+
 		if (tolower(*op1_cursor) != tolower(*op2_cursor)) {
 			return 0;
 		}
@@ -750,6 +751,7 @@ int zephir_end_with(const zval *str, const zval *compared, zval *case_sensitive)
 	op2_cursor = Z_STRVAL_P(compared);
 
 	for (i = 0; i < Z_STRLEN_P(compared); ++i) {
+
 		if (tolower(*op1_cursor) != tolower(*op2_cursor)) {
 			return 0;
 		}
@@ -805,49 +807,61 @@ void zephir_random_string(zval *return_value, const zval *type, const zval *leng
 	for (i = 0; i < Z_LVAL_P(length); i++) {
 
 		switch (Z_LVAL_P(type)) {
+
 			case PH_RANDOM_ALNUM:
 				rand_type = (long) (php_mt_rand(TSRMLS_C) >> 1);
 				RAND_RANGE(rand_type, 0, 3, PHP_MT_RAND_MAX);
 				break;
+
 			case PH_RANDOM_ALPHA:
 				rand_type = (long) (php_mt_rand(TSRMLS_C) >> 1);
 				RAND_RANGE(rand_type, 1, 2, PHP_MT_RAND_MAX);
 				break;
+
 			case PH_RANDOM_HEXDEC:
 				rand_type = (long) (php_mt_rand(TSRMLS_C) >> 1);
 				RAND_RANGE(rand_type, 0, 1, PHP_MT_RAND_MAX);
 				break;
+
 			case PH_RANDOM_NUMERIC:
 				rand_type = 0;
 				break;
+
 			case PH_RANDOM_NOZERO:
 				rand_type = 5;
 				break;
+
 			default:
 				continue;
 		}
 
 		switch (rand_type) {
+
 			case 0:
 				ch = (long) (php_mt_rand(TSRMLS_C) >> 1);
 				RAND_RANGE(ch, '0', '9', PHP_MT_RAND_MAX);
 				break;
+
 			case 1:
 				ch = (long) (php_mt_rand(TSRMLS_C) >> 1);
 				RAND_RANGE(ch, 'a', 'f', PHP_MT_RAND_MAX);
 				break;
+
 			case 2:
 				ch = (long) (php_mt_rand(TSRMLS_C) >> 1);
 				RAND_RANGE(ch, 'a', 'z', PHP_MT_RAND_MAX);
 				break;
+
 			case 3:
 				ch = (long) (php_mt_rand(TSRMLS_C) >> 1);
 				RAND_RANGE(ch, 'A', 'Z', PHP_MT_RAND_MAX);
 				break;
+
 			case 5:
 				ch = (long) (php_mt_rand(TSRMLS_C) >> 1);
 				RAND_RANGE(ch, '1', '9', PHP_MT_RAND_MAX);
 				break;
+
 			default:
 				continue;
 		}
@@ -898,7 +912,6 @@ void zephir_remove_extra_slashes(zval *return_value, const zval *str) {
 	removed_str[i] = '\0';
 
 	RETURN_STRINGL(removed_str, i, 0);
-
 }
 
 /**
@@ -919,6 +932,7 @@ int zephir_spprintf(char **message, int max_len, char *format, ...)
  * Makes a substr like the PHP function. This function SUPPORT negative from and length
  */
 void zephir_substr(zval *return_value, zval *str, long f, long l, int flags) {
+
 	zval copy;
 	int use_copy = 0;
 	int str_len;
@@ -943,18 +957,31 @@ void zephir_substr(zval *return_value, zval *str, long f, long l, int flags) {
 	}
 
 	if ((l < 0 && -l > str_len)) {
+		if (use_copy) {
+			zval_dtor(str);
+		}
 		RETURN_FALSE;
-	} else if (l > str_len) {
-		l = str_len;
+	} else {
+		if (l > str_len) {
+			l = str_len;
+		}
 	}
 
 	if (f > str_len) {
+		if (use_copy) {
+			zval_dtor(str);
+		}
 		RETURN_FALSE;
-	} else if (f < 0 && -f > str_len) {
-		f = 0;
+	} else {
+		if (f < 0 && -f > str_len) {
+			f = 0;
+		}
 	}
 
 	if (l < 0 && (l + str_len - f) < 0) {
+		if (use_copy) {
+			zval_dtor(str);
+		}
 		RETURN_FALSE;
 	}
 
@@ -979,6 +1006,9 @@ void zephir_substr(zval *return_value, zval *str, long f, long l, int flags) {
 	}
 
 	if (f >= str_len) {
+		if (use_copy) {
+			zval_dtor(str);
+		}
 		RETURN_FALSE;
 	}
 
@@ -1183,14 +1213,20 @@ void zephir_crc32(zval *return_value, zval *str TSRMLS_DC) {
 			str = &copy;
 		}
 	}
+
 	p = Z_STRVAL_P(str);
 	nr = Z_STRLEN_P(str);
 
 	crc = crcinit^0xFFFFFFFF;
 	for (; nr--; ++p) {
-		crc = ((crc >> 8) & 0x00FFFFFF) ^ crc32tab[(crc ^ (*p)) & 0xFF ];
+		crc = ((crc >> 8) & 0x00FFFFFF) ^ crc32tab[(crc ^ (*p)) & 0xFF];
 	}
-	RETVAL_LONG(crc^0xFFFFFFFF);
+
+	if (use_copy) {
+		zval_dtor(str);
+	}
+
+	RETVAL_LONG(crc ^ 0xFFFFFFFF);
 }
 
 #if ZEPHIR_USE_PHP_PCRE
@@ -1226,11 +1262,11 @@ void zephir_preg_match(zval *return_value, zval **return_value_ptr, zval *regex,
 		RETURN_FALSE;
 	}
 
-		if (flags != 0 || offset != 0) {
-			php_pcre_match_impl(pce, Z_STRVAL_P(subject), Z_STRLEN_P(subject), return_value, matches, global, 1, flags, offset TSRMLS_CC);
-		} else {
-			php_pcre_match_impl(pce, Z_STRVAL_P(subject), Z_STRLEN_P(subject), return_value, matches, global, 0, 0, 0 TSRMLS_CC);
-		}
+	if (flags != 0 || offset != 0) {
+		php_pcre_match_impl(pce, Z_STRVAL_P(subject), Z_STRLEN_P(subject), return_value, matches, global, 1, flags, offset TSRMLS_CC);
+	} else {
+		php_pcre_match_impl(pce, Z_STRVAL_P(subject), Z_STRLEN_P(subject), return_value, matches, global, 0, 0, 0 TSRMLS_CC);
+	}
 
 	if (use_copy) {
 		zval_dtor(&copy);
@@ -1487,8 +1523,7 @@ void zephir_strval(zval *return_value, zval *v)
 	if (use_copy) {
 		zval *tmp = &copy;
 		ZVAL_ZVAL(return_value, tmp, 0, 0);
-	}
-	else {
+	} else {
 		ZVAL_ZVAL(return_value, v, 1, 0);
 	}
 }

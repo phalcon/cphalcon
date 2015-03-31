@@ -2513,9 +2513,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, parse) {
 	ZEPHIR_OBS_VAR(phql);
 	zephir_read_property_this(&phql, this_ptr, SL("_phql"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(ast);
-	if (phql_parse_phql(ast, phql TSRMLS_CC) == FAILURE) {
-		RETURN_MM();
-	}
+	ZEPHIR_LAST_CALL_STATUS = (phql_parse_phql(ast, phql TSRMLS_CC) != FAILURE);
+	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(irPhql);
 	ZVAL_NULL(irPhql);
 	ZEPHIR_INIT_VAR(uniqueId);

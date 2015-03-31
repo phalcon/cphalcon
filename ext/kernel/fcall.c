@@ -798,7 +798,7 @@ int zephir_call_user_func_array_noex(zval *return_value, zval *handler, zval *pa
 /**
  * Latest version of zend_throw_exception_internal
  */
-void zephir_throw_exception_internal(zval *exception TSRMLS_DC)
+static void zephir_throw_exception_internal(zval *exception TSRMLS_DC)
 {
 	if (exception != NULL) {
 		zval *previous = EG(exception);
