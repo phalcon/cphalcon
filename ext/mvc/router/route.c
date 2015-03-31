@@ -368,12 +368,12 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, compilePattern){
 			PHALCON_CPY_WRT(pattern_copy, compiled_pattern);
 
 			PHALCON_INIT_NVAR(compiled_pattern);
-			if (Z_TYPE_P(regex) == IS_ARRAY && phalcon_array_isset_string_fetch(&params_pattern, regex, SS(":params"))) {
+			if (Z_TYPE_P(regex) == IS_ARRAY && phalcon_array_isset_string_fetch(&params_pattern, regex, SS(":int"))) {
 				phalcon_fast_str_replace(compiled_pattern, &wildcard, params_pattern, pattern_copy);
 			} else {
 				PHALCON_INIT_NVAR(params_pattern);
 				ZVAL_STRING(params_pattern, "([0-9]++)", 1);
-				phalcon_fast_str_replace(compiled_pattern, &wildcard, id_pattern, pattern_copy);
+				phalcon_fast_str_replace(compiled_pattern, &wildcard, params_pattern, pattern_copy);
 			}
 		}
 	}
