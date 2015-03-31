@@ -361,6 +361,7 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, has){
 PHP_METHOD(Phalcon_Http_Response_Cookies, delete){
 
 	zval *name, *cookies, *cookie;
+	zval *_COOKIE, *dependency_injector;
 
 	PHALCON_MM_GROW();
 
@@ -375,6 +376,21 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, delete){
 	if (phalcon_array_isset(cookies, name)) {
 		PHALCON_OBS_VAR(cookie);
 		phalcon_array_fetch(&cookie, cookies, name, PH_NOISY);
+		PHALCON_CALL_METHOD(NULL, cookie, "delete");
+		RETURN_MM_TRUE;
+	}
+
+	_COOKIE = phalcon_get_global(SS("_COOKIE") TSRMLS_CC);
+	if (phalcon_array_isset(_COOKIE, name)) {
+		PHALCON_OBS_VAR(dependency_injector);
+		phalcon_read_property_this(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY TSRMLS_CC);
+	
+		PHALCON_INIT_VAR(cookie);
+		object_init_ex(cookie, phalcon_http_cookie_ce);
+	
+		PHALCON_CALL_METHOD(NULL, cookie, "__construct", name);
+		PHALCON_CALL_METHOD(NULL, cookie, "setdi", dependency_injector);
+		PHALCON_CALL_METHOD(NULL, cookie, "restore");
 		PHALCON_CALL_METHOD(NULL, cookie, "delete");
 		RETURN_MM_TRUE;
 	}
