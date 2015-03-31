@@ -176,9 +176,9 @@ class Volt extends Engine implements EngineInterface
 
 		if typeof haystack == "string" {
 			if function_exists("mb_strpos") {
-				return mb_strpos(haystack, needle);
+				return mb_strpos(haystack, needle) !== false;
 			}
-			return strpos(haystack, needle);
+			return strpos(haystack, needle) !== false;
 		}
 
 		throw new Exception("Invalid haystack");
