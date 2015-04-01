@@ -36,10 +36,7 @@ class SessionTest extends PHPUnit_Framework_TestCase
 
 	protected function tearDown()
 	{
-
-		if (session_status() != PHP_SESSION_DISABLED) {
-			session_write_close();
-		}
+		@session_write_close();
 
 		foreach ($this->stack as $key => $val) {
 			@ini_set($key, $val);
