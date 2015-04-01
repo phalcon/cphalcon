@@ -59,7 +59,7 @@ static zval *phql_ret_literal_zval(int type, phql_parser_token *T)
 	zval *ret;
 
 	MAKE_STD_ZVAL(ret);
-	array_init(ret);
+	array_init_size(ret, 2);
 	add_assoc_long(ret, "type", type);
 	if (T) {
 		add_assoc_stringl(ret, "value", T->token, T->token_len, 0);
@@ -87,7 +87,7 @@ static zval *phql_ret_qualified_name(phql_parser_token *A, phql_parser_token *B,
 	zval *ret;
 
 	MAKE_STD_ZVAL(ret);
-	array_init(ret);
+	array_init_size(ret, 4);
 
 	add_assoc_long(ret, "type", PHQL_T_QUALIFIED);
 
@@ -132,7 +132,7 @@ static zval *phql_ret_select_statement(zval *S, zval *W, zval *O, zval *G, zval 
 	zval *ret;
 
 	MAKE_STD_ZVAL(ret);
-	array_init(ret);
+	array_init_size(ret, 5);
 
 	add_assoc_long(ret, "type", PHQL_T_SELECT);
 	add_assoc_zval(ret, "select", S);

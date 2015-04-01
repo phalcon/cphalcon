@@ -634,7 +634,7 @@ PHP_METHOD(Phalcon_Validation, getValue) {
 		ZEPHIR_CONCAT_SV(_0, "get", field);
 		ZEPHIR_CPY_WRT(method, _0);
 		if ((zephir_method_exists(entity, method TSRMLS_CC)  == SUCCESS)) {
-			ZEPHIR_CALL_METHOD(&value, entity, Z_STRVAL_P(method),  NULL);
+			ZEPHIR_CALL_METHOD_ZVAL(&value, entity, method,  NULL);
 			zephir_check_call_status();
 		} else {
 			if ((zephir_method_exists_ex(entity, SS("readattribute") TSRMLS_CC) == SUCCESS)) {

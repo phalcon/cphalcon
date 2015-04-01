@@ -943,7 +943,7 @@ int zephir_update_property_this_quick(zval *object, const char *property_name, z
  * Updates properties on this_ptr
  * Variables must be defined in the class definition. This function ignores magic methods or dynamic properties
  */
-int zephir_update_property_this(zval *object, char *property_name, unsigned int property_length, zval *value TSRMLS_DC){
+int zephir_update_property_this(zval *object, char *property_name, unsigned int property_length, zval *value TSRMLS_DC) {
 
 	return zephir_update_property_this_quick(object, property_name, property_length, value, zend_inline_hash_func(property_name, property_length + 1) TSRMLS_CC);
 }
@@ -951,7 +951,7 @@ int zephir_update_property_this(zval *object, char *property_name, unsigned int 
 /**
  * Checks whether obj is an object and updates zval property with another zval
  */
-int zephir_update_property_zval_zval(zval *object, zval *property, zval *value TSRMLS_DC){
+int zephir_update_property_zval_zval(zval *object, zval *property, zval *value TSRMLS_DC) {
 
 	if (Z_TYPE_P(property) != IS_STRING) {
 		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Property should be string");

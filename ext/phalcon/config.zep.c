@@ -301,7 +301,7 @@ PHP_METHOD(Phalcon_Config, offsetUnset) {
 	}
 
 
-	zephir_update_property_zval(this_ptr, Z_STRVAL_P(index), Z_STRLEN_P(index), ZEPHIR_GLOBAL(global_null) TSRMLS_CC);
+	zephir_update_property_zval_zval(this_ptr, index, ZEPHIR_GLOBAL(global_null) TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 
 }

@@ -136,7 +136,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Uniqueness, validate) {
 		zephir_array_update_string(&_3, SL("value"), &value, PH_COPY | PH_SEPARATE);
 		zephir_array_update_string(&_3, SL("except"), &except, PH_COPY | PH_SEPARATE);
 		zephir_array_update_string(&_1, SL("bind"), &_3, PH_COPY | PH_SEPARATE);
-		_4 = zend_fetch_class(Z_STRVAL_P(model), Z_STRLEN_P(model), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
+		_4 = zephir_fetch_class(model TSRMLS_CC);
 		ZEPHIR_CALL_CE_STATIC(&number, _4, "count", NULL, _1);
 		zephir_check_call_status();
 	} else {
@@ -149,7 +149,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Uniqueness, validate) {
 		array_init_size(_3, 2);
 		zephir_array_update_string(&_3, SL("value"), &value, PH_COPY | PH_SEPARATE);
 		zephir_array_update_string(&_1, SL("bind"), &_3, PH_COPY | PH_SEPARATE);
-		_5 = zend_fetch_class(Z_STRVAL_P(model), Z_STRLEN_P(model), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
+		_5 = zephir_fetch_class(model TSRMLS_CC);
 		ZEPHIR_CALL_CE_STATIC(&number, _5, "count", NULL, _1);
 		zephir_check_call_status();
 	}

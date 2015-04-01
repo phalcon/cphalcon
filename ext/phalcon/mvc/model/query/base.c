@@ -88,15 +88,15 @@ const phql_token_names phql_tokens[] =
   { NULL, 0, 0 }
 };
 
-static void *phql_wrapper_alloc(size_t bytes){
+static void *phql_wrapper_alloc(size_t bytes) {
 	return emalloc(bytes);
 }
 
-static void phql_wrapper_free(void *pointer){
+static void phql_wrapper_free(void *pointer) {
 	efree(pointer);
 }
 
-static void phql_parse_with_token(void* phql_parser, int opcode, int parsercode, phql_scanner_token *token, phql_parser_status *parser_status){
+static void phql_parse_with_token(void* phql_parser, int opcode, int parsercode, phql_scanner_token *token, phql_parser_status *parser_status) {
 
 	phql_parser_token *pToken;
 
@@ -114,7 +114,7 @@ static void phql_parse_with_token(void* phql_parser, int opcode, int parsercode,
 /**
  * Creates an error message when it's triggered by the scanner
  */
-static void phql_scanner_error_msg(phql_parser_status *parser_status, zval **error_msg TSRMLS_DC){
+static void phql_scanner_error_msg(phql_parser_status *parser_status, zval **error_msg TSRMLS_DC) {
 
 	char *error = NULL, *error_part;
 	unsigned int length;

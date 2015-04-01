@@ -528,7 +528,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _flip) {
 	zephir_check_call_status();
 	while (1) {
 		_2 = zephir_fetch_nproperty_this(this_ptr, SL("_image"), PH_NOISY_CC);
-		ZEPHIR_CALL_METHOD(NULL, _2, Z_STRVAL_P(func), NULL);
+		ZEPHIR_CALL_METHOD_ZVAL(NULL, _2, func, NULL);
 		zephir_check_call_status();
 		_3 = zephir_fetch_nproperty_this(this_ptr, SL("_image"), PH_NOISY_CC);
 		ZEPHIR_CALL_METHOD(&_4, _3, "nextimage", NULL);

@@ -276,7 +276,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate) {
 	zephir_array_update_string(&params, SL("bindTypes"), &bindTypes, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_VAR(className);
 	zephir_get_class(className, record, 0 TSRMLS_CC);
-	_15 = zend_fetch_class(Z_STRVAL_P(className), Z_STRLEN_P(className), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
+	_15 = zephir_fetch_class(className TSRMLS_CC);
 	ZEPHIR_CALL_CE_STATIC(&_8, _15, "count", NULL, params);
 	zephir_check_call_status();
 	if (!ZEPHIR_IS_LONG(_8, 0)) {

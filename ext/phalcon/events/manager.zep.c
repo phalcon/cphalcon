@@ -499,7 +499,7 @@ PHP_METHOD(Phalcon_Events_Manager, fireQueue) {
 					}
 				} else {
 					if ((zephir_method_exists(handler, eventName TSRMLS_CC)  == SUCCESS)) {
-						ZEPHIR_CALL_METHOD(&status, handler, Z_STRVAL_P(eventName), NULL, event, source, data);
+						ZEPHIR_CALL_METHOD_ZVAL(&status, handler, eventName, NULL, event, source, data);
 						zephir_check_call_status();
 						if (collect) {
 							zephir_update_property_array_append(this_ptr, SL("_responses"), status TSRMLS_CC);
@@ -546,7 +546,7 @@ PHP_METHOD(Phalcon_Events_Manager, fireQueue) {
 					}
 				} else {
 					if ((zephir_method_exists(handler, eventName TSRMLS_CC)  == SUCCESS)) {
-						ZEPHIR_CALL_METHOD(&status, handler, Z_STRVAL_P(eventName), NULL, event, source, data);
+						ZEPHIR_CALL_METHOD_ZVAL(&status, handler, eventName, NULL, event, source, data);
 						zephir_check_call_status();
 						if (collect) {
 							zephir_update_property_array_append(this_ptr, SL("_responses"), status TSRMLS_CC);

@@ -16,11 +16,27 @@
   +------------------------------------------------------------------------+
 */
 
+#ifndef ZEPHIR_KERNEL_FCALL_EXT_H
+#define ZEPHIR_KERNEL_FCALL_EXT_H
+
 #define ZEPHIR_FCALL_TYPE_UNKNOWN 0
 #define ZEPHIR_FCALL_TYPE_FUNC 1
+#define ZEPHIR_FCALL_TYPE_ZVAL_METHOD 2
+#define ZEPHIR_FCALL_TYPE_CLASS_PARENT_METHOD 3
+#define ZEPHIR_FCALL_TYPE_CLASS_SELF_METHOD 4
+#define ZEPHIR_FCALL_TYPE_CLASS_STATIC_METHOD 5
+#define ZEPHIR_FCALL_TYPE_CE_METHOD 6
 
 typedef struct _zephir_fcall_info {
   int type;
+  zend_class_entry *ce;
+  zval *object_ptr;
+  const char *class_name;
+  int class_length;
+  const char *func_name;
+  int func_length;
 } zephir_fcall_info;
 
-int zephir_call_function_opt(zend_fcall_info *fci, zend_fcall_info_cache *fci_cache TSRMLS_DC);
+int zephir_call_function_opt(zend_fcall_info *fci, zend_fcall_info_cache *fci_cache, zephir_fcall_info *info TSRMLS_DC);
+
+#endif

@@ -27,14 +27,16 @@
 #include "kernel/fcall.h"
 #include "kernel/memory.h"
 #include "kernel/hash.h"
+#include "kernel/string.h"
 #include "kernel/operators.h"
 #include "kernel/exception.h"
 #include "kernel/backtrace.h"
 
 #if PHP_VERSION_ID >= 50600
 
+
 #if ZEND_MODULE_API_NO >= 20141001
-void zend_clean_and_cache_symbol_table(zend_array *symbol_table)
+void zephir_clean_and_cache_symbol_table(zend_array *symbol_table)
 {
 	if (EG(symtable_cache_ptr) >= EG(symtable_cache_limit)) {
 		zend_array_destroy(symbol_table);
@@ -44,7 +46,7 @@ void zend_clean_and_cache_symbol_table(zend_array *symbol_table)
 	}
 }
 #else
-void zend_clean_and_cache_symbol_table(HashTable *symbol_table TSRMLS_DC)
+void zephir_clean_and_cache_symbol_table(HashTable *symbol_table TSRMLS_DC)
 {
 	if (EG(symtable_cache_ptr) >= EG(symtable_cache_limit)) {
 		zend_hash_destroy(symbol_table);
@@ -578,7 +580,178 @@ static zend_bool zephir_is_callable_ex(zval *callable, zval *object_ptr, uint ch
 	}
 }
 
-int zephir_call_function_opt(zend_fcall_info *fci, zend_fcall_info_cache *fci_cache TSRMLS_DC)
+static zend_bool zephir_is_info_callable_ex(zephir_fcall_info *info, zend_fcall_info_cache *fcc TSRMLS_DC)
+{
+	zend_fcall_info_cache fcc_local;
+
+	if (fcc == NULL) {
+		fcc = &fcc_local;
+	}
+
+	fcc->initialized = 0;
+	fcc->calling_scope = NULL;
+	fcc->called_scope = NULL;
+	fcc->function_handler = NULL;
+	fcc->calling_scope = NULL;
+	fcc->object_ptr = NULL;
+
+	switch (info->type) {
+
+		case ZEPHIR_FCALL_TYPE_FUNC:
+			if (zend_hash_find(EG(function_table), info->func_name, info->func_length + 1, (void**)&fcc->function_handler) == SUCCESS) {
+				return 1;
+			}
+			break;
+
+		case ZEPHIR_FCALL_TYPE_ZVAL_METHOD:
+
+			if (!EG(objects_store).object_buckets || !EG(objects_store).object_buckets[Z_OBJ_HANDLE_P(info->object_ptr)].valid) {
+				return 0;
+			}
+
+			fcc->calling_scope = Z_OBJCE_P(info->object_ptr); /* TBFixed: what if it's overloaded? */
+			fcc->object_ptr = info->object_ptr;
+
+			if (zend_hash_find(&info->ce->function_table, info->func_name, info->func_length + 1, (void**)&fcc->function_handler) == SUCCESS) {
+				if (fcc == &fcc_local &&
+					fcc->function_handler &&
+					((fcc->function_handler->type == ZEND_INTERNAL_FUNCTION &&
+					  (fcc->function_handler->common.fn_flags & ZEND_ACC_CALL_VIA_HANDLER)) ||
+					 fcc->function_handler->type == ZEND_OVERLOADED_FUNCTION_TEMPORARY ||
+					 fcc->function_handler->type == ZEND_OVERLOADED_FUNCTION)) {
+					if (fcc->function_handler->type != ZEND_OVERLOADED_FUNCTION) {
+						efree((char*)fcc->function_handler->common.function_name);
+					}
+					efree(fcc->function_handler);
+				}
+				return 1;
+			}
+			break;
+
+		case ZEPHIR_FCALL_TYPE_CLASS_SELF_METHOD:
+
+			if (!EG(scope)) {
+				return 0; // cannot access self:: when no class scope is active
+			}
+
+			fcc->called_scope = EG(called_scope);
+			fcc->calling_scope = EG(scope);
+			if (!fcc->object_ptr) {
+				fcc->object_ptr = EG(This);
+			}
+
+			if (zend_hash_find(&fcc->calling_scope->function_table, info->func_name, info->func_length + 1, (void**)&fcc->function_handler) == SUCCESS) {
+				if (fcc == &fcc_local &&
+					fcc->function_handler &&
+					((fcc->function_handler->type == ZEND_INTERNAL_FUNCTION &&
+					  (fcc->function_handler->common.fn_flags & ZEND_ACC_CALL_VIA_HANDLER)) ||
+					 fcc->function_handler->type == ZEND_OVERLOADED_FUNCTION_TEMPORARY ||
+					 fcc->function_handler->type == ZEND_OVERLOADED_FUNCTION)) {
+					if (fcc->function_handler->type != ZEND_OVERLOADED_FUNCTION) {
+						efree((char*)fcc->function_handler->common.function_name);
+					}
+					efree(fcc->function_handler);
+				}
+				return 1;
+			}
+			break;
+
+		case ZEPHIR_FCALL_TYPE_CLASS_PARENT_METHOD:
+
+			if (!EG(scope)) {
+				return 0; // cannot access parent:: when no class scope is active
+			}
+
+			if (!EG(scope)->parent) {
+				return 0; // cannot access parent:: when current class scope has no parent
+			}
+
+			fcc->called_scope = EG(called_scope);
+			fcc->calling_scope = EG(scope)->parent;
+			if (!fcc->object_ptr) {
+				fcc->object_ptr = EG(This);
+			}
+
+			if (zend_hash_find(&fcc->calling_scope->function_table, info->func_name, info->func_length + 1, (void**)&fcc->function_handler) == SUCCESS) {
+				if (fcc == &fcc_local &&
+					fcc->function_handler &&
+					((fcc->function_handler->type == ZEND_INTERNAL_FUNCTION &&
+					  (fcc->function_handler->common.fn_flags & ZEND_ACC_CALL_VIA_HANDLER)) ||
+					 fcc->function_handler->type == ZEND_OVERLOADED_FUNCTION_TEMPORARY ||
+					 fcc->function_handler->type == ZEND_OVERLOADED_FUNCTION)) {
+					if (fcc->function_handler->type != ZEND_OVERLOADED_FUNCTION) {
+						efree((char*)fcc->function_handler->common.function_name);
+					}
+					efree(fcc->function_handler);
+				}
+				return 1;
+			}
+			break;
+
+		case ZEPHIR_FCALL_TYPE_CLASS_STATIC_METHOD:
+
+			if (!EG(called_scope)) {
+				return 0; // cannot access static:: when no class scope is active
+			}
+
+			fcc->called_scope = EG(called_scope);
+			fcc->calling_scope = EG(called_scope);
+			if (!fcc->object_ptr) {
+				fcc->object_ptr = EG(This);
+			}
+
+			if (zend_hash_find(&fcc->calling_scope->function_table, info->func_name, info->func_length + 1, (void**)&fcc->function_handler) == SUCCESS) {
+				if (fcc == &fcc_local &&
+					fcc->function_handler &&
+					((fcc->function_handler->type == ZEND_INTERNAL_FUNCTION &&
+					  (fcc->function_handler->common.fn_flags & ZEND_ACC_CALL_VIA_HANDLER)) ||
+					 fcc->function_handler->type == ZEND_OVERLOADED_FUNCTION_TEMPORARY ||
+					 fcc->function_handler->type == ZEND_OVERLOADED_FUNCTION)) {
+					if (fcc->function_handler->type != ZEND_OVERLOADED_FUNCTION) {
+						efree((char*)fcc->function_handler->common.function_name);
+					}
+					efree(fcc->function_handler);
+				}
+				return 1;
+			}
+			break;
+
+		case ZEPHIR_FCALL_TYPE_CE_METHOD:
+			{
+				zend_class_entry *scope = EG(active_op_array) ? EG(active_op_array)->scope : NULL;
+
+				fcc->calling_scope = info->ce;
+				if (scope && !fcc->object_ptr && EG(This) &&
+					instanceof_function(Z_OBJCE_P(EG(This)), scope TSRMLS_CC) &&
+					instanceof_function(scope, fcc->calling_scope TSRMLS_CC)) {
+					fcc->object_ptr = EG(This);
+					fcc->called_scope = Z_OBJCE_P(fcc->object_ptr);
+				} else {
+					fcc->called_scope = fcc->object_ptr ? Z_OBJCE_P(fcc->object_ptr) : fcc->calling_scope;
+				}
+
+				if (zend_hash_find(&fcc->calling_scope->function_table, info->func_name, info->func_length + 1, (void**)&fcc->function_handler) == SUCCESS) {
+					if (fcc == &fcc_local &&
+						fcc->function_handler &&
+						((fcc->function_handler->type == ZEND_INTERNAL_FUNCTION &&
+						  (fcc->function_handler->common.fn_flags & ZEND_ACC_CALL_VIA_HANDLER)) ||
+						 fcc->function_handler->type == ZEND_OVERLOADED_FUNCTION_TEMPORARY ||
+						 fcc->function_handler->type == ZEND_OVERLOADED_FUNCTION)) {
+						if (fcc->function_handler->type != ZEND_OVERLOADED_FUNCTION) {
+							efree((char*)fcc->function_handler->common.function_name);
+						}
+						efree(fcc->function_handler);
+					}
+					return 1;
+				}
+			}
+			break;
+	}
+
+	return 0;
+}
+
+int zephir_call_function_opt(zend_fcall_info *fci, zend_fcall_info_cache *fci_cache, zephir_fcall_info *info TSRMLS_DC)
 {
 	zend_uint i;
 	zval **original_return_value;
@@ -626,22 +799,28 @@ int zephir_call_function_opt(zend_fcall_info *fci, zend_fcall_info_cache *fci_ca
 			fci_cache = &fci_cache_local;
 		}
 
-		if (!zephir_is_callable_ex(fci->function_name, fci->object_ptr, IS_CALLABLE_CHECK_SILENT, &callable_name, NULL, fci_cache, &error TSRMLS_CC)) {
-			if (error) {
-				zend_error(E_WARNING, "Invalid callback %s, %s", callable_name, error);
-				efree(error);
+		if (!info) {
+			if (!zephir_is_callable_ex(fci->function_name, fci->object_ptr, IS_CALLABLE_CHECK_SILENT, &callable_name, NULL, fci_cache, &error TSRMLS_CC)) {
+				if (error) {
+					zend_error(E_WARNING, "Invalid callback %s, %s", callable_name, error);
+					efree(error);
+				}
+				if (callable_name) {
+					efree(callable_name);
+				}
+				return FAILURE;
+			} else {
+				if (error) {
+					zend_error(E_STRICT, "%s", error);
+					efree(error);
+				}
 			}
-			if (callable_name) {
-				efree(callable_name);
-			}
-			return FAILURE;
+			efree(callable_name);
 		} else {
-			if (error) {
-				zend_error(E_STRICT, "%s", error);
-				efree(error);
+			if (!zephir_is_info_callable_ex(info, fci_cache TSRMLS_CC)) {
+				return FAILURE;
 			}
 		}
-		efree(callable_name);
 	}
 
 	EX(function_state).function = fci_cache->function_handler;
@@ -660,7 +839,7 @@ int zephir_call_function_opt(zend_fcall_info *fci, zend_fcall_info_cache *fci_ca
 			zend_error_noreturn(E_ERROR, "Cannot call abstract method %s::%s()", EX(function_state).function->common.scope->name, EX(function_state).function->common.function_name);
 		}
 		if (fn_flags & ZEND_ACC_DEPRECATED) {
- 			zend_error(E_DEPRECATED, "Function %s%s%s() is deprecated",
+			zend_error(E_DEPRECATED, "Function %s%s%s() is deprecated",
 				EX(function_state).function->common.scope ? EX(function_state).function->common.scope->name : "",
 				EX(function_state).function->common.scope ? "::" : "",
 				EX(function_state).function->common.function_name);
@@ -783,7 +962,7 @@ int zephir_call_function_opt(zend_fcall_info *fci, zend_fcall_info_cache *fci_ca
 		//}
 
 		if (!fci->symbol_table && EG(active_symbol_table)) {
-			zend_clean_and_cache_symbol_table(EG(active_symbol_table) TSRMLS_CC);
+			zephir_clean_and_cache_symbol_table(EG(active_symbol_table) TSRMLS_CC);
 		}
 		EG(active_symbol_table) = calling_symbol_table;
 		EG(active_op_array) = original_op_array;

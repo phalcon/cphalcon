@@ -1495,7 +1495,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, execute) {
 	}
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getparams", NULL);
 	zephir_check_call_status();
-	_1 = zend_fetch_class(Z_STRVAL_P(model), Z_STRLEN_P(model), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
+	_1 = zephir_fetch_class(model TSRMLS_CC);
 	ZEPHIR_RETURN_CALL_CE_STATIC(_1, "find", NULL, _0);
 	zephir_check_call_status();
 	RETURN_MM();
