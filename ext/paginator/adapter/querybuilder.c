@@ -244,7 +244,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, getPaginate){
 	zval *models = NULL, *model_name = NULL, *model = NULL, *connection = NULL;
 	zval *bind_params = NULL, *bind_types = NULL, *processed = NULL;
 	zval *value = NULL, *wildcard = NULL, *string_wildcard = NULL, *processed_types = NULL;
-	zval *intermediate = NULL, *columns, *type = NULL, *column = NULL, *sql_column = NULL;
+	zval *intermediate = NULL, *columns, *select_columns, *type = NULL, *column = NULL, *sql_column = NULL;
 	zval *dialect = NULL, *sql_select = NULL, *sql, *sql_tmp = NULL;
 	zval *paginate;
 	HashTable *ah0, *ah1, *ah2;
@@ -360,15 +360,15 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, getPaginate){
 		 * Complete objects are treated in a different way
 		 */
 		if (PHALCON_IS_STRING(type, "object")) {
-			PHALCON_OBS_NVAR(columns);
-			ZVAL_STRING(columns, "*", 1);
+			PHALCON_INIT_VAR(select_columns);
+			ZVAL_STRING(select_columns, "*", 1);
+
+			phalcon_array_update_string(&intermediate, ISL(columns), select_columns, PH_COPY);
 			break;
 		}
 
 		zend_hash_move_forward_ex(ah0, &hp0);
 	}
-
-	phalcon_array_update_string(&intermediate, ISL(column), columns, PH_COPY);
 
 	PHALCON_CALL_METHOD(&dialect, connection, "getdialect");
 	PHALCON_CALL_METHOD(&sql_select, dialect, "select", intermediate);

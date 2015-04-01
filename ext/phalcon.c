@@ -704,8 +704,9 @@ static ZEND_MODULE_POST_ZEND_DEACTIVATE_D(phalcon)
 	if (CG(unclean_shutdown)) {
 		zend_phalcon_globals *pg = PHALCON_VGLOBAL;
 
-		INIT_ZVAL(*pg->z_null);
+		INIT_PZVAL(pg->z_null);
 		Z_ADDREF_P(pg->z_null);
+		ZVAL_NULL(pg->z_null);
 
 		INIT_PZVAL(pg->z_false);
 		Z_ADDREF_P(pg->z_false);

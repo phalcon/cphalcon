@@ -22,6 +22,11 @@ class AysncTest extends PHPUnit_Framework_TestCase
 {
 	public function test()
 	{
+		if (!function_exists('ftok') || !function_exists('pcntl_fork')) {
+			$this->markTestSkipped('Test skipped');
+			return;
+		}
+
 		Phalcon\Async::clear();
 
 		$id1 = Phalcon\Async::call(function () {
