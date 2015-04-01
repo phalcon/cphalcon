@@ -183,7 +183,9 @@ static int phalcon_di_call_method(const char *method, INTERNAL_FUNCTION_PARAMETE
 		param = &PHALCON_GLOBAL(z_null);
 	}
 	else {
-		phalcon_fetch_parameters_ex(0 TSRMLS_CC, 1, 0, &param);
+		if (phalcon_fetch_parameters_ex(0 TSRMLS_CC, 1, 0, &param) == FAILURE) {
+			return FAILURE;
+		}
 	}
 
 	return phalcon_di_call_method_internal(return_value, return_value_ptr, getThis(), method, *param TSRMLS_CC);

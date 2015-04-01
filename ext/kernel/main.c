@@ -363,6 +363,7 @@ int phalcon_fetch_parameters_ex(int dummy TSRMLS_DC, int n_req, int n_opt, ...)
 	param_count = n_req + n_opt;
 
 	if (param_count < arg_count || n_req > arg_count) {
+		phalcon_throw_exception_string(spl_ce_BadMethodCallException, "Wrong number of parameters" TSRMLS_CC);
 		return FAILURE;
 	}
 
