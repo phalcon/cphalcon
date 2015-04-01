@@ -22,6 +22,11 @@ class FilterTest extends PHPUnit_Framework_TestCase
 {
 	public function testXSS()
 	{
+		if (!class_exists('DOMDocument')) {
+			$this->markTestSkipped('Test skipped');
+			return;
+		}
+
 		$str = '<strong style="color:blue">Click</strong><div>name</div>';
 		$filter = new Phalcon\Filter;
 		$ret = $filter->sanitize('<strong style="color:blue" onclick="alert(\'clicked\')">Click</strong><div style="color:expression(1+1)">name</div>', 'xssclean');
