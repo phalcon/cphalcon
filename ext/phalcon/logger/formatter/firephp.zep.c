@@ -12,8 +12,8 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
-#include "kernel/memory.h"
 #include "kernel/operators.h"
+#include "kernel/memory.h"
 #include "kernel/object.h"
 #include "kernel/fcall.h"
 #include "kernel/array.h"
@@ -66,42 +66,30 @@ ZEPHIR_INIT_CLASS(Phalcon_Logger_Formatter_Firephp) {
  */
 PHP_METHOD(Phalcon_Logger_Formatter_Firephp, getTypeString) {
 
-	zval *type_param = NULL, *typeString = NULL;
+	zval *type_param = NULL;
 	int type;
 
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &type_param);
+	zephir_fetch_params(0, 1, 0, &type_param);
 
 	type = zephir_get_intval(type_param);
 
 
 	do {
 		if (type == 0 || type == 1 || type == 3) {
-			ZEPHIR_INIT_VAR(typeString);
-			ZVAL_STRING(typeString, "ERROR", 1);
-			break;
+			RETURN_STRING("ERROR", 1);
 		}
 		if (type == 2 || type == 4) {
-			ZEPHIR_INIT_NVAR(typeString);
-			ZVAL_STRING(typeString, "WARN", 1);
-			break;
+			RETURN_STRING("WARN", 1);
 		}
 		if (type == 6 || type == 5 || type == 8) {
-			ZEPHIR_INIT_NVAR(typeString);
-			ZVAL_STRING(typeString, "INFO", 1);
-			break;
+			RETURN_STRING("INFO", 1);
 		}
 		if (type == 7 || type == 9) {
-			ZEPHIR_INIT_NVAR(typeString);
-			ZVAL_STRING(typeString, "LOG", 1);
-			break;
+			RETURN_STRING("LOG", 1);
 		}
-		ZEPHIR_INIT_NVAR(typeString);
-		ZVAL_STRING(typeString, "CUSTOM", 1);
-		break;
 	} while(0);
 
-	RETURN_CCTOR(typeString);
+	RETURN_STRING("CUSTOM", 1);
 
 }
 
@@ -242,14 +230,14 @@ PHP_METHOD(Phalcon_Logger_Formatter_Firephp, format) {
 		Z_UNSET_ISREF_P(backtrace);
 		zephir_check_call_status();
 		if (zephir_array_isset_string(lastTrace, SS("file"))) {
-			zephir_array_fetch_string(&_8, lastTrace, SL("file"), PH_NOISY | PH_READONLY, "phalcon/logger/formatter/firephp.zep", 153 TSRMLS_CC);
+			zephir_array_fetch_string(&_8, lastTrace, SL("file"), PH_NOISY | PH_READONLY, "phalcon/logger/formatter/firephp.zep", 145 TSRMLS_CC);
 			zephir_array_update_string(&meta, SL("File"), &_8, PH_COPY | PH_SEPARATE);
 		}
 		if (zephir_array_isset_string(lastTrace, SS("line"))) {
-			zephir_array_fetch_string(&_8, lastTrace, SL("line"), PH_NOISY | PH_READONLY, "phalcon/logger/formatter/firephp.zep", 157 TSRMLS_CC);
+			zephir_array_fetch_string(&_8, lastTrace, SL("line"), PH_NOISY | PH_READONLY, "phalcon/logger/formatter/firephp.zep", 149 TSRMLS_CC);
 			zephir_array_update_string(&meta, SL("Line"), &_8, PH_COPY | PH_SEPARATE);
 		}
-		zephir_is_iterable(backtrace, &_10, &_9, 1, 0, "phalcon/logger/formatter/firephp.zep", 166);
+		zephir_is_iterable(backtrace, &_10, &_9, 1, 0, "phalcon/logger/formatter/firephp.zep", 158);
 		for (
 		  ; zephir_hash_get_current_data_ex(_10, (void**) &_11, &_9) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_10, &_9)
