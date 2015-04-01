@@ -330,5 +330,4 @@ class Service implements ServiceInterface
 
 		return new self(name, definition, shared);
 	}
-
 }

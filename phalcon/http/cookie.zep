@@ -20,6 +20,7 @@
 namespace Phalcon\Http;
 
 use Phalcon\DiInterface;
+use Phalcon\CryptInterface;
 use Phalcon\Di\InjectionAwareInterface;
 use Phalcon\Http\Response\Exception;
 use Phalcon\Session\AdapterInterface as SessionInterface;
@@ -264,7 +265,7 @@ class Cookie implements InjectionAwareInterface
 					throw new Exception("A dependency injection object is required to access the 'filter' service");
 				}
 
-				let crypt = <\Phalcon\CryptInterface> dependencyInjector->getShared("crypt");
+				let crypt = <CryptInterface> dependencyInjector->getShared("crypt");
 
 				/**
 				 * Encrypt the value also coding it with base64

@@ -64,5 +64,4 @@ class LazyLoader
 		 */
 		return call_user_func_array([handler, method], arguments);
 	}
-
 }

@@ -21,6 +21,8 @@
 namespace Phalcon\Mvc\Model;
 
 use Phalcon\DiInterface;
+use Phalcon\Db\RawValue;
+use Phalcon\Mvc\Model\Row;
 use Phalcon\Mvc\Model\Exception;
 use Phalcon\Mvc\Model\ManagerInterface;
 use Phalcon\Mvc\Model\QueryInterface;
@@ -2486,7 +2488,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 				/**
 				 * If the result is a simple standard object use an Phalcon\Mvc\Model\Row as base
 				 */
-				let resultObject = new \Phalcon\Mvc\Model\Row();
+				let resultObject = new Row();
 
 				/**
 				 * Standard objects can"t keep snapshots
@@ -2617,14 +2619,14 @@ class Query implements QueryInterface, InjectionAwareInterface
 					break;
 
 				default:
-					let insertValue = new \Phalcon\Db\RawValue(dialect->getSqlExpression(exprValue));
+					let insertValue = new RawValue(dialect->getSqlExpression(exprValue));
 					break;
 			}
 
 			let fieldName = fields[number];
 
 			/**
-			 * If the user didn't defined a column list we assume all the model's attributes as columns
+			 * If the user didn't define a column list we assume all the model's attributes as columns
 			 */
 			if automaticFields === true {
 				if typeof columnMap == "array" {
@@ -2744,7 +2746,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 					break;
 
 				default:
-					let updateValue = new \Phalcon\Db\RawValue(dialect->getSqlExpression(exprValue));
+					let updateValue = new RawValue(dialect->getSqlExpression(exprValue));
 					break;
 			}
 
@@ -2868,7 +2870,6 @@ class Query implements QueryInterface, InjectionAwareInterface
 
 				return new Status(false, record);
 			}
-
 		}
 
 		/**
@@ -2917,7 +2918,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 		}
 
 		/**
-		 * Check if a WHERE clause was especified
+		 * Check if a LIMIT clause was especified
 		 */
 		if fetch limitConditions, intermediate["limit"] {
 			let selectIr["limit"] = limitConditions;
