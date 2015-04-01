@@ -87,6 +87,7 @@ void phalcon_initialize_memory(zend_phalcon_globals *phalcon_globals_ptr TSRMLS_
 	/* 'Allocator sizeof operand mismatch' warning can be safely ignored */
 	ALLOC_INIT_ZVAL(phalcon_globals_ptr->z_null);
 	Z_SET_REFCOUNT_P(phalcon_globals_ptr->z_null, 2);
+	ZVAL_NULL(phalcon_globals_ptr->z_null);
 
 	/* 'Allocator sizeof operand mismatch' warning can be safely ignored */
 	ALLOC_INIT_ZVAL(phalcon_globals_ptr->z_false);
