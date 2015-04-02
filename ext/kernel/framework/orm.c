@@ -63,7 +63,7 @@ void phalcon_orm_get_prepared_ast(zval **return_value, zval *unique_id TSRMLS_DC
 void phalcon_orm_set_prepared_ast(zval *unique_id, zval *prepared_ast TSRMLS_DC) {
 
 	zend_phalcon_globals *phalcon_globals_ptr = PHALCON_VGLOBAL;
-	zval *copy_result;
+	zval *copy_ast;
 
 	if (Z_TYPE_P(unique_id) == IS_LONG) {
 		if (phalcon_globals_ptr->orm.cache_level >= 0) {
@@ -73,14 +73,15 @@ void phalcon_orm_set_prepared_ast(zval *unique_id, zval *prepared_ast TSRMLS_DC)
 				zend_hash_init(phalcon_globals_ptr->orm.ast_cache, 0, NULL, ZVAL_PTR_DTOR, 0);
 			}
 
-			MAKE_STD_ZVAL(copy_result); 	
-			ZVAL_ZVAL(copy_result, prepared_ast, 1, 0);
-			PHALCON_SEPARATE_ARRAY(copy_result);
+			MAKE_STD_ZVAL(copy_ast); 	
+			array_init(copy_ast);
+
+			zend_hash_copy(Z_ARRVAL_P(copy_ast), Z_ARRVAL_P(prepared_ast), (copy_ctor_func_t)zval_add_ref, NULL, sizeof(zval*));
 
 			zend_hash_index_update(
 				phalcon_globals_ptr->orm.ast_cache,
 				Z_LVAL_P(unique_id),
-				&copy_result,
+				&copy_ast,
 				sizeof(zval *),
 				NULL
 			);
