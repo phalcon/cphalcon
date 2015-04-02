@@ -58,7 +58,6 @@ void php_phalcon_init_globals(zend_phalcon_globals *phalcon_globals TSRMLS_DC) {
 	phalcon_globals->orm.enable_literals = 1;
 	phalcon_globals->orm.enable_ast_cache = 1;
 	phalcon_globals->orm.cache_level = 3;
-	phalcon_globals->orm.unique_cache_id = 0;
 	phalcon_globals->orm.ast_cache = NULL;
 	phalcon_globals->orm.enable_property_method = 1;
 	phalcon_globals->orm.enable_auto_convert = 1;
@@ -363,6 +362,7 @@ int phalcon_fetch_parameters_ex(int dummy TSRMLS_DC, int n_req, int n_opt, ...)
 	param_count = n_req + n_opt;
 
 	if (param_count < arg_count || n_req > arg_count) {
+		phalcon_throw_exception_string(spl_ce_BadMethodCallException, "Wrong number of parameters" TSRMLS_CC);
 		return FAILURE;
 	}
 

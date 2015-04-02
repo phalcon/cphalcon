@@ -183,7 +183,9 @@ static int phalcon_di_call_method(const char *method, INTERNAL_FUNCTION_PARAMETE
 		param = &PHALCON_GLOBAL(z_null);
 	}
 	else {
-		phalcon_fetch_parameters_ex(0 TSRMLS_CC, 1, 0, &param);
+		if (phalcon_fetch_parameters_ex(0 TSRMLS_CC, 1, 0, &param) == FAILURE) {
+			return FAILURE;
+		}
 	}
 
 	return phalcon_di_call_method_internal(return_value, return_value_ptr, getThis(), method, *param TSRMLS_CC);
@@ -457,6 +459,16 @@ static zend_object_value phalcon_di_clone_obj(zval *zobject TSRMLS_DC)
 	new_object->fresh = old_object->fresh;
 
 	return new_obj_val;
+}
+
+void phalcon_di_set_service(zval *this_ptr, zval *name, zval *service, int flags TSRMLS_DC)
+{
+	if (flags & PH_COPY) {
+		Z_ADDREF_P(service);
+	}
+
+	phalcon_di_object *obj = phalcon_di_get_object(this_ptr TSRMLS_CC);
+	zend_hash_update(obj->services, Z_STRVAL_P(name), Z_STRLEN_P(name)+1, &service, sizeof(zval*), NULL);
 }
 
 void phalcon_di_set_services(zval *this_ptr, zval *services TSRMLS_DC)

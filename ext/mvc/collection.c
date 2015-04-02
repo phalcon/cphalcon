@@ -1008,6 +1008,10 @@ PHP_METHOD(Phalcon_Mvc_Collection, _getResultset){
 		PHALCON_OBS_VAR(sort);
 		phalcon_array_fetch_string(&sort, params, SL("sort"), PH_NOISY);
 		PHALCON_CALL_METHOD(NULL, documents_cursor, "sort", sort);
+	} else if (phalcon_array_isset_string(params, SS("order"))) {
+		PHALCON_OBS_VAR(sort);
+		phalcon_array_fetch_string(&sort, params, SL("order"), PH_NOISY);
+		PHALCON_CALL_METHOD(NULL, documents_cursor, "sort", sort);
 	}
 
 	/**

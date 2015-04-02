@@ -27,6 +27,7 @@ extern zend_class_entry *phalcon_di_ce;
 
 PHALCON_INIT_CLASS(Phalcon_DI);
 
+PHALCON_STATIC void phalcon_di_set_service(zval *this_ptr, zval *name, zval *services, int flags TSRMLS_DC);
 PHALCON_STATIC void phalcon_di_set_services(zval *this_ptr, zval *services TSRMLS_DC);
 
 #endif /* PHALCON_DI_H */
