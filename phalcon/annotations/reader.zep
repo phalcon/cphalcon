@@ -149,5 +149,4 @@ class Reader implements ReaderInterface
 		}
 		return phannot_parse_annotations(docBlock, file, line);
 	}
-
 }

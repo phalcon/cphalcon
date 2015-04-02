@@ -41,5 +41,4 @@ class Css extends \Phalcon\Assets\Inline
 		}
 		parent::__construct("css", content, filter, attributes);
 	}
-
 }

@@ -531,9 +531,9 @@ PHP_METHOD(Phalcon_Loader, autoLoad) {
 				ZEPHIR_CONCAT_VV(_4, nsPrefix, namespaceSeparator);
 				ZEPHIR_SINIT_NVAR(_5);
 				ZVAL_STRING(&_5, "", 0);
-				zephir_fast_str_replace(fileName, _4, &_5, className TSRMLS_CC);
+				zephir_fast_str_replace(&fileName, _4, &_5, className TSRMLS_CC);
 				ZEPHIR_INIT_NVAR(_0);
-				zephir_fast_str_replace(_0, namespaceSeparator, ds, fileName TSRMLS_CC);
+				zephir_fast_str_replace(&_0, namespaceSeparator, ds, fileName TSRMLS_CC);
 				ZEPHIR_CPY_WRT(fileName, _0);
 				if (zephir_is_true(fileName)) {
 					ZEPHIR_INIT_NVAR(_0);
@@ -593,18 +593,18 @@ PHP_METHOD(Phalcon_Loader, autoLoad) {
 				ZEPHIR_CONCAT_VV(_4, prefix, namespaceSeparator);
 				ZEPHIR_SINIT_NVAR(_5);
 				ZVAL_STRING(&_5, "", 0);
-				zephir_fast_str_replace(fileName, _4, &_5, className TSRMLS_CC);
+				zephir_fast_str_replace(&fileName, _4, &_5, className TSRMLS_CC);
 				ZEPHIR_INIT_NVAR(_0);
 				ZEPHIR_INIT_LNVAR(_17);
 				ZEPHIR_CONCAT_VS(_17, prefix, "_");
 				ZEPHIR_SINIT_NVAR(_18);
 				ZVAL_STRING(&_18, "", 0);
-				zephir_fast_str_replace(_0, _17, &_18, fileName TSRMLS_CC);
+				zephir_fast_str_replace(&_0, _17, &_18, fileName TSRMLS_CC);
 				ZEPHIR_CPY_WRT(fileName, _0);
 				ZEPHIR_INIT_NVAR(_0);
 				ZEPHIR_SINIT_NVAR(_19);
 				ZVAL_STRING(&_19, "_", 0);
-				zephir_fast_str_replace(_0, &_19, ds, fileName TSRMLS_CC);
+				zephir_fast_str_replace(&_0, &_19, ds, fileName TSRMLS_CC);
 				ZEPHIR_CPY_WRT(fileName, _0);
 				if (zephir_is_true(fileName)) {
 					ZEPHIR_INIT_NVAR(_0);
@@ -651,11 +651,11 @@ PHP_METHOD(Phalcon_Loader, autoLoad) {
 	ZEPHIR_INIT_VAR(dsClassName);
 	ZEPHIR_SINIT_NVAR(_5);
 	ZVAL_STRING(&_5, "_", 0);
-	zephir_fast_str_replace(dsClassName, &_5, ds, className TSRMLS_CC);
+	zephir_fast_str_replace(&dsClassName, &_5, ds, className TSRMLS_CC);
 	ZEPHIR_INIT_VAR(nsClassName);
 	ZEPHIR_SINIT_NVAR(_18);
 	ZVAL_STRING(&_18, "\\", 0);
-	zephir_fast_str_replace(nsClassName, &_18, ds, dsClassName TSRMLS_CC);
+	zephir_fast_str_replace(&nsClassName, &_18, ds, dsClassName TSRMLS_CC);
 	ZEPHIR_OBS_VAR(directories);
 	zephir_read_property_this(&directories, this_ptr, SL("_directories"), PH_NOISY_CC);
 	if (Z_TYPE_P(directories) == IS_ARRAY) {

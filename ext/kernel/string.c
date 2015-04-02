@@ -507,9 +507,10 @@ void zephir_fast_stripos_str(zval *return_value, zval *haystack, char *needle, u
 /**
  * Immediate function resolution for str_replace function
  */
-void zephir_fast_str_replace(zval *return_value, zval *search, zval *replace, zval *subject TSRMLS_DC) {
+void zephir_fast_str_replace(zval **return_value_ptr, zval *search, zval *replace, zval *subject TSRMLS_DC) {
 
 	zval replace_copy, search_copy;
+	zval *return_value = *return_value_ptr;
 	int copy_replace = 0, copy_search = 0;
 
 	if (Z_TYPE_P(subject) != IS_STRING) {
@@ -524,7 +525,7 @@ void zephir_fast_str_replace(zval *return_value, zval *search, zval *replace, zv
 	if (Z_TYPE_P(search) == IS_ARRAY) {
 		do {
 			zval *params[] = { search, replace, subject };
-			zephir_call_func_aparams(&return_value, "str_replace", sizeof("str_replace")-1, NULL, 3, params TSRMLS_CC);
+			zephir_call_func_aparams(return_value_ptr, "str_replace", sizeof("str_replace")-1, NULL, 3, params TSRMLS_CC);
 			return;
 		} while(0);
 	}

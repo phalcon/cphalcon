@@ -1626,7 +1626,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql) {
 						ZVAL_STRING(&_25, " ", 0);
 						ZEPHIR_SINIT_VAR(_26);
 						ZVAL_STRING(&_26, "", 0);
-						zephir_fast_str_replace(_24, &_25, &_26, group TSRMLS_CC);
+						zephir_fast_str_replace(&_24, &_25, &_26, group TSRMLS_CC);
 						ZEPHIR_CPY_WRT(group, _24);
 						ZEPHIR_INIT_NVAR(groupItems);
 						zephir_fast_explode_str(groupItems, SL(","), group, LONG_MAX TSRMLS_CC);

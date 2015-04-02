@@ -35,9 +35,8 @@ class Js extends \Phalcon\Assets\Resource
 	 * @param boolean filter
 	 * @param array attributes
 	 */
-	public function __construct(path, local=true, filter=true, attributes=null)
+	public function __construct(path, local = true, filter = true, attributes = null)
 	{
 		parent::__construct("js", path, local, filter, attributes);
 	}
-
 }

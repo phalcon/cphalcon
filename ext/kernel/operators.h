@@ -133,9 +133,11 @@ int zephir_is_identical(zval *op1, zval *op2 TSRMLS_DC);
 
 int zephir_less(zval *op1, zval *op2 TSRMLS_DC);
 int zephir_less_long(zval *op1, long op2 TSRMLS_DC);
+int zephir_less_double(zval *op1, double op2 TSRMLS_DC);
 
 int zephir_greater(zval *op1, zval *op2 TSRMLS_DC);
 int zephir_greater_long(zval *op1, long op2 TSRMLS_DC);
+int zephir_greater_double(zval *op1, double op2 TSRMLS_DC);
 
 int zephir_less_equal(zval *op1, zval *op2 TSRMLS_DC);
 int zephir_less_equal_long(zval *op1, long op2 TSRMLS_DC);

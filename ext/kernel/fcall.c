@@ -460,6 +460,7 @@ int zephir_call_user_function(zval **object_pp, zend_class_entry *obj_ce, zephir
 	++zephir_globals_ptr->recursive_lock;
 
 	if (UNEXPECTED(zephir_globals_ptr->recursive_lock > 2048)) {
+		zephir_print_backtrace();
 		zend_error(E_ERROR, "Maximum recursion depth exceeded");
 		return FAILURE;
 	}
@@ -468,7 +469,7 @@ int zephir_call_user_function(zval **object_pp, zend_class_entry *obj_ce, zephir
 		zend_uint i;
 
 		if (UNEXPECTED(param_count > 10)) {
-			params_array = (zval***)emalloc(param_count * sizeof(zval**));
+			params_array = (zval***) emalloc(param_count * sizeof(zval**));
 			params_ptr   = params_array;
 			for (i = 0; i < param_count; ++i) {
 				params_array[i] = &params[i];
@@ -760,7 +761,7 @@ int zephir_call_class_method_aparams(zval **return_value_ptr, zend_class_entry *
 		}
 	}
 
-/*#if PHP_VERSION_ID >= 50600
+#if PHP_VERSION_ID >= 50600
 
 	if (!cache_entry || !*cache_entry) {
 
@@ -801,7 +802,7 @@ int zephir_call_class_method_aparams(zval **return_value_ptr, zend_class_entry *
 
 	status = zephir_call_user_function(object ? &object : NULL, ce, type, fn, rvp, cache_entry, param_count, params, &info TSRMLS_CC);
 
-#else*/
+#else
 
 	ALLOC_INIT_ZVAL(fn);
 	if (!cache_entry || !*cache_entry) {
@@ -835,7 +836,7 @@ int zephir_call_class_method_aparams(zval **return_value_ptr, zend_class_entry *
 
 	status = zephir_call_user_function(object ? &object : NULL, ce, type, fn, rvp, cache_entry, param_count, params, NULL TSRMLS_CC);
 
-//#endif
+#endif
 
 	if (status == FAILURE && !EG(exception)) {
 
@@ -897,9 +898,9 @@ int zephir_call_class_method_aparams(zval **return_value_ptr, zend_class_entry *
 		zval_ptr_dtor(&rv);
 	}
 
-//#if PHP_VERSION_ID < 50600
+#if PHP_VERSION_ID < 50600
 	zval_ptr_dtor(&fn);
-//#endif
+#endif
 
 	return status;
 }

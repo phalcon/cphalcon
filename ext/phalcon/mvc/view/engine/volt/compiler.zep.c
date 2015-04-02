@@ -1383,7 +1383,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, expression) {
 				ZVAL_STRING(&_13, "'", 0);
 				ZEPHIR_SINIT_NVAR(_14);
 				ZVAL_STRING(&_14, "\\'", 0);
-				zephir_fast_str_replace(_1, &_13, &_14, _6 TSRMLS_CC);
+				zephir_fast_str_replace(&_1, &_13, &_14, _6 TSRMLS_CC);
 				ZEPHIR_INIT_NVAR(exprCode);
 				ZEPHIR_CONCAT_SVS(exprCode, "'", _1, "'");
 				break;
