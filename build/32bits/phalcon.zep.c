@@ -874,22 +874,22 @@ static int phannot_internal_parse_annotations(zval **result, zval *view_code, zv
 zend_class_entry *zephir_register_internal_interface_ex(zend_class_entry *orig_ce, zend_class_entry *parent_ce TSRMLS_DC);
 
 /* Globals functions */
-int zephir_init_global(char *global, unsigned int global_length TSRMLS_DC);
-int zephir_get_global(zval **arr, const char *global, unsigned int global_length TSRMLS_DC);
+static int zephir_init_global(char *global, unsigned int global_length TSRMLS_DC);
+static int zephir_get_global(zval **arr, const char *global, unsigned int global_length TSRMLS_DC);
 
-int zephir_is_callable(zval *var TSRMLS_DC);
-int zephir_function_exists(const zval *function_name TSRMLS_DC);
-int zephir_function_exists_ex(const char *func_name, unsigned int func_len TSRMLS_DC);
-int zephir_function_quick_exists_ex(const char *func_name, unsigned int func_len, unsigned long key TSRMLS_DC);
+static int zephir_is_callable(zval *var TSRMLS_DC);
+static int zephir_function_exists(const zval *function_name TSRMLS_DC);
+static int zephir_function_exists_ex(const char *func_name, unsigned int func_len TSRMLS_DC);
+static int zephir_function_quick_exists_ex(const char *func_name, unsigned int func_len, unsigned long key TSRMLS_DC);
 zend_class_entry* zephir_get_internal_ce(const char *class_name, unsigned int class_name_len TSRMLS_DC);
 
 /* types */
-void zephir_gettype(zval *return_value, zval *arg TSRMLS_DC);
+static void zephir_gettype(zval *return_value, zval *arg TSRMLS_DC);
 
 /* Count */
-void zephir_fast_count(zval *result, zval *array TSRMLS_DC);
-int zephir_fast_count_ev(zval *array TSRMLS_DC);
-int zephir_fast_count_int(zval *value TSRMLS_DC);
+static void zephir_fast_count(zval *result, zval *array TSRMLS_DC);
+static int zephir_fast_count_ev(zval *array TSRMLS_DC);
+static int zephir_fast_count_int(zval *value TSRMLS_DC);
 
 /* Utils functions */
 static inline int zephir_maybe_separate_zval(zval** z)
@@ -908,11 +908,11 @@ static inline int zephir_maybe_separate_zval(zval** z)
 	return 0;
 }
 
-int zephir_is_iterable_ex(zval *arr, HashTable **arr_hash, HashPosition *hash_position, int duplicate, int reverse);
-void zephir_safe_zval_ptr_dtor(zval *pzval);
+static int zephir_is_iterable_ex(zval *arr, HashTable **arr_hash, HashPosition *hash_position, int duplicate, int reverse);
+static void zephir_safe_zval_ptr_dtor(zval *pzval);
 
 /* Fetch Parameters */
-int zephir_fetch_parameters(int num_args TSRMLS_DC, int required_args, int optional_args, ...);
+static int zephir_fetch_parameters(int num_args TSRMLS_DC, int required_args, int optional_args, ...);
 
 /** Symbols */
 #define ZEPHIR_READ_SYMBOL(var, auxarr, name) if (EG(active_symbol_table)){ \
@@ -1356,52 +1356,52 @@ static inline char *_str_erealloc(char *str, size_t new_len, size_t old_len) {
 #define ZEPHIR_NUM_PREALLOCATED_FRAMES 25
 
 /* Variable Tracking */
-void zephir_init_nvar(zval **var TSRMLS_DC);
-void zephir_cpy_wrt(zval **dest, zval *var TSRMLS_DC);
-void zephir_cpy_wrt_ctor(zval **dest, zval *var TSRMLS_DC);
+static void zephir_init_nvar(zval **var TSRMLS_DC);
+static void zephir_cpy_wrt(zval **dest, zval *var TSRMLS_DC);
+static void zephir_cpy_wrt_ctor(zval **dest, zval *var TSRMLS_DC);
 
-void zephir_value_dtor(zval *zvalue ZEND_FILE_LINE_DC);
+static void zephir_value_dtor(zval *zvalue ZEND_FILE_LINE_DC);
 void ZEND_FASTCALL zephir_ptr_dtor(zval **var);
 void ZEND_FASTCALL zephir_dtor(zval *var);
 
 /* Memory Frames */
 #ifndef ZEPHIR_RELEASE
-void ZEPHIR_FASTCALL zephir_memory_grow_stack(const char *func TSRMLS_DC);
-int ZEPHIR_FASTCALL zephir_memory_restore_stack(const char *func TSRMLS_DC);
+static void ZEPHIR_FASTCALL zephir_memory_grow_stack(const char *func TSRMLS_DC);
+static int ZEPHIR_FASTCALL zephir_memory_restore_stack(const char *func TSRMLS_DC);
 
 #define ZEPHIR_MM_GROW() zephir_memory_grow_stack(NULL TSRMLS_CC)
 #define ZEPHIR_MM_RESTORE() zephir_memory_restore_stack(NULL TSRMLS_CC)
 
 #else
-void ZEPHIR_FASTCALL zephir_memory_grow_stack(TSRMLS_D);
-int ZEPHIR_FASTCALL zephir_memory_restore_stack(TSRMLS_D);
+static void ZEPHIR_FASTCALL zephir_memory_grow_stack(TSRMLS_D);
+static int ZEPHIR_FASTCALL zephir_memory_restore_stack(TSRMLS_D);
 
 #define ZEPHIR_MM_GROW() zephir_memory_grow_stack(TSRMLS_C)
 #define ZEPHIR_MM_RESTORE() zephir_memory_restore_stack(TSRMLS_C)
 
 #endif
 
-void ZEPHIR_FASTCALL zephir_memory_observe(zval **var TSRMLS_DC);
-void ZEPHIR_FASTCALL zephir_memory_remove(zval **var TSRMLS_DC);
-void ZEPHIR_FASTCALL zephir_memory_alloc(zval **var TSRMLS_DC);
-void ZEPHIR_FASTCALL zephir_memory_alloc_pnull(zval **var TSRMLS_DC);
+static void ZEPHIR_FASTCALL zephir_memory_observe(zval **var TSRMLS_DC);
+static void ZEPHIR_FASTCALL zephir_memory_remove(zval **var TSRMLS_DC);
+static void ZEPHIR_FASTCALL zephir_memory_alloc(zval **var TSRMLS_DC);
+static void ZEPHIR_FASTCALL zephir_memory_alloc_pnull(zval **var TSRMLS_DC);
 
-int ZEPHIR_FASTCALL zephir_clean_restore_stack(TSRMLS_D);
+static int ZEPHIR_FASTCALL zephir_clean_restore_stack(TSRMLS_D);
 
 /* Virtual symbol tables */
-void zephir_create_symbol_table(TSRMLS_D);
+static void zephir_create_symbol_table(TSRMLS_D);
 /*void zephir_restore_symbol_table(TSRMLS_D);*/
-void zephir_clean_symbol_tables(TSRMLS_D);
+static void zephir_clean_symbol_tables(TSRMLS_D);
 
 /** Export symbols to active symbol table */
-int zephir_set_symbol(zval *key_name, zval *value TSRMLS_DC);
-int zephir_set_symbol_str(char *key_name, unsigned int key_length, zval *value TSRMLS_DC);
+static int zephir_set_symbol(zval *key_name, zval *value TSRMLS_DC);
+static int zephir_set_symbol_str(char *key_name, unsigned int key_length, zval *value TSRMLS_DC);
 
-void ZEPHIR_FASTCALL zephir_copy_ctor(zval *destiny, zval *origin);
+static void ZEPHIR_FASTCALL zephir_copy_ctor(zval *destiny, zval *origin);
 
-void zephir_initialize_memory(zend_zephir_globals_def *zephir_globals_ptr TSRMLS_DC);
-int zephir_cleanup_fcache(void *pDest TSRMLS_DC, int num_args, va_list args, zend_hash_key *hash_key);
-void zephir_deinitialize_memory(TSRMLS_D);
+static void zephir_initialize_memory(zend_zephir_globals_def *zephir_globals_ptr TSRMLS_DC);
+static int zephir_cleanup_fcache(void *pDest TSRMLS_DC, int num_args, va_list args, zend_hash_key *hash_key);
+static void zephir_deinitialize_memory(TSRMLS_D);
 
 /* Memory macros */
 #define ZEPHIR_ALLOC_ZVAL(z) \
@@ -1645,13 +1645,13 @@ void zephir_deinitialize_memory(TSRMLS_D);
 #define ZEPHIR_THROW_EXCEPTION_DEBUG_ZVALW(class_entry, message, file, line) zephir_throw_exception_zval_debug(class_entry, message, file, line TSRMLS_CC)
 
 /** Throw Exceptions */
-void zephir_throw_exception(zval *object TSRMLS_DC);
-void zephir_throw_exception_debug(zval *object, const char *file, zend_uint line TSRMLS_DC);
-void zephir_throw_exception_string_debug(zend_class_entry *ce, const char *message, zend_uint message_len, const char *file, zend_uint line TSRMLS_DC);
-void zephir_throw_exception_string(zend_class_entry *ce, const char *message, zend_uint message_len TSRMLS_DC);
-void zephir_throw_exception_zval(zend_class_entry *ce, zval *message TSRMLS_DC);
-void zephir_throw_exception_zval_debug(zend_class_entry *ce, zval *message, const char *file, zend_uint line TSRMLS_DC);
-void zephir_throw_exception_format(zend_class_entry *ce TSRMLS_DC, const char *format, ...);
+static void zephir_throw_exception(zval *object TSRMLS_DC);
+static void zephir_throw_exception_debug(zval *object, const char *file, zend_uint line TSRMLS_DC);
+static void zephir_throw_exception_string_debug(zend_class_entry *ce, const char *message, zend_uint message_len, const char *file, zend_uint line TSRMLS_DC);
+static void zephir_throw_exception_string(zend_class_entry *ce, const char *message, zend_uint message_len TSRMLS_DC);
+static void zephir_throw_exception_zval(zend_class_entry *ce, zval *message TSRMLS_DC);
+static void zephir_throw_exception_zval_debug(zend_class_entry *ce, zval *message, const char *file, zend_uint line TSRMLS_DC);
+static void zephir_throw_exception_format(zend_class_entry *ce TSRMLS_DC, const char *format, ...);
 
 #endif /* ZEPHIR_KERNEL_EXCEPTIONS_H */
 
@@ -1661,16 +1661,16 @@ void zephir_throw_exception_format(zend_class_entry *ce TSRMLS_DC, const char *f
 #ifndef ZEPHIR_KERNEL_HASH_H
 #define ZEPHIR_KERNEL_HASH_H
 
-int zephir_hash_exists(const HashTable *ht, const char *arKey, uint nKeyLength);
-int zephir_hash_quick_exists(const HashTable *ht, const char *arKey, uint nKeyLength, ulong h);
-int zephir_hash_find(const HashTable *ht, const char *arKey, uint nKeyLength, void **pData);
-int zephir_hash_quick_find(const HashTable *ht, const char *arKey, uint nKeyLength, ulong h, void **pData);
-void zephir_get_current_key(zval **key, const HashTable *hash_table, HashPosition *hash_position TSRMLS_DC);
+static int zephir_hash_exists(const HashTable *ht, const char *arKey, uint nKeyLength);
+static int zephir_hash_quick_exists(const HashTable *ht, const char *arKey, uint nKeyLength, ulong h);
+static int zephir_hash_find(const HashTable *ht, const char *arKey, uint nKeyLength, void **pData);
+static int zephir_hash_quick_find(const HashTable *ht, const char *arKey, uint nKeyLength, ulong h, void **pData);
+static void zephir_get_current_key(zval **key, const HashTable *hash_table, HashPosition *hash_position TSRMLS_DC);
 zval zephir_get_current_key_w(const HashTable *hash_table, HashPosition *hash_position);
-int zephir_has_numeric_keys(const zval *data);
-void zephir_hash_update_or_insert(HashTable *ht, zval *offset, zval *value);
+static int zephir_has_numeric_keys(const zval *data);
+static void zephir_hash_update_or_insert(HashTable *ht, zval *offset, zval *value);
 zval** zephir_hash_get(HashTable *ht, zval *key, int type);
-int zephir_hash_unset(HashTable *ht, zval *offset);
+static int zephir_hash_unset(HashTable *ht, zval *offset);
 
 #define zephir_hash_move_forward_ex(ht, pos) *pos = (*pos ? (*pos)->pListNext : NULL)
 
@@ -1715,34 +1715,34 @@ typedef struct _zephir_debug_entry {
 	int lineno;
 } zephir_debug_entry;
 
-int zephir_start_debug();
-int zephir_stop_debug();
+static int zephir_start_debug();
+static int zephir_stop_debug();
 
-int zephir_print_r(zval *userval TSRMLS_DC);
-int zephir_vdump(zval *uservar TSRMLS_DC);
-int zephir_debug_assign(char *name, zval *value TSRMLS_DC);
-int zephir_vpdump(const zval **uservar TSRMLS_DC);
-int zephir_dump_ce(zend_class_entry *ce TSRMLS_DC);
-int zephir_class_debug(zval *val TSRMLS_DC);
+static int zephir_print_r(zval *userval TSRMLS_DC);
+static int zephir_vdump(zval *uservar TSRMLS_DC);
+static int zephir_debug_assign(char *name, zval *value TSRMLS_DC);
+static int zephir_vpdump(const zval **uservar TSRMLS_DC);
+static int zephir_dump_ce(zend_class_entry *ce TSRMLS_DC);
+static int zephir_class_debug(zval *val TSRMLS_DC);
 
-int zephir_debug_backtrace_internal();
-int zephir_debug_str(char *what, char *message);
-int zephir_debug_long(char *what, uint vlong);
-int zephir_debug_screen(char *message);
+static int zephir_debug_backtrace_internal();
+static int zephir_debug_str(char *what, char *message);
+static int zephir_debug_long(char *what, uint vlong);
+static int zephir_debug_screen(char *message);
 
-int zephir_step_over(char *message);
-int zephir_step_into(char *message);
-int zephir_step_out(char *message);
+static int zephir_step_over(char *message);
+static int zephir_step_into(char *message);
+static int zephir_step_out(char *message);
 
-int zephir_step_into_entry(char *class_name, char *method_name, int lineno);
-int zephir_step_out_entry();
+static int zephir_step_into_entry(char *class_name, char *method_name, int lineno);
+static int zephir_step_out_entry();
 
-int zephir_debug_method_call(zval *obj, char *method_name TSRMLS_DC);
-int zephir_debug_vdump(char *preffix, zval *value TSRMLS_DC);
-int zephir_debug_param(zval *param TSRMLS_DC);
+static int zephir_debug_method_call(zval *obj, char *method_name TSRMLS_DC);
+static int zephir_debug_vdump(char *preffix, zval *value TSRMLS_DC);
+static int zephir_debug_param(zval *param TSRMLS_DC);
 
-int zephir_error_space();
-int zephir_debug_space();
+static int zephir_error_space();
+static int zephir_debug_space();
 
 #endif
 
@@ -1754,7 +1754,7 @@ int zephir_debug_space();
 
 #ifndef ZEPHIR_RELEASE
 
-void zephir_print_backtrace(void);
+static void zephir_print_backtrace(void);
 
 #else
 
@@ -1772,12 +1772,12 @@ void zephir_print_backtrace(void);
 #define ZEPHIR_KERNEL_OBJECT_H
 
 /** Class Retrieving/Checking */
-int zephir_class_exists(const zval *class_name, int autoload TSRMLS_DC);
-int zephir_interface_exists(const zval *interface_name, int autoload TSRMLS_DC);
-void zephir_get_class(zval *result, zval *object, int lower TSRMLS_DC);
-void zephir_get_class_ns(zval *result, zval *object, int lower TSRMLS_DC);
-void zephir_get_ns_class(zval *result, zval *object, int lower TSRMLS_DC);
-void zephir_get_called_class(zval *return_value TSRMLS_DC);
+static int zephir_class_exists(const zval *class_name, int autoload TSRMLS_DC);
+static int zephir_interface_exists(const zval *interface_name, int autoload TSRMLS_DC);
+static void zephir_get_class(zval *result, zval *object, int lower TSRMLS_DC);
+static void zephir_get_class_ns(zval *result, zval *object, int lower TSRMLS_DC);
+static void zephir_get_ns_class(zval *result, zval *object, int lower TSRMLS_DC);
+static void zephir_get_called_class(zval *return_value TSRMLS_DC);
 zend_class_entry *zephir_fetch_class(const zval *class_name TSRMLS_DC);
 zend_class_entry* zephir_fetch_self_class(TSRMLS_D);
 zend_class_entry* zephir_fetch_parent_class(TSRMLS_D);
@@ -1792,74 +1792,74 @@ zend_class_entry* zephir_fetch_static_class(TSRMLS_D);
 	} while (0)
 
 /** Class constants */
-int zephir_get_class_constant(zval *return_value, zend_class_entry *ce, char *constant_name, unsigned int constant_length TSRMLS_DC);
+static int zephir_get_class_constant(zval *return_value, zend_class_entry *ce, char *constant_name, unsigned int constant_length TSRMLS_DC);
 
 /** Cloning/Instance of*/
-int zephir_clone(zval *destiny, zval *obj TSRMLS_DC);
-int zephir_instance_of(zval *result, const zval *object, const zend_class_entry *ce TSRMLS_DC);
-int zephir_is_instance_of(zval *object, const char *class_name, unsigned int class_length TSRMLS_DC);
-int zephir_instance_of_ev(const zval *object, const zend_class_entry *ce TSRMLS_DC);
-int zephir_zval_is_traversable(zval *object TSRMLS_DC);
+static int zephir_clone(zval *destiny, zval *obj TSRMLS_DC);
+static int zephir_instance_of(zval *result, const zval *object, const zend_class_entry *ce TSRMLS_DC);
+static int zephir_is_instance_of(zval *object, const char *class_name, unsigned int class_length TSRMLS_DC);
+static int zephir_instance_of_ev(const zval *object, const zend_class_entry *ce TSRMLS_DC);
+static int zephir_zval_is_traversable(zval *object TSRMLS_DC);
 
 /** Method exists */
-int zephir_method_exists(const zval *object, const zval *method_name TSRMLS_DC);
-int zephir_method_exists_ex(const zval *object, const char *method_name, unsigned int method_len TSRMLS_DC);
-int zephir_method_quick_exists_ex(const zval *object, const char *method_name, unsigned int method_len, unsigned long hash TSRMLS_DC);
+static int zephir_method_exists(const zval *object, const zval *method_name TSRMLS_DC);
+static int zephir_method_exists_ex(const zval *object, const char *method_name, unsigned int method_len TSRMLS_DC);
+static int zephir_method_quick_exists_ex(const zval *object, const char *method_name, unsigned int method_len, unsigned long hash TSRMLS_DC);
 
 /** Isset properties */
-int zephir_isset_property(zval *object, const char *property_name, unsigned int property_length TSRMLS_DC);
-int zephir_isset_property_quick(zval *object, const char *property_name, unsigned int property_length, unsigned long hash TSRMLS_DC);
-int zephir_isset_property_zval(zval *object, const zval *property TSRMLS_DC);
+static int zephir_isset_property(zval *object, const char *property_name, unsigned int property_length TSRMLS_DC);
+static int zephir_isset_property_quick(zval *object, const char *property_name, unsigned int property_length, unsigned long hash TSRMLS_DC);
+static int zephir_isset_property_zval(zval *object, const zval *property TSRMLS_DC);
 
 /** Reading properties */
 zval* zephir_fetch_property_this_quick(zval *object, const char *property_name, zend_uint property_length, ulong key, int silent TSRMLS_DC);
-int zephir_read_property(zval **result, zval *object, const char *property_name, zend_uint property_length, int silent TSRMLS_DC);
-int zephir_read_property_zval(zval **result, zval *object, zval *property, int silent TSRMLS_DC);
-int zephir_return_property(zval *return_value, zval **return_value_ptr, zval *object, char *property_name, unsigned int property_length TSRMLS_DC);
-int zephir_return_property_quick(zval *return_value, zval **return_value_ptr, zval *object, char *property_name, unsigned int property_length, unsigned long key TSRMLS_DC);
-int zephir_fetch_property(zval **result, zval *object, const char *property_name, zend_uint property_length, int silent TSRMLS_DC);
-int zephir_fetch_property_zval(zval **result, zval *object, zval *property, int silent TSRMLS_DC);
+static int zephir_read_property(zval **result, zval *object, const char *property_name, zend_uint property_length, int silent TSRMLS_DC);
+static int zephir_read_property_zval(zval **result, zval *object, zval *property, int silent TSRMLS_DC);
+static int zephir_return_property(zval *return_value, zval **return_value_ptr, zval *object, char *property_name, unsigned int property_length TSRMLS_DC);
+static int zephir_return_property_quick(zval *return_value, zval **return_value_ptr, zval *object, char *property_name, unsigned int property_length, unsigned long key TSRMLS_DC);
+static int zephir_fetch_property(zval **result, zval *object, const char *property_name, zend_uint property_length, int silent TSRMLS_DC);
+static int zephir_fetch_property_zval(zval **result, zval *object, zval *property, int silent TSRMLS_DC);
 
 /** Updating properties */
-int zephir_update_property_this(zval *object, char *property_name, unsigned int property_length, zval *value TSRMLS_DC);
-int zephir_update_property_long(zval *obj, char *property_name, unsigned int property_length, long value TSRMLS_DC);
-int zephir_update_property_string(zval *object, char *property_name, unsigned int property_length, char *str, unsigned int str_length TSRMLS_DC);
-int zephir_update_property_bool(zval *obj, char *property_name, unsigned int property_length, int value TSRMLS_DC);
-int zephir_update_property_null(zval *obj, char *property_name, unsigned int property_length TSRMLS_DC);
-int zephir_update_property_zval(zval *obj, const char *property_name, unsigned int property_length, zval *value TSRMLS_DC);
-int zephir_update_property_zval_zval(zval *obj, zval *property, zval *value TSRMLS_DC);
-int zephir_update_property_empty_array(zend_class_entry *ce, zval *object, char *property, unsigned int property_length TSRMLS_DC);
+static int zephir_update_property_this(zval *object, char *property_name, unsigned int property_length, zval *value TSRMLS_DC);
+static int zephir_update_property_long(zval *obj, char *property_name, unsigned int property_length, long value TSRMLS_DC);
+static int zephir_update_property_string(zval *object, char *property_name, unsigned int property_length, char *str, unsigned int str_length TSRMLS_DC);
+static int zephir_update_property_bool(zval *obj, char *property_name, unsigned int property_length, int value TSRMLS_DC);
+static int zephir_update_property_null(zval *obj, char *property_name, unsigned int property_length TSRMLS_DC);
+static int zephir_update_property_zval(zval *obj, const char *property_name, unsigned int property_length, zval *value TSRMLS_DC);
+static int zephir_update_property_zval_zval(zval *obj, zval *property, zval *value TSRMLS_DC);
+static int zephir_update_property_empty_array(zend_class_entry *ce, zval *object, char *property, unsigned int property_length TSRMLS_DC);
 
 /** Updating array properties */
-int zephir_update_property_array(zval *object, const char *property, zend_uint property_length, const zval *index, zval *value TSRMLS_DC);
-int zephir_update_property_array_string(zval *object, char *property, unsigned int property_length, char *index, unsigned int index_length, zval *value TSRMLS_DC);
-int zephir_update_property_array_append(zval *object, char *property, unsigned int property_length, zval *value TSRMLS_DC);
-int zephir_update_property_array_multi(zval *object, const char *property, zend_uint property_length, zval **value TSRMLS_DC, const char *types, int types_length, int types_count, ...);
+static int zephir_update_property_array(zval *object, const char *property, zend_uint property_length, const zval *index, zval *value TSRMLS_DC);
+static int zephir_update_property_array_string(zval *object, char *property, unsigned int property_length, char *index, unsigned int index_length, zval *value TSRMLS_DC);
+static int zephir_update_property_array_append(zval *object, char *property, unsigned int property_length, zval *value TSRMLS_DC);
+static int zephir_update_property_array_multi(zval *object, const char *property, zend_uint property_length, zval **value TSRMLS_DC, const char *types, int types_length, int types_count, ...);
 
 /** Increment/Decrement properties */
-int zephir_property_incr(zval *object, char *property_name, unsigned int property_length TSRMLS_DC);
-int zephir_property_decr(zval *object, char *property_name, unsigned int property_length TSRMLS_DC);
+static int zephir_property_incr(zval *object, char *property_name, unsigned int property_length TSRMLS_DC);
+static int zephir_property_decr(zval *object, char *property_name, unsigned int property_length TSRMLS_DC);
 
 /** Unset properties */
-int zephir_unset_property(zval* object, const char* name TSRMLS_DC);
-int zephir_unset_property_array(zval *object, char *property, unsigned int property_length, zval *index TSRMLS_DC);
+static int zephir_unset_property(zval* object, const char* name TSRMLS_DC);
+static int zephir_unset_property_array(zval *object, char *property, unsigned int property_length, zval *index TSRMLS_DC);
 
 /** Static properties */
-int zephir_read_static_property(zval **result, const char *class_name, unsigned int class_length, char *property_name, unsigned int property_length TSRMLS_DC);
-int zephir_update_static_property_ce(zend_class_entry *ce, const char *name, int len, zval **value TSRMLS_DC);
-int zephir_update_static_property_ce_cache(zend_class_entry *ce, const char *name, int len, zval **value, zend_property_info **property_info TSRMLS_DC);
-int zephir_update_static_property(const char *class_name, unsigned int class_length, char *name, unsigned int name_length, zval **value TSRMLS_DC);
-int zephir_read_static_property_ce(zval **result, zend_class_entry *ce, const char *property, int len TSRMLS_DC);
-int zephir_read_class_property(zval **result, int type, const char *property, int len TSRMLS_DC);
+static int zephir_read_static_property(zval **result, const char *class_name, unsigned int class_length, char *property_name, unsigned int property_length TSRMLS_DC);
+static int zephir_update_static_property_ce(zend_class_entry *ce, const char *name, int len, zval **value TSRMLS_DC);
+static int zephir_update_static_property_ce_cache(zend_class_entry *ce, const char *name, int len, zval **value, zend_property_info **property_info TSRMLS_DC);
+static int zephir_update_static_property(const char *class_name, unsigned int class_length, char *name, unsigned int name_length, zval **value TSRMLS_DC);
+static int zephir_read_static_property_ce(zval **result, zend_class_entry *ce, const char *property, int len TSRMLS_DC);
+static int zephir_read_class_property(zval **result, int type, const char *property, int len TSRMLS_DC);
 zval* zephir_fetch_static_property_ce(zend_class_entry *ce, const char *property, int len TSRMLS_DC);
-int zephir_update_static_property_array_multi_ce(zend_class_entry *ce, const char *property, zend_uint property_length, zval **value TSRMLS_DC, const char *types, int types_length, int types_count, ...);
+static int zephir_update_static_property_array_multi_ce(zend_class_entry *ce, const char *property, zend_uint property_length, zval **value TSRMLS_DC, const char *types, int types_length, int types_count, ...);
 
 /** Create instances */
-int zephir_create_instance(zval *return_value, const zval *class_name TSRMLS_DC);
-int zephir_create_instance_params(zval *return_value, const zval *class_name, zval *params TSRMLS_DC);
+static int zephir_create_instance(zval *return_value, const zval *class_name TSRMLS_DC);
+static int zephir_create_instance_params(zval *return_value, const zval *class_name, zval *params TSRMLS_DC);
 
 /** Create closures */
-int zephir_create_closure_ex(zval *return_value, zval *this_ptr, zend_class_entry *ce, const char *method_name, zend_uint method_length TSRMLS_DC);
+static int zephir_create_closure_ex(zval *return_value, zval *this_ptr, zend_class_entry *ce, const char *method_name, zend_uint method_length TSRMLS_DC);
 
 ZEPHIR_ATTR_NONNULL static inline int zephir_read_property_this_quick(zval **result, zval *object, const char *property_name, zend_uint property_length, ulong key, int silent TSRMLS_DC)
 {
@@ -1940,62 +1940,62 @@ ZEPHIR_ATTR_NONNULL static inline zval* zephir_fetch_property_this(zval *object,
 #define ZEPHIR_MAX_ARRAY_LEVELS 16
 
 /** Combined isset/fetch */
-int zephir_array_isset_fetch(zval **fetched, const zval *arr, zval *index, int readonly TSRMLS_DC);
-int zephir_array_isset_quick_string_fetch(zval **fetched, zval *arr, char *index, uint index_length, unsigned long key, int readonly TSRMLS_DC);
-int zephir_array_isset_string_fetch(zval **fetched, zval *arr, char *index, uint index_length, int readonly TSRMLS_DC);
-int zephir_array_isset_long_fetch(zval **fetched, zval *arr, unsigned long index, int readonly TSRMLS_DC);
+static int zephir_array_isset_fetch(zval **fetched, const zval *arr, zval *index, int readonly TSRMLS_DC);
+static int zephir_array_isset_quick_string_fetch(zval **fetched, zval *arr, char *index, uint index_length, unsigned long key, int readonly TSRMLS_DC);
+static int zephir_array_isset_string_fetch(zval **fetched, zval *arr, char *index, uint index_length, int readonly TSRMLS_DC);
+static int zephir_array_isset_long_fetch(zval **fetched, zval *arr, unsigned long index, int readonly TSRMLS_DC);
 
 /** Check for index existence */
-int ZEPHIR_FASTCALL zephir_array_isset(const zval *arr, zval *index);
-int ZEPHIR_FASTCALL zephir_array_isset_long(const zval *arr, unsigned long index);
-int ZEPHIR_FASTCALL zephir_array_isset_string(const zval *arr, const char *index, uint index_length);
+static int ZEPHIR_FASTCALL zephir_array_isset(const zval *arr, zval *index);
+static int ZEPHIR_FASTCALL zephir_array_isset_long(const zval *arr, unsigned long index);
+static int ZEPHIR_FASTCALL zephir_array_isset_string(const zval *arr, const char *index, uint index_length);
 
 /** Fast index existence checking */
-int ZEPHIR_FASTCALL zephir_array_isset_quick_string(const zval *arr, const char *index, uint index_length, unsigned long key);
+static int ZEPHIR_FASTCALL zephir_array_isset_quick_string(const zval *arr, const char *index, uint index_length, unsigned long key);
 
 /** Unset existing indexes */
-int ZEPHIR_FASTCALL zephir_array_unset(zval **arr, zval *index, int flags);
-int ZEPHIR_FASTCALL zephir_array_unset_long(zval **arr, unsigned long index, int flags);
-int ZEPHIR_FASTCALL zephir_array_unset_string(zval **arr, const char *index, uint index_length, int flags);
+static int ZEPHIR_FASTCALL zephir_array_unset(zval **arr, zval *index, int flags);
+static int ZEPHIR_FASTCALL zephir_array_unset_long(zval **arr, unsigned long index, int flags);
+static int ZEPHIR_FASTCALL zephir_array_unset_string(zval **arr, const char *index, uint index_length, int flags);
 
 /** Append elements to arrays */
-int zephir_array_append(zval **arr, zval *value, int separate ZEPHIR_DEBUG_PARAMS);
-int zephir_array_append_long(zval **arr, long value, int separate);
-int zephir_array_append_string(zval **arr, char *value, uint value_length, int separate);
+static int zephir_array_append(zval **arr, zval *value, int separate ZEPHIR_DEBUG_PARAMS);
+static int zephir_array_append_long(zval **arr, long value, int separate);
+static int zephir_array_append_string(zval **arr, char *value, uint value_length, int separate);
 
 /** Modify arrays */
-int zephir_array_update_zval(zval **arr, zval *index, zval **value, int flags);
-int zephir_array_update_string(zval **arr, const char *index, uint index_length, zval **value, int flags);
-int zephir_array_update_long(zval **arr, unsigned long index, zval **value, int flags ZEPHIR_DEBUG_PARAMS);
+static int zephir_array_update_zval(zval **arr, zval *index, zval **value, int flags);
+static int zephir_array_update_string(zval **arr, const char *index, uint index_length, zval **value, int flags);
+static int zephir_array_update_long(zval **arr, unsigned long index, zval **value, int flags ZEPHIR_DEBUG_PARAMS);
 
 /** Fetch items from arrays */
-int zephir_array_fetch(zval **return_value, zval *arr, zval *index, int flags ZEPHIR_DEBUG_PARAMS TSRMLS_DC);
-int zephir_array_fetch_string(zval **return_value, zval *arr, const char *index, uint index_length, int flags ZEPHIR_DEBUG_PARAMS TSRMLS_DC);
-int zephir_array_fetch_long(zval **return_value, zval *arr, unsigned long index, int flags ZEPHIR_DEBUG_PARAMS TSRMLS_DC);
+static int zephir_array_fetch(zval **return_value, zval *arr, zval *index, int flags ZEPHIR_DEBUG_PARAMS TSRMLS_DC);
+static int zephir_array_fetch_string(zval **return_value, zval *arr, const char *index, uint index_length, int flags ZEPHIR_DEBUG_PARAMS TSRMLS_DC);
+static int zephir_array_fetch_long(zval **return_value, zval *arr, unsigned long index, int flags ZEPHIR_DEBUG_PARAMS TSRMLS_DC);
 
 /** Merge+Append */
-void zephir_merge_append(zval *left, zval *values);
+static void zephir_merge_append(zval *left, zval *values);
 
 /* Traversing Arays */
-void zephir_array_get_current(zval *return_value, zval *array);
-void zephir_array_next(zval *array);
+static void zephir_array_get_current(zval *return_value, zval *array);
+static void zephir_array_next(zval *array);
 
 /* In Array */
-int zephir_fast_in_array(zval *needle, zval *haystack TSRMLS_DC);
+static int zephir_fast_in_array(zval *needle, zval *haystack TSRMLS_DC);
 
 /** Fast Array Merge */
-void zephir_fast_array_merge(zval *return_value, zval **array1, zval **array2 TSRMLS_DC);
+static void zephir_fast_array_merge(zval *return_value, zval **array1, zval **array2 TSRMLS_DC);
 
 /** Recursive merge */
-void zephir_array_merge_recursive_n(zval **a1, zval *a2 TSRMLS_DC);
+static void zephir_array_merge_recursive_n(zval **a1, zval *a2 TSRMLS_DC);
 
-void zephir_array_unshift(zval *arr, zval *arg TSRMLS_DC);
-void zephir_array_keys(zval *return_value, zval *arr TSRMLS_DC);
-void zephir_array_values(zval *return_value, zval *arr);
-int zephir_array_key_exists(zval *arr, zval *key TSRMLS_DC);
-int zephir_array_is_associative(zval *arr);
+static void zephir_array_unshift(zval *arr, zval *arg TSRMLS_DC);
+static void zephir_array_keys(zval *return_value, zval *arr TSRMLS_DC);
+static void zephir_array_values(zval *return_value, zval *arr);
+static int zephir_array_key_exists(zval *arr, zval *key TSRMLS_DC);
+static int zephir_array_is_associative(zval *arr);
 
-int zephir_array_update_multi(zval **arr, zval **value TSRMLS_DC, const char *types, int types_length, int types_count, ...);
+static int zephir_array_update_multi(zval **arr, zval **value TSRMLS_DC, const char *types, int types_length, int types_count, ...);
 
 #define zephir_array_fast_append(arr, value) \
   Z_ADDREF_P(value); \
@@ -2030,7 +2030,7 @@ typedef struct _zephir_fcall_info {
   int func_length;
 } zephir_fcall_info;
 
-int zephir_call_function_opt(zend_fcall_info *fci, zend_fcall_info_cache *fci_cache, zephir_fcall_info *info TSRMLS_DC);
+static int zephir_call_function_opt(zend_fcall_info *fci, zend_fcall_info_cache *fci_cache, zephir_fcall_info *info TSRMLS_DC);
 
 #endif
 
@@ -2048,81 +2048,81 @@ int zephir_call_function_opt(zend_fcall_info *fci, zend_fcall_info_cache *fci_ca
 #define ZEPHIR_SUBSTR_NO_LENGTH 1
 
 /** Fast char position */
-int zephir_memnstr(const zval *haystack, const zval *needle ZEPHIR_DEBUG_PARAMS);
-int zephir_memnstr_str(const zval *haystack, char *needle, unsigned int needle_length ZEPHIR_DEBUG_PARAMS);
+static int zephir_memnstr(const zval *haystack, const zval *needle ZEPHIR_DEBUG_PARAMS);
+static int zephir_memnstr_str(const zval *haystack, char *needle, unsigned int needle_length ZEPHIR_DEBUG_PARAMS);
 
 /** Function replacement */
-void zephir_fast_strlen(zval *return_value, zval *str);
-int zephir_fast_strlen_ev(zval *str);
-void zephir_fast_strtolower(zval *return_value, zval *str);
-void zephir_strtolower_inplace(zval *s);
-void zephir_fast_join(zval *result, zval *glue, zval *pieces TSRMLS_DC);
-void zephir_fast_join_str(zval *result, char *glue, unsigned int glue_length, zval *pieces TSRMLS_DC);
-void zephir_fast_explode(zval *result, zval *delimiter, zval *str, long limit TSRMLS_DC);
-void zephir_fast_explode_str(zval *result, const char *delimiter, int delimiter_length, zval *str, long limit TSRMLS_DC);
-void zephir_fast_strpos(zval *return_value, const zval *haystack, const zval *needle, unsigned int offset);
-void zephir_fast_strpos_str(zval *return_value, const zval *haystack, char *needle, unsigned int needle_length);
-void zephir_fast_stripos_str(zval *return_value, zval *haystack, char *needle, unsigned int needle_length);
-void zephir_fast_str_replace(zval **return_value, zval *search, zval *replace, zval *subject TSRMLS_DC);
-void zephir_fast_trim(zval *return_value, zval *str, zval *charlist, int where TSRMLS_DC);
-void zephir_fast_strip_tags(zval *return_value, zval *str);
-void zephir_fast_strtoupper(zval *return_value, zval *str);
+static void zephir_fast_strlen(zval *return_value, zval *str);
+static int zephir_fast_strlen_ev(zval *str);
+static void zephir_fast_strtolower(zval *return_value, zval *str);
+static void zephir_strtolower_inplace(zval *s);
+static void zephir_fast_join(zval *result, zval *glue, zval *pieces TSRMLS_DC);
+static void zephir_fast_join_str(zval *result, char *glue, unsigned int glue_length, zval *pieces TSRMLS_DC);
+static void zephir_fast_explode(zval *result, zval *delimiter, zval *str, long limit TSRMLS_DC);
+static void zephir_fast_explode_str(zval *result, const char *delimiter, int delimiter_length, zval *str, long limit TSRMLS_DC);
+static void zephir_fast_strpos(zval *return_value, const zval *haystack, const zval *needle, unsigned int offset);
+static void zephir_fast_strpos_str(zval *return_value, const zval *haystack, char *needle, unsigned int needle_length);
+static void zephir_fast_stripos_str(zval *return_value, zval *haystack, char *needle, unsigned int needle_length);
+static void zephir_fast_str_replace(zval **return_value, zval *search, zval *replace, zval *subject TSRMLS_DC);
+static void zephir_fast_trim(zval *return_value, zval *str, zval *charlist, int where TSRMLS_DC);
+static void zephir_fast_strip_tags(zval *return_value, zval *str);
+static void zephir_fast_strtoupper(zval *return_value, zval *str);
 
 /** Camelize/Uncamelize */
-void zephir_camelize(zval *return_value, const zval *str);
-void zephir_uncamelize(zval *return_value, const zval *str);
+static void zephir_camelize(zval *return_value, const zval *str);
+static void zephir_uncamelize(zval *return_value, const zval *str);
 
 /** Starts/Ends with */
-int zephir_start_with(const zval *str, const zval *compared, zval *case_sensitive);
-int zephir_start_with_str(const zval *str, char *compared, unsigned int compared_length);
-int zephir_start_with_str_str(char *str, unsigned int str_length, char *compared, unsigned int compared_length);
-int zephir_end_with(const zval *str, const zval *compared, zval *case_sensitive);
-int zephir_end_with_str(const zval *str, char *compared, unsigned int compared_length);
+static int zephir_start_with(const zval *str, const zval *compared, zval *case_sensitive);
+static int zephir_start_with_str(const zval *str, char *compared, unsigned int compared_length);
+static int zephir_start_with_str_str(char *str, unsigned int str_length, char *compared, unsigned int compared_length);
+static int zephir_end_with(const zval *str, const zval *compared, zval *case_sensitive);
+static int zephir_end_with_str(const zval *str, char *compared, unsigned int compared_length);
 
 /** Random string */
-void zephir_random_string(zval *return_value, const zval *type, const zval *length TSRMLS_DC);
+static void zephir_random_string(zval *return_value, const zval *type, const zval *length TSRMLS_DC);
 
 /* Strips extra slashes */
-void zephir_remove_extra_slashes(zval *return_value, const zval *str);
+static void zephir_remove_extra_slashes(zval *return_value, const zval *str);
 
 /** Generates a unique key for an array/object */
-void zephir_unique_key(zval *return_value, zval *prefix, zval *value TSRMLS_DC);
+static void zephir_unique_key(zval *return_value, zval *prefix, zval *value TSRMLS_DC);
 
 /** spprintf */
-int zephir_spprintf(char **message, int max_len, char *format, ...);
+static int zephir_spprintf(char **message, int max_len, char *format, ...);
 
 /* Substr */
-void zephir_substr(zval *return_value, zval *str, long from, long length, int flags);
+static void zephir_substr(zval *return_value, zval *str, long from, long length, int flags);
 
 /** EOL */
 zval *zephir_eol(int eol TSRMLS_DC);
 
 /** Preg-Match */
-void zephir_preg_match(zval *return_value, zval **return_value_ptr, zval *regex, zval *subject, zval *matches, int global, long flags, long offset TSRMLS_DC);
+static void zephir_preg_match(zval *return_value, zval **return_value_ptr, zval *regex, zval *subject, zval *matches, int global, long flags, long offset TSRMLS_DC);
 
 /** Base64 */
-void zephir_base64_encode(zval *return_value, zval *data);
-void zephir_base64_decode(zval *return_value, zval *data);
+static void zephir_base64_encode(zval *return_value, zval *data);
+static void zephir_base64_decode(zval *return_value, zval *data);
 
 /** Hash */
-void zephir_md5(zval *return_value, zval *str);
-void zephir_crc32(zval *return_value, zval *str TSRMLS_DC);
+static void zephir_md5(zval *return_value, zval *str);
+static void zephir_crc32(zval *return_value, zval *str TSRMLS_DC);
 
 /** JSON */
-int zephir_json_encode(zval *return_value, zval **return_value_ptr, zval *v, int opts TSRMLS_DC);
-int zephir_json_decode(zval *return_value, zval **return_value_ptr, zval *v, zend_bool assoc TSRMLS_DC);
+static int zephir_json_encode(zval *return_value, zval **return_value_ptr, zval *v, int opts TSRMLS_DC);
+static int zephir_json_decode(zval *return_value, zval **return_value_ptr, zval *v, zend_bool assoc TSRMLS_DC);
 
 /***/
-void zephir_lcfirst(zval *return_value, zval *s);
-void zephir_ucfirst(zval *return_value, zval *s);
-int zephir_http_build_query(zval *return_value, zval *params, char *sep TSRMLS_DC);
-void zephir_htmlspecialchars(zval *return_value, zval *string, zval *quoting, zval *charset TSRMLS_DC);
-void zephir_htmlentities(zval *return_value, zval *string, zval *quoting, zval *charset TSRMLS_DC);
-void zephir_strval(zval *return_value, zval *v);
-void zephir_date(zval *return_value, zval *format, zval *timestamp TSRMLS_DC);
-void zephir_addslashes(zval *return_value, zval *str TSRMLS_DC);
-void zephir_stripslashes(zval *return_value, zval *str TSRMLS_DC);
-void zephir_stripcslashes(zval *return_value, zval *str TSRMLS_DC);
+static void zephir_lcfirst(zval *return_value, zval *s);
+static void zephir_ucfirst(zval *return_value, zval *s);
+static int zephir_http_build_query(zval *return_value, zval *params, char *sep TSRMLS_DC);
+static void zephir_htmlspecialchars(zval *return_value, zval *string, zval *quoting, zval *charset TSRMLS_DC);
+static void zephir_htmlentities(zval *return_value, zval *string, zval *quoting, zval *charset TSRMLS_DC);
+static void zephir_strval(zval *return_value, zval *v);
+static void zephir_date(zval *return_value, zval *format, zval *timestamp TSRMLS_DC);
+static void zephir_addslashes(zval *return_value, zval *str TSRMLS_DC);
+static void zephir_stripslashes(zval *return_value, zval *str TSRMLS_DC);
+static void zephir_stripcslashes(zval *return_value, zval *str TSRMLS_DC);
 
 #if PHP_VERSION_ID < 50400
 
@@ -2600,11 +2600,11 @@ typedef zend_function zephir_fcall_cache_entry;
 		ZEPHIR_LAST_CALL_STATUS = zephir_call_user_func_array_noex(return_value, handler, params TSRMLS_CC); \
 	} while (0)
 
-int zephir_call_func_aparams(zval **return_value_ptr, const char *func_name, uint func_length,
+static int zephir_call_func_aparams(zval **return_value_ptr, const char *func_name, uint func_length,
 	zephir_fcall_cache_entry **cache_entry,
 	uint param_count, zval **params TSRMLS_DC);
 
-int zephir_call_zval_func_aparams(zval **return_value_ptr, zval *func_name,
+static int zephir_call_zval_func_aparams(zval **return_value_ptr, zval *func_name,
 	zephir_fcall_cache_entry **cache_entry,
 	uint param_count, zval **params TSRMLS_DC) ZEPHIR_ATTR_WARN_UNUSED_RESULT;
 
@@ -2664,7 +2664,7 @@ ZEPHIR_ATTR_WARN_UNUSED_RESULT static inline int zephir_return_call_zval_functio
 	return SUCCESS;
 }
 
-int zephir_call_class_method_aparams(zval **return_value_ptr, zend_class_entry *ce, zephir_call_type type, zval *object,
+static int zephir_call_class_method_aparams(zval **return_value_ptr, zend_class_entry *ce, zephir_call_type type, zval *object,
 	const char *method_name, uint method_len,
 	zephir_fcall_cache_entry **cache_entry,
 	uint param_count, zval **params TSRMLS_DC) ZEPHIR_ATTR_WARN_UNUSED_RESULT;
@@ -2764,7 +2764,7 @@ ZEPHIR_ATTR_WARN_UNUSED_RESULT static inline int zephir_return_call_class_method
 //}
 
 /** Fast call_user_func_array/call_user_func */
-int zephir_call_user_func_array_noex(zval *return_value, zval *handler, zval *params TSRMLS_DC) ZEPHIR_ATTR_WARN_UNUSED_RESULT;
+static int zephir_call_user_func_array_noex(zval *return_value, zval *handler, zval *params TSRMLS_DC) ZEPHIR_ATTR_WARN_UNUSED_RESULT;
 
 ZEPHIR_ATTR_WARN_UNUSED_RESULT static inline int zephir_call_user_func_array(zval *return_value, zval *handler, zval *params TSRMLS_DC)
 {
@@ -2772,7 +2772,7 @@ ZEPHIR_ATTR_WARN_UNUSED_RESULT static inline int zephir_call_user_func_array(zva
 	return (EG(exception)) ? FAILURE : status;
 }
 
-int zephir_has_constructor_ce(const zend_class_entry *ce) ZEPHIR_ATTR_PURE ZEPHIR_ATTR_NONNULL;
+static int zephir_has_constructor_ce(const zend_class_entry *ce) ZEPHIR_ATTR_PURE ZEPHIR_ATTR_NONNULL;
 
 ZEPHIR_ATTR_WARN_UNUSED_RESULT ZEPHIR_ATTR_NONNULL static inline int zephir_has_constructor(const zval *object TSRMLS_DC)
 {
@@ -2781,7 +2781,7 @@ ZEPHIR_ATTR_WARN_UNUSED_RESULT ZEPHIR_ATTR_NONNULL static inline int zephir_has_
 
 /** PHP < 5.3.9 has problems with closures */
 #if PHP_VERSION_ID <= 50309
-int zephir_call_function(zend_fcall_info *fci, zend_fcall_info_cache *fci_cache TSRMLS_DC);
+static int zephir_call_function(zend_fcall_info *fci, zend_fcall_info_cache *fci_cache TSRMLS_DC);
 #define ZEPHIR_ZEND_CALL_FUNCTION_WRAPPER zephir_call_function
 #else
 #if PHP_VERSION_ID >= 50600
@@ -2821,7 +2821,7 @@ int zephir_call_function(zend_fcall_info *fci, zend_fcall_info_cache *fci_cache 
 #define zephir_check_temp_parameter(param)
 #endif
 
-void zephir_eval_php(zval *str, zval *retval_ptr, char *context TSRMLS_DC);
+static void zephir_eval_php(zval *str, zval *retval_ptr, char *context TSRMLS_DC);
 
 #endif /* ZEPHIR_KERNEL_FCALL_H */
 
@@ -2832,7 +2832,7 @@ void zephir_eval_php(zval *str, zval *retval_ptr, char *context TSRMLS_DC);
 #define ZEPHIR_KERNEL_REQUIRE_H
 
 
-int zephir_require_ret(zval **return_value_ptr, const char *require_path TSRMLS_DC) ZEPHIR_ATTR_NONNULL1(2);
+static int zephir_require_ret(zval **return_value_ptr, const char *require_path TSRMLS_DC) ZEPHIR_ATTR_NONNULL1(2);
 
 ZEPHIR_ATTR_NONNULL static inline int zephir_require(const char *require_path TSRMLS_DC)
 {
@@ -2857,24 +2857,24 @@ ZEPHIR_ATTR_NONNULL static inline int zephir_require_zval_ret(zval **return_valu
 #ifndef ZEPHIR_KERNEL_FILE_H
 #define ZEPHIR_KERNEL_FILE_H
 
-int zephir_file_exists(zval *filename TSRMLS_DC);
-int zephir_compare_mtime(zval *filename1, zval *filename2 TSRMLS_DC);
-void zephir_fix_path(zval **return_value, zval *path, zval *directory_separator TSRMLS_DC);
-void zephir_prepare_virtual_path(zval *return_value, zval *path, zval *virtual_separator TSRMLS_DC);
-void zephir_unique_path_key(zval *return_value, zval *path TSRMLS_DC);
-void zephir_realpath(zval *return_value, zval *filename TSRMLS_DC);
-void zephir_file_get_contents(zval *return_value, zval *filename TSRMLS_DC);
-void zephir_file_put_contents(zval *return_value, zval *filename, zval *data TSRMLS_DC);
-void zephir_possible_autoload_filepath(zval *return_value, zval *prefix, zval *class_name, zval *virtual_separator, zval *separator TSRMLS_DC);
+static int zephir_file_exists(zval *filename TSRMLS_DC);
+static int zephir_compare_mtime(zval *filename1, zval *filename2 TSRMLS_DC);
+static void zephir_fix_path(zval **return_value, zval *path, zval *directory_separator TSRMLS_DC);
+static void zephir_prepare_virtual_path(zval *return_value, zval *path, zval *virtual_separator TSRMLS_DC);
+static void zephir_unique_path_key(zval *return_value, zval *path TSRMLS_DC);
+static void zephir_realpath(zval *return_value, zval *filename TSRMLS_DC);
+static void zephir_file_get_contents(zval *return_value, zval *filename TSRMLS_DC);
+static void zephir_file_put_contents(zval *return_value, zval *filename, zval *data TSRMLS_DC);
+static void zephir_possible_autoload_filepath(zval *return_value, zval *prefix, zval *class_name, zval *virtual_separator, zval *separator TSRMLS_DC);
 
-void zephir_is_dir(zval *return_value, zval *path TSRMLS_DC);
-void zephir_unlink(zval *return_value, zval *path TSRMLS_DC);
-void zephir_filemtime(zval *return_value, zval *path TSRMLS_DC);
-void zephir_basename(zval *return_value, zval *path TSRMLS_DC);
+static void zephir_is_dir(zval *return_value, zval *path TSRMLS_DC);
+static void zephir_unlink(zval *return_value, zval *path TSRMLS_DC);
+static void zephir_filemtime(zval *return_value, zval *path TSRMLS_DC);
+static void zephir_basename(zval *return_value, zval *path TSRMLS_DC);
 
-void zephir_fwrite(zval *return_value, zval *stream_zval, zval *data TSRMLS_DC);
-int zephir_feof(zval *stream_zval TSRMLS_DC);
-int zephir_fclose(zval *stream_zval TSRMLS_DC);
+static void zephir_fwrite(zval *return_value, zval *stream_zval, zval *data TSRMLS_DC);
+static int zephir_feof(zval *stream_zval TSRMLS_DC);
+static int zephir_fclose(zval *stream_zval TSRMLS_DC);
 
 #ifdef TSRM_WIN32
 #define ZEPHIR_DIRECTORY_SEPARATOR "\\"
@@ -2949,7 +2949,7 @@ int zephir_fclose(zval *stream_zval TSRMLS_DC);
 #define zephir_decrement(var) fast_decrement_function(var)
 #endif
 
-void zephir_make_printable_zval(zval *expr, zval *expr_copy, int *use_copy);
+static void zephir_make_printable_zval(zval *expr, zval *expr_copy, int *use_copy);
 
 #if PHP_VERSION_ID < 50400
 #define zephir_sub_function(result, left, right, t) sub_function(result, left, right TSRMLS_CC)
@@ -2960,59 +2960,59 @@ void zephir_make_printable_zval(zval *expr, zval *expr_copy, int *use_copy);
 #endif
 
 #if PHP_VERSION_ID < 50600
-void zephir_pow_function_ex(zval *return_value, zval *zbase, zval *zexp TSRMLS_DC);
+static void zephir_pow_function_ex(zval *return_value, zval *zbase, zval *zexp TSRMLS_DC);
 #define zephir_pow_function(result, op1, op2) zephir_pow_function_ex(result, op1, op2 TSRMLS_CC)
 #else
 #define zephir_pow_function(result, op1, op2) pow_function(result, op1, op2 TSRMLS_CC)
 #endif
 
 /** Operator functions */
-int zephir_add_function_ex(zval *result, zval *op1, zval *op2 TSRMLS_DC);
-int zephir_and_function(zval *result, zval *left, zval *right);
-void zephir_negate(zval *z TSRMLS_DC);
+static int zephir_add_function_ex(zval *result, zval *op1, zval *op2 TSRMLS_DC);
+static int zephir_and_function(zval *result, zval *left, zval *right);
+static void zephir_negate(zval *z TSRMLS_DC);
 
 /** Bitwise functions */
-int zephir_bitwise_and_function(zval *result, zval *op1, zval *op2 TSRMLS_DC);
-int zephir_bitwise_or_function(zval *result, zval *op1, zval *op2 TSRMLS_DC);
-int zephir_bitwise_xor_function(zval *result, zval *op1, zval *op2 TSRMLS_DC);
-int zephir_shift_left_function(zval *result, zval *op1, zval *op2 TSRMLS_DC);
-int zephir_shift_right_function(zval *result, zval *op1, zval *op2 TSRMLS_DC);
+static int zephir_bitwise_and_function(zval *result, zval *op1, zval *op2 TSRMLS_DC);
+static int zephir_bitwise_or_function(zval *result, zval *op1, zval *op2 TSRMLS_DC);
+static int zephir_bitwise_xor_function(zval *result, zval *op1, zval *op2 TSRMLS_DC);
+static int zephir_shift_left_function(zval *result, zval *op1, zval *op2 TSRMLS_DC);
+static int zephir_shift_right_function(zval *result, zval *op1, zval *op2 TSRMLS_DC);
 
-void zephir_concat_self(zval **left, zval *right TSRMLS_DC);
-void zephir_concat_self_str(zval **left, const char *right, int right_length TSRMLS_DC);
-void zephir_concat_self_long(zval **left, const long right TSRMLS_DC);
-void zephir_concat_self_char(zval **left, unsigned char right TSRMLS_DC);
+static void zephir_concat_self(zval **left, zval *right TSRMLS_DC);
+static void zephir_concat_self_str(zval **left, const char *right, int right_length TSRMLS_DC);
+static void zephir_concat_self_long(zval **left, const long right TSRMLS_DC);
+static void zephir_concat_self_char(zval **left, unsigned char right TSRMLS_DC);
 
 /** Strict comparing */
-int zephir_compare_strict_string(zval *op1, const char *op2, int op2_length);
-int zephir_compare_strict_long(zval *op1, long op2 TSRMLS_DC);
-int zephir_compare_strict_double(zval *op1, double op2 TSRMLS_DC);
-int zephir_compare_strict_bool(zval *op1, zend_bool op2 TSRMLS_DC);
+static int zephir_compare_strict_string(zval *op1, const char *op2, int op2_length);
+static int zephir_compare_strict_long(zval *op1, long op2 TSRMLS_DC);
+static int zephir_compare_strict_double(zval *op1, double op2 TSRMLS_DC);
+static int zephir_compare_strict_bool(zval *op1, zend_bool op2 TSRMLS_DC);
 
-void zephir_cast(zval *result, zval *var, zend_uint type);
-void zephir_convert_to_object(zval *op);
+static void zephir_cast(zval *result, zval *var, zend_uint type);
+static void zephir_convert_to_object(zval *op);
 long zephir_get_intval_ex(const zval *op);
 double zephir_get_doubleval_ex(const zval *op);
 zend_bool zephir_get_boolval_ex(const zval *op);
 
-int zephir_is_numeric_ex(const zval *op);
+static int zephir_is_numeric_ex(const zval *op);
 
-int zephir_is_equal(zval *op1, zval *op2 TSRMLS_DC);
-int zephir_is_identical(zval *op1, zval *op2 TSRMLS_DC);
+static int zephir_is_equal(zval *op1, zval *op2 TSRMLS_DC);
+static int zephir_is_identical(zval *op1, zval *op2 TSRMLS_DC);
 
-int zephir_less(zval *op1, zval *op2 TSRMLS_DC);
-int zephir_less_long(zval *op1, long op2 TSRMLS_DC);
-int zephir_less_double(zval *op1, double op2 TSRMLS_DC);
+static int zephir_less(zval *op1, zval *op2 TSRMLS_DC);
+static int zephir_less_long(zval *op1, long op2 TSRMLS_DC);
+static int zephir_less_double(zval *op1, double op2 TSRMLS_DC);
 
-int zephir_greater(zval *op1, zval *op2 TSRMLS_DC);
-int zephir_greater_long(zval *op1, long op2 TSRMLS_DC);
-int zephir_greater_double(zval *op1, double op2 TSRMLS_DC);
+static int zephir_greater(zval *op1, zval *op2 TSRMLS_DC);
+static int zephir_greater_long(zval *op1, long op2 TSRMLS_DC);
+static int zephir_greater_double(zval *op1, double op2 TSRMLS_DC);
 
-int zephir_less_equal(zval *op1, zval *op2 TSRMLS_DC);
-int zephir_less_equal_long(zval *op1, long op2 TSRMLS_DC);
+static int zephir_less_equal(zval *op1, zval *op2 TSRMLS_DC);
+static int zephir_less_equal_long(zval *op1, long op2 TSRMLS_DC);
 
-int zephir_greater_equal(zval *op1, zval *op2 TSRMLS_DC);
-int zephir_greater_equal_long(zval *op1, long op2 TSRMLS_DC);
+static int zephir_greater_equal(zval *op1, zval *op2 TSRMLS_DC);
+static int zephir_greater_equal_long(zval *op1, long op2 TSRMLS_DC);
 
 double zephir_safe_div_long_long(long op1, long op2 TSRMLS_DC);
 double zephir_safe_div_long_double(long op1, double op2 TSRMLS_DC);
@@ -3023,10 +3023,10 @@ double zephir_safe_div_zval_double(zval *op1, double op2 TSRMLS_DC);
 double zephir_safe_div_long_zval(long op1, zval *op2 TSRMLS_DC);
 double zephir_safe_div_double_zval(double op1, zval *op2 TSRMLS_DC);
 
-void zephir_floor(zval *return_value, zval *op1 TSRMLS_DC);
-void zephir_ceil(zval *return_value, zval *op1 TSRMLS_DC);
-void zephir_round(zval *return_value, zval *op1, zval *op2, zval *op3 TSRMLS_DC);
-void zephir_pow(zval *return_value, zval *op1, zval *op2 TSRMLS_DC);
+static void zephir_floor(zval *return_value, zval *op1 TSRMLS_DC);
+static void zephir_ceil(zval *return_value, zval *op1 TSRMLS_DC);
+static void zephir_round(zval *return_value, zval *op1, zval *op2, zval *op3 TSRMLS_DC);
+static void zephir_pow(zval *return_value, zval *op1, zval *op2 TSRMLS_DC);
 
 #define zephir_get_numberval(z) (Z_TYPE_P(z) == IS_LONG ? Z_LVAL_P(z) : zephir_get_doubleval(z))
 #define zephir_get_intval(z) (Z_TYPE_P(z) == IS_LONG ? Z_LVAL_P(z) : zephir_get_intval_ex(z))
@@ -3333,62 +3333,62 @@ void zephir_pow(zval *return_value, zval *op1, zval *op2 TSRMLS_DC);
 	 zephir_concat_vvvvv(&result, op1, op2, op3, op4, op5, 1 TSRMLS_CC);
 
 
-void zephir_concat_sv(zval **result, const char *op1, zend_uint op1_len, zval *op2, int self_var TSRMLS_DC);
-void zephir_concat_svs(zval **result, const char *op1, zend_uint op1_len, zval *op2, const char *op3, zend_uint op3_len, int self_var TSRMLS_DC);
-void zephir_concat_svsv(zval **result, const char *op1, zend_uint op1_len, zval *op2, const char *op3, zend_uint op3_len, zval *op4, int self_var TSRMLS_DC);
-void zephir_concat_svsvs(zval **result, const char *op1, zend_uint op1_len, zval *op2, const char *op3, zend_uint op3_len, zval *op4, const char *op5, zend_uint op5_len, int self_var TSRMLS_DC);
-void zephir_concat_svsvssvsvs(zval **result, const char *op1, zend_uint op1_len, zval *op2, const char *op3, zend_uint op3_len, zval *op4, const char *op5, zend_uint op5_len, const char *op6, zend_uint op6_len, zval *op7, const char *op8, zend_uint op8_len, zval *op9, const char *op10, zend_uint op10_len, int self_var TSRMLS_DC);
-void zephir_concat_svsvsv(zval **result, const char *op1, zend_uint op1_len, zval *op2, const char *op3, zend_uint op3_len, zval *op4, const char *op5, zend_uint op5_len, zval *op6, int self_var TSRMLS_DC);
-void zephir_concat_svsvsvs(zval **result, const char *op1, zend_uint op1_len, zval *op2, const char *op3, zend_uint op3_len, zval *op4, const char *op5, zend_uint op5_len, zval *op6, const char *op7, zend_uint op7_len, int self_var TSRMLS_DC);
-void zephir_concat_svsvsvsv(zval **result, const char *op1, zend_uint op1_len, zval *op2, const char *op3, zend_uint op3_len, zval *op4, const char *op5, zend_uint op5_len, zval *op6, const char *op7, zend_uint op7_len, zval *op8, int self_var TSRMLS_DC);
-void zephir_concat_svsvsvsvs(zval **result, const char *op1, zend_uint op1_len, zval *op2, const char *op3, zend_uint op3_len, zval *op4, const char *op5, zend_uint op5_len, zval *op6, const char *op7, zend_uint op7_len, zval *op8, const char *op9, zend_uint op9_len, int self_var TSRMLS_DC);
-void zephir_concat_svsvv(zval **result, const char *op1, zend_uint op1_len, zval *op2, const char *op3, zend_uint op3_len, zval *op4, zval *op5, int self_var TSRMLS_DC);
-void zephir_concat_svsvvsv(zval **result, const char *op1, zend_uint op1_len, zval *op2, const char *op3, zend_uint op3_len, zval *op4, zval *op5, const char *op6, zend_uint op6_len, zval *op7, int self_var TSRMLS_DC);
-void zephir_concat_svv(zval **result, const char *op1, zend_uint op1_len, zval *op2, zval *op3, int self_var TSRMLS_DC);
-void zephir_concat_svvs(zval **result, const char *op1, zend_uint op1_len, zval *op2, zval *op3, const char *op4, zend_uint op4_len, int self_var TSRMLS_DC);
-void zephir_concat_vs(zval **result, zval *op1, const char *op2, zend_uint op2_len, int self_var TSRMLS_DC);
-void zephir_concat_vsv(zval **result, zval *op1, const char *op2, zend_uint op2_len, zval *op3, int self_var TSRMLS_DC);
-void zephir_concat_vsvs(zval **result, zval *op1, const char *op2, zend_uint op2_len, zval *op3, const char *op4, zend_uint op4_len, int self_var TSRMLS_DC);
-void zephir_concat_vsvsv(zval **result, zval *op1, const char *op2, zend_uint op2_len, zval *op3, const char *op4, zend_uint op4_len, zval *op5, int self_var TSRMLS_DC);
-void zephir_concat_vsvsvs(zval **result, zval *op1, const char *op2, zend_uint op2_len, zval *op3, const char *op4, zend_uint op4_len, zval *op5, const char *op6, zend_uint op6_len, int self_var TSRMLS_DC);
-void zephir_concat_vsvsvsv(zval **result, zval *op1, const char *op2, zend_uint op2_len, zval *op3, const char *op4, zend_uint op4_len, zval *op5, const char *op6, zend_uint op6_len, zval *op7, int self_var TSRMLS_DC);
-void zephir_concat_vsvv(zval **result, zval *op1, const char *op2, zend_uint op2_len, zval *op3, zval *op4, int self_var TSRMLS_DC);
-void zephir_concat_vsvvv(zval **result, zval *op1, const char *op2, zend_uint op2_len, zval *op3, zval *op4, zval *op5, int self_var TSRMLS_DC);
-void zephir_concat_vv(zval **result, zval *op1, zval *op2, int self_var TSRMLS_DC);
-void zephir_concat_vvs(zval **result, zval *op1, zval *op2, const char *op3, zend_uint op3_len, int self_var TSRMLS_DC);
-void zephir_concat_vvsv(zval **result, zval *op1, zval *op2, const char *op3, zend_uint op3_len, zval *op4, int self_var TSRMLS_DC);
-void zephir_concat_vvv(zval **result, zval *op1, zval *op2, zval *op3, int self_var TSRMLS_DC);
-void zephir_concat_vvvsv(zval **result, zval *op1, zval *op2, zval *op3, const char *op4, zend_uint op4_len, zval *op5, int self_var TSRMLS_DC);
-void zephir_concat_vvvv(zval **result, zval *op1, zval *op2, zval *op3, zval *op4, int self_var TSRMLS_DC);
-void zephir_concat_vvvvsvv(zval **result, zval *op1, zval *op2, zval *op3, zval *op4, const char *op5, zend_uint op5_len, zval *op6, zval *op7, int self_var TSRMLS_DC);
-void zephir_concat_vvvvv(zval **result, zval *op1, zval *op2, zval *op3, zval *op4, zval *op5, int self_var TSRMLS_DC);
-void zephir_concat_function(zval *result, zval *op1, zval *op2 TSRMLS_DC);
+static void zephir_concat_sv(zval **result, const char *op1, zend_uint op1_len, zval *op2, int self_var TSRMLS_DC);
+static void zephir_concat_svs(zval **result, const char *op1, zend_uint op1_len, zval *op2, const char *op3, zend_uint op3_len, int self_var TSRMLS_DC);
+static void zephir_concat_svsv(zval **result, const char *op1, zend_uint op1_len, zval *op2, const char *op3, zend_uint op3_len, zval *op4, int self_var TSRMLS_DC);
+static void zephir_concat_svsvs(zval **result, const char *op1, zend_uint op1_len, zval *op2, const char *op3, zend_uint op3_len, zval *op4, const char *op5, zend_uint op5_len, int self_var TSRMLS_DC);
+static void zephir_concat_svsvssvsvs(zval **result, const char *op1, zend_uint op1_len, zval *op2, const char *op3, zend_uint op3_len, zval *op4, const char *op5, zend_uint op5_len, const char *op6, zend_uint op6_len, zval *op7, const char *op8, zend_uint op8_len, zval *op9, const char *op10, zend_uint op10_len, int self_var TSRMLS_DC);
+static void zephir_concat_svsvsv(zval **result, const char *op1, zend_uint op1_len, zval *op2, const char *op3, zend_uint op3_len, zval *op4, const char *op5, zend_uint op5_len, zval *op6, int self_var TSRMLS_DC);
+static void zephir_concat_svsvsvs(zval **result, const char *op1, zend_uint op1_len, zval *op2, const char *op3, zend_uint op3_len, zval *op4, const char *op5, zend_uint op5_len, zval *op6, const char *op7, zend_uint op7_len, int self_var TSRMLS_DC);
+static void zephir_concat_svsvsvsv(zval **result, const char *op1, zend_uint op1_len, zval *op2, const char *op3, zend_uint op3_len, zval *op4, const char *op5, zend_uint op5_len, zval *op6, const char *op7, zend_uint op7_len, zval *op8, int self_var TSRMLS_DC);
+static void zephir_concat_svsvsvsvs(zval **result, const char *op1, zend_uint op1_len, zval *op2, const char *op3, zend_uint op3_len, zval *op4, const char *op5, zend_uint op5_len, zval *op6, const char *op7, zend_uint op7_len, zval *op8, const char *op9, zend_uint op9_len, int self_var TSRMLS_DC);
+static void zephir_concat_svsvv(zval **result, const char *op1, zend_uint op1_len, zval *op2, const char *op3, zend_uint op3_len, zval *op4, zval *op5, int self_var TSRMLS_DC);
+static void zephir_concat_svsvvsv(zval **result, const char *op1, zend_uint op1_len, zval *op2, const char *op3, zend_uint op3_len, zval *op4, zval *op5, const char *op6, zend_uint op6_len, zval *op7, int self_var TSRMLS_DC);
+static void zephir_concat_svv(zval **result, const char *op1, zend_uint op1_len, zval *op2, zval *op3, int self_var TSRMLS_DC);
+static void zephir_concat_svvs(zval **result, const char *op1, zend_uint op1_len, zval *op2, zval *op3, const char *op4, zend_uint op4_len, int self_var TSRMLS_DC);
+static void zephir_concat_vs(zval **result, zval *op1, const char *op2, zend_uint op2_len, int self_var TSRMLS_DC);
+static void zephir_concat_vsv(zval **result, zval *op1, const char *op2, zend_uint op2_len, zval *op3, int self_var TSRMLS_DC);
+static void zephir_concat_vsvs(zval **result, zval *op1, const char *op2, zend_uint op2_len, zval *op3, const char *op4, zend_uint op4_len, int self_var TSRMLS_DC);
+static void zephir_concat_vsvsv(zval **result, zval *op1, const char *op2, zend_uint op2_len, zval *op3, const char *op4, zend_uint op4_len, zval *op5, int self_var TSRMLS_DC);
+static void zephir_concat_vsvsvs(zval **result, zval *op1, const char *op2, zend_uint op2_len, zval *op3, const char *op4, zend_uint op4_len, zval *op5, const char *op6, zend_uint op6_len, int self_var TSRMLS_DC);
+static void zephir_concat_vsvsvsv(zval **result, zval *op1, const char *op2, zend_uint op2_len, zval *op3, const char *op4, zend_uint op4_len, zval *op5, const char *op6, zend_uint op6_len, zval *op7, int self_var TSRMLS_DC);
+static void zephir_concat_vsvv(zval **result, zval *op1, const char *op2, zend_uint op2_len, zval *op3, zval *op4, int self_var TSRMLS_DC);
+static void zephir_concat_vsvvv(zval **result, zval *op1, const char *op2, zend_uint op2_len, zval *op3, zval *op4, zval *op5, int self_var TSRMLS_DC);
+static void zephir_concat_vv(zval **result, zval *op1, zval *op2, int self_var TSRMLS_DC);
+static void zephir_concat_vvs(zval **result, zval *op1, zval *op2, const char *op3, zend_uint op3_len, int self_var TSRMLS_DC);
+static void zephir_concat_vvsv(zval **result, zval *op1, zval *op2, const char *op3, zend_uint op3_len, zval *op4, int self_var TSRMLS_DC);
+static void zephir_concat_vvv(zval **result, zval *op1, zval *op2, zval *op3, int self_var TSRMLS_DC);
+static void zephir_concat_vvvsv(zval **result, zval *op1, zval *op2, zval *op3, const char *op4, zend_uint op4_len, zval *op5, int self_var TSRMLS_DC);
+static void zephir_concat_vvvv(zval **result, zval *op1, zval *op2, zval *op3, zval *op4, int self_var TSRMLS_DC);
+static void zephir_concat_vvvvsvv(zval **result, zval *op1, zval *op2, zval *op3, zval *op4, const char *op5, zend_uint op5_len, zval *op6, zval *op7, int self_var TSRMLS_DC);
+static void zephir_concat_vvvvv(zval **result, zval *op1, zval *op2, zval *op3, zval *op4, zval *op5, int self_var TSRMLS_DC);
+static void zephir_concat_function(zval *result, zval *op1, zval *op2 TSRMLS_DC);
 
 
 
-void zephir_serialize(zval *return_value, zval **var  TSRMLS_DC);
-void zephir_unserialize(zval *return_value, zval *var TSRMLS_DC);
+static void zephir_serialize(zval *return_value, zval **var  TSRMLS_DC);
+static void zephir_unserialize(zval *return_value, zval *var TSRMLS_DC);
 
-void zephir_var_export(zval **var TSRMLS_DC);
-void zephir_var_export_ex(zval *return_value, zval **var TSRMLS_DC);
+static void zephir_var_export(zval **var TSRMLS_DC);
+static void zephir_var_export_ex(zval *return_value, zval **var TSRMLS_DC);
 
-void zephir_var_dump(zval **var TSRMLS_DC);
+static void zephir_var_dump(zval **var TSRMLS_DC);
 
 
 
 
 /** Low level filters */
-void zephir_filter_alphanum(zval *return_value, zval *param);
-void zephir_filter_identifier(zval *return_value, zval *param);
+static void zephir_filter_alphanum(zval *return_value, zval *param);
+static void zephir_filter_identifier(zval *return_value, zval *param);
 
 /** Encoding */
-void zephir_is_basic_charset(zval *return_value, const zval *param);
+static void zephir_is_basic_charset(zval *return_value, const zval *param);
 
 /** Escaping */
-void zephir_escape_css(zval *return_value, zval *param);
-void zephir_escape_js(zval *return_value, zval *param);
-void zephir_escape_htmlattr(zval *return_value, zval *param);
-void zephir_escape_html(zval *return_value, zval *str, zval *quote_style, zval *charset TSRMLS_DC);
+static void zephir_escape_css(zval *return_value, zval *param);
+static void zephir_escape_js(zval *return_value, zval *param);
+static void zephir_escape_htmlattr(zval *return_value, zval *param);
+static void zephir_escape_html(zval *return_value, zval *str, zval *quote_style, zval *charset TSRMLS_DC);
 
 
 
@@ -3408,9 +3408,9 @@ zend_object_iterator *zephir_get_iterator(zval *iterator TSRMLS_DC);
 
 #define MICRO_IN_SEC 1000000.00
 
-void zephir_time(zval *return_value);
+static void zephir_time(zval *return_value);
 #ifdef HAVE_GETTIMEOFDAY
-void zephir_microtime(zval *return_value, zval *get_as_float TSRMLS_DC);
+static void zephir_microtime(zval *return_value, zval *get_as_float TSRMLS_DC);
 #endif
 
 #endif /* ZEPHIR_KERNEL_TIME_H */
@@ -3423,8 +3423,8 @@ void zephir_microtime(zval *return_value, zval *get_as_float TSRMLS_DC);
 
 #include <Zend/zend.h>
 
-void zephir_exit_empty();
-void zephir_exit(zval *ptr);
+static void zephir_exit_empty();
+static void zephir_exit(zval *ptr);
 
 #endif
 
@@ -3449,7 +3449,7 @@ zend_class_entry *zephir_register_internal_interface_ex(zend_class_entry *orig_c
 	return ce;
 }
 
-int zephir_init_global(char *global, unsigned int global_length TSRMLS_DC) {
+static int zephir_init_global(char *global, unsigned int global_length TSRMLS_DC) {
 
 	#if PHP_VERSION_ID < 50400
 	zend_bool jit_initialization = (PG(auto_globals_jit) && !PG(register_globals) && !PG(register_long_arrays));
@@ -3465,7 +3465,7 @@ int zephir_init_global(char *global, unsigned int global_length TSRMLS_DC) {
 	return SUCCESS;
 }
 
-int zephir_get_global(zval **arr, const char *global, unsigned int global_length TSRMLS_DC) {
+static int zephir_get_global(zval **arr, const char *global, unsigned int global_length TSRMLS_DC) {
 
 	zval **gv;
 
@@ -3496,7 +3496,7 @@ int zephir_get_global(zval **arr, const char *global, unsigned int global_length
 	return SUCCESS;
 }
 
-void zephir_fast_count(zval *result, zval *value TSRMLS_DC) {
+static void zephir_fast_count(zval *result, zval *value TSRMLS_DC) {
 
 	if (Z_TYPE_P(value) == IS_ARRAY) {
 		ZVAL_LONG(result, zend_hash_num_elements(Z_ARRVAL_P(value)));
@@ -3540,7 +3540,7 @@ void zephir_fast_count(zval *result, zval *value TSRMLS_DC) {
 	ZVAL_LONG(result, 1);
 }
 
-int zephir_fast_count_ev(zval *value TSRMLS_DC) {
+static int zephir_fast_count_ev(zval *value TSRMLS_DC) {
 
 	long count = 0;
 
@@ -3582,7 +3582,7 @@ int zephir_fast_count_ev(zval *value TSRMLS_DC) {
 	return 1;
 }
 
-int zephir_fast_count_int(zval *value TSRMLS_DC) {
+static int zephir_fast_count_int(zval *value TSRMLS_DC) {
 
 	long count = 0;
 
@@ -3624,7 +3624,7 @@ int zephir_fast_count_int(zval *value TSRMLS_DC) {
 	return 1;
 }
 
-int zephir_function_exists(const zval *function_name TSRMLS_DC) {
+static int zephir_function_exists(const zval *function_name TSRMLS_DC) {
 
 	return zephir_function_quick_exists_ex(
 		Z_STRVAL_P(function_name),
@@ -3633,12 +3633,12 @@ int zephir_function_exists(const zval *function_name TSRMLS_DC) {
 	);
 }
 
-int zephir_function_exists_ex(const char *function_name, unsigned int function_len TSRMLS_DC) {
+static int zephir_function_exists_ex(const char *function_name, unsigned int function_len TSRMLS_DC) {
 
 	return zephir_function_quick_exists_ex(function_name, function_len, zend_inline_hash_func(function_name, function_len) TSRMLS_CC);
 }
 
-int zephir_function_quick_exists_ex(const char *method_name, unsigned int method_len, unsigned long key TSRMLS_DC) {
+static int zephir_function_quick_exists_ex(const char *method_name, unsigned int method_len, unsigned long key TSRMLS_DC) {
 
 	if (zend_hash_quick_exists(CG(function_table), method_name, method_len, key)) {
 		return SUCCESS;
@@ -3647,7 +3647,7 @@ int zephir_function_quick_exists_ex(const char *method_name, unsigned int method
 	return FAILURE;
 }
 
-int zephir_is_callable(zval *var TSRMLS_DC) {
+static int zephir_is_callable(zval *var TSRMLS_DC) {
 
 	char *error = NULL;
 	zend_bool retval;
@@ -3660,7 +3660,7 @@ int zephir_is_callable(zval *var TSRMLS_DC) {
 	return (int) retval;
 }
 
-int zephir_is_iterable_ex(zval *arr, HashTable **arr_hash, HashPosition *hash_position, int duplicate, int reverse) {
+static int zephir_is_iterable_ex(zval *arr, HashTable **arr_hash, HashPosition *hash_position, int duplicate, int reverse) {
 
 	if (unlikely(Z_TYPE_P(arr) != IS_ARRAY)) {
 		return 0;
@@ -3691,14 +3691,14 @@ int zephir_is_iterable_ex(zval *arr, HashTable **arr_hash, HashPosition *hash_po
 	return 1;
 }
 
-void zephir_safe_zval_ptr_dtor(zval *pzval)
+static void zephir_safe_zval_ptr_dtor(zval *pzval)
 {
 	if (pzval) {
 		zval_ptr_dtor(&pzval);
 	}
 }
 
-int zephir_fetch_parameters(int num_args TSRMLS_DC, int required_args, int optional_args, ...)
+static int zephir_fetch_parameters(int num_args TSRMLS_DC, int required_args, int optional_args, ...)
 {
 	va_list va;
 	int arg_count = (int) (zend_uintptr_t) *(zend_vm_stack_top(TSRMLS_C) - 1);
@@ -3737,7 +3737,7 @@ int zephir_fetch_parameters(int num_args TSRMLS_DC, int required_args, int optio
 	return SUCCESS;
 }
 
-void zephir_gettype(zval *return_value, zval *arg TSRMLS_DC) {
+static void zephir_gettype(zval *return_value, zval *arg TSRMLS_DC) {
 
 	switch (Z_TYPE_P(arg)) {
 
@@ -3977,7 +3977,7 @@ static void zephir_memory_restore_stack_common(zend_zephir_globals_def *g TSRMLS
 
 #ifndef ZEPHIR_RELEASE
 
-void zephir_dump_memory_frame(zephir_memory_entry *active_memory TSRMLS_DC)
+static void zephir_dump_memory_frame(zephir_memory_entry *active_memory TSRMLS_DC)
 {
 	size_t i;
 
@@ -4013,7 +4013,7 @@ void zephir_dump_memory_frame(zephir_memory_entry *active_memory TSRMLS_DC)
 	fprintf(stderr, "End of the dump of the memory frame %p\n", active_memory);
 }
 
-void zephir_dump_current_frame(TSRMLS_D)
+static void zephir_dump_current_frame(TSRMLS_D)
 {
 	zend_zephir_globals_def *zephir_globals_ptr = ZEPHIR_VGLOBAL;
 
@@ -4026,7 +4026,7 @@ void zephir_dump_current_frame(TSRMLS_D)
 	zephir_dump_memory_frame(zephir_globals_ptr->active_memory TSRMLS_CC);
 }
 
-void zephir_dump_all_frames(TSRMLS_D)
+static void zephir_dump_all_frames(TSRMLS_D)
 {
 	zend_zephir_globals_def *zephir_globals_ptr = ZEPHIR_VGLOBAL;
 	zephir_memory_entry *active_memory       = zephir_globals_ptr->active_memory;
@@ -4091,7 +4091,7 @@ int ZEND_FASTCALL zephir_memory_restore_stack(TSRMLS_D)
 
 #endif
 
-void zephir_initialize_memory(zend_zephir_globals_def *zephir_globals_ptr TSRMLS_DC)
+static void zephir_initialize_memory(zend_zephir_globals_def *zephir_globals_ptr TSRMLS_DC)
 {
 	zephir_memory_entry *start;
 	size_t i;
@@ -4145,7 +4145,7 @@ void zephir_initialize_memory(zend_zephir_globals_def *zephir_globals_ptr TSRMLS
 	zephir_globals_ptr->initialized = 1;
 }
 
-int zephir_cleanup_fcache(void *pDest TSRMLS_DC, int num_args, va_list args, zend_hash_key *hash_key)
+static int zephir_cleanup_fcache(void *pDest TSRMLS_DC, int num_args, va_list args, zend_hash_key *hash_key)
 {
 	zephir_fcall_cache_entry **entry = (zephir_fcall_cache_entry**) pDest;
 	zend_class_entry *scope;
@@ -4180,7 +4180,7 @@ int zephir_cleanup_fcache(void *pDest TSRMLS_DC, int num_args, va_list args, zen
 	return ZEND_HASH_APPLY_KEEP;
 }
 
-void zephir_deinitialize_memory(TSRMLS_D)
+static void zephir_deinitialize_memory(TSRMLS_D)
 {
 	size_t i;
 	zend_zephir_globals_def *zephir_globals_ptr = ZEPHIR_VGLOBAL;
@@ -4374,7 +4374,7 @@ void ZEND_FASTCALL zephir_copy_ctor(zval *destination, zval *origin) {
 	}
 }
 
-void zephir_create_symbol_table(TSRMLS_D) {
+static void zephir_create_symbol_table(TSRMLS_D) {
 
 	zephir_symbol_table *entry;
 	zend_zephir_globals_def *zephir_globals_ptr = ZEPHIR_VGLOBAL;
@@ -4399,7 +4399,7 @@ void zephir_create_symbol_table(TSRMLS_D) {
 	EG(active_symbol_table) = symbol_table;
 }
 
-void zephir_clean_symbol_tables(TSRMLS_D) {
+static void zephir_clean_symbol_tables(TSRMLS_D) {
 
 	/*unsigned int i;
 
@@ -4412,7 +4412,7 @@ void zephir_clean_symbol_tables(TSRMLS_D) {
 	}*/
 }
 
-int zephir_set_symbol(zval *key_name, zval *value TSRMLS_DC) {
+static int zephir_set_symbol(zval *key_name, zval *value TSRMLS_DC) {
 
 	if (!EG(active_symbol_table)) {
 		zend_rebuild_symbol_table(TSRMLS_C);
@@ -4431,7 +4431,7 @@ int zephir_set_symbol(zval *key_name, zval *value TSRMLS_DC) {
 	return SUCCESS;
 }
 
-int zephir_set_symbol_str(char *key_name, unsigned int key_length, zval *value TSRMLS_DC) {
+static int zephir_set_symbol_str(char *key_name, unsigned int key_length, zval *value TSRMLS_DC) {
 
 	if (!EG(active_symbol_table)) {
 		zend_rebuild_symbol_table(TSRMLS_C);
@@ -4491,7 +4491,7 @@ static inline void zephir_dtor_func(zval *zvalue ZEND_FILE_LINE_DC)
 	}
 }
 
-void zephir_value_dtor(zval *zvalue ZEND_FILE_LINE_DC)
+static void zephir_value_dtor(zval *zvalue ZEND_FILE_LINE_DC)
 {
 	if (zvalue->type <= IS_BOOL) {
 		return;
@@ -4508,12 +4508,12 @@ void zephir_value_dtor(zval *zvalue ZEND_FILE_LINE_DC)
 
 
 
-void zephir_throw_exception(zval *object TSRMLS_DC){
+static void zephir_throw_exception(zval *object TSRMLS_DC){
 	Z_ADDREF_P(object);
 	zend_throw_exception_object(object TSRMLS_CC);
 }
 
-void zephir_throw_exception_debug(zval *object, const char *file, zend_uint line TSRMLS_DC){
+static void zephir_throw_exception_debug(zval *object, const char *file, zend_uint line TSRMLS_DC){
 
 	zend_class_entry *default_exception_ce;
 	int ZEPHIR_LAST_CALL_STATUS = 0;
@@ -4538,7 +4538,7 @@ void zephir_throw_exception_debug(zval *object, const char *file, zend_uint line
 	ZEPHIR_MM_RESTORE();
 }
 
-void zephir_throw_exception_string_debug(zend_class_entry *ce, const char *message, zend_uint message_len, const char *file, zend_uint line TSRMLS_DC) {
+static void zephir_throw_exception_string_debug(zend_class_entry *ce, const char *message, zend_uint message_len, const char *file, zend_uint line TSRMLS_DC) {
 
 	zval *object, *msg;
 	int ZEPHIR_LAST_CALL_STATUS = 0;
@@ -4564,7 +4564,7 @@ void zephir_throw_exception_string_debug(zend_class_entry *ce, const char *messa
 	zval_ptr_dtor(&msg);
 }
 
-void zephir_throw_exception_string(zend_class_entry *ce, const char *message, zend_uint message_len TSRMLS_DC){
+static void zephir_throw_exception_string(zend_class_entry *ce, const char *message, zend_uint message_len TSRMLS_DC){
 
 	zval *object, *msg;
 	int ZEPHIR_LAST_CALL_STATUS = 0;
@@ -4583,7 +4583,7 @@ void zephir_throw_exception_string(zend_class_entry *ce, const char *message, ze
 	zval_ptr_dtor(&msg);
 }
 
-void zephir_throw_exception_format(zend_class_entry *ce TSRMLS_DC, const char *format, ...) {
+static void zephir_throw_exception_format(zend_class_entry *ce TSRMLS_DC, const char *format, ...) {
 
 	zval *object, *msg;
 	int ZEPHIR_LAST_CALL_STATUS = 0, len;
@@ -4608,7 +4608,7 @@ void zephir_throw_exception_format(zend_class_entry *ce TSRMLS_DC, const char *f
 	zval_ptr_dtor(&msg);
 }
 
-void zephir_throw_exception_zval_debug(zend_class_entry *ce, zval *message, const char *file, zend_uint line TSRMLS_DC){
+static void zephir_throw_exception_zval_debug(zend_class_entry *ce, zval *message, const char *file, zend_uint line TSRMLS_DC){
 
 	zval *object;
 	int ZEPHIR_LAST_CALL_STATUS = 0;
@@ -4629,7 +4629,7 @@ void zephir_throw_exception_zval_debug(zend_class_entry *ce, zval *message, cons
 	zend_throw_exception_object(object TSRMLS_CC);
 }
 
-void zephir_throw_exception_zval(zend_class_entry *ce, zval *message TSRMLS_DC){
+static void zephir_throw_exception_zval(zend_class_entry *ce, zval *message TSRMLS_DC){
 
 	zval *object;
 	int ZEPHIR_LAST_CALL_STATUS = 0;
@@ -4652,7 +4652,7 @@ void zephir_throw_exception_zval(zend_class_entry *ce, zval *message TSRMLS_DC){
 
 
 
-int zephir_hash_exists(const HashTable *ht, const char *arKey, uint nKeyLength)
+static int zephir_hash_exists(const HashTable *ht, const char *arKey, uint nKeyLength)
 {
 	ulong h;
 	uint nIndex;
@@ -4673,7 +4673,7 @@ int zephir_hash_exists(const HashTable *ht, const char *arKey, uint nKeyLength)
 	return 0;
 }
 
-int zephir_hash_quick_exists(const HashTable *ht, const char *arKey, uint nKeyLength, ulong h)
+static int zephir_hash_quick_exists(const HashTable *ht, const char *arKey, uint nKeyLength, ulong h)
 {
 	uint nIndex;
 	Bucket *p;
@@ -4696,7 +4696,7 @@ int zephir_hash_quick_exists(const HashTable *ht, const char *arKey, uint nKeyLe
 	return 0;
 }
 
-int zephir_hash_find(const HashTable *ht, const char *arKey, uint nKeyLength, void **pData)
+static int zephir_hash_find(const HashTable *ht, const char *arKey, uint nKeyLength, void **pData)
 {
 	ulong h;
 	uint nIndex;
@@ -4718,7 +4718,7 @@ int zephir_hash_find(const HashTable *ht, const char *arKey, uint nKeyLength, vo
 	return FAILURE;
 }
 
-int zephir_hash_quick_find(const HashTable *ht, const char *arKey, uint nKeyLength, ulong h, void **pData)
+static int zephir_hash_quick_find(const HashTable *ht, const char *arKey, uint nKeyLength, ulong h, void **pData)
 {
 	uint nIndex;
 	Bucket *p;
@@ -4742,7 +4742,7 @@ int zephir_hash_quick_find(const HashTable *ht, const char *arKey, uint nKeyLeng
 	return FAILURE;
 }
 
-void zephir_get_current_key(zval **key, const HashTable *hash_table, HashPosition *hash_position TSRMLS_DC)
+static void zephir_get_current_key(zval **key, const HashTable *hash_table, HashPosition *hash_position TSRMLS_DC)
 {
 	Bucket *p;
 
@@ -4779,7 +4779,7 @@ zval zephir_get_current_key_w(const HashTable *hash_table, HashPosition *hash_po
 	return result;
 }
 
-int zephir_has_numeric_keys(const zval *data)
+static int zephir_has_numeric_keys(const zval *data)
 {
 	HashTable *ht;
 
@@ -4800,7 +4800,7 @@ int zephir_has_numeric_keys(const zval *data)
 	return 0;
 }
 
-void zephir_hash_update_or_insert(HashTable *ht, zval *key, zval *value)
+static void zephir_hash_update_or_insert(HashTable *ht, zval *key, zval *value)
 {
 	if (!key || Z_TYPE_P(key) == IS_NULL) {
 		zend_hash_next_index_insert(ht, (void**)&value, sizeof(zval*), NULL);
@@ -4899,7 +4899,7 @@ zval** zephir_hash_get(HashTable *ht, zval *key, int type)
 	}
 }
 
-int zephir_hash_unset(HashTable *ht, zval *key)
+static int zephir_hash_unset(HashTable *ht, zval *key)
 {
 	switch (Z_TYPE_P(key)) {
 		case IS_LONG:
@@ -4930,11 +4930,11 @@ int zephir_hash_unset(HashTable *ht, zval *key)
 #ifndef ZEPHIR_RELEASE
 
 FILE *zephir_log = NULL;
-int zephir_debug_trace = 0;
+static int zephir_debug_trace = 0;
 static zephir_debug_entry *start = NULL;
 static zephir_debug_entry *active = NULL;
 
-int zephir_start_debug(){
+static int zephir_start_debug(){
 	if(!zephir_log){
 		/*//zephir_log = fopen("/home/gutierrezandresfelipe/phalcon-debug.a", "w");
 		zephir_log = fopen("/tmp/phalcon-debug.a", "w");
@@ -4946,7 +4946,7 @@ int zephir_start_debug(){
 	return SUCCESS;
 }
 
-int zephir_stop_debug(){
+static int zephir_stop_debug(){
 	zephir_debug_entry *ptr = active;
 	zephir_debug_entry *this_entry = NULL;
 	while(ptr){
@@ -4959,12 +4959,12 @@ int zephir_stop_debug(){
 	return SUCCESS;
 }
 
-int zephir_print_r(zval *userval TSRMLS_DC){
+static int zephir_print_r(zval *userval TSRMLS_DC){
 	zend_print_zval_r(userval, 0 TSRMLS_CC);
 	return SUCCESS;
 }
 
-int zephir_vdump(zval *uservar TSRMLS_DC){
+static int zephir_vdump(zval *uservar TSRMLS_DC){
 	zephir_start_debug();
     if(!uservar){
 		fprintf(zephir_log, "Null pointer\n");
@@ -5001,7 +5001,7 @@ int zephir_vdump(zval *uservar TSRMLS_DC){
     return SUCCESS;
 }
 
-int zephir_dump_ce(zend_class_entry *ce TSRMLS_DC){
+static int zephir_dump_ce(zend_class_entry *ce TSRMLS_DC){
 	char *message = emalloc(sizeof(char *)*120);
 	if(ce){
 		sprintf(message, "- ClassType => %d", ce->type);
@@ -5018,7 +5018,7 @@ int zephir_dump_ce(zend_class_entry *ce TSRMLS_DC){
 	return SUCCESS;
 }
 
-int zephir_class_debug(zval *val TSRMLS_DC){
+static int zephir_class_debug(zval *val TSRMLS_DC){
 	char *message = emalloc(sizeof(char *)*120);
 	zend_class_entry *ce;
 	if(val){
@@ -5036,27 +5036,27 @@ int zephir_class_debug(zval *val TSRMLS_DC){
 	return SUCCESS;
 }
 
-int zephir_debug_str(char *what, char *message){
+static int zephir_debug_str(char *what, char *message){
 	fprintf(zephir_log, "%s", what);
 	fprintf(zephir_log, "%s", message);
 	fprintf(zephir_log, "\n");
 	return SUCCESS;
 }
 
-int zephir_debug_long(char *what, uint vlong){
+static int zephir_debug_long(char *what, uint vlong){
 	fprintf(zephir_log, "%s", what);
 	fprintf(zephir_log, "%u", vlong);
 	fprintf(zephir_log, "\n");
 	return SUCCESS;
 }
 
-int zephir_debug_screen(char *message){
+static int zephir_debug_screen(char *message){
 	zephir_debug_space();
 	fprintf(zephir_log, "%s\n", message);
 	return SUCCESS;
 }
 
-int zephir_debug_method_call(zval *obj, char *method_name TSRMLS_DC){
+static int zephir_debug_method_call(zval *obj, char *method_name TSRMLS_DC){
 	if(Z_TYPE_P(obj)==IS_OBJECT){
 		zephir_debug_space();
 	} else {
@@ -5070,7 +5070,7 @@ int zephir_debug_method_call(zval *obj, char *method_name TSRMLS_DC){
 	return SUCCESS;
 }
 
-int zephir_error_space(){
+static int zephir_error_space(){
 	int i;
 	fprintf(zephir_log, "[ERROR] ");
 	for(i=0;i<zephir_debug_trace;i++){
@@ -5079,7 +5079,7 @@ int zephir_error_space(){
 	return SUCCESS;
 }
 
-int zephir_debug_space(){
+static int zephir_debug_space(){
 	int i;
 	fprintf(zephir_log, "[DEBUG] ");
 	for(i=0;i<zephir_debug_trace;i++){
@@ -5088,45 +5088,45 @@ int zephir_debug_space(){
 	return SUCCESS;
 }
 
-int zephir_debug_param(zval *param TSRMLS_DC){
+static int zephir_debug_param(zval *param TSRMLS_DC){
 	zephir_debug_space();
 	fprintf(zephir_log, "Push method Param > ");
 	zephir_vdump(param TSRMLS_CC);
 	return SUCCESS;
 }
 
-int zephir_debug_vdump(char *preffix, zval *value TSRMLS_DC){
+static int zephir_debug_vdump(char *preffix, zval *value TSRMLS_DC){
 	zephir_debug_space();
 	fprintf(zephir_log, "%s", preffix);
 	zephir_vdump(value TSRMLS_CC);
 	return SUCCESS;
 }
 
-int zephir_debug_assign(char *name, zval *value TSRMLS_DC){
+static int zephir_debug_assign(char *name, zval *value TSRMLS_DC){
 	zephir_debug_space();
 	fprintf(zephir_log, "Assign on %s with ", name);
 	zephir_vdump(value TSRMLS_CC);
 	return SUCCESS;
 }
 
-int zephir_step_over(char *message){
+static int zephir_step_over(char *message){
 	zephir_debug_screen(message);
 	return SUCCESS;
 }
 
-int zephir_step_into(char *message){
+static int zephir_step_into(char *message){
 	zephir_debug_trace++;
 	zephir_debug_screen(message);
 	return SUCCESS;
 }
 
-int zephir_step_out(char *message){
+static int zephir_step_out(char *message){
 	zephir_debug_screen(message);
 	zephir_debug_trace--;
 	return SUCCESS;
 }
 
-int zephir_debug_backtrace_internal(){
+static int zephir_debug_backtrace_internal(){
 	int step = 0;
 	char *message;
 	zephir_debug_entry *ptr = active;
@@ -5140,7 +5140,7 @@ int zephir_debug_backtrace_internal(){
 	return SUCCESS;
 }
 
-int zephir_step_into_entry(char *class_name, char *method_name, int lineno){
+static int zephir_step_into_entry(char *class_name, char *method_name, int lineno){
 
 	char *message;
 	zephir_debug_entry *entry;
@@ -5171,7 +5171,7 @@ int zephir_step_into_entry(char *class_name, char *method_name, int lineno){
 	return SUCCESS;
 }
 
-int zephir_step_out_entry(){
+static int zephir_step_out_entry(){
 
 	char *message;
 	zephir_debug_entry *prev;
@@ -5208,7 +5208,7 @@ int zephir_step_out_entry(){
 
 void *backtrace_buf[4096];
 
-void zephir_print_backtrace(void)
+static void zephir_print_backtrace(void)
 {
 	int i;
 	int stack_size       = backtrace(backtrace_buf, sizeof(backtrace_buf) / sizeof(void*));
@@ -5233,7 +5233,7 @@ void zephir_print_backtrace(void)
 
 #else
 
-void zephir_print_backtrace(void)
+static void zephir_print_backtrace(void)
 {
 }
 
@@ -5252,7 +5252,7 @@ void zephir_print_backtrace(void)
 
 
 
-int zephir_get_class_constant(zval *return_value, zend_class_entry *ce, char *constant_name, unsigned int constant_length TSRMLS_DC) {
+static int zephir_get_class_constant(zval *return_value, zend_class_entry *ce, char *constant_name, unsigned int constant_length TSRMLS_DC) {
 
 	zval **result_ptr;
 
@@ -5265,7 +5265,7 @@ int zephir_get_class_constant(zval *return_value, zend_class_entry *ce, char *co
 	return SUCCESS;
 }
 
-int zephir_instance_of(zval *result, const zval *object, const zend_class_entry *ce TSRMLS_DC) {
+static int zephir_instance_of(zval *result, const zval *object, const zend_class_entry *ce TSRMLS_DC) {
 
 	if (Z_TYPE_P(object) != IS_OBJECT) {
 		php_error_docref(NULL TSRMLS_CC, E_WARNING, "instanceof expects an object instance");
@@ -5277,7 +5277,7 @@ int zephir_instance_of(zval *result, const zval *object, const zend_class_entry 
 	return SUCCESS;
 }
 
-int zephir_instance_of_ev(const zval *object, const zend_class_entry *ce TSRMLS_DC) {
+static int zephir_instance_of_ev(const zval *object, const zend_class_entry *ce TSRMLS_DC) {
 
 	if (Z_TYPE_P(object) != IS_OBJECT) {
 		php_error_docref(NULL TSRMLS_CC, E_WARNING, "instanceof expects an object instance");
@@ -5287,7 +5287,7 @@ int zephir_instance_of_ev(const zval *object, const zend_class_entry *ce TSRMLS_
 	return instanceof_function(Z_OBJCE_P(object), ce TSRMLS_CC);
 }
 
-int zephir_is_instance_of(zval *object, const char *class_name, unsigned int class_length TSRMLS_DC) {
+static int zephir_is_instance_of(zval *object, const char *class_name, unsigned int class_length TSRMLS_DC) {
 
 	zend_class_entry *ce, *temp_ce;
 
@@ -5307,7 +5307,7 @@ int zephir_is_instance_of(zval *object, const char *class_name, unsigned int cla
 	return 0;
 }
 
-int zephir_zval_is_traversable(zval *object TSRMLS_DC) {
+static int zephir_zval_is_traversable(zval *object TSRMLS_DC) {
 
 	zend_class_entry *ce;
 	zend_uint i;
@@ -5332,7 +5332,7 @@ int zephir_zval_is_traversable(zval *object TSRMLS_DC) {
 	return 0;
 }
 
-void zephir_get_class(zval *result, zval *object, int lower TSRMLS_DC) {
+static void zephir_get_class(zval *result, zval *object, int lower TSRMLS_DC) {
 
 	zend_class_entry *ce;
 
@@ -5355,7 +5355,7 @@ void zephir_get_class(zval *result, zval *object, int lower TSRMLS_DC) {
 	}
 }
 
-void zephir_get_class_ns(zval *result, zval *object, int lower TSRMLS_DC) {
+static void zephir_get_class_ns(zval *result, zval *object, int lower TSRMLS_DC) {
 
 	int found = 0;
 	zend_class_entry *ce;
@@ -5412,7 +5412,7 @@ void zephir_get_class_ns(zval *result, zval *object, int lower TSRMLS_DC) {
 
 }
 
-void zephir_get_ns_class(zval *result, zval *object, int lower TSRMLS_DC) {
+static void zephir_get_ns_class(zval *result, zval *object, int lower TSRMLS_DC) {
 
 	zend_class_entry *ce;
 	int found = 0;
@@ -5476,7 +5476,7 @@ void zephir_get_ns_class(zval *result, zval *object, int lower TSRMLS_DC) {
 
 }
 
-void zephir_get_called_class(zval *return_value TSRMLS_DC) {
+static void zephir_get_called_class(zval *return_value TSRMLS_DC) {
 
 	if (EG(called_scope)) {
 		RETURN_STRINGL(EG(called_scope)->name, EG(called_scope)->name_length, 1);
@@ -5509,7 +5509,7 @@ zend_class_entry* zephir_fetch_static_class(TSRMLS_D) {
 	return zend_fetch_class(NULL, 0, ZEND_FETCH_CLASS_STATIC TSRMLS_CC);
 }
 
-int zephir_class_exists(const zval *class_name, int autoload TSRMLS_DC) {
+static int zephir_class_exists(const zval *class_name, int autoload TSRMLS_DC) {
 
 	zend_class_entry **ce;
 
@@ -5528,7 +5528,7 @@ int zephir_class_exists(const zval *class_name, int autoload TSRMLS_DC) {
 	return 0;
 }
 
-int zephir_interface_exists(const zval *class_name, int autoload TSRMLS_DC) {
+static int zephir_interface_exists(const zval *class_name, int autoload TSRMLS_DC) {
 
 	zend_class_entry **ce;
 
@@ -5543,7 +5543,7 @@ int zephir_interface_exists(const zval *class_name, int autoload TSRMLS_DC) {
 	return 0;
 }
 
-int zephir_clone(zval *destination, zval *obj TSRMLS_DC) {
+static int zephir_clone(zval *destination, zval *obj TSRMLS_DC) {
 
 	int status = SUCCESS;
 	zend_class_entry *ce;
@@ -5578,7 +5578,7 @@ int zephir_clone(zval *destination, zval *obj TSRMLS_DC) {
 	return status;
 }
 
-int zephir_isset_property_quick(zval *object, const char *property_name, unsigned int property_length, unsigned long hash TSRMLS_DC) {
+static int zephir_isset_property_quick(zval *object, const char *property_name, unsigned int property_length, unsigned long hash TSRMLS_DC) {
 
 	if (Z_TYPE_P(object) == IS_OBJECT) {
 		if (likely(zephir_hash_quick_exists(&Z_OBJCE_P(object)->properties_info, property_name, property_length, hash))) {
@@ -5591,12 +5591,12 @@ int zephir_isset_property_quick(zval *object, const char *property_name, unsigne
 	return 0;
 }
 
-int zephir_isset_property(zval *object, const char *property_name, unsigned int property_length TSRMLS_DC) {
+static int zephir_isset_property(zval *object, const char *property_name, unsigned int property_length TSRMLS_DC) {
 
 	return zephir_isset_property_quick(object, property_name, property_length, zend_inline_hash_func(property_name, property_length) TSRMLS_CC);
 }
 
-int zephir_isset_property_zval(zval *object, const zval *property TSRMLS_DC) {
+static int zephir_isset_property_zval(zval *object, const zval *property TSRMLS_DC) {
 
 	unsigned long hash;
 
@@ -5634,7 +5634,7 @@ static inline zend_class_entry *zephir_lookup_class_ce(zend_class_entry *ce, con
 	return zephir_lookup_class_ce_quick(ce, property_name, property_length, zend_inline_hash_func(property_name, property_length + 1) TSRMLS_CC);
 }
 
-int zephir_read_property(zval **result, zval *object, const char *property_name, zend_uint property_length, int silent TSRMLS_DC) {
+static int zephir_read_property(zval **result, zval *object, const char *property_name, zend_uint property_length, int silent TSRMLS_DC) {
 
 	zval *property;
 	zend_class_entry *ce, *old_scope;
@@ -5769,7 +5769,7 @@ zval* zephir_fetch_property_this_quick(zval *object, const char *property_name, 
 	return NULL;
 }
 
-int zephir_return_property_quick(zval *return_value, zval **return_value_ptr, zval *object, char *property_name, unsigned int property_length, unsigned long key TSRMLS_DC) {
+static int zephir_return_property_quick(zval *return_value, zval **return_value_ptr, zval *object, char *property_name, unsigned int property_length, unsigned long key TSRMLS_DC) {
 
 	zval **zv;
 	zend_object *zobj;
@@ -5865,12 +5865,12 @@ int zephir_return_property_quick(zval *return_value, zval **return_value_ptr, zv
 	return FAILURE;
 }
 
-int zephir_return_property(zval *return_value, zval **return_value_ptr, zval *object, char *property_name, unsigned int property_length TSRMLS_DC) {
+static int zephir_return_property(zval *return_value, zval **return_value_ptr, zval *object, char *property_name, unsigned int property_length TSRMLS_DC) {
 
 	return zephir_return_property_quick(return_value, return_value_ptr, object, property_name, property_length, zend_inline_hash_func(property_name, property_length + 1) TSRMLS_CC);
 }
 
-int zephir_read_property_zval(zval **result, zval *object, zval *property, int flags TSRMLS_DC) {
+static int zephir_read_property_zval(zval **result, zval *object, zval *property, int flags TSRMLS_DC) {
 
 	if (unlikely(Z_TYPE_P(property) != IS_STRING)) {
 
@@ -5886,7 +5886,7 @@ int zephir_read_property_zval(zval **result, zval *object, zval *property, int f
 	return zephir_read_property(result, object, Z_STRVAL_P(property), Z_STRLEN_P(property), flags TSRMLS_CC);
 }
 
-int zephir_update_property_long(zval *object, char *property_name, unsigned int property_length, long value TSRMLS_DC) {
+static int zephir_update_property_long(zval *object, char *property_name, unsigned int property_length, long value TSRMLS_DC) {
 
 	zval *v;
 
@@ -5898,7 +5898,7 @@ int zephir_update_property_long(zval *object, char *property_name, unsigned int 
 	return zephir_update_property_zval(object, property_name, property_length, v TSRMLS_CC);
 }
 
-int zephir_update_property_string(zval *object, char *property_name, unsigned int property_length, char *str, unsigned int str_length TSRMLS_DC) {
+static int zephir_update_property_string(zval *object, char *property_name, unsigned int property_length, char *str, unsigned int str_length TSRMLS_DC) {
 
 	zval *value;
 	int res;
@@ -5916,15 +5916,15 @@ int zephir_update_property_string(zval *object, char *property_name, unsigned in
 	return FAILURE;
 }
 
-int zephir_update_property_bool(zval *object, char *property_name, unsigned int property_length, int value TSRMLS_DC) {
+static int zephir_update_property_bool(zval *object, char *property_name, unsigned int property_length, int value TSRMLS_DC) {
 	return zephir_update_property_zval(object, property_name, property_length, value ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
 }
 
-int zephir_update_property_null(zval *object, char *property_name, unsigned int property_length TSRMLS_DC) {
+static int zephir_update_property_null(zval *object, char *property_name, unsigned int property_length TSRMLS_DC) {
 	return zephir_update_property_zval(object, property_name, property_length, ZEPHIR_GLOBAL(global_null) TSRMLS_CC);
 }
 
-int zephir_update_property_zval(zval *object, const char *property_name, unsigned int property_length, zval *value TSRMLS_DC){
+static int zephir_update_property_zval(zval *object, const char *property_name, unsigned int property_length, zval *value TSRMLS_DC){
 
 	zend_class_entry *ce, *old_scope;
 	zval *property;
@@ -5975,7 +5975,7 @@ int zephir_update_property_zval(zval *object, const char *property_name, unsigne
 	return SUCCESS;
 }
 
-int zephir_update_property_this_quick(zval *object, const char *property_name, zend_uint property_length, zval *value, ulong key TSRMLS_DC){
+static int zephir_update_property_this_quick(zval *object, const char *property_name, zend_uint property_length, zval *value, ulong key TSRMLS_DC){
 
 	zend_class_entry *ce, *old_scope;
 
@@ -6073,12 +6073,12 @@ int zephir_update_property_this_quick(zval *object, const char *property_name, z
 	return SUCCESS;
 }
 
-int zephir_update_property_this(zval *object, char *property_name, unsigned int property_length, zval *value TSRMLS_DC) {
+static int zephir_update_property_this(zval *object, char *property_name, unsigned int property_length, zval *value TSRMLS_DC) {
 
 	return zephir_update_property_this_quick(object, property_name, property_length, value, zend_inline_hash_func(property_name, property_length + 1) TSRMLS_CC);
 }
 
-int zephir_update_property_zval_zval(zval *object, zval *property, zval *value TSRMLS_DC) {
+static int zephir_update_property_zval_zval(zval *object, zval *property, zval *value TSRMLS_DC) {
 
 	if (Z_TYPE_P(property) != IS_STRING) {
 		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Property should be string");
@@ -6088,7 +6088,7 @@ int zephir_update_property_zval_zval(zval *object, zval *property, zval *value T
 	return zephir_update_property_zval(object, Z_STRVAL_P(property), Z_STRLEN_P(property), value TSRMLS_CC);
 }
 
-int zephir_update_property_array(zval *object, const char *property, zend_uint property_length, const zval *index, zval *value TSRMLS_DC) {
+static int zephir_update_property_array(zval *object, const char *property, zend_uint property_length, const zval *index, zval *value TSRMLS_DC) {
 
 	zval *tmp;
 	int separated = 0;
@@ -6148,7 +6148,7 @@ int zephir_update_property_array(zval *object, const char *property, zend_uint p
 	return SUCCESS;
 }
 
-int zephir_update_property_array_multi(zval *object, const char *property, zend_uint property_length, zval **value TSRMLS_DC, const char *types, int types_length, int types_count, ...) {
+static int zephir_update_property_array_multi(zval *object, const char *property, zend_uint property_length, zval **value TSRMLS_DC, const char *types, int types_length, int types_count, ...) {
 	va_list ap;
 	long old_l[ZEPHIR_MAX_ARRAY_LEVELS], old_ll[ZEPHIR_MAX_ARRAY_LEVELS];
 	char *s, *old_s[ZEPHIR_MAX_ARRAY_LEVELS], old_type[ZEPHIR_MAX_ARRAY_LEVELS];
@@ -6379,7 +6379,7 @@ int zephir_update_property_array_multi(zval *object, const char *property, zend_
 	return SUCCESS;
 }
 
-int zephir_update_property_array_string(zval *object, char *property, unsigned int property_length, char *index, unsigned int index_length, zval *value TSRMLS_DC) {
+static int zephir_update_property_array_string(zval *object, char *property, unsigned int property_length, char *index, unsigned int index_length, zval *value TSRMLS_DC) {
 
 	zval *tmp;
 	int separated = 0;
@@ -6434,7 +6434,7 @@ int zephir_update_property_array_string(zval *object, char *property, unsigned i
 	return SUCCESS;
 }
 
-int zephir_update_property_array_append(zval *object, char *property, unsigned int property_length, zval *value TSRMLS_DC) {
+static int zephir_update_property_array_append(zval *object, char *property, unsigned int property_length, zval *value TSRMLS_DC) {
 
 	zval *tmp;
 	int separated = 0;
@@ -6488,7 +6488,7 @@ int zephir_update_property_array_append(zval *object, char *property, unsigned i
 	return SUCCESS;
 }
 
-int zephir_update_property_empty_array(zend_class_entry *ce, zval *object, char *property_name, unsigned int property_length TSRMLS_DC) {
+static int zephir_update_property_empty_array(zend_class_entry *ce, zval *object, char *property_name, unsigned int property_length TSRMLS_DC) {
 
 	zval *empty_array;
 	int res;
@@ -6501,7 +6501,7 @@ int zephir_update_property_empty_array(zend_class_entry *ce, zval *object, char 
 	return res;
 }
 
-int zephir_unset_property(zval* object, const char* name TSRMLS_DC)
+static int zephir_unset_property(zval* object, const char* name TSRMLS_DC)
 {
 	if (Z_TYPE_P(object) == IS_OBJECT) {
 		zval member;
@@ -6526,7 +6526,7 @@ int zephir_unset_property(zval* object, const char* name TSRMLS_DC)
 	return FAILURE;
 }
 
-int zephir_unset_property_array(zval *object, char *property, unsigned int property_length, zval *index TSRMLS_DC) {
+static int zephir_unset_property_array(zval *object, char *property, unsigned int property_length, zval *index TSRMLS_DC) {
 
 	zval *tmp;
 	int separated = 0;
@@ -6560,7 +6560,7 @@ int zephir_unset_property_array(zval *object, char *property, unsigned int prope
 	return SUCCESS;
 }
 
-int zephir_method_exists(const zval *object, const zval *method_name TSRMLS_DC){
+static int zephir_method_exists(const zval *object, const zval *method_name TSRMLS_DC){
 
 	char *lcname = zend_str_tolower_dup(Z_STRVAL_P(method_name), Z_STRLEN_P(method_name));
 	int res = zephir_method_exists_ex(object, lcname, Z_STRLEN_P(method_name) + 1 TSRMLS_CC);
@@ -6568,12 +6568,12 @@ int zephir_method_exists(const zval *object, const zval *method_name TSRMLS_DC){
 	return res;
 }
 
-int zephir_method_exists_ex(const zval *object, const char *method_name, unsigned int method_len TSRMLS_DC){
+static int zephir_method_exists_ex(const zval *object, const char *method_name, unsigned int method_len TSRMLS_DC){
 
 	return zephir_method_quick_exists_ex(object, method_name, method_len, zend_inline_hash_func(method_name, method_len) TSRMLS_CC);
 }
 
-int zephir_method_quick_exists_ex(const zval *object, const char *method_name, unsigned int method_len, unsigned long hash TSRMLS_DC){
+static int zephir_method_quick_exists_ex(const zval *object, const char *method_name, unsigned int method_len, unsigned long hash TSRMLS_DC){
 
 	zend_class_entry *ce;
 
@@ -6602,7 +6602,7 @@ zval* zephir_fetch_static_property_ce(zend_class_entry *ce, const char *property
 	return zend_read_static_property(ce, property, len, (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
 }
 
-int zephir_read_static_property_ce(zval **result, zend_class_entry *ce, const char *property, int len TSRMLS_DC) {
+static int zephir_read_static_property_ce(zval **result, zend_class_entry *ce, const char *property, int len TSRMLS_DC) {
 	zval *tmp;
 	tmp = zephir_fetch_static_property_ce(ce, property, len TSRMLS_CC);
 	if (tmp) {
@@ -6744,7 +6744,7 @@ static int zephir_update_static_property_ex(zend_class_entry *scope, const char 
 	}
 }
 
-int zephir_read_static_property(zval **result, const char *class_name, unsigned int class_length, char *property_name,
+static int zephir_read_static_property(zval **result, const char *class_name, unsigned int class_length, char *property_name,
 	unsigned int property_length TSRMLS_DC) {
 	zend_class_entry **ce;
 	if (zend_lookup_class(class_name, class_length, &ce TSRMLS_CC) == SUCCESS) {
@@ -6753,17 +6753,17 @@ int zephir_read_static_property(zval **result, const char *class_name, unsigned 
 	return FAILURE;
 }
 
-int zephir_update_static_property_ce(zend_class_entry *ce, const char *name, int len, zval **value TSRMLS_DC) {
+static int zephir_update_static_property_ce(zend_class_entry *ce, const char *name, int len, zval **value TSRMLS_DC) {
 	assert(ce != NULL);
 	return zephir_update_static_property_ex(ce, name, len, value, NULL TSRMLS_CC);
 }
 
-int zephir_update_static_property_ce_cache(zend_class_entry *ce, const char *name, int len, zval **value, zend_property_info **property_info TSRMLS_DC) {
+static int zephir_update_static_property_ce_cache(zend_class_entry *ce, const char *name, int len, zval **value, zend_property_info **property_info TSRMLS_DC) {
 	assert(ce != NULL);
 	return zephir_update_static_property_ex(ce, name, len, value, property_info TSRMLS_CC);
 }
 
-int zephir_update_static_property_array_multi_ce(zend_class_entry *ce, const char *property, zend_uint property_length, zval **value TSRMLS_DC, const char *types, int types_length, int types_count, ...) {
+static int zephir_update_static_property_array_multi_ce(zend_class_entry *ce, const char *property, zend_uint property_length, zval **value TSRMLS_DC, const char *types, int types_length, int types_count, ...) {
 
 	va_list ap;
 	long old_l[ZEPHIR_MAX_ARRAY_LEVELS], old_ll[ZEPHIR_MAX_ARRAY_LEVELS];
@@ -6990,7 +6990,7 @@ int zephir_update_static_property_array_multi_ce(zend_class_entry *ce, const cha
 	return SUCCESS;
 }
 
-int zephir_update_static_property(const char *class_name, unsigned int class_length, char *name, unsigned int name_length, zval **value TSRMLS_DC){
+static int zephir_update_static_property(const char *class_name, unsigned int class_length, char *name, unsigned int name_length, zval **value TSRMLS_DC){
 	zend_class_entry **ce;
 	if (zend_lookup_class(class_name, class_length, &ce TSRMLS_CC) == SUCCESS) {
 		return zephir_update_static_property_ce(*ce, name, name_length, value TSRMLS_CC);
@@ -6998,7 +6998,7 @@ int zephir_update_static_property(const char *class_name, unsigned int class_len
 	return FAILURE;
 }
 
-int zephir_read_class_property(zval **result, int type, const char *property, int len TSRMLS_DC) {
+static int zephir_read_class_property(zval **result, int type, const char *property, int len TSRMLS_DC) {
 	zend_class_entry *ce;
 
 	type |= (ZEND_FETCH_CLASS_SILENT | ZEND_FETCH_CLASS_NO_AUTOLOAD);
@@ -7012,7 +7012,7 @@ int zephir_read_class_property(zval **result, int type, const char *property, in
 	return FAILURE;
 }
 
-int zephir_create_instance(zval *return_value, const zval *class_name TSRMLS_DC){
+static int zephir_create_instance(zval *return_value, const zval *class_name TSRMLS_DC){
 
 	zend_class_entry *ce;
 
@@ -7035,7 +7035,7 @@ int zephir_create_instance(zval *return_value, const zval *class_name TSRMLS_DC)
 	return SUCCESS;
 }
 
-int zephir_create_instance_params(zval *return_value, const zval *class_name, zval *params TSRMLS_DC){
+static int zephir_create_instance_params(zval *return_value, const zval *class_name, zval *params TSRMLS_DC){
 
 	int outcome;
 	zend_class_entry *ce;
@@ -7098,7 +7098,7 @@ int zephir_create_instance_params(zval *return_value, const zval *class_name, zv
 	return outcome;
 }
 
-int zephir_property_incr(zval *object, char *property_name, unsigned int property_length TSRMLS_DC){
+static int zephir_property_incr(zval *object, char *property_name, unsigned int property_length TSRMLS_DC){
 
 	zval *tmp = NULL;
 	zend_class_entry *ce;
@@ -7143,7 +7143,7 @@ int zephir_property_incr(zval *object, char *property_name, unsigned int propert
 	return SUCCESS;
 }
 
-int zephir_property_decr(zval *object, char *property_name, unsigned int property_length TSRMLS_DC){
+static int zephir_property_decr(zval *object, char *property_name, unsigned int property_length TSRMLS_DC){
 
 	zval *tmp = NULL;
 	zend_class_entry *ce;
@@ -7188,7 +7188,7 @@ int zephir_property_decr(zval *object, char *property_name, unsigned int propert
 	return SUCCESS;
 }
 
-int zephir_fetch_property(zval **result, zval *object, const char *property_name, zend_uint property_length, int silent TSRMLS_DC) {
+static int zephir_fetch_property(zval **result, zval *object, const char *property_name, zend_uint property_length, int silent TSRMLS_DC) {
 
 	if (zephir_isset_property(object, property_name, property_length + 1 TSRMLS_CC)) {
 		zephir_read_property(result, object, property_name, property_length, 0 TSRMLS_CC);
@@ -7200,7 +7200,7 @@ int zephir_fetch_property(zval **result, zval *object, const char *property_name
 	return 0;
 }
 
-int zephir_fetch_property_zval(zval **result, zval *object, zval *property, int silent TSRMLS_DC) {
+static int zephir_fetch_property_zval(zval **result, zval *object, zval *property, int silent TSRMLS_DC) {
 
 	if (unlikely(Z_TYPE_P(property) != IS_STRING)) {
 		*result = ZEPHIR_GLOBAL(global_null);
@@ -7218,7 +7218,7 @@ int zephir_fetch_property_zval(zval **result, zval *object, zval *property, int 
 	return 0;
 }
 
-int zephir_create_closure_ex(zval *return_value, zval *this_ptr, zend_class_entry *ce, const char *method_name, zend_uint method_length TSRMLS_DC) {
+static int zephir_create_closure_ex(zval *return_value, zval *this_ptr, zend_class_entry *ce, const char *method_name, zend_uint method_length TSRMLS_DC) {
 
 	zend_function *function_ptr;
 
@@ -7247,7 +7247,7 @@ int zephir_create_closure_ex(zval *return_value, zval *this_ptr, zend_class_entr
 #include <Zend/zend_hash.h>
 
 
-int zephir_array_isset_fetch(zval **fetched, const zval *arr, zval *index, int readonly TSRMLS_DC) {
+static int zephir_array_isset_fetch(zval **fetched, const zval *arr, zval *index, int readonly TSRMLS_DC) {
 
 	HashTable *h;
 	zval **val;
@@ -7305,7 +7305,7 @@ int zephir_array_isset_fetch(zval **fetched, const zval *arr, zval *index, int r
 	return 0;
 }
 
-int zephir_array_isset_quick_string_fetch(zval **fetched, zval *arr, char *index, uint index_length, unsigned long key, int readonly TSRMLS_DC) {
+static int zephir_array_isset_quick_string_fetch(zval **fetched, zval *arr, char *index, uint index_length, unsigned long key, int readonly TSRMLS_DC) {
 
 	zval **zv;
 
@@ -7326,12 +7326,12 @@ int zephir_array_isset_quick_string_fetch(zval **fetched, zval *arr, char *index
 	return 0;
 }
 
-int zephir_array_isset_string_fetch(zval **fetched, zval *arr, char *index, uint index_length, int readonly TSRMLS_DC) {
+static int zephir_array_isset_string_fetch(zval **fetched, zval *arr, char *index, uint index_length, int readonly TSRMLS_DC) {
 
 	return zephir_array_isset_quick_string_fetch(fetched, arr, index, index_length, zend_inline_hash_func(index, index_length), readonly TSRMLS_CC);
 }
 
-int zephir_array_isset_long_fetch(zval **fetched, zval *arr, unsigned long index, int readonly TSRMLS_DC) {
+static int zephir_array_isset_long_fetch(zval **fetched, zval *arr, unsigned long index, int readonly TSRMLS_DC) {
 
 	zval **zv;
 
@@ -7352,7 +7352,7 @@ int zephir_array_isset_long_fetch(zval **fetched, zval *arr, unsigned long index
 	return 0;
 }
 
-int ZEPHIR_FASTCALL zephir_array_isset(const zval *arr, zval *index) {
+static int ZEPHIR_FASTCALL zephir_array_isset(const zval *arr, zval *index) {
 
 	HashTable *h;
 
@@ -7382,12 +7382,12 @@ int ZEPHIR_FASTCALL zephir_array_isset(const zval *arr, zval *index) {
 	}
 }
 
-int ZEPHIR_FASTCALL zephir_array_isset_string(const zval *arr, const char *index, uint index_length) {
+static int ZEPHIR_FASTCALL zephir_array_isset_string(const zval *arr, const char *index, uint index_length) {
 
 	return zephir_array_isset_quick_string(arr, index, index_length, zend_inline_hash_func(index, index_length));
 }
 
-int ZEPHIR_FASTCALL zephir_array_isset_quick_string(const zval *arr, const char *index, uint index_length, unsigned long key) {
+static int ZEPHIR_FASTCALL zephir_array_isset_quick_string(const zval *arr, const char *index, uint index_length, unsigned long key) {
 
 	if (likely(Z_TYPE_P(arr) == IS_ARRAY)) {
 		return zend_hash_quick_exists(Z_ARRVAL_P(arr), index, index_length, key);
@@ -7396,7 +7396,7 @@ int ZEPHIR_FASTCALL zephir_array_isset_quick_string(const zval *arr, const char 
 	return 0;
 }
 
-int ZEPHIR_FASTCALL zephir_array_isset_long(const zval *arr, unsigned long index) {
+static int ZEPHIR_FASTCALL zephir_array_isset_long(const zval *arr, unsigned long index) {
 
 	if (likely(Z_TYPE_P(arr) == IS_ARRAY)) {
 		return zend_hash_index_exists(Z_ARRVAL_P(arr), index);
@@ -7405,7 +7405,7 @@ int ZEPHIR_FASTCALL zephir_array_isset_long(const zval *arr, unsigned long index
 	return 0;
 }
 
-int ZEPHIR_FASTCALL zephir_array_unset(zval **arr, zval *index, int flags) {
+static int ZEPHIR_FASTCALL zephir_array_unset(zval **arr, zval *index, int flags) {
 
 	HashTable *ht;
 
@@ -7440,7 +7440,7 @@ int ZEPHIR_FASTCALL zephir_array_unset(zval **arr, zval *index, int flags) {
 	}
 }
 
-int ZEPHIR_FASTCALL zephir_array_unset_string(zval **arr, const char *index, uint index_length, int flags) {
+static int ZEPHIR_FASTCALL zephir_array_unset_string(zval **arr, const char *index, uint index_length, int flags) {
 
 	if (Z_TYPE_PP(arr) != IS_ARRAY) {
 		return 0;
@@ -7453,7 +7453,7 @@ int ZEPHIR_FASTCALL zephir_array_unset_string(zval **arr, const char *index, uin
 	return zend_hash_del(Z_ARRVAL_PP(arr), index, index_length);
 }
 
-int ZEPHIR_FASTCALL zephir_array_unset_long(zval **arr, unsigned long index, int flags) {
+static int ZEPHIR_FASTCALL zephir_array_unset_long(zval **arr, unsigned long index, int flags) {
 
 	if (Z_TYPE_PP(arr) != IS_ARRAY) {
 		return 0;
@@ -7466,7 +7466,7 @@ int ZEPHIR_FASTCALL zephir_array_unset_long(zval **arr, unsigned long index, int
 	return zend_hash_index_del(Z_ARRVAL_PP(arr), index);
 }
 
-int zephir_array_append(zval **arr, zval *value, int flags ZEPHIR_DEBUG_PARAMS) {
+static int zephir_array_append(zval **arr, zval *value, int flags ZEPHIR_DEBUG_PARAMS) {
 
 	if (Z_TYPE_PP(arr) != IS_ARRAY) {
 		zend_error(E_WARNING, "Cannot use a scalar value as an array in %s on line %d", file, line);
@@ -7481,7 +7481,7 @@ int zephir_array_append(zval **arr, zval *value, int flags ZEPHIR_DEBUG_PARAMS) 
 	return add_next_index_zval(*arr, value);
 }
 
-int zephir_array_append_long(zval **arr, long value, int separate) {
+static int zephir_array_append_long(zval **arr, long value, int separate) {
 
 	zval *zvalue;
 
@@ -7492,7 +7492,7 @@ int zephir_array_append_long(zval **arr, long value, int separate) {
 	return zephir_array_append(arr, zvalue, separate ZEPHIR_DEBUG_PARAMS_DUMMY);
 }
 
-int zephir_array_append_string(zval **arr, char *value, uint value_length, int separate) {
+static int zephir_array_append_string(zval **arr, char *value, uint value_length, int separate) {
 
 	zval *zvalue;
 
@@ -7503,7 +7503,7 @@ int zephir_array_append_string(zval **arr, char *value, uint value_length, int s
 	return zephir_array_append(arr, zvalue, separate ZEPHIR_DEBUG_PARAMS_DUMMY);
 }
 
-int zephir_array_update_zval(zval **arr, zval *index, zval **value, int flags) {
+static int zephir_array_update_zval(zval **arr, zval *index, zval **value, int flags) {
 
 	HashTable *ht;
 
@@ -7552,7 +7552,7 @@ int zephir_array_update_zval(zval **arr, zval *index, zval **value, int flags) {
 	}
 }
 
-int zephir_array_update_zval_bool(zval **arr, zval *index, int value, int flags) {
+static int zephir_array_update_zval_bool(zval **arr, zval *index, int value, int flags) {
 
 	zval *zvalue;
 
@@ -7562,7 +7562,7 @@ int zephir_array_update_zval_bool(zval **arr, zval *index, int value, int flags)
 	return zephir_array_update_zval(arr, index, &zvalue, flags);
 }
 
-int zephir_array_update_zval_string(zval **arr, zval *index, char *value, uint value_length, int flags) {
+static int zephir_array_update_zval_string(zval **arr, zval *index, char *value, uint value_length, int flags) {
 
 	zval *zvalue;
 
@@ -7572,7 +7572,7 @@ int zephir_array_update_zval_string(zval **arr, zval *index, char *value, uint v
 	return zephir_array_update_zval(arr, index, &zvalue, flags);
 }
 
-int zephir_array_update_zval_long(zval **arr, zval *index, long value, int flags) {
+static int zephir_array_update_zval_long(zval **arr, zval *index, long value, int flags) {
 
 	zval *zvalue;
 
@@ -7582,7 +7582,7 @@ int zephir_array_update_zval_long(zval **arr, zval *index, long value, int flags
 	return zephir_array_update_zval(arr, index, &zvalue, flags);
 }
 
-int zephir_array_update_quick_string(zval **arr, const char *index, uint index_length, unsigned long key, zval **value, int flags){
+static int zephir_array_update_quick_string(zval **arr, const char *index, uint index_length, unsigned long key, zval **value, int flags){
 
 	if (Z_TYPE_PP(arr) != IS_ARRAY) {
 		zend_error(E_WARNING, "Cannot use a scalar value as an array (3)");
@@ -7609,12 +7609,12 @@ int zephir_array_update_quick_string(zval **arr, const char *index, uint index_l
 	return zend_hash_quick_update(Z_ARRVAL_PP(arr), index, index_length, key, value, sizeof(zval *), NULL);
 }
 
-int zephir_array_update_string(zval **arr, const char *index, uint index_length, zval **value, int flags) {
+static int zephir_array_update_string(zval **arr, const char *index, uint index_length, zval **value, int flags) {
 
 	return zephir_array_update_quick_string(arr, index, index_length + 1, zend_inline_hash_func(index, index_length + 1), value, flags);
 }
 
-int zephir_array_update_string_bool(zval **arr, const char *index, uint index_length, int value, int flags){
+static int zephir_array_update_string_bool(zval **arr, const char *index, uint index_length, int value, int flags){
 
 	zval *zvalue;
 
@@ -7624,7 +7624,7 @@ int zephir_array_update_string_bool(zval **arr, const char *index, uint index_le
 	return zephir_array_update_string(arr, index, index_length, &zvalue, flags);
 }
 
-int zephir_array_update_string_long(zval **arr, const char *index, uint index_length, long value, int flags){
+static int zephir_array_update_string_long(zval **arr, const char *index, uint index_length, long value, int flags){
 
 	zval *zvalue;
 
@@ -7634,7 +7634,7 @@ int zephir_array_update_string_long(zval **arr, const char *index, uint index_le
 	return zephir_array_update_string(arr, index, index_length, &zvalue, flags);
 }
 
-int zephir_array_update_string_string(zval **arr, const char *index, uint index_length, char *value, uint value_length, int flags){
+static int zephir_array_update_string_string(zval **arr, const char *index, uint index_length, char *value, uint value_length, int flags){
 
 	zval *zvalue;
 
@@ -7644,7 +7644,7 @@ int zephir_array_update_string_string(zval **arr, const char *index, uint index_
 	return zephir_array_update_string(arr, index, index_length, &zvalue, flags);
 }
 
-int zephir_array_update_long(zval **arr, unsigned long index, zval **value, int flags ZEPHIR_DEBUG_PARAMS){
+static int zephir_array_update_long(zval **arr, unsigned long index, zval **value, int flags ZEPHIR_DEBUG_PARAMS){
 
 	if (Z_TYPE_PP(arr) != IS_ARRAY) {
 		zend_error(E_WARNING, "Cannot use a scalar value as an array in %s on line %d", file, line);
@@ -7671,7 +7671,7 @@ int zephir_array_update_long(zval **arr, unsigned long index, zval **value, int 
 	return zend_hash_index_update(Z_ARRVAL_PP(arr), index, value, sizeof(zval *), NULL);
 }
 
-int zephir_array_fetch(zval **return_value, zval *arr, zval *index, int flags ZEPHIR_DEBUG_PARAMS TSRMLS_DC){
+static int zephir_array_fetch(zval **return_value, zval *arr, zval *index, int flags ZEPHIR_DEBUG_PARAMS TSRMLS_DC){
 
 	zval **zv;
 	HashTable *ht;
@@ -7736,7 +7736,7 @@ int zephir_array_fetch(zval **return_value, zval *arr, zval *index, int flags ZE
 	return FAILURE;
 }
 
-int zephir_array_fetch_quick_string(zval **return_value, zval *arr, const char *index, uint index_length, unsigned long key, int flags ZEPHIR_DEBUG_PARAMS TSRMLS_DC){
+static int zephir_array_fetch_quick_string(zval **return_value, zval *arr, const char *index, uint index_length, unsigned long key, int flags ZEPHIR_DEBUG_PARAMS TSRMLS_DC){
 
 	zval **zv;
 
@@ -7764,12 +7764,12 @@ int zephir_array_fetch_quick_string(zval **return_value, zval *arr, const char *
 	return FAILURE;
 }
 
-int zephir_array_fetch_string(zval **return_value, zval *arr, const char *index, uint index_length, int flags ZEPHIR_DEBUG_PARAMS TSRMLS_DC){
+static int zephir_array_fetch_string(zval **return_value, zval *arr, const char *index, uint index_length, int flags ZEPHIR_DEBUG_PARAMS TSRMLS_DC){
 
 	return zephir_array_fetch_quick_string(return_value, arr, index, index_length + 1, zend_inline_hash_func(index, index_length + 1), flags, file, line TSRMLS_CC);
 }
 
-int zephir_array_fetch_long(zval **return_value, zval *arr, unsigned long index, int flags ZEPHIR_DEBUG_PARAMS TSRMLS_DC){
+static int zephir_array_fetch_long(zval **return_value, zval *arr, unsigned long index, int flags ZEPHIR_DEBUG_PARAMS TSRMLS_DC){
 
 	zval **zv;
 
@@ -7799,7 +7799,7 @@ int zephir_array_fetch_long(zval **return_value, zval *arr, unsigned long index,
 	return FAILURE;
 }
 
-void zephir_merge_append(zval *left, zval *values){
+static void zephir_merge_append(zval *left, zval *values){
 
 	zval         **tmp;
 	HashTable      *arr_values;
@@ -7829,7 +7829,7 @@ void zephir_merge_append(zval *left, zval *values){
 	}
 }
 
-void zephir_array_get_current(zval *return_value, zval *array){
+static void zephir_array_get_current(zval *return_value, zval *array){
 
 	zval **entry;
 
@@ -7843,13 +7843,13 @@ void zephir_array_get_current(zval *return_value, zval *array){
 	RETURN_FALSE;
 }
 
-void zephir_array_next(zval *array){
+static void zephir_array_next(zval *array){
 	if (Z_TYPE_P(array) == IS_ARRAY) {
 		zend_hash_move_forward(Z_ARRVAL_P(array));
 	}
 }
 
-int zephir_fast_in_array(zval *needle, zval *haystack TSRMLS_DC) {
+static int zephir_fast_in_array(zval *needle, zval *haystack TSRMLS_DC) {
 
 	zval         **tmp;
 	HashTable      *arr;
@@ -7879,7 +7879,7 @@ int zephir_fast_in_array(zval *needle, zval *haystack TSRMLS_DC) {
 	return 0;
 }
 
-void zephir_fast_array_merge(zval *return_value, zval **array1, zval **array2 TSRMLS_DC) {
+static void zephir_fast_array_merge(zval *return_value, zval **array1, zval **array2 TSRMLS_DC) {
 
 	int init_size, num;
 
@@ -7906,7 +7906,7 @@ void zephir_fast_array_merge(zval *return_value, zval **array1, zval **array2 TS
 	php_array_merge(Z_ARRVAL_P(return_value), Z_ARRVAL_PP(array2), 0 TSRMLS_CC);
 }
 
-void zephir_array_merge_recursive_n(zval **a1, zval *a2 TSRMLS_DC)
+static void zephir_array_merge_recursive_n(zval **a1, zval *a2 TSRMLS_DC)
 {
 	HashPosition hp;
 	zval **value, key, *tmp1, *tmp2;
@@ -7933,7 +7933,7 @@ void zephir_array_merge_recursive_n(zval **a1, zval *a2 TSRMLS_DC)
 	}
 }
 
-void zephir_array_unshift(zval *arr, zval *arg TSRMLS_DC)
+static void zephir_array_unshift(zval *arr, zval *arg TSRMLS_DC)
 {
 	if (likely(Z_TYPE_P(arr) == IS_ARRAY)) {
 
@@ -7956,7 +7956,7 @@ void zephir_array_unshift(zval *arr, zval *arg TSRMLS_DC)
 	}
 }
 
-void zephir_array_keys(zval *return_value, zval *input TSRMLS_DC)
+static void zephir_array_keys(zval *return_value, zval *input TSRMLS_DC)
 {
 
 	zval *new_val, **entry;
@@ -7993,7 +7993,7 @@ void zephir_array_keys(zval *return_value, zval *input TSRMLS_DC)
 	}
 }
 
-void zephir_array_values(zval *return_value, zval *arr)
+static void zephir_array_values(zval *return_value, zval *arr)
 {
 	if (likely(Z_TYPE_P(arr) == IS_ARRAY)) {
 		zval **entry;
@@ -8011,7 +8011,7 @@ void zephir_array_values(zval *return_value, zval *arr)
 	}
 }
 
-int zephir_array_key_exists(zval *arr, zval *key TSRMLS_DC)
+static int zephir_array_key_exists(zval *arr, zval *key TSRMLS_DC)
 {
 	HashTable *h = HASH_OF(arr);
 	if (h) {
@@ -8034,7 +8034,7 @@ int zephir_array_key_exists(zval *arr, zval *key TSRMLS_DC)
 	return 0;
 }
 
-int zephir_array_is_associative(zval *arr) {
+static int zephir_array_is_associative(zval *arr) {
 
 	if (likely(Z_TYPE_P(arr) == IS_ARRAY)) {
 		HashPosition pos;
@@ -8063,7 +8063,7 @@ int zephir_array_is_associative(zval *arr) {
 	return 0;
 }
 
-int zephir_array_update_multi(zval **arr, zval **value TSRMLS_DC, const char *types, int types_length, int types_count, ...)
+static int zephir_array_update_multi(zval **arr, zval **value TSRMLS_DC, const char *types, int types_length, int types_count, ...)
 {
 	va_list ap;
 	long old_l[ZEPHIR_MAX_ARRAY_LEVELS], old_ll[ZEPHIR_MAX_ARRAY_LEVELS];
@@ -8273,7 +8273,7 @@ int zephir_array_update_multi(zval **arr, zval **value TSRMLS_DC, const char *ty
 
 
 #if ZEND_MODULE_API_NO >= 20141001
-void zephir_clean_and_cache_symbol_table(zend_array *symbol_table)
+static void zephir_clean_and_cache_symbol_table(zend_array *symbol_table)
 {
 	if (EG(symtable_cache_ptr) >= EG(symtable_cache_limit)) {
 		zend_array_destroy(symbol_table);
@@ -8283,7 +8283,7 @@ void zephir_clean_and_cache_symbol_table(zend_array *symbol_table)
 	}
 }
 #else
-void zephir_clean_and_cache_symbol_table(HashTable *symbol_table TSRMLS_DC)
+static void zephir_clean_and_cache_symbol_table(HashTable *symbol_table TSRMLS_DC)
 {
 	if (EG(symtable_cache_ptr) >= EG(symtable_cache_limit)) {
 		zend_hash_destroy(symbol_table);
@@ -9083,7 +9083,7 @@ static zend_bool zephir_is_info_callable_ex(zephir_fcall_info *info, zend_fcall_
 	return retval;
 }
 
-int zephir_call_function_opt(zend_fcall_info *fci, zend_fcall_info_cache *fci_cache, zephir_fcall_info *info TSRMLS_DC)
+static int zephir_call_function_opt(zend_fcall_info *fci, zend_fcall_info_cache *fci_cache, zephir_fcall_info *info TSRMLS_DC)
 {
 	zend_uint i;
 	zval **original_return_value;
@@ -9419,7 +9419,7 @@ int zephir_call_function_opt(zend_fcall_info *fci, zend_fcall_info_cache *fci_ca
 #define PH_RANDOM_NUMERIC 3
 #define PH_RANDOM_NOZERO 4
 
-void zephir_fast_strlen(zval *return_value, zval *str){
+static void zephir_fast_strlen(zval *return_value, zval *str){
 
 	zval copy;
 	int use_copy = 0;
@@ -9438,7 +9438,7 @@ void zephir_fast_strlen(zval *return_value, zval *str){
 	}
 }
 
-int zephir_fast_strlen_ev(zval *str){
+static int zephir_fast_strlen_ev(zval *str){
 
 	zval copy;
 	int use_copy = 0, length;
@@ -9458,7 +9458,7 @@ int zephir_fast_strlen_ev(zval *str){
 	return length;
 }
 
-void zephir_fast_strtolower(zval *return_value, zval *str){
+static void zephir_fast_strtolower(zval *return_value, zval *str){
 
 	zval copy;
 	int use_copy = 0;
@@ -9483,13 +9483,13 @@ void zephir_fast_strtolower(zval *return_value, zval *str){
 	ZVAL_STRINGL(return_value, lower_str, length, 0);
 }
 
-void zephir_strtolower_inplace(zval *s) {
+static void zephir_strtolower_inplace(zval *s) {
 	if (likely(Z_TYPE_P(s) == IS_STRING)) {
 		php_strtolower(Z_STRVAL_P(s), Z_STRLEN_P(s));
 	}
 }
 
-void zephir_fast_join(zval *result, zval *glue, zval *pieces TSRMLS_DC){
+static void zephir_fast_join(zval *result, zval *glue, zval *pieces TSRMLS_DC){
 
 	if (Z_TYPE_P(glue) != IS_STRING || Z_TYPE_P(pieces) != IS_ARRAY) {
 		ZVAL_NULL(result);
@@ -9500,7 +9500,7 @@ void zephir_fast_join(zval *result, zval *glue, zval *pieces TSRMLS_DC){
 	php_implode(glue, pieces, result TSRMLS_CC);
 }
 
-void zephir_append_printable_zval(smart_str *implstr, zval **tmp TSRMLS_DC) {
+static void zephir_append_printable_zval(smart_str *implstr, zval **tmp TSRMLS_DC) {
 
 	zval tmp_val;
 	unsigned int str_len;
@@ -9552,7 +9552,7 @@ void zephir_append_printable_zval(smart_str *implstr, zval **tmp TSRMLS_DC) {
 	}
 }
 
-void zephir_fast_join_str(zval *return_value, char *glue, unsigned int glue_length, zval *pieces TSRMLS_DC){
+static void zephir_fast_join_str(zval *return_value, char *glue, unsigned int glue_length, zval *pieces TSRMLS_DC){
 
 	zval         **tmp;
 	HashTable      *arr;
@@ -9591,7 +9591,7 @@ void zephir_fast_join_str(zval *return_value, char *glue, unsigned int glue_leng
 	}
 }
 
-void zephir_camelize(zval *return_value, const zval *str){
+static void zephir_camelize(zval *return_value, const zval *str){
 
 	int i, len;
 	smart_str camelize_str = {0};
@@ -9636,7 +9636,7 @@ void zephir_camelize(zval *return_value, const zval *str){
 
 }
 
-void zephir_uncamelize(zval *return_value, const zval *str){
+static void zephir_uncamelize(zval *return_value, const zval *str){
 
 	unsigned int i;
 	smart_str uncamelize_str = {0};
@@ -9672,7 +9672,7 @@ void zephir_uncamelize(zval *return_value, const zval *str){
 	}
 }
 
-void zephir_fast_explode(zval *return_value, zval *delimiter, zval *str, long limit TSRMLS_DC){
+static void zephir_fast_explode(zval *return_value, zval *delimiter, zval *str, long limit TSRMLS_DC){
 
 	if (unlikely(Z_TYPE_P(str) != IS_STRING || Z_TYPE_P(delimiter) != IS_STRING)) {
 		zend_error(E_WARNING, "Invalid arguments supplied for explode()");
@@ -9683,7 +9683,7 @@ void zephir_fast_explode(zval *return_value, zval *delimiter, zval *str, long li
 	php_explode(delimiter, str, return_value, limit);
 }
 
-void zephir_fast_explode_str(zval *return_value, const char *delimiter, int delimiter_length, zval *str, long limit TSRMLS_DC){
+static void zephir_fast_explode_str(zval *return_value, const char *delimiter, int delimiter_length, zval *str, long limit TSRMLS_DC){
 
 	zval delimiter_zval;
 
@@ -9698,7 +9698,7 @@ void zephir_fast_explode_str(zval *return_value, const char *delimiter, int deli
 	php_explode(&delimiter_zval, str, return_value, limit);
 }
 
-int zephir_memnstr(const zval *haystack, const zval *needle ZEPHIR_DEBUG_PARAMS) {
+static int zephir_memnstr(const zval *haystack, const zval *needle ZEPHIR_DEBUG_PARAMS) {
 
 	if (Z_TYPE_P(haystack) != IS_STRING || Z_TYPE_P(needle) != IS_STRING) {
 		#ifndef ZEPHIR_RELEASE
@@ -9716,7 +9716,7 @@ int zephir_memnstr(const zval *haystack, const zval *needle ZEPHIR_DEBUG_PARAMS)
 	return 0;
 }
 
-int zephir_memnstr_str(const zval *haystack, char *needle, unsigned int needle_length ZEPHIR_DEBUG_PARAMS) {
+static int zephir_memnstr_str(const zval *haystack, char *needle, unsigned int needle_length ZEPHIR_DEBUG_PARAMS) {
 
 	if (Z_TYPE_P(haystack) != IS_STRING) {
 		#ifndef ZEPHIR_RELEASE
@@ -9734,7 +9734,7 @@ int zephir_memnstr_str(const zval *haystack, char *needle, unsigned int needle_l
 	return 0;
 }
 
-void zephir_fast_strpos(zval *return_value, const zval *haystack, const zval *needle, unsigned int offset) {
+static void zephir_fast_strpos(zval *return_value, const zval *haystack, const zval *needle, unsigned int offset) {
 
 	const char *found = NULL;
 
@@ -9766,7 +9766,7 @@ void zephir_fast_strpos(zval *return_value, const zval *haystack, const zval *ne
 
 }
 
-void zephir_fast_strpos_str(zval *return_value, const zval *haystack, char *needle, unsigned int needle_length) {
+static void zephir_fast_strpos_str(zval *return_value, const zval *haystack, char *needle, unsigned int needle_length) {
 
 	const char *found = NULL;
 
@@ -9786,7 +9786,7 @@ void zephir_fast_strpos_str(zval *return_value, const zval *haystack, char *need
 
 }
 
-void zephir_fast_stripos_str(zval *return_value, zval *haystack, char *needle, unsigned int needle_length) {
+static void zephir_fast_stripos_str(zval *return_value, zval *haystack, char *needle, unsigned int needle_length) {
 
 	const char *found = NULL;
 	char *needle_dup, *haystack_dup;
@@ -9817,7 +9817,7 @@ void zephir_fast_stripos_str(zval *return_value, zval *haystack, char *needle, u
 }
 
 
-void zephir_fast_str_replace(zval **return_value_ptr, zval *search, zval *replace, zval *subject TSRMLS_DC) {
+static void zephir_fast_str_replace(zval **return_value_ptr, zval *search, zval *replace, zval *subject TSRMLS_DC) {
 
 	zval replace_copy, search_copy;
 	zval *return_value = *return_value_ptr;
@@ -9886,7 +9886,7 @@ void zephir_fast_str_replace(zval **return_value_ptr, zval *search, zval *replac
 
 }
 
-void zephir_fast_trim(zval *return_value, zval *str, zval *charlist, int where TSRMLS_DC) {
+static void zephir_fast_trim(zval *return_value, zval *str, zval *charlist, int where TSRMLS_DC) {
 
 	zval copy;
 	int use_copy = 0;
@@ -9908,7 +9908,7 @@ void zephir_fast_trim(zval *return_value, zval *str, zval *charlist, int where T
 	}
 }
 
-void zephir_fast_strip_tags(zval *return_value, zval *str) {
+static void zephir_fast_strip_tags(zval *return_value, zval *str) {
 
 	zval copy;
 	int use_copy = 0;
@@ -9932,7 +9932,7 @@ void zephir_fast_strip_tags(zval *return_value, zval *str) {
 	ZVAL_STRINGL(return_value, stripped, len, 0);
 }
 
-void zephir_fast_strtoupper(zval *return_value, zval *str) {
+static void zephir_fast_strtoupper(zval *return_value, zval *str) {
 
 	zval copy;
 	int use_copy = 0;
@@ -9957,7 +9957,7 @@ void zephir_fast_strtoupper(zval *return_value, zval *str) {
 	ZVAL_STRINGL(return_value, lower_str, length, 0);
 }
 
-int zephir_start_with(const zval *str, const zval *compared, zval *case_sensitive){
+static int zephir_start_with(const zval *str, const zval *compared, zval *case_sensitive){
 
 	int sensitive = 0;
 	int i;
@@ -9994,7 +9994,7 @@ int zephir_start_with(const zval *str, const zval *compared, zval *case_sensitiv
 	return 1;
 }
 
-int zephir_start_with_str(const zval *str, char *compared, unsigned int compared_length){
+static int zephir_start_with_str(const zval *str, char *compared, unsigned int compared_length){
 
 	if (Z_TYPE_P(str) != IS_STRING || compared_length > Z_STRLEN_P(str)) {
 		return 0;
@@ -10003,7 +10003,7 @@ int zephir_start_with_str(const zval *str, char *compared, unsigned int compared
 	return !memcmp(Z_STRVAL_P(str), compared, compared_length);
 }
 
-int zephir_start_with_str_str(char *str, unsigned int str_length, char *compared, unsigned int compared_length){
+static int zephir_start_with_str_str(char *str, unsigned int str_length, char *compared, unsigned int compared_length){
 
 	if (compared_length > str_length) {
 		return 0;
@@ -10012,7 +10012,7 @@ int zephir_start_with_str_str(char *str, unsigned int str_length, char *compared
 	return !memcmp(str, compared, compared_length);
 }
 
-int zephir_end_with(const zval *str, const zval *compared, zval *case_sensitive){
+static int zephir_end_with(const zval *str, const zval *compared, zval *case_sensitive){
 
 	int sensitive = 0;
 	int i;
@@ -10050,7 +10050,7 @@ int zephir_end_with(const zval *str, const zval *compared, zval *case_sensitive)
 	return 1;
 }
 
-int zephir_end_with_str(const zval *str, char *compared, unsigned int compared_length){
+static int zephir_end_with_str(const zval *str, char *compared, unsigned int compared_length){
 
 	if (Z_TYPE_P(str) != IS_STRING) {
 		return 0;
@@ -10063,7 +10063,7 @@ int zephir_end_with_str(const zval *str, char *compared, unsigned int compared_l
 	return !memcmp(Z_STRVAL_P(str) + Z_STRLEN_P(str) - compared_length, compared, compared_length);
 }
 
-void zephir_random_string(zval *return_value, const zval *type, const zval *length TSRMLS_DC) {
+static void zephir_random_string(zval *return_value, const zval *type, const zval *length TSRMLS_DC) {
 
 	long i, rand_type, ch;
 	smart_str random_str = {0};
@@ -10162,7 +10162,7 @@ void zephir_random_string(zval *return_value, const zval *type, const zval *leng
 
 }
 
-void zephir_remove_extra_slashes(zval *return_value, const zval *str) {
+static void zephir_remove_extra_slashes(zval *return_value, const zval *str) {
 
 	char *cursor, *removed_str;
 	unsigned int i;
@@ -10192,7 +10192,7 @@ void zephir_remove_extra_slashes(zval *return_value, const zval *str) {
 	RETURN_STRINGL(removed_str, i, 0);
 }
 
-int zephir_spprintf(char **message, int max_len, char *format, ...)
+static int zephir_spprintf(char **message, int max_len, char *format, ...)
 {
 	va_list arg;
 	int len;
@@ -10203,7 +10203,7 @@ int zephir_spprintf(char **message, int max_len, char *format, ...)
 	return len;
 }
 
-void zephir_substr(zval *return_value, zval *str, long f, long l, int flags) {
+static void zephir_substr(zval *return_value, zval *str, long f, long l, int flags) {
 
 	zval copy;
 	int use_copy = 0;
@@ -10291,7 +10291,7 @@ void zephir_substr(zval *return_value, zval *str, long f, long l, int flags) {
 	RETURN_STRINGL(Z_STRVAL_P(str) + f, l, 1);
 }
 
-void zephir_append_printable_array(smart_str *implstr, zval *value TSRMLS_DC) {
+static void zephir_append_printable_array(smart_str *implstr, zval *value TSRMLS_DC) {
 
 	zval         **tmp;
 	HashTable      *arr;
@@ -10333,7 +10333,7 @@ void zephir_append_printable_array(smart_str *implstr, zval *value TSRMLS_DC) {
 	smart_str_appendc(implstr, ']');
 }
 
-void zephir_unique_key(zval *return_value, zval *prefix, zval *value TSRMLS_DC) {
+static void zephir_unique_key(zval *return_value, zval *prefix, zval *value TSRMLS_DC) {
 
 	smart_str implstr = {0};
 
@@ -10373,7 +10373,7 @@ zval *zephir_eol(int eol TSRMLS_DC) {
 	return local_eol;
 }
 
-void zephir_base64_encode(zval *return_value, zval *data) {
+static void zephir_base64_encode(zval *return_value, zval *data) {
 
 	zval copy;
 	char *encoded;
@@ -10399,7 +10399,7 @@ void zephir_base64_encode(zval *return_value, zval *data) {
 	}
 }
 
-void zephir_base64_decode(zval *return_value, zval *data) {
+static void zephir_base64_decode(zval *return_value, zval *data) {
 
 	zval copy;
 	char *decoded;
@@ -10425,7 +10425,7 @@ void zephir_base64_decode(zval *return_value, zval *data) {
 	}
 }
 
-void zephir_md5(zval *return_value, zval *str) {
+static void zephir_md5(zval *return_value, zval *str) {
 
 	PHP_MD5_CTX ctx;
 	unsigned char digest[16];
@@ -10449,7 +10449,7 @@ void zephir_md5(zval *return_value, zval *str) {
 	ZVAL_STRINGL(return_value, hexdigest, 32, 1);
 }
 
-void zephir_crc32(zval *return_value, zval *str TSRMLS_DC) {
+static void zephir_crc32(zval *return_value, zval *str TSRMLS_DC) {
 
 	zval copy;
 	int use_copy = 0;
@@ -10482,7 +10482,7 @@ void zephir_crc32(zval *return_value, zval *str TSRMLS_DC) {
 
 #if ZEPHIR_USE_PHP_PCRE
 
-void zephir_preg_match(zval *return_value, zval **return_value_ptr, zval *regex, zval *subject, zval *matches, int global, long flags, long offset TSRMLS_DC)
+static void zephir_preg_match(zval *return_value, zval **return_value_ptr, zval *regex, zval *subject, zval *matches, int global, long flags, long offset TSRMLS_DC)
 {
 	zval copy;
 	int use_copy = 0;
@@ -10523,7 +10523,7 @@ void zephir_preg_match(zval *return_value, zval **return_value_ptr, zval *regex,
 
 #else
 
-void zephir_preg_match(zval *return_value, zval **return_value_ptr, zval *regex, zval *subject, zval *matches, int global, long flags, long offset TSRMLS_DC)
+static void zephir_preg_match(zval *return_value, zval **return_value_ptr, zval *regex, zval *subject, zval *matches, int global, long flags, long offset TSRMLS_DC)
 {
 	if (matches) {
 		Z_SET_ISREF_P(matches);
@@ -10552,7 +10552,7 @@ void zephir_preg_match(zval *return_value, zval **return_value_ptr, zval *regex,
 
 #ifdef ZEPHIR_USE_PHP_JSON
 
-int zephir_json_encode(zval *return_value, zval **return_value_ptr, zval *v, int opts TSRMLS_DC)
+static int zephir_json_encode(zval *return_value, zval **return_value_ptr, zval *v, int opts TSRMLS_DC)
 {
 	smart_str buf = { NULL, 0, 0 };
 
@@ -10563,7 +10563,7 @@ int zephir_json_encode(zval *return_value, zval **return_value_ptr, zval *v, int
 	return SUCCESS;
 }
 
-int zephir_json_decode(zval *return_value, zval **return_value_ptr, zval *v, zend_bool assoc TSRMLS_DC)
+static int zephir_json_decode(zval *return_value, zval **return_value_ptr, zval *v, zend_bool assoc TSRMLS_DC)
 {
 	zval copy;
 	int use_copy = 0;
@@ -10586,7 +10586,7 @@ int zephir_json_decode(zval *return_value, zval **return_value_ptr, zval *v, zen
 
 #else
 
-int zephir_json_encode(zval *return_value, zval **return_value_ptr, zval *v, int opts TSRMLS_DC)
+static int zephir_json_encode(zval *return_value, zval **return_value_ptr, zval *v, int opts TSRMLS_DC)
 {
 	zval zopts;
 	zval *params[2];
@@ -10600,7 +10600,7 @@ int zephir_json_encode(zval *return_value, zval **return_value_ptr, zval *v, int
 	return zephir_return_call_function(return_value, NULL, ZEND_STRL("json_encode"), NULL, 2, params TSRMLS_CC);
 }
 
-int zephir_json_decode(zval *return_value, zval **return_value_ptr, zval *v, zend_bool assoc TSRMLS_DC)
+static int zephir_json_decode(zval *return_value, zval **return_value_ptr, zval *v, zend_bool assoc TSRMLS_DC)
 {
 	zval zassoc;
 	zval *params[2];
@@ -10616,7 +10616,7 @@ int zephir_json_decode(zval *return_value, zval **return_value_ptr, zval *v, zen
 
 #endif /* ZEPHIR_USE_PHP_JSON */
 
-void zephir_lcfirst(zval *return_value, zval *s)
+static void zephir_lcfirst(zval *return_value, zval *s)
 {
 	zval copy;
 	char *c;
@@ -10643,7 +10643,7 @@ void zephir_lcfirst(zval *return_value, zval *s)
 	}
 }
 
-void zephir_ucfirst(zval *return_value, zval *s)
+static void zephir_ucfirst(zval *return_value, zval *s)
 {
 	zval copy;
 	char *c;
@@ -10670,7 +10670,7 @@ void zephir_ucfirst(zval *return_value, zval *s)
 	}
 }
 
-int zephir_http_build_query(zval *return_value, zval *params, char *sep TSRMLS_DC)
+static int zephir_http_build_query(zval *return_value, zval *params, char *sep TSRMLS_DC)
 {
 	if (Z_TYPE_P(params) == IS_ARRAY || Z_TYPE_P(params) == IS_OBJECT) {
 		smart_str formstr = { NULL, 0, 0 };
@@ -10704,7 +10704,7 @@ int zephir_http_build_query(zval *return_value, zval *params, char *sep TSRMLS_D
 	return FAILURE;
 }
 
-void zephir_htmlspecialchars(zval *return_value, zval *string, zval *quoting, zval *charset TSRMLS_DC)
+static void zephir_htmlspecialchars(zval *return_value, zval *string, zval *quoting, zval *charset TSRMLS_DC)
 {
 	zval copy;
 	char *escaped, *cs;
@@ -10733,7 +10733,7 @@ void zephir_htmlspecialchars(zval *return_value, zval *string, zval *quoting, zv
 	}
 }
 
-void zephir_htmlentities(zval *return_value, zval *string, zval *quoting, zval *charset TSRMLS_DC)
+static void zephir_htmlentities(zval *return_value, zval *string, zval *quoting, zval *charset TSRMLS_DC)
 {
 	zval copy;
 	char *escaped, *cs;
@@ -10762,7 +10762,7 @@ void zephir_htmlentities(zval *return_value, zval *string, zval *quoting, zval *
 	}
 }
 
-void zephir_strval(zval *return_value, zval *v)
+static void zephir_strval(zval *return_value, zval *v)
 {
 	zval copy;
 	int use_copy = 0;
@@ -10776,7 +10776,7 @@ void zephir_strval(zval *return_value, zval *v)
 	}
 }
 
-void zephir_date(zval *return_value, zval *format, zval *timestamp TSRMLS_DC)
+static void zephir_date(zval *return_value, zval *format, zval *timestamp TSRMLS_DC)
 {
 	long int ts;
 	zval copy;
@@ -10800,7 +10800,7 @@ void zephir_date(zval *return_value, zval *format, zval *timestamp TSRMLS_DC)
 	}
 }
 
-void zephir_addslashes(zval *return_value, zval *str TSRMLS_DC)
+static void zephir_addslashes(zval *return_value, zval *str TSRMLS_DC)
 {
 	zval copy;
 	int use_copy = 0;
@@ -10819,7 +10819,7 @@ void zephir_addslashes(zval *return_value, zval *str TSRMLS_DC)
 	}
 }
 
-void zephir_stripslashes(zval *return_value, zval *str TSRMLS_DC)
+static void zephir_stripslashes(zval *return_value, zval *str TSRMLS_DC)
 {
 	zval copy;
 	int use_copy = 0;
@@ -10839,7 +10839,7 @@ void zephir_stripslashes(zval *return_value, zval *str TSRMLS_DC)
 	}
 }
 
-void zephir_stripcslashes(zval *return_value, zval *str TSRMLS_DC)
+static void zephir_stripcslashes(zval *return_value, zval *str TSRMLS_DC)
 {
 
 	zval copy;
@@ -10900,7 +10900,7 @@ static const unsigned char tolower_map[256] = {
 };
 #endif
 
-int zephir_has_constructor_ce(const zend_class_entry *ce)
+static int zephir_has_constructor_ce(const zend_class_entry *ce)
 {
 	while (ce) {
 		if (ce->constructor) {
@@ -11269,7 +11269,7 @@ ZEPHIR_ATTR_NONNULL static void zephir_fcall_populate_fci_cache(zend_fcall_info_
 
 }
 
-int zephir_call_user_function(zval **object_pp, zend_class_entry *obj_ce, zephir_call_type type,
+static int zephir_call_user_function(zval **object_pp, zend_class_entry *obj_ce, zephir_call_type type,
 	zval *function_name, zval **retval_ptr_ptr, zephir_fcall_cache_entry **cache_entry, zend_uint param_count,
 	zval *params[], zephir_fcall_info *info TSRMLS_DC)
 {
@@ -11295,8 +11295,7 @@ int zephir_call_user_function(zval **object_pp, zend_class_entry *obj_ce, zephir
 
 	++zephir_globals_ptr->recursive_lock;
 
-	if (UNEXPECTED(zephir_globals_ptr->recursive_lock > 2048)) {
-		zephir_print_backtrace();
+	if (UNEXPECTED(zephir_globals_ptr->recursive_lock > 2048)) {		
 		zend_error(E_ERROR, "Maximum recursion depth exceeded");
 		return FAILURE;
 	}
@@ -11433,7 +11432,7 @@ int zephir_call_user_function(zval **object_pp, zend_class_entry *obj_ce, zephir
 	return status;
 }
 
-int zephir_call_func_aparams(zval **return_value_ptr, const char *func_name, uint func_length,
+static int zephir_call_func_aparams(zval **return_value_ptr, const char *func_name, uint func_length,
 	zephir_fcall_cache_entry **cache_entry,
 	uint param_count, zval **params TSRMLS_DC)
 {
@@ -11500,7 +11499,7 @@ int zephir_call_func_aparams(zval **return_value_ptr, const char *func_name, uin
 	return status;
 }
 
-int zephir_call_zval_func_aparams(zval **return_value_ptr, zval *func_name,
+static int zephir_call_zval_func_aparams(zval **return_value_ptr, zval *func_name,
 	zephir_fcall_cache_entry **cache_entry,
 	uint param_count, zval **params TSRMLS_DC)
 {
@@ -11538,7 +11537,7 @@ int zephir_call_zval_func_aparams(zval **return_value_ptr, zval *func_name,
 	return status;
 }
 
-int zephir_call_class_method_aparams(zval **return_value_ptr, zend_class_entry *ce, zephir_call_type type, zval *object,
+static int zephir_call_class_method_aparams(zval **return_value_ptr, zend_class_entry *ce, zephir_call_type type, zval *object,
 	const char *method_name, uint method_len,
 	zephir_fcall_cache_entry **cache_entry,
 	uint param_count, zval **params TSRMLS_DC)
@@ -11714,7 +11713,7 @@ int zephir_call_class_method_aparams(zval **return_value_ptr, zend_class_entry *
 	return status;
 }
 
-int zephir_call_user_func_array_noex(zval *return_value, zval *handler, zval *params TSRMLS_DC){
+static int zephir_call_user_func_array_noex(zval *return_value, zval *handler, zval *params TSRMLS_DC){
 
 	zval *retval_ptr = NULL;
 	zend_fcall_info fci;
@@ -11798,7 +11797,7 @@ static void zephir_throw_exception_internal(zval *exception TSRMLS_DC)
 	EG(current_execute_data)->opline = EG(exception_op);
 }
 
-int zephir_call_function(zend_fcall_info *fci, zend_fcall_info_cache *fci_cache TSRMLS_DC) {
+static int zephir_call_function(zend_fcall_info *fci, zend_fcall_info_cache *fci_cache TSRMLS_DC) {
 
 	zend_uint i;
 	zval **original_return_value;
@@ -12091,7 +12090,7 @@ int zephir_call_function(zend_fcall_info *fci, zend_fcall_info_cache *fci_cache 
 
 #endif
 
-void zephir_eval_php(zval *str, zval *retval_ptr, char *context TSRMLS_DC)
+static void zephir_eval_php(zval *str, zval *retval_ptr, char *context TSRMLS_DC)
 {
     zend_eval_string_ex(Z_STRVAL_P(str), retval_ptr, context, 1 TSRMLS_CC);
 }
@@ -12110,7 +12109,7 @@ void zephir_eval_php(zval *str, zval *retval_ptr, char *context TSRMLS_DC)
 #define ENFORCE_SAFE_MODE    0
 #endif
 
-int zephir_require_ret(zval **return_value_ptr, const char *require_path TSRMLS_DC)
+static int zephir_require_ret(zval **return_value_ptr, const char *require_path TSRMLS_DC)
 {
 	zend_file_handle file_handle;
 	int ret, use_ret, mode;
@@ -12210,7 +12209,7 @@ int zephir_require_ret(zval **return_value_ptr, const char *require_path TSRMLS_
 		} \
 	}
 
-int zephir_file_exists(zval *filename TSRMLS_DC){
+static int zephir_file_exists(zval *filename TSRMLS_DC){
 
 	zval return_value;
 
@@ -12231,7 +12230,7 @@ int zephir_file_exists(zval *filename TSRMLS_DC){
 	return SUCCESS;
 }
 
-int zephir_compare_mtime(zval *filename1, zval *filename2 TSRMLS_DC){
+static int zephir_compare_mtime(zval *filename1, zval *filename2 TSRMLS_DC){
 
 	php_stream_statbuf statbuffer1, statbuffer2;
 
@@ -12253,7 +12252,7 @@ int zephir_compare_mtime(zval *filename1, zval *filename2 TSRMLS_DC){
 	return (int) (statbuffer1.sb.st_mtime >= statbuffer2.sb.st_mtime);
 }
 
-void zephir_fast_filemtime(zval *return_value, zval *filename TSRMLS_DC){
+static void zephir_fast_filemtime(zval *return_value, zval *filename TSRMLS_DC){
 
 	if (Z_TYPE_P(filename) != IS_STRING) {
 		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Invalid arguments supplied for fast_filemtime()");
@@ -12263,7 +12262,7 @@ void zephir_fast_filemtime(zval *return_value, zval *filename TSRMLS_DC){
 	php_stat(Z_STRVAL_P(filename), (php_stat_len) Z_STRLEN_P(filename), FS_MTIME, return_value TSRMLS_CC);
 }
 
-void zephir_fix_path(zval **return_value, zval *path, zval *directory_separator TSRMLS_DC) {
+static void zephir_fix_path(zval **return_value, zval *path, zval *directory_separator TSRMLS_DC) {
 
 	if (Z_TYPE_P(path) != IS_STRING || Z_TYPE_P(directory_separator) != IS_STRING) {
 		return;
@@ -12281,7 +12280,7 @@ void zephir_fix_path(zval **return_value, zval *path, zval *directory_separator 
 	Z_ADDREF_P(path);
 }
 
-void zephir_prepare_virtual_path(zval *return_value, zval *path, zval *virtual_separator TSRMLS_DC) {
+static void zephir_prepare_virtual_path(zval *return_value, zval *path, zval *virtual_separator TSRMLS_DC) {
 
 	unsigned int i;
 	unsigned char ch;
@@ -12318,7 +12317,7 @@ void zephir_prepare_virtual_path(zval *return_value, zval *path, zval *virtual_s
 	}
 }
 
-void zephir_unique_path_key(zval *return_value, zval *path TSRMLS_DC) {
+static void zephir_unique_path_key(zval *return_value, zval *path TSRMLS_DC) {
 
 	unsigned long h;
 	char *strKey;
@@ -12335,7 +12334,7 @@ void zephir_unique_path_key(zval *return_value, zval *path TSRMLS_DC) {
 	RETURN_STRING(strKey, 0);
 }
 
-void zephir_realpath(zval *return_value, zval *filename TSRMLS_DC) {
+static void zephir_realpath(zval *return_value, zval *filename TSRMLS_DC) {
 
 	char resolved_path_buff[MAXPATHLEN];
 
@@ -12354,7 +12353,7 @@ void zephir_realpath(zval *return_value, zval *filename TSRMLS_DC) {
 	RETURN_FALSE;
 }
 
-void zephir_possible_autoload_filepath(zval *return_value, zval *prefix, zval *class_name, zval *virtual_separator, zval *separator TSRMLS_DC) {
+static void zephir_possible_autoload_filepath(zval *return_value, zval *prefix, zval *class_name, zval *virtual_separator, zval *separator TSRMLS_DC) {
 
 	unsigned int i, length;
 	unsigned char ch;
@@ -12422,7 +12421,7 @@ void zephir_possible_autoload_filepath(zval *return_value, zval *prefix, zval *c
 
 }
 
-void zephir_file_get_contents(zval *return_value, zval *filename TSRMLS_DC)
+static void zephir_file_get_contents(zval *return_value, zval *filename TSRMLS_DC)
 {
 
 	char *contents;
@@ -12458,7 +12457,7 @@ void zephir_file_get_contents(zval *return_value, zval *filename TSRMLS_DC)
 	php_stream_close(stream);
 }
 
-void zephir_file_put_contents(zval *return_value, zval *filename, zval *data TSRMLS_DC)
+static void zephir_file_put_contents(zval *return_value, zval *filename, zval *data TSRMLS_DC)
 {
 	php_stream *stream;
 	int numbytes = 0, use_copy = 0;
@@ -12531,7 +12530,7 @@ void zephir_file_put_contents(zval *return_value, zval *filename, zval *data TSR
 	return;
 }
 
-void zephir_is_dir(zval *return_value, zval *path TSRMLS_DC)
+static void zephir_is_dir(zval *return_value, zval *path TSRMLS_DC)
 {
 	if (likely(Z_TYPE_P(path) == IS_STRING)) {
 		php_stat(Z_STRVAL_P(path), (php_stat_len)(Z_STRLEN_P(path)), FS_IS_DIR, return_value TSRMLS_CC);
@@ -12540,7 +12539,7 @@ void zephir_is_dir(zval *return_value, zval *path TSRMLS_DC)
 	}
 }
 
-void zephir_unlink(zval *return_value, zval *path TSRMLS_DC)
+static void zephir_unlink(zval *return_value, zval *path TSRMLS_DC)
 {
 	if (likely(Z_TYPE_P(path) == IS_STRING)) {
 		php_stream_context *context;
@@ -12568,7 +12567,7 @@ void zephir_unlink(zval *return_value, zval *path TSRMLS_DC)
 	return;
 }
 
-void zephir_filemtime(zval *return_value, zval *path TSRMLS_DC)
+static void zephir_filemtime(zval *return_value, zval *path TSRMLS_DC)
 {
 	if (likely(Z_TYPE_P(path) == IS_STRING)) {
 		php_stat(Z_STRVAL_P(path), (php_stat_len)(Z_STRLEN_P(path)), FS_MTIME, return_value TSRMLS_CC);
@@ -12577,7 +12576,7 @@ void zephir_filemtime(zval *return_value, zval *path TSRMLS_DC)
 	}
 }
 
-void zephir_basename(zval *return_value, zval *path TSRMLS_DC)
+static void zephir_basename(zval *return_value, zval *path TSRMLS_DC)
 {
 	if (likely(Z_TYPE_P(path) == IS_STRING)) {
 		char *ret;
@@ -12590,7 +12589,7 @@ void zephir_basename(zval *return_value, zval *path TSRMLS_DC)
 	}
 }
 
-void zephir_fwrite(zval *return_value, zval *stream_zval, zval *data TSRMLS_DC)
+static void zephir_fwrite(zval *return_value, zval *stream_zval, zval *data TSRMLS_DC)
 {
 
 	int num_bytes;
@@ -12631,7 +12630,7 @@ void zephir_fwrite(zval *return_value, zval *stream_zval, zval *data TSRMLS_DC)
 	}
 }
 
-int zephir_feof(zval *stream_zval TSRMLS_DC)
+static int zephir_feof(zval *stream_zval TSRMLS_DC)
 {
 
 	php_stream *stream;
@@ -12649,7 +12648,7 @@ int zephir_feof(zval *stream_zval TSRMLS_DC)
 	return php_stream_eof(stream);
 }
 
-int zephir_fclose(zval *stream_zval TSRMLS_DC)
+static int zephir_fclose(zval *stream_zval TSRMLS_DC)
 {
 	php_stream *stream;
 
@@ -12685,7 +12684,7 @@ int zephir_fclose(zval *stream_zval TSRMLS_DC)
 
 
 
-void zephir_make_printable_zval(zval *expr, zval *expr_copy, int *use_copy){
+static void zephir_make_printable_zval(zval *expr, zval *expr_copy, int *use_copy){
 	zend_make_printable_zval(expr, expr_copy, use_copy);
 	if (use_copy) {
 		Z_SET_REFCOUNT_P(expr_copy, 1);
@@ -12693,13 +12692,13 @@ void zephir_make_printable_zval(zval *expr, zval *expr_copy, int *use_copy){
 	}
 }
 
-int zephir_and_function(zval *result, zval *left, zval *right){
+static int zephir_and_function(zval *result, zval *left, zval *right){
 	int istrue = zend_is_true(left) && zend_is_true(right);
 	ZVAL_BOOL(result, istrue);
 	return SUCCESS;
 }
 
-void zephir_concat_self(zval **left, zval *right TSRMLS_DC){
+static void zephir_concat_self(zval **left, zval *right TSRMLS_DC){
 
 	zval left_copy, right_copy;
 	uint length;
@@ -12753,7 +12752,7 @@ void zephir_concat_self(zval **left, zval *right TSRMLS_DC){
 	}
 }
 
-void zephir_concat_self_str(zval **left, const char *right, int right_length TSRMLS_DC){
+static void zephir_concat_self_str(zval **left, const char *right, int right_length TSRMLS_DC){
 
 	zval left_copy;
 	uint length;
@@ -12792,7 +12791,7 @@ void zephir_concat_self_str(zval **left, const char *right, int right_length TSR
 	}
 }
 
-void zephir_concat_self_long(zval **left, const long right TSRMLS_DC) {
+static void zephir_concat_self_long(zval **left, const long right TSRMLS_DC) {
 
 	zval left_copy;
 	uint length;
@@ -12838,7 +12837,7 @@ void zephir_concat_self_long(zval **left, const long right TSRMLS_DC) {
 	}
 }
 
-void zephir_concat_self_char(zval **left, unsigned char right TSRMLS_DC) {
+static void zephir_concat_self_char(zval **left, unsigned char right TSRMLS_DC) {
 
 	zval left_copy;
 	int use_copy = 0;
@@ -12872,7 +12871,7 @@ void zephir_concat_self_char(zval **left, unsigned char right TSRMLS_DC) {
 	}
 }
 
-int zephir_compare_strict_string(zval *op1, const char *op2, int op2_length) {
+static int zephir_compare_strict_string(zval *op1, const char *op2, int op2_length) {
 
 	switch (Z_TYPE_P(op1)) {
 
@@ -12899,7 +12898,7 @@ int zephir_compare_strict_string(zval *op1, const char *op2, int op2_length) {
 	return 0;
 }
 
-int zephir_compare_strict_long(zval *op1, long op2 TSRMLS_DC) {
+static int zephir_compare_strict_long(zval *op1, long op2 TSRMLS_DC) {
 
 	int bool_result;
 
@@ -12929,7 +12928,7 @@ int zephir_compare_strict_long(zval *op1, long op2 TSRMLS_DC) {
 	return 0;
 }
 
-int zephir_compare_strict_double(zval *op1, double op2 TSRMLS_DC) {
+static int zephir_compare_strict_double(zval *op1, double op2 TSRMLS_DC) {
 
 	int bool_result;
 
@@ -12959,7 +12958,7 @@ int zephir_compare_strict_double(zval *op1, double op2 TSRMLS_DC) {
 	return 0;
 }
 
-int zephir_compare_strict_bool(zval *op1, zend_bool op2 TSRMLS_DC) {
+static int zephir_compare_strict_bool(zval *op1, zend_bool op2 TSRMLS_DC) {
 
 	int bool_result;
 
@@ -12989,7 +12988,7 @@ int zephir_compare_strict_bool(zval *op1, zend_bool op2 TSRMLS_DC) {
 	return 0;
 }
 
-int zephir_add_function_ex(zval *result, zval *op1, zval *op2 TSRMLS_DC) {
+static int zephir_add_function_ex(zval *result, zval *op1, zval *op2 TSRMLS_DC) {
 	int status;
 	int ref_count = Z_REFCOUNT_P(result);
 	int is_ref = Z_ISREF_P(result);
@@ -12999,7 +12998,7 @@ int zephir_add_function_ex(zval *result, zval *op1, zval *op2 TSRMLS_DC) {
 	return status;
 }
 
-void zephir_negate(zval *z TSRMLS_DC) {
+static void zephir_negate(zval *z TSRMLS_DC) {
 	while (1) {
 		switch (Z_TYPE_P(z)) {
 			case IS_LONG:
@@ -13022,11 +13021,11 @@ void zephir_negate(zval *z TSRMLS_DC) {
 	}
 }
 
-void zephir_convert_to_object(zval *op) {
+static void zephir_convert_to_object(zval *op) {
     convert_to_object(op);
 }
 
-void zephir_cast(zval *result, zval *var, zend_uint type){
+static void zephir_cast(zval *result, zval *var, zend_uint type){
 
 	ZVAL_ZVAL(result, var, 1, 0);
 
@@ -13173,7 +13172,7 @@ zend_bool zephir_get_boolval_ex(const zval *op) {
 	return 0;
 }
 
-int zephir_is_numeric_ex(const zval *op) {
+static int zephir_is_numeric_ex(const zval *op) {
 
 	int type;
 
@@ -13195,7 +13194,7 @@ int zephir_is_numeric_ex(const zval *op) {
 	return 0;
 }
 
-int zephir_is_equal(zval *op1, zval *op2 TSRMLS_DC) {
+static int zephir_is_equal(zval *op1, zval *op2 TSRMLS_DC) {
 	zval result;
 	#if PHP_VERSION_ID < 50400
 	is_equal_function(&result, op1, op2 TSRMLS_CC);
@@ -13205,7 +13204,7 @@ int zephir_is_equal(zval *op1, zval *op2 TSRMLS_DC) {
 	#endif
 }
 
-int zephir_less(zval *op1, zval *op2 TSRMLS_DC) {
+static int zephir_less(zval *op1, zval *op2 TSRMLS_DC) {
 	zval result;
 	#if PHP_VERSION_ID < 50400
 	is_smaller_function(&result, op1, op2 TSRMLS_CC);
@@ -13215,13 +13214,13 @@ int zephir_less(zval *op1, zval *op2 TSRMLS_DC) {
 	#endif
 }
 
-int zephir_less_equal(zval *op1, zval *op2 TSRMLS_DC) {
+static int zephir_less_equal(zval *op1, zval *op2 TSRMLS_DC) {
 	zval result;
 	is_smaller_or_equal_function(&result, op1, op2 TSRMLS_CC);
 	return Z_BVAL(result);
 }
 
-int zephir_less_long(zval *op1, long op2 TSRMLS_DC) {
+static int zephir_less_long(zval *op1, long op2 TSRMLS_DC) {
 	zval result, op2_zval;
 	ZVAL_LONG(&op2_zval, op2);
 
@@ -13229,7 +13228,7 @@ int zephir_less_long(zval *op1, long op2 TSRMLS_DC) {
 	return Z_BVAL(result);
 }
 
-int zephir_less_double(zval *op1, double op2 TSRMLS_DC) {
+static int zephir_less_double(zval *op1, double op2 TSRMLS_DC) {
 	zval result, op2_zval;
 	ZVAL_DOUBLE(&op2_zval, op2);
 
@@ -13237,7 +13236,7 @@ int zephir_less_double(zval *op1, double op2 TSRMLS_DC) {
 	return Z_BVAL(result);
 }
 
-int zephir_less_equal_long(zval *op1, long op2 TSRMLS_DC) {
+static int zephir_less_equal_long(zval *op1, long op2 TSRMLS_DC) {
 	zval result, op2_zval;
 	ZVAL_LONG(&op2_zval, op2);
 
@@ -13245,13 +13244,13 @@ int zephir_less_equal_long(zval *op1, long op2 TSRMLS_DC) {
 	return Z_BVAL(result);
 }
 
-int zephir_greater(zval *op1, zval *op2 TSRMLS_DC) {
+static int zephir_greater(zval *op1, zval *op2 TSRMLS_DC) {
 	zval result;
 	is_smaller_or_equal_function(&result, op1, op2 TSRMLS_CC);
 	return !Z_BVAL(result);
 }
 
-int zephir_greater_long(zval *op1, long op2 TSRMLS_DC) {
+static int zephir_greater_long(zval *op1, long op2 TSRMLS_DC) {
 	zval result, op2_zval;
 	ZVAL_LONG(&op2_zval, op2);
 
@@ -13259,7 +13258,7 @@ int zephir_greater_long(zval *op1, long op2 TSRMLS_DC) {
 	return !Z_BVAL(result);
 }
 
-int zephir_greater_double(zval *op1, double op2 TSRMLS_DC) {
+static int zephir_greater_double(zval *op1, double op2 TSRMLS_DC) {
 	zval result, op2_zval;
 	ZVAL_DOUBLE(&op2_zval, op2);
 
@@ -13267,26 +13266,26 @@ int zephir_greater_double(zval *op1, double op2 TSRMLS_DC) {
 	return !Z_BVAL(result);
 }
 
-int zephir_greater_equal(zval *op1, zval *op2 TSRMLS_DC) {
+static int zephir_greater_equal(zval *op1, zval *op2 TSRMLS_DC) {
 	zval result;
 	is_smaller_function(&result, op1, op2 TSRMLS_CC);
 	return !Z_BVAL(result);
 }
 
-int zephir_greater_equal_long(zval *op1, long op2 TSRMLS_DC) {
+static int zephir_greater_equal_long(zval *op1, long op2 TSRMLS_DC) {
 	zval result, op2_zval;
 	ZVAL_LONG(&op2_zval, op2);
 	is_smaller_function(&result, op1, &op2_zval TSRMLS_CC);
 	return !Z_BVAL(result);
 }
 
-int zephir_is_identical(zval *op1, zval *op2 TSRMLS_DC) {
+static int zephir_is_identical(zval *op1, zval *op2 TSRMLS_DC) {
 	zval result;
 	is_identical_function(&result, op1, op2 TSRMLS_CC);
 	return Z_BVAL(result);
 }
 
-int zephir_bitwise_and_function(zval *result, zval *op1, zval *op2 TSRMLS_DC){
+static int zephir_bitwise_and_function(zval *result, zval *op1, zval *op2 TSRMLS_DC){
 	int status;
 	int ref_count = Z_REFCOUNT_P(result);
 	int is_ref = Z_ISREF_P(result);
@@ -13296,7 +13295,7 @@ int zephir_bitwise_and_function(zval *result, zval *op1, zval *op2 TSRMLS_DC){
 	return status;
 }
 
-int zephir_bitwise_or_function(zval *result, zval *op1, zval *op2 TSRMLS_DC){
+static int zephir_bitwise_or_function(zval *result, zval *op1, zval *op2 TSRMLS_DC){
 	int status;
 	int ref_count = Z_REFCOUNT_P(result);
 	int is_ref = Z_ISREF_P(result);
@@ -13306,7 +13305,7 @@ int zephir_bitwise_or_function(zval *result, zval *op1, zval *op2 TSRMLS_DC){
 	return status;
 }
 
-int zephir_bitwise_xor_function(zval *result, zval *op1, zval *op2 TSRMLS_DC){
+static int zephir_bitwise_xor_function(zval *result, zval *op1, zval *op2 TSRMLS_DC){
 	int status;
 	int ref_count = Z_REFCOUNT_P(result);
 	int is_ref = Z_ISREF_P(result);
@@ -13316,7 +13315,7 @@ int zephir_bitwise_xor_function(zval *result, zval *op1, zval *op2 TSRMLS_DC){
 	return status;
 }
 
-int zephir_shift_left_function(zval *result, zval *op1, zval *op2 TSRMLS_DC){
+static int zephir_shift_left_function(zval *result, zval *op1, zval *op2 TSRMLS_DC){
 	int status;
 	int ref_count = Z_REFCOUNT_P(result);
 	int is_ref = Z_ISREF_P(result);
@@ -13326,7 +13325,7 @@ int zephir_shift_left_function(zval *result, zval *op1, zval *op2 TSRMLS_DC){
 	return status;
 }
 
-int zephir_shift_right_function(zval *result, zval *op1, zval *op2 TSRMLS_DC){
+static int zephir_shift_right_function(zval *result, zval *op1, zval *op2 TSRMLS_DC){
 	int status;
 	int ref_count = Z_REFCOUNT_P(result);
 	int is_ref = Z_ISREF_P(result);
@@ -13428,7 +13427,7 @@ double zephir_safe_div_double_zval(double op1, zval *op2 TSRMLS_DC) {
 	return op1 / ((double) zephir_get_numberval(op2));
 }
 
-void zephir_floor(zval *return_value, zval *op1 TSRMLS_DC)
+static void zephir_floor(zval *return_value, zval *op1 TSRMLS_DC)
 {
 	convert_scalar_to_number_ex(&op1);
 
@@ -13441,7 +13440,7 @@ void zephir_floor(zval *return_value, zval *op1 TSRMLS_DC)
 	RETURN_FALSE;
 }
 
-void zephir_ceil(zval *return_value, zval *op1 TSRMLS_DC)
+static void zephir_ceil(zval *return_value, zval *op1 TSRMLS_DC)
 {
 	convert_scalar_to_number_ex(&op1);
 
@@ -13456,7 +13455,7 @@ void zephir_ceil(zval *return_value, zval *op1 TSRMLS_DC)
 
 double _php_math_round(double value, int places, int mode);
 
-void zephir_round(zval *return_value, zval *op1, zval *op2, zval *op3 TSRMLS_DC)
+static void zephir_round(zval *return_value, zval *op1, zval *op2, zval *op3 TSRMLS_DC)
 {
 	int places = 0;
 	long mode = PHP_ROUND_HALF_UP;
@@ -13492,7 +13491,7 @@ void zephir_round(zval *return_value, zval *op1, zval *op2, zval *op3 TSRMLS_DC)
 }
 
 #if PHP_VERSION_ID < 50600
-void zephir_pow_function_ex(zval *return_value, zval *zbase, zval *zexp TSRMLS_DC)
+static void zephir_pow_function_ex(zval *return_value, zval *zbase, zval *zexp TSRMLS_DC)
 {
 	/* make sure we're dealing with numbers */
 	convert_scalar_to_number(zbase TSRMLS_CC);
@@ -13541,7 +13540,7 @@ void zephir_pow_function_ex(zval *return_value, zval *zbase, zval *zexp TSRMLS_D
 
 
 
-void zephir_concat_sv(zval **result, const char *op1, zend_uint op1_len, zval *op2, int self_var TSRMLS_DC){
+static void zephir_concat_sv(zval **result, const char *op1, zend_uint op1_len, zval *op2, int self_var TSRMLS_DC){
 
 	zval result_copy, op2_copy;
 	int use_copy = 0, use_copy2 = 0;
@@ -13588,7 +13587,7 @@ void zephir_concat_sv(zval **result, const char *op1, zend_uint op1_len, zval *o
 
 }
 
-void zephir_concat_svs(zval **result, const char *op1, zend_uint op1_len, zval *op2, const char *op3, zend_uint op3_len, int self_var TSRMLS_DC){
+static void zephir_concat_svs(zval **result, const char *op1, zend_uint op1_len, zval *op2, const char *op3, zend_uint op3_len, int self_var TSRMLS_DC){
 
 	zval result_copy, op2_copy;
 	int use_copy = 0, use_copy2 = 0;
@@ -13636,7 +13635,7 @@ void zephir_concat_svs(zval **result, const char *op1, zend_uint op1_len, zval *
 
 }
 
-void zephir_concat_svsv(zval **result, const char *op1, zend_uint op1_len, zval *op2, const char *op3, zend_uint op3_len, zval *op4, int self_var TSRMLS_DC){
+static void zephir_concat_svsv(zval **result, const char *op1, zend_uint op1_len, zval *op2, const char *op3, zend_uint op3_len, zval *op4, int self_var TSRMLS_DC){
 
 	zval result_copy, op2_copy, op4_copy;
 	int use_copy = 0, use_copy2 = 0, use_copy4 = 0;
@@ -13696,7 +13695,7 @@ void zephir_concat_svsv(zval **result, const char *op1, zend_uint op1_len, zval 
 
 }
 
-void zephir_concat_svsvs(zval **result, const char *op1, zend_uint op1_len, zval *op2, const char *op3, zend_uint op3_len, zval *op4, const char *op5, zend_uint op5_len, int self_var TSRMLS_DC){
+static void zephir_concat_svsvs(zval **result, const char *op1, zend_uint op1_len, zval *op2, const char *op3, zend_uint op3_len, zval *op4, const char *op5, zend_uint op5_len, int self_var TSRMLS_DC){
 
 	zval result_copy, op2_copy, op4_copy;
 	int use_copy = 0, use_copy2 = 0, use_copy4 = 0;
@@ -13757,7 +13756,7 @@ void zephir_concat_svsvs(zval **result, const char *op1, zend_uint op1_len, zval
 
 }
 
-void zephir_concat_svsvssvsvs(zval **result, const char *op1, zend_uint op1_len, zval *op2, const char *op3, zend_uint op3_len, zval *op4, const char *op5, zend_uint op5_len, const char *op6, zend_uint op6_len, zval *op7, const char *op8, zend_uint op8_len, zval *op9, const char *op10, zend_uint op10_len, int self_var TSRMLS_DC){
+static void zephir_concat_svsvssvsvs(zval **result, const char *op1, zend_uint op1_len, zval *op2, const char *op3, zend_uint op3_len, zval *op4, const char *op5, zend_uint op5_len, const char *op6, zend_uint op6_len, zval *op7, const char *op8, zend_uint op8_len, zval *op9, const char *op10, zend_uint op10_len, int self_var TSRMLS_DC){
 
 	zval result_copy, op2_copy, op4_copy, op7_copy, op9_copy;
 	int use_copy = 0, use_copy2 = 0, use_copy4 = 0, use_copy7 = 0, use_copy9 = 0;
@@ -13845,7 +13844,7 @@ void zephir_concat_svsvssvsvs(zval **result, const char *op1, zend_uint op1_len,
 
 }
 
-void zephir_concat_svsvsv(zval **result, const char *op1, zend_uint op1_len, zval *op2, const char *op3, zend_uint op3_len, zval *op4, const char *op5, zend_uint op5_len, zval *op6, int self_var TSRMLS_DC){
+static void zephir_concat_svsvsv(zval **result, const char *op1, zend_uint op1_len, zval *op2, const char *op3, zend_uint op3_len, zval *op4, const char *op5, zend_uint op5_len, zval *op6, int self_var TSRMLS_DC){
 
 	zval result_copy, op2_copy, op4_copy, op6_copy;
 	int use_copy = 0, use_copy2 = 0, use_copy4 = 0, use_copy6 = 0;
@@ -13918,7 +13917,7 @@ void zephir_concat_svsvsv(zval **result, const char *op1, zend_uint op1_len, zva
 
 }
 
-void zephir_concat_svsvsvs(zval **result, const char *op1, zend_uint op1_len, zval *op2, const char *op3, zend_uint op3_len, zval *op4, const char *op5, zend_uint op5_len, zval *op6, const char *op7, zend_uint op7_len, int self_var TSRMLS_DC){
+static void zephir_concat_svsvsvs(zval **result, const char *op1, zend_uint op1_len, zval *op2, const char *op3, zend_uint op3_len, zval *op4, const char *op5, zend_uint op5_len, zval *op6, const char *op7, zend_uint op7_len, int self_var TSRMLS_DC){
 
 	zval result_copy, op2_copy, op4_copy, op6_copy;
 	int use_copy = 0, use_copy2 = 0, use_copy4 = 0, use_copy6 = 0;
@@ -13992,7 +13991,7 @@ void zephir_concat_svsvsvs(zval **result, const char *op1, zend_uint op1_len, zv
 
 }
 
-void zephir_concat_svsvsvsv(zval **result, const char *op1, zend_uint op1_len, zval *op2, const char *op3, zend_uint op3_len, zval *op4, const char *op5, zend_uint op5_len, zval *op6, const char *op7, zend_uint op7_len, zval *op8, int self_var TSRMLS_DC){
+static void zephir_concat_svsvsvsv(zval **result, const char *op1, zend_uint op1_len, zval *op2, const char *op3, zend_uint op3_len, zval *op4, const char *op5, zend_uint op5_len, zval *op6, const char *op7, zend_uint op7_len, zval *op8, int self_var TSRMLS_DC){
 
 	zval result_copy, op2_copy, op4_copy, op6_copy, op8_copy;
 	int use_copy = 0, use_copy2 = 0, use_copy4 = 0, use_copy6 = 0, use_copy8 = 0;
@@ -14078,7 +14077,7 @@ void zephir_concat_svsvsvsv(zval **result, const char *op1, zend_uint op1_len, z
 
 }
 
-void zephir_concat_svsvsvsvs(zval **result, const char *op1, zend_uint op1_len, zval *op2, const char *op3, zend_uint op3_len, zval *op4, const char *op5, zend_uint op5_len, zval *op6, const char *op7, zend_uint op7_len, zval *op8, const char *op9, zend_uint op9_len, int self_var TSRMLS_DC){
+static void zephir_concat_svsvsvsvs(zval **result, const char *op1, zend_uint op1_len, zval *op2, const char *op3, zend_uint op3_len, zval *op4, const char *op5, zend_uint op5_len, zval *op6, const char *op7, zend_uint op7_len, zval *op8, const char *op9, zend_uint op9_len, int self_var TSRMLS_DC){
 
 	zval result_copy, op2_copy, op4_copy, op6_copy, op8_copy;
 	int use_copy = 0, use_copy2 = 0, use_copy4 = 0, use_copy6 = 0, use_copy8 = 0;
@@ -14165,7 +14164,7 @@ void zephir_concat_svsvsvsvs(zval **result, const char *op1, zend_uint op1_len, 
 
 }
 
-void zephir_concat_svsvv(zval **result, const char *op1, zend_uint op1_len, zval *op2, const char *op3, zend_uint op3_len, zval *op4, zval *op5, int self_var TSRMLS_DC){
+static void zephir_concat_svsvv(zval **result, const char *op1, zend_uint op1_len, zval *op2, const char *op3, zend_uint op3_len, zval *op4, zval *op5, int self_var TSRMLS_DC){
 
 	zval result_copy, op2_copy, op4_copy, op5_copy;
 	int use_copy = 0, use_copy2 = 0, use_copy4 = 0, use_copy5 = 0;
@@ -14237,7 +14236,7 @@ void zephir_concat_svsvv(zval **result, const char *op1, zend_uint op1_len, zval
 
 }
 
-void zephir_concat_svsvvsv(zval **result, const char *op1, zend_uint op1_len, zval *op2, const char *op3, zend_uint op3_len, zval *op4, zval *op5, const char *op6, zend_uint op6_len, zval *op7, int self_var TSRMLS_DC){
+static void zephir_concat_svsvvsv(zval **result, const char *op1, zend_uint op1_len, zval *op2, const char *op3, zend_uint op3_len, zval *op4, zval *op5, const char *op6, zend_uint op6_len, zval *op7, int self_var TSRMLS_DC){
 
 	zval result_copy, op2_copy, op4_copy, op5_copy, op7_copy;
 	int use_copy = 0, use_copy2 = 0, use_copy4 = 0, use_copy5 = 0, use_copy7 = 0;
@@ -14322,7 +14321,7 @@ void zephir_concat_svsvvsv(zval **result, const char *op1, zend_uint op1_len, zv
 
 }
 
-void zephir_concat_svv(zval **result, const char *op1, zend_uint op1_len, zval *op2, zval *op3, int self_var TSRMLS_DC){
+static void zephir_concat_svv(zval **result, const char *op1, zend_uint op1_len, zval *op2, zval *op3, int self_var TSRMLS_DC){
 
 	zval result_copy, op2_copy, op3_copy;
 	int use_copy = 0, use_copy2 = 0, use_copy3 = 0;
@@ -14381,7 +14380,7 @@ void zephir_concat_svv(zval **result, const char *op1, zend_uint op1_len, zval *
 
 }
 
-void zephir_concat_svvs(zval **result, const char *op1, zend_uint op1_len, zval *op2, zval *op3, const char *op4, zend_uint op4_len, int self_var TSRMLS_DC){
+static void zephir_concat_svvs(zval **result, const char *op1, zend_uint op1_len, zval *op2, zval *op3, const char *op4, zend_uint op4_len, int self_var TSRMLS_DC){
 
 	zval result_copy, op2_copy, op3_copy;
 	int use_copy = 0, use_copy2 = 0, use_copy3 = 0;
@@ -14441,7 +14440,7 @@ void zephir_concat_svvs(zval **result, const char *op1, zend_uint op1_len, zval 
 
 }
 
-void zephir_concat_vs(zval **result, zval *op1, const char *op2, zend_uint op2_len, int self_var TSRMLS_DC){
+static void zephir_concat_vs(zval **result, zval *op1, const char *op2, zend_uint op2_len, int self_var TSRMLS_DC){
 
 	zval result_copy, op1_copy;
 	int use_copy = 0, use_copy1 = 0;
@@ -14488,7 +14487,7 @@ void zephir_concat_vs(zval **result, zval *op1, const char *op2, zend_uint op2_l
 
 }
 
-void zephir_concat_vsv(zval **result, zval *op1, const char *op2, zend_uint op2_len, zval *op3, int self_var TSRMLS_DC){
+static void zephir_concat_vsv(zval **result, zval *op1, const char *op2, zend_uint op2_len, zval *op3, int self_var TSRMLS_DC){
 
 	zval result_copy, op1_copy, op3_copy;
 	int use_copy = 0, use_copy1 = 0, use_copy3 = 0;
@@ -14547,7 +14546,7 @@ void zephir_concat_vsv(zval **result, zval *op1, const char *op2, zend_uint op2_
 
 }
 
-void zephir_concat_vsvs(zval **result, zval *op1, const char *op2, zend_uint op2_len, zval *op3, const char *op4, zend_uint op4_len, int self_var TSRMLS_DC){
+static void zephir_concat_vsvs(zval **result, zval *op1, const char *op2, zend_uint op2_len, zval *op3, const char *op4, zend_uint op4_len, int self_var TSRMLS_DC){
 
 	zval result_copy, op1_copy, op3_copy;
 	int use_copy = 0, use_copy1 = 0, use_copy3 = 0;
@@ -14607,7 +14606,7 @@ void zephir_concat_vsvs(zval **result, zval *op1, const char *op2, zend_uint op2
 
 }
 
-void zephir_concat_vsvsv(zval **result, zval *op1, const char *op2, zend_uint op2_len, zval *op3, const char *op4, zend_uint op4_len, zval *op5, int self_var TSRMLS_DC){
+static void zephir_concat_vsvsv(zval **result, zval *op1, const char *op2, zend_uint op2_len, zval *op3, const char *op4, zend_uint op4_len, zval *op5, int self_var TSRMLS_DC){
 
 	zval result_copy, op1_copy, op3_copy, op5_copy;
 	int use_copy = 0, use_copy1 = 0, use_copy3 = 0, use_copy5 = 0;
@@ -14679,7 +14678,7 @@ void zephir_concat_vsvsv(zval **result, zval *op1, const char *op2, zend_uint op
 
 }
 
-void zephir_concat_vsvsvs(zval **result, zval *op1, const char *op2, zend_uint op2_len, zval *op3, const char *op4, zend_uint op4_len, zval *op5, const char *op6, zend_uint op6_len, int self_var TSRMLS_DC){
+static void zephir_concat_vsvsvs(zval **result, zval *op1, const char *op2, zend_uint op2_len, zval *op3, const char *op4, zend_uint op4_len, zval *op5, const char *op6, zend_uint op6_len, int self_var TSRMLS_DC){
 
 	zval result_copy, op1_copy, op3_copy, op5_copy;
 	int use_copy = 0, use_copy1 = 0, use_copy3 = 0, use_copy5 = 0;
@@ -14752,7 +14751,7 @@ void zephir_concat_vsvsvs(zval **result, zval *op1, const char *op2, zend_uint o
 
 }
 
-void zephir_concat_vsvsvsv(zval **result, zval *op1, const char *op2, zend_uint op2_len, zval *op3, const char *op4, zend_uint op4_len, zval *op5, const char *op6, zend_uint op6_len, zval *op7, int self_var TSRMLS_DC){
+static void zephir_concat_vsvsvsv(zval **result, zval *op1, const char *op2, zend_uint op2_len, zval *op3, const char *op4, zend_uint op4_len, zval *op5, const char *op6, zend_uint op6_len, zval *op7, int self_var TSRMLS_DC){
 
 	zval result_copy, op1_copy, op3_copy, op5_copy, op7_copy;
 	int use_copy = 0, use_copy1 = 0, use_copy3 = 0, use_copy5 = 0, use_copy7 = 0;
@@ -14837,7 +14836,7 @@ void zephir_concat_vsvsvsv(zval **result, zval *op1, const char *op2, zend_uint 
 
 }
 
-void zephir_concat_vsvv(zval **result, zval *op1, const char *op2, zend_uint op2_len, zval *op3, zval *op4, int self_var TSRMLS_DC){
+static void zephir_concat_vsvv(zval **result, zval *op1, const char *op2, zend_uint op2_len, zval *op3, zval *op4, int self_var TSRMLS_DC){
 
 	zval result_copy, op1_copy, op3_copy, op4_copy;
 	int use_copy = 0, use_copy1 = 0, use_copy3 = 0, use_copy4 = 0;
@@ -14908,7 +14907,7 @@ void zephir_concat_vsvv(zval **result, zval *op1, const char *op2, zend_uint op2
 
 }
 
-void zephir_concat_vsvvv(zval **result, zval *op1, const char *op2, zend_uint op2_len, zval *op3, zval *op4, zval *op5, int self_var TSRMLS_DC){
+static void zephir_concat_vsvvv(zval **result, zval *op1, const char *op2, zend_uint op2_len, zval *op3, zval *op4, zval *op5, int self_var TSRMLS_DC){
 
 	zval result_copy, op1_copy, op3_copy, op4_copy, op5_copy;
 	int use_copy = 0, use_copy1 = 0, use_copy3 = 0, use_copy4 = 0, use_copy5 = 0;
@@ -14991,7 +14990,7 @@ void zephir_concat_vsvvv(zval **result, zval *op1, const char *op2, zend_uint op
 
 }
 
-void zephir_concat_vv(zval **result, zval *op1, zval *op2, int self_var TSRMLS_DC){
+static void zephir_concat_vv(zval **result, zval *op1, zval *op2, int self_var TSRMLS_DC){
 
 	zval result_copy, op1_copy, op2_copy;
 	int use_copy = 0, use_copy1 = 0, use_copy2 = 0;
@@ -15049,7 +15048,7 @@ void zephir_concat_vv(zval **result, zval *op1, zval *op2, int self_var TSRMLS_D
 
 }
 
-void zephir_concat_vvs(zval **result, zval *op1, zval *op2, const char *op3, zend_uint op3_len, int self_var TSRMLS_DC){
+static void zephir_concat_vvs(zval **result, zval *op1, zval *op2, const char *op3, zend_uint op3_len, int self_var TSRMLS_DC){
 
 	zval result_copy, op1_copy, op2_copy;
 	int use_copy = 0, use_copy1 = 0, use_copy2 = 0;
@@ -15108,7 +15107,7 @@ void zephir_concat_vvs(zval **result, zval *op1, zval *op2, const char *op3, zen
 
 }
 
-void zephir_concat_vvsv(zval **result, zval *op1, zval *op2, const char *op3, zend_uint op3_len, zval *op4, int self_var TSRMLS_DC){
+static void zephir_concat_vvsv(zval **result, zval *op1, zval *op2, const char *op3, zend_uint op3_len, zval *op4, int self_var TSRMLS_DC){
 
 	zval result_copy, op1_copy, op2_copy, op4_copy;
 	int use_copy = 0, use_copy1 = 0, use_copy2 = 0, use_copy4 = 0;
@@ -15179,7 +15178,7 @@ void zephir_concat_vvsv(zval **result, zval *op1, zval *op2, const char *op3, ze
 
 }
 
-void zephir_concat_vvv(zval **result, zval *op1, zval *op2, zval *op3, int self_var TSRMLS_DC){
+static void zephir_concat_vvv(zval **result, zval *op1, zval *op2, zval *op3, int self_var TSRMLS_DC){
 
 	zval result_copy, op1_copy, op2_copy, op3_copy;
 	int use_copy = 0, use_copy1 = 0, use_copy2 = 0, use_copy3 = 0;
@@ -15249,7 +15248,7 @@ void zephir_concat_vvv(zval **result, zval *op1, zval *op2, zval *op3, int self_
 
 }
 
-void zephir_concat_vvvsv(zval **result, zval *op1, zval *op2, zval *op3, const char *op4, zend_uint op4_len, zval *op5, int self_var TSRMLS_DC){
+static void zephir_concat_vvvsv(zval **result, zval *op1, zval *op2, zval *op3, const char *op4, zend_uint op4_len, zval *op5, int self_var TSRMLS_DC){
 
 	zval result_copy, op1_copy, op2_copy, op3_copy, op5_copy;
 	int use_copy = 0, use_copy1 = 0, use_copy2 = 0, use_copy3 = 0, use_copy5 = 0;
@@ -15332,7 +15331,7 @@ void zephir_concat_vvvsv(zval **result, zval *op1, zval *op2, zval *op3, const c
 
 }
 
-void zephir_concat_vvvv(zval **result, zval *op1, zval *op2, zval *op3, zval *op4, int self_var TSRMLS_DC){
+static void zephir_concat_vvvv(zval **result, zval *op1, zval *op2, zval *op3, zval *op4, int self_var TSRMLS_DC){
 
 	zval result_copy, op1_copy, op2_copy, op3_copy, op4_copy;
 	int use_copy = 0, use_copy1 = 0, use_copy2 = 0, use_copy3 = 0, use_copy4 = 0;
@@ -15414,7 +15413,7 @@ void zephir_concat_vvvv(zval **result, zval *op1, zval *op2, zval *op3, zval *op
 
 }
 
-void zephir_concat_vvvvsvv(zval **result, zval *op1, zval *op2, zval *op3, zval *op4, const char *op5, zend_uint op5_len, zval *op6, zval *op7, int self_var TSRMLS_DC){
+static void zephir_concat_vvvvsvv(zval **result, zval *op1, zval *op2, zval *op3, zval *op4, const char *op5, zend_uint op5_len, zval *op6, zval *op7, int self_var TSRMLS_DC){
 
 	zval result_copy, op1_copy, op2_copy, op3_copy, op4_copy, op6_copy, op7_copy;
 	int use_copy = 0, use_copy1 = 0, use_copy2 = 0, use_copy3 = 0, use_copy4 = 0, use_copy6 = 0, use_copy7 = 0;
@@ -15521,7 +15520,7 @@ void zephir_concat_vvvvsvv(zval **result, zval *op1, zval *op2, zval *op3, zval 
 
 }
 
-void zephir_concat_vvvvv(zval **result, zval *op1, zval *op2, zval *op3, zval *op4, zval *op5, int self_var TSRMLS_DC){
+static void zephir_concat_vvvvv(zval **result, zval *op1, zval *op2, zval *op3, zval *op4, zval *op5, int self_var TSRMLS_DC){
 
 	zval result_copy, op1_copy, op2_copy, op3_copy, op4_copy, op5_copy;
 	int use_copy = 0, use_copy1 = 0, use_copy2 = 0, use_copy3 = 0, use_copy4 = 0, use_copy5 = 0;
@@ -15615,7 +15614,7 @@ void zephir_concat_vvvvv(zval **result, zval *op1, zval *op2, zval *op3, zval *o
 
 }
 
-void zephir_concat_function(zval *result, zval *op1, zval *op2 TSRMLS_DC) /* {{{ */
+static void zephir_concat_function(zval *result, zval *op1, zval *op2 TSRMLS_DC) /* {{{ */
 {
 #if PHP_VERSION_ID < 50400
 	zval op1_copy, op2_copy;
@@ -15681,7 +15680,7 @@ void zephir_concat_function(zval *result, zval *op1, zval *op2 TSRMLS_DC) /* {{{
 
 
 
-void zephir_serialize(zval *return_value, zval **var TSRMLS_DC) {
+static void zephir_serialize(zval *return_value, zval **var TSRMLS_DC) {
 
 	php_serialize_data_t var_hash;
 	smart_str buf = {0};
@@ -15702,7 +15701,7 @@ void zephir_serialize(zval *return_value, zval **var TSRMLS_DC) {
 	}
 }
 
-void zephir_unserialize(zval *return_value, zval *var TSRMLS_DC) {
+static void zephir_unserialize(zval *return_value, zval *var TSRMLS_DC) {
 
 	const unsigned char *p;
 	php_unserialize_data_t var_hash;
@@ -15730,11 +15729,11 @@ void zephir_unserialize(zval *return_value, zval *var TSRMLS_DC) {
 
 }
 
-void zephir_var_export(zval **var TSRMLS_DC) {
+static void zephir_var_export(zval **var TSRMLS_DC) {
     php_var_export(var, 1 TSRMLS_CC);
 }
 
-void zephir_var_export_ex(zval *return_value, zval **var TSRMLS_DC) {
+static void zephir_var_export_ex(zval *return_value, zval **var TSRMLS_DC) {
 
     smart_str buf = { NULL, 0, 0 };
 
@@ -15743,7 +15742,7 @@ void zephir_var_export_ex(zval *return_value, zval **var TSRMLS_DC) {
     ZVAL_STRINGL(return_value, buf.c, buf.len, 0);
 }
 
-void zephir_var_dump(zval **var TSRMLS_DC) {
+static void zephir_var_dump(zval **var TSRMLS_DC) {
     php_var_dump(var, 1 TSRMLS_CC);
 }
 
@@ -15758,7 +15757,7 @@ void zephir_var_dump(zval **var TSRMLS_DC) {
 
 
 
-void zephir_filter_alphanum(zval *return_value, zval *param) {
+static void zephir_filter_alphanum(zval *return_value, zval *param) {
 
 	unsigned int i;
 	unsigned char ch;
@@ -15796,7 +15795,7 @@ void zephir_filter_alphanum(zval *return_value, zval *param) {
 	}
 }
 
-void zephir_filter_identifier(zval *return_value, zval *param){
+static void zephir_filter_identifier(zval *return_value, zval *param){
 
 	unsigned int i;
 	unsigned char ch;
@@ -15835,7 +15834,7 @@ void zephir_filter_identifier(zval *return_value, zval *param){
 
 }
 
-void zephir_is_basic_charset(zval *return_value, const zval *param){
+static void zephir_is_basic_charset(zval *return_value, const zval *param){
 
 	unsigned int i;
 	unsigned int ch;
@@ -15893,7 +15892,7 @@ static inline char *zephir_longtohex(unsigned long value) {
 	return estrndup(ptr, end - ptr);
 }
 
-void zephir_escape_multi(zval *return_value, zval *param, const char *escape_char, unsigned int escape_length, char escape_extra, int use_whitelist) {
+static void zephir_escape_multi(zval *return_value, zval *param, const char *escape_char, unsigned int escape_length, char escape_extra, int use_whitelist) {
 
 	unsigned int i;
 	zval copy;
@@ -16013,19 +16012,19 @@ void zephir_escape_multi(zval *return_value, zval *param, const char *escape_cha
 
 }
 
-void zephir_escape_css(zval *return_value, zval *param) {
+static void zephir_escape_css(zval *return_value, zval *param) {
 	zephir_escape_multi(return_value, param, "\\", sizeof("\\")-1, ' ', 0);
 }
 
-void zephir_escape_js(zval *return_value, zval *param) {
+static void zephir_escape_js(zval *return_value, zval *param) {
 	zephir_escape_multi(return_value, param, "\\x", sizeof("\\x")-1, '\0', 1);
 }
 
-void zephir_escape_htmlattr(zval *return_value, zval *param) {
+static void zephir_escape_htmlattr(zval *return_value, zval *param) {
 	zephir_escape_multi(return_value, param, "&#x", sizeof("&#x")-1, ';', 1);
 }
 
-void zephir_escape_html(zval *return_value, zval *str, zval *quote_style, zval *charset TSRMLS_DC) {
+static void zephir_escape_html(zval *return_value, zval *str, zval *quote_style, zval *charset TSRMLS_DC) {
 
 	#if PHP_VERSION_ID < 50400
 	int length;
@@ -16107,12 +16106,12 @@ zend_object_iterator *zephir_get_iterator(zval *iterator TSRMLS_DC) {
 
 
 
-void zephir_time(zval *return_value)
+static void zephir_time(zval *return_value)
 {
 	RETURN_LONG(time(NULL));
 }
 
-void zephir_microtime(zval *return_value, zval *get_as_float TSRMLS_DC)
+static void zephir_microtime(zval *return_value, zval *get_as_float TSRMLS_DC)
 {
 	struct timeval tp = {0};
 	char ret[100];
@@ -16136,12 +16135,12 @@ void zephir_microtime(zval *return_value, zval *get_as_float TSRMLS_DC)
 
 
 
-void zephir_exit_empty() {
+static void zephir_exit_empty() {
 	TSRMLS_FETCH();
 	zend_bailout();
 }
 
-void zephir_exit(zval *ptr)  {
+static void zephir_exit(zval *ptr)  {
 	TSRMLS_FETCH();
 	if (Z_TYPE_P(ptr) == IS_LONG) {
 		EG(exit_status) = Z_LVAL_P(ptr);

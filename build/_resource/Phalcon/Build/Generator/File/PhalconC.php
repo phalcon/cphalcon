@@ -315,7 +315,7 @@ class Generator_File_PhalconC
     {
         $resContent = '';
 
-        $prefixes = array('phalcon', 'phannot', 'phvolt', 'phql');
+        $prefixes = array('zephir', 'phalcon', 'phannot', 'phvolt', 'phql');
         foreach (file($this->outputFile) as $line) {
 
             $modified = true;
