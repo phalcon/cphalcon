@@ -97,5 +97,20 @@ class Generator_Safe
         $this->configW32->generate();
 
         copy($this->sourceDir . '/php_phalcon.h', $this->outputDir . '/php_phalcon.h');
+        $this->processKernelGlobals();
+    }
+
+    protected function processKernelGlobals()
+    {
+        $lines = array();
+        foreach (file($this->outputDir . '/php_phalcon.h') as $line) {
+            if (preg_match('@^#include "(kernel/.+)"@', $line, $matches)) {
+                $content = file_get_contents('ext/' . $matches[1]);
+                $lines[] = $content . PHP_EOL;
+            } else {
+                $lines[] = $line;
+            }
+        }
+        file_put_contents($this->outputDir . '/php_phalcon.h', join('', $lines));
     }
 }

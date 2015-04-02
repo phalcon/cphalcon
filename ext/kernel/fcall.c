@@ -459,8 +459,7 @@ int zephir_call_user_function(zval **object_pp, zend_class_entry *obj_ce, zephir
 
 	++zephir_globals_ptr->recursive_lock;
 
-	if (UNEXPECTED(zephir_globals_ptr->recursive_lock > 2048)) {
-		zephir_print_backtrace();
+	if (UNEXPECTED(zephir_globals_ptr->recursive_lock > 2048)) {		
 		zend_error(E_ERROR, "Maximum recursion depth exceeded");
 		return FAILURE;
 	}
