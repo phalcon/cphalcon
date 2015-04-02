@@ -61,7 +61,6 @@ typedef struct _phalcon_symbol_table {
 typedef struct _phalcon_orm_options {
 	HashTable *ast_cache;
 	int cache_level;
-	int unique_cache_id;
 	zend_bool events;
 	zend_bool virtual_foreign_keys;
 	zend_bool column_renaming;

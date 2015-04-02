@@ -58,7 +58,6 @@ void php_phalcon_init_globals(zend_phalcon_globals *phalcon_globals TSRMLS_DC) {
 	phalcon_globals->orm.enable_literals = 1;
 	phalcon_globals->orm.enable_ast_cache = 1;
 	phalcon_globals->orm.cache_level = 3;
-	phalcon_globals->orm.unique_cache_id = 0;
 	phalcon_globals->orm.ast_cache = NULL;
 	phalcon_globals->orm.enable_property_method = 1;
 	phalcon_globals->orm.enable_auto_convert = 1;

@@ -563,7 +563,7 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 				 */
 				if (phalcon_globals_ptr->orm.cache_level >= 1) {
 					if (Z_TYPE_P(parser_status->ret) == IS_ARRAY) {
-						add_assoc_long(parser_status->ret, "id", phalcon_globals_ptr->orm.unique_cache_id++);
+						add_assoc_long(parser_status->ret, "id", Z_LVAL_P(unique_id));
 					}
 				}
 

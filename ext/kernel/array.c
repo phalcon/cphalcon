@@ -223,7 +223,6 @@ int phalcon_array_append(zval **arr, zval *value, int flags) {
 int phalcon_array_update_zval(zval **arr, const zval *index, zval *value, int flags)
 {
 	HashTable *ht;
-	int status;
 
 	if (Z_TYPE_PP(arr) != IS_ARRAY) {
 		zend_error(E_WARNING, "Cannot use a scalar value as an array");
@@ -239,6 +238,17 @@ int phalcon_array_update_zval(zval **arr, const zval *index, zval *value, int fl
 	}
 
 	ht = Z_ARRVAL_PP(arr);
+
+	return phalcon_array_update_hash(ht, index, value, flags);
+}
+
+int phalcon_array_update_hash(HashTable *ht, const zval *index, zval *value, int flags)
+{
+	int status;
+
+	if (flags & PH_COPY) {
+		Z_ADDREF_P(value);
+	}
 
 	switch (Z_TYPE_P(index)) {
 		case IS_NULL:

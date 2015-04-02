@@ -258,6 +258,7 @@ PHALCON_ATTR_NONNULL static inline int phalcon_array_append_string(zval **arr, c
  * @arg @c PH_COPY: increment the reference count on @c **value
  */
 int phalcon_array_update_zval(zval **arr, const zval *index, zval *value, int flags) PHALCON_ATTR_NONNULL;
+int phalcon_array_update_hash(HashTable *ht, const zval *index, zval *value, int flags) PHALCON_ATTR_NONNULL;
 
 /**
  * @brief Updates value in @a arr at position @a index with boolean @a value
