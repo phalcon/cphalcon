@@ -1,3 +1,5 @@
+#[中文帮助](https://github.com/dreamsxin/cphalcon/wiki)
+
 Phalcon Framework
 =================
 
