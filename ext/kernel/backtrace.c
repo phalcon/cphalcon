@@ -18,8 +18,8 @@
   +------------------------------------------------------------------------+
 */
 
-//#ifndef ZEPHIR_RELEASE
-//#if defined(linux) || defined(DARWIN) || defined(__APPLE__)
+#ifndef ZEPHIR_RELEASE
+#if defined(linux) || defined(DARWIN) || defined(__APPLE__)
 
 #include <execinfo.h>
 #include <Zend/zend.h>
@@ -54,14 +54,14 @@ void zephir_print_backtrace(void)
 	smart_str_free(&s);
 }
 
-//#else
+#else
 
-//void zephir_print_backtrace(void)
-//{
+void zephir_print_backtrace(void)
+{
 	/**
 	 * Not implemented yet for anything other than Linux
 	 */
-//}
+}
 
-//#endif
-//#endif /* ZEPHIR_RELEASE */
+#endif
+#endif /* ZEPHIR_RELEASE */
