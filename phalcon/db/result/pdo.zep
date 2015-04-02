@@ -313,9 +313,15 @@ class Pdo implements ResultInterface
 		let pdoStatement = this->_pdoStatement;
 		switch fetchMode {
 
+			case Db::FETCH_USE_DEFAULT:
 			case Db::FETCH_BOTH:
 				pdoStatement->setFetchMode(\Pdo::FETCH_BOTH);
 				let this->_fetchMode = \Pdo::FETCH_BOTH;
+				break;
+
+			case Db::FETCH_LAZY:
+				pdoStatement->setFetchMode(\Pdo::FETCH_LAZY);
+				let this->_fetchMode = \Pdo::FETCH_LAZY;
 				break;
 
 			case Db::FETCH_ASSOC:
@@ -331,6 +337,66 @@ class Pdo implements ResultInterface
 			case Db::FETCH_OBJ:
 				pdoStatement->setFetchMode(\Pdo::FETCH_OBJ);
 				let this->_fetchMode = \Pdo::FETCH_OBJ;
+				break;
+
+			case Db::FETCH_BOUND:
+				pdoStatement->setFetchMode(\Pdo::FETCH_BOUND);
+				let this->_fetchMode = \Pdo::FETCH_BOUND;
+				break;
+
+			case Db::FETCH_COLUMN:
+				pdoStatement->setFetchMode(\Pdo::FETCH_COLUMN);
+				let this->_fetchMode = \Pdo::FETCH_COLUMN;
+				break;
+
+			case Db::FETCH_CLASS:
+				pdoStatement->setFetchMode(\Pdo::FETCH_CLASS);
+				let this->_fetchMode = \Pdo::FETCH_CLASS;
+				break;
+
+			case Db::FETCH_INTO:
+				pdoStatement->setFetchMode(\Pdo::FETCH_INTO);
+				let this->_fetchMode = \Pdo::FETCH_INTO;
+				break;
+
+			case Db::FETCH_FUNC:
+				pdoStatement->setFetchMode(\Pdo::FETCH_FUNC);
+				let this->_fetchMode = \Pdo::FETCH_FUNC;
+				break;
+
+			case Db::FETCH_NAMED:
+				pdoStatement->setFetchMode(\Pdo::FETCH_NAMED);
+				let this->_fetchMode = \Pdo::FETCH_NAMED;
+				break;
+
+			case Db::FETCH_KEY_PAIR:
+				pdoStatement->setFetchMode(\Pdo::FETCH_KEY_PAIR);
+				let this->_fetchMode = \Pdo::FETCH_KEY_PAIR;
+				break;
+
+			case Db::FETCH_GROUP:
+				pdoStatement->setFetchMode(\Pdo::FETCH_GROUP);
+				let this->_fetchMode = \Pdo::FETCH_GROUP;
+				break;
+
+			case Db::FETCH_UNIQUE:
+				pdoStatement->setFetchMode(\Pdo::FETCH_UNIQUE);
+				let this->_fetchMode = \Pdo::FETCH_UNIQUE;
+				break;
+
+			case Db::FETCH_CLASSTYPE:
+				pdoStatement->setFetchMode(\Pdo::FETCH_CLASSTYPE);
+				let this->_fetchMode = \Pdo::FETCH_CLASSTYPE;
+				break;
+
+			case Db::FETCH_SERIALIZE:
+				pdoStatement->setFetchMode(\Pdo::FETCH_SERIALIZE);
+				let this->_fetchMode = \Pdo::FETCH_SERIALIZE;
+				break;
+
+			case Db::FETCH_PROPS_LATE:
+				pdoStatement->setFetchMode(\Pdo::FETCH_PROPS_LATE);
+				let this->_fetchMode = \Pdo::FETCH_PROPS_LATE;
 				break;
 		}
 	}
