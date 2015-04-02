@@ -203,6 +203,7 @@ static ulong zephir_make_fcall_key(char **result, size_t *length, const zend_cla
 		memcpy(buf,                  c,               l);
 		memcpy(buf + l,              &calling_scope,  ppzce_size);
 		memcpy(buf + l + ppzce_size, &obj_ce,         ppzce_size);
+		buf[l + ppzce_size + 1] = '\0';
 	}
 	else if (Z_TYPE_P(function_name) == IS_ARRAY) {
 		zval **method;
@@ -220,6 +221,7 @@ static ulong zephir_make_fcall_key(char **result, size_t *length, const zend_cla
 			memcpy(buf,                  c,               l);
 			memcpy(buf + l,              &calling_scope,  ppzce_size);
 			memcpy(buf + l + ppzce_size, &obj_ce,         ppzce_size);
+			buf[l + ppzce_size + 1] = '\0';
 		}
 	}
 
@@ -297,6 +299,7 @@ static ulong zephir_make_fcall_info_key(char **result, size_t *length, const zen
 			memcpy(buf,                  c,               l);
 			memcpy(buf + l,              &calling_scope,  ppzce_size);
 			memcpy(buf + l + ppzce_size, &obj_ce,         ppzce_size);
+			buf[l + ppzce_size + 1] = '\0';
 			break;
 
 		case ZEPHIR_FCALL_TYPE_CE_METHOD:
@@ -313,6 +316,7 @@ static ulong zephir_make_fcall_info_key(char **result, size_t *length, const zen
 			memcpy(buf,                  c,               l);
 			memcpy(buf + l,              &calling_scope,  ppzce_size);
 			memcpy(buf + l + ppzce_size, &obj_ce,         ppzce_size);
+			buf[l + ppzce_size + 1] = '\0';
 			break;
 	}
 
@@ -756,7 +760,7 @@ int zephir_call_class_method_aparams(zval **return_value_ptr, zend_class_entry *
 		}
 	}
 
-#if PHP_VERSION_ID >= 50600
+/*#if PHP_VERSION_ID >= 50600
 
 	if (!cache_entry || !*cache_entry) {
 
@@ -797,7 +801,7 @@ int zephir_call_class_method_aparams(zval **return_value_ptr, zend_class_entry *
 
 	status = zephir_call_user_function(object ? &object : NULL, ce, type, fn, rvp, cache_entry, param_count, params, &info TSRMLS_CC);
 
-#else
+#else*/
 
 	ALLOC_INIT_ZVAL(fn);
 	if (!cache_entry || !*cache_entry) {
@@ -831,7 +835,7 @@ int zephir_call_class_method_aparams(zval **return_value_ptr, zend_class_entry *
 
 	status = zephir_call_user_function(object ? &object : NULL, ce, type, fn, rvp, cache_entry, param_count, params, NULL TSRMLS_CC);
 
-#endif
+//#endif
 
 	if (status == FAILURE && !EG(exception)) {
 
@@ -893,9 +897,9 @@ int zephir_call_class_method_aparams(zval **return_value_ptr, zend_class_entry *
 		zval_ptr_dtor(&rv);
 	}
 
-#if PHP_VERSION_ID < 50600
+//#if PHP_VERSION_ID < 50600
 	zval_ptr_dtor(&fn);
-#endif
+//#endif
 
 	return status;
 }
