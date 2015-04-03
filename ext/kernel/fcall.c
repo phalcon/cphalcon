@@ -197,13 +197,13 @@ static ulong zephir_make_fcall_key(char **result, size_t *length, const zend_cla
 	if (Z_TYPE_P(function_name) == IS_STRING) {
 		l   = (size_t)(Z_STRLEN_P(function_name)) + 1;
 		c   = Z_STRVAL_P(function_name);
-		len = 2 * ppzce_size + l;
+		len = 2 * ppzce_size + l + 1;
 		buf = emalloc(len);
 
 		memcpy(buf,                  c,               l);
 		memcpy(buf + l,              &calling_scope,  ppzce_size);
 		memcpy(buf + l + ppzce_size, &obj_ce,         ppzce_size);
-		buf[l + ppzce_size + 1] = '\0';
+		buf[len - 1] = '\0';
 	}
 	else if (Z_TYPE_P(function_name) == IS_ARRAY) {
 		zval **method;
@@ -215,13 +215,13 @@ static ulong zephir_make_fcall_key(char **result, size_t *length, const zend_cla
 		) {
 			l   = (size_t)(Z_STRLEN_PP(method)) + 1;
 			c   = Z_STRVAL_PP(method);
-			len = 2 * ppzce_size + l;
+			len = 2 * ppzce_size + l + 1;
 			buf = emalloc(len);
 
 			memcpy(buf,                  c,               l);
 			memcpy(buf + l,              &calling_scope,  ppzce_size);
 			memcpy(buf + l + ppzce_size, &obj_ce,         ppzce_size);
-			buf[l + ppzce_size + 1] = '\0';
+			buf[len - 1] = '\0';
 		}
 	}
 
@@ -293,13 +293,13 @@ static ulong zephir_make_fcall_info_key(char **result, size_t *length, const zen
 
 			l   = (size_t)(info->func_length) + 1;
 			c   = (char*) info->func_name;
-			len = 2 * ppzce_size + l;
+			len = 2 * ppzce_size + l + 1;
 			buf = emalloc(len);
 
 			memcpy(buf,                  c,               l);
 			memcpy(buf + l,              &calling_scope,  ppzce_size);
 			memcpy(buf + l + ppzce_size, &obj_ce,         ppzce_size);
-			buf[l + ppzce_size + 1] = '\0';
+			buf[len - 1] = '\0';
 			break;
 
 		case ZEPHIR_FCALL_TYPE_CE_METHOD:
@@ -310,13 +310,13 @@ static ulong zephir_make_fcall_info_key(char **result, size_t *length, const zen
 
 			l   = (size_t)(info->func_length) + 1;
 			c   = (char*) info->func_name;
-			len = 2 * ppzce_size + l;
+			len = 2 * ppzce_size + l + 1;
 			buf = emalloc(len);
 
 			memcpy(buf,                  c,               l);
 			memcpy(buf + l,              &calling_scope,  ppzce_size);
 			memcpy(buf + l + ppzce_size, &obj_ce,         ppzce_size);
-			buf[l + ppzce_size + 1] = '\0';
+			buf[len - 1] = '\0';
 			break;
 	}
 
@@ -459,7 +459,7 @@ int zephir_call_user_function(zval **object_pp, zend_class_entry *obj_ce, zephir
 
 	++zephir_globals_ptr->recursive_lock;
 
-	if (UNEXPECTED(zephir_globals_ptr->recursive_lock > 2048)) {		
+	if (UNEXPECTED(zephir_globals_ptr->recursive_lock > 2048)) {
 		zend_error(E_ERROR, "Maximum recursion depth exceeded");
 		return FAILURE;
 	}

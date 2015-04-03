@@ -420,7 +420,7 @@ int zephir_cleanup_fcache(void *pDest TSRMLS_DC, int num_args, va_list args, zen
 	assert(hash_key->arKey != NULL);
 	assert(hash_key->nKeyLength > 2 * sizeof(zend_class_entry**));
 
-	memcpy(&scope, &hash_key->arKey[len - 2 * sizeof(zend_class_entry**)], sizeof(zend_class_entry*));
+	memcpy(&scope, &hash_key->arKey[(len -1) - 2 * sizeof(zend_class_entry**)], sizeof(zend_class_entry*));
 
 /*
 #ifndef ZEPHIR_RELEASE
