@@ -144,6 +144,12 @@ class ModelsEventsTest extends PHPUnit_Framework_TestCase
 		$robot->delete();
 
 		$this->assertEquals($trace, array(
+			'beforeQuery' => array(
+				'GossipRobots' => 1,
+			),
+			'afterQuery' => array(
+				'GossipRobots' => 1,
+			),
 			'beforeOperation' => array(
 				'GossipRobots' => 1,
 			),

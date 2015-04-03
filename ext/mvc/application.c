@@ -153,7 +153,7 @@ PHP_METHOD(Phalcon_Mvc_Application, __construct){
 	zval *dependency_injector = NULL;
 
 	phalcon_fetch_params(0, 0, 1, &dependency_injector);
-	
+
 	if (dependency_injector && Z_TYPE_P(dependency_injector) == IS_OBJECT) {
 		PHALCON_VERIFY_INTERFACE_EX(dependency_injector, phalcon_diinterface_ce, phalcon_mvc_application_exception_ce, 0);
 		phalcon_update_property_this(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
@@ -172,7 +172,7 @@ PHP_METHOD(Phalcon_Mvc_Application, useImplicitView){
 	zval *implicit_view;
 
 	phalcon_fetch_params(0, 1, 0, &implicit_view);
-	
+
 	phalcon_update_property_this(this_ptr, SL("_implicitView"), implicit_view TSRMLS_CC);
 	RETURN_THISW();
 }
@@ -204,11 +204,11 @@ PHP_METHOD(Phalcon_Mvc_Application, registerModules){
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 1, 1, &modules, &merge);
-	
+
 	if (!merge) {
 		merge = PHALCON_GLOBAL(z_false);
 	}
-	
+
 	if (Z_TYPE_P(modules) != IS_ARRAY) { 
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_application_exception_ce, "Modules must be an Array");
 		return;
@@ -224,10 +224,10 @@ PHP_METHOD(Phalcon_Mvc_Application, registerModules){
 		} else {
 			PHALCON_CPY_WRT(merged_modules, modules);
 		}
-	
+
 		phalcon_update_property_this(this_ptr, SL("_modules"), merged_modules TSRMLS_CC);
 	}
-	
+
 	RETURN_THIS();
 }
 
@@ -253,7 +253,7 @@ PHP_METHOD(Phalcon_Mvc_Application, setDefaultModule){
 	zval *default_module;
 
 	phalcon_fetch_params(0, 1, 0, &default_module);
-	
+
 	phalcon_update_property_this(this_ptr, SL("_defaultModule"), default_module TSRMLS_CC);
 	RETURN_THISW();
 }
@@ -316,17 +316,17 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 0, 1, &uri);
-	
+
 	if (!uri) {
 		uri = PHALCON_GLOBAL(z_null);
 	}
-	
+
 	dependency_injector = phalcon_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY TSRMLS_CC);
 	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_application_exception_ce, "A dependency injection object is required to access internal services");
 		return;
 	}
-	
+
 	events_manager = phalcon_fetch_nproperty_this(this_ptr, SL("_eventsManager"), PH_NOISY TSRMLS_CC);
 	if (Z_TYPE_P(events_manager) != IS_OBJECT) {
 		events_manager = NULL;
@@ -339,24 +339,24 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 	if (FAILURE == phalcon_mvc_application_fire_event(events_manager, "application:boot", getThis(), NULL TSRMLS_CC)) {
 		RETURN_MM_FALSE;
 	}
-	
+
 	PHALCON_INIT_VAR(service);
 	PHALCON_ZVAL_MAYBE_INTERNED_STRING(service, phalcon_interned_router);
 	PHALCON_CALL_METHOD(&router, dependency_injector, "getshared", service);
 	PHALCON_VERIFY_INTERFACE(router, phalcon_mvc_routerinterface_ce);
-	
+
 	/* Handle the URI pattern (if any) */
 	PHALCON_CALL_METHOD(NULL, router, "handle", uri);
-	
+
 	/* Load module config */
 	PHALCON_CALL_METHOD(&module_name, router, "getmodulename");
-	
+
 	/* If the router doesn't return a valid module we use the default module */
 	if (!zend_is_true(module_name)) {
 		PHALCON_OBS_NVAR(module_name);
 		phalcon_read_property_this(&module_name, this_ptr, SL("_defaultModule"), PH_NOISY TSRMLS_CC);
 	}
-	
+
 	/** 
 	 * Process the module definition
 	 */
@@ -375,7 +375,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 			zend_throw_exception_ex(phalcon_mvc_application_exception_ce, 0 TSRMLS_CC, "Module %s is not registered in the application container", Z_STRVAL_P(module_name));
 			RETURN_MM();
 		}
-	
+
 		/** 
 		 * A module definition must be an array or an object
 		 */
@@ -383,7 +383,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 			PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_application_exception_ce, "Invalid module definition");
 			return;
 		}
-	
+
 		/* An array module definition contains a path to a module definition class */
 		if (Z_TYPE_P(module) == IS_ARRAY) { 
 			/* Class name used to load the module definition */
@@ -394,10 +394,10 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 				PHALCON_INIT_NVAR(class_name);
 				ZVAL_STRING(class_name, "Module", 1);
 			}
-	
+
 			/* If the developer has specified a path, try to include the file */
 			if (phalcon_array_isset_string(module, SS("path"))) {
-	
+
 				PHALCON_OBS_VAR(path);
 				phalcon_array_fetch_string(&path, module, SL("path"), PH_NOISY);
 				convert_to_string_ex(&path);
@@ -410,9 +410,9 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 					}
 				}
 			}
-	
+
 			PHALCON_CALL_METHOD(&module_object, dependency_injector, "get", class_name);
-	
+
 			/** 
 			 * 'registerAutoloaders' and 'registerServices' are automatically called
 			 */
@@ -430,7 +430,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 			PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_application_exception_ce, "Invalid module definition");
 			return;
 		}
-	
+
 		/* Calling afterStartModule event */
 		if (events_manager) {
 			if (!module_object) {
@@ -443,7 +443,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 			}
 		}
 	}
-	
+
 	/** 
 	 * Check whether use implicit views or not
 	 */
@@ -459,11 +459,11 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 	if (f_implicit_view) {
 		PHALCON_INIT_NVAR(service);
 		ZVAL_STRING(service, "view", 1);
-	
+
 		PHALCON_CALL_METHOD(&view, dependency_injector, "getshared", service);
 		PHALCON_VERIFY_INTERFACE(view, phalcon_mvc_viewinterface_ce);
 	}
-	
+
 	/* We get the parameters from the router and assign them to the dispatcher */
 	PHALCON_CALL_METHOD(&module_name, router, "getmodulename");
 	PHALCON_CALL_METHOD(&namespace_name, router, "getnamespacename");
@@ -474,32 +474,32 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 
 	PHALCON_INIT_NVAR(service);
 	PHALCON_ZVAL_MAYBE_INTERNED_STRING(service, phalcon_interned_dispatcher);
-	
+
 	PHALCON_CALL_METHOD(&dispatcher, dependency_injector, "getshared", service);
 	PHALCON_VERIFY_INTERFACE(dispatcher, phalcon_dispatcherinterface_ce);
-	
+
 	/* Assign the values passed from the router */
 	PHALCON_CALL_METHOD(NULL, dispatcher, "setmodulename", module_name);
 	PHALCON_CALL_METHOD(NULL, dispatcher, "setnamespacename", namespace_name);
 	PHALCON_CALL_METHOD(NULL, dispatcher, "setcontrollername", controller_name, exact);
 	PHALCON_CALL_METHOD(NULL, dispatcher, "setactionname", action_name);
 	PHALCON_CALL_METHOD(NULL, dispatcher, "setparams", params);
-	
+
 	/** 
 	 * Start the view component (start output buffering)
 	 */
 	if (f_implicit_view) {
 		PHALCON_CALL_METHOD(NULL, view, "start");
 	}
-	
+
 	/* Calling beforeHandleRequest */
 	RETURN_MM_ON_FAILURE(phalcon_mvc_application_fire_event(events_manager, "application:beforeHandleRequest", getThis(), dispatcher TSRMLS_CC));
-	
+
 	/* The dispatcher must return an object */
 	PHALCON_CALL_METHOD(&controller, dispatcher, "dispatch");
-	
+
 	PHALCON_INIT_VAR(returned_response);
-	
+
 	/* Get the latest value returned by an action */
 	PHALCON_CALL_METHOD(&possible_response, dispatcher, "getreturnedvalue");
 	if (Z_TYPE_P(possible_response) == IS_OBJECT) {
@@ -509,20 +509,20 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 	else {
 		ZVAL_FALSE(returned_response);
 	}
-	
+
 	/* Calling afterHandleRequest */
 	if (FAILURE == phalcon_mvc_application_fire_event(events_manager, "application:afterHandleRequest", getThis(), controller TSRMLS_CC) && EG(exception)) {
 		RETURN_MM();
 	}
-	
+
 	/* If the dispatcher returns an object we try to render the view in auto-rendering mode */
 	if (PHALCON_IS_FALSE(returned_response)) {
 		if (f_implicit_view) {
-	
+
 			if (Z_TYPE_P(controller) == IS_OBJECT) {
-	
+
 				PHALCON_INIT_VAR(render_status);
-	
+
 				/** 
 				 * This allows to make a custom view render
 				 */
@@ -541,30 +541,30 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 				else {
 					ZVAL_TRUE(render_status);
 				}
-	
+
 				/* Check if the view process has been treated by the developer */
 				if (PHALCON_IS_NOT_FALSE(render_status)) {
 					PHALCON_CALL_METHOD(&namespace_name, dispatcher, "getnamespacename");
 					PHALCON_CALL_METHOD(&controller_name, dispatcher, "getcontrollername");
 					PHALCON_CALL_METHOD(&action_name, dispatcher, "getactionname");
 					PHALCON_CALL_METHOD(&params, dispatcher, "getparams");
-	
+
 					/* Automatic render based on the latest controller executed */
 					PHALCON_CALL_METHOD(NULL, view, "render", controller_name, action_name, params, namespace_name);
 				}
 			}
 		}
 	}
-	
+
 	/* Finish the view component (stop output buffering) */
 	if (f_implicit_view) {
 		PHALCON_CALL_METHOD(NULL, view, "finish");
 	}
-	
+
 	if (PHALCON_IS_FALSE(returned_response)) {
 		PHALCON_INIT_NVAR(service);
 		PHALCON_ZVAL_MAYBE_INTERNED_STRING(service, phalcon_interned_response);
-	
+
 		PHALCON_CALL_METHOD(&response, dependency_injector, "getshared", service);
 		PHALCON_VERIFY_INTERFACE(response, phalcon_http_responseinterface_ce);
 		if (f_implicit_view) {
@@ -576,19 +576,18 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 		/* We don't need to create a response because there is a one already created */
 		PHALCON_CPY_WRT(response, possible_response);
 	}
-	
 
 	/* Calling beforeSendResponse */
 	if (FAILURE == phalcon_mvc_application_fire_event(events_manager, "application:beforeSendResponse", getThis(), response TSRMLS_CC) && EG(exception)) {
 		RETURN_MM();
 	}
-	
+
 	/* Headers are automatically sent */
 	PHALCON_CALL_METHOD(NULL, response, "sendheaders");
-	
+
 	/* Cookies are automatically sent */
 	PHALCON_CALL_METHOD(NULL, response, "sendcookies");
-	
+
 	/* Return the response */
 	RETURN_CCTOR(response);
 }
