@@ -4,7 +4,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -196,15 +196,15 @@ class CacheTest extends PHPUnit_Framework_TestCase
 	{
 		$frontCache = new Phalcon\Cache\Frontend\Data();
 
-		$cache = new Phalcon\Cache\Backend\File($frontCache, array(
+		/*$cache = new Phalcon\Cache\Backend\File($frontCache, array(
 			'cacheDir' => 'unit-tests/cache/',
                         'safekey' => true,
 			'prefix' => '!@(##' // should throw an exception, only a-zA-Z09_-. are allowed
-		));
+		));*/
 	}
 
 
-	/*public function testMemoryCache()
+	public function testMemoryCache()
 	{
 		$frontCache = new Phalcon\Cache\Frontend\None(array('lifetime' => 10));
 
@@ -1588,5 +1588,5 @@ class CacheTest extends PHPUnit_Framework_TestCase
 
 		$this->assertFalse($cache->exists('data'));
 		$this->assertFalse($cache->exists('data2'));
-	}*/
+	}
 }
