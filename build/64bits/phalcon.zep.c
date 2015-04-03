@@ -2,7 +2,7 @@
 
 New BSD License
 
-Copyright (c) 2011-2013, Phalcon Framework Team
+Copyright (c) 2011-2015, Phalcon Framework Team
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -86,7 +86,7 @@ SUCH DAMAGE.
 
 --------------------------------------------------------------------
                   The PHP License, version 3.01
-Copyright (c) 1999 - 2010 The PHP Group. All rights reserved.
+Copyright (c) 1999 - 2015 The PHP Group. All rights reserved.
 --------------------------------------------------------------------
 
 Redistribution and use in source and binary forms, with or without
@@ -2312,6 +2312,7 @@ typedef zend_function zephir_fcall_cache_entry;
 			method_len = 0; \
 			method_name = zend_str_tolower_dup("", 0); \
 		} \
+		ZEPHIR_OBSERVE_OR_NULLIFY_PPZV(return_value_ptr); \
 		ZEPHIR_LAST_CALL_STATUS = zephir_call_class_method_aparams(return_value_ptr, Z_TYPE_P(object) == IS_OBJECT ? Z_OBJCE_P(object) : NULL, zephir_fcall_method, object, method_name, method_len, cache, ZEPHIR_CALL_NUM_PARAMS(params_), ZEPHIR_PASS_CALL_PARAMS(params_) TSRMLS_CC); \
 		efree(method_name); \
 	} while (0)
@@ -2552,6 +2553,7 @@ typedef zend_function zephir_fcall_cache_entry;
 			method_len = 0; \
 			method_name = zend_str_tolower_dup("", 0); \
 		} \
+		ZEPHIR_OBSERVE_OR_NULLIFY_PPZV(return_value_ptr); \
 		ZEPHIR_LAST_CALL_STATUS = zephir_call_class_method_aparams(return_value_ptr, class_entry, zephir_fcall_ce, NULL, method_name, method_len, cache, ZEPHIR_CALL_NUM_PARAMS(params_), ZEPHIR_PASS_CALL_PARAMS(params_) TSRMLS_CC); \
 		efree(method_name); \
 	} while (0)
@@ -4154,7 +4156,7 @@ static int zephir_cleanup_fcache(void *pDest TSRMLS_DC, int num_args, va_list ar
 	assert(hash_key->arKey != NULL);
 	assert(hash_key->nKeyLength > 2 * sizeof(zend_class_entry**));
 
-	memcpy(&scope, &hash_key->arKey[len - 2 * sizeof(zend_class_entry**)], sizeof(zend_class_entry*));
+	memcpy(&scope, &hash_key->arKey[(len -1) - 2 * sizeof(zend_class_entry**)], sizeof(zend_class_entry*));
 
 
 #ifndef ZEPHIR_RELEASE
@@ -11039,13 +11041,13 @@ static ulong zephir_make_fcall_key(char **result, size_t *length, const zend_cla
 	if (Z_TYPE_P(function_name) == IS_STRING) {
 		l   = (size_t)(Z_STRLEN_P(function_name)) + 1;
 		c   = Z_STRVAL_P(function_name);
-		len = 2 * ppzce_size + l;
+		len = 2 * ppzce_size + l + 1;
 		buf = emalloc(len);
 
 		memcpy(buf,                  c,               l);
 		memcpy(buf + l,              &calling_scope,  ppzce_size);
 		memcpy(buf + l + ppzce_size, &obj_ce,         ppzce_size);
-		buf[l + ppzce_size + 1] = '\0';
+		buf[len - 1] = '\0';
 	}
 	else if (Z_TYPE_P(function_name) == IS_ARRAY) {
 		zval **method;
@@ -11057,13 +11059,13 @@ static ulong zephir_make_fcall_key(char **result, size_t *length, const zend_cla
 		) {
 			l   = (size_t)(Z_STRLEN_PP(method)) + 1;
 			c   = Z_STRVAL_PP(method);
-			len = 2 * ppzce_size + l;
+			len = 2 * ppzce_size + l + 1;
 			buf = emalloc(len);
 
 			memcpy(buf,                  c,               l);
 			memcpy(buf + l,              &calling_scope,  ppzce_size);
 			memcpy(buf + l + ppzce_size, &obj_ce,         ppzce_size);
-			buf[l + ppzce_size + 1] = '\0';
+			buf[len - 1] = '\0';
 		}
 	}
 
@@ -11132,13 +11134,13 @@ static ulong zephir_make_fcall_info_key(char **result, size_t *length, const zen
 
 			l   = (size_t)(info->func_length) + 1;
 			c   = (char*) info->func_name;
-			len = 2 * ppzce_size + l;
+			len = 2 * ppzce_size + l + 1;
 			buf = emalloc(len);
 
 			memcpy(buf,                  c,               l);
 			memcpy(buf + l,              &calling_scope,  ppzce_size);
 			memcpy(buf + l + ppzce_size, &obj_ce,         ppzce_size);
-			buf[l + ppzce_size + 1] = '\0';
+			buf[len - 1] = '\0';
 			break;
 
 		case ZEPHIR_FCALL_TYPE_CE_METHOD:
@@ -11149,13 +11151,13 @@ static ulong zephir_make_fcall_info_key(char **result, size_t *length, const zen
 
 			l   = (size_t)(info->func_length) + 1;
 			c   = (char*) info->func_name;
-			len = 2 * ppzce_size + l;
+			len = 2 * ppzce_size + l + 1;
 			buf = emalloc(len);
 
 			memcpy(buf,                  c,               l);
 			memcpy(buf + l,              &calling_scope,  ppzce_size);
 			memcpy(buf + l + ppzce_size, &obj_ce,         ppzce_size);
-			buf[l + ppzce_size + 1] = '\0';
+			buf[len - 1] = '\0';
 			break;
 	}
 
@@ -11295,7 +11297,7 @@ static int zephir_call_user_function(zval **object_pp, zend_class_entry *obj_ce,
 
 	++zephir_globals_ptr->recursive_lock;
 
-	if (UNEXPECTED(zephir_globals_ptr->recursive_lock > 2048)) {		
+	if (UNEXPECTED(zephir_globals_ptr->recursive_lock > 2048)) {
 		zend_error(E_ERROR, "Maximum recursion depth exceeded");
 		return FAILURE;
 	}
@@ -21695,7 +21697,7 @@ static PHP_METHOD(Phalcon_Kernel, preComputeHashKey) {
 		{
 
 		char *arKey = Z_STRVAL_P(key), *strKey;
-		int nKeyLength = strlen(key);
+		int nKeyLength = strlen(arKey);
 		register ulong hash = 5381;
 
 		nKeyLength++;
@@ -48739,7 +48741,7 @@ static PHP_METHOD(Phalcon_Db_Dialect_MySQL, tableExists) {
 		ZEPHIR_CONCAT_SVSVS(return_value, "SELECT IF(COUNT(*)>0, 1 , 0) FROM `INFORMATION_SCHEMA`.`TABLES` WHERE `TABLE_NAME`= '", tableName, "' AND `TABLE_SCHEMA` = '", schemaName, "'");
 		RETURN_MM();
 	}
-	ZEPHIR_CONCAT_SVS(return_value, "SELECT IF(COUNT(*)>0, 1 , 0) FROM `INFORMATION_SCHEMA`.`TABLES` WHERE `TABLE_NAME` = '", tableName, "'");
+	ZEPHIR_CONCAT_SVS(return_value, "SELECT IF(COUNT(*)>0, 1 , 0) FROM `INFORMATION_SCHEMA`.`TABLES` WHERE `TABLE_NAME` = '", tableName, "' AND `TABLE_SCHEMA` = DATABASE()");
 	RETURN_MM();
 
 }
