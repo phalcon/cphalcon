@@ -283,7 +283,9 @@ CREATE TABLE `robots` (
 
 LOCK TABLES `robots` WRITE;
 /*!40000 ALTER TABLE `robots` DISABLE KEYS */;
-INSERT INTO `robots` VALUES (1,'Robotina','mechanical',1972,'1972/01/01 00:00:00','text'),(2,'Astro Boy','mechanical',1952,'1952/01/01 00:00:00','text'),(3,'Terminator','cyborg',2029,'2029/01/01 00:00:00','text');
+INSERT INTO `robots` VALUES (1,'Robotina','mechanical',1972,'1972/01/01 00:00:00','text'),
+(2,'Astro Boy','mechanical',1952,'1952/01/01 00:00:00','text'),
+(3,'Terminator','cyborg',2029,'2029/01/01 00:00:00','text');
 /*!40000 ALTER TABLE `robots` ENABLE KEYS */;
 UNLOCK TABLES;
 
