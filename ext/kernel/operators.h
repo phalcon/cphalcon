@@ -309,7 +309,7 @@ void zephir_pow(zval *return_value, zval *op1, zval *op2 TSRMLS_DC);
 #define zephir_is_true(value) \
 	(Z_TYPE_P(value) == IS_NULL ? 0 : \
 		(Z_TYPE_P(value) == IS_BOOL ? Z_BVAL_P(value) : \
-			(Z_TYPE_P(value) == IS_LONG ? Z_LVAL_P(value) : \
+			(Z_TYPE_P(value) == IS_LONG ? (Z_LVAL_P(value) ? 1 : 0) : \
 				zend_is_true(value) \
 			) \
 		) \
