@@ -18,6 +18,7 @@
 #include "kernel/exception.h"
 #include "kernel/concat.h"
 #include "kernel/array.h"
+#include "kernel/object.h"
 #include "ext/spl/spl_exceptions.h"
 
 

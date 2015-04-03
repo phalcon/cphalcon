@@ -165,5 +165,4 @@ interface AdapterInterface
 	 * @return Phalcon\Acl\ResourceInterface[]
 	 */
 	public function getResources();
-
 }

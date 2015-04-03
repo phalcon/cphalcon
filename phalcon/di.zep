@@ -59,7 +59,7 @@ use Phalcon\Events\EventsAwareInterface;
  *
  *</code>
  */
-class Di implements DiInterface, \Phalcon\Events\EventsAwareInterface
+class Di implements DiInterface, EventsAwareInterface
 {
 
 	protected _services;
@@ -83,10 +83,7 @@ class Di implements DiInterface, \Phalcon\Events\EventsAwareInterface
 	 */
 	public function __construct()
 	{
-		var defaultDi;
-
-		let defaultDi = self::_default;
-		if !defaultDi {
+		if !self::_default {
 			let self::_default = this;
 		}
 	}

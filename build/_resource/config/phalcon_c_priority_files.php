@@ -3,8 +3,6 @@
 
 return array(
     // Header files
-    //'assets/filters/nojsminifier.h',
-    //'assets/filters/nocssminifier.h',
     'phalcon/mvc/model/query/parser.h',
     'phalcon/mvc/model/query/scanner.h',
     'phalcon/mvc/model/query/phql.h',
@@ -23,6 +21,7 @@ return array(
     'kernel/object.h',
     'kernel/array.h',
     'kernel/extended/array.h',
+    'kernel/extended/fcall.h',
     'kernel/string.h',
     'kernel/fcall.h',
     'kernel/require.h',
@@ -43,6 +42,7 @@ return array(
     'kernel/object.c',
     'kernel/array.c',
     'kernel/extended/array.c',
+    'kernel/extended/fcall.c',
     'kernel/string.c',
     'kernel/fcall.c',
     'kernel/require.c',

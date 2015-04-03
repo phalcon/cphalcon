@@ -250,7 +250,7 @@ PHP_METHOD(Phalcon_Filter, _sanitize) {
 			ZVAL_STRING(&_3, "'", 0);
 			ZEPHIR_SINIT_VAR(_4);
 			ZVAL_STRING(&_4, "", 0);
-			zephir_fast_str_replace(_2, &_3, &_4, value TSRMLS_CC);
+			zephir_fast_str_replace(&_2, &_3, &_4, value TSRMLS_CC);
 			ZEPHIR_SINIT_VAR(_5);
 			ZVAL_STRING(&_5, "FILTER_SANITIZE_EMAIL", 0);
 			ZEPHIR_CALL_FUNCTION(&_6, "constant", &_7, &_5);

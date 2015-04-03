@@ -8,6 +8,26 @@
 #define ZEPHIR_RELEASE 1
 #endif
 
+
+/*
+  +------------------------------------------------------------------------+
+  | Zephir Language                                                        |
+  +------------------------------------------------------------------------+
+  | Copyright (c) 2011-2015 Zephir Team (http://www.zephir-lang.com)       |
+  +------------------------------------------------------------------------+
+  | This source file is subject to the New BSD License that is bundled     |
+  | with this package in the file docs/LICENSE.txt.                        |
+  |                                                                        |
+  | If you did not receive a copy of the license and are unable to         |
+  | obtain it through the world-wide-web, please send an email             |
+  | to license@zephir-lang.com so we can send you a copy immediately.      |
+  +------------------------------------------------------------------------+
+  | Authors: Andres Gutierrez <andres@zephir-lang.com>                     |
+  |          Eduar Carvajal <eduar@zephir-lang.com>                        |
+  |          Vladimir Kolesnikov <vladimir@extrememember.com>              |
+  +------------------------------------------------------------------------+
+*/
+
 #ifndef ZEPHIR_KERNEL_GLOBALS_H
 #define ZEPHIR_KERNEL_GLOBALS_H
 
@@ -158,17 +178,17 @@ typedef struct _zephir_function_cache {
 
 
 #define PHP_PHALCON_NAME        "phalcon"
-#define PHP_PHALCON_VERSION     "2.0.0b"
+#define PHP_PHALCON_VERSION     "2.0.0r"
 #define PHP_PHALCON_EXTNAME     "phalcon"
 #define PHP_PHALCON_AUTHOR      "Phalcon Team and Contributors"
-#define PHP_PHALCON_ZEPVERSION  "0.6.0a"
+#define PHP_PHALCON_ZEPVERSION  "0.6.1a"
 #define PHP_PHALCON_DESCRIPTION "Web framework delivered as a C-extension for PHP"
 
-typedef struct _zephir_struct_db {
+typedef struct _zephir_struct_db { 
 	zend_bool escape_identifiers;
 } zephir_struct_db;
 
-typedef struct _zephir_struct_orm {
+typedef struct _zephir_struct_orm { 
 	HashTable*  parser_cache;
 	HashTable*  ast_cache;
 	int cache_level;
@@ -208,7 +228,7 @@ ZEND_BEGIN_MODULE_GLOBALS(phalcon)
 	zval *global_true;
 	zval *global_false;
 	zval *global_null;
-
+	
 	zephir_struct_db db;
 
 	zephir_struct_orm orm;

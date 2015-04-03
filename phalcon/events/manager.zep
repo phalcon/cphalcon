@@ -482,5 +482,4 @@ class Manager implements ManagerInterface
 		}
 		return [];
 	}
-
 }

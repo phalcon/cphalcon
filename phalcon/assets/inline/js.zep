@@ -41,5 +41,4 @@ class Js extends \Phalcon\Assets\Inline
 		}
 		parent::__construct("js", content, filter, attributes);
 	}
-
 }

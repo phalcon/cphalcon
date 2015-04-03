@@ -161,7 +161,7 @@ static void zephir_memory_restore_stack_common(zend_zephir_globals_def *g TSRMLS
 			ptr = active_memory->addresses[i];
 			if (EXPECTED(ptr != NULL && *(ptr) != NULL)) {
 				if (Z_REFCOUNT_PP(ptr) == 1) {
-					if (!Z_ISREF_PP(ptr)) {
+					if (!Z_ISREF_PP(ptr) || Z_TYPE_PP(ptr) == IS_OBJECT) {
 						zval_ptr_dtor(ptr);
 					} else {
 						efree(*ptr);
@@ -420,7 +420,7 @@ int zephir_cleanup_fcache(void *pDest TSRMLS_DC, int num_args, va_list args, zen
 	assert(hash_key->arKey != NULL);
 	assert(hash_key->nKeyLength > 2 * sizeof(zend_class_entry**));
 
-	memcpy(&scope, &hash_key->arKey[len - 2 * sizeof(zend_class_entry**)], sizeof(zend_class_entry*));
+	memcpy(&scope, &hash_key->arKey[(len -1) - 2 * sizeof(zend_class_entry**)], sizeof(zend_class_entry*));
 
 /*
 #ifndef ZEPHIR_RELEASE
@@ -593,7 +593,7 @@ void ZEND_FASTCALL zephir_memory_alloc(zval **var TSRMLS_DC)
  */
 void ZEND_FASTCALL zephir_ptr_dtor(zval **var)
 {
-	if (!Z_ISREF_PP(var)) {
+	if (!Z_ISREF_PP(var) || Z_TYPE_PP(var) == IS_OBJECT) {
 		zval_ptr_dtor(var);
 	} else {
 		if (Z_REFCOUNT_PP(var) == 0) {

@@ -16,10 +16,11 @@ return <<<HEADER
 
 #include <main/php.h>
 
+#define ZEPHIR_RELEASE 1
 #define PHALCON_RELEASE 1
 
 #include "php_phalcon.h"
-#include "phalcon.h"
+#include "phalcon.zep.h"
 
 #include <main/php_main.h>
 #include <main/php_variables.h>
@@ -61,4 +62,5 @@ return <<<HEADER
 #include <Zend/zend_extensions.h>
 #include <Zend/zend_builtin_functions.h>
 #include <Zend/zend_closures.h>
+
 HEADER;

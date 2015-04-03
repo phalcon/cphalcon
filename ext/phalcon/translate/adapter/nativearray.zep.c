@@ -136,7 +136,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, query) {
 					ZEPHIR_INIT_NVAR(_4);
 					ZEPHIR_INIT_LNVAR(_5);
 					ZEPHIR_CONCAT_SVS(_5, "%", key, "%");
-					zephir_fast_str_replace(_4, _5, value, translation TSRMLS_CC);
+					zephir_fast_str_replace(&_4, _5, value, translation TSRMLS_CC);
 					ZEPHIR_CPY_WRT(translation, _4);
 				}
 			}

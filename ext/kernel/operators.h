@@ -133,9 +133,11 @@ int zephir_is_identical(zval *op1, zval *op2 TSRMLS_DC);
 
 int zephir_less(zval *op1, zval *op2 TSRMLS_DC);
 int zephir_less_long(zval *op1, long op2 TSRMLS_DC);
+int zephir_less_double(zval *op1, double op2 TSRMLS_DC);
 
 int zephir_greater(zval *op1, zval *op2 TSRMLS_DC);
 int zephir_greater_long(zval *op1, long op2 TSRMLS_DC);
+int zephir_greater_double(zval *op1, double op2 TSRMLS_DC);
 
 int zephir_less_equal(zval *op1, zval *op2 TSRMLS_DC);
 int zephir_less_equal_long(zval *op1, long op2 TSRMLS_DC);
@@ -307,7 +309,7 @@ void zephir_pow(zval *return_value, zval *op1, zval *op2 TSRMLS_DC);
 #define zephir_is_true(value) \
 	(Z_TYPE_P(value) == IS_NULL ? 0 : \
 		(Z_TYPE_P(value) == IS_BOOL ? Z_BVAL_P(value) : \
-			(Z_TYPE_P(value) == IS_LONG ? Z_LVAL_P(value) : \
+			(Z_TYPE_P(value) == IS_LONG ? (Z_LVAL_P(value) ? 1 : 0) : \
 				zend_is_true(value) \
 			) \
 		) \

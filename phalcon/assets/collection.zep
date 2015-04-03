@@ -23,6 +23,8 @@ use Phalcon\Assets\Resource;
 use Phalcon\Assets\FilterInterface;
 use Phalcon\Assets\Inline;
 use Phalcon\Assets\Resource\Css as ResourceCss;
+use Phalcon\Assets\Resource\Js as ResourceJs;
+use Phalcon\Assets\Inline\Js as InlineJs;
 
 /**
  * Phalcon\Assets\Collection
@@ -169,7 +171,7 @@ class Collection implements \Countable, \Iterator
 			let collectionAttributes = this->_attributes;
 		}
 
-		let this->_resources[] = new \Phalcon\Assets\Resource\Js(path, collectionLocal, filter, collectionAttributes);
+		let this->_resources[] = new ResourceJs(path, collectionLocal, filter, collectionAttributes);
 
 		return this;
 	}
@@ -197,7 +199,7 @@ class Collection implements \Countable, \Iterator
 			let collectionAttributes = this->_attributes;
 		}
 
-		let this->_codes[] = new \Phalcon\Assets\Inline\Js(content, filter, collectionAttributes);
+		let this->_codes[] = new InlineJs(content, filter, collectionAttributes);
 
 		return this;
 	}

@@ -9,7 +9,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	fi
 
 	AC_DEFINE(HAVE_PHALCON, 1, [Whether you have Phalcon])
-	PHP_NEW_EXTENSION(phalcon, phalcon.c, $ext_shared)
+	PHP_NEW_EXTENSION(phalcon, phalcon.zep.c, $ext_shared)
 	PHP_SUBST(PHALCON_SHARED_LIBADD)
 
 	old_CPPFLAGS=$CPPFLAGS

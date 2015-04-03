@@ -57,5 +57,4 @@ class Role
 			let this->_description = description;
 		}
 	}
-
 }

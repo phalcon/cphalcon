@@ -2229,14 +2229,14 @@ PHP_METHOD(Phalcon_Tag, friendlyTitle) {
 				ZEPHIR_INIT_NVAR(_10);
 				ZEPHIR_SINIT_NVAR(_0);
 				ZVAL_STRING(&_0, " ", 0);
-				zephir_fast_str_replace(_10, search, &_0, text TSRMLS_CC);
+				zephir_fast_str_replace(&_10, search, &_0, text TSRMLS_CC);
 				zephir_get_strval(text, _10);
 			}
 		} else {
 			ZEPHIR_INIT_NVAR(_10);
 			ZEPHIR_SINIT_NVAR(_3);
 			ZVAL_STRING(&_3, " ", 0);
-			zephir_fast_str_replace(_10, replace, &_3, text TSRMLS_CC);
+			zephir_fast_str_replace(&_10, replace, &_3, text TSRMLS_CC);
 			zephir_get_strval(text, _10);
 		}
 	}

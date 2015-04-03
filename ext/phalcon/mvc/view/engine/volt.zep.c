@@ -254,7 +254,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, length) {
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, isIncluded) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *needle, *haystack;
+	zval *needle, *haystack, *_0 = NULL, *_1;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &needle, &haystack);
@@ -266,12 +266,13 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, isIncluded) {
 	}
 	if (Z_TYPE_P(haystack) == IS_STRING) {
 		if ((zephir_function_exists_ex(SS("mb_strpos") TSRMLS_CC) == SUCCESS)) {
-			ZEPHIR_RETURN_CALL_FUNCTION("mb_strpos", NULL, haystack, needle);
+			ZEPHIR_CALL_FUNCTION(&_0, "mb_strpos", NULL, haystack, needle);
 			zephir_check_call_status();
-			RETURN_MM();
+			RETURN_MM_BOOL(!ZEPHIR_IS_FALSE_IDENTICAL(_0));
 		}
-		zephir_fast_strpos(return_value, haystack, needle, 0 );
-		RETURN_MM();
+		ZEPHIR_INIT_VAR(_1);
+		zephir_fast_strpos(_1, haystack, needle, 0 );
+		RETURN_MM_BOOL(!ZEPHIR_IS_FALSE_IDENTICAL(_1));
 	}
 	ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_view_exception_ce, "Invalid haystack", "phalcon/mvc/view/engine/volt.zep", 184);
 	return;
