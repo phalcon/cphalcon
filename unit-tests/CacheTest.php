@@ -197,11 +197,11 @@ class CacheTest extends PHPUnit_Framework_TestCase
 	{
 		$frontCache = new Phalcon\Cache\Frontend\Data();
 
-	//	$cache = new Phalcon\Cache\Backend\File($frontCache, array(
-	//		'cacheDir' => 'unit-tests/cache/',
-	//		'safekey' => true,
-	//		'prefix' => '!@(##' // should throw an exception, only a-zA-Z09_-. are allowed
-	//	));
+		$cache = new Phalcon\Cache\Backend\File($frontCache, array(
+			'cacheDir' => 'unit-tests/cache/',
+			'safekey' => true,
+			'prefix' => '!@(##' // should throw an exception, only a-zA-Z09_-. are allowed
+		));
 	}
 
 
