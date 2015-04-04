@@ -69,7 +69,7 @@ class PhqlParsePhqlOptimizer extends OptimizerAbstract
 
 		$call->addCallStatusFlag($context);
 
-		$context->codePrinter->output('ZEPHIR_LAST_CALL_STATUS = (phql_parse_phql(' . $symbolVariable->getName() . ', ' . $resolvedParams[0] . ' TSRMLS_CC) != FAILURE);');
+		$context->codePrinter->output('ZEPHIR_LAST_CALL_STATUS = phql_parse_phql(' . $symbolVariable->getName() . ', ' . $resolvedParams[0] . ' TSRMLS_CC);');
 
         $call->checkTempParameters($context);
 		$call->addCallStatusOrJump($context);
