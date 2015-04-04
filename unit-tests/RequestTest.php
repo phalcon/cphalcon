@@ -200,8 +200,10 @@ class RequestTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($successful[3]->getTempName(), 't3');
 	}
 
-	public function testGetAuth()
+	public function xtestGetAuth()
 	{
+		$orgServer = $_SERVER;
+
 		$request = new \Phalcon\Http\Request();
 
 		$_SERVER = array(
@@ -237,6 +239,8 @@ class RequestTest extends PHPUnit_Framework_TestCase
 
 		$auth = $request->getDigestAuth();
 		$this->assertEquals($auth, $data);
+
+		$_SERVER = $orgServer;
 	}
 
 	public function testIssues1226()
