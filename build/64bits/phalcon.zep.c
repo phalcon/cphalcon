@@ -1185,7 +1185,7 @@ static inline char *_str_erealloc(char *str, size_t new_len, size_t old_len) {
 
 #define ZEPHIR_GET_IMKEY(var, it) \
 	{\
-		int key_type, str_key_len; \
+		int key_type; uint str_key_len; \
 		ulong int_key; \
 		char *str_key; \
 		\
@@ -1193,6 +1193,7 @@ static inline char *_str_erealloc(char *str, size_t new_len, size_t old_len) {
 		key_type = it->funcs->get_current_key(it, &str_key, &str_key_len, &int_key TSRMLS_CC); \
 		if (key_type == HASH_KEY_IS_STRING) { \
 			ZVAL_STRINGL(var, str_key, str_key_len, 1); \
+			efree(str_key); \
 		} else { \
 			if (key_type == HASH_KEY_IS_LONG) { \
 				ZVAL_LONG(var, int_key); \
@@ -5644,7 +5645,7 @@ static int zephir_read_property(zval **result, zval *object, const char *propert
 	if (Z_TYPE_P(object) != IS_OBJECT) {
 
 		if (silent == PH_NOISY) {
-			php_error_docref(NULL TSRMLS_CC, E_NOTICE, "Trying to get property of non-object");
+			php_error_docref(NULL TSRMLS_CC, E_NOTICE, "Trying to get property \"%s\" of non-object", property_name);
 		}
 
 		ALLOC_INIT_ZVAL(*result);
@@ -5764,7 +5765,7 @@ zval* zephir_fetch_property_this_quick(zval *object, const char *property_name, 
 
 	} else {
 		if (silent == PH_NOISY) {
-			php_error_docref(NULL TSRMLS_CC, E_NOTICE, "Trying to get property of non-object");
+			php_error_docref(NULL TSRMLS_CC, E_NOTICE, "Trying to get property \"%s\" of non-object", property_name);
 		}
 	}
 
@@ -5860,7 +5861,7 @@ static int zephir_return_property_quick(zval *return_value, zval **return_value_
 		EG(scope) = old_scope;
 
 	} else {
-		php_error_docref(NULL TSRMLS_CC, E_NOTICE, "Trying to get property of non-object");
+		php_error_docref(NULL TSRMLS_CC, E_NOTICE, "Trying to get property \"%s\" of non-object", property_name);
 	}
 
 	ZVAL_NULL(return_value);
@@ -9491,7 +9492,7 @@ static void zephir_strtolower_inplace(zval *s) {
 	}
 }
 
-static void zephir_fast_join(zval *result, zval *glue, zval *pieces TSRMLS_DC){
+static void zephir_fast_join(zval *result, zval *glue, zval *pieces TSRMLS_DC) {
 
 	if (Z_TYPE_P(glue) != IS_STRING || Z_TYPE_P(pieces) != IS_ARRAY) {
 		ZVAL_NULL(result);
@@ -9554,7 +9555,7 @@ static void zephir_append_printable_zval(smart_str *implstr, zval **tmp TSRMLS_D
 	}
 }
 
-static void zephir_fast_join_str(zval *return_value, char *glue, unsigned int glue_length, zval *pieces TSRMLS_DC){
+static void zephir_fast_join_str(zval *return_value, char *glue, unsigned int glue_length, zval *pieces TSRMLS_DC) {
 
 	zval         **tmp;
 	HashTable      *arr;
@@ -9593,7 +9594,7 @@ static void zephir_fast_join_str(zval *return_value, char *glue, unsigned int gl
 	}
 }
 
-static void zephir_camelize(zval *return_value, const zval *str){
+static void zephir_camelize(zval *return_value, const zval *str) {
 
 	int i, len;
 	smart_str camelize_str = {0};
@@ -9638,7 +9639,7 @@ static void zephir_camelize(zval *return_value, const zval *str){
 
 }
 
-static void zephir_uncamelize(zval *return_value, const zval *str){
+static void zephir_uncamelize(zval *return_value, const zval *str) {
 
 	unsigned int i;
 	smart_str uncamelize_str = {0};
@@ -9674,7 +9675,7 @@ static void zephir_uncamelize(zval *return_value, const zval *str){
 	}
 }
 
-static void zephir_fast_explode(zval *return_value, zval *delimiter, zval *str, long limit TSRMLS_DC){
+static void zephir_fast_explode(zval *return_value, zval *delimiter, zval *str, long limit TSRMLS_DC) {
 
 	if (unlikely(Z_TYPE_P(str) != IS_STRING || Z_TYPE_P(delimiter) != IS_STRING)) {
 		zend_error(E_WARNING, "Invalid arguments supplied for explode()");
@@ -9685,7 +9686,7 @@ static void zephir_fast_explode(zval *return_value, zval *delimiter, zval *str, 
 	php_explode(delimiter, str, return_value, limit);
 }
 
-static void zephir_fast_explode_str(zval *return_value, const char *delimiter, int delimiter_length, zval *str, long limit TSRMLS_DC){
+static void zephir_fast_explode_str(zval *return_value, const char *delimiter, int delimiter_length, zval *str, long limit TSRMLS_DC) {
 
 	zval delimiter_zval;
 
@@ -9785,7 +9786,6 @@ static void zephir_fast_strpos_str(zval *return_value, const zval *haystack, cha
 	} else {
 		ZVAL_BOOL(return_value, 0);
 	}
-
 }
 
 static void zephir_fast_stripos_str(zval *return_value, zval *haystack, char *needle, unsigned int needle_length) {
@@ -9815,9 +9815,7 @@ static void zephir_fast_stripos_str(zval *return_value, zval *haystack, char *ne
 	} else {
 		ZVAL_BOOL(return_value, 0);
 	}
-
 }
-
 
 static void zephir_fast_str_replace(zval **return_value_ptr, zval *search, zval *replace, zval *subject TSRMLS_DC) {
 
@@ -9885,7 +9883,6 @@ static void zephir_fast_str_replace(zval **return_value_ptr, zval *search, zval 
 	if (copy_search) {
 		zval_dtor(search);
 	}
-
 }
 
 static void zephir_fast_trim(zval *return_value, zval *str, zval *charlist, int where TSRMLS_DC) {
@@ -9899,11 +9896,12 @@ static void zephir_fast_trim(zval *return_value, zval *str, zval *charlist, int 
 			str = &copy;
 		}
 	}
-		if (charlist && Z_TYPE_P(charlist) == IS_STRING) {
-			php_trim(Z_STRVAL_P(str), Z_STRLEN_P(str), Z_STRVAL_P(charlist), Z_STRLEN_P(charlist), return_value, where TSRMLS_CC);
-		} else {
-			php_trim(Z_STRVAL_P(str), Z_STRLEN_P(str), NULL, 0, return_value, where TSRMLS_CC);
-		}
+
+	if (charlist && Z_TYPE_P(charlist) == IS_STRING) {
+		php_trim(Z_STRVAL_P(str), Z_STRLEN_P(str), Z_STRVAL_P(charlist), Z_STRLEN_P(charlist), return_value, where TSRMLS_CC);
+	} else {
+		php_trim(Z_STRVAL_P(str), Z_STRLEN_P(str), NULL, 0, return_value, where TSRMLS_CC);
+	}
 
 	if (use_copy) {
 		zval_dtor(&copy);
@@ -9959,10 +9957,10 @@ static void zephir_fast_strtoupper(zval *return_value, zval *str) {
 	ZVAL_STRINGL(return_value, lower_str, length, 0);
 }
 
-static int zephir_start_with(const zval *str, const zval *compared, zval *case_sensitive){
+static int zephir_start_with(const zval *str, const zval *compared, zval *case_sensitive) {
 
-	int sensitive = 0;
 	int i;
+	int sensitive = 0;
 	char *op1_cursor, *op2_cursor;
 
 	if (Z_TYPE_P(str) != IS_STRING || Z_TYPE_P(compared) != IS_STRING) {
@@ -9996,7 +9994,7 @@ static int zephir_start_with(const zval *str, const zval *compared, zval *case_s
 	return 1;
 }
 
-static int zephir_start_with_str(const zval *str, char *compared, unsigned int compared_length){
+static int zephir_start_with_str(const zval *str, char *compared, unsigned int compared_length) {
 
 	if (Z_TYPE_P(str) != IS_STRING || compared_length > Z_STRLEN_P(str)) {
 		return 0;
@@ -10005,7 +10003,7 @@ static int zephir_start_with_str(const zval *str, char *compared, unsigned int c
 	return !memcmp(Z_STRVAL_P(str), compared, compared_length);
 }
 
-static int zephir_start_with_str_str(char *str, unsigned int str_length, char *compared, unsigned int compared_length){
+static int zephir_start_with_str_str(char *str, unsigned int str_length, char *compared, unsigned int compared_length) {
 
 	if (compared_length > str_length) {
 		return 0;
@@ -10014,7 +10012,7 @@ static int zephir_start_with_str_str(char *str, unsigned int str_length, char *c
 	return !memcmp(str, compared, compared_length);
 }
 
-static int zephir_end_with(const zval *str, const zval *compared, zval *case_sensitive){
+static int zephir_end_with(const zval *str, const zval *compared, zval *case_sensitive) {
 
 	int sensitive = 0;
 	int i;
@@ -10052,7 +10050,7 @@ static int zephir_end_with(const zval *str, const zval *compared, zval *case_sen
 	return 1;
 }
 
-static int zephir_end_with_str(const zval *str, char *compared, unsigned int compared_length){
+static int zephir_end_with_str(const zval *str, char *compared, unsigned int compared_length) {
 
 	if (Z_TYPE_P(str) != IS_STRING) {
 		return 0;
@@ -10152,7 +10150,6 @@ static void zephir_random_string(zval *return_value, const zval *type, const zva
 		smart_str_appendc(&random_str, (unsigned int) ch);
 	}
 
-
 	smart_str_0(&random_str);
 
 	if (random_str.len) {
@@ -10161,7 +10158,6 @@ static void zephir_random_string(zval *return_value, const zval *type, const zva
 		smart_str_free(&random_str);
 		RETURN_EMPTY_STRING();
 	}
-
 }
 
 static void zephir_remove_extra_slashes(zval *return_value, const zval *str) {
@@ -10290,7 +10286,20 @@ static void zephir_substr(zval *return_value, zval *str, long f, long l, int fla
 		l = str_len - f;
 	}
 
-	RETURN_STRINGL(Z_STRVAL_P(str) + f, l, 1);
+	if (!l) {
+		if (use_copy) {
+			zval_dtor(str);
+		}
+		RETURN_EMPTY_STRING();
+	}
+
+	ZVAL_STRINGL(return_value, Z_STRVAL_P(str) + f, l - 1, 1);
+
+	if (use_copy) {
+		zval_dtor(str);
+	}
+
+	return;
 }
 
 static void zephir_append_printable_array(smart_str *implstr, zval *value TSRMLS_DC) {
@@ -10484,8 +10493,8 @@ static void zephir_crc32(zval *return_value, zval *str TSRMLS_DC) {
 
 #if ZEPHIR_USE_PHP_PCRE
 
-static void zephir_preg_match(zval *return_value, zval **return_value_ptr, zval *regex, zval *subject, zval *matches, int global, long flags, long offset TSRMLS_DC)
-{
+static void zephir_preg_match(zval *return_value, zval **return_value_ptr, zval *regex, zval *subject, zval *matches, int global, long flags, long offset TSRMLS_DC) {
+
 	zval copy;
 	int use_copy = 0;
 	pcre_cache_entry *pce;
@@ -10554,8 +10563,8 @@ static void zephir_preg_match(zval *return_value, zval **return_value_ptr, zval 
 
 #ifdef ZEPHIR_USE_PHP_JSON
 
-static int zephir_json_encode(zval *return_value, zval **return_value_ptr, zval *v, int opts TSRMLS_DC)
-{
+static int zephir_json_encode(zval *return_value, zval **return_value_ptr, zval *v, int opts TSRMLS_DC) {
+
 	smart_str buf = { NULL, 0, 0 };
 
 	php_json_encode(&buf, v, opts TSRMLS_CC);
@@ -10565,8 +10574,8 @@ static int zephir_json_encode(zval *return_value, zval **return_value_ptr, zval 
 	return SUCCESS;
 }
 
-static int zephir_json_decode(zval *return_value, zval **return_value_ptr, zval *v, zend_bool assoc TSRMLS_DC)
-{
+static int zephir_json_decode(zval *return_value, zval **return_value_ptr, zval *v, zend_bool assoc TSRMLS_DC) {
+
 	zval copy;
 	int use_copy = 0;
 
@@ -10588,8 +10597,8 @@ static int zephir_json_decode(zval *return_value, zval **return_value_ptr, zval 
 
 #else
 
-static int zephir_json_encode(zval *return_value, zval **return_value_ptr, zval *v, int opts TSRMLS_DC)
-{
+static int zephir_json_encode(zval *return_value, zval **return_value_ptr, zval *v, int opts TSRMLS_DC) {
+
 	zval zopts;
 	zval *params[2];
 
@@ -10602,8 +10611,8 @@ static int zephir_json_encode(zval *return_value, zval **return_value_ptr, zval 
 	return zephir_return_call_function(return_value, NULL, ZEND_STRL("json_encode"), NULL, 2, params TSRMLS_CC);
 }
 
-static int zephir_json_decode(zval *return_value, zval **return_value_ptr, zval *v, zend_bool assoc TSRMLS_DC)
-{
+static int zephir_json_decode(zval *return_value, zval **return_value_ptr, zval *v, zend_bool assoc TSRMLS_DC) {
+
 	zval zassoc;
 	zval *params[2];
 
@@ -10618,8 +10627,8 @@ static int zephir_json_decode(zval *return_value, zval **return_value_ptr, zval 
 
 #endif /* ZEPHIR_USE_PHP_JSON */
 
-static void zephir_lcfirst(zval *return_value, zval *s)
-{
+static void zephir_lcfirst(zval *return_value, zval *s) {
+
 	zval copy;
 	char *c;
 	int use_copy = 0;
@@ -10645,8 +10654,8 @@ static void zephir_lcfirst(zval *return_value, zval *s)
 	}
 }
 
-static void zephir_ucfirst(zval *return_value, zval *s)
-{
+static void zephir_ucfirst(zval *return_value, zval *s) {
+
 	zval copy;
 	char *c;
 	int use_copy = 0;
@@ -10672,8 +10681,8 @@ static void zephir_ucfirst(zval *return_value, zval *s)
 	}
 }
 
-static int zephir_http_build_query(zval *return_value, zval *params, char *sep TSRMLS_DC)
-{
+static int zephir_http_build_query(zval *return_value, zval *params, char *sep TSRMLS_DC) {
+
 	if (Z_TYPE_P(params) == IS_ARRAY || Z_TYPE_P(params) == IS_OBJECT) {
 		smart_str formstr = { NULL, 0, 0 };
 		int res;
@@ -10706,8 +10715,7 @@ static int zephir_http_build_query(zval *return_value, zval *params, char *sep T
 	return FAILURE;
 }
 
-static void zephir_htmlspecialchars(zval *return_value, zval *string, zval *quoting, zval *charset TSRMLS_DC)
-{
+static void zephir_htmlspecialchars(zval *return_value, zval *string, zval *quoting, zval *charset TSRMLS_DC) {
 	zval copy;
 	char *escaped, *cs;
 	int qs, use_copy = 0;
@@ -19144,16 +19152,13 @@ ZEPHIR_INIT_CLASS(Phalcon_Di) {
 
 static PHP_METHOD(Phalcon_Di, __construct) {
 
-	zval *defaultDi;
+	zval *_0;
 
-	ZEPHIR_MM_GROW();
 
-	ZEPHIR_OBS_VAR(defaultDi);
-	zephir_read_static_property_ce(&defaultDi, phalcon_di_ce, SL("_default") TSRMLS_CC);
-	if (!(zephir_is_true(defaultDi))) {
+	_0 = zephir_fetch_static_property_ce(phalcon_di_ce, SL("_default") TSRMLS_CC);
+	if (!(zephir_is_true(_0))) {
 		zephir_update_static_property_ce(phalcon_di_ce, SL("_default"), &this_ptr TSRMLS_CC);
 	}
-	ZEPHIR_MM_RESTORE();
 
 }
 
@@ -19360,7 +19365,7 @@ static PHP_METHOD(Phalcon_Di, getRaw) {
 	ZEPHIR_CONCAT_SVS(_2, "Service '", name, "' wasn't found in the dependency injection container");
 	ZEPHIR_CALL_METHOD(NULL, _1, "__construct", NULL, _2);
 	zephir_check_call_status();
-	zephir_throw_exception_debug(_1, "phalcon/di.zep", 185 TSRMLS_CC);
+	zephir_throw_exception_debug(_1, "phalcon/di.zep", 182 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 	return;
 
@@ -19399,7 +19404,7 @@ static PHP_METHOD(Phalcon_Di, getService) {
 	ZEPHIR_CONCAT_SVS(_2, "Service '", name, "' wasn't found in the dependency injection container");
 	ZEPHIR_CALL_METHOD(NULL, _1, "__construct", NULL, _2);
 	zephir_check_call_status();
-	zephir_throw_exception_debug(_1, "phalcon/di.zep", 202 TSRMLS_CC);
+	zephir_throw_exception_debug(_1, "phalcon/di.zep", 199 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 	return;
 
@@ -19501,7 +19506,7 @@ static PHP_METHOD(Phalcon_Di, get) {
 			ZEPHIR_CONCAT_SVS(_4, "Service '", name, "' wasn't found in the dependency injection container");
 			ZEPHIR_CALL_METHOD(NULL, _2, "__construct", NULL, _4);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(_2, "phalcon/di.zep", 257 TSRMLS_CC);
+			zephir_throw_exception_debug(_2, "phalcon/di.zep", 254 TSRMLS_CC);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
@@ -19807,7 +19812,7 @@ static PHP_METHOD(Phalcon_Di, __call) {
 	ZEPHIR_CONCAT_SVS(_4, "Call to undefined method or service '", method, "'");
 	ZEPHIR_CALL_METHOD(NULL, _1, "__construct", NULL, _4);
 	zephir_check_call_status();
-	zephir_throw_exception_debug(_1, "phalcon/di.zep", 463 TSRMLS_CC);
+	zephir_throw_exception_debug(_1, "phalcon/di.zep", 460 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 	return;
 
@@ -34507,9 +34512,10 @@ static PHP_METHOD(Phalcon_Cache_Backend_Apc, queryKeys) {
 	_3->funcs->rewind(_3 TSRMLS_CC);
 	for (;_3->funcs->valid(_3 TSRMLS_CC) == SUCCESS && !EG(exception); _3->funcs->move_forward(_3 TSRMLS_CC)) {
 		ZEPHIR_GET_IMKEY(key, _3);
-		{ zval **tmp; 
-		_3->funcs->get_current_data(_3, &tmp TSRMLS_CC);
-		_2 = *tmp;
+		{
+			zval **ZEPHIR_TMP_ITERATOR_PTR;
+			_3->funcs->get_current_data(_3, &ZEPHIR_TMP_ITERATOR_PTR TSRMLS_CC);
+			ZEPHIR_CPY_WRT(_2, (*ZEPHIR_TMP_ITERATOR_PTR));
 		}
 		ZEPHIR_SINIT_NVAR(_4);
 		ZVAL_LONG(&_4, 5);
@@ -34853,9 +34859,10 @@ static PHP_METHOD(Phalcon_Cache_Backend_File, queryKeys) {
 	_1 = zephir_get_iterator(_2 TSRMLS_CC);
 	_1->funcs->rewind(_1 TSRMLS_CC);
 	for (;_1->funcs->valid(_1 TSRMLS_CC) == SUCCESS && !EG(exception); _1->funcs->move_forward(_1 TSRMLS_CC)) {
-		{ zval **tmp; 
-		_1->funcs->get_current_data(_1, &tmp TSRMLS_CC);
-		item = *tmp;
+		{
+			zval **ZEPHIR_TMP_ITERATOR_PTR;
+			_1->funcs->get_current_data(_1, &ZEPHIR_TMP_ITERATOR_PTR TSRMLS_CC);
+			ZEPHIR_CPY_WRT(item, (*ZEPHIR_TMP_ITERATOR_PTR));
 		}
 		ZEPHIR_CALL_METHOD(&_3, item, "isdir", NULL);
 		zephir_check_call_status();
@@ -35108,9 +35115,10 @@ static PHP_METHOD(Phalcon_Cache_Backend_File, flush) {
 	_1 = zephir_get_iterator(_2 TSRMLS_CC);
 	_1->funcs->rewind(_1 TSRMLS_CC);
 	for (;_1->funcs->valid(_1 TSRMLS_CC) == SUCCESS && !EG(exception); _1->funcs->move_forward(_1 TSRMLS_CC)) {
-		{ zval **tmp; 
-		_1->funcs->get_current_data(_1, &tmp TSRMLS_CC);
-		item = *tmp;
+		{
+			zval **ZEPHIR_TMP_ITERATOR_PTR;
+			_1->funcs->get_current_data(_1, &ZEPHIR_TMP_ITERATOR_PTR TSRMLS_CC);
+			ZEPHIR_CPY_WRT(item, (*ZEPHIR_TMP_ITERATOR_PTR));
 		}
 		ZEPHIR_CALL_METHOD(&_3, item, "isfile", NULL);
 		zephir_check_call_status();
@@ -88003,9 +88011,10 @@ static PHP_METHOD(Phalcon_Mvc_Model_Query, _executeUpdate) {
 	_18 = zephir_get_iterator(records TSRMLS_CC);
 	_18->funcs->rewind(_18 TSRMLS_CC);
 	for (;_18->funcs->valid(_18 TSRMLS_CC) == SUCCESS && !EG(exception); _18->funcs->move_forward(_18 TSRMLS_CC)) {
-		{ zval **tmp; 
-		_18->funcs->get_current_data(_18, &tmp TSRMLS_CC);
-		record = *tmp;
+		{
+			zval **ZEPHIR_TMP_ITERATOR_PTR;
+			_18->funcs->get_current_data(_18, &ZEPHIR_TMP_ITERATOR_PTR TSRMLS_CC);
+			ZEPHIR_CPY_WRT(record, (*ZEPHIR_TMP_ITERATOR_PTR));
 		}
 		ZEPHIR_CALL_METHOD(&_7, record, "update", NULL, updateValues);
 		zephir_check_call_status();
@@ -88086,9 +88095,10 @@ static PHP_METHOD(Phalcon_Mvc_Model_Query, _executeDelete) {
 	_5 = zephir_get_iterator(records TSRMLS_CC);
 	_5->funcs->rewind(_5 TSRMLS_CC);
 	for (;_5->funcs->valid(_5 TSRMLS_CC) == SUCCESS && !EG(exception); _5->funcs->move_forward(_5 TSRMLS_CC)) {
-		{ zval **tmp; 
-		_5->funcs->get_current_data(_5, &tmp TSRMLS_CC);
-		record = *tmp;
+		{
+			zval **ZEPHIR_TMP_ITERATOR_PTR;
+			_5->funcs->get_current_data(_5, &ZEPHIR_TMP_ITERATOR_PTR TSRMLS_CC);
+			ZEPHIR_CPY_WRT(record, (*ZEPHIR_TMP_ITERATOR_PTR));
 		}
 		ZEPHIR_CALL_METHOD(&_6, record, "delete", NULL);
 		zephir_check_call_status();
@@ -89279,9 +89289,10 @@ static PHP_METHOD(Phalcon_Mvc_Model_Resultset, update) {
 	_0 = zephir_get_iterator(this_ptr TSRMLS_CC);
 	_0->funcs->rewind(_0 TSRMLS_CC);
 	for (;_0->funcs->valid(_0 TSRMLS_CC) == SUCCESS && !EG(exception); _0->funcs->move_forward(_0 TSRMLS_CC)) {
-		{ zval **tmp; 
-		_0->funcs->get_current_data(_0, &tmp TSRMLS_CC);
-		record = *tmp;
+		{
+			zval **ZEPHIR_TMP_ITERATOR_PTR;
+			_0->funcs->get_current_data(_0, &ZEPHIR_TMP_ITERATOR_PTR TSRMLS_CC);
+			ZEPHIR_CPY_WRT(record, (*ZEPHIR_TMP_ITERATOR_PTR));
 		}
 		if (transaction == 0) {
 			if (!((zephir_method_exists_ex(record, SS("getwriteconnection") TSRMLS_CC) == SUCCESS))) {
@@ -89348,9 +89359,10 @@ static PHP_METHOD(Phalcon_Mvc_Model_Resultset, delete) {
 	_0 = zephir_get_iterator(this_ptr TSRMLS_CC);
 	_0->funcs->rewind(_0 TSRMLS_CC);
 	for (;_0->funcs->valid(_0 TSRMLS_CC) == SUCCESS && !EG(exception); _0->funcs->move_forward(_0 TSRMLS_CC)) {
-		{ zval **tmp; 
-		_0->funcs->get_current_data(_0, &tmp TSRMLS_CC);
-		record = *tmp;
+		{
+			zval **ZEPHIR_TMP_ITERATOR_PTR;
+			_0->funcs->get_current_data(_0, &ZEPHIR_TMP_ITERATOR_PTR TSRMLS_CC);
+			ZEPHIR_CPY_WRT(record, (*ZEPHIR_TMP_ITERATOR_PTR));
 		}
 		if (transaction == 0) {
 			if (!((zephir_method_exists_ex(record, SS("getwriteconnection") TSRMLS_CC) == SUCCESS))) {
@@ -89413,9 +89425,10 @@ static PHP_METHOD(Phalcon_Mvc_Model_Resultset, filter) {
 	_0 = zephir_get_iterator(this_ptr TSRMLS_CC);
 	_0->funcs->rewind(_0 TSRMLS_CC);
 	for (;_0->funcs->valid(_0 TSRMLS_CC) == SUCCESS && !EG(exception); _0->funcs->move_forward(_0 TSRMLS_CC)) {
-		{ zval **tmp; 
-		_0->funcs->get_current_data(_0, &tmp TSRMLS_CC);
-		record = *tmp;
+		{
+			zval **ZEPHIR_TMP_ITERATOR_PTR;
+			_0->funcs->get_current_data(_0, &ZEPHIR_TMP_ITERATOR_PTR TSRMLS_CC);
+			ZEPHIR_CPY_WRT(record, (*ZEPHIR_TMP_ITERATOR_PTR));
 		}
 		zephir_array_update_long(&parameters, 0, &record, PH_COPY | PH_SEPARATE, "phalcon/mvc/model/resultset.zep", 587);
 		ZEPHIR_INIT_NVAR(processedRecord);
@@ -101741,9 +101754,10 @@ static PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, toArray) {
 	_0 = zephir_get_iterator(this_ptr TSRMLS_CC);
 	_0->funcs->rewind(_0 TSRMLS_CC);
 	for (;_0->funcs->valid(_0 TSRMLS_CC) == SUCCESS && !EG(exception); _0->funcs->move_forward(_0 TSRMLS_CC)) {
-		{ zval **tmp; 
-		_0->funcs->get_current_data(_0, &tmp TSRMLS_CC);
-		current = *tmp;
+		{
+			zval **ZEPHIR_TMP_ITERATOR_PTR;
+			_0->funcs->get_current_data(_0, &ZEPHIR_TMP_ITERATOR_PTR TSRMLS_CC);
+			ZEPHIR_CPY_WRT(current, (*ZEPHIR_TMP_ITERATOR_PTR));
 		}
 		zephir_array_append(&records, current, PH_SEPARATE, "phalcon/mvc/model/resultset/complex.zep", 298);
 	}
@@ -121386,9 +121400,10 @@ static PHP_METHOD(Phalcon_Tag_Select, _optionsFromResultset) {
 	_0 = zephir_get_iterator(resultset TSRMLS_CC);
 	_0->funcs->rewind(_0 TSRMLS_CC);
 	for (;_0->funcs->valid(_0 TSRMLS_CC) == SUCCESS && !EG(exception); _0->funcs->move_forward(_0 TSRMLS_CC)) {
-		{ zval **tmp; 
-		_0->funcs->get_current_data(_0, &tmp TSRMLS_CC);
-		option = *tmp;
+		{
+			zval **ZEPHIR_TMP_ITERATOR_PTR;
+			_0->funcs->get_current_data(_0, &ZEPHIR_TMP_ITERATOR_PTR TSRMLS_CC);
+			ZEPHIR_CPY_WRT(option, (*ZEPHIR_TMP_ITERATOR_PTR));
 		}
 		if (Z_TYPE_P(using) == IS_ARRAY) {
 			if (Z_TYPE_P(option) == IS_OBJECT) {
@@ -122621,9 +122636,10 @@ static PHP_METHOD(Phalcon_Validation_Message_Group, appendMessages) {
 		_1 = zephir_get_iterator(messages TSRMLS_CC);
 		_1->funcs->rewind(_1 TSRMLS_CC);
 		for (;_1->funcs->valid(_1 TSRMLS_CC) == SUCCESS && !EG(exception); _1->funcs->move_forward(_1 TSRMLS_CC)) {
-			{ zval **tmp; 
-			_1->funcs->get_current_data(_1, &tmp TSRMLS_CC);
-			message = *tmp;
+			{
+				zval **ZEPHIR_TMP_ITERATOR_PTR;
+				_1->funcs->get_current_data(_1, &ZEPHIR_TMP_ITERATOR_PTR TSRMLS_CC);
+				ZEPHIR_CPY_WRT(message, (*ZEPHIR_TMP_ITERATOR_PTR));
 			}
 			ZEPHIR_CALL_METHOD(NULL, this_ptr, "appendmessage", &_2, message);
 			zephir_check_call_status();
