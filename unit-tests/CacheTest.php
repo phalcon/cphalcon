@@ -670,7 +670,7 @@ class CacheTest extends PHPUnit_Framework_TestCase
 
 		//remove existing
 		if (class_exists('MongoClient', false)) {
-			$mongo = new MongoClient('192.168.0.2');
+			$mongo = new MongoClient();
 		} else {
 			$mongo = new Mongo();
 		}
@@ -696,7 +696,7 @@ class CacheTest extends PHPUnit_Framework_TestCase
 		));
 
 		$cache = new Phalcon\Cache\Backend\Mongo($frontCache, array(
-			'server' => 'mongodb://192.168.0.2',
+			'server' => 'mongodb://localhost',
 			'db' => 'phalcon_test',
 			'collection' => 'caches'
 		));
