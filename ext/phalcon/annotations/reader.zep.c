@@ -88,9 +88,8 @@ PHP_METHOD(Phalcon_Annotations_Reader, parse) {
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(&_1, reflection, "getstartline", NULL);
 		zephir_check_call_status();
-		if (phannot_parse_annotations(classAnnotations, comment, _0, _1 TSRMLS_CC) == FAILURE) {
-			RETURN_MM();
-		}
+		ZEPHIR_LAST_CALL_STATUS = phannot_parse_annotations(classAnnotations, comment, _0, _1 TSRMLS_CC);
+		zephir_check_call_status();
 		if (Z_TYPE_P(classAnnotations) == IS_ARRAY) {
 			zephir_array_update_string(&annotations, SL("class"), &classAnnotations, PH_COPY | PH_SEPARATE);
 		}
@@ -115,9 +114,8 @@ PHP_METHOD(Phalcon_Annotations_Reader, parse) {
 				zephir_check_call_status();
 				ZEPHIR_INIT_NVAR(_6);
 				ZVAL_LONG(_6, line);
-				if (phannot_parse_annotations(propertyAnnotations, comment, _0, _6 TSRMLS_CC) == FAILURE) {
-					RETURN_MM();
-				}
+				ZEPHIR_LAST_CALL_STATUS = phannot_parse_annotations(propertyAnnotations, comment, _0, _6 TSRMLS_CC);
+				zephir_check_call_status();
 				if (Z_TYPE_P(propertyAnnotations) == IS_ARRAY) {
 					ZEPHIR_OBS_NVAR(_7);
 					zephir_read_property(&_7, property, SL("name"), PH_NOISY_CC);
@@ -148,9 +146,8 @@ PHP_METHOD(Phalcon_Annotations_Reader, parse) {
 				zephir_check_call_status();
 				ZEPHIR_CALL_METHOD(&_1, method, "getstartline", NULL);
 				zephir_check_call_status();
-				if (phannot_parse_annotations(methodAnnotations, comment, _0, _1 TSRMLS_CC) == FAILURE) {
-					RETURN_MM();
-				}
+				ZEPHIR_LAST_CALL_STATUS = phannot_parse_annotations(methodAnnotations, comment, _0, _1 TSRMLS_CC);
+				zephir_check_call_status();
 				if (Z_TYPE_P(methodAnnotations) == IS_ARRAY) {
 					ZEPHIR_OBS_NVAR(_7);
 					zephir_read_property(&_7, method, SL("name"), PH_NOISY_CC);
@@ -174,6 +171,7 @@ PHP_METHOD(Phalcon_Annotations_Reader, parse) {
  */
 PHP_METHOD(Phalcon_Annotations_Reader, parseDocBlock) {
 
+	int ZEPHIR_LAST_CALL_STATUS;
 	zval *docBlock_param = NULL, *file = NULL, *line = NULL;
 	zval *docBlock = NULL;
 
@@ -195,9 +193,8 @@ PHP_METHOD(Phalcon_Annotations_Reader, parseDocBlock) {
 		ZEPHIR_INIT_NVAR(file);
 		ZVAL_STRING(file, "eval code", 1);
 	}
-	if (phannot_parse_annotations(return_value, docBlock, file, line TSRMLS_CC) == FAILURE) {
-		RETURN_MM();
-	}
+	ZEPHIR_LAST_CALL_STATUS = phannot_parse_annotations(return_value, docBlock, file, line TSRMLS_CC);
+	zephir_check_call_status();
 	RETURN_MM();
 
 }

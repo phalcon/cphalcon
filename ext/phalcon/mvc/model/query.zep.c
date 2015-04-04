@@ -2513,7 +2513,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, parse) {
 	ZEPHIR_OBS_VAR(phql);
 	zephir_read_property_this(&phql, this_ptr, SL("_phql"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(ast);
-	ZEPHIR_LAST_CALL_STATUS = (phql_parse_phql(ast, phql TSRMLS_CC) != FAILURE);
+	ZEPHIR_LAST_CALL_STATUS = phql_parse_phql(ast, phql TSRMLS_CC);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(irPhql);
 	ZVAL_NULL(irPhql);
@@ -3405,9 +3405,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getRelatedRecords) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Query, execute) {
 
-	zephir_nts_static zephir_fcall_cache_entry *_2 = NULL, *_3 = NULL, *_4 = NULL, *_5 = NULL;
+	zephir_nts_static zephir_fcall_cache_entry *_4 = NULL, *_5 = NULL, *_6 = NULL, *_7 = NULL;
+	zend_bool _2, _3;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *bindParams = NULL, *bindTypes = NULL, *uniqueRow, *cacheOptions, *key, *cacheService = NULL, *cache = NULL, *result = NULL, *preparedResult = NULL, *defaultBindParams, *mergedParams = NULL, *defaultBindTypes, *mergedTypes = NULL, *type, *lifetime = NULL, *intermediate = NULL, *_0, *_1 = NULL, *_6;
+	zval *bindParams = NULL, *bindTypes = NULL, *uniqueRow, *cacheOptions, *key, *cacheService = NULL, *cache = NULL, *result = NULL, *preparedResult = NULL, *defaultBindParams, *mergedParams = NULL, *defaultBindTypes, *mergedTypes = NULL, *type, *lifetime = NULL, *intermediate = NULL, *_0, *_1 = NULL, *_8;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 2, &bindParams, &bindTypes);
@@ -3498,43 +3499,59 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, execute) {
 	} else {
 		ZEPHIR_CPY_WRT(mergedTypes, bindTypes);
 	}
+	_2 = Z_TYPE_P(mergedParams) != IS_NULL;
+	if (_2) {
+		_2 = Z_TYPE_P(mergedParams) != IS_ARRAY;
+	}
+	if (_2) {
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "Bound parameters must be an array", "phalcon/mvc/model/query.zep", 3044);
+		return;
+	}
+	_3 = Z_TYPE_P(mergedTypes) != IS_NULL;
+	if (_3) {
+		_3 = Z_TYPE_P(mergedTypes) != IS_ARRAY;
+	}
+	if (_3) {
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "Bound parameter types must be an array", "phalcon/mvc/model/query.zep", 3048);
+		return;
+	}
 	ZEPHIR_OBS_VAR(type);
 	zephir_read_property_this(&type, this_ptr, SL("_type"), PH_NOISY_CC);
 	do {
 		if (ZEPHIR_IS_LONG(type, 309)) {
-			ZEPHIR_CALL_METHOD(&result, this_ptr, "_executeselect", &_2, intermediate, mergedParams, mergedTypes);
+			ZEPHIR_CALL_METHOD(&result, this_ptr, "_executeselect", &_4, intermediate, mergedParams, mergedTypes);
 			zephir_check_call_status();
 			break;
 		}
 		if (ZEPHIR_IS_LONG(type, 306)) {
-			ZEPHIR_CALL_METHOD(&result, this_ptr, "_executeinsert", &_3, intermediate, mergedParams, mergedTypes);
+			ZEPHIR_CALL_METHOD(&result, this_ptr, "_executeinsert", &_5, intermediate, mergedParams, mergedTypes);
 			zephir_check_call_status();
 			break;
 		}
 		if (ZEPHIR_IS_LONG(type, 300)) {
-			ZEPHIR_CALL_METHOD(&result, this_ptr, "_executeupdate", &_4, intermediate, mergedParams, mergedTypes);
+			ZEPHIR_CALL_METHOD(&result, this_ptr, "_executeupdate", &_6, intermediate, mergedParams, mergedTypes);
 			zephir_check_call_status();
 			break;
 		}
 		if (ZEPHIR_IS_LONG(type, 303)) {
-			ZEPHIR_CALL_METHOD(&result, this_ptr, "_executedelete", &_5, intermediate, mergedParams, mergedTypes);
+			ZEPHIR_CALL_METHOD(&result, this_ptr, "_executedelete", &_7, intermediate, mergedParams, mergedTypes);
 			zephir_check_call_status();
 			break;
 		}
 		ZEPHIR_INIT_NVAR(_1);
 		object_init_ex(_1, phalcon_mvc_model_exception_ce);
-		ZEPHIR_INIT_VAR(_6);
-		ZEPHIR_CONCAT_SV(_6, "Unknown statement ", type);
-		ZEPHIR_CALL_METHOD(NULL, _1, "__construct", NULL, _6);
+		ZEPHIR_INIT_VAR(_8);
+		ZEPHIR_CONCAT_SV(_8, "Unknown statement ", type);
+		ZEPHIR_CALL_METHOD(NULL, _1, "__construct", NULL, _8);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(_1, "phalcon/mvc/model/query.zep", 3063 TSRMLS_CC);
+		zephir_throw_exception_debug(_1, "phalcon/mvc/model/query.zep", 3071 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	} while(0);
 
 	if (Z_TYPE_P(cacheOptions) != IS_NULL) {
 		if (!ZEPHIR_IS_LONG(type, 309)) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "Only PHQL statements that return resultsets can be cached", "phalcon/mvc/model/query.zep", 3075);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "Only PHQL statements that return resultsets can be cached", "phalcon/mvc/model/query.zep", 3083);
 			return;
 		}
 		ZEPHIR_CALL_METHOD(NULL, cache, "save", NULL, key, result, lifetime);

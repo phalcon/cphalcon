@@ -2660,7 +2660,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _compileSource) {
 	ZEPHIR_OBS_VAR(currentPath);
 	zephir_read_property_this(&currentPath, this_ptr, SL("_currentPath"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(intermediate);
-	ZEPHIR_LAST_CALL_STATUS = (phvolt_parse_view(intermediate, viewCode, currentPath TSRMLS_CC) != FAILURE);
+	ZEPHIR_LAST_CALL_STATUS = phvolt_parse_view(intermediate, viewCode, currentPath TSRMLS_CC);
 	zephir_check_call_status();
 	if (Z_TYPE_P(intermediate) == IS_ARRAY) {
 		ZEPHIR_CALL_METHOD(&compilation, this_ptr, "_statementlist", &_0, intermediate, (extendsMode ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)));
@@ -3164,7 +3164,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, parse) {
 	ZVAL_STRING(currentPath, "eval code", 1);
 
 
-	ZEPHIR_LAST_CALL_STATUS = (phvolt_parse_view(return_value, viewCode, currentPath TSRMLS_CC) != FAILURE);
+	ZEPHIR_LAST_CALL_STATUS = phvolt_parse_view(return_value, viewCode, currentPath TSRMLS_CC);
 	zephir_check_call_status();
 	RETURN_MM();
 

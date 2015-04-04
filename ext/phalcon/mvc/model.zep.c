@@ -1084,7 +1084,7 @@ PHP_METHOD(Phalcon_Mvc_Model, cloneResult) {
 PHP_METHOD(Phalcon_Mvc_Model, find) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *parameters = NULL, *params = NULL, *builder, *query = NULL, *bindParams = NULL, *bindTypes = NULL, *cache, *resultset = NULL, *hydration, *_0;
+	zval *parameters = NULL, *params = NULL, *builder, *query = NULL, *bindParams, *bindTypes = NULL, *cache, *resultset = NULL, *hydration, *_0;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &parameters);
@@ -1113,14 +1113,13 @@ PHP_METHOD(Phalcon_Mvc_Model, find) {
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&query, builder, "getquery", NULL);
 	zephir_check_call_status();
-	ZEPHIR_INIT_VAR(bindParams);
-	ZVAL_NULL(bindParams);
-	ZEPHIR_INIT_VAR(bindTypes);
-	ZVAL_NULL(bindTypes);
-	ZEPHIR_OBS_NVAR(bindParams);
+	ZEPHIR_OBS_VAR(bindParams);
 	if (zephir_array_isset_string_fetch(&bindParams, params, SS("bind"), 0 TSRMLS_CC)) {
-		ZEPHIR_OBS_NVAR(bindTypes);
+		ZEPHIR_OBS_VAR(bindTypes);
 		zephir_array_isset_string_fetch(&bindTypes, params, SS("bindTypes"), 0 TSRMLS_CC);
+	} else {
+		ZEPHIR_INIT_NVAR(bindTypes);
+		ZVAL_NULL(bindTypes);
 	}
 	ZEPHIR_OBS_VAR(cache);
 	if (zephir_array_isset_string_fetch(&cache, params, SS("cache"), 0 TSRMLS_CC)) {
