@@ -19,7 +19,10 @@
 
 namespace Phalcon\Cache\Backend;
 
+use Phalcon\Cache\Backend;
 use Phalcon\Cache\Exception;
+use Phalcon\Cache\BackendInterface;
+use Phalcon\Cache\FrontendInterface;
 
 /**
  * Phalcon\Cache\Backend\Redis
@@ -51,7 +54,7 @@ use Phalcon\Cache\Exception;
  *
  *</code>
  */
-class Redis extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendInterface
+class Redis extends Backend implements BackendInterface
 {
 
 	protected _redis = null;
@@ -62,7 +65,7 @@ class Redis extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendInte
 	 * @param	Phalcon\Cache\FrontendInterface frontend
 	 * @param	array options
 	 */
-	public function __construct(<\Phalcon\Cache\FrontendInterface> frontend, options=null)
+	public function __construct(<FrontendInterface> frontend, options = null)
 	{
 		if typeof options != "array" {
 			let options = [];
@@ -164,10 +167,10 @@ class Redis extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendInte
 	 * @param long lifetime
 	 * @param boolean stopBuffer
 	 */
-	public function save(keyName=null, content=null, lifetime=null, stopBuffer=true)
+	public function save(keyName = null, content = null, lifetime = null, stopBuffer = true)
 	{
-		var prefixedKey, lastKey, prefix, frontend, redis, cachedContent, preparedContent, tmp, tt1, success, options,
-			specialKey, isBuffering;
+		var prefixedKey, lastKey, prefix, frontend, redis, cachedContent, preparedContent,
+			tmp, tt1, success, options, specialKey, isBuffering;
 
 		if !keyName {
 			let lastKey = this->_lastKey;
@@ -294,7 +297,7 @@ class Redis extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendInte
 	 * @param string prefix
 	 * @return array
 	 */
-	public function queryKeys(prefix=null)
+	public function queryKeys(prefix = null)
 	{
 		var redis, options, keys, specialKey, key;
 
@@ -335,7 +338,7 @@ class Redis extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendInte
 	 * @param   long lifetime
 	 * @return boolean
 	 */
-	public function exists(keyName=null, lifetime=null) -> boolean
+	public function exists(keyName = null, lifetime = null) -> boolean
 	{
 		var lastKey, redis, prefix;
 
@@ -369,7 +372,7 @@ class Redis extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendInte
 	 * @param  long lifetime
 	 * @return long
 	 */
-	public function increment(keyName=null, value=null)
+	public function increment(keyName = null, value = null)
 	{
 		var redis, prefix, lastKey;
 
@@ -402,7 +405,7 @@ class Redis extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendInte
 	 * @param  long value
 	 * @return long
 	 */
-	public function decrement(keyName=null, value=null)
+	public function decrement(keyName = null, value = null)
 	{
 		var redis, prefix, lastKey;
 

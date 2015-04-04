@@ -20,6 +20,8 @@
 
 namespace Phalcon\Cli;
 
+use Phalcon\Di\Injectable;
+
 /**
  * Phalcon\Cli\Task
  *
@@ -48,7 +50,7 @@ namespace Phalcon\Cli;
  *
  *</code>
  */
- class Task extends \Phalcon\Di\Injectable
+ class Task extends Injectable
  {
 
  	/**

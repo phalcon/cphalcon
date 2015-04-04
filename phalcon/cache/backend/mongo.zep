@@ -20,8 +20,9 @@
 namespace Phalcon\Cache\Backend;
 
 use Phalcon\Cache\Backend;
-use Phalcon\Cache\BackendInterface;
 use Phalcon\Cache\Exception;
+use Phalcon\Cache\BackendInterface;
+use Phalcon\Cache\FrontendInterface;
 
 /**
  * Phalcon\Cache\Backend\Mongo
@@ -62,7 +63,7 @@ class Mongo extends Backend implements BackendInterface
 	* @param Phalcon\Cache\FrontendInterface frontend
 	* @param array options
 	*/
-	public function __construct(<\Phalcon\Cache\FrontendInterface> frontend, options = null)
+	public function __construct(<FrontendInterface> frontend, options = null)
 	{
 		if !isset options["mongo"] {
 			if !isset options["server"] {
@@ -86,7 +87,7 @@ class Mongo extends Backend implements BackendInterface
 	*
 	* @return MongoCollection
 	*/
-	public function _getCollection()
+	protected final function _getCollection()
 	{
 		var options, mongo, server, database, collection, mongoCollection;
 
@@ -98,10 +99,13 @@ class Mongo extends Backend implements BackendInterface
 			 * If mongo is defined a valid Mongo object must be passed
 			 */
 			if fetch mongo, options["mongo"] {
+
 				if typeof mongo != "object" {
 					throw new Exception("The 'mongo' parameter must be a valid Mongo instance");
 				}
+
 			} else {
+
 				/**
 				 * Server must be defined otherwise
 				 */
@@ -109,7 +113,8 @@ class Mongo extends Backend implements BackendInterface
 				if !server || typeof server != "string" {
 					throw new Exception("The backend requires a valid MongoDB connection string");
 				}
-				let mongo = new \MongoClient();
+
+				let mongo = new \MongoClient(server);
 			}
 
 			/**
@@ -131,7 +136,8 @@ class Mongo extends Backend implements BackendInterface
 			/**
 			* Make the connection and get the collection
 			*/
-			mongo->selectDb(database)->selectCollection(collection);
+			let mongoCollection = mongo->selectDb(database)->selectCollection(collection),
+				this->_collection = mongoCollection;
 		}
 
 		return mongoCollection;
@@ -182,8 +188,9 @@ class Mongo extends Backend implements BackendInterface
 	 */
 	public function save(keyName = null, content = null, lifetime = null, stopBuffer = true)
 	{
-		var lastkey, prefix, frontend, cachedContent, tmp, ttl, collection, timestamp, conditions,
-			document, preparedContent, isBuffering, data;
+		var lastkey, prefix, frontend, cachedContent, tmp, ttl,
+			collection, timestamp, conditions, document, preparedContent,
+			isBuffering, data;
 
 		let conditions = [];
 		let data = [];
@@ -221,28 +228,35 @@ class Mongo extends Backend implements BackendInterface
 			let ttl = lifetime;
 		}
 
-		let collection = this->_getCollection();
-		let timestamp = time() + intval(ttl);
-		let conditions["key"] = lastkey;
-		let document = collection->findOne(conditions);
+		let collection = this->_getCollection(),
+			timestamp = time() + intval(ttl),
+			conditions["key"] = lastkey,
+			document = collection->findOne(conditions);
 
 		if typeof document == "array" {
+
 			let document["time"] = timestamp;
+
 			if !is_numeric(cachedContent) {
 				let document["data"] = preparedContent;
 			} else {
 				let document["data"] = cachedContent;
 			}
-			collection->save(document);
+
+			collection->update(["_id": document["_id"]], document);
+
 		} else {
-			let data["key"] = lastkey;
-			let data["time"] = timestamp;
+
+			let data["key"] = lastkey,
+				data["time"] = timestamp;
+
 			if !is_numeric(cachedContent) {
 				let data["data"] = preparedContent;
 			} else {
 				let data["data"] = cachedContent;
 			}
-			collection->save(data);
+
+			collection->insert(data);
 		}
 
 		let isBuffering = frontend->isBuffering();
@@ -281,12 +295,10 @@ class Mongo extends Backend implements BackendInterface
 	 * @param string prefix
 	 * @return array
 	 */
-	public function queryKeys(prefix=null)
+	public function queryKeys(prefix = null) -> array
 	{
-		var fields, conditions, keys, index, key;
-
-		let fields = ["key": 1];
-		let conditions = [];
+		var collection, key, item, items, value;
+		array keys = [], conditions = [];
 
 		if prefix {
 			let conditions["key"] = new \MongoRegex("/^" . prefix . "/");
@@ -294,10 +306,14 @@ class Mongo extends Backend implements BackendInterface
 
 		let conditions["time"] = ["$gt": time()];
 
-		let keys = [];
-		for index, key in iterator_to_array(this->_getCollection()->find(conditions, fields)) {
-			if index == "key" {
-				let keys[] = key;
+		let collection = this->_getCollection(),
+			items = collection->find(conditions, ["key": 1]);
+
+		for item in iterator(items) {
+			for key, value in item {
+				if key == "key" {
+					let keys[] = value;
+				}
 			}
 		}
 
@@ -334,7 +350,7 @@ class Mongo extends Backend implements BackendInterface
 	 */
 	public function gc()
 	{
-		return this->_getCollection()->remove(["time": ["$gt": time()]]);
+		return this->_getCollection()->remove(["time": ["$lt": time()]]);
 	}
 
 	/**
@@ -344,25 +360,15 @@ class Mongo extends Backend implements BackendInterface
 	 * @param   long value
 	 * @return  mixed
 	 */
-	public function increment(keyName, value=1)
+	public function increment(keyName, value = 1)
 	{
-		var frontend,  prefixedKey, document, timestamp, lifetime,
-			ttl, modifiedTime,  cachedContent;
+		var prefixedKey, document,
+			modifiedTime,  cachedContent, incremented;
 
-		let frontend = this->_frontend;
-
-		let prefixedKey = this->_prefix . keyName;
-		let this->_lastKey = prefixedKey;
+		let prefixedKey = this->_prefix . keyName,
+			this->_lastKey = prefixedKey;
 
 		let document = this->_getCollection()->findOne(["key": prefixedKey]);
-		let timestamp = time();
-		let lifetime = this->_lastLifetime;
-
-		if !lifetime {
-			let ttl = frontend->getLifetime();
-		} else {
-			let ttl = lifetime;
-		}
 
 		if !fetch modifiedTime, document["time"] {
 			throw new Exception("The cache is currupted");
@@ -371,16 +377,19 @@ class Mongo extends Backend implements BackendInterface
 		/**
 		* The expiration is based on the column 'time'
 		*/
-		if (timestamp - ttl) < modifiedTime {
+		if time() < modifiedTime {
 
 			if !fetch cachedContent, document["data"] {
 				throw new Exception("The cache is currupted");
 			}
 
 			if is_numeric(cachedContent) {
-				this->save(prefixedKey, cachedContent + value, lifetime + timestamp);
+				let incremented = cachedContent + value;
+				this->save(prefixedKey, incremented);
+				return incremented;
 			}
 		}
+
 		return null;
 	}
 
@@ -393,21 +402,12 @@ class Mongo extends Backend implements BackendInterface
 	 */
 	public function decrement(keyName, value = 1)
 	{
-		var prefixedKey, document, timestamp, lifetime, ttl, modifiedTime, cachedContent;
+		var prefixedKey, document, modifiedTime,  cachedContent, decremented;
 
-		let prefixedKey = this->_prefix . keyName;
-
-		let this->_lastKey = prefixedKey;
+		let prefixedKey = this->_prefix . keyName,
+			this->_lastKey = prefixedKey;
 
 		let document = this->_getCollection()->findOne(["key": prefixedKey]);
-		let timestamp = time();
-		let lifetime = this->_lastLifetime;
-
-		if !lifetime {
-			let ttl = this->_frontend->getLifetime();
-		} else {
-			let ttl = lifetime;
-		}
 
 		if !fetch modifiedTime, document["time"] {
 			throw new Exception("The cache is currupted");
@@ -416,16 +416,19 @@ class Mongo extends Backend implements BackendInterface
 		/**
 		* The expiration is based on the column 'time'
 		*/
-		if (timestamp - ttl) < modifiedTime == true {
+		if time() < modifiedTime {
 
 			if !fetch cachedContent, document["data"] {
 				throw new Exception("The cache is currupted");
 			}
 
 			if is_numeric(cachedContent) {
-				this->save(prefixedKey, cachedContent - value, lifetime + timestamp);
+				let decremented = cachedContent - value;
+				this->save(prefixedKey, decremented);
+				return decremented;
 			}
 		}
+
 		return null;
 	}
 

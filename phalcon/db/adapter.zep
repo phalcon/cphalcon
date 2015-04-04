@@ -274,7 +274,7 @@ abstract class Adapter implements EventsAwareInterface
      * @param  int|string column
      * @return string|
      */
-    public function fetchColumn(var sqlQuery, placeholders = null, column = 0) -> string|bool
+    public function fetchColumn(var sqlQuery, placeholders = null, column = 0) -> string | bool
     {
         var row;
         let row = this->fetchOne(sqlQuery, \Phalcon\Db::FETCH_BOTH, placeholders);
@@ -1289,5 +1289,4 @@ abstract class Adapter implements EventsAwareInterface
 	{
 		return this->_sqlBindTypes;
 	}
-
 }

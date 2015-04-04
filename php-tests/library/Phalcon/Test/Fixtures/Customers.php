@@ -7,7 +7,7 @@
  *
  * PhalconPHP Framework
  *
- * @copyright (c) 2011-2012 Phalcon Team
+ * @copyright (c) 2011-2015 Phalcon Team
  * @link      http://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>
@@ -21,7 +21,7 @@
  */
 
 namespace Phalcon\Test\Fixtures;
-    
+
 class Customers
 {
     public static function get($records = null)

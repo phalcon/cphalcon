@@ -71,5 +71,4 @@ interface FrontendInterface
 	 * @param mixed data
 	 */
 	public function afterRetrieve(data);
-
 }
