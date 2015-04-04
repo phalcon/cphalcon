@@ -357,6 +357,7 @@ class CacheTest extends PHPUnit_Framework_TestCase
 
 	private function _prepareMemcached()
 	{
+		return false;
 
 		if (!extension_loaded('memcache')) {
 			$this->markTestSkipped('Warning: memcache extension is not loaded');
@@ -831,6 +832,8 @@ class CacheTest extends PHPUnit_Framework_TestCase
 
 	protected function _prepareXcache()
 	{
+		return false;
+		
 		if (function_exists('xcache_emulation')) {
 			return true;
 		}
@@ -978,6 +981,7 @@ class CacheTest extends PHPUnit_Framework_TestCase
 
 	private function _prepareLibmemcached()
 	{
+		return false;
 
 		if (!extension_loaded('memcached')) {
 			$this->markTestSkipped('Warning: memcached extension is not loaded');

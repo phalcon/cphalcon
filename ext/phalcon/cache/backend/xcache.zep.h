@@ -14,7 +14,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Xcache, decrement);
 PHP_METHOD(Phalcon_Cache_Backend_Xcache, flush);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cache_backend_xcache___construct, 0, 0, 1)
-	ZEND_ARG_INFO(0, frontend)
+	ZEND_ARG_OBJ_INFO(0, frontend, Phalcon\\Cache\\FrontendInterface, 0)
 	ZEND_ARG_INFO(0, options)
 ZEND_END_ARG_INFO()
 

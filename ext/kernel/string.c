@@ -1019,7 +1019,7 @@ void zephir_substr(zval *return_value, zval *str, long f, long l, int flags) {
 		RETURN_EMPTY_STRING();
 	}
 
-	ZVAL_STRINGL(return_value, Z_STRVAL_P(str) + f, l - 1, 1);
+	ZVAL_STRINGL(return_value, Z_STRVAL_P(str) + f, l, 1);
 
 	if (use_copy) {
 		zval_dtor(str);
