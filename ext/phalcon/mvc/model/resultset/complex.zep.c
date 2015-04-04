@@ -289,9 +289,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, toArray) {
 	_0 = zephir_get_iterator(this_ptr TSRMLS_CC);
 	_0->funcs->rewind(_0 TSRMLS_CC);
 	for (;_0->funcs->valid(_0 TSRMLS_CC) == SUCCESS && !EG(exception); _0->funcs->move_forward(_0 TSRMLS_CC)) {
-		{ zval **tmp; 
-		_0->funcs->get_current_data(_0, &tmp TSRMLS_CC);
-		current = *tmp;
+		{
+			zval **ZEPHIR_TMP_ITERATOR_PTR;
+			_0->funcs->get_current_data(_0, &ZEPHIR_TMP_ITERATOR_PTR TSRMLS_CC);
+			ZEPHIR_CPY_WRT(current, (*ZEPHIR_TMP_ITERATOR_PTR));
 		}
 		zephir_array_append(&records, current, PH_SEPARATE, "phalcon/mvc/model/resultset/complex.zep", 298);
 	}

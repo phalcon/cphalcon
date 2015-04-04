@@ -389,7 +389,7 @@ static inline char *_str_erealloc(char *str, size_t new_len, size_t old_len) {
 
 #define ZEPHIR_GET_IMKEY(var, it) \
 	{\
-		int key_type, str_key_len; \
+		int key_type; uint str_key_len; \
 		ulong int_key; \
 		char *str_key; \
 		\
@@ -397,6 +397,7 @@ static inline char *_str_erealloc(char *str, size_t new_len, size_t old_len) {
 		key_type = it->funcs->get_current_key(it, &str_key, &str_key_len, &int_key TSRMLS_CC); \
 		if (key_type == HASH_KEY_IS_STRING) { \
 			ZVAL_STRINGL(var, str_key, str_key_len, 1); \
+			efree(str_key); \
 		} else { \
 			if (key_type == HASH_KEY_IS_LONG) { \
 				ZVAL_LONG(var, int_key); \

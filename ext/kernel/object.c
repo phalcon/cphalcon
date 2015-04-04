@@ -480,7 +480,7 @@ int zephir_read_property(zval **result, zval *object, const char *property_name,
 	if (Z_TYPE_P(object) != IS_OBJECT) {
 
 		if (silent == PH_NOISY) {
-			php_error_docref(NULL TSRMLS_CC, E_NOTICE, "Trying to get property of non-object");
+			php_error_docref(NULL TSRMLS_CC, E_NOTICE, "Trying to get property \"%s\" of non-object", property_name);
 		}
 
 		ALLOC_INIT_ZVAL(*result);
@@ -600,7 +600,7 @@ zval* zephir_fetch_property_this_quick(zval *object, const char *property_name, 
 
 	} else {
 		if (silent == PH_NOISY) {
-			php_error_docref(NULL TSRMLS_CC, E_NOTICE, "Trying to get property of non-object");
+			php_error_docref(NULL TSRMLS_CC, E_NOTICE, "Trying to get property \"%s\" of non-object", property_name);
 		}
 	}
 
@@ -699,7 +699,7 @@ int zephir_return_property_quick(zval *return_value, zval **return_value_ptr, zv
 		EG(scope) = old_scope;
 
 	} else {
-		php_error_docref(NULL TSRMLS_CC, E_NOTICE, "Trying to get property of non-object");
+		php_error_docref(NULL TSRMLS_CC, E_NOTICE, "Trying to get property \"%s\" of non-object", property_name);
 	}
 
 	ZVAL_NULL(return_value);

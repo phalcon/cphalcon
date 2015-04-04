@@ -269,9 +269,10 @@ PHP_METHOD(Phalcon_Validation_Message_Group, appendMessages) {
 		_1 = zephir_get_iterator(messages TSRMLS_CC);
 		_1->funcs->rewind(_1 TSRMLS_CC);
 		for (;_1->funcs->valid(_1 TSRMLS_CC) == SUCCESS && !EG(exception); _1->funcs->move_forward(_1 TSRMLS_CC)) {
-			{ zval **tmp; 
-			_1->funcs->get_current_data(_1, &tmp TSRMLS_CC);
-			message = *tmp;
+			{
+				zval **ZEPHIR_TMP_ITERATOR_PTR;
+				_1->funcs->get_current_data(_1, &ZEPHIR_TMP_ITERATOR_PTR TSRMLS_CC);
+				ZEPHIR_CPY_WRT(message, (*ZEPHIR_TMP_ITERATOR_PTR));
 			}
 			ZEPHIR_CALL_METHOD(NULL, this_ptr, "appendmessage", &_2, message);
 			zephir_check_call_status();

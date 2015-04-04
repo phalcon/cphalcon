@@ -399,9 +399,10 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, queryKeys) {
 	_3->funcs->rewind(_3 TSRMLS_CC);
 	for (;_3->funcs->valid(_3 TSRMLS_CC) == SUCCESS && !EG(exception); _3->funcs->move_forward(_3 TSRMLS_CC)) {
 		ZEPHIR_GET_IMKEY(key, _3);
-		{ zval **tmp; 
-		_3->funcs->get_current_data(_3, &tmp TSRMLS_CC);
-		_2 = *tmp;
+		{
+			zval **ZEPHIR_TMP_ITERATOR_PTR;
+			_3->funcs->get_current_data(_3, &ZEPHIR_TMP_ITERATOR_PTR TSRMLS_CC);
+			ZEPHIR_CPY_WRT(_2, (*ZEPHIR_TMP_ITERATOR_PTR));
 		}
 		ZEPHIR_SINIT_NVAR(_4);
 		ZVAL_LONG(&_4, 5);

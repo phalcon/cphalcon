@@ -3206,9 +3206,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeUpdate) {
 	_18 = zephir_get_iterator(records TSRMLS_CC);
 	_18->funcs->rewind(_18 TSRMLS_CC);
 	for (;_18->funcs->valid(_18 TSRMLS_CC) == SUCCESS && !EG(exception); _18->funcs->move_forward(_18 TSRMLS_CC)) {
-		{ zval **tmp; 
-		_18->funcs->get_current_data(_18, &tmp TSRMLS_CC);
-		record = *tmp;
+		{
+			zval **ZEPHIR_TMP_ITERATOR_PTR;
+			_18->funcs->get_current_data(_18, &ZEPHIR_TMP_ITERATOR_PTR TSRMLS_CC);
+			ZEPHIR_CPY_WRT(record, (*ZEPHIR_TMP_ITERATOR_PTR));
 		}
 		ZEPHIR_CALL_METHOD(&_7, record, "update", NULL, updateValues);
 		zephir_check_call_status();
@@ -3297,9 +3298,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeDelete) {
 	_5 = zephir_get_iterator(records TSRMLS_CC);
 	_5->funcs->rewind(_5 TSRMLS_CC);
 	for (;_5->funcs->valid(_5 TSRMLS_CC) == SUCCESS && !EG(exception); _5->funcs->move_forward(_5 TSRMLS_CC)) {
-		{ zval **tmp; 
-		_5->funcs->get_current_data(_5, &tmp TSRMLS_CC);
-		record = *tmp;
+		{
+			zval **ZEPHIR_TMP_ITERATOR_PTR;
+			_5->funcs->get_current_data(_5, &ZEPHIR_TMP_ITERATOR_PTR TSRMLS_CC);
+			ZEPHIR_CPY_WRT(record, (*ZEPHIR_TMP_ITERATOR_PTR));
 		}
 		ZEPHIR_CALL_METHOD(&_6, record, "delete", NULL);
 		zephir_check_call_status();
