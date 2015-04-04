@@ -76,5 +76,4 @@ class PhqlParsePhqlOptimizer extends OptimizerAbstract
 
 		return new CompiledExpression('variable', $symbolVariable->getRealName(), $expression);
 	}
-
 }

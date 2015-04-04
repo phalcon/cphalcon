@@ -3040,6 +3040,14 @@ class Query implements QueryInterface, InjectionAwareInterface
 			let mergedTypes = bindTypes;
 		}
 
+		if typeof mergedParams != "null" && typeof mergedParams != "array" {
+			throw new Exception("Bound parameters must be an array");
+		}
+
+		if typeof mergedTypes != "null" && typeof mergedTypes != "array" {
+			throw new Exception("Bound parameter types must be an array");
+		}
+
 		let type = this->_type;
 		switch type {
 

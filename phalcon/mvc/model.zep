@@ -765,15 +765,15 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 		let builder = new Builder(params);
 		builder->from(get_called_class());
 
-		let query = builder->getQuery(),
-			bindParams = null,
-			bindTypes = null;
+		let query = builder->getQuery();
 
 		/**
 		 * Check for bind parameters
 		 */
 		if fetch bindParams, params["bind"] {
 			fetch bindTypes, params["bindTypes"];
+		} else {
+			let bindTypes = null;
 		}
 
 		/**
