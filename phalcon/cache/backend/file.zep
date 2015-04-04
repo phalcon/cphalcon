@@ -20,6 +20,9 @@
 namespace Phalcon\Cache\Backend;
 
 use Phalcon\Cache\Exception;
+use Phalcon\Cache\Backend;
+use Phalcon\Cache\FrontendInterface;
+use Phalcon\Cache\BackendInterface;
 
 /**
  * Phalcon\Cache\Backend\File
@@ -52,11 +55,11 @@ use Phalcon\Cache\Exception;
  *	}
  *</code>
  */
-class File extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendInterface
+class File extends Backend implements BackendInterface
 {
 	/**
 	 * Default to false for backwards compatibility
-	 * 
+	 *
 	 * @var boolean
 	 */
 	private _useSafeKey = false;
@@ -67,7 +70,7 @@ class File extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendInter
 	 * @param	Phalcon\Cache\FrontendInterface frontend
 	 * @param	array options
 	 */
-	public function __construct(<\Phalcon\Cache\FrontendInterface> frontend, options=null)
+	public function __construct(<FrontendInterface> frontend, options = null)
 	{
 		var prefix, safekey;
 
@@ -255,7 +258,8 @@ class File extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendInter
 	 */
 	public function queryKeys(var prefix = null) -> array
 	{
-		var item, key, ret, cacheDir;
+		var item, key, cacheDir;
+		array keys = [];
 
 		if !fetch cacheDir, this->_options["cacheDir"] {
 			throw new Exception("Unexpected inconsistency in options");
@@ -264,22 +268,21 @@ class File extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendInter
 		/**
 		 * We use a directory iterator to traverse the cache dir directory
 		 */
-		let ret = [];
 		for item in iterator(new \DirectoryIterator(cacheDir)) {
 
-			if item->isDir() === false {
+			if likely item->isDir() === false {
 				let key = item->getFileName();
 				if prefix !== null {
 					if starts_with(key, prefix) {
-						let ret[] = key;
+						let keys[] = key;
 					}
 				} else {
-					let ret[] = key;
+					let keys[] = key;
 				}
 			}
 		}
 
-		return ret;
+		return keys;
 	}
 
 	/**
@@ -394,7 +397,7 @@ class File extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendInter
 	 * @param  int value
 	 * @return mixed
 	 */
-	public function decrement(var keyName=null, int value=1)
+	public function decrement(var keyName = null, int value = 1)
 	{
 		var prefixedKey, cacheFile, timestamp, lifetime, ttl, cachedContent, result;
 
@@ -463,7 +466,7 @@ class File extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendInter
 
 		for item in iterator(new \DirectoryIterator(cacheDir)) {
 
-			if item->isFile() {
+			if likely item->isFile() == true {
 				let key = item->getFileName(),
 					cacheFile = item->getPathName();
 
@@ -488,7 +491,7 @@ class File extends \Phalcon\Cache\Backend implements \Phalcon\Cache\BackendInter
 		if this->_useSafeKey === true {
 			return md5(key);
 		}
-		
+
 		return key;
 	}
 

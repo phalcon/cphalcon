@@ -57,11 +57,12 @@ class Yaml extends Config
 	 */
 	public function __construct(string! filePath, array! callbacks = null)
 	{
+		var yamlConfig;
+		int ndocs = 0;
+
 		if !extension_loaded("yaml") {
 			throw new Exception("Yaml extension not loaded");
 		}
-		var yamlConfig;
-		int ndocs = 0;
 
 		if callbacks !== null {
 			let yamlConfig = yaml_parse_file(filePath, 0, ndocs, callbacks);

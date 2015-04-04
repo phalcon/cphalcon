@@ -26,7 +26,7 @@ use Phalcon\Cache\BackendInterface;
 /**
  * Phalcon\Cache\Multiple
  *
- * Allows to read to chained backends writing to multiple backends
+ * Allows to read to chained backend adapters writing to multiple backends
  *
  *<code>
  *   use Phalcon\Cache\Frontend\Data as DataFrontend,

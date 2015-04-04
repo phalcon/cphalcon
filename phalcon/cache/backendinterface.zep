@@ -128,5 +128,4 @@ interface BackendInterface
 	 * @return boolean
 	 */
 	public function exists(keyName = null, lifetime = null);
-
 }

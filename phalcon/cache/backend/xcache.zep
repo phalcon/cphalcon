@@ -20,8 +20,9 @@
 namespace Phalcon\Cache\Backend;
 
 use Phalcon\Cache\Backend;
-use Phalcon\Cache\BackendInterface;
 use Phalcon\Cache\Exception;
+use Phalcon\Cache\BackendInterface;
+use Phalcon\Cache\FrontendInterface;
 
 /**
  * Phalcon\Cache\Backend\Xcache
@@ -55,7 +56,7 @@ use Phalcon\Cache\Exception;
 	 * @param Phalcon\Cache\FrontendInterface frontend
 	 * @param array options
 	 */
-	public function __construct(frontend, options = null)
+	public function __construct(<FrontendInterface> frontend, options = null)
 	{
 		if typeof options != "array" {
 			let options = [];
