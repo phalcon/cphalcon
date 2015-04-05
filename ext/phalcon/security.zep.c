@@ -552,6 +552,7 @@ PHP_METHOD(Phalcon_Security, getSessionToken) {
  */
 PHP_METHOD(Phalcon_Security, computeHmac) {
 
+	zephir_nts_static zephir_fcall_cache_entry *_2 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *data, *key, *algo, *raw = NULL, *ops = NULL, *_0, *_1;
 
@@ -570,7 +571,7 @@ PHP_METHOD(Phalcon_Security, computeHmac) {
 		object_init_ex(_0, phalcon_security_exception_ce);
 		ZEPHIR_INIT_VAR(_1);
 		ZEPHIR_CONCAT_SV(_1, "Unknown hashing algorithm: %s", algo);
-		ZEPHIR_CALL_METHOD(NULL, _0, "__construct", NULL, _1);
+		ZEPHIR_CALL_METHOD(NULL, _0, "__construct", &_2, _1);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(_0, "phalcon/security.zep", 332 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();

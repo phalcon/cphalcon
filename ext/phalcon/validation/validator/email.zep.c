@@ -68,7 +68,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_Email) {
  */
 PHP_METHOD(Phalcon_Validation_Validator_Email, validate) {
 
-	zephir_nts_static zephir_fcall_cache_entry *_6 = NULL;
+	zephir_nts_static zephir_fcall_cache_entry *_6 = NULL, *_8 = NULL;
 	zend_bool _2;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *field = NULL;
@@ -139,7 +139,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Email, validate) {
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(_7);
 		ZVAL_STRING(_7, "Email", ZEPHIR_TEMP_PARAM_COPY);
-		ZEPHIR_CALL_METHOD(NULL, _1, "__construct", NULL, _5, field, _7);
+		ZEPHIR_CALL_METHOD(NULL, _1, "__construct", &_8, _5, field, _7);
 		zephir_check_temp_parameter(_7);
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, _1);

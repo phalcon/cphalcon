@@ -176,8 +176,9 @@ PHP_METHOD(Phalcon_Cli_Dispatcher, getTaskName) {
  */
 PHP_METHOD(Phalcon_Cli_Dispatcher, _throwDispatchException) {
 
+	zephir_nts_static zephir_fcall_cache_entry *_1 = NULL;
 	int exceptionCode, ZEPHIR_LAST_CALL_STATUS;
-	zval *message_param = NULL, *exceptionCode_param = NULL, *exception, *_0, *_1 = NULL;
+	zval *message_param = NULL, *exceptionCode_param = NULL, *exception, *_0, *_2 = NULL;
 	zval *message = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -195,11 +196,11 @@ PHP_METHOD(Phalcon_Cli_Dispatcher, _throwDispatchException) {
 	object_init_ex(exception, phalcon_cli_dispatcher_exception_ce);
 	ZEPHIR_INIT_VAR(_0);
 	ZVAL_LONG(_0, exceptionCode);
-	ZEPHIR_CALL_METHOD(NULL, exception, "__construct", NULL, message, _0);
+	ZEPHIR_CALL_METHOD(NULL, exception, "__construct", &_1, message, _0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_1, this_ptr, "_handleexception", NULL, exception);
+	ZEPHIR_CALL_METHOD(&_2, this_ptr, "_handleexception", NULL, exception);
 	zephir_check_call_status();
-	if (ZEPHIR_IS_FALSE_IDENTICAL(_1)) {
+	if (ZEPHIR_IS_FALSE_IDENTICAL(_2)) {
 		RETURN_MM_BOOL(0);
 	}
 	zephir_throw_exception_debug(exception, "phalcon/cli/dispatcher.zep", 128 TSRMLS_CC);

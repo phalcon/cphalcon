@@ -140,11 +140,12 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getName) {
  */
 PHP_METHOD(Phalcon_Annotations_Annotation, getExpression) {
 
+	zephir_nts_static zephir_fcall_cache_entry *_6 = NULL, *_9 = NULL;
 	zephir_fcall_cache_entry *_5 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
 	HashTable *_2;
 	HashPosition _1;
-	zval *expr_param = NULL, *value = NULL, *item = NULL, *resolvedItem = NULL, *arrayValue, *name = NULL, *type, *_0, **_3, *_4, *_6, *_7;
+	zval *expr_param = NULL, *value = NULL, *item = NULL, *resolvedItem = NULL, *arrayValue, *name = NULL, *type, *_0, **_3, *_4, *_7, *_8;
 	zval *expr = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -201,17 +202,17 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getExpression) {
 		}
 		if (ZEPHIR_IS_LONG(type, 300)) {
 			object_init_ex(return_value, phalcon_annotations_annotation_ce);
-			ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, expr);
+			ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", &_6, expr);
 			zephir_check_call_status();
 			RETURN_MM();
 		}
-		ZEPHIR_INIT_VAR(_6);
-		object_init_ex(_6, phalcon_annotations_exception_ce);
 		ZEPHIR_INIT_VAR(_7);
-		ZEPHIR_CONCAT_SVS(_7, "The expression ", type, " is unknown");
-		ZEPHIR_CALL_METHOD(NULL, _6, "__construct", NULL, _7);
+		object_init_ex(_7, phalcon_annotations_exception_ce);
+		ZEPHIR_INIT_VAR(_8);
+		ZEPHIR_CONCAT_SVS(_8, "The expression ", type, " is unknown");
+		ZEPHIR_CALL_METHOD(NULL, _7, "__construct", &_9, _8);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(_6, "phalcon/annotations/annotation.zep", 138 TSRMLS_CC);
+		zephir_throw_exception_debug(_7, "phalcon/annotations/annotation.zep", 138 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	} while(0);

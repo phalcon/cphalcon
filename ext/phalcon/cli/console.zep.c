@@ -246,9 +246,10 @@ PHP_METHOD(Phalcon_Cli_Console, getModules) {
  */
 PHP_METHOD(Phalcon_Cli_Console, handle) {
 
+	zephir_nts_static zephir_fcall_cache_entry *_6 = NULL;
 	zend_bool _3;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *arguments = NULL, *dependencyInjector, *router = NULL, *eventsManager = NULL, *moduleName = NULL, *modules, *module, *path, *className = NULL, *moduleObject = NULL, *dispatcher = NULL, *task = NULL, *_0, *_1 = NULL, *_2 = NULL, *_4, *_5 = NULL, *_6 = NULL, *_7 = NULL, *_8 = NULL, *_9 = NULL;
+	zval *arguments = NULL, *dependencyInjector, *router = NULL, *eventsManager = NULL, *moduleName = NULL, *modules, *module, *path, *className = NULL, *moduleObject = NULL, *dispatcher = NULL, *task = NULL, *_0, *_1 = NULL, *_2 = NULL, *_4, *_5 = NULL, *_7 = NULL, *_8 = NULL, *_9 = NULL, *_10 = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &arguments);
@@ -305,7 +306,7 @@ PHP_METHOD(Phalcon_Cli_Console, handle) {
 			object_init_ex(_2, phalcon_cli_console_exception_ce);
 			ZEPHIR_INIT_VAR(_5);
 			ZEPHIR_CONCAT_SVS(_5, "Module '", moduleName, "' isn't registered in the console container");
-			ZEPHIR_CALL_METHOD(NULL, _2, "__construct", NULL, _5);
+			ZEPHIR_CALL_METHOD(NULL, _2, "__construct", &_6, _5);
 			zephir_check_call_status();
 			zephir_throw_exception_debug(_2, "phalcon/cli/console.zep", 195 TSRMLS_CC);
 			ZEPHIR_MM_RESTORE();
@@ -324,7 +325,7 @@ PHP_METHOD(Phalcon_Cli_Console, handle) {
 				object_init_ex(_2, phalcon_cli_console_exception_ce);
 				ZEPHIR_INIT_LNVAR(_5);
 				ZEPHIR_CONCAT_SVS(_5, "Module definition path '", path, "' doesn't exist");
-				ZEPHIR_CALL_METHOD(NULL, _2, "__construct", NULL, _5);
+				ZEPHIR_CALL_METHOD(NULL, _2, "__construct", &_6, _5);
 				zephir_check_call_status();
 				zephir_throw_exception_debug(_2, "phalcon/cli/console.zep", 205 TSRMLS_CC);
 				ZEPHIR_MM_RESTORE();
@@ -349,31 +350,31 @@ PHP_METHOD(Phalcon_Cli_Console, handle) {
 			zephir_update_property_this(this_ptr, SL("_moduleObject"), moduleObject TSRMLS_CC);
 			ZEPHIR_INIT_NVAR(_2);
 			ZVAL_STRING(_2, "console:afterStartModule", ZEPHIR_TEMP_PARAM_COPY);
-			ZEPHIR_CALL_METHOD(&_6, eventsManager, "fire", NULL, _2, this_ptr, moduleObject);
+			ZEPHIR_CALL_METHOD(&_7, eventsManager, "fire", NULL, _2, this_ptr, moduleObject);
 			zephir_check_temp_parameter(_2);
 			zephir_check_call_status();
-			if (ZEPHIR_IS_FALSE_IDENTICAL(_6)) {
+			if (ZEPHIR_IS_FALSE_IDENTICAL(_7)) {
 				RETURN_MM_BOOL(0);
 			}
 		}
 	}
 	ZEPHIR_INIT_NVAR(_2);
 	ZVAL_STRING(_2, "dispatcher", ZEPHIR_TEMP_PARAM_COPY);
-	ZEPHIR_CALL_METHOD(&_6, dependencyInjector, "getshared", NULL, _2);
+	ZEPHIR_CALL_METHOD(&_7, dependencyInjector, "getshared", NULL, _2);
 	zephir_check_temp_parameter(_2);
 	zephir_check_call_status();
-	ZEPHIR_CPY_WRT(dispatcher, _6);
-	ZEPHIR_CALL_METHOD(&_6, router, "gettaskname", NULL);
+	ZEPHIR_CPY_WRT(dispatcher, _7);
+	ZEPHIR_CALL_METHOD(&_7, router, "gettaskname", NULL);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, dispatcher, "settaskname", NULL, _6);
+	ZEPHIR_CALL_METHOD(NULL, dispatcher, "settaskname", NULL, _7);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_7, router, "getactionname", NULL);
+	ZEPHIR_CALL_METHOD(&_8, router, "getactionname", NULL);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, dispatcher, "setactionname", NULL, _7);
+	ZEPHIR_CALL_METHOD(NULL, dispatcher, "setactionname", NULL, _8);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_8, router, "getparams", NULL);
+	ZEPHIR_CALL_METHOD(&_9, router, "getparams", NULL);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, dispatcher, "setparams", NULL, _8);
+	ZEPHIR_CALL_METHOD(NULL, dispatcher, "setparams", NULL, _9);
 	zephir_check_call_status();
 	_4 = zephir_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY_CC);
 	ZEPHIR_CALL_METHOD(NULL, dispatcher, "setoptions", NULL, _4);
@@ -381,10 +382,10 @@ PHP_METHOD(Phalcon_Cli_Console, handle) {
 	if (Z_TYPE_P(eventsManager) == IS_OBJECT) {
 		ZEPHIR_INIT_NVAR(_2);
 		ZVAL_STRING(_2, "console:beforeHandleTask", ZEPHIR_TEMP_PARAM_COPY);
-		ZEPHIR_CALL_METHOD(&_9, eventsManager, "fire", NULL, _2, this_ptr, dispatcher);
+		ZEPHIR_CALL_METHOD(&_10, eventsManager, "fire", NULL, _2, this_ptr, dispatcher);
 		zephir_check_temp_parameter(_2);
 		zephir_check_call_status();
-		if (ZEPHIR_IS_FALSE_IDENTICAL(_9)) {
+		if (ZEPHIR_IS_FALSE_IDENTICAL(_10)) {
 			RETURN_MM_BOOL(0);
 		}
 	}

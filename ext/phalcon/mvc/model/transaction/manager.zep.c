@@ -315,6 +315,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, get) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, getOrCreateTransaction) {
 
+	zephir_nts_static zephir_fcall_cache_entry *_6 = NULL, *_7 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
 	HashTable *_2;
 	HashPosition _1;
@@ -361,9 +362,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, getOrCreateTransaction) {
 	ZEPHIR_INIT_VAR(transaction);
 	object_init_ex(transaction, phalcon_mvc_model_transaction_ce);
 	_5 = zephir_fetch_nproperty_this(this_ptr, SL("_service"), PH_NOISY_CC);
-	ZEPHIR_CALL_METHOD(NULL, transaction, "__construct", NULL, dependencyInjector, (autoBegin ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)), _5);
+	ZEPHIR_CALL_METHOD(NULL, transaction, "__construct", &_6, dependencyInjector, (autoBegin ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)), _5);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, transaction, "settransactionmanager", NULL, this_ptr);
+	ZEPHIR_CALL_METHOD(NULL, transaction, "settransactionmanager", &_7, this_ptr);
 	zephir_check_call_status();
 	zephir_update_property_array_append(this_ptr, SL("_transactions"), transaction TSRMLS_CC);
 	RETURN_ON_FAILURE(zephir_property_incr(this_ptr, SL("_number") TSRMLS_CC));

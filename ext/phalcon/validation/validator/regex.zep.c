@@ -67,7 +67,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_Regex) {
  */
 PHP_METHOD(Phalcon_Validation_Validator_Regex, validate) {
 
-	zephir_nts_static zephir_fcall_cache_entry *_5 = NULL, *_8 = NULL;
+	zephir_nts_static zephir_fcall_cache_entry *_5 = NULL, *_8 = NULL, *_10 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zend_bool failed, _2;
 	zval *validation, *field, *matches, *message = NULL, *value = NULL, *label = NULL, *replacePairs, *_0 = NULL, *_1 = NULL, *_3 = NULL, *_4 = NULL, *_6, *_7 = NULL, *_9;
@@ -139,7 +139,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Regex, validate) {
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(_9);
 		ZVAL_STRING(_9, "Regex", ZEPHIR_TEMP_PARAM_COPY);
-		ZEPHIR_CALL_METHOD(NULL, _1, "__construct", NULL, _7, field, _9);
+		ZEPHIR_CALL_METHOD(NULL, _1, "__construct", &_10, _7, field, _9);
 		zephir_check_temp_parameter(_9);
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, _1);

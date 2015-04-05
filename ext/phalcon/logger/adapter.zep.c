@@ -537,6 +537,7 @@ PHP_METHOD(Phalcon_Logger_Adapter, alert) {
  */
 PHP_METHOD(Phalcon_Logger_Adapter, log) {
 
+	zephir_nts_static zephir_fcall_cache_entry *_5 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zend_bool _0, _1;
 	zval *context = NULL;
@@ -589,7 +590,7 @@ PHP_METHOD(Phalcon_Logger_Adapter, log) {
 		if (zephir_is_true(_3)) {
 			ZEPHIR_INIT_VAR(_4);
 			object_init_ex(_4, phalcon_logger_item_ce);
-			ZEPHIR_CALL_METHOD(NULL, _4, "__construct", NULL, toggledMessage, toggledType, timestamp, context);
+			ZEPHIR_CALL_METHOD(NULL, _4, "__construct", &_5, toggledMessage, toggledType, timestamp, context);
 			zephir_check_call_status();
 			zephir_update_property_array_append(this_ptr, SL("_queue"), _4 TSRMLS_CC);
 		} else {

@@ -251,6 +251,7 @@ PHP_METHOD(Phalcon_Validation_Message, __toString) {
  */
 PHP_METHOD(Phalcon_Validation_Message, __set_state) {
 
+	zephir_nts_static zephir_fcall_cache_entry *_3 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *message_param = NULL, *_0, *_1, *_2;
 	zval *message = NULL;
@@ -266,7 +267,7 @@ PHP_METHOD(Phalcon_Validation_Message, __set_state) {
 	zephir_array_fetch_string(&_0, message, SL("_message"), PH_NOISY | PH_READONLY, "phalcon/validation/message.zep", 136 TSRMLS_CC);
 	zephir_array_fetch_string(&_1, message, SL("_field"), PH_NOISY | PH_READONLY, "phalcon/validation/message.zep", 136 TSRMLS_CC);
 	zephir_array_fetch_string(&_2, message, SL("_type"), PH_NOISY | PH_READONLY, "phalcon/validation/message.zep", 136 TSRMLS_CC);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, _0, _1, _2);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", &_3, _0, _1, _2);
 	zephir_check_call_status();
 	RETURN_MM();
 

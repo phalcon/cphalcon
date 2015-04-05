@@ -210,7 +210,7 @@ PHP_METHOD(Phalcon_Queue_Beanstalk, put) {
  */
 PHP_METHOD(Phalcon_Queue_Beanstalk, reserve) {
 
-	zephir_nts_static zephir_fcall_cache_entry *_0 = NULL, *_6 = NULL;
+	zephir_nts_static zephir_fcall_cache_entry *_0 = NULL, *_6 = NULL, *_7 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *timeout = NULL, *command, *response = NULL, *_1, *_2, *_3 = NULL, *_4, *_5 = NULL;
 
@@ -241,7 +241,7 @@ PHP_METHOD(Phalcon_Queue_Beanstalk, reserve) {
 		zephir_check_call_status();
 		ZEPHIR_CALL_FUNCTION(&_5, "unserialize", &_6, _3);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, this_ptr, _2, _5);
+		ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", &_7, this_ptr, _2, _5);
 		zephir_check_call_status();
 		RETURN_MM();
 	}
@@ -344,7 +344,7 @@ PHP_METHOD(Phalcon_Queue_Beanstalk, watch) {
  */
 PHP_METHOD(Phalcon_Queue_Beanstalk, peekReady) {
 
-	zephir_nts_static zephir_fcall_cache_entry *_1 = NULL, *_7 = NULL;
+	zephir_nts_static zephir_fcall_cache_entry *_1 = NULL, *_7 = NULL, *_8 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *response = NULL, *_0, *_2, *_3, *_4 = NULL, *_5, *_6 = NULL;
 
@@ -366,7 +366,7 @@ PHP_METHOD(Phalcon_Queue_Beanstalk, peekReady) {
 		zephir_check_call_status();
 		ZEPHIR_CALL_FUNCTION(&_6, "unserialize", &_7, _4);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, this_ptr, _3, _6);
+		ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", &_8, this_ptr, _3, _6);
 		zephir_check_call_status();
 		RETURN_MM();
 	}
@@ -381,7 +381,7 @@ PHP_METHOD(Phalcon_Queue_Beanstalk, peekReady) {
  */
 PHP_METHOD(Phalcon_Queue_Beanstalk, peekBuried) {
 
-	zephir_nts_static zephir_fcall_cache_entry *_1 = NULL, *_7 = NULL;
+	zephir_nts_static zephir_fcall_cache_entry *_1 = NULL, *_7 = NULL, *_8 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *response = NULL, *_0, *_2, *_3, *_4 = NULL, *_5, *_6 = NULL;
 
@@ -403,7 +403,7 @@ PHP_METHOD(Phalcon_Queue_Beanstalk, peekBuried) {
 		zephir_check_call_status();
 		ZEPHIR_CALL_FUNCTION(&_6, "unserialize", &_7, _4);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, this_ptr, _3, _6);
+		ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", &_8, this_ptr, _3, _6);
 		zephir_check_call_status();
 		RETURN_MM();
 	}

@@ -432,6 +432,7 @@ PHP_METHOD(Phalcon_Validation_Message_Group, valid) {
  */
 PHP_METHOD(Phalcon_Validation_Message_Group, __set_state) {
 
+	zephir_nts_static zephir_fcall_cache_entry *_1 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *group, *_0;
 
@@ -442,7 +443,7 @@ PHP_METHOD(Phalcon_Validation_Message_Group, __set_state) {
 
 	object_init_ex(return_value, phalcon_validation_message_group_ce);
 	zephir_array_fetch_string(&_0, group, SL("_messages"), PH_NOISY | PH_READONLY, "phalcon/validation/message/group.zep", 277 TSRMLS_CC);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, _0);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", &_1, _0);
 	zephir_check_call_status();
 	RETURN_MM();
 

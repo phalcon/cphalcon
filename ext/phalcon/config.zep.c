@@ -240,6 +240,7 @@ PHP_METHOD(Phalcon_Config, offsetGet) {
  */
 PHP_METHOD(Phalcon_Config, offsetSet) {
 
+	zephir_nts_static zephir_fcall_cache_entry *_1 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *index_param = NULL, *value, *_0;
 	zval *index = NULL;
@@ -263,7 +264,7 @@ PHP_METHOD(Phalcon_Config, offsetSet) {
 	if (Z_TYPE_P(value) == IS_ARRAY) {
 		ZEPHIR_INIT_VAR(_0);
 		object_init_ex(_0, phalcon_config_ce);
-		ZEPHIR_CALL_METHOD(NULL, _0, "__construct", NULL, value);
+		ZEPHIR_CALL_METHOD(NULL, _0, "__construct", &_1, value);
 		zephir_check_call_status();
 		zephir_update_property_zval_zval(this_ptr, index, _0 TSRMLS_CC);
 	} else {
@@ -410,6 +411,7 @@ PHP_METHOD(Phalcon_Config, count) {
  */
 PHP_METHOD(Phalcon_Config, __set_state) {
 
+	zephir_nts_static zephir_fcall_cache_entry *_0 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *data_param = NULL;
 	zval *data = NULL;
@@ -422,7 +424,7 @@ PHP_METHOD(Phalcon_Config, __set_state) {
 
 
 	object_init_ex(return_value, phalcon_config_ce);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, data);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", &_0, data);
 	zephir_check_call_status();
 	RETURN_MM();
 

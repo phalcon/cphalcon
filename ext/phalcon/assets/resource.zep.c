@@ -356,6 +356,7 @@ PHP_METHOD(Phalcon_Assets_Resource, setTargetPath) {
  */
 PHP_METHOD(Phalcon_Assets_Resource, getContent) {
 
+	zephir_nts_static zephir_fcall_cache_entry *_3 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *basePath_param = NULL, *sourcePath = NULL, *completePath, *content, *_0, *_1 = NULL, *_2 = NULL;
 	zval *basePath = NULL;
@@ -386,7 +387,7 @@ PHP_METHOD(Phalcon_Assets_Resource, getContent) {
 			object_init_ex(_1, phalcon_assets_exception_ce);
 			ZEPHIR_INIT_VAR(_2);
 			ZEPHIR_CONCAT_SVS(_2, "Resource's content for '", completePath, "' cannot be read");
-			ZEPHIR_CALL_METHOD(NULL, _1, "__construct", NULL, _2);
+			ZEPHIR_CALL_METHOD(NULL, _1, "__construct", &_3, _2);
 			zephir_check_call_status();
 			zephir_throw_exception_debug(_1, "phalcon/assets/resource.zep", 196 TSRMLS_CC);
 			ZEPHIR_MM_RESTORE();
@@ -400,7 +401,7 @@ PHP_METHOD(Phalcon_Assets_Resource, getContent) {
 		object_init_ex(_1, phalcon_assets_exception_ce);
 		ZEPHIR_INIT_LNVAR(_2);
 		ZEPHIR_CONCAT_SVS(_2, "Resource's content for '", completePath, "' cannot be read");
-		ZEPHIR_CALL_METHOD(NULL, _1, "__construct", NULL, _2);
+		ZEPHIR_CALL_METHOD(NULL, _1, "__construct", &_3, _2);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(_1, "phalcon/assets/resource.zep", 206 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();

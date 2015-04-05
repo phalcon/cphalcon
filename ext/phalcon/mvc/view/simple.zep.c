@@ -191,11 +191,12 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, registerEngines) {
  */
 PHP_METHOD(Phalcon_Mvc_View_Simple, _loadTemplateEngines) {
 
-	zephir_fcall_cache_entry *_4 = NULL, *_6 = NULL;
-	HashTable *_2;
-	HashPosition _1;
+	zephir_fcall_cache_entry *_5 = NULL, *_7 = NULL;
+	HashTable *_3;
+	HashPosition _2;
+	zephir_nts_static zephir_fcall_cache_entry *_1 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *engines = NULL, *dependencyInjector, *registeredEngines, *arguments, *extension = NULL, *engineService = NULL, *engineObject = NULL, *_0 = NULL, **_3, *_5 = NULL;
+	zval *engines = NULL, *dependencyInjector, *registeredEngines, *arguments, *extension = NULL, *engineService = NULL, *engineObject = NULL, *_0 = NULL, **_4, *_6 = NULL;
 
 	ZEPHIR_MM_GROW();
 
@@ -211,7 +212,7 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, _loadTemplateEngines) {
 		if (Z_TYPE_P(registeredEngines) != IS_ARRAY) {
 			ZEPHIR_INIT_VAR(_0);
 			object_init_ex(_0, phalcon_mvc_view_engine_php_ce);
-			ZEPHIR_CALL_METHOD(NULL, _0, "__construct", NULL, this_ptr, dependencyInjector);
+			ZEPHIR_CALL_METHOD(NULL, _0, "__construct", &_1, this_ptr, dependencyInjector);
 			zephir_check_call_status();
 			zephir_array_update_string(&engines, SL(".phtml"), &_0, PH_COPY | PH_SEPARATE);
 		} else {
@@ -223,13 +224,13 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, _loadTemplateEngines) {
 			array_init_size(arguments, 3);
 			zephir_array_fast_append(arguments, this_ptr);
 			zephir_array_fast_append(arguments, dependencyInjector);
-			zephir_is_iterable(registeredEngines, &_2, &_1, 0, 0, "phalcon/mvc/view/simple.zep", 177);
+			zephir_is_iterable(registeredEngines, &_3, &_2, 0, 0, "phalcon/mvc/view/simple.zep", 177);
 			for (
-			  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
-			  ; zephir_hash_move_forward_ex(_2, &_1)
+			  ; zephir_hash_get_current_data_ex(_3, (void**) &_4, &_2) == SUCCESS
+			  ; zephir_hash_move_forward_ex(_3, &_2)
 			) {
-				ZEPHIR_GET_HMKEY(extension, _2, _1);
-				ZEPHIR_GET_HVALUE(engineService, _3);
+				ZEPHIR_GET_HMKEY(extension, _3, _2);
+				ZEPHIR_GET_HVALUE(engineService, _4);
 				if (Z_TYPE_P(engineService) == IS_OBJECT) {
 					if (zephir_instance_of_ev(engineService, zend_ce_closure TSRMLS_CC)) {
 						ZEPHIR_INIT_NVAR(engineObject);
@@ -240,14 +241,14 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, _loadTemplateEngines) {
 					}
 				} else {
 					if (Z_TYPE_P(engineService) == IS_STRING) {
-						ZEPHIR_CALL_METHOD(&engineObject, dependencyInjector, "getshared", &_4, engineService, arguments);
+						ZEPHIR_CALL_METHOD(&engineObject, dependencyInjector, "getshared", &_5, engineService, arguments);
 						zephir_check_call_status();
 					} else {
 						ZEPHIR_INIT_NVAR(_0);
 						object_init_ex(_0, phalcon_mvc_view_exception_ce);
-						ZEPHIR_INIT_LNVAR(_5);
-						ZEPHIR_CONCAT_SV(_5, "Invalid template engine registration for extension: ", extension);
-						ZEPHIR_CALL_METHOD(NULL, _0, "__construct", &_6, _5);
+						ZEPHIR_INIT_LNVAR(_6);
+						ZEPHIR_CONCAT_SV(_6, "Invalid template engine registration for extension: ", extension);
+						ZEPHIR_CALL_METHOD(NULL, _0, "__construct", &_7, _6);
 						zephir_check_call_status();
 						zephir_throw_exception_debug(_0, "phalcon/mvc/view/simple.zep", 171 TSRMLS_CC);
 						ZEPHIR_MM_RESTORE();
@@ -274,6 +275,7 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, _loadTemplateEngines) {
  */
 PHP_METHOD(Phalcon_Mvc_View_Simple, _internalRender) {
 
+	zephir_nts_static zephir_fcall_cache_entry *_13 = NULL;
 	zephir_fcall_cache_entry *_11 = NULL, *_12 = NULL;
 	HashTable *_4;
 	HashPosition _3;
@@ -381,7 +383,7 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, _internalRender) {
 		object_init_ex(_1, phalcon_mvc_view_exception_ce);
 		ZEPHIR_INIT_LNVAR(_6);
 		ZEPHIR_CONCAT_SVS(_6, "View '", viewsDirPath, "' was not found in the views directory");
-		ZEPHIR_CALL_METHOD(NULL, _1, "__construct", NULL, _6);
+		ZEPHIR_CALL_METHOD(NULL, _1, "__construct", &_13, _6);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(_1, "phalcon/mvc/view/simple.zep", 265 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();

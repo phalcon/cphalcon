@@ -327,6 +327,7 @@ PHP_METHOD(Phalcon_Di, setRaw) {
  */
 PHP_METHOD(Phalcon_Di, getRaw) {
 
+	zephir_nts_static zephir_fcall_cache_entry *_3 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *name_param = NULL, *service, *_0, *_1;
 	zval *name = NULL, *_2;
@@ -358,7 +359,7 @@ PHP_METHOD(Phalcon_Di, getRaw) {
 	object_init_ex(_1, phalcon_di_exception_ce);
 	ZEPHIR_INIT_VAR(_2);
 	ZEPHIR_CONCAT_SVS(_2, "Service '", name, "' wasn't found in the dependency injection container");
-	ZEPHIR_CALL_METHOD(NULL, _1, "__construct", NULL, _2);
+	ZEPHIR_CALL_METHOD(NULL, _1, "__construct", &_3, _2);
 	zephir_check_call_status();
 	zephir_throw_exception_debug(_1, "phalcon/di.zep", 182 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
@@ -374,6 +375,7 @@ PHP_METHOD(Phalcon_Di, getRaw) {
  */
 PHP_METHOD(Phalcon_Di, getService) {
 
+	zephir_nts_static zephir_fcall_cache_entry *_3 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *name_param = NULL, *service, *_0, *_1;
 	zval *name = NULL, *_2;
@@ -403,7 +405,7 @@ PHP_METHOD(Phalcon_Di, getService) {
 	object_init_ex(_1, phalcon_di_exception_ce);
 	ZEPHIR_INIT_VAR(_2);
 	ZEPHIR_CONCAT_SVS(_2, "Service '", name, "' wasn't found in the dependency injection container");
-	ZEPHIR_CALL_METHOD(NULL, _1, "__construct", NULL, _2);
+	ZEPHIR_CALL_METHOD(NULL, _1, "__construct", &_3, _2);
 	zephir_check_call_status();
 	zephir_throw_exception_debug(_1, "phalcon/di.zep", 199 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
@@ -420,10 +422,11 @@ PHP_METHOD(Phalcon_Di, getService) {
  */
 PHP_METHOD(Phalcon_Di, get) {
 
+	zephir_nts_static zephir_fcall_cache_entry *_4 = NULL, *_5 = NULL, *_6 = NULL, *_8 = NULL;
 	zval *_1 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *name_param = NULL, *parameters = NULL, *service, *instance = NULL, *reflection = NULL, *eventsManager = NULL, *_0 = NULL, *_2 = NULL, *_3;
-	zval *name = NULL, *_4;
+	zval *name = NULL, *_7;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &name_param, &parameters);
@@ -470,9 +473,9 @@ PHP_METHOD(Phalcon_Di, get) {
 					if (zephir_is_php_version(50600)) {
 						ZEPHIR_INIT_VAR(reflection);
 						object_init_ex(reflection, zephir_get_internal_ce(SS("reflectionclass") TSRMLS_CC));
-						ZEPHIR_CALL_METHOD(NULL, reflection, "__construct", NULL, name);
+						ZEPHIR_CALL_METHOD(NULL, reflection, "__construct", &_4, name);
 						zephir_check_call_status();
-						ZEPHIR_CALL_METHOD(&instance, reflection, "newinstanceargs", NULL, parameters);
+						ZEPHIR_CALL_METHOD(&instance, reflection, "newinstanceargs", &_5, parameters);
 						zephir_check_call_status();
 					} else {
 						ZEPHIR_INIT_NVAR(instance);
@@ -483,9 +486,9 @@ PHP_METHOD(Phalcon_Di, get) {
 					if (zephir_is_php_version(50600)) {
 						ZEPHIR_INIT_NVAR(reflection);
 						object_init_ex(reflection, zephir_get_internal_ce(SS("reflectionclass") TSRMLS_CC));
-						ZEPHIR_CALL_METHOD(NULL, reflection, "__construct", NULL, name);
+						ZEPHIR_CALL_METHOD(NULL, reflection, "__construct", &_4, name);
 						zephir_check_call_status();
-						ZEPHIR_CALL_METHOD(&instance, reflection, "newinstance", NULL);
+						ZEPHIR_CALL_METHOD(&instance, reflection, "newinstance", &_6);
 						zephir_check_call_status();
 					} else {
 						ZEPHIR_INIT_NVAR(instance);
@@ -497,9 +500,9 @@ PHP_METHOD(Phalcon_Di, get) {
 				if (zephir_is_php_version(50600)) {
 					ZEPHIR_INIT_NVAR(reflection);
 					object_init_ex(reflection, zephir_get_internal_ce(SS("reflectionclass") TSRMLS_CC));
-					ZEPHIR_CALL_METHOD(NULL, reflection, "__construct", NULL, name);
+					ZEPHIR_CALL_METHOD(NULL, reflection, "__construct", &_4, name);
 					zephir_check_call_status();
-					ZEPHIR_CALL_METHOD(&instance, reflection, "newinstance", NULL);
+					ZEPHIR_CALL_METHOD(&instance, reflection, "newinstance", &_6);
 					zephir_check_call_status();
 				} else {
 					ZEPHIR_INIT_NVAR(instance);
@@ -510,9 +513,9 @@ PHP_METHOD(Phalcon_Di, get) {
 		} else {
 			ZEPHIR_INIT_NVAR(_2);
 			object_init_ex(_2, phalcon_di_exception_ce);
-			ZEPHIR_INIT_VAR(_4);
-			ZEPHIR_CONCAT_SVS(_4, "Service '", name, "' wasn't found in the dependency injection container");
-			ZEPHIR_CALL_METHOD(NULL, _2, "__construct", NULL, _4);
+			ZEPHIR_INIT_VAR(_7);
+			ZEPHIR_CONCAT_SVS(_7, "Service '", name, "' wasn't found in the dependency injection container");
+			ZEPHIR_CALL_METHOD(NULL, _2, "__construct", &_8, _7);
 			zephir_check_call_status();
 			zephir_throw_exception_debug(_2, "phalcon/di.zep", 254 TSRMLS_CC);
 			ZEPHIR_MM_RESTORE();
@@ -829,7 +832,7 @@ PHP_METHOD(Phalcon_Di, getEventsManager) {
 PHP_METHOD(Phalcon_Di, __call) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zephir_nts_static zephir_fcall_cache_entry *_2 = NULL;
+	zephir_nts_static zephir_fcall_cache_entry *_2 = NULL, *_5 = NULL;
 	zval *method_param = NULL, *arguments = NULL, *instance = NULL, *possibleService = NULL, *services, *definition, _0 = zval_used_for_init, *_1 = NULL, *_3 = NULL;
 	zval *method = NULL, *_4;
 
@@ -890,7 +893,7 @@ PHP_METHOD(Phalcon_Di, __call) {
 	object_init_ex(_1, phalcon_di_exception_ce);
 	ZEPHIR_INIT_VAR(_4);
 	ZEPHIR_CONCAT_SVS(_4, "Call to undefined method or service '", method, "'");
-	ZEPHIR_CALL_METHOD(NULL, _1, "__construct", NULL, _4);
+	ZEPHIR_CALL_METHOD(NULL, _1, "__construct", &_5, _4);
 	zephir_check_call_status();
 	zephir_throw_exception_debug(_1, "phalcon/di.zep", 460 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();

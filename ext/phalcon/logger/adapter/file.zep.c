@@ -99,7 +99,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, getPath) {
 PHP_METHOD(Phalcon_Logger_Adapter_File, __construct) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zephir_nts_static zephir_fcall_cache_entry *_0 = NULL;
+	zephir_nts_static zephir_fcall_cache_entry *_0 = NULL, *_3 = NULL;
 	zval *name_param = NULL, *options = NULL, *mode = NULL, *handler = NULL, *_1;
 	zval *name = NULL, *_2;
 
@@ -144,7 +144,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, __construct) {
 		object_init_ex(_1, phalcon_logger_exception_ce);
 		ZEPHIR_INIT_VAR(_2);
 		ZEPHIR_CONCAT_SVS(_2, "Can't open log file at '", name, "'");
-		ZEPHIR_CALL_METHOD(NULL, _1, "__construct", NULL, _2);
+		ZEPHIR_CALL_METHOD(NULL, _1, "__construct", &_3, _2);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(_1, "phalcon/logger/adapter/file.zep", 87 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
@@ -164,6 +164,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, __construct) {
  */
 PHP_METHOD(Phalcon_Logger_Adapter_File, getFormatter) {
 
+	zephir_nts_static zephir_fcall_cache_entry *_2 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *_0, *_1;
 
@@ -174,7 +175,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, getFormatter) {
 	if (Z_TYPE_P(_0) != IS_OBJECT) {
 		ZEPHIR_INIT_VAR(_1);
 		object_init_ex(_1, phalcon_logger_formatter_line_ce);
-		ZEPHIR_CALL_METHOD(NULL, _1, "__construct", NULL);
+		ZEPHIR_CALL_METHOD(NULL, _1, "__construct", &_2);
 		zephir_check_call_status();
 		zephir_update_property_this(this_ptr, SL("_formatter"), _1 TSRMLS_CC);
 	}

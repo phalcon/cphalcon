@@ -206,7 +206,7 @@ PHP_METHOD(Phalcon_Filter, sanitize) {
 PHP_METHOD(Phalcon_Filter, _sanitize) {
 
 	zephir_fcall_cache_entry *_8 = NULL;
-	zephir_nts_static zephir_fcall_cache_entry *_7 = NULL, *_10 = NULL, *_11 = NULL;
+	zephir_nts_static zephir_fcall_cache_entry *_7 = NULL, *_10 = NULL, *_11 = NULL, *_13 = NULL;
 	zval *_1 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *filter = NULL, *_12;
@@ -331,7 +331,7 @@ PHP_METHOD(Phalcon_Filter, _sanitize) {
 		object_init_ex(_2, phalcon_filter_exception_ce);
 		ZEPHIR_INIT_VAR(_12);
 		ZEPHIR_CONCAT_SVS(_12, "Sanitize filter '", filter, "' is not supported");
-		ZEPHIR_CALL_METHOD(NULL, _2, "__construct", NULL, _12);
+		ZEPHIR_CALL_METHOD(NULL, _2, "__construct", &_13, _12);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(_2, "phalcon/filter.zep", 192 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();

@@ -229,6 +229,7 @@ PHP_METHOD(Phalcon_Annotations_Collection, getAnnotations) {
  */
 PHP_METHOD(Phalcon_Annotations_Collection, get) {
 
+	zephir_nts_static zephir_fcall_cache_entry *_6 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
 	HashTable *_1;
 	HashPosition _0;
@@ -261,7 +262,7 @@ PHP_METHOD(Phalcon_Annotations_Collection, get) {
 	object_init_ex(_4, phalcon_annotations_exception_ce);
 	ZEPHIR_INIT_VAR(_5);
 	ZEPHIR_CONCAT_SVS(_5, "Collection doesn't have an annotation called '", name, "'");
-	ZEPHIR_CALL_METHOD(NULL, _4, "__construct", NULL, _5);
+	ZEPHIR_CALL_METHOD(NULL, _4, "__construct", &_6, _5);
 	zephir_check_call_status();
 	zephir_throw_exception_debug(_4, "phalcon/annotations/collection.zep", 161 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();

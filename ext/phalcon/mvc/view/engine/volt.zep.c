@@ -98,8 +98,9 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, getOptions) {
  */
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, getCompiler) {
 
+	zephir_nts_static zephir_fcall_cache_entry *_1 = NULL, *_3 = NULL, *_4 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *compiler = NULL, *dependencyInjector = NULL, *options, *_0, *_1;
+	zval *compiler = NULL, *dependencyInjector = NULL, *options, *_0, *_2;
 
 	ZEPHIR_MM_GROW();
 
@@ -109,18 +110,18 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, getCompiler) {
 		ZEPHIR_INIT_NVAR(compiler);
 		object_init_ex(compiler, phalcon_mvc_view_engine_volt_compiler_ce);
 		_0 = zephir_fetch_nproperty_this(this_ptr, SL("_view"), PH_NOISY_CC);
-		ZEPHIR_CALL_METHOD(NULL, compiler, "__construct", NULL, _0);
+		ZEPHIR_CALL_METHOD(NULL, compiler, "__construct", &_1, _0);
 		zephir_check_call_status();
-		_1 = zephir_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
-		ZEPHIR_CPY_WRT(dependencyInjector, _1);
+		_2 = zephir_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+		ZEPHIR_CPY_WRT(dependencyInjector, _2);
 		if (Z_TYPE_P(dependencyInjector) == IS_OBJECT) {
-			ZEPHIR_CALL_METHOD(NULL, compiler, "setdi", NULL, dependencyInjector);
+			ZEPHIR_CALL_METHOD(NULL, compiler, "setdi", &_3, dependencyInjector);
 			zephir_check_call_status();
 		}
 		ZEPHIR_OBS_VAR(options);
 		zephir_read_property_this(&options, this_ptr, SL("_options"), PH_NOISY_CC);
 		if (Z_TYPE_P(options) == IS_ARRAY) {
-			ZEPHIR_CALL_METHOD(NULL, compiler, "setoptions", NULL, options);
+			ZEPHIR_CALL_METHOD(NULL, compiler, "setoptions", &_4, options);
 			zephir_check_call_status();
 		}
 		zephir_update_property_this(this_ptr, SL("_compiler"), compiler TSRMLS_CC);

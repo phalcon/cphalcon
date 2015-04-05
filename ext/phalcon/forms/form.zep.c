@@ -562,6 +562,7 @@ PHP_METHOD(Phalcon_Forms_Form, getMessages) {
  */
 PHP_METHOD(Phalcon_Forms_Form, getMessagesFor) {
 
+	zephir_nts_static zephir_fcall_cache_entry *_0 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *name, *messages, *elementMessages, *group;
 
@@ -576,7 +577,7 @@ PHP_METHOD(Phalcon_Forms_Form, getMessagesFor) {
 	}
 	ZEPHIR_INIT_VAR(group);
 	object_init_ex(group, phalcon_validation_message_group_ce);
-	ZEPHIR_CALL_METHOD(NULL, group, "__construct", NULL);
+	ZEPHIR_CALL_METHOD(NULL, group, "__construct", &_0);
 	zephir_check_call_status();
 	zephir_update_property_array(this_ptr, SL("_messages"), name, group TSRMLS_CC);
 	RETURN_CCTOR(group);
@@ -685,6 +686,7 @@ PHP_METHOD(Phalcon_Forms_Form, add) {
  */
 PHP_METHOD(Phalcon_Forms_Form, render) {
 
+	zephir_nts_static zephir_fcall_cache_entry *_3 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *name_param = NULL, *attributes = NULL, *element, *_0, *_1;
 	zval *name = NULL, *_2;
@@ -715,7 +717,7 @@ PHP_METHOD(Phalcon_Forms_Form, render) {
 		object_init_ex(_1, phalcon_forms_exception_ce);
 		ZEPHIR_INIT_VAR(_2);
 		ZEPHIR_CONCAT_SVS(_2, "Element with ID=", name, " is not part of the form");
-		ZEPHIR_CALL_METHOD(NULL, _1, "__construct", NULL, _2);
+		ZEPHIR_CALL_METHOD(NULL, _1, "__construct", &_3, _2);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(_1, "phalcon/forms/form.zep", 522 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
@@ -735,6 +737,7 @@ PHP_METHOD(Phalcon_Forms_Form, render) {
  */
 PHP_METHOD(Phalcon_Forms_Form, get) {
 
+	zephir_nts_static zephir_fcall_cache_entry *_3 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *name_param = NULL, *element, *_0, *_1;
 	zval *name = NULL, *_2;
@@ -764,7 +767,7 @@ PHP_METHOD(Phalcon_Forms_Form, get) {
 	object_init_ex(_1, phalcon_forms_exception_ce);
 	ZEPHIR_INIT_VAR(_2);
 	ZEPHIR_CONCAT_SVS(_2, "Element with ID=", name, " is not part of the form");
-	ZEPHIR_CALL_METHOD(NULL, _1, "__construct", NULL, _2);
+	ZEPHIR_CALL_METHOD(NULL, _1, "__construct", &_3, _2);
 	zephir_check_call_status();
 	zephir_throw_exception_debug(_1, "phalcon/forms/form.zep", 542 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
@@ -781,6 +784,7 @@ PHP_METHOD(Phalcon_Forms_Form, get) {
  */
 PHP_METHOD(Phalcon_Forms_Form, label) {
 
+	zephir_nts_static zephir_fcall_cache_entry *_3 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *attributes = NULL;
 	zval *name_param = NULL, *attributes_param = NULL, *element, *_0, *_1;
@@ -819,7 +823,7 @@ PHP_METHOD(Phalcon_Forms_Form, label) {
 	object_init_ex(_1, phalcon_forms_exception_ce);
 	ZEPHIR_INIT_VAR(_2);
 	ZEPHIR_CONCAT_SVS(_2, "Element with ID=", name, " is not part of the form");
-	ZEPHIR_CALL_METHOD(NULL, _1, "__construct", NULL, _2);
+	ZEPHIR_CALL_METHOD(NULL, _1, "__construct", &_3, _2);
 	zephir_check_call_status();
 	zephir_throw_exception_debug(_1, "phalcon/forms/form.zep", 560 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
@@ -835,6 +839,7 @@ PHP_METHOD(Phalcon_Forms_Form, label) {
  */
 PHP_METHOD(Phalcon_Forms_Form, getLabel) {
 
+	zephir_nts_static zephir_fcall_cache_entry *_3 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *name_param = NULL, *element, *label = NULL, *_0, *_1;
 	zval *name = NULL, *_2;
@@ -862,7 +867,7 @@ PHP_METHOD(Phalcon_Forms_Form, getLabel) {
 		object_init_ex(_1, phalcon_forms_exception_ce);
 		ZEPHIR_INIT_VAR(_2);
 		ZEPHIR_CONCAT_SVS(_2, "Element with ID=", name, " is not part of the form");
-		ZEPHIR_CALL_METHOD(NULL, _1, "__construct", NULL, _2);
+		ZEPHIR_CALL_METHOD(NULL, _1, "__construct", &_3, _2);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(_1, "phalcon/forms/form.zep", 574 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();

@@ -68,7 +68,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_PresenceOf) {
  */
 PHP_METHOD(Phalcon_Validation_Validator_PresenceOf, validate) {
 
-	zephir_nts_static zephir_fcall_cache_entry *_2 = NULL;
+	zephir_nts_static zephir_fcall_cache_entry *_2 = NULL, *_4 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *field = NULL;
 	zval *validation, *field_param = NULL, *value = NULL, *message = NULL, *label = NULL, *replacePairs, *_0 = NULL, *_1 = NULL, *_3;
@@ -122,7 +122,7 @@ PHP_METHOD(Phalcon_Validation_Validator_PresenceOf, validate) {
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(_3);
 		ZVAL_STRING(_3, "PresenceOf", ZEPHIR_TEMP_PARAM_COPY);
-		ZEPHIR_CALL_METHOD(NULL, _0, "__construct", NULL, _1, field, _3);
+		ZEPHIR_CALL_METHOD(NULL, _0, "__construct", &_4, _1, field, _3);
 		zephir_check_temp_parameter(_3);
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, _0);

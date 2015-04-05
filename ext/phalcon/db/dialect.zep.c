@@ -230,6 +230,7 @@ PHP_METHOD(Phalcon_Db_Dialect, getColumnList) {
  */
 PHP_METHOD(Phalcon_Db_Dialect, getSqlExpression) {
 
+	zephir_nts_static zephir_fcall_cache_entry *_17 = NULL;
 	zephir_fcall_cache_entry *_10 = NULL;
 	HashTable *_7, *_13;
 	HashPosition _6, _12;
@@ -401,7 +402,7 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpression) {
 	object_init_ex(_15, phalcon_db_exception_ce);
 	ZEPHIR_INIT_VAR(_16);
 	ZEPHIR_CONCAT_SVS(_16, "Invalid SQL expression type '", type, "'");
-	ZEPHIR_CALL_METHOD(NULL, _15, "__construct", NULL, _16);
+	ZEPHIR_CALL_METHOD(NULL, _15, "__construct", &_17, _16);
 	zephir_check_call_status();
 	zephir_throw_exception_debug(_15, "phalcon/db/dialect.zep", 270 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();

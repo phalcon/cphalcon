@@ -340,6 +340,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, executePrepared) {
  */
 PHP_METHOD(Phalcon_Db_Adapter_Pdo, query) {
 
+	zephir_nts_static zephir_fcall_cache_entry *_3 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *sqlStatement_param = NULL, *bindParams = NULL, *bindTypes = NULL, *eventsManager = NULL, *pdo = NULL, *statement = NULL, *_0, *_1 = NULL, *_2 = NULL;
 	zval *sqlStatement = NULL;
@@ -404,7 +405,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, query) {
 			zephir_check_call_status();
 		}
 		object_init_ex(return_value, phalcon_db_result_pdo_ce);
-		ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, this_ptr, statement, sqlStatement, bindParams, bindTypes);
+		ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", &_3, this_ptr, statement, sqlStatement, bindParams, bindTypes);
 		zephir_check_call_status();
 		RETURN_MM();
 	}

@@ -725,6 +725,7 @@ PHP_METHOD(Phalcon_Forms_Element, getValue) {
  */
 PHP_METHOD(Phalcon_Forms_Element, getMessages) {
 
+	zephir_nts_static zephir_fcall_cache_entry *_0 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *messages = NULL;
 
@@ -737,7 +738,7 @@ PHP_METHOD(Phalcon_Forms_Element, getMessages) {
 	}
 	ZEPHIR_INIT_NVAR(messages);
 	object_init_ex(messages, phalcon_validation_message_group_ce);
-	ZEPHIR_CALL_METHOD(NULL, messages, "__construct", NULL);
+	ZEPHIR_CALL_METHOD(NULL, messages, "__construct", &_0);
 	zephir_check_call_status();
 	zephir_update_property_this(this_ptr, SL("_messages"), messages TSRMLS_CC);
 	RETURN_CCTOR(messages);
@@ -791,6 +792,7 @@ PHP_METHOD(Phalcon_Forms_Element, setMessages) {
  */
 PHP_METHOD(Phalcon_Forms_Element, appendMessage) {
 
+	zephir_nts_static zephir_fcall_cache_entry *_1 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *message, *messages, *_0;
 
@@ -804,7 +806,7 @@ PHP_METHOD(Phalcon_Forms_Element, appendMessage) {
 	if (Z_TYPE_P(messages) != IS_OBJECT) {
 		ZEPHIR_INIT_VAR(_0);
 		object_init_ex(_0, phalcon_validation_message_group_ce);
-		ZEPHIR_CALL_METHOD(NULL, _0, "__construct", NULL);
+		ZEPHIR_CALL_METHOD(NULL, _0, "__construct", &_1);
 		zephir_check_call_status();
 		zephir_update_property_this(this_ptr, SL("_messages"), _0 TSRMLS_CC);
 	}
