@@ -1310,6 +1310,9 @@ class Tag
 			let params = [parameters];
 		} else {
 			let params = parameters;
+			if isset params[1] {
+				let local = (boolean) params[1];
+			}
 		}
 
 		if !isset params["src"] {
