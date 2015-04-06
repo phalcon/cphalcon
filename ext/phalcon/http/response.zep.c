@@ -20,6 +20,7 @@
 #include "kernel/hash.h"
 #include "kernel/array.h"
 #include "kernel/concat.h"
+#include "ext/date/php_date.h"
 #include "kernel/string.h"
 #include "kernel/file.h"
 
@@ -529,7 +530,7 @@ PHP_METHOD(Phalcon_Http_Response, setExpires) {
 		RETURN_MM();
 	}
 	ZEPHIR_INIT_VAR(_0);
-	object_init_ex(_0, zephir_get_internal_ce(SS("datetimezone") TSRMLS_CC));
+	object_init_ex(_0, php_date_get_timezone_ce());
 	ZEPHIR_INIT_VAR(_1);
 	ZVAL_STRING(_1, "UTC", ZEPHIR_TEMP_PARAM_COPY);
 	ZEPHIR_CALL_METHOD(NULL, _0, "__construct", NULL, _1);
