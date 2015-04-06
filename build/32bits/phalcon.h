@@ -1411,6 +1411,8 @@ PHALCON_INIT_CLASS(Phalcon_Db_Column);
 #define PHALCON_DB_COLUMN_TYPE_FLOAT			7
 #define PHALCON_DB_COLUMN_TYPE_BOOLEAN			8
 #define PHALCON_DB_COLUMN_TYPE_DOUBLE			9
+#define PHALCON_DB_COLUMN_TYPE_JSON				10
+#define PHALCON_DB_COLUMN_TYPE_ARRAY			11
 #define PHALCON_DB_COLUMN_TYPE_OTHER			100
 
 #define PHALCON_DB_COLUMN_BIND_PARAM_NULL		0
@@ -1473,8 +1475,13 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_dialectinterface_select, 0, 0, 1)
 	ZEND_ARG_INFO(0, definition)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_dialectinterface_insert, 0, 0, 1)
+	ZEND_ARG_INFO(0, definition)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_dialectinterface_update, 0, 0, 1)
 	ZEND_ARG_INFO(0, definition)
+	ZEND_ARG_INFO(0, quoting)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_dialectinterface_delete, 0, 0, 1)
@@ -1836,6 +1843,7 @@ zend_class_entry *phalcon_di_ce;
 
 PHALCON_INIT_CLASS(Phalcon_DI);
 
+static void phalcon_di_set_service(zval *this_ptr, zval *name, zval *services, int flags TSRMLS_DC);
 static void phalcon_di_set_services(zval *this_ptr, zval *services TSRMLS_DC);
 
 #endif /* PHALCON_DI_H */
@@ -3137,10 +3145,11 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_client_adapterinterface_setdata, 0, 0, 1)
 	ZEND_ARG_INFO(0, data)
+	ZEND_ARG_INFO(0, type)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_client_adapterinterface_setfile, 0, 0, 1)
-	ZEND_ARG_INFO(0, file)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_client_adapterinterface_setfiles, 0, 0, 1)
+	ZEND_ARG_INFO(0, files)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_client_adapterinterface_get, 0, 0, 0)
@@ -4457,24 +4466,27 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_modelinterface_assign, 0, 0, 1)
 	ZEND_ARG_INFO(0, columnMap)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_modelinterface_cloneresultmap, 0, 0, 3)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_modelinterface_cloneresultmap, 0, 0, 4)
 	ZEND_ARG_INFO(0, base)
 	ZEND_ARG_INFO(0, data)
 	ZEND_ARG_INFO(0, columnMap)
 	ZEND_ARG_INFO(0, dirtyState)
 	ZEND_ARG_INFO(0, keepSnapshots)
+	ZEND_ARG_INFO(0, sourceModel)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_modelinterface_cloneresult, 0, 0, 2)
 	ZEND_ARG_INFO(0, base)
 	ZEND_ARG_INFO(0, data)
 	ZEND_ARG_INFO(0, dirtyState)
+	ZEND_ARG_INFO(0, sourceModel)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_modelinterface_cloneresultmaphydrate, 0, 0, 3)
 	ZEND_ARG_INFO(0, data)
 	ZEND_ARG_INFO(0, columnMap)
 	ZEND_ARG_INFO(0, hydrationMode)
+	ZEND_ARG_INFO(0, sourceModel)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_modelinterface_find, 0, 0, 0)
@@ -4654,17 +4666,19 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_criteriainterface_setmodelname,
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_criteriainterface_bind, 0, 0, 1)
-	ZEND_ARG_INFO(0, bindParams)
+	ZEND_ARG_ARRAY_INFO(0, bindParams, 0)
 	ZEND_ARG_INFO(0, merge)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_criteriainterface_bindtypes, 0, 0, 1)
-	ZEND_ARG_INFO(0, bindTypes)
+	ZEND_ARG_ARRAY_INFO(0, bindTypes, 0)
 	ZEND_ARG_INFO(0, merge)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_criteriainterface_where, 0, 0, 1)
 	ZEND_ARG_INFO(0, conditions)
+	ZEND_ARG_ARRAY_INFO(0, bindParams, 1)
+	ZEND_ARG_ARRAY_INFO(0, bindTypes, 1)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_criteriainterface_conditions, 0, 0, 1)
@@ -4694,14 +4708,14 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_criteriainterface_andwhere, 0, 0, 1)
 	ZEND_ARG_INFO(0, conditions)
-	ZEND_ARG_INFO(0, bindParams)
-	ZEND_ARG_INFO(0, bindTypes)
+	ZEND_ARG_ARRAY_INFO(0, bindParams, 1)
+	ZEND_ARG_ARRAY_INFO(0, bindTypes, 1)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_criteriainterface_orwhere, 0, 0, 1)
 	ZEND_ARG_INFO(0, conditions)
-	ZEND_ARG_INFO(0, bindParams)
-	ZEND_ARG_INFO(0, bindTypes)
+	ZEND_ARG_ARRAY_INFO(0, bindParams, 1)
+	ZEND_ARG_ARRAY_INFO(0, bindTypes, 1)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_criteriainterface_betweenwhere, 0, 0, 3)
@@ -4720,20 +4734,20 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_criteriainterface_inwhere, 0, 0, 2)
 	ZEND_ARG_INFO(0, expr)
-	ZEND_ARG_INFO(0, values)
+	ZEND_ARG_ARRAY_INFO(0, values, 0)
 	ZEND_ARG_INFO(0, useOrWhere)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_criteriainterface_notinwhere, 0, 0, 2)
 	ZEND_ARG_INFO(0, expr)
-	ZEND_ARG_INFO(0, values)
+	ZEND_ARG_ARRAY_INFO(0, values, 0)
 	ZEND_ARG_INFO(0, useOrWhere)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_criteriainterface_frominput, 0, 0, 3)
-	ZEND_ARG_INFO(0, dependencyInjector)
+	ZEND_ARG_OBJ_INFO(0, dependencyInjector, Phalcon\\DiInterface, 0)
 	ZEND_ARG_INFO(0, modelName)
-	ZEND_ARG_INFO(0, data)
+	ZEND_ARG_ARRAY_INFO(0, data, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_criteriainterface_columns, 0, 0, 1)
@@ -5929,42 +5943,50 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_routerinterface_add, 0, 0, 1)
 	ZEND_ARG_INFO(0, pattern)
 	ZEND_ARG_INFO(0, paths)
+	ZEND_ARG_INFO(0, regex)
 	ZEND_ARG_INFO(0, httpMethods)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_routerinterface_addget, 0, 0, 1)
 	ZEND_ARG_INFO(0, pattern)
 	ZEND_ARG_INFO(0, paths)
+	ZEND_ARG_INFO(0, regex)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_routerinterface_addpost, 0, 0, 1)
 	ZEND_ARG_INFO(0, pattern)
 	ZEND_ARG_INFO(0, paths)
+	ZEND_ARG_INFO(0, regex)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_routerinterface_addput, 0, 0, 1)
 	ZEND_ARG_INFO(0, pattern)
 	ZEND_ARG_INFO(0, paths)
+	ZEND_ARG_INFO(0, regex)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_routerinterface_adddelete, 0, 0, 1)
 	ZEND_ARG_INFO(0, pattern)
 	ZEND_ARG_INFO(0, paths)
+	ZEND_ARG_INFO(0, regex)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_routerinterface_addoptions, 0, 0, 1)
 	ZEND_ARG_INFO(0, pattern)
 	ZEND_ARG_INFO(0, paths)
+	ZEND_ARG_INFO(0, regex)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_routerinterface_addpatch, 0, 0, 1)
 	ZEND_ARG_INFO(0, pattern)
 	ZEND_ARG_INFO(0, paths)
+	ZEND_ARG_INFO(0, regex)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_routerinterface_addhead, 0, 0, 1)
 	ZEND_ARG_INFO(0, pattern)
 	ZEND_ARG_INFO(0, paths)
+	ZEND_ARG_INFO(0, regex)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_routerinterface_getroutebyid, 0, 0, 1)
@@ -6037,6 +6059,7 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Router_RouteInterface);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_router_routeinterface_compilepattern, 0, 0, 1)
 	ZEND_ARG_INFO(0, pattern)
+	ZEND_ARG_INFO(0, regex)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_router_routeinterface_via, 0, 0, 1)
@@ -6046,6 +6069,7 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_router_routeinterface_reconfigure, 0, 0, 1)
 	ZEND_ARG_INFO(0, pattern)
 	ZEND_ARG_INFO(0, paths)
+	ZEND_ARG_INFO(0, regex)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_router_routeinterface_setname, 0, 0, 1)
@@ -6054,6 +6078,10 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_router_routeinterface_sethttpmethods, 0, 0, 1)
 	ZEND_ARG_INFO(0, httpMethods)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_router_routeinterface_setdefaults, 0, 0, 1)
+	ZEND_ARG_INFO(0, defaults)
 ZEND_END_ARG_INFO()
 
 #endif /* PHALCON_MVC_ROUTER_ROUTEINTERFACE_H */

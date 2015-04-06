@@ -354,13 +354,13 @@ PHP_METHOD(Phalcon_Mvc_Collection_Resultset, key){
  */
 PHP_METHOD(Phalcon_Mvc_Collection_Resultset, rewind){
 
-	zval *z_zero, *cursor, *active_row;
+	zval *z_zero, *cursor, *active_row, *rows;
 
 	PHALCON_MM_GROW();
 
 	z_zero = PHALCON_GLOBAL(z_zero);
 
-	zval *rows = phalcon_fetch_nproperty_this(this_ptr, SL("_rows"), PH_NOISY TSRMLS_CC);
+	rows = phalcon_fetch_nproperty_this(this_ptr, SL("_rows"), PH_NOISY TSRMLS_CC);
 	if (Z_TYPE_P(rows) == IS_NULL) {
 		cursor = phalcon_fetch_nproperty_this(this_ptr, SL("_cursor"), PH_NOISY TSRMLS_CC);
 		if (Z_TYPE_P(cursor) == IS_OBJECT) {

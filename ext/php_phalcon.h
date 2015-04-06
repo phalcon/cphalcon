@@ -250,4 +250,10 @@ extern int nusphere_dbg_present;
 
 #endif /* !defined(__CYGWIN__) && !defined(WIN32) && defined(HAVE_CONFIG_H) */
 
+#if !defined(__CYGWIN__) && defined(WIN32)
+double round(double num) {
+	return (num > 0.0) ? floor(num + 0.5) : ceil(num - 0.5);
+}
+#endif
+
 #endif /* PHP_PHALCON_H */

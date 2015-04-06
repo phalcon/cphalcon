@@ -132,15 +132,17 @@ static union _zend_function* phalcon_di_get_method(zval **object_ptr, char *meth
 
 static int phalcon_di_call_method_internal(zval *return_value, zval **return_value_ptr, zval *this_ptr, const char *method, zval *param TSRMLS_DC)
 {
+	phalcon_di_object *obj;
 	int method_len       = strlen(method);
 	char *lc_method_name = emalloc(method_len + 1);
 	int retval           = FAILURE;
+	char *service;
 
 	zend_str_tolower_copy(lc_method_name, method, method_len);
 
 	if (method_len > 3 && (!memcmp(lc_method_name, "get", 3) || !memcmp(lc_method_name, "set", 3))) {
-		phalcon_di_object *obj = phalcon_di_get_object(getThis() TSRMLS_CC);
-		char *service          = estrndup(method+3, method_len-3);
+		obj = phalcon_di_get_object(getThis() TSRMLS_CC);
+		service          = estrndup(method+3, method_len-3);
 
 		service[0] = tolower(service[0]);
 
@@ -380,11 +382,12 @@ static void phalcon_di_unset_dimension(zval *object, zval *offset TSRMLS_DC)
 
 static HashTable* phalcon_di_get_properties(zval* object TSRMLS_DC)
 {
+	zval *zv;
 	HashTable* props = zend_std_get_properties(object TSRMLS_CC);
+	phalcon_di_object *obj;
 
 	if (!GC_G(gc_active) && !props->nApplyCount) {
-		phalcon_di_object *obj = phalcon_di_get_object(object TSRMLS_CC);
-		zval *zv;
+		obj = phalcon_di_get_object(object TSRMLS_CC);
 
 		MAKE_STD_ZVAL(zv);
 		array_init_size(zv, zend_hash_num_elements(obj->services));
@@ -463,11 +466,12 @@ static zend_object_value phalcon_di_clone_obj(zval *zobject TSRMLS_DC)
 
 void phalcon_di_set_service(zval *this_ptr, zval *name, zval *service, int flags TSRMLS_DC)
 {
+	phalcon_di_object *obj;
 	if (flags & PH_COPY) {
 		Z_ADDREF_P(service);
 	}
 
-	phalcon_di_object *obj = phalcon_di_get_object(this_ptr TSRMLS_CC);
+	obj = phalcon_di_get_object(this_ptr TSRMLS_CC);
 	zend_hash_update(obj->services, Z_STRVAL_P(name), Z_STRLEN_P(name)+1, &service, sizeof(zval*), NULL);
 }
 

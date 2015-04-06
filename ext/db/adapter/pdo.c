@@ -296,7 +296,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, connect){
 	/**
 	 * Create the connection using PDO
 	 */
-	ce = php_pdo_get_dbh_ce();
+	ce = zend_fetch_class(SL("PDO"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 
 	PHALCON_INIT_VAR(pdo);
 	object_init_ex(pdo, ce);

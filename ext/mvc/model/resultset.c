@@ -183,7 +183,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, key){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, rewind){
 
-	zval *type, *z_zero;
+	zval *type, *z_zero, *rows;
 
 	z_zero = PHALCON_GLOBAL(z_zero);
 
@@ -207,7 +207,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, rewind){
 		/** 
 		 * Here, the resultset act as an array
 		 */
-		zval *rows = phalcon_fetch_nproperty_this(this_ptr, SL("_rows"), PH_NOISY TSRMLS_CC);
+		rows = phalcon_fetch_nproperty_this(this_ptr, SL("_rows"), PH_NOISY TSRMLS_CC);
 		if (Z_TYPE_P(rows) == IS_NULL) {
 
 			zval *result = phalcon_fetch_nproperty_this(this_ptr, SL("_result"), PH_NOISY TSRMLS_CC);

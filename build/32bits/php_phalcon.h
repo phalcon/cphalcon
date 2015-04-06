@@ -61,7 +61,6 @@ typedef struct _phalcon_symbol_table {
 typedef struct _phalcon_orm_options {
 	HashTable *ast_cache;
 	int cache_level;
-	int unique_cache_id;
 	zend_bool events;
 	zend_bool virtual_foreign_keys;
 	zend_bool column_renaming;
@@ -70,6 +69,8 @@ typedef struct _phalcon_orm_options {
 	zend_bool exception_on_failed_save;
 	zend_bool enable_literals;
 	zend_bool enable_ast_cache;
+	zend_bool enable_property_method;
+	zend_bool enable_auto_convert;
 } phalcon_orm_options;
 
 /** DB options */
@@ -248,5 +249,11 @@ extern int nusphere_dbg_present;
 #	endif
 
 #endif /* !defined(__CYGWIN__) && !defined(WIN32) && defined(HAVE_CONFIG_H) */
+
+#if !defined(__CYGWIN__) && defined(WIN32)
+double round(double num) {
+	return (num > 0.0) ? floor(num + 0.5) : ceil(num - 0.5);
+}
+#endif
 
 #endif /* PHP_PHALCON_H */
