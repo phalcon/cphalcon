@@ -313,8 +313,34 @@ PHP_METHOD(Phalcon_Http_Response, setStatusCode) {
 	ZEPHIR_CALL_METHOD(NULL, headers, "set", NULL, _0, _15);
 	zephir_check_temp_parameter(_0);
 	zephir_check_call_status();
-	zephir_update_property_this(this_ptr, SL("_headers"), headers TSRMLS_CC);
 	RETURN_THIS();
+
+}
+
+/**
+ * Returns the status code
+ *
+ *<code>
+ *	print_r($response->getStatusCode());
+ *</code>
+ *
+ * @return array
+ */
+PHP_METHOD(Phalcon_Http_Response, getStatusCode) {
+
+	int ZEPHIR_LAST_CALL_STATUS;
+	zval *_0 = NULL, *_1;
+
+	ZEPHIR_MM_GROW();
+
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getheaders", NULL);
+	zephir_check_call_status();
+	ZEPHIR_INIT_VAR(_1);
+	ZVAL_STRING(_1, "Status", ZEPHIR_TEMP_PARAM_COPY);
+	ZEPHIR_RETURN_CALL_METHOD(_0, "get", NULL, _1);
+	zephir_check_temp_parameter(_1);
+	zephir_check_call_status();
+	RETURN_MM();
 
 }
 
@@ -745,7 +771,7 @@ PHP_METHOD(Phalcon_Http_Response, redirect) {
 		statusCode = 302;
 		_7 = zephir_fetch_nproperty_this(this_ptr, SL("_statusCodes"), PH_NOISY_CC);
 		ZEPHIR_OBS_VAR(message);
-		zephir_array_fetch_long(&message, _7, 302, PH_NOISY, "phalcon/http/response.zep", 479 TSRMLS_CC);
+		zephir_array_fetch_long(&message, _7, 302, PH_NOISY, "phalcon/http/response.zep", 492 TSRMLS_CC);
 	} else {
 		ZEPHIR_OBS_NVAR(message);
 		_7 = zephir_fetch_nproperty_this(this_ptr, SL("_statusCodes"), PH_NOISY_CC);
@@ -930,7 +956,7 @@ PHP_METHOD(Phalcon_Http_Response, send) {
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_sent"), PH_NOISY_CC);
 	if (zephir_is_true(_0)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_http_response_exception_ce, "Response was already sent", "phalcon/http/response.zep", 599);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_http_response_exception_ce, "Response was already sent", "phalcon/http/response.zep", 612);
 		return;
 	}
 	ZEPHIR_OBS_VAR(headers);

@@ -60,7 +60,5 @@ class FactoryDefault extends \Phalcon\Di
 			"transactionManager": new Service("transactions", "Phalcon\\Mvc\\Model\\Transaction\\Manager", true),
 			"assets":             new Service("assets", "Phalcon\\Assets\\Manager", true)
 		];
-
 	}
-
 }

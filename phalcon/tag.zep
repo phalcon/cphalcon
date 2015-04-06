@@ -88,8 +88,9 @@ class Tag
 	 * Obtains the 'escaper' service if required
 	 *
 	 * @param array params
+	 * @return EscaperInterface
 	 */
-	public static function getEscaper(params)
+	public static function getEscaper(array! params)
 	{
 		var result, autoescape;
 
@@ -150,6 +151,9 @@ class Tag
 		let newCode = code;
 		for key, value in attrs {
 			if typeof key == "string" && value !== null {
+				if typeof value == "array" || typeof value == "resource" {
+					throw new Exception("Value at index: '" . key . "' type: '" . gettype(value) . "' cannot be rendered");
+				}
 				if escaper {
 					let escaped = escaper->escapeHtmlAttr(value);
 				} else {
@@ -555,16 +559,16 @@ class Tag
 		 */
 		if fetch currentValue, params["value"] {
 			unset params["value"];
-			
+
 			let value = self::getValue(id, params);
-			
+
 			if value && currentValue == value {
 				let params["checked"] = "checked";
 			}
 			let params["value"] = currentValue;
 		} else {
 			let value = self::getValue(id, params);
-			
+
 			/**
 			* Evaluate the value in POST
 			*/
@@ -1513,12 +1517,11 @@ class Tag
 	 * @param boolean useEol
 	 * @return string
 	 */
-	public static function tagHtmlClose(string tagName, useEol = false) -> string
+	public static function tagHtmlClose(string tagName, boolean useEol = false) -> string
 	{
 		if useEol {
 			return "</" . tagName . ">" . PHP_EOL;
 		}
 		return "</" . tagName . ">";
 	}
-
 }

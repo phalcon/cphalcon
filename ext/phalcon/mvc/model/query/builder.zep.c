@@ -1223,9 +1223,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, limit) {
 	zval *limit_param = NULL, *offset_param = NULL, *_0;
 	int limit, offset;
 
-	zephir_fetch_params(0, 1, 1, &limit_param, &offset_param);
+	zephir_fetch_params(0, 0, 2, &limit_param, &offset_param);
 
-	limit = zephir_get_intval(limit_param);
+	if (!limit_param) {
+		limit = 0;
+	} else {
+		limit = zephir_get_intval(limit_param);
+	}
 	if (!offset_param) {
 		offset = 0;
 	} else {

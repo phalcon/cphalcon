@@ -94,7 +94,7 @@ abstract class Select
 			let options = data;
 		}
 
-		if typeof options == "object" {
+		if typeof options == "object" || typeof options == "array" {
 
 			/**
 			 * The options is a resultset

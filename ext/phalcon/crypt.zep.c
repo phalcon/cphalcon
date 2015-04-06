@@ -115,9 +115,6 @@ PHP_METHOD(Phalcon_Crypt, setPadding) {
 
 /**
  * Sets the cipher algorithm
- *
- * @param string cipher
- * @return Phalcon\Crypt
  */
 PHP_METHOD(Phalcon_Crypt, setCipher) {
 
@@ -147,8 +144,6 @@ PHP_METHOD(Phalcon_Crypt, setCipher) {
 
 /**
  * Returns the current cipher
- *
- * @return string
  */
 PHP_METHOD(Phalcon_Crypt, getCipher) {
 
@@ -159,9 +154,6 @@ PHP_METHOD(Phalcon_Crypt, getCipher) {
 
 /**
  * Sets the encrypt/decrypt mode
- *
- * @param string cipher
- * @return Phalcon\Crypt
  */
 PHP_METHOD(Phalcon_Crypt, setMode) {
 
@@ -191,8 +183,6 @@ PHP_METHOD(Phalcon_Crypt, setMode) {
 
 /**
  * Returns the current encryption mode
- *
- * @return string
  */
 PHP_METHOD(Phalcon_Crypt, getMode) {
 
@@ -203,9 +193,6 @@ PHP_METHOD(Phalcon_Crypt, getMode) {
 
 /**
  * Sets the encryption key
- *
- * @param string key
- * @return Phalcon\Crypt
  */
 PHP_METHOD(Phalcon_Crypt, setKey) {
 
@@ -235,8 +222,6 @@ PHP_METHOD(Phalcon_Crypt, setKey) {
 
 /**
  * Returns the encryption key
- *
- * @return string
  */
 PHP_METHOD(Phalcon_Crypt, getKey) {
 
@@ -311,7 +296,7 @@ PHP_METHOD(Phalcon_Crypt, _cryptPadText) {
 	if (_0) {
 		paddingSize = (blockSize - (zephir_safe_mod_long_long(zephir_fast_strlen_ev(text), blockSize TSRMLS_CC)));
 		if (paddingSize >= 256) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_crypt_exception_ce, "Block size is bigger than 256", "phalcon/crypt.zep", 161);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_crypt_exception_ce, "Block size is bigger than 256", "phalcon/crypt.zep", 146);
 			return;
 		}
 		do {
@@ -420,7 +405,7 @@ PHP_METHOD(Phalcon_Crypt, _cryptPadText) {
 		RETURN_CTOR(text);
 	}
 	if (paddingSize > blockSize) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_crypt_exception_ce, "Invalid padding size", "phalcon/crypt.zep", 205);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_crypt_exception_ce, "Invalid padding size", "phalcon/crypt.zep", 190);
 		return;
 	}
 	ZEPHIR_SINIT_NVAR(_1);
@@ -683,10 +668,6 @@ PHP_METHOD(Phalcon_Crypt, _cryptUnpadText) {
  *<code>
  *	$encrypted = $crypt->encrypt("Ultra-secret text", "encrypt password");
  *</code>
- *
- * @param string text
- * @param string key
- * @return string
  */
 PHP_METHOD(Phalcon_Crypt, encrypt) {
 
@@ -729,7 +710,7 @@ PHP_METHOD(Phalcon_Crypt, encrypt) {
 
 
 	if (!((zephir_function_exists_ex(SS("mcrypt_get_iv_size") TSRMLS_CC) == SUCCESS))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_crypt_exception_ce, "mcrypt extension is required", "phalcon/crypt.zep", 324);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_crypt_exception_ce, "mcrypt extension is required", "phalcon/crypt.zep", 305);
 		return;
 	}
 	if (ZEPHIR_IS_STRING_IDENTICAL(key, "")) {
@@ -739,7 +720,7 @@ PHP_METHOD(Phalcon_Crypt, encrypt) {
 		ZEPHIR_CPY_WRT(encryptKey, key);
 	}
 	if (ZEPHIR_IS_EMPTY(encryptKey)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_crypt_exception_ce, "Encryption key cannot be empty", "phalcon/crypt.zep", 334);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_crypt_exception_ce, "Encryption key cannot be empty", "phalcon/crypt.zep", 315);
 		return;
 	}
 	ZEPHIR_OBS_VAR(cipher);
@@ -749,7 +730,7 @@ PHP_METHOD(Phalcon_Crypt, encrypt) {
 	ZEPHIR_CALL_FUNCTION(&ivSize, "mcrypt_get_iv_size", NULL, cipher, mode);
 	zephir_check_call_status();
 	if (ZEPHIR_LT_LONG(ivSize, zephir_fast_strlen_ev(encryptKey))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_crypt_exception_ce, "Size of key is too large for this algorithm", "phalcon/crypt.zep", 342);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_crypt_exception_ce, "Size of key is too large for this algorithm", "phalcon/crypt.zep", 323);
 		return;
 	}
 	ZEPHIR_SINIT_VAR(_0);
@@ -797,10 +778,6 @@ PHP_METHOD(Phalcon_Crypt, encrypt) {
  *<code>
  *	echo $crypt->decrypt($encrypted, "decrypt password");
  *</code>
- *
- * @param string text
- * @param string key
- * @return string
  */
 PHP_METHOD(Phalcon_Crypt, decrypt) {
 
@@ -830,7 +807,7 @@ PHP_METHOD(Phalcon_Crypt, decrypt) {
 
 
 	if (!((zephir_function_exists_ex(SS("mcrypt_get_iv_size") TSRMLS_CC) == SUCCESS))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_crypt_exception_ce, "mcrypt extension is required", "phalcon/crypt.zep", 382);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_crypt_exception_ce, "mcrypt extension is required", "phalcon/crypt.zep", 359);
 		return;
 	}
 	if (Z_TYPE_P(key) == IS_NULL) {
@@ -840,7 +817,7 @@ PHP_METHOD(Phalcon_Crypt, decrypt) {
 		ZEPHIR_CPY_WRT(decryptKey, key);
 	}
 	if (ZEPHIR_IS_EMPTY(decryptKey)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_crypt_exception_ce, "Decryption key cannot be empty", "phalcon/crypt.zep", 392);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_crypt_exception_ce, "Decryption key cannot be empty", "phalcon/crypt.zep", 369);
 		return;
 	}
 	ZEPHIR_OBS_VAR(cipher);
@@ -852,13 +829,13 @@ PHP_METHOD(Phalcon_Crypt, decrypt) {
 	ZEPHIR_INIT_VAR(keySize);
 	ZVAL_LONG(keySize, zephir_fast_strlen_ev(decryptKey));
 	if (ZEPHIR_GT(keySize, ivSize)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_crypt_exception_ce, "Size of key is too large for this algorithm", "phalcon/crypt.zep", 401);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_crypt_exception_ce, "Size of key is too large for this algorithm", "phalcon/crypt.zep", 378);
 		return;
 	}
 	ZEPHIR_INIT_VAR(length);
 	ZVAL_LONG(length, zephir_fast_strlen_ev(text));
 	if (ZEPHIR_GT(keySize, length)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_crypt_exception_ce, "Size of IV is larger than text to decrypt", "phalcon/crypt.zep", 406);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_crypt_exception_ce, "Size of IV is larger than text to decrypt", "phalcon/crypt.zep", 383);
 		return;
 	}
 	ZEPHIR_INIT_VAR(_0);
@@ -888,11 +865,6 @@ PHP_METHOD(Phalcon_Crypt, decrypt) {
 
 /**
  * Encrypts a text returning the result as a base64 string
- *
- * @param string text
- * @param string key
- * @param boolean safe
- * @return string
  */
 PHP_METHOD(Phalcon_Crypt, encryptBase64) {
 
@@ -954,11 +926,6 @@ PHP_METHOD(Phalcon_Crypt, encryptBase64) {
 
 /**
  * Decrypt a text that is coded as a base64 string
- *
- * @param string text
- * @param string key
- * @param boolean safe
- * @return string
  */
 PHP_METHOD(Phalcon_Crypt, decryptBase64) {
 
@@ -1020,8 +987,6 @@ PHP_METHOD(Phalcon_Crypt, decryptBase64) {
 
 /**
  * Returns a list of available cyphers
- *
- * @return array
  */
 PHP_METHOD(Phalcon_Crypt, getAvailableCiphers) {
 
@@ -1037,8 +1002,6 @@ PHP_METHOD(Phalcon_Crypt, getAvailableCiphers) {
 
 /**
  * Returns a list of available modes
- *
- * @return array
  */
 PHP_METHOD(Phalcon_Crypt, getAvailableModes) {
 

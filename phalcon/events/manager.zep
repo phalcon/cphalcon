@@ -183,7 +183,7 @@ class Manager implements ManagerInterface
 	 *
 	 * @param string type
 	 */
-	public function detachAll(string! type=null)
+	public function detachAll(string! type = null)
 	{
 		if type === null {
 			let this->_events = null;
@@ -199,7 +199,7 @@ class Manager implements ManagerInterface
 	 *
 	 * @param string type
 	 */
-	public function dettachAll(string! type=null)
+	public function dettachAll(string! type = null)
 	{
 		this->detachAll(type);
 	}
@@ -394,7 +394,7 @@ class Manager implements ManagerInterface
 	 * @param boolean cancelable
 	 * @return mixed
 	 */
-	public function fire(string! eventType, source, data=null, boolean cancelable=true)
+	public function fire(string! eventType, source, data = null, boolean cancelable = true)
 	{
 		var events, eventParts, type, eventName, event, status, fireEvents;
 

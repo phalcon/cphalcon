@@ -19,6 +19,7 @@
 
 namespace Phalcon\Mvc\Collection;
 
+use Phalcon\DiInterface;
 use Phalcon\Di\InjectionAwareInterface;
 use Phalcon\Events\EventsAwareInterface;
 use Phalcon\Events\ManagerInterface;
@@ -64,7 +65,7 @@ class Manager implements InjectionAwareInterface, EventsAwareInterface
 	*
 	* @param Phalcon\DiInterface $dependencyInjector
 	*/
-	public function setDI(<\Phalcon\DiInterface> dependencyInjector) -> void
+	public function setDI(<DiInterface> dependencyInjector) -> void
 	{
 		let this->_dependencyInjector = dependencyInjector;
 	}
@@ -74,7 +75,7 @@ class Manager implements InjectionAwareInterface, EventsAwareInterface
 	*
 	* @return Phalcon\DiInterface
 	*/
-	public function getDI() -> <\Phalcon\DiInterface>
+	public function getDI() -> <DiInterface>
 	{
 		return this->_dependencyInjector;
 	}

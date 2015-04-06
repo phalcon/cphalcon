@@ -224,8 +224,21 @@ class Response implements ResponseInterface, InjectionAwareInterface
 		 */
 		headers->set("Status", code . " " . message);
 
-		let this->_headers = headers;
 		return this;
+	}
+
+	/**
+	 * Returns the status code
+	 *
+	 *<code>
+	 *	print_r($response->getStatusCode());
+	 *</code>
+	 *
+	 * @return array
+	 */
+	public function getStatusCode() -> array
+	{
+		return this->getHeaders()->get("Status");
 	}
 
 	/**

@@ -344,5 +344,4 @@ class Pdo implements ResultInterface
 	{
 		return this->_pdoStatement;
 	}
-
 }
