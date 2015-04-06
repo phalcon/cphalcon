@@ -1469,7 +1469,7 @@ int zephir_array_update_multi(zval **arr, zval **value TSRMLS_DC, const char *ty
 	return 0;
 }
 
-ZEPHIR_FASTCALL void zephir_create_array(zval *return_value, uint size, int initialize TSRMLS_DC) {
+void ZEPHIR_FASTCALL zephir_create_array(zval *return_value, uint size, int initialize TSRMLS_DC) {
 
 	uint i;
 	zval *null_value;

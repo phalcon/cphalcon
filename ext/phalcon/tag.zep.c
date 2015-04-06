@@ -2136,9 +2136,9 @@ PHP_METHOD(Phalcon_Tag, image) {
 		zephir_array_fast_append(params, parameters);
 	} else {
 		ZEPHIR_CPY_WRT(params, parameters);
-		if (zephir_array_isset_long(parameters, 1)) {
+		if (zephir_array_isset_long(params, 1)) {
 			ZEPHIR_OBS_VAR(_0);
-			zephir_array_fetch_long(&_0, parameters, 1, PH_NOISY, "phalcon/tag.zep", 1314 TSRMLS_CC);
+			zephir_array_fetch_long(&_0, params, 1, PH_NOISY, "phalcon/tag.zep", 1314 TSRMLS_CC);
 			local = zephir_get_boolval(_0);
 		}
 	}
