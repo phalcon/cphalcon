@@ -148,7 +148,7 @@ abstract class Adapter
 		this->log(Logger::CRITICAL, message, context);
 		return this;
 	}
-	
+
 	/**
  	 * Sends/Writes an emergency message to the log
  	 */
@@ -250,5 +250,4 @@ abstract class Adapter
 
 		return this;
 	}
-
 }

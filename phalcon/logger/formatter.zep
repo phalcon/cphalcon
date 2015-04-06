@@ -93,5 +93,4 @@ abstract class Formatter
 		}
 		return message;
 	}
-
 }

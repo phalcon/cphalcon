@@ -87,5 +87,4 @@ interface EscaperInterface
      * @return string
      */
 	public function escapeUrl(url);
-
 }

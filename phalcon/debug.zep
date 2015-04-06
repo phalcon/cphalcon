@@ -796,5 +796,4 @@ class Debug
 
 		return true;
 	}
-
 }

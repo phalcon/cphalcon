@@ -38,7 +38,7 @@ interface DiInterface extends \ArrayAccess
 	 * @param boolean shared
 	 * @return Phalcon\Di\ServiceInterface
 	 */
-	public function set(name, definition, shared=false);
+	public function set(name, definition, shared = false);
 
 	/**
 	 * Registers an "always shared" service in the services container
@@ -66,7 +66,7 @@ interface DiInterface extends \ArrayAccess
 	 * @param boolean shared
 	 * @return Phalcon\Di\ServiceInterface
 	 */
-	public function attempt(name, definition, shared=false);
+	public function attempt(name, definition, shared = false);
 
 	/**
 	 * Resolves the service based on its configuration
@@ -75,7 +75,7 @@ interface DiInterface extends \ArrayAccess
 	 * @param array parameters
 	 * @return mixed
 	 */
-	public function get(name, parameters=null);
+	public function get(name, parameters = null);
 
 	/**
 	 * Returns a shared service based on their configuration
@@ -84,7 +84,7 @@ interface DiInterface extends \ArrayAccess
 	 * @param array parameters
 	 * @return mixed
 	 */
-	public function getShared(name, parameters=null);
+	public function getShared(name, parameters = null);
 
 	/**
 	 * Sets a service using a raw Phalcon\Di\Service definition
@@ -151,5 +151,4 @@ interface DiInterface extends \ArrayAccess
 	 * Resets the internal default DI
 	 */
 	public static function reset();
-
 }

@@ -69,5 +69,4 @@ class Item
 			let this->_context = context;
 		}
 	}
-
 }

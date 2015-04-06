@@ -83,7 +83,9 @@ class Di implements DiInterface, EventsAwareInterface
 	 */
 	public function __construct()
 	{
-		if !self::_default {
+		var di;
+		let di = self::_default;
+		if !di {
 			let self::_default = this;
 		}
 	}

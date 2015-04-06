@@ -36,5 +36,4 @@ interface FormatterInterface
 	 * @param array $context
 	 */
 	public function format(string message, int type, int timestamp, var context = null);
-
 }
