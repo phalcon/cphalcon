@@ -213,7 +213,7 @@ class Config implements \ArrayAccess, \Countable
 	 *
 	 * @return Config merged config
 	 */
-	private function _merge(<Config> config, var instance = null) -> <Config>
+	protected function _merge(<Config> config, var instance = null) -> <Config>
 	{
 		var key, value, number;
 
