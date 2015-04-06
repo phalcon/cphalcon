@@ -222,7 +222,7 @@ PHP_METHOD(Phalcon_Debug, listenExceptions) {
 	ZEPHIR_MM_GROW();
 
 	ZEPHIR_INIT_VAR(_0);
-	zephir_create_array(_0, 2, 0);
+	zephir_create_array(_0, 2, 0 TSRMLS_CC);
 	zephir_array_fast_append(_0, this_ptr);
 	ZEPHIR_INIT_VAR(_1);
 	ZVAL_STRING(_1, "onUncaughtException", 1);
@@ -248,7 +248,7 @@ PHP_METHOD(Phalcon_Debug, listenLowSeverity) {
 	ZEPHIR_MM_GROW();
 
 	ZEPHIR_INIT_VAR(_0);
-	zephir_create_array(_0, 2, 0);
+	zephir_create_array(_0, 2, 0 TSRMLS_CC);
 	zephir_array_fast_append(_0, this_ptr);
 	ZEPHIR_INIT_VAR(_1);
 	ZVAL_STRING(_1, "onUncaughtLowSeverity", 1);
@@ -294,7 +294,7 @@ PHP_METHOD(Phalcon_Debug, debugVar) {
 
 
 	ZEPHIR_INIT_VAR(_0);
-	zephir_create_array(_0, 3, 0);
+	zephir_create_array(_0, 3, 0 TSRMLS_CC);
 	zephir_array_fast_append(_0, varz);
 	ZEPHIR_CALL_FUNCTION(&_1, "debug_backtrace", &_2);
 	zephir_check_call_status();

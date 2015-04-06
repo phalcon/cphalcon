@@ -269,7 +269,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getMetaData) {
 		}
 		zephir_array_append(&attributes, columnName, PH_SEPARATE, "phalcon/mvc/model/metadata/strategy/annotations.zep", 178);
 	}
-	zephir_create_array(return_value, 11, 0);
+	zephir_create_array(return_value, 11, 0 TSRMLS_CC);
 	zephir_array_update_long(&return_value, 0, &attributes, PH_COPY, "phalcon/mvc/model/metadata/strategy/annotations.zep", 196);
 	zephir_array_update_long(&return_value, 1, &primaryKeys, PH_COPY, "phalcon/mvc/model/metadata/strategy/annotations.zep", 196);
 	zephir_array_update_long(&return_value, 2, &nonPrimaryKeys, PH_COPY, "phalcon/mvc/model/metadata/strategy/annotations.zep", 196);
@@ -382,7 +382,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getColumnMaps) {
 			zephir_array_update_zval(&reversedColumnMap, property, &columnName, PH_COPY | PH_SEPARATE);
 		}
 	}
-	zephir_create_array(return_value, 2, 0);
+	zephir_create_array(return_value, 2, 0 TSRMLS_CC);
 	zephir_array_fast_append(return_value, orderedColumnMap);
 	zephir_array_fast_append(return_value, reversedColumnMap);
 	RETURN_MM();

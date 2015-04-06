@@ -86,7 +86,7 @@ PHP_METHOD(Phalcon_Flash, __construct) {
 
 	if (Z_TYPE_P(cssClasses) != IS_ARRAY) {
 		ZEPHIR_INIT_NVAR(cssClasses);
-		zephir_create_array(cssClasses, 4, 0);
+		zephir_create_array(cssClasses, 4, 0 TSRMLS_CC);
 		add_assoc_stringl_ex(cssClasses, SS("error"), SL("errorMessage"), 1);
 		add_assoc_stringl_ex(cssClasses, SS("notice"), SL("noticeMessage"), 1);
 		add_assoc_stringl_ex(cssClasses, SS("success"), SL("successMessage"), 1);

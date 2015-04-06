@@ -207,7 +207,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, _parseIniString) {
 	ZEPHIR_INIT_VAR(pos);
 	zephir_fast_strpos(pos, path, &_0, 0 );
 	if (ZEPHIR_IS_FALSE_IDENTICAL(pos)) {
-		array_init(return_value);
+		zephir_create_array(return_value, 1, 0 TSRMLS_CC);
 		zephir_array_update_string(&return_value, Z_STRVAL_P(path), Z_STRLEN_P(path), &value, PH_COPY);
 		RETURN_MM();
 	}
@@ -220,7 +220,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, _parseIniString) {
 	ZEPHIR_INIT_VAR(_3);
 	zephir_substr(_3, path, zephir_get_intval(&_2), 0, ZEPHIR_SUBSTR_NO_LENGTH);
 	zephir_get_strval(path, _3);
-	array_init(return_value);
+	zephir_create_array(return_value, 1, 0 TSRMLS_CC);
 	ZEPHIR_CALL_METHOD(&_4, this_ptr, "_parseinistring", NULL, path, value);
 	zephir_check_call_status();
 	zephir_array_update_zval(&return_value, key, &_4, PH_COPY);

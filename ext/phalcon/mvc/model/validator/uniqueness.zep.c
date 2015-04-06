@@ -286,13 +286,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate) {
 		zephir_check_temp_parameter(_16);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(replacePairs);
-		array_init(replacePairs);
+		zephir_create_array(replacePairs, 1, 0 TSRMLS_CC);
 		zephir_array_update_string(&replacePairs, SL(":field"), &field, PH_COPY | PH_SEPARATE);
 		if (ZEPHIR_IS_EMPTY(message)) {
 			ZEPHIR_INIT_NVAR(message);
 			if (Z_TYPE_P(field) == IS_ARRAY) {
 				ZEPHIR_INIT_NVAR(replacePairs);
-				array_init(replacePairs);
+				zephir_create_array(replacePairs, 1, 0 TSRMLS_CC);
 				ZEPHIR_INIT_NVAR(_16);
 				zephir_fast_join_str(_16, SL(", "), field TSRMLS_CC);
 				zephir_array_update_string(&replacePairs, SL(":fields"), &_16, PH_COPY | PH_SEPARATE);

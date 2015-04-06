@@ -355,7 +355,7 @@ PHP_METHOD(Phalcon_Di_Service_Builder, build) {
 				return;
 			}
 			ZEPHIR_INIT_NVAR(methodCall);
-			zephir_create_array(methodCall, 2, 0);
+			zephir_create_array(methodCall, 2, 0 TSRMLS_CC);
 			zephir_array_fast_append(methodCall, instance);
 			zephir_array_fast_append(methodCall, methodName);
 			ZEPHIR_OBS_NVAR(arguments);

@@ -29,6 +29,10 @@
 
 int zephir_hash_init(HashTable *ht, uint nSize, hash_func_t pHashFunction, dtor_func_t pDestructor, zend_bool persistent)
 {
+#if PHP_VERSION_ID < 50400
+	Bucket **tmp;
+#endif
+
 	if (nSize >= 0x80000000) {
 		ht->nTableSize = 0x80000000;
 	} else {
@@ -42,7 +46,11 @@ int zephir_hash_init(HashTable *ht, uint nSize, hash_func_t pHashFunction, dtor_
 #if ZEND_DEBUG
 	ht->inconsistent = 0;
 #endif
+#if PHP_VERSION_ID < 50400
+	ht->nTableMask = ht->nTableSize - 1;
+#else
 	ht->nTableMask = 0; /* 0 means that ht->arBuckets is uninitialized */
+#endif
 	ht->pDestructor = pDestructor;
 	ht->arBuckets = NULL;
 	ht->pListHead = NULL;
@@ -53,6 +61,23 @@ int zephir_hash_init(HashTable *ht, uint nSize, hash_func_t pHashFunction, dtor_
 	ht->persistent = persistent;
 	ht->nApplyCount = 0;
 	ht->bApplyProtection = 1;
+
+#if PHP_VERSION_ID < 50400
+	/* Uses ecalloc() so that Bucket* == NULL */
+	if (persistent) {
+		tmp = (Bucket **) calloc(ht->nTableSize, sizeof(Bucket *));
+		if (!tmp) {
+			return FAILURE;
+		}
+		ht->arBuckets = tmp;
+	} else {
+		tmp = (Bucket **) ecalloc_rel(ht->nTableSize, sizeof(Bucket *));
+		if (tmp) {
+			ht->arBuckets = tmp;
+		}
+	}
+#endif
+
 	return SUCCESS;
 }
 

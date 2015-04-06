@@ -65,7 +65,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_Csv, __construct) {
 	}
 	ZEPHIR_INIT_VAR(_1);
 	ZEPHIR_INIT_VAR(_2);
-	zephir_create_array(_2, 3, 0);
+	zephir_create_array(_2, 3, 0 TSRMLS_CC);
 	add_assoc_stringl_ex(_2, SS("delimiter"), SL(";"), 1);
 	add_assoc_long_ex(_2, SS("length"), 0);
 	add_assoc_stringl_ex(_2, SS("enclosure"), SL("\""), 1);

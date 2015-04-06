@@ -127,7 +127,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Url, validate) {
 			ZVAL_STRING(message, ":field does not have a valid url format", 1);
 		}
 		ZEPHIR_INIT_VAR(_5);
-		array_init(_5);
+		zephir_create_array(_5, 1, 0 TSRMLS_CC);
 		zephir_array_update_string(&_5, SL(":field"), &field, PH_COPY | PH_SEPARATE);
 		ZEPHIR_CALL_FUNCTION(&_6, "strtr", &_7, message, _5);
 		zephir_check_call_status();

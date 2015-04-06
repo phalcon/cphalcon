@@ -792,7 +792,7 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch) {
 
 			ZEPHIR_INIT_NVAR(_1);
 			ZEPHIR_INIT_NVAR(_14);
-			zephir_create_array(_14, 2, 0);
+			zephir_create_array(_14, 2, 0 TSRMLS_CC);
 			zephir_array_fast_append(_14, handler);
 			zephir_array_fast_append(_14, actionMethod);
 			ZEPHIR_CALL_USER_FUNC_ARRAY(_1, _14, params);

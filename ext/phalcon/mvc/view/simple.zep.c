@@ -221,7 +221,7 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, _loadTemplateEngines) {
 				return;
 			}
 			ZEPHIR_INIT_VAR(arguments);
-			zephir_create_array(arguments, 2, 0);
+			zephir_create_array(arguments, 2, 0 TSRMLS_CC);
 			zephir_array_fast_append(arguments, this_ptr);
 			zephir_array_fast_append(arguments, dependencyInjector);
 			zephir_is_iterable(registeredEngines, &_3, &_2, 0, 0, "phalcon/mvc/view/simple.zep", 177);

@@ -216,7 +216,7 @@ PHP_METHOD(Phalcon_Forms_Element, addFilter) {
 		zephir_update_property_array_append(this_ptr, SL("_filters"), filter TSRMLS_CC);
 	} else {
 		ZEPHIR_INIT_VAR(_0);
-		zephir_create_array(_0, 2, 0);
+		zephir_create_array(_0, 2, 0 TSRMLS_CC);
 		zephir_array_fast_append(_0, filters);
 		zephir_array_fast_append(_0, filter);
 		zephir_update_property_this(this_ptr, SL("_filters"), _0 TSRMLS_CC);
@@ -621,7 +621,7 @@ PHP_METHOD(Phalcon_Forms_Element, label) {
 		}
 	} else {
 		ZEPHIR_INIT_NVAR(attributes);
-		array_init(attributes);
+		zephir_create_array(attributes, 1, 0 TSRMLS_CC);
 		zephir_array_update_string(&attributes, SL("for"), &name, PH_COPY | PH_SEPARATE);
 	}
 	ZEPHIR_INIT_VAR(_1);

@@ -196,13 +196,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, commit) {
 	if (Z_TYPE_P(manager) == IS_OBJECT) {
 		ZEPHIR_INIT_VAR(_0);
 		ZEPHIR_INIT_VAR(_1);
-		zephir_create_array(_1, 2, 0);
+		zephir_create_array(_1, 2, 0 TSRMLS_CC);
 		zephir_array_fast_append(_1, manager);
 		ZEPHIR_INIT_VAR(_2);
 		ZVAL_STRING(_2, "notifyCommit", 1);
 		zephir_array_fast_append(_1, _2);
 		ZEPHIR_INIT_VAR(_3);
-		array_init(_3);
+		zephir_create_array(_3, 1, 0 TSRMLS_CC);
 		zephir_array_fast_append(_3, this_ptr);
 		ZEPHIR_CALL_USER_FUNC_ARRAY(_0, _1, _3);
 		zephir_check_call_status();
@@ -246,13 +246,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, rollback) {
 	if (Z_TYPE_P(manager) == IS_OBJECT) {
 		ZEPHIR_INIT_VAR(_0);
 		ZEPHIR_INIT_VAR(_1);
-		zephir_create_array(_1, 2, 0);
+		zephir_create_array(_1, 2, 0 TSRMLS_CC);
 		zephir_array_fast_append(_1, manager);
 		ZEPHIR_INIT_VAR(_2);
 		ZVAL_STRING(_2, "notifyRollback", 1);
 		zephir_array_fast_append(_1, _2);
 		ZEPHIR_INIT_VAR(_3);
-		array_init(_3);
+		zephir_create_array(_3, 1, 0 TSRMLS_CC);
 		zephir_array_fast_append(_3, this_ptr);
 		ZEPHIR_CALL_USER_FUNC_ARRAY(_0, _1, _3);
 		zephir_check_call_status();

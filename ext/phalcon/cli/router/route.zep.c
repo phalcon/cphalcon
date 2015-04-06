@@ -459,7 +459,7 @@ PHP_METHOD(Phalcon_Cli_Router_Route, extractNamedParams) {
 			zephir_concat_self_char(&route, ch TSRMLS_CC);
 		}
 	}
-	zephir_create_array(return_value, 2, 0);
+	zephir_create_array(return_value, 2, 0 TSRMLS_CC);
 	zephir_array_fast_append(return_value, route);
 	zephir_array_fast_append(return_value, matches);
 	RETURN_MM();

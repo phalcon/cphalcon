@@ -77,7 +77,7 @@ PHP_METHOD(Phalcon_Tag_Select, selectField) {
 
 	if (Z_TYPE_P(parameters) != IS_ARRAY) {
 		ZEPHIR_INIT_VAR(params);
-		zephir_create_array(params, 2, 0);
+		zephir_create_array(params, 2, 0 TSRMLS_CC);
 		zephir_array_fast_append(params, parameters);
 		zephir_array_fast_append(params, data);
 	} else {

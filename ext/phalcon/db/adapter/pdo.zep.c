@@ -696,7 +696,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, convertBoundParams) {
 	} else {
 		ZEPHIR_CPY_WRT(boundSql, sql);
 	}
-	zephir_create_array(return_value, 2, 0);
+	zephir_create_array(return_value, 2, 0 TSRMLS_CC);
 	zephir_array_update_string(&return_value, SL("sql"), &boundSql, PH_COPY | PH_SEPARATE);
 	zephir_array_update_string(&return_value, SL("params"), &placeHolders, PH_COPY | PH_SEPARATE);
 	RETURN_MM();

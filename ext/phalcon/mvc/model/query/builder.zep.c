@@ -397,7 +397,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, addFrom) {
 		if (Z_TYPE_P(models) != IS_NULL) {
 			ZEPHIR_CPY_WRT(currentModel, models);
 			ZEPHIR_INIT_NVAR(models);
-			array_init(models);
+			zephir_create_array(models, 1, 0 TSRMLS_CC);
 			zephir_array_fast_append(models, currentModel);
 		} else {
 			ZEPHIR_INIT_NVAR(models);
@@ -474,7 +474,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, join) {
 
 
 	ZEPHIR_INIT_VAR(_0);
-	zephir_create_array(_0, 4, 0);
+	zephir_create_array(_0, 4, 0 TSRMLS_CC);
 	zephir_array_fast_append(_0, model);
 	zephir_array_fast_append(_0, conditions);
 	zephir_array_fast_append(_0, alias);
@@ -528,7 +528,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, innerJoin) {
 
 
 	ZEPHIR_INIT_VAR(_0);
-	zephir_create_array(_0, 4, 0);
+	zephir_create_array(_0, 4, 0 TSRMLS_CC);
 	zephir_array_fast_append(_0, model);
 	zephir_array_fast_append(_0, conditions);
 	zephir_array_fast_append(_0, alias);
@@ -581,7 +581,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, leftJoin) {
 
 
 	ZEPHIR_INIT_VAR(_0);
-	zephir_create_array(_0, 4, 0);
+	zephir_create_array(_0, 4, 0 TSRMLS_CC);
 	zephir_array_fast_append(_0, model);
 	zephir_array_fast_append(_0, conditions);
 	zephir_array_fast_append(_0, alias);
@@ -634,7 +634,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, rightJoin) {
 
 
 	ZEPHIR_INIT_VAR(_0);
-	zephir_create_array(_0, 4, 0);
+	zephir_create_array(_0, 4, 0 TSRMLS_CC);
 	zephir_array_fast_append(_0, model);
 	zephir_array_fast_append(_0, conditions);
 	zephir_array_fast_append(_0, alias);
@@ -890,7 +890,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, betweenWhere) {
 	ZEPHIR_INIT_VAR(_0);
 	ZEPHIR_CONCAT_VSVSVS(_0, expr, " BETWEEN :", minimumKey, ": AND :", maximumKey, ":");
 	ZEPHIR_INIT_VAR(_1);
-	zephir_create_array(_1, 2, 0);
+	zephir_create_array(_1, 2, 0 TSRMLS_CC);
 	zephir_array_update_zval(&_1, minimumKey, &minimum, PH_COPY);
 	zephir_array_update_zval(&_1, maximumKey, &maximum, PH_COPY);
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "andwhere", NULL, _0, _1);
@@ -948,7 +948,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, notBetweenWhere) {
 	ZEPHIR_INIT_VAR(_0);
 	ZEPHIR_CONCAT_VSVSVS(_0, expr, " NOT BETWEEN :", minimumKey, ": AND :", maximumKey, ":");
 	ZEPHIR_INIT_VAR(_1);
-	zephir_create_array(_1, 2, 0);
+	zephir_create_array(_1, 2, 0 TSRMLS_CC);
 	zephir_array_update_zval(&_1, minimumKey, &minimum, PH_COPY);
 	zephir_array_update_zval(&_1, maximumKey, &maximum, PH_COPY);
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "andwhere", NULL, _0, _1);

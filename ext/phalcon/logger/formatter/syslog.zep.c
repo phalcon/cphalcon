@@ -79,7 +79,7 @@ PHP_METHOD(Phalcon_Logger_Formatter_Syslog, format) {
 		zephir_check_call_status();
 		ZEPHIR_CPY_WRT(message, _0);
 	}
-	zephir_create_array(return_value, 2, 0);
+	zephir_create_array(return_value, 2, 0 TSRMLS_CC);
 	ZEPHIR_INIT_VAR(_1);
 	ZVAL_LONG(_1, type);
 	zephir_array_fast_append(return_value, _1);

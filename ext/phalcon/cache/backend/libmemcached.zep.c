@@ -115,9 +115,9 @@ PHP_METHOD(Phalcon_Cache_Backend_Libmemcached, __construct) {
 	}
 	if (!(zephir_array_isset_string(options, SS("servers")))) {
 		ZEPHIR_INIT_VAR(servers);
-		array_init(servers);
+		zephir_create_array(servers, 1, 0 TSRMLS_CC);
 		ZEPHIR_INIT_VAR(_0);
-		zephir_create_array(_0, 3, 0);
+		zephir_create_array(_0, 3, 0 TSRMLS_CC);
 		add_assoc_stringl_ex(_0, SS("host"), SL("127.0.0.1"), 1);
 		add_assoc_long_ex(_0, SS("port"), 11211);
 		add_assoc_long_ex(_0, SS("weight"), 1);

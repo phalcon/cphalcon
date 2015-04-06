@@ -494,7 +494,7 @@ PHP_METHOD(Phalcon_Mvc_View, setTemplateBefore) {
 
 	if (Z_TYPE_P(templateBefore) != IS_ARRAY) {
 		ZEPHIR_INIT_VAR(_0);
-		array_init(_0);
+		zephir_create_array(_0, 1, 0 TSRMLS_CC);
 		zephir_array_fast_append(_0, templateBefore);
 		zephir_update_property_this(this_ptr, SL("_templatesBefore"), _0 TSRMLS_CC);
 	} else {
@@ -535,7 +535,7 @@ PHP_METHOD(Phalcon_Mvc_View, setTemplateAfter) {
 
 	if (Z_TYPE_P(templateAfter) != IS_ARRAY) {
 		ZEPHIR_INIT_VAR(_0);
-		array_init(_0);
+		zephir_create_array(_0, 1, 0 TSRMLS_CC);
 		zephir_array_fast_append(_0, templateAfter);
 		zephir_update_property_this(this_ptr, SL("_templatesAfter"), _0 TSRMLS_CC);
 	} else {
@@ -817,7 +817,7 @@ PHP_METHOD(Phalcon_Mvc_View, _loadTemplateEngines) {
 				return;
 			}
 			ZEPHIR_INIT_VAR(arguments);
-			zephir_create_array(arguments, 2, 0);
+			zephir_create_array(arguments, 2, 0 TSRMLS_CC);
 			zephir_array_fast_append(arguments, this_ptr);
 			zephir_array_fast_append(arguments, dependencyInjector);
 			zephir_is_iterable(registeredEngines, &_4, &_3, 0, 0, "phalcon/mvc/view.zep", 580);
@@ -1383,7 +1383,7 @@ PHP_METHOD(Phalcon_Mvc_View, pick) {
 			zephir_array_fetch_long(&layout, parts, 0, PH_NOISY, "phalcon/mvc/view.zep", 1018 TSRMLS_CC);
 		}
 		ZEPHIR_INIT_NVAR(pickView);
-		array_init(pickView);
+		zephir_create_array(pickView, 1, 0 TSRMLS_CC);
 		zephir_array_fast_append(pickView, renderView);
 		if (Z_TYPE_P(layout) != IS_NULL) {
 			zephir_array_append(&pickView, layout, PH_SEPARATE, "phalcon/mvc/view.zep", 1023);
@@ -1587,7 +1587,7 @@ PHP_METHOD(Phalcon_Mvc_View, getRender) {
 	if (Z_TYPE_P(configCallback) == IS_OBJECT) {
 		ZEPHIR_INIT_VAR(_0);
 		ZEPHIR_INIT_VAR(_1);
-		array_init(_1);
+		zephir_create_array(_1, 1, 0 TSRMLS_CC);
 		zephir_array_fast_append(_1, view);
 		ZEPHIR_CALL_USER_FUNC_ARRAY(_0, configCallback, _1);
 		zephir_check_call_status();

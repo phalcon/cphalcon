@@ -161,7 +161,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_StringLength, validate) {
 				ZVAL_STRING(message, "Value of field ':field' exceeds the maximum :max characters", 1);
 			}
 			ZEPHIR_INIT_VAR(_4);
-			zephir_create_array(_4, 2, 0);
+			zephir_create_array(_4, 2, 0 TSRMLS_CC);
 			zephir_array_update_string(&_4, SL(":field"), &field, PH_COPY | PH_SEPARATE);
 			zephir_array_update_string(&_4, SL(":max"), &maximum, PH_COPY | PH_SEPARATE);
 			ZEPHIR_CALL_FUNCTION(&_5, "strtr", &_6, message, _4);
@@ -191,7 +191,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_StringLength, validate) {
 				ZVAL_STRING(message, "Value of field ':field' is less than the minimum :min characters", 1);
 			}
 			ZEPHIR_INIT_NVAR(_4);
-			zephir_create_array(_4, 2, 0);
+			zephir_create_array(_4, 2, 0 TSRMLS_CC);
 			zephir_array_update_string(&_4, SL(":field"), &field, PH_COPY | PH_SEPARATE);
 			zephir_array_update_string(&_4, SL(":min"), &minimum, PH_COPY | PH_SEPARATE);
 			ZEPHIR_CALL_FUNCTION(&_5, "strtr", &_6, message, _4);

@@ -368,7 +368,7 @@ PHP_METHOD(Phalcon_Di_Service, setParameter) {
 		zephir_array_update_long(&arguments, position, &parameter, PH_COPY | PH_SEPARATE, "phalcon/di/service.zep", 254);
 	} else {
 		ZEPHIR_INIT_NVAR(arguments);
-		array_init(arguments);
+		zephir_create_array(arguments, 1, 0 TSRMLS_CC);
 		zephir_array_update_long(&arguments, position, &parameter, PH_COPY, "phalcon/di/service.zep", 256);
 	}
 	zephir_array_update_string(&definition, SL("arguments"), &arguments, PH_COPY | PH_SEPARATE);

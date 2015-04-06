@@ -195,7 +195,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getMetaData) {
 			}
 		}
 	}
-	zephir_create_array(return_value, 11, 0);
+	zephir_create_array(return_value, 11, 0 TSRMLS_CC);
 	zephir_array_update_long(&return_value, 0, &attributes, PH_COPY, "phalcon/mvc/model/metadata/strategy/introspection.zep", 173);
 	zephir_array_update_long(&return_value, 1, &primaryKeys, PH_COPY, "phalcon/mvc/model/metadata/strategy/introspection.zep", 173);
 	zephir_array_update_long(&return_value, 2, &nonPrimaryKeys, PH_COPY, "phalcon/mvc/model/metadata/strategy/introspection.zep", 173);
@@ -254,7 +254,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getColumnMaps) {
 			zephir_array_update_zval(&reversedColumnMap, userName, &name, PH_COPY | PH_SEPARATE);
 		}
 	}
-	zephir_create_array(return_value, 2, 0);
+	zephir_create_array(return_value, 2, 0 TSRMLS_CC);
 	zephir_array_fast_append(return_value, orderedColumnMap);
 	zephir_array_fast_append(return_value, reversedColumnMap);
 	RETURN_MM();

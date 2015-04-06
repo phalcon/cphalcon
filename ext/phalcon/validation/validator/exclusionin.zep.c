@@ -131,7 +131,7 @@ PHP_METHOD(Phalcon_Validation_Validator_ExclusionIn, validate) {
 		zephir_check_temp_parameter(_1);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(replacePairs);
-		zephir_create_array(replacePairs, 2, 0);
+		zephir_create_array(replacePairs, 2, 0 TSRMLS_CC);
 		zephir_array_update_string(&replacePairs, SL(":field"), &label, PH_COPY | PH_SEPARATE);
 		ZEPHIR_INIT_NVAR(_1);
 		zephir_fast_join_str(_1, SL(", "), domain TSRMLS_CC);
