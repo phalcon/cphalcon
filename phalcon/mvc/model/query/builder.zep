@@ -858,7 +858,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 * @param int offset
 	 * @return Phalcon\Mvc\Model\Query\Builder
 	 */
-	public function limit(int limit, int offset = null) -> <Builder>
+	public function limit(int limit = null, int offset = null) -> <Builder>
 	{
 		let this->_limit = limit;
 		if offset {
