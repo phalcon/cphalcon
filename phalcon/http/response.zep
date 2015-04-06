@@ -210,7 +210,7 @@ class Response implements ResponseInterface, InjectionAwareInterface
 			}
 
 			if !isset this->_statusCodes[code] {
-				throw new Exception("Non-standard statuscode given withou a message.");
+				throw new Exception("Non-standard statuscode given without a message");
 			}
 
 			let defaultMessage = this->_statusCodes[code],

@@ -228,7 +228,7 @@ PHP_METHOD(Phalcon_Http_Response, setStatusCode) {
 		zephir_read_property_this(&_9, this_ptr, SL("_statusCodes"), PH_NOISY_CC);
 		if (Z_TYPE_P(_9) != IS_ARRAY) {
 			ZEPHIR_INIT_VAR(_10);
-			array_init_size(_10, 73);
+			zephir_create_array(_10, 59, 0);
 			add_index_stringl(_10, 100, SL("Continue"), 1);
 			add_index_stringl(_10, 101, SL("Switching Protocols"), 1);
 			add_index_stringl(_10, 102, SL("Processing"), 1);
@@ -290,7 +290,7 @@ PHP_METHOD(Phalcon_Http_Response, setStatusCode) {
 		}
 		_11 = zephir_fetch_nproperty_this(this_ptr, SL("_statusCodes"), PH_NOISY_CC);
 		if (!(zephir_array_isset_long(_11, code))) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_http_response_exception_ce, "Non-standard statuscode given withou a message.", "phalcon/http/response.zep", 213);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_http_response_exception_ce, "Non-standard statuscode given without a message", "phalcon/http/response.zep", 213);
 			return;
 		}
 		_12 = zephir_fetch_nproperty_this(this_ptr, SL("_statusCodes"), PH_NOISY_CC);

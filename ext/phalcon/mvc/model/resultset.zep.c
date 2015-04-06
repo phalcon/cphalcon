@@ -638,7 +638,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, update) {
 		if (Z_TYPE_P(conditionCallback) == IS_OBJECT) {
 			ZEPHIR_INIT_NVAR(_1);
 			ZEPHIR_INIT_NVAR(_2);
-			array_init_size(_2, 2);
+			array_init(_2);
 			zephir_array_fast_append(_2, record);
 			ZEPHIR_CALL_USER_FUNC_ARRAY(_1, conditionCallback, _2);
 			zephir_check_call_status();
@@ -714,7 +714,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, delete) {
 		if (Z_TYPE_P(conditionCallback) == IS_OBJECT) {
 			ZEPHIR_INIT_NVAR(_1);
 			ZEPHIR_INIT_NVAR(_2);
-			array_init_size(_2, 2);
+			array_init(_2);
 			zephir_array_fast_append(_2, record);
 			ZEPHIR_CALL_USER_FUNC_ARRAY(_1, conditionCallback, _2);
 			zephir_check_call_status();

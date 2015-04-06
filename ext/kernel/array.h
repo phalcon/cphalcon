@@ -78,7 +78,10 @@ void zephir_array_values(zval *return_value, zval *arr);
 int zephir_array_key_exists(zval *arr, zval *key TSRMLS_DC);
 int zephir_array_is_associative(zval *arr);
 
+void zephir_array_update_multi_ex(zval **arr, zval **value, const char *types, int types_length, int types_count, va_list ap TSRMLS_DC);
 int zephir_array_update_multi(zval **arr, zval **value TSRMLS_DC, const char *types, int types_length, int types_count, ...);
+
+ZEPHIR_FASTCALL void zephir_create_array(zval *return_value, uint size, int initialize TSRMLS_DC);
 
 #define zephir_array_fast_append(arr, value) \
   Z_ADDREF_P(value); \

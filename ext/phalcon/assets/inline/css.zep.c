@@ -14,6 +14,7 @@
 #include "kernel/main.h"
 #include "kernel/operators.h"
 #include "kernel/memory.h"
+#include "kernel/array.h"
 #include "kernel/fcall.h"
 
 
@@ -80,7 +81,7 @@ PHP_METHOD(Phalcon_Assets_Inline_Css, __construct) {
 
 	if (Z_TYPE_P(attributes) == IS_NULL) {
 		ZEPHIR_INIT_NVAR(attributes);
-		array_init_size(attributes, 2);
+		array_init(attributes);
 		add_assoc_stringl_ex(attributes, SS("type"), SL("text/css"), 1);
 	}
 	ZEPHIR_INIT_VAR(_1);

@@ -203,7 +203,7 @@ PHP_METHOD(Phalcon_Logger_Formatter_Firephp, format) {
 		zephir_get_strval(message, _0);
 	}
 	ZEPHIR_INIT_VAR(meta);
-	array_init_size(meta, 2);
+	array_init(meta);
 	ZEPHIR_INIT_VAR(_1);
 	ZVAL_LONG(_1, type);
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "gettypestring", NULL, _1);
@@ -284,7 +284,7 @@ PHP_METHOD(Phalcon_Logger_Formatter_Firephp, format) {
 	}
 	ZEPHIR_INIT_VAR(encoded);
 	ZEPHIR_INIT_VAR(_21);
-	array_init_size(_21, 3);
+	zephir_create_array(_21, 2, 0);
 	zephir_array_fast_append(_21, meta);
 	zephir_array_fast_append(_21, body);
 	zephir_json_encode(encoded, &(encoded), _21, 0  TSRMLS_CC);

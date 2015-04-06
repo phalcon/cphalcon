@@ -103,7 +103,7 @@ PHP_METHOD(Phalcon_Loader, __construct) {
 	ZEPHIR_MM_GROW();
 
 	ZEPHIR_INIT_VAR(_0);
-	array_init_size(_0, 2);
+	array_init(_0);
 	ZEPHIR_INIT_VAR(_1);
 	ZVAL_STRING(_1, "php", 1);
 	zephir_array_fast_append(_0, _1);
@@ -407,7 +407,7 @@ PHP_METHOD(Phalcon_Loader, register) {
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_registered"), PH_NOISY_CC);
 	if (ZEPHIR_IS_FALSE_IDENTICAL(_0)) {
 		ZEPHIR_INIT_VAR(_1);
-		array_init_size(_1, 3);
+		zephir_create_array(_1, 2, 0);
 		zephir_array_fast_append(_1, this_ptr);
 		ZEPHIR_INIT_VAR(_2);
 		ZVAL_STRING(_2, "autoLoad", 1);
@@ -436,7 +436,7 @@ PHP_METHOD(Phalcon_Loader, unregister) {
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_registered"), PH_NOISY_CC);
 	if (ZEPHIR_IS_TRUE_IDENTICAL(_0)) {
 		ZEPHIR_INIT_VAR(_1);
-		array_init_size(_1, 3);
+		zephir_create_array(_1, 2, 0);
 		zephir_array_fast_append(_1, this_ptr);
 		ZEPHIR_INIT_VAR(_2);
 		ZVAL_STRING(_2, "autoLoad", 1);

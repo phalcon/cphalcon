@@ -151,7 +151,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Regex, validate) {
 			ZVAL_STRING(message, "Value of field ':field' doesn't match regular expression", 1);
 		}
 		ZEPHIR_INIT_VAR(_7);
-		array_init_size(_7, 2);
+		array_init(_7);
 		zephir_array_update_string(&_7, SL(":field"), &field, PH_COPY | PH_SEPARATE);
 		ZEPHIR_CALL_FUNCTION(&_8, "strtr", &_9, message, _7);
 		zephir_check_call_status();

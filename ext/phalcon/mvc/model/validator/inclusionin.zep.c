@@ -162,7 +162,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Inclusionin, validate) {
 			ZVAL_STRING(message, "Value of field ':field' must be part of list: :domain", 1);
 		}
 		ZEPHIR_INIT_VAR(_7);
-		array_init_size(_7, 3);
+		zephir_create_array(_7, 2, 0);
 		zephir_array_update_string(&_7, SL(":field"), &field, PH_COPY | PH_SEPARATE);
 		ZEPHIR_INIT_NVAR(_0);
 		zephir_fast_join_str(_0, SL(", "), domain TSRMLS_CC);

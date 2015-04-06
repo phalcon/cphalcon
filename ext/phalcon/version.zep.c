@@ -12,8 +12,8 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
-#include "kernel/memory.h"
 #include "kernel/array.h"
+#include "kernel/memory.h"
 #include "kernel/operators.h"
 #include "kernel/fcall.h"
 #include "kernel/concat.h"
@@ -107,7 +107,7 @@ PHP_METHOD(Phalcon_Version, _getVersion) {
 
 	ZEPHIR_MM_GROW();
 
-	array_init_size(return_value, 7);
+	zephir_create_array(return_value, 5, 0);
 	ZEPHIR_INIT_VAR(_0);
 	ZVAL_LONG(_0, 2);
 	zephir_array_fast_append(return_value, _0);

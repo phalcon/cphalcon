@@ -173,7 +173,7 @@ PHP_METHOD(Phalcon_Tag, renderAttributes) {
 
 
 	ZEPHIR_INIT_VAR(order);
-	array_init_size(order, 13);
+	zephir_create_array(order, 10, 0);
 	zephir_array_update_string(&order, SL("rel"), &ZEPHIR_GLOBAL(global_null), PH_COPY | PH_SEPARATE);
 	zephir_array_update_string(&order, SL("type"), &ZEPHIR_GLOBAL(global_null), PH_COPY | PH_SEPARATE);
 	zephir_array_update_string(&order, SL("for"), &ZEPHIR_GLOBAL(global_null), PH_COPY | PH_SEPARATE);
@@ -625,7 +625,7 @@ PHP_METHOD(Phalcon_Tag, linkTo) {
 
 	if (Z_TYPE_P(parameters) != IS_ARRAY) {
 		ZEPHIR_INIT_VAR(params);
-		array_init_size(params, 5);
+		zephir_create_array(params, 3, 0);
 		zephir_array_fast_append(params, parameters);
 		zephir_array_fast_append(params, text);
 		zephir_array_fast_append(params, local);
@@ -791,7 +791,7 @@ PHP_METHOD(Phalcon_Tag, _inputFieldChecked) {
 
 	if (Z_TYPE_P(parameters) != IS_ARRAY) {
 		ZEPHIR_INIT_VAR(params);
-		array_init_size(params, 2);
+		array_init(params);
 		zephir_array_fast_append(params, parameters);
 	} else {
 		ZEPHIR_CPY_WRT(params, parameters);
@@ -1568,7 +1568,7 @@ PHP_METHOD(Phalcon_Tag, textArea) {
 
 	if (Z_TYPE_P(parameters) != IS_ARRAY) {
 		ZEPHIR_INIT_VAR(params);
-		array_init_size(params, 2);
+		array_init(params);
 		zephir_array_fast_append(params, parameters);
 	} else {
 		ZEPHIR_CPY_WRT(params, parameters);
@@ -1643,7 +1643,7 @@ PHP_METHOD(Phalcon_Tag, form) {
 
 	if (Z_TYPE_P(parameters) != IS_ARRAY) {
 		ZEPHIR_INIT_VAR(params);
-		array_init_size(params, 2);
+		array_init(params);
 		zephir_array_fast_append(params, parameters);
 	} else {
 		ZEPHIR_CPY_WRT(params, parameters);
@@ -1903,7 +1903,7 @@ PHP_METHOD(Phalcon_Tag, stylesheetLink) {
 
 	if (Z_TYPE_P(parameters) != IS_ARRAY) {
 		ZEPHIR_INIT_VAR(params);
-		array_init_size(params, 3);
+		zephir_create_array(params, 2, 0);
 		zephir_array_fast_append(params, parameters);
 		ZEPHIR_INIT_VAR(_0);
 		ZVAL_BOOL(_0, local);
@@ -2013,7 +2013,7 @@ PHP_METHOD(Phalcon_Tag, javascriptInclude) {
 
 	if (Z_TYPE_P(parameters) != IS_ARRAY) {
 		ZEPHIR_INIT_VAR(params);
-		array_init_size(params, 3);
+		zephir_create_array(params, 2, 0);
 		zephir_array_fast_append(params, parameters);
 		ZEPHIR_INIT_VAR(_0);
 		ZVAL_BOOL(_0, local);
@@ -2110,7 +2110,7 @@ PHP_METHOD(Phalcon_Tag, image) {
 
 	if (Z_TYPE_P(parameters) != IS_ARRAY) {
 		ZEPHIR_INIT_VAR(params);
-		array_init_size(params, 2);
+		array_init(params);
 		zephir_array_fast_append(params, parameters);
 	} else {
 		ZEPHIR_CPY_WRT(params, parameters);
@@ -2450,7 +2450,7 @@ PHP_METHOD(Phalcon_Tag, tagHtml) {
 
 	if (Z_TYPE_P(parameters) != IS_ARRAY) {
 		ZEPHIR_INIT_VAR(params);
-		array_init_size(params, 2);
+		array_init(params);
 		zephir_array_fast_append(params, parameters);
 	} else {
 		ZEPHIR_CPY_WRT(params, parameters);

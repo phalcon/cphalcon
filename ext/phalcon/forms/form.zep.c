@@ -451,7 +451,7 @@ PHP_METHOD(Phalcon_Forms_Form, isValid) {
 				) {
 					ZEPHIR_GET_HVALUE(validator, _8);
 					ZEPHIR_INIT_NVAR(_9);
-					array_init_size(_9, 3);
+					zephir_create_array(_9, 2, 0);
 					zephir_array_fast_append(_9, name);
 					zephir_array_fast_append(_9, validator);
 					zephir_array_append(&preparedValidators, _9, PH_SEPARATE, "phalcon/forms/form.zep", 329);

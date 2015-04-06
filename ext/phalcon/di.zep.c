@@ -452,7 +452,7 @@ PHP_METHOD(Phalcon_Di, get) {
 	ZEPHIR_CPY_WRT(eventsManager, _0);
 	if (Z_TYPE_P(eventsManager) == IS_OBJECT) {
 		ZEPHIR_INIT_VAR(_1);
-		array_init_size(_1, 3);
+		zephir_create_array(_1, 2, 0);
 		zephir_array_update_string(&_1, SL("name"), &name, PH_COPY | PH_SEPARATE);
 		zephir_array_update_string(&_1, SL("parameters"), &parameters, PH_COPY | PH_SEPARATE);
 		ZEPHIR_INIT_VAR(_2);
@@ -536,7 +536,7 @@ PHP_METHOD(Phalcon_Di, get) {
 			}
 		}
 		ZEPHIR_INIT_NVAR(_1);
-		array_init_size(_1, 5);
+		zephir_create_array(_1, 3, 0);
 		zephir_array_update_string(&_1, SL("name"), &name, PH_COPY | PH_SEPARATE);
 		zephir_array_update_string(&_1, SL("parameters"), &parameters, PH_COPY | PH_SEPARATE);
 		zephir_array_update_string(&_1, SL("instance"), &instance, PH_COPY | PH_SEPARATE);

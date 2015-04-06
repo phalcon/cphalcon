@@ -122,7 +122,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Alpha, validate) {
 		zephir_check_temp_parameter(_1);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(replacePairs);
-		array_init_size(replacePairs, 2);
+		array_init(replacePairs);
 		zephir_array_update_string(&replacePairs, SL(":field"), &label, PH_COPY | PH_SEPARATE);
 		if (ZEPHIR_IS_EMPTY(message)) {
 			ZEPHIR_INIT_NVAR(_1);

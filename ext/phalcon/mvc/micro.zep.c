@@ -539,7 +539,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, mount) {
 			ZEPHIR_OBS_NVAR(name);
 			zephir_array_fetch_long(&name, handler, 3, PH_NOISY, "phalcon/mvc/micro.zep", 417 TSRMLS_CC);
 			ZEPHIR_INIT_NVAR(realHandler);
-			array_init_size(realHandler, 3);
+			zephir_create_array(realHandler, 2, 0);
 			zephir_array_fast_append(realHandler, lazyHandler);
 			zephir_array_fast_append(realHandler, subHandler);
 			if (!(ZEPHIR_IS_EMPTY(prefix))) {
@@ -1065,7 +1065,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle) {
 				}
 				if (Z_TYPE_P(params) == IS_NULL) {
 					ZEPHIR_INIT_NVAR(params);
-					array_init_size(params, 2);
+					array_init(params);
 					zephir_array_fast_append(params, this_ptr);
 				}
 				ZEPHIR_INIT_NVAR(status);
@@ -1102,7 +1102,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle) {
 				}
 				ZEPHIR_INIT_NVAR(returnedValue);
 				ZEPHIR_INIT_VAR(_18);
-				array_init_size(_18, 2);
+				array_init(_18);
 				zephir_array_fast_append(_18, e);
 				ZEPHIR_CALL_USER_FUNC_ARRAY(returnedValue, errorHandler, _18);
 				zephir_check_call_status();

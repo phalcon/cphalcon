@@ -16,8 +16,8 @@
 #include "kernel/memory.h"
 #include "kernel/operators.h"
 #include "kernel/exception.h"
-#include "kernel/concat.h"
 #include "kernel/array.h"
+#include "kernel/concat.h"
 #include "kernel/object.h"
 #include "ext/spl/spl_exceptions.h"
 
@@ -128,12 +128,12 @@ PHP_METHOD(Phalcon_Validation_Validator_Uniqueness, validate) {
 	}
 	if (zephir_is_true(except)) {
 		ZEPHIR_INIT_VAR(_1);
-		array_init_size(_1, 3);
+		zephir_create_array(_1, 2, 0);
 		ZEPHIR_INIT_VAR(_2);
 		ZEPHIR_CONCAT_VSVS(_2, attribute, "=:value: AND ", attribute, "!= :except:");
 		zephir_array_fast_append(_1, _2);
 		ZEPHIR_INIT_VAR(_3);
-		array_init_size(_3, 3);
+		zephir_create_array(_3, 2, 0);
 		zephir_array_update_string(&_3, SL("value"), &value, PH_COPY | PH_SEPARATE);
 		zephir_array_update_string(&_3, SL("except"), &except, PH_COPY | PH_SEPARATE);
 		zephir_array_update_string(&_1, SL("bind"), &_3, PH_COPY | PH_SEPARATE);
@@ -142,12 +142,12 @@ PHP_METHOD(Phalcon_Validation_Validator_Uniqueness, validate) {
 		zephir_check_call_status();
 	} else {
 		ZEPHIR_INIT_NVAR(_1);
-		array_init_size(_1, 3);
+		zephir_create_array(_1, 2, 0);
 		ZEPHIR_INIT_LNVAR(_2);
 		ZEPHIR_CONCAT_VS(_2, attribute, "=:value:");
 		zephir_array_fast_append(_1, _2);
 		ZEPHIR_INIT_NVAR(_3);
-		array_init_size(_3, 2);
+		array_init(_3);
 		zephir_array_update_string(&_3, SL("value"), &value, PH_COPY | PH_SEPARATE);
 		zephir_array_update_string(&_1, SL("bind"), &_3, PH_COPY | PH_SEPARATE);
 		_5 = zephir_fetch_class(model TSRMLS_CC);
@@ -170,7 +170,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Uniqueness, validate) {
 		zephir_check_temp_parameter(_0);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(replacePairs);
-		array_init_size(replacePairs, 2);
+		array_init(replacePairs);
 		zephir_array_update_string(&replacePairs, SL(":field"), &label, PH_COPY | PH_SEPARATE);
 		if (ZEPHIR_IS_EMPTY(message)) {
 			ZEPHIR_INIT_NVAR(_0);

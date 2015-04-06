@@ -123,7 +123,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Numericality, validate) {
 			ZVAL_STRING(message, "Value of field :field must be numeric", 1);
 		}
 		ZEPHIR_INIT_VAR(_3);
-		array_init_size(_3, 2);
+		array_init(_3);
 		zephir_array_update_string(&_3, SL(":field"), &field, PH_COPY | PH_SEPARATE);
 		ZEPHIR_CALL_FUNCTION(&_4, "strtr", &_5, message, _3);
 		zephir_check_call_status();

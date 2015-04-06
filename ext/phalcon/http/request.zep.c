@@ -1474,7 +1474,7 @@ PHP_METHOD(Phalcon_Http_Request, getUploadedFiles) {
 					}
 					if (_13) {
 						ZEPHIR_INIT_NVAR(dataFile);
-						array_init_size(dataFile, 7);
+						zephir_create_array(dataFile, 5, 0);
 						ZEPHIR_OBS_NVAR(_15);
 						zephir_array_fetch_string(&_15, file, SL("name"), PH_NOISY, "phalcon/http/request.zep", 838 TSRMLS_CC);
 						zephir_array_update_string(&dataFile, SL("name"), &_15, PH_COPY | PH_SEPARATE);
@@ -1567,7 +1567,7 @@ PHP_METHOD(Phalcon_Http_Request, smoothFiles) {
 		ZEPHIR_CONCAT_VSV(p, prefix, ".", idx);
 		if (Z_TYPE_P(name) == IS_STRING) {
 			ZEPHIR_INIT_NVAR(_3);
-			array_init_size(_3, 11);
+			zephir_create_array(_3, 6, 0);
 			zephir_array_update_string(&_3, SL("name"), &name, PH_COPY | PH_SEPARATE);
 			ZEPHIR_OBS_NVAR(_4);
 			zephir_array_fetch(&_4, types, idx, PH_NOISY, "phalcon/http/request.zep", 882 TSRMLS_CC);
@@ -1624,7 +1624,7 @@ PHP_METHOD(Phalcon_Http_Request, getHeaders) {
 	ZEPHIR_INIT_VAR(headers);
 	array_init(headers);
 	ZEPHIR_INIT_VAR(contentHeaders);
-	array_init_size(contentHeaders, 3);
+	zephir_create_array(contentHeaders, 2, 0);
 	zephir_array_update_string(&contentHeaders, SL("CONTENT_TYPE"), &ZEPHIR_GLOBAL(global_true), PH_COPY | PH_SEPARATE);
 	zephir_array_update_string(&contentHeaders, SL("CONTENT_LENGTH"), &ZEPHIR_GLOBAL(global_true), PH_COPY | PH_SEPARATE);
 	zephir_get_global(&_SERVER, SS("_SERVER") TSRMLS_CC);

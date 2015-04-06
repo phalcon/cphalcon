@@ -154,6 +154,15 @@ double zephir_safe_div_zval_double(zval *op1, double op2 TSRMLS_DC);
 double zephir_safe_div_long_zval(long op1, zval *op2 TSRMLS_DC);
 double zephir_safe_div_double_zval(double op1, zval *op2 TSRMLS_DC);
 
+long zephir_safe_mod_long_long(long op1, long op2 TSRMLS_DC);
+long zephir_safe_mod_long_double(long op1, double op2 TSRMLS_DC);
+long zephir_safe_mod_double_long(double op1, long op2 TSRMLS_DC);
+long zephir_safe_mod_double_double(double op1, double op2 TSRMLS_DC);
+long zephir_safe_mod_zval_long(zval *op1, long op2 TSRMLS_DC);
+long zephir_safe_mod_zval_double(zval *op1, double op2 TSRMLS_DC);
+long zephir_safe_mod_long_zval(long op1, zval *op2 TSRMLS_DC);
+long zephir_safe_mod_double_zval(double op1, zval *op2 TSRMLS_DC);
+
 void zephir_floor(zval *return_value, zval *op1 TSRMLS_DC);
 void zephir_ceil(zval *return_value, zval *op1 TSRMLS_DC);
 void zephir_round(zval *return_value, zval *op1, zval *op2, zval *op3 TSRMLS_DC);

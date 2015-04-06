@@ -229,7 +229,7 @@ PHP_METHOD(Phalcon_Validation, add) {
 
 
 	ZEPHIR_INIT_VAR(_0);
-	array_init_size(_0, 3);
+	zephir_create_array(_0, 2, 0);
 	zephir_array_fast_append(_0, field);
 	zephir_array_fast_append(_0, validator);
 	zephir_update_property_array_append(this_ptr, SL("_validators"), _0 TSRMLS_CC);
@@ -303,7 +303,7 @@ PHP_METHOD(Phalcon_Validation, rules) {
 		ZEPHIR_GET_HVALUE(validator, _2);
 		if (zephir_instance_of_ev(validator, phalcon_validation_validatorinterface_ce TSRMLS_CC)) {
 			ZEPHIR_INIT_NVAR(_3);
-			array_init_size(_3, 3);
+			zephir_create_array(_3, 2, 0);
 			zephir_array_fast_append(_3, field);
 			zephir_array_fast_append(_3, validator);
 			zephir_update_property_array_append(this_ptr, SL("_validators"), _3 TSRMLS_CC);
@@ -417,7 +417,7 @@ PHP_METHOD(Phalcon_Validation, setDefaultMessages) {
 		return;
 	}
 	ZEPHIR_INIT_VAR(defaultMessages);
-	array_init_size(defaultMessages, 29);
+	zephir_create_array(defaultMessages, 23, 0);
 	add_assoc_stringl_ex(defaultMessages, SS("Alnum"), SL("Field :field must contain only letters and numbers"), 1);
 	add_assoc_stringl_ex(defaultMessages, SS("Alpha"), SL("Field :field must contain only letters"), 1);
 	add_assoc_stringl_ex(defaultMessages, SS("Between"), SL("Field :field must be within the range of :min to :max"), 1);

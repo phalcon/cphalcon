@@ -124,7 +124,7 @@ PHP_METHOD(Phalcon_Cli_Router, __construct) {
 		ZEPHIR_INIT_VAR(_0);
 		object_init_ex(_0, phalcon_cli_router_route_ce);
 		ZEPHIR_INIT_VAR(_1);
-		array_init_size(_1, 2);
+		array_init(_1);
 		add_assoc_long_ex(_1, SS("task"), 1);
 		ZEPHIR_INIT_VAR(_2);
 		ZVAL_STRING(_2, "#^(?::delimiter)?([a-zA-Z0-9\\_\\-]+)[:delimiter]{0,1}$#", ZEPHIR_TEMP_PARAM_COPY);
@@ -135,7 +135,7 @@ PHP_METHOD(Phalcon_Cli_Router, __construct) {
 		ZEPHIR_INIT_NVAR(_2);
 		object_init_ex(_2, phalcon_cli_router_route_ce);
 		ZEPHIR_INIT_VAR(_4);
-		array_init_size(_4, 5);
+		zephir_create_array(_4, 3, 0);
 		add_assoc_long_ex(_4, SS("task"), 1);
 		add_assoc_long_ex(_4, SS("action"), 2);
 		add_assoc_long_ex(_4, SS("params"), 3);
@@ -362,7 +362,7 @@ PHP_METHOD(Phalcon_Cli_Router, handle) {
 					}
 					ZEPHIR_INIT_NVAR(routeFound);
 					ZEPHIR_INIT_NVAR(_6);
-					array_init_size(_6, 5);
+					zephir_create_array(_6, 3, 0);
 					zephir_array_fast_append(_6, arguments);
 					zephir_array_fast_append(_6, route);
 					zephir_array_fast_append(_6, this_ptr);
@@ -391,7 +391,7 @@ PHP_METHOD(Phalcon_Cli_Router, handle) {
 								if (zephir_array_isset_fetch(&converter, converters, part, 0 TSRMLS_CC)) {
 									ZEPHIR_INIT_NVAR(_10);
 									ZEPHIR_INIT_NVAR(_6);
-									array_init_size(_6, 2);
+									array_init(_6);
 									zephir_array_fast_append(_6, matchPosition);
 									ZEPHIR_CALL_USER_FUNC_ARRAY(_10, converter, _6);
 									zephir_check_call_status();
@@ -406,7 +406,7 @@ PHP_METHOD(Phalcon_Cli_Router, handle) {
 								if (zephir_array_isset_fetch(&converter, converters, part, 0 TSRMLS_CC)) {
 									ZEPHIR_INIT_NVAR(_10);
 									ZEPHIR_INIT_NVAR(_11);
-									array_init_size(_11, 2);
+									array_init(_11);
 									zephir_array_fast_append(_11, position);
 									ZEPHIR_CALL_USER_FUNC_ARRAY(_10, converter, _11);
 									zephir_check_call_status();

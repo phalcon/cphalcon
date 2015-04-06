@@ -27,6 +27,35 @@
 
 #include "kernel/memory.h"
 
+int zephir_hash_init(HashTable *ht, uint nSize, hash_func_t pHashFunction, dtor_func_t pDestructor, zend_bool persistent)
+{
+	if (nSize >= 0x80000000) {
+		ht->nTableSize = 0x80000000;
+	} else {
+		if (nSize > 3) {
+			ht->nTableSize = nSize + (nSize >> 2);
+		} else {
+			ht->nTableSize = 3;
+		}
+	}
+
+#if ZEND_DEBUG
+	ht->inconsistent = 0;
+#endif
+	ht->nTableMask = 0; /* 0 means that ht->arBuckets is uninitialized */
+	ht->pDestructor = pDestructor;
+	ht->arBuckets = NULL;
+	ht->pListHead = NULL;
+	ht->pListTail = NULL;
+	ht->nNumOfElements = 0;
+	ht->nNextFreeElement = 0;
+	ht->pInternalPointer = NULL;
+	ht->persistent = persistent;
+	ht->nApplyCount = 0;
+	ht->bApplyProtection = 1;
+	return SUCCESS;
+}
+
 int zephir_hash_exists(const HashTable *ht, const char *arKey, uint nKeyLength)
 {
 	ulong h;
@@ -328,5 +357,3 @@ int zephir_hash_unset(HashTable *ht, zval *key)
 			return 0;
 	}
 }
-
-

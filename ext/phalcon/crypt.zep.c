@@ -309,7 +309,7 @@ PHP_METHOD(Phalcon_Crypt, _cryptPadText) {
 		_0 = ZEPHIR_IS_STRING(mode, "ecb");
 	}
 	if (_0) {
-		paddingSize = (blockSize - ((zephir_fast_strlen_ev(text) % blockSize)));
+		paddingSize = (blockSize - (zephir_safe_mod_long_long(zephir_fast_strlen_ev(text), blockSize TSRMLS_CC)));
 		if (paddingSize >= 256) {
 			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_crypt_exception_ce, "Block size is bigger than 256", "phalcon/crypt.zep", 161);
 			return;
@@ -496,7 +496,7 @@ PHP_METHOD(Phalcon_Crypt, _cryptUnpadText) {
 	length = zephir_fast_strlen_ev(text);
 	_0 = length > 0;
 	if (_0) {
-		_0 = ((length % blockSize) == 0);
+		_0 = (zephir_safe_mod_long_long(length, blockSize TSRMLS_CC) == 0);
 	}
 	_1 = _0;
 	if (_1) {

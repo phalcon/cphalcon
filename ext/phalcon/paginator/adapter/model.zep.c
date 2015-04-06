@@ -248,7 +248,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, getPaginate) {
 	ZEPHIR_INIT_ZVAL_NREF(_8);
 	ZVAL_LONG(_8, pageNumber);
 	zephir_update_property_zval(page, SL("current"), _8 TSRMLS_CC);
-	if ((n % show) != 0) {
+	if (zephir_safe_mod_long_long(n, show TSRMLS_CC) != 0) {
 		pagesTotal = (int) ((zephir_safe_div_long_long(n, show TSRMLS_CC) + (double) (1)));
 	} else {
 		pagesTotal = (int) (zephir_safe_div_long_long(n, show TSRMLS_CC));

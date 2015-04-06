@@ -233,7 +233,7 @@ PHP_METHOD(Phalcon_Filter, _sanitize) {
 	if (zephir_array_isset_fetch(&filterObject, _0, filter, 0 TSRMLS_CC)) {
 		if (zephir_instance_of_ev(filterObject, zend_ce_closure TSRMLS_CC)) {
 			ZEPHIR_INIT_VAR(_1);
-			array_init_size(_1, 2);
+			array_init(_1);
 			zephir_array_fast_append(_1, value);
 			ZEPHIR_CALL_USER_FUNC_ARRAY(return_value, filterObject, _1);
 			zephir_check_call_status();
@@ -278,7 +278,7 @@ PHP_METHOD(Phalcon_Filter, _sanitize) {
 		}
 		if (ZEPHIR_IS_STRING(filter, "float")) {
 			ZEPHIR_INIT_NVAR(_1);
-			array_init_size(_1, 2);
+			array_init(_1);
 			add_assoc_long_ex(_1, SS("flags"), 4096);
 			ZEPHIR_SINIT_NVAR(_3);
 			ZVAL_LONG(&_3, 520);
