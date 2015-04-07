@@ -214,6 +214,10 @@ abstract class Adapter
 
 	/**
 	 * Logs messages to the internal logger. Appends logs to the logger
+	 * @param mixed type
+	 * @param mixed message
+	 * @param mixed context
+	 * @return Phalcon\Logger\AdapterInterface
 	 */
 	inline public function log(var type, var message = null, array! context = null) -> <AdapterInterface>
 	{
