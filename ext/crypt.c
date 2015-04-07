@@ -123,7 +123,7 @@ PHALCON_INIT_CLASS(Phalcon_Crypt){
  * Sets the cipher algorithm
  *
  * @param string $cipher
- * @return Phalcon\Encrypt
+ * @return Phalcon\Crypt
  */
 PHP_METHOD(Phalcon_Crypt, setCipher){
 
@@ -150,7 +150,7 @@ PHP_METHOD(Phalcon_Crypt, getCipher){
  * Sets the encrypt/decrypt mode
  *
  * @param string $cipher
- * @return Phalcon\Encrypt
+ * @return Phalcon\Crypt
  */
 PHP_METHOD(Phalcon_Crypt, setMode){
 
@@ -178,7 +178,7 @@ PHP_METHOD(Phalcon_Crypt, getMode){
  * Sets the encryption key
  *
  * @param string $key
- * @return Phalcon\Encrypt
+ * @return Phalcon\Crypt
  */
 PHP_METHOD(Phalcon_Crypt, setKey){
 
