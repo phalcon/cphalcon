@@ -34,10 +34,8 @@ class Row implements \ArrayAccess, ResultInterface
 
 	/**
 	 * Set the current object's state
-	 *
-	 * @param int dirtyState
 	 */
-	public function setDirtyState(int dirtyState)
+	public function setDirtyState(int dirtyState) -> boolean
 	{
 		return false;
 	}

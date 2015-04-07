@@ -29,10 +29,8 @@ interface CollectionInterface
 
 	/**
 	 * Phalcon\Mvc\Collection
-	 *
-	 * @param Phalcon\DiInterface dependencyInjector
 	 */
-	public function __construct(<\Phalcon\DiInterface> dependencyInjector=null);
+	public function __construct(<\Phalcon\DiInterface> dependencyInjector = null);
 
 	/**
 	 * Sets a value for the _id propery, creates a MongoId object if needed
@@ -134,8 +132,6 @@ interface CollectionInterface
 
 	/**
 	 * Appends a customized message on the validation process
-	 *
-	 * @param Phalcon\Mvc\Model\MessageInterface message
 	 */
 	public function appendMessage(<\Phalcon\Mvc\Model\MessageInterface> message);
 

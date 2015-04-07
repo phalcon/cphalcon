@@ -95,8 +95,6 @@ class Relation implements RelationInterface
 
 	/**
 	 * Returns the relation type
-	 *
-	 * @return int
 	 */
 	public function getType() -> int
 	{
@@ -105,8 +103,6 @@ class Relation implements RelationInterface
 
 	/**
 	 * Returns the referenced model
-	 *
-	 * @return string
 	 */
 	public function getReferencedModel() -> string
 	{
@@ -145,8 +141,6 @@ class Relation implements RelationInterface
 
 	/**
 	 * Check whether the relation act as a foreign key
-	 *
-	 * @return boolean
 	 */
 	public function isForeignKey() -> boolean
 	{
@@ -200,8 +194,6 @@ class Relation implements RelationInterface
 
 	/**
 	 * Check whether the relation is a 'many-to-many' relation or not
-	 *
-	 * @return boolean
 	 */
 	public function isThrough() -> boolean
 	{
@@ -212,8 +204,6 @@ class Relation implements RelationInterface
 
 	/**
 	 * Check if records returned by getting belongs-to/has-many are implicitly cached during the current request
-	 *
-	 * @return boolean
 	 */
 	public function isReusable() -> boolean
 	{
@@ -239,8 +229,6 @@ class Relation implements RelationInterface
 
 	/**
 	 * Gets the intermediate model for has-*-through relations
-	 *
-	 * @return string
 	 */
 	public function getIntermediateModel() -> string
 	{

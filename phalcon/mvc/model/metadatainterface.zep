@@ -32,8 +32,6 @@ interface MetaDataInterface
 
 	/**
 	 * Set the meta-data extraction strategy
-	 *
-	 * @param Phalcon\Mvc\Model\MetaData\StrategyInterface strategy
 	 */
 	public function setStrategy(<StrategyInterface> strategy);
 

@@ -104,8 +104,6 @@ class Transaction implements TransactionInterface
 
 	/**
 	 * Sets transaction manager related to the transaction
-	 *
-	 * @param Phalcon\Mvc\Model\Transaction\ManagerInterface $manager
 	 */
 	public function setTransactionManager(<ManagerInterface> manager)
 	{
@@ -114,8 +112,6 @@ class Transaction implements TransactionInterface
 
 	/**
 	 * Starts the transaction
-	 *
-	 * @return boolean
 	 */
 	public function begin() -> boolean
 	{
@@ -124,8 +120,6 @@ class Transaction implements TransactionInterface
 
 	/**
 	 * Commits the transaction
-	 *
-	 * @return boolean
 	 */
 	public function commit() -> boolean
 	{
@@ -186,8 +180,6 @@ class Transaction implements TransactionInterface
 
 	/**
 	 * Sets if is a reused transaction or new once
-	 *
-	 * @param boolean isNew
 	 */
 	public function setIsNewTransaction(boolean isNew)
 	{
@@ -196,8 +188,6 @@ class Transaction implements TransactionInterface
 
 	/**
 	 * Sets flag to rollback on abort the HTTP connection
-	 *
-	 * @param boolean $rollbackOnAbort
 	 */
 	public function setRollbackOnAbort(boolean rollbackOnAbort)
 	{
@@ -206,8 +196,6 @@ class Transaction implements TransactionInterface
 
 	/**
 	 * Checks whether transaction is managed by a transaction manager
-	 *
-	 * @return boolean
 	 */
 	public function isManaged() -> boolean
 	{
@@ -226,8 +214,6 @@ class Transaction implements TransactionInterface
 
 	/**
 	 * Checks whether internal connection is under an active transaction
-	 *
-	 * @return boolean
 	 */
 	public function isValid() -> boolean
 	{
@@ -236,8 +222,6 @@ class Transaction implements TransactionInterface
 
 	/**
 	 * Sets object which generates rollback action
-	 *
-	 * @param Phalcon\Mvc\ModelInterface record
 	 */
 	public function setRollbackedRecord(<ModelInterface> record)
 	{

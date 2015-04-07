@@ -19,6 +19,9 @@
 
 namespace Phalcon\Mvc\Model;
 
+use Phalcon\Db\AdapterInterface;
+use Phalcon\Mvc\ModelInterface;
+
 /**
  * Phalcon\Mvc\Model\ManagerInterface
  *
@@ -29,123 +32,78 @@ interface ManagerInterface
 
 	/**
 	 * Initializes a model in the model manager
-	 *
-	 * @param Phalcon\Mvc\ModelInterface model
 	 */
-	public function initialize(<\Phalcon\Mvc\ModelInterface> model);
+	public function initialize(<ModelInterface> model);
 
 	/**
 	 * Sets the mapped source for a model
-	 *
-	 * @param Phalcon\Mvc\ModelInterface model
-	 * @param string source
 	 */
-	public function setModelSource(<\Phalcon\Mvc\ModelInterface> model, string! source) -> void;
+	public function setModelSource(<ModelInterface> model, string! source) -> void;
 
 	/**
 	 * Returns the mapped source for a model
-	 *
-	 * @param Phalcon\Mvc\Model model
-	 * @return string
 	 */
-	public function getModelSource(<\Phalcon\Mvc\ModelInterface> model) -> <\Phalcon\Mvc\ModelInterface>;
+	public function getModelSource(<ModelInterface> model) -> string;
 
 	/**
 	 * Sets the mapped schema for a model
-	 *
-	 * @param Phalcon\Mvc\ModelInterface model
-	 * @param string schema
-	 * @return string
 	 */
-	public function setModelSchema(<\Phalcon\Mvc\ModelInterface> model, string! schema);
+	public function setModelSchema(<ModelInterface> model, string! schema);
 
 	/**
 	 * Returns the mapped schema for a model
-	 *
-	 * @param Phalcon\Mvc\Model model
-	 * @return string
 	 */
-	public function getModelSchema(<\Phalcon\Mvc\ModelInterface> model);
+	public function getModelSchema(<ModelInterface> model) -> string;
 
 	/**
 	 * Sets both write and read connection service for a model
-	 *
-	 * @param Phalcon\Mvc\ModelInterface model
-	 * @param string connectionService
 	 */
-	public function setConnectionService(<\Phalcon\Mvc\ModelInterface> model, string! connectionService);
+	public function setConnectionService(<ModelInterface> model, string! connectionService);
 
 	/**
 	 * Sets read connection service for a model
-	 *
-	 * @param Phalcon\Mvc\ModelInterface model
-	 * @param string connectionService
 	 */
-	public function setReadConnectionService(<\Phalcon\Mvc\ModelInterface> model, string! connectionService);
+	public function setReadConnectionService(<ModelInterface> model, string! connectionService);
 
 	/**
 	 * Returns the connection service name used to read data related to a model
-	 *
-	 * @param Phalcon\Mvc\ModelInterface model
-	 * @param string
 	 */
-	public function getReadConnectionService(<\Phalcon\Mvc\ModelInterface> model);
+	public function getReadConnectionService(<ModelInterface> model) -> string;
 
 	/**
 	 * Sets write connection service for a model
-	 *
-	 * @param Phalcon\Mvc\ModelInterface model
-	 * @param string connectionService
 	 */
-	public function setWriteConnectionService(<\Phalcon\Mvc\ModelInterface> model, string! connectionService);
+	public function setWriteConnectionService(<ModelInterface> model, string! connectionService);
 
 	/**
 	 * Returns the connection service name used to write data related to a model
-	 *
-	 * @param Phalcon\Mvc\ModelInterface model
-	 * @param string
 	 */
-	public function getWriteConnectionService(<\Phalcon\Mvc\ModelInterface> model);
+	public function getWriteConnectionService(<ModelInterface> model) -> string;
 
 	/**
 	 * Returns the connection to read data related to a model
-	 *
-	 * @param Phalcon\Mvc\ModelInterface model
-	 * @return Phalcon\Db\AdapterInterface
 	 */
-	public function getReadConnection(<\Phalcon\Mvc\ModelInterface> model);
+	public function getReadConnection(<ModelInterface> model) -> <AdapterInterface>;
 
 	/**
 	 * Returns the connection to write data related to a model
-	 *
-	 * @param Phalcon\Mvc\ModelInterface model
-	 * @return Phalcon\Db\AdapterInterface
 	 */
-	public function getWriteConnection(<\Phalcon\Mvc\ModelInterface> model);
+	public function getWriteConnection(<ModelInterface> model) -> <AdapterInterface>;
 
 	/**
 	 * Check of a model is already initialized
-	 *
-	 * @param string modelName
-	 * @return boolean
 	 */
-	public function isInitialized(modelName);
+	public function isInitialized(string! modelName) -> boolean;
 
 	/**
 	 * Get last initialized model
-	 *
-	 * @return Phalcon\Mvc\ModelInterface
 	 */
-	public function getLastInitialized();
+	public function getLastInitialized() -> <ModelInterface>;
 
 	/**
 	 * Loads a model throwing an exception if it doesn't exist
-	 *
-	 * @param  string modelName
-	 * @param  boolean newInstance
-	 * @return Phalcon\Mvc\ModelInterface
 	 */
-	public function load(string modelName, boolean newInstance=false);
+	public function load(string modelName, boolean newInstance = false) -> <ModelInterface>;
 
 	/**
 	 * Setup a 1-1 relation between two models
@@ -157,7 +115,7 @@ interface ManagerInterface
 	 * @param	array options
 	 * @return  Phalcon\Mvc\Model\RelationInterface
 	 */
-	public function addHasOne(<\Phalcon\Mvc\ModelInterface> model, fields, referencedModel, referencedFields, options=null);
+	public function addHasOne(<ModelInterface> model, fields, referencedModel, referencedFields, options = null);
 
 	/**
 	 * Setup a relation reverse 1-1  between two models
@@ -169,7 +127,7 @@ interface ManagerInterface
 	 * @param	array options
 	 * @return 	Phalcon\Mvc\Model\RelationInterface
 	 */
-	public function addBelongsTo(<\Phalcon\Mvc\ModelInterface> model, fields, referencedModel, referencedFields, options=null);
+	public function addBelongsTo(<ModelInterface> model, fields, referencedModel, referencedFields, options = null);
 
 	/**
 	 * Setup a relation 1-n between two models
@@ -181,7 +139,7 @@ interface ManagerInterface
 	 * @param	array options
 	 * @return 	Phalcon\Mvc\Model\RelationInterface
 	 */
-	public function addHasMany(<\Phalcon\Mvc\ModelInterface> model, fields, referencedModel, referencedFields, options=null);
+	public function addHasMany(<ModelInterface> model, fields, referencedModel, referencedFields, options = null);
 
 	/**
 	 * Checks whether a model has a belongsTo relation with another model
@@ -220,7 +178,7 @@ interface ManagerInterface
 	 * @param array parameters
 	 * @return Phalcon\Mvc\Model\ResultsetInterface
 	 */
-	public function getBelongsToRecords(method, modelName, modelRelation, <\Phalcon\Mvc\ModelInterface> record, parameters=null);
+	public function getBelongsToRecords(method, modelName, modelRelation, <ModelInterface> record, parameters = null);
 
 	/**
 	 * Gets hasMany related records from a model
@@ -232,7 +190,7 @@ interface ManagerInterface
 	 * @param array parameters
 	 * @return Phalcon\Mvc\Model\ResultsetInterface
 	 */
-	public function getHasManyRecords(method, modelName, modelRelation, <\Phalcon\Mvc\ModelInterface> record, parameters=null);
+	public function getHasManyRecords(method, modelName, modelRelation, <ModelInterface> record, parameters = null);
 
 	/**
 	 * Gets belongsTo related records from a model
@@ -244,7 +202,7 @@ interface ManagerInterface
 	 * @param array parameters
 	 * @return Phalcon\Mvc\Model\ResultsetInterface
 	 */
-	public function getHasOneRecords(method, modelName, modelRelation, <\Phalcon\Mvc\ModelInterface> record, parameters=null);
+	public function getHasOneRecords(method, modelName, modelRelation, <ModelInterface> record, parameters = null);
 
 	/**
 	 * Gets belongsTo relations defined on a model
@@ -252,7 +210,7 @@ interface ManagerInterface
 	 * @param  Phalcon\Mvc\ModelInterface model
 	 * @return array
 	 */
-	public function getBelongsTo(<\Phalcon\Mvc\ModelInterface> model);
+	public function getBelongsTo(<ModelInterface> model);
 
 	/**
 	 * Gets hasMany relations defined on a model
@@ -260,7 +218,7 @@ interface ManagerInterface
 	 * @param  Phalcon\Mvc\ModelInterface model
 	 * @return array
 	 */
-	public function getHasMany(<\Phalcon\Mvc\ModelInterface> model);
+	public function getHasMany(<ModelInterface> model);
 
 	/**
 	 * Gets hasOne relations defined on a model
@@ -268,7 +226,7 @@ interface ManagerInterface
 	 * @param  Phalcon\Mvc\ModelInterface model
 	 * @return array
 	 */
-	public function getHasOne(<\Phalcon\Mvc\ModelInterface> model);
+	public function getHasOne(<ModelInterface> model);
 
 	/**
 	 * Gets hasOne relations defined on a model
@@ -276,7 +234,7 @@ interface ManagerInterface
 	 * @param  Phalcon\Mvc\ModelInterface model
 	 * @return array
 	 */
-	public function getHasOneAndHasMany(<\Phalcon\Mvc\ModelInterface> model);
+	public function getHasOneAndHasMany(<ModelInterface> model);
 
 	/**
 	 * Query all the relationships defined on a model
@@ -310,7 +268,7 @@ interface ManagerInterface
 	 * @param array placeholders
 	 * @return Phalcon\Mvc\Model\QueryInterface
 	 */
-	public function executeQuery(phql, placeholders=null);
+	public function executeQuery(phql, placeholders = null);
 
 	/**
 	 * Creates a Phalcon\Mvc\Model\Query\Builder
@@ -318,15 +276,12 @@ interface ManagerInterface
 	 * @param string params
 	 * @return Phalcon\Mvc\Model\Query\BuilderInterface
 	 */
-	public function createBuilder(params=null);
+	public function createBuilder(params = null);
 
 	/**
 	 * Binds a behavior to a model
-	 *
-	 * @param Phalcon\Mvc\ModelInterface model
-	 * @param Phalcon\Mvc\Model\BehaviorInterface behavior
 	 */
-	public function addBehavior(<\Phalcon\Mvc\ModelInterface> model, <\Phalcon\Mvc\Model\BehaviorInterface> behavior);
+	public function addBehavior(<ModelInterface> model, <\Phalcon\Mvc\Model\BehaviorInterface> behavior);
 
 	/**
 	 * Receives events generated in the models and dispatches them to a events-manager if available
@@ -335,7 +290,7 @@ interface ManagerInterface
 	 * @param string eventName
 	 * @param Phalcon\Mvc\ModelInterface model
 	 */
-	public function notifyEvent(eventName, <\Phalcon\Mvc\ModelInterface> model);
+	public function notifyEvent(eventName, <ModelInterface> model);
 
 	/**
 	 * Dispatch a event to the listeners and behaviors
@@ -347,7 +302,7 @@ interface ManagerInterface
 	 * @param array data
 	 * @return boolean
 	 */
-	public function missingMethod(<\Phalcon\Mvc\ModelInterface> model, eventName, data);
+	public function missingMethod(<ModelInterface> model, eventName, data);
 
 	/**
 	 * Returns the last query created or executed in the

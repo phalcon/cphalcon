@@ -31,16 +31,11 @@ interface StatusInterface
 
 	/**
 	 * Phalcon\Mvc\Model\Query\Status
-	 *
-	 * @param boolean success
-	 * @param Phalcon\Mvc\ModelInterface model
 	 */
 	public function __construct(boolean success, <ModelInterface> model);
 
 	/**
 	 * Returns the model which executed the action
-	 *
-	 * @return Phalcon\Mvc\ModelInterface
 	 */
 	public function getModel() -> <ModelInterface>;
 
@@ -53,8 +48,6 @@ interface StatusInterface
 
 	/**
 	 * Allows to check if the executed operation was successful
-	 *
-	 * @return boolean
 	 */
 	public function success() -> boolean;
 

@@ -76,8 +76,6 @@ class Micro extends Injectable implements \ArrayAccess
 
 	/**
 	* Phalcon\Mvc\Micro constructor
-	*
-	* @param Phalcon\DiInterface $dependencyInjector
 	*/
 	public function __construct(<DiInterface> dependencyInjector = null)
 	{
@@ -90,8 +88,6 @@ class Micro extends Injectable implements \ArrayAccess
 
 	/**
 	 * Sets the DependencyInjector container
-	 *
-	 * @param Phalcon\DiInterface dependencyInjector
 	 */
 	public function setDI(<DiInterface> dependencyInjector)
 	{
@@ -363,9 +359,6 @@ class Micro extends Injectable implements \ArrayAccess
 
 	/**
 	 * Mounts a collection of handlers
-	 *
-	 * @param Phalcon\Mvc\Micro\Collection collection
-	 * @return Phalcon\Mvc\Micro
 	 */
 	public function mount(<Collection> collection) -> <Micro>
 	{
@@ -475,8 +468,6 @@ class Micro extends Injectable implements \ArrayAccess
 
 	/**
 	 * Returns the internal router used by the application
-	 *
-	 * @return Phalcon\Mvc\RouterInterface
 	 */
 	public function getRouter() -> <RouterInterface>
 	{
@@ -529,9 +520,6 @@ class Micro extends Injectable implements \ArrayAccess
 
 	/**
 	 * Checks if a service is registered in the DI
-	 *
-	 * @param string serviceName
-	 * @return boolean
 	 */
 	public function hasService(string! serviceName) -> boolean
 	{

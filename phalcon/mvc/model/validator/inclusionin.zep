@@ -53,9 +53,6 @@ class Inclusionin extends Validator implements ValidatorInterface
 {
 	/**
 	 * Executes validator
-	 *
-	 * @param Phalcon\Mvc\ModelInterface record
-	 * @return boolean
 	 */
 	public function validate(<ModelInterface> record) -> boolean
 	{

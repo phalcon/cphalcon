@@ -35,9 +35,6 @@ class SoftDelete extends Behavior implements BehaviorInterface
 
 	/**
 	 * Listens for notifications from the models manager
-	 *
-	 * @param string type
-	 * @param Phalcon\Mvc\ModelInterface model
 	 */
 	public function notify(string! type, <ModelInterface> model)
 	{

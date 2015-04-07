@@ -59,8 +59,6 @@ class Dispatcher extends \Phalcon\Dispatcher implements DispatcherInterface
 
 	/**
 	 * Sets the default controller suffix
-	 *
-	 * @param string controllerSuffix
 	 */
 	public function setControllerSuffix(string! controllerSuffix)
 	{
@@ -69,8 +67,6 @@ class Dispatcher extends \Phalcon\Dispatcher implements DispatcherInterface
 
 	/**
 	 * Sets the default controller name
-	 *
-	 * @param string controllerName
 	 */
 	public function setDefaultController(string! controllerName)
 	{
@@ -79,8 +75,6 @@ class Dispatcher extends \Phalcon\Dispatcher implements DispatcherInterface
 
 	/**
 	 * Sets the controller name to be dispatched
-	 *
-	 * @param string controllerName
 	 */
 	public function setControllerName(string! controllerName)
 	{
@@ -89,8 +83,6 @@ class Dispatcher extends \Phalcon\Dispatcher implements DispatcherInterface
 
 	/**
 	 * Gets last dispatched controller name
-	 *
-	 * @return string
 	 */
 	public function getControllerName() -> string
 	{
@@ -99,8 +91,6 @@ class Dispatcher extends \Phalcon\Dispatcher implements DispatcherInterface
 
 	/**
 	 * Gets previous dispatched controller name
-	 *
-	 * @return string
 	 */
 	public function getPreviousControllerName() -> string
 	{
@@ -109,8 +99,6 @@ class Dispatcher extends \Phalcon\Dispatcher implements DispatcherInterface
 
 	/**
 	 * Gets previous dispatched action name
-	 *
-	 * @return string
 	 */
 	public function getPreviousActionName() -> string
 	{
@@ -119,9 +107,6 @@ class Dispatcher extends \Phalcon\Dispatcher implements DispatcherInterface
 
 	/**
 	 * Throws an internal exception
-	 *
-	 * @param string message
-	 * @param int exceptionCode
 	 */
 	protected function _throwDispatchException(string! message, int exceptionCode = 0)
 	{
@@ -159,8 +144,6 @@ class Dispatcher extends \Phalcon\Dispatcher implements DispatcherInterface
 
 	/**
 	 * Handles a user exception
-	 *
-	 * @param \Exception exception
 	 */
 	protected function _handleException(<\Exception> exception)
 	{
@@ -175,8 +158,6 @@ class Dispatcher extends \Phalcon\Dispatcher implements DispatcherInterface
 
 	/**
 	 * Possible controller class name that will be located to dispatch the request
-	 *
-	 * @return string
 	 */
 	public function getControllerClass() -> string
 	{
@@ -185,8 +166,6 @@ class Dispatcher extends \Phalcon\Dispatcher implements DispatcherInterface
 
 	/**
 	 * Returns the lastest dispatched controller
-	 *
-	 * @return Phalcon\Mvc\ControllerInterface
 	 */
 	public function getLastController() -> <ControllerInterface>
 	{
@@ -195,8 +174,6 @@ class Dispatcher extends \Phalcon\Dispatcher implements DispatcherInterface
 
 	/**
 	 * Returns the active controller in the dispatcher
-	 *
-	 * @return Phalcon\Mvc\ControllerInterface
 	 */
 	public function getActiveController() -> <ControllerInterface>
 	{

@@ -53,9 +53,6 @@ class Numericality extends Validator implements ValidatorInterface
 {
 	/**
 	 * Executes the validator
-	 *
-	 * @param Phalcon\Mvc\ModelInterface record
-	 * @return boolean
 	 */
 	public function validate(<ModelInterface> record) -> boolean
 	{

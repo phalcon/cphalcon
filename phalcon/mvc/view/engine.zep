@@ -48,8 +48,6 @@ abstract class Engine extends Injectable
 
 	/**
 	 * Returns cached ouput on another view stage
-	 *
-	 * @return string
 	 */
 	public function getContent() -> string
 	{
@@ -70,8 +68,6 @@ abstract class Engine extends Injectable
 
 	/**
 	 * Returns the view component related to the adapter
-	 *
-	 * @return Phalcon\Mvc\ViewInterface
 	 */
 	public function getView() -> <ViewInterface>
 	{

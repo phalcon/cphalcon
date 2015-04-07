@@ -83,8 +83,6 @@ class Application extends Injectable
 
 	/**
 	 * Phalcon\Mvc\Application
-	 *
-	 * @param Phalcon\DiInterface dependencyInjector
 	 */
 	public function __construct(<DiInterface> dependencyInjector = null)
 	{
@@ -96,9 +94,6 @@ class Application extends Injectable
 	/**
 	 * By default. The view is implicitly buffering all the output
 	 * You can full disable the view component using this method
-	 *
-	 * @param boolean implicitView
-	 * @return Phalcon\Mvc\Application
 	 */
 	public function useImplicitView(boolean implicitView) -> <Application>
 	{
@@ -121,10 +116,6 @@ class Application extends Injectable
 	 *		)
 	 *	));
 	 *</code>
-	 *
-	 * @param array modules
-	 * @param boolean merge
-	 * @param Phalcon\Mvc\Application
 	 */
 	public function registerModules(array modules, boolean merge = false) -> <Application>
 	{
@@ -173,9 +164,6 @@ class Application extends Injectable
 
 	/**
 	 * Sets the module name to be used if the router doesn't return a valid module
-	 *
-	 * @param string defaultModule
-	 * @return Phalcon\Mvc\Application
 	 */
 	public function setDefaultModule(string! defaultModule) -> <Application>
 	{
@@ -185,8 +173,6 @@ class Application extends Injectable
 
 	/**
 	 * Returns the default module name
-	 *
-	 * @return string
 	 */
 	public function getDefaultModule() -> string
 	{
@@ -201,7 +187,6 @@ class Application extends Injectable
 	 */
 	public function handle(uri = null) -> <ResponseInterface> | boolean
 	{
-
 		var dependencyInjector, eventsManager, router, dispatcher, response, view,
 			module, moduleObject, moduleName, className, path,
 			implicitView, returnedResponse, controller, possibleResponse,
