@@ -170,5 +170,4 @@ class Libmemcached extends Adapter implements AdapterInterface
     {
 		return true;
 	}
-
 }

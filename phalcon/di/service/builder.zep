@@ -98,12 +98,13 @@ class Builder
 					 * Build the instance with arguments
 					 */
 					return dependencyInjector->get(name, instanceArguments);
-				} else {
-					/**
-					 * The instance parameter does not have arguments for its constructor
-					 */
-					return dependencyInjector->get(name);
 				}
+
+				/**
+				 * The instance parameter does not have arguments for its constructor
+				 */
+				return dependencyInjector->get(name);				
+
 			default:
 				/**
 				 * Unknown parameter type

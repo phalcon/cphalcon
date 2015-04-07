@@ -152,5 +152,4 @@ class Memcache extends Adapter implements AdapterInterface
     {
 		return true;
 	}
-
 }

@@ -167,5 +167,4 @@ class NativeArray implements AdapterInterface
 
 		return page;
 	}
-
 }

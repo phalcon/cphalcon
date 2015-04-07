@@ -198,5 +198,4 @@ class Model implements AdapterInterface
 
 		return page;
 	}
-
 }

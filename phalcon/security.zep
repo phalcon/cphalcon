@@ -325,14 +325,13 @@ class Security implements InjectionAwareInterface
 	 */
 	public function computeHmac(data, key, algo, raw = false)
 	{
-		var ops;
+		var hmac;
 
-		let ops = hash_hmac(algo, data, key, raw);
-		if !ops {
+		let hmac = hash_hmac(algo, data, key, raw);
+		if !hmac {
 			throw new Exception("Unknown hashing algorithm: %s" . algo);
 		}
 
-		return ops;
+		return hmac;
 	}
-
 }

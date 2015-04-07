@@ -34,5 +34,4 @@ interface UserFilterInterface
 	 * @return mixed
 	 */
 	public function filter(value);
-
 }

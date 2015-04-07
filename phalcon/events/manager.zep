@@ -20,6 +20,7 @@
 namespace Phalcon\Events;
 
 use Phalcon\Events\Event;
+use SplPriorityQueue as PriorityQueue;
 
 /**
  * Phalcon\Events\Manager
@@ -60,10 +61,10 @@ class Manager implements ManagerInterface
 			if this->_enablePriorities {
 
 				// Create a SplPriorityQueue to store the events with priorities
-				let priorityQueue = new \SplPriorityQueue();
+				let priorityQueue = new PriorityQueue();
 
 				// Extract only the Data // Set extraction flags
-				priorityQueue->setExtractFlags(\SplPriorityQueue::EXTR_DATA);
+				priorityQueue->setExtractFlags(PriorityQueue::EXTR_DATA);
 
 				// Append the events to the queue
 				let this->_events[eventType] = priorityQueue;
@@ -103,10 +104,10 @@ class Manager implements ManagerInterface
 			if typeof priorityQueue == "object" {
 
 				// SplPriorityQueue hasn't method for element deletion, so we need to rebuild queue
-				let newPriorityQueue = new \SplPriorityQueue();
+				let newPriorityQueue = new PriorityQueue();
 				newPriorityQueue->setExtractFlags(\SplPriorityQueue::EXTR_DATA);
 
-				priorityQueue->setExtractFlags(\SplPriorityQueue::EXTR_BOTH);
+				priorityQueue->setExtractFlags(PriorityQueue::EXTR_BOTH);
 				priorityQueue->top();
 
 				while priorityQueue->valid() {

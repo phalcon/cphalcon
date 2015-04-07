@@ -26,7 +26,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -322,6 +322,9 @@ PHP_METHOD(Phalcon_Flash_Session, output) {
 
 }
 
+/**
+ * Clear messages in the session messenger
+ */
 PHP_METHOD(Phalcon_Flash_Session, clear) {
 
 	int ZEPHIR_LAST_CALL_STATUS;

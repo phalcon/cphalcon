@@ -57,5 +57,4 @@ abstract class Logger
 	const EMERGENCE = 0;
 
 	const EMERGENCY = 0;
-
 }

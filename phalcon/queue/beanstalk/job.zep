@@ -134,5 +134,4 @@ class Job
 			throw new \Phalcon\Exception("Unexpected inconsistency in %s - possible break-in attempt!", "Phalcon\\Queue\\Beanstalk\\Job::__wakeup()");
 		}
 	}
-
 }

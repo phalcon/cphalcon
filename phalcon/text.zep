@@ -218,5 +218,4 @@ abstract class Text
 		}
 		return strtoupper(str);
 	}
-
 }

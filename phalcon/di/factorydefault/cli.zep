@@ -54,5 +54,4 @@ class Cli extends FactoryDefault
 			"transactionManager": new Service("transactionManager", "Phalcon\\Mvc\\Model\\Transaction\\Manager", true)
 		];
 	}
-
 }
