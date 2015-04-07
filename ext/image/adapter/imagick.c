@@ -809,10 +809,10 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _text) {
 		PHALCON_CPY_WRT_CTOR(offset_x, *ofs_x);
 	}
 
-	if (!offset_y) {
+	if (!ofs_y) {
 		PHALCON_INIT_VAR(offset_y);
 	} else {
-		PHALCON_CPY_WRT_CTOR(offset_x, *ofs_y);
+		PHALCON_CPY_WRT_CTOR(offset_y, *ofs_y);
 	}
 
 	if (!r) {
@@ -832,7 +832,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _text) {
 		ZVAL_DOUBLE(op, 1);
 	}
 	else {
-		ZVAL_DOUBLE(op, phalcon_get_intval(*opacity)/100);
+		ZVAL_DOUBLE(op, phalcon_get_intval(*opacity)/100.0);
 	}
 
 	PHALCON_OBS_VAR(im);
@@ -880,7 +880,6 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _text) {
 				PHALCON_INIT_NVAR(offset_y);
 				ZVAL_LONG(offset_y, 0);
 
-				PHALCON_INIT_VAR(gravity);
 				phalcon_get_class_constant(gravity, imagick_ce, SS("GRAVITY_SOUTHEAST") TSRMLS_CC);
 			} else if (zend_is_true(offset_x)) {
 				PHALCON_INIT_NVAR(offset_x);
@@ -889,7 +888,6 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _text) {
 				PHALCON_INIT_NVAR(offset_y);
 				ZVAL_LONG(offset_y, 0);
 
-				PHALCON_INIT_VAR(gravity);
 				phalcon_get_class_constant(gravity, imagick_ce, SS("GRAVITY_EAST") TSRMLS_CC);
 			} else if (zend_is_true(offset_y)) {
 				PHALCON_INIT_NVAR(offset_x);
@@ -898,7 +896,6 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _text) {
 				PHALCON_INIT_NVAR(offset_y);
 				ZVAL_LONG(offset_y, 0);
 
-				PHALCON_INIT_VAR(gravity);
 				phalcon_get_class_constant(gravity, imagick_ce, SS("GRAVITY_SOUTH") TSRMLS_CC);
 			} else {
 				PHALCON_INIT_NVAR(offset_x);
@@ -907,7 +904,6 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _text) {
 				PHALCON_INIT_NVAR(offset_y);
 				ZVAL_LONG(offset_y, 0);
 
-				PHALCON_INIT_VAR(gravity);
 				phalcon_get_class_constant(gravity, imagick_ce, SS("GRAVITY_CENTER") TSRMLS_CC);
 			}
 		} else if (Z_TYPE_P(offset_y) == IS_LONG) {
@@ -921,13 +917,11 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _text) {
 					PHALCON_INIT_NVAR(offset_y);
 					ZVAL_LONG(offset_y, y * -1);
 
-					PHALCON_INIT_VAR(gravity);
 					phalcon_get_class_constant(gravity, imagick_ce, SS("GRAVITY_SOUTHEAST") TSRMLS_CC);
 				} else {
 					PHALCON_INIT_NVAR(offset_x);
 					ZVAL_LONG(offset_x, 0);
 
-					PHALCON_INIT_VAR(gravity);
 					phalcon_get_class_constant(gravity, imagick_ce, SS("GRAVITY_NORTHEAST") TSRMLS_CC);
 				}
 			} else {
@@ -938,13 +932,11 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _text) {
 					PHALCON_INIT_NVAR(offset_y);
 					ZVAL_LONG(offset_y, y * -1);
 
-					PHALCON_INIT_VAR(gravity);
 					phalcon_get_class_constant(gravity, imagick_ce, SS("GRAVITY_SOUTH") TSRMLS_CC);
 				} else {
 					PHALCON_INIT_NVAR(offset_x);
 					ZVAL_LONG(offset_x, 0);
 
-					PHALCON_INIT_VAR(gravity);
 					phalcon_get_class_constant(gravity, imagick_ce, SS("GRAVITY_NORTH") TSRMLS_CC);
 				}
 			}
@@ -960,13 +952,11 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _text) {
 					PHALCON_INIT_NVAR(offset_y);
 					ZVAL_LONG(offset_y, 0);
 
-					PHALCON_INIT_VAR(gravity);
 					phalcon_get_class_constant(gravity, imagick_ce, SS("GRAVITY_SOUTHEAST") TSRMLS_CC);
 				} else {
 					PHALCON_INIT_NVAR(offset_y);
 					ZVAL_LONG(offset_y, 0);
 
-					PHALCON_INIT_VAR(gravity);
 					phalcon_get_class_constant(gravity, imagick_ce, SS("GRAVITY_SOUTH") TSRMLS_CC);
 				}
 			} else {
@@ -977,13 +967,11 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _text) {
 					PHALCON_INIT_NVAR(offset_y);
 					ZVAL_LONG(offset_y, 0);
 
-					PHALCON_INIT_VAR(gravity);
 					phalcon_get_class_constant(gravity, imagick_ce, SS("GRAVITY_EAST") TSRMLS_CC);
 				} else {
 					PHALCON_INIT_NVAR(offset_y);
 					ZVAL_LONG(offset_y, 0);
 
-					PHALCON_INIT_VAR(gravity);
 					phalcon_get_class_constant(gravity, imagick_ce, SS("GRAVITY_WEST") TSRMLS_CC);
 				}
 			}
@@ -1000,13 +988,11 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _text) {
 					PHALCON_INIT_NVAR(offset_y);
 					ZVAL_LONG(offset_y, y * -1);
 
-					PHALCON_INIT_VAR(gravity);
 					phalcon_get_class_constant(gravity, imagick_ce, SS("GRAVITY_SOUTHEAST") TSRMLS_CC);
 				} else {					
 					PHALCON_INIT_NVAR(offset_x);
 					ZVAL_LONG(offset_x, x * -1);
 
-					PHALCON_INIT_VAR(gravity);
 					phalcon_get_class_constant(gravity, imagick_ce, SS("GRAVITY_NORTHEAST") TSRMLS_CC);
 				}
 			} else {
@@ -1017,19 +1003,17 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _text) {
 					PHALCON_INIT_NVAR(offset_y);
 					ZVAL_LONG(offset_y, y * -1);
 
-					PHALCON_INIT_VAR(gravity);
 					phalcon_get_class_constant(gravity, imagick_ce, SS("GRAVITY_SOUTHWEST") TSRMLS_CC);
 				} else {					
 					PHALCON_INIT_NVAR(offset_x);
 					ZVAL_LONG(offset_x, 0);
 
-					PHALCON_INIT_VAR(gravity);
 					phalcon_get_class_constant(gravity, imagick_ce, SS("GRAVITY_NORTHWEST") TSRMLS_CC);
 				}
 			}
 		}
 	}
-	
+
 	PHALCON_CALL_METHOD(NULL, draw, "setgravity", gravity);
 	PHALCON_CALL_METHOD(NULL, im, "annotateImage", draw, offset_x, offset_y, tmp_a, *text);
 

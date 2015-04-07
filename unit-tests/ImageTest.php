@@ -270,6 +270,7 @@ class ImageTest extends PHPUnit_Framework_TestCase
 
 		// Add a text to the bottom right of the image
 		$image->text('hello', TRUE, TRUE);
+		$image->text('world', FALSE, FALSE);
 
 		// Set font size
 		//$image->text('hello', TRUE, TRUE, NULL, NULL, 12);
