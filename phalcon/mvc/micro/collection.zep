@@ -58,7 +58,7 @@ class Collection implements CollectionInterface
 	 * @param mixed handler
 	 * @param string name
 	 */
-	private function _addMap(string! method, var routePattern, var handler, var name)
+	protected function _addMap(string! method, var routePattern, var handler, var name)
 	{
 		let this->_handlers[] = [method, routePattern, handler, name];
 	}
