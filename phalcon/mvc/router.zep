@@ -99,7 +99,7 @@ class Router implements InjectionAwareInterface,RouterInterface
 	public function __construct(boolean defaultRoutes = true)
 	{
 		array routes = [];
-		
+
 		if defaultRoutes {
 
 			// Two routes are added by default to match /:controller/:action and
@@ -269,6 +269,20 @@ class Router implements InjectionAwareInterface,RouterInterface
 		}
 
 		return this;
+	}
+
+	/**
+	 * Returns an array of default parameters
+	 */
+	public function getDefaults() -> array
+	{
+		return [
+			"namespace": this->_defaultNamespace,
+			"module": this->_defaultModule,
+			"controller": this->_defaultController,
+			"action": this->_defaultAction,
+			"params": this->_defaultParams
+		];
 	}
 
 	/**

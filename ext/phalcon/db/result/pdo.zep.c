@@ -130,8 +130,6 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, __construct) {
 /**
  * Allows to execute the statement again. Some database systems don't support scrollable cursors,
  * So, as cursors are forward only, we need to execute the cursor again to fetch rows from the begining
- *
- * @return boolean
  */
 PHP_METHOD(Phalcon_Db_Result_Pdo, execute) {
 
@@ -235,8 +233,6 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, fetchAll) {
  *	$result = $connection->query("SELECT * FROM robots ORDER BY name");
  *	echo 'There are ', $result->numRows(), ' rows in the resulset';
  *</code>
- *
- * @return int
  */
 PHP_METHOD(Phalcon_Db_Result_Pdo, numRows) {
 
@@ -278,7 +274,7 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, numRows) {
 				Z_UNSET_ISREF_P(matches);
 				zephir_check_call_status();
 				if (zephir_is_true(_2)) {
-					zephir_array_fetch_long(&_4, matches, 1, PH_NOISY | PH_READONLY, "phalcon/db/result/pdo.zep", 206 TSRMLS_CC);
+					zephir_array_fetch_long(&_4, matches, 1, PH_NOISY | PH_READONLY, "phalcon/db/result/pdo.zep", 202 TSRMLS_CC);
 					ZEPHIR_INIT_VAR(_5);
 					ZEPHIR_CONCAT_SVS(_5, "SELECT COUNT(*) \"numrows\" FROM (SELECT ", _4, ")");
 					_6 = zephir_fetch_nproperty_this(this_ptr, SL("_bindParams"), PH_NOISY_CC);
@@ -288,7 +284,7 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, numRows) {
 					ZEPHIR_CALL_METHOD(&row, result, "fetch", NULL);
 					zephir_check_call_status();
 					ZEPHIR_OBS_NVAR(rowCount);
-					zephir_array_fetch_string(&rowCount, row, SL("numrows"), PH_NOISY, "phalcon/db/result/pdo.zep", 208 TSRMLS_CC);
+					zephir_array_fetch_string(&rowCount, row, SL("numrows"), PH_NOISY, "phalcon/db/result/pdo.zep", 204 TSRMLS_CC);
 				}
 			} else {
 				ZEPHIR_INIT_NVAR(rowCount);
@@ -309,8 +305,6 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, numRows) {
  *	$result->dataSeek(2); // Move to third row on result
  *	$row = $result->fetch(); // Fetch third row
  *</code>
- *
- * @param long number
  */
 PHP_METHOD(Phalcon_Db_Result_Pdo, dataSeek) {
 
@@ -394,8 +388,6 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, dataSeek) {
  *	//Return an object
  *	$result->setFetchMode(Phalcon\Db::FETCH_OBJ);
  *</code>
- *
- * @param int fetchMode
  */
 PHP_METHOD(Phalcon_Db_Result_Pdo, setFetchMode) {
 
@@ -459,8 +451,6 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, setFetchMode) {
 
 /**
  * Gets the internal PDO result object
- *
- * @return \PDOStatement
  */
 PHP_METHOD(Phalcon_Db_Result_Pdo, getInternalResult) {
 

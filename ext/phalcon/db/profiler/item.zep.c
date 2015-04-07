@@ -230,8 +230,6 @@ PHP_METHOD(Phalcon_Db_Profiler_Item, getFinalTime) {
 
 /**
  * Returns the total time in seconds spent by the profile
- *
- * @return double
  */
 PHP_METHOD(Phalcon_Db_Profiler_Item, getTotalElapsedSeconds) {
 

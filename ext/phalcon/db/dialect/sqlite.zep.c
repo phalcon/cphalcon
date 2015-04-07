@@ -60,9 +60,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Dialect_Sqlite) {
 
 /**
  * Gets the column name in SQLite
- *
- * @param Phalcon\Db\ColumnInterface column
- * @return string
  */
 PHP_METHOD(Phalcon_Db_Dialect_Sqlite, getColumnDefinition) {
 
@@ -78,7 +75,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, getColumnDefinition) {
 
 
 	if (Z_TYPE_P(column) != IS_OBJECT) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Column definition must be an object compatible with Phalcon\\Db\\ColumnInterface", "phalcon/db/dialect/sqlite.zep", 51);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Column definition must be an object compatible with Phalcon\\Db\\ColumnInterface", "phalcon/db/dialect/sqlite.zep", 48);
 		return;
 	}
 	ZEPHIR_INIT_VAR(columnSql);
@@ -157,7 +154,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, getColumnDefinition) {
 			break;
 		}
 		if (ZEPHIR_IS_EMPTY(columnSql)) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Unrecognized SQLite data type", "phalcon/db/dialect/sqlite.zep", 117);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Unrecognized SQLite data type", "phalcon/db/dialect/sqlite.zep", 114);
 			return;
 		}
 		ZEPHIR_CALL_METHOD(&typeValues, column, "gettypevalues", NULL);
@@ -166,7 +163,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, getColumnDefinition) {
 			if (Z_TYPE_P(typeValues) == IS_ARRAY) {
 				ZEPHIR_INIT_VAR(valueSql);
 				ZVAL_STRING(valueSql, "", 1);
-				zephir_is_iterable(typeValues, &_4, &_3, 0, 0, "phalcon/db/dialect/sqlite.zep", 128);
+				zephir_is_iterable(typeValues, &_4, &_3, 0, 0, "phalcon/db/dialect/sqlite.zep", 125);
 				for (
 				  ; zephir_hash_get_current_data_ex(_4, (void**) &_5, &_3) == SUCCESS
 				  ; zephir_hash_move_forward_ex(_4, &_3)
@@ -207,10 +204,6 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, getColumnDefinition) {
 
 /**
  * Generates SQL to add a column to a table
- *
- * @param	string tableName
- * @param	string schemaName
- * @param	Phalcon\Db\ColumnInterface column
  */
 PHP_METHOD(Phalcon_Db_Dialect_Sqlite, addColumn) {
 
@@ -247,7 +240,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, addColumn) {
 
 
 	if (Z_TYPE_P(column) != IS_OBJECT) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Column definition must be an object compatible with Phalcon\\Db\\ColumnInterface", "phalcon/db/dialect/sqlite.zep", 150);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Column definition must be an object compatible with Phalcon\\Db\\ColumnInterface", "phalcon/db/dialect/sqlite.zep", 143);
 		return;
 	}
 	ZEPHIR_INIT_VAR(sql);
@@ -294,11 +287,6 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, addColumn) {
 
 /**
  * Generates SQL to modify a column in a table
- *
- * @param	string tableName
- * @param	string schemaName
- * @param	Phalcon\Db\ColumnInterface column
- * @return	string
  */
 PHP_METHOD(Phalcon_Db_Dialect_Sqlite, modifyColumn) {
 
@@ -332,18 +320,13 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, modifyColumn) {
 	}
 
 
-	ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Altering a DB column is not supported by SQLite", "phalcon/db/dialect/sqlite.zep", 187);
+	ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Altering a DB column is not supported by SQLite", "phalcon/db/dialect/sqlite.zep", 175);
 	return;
 
 }
 
 /**
  * Generates SQL to delete a column from a table
- *
- * @param	string tableName
- * @param	string schemaName
- * @param	string columnName
- * @return 	string
  */
 PHP_METHOD(Phalcon_Db_Dialect_Sqlite, dropColumn) {
 
@@ -378,18 +361,13 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, dropColumn) {
 	zephir_get_strval(columnName, columnName_param);
 
 
-	ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Dropping DB column is not supported by SQLite", "phalcon/db/dialect/sqlite.zep", 200);
+	ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Dropping DB column is not supported by SQLite", "phalcon/db/dialect/sqlite.zep", 183);
 	return;
 
 }
 
 /**
  * Generates SQL to add an index to a table
- *
- * @param	string tableName
- * @param	string schemaName
- * @param	Phalcon\Db\IndexInterface index
- * @return	string
  */
 PHP_METHOD(Phalcon_Db_Dialect_Sqlite, addIndex) {
 
@@ -426,7 +404,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, addIndex) {
 
 
 	if (Z_TYPE_P(index) != IS_OBJECT) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Index parameter must be an object compatible with Phalcon\\Db\\IndexInterface", "phalcon/db/dialect/sqlite.zep", 216);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Index parameter must be an object compatible with Phalcon\\Db\\IndexInterface", "phalcon/db/dialect/sqlite.zep", 194);
 		return;
 	}
 	ZEPHIR_CALL_METHOD(&indexType, index, "gettype", NULL);
@@ -463,11 +441,6 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, addIndex) {
 
 /**
  * Generates SQL to delete an index from a table
- *
- * @param	string tableName
- * @param	string schemaName
- * @param	string indexName
- * @return	string
  */
 PHP_METHOD(Phalcon_Db_Dialect_Sqlite, dropIndex) {
 
@@ -528,11 +501,6 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, dropIndex) {
 
 /**
  * Generates SQL to add the primary key to a table
- *
- * @param	string tableName
- * @param	string schemaName
- * @param	Phalcon\Db\IndexInterface index
- * @return	string
  */
 PHP_METHOD(Phalcon_Db_Dialect_Sqlite, addPrimaryKey) {
 
@@ -546,17 +514,13 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, addPrimaryKey) {
 	zephir_get_strval(schemaName, schemaName_param);
 
 
-	ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Adding a primary key after table has been created is not supported by SQLite", "phalcon/db/dialect/sqlite.zep", 266);
+	ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Adding a primary key after table has been created is not supported by SQLite", "phalcon/db/dialect/sqlite.zep", 234);
 	return;
 
 }
 
 /**
  * Generates SQL to delete primary key from a table
- *
- * @param	string tableName
- * @param	string schemaName
- * @return	string
  */
 PHP_METHOD(Phalcon_Db_Dialect_Sqlite, dropPrimaryKey) {
 
@@ -590,18 +554,13 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, dropPrimaryKey) {
 	}
 
 
-	ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Removing a primary key after table has been created is not supported by SQLite", "phalcon/db/dialect/sqlite.zep", 278);
+	ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Removing a primary key after table has been created is not supported by SQLite", "phalcon/db/dialect/sqlite.zep", 242);
 	return;
 
 }
 
 /**
  * Generates SQL to add an index to a table
- *
- * @param	string tableName
- * @param	string schemaName
- * @param	Phalcon\Db\ReferenceInterface reference
- * @return	string
  */
 PHP_METHOD(Phalcon_Db_Dialect_Sqlite, addForeignKey) {
 
@@ -635,7 +594,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, addForeignKey) {
 	}
 
 
-	ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Adding a foreign key constraint to an existing table is not supported by SQLite", "phalcon/db/dialect/sqlite.zep", 291);
+	ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Adding a foreign key constraint to an existing table is not supported by SQLite", "phalcon/db/dialect/sqlite.zep", 250);
 	return;
 
 }
@@ -680,7 +639,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, dropForeignKey) {
 	}
 
 
-	ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Dropping a foreign key constraint is not supported by SQLite", "phalcon/db/dialect/sqlite.zep", 304);
+	ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Dropping a foreign key constraint is not supported by SQLite", "phalcon/db/dialect/sqlite.zep", 263);
 	return;
 
 }
@@ -705,11 +664,6 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, _getTableOptions) {
 
 /**
  * Generates SQL to create a table in MySQL
- *
- * @param 	string tableName
- * @param	string schemaName
- * @param	array definition
- * @return 	string
  */
 PHP_METHOD(Phalcon_Db_Dialect_Sqlite, createTable) {
 
@@ -746,7 +700,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, createTable) {
 
 
 
-	ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Not implemented yet", "phalcon/db/dialect/sqlite.zep", 328);
+	ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Not implemented yet", "phalcon/db/dialect/sqlite.zep", 282);
 	return;
 
 }
@@ -853,7 +807,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, createView) {
 
 	ZEPHIR_OBS_VAR(viewSql);
 	if (!(zephir_array_isset_string_fetch(&viewSql, definition, SS("sql"), 0 TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "The index 'sql' is required in the definition array", "phalcon/db/dialect/sqlite.zep", 371);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "The index 'sql' is required in the definition array", "phalcon/db/dialect/sqlite.zep", 325);
 		return;
 	}
 	if (schemaName && Z_STRLEN_P(schemaName)) {
@@ -870,11 +824,6 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, createView) {
 
 /**
  * Generates SQL to drop a view
- *
- * @param string viewName
- * @param string schemaName
- * @param boolean ifExists
- * @return string
  */
 PHP_METHOD(Phalcon_Db_Dialect_Sqlite, dropView) {
 
@@ -1054,9 +1003,6 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, describeColumns) {
  *<code>
  *	print_r($dialect->listTables("blog"))
  *</code>
- *
- * @param       string schemaName
- * @return      array
  */
 PHP_METHOD(Phalcon_Db_Dialect_Sqlite, listTables) {
 
@@ -1090,9 +1036,6 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, listTables) {
 
 /**
  * Generates the SQL to list all views of a schema or user
- *
- * @param string schemaName
- * @return array
  */
 PHP_METHOD(Phalcon_Db_Dialect_Sqlite, listViews) {
 
@@ -1162,9 +1105,6 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, describeIndexes) {
 
 /**
  * Generates SQL to query indexes detail on a table
- *
- * @param string $indexName
- * @return string
  */
 PHP_METHOD(Phalcon_Db_Dialect_Sqlite, describeIndex) {
 

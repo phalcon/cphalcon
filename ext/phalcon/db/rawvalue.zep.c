@@ -91,8 +91,6 @@ PHP_METHOD(Phalcon_Db_RawValue, __toString) {
 
 /**
  * Phalcon\Db\RawValue constructor
- *
- * @param string value
  */
 PHP_METHOD(Phalcon_Db_RawValue, __construct) {
 

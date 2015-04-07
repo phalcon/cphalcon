@@ -534,6 +534,10 @@ PHP_METHOD(Phalcon_Logger_Adapter, alert) {
 
 /**
  * Logs messages to the internal logger. Appends logs to the logger
+ * @param mixed type
+ * @param mixed message
+ * @param mixed context
+ * @return Phalcon\Logger\AdapterInterface
  */
 PHP_METHOD(Phalcon_Logger_Adapter, log) {
 

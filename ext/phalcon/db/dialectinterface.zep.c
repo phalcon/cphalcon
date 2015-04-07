@@ -85,8 +85,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Db_DialectInterface, getColumnList);
 
 /**
  * Gets the column name in MySQL
- *
- * @param Phalcon\Db\ColumnInterface column
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_DialectInterface, getColumnDefinition);
 

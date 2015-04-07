@@ -355,8 +355,6 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, describeColumns) {
 
 /**
  * Check whether the database system requires an explicit value for identity columns
- *
- * @return boolean
  */
 PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, useExplicitIdValue) {
 
@@ -376,8 +374,6 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, useExplicitIdValue) {
  *     array("id", "name", "year")
  * );
  *</code>
- *
- * @return Phalcon\Db\RawValue
  */
 PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, getDefaultIdValue) {
 
@@ -399,8 +395,6 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, getDefaultIdValue) {
 
 /**
  * Check whether the database system requires a sequence to produce auto-numeric values
- *
- * @return boolean
  */
 PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, supportSequences) {
 

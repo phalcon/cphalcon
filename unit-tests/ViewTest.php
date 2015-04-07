@@ -317,7 +317,7 @@ class ViewTest extends PHPUnit_Framework_TestCase
 		
 		$content = $view->getRender('test16', 'index');
 
-		$this->assertEquals($content, 'true' . PHP_EOL);
+		$this->assertEquals($content, '<html>1</html>' . PHP_EOL);
 	}
 
 	protected function _getViewDisabled($level=null)

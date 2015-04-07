@@ -89,8 +89,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Db) {
 
 /**
  * Enables/disables options in the Database component
- *
- * @param array options
  */
 PHP_METHOD(Phalcon_Db, setup) {
 

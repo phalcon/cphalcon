@@ -271,5 +271,4 @@ class Bag implements InjectionAwareInterface, BagInterface
 	{
 		return this->remove(property);
 	}
-
 }

@@ -152,8 +152,6 @@ PHP_METHOD(Phalcon_Db_Profiler, startProfile) {
 
 /**
  * Stops the active profile
- *
- * @return Phalcon\Db\Profiler
  */
 PHP_METHOD(Phalcon_Db_Profiler, stopProfile) {
 
@@ -187,8 +185,6 @@ PHP_METHOD(Phalcon_Db_Profiler, stopProfile) {
 
 /**
  * Returns the total number of SQL statements processed
- *
- * @return integer
  */
 PHP_METHOD(Phalcon_Db_Profiler, getNumberTotalStatements) {
 
@@ -202,8 +198,6 @@ PHP_METHOD(Phalcon_Db_Profiler, getNumberTotalStatements) {
 
 /**
  * Returns the total time in seconds spent by the profiles
- *
- * @return double
  */
 PHP_METHOD(Phalcon_Db_Profiler, getTotalElapsedSeconds) {
 
@@ -214,8 +208,6 @@ PHP_METHOD(Phalcon_Db_Profiler, getTotalElapsedSeconds) {
 
 /**
  * Returns all the processed profiles
- *
- * @return Phalcon\Db\Profiler\Item[]
  */
 PHP_METHOD(Phalcon_Db_Profiler, getProfiles) {
 
@@ -226,8 +218,6 @@ PHP_METHOD(Phalcon_Db_Profiler, getProfiles) {
 
 /**
  * Resets the profiler, cleaning up all the profiles
- *
- * @return Phalcon\Db\Profiler
  */
 PHP_METHOD(Phalcon_Db_Profiler, reset) {
 
@@ -244,8 +234,6 @@ PHP_METHOD(Phalcon_Db_Profiler, reset) {
 
 /**
  * Returns the last profile executed in the profiler
- *
- * @return	Phalcon\Db\Profiler\Item
  */
 PHP_METHOD(Phalcon_Db_Profiler, getLastProfile) {
 

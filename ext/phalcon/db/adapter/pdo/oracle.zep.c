@@ -334,8 +334,6 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Oracle, lastInsertId) {
 
 /**
  * Check whether the database system requires an explicit value for identity columns
- *
- * @return boolean
  */
 PHP_METHOD(Phalcon_Db_Adapter_Pdo_Oracle, useExplicitIdValue) {
 
@@ -346,8 +344,6 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Oracle, useExplicitIdValue) {
 
 /**
  * Return the default identity value to insert in an identity column
- *
- * @return Phalcon\Db\RawValue
  */
 PHP_METHOD(Phalcon_Db_Adapter_Pdo_Oracle, getDefaultIdValue) {
 
@@ -369,8 +365,6 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Oracle, getDefaultIdValue) {
 
 /**
  * Check whether the database system requires a sequence to produce auto-numeric values
- *
- * @return boolean
  */
 PHP_METHOD(Phalcon_Db_Adapter_Pdo_Oracle, supportSequences) {
 

@@ -1968,3 +1968,39 @@ PHP_METHOD(Phalcon_Mvc_View, isDisabled) {
 
 }
 
+/**
+ * Magic method to retrieve if a variable is set in the view
+ *
+ *<code>
+ *  echo isset($this->view->products);
+ *</code>
+ *
+ * @param string key
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Mvc_View, __isset) {
+
+	zval *key_param = NULL, *_0;
+	zval *key = NULL;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &key_param);
+
+	if (unlikely(Z_TYPE_P(key_param) != IS_STRING && Z_TYPE_P(key_param) != IS_NULL)) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'key' must be a string") TSRMLS_CC);
+		RETURN_MM_NULL();
+	}
+
+	if (likely(Z_TYPE_P(key_param) == IS_STRING)) {
+		zephir_get_strval(key, key_param);
+	} else {
+		ZEPHIR_INIT_VAR(key);
+		ZVAL_EMPTY_STRING(key);
+	}
+
+
+	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_viewParams"), PH_NOISY_CC);
+	RETURN_MM_BOOL(zephir_array_isset(_0, key));
+
+}
+

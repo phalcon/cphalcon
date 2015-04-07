@@ -164,9 +164,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Db_ColumnInterface, getDefault);
 
 /**
  * Restores the internal state of a Phalcon\Db\Column object
- *
- * @param array data
- * @return \Phalcon\Db\ColumnInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_ColumnInterface, __set_state);
 
