@@ -17,7 +17,12 @@
   +------------------------------------------------------------------------+
 */
 
+#ifndef ZEPHIR_KERNEL_DEBUG_H
+#define ZEPHIR_KERNEL_DEBUG_H
+
 #ifndef ZEPHIR_RELEASE
+
+#include <php.h>
 
 #define PHV(v) zephir_vdump(v)
 #define PHPR(v) zephir_print_r(v)
@@ -59,4 +64,5 @@ int zephir_debug_param(zval *param TSRMLS_DC);
 int zephir_error_space();
 int zephir_debug_space();
 
+#endif
 #endif

@@ -21,6 +21,9 @@
 #ifndef ZEPHIR_KERNEL_HASH_H
 #define ZEPHIR_KERNEL_HASH_H
 
+#include <php.h>
+#include <Zend/zend.h>
+
 int zephir_hash_init(HashTable *ht, uint nSize, hash_func_t pHashFunction, dtor_func_t pDestructor, zend_bool persistent);
 int zephir_hash_exists(const HashTable *ht, const char *arKey, uint nKeyLength);
 int zephir_hash_quick_exists(const HashTable *ht, const char *arKey, uint nKeyLength, ulong h);

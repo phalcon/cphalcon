@@ -21,7 +21,9 @@
 #ifndef ZEPHIR_KERNEL_STRING_H
 #define ZEPHIR_KERNEL_STRING_H
 
+#include <php.h>
 #include <Zend/zend.h>
+#include "kernel/main.h"
 
 #define ZEPHIR_TRIM_LEFT  1
 #define ZEPHIR_TRIM_RIGHT 2

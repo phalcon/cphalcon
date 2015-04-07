@@ -22,6 +22,11 @@
 #define ZEPHIR_KERNEL_ARRAY_H
 #define ZEPHIR_MAX_ARRAY_LEVELS 16
 
+#include <php.h>
+#include <Zend/zend.h>
+#include "kernel/globals.h"
+#include "kernel/main.h"
+
 /** Combined isset/fetch */
 int zephir_array_isset_fetch(zval **fetched, const zval *arr, zval *index, int readonly TSRMLS_DC);
 int zephir_array_isset_quick_string_fetch(zval **fetched, zval *arr, char *index, uint index_length, unsigned long key, int readonly TSRMLS_DC);

@@ -21,6 +21,8 @@
 #ifndef ZEPHIR_KERNEL_OUTPUT_H
 #define ZEPHIR_KERNEL_OUTPUT_H
 
+#include <php.h>
+
 void zephir_ob_start(TSRMLS_D);
 void zephir_ob_get_contents(zval *result TSRMLS_DC);
 int zephir_ob_end_flush(TSRMLS_D);

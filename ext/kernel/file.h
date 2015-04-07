@@ -20,6 +20,8 @@
 #ifndef ZEPHIR_KERNEL_FILE_H
 #define ZEPHIR_KERNEL_FILE_H
 
+#include <php.h>
+
 int zephir_file_exists(zval *filename TSRMLS_DC);
 int zephir_compare_mtime(zval *filename1, zval *filename2 TSRMLS_DC);
 void zephir_fix_path(zval **return_value, zval *path, zval *directory_separator TSRMLS_DC);

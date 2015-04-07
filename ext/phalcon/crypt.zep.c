@@ -868,10 +868,11 @@ PHP_METHOD(Phalcon_Crypt, decrypt) {
  */
 PHP_METHOD(Phalcon_Crypt, encryptBase64) {
 
-	zephir_nts_static zephir_fcall_cache_entry *_2 = NULL, *_5 = NULL;
+	zephir_nts_static zephir_fcall_cache_entry *_3 = NULL, *_6 = NULL;
+	zephir_fcall_cache_entry *_1 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zend_bool safe;
-	zval *text_param = NULL, *key = NULL, *safe_param = NULL, *_0 = NULL, *_1 = NULL, _3, _4;
+	zval *text_param = NULL, *key = NULL, *safe_param = NULL, *_0 = NULL, *_2 = NULL, _4, _5;
 	zval *text = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -904,21 +905,21 @@ PHP_METHOD(Phalcon_Crypt, encryptBase64) {
 
 
 	if (safe == 1) {
-		ZEPHIR_CALL_METHOD(&_0, this_ptr, "encrypt", NULL, text, key);
+		ZEPHIR_CALL_METHOD(&_0, this_ptr, "encrypt", &_1, text, key);
 		zephir_check_call_status();
-		ZEPHIR_CALL_FUNCTION(&_1, "base64_encode", &_2, _0);
+		ZEPHIR_CALL_FUNCTION(&_2, "base64_encode", &_3, _0);
 		zephir_check_call_status();
-		ZEPHIR_SINIT_VAR(_3);
-		ZVAL_STRING(&_3, "+/", 0);
 		ZEPHIR_SINIT_VAR(_4);
-		ZVAL_STRING(&_4, "-_", 0);
-		ZEPHIR_RETURN_CALL_FUNCTION("strtr", &_5, _1, &_3, &_4);
+		ZVAL_STRING(&_4, "+/", 0);
+		ZEPHIR_SINIT_VAR(_5);
+		ZVAL_STRING(&_5, "-_", 0);
+		ZEPHIR_RETURN_CALL_FUNCTION("strtr", &_6, _2, &_4, &_5);
 		zephir_check_call_status();
 		RETURN_MM();
 	}
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "encrypt", NULL, text, key);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "encrypt", &_1, text, key);
 	zephir_check_call_status();
-	ZEPHIR_RETURN_CALL_FUNCTION("base64_encode", &_2, _0);
+	ZEPHIR_RETURN_CALL_FUNCTION("base64_encode", &_3, _0);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -929,6 +930,7 @@ PHP_METHOD(Phalcon_Crypt, encryptBase64) {
  */
 PHP_METHOD(Phalcon_Crypt, decryptBase64) {
 
+	zephir_fcall_cache_entry *_6 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zephir_nts_static zephir_fcall_cache_entry *_3 = NULL, *_5 = NULL;
 	zend_bool safe;
@@ -973,13 +975,13 @@ PHP_METHOD(Phalcon_Crypt, decryptBase64) {
 		zephir_check_call_status();
 		ZEPHIR_CALL_FUNCTION(&_4, "base64_decode", &_5, _2);
 		zephir_check_call_status();
-		ZEPHIR_RETURN_CALL_METHOD(this_ptr, "decrypt", NULL, _4, key);
+		ZEPHIR_RETURN_CALL_METHOD(this_ptr, "decrypt", &_6, _4, key);
 		zephir_check_call_status();
 		RETURN_MM();
 	}
 	ZEPHIR_CALL_FUNCTION(&_2, "base64_decode", &_5, text);
 	zephir_check_call_status();
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "decrypt", NULL, _2, key);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "decrypt", &_6, _2, key);
 	zephir_check_call_status();
 	RETURN_MM();
 

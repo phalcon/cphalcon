@@ -21,6 +21,8 @@
 #ifndef ZEPHIR_KERNEL_GLOBALS_H
 #define ZEPHIR_KERNEL_GLOBALS_H
 
+#include <php.h>
+
 #define ZEPHIR_MAX_MEMORY_STACK 48
 
 /** Memory frame */

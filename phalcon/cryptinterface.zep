@@ -121,5 +121,4 @@ interface CryptInterface
 	 * @return array
 	 */
 	public function getAvailableModes();
-
 }

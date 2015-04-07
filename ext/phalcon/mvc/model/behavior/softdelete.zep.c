@@ -62,6 +62,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Behavior_SoftDelete) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Behavior_SoftDelete, notify) {
 
+	zephir_fcall_cache_entry *_7 = NULL;
 	HashTable *_5;
 	HashPosition _4;
 	int ZEPHIR_LAST_CALL_STATUS;
@@ -121,7 +122,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior_SoftDelete, notify) {
 				  ; zephir_hash_move_forward_ex(_5, &_4)
 				) {
 					ZEPHIR_GET_HVALUE(message, _6);
-					ZEPHIR_CALL_METHOD(NULL, model, "appendmessage", NULL, message);
+					ZEPHIR_CALL_METHOD(NULL, model, "appendmessage", &_7, message);
 					zephir_check_call_status();
 				}
 				RETURN_MM_BOOL(0);

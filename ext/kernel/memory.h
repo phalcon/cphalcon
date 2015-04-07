@@ -21,6 +21,11 @@
 #ifndef ZEPHIR_KERNEL_MEMORY_H
 #define ZEPHIR_KERNEL_MEMORY_H
 
+#include <php.h>
+#include <Zend/zend.h>
+#include "php_ext.h"
+#include "kernel/globals.h"
+
 #define ZEPHIR_NUM_PREALLOCATED_FRAMES 25
 
 /* Variable Tracking */

@@ -150,7 +150,7 @@ PHP_METHOD(Phalcon_Tag, getEscaper) {
  */
 PHP_METHOD(Phalcon_Tag, renderAttributes) {
 
-	zephir_fcall_cache_entry *_15 = NULL;
+	zephir_fcall_cache_entry *_15 = NULL, *_16 = NULL;
 	zend_bool _10, _11;
 	int ZEPHIR_LAST_CALL_STATUS;
 	HashTable *_1, *_4, *_8;
@@ -249,7 +249,7 @@ PHP_METHOD(Phalcon_Tag, renderAttributes) {
 				return;
 			}
 			if (zephir_is_true(escaper)) {
-				ZEPHIR_CALL_METHOD(&escaped, escaper, "escapehtmlattr", NULL, value);
+				ZEPHIR_CALL_METHOD(&escaped, escaper, "escapehtmlattr", &_16, value);
 				zephir_check_call_status();
 			} else {
 				ZEPHIR_CPY_WRT(escaped, value);

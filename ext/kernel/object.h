@@ -21,6 +21,10 @@
 #ifndef ZEPHIR_KERNEL_OBJECT_H
 #define ZEPHIR_KERNEL_OBJECT_H
 
+#include <php.h>
+#include <Zend/zend.h>
+#include "kernel/globals.h"
+
 /** Class Retrieving/Checking */
 int zephir_class_exists(const zval *class_name, int autoload TSRMLS_DC);
 int zephir_interface_exists(const zval *interface_name, int autoload TSRMLS_DC);

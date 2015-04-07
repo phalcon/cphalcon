@@ -1768,11 +1768,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationByAlias) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords) {
 
-	zval *_13;
+	zval *_14;
+	zephir_fcall_cache_entry *_12 = NULL;
 	HashTable *_8;
 	HashPosition _7;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zend_bool reusable, _12;
+	zend_bool reusable, _13;
 	zval *method = NULL;
 	zval *relation, *method_param = NULL, *record, *parameters = NULL, *preConditions = NULL, *placeholders = NULL, *referencedModel = NULL, *intermediateModel = NULL, *intermediateFields = NULL, *joinConditions, *fields = NULL, *builder = NULL, *extraParameters = NULL, *conditions = NULL, *refPosition = NULL, *field = NULL, *referencedFields = NULL, *findParams, *findArguments = NULL, *retrieveMethod = NULL, *uniqueKey, *records = NULL, *arguments, *_0 = NULL, *_1 = NULL, *_2 = NULL, *_3 = NULL, *_4, *_5 = NULL, *_6 = NULL, **_9, *_10, *_11 = NULL;
 
@@ -1930,7 +1931,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords) {
 			ZEPHIR_INIT_LNVAR(_11);
 			ZEPHIR_CONCAT_SVSV(_11, "[", _10, "] = ?", refPosition);
 			zephir_array_append(&conditions, _11, PH_SEPARATE, "phalcon/mvc/model/manager.zep", 1365);
-			ZEPHIR_CALL_METHOD(&_6, record, "readattribute", NULL, field);
+			ZEPHIR_CALL_METHOD(&_6, record, "readattribute", &_12, field);
 			zephir_check_call_status();
 			zephir_array_append(&placeholders, _6, PH_SEPARATE, "phalcon/mvc/model/manager.zep", 1366);
 		}
@@ -1982,22 +1983,22 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords) {
 		zephir_unique_key(uniqueKey, referencedModel, arguments TSRMLS_CC);
 		ZEPHIR_CALL_METHOD(&records, this_ptr, "getreusablerecords", NULL, referencedModel, uniqueKey);
 		zephir_check_call_status();
-		_12 = Z_TYPE_P(records) == IS_ARRAY;
-		if (!(_12)) {
-			_12 = Z_TYPE_P(records) == IS_OBJECT;
+		_13 = Z_TYPE_P(records) == IS_ARRAY;
+		if (!(_13)) {
+			_13 = Z_TYPE_P(records) == IS_OBJECT;
 		}
-		if (_12) {
+		if (_13) {
 			RETURN_CCTOR(records);
 		}
 	}
 	ZEPHIR_INIT_NVAR(records);
-	ZEPHIR_INIT_VAR(_13);
-	zephir_create_array(_13, 2, 0 TSRMLS_CC);
+	ZEPHIR_INIT_VAR(_14);
+	zephir_create_array(_14, 2, 0 TSRMLS_CC);
 	ZEPHIR_CALL_METHOD(&_3, this_ptr, "load", NULL, referencedModel);
 	zephir_check_call_status();
-	zephir_array_fast_append(_13, _3);
-	zephir_array_fast_append(_13, retrieveMethod);
-	ZEPHIR_CALL_USER_FUNC_ARRAY(records, _13, arguments);
+	zephir_array_fast_append(_14, _3);
+	zephir_array_fast_append(_14, retrieveMethod);
+	ZEPHIR_CALL_USER_FUNC_ARRAY(records, _14, arguments);
 	zephir_check_call_status();
 	if (reusable) {
 		ZEPHIR_CALL_METHOD(NULL, this_ptr, "setreusablerecords", NULL, referencedModel, uniqueKey, records);

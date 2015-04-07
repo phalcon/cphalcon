@@ -64,6 +64,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Behavior_Timestampable) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Behavior_Timestampable, notify) {
 
+	zephir_fcall_cache_entry *_4 = NULL;
 	HashTable *_2;
 	HashPosition _1;
 	int ZEPHIR_LAST_CALL_STATUS;
@@ -128,11 +129,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior_Timestampable, notify) {
 			  ; zephir_hash_move_forward_ex(_2, &_1)
 			) {
 				ZEPHIR_GET_HVALUE(singleField, _3);
-				ZEPHIR_CALL_METHOD(NULL, model, "writeattribute", NULL, singleField, timestamp);
+				ZEPHIR_CALL_METHOD(NULL, model, "writeattribute", &_4, singleField, timestamp);
 				zephir_check_call_status();
 			}
 		} else {
-			ZEPHIR_CALL_METHOD(NULL, model, "writeattribute", NULL, field, timestamp);
+			ZEPHIR_CALL_METHOD(NULL, model, "writeattribute", &_4, field, timestamp);
 			zephir_check_call_status();
 		}
 	}

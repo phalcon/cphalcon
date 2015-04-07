@@ -297,7 +297,7 @@ PHP_METHOD(Phalcon_Forms_Form, getElements) {
  */
 PHP_METHOD(Phalcon_Forms_Form, bind) {
 
-	zephir_fcall_cache_entry *_3 = NULL;
+	zephir_fcall_cache_entry *_3 = NULL, *_6 = NULL, *_7 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
 	HashTable *_1;
 	HashPosition _0;
@@ -347,12 +347,12 @@ PHP_METHOD(Phalcon_Forms_Form, bind) {
 				zephir_check_call_status();
 				ZEPHIR_INIT_NVAR(_5);
 				ZVAL_STRING(_5, "filter", ZEPHIR_TEMP_PARAM_COPY);
-				ZEPHIR_CALL_METHOD(&_4, dependencyInjector, "getshared", NULL, _5);
+				ZEPHIR_CALL_METHOD(&_4, dependencyInjector, "getshared", &_6, _5);
 				zephir_check_temp_parameter(_5);
 				zephir_check_call_status();
 				ZEPHIR_CPY_WRT(filter, _4);
 			}
-			ZEPHIR_CALL_METHOD(&filteredValue, filter, "sanitize", NULL, value, filters);
+			ZEPHIR_CALL_METHOD(&filteredValue, filter, "sanitize", &_7, value, filters);
 			zephir_check_call_status();
 		} else {
 			ZEPHIR_CPY_WRT(filteredValue, value);
@@ -507,9 +507,10 @@ PHP_METHOD(Phalcon_Forms_Form, isValid) {
  */
 PHP_METHOD(Phalcon_Forms_Form, getMessages) {
 
+	zephir_fcall_cache_entry *_4 = NULL;
 	HashTable *_2;
 	HashPosition _1;
-	zephir_fcall_cache_entry *_0 = NULL, *_4 = NULL;
+	zephir_nts_static zephir_fcall_cache_entry *_0 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *byItemName_param = NULL, *messages, *group, *elementMessages = NULL, **_3;
 	zend_bool byItemName;

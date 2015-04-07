@@ -993,7 +993,8 @@ PHP_METHOD(Phalcon_Http_Request, getServerName) {
  */
 PHP_METHOD(Phalcon_Http_Request, getHttpHost) {
 
-	zend_bool _1, _2;
+	zend_bool _2, _3;
+	zephir_fcall_cache_entry *_1 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *httpHost = NULL, *scheme = NULL, *name = NULL, *port = NULL, *_0 = NULL;
 
@@ -1001,7 +1002,7 @@ PHP_METHOD(Phalcon_Http_Request, getHttpHost) {
 
 	ZEPHIR_INIT_VAR(_0);
 	ZVAL_STRING(_0, "HTTP_HOST", ZEPHIR_TEMP_PARAM_COPY);
-	ZEPHIR_CALL_METHOD(&httpHost, this_ptr, "getserver", NULL, _0);
+	ZEPHIR_CALL_METHOD(&httpHost, this_ptr, "getserver", &_1, _0);
 	zephir_check_temp_parameter(_0);
 	zephir_check_call_status();
 	if (zephir_is_true(httpHost)) {
@@ -1011,26 +1012,26 @@ PHP_METHOD(Phalcon_Http_Request, getHttpHost) {
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(_0);
 	ZVAL_STRING(_0, "SERVER_NAME", ZEPHIR_TEMP_PARAM_COPY);
-	ZEPHIR_CALL_METHOD(&name, this_ptr, "getserver", NULL, _0);
+	ZEPHIR_CALL_METHOD(&name, this_ptr, "getserver", &_1, _0);
 	zephir_check_temp_parameter(_0);
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(_0);
 	ZVAL_STRING(_0, "SERVER_PORT", ZEPHIR_TEMP_PARAM_COPY);
-	ZEPHIR_CALL_METHOD(&port, this_ptr, "getserver", NULL, _0);
+	ZEPHIR_CALL_METHOD(&port, this_ptr, "getserver", &_1, _0);
 	zephir_check_temp_parameter(_0);
 	zephir_check_call_status();
-	_1 = ZEPHIR_IS_STRING(scheme, "http");
-	if (_1) {
-		_1 = ZEPHIR_IS_LONG(port, 80);
+	_2 = ZEPHIR_IS_STRING(scheme, "http");
+	if (_2) {
+		_2 = ZEPHIR_IS_LONG(port, 80);
 	}
-	if (_1) {
+	if (_2) {
 		RETURN_CCTOR(name);
 	}
-	_2 = ZEPHIR_IS_STRING(scheme, "https");
-	if (_2) {
-		_2 = ZEPHIR_IS_LONG(port, 443);
+	_3 = ZEPHIR_IS_STRING(scheme, "https");
+	if (_3) {
+		_3 = ZEPHIR_IS_LONG(port, 443);
 	}
-	if (_2) {
+	if (_3) {
 		RETURN_CCTOR(name);
 	}
 	ZEPHIR_CONCAT_VSV(return_value, name, ":", port);

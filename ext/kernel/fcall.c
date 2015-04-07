@@ -841,6 +841,8 @@ int zephir_call_class_method_aparams(zval **return_value_ptr, zend_class_entry *
 
 		if (ce) {
 			possible_method = zephir_fcall_possible_method(ce, method_name TSRMLS_CC);
+		} else {
+			possible_method = "undefined";
 		}
 
 		switch (type) {

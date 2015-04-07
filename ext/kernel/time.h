@@ -17,6 +17,9 @@
 #ifndef ZEPHIR_KERNEL_TIME_H
 #define ZEPHIR_KERNEL_TIME_H
 
+#include <php.h>
+#include <Zend/zend.h>
+
 #define MICRO_IN_SEC 1000000.00
 
 void zephir_time(zval *return_value);
