@@ -113,8 +113,6 @@ class Profiler
 
 	/**
 	 * Stops the active profile
-	 *
-	 * @return Phalcon\Db\Profiler
 	 */
 	public function stopProfile() -> <Profiler>
 	{
@@ -138,8 +136,6 @@ class Profiler
 
 	/**
 	 * Returns the total number of SQL statements processed
-	 *
-	 * @return integer
 	 */
 	public function getNumberTotalStatements() -> int
 	{
@@ -148,8 +144,6 @@ class Profiler
 
 	/**
 	 * Returns the total time in seconds spent by the profiles
-	 *
-	 * @return double
 	 */
 	public function getTotalElapsedSeconds() -> double
 	{
@@ -158,8 +152,6 @@ class Profiler
 
 	/**
 	 * Returns all the processed profiles
-	 *
-	 * @return Phalcon\Db\Profiler\Item[]
 	 */
 	public function getProfiles() -> <Item[]>
 	{
@@ -168,8 +160,6 @@ class Profiler
 
 	/**
 	 * Resets the profiler, cleaning up all the profiles
-	 *
-	 * @return Phalcon\Db\Profiler
 	 */
 	public function reset() -> <Profiler>
 	{
@@ -179,8 +169,6 @@ class Profiler
 
 	/**
 	 * Returns the last profile executed in the profiler
-	 *
-	 * @return	Phalcon\Db\Profiler\Item
 	 */
 	public function getLastProfile() -> <Item>
 	{

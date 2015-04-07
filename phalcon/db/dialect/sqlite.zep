@@ -39,9 +39,6 @@ class Sqlite extends Dialect implements DialectInterface
 
 	/**
 	 * Gets the column name in SQLite
-	 *
-	 * @param Phalcon\Db\ColumnInterface column
-	 * @return string
 	 */
 	public function getColumnDefinition(<\Phalcon\Db\ColumnInterface> column) -> string
 	{
@@ -137,10 +134,6 @@ class Sqlite extends Dialect implements DialectInterface
 
 	/**
 	 * Generates SQL to add a column to a table
-	 *
-	 * @param	string tableName
-	 * @param	string schemaName
-	 * @param	Phalcon\Db\ColumnInterface column
 	 */
 	public function addColumn(string! tableName, string! schemaName, <\Phalcon\Db\ColumnInterface> column) -> string
 	{
@@ -176,11 +169,6 @@ class Sqlite extends Dialect implements DialectInterface
 
 	/**
 	 * Generates SQL to modify a column in a table
-	 *
-	 * @param	string tableName
-	 * @param	string schemaName
-	 * @param	Phalcon\Db\ColumnInterface column
-	 * @return	string
 	 */
 	public function modifyColumn(string! tableName, string! schemaName, <\Phalcon\Db\ColumnInterface> column) -> string
 	{
@@ -189,11 +177,6 @@ class Sqlite extends Dialect implements DialectInterface
 
 	/**
 	 * Generates SQL to delete a column from a table
-	 *
-	 * @param	string tableName
-	 * @param	string schemaName
-	 * @param	string columnName
-	 * @return 	string
 	 */
 	public function dropColumn(string! tableName, string! schemaName, string columnName) -> string
 	{
@@ -202,11 +185,6 @@ class Sqlite extends Dialect implements DialectInterface
 
 	/**
 	 * Generates SQL to add an index to a table
-	 *
-	 * @param	string tableName
-	 * @param	string schemaName
-	 * @param	Phalcon\Db\IndexInterface index
-	 * @return	string
 	 */
 	public function addIndex(string! tableName, string! schemaName, <IndexInterface> index) -> string
 	{
@@ -236,11 +214,6 @@ class Sqlite extends Dialect implements DialectInterface
 
 	/**
 	 * Generates SQL to delete an index from a table
-	 *
-	 * @param	string tableName
-	 * @param	string schemaName
-	 * @param	string indexName
-	 * @return	string
 	 */
 	public function dropIndex(string! tableName, string! schemaName, string! indexName) -> string
 	{
@@ -255,11 +228,6 @@ class Sqlite extends Dialect implements DialectInterface
 
 	/**
 	 * Generates SQL to add the primary key to a table
-	 *
-	 * @param	string tableName
-	 * @param	string schemaName
-	 * @param	Phalcon\Db\IndexInterface index
-	 * @return	string
 	 */
 	public function addPrimaryKey(string tableName, string schemaName, <IndexInterface> index) -> string
 	{
@@ -268,10 +236,6 @@ class Sqlite extends Dialect implements DialectInterface
 
 	/**
 	 * Generates SQL to delete primary key from a table
-	 *
-	 * @param	string tableName
-	 * @param	string schemaName
-	 * @return	string
 	 */
 	public function dropPrimaryKey(string! tableName, string! schemaName) -> string
 	{
@@ -280,11 +244,6 @@ class Sqlite extends Dialect implements DialectInterface
 
 	/**
 	 * Generates SQL to add an index to a table
-	 *
-	 * @param	string tableName
-	 * @param	string schemaName
-	 * @param	Phalcon\Db\ReferenceInterface reference
-	 * @return	string
 	 */
 	public function addForeignKey(string! tableName, string! schemaName, <\Phalcon\Db\ReferenceInterface> reference) -> string
 	{
@@ -317,11 +276,6 @@ class Sqlite extends Dialect implements DialectInterface
 
 	/**
 	 * Generates SQL to create a table in MySQL
-	 *
-	 * @param 	string tableName
-	 * @param	string schemaName
-	 * @param	array definition
-	 * @return 	string
 	 */
 	public function createTable(string! tableName, string! schemaName, array! definition) -> string
 	{
@@ -336,7 +290,7 @@ class Sqlite extends Dialect implements DialectInterface
 	 * @param  boolean ifExists
 	 * @return string
 	 */
-	public function dropTable(string! tableName, string! schemaName, ifExists=true) -> string
+	public function dropTable(string! tableName, string! schemaName, ifExists = true) -> string
 	{
 		var sql, table;
 
@@ -382,13 +336,8 @@ class Sqlite extends Dialect implements DialectInterface
 
 	/**
 	 * Generates SQL to drop a view
-	 *
-	 * @param string viewName
-	 * @param string schemaName
-	 * @param boolean ifExists
-	 * @return string
 	 */
-	public function dropView(string! viewName, string! schemaName, boolean ifExists=true) -> string
+	public function dropView(string! viewName, string! schemaName, boolean ifExists = true) -> string
 	{
 		var sql, view;
 
@@ -419,7 +368,7 @@ class Sqlite extends Dialect implements DialectInterface
 	 * @param string schemaName
 	 * @return string
 	 */
-	public function tableExists(string! tableName, schemaName=null) -> string
+	public function tableExists(string! tableName, schemaName = null) -> string
 	{
 		return "SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END FROM sqlite_master WHERE type='table' AND tbl_name='" . tableName . "'";
 	}
@@ -431,7 +380,7 @@ class Sqlite extends Dialect implements DialectInterface
 	 * @param string schemaName
 	 * @return string
 	 */
-	public function viewExists(string! viewName, schemaName=null)
+	public function viewExists(string! viewName, schemaName = null) -> string
 	{
 		return "SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END FROM sqlite_master WHERE type='view' AND tbl_name='" . viewName . "'";
 	}
@@ -447,7 +396,7 @@ class Sqlite extends Dialect implements DialectInterface
 	 * @param string schema
 	 * @return string
 	 */
-	public function describeColumns(string! table, schema=null) -> string
+	public function describeColumns(string! table, schema = null) -> string
 	{
 		return "PRAGMA table_info('" . table . "')";
 	}
@@ -458,22 +407,16 @@ class Sqlite extends Dialect implements DialectInterface
 	 *<code>
 	 *	print_r($dialect->listTables("blog"))
 	 *</code>
-	 *
-	 * @param       string schemaName
-	 * @return      array
 	 */
-	public function listTables(string! schemaName=null) -> string
+	public function listTables(string! schemaName = null) -> string
 	{
 		return "SELECT tbl_name FROM sqlite_master WHERE type = 'table' ORDER BY tbl_name";
 	}
 
 	/**
 	 * Generates the SQL to list all views of a schema or user
-	 *
-	 * @param string schemaName
-	 * @return array
 	 */
-	public function listViews(string! schemaName=null) -> string
+	public function listViews(string! schemaName = null) -> string
 	{
 		return "SELECT tbl_name FROM sqlite_master WHERE type = 'view' ORDER BY tbl_name";
 	}
@@ -485,16 +428,13 @@ class Sqlite extends Dialect implements DialectInterface
 	 * @param	string schema
 	 * @return	string
 	 */
-	public function describeIndexes(string! table, schema=null) -> string
+	public function describeIndexes(string! table, schema = null) -> string
 	{
 		return "PRAGMA index_list('" . table . "')";
 	}
 
 	/**
 	 * Generates SQL to query indexes detail on a table
-	 *
-	 * @param string $indexName
-	 * @return string
 	 */
 	public function describeIndex(string! index) -> string
 	{
@@ -508,7 +448,7 @@ class Sqlite extends Dialect implements DialectInterface
 	 * @param	string schema
 	 * @return	string
 	 */
-	public function describeReferences(string! table, schema=null) -> string
+	public function describeReferences(string! table, schema = null) -> string
 	{
 		return "PRAGMA foreign_key_list('" . table . "')";
 	}
@@ -520,7 +460,7 @@ class Sqlite extends Dialect implements DialectInterface
 	 * @param	string schema
 	 * @return	string
 	 */
-	public function tableOptions(string! table, schema=null) -> string
+	public function tableOptions(string! table, schema = null) -> string
 	{
 		return "";
 	}

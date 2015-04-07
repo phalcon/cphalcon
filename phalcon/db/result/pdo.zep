@@ -76,7 +76,7 @@ class Pdo implements ResultInterface
 	 * @param array bindTypes
 	 */
 	public function __construct(<Db\AdapterInterface> connection, <\PDOStatement> result,
-		sqlStatement=null, bindParams=null, bindTypes=null)
+		sqlStatement = null, bindParams = null, bindTypes = null)
 	{
 
 		let this->_connection = connection,
@@ -96,8 +96,6 @@ class Pdo implements ResultInterface
 	/**
 	 * Allows to execute the statement again. Some database systems don't support scrollable cursors,
 	 * So, as cursors are forward only, we need to execute the cursor again to fetch rows from the begining
-	 *
-	 * @return boolean
 	 */
 	public function execute() -> boolean
 	{
@@ -165,8 +163,6 @@ class Pdo implements ResultInterface
 	 *	$result = $connection->query("SELECT * FROM robots ORDER BY name");
 	 *	echo 'There are ', $result->numRows(), ' rows in the resulset';
 	 *</code>
-	 *
-	 * @return int
 	 */
 	public function numRows() -> int
 	{
@@ -229,8 +225,6 @@ class Pdo implements ResultInterface
 	 *	$result->dataSeek(2); // Move to third row on result
 	 *	$row = $result->fetch(); // Fetch third row
 	 *</code>
-	 *
-	 * @param long number
 	 */
 	public function dataSeek(long number)
 	{
@@ -303,8 +297,6 @@ class Pdo implements ResultInterface
 	 *	//Return an object
 	 *	$result->setFetchMode(Phalcon\Db::FETCH_OBJ);
 	 *</code>
-	 *
-	 * @param int fetchMode
 	 */
 	public function setFetchMode(int fetchMode)
 	{
@@ -337,8 +329,6 @@ class Pdo implements ResultInterface
 
 	/**
 	 * Gets the internal PDO result object
-	 *
-	 * @return \PDOStatement
 	 */
 	public function getInternalResult() -> <\PDOStatement>
 	{
