@@ -208,11 +208,25 @@ int phalcon_fetch_parameters_ex(int dummy TSRMLS_DC, int n_req, int n_opt, ...);
 	return;
 
 /**
+ * Returns a zval in an object member
+ */
+#define RETURN_MM_MEMBER(object, member_name) \
+	phalcon_return_property_quick(return_value, NULL, object, SL(member_name), zend_inline_hash_func(SS(member_name)) TSRMLS_CC); \
+	RETURN_MM();
+
+/**
  * Returns a zval in an object member (quick)
  */
 #define RETURN_MEMBER_QUICK(object, member_name, key) \
 	phalcon_return_property_quick(return_value, NULL, object, SL(member_name), key TSRMLS_CC); \
 	return;
+
+/**
+ * Returns a zval in an object member (quick)
+ */
+#define RETURN_MM_MEMBER_QUICK(object, member_name, key) \
+	phalcon_return_property_quick(return_value, NULL, object, SL(member_name), key TSRMLS_CC); \
+	RETURN_MM();
 
 #define RETURN_ON_FAILURE(what) \
 	if (FAILURE == what) { \
@@ -228,6 +242,9 @@ int phalcon_fetch_parameters_ex(int dummy TSRMLS_DC, int n_req, int n_opt, ...);
 /** Return without change return_value */
 #define RETURN_MM() PHALCON_MM_RESTORE(); return;
 
+/** Return bool restoring memory frame */
+#define RETURN_MM_BOOL(value) RETVAL_BOOL(value); RETURN_MM();
+
 /** Return null restoring memory frame */
 #define RETURN_MM_NULL() PHALCON_MM_RESTORE(); RETURN_NULL();
 
@@ -238,6 +255,12 @@ int phalcon_fetch_parameters_ex(int dummy TSRMLS_DC, int n_req, int n_opt, ...);
 /** Return string restoring memory frame */
 #define RETURN_MM_STRING(str, copy) PHALCON_MM_RESTORE(); RETURN_STRING(str, copy);
 #define RETURN_MM_EMPTY_STRING() PHALCON_MM_RESTORE(); RETURN_EMPTY_STRING();
+
+/* Return long */
+#define RETURN_MM_LONG(value) RETVAL_LONG(value); RETURN_MM();
+
+/* Return double */
+#define RETURN_MM_DOUBLE(value) RETVAL_DOUBLE(value); RETURN_MM();
 
 /** Return empty array */
 #define RETURN_EMPTY_ARRAY() array_init(return_value); return;
@@ -254,6 +277,40 @@ int phalcon_fetch_parameters_ex(int dummy TSRMLS_DC, int n_req, int n_opt, ...);
 		PHALCON_INIT_NVAR_PNULL(var); \
 		phalcon_get_current_key(&var, hash, &hash_position TSRMLS_CC); \
 	} while (0)
+
+/** Get current hash key copying the iterator if needed */
+
+#if PHP_VERSION_ID < 50500
+
+#define PHALCON_GET_IKEY(var, it) \
+	do { \
+		int key_type; uint str_key_len; \
+		ulong int_key; \
+		char *str_key; \
+		\
+		PHALCON_INIT_NVAR(var); \
+		key_type = it->funcs->get_current_key(it, &str_key, &str_key_len, &int_key TSRMLS_CC); \
+		if (key_type == HASH_KEY_IS_STRING) { \
+			ZVAL_STRINGL(var, str_key, str_key_len - 1, 1); \
+			efree(str_key); \
+		} else { \
+			if (key_type == HASH_KEY_IS_LONG) { \
+				ZVAL_LONG(var, int_key); \
+			} else { \
+				ZVAL_NULL(var); \
+			} \
+		} \
+	} while (0)
+
+#else
+
+#define PHALCON_GET_IKEY(var, it) \
+	do { \
+		PHALCON_INIT_NVAR(var); \
+		it->funcs->get_current_key(it, var TSRMLS_CC); \
+	} while (0)
+
+#endif
 
 /** Check if an array is iterable or not */
 #define phalcon_is_iterable(var, array_hash, hash_pointer, duplicate, reverse) \

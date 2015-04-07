@@ -32,15 +32,15 @@ void phalcon_dump_memory_frame(phalcon_memory_entry *active_memory TSRMLS_DC);
 void phalcon_dump_current_frame(TSRMLS_D);
 void phalcon_dump_all_frames(TSRMLS_D);
 
-void phalcon_memory_grow_stack(const char *func TSRMLS_DC);
-int phalcon_memory_restore_stack(const char *func TSRMLS_DC);
+void ZEND_FASTCALL phalcon_memory_grow_stack(const char *func TSRMLS_DC);
+int ZEND_FASTCALL phalcon_memory_restore_stack(const char *func TSRMLS_DC);
 
 #define PHALCON_MM_GROW()       phalcon_memory_grow_stack(__func__ TSRMLS_CC)
 #define PHALCON_MM_RESTORE()    phalcon_memory_restore_stack(__func__ TSRMLS_CC)
 
-void phalcon_memory_observe(zval **var, const char *func TSRMLS_DC) /* PHALCON_ATTR_NONNULL */;
-void phalcon_memory_alloc(zval **var, const char *func TSRMLS_DC);
-void phalcon_memory_alloc_pnull(zval **var, const char *func TSRMLS_DC);
+void ZEND_FASTCALL phalcon_memory_observe(zval **var, const char *func TSRMLS_DC) /* PHALCON_ATTR_NONNULL */;
+void ZEND_FASTCALL phalcon_memory_alloc(zval **var, const char *func TSRMLS_DC);
+void ZEND_FASTCALL phalcon_memory_alloc_pnull(zval **var, const char *func TSRMLS_DC);
 
 #define PHALCON_MEMORY_ALLOC(z) \
 	phalcon_memory_alloc((z), __func__ TSRMLS_CC)
@@ -52,15 +52,15 @@ void phalcon_memory_alloc_pnull(zval **var, const char *func TSRMLS_DC);
 	phalcon_memory_observe((z), __func__ TSRMLS_CC)
 
 #else
-void phalcon_memory_grow_stack(TSRMLS_D);
-int phalcon_memory_restore_stack(TSRMLS_D);
+void ZEND_FASTCALL phalcon_memory_grow_stack(TSRMLS_D);
+int ZEND_FASTCALL phalcon_memory_restore_stack(TSRMLS_D);
 
 #define PHALCON_MM_GROW()       phalcon_memory_grow_stack(TSRMLS_C)
 #define PHALCON_MM_RESTORE()    phalcon_memory_restore_stack(TSRMLS_C)
 
-void phalcon_memory_observe(zval **var TSRMLS_DC) /* PHALCON_ATTR_NONNULL */;
-void phalcon_memory_alloc(zval **var TSRMLS_DC);
-void phalcon_memory_alloc_pnull(zval **var TSRMLS_DC);
+void ZEND_FASTCALL phalcon_memory_observe(zval **var TSRMLS_DC) /* PHALCON_ATTR_NONNULL */;
+void ZEND_FASTCALL phalcon_memory_alloc(zval **var TSRMLS_DC);
+void ZEND_FASTCALL phalcon_memory_alloc_pnull(zval **var TSRMLS_DC);
 
 #define PHALCON_MEMORY_ALLOC(z) \
 	phalcon_memory_alloc((z) TSRMLS_CC)
@@ -75,7 +75,7 @@ void phalcon_memory_alloc_pnull(zval **var TSRMLS_DC);
 
 void phalcon_memory_remove(zval **var TSRMLS_DC) PHALCON_ATTR_NONNULL;
 
-int phalcon_clean_restore_stack(TSRMLS_D);
+int ZEND_FASTCALL phalcon_clean_restore_stack(TSRMLS_D);
 
 /* Virtual symbol tables */
 void phalcon_create_symbol_table(TSRMLS_D);
@@ -85,7 +85,7 @@ void phalcon_clean_symbol_tables(TSRMLS_D);
 int phalcon_set_symbol(zval *key_name, zval *value TSRMLS_DC);
 int phalcon_set_symbol_str(char *key_name, unsigned int key_length, zval *value TSRMLS_DC);
 
-void phalcon_copy_ctor(zval *destiny, zval *origin) PHALCON_ATTR_NONNULL;
+void ZEND_FASTCALL phalcon_copy_ctor(zval *destiny, zval *origin) PHALCON_ATTR_NONNULL;
 
 /* Memory macros */
 #define PHALCON_ALLOC_GHOST_ZVAL(z)                   \

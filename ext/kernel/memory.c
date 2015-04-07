@@ -268,7 +268,11 @@ static void phalcon_memory_restore_stack_common(zend_phalcon_globals *g TSRMLS_D
 		for (i = 0; i < active_memory->pointer; ++i) {
 			if (EXPECTED(active_memory->addresses[i] != NULL && *(active_memory->addresses[i]) != NULL)) {
 				if (Z_REFCOUNT_PP(active_memory->addresses[i]) == 1) {
-					zval_ptr_dtor(active_memory->addresses[i]);
+					if (!Z_ISREF_PP(active_memory->addresses[i]) || Z_TYPE_PP(active_memory->addresses[i]) == IS_OBJECT) {
+						zval_ptr_dtor(active_memory->addresses[i]);
+					} else {
+						efree(*active_memory->addresses[i]);
+					}
 				} else {
 					Z_DELREF_PP(active_memory->addresses[i]);
 				}
@@ -393,7 +397,7 @@ void phalcon_dump_all_frames(TSRMLS_D)
 /**
  * Finishes the current memory stack by releasing allocated memory
  */
-int phalcon_memory_restore_stack(const char *func TSRMLS_DC)
+int ZEND_FASTCALL phalcon_memory_restore_stack(const char *func TSRMLS_DC)
 {
 	zend_phalcon_globals *phalcon_globals_ptr = PHALCON_VGLOBAL;
 
@@ -417,7 +421,7 @@ int phalcon_memory_restore_stack(const char *func TSRMLS_DC)
 /**
  * Adds a memory frame in the current executed method
  */
-void phalcon_memory_grow_stack(const char *func TSRMLS_DC)
+void ZEND_FASTCALL phalcon_memory_grow_stack(const char *func TSRMLS_DC)
 {
 	zend_phalcon_globals *g = PHALCON_VGLOBAL;
 	if (g->start_memory == NULL) {
@@ -432,7 +436,7 @@ void phalcon_memory_grow_stack(const char *func TSRMLS_DC)
 /**
  * Adds a memory frame in the current executed method
  */
-void phalcon_memory_grow_stack(TSRMLS_D)
+void ZEND_FASTCALL ZEND_FASTCALL phalcon_memory_grow_stack(TSRMLS_D)
 {
 	zend_phalcon_globals *g = PHALCON_VGLOBAL;
 	if (g->start_memory == NULL) {
@@ -445,7 +449,7 @@ void phalcon_memory_grow_stack(TSRMLS_D)
 /**
  * Finishes the current memory stack by releasing allocated memory
  */
-int phalcon_memory_restore_stack(TSRMLS_D)
+int ZEND_FASTCALL phalcon_memory_restore_stack(TSRMLS_D)
 {
 	phalcon_memory_restore_stack_common(PHALCON_VGLOBAL TSRMLS_CC);
 	return SUCCESS;
@@ -530,7 +534,7 @@ static void phalcon_verify_frame(const phalcon_memory_entry *frame, const char *
 /**
  * Observes a memory pointer to release its memory at the end of the request
  */
-void phalcon_memory_observe(zval **var, const char *func TSRMLS_DC)
+void ZEND_FASTCALL phalcon_memory_observe(zval **var, const char *func TSRMLS_DC)
 {
 	zend_phalcon_globals *g     = PHALCON_VGLOBAL;
 	phalcon_memory_entry *frame = g->active_memory;
@@ -544,7 +548,7 @@ void phalcon_memory_observe(zval **var, const char *func TSRMLS_DC)
 /**
  * Observes a variable and allocates memory for it
  */
-void phalcon_memory_alloc(zval **var, const char *func TSRMLS_DC)
+void ZEND_FASTCALL phalcon_memory_alloc(zval **var, const char *func TSRMLS_DC)
 {
 	zend_phalcon_globals *g     = PHALCON_VGLOBAL;
 	phalcon_memory_entry *frame = g->active_memory;
@@ -559,7 +563,7 @@ void phalcon_memory_alloc(zval **var, const char *func TSRMLS_DC)
  * Observes a variable and allocates memory for it
  * Marks hash key zvals to be nulled before freeing
  */
-void phalcon_memory_alloc_pnull(zval **var, const char *func TSRMLS_DC)
+void ZEND_FASTCALL phalcon_memory_alloc_pnull(zval **var, const char *func TSRMLS_DC)
 {
 	zend_phalcon_globals *g     = PHALCON_VGLOBAL;
 	phalcon_memory_entry *frame = g->active_memory;
@@ -582,7 +586,7 @@ void phalcon_memory_alloc_pnull(zval **var, const char *func TSRMLS_DC)
 /**
  * Observes a memory pointer to release its memory at the end of the request
  */
-void phalcon_memory_observe(zval **var TSRMLS_DC)
+void ZEND_FASTCALL phalcon_memory_observe(zval **var TSRMLS_DC)
 {
 	zend_phalcon_globals *g = PHALCON_VGLOBAL;
 	phalcon_do_memory_observe(var, g);
@@ -592,7 +596,7 @@ void phalcon_memory_observe(zval **var TSRMLS_DC)
 /**
  * Observes a variable and allocates memory for it
  */
-void phalcon_memory_alloc(zval **var TSRMLS_DC)
+void ZEND_FASTCALL phalcon_memory_alloc(zval **var TSRMLS_DC)
 {
 	zend_phalcon_globals *g = PHALCON_VGLOBAL;
 	phalcon_do_memory_observe(var, g);
@@ -603,7 +607,7 @@ void phalcon_memory_alloc(zval **var TSRMLS_DC)
  * Observes a variable and allocates memory for it
  * Marks hash key zvals to be nulled before freeing
  */
-void phalcon_memory_alloc_pnull(zval **var TSRMLS_DC)
+void ZEND_FASTCALL phalcon_memory_alloc_pnull(zval **var TSRMLS_DC)
 {
 	zend_phalcon_globals *g = PHALCON_VGLOBAL;
 	phalcon_memory_entry *active_memory = g->active_memory;
@@ -631,7 +635,7 @@ void phalcon_memory_remove(zval **var TSRMLS_DC) {
 /**
  * Cleans the phalcon memory stack recursivery
  */
-int phalcon_clean_restore_stack(TSRMLS_D) {
+int ZEND_FASTCALL phalcon_clean_restore_stack(TSRMLS_D) {
 
 	zend_phalcon_globals *phalcon_globals_ptr = PHALCON_VGLOBAL;
 
@@ -645,7 +649,7 @@ int phalcon_clean_restore_stack(TSRMLS_D) {
 /**
  * Copies a variable only if its refcount is greater than 1
  */
-void phalcon_copy_ctor(zval *destination, zval *origin) {
+void ZEND_FASTCALL phalcon_copy_ctor(zval *destination, zval *origin) {
 	if (Z_REFCOUNT_P(origin) > 1) {
 		zval_copy_ctor(destination);
 	} else {

@@ -97,7 +97,7 @@ PHALCON_ATTR_NONNULL static inline int phalcon_array_isset_string_fetch(zval **f
  * @note @c index will be handled as follows: @c NULL is treated as an empty string, @c double values are cast to @c integer, @c bool or @c resource are treated as @c integer
  * @throw E_WARNING if @a offset is not a scalar
  */
-int phalcon_array_isset(const zval *arr, const zval *index) PHALCON_ATTR_NONNULL;
+int ZEND_FASTCALL phalcon_array_isset(const zval *arr, const zval *index) PHALCON_ATTR_NONNULL;
 
 /**
  * @brief Checks whether numeric @a index exists in array @a arr
@@ -107,7 +107,7 @@ int phalcon_array_isset(const zval *arr, const zval *index) PHALCON_ATTR_NONNULL
  * @retval 0 Not exists or @a arr is not an array
  * @retval 1 Exists
  */
-int phalcon_array_isset_long(const zval *arr, ulong index) PHALCON_ATTR_NONNULL;
+int ZEND_FASTCALL phalcon_array_isset_long(const zval *arr, ulong index) PHALCON_ATTR_NONNULL;
 
 /**
  * @brief Checks whether string @a index exists in array @a arr using the precomputed key @a key
@@ -119,7 +119,7 @@ int phalcon_array_isset_long(const zval *arr, ulong index) PHALCON_ATTR_NONNULL;
  * @retval 0 Not exists or @a arr is not an array
  * @retval 1 Exists
  */
-int phalcon_array_isset_quick_string(const zval *arr, const char *index, uint index_length, ulong key) PHALCON_ATTR_NONNULL;
+int ZEND_FASTCALL phalcon_array_isset_quick_string(const zval *arr, const char *index, uint index_length, ulong key) PHALCON_ATTR_NONNULL;
 
 /**
  * @brief Checks whether string @a index exists in array @a arr
@@ -154,7 +154,7 @@ PHALCON_ATTR_NONNULL static inline int phalcon_array_isset_string(const zval *ar
  * @note @c index will be handled as follows: @c NULL is treated as an empty string, @c double values are cast to @c integer, @c bool or @c resource are treated as @c integer
  * @throw @c E_WARNING if @a offset is not a scalar
  */
-int phalcon_array_unset(zval **arr, const zval *index, int flags) PHALCON_ATTR_NONNULL;
+int ZEND_FASTCALL phalcon_array_unset(zval **arr, const zval *index, int flags) PHALCON_ATTR_NONNULL;
 
 /**
  * @brief Unsets numeric @a index from array @a arr
@@ -165,7 +165,7 @@ int phalcon_array_unset(zval **arr, const zval *index, int flags) PHALCON_ATTR_N
  * @retval @c FAILURE Failure or @a arr is not an array
  * @retval @c SUCCESS Success
  */
-int phalcon_array_unset_long(zval **arr, ulong index, int flags) PHALCON_ATTR_NONNULL;
+int ZEND_FASTCALL phalcon_array_unset_long(zval **arr, ulong index, int flags) PHALCON_ATTR_NONNULL;
 
 /**
  * @brief Unsets string @a index from array @a arr
@@ -177,7 +177,7 @@ int phalcon_array_unset_long(zval **arr, ulong index, int flags) PHALCON_ATTR_NO
  * @retval @c FAILURE Failure or @a arr is not an array
  * @retval @c SUCCESS Success
  */
-int phalcon_array_unset_string(zval **arr, const char *index, uint index_length, int flags) PHALCON_ATTR_NONNULL;
+int ZEND_FASTCALL phalcon_array_unset_string(zval **arr, const char *index, uint index_length, int flags) PHALCON_ATTR_NONNULL;
 
 /**
  * @brief Pushes @a value onto the end of @a arr
