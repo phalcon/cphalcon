@@ -72,6 +72,6 @@ interface QueryInterface
 	 * @param array bindTypes
 	 * @return mixed
 	 */
-	public function execute(bindParams=null, bindTypes=null);
+	public function execute(bindParams = null, bindTypes = null);
 
 }

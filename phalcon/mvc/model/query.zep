@@ -127,8 +127,6 @@ class Query implements QueryInterface, InjectionAwareInterface
 
 	/**
 	 * Sets the dependency injection container
-	 *
-	 * @param Phalcon\DiInterface dependencyInjector
 	 */
 	public function setDI(<DiInterface> dependencyInjector)
 	{
@@ -152,8 +150,6 @@ class Query implements QueryInterface, InjectionAwareInterface
 
 	/**
 	 * Returns the dependency injection container
-	 *
-	 * @return Phalcon\DiInterface
 	 */
 	public function getDI() -> <DiInterface>
 	{
@@ -162,9 +158,6 @@ class Query implements QueryInterface, InjectionAwareInterface
 
 	/**
 	 * Tells to the query if only the first row in the resultset must be returned
-	 *
-	 * @param boolean uniqueRow
-	 * @return Phalcon\Mvc\Model\Query
 	 */
 	public function setUniqueRow(boolean uniqueRow) -> <Query>
 	{
@@ -174,8 +167,6 @@ class Query implements QueryInterface, InjectionAwareInterface
 
 	/**
 	 * Check if the query is programmed to get only the first row in the resultset
-	 *
-	 * @return boolean
 	 */
 	public function getUniqueRow() -> boolean
 	{
@@ -184,11 +175,8 @@ class Query implements QueryInterface, InjectionAwareInterface
 
 	/**
 	 * Replaces the model's name to its source name in a qualifed-name expression
-	 *
-	 * @param array expr
-	 * @return string
 	 */
-	protected final function _getQualified(array! expr)
+	protected final function _getQualified(array! expr) -> array
 	{
 		var columnName, sqlColumnAliases, metaData, sqlAliases,
 			source, sqlAliasesModelsInstances, realColumnName, columnDomain,
@@ -332,9 +320,6 @@ class Query implements QueryInterface, InjectionAwareInterface
 
 	/**
 	 * Resolves a expression in a single call argument
-	 *
-	 * @param array argument
-	 * @return array
 	 */
 	protected final function _getCallArgument(array! argument) -> array
 	{
@@ -346,9 +331,6 @@ class Query implements QueryInterface, InjectionAwareInterface
 
 	/**
 	 * Resolves a expression in a single call argument
-	 *
-	 * @param array expr
-	 * @return array
 	 */
 	protected final function _getFunctionCall(array! expr) -> array
 	{
@@ -783,9 +765,8 @@ class Query implements QueryInterface, InjectionAwareInterface
 	 * @param array join
 	 * @return array
 	 */
-	protected final function _getJoin(<ManagerInterface> manager, join)
+	protected final function _getJoin(<ManagerInterface> manager, join) -> array
 	{
-
 		var qualified, modelName, source, model, schema;
 
 		if fetch qualified, join["qualified"] {
@@ -854,7 +835,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 	 * @param Phalcon\Mvc\Model\RelationInterface relation
 	 * @return array
 	 */
-	protected final function _getSingleJoin(string! joinType, joinSource, modelAlias, joinAlias, <RelationInterface> relation)
+	protected final function _getSingleJoin(string! joinType, joinSource, modelAlias, joinAlias, <RelationInterface> relation) -> array
 	{
 		var fields, referencedFields, sqlJoinConditions = null,
 			sqlJoinPartialConditions, position, field, referencedField;
@@ -949,7 +930,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 	 * @param Phalcon\Mvc\Model\RelationInterface relation
 	 * @return array
 	 */
-	protected final function _getMultiJoin(joinType, joinSource, modelAlias, joinAlias, <RelationInterface> relation)
+	protected final function _getMultiJoin(joinType, joinSource, modelAlias, joinAlias, <RelationInterface> relation) -> array
 	{
 		var sqlJoins, fields, referencedFields,
 			intermediateModelName, intermediateModel, intermediateSource,
@@ -1509,8 +1490,6 @@ class Query implements QueryInterface, InjectionAwareInterface
 
 	/**
 	 * Analyzes a SELECT intermediate code and produces an array to be executed later
-	 *
-	 * @return array
 	 */
 	protected final function _prepareSelect() -> array
 	{
@@ -1796,8 +1775,6 @@ class Query implements QueryInterface, InjectionAwareInterface
 
 	/**
 	 * Analyzes an INSERT intermediate code and produces an array to be executed later
-	 *
-	 * @return array
 	 */
 	protected final function _prepareInsert() -> array
 	{
@@ -1884,8 +1861,6 @@ class Query implements QueryInterface, InjectionAwareInterface
 
 	/**
 	 * Analyzes an UPDATE intermediate code and produces an array to be executed later
-	 *
-	 * @return array
 	 */
 	protected final function _prepareUpdate() -> array
 	{
@@ -2033,8 +2008,6 @@ class Query implements QueryInterface, InjectionAwareInterface
 
 	/**
 	 * Analyzes a DELETE intermediate code and produces an array to be executed later
-	 *
-	 * @return array
 	 */
 	protected final function _prepareDelete() -> array
 	{
@@ -2147,8 +2120,6 @@ class Query implements QueryInterface, InjectionAwareInterface
 	/**
 	 * Parses the intermediate code produced by Phalcon\Mvc\Model\Query\Lang generating another
 	 * intermediate representation that could be executed by Phalcon\Mvc\Model\Query
-	 *
-	 * @return array
 	 */
 	public function parse() -> array
 	{
@@ -3129,7 +3100,6 @@ class Query implements QueryInterface, InjectionAwareInterface
 	 */
 	public function getSingleResult(var bindParams = null, var bindTypes = null)
 	{
-
 		/**
 		 * The query is already programmed to return just one row
 		 */
@@ -3142,9 +3112,6 @@ class Query implements QueryInterface, InjectionAwareInterface
 
 	/**
 	 * Sets the type of PHQL statement to be executed
-	 *
-	 * @param int type
-	 * @return Phalcon\Mvc\Model\Query
 	 */
 	public function setType(int type) -> <Query>
 	{
@@ -3154,8 +3121,6 @@ class Query implements QueryInterface, InjectionAwareInterface
 
 	/**
 	 * Gets the type of PHQL statement executed
-	 *
-	 * @return int
 	 */
 	public function getType() -> int
 	{
@@ -3164,9 +3129,6 @@ class Query implements QueryInterface, InjectionAwareInterface
 
 	/**
 	 * Set default bind parameters
-	 *
-	 * @param array bindParams
-	 * @return Phalcon\Mvc\Model\Query
 	 */
 	public function setBindParams(array! bindParams) -> <Query>
 	{
@@ -3186,11 +3148,8 @@ class Query implements QueryInterface, InjectionAwareInterface
 
 	/**
 	 * Set default bind parameters
-	 *
-	 * @param array bindTypes
-	 * @return Phalcon\Mvc\Model\Query
 	 */
-	public function setBindTypes(array! bindTypes)
+	public function setBindTypes(array! bindTypes) -> <Query>
 	{
 		let this->_bindTypes = bindTypes;
 		return this;
@@ -3208,9 +3167,6 @@ class Query implements QueryInterface, InjectionAwareInterface
 
 	/**
 	 * Allows to set the IR to be executed
-	 *
-	 * @param array intermediate
-	 * @return Phalcon\Mvc\Model\Query
 	 */
 	public function setIntermediate(array! intermediate) -> <Query>
 	{

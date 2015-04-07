@@ -60,7 +60,7 @@ interface RouterInterface
 	 * @param string httpMethods
 	 * @return Phalcon\Mvc\Router\RouteInterface
 	 */
-	public function add(pattern, paths=null, httpMethods=null);
+	public function add(pattern, paths = null, httpMethods = null);
 
 	/**
 	 * Adds a route to the router that only match if the HTTP method is GET
@@ -69,7 +69,7 @@ interface RouterInterface
 	 * @param string/array paths
 	 * @return Phalcon\Mvc\Router\RouteInterface
 	 */
-	public function addGet(pattern, paths=null);
+	public function addGet(pattern, paths = null);
 
 	/**
 	 * Adds a route to the router that only match if the HTTP method is POST
@@ -78,7 +78,7 @@ interface RouterInterface
 	 * @param string/array paths
 	 * @return Phalcon\Mvc\Router\RouteInterface
 	 */
-	public function addPost(pattern, paths=null);
+	public function addPost(pattern, paths = null);
 
 	/**
 	 * Adds a route to the router that only match if the HTTP method is PUT
@@ -87,7 +87,7 @@ interface RouterInterface
 	 * @param string/array paths
 	 * @return Phalcon\Mvc\Router\RouteInterface
 	 */
-	public function addPut(pattern, paths=null);
+	public function addPut(pattern, paths = null);
 
 	/**
 	 * Adds a route to the router that only match if the HTTP method is PATCH
@@ -96,7 +96,7 @@ interface RouterInterface
 	 * @param string/array paths
 	 * @return Phalcon\Mvc\Router\Route
 	 */
-	public function addPatch(string! pattern, paths=null);
+	public function addPatch(string! pattern, paths = null);
 
 	/**
 	 * Adds a route to the router that only match if the HTTP method is DELETE
@@ -105,7 +105,7 @@ interface RouterInterface
 	 * @param string/array paths
 	 * @return Phalcon\Mvc\Router\RouteInterface
 	 */
-	public function addDelete(pattern, paths=null);
+	public function addDelete(pattern, paths = null);
 
 	/**
 	 * Add a route to the router that only match if the HTTP method is OPTIONS
@@ -114,7 +114,7 @@ interface RouterInterface
 	 * @param string/array paths
 	 * @return Phalcon\Mvc\Router\RouteInterface
 	 */
-	public function addOptions(pattern, paths=null);
+	public function addOptions(pattern, paths = null);
 
 	/**
 	 * Adds a route to the router that only match if the HTTP method is HEAD
@@ -123,7 +123,7 @@ interface RouterInterface
 	 * @param string/array paths
 	 * @return Phalcon\Mvc\Router\RouteInterface
 	 */
-	public function addHead(string pattern, paths=null);
+	public function addHead(string pattern, paths = null);
 
 	/**
 	 * Removes all the defined routes

@@ -34,9 +34,6 @@ interface ModelInterface
 
 	/**
 	 * Sets a transaction related to the Model instance
-	 *
-	 * @param Phalcon\Mvc\Model\TransactionInterface transaction
-	 * @return Phalcon\Mvc\ModelInterface
 	 */
 	public function setTransaction(<TransactionInterface> transaction) -> <ModelInterface>;
 
@@ -56,58 +53,41 @@ interface ModelInterface
 
 	/**
 	 * Sets both read/write connection services
-	 *
-	 * @param string connectionService
 	 */
 	public function setConnectionService(string connectionService) -> void;
 
 	/**
 	 * Sets the DependencyInjection connection service used to write data
-	 *
-	 * @param string connectionService
 	 */
 	public function setWriteConnectionService(string connectionService) -> void;
 
 	/**
 	 * Sets the DependencyInjection connection service used to read data
-	 *
-	 * @param string connectionService
 	 */
 	public function setReadConnectionService(string connectionService) -> void;
 
 	/**
 	 * Returns DependencyInjection connection service used to read data
-	 *
-	 * @return string
 	 */
 	public function getReadConnectionService() -> string;
 
 	/**
 	 * Returns DependencyInjection connection service used to write data
-	 *
-	 * @return string
 	 */
 	public function getWriteConnectionService() -> string;
 
 	/**
 	 * Gets internal database connection
-	 *
-	 * @return Phalcon\Db\AdapterInterface
 	 */
 	public function getReadConnection() -> <\Phalcon\Db\AdapterInterface>;
 
 	/**
 	 * Gets internal database connection
-	 *
-	 * @return Phalcon\Db\AdapterInterface
 	 */
 	public function getWriteConnection() -> <\Phalcon\Db\AdapterInterface>;
 
 	/**
 	 * Sets the dirty state of the object using one of the DIRTY_STATE_* constants
-	 *
-	 * @param int dirtyState
-	 * @return Phalcon\Mvc\ModelInterface
 	 */
 	public function setDirtyState(int dirtyState) -> <\Phalcon\Mvc\ModelInterface>;
 
@@ -242,8 +222,6 @@ interface ModelInterface
 
 	/**
 	 * Appends a customized message on the validation process
-	 *
-	 * @param Phalcon\Mvc\Model\MessageInterface message
 	 */
 	public function appendMessage(<MessageInterface> message);
 
@@ -312,8 +290,6 @@ interface ModelInterface
 
 	/**
 	 * Skips the current operation forcing a success state
-	 *
-	 * @param boolean skip
 	 */
 	public function skipOperation(boolean skip);
 

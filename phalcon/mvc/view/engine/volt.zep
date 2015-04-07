@@ -38,8 +38,6 @@ class Volt extends Engine implements EngineInterface
 
 	/**
 	 * Set Volt's options
-	 *
-	 * @param array options
 	 */
 	public function setOptions(array! options)
 	{
@@ -58,8 +56,6 @@ class Volt extends Engine implements EngineInterface
 
 	/**
 	 * Returns the Volt's compiler
-	 *
-	 * @return Phalcon\Mvc\View\Engine\Volt\Compiler
 	 */
 	public function getCompiler() -> <Compiler>
 	{
@@ -186,15 +182,9 @@ class Volt extends Engine implements EngineInterface
 
 	/**
 	 * Performs a string conversion
-	 *
-	 * @param  string text
-	 * @param  string from
-	 * @param  string to
-	 * @return string
 	 */
 	public function convertEncoding(string text, string! from, string! to) -> string
 	{
-
 		/**
 		 * Try to use utf8_encode if conversion is 'latin1' to 'utf8'
 		 */
@@ -234,9 +224,8 @@ class Volt extends Engine implements EngineInterface
 	 *
 	 * @param mixed value
 	 */
-	public function slice(value, start, end=null)
+	public function slice(value, start, end = null)
 	{
-
 		var length, slice;
 		int position;
 

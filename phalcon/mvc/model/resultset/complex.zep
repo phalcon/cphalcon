@@ -79,8 +79,6 @@ class Complex extends Resultset implements ResultsetInterface
 
 	/**
 	 * Check whether internal resource has rows to fetch
-	 *
-	 * @return boolean
 	 */
 	public function valid() -> boolean
 	{
@@ -287,10 +285,8 @@ class Complex extends Resultset implements ResultsetInterface
 	/**
 	 * Returns a complete resultset as an array, if the resultset has a big number of rows
 	 * it could consume more memory than currently it does.
-	 *
-	 * @return array
 	 */
-	public function toArray() -> string
+	public function toArray() -> array
 	{
 		var records, current;
 		let records = [];

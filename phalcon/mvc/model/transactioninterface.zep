@@ -34,12 +34,10 @@ interface TransactionInterface
 	 * @param boolean autoBegin
 	 * @param string service
 	 */
-	public function __construct(<\Phalcon\DiInterface> dependencyInjector, autoBegin=false, service=null);
+	public function __construct(<\Phalcon\DiInterface> dependencyInjector, autoBegin = false, service = null);
 
 	/**
 	 * Sets transaction manager related to the transaction
-	 *
-	 * @param Phalcon\Mvc\Model\Transaction\ManagerInterface manager
 	 */
 	public function setTransactionManager(<\Phalcon\Mvc\Model\Transaction\ManagerInterface> manager);
 
@@ -64,7 +62,7 @@ interface TransactionInterface
 	 * @param  Phalcon\Mvc\ModelInterface rollbackRecord
 	 * @return boolean
 	 */
-	public function rollback(rollbackMessage=null, rollbackRecord=null);
+	public function rollback(rollbackMessage = null, rollbackRecord = null);
 
 	/**
 	 * Returns connection related to transaction
@@ -110,8 +108,6 @@ interface TransactionInterface
 
 	/**
 	 * Sets object which generates rollback action
-	 *
-	 * @param Phalcon\Mvc\ModelInterface record
 	 */
 	public function setRollbackedRecord(<\Phalcon\Mvc\ModelInterface> record);
 

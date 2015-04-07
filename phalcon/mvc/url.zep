@@ -56,8 +56,6 @@ class Url implements UrlInterface, InjectionAwareInterface
 
 	/**
 	 * Sets the DependencyInjector container
-	 *
-	 * @param Phalcon\DiInterface dependencyInjector
 	 */
 	public function setDI(<DiInterface> dependencyInjector)
 	{
@@ -66,8 +64,6 @@ class Url implements UrlInterface, InjectionAwareInterface
 
 	/**
 	 * Returns the DependencyInjector container
-	 *
-	 * @return Phalcon\DiInterface
 	 */
 	public function getDI() -> <DiInterface>
 	{
@@ -76,14 +72,11 @@ class Url implements UrlInterface, InjectionAwareInterface
 
 	/**
 	 * Sets a prefix for all the URIs to be generated
-     *
+	 *
 	 *<code>
 	 *	$url->setBaseUri('/invo/');
 	 *	$url->setBaseUri('/invo/index.php/');
 	 *</code>
-	 *
-	 * @param string baseUri
-	 * @return Phalcon\Mvc\Url
 	 */
 	public function setBaseUri(string! baseUri) -> <Url>
 	{
@@ -96,13 +89,10 @@ class Url implements UrlInterface, InjectionAwareInterface
 
 	/**
 	 * Sets a prefix for all static URLs generated
-     *
+	 *
 	 *<code>
 	 *	$url->setStaticBaseUri('/invo/');
 	 *</code>
-	 *
-	 * @param string staticBaseUri
-	 * @return Phalcon\Mvc\Url
 	 */
 	public function setStaticBaseUri(string! staticBaseUri) -> <Url>
 	{
@@ -112,8 +102,6 @@ class Url implements UrlInterface, InjectionAwareInterface
 
 	/**
 	 * Returns the prefix for all the generated urls. By default /
-	 *
-	 * @return string
 	 */
 	public function getBaseUri() -> string
 	{
@@ -138,8 +126,6 @@ class Url implements UrlInterface, InjectionAwareInterface
 
 	/**
 	 * Returns the prefix for all the generated static urls. By default /
-	 *
-	 * @return string
 	 */
 	public function getStaticBaseUri() -> string
 	{
@@ -157,9 +143,6 @@ class Url implements UrlInterface, InjectionAwareInterface
 	 *<code>
 	 *	$url->setBasePath('/var/www/htdocs/');
 	 *</code>
-	 *
-	 * @param string basePath
-	 * @return Phalcon\Mvc\Url
 	 */
 	public function setBasePath(string! basePath) -> <Url>
 	{
@@ -169,8 +152,6 @@ class Url implements UrlInterface, InjectionAwareInterface
 
 	/**
 	 * Returns the base path
-	 *
-	 * @return string
 	 */
 	public function getBasePath() -> string
 	{

@@ -96,8 +96,6 @@ class Compiler implements InjectionAwareInterface
 
 	/**
 	 * Sets the dependency injector
-	 *
-	 * @param Phalcon\DiInterface dependencyInjector
 	 */
 	public function setDI(<\Phalcon\DiInterface> dependencyInjector)
 	{
@@ -109,8 +107,6 @@ class Compiler implements InjectionAwareInterface
 
 	/**
 	 * Returns the internal dependency injector
-	 *
-	 * @return Phalcon\DiInterface
 	 */
 	public function getDI() -> <\Phalcon\DiInterface>
 	{
@@ -119,8 +115,6 @@ class Compiler implements InjectionAwareInterface
 
 	/**
 	 * Sets the compiler options
-	 *
-	 * @param array options
 	 */
 	public function setOptions(array! options)
 	{
@@ -198,7 +192,6 @@ class Compiler implements InjectionAwareInterface
 				}
 			}
 		}
-
 	}
 
 	/**
@@ -241,7 +234,7 @@ class Compiler implements InjectionAwareInterface
 	 * @param Closure|string definition
 	 * @return Phalcon\Mvc\View\Engine\Volt\Compiler
 	 */
-	public function addFunction(string! name, definition)
+	public function addFunction(string! name, definition) -> <Compiler>
 	{
 		let this->_functions[name] = definition;
 		return this;
@@ -264,7 +257,7 @@ class Compiler implements InjectionAwareInterface
 	 * @param Closure|string definition
 	 * @return Phalcon\Mvc\View\Engine\Volt\Compiler
 	 */
-	public function addFilter(string! name, definition)
+	public function addFilter(string! name, definition) -> <Compiler>
 	{
 		let this->_filters[name] = definition;
 		return this;
@@ -282,9 +275,6 @@ class Compiler implements InjectionAwareInterface
 
 	/**
 	 * Set a unique prefix to be used as prefix for compiled variables
-	 *
-	 * @param string prefix
-	 * @return Phalcon\Mvc\View\Engine\Volt\Compiler
 	 */
 	public function setUniquePrefix(string! prefix) -> <Compiler>
 	{
@@ -294,8 +284,6 @@ class Compiler implements InjectionAwareInterface
 
 	/**
 	 * Return a unique prefix to be used as prefix for compiled variables and contexts
-	 *
-	 * @return string
 	 */
 	public function getUniquePrefix() -> string
 	{
@@ -331,9 +319,6 @@ class Compiler implements InjectionAwareInterface
 
 	/**
 	 * Resolves attribute reading
-	 *
-	 * @param array expr
-	 * @return string
 	 */
 	public function attributeReader(array! expr) -> string
 	{
@@ -2388,10 +2373,6 @@ class Compiler implements InjectionAwareInterface
 	 *<code>
 	 * echo $compiler->compileString('{{ "hello world" }}');
 	 *</code>
-	 *
-	 * @param  string  viewCode
-	 * @param  boolean extendsMode
-	 * @return string
 	 */
 	public function compileString(string! viewCode, boolean extendsMode=false) -> string
 	{

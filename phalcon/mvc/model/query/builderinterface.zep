@@ -81,7 +81,7 @@ interface BuilderInterface
 	 * @param string alias
 	 * @return Phalcon\Mvc\Model\Query\BuilderInterface
 	 */
-	public function join(model, conditions=null, alias=null);
+	public function join(model, conditions = null, alias = null);
 
 	/**
 	 * Adds a INNER join to the query
@@ -92,7 +92,7 @@ interface BuilderInterface
 	 * @param string type
 	 * @return Phalcon\Mvc\Model\Query\Builder
 	 */
-	public function innerJoin(model, conditions=null, alias=null);
+	public function innerJoin(model, conditions = null, alias = null);
 
 	/**
 	 * Adds a LEFT join to the query
@@ -102,7 +102,7 @@ interface BuilderInterface
 	 * @param string alias
 	 * @return Phalcon\Mvc\Model\Query\Builder
 	 */
-	public function leftJoin(model, conditions=null, alias=null);
+	public function leftJoin(model, conditions = null, alias = null);
 
 	/**
 	 * Adds a RIGHT join to the query
@@ -112,7 +112,7 @@ interface BuilderInterface
 	 * @param string alias
 	 * @return Phalcon\Mvc\Model\Query\Builder
 	 */
-	public function rightJoin(model, conditions=null, alias=null);
+	public function rightJoin(model, conditions = null, alias = null);
 
 	/**
 	 * Sets conditions for the query
@@ -122,7 +122,7 @@ interface BuilderInterface
 	 * @param array bindTypes
 	 * @return Phalcon\Mvc\Model\Query\BuilderInterface
 	 */
-	public function where(conditions, bindParams=null, bindTypes=null);
+	public function where(conditions, bindParams = null, bindTypes = null);
 
 	/**
 	 * Appends a condition to the current conditions using a AND operator
@@ -132,7 +132,7 @@ interface BuilderInterface
 	 * @param array bindTypes
 	 * @return Phalcon\Mvc\Model\Query\Builder
 	 */
-	public function andWhere(conditions, bindParams=null, bindTypes=null);
+	public function andWhere(conditions, bindParams = null, bindTypes = null);
 
 	/**
 	 * Appends a condition to the current conditions using a OR operator
@@ -142,7 +142,7 @@ interface BuilderInterface
 	 * @param array bindTypes
 	 * @return Phalcon\Mvc\Model\Query\Builder
 	 */
-	public function orWhere(conditions, bindParams=null, bindTypes=null);
+	public function orWhere(conditions, bindParams = null, bindTypes = null);
 
 	/**
 	 * Appends a BETWEEN condition to the current conditions
@@ -166,21 +166,13 @@ interface BuilderInterface
 
 	/**
 	 * Appends an IN condition to the current conditions
-	 *
-	 * @param string expr
-	 * @param array values
-	 * @return Phalcon\Mvc\Model\Query\Builder
 	 */
 	public function inWhere(string! expr, array! values) -> <BuilderInterface>;
 
 	/**
 	 * Appends a NOT IN condition to the current conditions
-	 *
-	 * @param string expr
-	 * @param array values
-	 * @return Phalcon\Mvc\Model\Query\Builder
 	 */
-	public function notInWhere(string! expr, array! values) -> <Builder>;
+	public function notInWhere(string! expr, array! values) -> <BuilderInterface>;
 
 	/**
 	 * Return the conditions for the query
@@ -226,7 +218,7 @@ interface BuilderInterface
 	 * @param int offset
 	 * @return Phalcon\Mvc\Model\Query\BuilderInterface
 	 */
-	public function limit(limit, offset=null);
+	public function limit(limit, offset = null);
 
 	/**
 	 * Returns the current LIMIT clause

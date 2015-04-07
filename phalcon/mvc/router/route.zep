@@ -58,7 +58,7 @@ class Route implements RouteInterface
 	 * @param array paths
 	 * @param array|string httpMethods
 	 */
-	public function __construct(string! pattern, paths=null, httpMethods = null)
+	public function __construct(string! pattern, paths = null, httpMethods = null)
 	{
 		var routeId, uniqueId;
 
@@ -68,7 +68,7 @@ class Route implements RouteInterface
 		// Update the HTTP method constraints
 		let this->_methods = httpMethods;
 
-        // Get the unique Id from the static member _uniqueId
+		// Get the unique Id from the static member _uniqueId
 		let uniqueId = self::_uniqueId;
 		if uniqueId === null {
 			let uniqueId = 0;
@@ -82,11 +82,8 @@ class Route implements RouteInterface
 
 	/**
 	 * Replaces placeholders from pattern returning a valid PCRE regular expression
-	 *
-	 * @param string pattern
-	 * @return string
 	 */
-	public function compilePattern(string! pattern)
+	public function compilePattern(string! pattern) -> string
 	{
 		var idPattern;
 
@@ -159,13 +156,9 @@ class Route implements RouteInterface
 
 	/**
 	 * Extracts parameters from a string
-	 *
-	 * @param string pattern
-	 * @return array|boolean
 	 */
 	public function extractNamedParams(string! pattern) -> array | boolean
 	{
-
 		char ch;
 		var tmp, matches;
 		boolean notValid;
@@ -246,7 +239,7 @@ class Route implements RouteInterface
 													break;
 												}
 											}
- 										}
+										}
 
 										if foundPattern != 2 {
 											let route .= '(',
@@ -421,8 +414,6 @@ class Route implements RouteInterface
 
 	/**
 	 * Returns the route's name
-	 *
-	 * @return string
 	 */
 	public function getName() -> string
 	{
@@ -437,9 +428,6 @@ class Route implements RouteInterface
 	 *     'controller' => 'about'
 	 * ))->setName('about');
 	 *</code>
-	 *
-	 * @param string name
-	 * @return Phalcon\Mvc\Router\Route
 	 */
 	public function setName(string! name) -> <Route>
 	{
@@ -473,8 +461,6 @@ class Route implements RouteInterface
 
 	/**
 	 * Returns the route's id
-	 *
-	 * @return string
 	 */
 	public function getRouteId() -> string
 	{
@@ -483,8 +469,6 @@ class Route implements RouteInterface
 
 	/**
 	 * Returns the route's pattern
-	 *
-	 * @return string
 	 */
 	public function getPattern() -> string
 	{
@@ -493,8 +477,6 @@ class Route implements RouteInterface
 
 	/**
 	 * Returns the route's compiled pattern
-	 *
-	 * @return string
 	 */
 	public function getCompiledPattern() -> string
 	{
@@ -513,10 +495,8 @@ class Route implements RouteInterface
 
 	/**
 	 * Returns the paths using positions as keys and names as values
-	 *
-	 * @return array
 	 */
-	public function getReversedPaths()
+	public function getReversedPaths() -> array
 	{
 		var reversed, path, position;
 
@@ -572,8 +552,6 @@ class Route implements RouteInterface
 
 	/**
 	 * Returns the hostname restriction if any
-	 *
-	 * @return string
 	 */
 	public function getHostname() -> string
 	{

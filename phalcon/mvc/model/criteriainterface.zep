@@ -93,7 +93,7 @@ interface CriteriaInterface
 	 * @param int offset
 	 * @return Phalcon\Mvc\Model\CriteriaInterface
 	 */
-	public function limit(limit, offset=null);
+	public function limit(limit, offset = null);
 
 	/**
 	 * Sets the "for_update" parameter to the criteria
@@ -101,7 +101,7 @@ interface CriteriaInterface
 	 * @param boolean forUpdate
 	 * @return Phalcon\Mvc\Model\CriteriaInterface
 	 */
-	public function forUpdate(forUpdate=true);
+	public function forUpdate(forUpdate = true);
 
 	/**
 	 * Sets the "shared_lock" parameter to the criteria
@@ -109,7 +109,7 @@ interface CriteriaInterface
 	 * @param boolean sharedLock
 	 * @return Phalcon\Mvc\Model\CriteriaInterface
 	 */
-	public function sharedLock(sharedLock=true);
+	public function sharedLock(sharedLock = true);
 
 	/**
 	 * Appends a condition to the current conditions using an AND operator
@@ -119,7 +119,7 @@ interface CriteriaInterface
 	 * @param array bindTypes
 	 * @return Phalcon\Mvc\Model\CriteriaInterface
 	 */
-	public function andWhere(conditions, bindParams=null, bindTypes=null);
+	public function andWhere(conditions, bindParams = null, bindTypes = null);
 
 	/**
 	 * Appends a condition to the current conditions using an OR operator
@@ -129,7 +129,7 @@ interface CriteriaInterface
 	 * @param array bindTypes
 	 * @return Phalcon\Mvc\Model\CriteriaInterface
 	 */
-	public function orWhere(conditions, bindParams=null, bindTypes=null);
+	public function orWhere(conditions, bindParams = null, bindTypes = null);
 
 	/**
 	 * Appends a BETWEEN condition to the current conditions

@@ -57,14 +57,9 @@ class Annotations extends Router
 	/**
 	 * Adds a resource to the annotations handler
 	 * A resource is a class that contains routing annotations
-	 *
-	 * @param string handler
-	 * @param string prefix
-	 * @return Phalcon\Mvc\Router\Annotations
 	 */
 	public function addResource(string! handler, string! prefix = null) -> <Annotations>
 	{
-
 		let this->_handlers[] = [prefix, handler],
 			this->_processed = false;
 		return this;
@@ -74,15 +69,9 @@ class Annotations extends Router
 	 * Adds a resource to the annotations handler
 	 * A resource is a class that contains routing annotations
 	 * The class is located in a module
-	 *
-	 * @param string module
-	 * @param string handler
-	 * @param string prefix
-	 * @return Phalcon\Mvc\Router\Annotations
 	 */
 	public function addModuleResource(string! module, string! handler, string! prefix = null) -> <Annotations>
 	{
-
 		let this->_handlers[] = [prefix, handler, module],
 		this->_processed = false;
 
@@ -91,8 +80,6 @@ class Annotations extends Router
 
 	/**
 	 * Produce the routing parameters from the rewrite information
-	 *
-	 * @param string uri
 	 */
 	public function handle(string! uri = null)
 	{
@@ -231,9 +218,6 @@ class Annotations extends Router
 
 	/**
 	 * Checks for annotations in the controller docblock
-	 *
-	 * @param string handler
-	 * @param Phalcon\Annotations\Annotation
 	 */
 	public function processControllerAnnotation(string! handler, <Annotation> annotation)
 	{
@@ -385,8 +369,6 @@ class Annotations extends Router
 
 	/**
 	 * Changes the controller class suffix
-	 *
-	 * @param string controllerSuffix
 	 */
 	public function setControllerSuffix(string! controllerSuffix)
 	{
@@ -395,8 +377,6 @@ class Annotations extends Router
 
 	/**
 	 * Changes the action method suffix
-	 *
-	 * @param string actionSuffix
 	 */
 	public function setActionSuffix(string! actionSuffix)
 	{

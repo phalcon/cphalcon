@@ -65,9 +65,6 @@ class Collection implements CollectionInterface
 
 	/**
 	 * Sets a prefix for all routes added to the collection
-	 *
-	 * @param string prefix
-	 * @return Phalcon\Mvc\Micro\Collection
 	 */
 	public function setPrefix(string! prefix) -> <Collection>
 	{
@@ -77,8 +74,6 @@ class Collection implements CollectionInterface
 
 	/**
 	 * Returns the collection prefix if any
-	 *
-	 * @return string
 	 */
 	public function getPrefix() -> string
 	{
@@ -110,9 +105,6 @@ class Collection implements CollectionInterface
 
 	/**
 	 * Sets if the main handler must be lazy loaded
-	 *
-	 * @param boolean lazy
-	 * @return Phalcon\Mvc\Micro\Collection
 	 */
 	public function setLazy(boolean! lazy) -> <Collection>
 	{
@@ -122,8 +114,6 @@ class Collection implements CollectionInterface
 
 	/**
 	 * Returns if the main handler must be lazy loaded
-	 *
-	 * @return boolean
 	 */
 	public function isLazy() -> boolean
 	{

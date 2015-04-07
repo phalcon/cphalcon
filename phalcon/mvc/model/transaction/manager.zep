@@ -84,10 +84,8 @@ class Manager implements ManagerInterface, \Phalcon\Di\InjectionAwareInterface
 
 	/**
 	 * Phalcon\Mvc\Model\Transaction\Manager constructor
-	 *
-	 * @param Phalcon\DiInterface dependencyInjector
 	 */
-	public function __construct(<\Phalcon\DiInterface> dependencyInjector=null)
+	public function __construct(<\Phalcon\DiInterface> dependencyInjector = null)
 	{
 		if dependencyInjector {
 			let this->_dependencyInjector = dependencyInjector;
@@ -103,8 +101,6 @@ class Manager implements ManagerInterface, \Phalcon\Di\InjectionAwareInterface
 
 	/**
 	 * Sets the dependency injection container
-	 *
-	 * @param Phalcon\DiInterface dependencyInjector
 	 */
 	public function setDI(<\Phalcon\DiInterface> dependencyInjector)
 	{
@@ -113,8 +109,6 @@ class Manager implements ManagerInterface, \Phalcon\Di\InjectionAwareInterface
 
 	/**
 	 * Returns the dependency injection container
-	 *
-	 * @return Phalcon\DiInterface
 	 */
 	public function getDI() -> <\Phalcon\DiInterface>
 	{
@@ -123,9 +117,6 @@ class Manager implements ManagerInterface, \Phalcon\Di\InjectionAwareInterface
 
 	/**
 	 * Sets the database service used to run the isolated transactions
-	 *
-	 * @param string service
-	 * @return Phalcon\Mvc\Model\Transaction\Manager
 	 */
 	public function setDbService(string! service) -> <Manager>
 	{
@@ -145,9 +136,6 @@ class Manager implements ManagerInterface, \Phalcon\Di\InjectionAwareInterface
 
 	/**
 	 * Set if the transaction manager must register a shutdown function to clean up pendent transactions
-	 *
-	 * @param boolean rollbackPendent
-	 * @return Phalcon\Mvc\Model\Transaction\Manager
 	 */
 	public function setRollbackPendent(boolean rollbackPendent) -> <Manager>
 	{
@@ -157,8 +145,6 @@ class Manager implements ManagerInterface, \Phalcon\Di\InjectionAwareInterface
 
 	/**
 	 * Check if the transaction manager is registering a shutdown function to clean up pendent transactions
-	 *
-	 * @return boolean
 	 */
 	public function getRollbackPendent() -> boolean
 	{
@@ -167,8 +153,6 @@ class Manager implements ManagerInterface, \Phalcon\Di\InjectionAwareInterface
 
 	/**
 	 * Checks whether the manager has an active transaction
-	 *
-	 * @return boolean
 	 */
 	public function has() -> boolean
 	{
@@ -178,9 +162,6 @@ class Manager implements ManagerInterface, \Phalcon\Di\InjectionAwareInterface
 	/**
 	 * Returns a new \Phalcon\Mvc\Model\Transaction or an already created once
 	 * This method registers a shutdown function to rollback active connections
-	 *
-	 * @param boolean autoBegin
-	 * @return Phalcon\Mvc\Model\TransactionInterface
 	 */
 	public function get(boolean autoBegin = true) -> <TransactionInterface>
 	{
@@ -195,9 +176,6 @@ class Manager implements ManagerInterface, \Phalcon\Di\InjectionAwareInterface
 
 	/**
 	 * Create/Returns a new transaction or an existing one
-	 *
-	 * @param boolean autoBegin
-	 * @return Phalcon\Mvc\Model\TransactionInterface
 	 */
 	public function getOrCreateTransaction(boolean autoBegin = true) -> <TransactionInterface>
 	{
@@ -226,12 +204,10 @@ class Manager implements ManagerInterface, \Phalcon\Di\InjectionAwareInterface
 		let this->_transactions[] = transaction, this->_number++;
 
 		return transaction;
-
 	}
 
 	/**
 	 * Rollbacks active transactions within the manager
-	 *
 	 */
 	public function rollbackPendent()
 	{
@@ -240,7 +216,6 @@ class Manager implements ManagerInterface, \Phalcon\Di\InjectionAwareInterface
 
 	/**
 	 * Commmits active transactions within the manager
-	 *
 	 */
 	public function commit()
 	{
@@ -262,7 +237,7 @@ class Manager implements ManagerInterface, \Phalcon\Di\InjectionAwareInterface
 	 *
 	 * @param boolean collect
 	 */
-	public function rollback(collect=true)
+	public function rollback(collect = true)
 	{
 		var transactions, transaction, connection;
 
@@ -283,8 +258,6 @@ class Manager implements ManagerInterface, \Phalcon\Di\InjectionAwareInterface
 
 	/**
 	 * Notifies the manager about a rollbacked transaction
-	 *
-	 * @param Phalcon\Mvc\Model\TransactionInterface transaction
 	 */
 	public function notifyRollback(<TransactionInterface> transaction)
 	{
@@ -293,8 +266,6 @@ class Manager implements ManagerInterface, \Phalcon\Di\InjectionAwareInterface
 
 	/**
 	 * Notifies the manager about a commited transaction
-	 *
-	 * @param Phalcon\Mvc\Model\TransactionInterface transaction
 	 */
 	public function notifyCommit(<TransactionInterface> transaction)
 	{
@@ -303,8 +274,6 @@ class Manager implements ManagerInterface, \Phalcon\Di\InjectionAwareInterface
 
 	/**
 	 * Removes transactions from the TransactionManager
-	 *
-	 * @param Phalcon\Mvc\Model\TransactionInterface transaction
 	 */
 	protected function _collectTransaction(<TransactionInterface> transaction)
 	{
@@ -325,7 +294,6 @@ class Manager implements ManagerInterface, \Phalcon\Di\InjectionAwareInterface
 
 	/**
 	 * Remove all the transactions from the manager
-	 *
 	 */
 	public function collectTransactions()
 	{
