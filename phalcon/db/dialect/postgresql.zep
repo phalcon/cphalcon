@@ -38,9 +38,6 @@ class Postgresql extends Dialect implements DialectInterface
 
 	/**
 	 * Gets the column name in PostgreSQL
-	 *
-	 * @param Phalcon\Db\ColumnInterface column
-	 * @return string
 	 */
 	public function getColumnDefinition(<ColumnInterface> column) -> string
 	{
@@ -265,7 +262,7 @@ class Postgresql extends Dialect implements DialectInterface
 	 * @param	array definition
 	 * @return 	string
 	 */
-	public function createTable(tableName, schemaName, array! definition)
+	public function createTable(tableName, schemaName, array! definition) -> string
 	{
 		throw new Exception("Not implemented yet");
 	}
@@ -278,7 +275,7 @@ class Postgresql extends Dialect implements DialectInterface
 	 * @param  boolean ifExists
 	 * @return boolean
 	 */
-	public function dropTable(tableName, schemaName, ifExists=true) -> string
+	public function dropTable(tableName, schemaName, ifExists = true) -> string
 	{
 		var table, sql;
 
@@ -414,7 +411,6 @@ class Postgresql extends Dialect implements DialectInterface
 	 *</code>
 	 *
 	 * @param       string schemaName
-	 * @return      array
 	 */
 	public function listTables(schemaName = null) -> string
 	{

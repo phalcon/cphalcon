@@ -379,8 +379,6 @@ class Sqlite extends \Phalcon\Db\Adapter\Pdo implements AdapterInterface
 
 	/**
 	 * Check whether the database system requires an explicit value for identity columns
-	 *
-	 * @return boolean
 	 */
 	public function useExplicitIdValue() -> boolean
 	{

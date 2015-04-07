@@ -45,8 +45,6 @@ class RawValue
 
 	/**
 	 * Phalcon\Db\RawValue constructor
-	 *
-	 * @param string value
 	 */
 	public function __construct(string! value)
 	{

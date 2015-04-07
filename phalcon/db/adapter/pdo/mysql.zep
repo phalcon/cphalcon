@@ -85,7 +85,7 @@ class Mysql extends \Phalcon\Db\Adapter\Pdo implements AdapterInterface
 	 * @param string schema
 	 * @return Phalcon\Db\Column[]
 	 */
-	public function describeColumns(string table, string schema=null)
+	public function describeColumns(string table, string schema = null)
 	{
 		var columns, columnType, field, definition,
 			oldColumn, sizePattern, matches, matchOne, matchTwo, columnName;

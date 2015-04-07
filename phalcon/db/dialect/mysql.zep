@@ -39,9 +39,6 @@ class MySQL extends Dialect implements DialectInterface
 
 	/**
 	 * Gets the column name in MySQL
-	 *
-	 * @param Phalcon\Db\ColumnInterface column
-	 * @return string
 	 */
 	public function getColumnDefinition(<ColumnInterface> column) -> string
 	{
@@ -163,10 +160,6 @@ class MySQL extends Dialect implements DialectInterface
 
 	/**
 	 * Generates SQL to add a column to a table
-	 *
-	 * @param	string tableName
-	 * @param	string schemaName
-	 * @param	Phalcon\Db\ColumnInterface column
 	 */
 	public function addColumn(string! tableName, string! schemaName, <ColumnInterface> column) -> string
 	{
@@ -206,11 +199,6 @@ class MySQL extends Dialect implements DialectInterface
 
 	/**
 	 * Generates SQL to modify a column in a table
-	 *
-	 * @param	string tableName
-	 * @param	string schemaName
-	 * @param	Phalcon\Db\ColumnInterface column
-	 * @return	string
 	 */
 	public function modifyColumn(string! tableName, string! schemaName, <ColumnInterface> column) -> string
 	{
@@ -241,11 +229,6 @@ class MySQL extends Dialect implements DialectInterface
 
 	/**
 	 * Generates SQL to delete a column from a table
-	 *
-	 * @param	string tableName
-	 * @param	string schemaName
-	 * @param	string columnName
-	 * @return 	string
 	 */
 	public function dropColumn(string! tableName, string! schemaName, string columnName) -> string
 	{
@@ -263,11 +246,6 @@ class MySQL extends Dialect implements DialectInterface
 
 	/**
 	 * Generates SQL to add an index to a table
-	 *
-	 * @param	string tableName
-	 * @param	string schemaName
-	 * @param	Phalcon\Db\IndexInterface index
-	 * @return	string
 	 */
 	public function addIndex(string! tableName, string! schemaName, <IndexInterface> index) -> string
 	{
@@ -296,11 +274,6 @@ class MySQL extends Dialect implements DialectInterface
 
 	/**
 	 * Generates SQL to delete an index from a table
-	 *
-	 * @param	string tableName
-	 * @param	string schemaName
-	 * @param	string indexName
-	 * @return	string
 	 */
 	public function dropIndex(string! tableName, string! schemaName, string! indexName) -> string
 	{
@@ -316,11 +289,6 @@ class MySQL extends Dialect implements DialectInterface
 
 	/**
 	 * Generates SQL to add the primary key to a table
-	 *
-	 * @param	string tableName
-	 * @param	string schemaName
-	 * @param	Phalcon\Db\IndexInterface index
-	 * @return	string
 	 */
 	public function addPrimaryKey(string tableName, string schemaName, <IndexInterface> index) -> string
 	{
@@ -341,10 +309,6 @@ class MySQL extends Dialect implements DialectInterface
 
 	/**
 	 * Generates SQL to delete primary key from a table
-	 *
-	 * @param	string tableName
-	 * @param	string schemaName
-	 * @return	string
 	 */
 	public function dropPrimaryKey(string! tableName, string! schemaName) -> string
 	{
@@ -360,11 +324,6 @@ class MySQL extends Dialect implements DialectInterface
 
 	/**
 	 * Generates SQL to add an index to a table
-	 *
-	 * @param	string tableName
-	 * @param	string schemaName
-	 * @param	Phalcon\Db\ReferenceInterface reference
-	 * @return	string
 	 */
 	public function addForeignKey(string! tableName, string! schemaName, <ReferenceInterface> reference) -> string
 	{
@@ -478,11 +437,6 @@ class MySQL extends Dialect implements DialectInterface
 
 	/**
 	 * Generates SQL to create a table in MySQL
-	 *
-	 * @param 	string tableName
-	 * @param	string schemaName
-	 * @param	array definition
-	 * @return 	string
 	 */
 	public function createTable(string! tableName, string! schemaName, array! definition) -> string
 	{
@@ -617,7 +571,7 @@ class MySQL extends Dialect implements DialectInterface
 	 * @param  boolean ifExists
 	 * @return string
 	 */
-	public function dropTable(string! tableName, string! schemaName, ifExists=true) -> string
+	public function dropTable(string! tableName, string! schemaName, ifExists = true) -> string
 	{
 		var sql, table;
 
@@ -663,13 +617,8 @@ class MySQL extends Dialect implements DialectInterface
 
 	/**
 	 * Generates SQL to drop a view
-	 *
-	 * @param string viewName
-	 * @param string schemaName
-	 * @param boolean ifExists
-	 * @return string
 	 */
-	public function dropView(string! viewName, string! schemaName, boolean ifExists=true) -> string
+	public function dropView(string! viewName, string! schemaName, boolean ifExists = true) -> string
 	{
 		var sql, view;
 
@@ -715,7 +664,7 @@ class MySQL extends Dialect implements DialectInterface
 	 * @param string schemaName
 	 * @return string
 	 */
-	public function viewExists(string! viewName, schemaName = null)
+	public function viewExists(string! viewName, schemaName = null) -> string
 	{
 		if schemaName {
 			return "SELECT IF(COUNT(*)>0, 1 , 0) FROM `INFORMATION_SCHEMA`.`VIEWS` WHERE `TABLE_NAME`= '" . viewName . "' AND `TABLE_SCHEMA`='" . schemaName . "'";
@@ -748,9 +697,6 @@ class MySQL extends Dialect implements DialectInterface
 	 *<code>
 	 *	print_r($dialect->listTables("blog"))
 	 *</code>
-	 *
-	 * @param       string schemaName
-	 * @return      array
 	 */
 	public function listTables(string! schemaName = null) -> string
 	{
@@ -762,9 +708,6 @@ class MySQL extends Dialect implements DialectInterface
 
 	/**
 	 * Generates the SQL to list all views of a schema or user
-	 *
-	 * @param string schemaName
-	 * @return array
 	 */
 	public function listViews(string! schemaName = null) -> string
 	{

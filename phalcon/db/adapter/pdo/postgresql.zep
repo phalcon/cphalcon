@@ -296,8 +296,6 @@ class Postgresql extends \Phalcon\Db\Adapter\Pdo implements AdapterInterface
 
 	/**
 	 * Check whether the database system requires an explicit value for identity columns
-	 *
-	 * @return boolean
 	 */
 	public function useExplicitIdValue() -> boolean
 	{
@@ -315,8 +313,6 @@ class Postgresql extends \Phalcon\Db\Adapter\Pdo implements AdapterInterface
 	 *     array("id", "name", "year")
 	 * );
 	 *</code>
-	 *
-	 * @return Phalcon\Db\RawValue
 	 */
 	public function getDefaultIdValue() -> <RawValue>
 	{
@@ -325,8 +321,6 @@ class Postgresql extends \Phalcon\Db\Adapter\Pdo implements AdapterInterface
 
 	/**
 	 * Check whether the database system requires a sequence to produce auto-numeric values
-	 *
-	 * @return boolean
 	 */
 	public function supportSequences() -> boolean
 	{

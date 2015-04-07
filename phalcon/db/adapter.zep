@@ -109,8 +109,6 @@ abstract class Adapter implements EventsAwareInterface
 
 	/**
 	 * Phalcon\Db\Adapter constructor
-	 *
-	 * @param array descriptor
 	 */
 	public function __construct(array! descriptor)
 	{
@@ -139,8 +137,6 @@ abstract class Adapter implements EventsAwareInterface
 
 	/**
 	 * Sets the event manager
-	 *
-	 * @param Phalcon\Events\ManagerInterface eventsManager
 	 */
 	public function setEventsManager(<ManagerInterface> eventsManager)
 	{
@@ -149,8 +145,6 @@ abstract class Adapter implements EventsAwareInterface
 
 	/**
 	 * Returns the internal event manager
-	 *
-	 * @return Phalcon\Events\ManagerInterface
 	 */
 	public function getEventsManager() -> <ManagerInterface>
 	{
@@ -159,8 +153,6 @@ abstract class Adapter implements EventsAwareInterface
 
 	/**
 	 * Sets the dialect used to produce the SQL
-	 *
-	 * @param Phalcon\Db\DialectInterface
 	 */
 	public function setDialect(<DialectInterface> dialect)
 	{
@@ -169,8 +161,6 @@ abstract class Adapter implements EventsAwareInterface
 
 	/**
 	 * Returns internal dialect instance
-	 *
-	 * @return Phalcon\Db\DialectInterface
 	 */
 	public function getDialect() -> <DialectInterface>
 	{
@@ -671,10 +661,6 @@ abstract class Adapter implements EventsAwareInterface
 	 * <code>
 	 * 	echo $connection->limit("SELECT * FROM robots", 5);
 	 * </code>
-	 *
-	 * @param  	string sqlQuery
-	 * @param 	int number
-	 * @return 	string
 	 */
 	public function limit(string! sqlQuery, int number) -> string
 	{
@@ -687,10 +673,6 @@ abstract class Adapter implements EventsAwareInterface
 	 * <code>
 	 * 	var_dump($connection->tableExists("blog", "posts"));
 	 * </code>
-	 *
-	 * @param string tableName
-	 * @param string schemaName
-	 * @return boolean
 	 */
 	public function tableExists(string! tableName, string! schemaName = null) -> boolean
 	{
@@ -715,9 +697,6 @@ abstract class Adapter implements EventsAwareInterface
 
 	/**
 	 * Returns a SQL modified with a FOR UPDATE clause
-	 *
-	 * @param	string sqlQuery
-	 * @return	string
 	 */
 	public function forUpdate(string! sqlQuery) -> string
 	{
@@ -726,9 +705,6 @@ abstract class Adapter implements EventsAwareInterface
 
 	/**
 	 * Returns a SQL modified with a LOCK IN SHARE MODE clause
-	 *
-	 * @param	string sqlQuery
-	 * @return	string
 	 */
 	public function sharedLock(string! sqlQuery) -> string
 	{
@@ -804,18 +780,13 @@ abstract class Adapter implements EventsAwareInterface
 	 * @param	boolean ifExists
 	 * @return	boolean
 	 */
-	public function dropView(string! viewName, string! schemaName=null, ifExists=true) -> boolean
+	public function dropView(string! viewName, string! schemaName = null, ifExists = true) -> boolean
 	{
 		return this->{"execute"}(this->_dialect->dropView(viewName, schemaName, ifExists));
 	}
 
 	/**
 	 * Adds a column to a table
-	 *
-	 * @param	string tableName
-	 * @param 	string schemaName
-	 * @param	Phalcon\Db\ColumnInterface column
-	 * @return	boolean
 	 */
 	public function addColumn(string! tableName, string! schemaName, <ColumnInterface> column) -> boolean
 	{
@@ -824,11 +795,6 @@ abstract class Adapter implements EventsAwareInterface
 
 	/**
 	 * Modifies a table column based on a definition
-	 *
-	 * @param	string tableName
-	 * @param	string schemaName
-	 * @param	Phalcon\Db\ColumnInterface column
-	 * @return 	boolean
 	 */
 	public function modifyColumn(string! tableName, string! schemaName, <ColumnInterface> column) -> boolean
 	{
@@ -837,11 +803,6 @@ abstract class Adapter implements EventsAwareInterface
 
 	/**
 	 * Drops a column from a table
-	 *
-	 * @param	string tableName
-	 * @param	string schemaName
-	 * @param	string columnName
-	 * @return 	boolean
 	 */
 	public function dropColumn(string! tableName, string! schemaName, string columnName) -> boolean
 	{
@@ -850,11 +811,6 @@ abstract class Adapter implements EventsAwareInterface
 
 	/**
 	 * Adds an index to a table
-	 *
-	 * @param	string tableName
-	 * @param	string schemaName
-	 * @param	Phalcon\Db\IndexInterface index
-	 * @return 	boolean
 	 */
 	public function addIndex(string! tableName, string! schemaName, <\Phalcon\Db\IndexInterface> index) -> boolean
 	{
@@ -876,11 +832,6 @@ abstract class Adapter implements EventsAwareInterface
 
 	/**
 	 * Adds a primary key to a table
-	 *
-	 * @param	string tableName
-	 * @param	string schemaName
-	 * @param	Phalcon\Db\IndexInterface index
-	 * @return 	boolean
 	 */
 	public function addPrimaryKey(string! tableName, string! schemaName, <\Phalcon\Db\IndexInterface> index) -> boolean
 	{
@@ -889,10 +840,6 @@ abstract class Adapter implements EventsAwareInterface
 
 	/**
 	 * Drops a table's primary key
-	 *
-	 * @param	string tableName
-	 * @param	string schemaName
-	 * @return 	boolean
 	 */
 	public function dropPrimaryKey(string! tableName, string! schemaName) -> boolean
 	{
@@ -901,11 +848,6 @@ abstract class Adapter implements EventsAwareInterface
 
 	/**
 	 * Adds a foreign key to a table
-	 *
-	 * @param	string tableName
-	 * @param	string schemaName
-	 * @param	Phalcon\Db\ReferenceInterface reference
-	 * @return	boolean true
 	 */
 	public function addForeignKey(string! tableName, string! schemaName, <\Phalcon\Db\ReferenceInterface> reference) -> boolean
 	{
@@ -914,11 +856,6 @@ abstract class Adapter implements EventsAwareInterface
 
 	/**
 	 * Drops a foreign key from a table
-	 *
-	 * @param	string tableName
-	 * @param	string schemaName
-	 * @param	string referenceName
-	 * @return	boolean true
 	 */
 	public function dropForeignKey(string! tableName, string! schemaName, string! referenceName) -> boolean
 	{
@@ -967,7 +904,7 @@ abstract class Adapter implements EventsAwareInterface
 	 * @param string schemaName
 	 * @return array
 	 */
-	public function listViews(string! schemaName=null)
+	public function listViews(string! schemaName = null)
 	{
 		var table, allTables;
 
@@ -1030,7 +967,7 @@ abstract class Adapter implements EventsAwareInterface
 	 * @param	string schema
 	 * @return	Phalcon\Db\Reference[]
 	 */
-	public function describeReferences(string! table, string! schema=null)
+	public function describeReferences(string! table, string! schema = null)
 	{
 		var references, reference,
 			arrayReference, constraintName, referenceObjects, name,
@@ -1088,7 +1025,7 @@ abstract class Adapter implements EventsAwareInterface
 	 * @param	string schemaName
 	 * @return	array
 	 */
-	public function tableOptions(tableName, schemaName=null)
+	public function tableOptions(tableName, schemaName = null)
 	{
 		var sql;
 
@@ -1101,9 +1038,6 @@ abstract class Adapter implements EventsAwareInterface
 
 	/**
 	 * Creates a new savepoint
-	 *
-	 * @param string name
-	 * @return boolean
 	 */
 	public function createSavepoint(string! name) -> boolean
 	{
@@ -1120,9 +1054,6 @@ abstract class Adapter implements EventsAwareInterface
 
 	/**
 	 * Releases given savepoint
-	 *
-	 * @param string name
-	 * @return boolean
 	 */
 	public function releaseSavepoint(string! name) -> boolean
 	{
@@ -1143,9 +1074,6 @@ abstract class Adapter implements EventsAwareInterface
 
 	/**
 	 * Rollbacks given savepoint
-	 *
-	 * @param string name
-	 * @return boolean
 	 */
 	public function rollbackSavepoint(string! name) -> boolean
 	{
@@ -1162,9 +1090,6 @@ abstract class Adapter implements EventsAwareInterface
 
 	/**
 	 * Set if nested transactions should use savepoints
-	 *
-	 * @param boolean nestedTransactionsWithSavepoints
-	 * @return Phalcon\Db\AdapterInterface
 	 */
 	public function setNestedTransactionsWithSavepoints(boolean nestedTransactionsWithSavepoints) -> <AdapterInterface>
 	{
@@ -1183,8 +1108,6 @@ abstract class Adapter implements EventsAwareInterface
 
 	/**
 	 * Returns if nested transactions should use savepoints
-	 *
-	 * @return boolean
 	 */
 	public function isNestedTransactionsWithSavepoints() -> boolean
 	{
@@ -1193,8 +1116,6 @@ abstract class Adapter implements EventsAwareInterface
 
 	/**
 	 * Returns the savepoint name to use for nested transactions
-	 *
-	 * @return string
 	 */
 	public function getNestedTransactionSavepointName() -> string
 	{
@@ -1212,8 +1133,6 @@ abstract class Adapter implements EventsAwareInterface
 	 *     array("id", "name", "year")
 	 * );
 	 *</code>
-	 *
-	 * @return Phalcon\Db\RawValue
 	 */
 	public function getDefaultIdValue() -> <\Phalcon\Db\RawValue>
 	{
@@ -1222,8 +1141,6 @@ abstract class Adapter implements EventsAwareInterface
 
 	/**
 	 * Check whether the database system requires a sequence to produce auto-numeric values
-	 *
-	 * @return boolean
 	 */
 	public function supportSequences() -> boolean
 	{
@@ -1232,8 +1149,6 @@ abstract class Adapter implements EventsAwareInterface
 
 	/**
 	 * Check whether the database system requires an explicit value for identity columns
-	 *
-	 * @return boolean
 	 */
 	public function useExplicitIdValue() -> boolean
 	{
@@ -1262,8 +1177,6 @@ abstract class Adapter implements EventsAwareInterface
 
 	/**
 	 * Active SQL statement in the object
-	 *
-	 * @return string
 	 */
 	public function getSQLStatement() -> string
 	{
@@ -1272,8 +1185,6 @@ abstract class Adapter implements EventsAwareInterface
 
 	/**
 	 * Active SQL statement in the object without replace bound paramters
-	 *
-	 * @return string
 	 */
 	public function getRealSQLStatement() -> string
 	{

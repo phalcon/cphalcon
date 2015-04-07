@@ -65,8 +65,6 @@ class Item
 
 	/**
 	 * Returns the total time in seconds spent by the profile
-	 *
-	 * @return double
 	 */
 	public function getTotalElapsedSeconds() -> double
 	{

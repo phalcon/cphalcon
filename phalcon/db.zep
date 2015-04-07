@@ -68,8 +68,6 @@ abstract class Db
 
 	/**
 	 * Enables/disables options in the Database component
-	 *
-	 * @param array options
 	 */
 	public static function setup(array! options) -> void
 	{

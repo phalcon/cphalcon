@@ -87,9 +87,6 @@ class Reference implements ReferenceInterface
 
 	/**
 	 * Phalcon\Db\Reference constructor
-	 *
-	 * @param string name
-	 * @param array definition
 	 */
 	public function __construct(string! name, array! definition)
 	{
@@ -140,9 +137,6 @@ class Reference implements ReferenceInterface
 
 	/**
 	 * Restore a Phalcon\Db\Reference object from export
-	 *
-	 * @param array data
-	 * @return Phalcon\Db\Reference
 	 */
 	public static function __set_state(array! data) -> <Reference>
 	{

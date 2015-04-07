@@ -34,7 +34,7 @@ interface IndexInterface
 	 * @param array columns
 	 * @param string type
 	 */
-	public function __construct(string! indexName, array! columns, type=null);
+	public function __construct(string! indexName, array! columns, type = null);
 
 	/**
 	 * Gets the index name

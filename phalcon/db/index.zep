@@ -55,9 +55,6 @@ class Index implements IndexInterface
 
 	/**
 	 * Phalcon\Db\Index constructor
-	 *
-	 * @param string name
-	 * @param array columns
 	 */
 	public function __construct(string! name, array! columns, type = null)
 	{
@@ -68,8 +65,6 @@ class Index implements IndexInterface
 
 	/**
 	 * Restore a Phalcon\Db\Index object from export
-	 *
-	 * @param array data
 	 */
 	public static function __set_state(array! data) -> <Index>
 	{
