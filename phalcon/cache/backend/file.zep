@@ -217,11 +217,11 @@ class File extends Backend implements BackendInterface
 
 		let isBuffering = frontend->isBuffering();
 
-		if stopBuffer == true {
+		if stopBuffer === true {
 			frontend->stop();
 		}
 
-		if isBuffering {
+		if isBuffering === true {
 			echo cachedContent;
 		}
 
