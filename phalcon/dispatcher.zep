@@ -682,5 +682,4 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 	{
 		return this->_forwarded;
 	}
-
 }
