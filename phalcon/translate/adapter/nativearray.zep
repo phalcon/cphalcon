@@ -35,8 +35,6 @@ class NativeArray extends Adapter implements AdapterInterface, \ArrayAccess
 
 	/**
 	 * Phalcon\Translate\Adapter\NativeArray constructor
-	 *
-	 * @param array options
 	 */
 	public function __construct(array! options)
 	{
@@ -79,9 +77,6 @@ class NativeArray extends Adapter implements AdapterInterface, \ArrayAccess
 
 	/**
 	 * Check whether is defined a translation key in the internal array
-	 *
-	 * @param    string index
-	 * @return   bool
 	 */
 	public function exists(string! index) -> boolean
 	{

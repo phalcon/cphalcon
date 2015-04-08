@@ -36,7 +36,7 @@ abstract class Adapter
 	 * @param array   placeholders
 	 * @return string
 	 */
-	public function  t(string! translateKey, placeholders = null)
+	public function t(string! translateKey, placeholders = null)
 	{
 		return this->{"query"}(translateKey, placeholders);
 	}
@@ -48,7 +48,7 @@ abstract class Adapter
 	 * @param array   placeholders
 	 * @return string
 	 */
-	public function  _(string! translateKey, placeholders = null)
+	public function _(string! translateKey, placeholders = null)
 	{
 		return this->{"query"}(translateKey, placeholders);
 	}
@@ -66,9 +66,6 @@ abstract class Adapter
 
 	/**
 	 * Check whether a translation key exists
-	 *
-	 * @param string  translateKey
-	 * @return boolean
 	 */
 	public function offsetExists(string! translateKey) -> boolean
 	{
