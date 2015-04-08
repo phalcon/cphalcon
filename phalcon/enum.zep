@@ -102,6 +102,9 @@ abstract class Enum
 		return null;
 	}
 
+	/**
+	 * Proctected to avoid creation of instance somewhere else than in _init method
+	 */
 	protected function __construct(string! name)
 	{
 		let this->_name = name;
