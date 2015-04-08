@@ -33,7 +33,7 @@
 int phalcon_require_ret(zval **return_value_ptr, const char *require_path TSRMLS_DC)
 {
 	zend_file_handle file_handle;
-	int ret;
+	int ret, use_ret, mode;
 
 #ifndef PHALCON_RELEASE
 	if (return_value_ptr && *return_value_ptr) {
@@ -43,7 +43,20 @@ int phalcon_require_ret(zval **return_value_ptr, const char *require_path TSRMLS
 	}
 #endif
 
-	ret = php_stream_open_for_zend_ex(require_path, &file_handle, ENFORCE_SAFE_MODE | USE_PATH | STREAM_OPEN_FOR_INCLUDE | IGNORE_URL TSRMLS_CC);
+	if (!require_path) {
+		/* @TODO, throw an exception here */
+		return FAILURE;
+	}
+
+	mode = ENFORCE_SAFE_MODE | USE_PATH | STREAM_OPEN_FOR_INCLUDE;
+
+	if (strlen(require_path) < 7 || memcmp(require_path, "phar://", 7)) {
+		/* No phar archive */
+		mode |= IGNORE_URL;
+	}
+
+	use_ret = !!return_value_ptr;
+	ret = php_stream_open_for_zend_ex(require_path, &file_handle, mode TSRMLS_CC);
 	if (ret == SUCCESS) {
 		int dummy = 1;
 		zend_op_array *new_op_array;
@@ -72,9 +85,14 @@ int phalcon_require_ret(zval **return_value_ptr, const char *require_path TSRMLS
 			if (EG(exception)) {
 				assert(!return_value_ptr || !*return_value_ptr);
 				ret = FAILURE;
-			}
-			else {
+			} else {
 				ret = SUCCESS;
+			}
+
+			if (!use_ret) {
+				if (EG(return_value_ptr_ptr)) {
+					zval_ptr_dtor(EG(return_value_ptr_ptr));
+				}
 			}
 
 			EG(return_value_ptr_ptr) = original_return_value;

@@ -211,7 +211,7 @@ PHP_METHOD(Phalcon_Db_Adapter, __construct){
 	connection_consecutive = phalcon_fetch_static_property_ce(phalcon_db_adapter_ce, SL("_connectionConsecutive") TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(next_consecutive);
-	phalcon_add_function(next_consecutive, connection_consecutive, PHALCON_GLOBAL(z_one) TSRMLS_CC);
+	phalcon_add_function(next_consecutive, connection_consecutive, PHALCON_GLOBAL(z_one));
 	phalcon_update_static_property_ce(phalcon_db_adapter_ce, SL("_connectionConsecutive"), next_consecutive TSRMLS_CC);
 	phalcon_update_property_this(this_ptr, SL("_connectionId"), connection_consecutive TSRMLS_CC);
 	

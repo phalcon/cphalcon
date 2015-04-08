@@ -683,7 +683,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, decrement){
 				RETURN_MM();
 			}
 
-			sub_function(return_value, cached_content, *value TSRMLS_CC);
+			phalcon_sub_function(return_value, cached_content, *value);
 
 			PHALCON_INIT_VAR(status);
 			phalcon_file_put_contents(status, cache_file, return_value TSRMLS_CC);

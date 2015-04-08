@@ -161,12 +161,12 @@ PHP_METHOD(Phalcon_Db_Profiler, stopProfile){
 	PHALCON_CALL_METHOD(&initial_time, active_profile, "getinitialtime");
 	
 	PHALCON_INIT_VAR(difference);
-	sub_function(difference, final_time, initial_time TSRMLS_CC);
+	phalcon_sub_function(difference, final_time, initial_time);
 	
 	total_seconds = phalcon_fetch_nproperty_this(this_ptr, SL("_totalSeconds"), PH_NOISY TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(new_total_seconds);
-	phalcon_add_function(new_total_seconds, total_seconds, difference TSRMLS_CC);
+	phalcon_add_function(new_total_seconds, total_seconds, difference);
 	phalcon_update_property_this(this_ptr, SL("_totalSeconds"), new_total_seconds TSRMLS_CC);
 	phalcon_update_property_array_append(this_ptr, SL("_allProfiles"), active_profile TSRMLS_CC);
 	if (phalcon_method_exists_ex(this_ptr, SS("afterendprofile") TSRMLS_CC) == SUCCESS) {

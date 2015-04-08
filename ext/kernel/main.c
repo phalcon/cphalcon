@@ -376,3 +376,30 @@ int phalcon_fetch_parameters_ex(int dummy TSRMLS_DC, int n_req, int n_opt, ...)
 	va_end(ptr);
 	return SUCCESS;
 }
+
+#if PHP_VERSION_ID >= 50600
+
+#if ZEND_MODULE_API_NO >= 20141001
+void phalcon_clean_and_cache_symbol_table(zend_array *symbol_table)
+{
+	if (EG(symtable_cache_ptr) >= EG(symtable_cache_limit)) {
+		zend_array_destroy(symbol_table);
+	} else {
+		zend_symtable_clean(symbol_table);
+		*(++EG(symtable_cache_ptr)) = symbol_table;
+	}
+}
+#else
+void phalcon_clean_and_cache_symbol_table(HashTable *symbol_table TSRMLS_DC)
+{
+	if (EG(symtable_cache_ptr) >= EG(symtable_cache_limit)) {
+		zend_hash_destroy(symbol_table);
+		FREE_HASHTABLE(symbol_table);
+	} else {
+		zend_hash_clean(symbol_table);
+		*(++EG(symtable_cache_ptr)) = symbol_table;
+	}
+}
+#endif
+
+#endif

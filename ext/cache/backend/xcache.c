@@ -494,7 +494,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Xcache, decrement){
 		PHALCON_RETURN_CALL_FUNCTION("xcache_inc", last_key, *value);
 	} else {
 		PHALCON_CALL_FUNCTION(&origVal, "xcache_get", last_key);
-		sub_function(return_value, origVal, *value TSRMLS_CC);
+		phalcon_sub_function(return_value, origVal, *value);
 		PHALCON_CALL_METHOD(NULL, this_ptr, "save", *key_name, return_value);
 	}
 

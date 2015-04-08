@@ -19,8 +19,10 @@
 
 #include "kernel/variables.h"
 
-#include <ext/standard/php_smart_str.h>
-#include <ext/standard/php_var.h>
+
+
+#include "ext/standard/php_smart_str.h"
+#include "ext/standard/php_var.h"
 
 /**
  * Serializes php variables without using the PHP userland
@@ -75,4 +77,30 @@ void phalcon_unserialize(zval *return_value, zval *var TSRMLS_DC) {
 	}
 	PHP_VAR_UNSERIALIZE_DESTROY(var_hash);
 
+}
+
+/**
+ * var_export outputs php variables without using the PHP userland
+ */
+void phalcon_var_export(zval **var TSRMLS_DC) {
+    php_var_export(var, 1 TSRMLS_CC);
+}
+
+/**
+ * var_export returns php variables without using the PHP userland
+ */
+void phalcon_var_export_ex(zval *return_value, zval **var TSRMLS_DC) {
+
+    smart_str buf = { NULL, 0, 0 };
+
+    php_var_export_ex(var, 1, &buf TSRMLS_CC);
+    smart_str_0(&buf);
+    ZVAL_STRINGL(return_value, buf.c, buf.len, 0);
+}
+
+/**
+ * var_dump outputs php variables without using the PHP userland
+ */
+void phalcon_var_dump(zval **var TSRMLS_DC) {
+    php_var_dump(var, 1 TSRMLS_CC);
 }

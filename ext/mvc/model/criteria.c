@@ -835,7 +835,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, betweenWhere) {
 	phalcon_read_property_this(&hidden_param, this_ptr, SL("_hiddenParamNumber"), PH_NOISY TSRMLS_CC);
 
 	PHALCON_INIT_VAR(next_hidden_param);
-	phalcon_add_function(next_hidden_param, hidden_param, PHALCON_GLOBAL(z_one) TSRMLS_CC);
+	phalcon_add_function(next_hidden_param, hidden_param, PHALCON_GLOBAL(z_one));
 
 	/** 
 	 * Minimum key with auto bind-params
@@ -904,7 +904,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, notBetweenWhere) {
 	phalcon_read_property_this(&hidden_param, this_ptr, SL("_hiddenParamNumber"), PH_NOISY TSRMLS_CC);
 
 	PHALCON_INIT_VAR(next_hidden_param);
-	phalcon_add_function(next_hidden_param, hidden_param, PHALCON_GLOBAL(z_one) TSRMLS_CC);
+	phalcon_add_function(next_hidden_param, hidden_param, PHALCON_GLOBAL(z_one));
 
 	/** 
 	 * Minimum key with auto bind-params

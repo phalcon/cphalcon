@@ -224,6 +224,7 @@ void ZEND_FASTCALL phalcon_copy_ctor(zval *destiny, zval *origin) PHALCON_ATTR_N
 		}                                             \
 	} while (0)
 
+#define PHALCON_SEPARATE(z) SEPARATE_ZVAL(&z)
 #define PHALCON_SEPARATE_PARAM(z)                     \
 	do {                                              \
 		zval *orig_ptr = z;                           \

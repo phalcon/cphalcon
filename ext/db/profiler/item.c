@@ -18,8 +18,10 @@
 */
 
 #include "db/profiler/item.h"
+
 #include "kernel/main.h"
 #include "kernel/object.h"
+#include "kernel/operators.h"
 
 /**
  * Phalcon\Db\Profiler\Item
@@ -233,5 +235,5 @@ PHP_METHOD(Phalcon_Db_Profiler_Item, getTotalElapsedSeconds){
 
 	final_time   = phalcon_fetch_nproperty_this(this_ptr, SL("_finalTime"), PH_NOISY TSRMLS_CC);
 	initial_time = phalcon_fetch_nproperty_this(this_ptr, SL("_initialTime"), PH_NOISY TSRMLS_CC);
-	sub_function(return_value, final_time, initial_time TSRMLS_CC);
+	phalcon_sub_function(return_value, final_time, initial_time);
 }

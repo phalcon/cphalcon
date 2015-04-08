@@ -34,11 +34,16 @@
 /** Main macros */
 #define PH_DEBUG 0
 
-#define PH_NOISY 0
-#define PH_SILENT 1
+#define PH_NOISY 256
+#define PH_SILENT 1024
+#define PH_READONLY 4096
+
+#define PH_NOISY_CC PH_NOISY TSRMLS_CC
+#define PH_SILENT_CC PH_SILENT TSRMLS_CC
 
 #define PH_SEPARATE 256
 #define PH_COPY 1024
+#define PH_CTOR 4096
 
 #define SL(str)   ZEND_STRL(str)
 #define SS(str)   ZEND_STRS(str)
@@ -133,6 +138,7 @@ int phalcon_fetch_parameters_ex(int dummy TSRMLS_DC, int n_req, int n_opt, ...);
   Z_TYPE_P(z) = Z_TYPE_P(v);
 #endif
 
+#if PHP_VERSION_ID < 50600
 /**
  * Return zval checking if it's needed to ctor
  */
@@ -189,6 +195,47 @@ int phalcon_fetch_parameters_ex(int dummy TSRMLS_DC, int n_req, int n_opt, ...);
  */
 #define RETURN_THISW() \
 	RETURN_ZVAL(this_ptr, 1, 0);
+
+#else
+
+/** Return zval checking if it's needed to ctor */
+#define RETURN_CCTOR(var) { \
+		RETVAL_ZVAL_FAST(var); \
+	} \
+	PHALCON_MM_RESTORE(); \
+	return;
+
+/** Return zval checking if it's needed to ctor, without restoring the memory stack  */
+#define RETURN_CCTORW(var) { \
+		RETVAL_ZVAL_FAST(var); \
+	} \
+	return;
+
+/** Return zval with always ctor */
+#define RETURN_CTOR(var) { \
+		RETVAL_ZVAL_FAST(var); \
+	} \
+	PHALCON_MM_RESTORE(); \
+	return;
+
+/** Return zval with always ctor, without restoring the memory stack */
+#define RETURN_CTORW(var) { \
+		RETVAL_ZVAL_FAST(var); \
+	} \
+	return;
+
+/** Return this pointer */
+#define RETURN_THIS() { \
+		RETVAL_ZVAL_FAST(this_ptr); \
+	} \
+	PHALCON_MM_RESTORE(); \
+	return;
+
+/** Return zval with always ctor, without restoring the memory stack */
+#define RETURN_THISW() \
+	RETURN_ZVAL_FAST(this_ptr);
+
+#endif
 
 /**
  * Returns variables without ctor
@@ -495,5 +542,15 @@ int phalcon_fetch_parameters_ex(int dummy TSRMLS_DC, int n_req, int n_opt, ...);
 #define PHALCON_ENSURE_IS_DOUBLE(ppzv)    convert_to_explicit_type_ex(ppzv, IS_DOUBLE)
 #define PHALCON_ENSURE_IS_BOOL(ppzv)      convert_to_explicit_type_ex(ppzv, IS_BOOL)
 #define PHALCON_ENSURE_IS_ARRAY(ppzv)     convert_to_explicit_type_ex(ppzv, IS_ARRAY)
+
+#if PHP_VERSION_ID >= 50600
+
+#if ZEND_MODULE_API_NO >= 20141001
+void phalcon_clean_and_cache_symbol_table(zend_array *symbol_table);
+#else
+void phalcon_clean_and_cache_symbol_table(HashTable *symbol_table TSRMLS_DC);
+#endif
+
+#endif
 
 #endif /* PHALCON_KERNEL_MAIN_H */
