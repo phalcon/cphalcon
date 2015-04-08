@@ -267,7 +267,7 @@ class Libmemcached extends Backend implements BackendInterface
 	 */
 	public function delete(keyName)
 	{
-		var memcache, prefixedKey, options, keys, specialKey;
+		var memcache, prefixedKey, options, keys, specialKey, ret;
 
 		let memcache = this->_memcache;
 		if typeof memcache != "object" {
@@ -293,7 +293,8 @@ class Libmemcached extends Backend implements BackendInterface
 		/**
 		 * Delete the key from memcached
 		 */
-		memcache->delete(prefixedKey);
+		let ret = memcache->delete(prefixedKey);
+		return ret;
 	}
 
 	/**
@@ -328,6 +329,7 @@ class Libmemcached extends Backend implements BackendInterface
 		 */
 		let keys = memcache->get(specialKey);
 		if typeof keys == "array" {
+			let keys = array_keys(keys);
 			for key in keys {
 				if prefix && !starts_with(key, prefix) {
 					unset keys[key];
