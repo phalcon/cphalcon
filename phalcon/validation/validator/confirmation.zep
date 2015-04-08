@@ -91,7 +91,7 @@ class Confirmation extends \Phalcon\Validation\Validator implements \Phalcon\Val
 			 * mbstring is required here
 			 */
 			if !function_exists("mb_strtolower") {
-				throw new Exception("Extension 'mbstring' is required");
+				throw new \Phalcon\Validation\Exception("Extension 'mbstring' is required");
 			}
 
 			let a = mb_strtolower(a, "utf-8");
