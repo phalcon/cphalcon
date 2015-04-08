@@ -51,7 +51,7 @@ class Confirmation extends \Phalcon\Validation\Validator implements \Phalcon\Val
 			value = validation->getValue(field),
 			valueWith = validation->getValue(fieldWith);
 
-		if value != valueWith {
+		if !this->compare(value, valueWith) {
 
 			let label = this->getOption("label");
 			if empty label {
@@ -74,5 +74,30 @@ class Confirmation extends \Phalcon\Validation\Validator implements \Phalcon\Val
 		}
 
 		return true;
+	}
+
+	/**
+	 * Compare strings
+	 *
+	 * @param string a
+	 * @param string b
+	 * @return boolean
+	 */
+	protected function compare(string a, string b) -> boolean
+	{
+		if this->isSetOption("caseSensitive") && !this->getOption("caseSensitive") {
+
+			/**
+			 * mbstring is required here
+			 */
+			if !function_exists("mb_strtolower") {
+				throw new Exception("Extension 'mbstring' is required");
+			}
+
+			let a = mb_strtolower(a, "utf-8");
+			let b = mb_strtolower(b, "utf-8");
+		}
+
+		return a == b;
 	}
 }
