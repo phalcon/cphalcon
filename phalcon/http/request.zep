@@ -607,6 +607,9 @@ class Request implements RequestInterface, InjectionAwareInterface
 		 */
 		if trustForwardedHeader {
 			fetch address, _SERVER["HTTP_X_FORWARDED_FOR"];
+			if address === null {
+				fetch address, _SERVER["HTTP_CLIENT_IP"];
+			}
 		}
 
 		if address === null {
