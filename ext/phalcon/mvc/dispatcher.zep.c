@@ -24,7 +24,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -212,8 +212,9 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, getPreviousActionName) {
  */
 PHP_METHOD(Phalcon_Mvc_Dispatcher, _throwDispatchException) {
 
+	zephir_nts_static zephir_fcall_cache_entry *_3 = NULL;
 	int exceptionCode, ZEPHIR_LAST_CALL_STATUS;
-	zval *message_param = NULL, *exceptionCode_param = NULL, *dependencyInjector, *response = NULL, *exception, *_0 = NULL, *_1 = NULL, *_2, *_3 = NULL;
+	zval *message_param = NULL, *exceptionCode_param = NULL, *dependencyInjector, *response = NULL, *exception, *_0 = NULL, *_1 = NULL, *_2, *_4 = NULL;
 	zval *message = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -246,19 +247,19 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, _throwDispatchException) {
 		ZVAL_STRING(_1, "A dependency injection container is required to access the 'response' service", ZEPHIR_TEMP_PARAM_COPY);
 		ZEPHIR_INIT_VAR(_2);
 		ZVAL_LONG(_2, 0);
-		ZEPHIR_CALL_METHOD(NULL, _0, "__construct", NULL, _1, _2);
+		ZEPHIR_CALL_METHOD(NULL, _0, "__construct", &_3, _1, _2);
 		zephir_check_temp_parameter(_1);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(_0, "phalcon/mvc/dispatcher.zep", 134 TSRMLS_CC);
+		zephir_throw_exception_debug(_0, "phalcon/mvc/dispatcher.zep", 135 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
 	ZEPHIR_INIT_NVAR(_0);
 	ZVAL_STRING(_0, "response", ZEPHIR_TEMP_PARAM_COPY);
-	ZEPHIR_CALL_METHOD(&_3, dependencyInjector, "getshared", NULL, _0);
+	ZEPHIR_CALL_METHOD(&_4, dependencyInjector, "getshared", NULL, _0);
 	zephir_check_temp_parameter(_0);
 	zephir_check_call_status();
-	ZEPHIR_CPY_WRT(response, _3);
+	ZEPHIR_CPY_WRT(response, _4);
 	ZEPHIR_INIT_NVAR(_0);
 	ZVAL_LONG(_0, 404);
 	ZEPHIR_INIT_NVAR(_1);
@@ -270,14 +271,14 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, _throwDispatchException) {
 	object_init_ex(exception, phalcon_mvc_dispatcher_exception_ce);
 	ZEPHIR_INIT_NVAR(_0);
 	ZVAL_LONG(_0, exceptionCode);
-	ZEPHIR_CALL_METHOD(NULL, exception, "__construct", NULL, message, _0);
+	ZEPHIR_CALL_METHOD(NULL, exception, "__construct", &_3, message, _0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_3, this_ptr, "_handleexception", NULL, exception);
+	ZEPHIR_CALL_METHOD(&_4, this_ptr, "_handleexception", NULL, exception);
 	zephir_check_call_status();
-	if (ZEPHIR_IS_FALSE_IDENTICAL(_3)) {
+	if (ZEPHIR_IS_FALSE_IDENTICAL(_4)) {
 		RETURN_MM_BOOL(0);
 	}
-	zephir_throw_exception_debug(exception, "phalcon/mvc/dispatcher.zep", 156 TSRMLS_CC);
+	zephir_throw_exception_debug(exception, "phalcon/mvc/dispatcher.zep", 157 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 	return;
 
@@ -298,10 +299,6 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, _handleException) {
 
 
 
-	if (!(zephir_instance_of_ev(exception, zend_exception_get_default(TSRMLS_C) TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'exception' must be an instance of 'Exception'", "", 0);
-		return;
-	}
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_eventsManager"), PH_NOISY_CC);
 	ZEPHIR_CPY_WRT(eventsManager, _0);
 	if (Z_TYPE_P(eventsManager) == IS_OBJECT) {

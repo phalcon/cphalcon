@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -36,8 +36,10 @@ class Kernel
 	{
 		%{
 
+		{
+
 		char *arKey = Z_STRVAL_P(key), *strKey;
-		unsigned int nKeyLength = strlen(key);
+		int nKeyLength = strlen(arKey);
 		register ulong hash = 5381;
 
 		nKeyLength++;
@@ -74,6 +76,8 @@ class Kernel
 		snprintf(strKey, 24, "%lu", hash);
 
 		RETURN_MM_STRING(strKey, 0);
+
+		}
 
 		}%
 	}

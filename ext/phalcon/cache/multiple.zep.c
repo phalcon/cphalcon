@@ -24,7 +24,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -40,7 +40,7 @@
 /**
  * Phalcon\Cache\Multiple
  *
- * Allows to read to chained backends writing to multiple backends
+ * Allows to read to chained backend adapters writing to multiple backends
  *
  *<code>
  *   use Phalcon\Cache\Frontend\Data as DataFrontend,
@@ -131,10 +131,6 @@ PHP_METHOD(Phalcon_Cache_Multiple, push) {
 
 
 
-	if (!(zephir_instance_of_ev(backend, phalcon_cache_backendinterface_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(spl_ce_InvalidArgumentException, "Parameter 'backend' must be an instance of 'Phalcon\\Cache\\BackendInterface'", "", 0);
-		return;
-	}
 	zephir_update_property_this(this_ptr, SL("_backends"), backend TSRMLS_CC);
 	RETURN_THISW();
 

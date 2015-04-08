@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -79,7 +79,7 @@ interface CryptInterface
 	 * @param string key
 	 * @return string
 	 */
-	public function encrypt(text, key=null);
+	public function encrypt(text, key = null);
 
 	/**
 	 * Decrypts a text
@@ -88,7 +88,7 @@ interface CryptInterface
 	 * @param string key
 	 * @return string
 	 */
-	public function decrypt(text, key=null);
+	public function decrypt(text, key = null);
 
 	/**
 	 * Encrypts a text returning the result as a base64 string
@@ -97,7 +97,7 @@ interface CryptInterface
 	 * @param string key
 	 * @return string
 	 */
-	public function encryptBase64(text, key=null);
+	public function encryptBase64(text, key = null);
 
 	/**
 	 * Decrypt a text that is coded as a base64 string
@@ -106,7 +106,7 @@ interface CryptInterface
 	 * @param string key
 	 * @return string
 	 */
-	public function decryptBase64(text, key=null);
+	public function decryptBase64(text, key = null);
 
 	/**
 	 * Returns a list of available cyphers
@@ -121,5 +121,4 @@ interface CryptInterface
 	 * @return array
 	 */
 	public function getAvailableModes();
-
 }

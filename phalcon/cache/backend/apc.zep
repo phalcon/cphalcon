@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -217,7 +217,7 @@ class Apc extends Backend implements BackendInterface
 		if !prefix {
 			let prefixPattern = "/^_PHCA/";
 		} else {
-			let prefixPattern = "/^_PHCA/" . prefix;
+			let prefixPattern = "/^_PHCA" . prefix . "/";
 		}
 
 		let keys = [],
@@ -256,4 +256,19 @@ class Apc extends Backend implements BackendInterface
 		return false;
 	}
 
+	/**
+ 	 * Immediately invalidates all existing items.
+ 	 *
+	 * @return boolean
+	 */
+	public function flush() -> boolean
+	{
+		var item;
+
+		for item in iterator(new \APCIterator("user")) {
+			apc_delete(item["key"]);
+		}
+
+		return true;
+	}
 }

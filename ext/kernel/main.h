@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Zephir Language                                                        |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2014 Zephir Team (http://www.zephir-lang.com)       |
+  | Copyright (c) 2011-2015 Zephir Team (http://www.zephir-lang.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -348,6 +348,14 @@ static inline char *_str_erealloc(char *str, size_t new_len, size_t old_len) {
 }
 #endif
 
+#ifndef str_efree
+#define str_efree(s) do { \
+	if (!IS_INTERNED(s)) { \
+		efree((char*)s); \
+	} \
+} while (0)
+#endif
+
 /** Get the current hash key without copying the hash key */
 #define ZEPHIR_GET_HKEY(var, hash, hash_position) \
 	zephir_get_current_key(&var, hash, &hash_position TSRMLS_CC);
@@ -381,14 +389,15 @@ static inline char *_str_erealloc(char *str, size_t new_len, size_t old_len) {
 
 #define ZEPHIR_GET_IMKEY(var, it) \
 	{\
-		int key_type, str_key_len; \
+		int key_type; uint str_key_len; \
 		ulong int_key; \
 		char *str_key; \
 		\
 		ZEPHIR_INIT_NVAR(var); \
 		key_type = it->funcs->get_current_key(it, &str_key, &str_key_len, &int_key TSRMLS_CC); \
 		if (key_type == HASH_KEY_IS_STRING) { \
-			ZVAL_STRINGL(var, str_key, str_key_len, 1); \
+			ZVAL_STRINGL(var, str_key, str_key_len - 1, 1); \
+			efree(str_key); \
 		} else { \
 			if (key_type == HASH_KEY_IS_LONG) { \
 				ZVAL_LONG(var, int_key); \
@@ -450,7 +459,7 @@ static inline char *_str_erealloc(char *str, size_t new_len, size_t old_len) {
 		INIT_NS_CLASS_ENTRY(ce, #ns, #class_name, methods); \
 		lower_ns## _ ##lcname## _ce = zend_register_internal_class_ex(&ce, parent_ce, NULL TSRMLS_CC); \
 		if (!lower_ns## _ ##lcname## _ce) { \
-			fprintf(stderr, "Phalcon Error: Class to extend '%s' was not found when registering class '%s'\n", (parent_ce ? parent_ce->name : "(null)"), ZEND_NS_NAME(#ns, #class_name)); \
+			fprintf(stderr, "Zephir Error: Class to extend '%s' was not found when registering class '%s'\n", (parent_ce ? parent_ce->name : "(null)"), ZEND_NS_NAME(#ns, #class_name)); \
 			return FAILURE; \
 		} \
 		lower_ns## _ ##lcname## _ce->ce_flags |= flags;  \

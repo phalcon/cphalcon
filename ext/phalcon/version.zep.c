@@ -12,8 +12,8 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
-#include "kernel/memory.h"
 #include "kernel/array.h"
+#include "kernel/memory.h"
 #include "kernel/operators.h"
 #include "kernel/fcall.h"
 #include "kernel/concat.h"
@@ -24,7 +24,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -107,7 +107,7 @@ PHP_METHOD(Phalcon_Version, _getVersion) {
 
 	ZEPHIR_MM_GROW();
 
-	array_init_size(return_value, 7);
+	zephir_create_array(return_value, 5, 0 TSRMLS_CC);
 	ZEPHIR_INIT_VAR(_0);
 	ZVAL_LONG(_0, 2);
 	zephir_array_fast_append(return_value, _0);
@@ -118,10 +118,10 @@ PHP_METHOD(Phalcon_Version, _getVersion) {
 	ZVAL_LONG(_0, 0);
 	zephir_array_fast_append(return_value, _0);
 	ZEPHIR_INIT_NVAR(_0);
-	ZVAL_LONG(_0, 2);
+	ZVAL_LONG(_0, 3);
 	zephir_array_fast_append(return_value, _0);
 	ZEPHIR_INIT_NVAR(_0);
-	ZVAL_LONG(_0, 3);
+	ZVAL_LONG(_0, 1);
 	zephir_array_fast_append(return_value, _0);
 	RETURN_MM();
 

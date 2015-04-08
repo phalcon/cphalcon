@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -43,37 +43,29 @@ class Firephp extends Formatter implements FormatterInterface
 	 */
 	public function getTypeString(int type) -> string
 	{
-		var typeString;
 
 		switch type {
+
 			case Logger::EMERGENCY:
 			case Logger::CRITICAL:
 			case Logger::ERROR:
-				let typeString = "ERROR";
-				break;
+				return "ERROR";
 
 			case Logger::ALERT:
 			case Logger::WARNING:
-				let typeString = "WARN";
-				break;
+				return "WARN";
 
 			case Logger::INFO:
 			case Logger::NOTICE:
 			case Logger::CUSTOM:
-				let typeString = "INFO";
-				break;
+				return "INFO";
 
 			case Logger::DEBUG:
 			case Logger::SPECIAL:
-				let typeString = "LOG";
-				break;
-
-			default:
-				let typeString = "CUSTOM";
-				break;
+				return "LOG";
 		}
 
-		return typeString;
+		return "CUSTOM";
 	}
 
 	/**

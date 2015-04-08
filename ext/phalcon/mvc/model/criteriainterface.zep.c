@@ -16,7 +16,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -58,9 +58,10 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, setModelName);
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, getModelName);
 
 /**
- * Adds the bind parameter to the criteria
+ * Sets the bound parameters in the criteria
+ * This method replaces all previously set bound parameters
  *
- * @param string bindParams
+ * @param array bindParams
  * @return Phalcon\Mvc\Model\CriteriaInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, bind);
@@ -69,13 +70,13 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, bind);
  * Sets the bind types in the criteria
  * This method replaces all previously set bound parameters
  *
- * @param string bindTypes
- * @return Phalcon\Mvc\Model\Criteria
+ * @param array bindTypes
+ * @return Phalcon\Mvc\Model\CriteriaInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, bindTypes);
 
 /**
- * Adds the conditions parameter to the criteria
+ * Sets the conditions parameter in the criteria
  *
  * @param string conditions
  * @return Phalcon\Mvc\Model\CriteriaInterface
@@ -119,7 +120,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, forUpdate);
  * Sets the "shared_lock" parameter to the criteria
  *
  * @param boolean sharedLock
- * @return Phalcon\Mvc\Model\Criteria
+ * @return Phalcon\Mvc\Model\CriteriaInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, sharedLock);
 
@@ -129,7 +130,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, sharedLock);
  * @param string conditions
  * @param array bindParams
  * @param array bindTypes
- * @return Phalcon\Mvc\Model\Criteria
+ * @return Phalcon\Mvc\Model\CriteriaInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, andWhere);
 
@@ -139,7 +140,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, andWhere);
  * @param string conditions
  * @param array bindParams
  * @param array bindTypes
- * @return Phalcon\Mvc\Model\Criteria
+ * @return Phalcon\Mvc\Model\CriteriaInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, orWhere);
 
@@ -147,13 +148,13 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, orWhere);
  * Appends a BETWEEN condition to the current conditions
  *
  *<code>
- *	builder->betweenWhere('price', 100.25, 200.50);
+ *	$criteria->betweenWhere('price', 100.25, 200.50);
  *</code>
  *
  * @param string expr
  * @param mixed minimum
  * @param mixed maximum
- * @return Phalcon\Mvc\Model\Query\Builder
+ * @return Phalcon\Mvc\Model\CriteriaInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, betweenWhere);
 
@@ -161,13 +162,13 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, betweenWhere);
  * Appends a NOT BETWEEN condition to the current conditions
  *
  *<code>
- *	builder->notBetweenWhere('price', 100.25, 200.50);
+ *	$criteria->notBetweenWhere('price', 100.25, 200.50);
  *</code>
  *
  * @param string expr
  * @param mixed minimum
  * @param mixed maximum
- * @return Phalcon\Mvc\Model\Query\Builder
+ * @return Phalcon\Mvc\Model\CriteriaInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, notBetweenWhere);
 
@@ -175,12 +176,12 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, notBetweenWhere);
  * Appends an IN condition to the current conditions
  *
  *<code>
- *	builder->inWhere('id', [1, 2, 3]);
+ *	$criteria->inWhere('id', [1, 2, 3]);
  *</code>
  *
  * @param string expr
  * @param array values
- * @return Phalcon\Mvc\Model\Query\Builder
+ * @return Phalcon\Mvc\Model\CriteriaInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, inWhere);
 
@@ -188,47 +189,50 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, inWhere);
  * Appends a NOT IN condition to the current conditions
  *
  *<code>
- *	builder->notInWhere('id', [1, 2, 3]);
+ *	$criteria->notInWhere('id', [1, 2, 3]);
  *</code>
  *
  * @param string expr
  * @param array values
- * @return Phalcon\Mvc\Model\Query\Builder
+ * @return Phalcon\Mvc\Model\CriteriaInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, notInWhere);
 
 /**
  * Returns the conditions parameter in the criteria
  *
- * @return string
+ * @return string|null
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, getWhere);
 
 /**
  * Returns the conditions parameter in the criteria
  *
- * @return string
+ * @return string|null
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, getConditions);
 
 /**
- * Returns the limit parameter in the criteria
+ * Returns the limit parameter in the criteria, which will be
+ * an integer if limit was set without an offset,
+ * an array with 'number' and 'offset' keys if an offset was set with the limit,
+ * or null if limit has not been set.
  *
- * @return string
+ * @return int|array|null
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, getLimit);
 
 /**
  * Returns the order parameter in the criteria
  *
- * @return string
+ * @return string|null
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, getOrder);
 
 /**
  * Returns all the parameters defined in the criteria
  *
- * @return string
+ * @return array
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, getParams);
 
@@ -238,7 +242,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, getParams);
  * @param Phalcon\DiInterface dependencyInjector
  * @param string modelName
  * @param array data
- * @return static
+ * @return Phalcon\Mvc\Model\CriteriaInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, fromInput);
 

@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -197,9 +197,9 @@ abstract class Text
 		 * 'lower' checks for the mbstring extension to make a correct lowercase transformation
 		 */
 		if function_exists("mb_strtolower") {
-			return mb_strtolower($str);
+			return mb_strtolower(str);
 		}
-		return strtolower($str);
+		return strtolower(str);
 	}
 
 	/**
@@ -218,5 +218,4 @@ abstract class Text
 		}
 		return strtoupper(str);
 	}
-
 }

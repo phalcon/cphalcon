@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -49,11 +49,17 @@ class Crypt implements \Phalcon\CryptInterface
 	protected _cipher = "rijndael-256";
 
 	const PADDING_DEFAULT = 0;
+
 	const PADDING_ANSI_X_923 = 1;
+
 	const PADDING_PKCS7 = 2;
+
 	const PADDING_ISO_10126 = 3;
+
 	const PADDING_ISO_IEC_7816_4 = 4;
+
 	const PADDING_ZERO = 5;
+
 	const PADDING_SPACE = 6;
 
 	/**
@@ -69,9 +75,6 @@ class Crypt implements \Phalcon\CryptInterface
 
 	/**
 	 * Sets the cipher algorithm
-	 *
-	 * @param string cipher
-	 * @return Phalcon\Crypt
 	 */
 	public function setCipher(string! cipher) -> <Crypt>
 	{
@@ -81,8 +84,6 @@ class Crypt implements \Phalcon\CryptInterface
 
 	/**
 	 * Returns the current cipher
-	 *
-	 * @return string
 	 */
 	public function getCipher() -> string
 	{
@@ -91,9 +92,6 @@ class Crypt implements \Phalcon\CryptInterface
 
 	/**
 	 * Sets the encrypt/decrypt mode
-	 *
-	 * @param string cipher
-	 * @return Phalcon\Crypt
 	 */
 	public function setMode(string! mode) -> <Crypt>
 	{
@@ -103,8 +101,6 @@ class Crypt implements \Phalcon\CryptInterface
 
 	/**
 	 * Returns the current encryption mode
-	 *
-	 * @return string
 	 */
 	public function getMode() -> string
 	{
@@ -113,11 +109,8 @@ class Crypt implements \Phalcon\CryptInterface
 
 	/**
 	 * Sets the encryption key
-	 *
-	 * @param string key
-	 * @return Phalcon\Crypt
 	 */
-	public function setKey(string! key) -> <\Phalcon\Crypt>
+	public function setKey(string! key) -> <Crypt>
 	{
 		let this->_key = key;
 		return this;
@@ -125,8 +118,6 @@ class Crypt implements \Phalcon\CryptInterface
 
 	/**
 	 * Returns the encryption key
-	 *
-	 * @return string
 	 */
 	public function getKey() -> string
 	{
@@ -188,9 +179,7 @@ class Crypt implements \Phalcon\CryptInterface
 				default:
 					let paddingSize = 0;
 					break;
-
 			}
-
 		}
 
 		if !paddingSize {
@@ -236,6 +225,7 @@ class Crypt implements \Phalcon\CryptInterface
 						}
 					}
 					break;
+
 				case self::PADDING_PKCS7:
 					let last = substr(text, length - 1, 1);
 					let ord = (int) ord(last);
@@ -245,8 +235,8 @@ class Crypt implements \Phalcon\CryptInterface
 						if substr(text, length - paddingSize) != padding {
 							let paddingSize = 0;
 						}
-					}	
-					break;	
+					}
+					break;
 
 				case self::PADDING_ISO_10126:
 					let last = substr(text, length - 1, 1);
@@ -306,10 +296,6 @@ class Crypt implements \Phalcon\CryptInterface
 	 *<code>
 	 *	$encrypted = $crypt->encrypt("Ultra-secret text", "encrypt password");
 	 *</code>
-	 *
-	 * @param string text
-	 * @param string key
-	 * @return string
 	 */
 	public function encrypt(string! text, string! key = null) -> string
 	{
@@ -364,10 +350,6 @@ class Crypt implements \Phalcon\CryptInterface
 	 *<code>
 	 *	echo $crypt->decrypt($encrypted, "decrypt password");
 	 *</code>
-	 *
-	 * @param string text
-	 * @param string key
-	 * @return string
 	 */
 	public function decrypt(string! text, key = null) -> string
 	{
@@ -415,11 +397,6 @@ class Crypt implements \Phalcon\CryptInterface
 
 	/**
 	 * Encrypts a text returning the result as a base64 string
-	 *
-	 * @param string text
-	 * @param string key
-	 * @param boolean safe
-	 * @return string
 	 */
 	public function encryptBase64(string! text, key = null, boolean! safe = false) -> string
 	{
@@ -431,11 +408,6 @@ class Crypt implements \Phalcon\CryptInterface
 
 	/**
 	 * Decrypt a text that is coded as a base64 string
-	 *
-	 * @param string text
-	 * @param string key
-	 * @param boolean safe
-	 * @return string
 	 */
 	public function decryptBase64(string! text, key = null, boolean! safe = false) -> string
 	{
@@ -447,22 +419,17 @@ class Crypt implements \Phalcon\CryptInterface
 
 	/**
 	 * Returns a list of available cyphers
-	 *
-	 * @return array
 	 */
-	public function getAvailableCiphers()
+	public function getAvailableCiphers() -> array
 	{
 		return mcrypt_list_algorithms();
 	}
 
 	/**
 	 * Returns a list of available modes
-	 *
-	 * @return array
 	 */
-	public function getAvailableModes()
+	public function getAvailableModes() -> array
 	{
 		return mcrypt_list_modes();
 	}
-
 }

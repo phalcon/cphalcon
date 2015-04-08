@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -21,6 +21,8 @@
 namespace Phalcon\Mvc\Model;
 
 use Phalcon\DiInterface;
+use Phalcon\Db\RawValue;
+use Phalcon\Mvc\Model\Row;
 use Phalcon\Mvc\Model\Exception;
 use Phalcon\Mvc\Model\ManagerInterface;
 use Phalcon\Mvc\Model\QueryInterface;
@@ -210,14 +212,13 @@ class Query implements QueryInterface, InjectionAwareInterface
 		/**
 		 * Check if the qualified name has a domain
 		 */
-		if isset expr["domain"] {
+		if fetch columnDomain, expr["domain"] {
 
 			let sqlAliases = this->_sqlAliases;
 
 			/**
 			 * The column has a domain, we need to check if it"s an alias
 			 */
-			let columnDomain = expr["domain"];
 			if !fetch source, sqlAliases[columnDomain] {
 				throw new Exception("Unknown model or alias '" . columnDomain . "' (1), when preparing: " . this->_phql);
 			}
@@ -2223,12 +2224,13 @@ class Query implements QueryInterface, InjectionAwareInterface
 	 * @param array intermediate
 	 * @param array bindParams
 	 * @param array bindTypes
+	 * @throws Phalcon\Mvc\Model\Exception
 	 * @return Phalcon\Mvc\Model\ResultsetInterface
 	 */
 	protected final function _executeSelect(var intermediate, var bindParams, var bindTypes) -> <ResultsetInterface>
 	{
 
-		var manager, modelName, models, model, connection, connections,
+		var manager, modelName, models, model, connection, connectionTypes,
 			columns, column, selectColumns, simpleColumnMap, metaData, aliasCopy,
 			sqlColumn, attributes, instance, columnMap, attribute,
 			columnAlias, sqlAlias, dialect, sqlSelect,
@@ -2239,62 +2241,40 @@ class Query implements QueryInterface, InjectionAwareInterface
 
 		let manager = this->_manager;
 
+		/**
+		 * Get a database connection
+		 */
+		let connectionTypes = [];
 		let models = intermediate["models"];
 
-		if count(models) == 1 {
-
+		for modelName in models {
 			/**
-			 * Load first model if is not loaded
+			 * Load model if it is not loaded
 			 */
-			let modelName = models[0];
 			if !fetch model, this->_modelsInstances[modelName] {
 				let model = manager->load(modelName),
 					this->_modelsInstances[modelName] = model;
 			}
 
 			/**
-			 * The 'selectConnection' method could be implemented in a
+			 * Get database connection
 			 */
 			if method_exists(model, "selectReadConnection") {
+				// use selectReadConnection() if implemented in extended Model class
 				let connection = model->selectReadConnection(intermediate, bindParams, bindTypes);
 				if typeof connection != "object" {
 					throw new Exception("'selectReadConnection' didn't return a valid connection");
 				}
 			} else {
-
-				/**
-				 * Get the current connection to the model
-				 */
 				let connection = model->getReadConnection();
 			}
 
-		} else {
-
 			/**
-			 * Check if all the models belongs to the same connection
+			 * More than one type of connection is not allowed
 			 */
-			let connections = [];
-			for modelName in models {
-
-				if !fetch model, this->_modelsInstances[modelName] {
-					let model = manager->load(modelName),
-						this->_modelsInstances[modelName] = model;
-				}
-
-				/**
-				 * Get the models connection
-				 * Mark the type of connection in the connection flags
-				 */
-				let connection = model->getReadConnection(),
-					connections[connection->getType()] = true;
-
-				/**
-				 * More than one type of connection is not allowed
-				 */
-				if count(connections) == 2 {
-					throw new Exception("Cannot use models of different database systems in the same query");
-				}
-
+			let connectionTypes[connection->getType()] = true;
+			if count(connectionTypes) == 2 {
+				throw new Exception("Cannot use models of different database systems in the same query");
 			}
 		}
 
@@ -2508,7 +2488,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 				/**
 				 * If the result is a simple standard object use an Phalcon\Mvc\Model\Row as base
 				 */
-				let resultObject = new \Phalcon\Mvc\Model\Row();
+				let resultObject = new Row();
 
 				/**
 				 * Standard objects can"t keep snapshots
@@ -2639,14 +2619,14 @@ class Query implements QueryInterface, InjectionAwareInterface
 					break;
 
 				default:
-					let insertValue = new \Phalcon\Db\RawValue(dialect->getSqlExpression(exprValue));
+					let insertValue = new RawValue(dialect->getSqlExpression(exprValue));
 					break;
 			}
 
 			let fieldName = fields[number];
 
 			/**
-			 * If the user didn't defined a column list we assume all the model's attributes as columns
+			 * If the user didn't define a column list we assume all the model's attributes as columns
 			 */
 			if automaticFields === true {
 				if typeof columnMap == "array" {
@@ -2766,7 +2746,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 					break;
 
 				default:
-					let updateValue = new \Phalcon\Db\RawValue(dialect->getSqlExpression(exprValue));
+					let updateValue = new RawValue(dialect->getSqlExpression(exprValue));
 					break;
 			}
 
@@ -2890,7 +2870,6 @@ class Query implements QueryInterface, InjectionAwareInterface
 
 				return new Status(false, record);
 			}
-
 		}
 
 		/**
@@ -2939,7 +2918,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 		}
 
 		/**
-		 * Check if a WHERE clause was especified
+		 * Check if a LIMIT clause was especified
 		 */
 		if fetch limitConditions, intermediate["limit"] {
 			let selectIr["limit"] = limitConditions;
@@ -3059,6 +3038,14 @@ class Query implements QueryInterface, InjectionAwareInterface
 			}
 		} else {
 			let mergedTypes = bindTypes;
+		}
+
+		if typeof mergedParams != "null" && typeof mergedParams != "array" {
+			throw new Exception("Bound parameters must be an array");
+		}
+
+		if typeof mergedTypes != "null" && typeof mergedTypes != "array" {
+			throw new Exception("Bound parameter types must be an array");
 		}
 
 		let type = this->_type;
@@ -3240,5 +3227,4 @@ class Query implements QueryInterface, InjectionAwareInterface
 	{
 		return this->_cacheOptions;
 	}
-
 }

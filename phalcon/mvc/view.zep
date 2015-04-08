@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -1422,4 +1422,28 @@ class View extends Injectable implements ViewInterface
 		return null;
 	}
 
+	/**
+	 * Whether automatic rendering is enabled
+	 *
+	 * @return boolean
+	 */
+	public function isDisabled() -> boolean
+	{
+		return this->_disabled;
+	}
+
+    /**
+     * Magic method to retrieve if a variable is set in the view
+     *
+     *<code>
+     *  echo isset($this->view->products);
+     *</code>
+     *
+     * @param string key
+     * @return boolean
+     */
+    public function __isset(string! key) -> boolean
+    {
+        return isset(this->_viewParams[key]);
+    }
 }

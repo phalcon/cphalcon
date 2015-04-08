@@ -21,7 +21,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -230,8 +230,6 @@ PHP_METHOD(Phalcon_Db_Profiler_Item, getFinalTime) {
 
 /**
  * Returns the total time in seconds spent by the profile
- *
- * @return double
  */
 PHP_METHOD(Phalcon_Db_Profiler_Item, getTotalElapsedSeconds) {
 

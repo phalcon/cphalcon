@@ -161,7 +161,9 @@ CREATE TABLE robots (
     id integer NOT NULL,
     name character varying(70) NOT NULL,
     type character varying(32) DEFAULT 'mechanical'::character varying NOT NULL,
-    year integer DEFAULT 1900 NOT NULL
+    year integer DEFAULT 1900 NOT NULL,
+    datetime timestamp NOT NULL,
+    text text NOT NULL
 );
 
 
@@ -4770,10 +4772,10 @@ COPY prueba (id, nombre, estado) FROM stdin;
 -- Data for Name: robots; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY robots (id, name, type, year) FROM stdin;
-1	Robotina	mechanical	1972
-2	Astro Boy	mechanical	1952
-3	Terminator	cyborg	2029
+COPY robots (id, name, type, year, datetime, text) FROM stdin;
+1	Robotina	mechanical	1972	1972-01-01 00:00:00	text
+2	Astro Boy	mechanical	1952	1952-01-01 00:00:00	text
+3	Terminator	cyborg	2029	2029-01-01 00:00:00	text
 \.
 
 

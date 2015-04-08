@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -21,9 +21,11 @@
 namespace Phalcon;
 
 use Phalcon\DiInterface;
+use Phalcon\Di\InjectionAwareInterface;
 use Phalcon\Di\Service;
 use Phalcon\Di\ServiceInterface;
 use Phalcon\Di\Exception;
+use Phalcon\Events\EventsAwareInterface;
 
 /**
  * Phalcon\Di
@@ -57,7 +59,7 @@ use Phalcon\Di\Exception;
  *
  *</code>
  */
-class Di implements DiInterface, \Phalcon\Events\EventsAwareInterface
+class Di implements DiInterface, EventsAwareInterface
 {
 
 	protected _services;
@@ -81,10 +83,9 @@ class Di implements DiInterface, \Phalcon\Events\EventsAwareInterface
 	 */
 	public function __construct()
 	{
-		var defaultDi;
-
-		let defaultDi = self::_default;
-		if !defaultDi {
+		var di;
+		let di = self::_default;
+		if !di {
 			let self::_default = this;
 		}
 	}
@@ -260,12 +261,21 @@ class Di implements DiInterface, \Phalcon\Events\EventsAwareInterface
 		 * Pass the DI itself if the instance implements \Phalcon\Di\InjectionAwareInterface
 		 */
 		if typeof instance == "object" {
-			if method_exists(instance, "setDI") {
+			if instance instanceof InjectionAwareInterface {
 				instance->setDI(this);
 			}
 		}
 
 		if typeof eventsManager == "object" {
+			/**
+			 * Pass the EventsManager if the instance implements \Phalcon\Events\EventsAwareInterface
+			 */
+			if typeof instance == "object" {
+				if instance instanceof EventsAwareInterface {
+					instance->setEventsManager(eventsManager);
+				}
+			}
+
 			eventsManager->fire("di:afterServiceResolve", this, ["name": name, "parameters": parameters, "instance": instance]);
 		}
 

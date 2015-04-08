@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -163,20 +163,20 @@ class Gd extends \Phalcon\Image\Adapter implements \Phalcon\Image\AdapterInterfa
 		}
 	}
 
-	protected function _crop(int width, int height, int offset_x, int offset_y)
+	protected function _crop(int width, int height, int offsetX, int offsetY)
 	{
 		var image, rect;
 
 		if version_compare(PHP_VERSION, "5.5.0") < 0 {
 			let image = this->_create(width, height);
-			if (imagecopyresampled(image, this->_image, 0, 0, offset_x, offset_y, width, height, width, height)) {
+			if (imagecopyresampled(image, this->_image, 0, 0, offsetX, offsetY, width, height, width, height)) {
 				imagedestroy(this->_image);
 				let this->_image = image;
 				let this->_width  = imagesx(image);
 				let this->_height = imagesy(image);
 			}
 		} else {
-			let rect = ["x": offset_x, "y": offset_y, "width": width, "height": height];
+			let rect = ["x": offsetX, "y": offsetY, "width": width, "height": height];
 			let image = imagecrop(this->_image, rect);
 			imagedestroy(this->_image);
 			let this->_image = image;
@@ -261,7 +261,7 @@ class Gd extends \Phalcon\Image\Adapter implements \Phalcon\Image\AdapterInterfa
 		}
 	}
 
-	protected function _reflection(int height, int opacity, boolean fade_in)
+	protected function _reflection(int height, int opacity, boolean fadeIn)
 	{
 		var reflection, line;
 		int stepping, offset, src_y, dst_y, dst_opacity;
@@ -284,7 +284,7 @@ class Gd extends \Phalcon\Image\Adapter implements \Phalcon\Image\AdapterInterfa
 			let src_y = this->_height - offset - 1;
 			let dst_y = this->_height + offset;
 
-			if fade_in {
+			if fadeIn {
 				let dst_opacity = (int) round(opacity + (stepping * (height - offset)));
 			} else {
 				let dst_opacity = (int) round(opacity + (stepping * offset));
@@ -304,7 +304,7 @@ class Gd extends \Phalcon\Image\Adapter implements \Phalcon\Image\AdapterInterfa
 		let this->_height = imagesy(reflection);
 	}
 
-	protected function _watermark(<\Phalcon\Image\Adapter> watermark, int offset_x, int offset_y, int opacity)
+	protected function _watermark(<\Phalcon\Image\Adapter> watermark, int offsetX, int offsetY, int opacity)
 	{
 		var overlay, color;
 		int width, height;
@@ -327,12 +327,12 @@ class Gd extends \Phalcon\Image\Adapter implements \Phalcon\Image\AdapterInterfa
 
 		imagealphablending(this->_image, true);
 
-		if imagecopy(this->_image, overlay, offset_x, offset_y, 0, 0, width, height) {
+		if imagecopy(this->_image, overlay, offsetX, offsetY, 0, 0, width, height) {
 			imagedestroy(overlay);
 		}
 	}
 
-	protected function _text(string text, int offset_x, int offset_y, int opacity, int r, int g, int b, int size, string fontfile)
+	protected function _text(string text, int offsetX, int offsetY, int opacity, int r, int g, int b, int size, string fontfile)
 	{
 		var space, color, angle;
 		int s0 = 0, s1 = 0, s4 = 0, s5 = 0, width, height;
@@ -357,32 +357,32 @@ class Gd extends \Phalcon\Image\Adapter implements \Phalcon\Image\AdapterInterfa
 			let width  = abs(s4 - s0) + 10;
 			let height = abs(s5 - s1) + 10;
 
-			if offset_x < 0 {
-				let offset_x = this->_width - width + offset_x;
+			if offsetX < 0 {
+				let offsetX = this->_width - width + offsetX;
 			}
 
-			if offset_y < 0 {
-				let offset_y = this->_height - height + offset_y;
+			if offsetY < 0 {
+				let offsetY = this->_height - height + offsetY;
 			}
 
 			let color = imagecolorallocatealpha(this->_image, r, g, b, opacity);
 			let angle = 0;
 
-			imagettftext(this->_image, size, angle, offset_x, offset_y, color, fontfile, text);
+			imagettftext(this->_image, size, angle, offsetX, offsetY, color, fontfile, text);
 		} else {
 			let width  = (int) imagefontwidth(size) * strlen(text);
 			let height = (int) imagefontheight(size);
 
-			if offset_x < 0 {
-				let offset_x = this->_width - width + offset_x;
+			if offsetX < 0 {
+				let offsetX = this->_width - width + offsetX;
 			}
 
-			if offset_y < 0 {
-				let offset_y = this->_height - height + offset_y;
+			if offsetY < 0 {
+				let offsetY = this->_height - height + offsetY;
 			}
 
 			let color = imagecolorallocatealpha(this->_image, r, g, b, opacity);
-			imagestring(this->_image, size, offset_x, offset_y, text, color);
+			imagestring(this->_image, size, offsetX, offsetY, text, color);
 		}
 	}
 

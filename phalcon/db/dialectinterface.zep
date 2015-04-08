@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -70,8 +70,6 @@ interface DialectInterface
 
 	/**
 	 * Gets the column name in MySQL
-	 *
-	 * @param Phalcon\Db\ColumnInterface column
 	 */
 	public function getColumnDefinition(<\Phalcon\Db\ColumnInterface> column);
 
@@ -189,7 +187,7 @@ interface DialectInterface
 	 * @param string schemaName
 	 * @return string
 	 */
-	public function tableExists(tableName, schemaName=null);
+	public function tableExists(tableName, schemaName = null);
 
 	/**
 	 * Generates SQL to describe a table
@@ -198,15 +196,15 @@ interface DialectInterface
 	 * @param string schema
 	 * @return string
 	 */
-	public function describeColumns(table, schema=null);
+	public function describeColumns(table, schema = null);
 
 	/**
-	 * List all tables on database
+	 * List all tables in database
 	 *
 	 * @param       string schemaName
 	 * @return      array
 	 */
-	public function listTables(schemaName=null);
+	public function listTables(schemaName = null);
 
 	/**
 	 * Generates SQL to query indexes on a table
@@ -215,7 +213,7 @@ interface DialectInterface
 	 * @param	string schema
 	 * @return	string
 	 */
-	public function describeIndexes(table, schema=null);
+	public function describeIndexes(table, schema = null);
 
 	/**
 	 * Generates SQL to query foreign keys on a table
@@ -224,7 +222,7 @@ interface DialectInterface
 	 * @param	string schema
 	 * @return	string
 	 */
-	public function describeReferences(table, schema=null);
+	public function describeReferences(table, schema = null);
 
 	/**
 	 * Generates the SQL to describe the table creation options
@@ -233,7 +231,7 @@ interface DialectInterface
 	 * @param	string schema
 	 * @return	string
 	 */
-	public function tableOptions(table, schema=null);
+	public function tableOptions(table, schema = null);
 
 	/**
 	 * Checks whether the platform supports savepoints

@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Zephir Language                                                        |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2014 Zephir Team (http://www.zephir-lang.com)       |
+  | Copyright (c) 2011-2015 Zephir Team (http://www.zephir-lang.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -21,7 +21,12 @@
 #ifndef ZEPHIR_KERNEL_ARRAY_H
 #define ZEPHIR_KERNEL_ARRAY_H
 #define ZEPHIR_MAX_ARRAY_LEVELS 16
-  
+
+#include <php.h>
+#include <Zend/zend.h>
+#include "kernel/globals.h"
+#include "kernel/main.h"
+
 /** Combined isset/fetch */
 int zephir_array_isset_fetch(zval **fetched, const zval *arr, zval *index, int readonly TSRMLS_DC);
 int zephir_array_isset_quick_string_fetch(zval **fetched, zval *arr, char *index, uint index_length, unsigned long key, int readonly TSRMLS_DC);
@@ -78,7 +83,10 @@ void zephir_array_values(zval *return_value, zval *arr);
 int zephir_array_key_exists(zval *arr, zval *key TSRMLS_DC);
 int zephir_array_is_associative(zval *arr);
 
+void zephir_array_update_multi_ex(zval **arr, zval **value, const char *types, int types_length, int types_count, va_list ap TSRMLS_DC);
 int zephir_array_update_multi(zval **arr, zval **value TSRMLS_DC, const char *types, int types_length, int types_count, ...);
+
+void ZEPHIR_FASTCALL zephir_create_array(zval *return_value, uint size, int initialize TSRMLS_DC);
 
 #define zephir_array_fast_append(arr, value) \
   Z_ADDREF_P(value); \

@@ -2,7 +2,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -189,6 +189,65 @@ class Request implements RequestInterface, InjectionAwareInterface
 	}
 
 	/**
+	 * Gets a variable from put request
+	 *
+	 *<code>
+	 *	//Returns value from $_PUT["user_email"] without sanitizing
+	 *	$userEmail = $request->getPut("user_email");
+	 *
+	 *	//Returns value from $_PUT["user_email"] with sanitizing
+	 *	$userEmail = $request->getPut("user_email", "email");
+	 *</code>
+	 *
+	 * @param string name
+	 * @param string|array filters
+	 * @param mixed defaultValue
+	 * @param boolean notAllowEmpty
+	 * @param boolean noRecursive
+	 * @return mixed
+	 */
+	public function getPut(string! name = null, filters = null, defaultValue = null, notAllowEmpty = false, noRecursive = false)
+	{
+		var put, value, filter, dependencyInjector;
+
+		let put = [];
+		parse_str(file_get_contents("php://input"), put);
+
+		if name !== null {
+			if fetch value, put[name] {
+				if filters !== null {
+					let filter = this->_filter;
+					if typeof filter != "object" {
+						let dependencyInjector = <DiInterface> this->_dependencyInjector;
+						if typeof dependencyInjector != "object" {
+							throw new Exception("A dependency injection object is required to access the 'filter' service");
+						}
+						let filter = <\Phalcon\Filter> dependencyInjector->getShared("filter");
+						let this->_filter = filter;
+					}
+
+					let value = filter->sanitize(value, filters, noRecursive);
+
+					if (empty(value) && notAllowEmpty === true) {
+						return defaultValue;
+					}
+
+					return value;
+
+				} else {
+				 	if empty(value) && notAllowEmpty === true {
+				 		return defaultValue;
+				 	}
+					return value;
+
+				}
+			}
+			return defaultValue;
+		}
+		return put;
+	}
+
+	/**
 	 * Gets variable from $_GET superglobal applying filters if needed
 	 * If no parameters are given the $_GET superglobal is returned
 	 *
@@ -318,15 +377,18 @@ class Request implements RequestInterface, InjectionAwareInterface
 	 */
 	public final function getHeader(string! header) -> string
 	{
-		var serverValue, headerValue;
+		var value, name;
 
-		if fetch serverValue, _SERVER[header] {
-			return serverValue;
+		let name = strtoupper(strtr(header, "-", "_"));
+
+		if fetch value, _SERVER[name] {
+			return value;
 		} else {
-			if fetch headerValue, _SERVER["HTTP_" . header] {
-				return headerValue;
+			if fetch value, _SERVER["HTTP_" . name] {
+				return value;
 			}
 		}
+
 		return "";
 	}
 
@@ -353,13 +415,13 @@ class Request implements RequestInterface, InjectionAwareInterface
 	}
 
 	/**
-	 * Checks whether request has been made using ajax. Checks if $_SERVER['HTTP_X_REQUESTED_WITH']==='XMLHttpRequest'
+	 * Checks whether request has been made using ajax
 	 *
 	 * @return boolean
 	 */
 	public function isAjax() -> boolean
 	{
-		return this->getHeader("HTTP_X_REQUESTED_WITH") === "XMLHttpRequest";
+		return isset _SERVER["HTTP_X_REQUESTED_WITH"] && _SERVER["HTTP_X_REQUESTED_WITH"] === "XMLHttpRequest";
 	}
 
 	/**
@@ -545,6 +607,9 @@ class Request implements RequestInterface, InjectionAwareInterface
 		 */
 		if trustForwardedHeader {
 			fetch address, _SERVER["HTTP_X_FORWARDED_FOR"];
+			if address === null {
+				fetch address, _SERVER["HTTP_CLIENT_IP"];
+			}
 		}
 
 		if address === null {
@@ -836,6 +901,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 
 		return files;
 	}
+
 	/**
 	 * Returns the available headers in the request
 	 *
@@ -843,24 +909,23 @@ class Request implements RequestInterface, InjectionAwareInterface
 	 */
 	public function getHeaders() -> array
 	{
-		var headers, key, value, parts, pos, part;
+		var name, value, headers, contentHeaders;
 
 		let headers = [];
-		for key, value in _SERVER {
-			if starts_with(key, "HTTP_") {
+		let contentHeaders = ["CONTENT_TYPE": true, "CONTENT_LENGTH": true];
 
-				let key = str_replace("HTTP_", "", key),
-				    parts = explode("_", key),
-				    key = "";
-
-				for pos, part in parts {
-					let parts[pos] = ucfirst(strtolower(part));
-				}
-
-				let key = implode("-", parts),
-					headers[key] = value;
+		for name, value in _SERVER {
+			if starts_with(name, "HTTP_") {
+				let name = ucwords(strtolower(str_replace("_", " ", substr(name, 5)))),
+					name = str_replace(" ", "-", name);
+				let headers[name] = value;
+			} elseif isset(contentHeaders[name]) {
+				let name = ucwords(strtolower(str_replace("_", " ", name))),
+					name = str_replace(" ", "-", name);
+				let headers[name] = value;
 			}
 		}
+
 		return headers;
 	}
 
@@ -1074,5 +1139,4 @@ class Request implements RequestInterface, InjectionAwareInterface
 
 		return auth;
 	}
-
 }

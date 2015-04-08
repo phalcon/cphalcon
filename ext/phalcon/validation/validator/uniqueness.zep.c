@@ -12,13 +12,13 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
-#include "kernel/object.h"
-#include "kernel/exception.h"
 #include "kernel/fcall.h"
 #include "kernel/memory.h"
 #include "kernel/operators.h"
-#include "kernel/concat.h"
+#include "kernel/exception.h"
 #include "kernel/array.h"
+#include "kernel/concat.h"
+#include "kernel/object.h"
 #include "ext/spl/spl_exceptions.h"
 
 
@@ -26,7 +26,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -79,7 +79,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_Uniqueness) {
  */
 PHP_METHOD(Phalcon_Validation_Validator_Uniqueness, validate) {
 
-	zephir_nts_static zephir_fcall_cache_entry *_7 = NULL;
+	zephir_nts_static zephir_fcall_cache_entry *_7 = NULL, *_9 = NULL;
 	zend_class_entry *_4, *_5;
 	zval *_1 = NULL, *_3 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
@@ -102,10 +102,6 @@ PHP_METHOD(Phalcon_Validation_Validator_Uniqueness, validate) {
 	}
 
 
-	if (!(zephir_instance_of_ev(validation, phalcon_validation_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'validation' must be an instance of 'Phalcon\\Validation'", "", 0);
-		return;
-	}
 	ZEPHIR_CALL_METHOD(&value, validation, "getvalue", NULL, field);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(_0);
@@ -132,29 +128,29 @@ PHP_METHOD(Phalcon_Validation_Validator_Uniqueness, validate) {
 	}
 	if (zephir_is_true(except)) {
 		ZEPHIR_INIT_VAR(_1);
-		array_init_size(_1, 3);
+		zephir_create_array(_1, 2, 0 TSRMLS_CC);
 		ZEPHIR_INIT_VAR(_2);
 		ZEPHIR_CONCAT_VSVS(_2, attribute, "=:value: AND ", attribute, "!= :except:");
 		zephir_array_fast_append(_1, _2);
 		ZEPHIR_INIT_VAR(_3);
-		array_init_size(_3, 3);
+		zephir_create_array(_3, 2, 0 TSRMLS_CC);
 		zephir_array_update_string(&_3, SL("value"), &value, PH_COPY | PH_SEPARATE);
 		zephir_array_update_string(&_3, SL("except"), &except, PH_COPY | PH_SEPARATE);
 		zephir_array_update_string(&_1, SL("bind"), &_3, PH_COPY | PH_SEPARATE);
-		_4 = zend_fetch_class(Z_STRVAL_P(model), Z_STRLEN_P(model), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
+		_4 = zephir_fetch_class(model TSRMLS_CC);
 		ZEPHIR_CALL_CE_STATIC(&number, _4, "count", NULL, _1);
 		zephir_check_call_status();
 	} else {
 		ZEPHIR_INIT_NVAR(_1);
-		array_init_size(_1, 3);
+		zephir_create_array(_1, 2, 0 TSRMLS_CC);
 		ZEPHIR_INIT_LNVAR(_2);
 		ZEPHIR_CONCAT_VS(_2, attribute, "=:value:");
 		zephir_array_fast_append(_1, _2);
 		ZEPHIR_INIT_NVAR(_3);
-		array_init_size(_3, 2);
+		zephir_create_array(_3, 1, 0 TSRMLS_CC);
 		zephir_array_update_string(&_3, SL("value"), &value, PH_COPY | PH_SEPARATE);
 		zephir_array_update_string(&_1, SL("bind"), &_3, PH_COPY | PH_SEPARATE);
-		_5 = zend_fetch_class(Z_STRVAL_P(model), Z_STRLEN_P(model), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
+		_5 = zephir_fetch_class(model TSRMLS_CC);
 		ZEPHIR_CALL_CE_STATIC(&number, _5, "count", NULL, _1);
 		zephir_check_call_status();
 	}
@@ -174,7 +170,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Uniqueness, validate) {
 		zephir_check_temp_parameter(_0);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(replacePairs);
-		array_init_size(replacePairs, 2);
+		zephir_create_array(replacePairs, 1, 0 TSRMLS_CC);
 		zephir_array_update_string(&replacePairs, SL(":field"), &label, PH_COPY | PH_SEPARATE);
 		if (ZEPHIR_IS_EMPTY(message)) {
 			ZEPHIR_INIT_NVAR(_0);
@@ -189,7 +185,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Uniqueness, validate) {
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(_8);
 		ZVAL_STRING(_8, "Uniqueness", ZEPHIR_TEMP_PARAM_COPY);
-		ZEPHIR_CALL_METHOD(NULL, _0, "__construct", NULL, _6, field, _8);
+		ZEPHIR_CALL_METHOD(NULL, _0, "__construct", &_9, _6, field, _8);
 		zephir_check_temp_parameter(_8);
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, _0);

@@ -15,8 +15,8 @@
 #include "kernel/memory.h"
 #include "kernel/array.h"
 #include "kernel/object.h"
-#include "kernel/exception.h"
 #include "ext/spl/spl_exceptions.h"
+#include "kernel/exception.h"
 #include "kernel/operators.h"
 #include "kernel/fcall.h"
 #include "kernel/require.h"
@@ -29,7 +29,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -103,7 +103,7 @@ PHP_METHOD(Phalcon_Loader, __construct) {
 	ZEPHIR_MM_GROW();
 
 	ZEPHIR_INIT_VAR(_0);
-	array_init_size(_0, 2);
+	zephir_create_array(_0, 1, 0 TSRMLS_CC);
 	ZEPHIR_INIT_VAR(_1);
 	ZVAL_STRING(_1, "php", 1);
 	zephir_array_fast_append(_0, _1);
@@ -125,10 +125,6 @@ PHP_METHOD(Phalcon_Loader, setEventsManager) {
 
 
 
-	if (!(zephir_instance_of_ev(eventsManager, phalcon_events_managerinterface_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(spl_ce_InvalidArgumentException, "Parameter 'eventsManager' must be an instance of 'Phalcon\\Events\\ManagerInterface'", "", 0);
-		return;
-	}
 	zephir_update_property_this(this_ptr, SL("_eventsManager"), eventsManager TSRMLS_CC);
 
 }
@@ -242,7 +238,6 @@ PHP_METHOD(Phalcon_Loader, getNamespaces) {
  */
 PHP_METHOD(Phalcon_Loader, registerPrefixes) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
 	zend_bool merge;
 	zval *prefixes_param = NULL, *merge_param = NULL, *currentPrefixes, *mergedPrefixes = NULL;
 	zval *prefixes = NULL;
@@ -263,8 +258,8 @@ PHP_METHOD(Phalcon_Loader, registerPrefixes) {
 		ZEPHIR_OBS_VAR(currentPrefixes);
 		zephir_read_property_this(&currentPrefixes, this_ptr, SL("_prefixes"), PH_NOISY_CC);
 		if (Z_TYPE_P(currentPrefixes) == IS_ARRAY) {
-			ZEPHIR_CALL_METHOD(&mergedPrefixes, currentPrefixes, "merge", NULL, prefixes);
-			zephir_check_call_status();
+			ZEPHIR_INIT_VAR(mergedPrefixes);
+			zephir_fast_array_merge(mergedPrefixes, &(currentPrefixes), &(prefixes) TSRMLS_CC);
 		} else {
 			ZEPHIR_CPY_WRT(mergedPrefixes, prefixes);
 		}
@@ -351,7 +346,6 @@ PHP_METHOD(Phalcon_Loader, getDirs) {
  */
 PHP_METHOD(Phalcon_Loader, registerClasses) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
 	zend_bool merge;
 	zval *classes_param = NULL, *merge_param = NULL, *mergedClasses = NULL, *currentClasses;
 	zval *classes = NULL;
@@ -372,8 +366,8 @@ PHP_METHOD(Phalcon_Loader, registerClasses) {
 		ZEPHIR_OBS_VAR(currentClasses);
 		zephir_read_property_this(&currentClasses, this_ptr, SL("_classes"), PH_NOISY_CC);
 		if (Z_TYPE_P(currentClasses) == IS_ARRAY) {
-			ZEPHIR_CALL_METHOD(&mergedClasses, currentClasses, "merge", NULL, classes);
-			zephir_check_call_status();
+			ZEPHIR_INIT_VAR(mergedClasses);
+			zephir_fast_array_merge(mergedClasses, &(currentClasses), &(classes) TSRMLS_CC);
 		} else {
 			ZEPHIR_CPY_WRT(mergedClasses, classes);
 		}
@@ -413,7 +407,7 @@ PHP_METHOD(Phalcon_Loader, register) {
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_registered"), PH_NOISY_CC);
 	if (ZEPHIR_IS_FALSE_IDENTICAL(_0)) {
 		ZEPHIR_INIT_VAR(_1);
-		array_init_size(_1, 3);
+		zephir_create_array(_1, 2, 0 TSRMLS_CC);
 		zephir_array_fast_append(_1, this_ptr);
 		ZEPHIR_INIT_VAR(_2);
 		ZVAL_STRING(_2, "autoLoad", 1);
@@ -442,7 +436,7 @@ PHP_METHOD(Phalcon_Loader, unregister) {
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_registered"), PH_NOISY_CC);
 	if (ZEPHIR_IS_TRUE_IDENTICAL(_0)) {
 		ZEPHIR_INIT_VAR(_1);
-		array_init_size(_1, 3);
+		zephir_create_array(_1, 2, 0 TSRMLS_CC);
 		zephir_array_fast_append(_1, this_ptr);
 		ZEPHIR_INIT_VAR(_2);
 		ZVAL_STRING(_2, "autoLoad", 1);
@@ -537,9 +531,9 @@ PHP_METHOD(Phalcon_Loader, autoLoad) {
 				ZEPHIR_CONCAT_VV(_4, nsPrefix, namespaceSeparator);
 				ZEPHIR_SINIT_NVAR(_5);
 				ZVAL_STRING(&_5, "", 0);
-				zephir_fast_str_replace(fileName, _4, &_5, className TSRMLS_CC);
+				zephir_fast_str_replace(&fileName, _4, &_5, className TSRMLS_CC);
 				ZEPHIR_INIT_NVAR(_0);
-				zephir_fast_str_replace(_0, namespaceSeparator, ds, fileName TSRMLS_CC);
+				zephir_fast_str_replace(&_0, namespaceSeparator, ds, fileName TSRMLS_CC);
 				ZEPHIR_CPY_WRT(fileName, _0);
 				if (zephir_is_true(fileName)) {
 					ZEPHIR_INIT_NVAR(_0);
@@ -599,18 +593,18 @@ PHP_METHOD(Phalcon_Loader, autoLoad) {
 				ZEPHIR_CONCAT_VV(_4, prefix, namespaceSeparator);
 				ZEPHIR_SINIT_NVAR(_5);
 				ZVAL_STRING(&_5, "", 0);
-				zephir_fast_str_replace(fileName, _4, &_5, className TSRMLS_CC);
+				zephir_fast_str_replace(&fileName, _4, &_5, className TSRMLS_CC);
 				ZEPHIR_INIT_NVAR(_0);
 				ZEPHIR_INIT_LNVAR(_17);
 				ZEPHIR_CONCAT_VS(_17, prefix, "_");
 				ZEPHIR_SINIT_NVAR(_18);
 				ZVAL_STRING(&_18, "", 0);
-				zephir_fast_str_replace(_0, _17, &_18, fileName TSRMLS_CC);
+				zephir_fast_str_replace(&_0, _17, &_18, fileName TSRMLS_CC);
 				ZEPHIR_CPY_WRT(fileName, _0);
 				ZEPHIR_INIT_NVAR(_0);
 				ZEPHIR_SINIT_NVAR(_19);
 				ZVAL_STRING(&_19, "_", 0);
-				zephir_fast_str_replace(_0, &_19, ds, fileName TSRMLS_CC);
+				zephir_fast_str_replace(&_0, &_19, ds, fileName TSRMLS_CC);
 				ZEPHIR_CPY_WRT(fileName, _0);
 				if (zephir_is_true(fileName)) {
 					ZEPHIR_INIT_NVAR(_0);
@@ -657,11 +651,11 @@ PHP_METHOD(Phalcon_Loader, autoLoad) {
 	ZEPHIR_INIT_VAR(dsClassName);
 	ZEPHIR_SINIT_NVAR(_5);
 	ZVAL_STRING(&_5, "_", 0);
-	zephir_fast_str_replace(dsClassName, &_5, ds, className TSRMLS_CC);
+	zephir_fast_str_replace(&dsClassName, &_5, ds, className TSRMLS_CC);
 	ZEPHIR_INIT_VAR(nsClassName);
 	ZEPHIR_SINIT_NVAR(_18);
 	ZVAL_STRING(&_18, "\\", 0);
-	zephir_fast_str_replace(nsClassName, &_18, ds, dsClassName TSRMLS_CC);
+	zephir_fast_str_replace(&nsClassName, &_18, ds, dsClassName TSRMLS_CC);
 	ZEPHIR_OBS_VAR(directories);
 	zephir_read_property_this(&directories, this_ptr, SL("_directories"), PH_NOISY_CC);
 	if (Z_TYPE_P(directories) == IS_ARRAY) {

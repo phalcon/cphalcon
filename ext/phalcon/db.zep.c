@@ -22,7 +22,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -89,8 +89,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Db) {
 
 /**
  * Enables/disables options in the Database component
- *
- * @param array options
  */
 PHP_METHOD(Phalcon_Db, setup) {
 
@@ -106,6 +104,7 @@ PHP_METHOD(Phalcon_Db, setup) {
 
 	ZEPHIR_OBS_VAR(escapeIdentifiers);
 	if (zephir_array_isset_string_fetch(&escapeIdentifiers, options, SS("escapeSqlIdentifiers"), 0 TSRMLS_CC)) {
+		ZEPHIR_GLOBAL(db).escape_identifiers = zend_is_true(escapeIdentifiers);
 	}
 	ZEPHIR_MM_RESTORE();
 

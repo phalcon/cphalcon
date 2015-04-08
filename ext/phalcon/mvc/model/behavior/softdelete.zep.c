@@ -12,12 +12,12 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
-#include "kernel/object.h"
-#include "kernel/exception.h"
 #include "kernel/operators.h"
 #include "kernel/fcall.h"
 #include "kernel/array.h"
 #include "kernel/memory.h"
+#include "kernel/exception.h"
+#include "kernel/object.h"
 #include "kernel/hash.h"
 #include "ext/spl/spl_exceptions.h"
 
@@ -26,7 +26,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -62,6 +62,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Behavior_SoftDelete) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Behavior_SoftDelete, notify) {
 
+	zephir_fcall_cache_entry *_7 = NULL;
 	HashTable *_5;
 	HashPosition _4;
 	int ZEPHIR_LAST_CALL_STATUS;
@@ -84,10 +85,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior_SoftDelete, notify) {
 	}
 
 
-	if (!(zephir_instance_of_ev(model, phalcon_mvc_modelinterface_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'model' must be an instance of 'Phalcon\\Mvc\\ModelInterface'", "", 0);
-		return;
-	}
 	if (ZEPHIR_IS_STRING(type, "beforeDelete")) {
 		ZEPHIR_CALL_METHOD(&options, this_ptr, "getoptions", NULL);
 		zephir_check_call_status();
@@ -125,7 +122,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior_SoftDelete, notify) {
 				  ; zephir_hash_move_forward_ex(_5, &_4)
 				) {
 					ZEPHIR_GET_HVALUE(message, _6);
-					ZEPHIR_CALL_METHOD(NULL, model, "appendmessage", NULL, message);
+					ZEPHIR_CALL_METHOD(NULL, model, "appendmessage", &_7, message);
 					zephir_check_call_status();
 				}
 				RETURN_MM_BOOL(0);

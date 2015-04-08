@@ -67,9 +67,12 @@ class PhvoltParseViewOptimizer extends OptimizerAbstract
 		$context->headersManager->add('phalcon/mvc/view/engine/volt/scanner', HeadersManager::POSITION_LAST);
 		$context->headersManager->add('phalcon/mvc/view/engine/volt/volt',    HeadersManager::POSITION_LAST);
 
-		$context->codePrinter->output('if (phvolt_parse_view(' . $symbolVariable->getName() . ', ' . $resolvedParams[0] . ', ' . $resolvedParams[1] . ' TSRMLS_CC) == FAILURE) {');
-        $context->codePrinter->output("\t" . 'RETURN_MM();');
-        $context->codePrinter->output('}');
+		$call->addCallStatusFlag($context);
+
+		$context->codePrinter->output('ZEPHIR_LAST_CALL_STATUS = phvolt_parse_view(' . $symbolVariable->getName() . ', ' . $resolvedParams[0] . ', ' . $resolvedParams[1] . ' TSRMLS_CC);');
+
+		$call->checkTempParameters($context);
+		$call->addCallStatusOrJump($context);
 
 		return new CompiledExpression('variable', $symbolVariable->getRealName(), $expression);
 	}

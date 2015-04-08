@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -35,9 +35,8 @@ class Js extends \Phalcon\Assets\Resource
 	 * @param boolean filter
 	 * @param array attributes
 	 */
-	public function __construct(path, local=true, filter=true, attributes=null)
+	public function __construct(path, local = true, filter = true, attributes = null)
 	{
 		parent::__construct("js", path, local, filter, attributes);
 	}
-
 }

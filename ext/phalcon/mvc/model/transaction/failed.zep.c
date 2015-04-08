@@ -13,9 +13,9 @@
 
 #include "kernel/main.h"
 #include "kernel/object.h"
-#include "kernel/exception.h"
 #include "kernel/fcall.h"
 #include "ext/spl/spl_exceptions.h"
+#include "kernel/exception.h"
 #include "kernel/operators.h"
 #include "kernel/memory.h"
 
@@ -24,7 +24,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -61,7 +61,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Transaction_Failed) {
 PHP_METHOD(Phalcon_Mvc_Model_Transaction_Failed, __construct) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zend_bool _0;
 	zval *message_param = NULL, *record = NULL;
 	zval *message = NULL;
 
@@ -84,14 +83,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Failed, __construct) {
 	}
 
 
-	_0 = Z_TYPE_P(record) != IS_NULL;
-	if (_0) {
-		_0 = !zephir_instance_of_ev(record, phalcon_mvc_modelinterface_ce TSRMLS_CC);
-	}
-	if (_0) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'record' must be an instance of 'Phalcon\\Mvc\\ModelInterface'", "", 0);
-		return;
-	}
 	zephir_update_property_this(this_ptr, SL("_record"), record TSRMLS_CC);
 	ZEPHIR_CALL_PARENT(NULL, phalcon_mvc_model_transaction_failed_ce, this_ptr, "__construct", NULL, message);
 	zephir_check_call_status();

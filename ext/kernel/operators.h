@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Zephir Language                                                        |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2014 Zephir Team (http://www.zephir-lang.com)       |
+  | Copyright (c) 2011-2015 Zephir Team (http://www.zephir-lang.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -20,6 +20,9 @@
 
 #ifndef ZEPHIR_KERNEL_OPERATORS_H
 #define ZEPHIR_KERNEL_OPERATORS_H
+
+#include <php.h>
+#include <Zend/zend.h>
 
 /** Strict comparing */
 #define ZEPHIR_IS_LONG(op1, op2)   ((Z_TYPE_P(op1) == IS_LONG && Z_LVAL_P(op1) == op2) || zephir_compare_strict_long(op1, op2 TSRMLS_CC))
@@ -90,6 +93,13 @@ void zephir_make_printable_zval(zval *expr, zval *expr_copy, int *use_copy);
 #define zephir_sub_function(result, left, right, t) fast_sub_function(result, left, right TSRMLS_CC)
 #endif
 
+#if PHP_VERSION_ID < 50600
+void zephir_pow_function_ex(zval *return_value, zval *zbase, zval *zexp TSRMLS_DC);
+#define zephir_pow_function(result, op1, op2) zephir_pow_function_ex(result, op1, op2 TSRMLS_CC)
+#else
+#define zephir_pow_function(result, op1, op2) pow_function(result, op1, op2 TSRMLS_CC)
+#endif
+
 /** Operator functions */
 int zephir_add_function_ex(zval *result, zval *op1, zval *op2 TSRMLS_DC);
 int zephir_and_function(zval *result, zval *left, zval *right);
@@ -126,9 +136,11 @@ int zephir_is_identical(zval *op1, zval *op2 TSRMLS_DC);
 
 int zephir_less(zval *op1, zval *op2 TSRMLS_DC);
 int zephir_less_long(zval *op1, long op2 TSRMLS_DC);
+int zephir_less_double(zval *op1, double op2 TSRMLS_DC);
 
 int zephir_greater(zval *op1, zval *op2 TSRMLS_DC);
 int zephir_greater_long(zval *op1, long op2 TSRMLS_DC);
+int zephir_greater_double(zval *op1, double op2 TSRMLS_DC);
 
 int zephir_less_equal(zval *op1, zval *op2 TSRMLS_DC);
 int zephir_less_equal_long(zval *op1, long op2 TSRMLS_DC);
@@ -144,6 +156,20 @@ double zephir_safe_div_zval_long(zval *op1, long op2 TSRMLS_DC);
 double zephir_safe_div_zval_double(zval *op1, double op2 TSRMLS_DC);
 double zephir_safe_div_long_zval(long op1, zval *op2 TSRMLS_DC);
 double zephir_safe_div_double_zval(double op1, zval *op2 TSRMLS_DC);
+
+long zephir_safe_mod_long_long(long op1, long op2 TSRMLS_DC);
+long zephir_safe_mod_long_double(long op1, double op2 TSRMLS_DC);
+long zephir_safe_mod_double_long(double op1, long op2 TSRMLS_DC);
+long zephir_safe_mod_double_double(double op1, double op2 TSRMLS_DC);
+long zephir_safe_mod_zval_long(zval *op1, long op2 TSRMLS_DC);
+long zephir_safe_mod_zval_double(zval *op1, double op2 TSRMLS_DC);
+long zephir_safe_mod_long_zval(long op1, zval *op2 TSRMLS_DC);
+long zephir_safe_mod_double_zval(double op1, zval *op2 TSRMLS_DC);
+
+void zephir_floor(zval *return_value, zval *op1 TSRMLS_DC);
+void zephir_ceil(zval *return_value, zval *op1 TSRMLS_DC);
+void zephir_round(zval *return_value, zval *op1, zval *op2, zval *op3 TSRMLS_DC);
+void zephir_pow(zval *return_value, zval *op1, zval *op2 TSRMLS_DC);
 
 #define zephir_get_numberval(z) (Z_TYPE_P(z) == IS_LONG ? Z_LVAL_P(z) : zephir_get_doubleval(z))
 #define zephir_get_intval(z) (Z_TYPE_P(z) == IS_LONG ? Z_LVAL_P(z) : zephir_get_intval_ex(z))
@@ -295,7 +321,7 @@ double zephir_safe_div_double_zval(double op1, zval *op2 TSRMLS_DC);
 #define zephir_is_true(value) \
 	(Z_TYPE_P(value) == IS_NULL ? 0 : \
 		(Z_TYPE_P(value) == IS_BOOL ? Z_BVAL_P(value) : \
-			(Z_TYPE_P(value) == IS_LONG ? Z_LVAL_P(value) : \
+			(Z_TYPE_P(value) == IS_LONG ? (Z_LVAL_P(value) ? 1 : 0) : \
 				zend_is_true(value) \
 			) \
 		) \

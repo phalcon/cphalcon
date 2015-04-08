@@ -26,7 +26,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -124,7 +124,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Memory, get) {
 PHP_METHOD(Phalcon_Cache_Backend_Memory, save) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *keyName = NULL, *content = NULL, *lifetime = NULL, *stopBuffer = NULL, *lastKey = NULL, *frontend, *cachedContent = NULL, *preparedContent = NULL, *_0, *_1 = NULL;
+	zval *keyName = NULL, *content = NULL, *lifetime = NULL, *stopBuffer = NULL, *lastKey = NULL, *frontend, *cachedContent = NULL, *preparedContent = NULL, *isBuffering = NULL, *_0;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 4, &keyName, &content, &lifetime, &stopBuffer);
@@ -166,13 +166,13 @@ PHP_METHOD(Phalcon_Cache_Backend_Memory, save) {
 	ZEPHIR_CALL_METHOD(&preparedContent, frontend, "beforestore", NULL, cachedContent);
 	zephir_check_call_status();
 	zephir_update_property_array(this_ptr, SL("_data"), lastKey, preparedContent TSRMLS_CC);
+	ZEPHIR_CALL_METHOD(&isBuffering, frontend, "isbuffering", NULL);
+	zephir_check_call_status();
 	if (ZEPHIR_IS_TRUE_IDENTICAL(stopBuffer)) {
 		ZEPHIR_CALL_METHOD(NULL, frontend, "stop", NULL);
 		zephir_check_call_status();
 	}
-	ZEPHIR_CALL_METHOD(&_1, frontend, "isbuffering", NULL);
-	zephir_check_call_status();
-	if (ZEPHIR_IS_TRUE_IDENTICAL(_1)) {
+	if (ZEPHIR_IS_TRUE_IDENTICAL(isBuffering)) {
 		zend_print_zval(cachedContent, 0);
 	}
 	zephir_update_property_this(this_ptr, SL("_started"), (0) ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
@@ -216,9 +216,10 @@ PHP_METHOD(Phalcon_Cache_Backend_Memory, delete) {
  */
 PHP_METHOD(Phalcon_Cache_Backend_Memory, queryKeys) {
 
-	HashTable *_2;
-	HashPosition _1;
-	zval *prefix = NULL, *data, *keys = NULL, *index = NULL, *_0 = NULL, **_3;
+	HashTable *_3;
+	HashPosition _2;
+	zval *keys = NULL, *_1 = NULL;
+	zval *prefix = NULL, *data, *index = NULL, *_0 = NULL, **_4;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &prefix);
@@ -226,30 +227,32 @@ PHP_METHOD(Phalcon_Cache_Backend_Memory, queryKeys) {
 	if (!prefix) {
 		prefix = ZEPHIR_GLOBAL(global_null);
 	}
+	ZEPHIR_INIT_VAR(keys);
+	array_init(keys);
 
 
 	ZEPHIR_OBS_VAR(data);
 	zephir_read_property_this(&data, this_ptr, SL("_data"), PH_NOISY_CC);
-	ZEPHIR_INIT_VAR(keys);
-	array_init(keys);
 	if (Z_TYPE_P(data) == IS_ARRAY) {
 		if (!(zephir_is_true(prefix))) {
-			ZEPHIR_INIT_NVAR(keys);
-			zephir_array_keys(keys, data TSRMLS_CC);
-		} else {
 			ZEPHIR_INIT_VAR(_0);
-			zephir_is_iterable(data, &_2, &_1, 0, 0, "phalcon/cache/backend/memory.zep", 161);
+			zephir_array_keys(_0, data TSRMLS_CC);
+			zephir_get_arrval(_1, _0);
+			ZEPHIR_CPY_WRT(keys, _1);
+		} else {
+			ZEPHIR_INIT_NVAR(_0);
+			zephir_is_iterable(data, &_3, &_2, 0, 0, "phalcon/cache/backend/memory.zep", 162);
 			for (
-			  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
-			  ; zephir_hash_move_forward_ex(_2, &_1)
+			  ; zephir_hash_get_current_data_ex(_3, (void**) &_4, &_2) == SUCCESS
+			  ; zephir_hash_move_forward_ex(_3, &_2)
 			) {
-				ZEPHIR_GET_HMKEY(index, _2, _1);
-				ZEPHIR_GET_HVALUE(_0, _3);
-				zephir_array_append(&keys, index, PH_SEPARATE, "phalcon/cache/backend/memory.zep", 159);
+				ZEPHIR_GET_HMKEY(index, _3, _2);
+				ZEPHIR_GET_HVALUE(_0, _4);
+				zephir_array_append(&keys, index, PH_SEPARATE, "phalcon/cache/backend/memory.zep", 160);
 			}
 		}
 	}
-	RETURN_CCTOR(keys);
+	RETURN_CTOR(keys);
 
 }
 

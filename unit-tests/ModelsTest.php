@@ -4,7 +4,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -88,17 +88,6 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 		$di = $this->_getDI(function(){
 			require 'unit-tests/config.db.php';
 			$db = new Phalcon\Db\Adapter\Pdo\Mysql($configMysql);
-		/*
-			$em = new \Phalcon\Events\Manager();
-			$em->attach('db', function($event, $connection) {
-				if ($event->getType() == 'beforeQuery') {
-					echo $connection->getSQLStatement(), PHP_EOL;
-					print_r($connection->getSQLVariables());
-				}
-			});
-
-			$db->setEventsManager($em);
-		*/
 			return $db;
 		});
 
@@ -109,7 +98,7 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 		$this->issue886($di);
 	}
 
-	public function testModelsPostgresql()
+	public function ytestModelsPostgresql()
 	{
 		require 'unit-tests/config.db.php';
 		if (empty($configPostgresql)) {
@@ -155,12 +144,12 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 		$this->assertTrue($db->delete('issue_1534'));
 
 		$product = new Issue_1534();
-		$product->language = new \Phalcon\Db\RawValue('default(language)');
+		$product->language  = new \Phalcon\Db\RawValue('default(language)');
 		$product->language2 = new \Phalcon\Db\RawValue('default(language2)');
-		$product->name     = 'foo';
-		$product->slug     = 'bar';
-		$product->brand    = new \Phalcon\Db\RawValue('default');
-		$product->sort     = new \Phalcon\Db\RawValue('default');
+		$product->name      = 'foo';
+		$product->slug      = 'bar';
+		$product->brand     = new \Phalcon\Db\RawValue('default');
+		$product->sort      = new \Phalcon\Db\RawValue('default');
 		$this->assertTrue($product->save());
 		$this->assertEquals(1, Issue_1534::count());
 
@@ -173,12 +162,12 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 		$this->assertTrue($entry->delete());
 
 		$product = new Issue_1534();
-		$product->language = 'en';
+		$product->language  = 'en';
 		$product->language2 = 'en';
-		$product->name     = 'foo';
-		$product->slug     = 'bar';
-		$product->brand    = 'brand';
-		$product->sort     = 1;
+		$product->name      = 'foo';
+		$product->slug      = 'bar';
+		$product->brand     = 'brand';
+		$product->sort      = 1;
 		$this->assertTrue($product->save());
 		$this->assertEquals(1, Issue_1534::count());
 
@@ -247,7 +236,8 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(get_class($people), 'People');
 	}
 
-	protected function _executeTestsNormal($di){
+	protected function _executeTestsNormal($di)
+	{
 
 		$this->_prepareDb($di->getShared('db'));
 

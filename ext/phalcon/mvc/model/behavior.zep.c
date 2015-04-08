@@ -24,7 +24,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -74,8 +74,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior, __construct) {
 
 /**
  * Checks whether the behavior must take action on certain event
- *
- * @param string eventName
  */
 PHP_METHOD(Phalcon_Mvc_Model_Behavior, mustTakeAction) {
 
@@ -163,10 +161,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior, notify) {
 	zephir_get_strval(type, type_param);
 
 
-	if (!(zephir_instance_of_ev(model, phalcon_mvc_modelinterface_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'model' must be an instance of 'Phalcon\\Mvc\\ModelInterface'", "", 0);
-		return;
-	}
 	RETURN_MM_NULL();
 
 }
@@ -192,10 +186,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior, missingMethod) {
 	}
 
 
-	if (!(zephir_instance_of_ev(model, phalcon_mvc_modelinterface_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'model' must be an instance of 'Phalcon\\Mvc\\ModelInterface'", "", 0);
-		return;
-	}
 	RETURN_MM_NULL();
 
 }

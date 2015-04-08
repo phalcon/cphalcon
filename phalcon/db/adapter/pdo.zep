@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -56,8 +56,6 @@ abstract class Pdo extends Adapter
 
 	/**
 	 * Constructor for Phalcon\Db\Adapter\Pdo
-	 *
-	 * @param array descriptor
 	 */
 	public function __construct(array! descriptor)
 	{
@@ -156,9 +154,6 @@ abstract class Pdo extends Adapter
 	 * $statement = $db->prepare('SELECT * FROM robots WHERE name = :name');
 	 * $result = $connection->executePrepared($statement, array('name' => 'Voltron'));
 	 *</code>
-	 *
-	 * @param string sqlStatement
-	 * @return \PDOStatement
 	 */
 	public function prepare(string! sqlStatement) -> <\PDOStatement>
 	{
@@ -355,8 +350,6 @@ abstract class Pdo extends Adapter
 	 *	$connection->execute("DELETE FROM robots");
 	 *	echo $connection->affectedRows(), ' were deleted';
 	 *</code>
-	 *
-	 * @return int
 	 */
 	public function affectedRows() -> int
 	{
@@ -366,8 +359,6 @@ abstract class Pdo extends Adapter
 	/**
 	 * Closes the active connection returning success. Phalcon automatically closes and destroys
 	 * active connections when the request ends
-	 *
-	 * @return boolean
 	 */
 	public function close() -> boolean
 	{
@@ -405,9 +396,6 @@ abstract class Pdo extends Adapter
 	 *<code>
 	 *	$escapedStr = $connection->escapeString('some dangerous value');
 	 *</code>
-	 *
-	 * @param string str
-	 * @return string
 	 */
 	public function escapeString(string! str) -> string
 	{
@@ -420,10 +408,6 @@ abstract class Pdo extends Adapter
 	 *<code>
 	 * print_r($connection->convertBoundParams('SELECT * FROM robots WHERE name = :name:', array('Bender')));
 	 *</code>
-	 *
-	 * @param string $sql
-	 * @param array $params
-	 * @return array
 	 */
 	public function convertBoundParams(string! sql, array params = []) -> array
 	{
@@ -492,9 +476,6 @@ abstract class Pdo extends Adapter
 
 	/**
 	 * Starts a transaction in the connection
-	 *
-	 * @param boolean nesting
-	 * @return boolean
 	 */
 	public function begin(boolean nesting = true) -> boolean
 	{
@@ -553,9 +534,6 @@ abstract class Pdo extends Adapter
 
 	/**
 	 * Rollbacks the active transaction in the connection
-	 *
-	 * @param boolean nesting
-	 * @return boolean
 	 */
 	public function rollback(boolean nesting = true) -> boolean
 	{
@@ -630,9 +608,6 @@ abstract class Pdo extends Adapter
 
 	/**
 	 * Commits the active transaction in the connection
-	 *
-	 * @param boolean nesting
-	 * @return boolean
 	 */
 	public function commit(boolean nesting = true) -> boolean
 	{
@@ -705,8 +680,6 @@ abstract class Pdo extends Adapter
 
 	/**
 	 * Returns the current transaction nesting level
-	 *
-	 * @return int
 	 */
 	public function getTransactionLevel() -> int
 	{
@@ -720,8 +693,6 @@ abstract class Pdo extends Adapter
 	 *	$connection->begin();
 	 *	var_dump($connection->isUnderTransaction()); //true
 	 *</code>
-	 *
-	 * @return boolean
 	 */
 	public function isUnderTransaction() -> boolean
 	{

@@ -23,7 +23,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -92,10 +92,10 @@ PHP_METHOD(Phalcon_Session_Adapter_Memcache, getLifetime) {
  */
 PHP_METHOD(Phalcon_Session_Adapter_Memcache, __construct) {
 
-	zephir_nts_static zephir_fcall_cache_entry *_11 = NULL;
+	zephir_nts_static zephir_fcall_cache_entry *_4 = NULL, *_5 = NULL, *_13 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *_2, *_4, *_6, *_7, *_8, *_9, *_10;
-	zval *options = NULL, *lifetime, *_0 = NULL, *_1, *_3, *_5 = NULL;
+	zval *_2, *_6, *_8, *_9, *_10, *_11, *_12;
+	zval *options = NULL, *lifetime, *_0 = NULL, *_1, *_3, *_7 = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &options);
@@ -135,54 +135,54 @@ PHP_METHOD(Phalcon_Session_Adapter_Memcache, __construct) {
 	ZEPHIR_INIT_VAR(_1);
 	object_init_ex(_1, phalcon_cache_frontend_data_ce);
 	ZEPHIR_INIT_VAR(_2);
-	array_init_size(_2, 2);
+	zephir_create_array(_2, 1, 0 TSRMLS_CC);
 	ZEPHIR_OBS_VAR(_3);
 	zephir_read_property_this(&_3, this_ptr, SL("_lifetime"), PH_NOISY_CC);
 	zephir_array_update_string(&_2, SL("lifetime"), &_3, PH_COPY | PH_SEPARATE);
-	ZEPHIR_CALL_METHOD(NULL, _1, "__construct", NULL, _2);
+	ZEPHIR_CALL_METHOD(NULL, _1, "__construct", &_4, _2);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, _0, "__construct", NULL, _1, options);
+	ZEPHIR_CALL_METHOD(NULL, _0, "__construct", &_5, _1, options);
 	zephir_check_call_status();
 	zephir_update_property_this(this_ptr, SL("_memcache"), _0 TSRMLS_CC);
-	ZEPHIR_INIT_VAR(_4);
-	array_init_size(_4, 3);
-	zephir_array_fast_append(_4, this_ptr);
-	ZEPHIR_INIT_VAR(_5);
-	ZVAL_STRING(_5, "open", 1);
-	zephir_array_fast_append(_4, _5);
 	ZEPHIR_INIT_VAR(_6);
-	array_init_size(_6, 3);
+	zephir_create_array(_6, 2, 0 TSRMLS_CC);
 	zephir_array_fast_append(_6, this_ptr);
-	ZEPHIR_INIT_NVAR(_5);
-	ZVAL_STRING(_5, "close", 1);
-	zephir_array_fast_append(_6, _5);
 	ZEPHIR_INIT_VAR(_7);
-	array_init_size(_7, 3);
-	zephir_array_fast_append(_7, this_ptr);
-	ZEPHIR_INIT_NVAR(_5);
-	ZVAL_STRING(_5, "read", 1);
-	zephir_array_fast_append(_7, _5);
+	ZVAL_STRING(_7, "open", 1);
+	zephir_array_fast_append(_6, _7);
 	ZEPHIR_INIT_VAR(_8);
-	array_init_size(_8, 3);
+	zephir_create_array(_8, 2, 0 TSRMLS_CC);
 	zephir_array_fast_append(_8, this_ptr);
-	ZEPHIR_INIT_NVAR(_5);
-	ZVAL_STRING(_5, "write", 1);
-	zephir_array_fast_append(_8, _5);
+	ZEPHIR_INIT_NVAR(_7);
+	ZVAL_STRING(_7, "close", 1);
+	zephir_array_fast_append(_8, _7);
 	ZEPHIR_INIT_VAR(_9);
-	array_init_size(_9, 3);
+	zephir_create_array(_9, 2, 0 TSRMLS_CC);
 	zephir_array_fast_append(_9, this_ptr);
-	ZEPHIR_INIT_NVAR(_5);
-	ZVAL_STRING(_5, "destroy", 1);
-	zephir_array_fast_append(_9, _5);
+	ZEPHIR_INIT_NVAR(_7);
+	ZVAL_STRING(_7, "read", 1);
+	zephir_array_fast_append(_9, _7);
 	ZEPHIR_INIT_VAR(_10);
-	array_init_size(_10, 3);
+	zephir_create_array(_10, 2, 0 TSRMLS_CC);
 	zephir_array_fast_append(_10, this_ptr);
-	ZEPHIR_INIT_NVAR(_5);
-	ZVAL_STRING(_5, "gc", 1);
-	zephir_array_fast_append(_10, _5);
-	ZEPHIR_CALL_FUNCTION(NULL, "session_set_save_handler", NULL, _4, _6, _7, _8, _9, _10);
+	ZEPHIR_INIT_NVAR(_7);
+	ZVAL_STRING(_7, "write", 1);
+	zephir_array_fast_append(_10, _7);
+	ZEPHIR_INIT_VAR(_11);
+	zephir_create_array(_11, 2, 0 TSRMLS_CC);
+	zephir_array_fast_append(_11, this_ptr);
+	ZEPHIR_INIT_NVAR(_7);
+	ZVAL_STRING(_7, "destroy", 1);
+	zephir_array_fast_append(_11, _7);
+	ZEPHIR_INIT_VAR(_12);
+	zephir_create_array(_12, 2, 0 TSRMLS_CC);
+	zephir_array_fast_append(_12, this_ptr);
+	ZEPHIR_INIT_NVAR(_7);
+	ZVAL_STRING(_7, "gc", 1);
+	zephir_array_fast_append(_12, _7);
+	ZEPHIR_CALL_FUNCTION(NULL, "session_set_save_handler", NULL, _6, _8, _9, _10, _11, _12);
 	zephir_check_call_status();
-	ZEPHIR_CALL_PARENT(NULL, phalcon_session_adapter_memcache_ce, this_ptr, "__construct", &_11, options);
+	ZEPHIR_CALL_PARENT(NULL, phalcon_session_adapter_memcache_ce, this_ptr, "__construct", &_13, options);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 

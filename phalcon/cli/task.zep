@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -19,6 +19,8 @@
  */
 
 namespace Phalcon\Cli;
+
+use Phalcon\Di\Injectable;
 
 /**
  * Phalcon\Cli\Task
@@ -48,7 +50,7 @@ namespace Phalcon\Cli;
  *
  *</code>
  */
- class Task extends \Phalcon\Di\Injectable
+ class Task extends Injectable
  {
 
  	/**

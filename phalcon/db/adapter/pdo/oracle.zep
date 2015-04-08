@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -231,8 +231,6 @@ class Oracle extends \Phalcon\Db\Adapter\Pdo implements AdapterInterface
 
 	/**
 	 * Check whether the database system requires an explicit value for identity columns
-	 *
-	 * @return boolean
 	 */
 	public function useExplicitIdValue() -> boolean
 	{
@@ -241,8 +239,6 @@ class Oracle extends \Phalcon\Db\Adapter\Pdo implements AdapterInterface
 
 	/**
 	 * Return the default identity value to insert in an identity column
-	 *
-	 * @return Phalcon\Db\RawValue
 	 */
 	public function getDefaultIdValue() -> <RawValue>
 	{
@@ -251,8 +247,6 @@ class Oracle extends \Phalcon\Db\Adapter\Pdo implements AdapterInterface
 
 	/**
 	 * Check whether the database system requires a sequence to produce auto-numeric values
-	 *
-	 * @return boolean
 	 */
 	public function supportSequences() -> boolean
 	{

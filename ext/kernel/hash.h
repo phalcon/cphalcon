@@ -1,26 +1,30 @@
 
 /*
-	+------------------------------------------------------------------------+
-	| Zephir Language                                                        |
-	+------------------------------------------------------------------------+
-	| Copyright (c) 2011-2014 Zephir Team  (http://www.zephir-lang.com)      |
-	+------------------------------------------------------------------------+
-	| This source file is subject to the New BSD License that is bundled     |
-	| with this package in the file docs/LICENSE.txt.                        |
-	|                                                                        |
-	| If you did not receive a copy of the license and are unable to         |
-	| obtain it through the world-wide-web, please send an email             |
-	| to license@zephir-lang.com so we can send you a copy immediately.      |
-	+------------------------------------------------------------------------+
-	| Authors: Andres Gutierrez <andres@zephir-lang.com>                     |
-	|          Eduar Carvajal <eduar@zephir-lang.com>                        |
-	|          Vladimir Kolesnikov <vladimir@extrememember.com>              |
-	+------------------------------------------------------------------------+
+ +------------------------------------------------------------------------+
+ | Zephir Language                                                        |
+ +------------------------------------------------------------------------+
+ | Copyright (c) 2011-2015 Zephir Team  (http://www.zephir-lang.com)      |
+ +------------------------------------------------------------------------+
+ | This source file is subject to the New BSD License that is bundled     |
+ | with this package in the file docs/LICENSE.txt.                        |
+ |                                                                        |
+ | If you did not receive a copy of the license and are unable to         |
+ | obtain it through the world-wide-web, please send an email             |
+ | to license@zephir-lang.com so we can send you a copy immediately.      |
+ +------------------------------------------------------------------------+
+ | Authors: Andres Gutierrez <andres@zephir-lang.com>                     |
+ |          Eduar Carvajal <eduar@zephir-lang.com>                        |
+ |          Vladimir Kolesnikov <vladimir@extrememember.com>              |
+ +------------------------------------------------------------------------+
 */
 
 #ifndef ZEPHIR_KERNEL_HASH_H
 #define ZEPHIR_KERNEL_HASH_H
 
+#include <php.h>
+#include <Zend/zend.h>
+
+int zephir_hash_init(HashTable *ht, uint nSize, hash_func_t pHashFunction, dtor_func_t pDestructor, zend_bool persistent);
 int zephir_hash_exists(const HashTable *ht, const char *arKey, uint nKeyLength);
 int zephir_hash_quick_exists(const HashTable *ht, const char *arKey, uint nKeyLength, ulong h);
 int zephir_hash_find(const HashTable *ht, const char *arKey, uint nKeyLength, void **pData);
@@ -37,7 +41,7 @@ int zephir_hash_unset(HashTable *ht, zval *offset);
 static zend_always_inline int zephir_hash_get_current_data_ex(HashTable *ht, void **pData, HashPosition *pos)
 {
 	Bucket *p;
-	p = pos ? (*pos) : ht->pInternalPointer;  
+	p = pos ? (*pos) : ht->pInternalPointer;
 	if (p) {
 		*pData = p->pData;
 		return SUCCESS;

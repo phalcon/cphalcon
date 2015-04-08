@@ -8,10 +8,10 @@
  - Added 'allowEmpty' option in Phalcon\Validation validators to skip validation if the value is empty
  - Added Phalcon\Validation::setDefaultMessages to set default values in validators
  - Added Phalcon\Validation\Validator\Numericality
- - Replaced build/install by LTO (Link Time Optimization) in ext/
  - Added events in Phalcon\Di
  -- beforeServiceResolve
  -- afterServiceResolve
+ - Mysql database introspector now uses DATABASE() as default schema 
 
 1.3.4
  - Fix improper access to \Phalcon\Debug::$_charset (#2840)

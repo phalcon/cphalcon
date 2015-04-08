@@ -12,23 +12,22 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
-#include "kernel/object.h"
 #include "kernel/exception.h"
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
 #include "kernel/operators.h"
 #include "kernel/concat.h"
 #include "kernel/hash.h"
+#include "kernel/string.h"
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/array.h"
-#include "kernel/string.h"
 
 
 /*
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -52,35 +51,29 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Dialect_MySQL) {
 
 	zend_declare_property_string(phalcon_db_dialect_mysql_ce, SL("_escapeChar"), "`", ZEND_ACC_PROTECTED TSRMLS_CC);
 
+	zend_class_implements(phalcon_db_dialect_mysql_ce TSRMLS_CC, 1, phalcon_db_dialectinterface_ce);
 	return SUCCESS;
 
 }
 
 /**
  * Gets the column name in MySQL
- *
- * @param Phalcon\Db\ColumnInterface column
- * @return string
  */
 PHP_METHOD(Phalcon_Db_Dialect_MySQL, getColumnDefinition) {
 
-	zephir_nts_static zephir_fcall_cache_entry *_9 = NULL, *_11 = NULL;
+	zephir_nts_static zephir_fcall_cache_entry *_9 = NULL;
 	HashTable *_6;
 	HashPosition _5;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *column, *columnSql, *size = NULL, *scale = NULL, *type = NULL, *typeValues = NULL, *_0 = NULL, *_1 = NULL, *_2 = NULL, *_3 = NULL, *_4 = NULL, *value = NULL, *valueSql, **_7, _8 = zval_used_for_init, _10;
+	zval *column, *columnSql, *size = NULL, *scale = NULL, *type = NULL, *typeValues = NULL, *_0 = NULL, *_1 = NULL, *_2 = NULL, *_3 = NULL, *_4 = NULL, *value = NULL, *valueSql, **_7, _8 = zval_used_for_init, _10 = zval_used_for_init, *_11;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &column);
 
 
 
-	if (!(zephir_instance_of_ev(column, phalcon_db_columninterface_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'column' must be an instance of 'Phalcon\\Db\\ColumnInterface'", "", 0);
-		return;
-	}
 	if (Z_TYPE_P(column) != IS_OBJECT) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Column definition must be an object compatible with Phalcon\\Db\\ColumnInterface", "phalcon/db/dialect/mysql.zep", 50);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Column definition must be an object compatible with Phalcon\\Db\\ColumnInterface", "phalcon/db/dialect/mysql.zep", 48);
 		return;
 	}
 	ZEPHIR_INIT_VAR(columnSql);
@@ -201,7 +194,7 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, getColumnDefinition) {
 			break;
 		}
 		if (ZEPHIR_IS_EMPTY(columnSql)) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Unrecognized MySQL data type", "phalcon/db/dialect/mysql.zep", 142);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Unrecognized MySQL data type", "phalcon/db/dialect/mysql.zep", 140);
 			return;
 		}
 		ZEPHIR_CALL_METHOD(&typeValues, column, "gettypevalues", NULL);
@@ -210,7 +203,7 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, getColumnDefinition) {
 			if (Z_TYPE_P(typeValues) == IS_ARRAY) {
 				ZEPHIR_INIT_VAR(valueSql);
 				ZVAL_STRING(valueSql, "", 1);
-				zephir_is_iterable(typeValues, &_6, &_5, 0, 0, "phalcon/db/dialect/mysql.zep", 153);
+				zephir_is_iterable(typeValues, &_6, &_5, 0, 0, "phalcon/db/dialect/mysql.zep", 151);
 				for (
 				  ; zephir_hash_get_current_data_ex(_6, (void**) &_7, &_5) == SUCCESS
 				  ; zephir_hash_move_forward_ex(_6, &_5)
@@ -228,18 +221,18 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, getColumnDefinition) {
 				ZVAL_LONG(&_8, 0);
 				ZEPHIR_SINIT_VAR(_10);
 				ZVAL_LONG(&_10, -2);
-				ZEPHIR_CALL_FUNCTION(&_2, "substr", &_11, valueSql, &_8, &_10);
-				zephir_check_call_status();
+				ZEPHIR_INIT_VAR(_11);
+				zephir_substr(_11, valueSql, 0 , -2 , 0);
 				ZEPHIR_INIT_LNVAR(_4);
-				ZEPHIR_CONCAT_SVS(_4, "(", _2, ")");
+				ZEPHIR_CONCAT_SVS(_4, "(", _11, ")");
 				zephir_concat_self(&columnSql, _4 TSRMLS_CC);
 			} else {
-				ZEPHIR_SINIT_NVAR(_8);
-				ZVAL_STRING(&_8, "\"", 0);
-				ZEPHIR_CALL_FUNCTION(&_3, "addcslashes", &_9, typeValues, &_8);
+				ZEPHIR_SINIT_NVAR(_10);
+				ZVAL_STRING(&_10, "\"", 0);
+				ZEPHIR_CALL_FUNCTION(&_2, "addcslashes", &_9, typeValues, &_10);
 				zephir_check_call_status();
 				ZEPHIR_INIT_LNVAR(_4);
-				ZEPHIR_CONCAT_SVS(_4, "(\"", _3, "\")");
+				ZEPHIR_CONCAT_SVS(_4, "(\"", _2, "\")");
 				zephir_concat_self(&columnSql, _4 TSRMLS_CC);
 			}
 		}
@@ -251,10 +244,6 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, getColumnDefinition) {
 
 /**
  * Generates SQL to add a column to a table
- *
- * @param	string tableName
- * @param	string schemaName
- * @param	Phalcon\Db\ColumnInterface column
  */
 PHP_METHOD(Phalcon_Db_Dialect_MySQL, addColumn) {
 
@@ -290,12 +279,8 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, addColumn) {
 	}
 
 
-	if (!(zephir_instance_of_ev(column, phalcon_db_columninterface_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'column' must be an instance of 'Phalcon\\Db\\ColumnInterface'", "", 0);
-		return;
-	}
 	if (Z_TYPE_P(column) != IS_OBJECT) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Column definition must be an object compatible with Phalcon\\Db\\ColumnInterface", "phalcon/db/dialect/mysql.zep", 175);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Column definition must be an object compatible with Phalcon\\Db\\ColumnInterface", "phalcon/db/dialect/mysql.zep", 169);
 		return;
 	}
 	ZEPHIR_INIT_VAR(sql);
@@ -350,11 +335,6 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, addColumn) {
 
 /**
  * Generates SQL to modify a column in a table
- *
- * @param	string tableName
- * @param	string schemaName
- * @param	Phalcon\Db\ColumnInterface column
- * @return	string
  */
 PHP_METHOD(Phalcon_Db_Dialect_MySQL, modifyColumn) {
 
@@ -390,12 +370,8 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, modifyColumn) {
 	}
 
 
-	if (!(zephir_instance_of_ev(column, phalcon_db_columninterface_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'column' must be an instance of 'Phalcon\\Db\\ColumnInterface'", "", 0);
-		return;
-	}
 	if (Z_TYPE_P(column) != IS_OBJECT) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Column definition must be an object compatible with Phalcon\\Db\\ColumnInterface", "phalcon/db/dialect/mysql.zep", 219);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Column definition must be an object compatible with Phalcon\\Db\\ColumnInterface", "phalcon/db/dialect/mysql.zep", 208);
 		return;
 	}
 	ZEPHIR_INIT_VAR(sql);
@@ -437,11 +413,6 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, modifyColumn) {
 
 /**
  * Generates SQL to delete a column from a table
- *
- * @param	string tableName
- * @param	string schemaName
- * @param	string columnName
- * @return 	string
  */
 PHP_METHOD(Phalcon_Db_Dialect_MySQL, dropColumn) {
 
@@ -495,11 +466,6 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, dropColumn) {
 
 /**
  * Generates SQL to add an index to a table
- *
- * @param	string tableName
- * @param	string schemaName
- * @param	Phalcon\Db\IndexInterface index
- * @return	string
  */
 PHP_METHOD(Phalcon_Db_Dialect_MySQL, addIndex) {
 
@@ -535,12 +501,8 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, addIndex) {
 	}
 
 
-	if (!(zephir_instance_of_ev(index, phalcon_db_indexinterface_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'index' must be an instance of 'Phalcon\\Db\\IndexInterface'", "", 0);
-		return;
-	}
 	if (Z_TYPE_P(index) != IS_OBJECT) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Index parameter must be an object compatible with Phalcon\\Db\\IndexInterface", "phalcon/db/dialect/mysql.zep", 276);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Index parameter must be an object compatible with Phalcon\\Db\\IndexInterface", "phalcon/db/dialect/mysql.zep", 255);
 		return;
 	}
 	ZEPHIR_INIT_VAR(sql);
@@ -577,11 +539,6 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, addIndex) {
 
 /**
  * Generates SQL to delete an index from a table
- *
- * @param	string tableName
- * @param	string schemaName
- * @param	string indexName
- * @return	string
  */
 PHP_METHOD(Phalcon_Db_Dialect_MySQL, dropIndex) {
 
@@ -645,11 +602,6 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, dropIndex) {
 
 /**
  * Generates SQL to add the primary key to a table
- *
- * @param	string tableName
- * @param	string schemaName
- * @param	Phalcon\Db\IndexInterface index
- * @return	string
  */
 PHP_METHOD(Phalcon_Db_Dialect_MySQL, addPrimaryKey) {
 
@@ -665,12 +617,8 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, addPrimaryKey) {
 	zephir_get_strval(schemaName, schemaName_param);
 
 
-	if (!(zephir_instance_of_ev(index, phalcon_db_indexinterface_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'index' must be an instance of 'Phalcon\\Db\\IndexInterface'", "", 0);
-		return;
-	}
 	if (Z_TYPE_P(index) != IS_OBJECT) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Index parameter must be an object compatible with Phalcon\\Db\\IndexInterface", "phalcon/db/dialect/mysql.zep", 329);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Index parameter must be an object compatible with Phalcon\\Db\\IndexInterface", "phalcon/db/dialect/mysql.zep", 298);
 		return;
 	}
 	ZEPHIR_INIT_VAR(sql);
@@ -696,10 +644,6 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, addPrimaryKey) {
 
 /**
  * Generates SQL to delete primary key from a table
- *
- * @param	string tableName
- * @param	string schemaName
- * @return	string
  */
 PHP_METHOD(Phalcon_Db_Dialect_MySQL, dropPrimaryKey) {
 
@@ -749,11 +693,6 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, dropPrimaryKey) {
 
 /**
  * Generates SQL to add an index to a table
- *
- * @param	string tableName
- * @param	string schemaName
- * @param	Phalcon\Db\ReferenceInterface reference
- * @return	string
  */
 PHP_METHOD(Phalcon_Db_Dialect_MySQL, addForeignKey) {
 
@@ -789,12 +728,8 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, addForeignKey) {
 	}
 
 
-	if (!(zephir_instance_of_ev(reference, phalcon_db_referenceinterface_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'reference' must be an instance of 'Phalcon\\Db\\ReferenceInterface'", "", 0);
-		return;
-	}
 	if (Z_TYPE_P(reference) != IS_OBJECT) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Index parameter must be an object compatible with Phalcon\\Db\\ReferenceInterface", "phalcon/db/dialect/mysql.zep", 373);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Index parameter must be an object compatible with Phalcon\\Db\\ReferenceInterface", "phalcon/db/dialect/mysql.zep", 333);
 		return;
 	}
 	ZEPHIR_INIT_VAR(sql);
@@ -929,7 +864,7 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, _getTableOptions) {
 			if (zephir_is_true(engine)) {
 				ZEPHIR_INIT_VAR(_0);
 				ZEPHIR_CONCAT_SV(_0, "ENGINE=", engine);
-				zephir_array_append(&tableOptions, _0, PH_SEPARATE, "phalcon/db/dialect/mysql.zep", 446);
+				zephir_array_append(&tableOptions, _0, PH_SEPARATE, "phalcon/db/dialect/mysql.zep", 406);
 			}
 		}
 		ZEPHIR_OBS_VAR(autoIncrement);
@@ -937,7 +872,7 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, _getTableOptions) {
 			if (zephir_is_true(autoIncrement)) {
 				ZEPHIR_INIT_LNVAR(_0);
 				ZEPHIR_CONCAT_SV(_0, "AUTO_INCREMENT=", autoIncrement);
-				zephir_array_append(&tableOptions, _0, PH_SEPARATE, "phalcon/db/dialect/mysql.zep", 455);
+				zephir_array_append(&tableOptions, _0, PH_SEPARATE, "phalcon/db/dialect/mysql.zep", 415);
 			}
 		}
 		ZEPHIR_OBS_VAR(tableCollation);
@@ -945,13 +880,13 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, _getTableOptions) {
 			if (zephir_is_true(tableCollation)) {
 				ZEPHIR_INIT_VAR(collationParts);
 				zephir_fast_explode_str(collationParts, SL("_"), tableCollation, LONG_MAX TSRMLS_CC);
-				zephir_array_fetch_long(&_1, collationParts, 0, PH_NOISY | PH_READONLY, "phalcon/db/dialect/mysql.zep", 465 TSRMLS_CC);
+				zephir_array_fetch_long(&_1, collationParts, 0, PH_NOISY | PH_READONLY, "phalcon/db/dialect/mysql.zep", 425 TSRMLS_CC);
 				ZEPHIR_INIT_LNVAR(_0);
 				ZEPHIR_CONCAT_SV(_0, "DEFAULT CHARSET=", _1);
-				zephir_array_append(&tableOptions, _0, PH_SEPARATE, "phalcon/db/dialect/mysql.zep", 465);
+				zephir_array_append(&tableOptions, _0, PH_SEPARATE, "phalcon/db/dialect/mysql.zep", 425);
 				ZEPHIR_INIT_VAR(_2);
 				ZEPHIR_CONCAT_SV(_2, "COLLATE=", tableCollation);
-				zephir_array_append(&tableOptions, _2, PH_SEPARATE, "phalcon/db/dialect/mysql.zep", 466);
+				zephir_array_append(&tableOptions, _2, PH_SEPARATE, "phalcon/db/dialect/mysql.zep", 426);
 			}
 		}
 		if (zephir_fast_count_int(tableOptions TSRMLS_CC)) {
@@ -965,11 +900,6 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, _getTableOptions) {
 
 /**
  * Generates SQL to create a table in MySQL
- *
- * @param 	string tableName
- * @param	string schemaName
- * @param	array definition
- * @return 	string
  */
 PHP_METHOD(Phalcon_Db_Dialect_MySQL, createTable) {
 
@@ -1013,7 +943,7 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, createTable) {
 
 	ZEPHIR_OBS_VAR(columns);
 	if (!(zephir_array_isset_string_fetch(&columns, definition, SS("columns"), 0 TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "The index 'columns' is required in the definition array", "phalcon/db/dialect/mysql.zep", 494);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "The index 'columns' is required in the definition array", "phalcon/db/dialect/mysql.zep", 449);
 		return;
 	}
 	ZEPHIR_INIT_VAR(table);
@@ -1041,7 +971,7 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, createTable) {
 	}
 	ZEPHIR_INIT_VAR(createLines);
 	array_init(createLines);
-	zephir_is_iterable(columns, &_2, &_1, 0, 0, "phalcon/db/dialect/mysql.zep", 557);
+	zephir_is_iterable(columns, &_2, &_1, 0, 0, "phalcon/db/dialect/mysql.zep", 512);
 	for (
 	  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_2, &_1)
@@ -1079,11 +1009,11 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, createTable) {
 		if (zephir_is_true(_8)) {
 			zephir_concat_self_str(&columnLine, SL(" PRIMARY KEY") TSRMLS_CC);
 		}
-		zephir_array_append(&createLines, columnLine, PH_SEPARATE, "phalcon/db/dialect/mysql.zep", 551);
+		zephir_array_append(&createLines, columnLine, PH_SEPARATE, "phalcon/db/dialect/mysql.zep", 506);
 	}
 	ZEPHIR_OBS_VAR(indexes);
 	if (zephir_array_isset_string_fetch(&indexes, definition, SS("indexes"), 0 TSRMLS_CC)) {
-		zephir_is_iterable(indexes, &_12, &_11, 0, 0, "phalcon/db/dialect/mysql.zep", 579);
+		zephir_is_iterable(indexes, &_12, &_11, 0, 0, "phalcon/db/dialect/mysql.zep", 534);
 		for (
 		  ; zephir_hash_get_current_data_ex(_12, (void**) &_13, &_11) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_12, &_11)
@@ -1116,12 +1046,12 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, createTable) {
 					ZEPHIR_CONCAT_SVSVS(indexSql, "KEY `", indexName, "` (", _15, ")");
 				}
 			}
-			zephir_array_append(&createLines, indexSql, PH_SEPARATE, "phalcon/db/dialect/mysql.zep", 577);
+			zephir_array_append(&createLines, indexSql, PH_SEPARATE, "phalcon/db/dialect/mysql.zep", 532);
 		}
 	}
 	ZEPHIR_OBS_VAR(references);
 	if (zephir_array_isset_string_fetch(&references, definition, SS("references"), 0 TSRMLS_CC)) {
-		zephir_is_iterable(references, &_18, &_17, 0, 0, "phalcon/db/dialect/mysql.zep", 601);
+		zephir_is_iterable(references, &_18, &_17, 0, 0, "phalcon/db/dialect/mysql.zep", 556);
 		for (
 		  ; zephir_hash_get_current_data_ex(_18, (void**) &_19, &_17) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_18, &_17)
@@ -1155,7 +1085,7 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, createTable) {
 				ZEPHIR_CONCAT_SV(_21, " ON UPDATE ", onUpdate);
 				zephir_concat_self(&referenceSql, _21 TSRMLS_CC);
 			}
-			zephir_array_append(&createLines, referenceSql, PH_SEPARATE, "phalcon/db/dialect/mysql.zep", 599);
+			zephir_array_append(&createLines, referenceSql, PH_SEPARATE, "phalcon/db/dialect/mysql.zep", 554);
 		}
 	}
 	ZEPHIR_INIT_VAR(_22);
@@ -1279,7 +1209,7 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, createView) {
 
 	ZEPHIR_OBS_VAR(viewSql);
 	if (!(zephir_array_isset_string_fetch(&viewSql, definition, SS("sql"), 0 TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "The index 'sql' is required in the definition array", "phalcon/db/dialect/mysql.zep", 651);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "The index 'sql' is required in the definition array", "phalcon/db/dialect/mysql.zep", 606);
 		return;
 	}
 	ZEPHIR_INIT_VAR(view);
@@ -1299,11 +1229,6 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, createView) {
 
 /**
  * Generates SQL to drop a view
- *
- * @param string viewName
- * @param string schemaName
- * @param boolean ifExists
- * @return string
  */
 PHP_METHOD(Phalcon_Db_Dialect_MySQL, dropView) {
 
@@ -1400,7 +1325,7 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, tableExists) {
 		ZEPHIR_CONCAT_SVSVS(return_value, "SELECT IF(COUNT(*)>0, 1 , 0) FROM `INFORMATION_SCHEMA`.`TABLES` WHERE `TABLE_NAME`= '", tableName, "' AND `TABLE_SCHEMA` = '", schemaName, "'");
 		RETURN_MM();
 	}
-	ZEPHIR_CONCAT_SVS(return_value, "SELECT IF(COUNT(*)>0, 1 , 0) FROM `INFORMATION_SCHEMA`.`TABLES` WHERE `TABLE_NAME` = '", tableName, "'");
+	ZEPHIR_CONCAT_SVS(return_value, "SELECT IF(COUNT(*)>0, 1 , 0) FROM `INFORMATION_SCHEMA`.`TABLES` WHERE `TABLE_NAME` = '", tableName, "' AND `TABLE_SCHEMA` = DATABASE()");
 	RETURN_MM();
 
 }
@@ -1490,14 +1415,11 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, describeColumns) {
 }
 
 /**
- * List all tables on database
+ * List all tables in database
  *
  *<code>
  *	print_r($dialect->listTables("blog"))
  *</code>
- *
- * @param       string schemaName
- * @return      array
  */
 PHP_METHOD(Phalcon_Db_Dialect_MySQL, listTables) {
 
@@ -1535,9 +1457,6 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, listTables) {
 
 /**
  * Generates the SQL to list all views of a schema or user
- *
- * @param string schemaName
- * @return array
  */
 PHP_METHOD(Phalcon_Db_Dialect_MySQL, listViews) {
 

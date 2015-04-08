@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -379,7 +379,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 *	$builder->join('Robots');
 	 *	$builder->join('Robots', 'r.id = RobotsParts.robots_id');
 	 *	$builder->join('Robots', 'r.id = RobotsParts.robots_id', 'r');
-	 *	$builder->join('Robots', 'r.id = RobotsParts.robots_id', 'r', 'LEFT');
+	 *	$builder->join('Robots', 'r.id = RobotsParts.robots_id', 'r', 'INNER');
 	 *</code>
 	 *
 	 * @param string model
@@ -401,7 +401,6 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 *	$builder->innerJoin('Robots');
 	 *	$builder->innerJoin('Robots', 'r.id = RobotsParts.robots_id');
 	 *	$builder->innerJoin('Robots', 'r.id = RobotsParts.robots_id', 'r');
-	 *	$builder->innerJoin('Robots', 'r.id = RobotsParts.robots_id', 'r', 'LEFT');
 	 *</code>
 	 *
 	 * @param string model
@@ -859,7 +858,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 * @param int offset
 	 * @return Phalcon\Mvc\Model\Query\Builder
 	 */
-	public function limit(int limit, int offset = null) -> <Builder>
+	public function limit(int limit = null, int offset = null) -> <Builder>
 	{
 		let this->_limit = limit;
 		if offset {

@@ -24,7 +24,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -85,8 +85,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Paginator_Adapter_NativeArray) {
 
 /**
  * Phalcon\Paginator\Adapter\NativeArray constructor
- *
- * @param array config
  */
 PHP_METHOD(Phalcon_Paginator_Adapter_NativeArray, __construct) {
 
@@ -112,8 +110,6 @@ PHP_METHOD(Phalcon_Paginator_Adapter_NativeArray, __construct) {
 
 /**
  * Set the current page number
- *
- * @param int page
  */
 PHP_METHOD(Phalcon_Paginator_Adapter_NativeArray, setCurrentPage) {
 
@@ -132,9 +128,37 @@ PHP_METHOD(Phalcon_Paginator_Adapter_NativeArray, setCurrentPage) {
 }
 
 /**
+ * Set current rows limit
+ */
+PHP_METHOD(Phalcon_Paginator_Adapter_NativeArray, setLimit) {
+
+	zval *limitRows_param = NULL, *_0;
+	int limitRows;
+
+	zephir_fetch_params(0, 1, 0, &limitRows_param);
+
+	limitRows = zephir_get_intval(limitRows_param);
+
+
+	ZEPHIR_INIT_ZVAL_NREF(_0);
+	ZVAL_LONG(_0, limitRows);
+	zephir_update_property_this(this_ptr, SL("_limitRows"), _0 TSRMLS_CC);
+	RETURN_THISW();
+
+}
+
+/**
+ * Get current rows limit
+ */
+PHP_METHOD(Phalcon_Paginator_Adapter_NativeArray, getLimit) {
+
+
+	RETURN_MEMBER(this_ptr, "_limitRows");
+
+}
+
+/**
  * Returns a slice of the resultset to show in the pagination
- *
- * @return stdClass
  */
 PHP_METHOD(Phalcon_Paginator_Adapter_NativeArray, getPaginate) {
 
@@ -148,9 +172,9 @@ PHP_METHOD(Phalcon_Paginator_Adapter_NativeArray, getPaginate) {
 	ZEPHIR_OBS_VAR(config);
 	zephir_read_property_this(&config, this_ptr, SL("_config"), PH_NOISY_CC);
 	ZEPHIR_OBS_VAR(items);
-	zephir_array_fetch_string(&items, config, SL("data"), PH_NOISY, "phalcon/paginator/adapter/nativearray.zep", 108 TSRMLS_CC);
+	zephir_array_fetch_string(&items, config, SL("data"), PH_NOISY, "phalcon/paginator/adapter/nativearray.zep", 120 TSRMLS_CC);
 	if (Z_TYPE_P(items) != IS_ARRAY) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_paginator_exception_ce, "Invalid data for paginator", "phalcon/paginator/adapter/nativearray.zep", 111);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_paginator_exception_ce, "Invalid data for paginator", "phalcon/paginator/adapter/nativearray.zep", 123);
 		return;
 	}
 	ZEPHIR_OBS_VAR(_0);

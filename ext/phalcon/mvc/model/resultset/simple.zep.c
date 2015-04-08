@@ -13,12 +13,12 @@
 
 #include "kernel/main.h"
 #include "kernel/object.h"
-#include "kernel/exception.h"
 #include "kernel/fcall.h"
 #include "kernel/memory.h"
 #include "kernel/operators.h"
 #include "kernel/hash.h"
 #include "kernel/array.h"
+#include "kernel/exception.h"
 #include "kernel/concat.h"
 #include "ext/spl/spl_exceptions.h"
 
@@ -27,7 +27,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -77,8 +77,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Resultset_Simple) {
 PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, __construct) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zend_bool _0;
-	zval *columnMap, *model, *result, *cache = NULL, *keepSnapshots = NULL, *rowCount = NULL, *_1, *_2;
+	zval *columnMap, *model, *result, *cache = NULL, *keepSnapshots = NULL, *rowCount = NULL, *_0, *_1;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 3, 2, &columnMap, &model, &result, &cache, &keepSnapshots);
@@ -91,14 +90,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, __construct) {
 	}
 
 
-	_0 = Z_TYPE_P(cache) != IS_NULL;
-	if (_0) {
-		_0 = !zephir_instance_of_ev(cache, phalcon_cache_backendinterface_ce TSRMLS_CC);
-	}
-	if (_0) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'cache' must be an instance of 'Phalcon\\Cache\\BackendInterface'", "", 0);
-		return;
-	}
 	zephir_update_property_this(this_ptr, SL("_model"), model TSRMLS_CC);
 	zephir_update_property_this(this_ptr, SL("_result"), result TSRMLS_CC);
 	zephir_update_property_this(this_ptr, SL("_cache"), cache TSRMLS_CC);
@@ -106,20 +97,20 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, __construct) {
 	if (Z_TYPE_P(result) != IS_OBJECT) {
 		RETURN_MM_NULL();
 	}
-	ZEPHIR_INIT_VAR(_1);
-	ZVAL_LONG(_1, 1);
-	ZEPHIR_CALL_METHOD(NULL, result, "setfetchmode", NULL, _1);
+	ZEPHIR_INIT_VAR(_0);
+	ZVAL_LONG(_0, 1);
+	ZEPHIR_CALL_METHOD(NULL, result, "setfetchmode", NULL, _0);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&rowCount, result, "numrows", NULL);
 	zephir_check_call_status();
 	if (ZEPHIR_GT_LONG(rowCount, 32)) {
-		ZEPHIR_INIT_ZVAL_NREF(_2);
-		ZVAL_LONG(_2, 1);
-		zephir_update_property_this(this_ptr, SL("_type"), _2 TSRMLS_CC);
+		ZEPHIR_INIT_ZVAL_NREF(_1);
+		ZVAL_LONG(_1, 1);
+		zephir_update_property_this(this_ptr, SL("_type"), _1 TSRMLS_CC);
 	} else {
-		ZEPHIR_INIT_ZVAL_NREF(_2);
-		ZVAL_LONG(_2, 0);
-		zephir_update_property_this(this_ptr, SL("_type"), _2 TSRMLS_CC);
+		ZEPHIR_INIT_ZVAL_NREF(_1);
+		ZVAL_LONG(_1, 0);
+		zephir_update_property_this(this_ptr, SL("_type"), _1 TSRMLS_CC);
 	}
 	zephir_update_property_this(this_ptr, SL("_count"), rowCount TSRMLS_CC);
 	zephir_update_property_this(this_ptr, SL("_keepSnapshots"), keepSnapshots TSRMLS_CC);
@@ -296,7 +287,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, toArray) {
 					ZEPHIR_GET_HMKEY(key, _6, _5);
 					ZEPHIR_GET_HVALUE(value, _7);
 					ZEPHIR_OBS_NVAR(renamedKey);
-					if (zephir_array_isset_fetch(&renamedKey, columnMap, key, 0 TSRMLS_CC)) {
+					if (!(zephir_array_isset_fetch(&renamedKey, columnMap, key, 0 TSRMLS_CC))) {
 						ZEPHIR_INIT_NVAR(_8);
 						object_init_ex(_8, phalcon_mvc_model_exception_ce);
 						ZEPHIR_INIT_LNVAR(_9);
@@ -334,7 +325,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, serialize) {
 
 	zephir_update_property_this(this_ptr, SL("_activeRow"), (0) ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
 	ZEPHIR_INIT_VAR(_0);
-	array_init_size(_0, 7);
+	zephir_create_array(_0, 5, 0 TSRMLS_CC);
 	ZEPHIR_OBS_VAR(_1);
 	zephir_read_property_this(&_1, this_ptr, SL("_model"), PH_NOISY_CC);
 	zephir_array_update_string(&_0, SL("model"), &_1, PH_COPY | PH_SEPARATE);

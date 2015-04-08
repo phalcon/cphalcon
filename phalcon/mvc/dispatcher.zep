@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -23,6 +23,7 @@ use Phalcon\Mvc\DispatcherInterface;
 use Phalcon\Mvc\Dispatcher\Exception;
 use Phalcon\Events\ManagerInterface;
 use Phalcon\Http\ResponseInterface;
+use Phalcon\Mvc\ControllerInterface;
 
 /**
  * Phalcon\Mvc\Dispatcher

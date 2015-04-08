@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -210,7 +210,7 @@ class Response implements ResponseInterface, InjectionAwareInterface
 			}
 
 			if !isset this->_statusCodes[code] {
-				throw new Exception("Non-standard statuscode given withou a message.");
+				throw new Exception("Non-standard statuscode given without a message");
 			}
 
 			let defaultMessage = this->_statusCodes[code],
@@ -224,8 +224,21 @@ class Response implements ResponseInterface, InjectionAwareInterface
 		 */
 		headers->set("Status", code . " " . message);
 
-		let this->_headers = headers;
 		return this;
+	}
+
+	/**
+	 * Returns the status code
+	 *
+	 *<code>
+	 *	print_r($response->getStatusCode());
+	 *</code>
+	 *
+	 * @return array
+	 */
+	public function getStatusCode() -> array
+	{
+		return this->getHeaders()->get("Status");
 	}
 
 	/**

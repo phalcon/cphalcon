@@ -20,6 +20,7 @@
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/exception.h"
 #include "kernel/iterator.h"
+#include "kernel/string.h"
 #include "kernel/array.h"
 
 
@@ -27,7 +28,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -354,7 +355,6 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, delete) {
  */
 PHP_METHOD(Phalcon_Cache_Backend_Apc, queryKeys) {
 
-	zephir_nts_static zephir_fcall_cache_entry *_6 = NULL;
 	zend_object_iterator *_3;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zephir_nts_static zend_class_entry *_1 = NULL;
@@ -377,7 +377,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, queryKeys) {
 		ZVAL_STRING(prefixPattern, "/^_PHCA/", 1);
 	} else {
 		ZEPHIR_INIT_VAR(_0);
-		ZEPHIR_CONCAT_SV(_0, "/^_PHCA/", prefix);
+		ZEPHIR_CONCAT_SVS(_0, "/^_PHCA", prefix, "/");
 		ZEPHIR_CPY_WRT(prefixPattern, _0);
 	}
 	ZEPHIR_INIT_VAR(keys);
@@ -399,14 +399,15 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, queryKeys) {
 	_3->funcs->rewind(_3 TSRMLS_CC);
 	for (;_3->funcs->valid(_3 TSRMLS_CC) == SUCCESS && !EG(exception); _3->funcs->move_forward(_3 TSRMLS_CC)) {
 		ZEPHIR_GET_IMKEY(key, _3);
-		{ zval **tmp; 
-		_3->funcs->get_current_data(_3, &tmp TSRMLS_CC);
-		_2 = *tmp;
+		{
+			zval **ZEPHIR_TMP_ITERATOR_PTR;
+			_3->funcs->get_current_data(_3, &ZEPHIR_TMP_ITERATOR_PTR TSRMLS_CC);
+			ZEPHIR_CPY_WRT(_2, (*ZEPHIR_TMP_ITERATOR_PTR));
 		}
 		ZEPHIR_SINIT_NVAR(_4);
 		ZVAL_LONG(&_4, 5);
-		ZEPHIR_CALL_FUNCTION(&_5, "substr", &_6, key, &_4);
-		zephir_check_call_status();
+		ZEPHIR_INIT_NVAR(_5);
+		zephir_substr(_5, key, 5 , 0, ZEPHIR_SUBSTR_NO_LENGTH);
 		zephir_array_append(&keys, _5, PH_SEPARATE, "phalcon/cache/backend/apc.zep", 227);
 	}
 	_3->funcs->dtor(_3 TSRMLS_CC);
@@ -453,6 +454,50 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, exists) {
 		}
 	}
 	RETURN_MM_BOOL(0);
+
+}
+
+/**
+ * Immediately invalidates all existing items.
+ *
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Cache_Backend_Apc, flush) {
+
+	zephir_fcall_cache_entry *_5 = NULL;
+	int ZEPHIR_LAST_CALL_STATUS;
+	zephir_nts_static zend_class_entry *_2 = NULL;
+	zend_object_iterator *_0;
+	zval *item = NULL, *_1, *_3, *_4;
+
+	ZEPHIR_MM_GROW();
+
+	ZEPHIR_INIT_VAR(_1);
+	if (!_2) {
+		_2 = zend_fetch_class(SL("APCIterator"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
+	}
+	object_init_ex(_1, _2);
+	if (zephir_has_constructor(_1 TSRMLS_CC)) {
+		ZEPHIR_INIT_VAR(_3);
+		ZVAL_STRING(_3, "user", ZEPHIR_TEMP_PARAM_COPY);
+		ZEPHIR_CALL_METHOD(NULL, _1, "__construct", NULL, _3);
+		zephir_check_temp_parameter(_3);
+		zephir_check_call_status();
+	}
+	_0 = zephir_get_iterator(_1 TSRMLS_CC);
+	_0->funcs->rewind(_0 TSRMLS_CC);
+	for (;_0->funcs->valid(_0 TSRMLS_CC) == SUCCESS && !EG(exception); _0->funcs->move_forward(_0 TSRMLS_CC)) {
+		{
+			zval **ZEPHIR_TMP_ITERATOR_PTR;
+			_0->funcs->get_current_data(_0, &ZEPHIR_TMP_ITERATOR_PTR TSRMLS_CC);
+			ZEPHIR_CPY_WRT(item, (*ZEPHIR_TMP_ITERATOR_PTR));
+		}
+		zephir_array_fetch_string(&_4, item, SL("key"), PH_NOISY | PH_READONLY, "phalcon/cache/backend/apc.zep", 269 TSRMLS_CC);
+		ZEPHIR_CALL_FUNCTION(NULL, "apc_delete", &_5, _4);
+		zephir_check_call_status();
+	}
+	_0->funcs->dtor(_0 TSRMLS_CC);
+	RETURN_MM_BOOL(1);
 
 }
 

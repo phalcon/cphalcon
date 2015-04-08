@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Zephir Language                                                        |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2014 Zephir Team (http://www.zephir-lang.com)       |
+  | Copyright (c) 2011-2015 Zephir Team (http://www.zephir-lang.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -17,5 +17,12 @@
   +------------------------------------------------------------------------+
 */
 
+#ifndef ZEPHIR_KERNEL_PERSISTENT_H
+#define ZEPHIR_KERNEL_PERSISTENT_H
+
+#include <php.h>
+
 int zephir_persistent_store(zval *service, zval *object TSRMLS_DC);
 int zephir_persistent_fetch(zval *return_value, zval *service TSRMLS_DC);
+
+#endif

@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Zephir Language                                                        |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2014 Zephir Team (http://www.zephir-lang.com)       |
+  | Copyright (c) 2011-2015 Zephir Team (http://www.zephir-lang.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -26,6 +26,60 @@
 #include "php_ext.h"
 
 #include "kernel/memory.h"
+
+int zephir_hash_init(HashTable *ht, uint nSize, hash_func_t pHashFunction, dtor_func_t pDestructor, zend_bool persistent)
+{
+#if PHP_VERSION_ID < 50400
+	Bucket **tmp;
+#endif
+
+	if (nSize >= 0x80000000) {
+		ht->nTableSize = 0x80000000;
+	} else {
+		if (nSize > 3) {
+			ht->nTableSize = nSize + (nSize >> 2);
+		} else {
+			ht->nTableSize = 3;
+		}
+	}
+
+#if ZEND_DEBUG
+	ht->inconsistent = 0;
+#endif
+#if PHP_VERSION_ID < 50400
+	ht->nTableMask = ht->nTableSize - 1;
+#else
+	ht->nTableMask = 0; /* 0 means that ht->arBuckets is uninitialized */
+#endif
+	ht->pDestructor = pDestructor;
+	ht->arBuckets = NULL;
+	ht->pListHead = NULL;
+	ht->pListTail = NULL;
+	ht->nNumOfElements = 0;
+	ht->nNextFreeElement = 0;
+	ht->pInternalPointer = NULL;
+	ht->persistent = persistent;
+	ht->nApplyCount = 0;
+	ht->bApplyProtection = 1;
+
+#if PHP_VERSION_ID < 50400
+	/* Uses ecalloc() so that Bucket* == NULL */
+	if (persistent) {
+		tmp = (Bucket **) calloc(ht->nTableSize, sizeof(Bucket *));
+		if (!tmp) {
+			return FAILURE;
+		}
+		ht->arBuckets = tmp;
+	} else {
+		tmp = (Bucket **) ecalloc_rel(ht->nTableSize, sizeof(Bucket *));
+		if (tmp) {
+			ht->arBuckets = tmp;
+		}
+	}
+#endif
+
+	return SUCCESS;
+}
 
 int zephir_hash_exists(const HashTable *ht, const char *arKey, uint nKeyLength)
 {
@@ -328,5 +382,3 @@ int zephir_hash_unset(HashTable *ht, zval *key)
 			return 0;
 	}
 }
-
-

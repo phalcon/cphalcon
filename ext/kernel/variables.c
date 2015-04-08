@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Zephir Language                                                        |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2014 Zephir Team (http://www.zephir-lang.com)       |
+  | Copyright (c) 2011-2015 Zephir Team (http://www.zephir-lang.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -102,11 +102,9 @@ void zephir_var_export_ex(zval *return_value, zval **var TSRMLS_DC) {
     ZVAL_STRINGL(return_value, buf.c, buf.len, 0);
 }
 
-
 /**
  * var_dump outputs php variables without using the PHP userland
  */
 void zephir_var_dump(zval **var TSRMLS_DC) {
     php_var_dump(var, 1 TSRMLS_CC);
 }
-

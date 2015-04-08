@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -85,7 +85,7 @@ class Memory extends Backend implements BackendInterface
 	 */
 	public function save(var keyName = null, var content = null, lifetime = null, stopBuffer = true) -> void
 	{
-		var lastKey, frontend, cachedContent, preparedContent;
+		var lastKey, frontend, cachedContent, preparedContent, isBuffering;
 
 		if keyName === null {
 			let lastKey = this->_lastKey;
@@ -108,16 +108,17 @@ class Memory extends Backend implements BackendInterface
 		let preparedContent = frontend->beforeStore(cachedContent),
 			this->_data[lastKey] = preparedContent;
 
+		let isBuffering = frontend->isBuffering();
+
 		if stopBuffer === true {
 			frontend->stop();
 		}
 
-		if frontend->isBuffering() === true {
+		if isBuffering === true {
 			echo cachedContent;
 		}
 
 		let this->_started = false;
-
 	}
 
 	/**
@@ -147,13 +148,13 @@ class Memory extends Backend implements BackendInterface
 	 */
 	public function queryKeys(var prefix = null) -> array
 	{
-		var data, keys, index;
+		var data, index;
+		array keys = [];
 
 		let data = this->_data;
-		let keys = [];
 		if typeof data == "array" {
 			if !prefix {
-				let keys = array_keys(data);
+				let keys = (array) array_keys(data);
 			} else {
 				for index, _ in data {
 					let keys[] = index;

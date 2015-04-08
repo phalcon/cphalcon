@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -20,6 +20,7 @@
 namespace Phalcon\Events;
 
 use Phalcon\Events\Event;
+use SplPriorityQueue as PriorityQueue;
 
 /**
  * Phalcon\Events\Manager
@@ -60,10 +61,10 @@ class Manager implements ManagerInterface
 			if this->_enablePriorities {
 
 				// Create a SplPriorityQueue to store the events with priorities
-				let priorityQueue = new \SplPriorityQueue();
+				let priorityQueue = new PriorityQueue();
 
 				// Extract only the Data // Set extraction flags
-				priorityQueue->setExtractFlags(\SplPriorityQueue::EXTR_DATA);
+				priorityQueue->setExtractFlags(PriorityQueue::EXTR_DATA);
 
 				// Append the events to the queue
 				let this->_events[eventType] = priorityQueue;
@@ -103,10 +104,10 @@ class Manager implements ManagerInterface
 			if typeof priorityQueue == "object" {
 
 				// SplPriorityQueue hasn't method for element deletion, so we need to rebuild queue
-				let newPriorityQueue = new \SplPriorityQueue();
+				let newPriorityQueue = new PriorityQueue();
 				newPriorityQueue->setExtractFlags(\SplPriorityQueue::EXTR_DATA);
 
-				priorityQueue->setExtractFlags(\SplPriorityQueue::EXTR_BOTH);
+				priorityQueue->setExtractFlags(PriorityQueue::EXTR_BOTH);
 				priorityQueue->top();
 
 				while priorityQueue->valid() {
@@ -183,7 +184,7 @@ class Manager implements ManagerInterface
 	 *
 	 * @param string type
 	 */
-	public function detachAll(string! type=null)
+	public function detachAll(string! type = null)
 	{
 		if type === null {
 			let this->_events = null;
@@ -199,7 +200,7 @@ class Manager implements ManagerInterface
 	 *
 	 * @param string type
 	 */
-	public function dettachAll(string! type=null)
+	public function dettachAll(string! type = null)
 	{
 		this->detachAll(type);
 	}
@@ -394,7 +395,7 @@ class Manager implements ManagerInterface
 	 * @param boolean cancelable
 	 * @return mixed
 	 */
-	public function fire(string! eventType, source, data=null, boolean cancelable=true)
+	public function fire(string! eventType, source, data = null, boolean cancelable = true)
 	{
 		var events, eventParts, type, eventName, event, status, fireEvents;
 
@@ -482,5 +483,4 @@ class Manager implements ManagerInterface
 		}
 		return [];
 	}
-
 }

@@ -25,7 +25,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -122,10 +122,6 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Memory, write) {
 	}
 
 
-	if (!(zephir_instance_of_ev(data, phalcon_annotations_reflection_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'data' must be an instance of 'Phalcon\\Annotations\\Reflection'", "", 0);
-		return;
-	}
 	ZEPHIR_INIT_VAR(lowercasedKey);
 	zephir_fast_strtolower(lowercasedKey, key);
 	zephir_update_property_array(this_ptr, SL("_data"), lowercasedKey, data TSRMLS_CC);

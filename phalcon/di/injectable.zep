@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -43,7 +43,7 @@ use Phalcon\Session\BagInterface;
  * @property \Phalcon\Flash\Session $flashSession
  * @property \Phalcon\Session\Adapter\Files|\Phalcon\Session\Adapter|\Phalcon\Session\AdapterInterface $session
  * @property \Phalcon\Events\Manager $eventsManager
- * @property \Phalcon\Db $db
+ * @property \Phalcon\Db\AdapterInterface $db
  * @property \Phalcon\Security $security
  * @property \Phalcon\Crypt $crypt
  * @property \Phalcon\Tag $tag

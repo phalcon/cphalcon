@@ -4,7 +4,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -86,18 +86,24 @@ class ModelsSnapshotsTest extends PHPUnit_Framework_TestCase
 				'name' => 'Robotina',
 				'type' => 'mechanical',
 				'year' => '1972',
+				'datetime' => '1972-01-01 00:00:00',
+				'text' => 'text'
 			),
 			2 => array(
 				'id' => '2',
 				'name' => 'Astro Boy',
 				'type' => 'mechanical',
 				'year' => '1952',
+				'datetime' => '1952-01-01 00:00:00',
+				'text' => 'text'
 			),
 			3 => array(
 				'id' => '3',
 				'name' => 'Terminator',
 				'type' => 'cyborg',
 				'year' => '2029',
+				'datetime' => '2029-01-01 00:00:00',
+				'text' => 'text'
 			)
 		);
 
@@ -136,18 +142,24 @@ class ModelsSnapshotsTest extends PHPUnit_Framework_TestCase
 				'theName' => 'Robotina',
 				'theType' => 'mechanical',
 				'theYear' => '1972',
+				'theDatetime' => '1972-01-01 00:00:00',
+				'theText' => 'text',
 			),
 			2 => array(
 				'code' => '2',
 				'theName' => 'Astro Boy',
 				'theType' => 'mechanical',
 				'theYear' => '1952',
+				'theDatetime' => '1952-01-01 00:00:00',
+				'theText' => 'text',
 			),
 			3 => array(
 				'code' => '3',
 				'theName' => 'Terminator',
 				'theType' => 'cyborg',
 				'theYear' => '2029',
+				'theDatetime' => '2029-01-01 00:00:00',
+				'theText' => 'text',
 			)
 		);
 

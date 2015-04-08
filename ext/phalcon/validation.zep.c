@@ -27,7 +27,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -125,10 +125,11 @@ PHP_METHOD(Phalcon_Validation, __construct) {
  */
 PHP_METHOD(Phalcon_Validation, validate) {
 
-	HashTable *_1;
-	HashPosition _0;
+	HashTable *_2;
+	HashPosition _1;
+	zephir_nts_static zephir_fcall_cache_entry *_0 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *data = NULL, *entity = NULL, *validators, *messages = NULL, *scope = NULL, *field = NULL, *validator = NULL, *status = NULL, **_2, *_3 = NULL, *_4 = NULL, *_5 = NULL;
+	zval *data = NULL, *entity = NULL, *validators, *messages = NULL, *scope = NULL, *field = NULL, *validator = NULL, *status = NULL, **_3, *_4 = NULL, *_5 = NULL, *_6 = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 2, &data, &entity);
@@ -150,7 +151,7 @@ PHP_METHOD(Phalcon_Validation, validate) {
 	zephir_update_property_this(this_ptr, SL("_values"), ZEPHIR_GLOBAL(global_null) TSRMLS_CC);
 	ZEPHIR_INIT_VAR(messages);
 	object_init_ex(messages, phalcon_validation_message_group_ce);
-	ZEPHIR_CALL_METHOD(NULL, messages, "__construct", NULL);
+	ZEPHIR_CALL_METHOD(NULL, messages, "__construct", &_0);
 	zephir_check_call_status();
 	if ((zephir_method_exists_ex(this_ptr, SS("beforevalidation") TSRMLS_CC) == SUCCESS)) {
 		ZEPHIR_CALL_METHOD(&status, this_ptr, "beforevalidation", NULL, data, entity, messages);
@@ -167,12 +168,12 @@ PHP_METHOD(Phalcon_Validation, validate) {
 			zephir_update_property_this(this_ptr, SL("_data"), data TSRMLS_CC);
 		}
 	}
-	zephir_is_iterable(validators, &_1, &_0, 0, 0, "phalcon/validation.zep", 148);
+	zephir_is_iterable(validators, &_2, &_1, 0, 0, "phalcon/validation.zep", 148);
 	for (
-	  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
-	  ; zephir_hash_move_forward_ex(_1, &_0)
+	  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
+	  ; zephir_hash_move_forward_ex(_2, &_1)
 	) {
-		ZEPHIR_GET_HVALUE(scope, _2);
+		ZEPHIR_GET_HVALUE(scope, _3);
 		if (Z_TYPE_P(scope) != IS_ARRAY) {
 			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_validation_exception_ce, "The validator scope is not valid", "phalcon/validation.zep", 125);
 			return;
@@ -185,15 +186,15 @@ PHP_METHOD(Phalcon_Validation, validate) {
 			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_validation_exception_ce, "One of the validators is not valid", "phalcon/validation.zep", 132);
 			return;
 		}
-		ZEPHIR_CALL_METHOD(&_3, validator, "validate", NULL, this_ptr, field);
+		ZEPHIR_CALL_METHOD(&_4, validator, "validate", NULL, this_ptr, field);
 		zephir_check_call_status();
-		if (ZEPHIR_IS_FALSE_IDENTICAL(_3)) {
-			ZEPHIR_INIT_NVAR(_5);
-			ZVAL_STRING(_5, "cancelOnFail", ZEPHIR_TEMP_PARAM_COPY);
-			ZEPHIR_CALL_METHOD(&_4, validator, "getoption", NULL, _5);
-			zephir_check_temp_parameter(_5);
+		if (ZEPHIR_IS_FALSE_IDENTICAL(_4)) {
+			ZEPHIR_INIT_NVAR(_6);
+			ZVAL_STRING(_6, "cancelOnFail", ZEPHIR_TEMP_PARAM_COPY);
+			ZEPHIR_CALL_METHOD(&_5, validator, "getoption", NULL, _6);
+			zephir_check_temp_parameter(_6);
 			zephir_check_call_status();
-			if (zephir_is_true(_4)) {
+			if (zephir_is_true(_5)) {
 				break;
 			}
 		}
@@ -227,12 +228,8 @@ PHP_METHOD(Phalcon_Validation, add) {
 	zephir_get_strval(field, field_param);
 
 
-	if (!(zephir_instance_of_ev(validator, phalcon_validation_validatorinterface_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'validator' must be an instance of 'Phalcon\\Validation\\ValidatorInterface'", "", 0);
-		return;
-	}
 	ZEPHIR_INIT_VAR(_0);
-	array_init_size(_0, 3);
+	zephir_create_array(_0, 2, 0 TSRMLS_CC);
 	zephir_array_fast_append(_0, field);
 	zephir_array_fast_append(_0, validator);
 	zephir_update_property_array_append(this_ptr, SL("_validators"), _0 TSRMLS_CC);
@@ -259,10 +256,6 @@ PHP_METHOD(Phalcon_Validation, rule) {
 	zephir_get_strval(field, field_param);
 
 
-	if (!(zephir_instance_of_ev(validator, phalcon_validation_validatorinterface_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'validator' must be an instance of 'Phalcon\\Validation\\ValidatorInterface'", "", 0);
-		return;
-	}
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "add", NULL, field, validator);
 	zephir_check_call_status();
 	RETURN_MM();
@@ -310,7 +303,7 @@ PHP_METHOD(Phalcon_Validation, rules) {
 		ZEPHIR_GET_HVALUE(validator, _2);
 		if (zephir_instance_of_ev(validator, phalcon_validation_validatorinterface_ce TSRMLS_CC)) {
 			ZEPHIR_INIT_NVAR(_3);
-			array_init_size(_3, 3);
+			zephir_create_array(_3, 2, 0 TSRMLS_CC);
 			zephir_array_fast_append(_3, field);
 			zephir_array_fast_append(_3, validator);
 			zephir_update_property_array_append(this_ptr, SL("_validators"), _3 TSRMLS_CC);
@@ -424,7 +417,7 @@ PHP_METHOD(Phalcon_Validation, setDefaultMessages) {
 		return;
 	}
 	ZEPHIR_INIT_VAR(defaultMessages);
-	array_init_size(defaultMessages, 29);
+	zephir_create_array(defaultMessages, 23, 0 TSRMLS_CC);
 	add_assoc_stringl_ex(defaultMessages, SS("Alnum"), SL("Field :field must contain only letters and numbers"), 1);
 	add_assoc_stringl_ex(defaultMessages, SS("Alpha"), SL("Field :field must contain only letters"), 1);
 	add_assoc_stringl_ex(defaultMessages, SS("Between"), SL("Field :field must be within the range of :min to :max"), 1);
@@ -573,10 +566,6 @@ PHP_METHOD(Phalcon_Validation, appendMessage) {
 
 
 
-	if (!(zephir_instance_of_ev(message, phalcon_validation_messageinterface_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'message' must be an instance of 'Phalcon\\Validation\\MessageInterface'", "", 0);
-		return;
-	}
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_messages"), PH_NOISY_CC);
 	ZEPHIR_CALL_METHOD(NULL, _0, "appendmessage", NULL, message);
 	zephir_check_call_status();
@@ -646,7 +635,7 @@ PHP_METHOD(Phalcon_Validation, getValue) {
 		ZEPHIR_CONCAT_SV(_0, "get", field);
 		ZEPHIR_CPY_WRT(method, _0);
 		if ((zephir_method_exists(entity, method TSRMLS_CC)  == SUCCESS)) {
-			ZEPHIR_CALL_METHOD(&value, entity, Z_STRVAL_P(method),  NULL);
+			ZEPHIR_CALL_METHOD_ZVAL(&value, entity, method,  NULL);
 			zephir_check_call_status();
 		} else {
 			if ((zephir_method_exists_ex(entity, SS("readattribute") TSRMLS_CC) == SUCCESS)) {

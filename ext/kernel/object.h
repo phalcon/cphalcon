@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Zephir Language                                                        |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2014 Zephir Team (http://www.zephir-lang.com)       |
+  | Copyright (c) 2011-2015 Zephir Team (http://www.zephir-lang.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -20,6 +20,10 @@
 
 #ifndef ZEPHIR_KERNEL_OBJECT_H
 #define ZEPHIR_KERNEL_OBJECT_H
+
+#include <php.h>
+#include <Zend/zend.h>
+#include "kernel/globals.h"
 
 /** Class Retrieving/Checking */
 int zephir_class_exists(const zval *class_name, int autoload TSRMLS_DC);
@@ -49,6 +53,7 @@ int zephir_clone(zval *destiny, zval *obj TSRMLS_DC);
 int zephir_instance_of(zval *result, const zval *object, const zend_class_entry *ce TSRMLS_DC);
 int zephir_is_instance_of(zval *object, const char *class_name, unsigned int class_length TSRMLS_DC);
 int zephir_instance_of_ev(const zval *object, const zend_class_entry *ce TSRMLS_DC);
+int zephir_zval_is_traversable(zval *object TSRMLS_DC);
 
 /** Method exists */
 int zephir_method_exists(const zval *object, const zval *method_name TSRMLS_DC);
@@ -146,12 +151,12 @@ ZEPHIR_ATTR_NONNULL static inline zval* zephir_fetch_nproperty_this_quick(zval *
 {
 #ifdef __GNUC__
   if (__builtin_constant_p(property_name) && __builtin_constant_p(property_length)) {
-	zval *result = zephir_fetch_property_this_quick(object, property_name, property_length, zend_inline_hash_func(property_name, property_length + 1), silent TSRMLS_CC);
+	zval *result = zephir_fetch_property_this_quick(object, property_name, property_length, key, silent TSRMLS_CC);
 	return result ? result : EG(uninitialized_zval_ptr);
   }
 #endif
 
-  zval *result = zephir_fetch_property_this_quick(object, property_name, property_length, zend_hash_func(property_name, property_length + 1), silent TSRMLS_CC);
+  zval *result = zephir_fetch_property_this_quick(object, property_name, property_length, key, silent TSRMLS_CC);
   return result ? result : EG(uninitialized_zval_ptr);
 }
 

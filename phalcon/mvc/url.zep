@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -251,7 +251,12 @@ class Url implements UrlInterface, InjectionAwareInterface
 		}
 
 		if local {
-			let uri = baseUri . uri;
+			if ((substr(baseUri, -1) == "/") && (substr(uri, 0, 1) == "/")) {
+				let uri = baseUri . substr(uri, 1);
+			}
+			else {
+				let uri = baseUri . uri;
+			}
 		}
 
 		if args {

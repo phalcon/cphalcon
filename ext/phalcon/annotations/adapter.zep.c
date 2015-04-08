@@ -12,8 +12,8 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
-#include "kernel/object.h"
 #include "kernel/exception.h"
+#include "kernel/object.h"
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
 #include "kernel/array.h"
@@ -25,7 +25,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -68,10 +68,6 @@ PHP_METHOD(Phalcon_Annotations_Adapter, setReader) {
 
 
 
-	if (!(zephir_instance_of_ev(reader, phalcon_annotations_readerinterface_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(spl_ce_InvalidArgumentException, "Parameter 'reader' must be an instance of 'Phalcon\\Annotations\\ReaderInterface'", "", 0);
-		return;
-	}
 	if (Z_TYPE_P(reader) != IS_OBJECT) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_annotations_exception_ce, "Invalid annotations reader", "phalcon/annotations/adapter.zep", 47);
 		return;
@@ -115,6 +111,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter, getReader) {
  */
 PHP_METHOD(Phalcon_Annotations_Adapter, get) {
 
+	zephir_nts_static zephir_fcall_cache_entry *_2 = NULL;
 	zend_bool _1;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *className, *annotations, *classAnnotations = NULL, *parsedAnnotations = NULL, *realClassName = NULL, *reader = NULL, *_0;
@@ -152,7 +149,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter, get) {
 		if (Z_TYPE_P(parsedAnnotations) == IS_ARRAY) {
 			ZEPHIR_INIT_NVAR(classAnnotations);
 			object_init_ex(classAnnotations, phalcon_annotations_reflection_ce);
-			ZEPHIR_CALL_METHOD(NULL, classAnnotations, "__construct", NULL, parsedAnnotations);
+			ZEPHIR_CALL_METHOD(NULL, classAnnotations, "__construct", &_2, parsedAnnotations);
 			zephir_check_call_status();
 			zephir_update_property_array(this_ptr, SL("_annotations"), realClassName, classAnnotations TSRMLS_CC);
 			ZEPHIR_CALL_METHOD(NULL, this_ptr, "write", NULL, realClassName, classAnnotations);
@@ -200,6 +197,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter, getMethods) {
  */
 PHP_METHOD(Phalcon_Annotations_Adapter, getMethod) {
 
+	zephir_nts_static zephir_fcall_cache_entry *_3 = NULL;
 	HashTable *_1;
 	HashPosition _0;
 	int ZEPHIR_LAST_CALL_STATUS;
@@ -233,7 +231,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter, getMethod) {
 		}
 	}
 	object_init_ex(return_value, phalcon_annotations_collection_ce);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", &_3);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -278,6 +276,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter, getProperties) {
  */
 PHP_METHOD(Phalcon_Annotations_Adapter, getProperty) {
 
+	zephir_nts_static zephir_fcall_cache_entry *_3 = NULL;
 	HashTable *_1;
 	HashPosition _0;
 	int ZEPHIR_LAST_CALL_STATUS;
@@ -311,7 +310,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter, getProperty) {
 		}
 	}
 	object_init_ex(return_value, phalcon_annotations_collection_ce);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", &_3);
 	zephir_check_call_status();
 	RETURN_MM();
 

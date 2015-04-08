@@ -65,7 +65,7 @@ static zval *phvolt_ret_literal_zval(int type, phvolt_parser_token *T, phvolt_sc
 	zval *ret;
 
 	MAKE_STD_ZVAL(ret);
-	array_init(ret);
+	array_init_size(ret, 5);
 	add_assoc_long(ret, "type", type);
 	if (T) {
 		add_assoc_stringl(ret, "value", T->token, T->token_len, 0);
@@ -84,7 +84,7 @@ static zval *phvolt_ret_if_statement(zval *expr, zval *true_statements, zval *fa
 	zval *ret;
 
 	MAKE_STD_ZVAL(ret);
-	array_init(ret);
+	array_init_size(ret, 7);
 	add_assoc_long(ret, "type", PHVOLT_T_IF);
 	add_assoc_zval(ret, "expr", expr);
 
@@ -107,7 +107,7 @@ static zval *phvolt_ret_elseif_statement(zval *expr, phvolt_scanner_state *state
 	zval *ret;
 
 	MAKE_STD_ZVAL(ret);
-	array_init(ret);
+	array_init_size(ret, 5);
 	add_assoc_long(ret, "type", PHVOLT_T_ELSEIF);
 	add_assoc_zval(ret, "expr", expr);
 
@@ -123,7 +123,7 @@ static zval *phvolt_ret_elsefor_statement(phvolt_scanner_state *state)
 	zval *ret;
 
 	MAKE_STD_ZVAL(ret);
-	array_init(ret);
+	array_init_size(ret, 4);
 	add_assoc_long(ret, "type", PHVOLT_T_ELSEFOR);
 
 	Z_ADDREF_P(state->active_file);
@@ -138,7 +138,7 @@ static zval *phvolt_ret_for_statement(phvolt_parser_token *variable, phvolt_pars
 	zval *ret;
 
 	MAKE_STD_ZVAL(ret);
-	array_init(ret);
+	array_init_size(ret, 9);
 	add_assoc_long(ret, "type", PHVOLT_T_FOR);
 
 	add_assoc_stringl(ret, "variable", variable->token, variable->token_len, 0);
@@ -150,7 +150,6 @@ static zval *phvolt_ret_for_statement(phvolt_parser_token *variable, phvolt_pars
 	}
 
 	add_assoc_zval(ret, "expr", expr);
-
 	if (if_expr) {
 		add_assoc_zval(ret, "if_expr", if_expr);
 	}
@@ -192,7 +191,7 @@ static zval *phvolt_ret_set_statement(zval *assignments)
 	zval *ret;
 
 	MAKE_STD_ZVAL(ret);
-	array_init_size(ret, 2);
+	array_init_size(ret, 3);
 	add_assoc_long(ret, "type", PHVOLT_T_SET);
 
 	add_assoc_zval(ret, "assignments", assignments);
@@ -243,7 +242,7 @@ static zval *phvolt_ret_block_statement(phvolt_parser_token *name, zval *block_s
 	zval *ret;
 
 	MAKE_STD_ZVAL(ret);
-	array_init(ret);
+	array_init_size(ret, 6);
 
 	add_assoc_long(ret, "type", PHVOLT_T_BLOCK);
 
@@ -331,7 +330,7 @@ static zval *phvolt_ret_include_statement(zval *path, zval *params, phvolt_scann
 	zval *ret;
 
 	MAKE_STD_ZVAL(ret);
-	array_init_size(ret, 4);
+	array_init_size(ret, 5);
 
 	add_assoc_long(ret, "type", PHVOLT_T_INCLUDE);
 
@@ -352,7 +351,7 @@ static zval *phvolt_ret_do_statement(zval *expr, phvolt_scanner_state *state)
 	zval *ret;
 
 	MAKE_STD_ZVAL(ret);
-	array_init_size(ret, 4);
+	array_init_size(ret, 5);
 
 	add_assoc_long(ret, "type", PHVOLT_T_DO);
 

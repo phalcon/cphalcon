@@ -25,7 +25,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -152,7 +152,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Firephp, logInternal) {
 	ZVAL_LONG(&_2, 4500);
 	ZEPHIR_CALL_FUNCTION(&chunk, "str_split", &_7, format, &_2);
 	zephir_check_call_status();
-	zephir_is_iterable(chunk, &_9, &_8, 0, 0, "phalcon/logger/adapter/firephp.zep", 100);
+	zephir_is_iterable(chunk, &_9, &_8, 0, 0, "phalcon/logger/adapter/firephp.zep", 102);
 	for (
 	  ; zephir_hash_get_current_data_ex(_9, (void**) &_10, &_8) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_9, &_8)

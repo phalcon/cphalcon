@@ -13,11 +13,11 @@
 
 #include "kernel/main.h"
 #include "kernel/object.h"
-#include "kernel/exception.h"
 #include "kernel/operators.h"
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
 #include "kernel/hash.h"
+#include "kernel/exception.h"
 #include "kernel/array.h"
 #include "kernel/concat.h"
 #include "kernel/string.h"
@@ -28,7 +28,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -68,8 +68,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Resultset_Complex) {
 PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, __construct) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zend_bool _0;
-	zval *columnTypes, *result, *cache = NULL, *_1, *_2;
+	zval *columnTypes, *result, *cache = NULL, *_0, *_1;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 1, &columnTypes, &result, &cache);
@@ -79,26 +78,18 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, __construct) {
 	}
 
 
-	_0 = Z_TYPE_P(cache) != IS_NULL;
-	if (_0) {
-		_0 = !zephir_instance_of_ev(cache, phalcon_cache_backendinterface_ce TSRMLS_CC);
-	}
-	if (_0) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Parameter 'cache' must be an instance of 'Phalcon\\Cache\\BackendInterface'", "", 0);
-		return;
-	}
 	zephir_update_property_this(this_ptr, SL("_columnTypes"), columnTypes TSRMLS_CC);
 	zephir_update_property_this(this_ptr, SL("_result"), result TSRMLS_CC);
 	if (Z_TYPE_P(cache) != IS_NULL) {
 		zephir_update_property_this(this_ptr, SL("_cache"), cache TSRMLS_CC);
 	}
-	ZEPHIR_INIT_ZVAL_NREF(_1);
-	ZVAL_LONG(_1, 1);
-	zephir_update_property_this(this_ptr, SL("_type"), _1 TSRMLS_CC);
+	ZEPHIR_INIT_ZVAL_NREF(_0);
+	ZVAL_LONG(_0, 1);
+	zephir_update_property_this(this_ptr, SL("_type"), _0 TSRMLS_CC);
 	if (Z_TYPE_P(result) == IS_OBJECT) {
-		ZEPHIR_INIT_VAR(_2);
-		ZVAL_LONG(_2, 1);
-		ZEPHIR_CALL_METHOD(NULL, result, "setfetchmode", NULL, _2);
+		ZEPHIR_INIT_VAR(_1);
+		ZVAL_LONG(_1, 1);
+		ZEPHIR_CALL_METHOD(NULL, result, "setfetchmode", NULL, _1);
 		zephir_check_call_status();
 	}
 	ZEPHIR_MM_RESTORE();
@@ -256,7 +247,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, valid) {
 						ZEPHIR_INIT_NVAR(attribute);
 						ZEPHIR_SINIT_NVAR(_14);
 						ZVAL_STRING(&_14, "", 0);
-						zephir_fast_str_replace(attribute, underscore, &_14, alias TSRMLS_CC);
+						zephir_fast_str_replace(&attribute, underscore, &_14, alias TSRMLS_CC);
 					}
 				}
 				do {
@@ -298,9 +289,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, toArray) {
 	_0 = zephir_get_iterator(this_ptr TSRMLS_CC);
 	_0->funcs->rewind(_0 TSRMLS_CC);
 	for (;_0->funcs->valid(_0 TSRMLS_CC) == SUCCESS && !EG(exception); _0->funcs->move_forward(_0 TSRMLS_CC)) {
-		{ zval **tmp; 
-		_0->funcs->get_current_data(_0, &tmp TSRMLS_CC);
-		current = *tmp;
+		{
+			zval **ZEPHIR_TMP_ITERATOR_PTR;
+			_0->funcs->get_current_data(_0, &ZEPHIR_TMP_ITERATOR_PTR TSRMLS_CC);
+			ZEPHIR_CPY_WRT(current, (*ZEPHIR_TMP_ITERATOR_PTR));
 		}
 		zephir_array_append(&records, current, PH_SEPARATE, "phalcon/mvc/model/resultset/complex.zep", 298);
 	}
@@ -332,7 +324,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, serialize) {
 	ZEPHIR_OBS_VAR(hydrateMode);
 	zephir_read_property_this(&hydrateMode, this_ptr, SL("_hydrateMode"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(_0);
-	array_init_size(_0, 7);
+	zephir_create_array(_0, 4, 0 TSRMLS_CC);
 	zephir_array_update_string(&_0, SL("cache"), &cache, PH_COPY | PH_SEPARATE);
 	zephir_array_update_string(&_0, SL("rows"), &records, PH_COPY | PH_SEPARATE);
 	zephir_array_update_string(&_0, SL("columnTypes"), &columnTypes, PH_COPY | PH_SEPARATE);

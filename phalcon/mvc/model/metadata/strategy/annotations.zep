@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -103,31 +103,45 @@ class Annotations implements StrategyInterface
 			 */
 			let feature = columnAnnotation->getNamedParameter("type");
 
-			if feature == "integer" {
-				let fieldTypes[property] = Column::TYPE_INTEGER,
-					fieldBindTypes[columnName] = Column::BIND_PARAM_INT,
-					numericTyped[columnName] = true;
-			} else {
-				if feature == "decimal" {
+			switch feature {
+				case "integer":
+					let fieldTypes[property] = Column::TYPE_INTEGER,
+						fieldBindTypes[columnName] = Column::BIND_PARAM_INT,
+						numericTyped[columnName] = true;
+					break;
+
+				case "decimal":
 					let fieldTypes[columnName] = Column::TYPE_DECIMAL,
 						fieldBindTypes[columnName] = Column::BIND_PARAM_DECIMAL,
 						numericTyped[columnName] = true;
-				} else {
-					if feature == "boolean" {
-						let fieldTypes[columnName] = 8,
-							fieldBindTypes[columnName] = 5;
-					} else {
-						if feature == "date" {
-							let fieldTypes[columnName] = 1;
-						} else {
-							/**
-							 * By default all columns are varchar/string
-							 */
-							let fieldTypes[columnName] = Column::TYPE_VARCHAR;
-						}
-						let fieldBindTypes[columnName] = Column::BIND_PARAM_STR;
-					}
-				}
+					break;
+
+				case "boolean":
+					let fieldTypes[columnName] = Column::TYPE_BOOLEAN,
+						fieldBindTypes[columnName] = Column::BIND_PARAM_BOOL;
+					break;
+
+				case "date":
+					let fieldTypes[columnName] = Column::TYPE_DATE,
+						fieldBindTypes[columnName] = Column::BIND_PARAM_STR;
+					break;
+
+				case "datetime":
+					let fieldTypes[columnName] = Column::TYPE_DATETIME,
+						fieldBindTypes[columnName] = Column::BIND_PARAM_STR;
+					break;
+
+				case "text":
+					let fieldTypes[columnName] = Column::TYPE_TEXT,
+						fieldBindTypes[columnName] = Column::BIND_PARAM_STR;
+					break;
+
+				default:
+					/**
+					 * By default all columns are varchar/string
+					 */
+					let fieldTypes[columnName] = Column::TYPE_VARCHAR,
+						fieldBindTypes[columnName] = Column::BIND_PARAM_STR;
 			}
 
 			/**

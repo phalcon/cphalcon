@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Zephir Language                                                        |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2014 Zephir Team (http://www.zephir-lang.com)       |
+  | Copyright (c) 2011-2015 Zephir Team (http://www.zephir-lang.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -1263,28 +1263,16 @@ int zephir_array_is_associative(zval *arr) {
 }
 
 /**
- * Multiple array-offset update
+ * Implementation of Multiple array-offset update
  */
-int zephir_array_update_multi(zval **arr, zval **value TSRMLS_DC, const char *types, int types_length, int types_count, ...)
+void zephir_array_update_multi_ex(zval **arr, zval **value, const char *types, int types_length, int types_count, va_list ap TSRMLS_DC)
 {
-	va_list ap;
 	long old_l[ZEPHIR_MAX_ARRAY_LEVELS], old_ll[ZEPHIR_MAX_ARRAY_LEVELS];
 	char *s, *old_s[ZEPHIR_MAX_ARRAY_LEVELS], old_type[ZEPHIR_MAX_ARRAY_LEVELS];
 	zval *fetched, *tmp, *p, *item, *old_item[ZEPHIR_MAX_ARRAY_LEVELS], *old_p[ZEPHIR_MAX_ARRAY_LEVELS];
 	int i, j, l, ll, re_update, must_continue, wrap_tmp;
 
-	va_start(ap, types_count);
-
 	assert(types_length < ZEPHIR_MAX_ARRAY_LEVELS);
-
-	SEPARATE_ZVAL_IF_NOT_REF(arr);
-
-/*
-	memset(old_type, '\0', ZEPHIR_MAX_ARRAY_LEVELS);
-	memset(old_s, '\0', ZEPHIR_MAX_ARRAY_LEVELS);
-	memset(old_p, '\0', ZEPHIR_MAX_ARRAY_LEVELS);
-	memset(old_item, '\0', ZEPHIR_MAX_ARRAY_LEVELS);
-*/
 
 	p = *arr;
 
@@ -1305,7 +1293,8 @@ int zephir_array_update_multi(zval **arr, zval **value TSRMLS_DC, const char *ty
 				if (zephir_array_isset_string_fetch(&fetched, p, s, l + 1, 0 TSRMLS_CC)) {
 					if (Z_TYPE_P(fetched) == IS_ARRAY) {
 						if (i == (types_length - 1)) {
-							zephir_array_update_string(&fetched, s, l, value, PH_COPY | PH_SEPARATE);
+							re_update = Z_REFCOUNT_P(p) > 1 && !Z_ISREF_P(p);
+							zephir_array_update_string(&p, s, l, value, PH_COPY | PH_SEPARATE);
 						} else {
 							p = fetched;
 						}
@@ -1337,7 +1326,8 @@ int zephir_array_update_multi(zval **arr, zval **value TSRMLS_DC, const char *ty
 				if (zephir_array_isset_long_fetch(&fetched, p, ll, 0 TSRMLS_CC)) {
 					if (Z_TYPE_P(fetched) == IS_ARRAY) {
 						if (i == (types_length - 1)) {
-							zephir_array_update_long(&fetched, ll, value, PH_COPY | PH_SEPARATE ZEPHIR_DEBUG_PARAMS_DUMMY);
+							re_update = Z_REFCOUNT_P(p) > 1 && !Z_ISREF_P(p);
+							zephir_array_update_long(&p, ll, value, PH_COPY | PH_SEPARATE ZEPHIR_DEBUG_PARAMS_DUMMY);
 						} else {
 							p = fetched;
 						}
@@ -1369,7 +1359,8 @@ int zephir_array_update_multi(zval **arr, zval **value TSRMLS_DC, const char *ty
 				if (zephir_array_isset_fetch(&fetched, p, item, 0 TSRMLS_CC)) {
 					if (Z_TYPE_P(fetched) == IS_ARRAY) {
 						if (i == (types_length - 1)) {
-							zephir_array_update_zval(&fetched, item, value, PH_COPY | PH_SEPARATE);
+							re_update = Z_REFCOUNT_P(p) > 1 && !Z_ISREF_P(p);
+							zephir_array_update_zval(&p, item, value, PH_COPY | PH_SEPARATE);
 						} else {
 							p = fetched;
 						}
@@ -1456,7 +1447,54 @@ int zephir_array_update_multi(zval **arr, zval **value TSRMLS_DC, const char *ty
 			old_type[i] = types[i];
 		}
 	}
+}
+
+int zephir_array_update_multi(zval **arr, zval **value TSRMLS_DC, const char *types, int types_length, int types_count, ...)
+{
+	va_list ap;
+
+	va_start(ap, types_count);
+	SEPARATE_ZVAL_IF_NOT_REF(arr);
+
+/*
+	memset(old_type, '\0', ZEPHIR_MAX_ARRAY_LEVELS);
+	memset(old_s, '\0', ZEPHIR_MAX_ARRAY_LEVELS);
+	memset(old_p, '\0', ZEPHIR_MAX_ARRAY_LEVELS);
+	memset(old_item, '\0', ZEPHIR_MAX_ARRAY_LEVELS);
+*/
+
+	zephir_array_update_multi_ex(arr, value, types, types_length, types_count, ap TSRMLS_CC);
 	va_end(ap);
 
 	return 0;
+}
+
+void ZEPHIR_FASTCALL zephir_create_array(zval *return_value, uint size, int initialize TSRMLS_DC) {
+
+	uint i;
+	zval *null_value;
+	HashTable *hashTable;
+
+	if (size > 0) {
+
+		hashTable = (HashTable *) emalloc(sizeof(HashTable));
+		zephir_hash_init(hashTable, size, NULL, ZVAL_PTR_DTOR, 0);
+
+		if (initialize) {
+
+			MAKE_STD_ZVAL(null_value);
+			ZVAL_NULL(null_value);
+			Z_SET_REFCOUNT_P(null_value, size);
+
+			for (i = 0; i < size; i++) {
+				zend_hash_next_index_insert(hashTable, &null_value, sizeof(zval *), NULL);
+			}
+		}
+
+		Z_ARRVAL_P(return_value) = hashTable;
+		Z_TYPE_P(return_value) = IS_ARRAY;
+
+	} else {
+		array_init(return_value);
+	}
 }

@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -359,8 +359,6 @@ class Column implements ColumnInterface
 
 	/**
 	 * Returns true if number column is unsigned
-	 *
-	 * @return boolean
 	 */
 	public function isUnsigned() -> boolean
 	{
@@ -369,8 +367,6 @@ class Column implements ColumnInterface
 
 	/**
 	 * Not null
-	 *
-	 * @return boolean
 	 */
 	public function isNotNull() -> boolean
 	{
@@ -379,8 +375,6 @@ class Column implements ColumnInterface
 
 	/**
 	 * Column is part of the primary key?
-	 *
-	 * @return boolean
 	 */
 	public function isPrimary() -> boolean
 	{
@@ -389,8 +383,6 @@ class Column implements ColumnInterface
 
 	/**
 	 * Auto-Increment
-	 *
-	 * @return boolean
 	 */
 	public function isAutoIncrement() -> boolean
 	{
@@ -399,8 +391,6 @@ class Column implements ColumnInterface
 
 	/**
 	 * Check whether column have an numeric type
-	 *
-	 * @return boolean
 	 */
 	public function isNumeric() -> boolean
 	{
@@ -409,8 +399,6 @@ class Column implements ColumnInterface
 
 	/**
 	 * Check whether column have first position in table
-	 *
-	 * @return boolean
 	 */
 	public function isFirst() -> boolean
 	{
@@ -439,9 +427,6 @@ class Column implements ColumnInterface
 
 	/**
 	 * Restores the internal state of a Phalcon\Db\Column object
-	 *
-	 * @param array data
-	 * @return \Phalcon\Db\Column
 	 */
 	public static function __set_state(array! data) -> <Column>
 	{

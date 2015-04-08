@@ -28,7 +28,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -176,7 +176,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Oracle, describeColumns) {
 	) {
 		ZEPHIR_GET_HVALUE(field, _6);
 		ZEPHIR_INIT_NVAR(definition);
-		array_init_size(definition, 2);
+		zephir_create_array(definition, 1, 0 TSRMLS_CC);
 		add_assoc_long_ex(definition, SS("bindType"), 2);
 		ZEPHIR_OBS_NVAR(columnSize);
 		zephir_array_fetch_long(&columnSize, field, 2, PH_NOISY, "phalcon/db/adapter/pdo/oracle.zep", 105 TSRMLS_CC);
@@ -334,8 +334,6 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Oracle, lastInsertId) {
 
 /**
  * Check whether the database system requires an explicit value for identity columns
- *
- * @return boolean
  */
 PHP_METHOD(Phalcon_Db_Adapter_Pdo_Oracle, useExplicitIdValue) {
 
@@ -346,11 +344,10 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Oracle, useExplicitIdValue) {
 
 /**
  * Return the default identity value to insert in an identity column
- *
- * @return Phalcon\Db\RawValue
  */
 PHP_METHOD(Phalcon_Db_Adapter_Pdo_Oracle, getDefaultIdValue) {
 
+	zephir_nts_static zephir_fcall_cache_entry *_1 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *_0;
 
@@ -359,7 +356,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Oracle, getDefaultIdValue) {
 	object_init_ex(return_value, phalcon_db_rawvalue_ce);
 	ZEPHIR_INIT_VAR(_0);
 	ZVAL_STRING(_0, "default", ZEPHIR_TEMP_PARAM_COPY);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, _0);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", &_1, _0);
 	zephir_check_temp_parameter(_0);
 	zephir_check_call_status();
 	RETURN_MM();
@@ -368,8 +365,6 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Oracle, getDefaultIdValue) {
 
 /**
  * Check whether the database system requires a sequence to produce auto-numeric values
- *
- * @return boolean
  */
 PHP_METHOD(Phalcon_Db_Adapter_Pdo_Oracle, supportSequences) {
 

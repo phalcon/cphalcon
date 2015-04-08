@@ -4,7 +4,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -229,7 +229,9 @@ class ModelsMetadataTest extends PHPUnit_Framework_TestCase
 			0 => 'id',
 			1 => 'name',
 			2 => 'type',
-			3 => 'year'
+			3 => 'year',
+			4 => 'datetime',
+			5 => 'text'
 		);
 
 		$attributes = $metaData->getAttributes($robots);
@@ -245,7 +247,9 @@ class ModelsMetadataTest extends PHPUnit_Framework_TestCase
 		$pnpkAttributes = array(
 			0 => 'name',
 			1 => 'type',
-			2 => 'year'
+			2 => 'year',
+			3 => 'datetime',
+			4 => 'text'
 		);
 
 		$npkAttributes = $metaData->getNonPrimaryKeyAttributes($robots);

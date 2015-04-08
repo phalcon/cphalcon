@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -29,8 +29,6 @@ interface AdapterInterface
 
 	/**
 	 * Constructor for Phalcon\Db\Adapter
-	 *
-	 * @param array descriptor
 	 */
 	public function __construct(array! descriptor);
 
@@ -42,7 +40,7 @@ interface AdapterInterface
 	 * @param int placeholders
 	 * @return array
 	 */
-	public function fetchOne(string! sqlQuery, fetchMode=2, placeholders=null);
+	public function fetchOne(string! sqlQuery, fetchMode = 2, placeholders = null);
 
 	/**
 	 * Dumps the complete result of a query into an array
@@ -52,7 +50,7 @@ interface AdapterInterface
 	 * @param int placeholders
 	 * @return array
 	 */
-	public function fetchAll(string! sqlQuery, fetchMode=2, placeholders=null);
+	public function fetchAll(string! sqlQuery, fetchMode = 2, placeholders = null);
 
 	/**
 	 * Inserts data into a table using custom RBDM SQL syntax
@@ -86,7 +84,7 @@ interface AdapterInterface
 	 * @param  array dataTypes
 	 * @return boolean
 	 */
-	public function delete(var table, whereCondition=null, placeholders=null, dataTypes=null);
+	public function delete(var table, whereCondition = null, placeholders = null, dataTypes = null);
 
 	/**
 	 * Gets a list of columns
@@ -112,7 +110,7 @@ interface AdapterInterface
 	 * @param string schemaName
 	 * @return string
 	 */
-	public function tableExists(string! tableName, schemaName=null);
+	public function tableExists(string! tableName, schemaName = null);
 
 	/**
 	 * Generates SQL checking for the existence of a schema.view
@@ -157,7 +155,7 @@ interface AdapterInterface
 	 * @param	boolean ifExists
 	 * @return	boolean
 	 */
-	public function dropTable(tableName, schemaName=null, ifExists=true);
+	public function dropTable(tableName, schemaName = null, ifExists = true);
 
 	/**
 	 * Creates a view
@@ -282,7 +280,7 @@ interface AdapterInterface
 	 * @param string schemaName
 	 * @return array
 	 */
-	public function listTables(schemaName=null);
+	public function listTables(schemaName = null);
 
 	/**
 	 * List all views on a database
@@ -290,7 +288,7 @@ interface AdapterInterface
 	 * @param string schemaName
 	 * @return array
 	 */
-	public function listViews(schemaName=null);
+	public function listViews(schemaName = null);
 
 	/**
 	 * Return descriptor used to connect to the active database
@@ -362,7 +360,7 @@ interface AdapterInterface
 	 * @param 	array descriptor
 	 * @return 	boolean
 	 */
-	public function connect(descriptor=null);
+	public function connect(descriptor = null);
 
 	/**
 	 * Sends SQL statements to the database server returning the success state.
@@ -373,7 +371,7 @@ interface AdapterInterface
 	 * @param  array dataTypes
 	 * @return Phalcon\Db\ResultInterface
 	 */
-	public function query(sqlStatement, placeholders=null, dataTypes=null);
+	public function query(sqlStatement, placeholders = null, dataTypes = null);
 
 	/**
 	 * Sends SQL statements to the database server returning the success state.
@@ -384,7 +382,7 @@ interface AdapterInterface
 	 * @param  array dataTypes
 	 * @return boolean
 	 */
-	public function execute(sqlStatement, placeholders=null, dataTypes=null);
+	public function execute(sqlStatement, placeholders = null, dataTypes = null);
 
 	/**
 	 * Returns the number of affected rows by the last INSERT/UPDATE/DELETE reported by the database system
@@ -422,28 +420,28 @@ interface AdapterInterface
 	 * @param string sequenceName
 	 * @return int
 	 */
-	public function lastInsertId(sequenceName=null);
+	public function lastInsertId(sequenceName = null);
 
 	/**
      * Starts a transaction in the connection
      *
      * @return boolean
      */
-	public function begin(boolean nesting=true);
+	public function begin(boolean nesting = true);
 
     /**
      * Rollbacks the active transaction in the connection
      *
      * @return boolean
      */
-	public function rollback(boolean nesting=true);
+	public function rollback(boolean nesting = true);
 
     /**
      * Commits the active transaction in the connection
      *
      * @return boolean
      */
-	public function commit(boolean nesting=true);
+	public function commit(boolean nesting = true);
 
 	/**
 	 * Checks whether connection is under database transaction
@@ -466,7 +464,7 @@ interface AdapterInterface
 	 * @param	string schema
 	 * @return	Phalcon\Db\IndexInterface[]
 	 */
-	public function describeIndexes(table, schema=null);
+	public function describeIndexes(table, schema = null);
 
 	/**
 	 * Lists table references
@@ -475,7 +473,7 @@ interface AdapterInterface
 	 * @param	string schema
 	 * @return	Phalcon\Db\ReferenceInterface[]
 	 */
-	public function describeReferences(table, schema=null);
+	public function describeReferences(table, schema = null);
 
 	/**
 	 * Gets creation options from a table
@@ -484,7 +482,7 @@ interface AdapterInterface
 	 * @param	string schemaName
 	 * @return	array
 	 */
-	public function tableOptions(tableName, schemaName=null);
+	public function tableOptions(tableName, schemaName = null);
 
 	/**
 	 * Check whether the database system requires an explicit value for identity columns
@@ -542,15 +540,11 @@ interface AdapterInterface
 
 	/**
 	 * Returns if nested transactions should use savepoints
-	 *
-	 * @return boolean
 	 */
 	public function isNestedTransactionsWithSavepoints() -> boolean;
 
 	/**
 	 * Returns the savepoint name to use for nested transactions
-	 *
-	 * @return string
 	 */
 	public function getNestedTransactionSavepointName() -> string;
 
@@ -561,6 +555,6 @@ interface AdapterInterface
 	 * @param string schema
 	 * @return Phalcon\Db\ColumnInterface[]
 	 */
-	public function describeColumns(table, schema=null);
+	public function describeColumns(table, schema = null);
 
 }

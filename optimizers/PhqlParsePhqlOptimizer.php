@@ -67,11 +67,13 @@ class PhqlParsePhqlOptimizer extends OptimizerAbstract
 		$context->headersManager->add('phalcon/mvc/model/query/scanner', HeadersManager::POSITION_LAST);
 		$context->headersManager->add('phalcon/mvc/model/query/phql', HeadersManager::POSITION_LAST);
 
-		$context->codePrinter->output('if (phql_parse_phql(' . $symbolVariable->getName() . ', ' . $resolvedParams[0] . ' TSRMLS_CC) == FAILURE) {');
-        $context->codePrinter->output("\t" . 'RETURN_MM();');
-        $context->codePrinter->output('}');
+		$call->addCallStatusFlag($context);
+
+		$context->codePrinter->output('ZEPHIR_LAST_CALL_STATUS = phql_parse_phql(' . $symbolVariable->getName() . ', ' . $resolvedParams[0] . ' TSRMLS_CC);');
+
+        $call->checkTempParameters($context);
+		$call->addCallStatusOrJump($context);
 
 		return new CompiledExpression('variable', $symbolVariable->getRealName(), $expression);
 	}
-
 }

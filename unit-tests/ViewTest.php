@@ -305,6 +305,21 @@ class ViewTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($content, '<html>Hey, this is a partial, also le-this</html>' . PHP_EOL);
 	}
 
+	/**
+	 * @covers \Phalcon\Mvc\View::__isset
+	 */
+	public function testViewParamIsset()
+	{
+		$view = new View();
+
+		$view->setViewsDir('unit-tests/views/');
+		$view->set_param = 'something';
+		
+		$content = $view->getRender('test16', 'index');
+
+		$this->assertEquals($content, '<html>1</html>' . PHP_EOL);
+	}
+
 	protected function _getViewDisabled($level=null)
 	{
 		$view = new View();

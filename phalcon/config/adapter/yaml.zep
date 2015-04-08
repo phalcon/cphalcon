@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -57,11 +57,12 @@ class Yaml extends Config
 	 */
 	public function __construct(string! filePath, array! callbacks = null)
 	{
+		var yamlConfig;
+		int ndocs = 0;
+
 		if !extension_loaded("yaml") {
 			throw new Exception("Yaml extension not loaded");
 		}
-		var yamlConfig;
-		int ndocs = 0;
 
 		if callbacks !== null {
 			let yamlConfig = yaml_parse_file(filePath, 0, ndocs, callbacks);

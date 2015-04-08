@@ -27,7 +27,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -102,7 +102,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Cli_Router) {
  */
 PHP_METHOD(Phalcon_Cli_Router, __construct) {
 
-	zephir_fcall_cache_entry *_3 = NULL;
+	zephir_nts_static zephir_fcall_cache_entry *_3 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *_1, *_4;
 	zval *defaultRoutes_param = NULL, *routes, *_0 = NULL, *_2 = NULL, *_5;
@@ -124,7 +124,7 @@ PHP_METHOD(Phalcon_Cli_Router, __construct) {
 		ZEPHIR_INIT_VAR(_0);
 		object_init_ex(_0, phalcon_cli_router_route_ce);
 		ZEPHIR_INIT_VAR(_1);
-		array_init_size(_1, 2);
+		zephir_create_array(_1, 1, 0 TSRMLS_CC);
 		add_assoc_long_ex(_1, SS("task"), 1);
 		ZEPHIR_INIT_VAR(_2);
 		ZVAL_STRING(_2, "#^(?::delimiter)?([a-zA-Z0-9\\_\\-]+)[:delimiter]{0,1}$#", ZEPHIR_TEMP_PARAM_COPY);
@@ -135,7 +135,7 @@ PHP_METHOD(Phalcon_Cli_Router, __construct) {
 		ZEPHIR_INIT_NVAR(_2);
 		object_init_ex(_2, phalcon_cli_router_route_ce);
 		ZEPHIR_INIT_VAR(_4);
-		array_init_size(_4, 5);
+		zephir_create_array(_4, 3, 0 TSRMLS_CC);
 		add_assoc_long_ex(_4, SS("task"), 1);
 		add_assoc_long_ex(_4, SS("action"), 2);
 		add_assoc_long_ex(_4, SS("params"), 3);
@@ -170,10 +170,6 @@ PHP_METHOD(Phalcon_Cli_Router, setDI) {
 
 
 
-	if (!(zephir_instance_of_ev(dependencyInjector, phalcon_diinterface_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(spl_ce_InvalidArgumentException, "Parameter 'dependencyInjector' must be an instance of 'Phalcon\\DiInterface'", "", 0);
-		return;
-	}
 	zephir_update_property_this(this_ptr, SL("_dependencyInjector"), dependencyInjector TSRMLS_CC);
 
 }
@@ -304,12 +300,12 @@ PHP_METHOD(Phalcon_Cli_Router, handle) {
 
 	zval *_16 = NULL;
 	zval *_6 = NULL, *_11 = NULL;
-	zephir_nts_static zephir_fcall_cache_entry *_5 = NULL, *_18 = NULL, *_20 = NULL;
+	zephir_nts_static zephir_fcall_cache_entry *_5 = NULL, *_19 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
 	HashTable *_3, *_8;
 	HashPosition _2, _7;
 	zend_bool _0;
-	zval *arguments = NULL, *moduleName = NULL, *taskName = NULL, *actionName = NULL, *params = NULL, *route = NULL, *parts = NULL, *pattern = NULL, *routeFound = NULL, *matches, *paths = NULL, *beforeMatch = NULL, *converters = NULL, *converter = NULL, *part = NULL, *position = NULL, *matchPosition = NULL, *strParams = NULL, *_1, **_4, **_9, *_10 = NULL, *_12, *_13, *_14, *_15, _17, *_19 = NULL;
+	zval *arguments = NULL, *moduleName = NULL, *taskName = NULL, *actionName = NULL, *params = NULL, *route = NULL, *parts = NULL, *pattern = NULL, *routeFound = NULL, *matches, *paths = NULL, *beforeMatch = NULL, *converters = NULL, *converter = NULL, *part = NULL, *position = NULL, *matchPosition = NULL, *strParams, *_1, **_4, **_9, *_10 = NULL, *_12, *_13, *_14, *_15, _17, *_18 = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &arguments);
@@ -366,7 +362,7 @@ PHP_METHOD(Phalcon_Cli_Router, handle) {
 					}
 					ZEPHIR_INIT_NVAR(routeFound);
 					ZEPHIR_INIT_NVAR(_6);
-					array_init_size(_6, 5);
+					zephir_create_array(_6, 3, 0 TSRMLS_CC);
 					zephir_array_fast_append(_6, arguments);
 					zephir_array_fast_append(_6, route);
 					zephir_array_fast_append(_6, this_ptr);
@@ -395,7 +391,7 @@ PHP_METHOD(Phalcon_Cli_Router, handle) {
 								if (zephir_array_isset_fetch(&converter, converters, part, 0 TSRMLS_CC)) {
 									ZEPHIR_INIT_NVAR(_10);
 									ZEPHIR_INIT_NVAR(_6);
-									array_init_size(_6, 2);
+									zephir_create_array(_6, 1, 0 TSRMLS_CC);
 									zephir_array_fast_append(_6, matchPosition);
 									ZEPHIR_CALL_USER_FUNC_ARRAY(_10, converter, _6);
 									zephir_check_call_status();
@@ -410,7 +406,7 @@ PHP_METHOD(Phalcon_Cli_Router, handle) {
 								if (zephir_array_isset_fetch(&converter, converters, part, 0 TSRMLS_CC)) {
 									ZEPHIR_INIT_NVAR(_10);
 									ZEPHIR_INIT_NVAR(_11);
-									array_init_size(_11, 2);
+									zephir_create_array(_11, 1, 0 TSRMLS_CC);
 									zephir_array_fast_append(_11, position);
 									ZEPHIR_CALL_USER_FUNC_ARRAY(_10, converter, _11);
 									zephir_check_call_status();
@@ -476,13 +472,13 @@ PHP_METHOD(Phalcon_Cli_Router, handle) {
 				zephir_get_strval(_16, params);
 				ZEPHIR_SINIT_VAR(_17);
 				ZVAL_LONG(&_17, 1);
-				ZEPHIR_CALL_FUNCTION(&strParams, "substr", &_18, _16, &_17);
-				zephir_check_call_status();
+				ZEPHIR_INIT_VAR(strParams);
+				zephir_substr(strParams, _16, 1 , 0, ZEPHIR_SUBSTR_NO_LENGTH);
 				if (zephir_is_true(strParams)) {
 					ZEPHIR_INIT_NVAR(params);
-					ZEPHIR_CALL_CE_STATIC(&_19, phalcon_cli_router_route_ce, "getdelimiter", &_20);
+					ZEPHIR_CALL_CE_STATIC(&_18, phalcon_cli_router_route_ce, "getdelimiter", &_19);
 					zephir_check_call_status();
-					zephir_fast_explode(params, _19, strParams, LONG_MAX TSRMLS_CC);
+					zephir_fast_explode(params, _18, strParams, LONG_MAX TSRMLS_CC);
 				} else {
 					ZEPHIR_INIT_NVAR(params);
 					array_init(params);
@@ -521,6 +517,7 @@ PHP_METHOD(Phalcon_Cli_Router, handle) {
  */
 PHP_METHOD(Phalcon_Cli_Router, add) {
 
+	zephir_nts_static zephir_fcall_cache_entry *_0 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *pattern_param = NULL, *paths = NULL, *route;
 	zval *pattern = NULL;
@@ -546,7 +543,7 @@ PHP_METHOD(Phalcon_Cli_Router, add) {
 
 	ZEPHIR_INIT_VAR(route);
 	object_init_ex(route, phalcon_cli_router_route_ce);
-	ZEPHIR_CALL_METHOD(NULL, route, "__construct", NULL, pattern, paths);
+	ZEPHIR_CALL_METHOD(NULL, route, "__construct", &_0, pattern, paths);
 	zephir_check_call_status();
 	zephir_update_property_array_append(this_ptr, SL("_routes"), route TSRMLS_CC);
 	RETURN_CCTOR(route);

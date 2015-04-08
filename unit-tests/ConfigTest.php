@@ -4,7 +4,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -188,6 +188,52 @@ class ConfigTest extends PHPUnit_Framework_TestCase
         ));
 
         $this->assertEquals($config1, $expected);
+
+    }
+
+    public function testConfigMergeArray()
+    {
+
+        $conf1 = array(
+            "keys" => array(
+                "scott",
+                "cheetah",
+            ),
+        );
+
+        $conf2 = array(
+            "keys" => array(
+                "peter",
+            ),
+        );
+
+        $config1 = new Phalcon\Config($conf1);
+        $config2 = new Phalcon\Config($conf2);
+        $config1->merge($config2);
+
+        $expected = Phalcon\Config::__set_state(array(
+            'keys' => Phalcon\Config::__set_state(array(
+                '0' => 'scott',
+                '1' => 'cheetah',
+                '2' => 'peter',
+            )),
+        ));
+
+        $this->assertEquals($config1, $expected);
+
+        $config1 = new Phalcon\Config($conf1);
+        $config2 = new Phalcon\Config($conf2);
+        $config2->merge($config1);
+
+        $expected = Phalcon\Config::__set_state(array(
+          'keys' => Phalcon\Config::__set_state(array(
+                '0' => 'peter',
+                '1' => 'scott',
+                '2' => 'cheetah',
+            )),
+        ));
+
+        $this->assertEquals($config2, $expected);
 
     }
 

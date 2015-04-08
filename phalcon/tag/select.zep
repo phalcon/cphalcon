@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -20,6 +20,7 @@
 namespace Phalcon\Tag;
 
 use Phalcon\Tag\Exception;
+use Phalcon\Tag as BaseTag;
 
 /**
  * Phalcon\Tag\Select
@@ -68,7 +69,7 @@ abstract class Select
 		}
 
 		if !fetch value, params["value"] {
-			let value = \Phalcon\Tag::getValue(id, params);
+			let value = BaseTag::getValue(id, params);
 		} else {
 			unset params["value"];
 		}
@@ -103,14 +104,14 @@ abstract class Select
 				throw new Exception("The 'using' parameter is required");
 			} else {
 				if typeof using != "array" && typeof using != "object" {
-					throw new Exception("The 'using' parameter should be an Array");
+					throw new Exception("The 'using' parameter should be an array");
 				}
 			}
-
-			unset params["using"];
 		}
 
-		let code = \Phalcon\Tag::renderAttributes("<select", params) . ">" . PHP_EOL;
+		unset params["using"];
+
+		let code = BaseTag::renderAttributes("<select", params) . ">" . PHP_EOL;
 
 		if useEmpty {
 			/**
@@ -251,5 +252,4 @@ abstract class Select
 		}
 		return code;
 	}
-
 }

@@ -2,7 +2,7 @@
 New BSD License
 ===============
 
-Copyright (c) 2011-2013, Phalcon Framework Team
+Copyright (c) 2011-2015, Phalcon Framework Team
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
@@ -74,7 +74,7 @@ SUCH DAMAGE.
 The PHP License, version 3.01
 =============================
 
-Copyright (c) 1999 - 2010 The PHP Group. All rights reserved.
+Copyright (c) 1999 - 2015 The PHP Group. All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
 modification, is permitted provided that the following conditions

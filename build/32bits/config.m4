@@ -1,23 +1,19 @@
-PHP_ARG_ENABLE(phalcon, whether to enable phalcon framework, [ --enable-phalcon   Enable phalcon framework])
+PHP_ARG_ENABLE(phalcon, whether to enable phalcon, [ --enable-phalcon   Enable Phalcon])
 
 if test "$PHP_PHALCON" = "yes"; then
-	AC_DEFINE(HAVE_PHALCON, 1, [Whether you have Phalcon Framework])
-	PHP_NEW_EXTENSION(phalcon, phalcon.c, $ext_shared)
 
-	PHP_ADD_EXTENSION_DEP([phalcon], [spl])
+	
+
+	if ! test "x" = "x"; then
+		PHP_EVAL_LIBLINE(, PHALCON_SHARED_LIBADD)
+	fi
+
+	AC_DEFINE(HAVE_PHALCON, 1, [Whether you have Phalcon])
+	PHP_NEW_EXTENSION(phalcon, phalcon.zep.c, $ext_shared)
+	PHP_SUBST(PHALCON_SHARED_LIBADD)
 
 	old_CPPFLAGS=$CPPFLAGS
 	CPPFLAGS="$CPPFLAGS $INCLUDES"
-
-	AC_CHECK_HEADERS(
-		[ext/igbinary/igbinary.h],
-		[
-			PHP_ADD_EXTENSION_DEP([phalcon], [igbinary])
-			AC_DEFINE([PHALCON_USE_PHP_IGBINARY], [1], [Whether PHP igbinary extension is present at compile time])
-		],
-		,
-		[[#include "main/php.h"]]
-	)
 
 	AC_CHECK_DECL(
 		[HAVE_BUNDLED_PCRE],
@@ -26,7 +22,7 @@ if test "$PHP_PHALCON" = "yes"; then
 				[ext/pcre/php_pcre.h],
 				[
 					PHP_ADD_EXTENSION_DEP([phalcon], [pcre])
-					AC_DEFINE([PHALCON_USE_PHP_PCRE], [1], [Whether PHP pcre extension is present at compile time])
+					AC_DEFINE([ZEPHIR_USE_PHP_PCRE], [1], [Whether PHP pcre extension is present at compile time])
 				],
 				,
 				[[#include "main/php.h"]]
@@ -43,24 +39,7 @@ if test "$PHP_PHALCON" = "yes"; then
 				[ext/json/php_json.h],
 				[
 					PHP_ADD_EXTENSION_DEP([phalcon], [json])
-					AC_DEFINE([PHALCON_USE_PHP_JSON], [1], [Whether PHP json extension is present at compile time])
-				],
-				,
-				[[#include "main/php.h"]]
-			)
-		],
-		,
-		[[#include "php_config.h"]]
-	)
-
-	AC_CHECK_DECL(
-		[HAVE_PHP_SESSION],
-		[
-			AC_CHECK_HEADERS(
-				[ext/session/php_session.h],
-				[
-					PHP_ADD_EXTENSION_DEP([phalcon], [session])
-					AC_DEFINE([PHALCON_USE_PHP_SESSION], [1], [Whether PHP session extension is present at compile time])
+					AC_DEFINE([ZEPHIR_USE_PHP_JSON], [1], [Whether PHP json extension is present at compile time])
 				],
 				,
 				[[#include "main/php.h"]]
@@ -71,4 +50,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	)
 
 	CPPFLAGS=$old_CPPFLAGS
+
+	PHP_INSTALL_HEADERS([ext/phalcon], [php_PHALCON.h])
+
 fi

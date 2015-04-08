@@ -1,3 +1,10 @@
+
+#ifndef ZEPHIR_KERNEL_CONCAT_H
+#define ZEPHIR_KERNEL_CONCAT_H
+
+#include <php.h>
+#include <Zend/zend.h>
+
 #define ZEPHIR_CONCAT_SV(result, op1, op2) \
 	 zephir_concat_sv(&result, op1, sizeof(op1)-1, op2, 0 TSRMLS_CC);
 #define ZEPHIR_SCONCAT_SV(result, op1, op2) \
@@ -174,3 +181,6 @@ void zephir_concat_vvvv(zval **result, zval *op1, zval *op2, zval *op3, zval *op
 void zephir_concat_vvvvsvv(zval **result, zval *op1, zval *op2, zval *op3, zval *op4, const char *op5, zend_uint op5_len, zval *op6, zval *op7, int self_var TSRMLS_DC);
 void zephir_concat_vvvvv(zval **result, zval *op1, zval *op2, zval *op3, zval *op4, zval *op5, int self_var TSRMLS_DC);
 void zephir_concat_function(zval *result, zval *op1, zval *op2 TSRMLS_DC);
+
+#endif /* ZEPHIR_KERNEL_CONCAT_H */
+

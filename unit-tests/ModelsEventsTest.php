@@ -4,7 +4,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -90,6 +90,8 @@ class ModelsEventsTest extends PHPUnit_Framework_TestCase
 		$robot->name = 'Test';
 		$robot->year = 2000;
 		$robot->type = 'Some Type';
+		$robot->datetime = '1970/01/01 00:00:00';
+		$robot->text = 'text';
 
 		$robot->trace = &$trace;
 

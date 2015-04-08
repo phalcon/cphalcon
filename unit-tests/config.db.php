@@ -1,6 +1,7 @@
 <?php
 
 if (!file_exists(__DIR__ . '/config.db.local.php')) {
+
 	$configMysql = array(
 		'host' => 'localhost',
 		'username' => 'root',

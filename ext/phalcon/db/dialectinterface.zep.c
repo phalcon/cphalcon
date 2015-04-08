@@ -16,7 +16,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -85,8 +85,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Db_DialectInterface, getColumnList);
 
 /**
  * Gets the column name in MySQL
- *
- * @param Phalcon\Db\ColumnInterface column
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_DialectInterface, getColumnDefinition);
 
@@ -217,7 +215,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Db_DialectInterface, tableExists);
 ZEPHIR_DOC_METHOD(Phalcon_Db_DialectInterface, describeColumns);
 
 /**
- * List all tables on database
+ * List all tables in database
  *
  * @param       string schemaName
  * @return      array

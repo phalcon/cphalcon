@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -176,9 +176,9 @@ class Volt extends Engine implements EngineInterface
 
 		if typeof haystack == "string" {
 			if function_exists("mb_strpos") {
-				return mb_strpos(haystack, needle);
+				return mb_strpos(haystack, needle) !== false;
 			}
-			return strpos(haystack, needle);
+			return strpos(haystack, needle) !== false;
 		}
 
 		throw new Exception("Invalid haystack");

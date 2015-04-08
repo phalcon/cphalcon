@@ -16,7 +16,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -44,8 +44,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_AdapterInterface) {
 
 /**
  * Constructor for Phalcon\Db\Adapter
- *
- * @param array descriptor
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, __construct);
 
@@ -556,15 +554,11 @@ ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, setNestedTransactionsWithSavepoin
 
 /**
  * Returns if nested transactions should use savepoints
- *
- * @return boolean
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, isNestedTransactionsWithSavepoints);
 
 /**
  * Returns the savepoint name to use for nested transactions
- *
- * @return string
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, getNestedTransactionSavepointName);
 

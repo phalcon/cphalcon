@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -27,6 +27,7 @@ use Phalcon\Di\InjectionAwareInterface;
 use Phalcon\Mvc\Model\ManagerInterface;
 use Phalcon\Mvc\Model\MetaDataInterface;
 use Phalcon\Db\AdapterInterface;
+use Phalcon\Mvc\Model\Criteria;
 use Phalcon\Mvc\Model\TransactionInterface;
 use Phalcon\Mvc\Model\Resultset;
 use Phalcon\Mvc\Model\Query\Builder;
@@ -402,7 +403,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 * @param int dirtyState
 	 * @return Phalcon\Mvc\Model
 	 */
-	public function setDirtyState(int dirtyState) -> <\Phalcon\Mvc\Model>
+	public function setDirtyState(int dirtyState) -> <ModelInterface>
 	{
 		let this->_dirtyState = dirtyState;
 		return this;
@@ -765,15 +766,15 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 		let builder = new Builder(params);
 		builder->from(get_called_class());
 
-		let query = builder->getQuery(),
-			bindParams = null,
-			bindTypes = null;
+		let query = builder->getQuery();
 
 		/**
 		 * Check for bind parameters
 		 */
 		if fetch bindParams, params["bind"] {
 			fetch bindTypes, params["bindTypes"];
+		} else {
+			let bindTypes = null;
 		}
 
 		/**
@@ -879,7 +880,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 * @param Phalcon\DiInterface dependencyInjector
 	 * @return Phalcon\Mvc\Model\Criteria
 	 */
-	public static function query(<DiInterface> dependencyInjector = null) -> <\Phalcon\Mvc\Model\Criteria>
+	public static function query(<DiInterface> dependencyInjector = null) -> <Criteria>
 	{
 		var criteria;
 
@@ -890,7 +891,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 			let dependencyInjector = \Phalcon\Di::getDefault();
 		}
 
-		let criteria = new \Phalcon\Mvc\Model\Criteria();
+		let criteria = new Criteria();
 		criteria->setDI(dependencyInjector);
 		criteria->setModelName(get_called_class());
 
@@ -2235,7 +2236,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 * @param string|array table
 	 * @return boolean
 	 */
-	protected function _doLowUpdate(<\Phalcon\Mvc\Model\MetaDataInterface> metaData, <AdapterInterface> connection, var table) -> boolean
+	protected function _doLowUpdate(<MetaDataInterface> metaData, <AdapterInterface> connection, var table) -> boolean
 	{
 		var bindSkip, fields, values, bindTypes, manager, bindDataTypes, field,
 			automaticAttributes, snapshotValue, uniqueKey, uniqueParams, uniqueTypes,
@@ -2500,7 +2501,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 							/**
 							 * Set the related model
 							 */
-							if typeof record == "object" {
+							if typeof message == "object" {
 								message->setModel(record);
 							}
 
@@ -2686,7 +2687,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 								/**
 								 * Set the related model
 								 */
-								if typeof message != "object" {
+								if typeof message == "object" {
 									message->setModel(record);
 								}
 
@@ -3088,7 +3089,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 		 * Join the conditions in the array using an AND operator
 		 * Do the deletion
 		 */
-		let success = writeConnection->delete(table, join(" AND ", $conditions), values, bindTypes);
+		let success = writeConnection->delete(table, join(" AND ", conditions), values, bindTypes);
 
 		/**
 		 * Check if there is virtual foreign keys with cascade action
@@ -4372,5 +4373,14 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 		if fetch phqlLiterals, options["phqlLiterals"] {
 			globals_set("orm.enable_literals", phqlLiterals);
 		}
+	}
+
+	/**
+	 * Reset a model instance data
+	 */
+	public function reset()
+	{
+		let this->_uniqueParams = null;
+		let this->_snapshot = null;
 	}
 }

@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -117,7 +117,11 @@ class Config implements \ArrayAccess, \Countable
 	 */
 	public function offsetSet(string! index, var value)
 	{
-	    let this->{index} = value;
+		if typeof value === "array" {
+			let this->{index} = new self(value);
+		} else {
+	    		let this->{index} = value;
+	    }
 	}
 
 	/**
@@ -209,18 +213,24 @@ class Config implements \ArrayAccess, \Countable
 	 *
 	 * @return Config merged config
 	 */
-	private function _merge(<Config> config, var instance = null) -> <Config>
+	protected final function _merge(<Config> config, var instance = null) -> <Config>
 	{
-		var key, value;
+		var key, value, number;
 
 		if typeof instance !== "object" {
 			let instance = this;
 		}
 
+		let number = instance->count();
+
 		for key, value in get_object_vars(config) {
 			if isset(instance->{key}) && typeof value === "object" && typeof instance->{key} === "object" {
 				this->_merge(value, instance->{key});
 			} else {
+				if typeof key == "integer" {
+					let key = strval(number);
+					let number++;
+				}
 				let instance->{key} = value;
 			}
 		}

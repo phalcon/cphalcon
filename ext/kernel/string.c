@@ -2,7 +2,7 @@
   +------------------------------------------------------------------------+
   | Zephir Language                                                        |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2014 Zephir Team (http://www.zephir-lang.com)       |
+  | Copyright (c) 2011-2015 Zephir Team (http://www.zephir-lang.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -34,6 +34,7 @@
 #include <ext/standard/php_http.h>
 #include "ext/standard/base64.h"
 #include "ext/standard/md5.h"
+#include "ext/standard/crc32.h"
 #include "ext/standard/url.h"
 #include "ext/standard/html.h"
 #include "ext/date/php_date.h"
@@ -140,7 +141,7 @@ void zephir_strtolower_inplace(zval *s) {
 /**
  * Fast call to php join  function
  */
-void zephir_fast_join(zval *result, zval *glue, zval *pieces TSRMLS_DC){
+void zephir_fast_join(zval *result, zval *glue, zval *pieces TSRMLS_DC) {
 
 	if (Z_TYPE_P(glue) != IS_STRING || Z_TYPE_P(pieces) != IS_ARRAY) {
 		ZVAL_NULL(result);
@@ -211,7 +212,7 @@ void zephir_append_printable_zval(smart_str *implstr, zval **tmp TSRMLS_DC) {
  * This function is an adaption of the php_implode function
  *
  */
-void zephir_fast_join_str(zval *return_value, char *glue, unsigned int glue_length, zval *pieces TSRMLS_DC){
+void zephir_fast_join_str(zval *return_value, char *glue, unsigned int glue_length, zval *pieces TSRMLS_DC) {
 
 	zval         **tmp;
 	HashTable      *arr;
@@ -253,7 +254,7 @@ void zephir_fast_join_str(zval *return_value, char *glue, unsigned int glue_leng
 /**
  * Convert dash/underscored texts returning camelized
  */
-void zephir_camelize(zval *return_value, const zval *str){
+void zephir_camelize(zval *return_value, const zval *str) {
 
 	int i, len;
 	smart_str camelize_str = {0};
@@ -301,7 +302,7 @@ void zephir_camelize(zval *return_value, const zval *str){
 /**
  * Convert dash/underscored texts returning camelized
  */
-void zephir_uncamelize(zval *return_value, const zval *str){
+void zephir_uncamelize(zval *return_value, const zval *str) {
 
 	unsigned int i;
 	smart_str uncamelize_str = {0};
@@ -340,7 +341,7 @@ void zephir_uncamelize(zval *return_value, const zval *str){
 /**
  * Fast call to explode php function
  */
-void zephir_fast_explode(zval *return_value, zval *delimiter, zval *str, long limit TSRMLS_DC){
+void zephir_fast_explode(zval *return_value, zval *delimiter, zval *str, long limit TSRMLS_DC) {
 
 	if (unlikely(Z_TYPE_P(str) != IS_STRING || Z_TYPE_P(delimiter) != IS_STRING)) {
 		zend_error(E_WARNING, "Invalid arguments supplied for explode()");
@@ -354,7 +355,7 @@ void zephir_fast_explode(zval *return_value, zval *delimiter, zval *str, long li
 /**
  * Fast call to explode php function
  */
-void zephir_fast_explode_str(zval *return_value, const char *delimiter, int delimiter_length, zval *str, long limit TSRMLS_DC){
+void zephir_fast_explode_str(zval *return_value, const char *delimiter, int delimiter_length, zval *str, long limit TSRMLS_DC) {
 
 	zval delimiter_zval;
 
@@ -466,7 +467,6 @@ void zephir_fast_strpos_str(zval *return_value, const zval *haystack, char *need
 	} else {
 		ZVAL_BOOL(return_value, 0);
 	}
-
 }
 
 /**
@@ -499,16 +499,15 @@ void zephir_fast_stripos_str(zval *return_value, zval *haystack, char *needle, u
 	} else {
 		ZVAL_BOOL(return_value, 0);
 	}
-
 }
-
 
 /**
  * Immediate function resolution for str_replace function
  */
-void zephir_fast_str_replace(zval *return_value, zval *search, zval *replace, zval *subject TSRMLS_DC) {
+void zephir_fast_str_replace(zval **return_value_ptr, zval *search, zval *replace, zval *subject TSRMLS_DC) {
 
 	zval replace_copy, search_copy;
+	zval *return_value = *return_value_ptr;
 	int copy_replace = 0, copy_search = 0;
 
 	if (Z_TYPE_P(subject) != IS_STRING) {
@@ -523,7 +522,7 @@ void zephir_fast_str_replace(zval *return_value, zval *search, zval *replace, zv
 	if (Z_TYPE_P(search) == IS_ARRAY) {
 		do {
 			zval *params[] = { search, replace, subject };
-			zephir_call_func_aparams(&return_value, "str_replace", sizeof("str_replace")-1, NULL, 3, params TSRMLS_CC);
+			zephir_call_func_aparams(return_value_ptr, "str_replace", sizeof("str_replace")-1, NULL, 3, params TSRMLS_CC);
 			return;
 		} while(0);
 	}
@@ -574,7 +573,6 @@ void zephir_fast_str_replace(zval *return_value, zval *search, zval *replace, zv
 	if (copy_search) {
 		zval_dtor(search);
 	}
-
 }
 
 /**
@@ -591,11 +589,12 @@ void zephir_fast_trim(zval *return_value, zval *str, zval *charlist, int where T
 			str = &copy;
 		}
 	}
-		if (charlist && Z_TYPE_P(charlist) == IS_STRING) {
-			php_trim(Z_STRVAL_P(str), Z_STRLEN_P(str), Z_STRVAL_P(charlist), Z_STRLEN_P(charlist), return_value, where TSRMLS_CC);
-		} else {
-			php_trim(Z_STRVAL_P(str), Z_STRLEN_P(str), NULL, 0, return_value, where TSRMLS_CC);
-		}
+
+	if (charlist && Z_TYPE_P(charlist) == IS_STRING) {
+		php_trim(Z_STRVAL_P(str), Z_STRLEN_P(str), Z_STRVAL_P(charlist), Z_STRLEN_P(charlist), return_value, where TSRMLS_CC);
+	} else {
+		php_trim(Z_STRVAL_P(str), Z_STRLEN_P(str), NULL, 0, return_value, where TSRMLS_CC);
+	}
 
 	if (use_copy) {
 		zval_dtor(&copy);
@@ -660,10 +659,10 @@ void zephir_fast_strtoupper(zval *return_value, zval *str) {
 /**
  * Checks if a zval string starts with a zval string
  */
-int zephir_start_with(const zval *str, const zval *compared, zval *case_sensitive){
+int zephir_start_with(const zval *str, const zval *compared, zval *case_sensitive) {
 
-	int sensitive = 0;
 	int i;
+	int sensitive = 0;
 	char *op1_cursor, *op2_cursor;
 
 	if (Z_TYPE_P(str) != IS_STRING || Z_TYPE_P(compared) != IS_STRING) {
@@ -685,6 +684,7 @@ int zephir_start_with(const zval *str, const zval *compared, zval *case_sensitiv
 	op1_cursor = Z_STRVAL_P(str);
 	op2_cursor = Z_STRVAL_P(compared);
 	for (i = 0; i < Z_STRLEN_P(compared); i++) {
+
 		if (tolower(*op1_cursor) != tolower(*op2_cursor)) {
 			return 0;
 		}
@@ -699,7 +699,7 @@ int zephir_start_with(const zval *str, const zval *compared, zval *case_sensitiv
 /**
  * Checks if a zval string starts with a string
  */
-int zephir_start_with_str(const zval *str, char *compared, unsigned int compared_length){
+int zephir_start_with_str(const zval *str, char *compared, unsigned int compared_length) {
 
 	if (Z_TYPE_P(str) != IS_STRING || compared_length > Z_STRLEN_P(str)) {
 		return 0;
@@ -711,7 +711,7 @@ int zephir_start_with_str(const zval *str, char *compared, unsigned int compared
 /**
  * Checks if a string starts with other string
  */
-int zephir_start_with_str_str(char *str, unsigned int str_length, char *compared, unsigned int compared_length){
+int zephir_start_with_str_str(char *str, unsigned int str_length, char *compared, unsigned int compared_length) {
 
 	if (compared_length > str_length) {
 		return 0;
@@ -723,7 +723,7 @@ int zephir_start_with_str_str(char *str, unsigned int str_length, char *compared
 /**
  * Checks if a zval string ends with a zval string
  */
-int zephir_end_with(const zval *str, const zval *compared, zval *case_sensitive){
+int zephir_end_with(const zval *str, const zval *compared, zval *case_sensitive) {
 
 	int sensitive = 0;
 	int i;
@@ -749,6 +749,7 @@ int zephir_end_with(const zval *str, const zval *compared, zval *case_sensitive)
 	op2_cursor = Z_STRVAL_P(compared);
 
 	for (i = 0; i < Z_STRLEN_P(compared); ++i) {
+
 		if (tolower(*op1_cursor) != tolower(*op2_cursor)) {
 			return 0;
 		}
@@ -763,7 +764,7 @@ int zephir_end_with(const zval *str, const zval *compared, zval *case_sensitive)
 /**
  * Checks if a zval string ends with a *char string
  */
-int zephir_end_with_str(const zval *str, char *compared, unsigned int compared_length){
+int zephir_end_with_str(const zval *str, char *compared, unsigned int compared_length) {
 
 	if (Z_TYPE_P(str) != IS_STRING) {
 		return 0;
@@ -804,56 +805,67 @@ void zephir_random_string(zval *return_value, const zval *type, const zval *leng
 	for (i = 0; i < Z_LVAL_P(length); i++) {
 
 		switch (Z_LVAL_P(type)) {
+
 			case PH_RANDOM_ALNUM:
 				rand_type = (long) (php_mt_rand(TSRMLS_C) >> 1);
 				RAND_RANGE(rand_type, 0, 3, PHP_MT_RAND_MAX);
 				break;
+
 			case PH_RANDOM_ALPHA:
 				rand_type = (long) (php_mt_rand(TSRMLS_C) >> 1);
 				RAND_RANGE(rand_type, 1, 2, PHP_MT_RAND_MAX);
 				break;
+
 			case PH_RANDOM_HEXDEC:
 				rand_type = (long) (php_mt_rand(TSRMLS_C) >> 1);
 				RAND_RANGE(rand_type, 0, 1, PHP_MT_RAND_MAX);
 				break;
+
 			case PH_RANDOM_NUMERIC:
 				rand_type = 0;
 				break;
+
 			case PH_RANDOM_NOZERO:
 				rand_type = 5;
 				break;
+
 			default:
 				continue;
 		}
 
 		switch (rand_type) {
+
 			case 0:
 				ch = (long) (php_mt_rand(TSRMLS_C) >> 1);
 				RAND_RANGE(ch, '0', '9', PHP_MT_RAND_MAX);
 				break;
+
 			case 1:
 				ch = (long) (php_mt_rand(TSRMLS_C) >> 1);
 				RAND_RANGE(ch, 'a', 'f', PHP_MT_RAND_MAX);
 				break;
+
 			case 2:
 				ch = (long) (php_mt_rand(TSRMLS_C) >> 1);
 				RAND_RANGE(ch, 'a', 'z', PHP_MT_RAND_MAX);
 				break;
+
 			case 3:
 				ch = (long) (php_mt_rand(TSRMLS_C) >> 1);
 				RAND_RANGE(ch, 'A', 'Z', PHP_MT_RAND_MAX);
 				break;
+
 			case 5:
 				ch = (long) (php_mt_rand(TSRMLS_C) >> 1);
 				RAND_RANGE(ch, '1', '9', PHP_MT_RAND_MAX);
 				break;
+
 			default:
 				continue;
 		}
 
 		smart_str_appendc(&random_str, (unsigned int) ch);
 	}
-
 
 	smart_str_0(&random_str);
 
@@ -863,7 +875,6 @@ void zephir_random_string(zval *return_value, const zval *type, const zval *leng
 		smart_str_free(&random_str);
 		RETURN_EMPTY_STRING();
 	}
-
 }
 
 /**
@@ -897,7 +908,6 @@ void zephir_remove_extra_slashes(zval *return_value, const zval *str) {
 	removed_str[i] = '\0';
 
 	RETURN_STRINGL(removed_str, i, 0);
-
 }
 
 /**
@@ -917,9 +927,11 @@ int zephir_spprintf(char **message, int max_len, char *format, ...)
 /**
  * Makes a substr like the PHP function. This function SUPPORT negative from and length
  */
-void zephir_substr(zval *return_value, zval *str, long f, long l) {
+void zephir_substr(zval *return_value, zval *str, long f, long l, int flags) {
 
-	long str_len;
+	zval copy;
+	int use_copy = 0;
+	int str_len;
 
 	if (Z_TYPE_P(str) != IS_STRING) {
 
@@ -927,31 +939,45 @@ void zephir_substr(zval *return_value, zval *str, long f, long l) {
 			RETURN_FALSE;
 		}
 
-		if (Z_TYPE_P(str) == IS_LONG) {
-			RETURN_EMPTY_STRING();
+		if (Z_TYPE_P(str) != IS_STRING) {
+			zend_make_printable_zval(str, &copy, &use_copy);
+			if (use_copy) {
+				str = &copy;
+			}
 		}
-
-		zend_error(E_WARNING, "Invalid arguments supplied for zephir_substr()");
-		RETURN_FALSE;
 	}
 
 	str_len = Z_STRLEN_P(str);
+	if ((flags & ZEPHIR_SUBSTR_NO_LENGTH) == ZEPHIR_SUBSTR_NO_LENGTH) {
+		l = str_len;
+	}
 
 	if ((l < 0 && -l > str_len)) {
+		if (use_copy) {
+			zval_dtor(str);
+		}
 		RETURN_FALSE;
-	} else if (l > str_len) {
-		l = str_len;
-	} else if (l == 0) {
-		l = str_len;
+	} else {
+		if (l > str_len) {
+			l = str_len;
+		}
 	}
 
 	if (f > str_len) {
+		if (use_copy) {
+			zval_dtor(str);
+		}
 		RETURN_FALSE;
-	} else if (f < 0 && -f > str_len) {
-		f = 0;
+	} else {
+		if (f < 0 && -f > str_len) {
+			f = 0;
+		}
 	}
 
 	if (l < 0 && (l + str_len - f) < 0) {
+		if (use_copy) {
+			zval_dtor(str);
+		}
 		RETURN_FALSE;
 	}
 
@@ -976,6 +1002,9 @@ void zephir_substr(zval *return_value, zval *str, long f, long l) {
 	}
 
 	if (f >= str_len) {
+		if (use_copy) {
+			zval_dtor(str);
+		}
 		RETURN_FALSE;
 	}
 
@@ -983,11 +1012,20 @@ void zephir_substr(zval *return_value, zval *str, long f, long l) {
 		l = str_len - f;
 	}
 
-	if (l <= 0){
+	if (!l) {
+		if (use_copy) {
+			zval_dtor(str);
+		}
 		RETURN_EMPTY_STRING();
 	}
 
-	RETURN_STRINGL(Z_STRVAL_P(str) + f, l, 1);
+	ZVAL_STRINGL(return_value, Z_STRVAL_P(str) + f, l, 1);
+
+	if (use_copy) {
+		zval_dtor(str);
+	}
+
+	return;
 }
 
 void zephir_append_printable_array(smart_str *implstr, zval *value TSRMLS_DC) {
@@ -1169,13 +1207,44 @@ void zephir_md5(zval *return_value, zval *str) {
 	ZVAL_STRINGL(return_value, hexdigest, 32, 1);
 }
 
+void zephir_crc32(zval *return_value, zval *str TSRMLS_DC) {
+
+	zval copy;
+	int use_copy = 0;
+	size_t nr;
+	char *p;
+	php_uint32 crc;
+	php_uint32 crcinit = 0;
+
+	if (Z_TYPE_P(str) != IS_STRING) {
+		zend_make_printable_zval(str, &copy, &use_copy);
+		if (use_copy) {
+			str = &copy;
+		}
+	}
+
+	p = Z_STRVAL_P(str);
+	nr = Z_STRLEN_P(str);
+
+	crc = crcinit^0xFFFFFFFF;
+	for (; nr--; ++p) {
+		crc = ((crc >> 8) & 0x00FFFFFF) ^ crc32tab[(crc ^ (*p)) & 0xFF];
+	}
+
+	if (use_copy) {
+		zval_dtor(str);
+	}
+
+	RETVAL_LONG(crc ^ 0xFFFFFFFF);
+}
+
 #if ZEPHIR_USE_PHP_PCRE
 
 /**
  * Execute preg-match without function lookup in the PHP userland
  */
-void zephir_preg_match(zval *return_value, zval **return_value_ptr, zval *regex, zval *subject, zval *matches, int global, long flags, long offset TSRMLS_DC)
-{
+void zephir_preg_match(zval *return_value, zval **return_value_ptr, zval *regex, zval *subject, zval *matches, int global, long flags, long offset TSRMLS_DC) {
+
 	zval copy;
 	int use_copy = 0;
 	pcre_cache_entry *pce;
@@ -1202,11 +1271,11 @@ void zephir_preg_match(zval *return_value, zval **return_value_ptr, zval *regex,
 		RETURN_FALSE;
 	}
 
-		if (flags != 0 || offset != 0) {
-			php_pcre_match_impl(pce, Z_STRVAL_P(subject), Z_STRLEN_P(subject), return_value, matches, global, 1, flags, offset TSRMLS_CC);
-		} else {
-			php_pcre_match_impl(pce, Z_STRVAL_P(subject), Z_STRLEN_P(subject), return_value, matches, global, 0, 0, 0 TSRMLS_CC);
-		}
+	if (flags != 0 || offset != 0) {
+		php_pcre_match_impl(pce, Z_STRVAL_P(subject), Z_STRLEN_P(subject), return_value, matches, global, 1, flags, offset TSRMLS_CC);
+	} else {
+		php_pcre_match_impl(pce, Z_STRVAL_P(subject), Z_STRLEN_P(subject), return_value, matches, global, 0, 0, 0 TSRMLS_CC);
+	}
 
 	if (use_copy) {
 		zval_dtor(&copy);
@@ -1244,8 +1313,8 @@ void zephir_preg_match(zval *return_value, zval **return_value_ptr, zval *regex,
 
 #ifdef ZEPHIR_USE_PHP_JSON
 
-int zephir_json_encode(zval *return_value, zval **return_value_ptr, zval *v, int opts TSRMLS_DC)
-{
+int zephir_json_encode(zval *return_value, zval **return_value_ptr, zval *v, int opts TSRMLS_DC) {
+
 	smart_str buf = { NULL, 0, 0 };
 
 	php_json_encode(&buf, v, opts TSRMLS_CC);
@@ -1255,8 +1324,8 @@ int zephir_json_encode(zval *return_value, zval **return_value_ptr, zval *v, int
 	return SUCCESS;
 }
 
-int zephir_json_decode(zval *return_value, zval **return_value_ptr, zval *v, zend_bool assoc TSRMLS_DC)
-{
+int zephir_json_decode(zval *return_value, zval **return_value_ptr, zval *v, zend_bool assoc TSRMLS_DC) {
+
 	zval copy;
 	int use_copy = 0;
 
@@ -1278,8 +1347,8 @@ int zephir_json_decode(zval *return_value, zval **return_value_ptr, zval *v, zen
 
 #else
 
-int zephir_json_encode(zval *return_value, zval **return_value_ptr, zval *v, int opts TSRMLS_DC)
-{
+int zephir_json_encode(zval *return_value, zval **return_value_ptr, zval *v, int opts TSRMLS_DC) {
+
 	zval zopts;
 	zval *params[2];
 
@@ -1292,8 +1361,8 @@ int zephir_json_encode(zval *return_value, zval **return_value_ptr, zval *v, int
 	return zephir_return_call_function(return_value, NULL, ZEND_STRL("json_encode"), NULL, 2, params TSRMLS_CC);
 }
 
-int zephir_json_decode(zval *return_value, zval **return_value_ptr, zval *v, zend_bool assoc TSRMLS_DC)
-{
+int zephir_json_decode(zval *return_value, zval **return_value_ptr, zval *v, zend_bool assoc TSRMLS_DC) {
+
 	zval zassoc;
 	zval *params[2];
 
@@ -1308,8 +1377,8 @@ int zephir_json_decode(zval *return_value, zval **return_value_ptr, zval *v, zen
 
 #endif /* ZEPHIR_USE_PHP_JSON */
 
-void zephir_lcfirst(zval *return_value, zval *s)
-{
+void zephir_lcfirst(zval *return_value, zval *s) {
+
 	zval copy;
 	char *c;
 	int use_copy = 0;
@@ -1335,8 +1404,8 @@ void zephir_lcfirst(zval *return_value, zval *s)
 	}
 }
 
-void zephir_ucfirst(zval *return_value, zval *s)
-{
+void zephir_ucfirst(zval *return_value, zval *s) {
+
 	zval copy;
 	char *c;
 	int use_copy = 0;
@@ -1362,8 +1431,8 @@ void zephir_ucfirst(zval *return_value, zval *s)
 	}
 }
 
-int zephir_http_build_query(zval *return_value, zval *params, char *sep TSRMLS_DC)
-{
+int zephir_http_build_query(zval *return_value, zval *params, char *sep TSRMLS_DC) {
+
 	if (Z_TYPE_P(params) == IS_ARRAY || Z_TYPE_P(params) == IS_OBJECT) {
 		smart_str formstr = { NULL, 0, 0 };
 		int res;
@@ -1396,8 +1465,7 @@ int zephir_http_build_query(zval *return_value, zval *params, char *sep TSRMLS_D
 	return FAILURE;
 }
 
-void zephir_htmlspecialchars(zval *return_value, zval *string, zval *quoting, zval *charset TSRMLS_DC)
-{
+void zephir_htmlspecialchars(zval *return_value, zval *string, zval *quoting, zval *charset TSRMLS_DC) {
 	zval copy;
 	char *escaped, *cs;
 	int qs, use_copy = 0;
@@ -1463,8 +1531,7 @@ void zephir_strval(zval *return_value, zval *v)
 	if (use_copy) {
 		zval *tmp = &copy;
 		ZVAL_ZVAL(return_value, tmp, 0, 0);
-	}
-	else {
+	} else {
 		ZVAL_ZVAL(return_value, v, 1, 0);
 	}
 }

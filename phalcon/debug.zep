@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -669,7 +669,7 @@ class Debug
 		/**
 		 * Escape the exception's message avoiding possible XSS injections?
 		 */
-		let escapedMessage = $this->_escapeString(exception->getMessage());
+		let escapedMessage = this->_escapeString(exception->getMessage());
 
 		/**
 		 * CSS static sources to style the error presentation
@@ -796,5 +796,4 @@ class Debug
 
 		return true;
 	}
-
 }

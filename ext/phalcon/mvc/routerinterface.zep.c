@@ -16,7 +16,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -44,36 +44,26 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_RouterInterface) {
 
 /**
  * Sets the name of the default module
- *
- * @param string moduleName
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_RouterInterface, setDefaultModule);
 
 /**
  * Sets the default controller name
- *
- * @param string controllerName
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_RouterInterface, setDefaultController);
 
 /**
  * Sets the default action name
- *
- * @param string actionName
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_RouterInterface, setDefaultAction);
 
 /**
  * Sets an array of default paths
- *
- * @param array defaults
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_RouterInterface, setDefaults);
 
 /**
  * Handles routing information received from the rewrite engine
- *
- * @param string uri
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_RouterInterface, handle);
 

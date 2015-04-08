@@ -14,8 +14,8 @@
 #include "kernel/main.h"
 #include "kernel/object.h"
 #include "kernel/memory.h"
-#include "kernel/exception.h"
 #include "ext/spl/spl_exceptions.h"
+#include "kernel/exception.h"
 #include "kernel/filter.h"
 #include "kernel/fcall.h"
 #include "kernel/operators.h"
@@ -27,7 +27,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -106,10 +106,6 @@ PHP_METHOD(Phalcon_Security, setDI) {
 
 
 
-	if (!(zephir_instance_of_ev(dependencyInjector, phalcon_diinterface_ce TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(spl_ce_InvalidArgumentException, "Parameter 'dependencyInjector' must be an instance of 'Phalcon\\DiInterface'", "", 0);
-		return;
-	}
 	zephir_update_property_this(this_ptr, SL("_dependencyInjector"), dependencyInjector TSRMLS_CC);
 
 }
@@ -556,8 +552,9 @@ PHP_METHOD(Phalcon_Security, getSessionToken) {
  */
 PHP_METHOD(Phalcon_Security, computeHmac) {
 
+	zephir_nts_static zephir_fcall_cache_entry *_2 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *data, *key, *algo, *raw = NULL, *ops = NULL, *_0, *_1;
+	zval *data, *key, *algo, *raw = NULL, *hmac = NULL, *_0, *_1;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 3, 1, &data, &key, &algo, &raw);
@@ -567,20 +564,20 @@ PHP_METHOD(Phalcon_Security, computeHmac) {
 	}
 
 
-	ZEPHIR_CALL_FUNCTION(&ops, "hash_hmac", NULL, algo, data, key, raw);
+	ZEPHIR_CALL_FUNCTION(&hmac, "hash_hmac", NULL, algo, data, key, raw);
 	zephir_check_call_status();
-	if (!(zephir_is_true(ops))) {
+	if (!(zephir_is_true(hmac))) {
 		ZEPHIR_INIT_VAR(_0);
 		object_init_ex(_0, phalcon_security_exception_ce);
 		ZEPHIR_INIT_VAR(_1);
 		ZEPHIR_CONCAT_SV(_1, "Unknown hashing algorithm: %s", algo);
-		ZEPHIR_CALL_METHOD(NULL, _0, "__construct", NULL, _1);
+		ZEPHIR_CALL_METHOD(NULL, _0, "__construct", &_2, _1);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(_0, "phalcon/security.zep", 332 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	RETURN_CCTOR(ops);
+	RETURN_CCTOR(hmac);
 
 }
 

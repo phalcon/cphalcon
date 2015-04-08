@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Zephir Language                                                        |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2014 Zephir Team (http://www.zephir-lang.com)       |
+  | Copyright (c) 2011-2015 Zephir Team (http://www.zephir-lang.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -21,6 +21,9 @@
 #define ZEPHIR_KERNEL_ASSERT_H
 
 #ifndef ZEPHIR_RELEASE
+
+#include <php.h>
+#include <Zend/zend.h>
 
 extern int zephir_assert_class(zval *object, char *class_name TSRMLS_DC);
 

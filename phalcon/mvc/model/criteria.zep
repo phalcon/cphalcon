@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -29,14 +29,16 @@ use Phalcon\Db\Column;
 /**
  * Phalcon\Mvc\Model\Criteria
  *
- * This class allows to build the array parameter required by Phalcon\Mvc\Model::find
- * and Phalcon\Mvc\Model::findFirst using an object-oriented interface
+ * This class is used to build the array parameter required by
+ * Phalcon\Mvc\Model::find() and Phalcon\Mvc\Model::findFirst()
+ * using an object-oriented interface.
  *
  *<code>
  *$robots = Robots::query()
  *    ->where("type = :type:")
  *    ->andWhere("year < 2000")
  *    ->bind(array("type" => "mechanical"))
+ *    ->limit(5, 10)
  *    ->order("name")
  *    ->execute();
  *</code>
@@ -117,7 +119,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 	 * Sets the bind types in the criteria
 	 * This method replaces all previously set bound parameters
 	 *
-	 * @param string bindTypes
+	 * @param array bindTypes
 	 * @return Phalcon\Mvc\Model\Criteria
 	 */
 	public function bindTypes(array! bindTypes) -> <Criteria>
@@ -185,13 +187,11 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 	 *	$criteria->innerJoin('Robots');
 	 *	$criteria->innerJoin('Robots', 'r.id = RobotsParts.robots_id');
 	 *	$criteria->innerJoin('Robots', 'r.id = RobotsParts.robots_id', 'r');
-	 *	$criteria->innerJoin('Robots', 'r.id = RobotsParts.robots_id', 'r', 'LEFT');
 	 *</code>
 	 *
 	 * @param string model
 	 * @param string conditions
 	 * @param string alias
-	 * @param string type
 	 * @return Phalcon\Mvc\Model\Criteria
 	 */
 	public function innerJoin(string! model, conditions = null, alias = null) -> <Criteria>
@@ -322,6 +322,8 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 	/**
 	 * Appends a condition to the current conditions using an AND operator (deprecated)
 	 *
+	 * @deprecated 1.0.0
+	 * @see \Phalcon\Mvc\Model\Criteria::andWhere()
 	 * @param string conditions
 	 * @param array bindParams
 	 * @param array bindTypes
@@ -428,7 +430,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 	 * Appends a BETWEEN condition to the current conditions
 	 *
 	 *<code>
-	 *	criteria->betweenWhere("price", 100.25, 200.50);
+	 *	$criteria->betweenWhere('price', 100.25, 200.50);
 	 *</code>
 	 *
 	 * @param string expr
@@ -470,7 +472,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 	 * Appends a NOT BETWEEN condition to the current conditions
 	 *
 	 *<code>
-	 *	criteria->notBetweenWhere("price", 100.25, 200.50);
+	 *	$criteria->notBetweenWhere('price', 100.25, 200.50);
 	 *</code>
 	 *
 	 * @param string expr
@@ -517,7 +519,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 	 * Appends an IN condition to the current conditions
 	 *
 	 *<code>
-	 *	criteria->inWhere("id", [1, 2, 3]);
+	 *	$criteria->inWhere('id', [1, 2, 3]);
 	 *</code>
 	 *
 	 * @param string expr
@@ -562,7 +564,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 	 * Appends a NOT IN condition to the current conditions
 	 *
 	 *<code>
-	 *	criteria->notInWhere("id", [1, 2, 3]);
+	 *	$criteria->notInWhere('id', [1, 2, 3]);
 	 *</code>
 	 *
 	 * @param string expr
@@ -613,6 +615,8 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 	/**
 	 * Adds the order-by parameter to the criteria (deprecated)
 	 *
+	 * @deprecated 1.2.1
+	 * @see \Phalcon\Mvc\Model\Criteria::orderBy()
 	 * @param string orderColumns
 	 * @return Phalcon\Mvc\Model\Criteria
 	 */
@@ -682,7 +686,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 	 * This method replaces all previously set cache options
 	 *
 	 * @param array options
-	 * @return Phalcon\Mvc\Model\CriteriaInterface
+	 * @return Phalcon\Mvc\Model\Criteria
 	 */
 	public function cache(array! cache) -> <Criteria>
 	{
@@ -693,7 +697,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 	/**
 	 * Returns the conditions parameter in the criteria
 	 *
-	 * @return string
+	 * @return string|null
 	 */
 	public function getWhere() -> string|null
 	{
@@ -705,9 +709,9 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 	}
 
 	/**
-	 * Return the columns to be queried
+	 * Returns the columns to be queried
 	 *
-	 * @return string|array
+	 * @return string|array|null
 	 */
 	public function getColumns() -> string|null
 	{
@@ -733,14 +737,17 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 	}
 
 	/**
-	 * Returns the limit parameter in the criteria
+	 * Returns the limit parameter in the criteria, which will be
+	 * an integer if limit was set without an offset,
+	 * an array with 'number' and 'offset' keys if an offset was set with the limit,
+	 * or null if limit has not been set.
 	 *
-	 * @return string|null
+	 * @return int|array|null
 	 */
 	public function getLimit() -> string|null
 	{
 		var limit;
-		if fetch limit, this->_params["order"] {
+		if fetch limit, this->_params["limit"] {
 			return limit;
 		}
 		return null;
@@ -763,7 +770,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 	/**
 	 * Returns all the parameters defined in the criteria
 	 *
-	 * @return string
+	 * @return array
 	 */
 	public function getParams()
 	{
@@ -776,7 +783,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 	 * @param Phalcon\DiInterface dependencyInjector
 	 * @param string modelName
 	 * @param array data
-	 * @return static
+	 * @return Phalcon\Mvc\Model\Criteria
 	 */
 	public static function fromInput(<DiInterface> dependencyInjector, string! modelName, array! data) -> <Criteria>
 	{

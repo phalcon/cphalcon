@@ -25,7 +25,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -133,7 +133,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, __call) {
 		zephir_update_property_this(this_ptr, SL("_handler"), handler TSRMLS_CC);
 	}
 	ZEPHIR_INIT_VAR(_2);
-	array_init_size(_2, 3);
+	zephir_create_array(_2, 2, 0 TSRMLS_CC);
 	zephir_array_fast_append(_2, handler);
 	zephir_array_fast_append(_2, method);
 	ZEPHIR_CALL_USER_FUNC_ARRAY(return_value, _2, arguments);

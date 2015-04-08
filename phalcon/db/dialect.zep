@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -39,10 +39,6 @@ abstract class Dialect
 	 * $sql = $dialect->limit('SELECT * FROM robots', 10);
 	 * echo $sql; // SELECT * FROM robots LIMIT 10
 	 *</code>
-	 *
-	 * @param string sqlQuery
-	 * @param int number
-	 * @return string
 	 */
 	public function limit(string! sqlQuery, int number) -> string
 	{
@@ -59,9 +55,6 @@ abstract class Dialect
 	 * $sql = $dialect->forUpdate('SELECT * FROM robots');
 	 * echo $sql; // SELECT * FROM robots FOR UPDATE
 	 *</code>
-	 *
-	 * @param	string sqlQuery
-	 * @return	string
 	 */
 	public function forUpdate(string! sqlQuery) -> string
 	{
@@ -75,9 +68,6 @@ abstract class Dialect
 	 * $sql = $dialect->sharedLock('SELECT * FROM robots');
 	 * echo $sql; // SELECT * FROM robots LOCK IN SHARE MODE
 	 *</code>
-	 *
-	 * @param	string sqlQuery
-	 * @return	string
 	 */
 	public function sharedLock(string! sqlQuery) -> string
 	{
@@ -90,9 +80,6 @@ abstract class Dialect
 	 *<code>
 	 * echo $dialect->getColumnList(array('column1', 'column'));
 	 *</code>
-	 *
-	 * @param	array columnList
-	 * @return	string
 	 */
 	public final function getColumnList(array! columnList) -> string
 	{
@@ -339,9 +326,6 @@ abstract class Dialect
 
 	/**
 	 * Builds a SELECT statement
-	 *
-	 * @param array definition
-	 * @return string
 	 */
 	public function select(array! definition) -> string
 	{
@@ -569,8 +553,6 @@ abstract class Dialect
 
 	/**
 	 * Checks whether the platform supports savepoints
-	 *
-	 * @return boolean
 	 */
 	public function supportsSavepoints() -> boolean
 	{
@@ -579,8 +561,6 @@ abstract class Dialect
 
 	/**
 	 * Checks whether the platform supports releasing savepoints.
-	 *
-	 * @return boolean
 	 */
 	public function supportsReleaseSavepoints() -> boolean
 	{
@@ -589,9 +569,6 @@ abstract class Dialect
 
 	/**
 	 * Generate SQL to create a new savepoint
-	 *
-	 * @param string name
-	 * @return string
 	 */
 	public function createSavepoint(string! name) -> string
 	{
@@ -600,9 +577,6 @@ abstract class Dialect
 
 	/**
 	 * Generate SQL to release a savepoint
-	 *
-	 * @param string name
-	 * @return string
 	 */
 	public function releaseSavepoint(string! name) -> string
 	{
@@ -611,9 +585,6 @@ abstract class Dialect
 
 	/**
 	 * Generate SQL to rollback a savepoint
-	 *
-	 * @param string name
-	 * @return string
 	 */
 	public function rollbackSavepoint(string! name) -> string
 	{

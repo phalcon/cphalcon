@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -71,7 +71,7 @@ class PresenceOf extends Validator implements ValidatorInterface
 		 * A value is null when it is identical to null or a empty string
 		 */
 		let value = record->readAttribute(field);
-		if empty value {
+		if is_null(value) || (is_string(value) && !strlen(value)) {
 
 			/**
 			 * Check if the developer has defined a custom message

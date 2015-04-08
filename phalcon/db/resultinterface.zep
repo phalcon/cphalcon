@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -36,7 +36,7 @@ interface ResultInterface
 	 * @param array bindParams
 	 * @param array bindTypes
 	 */
-	public function __construct(<\Phalcon\Db\AdapterInterface> connection, <\PDOStatement> result, sqlStatement=null, bindParams=null, bindTypes=null);
+	public function __construct(<\Phalcon\Db\AdapterInterface> connection, <\PDOStatement> result, sqlStatement = null, bindParams = null, bindTypes = null);
 
 	/**
 	 * Allows to executes the statement again. Some database systems don't support scrollable cursors,

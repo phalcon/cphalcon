@@ -16,7 +16,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -44,22 +44,28 @@ ZEPHIR_INIT_CLASS(Phalcon_Paginator_AdapterInterface) {
 
 /**
  * Phalcon\Paginator\AdapterInterface constructor
- *
- * @param array config
  */
 ZEPHIR_DOC_METHOD(Phalcon_Paginator_AdapterInterface, __construct);
 
 /**
  * Set the current page number
- *
- * @param int page
  */
 ZEPHIR_DOC_METHOD(Phalcon_Paginator_AdapterInterface, setCurrentPage);
 
 /**
  * Returns a slice of the resultset to show in the pagination
  *
- * @return stdClass
+ * @return \stdclass
  */
 ZEPHIR_DOC_METHOD(Phalcon_Paginator_AdapterInterface, getPaginate);
+
+/**
+ * Set current rows limit
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Paginator_AdapterInterface, setLimit);
+
+/**
+ * Get current rows limit
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Paginator_AdapterInterface, getLimit);
 
