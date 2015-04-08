@@ -19,6 +19,8 @@
 
 namespace Phalcon\Validation\Validator;
 
+use Phalcon\Validation\Exception;
+
 /**
  * Phalcon\Validation\Validator\Confirmation
  *
