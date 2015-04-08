@@ -18,6 +18,7 @@
   +------------------------------------------------------------------------+
 */
 
+if (!function_exists('phalcon_prepare_virtual_path')) {
 function phalcon_prepare_virtual_path($path, $separator) {
 	$virtual_str = '';
 
@@ -42,6 +43,7 @@ function phalcon_prepare_virtual_path($path, $separator) {
 	}
 
 	return $virtual_str;
+}
 }
 
 class ViewEnginesCompilerTest extends PHPUnit_Framework_TestCase
