@@ -618,6 +618,15 @@ class Compiler implements InjectionAwareInterface
 			}
 
 			/**
+			 * Check if it's a function in Phalcon\Tag
+			 */
+			if method_exists(className, "hasFunction") {
+				if {className}::hasFunction(method) {
+					return "$this->tag->" . method . "(" . arguments . ")";
+				}
+			}
+
+			/**
 			 * The function doesn't exist throw an exception
 			 */
 			throw new Exception("Undefined function '" . name . "' in " . expr["file"] . " on line " . expr["line"]);

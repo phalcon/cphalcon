@@ -62,6 +62,8 @@ class Tag
 
 	protected static _autoEscape = true;
 
+	protected static _functions = null;
+
 	const HTML32 = 1;
 
 	const HTML401_STRICT = 2;
@@ -1526,5 +1528,81 @@ class Tag
 			return "</" . tagName . ">" . PHP_EOL;
 		}
 		return "</" . tagName . ">";
+	}
+
+	/**
+	 * Register a new function in the tag
+	 *
+	 * @param string name
+	 * @param Closure|string definition
+	 * @return boolean
+	 */
+	public static function addFunction(string! name, definition) -> boolean
+	{
+		var fname;
+
+		if !is_callable(definition) {
+			return false;
+		}
+
+		let fname = strtolower(name);
+
+		if is_object(definition) && definition instanceof \Closure {
+			let self::_functions[fname] = call_user_func_array("Closure::bind", [definition, null, get_called_class()]);
+		} else {
+			let self::_functions[fname] = definition;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Check function in the tag
+	 *
+	 * @param string name
+	 * @return boolean
+	 */
+	public static function hasFunction(string! name) -> boolean
+	{
+		var fname;
+		let fname = strtolower(name);
+		if isset(self::_functions[fname]) {
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Magick method to function call
+	 *
+	 * @param string name
+	 * @param array  arguments
+	 * @return mixed
+	 */
+	public static function __callStatic(name, arguments)
+	{
+		var fname;
+		let fname = strtolower(name);
+		if isset(self::_functions[name]) {
+			return call_user_func_array(self::_functions[fname], arguments);
+		}
+		throw new Exception("Call to undefined method Phalcon\Tag::" . name . "()");
+	}
+
+	/**
+	 * Magick method to function call
+	 *
+	 * @param string name
+	 * @param array  arguments
+	 * @return mixed
+	 */
+	public function __call(name, arguments)
+	{
+		var fname;
+		let fname = strtolower(name);
+		if isset(self::_functions[fname]) {
+			return call_user_func_array(self::_functions[fname], arguments);
+		}
+		throw new Exception("Call to undefined method Phalcon\Tag::" . name . "()");
 	}
 }

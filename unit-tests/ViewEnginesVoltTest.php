@@ -1354,4 +1354,16 @@ Clearly, the song is: <?php echo $this->getContent(); ?>.
 
 		$this->assertEquals($view->getContent(), 'Length Array: 4Length Object: 4Length String: 5Length No String: 4Slice Array: 1,2,3,4Slice Array: 2,3Slice Array: 1,2,3Slice Object: 2,3,4Slice Object: 2Slice Object: 1Slice String: helSlice String: elSlice String: lloSlice No String: 123Slice No String: 23Slice No String: 34');
 	}
+
+	public function testVoltTagFunctions()
+	{
+		Phalcon\Tag::addFunction('shuffle', function($str){
+			return str_shuffle($str);
+		});
+
+		$volt = new Compiler();
+
+		$compilation = $volt->compileString('{{ shuffle("hello") }}');
+		$this->assertEquals($compilation, '<?php echo $this->tag->shuffle(\'hello\'); ?>');
+	}
 }
