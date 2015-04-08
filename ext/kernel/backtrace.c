@@ -21,7 +21,7 @@
 #include "kernel/backtrace.h"
 
 #ifndef PHALCON_RELEASE
-#if defined(linux)
+#if defined(linux) || defined(DARWIN) || defined(__APPLE__)
 
 #include <execinfo.h>
 #include <Zend/zend.h>

@@ -23,6 +23,14 @@
 
 #include "php_phalcon.h"
 
-void phalcon_print_backtrace(void);
+#ifndef PHALCON_RELEASE
+extern void phalcon_print_backtrace(void);
 
+#else
+
+#ifndef phalcon_print_backtrace
+#define phalcon_print_backtrace()
+#endif
+
+#endif
 #endif /* PHALCON_KERNEL_BACKTRACE_H */

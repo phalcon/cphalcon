@@ -146,13 +146,13 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, getPaginate){
 	object_init(page);
 	
 	PHALCON_INIT_VAR(last_show_page);
-	sub_function(last_show_page, page_number, z_one TSRMLS_CC);
+	phalcon_sub_function(last_show_page, page_number, z_one);
 	
 	PHALCON_INIT_VAR(start);
 	mul_function(start, show, last_show_page TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(possible_pages);
-	div_function(possible_pages, rowcount, show TSRMLS_CC);
+	phalcon_div_function(possible_pages, rowcount, show);
 	if (unlikely(Z_TYPE_P(possible_pages)) != IS_DOUBLE) {
 		convert_to_double(possible_pages);
 	}
@@ -200,17 +200,17 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, getPaginate){
 	phalcon_update_property_zval(page, SL("items"), page_items TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(maximum_pages);
-	phalcon_add_function(maximum_pages, start, show TSRMLS_CC);
+	phalcon_add_function(maximum_pages, start, show);
 	if (PHALCON_LT(maximum_pages, rowcount)) {
 		PHALCON_INIT_VAR(next);
-		phalcon_add_function(next, page_number, z_one TSRMLS_CC);
+		phalcon_add_function(next, page_number, z_one);
 	} else if (PHALCON_IS_EQUAL(maximum_pages, rowcount)) {
 			PHALCON_CPY_WRT(next, rowcount);
 	} else {
-		div_function(possible_pages, rowcount, show TSRMLS_CC);
+		phalcon_div_function(possible_pages, rowcount, show);
 
 		PHALCON_INIT_VAR(additional_page);
-		phalcon_add_function(additional_page, possible_pages, z_one TSRMLS_CC);
+		phalcon_add_function(additional_page, possible_pages, z_one);
 
 		PHALCON_INIT_NVAR(next);
 		ZVAL_LONG(next, phalcon_get_intval(additional_page));
@@ -223,7 +223,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, getPaginate){
 	phalcon_update_property_zval(page, SL("next"), next TSRMLS_CC);
 	if (PHALCON_GT(page_number, z_one)) {
 		PHALCON_INIT_VAR(before);
-		sub_function(before, page_number, z_one TSRMLS_CC);
+		phalcon_sub_function(before, page_number, z_one);
 	} else {
 		PHALCON_CPY_WRT_CTOR(before, z_one);
 	}
@@ -236,10 +236,10 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, getPaginate){
 	mod_function(remainder, rowcount, show TSRMLS_CC);
 	
 	PHALCON_INIT_NVAR(possible_pages);
-	div_function(possible_pages, rowcount, show TSRMLS_CC);
+	phalcon_div_function(possible_pages, rowcount, show);
 	if (!PHALCON_IS_LONG(remainder, 0)) {
 		PHALCON_INIT_NVAR(next);
-		phalcon_add_function(next, possible_pages, z_one TSRMLS_CC);
+		phalcon_add_function(next, possible_pages, z_one);
 	
 		PHALCON_INIT_VAR(pages_total);
 		ZVAL_LONG(pages_total, phalcon_get_intval(next));

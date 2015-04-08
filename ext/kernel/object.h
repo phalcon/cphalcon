@@ -34,11 +34,22 @@ zend_class_entry* phalcon_fetch_self_class(TSRMLS_D);
 zend_class_entry* phalcon_fetch_parent_class(TSRMLS_D);
 zend_class_entry* phalcon_fetch_static_class(TSRMLS_D);
 
+#define PHALCON_GET_CLASS_CONSTANT(return_value, ce, const_name) \
+	do { \
+		if (FAILURE == phalcon_get_class_constant(return_value, ce, const_name, strlen(const_name)+1 TSRMLS_CC)) { \
+			PHALCON_MM_RESTORE(); \
+			return; \
+		} \
+	} while (0)
 /** Class constants */
 int phalcon_get_class_constant(zval *return_value, const zend_class_entry *ce, const char *constant_name, zend_uint constant_length TSRMLS_DC) PHALCON_ATTR_NONNULL;
 
 /** Cloning */
 int phalcon_clone(zval *destination, zval *obj TSRMLS_DC) PHALCON_ATTR_NONNULL;
+int phalcon_instance_of(zval *result, const zval *object, const zend_class_entry *ce TSRMLS_DC);
+int phalcon_is_instance_of(zval *object, const char *class_name, unsigned int class_length TSRMLS_DC);
+int phalcon_instance_of_ev(const zval *object, const zend_class_entry *ce TSRMLS_DC);
+int phalcon_zval_is_traversable(zval *object TSRMLS_DC);
 
 /** Method exists */
 int phalcon_method_exists(const zval *object, const zval *method_name TSRMLS_DC) PHALCON_ATTR_NONNULL;

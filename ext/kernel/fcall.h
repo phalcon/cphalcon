@@ -723,7 +723,14 @@ PHALCON_ATTR_WARN_UNUSED_RESULT PHALCON_ATTR_NONNULL static inline int phalcon_h
 int phalcon_call_function(zend_fcall_info *fci, zend_fcall_info_cache *fci_cache TSRMLS_DC);
 #define PHALCON_ZEND_CALL_FUNCTION_WRAPPER phalcon_call_function
 #else
+
+#if PHP_VERSION_ID >= 50600
+int phalcon_call_function(zend_fcall_info *fci, zend_fcall_info_cache *fci_cache TSRMLS_DC);
+#define PHALCON_ZEND_CALL_FUNCTION_WRAPPER phalcon_call_function
+#else
 #define PHALCON_ZEND_CALL_FUNCTION_WRAPPER zend_call_function
+#endif
+
 #endif
 
 #ifndef zend_error_noreturn

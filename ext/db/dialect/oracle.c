@@ -1178,10 +1178,10 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, select){
 				z_one = PHALCON_GLOBAL(z_one);
 
 				PHALCON_INIT_VAR(ini_range);
-				phalcon_add_function(ini_range, tmp2, z_one TSRMLS_CC);
+				phalcon_add_function(ini_range, tmp2, z_one);
 
 				PHALCON_INIT_VAR(end_range);
-				phalcon_add_function(end_range, tmp2, tmp1 TSRMLS_CC);
+				phalcon_add_function(end_range, tmp2, tmp1);
 
 				PHALCON_INIT_VAR(sql_limit);
 				PHALCON_SCONCAT_SVSVSV(sql_limit,"SELECT Z2.* FROM (SELECT Z1.*, ROWNUM DB_ROWNUM FROM ( ", sql, " ) Z1 ) Z2 WHERE Z2.DB_ROWNUM BETWEEN ", ini_range , " AND ",  end_range );

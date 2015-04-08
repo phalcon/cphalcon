@@ -41,4 +41,27 @@ int phalcon_hash_fast_unset(HashTable *ht, const zend_literal *key) PHALCON_ATTR
 zval** phalcon_hash_get(HashTable *ht, const zval *key, int type);
 int phalcon_hash_unset(HashTable *ht, const zval *offset);
 
+static zend_always_inline int phalcon_hash_get_current_data_ex(HashTable *ht, void **pData, HashPosition *pos)
+{
+	Bucket *p;
+	p = pos ? (*pos) : ht->pInternalPointer;
+	if (p) {
+		*pData = p->pData;
+		return SUCCESS;
+	} else {
+		return FAILURE;
+	}
+}
+
+static zend_always_inline int phalcon_hash_move_backwards_ex(HashTable *ht, HashPosition *pos)
+{
+	HashPosition *current = pos ? pos : &ht->pInternalPointer;
+	if (*current) {
+		*current = (*current)->pListLast;
+		return SUCCESS;
+	} else {
+		return FAILURE;
+	}
+}
+
 #endif /* PHALCON_KERNEL_HASH_H */

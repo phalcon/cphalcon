@@ -32,6 +32,7 @@ int phalcon_memnstr_str(const zval *haystack, char *needle, unsigned int needle_
 
 /** Function replacement */
 void phalcon_fast_strlen(zval *return_value, zval *str);
+int phalcon_fast_strlen_ev(zval *str);
 void phalcon_fast_strtolower(zval *return_value, zval *str);
 void phalcon_strtolower_inplace(zval *s);
 void phalcon_fast_join(zval *result, zval *glue, zval *pieces TSRMLS_DC);
@@ -72,6 +73,8 @@ int phalcon_spprintf(char **message, int max_len, char *format, ...);
 /* Substr */
 void phalcon_substr(zval *return_value, zval *str, unsigned long from, unsigned long length);
 
+/** EOL */
+zval *phalcon_eol(int eol TSRMLS_DC);
 /** Preg-Match */
 int phalcon_preg_match(zval *return_value, zval *regex, zval *subject, zval *matches TSRMLS_DC) PHALCON_ATTR_WARN_UNUSED_RESULT;
 
@@ -81,6 +84,7 @@ void phalcon_base64_decode(zval *return_value, zval *data);
 
 /** Hash */
 void phalcon_md5(zval *return_value, zval *str);
+void phalcon_crc32(zval *return_value, zval *str TSRMLS_DC);
 
 /** JSON */
 int phalcon_json_encode(zval *return_value, zval *v, int opts TSRMLS_DC) PHALCON_ATTR_WARN_UNUSED_RESULT;
@@ -96,5 +100,7 @@ void phalcon_strval(zval *return_value, zval *v);
 void phalcon_date(zval *return_value, zval *format, zval *timestamp TSRMLS_DC);
 void phalcon_addslashes(zval *return_value, zval *str TSRMLS_DC);
 void phalcon_add_trailing_slash(zval** v);
+void phalcon_stripslashes(zval *return_value, zval *str TSRMLS_DC);
+void phalcon_stripcslashes(zval *return_value, zval *str TSRMLS_DC);
 
 #endif /* PHALCON_KERNEL_STRING_H */

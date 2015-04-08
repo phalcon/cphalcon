@@ -621,7 +621,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Resultset, getLast){
 	PHALCON_CALL_METHOD(&count, this_ptr, "count");
 
 	PHALCON_INIT_VAR(pre_count);
-	sub_function(pre_count, count, z_one TSRMLS_CC);
+	phalcon_sub_function(pre_count, count, z_one);
 	PHALCON_CALL_METHOD(NULL, this_ptr, "seek", pre_count);
 
 	PHALCON_CALL_METHOD(&valid, this_ptr, "valid");

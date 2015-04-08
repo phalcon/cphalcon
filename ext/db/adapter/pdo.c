@@ -369,7 +369,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, executePrepared){
 
 		if (Z_TYPE_P(wildcard) == IS_LONG) {
 			PHALCON_INIT_NVAR(parameter);
-			phalcon_add_function(parameter, wildcard, z_one TSRMLS_CC);
+			phalcon_add_function(parameter, wildcard, z_one);
 		} else {
 			if (Z_TYPE_P(wildcard) == IS_STRING) {
 				PHALCON_CPY_WRT(parameter, wildcard);

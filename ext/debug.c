@@ -436,7 +436,7 @@ PHP_METHOD(Phalcon_Debug, _getArrayDump){
 					} else {
 						if (Z_TYPE_P(v) == IS_ARRAY) { 
 							PHALCON_INIT_NVAR(next);
-							phalcon_add_function(next, n, PHALCON_GLOBAL(z_one) TSRMLS_CC);
+							phalcon_add_function(next, n, PHALCON_GLOBAL(z_one));
 	
 							PHALCON_CALL_METHOD(&array_dump, this_ptr, "_getarraydump", v, next);
 	
@@ -910,7 +910,7 @@ PHP_METHOD(Phalcon_Debug, showTraceItem){
 				before_context = phalcon_fetch_nproperty_this(getThis(), SL("_beforeContext"), PH_NOISY TSRMLS_CC);
 	
 				PHALCON_INIT_VAR(before_line);
-				sub_function(before_line, line, before_context TSRMLS_CC);
+				phalcon_sub_function(before_line, line, before_context);
 	
 				/** 
 				 * Check for overflows
@@ -927,7 +927,7 @@ PHP_METHOD(Phalcon_Debug, showTraceItem){
 				after_context = phalcon_fetch_nproperty_this(getThis(), SL("_afterContext"), PH_NOISY TSRMLS_CC);
 	
 				PHALCON_INIT_VAR(after_line);
-				phalcon_add_function(after_line, line, after_context TSRMLS_CC);
+				phalcon_add_function(after_line, line, after_context);
 	
 				/** 
 				 * Check for overflows
@@ -963,7 +963,7 @@ PHP_METHOD(Phalcon_Debug, showTraceItem){
 				 * Current line in the file
 				 */
 				PHALCON_INIT_NVAR(line_position);
-				sub_function(line_position, i, z_one TSRMLS_CC);
+				phalcon_sub_function(line_position, i, z_one);
 	
 				/** 
 				 * Current line content in the piece of file

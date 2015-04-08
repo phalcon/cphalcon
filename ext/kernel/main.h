@@ -34,11 +34,16 @@
 /** Main macros */
 #define PH_DEBUG 0
 
-#define PH_NOISY 0
-#define PH_SILENT 1
+#define PH_NOISY 256
+#define PH_SILENT 1024
+#define PH_READONLY 4096
+
+#define PH_NOISY_CC PH_NOISY TSRMLS_CC
+#define PH_SILENT_CC PH_SILENT TSRMLS_CC
 
 #define PH_SEPARATE 256
 #define PH_COPY 1024
+#define PH_CTOR 4096
 
 #define SL(str)   ZEND_STRL(str)
 #define SS(str)   ZEND_STRS(str)
@@ -133,6 +138,7 @@ int phalcon_fetch_parameters_ex(int dummy TSRMLS_DC, int n_req, int n_opt, ...);
   Z_TYPE_P(z) = Z_TYPE_P(v);
 #endif
 
+#if PHP_VERSION_ID < 50600
 /**
  * Return zval checking if it's needed to ctor
  */
@@ -190,6 +196,47 @@ int phalcon_fetch_parameters_ex(int dummy TSRMLS_DC, int n_req, int n_opt, ...);
 #define RETURN_THISW() \
 	RETURN_ZVAL(this_ptr, 1, 0);
 
+#else
+
+/** Return zval checking if it's needed to ctor */
+#define RETURN_CCTOR(var) { \
+		RETVAL_ZVAL_FAST(var); \
+	} \
+	PHALCON_MM_RESTORE(); \
+	return;
+
+/** Return zval checking if it's needed to ctor, without restoring the memory stack  */
+#define RETURN_CCTORW(var) { \
+		RETVAL_ZVAL_FAST(var); \
+	} \
+	return;
+
+/** Return zval with always ctor */
+#define RETURN_CTOR(var) { \
+		RETVAL_ZVAL_FAST(var); \
+	} \
+	PHALCON_MM_RESTORE(); \
+	return;
+
+/** Return zval with always ctor, without restoring the memory stack */
+#define RETURN_CTORW(var) { \
+		RETVAL_ZVAL_FAST(var); \
+	} \
+	return;
+
+/** Return this pointer */
+#define RETURN_THIS() { \
+		RETVAL_ZVAL_FAST(this_ptr); \
+	} \
+	PHALCON_MM_RESTORE(); \
+	return;
+
+/** Return zval with always ctor, without restoring the memory stack */
+#define RETURN_THISW() \
+	RETURN_ZVAL_FAST(this_ptr);
+
+#endif
+
 /**
  * Returns variables without ctor
  */
@@ -208,11 +255,25 @@ int phalcon_fetch_parameters_ex(int dummy TSRMLS_DC, int n_req, int n_opt, ...);
 	return;
 
 /**
+ * Returns a zval in an object member
+ */
+#define RETURN_MM_MEMBER(object, member_name) \
+	phalcon_return_property_quick(return_value, NULL, object, SL(member_name), zend_inline_hash_func(SS(member_name)) TSRMLS_CC); \
+	RETURN_MM();
+
+/**
  * Returns a zval in an object member (quick)
  */
 #define RETURN_MEMBER_QUICK(object, member_name, key) \
 	phalcon_return_property_quick(return_value, NULL, object, SL(member_name), key TSRMLS_CC); \
 	return;
+
+/**
+ * Returns a zval in an object member (quick)
+ */
+#define RETURN_MM_MEMBER_QUICK(object, member_name, key) \
+	phalcon_return_property_quick(return_value, NULL, object, SL(member_name), key TSRMLS_CC); \
+	RETURN_MM();
 
 #define RETURN_ON_FAILURE(what) \
 	if (FAILURE == what) { \
@@ -228,6 +289,9 @@ int phalcon_fetch_parameters_ex(int dummy TSRMLS_DC, int n_req, int n_opt, ...);
 /** Return without change return_value */
 #define RETURN_MM() PHALCON_MM_RESTORE(); return;
 
+/** Return bool restoring memory frame */
+#define RETURN_MM_BOOL(value) RETVAL_BOOL(value); RETURN_MM();
+
 /** Return null restoring memory frame */
 #define RETURN_MM_NULL() PHALCON_MM_RESTORE(); RETURN_NULL();
 
@@ -238,6 +302,12 @@ int phalcon_fetch_parameters_ex(int dummy TSRMLS_DC, int n_req, int n_opt, ...);
 /** Return string restoring memory frame */
 #define RETURN_MM_STRING(str, copy) PHALCON_MM_RESTORE(); RETURN_STRING(str, copy);
 #define RETURN_MM_EMPTY_STRING() PHALCON_MM_RESTORE(); RETURN_EMPTY_STRING();
+
+/* Return long */
+#define RETURN_MM_LONG(value) RETVAL_LONG(value); RETURN_MM();
+
+/* Return double */
+#define RETURN_MM_DOUBLE(value) RETVAL_DOUBLE(value); RETURN_MM();
 
 /** Return empty array */
 #define RETURN_EMPTY_ARRAY() array_init(return_value); return;
@@ -254,6 +324,40 @@ int phalcon_fetch_parameters_ex(int dummy TSRMLS_DC, int n_req, int n_opt, ...);
 		PHALCON_INIT_NVAR_PNULL(var); \
 		phalcon_get_current_key(&var, hash, &hash_position TSRMLS_CC); \
 	} while (0)
+
+/** Get current hash key copying the iterator if needed */
+
+#if PHP_VERSION_ID < 50500
+
+#define PHALCON_GET_IKEY(var, it) \
+	do { \
+		int key_type; uint str_key_len; \
+		ulong int_key; \
+		char *str_key; \
+		\
+		PHALCON_INIT_NVAR(var); \
+		key_type = it->funcs->get_current_key(it, &str_key, &str_key_len, &int_key TSRMLS_CC); \
+		if (key_type == HASH_KEY_IS_STRING) { \
+			ZVAL_STRINGL(var, str_key, str_key_len - 1, 1); \
+			efree(str_key); \
+		} else { \
+			if (key_type == HASH_KEY_IS_LONG) { \
+				ZVAL_LONG(var, int_key); \
+			} else { \
+				ZVAL_NULL(var); \
+			} \
+		} \
+	} while (0)
+
+#else
+
+#define PHALCON_GET_IKEY(var, it) \
+	do { \
+		PHALCON_INIT_NVAR(var); \
+		it->funcs->get_current_key(it, var TSRMLS_CC); \
+	} while (0)
+
+#endif
 
 /** Check if an array is iterable or not */
 #define phalcon_is_iterable(var, array_hash, hash_pointer, duplicate, reverse) \
@@ -438,5 +542,15 @@ int phalcon_fetch_parameters_ex(int dummy TSRMLS_DC, int n_req, int n_opt, ...);
 #define PHALCON_ENSURE_IS_DOUBLE(ppzv)    convert_to_explicit_type_ex(ppzv, IS_DOUBLE)
 #define PHALCON_ENSURE_IS_BOOL(ppzv)      convert_to_explicit_type_ex(ppzv, IS_BOOL)
 #define PHALCON_ENSURE_IS_ARRAY(ppzv)     convert_to_explicit_type_ex(ppzv, IS_ARRAY)
+
+#if PHP_VERSION_ID >= 50600
+
+#if ZEND_MODULE_API_NO >= 20141001
+void phalcon_clean_and_cache_symbol_table(zend_array *symbol_table);
+#else
+void phalcon_clean_and_cache_symbol_table(HashTable *symbol_table TSRMLS_DC);
+#endif
+
+#endif
 
 #endif /* PHALCON_KERNEL_MAIN_H */

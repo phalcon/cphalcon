@@ -392,7 +392,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Memory, decrement){
 		RETURN_MM();
 	}
 
-	sub_function(return_value, cached_content, *value TSRMLS_CC);
+	phalcon_sub_function(return_value, cached_content, *value);
 	phalcon_update_property_array(this_ptr, SL("_data"), last_key, return_value TSRMLS_CC);
 
 	PHALCON_MM_RESTORE();

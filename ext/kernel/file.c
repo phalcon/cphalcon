@@ -33,6 +33,16 @@
 #include <ext/standard/php_filestat.h>
 #include <ext/standard/php_string.h>
 
+#define PHP_STREAM_TO_ZVAL(stream, arg) \
+	php_stream_from_zval_no_verify(stream, arg); \
+	if (stream == NULL) {   \
+		if (return_value) { \
+			RETURN_FALSE;   \
+		} else { \
+			return; \
+		} \
+	}
+
 /**
  * Checks if a file exist
  *
@@ -480,4 +490,91 @@ void phalcon_basename(zval *return_value, zval *path TSRMLS_DC)
 	else {
 		ZVAL_FALSE(return_value);
 	}
+}
+
+void phalcon_fwrite(zval *return_value, zval *stream_zval, zval *data TSRMLS_DC)
+{
+
+	int num_bytes;
+	php_stream *stream;
+
+	if (Z_TYPE_P(stream_zval) != IS_RESOURCE) {
+		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Invalid arguments supplied for phalcon_fwrite()");
+		if (return_value) {
+			RETVAL_FALSE;
+		} else {
+			return;
+		}
+	}
+
+	if (Z_TYPE_P(data) != IS_STRING) {
+		/* @todo convert data to string */
+		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Invalid arguments supplied for phalcon_fwrite()");
+		if (return_value) {
+			RETVAL_FALSE;
+		} else {
+			return;
+		}
+	}
+
+	if (!Z_STRLEN_P(data)) {
+		if (return_value) {
+			RETURN_LONG(0);
+		} else {
+			return;
+		}
+	}
+
+	PHP_STREAM_TO_ZVAL(stream, &stream_zval);
+
+	num_bytes = php_stream_write(stream, Z_STRVAL_P(data), Z_STRLEN_P(data));
+	if (return_value) {
+		RETURN_LONG(num_bytes);
+	}
+}
+
+int phalcon_feof(zval *stream_zval TSRMLS_DC)
+{
+
+	php_stream *stream;
+
+	if (Z_TYPE_P(stream_zval) != IS_RESOURCE) {
+		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Invalid arguments supplied for phalcon_feof()");
+		return 0;
+	}
+
+	php_stream_from_zval_no_verify(stream, &stream_zval);
+	if (stream == NULL) {
+		return 0;
+	}
+
+	return php_stream_eof(stream);
+}
+
+int phalcon_fclose(zval *stream_zval TSRMLS_DC)
+{
+	php_stream *stream;
+
+	if (Z_TYPE_P(stream_zval) != IS_RESOURCE) {
+		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Invalid arguments supplied for phalcon_fwrite()");
+		return 0;
+	}
+
+	php_stream_from_zval_no_verify(stream, &stream_zval);
+	if (stream == NULL) {
+		return 0;
+	}
+
+	if ((stream->flags & PHP_STREAM_FLAG_NO_FCLOSE) != 0) {
+		php_error_docref(NULL TSRMLS_CC, E_WARNING, "%d is not a valid stream resource", stream->rsrc_id);
+		return 0;
+	}
+
+	if (!stream->is_persistent) {
+		php_stream_close(stream);
+	} else {
+		php_stream_pclose(stream);
+	}
+
+	return 1;
 }

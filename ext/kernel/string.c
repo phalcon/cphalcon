@@ -27,6 +27,7 @@
 #include <ext/standard/php_http.h>
 #include <ext/standard/base64.h>
 #include <ext/standard/md5.h>
+#include <ext/standard/crc32.h>
 #include <ext/standard/url.h>
 #include <ext/standard/html.h>
 #include <ext/date/php_date.h>
@@ -73,6 +74,29 @@ void phalcon_fast_strlen(zval *return_value, zval *str){
 
 /**
  * Fast call to php strlen
+ */
+int phalcon_fast_strlen_ev(zval *str){
+
+	zval copy;
+	int use_copy = 0, length;
+
+	if (Z_TYPE_P(str) != IS_STRING) {
+		zend_make_printable_zval(str, &copy, &use_copy);
+		if (use_copy) {
+			str = &copy;
+		}
+	}
+
+	length = Z_STRLEN_P(str);
+	if (use_copy) {
+		zval_dtor(str);
+	}
+
+	return length;
+}
+
+/**
+ * Fast call to php strtolower
  */
 void phalcon_fast_strtolower(zval *return_value, zval *str){
 
@@ -978,6 +1002,30 @@ void phalcon_unique_key(zval *return_value, zval *prefix, zval *value TSRMLS_DC)
 }
 
 /**
+ * Returns the PHP_EOL (if the passed parameter is TRUE)
+ */
+zval *phalcon_eol(int eol TSRMLS_DC) {
+
+	zval *local_eol;
+
+	/**
+	 * Initialize local var
+	 */
+	PHALCON_INIT_VAR(local_eol);
+
+	/**
+	 * Check if the eol is true and return PHP_EOL or empty string
+	 */
+	if (eol) {
+		ZVAL_STRING(local_eol, PHP_EOL, 1);
+	} else {
+		ZVAL_EMPTY_STRING(local_eol);
+	}
+
+	return local_eol;
+}
+
+/**
  * Base 64 encode
  */
 void phalcon_base64_encode(zval *return_value, zval *data) {
@@ -1059,6 +1107,36 @@ void phalcon_md5(zval *return_value, zval *str) {
 	ZVAL_STRINGL(return_value, hexdigest, 32, 1);
 }
 
+void phalcon_crc32(zval *return_value, zval *str TSRMLS_DC) {
+
+	zval copy;
+	int use_copy = 0;
+	size_t nr;
+	char *p;
+	php_uint32 crc;
+	php_uint32 crcinit = 0;
+
+	if (Z_TYPE_P(str) != IS_STRING) {
+		zend_make_printable_zval(str, &copy, &use_copy);
+		if (use_copy) {
+			str = &copy;
+		}
+	}
+
+	p = Z_STRVAL_P(str);
+	nr = Z_STRLEN_P(str);
+
+	crc = crcinit^0xFFFFFFFF;
+	for (; nr--; ++p) {
+		crc = ((crc >> 8) & 0x00FFFFFF) ^ crc32tab[(crc ^ (*p)) & 0xFF];
+	}
+
+	if (use_copy) {
+		zval_dtor(str);
+	}
+
+	RETVAL_LONG(crc ^ 0xFFFFFFFF);
+}
 #if PHALCON_USE_PHP_PCRE
 
 /**
@@ -1428,3 +1506,53 @@ void phalcon_add_trailing_slash(zval** v)
 		}
 	}
 }
+
+void phalcon_stripslashes(zval *return_value, zval *str TSRMLS_DC)
+{
+	zval copy;
+	int use_copy = 0;
+
+	if (unlikely(Z_TYPE_P(str) != IS_STRING)) {
+		zend_make_printable_zval(str, &copy, &use_copy);
+		if (use_copy) {
+			str = &copy;
+		}
+	}
+
+	ZVAL_STRINGL(return_value, Z_STRVAL_P(str), Z_STRLEN_P(str), 1);
+	php_stripslashes(Z_STRVAL_P(return_value), &Z_STRLEN_P(return_value) TSRMLS_CC);
+
+	if (unlikely(use_copy)) {
+		zval_dtor(&copy);
+	}
+}
+
+void phalcon_stripcslashes(zval *return_value, zval *str TSRMLS_DC)
+{
+
+	zval copy;
+	int use_copy = 0;
+
+	if (unlikely(Z_TYPE_P(str) != IS_STRING)) {
+		zend_make_printable_zval(str, &copy, &use_copy);
+		if (use_copy) {
+			str = &copy;
+		}
+	}
+
+	ZVAL_STRINGL(return_value, Z_STRVAL_P(str), Z_STRLEN_P(str), 1);
+	php_stripcslashes(Z_STRVAL_P(return_value), &Z_STRLEN_P(return_value));
+
+	if (unlikely(use_copy)) {
+		zval_dtor(&copy);
+	}
+}
+
+#if PHP_VERSION_ID < 50400
+
+const char* zend_new_interned_string(const char *arKey, int nKeyLength, int free_src TSRMLS_DC)
+{
+	return arKey;
+}
+
+#endif

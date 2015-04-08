@@ -2023,10 +2023,10 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, vignette)
 	height = phalcon_fetch_nproperty_this(this_ptr, SL("_height"), PH_NOISY TSRMLS_CC);
 
 	PHALCON_INIT_VAR(x1);
-	ZVAL_LONG(x1, floor(phalcon_get_double(height) * phalcon_get_double(crop_factor)));
+	ZVAL_LONG(x1, floor(phalcon_get_doubleval(height) * phalcon_get_doubleval(crop_factor)));
 
 	PHALCON_INIT_VAR(y1);
-	ZVAL_LONG(y1, floor(phalcon_get_double(width) * phalcon_get_double(crop_factor)));
+	ZVAL_LONG(y1, floor(phalcon_get_doubleval(width) * phalcon_get_doubleval(crop_factor)));
 
 	PHALCON_INIT_VAR(pseudo_string);
 	PHALCON_CONCAT_SV(pseudo_string, "radial-gradient:rgba(0,0,0,0)-", color);
@@ -2040,9 +2040,9 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, vignette)
 	PHALCON_CALL_METHOD(NULL, overlay, "newpseudoimage", x1, y1, pseudo_string);
 
 	PHALCON_INIT_NVAR(x2);
-	ZVAL_DOUBLE(x2, (phalcon_get_double(width) - phalcon_get_double(x1)) / 2.0);
+	ZVAL_DOUBLE(x2, (phalcon_get_doubleval(width) - phalcon_get_doubleval(x1)) / 2.0);
 	PHALCON_INIT_NVAR(y2);
-	ZVAL_DOUBLE(y2, (phalcon_get_double(height) - phalcon_get_double(y1)) / 2.0);
+	ZVAL_DOUBLE(y2, (phalcon_get_doubleval(height) - phalcon_get_doubleval(y1)) / 2.0);
 
 	PHALCON_CALL_METHOD(NULL, im, "compositeImage", overlay, composition, x2, y2);
 

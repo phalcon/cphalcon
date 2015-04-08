@@ -39,4 +39,14 @@ void phalcon_basename(zval *return_value, zval *path TSRMLS_DC);
 
 void phalcon_prepare_virtual_path_ex(zval *return_value, const char *path, size_t path_len, char virtual_separator TSRMLS_DC);
 
+void phalcon_fwrite(zval *return_value, zval *stream_zval, zval *data TSRMLS_DC);
+int phalcon_feof(zval *stream_zval TSRMLS_DC);
+int phalcon_fclose(zval *stream_zval TSRMLS_DC);
+
+#ifdef TSRM_WIN32
+#define PHALCON_DIRECTORY_SEPARATOR "\\"
+#else
+#define PHALCON_DIRECTORY_SEPARATOR "/"
+#endif
+
 #endif /* PHALCON_KERNEL_FILE_H */

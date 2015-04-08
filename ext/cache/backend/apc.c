@@ -307,7 +307,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, decrement){
 		PHALCON_CALL_FUNCTION(&cached_content, "apc_fetch", prefixed_key);
 
 		if (Z_TYPE_P(cached_content) == IS_LONG) {
-			sub_function(return_value, cached_content, *value TSRMLS_CC);
+			phalcon_sub_function(return_value, cached_content, *value);
 			PHALCON_CALL_METHOD(NULL, this_ptr, "save", *key_name, return_value);
 		}
 		else {

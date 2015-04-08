@@ -443,10 +443,10 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, slice){
 	 */
 	if (Z_TYPE_P(end) != IS_NULL) {
 		PHALCON_INIT_VAR(range);
-		sub_function(range, end, start TSRMLS_CC);
+		phalcon_sub_function(range, end, start);
 	
 		PHALCON_INIT_NVAR(length);
-		phalcon_add_function(length, range, PHALCON_GLOBAL(z_one) TSRMLS_CC);
+		phalcon_add_function(length, range, PHALCON_GLOBAL(z_one));
 	} else {
 		PHALCON_INIT_NVAR(length);
 	}
