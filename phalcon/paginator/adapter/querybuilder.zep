@@ -100,10 +100,8 @@ class QueryBuilder implements AdapterInterface
 
 	/**
 	 * Get the current page number
-	 *
-	 * @return int page
 	 */
-	public function getCurrentPage () -> int
+	public function getCurrentPage() -> int
 	{
 		return this->_page;
 	}
