@@ -79,7 +79,6 @@ class Di implements DiInterface, EventsAwareInterface
 
 	/**
 	 * Phalcon\Di constructor
-	 *
 	 */
 	public function __construct()
 	{
@@ -123,8 +122,6 @@ class Di implements DiInterface, EventsAwareInterface
 
 	/**
 	 * Removes a service in the services container
-	 *
-	 * @param string name
 	 */
 	public function remove(string! name)
 	{
@@ -156,10 +153,6 @@ class Di implements DiInterface, EventsAwareInterface
 
 	/**
 	 * Sets a service using a raw Phalcon\Di\Service definition
-	 *
-	 * @param string name
-	 * @param Phalcon\Di\ServiceInterface rawDefinition
-	 * @return Phalcon\Di\ServiceInterface
 	 */
 	public function setRaw(string! name, <ServiceInterface> rawDefinition) -> <ServiceInterface>
 	{
@@ -186,9 +179,6 @@ class Di implements DiInterface, EventsAwareInterface
 
 	/**
 	 * Returns a Phalcon\Di\Service instance
-	 *
-	 * @param string name
-	 * @return Phalcon\Di\ServiceInterface
 	 */
 	public function getService(string! name) -> <ServiceInterface>
 	{
@@ -317,9 +307,6 @@ class Di implements DiInterface, EventsAwareInterface
 
 	/**
 	 * Check whether the DI contains a service by a name
-	 *
-	 * @param string name
-	 * @return boolean
 	 */
 	public function has(string! name) -> boolean
 	{
@@ -328,8 +315,6 @@ class Di implements DiInterface, EventsAwareInterface
 
 	/**
 	 * Check whether the last service obtained via getShared produced a fresh instance or an existing one
-	 *
-	 * @return boolean
 	 */
 	public function wasFreshInstance() -> boolean
 	{
@@ -338,8 +323,6 @@ class Di implements DiInterface, EventsAwareInterface
 
 	/**
 	 * Return the services registered in the DI
-	 *
-	 * @return Phalcon\Di\Service[]
 	 */
 	public function getServices() -> <Service[]>
 	{
@@ -348,9 +331,6 @@ class Di implements DiInterface, EventsAwareInterface
 
 	/**
 	 * Check if a service is registered using the array syntax
-	 *
-	 * @param string name
-	 * @return boolean
 	 */
 	public function offsetExists(string! name) -> boolean
 	{
@@ -391,8 +371,6 @@ class Di implements DiInterface, EventsAwareInterface
 
 	/**
 	 * Removes a service from the services container using the array syntax
-	 *
-	 * @param string name
 	 */
 	public function offsetUnset(string! name) -> boolean
 	{
@@ -401,8 +379,6 @@ class Di implements DiInterface, EventsAwareInterface
 
 	/**
 	 * Sets the event manager
-	 *
-	 * @param Phalcon\Events\ManagerInterface eventsManager
 	 */
 	public function setEventsManager(<\Phalcon\Events\ManagerInterface> eventsManager)
 	{
@@ -411,8 +387,6 @@ class Di implements DiInterface, EventsAwareInterface
 
 	/**
 	 * Returns the internal event manager
-	 *
-	 * @return Phalcon\Events\ManagerInterface
 	 */
 	public function getEventsManager() -> <\Phalcon\Events\ManagerInterface>
 	{
@@ -464,8 +438,6 @@ class Di implements DiInterface, EventsAwareInterface
 
 	/**
 	 * Set a default dependency injection container to be obtained into static methods
-	 *
-	 * @param Phalcon\DiInterface dependencyInjector
 	 */
 	public static function setDefault(<DiInterface> dependencyInjector)
 	{
@@ -474,8 +446,6 @@ class Di implements DiInterface, EventsAwareInterface
 
 	/**
 	 * Return the lastest DI created
-	 *
-	 * @return Phalcon\DiInterface
 	 */
 	public static function getDefault() -> <DiInterface>
 	{

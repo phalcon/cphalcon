@@ -34,7 +34,6 @@ class FactoryDefault extends \Phalcon\Di
 	 */
 	public function __construct()
 	{
-
 		parent::__construct();
 
 		let this->_services = [
