@@ -263,9 +263,6 @@ PHP_METHOD(Phalcon_Http_Request, _get){
 				}
 
 				PHALCON_CALL_METHOD(&filter_value, filter, "sanitize", value, filters, norecursive);
-				if (return_value_ptr) {
-					return_value = *return_value_ptr;
-				}
 
 				if ((PHALCON_IS_EMPTY(filter_value) && zend_is_true(not_allow_empty)) || PHALCON_IS_FALSE(filter_value)) {
 					RETURN_CTOR(default_value);
@@ -913,8 +910,7 @@ PHP_METHOD(Phalcon_Http_Request, getBsonRawBody){
 
 	PHALCON_CALL_METHOD(&raw_body, this_ptr, "getrawbody");
 	if (Z_TYPE_P(raw_body) == IS_STRING) {
-		PHALCON_CALL_FUNCTION(return_value_ptr, "bson_decode", raw_body);
-		RETURN_MM();
+		PHALCON_RETURN_CALL_FUNCTION("bson_decode", raw_body);
 	}
 
 	PHALCON_MM_RESTORE();
