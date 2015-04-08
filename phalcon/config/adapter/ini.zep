@@ -57,8 +57,6 @@ class Ini extends Config
 
 	/**
 	 * Phalcon\Config\Adapter\Ini constructor
-	 *
-	 * @param string filePath
 	 */
 	public function __construct(string! filePath)
 	{

@@ -59,8 +59,6 @@ class Php extends Config
 
 	/**
 	 * Phalcon\Config\Adapter\Php constructor
-	 *
-	 * @param string filePath
 	 */
 	public function __construct(string! filePath)
 	{
