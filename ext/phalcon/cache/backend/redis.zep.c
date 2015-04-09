@@ -23,23 +23,6 @@
 #include "kernel/hash.h"
 
 
-/*
- +------------------------------------------------------------------------+
- | Phalcon Framework                                                      |
- +------------------------------------------------------------------------+
- | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
- +------------------------------------------------------------------------+
- | This source file is subject to the New BSD License that is bundled     |
- | with this package in the file docs/LICENSE.txt.                        |
- |                                                                        |
- | If you did not receive a copy of the license and are unable to         |
- | obtain it through the world-wide-web, please send an email             |
- | to license@phalconphp.com so we can send you a copy immediately.       |
- +------------------------------------------------------------------------+
- | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
- |          Eduar Carvajal <eduar@phalconphp.com>                         |
- +------------------------------------------------------------------------+
- */
 /**
  * Phalcon\Cache\Backend\Redis
  *
@@ -152,8 +135,10 @@ PHP_METHOD(Phalcon_Cache_Backend_Redis, _connect) {
 	zephir_read_property_this(&options, this_ptr, SL("_options"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(redis);
 	object_init_ex(redis, zephir_get_internal_ce(SS("redis") TSRMLS_CC));
-	ZEPHIR_CALL_METHOD(NULL, redis, "__construct", NULL);
-	zephir_check_call_status();
+	if (zephir_has_constructor(redis TSRMLS_CC)) {
+		ZEPHIR_CALL_METHOD(NULL, redis, "__construct", NULL);
+		zephir_check_call_status();
+	}
 	ZEPHIR_OBS_VAR(host);
 	_0 = !(zephir_array_isset_string_fetch(&host, options, SS("host"), 0 TSRMLS_CC));
 	if (!(_0)) {

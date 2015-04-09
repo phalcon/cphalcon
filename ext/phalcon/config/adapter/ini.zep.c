@@ -24,24 +24,6 @@
 #include "kernel/string.h"
 
 
-/*
- +------------------------------------------------------------------------+
- | Phalcon Framework                                                      |
- +------------------------------------------------------------------------+
- | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
- +------------------------------------------------------------------------+
- | This source file is subject to the New BSD License that is bundled     |
- | with this package in the file docs/LICENSE.txt.                        |
- |                                                                        |
- | If you did not receive a copy of the license and are unable to         |
- | obtain it through the world-wide-web, please send an email             |
- | to license@phalconphp.com so we can send you a copy immediately.       |
- +------------------------------------------------------------------------+
- | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
- |          Eduar Carvajal <eduar@phalconphp.com>                         |
- |          Ivan Zubok <chi_no@ukr.net>                                   |
- +------------------------------------------------------------------------+
- */
 /**
  * Phalcon\Config\Adapter\Ini
  *
@@ -182,6 +164,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct) {
  */
 PHP_METHOD(Phalcon_Config_Adapter_Ini, _parseIniString) {
 
+	zephir_nts_static zephir_fcall_cache_entry *_5 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *path_param = NULL, *value, *pos, *key, _0, _1, _2, *_3, *_4 = NULL;
 	zval *path = NULL;
@@ -221,7 +204,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, _parseIniString) {
 	zephir_substr(_3, path, zephir_get_intval(&_2), 0, ZEPHIR_SUBSTR_NO_LENGTH);
 	zephir_get_strval(path, _3);
 	zephir_create_array(return_value, 1, 0 TSRMLS_CC);
-	ZEPHIR_CALL_METHOD(&_4, this_ptr, "_parseinistring", NULL, path, value);
+	ZEPHIR_CALL_METHOD(&_4, this_ptr, "_parseinistring", &_5, path, value);
 	zephir_check_call_status();
 	zephir_array_update_zval(&return_value, key, &_4, PH_COPY);
 	RETURN_MM();

@@ -180,7 +180,7 @@ typedef struct _zephir_function_cache {
 
 
 #define PHP_PHALCON_NAME        "phalcon"
-#define PHP_PHALCON_VERSION     "2.0.0r"
+#define PHP_PHALCON_VERSION     "2.0.0-RC1"
 #define PHP_PHALCON_EXTNAME     "phalcon"
 #define PHP_PHALCON_AUTHOR      "Phalcon Team and Contributors"
 #define PHP_PHALCON_ZEPVERSION  "0.6.1a"

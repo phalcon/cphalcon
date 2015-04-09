@@ -24,23 +24,6 @@
 #include "kernel/string.h"
 
 
-/*
- +------------------------------------------------------------------------+
- | Phalcon Framework                                                      |
- +------------------------------------------------------------------------+
- | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
- +------------------------------------------------------------------------+
- | This source file is subject to the New BSD License that is bundled     |
- | with this package in the file docs/LICENSE.txt.                        |
- |                                                                        |
- | If you did not receive a copy of the license and are unable to         |
- | obtain it through the world-wide-web, please send an email             |
- | to license@phalconphp.com so we can send you a copy immediately.       |
- +------------------------------------------------------------------------+
- | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
- |          Eduar Carvajal <eduar@phalconphp.com>                         |
- +------------------------------------------------------------------------+
- */
 /**
  * Phalcon\Debug\Dump
  *
@@ -295,8 +278,8 @@ PHP_METHOD(Phalcon_Debug_Dump, output) {
 	zend_bool _14, _15, _16;
 	HashTable *_7, *_25, *_37;
 	HashPosition _6, _24, _36;
-	zephir_nts_static zephir_fcall_cache_entry *_5 = NULL, *_10 = NULL, *_21 = NULL, *_23 = NULL, *_29 = NULL, *_30 = NULL, *_31 = NULL, *_33 = NULL, *_34 = NULL, *_41 = NULL, *_43 = NULL, *_44 = NULL;
-	zephir_fcall_cache_entry *_3 = NULL, *_19 = NULL;
+	zephir_nts_static zephir_fcall_cache_entry *_5 = NULL, *_10 = NULL, *_19 = NULL, *_21 = NULL, *_23 = NULL, *_29 = NULL, *_30 = NULL, *_31 = NULL, *_33 = NULL, *_34 = NULL, *_41 = NULL, *_43 = NULL, *_44 = NULL;
+	zephir_fcall_cache_entry *_3 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *_0 = NULL, *_11 = NULL, *_39 = NULL;
 	zval *variable, *name = NULL, *tab = NULL, *key = NULL, *value = NULL, *output = NULL, *space, *type = NULL, *attr = NULL, *_1 = NULL, *_2 = NULL, _4 = zval_used_for_init, **_8, *_9 = NULL, *_12 = NULL, *_13 = NULL, *_17 = NULL, *_18 = NULL, *_20 = NULL, *_22, **_26, *_27 = NULL, *_28 = NULL, *_32, *_35, **_38, *_40 = NULL, _42;
