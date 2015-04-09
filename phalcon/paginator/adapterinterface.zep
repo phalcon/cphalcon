@@ -39,10 +39,8 @@ interface AdapterInterface
 
 	/**
 	 * Returns a slice of the resultset to show in the pagination
-	 *
-	 * @return \stdclass
 	 */
-	public function getPaginate();
+	public function getPaginate() -> <\stdClass>;
 
 	/**
 	 * Set current rows limit
@@ -52,5 +50,5 @@ interface AdapterInterface
 	/**
 	 * Get current rows limit
 	 */
-	public function getLimit();
+	public function getLimit() -> int;
 }
