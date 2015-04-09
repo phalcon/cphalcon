@@ -981,8 +981,6 @@ class CacheTest extends PHPUnit_Framework_TestCase
 
 	private function _prepareLibmemcached()
 	{
-		return false;
-
 		if (!extension_loaded('memcached')) {
 			$this->markTestSkipped('Warning: memcached extension is not loaded');
 			return false;
@@ -996,7 +994,7 @@ class CacheTest extends PHPUnit_Framework_TestCase
 		return $memcache;
 	}
 
-	public function xtestOutputLibmemcachedCache()
+	public function testOutputLibmemcachedCache()
 	{
 
 		$memcache = $this->_prepareLibmemcached();
@@ -1071,7 +1069,7 @@ class CacheTest extends PHPUnit_Framework_TestCase
 
 	}
 
-	public function xtestLibMemcachedIncrement()
+	public function testLibMemcachedIncrement()
 	{
 		$memcache = $this->_prepareLibmemcached();
 		if (!$memcache) {
@@ -1149,7 +1147,7 @@ class CacheTest extends PHPUnit_Framework_TestCase
 		));
 
 		$keys = $cache->queryKeys();
-		foreach ($keys as $key) {
+		foreach ((array)$keys as $key) {
 			$cache->delete($key);
 		}
 
