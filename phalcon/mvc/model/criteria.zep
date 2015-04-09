@@ -167,9 +167,9 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 		let join = [model, conditions, alias, type];
 		if fetch currentJoins, this->_params["joins"] {
 			if typeof currentJoins == "array" {
-				let mergedJoins = array_merge(currentJoins, join);
+				let mergedJoins = array_merge(currentJoins, [join]);
 			} else {
-				let mergedJoins = join;
+				let mergedJoins = [join];
 			}
 		} else {
 			let mergedJoins = [join];
@@ -196,22 +196,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 	 */
 	public function innerJoin(string! model, conditions = null, alias = null) -> <Criteria>
 	{
-		var join, mergedJoins, currentJoins;
-
-		let join = [model, conditions, alias, "INNER"];
-		if fetch currentJoins, this->_params["joins"] {
-			if typeof currentJoins == "array" {
-				let mergedJoins = array_merge(currentJoins, join);
-			} else {
-				let mergedJoins = join;
-			}
-		} else {
-			let mergedJoins = [join];
-		}
-
-		let this->_params["joins"] = mergedJoins;
-
-		return this;
+		return this->join(model, conditions, alias, "INNER");
 	}
 
 	/**
@@ -228,22 +213,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 	 */
 	public function leftJoin(string! model, conditions = null, alias = null) -> <Criteria>
 	{
-		var join, mergedJoins, currentJoins;
-
-		let join = [model, conditions, alias, "LEFT"];
-		if fetch currentJoins, this->_params["joins"] {
-			if typeof currentJoins == "array" {
-				let mergedJoins = array_merge(currentJoins, join);
-			} else {
-				let mergedJoins = join;
-			}
-		} else {
-			let mergedJoins = [join];
-		}
-
-		let this->_params["joins"] = mergedJoins;
-
-		return this;
+		return this->join(model, conditions, alias, "LEFT");
 	}
 
 	/**
@@ -260,22 +230,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 	 */
 	public function rightJoin(string! model, conditions = null, alias = null) -> <Criteria>
 	{
-		var join, mergedJoins, currentJoins;
-
-		let join = [model, conditions, alias, "RIGHT"];
-		if fetch currentJoins, this->_params["joins"] {
-			if typeof currentJoins == "array" {
-				let mergedJoins = array_merge(currentJoins, join);
-			} else {
-				let mergedJoins = join;
-			}
-		} else {
-			let mergedJoins = [join];
-		}
-
-		let this->_params["joins"] = mergedJoins;
-
-		return this;
+		return this->join(model, conditions, alias, "RIGHT");
 	}
 
 	/**
