@@ -802,5 +802,4 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 		}
 		return {model}::find(this->getParams());
 	}
-
 }
