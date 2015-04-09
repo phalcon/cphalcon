@@ -96,4 +96,18 @@ abstract class Adapter
 		return this->{"query"}(translateKey, null);
 	}
 
+	protected function replacePlaceholders(string! translation, placeholders = null) -> string
+	{
+		var key, value;
+
+		if typeof placeholders === "array" {
+			if count(placeholders) {
+				for key, value in placeholders {
+					let translation = str_replace("%" . key . "%", value, translation);
+				}
+			}
+		}
+
+		return translation;
+	}
 }
