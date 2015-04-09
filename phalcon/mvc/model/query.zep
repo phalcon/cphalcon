@@ -192,7 +192,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 	{
 		var columnName, sqlColumnAliases, metaData, sqlAliases,
 			source, sqlAliasesModelsInstances, realColumnName, columnDomain,
-			model, models, columnMap, hasModel;
+			model, models, columnMap, hasModel, className;
 		int number;
 
 		let columnName = expr["name"];
@@ -292,8 +292,9 @@ class Query implements QueryInterface, InjectionAwareInterface
 			/**
 			 * Obtain the model's source from the _models list
 			 */
-			if !fetch source, models[get_class(hasModel)] {
-				throw new Exception("Column '" . columnName . "' doesn't belong to any of the selected models (2), when preparing: " . this->_phql);
+			let className = get_class(hasModel);
+			if !fetch source, models[className] {
+				throw new Exception("Can't obtain model's source from models list: '" . className . "', when preparing: " . this->_phql);
 			}
 
 			/**
@@ -1789,8 +1790,6 @@ class Query implements QueryInterface, InjectionAwareInterface
 		if fetch limit, ast["limit"] {
 			let sqlSelect["limit"] = this->_getLimitClause(limit);
 		}
-
-		print_r(sqlSelect);
 
 		return sqlSelect;
 	}
