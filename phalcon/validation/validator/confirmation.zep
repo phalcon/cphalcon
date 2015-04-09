@@ -41,10 +41,6 @@ class Confirmation extends Validator
 
 	/**
 	 * Executes the validation
-	 *
-	 * @param Phalcon\Validation validation
-	 * @param string field
-	 * @return boolean
 	 */
 	public function validate(<\Phalcon\Validation> validation, string field) -> boolean
 	{
@@ -81,14 +77,10 @@ class Confirmation extends Validator
 
 	/**
 	 * Compare strings
-	 *
-	 * @param string a
-	 * @param string b
-	 * @return boolean
 	 */
 	protected function compare(string a, string b) -> boolean
 	{
-		if this->isSetOption("caseSensitive") && !this->getOption("caseSensitive") {
+		if this->getOption("ignoreCase", false) {
 
 			/**
 			 * mbstring is required here

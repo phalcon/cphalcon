@@ -44,8 +44,19 @@ abstract class Validator implements ValidatorInterface
 
 	/**
 	 * Checks if an option is defined
+
+	 * @deprecated since 2.1.0
+	 * @see \Phalcon\Validation\Validator::hasOption()
 	 */
-	public function isSetOption(string key) -> boolean
+	public function isSetOption(string! key) -> boolean
+	{
+		return isset this->_options[key];
+	}
+
+	/**
+	 * Checks if an option is defined
+	 */
+	public function hasOption(string! key) -> boolean
 	{
 		return isset this->_options[key];
 	}
@@ -54,22 +65,24 @@ abstract class Validator implements ValidatorInterface
 	 * Returns an option in the validator's options
 	 * Returns null if the option hasn't set
 	 */
-	public function getOption(string! key)
+	public function getOption(string! key, var defaultValue = null) -> var
 	{
 		var options, value;
 		let options = this->_options;
+
 		if typeof options == "array" {
 			if fetch value, options[key] {
 				return value;
 			}
 		}
-		return null;
+
+		return defaultValue;
 	}
 
 	/**
 	 * Sets an option in the validator
 	 */
-	public function setOption(string! key, value)
+	public function setOption(string! key, value) -> void
 	{
 		let this->_options[key] = value;
 	}
