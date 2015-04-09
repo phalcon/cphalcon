@@ -32,6 +32,8 @@ interface ValidatorInterface
 	 *
 	 * @param string key
 	 * @return mixed
+	 * @deprecated since 2.1.0
+	 * @see \Phalcon\Validation\Validator::hasOption()
 	 */
 	public function isSetOption(string! key) -> boolean;
 

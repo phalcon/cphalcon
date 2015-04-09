@@ -25,7 +25,7 @@ use Phalcon\Validation\Exception;
  *
  * This is a base class for validators
  */
-class Validator
+abstract class Validator implements ValidatorInterface
 {
 	protected _options;
 
@@ -48,8 +48,21 @@ class Validator
 	 *
 	 * @param string key
 	 * @return boolean
+	 * @deprecated since 2.1.0
+	 * @see \Phalcon\Validation\Validator::hasOption()
 	 */
 	public function isSetOption(string key) -> boolean
+	{
+		return isset this->_options[key];
+	}
+
+	/**
+	 * Checks if an option is defined
+	 *
+	 * @param string key
+	 * @return boolean
+	 */
+	public function hasOption(string key) -> boolean
 	{
 		return isset this->_options[key];
 	}
@@ -61,16 +74,18 @@ class Validator
 	 * @param string key
 	 * @return mixed
 	 */
-	public function getOption(string! key)
+	public function getOption(string! key, _default = null)
 	{
 		var options, value;
 		let options = this->_options;
+
 		if typeof options == "array" {
 			if fetch value, options[key] {
 				return value;
 			}
 		}
-		return null;
+
+		return _default;
 	}
 
 	/**
@@ -79,7 +94,7 @@ class Validator
 	 * @param string key
 	 * @param mixed value
 	 */
-	public function setOption(string! key, value)
+	public function setOption(string key, value) -> void
 	{
 		let this->_options[key] = value;
 	}

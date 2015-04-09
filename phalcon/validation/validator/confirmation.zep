@@ -87,7 +87,7 @@ class Confirmation extends \Phalcon\Validation\Validator implements \Phalcon\Val
 	 */
 	protected function compare(string a, string b) -> boolean
 	{
-		if this->isSetOption("caseSensitive") && !this->getOption("caseSensitive") {
+		if this->getOption("ignoreCase", false) {
 
 			/**
 			 * mbstring is required here
