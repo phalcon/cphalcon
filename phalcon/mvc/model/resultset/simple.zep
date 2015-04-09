@@ -228,6 +228,8 @@ class Simple extends Resultset
 					 * Update the row count
 					 */
 					let this->_count = count(records);
+				} else {
+					let records = [];
 				}
 			}
 		}
