@@ -83,17 +83,10 @@ class Csv extends Adapter implements AdapterInterface, \ArrayAccess
 	 */
 	public function query(string! index, placeholders = null) -> string
 	{
-		var translation, key, value;
+		var translation;
 
 		if fetch translation, this->_translate[index] {
-			if typeof placeholders === "array" {
-				if count(placeholders) {
-					for key, value in placeholders {
-						let translation = str_replace("%" . key . "%", value, translation);
-					}
-				}
-			}
-			return translation;
+			return this->replacePlaceholders(translation, placeholders);
 		}
 		return index;
 	}
