@@ -1815,9 +1815,9 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 		}
 
 		/**
-		 * Create a query
+		 * Gets Query instance from DI container
 		 */
-		let query = new \Phalcon\Mvc\Model\Query(phql, dependencyInjector);
+		let query = <QueryInterface> dependencyInjector->get("\Phalcon\Mvc\Model\Query", [phql, dependencyInjector]);
 		let this->_lastQuery = query;
 
 		/**
@@ -1842,9 +1842,9 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 		}
 
 		/**
-		 * Create a query builder
+		 * Gets Builder instance from DI container
 		 */
-		return new Builder(params, dependencyInjector);
+		return <BuilderInterface> dependencyInjector->get("\Phalcon\Mvc\Model\Query\Builder", [params, dependencyInjector]);
 	}
 
 	/**
