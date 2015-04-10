@@ -58,9 +58,6 @@ class Manager
 
 	/**
 	 * Sets the manager options
-	 *
-	 * @param array options
-	 * @return Phalcon\Assets\Manager
 	 */
 	public function setOptions(array! options) -> <Manager>
 	{
@@ -70,19 +67,14 @@ class Manager
 
 	/**
 	 * Returns the manager options
-	 *
-	 * @return array
 	 */
-	public function getOptions()
+	public function getOptions() -> array
 	{
 		return this->_options;
 	}
 
 	/**
 	 * Sets if the HTML generated must be directly printed or returned
-	 *
-	 * @param boolean implicitOutput
-	 * @return Phalcon\Assets\Manager
 	 */
 	public function useImplicitOutput(boolean implicitOutput) -> <Manager>
 	{
@@ -105,7 +97,7 @@ class Manager
 	* @param array attributes
 	* @return Phalcon\Assets\Manager
 	*/
-	public function addCss(string! path, local = true, filter = true, attributes = null)
+	public function addCss(string! path, local = true, filter = true, attributes = null) -> <Manager>
 	{
 		this->addResourceByType("css", new ResourceCss(path, local, filter, attributes));
 		return this;
@@ -129,7 +121,7 @@ class Manager
 	*
 	*<code>
 	*	$assets->addJs('scripts/jquery.js');
-        *       $assets->addJs('http://jquery.my-cdn.com/jquery.js', false);
+	*	$assets->addJs('http://jquery.my-cdn.com/jquery.js', false);
 	*</code>
 	*
 	* @param string path
@@ -138,7 +130,7 @@ class Manager
 	* @param array attributes
 	* @return Phalcon\Assets\Manager
 	*/
-	public function addJs(string! path, local = true, filter = true, attributes = null)
+	public function addJs(string! path, local = true, filter = true, attributes = null) -> <Manager>
 	{
 		this->addResourceByType("js", new ResourceJs(path, local, filter, attributes));
 		return this;
@@ -163,10 +155,6 @@ class Manager
 	 *<code>
 	 *	$assets->addResourceByType('css', new \Phalcon\Assets\Resource\Css('css/style.css'));
 	 *</code>
-	 *
-	 * @param string type
-	 * @param Phalcon\Assets\Resource resource
-	 * @return Phalcon\Assets\Manager
 	 */
 	public function addResourceByType(string! type, <$Resource> $resource) -> <Manager>
 	{
@@ -187,12 +175,8 @@ class Manager
 
 	/**
 	 * Adds a inline code by its type
-	 *
-	 * @param string type
-	 * @param Phalcon\Assets\Inline code
-	 * @return Phalcon\Assets\Manager
 	 */
-	public function addInlineCodeByType(string! type, <\Phalcon\Assets\Inline> code) -> <Manager>
+	public function addInlineCodeByType(string! type, <$Inline> code) -> <Manager>
 	{
 		var collection;
 
@@ -215,9 +199,6 @@ class Manager
 	 *<code>
 	 * $assets->addResource(new Phalcon\Assets\Resource('css', 'css/style.css'));
 	 *</code>
-	 *
-	 * @param Phalcon\Assets\Resource $resource
-	 * @return Phalcon\Assets\Manager
 	 */
 	public function addResource(<$Resource> $resource) -> <Manager>
 	{
@@ -230,11 +211,8 @@ class Manager
 
 	/**
 	 * Adds a raw inline code to the manager
-	 *
-	 * @param Phalcon\Assets\Inline code
-	 * @return Phalcon\Assets\Manager
 	 */
-	public function addInlineCode(<$Resource> code) -> <Manager>
+	public function addInlineCode(<$Inline> code) -> <Manager>
 	{
 		/**
 		 * Adds the inline code by its type
@@ -249,10 +227,6 @@ class Manager
 	 *<code>
 	 * $assets->set('js', $collection);
 	 *</code>
-	 *
-	 * @param string id
-	 * @param Phalcon\Assets\Collection collection
-	 * @return Phalcon\Assets\Manager
 	 */
 	public function set(string! id, <Collection> collection) -> <Manager>
 	{
@@ -266,9 +240,6 @@ class Manager
 	*<code>
 	* $scripts = $assets->get('js');
 	*</code>
-	*
-	* @param string id
-	* @return Phalcon\Assets\Collection
 	*/
 	public function get(string! id) -> <Collection>
 	{
@@ -283,8 +254,6 @@ class Manager
 
 	/**
 	 * Returns the CSS collection of assets
-	 *
-	 * @return Phalcon\Assets\Collection
 	 */
 	public function getCss() -> <\Phalcon\Assets\Collection>
 	{
@@ -301,8 +270,6 @@ class Manager
 
 	/**
 	 * Returns the CSS collection of assets
-	 *
-	 * @return Phalcon\Assets\Collection
 	 */
 	public function getJs() -> <Collection>
 	{
@@ -320,9 +287,6 @@ class Manager
 
 	/**
 	 * Creates/Returns a collection of resources
-	 *
-	 * @param string name
-	 * @return Phalcon\Assets\Collection
 	 */
 	public function collection(string name) -> <Collection>
 	{

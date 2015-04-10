@@ -33,11 +33,8 @@ class Cssmin implements FilterInterface
 
 	/**
 	 * Filters the content using CSSMIN
-	 *
-	 * @param string content
-	 * @return string
 	 */
-	public function filter(string! content)
+	public function filter(string! content) -> string
 	{
 		return phalcon_cssmin(content);
 	}

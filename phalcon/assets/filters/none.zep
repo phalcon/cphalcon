@@ -31,11 +31,8 @@ class None implements FilterInterface
 
 	/**
 	 * Returns the content without be touched
-	 *
-	 * @param string content
-	 * @return string
 	 */
-	public function filter(string! content)
+	public function filter(string! content) -> string
 	{
 		return content;
 	}
