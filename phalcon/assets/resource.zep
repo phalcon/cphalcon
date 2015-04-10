@@ -28,7 +28,7 @@ namespace Phalcon\Assets;
  * $resource = new \Phalcon\Assets\Resource('js', 'javascripts/jquery.js');
  *</code>
  */
- class $Resource
+class $Resource
 {
 
 	protected _type { get };
@@ -69,9 +69,6 @@ namespace Phalcon\Assets;
 
 	/**
 	 * Sets the resource's type
-	 *
-	 * @param string type
-	 * @return Phalcon\Assets\Resource
 	 */
 	public function setType(string type) -> <$Resource>
 	{
@@ -81,9 +78,6 @@ namespace Phalcon\Assets;
 
 	/**
 	 * Sets the resource's path
-	 *
-	 * @param string path
-	 * @return Phalcon\Assets\Resource
 	 */
 	public function setPath(string path) -> <$Resource>
 	{
@@ -93,9 +87,6 @@ namespace Phalcon\Assets;
 
 	/**
 	 * Sets if the resource is local or external
-	 *
-	 * @param boolean local
-	 * @return Phalcon\Assets\Resource
 	 */
 	public function setLocal(boolean local) -> <$Resource>
 	{
@@ -105,9 +96,6 @@ namespace Phalcon\Assets;
 
 	/**
 	 * Sets if the resource must be filtered or not
-	 *
-	 * @param boolean filter
-	 * @return Phalcon\Assets\Resource
 	 */
 	public function setFilter(boolean filter) -> <$Resource>
 	{
@@ -117,9 +105,6 @@ namespace Phalcon\Assets;
 
 	/**
 	 * Sets extra HTML attributes
-	 *
-	 * @param array attributes
-	 * @return Phalcon\Assets\Resource
 	 */
 	public function setAttributes(array attributes) -> <$Resource>
 	{
@@ -129,9 +114,6 @@ namespace Phalcon\Assets;
 
 	/**
 	 * Sets a target uri for the generated HTML
-	 *
-	 * @param string targetUri
-	 * @return Phalcon\Assets\Resource
 	 */
 	public function setTargetUri(string targetUri) -> <$Resource>
 	{
@@ -141,9 +123,6 @@ namespace Phalcon\Assets;
 
 	/**
 	 * Sets the resource's source path
-	 *
-	 * @param string sourcePath
-	 * @return Phalcon\Assets\Resource
 	 */
 	public function setSourcePath(string sourcePath) -> <$Resource>
 	{
@@ -153,9 +132,6 @@ namespace Phalcon\Assets;
 
 	/**
 	 * Sets the resource's target path
-	 *
-	 * @param string targetPath
-	 * @return Phalcon\Assets\Resource
 	 */
 	public function setTargetPath(string targetPath) -> <$Resource>
 	{
@@ -166,9 +142,6 @@ namespace Phalcon\Assets;
 	/**
 	 * Returns the content of the resource as an string
 	 * Optionally a base path where the resource is located can be set
-	 *
-	 * @param string basePath
-	 * @return string
 	 */
 	public function getContent(string basePath = null) -> string
 	{
@@ -211,8 +184,6 @@ namespace Phalcon\Assets;
 
 	/**
 	 * Returns the real target uri for the generated HTML
-	 *
-	 * @return string
 	 */
 	public function getRealTargetUri() -> string
 	{
@@ -227,9 +198,6 @@ namespace Phalcon\Assets;
 
 	/**
 	 * Returns the complete location where the resource is located
-	 *
-	 * @param string basePath
-	 * @return string
 	 */
 	public function getRealSourcePath(string basePath = null) -> string
 	{
@@ -252,9 +220,6 @@ namespace Phalcon\Assets;
 
 	/**
 	 * Returns the complete location where the resource must be written
-	 *
-	 * @param string basePath
-	 * @return string
 	 */
 	public function getRealTargetPath(string basePath = null) -> string
 	{
