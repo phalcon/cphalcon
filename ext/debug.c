@@ -62,6 +62,7 @@ PHP_METHOD(Phalcon_Debug, getJsSources);
 PHP_METHOD(Phalcon_Debug, showTraceItem);
 PHP_METHOD(Phalcon_Debug, onUncaughtException);
 PHP_METHOD(Phalcon_Debug, onUserDefinedError);
+PHP_METHOD(Phalcon_Debug, onShutdown);
 PHP_METHOD(Phalcon_Debug, getCharset);
 PHP_METHOD(Phalcon_Debug, setCharset);
 PHP_METHOD(Phalcon_Debug, getLinesBeforeContext);
@@ -142,6 +143,7 @@ static const zend_function_entry phalcon_debug_method_entry[] = {
 	PHP_ME(Phalcon_Debug, showTraceItem, NULL, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Debug, onUncaughtException, arginfo_phalcon_debug_onuncaughtexception, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Debug, onUserDefinedError, arginfo_phalcon_debug_onuserdefinederror, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Debug, onShutdown, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Debug, getCharset, NULL, ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Debug, setCharset, arginfo_phalcon_debug_setcharset, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Debug, getLinesBeforeContext, NULL, ZEND_ACC_PUBLIC)
@@ -300,6 +302,12 @@ PHP_METHOD(Phalcon_Debug, listenErrors){
 	phalcon_array_append(&handler, this_ptr, PH_SEPARATE);
 	add_next_index_stringl(handler, SL("onUserDefinedError"), 1);
 	PHALCON_CALL_FUNCTION(NULL, "set_error_handler", handler);
+
+	PHALCON_INIT_NVAR(handler);
+	array_init_size(handler, 2);
+	phalcon_array_append(&handler, this_ptr, PH_SEPARATE);
+	add_next_index_stringl(handler, SL("onShutdown"), 1);
+	PHALCON_CALL_FUNCTION(NULL, "register_shutdown_function", handler);
 
 	RETURN_THIS();
 }
@@ -1321,7 +1329,7 @@ PHP_METHOD(Phalcon_Debug, onUncaughtException){
  */
 PHP_METHOD(Phalcon_Debug, onUserDefinedError){
 
-	zval *severity, *message, *file = NULL, *line = NULL, *context = NULL, *exception;
+	zval *severity, *message, *file = NULL, *line = NULL, *context = NULL, *e, *previous = NULL, *exception;
 	zend_class_entry *default_exception_ce;
 
 	PHALCON_MM_GROW();
@@ -1336,8 +1344,18 @@ PHP_METHOD(Phalcon_Debug, onUserDefinedError){
 		line = PHALCON_GLOBAL(z_null);
 	}
 
-	if (!context) {
-		context = PHALCON_GLOBAL(z_null);
+	if (context && Z_TYPE_P(context) == IS_ARRAY) {
+		if (
+			phalcon_array_isset_string_fetch(&e, context, SS("e")) && 
+			Z_TYPE_P(e) == IS_OBJECT && 
+			instanceof_function_ex(Z_OBJCE_P(e), zend_exception_get_default(TSRMLS_C), 1 TSRMLS_CC)
+		) {
+			PHALCON_CPY_WRT(previous, e);
+		} else {
+			previous = PHALCON_GLOBAL(z_null);
+		}
+	} else {
+		previous = PHALCON_GLOBAL(z_null);
 	}
 
 	default_exception_ce = zend_get_error_exception(TSRMLS_C);
@@ -1345,9 +1363,43 @@ PHP_METHOD(Phalcon_Debug, onUserDefinedError){
 	ALLOC_INIT_ZVAL(exception);
 	object_init_ex(exception, default_exception_ce);
 
-	PHALCON_CALL_METHOD(NULL, exception, "__construct", message, PHALCON_GLOBAL(z_zero), severity, file, line);
+	PHALCON_CALL_METHOD(NULL, exception, "__construct", message, PHALCON_GLOBAL(z_zero), severity, file, line, previous);
 
 	zend_throw_exception_object(exception TSRMLS_CC);
+
+	RETURN_MM_TRUE;
+}
+
+/**
+ * Handles user-defined error
+ *
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Debug, onShutdown){
+
+	zval *error, *message, *type, *file, *line, *exception;
+	zend_class_entry *default_exception_ce;
+
+	PHALCON_MM_GROW();
+
+	PHALCON_CALL_FUNCTION(&error, "error_get_last");
+
+	if (
+		phalcon_array_isset_string_fetch(&message, error, SS("message")) && 
+		phalcon_array_isset_string_fetch(&type, error, SS("type")) && 
+		phalcon_array_isset_string_fetch(&file, error, SS("file")) && 
+		phalcon_array_isset_string_fetch(&line, error, SS("line"))
+		
+	) {
+		default_exception_ce = zend_get_error_exception(TSRMLS_C);
+
+		ALLOC_INIT_ZVAL(exception);
+		object_init_ex(exception, default_exception_ce);
+
+		PHALCON_CALL_METHOD(NULL, exception, "__construct", message, PHALCON_GLOBAL(z_zero), type, file, line);
+
+		zend_throw_exception_object(exception TSRMLS_CC);
+	}
 
 	RETURN_MM_TRUE;
 }
