@@ -29,52 +29,38 @@ interface DispatcherInterface
 
 	/**
 	 * Sets the default action suffix
-	 *
-	 * @param string actionSuffix
 	 */
-	public function setActionSuffix(actionSuffix);
+	public function setActionSuffix(string actionSuffix);
 
 	/**
 	 * Sets the default namespace
-	 *
-	 * @param string defaultNamespace
 	 */
-	public function setDefaultNamespace(defaultNamespace);
+	public function setDefaultNamespace(string defaultNamespace);
 
 	/**
 	 * Sets the default action name
-	 *
-	 * @param string actionName
 	 */
-	public function setDefaultAction(actionName);
+	public function setDefaultAction(string actionName);
 
 	/**
 	 * Sets the namespace which the controller belongs to
-	 *
-	 * @param string namespaceName
 	 */
-	public function setNamespaceName(namespaceName);
+	public function setNamespaceName(string namespaceName);
 
 	/**
 	 * Sets the module name which the application belongs to
-	 *
-	 * @param string moduleName
 	 */
-	public function setModuleName(moduleName);
+	public function setModuleName(string moduleName);
 
 	/**
 	 * Sets the action name to be dispatched
-	 *
-	 * @param string actionName
 	 */
-	public function setActionName(actionName);
+	public function setActionName(string actionName);
 
 	/**
 	 * Gets last dispatched action name
-	 *
-	 * @return string
 	 */
-	public function getActionName();
+	public function getActionName() -> string;
 
 	/**
 	 * Sets action params to be dispatched
@@ -85,10 +71,8 @@ interface DispatcherInterface
 
 	/**
 	 * Gets action params
-	 *
-	 * @return array
 	 */
-	public function getParams();
+	public function getParams() -> array;
 
 	/**
 	 * Set a param by its name or numeric index
@@ -108,11 +92,9 @@ interface DispatcherInterface
 	public function getParam(param, filters = null);
 
 	/**
-	 * Checks if the dispatch loop is finished or has more pendent controllers/tasks to disptach
-	 *
-	 * @return boolean
+	 * Checks if the dispatch loop is finished or has more pendent controllers/tasks to dispatch
 	 */
-	public function isFinished();
+	public function isFinished() -> boolean;
 
 	/**
 	 * Returns value returned by the lastest dispatched action
