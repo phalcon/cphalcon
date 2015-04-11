@@ -20,21 +20,35 @@
 namespace Phalcon;
 
 use Phalcon\Di;
+use Phalcon\DiInterface;
+use Phalcon\Events\ManagerInterface as EventsManagerInterface;
+use Phalcon\Mvc\Application as ApplicationInterface;
 
 /**
- * Phalcon\Filter\Exception
+ * Class Phalcon\Factory
  *
- * Exceptions thrown in Phalcon\Filter will use this class
+ * Global container for gets instance DI (internal or from application, or default).
+ * And also for gets instance Application.
  *
+ * <code>
+ * 	// Gets Service instance from DI
+ * 	$service1 = Phalcon\Factory::di()->get(SERVICE_NAME);
+ * 	$service2 = Phalcon\Factory::getSERVICENAME();
+ *
+ * 	// Gets Application instance
+ *	$app Phalcon\Factory::app();
+ * </code>
  */
 abstract class Factory
 {
 	protected static _app;
 
+	protected static _di;
+
 	/**
 	 * Returns global Application instance
 	 */
-	public static function app() -> <Phalcon\Mvc\Application>
+	public static function app() -> <ApplicationInterface>
 	{
 		if typeof self::_app != "object" {
 			throw new Exception("Application isn't registered in the global container");
@@ -46,19 +60,35 @@ abstract class Factory
 	/**
 	 * Returns global Dependency Injector
 	 */
-	public static function di() -> <Phalcon\DiInterface>
+	public static function di(<DiInterface> external_di = null) -> <DiInterface>
 	{
-		if isset self::_app {
-			return self::_app->getDI();
-		} else {
-			return Di::getDefault();
+		if external_di {
+			return external_di;
 		}
+
+		 if self::_di {
+		 	return self::_di;
+		 }
+
+		 if self::_app {
+		 	self::_app->getDI();
+		 }
+
+		return Di::getDefault();
+	}
+
+	/**
+	 * Sets global Dependency Injector
+	 */
+	public static function setDI(<DiInterface> di) -> void
+	{
+		let self::_di = di;
 	}
 
 	/**
 	 * Returns global Event Manager
 	 */
-	public static function eventsManager() -> <Phalcon\Events\ManagerInterface>
+	public static function eventsManager() -> <EventsManagerInterface>
 	{
 		return self::di()->get("eventsManager");
 	}
@@ -66,7 +96,7 @@ abstract class Factory
 	/**
 	 * Sets global Application instance
 	 */
-	public static function setApplication(<Phalcon\Mvc\Application> application) -> void
+	public static function setApplication(<ApplicationInterface> application) -> void
 	{
 		let self::_app = application;
 	}
@@ -74,8 +104,12 @@ abstract class Factory
 	/**
 	 * Returns Service instance from global DI
 	 */
-	public static function __callStatic(string! method, array! arguments)
+	public static function __callStatic(string! method, array arguments)
 	{
-		return self::di()->get(method, arguments);
+		if starts_with(method, "get") {
+			return self::di()->get(lcfirst(substr(method, 3)), arguments);
+		}
+
+		throw new Exception("The static method '" . method . "' doesn't exist");
 	}
 }
