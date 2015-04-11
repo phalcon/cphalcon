@@ -19,6 +19,7 @@
 
 namespace Phalcon\Mvc;
 
+use Phalcon\Factory;
 use Phalcon\Di\Injectable;
 use Phalcon\Mvc\ViewInterface;
 use Phalcon\Mvc\Application\Exception;
@@ -91,6 +92,11 @@ class Application extends Injectable
 		if typeof dependencyInjector == "object" {
 			let this->_dependencyInjector = dependencyInjector;
 		}
+
+		/**
+		 * Register current application in global factory
+		 */
+		 Factory::setApplication(this);
 	}
 
 	/**
