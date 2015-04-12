@@ -21,6 +21,7 @@ namespace Phalcon\Tag;
 
 use Phalcon\Tag\Exception;
 use Phalcon\Tag as BaseTag;
+use Phalcon\Mvc\Model\Resultset;
 
 /**
  * Phalcon\Tag\Select
@@ -32,11 +33,8 @@ abstract class Select
 
 	/**
 	 * Generates a SELECT tag
-	 *
-	 * @param array parameters
-	 * @param array data
 	 */
-	public static function selectField(parameters, data = null)
+	public static function selectField(array! parameters, array! data = null)
 	{
 		var params, name, id, value, useEmpty, code, emptyValue, emptyText,
 			options, using;
@@ -146,13 +144,8 @@ abstract class Select
 
 	/**
 	 * Generate the OPTION tags based on a resulset
-	 *
-	 * @param Phalcon\Mvc\Model\Resultset resultset
-	 * @param array using
-	 * @param mixed value
-	 * @param string closeOption
 	 */
-	private static function _optionsFromResultset(resultset, using, value, closeOption)
+	private static function _optionsFromResultset(<Resultset> resultset, array! using, value, string! closeOption)
 	{
 		var code, params, option, usingZero, usingOne, optionValue, optionText;
 
@@ -220,12 +213,8 @@ abstract class Select
 
 	/**
 	 * Generate the OPTION tags based on an array
-	 *
-	 * @param array data
-	 * @param mixed value
-	 * @param string closeOption
 	 */
-	private static function _optionsFromArray(data, value, closeOption)
+	private static function _optionsFromArray(array! data, value, string! closeOption)
 	{
 		var code, optionValue, optionText, escaped;
 
