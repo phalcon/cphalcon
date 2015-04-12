@@ -38,7 +38,6 @@ class Cli extends FactoryDefault
 	 */
 	public function __construct()
 	{
-
 		parent::__construct();
 
 		let this->_services = [
