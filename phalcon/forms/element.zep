@@ -117,6 +117,9 @@ abstract class Element implements ElementInterface
 	 */
 	public function setFilters(var filters) -> <ElementInterface>
 	{
+		if typeof filters != "string" && typeof filters != "array" {
+			throw new Exception("Wrong filter type added");
+		}
 		let this->_filters = filters;
 		return this;
 	}
@@ -134,7 +137,11 @@ abstract class Element implements ElementInterface
 		if typeof filters == "array" {
 			let this->_filters[] = filter;
 		} else {
-			let this->_filters = [filters, filter];
+			if typeof filters == "string" {
+				let this->_filters = [filters, filter];
+			} else {
+				let this->_filters = [filter];
+			}
 		}
 		return this;
 	}
@@ -478,7 +485,7 @@ abstract class Element implements ElementInterface
 			 * Gets the possible value for the widget
 			 */
 			let value = form->getValue(name);
-			
+
 			/**
 			 * Check if the tag has a default value
 			 */
