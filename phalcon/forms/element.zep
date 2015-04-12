@@ -19,6 +19,7 @@
 
 namespace Phalcon\Forms;
 
+use Phalcon\Tag;
 use Phalcon\Forms\Exception;
 use Phalcon\Validation\Message;
 use Phalcon\Validation\MessageInterface;
@@ -426,7 +427,7 @@ abstract class Element implements ElementInterface
 			let attributes = ["for": name];
 		}
 
-		let code = \Phalcon\Tag::renderAttributes("<label", attributes);
+		let code = Tag::renderAttributes("<label", attributes);
 
 		/**
 		 * Use the default label or leave the same name as label
@@ -489,8 +490,8 @@ abstract class Element implements ElementInterface
 			/**
 			 * Check if the tag has a default value
 			 */
-			if typeof value == "null" && \Phalcon\Tag::hasValue(name) {
-				let value = \Phalcon\Tag::getValue(name);
+			if typeof value == "null" && Tag::hasValue(name) {
+				let value = Tag::getValue(name);
 			}
 
 		}
@@ -582,7 +583,7 @@ abstract class Element implements ElementInterface
 	 */
 	public function clear() -> <Element>
 	{
-		\Phalcon\Tag::setDefault(this->_name, null);
+		Tag::setDefault(this->_name, null);
 		return this;
 	}
 

@@ -282,12 +282,7 @@ abstract class Adapter
 	}
 
 	/**
- 	 * Add a watermark to an image with a specified opacity
- 	 *
- 	 * @param Phalcon\Image\Adapter watermark
- 	 * @param int offsetX
- 	 * @param int offsetY
- 	 * @param int opacity
+ 	 * Add a watermark to an image with the specified opacity
  	 */
 	public function watermark(<Adapter> watermark, int offsetX = 0, int offsetY = 0, int opacity = 100) -> <Adapter>
 	{
