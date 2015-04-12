@@ -165,6 +165,7 @@ class PaginatorTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($page->before, 1);
 		$this->assertEquals($page->next, 2);
 		$this->assertEquals($page->last, 6);
+		$this->assertEquals($page->limit, 3);
 
 		$this->assertEquals($page->current, 1);
 		$this->assertEquals($page->total_pages, 6);
@@ -203,6 +204,7 @@ class PaginatorTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($page->before, 1);
 		$this->assertEquals($page->next, 2);
 		$this->assertEquals($page->last, 2);
+		$this->assertEquals($page->limit, 25);
 
 		$this->assertEquals($page->current, 1);
 		$this->assertEquals($page->total_pages, 2);
@@ -249,6 +251,7 @@ class PaginatorTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($page->before, 1);
 		$this->assertEquals($page->next, 2);
 		$this->assertEquals($page->last, 218);
+		$this->assertEquals($page->limit, 10);
 
 		$this->assertEquals($page->current, 1);
 		$this->assertEquals($page->total_pages, 218);
@@ -316,6 +319,7 @@ class PaginatorTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($page->before, 1);
 		$this->assertEquals($page->next, 2);
 		$this->assertEquals($page->last, 4);
+		$this->assertEquals($page->limit, 10);
 
 		$this->assertEquals($page->current, 1);
 		$this->assertEquals($page->total_pages, 4);
@@ -351,6 +355,7 @@ class PaginatorTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($page->before, 1);
 		$this->assertEquals($page->next, 2);
 		$this->assertEquals($page->last, 218);
+		$this->assertEquals($page->limit, 10);
 
 		$this->assertEquals($page->current, 1);
 		$this->assertEquals($page->total_pages, 218);

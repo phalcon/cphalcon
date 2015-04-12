@@ -194,7 +194,8 @@ class Model implements AdapterInterface
 
 		let page->last = pagesTotal,
 			page->total_pages = pagesTotal,
-			page->total_items = n;
+			page->total_items = n,
+			page->limit = this->_limitRows;
 
 		return page;
 	}
