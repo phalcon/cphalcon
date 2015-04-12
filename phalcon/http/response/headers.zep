@@ -83,10 +83,8 @@ class Headers implements HeadersInterface
 
 	/**
 	 * Sends the headers to the client
-	 *
-	 * @return boolean
 	 */
-	public function send()
+	public function send() -> boolean
 	{
 		var header, value;
 		if !headers_sent() {
@@ -104,7 +102,6 @@ class Headers implements HeadersInterface
 
 	/**
 	 * Reset set headers
-	 *
 	 */
 	public function reset()
 	{
@@ -127,7 +124,7 @@ class Headers implements HeadersInterface
 	 * @param array data
 	 * @return Phalcon\Http\Response\Headers
 	 */
-	public static function __set_state(data)
+	public static function __set_state(data) -> <Headers>
 	{
 		var headers, key, value, dataHeaders;
 		let headers = new self();

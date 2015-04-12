@@ -1,3 +1,4 @@
+
 /*
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
@@ -53,8 +54,6 @@ class Request implements RequestInterface, InjectionAwareInterface
 
 	/**
 	 * Sets the dependency injector
-	 *
-	 * @param Phalcon\DiInterface dependencyInjector
 	 */
 	public function setDI(<DiInterface> dependencyInjector)
 	{
@@ -63,8 +62,6 @@ class Request implements RequestInterface, InjectionAwareInterface
 
 	/**
 	 * Returns the internal dependency injector
-	 *
-	 * @return Phalcon\DiInterface
 	 */
 	public function getDI() -> <DiInterface>
 	{
@@ -327,9 +324,6 @@ class Request implements RequestInterface, InjectionAwareInterface
 
 	/**
 	 * Checks whether $_REQUEST superglobal has certain index
-	 *
-	 * @param string name
-	 * @return boolean
 	 */
 	public function has(string! name) -> boolean
 	{
@@ -338,9 +332,6 @@ class Request implements RequestInterface, InjectionAwareInterface
 
 	/**
 	 * Checks whether $_POST superglobal has certain index
-	 *
-	 * @param string $name
-	 * @return boolean
 	 */
 	public function hasPost(string! name) -> boolean
 	{
@@ -349,9 +340,6 @@ class Request implements RequestInterface, InjectionAwareInterface
 
 	/**
 	 * Checks whether $_GET superglobal has certain index
-	 *
-	 * @param string name
-	 * @return boolean
 	 */
 	public function hasQuery(string! name) -> boolean
 	{
@@ -360,9 +348,6 @@ class Request implements RequestInterface, InjectionAwareInterface
 
 	/**
 	 * Checks whether $_SERVER superglobal has certain index
-	 *
-	 * @param string name
-	 * @return boolean
 	 */
 	public final function hasServer(string! name) -> boolean
 	{
@@ -371,9 +356,6 @@ class Request implements RequestInterface, InjectionAwareInterface
 
 	/**
 	 * Gets HTTP header from request data
-	 *
-	 * @param string header
-	 * @return string
 	 */
 	public final function getHeader(string! header) -> string
 	{
@@ -394,8 +376,6 @@ class Request implements RequestInterface, InjectionAwareInterface
 
 	/**
 	 * Gets HTTP schema (http/https)
-	 *
-	 * @return string
 	 */
 	public function getScheme() -> string
 	{
@@ -416,8 +396,6 @@ class Request implements RequestInterface, InjectionAwareInterface
 
 	/**
 	 * Checks whether request has been made using ajax
-	 *
-	 * @return boolean
 	 */
 	public function isAjax() -> boolean
 	{
@@ -426,8 +404,6 @@ class Request implements RequestInterface, InjectionAwareInterface
 
 	/**
 	 * Checks whether request has been made using SOAP
-	 *
-	 * @return boolean
 	 */
 	public function isSoapRequested() -> boolean
 	{
@@ -446,8 +422,6 @@ class Request implements RequestInterface, InjectionAwareInterface
 
 	/**
 	 * Checks whether request has been made using any secure layer
-	 *
-	 * @return boolean
 	 */
 	public function isSecureRequest() -> boolean
 	{
@@ -456,8 +430,6 @@ class Request implements RequestInterface, InjectionAwareInterface
 
 	/**
 	 * Gets HTTP raw request body
-	 *
-	 * @return string
 	 */
 	public function getRawBody() -> string
 	{
@@ -497,8 +469,6 @@ class Request implements RequestInterface, InjectionAwareInterface
 
 	/**
 	 * Gets active server address IP
-	 *
-	 * @return string
 	 */
 	public function getServerAddress() -> string
 	{
@@ -512,8 +482,6 @@ class Request implements RequestInterface, InjectionAwareInterface
 
 	/**
 	 * Gets active server name
-	 *
-	 * @return string
 	 */
 	public function getServerName() -> string
 	{
@@ -528,8 +496,6 @@ class Request implements RequestInterface, InjectionAwareInterface
 
 	/**
 	 * Gets information about schema, host and port used by the request
-	 *
-	 * @return string
 	 */
 	public function getHttpHost() -> string
 	{
@@ -573,13 +539,10 @@ class Request implements RequestInterface, InjectionAwareInterface
 		}
 
 		return name . ":" . port;
-
 	}
 
 	/**
 	 * Gets HTTP URI which request has been made
-	 *
-	 * @return string
 	 */
 	public final function getURI() -> string
 	{
@@ -594,9 +557,6 @@ class Request implements RequestInterface, InjectionAwareInterface
 
 	/**
 	 * Gets most possible client IPv4 Address. This method search in _SERVER['REMOTE_ADDR'] and optionally in _SERVER['HTTP_X_FORWARDED_FOR']
-	 *
-	 * @param boolean trustForwardedHeader
-	 * @return string|boolean
 	 */
 	public function getClientAddress(boolean trustForwardedHeader = false) -> string | boolean
 	{
@@ -631,8 +591,6 @@ class Request implements RequestInterface, InjectionAwareInterface
 
 	/**
 	 * Gets HTTP method which request has been made
-	 *
-	 * @return string
 	 */
 	public final function getMethod() -> string
 	{
@@ -646,8 +604,6 @@ class Request implements RequestInterface, InjectionAwareInterface
 
 	/**
 	 * Gets HTTP user agent used to made the request
-	 *
-	 * @return string
 	 */
 	public function getUserAgent() -> string
 	{
@@ -687,8 +643,6 @@ class Request implements RequestInterface, InjectionAwareInterface
 
 	/**
 	 * Checks whether HTTP method is POST. if _SERVER["REQUEST_METHOD"]==="POST"
-	 *
-	 * @return boolean
 	 */
 	public function isPost() -> boolean
 	{
@@ -698,8 +652,6 @@ class Request implements RequestInterface, InjectionAwareInterface
 	/**
 	 *
 	 * Checks whether HTTP method is GET. if _SERVER["REQUEST_METHOD"]==="GET"
-	 *
-	 * @return boolean
 	 */
 	public function isGet() -> boolean
 	{
@@ -708,8 +660,6 @@ class Request implements RequestInterface, InjectionAwareInterface
 
 	/**
 	 * Checks whether HTTP method is PUT. if _SERVER["REQUEST_METHOD"]==="PUT"
-	 *
-	 * @return boolean
 	 */
 	public function isPut() -> boolean
 	{
@@ -718,8 +668,6 @@ class Request implements RequestInterface, InjectionAwareInterface
 
 	/**
 	 * Checks whether HTTP method is PATCH. if _SERVER["REQUEST_METHOD"]==="PATCH"
-	 *
-	 * @return boolean
 	 */
 	public function isPatch() -> boolean
 	{
@@ -728,8 +676,6 @@ class Request implements RequestInterface, InjectionAwareInterface
 
 	/**
 	 * Checks whether HTTP method is HEAD. if _SERVER["REQUEST_METHOD"]==="HEAD"
-	 *
-	 * @return boolean
 	 */
 	public function isHead() -> boolean
 	{
@@ -738,8 +684,6 @@ class Request implements RequestInterface, InjectionAwareInterface
 
 	/**
 	 * Checks whether HTTP method is DELETE. if _SERVER["REQUEST_METHOD"]==="DELETE"
-	 *
-	 * @return boolean
 	 */
 	public function isDelete() -> boolean
 	{
@@ -748,8 +692,6 @@ class Request implements RequestInterface, InjectionAwareInterface
 
 	/**
 	 * Checks whether HTTP method is OPTIONS. if _SERVER["REQUEST_METHOD"]==="OPTIONS"
-	 *
-	 * @return boolean
 	 */
 	public function isOptions() -> boolean
 	{
@@ -817,9 +759,6 @@ class Request implements RequestInterface, InjectionAwareInterface
 
 	/**
 	 * Gets attached files as Phalcon\Http\Request\File instances
-	 *
-	 * @param boolean notErrored
-	 * @return Phalcon\Http\Request\File[]
 	 */
 	public function getUploadedFiles(boolean notErrored = false) -> <File[]>
 	{
@@ -861,13 +800,6 @@ class Request implements RequestInterface, InjectionAwareInterface
 
 	/**
 	 * smooth out $_FILES to have plain array with all files uploaded
-	 *
-	 * @param array names
-	 * @param array types
-	 * @param array tmp_names
-	 * @param array sizes
-	 * @param array errors
-	 * @return array
 	 */
 	protected function smoothFiles(array! names, array! types, array! tmp_names, array! sizes, array! errors, string prefix) -> array
 	{
@@ -904,8 +836,6 @@ class Request implements RequestInterface, InjectionAwareInterface
 
 	/**
 	 * Returns the available headers in the request
-	 *
-	 * @return array
 	 */
 	public function getHeaders() -> array
 	{
@@ -931,8 +861,6 @@ class Request implements RequestInterface, InjectionAwareInterface
 
 	/**
 	 * Gets web page that refers active request. ie: http://www.google.com
-	 *
-	 * @return string
 	 */
 	public function getHTTPReferer() -> string
 	{
@@ -945,10 +873,6 @@ class Request implements RequestInterface, InjectionAwareInterface
 
 	/**
 	 * Process a request header and return an array of values with their qualities
-	 *
-	 * @param string serverIndex
-	 * @param string name
-	 * @return array
 	 */
 	protected function _getQualityHeader(string! serverIndex, string! name) -> array
 	{
@@ -1066,8 +990,6 @@ class Request implements RequestInterface, InjectionAwareInterface
 
 	/**
 	 * Gets best charset accepted by the browser/client from _SERVER["HTTP_ACCEPT_CHARSET"]
-	 *
-	 * @return string
 	 */
 	public function getBestCharset() -> string
 	{
@@ -1076,8 +998,6 @@ class Request implements RequestInterface, InjectionAwareInterface
 
 	/**
 	 * Gets languages array and their quality accepted by the browser/client from _SERVER["HTTP_ACCEPT_LANGUAGE"]
-	 *
-	 * @return array
 	 */
 	public function getLanguages() -> array
 	{
@@ -1086,8 +1006,6 @@ class Request implements RequestInterface, InjectionAwareInterface
 
 	/**
 	 * Gets best language accepted by the browser/client from _SERVER["HTTP_ACCEPT_LANGUAGE"]
-	 *
-	 * @return string
 	 */
 	public function getBestLanguage() -> string
 	{
@@ -1116,8 +1034,6 @@ class Request implements RequestInterface, InjectionAwareInterface
 
 	/**
 	 * Gets auth info accepted by the browser/client from $_SERVER['PHP_AUTH_DIGEST']
-	 *
-	 * @return array
 	 */
 	public function getDigestAuth() -> array
 	{

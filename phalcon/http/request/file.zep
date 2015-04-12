@@ -1,3 +1,4 @@
+
 /*
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
@@ -64,8 +65,6 @@ class File implements FileInterface
 
 	/**
 	 * Phalcon\Http\Request\File constructor
-	 *
-	 * @param array file
 	 */
 	public function __construct(array! file, key = null)
 	{
@@ -102,8 +101,6 @@ class File implements FileInterface
 
 	/**
 	 * Returns the file size of the uploaded file
-	 *
-	 * @return int
 	 */
 	public function getSize() -> int
 	{
@@ -112,8 +109,6 @@ class File implements FileInterface
 
 	/**
 	 * Returns the real name of the uploaded file
-	 *
-	 * @return string
 	 */
 	public function getName() -> string
 	{
@@ -122,8 +117,6 @@ class File implements FileInterface
 
 	/**
 	 * Returns the temporal name of the uploaded file
-	 *
-	 * @return string
 	 */
 	public function getTempName() -> string
 	{
@@ -133,8 +126,6 @@ class File implements FileInterface
 	/**
 	 * Returns the mime type reported by the browser
 	 * This mime type is not completely secure, use getRealType() instead
-	 *
-	 * @return string
 	 */
 	public function getType() -> string
 	{
@@ -143,28 +134,24 @@ class File implements FileInterface
 
 	/**
 	 * Gets the real mime type of the upload file using finfo
-	 *
-	 * @return string
 	 */
 	public function getRealType() -> string
 	{
 		var finfo, mime;
 
-        let finfo = finfo_open(FILEINFO_MIME_TYPE);
-        if typeof finfo != "resource" {
-        	return "";
-        }
+		let finfo = finfo_open(FILEINFO_MIME_TYPE);
+		if typeof finfo != "resource" {
+			return "";
+		}
 
-        let mime = finfo_file(finfo, this->_tmp);
-        finfo_close(finfo);
+		let mime = finfo_file(finfo, this->_tmp);
+		finfo_close(finfo);
 
-        return mime;
+		return mime;
 	}
 
 	/**
 	 * Checks whether the file has been uploaded via Post.
-	 *
-	 * @return boolean
 	 */
 	public function isUploadedFile() -> boolean
 	{
@@ -176,9 +163,6 @@ class File implements FileInterface
 
 	/**
 	 * Moves the temporary file to a destination within the application
-	 *
-	 * @param string destination
-	 * @return boolean
 	 */
 	public function moveTo(string! destination) -> boolean
 	{

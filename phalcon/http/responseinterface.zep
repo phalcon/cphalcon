@@ -54,7 +54,7 @@ interface ResponseInterface
 
 	/**
 	 * Send a raw header to the response
-     *
+	 *
 	 * @param string header
 	 * @return Phalcon\Http\ResponseInterface
 	 */
@@ -63,7 +63,7 @@ interface ResponseInterface
 	/**
 	 * Resets all the stablished headers
 	 *
-     * @return Phalcon\Http\ResponseInterface
+	 * @return Phalcon\Http\ResponseInterface
 	 */
 	public function resetHeaders();
 
@@ -88,7 +88,7 @@ interface ResponseInterface
 	 * @param string charset
 	 * @return Phalcon\Http\ResponseInterface
 	 */
-	public function setContentType(contentType, charset=null);
+	public function setContentType(contentType, charset = null);
 
 	/**
 	 * Redirect by HTTP to another action or URL
@@ -98,7 +98,7 @@ interface ResponseInterface
 	 * @param int statusCode
 	 * @return Phalcon\Http\ResponseInterface
 	 */
-	public function redirect(location=null, externalRedirect=false, statusCode=302);
+	public function redirect(location = null, externalRedirect = false, statusCode = 302);
 
 	/**
 	 * Sets HTTP response body
@@ -110,7 +110,7 @@ interface ResponseInterface
 
 	/**
 	 * Sets HTTP response body. The parameter is automatically converted to JSON
-     *
+	 *
 	 *<code>
 	 *	response->setJsonContent(array("status" => "OK"));
 	 *</code>
@@ -137,24 +137,18 @@ interface ResponseInterface
 
 	/**
 	 * Sends headers to the client
-	 *
-	 * @return Phalcon\Http\ResponseInterface
 	 */
-	public function sendHeaders();
+	public function sendHeaders() -> <ResponseInterface>;
 
 	/**
 	 * Sends cookies to the client
-	 *
-	 * @return Phalcon\Http\ResponseInterface
 	 */
-	public function sendCookies();
+	public function sendCookies() -> <ResponseInterface>;
 
 	/**
 	 * Prints out HTTP response to the client
-	 *
-	 * @return Phalcon\Http\ResponseInterface
 	 */
-	public function send();
+	public function send() -> <ResponseInterface>;
 
 	/**
 	 * Sets an attached file to be sent at the end of the request
@@ -162,6 +156,6 @@ interface ResponseInterface
 	 * @param string filePath
 	 * @param string attachmentName
 	 */
-	public function setFileToSend(filePath, attachmentName=null);
+	public function setFileToSend(filePath, attachmentName = null);
 
 }
