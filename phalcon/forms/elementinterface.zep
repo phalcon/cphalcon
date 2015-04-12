@@ -56,10 +56,8 @@ interface ElementInterface
 
 	/**
 	 * Returns the element's name
-	 *
-	 * @return string
 	 */
-	public function getName();
+	public function getName() -> string;
 
 	/**
 	 * Sets the element's filters
@@ -146,10 +144,8 @@ interface ElementInterface
 
 	/**
 	 * Returns the default attributes for the element
-	 *
-	 * @return array
 	 */
-	public function getAttributes();
+	public function getAttributes() -> array;
 
 	/**
 	 * Sets an option for the element
@@ -194,17 +190,13 @@ interface ElementInterface
 
 	/**
 	 * Returns the element's label
-	 *
-	 * @return string
 	 */
-	public function getLabel();
+	public function getLabel() -> string;
 
 	/**
 	 * Generate the HTML to label the element
-	 *
-	 * @return string
 	 */
-	public function label();
+	public function label() -> string;
 
 	/**
 	 * Sets a default value in case the form does not use an entity
@@ -239,10 +231,8 @@ interface ElementInterface
 
 	/**
 	 * Checks whether there are messages attached to the element
-	 *
-	 * @return boolean
 	 */
-	public function hasMessages();
+	public function hasMessages() -> boolean;
 
 	/**
 	 * Sets the validation messages related to the element

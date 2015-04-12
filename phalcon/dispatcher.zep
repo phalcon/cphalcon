@@ -88,7 +88,6 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 
 	/**
 	 * Phalcon\Dispatcher constructor
-	 *
 	 */
 	public function __construct()
 	{
@@ -97,8 +96,6 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 
 	/**
 	 * Sets the dependency injector
-	 *
-	 * @param Phalcon\DiInterface dependencyInjector
 	 */
 	public function setDI(<DiInterface> dependencyInjector)
 	{
@@ -107,8 +104,6 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 
 	/**
 	 * Returns the internal dependency injector
-	 *
-	 * @return Phalcon\DiInterface
 	 */
 	public function getDI() -> <DiInterface>
 	{
@@ -117,8 +112,6 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 
 	/**
 	 * Sets the events manager
-	 *
-	 * @param Phalcon\Events\ManagerInterface eventsManager
 	 */
 	public function setEventsManager(<ManagerInterface> eventsManager)
 	{
@@ -127,8 +120,6 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 
 	/**
 	 * Returns the internal event manager
-	 *
-	 * @return Phalcon\Events\ManagerInterface
 	 */
 	public function getEventsManager() -> <ManagerInterface>
 	{
@@ -137,8 +128,6 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 
 	/**
 	 * Sets the default action suffix
-	 *
-	 * @param string actionSuffix
 	 */
 	public function setActionSuffix(string actionSuffix)
 	{
@@ -147,8 +136,6 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 
 	/**
 	 * Sets the module where the controller is (only informative)
-	 *
-	 * @param string moduleName
 	 */
 	public function setModuleName(string moduleName)
 	{
@@ -157,8 +144,6 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 
 	/**
 	 * Gets the module where the controller class is
-	 *
-	 * @return string
 	 */
 	public function getModuleName() -> string
 	{
@@ -167,8 +152,6 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 
 	/**
 	 * Sets the namespace where the controller class is
-	 *
-	 * @param string namespaceName
 	 */
 	public function setNamespaceName(string namespaceName)
 	{
@@ -177,8 +160,6 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 
 	/**
 	 * Gets a namespace to be prepended to the current handler name
-	 *
-	 * @return string
 	 */
 	public function getNamespaceName() -> string
 	{
@@ -187,8 +168,6 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 
 	/**
 	 * Sets the default namespace
-	 *
-	 * @param string namespaceName
 	 */
 	public function setDefaultNamespace(string namespaceName)
 	{
@@ -197,8 +176,6 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 
 	/**
 	 * Returns the default namespace
-	 *
-	 * @return string
 	 */
 	public function getDefaultNamespace() -> string
 	{
@@ -207,8 +184,6 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 
 	/**
 	 * Sets the default action name
-	 *
-	 * @param string actionName
 	 */
 	public function setDefaultAction(string actionName)
 	{
@@ -217,8 +192,6 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 
 	/**
 	 * Sets the action name to be dispatched
-	 *
-	 * @param string actionName
 	 */
 	public function setActionName(string actionName)
 	{
@@ -227,8 +200,6 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 
 	/**
 	 * Gets the latest dispatched action name
-	 *
-	 * @return string
 	 */
 	public function getActionName() -> string
 	{
@@ -251,10 +222,8 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 
 	/**
 	 * Gets action params
-	 *
-	 * @return array
 	 */
-	public function getParams()
+	public function getParams() -> array
 	{
 		return this->_params;
 	}
@@ -300,8 +269,6 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 
 	/**
 	 * Returns the current method to be/executed in the dispatcher
-	 *
-	 * @return string
 	 */
 	public function getActiveMethod() -> string
 	{
@@ -310,8 +277,6 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 
 	/**
 	 * Checks if the dispatch loop is finished or has more pendent controllers/tasks to dispatch
-	 *
-	 * @return boolean
 	 */
 	public function isFinished() -> boolean
 	{
@@ -675,8 +640,6 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 
 	/**
 	 * Check if the current executed action was forwarded by another one
-	 *
-	 * @return boolean
 	 */
 	public function wasForwarded() -> boolean
 	{

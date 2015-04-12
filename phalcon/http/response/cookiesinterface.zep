@@ -29,18 +29,13 @@ interface CookiesInterface
 
 	/**
 	 * Set if cookies in the bag must be automatically encrypted/decrypted
-	 *
-	 * @param boolean useEncryption
-	 * @return Phalcon\Http\Response\CookiesInterface
 	 */
-	public function useEncryption(useEncryption);
+	public function useEncryption(boolean useEncryption) -> <CookiesInterface>;
 
 	/**
 	 * Returns if the bag is automatically encrypting/decrypting cookies
-	 *
-	 * @return boolean
 	 */
-	public function isUsingEncryption();
+	public function isUsingEncryption() -> boolean;
 
 	/**
 	 * Sets a cookie to be sent at the end of the request
@@ -54,39 +49,28 @@ interface CookiesInterface
 	 * @param boolean httpOnly
 	 * @return Phalcon\Http\Response\CookiesInterface
 	 */
-	public function set(name, value=null, expire=0, path='/', secure=null, domain=null, httpOnly=null);
+	public function set(name, value = null, expire = 0, path = "/", secure = null, domain = null, httpOnly = null);
 
 	/**
 	 * Gets a cookie from the bag
-	 *
-	 * @param string name
-	 * @return Phalcon\Http\Cookie
 	 */
-	public function get(name);
+	public function get(string! name) -> <\Phalcon\Http\Cookie>;
 
 	/**
 	 * Check if a cookie is defined in the bag or exists in the _COOKIE superglobal
-	 *
-	 * @param string name
-	 * @return boolean
 	 */
-	public function has(name);
+	public function has(string! name) -> boolean;
 
 	/**
 	 * Deletes a cookie by its name
 	 * This method does not removes cookies from the _COOKIE superglobal
-	 *
-	 * @param string name
-	 * @return boolean
 	 */
-	public function delete(name);
+	public function delete(string! name) -> boolean;
 
 	/**
 	 * Sends the cookies to the client
-	 *
-	 * @return boolean
 	 */
-	public function send();
+	public function send() -> boolean;
 
 	/**
 	 * Reset set cookies

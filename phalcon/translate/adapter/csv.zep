@@ -34,8 +34,6 @@ class Csv extends Adapter implements AdapterInterface, \ArrayAccess
 
 	/**
 	 * Phalcon\Translate\Adapter\Csv constructor
-	 *
-	 * @param array options
 	 */
 	public function __construct(array! options)
 	{
@@ -93,9 +91,6 @@ class Csv extends Adapter implements AdapterInterface, \ArrayAccess
 
 	/**
 	 * Check whether is defined a translation key in the internal array
-	 *
-	 * @param    string index
-	 * @return   bool
 	 */
 	public function exists(string! index) -> boolean
 	{

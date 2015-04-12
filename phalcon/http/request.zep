@@ -1,3 +1,4 @@
+
 /*
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
@@ -54,8 +55,6 @@ class Request implements RequestInterface, InjectionAwareInterface
 
 	/**
 	 * Sets the dependency injector
-	 *
-	 * @param Phalcon\DiInterface dependencyInjector
 	 */
 	public function setDI(<DiInterface> dependencyInjector)
 	{
@@ -64,8 +63,6 @@ class Request implements RequestInterface, InjectionAwareInterface
 
 	/**
 	 * Returns the internal dependency injector
-	 *
-	 * @return Phalcon\DiInterface
 	 */
 	public function getDI() -> <DiInterface>
 	{
@@ -369,8 +366,6 @@ class Request implements RequestInterface, InjectionAwareInterface
 
 	/**
 	 * Checks whether request has been made using ajax
-	 *
-	 * @return boolean
 	 */
 	public function isAjax() -> boolean
 	{
@@ -511,7 +506,6 @@ class Request implements RequestInterface, InjectionAwareInterface
 		}
 
 		return name . ":" . port;
-
 	}
 
 	/**
@@ -948,7 +942,6 @@ class Request implements RequestInterface, InjectionAwareInterface
 
 	/**
 	 * Gets best charset accepted by the browser/client from _SERVER["HTTP_ACCEPT_CHARSET"]
-	 *
 	 */
 	public function getBestCharset() -> string
 	{
@@ -957,7 +950,6 @@ class Request implements RequestInterface, InjectionAwareInterface
 
 	/**
 	 * Gets languages array and their quality accepted by the browser/client from _SERVER["HTTP_ACCEPT_LANGUAGE"]
-	 *
 	 */
 	public function getLanguages() -> array
 	{
@@ -966,7 +958,6 @@ class Request implements RequestInterface, InjectionAwareInterface
 
 	/**
 	 * Gets best language accepted by the browser/client from _SERVER["HTTP_ACCEPT_LANGUAGE"]
-	 *
 	 */
 	public function getBestLanguage() -> string
 	{
@@ -976,7 +967,6 @@ class Request implements RequestInterface, InjectionAwareInterface
 
 	/**
 	 * Gets auth info accepted by the browser/client from $_SERVER['PHP_AUTH_USER']
-	 *
 	 */
 	public function getBasicAuth() -> array | null
 	{
@@ -994,7 +984,6 @@ class Request implements RequestInterface, InjectionAwareInterface
 
 	/**
 	 * Gets auth info accepted by the browser/client from $_SERVER['PHP_AUTH_DIGEST']
-	 *
 	 */
 	public function getDigestAuth() -> array
 	{

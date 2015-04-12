@@ -86,7 +86,6 @@ class Select extends Element implements ElementInterface {
 	 */
 	public function render(attributes = null) -> string
 	{
-
 		/**
 		 * Merged passed attributes with previously defined ones
 		 */

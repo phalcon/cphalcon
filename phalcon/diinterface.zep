@@ -38,7 +38,7 @@ interface DiInterface extends \ArrayAccess
 	 * @param boolean shared
 	 * @return Phalcon\Di\ServiceInterface
 	 */
-	public function set(name, definition, shared = false);
+	public function set(string! name, definition, boolean shared = false) -> <ServiceInterface>;
 
 	/**
 	 * Registers an "always shared" service in the services container
@@ -47,14 +47,12 @@ interface DiInterface extends \ArrayAccess
 	 * @param mixed definition
 	 * @return Phalcon\Di\ServiceInterface
 	 */
-	public function setShared(name, definition);
+	public function setShared(string! name, definition) -> <ServiceInterface>;
 
 	/**
 	 * Removes a service in the services container
-	 *
-	 * @param string name
 	 */
-	public function remove(name);
+	public function remove(string! name);
 
 	/**
 	 * Attempts to register a service in the services container
@@ -66,7 +64,7 @@ interface DiInterface extends \ArrayAccess
 	 * @param boolean shared
 	 * @return Phalcon\Di\ServiceInterface
 	 */
-	public function attempt(name, definition, shared = false);
+	public function attempt(string! name, definition, boolean shared = false) -> <ServiceInterface>;
 
 	/**
 	 * Resolves the service based on its configuration
@@ -75,7 +73,7 @@ interface DiInterface extends \ArrayAccess
 	 * @param array parameters
 	 * @return mixed
 	 */
-	public function get(name, parameters = null);
+	public function get(string! name, parameters = null);
 
 	/**
 	 * Returns a shared service based on their configuration
@@ -84,16 +82,12 @@ interface DiInterface extends \ArrayAccess
 	 * @param array parameters
 	 * @return mixed
 	 */
-	public function getShared(name, parameters = null);
+	public function getShared(string! name, parameters = null);
 
 	/**
 	 * Sets a service using a raw Phalcon\Di\Service definition
-	 *
-	 * @param string name
-	 * @param Phalcon\Di\ServiceInterface rawDefinition
-	 * @return Phalcon\Di\ServiceInterface
 	 */
-	public function setRaw(name, <ServiceInterface> rawDefinition);
+	public function setRaw(string! name, <ServiceInterface> rawDefinition) -> <ServiceInterface>;
 
 	/**
 	 * Returns a service definition without resolving
@@ -101,30 +95,22 @@ interface DiInterface extends \ArrayAccess
 	 * @param string name
 	 * @return mixed
 	 */
-	public function getRaw(name);
+	public function getRaw(string! name);
 
 	/**
 	 * Returns the corresponding Phalcon\Di\Service instance for a service
-	 *
-	 * @param string name
-	 * @return Phalcon\Di\ServiceInterface
 	 */
-	public function getService(name);
+	public function getService(string! name) -> <ServiceInterface>;
 
 	/**
 	 * Check whether the DI contains a service by a name
-	 *
-	 * @param string name
-	 * @return boolean
 	 */
-	public function has(name);
+	public function has(string! name) -> boolean;
 
 	/**
 	 * Check whether the last service obtained via getShared produced a fresh instance or an existing one
-	 *
-	 * @return boolean
 	 */
-	public function wasFreshInstance();
+	public function wasFreshInstance() -> boolean;
 
 	/**
 	 * Return the services registered in the DI
@@ -135,17 +121,13 @@ interface DiInterface extends \ArrayAccess
 
 	/**
 	 * Set a default dependency injection container to be obtained into static methods
-	 *
-	 * @param Phalcon\DiInterface dependencyInjector
 	 */
 	public static function setDefault(<DiInterface> dependencyInjector);
 
 	/**
 	 * Return the last DI created
-	 *
-	 * @return Phalcon\DiInterface
 	 */
-	public static function getDefault();
+	public static function getDefault() -> <DiInterface>;
 
 	/**
 	 * Resets the internal default DI

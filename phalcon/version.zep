@@ -87,8 +87,6 @@ class Version
 	 * Translates a number to a special release
 	 *
 	 * If Special release = 1 this function will return ALPHA
-	 *
-	 * @return string
 	 */
 	protected final static function _getSpecial(int special) -> string
 	{
@@ -115,8 +113,6 @@ class Version
 	 * <code>
 	 * echo Phalcon\Version::get();
 	 * </code>
-	 *
-	 * @return string
 	 */
 	public static function get() -> string
 	{
@@ -147,8 +143,6 @@ class Version
 	 * <code>
 	 * echo Phalcon\Version::getId();
 	 * </code>
-	 *
-	 * @return string
 	 */
 	public static function getId() -> string
 	{
@@ -173,8 +167,6 @@ class Version
 	 * <code>
 	 * echo Phalcon\Version::getPart(Phalcon\Version::VERSION_MAJOR);
 	 * </code>
-	 *
-	 * @return string
 	 */
 	public static function getPart(int part) -> string
 	{
