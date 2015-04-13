@@ -30,7 +30,7 @@ interface FilterInterface
 	/**
 	 * Adds a user-defined filter
 	 */
-	public function add(string! name, callable handler) -> <\Phalcon\FilterInterface>;
+	public function add(string! name, handler) -> <\Phalcon\FilterInterface>;
 
 	/**
 	 * Sanizites a value with a specified single or set of filters

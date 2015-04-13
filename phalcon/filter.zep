@@ -45,7 +45,7 @@ class Filter implements FilterInterface
 	/**
 	 * Adds a user-defined filter
 	 */
-	public function add(string! name, callable handler) -> <Filter>
+	public function add(string! name, handler) -> <Filter>
 	{
 
 		if typeof handler != "object" {
