@@ -44,12 +44,8 @@ class Filter implements FilterInterface
 
 	/**
 	 * Adds a user-defined filter
-	 *
-	 * @param string name
-	 * @param callable handler
-	 * @return Phalcon\Filter
 	 */
-	public function add(string! name, handler) -> <Filter>
+	public function add(string! name, callable handler) -> <Filter>
 	{
 
 		if typeof handler != "object" {
@@ -62,11 +58,6 @@ class Filter implements FilterInterface
 
 	/**
 	 * Sanitizes a value with a specified single or set of filters
-	 *
-	 * @param  value
-	 * @param  filters
-	 * @param  noRecursive
-	 * @return mixed
 	 */
 	public function sanitize(var value, var filters, boolean noRecursive = false)
 	{
@@ -111,10 +102,6 @@ class Filter implements FilterInterface
 
 	/**
 	 * Internal sanitize wrapper to filter_var
-	 *
-	 * @param  mixed $value
-	 * @param  string $filter
-	 * @return mixed
 	 */
 	protected function _sanitize(var value, string! filter)
 	{
@@ -195,10 +182,8 @@ class Filter implements FilterInterface
 
 	/**
 	 * Return the user-defined filters in the instance
-	 *
-	 * @return object[]
 	 */
-	public function getFilters()
+	public function getFilters() -> array
 	{
 		return this->_filters;
 	}
