@@ -71,6 +71,7 @@ class Crypt implements CryptInterface
 	public function setPadding(int! scheme) -> <CryptInterface>
 	{
 		let this->_padding = scheme;
+		return this;
 	}
 
 	/**
