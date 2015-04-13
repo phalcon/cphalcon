@@ -46,6 +46,7 @@
 # Logs
 *.log
 /unit-tests/logs/*
+!/unit-tests/logs/dummy
 
 # External libraries
 composer.lock
