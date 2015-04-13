@@ -337,6 +337,8 @@
 #include "mvc/view/engine/volt/compiler.h"
 #include "mvc/view/exception.h"
 #include "mvc/view/simple.h"
+#include "mvc/view/model.h"
+#include "mvc/view/modelinterface.h"
 #include "mvc/jsonrpc.h"
 #include "mvc/jsonrpc/exception.h"
 #include "jsonrpc/client.h"

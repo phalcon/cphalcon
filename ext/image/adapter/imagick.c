@@ -2169,6 +2169,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, inkwell)
 
 PHP_METHOD(Phalcon_Image_Adapter_Imagick, convert)
 {
+#ifdef PHALCON_USE_MAGICKWAND
 	zval *command, *command_parts = NULL, *value = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
@@ -2176,7 +2177,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, convert)
 	char **argv;
 	int argc, i = 0;
 
-#ifdef PHALCON_USE_MAGICKWAND
+
 	ExceptionInfo *exception = NULL;
 	ImageInfo *image_info = NULL;
 	MagickBooleanType status;
@@ -2184,8 +2185,8 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, convert)
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 1, 0, &command);
 #ifdef PHALCON_USE_MAGICKWAND
+	phalcon_fetch_params(1, 1, 0, &command);
 
 	if (Z_TYPE_P(command) != IS_ARRAY) {
 		PHALCON_INIT_VAR(command_parts);

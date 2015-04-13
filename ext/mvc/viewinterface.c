@@ -49,6 +49,8 @@ static const zend_function_entry phalcon_mvc_viewinterface_method_entry[] = {
 	PHP_ABSTRACT_ME(Phalcon_Mvc_ViewInterface, getParams, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_ViewInterface, start, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_ViewInterface, registerEngines, arginfo_phalcon_mvc_viewinterface_registerengines)
+	PHP_ABSTRACT_ME(Phalcon_Mvc_ViewInterface, getRegisteredEngines, NULL)
+	PHP_ABSTRACT_ME(Phalcon_Mvc_ViewInterface, getEngines, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_ViewInterface, render, arginfo_phalcon_mvc_viewinterface_render)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_ViewInterface, pick, arginfo_phalcon_mvc_viewinterface_pick)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_ViewInterface, partial, arginfo_phalcon_mvc_viewinterface_partial)

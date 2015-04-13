@@ -166,6 +166,8 @@ mvc/view/exception.c \
 mvc/view/engineinterface.c \
 mvc/view/simple.c \
 mvc/view/engine.c \
+mvc/view/model.c \
+mvc/view/modelinterface.c \
 mvc/application.c \
 mvc/controllerinterface.c \
 mvc/moduledefinitioninterface.c \
