@@ -63,7 +63,7 @@ abstract class Injectable implements InjectionAwareInterface, EventsAwareInterfa
 	/**
 	 * Dependency Injector
 	 *
-	 * @var \Phalcon\DiInteface
+	 * @var \Phalcon\DiInterface
 	 */
 	protected _dependencyInjector;
 
