@@ -80,7 +80,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_assets_manager_addresource, 0, 0, 1)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_assets_manager_addinlinecode, 0, 0, 1)
-	ZEND_ARG_OBJ_INFO(0, code, Phalcon\\Assets\\Resource, 0)
+	ZEND_ARG_OBJ_INFO(0, code, Phalcon\\Assets\\Inline, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_assets_manager_set, 0, 0, 2)

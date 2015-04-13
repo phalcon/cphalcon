@@ -19,13 +19,14 @@
 namespace Phalcon\Validation;
 
 use Phalcon\Validation\Exception;
+use Phalcon\Validation\ValidatorInterface;
 
 /**
  * Phalcon\Validation\Validator
  *
  * This is a base class for validators
  */
-class Validator
+abstract class Validator implements ValidatorInterface
 {
 	protected _options;
 
@@ -84,4 +85,12 @@ class Validator
 		let this->_options[key] = value;
 	}
 
+    /**
+     * Executes the validation
+     *
+     * @param Phalcon\Validation validator
+     * @param string attribute
+     * @return boolean
+     */
+     abstract public function validate(<\Phalcon\Validation> validation, string! attribute) -> boolean;
 }

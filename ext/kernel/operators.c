@@ -629,18 +629,6 @@ int zephir_less_equal(zval *op1, zval *op2 TSRMLS_DC) {
 int zephir_less_long(zval *op1, long op2 TSRMLS_DC) {
 	zval result, op2_zval;
 	ZVAL_LONG(&op2_zval, op2);
-
-	is_smaller_function(&result, op1, &op2_zval TSRMLS_CC);
-	return Z_BVAL(result);
-}
-
-/**
- * Check if a zval is less than a double value
- */
-int zephir_less_double(zval *op1, double op2 TSRMLS_DC) {
-	zval result, op2_zval;
-	ZVAL_DOUBLE(&op2_zval, op2);
-
 	is_smaller_function(&result, op1, &op2_zval TSRMLS_CC);
 	return Z_BVAL(result);
 }
@@ -648,7 +636,6 @@ int zephir_less_double(zval *op1, double op2 TSRMLS_DC) {
 int zephir_less_equal_long(zval *op1, long op2 TSRMLS_DC) {
 	zval result, op2_zval;
 	ZVAL_LONG(&op2_zval, op2);
-
 	is_smaller_or_equal_function(&result, op1, &op2_zval TSRMLS_CC);
 	return Z_BVAL(result);
 }
@@ -668,18 +655,6 @@ int zephir_greater(zval *op1, zval *op2 TSRMLS_DC) {
 int zephir_greater_long(zval *op1, long op2 TSRMLS_DC) {
 	zval result, op2_zval;
 	ZVAL_LONG(&op2_zval, op2);
-
-	is_smaller_or_equal_function(&result, op1, &op2_zval TSRMLS_CC);
-	return !Z_BVAL(result);
-}
-
-/**
- * Check if a zval is greater than a double value
- */
-int zephir_greater_double(zval *op1, double op2 TSRMLS_DC) {
-	zval result, op2_zval;
-	ZVAL_DOUBLE(&op2_zval, op2);
-
 	is_smaller_or_equal_function(&result, op1, &op2_zval TSRMLS_CC);
 	return !Z_BVAL(result);
 }
@@ -893,133 +868,17 @@ double zephir_safe_div_double_zval(double op1, zval *op2 TSRMLS_DC) {
 	return op1 / ((double) zephir_get_numberval(op2));
 }
 
-double zephir_floor(zval *op1 TSRMLS_DC)
+void zephir_floor(zval *return_value, zval *op1 TSRMLS_DC)
 {
 	convert_scalar_to_number_ex(&op1);
 
 	if (Z_TYPE_PP(&op1) == IS_DOUBLE) {
-		return floor(Z_DVAL_PP(&op1));
+		RETURN_DOUBLE(floor(Z_DVAL_PP(&op1)));
 	} else if (Z_TYPE_PP(&op1) == IS_LONG) {
 		convert_to_double_ex(&op1);
-		return Z_DVAL_PP(&op1);
+		RETURN_DOUBLE(Z_DVAL_PP(&op1));
 	}
-	return 0;
-}
-
-/**
- * Do safe divisions between two longs
- */
-long zephir_safe_mod_long_long(long op1, long op2 TSRMLS_DC) {
-	if (!op2) {
-		zend_error(E_WARNING, "Division by zero");
-		return 0;
-	}
-	return op1 % op2;
-}
-
-/**
- * Do safe divisions between two long/double
- */
-long zephir_safe_mod_long_double(long op1, double op2 TSRMLS_DC) {
-	if (!op2) {
-		zend_error(E_WARNING, "Division by zero");
-		return 0;
-	}
-	return op1 % (long) op2;
-}
-
-/**
- * Do safe divisions between two double/long
- */
-long zephir_safe_mod_double_long(double op1, long op2 TSRMLS_DC) {
-	if (!op2) {
-		zend_error(E_WARNING, "Division by zero");
-		return 0;
-	}
-	return (long) op1 % op2;
-}
-
-/**
- * Do safe divisions between two doubles
- */
-long zephir_safe_mod_double_double(double op1, double op2 TSRMLS_DC) {
-	if (!op2) {
-		zend_error(E_WARNING, "Division by zero");
-		return 0;
-	}
-	return (long) op1 % (long) op2;
-}
-
-/**
- * Do safe divisions between two zval/long
- */
-long zephir_safe_mod_zval_long(zval *op1, long op2 TSRMLS_DC) {
-	if (!op2) {
-		zend_error(E_WARNING, "Division by zero");
-		return 0;
-	}
-	switch (Z_TYPE_P(op1)) {
-		case IS_ARRAY:
-		case IS_OBJECT:
-		case IS_RESOURCE:
-			zend_error(E_WARNING, "Unsupported operand types");
-			break;
-	}
-	return ((long) zephir_get_numberval(op1)) % (long) op2;
-}
-
-/**
- * Do safe divisions between two zval/double
- */
-long zephir_safe_mod_zval_double(zval *op1, double op2 TSRMLS_DC) {
-	if (!op2) {
-		zend_error(E_WARNING, "Division by zero");
-		return 0;
-	}
-	switch (Z_TYPE_P(op1)) {
-		case IS_ARRAY:
-		case IS_OBJECT:
-		case IS_RESOURCE:
-			zend_error(E_WARNING, "Unsupported operand types");
-			break;
-	}
-	return ((long) zephir_get_numberval(op1)) % (long) op2;
-}
-
-/**
- * Do safe divisions between two long/zval
- */
-long zephir_safe_mod_long_zval(long op1, zval *op2 TSRMLS_DC) {
-	if (!zephir_get_numberval(op2)) {
-		zend_error(E_WARNING, "Division by zero");
-		return 0;
-	}
-	switch (Z_TYPE_P(op2)) {
-		case IS_ARRAY:
-		case IS_OBJECT:
-		case IS_RESOURCE:
-			zend_error(E_WARNING, "Unsupported operand types");
-			break;
-	}
-	return op1 % ((long) zephir_get_numberval(op2));
-}
-
-/**
- * Do safe divisions between two double/zval
- */
-long zephir_safe_mod_double_zval(double op1, zval *op2 TSRMLS_DC) {
-	if (!zephir_get_numberval(op2)) {
-		zend_error(E_WARNING, "Division by zero");
-		return 0;
-	}
-	switch (Z_TYPE_P(op2)) {
-		case IS_ARRAY:
-		case IS_OBJECT:
-		case IS_RESOURCE:
-			zend_error(E_WARNING, "Unsupported operand types");
-			break;
-	}
-	return (long) op1 % ((long) zephir_get_numberval(op2));
+	RETURN_FALSE;
 }
 
 void zephir_ceil(zval *return_value, zval *op1 TSRMLS_DC)

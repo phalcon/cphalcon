@@ -19,6 +19,23 @@
 #include "kernel/array.h"
 
 
+/*
+ +------------------------------------------------------------------------+
+ | Phalcon Framework                                                      |
+ +------------------------------------------------------------------------+
+ | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+ +------------------------------------------------------------------------+
+ | This source file is subject to the New BSD License that is bundled     |
+ | with this package in the file docs/LICENSE.txt.                        |
+ |                                                                        |
+ | If you did not receive a copy of the license and are unable to         |
+ | obtain it through the world-wide-web, please send an email             |
+ | to license@phalconphp.com so we can send you a copy immediately.       |
+ +------------------------------------------------------------------------+
+ | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
+ |          Eduar Carvajal <eduar@phalconphp.com>                         |
+ +------------------------------------------------------------------------+
+ */
 /**
  * Phalcon\Mvc\Model\Validator\Url
  *
@@ -110,7 +127,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Url, validate) {
 			ZVAL_STRING(message, ":field does not have a valid url format", 1);
 		}
 		ZEPHIR_INIT_VAR(_5);
-		zephir_create_array(_5, 1, 0 TSRMLS_CC);
+		array_init_size(_5, 2);
 		zephir_array_update_string(&_5, SL(":field"), &field, PH_COPY | PH_SEPARATE);
 		ZEPHIR_CALL_FUNCTION(&_6, "strtr", &_7, message, _5);
 		zephir_check_call_status();

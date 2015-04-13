@@ -20,7 +20,6 @@
 namespace Phalcon\Validation\Validator;
 
 use Phalcon\Validation\Validator;
-use Phalcon\Validation\ValidatorInterface;
 use Phalcon\Validation\Exception;
 use Phalcon\Validation\Message;
 
@@ -38,7 +37,7 @@ use Phalcon\Validation\Message;
  *)));
  *</code>
  */
-class InclusionIn extends Validator implements ValidatorInterface
+class InclusionIn extends Validator
 {
 
 	/**

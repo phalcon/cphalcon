@@ -20,6 +20,23 @@
 #include "kernel/string.h"
 
 
+/*
+ +------------------------------------------------------------------------+
+ | Phalcon Framework                                                      |
+ +------------------------------------------------------------------------+
+ | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+ +------------------------------------------------------------------------+
+ | This source file is subject to the New BSD License that is bundled     |
+ | with this package in the file docs/LICENSE.txt.                        |
+ |                                                                        |
+ | If you did not receive a copy of the license and are unable to         |
+ | obtain it through the world-wide-web, please send an email             |
+ | to license@phalconphp.com so we can send you a copy immediately.       |
+ +------------------------------------------------------------------------+
+ | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
+ |          Eduar Carvajal <eduar@phalconphp.com>                         |
+ +------------------------------------------------------------------------+
+ */
 /**
  * Phalcon\Validation\Validator\InclusionIn
  *
@@ -38,7 +55,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_InclusionIn) {
 
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Validation\\Validator, InclusionIn, phalcon, validation_validator_inclusionin, phalcon_validation_validator_ce, phalcon_validation_validator_inclusionin_method_entry, 0);
 
-	zend_class_implements(phalcon_validation_validator_inclusionin_ce TSRMLS_CC, 1, phalcon_validation_validatorinterface_ce);
 	return SUCCESS;
 
 }
@@ -52,7 +68,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_InclusionIn) {
  */
 PHP_METHOD(Phalcon_Validation_Validator_InclusionIn, validate) {
 
-	zephir_nts_static zephir_fcall_cache_entry *_5 = NULL, *_7 = NULL, *_9 = NULL;
+	zephir_nts_static zephir_fcall_cache_entry *_5 = NULL, *_7 = NULL;
 	zend_bool _2;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *validation, *field, *value = NULL, *domain = NULL, *message = NULL, *label = NULL, *replacePairs, *strict = NULL, *_0 = NULL, *_1 = NULL, *_3 = NULL, *_4 = NULL, *_6 = NULL, *_8;
@@ -82,7 +98,7 @@ PHP_METHOD(Phalcon_Validation_Validator_InclusionIn, validate) {
 	zephir_check_temp_parameter(_1);
 	zephir_check_call_status();
 	if (Z_TYPE_P(domain) != IS_ARRAY) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_validation_exception_ce, "Option 'domain' must be an array", "phalcon/validation/validator/inclusionin.zep", 66);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_validation_exception_ce, "Option 'domain' must be an array", "phalcon/validation/validator/inclusionin.zep", 65);
 		return;
 	}
 	ZEPHIR_INIT_VAR(strict);
@@ -94,7 +110,7 @@ PHP_METHOD(Phalcon_Validation_Validator_InclusionIn, validate) {
 	zephir_check_call_status();
 	if (zephir_is_true(_3)) {
 		if (Z_TYPE_P(strict) != IS_BOOL) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_validation_exception_ce, "Option 'strict' must be a boolean", "phalcon/validation/validator/inclusionin.zep", 72);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_validation_exception_ce, "Option 'strict' must be a boolean", "phalcon/validation/validator/inclusionin.zep", 71);
 			return;
 		}
 		ZEPHIR_INIT_NVAR(_1);
@@ -121,7 +137,7 @@ PHP_METHOD(Phalcon_Validation_Validator_InclusionIn, validate) {
 		zephir_check_temp_parameter(_1);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(replacePairs);
-		zephir_create_array(replacePairs, 2, 0 TSRMLS_CC);
+		array_init_size(replacePairs, 3);
 		zephir_array_update_string(&replacePairs, SL(":field"), &label, PH_COPY | PH_SEPARATE);
 		ZEPHIR_INIT_NVAR(_1);
 		zephir_fast_join_str(_1, SL(", "), domain TSRMLS_CC);
@@ -139,7 +155,7 @@ PHP_METHOD(Phalcon_Validation_Validator_InclusionIn, validate) {
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(_8);
 		ZVAL_STRING(_8, "InclusionIn", ZEPHIR_TEMP_PARAM_COPY);
-		ZEPHIR_CALL_METHOD(NULL, _1, "__construct", &_9, _6, field, _8);
+		ZEPHIR_CALL_METHOD(NULL, _1, "__construct", NULL, _6, field, _8);
 		zephir_check_temp_parameter(_8);
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, _1);

@@ -20,6 +20,23 @@
 #include "kernel/array.h"
 
 
+/*
+ +------------------------------------------------------------------------+
+ | Phalcon Framework                                                      |
+ +------------------------------------------------------------------------+
+ | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+ +------------------------------------------------------------------------+
+ | This source file is subject to the New BSD License that is bundled     |
+ | with this package in the file docs/LICENSE.txt.                        |
+ |                                                                        |
+ | If you did not receive a copy of the license and are unable to         |
+ | obtain it through the world-wide-web, please send an email             |
+ | to license@phalconphp.com so we can send you a copy immediately.       |
+ +------------------------------------------------------------------------+
+ | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
+ |          Eduar Carvajal <eduar@phalconphp.com>                         |
+ +------------------------------------------------------------------------+
+ */
 /**
  * Phalcon\Mvc\Model\Validator\PresenceOf
  *
@@ -104,7 +121,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_PresenceOf, validate) {
 			ZVAL_STRING(message, "':field' is required", 1);
 		}
 		ZEPHIR_INIT_VAR(_3);
-		zephir_create_array(_3, 1, 0 TSRMLS_CC);
+		array_init_size(_3, 2);
 		zephir_array_update_string(&_3, SL(":field"), &field, PH_COPY | PH_SEPARATE);
 		ZEPHIR_CALL_FUNCTION(&_4, "strtr", &_5, message, _3);
 		zephir_check_call_status();

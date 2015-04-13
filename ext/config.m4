@@ -318,6 +318,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/translate.zep.c
 	phalcon/translate/adapter.zep.c
 	phalcon/translate/adapter/csv.zep.c
+	phalcon/translate/adapter/gettext.zep.c
 	phalcon/translate/adapter/nativearray.zep.c
 	phalcon/translate/adapterinterface.zep.c
 	phalcon/translate/exception.zep.c

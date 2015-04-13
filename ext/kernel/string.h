@@ -21,9 +21,7 @@
 #ifndef ZEPHIR_KERNEL_STRING_H
 #define ZEPHIR_KERNEL_STRING_H
 
-#include <php.h>
 #include <Zend/zend.h>
-#include "kernel/main.h"
 
 #define ZEPHIR_TRIM_LEFT  1
 #define ZEPHIR_TRIM_RIGHT 2
@@ -46,7 +44,7 @@ void zephir_fast_explode_str(zval *result, const char *delimiter, int delimiter_
 void zephir_fast_strpos(zval *return_value, const zval *haystack, const zval *needle, unsigned int offset);
 void zephir_fast_strpos_str(zval *return_value, const zval *haystack, char *needle, unsigned int needle_length);
 void zephir_fast_stripos_str(zval *return_value, zval *haystack, char *needle, unsigned int needle_length);
-void zephir_fast_str_replace(zval **return_value, zval *search, zval *replace, zval *subject TSRMLS_DC);
+void zephir_fast_str_replace(zval *return_value, zval *search, zval *replace, zval *subject TSRMLS_DC);
 void zephir_fast_trim(zval *return_value, zval *str, zval *charlist, int where TSRMLS_DC);
 void zephir_fast_strip_tags(zval *return_value, zval *str);
 void zephir_fast_strtoupper(zval *return_value, zval *str);

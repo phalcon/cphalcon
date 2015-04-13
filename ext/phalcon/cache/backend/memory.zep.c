@@ -22,6 +22,23 @@
 #include "kernel/hash.h"
 
 
+/*
+ +------------------------------------------------------------------------+
+ | Phalcon Framework                                                      |
+ +------------------------------------------------------------------------+
+ | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+ +------------------------------------------------------------------------+
+ | This source file is subject to the New BSD License that is bundled     |
+ | with this package in the file docs/LICENSE.txt.                        |
+ |                                                                        |
+ | If you did not receive a copy of the license and are unable to         |
+ | obtain it through the world-wide-web, please send an email             |
+ | to license@phalconphp.com so we can send you a copy immediately.       |
+ +------------------------------------------------------------------------+
+ | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
+ |          Eduar Carvajal <eduar@phalconphp.com>                         |
+ +------------------------------------------------------------------------+
+ */
 /**
  * Phalcon\Cache\Backend\Memory
  *
@@ -201,8 +218,8 @@ PHP_METHOD(Phalcon_Cache_Backend_Memory, queryKeys) {
 
 	HashTable *_3;
 	HashPosition _2;
-	zval *keys = NULL, *_1 = NULL;
-	zval *prefix = NULL, *data, *index = NULL, *_0 = NULL, **_4;
+	zval *_1 = NULL;
+	zval *prefix = NULL, *data, *index = NULL, *keys = NULL, *_0 = NULL, **_4;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &prefix);
@@ -210,19 +227,19 @@ PHP_METHOD(Phalcon_Cache_Backend_Memory, queryKeys) {
 	if (!prefix) {
 		prefix = ZEPHIR_GLOBAL(global_null);
 	}
-	ZEPHIR_INIT_VAR(keys);
-	array_init(keys);
 
 
 	ZEPHIR_OBS_VAR(data);
 	zephir_read_property_this(&data, this_ptr, SL("_data"), PH_NOISY_CC);
 	if (Z_TYPE_P(data) == IS_ARRAY) {
+		ZEPHIR_INIT_VAR(keys);
 		if (!(zephir_is_true(prefix))) {
 			ZEPHIR_INIT_VAR(_0);
 			zephir_array_keys(_0, data TSRMLS_CC);
 			zephir_get_arrval(_1, _0);
 			ZEPHIR_CPY_WRT(keys, _1);
 		} else {
+			array_init(keys);
 			ZEPHIR_INIT_NVAR(_0);
 			zephir_is_iterable(data, &_3, &_2, 0, 0, "phalcon/cache/backend/memory.zep", 162);
 			for (
@@ -235,7 +252,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Memory, queryKeys) {
 			}
 		}
 	}
-	RETURN_CTOR(keys);
+	RETURN_CCTOR(keys);
 
 }
 

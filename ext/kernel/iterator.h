@@ -21,9 +21,6 @@
 #ifndef ZEPHIR_KERNEL_ITERATOR_H
 #define ZEPHIR_KERNEL_ITERATOR_H
 
-#include <php.h>
-#include <Zend/zend.h>
-
 zend_object_iterator *zephir_get_iterator(zval *iterator TSRMLS_DC);
 
 #endif

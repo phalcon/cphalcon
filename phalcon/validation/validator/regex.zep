@@ -22,7 +22,6 @@ namespace Phalcon\Validation\Validator;
 use Phalcon\Validation;
 use Phalcon\Validation\Message;
 use Phalcon\Validation\Validator;
-use Phalcon\Validation\ValidatorInterface;
 
 /**
  * Phalcon\Validation\Validator\Regex
@@ -38,7 +37,7 @@ use Phalcon\Validation\ValidatorInterface;
  *)));
  *</code>
  */
-class Regex extends Validator implements ValidatorInterface
+class Regex extends Validator
 {
 
 	/**

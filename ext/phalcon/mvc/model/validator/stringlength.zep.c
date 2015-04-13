@@ -21,6 +21,24 @@
 #include "kernel/array.h"
 
 
+/*
+ +------------------------------------------------------------------------+
+ | Phalcon Framework                                                      |
+ +------------------------------------------------------------------------+
+ | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+ +------------------------------------------------------------------------+
+ | This source file is subject to the New BSD License that is bundled     |
+ | with this package in the file docs/LICENSE.txt.                        |
+ |                                                                        |
+ | If you did not receive a copy of the license and are unable to         |
+ | obtain it through the world-wide-web, please send an email             |
+ | to license@phalconphp.com so we can send you a copy immediately.       |
+ +------------------------------------------------------------------------+
+ | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
+ |          Eduar Carvajal <eduar@phalconphp.com>                         |
+ |          Jason Rice                                                    |
+ +------------------------------------------------------------------------+
+ */
 /**
  * Phalcon\Mvc\Model\Validator\StringLength
  *
@@ -143,7 +161,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_StringLength, validate) {
 				ZVAL_STRING(message, "Value of field ':field' exceeds the maximum :max characters", 1);
 			}
 			ZEPHIR_INIT_VAR(_4);
-			zephir_create_array(_4, 2, 0 TSRMLS_CC);
+			array_init_size(_4, 3);
 			zephir_array_update_string(&_4, SL(":field"), &field, PH_COPY | PH_SEPARATE);
 			zephir_array_update_string(&_4, SL(":max"), &maximum, PH_COPY | PH_SEPARATE);
 			ZEPHIR_CALL_FUNCTION(&_5, "strtr", &_6, message, _4);
@@ -173,7 +191,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_StringLength, validate) {
 				ZVAL_STRING(message, "Value of field ':field' is less than the minimum :min characters", 1);
 			}
 			ZEPHIR_INIT_NVAR(_4);
-			zephir_create_array(_4, 2, 0 TSRMLS_CC);
+			array_init_size(_4, 3);
 			zephir_array_update_string(&_4, SL(":field"), &field, PH_COPY | PH_SEPARATE);
 			zephir_array_update_string(&_4, SL(":min"), &minimum, PH_COPY | PH_SEPARATE);
 			ZEPHIR_CALL_FUNCTION(&_5, "strtr", &_6, message, _4);

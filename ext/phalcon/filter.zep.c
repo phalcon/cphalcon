@@ -25,6 +25,23 @@
 #include "kernel/concat.h"
 
 
+/*
+ +------------------------------------------------------------------------+
+ | Phalcon Framework                                                      |
+ +------------------------------------------------------------------------+
+ | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+ +------------------------------------------------------------------------+
+ | This source file is subject to the New BSD License that is bundled     |
+ | with this package in the file docs/LICENSE.txt.                        |
+ |                                                                        |
+ | If you did not receive a copy of the license and are unable to         |
+ | obtain it through the world-wide-web, please send an email             |
+ | to license@phalconphp.com so we can send you a copy immediately.       |
+ +------------------------------------------------------------------------+
+ | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
+ |          Eduar Carvajal <eduar@phalconphp.com>                         |
+ +------------------------------------------------------------------------+
+ */
 /**
  * Phalcon\Filter
  *
@@ -189,7 +206,7 @@ PHP_METHOD(Phalcon_Filter, sanitize) {
 PHP_METHOD(Phalcon_Filter, _sanitize) {
 
 	zephir_fcall_cache_entry *_8 = NULL;
-	zephir_nts_static zephir_fcall_cache_entry *_7 = NULL, *_10 = NULL, *_11 = NULL, *_13 = NULL;
+	zephir_nts_static zephir_fcall_cache_entry *_7 = NULL, *_10 = NULL, *_11 = NULL;
 	zval *_1 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *filter = NULL, *_12;
@@ -216,7 +233,7 @@ PHP_METHOD(Phalcon_Filter, _sanitize) {
 	if (zephir_array_isset_fetch(&filterObject, _0, filter, 0 TSRMLS_CC)) {
 		if (zephir_instance_of_ev(filterObject, zend_ce_closure TSRMLS_CC)) {
 			ZEPHIR_INIT_VAR(_1);
-			zephir_create_array(_1, 1, 0 TSRMLS_CC);
+			array_init_size(_1, 2);
 			zephir_array_fast_append(_1, value);
 			ZEPHIR_CALL_USER_FUNC_ARRAY(return_value, filterObject, _1);
 			zephir_check_call_status();
@@ -233,7 +250,7 @@ PHP_METHOD(Phalcon_Filter, _sanitize) {
 			ZVAL_STRING(&_3, "'", 0);
 			ZEPHIR_SINIT_VAR(_4);
 			ZVAL_STRING(&_4, "", 0);
-			zephir_fast_str_replace(&_2, &_3, &_4, value TSRMLS_CC);
+			zephir_fast_str_replace(_2, &_3, &_4, value TSRMLS_CC);
 			ZEPHIR_SINIT_VAR(_5);
 			ZVAL_STRING(&_5, "FILTER_SANITIZE_EMAIL", 0);
 			ZEPHIR_CALL_FUNCTION(&_6, "constant", &_7, &_5);
@@ -261,7 +278,7 @@ PHP_METHOD(Phalcon_Filter, _sanitize) {
 		}
 		if (ZEPHIR_IS_STRING(filter, "float")) {
 			ZEPHIR_INIT_NVAR(_1);
-			zephir_create_array(_1, 1, 0 TSRMLS_CC);
+			array_init_size(_1, 2);
 			add_assoc_long_ex(_1, SS("flags"), 4096);
 			ZEPHIR_SINIT_NVAR(_3);
 			ZVAL_LONG(&_3, 520);
@@ -314,7 +331,7 @@ PHP_METHOD(Phalcon_Filter, _sanitize) {
 		object_init_ex(_2, phalcon_filter_exception_ce);
 		ZEPHIR_INIT_VAR(_12);
 		ZEPHIR_CONCAT_SVS(_12, "Sanitize filter '", filter, "' is not supported");
-		ZEPHIR_CALL_METHOD(NULL, _2, "__construct", &_13, _12);
+		ZEPHIR_CALL_METHOD(NULL, _2, "__construct", NULL, _12);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(_2, "phalcon/filter.zep", 192 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();

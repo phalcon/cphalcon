@@ -20,6 +20,23 @@
 #include "kernel/exception.h"
 
 
+/*
+ +------------------------------------------------------------------------+
+ | Phalcon Framework                                                      |
+ +------------------------------------------------------------------------+
+ | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+ +------------------------------------------------------------------------+
+ | This source file is subject to the New BSD License that is bundled     |
+ | with this package in the file docs/LICENSE.txt.                        |
+ |                                                                        |
+ | If you did not receive a copy of the license and are unable to         |
+ | obtain it through the world-wide-web, please send an email             |
+ | to license@phalconphp.com so we can send you a copy immediately.       |
+ +------------------------------------------------------------------------+
+ | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
+ |          Eduar Carvajal <eduar@phalconphp.com>                         |
+ +------------------------------------------------------------------------+
+ */
 /**
  * Phalcon\Mvc\Model\Transaction
  *
@@ -179,13 +196,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, commit) {
 	if (Z_TYPE_P(manager) == IS_OBJECT) {
 		ZEPHIR_INIT_VAR(_0);
 		ZEPHIR_INIT_VAR(_1);
-		zephir_create_array(_1, 2, 0 TSRMLS_CC);
+		array_init_size(_1, 3);
 		zephir_array_fast_append(_1, manager);
 		ZEPHIR_INIT_VAR(_2);
 		ZVAL_STRING(_2, "notifyCommit", 1);
 		zephir_array_fast_append(_1, _2);
 		ZEPHIR_INIT_VAR(_3);
-		zephir_create_array(_3, 1, 0 TSRMLS_CC);
+		array_init_size(_3, 2);
 		zephir_array_fast_append(_3, this_ptr);
 		ZEPHIR_CALL_USER_FUNC_ARRAY(_0, _1, _3);
 		zephir_check_call_status();
@@ -206,7 +223,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, commit) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Transaction, rollback) {
 
-	zephir_nts_static zephir_fcall_cache_entry *_6 = NULL;
 	zval *_1, *_3;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *rollbackMessage = NULL, *rollbackRecord = NULL, *manager, *connection, *_0 = NULL, *_2, *_4 = NULL, *_5;
@@ -229,13 +245,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, rollback) {
 	if (Z_TYPE_P(manager) == IS_OBJECT) {
 		ZEPHIR_INIT_VAR(_0);
 		ZEPHIR_INIT_VAR(_1);
-		zephir_create_array(_1, 2, 0 TSRMLS_CC);
+		array_init_size(_1, 3);
 		zephir_array_fast_append(_1, manager);
 		ZEPHIR_INIT_VAR(_2);
 		ZVAL_STRING(_2, "notifyRollback", 1);
 		zephir_array_fast_append(_1, _2);
 		ZEPHIR_INIT_VAR(_3);
-		zephir_create_array(_3, 1, 0 TSRMLS_CC);
+		array_init_size(_3, 2);
 		zephir_array_fast_append(_3, this_ptr);
 		ZEPHIR_CALL_USER_FUNC_ARRAY(_0, _1, _3);
 		zephir_check_call_status();
@@ -255,7 +271,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, rollback) {
 		ZEPHIR_INIT_NVAR(_0);
 		object_init_ex(_0, phalcon_mvc_model_transaction_failed_ce);
 		_5 = zephir_fetch_nproperty_this(this_ptr, SL("_rollbackRecord"), PH_NOISY_CC);
-		ZEPHIR_CALL_METHOD(NULL, _0, "__construct", &_6, rollbackMessage, _5);
+		ZEPHIR_CALL_METHOD(NULL, _0, "__construct", NULL, rollbackMessage, _5);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(_0, "phalcon/mvc/model/transaction.zep", 166 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();

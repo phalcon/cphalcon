@@ -21,6 +21,23 @@
 #include "kernel/exception.h"
 
 
+/*
+ +------------------------------------------------------------------------+
+ | Phalcon Framework                                                      |
+ +------------------------------------------------------------------------+
+ | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+ +------------------------------------------------------------------------+
+ | This source file is subject to the New BSD License that is bundled     |
+ | with this package in the file docs/LICENSE.txt.                        |
+ |                                                                        |
+ | If you did not receive a copy of the license and are unable to         |
+ | obtain it through the world-wide-web, please send an email             |
+ | to license@phalconphp.com so we can send you a copy immediately.       |
+ +------------------------------------------------------------------------+
+ | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
+ |          Eduar Carvajal <eduar@phalconphp.com>                         |
+ +------------------------------------------------------------------------+
+ */
 /**
 * Phalcon\Queue\Beanstalk\Job
 *
@@ -77,8 +94,6 @@ PHP_METHOD(Phalcon_Queue_Beanstalk_Job, __construct) {
 
 /**
  * Removes a job from the server entirely
- *
- * @return boolean
  */
 PHP_METHOD(Phalcon_Queue_Beanstalk_Job, delete) {
 
@@ -96,7 +111,7 @@ PHP_METHOD(Phalcon_Queue_Beanstalk_Job, delete) {
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&_2, queue, "readstatus", NULL);
 	zephir_check_call_status();
-	zephir_array_fetch_long(&_3, _2, 0, PH_NOISY | PH_READONLY, "phalcon/queue/beanstalk/job.zep", 61 TSRMLS_CC);
+	zephir_array_fetch_long(&_3, _2, 0, PH_NOISY | PH_READONLY, "phalcon/queue/beanstalk/job.zep", 59 TSRMLS_CC);
 	RETURN_MM_BOOL(ZEPHIR_IS_STRING(_3, "DELETED"));
 
 }
@@ -143,7 +158,7 @@ PHP_METHOD(Phalcon_Queue_Beanstalk_Job, release) {
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&_4, queue, "readstatus", NULL);
 	zephir_check_call_status();
-	zephir_array_fetch_long(&_5, _4, 0, PH_NOISY | PH_READONLY, "phalcon/queue/beanstalk/job.zep", 79 TSRMLS_CC);
+	zephir_array_fetch_long(&_5, _4, 0, PH_NOISY | PH_READONLY, "phalcon/queue/beanstalk/job.zep", 77 TSRMLS_CC);
 	RETURN_MM_BOOL(ZEPHIR_IS_STRING(_5, "RELEASED"));
 
 }
@@ -152,8 +167,6 @@ PHP_METHOD(Phalcon_Queue_Beanstalk_Job, release) {
  * The bury command puts a job into the "buried" state. Buried jobs are put into
  * a FIFO linked list and will not be touched by the server again until a client
  * kicks them with the "kick" command.
- *
- * @return boolean
  */
 PHP_METHOD(Phalcon_Queue_Beanstalk_Job, bury) {
 
@@ -181,7 +194,7 @@ PHP_METHOD(Phalcon_Queue_Beanstalk_Job, bury) {
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&_3, queue, "readstatus", NULL);
 	zephir_check_call_status();
-	zephir_array_fetch_long(&_4, _3, 0, PH_NOISY | PH_READONLY, "phalcon/queue/beanstalk/job.zep", 95 TSRMLS_CC);
+	zephir_array_fetch_long(&_4, _3, 0, PH_NOISY | PH_READONLY, "phalcon/queue/beanstalk/job.zep", 91 TSRMLS_CC);
 	RETURN_MM_BOOL(ZEPHIR_IS_STRING(_4, "BURIED"));
 
 }
@@ -193,8 +206,6 @@ PHP_METHOD(Phalcon_Queue_Beanstalk_Job, bury) {
  * A worker may periodically tell the server that it's still alive and processing
  * a job (e.g. it may do this on `DEADLINE_SOON`). The command postpones the auto
  * release of a reserved job until TTR seconds from when the command is issued.
- *
- * @return boolean
  */
 PHP_METHOD(Phalcon_Queue_Beanstalk_Job, touch) {
 
@@ -212,15 +223,13 @@ PHP_METHOD(Phalcon_Queue_Beanstalk_Job, touch) {
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&_2, queue, "readstatus", NULL);
 	zephir_check_call_status();
-	zephir_array_fetch_long(&_3, _2, 0, PH_NOISY | PH_READONLY, "phalcon/queue/beanstalk/job.zep", 114 TSRMLS_CC);
+	zephir_array_fetch_long(&_3, _2, 0, PH_NOISY | PH_READONLY, "phalcon/queue/beanstalk/job.zep", 108 TSRMLS_CC);
 	RETURN_MM_BOOL(ZEPHIR_IS_STRING(_3, "TOUCHED"));
 
 }
 
 /**
  * Move the job to the ready queue if it is delayed or buried.
- *
- * @return boolean
  */
 PHP_METHOD(Phalcon_Queue_Beanstalk_Job, kick) {
 
@@ -238,14 +247,13 @@ PHP_METHOD(Phalcon_Queue_Beanstalk_Job, kick) {
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&_2, queue, "readstatus", NULL);
 	zephir_check_call_status();
-	zephir_array_fetch_long(&_3, _2, 0, PH_NOISY | PH_READONLY, "phalcon/queue/beanstalk/job.zep", 128 TSRMLS_CC);
+	zephir_array_fetch_long(&_3, _2, 0, PH_NOISY | PH_READONLY, "phalcon/queue/beanstalk/job.zep", 120 TSRMLS_CC);
 	RETURN_MM_BOOL(ZEPHIR_IS_STRING(_3, "KICKED"));
 
 }
 
 PHP_METHOD(Phalcon_Queue_Beanstalk_Job, __wakeup) {
 
-	zephir_nts_static zephir_fcall_cache_entry *_4 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *_0, *_1, *_2, *_3;
 
@@ -260,11 +268,11 @@ PHP_METHOD(Phalcon_Queue_Beanstalk_Job, __wakeup) {
 		ZVAL_STRING(_2, "Unexpected inconsistency in %s - possible break-in attempt!", ZEPHIR_TEMP_PARAM_COPY);
 		ZEPHIR_INIT_VAR(_3);
 		ZVAL_STRING(_3, "Phalcon\\Queue\\Beanstalk\\Job::__wakeup()", ZEPHIR_TEMP_PARAM_COPY);
-		ZEPHIR_CALL_METHOD(NULL, _1, "__construct", &_4, _2, _3);
+		ZEPHIR_CALL_METHOD(NULL, _1, "__construct", NULL, _2, _3);
 		zephir_check_temp_parameter(_2);
 		zephir_check_temp_parameter(_3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(_1, "phalcon/queue/beanstalk/job.zep", 134 TSRMLS_CC);
+		zephir_throw_exception_debug(_1, "phalcon/queue/beanstalk/job.zep", 126 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}

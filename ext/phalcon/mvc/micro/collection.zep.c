@@ -21,6 +21,23 @@
 #include "kernel/fcall.h"
 
 
+/*
+ +------------------------------------------------------------------------+
+ | Phalcon Framework                                                      |
+ +------------------------------------------------------------------------+
+ | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+ +------------------------------------------------------------------------+
+ | This source file is subject to the New BSD License that is bundled     |
+ | with this package in the file docs/LICENSE.txt.                        |
+ |                                                                        |
+ | If you did not receive a copy of the license and are unable to         |
+ | obtain it through the world-wide-web, please send an email             |
+ | to license@phalconphp.com so we can send you a copy immediately.       |
+ +------------------------------------------------------------------------+
+ | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
+ |          Eduar Carvajal <eduar@phalconphp.com>                         |
+ +------------------------------------------------------------------------+
+ */
 /**
  * Phalcon\Mvc\Micro\Collection
  *
@@ -89,7 +106,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, _addMap) {
 
 
 	ZEPHIR_INIT_VAR(_0);
-	zephir_create_array(_0, 4, 0 TSRMLS_CC);
+	array_init_size(_0, 6);
 	zephir_array_fast_append(_0, method);
 	zephir_array_fast_append(_0, routePattern);
 	zephir_array_fast_append(_0, handler);

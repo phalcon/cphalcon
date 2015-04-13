@@ -24,6 +24,23 @@
 #include "kernel/hash.h"
 
 
+/*
+ +------------------------------------------------------------------------+
+ | Phalcon Framework                                                      |
+ +------------------------------------------------------------------------+
+ | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+ +------------------------------------------------------------------------+
+ | This source file is subject to the New BSD License that is bundled     |
+ | with this package in the file docs/LICENSE.txt.                        |
+ |                                                                        |
+ | If you did not receive a copy of the license and are unable to         |
+ | obtain it through the world-wide-web, please send an email             |
+ | to license@phalconphp.com so we can send you a copy immediately.       |
+ +------------------------------------------------------------------------+
+ | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
+ |          Eduar Carvajal <eduar@phalconphp.com>                         |
+ +------------------------------------------------------------------------+
+ */
 /**
  * Phalcon\Tag\Select
  *
@@ -60,7 +77,7 @@ PHP_METHOD(Phalcon_Tag_Select, selectField) {
 
 	if (Z_TYPE_P(parameters) != IS_ARRAY) {
 		ZEPHIR_INIT_VAR(params);
-		zephir_create_array(params, 2, 0 TSRMLS_CC);
+		array_init_size(params, 3);
 		zephir_array_fast_append(params, parameters);
 		zephir_array_fast_append(params, data);
 	} else {
@@ -205,10 +222,9 @@ PHP_METHOD(Phalcon_Tag_Select, _optionsFromResultset) {
 	_0 = zephir_get_iterator(resultset TSRMLS_CC);
 	_0->funcs->rewind(_0 TSRMLS_CC);
 	for (;_0->funcs->valid(_0 TSRMLS_CC) == SUCCESS && !EG(exception); _0->funcs->move_forward(_0 TSRMLS_CC)) {
-		{
-			zval **ZEPHIR_TMP_ITERATOR_PTR;
-			_0->funcs->get_current_data(_0, &ZEPHIR_TMP_ITERATOR_PTR TSRMLS_CC);
-			ZEPHIR_CPY_WRT(option, (*ZEPHIR_TMP_ITERATOR_PTR));
+		{ zval **tmp; 
+		_0->funcs->get_current_data(_0, &tmp TSRMLS_CC);
+		option = *tmp;
 		}
 		if (Z_TYPE_P(using) == IS_ARRAY) {
 			if (Z_TYPE_P(option) == IS_OBJECT) {
