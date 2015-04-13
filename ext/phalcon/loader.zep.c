@@ -97,8 +97,6 @@ PHP_METHOD(Phalcon_Loader, __construct) {
 
 /**
  * Sets the events manager
- *
- * @param Phalcon\Events\ManagerInterface eventsManager
  */
 PHP_METHOD(Phalcon_Loader, setEventsManager) {
 
@@ -114,8 +112,6 @@ PHP_METHOD(Phalcon_Loader, setEventsManager) {
 
 /**
  * Returns the internal event manager
- *
- * @return Phalcon\Events\ManagerInterface
  */
 PHP_METHOD(Phalcon_Loader, getEventsManager) {
 
@@ -126,9 +122,6 @@ PHP_METHOD(Phalcon_Loader, getEventsManager) {
 
 /**
  * Sets an array of extensions that the loader must try in each attempt to locate the file
- *
- * @param array extensions
- * @return Phalcon\Loader
  */
 PHP_METHOD(Phalcon_Loader, setExtensions) {
 
@@ -160,10 +153,6 @@ PHP_METHOD(Phalcon_Loader, getExtensions) {
 
 /**
  * Register namespaces and their related directories
- *
- * @param array namespaces
- * @param boolean merge
- * @return Phalcon\Loader
  */
 PHP_METHOD(Phalcon_Loader, registerNamespaces) {
 
@@ -214,10 +203,6 @@ PHP_METHOD(Phalcon_Loader, getNamespaces) {
 
 /**
  * Register directories on which "not found" classes could be found
- *
- * @param array prefixes
- * @param boolean merge
- * @return Phalcon\Loader
  */
 PHP_METHOD(Phalcon_Loader, registerPrefixes) {
 
@@ -268,10 +253,6 @@ PHP_METHOD(Phalcon_Loader, getPrefixes) {
 
 /**
  * Register directories on which "not found" classes could be found
- *
- * @param array directories
- * @param boolean merge
- * @return Phalcon\Loader
  */
 PHP_METHOD(Phalcon_Loader, registerDirs) {
 
@@ -322,10 +303,6 @@ PHP_METHOD(Phalcon_Loader, getDirs) {
 
 /**
  * Register classes and their locations
- *
- * @param array classes
- * @param boolean merge
- * @return Phalcon\Loader
  */
 PHP_METHOD(Phalcon_Loader, registerClasses) {
 
@@ -376,8 +353,6 @@ PHP_METHOD(Phalcon_Loader, getClasses) {
 
 /**
  * Register the autoload method
- *
- * @return Phalcon\Loader
  */
 PHP_METHOD(Phalcon_Loader, register) {
 
@@ -405,8 +380,6 @@ PHP_METHOD(Phalcon_Loader, register) {
 
 /**
  * Unregister the autoload method
- *
- * @return Phalcon\Loader
  */
 PHP_METHOD(Phalcon_Loader, unregister) {
 
@@ -434,9 +407,6 @@ PHP_METHOD(Phalcon_Loader, unregister) {
 
 /**
  * Makes the work of autoload registered classes
- *
- * @param string className
- * @return boolean
  */
 PHP_METHOD(Phalcon_Loader, autoLoad) {
 
@@ -501,7 +471,7 @@ PHP_METHOD(Phalcon_Loader, autoLoad) {
 	ZEPHIR_OBS_VAR(namespaces);
 	zephir_read_property_this(&namespaces, this_ptr, SL("_namespaces"), PH_NOISY_CC);
 	if (Z_TYPE_P(namespaces) == IS_ARRAY) {
-		zephir_is_iterable(namespaces, &_2, &_1, 0, 0, "phalcon/loader.zep", 388);
+		zephir_is_iterable(namespaces, &_2, &_1, 0, 0, "phalcon/loader.zep", 357);
 		for (
 		  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_2, &_1)
@@ -523,7 +493,7 @@ PHP_METHOD(Phalcon_Loader, autoLoad) {
 					zephir_fast_trim(_0, directory, ds, ZEPHIR_TRIM_RIGHT TSRMLS_CC);
 					ZEPHIR_INIT_NVAR(fixedDirectory);
 					ZEPHIR_CONCAT_VV(fixedDirectory, _0, ds);
-					zephir_is_iterable(extensions, &_7, &_6, 0, 0, "phalcon/loader.zep", 385);
+					zephir_is_iterable(extensions, &_7, &_6, 0, 0, "phalcon/loader.zep", 354);
 					for (
 					  ; zephir_hash_get_current_data_ex(_7, (void**) &_8, &_6) == SUCCESS
 					  ; zephir_hash_move_forward_ex(_7, &_6)
@@ -563,7 +533,7 @@ PHP_METHOD(Phalcon_Loader, autoLoad) {
 	ZEPHIR_OBS_VAR(prefixes);
 	zephir_read_property_this(&prefixes, this_ptr, SL("_prefixes"), PH_NOISY_CC);
 	if (Z_TYPE_P(prefixes) == IS_ARRAY) {
-		zephir_is_iterable(prefixes, &_15, &_14, 0, 0, "phalcon/loader.zep", 443);
+		zephir_is_iterable(prefixes, &_15, &_14, 0, 0, "phalcon/loader.zep", 412);
 		for (
 		  ; zephir_hash_get_current_data_ex(_15, (void**) &_16, &_14) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_15, &_14)
@@ -594,7 +564,7 @@ PHP_METHOD(Phalcon_Loader, autoLoad) {
 					zephir_fast_trim(_0, directory, ds, ZEPHIR_TRIM_RIGHT TSRMLS_CC);
 					ZEPHIR_INIT_NVAR(fixedDirectory);
 					ZEPHIR_CONCAT_VV(fixedDirectory, _0, ds);
-					zephir_is_iterable(extensions, &_21, &_20, 0, 0, "phalcon/loader.zep", 440);
+					zephir_is_iterable(extensions, &_21, &_20, 0, 0, "phalcon/loader.zep", 409);
 					for (
 					  ; zephir_hash_get_current_data_ex(_21, (void**) &_22, &_20) == SUCCESS
 					  ; zephir_hash_move_forward_ex(_21, &_20)
@@ -642,7 +612,7 @@ PHP_METHOD(Phalcon_Loader, autoLoad) {
 	ZEPHIR_OBS_VAR(directories);
 	zephir_read_property_this(&directories, this_ptr, SL("_directories"), PH_NOISY_CC);
 	if (Z_TYPE_P(directories) == IS_ARRAY) {
-		zephir_is_iterable(directories, &_26, &_25, 0, 0, "phalcon/loader.zep", 505);
+		zephir_is_iterable(directories, &_26, &_25, 0, 0, "phalcon/loader.zep", 474);
 		for (
 		  ; zephir_hash_get_current_data_ex(_26, (void**) &_27, &_25) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_26, &_25)
@@ -652,7 +622,7 @@ PHP_METHOD(Phalcon_Loader, autoLoad) {
 			zephir_fast_trim(_0, directory, ds, ZEPHIR_TRIM_RIGHT TSRMLS_CC);
 			ZEPHIR_INIT_NVAR(fixedDirectory);
 			ZEPHIR_CONCAT_VV(fixedDirectory, _0, ds);
-			zephir_is_iterable(extensions, &_29, &_28, 0, 0, "phalcon/loader.zep", 504);
+			zephir_is_iterable(extensions, &_29, &_28, 0, 0, "phalcon/loader.zep", 473);
 			for (
 			  ; zephir_hash_get_current_data_ex(_29, (void**) &_30, &_28) == SUCCESS
 			  ; zephir_hash_move_forward_ex(_29, &_28)

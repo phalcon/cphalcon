@@ -12,6 +12,7 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
+#include "ext/spl/spl_iterators.h"
 #include "kernel/memory.h"
 #include "kernel/object.h"
 #include "kernel/array.h"
@@ -210,8 +211,6 @@ PHP_METHOD(Phalcon_Registry, __get) {
 
 /**
  * Checks how many elements are in the register
- *
- * @return int
  */
 PHP_METHOD(Phalcon_Registry, count) {
 
@@ -225,7 +224,6 @@ PHP_METHOD(Phalcon_Registry, count) {
 
 /**
  * Moves cursor to next row in the registry
- *
  */
 PHP_METHOD(Phalcon_Registry, next) {
 
@@ -246,8 +244,6 @@ PHP_METHOD(Phalcon_Registry, next) {
 
 /**
  * Gets pointer number of active row in the registry
- *
- * @return int
  */
 PHP_METHOD(Phalcon_Registry, key) {
 
@@ -268,7 +264,6 @@ PHP_METHOD(Phalcon_Registry, key) {
 
 /**
  * Rewinds the registry cursor to its beginning
- *
  */
 PHP_METHOD(Phalcon_Registry, rewind) {
 

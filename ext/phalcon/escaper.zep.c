@@ -57,8 +57,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Escaper) {
  *<code>
  * $escaper->setEncoding('utf-8');
  *</code>
- *
- * @param string encoding
  */
 PHP_METHOD(Phalcon_Escaper, setEncoding) {
 
@@ -78,8 +76,6 @@ PHP_METHOD(Phalcon_Escaper, setEncoding) {
 
 /**
  * Returns the internal encoding used by the escaper
- *
- * @return string
  */
 PHP_METHOD(Phalcon_Escaper, getEncoding) {
 
@@ -94,8 +90,6 @@ PHP_METHOD(Phalcon_Escaper, getEncoding) {
  *<code>
  * $escaper->setHtmlQuoteType(ENT_XHTML);
  *</code>
- *
- * @param int quoteType
  */
 PHP_METHOD(Phalcon_Escaper, setHtmlQuoteType) {
 
@@ -156,7 +150,7 @@ PHP_METHOD(Phalcon_Escaper, detectEncoding) {
 	ZEPHIR_INIT_NVAR(_1);
 	ZVAL_STRING(_1, "ASCII", 1);
 	zephir_array_fast_append(_0, _1);
-	zephir_is_iterable(_0, &_3, &_2, 0, 0, "phalcon/escaper.zep", 125);
+	zephir_is_iterable(_0, &_3, &_2, 0, 0, "phalcon/escaper.zep", 119);
 	for (
 	  ; zephir_hash_get_current_data_ex(_3, (void**) &_4, &_2) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_3, &_2)
@@ -191,7 +185,7 @@ PHP_METHOD(Phalcon_Escaper, normalizeEncoding) {
 
 
 	if (!((zephir_function_exists_ex(SS("mb_convert_encoding") TSRMLS_CC) == SUCCESS))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_escaper_exception_ce, "Extension 'mbstring' is required", "phalcon/escaper.zep", 140);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_escaper_exception_ce, "Extension 'mbstring' is required", "phalcon/escaper.zep", 134);
 		return;
 	}
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "detectencoding", NULL, str);
@@ -206,9 +200,6 @@ PHP_METHOD(Phalcon_Escaper, normalizeEncoding) {
 
 /**
  * Escapes a HTML string. Internally uses htmlspecialchars
- *
- * @param string text
- * @return string
  */
 PHP_METHOD(Phalcon_Escaper, escapeHtml) {
 
@@ -233,9 +224,6 @@ PHP_METHOD(Phalcon_Escaper, escapeHtml) {
 
 /**
  * Escapes a HTML attribute string
- *
- * @param string attribute
- * @return string
  */
 PHP_METHOD(Phalcon_Escaper, escapeHtmlAttr) {
 
@@ -261,9 +249,6 @@ PHP_METHOD(Phalcon_Escaper, escapeHtmlAttr) {
 
 /**
  * Escape CSS strings by replacing non-alphanumeric chars by their hexadecimal escaped representation
- *
- * @param string css
- * @return string
  */
 PHP_METHOD(Phalcon_Escaper, escapeCss) {
 
@@ -286,9 +271,6 @@ PHP_METHOD(Phalcon_Escaper, escapeCss) {
 
 /**
  * Escape javascript strings by replacing non-alphanumeric chars by their hexadecimal escaped representation
- *
- * @param string js
- * @return string
  */
 PHP_METHOD(Phalcon_Escaper, escapeJs) {
 
@@ -311,9 +293,6 @@ PHP_METHOD(Phalcon_Escaper, escapeJs) {
 
 /**
  * Escapes a URL. Internally uses rawurlencode
- *
- * @param string url
- * @return string
  */
 PHP_METHOD(Phalcon_Escaper, escapeUrl) {
 

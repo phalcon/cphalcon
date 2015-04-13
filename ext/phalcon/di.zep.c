@@ -82,7 +82,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Di) {
 
 /**
  * Phalcon\Di constructor
- *
  */
 PHP_METHOD(Phalcon_Di, __construct) {
 
@@ -188,8 +187,6 @@ PHP_METHOD(Phalcon_Di, setShared) {
 
 /**
  * Removes a service in the services container
- *
- * @param string name
  */
 PHP_METHOD(Phalcon_Di, remove) {
 
@@ -272,10 +269,6 @@ PHP_METHOD(Phalcon_Di, attempt) {
 
 /**
  * Sets a service using a raw Phalcon\Di\Service definition
- *
- * @param string name
- * @param Phalcon\Di\ServiceInterface rawDefinition
- * @return Phalcon\Di\ServiceInterface
  */
 PHP_METHOD(Phalcon_Di, setRaw) {
 
@@ -346,7 +339,7 @@ PHP_METHOD(Phalcon_Di, getRaw) {
 	ZEPHIR_CONCAT_SVS(_2, "Service '", name, "' wasn't found in the dependency injection container");
 	ZEPHIR_CALL_METHOD(NULL, _1, "__construct", &_3, _2);
 	zephir_check_call_status();
-	zephir_throw_exception_debug(_1, "phalcon/di.zep", 184 TSRMLS_CC);
+	zephir_throw_exception_debug(_1, "phalcon/di.zep", 177 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 	return;
 
@@ -354,9 +347,6 @@ PHP_METHOD(Phalcon_Di, getRaw) {
 
 /**
  * Returns a Phalcon\Di\Service instance
- *
- * @param string name
- * @return Phalcon\Di\ServiceInterface
  */
 PHP_METHOD(Phalcon_Di, getService) {
 
@@ -392,7 +382,7 @@ PHP_METHOD(Phalcon_Di, getService) {
 	ZEPHIR_CONCAT_SVS(_2, "Service '", name, "' wasn't found in the dependency injection container");
 	ZEPHIR_CALL_METHOD(NULL, _1, "__construct", &_3, _2);
 	zephir_check_call_status();
-	zephir_throw_exception_debug(_1, "phalcon/di.zep", 201 TSRMLS_CC);
+	zephir_throw_exception_debug(_1, "phalcon/di.zep", 191 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 	return;
 
@@ -502,7 +492,7 @@ PHP_METHOD(Phalcon_Di, get) {
 			ZEPHIR_CONCAT_SVS(_7, "Service '", name, "' wasn't found in the dependency injection container");
 			ZEPHIR_CALL_METHOD(NULL, _2, "__construct", &_8, _7);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(_2, "phalcon/di.zep", 256 TSRMLS_CC);
+			zephir_throw_exception_debug(_2, "phalcon/di.zep", 246 TSRMLS_CC);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
@@ -583,9 +573,6 @@ PHP_METHOD(Phalcon_Di, getShared) {
 
 /**
  * Check whether the DI contains a service by a name
- *
- * @param string name
- * @return boolean
  */
 PHP_METHOD(Phalcon_Di, has) {
 
@@ -615,8 +602,6 @@ PHP_METHOD(Phalcon_Di, has) {
 
 /**
  * Check whether the last service obtained via getShared produced a fresh instance or an existing one
- *
- * @return boolean
  */
 PHP_METHOD(Phalcon_Di, wasFreshInstance) {
 
@@ -627,8 +612,6 @@ PHP_METHOD(Phalcon_Di, wasFreshInstance) {
 
 /**
  * Return the services registered in the DI
- *
- * @return Phalcon\Di\Service[]
  */
 PHP_METHOD(Phalcon_Di, getServices) {
 
@@ -639,9 +622,6 @@ PHP_METHOD(Phalcon_Di, getServices) {
 
 /**
  * Check if a service is registered using the array syntax
- *
- * @param string name
- * @return boolean
  */
 PHP_METHOD(Phalcon_Di, offsetExists) {
 
@@ -750,8 +730,6 @@ PHP_METHOD(Phalcon_Di, offsetGet) {
 
 /**
  * Removes a service from the services container using the array syntax
- *
- * @param string name
  */
 PHP_METHOD(Phalcon_Di, offsetUnset) {
 
@@ -780,8 +758,6 @@ PHP_METHOD(Phalcon_Di, offsetUnset) {
 
 /**
  * Sets the event manager
- *
- * @param Phalcon\Events\ManagerInterface eventsManager
  */
 PHP_METHOD(Phalcon_Di, setEventsManager) {
 
@@ -797,8 +773,6 @@ PHP_METHOD(Phalcon_Di, setEventsManager) {
 
 /**
  * Returns the internal event manager
- *
- * @return Phalcon\Events\ManagerInterface
  */
 PHP_METHOD(Phalcon_Di, getEventsManager) {
 
@@ -881,7 +855,7 @@ PHP_METHOD(Phalcon_Di, __call) {
 	ZEPHIR_CONCAT_SVS(_5, "Call to undefined method or service '", method, "'");
 	ZEPHIR_CALL_METHOD(NULL, _1, "__construct", &_6, _5);
 	zephir_check_call_status();
-	zephir_throw_exception_debug(_1, "phalcon/di.zep", 462 TSRMLS_CC);
+	zephir_throw_exception_debug(_1, "phalcon/di.zep", 436 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 	return;
 
@@ -889,8 +863,6 @@ PHP_METHOD(Phalcon_Di, __call) {
 
 /**
  * Set a default dependency injection container to be obtained into static methods
- *
- * @param Phalcon\DiInterface dependencyInjector
  */
 PHP_METHOD(Phalcon_Di, setDefault) {
 
@@ -906,8 +878,6 @@ PHP_METHOD(Phalcon_Di, setDefault) {
 
 /**
  * Return the lastest DI created
- *
- * @return Phalcon\DiInterface
  */
 PHP_METHOD(Phalcon_Di, getDefault) {
 

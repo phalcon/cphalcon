@@ -135,10 +135,8 @@ PHP_METHOD(Phalcon_Cache_Backend_Redis, _connect) {
 	zephir_read_property_this(&options, this_ptr, SL("_options"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(redis);
 	object_init_ex(redis, zephir_get_internal_ce(SS("redis") TSRMLS_CC));
-	if (zephir_has_constructor(redis TSRMLS_CC)) {
-		ZEPHIR_CALL_METHOD(NULL, redis, "__construct", NULL);
-		zephir_check_call_status();
-	}
+	ZEPHIR_CALL_METHOD(NULL, redis, "__construct", NULL);
+	zephir_check_call_status();
 	ZEPHIR_OBS_VAR(host);
 	_0 = !(zephir_array_isset_string_fetch(&host, options, SS("host"), 0 TSRMLS_CC));
 	if (!(_0)) {
@@ -355,7 +353,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Redis, save) {
 PHP_METHOD(Phalcon_Cache_Backend_Redis, delete) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *keyName, *redis = NULL, *prefix, *prefixedKey, *lastKey, *options, *specialKey;
+	zval *keyName, *redis = NULL, *prefix, *prefixedKey, *lastKey, *options, *specialKey, *_0 = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &keyName);
@@ -386,9 +384,12 @@ PHP_METHOD(Phalcon_Cache_Backend_Redis, delete) {
 	zephir_array_fetch_string(&specialKey, options, SL("statsKey"), PH_NOISY, "phalcon/cache/backend/redis.zep", 284 TSRMLS_CC);
 	ZEPHIR_CALL_METHOD(NULL, redis, "srem", NULL, specialKey, prefixedKey);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, redis, "delete", NULL, lastKey);
+	ZEPHIR_CALL_METHOD(&_0, redis, "delete", NULL, lastKey);
 	zephir_check_call_status();
-	ZEPHIR_MM_RESTORE();
+	if (!ZEPHIR_IS_LONG(_0, 1)) {
+		RETURN_MM_BOOL(0);
+	}
+	RETURN_MM_BOOL(1);
 
 }
 
@@ -425,15 +426,15 @@ PHP_METHOD(Phalcon_Cache_Backend_Redis, queryKeys) {
 	ZEPHIR_OBS_VAR(options);
 	zephir_read_property_this(&options, this_ptr, SL("_options"), PH_NOISY_CC);
 	if (!(zephir_array_isset_string(options, SS("statsKey")))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_cache_exception_ce, "Unexpected inconsistency in options", "phalcon/cache/backend/redis.zep", 314);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_cache_exception_ce, "Unexpected inconsistency in options", "phalcon/cache/backend/redis.zep", 317);
 		return;
 	}
 	ZEPHIR_OBS_VAR(specialKey);
-	zephir_array_fetch_string(&specialKey, options, SL("statsKey"), PH_NOISY, "phalcon/cache/backend/redis.zep", 317 TSRMLS_CC);
+	zephir_array_fetch_string(&specialKey, options, SL("statsKey"), PH_NOISY, "phalcon/cache/backend/redis.zep", 320 TSRMLS_CC);
 	ZEPHIR_CALL_METHOD(&keys, redis, "smembers", NULL, specialKey);
 	zephir_check_call_status();
 	if (Z_TYPE_P(keys) == IS_ARRAY) {
-		zephir_is_iterable(keys, &_1, &_0, 1, 0, "phalcon/cache/backend/redis.zep", 329);
+		zephir_is_iterable(keys, &_1, &_0, 1, 0, "phalcon/cache/backend/redis.zep", 332);
 		for (
 		  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_1, &_0)
@@ -628,11 +629,11 @@ PHP_METHOD(Phalcon_Cache_Backend_Redis, flush) {
 	ZEPHIR_OBS_VAR(options);
 	zephir_read_property_this(&options, this_ptr, SL("_options"), PH_NOISY_CC);
 	if (!(zephir_array_isset_string(options, SS("statsKey")))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_cache_exception_ce, "Unexpected inconsistency in options", "phalcon/cache/backend/redis.zep", 446);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_cache_exception_ce, "Unexpected inconsistency in options", "phalcon/cache/backend/redis.zep", 449);
 		return;
 	}
 	ZEPHIR_OBS_VAR(specialKey);
-	zephir_array_fetch_string(&specialKey, options, SL("statsKey"), PH_NOISY, "phalcon/cache/backend/redis.zep", 449 TSRMLS_CC);
+	zephir_array_fetch_string(&specialKey, options, SL("statsKey"), PH_NOISY, "phalcon/cache/backend/redis.zep", 452 TSRMLS_CC);
 	ZEPHIR_OBS_VAR(redis);
 	zephir_read_property_this(&redis, this_ptr, SL("_redis"), PH_NOISY_CC);
 	if (Z_TYPE_P(redis) != IS_OBJECT) {
@@ -644,7 +645,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Redis, flush) {
 	ZEPHIR_CALL_METHOD(&keys, redis, "smembers", NULL, specialKey);
 	zephir_check_call_status();
 	if (Z_TYPE_P(keys) == IS_ARRAY) {
-		zephir_is_iterable(keys, &_1, &_0, 0, 0, "phalcon/cache/backend/redis.zep", 465);
+		zephir_is_iterable(keys, &_1, &_0, 0, 0, "phalcon/cache/backend/redis.zep", 468);
 		for (
 		  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_1, &_0)

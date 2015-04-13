@@ -50,8 +50,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Config_Adapter_Json) {
 
 /**
  * Phalcon\Config\Adapter\Json constructor
- *
- * @param string filePath
  */
 PHP_METHOD(Phalcon_Config_Adapter_Json, __construct) {
 

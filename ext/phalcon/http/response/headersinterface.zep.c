@@ -50,14 +50,11 @@ ZEPHIR_DOC_METHOD(Phalcon_Http_Response_HeadersInterface, setRaw);
 
 /**
  * Sends the headers to the client
- *
- * @return boolean
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_Response_HeadersInterface, send);
 
 /**
  * Reset set headers
- *
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_Response_HeadersInterface, reset);
 

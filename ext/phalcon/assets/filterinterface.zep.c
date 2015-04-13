@@ -27,9 +27,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Assets_FilterInterface) {
 
 /**
  * Filters the content returning a string with the filtered content
- *
- * @param string content
- * @return $content
  */
 ZEPHIR_DOC_METHOD(Phalcon_Assets_FilterInterface, filter);
 

@@ -111,9 +111,6 @@ PHP_METHOD(Phalcon_Assets_Inline, __construct) {
 
 /**
  * Sets the inline's type
- *
- * @param string type
- * @return Phalcon\Assets\Inline
  */
 PHP_METHOD(Phalcon_Assets_Inline, setType) {
 
@@ -133,9 +130,6 @@ PHP_METHOD(Phalcon_Assets_Inline, setType) {
 
 /**
  * Sets if the resource must be filtered or not
- *
- * @param boolean filter
- * @return Phalcon\Assets\Inline
  */
 PHP_METHOD(Phalcon_Assets_Inline, setFilter) {
 
@@ -154,9 +148,6 @@ PHP_METHOD(Phalcon_Assets_Inline, setFilter) {
 
 /**
  * Sets extra HTML attributes
- *
- * @param array attributes
- * @return Phalcon\Assets\Inline
  */
 PHP_METHOD(Phalcon_Assets_Inline, setAttributes) {
 

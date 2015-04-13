@@ -23,6 +23,7 @@ namespace Phalcon\Db\Adapter\Pdo;
 use Phalcon\Db\Column;
 use Phalcon\Db\RawValue;
 use Phalcon\Db\AdapterInterface;
+use Phalcon\Db\Adapter\Pdo as PdoAdapter;
 
 /**
  * Phalcon\Db\Adapter\Pdo\Oracle
@@ -40,7 +41,7 @@ use Phalcon\Db\AdapterInterface;
  *
  * </code>
  */
-class Oracle extends \Phalcon\Db\Adapter\Pdo implements AdapterInterface
+class Oracle extends PdoAdapter implements AdapterInterface
 {
 
 	protected _type = "oci";

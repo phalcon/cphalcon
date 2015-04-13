@@ -45,9 +45,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Translate_AdapterInterface, query);
 
 /**
  * Check whether is defined a translation key in the internal array
- *
- * @param 	string index
- * @return	bool
  */
 ZEPHIR_DOC_METHOD(Phalcon_Translate_AdapterInterface, exists);
 

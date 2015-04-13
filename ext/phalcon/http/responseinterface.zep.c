@@ -136,22 +136,16 @@ ZEPHIR_DOC_METHOD(Phalcon_Http_ResponseInterface, getContent);
 
 /**
  * Sends headers to the client
- *
- * @return Phalcon\Http\ResponseInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_ResponseInterface, sendHeaders);
 
 /**
  * Sends cookies to the client
- *
- * @return Phalcon\Http\ResponseInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_ResponseInterface, sendCookies);
 
 /**
  * Prints out HTTP response to the client
- *
- * @return Phalcon\Http\ResponseInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_ResponseInterface, send);
 

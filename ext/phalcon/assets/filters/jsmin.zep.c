@@ -37,9 +37,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Assets_Filters_Jsmin) {
 
 /**
  * Filters the content using JSMIN
- *
- * @param string content
- * @return string
  */
 PHP_METHOD(Phalcon_Assets_Filters_Jsmin, filter) {
 

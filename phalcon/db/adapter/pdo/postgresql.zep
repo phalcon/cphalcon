@@ -23,6 +23,7 @@ namespace Phalcon\Db\Adapter\Pdo;
 use Phalcon\Db\Column;
 use Phalcon\Db\AdapterInterface;
 use Phalcon\Db\RawValue;
+use Phalcon\Db\Adapter\Pdo as PdoAdapter;
 
 /**
  * Phalcon\Db\Adapter\Pdo\Postgresql
@@ -41,7 +42,7 @@ use Phalcon\Db\RawValue;
  *
  * </code>
  */
-class Postgresql extends \Phalcon\Db\Adapter\Pdo implements AdapterInterface
+class Postgresql extends PdoAdapter implements AdapterInterface
 {
 
 	protected _type = "pgsql";

@@ -26,6 +26,8 @@ use Phalcon\Db\Exception;
 use Phalcon\Db\IndexInterface;
 use Phalcon\Db\Dialect;
 use Phalcon\Db\DialectInterface;
+use Phalcon\Db\ColumnInterface;
+use Phalcon\Db\ReferenceInterface;
 
 /**
  * Phalcon\Db\Dialect\Sqlite
@@ -40,13 +42,9 @@ class Sqlite extends Dialect implements DialectInterface
 	/**
 	 * Gets the column name in SQLite
 	 */
-	public function getColumnDefinition(<\Phalcon\Db\ColumnInterface> column) -> string
+	public function getColumnDefinition(<ColumnInterface> column) -> string
 	{
 		var columnSql, type, typeValues;
-
-		if typeof column != "object" {
-			throw new Exception("Column definition must be an object compatible with Phalcon\\Db\\ColumnInterface");
-		}
 
 		let columnSql = "";
 
@@ -135,13 +133,9 @@ class Sqlite extends Dialect implements DialectInterface
 	/**
 	 * Generates SQL to add a column to a table
 	 */
-	public function addColumn(string! tableName, string! schemaName, <\Phalcon\Db\ColumnInterface> column) -> string
+	public function addColumn(string! tableName, string! schemaName, <ColumnInterface> column) -> string
 	{
 		var sql, defaultValue;
-
-		if typeof column != "object" {
-			throw new Exception("Column definition must be an object compatible with Phalcon\\Db\\ColumnInterface");
-		}
 
 		if schemaName {
 			let sql = "ALTER TABLE \"" . schemaName . "\".\"" . tableName . "\" ADD COLUMN ";
@@ -170,7 +164,7 @@ class Sqlite extends Dialect implements DialectInterface
 	/**
 	 * Generates SQL to modify a column in a table
 	 */
-	public function modifyColumn(string! tableName, string! schemaName, <\Phalcon\Db\ColumnInterface> column) -> string
+	public function modifyColumn(string! tableName, string! schemaName, <ColumnInterface> column) -> string
 	{
 		throw new Exception("Altering a DB column is not supported by SQLite");
 	}
@@ -245,7 +239,7 @@ class Sqlite extends Dialect implements DialectInterface
 	/**
 	 * Generates SQL to add an index to a table
 	 */
-	public function addForeignKey(string! tableName, string! schemaName, <\Phalcon\Db\ReferenceInterface> reference) -> string
+	public function addForeignKey(string! tableName, string! schemaName, <ReferenceInterface> reference) -> string
 	{
 		throw new Exception("Adding a foreign key constraint to an existing table is not supported by SQLite");
 	}
@@ -464,5 +458,4 @@ class Sqlite extends Dialect implements DialectInterface
 	{
 		return "";
 	}
-
 }

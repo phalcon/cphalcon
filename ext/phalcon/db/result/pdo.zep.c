@@ -233,9 +233,9 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, numRows) {
 		zephir_read_property_this(&connection, this_ptr, SL("_connection"), PH_NOISY_CC);
 		ZEPHIR_CALL_METHOD(&type, connection, "gettype", NULL);
 		zephir_check_call_status();
-		_0 = ZEPHIR_IS_STRING(type, "pgsql");
+		_0 = ZEPHIR_IS_STRING(type, "mysql");
 		if (!(_0)) {
-			_0 = ZEPHIR_IS_STRING(type, "mysql");
+			_0 = ZEPHIR_IS_STRING(type, "pgsql");
 		}
 		if (_0) {
 			ZEPHIR_OBS_VAR(pdoStatement);

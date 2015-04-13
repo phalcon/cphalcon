@@ -12,6 +12,7 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
+#include "ext/spl/spl_iterators.h"
 #include "kernel/exception.h"
 #include "kernel/memory.h"
 #include "kernel/hash.h"

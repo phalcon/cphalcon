@@ -44,10 +44,6 @@ class MySQL extends Dialect implements DialectInterface
 	{
 		var columnSql, size, scale, type, typeValues;
 
-		if typeof column != "object" {
-			throw new Exception("Column definition must be an object compatible with Phalcon\\Db\\ColumnInterface");
-		}
-
 		let columnSql = "";
 
 		let type = column->getType();
@@ -204,10 +200,6 @@ class MySQL extends Dialect implements DialectInterface
 	{
 		var sql, defaultValue;
 
-		if typeof column != "object" {
-			throw new Exception("Column definition must be an object compatible with Phalcon\\Db\\ColumnInterface");
-		}
-
 		if schemaName {
 			let sql = "ALTER TABLE `" . schemaName . "`.`" . tableName . "` MODIFY ";
 		} else {
@@ -251,10 +243,6 @@ class MySQL extends Dialect implements DialectInterface
 	{
 		var sql, indexType;
 
-		if typeof index != "object" {
-			throw new Exception("Index parameter must be an object compatible with Phalcon\\Db\\IndexInterface");
-		}
-
 		if schemaName {
 			let sql = "ALTER TABLE `" . schemaName . "`.`" . tableName;
 		} else {
@@ -294,10 +282,6 @@ class MySQL extends Dialect implements DialectInterface
 	{
 		var sql;
 
-		if typeof index != "object" {
-			throw new Exception("Index parameter must be an object compatible with Phalcon\\Db\\IndexInterface");
-		}
-
 		if schemaName {
 			let sql = "ALTER TABLE `" . schemaName . "`.`" . tableName . "` ADD PRIMARY KEY ";
 		} else {
@@ -327,11 +311,7 @@ class MySQL extends Dialect implements DialectInterface
 	 */
 	public function addForeignKey(string! tableName, string! schemaName, <ReferenceInterface> reference) -> string
 	{
-		var sql, referencedSchema, onDelete, onUpdate;
-
-		if typeof reference != "object" {
-			throw new Exception("Index parameter must be an object compatible with Phalcon\\Db\\ReferenceInterface");
-		}
+		var sql, referencedSchema, onDelete, onUpdate;		
 
 		if schemaName {
 			let sql = "ALTER TABLE `" . schemaName . "`.`" . tableName . "` ADD FOREIGN KEY ";

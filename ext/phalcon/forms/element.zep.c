@@ -84,9 +84,6 @@ PHP_METHOD(Phalcon_Forms_Element, __construct) {
 
 /**
  * Sets the parent form to the element
- *
- * @param Phalcon\Forms\Form form
- * @return Phalcon\Forms\ElementInterface
  */
 PHP_METHOD(Phalcon_Forms_Element, setForm) {
 
@@ -103,8 +100,6 @@ PHP_METHOD(Phalcon_Forms_Element, setForm) {
 
 /**
  * Returns the parent form to the element
- *
- * @return Phalcon\Forms\ElementInterface
  */
 PHP_METHOD(Phalcon_Forms_Element, getForm) {
 
@@ -115,9 +110,6 @@ PHP_METHOD(Phalcon_Forms_Element, getForm) {
 
 /**
  * Sets the element name
- *
- * @param string name
- * @return Phalcon\Forms\ElementInterface
  */
 PHP_METHOD(Phalcon_Forms_Element, setName) {
 
@@ -147,8 +139,6 @@ PHP_METHOD(Phalcon_Forms_Element, setName) {
 
 /**
  * Returns the element name
- *
- * @return string
  */
 PHP_METHOD(Phalcon_Forms_Element, getName) {
 
@@ -165,12 +155,21 @@ PHP_METHOD(Phalcon_Forms_Element, getName) {
  */
 PHP_METHOD(Phalcon_Forms_Element, setFilters) {
 
+	zend_bool _0;
 	zval *filters;
 
 	zephir_fetch_params(0, 1, 0, &filters);
 
 
 
+	_0 = Z_TYPE_P(filters) != IS_STRING;
+	if (_0) {
+		_0 = Z_TYPE_P(filters) != IS_ARRAY;
+	}
+	if (_0) {
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_forms_exception_ce, "Wrong filter type added", "phalcon/forms/element.zep", 112);
+		return;
+	}
 	zephir_update_property_this(this_ptr, SL("_filters"), filters TSRMLS_CC);
 	RETURN_THISW();
 
@@ -178,13 +177,10 @@ PHP_METHOD(Phalcon_Forms_Element, setFilters) {
 
 /**
  * Adds a filter to current list of filters
- *
- * @param string filter
- * @return Phalcon\Forms\ElementInterface
  */
 PHP_METHOD(Phalcon_Forms_Element, addFilter) {
 
-	zval *_0;
+	zval *_0 = NULL;
 	zval *filter_param = NULL, *filters;
 	zval *filter = NULL;
 
@@ -198,11 +194,18 @@ PHP_METHOD(Phalcon_Forms_Element, addFilter) {
 	if (Z_TYPE_P(filters) == IS_ARRAY) {
 		zephir_update_property_array_append(this_ptr, SL("_filters"), filter TSRMLS_CC);
 	} else {
-		ZEPHIR_INIT_VAR(_0);
-		zephir_create_array(_0, 2, 0 TSRMLS_CC);
-		zephir_array_fast_append(_0, filters);
-		zephir_array_fast_append(_0, filter);
-		zephir_update_property_this(this_ptr, SL("_filters"), _0 TSRMLS_CC);
+		if (Z_TYPE_P(filters) == IS_STRING) {
+			ZEPHIR_INIT_VAR(_0);
+			zephir_create_array(_0, 2, 0 TSRMLS_CC);
+			zephir_array_fast_append(_0, filters);
+			zephir_array_fast_append(_0, filter);
+			zephir_update_property_this(this_ptr, SL("_filters"), _0 TSRMLS_CC);
+		} else {
+			ZEPHIR_INIT_NVAR(_0);
+			zephir_create_array(_0, 1, 0 TSRMLS_CC);
+			zephir_array_fast_append(_0, filter);
+			zephir_update_property_this(this_ptr, SL("_filters"), _0 TSRMLS_CC);
+		}
 	}
 	RETURN_THIS();
 
@@ -261,9 +264,6 @@ PHP_METHOD(Phalcon_Forms_Element, addValidators) {
 
 /**
  * Adds a validator to the element
- *
- * @param Phalcon\Validation\ValidatorInterface
- * @return Phalcon\Forms\ElementInterface
  */
 PHP_METHOD(Phalcon_Forms_Element, addValidator) {
 
@@ -280,8 +280,6 @@ PHP_METHOD(Phalcon_Forms_Element, addValidator) {
 
 /**
  * Returns the validators registered for the element
- *
- * @return Phalcon\Validation\ValidatorInterface[]
  */
 PHP_METHOD(Phalcon_Forms_Element, getValidators) {
 
@@ -325,7 +323,7 @@ PHP_METHOD(Phalcon_Forms_Element, prepareAttributes) {
 	} else {
 		ZEPHIR_CPY_WRT(widgetAttributes, attributes);
 	}
-	zephir_array_update_long(&widgetAttributes, 0, &name, PH_COPY | PH_SEPARATE, "phalcon/forms/element.zep", 219);
+	zephir_array_update_long(&widgetAttributes, 0, &name, PH_COPY | PH_SEPARATE, "phalcon/forms/element.zep", 209);
 	ZEPHIR_OBS_VAR(defaultAttributes);
 	zephir_read_property_this(&defaultAttributes, this_ptr, SL("_attributes"), PH_NOISY_CC);
 	if (Z_TYPE_P(defaultAttributes) == IS_ARRAY) {
@@ -415,9 +413,6 @@ PHP_METHOD(Phalcon_Forms_Element, getAttribute) {
 
 /**
  * Sets default attributes for the element
- *
- * @param array attributes
- * @return Phalcon\Forms\ElementInterface
  */
 PHP_METHOD(Phalcon_Forms_Element, setAttributes) {
 
@@ -437,8 +432,6 @@ PHP_METHOD(Phalcon_Forms_Element, setAttributes) {
 
 /**
  * Returns the default attributes for the element
- *
- * @return array
  */
 PHP_METHOD(Phalcon_Forms_Element, getAttributes) {
 
@@ -537,9 +530,6 @@ PHP_METHOD(Phalcon_Forms_Element, getUserOptions) {
 
 /**
  * Sets the element label
- *
- * @param string label
- * @return Phalcon\Forms\ElementInterface
  */
 PHP_METHOD(Phalcon_Forms_Element, setLabel) {
 
@@ -559,8 +549,6 @@ PHP_METHOD(Phalcon_Forms_Element, setLabel) {
 
 /**
  * Returns the element label
- *
- * @return string
  */
 PHP_METHOD(Phalcon_Forms_Element, getLabel) {
 
@@ -703,8 +691,6 @@ PHP_METHOD(Phalcon_Forms_Element, getValue) {
 /**
  * Returns the messages that belongs to the element
  * The element needs to be attached to a form
- *
- * @return Phalcon\Validation\Message\Group
  */
 PHP_METHOD(Phalcon_Forms_Element, getMessages) {
 
@@ -730,8 +716,6 @@ PHP_METHOD(Phalcon_Forms_Element, getMessages) {
 
 /**
  * Checks whether there are messages attached to the element
- *
- * @return boolean
  */
 PHP_METHOD(Phalcon_Forms_Element, hasMessages) {
 
@@ -750,9 +734,6 @@ PHP_METHOD(Phalcon_Forms_Element, hasMessages) {
 
 /**
  * Sets the validation messages related to the element
- *
- * @param Phalcon\Validation\Message\Group group
- * @return Phalcon\Forms\ElementInterface
  */
 PHP_METHOD(Phalcon_Forms_Element, setMessages) {
 
@@ -769,9 +750,6 @@ PHP_METHOD(Phalcon_Forms_Element, setMessages) {
 
 /**
  * Appends a message to the internal message list
- *
- * @param Phalcon\Validation\Message message
- * @return Phalcon\Forms\ElementInterface
  */
 PHP_METHOD(Phalcon_Forms_Element, appendMessage) {
 
@@ -801,8 +779,6 @@ PHP_METHOD(Phalcon_Forms_Element, appendMessage) {
 
 /**
  * Clears every element in the form to its default value
- *
- * @return Phalcon\Forms\Element
  */
 PHP_METHOD(Phalcon_Forms_Element, clear) {
 
@@ -823,8 +799,6 @@ PHP_METHOD(Phalcon_Forms_Element, clear) {
 
 /**
  * Magic method __toString renders the widget without atttributes
- *
- * @return string
  */
 PHP_METHOD(Phalcon_Forms_Element, __toString) {
 

@@ -63,8 +63,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Config_Adapter_Php) {
 
 /**
  * Phalcon\Config\Adapter\Php constructor
- *
- * @param string filePath
  */
 PHP_METHOD(Phalcon_Config_Adapter_Php, __construct) {
 

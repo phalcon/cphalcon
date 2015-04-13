@@ -158,9 +158,6 @@ PHP_METHOD(Phalcon_Assets_Resource, __construct) {
 
 /**
  * Sets the resource's type
- *
- * @param string type
- * @return Phalcon\Assets\Resource
  */
 PHP_METHOD(Phalcon_Assets_Resource, setType) {
 
@@ -180,9 +177,6 @@ PHP_METHOD(Phalcon_Assets_Resource, setType) {
 
 /**
  * Sets the resource's path
- *
- * @param string path
- * @return Phalcon\Assets\Resource
  */
 PHP_METHOD(Phalcon_Assets_Resource, setPath) {
 
@@ -202,9 +196,6 @@ PHP_METHOD(Phalcon_Assets_Resource, setPath) {
 
 /**
  * Sets if the resource is local or external
- *
- * @param boolean local
- * @return Phalcon\Assets\Resource
  */
 PHP_METHOD(Phalcon_Assets_Resource, setLocal) {
 
@@ -223,9 +214,6 @@ PHP_METHOD(Phalcon_Assets_Resource, setLocal) {
 
 /**
  * Sets if the resource must be filtered or not
- *
- * @param boolean filter
- * @return Phalcon\Assets\Resource
  */
 PHP_METHOD(Phalcon_Assets_Resource, setFilter) {
 
@@ -244,9 +232,6 @@ PHP_METHOD(Phalcon_Assets_Resource, setFilter) {
 
 /**
  * Sets extra HTML attributes
- *
- * @param array attributes
- * @return Phalcon\Assets\Resource
  */
 PHP_METHOD(Phalcon_Assets_Resource, setAttributes) {
 
@@ -266,9 +251,6 @@ PHP_METHOD(Phalcon_Assets_Resource, setAttributes) {
 
 /**
  * Sets a target uri for the generated HTML
- *
- * @param string targetUri
- * @return Phalcon\Assets\Resource
  */
 PHP_METHOD(Phalcon_Assets_Resource, setTargetUri) {
 
@@ -288,9 +270,6 @@ PHP_METHOD(Phalcon_Assets_Resource, setTargetUri) {
 
 /**
  * Sets the resource's source path
- *
- * @param string sourcePath
- * @return Phalcon\Assets\Resource
  */
 PHP_METHOD(Phalcon_Assets_Resource, setSourcePath) {
 
@@ -310,9 +289,6 @@ PHP_METHOD(Phalcon_Assets_Resource, setSourcePath) {
 
 /**
  * Sets the resource's target path
- *
- * @param string targetPath
- * @return Phalcon\Assets\Resource
  */
 PHP_METHOD(Phalcon_Assets_Resource, setTargetPath) {
 
@@ -333,9 +309,6 @@ PHP_METHOD(Phalcon_Assets_Resource, setTargetPath) {
 /**
  * Returns the content of the resource as an string
  * Optionally a base path where the resource is located can be set
- *
- * @param string basePath
- * @return string
  */
 PHP_METHOD(Phalcon_Assets_Resource, getContent) {
 
@@ -372,7 +345,7 @@ PHP_METHOD(Phalcon_Assets_Resource, getContent) {
 			ZEPHIR_CONCAT_SVS(_2, "Resource's content for '", completePath, "' cannot be read");
 			ZEPHIR_CALL_METHOD(NULL, _1, "__construct", &_3, _2);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(_1, "phalcon/assets/resource.zep", 196 TSRMLS_CC);
+			zephir_throw_exception_debug(_1, "phalcon/assets/resource.zep", 169 TSRMLS_CC);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
@@ -386,7 +359,7 @@ PHP_METHOD(Phalcon_Assets_Resource, getContent) {
 		ZEPHIR_CONCAT_SVS(_2, "Resource's content for '", completePath, "' cannot be read");
 		ZEPHIR_CALL_METHOD(NULL, _1, "__construct", &_3, _2);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(_1, "phalcon/assets/resource.zep", 206 TSRMLS_CC);
+		zephir_throw_exception_debug(_1, "phalcon/assets/resource.zep", 179 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -396,8 +369,6 @@ PHP_METHOD(Phalcon_Assets_Resource, getContent) {
 
 /**
  * Returns the real target uri for the generated HTML
- *
- * @return string
  */
 PHP_METHOD(Phalcon_Assets_Resource, getRealTargetUri) {
 
@@ -417,9 +388,6 @@ PHP_METHOD(Phalcon_Assets_Resource, getRealTargetUri) {
 
 /**
  * Returns the complete location where the resource is located
- *
- * @param string basePath
- * @return string
  */
 PHP_METHOD(Phalcon_Assets_Resource, getRealSourcePath) {
 
@@ -459,9 +427,6 @@ PHP_METHOD(Phalcon_Assets_Resource, getRealSourcePath) {
 
 /**
  * Returns the complete location where the resource must be written
- *
- * @param string basePath
- * @return string
  */
 PHP_METHOD(Phalcon_Assets_Resource, getRealTargetPath) {
 

@@ -34,9 +34,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Assets_Filters_None) {
 
 /**
  * Returns the content without be touched
- *
- * @param string content
- * @return string
  */
 PHP_METHOD(Phalcon_Assets_Filters_None, filter) {
 

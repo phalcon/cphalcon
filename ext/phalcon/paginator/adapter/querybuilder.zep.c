@@ -130,8 +130,6 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, setCurrentPage) {
 
 /**
  * Get the current page number
- *
- * @return int page
  */
 PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, getCurrentPage) {
 

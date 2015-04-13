@@ -17,6 +17,9 @@
 #include "kernel/exception.h"
 #include "kernel/operators.h"
 #include "kernel/memory.h"
+#include "kernel/hash.h"
+#include "kernel/string.h"
+#include "kernel/concat.h"
 
 
 /**
@@ -129,9 +132,6 @@ PHP_METHOD(Phalcon_Translate_Adapter, offsetSet) {
 
 /**
  * Check whether a translation key exists
- *
- * @param string  translateKey
- * @return boolean
  */
 PHP_METHOD(Phalcon_Translate_Adapter, offsetExists) {
 
@@ -174,7 +174,7 @@ PHP_METHOD(Phalcon_Translate_Adapter, offsetUnset) {
 
 
 
-	ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_translate_exception_ce, "Translate is an immutable ArrayAccess object", "phalcon/translate/adapter.zep", 85);
+	ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_translate_exception_ce, "Translate is an immutable ArrayAccess object", "phalcon/translate/adapter.zep", 82);
 	return;
 
 }
@@ -212,6 +212,53 @@ PHP_METHOD(Phalcon_Translate_Adapter, offsetGet) {
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "query", NULL, translateKey, _0);
 	zephir_check_call_status();
 	RETURN_MM();
+
+}
+
+PHP_METHOD(Phalcon_Translate_Adapter, replacePlaceholders) {
+
+	HashTable *_1;
+	HashPosition _0;
+	zval *translation_param = NULL, *placeholders = NULL, *key = NULL, *value = NULL, **_2, *_3 = NULL, *_4 = NULL;
+	zval *translation = NULL;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 1, &translation_param, &placeholders);
+
+	if (unlikely(Z_TYPE_P(translation_param) != IS_STRING && Z_TYPE_P(translation_param) != IS_NULL)) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'translation' must be a string") TSRMLS_CC);
+		RETURN_MM_NULL();
+	}
+
+	if (likely(Z_TYPE_P(translation_param) == IS_STRING)) {
+		zephir_get_strval(translation, translation_param);
+	} else {
+		ZEPHIR_INIT_VAR(translation);
+		ZVAL_EMPTY_STRING(translation);
+	}
+	if (!placeholders) {
+		placeholders = ZEPHIR_GLOBAL(global_null);
+	}
+
+
+	if (Z_TYPE_P(placeholders) == IS_ARRAY) {
+		if (zephir_fast_count_int(placeholders TSRMLS_CC)) {
+			zephir_is_iterable(placeholders, &_1, &_0, 0, 0, "phalcon/translate/adapter.zep", 105);
+			for (
+			  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
+			  ; zephir_hash_move_forward_ex(_1, &_0)
+			) {
+				ZEPHIR_GET_HMKEY(key, _1, _0);
+				ZEPHIR_GET_HVALUE(value, _2);
+				ZEPHIR_INIT_NVAR(_3);
+				ZEPHIR_INIT_LNVAR(_4);
+				ZEPHIR_CONCAT_SVS(_4, "%", key, "%");
+				zephir_fast_str_replace(&_3, _4, value, translation TSRMLS_CC);
+				zephir_get_strval(translation, _3);
+			}
+		}
+	}
+	RETURN_CTOR(translation);
 
 }
 

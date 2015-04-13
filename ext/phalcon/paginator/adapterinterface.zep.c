@@ -37,8 +37,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Paginator_AdapterInterface, setCurrentPage);
 
 /**
  * Returns a slice of the resultset to show in the pagination
- *
- * @return \stdclass
  */
 ZEPHIR_DOC_METHOD(Phalcon_Paginator_AdapterInterface, getPaginate);
 

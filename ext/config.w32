@@ -83,7 +83,7 @@ if (PHP_PHALCON != "no") {
 	ADD_SOURCES(configure_module_dirname + "/phalcon/session/adapter", "files.zep.c libmemcached.zep.c memcache.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/tag", "exception.zep.c select.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/translate", "adapter.zep.c adapterinterface.zep.c exception.zep.c", "phalcon");
-	ADD_SOURCES(configure_module_dirname + "/phalcon/translate/adapter", "csv.zep.c nativearray.zep.c", "phalcon");
+	ADD_SOURCES(configure_module_dirname + "/phalcon/translate/adapter", "csv.zep.c gettext.zep.c nativearray.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/validation", "exception.zep.c message.zep.c messageinterface.zep.c validator.zep.c validatorinterface.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/validation/message", "group.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/validation/validator", "alnum.zep.c alpha.zep.c between.zep.c confirmation.zep.c digit.zep.c email.zep.c exclusionin.zep.c file.zep.c identical.zep.c inclusionin.zep.c numericality.zep.c presenceof.zep.c regex.zep.c stringlength.zep.c uniqueness.zep.c url.zep.c", "phalcon");

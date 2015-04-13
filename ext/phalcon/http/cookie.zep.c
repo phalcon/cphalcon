@@ -136,8 +136,6 @@ PHP_METHOD(Phalcon_Http_Cookie, __construct) {
 
 /**
  * Sets the dependency injector
- *
- * @param Phalcon\DiInterface dependencyInjector
  */
 PHP_METHOD(Phalcon_Http_Cookie, setDI) {
 
@@ -153,8 +151,6 @@ PHP_METHOD(Phalcon_Http_Cookie, setDI) {
 
 /**
  * Returns the internal dependency injector
- *
- * @return Phalcon\DiInterface
  */
 PHP_METHOD(Phalcon_Http_Cookie, getDI) {
 
@@ -224,7 +220,7 @@ PHP_METHOD(Phalcon_Http_Cookie, getValue) {
 				_4 = zephir_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 				ZEPHIR_CPY_WRT(dependencyInjector, _4);
 				if (Z_TYPE_P(dependencyInjector) != IS_OBJECT) {
-					ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_http_response_exception_ce, "A dependency injection object is required to access the 'filter' service", "phalcon/http/cookie.zep", 157);
+					ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_http_response_exception_ce, "A dependency injection object is required to access the 'filter' service", "phalcon/http/cookie.zep", 152);
 					return;
 				}
 				ZEPHIR_INIT_VAR(_5);
@@ -246,7 +242,7 @@ PHP_METHOD(Phalcon_Http_Cookie, getValue) {
 						_4 = zephir_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 						ZEPHIR_CPY_WRT(dependencyInjector, _4);
 						if (Z_TYPE_P(dependencyInjector) != IS_OBJECT) {
-							ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_http_response_exception_ce, "A dependency injection object is required to access the 'filter' service", "phalcon/http/cookie.zep", 183);
+							ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_http_response_exception_ce, "A dependency injection object is required to access the 'filter' service", "phalcon/http/cookie.zep", 178);
 							return;
 						}
 					}
@@ -273,8 +269,6 @@ PHP_METHOD(Phalcon_Http_Cookie, getValue) {
 /**
  * Sends the cookie to the HTTP client
  * Stores the cookie definition in session
- *
- * @return Phalcon\Http\Cookie
  */
 PHP_METHOD(Phalcon_Http_Cookie, send) {
 
@@ -301,7 +295,7 @@ PHP_METHOD(Phalcon_Http_Cookie, send) {
 	ZEPHIR_OBS_VAR(dependencyInjector);
 	zephir_read_property_this(&dependencyInjector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	if (Z_TYPE_P(dependencyInjector) != IS_OBJECT) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_http_response_exception_ce, "A dependency injection object is required to access the 'session' service", "phalcon/http/cookie.zep", 227);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_http_response_exception_ce, "A dependency injection object is required to access the 'session' service", "phalcon/http/cookie.zep", 220);
 		return;
 	}
 	ZEPHIR_INIT_VAR(definition);
@@ -337,7 +331,7 @@ PHP_METHOD(Phalcon_Http_Cookie, send) {
 	if (zephir_is_true(_3)) {
 		if (!(ZEPHIR_IS_EMPTY(value))) {
 			if (Z_TYPE_P(dependencyInjector) != IS_OBJECT) {
-				ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_http_response_exception_ce, "A dependency injection object is required to access the 'filter' service", "phalcon/http/cookie.zep", 265);
+				ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_http_response_exception_ce, "A dependency injection object is required to access the 'filter' service", "phalcon/http/cookie.zep", 258);
 				return;
 			}
 			ZEPHIR_INIT_NVAR(_1);
@@ -363,8 +357,6 @@ PHP_METHOD(Phalcon_Http_Cookie, send) {
 /**
  * Reads the cookie-related info from the SESSION to restore the cookie as it was set
  * This method is automatically called internally so normally you don't need to call it
- *
- * @return Phalcon\Http\Cookie
  */
 PHP_METHOD(Phalcon_Http_Cookie, restore) {
 
@@ -414,7 +406,6 @@ PHP_METHOD(Phalcon_Http_Cookie, restore) {
 
 /**
  * Deletes the cookie by setting an expire time in the past
- *
  */
 PHP_METHOD(Phalcon_Http_Cookie, delete) {
 
@@ -461,9 +452,6 @@ PHP_METHOD(Phalcon_Http_Cookie, delete) {
 
 /**
  * Sets if the cookie must be encrypted/decrypted automatically
- *
- * @param boolean useEncryption
- * @return Phalcon\Http\Cookie
  */
 PHP_METHOD(Phalcon_Http_Cookie, useEncryption) {
 
@@ -482,8 +470,6 @@ PHP_METHOD(Phalcon_Http_Cookie, useEncryption) {
 
 /**
  * Check if the cookie is using implicit encryption
- *
- * @return boolean
  */
 PHP_METHOD(Phalcon_Http_Cookie, isUsingEncryption) {
 
@@ -494,9 +480,6 @@ PHP_METHOD(Phalcon_Http_Cookie, isUsingEncryption) {
 
 /**
  * Sets the cookie's expiration time
- *
- * @param int expire
- * @return Phalcon\Http\Cookie
  */
 PHP_METHOD(Phalcon_Http_Cookie, setExpiration) {
 
@@ -523,8 +506,6 @@ PHP_METHOD(Phalcon_Http_Cookie, setExpiration) {
 
 /**
  * Returns the current expiration time
- *
- * @return string
  */
 PHP_METHOD(Phalcon_Http_Cookie, getExpiration) {
 
@@ -544,9 +525,6 @@ PHP_METHOD(Phalcon_Http_Cookie, getExpiration) {
 
 /**
  * Sets the cookie's expiration time
- *
- * @param string path
- * @return Phalcon\Http\Cookie
  */
 PHP_METHOD(Phalcon_Http_Cookie, setPath) {
 
@@ -582,8 +560,6 @@ PHP_METHOD(Phalcon_Http_Cookie, setPath) {
 
 /**
  * Returns the current cookie's name
- *
- * @return string
  */
 PHP_METHOD(Phalcon_Http_Cookie, getName) {
 
@@ -594,8 +570,6 @@ PHP_METHOD(Phalcon_Http_Cookie, getName) {
 
 /**
  * Returns the current cookie's path
- *
- * @return string
  */
 PHP_METHOD(Phalcon_Http_Cookie, getPath) {
 
@@ -615,9 +589,6 @@ PHP_METHOD(Phalcon_Http_Cookie, getPath) {
 
 /**
  * Sets the domain that the cookie is available to
- *
- * @param string domain
- * @return Phalcon\Http\Cookie
  */
 PHP_METHOD(Phalcon_Http_Cookie, setDomain) {
 
@@ -653,8 +624,6 @@ PHP_METHOD(Phalcon_Http_Cookie, setDomain) {
 
 /**
  * Returns the domain that the cookie is available to
- *
- * @return string
  */
 PHP_METHOD(Phalcon_Http_Cookie, getDomain) {
 
@@ -674,9 +643,6 @@ PHP_METHOD(Phalcon_Http_Cookie, getDomain) {
 
 /**
  * Sets if the cookie must only be sent when the connection is secure (HTTPS)
- *
- * @param boolean secure
- * @return Phalcon\Http\Cookie
  */
 PHP_METHOD(Phalcon_Http_Cookie, setSecure) {
 
@@ -702,8 +668,6 @@ PHP_METHOD(Phalcon_Http_Cookie, setSecure) {
 
 /**
  * Returns whether the cookie must only be sent when the connection is secure (HTTPS)
- *
- * @return boolean
  */
 PHP_METHOD(Phalcon_Http_Cookie, getSecure) {
 
@@ -723,9 +687,6 @@ PHP_METHOD(Phalcon_Http_Cookie, getSecure) {
 
 /**
  * Sets if the cookie is accessible only through the HTTP protocol
- *
- * @param boolean httpOnly
- * @return Phalcon\Http\Cookie
  */
 PHP_METHOD(Phalcon_Http_Cookie, setHttpOnly) {
 
@@ -751,8 +712,6 @@ PHP_METHOD(Phalcon_Http_Cookie, setHttpOnly) {
 
 /**
  * Returns if the cookie is accessible only through the HTTP protocol
- *
- * @return boolean
  */
 PHP_METHOD(Phalcon_Http_Cookie, getHttpOnly) {
 
@@ -772,8 +731,6 @@ PHP_METHOD(Phalcon_Http_Cookie, getHttpOnly) {
 
 /**
  * Magic __toString method converts the cookie's value to string
- *
- * @return string
  */
 PHP_METHOD(Phalcon_Http_Cookie, __toString) {
 
