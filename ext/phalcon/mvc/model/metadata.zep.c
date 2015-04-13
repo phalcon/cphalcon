@@ -22,6 +22,23 @@
 #include "kernel/string.h"
 
 
+/*
+ +------------------------------------------------------------------------+
+ | Phalcon Framework                                                      |
+ +------------------------------------------------------------------------+
+ | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+ +------------------------------------------------------------------------+
+ | This source file is subject to the New BSD License that is bundled     |
+ | with this package in the file docs/LICENSE.txt.                        |
+ |                                                                        |
+ | If you did not receive a copy of the license and are unable to         |
+ | obtain it through the world-wide-web, please send an email             |
+ | to license@phalconphp.com so we can send you a copy immediately.       |
+ +------------------------------------------------------------------------+
+ | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
+ |          Eduar Carvajal <eduar@phalconphp.com>                         |
+ +------------------------------------------------------------------------+
+ */
 /**
  * Phalcon\Mvc\Model\MetaData
  *
@@ -95,10 +112,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_MetaData) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, _initialize) {
 
-	zephir_fcall_cache_entry *_3 = NULL;
-	zephir_nts_static zephir_fcall_cache_entry *_2 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *model, *key, *table, *schema, *strategy = NULL, *className, *metaData, *data = NULL, *modelMetadata = NULL, *modelColumnMap = NULL, *dependencyInjector = NULL, *keyName, *prefixKey = NULL, *_0, *_1, *_4;
+	zval *model, *key, *table, *schema, *strategy = NULL, *className, *metaData, *data = NULL, *modelMetadata = NULL, *modelColumnMap = NULL, *dependencyInjector = NULL, *keyName, *prefixKey = NULL, *_0, *_1, *_2;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 4, 0, &model, &key, &table, &schema);
@@ -128,7 +143,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, _initialize) {
 						object_init_ex(_0, phalcon_mvc_model_exception_ce);
 						ZEPHIR_INIT_VAR(_1);
 						ZEPHIR_CONCAT_SV(_1, "Invalid meta-data for model ", className);
-						ZEPHIR_CALL_METHOD(NULL, _0, "__construct", &_2, _1);
+						ZEPHIR_CALL_METHOD(NULL, _0, "__construct", NULL, _1);
 						zephir_check_call_status();
 						zephir_throw_exception_debug(_0, "phalcon/mvc/model/metadata.zep", 122 TSRMLS_CC);
 						ZEPHIR_MM_RESTORE();
@@ -137,7 +152,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, _initialize) {
 				} else {
 					ZEPHIR_OBS_VAR(dependencyInjector);
 					zephir_read_property_this(&dependencyInjector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
-					ZEPHIR_CALL_METHOD(&strategy, this_ptr, "getstrategy", &_3);
+					ZEPHIR_CALL_METHOD(&strategy, this_ptr, "getstrategy", NULL);
 					zephir_check_call_status();
 					ZEPHIR_CALL_METHOD(&modelMetadata, strategy, "getmetadata", NULL, model, dependencyInjector);
 					zephir_check_call_status();
@@ -153,8 +168,8 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, _initialize) {
 	}
 	ZEPHIR_INIT_VAR(keyName);
 	zephir_fast_strtolower(keyName, className);
-	_4 = zephir_fetch_nproperty_this(this_ptr, SL("_columnMap"), PH_NOISY_CC);
-	if (zephir_array_isset(_4, keyName)) {
+	_2 = zephir_fetch_nproperty_this(this_ptr, SL("_columnMap"), PH_NOISY_CC);
+	if (zephir_array_isset(_2, keyName)) {
 		RETURN_MM_NULL();
 	}
 	ZEPHIR_INIT_NVAR(prefixKey);
@@ -168,7 +183,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, _initialize) {
 	if (Z_TYPE_P(strategy) != IS_OBJECT) {
 		ZEPHIR_OBS_NVAR(dependencyInjector);
 		zephir_read_property_this(&dependencyInjector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
-		ZEPHIR_CALL_METHOD(&strategy, this_ptr, "getstrategy", &_3);
+		ZEPHIR_CALL_METHOD(&strategy, this_ptr, "getstrategy", NULL);
 		zephir_check_call_status();
 	}
 	ZEPHIR_CALL_METHOD(&modelColumnMap, strategy, "getcolumnmaps", NULL, model, dependencyInjector);

@@ -23,6 +23,23 @@
 #include "kernel/hash.h"
 
 
+/*
+ +------------------------------------------------------------------------+
+ | Phalcon Framework                                                      |
+ +------------------------------------------------------------------------+
+ | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+ +------------------------------------------------------------------------+
+ | This source file is subject to the New BSD License that is bundled     |
+ | with this package in the file docs/LICENSE.txt.                        |
+ |                                                                        |
+ | If you did not receive a copy of the license and are unable to         |
+ | obtain it through the world-wide-web, please send an email             |
+ | to license@phalconphp.com so we can send you a copy immediately.       |
+ +------------------------------------------------------------------------+
+ | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
+ |          Eduar Carvajal <eduar@phalconphp.com>                         |
+ +------------------------------------------------------------------------+
+ */
 /**
  * Phalcon\Validation\Message\Group
  *
@@ -252,10 +269,9 @@ PHP_METHOD(Phalcon_Validation_Message_Group, appendMessages) {
 		_1 = zephir_get_iterator(messages TSRMLS_CC);
 		_1->funcs->rewind(_1 TSRMLS_CC);
 		for (;_1->funcs->valid(_1 TSRMLS_CC) == SUCCESS && !EG(exception); _1->funcs->move_forward(_1 TSRMLS_CC)) {
-			{
-				zval **ZEPHIR_TMP_ITERATOR_PTR;
-				_1->funcs->get_current_data(_1, &ZEPHIR_TMP_ITERATOR_PTR TSRMLS_CC);
-				ZEPHIR_CPY_WRT(message, (*ZEPHIR_TMP_ITERATOR_PTR));
+			{ zval **tmp; 
+			_1->funcs->get_current_data(_1, &tmp TSRMLS_CC);
+			message = *tmp;
 			}
 			ZEPHIR_CALL_METHOD(NULL, this_ptr, "appendmessage", &_2, message);
 			zephir_check_call_status();
@@ -415,7 +431,6 @@ PHP_METHOD(Phalcon_Validation_Message_Group, valid) {
  */
 PHP_METHOD(Phalcon_Validation_Message_Group, __set_state) {
 
-	zephir_nts_static zephir_fcall_cache_entry *_1 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *group, *_0;
 
@@ -426,7 +441,7 @@ PHP_METHOD(Phalcon_Validation_Message_Group, __set_state) {
 
 	object_init_ex(return_value, phalcon_validation_message_group_ce);
 	zephir_array_fetch_string(&_0, group, SL("_messages"), PH_NOISY | PH_READONLY, "phalcon/validation/message/group.zep", 277 TSRMLS_CC);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", &_1, _0);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, _0);
 	zephir_check_call_status();
 	RETURN_MM();
 

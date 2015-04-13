@@ -22,9 +22,6 @@
 
 #ifndef ZEPHIR_RELEASE
 
-#include <php.h>
-#include <Zend/zend.h>
-
 extern int zephir_assert_class(zval *object, char *class_name TSRMLS_DC);
 
 #endif

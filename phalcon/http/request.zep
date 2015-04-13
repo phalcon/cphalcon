@@ -725,7 +725,8 @@ class Request implements RequestInterface, InjectionAwareInterface
 	 */
 	public function getUploadedFiles(boolean notErrored = false) -> <File[]>
 	{
-		var superFiles, prefix, input, smoothInput, files, file, dataFile;
+		var superFiles, prefix, input, smoothInput, file, dataFile;
+
 		array files = [];
 
 		let superFiles = _FILES;

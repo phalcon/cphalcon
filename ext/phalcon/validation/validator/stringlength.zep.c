@@ -22,6 +22,23 @@
 #include "ext/spl/spl_exceptions.h"
 
 
+/*
+ +------------------------------------------------------------------------+
+ | Phalcon Framework                                                      |
+ +------------------------------------------------------------------------+
+ | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+ +------------------------------------------------------------------------+
+ | This source file is subject to the New BSD License that is bundled     |
+ | with this package in the file docs/LICENSE.txt.                        |
+ |                                                                        |
+ | If you did not receive a copy of the license and are unable to         |
+ | obtain it through the world-wide-web, please send an email             |
+ | to license@phalconphp.com so we can send you a copy immediately.       |
+ +------------------------------------------------------------------------+
+ | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
+ |          Eduar Carvajal <eduar@phalconphp.com>                         |
+ +------------------------------------------------------------------------+
+ */
 /**
  * Phalcon\Validation\Validator\StringLength
  *
@@ -45,7 +62,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_StringLength) {
 
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Validation\\Validator, StringLength, phalcon, validation_validator_stringlength, phalcon_validation_validator_ce, phalcon_validation_validator_stringlength_method_entry, 0);
 
-	zend_class_implements(phalcon_validation_validator_stringlength_ce TSRMLS_CC, 1, phalcon_validation_validatorinterface_ce);
 	return SUCCESS;
 
 }
@@ -59,7 +75,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_StringLength) {
  */
 PHP_METHOD(Phalcon_Validation_Validator_StringLength, validate) {
 
-	zephir_nts_static zephir_fcall_cache_entry *_5 = NULL, *_7 = NULL;
+	zephir_fcall_cache_entry *_7 = NULL;
+	zephir_nts_static zephir_fcall_cache_entry *_5 = NULL;
 	zend_bool _1, _3;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *field = NULL;
@@ -96,7 +113,7 @@ PHP_METHOD(Phalcon_Validation_Validator_StringLength, validate) {
 		_1 = !zephir_is_true(isSetMax);
 	}
 	if (_1) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_validation_exception_ce, "A minimum or maximum must be set", "phalcon/validation/validator/stringlength.zep", 62);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_validation_exception_ce, "A minimum or maximum must be set", "phalcon/validation/validator/stringlength.zep", 64);
 		return;
 	}
 	ZEPHIR_CALL_METHOD(&value, validation, "getvalue", NULL, field);
@@ -142,7 +159,7 @@ PHP_METHOD(Phalcon_Validation_Validator_StringLength, validate) {
 			zephir_check_temp_parameter(_0);
 			zephir_check_call_status();
 			ZEPHIR_INIT_VAR(replacePairs);
-			zephir_create_array(replacePairs, 2, 0 TSRMLS_CC);
+			array_init_size(replacePairs, 3);
 			zephir_array_update_string(&replacePairs, SL(":field"), &label, PH_COPY | PH_SEPARATE);
 			zephir_array_update_string(&replacePairs, SL(":max"), &maximum, PH_COPY | PH_SEPARATE);
 			if (ZEPHIR_IS_EMPTY(message)) {
@@ -179,7 +196,7 @@ PHP_METHOD(Phalcon_Validation_Validator_StringLength, validate) {
 			zephir_check_temp_parameter(_6);
 			zephir_check_call_status();
 			ZEPHIR_INIT_NVAR(replacePairs);
-			zephir_create_array(replacePairs, 2, 0 TSRMLS_CC);
+			array_init_size(replacePairs, 3);
 			zephir_array_update_string(&replacePairs, SL(":field"), &label, PH_COPY | PH_SEPARATE);
 			zephir_array_update_string(&replacePairs, SL(":min"), &minimum, PH_COPY | PH_SEPARATE);
 			if (ZEPHIR_IS_EMPTY(message)) {

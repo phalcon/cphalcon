@@ -21,6 +21,23 @@
 #include "kernel/array.h"
 
 
+/*
+ +------------------------------------------------------------------------+
+ | Phalcon Framework                                                      |
+ +------------------------------------------------------------------------+
+ | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+ +------------------------------------------------------------------------+
+ | This source file is subject to the New BSD License that is bundled     |
+ | with this package in the file docs/LICENSE.txt.                        |
+ |                                                                        |
+ | If you did not receive a copy of the license and are unable to         |
+ | obtain it through the world-wide-web, please send an email             |
+ | to license@phalconphp.com so we can send you a copy immediately.       |
+ +------------------------------------------------------------------------+
+ | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
+ |          Eduar Carvajal <eduar@phalconphp.com>                         |
+ +------------------------------------------------------------------------+
+ */
 /**
  * Phalcon\Image
  *
@@ -581,12 +598,7 @@ PHP_METHOD(Phalcon_Image_Adapter, reflection) {
 }
 
 /**
- * Add a watermark to an image with a specified opacity
- *
- * @param Phalcon\Image\Adapter watermark
- * @param int offsetX
- * @param int offsetY
- * @param int opacity
+ * Add a watermark to an image with the specified opacity
  */
 PHP_METHOD(Phalcon_Image_Adapter, watermark) {
 
@@ -750,9 +762,9 @@ PHP_METHOD(Phalcon_Image_Adapter, text) {
 	ZVAL_STRING(&_4, "hexdec", 0);
 	ZEPHIR_CALL_FUNCTION(&colors, "array_map", &_10, &_4, _7);
 	zephir_check_call_status();
-	zephir_array_fetch_long(&_11, colors, 0, PH_NOISY | PH_READONLY, "phalcon/image/adapter.zep", 354 TSRMLS_CC);
-	zephir_array_fetch_long(&_12, colors, 1, PH_NOISY | PH_READONLY, "phalcon/image/adapter.zep", 354 TSRMLS_CC);
-	zephir_array_fetch_long(&_13, colors, 2, PH_NOISY | PH_READONLY, "phalcon/image/adapter.zep", 354 TSRMLS_CC);
+	zephir_array_fetch_long(&_11, colors, 0, PH_NOISY | PH_READONLY, "phalcon/image/adapter.zep", 349 TSRMLS_CC);
+	zephir_array_fetch_long(&_12, colors, 1, PH_NOISY | PH_READONLY, "phalcon/image/adapter.zep", 349 TSRMLS_CC);
+	zephir_array_fetch_long(&_13, colors, 2, PH_NOISY | PH_READONLY, "phalcon/image/adapter.zep", 349 TSRMLS_CC);
 	ZEPHIR_INIT_NVAR(_5);
 	ZVAL_LONG(_5, offsetX);
 	ZEPHIR_INIT_NVAR(_6);
@@ -846,9 +858,9 @@ PHP_METHOD(Phalcon_Image_Adapter, background) {
 	ZVAL_STRING(&_4, "hexdec", 0);
 	ZEPHIR_CALL_FUNCTION(&colors, "array_map", &_10, &_4, _7);
 	zephir_check_call_status();
-	zephir_array_fetch_long(&_11, colors, 0, PH_NOISY | PH_READONLY, "phalcon/image/adapter.zep", 387 TSRMLS_CC);
-	zephir_array_fetch_long(&_12, colors, 1, PH_NOISY | PH_READONLY, "phalcon/image/adapter.zep", 387 TSRMLS_CC);
-	zephir_array_fetch_long(&_13, colors, 2, PH_NOISY | PH_READONLY, "phalcon/image/adapter.zep", 387 TSRMLS_CC);
+	zephir_array_fetch_long(&_11, colors, 0, PH_NOISY | PH_READONLY, "phalcon/image/adapter.zep", 382 TSRMLS_CC);
+	zephir_array_fetch_long(&_12, colors, 1, PH_NOISY | PH_READONLY, "phalcon/image/adapter.zep", 382 TSRMLS_CC);
+	zephir_array_fetch_long(&_13, colors, 2, PH_NOISY | PH_READONLY, "phalcon/image/adapter.zep", 382 TSRMLS_CC);
 	ZEPHIR_INIT_NVAR(_5);
 	ZVAL_LONG(_5, opacity);
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "_background", NULL, _11, _12, _13, _5);

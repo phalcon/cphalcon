@@ -18,6 +18,23 @@
 #include "kernel/operators.h"
 
 
+/*
+ +------------------------------------------------------------------------+
+ | Phalcon Framework                                                      |
+ +------------------------------------------------------------------------+
+ | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+ +------------------------------------------------------------------------+
+ | This source file is subject to the New BSD License that is bundled     |
+ | with this package in the file docs/LICENSE.txt.                        |
+ |                                                                        |
+ | If you did not receive a copy of the license and are unable to         |
+ | obtain it through the world-wide-web, please send an email             |
+ | to license@phalconphp.com so we can send you a copy immediately.       |
+ +------------------------------------------------------------------------+
+ | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
+ |          Eduar Carvajal <eduar@phalconphp.com>                         |
+ +------------------------------------------------------------------------+
+ */
 /**
  * Phalcon\Logger\Formatter\Syslog
  *
@@ -62,7 +79,7 @@ PHP_METHOD(Phalcon_Logger_Formatter_Syslog, format) {
 		zephir_check_call_status();
 		ZEPHIR_CPY_WRT(message, _0);
 	}
-	zephir_create_array(return_value, 2, 0 TSRMLS_CC);
+	array_init_size(return_value, 3);
 	ZEPHIR_INIT_VAR(_1);
 	ZVAL_LONG(_1, type);
 	zephir_array_fast_append(return_value, _1);

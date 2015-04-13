@@ -244,7 +244,6 @@ typedef zend_function zephir_fcall_cache_entry;
 			method_len = 0; \
 			method_name = zend_str_tolower_dup("", 0); \
 		} \
-		ZEPHIR_OBSERVE_OR_NULLIFY_PPZV(return_value_ptr); \
 		ZEPHIR_LAST_CALL_STATUS = zephir_call_class_method_aparams(return_value_ptr, Z_TYPE_P(object) == IS_OBJECT ? Z_OBJCE_P(object) : NULL, zephir_fcall_method, object, method_name, method_len, cache, ZEPHIR_CALL_NUM_PARAMS(params_), ZEPHIR_PASS_CALL_PARAMS(params_) TSRMLS_CC); \
 		efree(method_name); \
 	} while (0)
@@ -485,7 +484,6 @@ typedef zend_function zephir_fcall_cache_entry;
 			method_len = 0; \
 			method_name = zend_str_tolower_dup("", 0); \
 		} \
-		ZEPHIR_OBSERVE_OR_NULLIFY_PPZV(return_value_ptr); \
 		ZEPHIR_LAST_CALL_STATUS = zephir_call_class_method_aparams(return_value_ptr, class_entry, zephir_fcall_ce, NULL, method_name, method_len, cache, ZEPHIR_CALL_NUM_PARAMS(params_), ZEPHIR_PASS_CALL_PARAMS(params_) TSRMLS_CC); \
 		efree(method_name); \
 	} while (0)

@@ -23,6 +23,24 @@
 #include "ext/spl/spl_exceptions.h"
 
 
+/*
+ +------------------------------------------------------------------------+
+ | Phalcon Framework                                                      |
+ +------------------------------------------------------------------------+
+ | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+ +------------------------------------------------------------------------+
+ | This source file is subject to the New BSD License that is bundled     |
+ | with this package in the file docs/LICENSE.txt.                        |
+ |                                                                        |
+ | If you did not receive a copy of the license and are unable to         |
+ | obtain it through the world-wide-web, please send an email             |
+ | to license@phalconphp.com so we can send you a copy immediately.       |
+ +------------------------------------------------------------------------+
+ | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
+ |          Eduar Carvajal <eduar@phalconphp.com>                         |
+ |          Rack Lin <racklin@gmail.com>                                  |
+ +------------------------------------------------------------------------+
+ */
 /**
  * Phalcon\Cli\Router
  *
@@ -84,7 +102,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Cli_Router) {
  */
 PHP_METHOD(Phalcon_Cli_Router, __construct) {
 
-	zephir_nts_static zephir_fcall_cache_entry *_3 = NULL;
+	zephir_fcall_cache_entry *_3 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *_1, *_4;
 	zval *defaultRoutes_param = NULL, *routes, *_0 = NULL, *_2 = NULL, *_5;
@@ -106,7 +124,7 @@ PHP_METHOD(Phalcon_Cli_Router, __construct) {
 		ZEPHIR_INIT_VAR(_0);
 		object_init_ex(_0, phalcon_cli_router_route_ce);
 		ZEPHIR_INIT_VAR(_1);
-		zephir_create_array(_1, 1, 0 TSRMLS_CC);
+		array_init_size(_1, 2);
 		add_assoc_long_ex(_1, SS("task"), 1);
 		ZEPHIR_INIT_VAR(_2);
 		ZVAL_STRING(_2, "#^(?::delimiter)?([a-zA-Z0-9\\_\\-]+)[:delimiter]{0,1}$#", ZEPHIR_TEMP_PARAM_COPY);
@@ -117,7 +135,7 @@ PHP_METHOD(Phalcon_Cli_Router, __construct) {
 		ZEPHIR_INIT_NVAR(_2);
 		object_init_ex(_2, phalcon_cli_router_route_ce);
 		ZEPHIR_INIT_VAR(_4);
-		zephir_create_array(_4, 3, 0 TSRMLS_CC);
+		array_init_size(_4, 4);
 		add_assoc_long_ex(_4, SS("task"), 1);
 		add_assoc_long_ex(_4, SS("action"), 2);
 		add_assoc_long_ex(_4, SS("params"), 3);
@@ -344,7 +362,7 @@ PHP_METHOD(Phalcon_Cli_Router, handle) {
 					}
 					ZEPHIR_INIT_NVAR(routeFound);
 					ZEPHIR_INIT_NVAR(_6);
-					zephir_create_array(_6, 3, 0 TSRMLS_CC);
+					array_init_size(_6, 4);
 					zephir_array_fast_append(_6, arguments);
 					zephir_array_fast_append(_6, route);
 					zephir_array_fast_append(_6, this_ptr);
@@ -373,7 +391,7 @@ PHP_METHOD(Phalcon_Cli_Router, handle) {
 								if (zephir_array_isset_fetch(&converter, converters, part, 0 TSRMLS_CC)) {
 									ZEPHIR_INIT_NVAR(_10);
 									ZEPHIR_INIT_NVAR(_6);
-									zephir_create_array(_6, 1, 0 TSRMLS_CC);
+									array_init_size(_6, 2);
 									zephir_array_fast_append(_6, matchPosition);
 									ZEPHIR_CALL_USER_FUNC_ARRAY(_10, converter, _6);
 									zephir_check_call_status();
@@ -388,7 +406,7 @@ PHP_METHOD(Phalcon_Cli_Router, handle) {
 								if (zephir_array_isset_fetch(&converter, converters, part, 0 TSRMLS_CC)) {
 									ZEPHIR_INIT_NVAR(_10);
 									ZEPHIR_INIT_NVAR(_11);
-									zephir_create_array(_11, 1, 0 TSRMLS_CC);
+									array_init_size(_11, 2);
 									zephir_array_fast_append(_11, position);
 									ZEPHIR_CALL_USER_FUNC_ARRAY(_10, converter, _11);
 									zephir_check_call_status();
@@ -499,7 +517,6 @@ PHP_METHOD(Phalcon_Cli_Router, handle) {
  */
 PHP_METHOD(Phalcon_Cli_Router, add) {
 
-	zephir_nts_static zephir_fcall_cache_entry *_0 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *pattern_param = NULL, *paths = NULL, *route;
 	zval *pattern = NULL;
@@ -525,7 +542,7 @@ PHP_METHOD(Phalcon_Cli_Router, add) {
 
 	ZEPHIR_INIT_VAR(route);
 	object_init_ex(route, phalcon_cli_router_route_ce);
-	ZEPHIR_CALL_METHOD(NULL, route, "__construct", &_0, pattern, paths);
+	ZEPHIR_CALL_METHOD(NULL, route, "__construct", NULL, pattern, paths);
 	zephir_check_call_status();
 	zephir_update_property_array_append(this_ptr, SL("_routes"), route TSRMLS_CC);
 	RETURN_CCTOR(route);

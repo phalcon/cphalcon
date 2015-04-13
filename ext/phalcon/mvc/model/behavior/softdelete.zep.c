@@ -22,6 +22,23 @@
 #include "ext/spl/spl_exceptions.h"
 
 
+/*
+ +------------------------------------------------------------------------+
+ | Phalcon Framework                                                      |
+ +------------------------------------------------------------------------+
+ | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+ +------------------------------------------------------------------------+
+ | This source file is subject to the New BSD License that is bundled     |
+ | with this package in the file docs/LICENSE.txt.                        |
+ |                                                                        |
+ | If you did not receive a copy of the license and are unable to         |
+ | obtain it through the world-wide-web, please send an email             |
+ | to license@phalconphp.com so we can send you a copy immediately.       |
+ +------------------------------------------------------------------------+
+ | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
+ |          Eduar Carvajal <eduar@phalconphp.com>                         |
+ +------------------------------------------------------------------------+
+ */
 /**
  * Phalcon\Mvc\Model\Behavior\SoftDelete
  *
@@ -45,7 +62,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Behavior_SoftDelete) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Behavior_SoftDelete, notify) {
 
-	zephir_fcall_cache_entry *_7 = NULL;
 	HashTable *_5;
 	HashPosition _4;
 	int ZEPHIR_LAST_CALL_STATUS;
@@ -105,7 +121,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior_SoftDelete, notify) {
 				  ; zephir_hash_move_forward_ex(_5, &_4)
 				) {
 					ZEPHIR_GET_HVALUE(message, _6);
-					ZEPHIR_CALL_METHOD(NULL, model, "appendmessage", &_7, message);
+					ZEPHIR_CALL_METHOD(NULL, model, "appendmessage", NULL, message);
 					zephir_check_call_status();
 				}
 				RETURN_MM_BOOL(0);

@@ -23,6 +23,23 @@
 #include "kernel/concat.h"
 
 
+/*
+ +------------------------------------------------------------------------+
+ | Phalcon Framework                                                      |
+ +------------------------------------------------------------------------+
+ | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+ +------------------------------------------------------------------------+
+ | This source file is subject to the New BSD License that is bundled     |
+ | with this package in the file docs/LICENSE.txt.                        |
+ |                                                                        |
+ | If you did not receive a copy of the license and are unable to         |
+ | obtain it through the world-wide-web, please send an email             |
+ | to license@phalconphp.com so we can send you a copy immediately.       |
+ +------------------------------------------------------------------------+
+ | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
+ |          Eduar Carvajal <eduar@phalconphp.com>                         |
+ +------------------------------------------------------------------------+
+ */
 /**
  * Phalcon\Forms\Form
  *
@@ -136,8 +153,6 @@ PHP_METHOD(Phalcon_Forms_Form, setAction) {
 
 /**
  * Returns the form's action
- *
- * @return string
  */
 PHP_METHOD(Phalcon_Forms_Form, getAction) {
 
@@ -195,9 +210,6 @@ PHP_METHOD(Phalcon_Forms_Form, getUserOption) {
 
 /**
  * Sets options for the element
- *
- * @param array options
- * @return Phalcon\Forms\Form
  */
 PHP_METHOD(Phalcon_Forms_Form, setUserOptions) {
 
@@ -260,8 +272,6 @@ PHP_METHOD(Phalcon_Forms_Form, getEntity) {
 
 /**
  * Returns the form elements added to the form
- *
- * @return Phalcon\Forms\ElementInterface[]
  */
 PHP_METHOD(Phalcon_Forms_Form, getElements) {
 
@@ -280,7 +290,7 @@ PHP_METHOD(Phalcon_Forms_Form, getElements) {
  */
 PHP_METHOD(Phalcon_Forms_Form, bind) {
 
-	zephir_fcall_cache_entry *_3 = NULL, *_6 = NULL, *_7 = NULL;
+	zephir_fcall_cache_entry *_3 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
 	HashTable *_1;
 	HashPosition _0;
@@ -301,12 +311,12 @@ PHP_METHOD(Phalcon_Forms_Form, bind) {
 	ZEPHIR_OBS_VAR(elements);
 	zephir_read_property_this(&elements, this_ptr, SL("_elements"), PH_NOISY_CC);
 	if (Z_TYPE_P(elements) != IS_ARRAY) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_forms_exception_ce, "There are no elements in the form", "phalcon/forms/form.zep", 204);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_forms_exception_ce, "There are no elements in the form", "phalcon/forms/form.zep", 197);
 		return;
 	}
 	ZEPHIR_INIT_VAR(filter);
 	ZVAL_NULL(filter);
-	zephir_is_iterable(data, &_1, &_0, 0, 0, "phalcon/forms/form.zep", 261);
+	zephir_is_iterable(data, &_1, &_0, 0, 0, "phalcon/forms/form.zep", 254);
 	for (
 	  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_1, &_0)
@@ -330,12 +340,12 @@ PHP_METHOD(Phalcon_Forms_Form, bind) {
 				zephir_check_call_status();
 				ZEPHIR_INIT_NVAR(_5);
 				ZVAL_STRING(_5, "filter", ZEPHIR_TEMP_PARAM_COPY);
-				ZEPHIR_CALL_METHOD(&_4, dependencyInjector, "getshared", &_6, _5);
+				ZEPHIR_CALL_METHOD(&_4, dependencyInjector, "getshared", NULL, _5);
 				zephir_check_temp_parameter(_5);
 				zephir_check_call_status();
 				ZEPHIR_CPY_WRT(filter, _4);
 			}
-			ZEPHIR_CALL_METHOD(&filteredValue, filter, "sanitize", &_7, value, filters);
+			ZEPHIR_CALL_METHOD(&filteredValue, filter, "sanitize", NULL, value, filters);
 			zephir_check_call_status();
 		} else {
 			ZEPHIR_CPY_WRT(filteredValue, value);
@@ -413,7 +423,7 @@ PHP_METHOD(Phalcon_Forms_Form, isValid) {
 	notFailed = 1;
 	ZEPHIR_INIT_VAR(messages);
 	array_init(messages);
-	zephir_is_iterable(elements, &_4, &_3, 0, 0, "phalcon/forms/form.zep", 376);
+	zephir_is_iterable(elements, &_4, &_3, 0, 0, "phalcon/forms/form.zep", 369);
 	for (
 	  ; zephir_hash_get_current_data_ex(_4, (void**) &_5, &_3) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_4, &_3)
@@ -427,17 +437,17 @@ PHP_METHOD(Phalcon_Forms_Form, isValid) {
 				zephir_check_call_status();
 				ZEPHIR_INIT_NVAR(preparedValidators);
 				array_init(preparedValidators);
-				zephir_is_iterable(validators, &_7, &_6, 0, 0, "phalcon/forms/form.zep", 332);
+				zephir_is_iterable(validators, &_7, &_6, 0, 0, "phalcon/forms/form.zep", 325);
 				for (
 				  ; zephir_hash_get_current_data_ex(_7, (void**) &_8, &_6) == SUCCESS
 				  ; zephir_hash_move_forward_ex(_7, &_6)
 				) {
 					ZEPHIR_GET_HVALUE(validator, _8);
 					ZEPHIR_INIT_NVAR(_9);
-					zephir_create_array(_9, 2, 0 TSRMLS_CC);
+					array_init_size(_9, 3);
 					zephir_array_fast_append(_9, name);
 					zephir_array_fast_append(_9, validator);
-					zephir_array_append(&preparedValidators, _9, PH_SEPARATE, "phalcon/forms/form.zep", 329);
+					zephir_array_append(&preparedValidators, _9, PH_SEPARATE, "phalcon/forms/form.zep", 322);
 				}
 				ZEPHIR_CALL_METHOD(&validation, this_ptr, "getvalidation", &_10);
 				zephir_check_call_status();
@@ -484,16 +494,12 @@ PHP_METHOD(Phalcon_Forms_Form, isValid) {
 
 /**
  * Returns the messages generated in the validation
- *
- * @param boolean byItemName
- * @return array
  */
 PHP_METHOD(Phalcon_Forms_Form, getMessages) {
 
-	zephir_fcall_cache_entry *_4 = NULL;
 	HashTable *_2;
 	HashPosition _1;
-	zephir_nts_static zephir_fcall_cache_entry *_0 = NULL;
+	zephir_fcall_cache_entry *_0 = NULL, *_4 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *byItemName_param = NULL, *messages, *group, *elementMessages = NULL, **_3;
 	zend_bool byItemName;
@@ -524,7 +530,7 @@ PHP_METHOD(Phalcon_Forms_Form, getMessages) {
 	ZEPHIR_CALL_METHOD(NULL, group, "__construct", &_0);
 	zephir_check_call_status();
 	if (Z_TYPE_P(messages) == IS_ARRAY) {
-		zephir_is_iterable(messages, &_2, &_1, 0, 0, "phalcon/forms/form.zep", 416);
+		zephir_is_iterable(messages, &_2, &_1, 0, 0, "phalcon/forms/form.zep", 406);
 		for (
 		  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_2, &_1)
@@ -546,7 +552,6 @@ PHP_METHOD(Phalcon_Forms_Form, getMessages) {
  */
 PHP_METHOD(Phalcon_Forms_Form, getMessagesFor) {
 
-	zephir_nts_static zephir_fcall_cache_entry *_0 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *name, *messages, *elementMessages, *group;
 
@@ -561,7 +566,7 @@ PHP_METHOD(Phalcon_Forms_Form, getMessagesFor) {
 	}
 	ZEPHIR_INIT_VAR(group);
 	object_init_ex(group, phalcon_validation_message_group_ce);
-	ZEPHIR_CALL_METHOD(NULL, group, "__construct", &_0);
+	ZEPHIR_CALL_METHOD(NULL, group, "__construct", NULL);
 	zephir_check_call_status();
 	zephir_update_property_array(this_ptr, SL("_messages"), name, group TSRMLS_CC);
 	RETURN_CCTOR(group);
@@ -636,7 +641,7 @@ PHP_METHOD(Phalcon_Forms_Form, add) {
 		ZEPHIR_INIT_VAR(elements);
 		array_init(elements);
 		_2 = zephir_fetch_nproperty_this(this_ptr, SL("_elements"), PH_NOISY_CC);
-		zephir_is_iterable(_2, &_4, &_3, 0, 0, "phalcon/forms/form.zep", 505);
+		zephir_is_iterable(_2, &_4, &_3, 0, 0, "phalcon/forms/form.zep", 495);
 		for (
 		  ; zephir_hash_get_current_data_ex(_4, (void**) &_5, &_3) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_4, &_3)
@@ -670,7 +675,6 @@ PHP_METHOD(Phalcon_Forms_Form, add) {
  */
 PHP_METHOD(Phalcon_Forms_Form, render) {
 
-	zephir_nts_static zephir_fcall_cache_entry *_3 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *name_param = NULL, *attributes = NULL, *element, *_0, *_1;
 	zval *name = NULL, *_2;
@@ -701,9 +705,9 @@ PHP_METHOD(Phalcon_Forms_Form, render) {
 		object_init_ex(_1, phalcon_forms_exception_ce);
 		ZEPHIR_INIT_VAR(_2);
 		ZEPHIR_CONCAT_SVS(_2, "Element with ID=", name, " is not part of the form");
-		ZEPHIR_CALL_METHOD(NULL, _1, "__construct", &_3, _2);
+		ZEPHIR_CALL_METHOD(NULL, _1, "__construct", NULL, _2);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(_1, "phalcon/forms/form.zep", 522 TSRMLS_CC);
+		zephir_throw_exception_debug(_1, "phalcon/forms/form.zep", 512 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -715,13 +719,9 @@ PHP_METHOD(Phalcon_Forms_Form, render) {
 
 /**
  * Returns an element added to the form by its name
- *
- * @param string name
- * @return Phalcon\Forms\ElementInterface
  */
 PHP_METHOD(Phalcon_Forms_Form, get) {
 
-	zephir_nts_static zephir_fcall_cache_entry *_3 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *name_param = NULL, *element, *_0, *_1;
 	zval *name = NULL, *_2;
@@ -751,9 +751,9 @@ PHP_METHOD(Phalcon_Forms_Form, get) {
 	object_init_ex(_1, phalcon_forms_exception_ce);
 	ZEPHIR_INIT_VAR(_2);
 	ZEPHIR_CONCAT_SVS(_2, "Element with ID=", name, " is not part of the form");
-	ZEPHIR_CALL_METHOD(NULL, _1, "__construct", &_3, _2);
+	ZEPHIR_CALL_METHOD(NULL, _1, "__construct", NULL, _2);
 	zephir_check_call_status();
-	zephir_throw_exception_debug(_1, "phalcon/forms/form.zep", 542 TSRMLS_CC);
+	zephir_throw_exception_debug(_1, "phalcon/forms/form.zep", 529 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 	return;
 
@@ -761,14 +761,9 @@ PHP_METHOD(Phalcon_Forms_Form, get) {
 
 /**
  * Generate the label of a element added to the form including HTML
- *
- * @param string name
- * @param array attributes
- * @return string
  */
 PHP_METHOD(Phalcon_Forms_Form, label) {
 
-	zephir_nts_static zephir_fcall_cache_entry *_3 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *attributes = NULL;
 	zval *name_param = NULL, *attributes_param = NULL, *element, *_0, *_1;
@@ -807,9 +802,9 @@ PHP_METHOD(Phalcon_Forms_Form, label) {
 	object_init_ex(_1, phalcon_forms_exception_ce);
 	ZEPHIR_INIT_VAR(_2);
 	ZEPHIR_CONCAT_SVS(_2, "Element with ID=", name, " is not part of the form");
-	ZEPHIR_CALL_METHOD(NULL, _1, "__construct", &_3, _2);
+	ZEPHIR_CALL_METHOD(NULL, _1, "__construct", NULL, _2);
 	zephir_check_call_status();
-	zephir_throw_exception_debug(_1, "phalcon/forms/form.zep", 560 TSRMLS_CC);
+	zephir_throw_exception_debug(_1, "phalcon/forms/form.zep", 543 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 	return;
 
@@ -817,13 +812,9 @@ PHP_METHOD(Phalcon_Forms_Form, label) {
 
 /**
  * Returns a label for an element
- *
- * @param string name
- * @return string
  */
 PHP_METHOD(Phalcon_Forms_Form, getLabel) {
 
-	zephir_nts_static zephir_fcall_cache_entry *_3 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *name_param = NULL, *element, *label = NULL, *_0, *_1;
 	zval *name = NULL, *_2;
@@ -851,9 +842,9 @@ PHP_METHOD(Phalcon_Forms_Form, getLabel) {
 		object_init_ex(_1, phalcon_forms_exception_ce);
 		ZEPHIR_INIT_VAR(_2);
 		ZEPHIR_CONCAT_SVS(_2, "Element with ID=", name, " is not part of the form");
-		ZEPHIR_CALL_METHOD(NULL, _1, "__construct", &_3, _2);
+		ZEPHIR_CALL_METHOD(NULL, _1, "__construct", NULL, _2);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(_1, "phalcon/forms/form.zep", 574 TSRMLS_CC);
+		zephir_throw_exception_debug(_1, "phalcon/forms/form.zep", 554 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -932,9 +923,6 @@ PHP_METHOD(Phalcon_Forms_Form, getValue) {
 
 /**
  * Check if the form contains an element
- *
- * @param string name
- * @return boolean
  */
 PHP_METHOD(Phalcon_Forms_Form, has) {
 
@@ -964,9 +952,6 @@ PHP_METHOD(Phalcon_Forms_Form, has) {
 
 /**
  * Removes an element from the form
- *
- * @param string name
- * @return boolean
  */
 PHP_METHOD(Phalcon_Forms_Form, remove) {
 
@@ -1024,7 +1009,7 @@ PHP_METHOD(Phalcon_Forms_Form, clear) {
 	ZEPHIR_OBS_VAR(elements);
 	zephir_read_property_this(&elements, this_ptr, SL("_elements"), PH_NOISY_CC);
 	if (Z_TYPE_P(elements) == IS_ARRAY) {
-		zephir_is_iterable(elements, &_1, &_0, 0, 0, "phalcon/forms/form.zep", 704);
+		zephir_is_iterable(elements, &_1, &_0, 0, 0, "phalcon/forms/form.zep", 677);
 		for (
 		  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_1, &_0)
@@ -1049,8 +1034,6 @@ PHP_METHOD(Phalcon_Forms_Form, clear) {
 
 /**
  * Returns the number of elements in the form
- *
- * @return int
  */
 PHP_METHOD(Phalcon_Forms_Form, count) {
 
@@ -1086,8 +1069,6 @@ PHP_METHOD(Phalcon_Forms_Form, rewind) {
 
 /**
  * Returns the current element in the iterator
- *
- * @return Phalcon\Forms\ElementInterface
  */
 PHP_METHOD(Phalcon_Forms_Form, current) {
 
@@ -1105,8 +1086,6 @@ PHP_METHOD(Phalcon_Forms_Form, current) {
 
 /**
  * Returns the current position/key in the iterator
- *
- * @return int
  */
 PHP_METHOD(Phalcon_Forms_Form, key) {
 
@@ -1117,7 +1096,6 @@ PHP_METHOD(Phalcon_Forms_Form, key) {
 
 /**
  * Moves the internal iteration pointer to the next position
- *
  */
 PHP_METHOD(Phalcon_Forms_Form, next) {
 
@@ -1128,8 +1106,6 @@ PHP_METHOD(Phalcon_Forms_Form, next) {
 
 /**
  * Check if the current element in the iterator is valid
- *
- * @return boolean
  */
 PHP_METHOD(Phalcon_Forms_Form, valid) {
 

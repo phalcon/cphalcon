@@ -13,17 +13,34 @@
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
-#include "kernel/array.h"
 #include "kernel/object.h"
 #include "kernel/operators.h"
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/exception.h"
 #include "kernel/fcall.h"
+#include "kernel/array.h"
 #include "kernel/concat.h"
 #include "kernel/string.h"
 #include "kernel/hash.h"
 
 
+/*
+ +------------------------------------------------------------------------+
+ | Phalcon Framework                                                      |
+ +------------------------------------------------------------------------+
+ | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+ +------------------------------------------------------------------------+
+ | This source file is subject to the New BSD License that is bundled     |
+ | with this package in the file docs/LICENSE.txt.                        |
+ |                                                                        |
+ | If you did not receive a copy of the license and are unable to         |
+ | obtain it through the world-wide-web, please send an email             |
+ | to license@phalconphp.com so we can send you a copy immediately.       |
+ +------------------------------------------------------------------------+
+ | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
+ |          Eduar Carvajal <eduar@phalconphp.com>                         |
+ +------------------------------------------------------------------------+
+ */
 /**
  * Phalcon\Flash
  *
@@ -69,7 +86,7 @@ PHP_METHOD(Phalcon_Flash, __construct) {
 
 	if (Z_TYPE_P(cssClasses) != IS_ARRAY) {
 		ZEPHIR_INIT_NVAR(cssClasses);
-		zephir_create_array(cssClasses, 4, 0 TSRMLS_CC);
+		array_init_size(cssClasses, 6);
 		add_assoc_stringl_ex(cssClasses, SS("error"), SL("errorMessage"), 1);
 		add_assoc_stringl_ex(cssClasses, SS("notice"), SL("noticeMessage"), 1);
 		add_assoc_stringl_ex(cssClasses, SS("success"), SL("successMessage"), 1);

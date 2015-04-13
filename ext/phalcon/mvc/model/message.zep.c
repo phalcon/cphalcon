@@ -21,6 +21,23 @@
 #include "kernel/array.h"
 
 
+/*
+ +------------------------------------------------------------------------+
+ | Phalcon Framework                                                      |
+ +------------------------------------------------------------------------+
+ | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+ +------------------------------------------------------------------------+
+ | This source file is subject to the New BSD License that is bundled     |
+ | with this package in the file docs/LICENSE.txt.                        |
+ |                                                                        |
+ | If you did not receive a copy of the license and are unable to         |
+ | obtain it through the world-wide-web, please send an email             |
+ | to license@phalconphp.com so we can send you a copy immediately.       |
+ +------------------------------------------------------------------------+
+ | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
+ |          Eduar Carvajal <eduar@phalconphp.com>                         |
+ +------------------------------------------------------------------------+
+ */
 /**
  * Phalcon\Mvc\Model\Message
  *
@@ -295,7 +312,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Message, __toString) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Message, __set_state) {
 
-	zephir_nts_static zephir_fcall_cache_entry *_3 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *message_param = NULL, *_0, *_1, *_2;
 	zval *message = NULL;
@@ -311,7 +327,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Message, __set_state) {
 	zephir_array_fetch_string(&_0, message, SL("_message"), PH_NOISY | PH_READONLY, "phalcon/mvc/model/message.zep", 186 TSRMLS_CC);
 	zephir_array_fetch_string(&_1, message, SL("_field"), PH_NOISY | PH_READONLY, "phalcon/mvc/model/message.zep", 186 TSRMLS_CC);
 	zephir_array_fetch_string(&_2, message, SL("_type"), PH_NOISY | PH_READONLY, "phalcon/mvc/model/message.zep", 186 TSRMLS_CC);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", &_3, _0, _1, _2);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, _0, _1, _2);
 	zephir_check_call_status();
 	RETURN_MM();
 

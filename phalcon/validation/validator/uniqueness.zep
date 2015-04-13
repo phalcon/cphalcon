@@ -19,6 +19,8 @@
 
 namespace Phalcon\Validation\Validator;
 
+use Phalcon\Validation\Validator;
+
 /**
  * Phalcon\Validation\Validator\Uniqueness
  *
@@ -41,7 +43,7 @@ namespace Phalcon\Validation\Validator;
  *)));
  *</code>
  */
-class Uniqueness extends \Phalcon\Validation\Validator implements \Phalcon\Validation\ValidatorInterface
+class Uniqueness extends Validator
 {
 
 	/**

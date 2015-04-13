@@ -21,7 +21,6 @@ namespace Phalcon\Validation\Validator;
 
 use Phalcon\Validation\Validator;
 use Phalcon\Validation\Message;
-use Phalcon\Validation\ValidatorInterface;
 
 /**
  * Phalcon\Validation\Validator\Alnum
@@ -36,7 +35,7 @@ use Phalcon\Validation\ValidatorInterface;
  *)));
  *</code>
  */
-class Alnum extends Validator implements ValidatorInterface
+class Alnum extends Validator
 {
 
 	/**

@@ -18,6 +18,23 @@
 #include "kernel/object.h"
 
 
+/*
+ +------------------------------------------------------------------------+
+ | Phalcon Framework                                                      |
+ +------------------------------------------------------------------------+
+ | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+ +------------------------------------------------------------------------+
+ | This source file is subject to the New BSD License that is bundled     |
+ | with this package in the file docs/LICENSE.txt.                        |
+ |                                                                        |
+ | If you did not receive a copy of the license and are unable to         |
+ | obtain it through the world-wide-web, please send an email             |
+ | to license@phalconphp.com so we can send you a copy immediately.       |
+ +------------------------------------------------------------------------+
+ | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
+ |          Eduar Carvajal <eduar@phalconphp.com>                         |
+ +------------------------------------------------------------------------+
+ */
 /**
  * Phalcon\Di\FactoryDefault\CLI
  *
@@ -49,7 +66,7 @@ PHP_METHOD(Phalcon_Di_FactoryDefault_Cli, __construct) {
 	ZEPHIR_CALL_PARENT(NULL, phalcon_di_factorydefault_cli_ce, this_ptr, "__construct", &_0);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(_1);
-	zephir_create_array(_1, 10, 0 TSRMLS_CC);
+	array_init_size(_1, 13);
 	ZEPHIR_INIT_VAR(_2);
 	object_init_ex(_2, phalcon_di_service_ce);
 	ZEPHIR_INIT_VAR(_3);

@@ -21,6 +21,23 @@
 #include "kernel/fcall.h"
 
 
+/*
+ +------------------------------------------------------------------------+
+ | Phalcon Framework                                                      |
+ +------------------------------------------------------------------------+
+ | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+ +------------------------------------------------------------------------+
+ | This source file is subject to the New BSD License that is bundled     |
+ | with this package in the file docs/LICENSE.txt.                        |
+ |                                                                        |
+ | If you did not receive a copy of the license and are unable to         |
+ | obtain it through the world-wide-web, please send an email             |
+ | to license@phalconphp.com so we can send you a copy immediately.       |
+ +------------------------------------------------------------------------+
+ | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
+ |          Eduar Carvajal <eduar@phalconphp.com>                         |
+ +------------------------------------------------------------------------+
+ */
 /**
  * Phalcon\Db\Column
  *
@@ -539,7 +556,6 @@ PHP_METHOD(Phalcon_Db_Column, getBindType) {
  */
 PHP_METHOD(Phalcon_Db_Column, __set_state) {
 
-	zephir_nts_static zephir_fcall_cache_entry *_6 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zend_bool _2, _4;
 	zval *data_param = NULL, *definition, *columnType, *notNull, *size, *dunsigned, *after, *isNumeric, *first, *bindType, *primary, *columnName = NULL, *scale, *defaultValue, *autoIncrement, *columnTypeReference, *columnTypeValues, *_0, *_1, *_3, *_5;
@@ -622,7 +638,7 @@ PHP_METHOD(Phalcon_Db_Column, __set_state) {
 		zephir_array_update_string(&definition, SL("bindType"), &bindType, PH_COPY | PH_SEPARATE);
 	}
 	object_init_ex(return_value, phalcon_db_column_ce);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", &_6, columnName, definition);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, columnName, definition);
 	zephir_check_call_status();
 	RETURN_MM();
 

@@ -20,6 +20,7 @@
 namespace Phalcon\Validation\Validator;
 
 use Phalcon\Validation\Message;
+use Phalcon\Validation\Validator;
 
 /**
  * Phalcon\Validation\Validator\File
@@ -39,7 +40,7 @@ use Phalcon\Validation\Message;
  *)));
  *</code>
  */
-class File extends \Phalcon\Validation\Validator implements \Phalcon\Validation\ValidatorInterface
+class File extends Validator
 {
 
 	/**

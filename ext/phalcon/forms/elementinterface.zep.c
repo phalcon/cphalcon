@@ -12,6 +12,23 @@
 #include "kernel/main.h"
 
 
+/*
+ +------------------------------------------------------------------------+
+ | Phalcon Framework                                                      |
+ +------------------------------------------------------------------------+
+ | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+ +------------------------------------------------------------------------+
+ | This source file is subject to the New BSD License that is bundled     |
+ | with this package in the file docs/LICENSE.txt.                        |
+ |                                                                        |
+ | If you did not receive a copy of the license and are unable to         |
+ | obtain it through the world-wide-web, please send an email             |
+ | to license@phalconphp.com so we can send you a copy immediately.       |
+ +------------------------------------------------------------------------+
+ | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
+ |          Eduar Carvajal <eduar@phalconphp.com>                         |
+ +------------------------------------------------------------------------+
+ */
 /**
  * Phalcon\Forms\Element
  *
@@ -50,8 +67,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Forms_ElementInterface, setName);
 
 /**
  * Returns the element's name
- *
- * @return string
  */
 ZEPHIR_DOC_METHOD(Phalcon_Forms_ElementInterface, getName);
 
@@ -140,8 +155,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Forms_ElementInterface, setAttributes);
 
 /**
  * Returns the default attributes for the element
- *
- * @return array
  */
 ZEPHIR_DOC_METHOD(Phalcon_Forms_ElementInterface, getAttributes);
 
@@ -188,15 +201,11 @@ ZEPHIR_DOC_METHOD(Phalcon_Forms_ElementInterface, setLabel);
 
 /**
  * Returns the element's label
- *
- * @return string
  */
 ZEPHIR_DOC_METHOD(Phalcon_Forms_ElementInterface, getLabel);
 
 /**
  * Generate the HTML to label the element
- *
- * @return string
  */
 ZEPHIR_DOC_METHOD(Phalcon_Forms_ElementInterface, label);
 
@@ -233,8 +242,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Forms_ElementInterface, getMessages);
 
 /**
  * Checks whether there are messages attached to the element
- *
- * @return boolean
  */
 ZEPHIR_DOC_METHOD(Phalcon_Forms_ElementInterface, hasMessages);
 

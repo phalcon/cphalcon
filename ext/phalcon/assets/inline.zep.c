@@ -17,6 +17,23 @@
 #include "kernel/memory.h"
 
 
+/*
+ +------------------------------------------------------------------------+
+ | Phalcon Framework                                                      |
+ +------------------------------------------------------------------------+
+ | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+ +------------------------------------------------------------------------+
+ | This source file is subject to the New BSD License that is bundled     |
+ | with this package in the file docs/LICENSE.txt.                        |
+ |                                                                        |
+ | If you did not receive a copy of the license and are unable to         |
+ | obtain it through the world-wide-web, please send an email             |
+ | to license@phalconphp.com so we can send you a copy immediately.       |
+ +------------------------------------------------------------------------+
+ | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
+ |          Eduar Carvajal <eduar@phalconphp.com>                         |
+ +------------------------------------------------------------------------+
+ */
 /**
  * Phalcon\Assets\Inline
  *
@@ -111,9 +128,6 @@ PHP_METHOD(Phalcon_Assets_Inline, __construct) {
 
 /**
  * Sets the inline's type
- *
- * @param string type
- * @return Phalcon\Assets\Inline
  */
 PHP_METHOD(Phalcon_Assets_Inline, setType) {
 
@@ -133,9 +147,6 @@ PHP_METHOD(Phalcon_Assets_Inline, setType) {
 
 /**
  * Sets if the resource must be filtered or not
- *
- * @param boolean filter
- * @return Phalcon\Assets\Inline
  */
 PHP_METHOD(Phalcon_Assets_Inline, setFilter) {
 
@@ -154,9 +165,6 @@ PHP_METHOD(Phalcon_Assets_Inline, setFilter) {
 
 /**
  * Sets extra HTML attributes
- *
- * @param array attributes
- * @return Phalcon\Assets\Inline
  */
 PHP_METHOD(Phalcon_Assets_Inline, setAttributes) {
 

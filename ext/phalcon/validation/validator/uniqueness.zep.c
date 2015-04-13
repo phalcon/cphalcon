@@ -16,12 +16,29 @@
 #include "kernel/memory.h"
 #include "kernel/operators.h"
 #include "kernel/exception.h"
-#include "kernel/array.h"
 #include "kernel/concat.h"
+#include "kernel/array.h"
 #include "kernel/object.h"
 #include "ext/spl/spl_exceptions.h"
 
 
+/*
+ +------------------------------------------------------------------------+
+ | Phalcon Framework                                                      |
+ +------------------------------------------------------------------------+
+ | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+ +------------------------------------------------------------------------+
+ | This source file is subject to the New BSD License that is bundled     |
+ | with this package in the file docs/LICENSE.txt.                        |
+ |                                                                        |
+ | If you did not receive a copy of the license and are unable to         |
+ | obtain it through the world-wide-web, please send an email             |
+ | to license@phalconphp.com so we can send you a copy immediately.       |
+ +------------------------------------------------------------------------+
+ | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
+ |          Eduar Carvajal <eduar@phalconphp.com>                         |
+ +------------------------------------------------------------------------+
+ */
 /**
  * Phalcon\Validation\Validator\Uniqueness
  *
@@ -48,7 +65,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_Uniqueness) {
 
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Validation\\Validator, Uniqueness, phalcon, validation_validator_uniqueness, phalcon_validation_validator_ce, phalcon_validation_validator_uniqueness_method_entry, 0);
 
-	zend_class_implements(phalcon_validation_validator_uniqueness_ce TSRMLS_CC, 1, phalcon_validation_validatorinterface_ce);
 	return SUCCESS;
 
 }
@@ -62,7 +78,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_Uniqueness) {
  */
 PHP_METHOD(Phalcon_Validation_Validator_Uniqueness, validate) {
 
-	zephir_nts_static zephir_fcall_cache_entry *_7 = NULL, *_9 = NULL;
+	zephir_nts_static zephir_fcall_cache_entry *_7 = NULL;
 	zend_class_entry *_4, *_5;
 	zval *_1 = NULL, *_3 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
@@ -103,7 +119,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Uniqueness, validate) {
 	zephir_check_temp_parameter(_0);
 	zephir_check_call_status();
 	if (ZEPHIR_IS_EMPTY(model)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_validation_exception_ce, "Model must be set", "phalcon/validation/validator/uniqueness.zep", 64);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_validation_exception_ce, "Model must be set", "phalcon/validation/validator/uniqueness.zep", 66);
 		return;
 	}
 	if (ZEPHIR_IS_EMPTY(attribute)) {
@@ -111,12 +127,12 @@ PHP_METHOD(Phalcon_Validation_Validator_Uniqueness, validate) {
 	}
 	if (zephir_is_true(except)) {
 		ZEPHIR_INIT_VAR(_1);
-		zephir_create_array(_1, 2, 0 TSRMLS_CC);
+		array_init_size(_1, 3);
 		ZEPHIR_INIT_VAR(_2);
 		ZEPHIR_CONCAT_VSVS(_2, attribute, "=:value: AND ", attribute, "!= :except:");
 		zephir_array_fast_append(_1, _2);
 		ZEPHIR_INIT_VAR(_3);
-		zephir_create_array(_3, 2, 0 TSRMLS_CC);
+		array_init_size(_3, 3);
 		zephir_array_update_string(&_3, SL("value"), &value, PH_COPY | PH_SEPARATE);
 		zephir_array_update_string(&_3, SL("except"), &except, PH_COPY | PH_SEPARATE);
 		zephir_array_update_string(&_1, SL("bind"), &_3, PH_COPY | PH_SEPARATE);
@@ -125,12 +141,12 @@ PHP_METHOD(Phalcon_Validation_Validator_Uniqueness, validate) {
 		zephir_check_call_status();
 	} else {
 		ZEPHIR_INIT_NVAR(_1);
-		zephir_create_array(_1, 2, 0 TSRMLS_CC);
+		array_init_size(_1, 3);
 		ZEPHIR_INIT_LNVAR(_2);
 		ZEPHIR_CONCAT_VS(_2, attribute, "=:value:");
 		zephir_array_fast_append(_1, _2);
 		ZEPHIR_INIT_NVAR(_3);
-		zephir_create_array(_3, 1, 0 TSRMLS_CC);
+		array_init_size(_3, 2);
 		zephir_array_update_string(&_3, SL("value"), &value, PH_COPY | PH_SEPARATE);
 		zephir_array_update_string(&_1, SL("bind"), &_3, PH_COPY | PH_SEPARATE);
 		_5 = zephir_fetch_class(model TSRMLS_CC);
@@ -153,7 +169,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Uniqueness, validate) {
 		zephir_check_temp_parameter(_0);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(replacePairs);
-		zephir_create_array(replacePairs, 1, 0 TSRMLS_CC);
+		array_init_size(replacePairs, 2);
 		zephir_array_update_string(&replacePairs, SL(":field"), &label, PH_COPY | PH_SEPARATE);
 		if (ZEPHIR_IS_EMPTY(message)) {
 			ZEPHIR_INIT_NVAR(_0);
@@ -168,7 +184,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Uniqueness, validate) {
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(_8);
 		ZVAL_STRING(_8, "Uniqueness", ZEPHIR_TEMP_PARAM_COPY);
-		ZEPHIR_CALL_METHOD(NULL, _0, "__construct", &_9, _6, field, _8);
+		ZEPHIR_CALL_METHOD(NULL, _0, "__construct", NULL, _6, field, _8);
 		zephir_check_temp_parameter(_8);
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, _0);

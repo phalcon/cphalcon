@@ -21,6 +21,23 @@
 #include "kernel/fcall.h"
 
 
+/*
+ +------------------------------------------------------------------------+
+ | Phalcon Framework                                                      |
+ +------------------------------------------------------------------------+
+ | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+ +------------------------------------------------------------------------+
+ | This source file is subject to the New BSD License that is bundled     |
+ | with this package in the file docs/LICENSE.txt.                        |
+ |                                                                        |
+ | If you did not receive a copy of the license and are unable to         |
+ | obtain it through the world-wide-web, please send an email             |
+ | to license@phalconphp.com so we can send you a copy immediately.       |
+ +------------------------------------------------------------------------+
+ | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
+ |          Eduar Carvajal <eduar@phalconphp.com>                         |
+ +------------------------------------------------------------------------+
+ */
 /**
  * Phalcon\Paginator\Adapter\Model
  *
@@ -231,7 +248,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, getPaginate) {
 	ZEPHIR_INIT_ZVAL_NREF(_8);
 	ZVAL_LONG(_8, pageNumber);
 	zephir_update_property_zval(page, SL("current"), _8 TSRMLS_CC);
-	if (zephir_safe_mod_long_long(n, show TSRMLS_CC) != 0) {
+	if ((n % show) != 0) {
 		pagesTotal = (int) ((zephir_safe_div_long_long(n, show TSRMLS_CC) + (double) (1)));
 	} else {
 		pagesTotal = (int) (zephir_safe_div_long_long(n, show TSRMLS_CC));

@@ -24,6 +24,23 @@
 #include "kernel/hash.h"
 
 
+/*
+ +------------------------------------------------------------------------+
+ | Phalcon Framework                                                      |
+ +------------------------------------------------------------------------+
+ | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+ +------------------------------------------------------------------------+
+ | This source file is subject to the New BSD License that is bundled     |
+ | with this package in the file docs/LICENSE.txt.                        |
+ |                                                                        |
+ | If you did not receive a copy of the license and are unable to         |
+ | obtain it through the world-wide-web, please send an email             |
+ | to license@phalconphp.com so we can send you a copy immediately.       |
+ +------------------------------------------------------------------------+
+ | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
+ |          Eduar Carvajal <eduar@phalconphp.com>                         |
+ +------------------------------------------------------------------------+
+ */
 /**
  * Phalcon\Mvc\Router\Route
  *
@@ -147,28 +164,28 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, compilePattern) {
 			ZEPHIR_INIT_VAR(_0);
 			ZEPHIR_SINIT_VAR(_1);
 			ZVAL_STRING(&_1, "/:module", 0);
-			zephir_fast_str_replace(&_0, &_1, idPattern, pattern TSRMLS_CC);
+			zephir_fast_str_replace(_0, &_1, idPattern, pattern TSRMLS_CC);
 			zephir_get_strval(pattern, _0);
 		}
 		if (zephir_memnstr_str(pattern, SL("/:controller"), "phalcon/mvc/router/route.zep", 105)) {
 			ZEPHIR_INIT_NVAR(_0);
 			ZEPHIR_SINIT_NVAR(_1);
 			ZVAL_STRING(&_1, "/:controller", 0);
-			zephir_fast_str_replace(&_0, &_1, idPattern, pattern TSRMLS_CC);
+			zephir_fast_str_replace(_0, &_1, idPattern, pattern TSRMLS_CC);
 			zephir_get_strval(pattern, _0);
 		}
 		if (zephir_memnstr_str(pattern, SL("/:namespace"), "phalcon/mvc/router/route.zep", 110)) {
 			ZEPHIR_INIT_NVAR(_0);
 			ZEPHIR_SINIT_NVAR(_1);
 			ZVAL_STRING(&_1, "/:namespace", 0);
-			zephir_fast_str_replace(&_0, &_1, idPattern, pattern TSRMLS_CC);
+			zephir_fast_str_replace(_0, &_1, idPattern, pattern TSRMLS_CC);
 			zephir_get_strval(pattern, _0);
 		}
 		if (zephir_memnstr_str(pattern, SL("/:action"), "phalcon/mvc/router/route.zep", 115)) {
 			ZEPHIR_INIT_NVAR(_0);
 			ZEPHIR_SINIT_NVAR(_1);
 			ZVAL_STRING(&_1, "/:action", 0);
-			zephir_fast_str_replace(&_0, &_1, idPattern, pattern TSRMLS_CC);
+			zephir_fast_str_replace(_0, &_1, idPattern, pattern TSRMLS_CC);
 			zephir_get_strval(pattern, _0);
 		}
 		if (zephir_memnstr_str(pattern, SL("/:params"), "phalcon/mvc/router/route.zep", 120)) {
@@ -177,7 +194,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, compilePattern) {
 			ZVAL_STRING(&_1, "/:params", 0);
 			ZEPHIR_SINIT_VAR(_2);
 			ZVAL_STRING(&_2, "(/.*)*", 0);
-			zephir_fast_str_replace(&_0, &_1, &_2, pattern TSRMLS_CC);
+			zephir_fast_str_replace(_0, &_1, &_2, pattern TSRMLS_CC);
 			zephir_get_strval(pattern, _0);
 		}
 		if (zephir_memnstr_str(pattern, SL("/:int"), "phalcon/mvc/router/route.zep", 125)) {
@@ -186,7 +203,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, compilePattern) {
 			ZVAL_STRING(&_1, "/:int", 0);
 			ZEPHIR_SINIT_NVAR(_2);
 			ZVAL_STRING(&_2, "/([0-9]+)", 0);
-			zephir_fast_str_replace(&_0, &_1, &_2, pattern TSRMLS_CC);
+			zephir_fast_str_replace(_0, &_1, &_2, pattern TSRMLS_CC);
 			zephir_get_strval(pattern, _0);
 		}
 	}
@@ -443,7 +460,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, extractNamedParams) {
 			zephir_concat_self_char(&route, ch TSRMLS_CC);
 		}
 	}
-	zephir_create_array(return_value, 2, 0 TSRMLS_CC);
+	array_init_size(return_value, 3);
 	zephir_array_fast_append(return_value, route);
 	zephir_array_fast_append(return_value, matches);
 	RETURN_MM();

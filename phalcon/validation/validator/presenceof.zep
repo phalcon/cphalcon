@@ -19,6 +19,8 @@
 
 namespace Phalcon\Validation\Validator;
 
+use Phalcon\Validation\Validator;
+
 /**
  * Phalcon\Validation\Validator\PresenceOf
  *
@@ -32,7 +34,7 @@ namespace Phalcon\Validation\Validator;
  *)));
  *</code>
  */
-class PresenceOf extends \Phalcon\Validation\Validator implements \Phalcon\Validation\ValidatorInterface
+class PresenceOf extends Validator
 {
 
 	/**

@@ -20,6 +20,23 @@
 #include "ext/spl/spl_exceptions.h"
 
 
+/*
+ +------------------------------------------------------------------------+
+ | Phalcon Framework                                                      |
+ +------------------------------------------------------------------------+
+ | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+ +------------------------------------------------------------------------+
+ | This source file is subject to the New BSD License that is bundled     |
+ | with this package in the file docs/LICENSE.txt.                        |
+ |                                                                        |
+ | If you did not receive a copy of the license and are unable to         |
+ | obtain it through the world-wide-web, please send an email             |
+ | to license@phalconphp.com so we can send you a copy immediately.       |
+ +------------------------------------------------------------------------+
+ | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
+ |          Eduar Carvajal <eduar@phalconphp.com>                         |
+ +------------------------------------------------------------------------+
+ */
 /**
  * Phalcon\Validation\Validator
  *
@@ -27,10 +44,11 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Validation, Validator, phalcon, validation_validator, phalcon_validation_validator_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Validation, Validator, phalcon, validation_validator, phalcon_validation_validator_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
 
 	zend_declare_property_null(phalcon_validation_validator_ce, SL("_options"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
+	zend_class_implements(phalcon_validation_validator_ce TSRMLS_CC, 1, phalcon_validation_validatorinterface_ce);
 	return SUCCESS;
 
 }
@@ -57,7 +75,7 @@ PHP_METHOD(Phalcon_Validation_Validator, __construct) {
 		_0 = Z_TYPE_P(options) != IS_NULL;
 	}
 	if (_0) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_validation_exception_ce, "Options must be an array", "phalcon/validation/validator.zep", 40);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_validation_exception_ce, "Options must be an array", "phalcon/validation/validator.zep", 41);
 		return;
 	} else {
 		zephir_update_property_this(this_ptr, SL("_options"), options TSRMLS_CC);
@@ -154,6 +172,17 @@ PHP_METHOD(Phalcon_Validation_Validator, setOption) {
 
 	zephir_update_property_array(this_ptr, SL("_options"), key, value TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
+
+}
+
+/**
+ * Executes the validation
+ *
+ * @param Phalcon\Validation validator
+ * @param string attribute
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Validation_Validator, validate) {
 
 }
 

@@ -22,6 +22,23 @@
 #include "kernel/array.h"
 
 
+/*
+ +------------------------------------------------------------------------+
+ | Phalcon Framework                                                      |
+ +------------------------------------------------------------------------+
+ | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+ +------------------------------------------------------------------------+
+ | This source file is subject to the New BSD License that is bundled     |
+ | with this package in the file docs/LICENSE.txt.                        |
+ |                                                                        |
+ | If you did not receive a copy of the license and are unable to         |
+ | obtain it through the world-wide-web, please send an email             |
+ | to license@phalconphp.com so we can send you a copy immediately.       |
+ +------------------------------------------------------------------------+
+ | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
+ |          Eduar Carvajal <eduar@phalconphp.com>                         |
+ +------------------------------------------------------------------------+
+*/
 /**
  * Phalcon\Config
  *
@@ -62,8 +79,9 @@ ZEPHIR_INIT_CLASS(Phalcon_Config) {
  */
 PHP_METHOD(Phalcon_Config, __construct) {
 
+	zephir_fcall_cache_entry *_6 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zephir_nts_static zephir_fcall_cache_entry *_4 = NULL, *_6 = NULL;
+	zephir_nts_static zephir_fcall_cache_entry *_4 = NULL;
 	HashTable *_1;
 	HashPosition _0;
 	zval *arrayConfig_param = NULL, *key = NULL, *value = NULL, **_2, *_3 = NULL, *_5 = NULL;
@@ -222,7 +240,6 @@ PHP_METHOD(Phalcon_Config, offsetGet) {
  */
 PHP_METHOD(Phalcon_Config, offsetSet) {
 
-	zephir_nts_static zephir_fcall_cache_entry *_1 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *index_param = NULL, *value, *_0;
 	zval *index = NULL;
@@ -246,7 +263,7 @@ PHP_METHOD(Phalcon_Config, offsetSet) {
 	if (Z_TYPE_P(value) == IS_ARRAY) {
 		ZEPHIR_INIT_VAR(_0);
 		object_init_ex(_0, phalcon_config_ce);
-		ZEPHIR_CALL_METHOD(NULL, _0, "__construct", &_1, value);
+		ZEPHIR_CALL_METHOD(NULL, _0, "__construct", NULL, value);
 		zephir_check_call_status();
 		zephir_update_property_zval_zval(this_ptr, index, _0 TSRMLS_CC);
 	} else {
@@ -393,7 +410,6 @@ PHP_METHOD(Phalcon_Config, count) {
  */
 PHP_METHOD(Phalcon_Config, __set_state) {
 
-	zephir_nts_static zephir_fcall_cache_entry *_0 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *data_param = NULL;
 	zval *data = NULL;
@@ -406,7 +422,7 @@ PHP_METHOD(Phalcon_Config, __set_state) {
 
 
 	object_init_ex(return_value, phalcon_config_ce);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", &_0, data);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, data);
 	zephir_check_call_status();
 	RETURN_MM();
 

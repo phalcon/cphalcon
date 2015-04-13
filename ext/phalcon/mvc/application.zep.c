@@ -25,6 +25,23 @@
 #include "Zend/zend_closures.h"
 
 
+/*
+ +------------------------------------------------------------------------+
+ | Phalcon Framework                                                      |
+ +------------------------------------------------------------------------+
+ | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+ +------------------------------------------------------------------------+
+ | This source file is subject to the New BSD License that is bundled     |
+ | with this package in the file docs/LICENSE.txt.                        |
+ |                                                                        |
+ | If you did not receive a copy of the license and are unable to         |
+ | obtain it through the world-wide-web, please send an email             |
+ | to license@phalconphp.com so we can send you a copy immediately.       |
+ +------------------------------------------------------------------------+
+ | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
+ |          Eduar Carvajal <eduar@phalconphp.com>                         |
+ +------------------------------------------------------------------------+
+ */
 /**
  * Phalcon\Mvc\Application
  *
@@ -200,7 +217,6 @@ PHP_METHOD(Phalcon_Mvc_Application, getModules) {
  */
 PHP_METHOD(Phalcon_Mvc_Application, getModule) {
 
-	zephir_nts_static zephir_fcall_cache_entry *_3 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *name_param = NULL, *module, *_0, *_1;
 	zval *name = NULL, *_2;
@@ -228,7 +244,7 @@ PHP_METHOD(Phalcon_Mvc_Application, getModule) {
 		object_init_ex(_1, phalcon_mvc_application_exception_ce);
 		ZEPHIR_INIT_VAR(_2);
 		ZEPHIR_CONCAT_SVS(_2, "Module '", name, "' isn't registered in the application container");
-		ZEPHIR_CALL_METHOD(NULL, _1, "__construct", &_3, _2);
+		ZEPHIR_CALL_METHOD(NULL, _1, "__construct", NULL, _2);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(_1, "phalcon/mvc/application.zep", 168 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
@@ -290,11 +306,10 @@ PHP_METHOD(Phalcon_Mvc_Application, getDefaultModule) {
  */
 PHP_METHOD(Phalcon_Mvc_Application, handle) {
 
-	zval *_7;
-	zephir_nts_static zephir_fcall_cache_entry *_5 = NULL;
+	zval *_6;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zend_bool returnedResponse, _3;
-	zval *uri = NULL, *dependencyInjector, *eventsManager = NULL, *router = NULL, *dispatcher = NULL, *response = NULL, *view = NULL, *module = NULL, *moduleObject = NULL, *moduleName = NULL, *className = NULL, *path, *implicitView, *controller = NULL, *possibleResponse = NULL, *renderStatus = NULL, *_0, *_1 = NULL, *_2 = NULL, *_4, *_6 = NULL, *_8 = NULL, *_9 = NULL, *_10 = NULL, *_11 = NULL;
+	zval *uri = NULL, *dependencyInjector, *eventsManager = NULL, *router = NULL, *dispatcher = NULL, *response = NULL, *view = NULL, *module = NULL, *moduleObject = NULL, *moduleName = NULL, *className = NULL, *path, *implicitView, *controller = NULL, *possibleResponse = NULL, *renderStatus = NULL, *_0, *_1 = NULL, *_2 = NULL, *_4, *_5 = NULL, *_7 = NULL, *_8 = NULL, *_9 = NULL, *_10 = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &uri);
@@ -377,7 +392,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle) {
 						object_init_ex(_2, phalcon_mvc_application_exception_ce);
 						ZEPHIR_INIT_VAR(_4);
 						ZEPHIR_CONCAT_SVS(_4, "Module definition path '", path, "' doesn't exist");
-						ZEPHIR_CALL_METHOD(NULL, _2, "__construct", &_5, _4);
+						ZEPHIR_CALL_METHOD(NULL, _2, "__construct", NULL, _4);
 						zephir_check_call_status();
 						zephir_throw_exception_debug(_2, "phalcon/mvc/application.zep", 286 TSRMLS_CC);
 						ZEPHIR_MM_RESTORE();
@@ -385,9 +400,9 @@ PHP_METHOD(Phalcon_Mvc_Application, handle) {
 					}
 				}
 			}
-			ZEPHIR_CALL_METHOD(&_6, dependencyInjector, "get", NULL, className);
+			ZEPHIR_CALL_METHOD(&_5, dependencyInjector, "get", NULL, className);
 			zephir_check_call_status();
-			ZEPHIR_CPY_WRT(moduleObject, _6);
+			ZEPHIR_CPY_WRT(moduleObject, _5);
 			ZEPHIR_CALL_METHOD(NULL, moduleObject, "registerautoloaders", NULL, dependencyInjector);
 			zephir_check_call_status();
 			ZEPHIR_CALL_METHOD(NULL, moduleObject, "registerservices", NULL, dependencyInjector);
@@ -395,10 +410,10 @@ PHP_METHOD(Phalcon_Mvc_Application, handle) {
 		} else {
 			if (zephir_instance_of_ev(module, zend_ce_closure TSRMLS_CC)) {
 				ZEPHIR_INIT_NVAR(moduleObject);
-				ZEPHIR_INIT_VAR(_7);
-				zephir_create_array(_7, 1, 0 TSRMLS_CC);
-				zephir_array_fast_append(_7, dependencyInjector);
-				ZEPHIR_CALL_USER_FUNC_ARRAY(moduleObject, module, _7);
+				ZEPHIR_INIT_VAR(_6);
+				array_init_size(_6, 2);
+				zephir_array_fast_append(_6, dependencyInjector);
+				ZEPHIR_CALL_USER_FUNC_ARRAY(moduleObject, module, _6);
 				zephir_check_call_status();
 			} else {
 				ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_application_exception_ce, "Invalid module definition", "phalcon/mvc/application.zep", 307);
@@ -433,21 +448,21 @@ PHP_METHOD(Phalcon_Mvc_Application, handle) {
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(NULL, dispatcher, "setmodulename", NULL, _1);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_6, router, "getnamespacename", NULL);
+	ZEPHIR_CALL_METHOD(&_5, router, "getnamespacename", NULL);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, dispatcher, "setnamespacename", NULL, _6);
+	ZEPHIR_CALL_METHOD(NULL, dispatcher, "setnamespacename", NULL, _5);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_8, router, "getcontrollername", NULL);
+	ZEPHIR_CALL_METHOD(&_7, router, "getcontrollername", NULL);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, dispatcher, "setcontrollername", NULL, _8);
+	ZEPHIR_CALL_METHOD(NULL, dispatcher, "setcontrollername", NULL, _7);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_9, router, "getactionname", NULL);
+	ZEPHIR_CALL_METHOD(&_8, router, "getactionname", NULL);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, dispatcher, "setactionname", NULL, _9);
+	ZEPHIR_CALL_METHOD(NULL, dispatcher, "setactionname", NULL, _8);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_10, router, "getparams", NULL);
+	ZEPHIR_CALL_METHOD(&_9, router, "getparams", NULL);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, dispatcher, "setparams", NULL, _10);
+	ZEPHIR_CALL_METHOD(NULL, dispatcher, "setparams", NULL, _9);
 	zephir_check_call_status();
 	if (ZEPHIR_IS_TRUE_IDENTICAL(implicitView)) {
 		ZEPHIR_CALL_METHOD(NULL, view, "start", NULL);
@@ -494,11 +509,11 @@ PHP_METHOD(Phalcon_Mvc_Application, handle) {
 				if (!ZEPHIR_IS_FALSE_IDENTICAL(renderStatus)) {
 					ZEPHIR_CALL_METHOD(&_1, dispatcher, "getcontrollername", NULL);
 					zephir_check_call_status();
-					ZEPHIR_CALL_METHOD(&_6, dispatcher, "getactionname", NULL);
+					ZEPHIR_CALL_METHOD(&_5, dispatcher, "getactionname", NULL);
 					zephir_check_call_status();
-					ZEPHIR_CALL_METHOD(&_11, dispatcher, "getparams", NULL);
+					ZEPHIR_CALL_METHOD(&_10, dispatcher, "getparams", NULL);
 					zephir_check_call_status();
-					ZEPHIR_CALL_METHOD(NULL, view, "render", NULL, _1, _6, _11);
+					ZEPHIR_CALL_METHOD(NULL, view, "render", NULL, _1, _5, _10);
 					zephir_check_call_status();
 				}
 			}

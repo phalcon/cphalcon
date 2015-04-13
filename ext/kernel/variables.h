@@ -18,12 +18,6 @@
   +------------------------------------------------------------------------+
 */
 
-#ifndef ZEPHIR_KERNEL_VARIABLES_H
-#define ZEPHIR_KERNEL_VARIABLES_H
-
-#include <php.h>
-#include <Zend/zend.h>
-
 void zephir_serialize(zval *return_value, zval **var  TSRMLS_DC);
 void zephir_unserialize(zval *return_value, zval *var TSRMLS_DC);
 
@@ -31,5 +25,3 @@ void zephir_var_export(zval **var TSRMLS_DC);
 void zephir_var_export_ex(zval *return_value, zval **var TSRMLS_DC);
 
 void zephir_var_dump(zval **var TSRMLS_DC);
-
-#endif

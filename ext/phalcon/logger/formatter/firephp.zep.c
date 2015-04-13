@@ -22,6 +22,24 @@
 #include "kernel/concat.h"
 
 
+/*
+ +------------------------------------------------------------------------+
+ | Phalcon Framework                                                      |
+ +------------------------------------------------------------------------+
+ | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+ +------------------------------------------------------------------------+
+ | This source file is subject to the New BSD License that is bundled     |
+ | with this package in the file docs/LICENSE.txt.                        |
+ |                                                                        |
+ | If you did not receive a copy of the license and are unable to         |
+ | obtain it through the world-wide-web, please send an email             |
+ | to license@phalconphp.com so we can send you a copy immediately.       |
+ +------------------------------------------------------------------------+
+ | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
+ |          Eduar Carvajal <eduar@phalconphp.com>                         |
+ |          Ivan Zubok <chi_no@ukr.net>                                   |
+ +------------------------------------------------------------------------+
+ */
 /**
  * Phalcon\Logger\Formatter\Firephp
  *
@@ -185,7 +203,7 @@ PHP_METHOD(Phalcon_Logger_Formatter_Firephp, format) {
 		zephir_get_strval(message, _0);
 	}
 	ZEPHIR_INIT_VAR(meta);
-	zephir_create_array(meta, 1, 0 TSRMLS_CC);
+	array_init_size(meta, 2);
 	ZEPHIR_INIT_VAR(_1);
 	ZVAL_LONG(_1, type);
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "gettypestring", NULL, _1);
@@ -266,7 +284,7 @@ PHP_METHOD(Phalcon_Logger_Formatter_Firephp, format) {
 	}
 	ZEPHIR_INIT_VAR(encoded);
 	ZEPHIR_INIT_VAR(_21);
-	zephir_create_array(_21, 2, 0 TSRMLS_CC);
+	array_init_size(_21, 3);
 	zephir_array_fast_append(_21, meta);
 	zephir_array_fast_append(_21, body);
 	zephir_json_encode(encoded, &(encoded), _21, 0  TSRMLS_CC);
