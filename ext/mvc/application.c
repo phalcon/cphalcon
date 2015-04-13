@@ -23,6 +23,7 @@
 #include "mvc/../dispatcherinterface.h"
 #include "mvc/routerinterface.h"
 #include "mvc/viewinterface.h"
+#include "mvc/view/modelinterface.h"
 #include "di/injectable.h"
 #include "diinterface.h"
 #include "events/managerinterface.h"
@@ -485,10 +486,10 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 	PHALCON_CALL_METHOD(NULL, dispatcher, "setactionname", action_name);
 	PHALCON_CALL_METHOD(NULL, dispatcher, "setparams", params);
 
-	/** 
-	 * Start the view component (start output buffering)
-	 */
 	if (f_implicit_view) {
+		/** 
+		 * Start the view component (start output buffering)
+		 */
 		PHALCON_CALL_METHOD(NULL, view, "start");
 	}
 
@@ -498,26 +499,40 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 	/* The dispatcher must return an object */
 	PHALCON_CALL_METHOD(&controller, dispatcher, "dispatch");
 
-	PHALCON_INIT_VAR(returned_response);
-
-	/* Get the latest value returned by an action */
-	PHALCON_CALL_METHOD(&possible_response, dispatcher, "getreturnedvalue");
-	if (Z_TYPE_P(possible_response) == IS_OBJECT) {
-		/* Check if the returned object is already a response */
-		ZVAL_BOOL(returned_response, instanceof_function_ex(Z_OBJCE_P(possible_response), phalcon_http_responseinterface_ce, 1 TSRMLS_CC));
-	}
-	else {
-		ZVAL_FALSE(returned_response);
-	}
-
 	/* Calling afterHandleRequest */
 	if (FAILURE == phalcon_mvc_application_fire_event(events_manager, "application:afterHandleRequest", getThis(), controller TSRMLS_CC) && EG(exception)) {
 		RETURN_MM();
 	}
 
-	/* If the dispatcher returns an object we try to render the view in auto-rendering mode */
-	if (PHALCON_IS_FALSE(returned_response)) {
-		if (f_implicit_view) {
+	if (f_implicit_view) {
+		/* Get the latest value returned by an action */
+		PHALCON_CALL_METHOD(&possible_response, dispatcher, "getreturnedvalue");
+
+		PHALCON_INIT_VAR(returned_response);
+
+		/* Check if the returned object is already a response */
+		if (Z_TYPE_P(possible_response) == IS_OBJECT && instanceof_function_ex(Z_OBJCE_P(possible_response), phalcon_http_responseinterface_ce, 1 TSRMLS_CC)) {
+			PHALCON_CPY_WRT(response, possible_response);
+			ZVAL_TRUE(returned_response);
+		} else if (Z_TYPE_P(possible_response) == IS_BOOL && !zend_is_true(possible_response)) {
+			PHALCON_INIT_NVAR(service);
+			PHALCON_ZVAL_MAYBE_INTERNED_STRING(service, phalcon_interned_response);
+
+			PHALCON_CALL_METHOD(&response, dependency_injector, "getshared", service);
+			PHALCON_VERIFY_INTERFACE(response, phalcon_http_responseinterface_ce);
+
+			RETURN_CCTOR(response);
+		} else {
+			PHALCON_INIT_NVAR(service);
+			PHALCON_ZVAL_MAYBE_INTERNED_STRING(service, phalcon_interned_response);
+
+			PHALCON_CALL_METHOD(&response, dependency_injector, "getshared", service);
+			PHALCON_VERIFY_INTERFACE(response, phalcon_http_responseinterface_ce);
+
+			ZVAL_FALSE(returned_response);
+		}
+		
+		if (PHALCON_IS_FALSE(returned_response)) {
 
 			if (Z_TYPE_P(controller) == IS_OBJECT) {
 
@@ -550,36 +565,33 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 					PHALCON_CALL_METHOD(&params, dispatcher, "getparams");
 
 					/* Automatic render based on the latest controller executed */
-					PHALCON_CALL_METHOD(NULL, view, "render", controller_name, action_name, params, namespace_name);
+					if (Z_TYPE_P(possible_response) == IS_OBJECT && instanceof_function_ex(Z_OBJCE_P(possible_response), phalcon_mvc_view_modelinterface_ce, 1 TSRMLS_CC)) {
+						PHALCON_CALL_METHOD(NULL, view, "render", controller_name, action_name, params, namespace_name, possible_response);
+					} else {
+						if (Z_TYPE_P(possible_response) == IS_ARRAY) {
+							PHALCON_CALL_METHOD(NULL, view, "setvars", possible_response, PHALCON_GLOBAL(z_true));
+						}
+						/* Automatic render based on the latest controller executed */
+						PHALCON_CALL_METHOD(NULL, view, "render", controller_name, action_name, params, namespace_name);
+					}
 				}
 			}
 		}
 	}
 
-	/* Finish the view component (stop output buffering) */
-	if (f_implicit_view) {
-		PHALCON_CALL_METHOD(NULL, view, "finish");
+	/* Calling beforeSendResponse */
+	if (FAILURE == phalcon_mvc_application_fire_event(events_manager, "application:beforeSendResponse", getThis(), response TSRMLS_CC) && EG(exception)) {
+		RETURN_MM();
 	}
 
-	if (PHALCON_IS_FALSE(returned_response)) {
-		PHALCON_INIT_NVAR(service);
-		PHALCON_ZVAL_MAYBE_INTERNED_STRING(service, phalcon_interned_response);
+	if (f_implicit_view) {
+		PHALCON_CALL_METHOD(NULL, view, "finish");
 
-		PHALCON_CALL_METHOD(&response, dependency_injector, "getshared", service);
-		PHALCON_VERIFY_INTERFACE(response, phalcon_http_responseinterface_ce);
-		if (f_implicit_view) {
+		if (PHALCON_IS_FALSE(returned_response)) {
 			/* The content returned by the view is passed to the response service */
 			PHALCON_CALL_METHOD(&content, view, "getcontent");
 			PHALCON_CALL_METHOD(NULL, response, "setcontent", content);
 		}
-	} else {
-		/* We don't need to create a response because there is a one already created */
-		PHALCON_CPY_WRT(response, possible_response);
-	}
-
-	/* Calling beforeSendResponse */
-	if (FAILURE == phalcon_mvc_application_fire_event(events_manager, "application:beforeSendResponse", getThis(), response TSRMLS_CC) && EG(exception)) {
-		RETURN_MM();
 	}
 
 	/* Headers are automatically sent */

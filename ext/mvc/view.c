@@ -22,6 +22,7 @@
 #include "mvc/view/engineinterface.h"
 #include "mvc/view/engine/php.h"
 #include "mvc/view/exception.h"
+#include "mvc/view/modelinterface.h"
 #include "cache/backendinterface.h"
 #include "di/injectable.h"
 
@@ -105,6 +106,7 @@ PHP_METHOD(Phalcon_Mvc_View, _loadTemplateEngines);
 PHP_METHOD(Phalcon_Mvc_View, _engineRender);
 PHP_METHOD(Phalcon_Mvc_View, registerEngines);
 PHP_METHOD(Phalcon_Mvc_View, getRegisteredEngines);
+PHP_METHOD(Phalcon_Mvc_View, getEngines);
 PHP_METHOD(Phalcon_Mvc_View, exists);
 PHP_METHOD(Phalcon_Mvc_View, render);
 PHP_METHOD(Phalcon_Mvc_View, pick);
@@ -201,6 +203,7 @@ static const zend_function_entry phalcon_mvc_view_method_entry[] = {
 	PHP_ME(Phalcon_Mvc_View, _engineRender, NULL, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Mvc_View, registerEngines, arginfo_phalcon_mvc_viewinterface_registerengines, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_View, getRegisteredEngines, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_View, getEngines, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_View, exists, arginfo_phalcon_mvc_view_exists, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_View, render, arginfo_phalcon_mvc_viewinterface_render, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_View, pick, arginfo_phalcon_mvc_viewinterface_pick, ZEND_ACC_PUBLIC)
@@ -443,7 +446,7 @@ PHP_METHOD(Phalcon_Mvc_View, setBasePath){
 		phalcon_add_trailing_slash(&base_path);
 		phalcon_update_property_this(this_ptr, SL("_basePath"), base_path TSRMLS_CC);
 	}
-	
+
 	RETURN_THIS();
 }
 
@@ -1306,6 +1309,16 @@ PHP_METHOD(Phalcon_Mvc_View, getRegisteredEngines) {
 	RETURN_MEMBER(getThis(), "_registeredEngines")
 }
 
+/**
+ * Returns the registered templating engines, if none is registered it will use Phalcon\Mvc\View\Engine\Php
+ *
+ * @return array
+ */
+PHP_METHOD(Phalcon_Mvc_View, getEngines) {
+
+	PHALCON_RETURN_CALL_METHODW(this_ptr, "_loadtemplateengines");
+}
+
 PHP_METHOD(Phalcon_Mvc_View, exists) {
 
 	zval **view, *base_dir, *view_dir, *engines;
@@ -1359,28 +1372,31 @@ PHP_METHOD(Phalcon_Mvc_View, exists) {
  * @param string $controllerName
  * @param string $actionName
  * @param array $params
+ * @param string $namespace_name
+ * @param Phalcon\Mvc\View\ModelInterface $viewModel
  * @return Phalcon\Mvc\View
  */
 PHP_METHOD(Phalcon_Mvc_View, render){
 
-	zval *controller_name, *action_name, *params = NULL;
-	zval *disabled, *contents = NULL, *layouts_dir = NULL, *layout, *enable_namespace_view, *lower_case;
+	zval *controller_name, *action_name, *params = NULL, *namespace_name = NULL, *view_model = NULL;
+	zval *disabled, *contents = NULL, *model_content = NULL, *layouts_dir = NULL, *layout, *enable_namespace_view, *lower_case;
 	zval *layout_name = NULL, *layout_namespace = NULL, *engines = NULL, *pick_view, *render_view = NULL;
 	zval *pick_view_action;
 	zval *events_manager, *event_name = NULL, *status = NULL;
 	zval *silence = NULL, *disabled_levels, *render_level, *enable_layouts_absolute_path;
 	zval *templates_before, *template_before = NULL;
 	zval *view_temp_path = NULL, *templates_after, *template_after = NULL, *main_view;
-	zval *namespace_name = NULL, *converter_key, *converter = NULL, *parameters = NULL, *lower_controller_name = NULL, *lower_action_name = NULL, *lower_namespace_name = NULL;
+	zval *converter_key, *converter = NULL, *parameters = NULL, *lower_controller_name = NULL, *lower_action_name = NULL, *lower_namespace_name = NULL;
 	zval *ds, *namespace_separator, *ds_lower_namespace_name = NULL;
 	HashTable *ah0, *ah1;
 	HashPosition hp0, hp1;
 	zval **hd;
 	char slash[2] = {DEFAULT_SLASH, 0};
+	int use_model = 0;
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 2, 2, &controller_name, &action_name, &params, &namespace_name);
+	phalcon_fetch_params(1, 2, 3, &controller_name, &action_name, &params, &namespace_name, &view_model);
 
 	if (!params) {
 		params = PHALCON_GLOBAL(z_null);
@@ -1390,9 +1406,15 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 		namespace_name = PHALCON_GLOBAL(z_null);
 	}
 
+	if (!view_model) {
+		view_model = PHALCON_GLOBAL(z_null);
+	} else if (Z_TYPE_P(view_model) == IS_OBJECT && instanceof_function_ex(Z_OBJCE_P(view_model), phalcon_mvc_view_modelinterface_ce, 1 TSRMLS_CC)) {
+		use_model = 1;
+	}
+
 	PHALCON_INIT_VAR(ds);
 	ZVAL_STRING(ds, slash, 1);
-		
+
 	PHALCON_INIT_VAR(namespace_separator);
 	ZVAL_STRING(namespace_separator, "\\", 1);
 
@@ -1596,10 +1618,16 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 		PHALCON_OBS_VAR(enable_layouts_absolute_path);
 		phalcon_read_property_this(&enable_layouts_absolute_path, this_ptr, SL("_enableLayoutsAbsolutePath"), PH_NOISY TSRMLS_CC);
 
-		/** 
-		 * Inserts view related to action
-		 */
+		if (use_model) {
+			PHALCON_CALL_METHOD(NULL, view_model, "setview", this_ptr);
+			PHALCON_CALL_METHOD(&model_content, view_model, "render");
+			phalcon_update_property_this(this_ptr, SL("_content"), model_content TSRMLS_CC);
+		}
+
 		if (PHALCON_GE_LONG(render_level, 1)) {
+			/** 
+			 * Inserts view related to action
+			 */
 			if (!phalcon_array_isset_long(disabled_levels, 1)) {
 				phalcon_update_property_long(this_ptr, SL("_currentRenderLevel"), 1 TSRMLS_CC);
 				PHALCON_CALL_METHOD(NULL, this_ptr, "_enginerender", engines, render_view, silence, PHALCON_GLOBAL(z_true));
@@ -2396,7 +2424,7 @@ PHP_METHOD(Phalcon_Mvc_View, disableLowerCase){
  *
  * @param string $name
  * @param callable $converter
- * @return Phalcon\Mvc\Router\Group
+ * @return Phalcon\Mvc\View
  */
 PHP_METHOD(Phalcon_Mvc_View, setConverter){
 

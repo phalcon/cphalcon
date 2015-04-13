@@ -81,6 +81,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_viewinterface_render, 0, 0, 2)
 	ZEND_ARG_INFO(0, actionName)
 	ZEND_ARG_INFO(0, params)
 	ZEND_ARG_INFO(0, namespace)
+	ZEND_ARG_INFO(0, viewModel)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_viewinterface_pick, 0, 0, 1)
