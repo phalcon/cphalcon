@@ -201,7 +201,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Memory, queryKeys) {
 
 	HashTable *_3;
 	HashPosition _2;
-	zval *keys = NULL, *_1 = NULL;
+	zval *keys = NULL;
 	zval *prefix = NULL, *data, *index = NULL, *_0 = NULL, **_4;
 
 	ZEPHIR_MM_GROW();
