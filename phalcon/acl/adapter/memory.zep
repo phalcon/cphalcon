@@ -19,6 +19,7 @@
 
 namespace Phalcon\Acl\Adapter;
 
+use Phalcon\Acl\RoleInterface;
 use Phalcon\Acl\Adapter;
 use Phalcon\Acl\Resource;
 use Phalcon\Acl\Exception;
@@ -134,7 +135,6 @@ class Memory extends Adapter
 
 	/**
 	 * Phalcon\Acl\Adapter\Memory constructor
-	 *
 	 */
 	public function __construct()
 	{
@@ -151,11 +151,9 @@ class Memory extends Adapter
 	 * 	$acl->addRole('administrator', 'consultant');
 	 * </code>
 	 *
-	 * @param  Phalcon\Acl\RoleInterface role
 	 * @param  array|string accessInherits
-	 * @return boolean
 	 */
-	public function addRole(var role, accessInherits = null) -> boolean
+	public function addRole(<RoleInterface> role, accessInherits = null) -> boolean
 	{
 		var roleName, roleObject;
 
@@ -184,11 +182,8 @@ class Memory extends Adapter
 
 	/**
 	 * Do a role inherit from another existing role
-	 *
-	 * @param string roleName
-	 * @param string roleToInherit
 	 */
-	public function addInherit(var roleName, var roleToInherit)
+	public function addInherit(string roleName, var roleToInherit)
 	{
 		var roleInheritName, rolesNames;
 
@@ -225,22 +220,16 @@ class Memory extends Adapter
 
 	/**
 	 * Check whether role exist in the roles list
-	 *
-	 * @param  string roleName
-	 * @return boolean
 	 */
-	public function isRole(var roleName) -> boolean
+	public function isRole(string roleName) -> boolean
 	{
 		return isset this->_rolesNames[roleName];
 	}
 
 	/**
 	 * Check whether resource exist in the resources list
-	 *
-	 * @param  string resourceName
-	 * @return boolean
 	 */
-	public function isResource(var resourceName) -> boolean
+	public function isResource(string resourceName) -> boolean
 	{
 		return isset this->_resourcesNames[resourceName];
 	}
@@ -262,9 +251,8 @@ class Memory extends Adapter
 	 * $acl->addResource('customers', array('create', 'search'));
 	 * </code>
 	 *
-	 * @param   Phalcon\Acl\Resource resource
-	 * @param   array accessList
-	 * @return  boolean
+	 * @param   Phalcon\Acl\Resource|string resourceValue
+	 * @param   array|string accessList
 	 */
 	public function addResource(var resourceValue, var accessList) -> boolean
 	{
@@ -289,11 +277,9 @@ class Memory extends Adapter
 	/**
 	 * Adds access to resources
 	 *
-	 * @param string resourceName
-	 * @param mixed accessList
-	 * @return boolean
+	 * @param array|string accessList
 	 */
-	public function addResourceAccess(var resourceName, var accessList) -> boolean
+	public function addResourceAccess(string resourceName, var accessList) -> boolean
 	{
 		var accessName, accessKey, exists;
 
@@ -326,10 +312,9 @@ class Memory extends Adapter
 	/**
 	 * Removes an access from a resource
 	 *
-	 * @param string resourceName
-	 * @param mixed accessList
+	 * @param array|string accessList
 	 */
-	public function dropResourceAccess(var resourceName, var accessList)
+	public function dropResourceAccess(string resourceName, var accessList)
 	{
 		var accessName, accessKey;
 
@@ -352,13 +337,8 @@ class Memory extends Adapter
 
 	/**
 	 * Checks if a role has access to a resource
-	 *
-	 * @param string roleName
-	 * @param string resourceName
-	 * @param string access
-	 * @param string action
 	 */
-	protected function _allowOrDeny(var roleName, var resourceName, var access, var action)
+	protected function _allowOrDeny(string roleName, string resourceName, var access, var action)
 	{
 		var defaultAccess, accessList, accessName, accessKey, accessKeyAll, internalAccess;
 
@@ -446,12 +426,8 @@ class Memory extends Adapter
 	 * //Allow access to any role to browse on any resource
 	 * $acl->allow('*', '*', 'browse');
 	 * </code>
-	 *
-	 * @param string roleName
-	 * @param string resourceName
-	 * @param mixed  access
 	 */
-	public function allow(var roleName, var resourceName, var access)
+	public function allow(string roleName, string resourceName, var access)
 	{
 		var innerRoleName;
 
@@ -483,13 +459,8 @@ class Memory extends Adapter
 	 * //Deny access to any role to browse on any resource
 	 * $acl->deny('*', '*', 'browse');
 	 * </code>
-	 *
-	 * @param  string roleName
-	 * @param  string resourceName
-	 * @param  mixed  access
-	 * @return boolean
 	 */
-	public function deny(var roleName, var resourceName, var access)
+	public function deny(string roleName, string resourceName, var access)
 	{
 		var innerRoleName;
 
@@ -512,13 +483,8 @@ class Memory extends Adapter
 	  * //Do guests have access to any resource to edit?
 	  * $acl->isAllowed('guests', '*', 'edit');
 	  * </code>
-	  *
-	  * @param  string roleName
-	  * @param  string resourceName
-	  * @param  string access
-	  * @return boolean
 	  */
-	public function isAllowed(var roleName, var resourceName, var access) -> boolean
+	public function isAllowed(string roleName, string resourceName, string access) -> boolean
 	{
 		var eventsManager, accessList, accessKey,
 			haveAccess = null, roleInherits, inheritedRole, rolesNames,

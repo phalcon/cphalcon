@@ -42,9 +42,6 @@ class Role
 
 	/**
 	 * Phalcon\Acl\Role constructor
-	 *
-	 * @param string name
-	 * @param string description
 	 */
 	public function __construct(string! name, string description = null)
 	{

@@ -29,31 +29,22 @@ interface RoleInterface
 
 	/**
 	 * Phalcon\Acl\Role constructor
-	 *
-	 * @param string name
-	 * @param string description
 	 */
-	public function __construct(name, description=null);
+	public function __construct(string! name, string description = null);
 
 	/**
 	 * Returns the role name
-	 *
-	 * @return string
 	 */
-	public function getName();
+	public function getName() -> string;
 
 	/**
 	 * Returns role description
-	 *
-	 * @return string
 	 */
-	public function getDescription();
+	public function getDescription() -> string;
 
 	/**
 	 * Magic method __toString
-	 *
-	 * @return string
 	 */
-	public function __toString();
+	public function __toString() -> string;
 
 }
