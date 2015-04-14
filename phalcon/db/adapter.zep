@@ -462,11 +462,7 @@ abstract class Adapter implements EventsAwareInterface
 		let placeholders = [],
 			updateValues = [];
 
-		if typeof dataTypes == "array" {
-			let bindDataTypes = [];
-		} else {
-			let bindDataTypes = dataTypes;
-		}
+		let bindDataTypes = [];
 
 		/**
 		 * Objects are casted using __toString, null values are converted to string 'null', everything else is passed as '?'
