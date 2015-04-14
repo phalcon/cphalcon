@@ -20,6 +20,7 @@
 namespace Phalcon\Validation\Validator;
 
 use Phalcon\Validation\Exception;
+use Phalcon\Validation\Validator;
 
 /**
  * Phalcon\Validation\Validator\Confirmation
@@ -35,7 +36,7 @@ use Phalcon\Validation\Exception;
  *)));
  *</code>
  */
-class Confirmation extends \Phalcon\Validation\Validator implements \Phalcon\Validation\ValidatorInterface
+class Confirmation extends Validator
 {
 
 	/**

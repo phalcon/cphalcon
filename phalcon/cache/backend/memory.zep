@@ -148,14 +148,14 @@ class Memory extends Backend implements BackendInterface
 	 */
 	public function queryKeys(var prefix = null) -> array
 	{
-		var data, index;
-		array keys = [];
+		var data, index, keys;
 
 		let data = this->_data;
 		if typeof data == "array" {
 			if !prefix {
 				let keys = (array) array_keys(data);
 			} else {
+			    let keys = [];
 				for index, _ in data {
 					let keys[] = index;
 				}
