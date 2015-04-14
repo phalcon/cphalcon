@@ -31,7 +31,7 @@ interface BackendInterface
 	 * Starts a cache. The keyname allows to identify the created fragment
 	 *
 	 * @param int|string keyName
-	 * @param   long lifetime
+	 * @param   int lifetime
 	 * @return  mixed
 	 */
 	public function start(keyName, lifetime = null);
@@ -89,7 +89,7 @@ interface BackendInterface
 	 * Returns a cached content
 	 *
 	 * @param int|string keyName
-	 * @param   long lifetime
+	 * @param   int lifetime
 	 * @return  mixed
 	 */
 	public function get(keyName, lifetime = null);
@@ -99,7 +99,7 @@ interface BackendInterface
 	 *
 	 * @param int|string keyName
 	 * @param string content
-	 * @param long lifetime
+	 * @param int lifetime
 	 * @param boolean stopBuffer
 	 */
 	public function save(keyName = null, content = null, lifetime = null, stopBuffer = true);
@@ -124,7 +124,7 @@ interface BackendInterface
 	 * Checks if cache exists and it hasn't expired
 	 *
 	 * @param  string keyName
-	 * @param  long lifetime
+	 * @param  int lifetime
 	 * @return boolean
 	 */
 	public function exists(keyName = null, lifetime = null);
