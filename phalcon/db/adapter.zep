@@ -554,7 +554,7 @@ abstract class Adapter implements EventsAwareInterface
 		if !count(bindDataTypes) {
 			return this->{"execute"}(updateSql, updateValues);
 		}
-var_dump(updateSql, updateValues, bindDataTypes);	
+
 		return this->{"execute"}(updateSql, updateValues, bindDataTypes);
 	}
 
