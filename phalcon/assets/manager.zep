@@ -472,7 +472,7 @@ class Manager
 					throw new Exception("Resource '". sourcePath. "' does not have a valid target path");
 				}
 
-				if join {
+				if local {
 					/**
 					 * Make sure the target path is not the same source path
 					 */
