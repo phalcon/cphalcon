@@ -24,6 +24,7 @@ zend_class_entry *phalcon_events_managerinterface_ce;
 
 static const zend_function_entry phalcon_events_managerinterface_method_entry[] = {
 	PHP_ABSTRACT_ME(Phalcon_Events_ManagerInterface, attach, arginfo_phalcon_events_managerinterface_attach)
+	PHP_ABSTRACT_ME(Phalcon_Events_ManagerInterface, detach, arginfo_phalcon_events_managerinterface_detach)
 	PHP_ABSTRACT_ME(Phalcon_Events_ManagerInterface, detachAll, arginfo_phalcon_events_managerinterface_detachall)
 	PHP_ABSTRACT_ME(Phalcon_Events_ManagerInterface, fire, arginfo_phalcon_events_managerinterface_fire)
 	PHP_ABSTRACT_ME(Phalcon_Events_ManagerInterface, getListeners, arginfo_phalcon_events_managerinterface_getlisteners)
@@ -48,6 +49,14 @@ PHALCON_INIT_CLASS(Phalcon_Events_ManagerInterface){
  * @param object $handler
  */
 PHALCON_DOC_METHOD(Phalcon_Events_ManagerInterface, attach);
+
+/**
+ * Detach a listener from the events manager
+ *
+ * @param string $type
+ * @param object $handler
+ */
+PHALCON_DOC_METHOD(Phalcon_Events_ManagerInterface, detach);
 
 /**
  * Removes all events from the EventsManager

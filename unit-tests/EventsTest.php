@@ -27,7 +27,7 @@ class LeDummyComponent
 	{
 		$this->_eventsManager = $eventsManager;
 	}
-	
+
 	public function getEventsManager()
 	{
 		return $this->_eventsManager;
@@ -129,6 +129,11 @@ class EventsTest extends PHPUnit_Framework_TestCase
 
 		$eventsManager->attach('dummy', $listener);
 
+		$listener1 = new LeDummyListener();
+		$listener1->setTestCase($this);
+
+		$eventsManager->attach('dummy', $listener1);
+
 		$component = new LeDummyComponent();
 		$component->setEventsManager($eventsManager);
 
@@ -159,18 +164,26 @@ class EventsTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($listener2->getBeforeCount(), 2);
 		$this->assertEquals($listener2->getAfterCount(), 2);
 
-		/*
-		//This is failling :(
-		$eventsManager->detach('dummy', $listener);*/
+		$this->assertEquals($listener2->getAfterCount(), 2);
 
-		/*$eventsManager->detachAll('dummy');
+		$events = array( 'dummy' );
+		$this->assertEquals($eventsManager->getEvents(), $events);
+
+		$events = array( $listener, $listener1, $listener2 );
+		$this->assertEquals($eventsManager->getListeners('dummy'), $events);
+
+		$eventsManager->detach('dummy', $listener1);
+
+		$events = array( $listener1, $listener2 );
+		$this->assertEquals($eventsManager->getListeners('dummy'), $events);
+
+		$eventsManager->detachAll('dummy');
 
 		$component->leAction();
 		$component->leAction();
 
 		$this->assertEquals($listener->getBeforeCount(), 4);
-		$this->assertEquals($listener->getAfterCount(), 4);*/
-
+		$this->assertEquals($listener->getAfterCount(), 4);
 	}
 
 	public function testEventsPropagation()
@@ -224,7 +237,7 @@ class EventsTest extends PHPUnit_Framework_TestCase
 
 		$this->assertEquals($data, "show first listener\n");
 	}
-	
+
 	/**
 	 * "Attaching event listeners by event name fails if preceded by
 	 * detachment of all listeners for that type."
@@ -289,7 +302,7 @@ class EventsTest extends PHPUnit_Framework_TestCase
 		$this->assertInstanceOf('MySecondWeakrefListener', $logListeners[0]);
 		$this->assertCount(1, $logListeners);		
 	}
-	
+
 	/**
 	 * "Attaching event listeners by event name fails if preceded by
 	 * detachment of all listeners for that type."
@@ -360,6 +373,6 @@ class EventsTest extends PHPUnit_Framework_TestCase
 		$logListeners = $component->getEventsManager()->getListeners('log');
 				
 		$this->assertInstanceOf('MySecondWeakrefListener', $logListeners[0]);
-		$this->assertCount(1, $logListeners);		
+		$this->assertCount(1, $logListeners);
 	}	
 }

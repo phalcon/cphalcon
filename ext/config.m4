@@ -325,6 +325,7 @@ events/manager.c \
 events/event.c \
 events/exception.c \
 events/eventsawareinterface.c \
+events/listener.c \
 escaperinterface.c \
 validation.c \
 version.c \

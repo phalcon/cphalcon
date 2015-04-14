@@ -17,8 +17,8 @@
   +------------------------------------------------------------------------+
 */
 
-#ifndef PHALCON_EVENT_H
-#define PHALCON_EVENT_H
+#ifndef PHALCON_EVENTS_EVENT_H
+#define PHALCON_EVENTS_EVENT_H
 
 #include "php_phalcon.h"
 
@@ -26,4 +26,4 @@ extern zend_class_entry *phalcon_events_event_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Events_Event);
 
-#endif /* PHALCON_EVENT_H */
+#endif /* PHALCON_EVENTS_EVENT_H */

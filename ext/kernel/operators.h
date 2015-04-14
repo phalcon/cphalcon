@@ -134,6 +134,7 @@ int phalcon_is_numeric_ex(const zval *op);
 int phalcon_is_equal(zval *op1, zval *op2 TSRMLS_DC);
 int phalcon_is_identical(zval *op1, zval *op2 TSRMLS_DC);
 int phalcon_is_equal_long(zval *op1, long op2 TSRMLS_DC);
+int phalcon_is_equal_object(zval *obj1, zval *obj2 TSRMLS_DC);
 
 int phalcon_less(zval *op1, zval *op2 TSRMLS_DC);
 int phalcon_less_long(zval *op1, long op2 TSRMLS_DC);

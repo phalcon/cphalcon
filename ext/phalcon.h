@@ -135,6 +135,7 @@
 #include "events/exception.h"
 #include "events/managerinterface.h"
 #include "events/manager.h"
+#include "events/listener.h"
 
 #include "exception.h"
 
