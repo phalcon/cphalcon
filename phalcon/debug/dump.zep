@@ -48,7 +48,6 @@ class Dump
 	/**
 	 * Phalcon\Debug\Dump constructor
 	 *
-	 * @param array styles
 	 * @param boolean detailed debug object's private and protected properties
 	 */
 	public function __construct(array styles = null, boolean detailed = false)
@@ -67,7 +66,6 @@ class Dump
 	 *
 	 * @param mixed variable
 	 * @param ...
-	 * @return string
 	 */
 	public function all() -> string
 	{
@@ -76,9 +74,6 @@ class Dump
 
 	/**
 	 * Get style for type
-	 *
-	 * @param string type
-	 * @return string
 	 */
 	protected function getStyle(string! type) -> string
 	{
@@ -93,9 +88,6 @@ class Dump
 
 	/**
 	 * Set styles for vars type
-	 *
-	 * @param array styles
-	 * @return array
 	 */
 	public function setStyles(var styles = null) -> array
 	{
@@ -128,10 +120,6 @@ class Dump
 
 	/**
 	 * Alias of var() method
-	 *
-	 * @param mixed variable
-	 * @param string name
-	 * @return string
 	 */
 	public function one(variable, string name = null) -> string
 	{
@@ -140,13 +128,8 @@ class Dump
 
 	/**
 	 * Prepare an HTML string of information about a single variable.
-	 *
-	 * @param mixed variable
-	 * @param string name
-	 * @param intiger tab
-	 * @return  string
 	 */
-	protected function output(variable, name = null, tab = 1) -> string
+	protected function output(variable, string name = null, int tab = 1) -> string
 	{
 		var key, value, output, space, type, attr;
 		let space = "  ",
@@ -265,10 +248,6 @@ class Dump
 	 *<code>
 	 *	echo (new \Phalcon\Debug\Dump())->var($foo, "foo");
 	 *</code>
-	 *
-	 * @param mixed variable
-	 * @param string name
-	 * @return string
 	 */
 	public function $var(variable, string name = null) -> string
 	{
@@ -291,7 +270,6 @@ class Dump
 	 *
 	 * @param mixed variable
 	 * @param ...
-	 * @return string
 	 */
 	public function vars() -> string
 	{
