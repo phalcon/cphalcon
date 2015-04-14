@@ -140,7 +140,7 @@ class Debug
 	/**
 	 * Escapes a string with htmlentities
 	 */
-	protected function _escapeString(string! value) -> string
+	protected function _escapeString(var value) -> string
 	{
 		if typeof value == "string" {
 			return htmlentities(str_replace("\n", "\\n", value), ENT_COMPAT, "utf-8");
