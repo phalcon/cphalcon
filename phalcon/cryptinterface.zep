@@ -60,7 +60,7 @@ interface CryptInterface
 	/**
 	 * Encrypts a text
 	 */
-	public function encrypt(string! text, string! key = null) -> string;
+	public function encrypt(string! text, key = null) -> string;
 
 	/**
 	 * Decrypts a text
