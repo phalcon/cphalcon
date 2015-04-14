@@ -155,7 +155,7 @@ class Memory extends Backend implements BackendInterface
 			if !prefix {
 				let keys = (array) array_keys(data);
 			} else {
-			    let keys = [];
+			    	let keys = [];
 				for index, _ in data {
 					let keys[] = index;
 				}
