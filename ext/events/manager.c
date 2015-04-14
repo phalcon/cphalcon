@@ -19,6 +19,7 @@
 #include "events/manager.h"
 #include "events/managerinterface.h"
 #include "events/event.h"
+#include "events/listener.h"
 #include "events/exception.h"
 
 #include <Zend/zend_closures.h>
@@ -32,6 +33,8 @@
 #include "kernel/fcall.h"
 #include "kernel/string.h"
 #include "kernel/concat.h"
+#include "kernel/operators.h"
+#include "kernel/hash.h"
 
 /**
  * Phalcon\Events\Manager
@@ -49,11 +52,13 @@ PHP_METHOD(Phalcon_Events_Manager, arePrioritiesEnabled);
 PHP_METHOD(Phalcon_Events_Manager, collectResponses);
 PHP_METHOD(Phalcon_Events_Manager, isCollecting);
 PHP_METHOD(Phalcon_Events_Manager, getResponses);
+PHP_METHOD(Phalcon_Events_Manager, detach);
 PHP_METHOD(Phalcon_Events_Manager, detachAll);
 PHP_METHOD(Phalcon_Events_Manager, fireQueue);
 PHP_METHOD(Phalcon_Events_Manager, fire);
 PHP_METHOD(Phalcon_Events_Manager, hasListeners);
 PHP_METHOD(Phalcon_Events_Manager, getListeners);
+PHP_METHOD(Phalcon_Events_Manager, getEvents);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_events_manager_enablepriorities, 0, 0, 1)
 	ZEND_ARG_INFO(0, enablePriorities)
@@ -79,12 +84,15 @@ static const zend_function_entry phalcon_events_manager_method_entry[] = {
 	PHP_ME(Phalcon_Events_Manager, collectResponses, arginfo_phalcon_events_manager_collectresponses, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Events_Manager, isCollecting, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Events_Manager, getResponses, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Events_Manager, detach, arginfo_phalcon_events_managerinterface_detach, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Events_Manager, detachAll, arginfo_phalcon_events_managerinterface_detachall, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Events_Manager, fireQueue, arginfo_phalcon_events_manager_firequeue, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Events_Manager, fire, arginfo_phalcon_events_managerinterface_fire, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Events_Manager, hasListeners, arginfo_phalcon_events_manager_haslisteners, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Events_Manager, getListeners, arginfo_phalcon_events_managerinterface_getlisteners, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Events_Manager, getEvents, NULL, ZEND_ACC_PUBLIC)
 	PHP_MALIAS(Phalcon_Events_Manager, dettachAll, detachAll, arginfo_phalcon_events_managerinterface_detachall, ZEND_ACC_PUBLIC | ZEND_ACC_DEPRECATED)
+	PHP_MALIAS(Phalcon_Events_Manager, clearListeners, detachAll, arginfo_phalcon_events_managerinterface_detachall, ZEND_ACC_PUBLIC | ZEND_ACC_DEPRECATED)
 	PHP_FE_END
 };
 
@@ -110,41 +118,52 @@ PHALCON_INIT_CLASS(Phalcon_Events_Manager){
  * Attach a listener to the events manager
  *
  * @param string $eventType
- * @param object|callable $handler
+ * @param callable $handler
  * @param int $priority
  */
 PHP_METHOD(Phalcon_Events_Manager, attach){
 
 	zval *event_type, *handler, *priority = NULL, *events = NULL;
-	zval *enable_priorities, *priority_queue = NULL;
+	zval *listener = NULL, *enable_priorities, *priority_queue = NULL;
 	zval *mode;
 
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 2, 1, &event_type, &handler, &priority);
-	
+
 	if (!priority) {
 		PHALCON_INIT_VAR(priority);
 		ZVAL_LONG(priority, 100);
 	}
-	
+
 	if (unlikely(Z_TYPE_P(event_type) != IS_STRING)) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_events_exception_ce, "Event type must be a string");
 		return;
 	}
-	if (unlikely(Z_TYPE_P(handler) != IS_OBJECT)) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_events_exception_ce, "Event handler must be an Object");
+
+	if (Z_TYPE_P(handler) != IS_OBJECT && !phalcon_is_callable(handler TSRMLS_CC)) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_events_exception_ce, "Event handler must be an object or callable");
 		return;
 	}
-	
+
+	if (phalcon_instance_of_ev(handler, phalcon_events_listener_ce TSRMLS_CC)) {
+		PHALCON_CPY_WRT(listener, handler);
+		PHALCON_CALL_METHOD(NULL, listener, "setpriority", priority);
+		PHALCON_CALL_METHOD(NULL, listener, "setevent", event_type);
+	} else {
+		PHALCON_INIT_VAR(listener);
+		object_init_ex(listener, phalcon_events_listener_ce);
+		PHALCON_CALL_METHOD(NULL, listener, "__construct", handler, priority, event_type);
+	}
+
 	events = phalcon_fetch_nproperty_this(this_ptr, SL("_events"), PH_NOISY TSRMLS_CC);
 	if (Z_TYPE_P(events) != IS_ARRAY) {
 		PHALCON_INIT_VAR(events);
 		array_init(events);
 	}
-	
+
 	if (!phalcon_array_isset(events, event_type)) {
-	
+
 		PHALCON_OBS_VAR(enable_priorities);
 		phalcon_read_property_this(&enable_priorities, this_ptr, SL("_enablePriorities"), PH_NOISY TSRMLS_CC);
 		if (zend_is_true(enable_priorities)) {
@@ -156,18 +175,18 @@ PHP_METHOD(Phalcon_Events_Manager, attach){
 			if (phalcon_has_constructor(priority_queue TSRMLS_CC)) {
 				PHALCON_CALL_METHOD(NULL, priority_queue, "__construct");
 			}
-	
+
 			/** 
 			 * Extract only the Data
 			 */
 			PHALCON_INIT_VAR(mode);
 			ZVAL_LONG(mode, 1);
-	
+
 			/** 
 			 * Set extraction flags
 			 */
 			PHALCON_CALL_METHOD(NULL, priority_queue, "setextractflags", mode);
-	
+
 			/** 
 			 * Append the events to the queue
 			 */
@@ -184,22 +203,22 @@ PHP_METHOD(Phalcon_Events_Manager, attach){
 		PHALCON_OBS_NVAR(priority_queue);
 		phalcon_array_fetch(&priority_queue, events, event_type, PH_NOISY);
 	}
-	
+
 	/** 
 	 * Insert the handler in the queue
 	 */
 	if (unlikely(Z_TYPE_P(priority_queue) == IS_OBJECT)) {
-		PHALCON_CALL_METHOD(NULL, priority_queue, "insert", handler, priority);
+		PHALCON_CALL_METHOD(NULL, priority_queue, "insert", listener, priority);
 	} else {
-		phalcon_array_append(&priority_queue, handler, PH_SEPARATE);
-	
-		/** 
-		 * Append the events to the queue
-		 */
-		phalcon_array_update_zval(&events, event_type, priority_queue, PH_COPY | PH_SEPARATE);
-		phalcon_update_property_this(this_ptr, SL("_events"), events TSRMLS_CC);
+		phalcon_array_append(&priority_queue, listener, PH_SEPARATE);
 	}
-	
+
+	/** 
+	 * Append the events to the queue
+	 */
+	phalcon_array_update_zval(&events, event_type, priority_queue, PH_COPY | PH_SEPARATE);
+	phalcon_update_property_this(this_ptr, SL("_events"), events TSRMLS_CC);
+
 	PHALCON_MM_RESTORE();
 }
 
@@ -213,9 +232,9 @@ PHP_METHOD(Phalcon_Events_Manager, enablePriorities){
 	zval *enable_priorities;
 
 	phalcon_fetch_params(0, 1, 0, &enable_priorities);
-	
+
 	phalcon_update_property_this(this_ptr, SL("_enablePriorities"), enable_priorities TSRMLS_CC);
-	
+
 }
 
 /**
@@ -240,9 +259,9 @@ PHP_METHOD(Phalcon_Events_Manager, collectResponses){
 	zval *collect;
 
 	phalcon_fetch_params(0, 1, 0, &collect);
-	
+
 	phalcon_update_property_this(this_ptr, SL("_collect"), collect TSRMLS_CC);
-	
+
 }
 
 /**
@@ -267,6 +286,92 @@ PHP_METHOD(Phalcon_Events_Manager, getResponses){
 }
 
 /**
+ * Detach a listener from the events manager
+ *
+ * @param object|callable $handler
+ */
+PHP_METHOD(Phalcon_Events_Manager, detach){
+
+	zval *type, *handler, *events = NULL, *queue, *priority_queue = NULL;
+	zval *listener = NULL, *handler_embeded = NULL, *priority = NULL;
+	zval *r0 = NULL, *key = NULL;
+	HashTable *ah0;
+	HashPosition hp0;
+	zval **hd;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 2, 0, &type, &handler);
+
+	if (Z_TYPE_P(handler) != IS_OBJECT && !phalcon_is_callable(handler TSRMLS_CC)) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_events_exception_ce, "Event handler must be an object or callable");
+		return;
+	}
+
+	events = phalcon_fetch_nproperty_this(this_ptr, SL("_events"), PH_NOISY TSRMLS_CC);
+	if (Z_TYPE_P(events) != IS_ARRAY) {
+		RETURN_MM_FALSE;
+	}
+
+	if (!phalcon_array_isset(events, type)) {
+		RETURN_MM_FALSE;
+	}
+
+	PHALCON_OBS_VAR(queue);
+	phalcon_array_fetch(&queue, events, type, PH_NOISY);
+
+	if (Z_TYPE_P(queue) == IS_OBJECT) {
+		PHALCON_INIT_VAR(priority_queue);
+		object_init_ex(priority_queue, spl_ce_SplPriorityQueue);
+		if (phalcon_has_constructor(priority_queue TSRMLS_CC)) {
+			PHALCON_CALL_METHOD(NULL, priority_queue, "__construct");
+		}
+
+		PHALCON_CALL_METHOD(NULL, queue, "top");
+
+		while (1) {
+			PHALCON_CALL_METHOD(&r0, queue, "valid");
+			if (!zend_is_true(r0)) {
+				break;
+			}
+
+			PHALCON_CALL_METHOD(&listener, queue, "current");
+			PHALCON_CALL_METHOD(&handler_embeded, listener, "getlistener");
+
+			if (!phalcon_is_equal(handler_embeded, handler TSRMLS_CC)) {
+				PHALCON_CALL_METHOD(&priority, listener, "getpriority");
+				PHALCON_CALL_METHOD(NULL, priority_queue, "insert", listener, priority);
+			}
+			
+			PHALCON_CALL_METHOD(NULL, queue, "next");
+		}
+	} else {
+		PHALCON_CPY_WRT(priority_queue, queue);
+
+		phalcon_is_iterable(queue, &ah0, &hp0, 0, 0);
+
+		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
+
+			PHALCON_GET_HKEY(key, ah0, hp0);
+			PHALCON_GET_HVALUE(listener);
+
+			PHALCON_CALL_METHOD(&handler_embeded, listener, "getlistener");
+
+			if (phalcon_is_equal_object(handler_embeded, handler TSRMLS_CC)) {
+				phalcon_array_unset(&priority_queue, key, 0);
+			}
+
+			zend_hash_move_forward_ex(ah0, &hp0);
+		}
+	}
+
+	phalcon_array_update_zval(&events, type, priority_queue, PH_COPY | PH_SEPARATE);
+	phalcon_update_property_this(this_ptr, SL("_events"), events TSRMLS_CC);
+
+	PHALCON_MM_RESTORE();
+}
+
+/**
  * Removes all events from the EventsManager
  *
  * @param string $type
@@ -278,11 +383,11 @@ PHP_METHOD(Phalcon_Events_Manager, detachAll){
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 0, 1, &type);
-	
+
 	if (!type) {
 		type = PHALCON_GLOBAL(z_null);
 	}
-	
+
 	PHALCON_OBS_VAR(events);
 	phalcon_read_property_this(&events, this_ptr, SL("_events"), PH_NOISY TSRMLS_CC);
 	if (Z_TYPE_P(type) == IS_NULL) {
@@ -294,7 +399,7 @@ PHP_METHOD(Phalcon_Events_Manager, detachAll){
 	}
 
 	phalcon_update_property_this(this_ptr, SL("_events"), events TSRMLS_CC);
-	
+
 	PHALCON_MM_RESTORE();
 }
 
@@ -309,7 +414,7 @@ PHP_METHOD(Phalcon_Events_Manager, fireQueue){
 
 	zval *queue, *event, *status = NULL, *arguments = NULL, *event_name = NULL;
 	zval *source = NULL, *data = NULL, *cancelable = NULL, *collect, *iterator;
-	zval *handler = NULL, *is_stopped = NULL, *handler_referenced = NULL, *handler_embeded = NULL;
+	zval *handler = NULL, *is_stopped = NULL, *handler_referenced = NULL, *listener = NULL, *handler_embeded = NULL;
 	zval *r0 = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
@@ -344,9 +449,9 @@ PHP_METHOD(Phalcon_Events_Manager, fireQueue){
 	PHALCON_MM_GROW();
 
 	PHALCON_INIT_VAR(status);
-	
+
 	PHALCON_INIT_VAR(arguments);
-	
+
 	/** 
 	 * Get the event type
 	 */
@@ -355,29 +460,29 @@ PHP_METHOD(Phalcon_Events_Manager, fireQueue){
 		PHALCON_THROW_EXCEPTION_STR(phalcon_events_exception_ce, "The event type not valid");
 		return;
 	}
-	
+
 	/** 
 	 * Get the object who triggered the event
 	 */
 	PHALCON_CALL_METHOD(&source, event, "getsource");
-	
+
 	/** 
 	 * Get extra data passed to the event
 	 */
 	PHALCON_CALL_METHOD(&data, event, "getdata");
-	
+
 	/** 
 	 * Tell if the event is cancelable
 	 */
 	PHALCON_CALL_METHOD(&cancelable, event, "getcancelable");
-	
+
 	/** 
 	 * Responses need to be traced?
 	 */
 	PHALCON_OBS_VAR(collect);
 	phalcon_read_property_this(&collect, this_ptr, SL("_collect"), PH_NOISY TSRMLS_CC);
 	if (Z_TYPE_P(queue) == IS_OBJECT) {
-	
+
 		/** 
 		 * We need to clone the queue before iterate over it
 		 */
@@ -385,23 +490,24 @@ PHP_METHOD(Phalcon_Events_Manager, fireQueue){
 		if (phalcon_clone(iterator, queue TSRMLS_CC) == FAILURE) {
 			RETURN_MM();
 		}
-	
+
 		/** 
 		 * Move the queue to the top
 		 */
 		PHALCON_CALL_METHOD(NULL, iterator, "top");
-	
+
 		while (1) {
 			PHALCON_CALL_METHOD(&r0, iterator, "valid");
 			if (!zend_is_true(r0)) {
 				break;
 			}
-	
+
 			/** 
 			 * Get the current data
 			 */
-			PHALCON_CALL_METHOD(&handler_embeded, iterator, "current");
-	
+			PHALCON_CALL_METHOD(&listener, iterator, "current");
+			PHALCON_CALL_METHOD(&handler_embeded, listener, "getlistener");
+
 			/** 
 			 * Only handler objects are valid
 			 */
@@ -429,13 +535,13 @@ PHP_METHOD(Phalcon_Events_Manager, fireQueue){
 				} else {
 					PHALCON_CPY_WRT(handler, handler_embeded);
 				}
-	
+
 				/** 
 				 * Check if the event is a closure
 				 */
 				assert(Z_TYPE_P(handler) == IS_OBJECT);
 				if (instanceof_function(Z_OBJCE_P(handler), zend_ce_closure TSRMLS_CC)) {
-	
+
 					/** 
 					 * Create the closure arguments
 					 */
@@ -446,22 +552,22 @@ PHP_METHOD(Phalcon_Events_Manager, fireQueue){
 						phalcon_array_append(&arguments, source, 0);
 						phalcon_array_append(&arguments, data, 0);
 					}
-	
+
 					/** 
 					 * Call the function in the PHP userland
 					 */
 					PHALCON_INIT_NVAR(status);/**/
 					PHALCON_CALL_USER_FUNC_ARRAY(status, handler, arguments);
-	
+
 					/** 
 					 * Trace the response
 					 */
 					if (zend_is_true(collect)) {
 						phalcon_update_property_array_append(this_ptr, SL("_responses"), status TSRMLS_CC);
 					}
-	
+
 					if (zend_is_true(cancelable)) {
-	
+
 						/** 
 						 * Check if the event was stopped by the user
 						 */
@@ -475,21 +581,21 @@ PHP_METHOD(Phalcon_Events_Manager, fireQueue){
 					 * Check if the listener has implemented an event with the same name
 					 */
 					if (phalcon_method_exists(handler, event_name TSRMLS_CC) == SUCCESS) {
-	
+
 						/** 
 						 * Call the function in the PHP userland
 						 */
 						PHALCON_CALL_METHOD(&status, handler, Z_STRVAL_P(event_name), event, source, data);
-	
+
 						/** 
 						 * Collect the response
 						 */
 						if (zend_is_true(collect)) {
 							phalcon_update_property_array_append(this_ptr, SL("_responses"), status TSRMLS_CC);
 						}
-	
+
 						if (zend_is_true(cancelable)) {
-	
+
 							/** 
 							 * Check if the event was stopped by the user
 							 */
@@ -501,20 +607,21 @@ PHP_METHOD(Phalcon_Events_Manager, fireQueue){
 					}
 				}
 			}
-	
+
 			/** 
 			 * Move the queue to the next handler
 			 */
 			PHALCON_CALL_METHOD(NULL, iterator, "next");
 		}
 	} else {
-	
+
 		phalcon_is_iterable(queue, &ah0, &hp0, 0, 0);
-	
+
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
-	
-			PHALCON_GET_HVALUE(handler_embeded);
-	
+
+			PHALCON_GET_HVALUE(listener);
+
+			PHALCON_CALL_METHOD(&handler_embeded, listener, "getlistener");
 			/** 
 			 * Only handler objects are valid
 			 */
@@ -539,13 +646,13 @@ PHP_METHOD(Phalcon_Events_Manager, fireQueue){
 				} else {
 					PHALCON_CPY_WRT(handler, handler_embeded);
 				}
-	
+
 				/** 
 				 * Check if the event is a closure
 				 */
 				assert(Z_TYPE_P(handler) == IS_OBJECT);
 				if (instanceof_function(Z_OBJCE_P(handler), zend_ce_closure TSRMLS_CC)) {
-	
+
 					/** 
 					 * Create the closure arguments
 					 */
@@ -556,22 +663,22 @@ PHP_METHOD(Phalcon_Events_Manager, fireQueue){
 						phalcon_array_append(&arguments, source, 0);
 						phalcon_array_append(&arguments, data, 0);
 					}
-	
+
 					/** 
 					 * Call the function in the PHP userland
 					 */
 					PHALCON_INIT_NVAR(status);/**/
 					PHALCON_CALL_USER_FUNC_ARRAY(status, handler, arguments);
-	
+
 					/** 
 					 * Trace the response
 					 */
 					if (zend_is_true(collect)) {
 						phalcon_update_property_array_append(this_ptr, SL("_responses"), status TSRMLS_CC);
 					}
-	
+
 					if (zend_is_true(cancelable)) {
-	
+
 						/** 
 						 * Check if the event was stopped by the user
 						 */
@@ -585,21 +692,21 @@ PHP_METHOD(Phalcon_Events_Manager, fireQueue){
 					 * Check if the listener has implemented an event with the same name
 					 */
 					if (phalcon_method_exists(handler, event_name TSRMLS_CC) == SUCCESS) {
-	
+
 						/** 
 						 * Call the function in the PHP userland
 						 */
 						PHALCON_CALL_METHOD(&status, handler, Z_STRVAL_P(event_name), event, source, data);
-	
+
 						/** 
 						 * Collect the response
 						 */
 						if (zend_is_true(collect)) {
 							phalcon_update_property_array_append(this_ptr, SL("_responses"), status TSRMLS_CC);
 						}
-	
+
 						if (zend_is_true(cancelable)) {
-	
+
 							/** 
 							 * Check if the event was stopped by the user
 							 */
@@ -611,12 +718,12 @@ PHP_METHOD(Phalcon_Events_Manager, fireQueue){
 					}
 				}
 			}
-	
+
 			zend_hash_move_forward_ex(ah0, &hp0);
 		}
-	
+
 	}
-	
+
 	RETURN_CCTOR(status);
 }
 
@@ -642,25 +749,25 @@ PHP_METHOD(Phalcon_Events_Manager, fire){
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 2, 2, &event_type, &source, &data, &cancelable);
-	
+
 	if (!data) {
 		data = PHALCON_GLOBAL(z_null);
 	}
-	
+
 	if (!cancelable) {
 		cancelable = PHALCON_GLOBAL(z_true);
 	}
-	
+
 	if (unlikely(Z_TYPE_P(event_type) != IS_STRING)) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_events_exception_ce, "Event type must be a string");
 		return;
 	}
-	
+
 	events = phalcon_fetch_nproperty_this(this_ptr, SL("_events"), PH_NOISY TSRMLS_CC);
 	if (Z_TYPE_P(events) != IS_ARRAY) { 
 		RETURN_MM_NULL();
 	}
-	
+
 	/** 
 	 * All valid events must have a colon separator
 	 */
@@ -670,18 +777,18 @@ PHP_METHOD(Phalcon_Events_Manager, fire){
 		PHALCON_THROW_EXCEPTION_ZVAL(phalcon_events_exception_ce, exception_message);
 		return;
 	}
-	
+
 	PHALCON_INIT_VAR(event_parts);
 	phalcon_fast_explode_str(event_parts, SL(":"), event_type);
-	
+
 	PHALCON_OBS_VAR(type);
 	phalcon_array_fetch_long(&type, event_parts, 0, PH_NOISY);
-	
+
 	PHALCON_OBS_VAR(event_name);
 	phalcon_array_fetch_long(&event_name, event_parts, 1, PH_NOISY);
-	
+
 	PHALCON_INIT_VAR(status);
-	
+
 	/** 
 	 * Should responses be traced?
 	 */
@@ -689,9 +796,9 @@ PHP_METHOD(Phalcon_Events_Manager, fire){
 	if (zend_is_true(collect)) {
 		phalcon_update_property_null(this_ptr, SL("_responses") TSRMLS_CC);
 	}
-	
+
 	PHALCON_INIT_VAR(event);
-	
+
 	/** 
 	 * Check if events are grouped by type
 	 */
@@ -702,14 +809,14 @@ PHP_METHOD(Phalcon_Events_Manager, fire){
 			 */
 			object_init_ex(event, phalcon_events_event_ce);
 			PHALCON_CALL_METHOD(NULL, event, "__construct", event_name, source, data, cancelable);
-	
+
 			/** 
 			 * Call the events queue
 			 */
 			PHALCON_CALL_METHOD(&status, this_ptr, "firequeue", fire_events, event);
 		}
 	}
-	
+
 	/** 
 	 * Check if there are listeners for the event type itself
 	 */
@@ -722,16 +829,16 @@ PHP_METHOD(Phalcon_Events_Manager, fire){
 				PHALCON_INIT_NVAR(event);
 				object_init_ex(event, phalcon_events_event_ce);
 				PHALCON_CALL_METHOD(NULL, event, "__construct", event_name, source, data, cancelable);
-	
+
 			}
-	
+
 			/** 
 			 * Call the events queue
 			 */
 			PHALCON_CALL_METHOD(&status, this_ptr, "firequeue", fire_events, event);
 		}
 	}
-	
+
 	RETURN_CCTOR(status);
 }
 
@@ -746,12 +853,12 @@ PHP_METHOD(Phalcon_Events_Manager, hasListeners){
 	zval *type, *events;
 
 	phalcon_fetch_params(0, 1, 0, &type);
-	
+
 	events = phalcon_fetch_nproperty_this(this_ptr, SL("_events"), PH_NOISY TSRMLS_CC);
 	if (phalcon_array_isset(events, type)) {
 		RETURN_TRUE;
 	}
-	
+
 	RETURN_FALSE;
 }
 
@@ -763,14 +870,89 @@ PHP_METHOD(Phalcon_Events_Manager, hasListeners){
  */
 PHP_METHOD(Phalcon_Events_Manager, getListeners){
 
-	zval *type, *events, *fire_events;
+	zval *type, *full = NULL, *events = NULL, *queue, *iterator;
+	zval *listener = NULL, *handler_embeded = NULL;
+	zval *r0 = NULL, *key = NULL;
+	HashTable *ah0;
+	HashPosition hp0;
+	zval **hd;
 
-	phalcon_fetch_params(0, 1, 0, &type);
-	
-	events = phalcon_fetch_nproperty_this(this_ptr, SL("_events"), PH_NOISY TSRMLS_CC);
-	if (phalcon_array_isset_fetch(&fire_events, events, type)) {
-		RETURN_ZVAL(fire_events, 1, 0);
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 1, 1, &type, &full);
+
+	if (!full) {
+		full = PHALCON_GLOBAL(z_false);
 	}
-	
+
+	events = phalcon_fetch_nproperty_this(this_ptr, SL("_events"), PH_NOISY TSRMLS_CC);
+	if (Z_TYPE_P(events) != IS_ARRAY) {
+		RETURN_MM_EMPTY_ARRAY();
+	}
+
+	if (!phalcon_array_isset(events, type)) {
+		RETURN_MM_EMPTY_ARRAY();
+	}
+
 	array_init(return_value);
+
+	PHALCON_OBS_VAR(queue);
+	phalcon_array_fetch(&queue, events, type, PH_NOISY);
+
+	if (zend_is_true(full)) {
+		RETURN_CCTOR(queue);
+	}
+
+	if (Z_TYPE_P(queue) == IS_OBJECT) {
+		
+		PHALCON_INIT_VAR(iterator);
+		if (phalcon_clone(iterator, queue TSRMLS_CC) == FAILURE) {
+			RETURN_MM();
+		}
+
+		PHALCON_CALL_METHOD(NULL, iterator, "top");
+
+		while (1) {
+			PHALCON_CALL_METHOD(&r0, iterator, "valid");
+			if (!zend_is_true(r0)) {
+				break;
+			}
+
+			PHALCON_CALL_METHOD(&listener, iterator, "current");
+			PHALCON_CALL_METHOD(&handler_embeded, listener, "getlistener");
+
+			phalcon_array_append(&return_value, handler_embeded, 0);
+
+			PHALCON_CALL_METHOD(NULL, iterator, "next");
+		}
+	} else {
+		phalcon_is_iterable(queue, &ah0, &hp0, 0, 0);
+
+		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
+
+			PHALCON_GET_HKEY(key, ah0, hp0);
+			PHALCON_GET_HVALUE(listener);
+
+			PHALCON_CALL_METHOD(&handler_embeded, listener, "getlistener");
+
+			phalcon_array_append(&return_value, handler_embeded, 0);
+
+			zend_hash_move_forward_ex(ah0, &hp0);
+		}
+	}
+
+	RETURN_MM();
+}
+
+/**
+ * Retrieve all registered events
+ *
+ * @return array
+ */
+PHP_METHOD(Phalcon_Events_Manager, getEvents){
+
+	zval *events;
+
+	events = phalcon_fetch_nproperty_this(this_ptr, SL("_events"), PH_NOISY TSRMLS_CC);
+	phalcon_array_keys(return_value, events);
 }

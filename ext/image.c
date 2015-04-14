@@ -58,7 +58,7 @@ static const zend_function_entry phalcon_image_method_entry[] = {
 PHALCON_INIT_CLASS(Phalcon_Image){
 
 	PHALCON_REGISTER_CLASS(Phalcon, Image, image, phalcon_image_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
-	
+
 	/* Resizing constraints */
 	zend_declare_class_constant_long(phalcon_image_ce, SL("NONE"),    PHALCON_IMAGE_NONE TSRMLS_CC);
 	zend_declare_class_constant_long(phalcon_image_ce, SL("WIDTH"),   PHALCON_IMAGE_WIDTH TSRMLS_CC);

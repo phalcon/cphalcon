@@ -596,6 +596,7 @@ static PHP_MINIT_FUNCTION(phalcon)
 	PHALCON_INIT(Phalcon_Mvc_View_Engine_Volt_Compiler);
 	PHALCON_INIT(Phalcon_Events_Event);
 	PHALCON_INIT(Phalcon_Events_Manager);
+	PHALCON_INIT(Phalcon_Events_Listener);
 	PHALCON_INIT(Phalcon_Image);
 	PHALCON_INIT(Phalcon_Image_Adapter);
 	PHALCON_INIT(Phalcon_Image_Adapter_GD);

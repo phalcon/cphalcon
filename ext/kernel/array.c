@@ -897,12 +897,12 @@ void phalcon_array_keys(zval *return_value, zval *arr) {
 			switch (zend_hash_get_current_key_ex(Z_ARRVAL_P(arr), &skey, &skey_len, &nkey, 1, &pos)) {
 				case HASH_KEY_IS_STRING:
 					ZVAL_STRINGL(new_val, skey, skey_len - 1, 0);
-					zend_hash_next_index_insert(Z_ARRVAL_P(arr), &new_val, sizeof(zval*), NULL);
+					zend_hash_next_index_insert(Z_ARRVAL_P(return_value), &new_val, sizeof(zval*), NULL);
 					break;
 
 				case HASH_KEY_IS_LONG:
 					ZVAL_LONG(new_val, nkey);
-					zend_hash_next_index_insert(Z_ARRVAL_P(arr), &new_val, sizeof(zval*), NULL);
+					zend_hash_next_index_insert(Z_ARRVAL_P(return_value), &new_val, sizeof(zval*), NULL);
 					break;
 			}
 

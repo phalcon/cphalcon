@@ -14,41 +14,17 @@
   +------------------------------------------------------------------------+
   | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
   |          Eduar Carvajal <eduar@phalconphp.com>                         |
+  |          ZhuZongXin <dreamsxin@qq.com>                                 |
   +------------------------------------------------------------------------+
 */
 
-#ifndef PHALCON_EVENTS_MANAGERINTERFACE_H
-#define PHALCON_EVENTS_MANAGERINTERFACE_H
+#ifndef PHALCON_EVENTS_LISTENER_H
+#define PHALCON_EVENTS_LISTENER_H
 
 #include "php_phalcon.h"
 
-extern zend_class_entry *phalcon_events_managerinterface_ce;
+extern zend_class_entry *phalcon_events_listener_ce;
 
-PHALCON_INIT_CLASS(Phalcon_Events_ManagerInterface);
+PHALCON_INIT_CLASS(Phalcon_Events_Listener);
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_events_managerinterface_attach, 0, 0, 2)
-	ZEND_ARG_INFO(0, eventType)
-	ZEND_ARG_INFO(0, handler)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_events_managerinterface_detach, 0, 0, 2)
-	ZEND_ARG_INFO(0, type)
-	ZEND_ARG_INFO(0, handler)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_events_managerinterface_detachall, 0, 0, 0)
-	ZEND_ARG_INFO(0, type)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_events_managerinterface_fire, 0, 0, 2)
-	ZEND_ARG_INFO(0, eventType)
-	ZEND_ARG_INFO(0, source)
-	ZEND_ARG_INFO(0, data)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_events_managerinterface_getlisteners, 0, 0, 1)
-	ZEND_ARG_INFO(0, type)
-	ZEND_ARG_INFO(0, full)
-ZEND_END_ARG_INFO()
-
-#endif /* PHALCON_EVENTS_MANAGERINTERFACE_H */
+#endif /* PHALCON_EVENTS_LISTENER_H */

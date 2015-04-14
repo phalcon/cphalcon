@@ -21,6 +21,7 @@
 
 #include <ext/standard/php_string.h>
 #include <ext/standard/php_math.h>
+#include <ext/spl/php_spl.h>
 #include <Zend/zend_operators.h>
 
 #include "kernel/main.h"
@@ -579,7 +580,7 @@ int phalcon_is_numeric_ex(const zval *op) {
  */
 int phalcon_is_equal(zval *op1, zval *op2 TSRMLS_DC) {
 	zval result;
-	
+
 	#if PHP_VERSION_ID < 50400
 	is_equal_function(&result, op1, op2 TSRMLS_CC);
 	return Z_BVAL(result);
@@ -596,6 +597,23 @@ int phalcon_is_equal_long(zval *op1, long op2 TSRMLS_DC) {
 	ZVAL_LONG(&op2_zval, op2);
 	is_equal_function(&result, op1, &op2_zval TSRMLS_CC);
 	return Z_BVAL(result);
+}
+
+/**
+ * Check if two object are equal
+ */
+int phalcon_is_equal_object(zval *obj1, zval *obj2 TSRMLS_DC) {
+	char md5str[33];
+	char md5str2[33];
+
+	if (Z_TYPE_P(obj1) != IS_OBJECT && Z_TYPE_P(obj1) != IS_OBJECT) {
+		return 0;
+	}
+
+	php_spl_object_hash(obj1, md5str TSRMLS_CC);
+	php_spl_object_hash(obj2, md5str2 TSRMLS_CC);
+
+	return strcmp(md5str, md5str2) == 0;
 }
 
 /**
