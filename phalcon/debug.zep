@@ -44,9 +44,6 @@ class Debug
 
 	/**
 	 * Change the base URI for static resources
-	 *
-	 * @param string uri
-	 * @return Phalcon\Debug
 	 */
 	public function setUri(string! uri) -> <Debug>
 	{
@@ -56,9 +53,6 @@ class Debug
 
 	/**
 	 * Sets if files the exception"s backtrace must be showed
-	 *
-	 * @param boolean showBackTrace
-	 * @return Phalcon\Debug
 	 */
 	public function setShowBackTrace(boolean showBackTrace) -> <Debug>
 	{
@@ -68,9 +62,6 @@ class Debug
 
 	/**
 	 * Set if files part of the backtrace must be shown in the output
-	 *
-	 * @param boolean showFiles
-	 * @return Phalcon\Debug
 	 */
 	public function setShowFiles(boolean showFiles) -> <Debug>
 	{
@@ -81,9 +72,6 @@ class Debug
 	/**
 	 * Sets if files must be completely opened and showed in the output
 	 * or just the fragment related to the exception
-	 *
-	 * @param boolean showFileFragment
-	 * @return Phalcon\Debug
 	 */
 	public function setShowFileFragment(boolean showFileFragment) -> <Debug>
 	{
@@ -93,10 +81,6 @@ class Debug
 
 	/**
 	 * Listen for uncaught exceptions and unsilent notices or warnings
-	 *
-	 * @param boolean exceptions
-	 * @param boolean lowSeverity
-	 * @return Phalcon\Debug
 	 */
 	public function listen(boolean exceptions = true, boolean lowSeverity = false) -> <Debug>
 	{
@@ -111,8 +95,6 @@ class Debug
 
 	/**
 	 * Listen for uncaught exceptions
-	 *
-	 * @return Phalcon\Debug
 	 */
 	public function listenExceptions() -> <Debug>
 	{
@@ -122,8 +104,6 @@ class Debug
 
 	/**
 	 * Listen for unsilent notices or warnings
-	 *
-	 * @return Phalcon\Debug
 	 */
 	public function listenLowSeverity() -> <Debug>
 	{
@@ -133,7 +113,6 @@ class Debug
 
 	/**
 	 * Halts the request showing a backtrace
-	 *
 	 */
 	public function halt()
 	{
@@ -142,12 +121,8 @@ class Debug
 
 	/**
 	 * Adds a variable to the debug output
-	 *
-	 * @param mixed varz
-	 * @param string key
-	 * @return Phalcon\Debug
 	 */
-	public function debugVar(varz, var key = null) -> <Debug>
+	public function debugVar(varz, string key = null) -> <Debug>
 	{
 		let this->_data[] = [varz, debug_backtrace(), time()];
 		return this;
@@ -155,8 +130,6 @@ class Debug
 
 	/**
 	 * Clears are variables added previously
-	 *
-	 * @return Phalcon\Debug
 	 */
 	public function clearVars() -> <Debug>
 	{
@@ -166,9 +139,6 @@ class Debug
 
 	/**
 	 * Escapes a string with htmlentities
-	 *
-	 * @param string value
-	 * @return string
 	 */
 	protected function _escapeString(var value) -> string
 	{
@@ -180,11 +150,8 @@ class Debug
 
 	/**
 	 * Produces a recursive representation of an array
-	 *
-	 * @param array argument
-	 * @return string
 	 */
-	protected function _getArrayDump(argument, n = 0) -> string | null
+	protected function _getArrayDump(array! argument, n = 0) -> string | null
 	{
 		var numberArguments, dump, varDump, k, v;
 
@@ -233,11 +200,8 @@ class Debug
 
 	/**
 	 * Produces an string representation of a variable
-	 *
-	 * @param mixed variable
-	 * @return string
 	 */
-	protected function _getVarDump(var variable)
+	protected function _getVarDump(var variable) -> string
 	{
 		var className, dumpedObject, dump;
 
@@ -315,8 +279,6 @@ class Debug
 
 	/**
 	 * Returns the major framework's version
-	 *
-	 * @return string
 	 */
 	public function getMajorVersion() -> string
 	{
@@ -328,8 +290,6 @@ class Debug
 
 	/**
 	 * Generates a link to the current version documentation
-	 *
-	 * @return string
 	 */
 	public function getVersion() -> string
 	{
@@ -340,8 +300,6 @@ class Debug
 
 	/**
 	 * Returns the css sources
-	 *
-	 * @return string
 	 */
 	public function getCssSources() -> string
 	{
@@ -355,8 +313,6 @@ class Debug
 
 	/**
 	 * Returns the javascript sources
-	 *
-	 * @return string
 	 */
 	public function getJsSources() -> string
 	{
@@ -373,11 +329,8 @@ class Debug
 
 	/**
 	 * Shows a backtrace item
-	 *
-	 * @param int n
-	 * @param array trace
 	 */
-	protected final function showTraceItem(n, trace)
+	protected final function showTraceItem(int n, array! trace)
 	{
 
 		var space, twoSpaces, underscore, minus, className, namespaceSeparator,
@@ -633,11 +586,8 @@ class Debug
 
 	/**
 	 * Handles uncaught exceptions
-	 *
-	 * @param \Exception exception
-	 * @return boolean
 	 */
-	public function onUncaughtException(var exception) -> boolean
+	public function onUncaughtException(<\Exception> exception) -> boolean
 	{
 		var obLevel, className, escapedMessage, html, showBackTrace,
 		dataVars, n, traceItem, keyRequest, value, keyServer, keyFile, keyVar, dataVar;

@@ -160,6 +160,9 @@ class View extends Injectable implements ViewInterface
 	 */
 	public function setViewsDir(string viewsDir) -> <View>
 	{
+		if (substr(viewsDir, -1) != DIRECTORY_SEPARATOR) {
+			let viewsDir = viewsDir.DIRECTORY_SEPARATOR;
+		}
 		let this->_viewsDir = viewsDir;
 		return this;
 	}

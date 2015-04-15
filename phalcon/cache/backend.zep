@@ -68,7 +68,7 @@ abstract class Backend
 	 * Starts a cache. The keyname allows to identify the created fragment
 	 *
 	 * @param   int|string keyName
-	 * @param   long lifetime
+	 * @param   int lifetime
 	 * @return  mixed
 	 */
 	public function start(var keyName, lifetime = null)

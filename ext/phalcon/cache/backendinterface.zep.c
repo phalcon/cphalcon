@@ -29,7 +29,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Cache_BackendInterface) {
  * Starts a cache. The keyname allows to identify the created fragment
  *
  * @param int|string keyName
- * @param   long lifetime
+ * @param   int lifetime
  * @return  mixed
  */
 ZEPHIR_DOC_METHOD(Phalcon_Cache_BackendInterface, start);
@@ -87,7 +87,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Cache_BackendInterface, getLastKey);
  * Returns a cached content
  *
  * @param int|string keyName
- * @param   long lifetime
+ * @param   int lifetime
  * @return  mixed
  */
 ZEPHIR_DOC_METHOD(Phalcon_Cache_BackendInterface, get);
@@ -97,7 +97,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Cache_BackendInterface, get);
  *
  * @param int|string keyName
  * @param string content
- * @param long lifetime
+ * @param int lifetime
  * @param boolean stopBuffer
  */
 ZEPHIR_DOC_METHOD(Phalcon_Cache_BackendInterface, save);
@@ -122,7 +122,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Cache_BackendInterface, queryKeys);
  * Checks if cache exists and it hasn't expired
  *
  * @param  string keyName
- * @param  long lifetime
+ * @param  int lifetime
  * @return boolean
  */
 ZEPHIR_DOC_METHOD(Phalcon_Cache_BackendInterface, exists);

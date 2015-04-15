@@ -27,26 +27,16 @@ ZEPHIR_INIT_CLASS(Phalcon_FilterInterface) {
 
 /**
  * Adds a user-defined filter
- *
- * @param string name
- * @param callable handler
- * @return Phalcon\FilterInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_FilterInterface, add);
 
 /**
  * Sanizites a value with a specified single or set of filters
- *
- * @param  mixed value
- * @param  mixed filters
- * @return mixed
  */
 ZEPHIR_DOC_METHOD(Phalcon_FilterInterface, sanitize);
 
 /**
  * Return the user-defined filters in the instance
- *
- * @return object[]
  */
 ZEPHIR_DOC_METHOD(Phalcon_FilterInterface, getFilters);
 

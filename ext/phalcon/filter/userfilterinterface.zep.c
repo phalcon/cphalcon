@@ -27,9 +27,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Filter_UserFilterInterface) {
 
 /**
  * Filters a value
- *
- * @param mixed value
- * @return mixed
  */
 ZEPHIR_DOC_METHOD(Phalcon_Filter_UserFilterInterface, filter);
 

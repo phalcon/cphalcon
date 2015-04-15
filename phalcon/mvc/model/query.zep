@@ -2311,6 +2311,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 		 */
 		let numberObjects = 0;
 		let columns1 = columns;
+
 		for column in columns {
 
 			if typeof column != "array" {
@@ -2349,7 +2350,8 @@ class Query implements QueryInterface, InjectionAwareInterface
 		/**
 		 * Processing selected columns
 		 */
-		let selectColumns = [],
+		let instance = null,
+			selectColumns = [],
 			simpleColumnMap = [],
 			metaData = this->_metaData;
 
@@ -2358,7 +2360,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 			let sqlColumn = column["column"];
 
 			/**
-			 * Complete objects are treaded in a different way
+			 * Complete objects are treated in a different way
 			 */
 			if column["type"] == "object" {
 
@@ -2431,13 +2433,11 @@ class Query implements QueryInterface, InjectionAwareInterface
 			/**
 			 * Simulate a column map
 			 */
-			if isComplex === false {
-				if isSimpleStd === true {
-					if fetch sqlAlias, column["sqlAlias"] {
-						let simpleColumnMap[sqlAlias] = aliasCopy;
-					} else {
-						let simpleColumnMap[aliasCopy] = aliasCopy;
-					}
+			if isComplex === false && isSimpleStd === true {
+				if fetch sqlAlias, column["sqlAlias"] {
+					let simpleColumnMap[sqlAlias] = aliasCopy;
+				} else {
+					let simpleColumnMap[aliasCopy] = aliasCopy;
 				}
 			}
 		}
@@ -2519,7 +2519,11 @@ class Query implements QueryInterface, InjectionAwareInterface
 
 			} else {
 
-				let resultObject = model;
+				if typeof instance == "object" {
+					let resultObject = instance;
+				} else {
+					let resultObject = model;
+				}
 
 				/**
 				 * Get the column map

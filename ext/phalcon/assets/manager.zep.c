@@ -730,7 +730,7 @@ PHP_METHOD(Phalcon_Assets_Manager, output) {
 				ZEPHIR_MM_RESTORE();
 				return;
 			}
-			if (zephir_is_true(join)) {
+			if (zephir_is_true(local)) {
 				if (ZEPHIR_IS_EQUAL(targetPath, sourcePath)) {
 					ZEPHIR_INIT_NVAR(_0);
 					object_init_ex(_0, phalcon_assets_exception_ce);
