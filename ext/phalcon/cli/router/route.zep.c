@@ -635,7 +635,7 @@ PHP_METHOD(Phalcon_Cli_Router_Route, setName) {
 /**
  * Sets a callback that is called if the route is matched.
  * The developer can implement any arbitrary conditions here
- * If the callback returns false the route is treaded as not matched
+ * If the callback returns false the route is treated as not matched
  *
  * @param callback callback
  * @return Phalcon\Cli\Router\Route

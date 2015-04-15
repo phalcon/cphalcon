@@ -49,7 +49,7 @@ class Simple extends Resultset
 	 * @param Phalcon\Cache\BackendInterface cache
 	 * @param boolean keepSnapshots
 	 */
-	public function __construct(var columnMap, var model, result, <BackendInterface> cache=null, keepSnapshots = null)
+	public function __construct(var columnMap, var model, result, <BackendInterface> cache = null, keepSnapshots = null)
 	{
 		var rowCount;
 
@@ -139,28 +139,33 @@ class Simple extends Resultset
 		/**
 		 * Get the resultset column map
 		 */
-		let columnMap = this->_columnMap;
+		let columnMap = this->_columnMap;		
 
 		/**
 		 * Hydrate based on the current hydration
 		 */
-		if hydrateMode == Resultset::HYDRATE_RECORDS {
-			/**
-			 * Set records as dirty state PERSISTENT by default
-			 * Performs the standard hydration based on objects
-			 */
-			let activeRow = Model::cloneResultMap(
-				this->_model,
-				row,
-				columnMap,
-				Model::DIRTY_STATE_PERSISTENT,
-				this->_keepSnapshots
-			);
-		} else {
-			/**
-			 * Other kinds of hydrations
-			 */
-			let activeRow = Model::cloneResultMapHydrate(row, columnMap, hydrateMode);
+		switch hydrateMode {
+
+			case Resultset::HYDRATE_RECORDS:
+				/**
+				 * Set records as dirty state PERSISTENT by default
+				 * Performs the standard hydration based on objects
+				 */
+				let activeRow = Model::cloneResultMap(
+					this->_model,
+					row,
+					columnMap,
+					Model::DIRTY_STATE_PERSISTENT,
+					this->_keepSnapshots
+				);
+				break;
+
+			default:
+				/**
+				 * Other kinds of hydrations
+				 */
+				let activeRow = Model::cloneResultMapHydrate(row, columnMap, hydrateMode);
+				break;
 		}
 
 		let this->_activeRow = activeRow;
@@ -328,5 +333,4 @@ class Simple extends Resultset
 			this->_columnMap = resultset["columnMap"],
 			this->_hydrateMode = resultset["hydrateMode"];
 	}
-
 }
