@@ -601,5 +601,4 @@ abstract class Resultset
 
 		return records;
 	}
-
 }
