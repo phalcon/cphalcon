@@ -32,9 +32,7 @@ class Direct extends \Phalcon\Flash implements FlashInterface
 	/**
 	 * Outputs a message
 	 *
-	 * @param  string type
 	 * @param  string|array message
-	 * @return string
 	 */
 	public function message(string type, var message) -> string
 	{

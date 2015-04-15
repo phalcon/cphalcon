@@ -43,8 +43,6 @@ abstract class Flash
 
 	/**
 	 * Phalcon\Flash constructor
-	 *
-	 * @param array cssClasses
 	 */
 	public function __construct(cssClasses = null)
 	{
@@ -61,9 +59,6 @@ abstract class Flash
 
 	/**
 	 * Set whether the output must be implictly flushed to the output or returned as string
-	 *
-	 * @param boolean implicitFlush
-	 * @return Phalcon\FlashInterface
 	 */
 	public function setImplicitFlush(boolean implicitFlush) -> <FlashInterface>
 	{
@@ -73,9 +68,6 @@ abstract class Flash
 
 	/**
 	 * Set if the output must be implictily formatted with HTML
-	 *
-	 * @param boolean automaticHtml
-	 * @return Phalcon\FlashInterface
 	 */
 	public function setAutomaticHtml(boolean automaticHtml) -> <FlashInterface>
 	{
@@ -85,9 +77,6 @@ abstract class Flash
 
 	/**
 	 * Set an array with CSS classes to format the messages
-	 *
-	 * @param array cssClasses
-	 * @return Phalcon\FlashInterface
 	 */
 	public function setCssClasses(array! cssClasses) -> <FlashInterface>
 	{
@@ -101,9 +90,6 @@ abstract class Flash
 	 *<code>
 	 * $flash->error('This is an error');
 	 *</code>
-	 *
-	 * @param string message
-	 * @return string
 	 */
 	public function error(var message) -> string
 	{
@@ -116,9 +102,6 @@ abstract class Flash
 	 *<code>
 	 * $flash->notice('This is an information');
 	 *</code>
-	 *
-	 * @param string message
-	 * @return string
 	 */
 	public function notice(var message) -> string
 	{
@@ -131,9 +114,6 @@ abstract class Flash
 	 *<code>
 	 * $flash->success('The process was finished successfully');
 	 *</code>
-	 *
-	 * @param string message
-	 * @return string
 	 */
 	public function success(string message) -> string
 	{
@@ -146,9 +126,6 @@ abstract class Flash
 	 *<code>
 	 * $flash->warning('Hey, this is important');
 	 *</code>
-	 *
-	 * @param string message
-	 * @return string
 	 */
 	public function warning(var message) -> string
 	{
@@ -162,7 +139,6 @@ abstract class Flash
 	 * $flash->outputMessage('error', message);
 	 *</code>
 	 *
-	 * @param string type
 	 * @param string|array message
 	 */
 	public function outputMessage(string type, var message)
