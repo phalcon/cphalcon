@@ -91,7 +91,7 @@ class Loader implements EventsAwareInterface
 	}
 
 	/**
-	 * Sets an array of extensions that the loader must try in each attempt to locate the file
+	 * Sets an array of file extensions that the loader must try in each attempt to locate the file
 	 */
 	public function setExtensions(array! extensions) -> <Loader>
 	{
@@ -100,11 +100,9 @@ class Loader implements EventsAwareInterface
 	}
 
 	/**
-	 * Return file extensions registered in the loader
-	 *
-	 * @return boolean
+	 * Returns the file extensions registered in the loader
 	 */
-	public function getExtensions()
+	public function getExtensions() -> array
 	{
 		return this->_extensions;
 	}
@@ -132,17 +130,15 @@ class Loader implements EventsAwareInterface
 	}
 
 	/**
-	 * Return current namespaces registered in the autoloader
-	 *
-	 * @param array
+	 * Returns the namespaces currently registered in the autoloader
 	 */
-	public function getNamespaces()
+	public function getNamespaces() -> array
 	{
 		return this->_namespaces;
 	}
 
 	/**
-	 * Register directories on which "not found" classes could be found
+	 * Register directories in which "not found" classes could be found
 	 */
 	public function registerPrefixes(array! prefixes, boolean merge = false) -> <Loader>
 	{
@@ -163,17 +159,15 @@ class Loader implements EventsAwareInterface
 	}
 
 	/**
-	 * Return current prefixes registered in the autoloader
-	 *
-	 * @param array
+	 * Returns the prefixes currently registered in the autoloader
 	 */
-	public function getPrefixes()
+	public function getPrefixes() -> array
 	{
 		return this->_prefixes;
 	}
 
 	/**
-	 * Register directories on which "not found" classes could be found
+	 * Register directories in which "not found" classes could be found
 	 */
 	public function registerDirs(array! directories, boolean merge = false) -> <Loader>
 	{
@@ -194,11 +188,9 @@ class Loader implements EventsAwareInterface
 	}
 
 	/**
-	 * Return current directories registered in the autoloader
-	 *
-	 * @param array
+	 * Returns the directories currently registered in the autoloader
 	 */
-	public function getDirs()
+	public function getDirs() -> array
 	{
 		return this->_directories;
 	}
@@ -225,11 +217,9 @@ class Loader implements EventsAwareInterface
 	}
 
 	/**
-	 * Return the current class-map registered in the autoloader
-	 *
-	 * @param array
+	 * Returns the class-map currently registered in the autoloader
 	 */
-	public function getClasses()
+	public function getClasses() -> array
 	{
 		return this->_classes;
 	}
@@ -259,7 +249,7 @@ class Loader implements EventsAwareInterface
 	}
 
 	/**
-	 * Makes the work of autoload registered classes
+	 * Autoloades the registered classes
 	 */
 	public function autoLoad(string! className) -> boolean
 	{
@@ -331,7 +321,7 @@ class Loader implements EventsAwareInterface
 							}
 
 							/**
-							 * This is probably a good path, let's check if the file does exist
+							 * This is probably a good path, let's check if the file exists
 							 */
 							if is_file(filePath) {
 
@@ -481,7 +471,7 @@ class Loader implements EventsAwareInterface
 		}
 
 		/**
-		 * Cannot find the class return false
+		 * Cannot find the class, return false
 		 */
 		return false;
 	}
