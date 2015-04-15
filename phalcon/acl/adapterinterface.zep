@@ -39,10 +39,8 @@ interface AdapterInterface
 
 	/**
 	 * Adds a role to the ACL list. Second parameter lets to inherit access data from other existing role
-	 *
-	 * @param  Phalcon\Acl\RoleInterface role
 	 */
-	public function addRole(<RoleInterface> role, accessInherits = null) -> boolean;
+	public function addRole(role, accessInherits = null) -> boolean;
 
 	/**
 	 * Do a role inherit from another existing role

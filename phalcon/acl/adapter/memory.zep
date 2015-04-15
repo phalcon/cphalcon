@@ -19,7 +19,6 @@
 
 namespace Phalcon\Acl\Adapter;
 
-use Phalcon\Acl\RoleInterface;
 use Phalcon\Acl\Adapter;
 use Phalcon\Acl\Resource;
 use Phalcon\Acl\Exception;
