@@ -153,7 +153,7 @@ class Memory extends Adapter
 	 *
 	 * @param  array|string accessInherits
 	 */
-	public function addRole(<RoleInterface> role, accessInherits = null) -> boolean
+	public function addRole(role, accessInherits = null) -> boolean
 	{
 		var roleName, roleObject;
 
