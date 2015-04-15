@@ -26,7 +26,7 @@ use Phalcon\Acl\Exception;
  *
  * This class defines role entity and its description
  */
-class Role
+class Role implements RoleInterface
 {
 	/**
 	 * Role name
