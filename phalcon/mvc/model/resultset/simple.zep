@@ -62,8 +62,6 @@ class Simple extends Resultset
 			return;
 		}
 
-		print_r(columnMap);
-
 		/**
 		 * Do the fetch using only associative indexes
 		 */
