@@ -487,21 +487,17 @@ class Loader implements EventsAwareInterface
 	}
 
 	/**
-	 * Get the path when a class was found
-	 *
-	 * @return string
+	 * Get the path when a class was found	 
 	 */
-	public function getFoundPath()
+	public function getFoundPath() -> string
 	{
 		return this->_foundPath;
 	}
 
 	/**
 	 * Get the path the loader is checking for a path
-	 *
-	 * @return string
 	 */
-	public function getCheckedPath()
+	public function getCheckedPath() -> string
 	{
 		return this->_checkedPath;
 	}

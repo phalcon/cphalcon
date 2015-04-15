@@ -159,11 +159,7 @@ class MySQL extends Dialect implements DialectInterface
 	 */
 	public function addColumn(string! tableName, string! schemaName, <ColumnInterface> column) -> string
 	{
-		var afterPosition, sql, defaultValue;
-
-		if typeof column != "object" {
-			throw new Exception("Column definition must be an object compatible with Phalcon\\Db\\ColumnInterface");
-		}
+		var afterPosition, sql, defaultValue;		
 
 		if schemaName {
 			let sql = "ALTER TABLE `" . schemaName . "`.`" . tableName . "` ADD ";
@@ -311,7 +307,7 @@ class MySQL extends Dialect implements DialectInterface
 	 */
 	public function addForeignKey(string! tableName, string! schemaName, <ReferenceInterface> reference) -> string
 	{
-		var sql, referencedSchema, onDelete, onUpdate;		
+		var sql, referencedSchema, onDelete, onUpdate;
 
 		if schemaName {
 			let sql = "ALTER TABLE `" . schemaName . "`.`" . tableName . "` ADD FOREIGN KEY ";

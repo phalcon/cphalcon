@@ -666,7 +666,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 		}
 
 		/**
-		 * Check if selected column is qualified.*
+		 * Check if selected column is qualified.*, ex: robots.*
 		 */
 		if columnType == PHQL_T_DOMAINALL {
 
@@ -1757,39 +1757,39 @@ class Query implements QueryInterface, InjectionAwareInterface
 		}
 
 		/**
-		 * Process WHERE clause if any
+		 * Process "WHERE" clause if any
 		 */
 		if fetch where, ast["where"] {
 			let sqlSelect["where"] = this->_getExpression(where);
 		}
 
 		/**
-		 * Process GROUP BY clause if any
+		 * Process "GROUP BY" clause if any
 		 */
 		if fetch groupBy, ast["groupBy"] {
 			let sqlSelect["group"] = this->_getGroupClause(groupBy);
 		}
 
 		/**
-		 * Process HAVING clause if any
+		 * Process "HAVING" clause if any
 		 */
 		if fetch having , ast["having"] {
 			let sqlSelect["having"] = this->_getExpression(having);
 		}
 
 		/**
-		 * Process ORDER BY clause if any
+		 * Process "ORDER BY" clause if any
 		 */
 		if fetch order, ast["orderBy"] {
 			let sqlSelect["order"] = this->_getOrderClause(order);
 		}
 
 		/**
-		 * Process LIMIT clause if any
+		 * Process "LIMIT" clause if any
 		 */
 		if fetch limit, ast["limit"] {
 			let sqlSelect["limit"] = this->_getLimitClause(limit);
-		}
+		}		
 
 		return sqlSelect;
 	}

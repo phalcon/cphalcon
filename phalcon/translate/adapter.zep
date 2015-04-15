@@ -93,6 +93,9 @@ abstract class Adapter
 		return this->{"query"}(translateKey, null);
 	}
 
+	/**
+	 * Replaces placeholders by the values passed	
+	 */
 	protected function replacePlaceholders(string! translation, placeholders = null) -> string
 	{
 		var key, value;

@@ -20,8 +20,8 @@
 
 namespace Phalcon;
 
-use Phalcon\Filter;
 use Phalcon\DiInterface;
+use Phalcon\FilterInterface;
 use Phalcon\DispatcherInterface;
 use Phalcon\Di\InjectionAwareInterface;
 use Phalcon\Events\EventsAwareInterface;
@@ -258,7 +258,7 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 				if typeof dependencyInjector != "object" {
 					this->{"_throwDispatchException"}("A dependency injection object is required to access the 'filter' service", self::EXCEPTION_NO_DI);
 				}
-				let filter = <Filter> dependencyInjector->getShared("filter");
+				let filter = <FilterInterface> dependencyInjector->getShared("filter");
 				return filter->sanitize(paramValue, filters);
 			} else {
 				return paramValue;

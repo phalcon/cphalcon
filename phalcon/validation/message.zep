@@ -42,7 +42,7 @@ class Message implements MessageInterface
 	 * @param string field
 	 * @param string type
 	 */
-	public function __construct(string! message, field=null, type=null)
+	public function __construct(string! message, field = null, type = null)
 	{
 		let this->_message = message,
 			this->_field = field,
@@ -135,5 +135,4 @@ class Message implements MessageInterface
 	{
 		return new self(message["_message"], message["_field"], message["_type"]);
 	}
-
 }

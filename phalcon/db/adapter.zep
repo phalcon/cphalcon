@@ -1,19 +1,19 @@
 
 /*
  +------------------------------------------------------------------------+
- | Phalcon Framework                                                      |
+ | Phalcon Framework													  |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)	   |
  +------------------------------------------------------------------------+
- | This source file is subject to the New BSD License that is bundled     |
- | with this package in the file docs/LICENSE.txt.                        |
- |                                                                        |
- | If you did not receive a copy of the license and are unable to         |
- | obtain it through the world-wide-web, please send an email             |
- | to license@phalconphp.com so we can send you a copy immediately.       |
+ | This source file is subject to the New BSD License that is bundled	 |
+ | with this package in the file docs/LICENSE.txt.						|
+ |																		|
+ | If you did not receive a copy of the license and are unable to		 |
+ | obtain it through the world-wide-web, please send an email			 |
+ | to license@phalconphp.com so we can send you a copy immediately.	   |
  +------------------------------------------------------------------------+
- | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
- |          Eduar Carvajal <eduar@phalconphp.com>                         |
+ | Authors: Andres Gutierrez <andres@phalconphp.com>					  |
+ |		  Eduar Carvajal <eduar@phalconphp.com>						 |
  +------------------------------------------------------------------------+
  */
 
@@ -249,33 +249,33 @@ abstract class Adapter implements EventsAwareInterface
 		return results;
 	}
 
-    /**
-     * Returns the n'th field of first row in a SQL query result
-     *
-     *<code>
-     *    //Getting count of robots
-     *    $robotsCount = $connection->fetchColumn("SELECT count(*) FROM robots");
-     *    print_r($robotsCount);
-     *
-     *    //Getting name of last edited robot
-     *    $robot = $connection->fetchColumn("SELECT id, name FROM robots order by modified desc");
-     *    print_r($robot);
-     *</code>
-     *
-     * @param  string sqlQuery
-     * @param  array placeholders
-     * @param  int|string column
-     * @return string|
-     */
-    public function fetchColumn(var sqlQuery, placeholders = null, column = 0) -> string | bool
-    {
-        var row;
-        let row = this->fetchOne(sqlQuery, Db::FETCH_BOTH, placeholders);
-        if !empty row && isset row[column] {
-            return row[column];
-        }
+	/**
+	 * Returns the n'th field of first row in a SQL query result
+	 *
+	 *<code>
+	 *	//Getting count of robots
+	 *	$robotsCount = $connection->fetchColumn("SELECT count(*) FROM robots");
+	 *	print_r($robotsCount);
+	 *
+	 *	//Getting name of last edited robot
+	 *	$robot = $connection->fetchColumn("SELECT id, name FROM robots order by modified desc");
+	 *	print_r($robot);
+	 *</code>
+	 *
+	 * @param  string sqlQuery
+	 * @param  array placeholders
+	 * @param  int|string column
+	 * @return string|
+	 */
+	public function fetchColumn(var sqlQuery, placeholders = null, column = 0) -> string | bool
+	{
+		var row;
+		let row = this->fetchOne(sqlQuery, Db::FETCH_BOTH, placeholders);
+		if !empty row && isset row[column] {
+			return row[column];
+		}
 		return false;
-    }
+	}
 
 	/**
 	 * Inserts data into a table using custom RBDM SQL syntax
@@ -283,9 +283,9 @@ abstract class Adapter implements EventsAwareInterface
 	 * <code>
 	 * //Inserting a new robot
 	 * $success = $connection->insert(
-	 *     "robots",
-	 *     array("Astro Boy", 1952),
-	 *     array("name", "year")
+	 *	 "robots",
+	 *	 array("Astro Boy", 1952),
+	 *	 array("name", "year")
 	 * );
 	 *
 	 * //Next SQL sentence is sent to the database system
@@ -374,45 +374,45 @@ abstract class Adapter implements EventsAwareInterface
 		return this->{"execute"}(insertSql, insertValues, bindDataTypes);
 	}
 
-    /**
-     * Inserts data into a table using custom RBDM SQL syntax
-     * Another, more convenient syntax
-     *
-     * <code>
-     * //Inserting a new robot
-     * $success = $connection->insert(
-     *     "robots",
-     *     array(
-     *          "name" => "Astro Boy",
-     *          "year" => 1952
-     *      )
-     * );
-     *
-     * //Next SQL sentence is sent to the database system
-     * INSERT INTO `robots` (`name`, `year`) VALUES ("Astro boy", 1952);
-     * </code>
-     *
-     * @param 	string table
-     * @param 	array data
-     * @param 	array dataTypes
-     * @return 	boolean
-     */
-    public function insertAsDict(var table, data, var dataTypes = null) -> boolean
-    {
+	/**
+	 * Inserts data into a table using custom RBDM SQL syntax
+	 * Another, more convenient syntax
+	 *
+	 * <code>
+	 * //Inserting a new robot
+	 * $success = $connection->insert(
+	 *	 "robots",
+	 *	 array(
+	 *		  "name" => "Astro Boy",
+	 *		  "year" => 1952
+	 *	  )
+	 * );
+	 *
+	 * //Next SQL sentence is sent to the database system
+	 * INSERT INTO `robots` (`name`, `year`) VALUES ("Astro boy", 1952);
+	 * </code>
+	 *
+	 * @param 	string table
+	 * @param 	array data
+	 * @param 	array dataTypes
+	 * @return 	boolean
+	 */
+	public function insertAsDict(var table, data, var dataTypes = null) -> boolean
+	{
 		var values = [], fields = [];
-        var field, value;
+		var field, value;
 
-        if typeOf data != "array" || empty data {
-            return false;
-        }
+		if typeOf data != "array" || empty data {
+			return false;
+		}
 
-        for field, value in data {
-            let fields[] = field;
-            let values[] = value;
-        }
+		for field, value in data {
+			let fields[] = field;
+			let values[] = value;
+		}
 
-        return this->insert(table, values, fields, dataTypes);
-    }
+		return this->insert(table, values, fields, dataTypes);
+	}
 
 	/**
 	 * Updates data on a table using custom RBDM SQL syntax
@@ -420,10 +420,10 @@ abstract class Adapter implements EventsAwareInterface
 	 * <code>
 	 * //Updating existing robot
 	 * $success = $connection->update(
-	 *     "robots",
-	 *     array("name"),
-	 *     array("New Astro Boy"),
-	 *     "id = 101"
+	 *	 "robots",
+	 *	 array("name"),
+	 *	 array("New Astro Boy"),
+	 *	 "id = 101"
 	 * );
 	 *
 	 * //Next SQL sentence is sent to the database system
@@ -431,15 +431,15 @@ abstract class Adapter implements EventsAwareInterface
 	 *
 	 * //Updating existing robot with array condition and $dataTypes
 	 * $success = $connection->update(
-	 *     "robots",
-	 *     array("name"),
-	 *     array("New Astro Boy"),
-	 *     array(
-	 *         'conditions' => "id = ?",
-	 *         'bind' => array($some_unsafe_id),
-	 *         'bindTypes' => array(PDO::PARAM_INT) //use only if you use $dataTypes param
-	 *     ),
-	 *     array(PDO::PARAM_STR)
+	 *	 "robots",
+	 *	 array("name"),
+	 *	 array("New Astro Boy"),
+	 *	 array(
+	 *		 'conditions' => "id = ?",
+	 *		 'bind' => array($some_unsafe_id),
+	 *		 'bindTypes' => array(PDO::PARAM_INT) //use only if you use $dataTypes param
+	 *	 ),
+	 *	 array(PDO::PARAM_STR)
 	 * );
 	 *
 	 * </code>
@@ -558,45 +558,46 @@ abstract class Adapter implements EventsAwareInterface
 		return this->{"execute"}(updateSql, updateValues, bindDataTypes);
 	}
 
-    /**
-     * Updates data on a table using custom RBDM SQL syntax
-     * Another, more convenient syntax
-     *
-     * <code>
-     * //Updating existing robot
-     * $success = $connection->update(
-     *     "robots",
-     *     array(
-     *          "name" => "New Astro Boy"
-     *      ),
-     *     "id = 101"
-     * );
-     *
-     * //Next SQL sentence is sent to the database system
-     * UPDATE `robots` SET `name` = "Astro boy" WHERE id = 101
-     * </code>
-     *
-     * @param 	string table
-     * @param 	array data
-     * @param 	string whereCondition
-     * @param 	array dataTypes
-     * @return 	boolean
-     */
-    public function updateAsDict(var table, data, whereCondition = null, dataTypes = null) -> boolean
-    {
-        if typeOf data != "array" || empty data {
-            return false;
-        }
+	/**
+	 * Updates data on a table using custom RBDM SQL syntax
+	 * Another, more convenient syntax
+	 *
+	 * <code>
+	 * //Updating existing robot
+	 * $success = $connection->update(
+	 *	 "robots",
+	 *	 array(
+	 *		  "name" => "New Astro Boy"
+	 *	  ),
+	 *	 "id = 101"
+	 * );
+	 *
+	 * //Next SQL sentence is sent to the database system
+	 * UPDATE `robots` SET `name` = "Astro boy" WHERE id = 101
+	 * </code>
+	 *
+	 * @param 	string table
+	 * @param 	array data
+	 * @param 	string whereCondition
+	 * @param 	array dataTypes
+	 * @return 	boolean
+	 */
+	public function updateAsDict(var table, data, whereCondition = null, dataTypes = null) -> boolean
+	{
+		var values = [], fields = [];
+		var field, value;
 
-        var values = [], fields = [];
-        var field, value;
-        for field, value in data {
-            let fields[] = field;
-            let values[] = value;
-        }
+		if typeOf data != "array" || empty data {
+			return false;
+		}
 
-        return this->update(table, fields, values, whereCondition, dataTypes);
-    }
+		for field, value in data {
+			let fields[] = field;
+			let values[] = value;
+		}
+
+		return this->update(table, fields, values, whereCondition, dataTypes);
+	}
 
 	/**
 	 * Deletes data from a table using custom RBDM SQL syntax
@@ -604,8 +605,8 @@ abstract class Adapter implements EventsAwareInterface
 	 * <code>
 	 * //Deleting existing robot
 	 * $success = $connection->delete(
-	 *     "robots",
-	 *     "id = 101"
+	 *	 "robots",
+	 *	 "id = 101"
 	 * );
 	 *
 	 * //Next SQL sentence is generated
@@ -815,11 +816,6 @@ abstract class Adapter implements EventsAwareInterface
 
 	/**
 	 * Drop an index from a table
-	 *
-	 * @param	string tableName
-	 * @param	string schemaName
-	 * @param	string indexName
-	 * @return 	boolean
 	 */
 	public function dropIndex(string! tableName, string! schemaName, indexName) -> boolean
 	{
@@ -860,11 +856,8 @@ abstract class Adapter implements EventsAwareInterface
 
 	/**
 	 * Returns the SQL column definition from a column
-	 *
-	 * @param	Phalcon\Db\ColumnInterface column
-	 * @return	string
 	 */
-	public function getColumnDefinition(<ColumnInterface> column) -> boolean
+	public function getColumnDefinition(<ColumnInterface> column) -> string
 	{
 		return this->_dialect->getColumnDefinition(column);
 	}
@@ -875,11 +868,8 @@ abstract class Adapter implements EventsAwareInterface
 	 *<code>
 	 * 	print_r($connection->listTables("blog"));
 	 *</code>
-	 *
-	 * @param string schemaName
-	 * @return array
 	 */
-	public function listTables(string! schemaName = null)
+	public function listTables(string! schemaName = null) -> array
 	{
 		var table, allTables;
 
@@ -896,11 +886,8 @@ abstract class Adapter implements EventsAwareInterface
 	 *<code>
 	 *	print_r($connection->listViews("blog"));
 	 *</code>
-	 *
-	 * @param string schemaName
-	 * @return array
 	 */
-	public function listViews(string! schemaName = null)
+	public function listViews(string! schemaName = null) -> array
 	{
 		var table, allTables;
 
@@ -992,7 +979,7 @@ abstract class Adapter implements EventsAwareInterface
 			let references[constraintName] = [
 				"referencedSchema"  : referencedSchema,
 				"referencedTable"   : referencedTable,
-				"columns"           : columns,
+				"columns"		   : columns,
 				"referencedColumns" : referencedColumns
 			];
 		}
@@ -1124,9 +1111,9 @@ abstract class Adapter implements EventsAwareInterface
 	 *<code>
 	 * //Inserting a new robot with a valid default value for the column 'id'
 	 * $success = $connection->insert(
-	 *     "robots",
-	 *     array($connection->getDefaultIdValue(), "Astro Boy", 1952),
-	 *     array("id", "name", "year")
+	 *	 "robots",
+	 *	 array($connection->getDefaultIdValue(), "Astro Boy", 1952),
+	 *	 array("id", "name", "year")
 	 * );
 	 *</code>
 	 */

@@ -63,10 +63,6 @@ class Job
 	 * The release command puts a reserved job back into the ready queue (and marks
 	 * its state as "ready") to be run by any client. It is normally used when the job
 	 * fails because of a transitory error.
-	 *
-	 * @param long priority
-	 * @param long delay
-	 * @return boolean
 	 */
 	public function release(int priority = 100, int delay = 0) -> boolean
 	{
@@ -120,6 +116,9 @@ class Job
 		return queue->readStatus()[0] == "KICKED";
 	}
 
+	/**
+	 * Checks if the job has been modified after unserializing the object
+	 */
 	public function __wakeup()
 	{
 		if typeof this->_id != "string" {

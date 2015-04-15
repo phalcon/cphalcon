@@ -141,7 +141,7 @@ class Beanstalk
 	/**
 	 * Reserves a job in the queue
 	 */
-	public function reserve(timeout = null) -> boolean|<Job>
+	public function reserve(var timeout = null) -> boolean|<Job>
 	{
  		var command, response;
 
