@@ -80,11 +80,8 @@ class Escaper implements EscaperInterface
 	/**
 	 * Detect the character encoding of a string to be handled by an encoder
 	 * Special-handling for chr(172) and chr(128) to chr(159) which fail to be detected by mb_detect_encoding()
-	 *
-	 * @param string str
-	 * @return string/null
 	 */
-	public function detectEncoding(str)
+	public function detectEncoding(string str) -> string|null
 	{
 		var charset;
 
@@ -121,11 +118,8 @@ class Escaper implements EscaperInterface
 
 	/**
 	 * Utility to normalize a string's encoding to UTF-32.
-	 *
-	 * @param string str
-	 * @return string
 	 */
-	public function normalizeEncoding(str) -> string
+	public function normalizeEncoding(string str) -> string
 	{
 		/**
 		 * mbstring is required here
