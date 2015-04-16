@@ -43,7 +43,7 @@ class PhalconOrmSinglequotesOptimizer extends OptimizerAbstract
 		}
 
 		if (count($expression['parameters']) != 1) {
-			throw new CompilerException("phalcon_jsmin only accepts one parameter", $expression);
+			throw new CompilerException("phalcon_orm_singlequotes only accepts one parameter", $expression);
 		}
 
 		/**

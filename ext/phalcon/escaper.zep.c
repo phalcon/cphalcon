@@ -110,9 +110,6 @@ PHP_METHOD(Phalcon_Escaper, setHtmlQuoteType) {
 /**
  * Detect the character encoding of a string to be handled by an encoder
  * Special-handling for chr(172) and chr(128) to chr(159) which fail to be detected by mb_detect_encoding()
- *
- * @param string str
- * @return string/null
  */
 PHP_METHOD(Phalcon_Escaper, detectEncoding) {
 
@@ -121,11 +118,13 @@ PHP_METHOD(Phalcon_Escaper, detectEncoding) {
 	HashTable *_3;
 	HashPosition _2;
 	zval *_0;
-	zval *str, *charset = NULL, *_1 = NULL, **_4, *_5 = NULL;
+	zval *str_param = NULL, *charset = NULL, *_1 = NULL, **_4, *_5 = NULL;
+	zval *str = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &str);
+	zephir_fetch_params(1, 1, 0, &str_param);
 
+	zephir_get_strval(str, str_param);
 
 
 	ZEPHIR_INIT_VAR(charset);
@@ -150,7 +149,7 @@ PHP_METHOD(Phalcon_Escaper, detectEncoding) {
 	ZEPHIR_INIT_NVAR(_1);
 	ZVAL_STRING(_1, "ASCII", 1);
 	zephir_array_fast_append(_0, _1);
-	zephir_is_iterable(_0, &_3, &_2, 0, 0, "phalcon/escaper.zep", 119);
+	zephir_is_iterable(_0, &_3, &_2, 0, 0, "phalcon/escaper.zep", 116);
 	for (
 	  ; zephir_hash_get_current_data_ex(_3, (void**) &_4, &_2) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_3, &_2)
@@ -170,22 +169,21 @@ PHP_METHOD(Phalcon_Escaper, detectEncoding) {
 
 /**
  * Utility to normalize a string's encoding to UTF-32.
- *
- * @param string str
- * @return string
  */
 PHP_METHOD(Phalcon_Escaper, normalizeEncoding) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *str, *_0 = NULL, _1;
+	zval *str_param = NULL, *_0 = NULL, _1;
+	zval *str = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &str);
+	zephir_fetch_params(1, 1, 0, &str_param);
 
+	zephir_get_strval(str, str_param);
 
 
 	if (!((zephir_function_exists_ex(SS("mb_convert_encoding") TSRMLS_CC) == SUCCESS))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_escaper_exception_ce, "Extension 'mbstring' is required", "phalcon/escaper.zep", 134);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_escaper_exception_ce, "Extension 'mbstring' is required", "phalcon/escaper.zep", 128);
 		return;
 	}
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "detectencoding", NULL, str);

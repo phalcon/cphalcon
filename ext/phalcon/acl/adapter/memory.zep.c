@@ -138,7 +138,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Acl_Adapter_Memory) {
 
 /**
  * Phalcon\Acl\Adapter\Memory constructor
- *
  */
 PHP_METHOD(Phalcon_Acl_Adapter_Memory, __construct) {
 
@@ -167,9 +166,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, __construct) {
  * 	$acl->addRole('administrator', 'consultant');
  * </code>
  *
- * @param  Phalcon\Acl\RoleInterface role
  * @param  array|string accessInherits
- * @return boolean
  */
 PHP_METHOD(Phalcon_Acl_Adapter_Memory, addRole) {
 
@@ -217,19 +214,18 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, addRole) {
 
 /**
  * Do a role inherit from another existing role
- *
- * @param string roleName
- * @param string roleToInherit
  */
 PHP_METHOD(Phalcon_Acl_Adapter_Memory, addInherit) {
 
 	zephir_nts_static zephir_fcall_cache_entry *_2 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *roleName, *roleToInherit, *roleInheritName = NULL, *rolesNames, *_0 = NULL, *_1 = NULL, *_3;
+	zval *roleName_param = NULL, *roleToInherit, *roleInheritName = NULL, *rolesNames, *_0 = NULL, *_3, *_4;
+	zval *roleName = NULL, *_1;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 2, 0, &roleName, &roleToInherit);
+	zephir_fetch_params(1, 2, 0, &roleName_param, &roleToInherit);
 
+	zephir_get_strval(roleName, roleName_param);
 
 
 	ZEPHIR_OBS_VAR(rolesNames);
@@ -241,7 +237,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, addInherit) {
 		ZEPHIR_CONCAT_SVS(_1, "Role '", roleName, "' does not exist in the role list");
 		ZEPHIR_CALL_METHOD(NULL, _0, "__construct", &_2, _1);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(_0, "phalcon/acl/adapter/memory.zep", 197 TSRMLS_CC);
+		zephir_throw_exception_debug(_0, "phalcon/acl/adapter/memory.zep", 191 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -254,19 +250,19 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, addInherit) {
 	if (!(zephir_array_isset(rolesNames, roleInheritName))) {
 		ZEPHIR_INIT_NVAR(_0);
 		object_init_ex(_0, phalcon_acl_exception_ce);
-		ZEPHIR_INIT_LNVAR(_1);
-		ZEPHIR_CONCAT_SVS(_1, "Role '", roleInheritName, "' (to inherit) does not exist in the role list");
-		ZEPHIR_CALL_METHOD(NULL, _0, "__construct", &_2, _1);
+		ZEPHIR_INIT_VAR(_3);
+		ZEPHIR_CONCAT_SVS(_3, "Role '", roleInheritName, "' (to inherit) does not exist in the role list");
+		ZEPHIR_CALL_METHOD(NULL, _0, "__construct", &_2, _3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(_0, "phalcon/acl/adapter/memory.zep", 210 TSRMLS_CC);
+		zephir_throw_exception_debug(_0, "phalcon/acl/adapter/memory.zep", 204 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
 	if (ZEPHIR_IS_EQUAL(roleName, roleInheritName)) {
 		RETURN_MM_BOOL(0);
 	}
-	_3 = zephir_fetch_nproperty_this(this_ptr, SL("_roleInherits"), PH_NOISY_CC);
-	if (!(zephir_array_isset(_3, roleName))) {
+	_4 = zephir_fetch_nproperty_this(this_ptr, SL("_roleInherits"), PH_NOISY_CC);
+	if (!(zephir_array_isset(_4, roleName))) {
 		zephir_update_property_array(this_ptr, SL("_roleInherits"), roleName, ZEPHIR_GLOBAL(global_true) TSRMLS_CC);
 	}
 	zephir_update_property_array_multi(this_ptr, SL("_roleInherits"), &roleInheritName TSRMLS_CC, SL("za"), 1, roleName);
@@ -276,39 +272,39 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, addInherit) {
 
 /**
  * Check whether role exist in the roles list
- *
- * @param  string roleName
- * @return boolean
  */
 PHP_METHOD(Phalcon_Acl_Adapter_Memory, isRole) {
 
-	zval *roleName, *_0;
+	zval *roleName_param = NULL, *_0;
+	zval *roleName = NULL;
 
-	zephir_fetch_params(0, 1, 0, &roleName);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &roleName_param);
 
+	zephir_get_strval(roleName, roleName_param);
 
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_rolesNames"), PH_NOISY_CC);
-	RETURN_BOOL(zephir_array_isset(_0, roleName));
+	RETURN_MM_BOOL(zephir_array_isset(_0, roleName));
 
 }
 
 /**
  * Check whether resource exist in the resources list
- *
- * @param  string resourceName
- * @return boolean
  */
 PHP_METHOD(Phalcon_Acl_Adapter_Memory, isResource) {
 
-	zval *resourceName, *_0;
+	zval *resourceName_param = NULL, *_0;
+	zval *resourceName = NULL;
 
-	zephir_fetch_params(0, 1, 0, &resourceName);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &resourceName_param);
 
+	zephir_get_strval(resourceName, resourceName_param);
 
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_resourcesNames"), PH_NOISY_CC);
-	RETURN_BOOL(zephir_array_isset(_0, resourceName));
+	RETURN_MM_BOOL(zephir_array_isset(_0, resourceName));
 
 }
 
@@ -329,9 +325,8 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, isResource) {
  * $acl->addResource('customers', array('create', 'search'));
  * </code>
  *
- * @param   Phalcon\Acl\Resource resource
- * @param   array accessList
- * @return  boolean
+ * @param   Phalcon\Acl\Resource|string resourceValue
+ * @param   array|string accessList
  */
 PHP_METHOD(Phalcon_Acl_Adapter_Memory, addResource) {
 
@@ -369,9 +364,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, addResource) {
 /**
  * Adds access to resources
  *
- * @param string resourceName
- * @param mixed accessList
- * @return boolean
+ * @param array|string accessList
  */
 PHP_METHOD(Phalcon_Acl_Adapter_Memory, addResourceAccess) {
 
@@ -380,11 +373,13 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, addResourceAccess) {
 	zephir_nts_static zephir_fcall_cache_entry *_3 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zend_bool exists, _4;
-	zval *resourceName, *accessList, *accessName = NULL, *accessKey = NULL, *_0, *_1 = NULL, *_2, **_7;
+	zval *resourceName_param = NULL, *accessList, *accessName = NULL, *accessKey = NULL, *_0, *_1 = NULL, **_7;
+	zval *resourceName = NULL, *_2;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 2, 0, &resourceName, &accessList);
+	zephir_fetch_params(1, 2, 0, &resourceName_param, &accessList);
 
+	zephir_get_strval(resourceName, resourceName_param);
 
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_resourcesNames"), PH_NOISY_CC);
@@ -395,7 +390,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, addResourceAccess) {
 		ZEPHIR_CONCAT_SVS(_2, "Resource '", resourceName, "' does not exist in ACL");
 		ZEPHIR_CALL_METHOD(NULL, _1, "__construct", &_3, _2);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(_1, "phalcon/acl/adapter/memory.zep", 301 TSRMLS_CC);
+		zephir_throw_exception_debug(_1, "phalcon/acl/adapter/memory.zep", 286 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -404,12 +399,12 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, addResourceAccess) {
 		_4 = Z_TYPE_P(accessList) != IS_STRING;
 	}
 	if (_4) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_acl_exception_ce, "Invalid value for accessList", "phalcon/acl/adapter/memory.zep", 305);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_acl_exception_ce, "Invalid value for accessList", "phalcon/acl/adapter/memory.zep", 290);
 		return;
 	}
 	exists = 1;
 	if (Z_TYPE_P(accessList) == IS_ARRAY) {
-		zephir_is_iterable(accessList, &_6, &_5, 0, 0, "phalcon/acl/adapter/memory.zep", 316);
+		zephir_is_iterable(accessList, &_6, &_5, 0, 0, "phalcon/acl/adapter/memory.zep", 301);
 		for (
 		  ; zephir_hash_get_current_data_ex(_6, (void**) &_7, &_5) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_6, &_5)
@@ -439,22 +434,23 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, addResourceAccess) {
 /**
  * Removes an access from a resource
  *
- * @param string resourceName
- * @param mixed accessList
+ * @param array|string accessList
  */
 PHP_METHOD(Phalcon_Acl_Adapter_Memory, dropResourceAccess) {
 
 	HashTable *_1;
 	HashPosition _0;
-	zval *resourceName, *accessList, *accessName = NULL, *accessKey = NULL, **_2, *_3;
+	zval *resourceName_param = NULL, *accessList, *accessName = NULL, *accessKey = NULL, **_2, *_3;
+	zval *resourceName = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 2, 0, &resourceName, &accessList);
+	zephir_fetch_params(1, 2, 0, &resourceName_param, &accessList);
 
+	zephir_get_strval(resourceName, resourceName_param);
 
 
 	if (Z_TYPE_P(accessList) == IS_ARRAY) {
-		zephir_is_iterable(accessList, &_1, &_0, 0, 0, "phalcon/acl/adapter/memory.zep", 343);
+		zephir_is_iterable(accessList, &_1, &_0, 0, 0, "phalcon/acl/adapter/memory.zep", 327);
 		for (
 		  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_1, &_0)
@@ -483,23 +479,21 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, dropResourceAccess) {
 
 /**
  * Checks if a role has access to a resource
- *
- * @param string roleName
- * @param string resourceName
- * @param string access
- * @param string action
  */
 PHP_METHOD(Phalcon_Acl_Adapter_Memory, _allowOrDeny) {
 
-	HashTable *_6, *_9;
-	HashPosition _5, _8;
+	HashTable *_6, *_10;
+	HashPosition _5, _9;
 	zephir_nts_static zephir_fcall_cache_entry *_3 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *roleName, *resourceName, *access, *action, *defaultAccess, *accessList, *accessName = NULL, *accessKey = NULL, *accessKeyAll = NULL, *internalAccess, *_0, *_1 = NULL, *_2 = NULL, *_4, **_7, **_10, *_11;
+	zval *roleName_param = NULL, *resourceName_param = NULL, *access, *action, *defaultAccess, *accessList, *accessName = NULL, *accessKey = NULL, *accessKeyAll = NULL, *internalAccess, *_0, *_1 = NULL, *_4, **_7, *_8 = NULL, **_11, *_12;
+	zval *roleName = NULL, *resourceName = NULL, *_2 = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 4, 0, &roleName, &resourceName, &access, &action);
+	zephir_fetch_params(1, 4, 0, &roleName_param, &resourceName_param, &access, &action);
 
+	zephir_get_strval(roleName, roleName_param);
+	zephir_get_strval(resourceName, resourceName_param);
 
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_rolesNames"), PH_NOISY_CC);
@@ -510,7 +504,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, _allowOrDeny) {
 		ZEPHIR_CONCAT_SVS(_2, "Role '", roleName, "' does not exist in ACL");
 		ZEPHIR_CALL_METHOD(NULL, _1, "__construct", &_3, _2);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(_1, "phalcon/acl/adapter/memory.zep", 366 TSRMLS_CC);
+		zephir_throw_exception_debug(_1, "phalcon/acl/adapter/memory.zep", 345 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -522,7 +516,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, _allowOrDeny) {
 		ZEPHIR_CONCAT_SVS(_2, "Resource '", resourceName, "' does not exist in ACL");
 		ZEPHIR_CALL_METHOD(NULL, _1, "__construct", &_3, _2);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(_1, "phalcon/acl/adapter/memory.zep", 370 TSRMLS_CC);
+		zephir_throw_exception_debug(_1, "phalcon/acl/adapter/memory.zep", 349 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -533,7 +527,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, _allowOrDeny) {
 	ZEPHIR_OBS_VAR(internalAccess);
 	zephir_read_property_this(&internalAccess, this_ptr, SL("_access"), PH_NOISY_CC);
 	if (Z_TYPE_P(access) == IS_ARRAY) {
-		zephir_is_iterable(access, &_6, &_5, 0, 0, "phalcon/acl/adapter/memory.zep", 386);
+		zephir_is_iterable(access, &_6, &_5, 0, 0, "phalcon/acl/adapter/memory.zep", 365);
 		for (
 		  ; zephir_hash_get_current_data_ex(_6, (void**) &_7, &_5) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_6, &_5)
@@ -544,27 +538,28 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, _allowOrDeny) {
 			if (!(zephir_array_isset(accessList, accessKey))) {
 				ZEPHIR_INIT_NVAR(_1);
 				object_init_ex(_1, phalcon_acl_exception_ce);
-				ZEPHIR_INIT_LNVAR(_2);
-				ZEPHIR_CONCAT_SVSVS(_2, "Access '", accessName, "' does not exist in resource '", resourceName, "'");
-				ZEPHIR_CALL_METHOD(NULL, _1, "__construct", &_3, _2);
+				ZEPHIR_INIT_LNVAR(_8);
+				ZEPHIR_CONCAT_SVSVS(_8, "Access '", accessName, "' does not exist in resource '", resourceName, "'");
+				ZEPHIR_CALL_METHOD(NULL, _1, "__construct", &_3, _8);
 				zephir_check_call_status();
-				zephir_throw_exception_debug(_1, "phalcon/acl/adapter/memory.zep", 382 TSRMLS_CC);
+				zephir_throw_exception_debug(_1, "phalcon/acl/adapter/memory.zep", 361 TSRMLS_CC);
 				ZEPHIR_MM_RESTORE();
 				return;
 			}
 		}
-		zephir_is_iterable(access, &_9, &_8, 0, 0, "phalcon/acl/adapter/memory.zep", 399);
+		zephir_is_iterable(access, &_10, &_9, 0, 0, "phalcon/acl/adapter/memory.zep", 378);
 		for (
-		  ; zephir_hash_get_current_data_ex(_9, (void**) &_10, &_8) == SUCCESS
-		  ; zephir_hash_move_forward_ex(_9, &_8)
+		  ; zephir_hash_get_current_data_ex(_10, (void**) &_11, &_9) == SUCCESS
+		  ; zephir_hash_move_forward_ex(_10, &_9)
 		) {
-			ZEPHIR_GET_HVALUE(accessName, _10);
+			ZEPHIR_GET_HVALUE(accessName, _11);
 			ZEPHIR_INIT_NVAR(accessKey);
 			ZEPHIR_CONCAT_VSVSV(accessKey, roleName, "!", resourceName, "!", accessName);
 			zephir_update_property_array(this_ptr, SL("_access"), accessKey, action TSRMLS_CC);
 			if (!ZEPHIR_IS_STRING(accessName, "*")) {
-				ZEPHIR_INIT_NVAR(accessKeyAll);
-				ZEPHIR_CONCAT_VSVS(accessKeyAll, roleName, "!", resourceName, "!*");
+				ZEPHIR_INIT_LNVAR(_2);
+				ZEPHIR_CONCAT_VSVS(_2, roleName, "!", resourceName, "!*");
+				ZEPHIR_CPY_WRT(accessKeyAll, _2);
 				if (zephir_array_isset(accessList, accessKeyAll)) {
 					zephir_update_property_array(this_ptr, SL("_access"), accessKeyAll, defaultAccess TSRMLS_CC);
 				}
@@ -577,11 +572,11 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, _allowOrDeny) {
 			if (!(zephir_array_isset(accessList, accessKey))) {
 				ZEPHIR_INIT_NVAR(_1);
 				object_init_ex(_1, phalcon_acl_exception_ce);
-				ZEPHIR_INIT_LNVAR(_2);
-				ZEPHIR_CONCAT_SVSVS(_2, "Access '", access, "' does not exist in resource '", resourceName, "'");
-				ZEPHIR_CALL_METHOD(NULL, _1, "__construct", &_3, _2);
+				ZEPHIR_INIT_LNVAR(_8);
+				ZEPHIR_CONCAT_SVSVS(_8, "Access '", access, "' does not exist in resource '", resourceName, "'");
+				ZEPHIR_CALL_METHOD(NULL, _1, "__construct", &_3, _8);
 				zephir_check_call_status();
-				zephir_throw_exception_debug(_1, "phalcon/acl/adapter/memory.zep", 404 TSRMLS_CC);
+				zephir_throw_exception_debug(_1, "phalcon/acl/adapter/memory.zep", 383 TSRMLS_CC);
 				ZEPHIR_MM_RESTORE();
 				return;
 			}
@@ -590,11 +585,12 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, _allowOrDeny) {
 		ZEPHIR_CONCAT_VSVSV(accessKey, roleName, "!", resourceName, "!", access);
 		zephir_update_property_array(this_ptr, SL("_access"), accessKey, action TSRMLS_CC);
 		if (!ZEPHIR_IS_STRING(access, "*")) {
-			ZEPHIR_INIT_NVAR(accessKey);
-			ZEPHIR_CONCAT_VSVS(accessKey, roleName, "!", resourceName, "!*");
+			ZEPHIR_INIT_LNVAR(_2);
+			ZEPHIR_CONCAT_VSVS(_2, roleName, "!", resourceName, "!*");
+			ZEPHIR_CPY_WRT(accessKey, _2);
 			if (!(zephir_array_isset(accessList, accessKey))) {
-				_11 = zephir_fetch_nproperty_this(this_ptr, SL("_defaultAccess"), PH_NOISY_CC);
-				zephir_update_property_array(this_ptr, SL("_access"), accessKey, _11 TSRMLS_CC);
+				_12 = zephir_fetch_nproperty_this(this_ptr, SL("_defaultAccess"), PH_NOISY_CC);
+				zephir_update_property_array(this_ptr, SL("_access"), accessKey, _12 TSRMLS_CC);
 			}
 		}
 	}
@@ -621,10 +617,6 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, _allowOrDeny) {
  * //Allow access to any role to browse on any resource
  * $acl->allow('*', '*', 'browse');
  * </code>
- *
- * @param string roleName
- * @param string resourceName
- * @param mixed  access
  */
 PHP_METHOD(Phalcon_Acl_Adapter_Memory, allow) {
 
@@ -632,11 +624,14 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, allow) {
 	HashPosition _3;
 	zephir_fcall_cache_entry *_1 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *roleName, *resourceName, *access, *innerRoleName = NULL, *_0 = NULL, *_2, **_5, *_6 = NULL;
+	zval *roleName_param = NULL, *resourceName_param = NULL, *access, *innerRoleName = NULL, *_0 = NULL, *_2, **_5, *_6 = NULL;
+	zval *roleName = NULL, *resourceName = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 3, 0, &roleName, &resourceName, &access);
+	zephir_fetch_params(1, 3, 0, &roleName_param, &resourceName_param, &access);
 
+	zephir_get_strval(roleName, roleName_param);
+	zephir_get_strval(resourceName, resourceName_param);
 
 
 	if (!ZEPHIR_IS_STRING(roleName, "*")) {
@@ -648,7 +643,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, allow) {
 	} else {
 		_2 = zephir_fetch_nproperty_this(this_ptr, SL("_rolesNames"), PH_NOISY_CC);
 		ZEPHIR_INIT_NVAR(_0);
-		zephir_is_iterable(_2, &_4, &_3, 0, 0, "phalcon/acl/adapter/memory.zep", 464);
+		zephir_is_iterable(_2, &_4, &_3, 0, 0, "phalcon/acl/adapter/memory.zep", 439);
 		for (
 		  ; zephir_hash_get_current_data_ex(_4, (void**) &_5, &_3) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_4, &_3)
@@ -684,11 +679,6 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, allow) {
  * //Deny access to any role to browse on any resource
  * $acl->deny('*', '*', 'browse');
  * </code>
- *
- * @param  string roleName
- * @param  string resourceName
- * @param  mixed  access
- * @return boolean
  */
 PHP_METHOD(Phalcon_Acl_Adapter_Memory, deny) {
 
@@ -696,11 +686,14 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, deny) {
 	HashTable *_3;
 	HashPosition _2;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *roleName, *resourceName, *access, *innerRoleName = NULL, *_0 = NULL, *_1, **_4, *_5 = NULL;
+	zval *roleName_param = NULL, *resourceName_param = NULL, *access, *innerRoleName = NULL, *_0 = NULL, *_1, **_4, *_5 = NULL;
+	zval *roleName = NULL, *resourceName = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 3, 0, &roleName, &resourceName, &access);
+	zephir_fetch_params(1, 3, 0, &roleName_param, &resourceName_param, &access);
 
+	zephir_get_strval(roleName, roleName_param);
+	zephir_get_strval(resourceName, resourceName_param);
 
 
 	if (!ZEPHIR_IS_STRING(roleName, "*")) {
@@ -712,7 +705,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, deny) {
 	} else {
 		_1 = zephir_fetch_nproperty_this(this_ptr, SL("_rolesNames"), PH_NOISY_CC);
 		ZEPHIR_INIT_NVAR(_0);
-		zephir_is_iterable(_1, &_3, &_2, 0, 0, "phalcon/acl/adapter/memory.zep", 502);
+		zephir_is_iterable(_1, &_3, &_2, 0, 0, "phalcon/acl/adapter/memory.zep", 472);
 		for (
 		  ; zephir_hash_get_current_data_ex(_3, (void**) &_4, &_2) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_3, &_2)
@@ -739,22 +732,21 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, deny) {
  * //Do guests have access to any resource to edit?
  * $acl->isAllowed('guests', '*', 'edit');
  * </code>
- *
- * @param  string roleName
- * @param  string resourceName
- * @param  string access
- * @return boolean
  */
 PHP_METHOD(Phalcon_Acl_Adapter_Memory, isAllowed) {
 
-	HashTable *_4, *_7, *_10;
-	HashPosition _3, _6, _9;
+	HashTable *_5, *_8, *_11;
+	HashPosition _4, _7, _10;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *roleName, *resourceName, *access, *eventsManager = NULL, *accessList, *accessKey = NULL, *haveAccess = NULL, *roleInherits, *inheritedRole = NULL, *rolesNames, *inheritedRoles, *_0, *_1 = NULL, *_2 = NULL, **_5, **_8, **_11;
+	zval *roleName_param = NULL, *resourceName_param = NULL, *access_param = NULL, *eventsManager = NULL, *accessList, *accessKey = NULL, *haveAccess = NULL, *roleInherits, *inheritedRole = NULL, *rolesNames, *inheritedRoles, *_0, *_1 = NULL, *_2 = NULL, **_6, **_9, **_12;
+	zval *roleName = NULL, *resourceName = NULL, *access = NULL, *_3 = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 3, 0, &roleName, &resourceName, &access);
+	zephir_fetch_params(1, 3, 0, &roleName_param, &resourceName_param, &access_param);
 
+	zephir_get_strval(roleName, roleName_param);
+	zephir_get_strval(resourceName, resourceName_param);
+	zephir_get_strval(access, access_param);
 	ZEPHIR_INIT_VAR(haveAccess);
 	ZVAL_NULL(haveAccess);
 
@@ -782,11 +774,12 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, isAllowed) {
 		_0 = zephir_fetch_nproperty_this(this_ptr, SL("_defaultAccess"), PH_NOISY_CC);
 		RETURN_MM_BOOL((ZEPHIR_IS_LONG(_0, 1)));
 	}
-	ZEPHIR_INIT_VAR(accessKey);
-	ZEPHIR_CONCAT_VSVSV(accessKey, roleName, "!", resourceName, "!", access);
+	ZEPHIR_INIT_VAR(_3);
+	ZEPHIR_CONCAT_VSVSV(_3, roleName, "!", resourceName, "!", access);
+	ZEPHIR_CPY_WRT(accessKey, _3);
 	if (zephir_array_isset(accessList, accessKey)) {
 		ZEPHIR_OBS_NVAR(haveAccess);
-		zephir_array_fetch(&haveAccess, accessList, accessKey, PH_NOISY, "phalcon/acl/adapter/memory.zep", 553 TSRMLS_CC);
+		zephir_array_fetch(&haveAccess, accessList, accessKey, PH_NOISY, "phalcon/acl/adapter/memory.zep", 518 TSRMLS_CC);
 	}
 	if (Z_TYPE_P(haveAccess) == IS_NULL) {
 		ZEPHIR_OBS_VAR(roleInherits);
@@ -794,41 +787,42 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, isAllowed) {
 		ZEPHIR_OBS_VAR(inheritedRoles);
 		if (zephir_array_isset_fetch(&inheritedRoles, roleInherits, roleName, 0 TSRMLS_CC)) {
 			if (Z_TYPE_P(inheritedRoles) == IS_ARRAY) {
-				zephir_is_iterable(inheritedRoles, &_4, &_3, 0, 0, "phalcon/acl/adapter/memory.zep", 574);
+				zephir_is_iterable(inheritedRoles, &_5, &_4, 0, 0, "phalcon/acl/adapter/memory.zep", 539);
 				for (
-				  ; zephir_hash_get_current_data_ex(_4, (void**) &_5, &_3) == SUCCESS
-				  ; zephir_hash_move_forward_ex(_4, &_3)
+				  ; zephir_hash_get_current_data_ex(_5, (void**) &_6, &_4) == SUCCESS
+				  ; zephir_hash_move_forward_ex(_5, &_4)
 				) {
-					ZEPHIR_GET_HVALUE(inheritedRole, _5);
+					ZEPHIR_GET_HVALUE(inheritedRole, _6);
 					ZEPHIR_INIT_NVAR(accessKey);
 					ZEPHIR_CONCAT_VSVSV(accessKey, inheritedRole, "!", resourceName, "!", access);
 					if (zephir_array_isset(accessList, accessKey)) {
 						ZEPHIR_OBS_NVAR(haveAccess);
-						zephir_array_fetch(&haveAccess, accessList, accessKey, PH_NOISY, "phalcon/acl/adapter/memory.zep", 571 TSRMLS_CC);
+						zephir_array_fetch(&haveAccess, accessList, accessKey, PH_NOISY, "phalcon/acl/adapter/memory.zep", 536 TSRMLS_CC);
 					}
 				}
 			}
 		}
 	}
 	if (Z_TYPE_P(haveAccess) == IS_NULL) {
-		ZEPHIR_INIT_NVAR(accessKey);
-		ZEPHIR_CONCAT_VSVS(accessKey, roleName, "!", resourceName, "!*");
+		ZEPHIR_INIT_LNVAR(_3);
+		ZEPHIR_CONCAT_VSVS(_3, roleName, "!", resourceName, "!*");
+		ZEPHIR_CPY_WRT(accessKey, _3);
 		if (zephir_array_isset(accessList, accessKey)) {
 			ZEPHIR_OBS_NVAR(haveAccess);
-			zephir_array_fetch(&haveAccess, accessList, accessKey, PH_NOISY, "phalcon/acl/adapter/memory.zep", 589 TSRMLS_CC);
+			zephir_array_fetch(&haveAccess, accessList, accessKey, PH_NOISY, "phalcon/acl/adapter/memory.zep", 554 TSRMLS_CC);
 		} else {
 			if (Z_TYPE_P(inheritedRoles) == IS_ARRAY) {
-				zephir_is_iterable(inheritedRoles, &_7, &_6, 0, 0, "phalcon/acl/adapter/memory.zep", 603);
+				zephir_is_iterable(inheritedRoles, &_8, &_7, 0, 0, "phalcon/acl/adapter/memory.zep", 568);
 				for (
-				  ; zephir_hash_get_current_data_ex(_7, (void**) &_8, &_6) == SUCCESS
-				  ; zephir_hash_move_forward_ex(_7, &_6)
+				  ; zephir_hash_get_current_data_ex(_8, (void**) &_9, &_7) == SUCCESS
+				  ; zephir_hash_move_forward_ex(_8, &_7)
 				) {
-					ZEPHIR_GET_HVALUE(inheritedRole, _8);
+					ZEPHIR_GET_HVALUE(inheritedRole, _9);
 					ZEPHIR_INIT_NVAR(accessKey);
 					ZEPHIR_CONCAT_VSVS(accessKey, inheritedRole, "!", resourceName, "!*");
 					if (zephir_array_isset(accessList, accessKey)) {
 						ZEPHIR_OBS_NVAR(haveAccess);
-						zephir_array_fetch(&haveAccess, accessList, accessKey, PH_NOISY, "phalcon/acl/adapter/memory.zep", 599 TSRMLS_CC);
+						zephir_array_fetch(&haveAccess, accessList, accessKey, PH_NOISY, "phalcon/acl/adapter/memory.zep", 564 TSRMLS_CC);
 						break;
 					}
 				}
@@ -836,24 +830,25 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, isAllowed) {
 		}
 	}
 	if (Z_TYPE_P(haveAccess) == IS_NULL) {
-		ZEPHIR_INIT_NVAR(accessKey);
-		ZEPHIR_CONCAT_VS(accessKey, roleName, "!*!*");
+		ZEPHIR_INIT_LNVAR(_3);
+		ZEPHIR_CONCAT_VS(_3, roleName, "!*!*");
+		ZEPHIR_CPY_WRT(accessKey, _3);
 		if (zephir_array_isset(accessList, accessKey)) {
 			ZEPHIR_OBS_NVAR(haveAccess);
-			zephir_array_fetch(&haveAccess, accessList, accessKey, PH_NOISY, "phalcon/acl/adapter/memory.zep", 618 TSRMLS_CC);
+			zephir_array_fetch(&haveAccess, accessList, accessKey, PH_NOISY, "phalcon/acl/adapter/memory.zep", 583 TSRMLS_CC);
 		} else {
 			if (Z_TYPE_P(inheritedRoles) == IS_ARRAY) {
-				zephir_is_iterable(inheritedRoles, &_10, &_9, 0, 0, "phalcon/acl/adapter/memory.zep", 632);
+				zephir_is_iterable(inheritedRoles, &_11, &_10, 0, 0, "phalcon/acl/adapter/memory.zep", 597);
 				for (
-				  ; zephir_hash_get_current_data_ex(_10, (void**) &_11, &_9) == SUCCESS
-				  ; zephir_hash_move_forward_ex(_10, &_9)
+				  ; zephir_hash_get_current_data_ex(_11, (void**) &_12, &_10) == SUCCESS
+				  ; zephir_hash_move_forward_ex(_11, &_10)
 				) {
-					ZEPHIR_GET_HVALUE(inheritedRole, _11);
+					ZEPHIR_GET_HVALUE(inheritedRole, _12);
 					ZEPHIR_INIT_NVAR(accessKey);
 					ZEPHIR_CONCAT_VS(accessKey, inheritedRole, "!*!*");
 					if (zephir_array_isset(accessList, accessKey)) {
 						ZEPHIR_OBS_NVAR(haveAccess);
-						zephir_array_fetch(&haveAccess, accessList, accessKey, PH_NOISY, "phalcon/acl/adapter/memory.zep", 628 TSRMLS_CC);
+						zephir_array_fetch(&haveAccess, accessList, accessKey, PH_NOISY, "phalcon/acl/adapter/memory.zep", 593 TSRMLS_CC);
 						break;
 					}
 				}

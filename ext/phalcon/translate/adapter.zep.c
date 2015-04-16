@@ -215,6 +215,9 @@ PHP_METHOD(Phalcon_Translate_Adapter, offsetGet) {
 
 }
 
+/**
+ * Replaces placeholders by the values passed	
+ */
 PHP_METHOD(Phalcon_Translate_Adapter, replacePlaceholders) {
 
 	HashTable *_1;
@@ -243,7 +246,7 @@ PHP_METHOD(Phalcon_Translate_Adapter, replacePlaceholders) {
 
 	if (Z_TYPE_P(placeholders) == IS_ARRAY) {
 		if (zephir_fast_count_int(placeholders TSRMLS_CC)) {
-			zephir_is_iterable(placeholders, &_1, &_0, 0, 0, "phalcon/translate/adapter.zep", 105);
+			zephir_is_iterable(placeholders, &_1, &_0, 0, 0, "phalcon/translate/adapter.zep", 108);
 			for (
 			  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
 			  ; zephir_hash_move_forward_ex(_1, &_0)

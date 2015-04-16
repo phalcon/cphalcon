@@ -287,6 +287,8 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, getPaginate) {
 	zephir_update_property_zval(page, SL("current"), _1 TSRMLS_CC);
 	zephir_update_property_zval(page, SL("total_pages"), totalPages TSRMLS_CC);
 	zephir_update_property_zval(page, SL("total_items"), rowcount TSRMLS_CC);
+	_1 = zephir_fetch_nproperty_this(this_ptr, SL("_limitRows"), PH_NOISY_CC);
+	zephir_update_property_zval(page, SL("limit"), _1 TSRMLS_CC);
 	RETURN_CCTOR(page);
 
 }

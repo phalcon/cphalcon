@@ -2646,9 +2646,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, createQuery) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Manager, executeQuery) {
 
-	zephir_nts_static zephir_fcall_cache_entry *_1 = NULL, *_2 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *phql_param = NULL, *placeholders = NULL, *types = NULL, *dependencyInjector = NULL, *query, *_0;
+	zval *_2;
+	zval *phql_param = NULL, *placeholders = NULL, *types = NULL, *dependencyInjector = NULL, *query = NULL, *_0, *_1 = NULL, *_3;
 	zval *phql = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -2679,12 +2679,18 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, executeQuery) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "A dependency injection object is required to access ORM services", "phalcon/mvc/model/manager.zep", 1814);
 		return;
 	}
-	ZEPHIR_INIT_VAR(query);
-	object_init_ex(query, phalcon_mvc_model_query_ce);
-	ZEPHIR_CALL_METHOD(NULL, query, "__construct", &_1, phql, dependencyInjector);
+	ZEPHIR_INIT_VAR(_2);
+	zephir_create_array(_2, 2, 0 TSRMLS_CC);
+	zephir_array_fast_append(_2, phql);
+	zephir_array_fast_append(_2, dependencyInjector);
+	ZEPHIR_INIT_VAR(_3);
+	ZVAL_STRING(_3, "\\Phalcon\\Mvc\\Model\\Query", ZEPHIR_TEMP_PARAM_COPY);
+	ZEPHIR_CALL_METHOD(&_1, dependencyInjector, "get", NULL, _3, _2);
+	zephir_check_temp_parameter(_3);
 	zephir_check_call_status();
+	ZEPHIR_CPY_WRT(query, _1);
 	zephir_update_property_this(this_ptr, SL("_lastQuery"), query TSRMLS_CC);
-	ZEPHIR_RETURN_CALL_METHOD(query, "execute", &_2, placeholders, types);
+	ZEPHIR_RETURN_CALL_METHOD(query, "execute", NULL, placeholders, types);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -2698,9 +2704,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, executeQuery) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Manager, createBuilder) {
 
-	zephir_nts_static zephir_fcall_cache_entry *_1 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *params = NULL, *dependencyInjector = NULL, *_0;
+	zval *_2;
+	zval *params = NULL, *dependencyInjector = NULL, *_0, *_1 = NULL, *_3;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &params);
@@ -2716,10 +2722,16 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, createBuilder) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "A dependency injection object is required to access ORM services", "phalcon/mvc/model/manager.zep", 1841);
 		return;
 	}
-	object_init_ex(return_value, phalcon_mvc_model_query_builder_ce);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", &_1, params, dependencyInjector);
+	ZEPHIR_INIT_VAR(_2);
+	zephir_create_array(_2, 2, 0 TSRMLS_CC);
+	zephir_array_fast_append(_2, params);
+	zephir_array_fast_append(_2, dependencyInjector);
+	ZEPHIR_INIT_VAR(_3);
+	ZVAL_STRING(_3, "\\Phalcon\\Mvc\\Model\\Query\\Builder", ZEPHIR_TEMP_PARAM_COPY);
+	ZEPHIR_CALL_METHOD(&_1, dependencyInjector, "get", NULL, _3, _2);
+	zephir_check_temp_parameter(_3);
 	zephir_check_call_status();
-	RETURN_MM();
+	RETURN_CCTOR(_1);
 
 }
 

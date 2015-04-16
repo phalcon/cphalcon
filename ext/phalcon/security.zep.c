@@ -494,8 +494,7 @@ PHP_METHOD(Phalcon_Security, getSessionToken) {
 }
 
 /**
- * string \Phalcon\Security::computeHmac(string $data, string $key, string $algo, bool $raw = false)
- *
+ * Computes a HMAC 
  *
  * @param string data
  * @param string key
@@ -506,17 +505,20 @@ PHP_METHOD(Phalcon_Security, computeHmac) {
 
 	zephir_nts_static zephir_fcall_cache_entry *_2 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *data, *key, *algo, *raw = NULL, *hmac = NULL, *_0, *_1;
+	zend_bool raw;
+	zval *data, *key, *algo, *raw_param = NULL, *hmac = NULL, *_0, *_1;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 3, 1, &data, &key, &algo, &raw);
+	zephir_fetch_params(1, 3, 1, &data, &key, &algo, &raw_param);
 
-	if (!raw) {
-		raw = ZEPHIR_GLOBAL(global_false);
+	if (!raw_param) {
+		raw = 0;
+	} else {
+		raw = zephir_get_boolval(raw_param);
 	}
 
 
-	ZEPHIR_CALL_FUNCTION(&hmac, "hash_hmac", NULL, algo, data, key, raw);
+	ZEPHIR_CALL_FUNCTION(&hmac, "hash_hmac", NULL, algo, data, key, (raw ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)));
 	zephir_check_call_status();
 	if (!(zephir_is_true(hmac))) {
 		ZEPHIR_INIT_VAR(_0);
@@ -525,7 +527,7 @@ PHP_METHOD(Phalcon_Security, computeHmac) {
 		ZEPHIR_CONCAT_SV(_1, "Unknown hashing algorithm: %s", algo);
 		ZEPHIR_CALL_METHOD(NULL, _0, "__construct", &_2, _1);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(_0, "phalcon/security.zep", 301 TSRMLS_CC);
+		zephir_throw_exception_debug(_0, "phalcon/security.zep", 300 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}

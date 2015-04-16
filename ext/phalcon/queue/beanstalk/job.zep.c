@@ -103,10 +103,6 @@ PHP_METHOD(Phalcon_Queue_Beanstalk_Job, delete) {
  * The release command puts a reserved job back into the ready queue (and marks
  * its state as "ready") to be run by any client. It is normally used when the job
  * fails because of a transitory error.
- *
- * @param long priority
- * @param long delay
- * @return boolean
  */
 PHP_METHOD(Phalcon_Queue_Beanstalk_Job, release) {
 
@@ -141,7 +137,7 @@ PHP_METHOD(Phalcon_Queue_Beanstalk_Job, release) {
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&_4, queue, "readstatus", NULL);
 	zephir_check_call_status();
-	zephir_array_fetch_long(&_5, _4, 0, PH_NOISY | PH_READONLY, "phalcon/queue/beanstalk/job.zep", 77 TSRMLS_CC);
+	zephir_array_fetch_long(&_5, _4, 0, PH_NOISY | PH_READONLY, "phalcon/queue/beanstalk/job.zep", 73 TSRMLS_CC);
 	RETURN_MM_BOOL(ZEPHIR_IS_STRING(_5, "RELEASED"));
 
 }
@@ -177,7 +173,7 @@ PHP_METHOD(Phalcon_Queue_Beanstalk_Job, bury) {
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&_3, queue, "readstatus", NULL);
 	zephir_check_call_status();
-	zephir_array_fetch_long(&_4, _3, 0, PH_NOISY | PH_READONLY, "phalcon/queue/beanstalk/job.zep", 91 TSRMLS_CC);
+	zephir_array_fetch_long(&_4, _3, 0, PH_NOISY | PH_READONLY, "phalcon/queue/beanstalk/job.zep", 87 TSRMLS_CC);
 	RETURN_MM_BOOL(ZEPHIR_IS_STRING(_4, "BURIED"));
 
 }
@@ -206,7 +202,7 @@ PHP_METHOD(Phalcon_Queue_Beanstalk_Job, touch) {
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&_2, queue, "readstatus", NULL);
 	zephir_check_call_status();
-	zephir_array_fetch_long(&_3, _2, 0, PH_NOISY | PH_READONLY, "phalcon/queue/beanstalk/job.zep", 108 TSRMLS_CC);
+	zephir_array_fetch_long(&_3, _2, 0, PH_NOISY | PH_READONLY, "phalcon/queue/beanstalk/job.zep", 104 TSRMLS_CC);
 	RETURN_MM_BOOL(ZEPHIR_IS_STRING(_3, "TOUCHED"));
 
 }
@@ -230,11 +226,14 @@ PHP_METHOD(Phalcon_Queue_Beanstalk_Job, kick) {
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&_2, queue, "readstatus", NULL);
 	zephir_check_call_status();
-	zephir_array_fetch_long(&_3, _2, 0, PH_NOISY | PH_READONLY, "phalcon/queue/beanstalk/job.zep", 120 TSRMLS_CC);
+	zephir_array_fetch_long(&_3, _2, 0, PH_NOISY | PH_READONLY, "phalcon/queue/beanstalk/job.zep", 116 TSRMLS_CC);
 	RETURN_MM_BOOL(ZEPHIR_IS_STRING(_3, "KICKED"));
 
 }
 
+/**
+ * Checks if the job has been modified after unserializing the object
+ */
 PHP_METHOD(Phalcon_Queue_Beanstalk_Job, __wakeup) {
 
 	zephir_nts_static zephir_fcall_cache_entry *_4 = NULL;
@@ -256,7 +255,7 @@ PHP_METHOD(Phalcon_Queue_Beanstalk_Job, __wakeup) {
 		zephir_check_temp_parameter(_2);
 		zephir_check_temp_parameter(_3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(_1, "phalcon/queue/beanstalk/job.zep", 126 TSRMLS_CC);
+		zephir_throw_exception_debug(_1, "phalcon/queue/beanstalk/job.zep", 125 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}

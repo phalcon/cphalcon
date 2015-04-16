@@ -22,6 +22,7 @@
 #include "kernel/hash.h"
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/string.h"
+#include "phalcon/mvc/model/orm.h"
 #include "kernel/iterator.h"
 #include "phalcon/mvc/model/query/scanner.h"
 #include "phalcon/mvc/model/query/phql.h"
@@ -731,8 +732,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getExpression) {
 				zephir_array_fetch_string(&value, expr, SL("value"), PH_NOISY, "phalcon/mvc/model/query.zep", 510 TSRMLS_CC);
 				if (quoting == 1) {
 					if (zephir_memnstr_str(value, SL("'"), "phalcon/mvc/model/query.zep", 515)) {
-						ZEPHIR_CALL_FUNCTION(&escapedValue, "phalcon_orm_singlequotes", NULL, value);
-						zephir_check_call_status();
+						ZEPHIR_INIT_VAR(escapedValue);
+						phalcon_orm_singlequotes(escapedValue, value TSRMLS_CC);
 					} else {
 						ZEPHIR_CPY_WRT(escapedValue, value);
 					}

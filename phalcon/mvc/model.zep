@@ -28,6 +28,7 @@ use Phalcon\Mvc\Model\ManagerInterface;
 use Phalcon\Mvc\Model\MetaDataInterface;
 use Phalcon\Db\AdapterInterface;
 use Phalcon\Mvc\Model\Criteria;
+use Phalcon\Mvc\Model\CriteriaInterface;
 use Phalcon\Mvc\Model\TransactionInterface;
 use Phalcon\Mvc\Model\Resultset;
 use Phalcon\Mvc\Model\Query\Builder;

@@ -101,8 +101,6 @@ PHP_METHOD(Phalcon_Acl_Adapter, getActiveAccess) {
 
 /**
  * Sets the events manager
- *
- * @param Phalcon\Events\ManagerInterface eventsManager
  */
 PHP_METHOD(Phalcon_Acl_Adapter, setEventsManager) {
 
@@ -118,8 +116,6 @@ PHP_METHOD(Phalcon_Acl_Adapter, setEventsManager) {
 
 /**
  * Returns the internal event manager
- *
- * @return Phalcon\Events\ManagerInterface
  */
 PHP_METHOD(Phalcon_Acl_Adapter, getEventsManager) {
 
@@ -130,8 +126,6 @@ PHP_METHOD(Phalcon_Acl_Adapter, getEventsManager) {
 
 /**
  * Sets the default access level (Phalcon\Acl::ALLOW or Phalcon\Acl::DENY)
- *
- * @param int defaultAccess
  */
 PHP_METHOD(Phalcon_Acl_Adapter, setDefaultAction) {
 
@@ -151,8 +145,6 @@ PHP_METHOD(Phalcon_Acl_Adapter, setDefaultAction) {
 
 /**
  * Returns the default ACL access level
- *
- * @return int
  */
 PHP_METHOD(Phalcon_Acl_Adapter, getDefaultAction) {
 

@@ -21,7 +21,8 @@
 #ifndef ZEPHIR_KERNEL_EXCEPTIONS_H
 #define ZEPHIR_KERNEL_EXCEPTIONS_H
 
-#include "Zend/zend.h"
+#include <Zend/zend.h>
+#include "kernel/main.h"
 
 /** Exceptions */
 #define ZEPHIR_THROW_EXCEPTION_STR(class_entry, message) \

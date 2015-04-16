@@ -34,9 +34,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Flash_Direct) {
 /**
  * Outputs a message
  *
- * @param  string type
  * @param  string|array message
- * @return string
  */
 PHP_METHOD(Phalcon_Flash_Direct, message) {
 

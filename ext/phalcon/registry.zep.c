@@ -303,7 +303,7 @@ PHP_METHOD(Phalcon_Registry, valid) {
 }
 
 /**
- *
+ * Obtains the current value in the internal iterator
  */
 PHP_METHOD(Phalcon_Registry, current) {
 
