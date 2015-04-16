@@ -56,7 +56,7 @@ interface CollectionInterface
 	 * @param boolean lazy
 	 * @return Phalcon\Mvc\Micro\Collection
 	 */
-	public function setHandler(handler, lazy=false);
+	public function setHandler(handler, lazy = false);
 
 	/**
 	 * Sets if the main handler must be lazy loaded

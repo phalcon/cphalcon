@@ -242,11 +242,8 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 
 	/**
 	 * Sets the DependencyInjector container
-	 *
-	 * @param Phalcon\DiInterface dependencyInjector
-	 * @return Phalcon\Mvc\Model\Query\Builder
 	 */
-	public function setDI(<DiInterface> dependencyInjector)
+	public function setDI(<DiInterface> dependencyInjector) -> <Builder>
 	{
 		let this->_dependencyInjector = dependencyInjector;
 		return this;
@@ -254,8 +251,6 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 
 	/**
 	 * Returns the DependencyInjector container
-	 *
-	 * @return Phalcon\DiInterface
 	 */
 	public function getDI() -> <DiInterface>
 	{
@@ -276,8 +271,6 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 
 	/**
 	 * Returns SELECT DISTINCT / SELECT ALL flag
-	 *
-	 * @return bool
 	 */
 	public function getDistinct() -> boolean
 	{
@@ -704,10 +697,6 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 *<code>
 	 *	$builder->inWhere('id', [1, 2, 3]);
 	 *</code>
-	 *
-	 * @param string expr
-	 * @param array values
-	 * @return Phalcon\Mvc\Model\Query\Builder
 	 */
 	public function inWhere(string! expr, array! values) -> <Builder>
 	{
@@ -746,14 +735,9 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 *<code>
 	 *	$builder->notInWhere('id', [1, 2, 3]);
 	 *</code>
-	 *
-	 * @param string expr
-	 * @param array values
-	 * @return Phalcon\Mvc\Model\Query\Builder
 	 */
 	public function notInWhere(string! expr, array! values) -> <Builder>
 	{
-
 		var key, queryKey, value, bindKeys, bindParams;
 		int hiddenParam;
 
@@ -826,9 +810,6 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 *<code>
 	 *	$builder->having('SUM(Robots.price) > 0');
 	 *</code>
-	 *
-	 * @param string having
-	 * @return Phalcon\Mvc\Model\Query\Builder
 	 */
 	public function having(string! having) -> <Builder>
 	{
@@ -853,10 +834,6 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 *	$builder->limit(100);
 	 *	$builder->limit(100, 20);
 	 *</code>
-	 *
-	 * @param int limit
-	 * @param int offset
-	 * @return Phalcon\Mvc\Model\Query\Builder
 	 */
 	public function limit(int limit = null, int offset = null) -> <Builder>
 	{
@@ -883,10 +860,6 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 *<code>
 	 *	$builder->offset(30);
 	 *</code>
-	 *
-	 * @param int limit
-	 * @param int offset
-	 * @return Phalcon\Mvc\Model\Query\Builder
 	 */
 	public function offset(int offset) -> <Builder>
 	{
@@ -937,7 +910,6 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 */
 	public function getPhql()
 	{
-
 		var dependencyInjector, models, conditions, model, metaData,
 			modelInstance, primaryKeys, firstPrimaryKey, columnMap, modelAlias,
 			attributeField, phql, column, columns, selectedColumns, selectedColumn,
@@ -1258,8 +1230,6 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 
 	/**
 	 * Returns the query built
-	 *
-	 * @return Phalcon\Mvc\Model\Query
 	 */
 	public function getQuery() -> <\Phalcon\Mvc\Model\Query>
 	{

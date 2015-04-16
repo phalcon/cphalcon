@@ -88,7 +88,6 @@ abstract class Resultset
 
 	/**
 	 * Moves cursor to next row in the resultset
-	 *
 	 */
 	public function next()
 	{
@@ -107,7 +106,6 @@ abstract class Resultset
 
 	/**
 	 * Rewinds resultset to its beginning
-	 *
 	 */
 	public final function rewind()
 	{
@@ -148,8 +146,6 @@ abstract class Resultset
 
 	/**
 	 * Changes internal pointer to a specific position in the resultset
-	 *
-	 * @param int position
 	 */
 	public final function seek(int position)
 	{
@@ -196,8 +192,6 @@ abstract class Resultset
 
 	/**
 	 * Counts how many rows are in the resultset
-	 *
-	 * @return int
 	 */
 	public final function count() -> int
 	{
@@ -241,9 +235,6 @@ abstract class Resultset
 
 	/**
 	 * Checks whether offset exists in the resultset
-	 *
-	 * @param int index
-	 * @return boolean
 	 */
 	public function offsetExists(int index) -> boolean
 	{
@@ -252,9 +243,6 @@ abstract class Resultset
 
 	/**
 	 * Gets row in a specific position of the resultset
-	 *
-	 * @param int index
-	 * @return Phalcon\Mvc\ModelInterface
 	 */
 	public function offsetGet(int! index) -> <ModelInterface> | boolean
 	{
@@ -297,8 +285,6 @@ abstract class Resultset
 
 	/**
 	 * Resulsets cannot be changed. It has only been implemented to meet the definition of the ArrayAccess interface
-	 *
-	 * @param int offset
 	 */
 	public function offsetUnset(int offset)
 	{
@@ -307,8 +293,6 @@ abstract class Resultset
 
 	/**
 	 * Returns the internal type of data retrieval that the resultset is using
-	 *
-	 * @return int
 	 */
 	public function getType() -> int
 	{
@@ -317,12 +301,9 @@ abstract class Resultset
 
 	/**
 	 * Get first row in the resultset
-	 *
-	 * @return Phalcon\Mvc\ModelInterface|boolean
 	 */
 	public function getFirst() -> <ModelInterface> | boolean
 	{
-
 		/**
 		 * Check if the last record returned is the current requested
 		 */
@@ -342,8 +323,6 @@ abstract class Resultset
 
 	/**
 	 * Get last row in the resultset
-	 *
-	 * @return Phalcon\Mvc\ModelInterface| boolean
 	 */
 	public function getLast() -> <ModelInterface> | boolean
 	{
@@ -356,9 +335,6 @@ abstract class Resultset
 
 	/**
 	 * Set if the resultset is fresh or an old one cached
-	 *
-	 * @param boolean isFresh
-	 * @return Phalcon\Mvc\Model\Resultset
 	 */
 	public function setIsFresh(boolean isFresh) -> <Resultset>
 	{
@@ -368,8 +344,6 @@ abstract class Resultset
 
 	/**
 	 * Tell if the resultset if fresh or an old one cached
-	 *
-	 * @return boolean
 	 */
 	public function isFresh() -> boolean
 	{
@@ -378,9 +352,6 @@ abstract class Resultset
 
 	/**
 	 * Sets the hydration mode in the resultset
-	 *
-	 * @param int hydrateMode
-	 * @return Phalcon\Mvc\Model\Resultset
 	 */
 	public function setHydrateMode(int hydrateMode) -> <Resultset>
 	{
@@ -390,8 +361,6 @@ abstract class Resultset
 
 	/**
 	 * Returns the current hydration mode
-	 *
-	 * @return int
 	 */
 	public function getHydrateMode() -> int
 	{
@@ -400,8 +369,6 @@ abstract class Resultset
 
 	/**
 	 * Returns the associated cache for the resultset
-	 *
-	 * @return Phalcon\Cache\BackendInterface
 	 */
 	public function getCache() -> <BackendInterface>
 	{
@@ -410,8 +377,6 @@ abstract class Resultset
 
 	/**
 	 * Returns current row in the resultset
-	 *
-	 * @return Phalcon\Mvc\ModelInterface
 	 */
 	public final function current() -> <ModelInterface>
 	{
@@ -497,9 +462,6 @@ abstract class Resultset
 
 	/**
 	 * Deletes every record in the resultset
-	 *
-	 * @param Closure conditionCallback
-	 * @return boolean
 	 */
 	public function delete(<\Closure> conditionCallback = null) -> boolean
 	{

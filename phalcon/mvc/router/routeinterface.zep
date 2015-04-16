@@ -34,7 +34,7 @@ interface RouteInterface
 	 * @param array paths
 	 * @param array|string httpMethods
 	 */
-	public function __construct(pattern, paths=null, httpMethods=null);
+	public function __construct(pattern, paths = null, httpMethods = null);
 
 	/**
 	 * Replaces placeholders from pattern returning a valid PCRE regular expression
@@ -57,7 +57,7 @@ interface RouteInterface
 	 * @param string pattern
 	 * @param array paths
 	 */
-	public function reConfigure(pattern, paths=null);
+	public function reConfigure(pattern, paths = null);
 
 	/**
 	 * Returns the route's name

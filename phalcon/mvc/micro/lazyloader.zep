@@ -32,8 +32,6 @@ class LazyLoader
 
 	/**
 	 * Phalcon\Mvc\Micro\LazyLoader constructor
-	 *
-	 * @param string definition
 	 */
 	public function __construct(string! definition)
 	{

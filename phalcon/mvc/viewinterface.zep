@@ -188,8 +188,6 @@ interface ViewInterface
 
 	/**
 	 * Register templating engines
-	 *
-	 * @param array engines
 	 */
 	public function registerEngines(array! engines);
 

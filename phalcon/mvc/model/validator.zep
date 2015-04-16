@@ -35,8 +35,6 @@ abstract class Validator
 
 	/**
 	 * Phalcon\Mvc\Model\Validator constructor
-	 *
-	 * @param array options
 	 */
 	public function __construct(array! options)
 	{
@@ -96,9 +94,6 @@ abstract class Validator
 
 	/**
 	 * Check whether a option has been defined in the validator options
-	 *
-	 * @param	string option
-	 * @return	boolean
 	 */
 	protected function isSetOption(string! option) -> boolean
 	{

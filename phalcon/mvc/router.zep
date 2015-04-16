@@ -716,13 +716,9 @@ class Router implements InjectionAwareInterface,RouterInterface
 
 	/**
 	 * Mounts a group of routes in the router
-	 *
-	 * @param Phalcon\Mvc\Router\Group route
-	 * @return Phalcon\Mvc\Router
 	 */
-	public function mount(<Router\Group> group) -> <Route>
+	public function mount(<Router\Group> group) -> <Router>
 	{
-
 		var groupRoutes, beforeMatch, hostname, routes, route;
 
 		if typeof group != "object" {

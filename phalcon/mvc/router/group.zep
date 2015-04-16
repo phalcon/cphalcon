@@ -80,7 +80,6 @@ class Group
 	 */
 	public function __construct(paths = null)
 	{
-
 		if typeof paths == "array" {
 			let this->_paths = paths;
 		} else {
@@ -96,9 +95,6 @@ class Group
 
 	/**
 	 * Set a hostname restriction for all the routes in the group
-	 *
-	 * @param string hostname
-	 * @return Phalcon\Mvc\Router\Group
 	 */
 	public function setHostname(string hostname) -> <Group>
 	{
@@ -108,8 +104,6 @@ class Group
 
 	/**
 	 * Returns the hostname restriction
-	 *
-	 * @return string
 	 */
 	public function getHostname() -> string
 	{
@@ -118,9 +112,6 @@ class Group
 
 	/**
 	 * Set a common uri prefix for all the routes in this group
-	 *
-	 * @param string prefix
-	 * @return Phalcon\Mvc\Router\Group
 	 */
 	public function setPrefix(string prefix) -> <Group>
 	{
@@ -130,8 +121,6 @@ class Group
 
 	/**
 	 * Returns the common prefix for all the routes
-	 *
-	 * @return string
 	 */
 	public function getPrefix() -> string
 	{
@@ -152,8 +141,6 @@ class Group
 
 	/**
 	 * Returns the before-match condition if any
-	 *
-	 * @return string
 	 */
 	public function getBeforeMatch() -> string
 	{

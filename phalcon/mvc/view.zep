@@ -154,9 +154,6 @@ class View extends Injectable implements ViewInterface
 
 	/**
 	 * Sets the views directory. Depending of your platform, always add a trailing slash or backslash
-	 *
-	 * @param string viewsDir
-	 * @return Phalcon\Mvc\View
 	 */
 	public function setViewsDir(string viewsDir) -> <View>
 	{
@@ -169,8 +166,6 @@ class View extends Injectable implements ViewInterface
 
 	/**
 	 * Gets views directory
-	 *
-	 * @return string
 	 */
 	public function getViewsDir() -> string
 	{
@@ -183,9 +178,6 @@ class View extends Injectable implements ViewInterface
 	 *<code>
 	 * $view->setLayoutsDir('../common/layouts/');
 	 *</code>
-	 *
-	 * @param string layoutsDir
-	 * @return Phalcon\Mvc\View
 	 */
 	public function setLayoutsDir(string layoutsDir) -> <View>
 	{
@@ -195,8 +187,6 @@ class View extends Injectable implements ViewInterface
 
 	/**
 	 * Gets the current layouts sub-directory
-	 *
-	 * @return string
 	 */
 	public function getLayoutsDir() -> string
 	{
@@ -209,9 +199,6 @@ class View extends Injectable implements ViewInterface
 	 *<code>
 	 * $view->setPartialsDir('../common/partials/');
 	 *</code>
-	 *
-	 * @param string partialsDir
-	 * @return Phalcon\Mvc\View
 	 */
 	public function setPartialsDir(string partialsDir) -> <View>
 	{
@@ -221,8 +208,6 @@ class View extends Injectable implements ViewInterface
 
 	/**
 	 * Gets the current partials sub-directory
-	 *
-	 * @return string
 	 */
 	public function getPartialsDir() -> string
 	{
@@ -235,9 +220,6 @@ class View extends Injectable implements ViewInterface
 	 * <code>
 	 * 	$view->setBasePath(__DIR__ . '/');
 	 * </code>
-	 *
-	 * @param string basePath
-	 * @return Phalcon\Mvc\View
 	 */
 	public function setBasePath(string basePath) -> <View>
 	{
@@ -252,9 +234,6 @@ class View extends Injectable implements ViewInterface
 	 * 	//Render the view related to the controller only
 	 * 	$this->view->setRenderLevel(View::LEVEL_VIEW);
 	 * </code>
-	 *
-	 * @param int level
-	 * @return Phalcon\Mvc\View
 	 */
 	public function setRenderLevel(int level) -> <View>
 	{
@@ -290,9 +269,6 @@ class View extends Injectable implements ViewInterface
 	 * 	//Renders as main view views-dir/base.phtml
 	 * 	$this->view->setMainView('base');
 	 * </code>
-	 *
-	 * @param string viewPath
-	 * @return Phalcon\Mvc\View
 	 */
 	public function setMainView(string viewPath) -> <View>
 	{
@@ -302,8 +278,6 @@ class View extends Injectable implements ViewInterface
 
 	/**
 	 * Returns the name of the main view
-	 *
-	 * @return string
 	 */
 	public function getMainView() -> string
 	{
@@ -316,9 +290,6 @@ class View extends Injectable implements ViewInterface
 	 * <code>
 	 * 	$this->view->setLayout('main');
 	 * </code>
-	 *
-	 * @param string layout
-	 * @return Phalcon\Mvc\View
 	 */
 	public function setLayout(string layout) -> <View>
 	{
@@ -328,8 +299,6 @@ class View extends Injectable implements ViewInterface
 
 	/**
 	 * Returns the name of the main view
-	 *
-	 * @return string
 	 */
 	public function getLayout() -> string
 	{
@@ -354,8 +323,6 @@ class View extends Injectable implements ViewInterface
 
 	/**
 	 * Resets any "template before" layouts
-	 *
-	 * @return Phalcon\Mvc\View
 	 */
 	public function cleanTemplateBefore() -> <View>
 	{
@@ -381,8 +348,6 @@ class View extends Injectable implements ViewInterface
 
 	/**
 	 * Resets any template before layouts
-	 *
-	 * @return Phalcon\Mvc\View
 	 */
 	public function cleanTemplateAfter() -> <View>
 	{
@@ -392,7 +357,7 @@ class View extends Injectable implements ViewInterface
 
 	/**
 	 * Adds parameters to views (alias of setVar)
-     *
+	 *
 	 *<code>
 	 *	$this->view->setParamToView('products', $products);
 	 *</code>
@@ -511,8 +476,6 @@ class View extends Injectable implements ViewInterface
 
 	/**
 	 * Starts rendering process enabling the output buffering
-     *
-	 * @return Phalcon\Mvc\View
 	 */
 	public function start() -> <View>
 	{
@@ -523,8 +486,6 @@ class View extends Injectable implements ViewInterface
 
 	/**
 	 * Loads registered template engines, if none is registered it will use Phalcon\Mvc\View\Engine\Php
-	 *
-	 * @return array
 	 */
 	protected function _loadTemplateEngines() -> array
 	{
@@ -724,9 +685,6 @@ class View extends Injectable implements ViewInterface
 	 *  ".mhtml" => "MyCustomEngine"
 	 *));
 	 *</code>
-	 *
-	 * @param array engines
-	 * @return Phalcon\Mvc\View
 	 */
 	public function registerEngines(array! engines) -> <View>
 	{
@@ -736,9 +694,6 @@ class View extends Injectable implements ViewInterface
 
 	/**
 	 * Checks whether view exists
-	 *
-	 * @param string view
-	 * @return bolean
 	 */
 	public function exists(string! view) -> boolean
 	{
@@ -777,7 +732,6 @@ class View extends Injectable implements ViewInterface
 	 * @param string controllerName
 	 * @param string actionName
 	 * @param array params
-	 * @return Phalcon\Mvc\View
 	 */
 	public function render(string! controllerName, string! actionName, params = null) -> <View>|boolean
 	{
@@ -1099,7 +1053,7 @@ class View extends Injectable implements ViewInterface
 		}
 
 		/**
- 		 * Partials are looked up under the partials directory
+		 * Partials are looked up under the partials directory
 		 * We need to check if the engines are loaded first, this method could be called outside of 'render'
 		 * Call engine render, this checks in every registered engine for the partial
 		 */
@@ -1129,7 +1083,7 @@ class View extends Injectable implements ViewInterface
 	 * @param mixed configCallback
 	 * @return string
 	 */
-	public function getRender(string! controllerName, string! actionName, params=null, configCallback=null) -> string
+	public function getRender(string! controllerName, string! actionName, params = null, configCallback = null) -> string
 	{
 		var view;
 
@@ -1180,8 +1134,6 @@ class View extends Injectable implements ViewInterface
 
 	/**
 	 * Finishes the render process by stopping the output buffering
-	 *
-	 * @return Phalcon\Mvc\View
 	 */
 	public function finish() -> <View>
 	{
@@ -1191,8 +1143,6 @@ class View extends Injectable implements ViewInterface
 
 	/**
 	 * Create a Phalcon\Cache based on the internal cache options
-	 *
-	 * @return Phalcon\Cache\BackendInterface
 	 */
 	protected function _createCache() -> <BackendInterface>
 	{
@@ -1228,8 +1178,6 @@ class View extends Injectable implements ViewInterface
 
 	/**
 	 * Check if the component is currently caching the output content
-	 *
-	 * @return boolean
 	 */
 	public function isCaching() -> boolean
 	{
@@ -1238,8 +1186,6 @@ class View extends Injectable implements ViewInterface
 
 	/**
 	 * Returns the cache instance used to cache
-	 *
-	 * @return Phalcon\Cache\BackendInterface
 	 */
 	public function getCache() -> <BackendInterface>
 	{
@@ -1321,9 +1267,6 @@ class View extends Injectable implements ViewInterface
 	 *<code>
 	 *	$this->view->setContent("<h1>hello</h1>");
 	 *</code>
-	 *
-	 * @param string content
-	 * @return Phalcon\Mvc\View
 	 */
 	public function setContent(string content) -> <View>
 	{
@@ -1333,8 +1276,6 @@ class View extends Injectable implements ViewInterface
 
 	/**
 	 * Returns cached output from another view stage
-	 *
-	 * @return string
 	 */
 	public function getContent() -> string
 	{
@@ -1343,8 +1284,6 @@ class View extends Injectable implements ViewInterface
 
 	/**
 	 * Returns the path of the view that is currently rendered
-	 *
-	 * @return string
 	 */
 	public function getActiveRenderPath() -> string
 	{
@@ -1353,8 +1292,6 @@ class View extends Injectable implements ViewInterface
 
 	/**
 	 * Disables the auto-rendering process
-	 *
-	 * @return Phalcon\Mvc\View
 	 */
 	public function disable() -> <View>
 	{
@@ -1364,8 +1301,6 @@ class View extends Injectable implements ViewInterface
 
 	/**
 	 * Enables the auto-rendering process
-	 *
-	 * @return Phalcon\Mvc\View
 	 */
 	public function enable() -> <View>
 	{
@@ -1375,8 +1310,6 @@ class View extends Injectable implements ViewInterface
 
 	/**
 	 * Resets the view component to its factory default values
-	 *
-	 * @return Phalcon\Mvc\View
 	 */
 	public function reset() -> <View>
 	{
@@ -1427,8 +1360,6 @@ class View extends Injectable implements ViewInterface
 
 	/**
 	 * Whether automatic rendering is enabled
-	 *
-	 * @return boolean
 	 */
 	public function isDisabled() -> boolean
 	{

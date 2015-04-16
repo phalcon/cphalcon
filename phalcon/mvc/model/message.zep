@@ -79,11 +79,8 @@ class Message implements MessageInterface
 
 	/**
 	 * Sets message type
-	 *
-	 * @param string type
-	 * @return Phalcon\Mvc\Model\MessageInterface
 	 */
-	public function setType(string! type) -> <MessageInterface>
+	public function setType(string! type) -> <Message>
 	{
 		let this->_type = type;
 		return this;
@@ -91,8 +88,6 @@ class Message implements MessageInterface
 
 	/**
 	 * Returns message type
-	 *
-	 * @return string
 	 */
 	public function getType() -> string
 	{
@@ -101,11 +96,8 @@ class Message implements MessageInterface
 
 	/**
 	 * Sets verbose message
-	 *
-	 * @param string message
-	 * @return Phalcon\Mvc\Model\MessageInterface
 	 */
-	public function setMessage(string! message) -> <MessageInterface>
+	public function setMessage(string! message) -> <Message>
 	{
 		let this->_message = message;
 		return this;
@@ -113,8 +105,6 @@ class Message implements MessageInterface
 
 	/**
 	 * Returns verbose message
-	 *
-	 * @return string
 	 */
 	public function getMessage() -> string
 	{
@@ -123,11 +113,8 @@ class Message implements MessageInterface
 
 	/**
 	 * Sets field name related to message
-	 *
-	 * @param string field
-	 * @return Phalcon\Mvc\Model\MessageInterface
 	 */
-	public function setField(string! field) -> <MessageInterface>
+	public function setField(string! field) -> <Message>
 	{
 		let this->_field = field;
 		return this;
@@ -135,8 +122,6 @@ class Message implements MessageInterface
 
 	/**
 	 * Returns field name related to message
-	 *
-	 * @return string
 	 */
 	public function getField() -> string
 	{
@@ -145,11 +130,8 @@ class Message implements MessageInterface
 
 	/**
 	 * Set the model who generates the message
-	 *
-	 * @param Phalcon\Mvc\ModelInterface model
-	 * @return Phalcon\Mvc\Model\Message
 	 */
-	public function setModel(<ModelInterface> model) -> <MessageInterface>
+	public function setModel(<ModelInterface> model) -> <Message>
 	{
 		let this->_model = model;
 		return this;
@@ -157,8 +139,6 @@ class Message implements MessageInterface
 
 	/**
 	 * Returns the model that produced the message
-	 *
-	 * @return Phalcon\Mvc\ModelInterface
 	 */
 	public function getModel() -> <ModelInterface>
 	{
@@ -167,8 +147,6 @@ class Message implements MessageInterface
 
 	/**
 	 * Magic __toString method returns verbose message
-	 *
-	 * @return string
 	 */
 	public function __toString() -> string
 	{
@@ -177,11 +155,8 @@ class Message implements MessageInterface
 
 	/**
 	 * Magic __set_state helps to re-build messages variable exporting
-	 *
-	 * @param array message
-	 * @return Phalcon\Mvc\Model\MessageInterface
 	 */
-	public static function __set_state(array! message) -> <MessageInterface>
+	public static function __set_state(array! message) -> <Message>
 	{
 		return new self(message["_message"], message["_field"], message["_type"]);
 	}

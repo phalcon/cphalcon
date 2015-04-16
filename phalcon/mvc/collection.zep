@@ -64,9 +64,6 @@ abstract class Collection implements CollectionInterface, InjectionAwareInterfac
 
 	/**
 	 * Phalcon\Mvc\Model constructor
-	 *
-	 * @param Phalcon\DiInterface dependencyInjector
-	 * @param Phalcon\Mvc\Collection\ManagerInterface modelsManager
 	 */
 	public final function __construct(<DiInterface> dependencyInjector = null, <ManagerInterface> modelsManager = null)
 	{
@@ -118,7 +115,6 @@ abstract class Collection implements CollectionInterface, InjectionAwareInterfac
 	 */
 	public function setId(id)
 	{
-
 		var mongoId;
 
 		if typeof id != "object" {
@@ -150,8 +146,6 @@ abstract class Collection implements CollectionInterface, InjectionAwareInterfac
 
 	/**
 	 * Sets the dependency injection container
-	 *
-	 * @param Phalcon\DiInterface dependencyInjector
 	 */
 	public function setDI(<DiInterface> dependencyInjector)
 	{
@@ -160,8 +154,6 @@ abstract class Collection implements CollectionInterface, InjectionAwareInterfac
 
 	/**
 	 * Returns the dependency injection container
-	 *
-	 * @return Phalcon\DiInterface
 	 */
 	public function getDI() -> <DiInterface>
 	{
@@ -170,8 +162,6 @@ abstract class Collection implements CollectionInterface, InjectionAwareInterfac
 
 	/**
 	 * Sets a custom events manager
-	 *
-	 * @param Phalcon\Events\ManagerInterface eventsManager
 	 */
 	protected function setEventsManager(<ManagerInterface> eventsManager)
 	{
@@ -180,8 +170,6 @@ abstract class Collection implements CollectionInterface, InjectionAwareInterfac
 
 	/**
 	 * Returns the custom events manager
-	 *
-	 * @return Phalcon\Events\ManagerInterface
 	 */
 	protected function getEventsManager() -> <ManagerInterface>
 	{
@@ -190,8 +178,6 @@ abstract class Collection implements CollectionInterface, InjectionAwareInterfac
 
 	/**
 	 * Returns the models manager related to the entity instance
-	 *
-	 * @return Phalcon\Mvc\Model\ManagerInterface
 	 */
 	public function getCollectionManager() -> <ManagerInterface>
 	{
@@ -200,8 +186,6 @@ abstract class Collection implements CollectionInterface, InjectionAwareInterfac
 
 	/**
 	 * Returns an array with reserved properties that cannot be part of the insert/update
-	 *
-	 * @return array
 	 */
 	public function getReservedAttributes() -> array
 	{
@@ -223,8 +207,6 @@ abstract class Collection implements CollectionInterface, InjectionAwareInterfac
 
 	/**
 	 * Sets if a model must use implicit objects ids
-	 *
-	 * @param boolean useImplicitObjectIds
 	 */
 	protected function useImplicitObjectIds(boolean useImplicitObjectIds)
 	{
@@ -233,9 +215,6 @@ abstract class Collection implements CollectionInterface, InjectionAwareInterfac
 
 	/**
 	 * Sets collection name which model should be mapped
-	 *
-	 * @param string source
-	 * @return Phalcon\Mvc\Collection
 	 */
 	protected function setSource(string! source) -> <Collection>
 	{
@@ -245,8 +224,6 @@ abstract class Collection implements CollectionInterface, InjectionAwareInterfac
 
 	/**
 	 * Returns collection name mapped in the model
-	 *
-	 * @return string
 	 */
 	public function getSource() -> string
 	{
@@ -263,9 +240,6 @@ abstract class Collection implements CollectionInterface, InjectionAwareInterfac
 
 	/**
 	 * Sets the DependencyInjection connection service name
-	 *
-	 * @param string connectionService
-	 * @return Phalcon\Mvc\Model
 	 */
 	public function setConnectionService(string! connectionService) -> <Collection>
 	{
@@ -275,8 +249,6 @@ abstract class Collection implements CollectionInterface, InjectionAwareInterfac
 
 	/**
 	 * Returns DependencyInjection connection service
-	 *
-	 * @return string
 	 */
 	public function getConnectionService() -> string
 	{
@@ -335,12 +307,8 @@ abstract class Collection implements CollectionInterface, InjectionAwareInterfac
 
 	/**
 	 * Returns a cloned collection
-	 *
-	 * @param Phalcon\Mvc\Collection collection
-	 * @param array document
-	 * @return Phalcon\Mvc\Collection
 	 */
-	public static function cloneResult(<CollectionInterface> collection, array! document) -> <Collection>
+	public static function cloneResult(<CollectionInterface> collection, array! document) -> <CollectionInterface>
 	{
 		var clonedCollection, key, value;
 
@@ -631,13 +599,8 @@ abstract class Collection implements CollectionInterface, InjectionAwareInterfac
 
 	/**
 	 * Executes internal events after save a document
-	 *
-	 * @param boolean disableEvents
-	 * @param boolean success
-	 * @param boolean exists
-	 * @return boolean
 	 */
-	protected final function _postSave(boolean disableEvents, boolean success, boolean exists)
+	protected final function _postSave(boolean disableEvents, boolean success, boolean exists) -> boolean
 	{
 		var eventName;
 
@@ -726,8 +689,6 @@ abstract class Collection implements CollectionInterface, InjectionAwareInterfac
 	 *
 	 *}
 	 *</code>
-	 *
-	 * @return boolean
 	 */
 	public function validationHasFailed() -> boolean
 	{
@@ -744,9 +705,6 @@ abstract class Collection implements CollectionInterface, InjectionAwareInterfac
 
 	/**
 	 * Fires an internal event
-	 *
-	 * @param string eventName
-	 * @return boolean
 	 */
 	public function fireEvent(string! eventName) -> boolean
 	{
@@ -765,13 +723,9 @@ abstract class Collection implements CollectionInterface, InjectionAwareInterfac
 
 	/**
 	 * Fires an internal event that cancels the operation
-	 *
-	 * @param string eventName
-	 * @return boolean
 	 */
 	public function fireEventCancel(string! eventName) -> boolean
 	{
-
 		/**
 		 * Check if there is a method with the same name of the event
 		 */
@@ -793,8 +747,6 @@ abstract class Collection implements CollectionInterface, InjectionAwareInterfac
 
 	/**
 	 * Cancel the current operation
-	 *
-	 * @return boolean
 	 */
 	protected function _cancelOperation(boolean disableEvents) -> boolean
 	{
@@ -863,8 +815,6 @@ abstract class Collection implements CollectionInterface, InjectionAwareInterfac
 	 *	echo "Great, a new robot was saved successfully!";
 	 *}
 	 * </code>
-	 *
-	 * @return Phalcon\Mvc\Model\MessageInterface[]
 	 */
 	public function getMessages() -> <\Phalcon\Mvc\Model\MessageInterface[]>
 	{
@@ -889,8 +839,6 @@ abstract class Collection implements CollectionInterface, InjectionAwareInterfac
 	 *		}
 	 *	}
 	 *</code>
-	 *
-	 * @param Phalcon\Mvc\Model\MessageInterface message
 	 */
 	public function appendMessage(<MessageInterface> message)
 	{
@@ -899,8 +847,6 @@ abstract class Collection implements CollectionInterface, InjectionAwareInterfac
 
 	/**
 	 * Creates/Updates a collection based on the values in the atributes
-	 *
-	 * @return boolean
 	 */
 	public function save() -> boolean
 	{
@@ -1160,7 +1106,6 @@ abstract class Collection implements CollectionInterface, InjectionAwareInterfac
 	/**
 	 * Perform an aggregation using the Mongo aggregation framework
 	 *
-	 *
 	 * @param array parameters
 	 * @return array
 	 */
@@ -1253,8 +1198,6 @@ abstract class Collection implements CollectionInterface, InjectionAwareInterfac
 	 *		robot->delete();
 	 *	}
 	 * </code>
-	 *
-	 * @return boolean
 	 */
 	public function delete() -> boolean
 	{
@@ -1331,8 +1274,6 @@ abstract class Collection implements CollectionInterface, InjectionAwareInterfac
 	 *<code>
 	 * print_r(robot->to[]);
 	 *</code>
-	 *
-	 * @return array
 	 */
 	public function toArray() -> array
 	{
@@ -1367,7 +1308,6 @@ abstract class Collection implements CollectionInterface, InjectionAwareInterfac
 	 */
 	public function serialize()
 	{
-
 		/**
 		 * Use the standard serialize function to serialize the array data
 		 */

@@ -74,8 +74,6 @@ class Simple extends Injectable
 
 	/**
 	 * Sets views directory. Depending of your platform, always add a trailing slash or backslash
-	 *
-	 * @param string viewsDir
 	 */
 	public function setViewsDir(string! viewsDir)
 	{
@@ -102,8 +100,6 @@ class Simple extends Injectable
 	 *  ".mhtml" => "MyCustomEngine"
 	 *));
 	 *</code>
-	 *
-	 * @param array engines
 	 */
 	public function registerEngines(array! engines)
 	{
@@ -392,7 +388,7 @@ class Simple extends Injectable
 	 */
 	public function partial(string! partialPath, params = null)
 	{
-	    var viewParams, mergedParams;
+		var viewParams, mergedParams;
 
 		/**
 		 * Start ouput buffering
@@ -471,12 +467,10 @@ class Simple extends Injectable
 
 	/**
 	 * Create a Phalcon\Cache based on the internal cache options
-	 *
-	 * @return Phalcon\Cache\BackendInterface
 	 */
 	protected function _createCache() -> <BackendInterface>
 	{
-        var dependencyInjector, cacheService, cacheOptions, viewCache;
+		var dependencyInjector, cacheService, cacheOptions, viewCache;
 
 		let dependencyInjector = this->_dependencyInjector;
 		if typeof dependencyInjector != "object" {
@@ -510,7 +504,7 @@ class Simple extends Injectable
 	 */
 	public function getCache()
 	{
-	    var cache;
+		var cache;
 
 		let cache = this->_cache;
 		if cache {
@@ -568,14 +562,10 @@ class Simple extends Injectable
 	 *<code>
 	 *	$this->view->setVars(array('products' => $products));
 	 *</code>
-	 *
-	 * @param  array params
-	 * @param  boolean merge
-	 * @return Phalcon\Mvc\View\Simple
 	 */
 	public function setVars(array! params, boolean merge = true) -> <Simple>
 	{
-	    var viewParams, mergedParams;
+		var viewParams, mergedParams;
 
 		if merge {
 			let viewParams = this->_viewParams;
@@ -640,9 +630,6 @@ class Simple extends Injectable
 	 *<code>
 	 *	$this->view->setContent("<h1>hello</h1>");
 	 *</code>
-	 *
-	 * @param  string content
-	 * @return Phalcon\Mvc\View\Simple
 	 */
 	public function setContent(string! content) -> <Simple>
 	{

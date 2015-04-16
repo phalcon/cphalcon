@@ -54,13 +54,9 @@ class Email extends Validator implements ValidatorInterface
 
 	/**
 	 * Executes the validator
-	 *
-	 * @param Phalcon\Mvc\ModelInterface record
-	 * @return boolean
 	 */
 	public function validate(<ModelInterface> record) -> boolean
 	{
-
 		var field, value, message;
 
 		let field = this->getOption("field");

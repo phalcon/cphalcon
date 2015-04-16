@@ -35,9 +35,6 @@ class Failed extends Exception
 
 	/**
 	 * Phalcon\Mvc\Model\Transaction\Failed constructor
-	 *
-	 * @param string message
-	 * @param Phalcon\Mvc\ModelInterface record
 	 */
 	public function __construct(string! message, <ModelInterface> record = null)
 	{
@@ -47,8 +44,6 @@ class Failed extends Exception
 
 	/**
 	 * Returns validation record messages which stop the transaction
-	 *
-	 * @return Phalcon\Mvc\Model\MessageInterface[]
 	 */
 	public function getRecordMessages() -> <MessageInterface[]>
 	{
@@ -64,8 +59,6 @@ class Failed extends Exception
 
 	/**
 	 * Returns validation record messages which stop the transaction
-	 *
-	 * @return Phalcon\Mvc\ModelInterface
 	 */
 	public function getRecord() -> <ModelInterface>
 	{

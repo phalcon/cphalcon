@@ -38,9 +38,6 @@ interface BehaviorInterface
 
 	/**
 	 * This method receives the notifications from the EventsManager
-	 *
-	 * @param string type
-	 * @param Phalcon\Mvc\ModelInterface model
 	 */
 	public function notify(string! type, <ModelInterface> model);
 
