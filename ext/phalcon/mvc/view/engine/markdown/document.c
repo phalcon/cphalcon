@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2008, Natacha Porté
  * Copyright (c) 2011, Vicent Martí
- * Copyright (c) 2013, Devin Torres and the Hoedown authors
+ * Copyright (c) 2014, Xavier Mendez, Devin Torres and the Hoedown authors
  *
  * Permission to use, copy, modify, and distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -383,7 +383,7 @@ replace_spacing(hoedown_buffer *ob, const uint8_t *data, size_t size)
  * INLINE PARSING FUNCTIONS *
  ****************************/
 
-/* is_mail_autolink 窶｢ looks for the address part of a mail autolink and '>' */
+/* is_mail_autolink • looks for the address part of a mail autolink and '>' */
 /* this is less strict than the original markdown e-mail address matching */
 static size_t
 is_mail_autolink(uint8_t *data, size_t size)
@@ -448,7 +448,7 @@ script_tag_length(uint8_t *data, size_t size)
 	return i + 1;
 }
 
-/* tag_length 窶｢ returns the length of the given tag, or 0 is it's not valid */
+/* tag_length • returns the length of the given tag, or 0 is it's not valid */
 static size_t
 tag_length(uint8_t *data, size_t size, hoedown_autolink_type *autolink, int script_tag)
 {
@@ -514,11 +514,11 @@ tag_length(uint8_t *data, size_t size, hoedown_autolink_type *autolink, int scri
 	return i + 1;
 }
 
-/* parse_inline 窶｢ parses inline markdown elements */
+/* parse_inline • parses inline markdown elements */
 static void
 parse_inline(hoedown_buffer *ob, hoedown_document *doc, uint8_t *data, size_t size)
 {
-	size_t i = 0, end = 0;
+	size_t i = 0, end = 0, consumed = 0;
 	hoedown_buffer work = { 0, 0, 0, 0, NULL, NULL, NULL };
 	uint8_t *active_char = doc->active_char;
 
@@ -569,14 +569,16 @@ parse_inline(hoedown_buffer *ob, hoedown_document *doc, uint8_t *data, size_t si
 			} else {
 				i += end;
 				end = i;
+				consumed = i;
 			}
 		} else {
-			end = markdown_char_ptrs[ (int)active_char[data[end]] ](ob, doc, data + i, i, size - i);
+			end = markdown_char_ptrs[ (int)active_char[data[end]] ](ob, doc, data + i, i - consumed, size - i);
 			if (!end) /* no action from the callback */
 				end = i + 1;
 			else {
 				i += end;
 				end = i;
+				consumed = i;
 			}
 		}
 	}
@@ -636,7 +638,7 @@ static size_t parse_attributes(uint8_t *data, size_t size, struct hoedown_buffer
 	return len;
 }
 
-/* is_escaped 窶｢ returns whether special char at data[loc] is escaped by '\\' */
+/* is_escaped • returns whether special char at data[loc] is escaped by '\\' */
 static int
 is_escaped(uint8_t *data, size_t loc)
 {
@@ -648,7 +650,7 @@ is_escaped(uint8_t *data, size_t loc)
 	return (loc - i) % 2;
 }
 
-/* find_emph_char 窶｢ looks for the next emph uint8_t, skipping other constructs */
+/* find_emph_char • looks for the next emph uint8_t, skipping other constructs */
 static size_t
 find_emph_char(uint8_t *data, size_t size, uint8_t c)
 {
@@ -741,7 +743,7 @@ find_emph_char(uint8_t *data, size_t size, uint8_t c)
 	return 0;
 }
 
-/* parse_emph1 窶｢ parsing single emphase */
+/* parse_emph1 • parsing single emphase */
 /* closed by a symbol not preceded by spacing and not followed by symbol */
 static size_t
 parse_emph1(hoedown_buffer *ob, hoedown_document *doc, uint8_t *data, size_t size, uint8_t c)
@@ -782,7 +784,7 @@ parse_emph1(hoedown_buffer *ob, hoedown_document *doc, uint8_t *data, size_t siz
 	return 0;
 }
 
-/* parse_emph2 窶｢ parsing single emphase */
+/* parse_emph2 • parsing single emphase */
 static size_t
 parse_emph2(hoedown_buffer *ob, hoedown_document *doc, uint8_t *data, size_t size, uint8_t c)
 {
@@ -814,7 +816,7 @@ parse_emph2(hoedown_buffer *ob, hoedown_document *doc, uint8_t *data, size_t siz
 	return 0;
 }
 
-/* parse_emph3 窶｢ parsing single emphase */
+/* parse_emph3 • parsing single emphase */
 /* finds the first closing tag, and delegates to the other emph */
 static size_t
 parse_emph3(hoedown_buffer *ob, hoedown_document *doc, uint8_t *data, size_t size, uint8_t c)
@@ -856,7 +858,7 @@ parse_emph3(hoedown_buffer *ob, hoedown_document *doc, uint8_t *data, size_t siz
 	return 0;
 }
 
-/* parse_math 窶｢ parses a math span until the given ending delimiter */
+/* parse_math • parses a math span until the given ending delimiter */
 static size_t
 parse_math(hoedown_buffer *ob, hoedown_document *doc, uint8_t *data, size_t offset, size_t size, const char *end, size_t delimsz, int displaymode)
 {
@@ -898,7 +900,7 @@ parse_math(hoedown_buffer *ob, hoedown_document *doc, uint8_t *data, size_t offs
 	return 0;
 }
 
-/* char_emphasis 窶｢ single and double emphasis parsing */
+/* char_emphasis • single and double emphasis parsing */
 static size_t
 char_emphasis(hoedown_buffer *ob, hoedown_document *doc, uint8_t *data, size_t offset, size_t size)
 {
@@ -937,7 +939,7 @@ char_emphasis(hoedown_buffer *ob, hoedown_document *doc, uint8_t *data, size_t o
 }
 
 
-/* char_linebreak 窶｢ '\n' preceded by two spaces (assuming linebreak != 0) */
+/* char_linebreak • '\n' preceded by two spaces (assuming linebreak != 0) */
 static size_t
 char_linebreak(hoedown_buffer *ob, hoedown_document *doc, uint8_t *data, size_t offset, size_t size)
 {
@@ -952,7 +954,7 @@ char_linebreak(hoedown_buffer *ob, hoedown_document *doc, uint8_t *data, size_t 
 }
 
 
-/* char_codespan 窶｢ '`' parsing a code span (assuming codespan != 0) */
+/* char_codespan • '`' parsing a code span (assuming codespan != 0) */
 static size_t
 char_codespan(hoedown_buffer *ob, hoedown_document *doc, uint8_t *data, size_t offset, size_t size)
 {
@@ -1012,7 +1014,7 @@ char_codespan(hoedown_buffer *ob, hoedown_document *doc, uint8_t *data, size_t o
 	return end;
 }
 
-/* char_quote 窶｢ '"' parsing a quote */
+/* char_quote • '"' parsing a quote */
 static size_t
 char_quote(hoedown_buffer *ob, hoedown_document *doc, uint8_t *data, size_t offset, size_t size)
 {
@@ -1059,7 +1061,7 @@ char_quote(hoedown_buffer *ob, hoedown_document *doc, uint8_t *data, size_t offs
 }
 
 
-/* char_escape 窶｢ '\\' backslash escape */
+/* char_escape • '\\' backslash escape */
 static size_t
 char_escape(hoedown_buffer *ob, hoedown_document *doc, uint8_t *data, size_t offset, size_t size)
 {
@@ -1091,7 +1093,7 @@ char_escape(hoedown_buffer *ob, hoedown_document *doc, uint8_t *data, size_t off
 	return 2;
 }
 
-/* char_entity 窶｢ '&' escaped when it doesn't belong to an entity */
+/* char_entity • '&' escaped when it doesn't belong to an entity */
 /* valid entities are assumed to be anything matching &#?[A-Za-z0-9]+; */
 static size_t
 char_entity(hoedown_buffer *ob, hoedown_document *doc, uint8_t *data, size_t offset, size_t size)
@@ -1120,7 +1122,7 @@ char_entity(hoedown_buffer *ob, hoedown_document *doc, uint8_t *data, size_t off
 	return end;
 }
 
-/* char_langle_tag 窶｢ '<' when tags or autolinks are allowed */
+/* char_langle_tag • '<' when tags or autolinks are allowed */
 static size_t
 char_langle_tag(hoedown_buffer *ob, hoedown_document *doc, uint8_t *data, size_t offset, size_t size)
 {
@@ -1221,7 +1223,7 @@ char_autolink_url(hoedown_buffer *ob, hoedown_document *doc, uint8_t *data, size
 	return link_len;
 }
 
-/* char_link 窶｢ '[': parsing a link, a footnote or an image */
+/* char_link • '[': parsing a link, a footnote or an image */
 static size_t
 char_link(hoedown_buffer *ob, hoedown_document *doc, uint8_t *data, size_t offset, size_t size)
 {
@@ -1545,7 +1547,7 @@ char_math(hoedown_buffer *ob, hoedown_document *doc, uint8_t *data, size_t offse
  * BLOCK-LEVEL PARSING FUNCTIONS *
  *********************************/
 
-/* is_empty 窶｢ returns the line length when it is empty, 0 otherwise */
+/* is_empty • returns the line length when it is empty, 0 otherwise */
 static size_t
 is_empty(const uint8_t *data, size_t size)
 {
@@ -1558,7 +1560,7 @@ is_empty(const uint8_t *data, size_t size)
 	return i + 1;
 }
 
-/* is_hrule 窶｢ returns whether a line is a horizontal rule */
+/* is_hrule • returns whether a line is a horizontal rule */
 static int
 is_hrule(uint8_t *data, size_t size)
 {
@@ -1673,7 +1675,7 @@ parse_codefence(uint8_t *data, size_t size, hoedown_buffer *lang, size_t *width,
 	return w;
 }
 
-/* is_atxheader 窶｢ returns whether the line is a hash-prefixed header */
+/* is_atxheader • returns whether the line is a hash-prefixed header */
 static int
 is_atxheader(hoedown_document *doc, uint8_t *data, size_t size)
 {
@@ -1693,7 +1695,7 @@ is_atxheader(hoedown_document *doc, uint8_t *data, size_t size)
 	return 1;
 }
 
-/* is_headerline 窶｢ returns whether the line is a setext-style hdr underline */
+/* is_headerline • returns whether the line is a setext-style hdr underline */
 static int
 is_headerline(uint8_t *data, size_t size)
 {
@@ -1728,7 +1730,7 @@ is_next_headerline(uint8_t *data, size_t size)
 	return is_headerline(data + i, size - i);
 }
 
-/* prefix_quote 窶｢ returns blockquote prefix length */
+/* prefix_quote • returns blockquote prefix length */
 static size_t
 prefix_quote(uint8_t *data, size_t size)
 {
@@ -1747,7 +1749,7 @@ prefix_quote(uint8_t *data, size_t size)
 	return 0;
 }
 
-/* prefix_code 窶｢ returns prefix length for block code*/
+/* prefix_code • returns prefix length for block code*/
 static size_t
 prefix_code(uint8_t *data, size_t size)
 {
@@ -1757,7 +1759,7 @@ prefix_code(uint8_t *data, size_t size)
 	return 0;
 }
 
-/* prefix_oli 窶｢ returns ordered list item prefix */
+/* prefix_oli • returns ordered list item prefix */
 static size_t
 prefix_oli(uint8_t *data, size_t size)
 {
@@ -1782,7 +1784,7 @@ prefix_oli(uint8_t *data, size_t size)
 	return i + 2;
 }
 
-/* prefix_uli 窶｢ returns ordered list item prefix */
+/* prefix_uli • returns ordered list item prefix */
 static size_t
 prefix_uli(uint8_t *data, size_t size)
 {
@@ -1804,12 +1806,12 @@ prefix_uli(uint8_t *data, size_t size)
 }
 
 
-/* parse_block 窶｢ parsing of one block, returning next uint8_t to parse */
+/* parse_block • parsing of one block, returning next uint8_t to parse */
 static void parse_block(hoedown_buffer *ob, hoedown_document *doc,
 			uint8_t *data, size_t size);
 
 
-/* parse_blockquote 窶｢ handles parsing of a blockquote fragment */
+/* parse_blockquote • handles parsing of a blockquote fragment */
 static size_t
 parse_blockquote(hoedown_buffer *ob, hoedown_document *doc, uint8_t *data, size_t size)
 {
@@ -1854,7 +1856,7 @@ parse_blockquote(hoedown_buffer *ob, hoedown_document *doc, uint8_t *data, size_
 static size_t
 parse_htmlblock(hoedown_buffer *ob, hoedown_document *doc, uint8_t *data, size_t size, int do_render);
 
-/* parse_blockquote 窶｢ handles parsing of a regular paragraph */
+/* parse_blockquote • handles parsing of a regular paragraph */
 static size_t
 parse_paragraph(hoedown_buffer *ob, hoedown_document *doc, uint8_t *data, size_t size)
 {
@@ -1941,7 +1943,7 @@ parse_paragraph(hoedown_buffer *ob, hoedown_document *doc, uint8_t *data, size_t
 	return end;
 }
 
-/* parse_fencedcode 窶｢ handles parsing of a block-level code fragment */
+/* parse_fencedcode • handles parsing of a block-level code fragment */
 static size_t
 parse_fencedcode(hoedown_buffer *ob, hoedown_document *doc, uint8_t *data, size_t size, unsigned int flags)
 {
@@ -2032,7 +2034,7 @@ parse_blockcode(hoedown_buffer *ob, hoedown_document *doc, uint8_t *data, size_t
 	return beg;
 }
 
-/* parse_listitem 窶｢ parsing of a single list item */
+/* parse_listitem • parsing of a single list item */
 /*	assuming initial prefix is already removed */
 static size_t
 parse_listitem(hoedown_buffer *ob, hoedown_document *doc, uint8_t *data, size_t size, hoedown_list_flags *flags, hoedown_buffer *attribute)
@@ -2149,19 +2151,11 @@ parse_listitem(hoedown_buffer *ob, hoedown_document *doc, uint8_t *data, size_t 
 	if (*flags & HOEDOWN_LI_BLOCK) {
 		/* intermediate render of block li */
 		if (sublist && sublist < work->size) {
-			if (doc->ext_flags & HOEDOWN_EXT_SPECIAL_ATTRIBUTE) {
-				len = parse_attributes(work->data, sublist, attr, attribute, 0);
-			} else {
-				len = sublist;
-			}
+			len = sublist;
 			parse_block(inter, doc, work->data, len);
 			parse_block(inter, doc, work->data + sublist, work->size - sublist);
 		} else {
-			if (doc->ext_flags & HOEDOWN_EXT_SPECIAL_ATTRIBUTE) {
-				len = parse_attributes(work->data, work->size, attr, attribute, 0);
-			} else {
-				len = work->size;
-			}
+			len = work->size;
 			parse_block(inter, doc, work->data, len);
 		}
 	} else {
@@ -2195,7 +2189,7 @@ parse_listitem(hoedown_buffer *ob, hoedown_document *doc, uint8_t *data, size_t 
 }
 
 
-/* parse_list 窶｢ parsing ordered or unordered list block */
+/* parse_list • parsing ordered or unordered list block */
 static size_t
 parse_list(hoedown_buffer *ob, hoedown_document *doc, uint8_t *data, size_t size, hoedown_list_flags flags)
 {
@@ -2219,7 +2213,7 @@ parse_list(hoedown_buffer *ob, hoedown_document *doc, uint8_t *data, size_t size
 	return i;
 }
 
-/* parse_atxheader 窶｢ parsing of atx-style headers */
+/* parse_atxheader • parsing of atx-style headers */
 static size_t
 parse_atxheader(hoedown_buffer *ob, hoedown_document *doc, uint8_t *data, size_t size)
 {
@@ -2260,7 +2254,7 @@ parse_atxheader(hoedown_buffer *ob, hoedown_document *doc, uint8_t *data, size_t
 	return skip;
 }
 
-/* parse_footnote_def 窶｢ parse a single footnote definition */
+/* parse_footnote_def • parse a single footnote definition */
 static void
 parse_footnote_def(hoedown_buffer *ob, hoedown_document *doc, unsigned int num, uint8_t *data, size_t size)
 {
@@ -2274,7 +2268,7 @@ parse_footnote_def(hoedown_buffer *ob, hoedown_document *doc, unsigned int num, 
 	popbuf(doc, BUFFER_SPAN);
 }
 
-/* parse_footnote_list 窶｢ render the contents of the footnotes */
+/* parse_footnote_list • render the contents of the footnotes */
 static void
 parse_footnote_list(hoedown_buffer *ob, hoedown_document *doc, struct footnote_list *footnotes)
 {
@@ -2299,7 +2293,7 @@ parse_footnote_list(hoedown_buffer *ob, hoedown_document *doc, struct footnote_l
 	popbuf(doc, BUFFER_BLOCK);
 }
 
-/* htmlblock_is_end 窶｢ check for end of HTML block : </tag>( *)\n */
+/* htmlblock_is_end • check for end of HTML block : </tag>( *)\n */
 /*	returns tag length on match, 0 otherwise */
 /*	assumes data starts with "<" */
 static size_t
@@ -2327,7 +2321,7 @@ htmlblock_is_end(
 	return i + w;
 }
 
-/* htmlblock_find_end 窶｢ try to find HTML block ending tag */
+/* htmlblock_find_end • try to find HTML block ending tag */
 /*	returns the length on match, 0 otherwise */
 static size_t
 htmlblock_find_end(
@@ -2349,7 +2343,7 @@ htmlblock_find_end(
 	}
 }
 
-/* htmlblock_find_end_strict 窶｢ try to find end of HTML block in strict mode */
+/* htmlblock_find_end_strict • try to find end of HTML block in strict mode */
 /*	(it must be an unindented line, and have a blank line afterwads) */
 /*	returns the length on match, 0 otherwise */
 static size_t
@@ -2376,7 +2370,7 @@ htmlblock_find_end_strict(
 	return i;
 }
 
-/* parse_htmlblock 窶｢ parsing of inline HTML block */
+/* parse_htmlblock • parsing of inline HTML block */
 static size_t
 parse_htmlblock(hoedown_buffer *ob, hoedown_document *doc, uint8_t *data, size_t size, int do_render)
 {
@@ -2747,7 +2741,7 @@ parse_table(
 	return i;
 }
 
-/* parse_userblock 窶｢ parsing of user block */
+/* parse_userblock • parsing of user block */
 static size_t
 parse_userblock(hoedown_buffer *ob, hoedown_document *doc, uint8_t *data, size_t size)
 {
@@ -2769,7 +2763,7 @@ parse_userblock(hoedown_buffer *ob, hoedown_document *doc, uint8_t *data, size_t
 	return len;
 }
 
-/* parse_block 窶｢ parsing of one block, returning next uint8_t to parse */
+/* parse_block • parsing of one block, returning next uint8_t to parse */
 static void
 parse_block(hoedown_buffer *ob, hoedown_document *doc, uint8_t *data, size_t size)
 {
@@ -2840,7 +2834,7 @@ parse_block(hoedown_buffer *ob, hoedown_document *doc, uint8_t *data, size_t siz
  * REFERENCE PARSING *
  *********************/
 
-/* is_footnote 窶｢ returns whether a line is a footnote definition or not */
+/* is_footnote • returns whether a line is a footnote definition or not */
 static int
 is_footnote(const uint8_t *data, size_t beg, size_t end, size_t *last, struct footnote_list *list)
 {
@@ -2945,7 +2939,7 @@ is_footnote(const uint8_t *data, size_t beg, size_t end, size_t *last, struct fo
 	return 1;
 }
 
-/* is_ref 窶｢ returns whether a line is a reference or not */
+/* is_ref • returns whether a line is a reference or not */
 static int
 is_ref(const uint8_t *data, size_t beg, size_t end, size_t *last, struct link_ref **refs)
 {

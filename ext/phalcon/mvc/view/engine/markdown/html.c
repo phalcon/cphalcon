@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2008, Natacha Porté
  * Copyright (c) 2011, Vicent Martí
- * Copyright (c) 2013, Devin Torres and the Hoedown authors
+ * Copyright (c) 2014, Xavier Mendez, Devin Torres and the Hoedown authors
  *
  * Permission to use, copy, modify, and distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -80,12 +80,11 @@ static void escape_href(hoedown_buffer *ob, const uint8_t *source, size_t length
  * GENERIC RENDERER *
  ********************/
 static int
-rndr_attributes(struct hoedown_buffer *ob, const uint8_t *buf, const size_t size, int *flags, const hoedown_renderer_data *data)
+rndr_attributes(struct hoedown_buffer *ob, const uint8_t *buf, const size_t size, hoedown_buffer *class, const hoedown_renderer_data *data)
 {
 	size_t n, i = 0, len = 0;
 	int id = 0, type = 0;
-
-	hoedown_buffer *class = 0;
+	int free = 0;
 
 	while (i < size) {
 		if (buf[i] == '#') {
@@ -125,6 +124,7 @@ rndr_attributes(struct hoedown_buffer *ob, const uint8_t *buf, const size_t size
 				/* class */
 				if (!class) {
 					class = hoedown_buffer_new(size);
+					free = 1;
 				}
 				escape_html(class, buf+n+1, len-1);
 				hoedown_buffer_putc(class, ' ');
@@ -148,10 +148,10 @@ rndr_attributes(struct hoedown_buffer *ob, const uint8_t *buf, const size_t size
 						break;
 					}
 					id = 1;
-				} else if (len > 6 &&
-						   strncasecmp((char *)buf+n, "class=", 6) == 0) {
+				} else if (len > 6 && strncasecmp((char *)buf+n, "class=", 6) == 0) {
 					if (!class) {
 						class = hoedown_buffer_new(size);
+						free = 1;
 					}
 					escape_html(class, buf+n+7, len-8);
 					hoedown_buffer_putc(class, ' ');
@@ -166,14 +166,13 @@ rndr_attributes(struct hoedown_buffer *ob, const uint8_t *buf, const size_t size
 
 	if (class) {
 		if (class->size > 0) {
-			if (flags) {
-				*flags = 1;
-			}
 			HOEDOWN_BUFPUTSL(ob, " class=\"");
 			hoedown_buffer_put(ob, class->data, class->size-1);
 			hoedown_buffer_putc(ob, '"');
 		}
-		hoedown_buffer_free(class);
+		if (free) {
+			hoedown_buffer_free(class);
+		}
 	}
 
 	return 1;
@@ -219,8 +218,6 @@ rndr_autolink(hoedown_buffer *ob, const hoedown_buffer *link, hoedown_autolink_t
 static void
 rndr_blockcode(hoedown_buffer *ob, const hoedown_buffer *text, const hoedown_buffer *lang, const hoedown_buffer *attr, const hoedown_renderer_data *data)
 {
-	int class = 0;
-
 	if (ob->size) hoedown_buffer_putc(ob, '\n');
 
 	if (lang) {
@@ -236,9 +233,19 @@ rndr_blockcode(hoedown_buffer *ob, const hoedown_buffer *text, const hoedown_buf
 		}
 		HOEDOWN_BUFPUTSL(ob, "<pre><code");
 		if (attr && attr->size) {
-			rndr_attributes(ob, attr->data, attr->size, &class, data);
-		}
-		if (!class) {
+			size_t len = 0;
+			hoedown_buffer *lang_class = hoedown_buffer_new(lang->size + 9);
+			while (len < lang->size && lang->data[len] != '{') len++;
+			if (len) {
+				HOEDOWN_BUFPUTSL(lang_class, "language-");
+				escape_html(lang_class, lang->data, len);
+				if (lang_class->data[lang_class->size-1] != ' ') {
+					hoedown_buffer_putc(lang_class, ' ');
+				}
+			}
+			rndr_attributes(ob, attr->data, attr->size, lang_class, data);
+			hoedown_buffer_free(lang_class);
+		} else {
 			HOEDOWN_BUFPUTSL(ob, " class=\"language-");
 			escape_html(ob, lang->data, lang->size);
 			hoedown_buffer_putc(ob, '"');
@@ -246,7 +253,7 @@ rndr_blockcode(hoedown_buffer *ob, const hoedown_buffer *text, const hoedown_buf
 		hoedown_buffer_putc(ob, '>');
 	} else if (attr && attr->size) {
 		HOEDOWN_BUFPUTSL(ob, "<pre><code");
-		rndr_attributes(ob, attr->data, attr->size, &class, data);
+		rndr_attributes(ob, attr->data, attr->size, NULL, data);
 		hoedown_buffer_putc(ob, '>');
 	} else {
 		HOEDOWN_BUFPUTSL(ob, "<pre><code>");

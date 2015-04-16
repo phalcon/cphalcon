@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2008, Natacha Porté
  * Copyright (c) 2011, Vicent Martí
- * Copyright (c) 2013, Devin Torres and the Hoedown authors
+ * Copyright (c) 2014, Xavier Mendez, Devin Torres and the Hoedown authors
  *
  * Permission to use, copy, modify, and distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -80,6 +80,13 @@ hoedown_buffer_init(
 	buf->buffer_free = buffer_free;
 }
 
+void
+hoedown_buffer_uninit(hoedown_buffer *buf)
+{
+	assert(buf && buf->unit);
+	buf->data_free(buf->data);
+}
+
 hoedown_buffer *
 hoedown_buffer_new(size_t unit)
 {
@@ -92,6 +99,7 @@ void
 hoedown_buffer_free(hoedown_buffer *buf)
 {
 	if (!buf) return;
+	assert(buf && buf->unit);
 
 	buf->data_free(buf->data);
 
@@ -156,6 +164,19 @@ hoedown_buffer_putc(hoedown_buffer *buf, uint8_t c)
 	buf->size += 1;
 }
 
+int
+hoedown_buffer_putf(hoedown_buffer *buf, FILE *file)
+{
+	assert(buf && buf->unit);
+
+	while (!(feof(file) || ferror(file))) {
+		hoedown_buffer_grow(buf, buf->size + buf->unit);
+		buf->size += fread(buf->data + buf->size, 1, buf->unit, file);
+	}
+
+	return ferror(file);
+}
+
 void
 hoedown_buffer_set(hoedown_buffer *buf, const uint8_t *data, size_t size)
 {
@@ -191,8 +212,6 @@ int
 hoedown_buffer_prefix(const hoedown_buffer *buf, const char *prefix)
 {
 	size_t i;
-
-	assert(buf && buf->unit);
 
 	for (i = 0; i < buf->size; ++i) {
 		if (prefix[i] == 0)
@@ -270,4 +289,38 @@ hoedown_buffer_printf(hoedown_buffer *buf, const char *fmt, ...)
 		return;
 
 	buf->size += n;
+}
+
+void hoedown_buffer_put_utf8(hoedown_buffer *buf, unsigned int c) {
+	unsigned char unichar[4];
+
+	assert(buf && buf->unit);
+
+	if (c < 0x80) {
+		hoedown_buffer_putc(buf, c);
+	}
+	else if (c < 0x800) {
+		unichar[0] = 192 + (c / 64);
+		unichar[1] = 128 + (c % 64);
+		hoedown_buffer_put(buf, unichar, 2);
+	}
+	else if (c - 0xd800u < 0x800) {
+		HOEDOWN_BUFPUTSL(buf, "\xef\xbf\xbd");
+	}
+	else if (c < 0x10000) {
+		unichar[0] = 224 + (c / 4096);
+		unichar[1] = 128 + (c / 64) % 64;
+		unichar[2] = 128 + (c % 64);
+		hoedown_buffer_put(buf, unichar, 3);
+	}
+	else if (c < 0x110000) {
+		unichar[0] = 240 + (c / 262144);
+		unichar[1] = 128 + (c / 4096) % 64;
+		unichar[2] = 128 + (c / 64) % 64;
+		unichar[3] = 128 + (c % 64);
+		hoedown_buffer_put(buf, unichar, 4);
+	}
+	else {
+		HOEDOWN_BUFPUTSL(buf, "\xef\xbf\xbd");
+	}
 }

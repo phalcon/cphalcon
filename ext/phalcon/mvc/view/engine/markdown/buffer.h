@@ -3,7 +3,7 @@
 /*
  * Copyright (c) 2008, Natacha Porté
  * Copyright (c) 2011, Vicent Martí
- * Copyright (c) 2013, Devin Torres and the Hoedown authors
+ * Copyright (c) 2014, Xavier Mendez, Devin Torres and the Hoedown authors
  *
  * Permission to use, copy, modify, and distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -77,6 +77,9 @@ void hoedown_buffer_init(
 	hoedown_free_callback buffer_free
 );
 
+/* hoedown_buffer_uninit: uninitialize an existing buffer */
+void hoedown_buffer_uninit(hoedown_buffer *buf);
+
 /* hoedown_buffer_new: allocate a new buffer */
 hoedown_buffer *hoedown_buffer_new(size_t unit) __attribute__ ((malloc));
 
@@ -94,6 +97,9 @@ void hoedown_buffer_puts(hoedown_buffer *buf, const char *str);
 
 /* hoedown_buffer_putc: append a single char to a buffer */
 void hoedown_buffer_putc(hoedown_buffer *buf, uint8_t c);
+
+/* hoedown_buffer_putf: read from a file and append to a buffer, until EOF or error */
+int hoedown_buffer_putf(hoedown_buffer *buf, FILE* file);
 
 /* hoedown_buffer_set: replace the buffer's contents with raw data */
 void hoedown_buffer_set(hoedown_buffer *buf, const uint8_t *data, size_t size);
@@ -118,6 +124,9 @@ const char *hoedown_buffer_cstr(hoedown_buffer *buf);
 
 /* hoedown_buffer_printf: formatted printing to a buffer */
 void hoedown_buffer_printf(hoedown_buffer *buf, const char *fmt, ...) __attribute__ ((format (printf, 2, 3)));
+
+/* hoedown_buffer_put_utf8: put a Unicode character encoded as UTF-8 */
+void hoedown_buffer_put_utf8(hoedown_buffer *buf, unsigned int codepoint);
 
 /* hoedown_buffer_free: free the buffer */
 void hoedown_buffer_free(hoedown_buffer *buf);
