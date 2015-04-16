@@ -37,6 +37,8 @@ static const zend_function_entry phalcon_dispatcherinterface_method_entry[] = {
 	PHP_ABSTRACT_ME(Phalcon_DispatcherInterface, dispatch, NULL)
 	PHP_ABSTRACT_ME(Phalcon_DispatcherInterface, forward, arginfo_phalcon_dispatcherinterface_forward)
 	PHP_ABSTRACT_ME(Phalcon_DispatcherInterface, camelizeNamespace, arginfo_phalcon_dispatcherinterface_camelizenamespace)
+	PHP_ABSTRACT_ME(Phalcon_DispatcherInterface, setErrorHandler, arginfo_phalcon_dispatcherinterface_seterrorhandler)
+	PHP_ABSTRACT_ME(Phalcon_DispatcherInterface, getErrorHandler, arginfo_phalcon_dispatcherinterface_geterrorhandler)
 	PHP_FE_END
 };
 
@@ -150,3 +152,20 @@ PHALCON_DOC_METHOD(Phalcon_DispatcherInterface, forward);
  * @param array $forward
  */
 PHALCON_DOC_METHOD(Phalcon_DispatcherInterface, camelizeNamespace);
+
+/**
+ * Set error handler
+ *
+ * @param mixed $handler
+ * @param int $exception_code
+ * @return Phalcon\DispatcherInterface
+ */
+PHALCON_DOC_METHOD(Phalcon_DispatcherInterface, setErrorHandler);
+
+/**
+ * Get error handler
+ *
+ * @param int $exception_code
+ * @return mixed
+ */
+PHALCON_DOC_METHOD(Phalcon_DispatcherInterface, getErrorHandler);

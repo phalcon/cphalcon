@@ -31,6 +31,7 @@
 #include "kernel/fcall.h"
 #include "kernel/exception.h"
 #include "kernel/operators.h"
+#include "kernel/array.h"
 
 #include "interned-strings.h"
 
@@ -191,7 +192,9 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, getControllerName){
  */
 PHP_METHOD(Phalcon_Mvc_Dispatcher, _throwDispatchException){
 
-	zval *message, *exception_code = NULL, *dependency_injector;
+	zval *message, *exception_code = NULL, *error_handlers, *error_handler = NULL;
+	zval *previous_namespace_name, *previous_controller_name, *previous_action_name, *previous_params;
+	zval *namespace_name, *controller_name, *action_name, *params, *dependency_injector;
 	zval *exception_message, *exception = NULL, *service;
 	zval *response = NULL, *status_code, *status_message;
 	zval *events_manager, *event_name, *status = NULL;
@@ -205,6 +208,33 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, _throwDispatchException){
 		ZVAL_LONG(exception_code, 0);
 	} else {
 		PHALCON_SEPARATE_PARAM(exception_code);
+	}
+
+	error_handlers = phalcon_fetch_nproperty_this(this_ptr, SL("_errorHandlers"), PH_NOISY TSRMLS_CC);
+
+	if (Z_TYPE_P(error_handlers) == IS_ARRAY) {
+		if (phalcon_array_isset_fetch(&error_handler, error_handlers, exception_code)) {
+			PHALCON_CALL_SELF(NULL, "forward", error_handler);
+			previous_namespace_name = phalcon_fetch_nproperty_this(this_ptr, SL("_previousNamespaceName"), PH_NOISY TSRMLS_CC);
+			previous_controller_name = phalcon_fetch_nproperty_this(this_ptr, SL("_previousHandlerName"), PH_NOISY TSRMLS_CC);
+			previous_action_name = phalcon_fetch_nproperty_this(this_ptr, SL("_previousActionName"), PH_NOISY TSRMLS_CC);
+			previous_params = phalcon_fetch_nproperty_this(this_ptr, SL("_previousParams"), PH_NOISY TSRMLS_CC);
+
+			namespace_name = phalcon_fetch_nproperty_this(this_ptr, SL("_namespaceName"), PH_NOISY TSRMLS_CC);
+			controller_name = phalcon_fetch_nproperty_this(this_ptr, SL("_handlerName"), PH_NOISY TSRMLS_CC);
+			action_name = phalcon_fetch_nproperty_this(this_ptr, SL("_actionName"), PH_NOISY TSRMLS_CC);
+			params = phalcon_fetch_nproperty_this(this_ptr, SL("_params"), PH_NOISY TSRMLS_CC);
+
+			if (
+				!PHALCON_IS_EQUAL(previous_namespace_name, namespace_name) ||
+				!PHALCON_IS_EQUAL(previous_controller_name, controller_name) ||
+				!PHALCON_IS_EQUAL(previous_action_name, action_name) ||
+				!PHALCON_IS_EQUAL(previous_params, params)
+			) {
+				RETURN_MM_FALSE;
+			}
+			
+		}
 	}
 
 	PHALCON_OBS_VAR(dependency_injector);

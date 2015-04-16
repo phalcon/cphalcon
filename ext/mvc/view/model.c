@@ -142,16 +142,16 @@ PHP_METHOD(Phalcon_Mvc_View_Model, __construct){
 
 	phalcon_fetch_params(0, 0, 3, &variables, &template, &capture);
 
-	if (variables) {
-		PHALCON_CALL_SELF(NULL, "setvars", variables);
+	if (variables && Z_TYPE_P(variables) != IS_NULL) {
+		PHALCON_CALL_SELFW(NULL, "setvars", variables);
 	}
 
-	if (template) {
-		PHALCON_CALL_SELF(NULL, "settemplate", template);
+	if (template && Z_TYPE_P(template) != IS_NULL) {
+		PHALCON_CALL_SELFW(NULL, "settemplate", template);
 	}
 
-	if (capture) {
-		PHALCON_CALL_SELF(NULL, "setcaptureto", capture);
+	if (capture && Z_TYPE_P(capture) != IS_NULL) {
+		PHALCON_CALL_SELFW(NULL, "setcaptureto", capture);
 	}
 }
 
