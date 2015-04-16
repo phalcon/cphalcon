@@ -27,8 +27,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_MetaDataInterface) {
 
 /**
  * Set the meta-data extraction strategy
- *
- * @param Phalcon\Mvc\Model\MetaData\StrategyInterface strategy
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, setStrategy);
 

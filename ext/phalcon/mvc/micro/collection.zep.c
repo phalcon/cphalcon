@@ -101,9 +101,6 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, _addMap) {
 
 /**
  * Sets a prefix for all routes added to the collection
- *
- * @param string prefix
- * @return Phalcon\Mvc\Micro\Collection
  */
 PHP_METHOD(Phalcon_Mvc_Micro_Collection, setPrefix) {
 
@@ -133,8 +130,6 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, setPrefix) {
 
 /**
  * Returns the collection prefix if any
- *
- * @return string
  */
 PHP_METHOD(Phalcon_Mvc_Micro_Collection, getPrefix) {
 
@@ -184,9 +179,6 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, setHandler) {
 
 /**
  * Sets if the main handler must be lazy loaded
- *
- * @param boolean lazy
- * @return Phalcon\Mvc\Micro\Collection
  */
 PHP_METHOD(Phalcon_Mvc_Micro_Collection, setLazy) {
 
@@ -210,8 +202,6 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, setLazy) {
 
 /**
  * Returns if the main handler must be lazy loaded
- *
- * @return boolean
  */
 PHP_METHOD(Phalcon_Mvc_Micro_Collection, isLazy) {
 

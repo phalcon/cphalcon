@@ -36,8 +36,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_TransactionInterface, __construct);
 
 /**
  * Sets transaction manager related to the transaction
- *
- * @param Phalcon\Mvc\Model\Transaction\ManagerInterface manager
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_TransactionInterface, setTransactionManager);
 
@@ -108,8 +106,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_TransactionInterface, isValid);
 
 /**
  * Sets object which generates rollback action
- *
- * @param Phalcon\Mvc\ModelInterface record
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_TransactionInterface, setRollbackedRecord);
 

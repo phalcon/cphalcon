@@ -47,22 +47,16 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_RelationInterface, setIntermediateRelation);
 
 /**
  * Check if records returned by getting belongs-to/has-many are implicitly cached during the current request
- *
- * @return boolean
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_RelationInterface, isReusable);
 
 /**
  * Returns the relations type
- *
- * @return int
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_RelationInterface, getType);
 
 /**
  * Returns the referenced model
- *
- * @return string
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_RelationInterface, getReferencedModel);
 
@@ -89,8 +83,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_RelationInterface, getOptions);
 
 /**
  * Check whether the relation act as a foreign key
- *
- * @return boolean
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_RelationInterface, isForeignKey);
 
@@ -103,8 +95,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_RelationInterface, getForeignKey);
 
 /**
  * Check whether the relation is a 'many-to-many' relation or not
- *
- * @return boolean
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_RelationInterface, isThrough);
 
@@ -117,8 +107,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_RelationInterface, getIntermediateFields);
 
 /**
  * Gets the intermediate model for has-*-through relations
- *
- * @return string
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_RelationInterface, getIntermediateModel);
 

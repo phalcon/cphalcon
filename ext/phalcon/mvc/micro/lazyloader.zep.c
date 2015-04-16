@@ -40,8 +40,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Micro_LazyLoader) {
 
 /**
  * Phalcon\Mvc\Micro\LazyLoader constructor
- *
- * @param string definition
  */
 PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, __construct) {
 

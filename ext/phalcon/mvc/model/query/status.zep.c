@@ -56,9 +56,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Query_Status) {
 
 /**
  * Phalcon\Mvc\Model\Query\Status
- *
- * @param boolean success
- * @param Phalcon\Mvc\ModelInterface model
  */
 PHP_METHOD(Phalcon_Mvc_Model_Query_Status, __construct) {
 
@@ -80,8 +77,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Status, __construct) {
 
 /**
  * Returns the model that executed the action
- *
- * @return Phalcon\Mvc\ModelInterface
  */
 PHP_METHOD(Phalcon_Mvc_Model_Query_Status, getModel) {
 
@@ -116,8 +111,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Status, getMessages) {
 
 /**
  * Allows to check if the executed operation was successful
- *
- * @return boolean
  */
 PHP_METHOD(Phalcon_Mvc_Model_Query_Status, success) {
 

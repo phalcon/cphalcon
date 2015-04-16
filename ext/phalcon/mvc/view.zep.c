@@ -192,9 +192,6 @@ PHP_METHOD(Phalcon_Mvc_View, __construct) {
 
 /**
  * Sets the views directory. Depending of your platform, always add a trailing slash or backslash
- *
- * @param string viewsDir
- * @return Phalcon\Mvc\View
  */
 PHP_METHOD(Phalcon_Mvc_View, setViewsDir) {
 
@@ -223,8 +220,6 @@ PHP_METHOD(Phalcon_Mvc_View, setViewsDir) {
 
 /**
  * Gets views directory
- *
- * @return string
  */
 PHP_METHOD(Phalcon_Mvc_View, getViewsDir) {
 
@@ -239,9 +234,6 @@ PHP_METHOD(Phalcon_Mvc_View, getViewsDir) {
  *<code>
  * $view->setLayoutsDir('../common/layouts/');
  *</code>
- *
- * @param string layoutsDir
- * @return Phalcon\Mvc\View
  */
 PHP_METHOD(Phalcon_Mvc_View, setLayoutsDir) {
 
@@ -261,8 +253,6 @@ PHP_METHOD(Phalcon_Mvc_View, setLayoutsDir) {
 
 /**
  * Gets the current layouts sub-directory
- *
- * @return string
  */
 PHP_METHOD(Phalcon_Mvc_View, getLayoutsDir) {
 
@@ -277,9 +267,6 @@ PHP_METHOD(Phalcon_Mvc_View, getLayoutsDir) {
  *<code>
  * $view->setPartialsDir('../common/partials/');
  *</code>
- *
- * @param string partialsDir
- * @return Phalcon\Mvc\View
  */
 PHP_METHOD(Phalcon_Mvc_View, setPartialsDir) {
 
@@ -299,8 +286,6 @@ PHP_METHOD(Phalcon_Mvc_View, setPartialsDir) {
 
 /**
  * Gets the current partials sub-directory
- *
- * @return string
  */
 PHP_METHOD(Phalcon_Mvc_View, getPartialsDir) {
 
@@ -315,9 +300,6 @@ PHP_METHOD(Phalcon_Mvc_View, getPartialsDir) {
  * <code>
  * 	$view->setBasePath(__DIR__ . '/');
  * </code>
- *
- * @param string basePath
- * @return Phalcon\Mvc\View
  */
 PHP_METHOD(Phalcon_Mvc_View, setBasePath) {
 
@@ -342,9 +324,6 @@ PHP_METHOD(Phalcon_Mvc_View, setBasePath) {
  * 	//Render the view related to the controller only
  * 	$this->view->setRenderLevel(View::LEVEL_VIEW);
  * </code>
- *
- * @param int level
- * @return Phalcon\Mvc\View
  */
 PHP_METHOD(Phalcon_Mvc_View, setRenderLevel) {
 
@@ -398,9 +377,6 @@ PHP_METHOD(Phalcon_Mvc_View, disableLevel) {
  * 	//Renders as main view views-dir/base.phtml
  * 	$this->view->setMainView('base');
  * </code>
- *
- * @param string viewPath
- * @return Phalcon\Mvc\View
  */
 PHP_METHOD(Phalcon_Mvc_View, setMainView) {
 
@@ -420,8 +396,6 @@ PHP_METHOD(Phalcon_Mvc_View, setMainView) {
 
 /**
  * Returns the name of the main view
- *
- * @return string
  */
 PHP_METHOD(Phalcon_Mvc_View, getMainView) {
 
@@ -436,9 +410,6 @@ PHP_METHOD(Phalcon_Mvc_View, getMainView) {
  * <code>
  * 	$this->view->setLayout('main');
  * </code>
- *
- * @param string layout
- * @return Phalcon\Mvc\View
  */
 PHP_METHOD(Phalcon_Mvc_View, setLayout) {
 
@@ -458,8 +429,6 @@ PHP_METHOD(Phalcon_Mvc_View, setLayout) {
 
 /**
  * Returns the name of the main view
- *
- * @return string
  */
 PHP_METHOD(Phalcon_Mvc_View, getLayout) {
 
@@ -498,8 +467,6 @@ PHP_METHOD(Phalcon_Mvc_View, setTemplateBefore) {
 
 /**
  * Resets any "template before" layouts
- *
- * @return Phalcon\Mvc\View
  */
 PHP_METHOD(Phalcon_Mvc_View, cleanTemplateBefore) {
 
@@ -539,8 +506,6 @@ PHP_METHOD(Phalcon_Mvc_View, setTemplateAfter) {
 
 /**
  * Resets any template before layouts
- *
- * @return Phalcon\Mvc\View
  */
 PHP_METHOD(Phalcon_Mvc_View, cleanTemplateAfter) {
 
@@ -755,8 +720,6 @@ PHP_METHOD(Phalcon_Mvc_View, getParams) {
 
 /**
  * Starts rendering process enabling the output buffering
- *
- * @return Phalcon\Mvc\View
  */
 PHP_METHOD(Phalcon_Mvc_View, start) {
 
@@ -774,8 +737,6 @@ PHP_METHOD(Phalcon_Mvc_View, start) {
 
 /**
  * Loads registered template engines, if none is registered it will use Phalcon\Mvc\View\Engine\Php
- *
- * @return array
  */
 PHP_METHOD(Phalcon_Mvc_View, _loadTemplateEngines) {
 
@@ -805,14 +766,14 @@ PHP_METHOD(Phalcon_Mvc_View, _loadTemplateEngines) {
 			zephir_array_update_string(&engines, SL(".phtml"), &_1, PH_COPY | PH_SEPARATE);
 		} else {
 			if (Z_TYPE_P(dependencyInjector) != IS_OBJECT) {
-				ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_view_exception_ce, "A dependency injector container is required to obtain the application services", "phalcon/mvc/view.zep", 554);
+				ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_view_exception_ce, "A dependency injector container is required to obtain the application services", "phalcon/mvc/view.zep", 515);
 				return;
 			}
 			ZEPHIR_INIT_VAR(arguments);
 			zephir_create_array(arguments, 2, 0 TSRMLS_CC);
 			zephir_array_fast_append(arguments, this_ptr);
 			zephir_array_fast_append(arguments, dependencyInjector);
-			zephir_is_iterable(registeredEngines, &_4, &_3, 0, 0, "phalcon/mvc/view.zep", 583);
+			zephir_is_iterable(registeredEngines, &_4, &_3, 0, 0, "phalcon/mvc/view.zep", 544);
 			for (
 			  ; zephir_hash_get_current_data_ex(_4, (void**) &_5, &_3) == SUCCESS
 			  ; zephir_hash_move_forward_ex(_4, &_3)
@@ -836,7 +797,7 @@ PHP_METHOD(Phalcon_Mvc_View, _loadTemplateEngines) {
 						ZEPHIR_CONCAT_SV(_7, "Invalid template engine registration for extension: ", extension);
 						ZEPHIR_CALL_METHOD(NULL, _6, "__construct", &_8, _7);
 						zephir_check_call_status();
-						zephir_throw_exception_debug(_6, "phalcon/mvc/view.zep", 577 TSRMLS_CC);
+						zephir_throw_exception_debug(_6, "phalcon/mvc/view.zep", 538 TSRMLS_CC);
 						ZEPHIR_MM_RESTORE();
 						return;
 					}
@@ -940,7 +901,7 @@ PHP_METHOD(Phalcon_Mvc_View, _engineRender) {
 	zephir_read_property_this(&viewParams, this_ptr, SL("_viewParams"), PH_NOISY_CC);
 	_4 = zephir_fetch_nproperty_this(this_ptr, SL("_eventsManager"), PH_NOISY_CC);
 	ZEPHIR_CPY_WRT(eventsManager, _4);
-	zephir_is_iterable(engines, &_6, &_5, 0, 0, "phalcon/mvc/view.zep", 701);
+	zephir_is_iterable(engines, &_6, &_5, 0, 0, "phalcon/mvc/view.zep", 662);
 	for (
 	  ; zephir_hash_get_current_data_ex(_6, (void**) &_7, &_5) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_6, &_5)
@@ -990,7 +951,7 @@ PHP_METHOD(Phalcon_Mvc_View, _engineRender) {
 			ZEPHIR_CONCAT_SVS(_10, "View '", viewsDirPath, "' was not found in the views directory");
 			ZEPHIR_CALL_METHOD(NULL, _8, "__construct", &_11, _10);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(_8, "phalcon/mvc/view.zep", 712 TSRMLS_CC);
+			zephir_throw_exception_debug(_8, "phalcon/mvc/view.zep", 673 TSRMLS_CC);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
@@ -1009,9 +970,6 @@ PHP_METHOD(Phalcon_Mvc_View, _engineRender) {
  *  ".mhtml" => "MyCustomEngine"
  *));
  *</code>
- *
- * @param array engines
- * @return Phalcon\Mvc\View
  */
 PHP_METHOD(Phalcon_Mvc_View, registerEngines) {
 
@@ -1031,9 +989,6 @@ PHP_METHOD(Phalcon_Mvc_View, registerEngines) {
 
 /**
  * Checks whether view exists
- *
- * @param string view
- * @return bolean
  */
 PHP_METHOD(Phalcon_Mvc_View, exists) {
 
@@ -1075,7 +1030,7 @@ PHP_METHOD(Phalcon_Mvc_View, exists) {
 	}
 	exists = 0;
 	ZEPHIR_INIT_NVAR(_0);
-	zephir_is_iterable(engines, &_2, &_1, 0, 0, "phalcon/mvc/view.zep", 766);
+	zephir_is_iterable(engines, &_2, &_1, 0, 0, "phalcon/mvc/view.zep", 721);
 	for (
 	  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_2, &_1)
@@ -1104,7 +1059,6 @@ PHP_METHOD(Phalcon_Mvc_View, exists) {
  * @param string controllerName
  * @param string actionName
  * @param array params
- * @return Phalcon\Mvc\View
  */
 PHP_METHOD(Phalcon_Mvc_View, render) {
 
@@ -1183,7 +1137,7 @@ PHP_METHOD(Phalcon_Mvc_View, render) {
 		ZEPHIR_CPY_WRT(renderView, _3);
 	} else {
 		ZEPHIR_OBS_NVAR(renderView);
-		zephir_array_fetch_long(&renderView, pickView, 0, PH_NOISY, "phalcon/mvc/view.zep", 840 TSRMLS_CC);
+		zephir_array_fetch_long(&renderView, pickView, 0, PH_NOISY, "phalcon/mvc/view.zep", 794 TSRMLS_CC);
 		ZEPHIR_OBS_VAR(pickViewAction);
 		if (zephir_array_isset_long_fetch(&pickViewAction, pickView, 1, 0 TSRMLS_CC)) {
 			ZEPHIR_CPY_WRT(layoutName, pickViewAction);
@@ -1241,7 +1195,7 @@ PHP_METHOD(Phalcon_Mvc_View, render) {
 				zephir_read_property_this(&templatesBefore, this_ptr, SL("_templatesBefore"), PH_NOISY_CC);
 				if (Z_TYPE_P(templatesBefore) == IS_ARRAY) {
 					silence = 0;
-					zephir_is_iterable(templatesBefore, &_11, &_10, 0, 0, "phalcon/mvc/view.zep", 916);
+					zephir_is_iterable(templatesBefore, &_11, &_10, 0, 0, "phalcon/mvc/view.zep", 870);
 					for (
 					  ; zephir_hash_get_current_data_ex(_11, (void**) &_12, &_10) == SUCCESS
 					  ; zephir_hash_move_forward_ex(_11, &_10)
@@ -1276,7 +1230,7 @@ PHP_METHOD(Phalcon_Mvc_View, render) {
 				zephir_read_property_this(&templatesAfter, this_ptr, SL("_templatesAfter"), PH_NOISY_CC);
 				if (Z_TYPE_P(templatesAfter) == IS_ARRAY) {
 					silence = 0;
-					zephir_is_iterable(templatesAfter, &_15, &_14, 0, 0, "phalcon/mvc/view.zep", 947);
+					zephir_is_iterable(templatesAfter, &_15, &_14, 0, 0, "phalcon/mvc/view.zep", 901);
 					for (
 					  ; zephir_hash_get_current_data_ex(_15, (void**) &_16, &_14) == SUCCESS
 					  ; zephir_hash_move_forward_ex(_15, &_14)
@@ -1369,17 +1323,17 @@ PHP_METHOD(Phalcon_Mvc_View, pick) {
 	} else {
 		ZEPHIR_INIT_VAR(layout);
 		ZVAL_NULL(layout);
-		if (zephir_memnstr_str(renderView, SL("/"), "phalcon/mvc/view.zep", 1020)) {
+		if (zephir_memnstr_str(renderView, SL("/"), "phalcon/mvc/view.zep", 974)) {
 			ZEPHIR_INIT_VAR(parts);
 			zephir_fast_explode_str(parts, SL("/"), renderView, LONG_MAX TSRMLS_CC);
 			ZEPHIR_OBS_NVAR(layout);
-			zephir_array_fetch_long(&layout, parts, 0, PH_NOISY, "phalcon/mvc/view.zep", 1021 TSRMLS_CC);
+			zephir_array_fetch_long(&layout, parts, 0, PH_NOISY, "phalcon/mvc/view.zep", 975 TSRMLS_CC);
 		}
 		ZEPHIR_INIT_NVAR(pickView);
 		zephir_create_array(pickView, 1, 0 TSRMLS_CC);
 		zephir_array_fast_append(pickView, renderView);
 		if (Z_TYPE_P(layout) != IS_NULL) {
-			zephir_array_append(&pickView, layout, PH_SEPARATE, "phalcon/mvc/view.zep", 1026);
+			zephir_array_append(&pickView, layout, PH_SEPARATE, "phalcon/mvc/view.zep", 980);
 		}
 	}
 	zephir_update_property_this(this_ptr, SL("_pickView"), pickView TSRMLS_CC);
@@ -1599,8 +1553,6 @@ PHP_METHOD(Phalcon_Mvc_View, getRender) {
 
 /**
  * Finishes the render process by stopping the output buffering
- *
- * @return Phalcon\Mvc\View
  */
 PHP_METHOD(Phalcon_Mvc_View, finish) {
 
@@ -1617,8 +1569,6 @@ PHP_METHOD(Phalcon_Mvc_View, finish) {
 
 /**
  * Create a Phalcon\Cache based on the internal cache options
- *
- * @return Phalcon\Cache\BackendInterface
  */
 PHP_METHOD(Phalcon_Mvc_View, _createCache) {
 
@@ -1630,7 +1580,7 @@ PHP_METHOD(Phalcon_Mvc_View, _createCache) {
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	ZEPHIR_CPY_WRT(dependencyInjector, _0);
 	if (Z_TYPE_P(dependencyInjector) != IS_OBJECT) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_view_exception_ce, "A dependency injector container is required to obtain the view cache services", "phalcon/mvc/view.zep", 1204);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_view_exception_ce, "A dependency injector container is required to obtain the view cache services", "phalcon/mvc/view.zep", 1154);
 		return;
 	}
 	ZEPHIR_INIT_VAR(cacheService);
@@ -1642,7 +1592,7 @@ PHP_METHOD(Phalcon_Mvc_View, _createCache) {
 		if (zephir_array_isset_string_fetch(&cacheOptions, viewOptions, SS("cache"), 0 TSRMLS_CC)) {
 			if (zephir_array_isset_string(cacheOptions, SS("service"))) {
 				ZEPHIR_OBS_NVAR(cacheService);
-				zephir_array_fetch_string(&cacheService, cacheOptions, SL("service"), PH_NOISY, "phalcon/mvc/view.zep", 1213 TSRMLS_CC);
+				zephir_array_fetch_string(&cacheService, cacheOptions, SL("service"), PH_NOISY, "phalcon/mvc/view.zep", 1163 TSRMLS_CC);
 			}
 		}
 	}
@@ -1650,7 +1600,7 @@ PHP_METHOD(Phalcon_Mvc_View, _createCache) {
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(viewCache, _1);
 	if (Z_TYPE_P(viewCache) != IS_OBJECT) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_view_exception_ce, "The injected caching service is invalid", "phalcon/mvc/view.zep", 1223);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_view_exception_ce, "The injected caching service is invalid", "phalcon/mvc/view.zep", 1173);
 		return;
 	}
 	RETURN_CCTOR(viewCache);
@@ -1659,8 +1609,6 @@ PHP_METHOD(Phalcon_Mvc_View, _createCache) {
 
 /**
  * Check if the component is currently caching the output content
- *
- * @return boolean
  */
 PHP_METHOD(Phalcon_Mvc_View, isCaching) {
 
@@ -1674,8 +1622,6 @@ PHP_METHOD(Phalcon_Mvc_View, isCaching) {
 
 /**
  * Returns the cache instance used to cache
- *
- * @return Phalcon\Cache\BackendInterface
  */
 PHP_METHOD(Phalcon_Mvc_View, getCache) {
 
@@ -1738,7 +1684,7 @@ PHP_METHOD(Phalcon_Mvc_View, cache) {
 			ZEPHIR_INIT_NVAR(cacheOptions);
 			array_init(cacheOptions);
 		}
-		zephir_is_iterable(options, &_1, &_0, 0, 0, "phalcon/mvc/view.zep", 1295);
+		zephir_is_iterable(options, &_1, &_0, 0, 0, "phalcon/mvc/view.zep", 1241);
 		for (
 		  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_1, &_0)
@@ -1777,9 +1723,6 @@ PHP_METHOD(Phalcon_Mvc_View, cache) {
  *<code>
  *	$this->view->setContent("<h1>hello</h1>");
  *</code>
- *
- * @param string content
- * @return Phalcon\Mvc\View
  */
 PHP_METHOD(Phalcon_Mvc_View, setContent) {
 
@@ -1799,8 +1742,6 @@ PHP_METHOD(Phalcon_Mvc_View, setContent) {
 
 /**
  * Returns cached output from another view stage
- *
- * @return string
  */
 PHP_METHOD(Phalcon_Mvc_View, getContent) {
 
@@ -1811,8 +1752,6 @@ PHP_METHOD(Phalcon_Mvc_View, getContent) {
 
 /**
  * Returns the path of the view that is currently rendered
- *
- * @return string
  */
 PHP_METHOD(Phalcon_Mvc_View, getActiveRenderPath) {
 
@@ -1823,8 +1762,6 @@ PHP_METHOD(Phalcon_Mvc_View, getActiveRenderPath) {
 
 /**
  * Disables the auto-rendering process
- *
- * @return Phalcon\Mvc\View
  */
 PHP_METHOD(Phalcon_Mvc_View, disable) {
 
@@ -1836,8 +1773,6 @@ PHP_METHOD(Phalcon_Mvc_View, disable) {
 
 /**
  * Enables the auto-rendering process
- *
- * @return Phalcon\Mvc\View
  */
 PHP_METHOD(Phalcon_Mvc_View, enable) {
 
@@ -1849,8 +1784,6 @@ PHP_METHOD(Phalcon_Mvc_View, enable) {
 
 /**
  * Resets the view component to its factory default values
- *
- * @return Phalcon\Mvc\View
  */
 PHP_METHOD(Phalcon_Mvc_View, reset) {
 
@@ -1950,8 +1883,6 @@ PHP_METHOD(Phalcon_Mvc_View, __get) {
 
 /**
  * Whether automatic rendering is enabled
- *
- * @return boolean
  */
 PHP_METHOD(Phalcon_Mvc_View, isDisabled) {
 

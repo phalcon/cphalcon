@@ -34,9 +34,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_BehaviorInterface, __construct);
 
 /**
  * This method receives the notifications from the EventsManager
- *
- * @param string type
- * @param Phalcon\Mvc\ModelInterface model
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_BehaviorInterface, notify);
 

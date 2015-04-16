@@ -27,8 +27,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Micro_MiddlewareInterface) {
 
 /**
  * Calls the middleware
- *
- * @param Phalcon\Mvc\Micro application
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Micro_MiddlewareInterface, call);
 

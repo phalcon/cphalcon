@@ -27,8 +27,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_CollectionInterface) {
 
 /**
  * Phalcon\Mvc\Collection
- *
- * @param Phalcon\DiInterface dependencyInjector
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_CollectionInterface, __construct);
 
@@ -132,8 +130,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_CollectionInterface, getMessages);
 
 /**
  * Appends a customized message on the validation process
- *
- * @param Phalcon\Mvc\Model\MessageInterface message
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_CollectionInterface, appendMessage);
 

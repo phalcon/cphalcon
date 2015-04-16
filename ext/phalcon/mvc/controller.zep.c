@@ -63,7 +63,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Controller) {
 
 /**
  * Phalcon\Mvc\Controller constructor
- *
  */
 PHP_METHOD(Phalcon_Mvc_Controller, __construct) {
 

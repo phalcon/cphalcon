@@ -67,8 +67,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Collection_Manager) {
 
 /**
  * Sets the DependencyInjector container
- *
- * @param Phalcon\DiInterface $dependencyInjector
  */
 PHP_METHOD(Phalcon_Mvc_Collection_Manager, setDI) {
 
@@ -84,8 +82,6 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, setDI) {
 
 /**
  * Returns the DependencyInjector container
- *
- * @return Phalcon\DiInterface
  */
 PHP_METHOD(Phalcon_Mvc_Collection_Manager, getDI) {
 
@@ -96,8 +92,6 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, getDI) {
 
 /**
  * Sets the event manager
- *
- * @param Phalcon\Events\ManagerInterface $eventsManager
  */
 PHP_METHOD(Phalcon_Mvc_Collection_Manager, setEventsManager) {
 
@@ -113,8 +107,6 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, setEventsManager) {
 
 /**
  * Returns the internal event manager
- *
- * @return Phalcon\Events\ManagerInterface
  */
 PHP_METHOD(Phalcon_Mvc_Collection_Manager, getEventsManager) {
 
@@ -125,9 +117,6 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, getEventsManager) {
 
 /**
  * Sets a custom events manager for a specific model
- *
- * @param Phalcon\Mvc\CollectionInterface $model
- * @param Phalcon\Events\ManagerInterface $eventsManager
  */
 PHP_METHOD(Phalcon_Mvc_Collection_Manager, setCustomEventsManager) {
 
@@ -166,7 +155,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, getCustomEventsManager) {
 		ZEPHIR_INIT_VAR(className);
 		zephir_get_class(className, model, 1 TSRMLS_CC);
 		if (zephir_array_isset(customEventsManager, className)) {
-			zephir_array_fetch(&_0, customEventsManager, className, PH_NOISY | PH_READONLY, "phalcon/mvc/collection/manager.zep", 128 TSRMLS_CC);
+			zephir_array_fetch(&_0, customEventsManager, className, PH_NOISY | PH_READONLY, "phalcon/mvc/collection/manager.zep", 117 TSRMLS_CC);
 			RETURN_CTOR(_0);
 		}
 	}
@@ -176,8 +165,6 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, getCustomEventsManager) {
 
 /**
  * Initializes a model in the models manager
- *
- * @param Phalcon\Mvc\CollectionInterface model
  */
 PHP_METHOD(Phalcon_Mvc_Collection_Manager, initialize) {
 
@@ -241,8 +228,6 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, isInitialized) {
 
 /**
  * Get the latest initialized model
- *
- * @return Phalcon\Mvc\CollectionInterface
  */
 PHP_METHOD(Phalcon_Mvc_Collection_Manager, getLastInitialized) {
 
@@ -253,9 +238,6 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, getLastInitialized) {
 
 /**
  * Sets a connection service for a specific model
- *
- * @param Phalcon\Mvc\CollectionInterface model
- * @param string connectionService
  */
 PHP_METHOD(Phalcon_Mvc_Collection_Manager, setConnectionService) {
 
@@ -287,9 +269,6 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, setConnectionService) {
 
 /**
  * Sets whether a model must use implicit objects ids
- *
- * @param Phalcon\Mvc\CollectionInterface model
- * @param boolean useImplicitObjectIds
  */
 PHP_METHOD(Phalcon_Mvc_Collection_Manager, useImplicitObjectIds) {
 
@@ -313,9 +292,6 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, useImplicitObjectIds) {
 
 /**
  * Checks if a model is using implicit object ids
- *
- * @param Phalcon\Mvc\CollectionInterface model
- * @return boolean
  */
 PHP_METHOD(Phalcon_Mvc_Collection_Manager, isUsingImplicitObjectIds) {
 
@@ -353,7 +329,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, getConnection) {
 
 
 	if (Z_TYPE_P(model) != IS_OBJECT) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_collection_exception_ce, "A valid collection instance is required", "phalcon/mvc/collection/manager.zep", 247);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_collection_exception_ce, "A valid collection instance is required", "phalcon/mvc/collection/manager.zep", 223);
 		return;
 	}
 	ZEPHIR_INIT_VAR(service);
@@ -365,19 +341,19 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, getConnection) {
 		zephir_get_class(entityName, model, 0 TSRMLS_CC);
 		if (zephir_array_isset(connectionService, entityName)) {
 			ZEPHIR_OBS_NVAR(service);
-			zephir_array_fetch(&service, connectionService, entityName, PH_NOISY, "phalcon/mvc/collection/manager.zep", 259 TSRMLS_CC);
+			zephir_array_fetch(&service, connectionService, entityName, PH_NOISY, "phalcon/mvc/collection/manager.zep", 235 TSRMLS_CC);
 		}
 	}
 	ZEPHIR_OBS_VAR(dependencyInjector);
 	zephir_read_property_this(&dependencyInjector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	if (Z_TYPE_P(dependencyInjector) != IS_OBJECT) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_collection_exception_ce, "A dependency injector container is required to obtain the services related to the ORM", "phalcon/mvc/collection/manager.zep", 265);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_collection_exception_ce, "A dependency injector container is required to obtain the services related to the ORM", "phalcon/mvc/collection/manager.zep", 241);
 		return;
 	}
 	ZEPHIR_CALL_METHOD(&connection, dependencyInjector, "getshared", NULL, service);
 	zephir_check_call_status();
 	if (Z_TYPE_P(connection) != IS_OBJECT) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_collection_exception_ce, "Invalid injected connection service", "phalcon/mvc/collection/manager.zep", 273);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_collection_exception_ce, "Invalid injected connection service", "phalcon/mvc/collection/manager.zep", 249);
 		return;
 	}
 	RETURN_CCTOR(connection);
@@ -387,9 +363,6 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, getConnection) {
 /**
  * Receives events generated in the models and dispatches them to a events-manager if available
  * Notify the behaviors that are listening in the model
- *
- * @param string eventName
- * @param Phalcon\Mvc\CollectionInterface model
  */
 PHP_METHOD(Phalcon_Mvc_Collection_Manager, notifyEvent) {
 

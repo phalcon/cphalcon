@@ -60,8 +60,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Dispatcher) {
 
 /**
  * Sets the default controller suffix
- *
- * @param string controllerSuffix
  */
 PHP_METHOD(Phalcon_Mvc_Dispatcher, setControllerSuffix) {
 
@@ -91,8 +89,6 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, setControllerSuffix) {
 
 /**
  * Sets the default controller name
- *
- * @param string controllerName
  */
 PHP_METHOD(Phalcon_Mvc_Dispatcher, setDefaultController) {
 
@@ -122,8 +118,6 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, setDefaultController) {
 
 /**
  * Sets the controller name to be dispatched
- *
- * @param string controllerName
  */
 PHP_METHOD(Phalcon_Mvc_Dispatcher, setControllerName) {
 
@@ -153,8 +147,6 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, setControllerName) {
 
 /**
  * Gets last dispatched controller name
- *
- * @return string
  */
 PHP_METHOD(Phalcon_Mvc_Dispatcher, getControllerName) {
 
@@ -165,8 +157,6 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, getControllerName) {
 
 /**
  * Gets previous dispatched controller name
- *
- * @return string
  */
 PHP_METHOD(Phalcon_Mvc_Dispatcher, getPreviousControllerName) {
 
@@ -177,8 +167,6 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, getPreviousControllerName) {
 
 /**
  * Gets previous dispatched action name
- *
- * @return string
  */
 PHP_METHOD(Phalcon_Mvc_Dispatcher, getPreviousActionName) {
 
@@ -189,9 +177,6 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, getPreviousActionName) {
 
 /**
  * Throws an internal exception
- *
- * @param string message
- * @param int exceptionCode
  */
 PHP_METHOD(Phalcon_Mvc_Dispatcher, _throwDispatchException) {
 
@@ -233,7 +218,7 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, _throwDispatchException) {
 		ZEPHIR_CALL_METHOD(NULL, _0, "__construct", &_3, _1, _2);
 		zephir_check_temp_parameter(_1);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(_0, "phalcon/mvc/dispatcher.zep", 135 TSRMLS_CC);
+		zephir_throw_exception_debug(_0, "phalcon/mvc/dispatcher.zep", 120 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -261,7 +246,7 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, _throwDispatchException) {
 	if (ZEPHIR_IS_FALSE_IDENTICAL(_4)) {
 		RETURN_MM_BOOL(0);
 	}
-	zephir_throw_exception_debug(exception, "phalcon/mvc/dispatcher.zep", 157 TSRMLS_CC);
+	zephir_throw_exception_debug(exception, "phalcon/mvc/dispatcher.zep", 142 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 	return;
 
@@ -269,8 +254,6 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, _throwDispatchException) {
 
 /**
  * Handles a user exception
- *
- * @param \Exception exception
  */
 PHP_METHOD(Phalcon_Mvc_Dispatcher, _handleException) {
 
@@ -300,8 +283,6 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, _handleException) {
 
 /**
  * Possible controller class name that will be located to dispatch the request
- *
- * @return string
  */
 PHP_METHOD(Phalcon_Mvc_Dispatcher, getControllerClass) {
 
@@ -317,8 +298,6 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, getControllerClass) {
 
 /**
  * Returns the lastest dispatched controller
- *
- * @return Phalcon\Mvc\ControllerInterface
  */
 PHP_METHOD(Phalcon_Mvc_Dispatcher, getLastController) {
 
@@ -329,8 +308,6 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, getLastController) {
 
 /**
  * Returns the active controller in the dispatcher
- *
- * @return Phalcon\Mvc\ControllerInterface
  */
 PHP_METHOD(Phalcon_Mvc_Dispatcher, getActiveController) {
 

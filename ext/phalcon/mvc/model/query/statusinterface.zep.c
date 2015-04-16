@@ -27,16 +27,11 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Query_StatusInterface) {
 
 /**
  * Phalcon\Mvc\Model\Query\Status
- *
- * @param boolean success
- * @param Phalcon\Mvc\ModelInterface model
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_StatusInterface, __construct);
 
 /**
  * Returns the model which executed the action
- *
- * @return Phalcon\Mvc\ModelInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_StatusInterface, getModel);
 
@@ -49,8 +44,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_StatusInterface, getMessages);
 
 /**
  * Allows to check if the executed operation was successful
- *
- * @return boolean
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_StatusInterface, success);
 

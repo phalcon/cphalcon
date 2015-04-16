@@ -164,19 +164,11 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, notBetweenWhere);
 
 /**
  * Appends an IN condition to the current conditions
- *
- * @param string expr
- * @param array values
- * @return Phalcon\Mvc\Model\Query\Builder
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, inWhere);
 
 /**
  * Appends a NOT IN condition to the current conditions
- *
- * @param string expr
- * @param array values
- * @return Phalcon\Mvc\Model\Query\Builder
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, notInWhere);
 

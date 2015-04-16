@@ -84,8 +84,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Application) {
 
 /**
  * Phalcon\Mvc\Application
- *
- * @param Phalcon\DiInterface dependencyInjector
  */
 PHP_METHOD(Phalcon_Mvc_Application, __construct) {
 
@@ -107,9 +105,6 @@ PHP_METHOD(Phalcon_Mvc_Application, __construct) {
 /**
  * By default. The view is implicitly buffering all the output
  * You can full disable the view component using this method
- *
- * @param boolean implicitView
- * @return Phalcon\Mvc\Application
  */
 PHP_METHOD(Phalcon_Mvc_Application, useImplicitView) {
 
@@ -141,10 +136,6 @@ PHP_METHOD(Phalcon_Mvc_Application, useImplicitView) {
  *		)
  *	));
  *</code>
- *
- * @param array modules
- * @param boolean merge
- * @param Phalcon\Mvc\Application
  */
 PHP_METHOD(Phalcon_Mvc_Application, registerModules) {
 
@@ -230,7 +221,7 @@ PHP_METHOD(Phalcon_Mvc_Application, getModule) {
 		ZEPHIR_CONCAT_SVS(_2, "Module '", name, "' isn't registered in the application container");
 		ZEPHIR_CALL_METHOD(NULL, _1, "__construct", &_3, _2);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(_1, "phalcon/mvc/application.zep", 168 TSRMLS_CC);
+		zephir_throw_exception_debug(_1, "phalcon/mvc/application.zep", 159 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -240,9 +231,6 @@ PHP_METHOD(Phalcon_Mvc_Application, getModule) {
 
 /**
  * Sets the module name to be used if the router doesn't return a valid module
- *
- * @param string defaultModule
- * @return Phalcon\Mvc\Application
  */
 PHP_METHOD(Phalcon_Mvc_Application, setDefaultModule) {
 
@@ -272,8 +260,6 @@ PHP_METHOD(Phalcon_Mvc_Application, setDefaultModule) {
 
 /**
  * Returns the default module name
- *
- * @return string
  */
 PHP_METHOD(Phalcon_Mvc_Application, getDefaultModule) {
 
@@ -307,7 +293,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle) {
 	ZEPHIR_OBS_VAR(dependencyInjector);
 	zephir_read_property_this(&dependencyInjector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	if (Z_TYPE_P(dependencyInjector) != IS_OBJECT) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_application_exception_ce, "A dependency injection object is required to access internal services", "phalcon/mvc/application.zep", 212);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_application_exception_ce, "A dependency injection object is required to access internal services", "phalcon/mvc/application.zep", 197);
 		return;
 	}
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_eventsManager"), PH_NOISY_CC);
@@ -356,7 +342,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle) {
 			_3 = Z_TYPE_P(module) != IS_OBJECT;
 		}
 		if (_3) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_application_exception_ce, "Invalid module definition", "phalcon/mvc/application.zep", 263);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_application_exception_ce, "Invalid module definition", "phalcon/mvc/application.zep", 248);
 			return;
 		}
 		if (Z_TYPE_P(module) == IS_ARRAY) {
@@ -379,7 +365,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle) {
 						ZEPHIR_CONCAT_SVS(_4, "Module definition path '", path, "' doesn't exist");
 						ZEPHIR_CALL_METHOD(NULL, _2, "__construct", &_5, _4);
 						zephir_check_call_status();
-						zephir_throw_exception_debug(_2, "phalcon/mvc/application.zep", 286 TSRMLS_CC);
+						zephir_throw_exception_debug(_2, "phalcon/mvc/application.zep", 271 TSRMLS_CC);
 						ZEPHIR_MM_RESTORE();
 						return;
 					}
@@ -401,7 +387,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle) {
 				ZEPHIR_CALL_USER_FUNC_ARRAY(moduleObject, module, _7);
 				zephir_check_call_status();
 			} else {
-				ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_application_exception_ce, "Invalid module definition", "phalcon/mvc/application.zep", 307);
+				ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_application_exception_ce, "Invalid module definition", "phalcon/mvc/application.zep", 292);
 				return;
 			}
 		}

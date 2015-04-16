@@ -41,8 +41,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Validator) {
 
 /**
  * Phalcon\Mvc\Model\Validator constructor
- *
- * @param array options
  */
 PHP_METHOD(Phalcon_Mvc_Model_Validator, __construct) {
 
@@ -177,9 +175,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator, getOption) {
 
 /**
  * Check whether a option has been defined in the validator options
- *
- * @param	string option
- * @return	boolean
  */
 PHP_METHOD(Phalcon_Mvc_Model_Validator, isSetOption) {
 

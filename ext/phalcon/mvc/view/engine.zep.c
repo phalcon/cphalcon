@@ -60,8 +60,6 @@ PHP_METHOD(Phalcon_Mvc_View_Engine, __construct) {
 
 /**
  * Returns cached ouput on another view stage
- *
- * @return string
  */
 PHP_METHOD(Phalcon_Mvc_View_Engine, getContent) {
 
@@ -118,8 +116,6 @@ PHP_METHOD(Phalcon_Mvc_View_Engine, partial) {
 
 /**
  * Returns the view component related to the adapter
- *
- * @return Phalcon\Mvc\ViewInterface
  */
 PHP_METHOD(Phalcon_Mvc_View_Engine, getView) {
 

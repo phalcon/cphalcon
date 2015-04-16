@@ -186,8 +186,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_ViewInterface, start);
 
 /**
  * Register templating engines
- *
- * @param array engines
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ViewInterface, registerEngines);
 

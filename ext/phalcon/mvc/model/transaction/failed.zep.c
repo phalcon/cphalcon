@@ -37,9 +37,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Transaction_Failed) {
 
 /**
  * Phalcon\Mvc\Model\Transaction\Failed constructor
- *
- * @param string message
- * @param Phalcon\Mvc\ModelInterface record
  */
 PHP_METHOD(Phalcon_Mvc_Model_Transaction_Failed, __construct) {
 
@@ -75,8 +72,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Failed, __construct) {
 
 /**
  * Returns validation record messages which stop the transaction
- *
- * @return Phalcon\Mvc\Model\MessageInterface[]
  */
 PHP_METHOD(Phalcon_Mvc_Model_Transaction_Failed, getRecordMessages) {
 
@@ -100,8 +95,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Failed, getRecordMessages) {
 
 /**
  * Returns validation record messages which stop the transaction
- *
- * @return Phalcon\Mvc\ModelInterface
  */
 PHP_METHOD(Phalcon_Mvc_Model_Transaction_Failed, getRecord) {
 

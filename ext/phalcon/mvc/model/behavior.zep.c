@@ -129,9 +129,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior, getOptions) {
 
 /**
  * This method receives the notifications from the EventsManager
- *
- * @param string type
- * @param Phalcon\Mvc\ModelInterface model
  */
 PHP_METHOD(Phalcon_Mvc_Model_Behavior, notify) {
 

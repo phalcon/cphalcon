@@ -113,9 +113,6 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, __construct) {
 
 /**
  * Set a hostname restriction for all the routes in the group
- *
- * @param string hostname
- * @return Phalcon\Mvc\Router\Group
  */
 PHP_METHOD(Phalcon_Mvc_Router_Group, setHostname) {
 
@@ -135,8 +132,6 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, setHostname) {
 
 /**
  * Returns the hostname restriction
- *
- * @return string
  */
 PHP_METHOD(Phalcon_Mvc_Router_Group, getHostname) {
 
@@ -147,9 +142,6 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, getHostname) {
 
 /**
  * Set a common uri prefix for all the routes in this group
- *
- * @param string prefix
- * @return Phalcon\Mvc\Router\Group
  */
 PHP_METHOD(Phalcon_Mvc_Router_Group, setPrefix) {
 
@@ -169,8 +161,6 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, setPrefix) {
 
 /**
  * Returns the common prefix for all the routes
- *
- * @return string
  */
 PHP_METHOD(Phalcon_Mvc_Router_Group, getPrefix) {
 
@@ -200,8 +190,6 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, beforeMatch) {
 
 /**
  * Returns the before-match condition if any
- *
- * @return string
  */
 PHP_METHOD(Phalcon_Mvc_Router_Group, getBeforeMatch) {
 
