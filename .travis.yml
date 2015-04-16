@@ -34,7 +34,7 @@ before_script:
  - ulimit -c unlimited || true
 
 script:
- - ./runTests.sh
+ - ./run-tests.sh
 
 after_failure:
  - sudo apt-get -qq install gdb

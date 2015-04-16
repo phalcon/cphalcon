@@ -9,15 +9,21 @@ Contributions to Phalcon should be made in the form of GitHub pull requests. Eac
 
 ## Pull Request Checklist
 
-- Branch from the required branch and, if needed, rebase to the current master
-  branch before submitting your pull request. If it doesn't merge cleanly with
-  master you may be asked to rebase your changes.
+- Phalcon 2 is written in [Zephir](http://zephir-lang.com/), please do not submit 
+  any change that directly modifes C generated files or the functionality/fixes 
+  is implemented in C language
+
+- Do not submit your pull requests to master. Branch from the required branch and, 
+  if needed, rebase to the proper branch before submitting your pull request. 
+  If it doesn't merge cleanly with master you may be asked to rebase your changes.
 
 - Don't put submodule updates in your pull request unless they are to landed
   commits.
 
 - Add tests relevant to the fixed bug or new feature. See our testing
   guide for more information.
+
+- Remove any change to ext/kernel / *.zep.c / *.zep.h files before submit the pull request
 
 ## Getting Support
 

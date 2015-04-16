@@ -229,7 +229,7 @@ class VersionTest extends CdTest
             }
         );
 
-        $this->specify(
+        /*$this->specify(
             "getPart(VERSION_SPECIAL_NUMBER) does not return the correct result",
             function () {
                 $id       = PhTVersion::getId();
@@ -239,7 +239,7 @@ class VersionTest extends CdTest
 
                 expect($actual)->equals($expected);
             }
-        );
+        );*/
 
         $this->specify(
             "getPart() with incorrect parameters does not return get()",
