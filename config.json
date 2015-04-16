@@ -9,8 +9,8 @@
     "namespace": "phalcon",
     "name": "phalcon",
     "description": "Web framework delivered as a C-extension for PHP",
-    "author": "Phalcon Team and Contributors",
-    "version": "2.0.0-RC1",
+    "author": "Phalcon Team and contributors",
+    "version": "2.0.0",
     "verbose": false,
     "optimizer-dirs": [
         "optimizers"
