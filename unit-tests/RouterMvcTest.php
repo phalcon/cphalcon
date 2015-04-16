@@ -538,13 +538,13 @@ class RouterMvcTest extends PHPUnit_Framework_TestCase
 			'action' => 'show',
 		));
 
-		$route = $router->add("/route3", "MyApp\\Controllers\\::show");
+		$route = $router->add("/route4", "MyApp\\Controllers\\::show");
 		$this->assertEquals($route->getPaths(), array(
 			'controller' => '',
 			'action' => 'show',
 		));
 
-		$route = $router->add("/route3", "News::MyApp\\Controllers\\Posts::show");
+		$route = $router->add("/route5", "News::MyApp\\Controllers\\Posts::show");
 		$this->assertEquals($route->getPaths(), array(
 			'module' => 'News',
 			'namespace' => 'MyApp\\Controllers',
@@ -552,9 +552,21 @@ class RouterMvcTest extends PHPUnit_Framework_TestCase
 			'action' => 'show',
 		));
 
-		$route = $router->add("/route3", "\\Posts::show");
+		$route = $router->add("/route6", "\\Posts::show");
 		$this->assertEquals($route->getPaths(), array(
 			'controller' => 'posts',
+			'action' => 'show',
+		));
+
+		$route = $router->add("/route7", 'MyPosts::show');
+		$this->assertEquals($route->getPaths(), array(
+			'controller' => 'my_posts',
+			'action' => 'show',
+		));
+
+		$route = $router->add("/route8", array('controller' => 'MyPosts', 'action' => 'show'));
+		$this->assertEquals($route->getPaths(), array(
+			'controller' => 'my_posts',
 			'action' => 'show',
 		));
 	}
@@ -960,5 +972,4 @@ class RouterMvcTest extends PHPUnit_Framework_TestCase
 
 		$this->assertEquals($router->getMatches(), array(0 => '/c', 1 => 'c', 2 => 'c'));
 	}
-
 }
