@@ -164,6 +164,18 @@ class DispatcherMvcTest extends PHPUnit_Framework_TestCase
 		$dispatcher->dispatch();
 		$value = $dispatcher->getReturnedValue();
 		$this->assertEquals($value, "hello");
+
+		$dispatcher->setControllerName('nofound');
+		$dispatcher->setActionName('index');
+		$dispatcher->setParams(array());
+		$dispatcher->setErrorHandler('Error::index', Phalcon\Dispatcher::EXCEPTION_HANDLER_NOT_FOUND);
+
+		try {
+			$dispatcher->dispatch();
+		}
+		catch(Phalcon\Exception $e){
+			$this->assertEquals($e->getMessage(), "ErrorController handler class cannot be loaded");
+		}
 	}
 
 	public function testDispatcherForward()

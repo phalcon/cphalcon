@@ -1054,7 +1054,7 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 PHP_METHOD(Phalcon_Dispatcher, forward){
 
 	zval *forward, *forward_parts = NULL, *parts, *number_parts, *controller_part;
-	zval *real_namespace_name, *real_controller_name, *action_part, *exception_code, *exception_message;
+	zval *real_namespace_name, *real_controller_name = NULL, *action_part, *exception_code, *exception_message;
 	zval *namespace_name, *controller_name, *task_name, *action_name, *params;
 	zval *previous_namespace_name, *previous_controller_name, *previous_action_name, *previous_params;
 	int num = 0;
