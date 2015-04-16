@@ -891,8 +891,16 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 			let dependencyInjector = \Phalcon\Di::getDefault();
 		}
 
-		let criteria = new Criteria();
-		criteria->setDI(dependencyInjector);
+		/**
+		 * Gets Criteria instance from DI container
+		 */
+		if dependencyInjector instanceof DiInterface {
+			let criteria = <CriteriaInterface> dependencyInjector->get("\Phalcon\Mvc\Model\Criteria");
+		} else {
+			let criteria = new \Phalcon\Mvc\Model\Criteria();
+			criteria->setDI(dependencyInjector);
+		}
+
 		criteria->setModelName(get_called_class());
 
 		return criteria;
