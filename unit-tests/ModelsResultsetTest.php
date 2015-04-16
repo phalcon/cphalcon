@@ -552,8 +552,8 @@ class ModelsResultsetTest extends PHPUnit_Framework_TestCase
 		
 		// see http://php.net/manual/en/appenditerator.construct.php
 		$iterator = new \AppendIterator();
-		$robots_first = Robots::find(['limit' => 2]);
-		$robots_second = Robots::find(['limit' => 1, 'offset' => 2]);
+		$robots_first = Robots::find(array('limit' => 2));
+		$robots_second = Robots::find(array('limit' => 1, 'offset' => 2));
 		
 		$robots_first_0 = $robots_first[0];
 		$robots_first_1 = $robots_first[1];
