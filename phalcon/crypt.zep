@@ -19,6 +19,7 @@
 
 namespace Phalcon;
 
+use Phalcon\CryptInterface;
 use Phalcon\Crypt\Exception;
 
 /**
@@ -37,7 +38,7 @@ use Phalcon\Crypt\Exception;
  *	echo $crypt->decrypt($encrypted, $key);
  *</code>
  */
-class Crypt implements \Phalcon\CryptInterface
+class Crypt implements CryptInterface
 {
 
 	protected _key;
@@ -66,11 +67,11 @@ class Crypt implements \Phalcon\CryptInterface
 	* @brief Phalcon\CryptInterface Phalcon\Crypt::setPadding(int $scheme)
 	*
 	* @param int scheme Padding scheme
-	* @return Phalcon\CryptInterface
 	*/
-	public function setPadding(int! scheme)
+	public function setPadding(int! scheme) -> <CryptInterface>
 	{
 		let this->_padding = scheme;
+		return this;
 	}
 
 	/**
