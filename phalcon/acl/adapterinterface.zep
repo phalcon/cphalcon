@@ -29,128 +29,81 @@ interface AdapterInterface
 
 	/**
 	 * Sets the default access level (Phalcon\Acl::ALLOW or Phalcon\Acl::DENY)
-	 *
-	 * @param int defaultAccess
 	 */
-	public function setDefaultAction(defaultAccess);
+	public function setDefaultAction(int defaultAccess);
 
 	/**
 	 * Returns the default ACL access level
-	 *
-	 * @return int
 	 */
-	public function getDefaultAction();
+	public function getDefaultAction() -> int;
 
 	/**
 	 * Adds a role to the ACL list. Second parameter lets to inherit access data from other existing role
-	 *
-	 * @param  Phalcon\Acl\RoleInterface role
-	 * @param  string accessInherits
-	 * @return boolean
 	 */
-	public function addRole(role, accessInherits=null);
+	public function addRole(role, accessInherits = null) -> boolean;
 
 	/**
 	 * Do a role inherit from another existing role
-	 *
-	 * @param string roleName
-	 * @param string roleToInherit
 	 */
 	public function addInherit(string roleName, roleToInherit);
 
 	/**
 	 * Check whether role exist in the roles list
-	 *
-	 * @param  string roleName
-	 * @return boolean
 	 */
-	public function isRole(roleName);
+	public function isRole(string roleName) -> boolean;
 
 	/**
 	 * Check whether resource exist in the resources list
-	 *
-	 * @param  string resourceName
-	 * @return boolean
 	 */
-	public function isResource(resourceName);
+	public function isResource(string resourceName) -> boolean;
 
 	/**
 	 * Adds a resource to the ACL list
 	 *
 	 * Access names can be a particular action, by example
 	 * search, update, delete, etc or a list of them
-	 *
-	 * @param   Phalcon\Acl\ResourceInterface resource
-	 * @param   array accessList
-	 * @return  boolean
 	 */
-	public function addResource(resourceObject, accessList=null);
+	public function addResource(resourceObject, accessList=null) -> boolean;
 
 	/**
 	 * Adds access to resources
-	 *
-	 * @param string resourceName
-	 * @param mixed accessList
 	 */
-	public function addResourceAccess(resourceName, accessList);
+	public function addResourceAccess(string resourceName, accessList);
 
 	/**
 	 * Removes an access from a resource
-	 *
-	 * @param string resourceName
-	 * @param mixed accessList
 	 */
-	public function dropResourceAccess(resourceName, accessList);
+	public function dropResourceAccess(string resourceName, accessList);
 
 	/**
 	 * Allow access to a role on a resource
-	 *
-	 * @param string roleName
-	 * @param string resourceName
-	 * @param mixed access
 	 */
-	public function allow(roleName, resourceName, access);
+	public function allow(string roleName, string resourceName, access);
 
 	/**
 	 * Deny access to a role on a resource
-	 *
-	 * @param string roleName
-	 * @param string resourceName
-	 * @param mixed access
-	 * @return boolean
 	 */
-	public function deny(roleName, resourceName, access);
+	public function deny(string roleName, string resourceName, access);
 
 	/**
 	 * Check whether a role is allowed to access an action from a resource
-	 *
-	 * @param  string role
-	 * @param  string resource
-	 * @param  string access
-	 * @return boolean
 	 */
-	public function isAllowed(roleName, resourceName, access);
+	public function isAllowed(string roleName, string resourceName, access) -> boolean;
 
 	/**
 	 * Returns the role which the list is checking if it's allowed to certain resource/access
-	 *
-	 * @return string
 	 */
-	public function getActiveRole();
+	public function getActiveRole() -> string;
 
 	/**
 	 * Returns the resource which the list is checking if some role can access it
-	 *
-	 * @return string
 	 */
-	public function getActiveResource();
+	public function getActiveResource() -> string;
 
 	/**
 	 * Returns the access which the list is checking if some role can access it
-	 *
-	 * @return string
 	 */
-	public function getActiveAccess();
+	public function getActiveAccess() -> string;
 
 	/**
 	 * Return an array with every role registered in the list

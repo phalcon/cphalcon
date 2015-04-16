@@ -67,8 +67,6 @@ class Adapter
 
 	/**
 	 * Sets the events manager
-	 *
-	 * @param Phalcon\Events\ManagerInterface eventsManager
 	 */
 	public function setEventsManager(<ManagerInterface> eventsManager)
 	{
@@ -77,8 +75,6 @@ class Adapter
 
 	/**
 	 * Returns the internal event manager
-	 *
-	 * @return Phalcon\Events\ManagerInterface
 	 */
 	public function getEventsManager() -> <ManagerInterface>
 	{
@@ -87,8 +83,6 @@ class Adapter
 
 	/**
 	 * Sets the default access level (Phalcon\Acl::ALLOW or Phalcon\Acl::DENY)
-	 *
-	 * @param int defaultAccess
 	 */
 	public function setDefaultAction(int defaultAccess)
 	{
@@ -97,8 +91,6 @@ class Adapter
 
 	/**
 	 * Returns the default ACL access level
-	 *
-	 * @return int
 	 */
 	public function getDefaultAction() -> int
 	{
