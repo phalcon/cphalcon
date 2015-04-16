@@ -90,36 +90,42 @@ class Simple extends Resultset
 	}
 
 	/**
-	 * Check whether internal resource has rows to fetch
+	 * Returns current row in the resultset
 	 *
-	 * @return boolean
+	 * @return Phalcon\Mvc\ModelInterface|false
 	 */
-	public function valid() -> boolean
+	public final function current() -> <ModelInterface> | boolean
 	{
-		var result, row, rows, hydrateMode, columnMap, activeRow;
+		var result, row, hydrateMode, columnMap, activeRow;
+		
+		let activeRow = this->_activeRow;
+		if activeRow !== null {
+			return activeRow;
+		}
 
+		/**
+		* Get current row
+		*/
 		if this->_type {
-
-			let result = this->_result;
-			if typeof result == "object" {
-				let row = result->$fetch(result);
-			} else {
-				let row = false;
-			}
+			/**
+			* Fetch from PDO one-by-one. Functions "next" and "seek" set this->_row
+			*/
+			let row = this->_row;
 		} else {
-
-			let rows = this->_rows;
-			if typeof rows != "array" {
+			/**
+			* Fetch from array. Functions "next" and "seek" set this->_pointer
+			* We have to ensure this->_rows is populated
+			*/
+			if this->_rows === null {
 				let result = this->_result;
 				if typeof result == "object" {
-					let this->_rows = result->fetchAll(), rows = this->_rows;
+					let this->_rows = result->fetchAll();
 				}
 			}
 
-			if typeof rows == "array" {
-				let row = current(rows);
-				if row !== false {
-					next(rows);
+			if typeof this->_rows == "array" {
+				if !fetch row, this->_rows[this->_pointer] {
+					let row = false;
 				}
 			} else {
 				let row = false;
@@ -169,7 +175,7 @@ class Simple extends Resultset
 		}
 
 		let this->_activeRow = activeRow;
-		return true;
+		return activeRow;
 	}
 
 	/**
@@ -182,57 +188,33 @@ class Simple extends Resultset
 	 */
 	public function toArray(boolean renameColumns = true) -> array
 	{
-		var result, activeRow, records, record, renamed, renamedKey,
+		var result, records, record, renamed, renamedKey,
 			key, value, renamedRecords, columnMap;
 
 		if this->_type {
-
+			/**
+			* Fetch from PDO one-by-one. For to array we fetch all rows at once
+			*/
 			let result = this->_result;
 			if typeof result == "object" {
-
-				let activeRow = this->_activeRow;
-
-				/**
-				 * Check if we need to re-execute the query
-				 */
-				if activeRow !== null {
-					result->execute();
-				}
-
-				/**
-				 * We fetch all the results in memory
-				 */
 				let records = result->fetchAll();
 			} else {
 				let records = [];
 			}
 
 		} else {
-
+			/**
+			* Fetch from array. this->_rows is alreay our data-array we want to return
+			*/
 			let records = this->_rows;
 			if typeof records != "array" {
 				let result = this->_result;
 				if typeof result == "object" {
-
-					let activeRow = this->_activeRow;
-
-					/**
-				 	 * Check if we need to re-execute the query
-				 	 */
-					if activeRow !== null {
-						result->execute();
-					}
-
 					/**
 					 * We fetch all the results in memory again
 					 */
 					let records = result->fetchAll(),
 						this->_rows = records;
-
-					/**
-					 * Update the row count
-					 */
-					let this->_count = count(records);
 				} else {
 					let records = [];
 				}
@@ -293,12 +275,6 @@ class Simple extends Resultset
 	 */
 	public function serialize() -> string
 	{
-
-		/**
-		 * Force to re-execute the query
-		 */
-		let this->_activeRow = false;
-
 		/**
 		 * Serialize the cache using the serialize function
 		 */
@@ -316,10 +292,13 @@ class Simple extends Resultset
 	 *
 	 * @param string data
 	 */
-	public function unserialize(string! data)
+	public function unserialize(string! data) -> void
 	{
 		var resultset;
 
+		/**
+		* Enable fetch by array
+		*/
 		let this->_type = 0;
 
 		let resultset = unserialize(data);

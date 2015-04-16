@@ -78,39 +78,40 @@ class Complex extends Resultset implements ResultsetInterface
 	}
 
 	/**
-	 * Check whether internal resource has rows to fetch
+	 * Returns current row in the resultset
 	 *
-	 * @return boolean
+	 * @return Phalcon\Mvc\ModelInterface|false
 	 */
-	public function valid() -> boolean
+	public final function current() -> <ModelInterface> | boolean
 	{
-		var result, rows, row, underscore, hydrateMode,
+		var result, row, underscore, hydrateMode,
 			dirtyState, alias, activeRow, type, columnTypes,
 			column, columnValue, value, attribute, source, attributes,
 			columnMap, rowModel, keepSnapshots, sqlAlias, isPartial;
 
+		
+		let activeRow = this->_activeRow;
+		if activeRow !== null {
+			return activeRow;
+		}
+
+		/**
+		* Get current row
+		*/
 		let isPartial = this->_type;
-
 		if isPartial {
-
-			/**
-			 * The result is bigger than 32 rows so it's retrieved one by one
-			 */
-			let result = this->_result;
-			if result !== false {
-				let row = result->$fetch(result);
-			} else {
-				let row = false;
-			}
+			let row = this->_row;
 		} else {
-			/**
-			 * The full rows are dumped in this_ptr->rows
-			 */
-			let rows = this->_rows;
-			if typeof rows == "array" {
-				let row = current(rows);
-				if typeof row == "object" {
-					next(rows);
+			if this->_rows === null {
+				let result = this->_result;
+				if typeof result == "object" {
+					let this->_rows = result->fetchAll();
+				}
+			}
+
+			if typeof this->_rows == "array" {
+				if !fetch row, this->_rows[this->_pointer] {
+					let row = false;
 				}
 			} else {
 				let row = false;
@@ -120,168 +121,159 @@ class Complex extends Resultset implements ResultsetInterface
 		/**
 		 * Valid records are arrays
 		 */
-		if typeof row == "object" || typeof row == "array" {
+		if typeof row != "object" && typeof row != "array" {
+			let this->_activeRow = false;
+			return false;
+		}
 
-			/**
-			 * The result type=1 so we need to build every row
-			 */
-			if isPartial {
+		/**
+		* Resulset was unserialized, we do not need to hydrate
+		*/
+		if !isPartial {
+			let this->_activeRow = row;
+			return row;
+		}
+		
+		/**
+		 * Get current hydration mode
+		 */
+		let hydrateMode = this->_hydrateMode;
+
+		let underscore = "_";
+
+		/**
+		 * Each row in a complex result is a Phalcon\Mvc\Model\Row instance
+		 */
+		switch hydrateMode {
+
+			case Resultset::HYDRATE_RECORDS:
+				let activeRow = new Row();
+				break;
+
+			case Resultset::HYDRATE_ARRAYS:
+				let activeRow = [];
+				break;
+
+			case Resultset::HYDRATE_OBJECTS:
+			default:
+				let activeRow = new \stdClass();
+				break;
+		}
+
+		/**
+		 * Create every record according to the column types
+		 */
+		let columnTypes = this->_columnTypes;
+
+		/**
+		 * Set records as dirty state PERSISTENT by default
+		 */
+		let dirtyState = 0;
+
+		for alias, column in columnTypes {
+
+			if typeof column != "array" {
+				throw new Exception("Column type is corrupt");
+			}
+
+			let type = column["type"];
+			if type == "object" {
 
 				/**
-				 * Get current hydration mode
+				 * Object columns are assigned column by column
 				 */
-				let hydrateMode = this->_hydrateMode;
-
-				let underscore = "_";
+				let source = column["column"],
+					attributes = column["attributes"],
+					columnMap = column["columnMap"];
 
 				/**
-				 * Each row in a complex result is a Phalcon\Mvc\Model\Row instance
+				 * Assign the values from the _source_attribute notation to its real column name
+				 */
+				let rowModel = [];
+				for attribute in attributes {
+
+					/**
+					 * Columns are supposed to be in the form _table_field
+					 */
+					let columnValue = row[underscore . source . underscore. attribute],
+						rowModel[attribute] = columnValue;
+				}
+
+				/**
+				 * Generate the column value according to the hydration type
 				 */
 				switch hydrateMode {
 
 					case Resultset::HYDRATE_RECORDS:
-						let activeRow = new Row();
+
+						/**
+						 * Check if the resultset must keep snapshots
+						 */
+						if !fetch keepSnapshots, column["keepSnapshots"] {
+							let keepSnapshots = false;
+						}
+
+						/**
+						 * Get the base instance
+						 * Assign the values to the attributes using a column map
+						 */
+						let value = Model::cloneResultMap(column["instance"], rowModel, columnMap, dirtyState, keepSnapshots);
 						break;
 
-					case Resultset::HYDRATE_ARRAYS:
-						let activeRow = [];
-						break;
-
-					case Resultset::HYDRATE_OBJECTS:
 					default:
-						let activeRow = new \stdClass();
+						/**
+		 				 * Other kinds of hydrations
+		 				 */
+						let value = Model::cloneResultMapHydrate(rowModel, columnMap, hydrateMode);
 						break;
 				}
 
 				/**
-				 * Create every record according to the column types
+				 * The complete object is assigned to an attribute with the name of the alias or the model name
 				 */
-				let columnTypes = this->_columnTypes;
+				let attribute = column["balias"];
 
-				/**
-				 * Set records as dirty state PERSISTENT by default
-				 */
-				let dirtyState = 0;
-
-				for alias, column in columnTypes {
-
-					if typeof column != "array" {
-						throw new Exception("Column type is corrupt");
-					}
-
-					let type = column["type"];
-					if type == "object" {
-
-						/**
-						 * Object columns are assigned column by column
-						 */
-						let source = column["column"],
-							attributes = column["attributes"],
-							columnMap = column["columnMap"];
-
-						/**
-						 * Assign the values from the _source_attribute notation to its real column name
-						 */
-						let rowModel = [];
-						for attribute in attributes {
-
-							/**
-							 * Columns are supposed to be in the form _table_field
-							 */
-							let columnValue = row[underscore . source . underscore. attribute],
-								rowModel[attribute] = columnValue;
-						}
-
-						/**
-						 * Generate the column value according to the hydration type
-						 */
-						switch hydrateMode {
-
-							case Resultset::HYDRATE_RECORDS:
-
-								/**
-								 * Check if the resultset must keep snapshots
-								 */
-								if !fetch keepSnapshots, column["keepSnapshots"] {
-									let keepSnapshots = false;
-								}
-
-								/**
-								 * Get the base instance
-								 * Assign the values to the attributes using a column map
-								 */
-								let value = Model::cloneResultMap(column["instance"], rowModel, columnMap, dirtyState, keepSnapshots);
-								break;
-
-							default:
-								/**
-				 				 * Other kinds of hydrations
-				 				 */
-								let value = Model::cloneResultMapHydrate(rowModel, columnMap, hydrateMode);
-								break;
-						}
-
-						/**
-						 * The complete object is assigned to an attribute with the name of the alias or the model name
-						 */
-						let attribute = column["balias"];
-
-					} else {
-
-						/**
-						 * Scalar columns are simply assigned to the result object
-						 */
-						if fetch sqlAlias, column["sqlAlias"] {
-							let value = row[sqlAlias];
-						} else {
-							fetch value, row[alias];
-						}
-
-						/**
-						 * If a "balias" is defined is not an unnamed scalar
-						 */
-						if isset column["balias"] {
-							let attribute = alias;
-						} else {
-							let attribute = str_replace(underscore, "", alias);
-						}
-					}
-
-					/**
-					 * Assign the instance according to the hydration type
-					 */
-					switch hydrateMode {
-
-						case Resultset::HYDRATE_ARRAYS:
-							let activeRow[attribute] = value;
-							break;
-
-						default:
-							let activeRow->{attribute} = value;
-							break;
-					}
-				}
-
-				/**
-				 * Store the generated row in this_ptr->activeRow to be retrieved by 'current'
-				 */
-				let this->_activeRow = activeRow;
 			} else {
 
 				/**
-				 * The row is already built so we just assign it to the activeRow
+				 * Scalar columns are simply assigned to the result object
 				 */
-				let this->_activeRow = row;
+				if fetch sqlAlias, column["sqlAlias"] {
+					let value = row[sqlAlias];
+				} else {
+					fetch value, row[alias];
+				}
+
+				/**
+				 * If a "balias" is defined is not an unnamed scalar
+				 */
+				if isset column["balias"] {
+					let attribute = alias;
+				} else {
+					let attribute = str_replace(underscore, "", alias);
+				}
 			}
 
-			return true;
+			/**
+			 * Assign the instance according to the hydration type
+			 */
+			switch hydrateMode {
+
+				case Resultset::HYDRATE_ARRAYS:
+					let activeRow[attribute] = value;
+					break;
+
+				default:
+					let activeRow->{attribute} = value;
+					break;
+			}
 		}
 
 		/**
-		 * There are no results to retrieve so we update this_ptr->activeRow as false
+		 * Store the generated row in this_ptr->activeRow to be retrieved by 'current'
 		 */
-		let this->_activeRow = false;
-		return false;
+		let this->_activeRow = activeRow;
+		return activeRow;
 	}
 
 	/**
@@ -290,12 +282,37 @@ class Complex extends Resultset implements ResultsetInterface
 	 *
 	 * @return array
 	 */
-	public function toArray() -> string
+	public function toArray() -> array
 	{
-		var records, current;
-		let records = [];
-		for current in iterator(this) {
-			let records[] = current;
+		var records, result;
+		
+		if this->_type {
+			/**
+			* Fetch from PDO one-by-one. For to array we fetch all rows at once
+			*/
+			let result = this->_result;
+			if typeof result == "object" {
+				let records = result->fetchAll();
+			} else {
+				let records = [];
+			}
+		} else {
+			/**
+			* Fetch from array. this->_rows is alreay our data-array we want to return
+			*/
+			let records = this->_rows;
+			if typeof records != "array" {
+				let result = this->_result;
+				if typeof result == "object" {
+					/**
+					 * We fetch all the results in memory again
+					 */
+					let records = result->fetchAll(),
+						this->_rows = records;
+				} else {
+					let records = [];
+				}
+			}
 		}
 		return records;
 	}
@@ -340,10 +357,13 @@ class Complex extends Resultset implements ResultsetInterface
 	 *
 	 * @param string data
 	 */
-	public function unserialize(data) -> void
+	public function unserialize(string! data) -> void
 	{
 		var resultset;
 
+		/**
+		* Enable fetch by array
+		*/
 		let this->_type = 0;
 
 		let resultset = unserialize(data);
