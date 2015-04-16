@@ -12,23 +12,6 @@
 #include "kernel/main.h"
 
 
-/*
- +------------------------------------------------------------------------+
- | Phalcon Framework                                                      |
- +------------------------------------------------------------------------+
- | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
- +------------------------------------------------------------------------+
- | This source file is subject to the New BSD License that is bundled     |
- | with this package in the file docs/LICENSE.txt.                        |
- |                                                                        |
- | If you did not receive a copy of the license and are unable to         |
- | obtain it through the world-wide-web, please send an email             |
- | to license@phalconphp.com so we can send you a copy immediately.       |
- +------------------------------------------------------------------------+
- | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
- |          Eduar Carvajal <eduar@phalconphp.com>                         |
- +------------------------------------------------------------------------+
- */
 /**
  * Phalcon\DispatcherInterface
  *
@@ -44,50 +27,36 @@ ZEPHIR_INIT_CLASS(Phalcon_DispatcherInterface) {
 
 /**
  * Sets the default action suffix
- *
- * @param string actionSuffix
  */
 ZEPHIR_DOC_METHOD(Phalcon_DispatcherInterface, setActionSuffix);
 
 /**
  * Sets the default namespace
- *
- * @param string defaultNamespace
  */
 ZEPHIR_DOC_METHOD(Phalcon_DispatcherInterface, setDefaultNamespace);
 
 /**
  * Sets the default action name
- *
- * @param string actionName
  */
 ZEPHIR_DOC_METHOD(Phalcon_DispatcherInterface, setDefaultAction);
 
 /**
  * Sets the namespace which the controller belongs to
- *
- * @param string namespaceName
  */
 ZEPHIR_DOC_METHOD(Phalcon_DispatcherInterface, setNamespaceName);
 
 /**
  * Sets the module name which the application belongs to
- *
- * @param string moduleName
  */
 ZEPHIR_DOC_METHOD(Phalcon_DispatcherInterface, setModuleName);
 
 /**
  * Sets the action name to be dispatched
- *
- * @param string actionName
  */
 ZEPHIR_DOC_METHOD(Phalcon_DispatcherInterface, setActionName);
 
 /**
  * Gets last dispatched action name
- *
- * @return string
  */
 ZEPHIR_DOC_METHOD(Phalcon_DispatcherInterface, getActionName);
 
@@ -100,8 +69,6 @@ ZEPHIR_DOC_METHOD(Phalcon_DispatcherInterface, setParams);
 
 /**
  * Gets action params
- *
- * @return array
  */
 ZEPHIR_DOC_METHOD(Phalcon_DispatcherInterface, getParams);
 
@@ -123,9 +90,7 @@ ZEPHIR_DOC_METHOD(Phalcon_DispatcherInterface, setParam);
 ZEPHIR_DOC_METHOD(Phalcon_DispatcherInterface, getParam);
 
 /**
- * Checks if the dispatch loop is finished or has more pendent controllers/tasks to disptach
- *
- * @return boolean
+ * Checks if the dispatch loop is finished or has more pendent controllers/tasks to dispatch
  */
 ZEPHIR_DOC_METHOD(Phalcon_DispatcherInterface, isFinished);
 

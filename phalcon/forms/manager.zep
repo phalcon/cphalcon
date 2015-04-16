@@ -33,7 +33,7 @@ class Manager
 	 * @param object entity
 	 * @return Phalcon\Forms\Form
 	 */
-	public function create(name=null, entity=null) -> <Form>
+	public function create(name = null, entity = null) -> <Form>
 	{
 		var form;
 
@@ -49,9 +49,6 @@ class Manager
 
 	/**
 	 * Returns a form by its name
-	 *
-	 * @param string name
-	 * @return Phalcon\Forms\Form
 	 */
 	public function get(string name) -> <Form>
 	{
@@ -64,9 +61,6 @@ class Manager
 
 	/**
 	 * Checks if a form is registered in the forms manager
-	 *
-	 * @param string name
-	 * @return boolean
 	 */
 	public function has(string name) -> boolean
 	{
@@ -75,10 +69,6 @@ class Manager
 
 	/**
 	 * Registers a form in the Forms Manager
-	 *
-	 * @param string name
-	 * @param Phalcon\Forms\Form form
-	 * @return Phalcon\Forms\FormManager
 	 */
 	public function set(string name, <Form> form) -> <FormManager>
 	{

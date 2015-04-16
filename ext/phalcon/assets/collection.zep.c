@@ -12,6 +12,7 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
+#include "ext/spl/spl_iterators.h"
 #include "kernel/object.h"
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
@@ -142,9 +143,6 @@ PHP_METHOD(Phalcon_Assets_Collection, getSourcePath) {
 
 /**
  * Adds a resource to the collection
- *
- * @param Phalcon\Assets\Resource resource
- * @return Phalcon\Assets\Collection
  */
 PHP_METHOD(Phalcon_Assets_Collection, add) {
 
@@ -161,9 +159,6 @@ PHP_METHOD(Phalcon_Assets_Collection, add) {
 
 /**
  * Adds a inline code to the collection
- *
- * @param Phalcon\Assets\Inline code
- * @return Phalcon\Assets\Collection
  */
 PHP_METHOD(Phalcon_Assets_Collection, addInline) {
 
@@ -412,8 +407,6 @@ PHP_METHOD(Phalcon_Assets_Collection, addInlineJs) {
 
 /**
  * Returns the number of elements in the form
- *
- * @return int
  */
 PHP_METHOD(Phalcon_Assets_Collection, count) {
 
@@ -441,8 +434,6 @@ PHP_METHOD(Phalcon_Assets_Collection, rewind) {
 
 /**
  * Returns the current resource in the iterator
- *
- * @return Phalcon\Assets\Resource
  */
 PHP_METHOD(Phalcon_Assets_Collection, current) {
 
@@ -470,7 +461,6 @@ PHP_METHOD(Phalcon_Assets_Collection, key) {
 
 /**
  * Moves the internal iteration pointer to the next position
- *
  */
 PHP_METHOD(Phalcon_Assets_Collection, next) {
 
@@ -481,8 +471,6 @@ PHP_METHOD(Phalcon_Assets_Collection, next) {
 
 /**
  * Check if the current element in the iterator is valid
- *
- * @return boolean
  */
 PHP_METHOD(Phalcon_Assets_Collection, valid) {
 
@@ -497,9 +485,6 @@ PHP_METHOD(Phalcon_Assets_Collection, valid) {
 
 /**
  * Sets the target path of the file for the filtered/join output
- *
- * @param string $targetPath
- * @return Phalcon\Assets\Collection
  */
 PHP_METHOD(Phalcon_Assets_Collection, setTargetPath) {
 
@@ -529,9 +514,6 @@ PHP_METHOD(Phalcon_Assets_Collection, setTargetPath) {
 
 /**
  * Sets a base source path for all the resources in this collection
- *
- * @param string $sourcePath
- * @return Phalcon\Assets\Collection
  */
 PHP_METHOD(Phalcon_Assets_Collection, setSourcePath) {
 
@@ -561,9 +543,6 @@ PHP_METHOD(Phalcon_Assets_Collection, setSourcePath) {
 
 /**
  * Sets a target uri for the generated HTML
- *
- * @param string $targetUri
- * @return Phalcon\Assets\Collection
  */
 PHP_METHOD(Phalcon_Assets_Collection, setTargetUri) {
 
@@ -593,9 +572,6 @@ PHP_METHOD(Phalcon_Assets_Collection, setTargetUri) {
 
 /**
  * Sets a common prefix for all the resources
- *
- * @param string $prefix
- * @return Phalcon\Assets\Collection
  */
 PHP_METHOD(Phalcon_Assets_Collection, setPrefix) {
 
@@ -625,9 +601,6 @@ PHP_METHOD(Phalcon_Assets_Collection, setPrefix) {
 
 /**
  * Sets if the collection uses local resources by default
- *
- * @param boolean $local
- * @return Phalcon\Assets\Collection
  */
 PHP_METHOD(Phalcon_Assets_Collection, setLocal) {
 
@@ -651,9 +624,6 @@ PHP_METHOD(Phalcon_Assets_Collection, setLocal) {
 
 /**
  * Sets extra HTML attributes
- *
- * @param array $attributes
- * @return $this
  */
 PHP_METHOD(Phalcon_Assets_Collection, setAttributes) {
 
@@ -673,9 +643,6 @@ PHP_METHOD(Phalcon_Assets_Collection, setAttributes) {
 
 /**
  * Sets an array of filters in the collection
- *
- * @param array $filters
- * @return Phalcon\Assets\Collection
  */
 PHP_METHOD(Phalcon_Assets_Collection, setFilters) {
 
@@ -695,9 +662,6 @@ PHP_METHOD(Phalcon_Assets_Collection, setFilters) {
 
 /**
  * Sets the target local
- *
- * @param boolean $targetLocal
- * @return Phalcon\Assets\Collection
  */
 PHP_METHOD(Phalcon_Assets_Collection, setTargetLocal) {
 
@@ -721,9 +685,6 @@ PHP_METHOD(Phalcon_Assets_Collection, setTargetLocal) {
 
 /**
  * Sets if all filtered resources in the collection must be joined in a single result file
- *
- * @param boolean join
- * @return Phalcon\Assets\Collection
  */
 PHP_METHOD(Phalcon_Assets_Collection, join) {
 
@@ -742,9 +703,6 @@ PHP_METHOD(Phalcon_Assets_Collection, join) {
 
 /**
  * Returns the complete location where the joined/filtered collection must be written
- *
- * @param string basePath
- * @return string
  */
 PHP_METHOD(Phalcon_Assets_Collection, getRealTargetPath) {
 
@@ -784,9 +742,6 @@ PHP_METHOD(Phalcon_Assets_Collection, getRealTargetPath) {
 
 /**
  * Adds a filter to the collection
- *
- * @param Phalcon\Assets\FilterInterface filter
- * @return Phalcon\Assets\Collection
  */
 PHP_METHOD(Phalcon_Assets_Collection, addFilter) {
 

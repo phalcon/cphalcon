@@ -195,3 +195,5 @@ build/64bits/tests/
 build/README.md
 build/install-gentoo
 build/safe/tests/
+ext/phalcon/mvc/view/engine/volt/lemon
+ext/phalcon/mvc/view/engine/volt/parser.out

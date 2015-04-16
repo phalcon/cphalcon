@@ -24,24 +24,6 @@
 #include "kernel/string.h"
 
 
-/*
- +------------------------------------------------------------------------+
- | Phalcon Framework                                                      |
- +------------------------------------------------------------------------+
- | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
- +------------------------------------------------------------------------+
- | This source file is subject to the New BSD License that is bundled     |
- | with this package in the file docs/LICENSE.txt.                        |
- |                                                                        |
- | If you did not receive a copy of the license and are unable to         |
- | obtain it through the world-wide-web, please send an email             |
- | to license@phalconphp.com so we can send you a copy immediately.       |
- +------------------------------------------------------------------------+
- | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
- |          Eduar Carvajal <eduar@phalconphp.com>                         |
- |          Ivan Zubok <chi_no@ukr.net>                                   |
- +------------------------------------------------------------------------+
- */
 /**
  * Phalcon\Config\Adapter\Ini
  *
@@ -81,8 +63,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Config_Adapter_Ini) {
 
 /**
  * Phalcon\Config\Adapter\Ini constructor
- *
- * @param string filePath
  */
 PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct) {
 
@@ -121,13 +101,13 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct) {
 		ZEPHIR_CONCAT_SVS(_3, "Configuration file ", _2, " can't be loaded");
 		ZEPHIR_CALL_METHOD(NULL, _1, "__construct", &_4, _3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(_1, "phalcon/config/adapter/ini.zep", 69 TSRMLS_CC);
+		zephir_throw_exception_debug(_1, "phalcon/config/adapter/ini.zep", 67 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
 	ZEPHIR_INIT_VAR(config);
 	array_init(config);
-	zephir_is_iterable(iniConfig, &_6, &_5, 0, 0, "phalcon/config/adapter/ini.zep", 84);
+	zephir_is_iterable(iniConfig, &_6, &_5, 0, 0, "phalcon/config/adapter/ini.zep", 82);
 	for (
 	  ; zephir_hash_get_current_data_ex(_6, (void**) &_7, &_5) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_6, &_5)
@@ -136,7 +116,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct) {
 		ZEPHIR_GET_HVALUE(directives, _7);
 		ZEPHIR_INIT_NVAR(sections);
 		array_init(sections);
-		zephir_is_iterable(directives, &_9, &_8, 0, 0, "phalcon/config/adapter/ini.zep", 81);
+		zephir_is_iterable(directives, &_9, &_8, 0, 0, "phalcon/config/adapter/ini.zep", 79);
 		for (
 		  ; zephir_hash_get_current_data_ex(_9, (void**) &_10, &_8) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_9, &_8)
@@ -145,7 +125,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct) {
 			ZEPHIR_GET_HVALUE(lastValue, _10);
 			ZEPHIR_CALL_METHOD(&_11, this_ptr, "_parseinistring", &_12, path, lastValue);
 			zephir_check_call_status();
-			zephir_array_append(&sections, _11, PH_SEPARATE, "phalcon/config/adapter/ini.zep", 79);
+			zephir_array_append(&sections, _11, PH_SEPARATE, "phalcon/config/adapter/ini.zep", 77);
 		}
 		ZEPHIR_INIT_NVAR(_1);
 		ZEPHIR_SINIT_NVAR(_13);
@@ -182,6 +162,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct) {
  */
 PHP_METHOD(Phalcon_Config_Adapter_Ini, _parseIniString) {
 
+	zephir_nts_static zephir_fcall_cache_entry *_5 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *path_param = NULL, *value, *pos, *key, _0, _1, _2, *_3, *_4 = NULL;
 	zval *path = NULL;
@@ -221,7 +202,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, _parseIniString) {
 	zephir_substr(_3, path, zephir_get_intval(&_2), 0, ZEPHIR_SUBSTR_NO_LENGTH);
 	zephir_get_strval(path, _3);
 	zephir_create_array(return_value, 1, 0 TSRMLS_CC);
-	ZEPHIR_CALL_METHOD(&_4, this_ptr, "_parseinistring", NULL, path, value);
+	ZEPHIR_CALL_METHOD(&_4, this_ptr, "_parseinistring", &_5, path, value);
 	zephir_check_call_status();
 	zephir_array_update_zval(&return_value, key, &_4, PH_COPY);
 	RETURN_MM();

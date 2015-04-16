@@ -517,6 +517,8 @@ int zephir_call_user_function(zval **object_pp, zend_class_entry *obj_ce, zephir
 
 	fcic.initialized = 0;
 	fcic.function_handler = NULL;
+	fcic.calling_scope = NULL;
+	fcic.called_scope = NULL;
 	if (!cache_entry || !*cache_entry) {
 		if (fcall_key && zend_hash_quick_find(zephir_globals_ptr->fcache, fcall_key, fcall_key_len, fcall_key_hash, (void**)&temp_cache_entry) != FAILURE) {
 			zephir_fcall_populate_fci_cache(&fcic, &fci, type TSRMLS_CC);

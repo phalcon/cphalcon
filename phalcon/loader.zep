@@ -76,8 +76,6 @@ class Loader implements EventsAwareInterface
 
 	/**
 	 * Sets the events manager
-	 *
-	 * @param Phalcon\Events\ManagerInterface eventsManager
 	 */
 	public function setEventsManager(<ManagerInterface> eventsManager)
 	{
@@ -86,8 +84,6 @@ class Loader implements EventsAwareInterface
 
 	/**
 	 * Returns the internal event manager
-	 *
-	 * @return Phalcon\Events\ManagerInterface
 	 */
 	public function getEventsManager() -> <ManagerInterface>
 	{
@@ -96,9 +92,6 @@ class Loader implements EventsAwareInterface
 
 	/**
 	 * Sets an array of extensions that the loader must try in each attempt to locate the file
-	 *
-	 * @param array extensions
-	 * @return Phalcon\Loader
 	 */
 	public function setExtensions(array! extensions) -> <Loader>
 	{
@@ -118,12 +111,8 @@ class Loader implements EventsAwareInterface
 
 	/**
 	 * Register namespaces and their related directories
-	 *
-	 * @param array namespaces
-	 * @param boolean merge
-	 * @return Phalcon\Loader
 	 */
-	public function registerNamespaces(array! namespaces, boolean merge=false) -> <Loader>
+	public function registerNamespaces(array! namespaces, boolean merge = false) -> <Loader>
 	{
 		var currentNamespaces, mergedNamespaces;
 
@@ -154,10 +143,6 @@ class Loader implements EventsAwareInterface
 
 	/**
 	 * Register directories on which "not found" classes could be found
-	 *
-	 * @param array prefixes
-	 * @param boolean merge
-	 * @return Phalcon\Loader
 	 */
 	public function registerPrefixes(array! prefixes, boolean merge = false) -> <Loader>
 	{
@@ -189,10 +174,6 @@ class Loader implements EventsAwareInterface
 
 	/**
 	 * Register directories on which "not found" classes could be found
-	 *
-	 * @param array directories
-	 * @param boolean merge
-	 * @return Phalcon\Loader
 	 */
 	public function registerDirs(array! directories, boolean merge = false) -> <Loader>
 	{
@@ -224,10 +205,6 @@ class Loader implements EventsAwareInterface
 
 	/**
 	 * Register classes and their locations
-	 *
-	 * @param array classes
-	 * @param boolean merge
-	 * @return Phalcon\Loader
 	 */
 	public function registerClasses(array! classes, boolean merge = false) -> <Loader>
 	{
@@ -259,8 +236,6 @@ class Loader implements EventsAwareInterface
 
 	/**
 	 * Register the autoload method
-	 *
-	 * @return Phalcon\Loader
 	 */
 	public function register() -> <Loader>
 	{
@@ -273,8 +248,6 @@ class Loader implements EventsAwareInterface
 
 	/**
 	 * Unregister the autoload method
-	 *
-	 * @return Phalcon\Loader
 	 */
 	public function unregister() -> <Loader>
 	{
@@ -287,13 +260,9 @@ class Loader implements EventsAwareInterface
 
 	/**
 	 * Makes the work of autoload registered classes
-	 *
-	 * @param string className
-	 * @return boolean
 	 */
 	public function autoLoad(string! className) -> boolean
 	{
-
 		var eventsManager, classes, extensions, filePath, ds, fixedDirectory,
 			prefixes, directories, namespaceSeparator, namespaces, nsPrefix,
 			directory, fileName, extension, prefix, dsClassName, nsClassName;
@@ -518,21 +487,17 @@ class Loader implements EventsAwareInterface
 	}
 
 	/**
-	 * Get the path when a class was found
-	 *
-	 * @return string
+	 * Get the path when a class was found	 
 	 */
-	public function getFoundPath()
+	public function getFoundPath() -> string
 	{
 		return this->_foundPath;
 	}
 
 	/**
 	 * Get the path the loader is checking for a path
-	 *
-	 * @return string
 	 */
-	public function getCheckedPath()
+	public function getCheckedPath() -> string
 	{
 		return this->_checkedPath;
 	}

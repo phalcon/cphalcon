@@ -33,6 +33,7 @@ use Phalcon\Mvc\Model\ResultsetInterface;
 use Phalcon\Mvc\ModelInterface;
 use Phalcon\Mvc\Model\Resultset\Simple;
 use Phalcon\Di\InjectionAwareInterface;
+use Phalcon\Mvc\Model\RelationInterface;
 
 /**
  * Phalcon\Mvc\Model\Query
@@ -191,7 +192,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 	{
 		var columnName, sqlColumnAliases, metaData, sqlAliases,
 			source, sqlAliasesModelsInstances, realColumnName, columnDomain,
-			model, models, columnMap, hasModel;
+			model, models, columnMap, hasModel, className;
 		int number;
 
 		let columnName = expr["name"];
@@ -291,8 +292,9 @@ class Query implements QueryInterface, InjectionAwareInterface
 			/**
 			 * Obtain the model's source from the _models list
 			 */
-			if !fetch source, models[get_class(hasModel)] {
-				throw new Exception("Column '" . columnName . "' doesn't belong to any of the selected models (2), when preparing: " . this->_phql);
+			let className = get_class(hasModel);
+			if !fetch source, models[className] {
+				throw new Exception("Can't obtain model's source from models list: '" . className . "', when preparing: " . this->_phql);
 			}
 
 			/**
@@ -664,7 +666,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 		}
 
 		/**
-		 * Check if selected column is qualified.*
+		 * Check if selected column is qualified.*, ex: robots.*
 		 */
 		if columnType == PHQL_T_DOMAINALL {
 
@@ -852,8 +854,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 	 * @param Phalcon\Mvc\Model\RelationInterface relation
 	 * @return array
 	 */
-	protected final function _getSingleJoin(string! joinType, joinSource, modelAlias, joinAlias,
-		<\Phalcon\Mvc\Model\RelationInterface> relation)
+	protected final function _getSingleJoin(string! joinType, joinSource, modelAlias, joinAlias, <RelationInterface> relation)
 	{
 		var fields, referencedFields, sqlJoinConditions = null,
 			sqlJoinPartialConditions, position, field, referencedField;
@@ -948,8 +949,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 	 * @param Phalcon\Mvc\Model\RelationInterface relation
 	 * @return array
 	 */
-	protected final function _getMultiJoin(joinType, joinSource, modelAlias, joinAlias,
-		<\Phalcon\Mvc\Model\RelationInterface> relation)
+	protected final function _getMultiJoin(joinType, joinSource, modelAlias, joinAlias, <RelationInterface> relation)
 	{
 		var sqlJoins, fields, referencedFields,
 			intermediateModelName, intermediateModel, intermediateSource,
@@ -1486,6 +1486,28 @@ class Query implements QueryInterface, InjectionAwareInterface
 	}
 
 	/**
+	 * Returns a processed limit clause for a SELECT statement
+	 *
+	 * @param array $limit
+	 * @return array
+	 */
+	protected final function _getLimitClause(limitClause) -> array
+	{
+		var number, offset;
+		array limit = [];
+
+		if fetch number, limitClause["number"] {
+			let limit["number"] = this->_getExpression(number);
+		}
+
+		if fetch offset, limitClause["offset"] {
+			let limit["offset"] = this->_getExpression(offset);
+		}
+
+		return limit;
+	}
+
+	/**
 	 * Analyzes a SELECT intermediate code and produces an array to be executed later
 	 *
 	 * @return array
@@ -1735,39 +1757,39 @@ class Query implements QueryInterface, InjectionAwareInterface
 		}
 
 		/**
-		 * Process WHERE clause if any
+		 * Process "WHERE" clause if any
 		 */
 		if fetch where, ast["where"] {
 			let sqlSelect["where"] = this->_getExpression(where);
 		}
 
 		/**
-		 * Process GROUP BY clause if any
+		 * Process "GROUP BY" clause if any
 		 */
 		if fetch groupBy, ast["groupBy"] {
 			let sqlSelect["group"] = this->_getGroupClause(groupBy);
 		}
 
 		/**
-		 * Process HAVING clause if any
+		 * Process "HAVING" clause if any
 		 */
 		if fetch having , ast["having"] {
 			let sqlSelect["having"] = this->_getExpression(having);
 		}
 
 		/**
-		 * Process ORDER BY clause if any
+		 * Process "ORDER BY" clause if any
 		 */
 		if fetch order, ast["orderBy"] {
 			let sqlSelect["order"] = this->_getOrderClause(order);
 		}
 
 		/**
-		 * Process LIMIT clause if any
+		 * Process "LIMIT" clause if any
 		 */
 		if fetch limit, ast["limit"] {
-			let sqlSelect["limit"] = limit;
-		}
+			let sqlSelect["limit"] = this->_getLimitClause(limit);
+		}		
 
 		return sqlSelect;
 	}
@@ -2003,7 +2025,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 		}
 
 		if fetch limit, ast["limit"] {
-			let sqlUpdate["limit"] = limit;
+			let sqlUpdate["limit"] = this->_getLimitClause(limit);
 		}
 
 		return sqlUpdate;
@@ -2116,7 +2138,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 		}
 
 		if fetch limit, ast["limit"] {
-			let sqlDelete["limit"] = limit;
+			let sqlDelete["limit"] = this->_getLimitClause(limit);
 		}
 
 		return sqlDelete;
@@ -2289,6 +2311,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 		 */
 		let numberObjects = 0;
 		let columns1 = columns;
+
 		for column in columns {
 
 			if typeof column != "array" {
@@ -2327,7 +2350,8 @@ class Query implements QueryInterface, InjectionAwareInterface
 		/**
 		 * Processing selected columns
 		 */
-		let selectColumns = [],
+		let instance = null,
+			selectColumns = [],
 			simpleColumnMap = [],
 			metaData = this->_metaData;
 
@@ -2336,7 +2360,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 			let sqlColumn = column["column"];
 
 			/**
-			 * Complete objects are treaded in a different way
+			 * Complete objects are treated in a different way
 			 */
 			if column["type"] == "object" {
 
@@ -2409,13 +2433,11 @@ class Query implements QueryInterface, InjectionAwareInterface
 			/**
 			 * Simulate a column map
 			 */
-			if isComplex === false {
-				if isSimpleStd === true {
-					if fetch sqlAlias, column["sqlAlias"] {
-						let simpleColumnMap[sqlAlias] = aliasCopy;
-					} else {
-						let simpleColumnMap[aliasCopy] = aliasCopy;
-					}
+			if isComplex === false && isSimpleStd === true {
+				if fetch sqlAlias, column["sqlAlias"] {
+					let simpleColumnMap[sqlAlias] = aliasCopy;
+				} else {
+					let simpleColumnMap[aliasCopy] = aliasCopy;
 				}
 			}
 		}
@@ -2497,7 +2519,11 @@ class Query implements QueryInterface, InjectionAwareInterface
 
 			} else {
 
-				let resultObject = model;
+				if typeof instance == "object" {
+					let resultObject = instance;
+				} else {
+					let resultObject = model;
+				}
 
 				/**
 				 * Get the column map

@@ -19,6 +19,7 @@
 
 namespace Phalcon\Forms;
 
+use Phalcon\Tag;
 use Phalcon\Forms\Exception;
 use Phalcon\Validation\Message;
 use Phalcon\Validation\MessageInterface;
@@ -67,9 +68,6 @@ abstract class Element implements ElementInterface
 
 	/**
 	 * Sets the parent form to the element
-	 *
-	 * @param Phalcon\Forms\Form form
-	 * @return Phalcon\Forms\ElementInterface
 	 */
 	public function setForm(<Form> form) -> <ElementInterface>
 	{
@@ -79,8 +77,6 @@ abstract class Element implements ElementInterface
 
 	/**
 	 * Returns the parent form to the element
-	 *
-	 * @return Phalcon\Forms\ElementInterface
 	 */
 	public function getForm() -> <ElementInterface>
 	{
@@ -89,9 +85,6 @@ abstract class Element implements ElementInterface
 
 	/**
 	 * Sets the element name
-	 *
-	 * @param string name
-	 * @return Phalcon\Forms\ElementInterface
 	 */
 	public function setName(string! name) -> <ElementInterface>
 	{
@@ -101,8 +94,6 @@ abstract class Element implements ElementInterface
 
 	/**
 	 * Returns the element name
-	 *
-	 * @return string
 	 */
 	public function getName() -> string
 	{
@@ -117,15 +108,15 @@ abstract class Element implements ElementInterface
 	 */
 	public function setFilters(var filters) -> <ElementInterface>
 	{
+		if typeof filters != "string" && typeof filters != "array" {
+			throw new Exception("Wrong filter type added");
+		}
 		let this->_filters = filters;
 		return this;
 	}
 
 	/**
 	 * Adds a filter to current list of filters
-	 *
-	 * @param string filter
-	 * @return Phalcon\Forms\ElementInterface
 	 */
 	public function addFilter(string filter) -> <ElementInterface>
 	{
@@ -134,7 +125,11 @@ abstract class Element implements ElementInterface
 		if typeof filters == "array" {
 			let this->_filters[] = filter;
 		} else {
-			let this->_filters = [filters, filter];
+			if typeof filters == "string" {
+				let this->_filters = [filters, filter];
+			} else {
+				let this->_filters = [filter];
+			}
 		}
 		return this;
 	}
@@ -172,9 +167,6 @@ abstract class Element implements ElementInterface
 
 	/**
 	 * Adds a validator to the element
-	 *
-	 * @param Phalcon\Validation\ValidatorInterface
-	 * @return Phalcon\Forms\ElementInterface
 	 */
 	public function addValidator(<ValidatorInterface> validator) -> <ElementInterface>
 	{
@@ -184,8 +176,6 @@ abstract class Element implements ElementInterface
 
 	/**
 	 * Returns the validators registered for the element
-	 *
-	 * @return Phalcon\Validation\ValidatorInterface[]
 	 */
 	public function getValidators() -> <ValidatorInterface[]>
 	{
@@ -294,9 +284,6 @@ abstract class Element implements ElementInterface
 
 	/**
 	 * Sets default attributes for the element
-	 *
-	 * @param array attributes
-	 * @return Phalcon\Forms\ElementInterface
 	 */
 	public function setAttributes(array! attributes) -> <ElementInterface>
 	{
@@ -306,10 +293,8 @@ abstract class Element implements ElementInterface
 
 	/**
 	 * Returns the default attributes for the element
-	 *
-	 * @return array
 	 */
-	public function getAttributes()
+	public function getAttributes() -> array
 	{
 		var attributes;
 		let attributes = this->_attributes;
@@ -372,9 +357,6 @@ abstract class Element implements ElementInterface
 
 	/**
 	 * Sets the element label
-	 *
-	 * @param string label
-	 * @return Phalcon\Forms\ElementInterface
 	 */
 	public function setLabel(string label) -> <ElementInterface>
 	{
@@ -384,8 +366,6 @@ abstract class Element implements ElementInterface
 
 	/**
 	 * Returns the element label
-	 *
-	 * @return string
 	 */
 	public function getLabel() -> string
 	{
@@ -419,7 +399,7 @@ abstract class Element implements ElementInterface
 			let attributes = ["for": name];
 		}
 
-		let code = \Phalcon\Tag::renderAttributes("<label", attributes);
+		let code = Tag::renderAttributes("<label", attributes);
 
 		/**
 		 * Use the default label or leave the same name as label
@@ -478,12 +458,12 @@ abstract class Element implements ElementInterface
 			 * Gets the possible value for the widget
 			 */
 			let value = form->getValue(name);
-			
+
 			/**
 			 * Check if the tag has a default value
 			 */
-			if typeof value == "null" && \Phalcon\Tag::hasValue(name) {
-				let value = \Phalcon\Tag::getValue(name);
+			if typeof value == "null" && Tag::hasValue(name) {
+				let value = Tag::getValue(name);
 			}
 
 		}
@@ -501,8 +481,6 @@ abstract class Element implements ElementInterface
 	/**
 	 * Returns the messages that belongs to the element
 	 * The element needs to be attached to a form
-	 *
-	 * @return Phalcon\Validation\Message\Group
 	 */
 	public function getMessages() -> <Group>
 	{
@@ -520,8 +498,6 @@ abstract class Element implements ElementInterface
 
 	/**
 	 * Checks whether there are messages attached to the element
-	 *
-	 * @return boolean
 	 */
 	public function hasMessages() -> boolean
 	{
@@ -540,9 +516,6 @@ abstract class Element implements ElementInterface
 
 	/**
 	 * Sets the validation messages related to the element
-	 *
-	 * @param Phalcon\Validation\Message\Group group
-	 * @return Phalcon\Forms\ElementInterface
 	 */
 	public function setMessages(<Group> group) -> <ElementInterface>
 	{
@@ -552,9 +525,6 @@ abstract class Element implements ElementInterface
 
 	/**
 	 * Appends a message to the internal message list
-	 *
-	 * @param Phalcon\Validation\Message message
-	 * @return Phalcon\Forms\ElementInterface
 	 */
 	public function appendMessage(<MessageInterface> message) -> <ElementInterface>
 	{
@@ -570,21 +540,17 @@ abstract class Element implements ElementInterface
 
 	/**
 	 * Clears every element in the form to its default value
-	 *
-	 * @return Phalcon\Forms\Element
 	 */
 	public function clear() -> <Element>
 	{
-		\Phalcon\Tag::setDefault(this->_name, null);
+		Tag::setDefault(this->_name, null);
 		return this;
 	}
 
 	/**
 	 * Magic method __toString renders the widget without atttributes
-	 *
-	 * @return string
 	 */
-	public function __toString()
+	public function __toString() -> string
 	{
 		return this->{"render"}();
 	}

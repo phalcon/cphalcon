@@ -120,8 +120,8 @@ class Config implements \ArrayAccess, \Countable
 		if typeof value === "array" {
 			let this->{index} = new self(value);
 		} else {
-	    		let this->{index} = value;
-	    }
+			let this->{index} = value;
+		}
 	}
 
 	/**

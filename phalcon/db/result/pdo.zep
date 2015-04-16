@@ -178,7 +178,7 @@ class Pdo implements ResultInterface
 			/**
 			 * MySQL library properly returns the number of records PostgreSQL too
 			 */
-			if type == "pgsql" || type == "mysql" {
+			if type == "mysql" || type == "pgsql" {
 				let pdoStatement = this->_pdoStatement,
 					rowCount = pdoStatement->rowCount();
 			}

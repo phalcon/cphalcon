@@ -19,6 +19,7 @@
 
 namespace Phalcon\Session;
 
+use Phalcon\Di;
 use Phalcon\DiInterface;
 use Phalcon\Di\InjectionAwareInterface;
 
@@ -89,7 +90,7 @@ class Bag implements InjectionAwareInterface, BagInterface
 
 			let dependencyInjector = this->_dependencyInjector;
 			if typeof dependencyInjector != "object" {
-				let dependencyInjector = \Phalcon\DI::getDefault();
+				let dependencyInjector = Di::getDefault();
 				if typeof dependencyInjector != "object" {
 					throw new Exception("A dependency injection object is required to access the 'session' service");
 				}

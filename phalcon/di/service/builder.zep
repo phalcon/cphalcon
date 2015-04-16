@@ -40,7 +40,6 @@ class Builder
 	 */
 	private function _buildParameter(<DiInterface> dependencyInjector, int position, argument)
 	{
-
 		var type, name, value, instanceArguments;
 
 		/**
@@ -120,7 +119,7 @@ class Builder
 	 * @param array arguments
 	 * @return array
 	 */
-	private function _buildParameters(<DiInterface> dependencyInjector, arguments)
+	private function _buildParameters(<DiInterface> dependencyInjector, arguments) -> array
 	{
 		var position, argument, buildArguments;
 

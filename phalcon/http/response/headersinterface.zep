@@ -52,14 +52,11 @@ interface HeadersInterface
 
 	/**
 	 * Sends the headers to the client
-	 *
-	 * @return boolean
 	 */
-	public function send();
+	public function send() -> boolean;
 
 	/**
 	 * Reset set headers
-	 *
 	 */
 	public function reset();
 
@@ -69,6 +66,6 @@ interface HeadersInterface
 	 * @param array data
 	 * @return Phalcon\Http\Response\HeadersInterface
 	 */
-	public static function __set_state(data);
+	public static function __set_state(data) -> <HeadersInterface>;
 
 }

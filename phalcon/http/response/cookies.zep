@@ -44,8 +44,6 @@ class Cookies implements CookiesInterface, InjectionAwareInterface
 
 	/**
 	 * Sets the dependency injector
-	 *
-	 * @param Phalcon\DiInterface dependencyInjector
 	 */
 	public function setDI(<DiInterface> dependencyInjector)
 	{
@@ -54,8 +52,6 @@ class Cookies implements CookiesInterface, InjectionAwareInterface
 
 	/**
 	 * Returns the internal dependency injector
-	 *
-	 * @return Phalcon\DiInterface
 	 */
 	public function getDI() -> <DiInterface>
 	{
@@ -64,9 +60,6 @@ class Cookies implements CookiesInterface, InjectionAwareInterface
 
 	/**
 	 * Set if cookies in the bag must be automatically encrypted/decrypted
-	 *
-	 * @param boolean useEncryption
-	 * @return Phalcon\Http\Response\Cookies
 	 */
 	public function useEncryption(boolean useEncryption) -> <Cookies>
 	{
@@ -76,8 +69,6 @@ class Cookies implements CookiesInterface, InjectionAwareInterface
 
 	/**
 	 * Returns if the bag is automatically encrypting/decrypting cookies
-	 *
-	 * @return boolean
 	 */
 	public function isUsingEncryption() -> boolean
 	{
@@ -160,9 +151,6 @@ class Cookies implements CookiesInterface, InjectionAwareInterface
 
 	/**
 	 * Gets a cookie from the bag
-	 *
-	 * @param string name
-	 * @return Phalcon\Http\Cookie
 	 */
 	public function get(string! name) -> <Cookie>
 	{
@@ -201,13 +189,9 @@ class Cookies implements CookiesInterface, InjectionAwareInterface
 
 	/**
 	 * Check if a cookie is defined in the bag or exists in the _COOKIE superglobal
-	 *
-	 * @param string name
-	 * @return boolean
 	 */
 	public function has(string! name) -> boolean
 	{
-
 		/**
 		 * Check the internal bag
 		 */
@@ -228,9 +212,6 @@ class Cookies implements CookiesInterface, InjectionAwareInterface
 	/**
 	 * Deletes a cookie by its name
 	 * This method does not removes cookies from the _COOKIE superglobal
-	 *
-	 * @param string name
-	 * @return boolean
 	 */
 	public function delete(string! name) -> boolean
 	{
@@ -250,8 +231,6 @@ class Cookies implements CookiesInterface, InjectionAwareInterface
 	/**
 	 * Sends the cookies to the client
 	 * Cookies aren't sent if headers are sent in the current request
-	 *
-	 * @return boolean
 	 */
 	public function send() -> boolean
 	{
@@ -268,8 +247,6 @@ class Cookies implements CookiesInterface, InjectionAwareInterface
 
 	/**
 	 * Reset set cookies
-	 *
-	 * @return Phalcon\Http\Response\Cookies
 	 */
 	public function reset() -> <Cookies>
 	{

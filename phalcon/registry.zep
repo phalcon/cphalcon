@@ -146,8 +146,6 @@ final class Registry implements \ArrayAccess, \Countable, \Iterator
 
 	/**
 	 * Checks how many elements are in the register
-	 *
-	 * @return int
 	 */
 	public final function count() -> int
 	{
@@ -156,7 +154,6 @@ final class Registry implements \ArrayAccess, \Countable, \Iterator
 
 	/**
 	 * Moves cursor to next row in the registry
-	 *
 	 */
 	public final function next() -> void
 	{
@@ -165,8 +162,6 @@ final class Registry implements \ArrayAccess, \Countable, \Iterator
 
 	/**
 	 * Gets pointer number of active row in the registry
-	 *
-	 * @return int
 	 */
 	public final function key() -> int
 	{
@@ -175,7 +170,6 @@ final class Registry implements \ArrayAccess, \Countable, \Iterator
 
 	/**
 	 * Rewinds the registry cursor to its beginning
-	 *
 	 */
 	public final function rewind() -> void
 	{
@@ -185,13 +179,13 @@ final class Registry implements \ArrayAccess, \Countable, \Iterator
 	/**
 	 * Checks if the iterator is valid
 	 */
-	public function valid()
+	public function valid() -> boolean
 	{
 		return key(this->_data) !== null;
 	}
 
 	/**
-	 *
+	 * Obtains the current value in the internal iterator
 	 */
 	public function current()
 	{

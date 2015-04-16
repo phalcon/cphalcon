@@ -45,8 +45,6 @@ class Json extends Config
 
 	/**
 	 * Phalcon\Config\Adapter\Json constructor
-	 *
-	 * @param string filePath
 	 */
 	public function __construct(string! filePath)
 	{

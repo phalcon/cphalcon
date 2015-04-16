@@ -42,7 +42,6 @@ class Beanstalk
 	 */
 	public function __construct(var options = null)
 	{
-
 		var parameters;
 
 		if typeof options != "array" {
@@ -64,8 +63,6 @@ class Beanstalk
 
 	/**
 	 * Makes a connection to the Beanstalkd server
-	 *
-	 * @return resource
 	 */
 	public function connect() -> resource
 	{
@@ -143,10 +140,8 @@ class Beanstalk
 
 	/**
 	 * Reserves a job in the queue
-	 *
-	 * @return boolean|Phalcon\Queue\Beanstalk\Job
 	 */
-	public function reserve(timeout = null) -> boolean|<Job>
+	public function reserve(var timeout = null) -> boolean|<Job>
 	{
  		var command, response;
 
@@ -175,9 +170,6 @@ class Beanstalk
 
 	/**
 	 * Change the active tube. By default the tube is "default"
-	 *
-	 * @param string tube
-	 * @return string|boolean
 	 */
 	public function choose(string! tube) -> boolean|string
 	{
@@ -195,9 +187,6 @@ class Beanstalk
 
 	/**
 	 * Change the active tube. By default the tube is "default"
-	 *
-	 * @param string tube
-	 * @return string|boolean
 	 */
 	public function watch(string! tube) -> boolean|string
 	{
@@ -215,8 +204,6 @@ class Beanstalk
 
 	/**
 	 * Inspect the next ready job.
-	 *
-	 * @return boolean|Phalcon\Queue\Beanstalk\Job
 	 */
 	public function peekReady() -> boolean|<Job>
 	{
@@ -234,8 +221,6 @@ class Beanstalk
 
 	/**
 	 * Return the next job in the list of buried jobs
-	 *
-	 * @return boolean|Phalcon\Queue\Beanstalk\Job
 	 */
 	public function peekBuried() -> boolean|<Job>
 	{
@@ -253,8 +238,6 @@ class Beanstalk
 
 	/**
 	 * Reads the latest status from the Beanstalkd server
-	 *
-	 * @return array
 	 */
 	final public function readStatus() -> array
 	{
@@ -299,11 +282,8 @@ class Beanstalk
 
 	/**
 	 * Writes data to the socket. Performs a connection if none is available
-	 *
-	 * @param string data
-	 * @return integer|boolean
 	 */
-	protected function write(data) -> boolean|int
+	protected function write(string data) -> boolean|int
 	{
  		var connection, packet;
 
@@ -321,8 +301,6 @@ class Beanstalk
 
 	/**
 	 * Closes the connection to the beanstalk server.
-	 *
-	 * @return boolean
 	 */
 	public function disconnect() -> boolean
 	{

@@ -48,8 +48,6 @@ class Job
 
 	/**
 	 * Removes a job from the server entirely
-	 *
-	 * @return boolean
 	 */
 	public function delete() -> boolean
 	{
@@ -65,10 +63,6 @@ class Job
 	 * The release command puts a reserved job back into the ready queue (and marks
 	 * its state as "ready") to be run by any client. It is normally used when the job
 	 * fails because of a transitory error.
-	 *
-	 * @param long priority
-	 * @param long delay
-	 * @return boolean
 	 */
 	public function release(int priority = 100, int delay = 0) -> boolean
 	{
@@ -83,8 +77,6 @@ class Job
 	 * The bury command puts a job into the "buried" state. Buried jobs are put into
 	 * a FIFO linked list and will not be touched by the server again until a client
 	 * kicks them with the "kick" command.
-	 *
-	 * @return boolean
 	 */
 	public function bury(int priority = 100) -> boolean
 	{
@@ -102,8 +94,6 @@ class Job
 	 * A worker may periodically tell the server that it's still alive and processing
 	 * a job (e.g. it may do this on `DEADLINE_SOON`). The command postpones the auto
 	 * release of a reserved job until TTR seconds from when the command is issued.
-	 *
-	 * @return boolean
 	 */
 	public function touch() -> boolean
 	{
@@ -116,8 +106,6 @@ class Job
 
 	/**
 	 * Move the job to the ready queue if it is delayed or buried.
-	 *
-	 * @return boolean
 	 */
 	public function kick() -> boolean
 	{
@@ -128,6 +116,9 @@ class Job
 		return queue->readStatus()[0] == "KICKED";
 	}
 
+	/**
+	 * Checks if the job has been modified after unserializing the object
+	 */
 	public function __wakeup()
 	{
 		if typeof this->_id != "string" {

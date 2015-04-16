@@ -12,6 +12,7 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
+#include "ext/spl/spl_iterators.h"
 #include "kernel/memory.h"
 #include "kernel/object.h"
 #include "kernel/array.h"
@@ -19,24 +20,6 @@
 #include "kernel/operators.h"
 
 
-/*
- +------------------------------------------------------------------------+
- | Phalcon Framework                                                      |
- +------------------------------------------------------------------------+
- | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
- +------------------------------------------------------------------------+
- | This source file is subject to the New BSD License that is bundled     |
- | with this package in the file docs/LICENSE.txt.                        |
- |                                                                        |
- | If you did not receive a copy of the license and are unable to         |
- | obtain it through the world-wide-web, please send an email             |
- | to license@phalconphp.com so we can send you a copy immediately.       |
- +------------------------------------------------------------------------+
- | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
- |          Eduar Carvajal <eduar@phalconphp.com>                         |
- |          Vladimir Kolesnikov <vladimir@extrememember.com>              |
- +------------------------------------------------------------------------+
- */
 /**
  * Phalcon\Registry
  *
@@ -228,8 +211,6 @@ PHP_METHOD(Phalcon_Registry, __get) {
 
 /**
  * Checks how many elements are in the register
- *
- * @return int
  */
 PHP_METHOD(Phalcon_Registry, count) {
 
@@ -243,7 +224,6 @@ PHP_METHOD(Phalcon_Registry, count) {
 
 /**
  * Moves cursor to next row in the registry
- *
  */
 PHP_METHOD(Phalcon_Registry, next) {
 
@@ -264,8 +244,6 @@ PHP_METHOD(Phalcon_Registry, next) {
 
 /**
  * Gets pointer number of active row in the registry
- *
- * @return int
  */
 PHP_METHOD(Phalcon_Registry, key) {
 
@@ -286,7 +264,6 @@ PHP_METHOD(Phalcon_Registry, key) {
 
 /**
  * Rewinds the registry cursor to its beginning
- *
  */
 PHP_METHOD(Phalcon_Registry, rewind) {
 

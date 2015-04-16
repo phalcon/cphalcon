@@ -27,7 +27,5 @@ namespace Phalcon\Db\Dialect;
  */
 class Oracle extends \Phalcon\Db\Dialect //implements Phalcon\Db\DialectInterface
 {
-
 	protected _escapeChar = "";
-
 }

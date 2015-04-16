@@ -133,7 +133,7 @@ class RouterMvcAnnotationsTest extends PHPUnit_Framework_TestCase
 		$router->setDI($this->_getDI());
 		$router->addResource('Robots');
 		$router->addResource('Products');
-        $router->addResource('About');
+		$router->addResource('About');
 		$router->handle();
 		$this->assertEquals(count($router->getRoutes()), 8);
 
@@ -195,20 +195,20 @@ class RouterMvcAnnotationsTest extends PHPUnit_Framework_TestCase
 				'action' => 'save',
 				'params' => array()
 			),
-            array(
-                'uri' => '/about/team',
-                'method' => 'GET',
-                'controller' => 'about',
-                'action' => 'team',
-                'params' => array()
-            ),
-            array(
-                'uri' => '/about/team',
-                'method' => 'POST',
-                'controller' => 'about',
-                'action' => 'teampost',
-                'params' => array()
-            ),
+			array(
+				'uri' => '/about/team',
+				'method' => 'GET',
+				'controller' => 'about',
+				'action' => 'team',
+				'params' => array()
+			),
+			array(
+				'uri' => '/about/team',
+				'method' => 'POST',
+				'controller' => 'about',
+				'action' => 'teampost',
+				'params' => array()
+			),
 		);
 
 		foreach ($routes as $route) {
@@ -222,5 +222,4 @@ class RouterMvcAnnotationsTest extends PHPUnit_Framework_TestCase
 			$this->assertEquals($router->isExactControllerName(), true);
 		}
 	}
-
 }

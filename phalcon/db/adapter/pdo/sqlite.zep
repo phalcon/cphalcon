@@ -27,6 +27,7 @@ use Phalcon\Db\ReferenceInterface;
 use Phalcon\Db\Index;
 use Phalcon\Db\IndexInterface;
 use Phalcon\Db\AdapterInterface;
+use Phalcon\Db\Adapter\Pdo as PdoAdapter;
 
 /**
  * Phalcon\Db\Adapter\Pdo\Sqlite
@@ -42,7 +43,7 @@ use Phalcon\Db\AdapterInterface;
  *
  * </code>
  */
-class Sqlite extends \Phalcon\Db\Adapter\Pdo implements AdapterInterface
+class Sqlite extends PdoAdapter implements AdapterInterface
 {
 
 	protected _type = "sqlite";

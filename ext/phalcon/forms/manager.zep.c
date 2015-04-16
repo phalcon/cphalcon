@@ -21,23 +21,6 @@
 #include "kernel/operators.h"
 
 
-/*
- +------------------------------------------------------------------------+
- | Phalcon Framework                                                      |
- +------------------------------------------------------------------------+
- | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
- +------------------------------------------------------------------------+
- | This source file is subject to the New BSD License that is bundled     |
- | with this package in the file docs/LICENSE.txt.                        |
- |                                                                        |
- | If you did not receive a copy of the license and are unable to         |
- | obtain it through the world-wide-web, please send an email             |
- | to license@phalconphp.com so we can send you a copy immediately.       |
- +------------------------------------------------------------------------+
- | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
- |          Eduar Carvajal <eduar@phalconphp.com>                         |
- +------------------------------------------------------------------------+
- */
 /**
  * Phalcon\Forms\Manager
  */
@@ -90,9 +73,6 @@ PHP_METHOD(Phalcon_Forms_Manager, create) {
 
 /**
  * Returns a form by its name
- *
- * @param string name
- * @return Phalcon\Forms\Form
  */
 PHP_METHOD(Phalcon_Forms_Manager, get) {
 
@@ -116,7 +96,7 @@ PHP_METHOD(Phalcon_Forms_Manager, get) {
 		ZEPHIR_CONCAT_SVS(_2, "There is no form with name='", name, "'");
 		ZEPHIR_CALL_METHOD(NULL, _1, "__construct", &_3, _2);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(_1, "phalcon/forms/manager.zep", 60 TSRMLS_CC);
+		zephir_throw_exception_debug(_1, "phalcon/forms/manager.zep", 57 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -126,9 +106,6 @@ PHP_METHOD(Phalcon_Forms_Manager, get) {
 
 /**
  * Checks if a form is registered in the forms manager
- *
- * @param string name
- * @return boolean
  */
 PHP_METHOD(Phalcon_Forms_Manager, has) {
 
@@ -148,10 +125,6 @@ PHP_METHOD(Phalcon_Forms_Manager, has) {
 
 /**
  * Registers a form in the Forms Manager
- *
- * @param string name
- * @param Phalcon\Forms\Form form
- * @return Phalcon\Forms\FormManager
  */
 PHP_METHOD(Phalcon_Forms_Manager, set) {
 

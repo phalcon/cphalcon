@@ -893,17 +893,17 @@ double zephir_safe_div_double_zval(double op1, zval *op2 TSRMLS_DC) {
 	return op1 / ((double) zephir_get_numberval(op2));
 }
 
-void zephir_floor(zval *return_value, zval *op1 TSRMLS_DC)
+double zephir_floor(zval *op1 TSRMLS_DC)
 {
 	convert_scalar_to_number_ex(&op1);
 
 	if (Z_TYPE_PP(&op1) == IS_DOUBLE) {
-		RETURN_DOUBLE(floor(Z_DVAL_PP(&op1)));
+		return floor(Z_DVAL_PP(&op1));
 	} else if (Z_TYPE_PP(&op1) == IS_LONG) {
 		convert_to_double_ex(&op1);
-		RETURN_DOUBLE(Z_DVAL_PP(&op1));
+		return Z_DVAL_PP(&op1);
 	}
-	RETURN_FALSE;
+	return 0;
 }
 
 /**

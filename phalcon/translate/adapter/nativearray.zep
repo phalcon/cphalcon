@@ -35,8 +35,6 @@ class NativeArray extends Adapter implements AdapterInterface, \ArrayAccess
 
 	/**
 	 * Phalcon\Translate\Adapter\NativeArray constructor
-	 *
-	 * @param array options
 	 */
 	public function __construct(array! options)
 	{
@@ -62,26 +60,16 @@ class NativeArray extends Adapter implements AdapterInterface, \ArrayAccess
 	 */
 	public function query(string! index, placeholders = null) -> string
 	{
-		var translation, key, value;
+		var translation;
 
 		if fetch translation, this->_translate[index] {
-			if typeof placeholders === "array" {
-				if count(placeholders) {
-					for key, value in placeholders {
-						let translation = str_replace("%" . key . "%", value, translation);
-					}
-				}
-			}
-			return translation;
+			return this->replacePlaceholders(translation, placeholders);
 		}
 		return index;
 	}
 
 	/**
 	 * Check whether is defined a translation key in the internal array
-	 *
-	 * @param    string index
-	 * @return   bool
 	 */
 	public function exists(string! index) -> boolean
 	{

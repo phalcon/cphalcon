@@ -36,7 +36,7 @@ abstract class Adapter
 	 * @param array   placeholders
 	 * @return string
 	 */
-	public function  t(string! translateKey, placeholders = null)
+	public function t(string! translateKey, placeholders = null)
 	{
 		return this->{"query"}(translateKey, placeholders);
 	}
@@ -48,7 +48,7 @@ abstract class Adapter
 	 * @param array   placeholders
 	 * @return string
 	 */
-	public function  _(string! translateKey, placeholders = null)
+	public function _(string! translateKey, placeholders = null)
 	{
 		return this->{"query"}(translateKey, placeholders);
 	}
@@ -66,9 +66,6 @@ abstract class Adapter
 
 	/**
 	 * Check whether a translation key exists
-	 *
-	 * @param string  translateKey
-	 * @return boolean
 	 */
 	public function offsetExists(string! translateKey) -> boolean
 	{
@@ -96,4 +93,21 @@ abstract class Adapter
 		return this->{"query"}(translateKey, null);
 	}
 
+	/**
+	 * Replaces placeholders by the values passed	
+	 */
+	protected function replacePlaceholders(string! translation, placeholders = null) -> string
+	{
+		var key, value;
+
+		if typeof placeholders === "array" {
+			if count(placeholders) {
+				for key, value in placeholders {
+					let translation = str_replace("%" . key . "%", value, translation);
+				}
+			}
+		}
+
+		return translation;
+	}
 }

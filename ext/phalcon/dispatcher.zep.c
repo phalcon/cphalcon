@@ -22,24 +22,6 @@
 #include "kernel/exception.h"
 
 
-/*
- +------------------------------------------------------------------------+
- | Phalcon Framework                                                      |
- +------------------------------------------------------------------------+
- | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
- +------------------------------------------------------------------------+
- | This source file is subject to the New BSD License that is bundled     |
- | with this package in the file docs/LICENSE.txt.                        |
- |                                                                        |
- | If you did not receive a copy of the license and are unable to         |
- | obtain it through the world-wide-web, please send an email             |
- | to license@phalconphp.com so we can send you a copy immediately.       |
- +------------------------------------------------------------------------+
- | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
- |          Eduar Carvajal <eduar@phalconphp.com>                         |
- |          Rack Lin <racklin@gmail.com>                                  |
- +------------------------------------------------------------------------+
- */
 /**
  * Phalcon\Dispatcher
  *
@@ -109,7 +91,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Dispatcher) {
 
 /**
  * Phalcon\Dispatcher constructor
- *
  */
 PHP_METHOD(Phalcon_Dispatcher, __construct) {
 
@@ -126,8 +107,6 @@ PHP_METHOD(Phalcon_Dispatcher, __construct) {
 
 /**
  * Sets the dependency injector
- *
- * @param Phalcon\DiInterface dependencyInjector
  */
 PHP_METHOD(Phalcon_Dispatcher, setDI) {
 
@@ -143,8 +122,6 @@ PHP_METHOD(Phalcon_Dispatcher, setDI) {
 
 /**
  * Returns the internal dependency injector
- *
- * @return Phalcon\DiInterface
  */
 PHP_METHOD(Phalcon_Dispatcher, getDI) {
 
@@ -155,8 +132,6 @@ PHP_METHOD(Phalcon_Dispatcher, getDI) {
 
 /**
  * Sets the events manager
- *
- * @param Phalcon\Events\ManagerInterface eventsManager
  */
 PHP_METHOD(Phalcon_Dispatcher, setEventsManager) {
 
@@ -172,8 +147,6 @@ PHP_METHOD(Phalcon_Dispatcher, setEventsManager) {
 
 /**
  * Returns the internal event manager
- *
- * @return Phalcon\Events\ManagerInterface
  */
 PHP_METHOD(Phalcon_Dispatcher, getEventsManager) {
 
@@ -184,8 +157,6 @@ PHP_METHOD(Phalcon_Dispatcher, getEventsManager) {
 
 /**
  * Sets the default action suffix
- *
- * @param string actionSuffix
  */
 PHP_METHOD(Phalcon_Dispatcher, setActionSuffix) {
 
@@ -205,8 +176,6 @@ PHP_METHOD(Phalcon_Dispatcher, setActionSuffix) {
 
 /**
  * Sets the module where the controller is (only informative)
- *
- * @param string moduleName
  */
 PHP_METHOD(Phalcon_Dispatcher, setModuleName) {
 
@@ -226,8 +195,6 @@ PHP_METHOD(Phalcon_Dispatcher, setModuleName) {
 
 /**
  * Gets the module where the controller class is
- *
- * @return string
  */
 PHP_METHOD(Phalcon_Dispatcher, getModuleName) {
 
@@ -238,8 +205,6 @@ PHP_METHOD(Phalcon_Dispatcher, getModuleName) {
 
 /**
  * Sets the namespace where the controller class is
- *
- * @param string namespaceName
  */
 PHP_METHOD(Phalcon_Dispatcher, setNamespaceName) {
 
@@ -259,8 +224,6 @@ PHP_METHOD(Phalcon_Dispatcher, setNamespaceName) {
 
 /**
  * Gets a namespace to be prepended to the current handler name
- *
- * @return string
  */
 PHP_METHOD(Phalcon_Dispatcher, getNamespaceName) {
 
@@ -271,8 +234,6 @@ PHP_METHOD(Phalcon_Dispatcher, getNamespaceName) {
 
 /**
  * Sets the default namespace
- *
- * @param string namespaceName
  */
 PHP_METHOD(Phalcon_Dispatcher, setDefaultNamespace) {
 
@@ -292,8 +253,6 @@ PHP_METHOD(Phalcon_Dispatcher, setDefaultNamespace) {
 
 /**
  * Returns the default namespace
- *
- * @return string
  */
 PHP_METHOD(Phalcon_Dispatcher, getDefaultNamespace) {
 
@@ -304,8 +263,6 @@ PHP_METHOD(Phalcon_Dispatcher, getDefaultNamespace) {
 
 /**
  * Sets the default action name
- *
- * @param string actionName
  */
 PHP_METHOD(Phalcon_Dispatcher, setDefaultAction) {
 
@@ -325,8 +282,6 @@ PHP_METHOD(Phalcon_Dispatcher, setDefaultAction) {
 
 /**
  * Sets the action name to be dispatched
- *
- * @param string actionName
  */
 PHP_METHOD(Phalcon_Dispatcher, setActionName) {
 
@@ -346,8 +301,6 @@ PHP_METHOD(Phalcon_Dispatcher, setActionName) {
 
 /**
  * Gets the latest dispatched action name
- *
- * @return string
  */
 PHP_METHOD(Phalcon_Dispatcher, getActionName) {
 
@@ -386,8 +339,6 @@ PHP_METHOD(Phalcon_Dispatcher, setParams) {
 
 /**
  * Gets action params
- *
- * @return array
  */
 PHP_METHOD(Phalcon_Dispatcher, getParams) {
 
@@ -474,8 +425,6 @@ PHP_METHOD(Phalcon_Dispatcher, getParam) {
 
 /**
  * Returns the current method to be/executed in the dispatcher
- *
- * @return string
  */
 PHP_METHOD(Phalcon_Dispatcher, getActiveMethod) {
 
@@ -491,8 +440,6 @@ PHP_METHOD(Phalcon_Dispatcher, getActiveMethod) {
 
 /**
  * Checks if the dispatch loop is finished or has more pendent controllers/tasks to dispatch
- *
- * @return boolean
  */
 PHP_METHOD(Phalcon_Dispatcher, isFinished) {
 
@@ -631,7 +578,7 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch) {
 				continue;
 			}
 		}
-		if (!(zephir_memnstr_str(handlerName, SL("\\"), "phalcon/dispatcher.zep", 425))) {
+		if (!(zephir_memnstr_str(handlerName, SL("\\"), "phalcon/dispatcher.zep", 390))) {
 			ZEPHIR_INIT_NVAR(camelizedClass);
 			zephir_camelize(camelizedClass, handlerName);
 		} else {
@@ -814,7 +761,7 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch) {
 						continue;
 					}
 				} else {
-					zephir_throw_exception_debug(e, "phalcon/dispatcher.zep", 585 TSRMLS_CC);
+					zephir_throw_exception_debug(e, "phalcon/dispatcher.zep", 550 TSRMLS_CC);
 					ZEPHIR_MM_RESTORE();
 					return;
 				}
@@ -920,8 +867,6 @@ PHP_METHOD(Phalcon_Dispatcher, forward) {
 
 /**
  * Check if the current executed action was forwarded by another one
- *
- * @return boolean
  */
 PHP_METHOD(Phalcon_Dispatcher, wasForwarded) {
 

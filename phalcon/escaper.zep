@@ -51,8 +51,6 @@ class Escaper implements EscaperInterface
 	 *<code>
 	 * $escaper->setEncoding('utf-8');
 	 *</code>
-	 *
-	 * @param string encoding
 	 */
 	public function setEncoding(string encoding) -> void
 	{
@@ -61,8 +59,6 @@ class Escaper implements EscaperInterface
 
 	/**
 	 * Returns the internal encoding used by the escaper
-	 *
-	 * @return string
 	 */
 	public function getEncoding() -> string
 	{
@@ -75,8 +71,6 @@ class Escaper implements EscaperInterface
 	 *<code>
 	 * $escaper->setHtmlQuoteType(ENT_XHTML);
 	 *</code>
-	 *
-	 * @param int quoteType
 	 */
 	public function setHtmlQuoteType(int quoteType) -> void
 	{
@@ -149,9 +143,6 @@ class Escaper implements EscaperInterface
 
 	/**
 	 * Escapes a HTML string. Internally uses htmlspecialchars
-	 *
-	 * @param string text
-	 * @return string
 	 */
 	public function escapeHtml(string text) -> string
 	{
@@ -160,9 +151,6 @@ class Escaper implements EscaperInterface
 
 	/**
 	 * Escapes a HTML attribute string
-	 *
-	 * @param string attribute
-	 * @return string
 	 */
 	public function escapeHtmlAttr(string attribute) -> string
 	{
@@ -171,9 +159,6 @@ class Escaper implements EscaperInterface
 
 	/**
 	 * Escape CSS strings by replacing non-alphanumeric chars by their hexadecimal escaped representation
-	 *
-	 * @param string css
-	 * @return string
 	 */
 	public function escapeCss(string css) -> string
 	{
@@ -186,9 +171,6 @@ class Escaper implements EscaperInterface
 
 	/**
 	 * Escape javascript strings by replacing non-alphanumeric chars by their hexadecimal escaped representation
-	 *
-	 * @param string js
-	 * @return string
 	 */
 	public function escapeJs(string js) -> string
 	{
@@ -201,9 +183,6 @@ class Escaper implements EscaperInterface
 
 	/**
 	 * Escapes a URL. Internally uses rawurlencode
-	 *
-	 * @param string url
-	 * @return string
 	 */
 	public function escapeUrl(string url) -> string
 	{

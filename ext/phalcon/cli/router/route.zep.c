@@ -24,24 +24,6 @@
 #include "kernel/hash.h"
 
 
-/*
- +------------------------------------------------------------------------+
- | Phalcon Framework                                                      |
- +------------------------------------------------------------------------+
- | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
- +------------------------------------------------------------------------+
- | This source file is subject to the New BSD License that is bundled     |
- | with this package in the file docs/LICENSE.txt.                        |
- |                                                                        |
- | If you did not receive a copy of the license and are unable to         |
- | obtain it through the world-wide-web, please send an email             |
- | to license@phalconphp.com so we can send you a copy immediately.       |
- +------------------------------------------------------------------------+
- | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
- |          Eduar Carvajal <eduar@phalconphp.com>                         |
- |          Rack Lin <racklin@gmail.com>                                  |
- +------------------------------------------------------------------------+
-*/
 /**
  * Phalcon\Cli\Router\Route
  *
@@ -653,7 +635,7 @@ PHP_METHOD(Phalcon_Cli_Router_Route, setName) {
 /**
  * Sets a callback that is called if the route is matched.
  * The developer can implement any arbitrary conditions here
- * If the callback returns false the route is treaded as not matched
+ * If the callback returns false the route is treated as not matched
  *
  * @param callback callback
  * @return Phalcon\Cli\Router\Route

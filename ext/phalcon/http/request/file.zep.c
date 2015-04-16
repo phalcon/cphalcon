@@ -21,23 +21,6 @@
 #include "kernel/exception.h"
 
 
-/*
- +------------------------------------------------------------------------+
- | Phalcon Framework                                                      |
- +------------------------------------------------------------------------+
- | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
- +------------------------------------------------------------------------+
- | This source file is subject to the New BSD License that is bundled     |
- | with this package in the file docs/LICENSE.txt.                        |
- |                                                                        |
- | If you did not receive a copy of the license and are unable to         |
- | obtain it through the world-wide-web, please send an email             |
- | to license@phalconphp.com so we can send you a copy immediately.       |
- +------------------------------------------------------------------------+
- | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
- |          Eduar Carvajal <eduar@phalconphp.com>                         |
- +------------------------------------------------------------------------+
- */
 /**
  * Phalcon\Http\Request\File
  *
@@ -109,8 +92,6 @@ PHP_METHOD(Phalcon_Http_Request_File, getExtension) {
 
 /**
  * Phalcon\Http\Request\File constructor
- *
- * @param array file
  */
 PHP_METHOD(Phalcon_Http_Request_File, __construct) {
 
@@ -165,8 +146,6 @@ PHP_METHOD(Phalcon_Http_Request_File, __construct) {
 
 /**
  * Returns the file size of the uploaded file
- *
- * @return int
  */
 PHP_METHOD(Phalcon_Http_Request_File, getSize) {
 
@@ -177,8 +156,6 @@ PHP_METHOD(Phalcon_Http_Request_File, getSize) {
 
 /**
  * Returns the real name of the uploaded file
- *
- * @return string
  */
 PHP_METHOD(Phalcon_Http_Request_File, getName) {
 
@@ -189,8 +166,6 @@ PHP_METHOD(Phalcon_Http_Request_File, getName) {
 
 /**
  * Returns the temporal name of the uploaded file
- *
- * @return string
  */
 PHP_METHOD(Phalcon_Http_Request_File, getTempName) {
 
@@ -202,8 +177,6 @@ PHP_METHOD(Phalcon_Http_Request_File, getTempName) {
 /**
  * Returns the mime type reported by the browser
  * This mime type is not completely secure, use getRealType() instead
- *
- * @return string
  */
 PHP_METHOD(Phalcon_Http_Request_File, getType) {
 
@@ -214,8 +187,6 @@ PHP_METHOD(Phalcon_Http_Request_File, getType) {
 
 /**
  * Gets the real mime type of the upload file using finfo
- *
- * @return string
  */
 PHP_METHOD(Phalcon_Http_Request_File, getRealType) {
 
@@ -242,8 +213,6 @@ PHP_METHOD(Phalcon_Http_Request_File, getRealType) {
 
 /**
  * Checks whether the file has been uploaded via Post.
- *
- * @return boolean
  */
 PHP_METHOD(Phalcon_Http_Request_File, isUploadedFile) {
 
@@ -268,9 +237,6 @@ PHP_METHOD(Phalcon_Http_Request_File, isUploadedFile) {
 
 /**
  * Moves the temporary file to a destination within the application
- *
- * @param string destination
- * @return boolean
  */
 PHP_METHOD(Phalcon_Http_Request_File, moveTo) {
 

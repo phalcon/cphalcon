@@ -22,23 +22,6 @@
 #include "kernel/hash.h"
 
 
-/*
- +------------------------------------------------------------------------+
- | Phalcon Framework                                                      |
- +------------------------------------------------------------------------+
- | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
- +------------------------------------------------------------------------+
- | This source file is subject to the New BSD License that is bundled     |
- | with this package in the file docs/LICENSE.txt.                        |
- |                                                                        |
- | If you did not receive a copy of the license and are unable to         |
- | obtain it through the world-wide-web, please send an email             |
- | to license@phalconphp.com so we can send you a copy immediately.       |
- +------------------------------------------------------------------------+
- | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
- |          Eduar Carvajal <eduar@phalconphp.com>                         |
- +------------------------------------------------------------------------+
- */
 /**
  * Phalcon\Http\Response\Cookies
  *
@@ -65,8 +48,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Response_Cookies) {
 
 /**
  * Sets the dependency injector
- *
- * @param Phalcon\DiInterface dependencyInjector
  */
 PHP_METHOD(Phalcon_Http_Response_Cookies, setDI) {
 
@@ -82,8 +63,6 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, setDI) {
 
 /**
  * Returns the internal dependency injector
- *
- * @return Phalcon\DiInterface
  */
 PHP_METHOD(Phalcon_Http_Response_Cookies, getDI) {
 
@@ -94,9 +73,6 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, getDI) {
 
 /**
  * Set if cookies in the bag must be automatically encrypted/decrypted
- *
- * @param boolean useEncryption
- * @return Phalcon\Http\Response\Cookies
  */
 PHP_METHOD(Phalcon_Http_Response_Cookies, useEncryption) {
 
@@ -115,8 +91,6 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, useEncryption) {
 
 /**
  * Returns if the bag is automatically encrypting/decrypting cookies
- *
- * @return boolean
  */
 PHP_METHOD(Phalcon_Http_Response_Cookies, isUsingEncryption) {
 
@@ -237,7 +211,7 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, set) {
 		ZEPHIR_OBS_VAR(dependencyInjector);
 		zephir_read_property_this(&dependencyInjector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 		if (Z_TYPE_P(dependencyInjector) != IS_OBJECT) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_http_cookie_exception_ce, "A dependency injection object is required to access the 'response' service", "phalcon/http/response/cookies.zep", 147);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_http_cookie_exception_ce, "A dependency injection object is required to access the 'response' service", "phalcon/http/response/cookies.zep", 138);
 			return;
 		}
 		ZEPHIR_INIT_NVAR(_1);
@@ -254,9 +228,6 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, set) {
 
 /**
  * Gets a cookie from the bag
- *
- * @param string name
- * @return Phalcon\Http\Cookie
  */
 PHP_METHOD(Phalcon_Http_Response_Cookies, get) {
 
@@ -309,9 +280,6 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, get) {
 
 /**
  * Check if a cookie is defined in the bag or exists in the _COOKIE superglobal
- *
- * @param string name
- * @return boolean
  */
 PHP_METHOD(Phalcon_Http_Response_Cookies, has) {
 
@@ -349,9 +317,6 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, has) {
 /**
  * Deletes a cookie by its name
  * This method does not removes cookies from the _COOKIE superglobal
- *
- * @param string name
- * @return boolean
  */
 PHP_METHOD(Phalcon_Http_Response_Cookies, delete) {
 
@@ -389,8 +354,6 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, delete) {
 /**
  * Sends the cookies to the client
  * Cookies aren't sent if headers are sent in the current request
- *
- * @return boolean
  */
 PHP_METHOD(Phalcon_Http_Response_Cookies, send) {
 
@@ -406,7 +369,7 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, send) {
 	zephir_check_call_status();
 	if (!(zephir_is_true(_0))) {
 		_2 = zephir_fetch_nproperty_this(this_ptr, SL("_cookies"), PH_NOISY_CC);
-		zephir_is_iterable(_2, &_4, &_3, 0, 0, "phalcon/http/response/cookies.zep", 264);
+		zephir_is_iterable(_2, &_4, &_3, 0, 0, "phalcon/http/response/cookies.zep", 243);
 		for (
 		  ; zephir_hash_get_current_data_ex(_4, (void**) &_5, &_3) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_4, &_3)
@@ -423,8 +386,6 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, send) {
 
 /**
  * Reset set cookies
- *
- * @return Phalcon\Http\Response\Cookies
  */
 PHP_METHOD(Phalcon_Http_Response_Cookies, reset) {
 

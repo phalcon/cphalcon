@@ -64,8 +64,6 @@ class Service implements ServiceInterface
 
 	/**
 	 * Returns the service's name
-	 *
-	 * @param string
 	 */
 	public function getName() -> string
 	{
@@ -74,8 +72,6 @@ class Service implements ServiceInterface
 
 	/**
 	 * Sets if the service is shared or not
-	 *
-	 * @param boolean shared
 	 */
 	public function setShared(boolean shared) -> void
 	{
@@ -84,8 +80,6 @@ class Service implements ServiceInterface
 
 	/**
 	 * Check whether the service is shared or not
-	 *
-	 * @return boolean
 	 */
 	public function isShared() -> boolean
 	{
@@ -131,7 +125,6 @@ class Service implements ServiceInterface
 	 */
 	public function resolve(parameters = null, <DiInterface> dependencyInjector = null)
 	{
-
 		boolean found;
 		var shared, definition, sharedInstance, instance, builder, reflection;
 
@@ -233,10 +226,6 @@ class Service implements ServiceInterface
 
 	/**
 	 * Changes a parameter in the definition without resolve the service
-	 *
-	 * @param int position
-	 * @param array parameter
-	 * @return Phalcon\Di\Service
 	 */
 	public function setParameter(int position, array! parameter) -> <Service>
 	{
@@ -298,8 +287,6 @@ class Service implements ServiceInterface
 
 	/**
 	 * Returns true if the service was resolved
-	 *
-	 * @return bool
 	 */
 	public function isResolved() -> boolean
 	{
@@ -308,9 +295,6 @@ class Service implements ServiceInterface
 
 	/**
 	 * Restore the internal state of a service
-	 *
-	 * @param array attributes
-	 * @return Phalcon\Di\Service
 	 */
 	public static function __set_state(array! attributes) -> <Service>
 	{

@@ -336,7 +336,7 @@ abstract class Dialect
 			columnsSql, table, sql, joins, join, sqlTable, whereConditions,
 			groupFields, groupField, groupItems, havingConditions,
 			orderFields, orderItem, orderItems, orderSqlItem, sqlOrderType,
-			orderSqlItemType, limitValue, number, offset;
+			orderSqlItemType, limitValue, limitNumber, limitNumberValue, offset, offsetNumber;
 
 		if !fetch tables, definition["tables"] {
 			throw new Exception("The index 'tables' is required in the definition array");
@@ -533,15 +533,25 @@ abstract class Dialect
 
 			if typeof limitValue == "array" {
 
-				let number = limitValue["number"]["value"];
+				let limitNumberValue = limitValue["number"];
+				if typeof limitNumberValue == "array" {
+					let limitNumber = this->getSqlExpression(limitNumberValue, escapeChar);
+				} else {
+					let limitNumber = limitNumberValue;
+				}
 
 				/**
 				 * Check for a OFFSET condition
 				 */
 				if fetch offset, limitValue["offset"] {
-					let sql .= " LIMIT " . number . " OFFSET " . offset["value"];
+					if typeof offset == "array" {
+						let offsetNumber = this->getSqlExpression(offset, escapeChar);
+					} else {
+						let offsetNumber = offset;
+					}
+					let sql .= " LIMIT " . limitNumber . " OFFSET " . offsetNumber;
 				} else {
-					let sql .= " LIMIT " . number;
+					let sql .= " LIMIT " . limitNumber;
 				}
 			} else {
 				let sql .= " LIMIT " . limitValue;
