@@ -37,4 +37,4 @@ $_SERVER['REQUEST_URI'] = '/hello/test';
 echo $application->handle()->getContent();
 ?>
 --EXPECT--
-Hello
+hello

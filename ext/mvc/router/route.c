@@ -422,7 +422,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, via){
  * Reconfigure the route adding a new pattern and a set of paths
  *
  * @param string $pattern
- * @param array $paths
+ * @param string|array $paths
  */
 PHP_METHOD(Phalcon_Mvc_Router_Route, reConfigure){
 
@@ -556,6 +556,16 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, reConfigure){
 			}
 		} else {
 			PHALCON_CPY_WRT(route_paths, paths);
+			if (Z_TYPE_P(route_paths) == IS_ARRAY) {
+				if (phalcon_array_isset_string_fetch(&controller_name, route_paths, SS("controller"))) {
+					if (Z_TYPE_P(controller_name) == IS_STRING && !phalcon_is_numeric_ex(controller_name)) {
+						PHALCON_INIT_VAR(lower_name);
+						phalcon_uncamelize(lower_name, controller_name);
+
+						phalcon_array_update_string(&route_paths, SL("controller"), lower_name, PH_COPY);
+					}
+				}
+			}
 		}
 	} else {
 		PHALCON_INIT_NVAR(route_paths);

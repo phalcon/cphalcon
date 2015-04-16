@@ -23,6 +23,13 @@
 
 #include "php_phalcon.h"
 
+#define PHALCON_EXCEPTION_NO_DI				1
+#define PHALCON_EXCEPTION_CYCLIC_ROUTING	2
+#define PHALCON_EXCEPTION_HANDLER_NOT_FOUND	4
+#define PHALCON_EXCEPTION_INVALID_HANDLER	8
+#define PHALCON_EXCEPTION_INVALID_PARAMS	16
+#define PHALCON_EXCEPTION_ACTION_NOT_FOUND	32
+
 extern zend_class_entry *phalcon_dispatcher_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Dispatcher);

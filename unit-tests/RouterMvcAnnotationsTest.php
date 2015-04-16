@@ -136,63 +136,63 @@ class RouterMvcAnnotationsTest extends PHPUnit_Framework_TestCase
 			array(
 				'uri' => '/products/save',
 				'method' => 'PUT',
-				'controller' => 'Products',
+				'controller' => 'products',
 				'action' => 'save',
 				'params' => array()
 			),
 			array(
 				'uri' => '/products/save',
 				'method' => 'POST',
-				'controller' => 'Products',
+				'controller' => 'products',
 				'action' => 'save',
 				'params' => array()
 			),
 			array(
 				'uri' => '/products/edit/100',
 				'method' => 'GET',
-				'controller' => 'Products',
+				'controller' => 'products',
 				'action' => 'edit',
 				'params' => array('id' => '100')
 			),
 			array(
 				'uri' => '/products',
 				'method' => 'GET',
-				'controller' => 'Products',
+				'controller' => 'products',
 				'action' => 'index',
 				'params' => array()
 			),
 			array(
 				'uri' => '/robots/edit/100',
 				'method' => 'GET',
-				'controller' => 'Robots',
+				'controller' => 'robots',
 				'action' => 'edit',
 				'params' => array('id' => '100')
 			),
 			array(
 				'uri' => '/robots',
 				'method' => 'GET',
-				'controller' => 'Robots',
+				'controller' => 'robots',
 				'action' => 'index',
 				'params' => array()
 			),
 			array(
 				'uri' => '/robots/save',
 				'method' => 'PUT',
-				'controller' => 'Robots',
+				'controller' => 'robots',
 				'action' => 'save',
 				'params' => array()
 			),
 			array(
 				'uri' => '/robots/delete/100',
 				'method' => 'POST',
-				'controller' => 'Robots',
+				'controller' => 'robots',
 				'action' => 'deleteRobot',
 				'params' => array('id' => '100')
 			),
 			array(
 				'uri' => '/',
 				'method' => 'GET',
-				'controller' => 'Main',
+				'controller' => 'main',
 				'action' => 'index',
 				'params' => array()
 			),
