@@ -8,11 +8,7 @@
  *
  * PhalconPHP Framework
  *
-<<<<<<< HEAD
  * @copyright (c) 2011-2015 Phalcon Team
-=======
- * @copyright (c) 2011-2014 Phalcon Team
->>>>>>> master
  * @link      http://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Eduar Carvajal <eduar@phalconphp.com>

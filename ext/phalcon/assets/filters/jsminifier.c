@@ -24,14 +24,14 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
+
+#include "php.h"
 #include "php_phalcon.h"
-
-#ifdef PHALCON_NON_FREE
-
-#include <ext/standard/php_smart_str.h>
-
-#include "assets/filters/jsminifier.h"
-#include "assets/exception.h"
+#include "phalcon.h"
+#include "ext/standard/php_smart_str.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
@@ -44,26 +44,20 @@ SOFTWARE.
 
 typedef struct _jsmin_parser {
 	zval *script;
-	const char *error;
+	zval **error;
 	int script_pointer;
 	int inside_string;
 	smart_str *minified;
-	unsigned char theA;
-	unsigned char theB;
-	unsigned char theC;
-	unsigned char theX;
-	unsigned char theY;
+	char theA;
+	char theB;
+	char theC;
+	char theX;
+	char theY;
 } jsmin_parser;
 
-<<<<<<< HEAD:ext/phalcon/assets/filters/jsminifier.c
 static void jsmin_error(jsmin_parser *parser, char* s, int s_length TSRMLS_DC) {
 	ZEPHIR_INIT_VAR(*parser->error);
 	ZVAL_STRINGL(*parser->error, s, s_length, 1);
-=======
-static void jsmin_error(jsmin_parser *parser, const char* s, int s_length TSRMLS_DC)
-{
-	parser->error = s;
->>>>>>> master:ext/assets/filters/jsminifier.c
 }
 
 /* isAlphanum -- return true if the character is a letter, digit, underscore,
@@ -80,34 +74,34 @@ static int jsmin_isAlphanum(int c) {
 		linefeed.
 */
 
-static unsigned char jsmin_peek(jsmin_parser *parser){
-	unsigned char ch;
+static char jsmin_peek(jsmin_parser *parser){
+	char ch;
 	if (parser->script_pointer < Z_STRLEN_P(parser->script)) {
 		ch = Z_STRVAL_P(parser->script)[parser->script_pointer];
 		return ch;
 	}
-	return '\0';
+	return EOF;
 }
 
-static unsigned char jsmin_get(jsmin_parser *parser) {
+static char jsmin_get(jsmin_parser *parser) {
 
-	unsigned char c;
+	char c;
 
 	if (parser->script_pointer < Z_STRLEN_P(parser->script)) {
 		c = Z_STRVAL_P(parser->script)[parser->script_pointer];
 		parser->script_pointer++;
 	} else {
-		c = '\0';
+		c = EOF;
 	}
 
 	parser->theC = c;
 
 	if (parser->inside_string == 1) {
-		if (c >= ' ' || c == '\n' || c == '\t' || c == '\0') {
+		if (c >= ' ' || c == '\n' || c == '\t' || c == EOF) {
 			return c;
 		}
 	} else {
-		if (c >= ' ' || c == '\n' || c == '\0') {
+		if (c >= ' ' || c == '\n' || c == EOF) {
 			return c;
 		}
 	}
@@ -123,7 +117,7 @@ static unsigned char jsmin_get(jsmin_parser *parser) {
 */
 
 static int jsmin_next(jsmin_parser *parser TSRMLS_DC) {
-	unsigned char c = jsmin_get(parser);
+	char c = jsmin_get(parser);
 	if  (c == '/') {
 		switch (jsmin_peek(parser)) {
 			case '/':
@@ -144,7 +138,7 @@ static int jsmin_next(jsmin_parser *parser TSRMLS_DC) {
 							c = ' ';
 						}
 						break;
-					case '\0':
+					case EOF:
 						jsmin_error(parser, SL("Unterminated comment.") TSRMLS_CC);
 						return FAILURE;
 				}
@@ -165,7 +159,7 @@ static int jsmin_next(jsmin_parser *parser TSRMLS_DC) {
    action recognizes a regular expression if it is preceded by ( or , or =.
 */
 
-static int jsmin_action(jsmin_parser *parser, unsigned char d TSRMLS_DC) {
+static int jsmin_action(jsmin_parser *parser, char d TSRMLS_DC) {
 	switch (d) {
 		case JSMIN_ACTION_OUTPUT_NEXT:
 			smart_str_appendc(parser->minified, parser->theA);
@@ -191,7 +185,7 @@ static int jsmin_action(jsmin_parser *parser, unsigned char d TSRMLS_DC) {
 						smart_str_appendc(parser->minified, parser->theA);
 						parser->theA = jsmin_get(parser);
 					}
-					if (parser->theA == '\0') {
+					if (parser->theA == EOF) {
 						jsmin_error(parser, SL("Unterminated string literal.") TSRMLS_CC);
 						return FAILURE;
 					}
@@ -201,7 +195,7 @@ static int jsmin_action(jsmin_parser *parser, unsigned char d TSRMLS_DC) {
 			/* no break */
 		case JSMIN_ACTION_NEXT:
 			parser->theB = jsmin_next(parser TSRMLS_CC);
-			if (parser->error != NULL) {
+			if (*parser->error != NULL) {
 				return FAILURE;
 			}
 			if (parser->theB == '/' && (
@@ -228,7 +222,7 @@ static int jsmin_action(jsmin_parser *parser, unsigned char d TSRMLS_DC) {
 								smart_str_appendc(parser->minified, parser->theA);
 								parser->theA = jsmin_get(parser);
 							}
-							if (parser->theA == '\0') {
+							if (parser->theA == EOF) {
 								jsmin_error(parser, SL("Unterminated set in Regular Expression literal.") TSRMLS_CC);
 								return FAILURE;
 							}
@@ -249,14 +243,14 @@ static int jsmin_action(jsmin_parser *parser, unsigned char d TSRMLS_DC) {
 							}
 						}
 					}
-					if (parser->theA == '\0') {
+					if (parser->theA == EOF) {
 						jsmin_error(parser, SL("Unterminated Regular Expression literal.") TSRMLS_CC);
 						return FAILURE;
 					}
 					smart_str_appendc(parser->minified, parser->theA);
 				}
 				parser->theB = jsmin_next(parser TSRMLS_CC);
-				if (parser->error != NULL) {
+				if (*parser->error != NULL) {
 					return FAILURE;
 				}
 			}
@@ -272,27 +266,26 @@ static int jsmin_action(jsmin_parser *parser, unsigned char d TSRMLS_DC) {
 		Most spaces and linefeeds will be removed.
 */
 
-static int phalcon_jsmin_internal(zval *return_value, zval *script, const char **error TSRMLS_DC) {
+int phalcon_jsmin_internal(zval *return_value, zval *script, zval **error TSRMLS_DC) {
 
 	jsmin_parser parser;
 	smart_str minified = {0};
 	int status = SUCCESS;
 
 	parser.theA = '\n';
-	parser.theX = '\0';
-	parser.theY = '\0';
+	parser.theX = EOF;
+	parser.theY = EOF;
 	parser.script = script;
-	parser.error = NULL;
+	parser.error = error;
 	parser.script_pointer = 0;
 	parser.inside_string = 0;
 	parser.minified = &minified;
 
 	if (jsmin_action(&parser, JSMIN_ACTION_NEXT TSRMLS_CC) == FAILURE) {
-		*error = parser.error;
 		return FAILURE;
 	}
 
-	while (parser.theA != '\0') {
+	while (parser.theA != EOF) {
 		if (status == FAILURE) {
 			break;
 		}
@@ -372,7 +365,6 @@ static int phalcon_jsmin_internal(zval *return_value, zval *script, const char *
 
 	if (status == FAILURE) {
 		smart_str_free(&minified);
-		*error = parser.error;
 		return FAILURE;
 	}
 
@@ -389,46 +381,26 @@ static int phalcon_jsmin_internal(zval *return_value, zval *script, const char *
 
 int phalcon_jsmin(zval *return_value, zval *script TSRMLS_DC) {
 
-<<<<<<< HEAD:ext/phalcon/assets/filters/jsminifier.c
 	zval *error = NULL;
 
 	ZEPHIR_MM_GROW();
-=======
-	const char *error = NULL;
->>>>>>> master:ext/assets/filters/jsminifier.c
 
 	ZVAL_NULL(return_value);
 
 	if (Z_TYPE_P(script) != IS_STRING) {
-<<<<<<< HEAD:ext/phalcon/assets/filters/jsminifier.c
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_assets_exception_ce, "Script must be a string");
-=======
-		PHALCON_THROW_EXCEPTION_STRW(phalcon_assets_exception_ce, "Script must be a string");
->>>>>>> master:ext/assets/filters/jsminifier.c
 		return FAILURE;
 	}
 
 	if (phalcon_jsmin_internal(return_value, script, &error TSRMLS_CC) == FAILURE){
-<<<<<<< HEAD:ext/phalcon/assets/filters/jsminifier.c
 		if (Z_TYPE_P(error) == IS_STRING) {
 			ZEPHIR_THROW_EXCEPTION_STR(phalcon_assets_exception_ce, Z_STRVAL_P(error));
 		} else {
 			ZEPHIR_THROW_EXCEPTION_STR(phalcon_assets_exception_ce, "Unknown error");
-=======
-		if (error) {
-			PHALCON_THROW_EXCEPTION_STRW(phalcon_assets_exception_ce, error);
-		} else {
-			PHALCON_THROW_EXCEPTION_STRW(phalcon_assets_exception_ce, "Unknown error");
->>>>>>> master:ext/assets/filters/jsminifier.c
 		}
-
 		return FAILURE;
 	}
 
-<<<<<<< HEAD:ext/phalcon/assets/filters/jsminifier.c
 	ZEPHIR_MM_RESTORE();
-=======
->>>>>>> master:ext/assets/filters/jsminifier.c
 	return SUCCESS;
 }
-#endif

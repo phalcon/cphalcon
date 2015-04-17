@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -16,13 +16,6 @@
   |          Eduar Carvajal <eduar@phalconphp.com>                         |
   +------------------------------------------------------------------------+
 */
-
-#ifndef PHP_PHALCON_H
-#include "php_phalcon.h"
-#include "annotations/annot.h"
-#include "annotations/parser.h"
-#include "annotations/scanner.h"
-#endif
 
 const phannot_token_names phannot_tokens[] =
 {
@@ -80,35 +73,44 @@ static void phannot_parse_with_token(void* phannot_parser, int opcode, int parse
 /**
  * Creates an error message when it's triggered by the scanner
  */
-static void phannot_scanner_error_msg(phannot_parser_status *parser_status, char **error_msg TSRMLS_DC){
+static void phannot_scanner_error_msg(phannot_parser_status *parser_status, zval **error_msg TSRMLS_DC){
 
+	int error_length;
+	char *error, *error_part;
 	phannot_scanner_state *state = parser_status->scanner_state;
 
-<<<<<<< HEAD:ext/phalcon/annotations/base.c
 	MAKE_STD_ZVAL(*error_msg);
-=======
->>>>>>> master:ext/annotations/base.c
 	if (state->start) {
+		error_length = 128 + state->start_length +  Z_STRLEN_P(state->active_file);
+		error = emalloc(sizeof(char) * error_length);
 		if (state->start_length > 16) {
-			spprintf(error_msg, 0, "Scanning error before '%.16s...' in %s on line %d", state->start, state->active_file, state->active_line);
+			error_part = estrndup(state->start, 16);
+			snprintf(error, 64 + state->start_length, "Scanning error before '%s...' in %s on line %d", error_part, Z_STRVAL_P(state->active_file), state->active_line);
+			efree(error_part);
 		} else {
-			spprintf(error_msg, 0, "Scanning error before '%s' in %s on line %d", state->start, state->active_file, state->active_line);
+			snprintf(error, error_length - 1, "Scanning error before '%s' in %s on line %d", state->start, Z_STRVAL_P(state->active_file), state->active_line);
 		}
+		error[error_length - 1] = '\0';
+		ZVAL_STRING(*error_msg, error, 1);
 	} else {
-		spprintf(error_msg, 0, "Scanning error near to EOF in %s", state->active_file);
+		error_length = sizeof(char) * (64 + Z_STRLEN_P(state->active_file));
+		error = emalloc(error_length);
+		snprintf(error, error_length - 1, "Scanning error near to EOF in %s", Z_STRVAL_P(state->active_file));
+		ZVAL_STRING(*error_msg, error, 1);
+		error[error_length - 1] = '\0';
 	}
+	efree(error);
 }
 
 /**
  * Receives the comment tokenizes and parses it
  */
-int phannot_parse_annotations(zval *result, const char *comment, zend_uint comment_len, const char *file_path, zend_uint line TSRMLS_DC){
+int phannot_parse_annotations(zval *result, zval *comment, zval *file_path, zval *line TSRMLS_DC){
 
-	char *error_msg = NULL;
+	zval *error_msg = NULL;
 
 	ZVAL_NULL(result);
 
-<<<<<<< HEAD:ext/phalcon/annotations/base.c
 	if (Z_TYPE_P(comment) != IS_STRING) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_annotations_exception_ce, "Comment must be a string");
 		return FAILURE;
@@ -116,17 +118,6 @@ int phannot_parse_annotations(zval *result, const char *comment, zend_uint comme
 
 	if (phannot_internal_parse_annotations(&result, comment, file_path, line, &error_msg TSRMLS_CC) == FAILURE){
 		ZEPHIR_THROW_EXCEPTION_STRW(phalcon_annotations_exception_ce, Z_STRVAL_P(error_msg));
-=======
-	if (phannot_internal_parse_annotations(&result, comment, comment_len, file_path, line, &error_msg TSRMLS_CC) == FAILURE) {
-		if (likely(error_msg != NULL)) {
-			zend_throw_exception_ex(phalcon_annotations_exception_ce, 0 TSRMLS_CC, "%s", error_msg);
-			efree(error_msg);
-		}
-		else {
-			zend_throw_exception_ex(phalcon_annotations_exception_ce, 0 TSRMLS_CC, "Error parsing annotation");
-		}
-
->>>>>>> master:ext/annotations/base.c
 		return FAILURE;
 	}
 
@@ -136,8 +127,8 @@ int phannot_parse_annotations(zval *result, const char *comment, zend_uint comme
 /**
  * Remove comment separators from a docblock
  */
-static void phannot_remove_comment_separators(char **ret, zend_uint *ret_len, const char *comment, zend_uint length, zend_uint *start_lines)
-{
+void phannot_remove_comment_separators(zval *return_value, char *comment, int length, int *start_lines) {
+
 	int start_mode = 1, j, i, open_parentheses;
 	smart_str processed_str = {0};
 	char ch;
@@ -174,7 +165,7 @@ static void phannot_remove_comment_separators(char **ret, zend_uint *ret_len, co
 
 				if (open_parentheses == 0) {
 
-					if (isalnum(ch) || '_' == ch || '\\' == ch) {
+					if ((ch >= 'A' && ch <= 'Z') || (ch >= 'a' && ch <= 'z')) {
 						smart_str_appendc(&processed_str, ch);
 						continue;
 					}
@@ -191,11 +182,15 @@ static void phannot_remove_comment_separators(char **ret, zend_uint *ret_len, co
 
 					if (ch == '(') {
 						open_parentheses++;
-					} else if (ch == ')') {
-						open_parentheses--;
-					} else if (ch == '\n') {
-						(*start_lines)++;
-						start_mode = 1;
+					} else {
+						if (ch == ')') {
+							open_parentheses--;
+						} else {
+							if (ch == '\n') {
+								(*start_lines)++;
+								start_mode = 1;
+							}
+						}
 					}
 
 					if (open_parentheses > 0) {
@@ -218,40 +213,34 @@ static void phannot_remove_comment_separators(char **ret, zend_uint *ret_len, co
 	smart_str_0(&processed_str);
 
 	if (processed_str.len) {
-		*ret     = processed_str.c;
-		*ret_len = processed_str.len;
+		RETURN_STRINGL(processed_str.c, processed_str.len, 0);
 	} else {
-		*ret     = NULL;
-		*ret_len = 0;
+		RETURN_EMPTY_STRING();
 	}
 }
 
 /**
  * Parses a comment returning an intermediate array representation
  */
-int phannot_internal_parse_annotations(zval **result, const char *comment, zend_uint comment_len, const char *file_path, zend_uint line, char **error_msg TSRMLS_DC)
-{
+int phannot_internal_parse_annotations(zval **result, zval *comment, zval *file_path, zval *line, zval **error_msg TSRMLS_DC) {
+
+	char *error;
 	phannot_scanner_state *state;
 	phannot_scanner_token token;
-	zend_uint start_lines;
-	int scanner_status, status = SUCCESS;
+	int scanner_status, status = SUCCESS, start_lines, error_length;
 	phannot_parser_status *parser_status = NULL;
 	void* phannot_parser;
-	char *processed_comment;
-	zend_uint processed_comment_len;
-
-	*error_msg = NULL;
+	zval processed_comment;
 
 	/**
 	 * Check if the comment has content
 	 */
-	if (UNEXPECTED(!comment)) {
+	if (!Z_STRVAL_P(comment)) {
 		ZVAL_BOOL(*result, 0);
-		spprintf(error_msg, 0, "Empty annotation");
 		return FAILURE;
 	}
 
-	if (comment_len < 2) {
+	if (Z_STRLEN_P(comment) < 2) {
 		ZVAL_BOOL(*result, 0);
 		return SUCCESS;
 	}
@@ -259,14 +248,11 @@ int phannot_internal_parse_annotations(zval **result, const char *comment, zend_
 	/**
 	 * Remove comment separators
 	 */
-	phannot_remove_comment_separators(&processed_comment, &processed_comment_len, comment, comment_len, &start_lines);
+	phannot_remove_comment_separators(&processed_comment, Z_STRVAL_P(comment), Z_STRLEN_P(comment), &start_lines);
 
-	if (processed_comment_len < 2) {
+	if (Z_STRLEN(processed_comment) < 2) {
 		ZVAL_BOOL(*result, 0);
-		if (processed_comment) {
-			efree(processed_comment);
-		}
-
+		efree(Z_STRVAL(processed_comment));
 		return SUCCESS;
 	}
 
@@ -274,13 +260,9 @@ int phannot_internal_parse_annotations(zval **result, const char *comment, zend_
 	 * Start the reentrant parser
 	 */
 	phannot_parser = phannot_Alloc(phannot_wrapper_alloc);
-	if (unlikely(!phannot_parser)) {
-		ZVAL_BOOL(*result, 0);
-		return FAILURE;
-	}
 
-	parser_status = emalloc(sizeof(phannot_parser_status) + sizeof(phannot_scanner_state));
-	state         = (phannot_scanner_state*)((char*)parser_status + sizeof(phannot_parser_status));
+	parser_status = emalloc(sizeof(phannot_parser_status));
+	state = emalloc(sizeof(phannot_scanner_state));
 
 	parser_status->status = PHANNOT_PARSING_OK;
 	parser_status->scanner_state = state;
@@ -292,7 +274,7 @@ int phannot_internal_parse_annotations(zval **result, const char *comment, zend_
 	 * Initialize the scanner state
 	 */
 	state->active_token = 0;
-	state->start = processed_comment;
+	state->start = Z_STRVAL(processed_comment);
 	state->start_length = 0;
 	state->mode = PHANNOT_MODE_RAW;
 	state->active_file = file_path;
@@ -303,8 +285,8 @@ int phannot_internal_parse_annotations(zval **result, const char *comment, zend_
 	/**
 	 * Possible start line
 	 */
-	if (line) {
-		state->active_line = line - start_lines;
+	if (Z_TYPE_P(line) == IS_LONG) {
+		state->active_line = Z_LVAL_P(line) - start_lines;
 	} else {
 		state->active_line = 1;
 	}
@@ -315,7 +297,7 @@ int phannot_internal_parse_annotations(zval **result, const char *comment, zend_
 
 		state->active_token = token.opcode;
 
-		state->start_length = processed_comment + processed_comment_len - state->start;
+		state->start_length = (Z_STRVAL(processed_comment) + Z_STRLEN(processed_comment) - state->start);
 
 		switch (token.opcode) {
 
@@ -385,7 +367,6 @@ int phannot_internal_parse_annotations(zval **result, const char *comment, zend_
 			default:
 				parser_status->status = PHANNOT_PARSING_FAILED;
 				if (!*error_msg) {
-<<<<<<< HEAD:ext/phalcon/annotations/base.c
 					error_length = sizeof(char) * (48 + Z_STRLEN_P(state->active_file));
 					error = emalloc(error_length);
 					snprintf(error, error_length - 1, "Scanner: unknown opcode %d on in %s line %d", token.opcode, Z_STRVAL_P(state->active_file), state->active_line);
@@ -393,9 +374,6 @@ int phannot_internal_parse_annotations(zval **result, const char *comment, zend_
 					MAKE_STD_ZVAL(*error_msg);
 					ZVAL_STRING(*error_msg, error, 1);
 					efree(error);
-=======
-					spprintf(error_msg, 0, "Scanner: unknown opcode %d on in %s line %d", token.opcode, state->active_file, state->active_line);
->>>>>>> master:ext/annotations/base.c
 				}
 				break;
 		}
@@ -429,16 +407,10 @@ int phannot_internal_parse_annotations(zval **result, const char *comment, zend_
 		status = FAILURE;
 		if (parser_status->syntax_error) {
 			if (!*error_msg) {
-<<<<<<< HEAD:ext/phalcon/annotations/base.c
 				MAKE_STD_ZVAL(*error_msg);
 				ZVAL_STRING(*error_msg, parser_status->syntax_error, 1);
-=======
-				*error_msg = parser_status->syntax_error;
 			}
-			else {
-				efree(parser_status->syntax_error);
->>>>>>> master:ext/annotations/base.c
-			}
+			efree(parser_status->syntax_error);
 		}
 	}
 
@@ -456,8 +428,10 @@ int phannot_internal_parse_annotations(zval **result, const char *comment, zend_
 		}
 	}
 
-	efree(processed_comment);
+	efree(Z_STRVAL(processed_comment));
+
 	efree(parser_status);
+	efree(state);
 
 	return status;
 }

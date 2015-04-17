@@ -36,14 +36,14 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
+
+#include "php.h"
 #include "php_phalcon.h"
-
-#ifdef PHALCON_NON_FREE
-
-#include <ext/standard/php_smart_str.h>
-
-#include "assets/filters/cssminifier.h"
-#include "assets/exception.h"
+#include "phalcon.h"
+#include "ext/standard/php_smart_str.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
@@ -63,7 +63,7 @@ typedef struct _cssmin_parser {
 	int last_state;
 	int in_paren;
 	zval *style;
-	const char *error;
+	zval **error;
 	smart_str *minified;
 	int style_pointer;
 } cssmin_parser;
@@ -231,7 +231,7 @@ static int phalcon_cssmin_machine(cssmin_parser *parser, unsigned char c TSRMLS_
 	return c;
 }
 
-static int phalcon_cssmin_internal(zval *return_value, zval *style, const char **error TSRMLS_DC) {
+int phalcon_cssmin_internal(zval *return_value, zval *style, zval **error TSRMLS_DC) {
 
 	int i;
 	unsigned char c;
@@ -243,7 +243,7 @@ static int phalcon_cssmin_internal(zval *return_value, zval *style, const char *
 	parser.last_state = 1;
 	parser.in_paren = 0;
 	parser.style = style;
-	parser.error = NULL;
+	parser.error = error;
 	parser.minified = &minified;
 
 	for (i = 0; i < Z_STRLEN_P(style); i++) {
@@ -260,10 +260,9 @@ static int phalcon_cssmin_internal(zval *return_value, zval *style, const char *
 	if (minified.len) {
 		ZVAL_STRINGL(return_value, minified.c, minified.len, 0);
 	} else {
-		ZVAL_EMPTY_STRING(return_value);
+		ZVAL_STRING(return_value, "", 1);
 	}
 
-	*error = parser.error;
 	return SUCCESS;
 }
 
@@ -275,46 +274,26 @@ static int phalcon_cssmin_internal(zval *return_value, zval *style, const char *
 
 int phalcon_cssmin(zval *return_value, zval *style TSRMLS_DC) {
 
-<<<<<<< HEAD:ext/phalcon/assets/filters/cssminifier.c
 	zval *error = NULL;
 
 	ZEPHIR_MM_GROW();
-=======
-	const char *error = NULL;
->>>>>>> master:ext/assets/filters/cssminifier.c
 
 	ZVAL_NULL(return_value);
 
 	if (Z_TYPE_P(style) != IS_STRING) {
-<<<<<<< HEAD:ext/phalcon/assets/filters/cssminifier.c
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_assets_exception_ce, "Style must be a string");
-=======
-		PHALCON_THROW_EXCEPTION_STRW(phalcon_assets_exception_ce, "Style must be a string");
->>>>>>> master:ext/assets/filters/cssminifier.c
 		return FAILURE;
 	}
 
 	if (phalcon_cssmin_internal(return_value, style, &error TSRMLS_CC) == FAILURE) {
-<<<<<<< HEAD:ext/phalcon/assets/filters/cssminifier.c
 		if (Z_TYPE_P(error) == IS_STRING) {
 			ZEPHIR_THROW_EXCEPTION_STR(phalcon_assets_exception_ce, Z_STRVAL_P(error));
 		} else {
 			ZEPHIR_THROW_EXCEPTION_STR(phalcon_assets_exception_ce, "Unknown error");
-=======
-		if (error) {
-			PHALCON_THROW_EXCEPTION_STRW(phalcon_assets_exception_ce, error);
-		} else {
-			PHALCON_THROW_EXCEPTION_STRW(phalcon_assets_exception_ce, "Unknown error");
->>>>>>> master:ext/assets/filters/cssminifier.c
 		}
-
 		return FAILURE;
 	}
 
-<<<<<<< HEAD:ext/phalcon/assets/filters/cssminifier.c
 	ZEPHIR_MM_RESTORE();
-=======
->>>>>>> master:ext/assets/filters/cssminifier.c
 	return SUCCESS;
 }
-#endif
