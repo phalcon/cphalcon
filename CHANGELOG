@@ -14,6 +14,11 @@
  - Mvc\View component is now disabled automatically when redirecting using Http\Response
  - Mvc\Model::dynamicUpdate now works better as it compares if every field has changed according to its data type
  - Added Db\Adapter\Pdo::getErrorInfo() to obtain the last error generated in a PDO connection
+ - Phalcon\Session\Adapter
+ -- Added public method: getOption(), getCookieParams(), setCookieParams(), regenerateId(), reset(), commit(), abort(), setName(), getName()
+ -- Added protected method configure()
+ -- Added options: name, cookie_lifetime, cookie_path, cookie_domain, cookie_secure, cookie_httponly
+ -- Phalcon\Session\Adapter\Files added options: savePath
 
 1.3.4
  - Fix improper access to \Phalcon\Debug::$_charset (#2840)

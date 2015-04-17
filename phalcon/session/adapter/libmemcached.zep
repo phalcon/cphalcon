@@ -40,7 +40,15 @@ use Phalcon\Cache\Frontend\Data as FrontendData;
  *         Memcached::OPT_PREFIX_KEY => 'prefix.',
  *     ),
  *    'lifetime' => 3600,
- *    'prefix' => 'my_'
+ *    'prefix' => 'my_',
+ *
+ *    'uniqueId' => 'my-private-app',
+ *    'name' => 'session-name',
+ *    'cookie_lifetime' => 'session-cookie-lifetime',
+ *    'cookie_path' => 'session-cookie-path',
+ *    'cookie_domain' => 'session-cookie-domain',
+ *    'cookie_secure' => 'session-cookie-secure',
+ *    'cookie_httponly' => 'session-cookie-httponly'
  * ));
  *
  * $session->start();
@@ -53,7 +61,7 @@ use Phalcon\Cache\Frontend\Data as FrontendData;
 class Libmemcached extends Adapter implements AdapterInterface
 {
 
-	protected _libmemcached = NULL { get };
+	protected _libmemcached = null { get };
 
 	protected _lifetime = 8600 { get };
 
@@ -64,8 +72,6 @@ class Libmemcached extends Adapter implements AdapterInterface
 	 */
 	public function __construct(options = null)
 	{
-		var servers, client, lifetime, prefix, statsKey;
-
 		if typeof options != "array" {
 			throw new Exception("The options must be an array");
 		}
@@ -73,46 +79,6 @@ class Libmemcached extends Adapter implements AdapterInterface
 		if !isset options["servers"] {
 			throw new Exception("No servers given in options");
 		}
-
-		let servers = options["servers"];
-
-		if !isset options["client"] {
-			let client = NULL;
-		} else {
-			let client = options["client"];
-		}
-
-		if fetch lifetime, options["lifetime"] {
-			let this->_lifetime = lifetime;
-		} else {
-			let this->_lifetime = 8600;
-		}
-
-		if !fetch prefix, options["prefix"] {
-			let prefix = NULL;
-		} else {
-			let prefix = options["prefix"];
-		}
-
-		if !fetch statsKey, options["statsKey"] {
-			let statsKey = NULL;
-		} else {
-			let statsKey = options["statsKey"];
-		}
-
-		let this->_libmemcached = new Libmemcached(
-			new FrontendData(["lifetime": this->_lifetime]),
-			["servers": servers, "client": client, "prefix": prefix, "statsKey": statsKey]
-		);
-
-		session_set_save_handler(
-			[this, "open"],
-			[this, "close"],
-			[this, "read"],
-			[this, "write"],
-			[this, "destroy"],
-			[this, "gc"]
-		);
 
 		parent::__construct(options);
 	}
@@ -129,45 +95,64 @@ class Libmemcached extends Adapter implements AdapterInterface
 
 	/**
 	 * {@inheritdoc}
-	 *
-	 * @param string sessionId
-	 * @return mixed
 	 */
-    public function read(sessionId)
-    {
-        return this->_libmemcached->get(sessionId, this->_lifetime);
-    }
+	public function read(string! sessionId) -> var
+	{
+		return this->_libmemcached->get(sessionId, this->_lifetime);
+	}
 
-    /**
-     * {@inheritdoc}
-     *
-     * @param string sessionId
-     * @param string data
-     */
-    public function write(sessionId, data)
-    {
-        this->_libmemcached->save(sessionId, data, this->_lifetime);
-    }
+	/**
+	 * {@inheritdoc}
+	 */
+	public function write(string! sessionId, data) -> void
+	{
+		this->_libmemcached->save(sessionId, data, this->_lifetime);
+	}
 
-    /**
-     * {@inheritdoc}
-     *
-     * @param  string  sessionId
-     * @return boolean
-     */
-    public function destroy(session_id = null)
-    {
-        if session_id === null {
-            let session_id = this->getId();
-        }
-        return this->_libmemcached->delete(session_id);
-    }
+	/**
+	 * {@inheritdoc}
+	 */
+	public function destroy(string session_id = null) -> boolean
+	{
+		if session_id === null {
+			return this->_libmemcached->delete(this->getId());
+		}
 
-    /**
-     * {@inheritdoc}
-     */
-    public function gc() -> boolean
-    {
+		return this->_libmemcached->delete(session_id);
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function gc() -> boolean
+	{
 		return true;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	protected function configure() -> void
+	{
+		let this->_lifetime = this->getOption("lifetime", this->getLifetime());
+
+		let this->_libmemcached = new Libmemcached(
+			new FrontendData(["lifetime": this->_lifetime]), [
+				"servers": this->getOption("servers"),
+				"client": this->getOption("client"),
+				"prefix": this->getOption("prefix"),
+				"statsKey": this->getOption("statsKey")
+		]);
+
+		session_set_save_handler(
+			[this, "open"],
+			[this, "close"],
+			[this, "read"],
+			[this, "write"],
+			[this, "destroy"],
+			[this, "gc"]
+		);
+
+		parent::configure();
 	}
 }

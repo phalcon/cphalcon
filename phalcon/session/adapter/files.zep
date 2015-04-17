@@ -29,7 +29,14 @@ use Phalcon\Session\Adapter;
  *
  *<code>
  * $session = new \Phalcon\Session\Adapter\Files(array(
- *    'uniqueId' => 'my-private-app'
+ *    'uniqueId' => 'my-private-app',
+ *    'savePath' => 'session-save-path',
+ *    'name' => 'session-name',
+ *    'cookie_lifetime' => 'session-cookie-lifetime',
+ *    'cookie_path' => 'session-cookie-path',
+ *    'cookie_domain' => 'session-cookie-domain',
+ *    'cookie_secure' => 'session-cookie-secure',
+ *    'cookie_httponly' => 'session-cookie-httponly'
  * ));
  *
  * $session->start();
@@ -41,5 +48,18 @@ use Phalcon\Session\Adapter;
  */
 class Files extends Adapter implements AdapterInterface
 {
+	/**
+	 * {@inheritdoc}
+	 */
+	protected function configure() -> void
+	{
+		var path;
+		let path = this->getOption("savePath");
 
+		if path {
+			session_save_path(path);
+		}
+
+		parent::configure();
+	}
 }

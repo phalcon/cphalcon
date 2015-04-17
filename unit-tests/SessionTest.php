@@ -168,4 +168,37 @@ class SessionTest extends PHPUnit_Framework_TestCase
 
 	}
 
+	public function testSessionFilesOptionSavePath()
+	{
+		$session_path =  __DIR__ . '/cache/session';
+		ini_set('session.save_handler', 'files');
+		ini_set('session.serialize_handler', 'php');
+
+
+		if (!is_dir($session_path)) {
+			@mkdir($session_path, 0777, true);
+		}
+
+		$session = new Phalcon\Session\Adapter\Files(array(
+			'savePath' => $session_path
+		));
+		$session->start();
+		@session_start();
+
+		$session->set('some', 'write-value');
+
+		$session_id = $session->getId();
+
+		@session_write_close();
+		unset($session);
+
+		// Check session file
+		$session_file = $session_path . '/sess_' . $session_id;
+		$this->assertTrue(is_file($session_file));
+		$this->assertNotEmpty(@file_get_contents($session_file));
+
+		@unlink($session_file);
+		@rmdir($session_path);
+	}
+
 }
