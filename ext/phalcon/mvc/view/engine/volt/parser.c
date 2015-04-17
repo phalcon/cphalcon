@@ -4,16 +4,22 @@
 /* First off, code is include which follows the "include" declaration
 ** in the input file. */
 #include <stdio.h>
-/* #line 42 "parser.y" */
+// 42 "parser.lemon"
 
 
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
+
+#include "php.h"
 #include "php_phalcon.h"
-#include "mvc/view/engine/volt/parser.h"
-#include "mvc/view/engine/volt/scanner.h"
-#include "mvc/view/engine/volt/volt.h"
-#include "mvc/view/exception.h"
+#include "phalcon.h"
 
-#include <ext/standard/php_smart_str.h>
+#include "ext/standard/php_smart_str.h"
+
+#include "parser.h"
+#include "scanner.h"
+#include "volt.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
@@ -561,96 +567,17 @@ static zval *phvolt_ret_macro_call_statement(zval *expr, zval *arguments, zval *
 }
 
 
-/* #line 565 "parser.c" */
-#include "parser.h"
+// 571 "parser.c"
 /* Next is all token values, in a form suitable for use by makeheaders.
 ** This section will be null unless lemon is run with the -m switch.
 */
-/* 
+/*
 ** These constants (all generated automatically by the parser generator)
 ** specify the various kinds of tokens (terminals) that the parser
-** understands. 
+** understands.
 **
 ** Each symbol here is a terminal symbol in the grammar.
 */
-#if INTERFACE
-#define PHVOLT_OPEN_DELIMITER                  1
-#define PHVOLT_COMMA                           2
-#define PHVOLT_IN                              3
-#define PHVOLT_QUESTION                        4
-#define PHVOLT_COLON                           5
-#define PHVOLT_RANGE                           6
-#define PHVOLT_AND                             7
-#define PHVOLT_OR                              8
-#define PHVOLT_IS                              9
-#define PHVOLT_EQUALS                         10
-#define PHVOLT_NOTEQUALS                      11
-#define PHVOLT_LESS                           12
-#define PHVOLT_GREATER                        13
-#define PHVOLT_GREATEREQUAL                   14
-#define PHVOLT_LESSEQUAL                      15
-#define PHVOLT_IDENTICAL                      16
-#define PHVOLT_NOTIDENTICAL                   17
-#define PHVOLT_DIVIDE                         18
-#define PHVOLT_TIMES                          19
-#define PHVOLT_MOD                            20
-#define PHVOLT_PLUS                           21
-#define PHVOLT_MINUS                          22
-#define PHVOLT_CONCAT                         23
-#define PHVOLT_SBRACKET_OPEN                  24
-#define PHVOLT_PIPE                           25
-#define PHVOLT_NOT                            26
-#define PHVOLT_INCR                           27
-#define PHVOLT_DECR                           28
-#define PHVOLT_PARENTHESES_OPEN               29
-#define PHVOLT_DOT                            30
-#define PHVOLT_IF                             31
-#define PHVOLT_CLOSE_DELIMITER                32
-#define PHVOLT_ENDIF                          33
-#define PHVOLT_ELSE                           34
-#define PHVOLT_ELSEIF                         35
-#define PHVOLT_ELSEFOR                        36
-#define PHVOLT_FOR                            37
-#define PHVOLT_IDENTIFIER                     38
-#define PHVOLT_ENDFOR                         39
-#define PHVOLT_SET                            40
-#define PHVOLT_ASSIGN                         41
-#define PHVOLT_ADD_ASSIGN                     42
-#define PHVOLT_SUB_ASSIGN                     43
-#define PHVOLT_MUL_ASSIGN                     44
-#define PHVOLT_DIV_ASSIGN                     45
-#define PHVOLT_MACRO                          46
-#define PHVOLT_PARENTHESES_CLOSE              47
-#define PHVOLT_ENDMACRO                       48
-#define PHVOLT_INTEGER                        49
-#define PHVOLT_STRING                         50
-#define PHVOLT_DOUBLE                         51
-#define PHVOLT_NULL                           52
-#define PHVOLT_FALSE                          53
-#define PHVOLT_TRUE                           54
-#define PHVOLT_CALL                           55
-#define PHVOLT_ENDCALL                        56
-#define PHVOLT_OPEN_EDELIMITER                57
-#define PHVOLT_CLOSE_EDELIMITER               58
-#define PHVOLT_BLOCK                          59
-#define PHVOLT_ENDBLOCK                       60
-#define PHVOLT_CACHE                          61
-#define PHVOLT_ENDCACHE                       62
-#define PHVOLT_EXTENDS                        63
-#define PHVOLT_INCLUDE                        64
-#define PHVOLT_WITH                           65
-#define PHVOLT_DO                             66
-#define PHVOLT_RETURN                         67
-#define PHVOLT_AUTOESCAPE                     68
-#define PHVOLT_ENDAUTOESCAPE                  69
-#define PHVOLT_BREAK                          70
-#define PHVOLT_CONTINUE                       71
-#define PHVOLT_RAW_FRAGMENT                   72
-#define PHVOLT_DEFINED                        73
-#define PHVOLT_SBRACKET_CLOSE                 74
-#define PHVOLT_CBRACKET_OPEN                  75
-#define PHVOLT_CBRACKET_CLOSE                 76
-#endif
 /* Make sure the INTERFACE macro is defined.
 */
 #ifndef INTERFACE
@@ -664,7 +591,7 @@ static zval *phvolt_ret_macro_call_statement(zval *expr, zval *arguments, zval *
 **                       and nonterminals.  "int" is used otherwise.
 **    KKNOCODE           is a number of type KKCODETYPE which corresponds
 **                       to no legal terminal or nonterminal number.  This
-**                       number is used to fill in empty slots of the hash 
+**                       number is used to fill in empty slots of the hash
 **                       table.
 **    KKFALLBACK         If defined, this indicates that one or more tokens
 **                       have fall-back values which should be used if the
@@ -673,7 +600,7 @@ static zval *phvolt_ret_macro_call_statement(zval *expr, zval *arguments, zval *
 **                       and nonterminal numbers.  "unsigned char" is
 **                       used if there are fewer than 250 rules and
 **                       states combined.  "int" is used otherwise.
-**    phvolt_KTOKENTYPE     is the data type used for minor tokens given 
+**    phvolt_KTOKENTYPE     is the data type used for minor tokens given
 **                       directly to the parser from the tokenizer.
 **    KKMINORTYPE        is the data type used for all minor tokens.
 **                       This is typically a union of many types, one of
@@ -692,21 +619,17 @@ static zval *phvolt_ret_macro_call_statement(zval *expr, zval *arguments, zval *
 #define KKCODETYPE unsigned char
 #define KKNOCODE 114
 #define KKACTIONTYPE unsigned short int
-#if INTERFACE
 #define phvolt_KTOKENTYPE phvolt_parser_token*
-#endif
 typedef union {
   phvolt_KTOKENTYPE kk0;
   zval* kk132;
   int kk227;
 } KKMINORTYPE;
 #define KKSTACKDEPTH 100
-#if INTERFACE
 #define phvolt_ARG_SDECL phvolt_parser_status *status;
 #define phvolt_ARG_PDECL ,phvolt_parser_status *status
 #define phvolt_ARG_FETCH phvolt_parser_status *status = kkpParser->status
 #define phvolt_ARG_STORE kkpParser->status = status
-#endif
 #define KKNSTATE 322
 #define KKNRULE 133
 #define KKERRORSYMBOL 77
@@ -718,7 +641,7 @@ typedef union {
 /* Next are that tables used to determine what action to take based on the
 ** current state and lookahead token.  These tables are used to implement
 ** functions that take a state number and lookahead value and return an
-** action integer.  
+** action integer.
 **
 ** Suppose the action integer is N.  Then the action is determined as
 ** follows
@@ -743,7 +666,7 @@ typedef union {
 ** If the index value kk_shift_ofst[S]+X is out of range or if the value
 ** kk_lookahead[kk_shift_ofst[S]+X] is not equal to X or if kk_shift_ofst[S]
 ** is equal to KK_SHIFT_USE_DFLT, it means that the action is not in the table
-** and that kk_default[S] should be used instead.  
+** and that kk_default[S] should be used instead.
 **
 ** The formula above is for computing the action when the lookahead is
 ** a terminal symbol.  If the lookahead is a non-terminal (as occurs after
@@ -1297,7 +1220,7 @@ static KKACTIONTYPE kk_default[] = {
 
 /* The next table maps tokens into fallback tokens.  If a construct
 ** like the following:
-** 
+**
 **      %fallback ID X Y Z.
 **
 ** appears in the grammer, then ID becomes a fallback token for X, Y,
@@ -1348,10 +1271,10 @@ static char *kkTracePrompt = 0;
 #endif /* NDEBUG */
 
 #ifndef NDEBUG
-/* 
+/*
 ** Turn parser tracing on by giving a stream to which to write the trace
 ** and a prompt to preface each trace message.  Tracing is turned off
-** by making either argument NULL 
+** by making either argument NULL
 **
 ** Inputs:
 ** <ul>
@@ -1376,25 +1299,25 @@ void phvolt_Trace(FILE *TraceFILE, char *zTracePrompt){
 #ifndef NDEBUG
 /* For tracing shifts, the names of all terminals and nonterminals
 ** are required.  The following table supplies these names */
-static const char *kkTokenName[] = { 
-  "$",             "OPEN_DELIMITER",  "COMMA",         "IN",          
-  "QUESTION",      "COLON",         "RANGE",         "AND",         
-  "OR",            "IS",            "EQUALS",        "NOTEQUALS",   
-  "LESS",          "GREATER",       "GREATEREQUAL",  "LESSEQUAL",   
-  "IDENTICAL",     "NOTIDENTICAL",  "DIVIDE",        "TIMES",       
-  "MOD",           "PLUS",          "MINUS",         "CONCAT",      
-  "SBRACKET_OPEN",  "PIPE",          "NOT",           "INCR",        
-  "DECR",          "PARENTHESES_OPEN",  "DOT",           "IF",          
-  "CLOSE_DELIMITER",  "ENDIF",         "ELSE",          "ELSEIF",      
-  "ELSEFOR",       "FOR",           "IDENTIFIER",    "ENDFOR",      
-  "SET",           "ASSIGN",        "ADD_ASSIGN",    "SUB_ASSIGN",  
+static const char *kkTokenName[] = {
+  "$",             "OPEN_DELIMITER",  "COMMA",         "IN",
+  "QUESTION",      "COLON",         "RANGE",         "AND",
+  "OR",            "IS",            "EQUALS",        "NOTEQUALS",
+  "LESS",          "GREATER",       "GREATEREQUAL",  "LESSEQUAL",
+  "IDENTICAL",     "NOTIDENTICAL",  "DIVIDE",        "TIMES",
+  "MOD",           "PLUS",          "MINUS",         "CONCAT",
+  "SBRACKET_OPEN",  "PIPE",          "NOT",           "INCR",
+  "DECR",          "PARENTHESES_OPEN",  "DOT",           "IF",
+  "CLOSE_DELIMITER",  "ENDIF",         "ELSE",          "ELSEIF",
+  "ELSEFOR",       "FOR",           "IDENTIFIER",    "ENDFOR",
+  "SET",           "ASSIGN",        "ADD_ASSIGN",    "SUB_ASSIGN",
   "MUL_ASSIGN",    "DIV_ASSIGN",    "MACRO",         "PARENTHESES_CLOSE",
-  "ENDMACRO",      "INTEGER",       "STRING",        "DOUBLE",      
-  "NULL",          "FALSE",         "TRUE",          "CALL",        
-  "ENDCALL",       "OPEN_EDELIMITER",  "CLOSE_EDELIMITER",  "BLOCK",       
-  "ENDBLOCK",      "CACHE",         "ENDCACHE",      "EXTENDS",     
-  "INCLUDE",       "WITH",          "DO",            "RETURN",      
-  "AUTOESCAPE",    "ENDAUTOESCAPE",  "BREAK",         "CONTINUE",    
+  "ENDMACRO",      "INTEGER",       "STRING",        "DOUBLE",
+  "NULL",          "FALSE",         "TRUE",          "CALL",
+  "ENDCALL",       "OPEN_EDELIMITER",  "CLOSE_EDELIMITER",  "BLOCK",
+  "ENDBLOCK",      "CACHE",         "ENDCACHE",      "EXTENDS",
+  "INCLUDE",       "WITH",          "DO",            "RETURN",
+  "AUTOESCAPE",    "ENDAUTOESCAPE",  "BREAK",         "CONTINUE",
   "RAW_FRAGMENT",  "DEFINED",       "SBRACKET_CLOSE",  "CBRACKET_OPEN",
   "CBRACKET_CLOSE",  "error",         "program",       "volt_language",
   "statement_list",  "statement",     "raw_fragment",  "if_statement",
@@ -1555,7 +1478,7 @@ static const char *kkRuleName[] = {
 */
 const char *phvolt_TokenName(int tokenType){
 #ifndef NDEBUG
-  if( tokenType>0 && (size_t)tokenType<(sizeof(kkTokenName)/sizeof(kkTokenName[0])) ){
+  if( tokenType>0 && tokenType<(sizeof(kkTokenName)/sizeof(kkTokenName[0])) ){
     return kkTokenName[tokenType];
   }else{
     return "Unknown";
@@ -1565,7 +1488,7 @@ const char *phvolt_TokenName(int tokenType){
 #endif
 }
 
-/* 
+/*
 ** This function allocates a new parser.
 ** The only argument is a pointer to a function which works like
 ** malloc.
@@ -1596,7 +1519,7 @@ static void kk_destructor(KKCODETYPE kkmajor, KKMINORTYPE *kkpminor){
     /* Here is inserted the actions which take place when a
     ** terminal or non-terminal is destroyed.  This can happen
     ** when the symbol is popped from the stack during a
-    ** reduce or during error processing or when a parser is 
+    ** reduce or during error processing or when a parser is
     ** being destroyed before it is finished parsing.
     **
     ** Note: during a reduce, the only symbols destroyed are those
@@ -1679,7 +1602,7 @@ static void kk_destructor(KKCODETYPE kkmajor, KKMINORTYPE *kkpminor){
     case 74:
     case 75:
     case 76:
-/* #line 697 "parser.y" */
+// 703 "parser.lemon"
 {
 	if ((kkpminor->kk0)) {
 		if ((kkpminor->kk0)->free_flag) {
@@ -1688,7 +1611,7 @@ static void kk_destructor(KKCODETYPE kkmajor, KKMINORTYPE *kkpminor){
 		efree((kkpminor->kk0));
 	}
 }
-/* #line 1692 "parser.c" */
+// 1615 "parser.c"
       break;
     case 80:
     case 81:
@@ -1722,9 +1645,9 @@ static void kk_destructor(KKCODETYPE kkmajor, KKMINORTYPE *kkpminor){
     case 110:
     case 111:
     case 112:
-/* #line 714 "parser.y" */
+// 720 "parser.lemon"
 { zval_ptr_dtor(&(kkpminor->kk132)); }
-/* #line 1728 "parser.c" */
+// 1651 "parser.c"
       break;
     default:  break;   /* If no destructor action specified: do nothing */
   }
@@ -1756,7 +1679,7 @@ static int kk_pop_parser_stack(kkParser *pParser){
   return kkmajor;
 }
 
-/* 
+/*
 ** Deallocate and destroy a parser.  Destructors are all called for
 ** all stack elements before shutting the parser down.
 **
@@ -1792,7 +1715,7 @@ static int kk_find_shift_action(
 ){
   int i;
   int stateno = pParser->kkstack[pParser->kkidx].stateno;
- 
+
   /* if( pParser->kkidx<0 ) return KK_NO_ACTION;  */
   i = kk_shift_ofst[stateno];
   if( i==KK_SHIFT_USE_DFLT ){
@@ -1802,7 +1725,7 @@ static int kk_find_shift_action(
     return KK_NO_ACTION;
   }
   i += iLookAhead;
-  if( i<0 || i>=(int)KK_SZ_ACTTAB || kk_lookahead[i]!=iLookAhead ){
+  if( i<0 || i>=KK_SZ_ACTTAB || kk_lookahead[i]!=iLookAhead ){
 #ifdef KKFALLBACK
     int iFallback;            /* Fallback token */
     if( iLookAhead<sizeof(kkFallback)/sizeof(kkFallback[0])
@@ -1836,7 +1759,7 @@ static int kk_find_reduce_action(
 ){
   int i;
   int stateno = pParser->kkstack[pParser->kkidx].stateno;
- 
+
   i = kk_reduce_ofst[stateno];
   if( i==KK_REDUCE_USE_DFLT ){
     return kk_default[stateno];
@@ -1845,7 +1768,7 @@ static int kk_find_reduce_action(
     return KK_NO_ACTION;
   }
   i += iLookAhead;
-  if( i<0 || i>=(int)KK_SZ_ACTTAB || kk_lookahead[i]!=iLookAhead ){
+  if( i<0 || i>=KK_SZ_ACTTAB || kk_lookahead[i]!=iLookAhead ){
     return kk_default[stateno];
   }else{
     return kk_action[i];
@@ -2053,8 +1976,8 @@ static void kk_reduce(
   phvolt_ARG_FETCH;
   kkmsp = &kkpParser->kkstack[kkpParser->kkidx];
 #ifndef NDEBUG
-  if( kkTraceFILE && kkruleno>=0 
-        && kkruleno<(int)(sizeof(kkRuleName)/sizeof(kkRuleName[0])) ){
+  if( kkTraceFILE && kkruleno>=0
+        && kkruleno<sizeof(kkRuleName)/sizeof(kkRuleName[0]) ){
     fprintf(kkTraceFILE, "%sReduce [%s].\n", kkTracePrompt,
       kkRuleName[kkruleno]);
   }
@@ -2064,17 +1987,17 @@ static void kk_reduce(
   /* Beginning here are the reduction cases.  A typical example
   ** follows:
   **   case 0:
-  **  #line <lineno> <grammarfile>
+  **  // <lineno> <grammarfile>
   **     { ... }           // User supplied code
-  **  #line <lineno> <thisfile>
+  **  // <lineno> <thisfile>
   **     break;
   */
       case 0:
-/* #line 706 "parser.y" */
+// 712 "parser.lemon"
 {
 	status->ret = kkmsp[0].minor.kk132;
 }
-/* #line 2078 "parser.c" */
+// 2001 "parser.c"
         break;
       case 1:
       case 4:
@@ -2097,32 +2020,32 @@ static void kk_reduce(
       case 21:
       case 22:
       case 119:
-/* #line 710 "parser.y" */
+// 716 "parser.lemon"
 {
 	kkgotominor.kk132 = kkmsp[0].minor.kk132;
 }
-/* #line 2105 "parser.c" */
+// 2028 "parser.c"
         break;
       case 2:
-/* #line 716 "parser.y" */
+// 722 "parser.lemon"
 {
 	kkgotominor.kk132 = phvolt_ret_zval_list(kkmsp[-1].minor.kk132, kkmsp[0].minor.kk132);
 }
-/* #line 2112 "parser.c" */
+// 2035 "parser.c"
         break;
       case 3:
       case 36:
       case 45:
       case 116:
       case 123:
-/* #line 720 "parser.y" */
+// 726 "parser.lemon"
 {
 	kkgotominor.kk132 = phvolt_ret_zval_list(NULL, kkmsp[0].minor.kk132);
 }
-/* #line 2123 "parser.c" */
+// 2046 "parser.c"
         break;
       case 23:
-/* #line 804 "parser.y" */
+// 810 "parser.lemon"
 {
 	kkgotominor.kk132 = phvolt_ret_if_statement(kkmsp[-5].minor.kk132, kkmsp[-3].minor.kk132, NULL, status->scanner_state);
   kk_destructor(1,&kkmsp[-7].minor);
@@ -2132,10 +2055,10 @@ static void kk_reduce(
   kk_destructor(33,&kkmsp[-1].minor);
   kk_destructor(32,&kkmsp[0].minor);
 }
-/* #line 2136 "parser.c" */
+// 2059 "parser.c"
         break;
       case 24:
-/* #line 808 "parser.y" */
+// 814 "parser.lemon"
 {
 	kkgotominor.kk132 = phvolt_ret_if_statement(kkmsp[-4].minor.kk132, NULL, NULL, status->scanner_state);
   kk_destructor(1,&kkmsp[-6].minor);
@@ -2145,10 +2068,10 @@ static void kk_reduce(
   kk_destructor(33,&kkmsp[-1].minor);
   kk_destructor(32,&kkmsp[0].minor);
 }
-/* #line 2149 "parser.c" */
+// 2072 "parser.c"
         break;
       case 25:
-/* #line 812 "parser.y" */
+// 818 "parser.lemon"
 {
 	kkgotominor.kk132 = phvolt_ret_if_statement(kkmsp[-9].minor.kk132, kkmsp[-7].minor.kk132, kkmsp[-3].minor.kk132, status->scanner_state);
   kk_destructor(1,&kkmsp[-11].minor);
@@ -2161,10 +2084,10 @@ static void kk_reduce(
   kk_destructor(33,&kkmsp[-1].minor);
   kk_destructor(32,&kkmsp[0].minor);
 }
-/* #line 2165 "parser.c" */
+// 2088 "parser.c"
         break;
       case 26:
-/* #line 816 "parser.y" */
+// 822 "parser.lemon"
 {
 	kkgotominor.kk132 = phvolt_ret_if_statement(kkmsp[-8].minor.kk132, kkmsp[-6].minor.kk132, NULL, status->scanner_state);
   kk_destructor(1,&kkmsp[-10].minor);
@@ -2177,10 +2100,10 @@ static void kk_reduce(
   kk_destructor(33,&kkmsp[-1].minor);
   kk_destructor(32,&kkmsp[0].minor);
 }
-/* #line 2181 "parser.c" */
+// 2104 "parser.c"
         break;
       case 27:
-/* #line 820 "parser.y" */
+// 826 "parser.lemon"
 {
 	kkgotominor.kk132 = phvolt_ret_if_statement(kkmsp[-7].minor.kk132, NULL, NULL, status->scanner_state);
   kk_destructor(1,&kkmsp[-9].minor);
@@ -2193,30 +2116,30 @@ static void kk_reduce(
   kk_destructor(33,&kkmsp[-1].minor);
   kk_destructor(32,&kkmsp[0].minor);
 }
-/* #line 2197 "parser.c" */
+// 2120 "parser.c"
         break;
       case 28:
-/* #line 826 "parser.y" */
+// 832 "parser.lemon"
 {
 	kkgotominor.kk132 = phvolt_ret_elseif_statement(kkmsp[-1].minor.kk132, status->scanner_state);
   kk_destructor(1,&kkmsp[-3].minor);
   kk_destructor(35,&kkmsp[-2].minor);
   kk_destructor(32,&kkmsp[0].minor);
 }
-/* #line 2207 "parser.c" */
+// 2130 "parser.c"
         break;
       case 29:
-/* #line 832 "parser.y" */
+// 838 "parser.lemon"
 {
 	kkgotominor.kk132 = phvolt_ret_elsefor_statement(status->scanner_state);
   kk_destructor(1,&kkmsp[-2].minor);
   kk_destructor(36,&kkmsp[-1].minor);
   kk_destructor(32,&kkmsp[0].minor);
 }
-/* #line 2217 "parser.c" */
+// 2140 "parser.c"
         break;
       case 30:
-/* #line 838 "parser.y" */
+// 844 "parser.lemon"
 {
 	kkgotominor.kk132 = phvolt_ret_for_statement(kkmsp[-7].minor.kk0, NULL, kkmsp[-5].minor.kk132, NULL, kkmsp[-3].minor.kk132, status->scanner_state);
   kk_destructor(1,&kkmsp[-9].minor);
@@ -2227,10 +2150,10 @@ static void kk_reduce(
   kk_destructor(39,&kkmsp[-1].minor);
   kk_destructor(32,&kkmsp[0].minor);
 }
-/* #line 2231 "parser.c" */
+// 2154 "parser.c"
         break;
       case 31:
-/* #line 842 "parser.y" */
+// 848 "parser.lemon"
 {
 	kkgotominor.kk132 = phvolt_ret_for_statement(kkmsp[-9].minor.kk0, NULL, kkmsp[-7].minor.kk132, kkmsp[-5].minor.kk132, kkmsp[-3].minor.kk132, status->scanner_state);
   kk_destructor(1,&kkmsp[-11].minor);
@@ -2242,10 +2165,10 @@ static void kk_reduce(
   kk_destructor(39,&kkmsp[-1].minor);
   kk_destructor(32,&kkmsp[0].minor);
 }
-/* #line 2246 "parser.c" */
+// 2169 "parser.c"
         break;
       case 32:
-/* #line 846 "parser.y" */
+// 852 "parser.lemon"
 {
 	kkgotominor.kk132 = phvolt_ret_for_statement(kkmsp[-7].minor.kk0, kkmsp[-9].minor.kk0, kkmsp[-5].minor.kk132, NULL, kkmsp[-3].minor.kk132, status->scanner_state);
   kk_destructor(1,&kkmsp[-11].minor);
@@ -2257,10 +2180,10 @@ static void kk_reduce(
   kk_destructor(39,&kkmsp[-1].minor);
   kk_destructor(32,&kkmsp[0].minor);
 }
-/* #line 2261 "parser.c" */
+// 2184 "parser.c"
         break;
       case 33:
-/* #line 850 "parser.y" */
+// 856 "parser.lemon"
 {
 	kkgotominor.kk132 = phvolt_ret_for_statement(kkmsp[-9].minor.kk0, kkmsp[-11].minor.kk0, kkmsp[-7].minor.kk132, kkmsp[-5].minor.kk132, kkmsp[-3].minor.kk132, status->scanner_state);
   kk_destructor(1,&kkmsp[-13].minor);
@@ -2273,71 +2196,71 @@ static void kk_reduce(
   kk_destructor(39,&kkmsp[-1].minor);
   kk_destructor(32,&kkmsp[0].minor);
 }
-/* #line 2277 "parser.c" */
+// 2200 "parser.c"
         break;
       case 34:
-/* #line 856 "parser.y" */
+// 862 "parser.lemon"
 {
 	kkgotominor.kk132 = phvolt_ret_set_statement(kkmsp[-1].minor.kk132);
   kk_destructor(1,&kkmsp[-3].minor);
   kk_destructor(40,&kkmsp[-2].minor);
   kk_destructor(32,&kkmsp[0].minor);
 }
-/* #line 2287 "parser.c" */
+// 2210 "parser.c"
         break;
       case 35:
       case 44:
       case 115:
       case 122:
-/* #line 862 "parser.y" */
+// 868 "parser.lemon"
 {
 	kkgotominor.kk132 = phvolt_ret_zval_list(kkmsp[-2].minor.kk132, kkmsp[0].minor.kk132);
   kk_destructor(2,&kkmsp[-1].minor);
 }
-/* #line 2298 "parser.c" */
+// 2221 "parser.c"
         break;
       case 37:
-/* #line 872 "parser.y" */
+// 878 "parser.lemon"
 {
 	kkgotominor.kk132 = phvolt_ret_set_assignment(kkmsp[-2].minor.kk0, PHVOLT_T_ASSIGN, kkmsp[0].minor.kk132, status->scanner_state);
   kk_destructor(41,&kkmsp[-1].minor);
 }
-/* #line 2306 "parser.c" */
+// 2229 "parser.c"
         break;
       case 38:
-/* #line 876 "parser.y" */
+// 882 "parser.lemon"
 {
 	kkgotominor.kk132 = phvolt_ret_set_assignment(kkmsp[-2].minor.kk0, PHVOLT_T_ADD_ASSIGN, kkmsp[0].minor.kk132, status->scanner_state);
   kk_destructor(42,&kkmsp[-1].minor);
 }
-/* #line 2314 "parser.c" */
+// 2237 "parser.c"
         break;
       case 39:
-/* #line 880 "parser.y" */
+// 886 "parser.lemon"
 {
 	kkgotominor.kk132 = phvolt_ret_set_assignment(kkmsp[-2].minor.kk0, PHVOLT_T_SUB_ASSIGN, kkmsp[0].minor.kk132, status->scanner_state);
   kk_destructor(43,&kkmsp[-1].minor);
 }
-/* #line 2322 "parser.c" */
+// 2245 "parser.c"
         break;
       case 40:
-/* #line 884 "parser.y" */
+// 890 "parser.lemon"
 {
 	kkgotominor.kk132 = phvolt_ret_set_assignment(kkmsp[-2].minor.kk0, PHVOLT_T_MUL_ASSIGN, kkmsp[0].minor.kk132, status->scanner_state);
   kk_destructor(44,&kkmsp[-1].minor);
 }
-/* #line 2330 "parser.c" */
+// 2253 "parser.c"
         break;
       case 41:
-/* #line 888 "parser.y" */
+// 894 "parser.lemon"
 {
 	kkgotominor.kk132 = phvolt_ret_set_assignment(kkmsp[-2].minor.kk0, PHVOLT_T_DIV_ASSIGN, kkmsp[0].minor.kk132, status->scanner_state);
   kk_destructor(45,&kkmsp[-1].minor);
 }
-/* #line 2338 "parser.c" */
+// 2261 "parser.c"
         break;
       case 42:
-/* #line 894 "parser.y" */
+// 900 "parser.lemon"
 {
 	kkgotominor.kk132 = phvolt_ret_macro_statement(kkmsp[-7].minor.kk0, NULL, kkmsp[-3].minor.kk132, status->scanner_state);
   kk_destructor(1,&kkmsp[-9].minor);
@@ -2349,10 +2272,10 @@ static void kk_reduce(
   kk_destructor(48,&kkmsp[-1].minor);
   kk_destructor(32,&kkmsp[0].minor);
 }
-/* #line 2353 "parser.c" */
+// 2276 "parser.c"
         break;
       case 43:
-/* #line 898 "parser.y" */
+// 904 "parser.lemon"
 {
 	kkgotominor.kk132 = phvolt_ret_macro_statement(kkmsp[-8].minor.kk0, kkmsp[-6].minor.kk132, kkmsp[-3].minor.kk132, status->scanner_state);
   kk_destructor(1,&kkmsp[-10].minor);
@@ -2364,77 +2287,77 @@ static void kk_reduce(
   kk_destructor(48,&kkmsp[-1].minor);
   kk_destructor(32,&kkmsp[0].minor);
 }
-/* #line 2368 "parser.c" */
+// 2291 "parser.c"
         break;
       case 46:
-/* #line 914 "parser.y" */
+// 920 "parser.lemon"
 {
 	kkgotominor.kk132 = phvolt_ret_macro_parameter(kkmsp[0].minor.kk0, NULL, status->scanner_state);
 }
-/* #line 2375 "parser.c" */
+// 2298 "parser.c"
         break;
       case 47:
-/* #line 918 "parser.y" */
+// 924 "parser.lemon"
 {
 	kkgotominor.kk132 = phvolt_ret_macro_parameter(kkmsp[-2].minor.kk0, kkmsp[0].minor.kk132, status->scanner_state);
   kk_destructor(41,&kkmsp[-1].minor);
 }
-/* #line 2383 "parser.c" */
+// 2306 "parser.c"
         break;
       case 48:
       case 113:
       case 127:
-/* #line 922 "parser.y" */
+// 928 "parser.lemon"
 {
 	kkgotominor.kk132 = phvolt_ret_literal_zval(PHVOLT_T_INTEGER, kkmsp[0].minor.kk0, status->scanner_state);
 }
-/* #line 2392 "parser.c" */
+// 2315 "parser.c"
         break;
       case 49:
       case 128:
-/* #line 926 "parser.y" */
+// 932 "parser.lemon"
 {
 	kkgotominor.kk132 = phvolt_ret_literal_zval(PHVOLT_T_STRING, kkmsp[0].minor.kk0, status->scanner_state);
 }
-/* #line 2400 "parser.c" */
+// 2323 "parser.c"
         break;
       case 50:
       case 129:
-/* #line 930 "parser.y" */
+// 936 "parser.lemon"
 {
 	kkgotominor.kk132 = phvolt_ret_literal_zval(PHVOLT_T_DOUBLE, kkmsp[0].minor.kk0, status->scanner_state);
 }
-/* #line 2408 "parser.c" */
+// 2331 "parser.c"
         break;
       case 51:
       case 130:
-/* #line 934 "parser.y" */
+// 940 "parser.lemon"
 {
 	kkgotominor.kk132 = phvolt_ret_literal_zval(PHVOLT_T_NULL, NULL, status->scanner_state);
   kk_destructor(52,&kkmsp[0].minor);
 }
-/* #line 2417 "parser.c" */
+// 2340 "parser.c"
         break;
       case 52:
       case 131:
-/* #line 938 "parser.y" */
+// 944 "parser.lemon"
 {
 	kkgotominor.kk132 = phvolt_ret_literal_zval(PHVOLT_T_FALSE, NULL, status->scanner_state);
   kk_destructor(53,&kkmsp[0].minor);
 }
-/* #line 2426 "parser.c" */
+// 2349 "parser.c"
         break;
       case 53:
       case 132:
-/* #line 942 "parser.y" */
+// 948 "parser.lemon"
 {
 	kkgotominor.kk132 = phvolt_ret_literal_zval(PHVOLT_T_TRUE, NULL, status->scanner_state);
   kk_destructor(54,&kkmsp[0].minor);
 }
-/* #line 2435 "parser.c" */
+// 2358 "parser.c"
         break;
       case 54:
-/* #line 948 "parser.y" */
+// 954 "parser.lemon"
 {
 	kkgotominor.kk132 = phvolt_ret_macro_call_statement(kkmsp[-8].minor.kk132, kkmsp[-6].minor.kk132, kkmsp[-3].minor.kk132, status->scanner_state);
   kk_destructor(1,&kkmsp[-10].minor);
@@ -2446,10 +2369,10 @@ static void kk_reduce(
   kk_destructor(56,&kkmsp[-1].minor);
   kk_destructor(32,&kkmsp[0].minor);
 }
-/* #line 2450 "parser.c" */
+// 2373 "parser.c"
         break;
       case 55:
-/* #line 952 "parser.y" */
+// 958 "parser.lemon"
 {
 	kkgotominor.kk132 = phvolt_ret_macro_call_statement(kkmsp[-6].minor.kk132, NULL, NULL, status->scanner_state);
   kk_destructor(1,&kkmsp[-8].minor);
@@ -2461,28 +2384,28 @@ static void kk_reduce(
   kk_destructor(56,&kkmsp[-1].minor);
   kk_destructor(32,&kkmsp[0].minor);
 }
-/* #line 2465 "parser.c" */
+// 2388 "parser.c"
         break;
       case 56:
-/* #line 958 "parser.y" */
+// 964 "parser.lemon"
 {
 	kkgotominor.kk132 = phvolt_ret_empty_statement(status->scanner_state);
   kk_destructor(1,&kkmsp[-1].minor);
   kk_destructor(32,&kkmsp[0].minor);
 }
-/* #line 2474 "parser.c" */
+// 2397 "parser.c"
         break;
       case 57:
-/* #line 964 "parser.y" */
+// 970 "parser.lemon"
 {
 	kkgotominor.kk132 = phvolt_ret_echo_statement(kkmsp[-1].minor.kk132, status->scanner_state);
   kk_destructor(57,&kkmsp[-2].minor);
   kk_destructor(58,&kkmsp[0].minor);
 }
-/* #line 2483 "parser.c" */
+// 2406 "parser.c"
         break;
       case 58:
-/* #line 970 "parser.y" */
+// 976 "parser.lemon"
 {
 	kkgotominor.kk132 = phvolt_ret_block_statement(kkmsp[-5].minor.kk0, kkmsp[-3].minor.kk132, status->scanner_state);
   kk_destructor(1,&kkmsp[-7].minor);
@@ -2492,10 +2415,10 @@ static void kk_reduce(
   kk_destructor(60,&kkmsp[-1].minor);
   kk_destructor(32,&kkmsp[0].minor);
 }
-/* #line 2496 "parser.c" */
+// 2419 "parser.c"
         break;
       case 59:
-/* #line 974 "parser.y" */
+// 980 "parser.lemon"
 {
 	kkgotominor.kk132 = phvolt_ret_block_statement(kkmsp[-4].minor.kk0, NULL, status->scanner_state);
   kk_destructor(1,&kkmsp[-6].minor);
@@ -2505,10 +2428,10 @@ static void kk_reduce(
   kk_destructor(60,&kkmsp[-1].minor);
   kk_destructor(32,&kkmsp[0].minor);
 }
-/* #line 2509 "parser.c" */
+// 2432 "parser.c"
         break;
       case 60:
-/* #line 980 "parser.y" */
+// 986 "parser.lemon"
 {
 	kkgotominor.kk132 = phvolt_ret_cache_statement(kkmsp[-5].minor.kk132, NULL, kkmsp[-3].minor.kk132, status->scanner_state);
   kk_destructor(1,&kkmsp[-7].minor);
@@ -2518,10 +2441,10 @@ static void kk_reduce(
   kk_destructor(62,&kkmsp[-1].minor);
   kk_destructor(32,&kkmsp[0].minor);
 }
-/* #line 2522 "parser.c" */
+// 2445 "parser.c"
         break;
       case 61:
-/* #line 984 "parser.y" */
+// 990 "parser.lemon"
 {
 	kkgotominor.kk132 = phvolt_ret_cache_statement(kkmsp[-6].minor.kk132, kkmsp[-5].minor.kk0, kkmsp[-3].minor.kk132, status->scanner_state);
   kk_destructor(1,&kkmsp[-8].minor);
@@ -2531,30 +2454,30 @@ static void kk_reduce(
   kk_destructor(62,&kkmsp[-1].minor);
   kk_destructor(32,&kkmsp[0].minor);
 }
-/* #line 2535 "parser.c" */
+// 2458 "parser.c"
         break;
       case 62:
-/* #line 990 "parser.y" */
+// 996 "parser.lemon"
 {
 	kkgotominor.kk132 = phvolt_ret_extends_statement(kkmsp[-1].minor.kk0, status->scanner_state);
   kk_destructor(1,&kkmsp[-3].minor);
   kk_destructor(63,&kkmsp[-2].minor);
   kk_destructor(32,&kkmsp[0].minor);
 }
-/* #line 2545 "parser.c" */
+// 2468 "parser.c"
         break;
       case 63:
-/* #line 996 "parser.y" */
+// 1002 "parser.lemon"
 {
 	kkgotominor.kk132 = phvolt_ret_include_statement(kkmsp[-1].minor.kk132, NULL, status->scanner_state);
   kk_destructor(1,&kkmsp[-3].minor);
   kk_destructor(64,&kkmsp[-2].minor);
   kk_destructor(32,&kkmsp[0].minor);
 }
-/* #line 2555 "parser.c" */
+// 2478 "parser.c"
         break;
       case 64:
-/* #line 1000 "parser.y" */
+// 1006 "parser.lemon"
 {
 	kkgotominor.kk132 = phvolt_ret_include_statement(kkmsp[-3].minor.kk132, kkmsp[-1].minor.kk132, status->scanner_state);
   kk_destructor(1,&kkmsp[-5].minor);
@@ -2562,30 +2485,30 @@ static void kk_reduce(
   kk_destructor(65,&kkmsp[-2].minor);
   kk_destructor(32,&kkmsp[0].minor);
 }
-/* #line 2566 "parser.c" */
+// 2489 "parser.c"
         break;
       case 65:
-/* #line 1006 "parser.y" */
+// 1012 "parser.lemon"
 {
 	kkgotominor.kk132 = phvolt_ret_do_statement(kkmsp[-1].minor.kk132, status->scanner_state);
   kk_destructor(1,&kkmsp[-3].minor);
   kk_destructor(66,&kkmsp[-2].minor);
   kk_destructor(32,&kkmsp[0].minor);
 }
-/* #line 2576 "parser.c" */
+// 2499 "parser.c"
         break;
       case 66:
-/* #line 1012 "parser.y" */
+// 1018 "parser.lemon"
 {
 	kkgotominor.kk132 = phvolt_ret_return_statement(kkmsp[-1].minor.kk132, status->scanner_state);
   kk_destructor(1,&kkmsp[-3].minor);
   kk_destructor(67,&kkmsp[-2].minor);
   kk_destructor(32,&kkmsp[0].minor);
 }
-/* #line 2586 "parser.c" */
+// 2509 "parser.c"
         break;
       case 67:
-/* #line 1018 "parser.y" */
+// 1024 "parser.lemon"
 {
 	kkgotominor.kk132 = phvolt_ret_autoescape_statement(0, kkmsp[-3].minor.kk132, status->scanner_state);
   kk_destructor(1,&kkmsp[-7].minor);
@@ -2596,10 +2519,10 @@ static void kk_reduce(
   kk_destructor(69,&kkmsp[-1].minor);
   kk_destructor(32,&kkmsp[0].minor);
 }
-/* #line 2600 "parser.c" */
+// 2523 "parser.c"
         break;
       case 68:
-/* #line 1022 "parser.y" */
+// 1028 "parser.lemon"
 {
 	kkgotominor.kk132 = phvolt_ret_autoescape_statement(1, kkmsp[-3].minor.kk132, status->scanner_state);
   kk_destructor(1,&kkmsp[-7].minor);
@@ -2610,424 +2533,424 @@ static void kk_reduce(
   kk_destructor(69,&kkmsp[-1].minor);
   kk_destructor(32,&kkmsp[0].minor);
 }
-/* #line 2614 "parser.c" */
+// 2537 "parser.c"
         break;
       case 69:
-/* #line 1028 "parser.y" */
+// 1034 "parser.lemon"
 {
 	kkgotominor.kk132 = phvolt_ret_break_statement(status->scanner_state);
   kk_destructor(1,&kkmsp[-2].minor);
   kk_destructor(70,&kkmsp[-1].minor);
   kk_destructor(32,&kkmsp[0].minor);
 }
-/* #line 2624 "parser.c" */
+// 2547 "parser.c"
         break;
       case 70:
-/* #line 1034 "parser.y" */
+// 1040 "parser.lemon"
 {
 	kkgotominor.kk132 = phvolt_ret_continue_statement(status->scanner_state);
   kk_destructor(1,&kkmsp[-2].minor);
   kk_destructor(71,&kkmsp[-1].minor);
   kk_destructor(32,&kkmsp[0].minor);
 }
-/* #line 2634 "parser.c" */
+// 2557 "parser.c"
         break;
       case 71:
-/* #line 1040 "parser.y" */
+// 1046 "parser.lemon"
 {
 	kkgotominor.kk132 = phvolt_ret_literal_zval(PHVOLT_T_RAW_FRAGMENT, kkmsp[0].minor.kk0, status->scanner_state);
 }
-/* #line 2641 "parser.c" */
+// 2564 "parser.c"
         break;
       case 72:
-/* #line 1046 "parser.y" */
+// 1052 "parser.lemon"
 {
 	kkgotominor.kk132 = phvolt_ret_expr(PHVOLT_T_MINUS, NULL, kkmsp[0].minor.kk132, NULL, status->scanner_state);
   kk_destructor(22,&kkmsp[-1].minor);
 }
-/* #line 2649 "parser.c" */
+// 2572 "parser.c"
         break;
       case 73:
-/* #line 1050 "parser.y" */
+// 1056 "parser.lemon"
 {
 	kkgotominor.kk132 = phvolt_ret_expr(PHVOLT_T_PLUS, NULL, kkmsp[0].minor.kk132, NULL, status->scanner_state);
   kk_destructor(21,&kkmsp[-1].minor);
 }
-/* #line 2657 "parser.c" */
+// 2580 "parser.c"
         break;
       case 74:
-/* #line 1054 "parser.y" */
+// 1060 "parser.lemon"
 {
 	kkgotominor.kk132 = phvolt_ret_expr(PHVOLT_T_SUB, kkmsp[-2].minor.kk132, kkmsp[0].minor.kk132, NULL, status->scanner_state);
   kk_destructor(22,&kkmsp[-1].minor);
 }
-/* #line 2665 "parser.c" */
+// 2588 "parser.c"
         break;
       case 75:
-/* #line 1058 "parser.y" */
+// 1064 "parser.lemon"
 {
 	kkgotominor.kk132 = phvolt_ret_expr(PHVOLT_T_ADD, kkmsp[-2].minor.kk132, kkmsp[0].minor.kk132, NULL, status->scanner_state);
   kk_destructor(21,&kkmsp[-1].minor);
 }
-/* #line 2673 "parser.c" */
+// 2596 "parser.c"
         break;
       case 76:
-/* #line 1062 "parser.y" */
+// 1068 "parser.lemon"
 {
 	kkgotominor.kk132 = phvolt_ret_expr(PHVOLT_T_MUL, kkmsp[-2].minor.kk132, kkmsp[0].minor.kk132, NULL, status->scanner_state);
   kk_destructor(19,&kkmsp[-1].minor);
 }
-/* #line 2681 "parser.c" */
+// 2604 "parser.c"
         break;
       case 77:
-/* #line 1066 "parser.y" */
+// 1072 "parser.lemon"
 {
 	kkgotominor.kk132 = phvolt_ret_expr(PHVOLT_T_POW, kkmsp[-3].minor.kk132, kkmsp[0].minor.kk132, NULL, status->scanner_state);
   kk_destructor(19,&kkmsp[-2].minor);
   kk_destructor(19,&kkmsp[-1].minor);
 }
-/* #line 2690 "parser.c" */
+// 2613 "parser.c"
         break;
       case 78:
-/* #line 1070 "parser.y" */
+// 1076 "parser.lemon"
 {
 	kkgotominor.kk132 = phvolt_ret_expr(PHVOLT_T_DIV, kkmsp[-2].minor.kk132, kkmsp[0].minor.kk132, NULL, status->scanner_state);
   kk_destructor(18,&kkmsp[-1].minor);
 }
-/* #line 2698 "parser.c" */
+// 2621 "parser.c"
         break;
       case 79:
-/* #line 1074 "parser.y" */
+// 1080 "parser.lemon"
 {
 	kkgotominor.kk132 = phvolt_ret_expr(PHVOLT_T_MOD, kkmsp[-3].minor.kk132, kkmsp[0].minor.kk132, NULL, status->scanner_state);
   kk_destructor(18,&kkmsp[-2].minor);
   kk_destructor(18,&kkmsp[-1].minor);
 }
-/* #line 2707 "parser.c" */
+// 2630 "parser.c"
         break;
       case 80:
-/* #line 1078 "parser.y" */
+// 1084 "parser.lemon"
 {
 	kkgotominor.kk132 = phvolt_ret_expr(PHVOLT_T_MOD, kkmsp[-2].minor.kk132, kkmsp[0].minor.kk132, NULL, status->scanner_state);
   kk_destructor(20,&kkmsp[-1].minor);
 }
-/* #line 2715 "parser.c" */
+// 2638 "parser.c"
         break;
       case 81:
-/* #line 1082 "parser.y" */
+// 1088 "parser.lemon"
 {
 	kkgotominor.kk132 = phvolt_ret_expr(PHVOLT_T_AND, kkmsp[-2].minor.kk132, kkmsp[0].minor.kk132, NULL, status->scanner_state);
   kk_destructor(7,&kkmsp[-1].minor);
 }
-/* #line 2723 "parser.c" */
+// 2646 "parser.c"
         break;
       case 82:
-/* #line 1086 "parser.y" */
+// 1092 "parser.lemon"
 {
 	kkgotominor.kk132 = phvolt_ret_expr(PHVOLT_T_OR, kkmsp[-2].minor.kk132, kkmsp[0].minor.kk132, NULL, status->scanner_state);
   kk_destructor(8,&kkmsp[-1].minor);
 }
-/* #line 2731 "parser.c" */
+// 2654 "parser.c"
         break;
       case 83:
-/* #line 1090 "parser.y" */
+// 1096 "parser.lemon"
 {
 	kkgotominor.kk132 = phvolt_ret_expr(PHVOLT_T_CONCAT, kkmsp[-2].minor.kk132, kkmsp[0].minor.kk132, NULL, status->scanner_state);
   kk_destructor(23,&kkmsp[-1].minor);
 }
-/* #line 2739 "parser.c" */
+// 2662 "parser.c"
         break;
       case 84:
-/* #line 1094 "parser.y" */
+// 1100 "parser.lemon"
 {
 	kkgotominor.kk132 = phvolt_ret_expr(PHVOLT_T_PIPE, kkmsp[-2].minor.kk132, kkmsp[0].minor.kk132, NULL, status->scanner_state);
   kk_destructor(25,&kkmsp[-1].minor);
 }
-/* #line 2747 "parser.c" */
+// 2670 "parser.c"
         break;
       case 85:
-/* #line 1098 "parser.y" */
+// 1104 "parser.lemon"
 {
 	kkgotominor.kk132 = phvolt_ret_expr(PHVOLT_T_RANGE, kkmsp[-2].minor.kk132, kkmsp[0].minor.kk132, NULL, status->scanner_state);
   kk_destructor(6,&kkmsp[-1].minor);
 }
-/* #line 2755 "parser.c" */
+// 2678 "parser.c"
         break;
       case 86:
-/* #line 1102 "parser.y" */
+// 1108 "parser.lemon"
 {
 	kkgotominor.kk132 = phvolt_ret_expr(PHVOLT_T_EQUALS, kkmsp[-2].minor.kk132, kkmsp[0].minor.kk132, NULL, status->scanner_state);
   kk_destructor(10,&kkmsp[-1].minor);
 }
-/* #line 2763 "parser.c" */
+// 2686 "parser.c"
         break;
       case 87:
-/* #line 1106 "parser.y" */
+// 1112 "parser.lemon"
 {
 	kkgotominor.kk132 = phvolt_ret_expr(PHVOLT_T_NOT_ISSET, kkmsp[-3].minor.kk132, NULL, NULL, status->scanner_state);
   kk_destructor(9,&kkmsp[-2].minor);
   kk_destructor(26,&kkmsp[-1].minor);
   kk_destructor(73,&kkmsp[0].minor);
 }
-/* #line 2773 "parser.c" */
+// 2696 "parser.c"
         break;
       case 88:
-/* #line 1110 "parser.y" */
+// 1116 "parser.lemon"
 {
 	kkgotominor.kk132 = phvolt_ret_expr(PHVOLT_T_ISSET, kkmsp[-2].minor.kk132, NULL, NULL, status->scanner_state);
   kk_destructor(9,&kkmsp[-1].minor);
   kk_destructor(73,&kkmsp[0].minor);
 }
-/* #line 2782 "parser.c" */
+// 2705 "parser.c"
         break;
       case 89:
-/* #line 1114 "parser.y" */
+// 1120 "parser.lemon"
 {
 	kkgotominor.kk132 = phvolt_ret_expr(PHVOLT_T_IS, kkmsp[-2].minor.kk132, kkmsp[0].minor.kk132, NULL, status->scanner_state);
   kk_destructor(9,&kkmsp[-1].minor);
 }
-/* #line 2790 "parser.c" */
+// 2713 "parser.c"
         break;
       case 90:
-/* #line 1118 "parser.y" */
+// 1124 "parser.lemon"
 {
 	kkgotominor.kk132 = phvolt_ret_expr(PHVOLT_T_NOTEQUALS, kkmsp[-2].minor.kk132, kkmsp[0].minor.kk132, NULL, status->scanner_state);
   kk_destructor(11,&kkmsp[-1].minor);
 }
-/* #line 2798 "parser.c" */
+// 2721 "parser.c"
         break;
       case 91:
-/* #line 1122 "parser.y" */
+// 1128 "parser.lemon"
 {
 	kkgotominor.kk132 = phvolt_ret_expr(PHVOLT_T_IDENTICAL, kkmsp[-2].minor.kk132, kkmsp[0].minor.kk132, NULL, status->scanner_state);
   kk_destructor(16,&kkmsp[-1].minor);
 }
-/* #line 2806 "parser.c" */
+// 2729 "parser.c"
         break;
       case 92:
-/* #line 1126 "parser.y" */
+// 1132 "parser.lemon"
 {
 	kkgotominor.kk132 = phvolt_ret_expr(PHVOLT_T_NOTIDENTICAL, kkmsp[-2].minor.kk132, kkmsp[0].minor.kk132, NULL, status->scanner_state);
   kk_destructor(17,&kkmsp[-1].minor);
 }
-/* #line 2814 "parser.c" */
+// 2737 "parser.c"
         break;
       case 93:
-/* #line 1130 "parser.y" */
+// 1136 "parser.lemon"
 {
 	kkgotominor.kk132 = phvolt_ret_expr(PHVOLT_T_LESS, kkmsp[-2].minor.kk132, kkmsp[0].minor.kk132, NULL, status->scanner_state);
   kk_destructor(12,&kkmsp[-1].minor);
 }
-/* #line 2822 "parser.c" */
+// 2745 "parser.c"
         break;
       case 94:
-/* #line 1134 "parser.y" */
+// 1140 "parser.lemon"
 {
 	kkgotominor.kk132 = phvolt_ret_expr(PHVOLT_T_GREATER, kkmsp[-2].minor.kk132, kkmsp[0].minor.kk132, NULL, status->scanner_state);
   kk_destructor(13,&kkmsp[-1].minor);
 }
-/* #line 2830 "parser.c" */
+// 2753 "parser.c"
         break;
       case 95:
-/* #line 1138 "parser.y" */
+// 1144 "parser.lemon"
 {
 	kkgotominor.kk132 = phvolt_ret_expr(PHVOLT_T_GREATEREQUAL, kkmsp[-2].minor.kk132, kkmsp[0].minor.kk132, NULL, status->scanner_state);
   kk_destructor(14,&kkmsp[-1].minor);
 }
-/* #line 2838 "parser.c" */
+// 2761 "parser.c"
         break;
       case 96:
-/* #line 1142 "parser.y" */
+// 1148 "parser.lemon"
 {
 	kkgotominor.kk132 = phvolt_ret_expr(PHVOLT_T_LESSEQUAL, kkmsp[-2].minor.kk132, kkmsp[0].minor.kk132, NULL, status->scanner_state);
   kk_destructor(15,&kkmsp[-1].minor);
 }
-/* #line 2846 "parser.c" */
+// 2769 "parser.c"
         break;
       case 97:
-/* #line 1146 "parser.y" */
+// 1152 "parser.lemon"
 {
 	kkgotominor.kk132 = phvolt_ret_expr(PHVOLT_T_DOT, kkmsp[-2].minor.kk132, kkmsp[0].minor.kk132, NULL, status->scanner_state);
   kk_destructor(30,&kkmsp[-1].minor);
 }
-/* #line 2854 "parser.c" */
+// 2777 "parser.c"
         break;
       case 98:
-/* #line 1150 "parser.y" */
+// 1156 "parser.lemon"
 {
 	kkgotominor.kk132 = phvolt_ret_expr(PHVOLT_T_IN, kkmsp[-2].minor.kk132, kkmsp[0].minor.kk132, NULL, status->scanner_state);
   kk_destructor(3,&kkmsp[-1].minor);
 }
-/* #line 2862 "parser.c" */
+// 2785 "parser.c"
         break;
       case 99:
-/* #line 1154 "parser.y" */
+// 1160 "parser.lemon"
 {
 	kkgotominor.kk132 = phvolt_ret_expr(PHVOLT_T_NOT_IN, kkmsp[-3].minor.kk132, kkmsp[0].minor.kk132, NULL, status->scanner_state);
   kk_destructor(26,&kkmsp[-2].minor);
   kk_destructor(3,&kkmsp[-1].minor);
 }
-/* #line 2871 "parser.c" */
+// 2794 "parser.c"
         break;
       case 100:
-/* #line 1158 "parser.y" */
+// 1164 "parser.lemon"
 {
 	kkgotominor.kk132 = phvolt_ret_expr(PHVOLT_T_NOT, NULL, kkmsp[0].minor.kk132, NULL, status->scanner_state);
   kk_destructor(26,&kkmsp[-1].minor);
 }
-/* #line 2879 "parser.c" */
+// 2802 "parser.c"
         break;
       case 101:
-/* #line 1162 "parser.y" */
+// 1168 "parser.lemon"
 {
 	kkgotominor.kk132 = phvolt_ret_expr(PHVOLT_T_INCR, kkmsp[-1].minor.kk132, NULL, NULL, status->scanner_state);
   kk_destructor(27,&kkmsp[0].minor);
 }
-/* #line 2887 "parser.c" */
+// 2810 "parser.c"
         break;
       case 102:
-/* #line 1166 "parser.y" */
+// 1172 "parser.lemon"
 {
 	kkgotominor.kk132 = phvolt_ret_expr(PHVOLT_T_DECR, kkmsp[-1].minor.kk132, NULL, NULL, status->scanner_state);
   kk_destructor(28,&kkmsp[0].minor);
 }
-/* #line 2895 "parser.c" */
+// 2818 "parser.c"
         break;
       case 103:
-/* #line 1170 "parser.y" */
+// 1176 "parser.lemon"
 {
 	kkgotominor.kk132 = phvolt_ret_expr(PHVOLT_T_ENCLOSED, kkmsp[-1].minor.kk132, NULL, NULL, status->scanner_state);
   kk_destructor(29,&kkmsp[-2].minor);
   kk_destructor(47,&kkmsp[0].minor);
 }
-/* #line 2904 "parser.c" */
+// 2827 "parser.c"
         break;
       case 104:
-/* #line 1174 "parser.y" */
+// 1180 "parser.lemon"
 {
 	kkgotominor.kk132 = phvolt_ret_expr(PHVOLT_T_ARRAY, NULL, NULL, NULL, status->scanner_state);
   kk_destructor(24,&kkmsp[-1].minor);
   kk_destructor(74,&kkmsp[0].minor);
 }
-/* #line 2913 "parser.c" */
+// 2836 "parser.c"
         break;
       case 105:
-/* #line 1178 "parser.y" */
+// 1184 "parser.lemon"
 {
 	kkgotominor.kk132 = phvolt_ret_expr(PHVOLT_T_ARRAY, kkmsp[-1].minor.kk132, NULL, NULL, status->scanner_state);
   kk_destructor(24,&kkmsp[-2].minor);
   kk_destructor(74,&kkmsp[0].minor);
 }
-/* #line 2922 "parser.c" */
+// 2845 "parser.c"
         break;
       case 106:
-/* #line 1182 "parser.y" */
+// 1188 "parser.lemon"
 {
 	kkgotominor.kk132 = phvolt_ret_expr(PHVOLT_T_ARRAY, NULL, NULL, NULL, status->scanner_state);
   kk_destructor(75,&kkmsp[-1].minor);
   kk_destructor(76,&kkmsp[0].minor);
 }
-/* #line 2931 "parser.c" */
+// 2854 "parser.c"
         break;
       case 107:
-/* #line 1186 "parser.y" */
+// 1192 "parser.lemon"
 {
 	kkgotominor.kk132 = phvolt_ret_expr(PHVOLT_T_ARRAY, kkmsp[-1].minor.kk132, NULL, NULL, status->scanner_state);
   kk_destructor(75,&kkmsp[-2].minor);
   kk_destructor(76,&kkmsp[0].minor);
 }
-/* #line 2940 "parser.c" */
+// 2863 "parser.c"
         break;
       case 108:
-/* #line 1190 "parser.y" */
+// 1196 "parser.lemon"
 {
 	kkgotominor.kk132 = phvolt_ret_expr(PHVOLT_T_ARRAYACCESS, kkmsp[-3].minor.kk132, kkmsp[-1].minor.kk132, NULL, status->scanner_state);
   kk_destructor(24,&kkmsp[-2].minor);
   kk_destructor(74,&kkmsp[0].minor);
 }
-/* #line 2949 "parser.c" */
+// 2872 "parser.c"
         break;
       case 109:
-/* #line 1194 "parser.y" */
+// 1200 "parser.lemon"
 {
 	kkgotominor.kk132 = phvolt_ret_expr(PHVOLT_T_TERNARY, kkmsp[-2].minor.kk132, kkmsp[0].minor.kk132, kkmsp[-4].minor.kk132, status->scanner_state);
   kk_destructor(4,&kkmsp[-3].minor);
   kk_destructor(5,&kkmsp[-1].minor);
 }
-/* #line 2958 "parser.c" */
+// 2881 "parser.c"
         break;
       case 110:
-/* #line 1198 "parser.y" */
+// 1204 "parser.lemon"
 {
 	kkgotominor.kk132 = phvolt_ret_slice(kkmsp[-4].minor.kk132, NULL, kkmsp[-1].minor.kk132, status->scanner_state);
   kk_destructor(24,&kkmsp[-3].minor);
   kk_destructor(5,&kkmsp[-2].minor);
   kk_destructor(74,&kkmsp[0].minor);
 }
-/* #line 2968 "parser.c" */
+// 2891 "parser.c"
         break;
       case 111:
-/* #line 1202 "parser.y" */
+// 1208 "parser.lemon"
 {
 	kkgotominor.kk132 = phvolt_ret_slice(kkmsp[-4].minor.kk132, kkmsp[-2].minor.kk132, NULL, status->scanner_state);
   kk_destructor(24,&kkmsp[-3].minor);
   kk_destructor(5,&kkmsp[-1].minor);
   kk_destructor(74,&kkmsp[0].minor);
 }
-/* #line 2978 "parser.c" */
+// 2901 "parser.c"
         break;
       case 112:
-/* #line 1206 "parser.y" */
+// 1212 "parser.lemon"
 {
 	kkgotominor.kk132 = phvolt_ret_slice(kkmsp[-5].minor.kk132, kkmsp[-3].minor.kk132, kkmsp[-1].minor.kk132, status->scanner_state);
   kk_destructor(24,&kkmsp[-4].minor);
   kk_destructor(5,&kkmsp[-2].minor);
   kk_destructor(74,&kkmsp[0].minor);
 }
-/* #line 2988 "parser.c" */
+// 2911 "parser.c"
         break;
       case 114:
       case 126:
-/* #line 1216 "parser.y" */
+// 1222 "parser.lemon"
 {
 	kkgotominor.kk132 = phvolt_ret_literal_zval(PHVOLT_T_IDENTIFIER, kkmsp[0].minor.kk0, status->scanner_state);
 }
-/* #line 2996 "parser.c" */
+// 2919 "parser.c"
         break;
       case 117:
       case 125:
-/* #line 1232 "parser.y" */
+// 1238 "parser.lemon"
 {
 	kkgotominor.kk132 = phvolt_ret_named_item(kkmsp[-2].minor.kk0, kkmsp[0].minor.kk132, status->scanner_state);
   kk_destructor(5,&kkmsp[-1].minor);
 }
-/* #line 3005 "parser.c" */
+// 2928 "parser.c"
         break;
       case 118:
       case 124:
-/* #line 1236 "parser.y" */
+// 1242 "parser.lemon"
 {
 	kkgotominor.kk132 = phvolt_ret_named_item(NULL, kkmsp[0].minor.kk132, status->scanner_state);
 }
-/* #line 3013 "parser.c" */
+// 2936 "parser.c"
         break;
       case 120:
-/* #line 1246 "parser.y" */
+// 1252 "parser.lemon"
 {
 	kkgotominor.kk132 = phvolt_ret_func_call(kkmsp[-3].minor.kk132, kkmsp[-1].minor.kk132, status->scanner_state);
   kk_destructor(29,&kkmsp[-2].minor);
   kk_destructor(47,&kkmsp[0].minor);
 }
-/* #line 3022 "parser.c" */
+// 2945 "parser.c"
         break;
       case 121:
-/* #line 1250 "parser.y" */
+// 1256 "parser.lemon"
 {
 	kkgotominor.kk132 = phvolt_ret_func_call(kkmsp[-2].minor.kk132, NULL, status->scanner_state);
   kk_destructor(29,&kkmsp[-1].minor);
   kk_destructor(47,&kkmsp[0].minor);
 }
-/* #line 3031 "parser.c" */
+// 2954 "parser.c"
         break;
   };
   kkgoto = kkRuleInfo[kkruleno].lhs;
@@ -3069,7 +2992,7 @@ static void kk_syntax_error(
 ){
   phvolt_ARG_FETCH;
 #define KTOKEN (kkminor.kk0)
-/* #line 599 "parser.y" */
+// 605 "parser.lemon"
 
 	{
 
@@ -3078,7 +3001,7 @@ static void kk_syntax_error(
 		char *token_name = NULL;
 		const phvolt_token_names *tokens = phvolt_tokens;
 		int token_len = 0;
-		uint active_token = status->scanner_state->active_token;
+		int active_token = status->scanner_state->active_token;
 
 		if (status->scanner_state->start_length) {
 
@@ -3167,7 +3090,7 @@ static void kk_syntax_error(
 
 	status->status = PHVOLT_PARSING_FAILED;
 
-/* #line 3171 "parser.c" */
+// 3094 "parser.c"
   phvolt_ARG_STORE; /* Suppress warning about unused %extra_argument variable */
 }
 
@@ -3261,7 +3184,7 @@ void phvolt_(
 #ifdef KKERRORSYMBOL
       /* A syntax error has occurred.
       ** The response to an error depends upon whether or not the
-      ** grammar defines an error token "ERROR".  
+      ** grammar defines an error token "ERROR".
       **
       ** This is what we do if the grammar does define ERROR:
       **
@@ -3532,19 +3455,8 @@ int phvolt_parse_view(zval *result, zval *view_code, zval *template_path TSRMLS_
 	}
 
 	if (phvolt_internal_parse_view(&result, view_code, template_path, &error_msg TSRMLS_CC) == FAILURE) {
-<<<<<<< HEAD:ext/phalcon/mvc/view/engine/volt/parser.c
 		ZEPHIR_THROW_EXCEPTION_STRW(phalcon_mvc_view_exception_ce, Z_STRVAL_P(error_msg));
 		zval_ptr_dtor(&error_msg);
-=======
-		if (likely(error_msg != NULL)) {
-			PHALCON_THROW_EXCEPTION_STRW(phalcon_mvc_view_exception_ce, Z_STRVAL_P(error_msg));
-			zval_ptr_dtor(&error_msg);
-		}
-		else {
-			PHALCON_THROW_EXCEPTION_STRW(phalcon_mvc_view_exception_ce, "Error parsing the view");
-		}
-
->>>>>>> master:ext/mvc/view/engine/volt/parser.c
 		return FAILURE;
 	}
 
@@ -3557,10 +3469,10 @@ int phvolt_parse_view(zval *result, zval *view_code, zval *template_path TSRMLS_
 int phvolt_is_blank_string(phvolt_scanner_token *token){
 
 	char *marker = token->value;
-	int i;
+	unsigned int ch, i;
 
 	for (i = 0; i < token->len; i++) {
-		char ch = *marker;
+		ch = *marker;
 		if (ch != ' ' && ch != '\t' && ch != '\n' && ch != '\r' && ch != 11) {
 			return 0;
 		}
@@ -3596,11 +3508,6 @@ int phvolt_internal_parse_view(zval **result, zval *view_code, zval *template_pa
 
 	/** Start the reentrant parser */
 	phvolt_parser = phvolt_Alloc(phvolt_wrapper_alloc);
-	if (unlikely(!phvolt_parser)) {
-		MAKE_STD_ZVAL(*error_msg);
-		ZVAL_STRING(*error_msg, "Memory allocation error", 1);
-		return FAILURE;
-	}
 
 	parser_status = emalloc(sizeof(phvolt_parser_status));
 	state = emalloc(sizeof(phvolt_scanner_state));
