@@ -14,6 +14,7 @@
  +------------------------------------------------------------------------+
  | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
  |          Eduar Carvajal <eduar@phalconphp.com>                         |
+ |          Stanislav Kiryukhin <korsar.zn@gmail.com>                     |
  +------------------------------------------------------------------------+
  */
 
@@ -22,10 +23,47 @@ namespace Phalcon\Session;
 /**
  * Phalcon\Session\Adapter
  *
- * Base class for Phalcon\Session adapters
+ * Base class for Phalcon\Session adapter
+ *
+ *<code>
+ * $session = new \Phalcon\Session\Adapter\SomeAdapter(array(
+ *    'uniqueId' => 'my-private-app',
+ *    'name' => 'session-name',
+ *    'cookie_lifetime' => 'session-cookie-lifetime',
+ *    'cookie_path' => 'session-cookie-path',
+ *    'cookie_domain' => 'session-cookie-domain',
+ *    'cookie_secure' => 'session-cookie-secure',
+ *    'cookie_httponly' => 'session-cookie-httponly'
+ * ));
+ *
+ * $session->start();
+ *
+ * $session->set('var', 'some-value');
+ *
+ * echo $session->get('var');
+ *</code>
  */
-abstract class Adapter
+abstract class Adapter implements AdapterInterface
 {
+
+	/**
+	 * if sessions are disabled.
+	 * @see PHP_SESSION_DISABLED
+	 */
+	const SESSION_DISABLED = 0;
+
+	/**
+	 * if sessions are enabled, but none exists.
+	 * @see PHP_SESSION_NONE
+	 */
+	const SESSION_NONE = 1;
+
+	/**
+	 * if sessions are enabled, and one exists.
+	 * @see PHP_SESSION_ACTIVE
+	 */
+	const SESSION_ACTIVE = 2;
+
 
 	protected _uniqueId;
 
@@ -35,29 +73,53 @@ abstract class Adapter
 
 	/**
 	 * Phalcon\Session\Adapter constructor
-	 *
-	 * @param array options
 	 */
 	public function __construct(options = null)
 	{
 		if typeof options == "array" {
 			this->setOptions(options);
 		}
+
+		/**
+		* Configure Session (cookie parameters, etc...)
+		*/
+		this->configure();
 	}
 
 	/**
 	 * Starts the session (if headers are already sent the session will not be started)
-	 *
-	 * @return boolean
 	 */
-	public function start() -> boolean
+	public function start(boolean force = false) -> boolean
 	{
+		if force {
+			return this->forceStart();
+		}
+
 		if !headers_sent() {
 			session_start();
 			let this->_started = true;
 			return true;
 		}
+
 		return false;
+	}
+
+	/**
+	 * Gets the session cookie parameters
+	 * @see http://php.net/manual/en/function.session-get-cookie-params.php
+	 */
+	public function getCookieParams() -> array
+	{
+		return session_get_cookie_params();
+	}
+
+	/**
+	 * Sets the session cookie parameters
+	 * @see http://php.net/manual/en/function.session-set-cookie-params.php
+	 */
+	public function setCookieParams(int! lifetime, string! path, string! domain, bool! secure = false, bool! httpOnly = false) -> void
+	{
+		session_set_cookie_params(lifetime, path, domain, secure, httpOnly);
 	}
 
 	/**
@@ -68,8 +130,6 @@ abstract class Adapter
 	 *		'uniqueId' => 'my-private-app'
 	 *	));
 	 *</code>
-	 *
-	 * @param array options
 	 */
 	public function setOptions(array! options)
 	{
@@ -84,23 +144,31 @@ abstract class Adapter
 
 	/**
 	 * Get internal options
-	 *
-	 * @return array
 	 */
-	public function getOptions()
+	public function getOptions() -> array
 	{
 		return this->_options;
 	}
 
 	/**
-	 * Gets a session variable from an application context
-	 *
-	 * @param string index
-	 * @param mixed defaultValue
-	 * @param boolean remove
-	 * @return mixed
+	 * Returns an option in the session's options
+	 * Returns defaultValue if the option hasn't set
 	 */
-	public function get(string index, defaultValue = null, boolean remove = false)
+	public function getOption(string! key, var defaultValue = null) -> var
+	{
+		var value;
+
+		if fetch value, this->_options[key] {
+			return value;
+		} else {
+			return defaultValue;
+		}
+	}
+
+	/**
+	 * Gets a session variable from an application context
+	 */
+	public function get(string! index, var defaultValue = null, boolean remove = false) -> var
 	{
 		var value, key;
 
@@ -122,11 +190,8 @@ abstract class Adapter
 	 *<code>
 	 *	session->set('auth', 'yes');
 	 *</code>
-	 *
-	 * @param string index
-	 * @param string value
 	 */
-	public function set(string index, value)
+	public function set(string! index, var value) -> void
 	{
 		let _SESSION[this->_uniqueId . index] = value;
 	}
@@ -137,10 +202,8 @@ abstract class Adapter
 	 *<code>
 	 *	var_dump($session->has('auth'));
 	 *</code>
-	 *
-	 * @param string index
 	 */
-	public function has(string index) -> boolean
+	public function has(string! index) -> boolean
 	{
 		return isset _SESSION[this->_uniqueId . index];
 	}
@@ -152,7 +215,7 @@ abstract class Adapter
 	 *	$session->remove('auth');
 	 *</code>
 	 */
-	public function remove(string index)
+	public function remove(string! index) -> void
 	{
 		unset _SESSION[this->_uniqueId . index];
 	}
@@ -175,12 +238,28 @@ abstract class Adapter
 	 *<code>
 	 *	$session->setId($id);
 	 *</code>
-	 *
-	 * @param string id
 	 */
-	public function setId(string id)
+	public function setId(string! id) -> void
 	{
 		session_id(id);
+	}
+
+	/**
+	 * Gets the current session name
+	 * @see http://php.net/manual/en/function.session-name.php
+	 */
+	public function getName() -> string
+	{
+		return session_name();
+	}
+
+	/**
+	 * Sets the current session name and return the old session name
+	 * @see http://php.net/manual/en/function.session-name.php
+	 */
+	public function setName(string! name) -> string
+	{
+		return session_name(name);
 	}
 
 	/**
@@ -209,33 +288,127 @@ abstract class Adapter
 	}
 
 	/**
-	 * Alias: Gets a session variable from an application context
-	 *
-	 * @param string index
-	 * @return mixed
+	 * Re-initialize session array with original values
+	 * @see http://php.net/manual/en/function.session-reset.php
 	 */
-	public function __get(string index)
+	public function reset() -> boolean
+	{
+		if function_exists("session_reset") {
+			return session_reset();
+		} else {
+			return this->legacySessionReset();
+		}
+	}
+
+	/**
+	 * Write session data and end session
+	 * @see http://php.net/manual/en/function.session-write-close.php
+	 */
+	public function commit() -> void
+	{
+		let this->_started = false;
+		session_write_close();
+	}
+
+	/**
+	 * Discard session array changes and finish session
+	 * @see http://php.net/manual/en/function.session-abort.php
+	 */
+	public function abort() -> boolean
+	{
+		let this->_started = false;
+
+		if function_exists("session_abort") {
+			return session_abort();
+		} else {
+			return this->legacySessionAbort();
+		}
+	}
+
+	/**
+	 * Update the current session id with a newly generated one.
+	 * Returns NEW session ID on success or FALSE on failure.
+	 * @see http://php.net/manual/en/function.session-regenerate-id.php
+	 */
+	public function regenerateId(bool! deleteSession = false) -> string|boolean
+	{
+		if session_regenerate_id(deleteSession) {
+			return this->getId();
+		} else {
+			return false;
+		}
+	}
+
+	/**
+	 * Returns the current session status (const: SESSION_DISABLED, SESSION_NONE, SESSION_ACTIVE)
+	 * @see http://php.net/manual/en/function.session-status.php
+	 */
+	public function status() -> int
+	{
+		if function_exists("session_status") {
+			return session_status();
+		} else {
+			return this->legacySessionStatus();
+		}
+	}
+
+	/**
+	 * Clear all session variables
+	 * @see http://php.net/manual/en/function.session-unset.php
+	 */
+	public function clear() -> void
+	{
+		if !this->isStarted() {
+			this->start();
+		}
+
+		session_unset();
+	}
+
+	/**
+	 * Encodes the current session data as a session encoded string
+	 * @see http://php.net/manual/en/function.session-encode.php
+	 */
+	public function encode() -> string
+	{
+		return session_encode();
+	}
+
+	/**
+	 * Decodes session data from a session encoded string, and populates the current session
+	 * @see http://php.net/manual/en/function.session-encode.php
+	 */
+	public function decode(string data) -> boolean
+	{
+		return session_decode(data);
+	}
+
+	/**
+	 * The read callback must always return a session encoded (serialized) string,
+	 * or an empty string if there is no data to read.
+	 */
+	abstract public function read(string! sessionId) -> string;
+
+	/**
+	 * Alias: Gets a session variable from an application context
+	 */
+	public function __get(string! index) -> var
 	{
 		return this->get(index);
 	}
 
 	/**
 	 * Alias: Sets a session variable in an application context
-	 *
-	 * @param string index
-	 * @param string value
 	 */
-	public function __set(string index, value)
+	public function __set(string! index, var value) -> void
 	{
-		return this->set(index, value);
+		this->set(index, value);
 	}
 
 	/**
 	 * Alias: Check whether a session variable is set in an application context
-	 *
-	 * @param string index
 	 */
-	public function __isset(string index) -> boolean
+	public function __isset(string! index) -> boolean
 	{
 		return this->has(index);
 	}
@@ -243,8 +416,82 @@ abstract class Adapter
 	/**
 	 * Alias: Removes a session variable from an application context
 	 */
-	public function __unset(string index)
+	public function __unset(string! index) -> void
 	{
-		return this->remove(index);
+		this->remove(index);
+	}
+
+	/**
+	 * Configure session adapter
+	 */
+	protected function configure() -> void
+	{
+		var params, name;
+
+		let params = this->getCookieParams();
+		let name = this->getOption("name");
+
+		if name {
+			this->setName(name);
+		}
+
+		this->setCookieParams(
+			this->getOption("cookie_lifetime", 	params["lifetime"]),
+			this->getOption("cookie_path", 		params["path"]),
+			this->getOption("cookie_domain", 	params["domain"]),
+			this->getOption("cookie_secure", 	params["secure"]),
+			this->getOption("cookie_httponly", 	params["httponly"])
+		);
+	}
+
+	/**
+	 * Implementation of the function session_reset() for PHP < v5.6
+	 * Please do not call manually, use this Phalcon\Session\AdapterInterface::reset() for it
+	 */
+	protected function legacySessionReset() -> boolean
+	{
+		// clear current session
+		this->clear();
+
+		return this->decode(this->read(this->getId()));
+	}
+
+	/**
+	 * Implementation of the function session_abort() for PHP < v5.6
+	 * Please do not call manually, use this Phalcon\Session\AdapterInterface::abort() for it
+	 */
+	protected function legacySessionAbort() -> boolean
+	{
+		if (!this->reset()) {
+			return false;
+		}
+
+		this->commit();
+		return true;
+	}
+
+	/**
+	 * Implementation of the function session_status() for PHP < v5.4
+	 * Please do not call manually, use this Phalcon\Session\AdapterInterface::status() for it
+	 */
+	protected function legacySessionStatus() -> int
+	{
+		if this->isStarted() {
+			return self::SESSION_ACTIVE;
+		} else {
+			return self::SESSION_NONE;
+		}
+	}
+
+	protected function forceStart()
+	{
+		var old;
+        let old = error_reporting(0);
+
+        session_start();
+        error_reporting(old);
+
+        let this->_started = true;
+		return true;
 	}
 }
