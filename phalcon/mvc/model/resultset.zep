@@ -93,27 +93,9 @@ abstract class Resultset
 	 *
 	 */
 	public function next() -> void
-	{		
-		var result;
-		
-		let this->_pointer++;
-		
-		/**
-		* Clear activeRow, so current() will hydrate set result
-		*/
-		let this->_activeRow = null;
-		
-		/**
-		* Fetch next row from pdo and set this->_row
-		*/
-		if this->_type {
-			let result = this->_result;
-			if typeof result == "object" {
-				let this->_row = result->$fetch(result);
-			} else {
-				let this->_row = false;
-			}
-		}
+	{
+		// Seek to the next position
+		this->seek(this->_pointer + 1);
 	}
 	
 	/**
@@ -165,8 +147,26 @@ abstract class Resultset
 			if this->_row === null || this->_pointer != position {
 				let result = this->_result;
 				if result !== false {
-					result->dataSeek(position);
-					let this->_row = result->$fetch(result);
+					/**
+					* 1. If row is not set, query is executed in "result->dataSeek()"
+					*    Set _row to prepare for hydration in "current()"
+					*
+					* 2. Backwards seeks have to re-execute the query
+					*    There is no fetchPrevious :(
+					*/
+					if this->_row === null || this->_pointer > position {
+						result->dataSeek(position);
+						let this->_row = result->$fetch(result);
+					}
+					/**
+					* Requested postion is greater than current pointer,
+					* seek forward until the requested position is reached.
+					* We do not need to re-excute the query!
+					*/
+					while this->_pointer < position {
+						let this->_row = result->$fetch(result);
+						let this->_pointer++;
+					}
 				}
 				
 				let this->_pointer = position;
