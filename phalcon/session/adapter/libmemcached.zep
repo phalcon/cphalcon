@@ -21,7 +21,6 @@ namespace Phalcon\Session\Adapter;
 
 use Phalcon\Session\Adapter;
 use Phalcon\Session\Exception;
-use Phalcon\Session\AdapterInterface;
 use Phalcon\Cache\Backend\Libmemcached;
 use Phalcon\Cache\Frontend\Data as FrontendData;
 
@@ -58,7 +57,7 @@ use Phalcon\Cache\Frontend\Data as FrontendData;
  * echo $session->get('var');
  *</code>
  */
-class Libmemcached extends Adapter implements AdapterInterface
+class Libmemcached extends Adapter
 {
 
 	protected _libmemcached = null { get };

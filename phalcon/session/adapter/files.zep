@@ -19,7 +19,6 @@
 
 namespace Phalcon\Session\Adapter;
 
-use Phalcon\Session\AdapterInterface;
 use Phalcon\Session\Adapter;
 
 /**
@@ -46,8 +45,24 @@ use Phalcon\Session\Adapter;
  * echo $session->get('var');
  *</code>
  */
-class Files extends Adapter implements AdapterInterface
+class Files extends Adapter
 {
+	/**
+	 * {@inheritdoc}
+	 */
+	public function read(string! sessionId) -> string
+	{
+		var session_file;
+		let session_file = session_save_path() . DIRECTORY_SEPARATOR . "sess_" . this->getId();
+
+		if is_file(session_file) {
+			return file_get_contents(session_file);
+		} else {
+			return "";
+		}
+
+	}
+
 	/**
 	 * {@inheritdoc}
 	 */

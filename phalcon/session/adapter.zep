@@ -43,8 +43,27 @@ namespace Phalcon\Session;
  * echo $session->get('var');
  *</code>
  */
-abstract class Adapter
+abstract class Adapter implements AdapterInterface
 {
+
+	/**
+	 * if sessions are disabled.
+	 * @see PHP_SESSION_DISABLED
+	 */
+	const SESSION_DISABLED = 0;
+
+	/**
+	 * if sessions are enabled, but none exists.
+	 * @see PHP_SESSION_NONE
+	 */
+	const SESSION_NONE = 1;
+
+	/**
+	 * if sessions are enabled, and one exists.
+	 * @see PHP_SESSION_ACTIVE
+	 */
+	const SESSION_ACTIVE = 2;
+
 
 	protected _uniqueId;
 
@@ -70,13 +89,18 @@ abstract class Adapter
 	/**
 	 * Starts the session (if headers are already sent the session will not be started)
 	 */
-	public function start() -> boolean
+	public function start(boolean force = false) -> boolean
 	{
+		if force {
+			return this->forceStart();
+		}
+
 		if !headers_sent() {
 			session_start();
 			let this->_started = true;
 			return true;
 		}
+
 		return false;
 	}
 
@@ -230,12 +254,12 @@ abstract class Adapter
 	}
 
 	/**
-	 * Sets the current session name
+	 * Sets the current session name and return the old session name
 	 * @see http://php.net/manual/en/function.session-name.php
 	 */
-	public function setName(string! name) -> void
+	public function setName(string! name) -> string
 	{
-		session_name(name);
+		return session_name(name);
 	}
 
 	/**
@@ -269,7 +293,11 @@ abstract class Adapter
 	 */
 	public function reset() -> boolean
 	{
-		return session_reset();
+		if function_exists("session_reset") {
+			return session_reset();
+		} else {
+			return this->legacySessionReset();
+		}
 	}
 
 	/**
@@ -278,6 +306,7 @@ abstract class Adapter
 	 */
 	public function commit() -> void
 	{
+		let this->_started = false;
 		session_write_close();
 	}
 
@@ -287,7 +316,13 @@ abstract class Adapter
 	 */
 	public function abort() -> boolean
 	{
-		return session_abort();
+		let this->_started = false;
+
+		if function_exists("session_abort") {
+			return session_abort();
+		} else {
+			return this->legacySessionAbort();
+		}
 	}
 
 	/**
@@ -303,6 +338,56 @@ abstract class Adapter
 			return false;
 		}
 	}
+
+	/**
+	 * Returns the current session status (const: SESSION_DISABLED, SESSION_NONE, SESSION_ACTIVE)
+	 * @see http://php.net/manual/en/function.session-status.php
+	 */
+	public function status() -> int
+	{
+		if function_exists("session_status") {
+			return session_status();
+		} else {
+			return this->legacySessionStatus();
+		}
+	}
+
+	/**
+	 * Clear all session variables
+	 * @see http://php.net/manual/en/function.session-unset.php
+	 */
+	public function clear() -> void
+	{
+		if !this->isStarted() {
+			this->start();
+		}
+
+		session_unset();
+	}
+
+	/**
+	 * Encodes the current session data as a session encoded string
+	 * @see http://php.net/manual/en/function.session-encode.php
+	 */
+	public function encode() -> string
+	{
+		return session_encode();
+	}
+
+	/**
+	 * Decodes session data from a session encoded string, and populates the current session
+	 * @see http://php.net/manual/en/function.session-encode.php
+	 */
+	public function decode(string data) -> boolean
+	{
+		return session_decode(data);
+	}
+
+	/**
+	 * The read callback must always return a session encoded (serialized) string,
+	 * or an empty string if there is no data to read.
+	 */
+	abstract public function read(string! sessionId) -> string;
 
 	/**
 	 * Alias: Gets a session variable from an application context
@@ -357,5 +442,56 @@ abstract class Adapter
 			this->getOption("cookie_secure", 	params["secure"]),
 			this->getOption("cookie_httponly", 	params["httponly"])
 		);
+	}
+
+	/**
+	 * Implementation of the function session_reset() for PHP < v5.6
+	 * Please do not call manually, use this Phalcon\Session\AdapterInterface::reset() for it
+	 */
+	protected function legacySessionReset() -> boolean
+	{
+		// clear current session
+		this->clear();
+
+		return this->decode(this->read(this->getId()));
+	}
+
+	/**
+	 * Implementation of the function session_abort() for PHP < v5.6
+	 * Please do not call manually, use this Phalcon\Session\AdapterInterface::abort() for it
+	 */
+	protected function legacySessionAbort() -> boolean
+	{
+		if (!this->reset()) {
+			return false;
+		}
+
+		this->commit();
+		return true;
+	}
+
+	/**
+	 * Implementation of the function session_status() for PHP < v5.4
+	 * Please do not call manually, use this Phalcon\Session\AdapterInterface::status() for it
+	 */
+	protected function legacySessionStatus() -> int
+	{
+		if this->isStarted() {
+			return self::SESSION_ACTIVE;
+		} else {
+			return self::SESSION_NONE;
+		}
+	}
+
+	protected function forceStart()
+	{
+		var old;
+        let old = error_reporting(0);
+
+        session_start();
+        error_reporting(old);
+
+        let this->_started = true;
+		return true;
 	}
 }
