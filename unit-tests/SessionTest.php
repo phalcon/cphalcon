@@ -148,6 +148,7 @@ class SessionTest extends PHPUnit_Framework_TestCase
 		$this->assertTrue($this->session->isStarted() && $this->session->status() === SessionAdapter::SESSION_ACTIVE);
 	}
 
+
 	/**
 	 * Test session, getters, setters, has, remove
 	 * @throws Exception
