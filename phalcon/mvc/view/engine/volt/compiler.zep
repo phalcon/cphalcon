@@ -2326,20 +2326,12 @@ class Compiler implements InjectionAwareInterface
 							}
 						}
 
-						if typeof blockCompilation == "array" {
-							print_r(blockCompilation);
-						}
-
 						if extendsMode === true {
 							let finalCompilation[name] = blockCompilation;
 						} else {
 							let finalCompilation .= blockCompilation;
 						}
 					} else {
-
-						if typeof block == "array" {
-							print_r(block);
-						}
 
 						/**
 						 * Here the block is an already compiled text
