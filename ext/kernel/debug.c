@@ -3,11 +3,7 @@
   +------------------------------------------------------------------------+
   | Zephir Language                                                        |
   +------------------------------------------------------------------------+
-<<<<<<< HEAD
   | Copyright (c) 2011-2015 Zephir Team (http://www.zephir-lang.com)       |
-=======
-  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
->>>>>>> master
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -21,15 +17,12 @@
   +------------------------------------------------------------------------+
 */
 
-<<<<<<< HEAD
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif
 
 #include <php.h>
 #include "php_ext.h"
-=======
->>>>>>> master
 #include "kernel/debug.h"
 #include "kernel/main.h"
 #include "kernel/string.h"
@@ -44,7 +37,6 @@ static zephir_debug_entry *active = NULL;
 /**
  * Stars debug on file pipe
  */
-<<<<<<< HEAD
 int zephir_start_debug(){
 	if(!zephir_log){
 		/*//zephir_log = fopen("/home/gutierrezandresfelipe/phalcon-debug.a", "w");
@@ -53,11 +45,6 @@ int zephir_start_debug(){
 			fprintf(stderr, "Can't open debug log\n");
 		}*/
 		zephir_log = stderr;
-=======
-int phalcon_start_debug(){
-	if(!phalcon_log){
-		phalcon_log = stderr;
->>>>>>> master
 	}
 	return SUCCESS;
 }
@@ -126,7 +113,6 @@ int zephir_vdump(zval *uservar TSRMLS_DC){
     return SUCCESS;
 }
 
-<<<<<<< HEAD
 int zephir_dump_ce(zend_class_entry *ce TSRMLS_DC){
 	char *message = emalloc(sizeof(char *)*120);
 	if(ce){
@@ -135,16 +121,6 @@ int zephir_dump_ce(zend_class_entry *ce TSRMLS_DC){
 		if(ce->name){
 			sprintf(message, "- ClassName => %s", ce->name);
 			zephir_step_over(message);
-=======
-int phalcon_dump_ce(zend_class_entry *ce TSRMLS_DC){
-	char *message = emalloc(sizeof(char *) * 120);
-	if(ce){
-		snprintf(message, 120, "- ClassType => %d", ce->type);
-		phalcon_step_over(message);
-		if(ce->name){
-			snprintf(message, 120, "- ClassName => %s", ce->name);
-			phalcon_step_over(message);
->>>>>>> master
 		} else {
 			zephir_step_over("- ClassName => NULL");
 		}
@@ -154,26 +130,15 @@ int phalcon_dump_ce(zend_class_entry *ce TSRMLS_DC){
 	return SUCCESS;
 }
 
-<<<<<<< HEAD
 int zephir_class_debug(zval *val TSRMLS_DC){
 	char *message = emalloc(sizeof(char *)*120);
-=======
-int phalcon_class_debug(zval *val TSRMLS_DC){
-	char *message = emalloc(sizeof(char *) * 120);
->>>>>>> master
 	zend_class_entry *ce;
-	if (val) {
+	if(val){
 		ce = Z_OBJCE_P(val);
 		if(ce){
-<<<<<<< HEAD
 			sprintf(message, "- MemoryAddress => %p", val);
 			zephir_step_over(message);
 			zephir_dump_ce(ce TSRMLS_CC);
-=======
-			snprintf(message, 120, "- MemoryAddress => %p", val);
-			phalcon_step_over(message);
-			phalcon_dump_ce(ce TSRMLS_CC);
->>>>>>> master
 		} else {
 			zephir_step_over("- No class entry :(");
 		}

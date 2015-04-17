@@ -3,11 +3,7 @@
   +------------------------------------------------------------------------+
   | Zephir Language                                                        |
   +------------------------------------------------------------------------+
-<<<<<<< HEAD
   | Copyright (c) 2011-2015 Zephir Team (http://www.zephir-lang.com)       |
-=======
-  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
->>>>>>> master
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -25,13 +21,9 @@
 #ifndef ZEPHIR_KERNEL_STRING_H
 #define ZEPHIR_KERNEL_STRING_H
 
-<<<<<<< HEAD
 #include <php.h>
 #include <Zend/zend.h>
 #include "kernel/main.h"
-=======
-#include "php_phalcon.h"
->>>>>>> master
 
 #define ZEPHIR_TRIM_LEFT  1
 #define ZEPHIR_TRIM_RIGHT 2
@@ -43,7 +35,6 @@ int zephir_memnstr(const zval *haystack, const zval *needle ZEPHIR_DEBUG_PARAMS)
 int zephir_memnstr_str(const zval *haystack, char *needle, unsigned int needle_length ZEPHIR_DEBUG_PARAMS);
 
 /** Function replacement */
-<<<<<<< HEAD
 void zephir_fast_strlen(zval *return_value, zval *str);
 int zephir_fast_strlen_ev(zval *str);
 void zephir_fast_strtolower(zval *return_value, zval *str);
@@ -59,22 +50,6 @@ void zephir_fast_str_replace(zval **return_value, zval *search, zval *replace, z
 void zephir_fast_trim(zval *return_value, zval *str, zval *charlist, int where TSRMLS_DC);
 void zephir_fast_strip_tags(zval *return_value, zval *str);
 void zephir_fast_strtoupper(zval *return_value, zval *str);
-=======
-void phalcon_fast_strlen(zval *return_value, zval *str);
-void phalcon_fast_strtolower(zval *return_value, zval *str);
-void phalcon_strtolower_inplace(zval *s);
-void phalcon_fast_join(zval *result, zval *glue, zval *pieces TSRMLS_DC);
-void phalcon_fast_join_str(zval *result, char *glue, unsigned int glue_length, zval *pieces TSRMLS_DC);
-void phalcon_fast_explode(zval *result, zval *delimiter, zval *str);
-void phalcon_fast_explode_str(zval *result, const char *delimiter, int delimiter_length, zval *str);
-void phalcon_fast_strpos(zval *return_value, const zval *haystack, const zval *needle);
-void phalcon_fast_strpos_str(zval *return_value, const zval *haystack, char *needle, unsigned int needle_length);
-void phalcon_fast_stripos_str(zval *return_value, zval *haystack, char *needle, unsigned int needle_length);
-void phalcon_fast_str_replace(zval *return_value, zval *search, zval *replace, zval *subject);
-void phalcon_fast_trim(zval *return_value, zval *str, int where TSRMLS_DC);
-void phalcon_fast_strip_tags(zval *return_value, zval *str);
-void phalcon_fast_strtoupper(zval *return_value, zval *str);
->>>>>>> master
 
 /** Camelize/Uncamelize */
 void zephir_camelize(zval *return_value, const zval *str);
@@ -102,16 +77,11 @@ int zephir_spprintf(char **message, int max_len, char *format, ...);
 /* Substr */
 void zephir_substr(zval *return_value, zval *str, long from, long length, int flags);
 
-<<<<<<< HEAD
 /** EOL */
 zval *zephir_eol(int eol TSRMLS_DC);
 
 /** Preg-Match */
 void zephir_preg_match(zval *return_value, zval **return_value_ptr, zval *regex, zval *subject, zval *matches, int global, long flags, long offset TSRMLS_DC);
-=======
-/** Preg-Match */
-int phalcon_preg_match(zval *return_value, zval *regex, zval *subject, zval *matches TSRMLS_DC) PHALCON_ATTR_WARN_UNUSED_RESULT;
->>>>>>> master
 
 /** Base64 */
 void zephir_base64_encode(zval *return_value, zval *data);
@@ -122,7 +92,6 @@ void zephir_md5(zval *return_value, zval *str);
 void zephir_crc32(zval *return_value, zval *str TSRMLS_DC);
 
 /** JSON */
-<<<<<<< HEAD
 int zephir_json_encode(zval *return_value, zval **return_value_ptr, zval *v, int opts TSRMLS_DC);
 int zephir_json_decode(zval *return_value, zval **return_value_ptr, zval *v, zend_bool assoc TSRMLS_DC);
 
@@ -158,20 +127,3 @@ const char* zend_new_interned_string(const char *arKey, int nKeyLength, int free
 #endif /* PHP_VERSION_ID < 50400 */
 
 #endif /* ZEPHIR_KERNEL_STRING_H */
-=======
-int phalcon_json_encode(zval *return_value, zval *v, int opts TSRMLS_DC) PHALCON_ATTR_WARN_UNUSED_RESULT;
-int phalcon_json_decode(zval *return_value, zval *v, zend_bool assoc TSRMLS_DC) PHALCON_ATTR_WARN_UNUSED_RESULT;
-
-/***/
-void phalcon_lcfirst(zval *return_value, zval *s);
-void phalcon_ucfirst(zval *return_value, zval *s);
-int phalcon_http_build_query(zval *return_value, zval *params, char *sep TSRMLS_DC);
-void phalcon_htmlspecialchars(zval *return_value, zval *string, zval *quoting, zval *charset TSRMLS_DC);
-void phalcon_htmlentities(zval *return_value, zval *string, zval *quoting, zval *charset TSRMLS_DC);
-void phalcon_strval(zval *return_value, zval *v);
-void phalcon_date(zval *return_value, zval *format, zval *timestamp TSRMLS_DC);
-void phalcon_addslashes(zval *return_value, zval *str TSRMLS_DC);
-void phalcon_add_trailing_slash(zval** v);
-
-#endif /* PHALCON_KERNEL_STRING_H */
->>>>>>> master

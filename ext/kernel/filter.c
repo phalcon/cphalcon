@@ -3,11 +3,7 @@
   +------------------------------------------------------------------------+
   | Zephir Language                                                        |
   +------------------------------------------------------------------------+
-<<<<<<< HEAD
   | Copyright (c) 2011-2015 Zephir Team (http://www.zephir-lang.com)       |
-=======
-  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
->>>>>>> master
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -21,10 +17,11 @@
   +------------------------------------------------------------------------+
 */
 
-#include "kernel/filter.h"
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
 
 #include <ctype.h>
-<<<<<<< HEAD
 
 #include "php.h"
 #include "php_ext.h"
@@ -32,24 +29,20 @@
 #include "ext/standard/php_smart_str.h"
 #include "ext/standard/php_math.h"
 #include "ext/standard/html.h"
-=======
-#include <Zend/zend_exceptions.h>
-#include <Zend/zend_interfaces.h>
-#include <ext/standard/php_smart_str.h>
-#include <ext/standard/php_math.h>
-#include <ext/standard/html.h>
->>>>>>> master
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
+
+#include "Zend/zend_exceptions.h"
+#include "Zend/zend_interfaces.h"
 
 /**
  * Filter alphanum string
  */
 void zephir_filter_alphanum(zval *return_value, zval *param) {
 
-	int i;
-	char ch;
+	unsigned int i;
+	unsigned char ch;
 	smart_str filtered_str = {0};
 	zval copy;
 	int use_copy = 0;
@@ -89,8 +82,8 @@ void zephir_filter_alphanum(zval *return_value, zval *param) {
  */
 void zephir_filter_identifier(zval *return_value, zval *param){
 
-	int i;
-	char ch;
+	unsigned int i;
+	unsigned char ch;
 	zval copy;
 	smart_str filtered_str = {0};
 	int use_copy = 0;
@@ -131,17 +124,17 @@ void zephir_filter_identifier(zval *return_value, zval *param){
  */
 void zephir_is_basic_charset(zval *return_value, const zval *param){
 
-	int i;
-	unsigned char ch;
+	unsigned int i;
+	unsigned int ch;
 	int iso88591 = 0;
 
 	for (i = 0; i < Z_STRLEN_P(param); i++) {
-		ch = (unsigned char)(Z_STRVAL_P(param)[i]);
+		ch = Z_STRVAL_P(param)[i];
 		if (ch != '\0') {
 			if (ch == 172 || (ch >= 128 && ch <= 159)) {
 				continue;
 			}
-			if (ch >= 160) {
+			if (ch >= 160 && ch <= 255) {
 				iso88591 = 1;
 				continue;
 			}
@@ -177,7 +170,7 @@ static long zephir_unpack(char *data, int size, int issigned, int *map)
 static inline char *zephir_longtohex(unsigned long value) {
 
 	static char digits[] = "0123456789abcdef";
-	char buf[(sizeof(unsigned long) << 1) + 1];
+	char buf[(sizeof(unsigned long) << 3) + 1];
 	char *ptr, *end;
 
 	end = ptr = buf + sizeof(buf) - 1;
@@ -195,14 +188,14 @@ static inline char *zephir_longtohex(unsigned long value) {
  */
 void zephir_escape_multi(zval *return_value, zval *param, const char *escape_char, unsigned int escape_length, char escape_extra, int use_whitelist) {
 
-	int i;
+	unsigned int i;
 	zval copy;
 	smart_str escaped_str = {0};
-	char *hex;
+	char machine_little_endian, *hex;
 	int big_endian_long_map[4];
-	int use_copy = 0;
+	int use_copy = 0, machine_endian_check = 1;
 	int issigned = 0;
-	long int value;
+	long value;
 
 	if (Z_TYPE_P(param) != IS_STRING) {
 		zend_make_printable_zval(param, &copy, &use_copy);
@@ -218,17 +211,19 @@ void zephir_escape_multi(zval *return_value, zval *param, const char *escape_cha
 	/**
 	 * This is how the big_ending_long_map is calculated as in 'pack'
 	 */
-#ifndef WORDS_BIGENDIAN
-	big_endian_long_map[0] = 3;
-	big_endian_long_map[1] = 2;
-	big_endian_long_map[2] = 1;
-	big_endian_long_map[3] = 0;
-#else
-	big_endian_long_map[0] = 0;
-	big_endian_long_map[1] = 1;
-	big_endian_long_map[2] = 2;
-	big_endian_long_map[3] = 3;
-#endif
+	machine_little_endian = ((char *) &machine_endian_check)[0];
+	if (machine_little_endian) {
+		big_endian_long_map[0] = 3;
+		big_endian_long_map[1] = 2;
+		big_endian_long_map[2] = 1;
+		big_endian_long_map[3] = 0;
+	} else {
+		int size = sizeof(Z_LVAL_P(param));
+		big_endian_long_map[0] = size - 4;
+		big_endian_long_map[1] = size - 3;
+		big_endian_long_map[2] = size - 2;
+		big_endian_long_map[3] = size - 1;
+	}
 
 	/**
 	 * The input must be a valid UTF-32 string
@@ -262,7 +257,7 @@ void zephir_escape_multi(zval *return_value, zval *param, const char *escape_cha
 		/**
 		 * Alphanumeric characters are not escaped
 		 */
-		if (value > 32 && value < 127 && isalnum(value)) {
+		if (value < 256 && isalnum(value)) {
 			smart_str_appendc(&escaped_str, (unsigned char) value);
 			continue;
 		}
@@ -297,8 +292,6 @@ void zephir_escape_multi(zval *return_value, zval *param, const char *escape_cha
 				case ';':
 				case '_':
 				case '|':
-				case '~':
-				case '`':
 					smart_str_appendc(&escaped_str, (unsigned char) value);
 					continue;
 			}
@@ -336,7 +329,6 @@ void zephir_escape_multi(zval *return_value, zval *param, const char *escape_cha
 }
 
 /**
-<<<<<<< HEAD
  * Escapes non-alphanumeric characters to \HH+space
  */
 void zephir_escape_css(zval *return_value, zval *param) {
@@ -361,17 +353,12 @@ void zephir_escape_htmlattr(zval *return_value, zval *param) {
  * Escapes HTML replacing special chars by entities
  */
 void zephir_escape_html(zval *return_value, zval *str, zval *quote_style, zval *charset TSRMLS_DC) {
-=======
- * Escapes HTML replacing special chars by entities
- */
-void phalcon_escape_html(zval *return_value, zval *str, const zval *quote_style, const zval *charset TSRMLS_DC) {
->>>>>>> master
 
-#if PHP_VERSION_ID < 50400
+	#if PHP_VERSION_ID < 50400
 	int length;
-#else
+	#else
 	size_t length;
-#endif
+	#endif
 
 	char *escaped;
 

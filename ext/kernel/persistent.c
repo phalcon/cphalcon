@@ -1,3 +1,4 @@
+
 /*
   +------------------------------------------------------------------------+
   | Zephir Language                                                        |
@@ -11,7 +12,8 @@
   | obtain it through the world-wide-web, please send an email             |
   | to license@zephir-lang.com so we can send you a copy immediately.      |
   +------------------------------------------------------------------------+
-  | Authors: Song Yeung <netyum@163.com>                                   |
+  | Authors: Andres Gutierrez <andres@zephir-lang.com>                     |
+  |          Eduar Carvajal <eduar@zephir-lang.com>                        |
   +------------------------------------------------------------------------+
 */
 
@@ -21,22 +23,36 @@
 
 #include "php.h"
 #include "php_ext.h"
-#include "php_main.h"
 
-#include "kernel/main.h"
-#include "kernel/exit.h"
+/* represents a connection to a database */
+struct _zephir_persist_obj {
+	char *data;
+} zephir_persist_obj;
 
-void zephir_exit_empty() {
-	TSRMLS_FETCH();
-	zend_bailout();
+int zephir_persistent_fetch(zval *return_value, zval *service TSRMLS_DC){
+	zend_rsrc_list_entry *le;
+
+	/* try to find if we already have this link in our persistent list */
+	if (zend_hash_find(&EG(persistent_list), Z_STRVAL_P(service), Z_STRLEN_P(service)+1, (void **) &le)==FAILURE) {
+
+	}
 }
 
-void zephir_exit(zval *ptr)  {
-	TSRMLS_FETCH();
-	if (Z_TYPE_P(ptr) == IS_LONG) {
-		EG(exit_status) = Z_LVAL_P(ptr);
-	} else {
-		zend_print_variable(ptr);
+int zephir_persistent_store(zval *service, zval *object TSRMLS_DC){
+
+	//pdo_dbh_t *dbh = NULL;
+
+	//zend_object_store_set_object(object, dbh TSRMLS_CC);
+
+
+	zend_rsrc_list_entry new_le;
+
+	Z_TYPE(new_le) = 1;
+	new_le.ptr = pestrdup("hello", 1);
+	if (zend_hash_update(&EG(persistent_list), Z_STRVAL_P(service), Z_STRLEN_P(service)+1, (void *) &new_le, sizeof(zend_rsrc_list_entry), NULL)==FAILURE) {
+		//goto err;
 	}
-	zephir_exit_empty();
+
+	//zephir_persistent_store
+
 }

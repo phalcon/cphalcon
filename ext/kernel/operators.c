@@ -3,11 +3,7 @@
   +------------------------------------------------------------------------+
   | Zephir Language                                                        |
   +------------------------------------------------------------------------+
-<<<<<<< HEAD
   | Copyright (c) 2011-2015 Zephir Team (http://www.zephir-lang.com)       |
-=======
-  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
->>>>>>> master
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -22,23 +18,20 @@
   +------------------------------------------------------------------------+
 */
 
-#include "kernel/operators.h"
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
 
-#include <ext/standard/php_string.h>
-#include <Zend/zend_operators.h>
-
-<<<<<<< HEAD
 #include "php.h"
 #include "ext/standard/php_string.h"
 #include "ext/standard/php_math.h"
 #include "php_ext.h"
-=======
->>>>>>> master
 #include "kernel/main.h"
 #include "kernel/memory.h"
 #include "kernel/string.h"
 #include "kernel/operators.h"
 
+#include "Zend/zend_operators.h"
 
 void zephir_make_printable_zval(zval *expr, zval *expr_copy, int *use_copy){
 	zend_make_printable_zval(expr, expr_copy, use_copy);
@@ -443,11 +436,7 @@ void zephir_cast(zval *result, zval *var, zend_uint type){
 /**
  * Returns the long value of a zval
  */
-<<<<<<< HEAD
 long zephir_get_intval_ex(const zval *op) {
-=======
-long phalcon_get_intval(const zval *op) {
->>>>>>> master
 
 	switch (Z_TYPE_P(op)) {
         case IS_ARRAY:
@@ -469,27 +458,18 @@ long phalcon_get_intval(const zval *op) {
 
 		case IS_DOUBLE:
 			return (long) Z_DVAL_P(op);
-<<<<<<< HEAD
 
 		case IS_STRING: {
 			long long_value = 0;
 			double double_value = 0;
 			zend_uchar type;
 
-=======
-		case IS_STRING: {
-			long long_value;
-			double double_value;
-			zend_uchar type;
-			
->>>>>>> master
 			ASSUME(Z_STRVAL_P(op) != NULL);
 			type = is_numeric_string(Z_STRVAL_P(op), Z_STRLEN_P(op), &long_value, &double_value, 0);
 			if (type == IS_LONG) {
 				return long_value;
 			}
 			if (type == IS_DOUBLE) {
-<<<<<<< HEAD
 				return (long) double_value;
 			}
 			return 0;
@@ -535,12 +515,7 @@ double zephir_get_doubleval_ex(const zval *op) {
 						return 0;
 					}
 				}
-=======
-				return (long)double_value;
->>>>>>> master
 			}
-			return 0;
-		}
 	}
 
 	return 0;

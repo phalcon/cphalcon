@@ -3,11 +3,7 @@
   +------------------------------------------------------------------------+
   | Zephir Language                                                        |
   +------------------------------------------------------------------------+
-<<<<<<< HEAD
   | Copyright (c) 2011-2015 Zephir Team (http://www.zephir-lang.com)       |
-=======
-  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
->>>>>>> master
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -22,22 +18,21 @@
   +------------------------------------------------------------------------+
 */
 
-#include "kernel/exception.h"
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
 
-<<<<<<< HEAD
 #include "php.h"
 #include "php_ext.h"
 #include "php_main.h"
 #include "ext/standard/php_string.h"
-=======
-#include <Zend/zend_exceptions.h>
->>>>>>> master
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
 #include "kernel/operators.h"
 
+#include "Zend/zend_exceptions.h"
 
 /**
  * Throws a zval object as exception
@@ -107,7 +102,6 @@ void zephir_throw_exception_string_debug(zend_class_entry *ce, const char *messa
 /**
  * Throws an exception with a single string parameter
  */
-<<<<<<< HEAD
 void zephir_throw_exception_string(zend_class_entry *ce, const char *message, zend_uint message_len TSRMLS_DC){
 
 	zval *object, *msg;
@@ -153,11 +147,6 @@ void zephir_throw_exception_format(zend_class_entry *ce TSRMLS_DC, const char *f
 	zend_throw_exception_object(object TSRMLS_CC);
 
 	zval_ptr_dtor(&msg);
-=======
-void phalcon_throw_exception_string(zend_class_entry *ce, const char *message TSRMLS_DC){
-
-	zend_throw_exception_ex(ce, 0 TSRMLS_CC, "%s", message);
->>>>>>> master
 }
 
 /**
@@ -169,10 +158,9 @@ void zephir_throw_exception_zval_debug(zend_class_entry *ce, zval *message, cons
 	int ZEPHIR_LAST_CALL_STATUS = 0;
 	zend_class_entry *default_exception_ce;
 
-	MAKE_STD_ZVAL(object);
+	ALLOC_INIT_ZVAL(object);
 	object_init_ex(object, ce);
 
-<<<<<<< HEAD
 	ZEPHIR_CALL_METHOD(NULL, object, "__construct", NULL, message);
 	zephir_check_call_status();
 
@@ -202,8 +190,3 @@ void zephir_throw_exception_zval(zend_class_entry *ce, zval *message TSRMLS_DC){
 	zend_throw_exception_object(object TSRMLS_CC);
 }
 
-=======
-	PHALCON_CALL_METHODW(NULL, object, "__construct", message);
-	zend_throw_exception_object(object TSRMLS_CC);
-}
->>>>>>> master

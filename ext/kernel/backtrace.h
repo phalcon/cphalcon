@@ -3,11 +3,7 @@
   +------------------------------------------------------------------------+
   | Zephir Language                                                        |
   +------------------------------------------------------------------------+
-<<<<<<< HEAD
   | Copyright (c) 2011-2015 Zephir Team (http://www.zephir-lang.com)       |
-=======
-  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
->>>>>>> master
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -22,29 +18,18 @@
   +------------------------------------------------------------------------+
 */
 
-<<<<<<< HEAD
 #ifndef ZEPHIR_KERNEL_BACKTRACE_H
 #define ZEPHIR_KERNEL_BACKTRACE_H
 
 #ifndef ZEPHIR_RELEASE
 
 extern void zephir_print_backtrace(void);
-=======
-#ifndef PHALCON_KERNEL_BACKTRACE_H
-#define PHALCON_KERNEL_BACKTRACE_H
 
-#include "php_phalcon.h"
->>>>>>> master
+#else
 
-void phalcon_print_backtrace(void);
-
-<<<<<<< HEAD
 #ifndef zephir_print_backtrace
 #define zephir_print_backtrace()
 #endif
 
 #endif
 #endif /* ZEPHIR_KERNEL_BACKTRACE_H */
-=======
-#endif /* PHALCON_KERNEL_BACKTRACE_H */
->>>>>>> master

@@ -1,3 +1,4 @@
+
 /*
   +------------------------------------------------------------------------+
   | Zephir Language                                                        |
@@ -11,32 +12,20 @@
   | obtain it through the world-wide-web, please send an email             |
   | to license@zephir-lang.com so we can send you a copy immediately.      |
   +------------------------------------------------------------------------+
-  | Authors: Song Yeung <netyum@163.com>                                   |
+  | Authors: Andres Gutierrez <andres@zephir-lang.com>                     |
+  |          Eduar Carvajal <eduar@zephir-lang.com>                        |
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
+#ifndef ZEPHIR_KERNEL_ASSERT_H
+#define ZEPHIR_KERNEL_ASSERT_H
+
+#ifndef ZEPHIR_RELEASE
+
+#include <php.h>
+#include <Zend/zend.h>
+
+extern int zephir_assert_class(zval *object, char *class_name TSRMLS_DC);
+
 #endif
-
-#include "php.h"
-#include "php_ext.h"
-#include "php_main.h"
-
-#include "kernel/main.h"
-#include "kernel/exit.h"
-
-void zephir_exit_empty() {
-	TSRMLS_FETCH();
-	zend_bailout();
-}
-
-void zephir_exit(zval *ptr)  {
-	TSRMLS_FETCH();
-	if (Z_TYPE_P(ptr) == IS_LONG) {
-		EG(exit_status) = Z_LVAL_P(ptr);
-	} else {
-		zend_print_variable(ptr);
-	}
-	zephir_exit_empty();
-}
+#endif /* ZEPHIR_KERNEL_ASSERT_H */

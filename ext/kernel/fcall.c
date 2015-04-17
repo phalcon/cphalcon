@@ -3,11 +3,7 @@
   +------------------------------------------------------------------------+
   | Zephir Language                                                        |
   +------------------------------------------------------------------------+
-<<<<<<< HEAD
   | Copyright (c) 2011-2015 Zephir Team (http://www.zephir-lang.com)       |
-=======
-  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
->>>>>>> master
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -22,34 +18,22 @@
   +------------------------------------------------------------------------+
 */
 
-<<<<<<< HEAD
 #include <php.h>
 #include "php_ext.h"
-=======
-#include "kernel/fcall.h"
->>>>>>> master
 
 #include <Zend/zend_API.h>
 #include <Zend/zend_exceptions.h>
 #include <Zend/zend_execute.h>
 
 #include "kernel/main.h"
-<<<<<<< HEAD
 #include "kernel/fcall.h"
 #include "kernel/extended/fcall.h"
-=======
->>>>>>> master
 #include "kernel/memory.h"
 #include "kernel/hash.h"
 #include "kernel/operators.h"
 #include "kernel/exception.h"
 #include "kernel/backtrace.h"
 
-<<<<<<< HEAD
-=======
-#include "interned-strings.h"
-
->>>>>>> master
 #if PHP_VERSION_ID >= 50500
 static const unsigned char tolower_map[256] = {
 	0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F,
@@ -71,7 +55,6 @@ static const unsigned char tolower_map[256] = {
 };
 #endif
 
-<<<<<<< HEAD
 int zephir_has_constructor_ce(const zend_class_entry *ce)
 {
 	while (ce) {
@@ -81,17 +64,8 @@ int zephir_has_constructor_ce(const zend_class_entry *ce)
 		ce = ce->parent;
 	}
 	return 0;
-=======
-#ifndef PHALCON_RELEASE
-void phalcon_fcall_cache_dtor(void *pData)
-{
-	phalcon_fcall_cache_entry **entry = (phalcon_fcall_cache_entry**)pData;
-	free(*entry);
->>>>>>> master
 }
-#endif
 
-<<<<<<< HEAD
 #if 0
 static inline ulong zephir_update_hash(const char *arKey, uint nKeyLength, ulong hash)
 {
@@ -173,175 +147,13 @@ static char *zephir_fcall_possible_method(zend_class_entry *ce, const char *wron
 
 		if (left) {
 			zephir_ptr_dtor(&left);
-=======
-int phalcon_cleanup_fcache(void *pDest TSRMLS_DC, int num_args, va_list args, zend_hash_key *hash_key)
-{
-	phalcon_fcall_cache_entry **entry = (phalcon_fcall_cache_entry**)pDest;
-	zend_class_entry *scope;
-	uint len = hash_key->nKeyLength;
-
-	assert(hash_key->arKey != NULL);
-	assert(hash_key->nKeyLength > 2 * sizeof(zend_class_entry**));
-
-	memcpy(&scope, &hash_key->arKey[len - 2 * sizeof(zend_class_entry**)], sizeof(zend_class_entry*));
-
-/*
-#ifndef PHALCON_RELEASE
-	{
-		zend_class_entry *cls;
-		memcpy(&cls, &hash_key->arKey[len - sizeof(zend_class_entry**)], sizeof(zend_class_entry*));
-
-		fprintf(stderr, "func: %s, cls: %s, scope: %s [%u]\n", (*entry)->f->common.function_name, (cls ? cls->name : "N/A"), (scope ? scope->name : "N/A"), (uint)(*entry)->times);
-	}
-#endif
-*/
-
-#ifndef PHALCON_RELEASE
-	if ((*entry)->f->type != ZEND_INTERNAL_FUNCTION || (scope && scope->type != ZEND_INTERNAL_CLASS)) {
-		return ZEND_HASH_APPLY_REMOVE;
-	}
-#else
-	if ((*entry)->type != ZEND_INTERNAL_FUNCTION || (scope && scope->type != ZEND_INTERNAL_CLASS)) {
-		return ZEND_HASH_APPLY_REMOVE;
-	}
-#endif
-
-#if PHP_VERSION_ID >= 50400
-	if (scope && scope->type == ZEND_INTERNAL_CLASS && scope->info.internal.module->type != MODULE_PERSISTENT) {
-		return ZEND_HASH_APPLY_REMOVE;
-	}
-#else
-	if (scope && scope->type == ZEND_INTERNAL_CLASS && scope->module->type != MODULE_PERSISTENT) {
-		return ZEND_HASH_APPLY_REMOVE;
-	}
-#endif
-
-	return ZEND_HASH_APPLY_KEEP;
-}
-
-int phalcon_has_constructor_ce(const zend_class_entry *ce)
-{
-	while (ce) {
-		if (ce->constructor) {
-			return 1;
 		}
 
-		ce = ce->parent;
-	}
-
-	return 0;
-}
-
-#if 0
-static inline ulong phalcon_update_hash(const char *arKey, uint nKeyLength, ulong hash)
-{
-	for (; nKeyLength >= 8; nKeyLength -= 8) {
-		hash = ((hash << 5) + hash) + *arKey++;
-		hash = ((hash << 5) + hash) + *arKey++;
-		hash = ((hash << 5) + hash) + *arKey++;
-		hash = ((hash << 5) + hash) + *arKey++;
-		hash = ((hash << 5) + hash) + *arKey++;
-		hash = ((hash << 5) + hash) + *arKey++;
-		hash = ((hash << 5) + hash) + *arKey++;
-		hash = ((hash << 5) + hash) + *arKey++;
-	}
-
-	switch (nKeyLength) {
-		case 7:  hash = ((hash << 5) + hash) + *arKey++;
-		/* no break */
-		case 6:  hash = ((hash << 5) + hash) + *arKey++;
-		/* no break */
-		case 5:  hash = ((hash << 5) + hash) + *arKey++;
-		/* no break */
-		case 4:  hash = ((hash << 5) + hash) + *arKey++;
-		/* no break */
-		case 3:  hash = ((hash << 5) + hash) + *arKey++;
-		/* no break */
-		case 2:  hash = ((hash << 5) + hash) + *arKey++;
-		/* no break */
-		case 1:  hash = ((hash << 5) + hash) + *arKey++;
-		/* no break */
-		default: break;
-	}
-
-	return hash;
-}
-#endif
-
-static ulong phalcon_make_fcall_key(char **result, size_t *length, const zend_class_entry *obj_ce, phalcon_call_type type, zval *function_name TSRMLS_DC)
-{
-	const zend_class_entry *calling_scope = EG(scope);
-	char *buf = NULL, *c;
-	size_t l = 0, len = 0;
-	const size_t ppzce_size = sizeof(zend_class_entry**);
-	ulong hash = 5381;
-
-	*result = NULL;
-	*length = 0;
-
-	if (calling_scope && type == phalcon_fcall_parent) {
-		calling_scope = calling_scope->parent;
-		if (UNEXPECTED(!calling_scope)) {
-			return 0;
-		}
-	}
-	else if (type == phalcon_fcall_static) {
-		calling_scope = EG(called_scope);
-		if (UNEXPECTED(!calling_scope)) {
-			return 0;
->>>>>>> master
-		}
-	}
-
-<<<<<<< HEAD
 		if (right) {
 			zephir_ptr_dtor(&right);
-=======
-	if (
-		    calling_scope
-		 && obj_ce
-		 && calling_scope != obj_ce
-		 && !instanceof_function(obj_ce, calling_scope TSRMLS_CC)
-		 && !instanceof_function(calling_scope, obj_ce TSRMLS_CC)
-	) {
-		calling_scope = NULL;
-	}
-
-	if (Z_TYPE_P(function_name) == IS_STRING) {
-		l   = (size_t)(Z_STRLEN_P(function_name)) + 1;
-		c   = Z_STRVAL_P(function_name);
-		len = 2 * ppzce_size + l;
-		buf = emalloc(len);
-
-		memcpy(buf,                  c,               l);
-		memcpy(buf + l,              &calling_scope,  ppzce_size);
-		memcpy(buf + l + ppzce_size, &obj_ce,         ppzce_size);
-	}
-	else if (Z_TYPE_P(function_name) == IS_ARRAY) {
-		zval **method;
-		if (
-			    zend_hash_num_elements(Z_ARRVAL_P(function_name)) == 2
-			 && zend_hash_index_find(Z_ARRVAL_P(function_name), 1, (void**)&method) == SUCCESS
-			 && Z_TYPE_PP(method) == IS_STRING
-		) {
-			l   = (size_t)(Z_STRLEN_PP(method)) + 1;
-			c   = Z_STRVAL_PP(method);
-			len = 2 * ppzce_size + l;
-			buf = emalloc(len);
-
-			memcpy(buf,                  c,               l);
-			memcpy(buf + l,              &calling_scope,  ppzce_size);
-			memcpy(buf + l + ppzce_size, &obj_ce,         ppzce_size);
->>>>>>> master
 		}
 	}
-	else if (Z_TYPE_P(function_name) == IS_OBJECT) {
-		if (Z_OBJ_HANDLER_P(function_name, get_closure)) {
-			l   = sizeof("__invoke");
-			len = 2 * ppzce_size + l;
-			buf = emalloc(len);
 
-<<<<<<< HEAD
 	return possible_method;
 }
 
@@ -432,40 +244,12 @@ static ulong zephir_make_fcall_key(char **result, size_t *length, const zend_cla
 			hash = (hash << 5) + hash + c;
 		}
 	}
-=======
-			memcpy(buf,                  "__invoke",     l);
-			memcpy(buf + l,              &calling_scope, ppzce_size);
-			memcpy(buf + l + ppzce_size, &obj_ce,        ppzce_size);
-		}
-	}
-
-	if (EXPECTED(buf != NULL)) {
-		size_t i;
-
-		for (i=0; i<l; ++i) {
-			char c = buf[i];
-#if PHP_VERSION_ID >= 50500
-			c = tolower_map[(unsigned char)c];
-#else
-			c = tolower(c);
-#endif
-			buf[i] = c;
-			hash   = (hash << 5) + hash + c;
-		}
-
-		for (i=l; i<len; ++i) {
-			char c = buf[i];
-			hash = (hash << 5) + hash + c;
-		}
-	}
->>>>>>> master
 
 	*result = buf;
 	*length = len;
 	return hash;
 }
 
-<<<<<<< HEAD
 /**
  * Creates a unique key to cache the current method/function call address for the current scope
  */
@@ -638,85 +422,6 @@ ZEPHIR_ATTR_NONNULL static void zephir_fcall_populate_fci_cache(zend_fcall_info_
 		default:
 #ifndef ZEPHIR_RELEASE
 			fprintf(stderr, "%s: unknown call type (%d)\n", __func__, (int) type);
-=======
-PHALCON_ATTR_NONNULL static void phalcon_fcall_populate_fci_cache(zend_fcall_info_cache *fcic, zend_fcall_info *fci, phalcon_call_type type TSRMLS_DC)
-{
-	switch (type) {
-		case phalcon_fcall_parent:
-			if (EG(scope) && EG(scope)->parent) {
-				fcic->calling_scope = EG(scope)->parent;
-				fcic->called_scope  = EG(called_scope);
-				fcic->object_ptr    = fci->object_ptr ? fci->object_ptr : EG(This);
-				fcic->initialized   = 1;
-			}
-
-			break;
-
-		case phalcon_fcall_self:
-			if (EG(scope)) {
-				fcic->calling_scope = EG(scope);
-				fcic->called_scope  = EG(called_scope);
-				fcic->object_ptr    = fci->object_ptr ? fci->object_ptr : EG(This);
-				fcic->initialized   = 1;
-			}
-
-			break;
-
-		case phalcon_fcall_static:
-			if (EG(called_scope)) {
-				fcic->calling_scope = EG(called_scope);
-				fcic->called_scope  = EG(called_scope);
-				fcic->object_ptr    = fci->object_ptr ? fci->object_ptr : EG(This);
-				fcic->initialized   = 1;
-			}
-
-			break;
-
-		case phalcon_fcall_function:
-			fcic->calling_scope = NULL;
-			fcic->called_scope  = NULL;
-			fcic->object_ptr    = NULL;
-			fcic->initialized   = 1;
-			break;
-
-		case phalcon_fcall_ce: {
-			zend_class_entry *scope = EG(active_op_array) ? EG(active_op_array)->scope : NULL;
-
-			fcic->initialized      = 1;
-			fcic->calling_scope    = EG(scope);
-			fcic->object_ptr       = NULL;
-
-			if (scope && EG(This) && instanceof_function(Z_OBJCE_P(EG(This)), scope TSRMLS_CC) && instanceof_function(scope, fcic->calling_scope TSRMLS_CC)) {
-				fcic->object_ptr   = EG(This);
-				fcic->called_scope = Z_OBJCE_P(fcic->object_ptr);
-			}
-			else {
-				fcic->called_scope = fcic->calling_scope;
-			}
-
-			break;
-		}
-
-		case phalcon_fcall_method:
-			fcic->initialized      = 1;
-			fcic->calling_scope    = EG(scope);
-			fcic->object_ptr       = fci->object_ptr;
-			if (fci->object_ptr) {
-				fcic->called_scope = Z_OBJCE_P(fci->object_ptr);
-			}
-			else if (EG(scope) && !(EG(called_scope) && instanceof_function(EG(called_scope), EG(scope) TSRMLS_CC))) {
-				fcic->called_scope = EG(scope);
-			}
-			else {
-				fcic->called_scope = EG(called_scope);
-			}
-
-			break;
-
-		default:
-#ifndef PHALCON_RELEASE
-			fprintf(stderr, "%s: unknown call type (%d)\n", __func__, (int)type);
->>>>>>> master
 			abort();
 #endif
 			fcic->initialized = 0; /* not strictly necessary but just to be safe */
@@ -728,13 +433,9 @@ PHALCON_ATTR_NONNULL static void phalcon_fcall_populate_fci_cache(zend_fcall_inf
 /**
  * Calls a function/method in the PHP userland
  */
-<<<<<<< HEAD
 int zephir_call_user_function(zval **object_pp, zend_class_entry *obj_ce, zephir_call_type type,
 	zval *function_name, zval **retval_ptr_ptr, zephir_fcall_cache_entry **cache_entry, zend_uint param_count,
 	zval *params[], zephir_fcall_info *info TSRMLS_DC)
-=======
-int phalcon_call_user_function(zval **object_pp, zend_class_entry *obj_ce, phalcon_call_type type, zval *function_name, zval **retval_ptr_ptr, zend_uint param_count, zval *params[] TSRMLS_DC)
->>>>>>> master
 {
 	zval ***params_ptr, ***params_array = NULL;
 	zval **static_params_array[10];
@@ -742,7 +443,6 @@ int phalcon_call_user_function(zval **object_pp, zend_class_entry *obj_ce, phalc
 	int status;
 	zend_fcall_info fci;
 	zend_fcall_info_cache fcic /* , clone */;
-<<<<<<< HEAD
 	zend_zephir_globals_def *zephir_globals_ptr = ZEPHIR_VGLOBAL;
 	char *fcall_key = NULL;
 	size_t fcall_key_len;
@@ -1060,184 +760,10 @@ int zephir_call_class_method_aparams(zval **return_value_ptr, zend_class_entry *
 			}
 			return FAILURE;
 		}
-=======
-	zend_phalcon_globals *phalcon_globals_ptr = PHALCON_VGLOBAL;
-	char *fcall_key;
-	size_t fcall_key_len;
-	ulong fcall_key_hash;
-	phalcon_fcall_cache_entry **cache_entry = NULL;
-	zend_class_entry *old_scope = EG(scope);
-
-	assert(obj_ce || !object_pp);
-
-	if (retval_ptr_ptr && *retval_ptr_ptr) {
-		zval_ptr_dtor(retval_ptr_ptr);
-		*retval_ptr_ptr = NULL;
-	}
-
-	++phalcon_globals_ptr->recursive_lock;
-
-	if (UNEXPECTED(phalcon_globals_ptr->recursive_lock > 2048)) {
-		zend_error(E_ERROR, "Maximum recursion depth exceeded");
-		return FAILURE;
-	}
-
-	if (param_count) {
-		zend_uint i;
-
-		if (UNEXPECTED(param_count > 10)) {
-			params_array = (zval***)emalloc(param_count * sizeof(zval**));
-			params_ptr   = params_array;
-			for (i=0; i<param_count; ++i) {
-				params_array[i] = &params[i];
-			}
-		} else {
-			params_ptr = static_params_array;
-			for (i=0; i<param_count; ++i) {
-				static_params_array[i] = &params[i];
-			}
-		}
-	}
-	else {
-		params_ptr = NULL;
-	}
-
-	if (type != phalcon_fcall_function && !object_pp) {
-		object_pp = EG(This) ? &EG(This) : NULL;
-		if (!obj_ce && object_pp) {
-			obj_ce = Z_OBJCE_PP(object_pp);
-		}
-	}
-
-	if (obj_ce) {
-		EG(scope) = obj_ce;
-	}
-
-	fcall_key_hash = phalcon_make_fcall_key(&fcall_key, &fcall_key_len, (object_pp ? Z_OBJCE_PP(object_pp) : obj_ce), type, function_name TSRMLS_CC);
-
-	fci.size           = sizeof(fci);
-	fci.function_table = obj_ce ? &obj_ce->function_table : EG(function_table);
-	fci.object_ptr     = object_pp ? *object_pp : NULL;
-	fci.function_name  = function_name;
-	fci.retval_ptr_ptr = retval_ptr_ptr ? retval_ptr_ptr : &local_retval_ptr;
-	fci.param_count    = param_count;
-	fci.params         = params_ptr;
-	fci.no_separation  = 1;
-	fci.symbol_table   = NULL;
-
-	fcic.initialized = 0;
-	if (fcall_key && zend_hash_quick_find(phalcon_globals_ptr->fcache, fcall_key, fcall_key_len, fcall_key_hash, (void**)&cache_entry) != FAILURE) {
-		phalcon_fcall_populate_fci_cache(&fcic, &fci, type TSRMLS_CC);
-
-#ifndef PHALCON_RELEASE
-		fcic.function_handler = (*cache_entry)->f;
-		++(*cache_entry)->times;
-#else
-		fcic.function_handler = *cache_entry;
-#endif
-		/*memcpy(&clone, &fcic, sizeof(clone));*/
-	}
-
-	fcic.initialized = 0;
-	status = PHALCON_ZEND_CALL_FUNCTION_WRAPPER(&fci, /*&fcic*/NULL TSRMLS_CC);
-
-/*
-	if (fcic.initialized && cache_entry) {
-		if (fcic.called_scope != clone.called_scope) {
-			fprintf(stderr, "real called_scope: %s (%p)\n", fcic.called_scope->name, fcic.called_scope);
-			fprintf(stderr, "my   called_scope: %s (%p)\n", clone.called_scope->name, clone.called_scope);
-			fprintf(stderr, "type: %d\n", (int)type);
-		}
-
-		if (fcic.calling_scope != clone.calling_scope) {
-			fprintf(stderr, "real calling_scope: %s (%p)\n", fcic.calling_scope->name, fcic.calling_scope);
-			fprintf(stderr, "my   calling_scope: %s (%p)\n", clone.calling_scope->name, clone.calling_scope);
-			fprintf(stderr, "type: %d\n", (int)type);
-		}
-
-		if (fcic.object_ptr != clone.object_ptr) {
-			fprintf(stderr, "real object_ptr: %s (%p)\n", (fcic.object_ptr ? Z_OBJCE_P(fcic.object_ptr)->name : ""), fcic.object_ptr);
-			fprintf(stderr, "my   object_ptr: %s (%p)\n", (clone.object_ptr ? Z_OBJCE_P(clone.object_ptr)->name : ""), clone.object_ptr);
-			fprintf(stderr, "type: %d\n", (int)type);
-		}
-
-		if (fcic.function_handler != clone.function_handler) {
-			fprintf(stderr, "real handler: %p (%s::%s)\n", fcic.function_handler, (fcic.function_handler->common.scope ? fcic.function_handler->common.scope->name : ""), fcic.function_handler->common.function_name);
-			fprintf(stderr, "my   handler: %p (%s::%s)\n", clone.function_handler, (clone.function_handler->common.scope ? clone.function_handler->common.scope->name : ""), clone.function_handler->common.function_name);
-			fprintf(stderr, "type: %d\n", (int)type);
-		}
-	}
-*/
-	EG(scope) = old_scope;
-
-	if (EXPECTED(status != FAILURE) && fcall_key && !cache_entry && fcic.initialized) {
-#ifndef PHALCON_RELEASE
-		phalcon_fcall_cache_entry *cache_entry = malloc(sizeof(phalcon_fcall_cache_entry));
-		cache_entry->f     = fcic.function_handler;
-		cache_entry->times = 0;
-#else
-		phalcon_fcall_cache_entry *cache_entry = fcic.function_handler;
-#endif
-		if (FAILURE == zend_hash_quick_add(phalcon_globals_ptr->fcache, fcall_key, fcall_key_len, fcall_key_hash, &cache_entry, sizeof(phalcon_fcall_cache_entry*), NULL)) {
-#ifndef PHALCON_RELEASE
-			free(cache_entry);
-#endif
-		}
-	}
-
-	if (fcall_key) {
-		efree(fcall_key);
-	}
-
-	if (UNEXPECTED(params_array != NULL)) {
-		efree(params_array);
-	}
-
-	if (!retval_ptr_ptr) {
-		if (local_retval_ptr) {
-			zval_ptr_dtor(&local_retval_ptr);
-		}
-	}
-
-	--phalcon_globals_ptr->recursive_lock;
-	return status;
-}
-
-int phalcon_call_func_aparams(zval **return_value_ptr, const char *func_name, uint func_length, uint param_count, zval **params TSRMLS_DC)
-{
-	int status;
-	zval *rv = NULL, **rvp = return_value_ptr ? return_value_ptr : &rv;
-	zval func = zval_used_for_init;
-
-#ifndef PHALCON_RELEASE
-	if (return_value_ptr && *return_value_ptr) {
-		fprintf(stderr, "%s: *return_value_ptr must be NULL\n", __func__);
-		phalcon_print_backtrace();
-		abort();
-	}
-#endif
-
-	ZVAL_STRINGL(&func, func_name, func_length, 0);
-	status = phalcon_call_user_function(NULL, NULL, phalcon_fcall_function, &func, rvp, param_count, params TSRMLS_CC);
-
-	if (status == FAILURE && !EG(exception)) {
-		zend_error(E_ERROR, "Call to undefined function %s()", func_name);
-	}
-	else if (EG(exception)) {
-		status = FAILURE;
-		if (return_value_ptr) {
-			*return_value_ptr = NULL;
-		}
-	}
-
-	if (rv) {
-		zval_ptr_dtor(&rv);
->>>>>>> master
 	}
 
 #if PHP_VERSION_ID >= 50600
 
-<<<<<<< HEAD
 	if (!cache_entry || !*cache_entry) {
 
 		switch (type) {
@@ -1379,67 +905,6 @@ int phalcon_call_func_aparams(zval **return_value_ptr, const char *func_name, ui
 	zval_ptr_dtor(&fn);
 #endif
 
-=======
-int phalcon_call_class_method_aparams(zval **return_value_ptr, zend_class_entry *ce, phalcon_call_type type, zval *object, const char *method_name, uint method_len, uint param_count, zval **params TSRMLS_DC)
-{
-	zval *rv = NULL, **rvp = return_value_ptr ? return_value_ptr : &rv;
-	zval fn = zval_used_for_init;
-	int status;
-
-#ifndef PHALCON_RELEASE
-	if (return_value_ptr && *return_value_ptr) {
-		fprintf(stderr, "%s: *return_value_ptr must be NULL\n", __func__);
-		phalcon_print_backtrace();
-		abort();
-	}
-#endif
-
-	array_init_size(&fn, 2);
-	switch (type) {
-		case phalcon_fcall_parent: add_next_index_stringl(&fn, ISL(parent), !IS_INTERNED(phalcon_interned_parent)); break;
-		case phalcon_fcall_self:   assert(!ce); add_next_index_stringl(&fn, ISL(self), !IS_INTERNED(phalcon_interned_self)); break;
-		case phalcon_fcall_static: assert(!ce); add_next_index_stringl(&fn, ISL(static), !IS_INTERNED(phalcon_interned_static)); break;
-
-		case phalcon_fcall_ce:
-			assert(ce != NULL);
-			add_next_index_stringl(&fn, ce->name, ce->name_length, !IS_INTERNED(ce->name));
-			break;
-
-		case phalcon_fcall_method:
-		default:
-			assert(object != NULL);
-			Z_ADDREF_P(object);
-			add_next_index_zval(&fn, object);
-			break;
-	}
-
-	add_next_index_stringl(&fn, method_name, method_len, 1);
-
-	status = phalcon_call_user_function(object ? &object : NULL, ce, type, &fn, rvp, param_count, params TSRMLS_CC);
-
-	if (status == FAILURE && !EG(exception)) {
-		switch (type) {
-			case phalcon_fcall_parent: zend_error(E_ERROR, "Call to undefined function parent::%s()", method_name); break;
-			case phalcon_fcall_self:   zend_error(E_ERROR, "Call to undefined function self::%s()", method_name); break;
-			case phalcon_fcall_static: zend_error(E_ERROR, "Call to undefined function static::%s()", method_name); break;
-			case phalcon_fcall_ce:     zend_error(E_ERROR, "Call to undefined function %s::%s()", ce->name, method_name); break;
-			case phalcon_fcall_method: zend_error(E_ERROR, "Call to undefined function %s::%s()", Z_OBJCE_P(object)->name, method_name); break;
-			default:                   zend_error(E_ERROR, "Call to undefined function ?::%s()", method_name);
-		}
-	}
-	else if (EG(exception)) {
-		status = FAILURE;
-		if (return_value_ptr) {
-			*return_value_ptr = NULL;
-		}
-	}
-
-	if (rv) {
-		zval_ptr_dtor(&rv);
-	}
-
-	zval_dtor(&fn);
->>>>>>> master
 	return status;
 }
 
@@ -1502,11 +967,7 @@ int zephir_call_user_func_array_noex(zval *return_value, zval *handler, zval *pa
 /**
  * Latest version of zend_throw_exception_internal
  */
-<<<<<<< HEAD
 static void zephir_throw_exception_internal(zval *exception TSRMLS_DC)
-=======
-void phalcon_throw_exception_internal(zval *exception TSRMLS_DC)
->>>>>>> master
 {
 	if (exception != NULL) {
 		zval *previous = EG(exception);
@@ -1538,11 +999,7 @@ void phalcon_throw_exception_internal(zval *exception TSRMLS_DC)
 	EG(current_execute_data)->opline = EG(exception_op);
 }
 
-<<<<<<< HEAD
 int zephir_call_function(zend_fcall_info *fci, zend_fcall_info_cache *fci_cache TSRMLS_DC) {
-=======
-int phalcon_call_function(zend_fcall_info *fci, zend_fcall_info_cache *fci_cache TSRMLS_DC) {
->>>>>>> master
 
 	zend_uint i;
 	zval **original_return_value;

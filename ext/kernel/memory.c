@@ -3,11 +3,7 @@
   +------------------------------------------------------------------------+
   | Zephir Language                                                        |
   +------------------------------------------------------------------------+
-<<<<<<< HEAD
   | Copyright (c) 2011-2015 Zephir Team (http://www.zephir-lang.com)       |
-=======
-  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
->>>>>>> master
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -22,18 +18,14 @@
   +------------------------------------------------------------------------+
 */
 
-<<<<<<< HEAD
 #include "php.h"
 #include "php_ext.h"
-=======
->>>>>>> master
 #include "kernel/memory.h"
 
 #include <Zend/zend_alloc.h>
 
 #include "kernel/fcall.h"
 #include "kernel/backtrace.h"
-#include "kernel/framework/orm.h"
 
 /*
  * Memory Frames/Virtual Symbol Scopes
@@ -50,154 +42,23 @@
  * allocated empty frame that points to the real first frame. The start
  * memory frame is globally accesed using ZEPHIR_GLOBAL(start_frame)
  *
-<<<<<<< HEAD
  * Not all methods must grow/restore the zephir_memory_entry.
  */
 
 static zephir_memory_entry* zephir_memory_grow_stack_common(zend_zephir_globals_def *g)
-=======
- * Not all methods must grow/restore the phalcon_memory_entry.
- */
-
-void phalcon_initialize_memory(zend_phalcon_globals *phalcon_globals_ptr TSRMLS_DC)
-{
-	phalcon_memory_entry *start;
-	size_t i;
-
-	start = (phalcon_memory_entry *) pecalloc(PHALCON_NUM_PREALLOCATED_FRAMES, sizeof(phalcon_memory_entry), 1);
-/* pecalloc() will take care of these members for every frame
-	start->pointer      = 0;
-	start->hash_pointer = 0;
-	start->prev = NULL;
-	start->next = NULL;
-*/
-	for (i = 0; i < PHALCON_NUM_PREALLOCATED_FRAMES; ++i) {
-		start[i].addresses       = pecalloc(24, sizeof(zval*), 1);
-		start[i].capacity        = 24;
-		start[i].hash_addresses  = pecalloc(8, sizeof(zval*), 1);
-		start[i].hash_capacity   = 8;
-
-#ifndef PHALCON_RELEASE
-		start[i].permanent = 1;
-#endif
-	}
-
-	start[0].next = &start[1];
-	start[PHALCON_NUM_PREALLOCATED_FRAMES - 1].prev = &start[PHALCON_NUM_PREALLOCATED_FRAMES - 2];
-
-	for (i = 1; i < PHALCON_NUM_PREALLOCATED_FRAMES - 1; ++i) {
-		start[i].next = &start[i + 1];
-		start[i].prev = &start[i - 1];
-	}
-
-	phalcon_globals_ptr->start_memory = start;
-	phalcon_globals_ptr->end_memory   = start + PHALCON_NUM_PREALLOCATED_FRAMES;
-
-	phalcon_globals_ptr->fcache = emalloc(sizeof(HashTable));
-#ifndef PHALCON_RELEASE
-	zend_hash_init(phalcon_globals_ptr->fcache, 128, NULL, phalcon_fcall_cache_dtor, 0);
-#else
-	zend_hash_init(phalcon_globals_ptr->fcache, 128, NULL, NULL, 0);
-#endif
-
-	/* 'Allocator sizeof operand mismatch' warning can be safely ignored */
-	ALLOC_INIT_ZVAL(phalcon_globals_ptr->z_null);
-	Z_SET_REFCOUNT_P(phalcon_globals_ptr->z_null, 2);
-
-	/* 'Allocator sizeof operand mismatch' warning can be safely ignored */
-	ALLOC_INIT_ZVAL(phalcon_globals_ptr->z_false);
-	Z_SET_REFCOUNT_P(phalcon_globals_ptr->z_false, 2);
-	ZVAL_FALSE(phalcon_globals_ptr->z_false);
-
-	/* 'Allocator sizeof operand mismatch' warning can be safely ignored */
-	ALLOC_INIT_ZVAL(phalcon_globals_ptr->z_true);
-	Z_SET_REFCOUNT_P(phalcon_globals_ptr->z_true, 2);
-	ZVAL_TRUE(phalcon_globals_ptr->z_true);
-
-	/* 'Allocator sizeof operand mismatch' warning can be safely ignored */
-	ALLOC_INIT_ZVAL(phalcon_globals_ptr->z_zero);
-	Z_SET_REFCOUNT_P(phalcon_globals_ptr->z_zero, 2);
-	ZVAL_LONG(phalcon_globals_ptr->z_zero, 0);
-
-	/* 'Allocator sizeof operand mismatch' warning can be safely ignored */
-	ALLOC_INIT_ZVAL(phalcon_globals_ptr->z_one);
-	Z_SET_REFCOUNT_P(phalcon_globals_ptr->z_one, 2);
-	ZVAL_LONG(phalcon_globals_ptr->z_one, 1);
-
-	phalcon_globals_ptr->initialized = 1;
-}
-
-void phalcon_deinitialize_memory(TSRMLS_D)
-{
-	size_t i;
-	zend_phalcon_globals *phalcon_globals_ptr = PHALCON_VGLOBAL;
-
-	if (phalcon_globals_ptr->initialized != 1) {
-		phalcon_globals_ptr->initialized = 0;
-		return;
-	}
-
-	if (phalcon_globals_ptr->start_memory != NULL) {
-		phalcon_clean_restore_stack(TSRMLS_C);
-	}
-
-	phalcon_orm_destroy_cache(TSRMLS_C);
-
-	zend_hash_apply_with_arguments(phalcon_globals_ptr->fcache TSRMLS_CC, phalcon_cleanup_fcache, 0);
-
-#ifndef PHALCON_RELEASE
-	assert(phalcon_globals_ptr->start_memory != NULL);
-#endif
-
-	for (i = 0; i < PHALCON_NUM_PREALLOCATED_FRAMES; ++i) {
-		pefree(phalcon_globals_ptr->start_memory[i].hash_addresses, 1);
-		pefree(phalcon_globals_ptr->start_memory[i].addresses, 1);
-	}
-
-	pefree(phalcon_globals_ptr->start_memory, 1);
-	phalcon_globals_ptr->start_memory = NULL;
-
-	zend_hash_destroy(phalcon_globals_ptr->fcache);
-	efree(phalcon_globals_ptr->fcache);
-	phalcon_globals_ptr->fcache = NULL;
-
-	for (i = 0; i < 2; i++) {
-		zval_ptr_dtor(&phalcon_globals_ptr->z_null);
-		zval_ptr_dtor(&phalcon_globals_ptr->z_false);
-		zval_ptr_dtor(&phalcon_globals_ptr->z_true);
-		zval_ptr_dtor(&phalcon_globals_ptr->z_zero);
-		zval_ptr_dtor(&phalcon_globals_ptr->z_one);
-	}
-
-	phalcon_globals_ptr->initialized = 0;
-}
-
-static phalcon_memory_entry* phalcon_memory_grow_stack_common(zend_phalcon_globals *g)
->>>>>>> master
 {
 	assert(g->start_memory != NULL);
 	if (!g->active_memory) {
 		g->active_memory = g->start_memory;
-<<<<<<< HEAD
 #ifndef ZEPHIR_RELEASE
-=======
-#ifndef PHALCON_RELEASE
->>>>>>> master
 		assert(g->active_memory->permanent == 1);
 #endif
 	}
 	else if (!g->active_memory->next) {
-<<<<<<< HEAD
 #ifndef PHP_WIN32
 		assert(g->active_memory >= g->end_memory - 1 || g->active_memory < g->start_memory);
 #endif
 		zephir_memory_entry *entry = (zephir_memory_entry *) ecalloc(1, sizeof(zephir_memory_entry));
-=======
-		phalcon_memory_entry *entry;
-
-		assert(g->active_memory >= g->end_memory - 1 || g->active_memory < g->start_memory);
-		entry = (phalcon_memory_entry *) ecalloc(1, sizeof(phalcon_memory_entry));
->>>>>>> master
 	/* ecalloc() will take care of these members
 		entry->pointer   = 0;
 		entry->capacity  = 0;
@@ -207,18 +68,13 @@ static phalcon_memory_entry* phalcon_memory_grow_stack_common(zend_phalcon_globa
 		entry->hash_addresses = NULL;
 		entry->next = NULL;
 	*/
-<<<<<<< HEAD
 #ifndef ZEPHIR_RELEASE
-=======
-#ifndef PHALCON_RELEASE
->>>>>>> master
 		entry->permanent  = 0;
 		entry->func       = NULL;
 #endif
 		entry->prev       = g->active_memory;
 		entry->prev->next = entry;
 		g->active_memory  = entry;
-<<<<<<< HEAD
 	}
 	else {
 #ifndef ZEPHIR_RELEASE
@@ -238,24 +94,6 @@ static phalcon_memory_entry* phalcon_memory_grow_stack_common(zend_phalcon_globa
  * Restore a memory stack applying GC to all observed variables
  */
 static void zephir_memory_restore_stack_common(zend_zephir_globals_def *g TSRMLS_DC)
-=======
-	}
-	else {
-#ifndef PHALCON_RELEASE
-		assert(g->active_memory->permanent == 1);
-#endif
-		assert(g->active_memory < g->end_memory && g->active_memory >= g->start_memory);
-		g->active_memory = g->active_memory->next;
-	}
-
-	assert(g->active_memory->pointer == 0);
-	assert(g->active_memory->hash_pointer == 0);
-
-	return g->active_memory;
-}
-
-static void phalcon_memory_restore_stack_common(zend_phalcon_globals *g TSRMLS_DC)
->>>>>>> master
 {
 	size_t i;
 	zephir_memory_entry *prev, *active_memory;
@@ -288,11 +126,7 @@ static void phalcon_memory_restore_stack_common(zend_phalcon_globals *g TSRMLS_D
 			}
 		}
 
-<<<<<<< HEAD
 #ifndef ZEPHIR_RELEASE
-=======
-#ifndef PHALCON_RELEASE
->>>>>>> master
 		for (i = 0; i < active_memory->pointer; ++i) {
 			if (active_memory->addresses[i] != NULL && *(active_memory->addresses[i]) != NULL) {
 				zval **var = active_memory->addresses[i];
@@ -324,7 +158,6 @@ static void phalcon_memory_restore_stack_common(zend_phalcon_globals *g TSRMLS_D
 
 		/* Traverse all zvals allocated, reduce the reference counting or free them */
 		for (i = 0; i < active_memory->pointer; ++i) {
-<<<<<<< HEAD
 			ptr = active_memory->addresses[i];
 			if (EXPECTED(ptr != NULL && *(ptr) != NULL)) {
 				if (Z_REFCOUNT_PP(ptr) == 1) {
@@ -335,34 +168,19 @@ static void phalcon_memory_restore_stack_common(zend_phalcon_globals *g TSRMLS_D
 					}
 				} else {
 					Z_DELREF_PP(ptr);
-=======
-			if (EXPECTED(active_memory->addresses[i] != NULL && *(active_memory->addresses[i]) != NULL)) {
-				if (Z_REFCOUNT_PP(active_memory->addresses[i]) == 1) {
-					zval_ptr_dtor(active_memory->addresses[i]);
-				} else {
-					Z_DELREF_PP(active_memory->addresses[i]);
->>>>>>> master
 				}
 			}
 		}
 	}
 
-<<<<<<< HEAD
 #ifndef ZEPHIR_RELEASE
-=======
-#ifndef PHALCON_RELEASE
->>>>>>> master
 	active_memory->func = NULL;
 #endif
 
 	prev = active_memory->prev;
 
 	if (active_memory >= g->end_memory || active_memory < g->start_memory) {
-<<<<<<< HEAD
 #ifndef ZEPHIR_RELEASE
-=======
-#ifndef PHALCON_RELEASE
->>>>>>> master
 		assert(g->active_memory->permanent == 0);
 #endif
 		assert(prev != NULL);
@@ -378,33 +196,18 @@ static void phalcon_memory_restore_stack_common(zend_phalcon_globals *g TSRMLS_D
 		efree(g->active_memory);
 		g->active_memory = prev;
 		prev->next = NULL;
-<<<<<<< HEAD
 	} else {
 #ifndef ZEPHIR_RELEASE
 		assert(g->active_memory->permanent == 1);
 #endif
-=======
-	}
-	else {
-#ifndef PHALCON_RELEASE
-		assert(g->active_memory->permanent == 1);
-#endif
-
->>>>>>> master
 		active_memory->pointer      = 0;
 		active_memory->hash_pointer = 0;
 		g->active_memory = prev;
 	}
 
-<<<<<<< HEAD
 #ifndef ZEPHIR_RELEASE
 	if (g->active_memory) {
 		zephir_memory_entry *f = g->active_memory;
-=======
-#ifndef PHALCON_RELEASE
-	if (g->active_memory) {
-		phalcon_memory_entry *f = g->active_memory;
->>>>>>> master
 		if (f >= g->start_memory && f < g->end_memory - 1) {
 			assert(f->permanent == 1);
 			assert(f->next != NULL);
@@ -417,18 +220,12 @@ static void phalcon_memory_restore_stack_common(zend_phalcon_globals *g TSRMLS_D
 #endif
 }
 
-<<<<<<< HEAD
 #ifndef ZEPHIR_RELEASE
 
 /**
  * Dumps a memory frame for debug purposes
  */
 void zephir_dump_memory_frame(zephir_memory_entry *active_memory TSRMLS_DC)
-=======
-#ifndef PHALCON_RELEASE
-
-void phalcon_dump_memory_frame(phalcon_memory_entry *active_memory TSRMLS_DC)
->>>>>>> master
 {
 	size_t i;
 
@@ -459,7 +256,6 @@ void phalcon_dump_memory_frame(phalcon_memory_entry *active_memory TSRMLS_DC)
 				default:          fprintf(stderr, "\n"); break;
 			}
 		}
-<<<<<<< HEAD
 	}
 
 	fprintf(stderr, "End of the dump of the memory frame %p\n", active_memory);
@@ -489,52 +285,16 @@ void zephir_dump_all_frames(TSRMLS_D)
 		active_memory = active_memory->prev;
 	}
 
-=======
-	}
-
-	fprintf(stderr, "End of the dump of the memory frame %p\n", active_memory);
-}
-
-void phalcon_dump_current_frame(TSRMLS_D)
-{
-	zend_phalcon_globals *phalcon_globals_ptr = PHALCON_VGLOBAL;
-
-	if (UNEXPECTED(phalcon_globals_ptr->active_memory == NULL)) {
-		fprintf(stderr, "WARNING: calling %s() without an active memory frame!\n", __func__);
-		phalcon_print_backtrace();
-		return;
-	}
-
-	phalcon_dump_memory_frame(phalcon_globals_ptr->active_memory TSRMLS_CC);
-}
-
-void phalcon_dump_all_frames(TSRMLS_D)
-{
-	zend_phalcon_globals *phalcon_globals_ptr = PHALCON_VGLOBAL;
-	phalcon_memory_entry *active_memory       = phalcon_globals_ptr->active_memory;
-
-	fprintf(stderr, "*** DUMP START ***\n");
-	while (active_memory != NULL) {
-		phalcon_dump_memory_frame(active_memory TSRMLS_CC);
-		active_memory = active_memory->prev;
-	}
-
->>>>>>> master
 	fprintf(stderr, "*** DUMP END ***\n");
 }
 
 /**
  * Finishes the current memory stack by releasing allocated memory
  */
-<<<<<<< HEAD
 int ZEND_FASTCALL zephir_memory_restore_stack(const char *func TSRMLS_DC)
-=======
-int phalcon_memory_restore_stack(const char *func TSRMLS_DC)
->>>>>>> master
 {
 	zend_zephir_globals_def *zephir_globals_ptr = ZEPHIR_VGLOBAL;
 
-<<<<<<< HEAD
 	if (UNEXPECTED(zephir_globals_ptr->active_memory == NULL)) {
 		fprintf(stderr, "WARNING: calling zephir_memory_restore_stack() without an active memory frame!\n");
 		zephir_print_backtrace();
@@ -542,33 +302,19 @@ int phalcon_memory_restore_stack(const char *func TSRMLS_DC)
 	}
 
 	if (UNEXPECTED(zephir_globals_ptr->active_memory->func != func)) {
-=======
-	if (UNEXPECTED(phalcon_globals_ptr->active_memory == NULL)) {
-		fprintf(stderr, "WARNING: calling phalcon_memory_restore_stack() without an active memory frame!\n");
-		phalcon_print_backtrace();
-		return FAILURE;
-	}
-
-	if (UNEXPECTED(phalcon_globals_ptr->active_memory->func != func)) {
->>>>>>> master
 		fprintf(stderr, "Trying to free someone else's memory frame!\n");
 		fprintf(stderr, "The frame was created by %s\n", zephir_globals_ptr->active_memory->func);
 		fprintf(stderr, "Calling function: %s\n", func);
 		zephir_print_backtrace();
 	}
 
-<<<<<<< HEAD
 	zephir_memory_restore_stack_common(zephir_globals_ptr TSRMLS_CC);
-=======
-	phalcon_memory_restore_stack_common(phalcon_globals_ptr TSRMLS_CC);
->>>>>>> master
 	return SUCCESS;
 }
 
 /**
  * Adds a memory frame in the current executed method
  */
-<<<<<<< HEAD
 void ZEND_FASTCALL zephir_memory_grow_stack(const char *func TSRMLS_DC)
 {
 	zephir_memory_entry *entry;
@@ -577,15 +323,6 @@ void ZEND_FASTCALL zephir_memory_grow_stack(const char *func TSRMLS_DC)
 		zephir_initialize_memory(g TSRMLS_CC);
 	}
 	entry = zephir_memory_grow_stack_common(g);
-=======
-void phalcon_memory_grow_stack(const char *func TSRMLS_DC)
-{
-	zend_phalcon_globals *g = PHALCON_VGLOBAL;
-	if (g->start_memory == NULL) {
-		phalcon_initialize_memory(g TSRMLS_CC);
-	}
-	phalcon_memory_entry *entry = phalcon_memory_grow_stack_common(g);
->>>>>>> master
 	entry->func = func;
 }
 
@@ -594,7 +331,6 @@ void phalcon_memory_grow_stack(const char *func TSRMLS_DC)
 /**
  * Adds a memory frame in the current executed method
  */
-<<<<<<< HEAD
 void ZEND_FASTCALL zephir_memory_grow_stack(TSRMLS_D)
 {
 	zend_zephir_globals_def *g = ZEPHIR_VGLOBAL;
@@ -602,22 +338,11 @@ void ZEND_FASTCALL zephir_memory_grow_stack(TSRMLS_D)
 		zephir_initialize_memory(g TSRMLS_CC);
 	}
 	zephir_memory_grow_stack_common(g);
-=======
-void phalcon_memory_grow_stack(TSRMLS_D)
-{
-	zend_phalcon_globals *g = PHALCON_VGLOBAL;
-	if (g->start_memory == NULL) {
-		zend_error(E_ERROR, "Cannot use the memory manager when the request is shutting down");
-		return;
-	}
-	phalcon_memory_grow_stack_common(g);
->>>>>>> master
 }
 
 /**
  * Finishes the current memory stack by releasing allocated memory
  */
-<<<<<<< HEAD
 int ZEND_FASTCALL zephir_memory_restore_stack(TSRMLS_D)
 {
 	zephir_memory_restore_stack_common(ZEPHIR_VGLOBAL TSRMLS_CC);
@@ -729,12 +454,6 @@ int zephir_cleanup_fcache(void *pDest TSRMLS_DC, int num_args, va_list args, zen
 #endif
 
 	return ZEND_HASH_APPLY_KEEP;
-=======
-int phalcon_memory_restore_stack(TSRMLS_D)
-{
-	phalcon_memory_restore_stack_common(PHALCON_VGLOBAL TSRMLS_CC);
-	return SUCCESS;
->>>>>>> master
 }
 
 /**
@@ -760,7 +479,6 @@ void zephir_deinitialize_memory(TSRMLS_D)
 	assert(zephir_globals_ptr->start_memory != NULL);
 #endif
 
-<<<<<<< HEAD
 	for (i = 0; i < ZEPHIR_NUM_PREALLOCATED_FRAMES; ++i) {
 		pefree(zephir_globals_ptr->start_memory[i].hash_addresses, 1);
 		pefree(zephir_globals_ptr->start_memory[i].addresses, 1);
@@ -785,11 +503,6 @@ void zephir_deinitialize_memory(TSRMLS_D)
 ZEPHIR_ATTR_NONNULL static void zephir_reallocate_memory(const zend_zephir_globals_def *g)
 {
 	zephir_memory_entry *frame = g->active_memory;
-=======
-PHALCON_ATTR_NONNULL static void phalcon_reallocate_memory(const zend_phalcon_globals *g)
-{
-	phalcon_memory_entry *frame = g->active_memory;
->>>>>>> master
 	int persistent = (frame >= g->start_memory && frame < g->end_memory);
 	void *buf = perealloc(frame->addresses, sizeof(zval **) * (frame->capacity + 16), persistent);
 	if (EXPECTED(buf != NULL)) {
@@ -800,24 +513,14 @@ PHALCON_ATTR_NONNULL static void phalcon_reallocate_memory(const zend_phalcon_gl
 		zend_error(E_CORE_ERROR, "Memory allocation failed");
 	}
 
-<<<<<<< HEAD
 #ifndef ZEPHIR_RELEASE
-=======
-#ifndef PHALCON_RELEASE
->>>>>>> master
 	assert(frame->permanent == persistent);
 #endif
 }
 
-<<<<<<< HEAD
 ZEPHIR_ATTR_NONNULL static void zephir_reallocate_hmemory(const zend_zephir_globals_def *g)
 {
 	zephir_memory_entry *frame = g->active_memory;
-=======
-PHALCON_ATTR_NONNULL static void phalcon_reallocate_hmemory(const zend_phalcon_globals *g)
-{
-	phalcon_memory_entry *frame = g->active_memory;
->>>>>>> master
 	int persistent = (frame >= g->start_memory && frame < g->end_memory);
 	void *buf = perealloc(frame->hash_addresses, sizeof(zval **) * (frame->hash_capacity + 4), persistent);
 	if (EXPECTED(buf != NULL)) {
@@ -828,16 +531,11 @@ PHALCON_ATTR_NONNULL static void phalcon_reallocate_hmemory(const zend_phalcon_g
 		zend_error(E_CORE_ERROR, "Memory allocation failed");
 	}
 
-<<<<<<< HEAD
 #ifndef ZEPHIR_RELEASE
-=======
-#ifndef PHALCON_RELEASE
->>>>>>> master
 	assert(frame->permanent == persistent);
 #endif
 }
 
-<<<<<<< HEAD
 ZEPHIR_ATTR_NONNULL1(2) static inline void zephir_do_memory_observe(zval **var, const zend_zephir_globals_def *g)
 {
 	zephir_memory_entry *frame = g->active_memory;
@@ -845,33 +543,10 @@ ZEPHIR_ATTR_NONNULL1(2) static inline void zephir_do_memory_observe(zval **var, 
 	if (UNEXPECTED(frame == NULL)) {
 		fprintf(stderr, "ZEPHIR_MM_GROW() must be called before using any of MM functions or macros!");
 		zephir_print_backtrace();
-=======
-PHALCON_ATTR_NONNULL1(2) static inline void phalcon_do_memory_observe(zval **var, const zend_phalcon_globals *g)
-{
-	phalcon_memory_entry *frame = g->active_memory;
-
-	if (UNEXPECTED(frame->pointer == frame->capacity)) {
-		phalcon_reallocate_memory(g);
-	}
-
-	frame->addresses[frame->pointer] = var;
-	++frame->pointer;
-}
-
-#ifndef PHALCON_RELEASE
-
-static void phalcon_verify_frame(const phalcon_memory_entry *frame, const char *func, zval **var)
-{
-	size_t i;
-
-	if (UNEXPECTED(frame == NULL)) {
-		fprintf(stderr, "PHALCON_MM_GROW() must be called before using any of MM functions or macros!");
-		phalcon_print_backtrace();
->>>>>>> master
 		abort();
 	}
+#endif
 
-<<<<<<< HEAD
 	if (UNEXPECTED(frame->pointer == frame->capacity)) {
 		zephir_reallocate_memory(g);
 	}
@@ -891,62 +566,25 @@ static void phalcon_verify_frame(const phalcon_memory_entry *frame, const char *
 
 	frame->addresses[frame->pointer] = var;
 	++frame->pointer;
-=======
-	if (strcmp(frame->func, func)) {
-		fprintf(stderr, "Memory frames do not match: function: %s, frame creator: %s\n", func, frame->func);
-		phalcon_print_backtrace();
-		abort();
-	}
-
-	for (i=0; i<frame->pointer; ++i) {
-		if (frame->addresses[i] == var) {
-			fprintf(stderr, "Variable %p is already observed", var);
-			phalcon_print_backtrace();
-			abort();
-		}
-	}
->>>>>>> master
 }
 
 /**
  * Observes a memory pointer to release its memory at the end of the request
  */
-<<<<<<< HEAD
 void ZEND_FASTCALL zephir_memory_observe(zval **var TSRMLS_DC)
 {
 	zend_zephir_globals_def *g = ZEPHIR_VGLOBAL;
 	zephir_do_memory_observe(var, g);
-=======
-void phalcon_memory_observe(zval **var, const char *func TSRMLS_DC)
-{
-	zend_phalcon_globals *g     = PHALCON_VGLOBAL;
-	phalcon_memory_entry *frame = g->active_memory;
-
-	phalcon_verify_frame(frame, func, var);
-
-	phalcon_do_memory_observe(var, g);
->>>>>>> master
 	*var = NULL; /* In case an exception or error happens BEFORE the observed variable gets initialized */
 }
 
 /**
  * Observes a variable and allocates memory for it
  */
-<<<<<<< HEAD
 void ZEND_FASTCALL zephir_memory_alloc(zval **var TSRMLS_DC)
 {
 	zend_zephir_globals_def *g = ZEPHIR_VGLOBAL;
 	zephir_do_memory_observe(var, g);
-=======
-void phalcon_memory_alloc(zval **var, const char *func TSRMLS_DC)
-{
-	zend_phalcon_globals *g     = PHALCON_VGLOBAL;
-	phalcon_memory_entry *frame = g->active_memory;
-
-	phalcon_verify_frame(frame, func, var);
-
-	phalcon_do_memory_observe(var, g);
->>>>>>> master
 	ALLOC_INIT_ZVAL(*var);
 }
 
@@ -983,7 +621,6 @@ void ZEND_FASTCALL zephir_dtor(zval *var)
  * Observes a variable and allocates memory for it
  * Marks hash key zvals to be nulled before freeing
  */
-<<<<<<< HEAD
 void ZEND_FASTCALL zephir_memory_alloc_pnull(zval **var TSRMLS_DC)
 {
 	zend_zephir_globals_def *g = ZEPHIR_VGLOBAL;
@@ -1002,77 +639,16 @@ void ZEND_FASTCALL zephir_memory_alloc_pnull(zval **var TSRMLS_DC)
 
 	if (active_memory->hash_pointer == active_memory->hash_capacity) {
 		zephir_reallocate_hmemory(g);
-=======
-void phalcon_memory_alloc_pnull(zval **var, const char *func TSRMLS_DC)
-{
-	zend_phalcon_globals *g     = PHALCON_VGLOBAL;
-	phalcon_memory_entry *frame = g->active_memory;
-
-	phalcon_verify_frame(frame, func, var);
-
-	phalcon_do_memory_observe(var, g);
-	ALLOC_INIT_ZVAL(*var);
-
-	if (frame->hash_pointer == frame->hash_capacity) {
-		phalcon_reallocate_hmemory(g);
-	}
-
-	frame->hash_addresses[frame->hash_pointer] = var;
-	++frame->hash_pointer;
-}
-
-#else
-
-/**
- * Observes a memory pointer to release its memory at the end of the request
- */
-void phalcon_memory_observe(zval **var TSRMLS_DC)
-{
-	zend_phalcon_globals *g = PHALCON_VGLOBAL;
-	phalcon_do_memory_observe(var, g);
-	*var = NULL; /* In case an exception or error happens BEFORE the observed variable gets initialized */
-}
-
-/**
- * Observes a variable and allocates memory for it
- */
-void phalcon_memory_alloc(zval **var TSRMLS_DC)
-{
-	zend_phalcon_globals *g = PHALCON_VGLOBAL;
-	phalcon_do_memory_observe(var, g);
-	ALLOC_INIT_ZVAL(*var);
-}
-
-/**
- * Observes a variable and allocates memory for it
- * Marks hash key zvals to be nulled before freeing
- */
-void phalcon_memory_alloc_pnull(zval **var TSRMLS_DC)
-{
-	zend_phalcon_globals *g = PHALCON_VGLOBAL;
-	phalcon_memory_entry *active_memory = g->active_memory;
-
-	phalcon_do_memory_observe(var, g);
-	ALLOC_INIT_ZVAL(*var);
-
-	if (active_memory->hash_pointer == active_memory->hash_capacity) {
-		phalcon_reallocate_hmemory(g);
->>>>>>> master
 	}
 
 	active_memory->hash_addresses[active_memory->hash_pointer] = var;
 	++active_memory->hash_pointer;
 }
-#endif
 
 /**
  * Removes a memory pointer from the active memory pool
  */
-<<<<<<< HEAD
 void ZEND_FASTCALL zephir_memory_remove(zval **var TSRMLS_DC) {
-=======
-void phalcon_memory_remove(zval **var TSRMLS_DC) {
->>>>>>> master
 	zval_ptr_dtor(var);
 	*var = NULL;
 }
@@ -1080,11 +656,7 @@ void phalcon_memory_remove(zval **var TSRMLS_DC) {
 /**
  * Cleans the zephir memory stack recursivery
  */
-<<<<<<< HEAD
 int ZEND_FASTCALL zephir_clean_restore_stack(TSRMLS_D) {
-=======
-int phalcon_clean_restore_stack(TSRMLS_D) {
->>>>>>> master
 
 	zend_zephir_globals_def *zephir_globals_ptr = ZEPHIR_VGLOBAL;
 
@@ -1098,11 +670,7 @@ int phalcon_clean_restore_stack(TSRMLS_D) {
 /**
  * Copies a variable only if its refcount is greater than 1
  */
-<<<<<<< HEAD
 void ZEND_FASTCALL zephir_copy_ctor(zval *destination, zval *origin) {
-=======
-void phalcon_copy_ctor(zval *destination, zval *origin) {
->>>>>>> master
 	if (Z_REFCOUNT_P(origin) > 1) {
 		zval_copy_ctor(destination);
 	} else {
@@ -1119,13 +687,8 @@ void zephir_create_symbol_table(TSRMLS_D) {
 	zend_zephir_globals_def *zephir_globals_ptr = ZEPHIR_VGLOBAL;
 	HashTable *symbol_table;
 
-<<<<<<< HEAD
 #ifndef ZEPHIR_RELEASE
 	if (!zephir_globals_ptr->active_memory) {
-=======
-#ifndef PHALCON_RELEASE
-	if (!phalcon_globals_ptr->active_memory) {
->>>>>>> master
 		fprintf(stderr, "ERROR: Trying to create a virtual symbol table without a memory frame");
 		zephir_print_backtrace();
 		return;
