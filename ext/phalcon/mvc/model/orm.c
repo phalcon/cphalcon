@@ -17,8 +17,13 @@
  +------------------------------------------------------------------------+
 */
 
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
+
+#include "php.h"
 #include "php_phalcon.h"
-#include <ext/standard/php_smart_str.h>
+#include "ext/standard/php_smart_str.h"
 
 /**
  * Destroyes the prepared ASTs
