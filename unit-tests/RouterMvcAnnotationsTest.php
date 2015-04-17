@@ -4,7 +4,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2012 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -48,14 +48,6 @@ class RobotsController
 
 	}
 
-	/**
-	 * @Route("/delete/{id:[0-9]+}", methods={"POST", "DELETE"}, name="delete-robot")
-	 */
-	public function deleteRobotAction()
-	{
-
-	}
-
 }
 
 class ProductsController
@@ -87,13 +79,21 @@ class ProductsController
 
 }
 
-class MainController
+class AboutController
 {
 
 	/**
-	 * @Get("/")
+	 * @Get("/about/team")
 	 */
-	public function indexAction()
+	public function teamAction()
+	{
+
+	}
+
+	/**
+	 * @Post("/about/team")
+	 */
+	public function teamPostAction()
 	{
 
 	}
@@ -115,13 +115,26 @@ class RouterMvcAnnotationsTest extends PHPUnit_Framework_TestCase
 
 		$router = new Phalcon\Mvc\Router\Annotations(false);
 		$router->setDI($this->_getDI());
+		$router->addResource('Robots', '/');
+		$router->addResource('Products', '/products');
+		$router->addResource('About', '/about');
+		$router->handle('/products');
+		$this->assertEquals(count($router->getRoutes()), 6);
 
+		$router = new Phalcon\Mvc\Router\Annotations(false);
+		$router->setDI($this->_getDI());
+		$router->addResource('Robots', '/');
+		$router->addResource('Products', '/products');
+		$router->addResource('About', '/about');
+		$router->handle('/about');
+		$this->assertEquals(count($router->getRoutes()), 5);
+
+		$router = new Phalcon\Mvc\Router\Annotations(false);
+		$router->setDI($this->_getDI());
 		$router->addResource('Robots');
 		$router->addResource('Products');
-		$router->addResource('Main');
-
+		$router->addResource('About');
 		$router->handle();
-
 		$this->assertEquals(count($router->getRoutes()), 8);
 
 		$route = $router->getRouteByName('save-robot');
@@ -136,64 +149,64 @@ class RouterMvcAnnotationsTest extends PHPUnit_Framework_TestCase
 			array(
 				'uri' => '/products/save',
 				'method' => 'PUT',
-				'controller' => 'Products',
+				'controller' => 'products',
 				'action' => 'save',
 				'params' => array()
 			),
 			array(
 				'uri' => '/products/save',
 				'method' => 'POST',
-				'controller' => 'Products',
+				'controller' => 'products',
 				'action' => 'save',
 				'params' => array()
 			),
 			array(
 				'uri' => '/products/edit/100',
 				'method' => 'GET',
-				'controller' => 'Products',
+				'controller' => 'products',
 				'action' => 'edit',
 				'params' => array('id' => '100')
 			),
 			array(
 				'uri' => '/products',
 				'method' => 'GET',
-				'controller' => 'Products',
+				'controller' => 'products',
 				'action' => 'index',
 				'params' => array()
 			),
 			array(
 				'uri' => '/robots/edit/100',
 				'method' => 'GET',
-				'controller' => 'Robots',
+				'controller' => 'robots',
 				'action' => 'edit',
 				'params' => array('id' => '100')
 			),
 			array(
 				'uri' => '/robots',
 				'method' => 'GET',
-				'controller' => 'Robots',
+				'controller' => 'robots',
 				'action' => 'index',
 				'params' => array()
 			),
 			array(
 				'uri' => '/robots/save',
 				'method' => 'PUT',
-				'controller' => 'Robots',
+				'controller' => 'robots',
 				'action' => 'save',
 				'params' => array()
 			),
 			array(
-				'uri' => '/robots/delete/100',
-				'method' => 'POST',
-				'controller' => 'Robots',
-				'action' => 'deleteRobot',
-				'params' => array('id' => '100')
+				'uri' => '/about/team',
+				'method' => 'GET',
+				'controller' => 'about',
+				'action' => 'team',
+				'params' => array()
 			),
 			array(
-				'uri' => '/',
-				'method' => 'GET',
-				'controller' => 'Main',
-				'action' => 'index',
+				'uri' => '/about/team',
+				'method' => 'POST',
+				'controller' => 'about',
+				'action' => 'teampost',
 				'params' => array()
 			),
 		);
@@ -209,5 +222,4 @@ class RouterMvcAnnotationsTest extends PHPUnit_Framework_TestCase
 			$this->assertEquals($router->isExactControllerName(), true);
 		}
 	}
-
 }

@@ -35,7 +35,9 @@ class Util
                 self::cleanDirectory($entry->getPathname());
                 rmdir($entry->getPathname());
             } else {
-                unlink($entry->getPathname());
+                if (is_writable($dir)) {
+                    unlink($entry->getPathname());
+                }
             }
         }
     }

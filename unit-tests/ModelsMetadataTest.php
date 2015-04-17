@@ -4,7 +4,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2012 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -209,6 +209,19 @@ class ModelsMetadataTest extends PHPUnit_Framework_TestCase
 		$btAttributes = $metaData->getBindTypes($personas);
 		$this->assertEquals($btAttributes, $bindTypes);
 
+		$defValues = array(
+			'nombres' => '',
+			'telefono' => null,
+			'direccion' => null,
+			'email' => null,
+			'fecha_nacimiento' => '1970-01-01',
+			'ciudad_id' => '0',
+			'creado_at' => null,
+		);
+
+		$modelDefValues = $metaData->getDefaultValues($personas);
+		$this->assertEquals($defValues, $modelDefValues);
+
 		$robots = new Robots($di);
 
 		//Robots
@@ -216,7 +229,9 @@ class ModelsMetadataTest extends PHPUnit_Framework_TestCase
 			0 => 'id',
 			1 => 'name',
 			2 => 'type',
-			3 => 'year'
+			3 => 'year',
+			4 => 'datetime',
+			5 => 'text'
 		);
 
 		$attributes = $metaData->getAttributes($robots);
@@ -232,13 +247,23 @@ class ModelsMetadataTest extends PHPUnit_Framework_TestCase
 		$pnpkAttributes = array(
 			0 => 'name',
 			1 => 'type',
-			2 => 'year'
+			2 => 'year',
+			3 => 'datetime',
+			4 => 'text'
 		);
 
 		$npkAttributes = $metaData->getNonPrimaryKeyAttributes($robots);
 		$this->assertEquals($pnpkAttributes, $npkAttributes);
 
 		$this->assertEquals($metaData->getIdentityField($robots), 'id');
+
+		$defValues = array(
+			'type' => 'mechanical',
+			'year' => 1900
+		);
+
+		$modelDefValues = $metaData->getDefaultValues($robots);
+		$this->assertEquals($defValues, $modelDefValues);
 
 	}
 

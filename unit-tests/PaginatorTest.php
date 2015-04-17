@@ -4,7 +4,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2012 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -165,6 +165,7 @@ class PaginatorTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($page->before, 1);
 		$this->assertEquals($page->next, 2);
 		$this->assertEquals($page->last, 6);
+		$this->assertEquals($page->limit, 3);
 
 		$this->assertEquals($page->current, 1);
 		$this->assertEquals($page->total_pages, 6);
@@ -203,6 +204,7 @@ class PaginatorTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($page->before, 1);
 		$this->assertEquals($page->next, 2);
 		$this->assertEquals($page->last, 2);
+		$this->assertEquals($page->limit, 25);
 
 		$this->assertEquals($page->current, 1);
 		$this->assertEquals($page->total_pages, 2);
@@ -249,6 +251,7 @@ class PaginatorTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($page->before, 1);
 		$this->assertEquals($page->next, 2);
 		$this->assertEquals($page->last, 218);
+		$this->assertEquals($page->limit, 10);
 
 		$this->assertEquals($page->current, 1);
 		$this->assertEquals($page->total_pages, 218);
@@ -316,6 +319,7 @@ class PaginatorTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($page->before, 1);
 		$this->assertEquals($page->next, 2);
 		$this->assertEquals($page->last, 4);
+		$this->assertEquals($page->limit, 10);
 
 		$this->assertEquals($page->current, 1);
 		$this->assertEquals($page->total_pages, 4);
@@ -351,9 +355,13 @@ class PaginatorTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($page->before, 1);
 		$this->assertEquals($page->next, 2);
 		$this->assertEquals($page->last, 218);
+		$this->assertEquals($page->limit, 10);
 
 		$this->assertEquals($page->current, 1);
 		$this->assertEquals($page->total_pages, 218);
+
+		$this->assertInternalType('int', $page->total_items);
+		$this->assertInternalType('int', $page->total_pages);
 
 		//Middle page
 		$paginator->setCurrentPage(100);
@@ -371,6 +379,9 @@ class PaginatorTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($page->current, 100);
 		$this->assertEquals($page->total_pages, 218);
 
+		$this->assertInternalType('int', $page->total_items);
+		$this->assertInternalType('int', $page->total_pages);
+
 		//Last page
 		$paginator->setCurrentPage(218);
 
@@ -386,6 +397,9 @@ class PaginatorTest extends PHPUnit_Framework_TestCase
 
 		$this->assertEquals($page->current, 218);
 		$this->assertEquals($page->total_pages, 218);
+
+		$this->assertInternalType('int', $page->total_items);
+		$this->assertInternalType('int', $page->total_pages);
 
 		// test of getter/setters of querybuilder adapter
 
@@ -416,63 +430,4 @@ class PaginatorTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($setterResult, $paginator);
 	}
 
-	public function testIssue2301()
-	{
-		require 'unit-tests/config.db.php';
-		if (empty($configMysql)) {
-			$this->markTestSkipped('Test skipped');
-			return;
-		}
-
-		$this->_loadDI();
-
-		$personnes = Personnes::find(array(
-			'limit' => 11
-		));
-
-		$paginator = new Phalcon\Paginator\Adapter\Model(array(
-			'data' => $personnes,
-			'limit' => 10,
-			'page' => 1
-		));
-
-		//First Page
-		$page = $paginator->getPaginate();
-		$this->assertEquals(get_class($page), 'stdClass');
-
-		$this->assertEquals(count($page->items), 10);
-
-		$this->assertEquals($page->before, 1);
-		$this->assertEquals($page->next, 2);
-		$this->assertEquals($page->last, 2);
-
-		$this->assertEquals($page->current, 1);
-		$this->assertEquals($page->total_pages, 2);
-	}
-
-	public function testIssue2739()
-	{
-		require 'unit-tests/config.db.php';
-		if (empty($configMysql)) {
-			$this->markTestSkipped('Test skipped');
-			return;
-		}
-
-		$di = $this->_loadDI();
-
-		$builder = $di['modelsManager']->createBuilder()
-					->columns('Robots.name')
-					->from('Robots')
-					->join('RobotsParts', 'Robots.id = p.robots_id', 'p');
-
-		$paginator = new Phalcon\Paginator\Adapter\QueryBuilder(array(
-			"builder" => $builder,
-			"limit"=> 10,
-			"page" => 1
-		));
-
-		$page = $paginator->getPaginate();
-
-		$this->assertEquals(get_class($page), 'stdClass');
-	}
 }

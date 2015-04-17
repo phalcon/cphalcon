@@ -15,5 +15,5 @@ EOF
 	fi
 done
 
-$(phpenv which php) -m
-$(phpenv which php) -i
+#$(phpenv which php) -m
+#$(phpenv which php) -i

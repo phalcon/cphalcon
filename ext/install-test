@@ -1,0 +1,10 @@
+#!/bin/bash
+export CC="gcc"
+export CFLAGS="-O0 -g3 -Wall -fvisibility=hidden"
+if [ -f Makefile ]; then
+	sudo make --silent clean
+	sudo phpize --silent --clean
+fi
+phpize --silent
+./configure --silent --enable-phalcon
+make --silent && sudo make --silent install

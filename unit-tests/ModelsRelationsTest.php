@@ -4,7 +4,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2012 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -75,7 +75,6 @@ class ModelsRelationsTest extends PHPUnit_Framework_TestCase
 		$this->_executeTestsNormal($di);
 		$this->_executeTestsRenamed($di);
 		$this->_testIssue938($di);
-		$this->_testIssue2244($di);
 	}
 
 	public function testModelsPostgresql()
@@ -367,17 +366,5 @@ class ModelsRelationsTest extends PHPUnit_Framework_TestCase
 			$this->assertEquals($rp[$i]->parts_id, $parts[$i]->id);
 			$this->assertEquals($rp[$i]->robots_id, $robot->id);
 		}
-	}
-
-	protected function _testIssue2244($di)
-	{
-		$options = array('order' => '', 'conditions' => '');
-
-		$robot = RelationsRobots::findFirst();
-		$this->assertNotEquals($robot, false);
-
-		$robotsParts = $robot->getRelationsRobotsParts($options);
-		$this->assertEquals(get_class($robotsParts), 'Phalcon\Mvc\Model\Resultset\Simple');
-		$this->assertEquals(count($robotsParts), 3);
 	}
 }

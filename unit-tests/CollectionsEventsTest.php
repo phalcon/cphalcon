@@ -4,7 +4,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2012 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -43,8 +43,8 @@ class CollectionsEventsTest extends PHPUnit_Framework_TestCase
 
 	public function testCollectionsEvents()
 	{
-		if (!class_exists('Mongo')) {
-			$this->markTestSkipped("Mongo class does not exist, test skipped");
+		if (!class_exists('MongoClient')) {
+			$this->markTestSkipped("MongoClient class does not exist, test skipped");
 			return;
 		}
 
@@ -64,7 +64,7 @@ class CollectionsEventsTest extends PHPUnit_Framework_TestCase
 		$songs = Store\Songs::find();
 		$this->assertTrue(is_array($songs));
 
-		foreach($songs as $song){
+		foreach ($songs as $song){
 			$this->assertTrue($song->delete());
 		}
 

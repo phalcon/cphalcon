@@ -1,32 +1,43 @@
 
 /*
   +------------------------------------------------------------------------+
-  | Phalcon Framework                                                      |
+  | Zephir Language                                                        |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2015 Zephir Team (http://www.zephir-lang.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
   |                                                                        |
   | If you did not receive a copy of the license and are unable to         |
   | obtain it through the world-wide-web, please send an email             |
-  | to license@phalconphp.com so we can send you a copy immediately.       |
+  | to license@zephir-lang.com so we can send you a copy immediately.      |
   +------------------------------------------------------------------------+
-  | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
-  |          Eduar Carvajal <eduar@phalconphp.com>                         |
+  | Authors: Andres Gutierrez <andres@zephir-lang.com>                     |
+  |          Eduar Carvajal <eduar@zephir-lang.com>                        |
+  |          Vladimir Kolesnikov <vladimir@extrememember.com>              |
   +------------------------------------------------------------------------+
 */
 
-#ifndef PHALCON_KERNEL_REQUIRE_H
-#define PHALCON_KERNEL_REQUIRE_H
+#ifndef ZEPHIR_KERNEL_REQUIRE_H
+#define ZEPHIR_KERNEL_REQUIRE_H
 
-#include "php_phalcon.h"
+#include "php_ext.h"
 
-int phalcon_require_ret(zval **return_value_ptr, const char *require_path TSRMLS_DC) PHALCON_ATTR_NONNULL1(2);
+int zephir_require_ret(zval **return_value_ptr, const char *require_path TSRMLS_DC) ZEPHIR_ATTR_NONNULL1(2);
 
-PHALCON_ATTR_NONNULL static inline int phalcon_require(const char *require_path TSRMLS_DC)
+ZEPHIR_ATTR_NONNULL static inline int zephir_require(const char *require_path TSRMLS_DC)
 {
-	return phalcon_require_ret(NULL, require_path TSRMLS_CC);
+    return zephir_require_ret(NULL, require_path TSRMLS_CC);
 }
 
-#endif /* PHALCON_KERNEL_REQUIRE_H */
+ZEPHIR_ATTR_NONNULL static inline int zephir_require_zval(const zval *require_path TSRMLS_DC)
+{
+    return zephir_require_ret(NULL, Z_TYPE_P(require_path) == IS_STRING ? Z_STRVAL_P(require_path) : "" TSRMLS_CC);
+}
+
+ZEPHIR_ATTR_NONNULL static inline int zephir_require_zval_ret(zval **return_value_ptr, const zval *require_path TSRMLS_DC)
+{
+    return zephir_require_ret(return_value_ptr, Z_TYPE_P(require_path) == IS_STRING ? Z_STRVAL_P(require_path) : "" TSRMLS_CC);
+}
+
+#endif /* ZEPHIR_KERNEL_REQUIRE_H */

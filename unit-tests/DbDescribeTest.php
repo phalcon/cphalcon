@@ -4,7 +4,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2012 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -32,6 +32,7 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 				'_isNumeric' => false,
 				'_size' => 15,
 				'_scale' => 0,
+				'_default' => NULL,
 				'_unsigned' => false,
 				'_notNull' => true,
 				'_autoIncrement' => false,
@@ -47,6 +48,7 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 				'_isNumeric' => true,
 				'_size' => 3,
 				'_scale' => 0,
+				'_default' => NULL,
 				'_unsigned' => true,
 				'_notNull' => true,
 				'_autoIncrement' => false,
@@ -61,6 +63,7 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 				'_isNumeric' => false,
 				'_size' => 100,
 				'_scale' => 0,
+				'_default' => '',
 				'_unsigned' => false,
 				'_notNull' => true,
 				'_autoIncrement' => false,
@@ -75,6 +78,7 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 				'_isNumeric' => false,
 				'_size' => 20,
 				'_scale' => 0,
+				'_default' => NULL,
 				'_unsigned' => false,
 				'_notNull' => false,
 				'_autoIncrement' => false,
@@ -89,6 +93,7 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 				'_isNumeric' => false,
 				'_size' => 100,
 				'_scale' => 0,
+				'_default' => NULL,
 				'_unsigned' => false,
 				'_notNull' => false,
 				'_autoIncrement' => false,
@@ -103,6 +108,7 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 				'_isNumeric' => false,
 				'_size' => 50,
 				'_scale' => 0,
+				'_default' => NULL,
 				'_unsigned' => false,
 				'_notNull' => false,
 				'_autoIncrement' => false,
@@ -117,6 +123,7 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 				'_isNumeric' => false,
 				'_size' => 0,
 				'_scale' => 0,
+				'_default' => '1970-01-01',
 				'_unsigned' => false,
 				'_notNull' => false,
 				'_autoIncrement' => false,
@@ -131,6 +138,7 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 				'_isNumeric' => true,
 				'_size' => 10,
 				'_scale' => 0,
+				'_default' => '0',
 				'_unsigned' => true,
 				'_notNull' => false,
 				'_autoIncrement' => false,
@@ -145,6 +153,7 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 				'_isNumeric' => false,
 				'_size' => 0,
 				'_scale' => 0,
+				'_default' => NULL,
 				'_unsigned' => false,
 				'_notNull' => false,
 				'_autoIncrement' => false,
@@ -159,6 +168,7 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 				'_isNumeric' => true,
 				'_size' => 16,
 				'_scale' => 2,
+				'_default' => NULL,
 				'_unsigned' => false,
 				'_notNull' => true,
 				'_autoIncrement' => false,
@@ -173,6 +183,7 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 				'_isNumeric' => false,
 				'_size' => 0,
 				'_scale' => 0,
+				'_default' => NULL,
 				'_unsigned' => false,
 				'_notNull' => true,
 				'_autoIncrement' => false,
@@ -193,6 +204,7 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 				'_isNumeric' => false,
 				'_size' => 15,
 				'_scale' => 0,
+				'_default' => NULL,
 				'_unsigned' => false,
 				'_notNull' => true,
 				'_autoIncrement' => false,
@@ -208,6 +220,7 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 				'_isNumeric' => true,
 				'_size' => 32,
 				'_scale' => 0,
+				'_default' => NULL,
 				'_unsigned' => false,
 				'_notNull' => true,
 				'_autoIncrement' => false,
@@ -222,6 +235,7 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 				'_isNumeric' => false,
 				'_size' => 100,
 				'_scale' => 0,
+				'_default' => '',
 				'_unsigned' => false,
 				'_notNull' => true,
 				'_autoIncrement' => false,
@@ -236,6 +250,7 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 				'_isNumeric' => false,
 				'_size' => 20,
 				'_scale' => 0,
+				'_default' => NULL,
 				'_unsigned' => false,
 				'_notNull' => false,
 				'_autoIncrement' => false,
@@ -249,6 +264,7 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 				'_isNumeric' => false,
 				'_size' => 100,
 				'_scale' => 0,
+				'_default' => NULL,
 				'_unsigned' => false,
 				'_notNull' => false,
 				'_autoIncrement' => false,
@@ -263,6 +279,7 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 				'_isNumeric' => false,
 				'_size' => 50,
 				'_scale' => 0,
+				'_default' => NULL,
 				'_unsigned' => false,
 				'_notNull' => false,
 				'_autoIncrement' => false,
@@ -277,6 +294,7 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 				'_isNumeric' => false,
 				'_size' => 0,
 				'_scale' => 0,
+				'_default' => '1970-01-01',
 				'_unsigned' => false,
 				'_notNull' => false,
 				'_autoIncrement' => false,
@@ -291,6 +309,7 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 				'_isNumeric' => true,
 				'_size' => 32,
 				'_scale' => 0,
+				'_default' => '0',
 				'_unsigned' => false,
 				'_notNull' => false,
 				'_autoIncrement' => false,
@@ -305,6 +324,7 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 				'_isNumeric' => false,
 				'_size' => 0,
 				'_scale' => 0,
+				'_default' => NULL,
 				'_unsigned' => false,
 				'_notNull' => false,
 				'_autoIncrement' => false,
@@ -319,6 +339,7 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 				'_isNumeric' => true,
 				'_size' => 16,
 				'_scale' => 2,
+				'_default' => NULL,
 				'_unsigned' => false,
 				'_notNull' => true,
 				'_autoIncrement' => false,
@@ -333,6 +354,7 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 				'_isNumeric' => false,
 				'_size' => 1,
 				'_scale' => 0,
+				'_default' => NULL,
 				'_unsigned' => false,
 				'_notNull' => true,
 				'_autoIncrement' => false,
@@ -354,6 +376,7 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 				'_isNumeric' => false,
 				'_size' => 15,
 				'_scale' => 0,
+				'_default' => NULL,
 				'_unsigned' => false,
 				'_notNull' => true,
 				'_autoIncrement' => false,
@@ -369,6 +392,7 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 				'_isNumeric' => true,
 				'_size' => 3,
 				'_scale' => 0,
+				'_default' => NULL,
 				'_unsigned' => false,
 				'_notNull' => true,
 				'_autoIncrement' => false,
@@ -383,6 +407,7 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 				'_isNumeric' => false,
 				'_size' => 100,
 				'_scale' => 0,
+				'_default' => '',
 				'_unsigned' => false,
 				'_notNull' => true,
 				'_autoIncrement' => false,
@@ -397,6 +422,7 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 				'_isNumeric' => false,
 				'_size' => 20,
 				'_scale' => 0,
+				'_default' => NULL,
 				'_unsigned' => false,
 				'_notNull' => false,
 				'_autoIncrement' => false,
@@ -411,6 +437,7 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 				'_isNumeric' => false,
 				'_size' => 100,
 				'_scale' => 0,
+				'_default' => NULL,
 				'_unsigned' => false,
 				'_notNull' => false,
 				'_autoIncrement' => false,
@@ -425,6 +452,7 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 				'_isNumeric' => false,
 				'_size' => 50,
 				'_scale' => 0,
+				'_default' => NULL,
 				'_unsigned' => false,
 				'_notNull' => false,
 				'_autoIncrement' => false,
@@ -439,6 +467,7 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 				'_isNumeric' => false,
 				'_size' => 0,
 				'_scale' => 0,
+				'_default' => '1970-01-01',
 				'_unsigned' => false,
 				'_notNull' => false,
 				'_autoIncrement' => false,
@@ -453,6 +482,7 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 				'_isNumeric' => true,
 				'_size' => 10,
 				'_scale' => 0,
+				'_default' => '0',
 				'_unsigned' => false,
 				'_notNull' => false,
 				'_autoIncrement' => false,
@@ -467,6 +497,7 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 				'_isNumeric' => false,
 				'_size' => 0,
 				'_scale' => 0,
+				'_default' => NULL,
 				'_unsigned' => false,
 				'_notNull' => false,
 				'_autoIncrement' => false,
@@ -481,6 +512,7 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 				'_isNumeric' => true,
 				'_size' => 16,
 				'_scale' => 2,
+				'_default' => NULL,
 				'_unsigned' => false,
 				'_notNull' => true,
 				'_autoIncrement' => false,
@@ -495,6 +527,7 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 				'_isNumeric' => false,
 				'_size' => 1,
 				'_scale' => 0,
+				'_default' => NULL,
 				'_unsigned' => false,
 				'_notNull' => true,
 				'_autoIncrement' => false,
@@ -571,15 +604,15 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 		//Indexes
 		$expectedIndexes = array(
 			'PRIMARY' => Phalcon\Db\Index::__set_state(array(
-				'_indexName' => 'PRIMARY',
+				'_name' => 'PRIMARY',
 				'_columns' => array('id')
 			)),
 			'robots_id' => Phalcon\Db\Index::__set_state(array(
-				'_indexName' => 'robots_id',
+				'_name' => 'robots_id',
 				'_columns' => array('robots_id')
 			)),
 			'parts_id' => Phalcon\Db\Index::__set_state(array(
-				'_indexName' => 'parts_id',
+				'_name' => 'parts_id',
 				'_columns' => array('parts_id')
 			))
 		);
@@ -664,15 +697,15 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 		//Indexes
 		$expectedIndexes = array(
 			'robots_parts_parts_id' => Phalcon\Db\Index::__set_state(array(
-				'_indexName' => 'robots_parts_parts_id',
+				'_name' => 'robots_parts_parts_id',
 				'_columns' => array('parts_id')
 			)),
 			'robots_parts_pkey' => Phalcon\Db\Index::__set_state(array(
-				'_indexName' => 'robots_parts_pkey',
+				'_name' => 'robots_parts_pkey',
 				'_columns' => array('id')
 			)),
 			'robots_parts_robots_id' => Phalcon\Db\Index::__set_state(array(
-				'_indexName' => 'robots_parts_robots_id',
+				'_name' => 'robots_parts_robots_id',
 				'_columns' => array('robots_id')
 			))
 		);
@@ -760,11 +793,11 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 		//Indexes ps. sqlite's integer primary key autoincrement is not listed in indexes
 		$expectedIndexes = array(
 			'robots_parts_parts_id' => Phalcon\Db\Index::__set_state(array(
-				'_indexName' => 'robots_parts_parts_id',
+				'_name' => 'robots_parts_parts_id',
 				'_columns' => array('parts_id')
 			)),
 			'robots_parts_robots_id' => Phalcon\Db\Index::__set_state(array(
-				'_indexName' => 'robots_parts_robots_id',
+				'_name' => 'robots_parts_robots_id',
 				'_columns' => array('robots_id')
 			))
 		);

@@ -4,7 +4,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2012 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -15,7 +15,7 @@
   +------------------------------------------------------------------------+
   | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
   |          Eduar Carvajal <eduar@phalconphp.com>                         |
-  |          Piotr Gasiorowski <p.gasiorowski@vipserv.org>                                  |
+  |          Piotr Gasiorowski <p.gasiorowski@vipserv.org>                 |
   +------------------------------------------------------------------------+
 */
 
@@ -33,8 +33,12 @@ class ViewSimpleTest extends PHPUnit_Framework_TestCase
 	public function setUp()
 	{
 		$this->level = ob_get_level();
-		foreach (new DirectoryIterator('unit-tests/cache/') as $item) {
-			$item->isDir() or unlink($item->getPathname());
+		if (is_dir('unit-tests/cache')) {
+			foreach (new DirectoryIterator('unit-tests/cache/') as $item) {
+				$item->isDir() or unlink($item->getPathname());
+			}
+		} else {
+			mkdir('unit-tests/cache');
 		}
 	}
 
@@ -157,7 +161,50 @@ class ViewSimpleTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals("<p></p>", @$view->render('test3/coolVar'));
 	}
 
-	// Setup viewCache service and DI
+	public function testGetRegisteredEngines()
+	{
+		$expected = array(
+			'.mhtml' => 'My_Mustache_Engine',
+			'.phtml' => 'Phalcon\Mvc\View\Engine\Php',
+			'.twig'  => 'My_Twig_Engine',
+			'.volt'  => 'Phalcon\Mvc\View\Engine\Volt',
+		);
+
+		$di   = new Phalcon\DI();
+		$view = new Phalcon\Mvc\View\Simple();
+		$view->setDI($di);
+		$view->setViewsDir('unit-tests/views/');
+
+		$view->registerEngines($expected);
+		$this->assertEquals($expected, $view->getRegisteredEngines());
+	}
+
+		public function testRenderWithFilenameWithEngineExtension()
+	{
+		$view = new View;
+		$view->setDI(new Di);
+
+		$view->registerEngines(array('.mhtml' => 'Phalcon\\Mvc\\View\\Engine\\Volt'));
+		$view->setViewsDir('unit-tests/views/');
+		$view->setParamToView('name', 'FooBar');
+
+		$this->assertEquals('Hello FooBar', $view->render('test4/index.mhtml'));
+	}
+
+	public function testRenderWithFilenameWithEngineWithoutEngineRegistered()
+	{
+		$this->setExpectedException('Phalcon\Mvc\View\Exception');
+
+		$view = new View;
+		$view->setDI(new Di);
+
+		$view->setViewsDir('unit-tests/views/');
+		$view->setParamToView('name', 'FooBar');
+
+		$this->assertEquals('Hello FooBar', $view->render('test4/index.mhtml'));
+	}
+
+    // Setup viewCache service and DI
 	private function _getDI()
 	{
 		$di = new Di;
@@ -169,9 +216,12 @@ class ViewSimpleTest extends PHPUnit_Framework_TestCase
 
 	public function tearDown()
 	{
-		foreach (new DirectoryIterator('unit-tests/cache/') as $item)
-		{
-			$item->isDir() or unlink($item->getPathname());
+		if (is_dir('unit-tests/cache')) {
+			foreach (new DirectoryIterator('unit-tests/cache/') as $item) {
+				$item->isDir() or unlink($item->getPathname());
+			}
+		} else {
+			mkdir('unit-tests/cache');
 		}
 
 		while (ob_get_level() > $this->level) {

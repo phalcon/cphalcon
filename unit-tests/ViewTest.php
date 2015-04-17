@@ -4,7 +4,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2012 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -275,6 +275,10 @@ class ViewTest extends PHPUnit_Framework_TestCase
 
 		$this->assertEquals('<!DOCTYPE html><html>Hey, this is a partial, also le-this</html>' . PHP_EOL, $view->getContent());
 
+
+		// Retrieve a partial as a string
+		$this->assertEquals('Hey, this is a partial, also le-this', $view->getPartial('partials/_partial1', array('cool_var' => 'le-this')));
+
 	}
 
 	public function testMissingPartial()
@@ -299,6 +303,21 @@ class ViewTest extends PHPUnit_Framework_TestCase
 		$content = $view->getRender('test5', 'index', array('cool_var' => 'le-this'));
 
 		$this->assertEquals($content, '<html>Hey, this is a partial, also le-this</html>' . PHP_EOL);
+	}
+
+	/**
+	 * @covers \Phalcon\Mvc\View::__isset
+	 */
+	public function testViewParamIsset()
+	{
+		$view = new View();
+
+		$view->setViewsDir('unit-tests/views/');
+		$view->set_param = 'something';
+
+		$content = $view->getRender('test16', 'index');
+
+		$this->assertEquals($content, '<html>1</html>' . PHP_EOL);
 	}
 
 	protected function _getViewDisabled($level=null)

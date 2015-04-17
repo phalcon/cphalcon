@@ -1,22 +1,29 @@
 
 /*
   +------------------------------------------------------------------------+
-  | Phalcon Framework                                                      |
+  | Zephir Language                                                        |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2015 Zephir Team (http://www.zephir-lang.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
   |                                                                        |
   | If you did not receive a copy of the license and are unable to         |
   | obtain it through the world-wide-web, please send an email             |
-  | to license@phalconphp.com so we can send you a copy immediately.       |
+  | to license@zephir-lang.com so we can send you a copy immediately.      |
   +------------------------------------------------------------------------+
-  | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
-  |          Eduar Carvajal <eduar@phalconphp.com>                         |
+  | Authors: Andres Gutierrez <andres@zephir-lang.com>                     |
+  |          Eduar Carvajal <eduar@zephir-lang.com>                        |
+  |          Vladimir Kolesnikov <vladimir@extrememember.com>              |
   +------------------------------------------------------------------------+
 */
 
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
+
+#include "php.h"
+#include "php_ext.h"
 #include "kernel/require.h"
 #include "kernel/backtrace.h"
 
@@ -30,21 +37,36 @@
 /**
  * Do an internal require to a plain php file taking care of the value returned by the file
  */
-int phalcon_require_ret(zval **return_value_ptr, const char *require_path TSRMLS_DC)
+int zephir_require_ret(zval **return_value_ptr, const char *require_path TSRMLS_DC)
 {
 	zend_file_handle file_handle;
-	int ret;
+	int ret, use_ret, mode;
 
-#ifndef PHALCON_RELEASE
+#ifndef ZEPHIR_RELEASE
 	if (return_value_ptr && *return_value_ptr) {
 		fprintf(stderr, "%s: *return_value_ptr is expected to be NULL", __func__);
-		phalcon_print_backtrace();
+		zephir_print_backtrace();
 		abort();
 	}
 #endif
 
-	ret = php_stream_open_for_zend_ex(require_path, &file_handle, ENFORCE_SAFE_MODE | USE_PATH | STREAM_OPEN_FOR_INCLUDE | IGNORE_URL TSRMLS_CC);
+	if (!require_path) {
+		/* @TODO, throw an exception here */
+		return FAILURE;
+	}
+
+	mode = ENFORCE_SAFE_MODE | USE_PATH | STREAM_OPEN_FOR_INCLUDE;
+
+	if (strlen(require_path) < 7 || memcmp(require_path, "phar://", 7)) {
+		/* No phar archive */
+		mode |= IGNORE_URL;
+	}
+
+	use_ret = !!return_value_ptr;
+
+	ret = php_stream_open_for_zend_ex(require_path, &file_handle, mode TSRMLS_CC);
 	if (ret == SUCCESS) {
+
 		int dummy = 1;
 		zend_op_array *new_op_array;
 
@@ -57,6 +79,7 @@ int phalcon_require_ret(zval **return_value_ptr, const char *require_path TSRMLS
 		zend_destroy_file_handle(&file_handle TSRMLS_CC);
 
 		if (new_op_array) {
+
 			zval **original_return_value            = EG(return_value_ptr_ptr);
 			zend_op_array *original_active_op_array = EG(active_op_array);
 			zend_op **original_opline_ptr           = EG(opline_ptr);
@@ -72,9 +95,14 @@ int phalcon_require_ret(zval **return_value_ptr, const char *require_path TSRMLS
 			if (EG(exception)) {
 				assert(!return_value_ptr || !*return_value_ptr);
 				ret = FAILURE;
-			}
-			else {
+			} else {
 				ret = SUCCESS;
+			}
+
+			if (!use_ret) {
+				if (EG(return_value_ptr_ptr)) {
+					zval_ptr_dtor(EG(return_value_ptr_ptr));
+				}
 			}
 
 			EG(return_value_ptr_ptr) = original_return_value;

@@ -27,7 +27,7 @@ class Generator_File_PhalconH
     public function __construct($sourceDir, $outputDir)
     {
         $this->sourceDir = $sourceDir;
-        $this->outputFile = $outputDir . '/phalcon.h';
+        $this->outputFile = $outputDir . '/phalcon.zep.h';
     }
 
     /**

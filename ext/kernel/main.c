@@ -1,88 +1,43 @@
 
 /*
   +------------------------------------------------------------------------+
-  | Phalcon Framework                                                      |
+  | Zephir Language                                                        |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2015 Zephir Team (http://www.zephir-lang.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
   |                                                                        |
   | If you did not receive a copy of the license and are unable to         |
   | obtain it through the world-wide-web, please send an email             |
-  | to license@phalconphp.com so we can send you a copy immediately.       |
+  | to license@zephir-lang.com so we can send you a copy immediately.      |
   +------------------------------------------------------------------------+
-  | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
-  |          Eduar Carvajal <eduar@phalconphp.com>                         |
+  | Authors: Andres Gutierrez <andres@zephir-lang.com>                     |
+  |          Eduar Carvajal <eduar@zephir-lang.com>                        |
   +------------------------------------------------------------------------+
 */
 
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
+
+#include "php.h"
+#include "php_ext.h"
+#include "php_main.h"
+#include "ext/spl/spl_exceptions.h"
+
 #include "kernel/main.h"
-
-#include <ext/spl/spl_exceptions.h>
-#include <Zend/zend_exceptions.h>
-#include <Zend/zend_interfaces.h>
-
+#include "kernel/memory.h"
 #include "kernel/fcall.h"
 #include "kernel/exception.h"
 
-
-/**
- * Initialize globals on each request or each thread started
- */
-void php_phalcon_init_globals(zend_phalcon_globals *phalcon_globals TSRMLS_DC) {
-
-	HashTable *constants = EG(zend_constants);
-
-	phalcon_globals->initialized = 0;
-
-	/* Memory options */
-	phalcon_globals->active_memory = NULL;
-
-	/* Virtual Symbol Tables */
-	phalcon_globals->active_symbol_table = NULL;
-
-	/* Recursive Lock */
-	phalcon_globals->recursive_lock = 0;
-
-	/* PSR-3 classes */
-	phalcon_globals->register_psr3_classes = 0;
-
-	/* ORM options*/
-	phalcon_globals->orm.events = 1;
-	phalcon_globals->orm.virtual_foreign_keys = 1;
-	phalcon_globals->orm.column_renaming = 1;
-	phalcon_globals->orm.not_null_validations = 1;
-	phalcon_globals->orm.exception_on_failed_save = 0;
-	phalcon_globals->orm.enable_literals = 1;
-	phalcon_globals->orm.cache_level = 3;
-	phalcon_globals->orm.unique_cache_id = 0;
-	phalcon_globals->orm.parser_cache = NULL;
-	phalcon_globals->orm.ast_cache = NULL;
-
-	/* Security options */
-	phalcon_globals->security.crypt_std_des_supported  = zend_hash_quick_exists(constants, SS("CRYPT_STD_DES"),  zend_inline_hash_func(SS("CRYPT_STD_DES")));
-	phalcon_globals->security.crypt_ext_des_supported  = zend_hash_quick_exists(constants, SS("CRYPT_EXT_DES"),  zend_inline_hash_func(SS("CRYPT_EXT_DES")));
-	phalcon_globals->security.crypt_md5_supported      = zend_hash_quick_exists(constants, SS("CRYPT_MD5"),      zend_inline_hash_func(SS("CRYPT_MD5")));
-	phalcon_globals->security.crypt_blowfish_supported = zend_hash_quick_exists(constants, SS("CRYPT_BLOWFISH"), zend_inline_hash_func(SS("CRYPT_BLOWFISH")));
-	phalcon_globals->security.crypt_sha256_supported   = zend_hash_quick_exists(constants, SS("CRYPT_SHA256"),   zend_inline_hash_func(SS("CRYPT_SHA256")));
-	phalcon_globals->security.crypt_sha512_supported   = zend_hash_quick_exists(constants, SS("CRYPT_SHA512"),   zend_inline_hash_func(SS("CRYPT_SHA512")));
-
-	if (PHP_VERSION_ID >= 50307) {
-		phalcon_globals->security.crypt_blowfish_y_supported = phalcon_globals->security.crypt_blowfish_supported;
-	}
-	else {
-		phalcon_globals->security.crypt_blowfish_y_supported = 0;
-	}
-
-	/* DB options */
-	phalcon_globals->db.escape_identifiers = 1;
-}
+#include "Zend/zend_exceptions.h"
+#include "Zend/zend_interfaces.h"
 
 /**
  * Initializes internal interface with extends
  */
-zend_class_entry *phalcon_register_internal_interface_ex(zend_class_entry *orig_ce, zend_class_entry *parent_ce TSRMLS_DC) {
+zend_class_entry *zephir_register_internal_interface_ex(zend_class_entry *orig_ce, zend_class_entry *parent_ce TSRMLS_DC) {
 
 	zend_class_entry *ce;
 
@@ -95,80 +50,62 @@ zend_class_entry *phalcon_register_internal_interface_ex(zend_class_entry *orig_
 }
 
 /**
+ * Initilializes super global variables if doesn't
+ */
+int zephir_init_global(char *global, unsigned int global_length TSRMLS_DC) {
+
+	#if PHP_VERSION_ID < 50400
+	zend_bool jit_initialization = (PG(auto_globals_jit) && !PG(register_globals) && !PG(register_long_arrays));
+	if (jit_initialization) {
+		return zend_is_auto_global(global, global_length - 1 TSRMLS_CC);
+	}
+	#else
+	if (PG(auto_globals_jit)) {
+		return zend_is_auto_global(global, global_length - 1 TSRMLS_CC);
+	}
+	#endif
+
+	return SUCCESS;
+}
+
+/**
  * Gets the global zval into PG macro
  */
-zval* phalcon_get_global(const char *global, unsigned int global_length TSRMLS_DC) {
+int zephir_get_global(zval **arr, const char *global, unsigned int global_length TSRMLS_DC) {
+
+	zval **gv;
 
 	zend_bool jit_initialization = PG(auto_globals_jit);
 	if (jit_initialization) {
-#if defined(__GNUC__) && PHP_VERSION_ID >= 50400
-		if (__builtin_constant_p(global) && __builtin_constant_p(global_length)) {
-			zend_is_auto_global_quick(global, global_length - 1, zend_inline_hash_func(global, global_length) TSRMLS_CC);
-		}
-		else
-#endif
-		{
-			zend_is_auto_global(global, global_length - 1 TSRMLS_CC);
-		}
+		zend_is_auto_global(global, global_length - 1 TSRMLS_CC);
 	}
 
 	if (&EG(symbol_table)) {
-		zval **gv;
 		if (zend_hash_find(&EG(symbol_table), global, global_length, (void **) &gv) == SUCCESS) {
-			if (gv && *gv && Z_TYPE_PP(gv) == IS_ARRAY) {
-				return *gv;
+			if (Z_TYPE_PP(gv) == IS_ARRAY) {
+				*arr = *gv;
+				if (!*arr) {
+					ZEPHIR_INIT_VAR(*arr);
+					array_init(*arr);
+				}
+			} else {
+				ZEPHIR_INIT_VAR(*arr);
+				array_init(*arr);
 			}
+			return SUCCESS;
 		}
 	}
 
-	return PHALCON_GLOBAL(z_null);
+	ZEPHIR_INIT_VAR(*arr);
+	array_init(*arr);
+
+	return SUCCESS;
 }
 
 /**
  * Makes fast count on implicit array types
  */
-long int phalcon_fast_count_int(zval *value TSRMLS_DC) {
-
-	if (Z_TYPE_P(value) == IS_ARRAY) {
-		return zend_hash_num_elements(Z_ARRVAL_P(value));
-	}
-
-	if (Z_TYPE_P(value) == IS_OBJECT) {
-		if (Z_OBJ_HT_P(value)->count_elements) {
-			long int result;
-			if (SUCCESS == Z_OBJ_HT(*value)->count_elements(value, &result TSRMLS_CC)) {
-				return result;
-			}
-		}
-
-		if (Z_OBJ_HT_P(value)->get_class_entry && instanceof_function_ex(Z_OBJCE_P(value), spl_ce_Countable, 1 TSRMLS_CC)) {
-			zval *retval    = NULL;
-			long int result = 0;
-
-			zend_call_method_with_0_params(&value, Z_OBJCE_P(value), NULL, "count", &retval);
-			if (retval) {
-				convert_to_long_ex(&retval);
-				result = Z_LVAL_P(retval);
-				zval_ptr_dtor(&retval);
-			}
-
-			return result;
-		}
-
-		return 0;
-	}
-
-	if (Z_TYPE_P(value) == IS_NULL) {
-		return 0;
-	}
-
-	return 1;
-}
-
-/**
- * Makes fast count on implicit array types
- */
-void phalcon_fast_count(zval *result, zval *value TSRMLS_DC) {
+void zephir_fast_count(zval *result, zval *value TSRMLS_DC) {
 
 	if (Z_TYPE_P(value) == IS_ARRAY) {
 		ZVAL_LONG(result, zend_hash_num_elements(Z_ARRVAL_P(value)));
@@ -215,12 +152,12 @@ void phalcon_fast_count(zval *result, zval *value TSRMLS_DC) {
 /**
  * Makes fast count on implicit array types without creating a return zval value
  */
-int phalcon_fast_count_ev(zval *value TSRMLS_DC) {
+int zephir_fast_count_ev(zval *value TSRMLS_DC) {
 
 	long count = 0;
 
 	if (Z_TYPE_P(value) == IS_ARRAY) {
-		return (int) zend_hash_num_elements(Z_ARRVAL_P(value)) > 0;
+		return zend_hash_num_elements(Z_ARRVAL_P(value)) > 0;
 	}
 
 	if (Z_TYPE_P(value) == IS_OBJECT) {
@@ -258,17 +195,89 @@ int phalcon_fast_count_ev(zval *value TSRMLS_DC) {
 }
 
 /**
+ * Makes fast count on implicit array types without creating a return zval value
+ */
+int zephir_fast_count_int(zval *value TSRMLS_DC) {
+
+	long count = 0;
+
+	if (Z_TYPE_P(value) == IS_ARRAY) {
+		return zend_hash_num_elements(Z_ARRVAL_P(value));
+	}
+
+	if (Z_TYPE_P(value) == IS_OBJECT) {
+
+		#ifdef HAVE_SPL
+		zval *retval = NULL;
+		#endif
+
+		if (Z_OBJ_HT_P(value)->count_elements) {
+			Z_OBJ_HT(*value)->count_elements(value, &count TSRMLS_CC);
+			return (int) count;
+		}
+
+		#ifdef HAVE_SPL
+		if (Z_OBJ_HT_P(value)->get_class_entry && instanceof_function(Z_OBJCE_P(value), spl_ce_Countable TSRMLS_CC)) {
+			zend_call_method_with_0_params(&value, NULL, NULL, "count", &retval);
+			if (retval) {
+				convert_to_long_ex(&retval);
+				count = Z_LVAL_P(retval);
+				zval_ptr_dtor(&retval);
+				return (int) count;
+			}
+			return 0;
+		}
+		#endif
+
+		return 0;
+	}
+
+	if (Z_TYPE_P(value) == IS_NULL) {
+		return 0;
+	}
+
+	return 1;
+}
+
+/**
+ * Check if a function exists
+ */
+int zephir_function_exists(const zval *function_name TSRMLS_DC) {
+
+	return zephir_function_quick_exists_ex(
+		Z_STRVAL_P(function_name),
+		Z_STRLEN_P(function_name) + 1,
+		zend_inline_hash_func(Z_STRVAL_P(function_name), Z_STRLEN_P(function_name) + 1) TSRMLS_CC
+	);
+}
+
+/**
+ * Check if a function exists using explicit char param
+ *
+ * @param function_name
+ * @param function_len strlen(function_name)+1
+ */
+int zephir_function_exists_ex(const char *function_name, unsigned int function_len TSRMLS_DC) {
+
+	return zephir_function_quick_exists_ex(function_name, function_len, zend_inline_hash_func(function_name, function_len) TSRMLS_CC);
+}
+
+/**
  * Check if a function exists using explicit char param (using precomputed hash key)
  */
-int phalcon_function_quick_exists_ex(const char *method_name, unsigned int method_len, unsigned long key TSRMLS_DC) {
+int zephir_function_quick_exists_ex(const char *method_name, unsigned int method_len, unsigned long key TSRMLS_DC) {
 
-	return (zend_hash_quick_exists(CG(function_table), method_name, method_len, key)) ? SUCCESS : FAILURE;
+	if (zend_hash_quick_exists(CG(function_table), method_name, method_len, key)) {
+		return SUCCESS;
+	}
+
+	return FAILURE;
 }
 
 /**
  * Checks if a zval is callable
  */
-int phalcon_is_callable(zval *var TSRMLS_DC) {
+int zephir_is_callable(zval *var TSRMLS_DC) {
 
 	char *error = NULL;
 	zend_bool retval;
@@ -284,7 +293,7 @@ int phalcon_is_callable(zval *var TSRMLS_DC) {
 /**
  * Initialize an array to start an iteration over it
  */
-int phalcon_is_iterable_ex(zval *arr, HashTable **arr_hash, HashPosition *hash_position, int duplicate, int reverse) {
+int zephir_is_iterable_ex(zval *arr, HashTable **arr_hash, HashPosition *hash_position, int duplicate, int reverse) {
 
 	if (unlikely(Z_TYPE_P(arr) != IS_ARRAY)) {
 		return 0;
@@ -299,18 +308,33 @@ int phalcon_is_iterable_ex(zval *arr, HashTable **arr_hash, HashPosition *hash_p
 	}
 
 	if (reverse) {
-		zend_hash_internal_pointer_end_ex(*arr_hash, hash_position);
+		if (hash_position) {
+			*hash_position = (*arr_hash)->pListTail;
+		} else {
+			(*arr_hash)->pInternalPointer = (*arr_hash)->pListTail;
+		}
 	} else {
-		zend_hash_internal_pointer_reset_ex(*arr_hash, hash_position);
+		if (hash_position) {
+			*hash_position = (*arr_hash)->pListHead;
+		} else {
+			(*arr_hash)->pInternalPointer = (*arr_hash)->pListHead;
+		}
 	}
 
 	return 1;
 }
 
+void zephir_safe_zval_ptr_dtor(zval *pzval)
+{
+	if (pzval) {
+		zval_ptr_dtor(&pzval);
+	}
+}
+
 /**
  * Parses method parameters with minimum overhead
  */
-int phalcon_fetch_parameters(int num_args TSRMLS_DC, int required_args, int optional_args, ...)
+int zephir_fetch_parameters(int num_args TSRMLS_DC, int required_args, int optional_args, ...)
 {
 	va_list va;
 	int arg_count = (int) (zend_uintptr_t) *(zend_vm_stack_top(TSRMLS_C) - 1);
@@ -318,12 +342,12 @@ int phalcon_fetch_parameters(int num_args TSRMLS_DC, int required_args, int opti
 	int i;
 
 	if (num_args < required_args || (num_args > (required_args + optional_args))) {
-		phalcon_throw_exception_string(spl_ce_BadMethodCallException, "Wrong number of parameters" TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_BadMethodCallException, SL("Wrong number of parameters") TSRMLS_CC);
 		return FAILURE;
 	}
 
 	if (num_args > arg_count) {
-		phalcon_throw_exception_string(spl_ce_BadMethodCallException, "Could not obtain parameters for parsing" TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_BadMethodCallException, SL("Could not obtain parameters for parsing") TSRMLS_CC);
 		return FAILURE;
 	}
 
@@ -349,27 +373,63 @@ int phalcon_fetch_parameters(int num_args TSRMLS_DC, int required_args, int opti
 	return SUCCESS;
 }
 
-int phalcon_fetch_parameters_ex(int dummy TSRMLS_DC, int n_req, int n_opt, ...)
-{
-	void **p;
-	int arg_count, param_count;
-	va_list ptr;
+/**
+ * Returns the type of a variable as a string
+ */
+void zephir_gettype(zval *return_value, zval *arg TSRMLS_DC) {
 
-	p           = zend_vm_stack_top(TSRMLS_C) - 1;
-	arg_count   = (int)(zend_uintptr_t)*p;
-	param_count = n_req + n_opt;
+	switch (Z_TYPE_P(arg)) {
 
-	if (param_count < arg_count || n_req > arg_count) {
-		return FAILURE;
+		case IS_NULL:
+			RETVAL_STRING("NULL", 1);
+			break;
+
+		case IS_BOOL:
+			RETVAL_STRING("boolean", 1);
+			break;
+
+		case IS_LONG:
+			RETVAL_STRING("integer", 1);
+			break;
+
+		case IS_DOUBLE:
+			RETVAL_STRING("double", 1);
+			break;
+
+		case IS_STRING:
+			RETVAL_STRING("string", 1);
+			break;
+
+		case IS_ARRAY:
+			RETVAL_STRING("array", 1);
+			break;
+
+		case IS_OBJECT:
+			RETVAL_STRING("object", 1);
+			break;
+
+		case IS_RESOURCE:
+			{
+				const char *type_name = zend_rsrc_list_get_rsrc_type(Z_LVAL_P(arg) TSRMLS_CC);
+
+				if (type_name) {
+					RETVAL_STRING("resource", 1);
+					break;
+				}
+			}
+
+		default:
+			RETVAL_STRING("unknown type", 1);
 	}
+}
 
-	va_start(ptr, n_opt);
-	while (arg_count > 0) {
-		zval ***param = va_arg(ptr, zval ***);
-		*param = (zval**)p - arg_count;
-		--arg_count;
-	}
+zend_class_entry* zephir_get_internal_ce(const char *class_name, unsigned int class_name_len TSRMLS_DC) {
+    zend_class_entry** temp_ce;
 
-	va_end(ptr);
-	return SUCCESS;
+    if (zend_hash_find(CG(class_table), class_name, class_name_len, (void **)&temp_ce) == FAILURE) {
+        zend_error(E_ERROR, "Class '%s' not found", class_name);
+        return NULL;
+    }
+
+    return *temp_ce;
 }

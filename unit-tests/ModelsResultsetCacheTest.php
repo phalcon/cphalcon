@@ -4,7 +4,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2012 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -33,8 +33,8 @@ class ModelsResultsetCacheTest extends PHPUnit_Framework_TestCase
 
 	public function modelsAutoloader($className)
 	{
-		if (file_exists('unit-tests/models/'.$className.'.php')) {
-			require 'unit-tests/models/'.$className.'.php';
+		if (file_exists('unit-tests/models/' . $className . '.php')) {
+			require 'unit-tests/models/' . $className . '.php';
 		}
 	}
 
@@ -142,26 +142,26 @@ class ModelsResultsetCacheTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(count($robots), 3);
 		$this->assertFalse($robots->isFresh());
 
-
 		//TODO: I really can't understand why postgresql fails on inserting a simple record
-		//The error is "Object not in prerequisite state: 7 ERROR:  
+		//The error is "Object not in prerequisite state: 7 ERROR:
 		//currval of sequence "robots_id_seq" is not yet defined in this session"
-		//Is the ORM working with postgresql, is the database structure incorrect or 
+		//Is the ORM working with postgresql, is the database structure incorrect or
 		//I'm using the wrong code?
 		//Skip this test until someone can shed some light on this
-		if (!$di->get("db") instanceof Phalcon\Db\Adapter\Pdo\Postgresql)
-		{
+		if (!$di->get("db") instanceof Phalcon\Db\Adapter\Pdo\Postgresql) {
 			//Aggregate functions like sum, count, etc
 			$robotscount = Robots::count(array(
 				'cache' => array('key' => 'some-count'),
 			));
 			$this->assertEquals($robotscount, 3);
-			
+
 			//Create a temporary robot to test if the count is cached or fresh
 			$newrobot = new Robots();
 			$newrobot->name = "Not cached robot";
 			$newrobot->type = "notcached";
 			$newrobot->year = 2014;
+			$newrobot->datetime = '2015-03-05 04:16:17';
+			$newrobot->text = 'Not cached robot';
 			$newrobot->create();
 
 			$robotscount = Robots::count(array(
@@ -248,8 +248,7 @@ class ModelsResultsetCacheTest extends PHPUnit_Framework_TestCase
 		$di = $this->_prepareTestMysql();
 		if ($di) {
 			$this->_testCacheDefaultDI($di);
-		}
-		else {
+		} else {
 			$this->markTestSkipped("Skipped");
 		}
 	}
@@ -259,8 +258,7 @@ class ModelsResultsetCacheTest extends PHPUnit_Framework_TestCase
 		$di = $this->_prepareTestPostgresql();
 		if ($di) {
 			$this->_testCacheDefaultDI($di);
-		}
-		else {
+		} else {
 			$this->markTestSkipped("Skipped");
 		}
 	}
@@ -270,8 +268,7 @@ class ModelsResultsetCacheTest extends PHPUnit_Framework_TestCase
 		$di = $this->_prepareTestSqlite();
 		if ($di) {
 			$this->_testCacheDefaultDI($di);
-		}
-		else {
+		} else {
 			$this->markTestSkipped("Skipped");
 		}
 	}
@@ -281,8 +278,7 @@ class ModelsResultsetCacheTest extends PHPUnit_Framework_TestCase
 		$di = $this->_prepareTestMysql();
 		if ($di) {
 			$this->_testCacheDefaultDIBindings($di);
-		}
-		else {
+		} else {
 			$this->markTestSkipped("Skipped");
 		}
 	}
@@ -292,8 +288,7 @@ class ModelsResultsetCacheTest extends PHPUnit_Framework_TestCase
 		$di = $this->_prepareTestPostgresql();
 		if ($di) {
 			$this->_testCacheDefaultDIBindings($di);
-		}
-		else {
+		} else {
 			$this->markTestSkipped("Skipped");
 		}
 	}
@@ -303,8 +298,7 @@ class ModelsResultsetCacheTest extends PHPUnit_Framework_TestCase
 		$di = $this->_prepareTestSqlite();
 		if ($di) {
 			$this->_testCacheDefaultDIBindings($di);
-		}
-		else {
+		} else {
 			$this->markTestSkipped("Skipped");
 		}
 	}
@@ -314,8 +308,7 @@ class ModelsResultsetCacheTest extends PHPUnit_Framework_TestCase
 		$di = $this->_prepareTestMysql();
 		if ($di) {
 			$this->_testCacheOtherService($di);
-		}
-		else {
+		} else {
 			$this->markTestSkipped("Skipped");
 		}
 	}
@@ -325,8 +318,7 @@ class ModelsResultsetCacheTest extends PHPUnit_Framework_TestCase
 		$di = $this->_prepareTestPostgresql();
 		if ($di) {
 			$robots = $this->_testCacheOtherService($di);
-		}
-		else {
+		} else {
 			$this->markTestSkipped("Skipped");
 		}
 	}
@@ -336,10 +328,8 @@ class ModelsResultsetCacheTest extends PHPUnit_Framework_TestCase
 		$di = $this->_prepareTestSqlite();
 		if ($di) {
 			$robots = $this->_testCacheOtherService($di);
-		}
-		else {
+		} else {
 			$this->markTestSkipped("Skipped");
 		}
 	}
-
 }

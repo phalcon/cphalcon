@@ -1,41 +1,48 @@
 
 /*
   +------------------------------------------------------------------------+
-  | Phalcon Framework                                                      |
+  | Zephir Language                                                        |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2015 Zephir Team (http://www.zephir-lang.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
   |                                                                        |
   | If you did not receive a copy of the license and are unable to         |
   | obtain it through the world-wide-web, please send an email             |
-  | to license@phalconphp.com so we can send you a copy immediately.       |
+  | to license@zephir-lang.com so we can send you a copy immediately.      |
   +------------------------------------------------------------------------+
-  | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
-  |          Eduar Carvajal <eduar@phalconphp.com>                         |
+  | Authors: Andres Gutierrez <andres@zephir-lang.com>                     |
+  |          Eduar Carvajal <eduar@zephir-lang.com>                        |
   +------------------------------------------------------------------------+
 */
 
-#include "kernel/filter.h"
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
 
 #include <ctype.h>
-#include <Zend/zend_exceptions.h>
-#include <Zend/zend_interfaces.h>
-#include <ext/standard/php_smart_str.h>
-#include <ext/standard/php_math.h>
-#include <ext/standard/html.h>
+
+#include "php.h"
+#include "php_ext.h"
+#include "php_main.h"
+#include "ext/standard/php_smart_str.h"
+#include "ext/standard/php_math.h"
+#include "ext/standard/html.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
 
+#include "Zend/zend_exceptions.h"
+#include "Zend/zend_interfaces.h"
+
 /**
  * Filter alphanum string
  */
-void phalcon_filter_alphanum(zval *return_value, zval *param){
+void zephir_filter_alphanum(zval *return_value, zval *param) {
 
-	int i;
-	char ch;
+	unsigned int i;
+	unsigned char ch;
 	smart_str filtered_str = {0};
 	zval copy;
 	int use_copy = 0;
@@ -73,10 +80,10 @@ void phalcon_filter_alphanum(zval *return_value, zval *param){
 /**
  * Filter identifiers string like variables or database columns/tables
  */
-void phalcon_filter_identifier(zval *return_value, zval *param){
+void zephir_filter_identifier(zval *return_value, zval *param){
 
-	int i;
-	char ch;
+	unsigned int i;
+	unsigned char ch;
 	zval copy;
 	smart_str filtered_str = {0};
 	int use_copy = 0;
@@ -115,19 +122,19 @@ void phalcon_filter_identifier(zval *return_value, zval *param){
 /**
  * Check if a string is encoded with ASCII or ISO-8859-1
  */
-void phalcon_is_basic_charset(zval *return_value, const zval *param){
+void zephir_is_basic_charset(zval *return_value, const zval *param){
 
-	int i;
-	unsigned char ch;
+	unsigned int i;
+	unsigned int ch;
 	int iso88591 = 0;
 
 	for (i = 0; i < Z_STRLEN_P(param); i++) {
-		ch = (unsigned char)(Z_STRVAL_P(param)[i]);
+		ch = Z_STRVAL_P(param)[i];
 		if (ch != '\0') {
 			if (ch == 172 || (ch >= 128 && ch <= 159)) {
 				continue;
 			}
-			if (ch >= 160) {
+			if (ch >= 160 && ch <= 255) {
 				iso88591 = 1;
 				continue;
 			}
@@ -142,7 +149,7 @@ void phalcon_is_basic_charset(zval *return_value, const zval *param){
 	RETURN_STRING("ISO-8859-1", 1);
 }
 
-static long phalcon_unpack(char *data, int size, int issigned, int *map)
+static long zephir_unpack(char *data, int size, int issigned, int *map)
 {
 	long result;
 	char *cresult = (char *) &result;
@@ -160,10 +167,10 @@ static long phalcon_unpack(char *data, int size, int issigned, int *map)
 /**
  * Converts an unsigned long to a char*
  */
-static inline char *phalcon_longtohex(unsigned long value) {
+static inline char *zephir_longtohex(unsigned long value) {
 
 	static char digits[] = "0123456789abcdef";
-	char buf[(sizeof(unsigned long) << 1) + 1];
+	char buf[(sizeof(unsigned long) << 3) + 1];
 	char *ptr, *end;
 
 	end = ptr = buf + sizeof(buf) - 1;
@@ -179,16 +186,16 @@ static inline char *phalcon_longtohex(unsigned long value) {
 /**
  * Perform escaping of non-alphanumeric characters to different formats
  */
-void phalcon_escape_multi(zval *return_value, zval *param, const char *escape_char, unsigned int escape_length, char escape_extra, int use_whitelist) {
+void zephir_escape_multi(zval *return_value, zval *param, const char *escape_char, unsigned int escape_length, char escape_extra, int use_whitelist) {
 
-	int i;
+	unsigned int i;
 	zval copy;
 	smart_str escaped_str = {0};
-	char *hex;
+	char machine_little_endian, *hex;
 	int big_endian_long_map[4];
-	int use_copy = 0;
+	int use_copy = 0, machine_endian_check = 1;
 	int issigned = 0;
-	long int value;
+	long value;
 
 	if (Z_TYPE_P(param) != IS_STRING) {
 		zend_make_printable_zval(param, &copy, &use_copy);
@@ -204,17 +211,19 @@ void phalcon_escape_multi(zval *return_value, zval *param, const char *escape_ch
 	/**
 	 * This is how the big_ending_long_map is calculated as in 'pack'
 	 */
-#ifndef WORDS_BIGENDIAN
-	big_endian_long_map[0] = 3;
-	big_endian_long_map[1] = 2;
-	big_endian_long_map[2] = 1;
-	big_endian_long_map[3] = 0;
-#else
-	big_endian_long_map[0] = 0;
-	big_endian_long_map[1] = 1;
-	big_endian_long_map[2] = 2;
-	big_endian_long_map[3] = 3;
-#endif
+	machine_little_endian = ((char *) &machine_endian_check)[0];
+	if (machine_little_endian) {
+		big_endian_long_map[0] = 3;
+		big_endian_long_map[1] = 2;
+		big_endian_long_map[2] = 1;
+		big_endian_long_map[3] = 0;
+	} else {
+		int size = sizeof(Z_LVAL_P(param));
+		big_endian_long_map[0] = size - 4;
+		big_endian_long_map[1] = size - 3;
+		big_endian_long_map[2] = size - 2;
+		big_endian_long_map[3] = size - 1;
+	}
 
 	/**
 	 * The input must be a valid UTF-32 string
@@ -232,7 +241,7 @@ void phalcon_escape_multi(zval *return_value, zval *param, const char *escape_ch
 			value = ~INT_MAX;
 		}
 
-		value |= phalcon_unpack(&Z_STRVAL_P(param)[i], 4, issigned, big_endian_long_map);
+		value |= zephir_unpack(&Z_STRVAL_P(param)[i], 4, issigned, big_endian_long_map);
 		if (sizeof(long) > 4) {
 			value = (unsigned int) value;
 		}
@@ -248,7 +257,7 @@ void phalcon_escape_multi(zval *return_value, zval *param, const char *escape_ch
 		/**
 		 * Alphanumeric characters are not escaped
 		 */
-		if (value > 32 && value < 127 && isalnum(value)) {
+		if (value < 256 && isalnum(value)) {
 			smart_str_appendc(&escaped_str, (unsigned char) value);
 			continue;
 		}
@@ -283,8 +292,6 @@ void phalcon_escape_multi(zval *return_value, zval *param, const char *escape_ch
 				case ';':
 				case '_':
 				case '|':
-				case '~':
-				case '`':
 					smart_str_appendc(&escaped_str, (unsigned char) value);
 					continue;
 			}
@@ -293,7 +300,7 @@ void phalcon_escape_multi(zval *return_value, zval *param, const char *escape_ch
 		/**
 		 * Convert character to hexadecimal
 		 */
-		hex = phalcon_longtohex(value);
+		hex = zephir_longtohex(value);
 
 		/**
 		 * Append the escaped character
@@ -322,15 +329,36 @@ void phalcon_escape_multi(zval *return_value, zval *param, const char *escape_ch
 }
 
 /**
+ * Escapes non-alphanumeric characters to \HH+space
+ */
+void zephir_escape_css(zval *return_value, zval *param) {
+	zephir_escape_multi(return_value, param, "\\", sizeof("\\")-1, ' ', 0);
+}
+
+/**
+ * Escapes non-alphanumeric characters to \xHH+
+ */
+void zephir_escape_js(zval *return_value, zval *param) {
+	zephir_escape_multi(return_value, param, "\\x", sizeof("\\x")-1, '\0', 1);
+}
+
+/**
+ * Escapes non-alphanumeric characters to &xHH;
+ */
+void zephir_escape_htmlattr(zval *return_value, zval *param) {
+	zephir_escape_multi(return_value, param, "&#x", sizeof("&#x")-1, ';', 1);
+}
+
+/**
  * Escapes HTML replacing special chars by entities
  */
-void phalcon_escape_html(zval *return_value, zval *str, const zval *quote_style, const zval *charset TSRMLS_DC) {
+void zephir_escape_html(zval *return_value, zval *str, zval *quote_style, zval *charset TSRMLS_DC) {
 
-#if PHP_VERSION_ID < 50400
+	#if PHP_VERSION_ID < 50400
 	int length;
-#else
+	#else
 	size_t length;
-#endif
+	#endif
 
 	char *escaped;
 
@@ -340,12 +368,12 @@ void phalcon_escape_html(zval *return_value, zval *str, const zval *quote_style,
 	}
 
 	if (Z_TYPE_P(quote_style) != IS_LONG) {
-		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Invalid quote_style supplied for phalcon_escape_html()");
+		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Invalid quote_style supplied for zephir_escape_html()");
 		RETURN_ZVAL(str, 1, 0);
 	}
 
 	if (Z_TYPE_P(charset) != IS_STRING) {
-		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Invalid charset supplied for phalcon_escape_html()");
+		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Invalid charset supplied for zephir_escape_html()");
 		RETURN_ZVAL(str, 1, 0);
 	}
 

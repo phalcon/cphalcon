@@ -4,7 +4,7 @@
 	+------------------------------------------------------------------------+
 	| Phalcon Framework                                                      |
 	+------------------------------------------------------------------------+
-	| Copyright (c) 2011-2012 Phalcon Team (http://www.phalconphp.com)       |
+	| Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
 	+------------------------------------------------------------------------+
 	| This source file is subject to the New BSD License that is bundled     |
 	| with this package in the file docs/LICENSE.txt.                        |
@@ -44,10 +44,25 @@ class SessionBagTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(array('b' => 'c'), $bag->{'a'});
 		$this->assertEquals(array('b' => 'c'), $_SESSION['test2']['a']);
 
+		/* TODO
 		// Using direct access with initialising a variable.
 		$bag             = new Phalcon\Session\Bag('test3');
 		$bag->a['b']     = 'c';
 		$this->assertEquals(array('b' => 'c'), $bag->a);
 		$this->assertEquals(array('b' => 'c'), $_SESSION['test3']['a']);
+		*/
+	}
+
+	public function testIssue2688()
+	{
+		// Init
+		\Phalcon\DI::reset();
+		new \Phalcon\DI\FactoryDefault();
+		// Configuration
+		$bag    = new Phalcon\Session\Bag('container');
+		$value  = array();
+		$bag->a = $value;
+		// Asserts
+		$this->assertEquals($value, $bag->a);
 	}
 }

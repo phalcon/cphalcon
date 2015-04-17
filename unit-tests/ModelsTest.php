@@ -4,7 +4,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2012 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -46,12 +46,13 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 
 	public function modelsAutoloader($className)
 	{
-		if (file_exists('unit-tests/models/'.$className.'.php')) {
-			require 'unit-tests/models/'.$className.'.php';
+		if (file_exists('unit-tests/models/' . $className . '.php')) {
+			require 'unit-tests/models/' . $className . '.php';
 		}
 	}
 
-	protected function _prepareDb($db){
+	protected function _prepareDb($db)
+	{
 		$db->delete("personas", "estado='X'");
 		$db->delete("personas", "cedula LIKE 'CELL%'");
 	}
@@ -63,11 +64,11 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 
 		$di = new Phalcon\DI();
 
-		$di->set('modelsManager', function(){
+		$di->set('modelsManager', function() {
 			return new Phalcon\Mvc\Model\Manager();
 		});
 
-		$di->set('modelsMetadata', function(){
+		$di->set('modelsMetadata', function() {
 			return new Phalcon\Mvc\Model\Metadata\Memory();
 		});
 
@@ -87,17 +88,6 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 		$di = $this->_getDI(function(){
 			require 'unit-tests/config.db.php';
 			$db = new Phalcon\Db\Adapter\Pdo\Mysql($configMysql);
-		/*
-			$em = new \Phalcon\Events\Manager();
-			$em->attach('db', function($event, $connection) {
-				if ($event->getType() == 'beforeQuery') {
-					echo $connection->getSQLStatement(), PHP_EOL;
-					print_r($connection->getSQLVariables());
-				}
-			});
-
-			$db->setEventsManager($em);
-		*/
 			return $db;
 		});
 
@@ -108,7 +98,7 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 		$this->issue886($di);
 	}
 
-	public function testModelsPostgresql()
+	public function ytestModelsPostgresql()
 	{
 		require 'unit-tests/config.db.php';
 		if (empty($configPostgresql)) {
@@ -154,27 +144,30 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 		$this->assertTrue($db->delete('issue_1534'));
 
 		$product = new Issue_1534();
-		$product->language = new \Phalcon\Db\RawValue('default(language)');
-		$product->name     = 'foo';
-		$product->slug     = 'bar';
-		$product->brand    = new \Phalcon\Db\RawValue('default');
-		$product->sort     = new \Phalcon\Db\RawValue('default');
+		$product->language  = new \Phalcon\Db\RawValue('default(language)');
+		$product->language2 = new \Phalcon\Db\RawValue('default(language2)');
+		$product->name      = 'foo';
+		$product->slug      = 'bar';
+		$product->brand     = new \Phalcon\Db\RawValue('default');
+		$product->sort      = new \Phalcon\Db\RawValue('default');
 		$this->assertTrue($product->save());
 		$this->assertEquals(1, Issue_1534::count());
 
 		$entry = Issue_1534::findFirst();
 		$this->assertEquals('bb', $entry->language);
+		$this->assertEquals('bb', $entry->language2);
 		$this->assertEquals('0', $entry->sort);
 		$this->assertTrue($entry->brand === NULL);
 
 		$this->assertTrue($entry->delete());
 
 		$product = new Issue_1534();
-		$product->language = 'en';
-		$product->name     = 'foo';
-		$product->slug     = 'bar';
-		$product->brand    = 'brand';
-		$product->sort     = 1;
+		$product->language  = 'en';
+		$product->language2 = 'en';
+		$product->name      = 'foo';
+		$product->slug      = 'bar';
+		$product->brand     = 'brand';
+		$product->sort      = 1;
 		$this->assertTrue($product->save());
 		$this->assertEquals(1, Issue_1534::count());
 
@@ -188,17 +181,44 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals('0', $entry->sort);
 		$this->assertTrue($entry->brand === NULL);
 
-/* FIXME: this does not work yet
-		$entry->language = new \Phalcon\Db\RawValue('default(language)');
-		$entry->language = 'es';
+		$entry->language2 = new \Phalcon\Db\RawValue('default(language)');
 		$this->assertTrue($entry->save());
 		$this->assertEquals(1, Issue_1534::count());
 
 		$entry = Issue_1534::findFirst();
-		$this->assertEquals('es', $entry->language);
+		$this->assertEquals('bb', $entry->language2);
 		$this->assertEquals('0', $entry->sort);
 		$this->assertTrue($entry->brand === NULL);
-*/
+		$entry->delete();
+
+		//test subject of Issue - setting RawValue('default')
+		$product = new Issue_1534();
+		$product->language = new \Phalcon\Db\RawValue('default');
+		$product->language2 = new \Phalcon\Db\RawValue('default');
+		$product->name     = 'foo';
+		$product->slug     = 'bar';
+		$product->brand    = 'brand';
+		$product->sort     = 1;
+		$this->assertTrue($product->save());
+		$this->assertEquals(1, Issue_1534::count());
+
+
+		$entry = Issue_1534::findFirst();
+		$this->assertEquals('bb', $entry->language);
+		$this->assertEquals('bb', $entry->language2);
+
+		$entry->language2 = 'en';
+		$this->assertTrue($entry->save());
+
+		$entry = Issue_1534::findFirst();
+		$this->assertEquals('en', $entry->language2);
+
+		$entry->language2 = new \Phalcon\Db\RawValue('default');
+		$this->assertTrue($entry->save());
+
+		$entry = Issue_1534::findFirst();
+		$this->assertEquals('bb', $entry->language2);
+
 
 		$this->assertTrue($db->delete('issue_1534'));
 	}
@@ -216,7 +236,8 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(get_class($people), 'People');
 	}
 
-	protected function _executeTestsNormal($di){
+	protected function _executeTestsNormal($di)
+	{
 
 		$this->_prepareDb($di->getShared('db'));
 
@@ -478,8 +499,26 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 			'cupo' => 21000,
 			'estado' => 'A',
 		);
-
 		$this->assertEquals($persona->toArray(array('nombres', 'cupo', 'estado')), $expected);
+
+		//toArray with params must return only mapped fields if exists columnMap
+		$persona = new Personers();
+		$persona->assign(array(
+			'slagBorgerId' => 1,
+			'navnes' => 'LOST CREATE',
+			'teletelefonfono' => '1',
+			'kredit' => 21000,
+			'status' => 'A',
+			'notField' => 'SOME VALUE'
+		));
+		$expected = array(
+			'navnes' => 'LOST CREATE',
+			'kredit' => 21000,
+			'status' => 'A',
+		);
+		$this->assertEquals($persona->toArray(array('nombres', 'cupo', 'estado')), array());//db fields names
+		$this->assertEquals($persona->toArray(array('navnes', 'kredit', 'status')), $expected);//mapped fields names
+
 
 		//Refresh
 		$persona = Personas::findFirst();

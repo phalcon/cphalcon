@@ -4,7 +4,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2012 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -28,7 +28,7 @@ class My_Mustache_Engine extends \Phalcon\Mvc\View\Engine implements \Phalcon\Mv
 
 	protected $_params;
 
-	public function __construct($view, $di = null)
+	public function __construct($view, \Phalcon\DiInterface $di = null)
 	{
 		$this->_mustache = new Mustache_Engine();
 		parent::__construct($view, $di);
@@ -58,7 +58,7 @@ class My_Twig_Engine extends \Phalcon\Mvc\View\Engine implements \Phalcon\Mvc\Vi
 
 	protected $_twig;
 
-	public function __construct($view, $di = null)
+	public function __construct($view, \Phalcon\DiInterface $di = null)
 	{
 		$loader = new Twig_Loader_Filesystem($view->getViewsDir());
 		$this->_twig = new Twig_Environment($loader);

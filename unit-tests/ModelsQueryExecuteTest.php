@@ -4,7 +4,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2012 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -19,14 +19,6 @@
 */
 
 use Phalcon\Mvc\Model\Query as Query;
-
-class Issue_2019 extends \Phalcon\Mvc\Model
-{
-	public function getSource()
-	{
-		return "issue_2019";
-	}
-}
 
 class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 {
@@ -44,7 +36,7 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 	public function modelsAutoloader($className)
 	{
 		$className = str_replace("\\", DIRECTORY_SEPARATOR, $className);
-		$path = 'unit-tests/models/'.$className.'.php';
+		$path = 'unit-tests/models/' . $className . '.php';
 		if (file_exists($path)) {
 			require $path;
 		}
@@ -70,7 +62,7 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 
 	public function testExecuteMysql()
 	{
-		require 'unit-tests/config.db.php';
+		require __DIR__ . '/config.db.php';
 		if (empty($configMysql)) {
 			$this->markTestSkipped("Skipped");
 			return;
@@ -79,7 +71,7 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 		$di = $this->_getDI();
 
 		$di->set('db', function() {
-			require 'unit-tests/config.db.php';
+			require __DIR__ . '/config.db.php';
 			return new Phalcon\Db\Adapter\Pdo\Mysql($configMysql);
 		}, true);
 
@@ -92,13 +84,11 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 		$this->_testDeleteExecute($di);
 		$this->_testDeleteRenamedExecute($di);
 
-		$this->_testIssue2019($di);
-		$this->_testIssue1803($di);
 	}
 
 	public function testExecutePostgresql()
 	{
-		require 'unit-tests/config.db.php';
+		require __DIR__ . '/config.db.php';
 		if (empty($configPostgresql)) {
 			$this->markTestSkipped("Skipped");
 			return;
@@ -107,7 +97,7 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 		$di = $this->_getDI();
 
 		$di->set('db', function() {
-			require 'unit-tests/config.db.php';
+			require __DIR__ . '/config.db.php';
 			return new Phalcon\Db\Adapter\Pdo\Postgresql($configPostgresql);
 		}, true);
 
@@ -124,7 +114,7 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 
 	public function testExecuteSqlite()
 	{
-		require 'unit-tests/config.db.php';
+		require __DIR__ . '/config.db.php';
 		if (empty($configSqlite)) {
 			$this->markTestSkipped("Skipped");
 			return;
@@ -133,7 +123,7 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 		$di = $this->_getDI();
 
 		$di->set('db', function() {
-			require 'unit-tests/config.db.php';
+			require __DIR__ . '/config.db.php';
 			return new Phalcon\Db\Adapter\Pdo\Sqlite($configSqlite);
 		}, true);
 
@@ -146,18 +136,6 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 		$this->_testDeleteExecute($di);
 		$this->_testDeleteRenamedExecute($di);
 
-	}
-
-	public function _testIssue2019($di)
-	{
-		$manager = $di->getShared('modelsManager');
-		$di->getShared('db')->delete("issue_2019");
-
-		//Test insert with single field
-		$status = $manager->executeQuery('INSERT INTO Issue_2019 (column) VALUES (:column:)', array(
-			"column" => "yeahyeah@hotmail.com",
-		));
-		$this->assertTrue($status->success());
 	}
 
 	public function _testSelectExecute($di)
@@ -350,32 +328,6 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(count($result), 1);
 		$this->assertEquals($result[0]->number, 1);
 
-		//Cast function
-		//TODO: CHAR in postgresql is acually a single char, but I can't specify a length
-		//for the field type like CHAR(10) because phalcon phql doesn't support it
-		$cast_type = "CHAR";
-		if ($di->get("db") instanceof Phalcon\Db\Adapter\Pdo\Postgresql)
-			$cast_type = "TEXT";
-		$result = $manager->executeQuery("SELECT CAST(year AS $cast_type) test FROM Robots LIMIT 1");
-		$this->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Simple', $result);
-		$this->assertInstanceOf('Phalcon\Mvc\Model\Row', $result[0]);
-		$this->assertEquals(Robots::findFirst()->year, $result[0]->test);
-
-		//Convert using... is supported only by mysql (and it's in the sql standards, bad postgresql/sqlite!)
-		if ($di->get("db") instanceof Phalcon\Db\Adapter\Pdo\Mysql)
-		{
-			$result = $manager->executeQuery("SELECT CONVERT(year USING utf8) test FROM Robots LIMIT 1");
-			$this->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Simple', $result);
-			$this->assertInstanceOf('Phalcon\Mvc\Model\Row', $result[0]);
-			$this->assertEquals(Robots::findFirst()->year, $result[0]->test);
-		}
-
-		//Nested Cast
-		$result = $manager->executeQuery("SELECT CAST(CAST(year AS $cast_type) AS DECIMAL) test FROM Robots LIMIT 1");
-		$this->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Simple', $result);
-		$this->assertInstanceOf('Phalcon\Mvc\Model\Row', $result[0]);
-		$this->assertEquals(Robots::findFirst()->year, $result[0]->test);
-
 		$result = $manager->executeQuery('SELECT r.id, r.* FROM Robots r');
 		$this->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Complex', $result);
 		$this->assertNotEquals(gettype($result[0]->id), 'object');
@@ -419,7 +371,7 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($result[1]->r->id, 1);
 		$this->assertEquals($result[1]->p->id, 2);
 
-		//Joins with namespaces
+		/** Joins with namespaces */
 		$result = $manager->executeQuery('SELECT Some\Robots.*, Some\RobotsParts.* FROM Some\Robots JOIN Some\RobotsParts ON Some\Robots.id = Some\RobotsParts.robots_id ORDER BY Some\Robots.id, Some\RobotsParts.id');
 		$this->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Complex', $result);
 		$this->assertEquals(gettype($result[0]->{'some\Robots'}), 'object');
@@ -432,7 +384,7 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($result[1]->{'some\Robots'}->id, 1);
 		$this->assertEquals($result[1]->{'some\RobotsParts'}->id, 2);
 
-		//Joins with namespaces and aliases
+		/** Joins with namespaces and aliases */
 		$result = $manager->executeQuery('SELECT r.*, p.* FROM Some\Robots r JOIN Some\RobotsParts p ON r.id = p.robots_id ORDER BY r.id, p.id');
 		$this->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Complex', $result);
 		$this->assertEquals(gettype($result[0]->r), 'object');
@@ -456,12 +408,15 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 		$this->assertInstanceOf('Phalcon\Mvc\Model\Row', $result[0]);
 
 		// Issue 1011
-		$result = $manager->executeQuery('SELECT r.name le_name FROM Robots r ORDER BY r.name ASC LIMIT ?1,?2', array(1 => 1, 2 => 2), array(1 => \Phalcon\Db\Column::BIND_PARAM_INT, 2 => \Phalcon\Db\Column::BIND_PARAM_INT));
+		/*$result = $manager->executeQuery('SELECT r.name le_name FROM Robots r ORDER BY r.name ASC LIMIT ?1,?2',
+			array(1 => 1, 2 => 2),
+			array(1 => \Phalcon\Db\Column::BIND_PARAM_INT, 2 => \Phalcon\Db\Column::BIND_PARAM_INT
+		));
 		$this->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Simple', $result);
 		$this->assertEquals(count($result), 2);
 		$this->assertInstanceOf('Phalcon\Mvc\Model\Row', $result[0]);
 		$this->assertTrue(isset($result[0]->le_name));
-		$this->assertEquals($result[0]->le_name, 'Robotina');
+		$this->assertEquals($result[0]->le_name, 'Robotina');*/
 	}
 
 	public function _testSelectRenamedExecute($di)
@@ -724,7 +679,9 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 			"status" => "P"
 		));
 		$this->assertTrue($status->success());
+
 		$this->assertTrue($status->getModel()->id > 0);
+
 	}
 
 	public function _testInsertRenamedExecute($di)
@@ -786,6 +743,7 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 			"statut" => "P"
 		));
 		$this->assertTrue($status->success());
+
 		$this->assertTrue($status->getModel()->code > 0);
 
 	}
@@ -812,16 +770,17 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 		$this->assertTrue($status->success());
 
 		// Issue 1011
-		$status = $manager->executeQuery(
+		/*$status = $manager->executeQuery(
 			'UPDATE Subscriptores SET status = :status: WHERE email = :email: LIMIT :limit:',
 			array(
 				"status" => "I",
 				"email" => "le-marina@hotmail.com",
 				"limit" => 1,
 			),
-			array('email' => \Phalcon\Db\Column::BIND_PARAM_STR, /*'limit' => \Phalcon\Db\Column::BIND_PARAM_INT*/)
+			array('email' => \Phalcon\Db\Column::BIND_PARAM_STR, //'limit' => \Phalcon\Db\Column::BIND_PARAM_INT
+			)
 		);
-		$this->assertTrue($status->success());
+		$this->assertTrue($status->success());*/
 	}
 
 	public function _testUpdateRenamedExecute($di)
@@ -862,16 +821,16 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 		$this->assertTrue($status->success());
 
 		// Issue 1011
-		$status = $manager->executeQuery(
+		/*$status = $manager->executeQuery(
 			'DELETE FROM Subscriptores WHERE status = :status: AND email <> :email: LIMIT :limit:',
 			array(
 				"status" => "P",
 				"email" => "fuego@hotmail.com",
 				"limit" => 1,
 			),
-			array('email' => \Phalcon\Db\Column::BIND_PARAM_STR,/* 'limit' => \Phalcon\Db\Column::BIND_PARAM_INT */)
+			array('email' => \Phalcon\Db\Column::BIND_PARAM_STR) ///* 'limit' => \Phalcon\Db\Column::BIND_PARAM_INT
 		);
-		$this->assertTrue($status->success());
+		$this->assertTrue($status->success());*/
 	}
 
 	public function _testDeleteRenamedExecute($di)
@@ -887,19 +846,5 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 			'courrierElectronique' => 'fuego@hotmail.com'
 		));
 		$this->assertTrue($status->success());
-
 	}
-
-	public function _testIssue1803($di)
-	{
-		$manager = $di->getShared('modelsManager');
-
-		$result = $manager->executeQuery('SELECT r1.*, r2.*, r3.* FROM Robots AS r1 LEFT JOIN Robots AS r2 ON r2.id = r1.id LEFT JOIN Robots AS r3 ON r3.id = r1.id LIMIT 1');
-		
-		$this->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Complex', $result);
-		$this->assertEquals(gettype($result[0]->r1), 'object');
-		$this->assertEquals(get_class($result[0]->r1), 'Robots');
-		$this->assertEquals(count($result[0]), 3);
-	}
-
 }

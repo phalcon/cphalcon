@@ -5,9 +5,9 @@
  *
  * Tests the \Phalcon\View\Engines\Volt\Compiler component
  *
- * PhalconPHP Framework
+ * Phalcon Framework
  *
- * @copyright (c) 2011-2014 Phalcon Team
+ * @copyright (c) 2011-2015 Phalcon Team
  * @link      http://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>

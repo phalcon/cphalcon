@@ -4,7 +4,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2012 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -30,6 +30,8 @@ class ModelsMetadataAdaptersTest extends PHPUnit_Framework_TestCase
 				1 => 'name',
 				2 => 'type',
 				3 => 'year',
+				4 => 'datetime',
+				5 => 'text'
 			),
 			1 => array(
 				0 => 'id',
@@ -38,18 +40,24 @@ class ModelsMetadataAdaptersTest extends PHPUnit_Framework_TestCase
 				0 => 'name',
 				1 => 'type',
 				2 => 'year',
+				3 => 'datetime',
+				4 => 'text'
 			),
 			3 => array(
 				0 => 'id',
 				1 => 'name',
 				2 => 'type',
 				3 => 'year',
+				4 => 'datetime',
+				5 => 'text'
 			),
 			4 => array(
 				'id' => 0,
 				'name' => 2,
 				'type' => 2,
 				'year' => 0,
+				'datetime' => 4,
+				'text' => 6
 			),
 			5 => array(
 				'id' => true,
@@ -61,9 +69,15 @@ class ModelsMetadataAdaptersTest extends PHPUnit_Framework_TestCase
 				'name' => 2,
 				'type' => 2,
 				'year' => 1,
+				'datetime' => 2,
+				'text' => 2
 			),
 			10 => array(),
-			11 => array()
+			11 => array(),
+			12 => array(
+				'type' => 'mechanical',
+				'year' => 1900
+			),
 		),
 		'map-robots' => array(
 			0 => null,
@@ -84,7 +98,7 @@ class ModelsMetadataAdaptersTest extends PHPUnit_Framework_TestCase
 	public function modelsAutoloader($className)
 	{
 		if (file_exists('unit-tests/models/' . $className . '.php')) {
-			require 'unit-tests/models/' . $className . '.php';
+			require __DIR__ . '/models/' . $className . '.php';
 		}
 	}
 
@@ -100,7 +114,8 @@ class ModelsMetadataAdaptersTest extends PHPUnit_Framework_TestCase
 		});
 
 		$di->set('db', function(){
-			require 'unit-tests/config.db.php';
+			require __DIR__ . '/config.db.php';
+			/** @var string $configMysql */
 			return new Phalcon\Db\Adapter\Pdo\Mysql($configMysql);
 		}, true);
 
@@ -109,7 +124,7 @@ class ModelsMetadataAdaptersTest extends PHPUnit_Framework_TestCase
 
 	public function testMetadataMemory()
 	{
-		require 'unit-tests/config.db.php';
+		require __DIR__ . '/config.db.php';
 		if (empty($configMysql)) {
 			$this->markTestSkipped('Test skipped');
 			return;
@@ -141,7 +156,7 @@ class ModelsMetadataAdaptersTest extends PHPUnit_Framework_TestCase
 	{
 		@session_start();
 
-		require 'unit-tests/config.db.php';
+		require __DIR__ . '/config.db.php';
 		if (empty($configMysql)) {
 			$this->markTestSkipped('Test skipped');
 			return;
@@ -179,7 +194,7 @@ class ModelsMetadataAdaptersTest extends PHPUnit_Framework_TestCase
 
 	public function testMetadataApc()
 	{
-		require 'unit-tests/config.db.php';
+		require __DIR__ . '/config.db.php';
 		if (empty($configMysql)) {
 			$this->markTestSkipped('Test skipped');
 			return;
@@ -222,7 +237,7 @@ class ModelsMetadataAdaptersTest extends PHPUnit_Framework_TestCase
 
 	public function testMetadataXcache()
 	{
-		require 'unit-tests/config.db.php';
+		require __DIR__ . '/config.db.php';
 		if (empty($configMysql)) {
 			$this->markTestSkipped('Test skipped');
 			return;
@@ -265,7 +280,7 @@ class ModelsMetadataAdaptersTest extends PHPUnit_Framework_TestCase
 
 	public function testMetadataFiles()
 	{
-		require 'unit-tests/config.db.php';
+		require __DIR__ . '/config.db.php';
 		if (empty($configMysql)) {
 			$this->markTestSkipped('Test skipped');
 			return;
@@ -275,7 +290,7 @@ class ModelsMetadataAdaptersTest extends PHPUnit_Framework_TestCase
 
 		$di->set('modelsMetadata', function(){
 			return new Phalcon\Mvc\Model\Metadata\Files(array(
-				'metaDataDir' => 'unit-tests/cache/',
+				'metaDataDir' => __DIR__ . '/cache/',
 			));
 		});
 
@@ -287,8 +302,8 @@ class ModelsMetadataAdaptersTest extends PHPUnit_Framework_TestCase
 
 		Robots::findFirst();
 
-		$this->assertEquals(require 'unit-tests/cache/meta-robots-robots.php', $this->_data['meta-robots-robots']);
-		$this->assertEquals(require 'unit-tests/cache/map-robots.php', $this->_data['map-robots']);
+		$this->assertEquals(require __DIR__ . '/cache/meta-robots-robots.php', $this->_data['meta-robots-robots']);
+		$this->assertEquals(require __DIR__ . '/cache/map-robots.php', $this->_data['map-robots']);
 
 		$this->assertFalse($metaData->isEmpty());
 

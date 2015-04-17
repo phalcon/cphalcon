@@ -269,8 +269,10 @@ DROP TABLE IF EXISTS `robots`;
 CREATE TABLE `robots` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(70) COLLATE utf8_unicode_ci NOT NULL,
-  `type` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
-  `year` int(11) NOT NULL,
+  `type` varchar(32) COLLATE utf8_unicode_ci NOT NULL default 'mechanical',
+  `year` int(11) NOT NULL default 1900,
+  `datetime` datetime NOT NULL,
+  `text` text NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -281,7 +283,9 @@ CREATE TABLE `robots` (
 
 LOCK TABLES `robots` WRITE;
 /*!40000 ALTER TABLE `robots` DISABLE KEYS */;
-INSERT INTO `robots` VALUES (1,'Robotina','mechanical',1972),(2,'Astro Boy','mechanical',1952),(3,'Terminator','cyborg',2029);
+INSERT INTO `robots` VALUES (1,'Robotina','mechanical',1972,'1972/01/01 00:00:00','text'),
+(2,'Astro Boy','mechanical',1952,'1952/01/01 00:00:00','text'),
+(3,'Terminator','cyborg',2029,'2029/01/01 00:00:00','text');
 /*!40000 ALTER TABLE `robots` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -397,6 +401,7 @@ CREATE TABLE `issue_1534` (
   `slug` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
   `brand` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
   `sort` tinyint(3) unsigned NOT NULL DEFAULT '0',
+  `language2` varchar(2) COLLATE utf8_unicode_ci NOT NULL DEFAULT 'bb',
   PRIMARY KEY (`id`,`language`),
   UNIQUE KEY `slug` (`slug`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;

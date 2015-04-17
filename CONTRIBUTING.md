@@ -1,83 +1,37 @@
-# Contributing Guidelines
+# Contributing to Phalcon
 
-Phalcon is an open source project and a volunteer effort.
+Phalcon is an open source project and a volunteer effort. Phalcon welcomes contribution from everyone
 
-*We accept bug reports, new feature requests and pull requests only via GitHub*.
+## Contributions
+
+Contributions to Phalcon should be made in the form of GitHub pull requests. Each pull request will be reviewed by a core contributor (someone with permission to land patches) and either landed in the main tree or given feedback for changes that would be required. All contributions should follow this format, even those from core contributors.
+*We only accept bug reports, new feature requests and pull requests in GitHub*.
+
+## Pull Request Checklist
+
+- Don't submit your pull requests to master. Branch from the required branch and,
+  if needed, rebase to the proper branch before submitting your pull request.
+  If it doesn't merge cleanly with master you may be asked to rebase your changes.
+
+- Don't put submodule updates in your pull request unless they are to landed
+  commits.
+
+- Add tests relevant to the fixed bug or new feature. See our testing
+  guide for more information.
+
+- Phalcon 2 is written in [Zephir](http://zephir-lang.com/), please do not submit
+  commits that modify C generated files directly or those whose functionality/fixes
+  is implemented in C language
+
+- Remove any change to ext/kernel / *.zep.c / *.zep.h files before submit the pull request
+
+## Getting Support
 
 If you have a question about how to use Phalcon, please see the [support page](http://phalconphp.com/support).
 
+## Requesting Features
+
 If you have a change or new feature in mind, please fill an [NFR](https://github.com/phalcon/cphalcon/wiki/New-Feature-Request---NFR).
 
-
-# Bug Reporting Guidelines
-
-All bug reports are welcome. However, to make it easier for us to reproduce and fix the bug, please try to include the following information to your bug report:
-
-  * what exactly you did to trigger the bug
-  * what you expected to get
-  * what actually happened
-
-Please supply any information that may be useful in fixing the bug:
-  * operating system
-  * PHP version
-  * Phalcon version
-  * a short script that reproduces the problem (please!)
-  * any other information unique or specific to your setup
-
-If you are reporting a crash, please try to build Phalcon in the debug mode and try to get the backtrace.
-
-
-## How to Build Phalcon in Debug Mode
-
-```bash
-cd ext
-phpize
-./configure CFLAGS="-O0 -g3 -Wall"
-make
-sudo make install
-```
-
-
-## How to Generate Backtrace (Linux)
-
-To generate a meaningful backtrace, please build Phalcon in the debug mode (see above).
-
-  1. Remove any limits you may have on core dump size from your shell:
-    * bash/dash/sh: `ulimit -c unlimited`
-    * tcsh: `unlimit coredumpsize`
-  2. Please make sure that the directory in which you are running PHP has write permissions for the user who's running PHP.
-  3. If you use Ubuntu, please make sure to stop `apport`: `sudo service apport stop`
-  4. Make sure that core dumps are enabled; to do so, please run these commands (you need to be `root`): `echo core > /proc/sys/kernel/core_pattern; echo 1 > /proc/sys/kernel/core_uses_pid`
-  5. Crash PHP:
-    * PHP CGI: Simply run php with the script that crashes it
-    * PHP Apache Module: Run `httpd -X`, and access the script that crashes PHP (*hint:* you may need to set [CoreDumpDirectory](http://httpd.apache.org/docs/2.2/mod/mpm_common.html#coredumpdirectory))
-
-Once PHP (or Apache) crashes, you should have the core file (it will be named core.XXXXX, where `XXXXX` is a number (ID of the crashed process)).
-
-Now install `gdb` if you have not installed it yet (`sudo apt-get install gdb` for Debian based systems) and run it with the path to the PHP or Apache (whichever you used) and the core file.
-The command should look like this:
-
-```bash
-gdb /usr/bin/php /path/to/core
-```
-
-or
-
-```bash
-gdb /usr/sbin/apache2 /path/to/core
-```
-
-Then, at the gdb prompt, please type
-
-```
-bt full
-```
-
-and copy and paste the output to the bug report.
-
-Use `quit` to exit gdb.
-
-
-
-Thanks!  
+Thanks! <br />
 Phalcon Team

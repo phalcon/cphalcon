@@ -69,8 +69,7 @@ class Generator_Safe
         $this->phalconH = new Generator_File_PhalconH($this->sourceDir, $outputDir);
         $this->phalconC = new Generator_File_PhalconC($rootDir, $this->sourceDir, $configDir, $outputDir);
         $this->configM4 = new Generator_File_ConfigM4($this->sourceDir, $outputDir);
-        $this->configW32 = new Generator_File_ConfigW32($this->sourceDir, $outputDir);
-        $this->makefileFrag = new Generator_File_MakefileFrag($this->sourceDir, $outputDir);
+        //$this->configW32 = new Generator_File_ConfigW32($this->sourceDir, $outputDir);
     }
 
     /**
@@ -95,9 +94,26 @@ class Generator_Safe
         $this->phalconC->generate($includedHeaderFiles);
 
         $this->configM4->generate();
-        $this->configW32->generate();
-        $this->makefileFrag->generate();
+        //$this->configW32->generate();
 
         copy($this->sourceDir . '/php_phalcon.h', $this->outputDir . '/php_phalcon.h');
+        $this->processKernelGlobals();
+    }
+
+    /**
+     * Resolves headers in the php_phalcon.h file
+     */
+    protected function processKernelGlobals()
+    {
+        $lines = array();
+        foreach (file($this->outputDir . '/php_phalcon.h') as $line) {
+            if (preg_match('@^#include "(kernel/.+)"@', $line, $matches)) {
+                $content = file_get_contents('ext/' . $matches[1]);
+                $lines[] = $content . PHP_EOL;
+            } else {
+                $lines[] = $line;
+            }
+        }
+        file_put_contents($this->outputDir . '/php_phalcon.h', join('', $lines));
     }
 }

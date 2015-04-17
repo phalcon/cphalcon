@@ -4,7 +4,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2012 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -27,10 +27,13 @@ class LoaderTest extends PHPUnit_Framework_TestCase
 		$loader = new Phalcon\Loader();
 
 		$loader->registerNamespaces(array(
-			"Example\Base" => "unit-tests/vendor/example/base/",
-			"Example\Adapter" => "unit-tests/vendor/example/adapter/",
-			"Example" => "unit-tests/vendor/example/"
+			"Example\\Base" => "unit-tests/vendor/example/base/",
 		));
+
+		$loader->registerNamespaces(array(
+			"Example\\Adapter" => "unit-tests/vendor/example/adapter/",
+			"Example" => "unit-tests/vendor/example/"
+		), true);
 
 		$loader->register();
 
@@ -54,10 +57,13 @@ class LoaderTest extends PHPUnit_Framework_TestCase
 		$loader->setExtensions(array('inc', 'php'));
 
 		$loader->registerNamespaces(array(
-			"Example\Base" => "unit-tests/vendor/example/base/",
-			"Example\Adapter" => "unit-tests/vendor/example/adapter/",
-			"Example" => "unit-tests/vendor/example/"
+			"Example\\Base" => "unit-tests/vendor/example/base/",
+			"Example\\Adapter" => "unit-tests/vendor/example/adapter/",
 		));
+
+		$loader->registerNamespaces(array(
+			"Example" => "unit-tests/vendor/example/"
+		), true);
 
 		$loader->register();
 
@@ -75,9 +81,12 @@ class LoaderTest extends PHPUnit_Framework_TestCase
 
 		$loader->registerDirs(array(
 			"unit-tests/vendor/example/dialects", //missing trailing slash
+		));
+
+		$loader->registerDirs(array(
 			"unit-tests/vendor/example/types",
 			"unit-tests/vendor",
-		));
+		), true);
 
 		$loader->register();
 
@@ -124,8 +133,11 @@ class LoaderTest extends PHPUnit_Framework_TestCase
 
 		$loader->registerClasses(array(
 			"MoiTest" => "unit-tests/vendor/example/test/MoiTest.php",
-			"LeTest" => "unit-tests/vendor/example/test/LeTest.php",
 		));
+
+		$loader->registerClasses(array(
+			"LeTest" => "unit-tests/vendor/example/test/LeTest.php",
+		), true);
 
 		$loader->register();
 
@@ -147,6 +159,10 @@ class LoaderTest extends PHPUnit_Framework_TestCase
 			"Pseudo" => "unit-tests/vendor/example/Pseudo/",
 		));
 
+		$loader->registerPrefixes(array(
+			"SecondPseudo" => "unit-tests/vendor/example/SecondPseudo/",
+		), true);
+
 		$loader->register();
 
 		$pseudoClass = new Pseudo_Some_Something();
@@ -154,6 +170,12 @@ class LoaderTest extends PHPUnit_Framework_TestCase
 
 		$pseudoClass = new Pseudo_Base();
 		$this->assertEquals(get_class($pseudoClass), 'Pseudo_Base');
+
+		$pseudoClass = new SecondPseudo_Some_Something();
+		$this->assertEquals(get_class($pseudoClass), 'SecondPseudo_Some_Something');
+
+		$pseudoClass = new SecondPseudo_Base();
+		$this->assertEquals(get_class($pseudoClass), 'SecondPseudo_Base');
 
 		$loader->unregister();
 	}
