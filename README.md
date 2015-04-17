@@ -70,7 +70,7 @@ External Links
 --------------
 
 * [Documentation](http://docs.phalconphp.com/)
-* [Support](http://phalconphp.com/support)
+* [Support](http://forum.phalconphp.com)
 * [Blog](http://blog.phalconphp.com)
 * [Zephir](http://zephir-lang.com/)
 * [Twitter](http://twitter.com/phalconphp)
