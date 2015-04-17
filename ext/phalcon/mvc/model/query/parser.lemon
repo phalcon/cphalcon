@@ -1235,4 +1235,3 @@ qualified_name(R) ::= IDENTIFIER(A) DOT IDENTIFIER(B) . {
 qualified_name(R) ::= IDENTIFIER(A) . {
 	R = phql_ret_qualified_name(NULL, NULL, A);
 }
-
