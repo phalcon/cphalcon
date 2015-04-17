@@ -4,6 +4,7 @@ Phalcon\Forms\Form::getMessages() produces PHP error if form is valid - https://
 <?php include('skipif.inc'); ?>
 --FILE--
 <?php
+$di = new Phalcon\Di\FactoryDefault;
 $form = new \Phalcon\Forms\Form;
 $form->add(new \Phalcon\Forms\Element\Text('name'));
 $form->isValid(array('name' => 'John'));
