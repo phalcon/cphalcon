@@ -1,30 +1,9 @@
 
-<<<<<<< HEAD
 /* This file was generated automatically by Zephir do not modify it! */
-=======
-/*
- +------------------------------------------------------------------------+
- | Phalcon Framework                                                      |
- +------------------------------------------------------------------------+
- | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
- +------------------------------------------------------------------------+
- | This source file is subject to the New BSD License that is bundled     |
- | with this package in the file docs/LICENSE.txt.                        |
- |                                                                        |
- | If you did not receive a copy of the license and are unable to         |
- | obtain it through the world-wide-web, please send an email             |
- | to license@phalconphp.com so we can send you a copy immediately.       |
- +------------------------------------------------------------------------+
- | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
- |          Eduar Carvajal <eduar@phalconphp.com>                         |
- +------------------------------------------------------------------------+
-*/
->>>>>>> master
 
 #ifndef PHP_PHALCON_H
-#define PHP_PHALCON_H
+#define PHP_PHALCON_H 1
 
-<<<<<<< HEAD
 #ifdef PHP_WIN32
 #define ZEPHIR_RELEASE 1
 #endif
@@ -55,21 +34,6 @@
 #include <php.h>
 
 #define ZEPHIR_MAX_MEMORY_STACK 48
-=======
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include <main/php.h>
-#ifdef ZTS
-#include <TSRM/TSRM.h>
-#endif
-
-#define PHP_PHALCON_VERSION "1.3.4"
-#define PHP_PHALCON_EXTNAME "phalcon"
-
-#define PHALCON_NUM_PREALLOCATED_FRAMES 25
->>>>>>> master
 
 /** Memory frame */
 typedef struct _zephir_memory_entry {
@@ -79,7 +43,6 @@ typedef struct _zephir_memory_entry {
 	size_t hash_pointer;
 	size_t hash_capacity;
 	zval ***hash_addresses;
-<<<<<<< HEAD
 	struct _zephir_memory_entry *prev;
 	struct _zephir_memory_entry *next;
 #ifndef ZEPHIR_RELEASE
@@ -87,15 +50,6 @@ typedef struct _zephir_memory_entry {
 	const char *func;
 #endif
 } zephir_memory_entry;
-=======
-	struct _phalcon_memory_entry *prev;
-	struct _phalcon_memory_entry *next;
-#ifndef PHALCON_RELEASE
-	const char *func;
-	zend_bool permanent;
-#endif
-} phalcon_memory_entry;
->>>>>>> master
 
 /** Virtual Symbol Table */
 typedef struct _zephir_symbol_table {
@@ -104,23 +58,10 @@ typedef struct _zephir_symbol_table {
 	struct _zephir_symbol_table *prev;
 } zephir_symbol_table;
 
-<<<<<<< HEAD
 typedef struct _zephir_function_cache {
 	zend_class_entry *ce;
 	zend_function *func;
 } zephir_function_cache;
-=======
-/** Security options */
-typedef struct _phalcon_security_options {
-	zend_bool crypt_std_des_supported;
-	zend_bool crypt_ext_des_supported;
-	zend_bool crypt_md5_supported;
-	zend_bool crypt_blowfish_supported;
-	zend_bool crypt_blowfish_y_supported;
-	zend_bool crypt_sha256_supported;
-	zend_bool crypt_sha512_supported;
-} phalcon_security_options;
->>>>>>> master
 
 #if PHP_VERSION_ID >= 50400
 	#define ZEPHIR_INIT_FUNCS(class_functions) static const zend_function_entry class_functions[] =
@@ -128,19 +69,9 @@ typedef struct _phalcon_security_options {
 	#define ZEPHIR_INIT_FUNCS(class_functions) static const function_entry class_functions[] =
 #endif
 
-<<<<<<< HEAD
 #ifndef PHP_FE_END
 	#define PHP_FE_END { NULL, NULL, NULL, 0, 0 }
 #endif
-=======
-	/* Controls double initialization of memory frames */
-	int initialized;
-
-	/** Memory */
-	phalcon_memory_entry *start_memory;    /**< The first preallocated frame */
-	phalcon_memory_entry *end_memory;      /**< The last preallocate frame */
-	phalcon_memory_entry *active_memory;   /**< The current memory frame */
->>>>>>> master
 
 /** Define FASTCALL */
 #if defined(__GNUC__) && ZEND_GCC_VERSION >= 3004 && defined(__i386__)
@@ -151,20 +82,8 @@ typedef struct _phalcon_security_options {
 # define ZEPHIR_FASTCALL
 #endif
 
-<<<<<<< HEAD
 #define ZEPHIR_INIT_CLASS(name) \
 	int zephir_ ##name## _init(INIT_FUNC_ARGS)
-=======
-	/** Frequently used zvals */
-	zval *z_null;
-	zval *z_true;
-	zval *z_false;
-	zval *z_zero;
-	zval *z_one;
-
-	/** Function cache */
-	HashTable *fcache;
->>>>>>> master
 
 #define ZEPHIR_INIT(name) \
 	if (zephir_ ##name## _init(INIT_FUNC_ARGS_PASSTHRU) == FAILURE) { \
@@ -176,22 +95,12 @@ typedef struct _phalcon_security_options {
 #define PHP_FE_END { NULL, NULL, NULL, 0, 0 }
 #endif
 
-<<<<<<< HEAD
 #ifndef INIT_PZVAL_COPY
 #define INIT_PZVAL_COPY(z, v) \
 	ZVAL_COPY_VALUE(z, v); \
 	Z_SET_REFCOUNT_P(z, 1); \
 	Z_UNSET_ISREF_P(z);
 #endif
-=======
-	zend_bool register_psr3_classes;
-
-	/** Security */
-	phalcon_security_options security;
-
-	/** DB */
-	phalcon_db_options db;
->>>>>>> master
 
 #ifndef ZVAL_COPY_VALUE
 #define ZVAL_COPY_VALUE(z, v) \
@@ -199,18 +108,14 @@ typedef struct _phalcon_security_options {
 	Z_TYPE_P(z) = Z_TYPE_P(v);
 #endif
 
-<<<<<<< HEAD
 #ifndef HASH_KEY_NON_EXISTENT
 # define HASH_KEY_NON_EXISTENT HASH_KEY_NON_EXISTANT
 #endif
-=======
->>>>>>> master
 
 /** Macros for branch prediction */
 #define likely(x) EXPECTED(x)
 #define unlikely(x) UNEXPECTED(x)
 
-<<<<<<< HEAD
 #if defined(__GNUC__) && (defined(__clang__) || ((__GNUC__ * 100 + __GNUC_MINOR__) >= 405))
 # define UNREACHABLE() __builtin_unreachable()
 # define ASSUME(x) if (x) {} else __builtin_unreachable()
@@ -235,21 +140,12 @@ typedef struct _phalcon_security_options {
 # define ZEPHIR_ATTR_PURE
 # define ZEPHIR_ATTR_CONST
 # define ZEPHIR_ATTR_WARN_UNUSED_RESULT
-=======
-#ifdef ZTS
-	#define PHALCON_GLOBAL(v) TSRMG(phalcon_globals_id, zend_phalcon_globals *, v)
-	#define PHALCON_VGLOBAL   ((zend_phalcon_globals *) (*((void ***) tsrm_ls))[TSRM_UNSHUFFLE_RSRC_ID(phalcon_globals_id)])
-#else
-	#define PHALCON_GLOBAL(v) (phalcon_globals.v)
-	#define PHALCON_VGLOBAL &(phalcon_globals)
->>>>>>> master
 #endif
 
 #if !defined(__GNUC__) && !(defined(__SUNPRO_C) && (__SUNPRO_C >= 0x590))
 # define __builtin_constant_p(s) (0)
 #endif
 
-<<<<<<< HEAD
 #ifndef ZEND_MOD_END
 # define ZEND_MOD_END { NULL, NULL, NULL, 0 }
 #endif
@@ -293,40 +189,6 @@ typedef struct _phalcon_security_options {
 typedef struct _zephir_struct_db { 
 	zend_bool escape_identifiers;
 } zephir_struct_db;
-=======
-extern int nusphere_dbg_present;
-
-/* Compatibility macros for PHP 5.3 */
-#ifndef PHP_FE_END
-	#define PHP_FE_END { NULL, NULL, NULL, 0, 0 }
-#endif
-
-#ifndef INIT_PZVAL_COPY
-#	define INIT_PZVAL_COPY(z, v) \
-		ZVAL_COPY_VALUE(z, v); \
-		Z_SET_REFCOUNT_P(z, 1); \
-		Z_UNSET_ISREF_P(z);
-#endif
-
-#ifndef ZVAL_COPY_VALUE
-#	define ZVAL_COPY_VALUE(z, v) \
-		(z)->value  = (v)->value; \
-		Z_TYPE_P(z) = Z_TYPE_P(v);
-#endif
-
-#ifndef HASH_KEY_NON_EXISTENT
-#	define HASH_KEY_NON_EXISTENT    HASH_KEY_NON_EXISTANT
-#endif
-
-
-#define PHALCON_INIT_CLASS(name) \
-	int phalcon_ ##name## _init(TSRMLS_D)
-
-#define PHALCON_INIT(name) \
-	if (phalcon_ ##name## _init(TSRMLS_C) == FAILURE) { \
-		return FAILURE; \
-	}
->>>>>>> master
 
 typedef struct _zephir_struct_orm { 
 	HashTable*  parser_cache;
@@ -341,7 +203,6 @@ typedef struct _zephir_struct_orm {
 	zend_bool enable_literals;
 } zephir_struct_orm;
 
-<<<<<<< HEAD
 
 
 ZEND_BEGIN_MODULE_GLOBALS(phalcon)
@@ -379,44 +240,6 @@ ZEND_END_MODULE_GLOBALS(phalcon)
 
 #ifdef ZTS
 #include "TSRM.h"
-=======
-#if defined(__GNUC__) && (defined(__clang__) || ((__GNUC__ * 100 + __GNUC_MINOR__) >= 405))
-#	define UNREACHABLE() __builtin_unreachable()
-#	define ASSUME(x)     if (x) {} else __builtin_unreachable()
-#else
-#	define UNREACHABLE() assert(0)
-#	define ASSUME(x)     assert(!!(x));
-#endif
-
-#if defined(__GNUC__) || defined(__clang__)
-#	define PHALCON_ATTR_NONNULL            __attribute__((nonnull))
-#	define PHALCON_ATTR_NONNULL1(x)        __attribute__((nonnull (x)))
-#	define PHALCON_ATTR_NONNULL2(x, y)     __attribute__((nonnull (x, y)))
-#	define PHALCON_ATTR_NONNULL3(x, y, z)  __attribute__((nonnull (x, y, z)))
-#	define PHALCON_ATTR_PURE               __attribute__((pure))
-#	define PHALCON_ATTR_CONST              __attribute__((const))
-#	define PHALCON_ATTR_WARN_UNUSED_RESULT __attribute__((warn_unused_result))
-#else
-#	define PHALCON_ATTR_NONNULL
-#	define PHALCON_ATTR_NONNULL1(x)
-#	define PHALCON_ATTR_NONNULL2(x, y)
-#	define PHALCON_ATTR_NONNULL3(x, y, z)
-#	define PHALCON_ATTR_PURE
-#	define PHALCON_ATTR_CONST
-#	define PHALCON_ATTR_WARN_UNUSED_RESULT
-#endif
-
-#if !defined(__GNUC__) && !(defined(__SUNPRO_C) && (__SUNPRO_C >= 0x590))
-#	define __builtin_constant_p(s)    (0)
-#endif
-
-#ifndef ZEND_MOD_END
-#	define ZEND_MOD_END { NULL, NULL, NULL, 0 }
-#endif
-
-#ifndef __func__
-#	define __func__ __FUNCTION__
->>>>>>> master
 #endif
 
 ZEND_EXTERN_MODULE_GLOBALS(phalcon)
@@ -441,14 +264,4 @@ ZEND_EXTERN_MODULE_GLOBALS(phalcon)
 extern zend_module_entry phalcon_module_entry;
 #define phpext_phalcon_ptr &phalcon_module_entry
 
-<<<<<<< HEAD
 #endif
-=======
-#	if defined(HAVE_HASH_EXT) && !defined(PHALCON_USE_PHP_HASH)
-#		define PHALCON_USE_PHP_HASH 1
-#	endif
-
-#endif /* !defined(__CYGWIN__) && !defined(WIN32) && defined(HAVE_CONFIG_H) */
-
-#endif /* PHP_PHALCON_H */
->>>>>>> master
