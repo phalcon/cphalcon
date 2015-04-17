@@ -3,74 +3,91 @@ Phalcon Framework
 
 Phalcon is an open source web framework delivered as a C extension for the PHP language providing high performance and lower resource consumption.
 
-This readme provides an introduction to contributing to `Phalcon 2.0`.
-
 Get Started
 -----------
 
-Clone `Phalcon 2.0` repo:
+Phalcon is written in Zephir/C with platform independence in mind. As a result, Phalcon is available on Microsoft Windows, GNU/Linux, and Mac OS X. You can either download a binary package for the system of your choice or build it from sources.
+
+### Windows
+
+To install Phalcon on Windows:
+
+1. Download [Phalcon for Windows](http://phalconphp.com/en/download/windows)
+2. Extract the DLL file and copy it to your PHP extensions directory
+3. Edit your php.ini file and add this line: `extension=php_phalcon.dll`
+4. Finally, restart your webserver
+
+**Hint:** To ensure that your Phalcon installation was successful, debug with `<?php phpinfo(); ?>` and search for a section mentioning the Phalcon extension.
+
+### Linux/Unix/Mac
+
+On a Unix-based platform you can easily compile and install the extension from sources.
+
+#### Requirements
+Prerequisite packages are:
+
+* PHP 5.4.x/5.5.x/5.6.x development resources
+* GCC compiler (Linux/Solaris) or Xcode (Mac)
+
+Ubuntu:
 
 ```bash
-git clone -b 2.0.0 https://github.com/phalcon/cphalcon.git
+sudo apt-get install php5-dev libpcre3-dev gcc make
 ```
 
-Clone [Zephir](https://github.com/phalcon/zephir) repo:
+Suse:
 
 ```bash
-git clone https://github.com/phalcon/zephir.git
+sudo zypper install php5-devel gcc make
 ```
 
-Clone [json-c](https://github.com/json-c/json-c.git) repo:
+CentOS/Fedora/RHEL
 
 ```bash
-git clone https://github.com/json-c/json-c.git
+sudo yum install php-devel pcre-devel gcc make
 ```
 
-Install required packages:
+Compilation
+-----------
+
+Follow these instructions to generate a binary extension for your platform:
 
 ```bash
-sudo apt-get install php5-dev php5-mysql gcc make re2c libpcre3-dev
-```
-
-Compile `json-c` and `Zephir`:
-
-```bash
-cd zephir
-sudo ./install-json
+git clone git://github.com/phalcon/cphalcon.git
+cd cphalcon/build
 sudo ./install
-cd ..
 ```
 
-Compile `Phalcon`:
+Add the extension to your php.ini:
 
 ```bash
-cd cphalcon
-../zephir/bin/zephir generate
-../zephir/bin/zephir compile
-```
-
-Add extension to your `php.ini`:
-
-```ini
 extension=phalcon.so
 ```
 
-Finally restart the webserver!
+Finally, restart the webserver.
 
 External Links
 --------------
 
-* [Phalcon Documentation](http://docs.phalconphp.com/)
-* [Zephir Documentation](http://zephir-lang.com/)
+* [Documentation](http://docs.phalconphp.com/)
+* [Support](http://forum.phalconphp.com)
+* [Blog](http://blog.phalconphp.com)
+* [Zephir](http://zephir-lang.com/)
+* [Twitter](http://twitter.com/phalconphp)
 
 Current Build Status
 --------------------
 
-Phalcon Framework is built under Travis CI service. Every commit pushed to this repository will queue a build into the continuous integration service and will run all PHPUnit tests to ensure that everything is going well and the project is stable. The current build status is:
+Phalcon Framework is built under the Travis CI service. Every commit pushed to this repository will queue a build into the continuous integration service and will run all PHPUnit tests to ensure that everything is going well and the project is stable. The current build status is:
 
-[![Build Status](https://secure.travis-ci.org/phalcon/cphalcon.png?branch=2.0.0)](http://travis-ci.org/phalcon/cphalcon)
+[![Build Status](https://secure.travis-ci.org/phalcon/cphalcon.png?branch=master)](http://travis-ci.org/phalcon/cphalcon)
+
+Meet the Incubator
+-----------
+Our community is developing amazing extra features for Phalcon every day via [Incubator](https://github.com/phalcon/incubator). There are resources to enhance your experience with the framework and that enlarge the main features.
+
+Just give it a try and help us improve Phalcon even more!
 
 License
 -------
-
-Phalcon is open-sourced software licensed under the New BSD License. See the docs/LICENSE.txt file for more information.
+Phalcon is open source software licensed under the New BSD License. See the docs/LICENSE.txt file for more
