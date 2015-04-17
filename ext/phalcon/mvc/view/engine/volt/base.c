@@ -192,8 +192,19 @@ int phvolt_parse_view(zval *result, zval *view_code, zval *template_path TSRMLS_
 	}
 
 	if (phvolt_internal_parse_view(&result, view_code, template_path, &error_msg TSRMLS_CC) == FAILURE) {
+<<<<<<< HEAD:ext/phalcon/mvc/view/engine/volt/base.c
 		ZEPHIR_THROW_EXCEPTION_STRW(phalcon_mvc_view_exception_ce, Z_STRVAL_P(error_msg));
 		zval_ptr_dtor(&error_msg);
+=======
+		if (likely(error_msg != NULL)) {
+			PHALCON_THROW_EXCEPTION_STRW(phalcon_mvc_view_exception_ce, Z_STRVAL_P(error_msg));
+			zval_ptr_dtor(&error_msg);
+		}
+		else {
+			PHALCON_THROW_EXCEPTION_STRW(phalcon_mvc_view_exception_ce, "Error parsing the view");
+		}
+
+>>>>>>> master:ext/mvc/view/engine/volt/base.c
 		return FAILURE;
 	}
 
@@ -206,10 +217,10 @@ int phvolt_parse_view(zval *result, zval *view_code, zval *template_path TSRMLS_
 int phvolt_is_blank_string(phvolt_scanner_token *token){
 
 	char *marker = token->value;
-	unsigned int ch, i;
+	int i;
 
 	for (i = 0; i < token->len; i++) {
-		ch = *marker;
+		char ch = *marker;
 		if (ch != ' ' && ch != '\t' && ch != '\n' && ch != '\r' && ch != 11) {
 			return 0;
 		}
@@ -245,6 +256,11 @@ int phvolt_internal_parse_view(zval **result, zval *view_code, zval *template_pa
 
 	/** Start the reentrant parser */
 	phvolt_parser = phvolt_Alloc(phvolt_wrapper_alloc);
+	if (unlikely(!phvolt_parser)) {
+		MAKE_STD_ZVAL(*error_msg);
+		ZVAL_STRING(*error_msg, "Memory allocation error", 1);
+		return FAILURE;
+	}
 
 	parser_status = emalloc(sizeof(phvolt_parser_status));
 	state = emalloc(sizeof(phvolt_scanner_state));

@@ -1,4 +1,5 @@
 
+<<<<<<< HEAD:ext/phalcon/tag.zep.h
 extern zend_class_entry *phalcon_tag_ce;
 
 ZEPHIR_INIT_CLASS(Phalcon_Tag);
@@ -189,11 +190,35 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_tag_checkfield, 0, 0, 1)
 	ZEND_ARG_INFO(0, parameters)
 ZEND_END_ARG_INFO()
+=======
+/*
+  +------------------------------------------------------------------------+
+  | Phalcon Framework                                                      |
+  +------------------------------------------------------------------------+
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
+  +------------------------------------------------------------------------+
+  | This source file is subject to the New BSD License that is bundled     |
+  | with this package in the file docs/LICENSE.txt.                        |
+  |                                                                        |
+  | If you did not receive a copy of the license and are unable to         |
+  | obtain it through the world-wide-web, please send an email             |
+  | to license@phalconphp.com so we can send you a copy immediately.       |
+  +------------------------------------------------------------------------+
+  | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
+  |          Eduar Carvajal <eduar@phalconphp.com>                         |
+  |          Nikolaos Dimopoulos <nikos@phalconphp.com>                    |
+  +------------------------------------------------------------------------+
+*/
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_tag_radiofield, 0, 0, 1)
-	ZEND_ARG_INFO(0, parameters)
-ZEND_END_ARG_INFO()
+#ifndef PHALCON_TAG_H
+#define PHALCON_TAG_H
 
+#include "php_phalcon.h"
+>>>>>>> master:ext/tag.h
+
+void phalcon_tag_render_attributes(zval *code, zval *attributes TSRMLS_DC);
+
+<<<<<<< HEAD:ext/phalcon/tag.zep.h
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_tag_imageinput, 0, 0, 1)
 	ZEND_ARG_INFO(0, parameters)
 ZEND_END_ARG_INFO()
@@ -338,3 +363,10 @@ ZEPHIR_INIT_FUNCS(phalcon_tag_method_entry) {
 	PHP_ME(Phalcon_Tag, tagHtmlClose, arginfo_phalcon_tag_taghtmlclose, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
   PHP_FE_END
 };
+=======
+extern zend_class_entry *phalcon_tag_ce;
+
+PHALCON_INIT_CLASS(Phalcon_Tag);
+
+#endif /* PHALCON_TAG_H */
+>>>>>>> master:ext/tag.h

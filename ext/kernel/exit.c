@@ -2,7 +2,11 @@
   +------------------------------------------------------------------------+
   | Zephir Language                                                        |
   +------------------------------------------------------------------------+
+<<<<<<< HEAD:ext/kernel/exit.c
   | Copyright (c) 2011-2015 Zephir Team (http://www.zephir-lang.com)       |
+=======
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
+>>>>>>> master:ext/mvc/controllerinterface.c
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -15,6 +19,7 @@
   +------------------------------------------------------------------------+
 */
 
+<<<<<<< HEAD:ext/kernel/exit.c
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif
@@ -23,9 +28,13 @@
 #include "php_ext.h"
 #include "php_main.h"
 
+=======
+#include "mvc/controllerinterface.h"
+>>>>>>> master:ext/mvc/controllerinterface.c
 #include "kernel/main.h"
 #include "kernel/exit.h"
 
+<<<<<<< HEAD:ext/kernel/exit.c
 void zephir_exit_empty() {
 	TSRMLS_FETCH();
 	zend_bailout();
@@ -40,3 +49,16 @@ void zephir_exit(zval *ptr)  {
 	}
 	zephir_exit_empty();
 }
+=======
+zend_class_entry *phalcon_mvc_controllerinterface_ce;
+
+/**
+ * Phalcon\Mvc\ControllerInterface initializer
+ */
+PHALCON_INIT_CLASS(Phalcon_Mvc_ControllerInterface){
+
+	PHALCON_REGISTER_INTERFACE(Phalcon\\Mvc, ControllerInterface, mvc_controllerinterface, NULL);
+
+	return SUCCESS;
+}
+>>>>>>> master:ext/mvc/controllerinterface.c

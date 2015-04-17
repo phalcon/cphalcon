@@ -3,7 +3,11 @@
   +------------------------------------------------------------------------+
   | Zephir Language                                                        |
   +------------------------------------------------------------------------+
+<<<<<<< HEAD
   | Copyright (c) 2011-2015 Zephir Team  (http://www.zephir-lang.com)      |
+=======
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
+>>>>>>> master
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -18,6 +22,7 @@
   +------------------------------------------------------------------------+
 */
 
+<<<<<<< HEAD
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif
@@ -34,10 +39,24 @@
 #endif
 
 void zephir_session_start(TSRMLS_D)
+=======
+#include "kernel/session.h"
+
+#ifdef PHALCON_USE_PHP_SESSION
+#include <ext/session/php_session.h>
+#endif
+
+#include "kernel/main.h"
+#include "kernel/fcall.h"
+
+int phalcon_session_start(TSRMLS_D)
+>>>>>>> master
 {
 #ifdef ZEPHIR_USE_PHP_SESSION
 	php_session_start(TSRMLS_C);
+	return SUCCESS;
 #else
+<<<<<<< HEAD
 	//zephir_call_func_params(NULL, NULL, SL("session_start") TSRMLS_CC, 0);
 #endif
 }
@@ -48,19 +67,42 @@ void zephir_session_destroy(TSRMLS_D)
 }
 
 void zephir_get_session_id(zval *return_value, zval **return_value_ptr TSRMLS_DC)
+=======
+	return phalcon_call_func_aparams(NULL, SL("session_start"), 0, NULL TSRMLS_CC);
+#endif
+}
+
+int phalcon_session_destroy(TSRMLS_D)
+{
+	return phalcon_call_func_aparams(NULL, SL("session_destroy"), 0, NULL TSRMLS_CC);
+}
+
+int phalcon_get_session_id(zval *return_value, zval **return_value_ptr TSRMLS_DC)
+>>>>>>> master
 {
 #ifdef ZEPHIR_USE_PHP_SESSION
 	if (PS(id)) {
-		RETURN_STRING(PS(id), 1);
+		RETVAL_STRING(PS(id), 1);
+	}
+	else {
+		RETVAL_EMPTY_STRING();
 	}
 
-	RETURN_EMPTY_STRING();
+	return SUCCESS;
 #else
+<<<<<<< HEAD
 	//zephir_call_func_params(return_value, return_value_ptr, SL("session_id") TSRMLS_CC, 0);
 #endif
 }
 
 void zephir_set_session_id(zval *sid TSRMLS_DC)
+=======
+	return phalcon_return_call_function(return_value, return_value_ptr, SL("session_id"), 0, NULL TSRMLS_CC);
+#endif
+}
+
+int phalcon_set_session_id(zval *sid TSRMLS_DC)
+>>>>>>> master
 {
 #ifdef ZEPHIR_USE_PHP_SESSION
 	zval copy;
@@ -82,7 +124,19 @@ void zephir_set_session_id(zval *sid TSRMLS_DC)
 	if (unlikely(use_copy)) {
 		zval_dtor(&copy);
 	}
+
+	return SUCCESS;
 #else
+<<<<<<< HEAD
 	//zephir_call_func_params(NULL, NULL, SL("session_id") TSRMLS_CC, 1, sid);
+=======
+	zval *params[] = { sid };
+	return phalcon_call_func_aparams(NULL, SL("session_id"), 1, params TSRMLS_CC);
+>>>>>>> master
 #endif
+}
+
+int phalcon_session_write_close(TSRMLS_D)
+{
+	return phalcon_call_func_aparams(NULL, SL("session_write_close"), 0, NULL TSRMLS_CC);
 }

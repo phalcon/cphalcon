@@ -42,10 +42,18 @@ class Generator_File_ConfigM4
         // Remove all the c-files, mentioned in config - we have only phalcon.c to compile
         $generatedContent = preg_replace(
             '/phalcon_sources=.*PHP_NEW_EXTENSION\(phalcon,.*?\n/s',
+<<<<<<< HEAD
             "PHP_NEW_EXTENSION(phalcon, phalcon.zep.c, \$ext_shared)\n",
+=======
+            "PHP_NEW_EXTENSION(phalcon, phalcon.c, \$ext_shared)\n",
+>>>>>>> master
             $originalContent
         );
 
         file_put_contents($this->outputFile, $generatedContent);
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> master

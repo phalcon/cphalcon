@@ -16,11 +16,18 @@ return <<<HEADER
 
 #include <main/php.h>
 
+<<<<<<< HEAD
 #define ZEPHIR_RELEASE 1
 #define PHALCON_RELEASE 1
 
 #include "php_phalcon.h"
 #include "phalcon.zep.h"
+=======
+#define PHALCON_RELEASE 1
+
+#include "php_phalcon.h"
+#include "phalcon.h"
+>>>>>>> master
 
 #include <main/php_main.h>
 #include <main/php_variables.h>
@@ -46,7 +53,10 @@ return <<<HEADER
 #include <ext/standard/md5.h>
 #include <ext/standard/head.h>
 #include <ext/standard/url.h>
+<<<<<<< HEAD
 #include <ext/standard/crc32.h>
+=======
+>>>>>>> master
 #include <ext/hash/php_hash.h>
 #include <ext/spl/spl_heap.h>
 #include <ext/spl/spl_exceptions.h>
@@ -54,6 +64,26 @@ return <<<HEADER
 #include <ext/spl/spl_iterators.h>
 #include <ext/date/php_date.h>
 
+<<<<<<< HEAD
+=======
+#ifdef PHALCON_USE_PHP_PCRE
+#include <ext/pcre/php_pcre.h>
+#endif
+
+#ifdef PHALCON_USE_PHP_JSON
+#include <ext/json/php_json.h>
+#endif
+
+#ifdef PHALCON_USE_PHP_SESSION
+#include <ext/session/php_session.h>
+#endif
+
+#ifdef PHALCON_USE_PHP_MBSTRING
+#include <ext/mbstring/mbstring.h>
+#include <ext/mbstring/php_unicode.h>
+#endif
+
+>>>>>>> master
 #include <Zend/zend_API.h>
 #include <Zend/zend_operators.h>
 #include <Zend/zend_exceptions.h>
@@ -62,6 +92,9 @@ return <<<HEADER
 #include <Zend/zend_extensions.h>
 #include <Zend/zend_builtin_functions.h>
 #include <Zend/zend_closures.h>
+<<<<<<< HEAD
 #include <Zend/zend_multiply.h>
 
+=======
+>>>>>>> master
 HEADER;

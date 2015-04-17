@@ -3,7 +3,11 @@
   +------------------------------------------------------------------------+
   | Zephir Language                                                        |
   +------------------------------------------------------------------------+
+<<<<<<< HEAD
   | Copyright (c) 2011-2015 Zephir Team (http://www.zephir-lang.com)       |
+=======
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
+>>>>>>> master
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -18,6 +22,7 @@
   +------------------------------------------------------------------------+
 */
 
+<<<<<<< HEAD
 #ifndef ZEPHIR_KERNEL_REQUIRE_H
 #define ZEPHIR_KERNEL_REQUIRE_H
 
@@ -41,3 +46,18 @@ ZEPHIR_ATTR_NONNULL static inline int zephir_require_zval_ret(zval **return_valu
 }
 
 #endif /* ZEPHIR_KERNEL_REQUIRE_H */
+=======
+#ifndef PHALCON_KERNEL_REQUIRE_H
+#define PHALCON_KERNEL_REQUIRE_H
+
+#include "php_phalcon.h"
+
+int phalcon_require_ret(zval **return_value_ptr, const char *require_path TSRMLS_DC) PHALCON_ATTR_NONNULL1(2);
+
+PHALCON_ATTR_NONNULL static inline int phalcon_require(const char *require_path TSRMLS_DC)
+{
+	return phalcon_require_ret(NULL, require_path TSRMLS_CC);
+}
+
+#endif /* PHALCON_KERNEL_REQUIRE_H */
+>>>>>>> master

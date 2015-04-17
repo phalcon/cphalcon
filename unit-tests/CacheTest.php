@@ -833,7 +833,7 @@ class CacheTest extends PHPUnit_Framework_TestCase
 	protected function _prepareXcache()
 	{
 		return false;
-		
+
 		if (function_exists('xcache_emulation')) {
 			return true;
 		}

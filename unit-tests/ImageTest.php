@@ -157,7 +157,7 @@ class ImageTest extends PHPUnit_Framework_TestCase
 
 		// Render the image at 50% quality
 		//$data = $image->render(NULL, 50);
-		
+
 		// Render the image as a PNG
 		//$data = $image->render('png');
 	}
@@ -300,7 +300,7 @@ class ImageTest extends PHPUnit_Framework_TestCase
 
 		// Render the image at 50% quality
 		//$data = $image->render(NULL, 50);
-		
+
 		// Render the image as a PNG
 		//$data = $image->render('png');
 	}

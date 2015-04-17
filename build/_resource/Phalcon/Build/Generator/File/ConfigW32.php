@@ -43,4 +43,8 @@ class Generator_File_ConfigW32
 
         file_put_contents($this->outputFile, $generatedContent);
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> master

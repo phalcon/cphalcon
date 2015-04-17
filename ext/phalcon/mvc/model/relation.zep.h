@@ -1,4 +1,5 @@
 
+<<<<<<< HEAD:ext/phalcon/mvc/model/relation.zep.h
 extern zend_class_entry *phalcon_mvc_model_relation_ce;
 
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Relation);
@@ -18,21 +19,34 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, isReusable);
 PHP_METHOD(Phalcon_Mvc_Model_Relation, getIntermediateFields);
 PHP_METHOD(Phalcon_Mvc_Model_Relation, getIntermediateModel);
 PHP_METHOD(Phalcon_Mvc_Model_Relation, getIntermediateReferencedFields);
+=======
+/*
+  +------------------------------------------------------------------------+
+  | Phalcon Framework                                                      |
+  +------------------------------------------------------------------------+
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
+  +------------------------------------------------------------------------+
+  | This source file is subject to the New BSD License that is bundled     |
+  | with this package in the file docs/LICENSE.txt.                        |
+  |                                                                        |
+  | If you did not receive a copy of the license and are unable to         |
+  | obtain it through the world-wide-web, please send an email             |
+  | to license@phalconphp.com so we can send you a copy immediately.       |
+  +------------------------------------------------------------------------+
+  | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
+  |          Eduar Carvajal <eduar@phalconphp.com>                         |
+  +------------------------------------------------------------------------+
+*/
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_relation___construct, 0, 0, 4)
-	ZEND_ARG_INFO(0, type)
-	ZEND_ARG_INFO(0, referencedModel)
-	ZEND_ARG_INFO(0, fields)
-	ZEND_ARG_INFO(0, referencedFields)
-	ZEND_ARG_INFO(0, options)
-ZEND_END_ARG_INFO()
+#ifndef PHALCON_MVC_MODEL_RELATION_H
+#define PHALCON_MVC_MODEL_RELATION_H
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_relation_setintermediaterelation, 0, 0, 3)
-	ZEND_ARG_INFO(0, intermediateFields)
-	ZEND_ARG_INFO(0, intermediateModel)
-	ZEND_ARG_INFO(0, intermediateReferencedFields)
-ZEND_END_ARG_INFO()
+#include "php_phalcon.h"
+>>>>>>> master:ext/mvc/model/relation.h
 
+extern zend_class_entry *phalcon_mvc_model_relation_ce;
+
+<<<<<<< HEAD:ext/phalcon/mvc/model/relation.zep.h
 ZEPHIR_INIT_FUNCS(phalcon_mvc_model_relation_method_entry) {
 	PHP_ME(Phalcon_Mvc_Model_Relation, __construct, arginfo_phalcon_mvc_model_relation___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_ME(Phalcon_Mvc_Model_Relation, setIntermediateRelation, arginfo_phalcon_mvc_model_relation_setintermediaterelation, ZEND_ACC_PUBLIC)
@@ -51,3 +65,8 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_model_relation_method_entry) {
 	PHP_ME(Phalcon_Mvc_Model_Relation, getIntermediateReferencedFields, NULL, ZEND_ACC_PUBLIC)
   PHP_FE_END
 };
+=======
+PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Relation);
+
+#endif /* PHALCON_MVC_MODEL_RELATION_H */
+>>>>>>> master:ext/mvc/model/relation.h

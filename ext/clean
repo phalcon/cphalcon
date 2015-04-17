@@ -4,8 +4,11 @@ done
 for i in `find . -name "*.lo"`; do
  rm -f $i
 done
+<<<<<<< HEAD
 for i in `find . -name "*.gch"`; do
  rm -f $i
 done
+=======
+>>>>>>> master
 make clean
 phpize --clean

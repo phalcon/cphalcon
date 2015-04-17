@@ -17,14 +17,9 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
 #include "php_phalcon.h"
 
-#include "scanner.h"
+#include "mvc/model/query/scanner.h"
 
 #define YYCTYPE unsigned char
 #define YYCURSOR (s->start)
@@ -255,6 +250,11 @@ int phql_get_token(phql_scanner_state *s, phql_scanner_token *token) {
 
 		'DISTINCT' {
 			token->opcode = PHQL_T_DISTINCT;
+			return 0;
+		}
+
+		'ALL' {
+			token->opcode = PHQL_T_ALL;
 			return 0;
 		}
 

@@ -1,4 +1,5 @@
 
+<<<<<<< HEAD:ext/phalcon/cache/backend/xcache.zep.h
 extern zend_class_entry *phalcon_cache_backend_xcache_ce;
 
 ZEPHIR_INIT_CLASS(Phalcon_Cache_Backend_Xcache);
@@ -17,32 +18,35 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cache_backend_xcache___construct, 0, 0, 1
 	ZEND_ARG_OBJ_INFO(0, frontend, Phalcon\\Cache\\FrontendInterface, 0)
 	ZEND_ARG_INFO(0, options)
 ZEND_END_ARG_INFO()
+=======
+/*
+  +------------------------------------------------------------------------+
+  | Phalcon Framework                                                      |
+  +------------------------------------------------------------------------+
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
+  +------------------------------------------------------------------------+
+  | This source file is subject to the New BSD License that is bundled     |
+  | with this package in the file docs/LICENSE.txt.                        |
+  |                                                                        |
+  | If you did not receive a copy of the license and are unable to         |
+  | obtain it through the world-wide-web, please send an email             |
+  | to license@phalconphp.com so we can send you a copy immediately.       |
+  +------------------------------------------------------------------------+
+  | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
+  |          Eduar Carvajal <eduar@phalconphp.com>                         |
+  |          Vladimir Kolesnikov <vladimir@extrememember.com>              |
+  +------------------------------------------------------------------------+
+*/
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cache_backend_xcache_get, 0, 0, 1)
-	ZEND_ARG_INFO(0, keyName)
-	ZEND_ARG_INFO(0, lifetime)
-ZEND_END_ARG_INFO()
+#ifndef PHALCON_CACHE_BACKEND_XCACHE_H
+#define PHALCON_CACHE_BACKEND_XCACHE_H
+>>>>>>> master:ext/cache/backend/xcache.h
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cache_backend_xcache_save, 0, 0, 0)
-	ZEND_ARG_INFO(0, keyName)
-	ZEND_ARG_INFO(0, content)
-	ZEND_ARG_INFO(0, lifetime)
-	ZEND_ARG_INFO(0, stopBuffer)
-ZEND_END_ARG_INFO()
+#include "php_phalcon.h"
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cache_backend_xcache_delete, 0, 0, 1)
-	ZEND_ARG_INFO(0, keyName)
-ZEND_END_ARG_INFO()
+extern zend_class_entry *phalcon_cache_backend_xcache_ce;
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cache_backend_xcache_querykeys, 0, 0, 0)
-	ZEND_ARG_INFO(0, prefix)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cache_backend_xcache_exists, 0, 0, 0)
-	ZEND_ARG_INFO(0, keyName)
-	ZEND_ARG_INFO(0, lifetime)
-ZEND_END_ARG_INFO()
-
+<<<<<<< HEAD:ext/phalcon/cache/backend/xcache.zep.h
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cache_backend_xcache_increment, 0, 0, 1)
 	ZEND_ARG_INFO(0, keyName)
 	ZEND_ARG_INFO(0, value)
@@ -65,3 +69,8 @@ ZEPHIR_INIT_FUNCS(phalcon_cache_backend_xcache_method_entry) {
 	PHP_ME(Phalcon_Cache_Backend_Xcache, flush, NULL, ZEND_ACC_PUBLIC)
   PHP_FE_END
 };
+=======
+PHALCON_INIT_CLASS(Phalcon_Cache_Backend_Xcache);
+
+#endif /* PHALCON_CACHE_BACKEND_XCACHE_H */
+>>>>>>> master:ext/cache/backend/xcache.h

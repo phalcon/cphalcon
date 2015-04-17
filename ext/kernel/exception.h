@@ -3,7 +3,11 @@
   +------------------------------------------------------------------------+
   | Zephir Language                                                        |
   +------------------------------------------------------------------------+
+<<<<<<< HEAD
   | Copyright (c) 2011-2015 Zephir Team (http://www.zephir-lang.com)       |
+=======
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
+>>>>>>> master
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -18,17 +22,29 @@
   +------------------------------------------------------------------------+
 */
 
+<<<<<<< HEAD
 #ifndef ZEPHIR_KERNEL_EXCEPTIONS_H
 #define ZEPHIR_KERNEL_EXCEPTIONS_H
 
 #include <Zend/zend.h>
 #include "kernel/main.h"
+=======
+#ifndef PHALCON_KERNEL_EXCEPTION_H
+#define PHALCON_KERNEL_EXCEPTION_H
+
+#include "php_phalcon.h"
+>>>>>>> master
 
 /** Exceptions */
 #define ZEPHIR_THROW_EXCEPTION_STR(class_entry, message) \
 	do { \
+<<<<<<< HEAD
 		zephir_throw_exception_string(class_entry, message, strlen(message) TSRMLS_CC); \
 		ZEPHIR_MM_RESTORE(); \
+=======
+		phalcon_throw_exception_string(class_entry, message TSRMLS_CC); \
+		PHALCON_MM_RESTORE(); \
+>>>>>>> master
 	} while (0)
 
 #define ZEPHIR_THROW_EXCEPTION_DEBUG_STR(class_entry, message, file, line) \
@@ -43,6 +59,7 @@
 		ZEPHIR_MM_RESTORE(); \
 	} while (0)
 
+<<<<<<< HEAD
 #define ZEPHIR_THROW_EXCEPTION_DEBUG_ZVAL(class_entry, message, file, line) \
   do { \
     zephir_throw_exception_zval(class_entry, message, file, line TSRMLS_CC); \
@@ -65,3 +82,14 @@ void zephir_throw_exception_zval_debug(zend_class_entry *ce, zval *message, cons
 void zephir_throw_exception_format(zend_class_entry *ce TSRMLS_DC, const char *format, ...);
 
 #endif /* ZEPHIR_KERNEL_EXCEPTIONS_H */
+=======
+#define PHALCON_THROW_EXCEPTION_STRW(class_entry, message)  phalcon_throw_exception_string(class_entry, message TSRMLS_CC)
+#define PHALCON_THROW_EXCEPTION_ZVALW(class_entry, message) phalcon_throw_exception_zval(class_entry, message TSRMLS_CC)
+
+/** Throw Exceptions */
+void phalcon_throw_exception(zval *object TSRMLS_DC) PHALCON_ATTR_NONNULL;
+void phalcon_throw_exception_string(zend_class_entry *ce, const char *message TSRMLS_DC) PHALCON_ATTR_NONNULL;
+void phalcon_throw_exception_zval(zend_class_entry *ce, zval *message TSRMLS_DC) PHALCON_ATTR_NONNULL;
+
+#endif /* PHALCON_KERNEL_EXCEPTION_H */
+>>>>>>> master

@@ -3,7 +3,11 @@
   +------------------------------------------------------------------------+
   | Zephir Language                                                        |
   +------------------------------------------------------------------------+
+<<<<<<< HEAD
   | Copyright (c) 2011-2015 Zephir Team (http://www.zephir-lang.com)       |
+=======
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
+>>>>>>> master
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -18,15 +22,18 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
+#include "kernel/variables.h"
 
+<<<<<<< HEAD
 #include "php.h"
 #include "php_ext.h"
 
 #include "ext/standard/php_smart_str.h"
 #include "ext/standard/php_var.h"
+=======
+#include <ext/standard/php_smart_str.h>
+#include <ext/standard/php_var.h>
+>>>>>>> master
 
 /**
  * Serializes php variables without using the PHP userland

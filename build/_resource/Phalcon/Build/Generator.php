@@ -54,4 +54,8 @@ class Generator
         $generatorOptimized = new Generator_Optimized($this->safeDir, $this->optimized32Dir, $this->optimized64Dir);
         $generatorOptimized->run();
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> master

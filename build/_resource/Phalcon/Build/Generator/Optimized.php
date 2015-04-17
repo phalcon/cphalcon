@@ -73,8 +73,14 @@ class Generator_Optimized
     {
         $result = array();
 
+<<<<<<< HEAD
         /*
         // Explicit calls to zend_inline_hash_func()
+=======
+        /**
+         * Explicit calls to zend_inline_hash_func()
+         */
+>>>>>>> master
         $result[] = array(
             'regexp' => '/(zend_inline_hash_func\(SS\("([^"]++)"\)\))/',
             'func' => function ($line, $matches, $hashFunc) {
@@ -83,6 +89,7 @@ class Generator_Optimized
             }
         );
 
+<<<<<<< HEAD
         // Pre-compute the hash key for isset using strings
         $result[] = array(
             'regexp' => '/zephir_array_isset_string\(([a-zA-Z0-9\_]+), SS\("([a-zA-Z\_\-]+)"\)\)/',
@@ -133,14 +140,103 @@ class Generator_Optimized
             'func' => function ($line, $matches, $hashFunc) {
                 $hash = $hashFunc($matches[2]);
                 return str_replace($matches[0], 'zephir_read_property_this_quick(&'.$matches[1].', this_ptr, SL("'.$matches[2].'"), '.$hash.', PH_NOISY_CC)', $line);
+=======
+        /**
+         * Pre-compute the hash key for isset using strings
+         */
+        $result[] = array(
+            'regexp' => '/phalcon_array_isset_string\(([a-zA-Z0-9\_]+), SS\("([a-zA-Z\_\-]+)"\)\)/',
+            'func' => function ($line, $matches, $hashFunc) {
+                $hash = $hashFunc($matches[2]);
+                return str_replace($matches[0], 'phalcon_array_isset_quick_string('.$matches[1].', SS("'.$matches[2].'"), '.$hash.')', $line);
+            }
+        );
+
+        /**
+         * Pre-compute the hash key for reading elements using hashes
+         */
+        $result[] = array(
+            'regexp' => '/phalcon_array_fetch_string\(\&([a-zA-Z0-9\_]+), ([a-zA-Z0-9\_]+), SL\("([a-zA-Z\_\-]+)"\), ([a-zA-Z0-9\_]+)\)/',
+            'func' => function ($line, $matches, $hashFunc) {
+                $hash = $hashFunc($matches[3]);
+                return str_replace($matches[0], 'phalcon_array_fetch_quick_string(&'.$matches[1].', '.$matches[2].', SS("'.$matches[3].'"), '.$hash.', '.$matches[4].')', $line);
+            }
+        );
+
+        /**
+         * Pre-compute hash for updating elements
+         */
+        $result[] = array(
+            'regexp' => '/phalcon_array_update_string\(\&([a-zA-Z0-9\_]+), SL\("([a-zA-Z\_\-]+)"\), \&([a-zA-Z0-9\_]+), (.+)\)/',
+            'func' => function ($line, $matches, $hashFunc) {
+                $hash = $hashFunc($matches[2]);
+                return str_replace($matches[0], 'phalcon_array_update_quick_string(&'.$matches[1].', SS("'.$matches[2].'"), '.$hash.', &'.$matches[3].', '.$matches[4].')', $line);
+            }
+        );
+
+        /**
+         * Pre-compute hash key for method checking
+         */
+        $result[] = array(
+            'regexp' => '/phalcon_method_exists_ex\(([a-zA-Z0-9\_]+), SS\("([a-zA-Z\_\-]+)"\) TSRMLS_CC\)/',
+            'func' => function ($line, $matches, $hashFunc) {
+                $hash = $hashFunc($matches[2]);
+                return str_replace($matches[0], 'phalcon_method_quick_exists_ex('.$matches[1].', SS("'.$matches[2].'"), '.$hash.' TSRMLS_CC)', $line);
+            }
+        );
+
+        /**
+         * Pre-compute hash key for function checking
+         */
+        $result[] = array(
+            'regexp' => '/phalcon_function_exists_ex\(SS\("([a-zA-Z\_\-]+)"\) TSRMLS_CC\)/',
+            'func' => function ($line, $matches, $hashFunc) {
+                $hash = $hashFunc($matches[1]);
+                return str_replace($matches[0], 'phalcon_function_quick_exists_ex(SS("'.$matches[1].'"), '.$hash.' TSRMLS_CC)', $line);
+            }
+        );
+
+        /* phalcon_call_method, phalcon_call_method_pX */
+//        $result[] = array(
+//            'regexp' => '/(phalcon_call_method(?:_p[0-9]+)?)\([a-zA-Z0-9\_]+, [a-zA-Z0-9\_]+, "([a-zA-Z0-9\_]+)"/',
+//            'func' => function ($line, $matches, $hashFunc) {
+//                $newCall = $matches[1] . '_key' . substr($matches[0], strlen($matches[1]));
+//                $newCall .= ', ' . $hashFunc($matches[2]);
+//                return str_replace($matches[0], $newCall, $line);;
+//            }
+//        );
+
+        /* phalcon_call_method_noret, phalcon_call_method_pX_noret */
+//        $result[] = array(
+//            'regexp' => '/phalcon_call_method(?:_p[0-9]+)?_noret\([a-zA-Z0-9\_]+, "([a-zA-Z0-9\_]+)"/',
+//            'func' => function ($line, $matches, $hashFunc) {
+//                $newCall = str_replace('_noret(', '_key(NULL, ', $matches[0]);
+//                $newCall .= ', ' . $hashFunc($matches[1]);
+//                return str_replace($matches[0], $newCall, $line);
+//            }
+//        );
+
+        $result[] = array(
+            'regexp' => '/phalcon_read_property_this\(&([a-zA-Z0-9\_]+), this_ptr, SL\("([a-zA-Z0-9\_]+)"\), PH_NOISY_CC\)/',
+            'func' => function ($line, $matches, $hashFunc) {
+                $hash = $hashFunc($matches[2]);
+                return str_replace($matches[0], 'phalcon_read_property_this_quick(&'.$matches[1].', this_ptr, SL("'.$matches[2].'"), '.$hash.', PH_NOISY_CC)', $line);
+>>>>>>> master
             }
         );
 
         $result[] = array(
+<<<<<<< HEAD
             'regexp' => '/zephir_update_property_this\(this_ptr, SL\("([a-zA-Z0-9\_]+)"\), ([a-zA-Z0-9\_]+) TSRMLS_CC\)/',
             'func' => function ($line, $matches, $hashFunc) {
                 $key = $hashFunc($matches[1]);
                 return str_replace($matches[0], 'zephir_update_property_this_quick(this_ptr, SL("'.$matches[1].'"), '.$matches[2].', '.$key.' TSRMLS_CC)', $line);
+=======
+            'regexp' => '/phalcon_update_property_this\(this_ptr, SL\("([a-zA-Z0-9\_]+)"\), ([a-zA-Z0-9\_]+) TSRMLS_CC\)/',
+            'func' => function ($line, $matches, $hashFunc) {
+                $key = $hashFunc($matches[1]);
+                return str_replace($matches[0], 'phalcon_update_property_this_quick(this_ptr, SL("'.$matches[1].'"), '.$matches[2].', '.$key.' TSRMLS_CC)', $line);
+>>>>>>> master
             }
         );
 
@@ -150,7 +246,11 @@ class Generator_Optimized
                 $hash = $hashFunc($matches[2]);
                 return str_replace($matches[0], 'RETURN_MEMBER_QUICK('.$matches[1].', "'.$matches[2].'", '.$hash.')', $line);
             }
+<<<<<<< HEAD
         );*/
+=======
+        );
+>>>>>>> master
 
         return $result;
     }
@@ -193,7 +293,11 @@ class Generator_Optimized
         $files = glob($this->sourceBuildDir . '/*.*');
         foreach ($files as $file) {
             // phalcon.c is processed in a separate optimization func
+<<<<<<< HEAD
             if (basename($file) == 'phalcon.zep.c') {
+=======
+            if (basename($file) == 'phalcon.c') {
+>>>>>>> master
                 continue;
             }
 
@@ -218,14 +322,22 @@ class Generator_Optimized
         }
 
         // Generate line by line
+<<<<<<< HEAD
         $filePath = $this->sourceBuildDir . '/phalcon.zep.c';
+=======
+        $filePath = $this->sourceBuildDir . '/phalcon.c';
+>>>>>>> master
         foreach (file($filePath) as $line) {
             $this->filterLine($line, $generated);
         }
 
         // Output result
         foreach ($platforms as $platform) {
+<<<<<<< HEAD
             file_put_contents($this->settings[$platform]['dir'] . '/phalcon.zep.c', $generated[$platform]);
+=======
+            file_put_contents($this->settings[$platform]['dir'] . '/phalcon.c', $generated[$platform]);
+>>>>>>> master
         }
     }
 
@@ -251,4 +363,8 @@ class Generator_Optimized
             $result[$platform] .= $func ? $func($line, $matches, $setting['hashFunc']) : $line;
         }
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> master

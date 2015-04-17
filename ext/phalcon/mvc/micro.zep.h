@@ -1,4 +1,5 @@
 
+<<<<<<< HEAD:ext/phalcon/mvc/micro.zep.h
 extern zend_class_entry *phalcon_mvc_micro_ce;
 
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Micro);
@@ -77,12 +78,33 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_micro_delete, 0, 0, 2)
 	ZEND_ARG_INFO(0, routePattern)
 	ZEND_ARG_INFO(0, handler)
 ZEND_END_ARG_INFO()
+=======
+/*
+  +------------------------------------------------------------------------+
+  | Phalcon Framework                                                      |
+  +------------------------------------------------------------------------+
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
+  +------------------------------------------------------------------------+
+  | This source file is subject to the New BSD License that is bundled     |
+  | with this package in the file docs/LICENSE.txt.                        |
+  |                                                                        |
+  | If you did not receive a copy of the license and are unable to         |
+  | obtain it through the world-wide-web, please send an email             |
+  | to license@phalconphp.com so we can send you a copy immediately.       |
+  +------------------------------------------------------------------------+
+  | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
+  |          Eduar Carvajal <eduar@phalconphp.com>                         |
+  |          Kenji Minamoto <kenji.minamoto@gmail.com>                     |
+  +------------------------------------------------------------------------+
+*/
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_micro_options, 0, 0, 2)
-	ZEND_ARG_INFO(0, routePattern)
-	ZEND_ARG_INFO(0, handler)
-ZEND_END_ARG_INFO()
+#ifndef PHALCON_MVC_MICRO_H
+#define PHALCON_MVC_MICRO_H
+>>>>>>> master:ext/mvc/micro.h
 
+#include "php_phalcon.h"
+
+<<<<<<< HEAD:ext/phalcon/mvc/micro.zep.h
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_micro_mount, 0, 0, 1)
 	ZEND_ARG_OBJ_INFO(0, collection, Phalcon\\Mvc\\Micro\\Collection, 0)
 ZEND_END_ARG_INFO()
@@ -184,3 +206,10 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_micro_method_entry) {
 	PHP_ME(Phalcon_Mvc_Micro, getHandlers, NULL, ZEND_ACC_PUBLIC)
   PHP_FE_END
 };
+=======
+extern zend_class_entry *phalcon_mvc_micro_ce;
+
+PHALCON_INIT_CLASS(Phalcon_Mvc_Micro);
+
+#endif /* PHALCON_MVC_MICRO_H */
+>>>>>>> master:ext/mvc/micro.h

@@ -85,6 +85,7 @@ const phql_token_names phql_tokens[] =
   { SL("CAST"),          PHQL_T_CAST },
   { SL("CONVERT"),       PHQL_T_CONVERT },
   { SL("USING"),         PHQL_T_USING },
+  { SL("ALL"),           PHQL_T_ALL },
   { NULL, 0, 0 }
 };
 
@@ -152,7 +153,18 @@ int phql_parse_phql(zval *result, zval *phql TSRMLS_DC) {
 	ZVAL_NULL(result);
 
 	if (phql_internal_parse_phql(&result, Z_STRVAL_P(phql), Z_STRLEN_P(phql), &error_msg TSRMLS_CC) == FAILURE) {
+<<<<<<< HEAD:ext/phalcon/mvc/model/query/base.c
 		ZEPHIR_THROW_EXCEPTION_STRW(phalcon_mvc_model_exception_ce, Z_STRVAL_P(error_msg));
+=======
+		if (likely(error_msg != NULL)) {
+			PHALCON_THROW_EXCEPTION_STRW(phalcon_mvc_model_exception_ce, Z_STRVAL_P(error_msg));
+			zval_ptr_dtor(&error_msg);
+		}
+		else {
+			PHALCON_THROW_EXCEPTION_STRW(phalcon_mvc_model_exception_ce, "There was an error parsing PHQL");
+		}
+
+>>>>>>> master:ext/mvc/model/query/base.c
 		return FAILURE;
 	}
 
@@ -195,6 +207,11 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 	}
 
 	phql_parser = phql_Alloc(phql_wrapper_alloc);
+	if (unlikely(!phql_parser)) {
+		MAKE_STD_ZVAL(*error_msg);
+		ZVAL_STRING(*error_msg, "Memory allocation error", 1);
+		return FAILURE;
+	}
 
 	parser_status = emalloc(sizeof(phql_parser_status));
 	state = emalloc(sizeof(phql_scanner_state));
@@ -457,6 +474,9 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 				break;
 			case PHQL_T_DISTINCT:
 				phql_(phql_parser, PHQL_DISTINCT, NULL, parser_status);
+				break;
+			case PHQL_T_ALL:
+				phql_(phql_parser, PHQL_ALL, NULL, parser_status);
 				break;
 			case PHQL_T_CAST:
 				phql_(phql_parser, PHQL_CAST, NULL, parser_status);

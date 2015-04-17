@@ -3,7 +3,11 @@
   +------------------------------------------------------------------------+
   | Zephir Language                                                        |
   +------------------------------------------------------------------------+
+<<<<<<< HEAD
   | Copyright (c) 2011-2015 Zephir Team (http://www.zephir-lang.com)       |
+=======
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
+>>>>>>> master
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -18,6 +22,7 @@
   +------------------------------------------------------------------------+
 */
 
+<<<<<<< HEAD
 #ifndef ZEPHIR_KERNEL_VARIABLES_H
 #define ZEPHIR_KERNEL_VARIABLES_H
 
@@ -33,3 +38,14 @@ void zephir_var_export_ex(zval *return_value, zval **var TSRMLS_DC);
 void zephir_var_dump(zval **var TSRMLS_DC);
 
 #endif
+=======
+#ifndef PHALCON_KERNEL_VARIABLES_H
+#define PHALCON_KERNEL_VARIABLES_H
+
+#include "php_phalcon.h"
+
+void phalcon_serialize(zval *return_value, zval **var  TSRMLS_DC);
+void phalcon_unserialize(zval *return_value, zval *var TSRMLS_DC);
+
+#endif /* PHALCON_KERNEL_VARIABLES_H */
+>>>>>>> master

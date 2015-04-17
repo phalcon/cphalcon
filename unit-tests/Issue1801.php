@@ -116,5 +116,4 @@ class Issue1801 extends PHPUnit_Framework_TestCase
 		$robot = Robots::findFirst(1);
 		$this->assertTrue(true);
 	}
-
 }

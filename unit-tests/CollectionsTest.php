@@ -201,5 +201,4 @@ class CollectionsTest extends PHPUnit_Framework_TestCase
 		)), 2);
 
 	}
-
 }

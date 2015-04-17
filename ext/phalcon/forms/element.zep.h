@@ -1,4 +1,5 @@
 
+<<<<<<< HEAD:ext/phalcon/forms/element.zep.h
 extern zend_class_entry *phalcon_forms_element_ce;
 
 ZEPHIR_INIT_CLASS(Phalcon_Forms_Element);
@@ -65,12 +66,32 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_element_addvalidator, 0, 0, 1)
 	ZEND_ARG_OBJ_INFO(0, validator, Phalcon\\Validation\\ValidatorInterface, 0)
 ZEND_END_ARG_INFO()
+=======
+/*
+  +------------------------------------------------------------------------+
+  | Phalcon Framework                                                      |
+  +------------------------------------------------------------------------+
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
+  +------------------------------------------------------------------------+
+  | This source file is subject to the New BSD License that is bundled     |
+  | with this package in the file docs/LICENSE.txt.                        |
+  |                                                                        |
+  | If you did not receive a copy of the license and are unable to         |
+  | obtain it through the world-wide-web, please send an email             |
+  | to license@phalconphp.com so we can send you a copy immediately.       |
+  +------------------------------------------------------------------------+
+  | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
+  |          Eduar Carvajal <eduar@phalconphp.com>                         |
+  +------------------------------------------------------------------------+
+*/
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_element_prepareattributes, 0, 0, 0)
-	ZEND_ARG_INFO(0, attributes)
-	ZEND_ARG_INFO(0, useChecked)
-ZEND_END_ARG_INFO()
+#ifndef PHALCON_FORMS_ELEMENT_H
+#define PHALCON_FORMS_ELEMENT_H
+>>>>>>> master:ext/forms/element.h
 
+#include "php_phalcon.h"
+
+<<<<<<< HEAD:ext/phalcon/forms/element.zep.h
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_element_setattribute, 0, 0, 2)
 	ZEND_ARG_INFO(0, attribute)
 	ZEND_ARG_INFO(0, value)
@@ -154,3 +175,10 @@ ZEPHIR_INIT_FUNCS(phalcon_forms_element_method_entry) {
 	PHP_ME(Phalcon_Forms_Element, __toString, NULL, ZEND_ACC_PUBLIC)
   PHP_FE_END
 };
+=======
+extern zend_class_entry *phalcon_forms_element_ce;
+
+PHALCON_INIT_CLASS(Phalcon_Forms_Element);
+
+#endif /* PHALCON_FORMS_ELEMENT_H */
+>>>>>>> master:ext/forms/element.h

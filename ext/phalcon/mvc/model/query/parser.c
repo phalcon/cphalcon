@@ -4,25 +4,22 @@
 /* First off, code is include which follows the "include" declaration
 ** in the input file. */
 #include <stdio.h>
-// 38 "parser.lemon"
+/* #line 39 "parser.y" */
 
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
 #include "php_phalcon.h"
-#include "phalcon.h"
 
-#include "parser.h"
-#include "scanner.h"
-#include "phql.h"
+#include "mvc/model/query/parser.h"
+#include "mvc/model/query/scanner.h"
+#include "mvc/model/query/phql.h"
+#include "mvc/model/exception.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
 #include "kernel/exception.h"
+
+#include "interned-strings.h"
 
 static zval *phql_ret_literal_zval(int type, phql_parser_token *T)
 {
@@ -30,9 +27,9 @@ static zval *phql_ret_literal_zval(int type, phql_parser_token *T)
 
 	MAKE_STD_ZVAL(ret);
 	array_init(ret);
-	add_assoc_long(ret, "type", type);
+	add_assoc_long(ret, phalcon_interned_type, type);
 	if (T) {
-		add_assoc_stringl(ret, "value", T->token, T->token_len, 0);
+		add_assoc_stringl(ret, phalcon_interned_value, T->token, T->token_len, 0);
 		efree(T);
 	}
 
@@ -45,8 +42,8 @@ static zval *phql_ret_placeholder_zval(int type, phql_parser_token *T)
 
 	MAKE_STD_ZVAL(ret);
 	array_init_size(ret, 2);
-	add_assoc_long(ret, "type", type);
-	add_assoc_stringl(ret, "value", T->token, T->token_len, 0);
+	add_assoc_long(ret, phalcon_interned_type, type);
+	add_assoc_stringl(ret, phalcon_interned_value, T->token, T->token_len, 0);
 	efree(T);
 
 	return ret;
@@ -59,19 +56,19 @@ static zval *phql_ret_qualified_name(phql_parser_token *A, phql_parser_token *B,
 	MAKE_STD_ZVAL(ret);
 	array_init(ret);
 
-	add_assoc_long(ret, "type", PHQL_T_QUALIFIED);
+	add_assoc_long(ret, phalcon_interned_type, PHQL_T_QUALIFIED);
 
 	if (A != NULL) {
-		add_assoc_stringl(ret, "ns-alias", A->token, A->token_len, 0);
+		add_assoc_stringl(ret, phalcon_interned_ns_alias, A->token, A->token_len, 0);
 		efree(A);
 	}
 
 	if (B != NULL) {
-		add_assoc_stringl(ret, "domain", B->token, B->token_len, 0);
+		add_assoc_stringl(ret, phalcon_interned_domain, B->token, B->token_len, 0);
 		efree(B);
 	}
 
-	add_assoc_stringl(ret, "name", C->token, C->token_len, 0);
+	add_assoc_stringl(ret, phalcon_interned_name, C->token, C->token_len, 0);
 	efree(C);
 
 	return ret;
@@ -84,13 +81,13 @@ static zval *phql_ret_raw_qualified_name(phql_parser_token *A, phql_parser_token
 	MAKE_STD_ZVAL(ret);
 	array_init(ret);
 
-	add_assoc_long(ret, "type", PHQL_T_RAW_QUALIFIED);
+	add_assoc_long(ret, phalcon_interned_type, PHQL_T_RAW_QUALIFIED);
 	if (B != NULL) {
-		add_assoc_stringl(ret, "domain", A->token, A->token_len, 0);
-		add_assoc_stringl(ret, "name", B->token, B->token_len, 0);
+		add_assoc_stringl(ret, phalcon_interned_domain, A->token, A->token_len, 0);
+		add_assoc_stringl(ret, phalcon_interned_name, B->token, B->token_len, 0);
 		efree(B);
 	} else {
-		add_assoc_stringl(ret, "name", A->token, A->token_len, 0);
+		add_assoc_stringl(ret, phalcon_interned_name, A->token, A->token_len, 0);
 	}
 	efree(A);
 
@@ -104,39 +101,64 @@ static zval *phql_ret_select_statement(zval *S, zval *W, zval *O, zval *G, zval 
 	MAKE_STD_ZVAL(ret);
 	array_init(ret);
 
-	add_assoc_long(ret, "type", PHQL_T_SELECT);
-	add_assoc_zval(ret, "select", S);
+	add_assoc_long(ret, phalcon_interned_type, PHQL_T_SELECT);
+	add_assoc_zval(ret, phalcon_interned_select, S);
 
 	if (W != NULL) {
-		add_assoc_zval(ret, "where", W);
+		add_assoc_zval(ret, phalcon_interned_where, W);
 	}
 	if (O != NULL) {
-		add_assoc_zval(ret, "orderBy", O);
+		add_assoc_zval(ret, phalcon_interned_orderBy, O);
 	}
 	if (G != NULL) {
-		add_assoc_zval(ret, "groupBy", G);
+		add_assoc_zval(ret, phalcon_interned_groupBy, G);
 	}
 	if (H != NULL) {
-		add_assoc_zval(ret, "having", H);
+		add_assoc_zval(ret, phalcon_interned_having, H);
 	}
 	if (L != NULL) {
-		add_assoc_zval(ret, "limit", L);
+		add_assoc_zval(ret, phalcon_interned_limit, L);
 	}
 
 	return ret;
 }
 
-static zval *phql_ret_select_clause(zval *columns, zval *tables, zval *join_list)
+static zval *phql_ret_select_clause(zval *distinct, zval *columns, zval *tables, zval *join_list)
 {
 	zval *ret;
 
 	MAKE_STD_ZVAL(ret);
-	array_init(ret);
-	add_assoc_zval(ret, "columns", columns);
-	add_assoc_zval(ret, "tables", tables);
-	if (join_list) {
-		add_assoc_zval(ret, "joins", join_list);
+	array_init_size(ret, 4);
+
+	if (distinct) {
+		add_assoc_zval(ret, phalcon_interned_distinct, distinct);
 	}
+
+	add_assoc_zval(ret, phalcon_interned_columns, columns);
+	add_assoc_zval(ret, phalcon_interned_tables, tables);
+	if (join_list) {
+		add_assoc_zval(ret, phalcon_interned_joins, join_list);
+	}
+
+	return ret;
+}
+
+static zval *phql_ret_distinct_all(int distinct)
+{
+	zval *ret;
+
+	MAKE_STD_ZVAL(ret);
+	ZVAL_LONG(ret, distinct);
+
+	return ret;
+}
+
+static zval *phql_ret_distinct(void)
+{
+	zval *ret;
+
+	MAKE_STD_ZVAL(ret);
+	ZVAL_TRUE(ret);
 
 	return ret;
 }
@@ -147,9 +169,9 @@ static zval *phql_ret_order_item(zval *column, int sort){
 
 	MAKE_STD_ZVAL(ret);
 	array_init(ret);
-	add_assoc_zval(ret, "column", column);
+	add_assoc_zval(ret, phalcon_interned_column, column);
 	if (sort != 0 ) {
-		add_assoc_long(ret, "sort", sort);
+		add_assoc_long(ret, phalcon_interned_sort, sort);
 	}
 
 	return ret;
@@ -162,10 +184,10 @@ static zval *phql_ret_limit_clause(zval *L, zval *O)
 	MAKE_STD_ZVAL(ret);
 	array_init_size(ret, 2);
 
-	add_assoc_zval(ret, "number", L);
+	add_assoc_zval(ret, phalcon_interned_number, L);
 
 	if (O != NULL) {
-		add_assoc_zval(ret, "offset", O);
+		add_assoc_zval(ret, phalcon_interned_offset, O);
 	}
 
 	return ret;
@@ -176,14 +198,14 @@ static zval *phql_ret_insert_statement(zval *Q, zval *F, zval *V)
 	zval *ret;
 
 	MAKE_STD_ZVAL(ret);
-	array_init(ret);
+	array_init_size(ret, 4);
 
-	add_assoc_long(ret, "type", PHQL_T_INSERT);
-	add_assoc_zval(ret, "qualifiedName", Q);
+	add_assoc_long(ret, phalcon_interned_type, PHQL_T_INSERT);
+	add_assoc_zval(ret, phalcon_interned_qualifiedName, Q);
 	if (F != NULL) {
-		add_assoc_zval(ret, "fields", F);
+		add_assoc_zval(ret, phalcon_interned_fields, F);
 	}
-	add_assoc_zval(ret, "values", V);
+	add_assoc_zval(ret, phalcon_interned_values, V);
 
 	return ret;
 }
@@ -195,13 +217,13 @@ static zval *phql_ret_update_statement(zval *U, zval *W, zval *L)
 	MAKE_STD_ZVAL(ret);
 	array_init(ret);
 
-	add_assoc_long(ret, "type", PHQL_T_UPDATE);
-	add_assoc_zval(ret, "update", U);
+	add_assoc_long(ret, phalcon_interned_type, PHQL_T_UPDATE);
+	add_assoc_zval(ret, phalcon_interned_update, U);
 	if (W != NULL) {
-		add_assoc_zval(ret, "where", W);
+		add_assoc_zval(ret, phalcon_interned_where, W);
 	}
 	if (L != NULL) {
-		add_assoc_zval(ret, "limit", L);
+		add_assoc_zval(ret, phalcon_interned_limit, L);
 	}
 
 	return ret;
@@ -213,21 +235,20 @@ static zval *phql_ret_update_clause(zval *tables, zval *values)
 
 	MAKE_STD_ZVAL(ret);
 	array_init_size(ret, 2);
-	add_assoc_zval(ret, "tables", tables);
-	add_assoc_zval(ret, "values", values);
+	add_assoc_zval(ret, phalcon_interned_tables, tables);
+	add_assoc_zval(ret, phalcon_interned_values, values);
 
 	return ret;
 }
 
 static zval *phql_ret_update_item(zval *column, zval *expr)
 {
-
 	zval *ret;
 
 	MAKE_STD_ZVAL(ret);
 	array_init_size(ret, 2);
-	add_assoc_zval(ret, "column", column);
-	add_assoc_zval(ret, "expr", expr);
+	add_assoc_zval(ret, phalcon_interned_column, column);
+	add_assoc_zval(ret, phalcon_interned_expr, expr);
 
 	return ret;
 }
@@ -239,13 +260,13 @@ static zval *phql_ret_delete_statement(zval *D, zval *W, zval *L)
 	MAKE_STD_ZVAL(ret);
 	array_init(ret);
 
-	add_assoc_long(ret, "type", PHQL_T_DELETE);
-	add_assoc_zval(ret, "delete", D);
+	add_assoc_long(ret, phalcon_interned_type, PHQL_T_DELETE);
+	add_assoc_zval(ret, phalcon_interned_delete, D);
 	if (W != NULL) {
-		add_assoc_zval(ret, "where", W);
+		add_assoc_zval(ret, phalcon_interned_where, W);
 	}
 	if (L != NULL) {
-		add_assoc_zval(ret, "limit", L);
+		add_assoc_zval(ret, phalcon_interned_limit, L);
 	}
 
 	return ret;
@@ -257,16 +278,14 @@ static zval *phql_ret_delete_clause(zval *tables)
 
 	MAKE_STD_ZVAL(ret);
 	array_init_size(ret, 1);
-	add_assoc_zval(ret, "tables", tables);
+	add_assoc_zval(ret, phalcon_interned_tables, tables);
 
 	return ret;
 }
 
 static zval *phql_ret_zval_list(zval *list_left, zval *right_list)
 {
-
 	zval *ret;
-	HashPosition pos;
 	HashTable *list;
 
 	MAKE_STD_ZVAL(ret);
@@ -274,19 +293,18 @@ static zval *phql_ret_zval_list(zval *list_left, zval *right_list)
 
 	list = Z_ARRVAL_P(list_left);
 	if (zend_hash_index_exists(list, 0)) {
-		zend_hash_internal_pointer_reset_ex(list, &pos);
-		for (;; zend_hash_move_forward_ex(list, &pos)) {
+		HashPosition pos;
+		zval **item;
 
-			zval ** item;
-
-			if (zend_hash_get_current_data_ex(list, (void**)&item, &pos) == FAILURE) {
-				break;
-			}
-
+		for (
+			zend_hash_internal_pointer_reset_ex(list, &pos);
+			zend_hash_get_current_data_ex(list, (void**)&item, &pos) != FAILURE;
+			zend_hash_move_forward_ex(list, &pos)
+		) {
 			Z_ADDREF_PP(item);
 			add_next_index_zval(ret, *item);
-
 		}
+
 		zval_ptr_dtor(&list_left);
 	} else {
 		add_next_index_zval(ret, list_left);
@@ -301,21 +319,20 @@ static zval *phql_ret_zval_list(zval *list_left, zval *right_list)
 
 static zval *phql_ret_column_item(int type, zval *column, phql_parser_token *identifier_column, phql_parser_token *alias)
 {
-
 	zval *ret;
 
 	MAKE_STD_ZVAL(ret);
-	array_init(ret);
-	add_assoc_long(ret, "type", type);
+	array_init_size(ret, 4);
+	add_assoc_long(ret, phalcon_interned_type, type);
 	if (column) {
-		add_assoc_zval(ret, "column", column);
+		add_assoc_zval(ret, phalcon_interned_column, column);
 	}
 	if (identifier_column) {
-		add_assoc_stringl(ret, "column", identifier_column->token, identifier_column->token_len, 0);
+		add_assoc_stringl(ret, phalcon_interned_column, identifier_column->token, identifier_column->token_len, 0);
 		efree(identifier_column);
 	}
 	if (alias) {
-		add_assoc_stringl(ret, "alias", alias->token, alias->token_len, 0);
+		add_assoc_stringl(ret, phalcon_interned_alias, alias->token, alias->token_len, 0);
 		efree(alias);
 	}
 
@@ -324,19 +341,17 @@ static zval *phql_ret_column_item(int type, zval *column, phql_parser_token *ide
 
 static zval *phql_ret_assoc_name(zval *qualified_name, phql_parser_token *alias)
 {
-
 	zval *ret;
 
 	MAKE_STD_ZVAL(ret);
-	array_init(ret);
-	add_assoc_zval(ret, "qualifiedName", qualified_name);
+	array_init_size(ret, 2);
+	add_assoc_zval(ret, phalcon_interned_qualifiedName, qualified_name);
 	if (alias) {
-		add_assoc_stringl(ret, "alias", alias->token, alias->token_len, 0);
+		add_assoc_stringl(ret, phalcon_interned_alias, alias->token, alias->token_len, 0);
 		efree(alias);
 	}
 
 	return ret;
-
 }
 
 static zval *phql_ret_join_type(int type)
@@ -351,27 +366,25 @@ static zval *phql_ret_join_type(int type)
 
 static zval *phql_ret_join_item(zval *type, zval *qualified, zval *alias, zval *conditions)
 {
-
 	zval *ret;
 
 	MAKE_STD_ZVAL(ret);
-	array_init(ret);
-	add_assoc_zval(ret, "type", type);
+	array_init_size(ret, 4);
+	add_assoc_zval(ret, phalcon_interned_type, type);
 
 	if (qualified) {
-		add_assoc_zval(ret, "qualified", qualified);
+		add_assoc_zval(ret, phalcon_interned_qualified, qualified);
 	}
 
 	if (alias) {
-		add_assoc_zval(ret, "alias", alias);
+		add_assoc_zval(ret, phalcon_interned_alias, alias);
 	}
 
 	if (conditions) {
-		add_assoc_zval(ret, "conditions", conditions);
+		add_assoc_zval(ret, phalcon_interned_conditions, conditions);
 	}
 
 	return ret;
-
 }
 
 static zval *phql_ret_expr(int type, zval *left, zval *right)
@@ -379,38 +392,41 @@ static zval *phql_ret_expr(int type, zval *left, zval *right)
 	zval *ret;
 
 	MAKE_STD_ZVAL(ret);
-	array_init(ret);
-	add_assoc_long(ret, "type", type);
+	array_init_size(ret, 2);
+	add_assoc_long(ret, phalcon_interned_type, type);
 	if (left) {
-		add_assoc_zval(ret, "left", left);
+		add_assoc_zval(ret, phalcon_interned_left, left);
 	}
 	if (right) {
-		add_assoc_zval(ret, "right", right);
+		add_assoc_zval(ret, phalcon_interned_right, right);
 	}
 
 	return ret;
 }
 
-static zval *phql_ret_func_call(phql_parser_token *name, zval *arguments)
+static zval *phql_ret_func_call(phql_parser_token *name, zval *arguments, zval *distinct)
 {
-
 	zval *ret;
 
 	MAKE_STD_ZVAL(ret);
-	array_init(ret);
-	add_assoc_long(ret, "type", PHQL_T_FCALL);
-	add_assoc_stringl(ret, "name", name->token, name->token_len, 0);
+	array_init_size(ret, 4);
+	add_assoc_long(ret, phalcon_interned_type, PHQL_T_FCALL);
+	add_assoc_stringl(ret, phalcon_interned_name, name->token, name->token_len, 0);
 	efree(name);
 
 	if (arguments) {
-		add_assoc_zval(ret, "arguments", arguments);
+		add_assoc_zval(ret, phalcon_interned_arguments, arguments);
+	}
+	
+	if (distinct) {
+		add_assoc_zval(ret, phalcon_interned_distinct, distinct);
 	}
 
 	return ret;
 }
 
 
-// 414 "parser.c"
+/* #line 430 "parser.c" */
 /* Next is all token values, in a form suitable for use by makeheaders.
 ** This section will be null unless lemon is run with the -m switch.
 */
@@ -460,23 +476,30 @@ static zval *phql_ret_func_call(phql_parser_token *name, zval *arguments)
 **                       defined, then do no error processing.
 */
 #define YYCODETYPE unsigned char
-#define YYNOCODE 115
+#define YYNOCODE 120
 #define YYACTIONTYPE unsigned short int
 #define phql_TOKENTYPE phql_parser_token*
 typedef union {
   phql_TOKENTYPE yy0;
-  zval* yy48;
-  int yy229;
+  zval* yy92;
+  int yy239;
 } YYMINORTYPE;
 #define YYSTACKDEPTH 100
 #define phql_ARG_SDECL phql_parser_status *status;
 #define phql_ARG_PDECL ,phql_parser_status *status
 #define phql_ARG_FETCH phql_parser_status *status = yypParser->status
 #define phql_ARG_STORE yypParser->status = status
+<<<<<<< HEAD:ext/phalcon/mvc/model/query/parser.c
 #define YYNSTATE 269
 #define YYNRULE 158
 #define YYERRORSYMBOL 69
 #define YYERRSYMDT yy229
+=======
+#define YYNSTATE 249
+#define YYNRULE 139
+#define YYERRORSYMBOL 70
+#define YYERRSYMDT yy239
+>>>>>>> master:ext/mvc/model/query/parser.c
 #define YY_NO_ACTION      (YYNSTATE+YYNRULE+2)
 #define YY_ACCEPT_ACTION  (YYNSTATE+YYNRULE+1)
 #define YY_ERROR_ACTION   (YYNSTATE+YYNRULE)
@@ -529,6 +552,7 @@ typedef union {
 **  yy_default[]       Default action for each state.
 */
 static YYACTIONTYPE yy_action[] = {
+<<<<<<< HEAD:ext/phalcon/mvc/model/query/parser.c
  /*     0 */    75,   81,   53,   55,   57,   59,   61,   63,   43,   45,
  /*    10 */    65,   70,   47,   49,   51,   39,   37,   41,   35,   32,
  /*    20 */    77,   72,   72,   67,   67,   75,   81,   53,   55,   57,
@@ -602,15 +626,82 @@ static YYACTIONTYPE yy_action[] = {
  /*   700 */   370,  327,  208,  203,  339,  247,  220,  243,  255,  258,
  /*   710 */   349,  249,  348,  267,  264,  274,  274,  238,  274,  274,
  /*   720 */   274,  274,  274,  274,  274,  253,
+=======
+ /*     0 */    72,   78,   50,   52,   54,   56,   58,   60,   40,   42,
+ /*    10 */    62,   67,   44,   46,   48,   36,   34,   38,   32,   29,
+ /*    20 */    74,   69,   64,  145,   72,   78,   50,   52,   54,   56,
+ /*    30 */    58,   60,   40,   42,   62,   67,   44,   46,   48,   36,
+ /*    40 */    34,   38,   32,   29,   74,   69,   64,   16,   17,   18,
+ /*    50 */   249,   27,   28,  201,  192,  199,  150,   72,   78,   50,
+ /*    60 */    52,   54,   56,   58,   60,   40,   42,   62,   67,   44,
+ /*    70 */    46,   48,   36,   34,   38,   32,   29,   74,   69,   64,
+ /*    80 */    36,   34,   38,   32,   29,   74,   69,   64,   83,    7,
+ /*    90 */    72,   78,   50,   52,   54,   56,   58,   60,   40,   42,
+ /*   100 */    62,   67,   44,   46,   48,   36,   34,   38,   32,   29,
+ /*   110 */    74,   69,   64,   72,   78,   50,   52,   54,   56,   58,
+ /*   120 */    60,   40,   42,   62,   67,   44,   46,   48,   36,   34,
+ /*   130 */    38,   32,   29,   74,   69,   64,   40,   42,   62,   67,
+ /*   140 */    44,   46,   48,   36,   34,   38,   32,   29,   74,   69,
+ /*   150 */    64,  327,   89,   74,   69,   64,  158,  108,  156,   72,
+ /*   160 */    78,   50,   52,   54,   56,   58,   60,   40,   42,   62,
+ /*   170 */    67,   44,   46,   48,   36,   34,   38,   32,   29,   74,
+ /*   180 */    69,   64,   50,   52,   54,   56,   58,   60,   40,   42,
+ /*   190 */    62,   67,   44,   46,   48,   36,   34,   38,   32,   29,
+ /*   200 */    74,   69,   64,  101,  203,  204,   30,   12,  250,  102,
+ /*   210 */   104,   65,  128,  138,  101,  153,   93,   30,  324,   99,
+ /*   220 */   102,  104,  130,  173,  189,  175,  177,   93,  181,  185,
+ /*   230 */   106,  364,  173,  189,  175,  177,   76,  181,  185,  363,
+ /*   240 */   172,  106,  170,   14,  110,  116,  117,   80,   86,   26,
+ /*   250 */   113,  111,  112,  114,  115,  110,  116,  117,   80,   86,
+ /*   260 */    26,  113,  111,  112,  114,  115,  194,  109,   71,   30,
+ /*   270 */    23,  135,  102,  104,  251,   19,   92,   75,  109,  195,
+ /*   280 */    30,    8,   25,  102,  104,  124,  109,   92,  208,  216,
+ /*   290 */    93,  252,   99,  106,   98,   92,  253,   96,  118,   32,
+ /*   300 */    29,   74,   69,   64,  106,  136,    9,  110,  116,  117,
+ /*   310 */    80,   86,  127,  113,  111,  112,  114,  115,  110,  116,
+ /*   320 */   117,   80,   86,  120,  113,  111,  112,  114,  115,   62,
+ /*   330 */    67,   44,   46,   48,   36,   34,   38,   32,   29,   74,
+ /*   340 */    69,   64,   44,   46,   48,   36,   34,   38,   32,   29,
+ /*   350 */    74,   69,   64,   71,  143,  389,    1,    2,    3,    4,
+ /*   360 */     5,    6,  162,  163,  164,  235,  242,  238,   10,   71,
+ /*   370 */   180,  109,  109,  178,  237,  238,   21,  140,  144,  126,
+ /*   380 */    92,   92,  214,  118,   11,  149,  227,  109,  202,  198,
+ /*   390 */   254,  210,  243,  124,  215,  132,   92,  152,  147,  118,
+ /*   400 */   109,  161,  190,  163,  164,  214,   94,  109,   71,   92,
+ /*   410 */   143,   13,   15,  205,  221,  151,   92,  215,  232,  191,
+ /*   420 */   246,  193,  198,  109,  155,  241,  109,  214,  109,  134,
+ /*   430 */    31,  120,   92,   33,  142,   92,  159,   92,  100,  213,
+ /*   440 */   109,   35,   22,  109,  240,  109,   37,  109,  109,   92,
+ /*   450 */   154,  109,   92,  165,   92,  155,   92,   92,   39,  109,
+ /*   460 */    92,   41,  196,   99,  109,  159,   43,  159,   92,   45,
+ /*   470 */   325,   47,   49,   92,   51,   94,  109,   53,  184,  109,
+ /*   480 */    20,  182,  326,  133,  109,   92,   64,  109,   92,  109,
+ /*   490 */   109,   55,  109,   92,   57,  109,   92,   59,   92,   92,
+ /*   500 */   120,   92,   61,  197,   92,   63,   24,   66,   68,  109,
+ /*   510 */    73,  188,  109,   79,  186,  109,  125,   70,   92,  212,
+ /*   520 */   109,   92,  223,  109,   92,  109,  109,   82,  109,   92,
+ /*   530 */    88,  109,   92,  103,   92,   92,  329,   92,  105,  211,
+ /*   540 */    92,  107,  218,  129,  169,  109,  137,  217,  109,  146,
+ /*   550 */   226,  109,  212,   77,   92,   81,  109,   92,  233,  109,
+ /*   560 */    92,  109,  109,  155,  109,   92,  207,  109,   92,  248,
+ /*   570 */    92,   92,  222,   92,  155,  159,   92,   84,  159,   85,
+ /*   580 */    90,   87,  119,   91,   95,   97,  159,  121,  131,  122,
+ /*   590 */   123,  125,  230,  139,  141,  148,  160,  157,  166,  168,
+ /*   600 */   167,  171,  174,  277,  176,  278,  179,  279,  280,  281,
+ /*   610 */   183,  282,  283,  284,  187,  285,  200,  288,  209,  225,
+ /*   620 */   289,  224,  229,  228,  296,  328,  206,  231,  236,  239,
+ /*   630 */   219,  244,  220,  245,  302,  247,  260,  234,
+>>>>>>> master:ext/mvc/model/query/parser.c
 };
 static YYCODETYPE yy_lookahead[] = {
  /*     0 */     1,    2,    3,    4,    5,    6,    7,    8,    9,   10,
  /*    10 */    11,   12,   13,   14,   15,   16,   17,   18,   19,   20,
- /*    20 */    21,   22,   22,   24,   24,    1,    2,    3,    4,    5,
- /*    30 */     6,    7,    8,    9,   10,   11,   12,   13,   14,   15,
- /*    40 */    16,   17,   18,   19,   20,   21,   22,    0,   24,   78,
- /*    50 */    51,   52,   81,   29,   29,   31,   31,    1,    2,    3,
+ /*    20 */    21,   22,   23,   49,    1,    2,    3,    4,    5,    6,
+ /*    30 */     7,    8,    9,   10,   11,   12,   13,   14,   15,   16,
+ /*    40 */    17,   18,   19,   20,   21,   22,   23,   58,   59,   60,
+ /*    50 */     0,   52,   53,   30,   25,   32,   27,    1,    2,    3,
  /*    60 */     4,    5,    6,    7,    8,    9,   10,   11,   12,   13,
+<<<<<<< HEAD:ext/phalcon/mvc/model/query/parser.c
  /*    70 */    14,   15,   16,   17,   18,   19,   20,   21,   22,    0,
  /*    80 */    24,   77,   78,   79,   80,   81,    0,   31,   77,    1,
  /*    90 */     2,    3,    4,    5,    6,    7,    8,    9,   10,   11,
@@ -677,9 +768,69 @@ static YYCODETYPE yy_lookahead[] = {
  /*   700 */     0,   29,   29,   32,    0,  100,   29,   29,   28,    3,
  /*   710 */     0,  110,    0,   27,  100,  114,  114,   43,  114,  114,
  /*   720 */   114,  114,  114,  114,  114,   46,
+=======
+ /*    70 */    14,   15,   16,   17,   18,   19,   20,   21,   22,   23,
+ /*    80 */    16,   17,   18,   19,   20,   21,   22,   23,   32,   78,
+ /*    90 */     1,    2,    3,    4,    5,    6,    7,    8,    9,   10,
+ /*   100 */    11,   12,   13,   14,   15,   16,   17,   18,   19,   20,
+ /*   110 */    21,   22,   23,    1,    2,    3,    4,    5,    6,    7,
+ /*   120 */     8,    9,   10,   11,   12,   13,   14,   15,   16,   17,
+ /*   130 */    18,   19,   20,   21,   22,   23,    9,   10,   11,   12,
+ /*   140 */    13,   14,   15,   16,   17,   18,   19,   20,   21,   22,
+ /*   150 */    23,    0,   63,   21,   22,   23,   30,   45,   32,    1,
+ /*   160 */     2,    3,    4,    5,    6,    7,    8,    9,   10,   11,
+ /*   170 */    12,   13,   14,   15,   16,   17,   18,   19,   20,   21,
+ /*   180 */    22,   23,    3,    4,    5,    6,    7,    8,    9,   10,
+ /*   190 */    11,   12,   13,   14,   15,   16,   17,   18,   19,   20,
+ /*   200 */    21,   22,   23,   17,   28,   29,   20,   56,    0,   23,
+ /*   210 */    24,   11,   12,   54,   17,   25,   30,   20,    0,   25,
+ /*   220 */    23,   24,   22,   33,   34,   35,   36,   30,   38,   39,
+ /*   230 */    44,   45,   33,   34,   35,   36,   23,   38,   39,   45,
+ /*   240 */    30,   44,   32,   25,   58,   59,   60,   61,   62,   88,
+ /*   250 */    64,   65,   66,   67,   68,   58,   59,   60,   61,   62,
+ /*   260 */    88,   64,   65,   66,   67,   68,   17,  106,   88,   20,
+ /*   270 */   109,  110,   23,   24,    0,   57,  115,   64,  106,   30,
+ /*   280 */    20,   79,  110,   23,   24,   31,  106,  115,   43,   44,
+ /*   290 */    30,    0,   25,   44,  114,  115,    0,  117,  118,   19,
+ /*   300 */    20,   21,   22,   23,   44,   55,   80,   58,   59,   60,
+ /*   310 */    61,   62,   45,   64,   65,   66,   67,   68,   58,   59,
+ /*   320 */    60,   61,   62,   69,   64,   65,   66,   67,   68,   11,
+ /*   330 */    12,   13,   14,   15,   16,   17,   18,   19,   20,   21,
+ /*   340 */    22,   23,   13,   14,   15,   16,   17,   18,   19,   20,
+ /*   350 */    21,   22,   23,   88,   88,   71,   72,   73,   74,   75,
+ /*   360 */    76,   77,   91,   92,   93,  104,  105,  106,   81,   88,
+ /*   370 */    34,  106,  106,   37,  105,  106,   50,  111,  112,  114,
+ /*   380 */   115,  115,   88,  118,   82,   84,  102,  106,   87,   88,
+ /*   390 */     0,   97,  108,   31,  100,  114,  115,   86,   26,  118,
+ /*   400 */   106,   90,   91,   92,   93,   88,   44,  106,   88,  115,
+ /*   410 */    88,  113,  113,   41,   97,   85,  115,  100,   46,   89,
+ /*   420 */    48,   87,   88,  106,   94,   88,  106,   88,  106,   88,
+ /*   430 */    88,   69,  115,   88,  112,  115,  106,  115,  118,  100,
+ /*   440 */   106,   88,   51,  106,  107,  106,   88,  106,  106,  115,
+ /*   450 */    89,  106,  115,   94,  115,   94,  115,  115,   88,  106,
+ /*   460 */   115,   88,   31,   25,  106,  106,   88,  106,  115,   88,
+ /*   470 */     0,   88,   88,  115,   88,   44,  106,   88,   34,  106,
+ /*   480 */   113,   37,    0,   45,  106,  115,   23,  106,  115,  106,
+ /*   490 */   106,   88,  106,  115,   88,  106,  115,   88,  115,  115,
+ /*   500 */    69,  115,   88,   17,  115,   88,   25,   88,   88,  106,
+ /*   510 */    88,   34,  106,   88,   37,  106,   30,   44,  115,   25,
+ /*   520 */   106,  115,   25,  106,  115,  106,  106,   88,  106,  115,
+ /*   530 */    88,  106,  115,   88,  115,  115,    0,  115,   88,   45,
+ /*   540 */   115,   88,   45,   88,   88,  106,   88,   98,  106,   88,
+ /*   550 */   101,  106,   25,   64,  115,   44,  106,  115,   89,  106,
+ /*   560 */   115,  106,  106,   94,  106,  115,   94,  106,  115,   89,
+ /*   570 */   115,  115,   45,  115,   94,  106,  115,   30,  106,   45,
+ /*   580 */    30,   44,   28,   45,  116,   45,  106,   30,   44,   31,
+ /*   590 */    30,   30,   56,   51,   25,   83,   30,   30,   95,   40,
+ /*   600 */    96,   30,   34,   30,   34,   30,   34,   30,   30,   30,
+ /*   610 */    34,   30,   30,   30,   34,   30,   30,    0,   44,   30,
+ /*   620 */     0,  101,  103,   78,    0,    0,   42,  113,   25,    3,
+ /*   630 */    43,   78,   44,  103,    0,   27,  119,   47,
+>>>>>>> master:ext/mvc/model/query/parser.c
 };
-#define YY_SHIFT_USE_DFLT (-2)
+#define YY_SHIFT_USE_DFLT (-27)
 static short yy_shift_ofst[] = {
+<<<<<<< HEAD:ext/phalcon/mvc/model/query/parser.c
  /*     0 */   399,   47,   79,   86,  181,  205,  321,  387,  152,  238,
  /*    10 */   309,  213,  309,  290,   -2,   -2,   -2,  309,  310,  404,
  /*    20 */   388,  445,  364,  395,  350,  259,  462,  259,   -2,   -1,
@@ -707,9 +858,37 @@ static short yy_shift_ofst[] = {
  /*   240 */   693,  678,   -2,   -2,   -2,  562,  616,  696,  309,  700,
  /*   250 */   704,  648,  679,  648,  680,  648,   -2,  706,  259,   -2,
  /*   260 */   158,   -2,  577,  618,  710,  712,  686,  648,   -2,
+=======
+ /*     0 */   372,   50,  208,  274,  291,  296,  -26,  159,  250,  326,
+ /*    10 */   151,  390,  -11,  218,  -11,  470,  -27,  -27,  -27,  -11,
+ /*    20 */   482,  391,  260,  481,  260,  -27,   -1,  -27,  -27,  260,
+ /*    30 */   260,  132,  260,  132,  260,  280,  260,  280,  260,  280,
+ /*    40 */   260,  318,  260,  318,  260,   64,  260,   64,  260,   64,
+ /*    50 */   260,  127,  260,  127,  260,  127,  260,  127,  260,  127,
+ /*    60 */   260,  127,  260,  329,  200,  260,  463,  260,  329,  473,
+ /*    70 */   197,  158,  260,  158,  213,  -27,  489,  -27,  260,  179,
+ /*    80 */   511,  260,   56,  547,  534,  -27,  537,  260,   89,  550,
+ /*    90 */   538,  -27,  -27,  362,  554,  186,  540,  -27,  194,  197,
+ /*   100 */   -27,  -27,  260,  463,  260,  463,  260,  112,  -27,  -27,
+ /*   110 */   -27,  -27,  -27,  -27,  -27,  -27,  -27,  -27,  -27,  -27,
+ /*   120 */   557,  558,  560,  -27,  561,  -27,  267,  -27,  260,  463,
+ /*   130 */   544,  197,  438,  -27,  132,  -27,  260,  158,  542,  260,
+ /*   140 */   569,  260,  -27,  158,  -27,  260,  158,  176,  249,   29,
+ /*   150 */   566,  190,  -27,  566,  -27,  126,  567,  -27,  -27,  -27,
+ /*   160 */   254,  199,  -27,  -27,  566,  210,  559,  -27,  260,  158,
+ /*   170 */   571,  -27,  -27,  568,  573,  570,  575,  336,  572,  577,
+ /*   180 */   578,  444,  576,  579,  581,  477,  580,  582,  583,  585,
+ /*   190 */   -27,  -27,  249,  -27,  -27,  431,  486,  -27,   23,  586,
+ /*   200 */   -27,  -27,  -27,  -27,  -27,  584,  566,  245,  574,  260,
+ /*   210 */   494,  617,  260,  -27,  158,  -27,  589,  497,  587,  588,
+ /*   220 */   260,  527,  620,  589,  -27,  -27,  -27,  -26,  536,  624,
+ /*   230 */   -11,  625,  566,  590,  566,  603,  566,  -27,  626,  260,
+ /*   240 */   -27,  158,  -27,  -26,  536,  634,  608,  566,  -27,
+>>>>>>> master:ext/mvc/model/query/parser.c
 };
-#define YY_REDUCE_USE_DFLT (-30)
+#define YY_REDUCE_USE_DFLT (-1)
 static short yy_reduce_ofst[] = {
+<<<<<<< HEAD:ext/phalcon/mvc/model/query/parser.c
  /*     0 */   285,  -30,  -30,  -30,  -30,  -30,    4,  284,  137,  -30,
  /*    10 */   132,  -30,  138,  -30,  -30,  -30,  -30,  194,  -30,  200,
  /*    20 */   -29,  304,  -30,  -30,  -30,  295,  -30,  348,  -30,  -30,
@@ -766,6 +945,60 @@ static YYACTIONTYPE yy_default[] = {
  /*   240 */   427,  427,  334,  336,  335,  427,  427,  427,  427,  427,
  /*   250 */   427,  427,  427,  427,  341,  427,  342,  427,  427,  344,
  /*   260 */   345,  343,  427,  427,  427,  427,  427,  427,  350,
+=======
+ /*     0 */   284,   -1,   -1,   -1,   -1,   -1,   11,  202,  226,  287,
+ /*    10 */   302,   -1,  298,   -1,  299,   -1,   -1,   -1,   -1,  367,
+ /*    20 */    -1,   -1,  161,   -1,  172,   -1,   -1,   -1,   -1,  341,
+ /*    30 */   342,   -1,  345,   -1,  353,   -1,  358,   -1,  370,   -1,
+ /*    40 */   373,   -1,  378,   -1,  381,   -1,  383,   -1,  384,   -1,
+ /*    50 */   386,   -1,  389,   -1,  403,   -1,  406,   -1,  409,   -1,
+ /*    60 */   414,   -1,  417,   -1,   -1,  419,   -1,  420,   -1,   -1,
+ /*    70 */   265,   -1,  422,   -1,   -1,   -1,   -1,   -1,  425,   -1,
+ /*    80 */    -1,  439,   -1,   -1,   -1,   -1,   -1,  442,   -1,   -1,
+ /*    90 */    -1,   -1,   -1,   -1,  468,  180,   -1,   -1,   -1,  320,
+ /*   100 */    -1,   -1,  445,   -1,  450,   -1,  453,   -1,   -1,   -1,
+ /*   110 */    -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,
+ /*   120 */    -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,  455,   -1,
+ /*   130 */    -1,  281,   -1,   -1,   -1,   -1,  458,   -1,   -1,  266,
+ /*   140 */    -1,  322,   -1,   -1,   -1,  461,   -1,  512,  301,   -1,
+ /*   150 */   330,  311,   -1,  361,   -1,   -1,   -1,   -1,   -1,   -1,
+ /*   160 */    -1,  271,   -1,   -1,  359,  503,  504,   -1,  456,   -1,
+ /*   170 */    -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,
+ /*   180 */    -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,
+ /*   190 */    -1,   -1,  334,   -1,   -1,   -1,   -1,   -1,   -1,   -1,
+ /*   200 */    -1,   -1,   -1,   -1,   -1,   -1,  472,   -1,   -1,  294,
+ /*   210 */    -1,   -1,  339,   -1,   -1,   -1,  449,   -1,   -1,   -1,
+ /*   220 */   317,   -1,   -1,  520,   -1,   -1,   -1,  545,  519,   -1,
+ /*   230 */   514,   -1,  469,   -1,  261,   -1,  269,   -1,   -1,  337,
+ /*   240 */    -1,   -1,   -1,  553,  530,   -1,   -1,  480,   -1,
+};
+static YYACTIONTYPE yy_default[] = {
+ /*     0 */   388,  388,  388,  388,  388,  388,  309,  318,  323,  311,
+ /*    10 */   388,  388,  388,  388,  388,  388,  330,  331,  332,  388,
+ /*    20 */   388,  388,  388,  310,  388,  312,  314,  315,  316,  388,
+ /*    30 */   388,  333,  388,  335,  388,  336,  388,  337,  388,  338,
+ /*    40 */   388,  339,  388,  340,  388,  341,  388,  342,  388,  343,
+ /*    50 */   388,  344,  388,  345,  388,  346,  388,  347,  388,  348,
+ /*    60 */   388,  349,  388,  350,  388,  388,  351,  388,  352,  388,
+ /*    70 */   388,  368,  388,  356,  388,  369,  388,  370,  388,  371,
+ /*    80 */   388,  388,  388,  388,  388,  357,  388,  388,  388,  388,
+ /*    90 */   388,  358,  359,  387,  362,  388,  388,  360,  388,  388,
+ /*   100 */   365,  367,  388,  372,  388,  373,  388,  388,  374,  375,
+ /*   110 */   376,  377,  378,  379,  380,  381,  382,  383,  366,  361,
+ /*   120 */   388,  385,  388,  384,  388,  386,  388,  354,  388,  353,
+ /*   130 */   388,  388,  388,  355,  334,  313,  388,  322,  388,  388,
+ /*   140 */   317,  388,  319,  321,  320,  388,  308,  258,  388,  388,
+ /*   150 */   388,  269,  255,  388,  266,  306,  388,  304,  305,  307,
+ /*   160 */   387,  268,  270,  272,  388,  276,  287,  273,  388,  286,
+ /*   170 */   388,  274,  275,  388,  388,  388,  388,  388,  388,  388,
+ /*   180 */   388,  388,  388,  388,  388,  388,  388,  388,  388,  388,
+ /*   190 */   271,  267,  388,  259,  261,  387,  388,  262,  265,  388,
+ /*   200 */   263,  264,  260,  256,  257,  388,  388,  388,  388,  388,
+ /*   210 */   388,  388,  388,  290,  292,  291,  388,  388,  388,  388,
+ /*   220 */   388,  388,  388,  388,  293,  295,  294,  309,  388,  388,
+ /*   230 */   388,  388,  388,  388,  388,  297,  388,  298,  388,  388,
+ /*   240 */   300,  301,  299,  309,  388,  388,  388,  388,  303,
+>>>>>>> master:ext/mvc/model/query/parser.c
 };
 #define YY_SZ_ACTTAB (sizeof(yy_action)/sizeof(yy_action[0]))
 
@@ -856,30 +1089,31 @@ static const char *yyTokenName[] = {
   "LESSEQUAL",     "AND",           "OR",            "LIKE",        
   "ILIKE",         "BITWISE_AND",   "BITWISE_OR",    "BITWISE_XOR", 
   "DIVIDE",        "TIMES",         "MOD",           "PLUS",        
-  "MINUS",         "IS",            "IN",            "DISTINCT",    
-  "NOT",           "BITWISE_NOT",   "SELECT",        "FROM",        
-  "COMMA",         "IDENTIFIER",    "DOT",           "AS",          
-  "JOIN",          "INNER",         "CROSS",         "LEFT",        
-  "OUTER",         "RIGHT",         "FULL",          "ON",          
-  "INSERT",        "INTO",          "VALUES",        "PARENTHESES_OPEN",
-  "PARENTHESES_CLOSE",  "UPDATE",        "SET",           "DELETE",      
-  "WHERE",         "ORDER",         "BY",            "ASC",         
-  "DESC",          "GROUP",         "HAVING",        "LIMIT",       
-  "OFFSET",        "INTEGER",       "NPLACEHOLDER",  "SPLACEHOLDER",
-  "CAST",          "CONVERT",       "USING",         "NULL",        
-  "STRING",        "DOUBLE",        "TRUE",          "FALSE",       
-  "COLON",         "error",         "program",       "query_language",
-  "select_statement",  "insert_statement",  "update_statement",  "delete_statement",
-  "select_clause",  "where_clause",  "order_clause",  "group_clause",
-  "having_clause",  "select_limit_clause",  "column_list",   "associated_name_list",
-  "join_list",     "column_item",   "expr",          "associated_name",
-  "join_item",     "join_clause",   "join_type",     "aliased_or_qualified_name",
-  "join_associated_name",  "join_conditions",  "values_list",   "field_list",  
-  "value_list",    "value_item",    "field_item",    "update_clause",
-  "limit_clause",  "update_item_list",  "update_item",   "qualified_name",
-  "new_value",     "delete_clause",  "order_list",    "order_item",  
-  "group_list",    "group_item",    "integer_or_placeholder",  "argument_list",
-  "function_call",  "argument_item",
+  "MINUS",         "IS",            "IN",            "NOT",         
+  "BITWISE_NOT",   "COMMA",         "SELECT",        "FROM",        
+  "DISTINCT",      "ALL",           "IDENTIFIER",    "DOT",         
+  "AS",            "INNER",         "JOIN",          "CROSS",       
+  "LEFT",          "OUTER",         "RIGHT",         "FULL",        
+  "ON",            "INSERT",        "INTO",          "VALUES",      
+  "PARENTHESES_OPEN",  "PARENTHESES_CLOSE",  "UPDATE",        "SET",         
+  "DELETE",        "WHERE",         "ORDER",         "BY",          
+  "ASC",           "DESC",          "GROUP",         "HAVING",      
+  "LIMIT",         "OFFSET",        "INTEGER",       "NPLACEHOLDER",
+  "SPLACEHOLDER",  "CAST",          "CONVERT",       "USING",       
+  "NULL",          "STRING",        "DOUBLE",        "TRUE",        
+  "FALSE",         "COLON",         "error",         "program",     
+  "query_language",  "select_statement",  "insert_statement",  "update_statement",
+  "delete_statement",  "select_clause",  "where_clause",  "group_clause",
+  "having_clause",  "order_clause",  "select_limit_clause",  "distinct_all",
+  "column_list",   "associated_name_list",  "join_list_or_null",  "column_item", 
+  "expr",          "associated_name",  "join_list",     "join_item",   
+  "join_clause",   "join_type",     "aliased_or_qualified_name",  "join_associated_name",
+  "join_conditions",  "values_list",   "field_list",    "value_list",  
+  "value_item",    "field_item",    "update_clause",  "limit_clause",
+  "update_item_list",  "update_item",   "qualified_name",  "new_value",   
+  "delete_clause",  "order_list",    "order_item",    "group_list",  
+  "group_item",    "integer_or_placeholder",  "argument_list",  "function_call",
+  "distinct_or_null",  "argument_list_or_null",  "argument_item",
 };
 #endif /* NDEBUG */
 
@@ -892,6 +1126,7 @@ static const char *yyRuleName[] = {
  /*   2 */ "query_language ::= insert_statement",
  /*   3 */ "query_language ::= update_statement",
  /*   4 */ "query_language ::= delete_statement",
+<<<<<<< HEAD:ext/phalcon/mvc/model/query/parser.c
  /*   5 */ "select_statement ::= select_clause",
  /*   6 */ "select_statement ::= select_clause where_clause",
  /*   7 */ "select_statement ::= select_clause where_clause order_clause",
@@ -1045,6 +1280,142 @@ static const char *yyRuleName[] = {
  /* 155 */ "qualified_name ::= IDENTIFIER COLON IDENTIFIER",
  /* 156 */ "qualified_name ::= IDENTIFIER DOT IDENTIFIER",
  /* 157 */ "qualified_name ::= IDENTIFIER",
+=======
+ /*   5 */ "select_statement ::= select_clause where_clause group_clause having_clause order_clause select_limit_clause",
+ /*   6 */ "select_clause ::= SELECT distinct_all column_list FROM associated_name_list join_list_or_null",
+ /*   7 */ "distinct_all ::= DISTINCT",
+ /*   8 */ "distinct_all ::= ALL",
+ /*   9 */ "distinct_all ::=",
+ /*  10 */ "column_list ::= column_list COMMA column_item",
+ /*  11 */ "column_list ::= column_item",
+ /*  12 */ "column_item ::= TIMES",
+ /*  13 */ "column_item ::= IDENTIFIER DOT TIMES",
+ /*  14 */ "column_item ::= expr AS IDENTIFIER",
+ /*  15 */ "column_item ::= expr IDENTIFIER",
+ /*  16 */ "column_item ::= expr",
+ /*  17 */ "associated_name_list ::= associated_name_list COMMA associated_name",
+ /*  18 */ "associated_name_list ::= associated_name",
+ /*  19 */ "join_list_or_null ::= join_list",
+ /*  20 */ "join_list_or_null ::=",
+ /*  21 */ "join_list ::= join_list join_item",
+ /*  22 */ "join_list ::= join_item",
+ /*  23 */ "join_item ::= join_clause",
+ /*  24 */ "join_clause ::= join_type aliased_or_qualified_name join_associated_name join_conditions",
+ /*  25 */ "join_associated_name ::= AS IDENTIFIER",
+ /*  26 */ "join_associated_name ::= IDENTIFIER",
+ /*  27 */ "join_associated_name ::=",
+ /*  28 */ "join_type ::= INNER JOIN",
+ /*  29 */ "join_type ::= CROSS JOIN",
+ /*  30 */ "join_type ::= LEFT OUTER JOIN",
+ /*  31 */ "join_type ::= LEFT JOIN",
+ /*  32 */ "join_type ::= RIGHT OUTER JOIN",
+ /*  33 */ "join_type ::= RIGHT JOIN",
+ /*  34 */ "join_type ::= FULL OUTER JOIN",
+ /*  35 */ "join_type ::= FULL JOIN",
+ /*  36 */ "join_type ::= JOIN",
+ /*  37 */ "join_conditions ::= ON expr",
+ /*  38 */ "join_conditions ::=",
+ /*  39 */ "insert_statement ::= INSERT INTO aliased_or_qualified_name VALUES PARENTHESES_OPEN values_list PARENTHESES_CLOSE",
+ /*  40 */ "insert_statement ::= INSERT INTO aliased_or_qualified_name PARENTHESES_OPEN field_list PARENTHESES_CLOSE VALUES PARENTHESES_OPEN values_list PARENTHESES_CLOSE",
+ /*  41 */ "values_list ::= values_list COMMA value_item",
+ /*  42 */ "values_list ::= value_item",
+ /*  43 */ "value_item ::= expr",
+ /*  44 */ "field_list ::= field_list COMMA field_item",
+ /*  45 */ "field_list ::= field_item",
+ /*  46 */ "field_item ::= IDENTIFIER",
+ /*  47 */ "update_statement ::= update_clause where_clause limit_clause",
+ /*  48 */ "update_clause ::= UPDATE associated_name SET update_item_list",
+ /*  49 */ "update_item_list ::= update_item_list COMMA update_item",
+ /*  50 */ "update_item_list ::= update_item",
+ /*  51 */ "update_item ::= qualified_name EQUALS new_value",
+ /*  52 */ "new_value ::= expr",
+ /*  53 */ "delete_statement ::= delete_clause where_clause limit_clause",
+ /*  54 */ "delete_clause ::= DELETE FROM associated_name",
+ /*  55 */ "associated_name ::= aliased_or_qualified_name AS IDENTIFIER",
+ /*  56 */ "associated_name ::= aliased_or_qualified_name IDENTIFIER",
+ /*  57 */ "associated_name ::= aliased_or_qualified_name",
+ /*  58 */ "aliased_or_qualified_name ::= qualified_name",
+ /*  59 */ "where_clause ::= WHERE expr",
+ /*  60 */ "where_clause ::=",
+ /*  61 */ "order_clause ::= ORDER BY order_list",
+ /*  62 */ "order_clause ::=",
+ /*  63 */ "order_list ::= order_list COMMA order_item",
+ /*  64 */ "order_list ::= order_item",
+ /*  65 */ "order_item ::= expr",
+ /*  66 */ "order_item ::= expr ASC",
+ /*  67 */ "order_item ::= expr DESC",
+ /*  68 */ "group_clause ::= GROUP BY group_list",
+ /*  69 */ "group_clause ::=",
+ /*  70 */ "group_list ::= group_list COMMA group_item",
+ /*  71 */ "group_list ::= group_item",
+ /*  72 */ "group_item ::= expr",
+ /*  73 */ "having_clause ::= HAVING expr",
+ /*  74 */ "having_clause ::=",
+ /*  75 */ "select_limit_clause ::= LIMIT integer_or_placeholder",
+ /*  76 */ "select_limit_clause ::= LIMIT integer_or_placeholder COMMA integer_or_placeholder",
+ /*  77 */ "select_limit_clause ::= LIMIT integer_or_placeholder OFFSET integer_or_placeholder",
+ /*  78 */ "select_limit_clause ::=",
+ /*  79 */ "limit_clause ::= LIMIT integer_or_placeholder",
+ /*  80 */ "limit_clause ::=",
+ /*  81 */ "integer_or_placeholder ::= INTEGER",
+ /*  82 */ "integer_or_placeholder ::= NPLACEHOLDER",
+ /*  83 */ "integer_or_placeholder ::= SPLACEHOLDER",
+ /*  84 */ "expr ::= MINUS expr",
+ /*  85 */ "expr ::= expr MINUS expr",
+ /*  86 */ "expr ::= expr PLUS expr",
+ /*  87 */ "expr ::= expr TIMES expr",
+ /*  88 */ "expr ::= expr DIVIDE expr",
+ /*  89 */ "expr ::= expr MOD expr",
+ /*  90 */ "expr ::= expr AND expr",
+ /*  91 */ "expr ::= expr OR expr",
+ /*  92 */ "expr ::= expr BITWISE_AND expr",
+ /*  93 */ "expr ::= expr BITWISE_OR expr",
+ /*  94 */ "expr ::= expr BITWISE_XOR expr",
+ /*  95 */ "expr ::= expr EQUALS expr",
+ /*  96 */ "expr ::= expr NOTEQUALS expr",
+ /*  97 */ "expr ::= expr LESS expr",
+ /*  98 */ "expr ::= expr GREATER expr",
+ /*  99 */ "expr ::= expr GREATEREQUAL expr",
+ /* 100 */ "expr ::= expr LESSEQUAL expr",
+ /* 101 */ "expr ::= expr LIKE expr",
+ /* 102 */ "expr ::= expr NOT LIKE expr",
+ /* 103 */ "expr ::= expr ILIKE expr",
+ /* 104 */ "expr ::= expr NOT ILIKE expr",
+ /* 105 */ "expr ::= expr IN PARENTHESES_OPEN argument_list PARENTHESES_CLOSE",
+ /* 106 */ "expr ::= expr NOT IN PARENTHESES_OPEN argument_list PARENTHESES_CLOSE",
+ /* 107 */ "expr ::= expr AGAINST expr",
+ /* 108 */ "expr ::= CAST PARENTHESES_OPEN expr AS IDENTIFIER PARENTHESES_CLOSE",
+ /* 109 */ "expr ::= CONVERT PARENTHESES_OPEN expr USING IDENTIFIER PARENTHESES_CLOSE",
+ /* 110 */ "expr ::= function_call",
+ /* 111 */ "function_call ::= IDENTIFIER PARENTHESES_OPEN distinct_or_null argument_list_or_null PARENTHESES_CLOSE",
+ /* 112 */ "distinct_or_null ::= DISTINCT",
+ /* 113 */ "distinct_or_null ::=",
+ /* 114 */ "argument_list_or_null ::= argument_list",
+ /* 115 */ "argument_list_or_null ::=",
+ /* 116 */ "argument_list ::= argument_list COMMA argument_item",
+ /* 117 */ "argument_list ::= argument_item",
+ /* 118 */ "argument_item ::= TIMES",
+ /* 119 */ "argument_item ::= expr",
+ /* 120 */ "expr ::= expr IS NULL",
+ /* 121 */ "expr ::= expr IS NOT NULL",
+ /* 122 */ "expr ::= expr BETWEEN expr",
+ /* 123 */ "expr ::= NOT expr",
+ /* 124 */ "expr ::= BITWISE_NOT expr",
+ /* 125 */ "expr ::= PARENTHESES_OPEN expr PARENTHESES_CLOSE",
+ /* 126 */ "expr ::= qualified_name",
+ /* 127 */ "expr ::= INTEGER",
+ /* 128 */ "expr ::= STRING",
+ /* 129 */ "expr ::= DOUBLE",
+ /* 130 */ "expr ::= NULL",
+ /* 131 */ "expr ::= TRUE",
+ /* 132 */ "expr ::= FALSE",
+ /* 133 */ "expr ::= NPLACEHOLDER",
+ /* 134 */ "expr ::= SPLACEHOLDER",
+ /* 135 */ "qualified_name ::= IDENTIFIER COLON IDENTIFIER DOT IDENTIFIER",
+ /* 136 */ "qualified_name ::= IDENTIFIER COLON IDENTIFIER",
+ /* 137 */ "qualified_name ::= IDENTIFIER DOT IDENTIFIER",
+ /* 138 */ "qualified_name ::= IDENTIFIER",
+>>>>>>> master:ext/mvc/model/query/parser.c
 };
 #endif /* NDEBUG */
 
@@ -1054,7 +1425,7 @@ static const char *yyRuleName[] = {
 */
 const char *phql_TokenName(int tokenType){
 #ifndef NDEBUG
-  if( tokenType>0 && tokenType<(sizeof(yyTokenName)/sizeof(yyTokenName[0])) ){
+  if( tokenType>0 && (size_t)tokenType<(sizeof(yyTokenName)/sizeof(yyTokenName[0])) ){
     return yyTokenName[tokenType];
   }else{
     return "Unknown";
@@ -1170,7 +1541,8 @@ static void yy_destructor(YYCODETYPE yymajor, YYMINORTYPE *yypminor){
     case 66:
     case 67:
     case 68:
-// 511 "parser.lemon"
+    case 69:
+/* #line 528 "parser.y" */
 {
 	if ((yypminor->yy0)) {
 		if ((yypminor->yy0)->free_flag) {
@@ -1179,24 +1551,20 @@ static void yy_destructor(YYCODETYPE yymajor, YYMINORTYPE *yypminor){
 		efree((yypminor->yy0));
 	}
 }
+<<<<<<< HEAD:ext/phalcon/mvc/model/query/parser.c
 // 1183 "parser.c"
+=======
+/* #line 1158 "parser.c" */
+>>>>>>> master:ext/mvc/model/query/parser.c
       break;
-    case 71:
     case 72:
     case 73:
     case 74:
     case 75:
     case 76:
     case 77:
-    case 78:
-    case 79:
-    case 80:
-    case 81:
-    case 82:
-    case 83:
     case 84:
     case 85:
-    case 86:
     case 87:
     case 88:
     case 89:
@@ -1204,25 +1572,47 @@ static void yy_destructor(YYCODETYPE yymajor, YYMINORTYPE *yypminor){
     case 91:
     case 92:
     case 93:
-    case 95:
-    case 96:
+    case 94:
     case 98:
     case 99:
-    case 100:
     case 101:
     case 102:
-    case 103:
+    case 104:
     case 105:
     case 106:
-    case 107:
     case 108:
     case 109:
+    case 110:
     case 111:
     case 112:
+<<<<<<< HEAD:ext/phalcon/mvc/model/query/parser.c
     case 113:
 // 524 "parser.lemon"
 { zval_ptr_dtor(&(yypminor->yy48)); }
 // 1226 "parser.c"
+=======
+    case 114:
+    case 115:
+    case 118:
+/* #line 541 "parser.y" */
+{ zval_ptr_dtor(&(yypminor->yy92)); }
+/* #line 1193 "parser.c" */
+      break;
+    case 78:
+    case 79:
+    case 80:
+    case 81:
+    case 82:
+    case 83:
+    case 95:
+    case 96:
+    case 103:
+    case 116:
+    case 117:
+/* #line 829 "parser.y" */
+{ phalcon_safe_zval_ptr_dtor((yypminor->yy92)); }
+/* #line 1208 "parser.c" */
+>>>>>>> master:ext/mvc/model/query/parser.c
       break;
     default:  break;   /* If no destructor action specified: do nothing */
   }
@@ -1300,7 +1690,7 @@ static int yy_find_shift_action(
     return YY_NO_ACTION;
   }
   i += iLookAhead;
-  if( i<0 || i>=YY_SZ_ACTTAB || yy_lookahead[i]!=iLookAhead ){
+  if( i<0 || i>=(int)YY_SZ_ACTTAB || yy_lookahead[i]!=iLookAhead ){
 #ifdef YYFALLBACK
     int iFallback;            /* Fallback token */
     if( iLookAhead<sizeof(yyFallback)/sizeof(yyFallback[0])
@@ -1343,7 +1733,7 @@ static int yy_find_reduce_action(
     return YY_NO_ACTION;
   }
   i += iLookAhead;
-  if( i<0 || i>=YY_SZ_ACTTAB || yy_lookahead[i]!=iLookAhead ){
+  if( i<0 || i>=(int)YY_SZ_ACTTAB || yy_lookahead[i]!=iLookAhead ){
     return yy_default[stateno];
   }else{
     return yy_action[i];
@@ -1398,12 +1788,9 @@ static struct {
   YYCODETYPE lhs;         /* Symbol on the left-hand side of the rule */
   unsigned char nrhs;     /* Number of right-hand side symbols in the rule */
 } yyRuleInfo[] = {
-  { 70, 1 },
-  { 71, 1 },
-  { 71, 1 },
-  { 71, 1 },
   { 71, 1 },
   { 72, 1 },
+<<<<<<< HEAD:ext/phalcon/mvc/model/query/parser.c
   { 72, 2 },
   { 72, 3 },
   { 72, 3 },
@@ -1438,124 +1825,145 @@ static struct {
   { 85, 2 },
   { 85, 1 },
   { 83, 3 },
+=======
+  { 72, 1 },
+  { 72, 1 },
+  { 72, 1 },
+  { 73, 6 },
+  { 77, 6 },
+>>>>>>> master:ext/mvc/model/query/parser.c
   { 83, 1 },
-  { 84, 2 },
+  { 83, 1 },
+  { 83, 0 },
+  { 84, 3 },
   { 84, 1 },
-  { 88, 1 },
-  { 89, 2 },
-  { 89, 3 },
-  { 89, 3 },
-  { 89, 4 },
-  { 92, 2 },
-  { 92, 1 },
-  { 90, 1 },
-  { 90, 2 },
-  { 90, 2 },
-  { 90, 2 },
-  { 90, 3 },
-  { 90, 2 },
-  { 90, 3 },
-  { 90, 2 },
-  { 90, 3 },
-  { 93, 2 },
-  { 73, 7 },
-  { 73, 10 },
-  { 94, 3 },
-  { 94, 1 },
-  { 97, 1 },
-  { 95, 3 },
-  { 95, 1 },
-  { 98, 1 },
-  { 74, 1 },
-  { 74, 2 },
-  { 74, 2 },
-  { 74, 3 },
-  { 99, 4 },
-  { 101, 3 },
-  { 101, 1 },
-  { 102, 3 },
-  { 104, 1 },
-  { 75, 1 },
-  { 75, 2 },
-  { 75, 2 },
-  { 75, 3 },
-  { 105, 3 },
+  { 87, 1 },
+  { 87, 3 },
   { 87, 3 },
   { 87, 2 },
   { 87, 1 },
-  { 91, 1 },
-  { 77, 2 },
-  { 78, 3 },
-  { 106, 3 },
-  { 106, 1 },
-  { 107, 1 },
-  { 107, 2 },
-  { 107, 2 },
-  { 79, 3 },
-  { 108, 3 },
-  { 108, 1 },
-  { 109, 1 },
-  { 80, 2 },
-  { 81, 2 },
-  { 81, 4 },
-  { 81, 4 },
-  { 100, 2 },
-  { 110, 1 },
-  { 110, 1 },
-  { 110, 1 },
-  { 86, 2 },
-  { 86, 3 },
-  { 86, 3 },
-  { 86, 3 },
-  { 86, 3 },
-  { 86, 3 },
-  { 86, 3 },
-  { 86, 3 },
-  { 86, 3 },
-  { 86, 3 },
-  { 86, 3 },
-  { 86, 3 },
-  { 86, 3 },
-  { 86, 3 },
-  { 86, 3 },
-  { 86, 3 },
-  { 86, 3 },
-  { 86, 3 },
-  { 86, 4 },
-  { 86, 3 },
-  { 86, 4 },
-  { 86, 5 },
-  { 86, 6 },
-  { 86, 3 },
-  { 86, 6 },
-  { 86, 6 },
+  { 85, 3 },
+  { 85, 1 },
   { 86, 1 },
-  { 112, 4 },
-  { 112, 3 },
+  { 86, 0 },
+  { 90, 2 },
+  { 90, 1 },
+  { 91, 1 },
+  { 92, 4 },
+  { 95, 2 },
+  { 95, 1 },
+  { 95, 0 },
+  { 93, 2 },
+  { 93, 2 },
+  { 93, 3 },
+  { 93, 2 },
+  { 93, 3 },
+  { 93, 2 },
+  { 93, 3 },
+  { 93, 2 },
+  { 93, 1 },
+  { 96, 2 },
+  { 96, 0 },
+  { 74, 7 },
+  { 74, 10 },
+  { 97, 3 },
+  { 97, 1 },
+  { 100, 1 },
+  { 98, 3 },
+  { 98, 1 },
+  { 101, 1 },
+  { 75, 3 },
+  { 102, 4 },
+  { 104, 3 },
+  { 104, 1 },
+  { 105, 3 },
+  { 107, 1 },
+  { 76, 3 },
+  { 108, 3 },
+  { 89, 3 },
+  { 89, 2 },
+  { 89, 1 },
+  { 94, 1 },
+  { 78, 2 },
+  { 78, 0 },
+  { 81, 3 },
+  { 81, 0 },
+  { 109, 3 },
+  { 109, 1 },
+  { 110, 1 },
+  { 110, 2 },
+  { 110, 2 },
+  { 79, 3 },
+  { 79, 0 },
   { 111, 3 },
   { 111, 1 },
+  { 112, 1 },
+  { 80, 2 },
+  { 80, 0 },
+  { 82, 2 },
+  { 82, 4 },
+  { 82, 4 },
+  { 82, 0 },
+  { 103, 2 },
+  { 103, 0 },
   { 113, 1 },
   { 113, 1 },
-  { 86, 3 },
-  { 86, 4 },
-  { 86, 2 },
-  { 86, 3 },
-  { 86, 2 },
-  { 86, 2 },
-  { 86, 3 },
-  { 86, 1 },
-  { 86, 1 },
-  { 86, 1 },
-  { 86, 1 },
-  { 86, 1 },
-  { 86, 1 },
-  { 86, 1 },
-  { 86, 1 },
-  { 86, 1 },
-  { 103, 5 },
-  { 103, 3 },
-  { 103, 3 },
-  { 103, 1 },
+  { 113, 1 },
+  { 88, 2 },
+  { 88, 3 },
+  { 88, 3 },
+  { 88, 3 },
+  { 88, 3 },
+  { 88, 3 },
+  { 88, 3 },
+  { 88, 3 },
+  { 88, 3 },
+  { 88, 3 },
+  { 88, 3 },
+  { 88, 3 },
+  { 88, 3 },
+  { 88, 3 },
+  { 88, 3 },
+  { 88, 3 },
+  { 88, 3 },
+  { 88, 3 },
+  { 88, 4 },
+  { 88, 3 },
+  { 88, 4 },
+  { 88, 5 },
+  { 88, 6 },
+  { 88, 3 },
+  { 88, 6 },
+  { 88, 6 },
+  { 88, 1 },
+  { 115, 5 },
+  { 116, 1 },
+  { 116, 0 },
+  { 117, 1 },
+  { 117, 0 },
+  { 114, 3 },
+  { 114, 1 },
+  { 118, 1 },
+  { 118, 1 },
+  { 88, 3 },
+  { 88, 4 },
+  { 88, 3 },
+  { 88, 2 },
+  { 88, 2 },
+  { 88, 3 },
+  { 88, 1 },
+  { 88, 1 },
+  { 88, 1 },
+  { 88, 1 },
+  { 88, 1 },
+  { 88, 1 },
+  { 88, 1 },
+  { 88, 1 },
+  { 88, 1 },
+  { 106, 5 },
+  { 106, 3 },
+  { 106, 3 },
+  { 106, 1 },
 };
 
 static void yy_accept(yyParser*);  /* Forward Declaration */
@@ -1577,7 +1985,7 @@ static void yy_reduce(
   yymsp = &yypParser->yystack[yypParser->yyidx];
 #ifndef NDEBUG
   if( yyTraceFILE && yyruleno>=0 
-        && yyruleno<sizeof(yyRuleName)/sizeof(yyRuleName[0]) ){
+        && yyruleno<(int)(sizeof(yyRuleName)/sizeof(yyRuleName[0])) ){
     fprintf(yyTraceFILE, "%sReduce [%s].\n", yyTracePrompt,
       yyRuleName[yyruleno]);
   }
@@ -1587,22 +1995,27 @@ static void yy_reduce(
   /* Beginning here are the reduction cases.  A typical example
   ** follows:
   **   case 0:
-  **  // <lineno> <grammarfile>
+  **  #line <lineno> <grammarfile>
   **     { ... }           // User supplied code
-  **  // <lineno> <thisfile>
+  **  #line <lineno> <thisfile>
   **     break;
   */
       case 0:
-// 520 "parser.lemon"
+/* #line 537 "parser.y" */
 {
-	status->ret = yymsp[0].minor.yy48;
+	status->ret = yymsp[0].minor.yy92;
 }
+<<<<<<< HEAD:ext/phalcon/mvc/model/query/parser.c
 // 1601 "parser.c"
+=======
+/* #line 1564 "parser.c" */
+>>>>>>> master:ext/mvc/model/query/parser.c
         break;
       case 1:
       case 2:
       case 3:
       case 4:
+<<<<<<< HEAD:ext/phalcon/mvc/model/query/parser.c
       case 33:
       case 40:
       case 42:
@@ -1620,93 +2033,191 @@ static void yy_reduce(
       case 137:
       case 145:
 // 526 "parser.lemon"
+=======
+      case 18:
+      case 19:
+      case 22:
+      case 23:
+      case 43:
+      case 50:
+      case 52:
+      case 58:
+      case 64:
+      case 71:
+      case 72:
+      case 110:
+      case 114:
+      case 119:
+      case 126:
+/* #line 543 "parser.y" */
+>>>>>>> master:ext/mvc/model/query/parser.c
 {
-	yygotominor.yy48 = yymsp[0].minor.yy48;
+	yygotominor.yy92 = yymsp[0].minor.yy92;
 }
+<<<<<<< HEAD:ext/phalcon/mvc/model/query/parser.c
 // 1627 "parser.c"
+=======
+/* #line 1589 "parser.c" */
+>>>>>>> master:ext/mvc/model/query/parser.c
         break;
       case 5:
-// 544 "parser.lemon"
+/* #line 561 "parser.y" */
 {
-	yygotominor.yy48 = phql_ret_select_statement(yymsp[0].minor.yy48, NULL, NULL, NULL, NULL, NULL);
+	yygotominor.yy92 = phql_ret_select_statement(yymsp[-5].minor.yy92, yymsp[-4].minor.yy92, yymsp[-1].minor.yy92, yymsp[-3].minor.yy92, yymsp[-2].minor.yy92, yymsp[0].minor.yy92);
 }
+<<<<<<< HEAD:ext/phalcon/mvc/model/query/parser.c
 // 1634 "parser.c"
+=======
+/* #line 1596 "parser.c" */
+>>>>>>> master:ext/mvc/model/query/parser.c
         break;
       case 6:
-// 548 "parser.lemon"
+/* #line 567 "parser.y" */
 {
-	yygotominor.yy48 = phql_ret_select_statement(yymsp[-1].minor.yy48, yymsp[0].minor.yy48, NULL, NULL, NULL, NULL);
+	yygotominor.yy92 = phql_ret_select_clause(yymsp[-4].minor.yy92, yymsp[-3].minor.yy92, yymsp[-1].minor.yy92, yymsp[0].minor.yy92);
+  yy_destructor(26,&yymsp[-5].minor);
+  yy_destructor(27,&yymsp[-2].minor);
 }
+<<<<<<< HEAD:ext/phalcon/mvc/model/query/parser.c
 // 1641 "parser.c"
+=======
+/* #line 1605 "parser.c" */
+>>>>>>> master:ext/mvc/model/query/parser.c
         break;
       case 7:
-// 552 "parser.lemon"
+/* #line 573 "parser.y" */
 {
-	yygotominor.yy48 = phql_ret_select_statement(yymsp[-2].minor.yy48, yymsp[-1].minor.yy48, yymsp[0].minor.yy48, NULL, NULL, NULL);
+	yygotominor.yy92 = phql_ret_distinct_all(1);
+  yy_destructor(28,&yymsp[0].minor);
 }
+<<<<<<< HEAD:ext/phalcon/mvc/model/query/parser.c
 // 1648 "parser.c"
+=======
+/* #line 1613 "parser.c" */
+>>>>>>> master:ext/mvc/model/query/parser.c
         break;
       case 8:
-// 556 "parser.lemon"
+/* #line 577 "parser.y" */
 {
-	yygotominor.yy48 = phql_ret_select_statement(yymsp[-2].minor.yy48, yymsp[-1].minor.yy48, NULL, yymsp[0].minor.yy48, NULL, NULL);
+	yygotominor.yy92 = phql_ret_distinct_all(0);
+  yy_destructor(29,&yymsp[0].minor);
 }
+<<<<<<< HEAD:ext/phalcon/mvc/model/query/parser.c
 // 1655 "parser.c"
+=======
+/* #line 1621 "parser.c" */
+>>>>>>> master:ext/mvc/model/query/parser.c
         break;
       case 9:
-// 560 "parser.lemon"
+      case 20:
+      case 27:
+      case 38:
+      case 60:
+      case 62:
+      case 69:
+      case 74:
+      case 78:
+      case 80:
+      case 113:
+      case 115:
+/* #line 581 "parser.y" */
 {
-	yygotominor.yy48 = phql_ret_select_statement(yymsp[-3].minor.yy48, yymsp[-2].minor.yy48, NULL, yymsp[-1].minor.yy48, yymsp[0].minor.yy48, NULL);
+	yygotominor.yy92 = NULL;
 }
+<<<<<<< HEAD:ext/phalcon/mvc/model/query/parser.c
 // 1662 "parser.c"
+=======
+/* #line 1639 "parser.c" */
+>>>>>>> master:ext/mvc/model/query/parser.c
         break;
       case 10:
-// 564 "parser.lemon"
+      case 17:
+      case 41:
+      case 44:
+      case 49:
+      case 63:
+      case 70:
+      case 116:
+/* #line 587 "parser.y" */
 {
-	yygotominor.yy48 = phql_ret_select_statement(yymsp[-3].minor.yy48, yymsp[-2].minor.yy48, yymsp[0].minor.yy48, yymsp[-1].minor.yy48, NULL, NULL);
+	yygotominor.yy92 = phql_ret_zval_list(yymsp[-2].minor.yy92, yymsp[0].minor.yy92);
+  yy_destructor(25,&yymsp[-1].minor);
 }
+<<<<<<< HEAD:ext/phalcon/mvc/model/query/parser.c
 // 1669 "parser.c"
+=======
+/* #line 1654 "parser.c" */
+>>>>>>> master:ext/mvc/model/query/parser.c
         break;
       case 11:
-// 568 "parser.lemon"
+      case 42:
+      case 45:
+      case 117:
+/* #line 591 "parser.y" */
 {
-	yygotominor.yy48 = phql_ret_select_statement(yymsp[-4].minor.yy48, yymsp[-3].minor.yy48, yymsp[-1].minor.yy48, yymsp[-2].minor.yy48, NULL, yymsp[0].minor.yy48);
+	yygotominor.yy92 = phql_ret_zval_list(yymsp[0].minor.yy92, NULL);
 }
+<<<<<<< HEAD:ext/phalcon/mvc/model/query/parser.c
 // 1676 "parser.c"
+=======
+/* #line 1664 "parser.c" */
+>>>>>>> master:ext/mvc/model/query/parser.c
         break;
       case 12:
-// 572 "parser.lemon"
+      case 118:
+/* #line 597 "parser.y" */
 {
-	yygotominor.yy48 = phql_ret_select_statement(yymsp[-4].minor.yy48, yymsp[-3].minor.yy48, yymsp[0].minor.yy48, yymsp[-2].minor.yy48, yymsp[-1].minor.yy48, NULL);
+	yygotominor.yy92 = phql_ret_column_item(PHQL_T_STARALL, NULL, NULL, NULL);
+  yy_destructor(17,&yymsp[0].minor);
 }
+<<<<<<< HEAD:ext/phalcon/mvc/model/query/parser.c
 // 1683 "parser.c"
+=======
+/* #line 1673 "parser.c" */
+>>>>>>> master:ext/mvc/model/query/parser.c
         break;
       case 13:
-// 576 "parser.lemon"
+/* #line 601 "parser.y" */
 {
-	yygotominor.yy48 = phql_ret_select_statement(yymsp[-2].minor.yy48, yymsp[-1].minor.yy48, NULL, NULL, NULL, yymsp[0].minor.yy48);
+	yygotominor.yy92 = phql_ret_column_item(PHQL_T_DOMAINALL, NULL, yymsp[-2].minor.yy0, NULL);
+  yy_destructor(31,&yymsp[-1].minor);
+  yy_destructor(17,&yymsp[0].minor);
 }
+<<<<<<< HEAD:ext/phalcon/mvc/model/query/parser.c
 // 1690 "parser.c"
+=======
+/* #line 1682 "parser.c" */
+>>>>>>> master:ext/mvc/model/query/parser.c
         break;
       case 14:
-// 580 "parser.lemon"
+/* #line 605 "parser.y" */
 {
-	yygotominor.yy48 = phql_ret_select_statement(yymsp[-3].minor.yy48, yymsp[-2].minor.yy48, yymsp[-1].minor.yy48, NULL, NULL, yymsp[0].minor.yy48);
+	yygotominor.yy92 = phql_ret_column_item(PHQL_T_EXPR, yymsp[-2].minor.yy92, NULL, yymsp[0].minor.yy0);
+  yy_destructor(32,&yymsp[-1].minor);
 }
+<<<<<<< HEAD:ext/phalcon/mvc/model/query/parser.c
 // 1697 "parser.c"
+=======
+/* #line 1690 "parser.c" */
+>>>>>>> master:ext/mvc/model/query/parser.c
         break;
       case 15:
-// 584 "parser.lemon"
+/* #line 609 "parser.y" */
 {
-	yygotominor.yy48 = phql_ret_select_statement(yymsp[-3].minor.yy48, yymsp[-2].minor.yy48, NULL, yymsp[-1].minor.yy48, NULL, yymsp[0].minor.yy48);
+	yygotominor.yy92 = phql_ret_column_item(PHQL_T_EXPR, yymsp[-1].minor.yy92, NULL, yymsp[0].minor.yy0);
 }
+<<<<<<< HEAD:ext/phalcon/mvc/model/query/parser.c
 // 1704 "parser.c"
+=======
+/* #line 1697 "parser.c" */
+>>>>>>> master:ext/mvc/model/query/parser.c
         break;
       case 16:
-// 588 "parser.lemon"
+/* #line 613 "parser.y" */
 {
-	yygotominor.yy48 = phql_ret_select_statement(yymsp[-4].minor.yy48, yymsp[-3].minor.yy48, NULL, yymsp[-2].minor.yy48, yymsp[-1].minor.yy48, yymsp[0].minor.yy48);
+	yygotominor.yy92 = phql_ret_column_item(PHQL_T_EXPR, yymsp[0].minor.yy92, NULL, NULL);
 }
+<<<<<<< HEAD:ext/phalcon/mvc/model/query/parser.c
 // 1711 "parser.c"
         break;
       case 17:
@@ -1746,9 +2257,16 @@ static void yy_reduce(
         break;
       case 22:
 // 612 "parser.lemon"
+=======
+/* #line 1704 "parser.c" */
+        break;
+      case 21:
+/* #line 637 "parser.y" */
+>>>>>>> master:ext/mvc/model/query/parser.c
 {
-	yygotominor.yy48 = phql_ret_select_statement(yymsp[-5].minor.yy48, yymsp[-4].minor.yy48, yymsp[-1].minor.yy48, yymsp[-3].minor.yy48, yymsp[-2].minor.yy48, yymsp[0].minor.yy48);
+	yygotominor.yy92 = phql_ret_zval_list(yymsp[-1].minor.yy92, yymsp[0].minor.yy92);
 }
+<<<<<<< HEAD:ext/phalcon/mvc/model/query/parser.c
 // 1753 "parser.c"
         break;
       case 23:
@@ -1757,17 +2275,27 @@ static void yy_reduce(
 	yygotominor.yy48 = phql_ret_select_statement(yymsp[-3].minor.yy48, NULL, yymsp[-1].minor.yy48, NULL, yymsp[-2].minor.yy48, yymsp[0].minor.yy48);
 }
 // 1760 "parser.c"
+=======
+/* #line 1711 "parser.c" */
+>>>>>>> master:ext/mvc/model/query/parser.c
         break;
       case 24:
-// 620 "parser.lemon"
+/* #line 654 "parser.y" */
 {
+<<<<<<< HEAD:ext/phalcon/mvc/model/query/parser.c
 	yygotominor.yy48 = phql_ret_select_statement(yymsp[-1].minor.yy48, NULL, NULL, yymsp[0].minor.yy48, NULL, NULL);
 }
 // 1767 "parser.c"
+=======
+	yygotominor.yy92 = phql_ret_join_item(yymsp[-3].minor.yy92, yymsp[-2].minor.yy92, yymsp[-1].minor.yy92, yymsp[0].minor.yy92);
+}
+/* #line 1718 "parser.c" */
+>>>>>>> master:ext/mvc/model/query/parser.c
         break;
       case 25:
-// 624 "parser.lemon"
+/* #line 660 "parser.y" */
 {
+<<<<<<< HEAD:ext/phalcon/mvc/model/query/parser.c
 	yygotominor.yy48 = phql_ret_select_statement(yymsp[-2].minor.yy48, NULL, NULL, yymsp[-1].minor.yy48, NULL, yymsp[0].minor.yy48);
 }
 // 1774 "parser.c"
@@ -1785,10 +2313,26 @@ static void yy_reduce(
 	yygotominor.yy48 = phql_ret_select_statement(yymsp[-3].minor.yy48, NULL, NULL, yymsp[-2].minor.yy48, yymsp[-1].minor.yy48, yymsp[0].minor.yy48);
 }
 // 1788 "parser.c"
+=======
+	yygotominor.yy92 = phql_ret_qualified_name(NULL, NULL, yymsp[0].minor.yy0);
+  yy_destructor(32,&yymsp[-1].minor);
+}
+/* #line 1726 "parser.c" */
+        break;
+      case 26:
+      case 46:
+      case 138:
+/* #line 664 "parser.y" */
+{
+	yygotominor.yy92 = phql_ret_qualified_name(NULL, NULL, yymsp[0].minor.yy0);
+}
+/* #line 1735 "parser.c" */
+>>>>>>> master:ext/mvc/model/query/parser.c
         break;
       case 28:
-// 636 "parser.lemon"
+/* #line 674 "parser.y" */
 {
+<<<<<<< HEAD:ext/phalcon/mvc/model/query/parser.c
 	yygotominor.yy48 = phql_ret_select_statement(yymsp[-4].minor.yy48, NULL, yymsp[-1].minor.yy48, yymsp[-3].minor.yy48, yymsp[-2].minor.yy48, yymsp[0].minor.yy48);
 }
 // 1795 "parser.c"
@@ -1802,20 +2346,39 @@ static void yy_reduce(
         break;
       case 30:
 // 646 "parser.lemon"
-{
-	yygotominor.yy48 = phql_ret_select_clause(yymsp[-2].minor.yy48, yymsp[0].minor.yy48, NULL);
-  yy_destructor(26,&yymsp[-3].minor);
-  yy_destructor(27,&yymsp[-1].minor);
+=======
+	yygotominor.yy92 = phql_ret_join_type(PHQL_T_INNERJOIN);
+  yy_destructor(33,&yymsp[-1].minor);
+  yy_destructor(34,&yymsp[0].minor);
 }
+/* #line 1744 "parser.c" */
+        break;
+      case 29:
+/* #line 678 "parser.y" */
+>>>>>>> master:ext/mvc/model/query/parser.c
+{
+	yygotominor.yy92 = phql_ret_join_type(PHQL_T_CROSSJOIN);
+  yy_destructor(35,&yymsp[-1].minor);
+  yy_destructor(34,&yymsp[0].minor);
+}
+<<<<<<< HEAD:ext/phalcon/mvc/model/query/parser.c
 // 1811 "parser.c"
         break;
       case 31:
 // 650 "parser.lemon"
+=======
+/* #line 1753 "parser.c" */
+        break;
+      case 30:
+/* #line 682 "parser.y" */
+>>>>>>> master:ext/mvc/model/query/parser.c
 {
-	yygotominor.yy48 = phql_ret_select_clause(yymsp[-3].minor.yy48, yymsp[-1].minor.yy48, yymsp[0].minor.yy48);
-  yy_destructor(26,&yymsp[-4].minor);
-  yy_destructor(27,&yymsp[-2].minor);
+	yygotominor.yy92 = phql_ret_join_type(PHQL_T_LEFTJOIN);
+  yy_destructor(36,&yymsp[-2].minor);
+  yy_destructor(37,&yymsp[-1].minor);
+  yy_destructor(34,&yymsp[0].minor);
 }
+<<<<<<< HEAD:ext/phalcon/mvc/model/query/parser.c
 // 1820 "parser.c"
         break;
       case 32:
@@ -1827,43 +2390,93 @@ static void yy_reduce(
       case 94:
       case 134:
 // 656 "parser.lemon"
+=======
+/* #line 1763 "parser.c" */
+        break;
+      case 31:
+/* #line 686 "parser.y" */
 {
-	yygotominor.yy48 = phql_ret_zval_list(yymsp[-2].minor.yy48, yymsp[0].minor.yy48);
-  yy_destructor(28,&yymsp[-1].minor);
+	yygotominor.yy92 = phql_ret_join_type(PHQL_T_LEFTJOIN);
+  yy_destructor(36,&yymsp[-1].minor);
+  yy_destructor(34,&yymsp[0].minor);
 }
+/* #line 1772 "parser.c" */
+        break;
+      case 32:
+/* #line 690 "parser.y" */
+>>>>>>> master:ext/mvc/model/query/parser.c
+{
+	yygotominor.yy92 = phql_ret_join_type(PHQL_T_RIGHTJOIN);
+  yy_destructor(38,&yymsp[-2].minor);
+  yy_destructor(37,&yymsp[-1].minor);
+  yy_destructor(34,&yymsp[0].minor);
+}
+<<<<<<< HEAD:ext/phalcon/mvc/model/query/parser.c
 // 1835 "parser.c"
         break;
       case 34:
       case 136:
 // 666 "parser.lemon"
+=======
+/* #line 1782 "parser.c" */
+        break;
+      case 33:
+/* #line 694 "parser.y" */
+>>>>>>> master:ext/mvc/model/query/parser.c
 {
-	yygotominor.yy48 = phql_ret_column_item(PHQL_T_ALL, NULL, NULL, NULL);
-  yy_destructor(17,&yymsp[0].minor);
+	yygotominor.yy92 = phql_ret_join_type(PHQL_T_RIGHTJOIN);
+  yy_destructor(38,&yymsp[-1].minor);
+  yy_destructor(34,&yymsp[0].minor);
 }
+<<<<<<< HEAD:ext/phalcon/mvc/model/query/parser.c
 // 1844 "parser.c"
         break;
       case 35:
 // 670 "parser.lemon"
+=======
+/* #line 1791 "parser.c" */
+        break;
+      case 34:
+/* #line 698 "parser.y" */
+>>>>>>> master:ext/mvc/model/query/parser.c
 {
-	yygotominor.yy48 = phql_ret_column_item(PHQL_T_DOMAINALL, NULL, yymsp[-2].minor.yy0, NULL);
-  yy_destructor(30,&yymsp[-1].minor);
-  yy_destructor(17,&yymsp[0].minor);
+	yygotominor.yy92 = phql_ret_join_type(PHQL_T_FULLJOIN);
+  yy_destructor(39,&yymsp[-2].minor);
+  yy_destructor(37,&yymsp[-1].minor);
+  yy_destructor(34,&yymsp[0].minor);
 }
+<<<<<<< HEAD:ext/phalcon/mvc/model/query/parser.c
 // 1853 "parser.c"
         break;
       case 36:
 // 674 "parser.lemon"
+=======
+/* #line 1801 "parser.c" */
+        break;
+      case 35:
+/* #line 702 "parser.y" */
+>>>>>>> master:ext/mvc/model/query/parser.c
 {
-	yygotominor.yy48 = phql_ret_column_item(PHQL_T_EXPR, yymsp[-2].minor.yy48, NULL, yymsp[0].minor.yy0);
-  yy_destructor(31,&yymsp[-1].minor);
+	yygotominor.yy92 = phql_ret_join_type(PHQL_T_FULLJOIN);
+  yy_destructor(39,&yymsp[-1].minor);
+  yy_destructor(34,&yymsp[0].minor);
 }
+<<<<<<< HEAD:ext/phalcon/mvc/model/query/parser.c
 // 1861 "parser.c"
         break;
       case 37:
 // 678 "parser.lemon"
+=======
+/* #line 1810 "parser.c" */
+        break;
+      case 36:
+/* #line 706 "parser.y" */
+>>>>>>> master:ext/mvc/model/query/parser.c
 {
-	yygotominor.yy48 = phql_ret_column_item(PHQL_T_EXPR, yymsp[-1].minor.yy48, NULL, yymsp[0].minor.yy0);
+	yygotominor.yy92 = phql_ret_join_type(PHQL_T_INNERJOIN);
+  yy_destructor(34,&yymsp[0].minor);
 }
+<<<<<<< HEAD:ext/phalcon/mvc/model/query/parser.c
 // 1868 "parser.c"
         break;
       case 38:
@@ -1875,9 +2488,17 @@ static void yy_reduce(
         break;
       case 41:
 // 698 "parser.lemon"
+=======
+/* #line 1818 "parser.c" */
+        break;
+      case 37:
+/* #line 712 "parser.y" */
+>>>>>>> master:ext/mvc/model/query/parser.c
 {
-	yygotominor.yy48 = phql_ret_zval_list(yymsp[-1].minor.yy48, yymsp[0].minor.yy48);
+	yygotominor.yy92 = yymsp[0].minor.yy92;
+  yy_destructor(40,&yymsp[-1].minor);
 }
+<<<<<<< HEAD:ext/phalcon/mvc/model/query/parser.c
 // 1882 "parser.c"
         break;
       case 44:
@@ -1896,24 +2517,56 @@ static void yy_reduce(
         break;
       case 46:
 // 725 "parser.lemon"
+=======
+/* #line 1826 "parser.c" */
+        break;
+      case 39:
+/* #line 723 "parser.y" */
+>>>>>>> master:ext/mvc/model/query/parser.c
 {
-	yygotominor.yy48 = phql_ret_join_item(yymsp[-2].minor.yy48, yymsp[-1].minor.yy48, NULL, yymsp[0].minor.yy48);
+	yygotominor.yy92 = phql_ret_insert_statement(yymsp[-4].minor.yy92, NULL, yymsp[-1].minor.yy92);
+  yy_destructor(41,&yymsp[-6].minor);
+  yy_destructor(42,&yymsp[-5].minor);
+  yy_destructor(43,&yymsp[-3].minor);
+  yy_destructor(44,&yymsp[-2].minor);
+  yy_destructor(45,&yymsp[0].minor);
 }
+<<<<<<< HEAD:ext/phalcon/mvc/model/query/parser.c
 // 1903 "parser.c"
         break;
       case 47:
 // 730 "parser.lemon"
+=======
+/* #line 1838 "parser.c" */
+        break;
+      case 40:
+/* #line 727 "parser.y" */
+>>>>>>> master:ext/mvc/model/query/parser.c
 {
-	yygotominor.yy48 = phql_ret_join_item(yymsp[-3].minor.yy48, yymsp[-2].minor.yy48, yymsp[-1].minor.yy48, yymsp[0].minor.yy48);
+	yygotominor.yy92 = phql_ret_insert_statement(yymsp[-7].minor.yy92, yymsp[-5].minor.yy92, yymsp[-1].minor.yy92);
+  yy_destructor(41,&yymsp[-9].minor);
+  yy_destructor(42,&yymsp[-8].minor);
+  yy_destructor(44,&yymsp[-6].minor);
+  yy_destructor(45,&yymsp[-4].minor);
+  yy_destructor(43,&yymsp[-3].minor);
+  yy_destructor(44,&yymsp[-2].minor);
+  yy_destructor(45,&yymsp[0].minor);
 }
+<<<<<<< HEAD:ext/phalcon/mvc/model/query/parser.c
 // 1910 "parser.c"
         break;
       case 48:
 // 736 "parser.lemon"
+=======
+/* #line 1852 "parser.c" */
+        break;
+      case 47:
+/* #line 765 "parser.y" */
+>>>>>>> master:ext/mvc/model/query/parser.c
 {
-	yygotominor.yy48 = phql_ret_qualified_name(NULL, NULL, yymsp[0].minor.yy0);
-  yy_destructor(31,&yymsp[-1].minor);
+	yygotominor.yy92 = phql_ret_update_statement(yymsp[-2].minor.yy92, yymsp[-1].minor.yy92, yymsp[0].minor.yy92);
 }
+<<<<<<< HEAD:ext/phalcon/mvc/model/query/parser.c
 // 1918 "parser.c"
         break;
       case 49:
@@ -1935,11 +2588,18 @@ static void yy_reduce(
         break;
       case 51:
 // 750 "parser.lemon"
+=======
+/* #line 1859 "parser.c" */
+        break;
+      case 48:
+/* #line 771 "parser.y" */
+>>>>>>> master:ext/mvc/model/query/parser.c
 {
-	yygotominor.yy48 = phql_ret_join_type(PHQL_T_INNERJOIN);
-  yy_destructor(33,&yymsp[-1].minor);
-  yy_destructor(32,&yymsp[0].minor);
+	yygotominor.yy92 = phql_ret_update_clause(yymsp[-2].minor.yy92, yymsp[0].minor.yy92);
+  yy_destructor(46,&yymsp[-3].minor);
+  yy_destructor(47,&yymsp[-1].minor);
 }
+<<<<<<< HEAD:ext/phalcon/mvc/model/query/parser.c
 // 1944 "parser.c"
         break;
       case 52:
@@ -1953,59 +2613,90 @@ static void yy_reduce(
         break;
       case 53:
 // 758 "parser.lemon"
+=======
+/* #line 1868 "parser.c" */
+        break;
+      case 51:
+/* #line 787 "parser.y" */
+>>>>>>> master:ext/mvc/model/query/parser.c
 {
-	yygotominor.yy48 = phql_ret_join_type(PHQL_T_LEFTJOIN);
-  yy_destructor(35,&yymsp[-1].minor);
-  yy_destructor(32,&yymsp[0].minor);
+	yygotominor.yy92 = phql_ret_update_item(yymsp[-2].minor.yy92, yymsp[0].minor.yy92);
+  yy_destructor(3,&yymsp[-1].minor);
 }
+<<<<<<< HEAD:ext/phalcon/mvc/model/query/parser.c
 // 1962 "parser.c"
         break;
       case 54:
 // 762 "parser.lemon"
+=======
+/* #line 1876 "parser.c" */
+        break;
+      case 53:
+/* #line 799 "parser.y" */
+>>>>>>> master:ext/mvc/model/query/parser.c
 {
-	yygotominor.yy48 = phql_ret_join_type(PHQL_T_LEFTJOIN);
-  yy_destructor(35,&yymsp[-2].minor);
-  yy_destructor(36,&yymsp[-1].minor);
-  yy_destructor(32,&yymsp[0].minor);
+	yygotominor.yy92 = phql_ret_delete_statement(yymsp[-2].minor.yy92, yymsp[-1].minor.yy92, yymsp[0].minor.yy92);
 }
+<<<<<<< HEAD:ext/phalcon/mvc/model/query/parser.c
 // 1972 "parser.c"
         break;
       case 55:
 // 766 "parser.lemon"
+=======
+/* #line 1883 "parser.c" */
+        break;
+      case 54:
+/* #line 805 "parser.y" */
+>>>>>>> master:ext/mvc/model/query/parser.c
 {
-	yygotominor.yy48 = phql_ret_join_type(PHQL_T_RIGHTJOIN);
-  yy_destructor(37,&yymsp[-1].minor);
-  yy_destructor(32,&yymsp[0].minor);
+	yygotominor.yy92 = phql_ret_delete_clause(yymsp[0].minor.yy92);
+  yy_destructor(48,&yymsp[-2].minor);
+  yy_destructor(27,&yymsp[-1].minor);
 }
+<<<<<<< HEAD:ext/phalcon/mvc/model/query/parser.c
 // 1981 "parser.c"
         break;
       case 56:
 // 770 "parser.lemon"
+=======
+/* #line 1892 "parser.c" */
+        break;
+      case 55:
+/* #line 811 "parser.y" */
+>>>>>>> master:ext/mvc/model/query/parser.c
 {
-	yygotominor.yy48 = phql_ret_join_type(PHQL_T_RIGHTJOIN);
-  yy_destructor(37,&yymsp[-2].minor);
-  yy_destructor(36,&yymsp[-1].minor);
-  yy_destructor(32,&yymsp[0].minor);
+	yygotominor.yy92 = phql_ret_assoc_name(yymsp[-2].minor.yy92, yymsp[0].minor.yy0);
+  yy_destructor(32,&yymsp[-1].minor);
 }
+<<<<<<< HEAD:ext/phalcon/mvc/model/query/parser.c
 // 1991 "parser.c"
         break;
       case 57:
 // 774 "parser.lemon"
+=======
+/* #line 1900 "parser.c" */
+        break;
+      case 56:
+/* #line 815 "parser.y" */
+>>>>>>> master:ext/mvc/model/query/parser.c
 {
-	yygotominor.yy48 = phql_ret_join_type(PHQL_T_FULLJOIN);
-  yy_destructor(38,&yymsp[-1].minor);
-  yy_destructor(32,&yymsp[0].minor);
+	yygotominor.yy92 = phql_ret_assoc_name(yymsp[-1].minor.yy92, yymsp[0].minor.yy0);
 }
+<<<<<<< HEAD:ext/phalcon/mvc/model/query/parser.c
 // 2000 "parser.c"
         break;
       case 58:
 // 778 "parser.lemon"
+=======
+/* #line 1907 "parser.c" */
+        break;
+      case 57:
+/* #line 819 "parser.y" */
+>>>>>>> master:ext/mvc/model/query/parser.c
 {
-	yygotominor.yy48 = phql_ret_join_type(PHQL_T_FULLJOIN);
-  yy_destructor(38,&yymsp[-2].minor);
-  yy_destructor(36,&yymsp[-1].minor);
-  yy_destructor(32,&yymsp[0].minor);
+	yygotominor.yy92 = phql_ret_assoc_name(yymsp[0].minor.yy92, NULL);
 }
+<<<<<<< HEAD:ext/phalcon/mvc/model/query/parser.c
 // 2010 "parser.c"
         break;
       case 59:
@@ -2018,47 +2709,77 @@ static void yy_reduce(
         break;
       case 60:
 // 791 "parser.lemon"
+=======
+/* #line 1914 "parser.c" */
+        break;
+      case 59:
+/* #line 831 "parser.y" */
+>>>>>>> master:ext/mvc/model/query/parser.c
 {
-	yygotominor.yy48 = phql_ret_insert_statement(yymsp[-4].minor.yy48, NULL, yymsp[-1].minor.yy48);
-  yy_destructor(40,&yymsp[-6].minor);
-  yy_destructor(41,&yymsp[-5].minor);
-  yy_destructor(42,&yymsp[-3].minor);
-  yy_destructor(43,&yymsp[-2].minor);
-  yy_destructor(44,&yymsp[0].minor);
+	yygotominor.yy92 = yymsp[0].minor.yy92;
+  yy_destructor(49,&yymsp[-1].minor);
 }
+<<<<<<< HEAD:ext/phalcon/mvc/model/query/parser.c
 // 2030 "parser.c"
         break;
       case 61:
 // 795 "parser.lemon"
-{
-	yygotominor.yy48 = phql_ret_insert_statement(yymsp[-7].minor.yy48, yymsp[-5].minor.yy48, yymsp[-1].minor.yy48);
-  yy_destructor(40,&yymsp[-9].minor);
-  yy_destructor(41,&yymsp[-8].minor);
-  yy_destructor(43,&yymsp[-6].minor);
-  yy_destructor(44,&yymsp[-4].minor);
-  yy_destructor(42,&yymsp[-3].minor);
-  yy_destructor(43,&yymsp[-2].minor);
-  yy_destructor(44,&yymsp[0].minor);
-}
-// 2044 "parser.c"
+=======
+/* #line 1922 "parser.c" */
         break;
-      case 68:
-// 833 "parser.lemon"
+      case 61:
+/* #line 841 "parser.y" */
+>>>>>>> master:ext/mvc/model/query/parser.c
 {
+	yygotominor.yy92 = yymsp[0].minor.yy92;
+  yy_destructor(50,&yymsp[-2].minor);
+  yy_destructor(51,&yymsp[-1].minor);
+}
+<<<<<<< HEAD:ext/phalcon/mvc/model/query/parser.c
+// 2044 "parser.c"
+=======
+/* #line 1931 "parser.c" */
+        break;
+      case 65:
+/* #line 861 "parser.y" */
+{
+	yygotominor.yy92 = phql_ret_order_item(yymsp[0].minor.yy92, 0);
+}
+/* #line 1938 "parser.c" */
+>>>>>>> master:ext/mvc/model/query/parser.c
+        break;
+      case 66:
+/* #line 865 "parser.y" */
+{
+<<<<<<< HEAD:ext/phalcon/mvc/model/query/parser.c
 	yygotominor.yy48 = phql_ret_update_statement(yymsp[0].minor.yy48, NULL, NULL);
 }
 // 2051 "parser.c"
+=======
+	yygotominor.yy92 = phql_ret_order_item(yymsp[-1].minor.yy92, PHQL_T_ASC);
+  yy_destructor(52,&yymsp[0].minor);
+}
+/* #line 1946 "parser.c" */
+>>>>>>> master:ext/mvc/model/query/parser.c
         break;
-      case 69:
-// 837 "parser.lemon"
+      case 67:
+/* #line 869 "parser.y" */
 {
+<<<<<<< HEAD:ext/phalcon/mvc/model/query/parser.c
 	yygotominor.yy48 = phql_ret_update_statement(yymsp[-1].minor.yy48, yymsp[0].minor.yy48, NULL);
 }
 // 2058 "parser.c"
+=======
+	yygotominor.yy92 = phql_ret_order_item(yymsp[-1].minor.yy92, PHQL_T_DESC);
+  yy_destructor(53,&yymsp[0].minor);
+}
+/* #line 1954 "parser.c" */
+>>>>>>> master:ext/mvc/model/query/parser.c
         break;
-      case 70:
-// 841 "parser.lemon"
+      case 68:
+/* #line 875 "parser.y" */
 {
+<<<<<<< HEAD:ext/phalcon/mvc/model/query/parser.c
 	yygotominor.yy48 = phql_ret_update_statement(yymsp[-1].minor.yy48, NULL, yymsp[0].minor.yy48);
 }
 // 2065 "parser.c"
@@ -2072,24 +2793,55 @@ static void yy_reduce(
         break;
       case 72:
 // 851 "parser.lemon"
-{
-	yygotominor.yy48 = phql_ret_update_clause(yymsp[-2].minor.yy48, yymsp[0].minor.yy48);
-  yy_destructor(45,&yymsp[-3].minor);
-  yy_destructor(46,&yymsp[-1].minor);
+=======
+	yygotominor.yy92 = yymsp[0].minor.yy92;
+  yy_destructor(54,&yymsp[-2].minor);
+  yy_destructor(51,&yymsp[-1].minor);
 }
+/* #line 1963 "parser.c" */
+        break;
+      case 73:
+/* #line 901 "parser.y" */
+>>>>>>> master:ext/mvc/model/query/parser.c
+{
+	yygotominor.yy92 = yymsp[0].minor.yy92;
+  yy_destructor(55,&yymsp[-1].minor);
+}
+<<<<<<< HEAD:ext/phalcon/mvc/model/query/parser.c
 // 2081 "parser.c"
         break;
       case 75:
 // 867 "parser.lemon"
+=======
+/* #line 1971 "parser.c" */
+        break;
+      case 75:
+      case 79:
+/* #line 911 "parser.y" */
+>>>>>>> master:ext/mvc/model/query/parser.c
 {
-	yygotominor.yy48 = phql_ret_update_item(yymsp[-2].minor.yy48, yymsp[0].minor.yy48);
-  yy_destructor(3,&yymsp[-1].minor);
+	yygotominor.yy92 = phql_ret_limit_clause(yymsp[0].minor.yy92, NULL);
+  yy_destructor(56,&yymsp[-1].minor);
 }
+<<<<<<< HEAD:ext/phalcon/mvc/model/query/parser.c
 // 2089 "parser.c"
+=======
+/* #line 1980 "parser.c" */
+        break;
+      case 76:
+/* #line 915 "parser.y" */
+{
+	yygotominor.yy92 = phql_ret_limit_clause(yymsp[0].minor.yy92, yymsp[-2].minor.yy92);
+  yy_destructor(56,&yymsp[-3].minor);
+  yy_destructor(25,&yymsp[-1].minor);
+}
+/* #line 1989 "parser.c" */
+>>>>>>> master:ext/mvc/model/query/parser.c
         break;
       case 77:
-// 879 "parser.lemon"
+/* #line 919 "parser.y" */
 {
+<<<<<<< HEAD:ext/phalcon/mvc/model/query/parser.c
 	yygotominor.yy48 = phql_ret_delete_statement(yymsp[0].minor.yy48, NULL, NULL);
 }
 // 2096 "parser.c"
@@ -2126,17 +2878,36 @@ static void yy_reduce(
         break;
       case 82:
 // 903 "parser.lemon"
-{
-	yygotominor.yy48 = phql_ret_assoc_name(yymsp[-2].minor.yy48, yymsp[0].minor.yy0);
-  yy_destructor(31,&yymsp[-1].minor);
+=======
+	yygotominor.yy92 = phql_ret_limit_clause(yymsp[-2].minor.yy92, yymsp[0].minor.yy92);
+  yy_destructor(56,&yymsp[-3].minor);
+  yy_destructor(57,&yymsp[-1].minor);
 }
+/* #line 1998 "parser.c" */
+        break;
+      case 81:
+      case 127:
+/* #line 937 "parser.y" */
+>>>>>>> master:ext/mvc/model/query/parser.c
+{
+	yygotominor.yy92 = phql_ret_literal_zval(PHQL_T_INTEGER, yymsp[0].minor.yy0);
+}
+<<<<<<< HEAD:ext/phalcon/mvc/model/query/parser.c
 // 2134 "parser.c"
         break;
       case 83:
 // 907 "parser.lemon"
+=======
+/* #line 2006 "parser.c" */
+        break;
+      case 82:
+      case 133:
+/* #line 941 "parser.y" */
+>>>>>>> master:ext/mvc/model/query/parser.c
 {
-	yygotominor.yy48 = phql_ret_assoc_name(yymsp[-1].minor.yy48, yymsp[0].minor.yy0);
+	yygotominor.yy92 = phql_ret_placeholder_zval(PHQL_T_NPLACEHOLDER, yymsp[0].minor.yy0);
 }
+<<<<<<< HEAD:ext/phalcon/mvc/model/query/parser.c
 // 2141 "parser.c"
         break;
       case 84:
@@ -2253,171 +3024,333 @@ static void yy_reduce(
 	yygotominor.yy48 = phql_ret_placeholder_zval(PHQL_T_SPLACEHOLDER, yymsp[0].minor.yy0);
 }
 // 2256 "parser.c"
+=======
+/* #line 2014 "parser.c" */
         break;
-      case 105:
-// 1019 "parser.lemon"
+      case 83:
+      case 134:
+/* #line 945 "parser.y" */
 {
+	yygotominor.yy92 = phql_ret_placeholder_zval(PHQL_T_SPLACEHOLDER, yymsp[0].minor.yy0);
+}
+/* #line 2022 "parser.c" */
+        break;
+      case 84:
+/* #line 951 "parser.y" */
+{
+	yygotominor.yy92 = phql_ret_expr(PHQL_T_MINUS, NULL, yymsp[0].minor.yy92);
+  yy_destructor(20,&yymsp[-1].minor);
+}
+/* #line 2030 "parser.c" */
+>>>>>>> master:ext/mvc/model/query/parser.c
+        break;
+      case 85:
+/* #line 955 "parser.y" */
+{
+<<<<<<< HEAD:ext/phalcon/mvc/model/query/parser.c
 	yygotominor.yy48 = phql_ret_expr(PHQL_T_MINUS, NULL, yymsp[0].minor.yy48);
   yy_destructor(20,&yymsp[-1].minor);
 }
 // 2264 "parser.c"
+=======
+	yygotominor.yy92 = phql_ret_expr(PHQL_T_SUB, yymsp[-2].minor.yy92, yymsp[0].minor.yy92);
+  yy_destructor(20,&yymsp[-1].minor);
+}
+/* #line 2038 "parser.c" */
+>>>>>>> master:ext/mvc/model/query/parser.c
         break;
-      case 106:
-// 1023 "parser.lemon"
+      case 86:
+/* #line 959 "parser.y" */
 {
+<<<<<<< HEAD:ext/phalcon/mvc/model/query/parser.c
 	yygotominor.yy48 = phql_ret_expr(PHQL_T_SUB, yymsp[-2].minor.yy48, yymsp[0].minor.yy48);
   yy_destructor(20,&yymsp[-1].minor);
 }
 // 2272 "parser.c"
+=======
+	yygotominor.yy92 = phql_ret_expr(PHQL_T_ADD, yymsp[-2].minor.yy92, yymsp[0].minor.yy92);
+  yy_destructor(19,&yymsp[-1].minor);
+}
+/* #line 2046 "parser.c" */
+>>>>>>> master:ext/mvc/model/query/parser.c
         break;
-      case 107:
-// 1027 "parser.lemon"
+      case 87:
+/* #line 963 "parser.y" */
 {
+<<<<<<< HEAD:ext/phalcon/mvc/model/query/parser.c
 	yygotominor.yy48 = phql_ret_expr(PHQL_T_ADD, yymsp[-2].minor.yy48, yymsp[0].minor.yy48);
   yy_destructor(19,&yymsp[-1].minor);
 }
 // 2280 "parser.c"
+=======
+	yygotominor.yy92 = phql_ret_expr(PHQL_T_MUL, yymsp[-2].minor.yy92, yymsp[0].minor.yy92);
+  yy_destructor(17,&yymsp[-1].minor);
+}
+/* #line 2054 "parser.c" */
+>>>>>>> master:ext/mvc/model/query/parser.c
         break;
-      case 108:
-// 1031 "parser.lemon"
+      case 88:
+/* #line 967 "parser.y" */
 {
+<<<<<<< HEAD:ext/phalcon/mvc/model/query/parser.c
 	yygotominor.yy48 = phql_ret_expr(PHQL_T_MUL, yymsp[-2].minor.yy48, yymsp[0].minor.yy48);
   yy_destructor(17,&yymsp[-1].minor);
 }
 // 2288 "parser.c"
+=======
+	yygotominor.yy92 = phql_ret_expr(PHQL_T_DIV, yymsp[-2].minor.yy92, yymsp[0].minor.yy92);
+  yy_destructor(16,&yymsp[-1].minor);
+}
+/* #line 2062 "parser.c" */
+>>>>>>> master:ext/mvc/model/query/parser.c
         break;
-      case 109:
-// 1035 "parser.lemon"
+      case 89:
+/* #line 971 "parser.y" */
 {
+<<<<<<< HEAD:ext/phalcon/mvc/model/query/parser.c
 	yygotominor.yy48 = phql_ret_expr(PHQL_T_DIV, yymsp[-2].minor.yy48, yymsp[0].minor.yy48);
   yy_destructor(16,&yymsp[-1].minor);
 }
 // 2296 "parser.c"
+=======
+	yygotominor.yy92 = phql_ret_expr(PHQL_T_MOD, yymsp[-2].minor.yy92, yymsp[0].minor.yy92);
+  yy_destructor(18,&yymsp[-1].minor);
+}
+/* #line 2070 "parser.c" */
+>>>>>>> master:ext/mvc/model/query/parser.c
         break;
-      case 110:
-// 1039 "parser.lemon"
+      case 90:
+/* #line 975 "parser.y" */
 {
+<<<<<<< HEAD:ext/phalcon/mvc/model/query/parser.c
 	yygotominor.yy48 = phql_ret_expr(PHQL_T_MOD, yymsp[-2].minor.yy48, yymsp[0].minor.yy48);
   yy_destructor(18,&yymsp[-1].minor);
 }
 // 2304 "parser.c"
+=======
+	yygotominor.yy92 = phql_ret_expr(PHQL_T_AND, yymsp[-2].minor.yy92, yymsp[0].minor.yy92);
+  yy_destructor(9,&yymsp[-1].minor);
+}
+/* #line 2078 "parser.c" */
+>>>>>>> master:ext/mvc/model/query/parser.c
         break;
-      case 111:
-// 1043 "parser.lemon"
+      case 91:
+/* #line 979 "parser.y" */
 {
+<<<<<<< HEAD:ext/phalcon/mvc/model/query/parser.c
 	yygotominor.yy48 = phql_ret_expr(PHQL_T_AND, yymsp[-2].minor.yy48, yymsp[0].minor.yy48);
   yy_destructor(9,&yymsp[-1].minor);
 }
 // 2312 "parser.c"
+=======
+	yygotominor.yy92 = phql_ret_expr(PHQL_T_OR, yymsp[-2].minor.yy92, yymsp[0].minor.yy92);
+  yy_destructor(10,&yymsp[-1].minor);
+}
+/* #line 2086 "parser.c" */
+>>>>>>> master:ext/mvc/model/query/parser.c
         break;
-      case 112:
-// 1047 "parser.lemon"
+      case 92:
+/* #line 983 "parser.y" */
 {
+<<<<<<< HEAD:ext/phalcon/mvc/model/query/parser.c
 	yygotominor.yy48 = phql_ret_expr(PHQL_T_OR, yymsp[-2].minor.yy48, yymsp[0].minor.yy48);
   yy_destructor(10,&yymsp[-1].minor);
 }
 // 2320 "parser.c"
+=======
+	yygotominor.yy92 = phql_ret_expr(PHQL_T_BITWISE_AND, yymsp[-2].minor.yy92, yymsp[0].minor.yy92);
+  yy_destructor(13,&yymsp[-1].minor);
+}
+/* #line 2094 "parser.c" */
+>>>>>>> master:ext/mvc/model/query/parser.c
         break;
-      case 113:
-// 1051 "parser.lemon"
+      case 93:
+/* #line 987 "parser.y" */
 {
+<<<<<<< HEAD:ext/phalcon/mvc/model/query/parser.c
 	yygotominor.yy48 = phql_ret_expr(PHQL_T_BITWISE_AND, yymsp[-2].minor.yy48, yymsp[0].minor.yy48);
   yy_destructor(13,&yymsp[-1].minor);
 }
 // 2328 "parser.c"
+=======
+	yygotominor.yy92 = phql_ret_expr(PHQL_T_BITWISE_OR, yymsp[-2].minor.yy92, yymsp[0].minor.yy92);
+  yy_destructor(14,&yymsp[-1].minor);
+}
+/* #line 2102 "parser.c" */
+>>>>>>> master:ext/mvc/model/query/parser.c
         break;
-      case 114:
-// 1055 "parser.lemon"
+      case 94:
+/* #line 991 "parser.y" */
 {
+<<<<<<< HEAD:ext/phalcon/mvc/model/query/parser.c
 	yygotominor.yy48 = phql_ret_expr(PHQL_T_BITWISE_OR, yymsp[-2].minor.yy48, yymsp[0].minor.yy48);
   yy_destructor(14,&yymsp[-1].minor);
 }
 // 2336 "parser.c"
+=======
+	yygotominor.yy92 = phql_ret_expr(PHQL_T_BITWISE_XOR, yymsp[-2].minor.yy92, yymsp[0].minor.yy92);
+  yy_destructor(15,&yymsp[-1].minor);
+}
+/* #line 2110 "parser.c" */
+>>>>>>> master:ext/mvc/model/query/parser.c
         break;
-      case 115:
-// 1059 "parser.lemon"
+      case 95:
+/* #line 995 "parser.y" */
 {
+<<<<<<< HEAD:ext/phalcon/mvc/model/query/parser.c
 	yygotominor.yy48 = phql_ret_expr(PHQL_T_BITWISE_XOR, yymsp[-2].minor.yy48, yymsp[0].minor.yy48);
   yy_destructor(15,&yymsp[-1].minor);
 }
 // 2344 "parser.c"
+=======
+	yygotominor.yy92 = phql_ret_expr(PHQL_T_EQUALS, yymsp[-2].minor.yy92, yymsp[0].minor.yy92);
+  yy_destructor(3,&yymsp[-1].minor);
+}
+/* #line 2118 "parser.c" */
+>>>>>>> master:ext/mvc/model/query/parser.c
         break;
-      case 116:
-// 1063 "parser.lemon"
+      case 96:
+/* #line 999 "parser.y" */
 {
+<<<<<<< HEAD:ext/phalcon/mvc/model/query/parser.c
 	yygotominor.yy48 = phql_ret_expr(PHQL_T_EQUALS, yymsp[-2].minor.yy48, yymsp[0].minor.yy48);
   yy_destructor(3,&yymsp[-1].minor);
 }
 // 2352 "parser.c"
+=======
+	yygotominor.yy92 = phql_ret_expr(PHQL_T_NOTEQUALS, yymsp[-2].minor.yy92, yymsp[0].minor.yy92);
+  yy_destructor(4,&yymsp[-1].minor);
+}
+/* #line 2126 "parser.c" */
+>>>>>>> master:ext/mvc/model/query/parser.c
         break;
-      case 117:
-// 1067 "parser.lemon"
+      case 97:
+/* #line 1003 "parser.y" */
 {
+<<<<<<< HEAD:ext/phalcon/mvc/model/query/parser.c
 	yygotominor.yy48 = phql_ret_expr(PHQL_T_NOTEQUALS, yymsp[-2].minor.yy48, yymsp[0].minor.yy48);
   yy_destructor(4,&yymsp[-1].minor);
 }
 // 2360 "parser.c"
+=======
+	yygotominor.yy92 = phql_ret_expr(PHQL_T_LESS, yymsp[-2].minor.yy92, yymsp[0].minor.yy92);
+  yy_destructor(5,&yymsp[-1].minor);
+}
+/* #line 2134 "parser.c" */
+>>>>>>> master:ext/mvc/model/query/parser.c
         break;
-      case 118:
-// 1071 "parser.lemon"
+      case 98:
+/* #line 1007 "parser.y" */
 {
+<<<<<<< HEAD:ext/phalcon/mvc/model/query/parser.c
 	yygotominor.yy48 = phql_ret_expr(PHQL_T_LESS, yymsp[-2].minor.yy48, yymsp[0].minor.yy48);
   yy_destructor(5,&yymsp[-1].minor);
 }
 // 2368 "parser.c"
+=======
+	yygotominor.yy92 = phql_ret_expr(PHQL_T_GREATER, yymsp[-2].minor.yy92, yymsp[0].minor.yy92);
+  yy_destructor(6,&yymsp[-1].minor);
+}
+/* #line 2142 "parser.c" */
+>>>>>>> master:ext/mvc/model/query/parser.c
         break;
-      case 119:
-// 1075 "parser.lemon"
+      case 99:
+/* #line 1011 "parser.y" */
 {
+<<<<<<< HEAD:ext/phalcon/mvc/model/query/parser.c
 	yygotominor.yy48 = phql_ret_expr(PHQL_T_GREATER, yymsp[-2].minor.yy48, yymsp[0].minor.yy48);
   yy_destructor(6,&yymsp[-1].minor);
 }
 // 2376 "parser.c"
+=======
+	yygotominor.yy92 = phql_ret_expr(PHQL_T_GREATEREQUAL, yymsp[-2].minor.yy92, yymsp[0].minor.yy92);
+  yy_destructor(7,&yymsp[-1].minor);
+}
+/* #line 2150 "parser.c" */
+>>>>>>> master:ext/mvc/model/query/parser.c
         break;
-      case 120:
-// 1079 "parser.lemon"
+      case 100:
+/* #line 1015 "parser.y" */
 {
+<<<<<<< HEAD:ext/phalcon/mvc/model/query/parser.c
 	yygotominor.yy48 = phql_ret_expr(PHQL_T_GREATEREQUAL, yymsp[-2].minor.yy48, yymsp[0].minor.yy48);
   yy_destructor(7,&yymsp[-1].minor);
 }
 // 2384 "parser.c"
+=======
+	yygotominor.yy92 = phql_ret_expr(PHQL_T_LESSEQUAL, yymsp[-2].minor.yy92, yymsp[0].minor.yy92);
+  yy_destructor(8,&yymsp[-1].minor);
+}
+/* #line 2158 "parser.c" */
+>>>>>>> master:ext/mvc/model/query/parser.c
         break;
-      case 121:
-// 1083 "parser.lemon"
+      case 101:
+/* #line 1019 "parser.y" */
 {
+<<<<<<< HEAD:ext/phalcon/mvc/model/query/parser.c
 	yygotominor.yy48 = phql_ret_expr(PHQL_T_LESSEQUAL, yymsp[-2].minor.yy48, yymsp[0].minor.yy48);
   yy_destructor(8,&yymsp[-1].minor);
 }
 // 2392 "parser.c"
+=======
+	yygotominor.yy92 = phql_ret_expr(PHQL_T_LIKE, yymsp[-2].minor.yy92, yymsp[0].minor.yy92);
+  yy_destructor(11,&yymsp[-1].minor);
+}
+/* #line 2166 "parser.c" */
+>>>>>>> master:ext/mvc/model/query/parser.c
         break;
-      case 122:
-// 1087 "parser.lemon"
+      case 102:
+/* #line 1023 "parser.y" */
 {
+<<<<<<< HEAD:ext/phalcon/mvc/model/query/parser.c
 	yygotominor.yy48 = phql_ret_expr(PHQL_T_LIKE, yymsp[-2].minor.yy48, yymsp[0].minor.yy48);
   yy_destructor(11,&yymsp[-1].minor);
 }
 // 2400 "parser.c"
+=======
+	yygotominor.yy92 = phql_ret_expr(PHQL_T_NLIKE, yymsp[-3].minor.yy92, yymsp[0].minor.yy92);
+  yy_destructor(23,&yymsp[-2].minor);
+  yy_destructor(11,&yymsp[-1].minor);
+}
+/* #line 2175 "parser.c" */
+>>>>>>> master:ext/mvc/model/query/parser.c
         break;
-      case 123:
-// 1091 "parser.lemon"
+      case 103:
+/* #line 1027 "parser.y" */
 {
+<<<<<<< HEAD:ext/phalcon/mvc/model/query/parser.c
 	yygotominor.yy48 = phql_ret_expr(PHQL_T_NLIKE, yymsp[-3].minor.yy48, yymsp[0].minor.yy48);
   yy_destructor(24,&yymsp[-2].minor);
   yy_destructor(11,&yymsp[-1].minor);
 }
 // 2409 "parser.c"
+=======
+	yygotominor.yy92 = phql_ret_expr(PHQL_T_ILIKE, yymsp[-2].minor.yy92, yymsp[0].minor.yy92);
+  yy_destructor(12,&yymsp[-1].minor);
+}
+/* #line 2183 "parser.c" */
+>>>>>>> master:ext/mvc/model/query/parser.c
         break;
-      case 124:
-// 1095 "parser.lemon"
+      case 104:
+/* #line 1031 "parser.y" */
 {
+<<<<<<< HEAD:ext/phalcon/mvc/model/query/parser.c
 	yygotominor.yy48 = phql_ret_expr(PHQL_T_ILIKE, yymsp[-2].minor.yy48, yymsp[0].minor.yy48);
   yy_destructor(12,&yymsp[-1].minor);
 }
 // 2417 "parser.c"
+=======
+	yygotominor.yy92 = phql_ret_expr(PHQL_T_NILIKE, yymsp[-3].minor.yy92, yymsp[0].minor.yy92);
+  yy_destructor(23,&yymsp[-2].minor);
+  yy_destructor(12,&yymsp[-1].minor);
+}
+/* #line 2192 "parser.c" */
+>>>>>>> master:ext/mvc/model/query/parser.c
         break;
-      case 125:
-// 1099 "parser.lemon"
+      case 105:
+/* #line 1035 "parser.y" */
 {
+<<<<<<< HEAD:ext/phalcon/mvc/model/query/parser.c
 	yygotominor.yy48 = phql_ret_expr(PHQL_T_NILIKE, yymsp[-3].minor.yy48, yymsp[0].minor.yy48);
   yy_destructor(24,&yymsp[-2].minor);
   yy_destructor(12,&yymsp[-1].minor);
@@ -2428,29 +3361,47 @@ static void yy_reduce(
 // 1103 "parser.lemon"
 {
 	yygotominor.yy48 = phql_ret_expr(PHQL_T_IN, yymsp[-4].minor.yy48, yymsp[-1].minor.yy48);
+=======
+	yygotominor.yy92 = phql_ret_expr(PHQL_T_IN, yymsp[-4].minor.yy92, yymsp[-1].minor.yy92);
+>>>>>>> master:ext/mvc/model/query/parser.c
   yy_destructor(22,&yymsp[-3].minor);
-  yy_destructor(43,&yymsp[-2].minor);
-  yy_destructor(44,&yymsp[0].minor);
+  yy_destructor(44,&yymsp[-2].minor);
+  yy_destructor(45,&yymsp[0].minor);
 }
+<<<<<<< HEAD:ext/phalcon/mvc/model/query/parser.c
 // 2436 "parser.c"
         break;
       case 127:
 // 1107 "parser.lemon"
+=======
+/* #line 2202 "parser.c" */
+        break;
+      case 106:
+/* #line 1039 "parser.y" */
+>>>>>>> master:ext/mvc/model/query/parser.c
 {
-	yygotominor.yy48 = phql_ret_expr(PHQL_T_NOTIN, yymsp[-5].minor.yy48, yymsp[-1].minor.yy48);
-  yy_destructor(24,&yymsp[-4].minor);
+	yygotominor.yy92 = phql_ret_expr(PHQL_T_NOTIN, yymsp[-5].minor.yy92, yymsp[-1].minor.yy92);
+  yy_destructor(23,&yymsp[-4].minor);
   yy_destructor(22,&yymsp[-3].minor);
-  yy_destructor(43,&yymsp[-2].minor);
-  yy_destructor(44,&yymsp[0].minor);
+  yy_destructor(44,&yymsp[-2].minor);
+  yy_destructor(45,&yymsp[0].minor);
 }
+<<<<<<< HEAD:ext/phalcon/mvc/model/query/parser.c
 // 2447 "parser.c"
         break;
       case 128:
 // 1111 "parser.lemon"
+=======
+/* #line 2213 "parser.c" */
+        break;
+      case 107:
+/* #line 1043 "parser.y" */
+>>>>>>> master:ext/mvc/model/query/parser.c
 {
-	yygotominor.yy48 = phql_ret_expr(PHQL_T_AGAINST, yymsp[-2].minor.yy48, yymsp[0].minor.yy48);
+	yygotominor.yy92 = phql_ret_expr(PHQL_T_AGAINST, yymsp[-2].minor.yy92, yymsp[0].minor.yy92);
   yy_destructor(1,&yymsp[-1].minor);
 }
+<<<<<<< HEAD:ext/phalcon/mvc/model/query/parser.c
 // 2455 "parser.c"
         break;
       case 129:
@@ -2466,54 +3417,99 @@ static void yy_reduce(
         break;
       case 130:
 // 1119 "parser.lemon"
+=======
+/* #line 2221 "parser.c" */
+        break;
+      case 108:
+/* #line 1047 "parser.y" */
+>>>>>>> master:ext/mvc/model/query/parser.c
 {
-	yygotominor.yy48 = phql_ret_expr(PHQL_T_CONVERT, yymsp[-3].minor.yy48, phql_ret_raw_qualified_name(yymsp[-1].minor.yy0, NULL));
+	yygotominor.yy92 = phql_ret_expr(PHQL_T_CAST, yymsp[-3].minor.yy92, phql_ret_raw_qualified_name(yymsp[-1].minor.yy0, NULL));
   yy_destructor(61,&yymsp[-5].minor);
-  yy_destructor(43,&yymsp[-4].minor);
-  yy_destructor(62,&yymsp[-2].minor);
-  yy_destructor(44,&yymsp[0].minor);
+  yy_destructor(44,&yymsp[-4].minor);
+  yy_destructor(32,&yymsp[-2].minor);
+  yy_destructor(45,&yymsp[0].minor);
 }
+<<<<<<< HEAD:ext/phalcon/mvc/model/query/parser.c
 // 2477 "parser.c"
         break;
       case 132:
 // 1129 "parser.lemon"
+=======
+/* #line 2232 "parser.c" */
+        break;
+      case 109:
+/* #line 1051 "parser.y" */
+>>>>>>> master:ext/mvc/model/query/parser.c
 {
-	yygotominor.yy48 = phql_ret_func_call(yymsp[-3].minor.yy0, yymsp[-1].minor.yy48);
-  yy_destructor(43,&yymsp[-2].minor);
-  yy_destructor(44,&yymsp[0].minor);
+	yygotominor.yy92 = phql_ret_expr(PHQL_T_CONVERT, yymsp[-3].minor.yy92, phql_ret_raw_qualified_name(yymsp[-1].minor.yy0, NULL));
+  yy_destructor(62,&yymsp[-5].minor);
+  yy_destructor(44,&yymsp[-4].minor);
+  yy_destructor(63,&yymsp[-2].minor);
+  yy_destructor(45,&yymsp[0].minor);
 }
+<<<<<<< HEAD:ext/phalcon/mvc/model/query/parser.c
 // 2486 "parser.c"
         break;
       case 133:
 // 1133 "parser.lemon"
+=======
+/* #line 2243 "parser.c" */
+        break;
+      case 111:
+/* #line 1061 "parser.y" */
+>>>>>>> master:ext/mvc/model/query/parser.c
 {
-	yygotominor.yy48 = phql_ret_func_call(yymsp[-2].minor.yy0, NULL);
-  yy_destructor(43,&yymsp[-1].minor);
-  yy_destructor(44,&yymsp[0].minor);
+	yygotominor.yy92 = phql_ret_func_call(yymsp[-4].minor.yy0, yymsp[-1].minor.yy92, yymsp[-2].minor.yy92);
+  yy_destructor(44,&yymsp[-3].minor);
+  yy_destructor(45,&yymsp[0].minor);
 }
+<<<<<<< HEAD:ext/phalcon/mvc/model/query/parser.c
 // 2495 "parser.c"
         break;
       case 135:
 // 1143 "parser.lemon"
+=======
+/* #line 2252 "parser.c" */
+        break;
+      case 112:
+/* #line 1067 "parser.y" */
+>>>>>>> master:ext/mvc/model/query/parser.c
 {
-	yygotominor.yy48 = phql_ret_zval_list(yymsp[0].minor.yy48, NULL);
+	yygotominor.yy92 = phql_ret_distinct();
+  yy_destructor(28,&yymsp[0].minor);
 }
+<<<<<<< HEAD:ext/phalcon/mvc/model/query/parser.c
 // 2502 "parser.c"
         break;
       case 138:
 // 1157 "parser.lemon"
+=======
+/* #line 2260 "parser.c" */
+        break;
+      case 120:
+/* #line 1105 "parser.y" */
+>>>>>>> master:ext/mvc/model/query/parser.c
 {
-	yygotominor.yy48 = phql_ret_expr(PHQL_T_ISNULL, yymsp[-2].minor.yy48, NULL);
+	yygotominor.yy92 = phql_ret_expr(PHQL_T_ISNULL, yymsp[-2].minor.yy92, NULL);
   yy_destructor(21,&yymsp[-1].minor);
-  yy_destructor(63,&yymsp[0].minor);
+  yy_destructor(64,&yymsp[0].minor);
 }
+<<<<<<< HEAD:ext/phalcon/mvc/model/query/parser.c
 // 2511 "parser.c"
         break;
       case 139:
 // 1161 "parser.lemon"
+=======
+/* #line 2269 "parser.c" */
+        break;
+      case 121:
+/* #line 1109 "parser.y" */
+>>>>>>> master:ext/mvc/model/query/parser.c
 {
-	yygotominor.yy48 = phql_ret_expr(PHQL_T_ISNOTNULL, yymsp[-3].minor.yy48, NULL);
+	yygotominor.yy92 = phql_ret_expr(PHQL_T_ISNOTNULL, yymsp[-3].minor.yy92, NULL);
   yy_destructor(21,&yymsp[-2].minor);
+<<<<<<< HEAD:ext/phalcon/mvc/model/query/parser.c
   yy_destructor(24,&yymsp[-1].minor);
   yy_destructor(63,&yymsp[0].minor);
 }
@@ -2523,105 +3519,196 @@ static void yy_reduce(
 // 1165 "parser.lemon"
 {
 	yygotominor.yy48 = phql_ret_expr(PHQL_T_DISTINCT, NULL, yymsp[0].minor.yy48);
+=======
+>>>>>>> master:ext/mvc/model/query/parser.c
   yy_destructor(23,&yymsp[-1].minor);
+  yy_destructor(64,&yymsp[0].minor);
 }
+<<<<<<< HEAD:ext/phalcon/mvc/model/query/parser.c
 // 2529 "parser.c"
         break;
       case 141:
 // 1169 "parser.lemon"
+=======
+/* #line 2279 "parser.c" */
+        break;
+      case 122:
+/* #line 1113 "parser.y" */
+>>>>>>> master:ext/mvc/model/query/parser.c
 {
-	yygotominor.yy48 = phql_ret_expr(PHQL_T_BETWEEN, yymsp[-2].minor.yy48, yymsp[0].minor.yy48);
+	yygotominor.yy92 = phql_ret_expr(PHQL_T_BETWEEN, yymsp[-2].minor.yy92, yymsp[0].minor.yy92);
   yy_destructor(2,&yymsp[-1].minor);
 }
+<<<<<<< HEAD:ext/phalcon/mvc/model/query/parser.c
 // 2537 "parser.c"
         break;
       case 142:
 // 1173 "parser.lemon"
+=======
+/* #line 2287 "parser.c" */
+        break;
+      case 123:
+/* #line 1117 "parser.y" */
+>>>>>>> master:ext/mvc/model/query/parser.c
 {
-	yygotominor.yy48 = phql_ret_expr(PHQL_T_NOT, NULL, yymsp[0].minor.yy48);
-  yy_destructor(24,&yymsp[-1].minor);
+	yygotominor.yy92 = phql_ret_expr(PHQL_T_NOT, NULL, yymsp[0].minor.yy92);
+  yy_destructor(23,&yymsp[-1].minor);
 }
+<<<<<<< HEAD:ext/phalcon/mvc/model/query/parser.c
 // 2545 "parser.c"
         break;
       case 143:
 // 1177 "parser.lemon"
+=======
+/* #line 2295 "parser.c" */
+        break;
+      case 124:
+/* #line 1121 "parser.y" */
+>>>>>>> master:ext/mvc/model/query/parser.c
 {
-	yygotominor.yy48 = phql_ret_expr(PHQL_T_BITWISE_NOT, NULL, yymsp[0].minor.yy48);
-  yy_destructor(25,&yymsp[-1].minor);
+	yygotominor.yy92 = phql_ret_expr(PHQL_T_BITWISE_NOT, NULL, yymsp[0].minor.yy92);
+  yy_destructor(24,&yymsp[-1].minor);
 }
+<<<<<<< HEAD:ext/phalcon/mvc/model/query/parser.c
 // 2553 "parser.c"
         break;
       case 144:
 // 1181 "parser.lemon"
+=======
+/* #line 2303 "parser.c" */
+        break;
+      case 125:
+/* #line 1125 "parser.y" */
+>>>>>>> master:ext/mvc/model/query/parser.c
 {
-	yygotominor.yy48 = phql_ret_expr(PHQL_T_ENCLOSED, yymsp[-1].minor.yy48, NULL);
-  yy_destructor(43,&yymsp[-2].minor);
-  yy_destructor(44,&yymsp[0].minor);
+	yygotominor.yy92 = phql_ret_expr(PHQL_T_ENCLOSED, yymsp[-1].minor.yy92, NULL);
+  yy_destructor(44,&yymsp[-2].minor);
+  yy_destructor(45,&yymsp[0].minor);
 }
+<<<<<<< HEAD:ext/phalcon/mvc/model/query/parser.c
 // 2562 "parser.c"
         break;
       case 147:
 // 1193 "parser.lemon"
+=======
+/* #line 2312 "parser.c" */
+        break;
+      case 128:
+/* #line 1137 "parser.y" */
+>>>>>>> master:ext/mvc/model/query/parser.c
 {
-	yygotominor.yy48 = phql_ret_literal_zval(PHQL_T_STRING, yymsp[0].minor.yy0);
+	yygotominor.yy92 = phql_ret_literal_zval(PHQL_T_STRING, yymsp[0].minor.yy0);
 }
+<<<<<<< HEAD:ext/phalcon/mvc/model/query/parser.c
 // 2569 "parser.c"
         break;
       case 148:
 // 1197 "parser.lemon"
+=======
+/* #line 2319 "parser.c" */
+        break;
+      case 129:
+/* #line 1141 "parser.y" */
+>>>>>>> master:ext/mvc/model/query/parser.c
 {
-	yygotominor.yy48 = phql_ret_literal_zval(PHQL_T_DOUBLE, yymsp[0].minor.yy0);
+	yygotominor.yy92 = phql_ret_literal_zval(PHQL_T_DOUBLE, yymsp[0].minor.yy0);
 }
+<<<<<<< HEAD:ext/phalcon/mvc/model/query/parser.c
 // 2576 "parser.c"
         break;
       case 149:
 // 1201 "parser.lemon"
+=======
+/* #line 2326 "parser.c" */
+        break;
+      case 130:
+/* #line 1145 "parser.y" */
+>>>>>>> master:ext/mvc/model/query/parser.c
 {
-	yygotominor.yy48 = phql_ret_literal_zval(PHQL_T_NULL, NULL);
-  yy_destructor(63,&yymsp[0].minor);
+	yygotominor.yy92 = phql_ret_literal_zval(PHQL_T_NULL, NULL);
+  yy_destructor(64,&yymsp[0].minor);
 }
+<<<<<<< HEAD:ext/phalcon/mvc/model/query/parser.c
 // 2584 "parser.c"
         break;
       case 150:
 // 1205 "parser.lemon"
+=======
+/* #line 2334 "parser.c" */
+        break;
+      case 131:
+/* #line 1149 "parser.y" */
+>>>>>>> master:ext/mvc/model/query/parser.c
 {
-	yygotominor.yy48 = phql_ret_literal_zval(PHQL_T_TRUE, NULL);
-  yy_destructor(66,&yymsp[0].minor);
+	yygotominor.yy92 = phql_ret_literal_zval(PHQL_T_TRUE, NULL);
+  yy_destructor(67,&yymsp[0].minor);
 }
+<<<<<<< HEAD:ext/phalcon/mvc/model/query/parser.c
 // 2592 "parser.c"
         break;
       case 151:
 // 1209 "parser.lemon"
+=======
+/* #line 2342 "parser.c" */
+        break;
+      case 132:
+/* #line 1153 "parser.y" */
+>>>>>>> master:ext/mvc/model/query/parser.c
 {
-	yygotominor.yy48 = phql_ret_literal_zval(PHQL_T_FALSE, NULL);
-  yy_destructor(67,&yymsp[0].minor);
+	yygotominor.yy92 = phql_ret_literal_zval(PHQL_T_FALSE, NULL);
+  yy_destructor(68,&yymsp[0].minor);
 }
+<<<<<<< HEAD:ext/phalcon/mvc/model/query/parser.c
 // 2600 "parser.c"
         break;
       case 154:
 // 1223 "parser.lemon"
+=======
+/* #line 2350 "parser.c" */
+        break;
+      case 135:
+/* #line 1167 "parser.y" */
+>>>>>>> master:ext/mvc/model/query/parser.c
 {
-	yygotominor.yy48 = phql_ret_qualified_name(yymsp[-4].minor.yy0, yymsp[-2].minor.yy0, yymsp[0].minor.yy0);
-  yy_destructor(68,&yymsp[-3].minor);
-  yy_destructor(30,&yymsp[-1].minor);
+	yygotominor.yy92 = phql_ret_qualified_name(yymsp[-4].minor.yy0, yymsp[-2].minor.yy0, yymsp[0].minor.yy0);
+  yy_destructor(69,&yymsp[-3].minor);
+  yy_destructor(31,&yymsp[-1].minor);
 }
+<<<<<<< HEAD:ext/phalcon/mvc/model/query/parser.c
 // 2609 "parser.c"
         break;
       case 155:
 // 1227 "parser.lemon"
+=======
+/* #line 2359 "parser.c" */
+        break;
+      case 136:
+/* #line 1171 "parser.y" */
+>>>>>>> master:ext/mvc/model/query/parser.c
 {
-	yygotominor.yy48 = phql_ret_qualified_name(yymsp[-2].minor.yy0, NULL, yymsp[0].minor.yy0);
-  yy_destructor(68,&yymsp[-1].minor);
+	yygotominor.yy92 = phql_ret_qualified_name(yymsp[-2].minor.yy0, NULL, yymsp[0].minor.yy0);
+  yy_destructor(69,&yymsp[-1].minor);
 }
+<<<<<<< HEAD:ext/phalcon/mvc/model/query/parser.c
 // 2617 "parser.c"
         break;
       case 156:
 // 1231 "parser.lemon"
+=======
+/* #line 2367 "parser.c" */
+        break;
+      case 137:
+/* #line 1175 "parser.y" */
+>>>>>>> master:ext/mvc/model/query/parser.c
 {
-	yygotominor.yy48 = phql_ret_qualified_name(NULL, yymsp[-2].minor.yy0, yymsp[0].minor.yy0);
-  yy_destructor(30,&yymsp[-1].minor);
+	yygotominor.yy92 = phql_ret_qualified_name(NULL, yymsp[-2].minor.yy0, yymsp[0].minor.yy0);
+  yy_destructor(31,&yymsp[-1].minor);
 }
+<<<<<<< HEAD:ext/phalcon/mvc/model/query/parser.c
 // 2625 "parser.c"
+=======
+/* #line 2375 "parser.c" */
+>>>>>>> master:ext/mvc/model/query/parser.c
         break;
   };
   yygoto = yyRuleInfo[yyruleno].lhs;
@@ -2663,7 +3750,7 @@ static void yy_syntax_error(
 ){
   phql_ARG_FETCH;
 #define TOKEN (yyminor.yy0)
-// 444 "parser.lemon"
+/* #line 461 "parser.y" */
 
 	if (status->scanner_state->start_length) {
 		{
@@ -2672,8 +3759,8 @@ static void yy_syntax_error(
 			int token_found = 0;
 			unsigned int token_length;
 			const phql_token_names *tokens = phql_tokens;
-			int active_token = status->scanner_state->active_token;
-			int near_length = status->scanner_state->start_length;
+			uint active_token = status->scanner_state->active_token;
+			uint near_length = status->scanner_state->start_length;
 
 			if (active_token) {
 
@@ -2730,7 +3817,11 @@ static void yy_syntax_error(
 
 	status->status = PHQL_PARSING_FAILED;
 
+<<<<<<< HEAD:ext/phalcon/mvc/model/query/parser.c
 // 2734 "parser.c"
+=======
+/* #line 2484 "parser.c" */
+>>>>>>> master:ext/mvc/model/query/parser.c
   phql_ARG_STORE; /* Suppress warning about unused %extra_argument variable */
 }
 
@@ -2988,6 +4079,7 @@ const phql_token_names phql_tokens[] =
   { SL("CAST"),          PHQL_T_CAST },
   { SL("CONVERT"),       PHQL_T_CONVERT },
   { SL("USING"),         PHQL_T_USING },
+  { SL("ALL"),           PHQL_T_ALL },
   { NULL, 0, 0 }
 };
 
@@ -3055,7 +4147,18 @@ int phql_parse_phql(zval *result, zval *phql TSRMLS_DC) {
 	ZVAL_NULL(result);
 
 	if (phql_internal_parse_phql(&result, Z_STRVAL_P(phql), Z_STRLEN_P(phql), &error_msg TSRMLS_CC) == FAILURE) {
+<<<<<<< HEAD:ext/phalcon/mvc/model/query/parser.c
 		ZEPHIR_THROW_EXCEPTION_STRW(phalcon_mvc_model_exception_ce, Z_STRVAL_P(error_msg));
+=======
+		if (likely(error_msg != NULL)) {
+			PHALCON_THROW_EXCEPTION_STRW(phalcon_mvc_model_exception_ce, Z_STRVAL_P(error_msg));
+			zval_ptr_dtor(&error_msg);
+		}
+		else {
+			PHALCON_THROW_EXCEPTION_STRW(phalcon_mvc_model_exception_ce, "There was an error parsing PHQL");
+		}
+
+>>>>>>> master:ext/mvc/model/query/parser.c
 		return FAILURE;
 	}
 
@@ -3098,6 +4201,11 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 	}
 
 	phql_parser = phql_Alloc(phql_wrapper_alloc);
+	if (unlikely(!phql_parser)) {
+		MAKE_STD_ZVAL(*error_msg);
+		ZVAL_STRING(*error_msg, "Memory allocation error", 1);
+		return FAILURE;
+	}
 
 	parser_status = emalloc(sizeof(phql_parser_status));
 	state = emalloc(sizeof(phql_scanner_state));
@@ -3360,6 +4468,9 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 				break;
 			case PHQL_T_DISTINCT:
 				phql_(phql_parser, PHQL_DISTINCT, NULL, parser_status);
+				break;
+			case PHQL_T_ALL:
+				phql_(phql_parser, PHQL_ALL, NULL, parser_status);
 				break;
 			case PHQL_T_CAST:
 				phql_(phql_parser, PHQL_CAST, NULL, parser_status);

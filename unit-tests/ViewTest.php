@@ -314,7 +314,7 @@ class ViewTest extends PHPUnit_Framework_TestCase
 
 		$view->setViewsDir('unit-tests/views/');
 		$view->set_param = 'something';
-		
+
 		$content = $view->getRender('test16', 'index');
 
 		$this->assertEquals($content, '<html>1</html>' . PHP_EOL);

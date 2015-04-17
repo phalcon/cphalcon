@@ -27,7 +27,11 @@ class Generator_File_PhalconH
     public function __construct($sourceDir, $outputDir)
     {
         $this->sourceDir = $sourceDir;
+<<<<<<< HEAD
         $this->outputFile = $outputDir . '/phalcon.zep.h';
+=======
+        $this->outputFile = $outputDir . '/phalcon.h';
+>>>>>>> master
     }
 
     /**
@@ -141,4 +145,8 @@ class Generator_File_PhalconH
 
         file_put_contents($this->outputFile, $resContent);
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> master

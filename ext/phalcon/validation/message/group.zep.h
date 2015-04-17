@@ -1,4 +1,5 @@
 
+<<<<<<< HEAD:ext/phalcon/validation/message/group.zep.h
 extern zend_class_entry *phalcon_validation_message_group_ce;
 
 ZEPHIR_INIT_CLASS(Phalcon_Validation_Message_Group);
@@ -26,12 +27,32 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_validation_message_group_offsetget, 0, 0, 1)
 	ZEND_ARG_INFO(0, index)
 ZEND_END_ARG_INFO()
+=======
+/*
+  +------------------------------------------------------------------------+
+  | Phalcon Framework                                                      |
+  +------------------------------------------------------------------------+
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
+  +------------------------------------------------------------------------+
+  | This source file is subject to the New BSD License that is bundled     |
+  | with this package in the file docs/LICENSE.txt.                        |
+  |                                                                        |
+  | If you did not receive a copy of the license and are unable to         |
+  | obtain it through the world-wide-web, please send an email             |
+  | to license@phalconphp.com so we can send you a copy immediately.       |
+  +------------------------------------------------------------------------+
+  | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
+  |          Eduar Carvajal <eduar@phalconphp.com>                         |
+  +------------------------------------------------------------------------+
+*/
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_validation_message_group_offsetset, 0, 0, 2)
-	ZEND_ARG_INFO(0, index)
-	ZEND_ARG_INFO(0, message)
-ZEND_END_ARG_INFO()
+#ifndef PHALCON_VALIDATION_MESSAGE_GROUP_H
+#define PHALCON_VALIDATION_MESSAGE_GROUP_H
+>>>>>>> master:ext/validation/message/group.h
 
+#include "php_phalcon.h"
+
+<<<<<<< HEAD:ext/phalcon/validation/message/group.zep.h
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_validation_message_group_offsetexists, 0, 0, 1)
 	ZEND_ARG_INFO(0, index)
 ZEND_END_ARG_INFO()
@@ -51,11 +72,13 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_validation_message_group_filter, 0, 0, 1)
 	ZEND_ARG_INFO(0, fieldName)
 ZEND_END_ARG_INFO()
+=======
+extern zend_class_entry *phalcon_validation_message_group_ce;
+>>>>>>> master:ext/validation/message/group.h
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_validation_message_group___set_state, 0, 0, 1)
-	ZEND_ARG_INFO(0, group)
-ZEND_END_ARG_INFO()
+PHALCON_INIT_CLASS(Phalcon_Validation_Message_Group);
 
+<<<<<<< HEAD:ext/phalcon/validation/message/group.zep.h
 ZEPHIR_INIT_FUNCS(phalcon_validation_message_group_method_entry) {
 	PHP_ME(Phalcon_Validation_Message_Group, __construct, arginfo_phalcon_validation_message_group___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_ME(Phalcon_Validation_Message_Group, offsetGet, arginfo_phalcon_validation_message_group_offsetget, ZEND_ACC_PUBLIC)
@@ -74,3 +97,8 @@ ZEPHIR_INIT_FUNCS(phalcon_validation_message_group_method_entry) {
 	PHP_ME(Phalcon_Validation_Message_Group, __set_state, arginfo_phalcon_validation_message_group___set_state, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
   PHP_FE_END
 };
+=======
+PHALCON_STATIC void phalcon_validation_group_construct_helper(zval *object, zval *messages TSRMLS_DC);
+
+#endif /* PHALCON_VALIDATION_MESSAGE_GROUP_H */
+>>>>>>> master:ext/validation/message/group.h

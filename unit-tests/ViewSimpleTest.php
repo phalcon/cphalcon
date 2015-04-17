@@ -15,7 +15,7 @@
   +------------------------------------------------------------------------+
   | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
   |          Eduar Carvajal <eduar@phalconphp.com>                         |
-  |          Piotr Gasiorowski <p.gasiorowski@vipserv.org>                                  |
+  |          Piotr Gasiorowski <p.gasiorowski@vipserv.org>                 |
   +------------------------------------------------------------------------+
 */
 

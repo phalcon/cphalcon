@@ -143,4 +143,3 @@ class MicroMvcMiddlewareTest extends PHPUnit_Framework_TestCase
 	}
 
 }
-

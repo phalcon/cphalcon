@@ -138,4 +138,3 @@ class MicroMvcCollectionsTest extends PHPUnit_Framework_TestCase
 	}
 
 }
-

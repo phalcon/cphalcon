@@ -128,4 +128,3 @@ class MicroMvcTest extends PHPUnit_Framework_TestCase
 	}
 
 }
-

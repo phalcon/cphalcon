@@ -1,12 +1,41 @@
 
+<<<<<<< HEAD:ext/phalcon/db/adapterinterface.zep.h
+=======
+/*
+  +------------------------------------------------------------------------+
+  | Phalcon Framework                                                      |
+  +------------------------------------------------------------------------+
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
+  +------------------------------------------------------------------------+
+  | This source file is subject to the New BSD License that is bundled     |
+  | with this package in the file docs/LICENSE.txt.                        |
+  |                                                                        |
+  | If you did not receive a copy of the license and are unable to         |
+  | obtain it through the world-wide-web, please send an email             |
+  | to license@phalconphp.com so we can send you a copy immediately.       |
+  +------------------------------------------------------------------------+
+  | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
+  |          Eduar Carvajal <eduar@phalconphp.com>                         |
+  +------------------------------------------------------------------------+
+*/
+
+#ifndef PHALCON_DB_ADAPTERINTERFACE_H
+#define PHALCON_DB_ADAPTERINTERFACE_H
+
+#include "php_phalcon.h"
+
+>>>>>>> master:ext/db/adapterinterface.h
 extern zend_class_entry *phalcon_db_adapterinterface_ce;
 
 ZEPHIR_INIT_CLASS(Phalcon_Db_AdapterInterface);
 
+<<<<<<< HEAD:ext/phalcon/db/adapterinterface.zep.h
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapterinterface___construct, 0, 0, 1)
 	ZEND_ARG_ARRAY_INFO(0, descriptor, 0)
 ZEND_END_ARG_INFO()
 
+=======
+>>>>>>> master:ext/db/adapterinterface.h
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapterinterface_fetchone, 0, 0, 1)
 	ZEND_ARG_INFO(0, sqlQuery)
 	ZEND_ARG_INFO(0, fetchMode)
@@ -233,6 +262,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapterinterface_describecolumns, 0, 0
 	ZEND_ARG_INFO(0, schema)
 ZEND_END_ARG_INFO()
 
+<<<<<<< HEAD:ext/phalcon/db/adapterinterface.zep.h
 ZEPHIR_INIT_FUNCS(phalcon_db_adapterinterface_method_entry) {
 	PHP_ABSTRACT_ME(Phalcon_Db_AdapterInterface, __construct, arginfo_phalcon_db_adapterinterface___construct)
 	PHP_ABSTRACT_ME(Phalcon_Db_AdapterInterface, fetchOne, arginfo_phalcon_db_adapterinterface_fetchone)
@@ -299,3 +329,6 @@ ZEPHIR_INIT_FUNCS(phalcon_db_adapterinterface_method_entry) {
 	PHP_ABSTRACT_ME(Phalcon_Db_AdapterInterface, describeColumns, arginfo_phalcon_db_adapterinterface_describecolumns)
   PHP_FE_END
 };
+=======
+#endif /* PHALCON_DB_ADAPTERINTERFACE_H */
+>>>>>>> master:ext/db/adapterinterface.h

@@ -380,4 +380,3 @@ class RequestTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($request->getHeaders(), $headers);
 	}
 }
-

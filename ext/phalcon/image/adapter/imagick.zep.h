@@ -1,4 +1,5 @@
 
+<<<<<<< HEAD:ext/phalcon/image/adapter/imagick.zep.h
 extern zend_class_entry *phalcon_image_adapter_imagick_ce;
 
 ZEPHIR_INIT_CLASS(Phalcon_Image_Adapter_Imagick);
@@ -56,11 +57,34 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_image_adapter_imagick__flip, 0, 0, 1)
 	ZEND_ARG_INFO(0, direction)
 ZEND_END_ARG_INFO()
+=======
+/*
+  +------------------------------------------------------------------------+
+  | Phalcon Framework                                                      |
+  +------------------------------------------------------------------------+
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
+  +------------------------------------------------------------------------+
+  | This source file is subject to the New BSD License that is bundled     |
+  | with this package in the file docs/LICENSE.txt.                        |
+  |                                                                        |
+  | If you did not receive a copy of the license and are unable to         |
+  | obtain it through the world-wide-web, please send an email             |
+  | to license@phalconphp.com so we can send you a copy immediately.       |
+  +------------------------------------------------------------------------+
+  | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
+  |          Eduar Carvajal <eduar@phalconphp.com>                         |
+  |          ZhuZongXin <dreamsxin@qq.com>                                 |
+  |          Vladimir Kolesnikov <vladimir@free-sevastopol.com>            |
+  +------------------------------------------------------------------------+
+*/
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_image_adapter_imagick__sharpen, 0, 0, 1)
-	ZEND_ARG_INFO(0, amount)
-ZEND_END_ARG_INFO()
+#ifndef PHALCON_IMAGE_ADAPTER_IMAGICK_H
+#define PHALCON_IMAGE_ADAPTER_IMAGICK_H
+>>>>>>> master:ext/image/adapter/imagick.h
 
+#include "php_phalcon.h"
+
+<<<<<<< HEAD:ext/phalcon/image/adapter/imagick.zep.h
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_image_adapter_imagick__reflection, 0, 0, 3)
 	ZEND_ARG_INFO(0, height)
 	ZEND_ARG_INFO(0, opacity)
@@ -143,3 +167,10 @@ ZEPHIR_INIT_FUNCS(phalcon_image_adapter_imagick_method_entry) {
 	PHP_ME(Phalcon_Image_Adapter_Imagick, setResourceLimit, arginfo_phalcon_image_adapter_imagick_setresourcelimit, ZEND_ACC_PUBLIC)
   PHP_FE_END
 };
+=======
+extern zend_class_entry *phalcon_image_adapter_imagick_ce;
+
+PHALCON_INIT_CLASS(Phalcon_Image_Adapter_Imagick);
+
+#endif /* PHALCON_IMAGE_ADAPTER_IMAGICK_H */
+>>>>>>> master:ext/image/adapter/imagick.h

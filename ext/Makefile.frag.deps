@@ -1,0 +1,13 @@
+SOURCE_DEPS = $(patsubst %.lo,%.d,$(shared_objects_phalcon))
+
+clean: clean-deps
+
+clean-deps:
+	-rm -f $(SOURCE_DEPS)
+
+%.d : %.c
+	$(CC) -MM -MP -MF"$@" -MT"$(@:%.d=%.lo)" -MT"$@" $(COMMON_FLAGS) "$<"
+
+ifeq (,$(findstring clean,$(MAKECMDGOALS)))
+-include $(SOURCE_DEPS)
+endif

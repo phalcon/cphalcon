@@ -1,4 +1,5 @@
 
+<<<<<<< HEAD:ext/phalcon/http/response.zep.h
 extern zend_class_entry *phalcon_http_response_ce;
 
 ZEPHIR_INIT_CLASS(Phalcon_Http_Response);
@@ -57,11 +58,32 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_response_setheader, 0, 0, 2)
 	ZEND_ARG_INFO(0, name)
 	ZEND_ARG_INFO(0, value)
 ZEND_END_ARG_INFO()
+=======
+/*
+  +------------------------------------------------------------------------+
+  | Phalcon Framework                                                      |
+  +------------------------------------------------------------------------+
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
+  +------------------------------------------------------------------------+
+  | This source file is subject to the New BSD License that is bundled     |
+  | with this package in the file docs/LICENSE.txt.                        |
+  |                                                                        |
+  | If you did not receive a copy of the license and are unable to         |
+  | obtain it through the world-wide-web, please send an email             |
+  | to license@phalconphp.com so we can send you a copy immediately.       |
+  +------------------------------------------------------------------------+
+  | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
+  |          Eduar Carvajal <eduar@phalconphp.com>                         |
+  +------------------------------------------------------------------------+
+*/
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_response_setrawheader, 0, 0, 1)
-	ZEND_ARG_INFO(0, header)
-ZEND_END_ARG_INFO()
+#ifndef PHALCON_HTTP_RESPONSE_H
+#define PHALCON_HTTP_RESPONSE_H
+>>>>>>> master:ext/http/response.h
 
+#include "php_phalcon.h"
+
+<<<<<<< HEAD:ext/phalcon/http/response.zep.h
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_response_setexpires, 0, 0, 1)
 	ZEND_ARG_OBJ_INFO(0, datetime, DateTime, 0)
 ZEND_END_ARG_INFO()
@@ -129,3 +151,10 @@ ZEPHIR_INIT_FUNCS(phalcon_http_response_method_entry) {
 	PHP_ME(Phalcon_Http_Response, setFileToSend, arginfo_phalcon_http_response_setfiletosend, ZEND_ACC_PUBLIC)
   PHP_FE_END
 };
+=======
+extern zend_class_entry *phalcon_http_response_ce;
+
+PHALCON_INIT_CLASS(Phalcon_Http_Response);
+
+#endif /* PHALCON_HTTP_RESPONSE_H */
+>>>>>>> master:ext/http/response.h

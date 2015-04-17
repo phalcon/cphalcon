@@ -1,4 +1,5 @@
 
+<<<<<<< HEAD:ext/phalcon/mvc/micro/collection.zep.h
 extern zend_class_entry *phalcon_mvc_micro_collection_ce;
 
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Micro_Collection);
@@ -107,3 +108,33 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_micro_collection_method_entry) {
 	PHP_ME(Phalcon_Mvc_Micro_Collection, options, arginfo_phalcon_mvc_micro_collection_options, ZEND_ACC_PUBLIC)
   PHP_FE_END
 };
+=======
+/*
+  +------------------------------------------------------------------------+
+  | Phalcon Framework                                                      |
+  +------------------------------------------------------------------------+
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
+  +------------------------------------------------------------------------+
+  | This source file is subject to the New BSD License that is bundled     |
+  | with this package in the file docs/LICENSE.txt.                        |
+  |                                                                        |
+  | If you did not receive a copy of the license and are unable to         |
+  | obtain it through the world-wide-web, please send an email             |
+  | to license@phalconphp.com so we can send you a copy immediately.       |
+  +------------------------------------------------------------------------+
+  | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
+  |          Eduar Carvajal <eduar@phalconphp.com>                         |
+  +------------------------------------------------------------------------+
+*/
+
+#ifndef PHALCON_MVC_MICRO_COLLECTION_H
+#define PHALCON_MVC_MICRO_COLLECTION_H
+
+#include "php_phalcon.h"
+
+extern zend_class_entry *phalcon_mvc_micro_collection_ce;
+
+PHALCON_INIT_CLASS(Phalcon_Mvc_Micro_Collection);
+
+#endif /* PHALCON_MVC_MICRO_COLLECTION_H */
+>>>>>>> master:ext/mvc/micro/collection.h

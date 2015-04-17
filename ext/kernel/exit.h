@@ -3,7 +3,11 @@
   +------------------------------------------------------------------------+
   | Zephir Language                                                        |
   +------------------------------------------------------------------------+
+<<<<<<< HEAD:ext/kernel/exit.h
   | Copyright (c) 2011-2015 Zephir Team (http://www.zephir-lang.com)       |
+=======
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
+>>>>>>> master:ext/logger.h
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -16,6 +20,7 @@
   +------------------------------------------------------------------------+
 */
 
+<<<<<<< HEAD:ext/kernel/exit.h
 #ifndef ZEPHIR_KERNEL_EXIT_H
 #define ZEPHIR_KERNEL_EXIT_H
 
@@ -25,3 +30,26 @@ void zephir_exit_empty();
 void zephir_exit(zval *ptr);
 
 #endif
+=======
+#ifndef PHALCON_LOGGER_H
+#define PHALCON_LOGGER_H
+
+#include "php_phalcon.h"
+
+#define PHALCON_LOGGER_EMERGENCY  0
+#define PHALCON_LOGGER_CRITICAL   1
+#define PHALCON_LOGGER_ALERT      2
+#define PHALCON_LOGGER_ERROR      3
+#define PHALCON_LOGGER_WARNING    4
+#define PHALCON_LOGGER_NOTICE     5
+#define PHALCON_LOGGER_INFO       6
+#define PHALCON_LOGGER_DEBUG      7
+#define PHALCON_LOGGER_CUSTOM     8
+#define PHALCON_LOGGER_SPECIAL    9
+
+extern zend_class_entry *phalcon_logger_ce;
+
+PHALCON_INIT_CLASS(Phalcon_Logger);
+
+#endif /* PHALCON_LOGGER_H */
+>>>>>>> master:ext/logger.h

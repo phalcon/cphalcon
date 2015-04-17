@@ -3,7 +3,11 @@
   +------------------------------------------------------------------------+
   | Zephir Language                                                        |
   +------------------------------------------------------------------------+
+<<<<<<< HEAD
   | Copyright (c) 2011-2015 Zephir Team (http://www.zephir-lang.com)       |
+=======
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
+>>>>>>> master
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -18,11 +22,18 @@
   +------------------------------------------------------------------------+
 */
 
+<<<<<<< HEAD
 #ifndef ZEPHIR_KERNEL_OPERATORS_H
 #define ZEPHIR_KERNEL_OPERATORS_H
 
 #include <php.h>
 #include <Zend/zend.h>
+=======
+#ifndef PHALCON_KERNEL_OPERATORS_H
+#define PHALCON_KERNEL_OPERATORS_H
+
+#include "php_phalcon.h"
+>>>>>>> master
 
 /** Strict comparing */
 #define ZEPHIR_IS_LONG(op1, op2)   ((Z_TYPE_P(op1) == IS_LONG && Z_LVAL_P(op1) == op2) || zephir_compare_strict_long(op1, op2 TSRMLS_CC))
@@ -101,6 +112,7 @@ void zephir_pow_function_ex(zval *return_value, zval *zbase, zval *zexp TSRMLS_D
 #endif
 
 /** Operator functions */
+<<<<<<< HEAD
 int zephir_add_function_ex(zval *result, zval *op1, zval *op2 TSRMLS_DC);
 int zephir_and_function(zval *result, zval *left, zval *right);
 void zephir_negate(zval *z TSRMLS_DC);
@@ -328,3 +340,35 @@ void zephir_pow(zval *return_value, zval *op1, zval *op2 TSRMLS_DC);
 	)
 
 #endif
+=======
+int phalcon_add_function(zval *result, zval *op1, zval *op2 TSRMLS_DC);
+int phalcon_and_function(zval *result, zval *left, zval *right);
+
+void phalcon_concat_self(zval **left, zval *right TSRMLS_DC);
+void phalcon_concat_self_str(zval **left, const char *right, int right_length TSRMLS_DC);
+
+/** Strict comparing */
+int phalcon_compare_strict_string(zval *op1, const char *op2, int op2_length);
+int phalcon_compare_strict_long(zval *op1, long op2 TSRMLS_DC);
+
+void phalcon_cast(zval *result, zval *var, zend_uint type);
+long phalcon_get_intval(const zval *op);
+int phalcon_is_numeric(const zval *op);
+
+int phalcon_is_equal(zval *op1, zval *op2 TSRMLS_DC);
+int phalcon_is_identical(zval *op1, zval *op2 TSRMLS_DC);
+
+int phalcon_less(zval *op1, zval *op2 TSRMLS_DC);
+int phalcon_less_long(zval *op1, long op2 TSRMLS_DC);
+
+int phalcon_greater(zval *op1, zval *op2 TSRMLS_DC);
+int phalcon_greater_long(zval *op1, long op2 TSRMLS_DC);
+
+int phalcon_less_equal(zval *op1, zval *op2 TSRMLS_DC);
+int phalcon_less_equal_long(zval *op1, long op2 TSRMLS_DC);
+
+int phalcon_greater_equal(zval *op1, zval *op2 TSRMLS_DC);
+int phalcon_greater_equal_long(zval *op1, long op2 TSRMLS_DC);
+
+#endif /* PHALCON_KERNEL_OPERATORS_H */
+>>>>>>> master
