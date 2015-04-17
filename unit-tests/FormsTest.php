@@ -185,6 +185,21 @@ class FormsTest extends PHPUnit_Framework_TestCase
 
 		$this->assertEquals(count($form), 2);
 		$this->assertEquals($form->count(), 2);
+
+		$form = new Form();
+
+		$name = new Text("name");
+		$name->addFilter('trim');
+		$name->addValidator(new StringLength(array(
+			'max' => 10
+		)));
+
+		$form->add($name);
+
+		$this->assertTrue($form->isValid(array('name' => 'phalcon    ')));
+
+		$this->assertEquals($form->getValues(), array('name' => 'phalcon'));
+		$this->assertEquals($form->getValues(NULL, Form::VALUES_RAW), array('name' => 'phalcon    '));
 	}
 
 	public function testFormIndirectElementRender()

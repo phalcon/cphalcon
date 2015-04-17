@@ -68,6 +68,7 @@ PHP_METHOD(Phalcon_Forms_Form, get);
 PHP_METHOD(Phalcon_Forms_Form, label);
 PHP_METHOD(Phalcon_Forms_Form, getLabel);
 PHP_METHOD(Phalcon_Forms_Form, getValue);
+PHP_METHOD(Phalcon_Forms_Form, getValues);
 PHP_METHOD(Phalcon_Forms_Form, has);
 PHP_METHOD(Phalcon_Forms_Form, remove);
 PHP_METHOD(Phalcon_Forms_Form, clear);
@@ -107,7 +108,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_form_setentity, 0, 0, 1)
 	ZEND_ARG_INFO(0, entity)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_form_bind, 0, 0, 2)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_form_bind, 0, 0, 1)
 	ZEND_ARG_INFO(0, data)
 	ZEND_ARG_INFO(0, entity)
 	ZEND_ARG_INFO(0, whitelist)
@@ -156,6 +157,12 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_form_getvalue, 0, 0, 1)
 	ZEND_ARG_INFO(0, name)
+	ZEND_ARG_INFO(0, flag)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_form_getvalues, 0, 0, 0)
+	ZEND_ARG_INFO(0, name)
+	ZEND_ARG_INFO(0, flag)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_form_has, 0, 0, 1)
@@ -202,6 +209,7 @@ static const zend_function_entry phalcon_forms_form_method_entry[] = {
 	PHP_ME(Phalcon_Forms_Form, label, arginfo_phalcon_forms_form_label, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Forms_Form, getLabel, arginfo_phalcon_forms_form_getlabel, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Forms_Form, getValue, arginfo_phalcon_forms_form_getvalue, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Forms_Form, getValues, arginfo_phalcon_forms_form_getvalues, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Forms_Form, has, arginfo_phalcon_forms_form_has, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Forms_Form, remove, arginfo_phalcon_forms_form_remove, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Forms_Form, clear, arginfo_phalcon_forms_form_clear, ZEND_ACC_PUBLIC)
@@ -344,10 +352,14 @@ PHALCON_INIT_CLASS(Phalcon_Forms_Form){
 	zend_declare_property_null(phalcon_forms_form_ce, SL("_entity"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_forms_form_ce, SL("_options"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_forms_form_ce, SL("_data"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_forms_form_ce, SL("_filterData"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_forms_form_ce, SL("_elements"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_forms_form_ce, SL("_elementsIndexed"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_forms_form_ce, SL("_messages"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_forms_form_ce, SL("_action"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
+	zend_declare_class_constant_long(phalcon_forms_form_ce, SL("VALUES_RAW"), PHALCON_FROM_VALUES_RAW TSRMLS_CC);
+	zend_declare_class_constant_long(phalcon_forms_form_ce, SL("VALUES_AS_ARRAY"), PHALCON_FROM_VALUES_AS_ARRAY TSRMLS_CC);
 
 	phalcon_forms_form_ce->get_iterator         = phalcon_forms_form_get_iterator;
 	phalcon_forms_form_ce->iterator_funcs.funcs = &phalcon_forms_form_iterator_funcs;
@@ -562,9 +574,9 @@ PHP_METHOD(Phalcon_Forms_Form, getElements){
  */
 PHP_METHOD(Phalcon_Forms_Form, bind){
 
-	zval *data, *entity, *whitelist = NULL, *elements, *filter = NULL;
-	zval *value = NULL, *key = NULL, *element = NULL, *filters = NULL, *service_name = NULL;
-	zval *dependency_injector = NULL, *filtered_value = NULL;
+	zval *data, *entity, *whitelist = NULL, *elements, *service_name, *dependency_injector = NULL, *filter = NULL, *filter_data;
+	zval *value = NULL, *key = NULL, *element = NULL, *filters = NULL;
+	zval *filtered_value = NULL;
 	zval *method = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
@@ -572,7 +584,11 @@ PHP_METHOD(Phalcon_Forms_Form, bind){
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 2, 1, &data, &entity, &whitelist);
+	phalcon_fetch_params(1, 1, 2, &data, &entity, &whitelist);
+
+	if (!entity) {
+		entity = PHALCON_GLOBAL(z_null);
+	}
 
 	if (!whitelist) {
 		whitelist = PHALCON_GLOBAL(z_null);
@@ -586,6 +602,8 @@ PHP_METHOD(Phalcon_Forms_Form, bind){
 		return;
 	}
 
+	PHALCON_CALL_METHOD(NULL, this_ptr, "setentity", entity);
+
 	PHALCON_OBS_VAR(elements);
 	phalcon_read_property_this(&elements, this_ptr, SL("_elements"), PH_NOISY TSRMLS_CC);
 	if (Z_TYPE_P(elements) != IS_ARRAY) {
@@ -593,7 +611,17 @@ PHP_METHOD(Phalcon_Forms_Form, bind){
 		return;
 	}
 
-	PHALCON_INIT_VAR(filter);
+	PHALCON_INIT_VAR(service_name);
+	PHALCON_ZVAL_MAYBE_INTERNED_STRING(service_name, phalcon_interned_filter);
+
+	PHALCON_CALL_METHOD(&dependency_injector, this_ptr, "getdi");
+	PHALCON_VERIFY_INTERFACE(dependency_injector, phalcon_diinterface_ce);
+
+	PHALCON_CALL_METHOD(&filter, dependency_injector, "getshared", service_name);
+	PHALCON_VERIFY_INTERFACE(filter, phalcon_filterinterface_ce);
+
+	PHALCON_INIT_VAR(filter_data);
+	array_init(filter_data);
 
 	phalcon_is_iterable(data, &ah0, &hp0, 0, 0);
 
@@ -628,19 +656,6 @@ PHP_METHOD(Phalcon_Forms_Form, bind){
 		 */
 		PHALCON_CALL_METHOD(&filters, element, "getfilters");
 		if (zend_is_true(filters)) {
-
-			if (Z_TYPE_P(filter) != IS_OBJECT) {
-
-				PHALCON_INIT_NVAR(service_name);
-				PHALCON_ZVAL_MAYBE_INTERNED_STRING(service_name, phalcon_interned_filter);
-
-				PHALCON_CALL_METHOD(&dependency_injector, this_ptr, "getdi");
-				PHALCON_VERIFY_INTERFACE(dependency_injector, phalcon_diinterface_ce);
-
-				PHALCON_CALL_METHOD(&filter, dependency_injector, "getshared", service_name);
-				PHALCON_VERIFY_INTERFACE(filter, phalcon_filterinterface_ce);
-			}
-
 			/**
 			 * Sanitize the filters
 			 */
@@ -649,27 +664,32 @@ PHP_METHOD(Phalcon_Forms_Form, bind){
 			PHALCON_CPY_WRT(filtered_value, value);
 		}
 
-		PHALCON_INIT_NVAR(method);
-		PHALCON_CONCAT_SV(method, "set", key);
-		zend_str_tolower(Z_STRVAL_P(method), Z_STRLEN_P(method));
+		if (Z_TYPE_P(entity) == IS_OBJECT) {
+			PHALCON_INIT_NVAR(method);
+			PHALCON_CONCAT_SV(method, "set", key);
+			zend_str_tolower(Z_STRVAL_P(method), Z_STRLEN_P(method));
 
-		/**
-		 * Use the setter if any available
-		 */
-		if (phalcon_method_exists(entity, method TSRMLS_CC) == SUCCESS) {
-			PHALCON_CALL_METHOD(NULL, entity, Z_STRVAL_P(method), filtered_value);
-			zend_hash_move_forward_ex(ah0, &hp0);
-			continue;
+			/**
+			 * Use the setter if any available
+			 */
+			if (phalcon_method_exists(entity, method TSRMLS_CC) == SUCCESS) {
+				PHALCON_CALL_METHOD(NULL, entity, Z_STRVAL_P(method), filtered_value);
+				zend_hash_move_forward_ex(ah0, &hp0);
+				continue;
+			}
+
+			/**
+			 * Use the public property if it doesn't have a setter
+			 */
+			phalcon_update_property_zval_zval(entity, key, filtered_value TSRMLS_CC);
+		} else {
+			phalcon_array_update_zval(&filter_data, key, filtered_value, PH_COPY);
 		}
-
-		/**
-		 * Use the public property if it doesn't have a setter
-		 */
-		phalcon_update_property_zval_zval(entity, key, filtered_value TSRMLS_CC);
 
 		zend_hash_move_forward_ex(ah0, &hp0);
 	}
 
+	phalcon_update_property_this(this_ptr, SL("_filterData"), filter_data TSRMLS_CC);
 	phalcon_update_property_this(this_ptr, SL("_data"), data TSRMLS_CC);
 
 	PHALCON_MM_RESTORE();
@@ -709,19 +729,11 @@ PHP_METHOD(Phalcon_Forms_Form, isValid){
 		RETURN_MM_TRUE;
 	}
 
-	/**
-	 * If the user doesn't pass an entity we use the one in this_ptr->_entity
-	 */
-	if (Z_TYPE_P(entity) == IS_OBJECT) {
+	if (!PHALCON_IS_EMPTY(data)) {
 		PHALCON_CALL_METHOD(NULL, this_ptr, "bind", data, entity);
 	}
 
-	/**
-	 * If the data is not an array use the one passed previously
-	 */
-	if (Z_TYPE_P(data) != IS_ARRAY) {
-		data = phalcon_fetch_nproperty_this(this_ptr, SL("_data"), PH_NOISY TSRMLS_CC);
-	}
+	data = phalcon_fetch_nproperty_this(this_ptr, SL("_data"), PH_NOISY TSRMLS_CC);
 
 	/**
 	 * Check if there is a method 'beforeValidation'
@@ -1113,14 +1125,75 @@ PHP_METHOD(Phalcon_Forms_Form, getLabel){
  */
 PHP_METHOD(Phalcon_Forms_Form, getValue){
 
-	zval *name, *entity, *method, *value = NULL, *data;
+	zval *name, *flag = NULL;
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 1, 0, &name);
+	phalcon_fetch_params(1, 1, 1, &name, &flag);
+
+	if (!flag) {
+		PHALCON_INIT_VAR(flag);
+		ZVAL_LONG(flag, 0);
+	}
+
+	PHALCON_RETURN_CALL_SELF("getvalues", name, flag);
+
+	RETURN_MM();
+}
+
+/**
+ * Gets a values
+ *
+ * @param string $name
+ * @return mixed
+ */
+PHP_METHOD(Phalcon_Forms_Form, getValues){
+
+	zval *name = NULL, *flag = NULL, *data, *entity, *method, *value = NULL, *filter_data;
+	int f = 0;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 0, 2, &name, &flag);
+
+	if (!name) {
+		name = PHALCON_GLOBAL(z_null);
+	}
+
+	if (flag) {
+		f = phalcon_get_intval(flag);
+	}
+
+	if ((f & PHALCON_FROM_VALUES_RAW) == PHALCON_FROM_VALUES_RAW) {
+		data = phalcon_fetch_nproperty_this(this_ptr, SL("_data"), PH_NOISY TSRMLS_CC);
+		if (PHALCON_IS_EMPTY(name)) {
+			RETURN_CTOR(data);
+		}
+
+		if (Z_TYPE_P(data) == IS_ARRAY) {
+			/**
+			 * Check if the data is in the data array
+			 */
+			if (phalcon_array_isset_fetch(&value, data, name)) {
+				RETURN_CTOR(value);
+			}
+		}
+
+		RETURN_MM_NULL();
+	}
 
 	entity = phalcon_fetch_nproperty_this(this_ptr, SL("_entity"), PH_NOISY TSRMLS_CC);
 	if (Z_TYPE_P(entity) == IS_OBJECT) {
+
+		if (PHALCON_IS_EMPTY(name)) {
+			if ((f & PHALCON_FROM_VALUES_AS_ARRAY) == PHALCON_FROM_VALUES_AS_ARRAY) {
+				PHALCON_RETURN_CALL_FUNCTION("get_object_vars", entity);
+				RETURN_MM();
+			} else {
+				RETURN_CTOR(entity);
+			}
+		}
+
 		/**
 		 * Check if the entity has a getter
 		 */
@@ -1142,13 +1215,12 @@ PHP_METHOD(Phalcon_Forms_Form, getValue){
 		}
 	}
 
-	data = phalcon_fetch_nproperty_this(this_ptr, SL("_data"), PH_NOISY TSRMLS_CC);
-	if (Z_TYPE_P(data) == IS_ARRAY) {
+	filter_data = phalcon_fetch_nproperty_this(this_ptr, SL("_filterData"), PH_NOISY TSRMLS_CC);
 
-		/**
-		 * Check if the data is in the data array
-		 */
-		if (phalcon_array_isset_fetch(&value, data, name)) {
+	if (PHALCON_IS_EMPTY(name)) {
+		RETURN_CTOR(filter_data);
+	} else if (Z_TYPE_P(filter_data) == IS_ARRAY) {
+		if (phalcon_array_isset_fetch(&value, filter_data, name)) {
 			RETURN_CTOR(value);
 		}
 	}

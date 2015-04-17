@@ -22,6 +22,9 @@
 
 #include "php_phalcon.h"
 
+#define PHALCON_FROM_VALUES_RAW	1
+#define PHALCON_FROM_VALUES_AS_ARRAY	2
+
 extern zend_class_entry *phalcon_forms_form_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Forms_Form);
