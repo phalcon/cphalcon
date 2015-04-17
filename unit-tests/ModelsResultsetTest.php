@@ -542,5 +542,49 @@ class ModelsResultsetTest extends PHPUnit_Framework_TestCase
 
 		$this->assertFalse(isset($robots[0]));
 	}
+	
+	public function testResultsetAppendIterator()
+	{
+		if (!$this->_prepareTestMysql()) {
+			$this->markTestSkipped("Skipped");
+			return;
+		}
+		
+		// see http://php.net/manual/en/appenditerator.construct.php
+		$iterator = new \AppendIterator();
+		$robots_first = Robots::find(array('limit' => 2));
+		$robots_second = Robots::find(array('limit' => 1, 'offset' => 2));
+		
+		$robots_first_0 = $robots_first[0];
+		$robots_first_1 = $robots_first[1];
+		$robots_second_0 = $robots_second[0];
+		
+		$iterator->append($robots_first);
+		$iterator->append($robots_second);
+		
+		$iterator->rewind();
+		$this->assertTrue($iterator->valid());
+		$this->assertEquals($iterator->key(), 0);
+		$this->assertEquals($iterator->getIteratorIndex(), 0);
+		$this->assertEquals(get_class($iterator->current()), 'Robots');
+		$this->assertEquals($robots_first_0->name, $iterator->current()->name);
+		
+		$iterator->next();
+		$this->assertTrue($iterator->valid());
+		$this->assertEquals($iterator->key(), 1);
+		$this->assertEquals($iterator->getIteratorIndex(), 0);
+		$this->assertEquals(get_class($iterator->current()), 'Robots');
+		$this->assertEquals($robots_first_1->name, $iterator->current()->name);
+		
+		$iterator->next();
+		$this->assertTrue($iterator->valid());
+		$this->assertEquals($iterator->key(), 0);
+		$this->assertEquals($iterator->getIteratorIndex(), 1);
+		$this->assertEquals(get_class($iterator->current()), 'Robots');
+		$this->assertEquals($robots_second_0->name, $iterator->current()->name);
+		
+		$iterator->next();
+		$this->assertFalse($iterator->valid());
+	}
 
 }
