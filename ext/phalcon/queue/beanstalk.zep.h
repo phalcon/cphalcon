@@ -1,5 +1,4 @@
 
-<<<<<<< HEAD:ext/phalcon/queue/beanstalk.zep.h
 extern zend_class_entry *phalcon_queue_beanstalk_ce;
 
 ZEPHIR_INIT_CLASS(Phalcon_Queue_Beanstalk);
@@ -20,34 +19,28 @@ PHP_METHOD(Phalcon_Queue_Beanstalk, disconnect);
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_queue_beanstalk___construct, 0, 0, 0)
 	ZEND_ARG_INFO(0, options)
 ZEND_END_ARG_INFO()
-=======
-/*
-  +------------------------------------------------------------------------+
-  | Phalcon Framework                                                      |
-  +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
-  +------------------------------------------------------------------------+
-  | This source file is subject to the New BSD License that is bundled     |
-  | with this package in the file docs/LICENSE.txt.                        |
-  |                                                                        |
-  | If you did not receive a copy of the license and are unable to         |
-  | obtain it through the world-wide-web, please send an email             |
-  | to license@phalconphp.com so we can send you a copy immediately.       |
-  +------------------------------------------------------------------------+
-  | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
-  |          Eduar Carvajal <eduar@phalconphp.com>                         |
-  +------------------------------------------------------------------------+
-*/
 
-#ifndef PHALCON_QUEUE_BEANSTALK_H
-#define PHALCON_QUEUE_BEANSTALK_H
->>>>>>> master:ext/queue/beanstalk.h
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_queue_beanstalk_put, 0, 0, 1)
+	ZEND_ARG_INFO(0, data)
+	ZEND_ARG_INFO(0, options)
+ZEND_END_ARG_INFO()
 
-#include "php_phalcon.h"
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_queue_beanstalk_reserve, 0, 0, 0)
+	ZEND_ARG_INFO(0, timeout)
+ZEND_END_ARG_INFO()
 
-extern zend_class_entry *phalcon_queue_beanstalk_ce;
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_queue_beanstalk_choose, 0, 0, 1)
+	ZEND_ARG_INFO(0, tube)
+ZEND_END_ARG_INFO()
 
-<<<<<<< HEAD:ext/phalcon/queue/beanstalk.zep.h
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_queue_beanstalk_watch, 0, 0, 1)
+	ZEND_ARG_INFO(0, tube)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_queue_beanstalk_read, 0, 0, 0)
+	ZEND_ARG_INFO(0, length)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_queue_beanstalk_write, 0, 0, 1)
 	ZEND_ARG_INFO(0, data)
 ZEND_END_ARG_INFO()
@@ -67,8 +60,3 @@ ZEPHIR_INIT_FUNCS(phalcon_queue_beanstalk_method_entry) {
 	PHP_ME(Phalcon_Queue_Beanstalk, disconnect, NULL, ZEND_ACC_PUBLIC)
   PHP_FE_END
 };
-=======
-PHALCON_INIT_CLASS(Phalcon_Queue_Beanstalk);
-
-#endif /* PHALCON_QUEUE_BEANSTALK_H */
->>>>>>> master:ext/queue/beanstalk.h

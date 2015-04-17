@@ -1,5 +1,4 @@
 
-<<<<<<< HEAD:ext/phalcon/mvc/router/route.zep.h
 extern zend_class_entry *phalcon_mvc_router_route_ce;
 
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Router_Route);
@@ -102,33 +101,3 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_router_route_method_entry) {
 	PHP_ME(Phalcon_Mvc_Router_Route, reset, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
   PHP_FE_END
 };
-=======
-/*
-  +------------------------------------------------------------------------+
-  | Phalcon Framework                                                      |
-  +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
-  +------------------------------------------------------------------------+
-  | This source file is subject to the New BSD License that is bundled     |
-  | with this package in the file docs/LICENSE.txt.                        |
-  |                                                                        |
-  | If you did not receive a copy of the license and are unable to         |
-  | obtain it through the world-wide-web, please send an email             |
-  | to license@phalconphp.com so we can send you a copy immediately.       |
-  +------------------------------------------------------------------------+
-  | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
-  |          Eduar Carvajal <eduar@phalconphp.com>                         |
-  +------------------------------------------------------------------------+
-*/
-
-#ifndef PHALCON_MVC_ROUTER_ROUTE_H
-#define PHALCON_MVC_ROUTER_ROUTE_H
-
-#include "php_phalcon.h"
-
-extern zend_class_entry *phalcon_mvc_router_route_ce;
-
-PHALCON_INIT_CLASS(Phalcon_Mvc_Router_Route);
-
-#endif /* PHALCON_MVC_ROUTER_ROUTE_H */
->>>>>>> master:ext/mvc/router/route.h

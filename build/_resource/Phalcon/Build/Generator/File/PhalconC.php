@@ -53,11 +53,7 @@ class Generator_File_PhalconC
         $this->configDir = $configDir;
         $this->sourceDir = $sourceDir;
 
-<<<<<<< HEAD
         $this->outputFile = $outputDir . '/phalcon.zep.c';
-=======
-        $this->outputFile = $outputDir . '/phalcon.c';
->>>>>>> master
     }
 
     /**
@@ -185,11 +181,7 @@ class Generator_File_PhalconC
 
             // Skip unneeded lines
             if ((strncmp($line, '#include "', 10) == 0)
-<<<<<<< HEAD
                 || (strncmp($line, 'ZEPHIR_DOC_METHOD', 18) == 0)
-=======
-                || (strncmp($line, 'PHALCON_DOC_METHOD', 18) == 0)
->>>>>>> master
                 || (strncmp($line, '#line ', 6) == 0)
             ) {
                 continue;
@@ -323,11 +315,7 @@ class Generator_File_PhalconC
     {
         $resContent = '';
 
-<<<<<<< HEAD
         $prefixes = array('zephir', 'phalcon', 'phannot', 'phvolt', 'phql');
-=======
-        $prefixes = array('phalcon', 'phannot', 'phvolt', 'phql');
->>>>>>> master
         foreach (file($this->outputFile) as $line) {
 
             $modified = true;
@@ -362,8 +350,4 @@ class Generator_File_PhalconC
 
         file_put_contents($this->outputFile, $resContent);
     }
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> master

@@ -1,5 +1,4 @@
 
-<<<<<<< HEAD:ext/phalcon/acl/adapter/memory.zep.h
 extern zend_class_entry *phalcon_acl_adapter_memory_ce;
 
 ZEPHIR_INIT_CLASS(Phalcon_Acl_Adapter_Memory);
@@ -32,32 +31,11 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_acl_adapter_memory_isrole, 0, 0, 1)
 	ZEND_ARG_INFO(0, roleName)
 ZEND_END_ARG_INFO()
-=======
-/*
-  +------------------------------------------------------------------------+
-  | Phalcon Framework                                                      |
-  +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
-  +------------------------------------------------------------------------+
-  | This source file is subject to the New BSD License that is bundled     |
-  | with this package in the file docs/LICENSE.txt.                        |
-  |                                                                        |
-  | If you did not receive a copy of the license and are unable to         |
-  | obtain it through the world-wide-web, please send an email             |
-  | to license@phalconphp.com so we can send you a copy immediately.       |
-  +------------------------------------------------------------------------+
-  | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
-  |          Eduar Carvajal <eduar@phalconphp.com>                         |
-  +------------------------------------------------------------------------+
-*/
 
-#ifndef PHALCON_ACL_ADAPTER_MEMORY_H
-#define PHALCON_ACL_ADAPTER_MEMORY_H
->>>>>>> master:ext/acl/adapter/memory.h
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_acl_adapter_memory_isresource, 0, 0, 1)
+	ZEND_ARG_INFO(0, resourceName)
+ZEND_END_ARG_INFO()
 
-#include "php_phalcon.h"
-
-<<<<<<< HEAD:ext/phalcon/acl/adapter/memory.zep.h
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_acl_adapter_memory_addresource, 0, 0, 2)
 	ZEND_ARG_INFO(0, resourceValue)
 	ZEND_ARG_INFO(0, accessList)
@@ -115,10 +93,3 @@ ZEPHIR_INIT_FUNCS(phalcon_acl_adapter_memory_method_entry) {
 	PHP_ME(Phalcon_Acl_Adapter_Memory, getResources, NULL, ZEND_ACC_PUBLIC)
   PHP_FE_END
 };
-=======
-extern zend_class_entry *phalcon_acl_adapter_memory_ce;
-
-PHALCON_INIT_CLASS(Phalcon_Acl_Adapter_Memory);
-
-#endif /* PHALCON_ACL_ADAPTER_MEMORY_H */
->>>>>>> master:ext/acl/adapter/memory.h

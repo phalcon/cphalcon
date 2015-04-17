@@ -1,36 +1,10 @@
 
-<<<<<<< HEAD:ext/phalcon/mvc/model/query/builderinterface.zep.h
-=======
-/*
-  +------------------------------------------------------------------------+
-  | Phalcon Framework                                                      |
-  +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
-  +------------------------------------------------------------------------+
-  | This source file is subject to the New BSD License that is bundled     |
-  | with this package in the file docs/LICENSE.txt.                        |
-  |                                                                        |
-  | If you did not receive a copy of the license and are unable to         |
-  | obtain it through the world-wide-web, please send an email             |
-  | to license@phalconphp.com so we can send you a copy immediately.       |
-  +------------------------------------------------------------------------+
-  | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
-  |          Eduar Carvajal <eduar@phalconphp.com>                         |
-  +------------------------------------------------------------------------+
-*/
-
-#ifndef PHALCON_MVC_MODEL_QUERY_BUILDERINTERFACE_H
-#define PHALCON_MVC_MODEL_QUERY_BUILDERINTERFACE_H
-
-#include "php_phalcon.h"
-
->>>>>>> master:ext/mvc/model/query/builderinterface.h
 extern zend_class_entry *phalcon_mvc_model_query_builderinterface_ce;
 
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Query_BuilderInterface);
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_query_builderinterface_distinct, 0, 0, 1)
-	ZEND_ARG_INFO(0, distinct)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_query_builderinterface___construct, 0, 0, 0)
+	ZEND_ARG_INFO(0, params)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_query_builderinterface_columns, 0, 0, 1)
@@ -127,7 +101,6 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_query_builderinterface_groupby,
 	ZEND_ARG_INFO(0, group)
 ZEND_END_ARG_INFO()
 
-<<<<<<< HEAD:ext/phalcon/mvc/model/query/builderinterface.zep.h
 ZEPHIR_INIT_FUNCS(phalcon_mvc_model_query_builderinterface_method_entry) {
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_Query_BuilderInterface, __construct, arginfo_phalcon_mvc_model_query_builderinterface___construct)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_Query_BuilderInterface, columns, arginfo_phalcon_mvc_model_query_builderinterface_columns)
@@ -159,6 +132,3 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_model_query_builderinterface_method_entry) {
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_Query_BuilderInterface, getQuery, NULL)
   PHP_FE_END
 };
-=======
-#endif /* PHALCON_MVC_MODEL_QUERY_BUILDERINTERFACE_H */
->>>>>>> master:ext/mvc/model/query/builderinterface.h

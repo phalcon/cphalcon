@@ -69,12 +69,7 @@ class Generator_Safe
         $this->phalconH = new Generator_File_PhalconH($this->sourceDir, $outputDir);
         $this->phalconC = new Generator_File_PhalconC($rootDir, $this->sourceDir, $configDir, $outputDir);
         $this->configM4 = new Generator_File_ConfigM4($this->sourceDir, $outputDir);
-<<<<<<< HEAD
         //$this->configW32 = new Generator_File_ConfigW32($this->sourceDir, $outputDir);
-=======
-        $this->configW32 = new Generator_File_ConfigW32($this->sourceDir, $outputDir);
-        $this->makefileFrag = new Generator_File_MakefileFrag($this->sourceDir, $outputDir);
->>>>>>> master
     }
 
     /**
@@ -99,7 +94,6 @@ class Generator_Safe
         $this->phalconC->generate($includedHeaderFiles);
 
         $this->configM4->generate();
-<<<<<<< HEAD
         //$this->configW32->generate();
 
         copy($this->sourceDir . '/php_phalcon.h', $this->outputDir . '/php_phalcon.h');
@@ -123,11 +117,3 @@ class Generator_Safe
         file_put_contents($this->outputDir . '/php_phalcon.h', join('', $lines));
     }
 }
-=======
-        $this->configW32->generate();
-        $this->makefileFrag->generate();
-
-        copy($this->sourceDir . '/php_phalcon.h', $this->outputDir . '/php_phalcon.h');
-    }
-}
->>>>>>> master

@@ -1,30 +1,4 @@
 
-<<<<<<< HEAD:ext/phalcon/dispatcherinterface.zep.h
-=======
-/*
-  +------------------------------------------------------------------------+
-  | Phalcon Framework                                                      |
-  +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
-  +------------------------------------------------------------------------+
-  | This source file is subject to the New BSD License that is bundled     |
-  | with this package in the file docs/LICENSE.txt.                        |
-  |                                                                        |
-  | If you did not receive a copy of the license and are unable to         |
-  | obtain it through the world-wide-web, please send an email             |
-  | to license@phalconphp.com so we can send you a copy immediately.       |
-  +------------------------------------------------------------------------+
-  | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
-  |          Eduar Carvajal <eduar@phalconphp.com>                         |
-  +------------------------------------------------------------------------+
-*/
-
-#ifndef PHALCON_DISPATCHERINTERFACE_H
-#define PHALCON_DISPATCHERINTERFACE_H
-
-#include "php_phalcon.h"
-
->>>>>>> master:ext/dispatcherinterface.h
 extern zend_class_entry *phalcon_dispatcherinterface_ce;
 
 ZEPHIR_INIT_CLASS(Phalcon_DispatcherInterface);
@@ -71,7 +45,6 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_dispatcherinterface_forward, 0, 0, 1)
 	ZEND_ARG_INFO(0, forward)
 ZEND_END_ARG_INFO()
 
-<<<<<<< HEAD:ext/phalcon/dispatcherinterface.zep.h
 ZEPHIR_INIT_FUNCS(phalcon_dispatcherinterface_method_entry) {
 	PHP_ABSTRACT_ME(Phalcon_DispatcherInterface, setActionSuffix, arginfo_phalcon_dispatcherinterface_setactionsuffix)
 	PHP_ABSTRACT_ME(Phalcon_DispatcherInterface, setDefaultNamespace, arginfo_phalcon_dispatcherinterface_setdefaultnamespace)
@@ -90,6 +63,3 @@ ZEPHIR_INIT_FUNCS(phalcon_dispatcherinterface_method_entry) {
 	PHP_ABSTRACT_ME(Phalcon_DispatcherInterface, forward, arginfo_phalcon_dispatcherinterface_forward)
   PHP_FE_END
 };
-=======
-#endif /* PHALCON_DISPATCHERINTERFACE_H */
->>>>>>> master:ext/dispatcherinterface.h

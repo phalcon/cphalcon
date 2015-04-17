@@ -1,5 +1,4 @@
 
-<<<<<<< HEAD:ext/phalcon/cache/backend/memcache.zep.h
 extern zend_class_entry *phalcon_cache_backend_memcache_ce;
 
 ZEPHIR_INIT_CLASS(Phalcon_Cache_Backend_Memcache);
@@ -19,34 +18,32 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cache_backend_memcache___construct, 0, 0,
 	ZEND_ARG_OBJ_INFO(0, frontend, Phalcon\\Cache\\FrontendInterface, 0)
 	ZEND_ARG_INFO(0, options)
 ZEND_END_ARG_INFO()
-=======
-/*
-  +------------------------------------------------------------------------+
-  | Phalcon Framework                                                      |
-  +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
-  +------------------------------------------------------------------------+
-  | This source file is subject to the New BSD License that is bundled     |
-  | with this package in the file docs/LICENSE.txt.                        |
-  |                                                                        |
-  | If you did not receive a copy of the license and are unable to         |
-  | obtain it through the world-wide-web, please send an email             |
-  | to license@phalconphp.com so we can send you a copy immediately.       |
-  +------------------------------------------------------------------------+
-  | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
-  |          Eduar Carvajal <eduar@phalconphp.com>                         |
-  +------------------------------------------------------------------------+
-*/
 
-#ifndef PHALCON_CACHE_BACKEND_MEMCACHE_H
-#define PHALCON_CACHE_BACKEND_MEMCACHE_H
->>>>>>> master:ext/cache/backend/memcache.h
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cache_backend_memcache_get, 0, 0, 1)
+	ZEND_ARG_INFO(0, keyName)
+	ZEND_ARG_INFO(0, lifetime)
+ZEND_END_ARG_INFO()
 
-#include "php_phalcon.h"
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cache_backend_memcache_save, 0, 0, 0)
+	ZEND_ARG_INFO(0, keyName)
+	ZEND_ARG_INFO(0, content)
+	ZEND_ARG_INFO(0, lifetime)
+	ZEND_ARG_INFO(0, stopBuffer)
+ZEND_END_ARG_INFO()
 
-extern zend_class_entry *phalcon_cache_backend_memcache_ce;
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cache_backend_memcache_delete, 0, 0, 1)
+	ZEND_ARG_INFO(0, keyName)
+ZEND_END_ARG_INFO()
 
-<<<<<<< HEAD:ext/phalcon/cache/backend/memcache.zep.h
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cache_backend_memcache_querykeys, 0, 0, 0)
+	ZEND_ARG_INFO(0, prefix)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cache_backend_memcache_exists, 0, 0, 0)
+	ZEND_ARG_INFO(0, keyName)
+	ZEND_ARG_INFO(0, lifetime)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cache_backend_memcache_increment, 0, 0, 0)
 	ZEND_ARG_INFO(0, keyName)
 	ZEND_ARG_INFO(0, value)
@@ -70,8 +67,3 @@ ZEPHIR_INIT_FUNCS(phalcon_cache_backend_memcache_method_entry) {
 	PHP_ME(Phalcon_Cache_Backend_Memcache, flush, NULL, ZEND_ACC_PUBLIC)
   PHP_FE_END
 };
-=======
-PHALCON_INIT_CLASS(Phalcon_Cache_Backend_Memcache);
-
-#endif /* PHALCON_CACHE_BACKEND_MEMCACHE_H */
->>>>>>> master:ext/cache/backend/memcache.h

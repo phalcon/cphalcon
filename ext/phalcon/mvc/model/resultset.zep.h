@@ -1,5 +1,4 @@
 
-<<<<<<< HEAD:ext/phalcon/mvc/model/resultset.zep.h
 extern zend_class_entry *phalcon_mvc_model_resultset_ce;
 
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Resultset);
@@ -26,37 +25,31 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, getMessages);
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, update);
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, delete);
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, filter);
-=======
-/*
-  +------------------------------------------------------------------------+
-  | Phalcon Framework                                                      |
-  +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
-  +------------------------------------------------------------------------+
-  | This source file is subject to the New BSD License that is bundled     |
-  | with this package in the file docs/LICENSE.txt.                        |
-  |                                                                        |
-  | If you did not receive a copy of the license and are unable to         |
-  | obtain it through the world-wide-web, please send an email             |
-  | to license@phalconphp.com so we can send you a copy immediately.       |
-  +------------------------------------------------------------------------+
-  | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
-  |          Eduar Carvajal <eduar@phalconphp.com>                         |
-  +------------------------------------------------------------------------+
-*/
 
-#ifndef PHALCON_MVC_MODEL_RESULTSET_H
-#define PHALCON_MVC_MODEL_RESULTSET_H
->>>>>>> master:ext/mvc/model/resultset.h
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_resultset_seek, 0, 0, 1)
+	ZEND_ARG_INFO(0, position)
+ZEND_END_ARG_INFO()
 
-#include "php_phalcon.h"
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_resultset_offsetexists, 0, 0, 1)
+	ZEND_ARG_INFO(0, index)
+ZEND_END_ARG_INFO()
 
-extern zend_class_entry *phalcon_mvc_model_resultset_ce;
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_resultset_offsetget, 0, 0, 1)
+	ZEND_ARG_INFO(0, index)
+ZEND_END_ARG_INFO()
 
-PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Resultset);
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_resultset_offsetset, 0, 0, 2)
+	ZEND_ARG_INFO(0, index)
+	ZEND_ARG_INFO(0, value)
+ZEND_END_ARG_INFO()
 
-#define PHALCON_MVC_MODEL_RESULTSET_TYPE_FULL       0
-#define PHALCON_MVC_MODEL_RESULTSET_TYPE_PARTIAL    1
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_resultset_offsetunset, 0, 0, 1)
+	ZEND_ARG_INFO(0, offset)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_resultset_setisfresh, 0, 0, 1)
+	ZEND_ARG_INFO(0, isFresh)
+ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_resultset_sethydratemode, 0, 0, 1)
 	ZEND_ARG_INFO(0, hydrateMode)
@@ -75,7 +68,6 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_resultset_filter, 0, 0, 1)
 	ZEND_ARG_INFO(0, filter)
 ZEND_END_ARG_INFO()
 
-<<<<<<< HEAD:ext/phalcon/mvc/model/resultset.zep.h
 ZEPHIR_INIT_FUNCS(phalcon_mvc_model_resultset_method_entry) {
 	PHP_ME(Phalcon_Mvc_Model_Resultset, next, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Resultset, key, NULL, ZEND_ACC_PUBLIC)
@@ -101,6 +93,3 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_model_resultset_method_entry) {
 	PHP_ME(Phalcon_Mvc_Model_Resultset, filter, arginfo_phalcon_mvc_model_resultset_filter, ZEND_ACC_PUBLIC)
   PHP_FE_END
 };
-=======
-#endif /* PHALCON_MVC_MODEL_RESULTSET_H */
->>>>>>> master:ext/mvc/model/resultset.h

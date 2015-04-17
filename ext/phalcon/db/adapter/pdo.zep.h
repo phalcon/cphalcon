@@ -1,5 +1,4 @@
 
-<<<<<<< HEAD:ext/phalcon/db/adapter/pdo.zep.h
 extern zend_class_entry *phalcon_db_adapter_pdo_ce;
 
 ZEPHIR_INIT_CLASS(Phalcon_Db_Adapter_Pdo);
@@ -47,32 +46,13 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_pdo_query, 0, 0, 1)
 	ZEND_ARG_INFO(0, bindParams)
 	ZEND_ARG_INFO(0, bindTypes)
 ZEND_END_ARG_INFO()
-=======
-/*
-  +------------------------------------------------------------------------+
-  | Phalcon Framework                                                      |
-  +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
-  +------------------------------------------------------------------------+
-  | This source file is subject to the New BSD License that is bundled     |
-  | with this package in the file docs/LICENSE.txt.                        |
-  |                                                                        |
-  | If you did not receive a copy of the license and are unable to         |
-  | obtain it through the world-wide-web, please send an email             |
-  | to license@phalconphp.com so we can send you a copy immediately.       |
-  +------------------------------------------------------------------------+
-  | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
-  |          Eduar Carvajal <eduar@phalconphp.com>                         |
-  +------------------------------------------------------------------------+
-*/
 
-#ifndef PHALCON_DB_ADAPTER_PDO_H
-#define PHALCON_DB_ADAPTER_PDO_H
->>>>>>> master:ext/db/adapter/pdo.h
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_pdo_execute, 0, 0, 1)
+	ZEND_ARG_INFO(0, sqlStatement)
+	ZEND_ARG_INFO(0, bindParams)
+	ZEND_ARG_INFO(0, bindTypes)
+ZEND_END_ARG_INFO()
 
-#include "php_phalcon.h"
-
-<<<<<<< HEAD:ext/phalcon/db/adapter/pdo.zep.h
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_pdo_escapeidentifier, 0, 0, 1)
 	ZEND_ARG_INFO(0, identifier)
 ZEND_END_ARG_INFO()
@@ -124,10 +104,3 @@ ZEPHIR_INIT_FUNCS(phalcon_db_adapter_pdo_method_entry) {
 	PHP_ME(Phalcon_Db_Adapter_Pdo, getErrorInfo, NULL, ZEND_ACC_PUBLIC)
   PHP_FE_END
 };
-=======
-extern zend_class_entry *phalcon_db_adapter_pdo_ce;
-
-PHALCON_INIT_CLASS(Phalcon_Db_Adapter_Pdo);
-
-#endif /* PHALCON_DB_ADAPTER_PDO_H */
->>>>>>> master:ext/db/adapter/pdo.h

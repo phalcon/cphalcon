@@ -420,7 +420,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getCallArgument) {
 
 
 	zephir_array_fetch_string(&_0, argument, SL("type"), PH_NOISY | PH_READONLY, "phalcon/mvc/model/query.zep", 326 TSRMLS_CC);
-	if (ZEPHIR_IS_LONG(_0, 352)) {
+	if (ZEPHIR_IS_LONG(_0, 337)) {
 		zephir_create_array(return_value, 1, 0 TSRMLS_CC);
 		add_assoc_stringl_ex(return_value, SS("type"), SL("all"), 1);
 		RETURN_MM();
@@ -966,7 +966,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getSelectColumn) {
 	}
 	ZEPHIR_INIT_VAR(sqlColumns);
 	array_init(sqlColumns);
-	if (ZEPHIR_IS_LONG(columnType, 352)) {
+	if (ZEPHIR_IS_LONG(columnType, 337)) {
 		_0 = zephir_fetch_nproperty_this(this_ptr, SL("_models"), PH_NOISY_CC);
 		zephir_is_iterable(_0, &_2, &_1, 0, 0, "phalcon/mvc/model/query.zep", 643);
 		for (

@@ -1,30 +1,4 @@
 
-<<<<<<< HEAD:ext/phalcon/forms/elementinterface.zep.h
-=======
-/*
-  +------------------------------------------------------------------------+
-  | Phalcon Framework                                                      |
-  +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
-  +------------------------------------------------------------------------+
-  | This source file is subject to the New BSD License that is bundled     |
-  | with this package in the file docs/LICENSE.txt.                        |
-  |                                                                        |
-  | If you did not receive a copy of the license and are unable to         |
-  | obtain it through the world-wide-web, please send an email             |
-  | to license@phalconphp.com so we can send you a copy immediately.       |
-  +------------------------------------------------------------------------+
-  | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
-  |          Eduar Carvajal <eduar@phalconphp.com>                         |
-  +------------------------------------------------------------------------+
-*/
-
-#ifndef PHALCON_FORMS_ELEMENTINTERFACE_H
-#define PHALCON_FORMS_ELEMENTINTERFACE_H
-
-#include "php_phalcon.h"
-
->>>>>>> master:ext/forms/elementinterface.h
 extern zend_class_entry *phalcon_forms_elementinterface_ce;
 
 ZEPHIR_INIT_CLASS(Phalcon_Forms_ElementInterface);
@@ -107,7 +81,6 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_elementinterface_render, 0, 0, 0)
 	ZEND_ARG_INFO(0, attributes)
 ZEND_END_ARG_INFO()
 
-<<<<<<< HEAD:ext/phalcon/forms/elementinterface.zep.h
 ZEPHIR_INIT_FUNCS(phalcon_forms_elementinterface_method_entry) {
 	PHP_ABSTRACT_ME(Phalcon_Forms_ElementInterface, setForm, arginfo_phalcon_forms_elementinterface_setform)
 	PHP_ABSTRACT_ME(Phalcon_Forms_ElementInterface, getForm, NULL)
@@ -142,6 +115,3 @@ ZEPHIR_INIT_FUNCS(phalcon_forms_elementinterface_method_entry) {
 	PHP_ABSTRACT_ME(Phalcon_Forms_ElementInterface, render, arginfo_phalcon_forms_elementinterface_render)
   PHP_FE_END
 };
-=======
-#endif /* PHALCON_FORMS_ELEMENTINTERFACE_H */
->>>>>>> master:ext/forms/elementinterface.h

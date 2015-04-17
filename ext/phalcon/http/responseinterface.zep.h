@@ -1,30 +1,4 @@
 
-<<<<<<< HEAD:ext/phalcon/http/responseinterface.zep.h
-=======
-/*
-  +------------------------------------------------------------------------+
-  | Phalcon Framework                                                      |
-  +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
-  +------------------------------------------------------------------------+
-  | This source file is subject to the New BSD License that is bundled     |
-  | with this package in the file docs/LICENSE.txt.                        |
-  |                                                                        |
-  | If you did not receive a copy of the license and are unable to         |
-  | obtain it through the world-wide-web, please send an email             |
-  | to license@phalconphp.com so we can send you a copy immediately.       |
-  +------------------------------------------------------------------------+
-  | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
-  |          Eduar Carvajal <eduar@phalconphp.com>                         |
-  +------------------------------------------------------------------------+
-*/
-
-#ifndef PHALCON_HTTP_RESPONSEINTERFACE_H
-#define PHALCON_HTTP_RESPONSEINTERFACE_H
-
-#include "php_phalcon.h"
-
->>>>>>> master:ext/http/responseinterface.h
 extern zend_class_entry *phalcon_http_responseinterface_ce;
 
 ZEPHIR_INIT_CLASS(Phalcon_Http_ResponseInterface);
@@ -75,7 +49,6 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_responseinterface_setfiletosend, 0, 
 	ZEND_ARG_INFO(0, attachmentName)
 ZEND_END_ARG_INFO()
 
-<<<<<<< HEAD:ext/phalcon/http/responseinterface.zep.h
 ZEPHIR_INIT_FUNCS(phalcon_http_responseinterface_method_entry) {
 	PHP_ABSTRACT_ME(Phalcon_Http_ResponseInterface, setStatusCode, arginfo_phalcon_http_responseinterface_setstatuscode)
 	PHP_ABSTRACT_ME(Phalcon_Http_ResponseInterface, getHeaders, NULL)
@@ -96,6 +69,3 @@ ZEPHIR_INIT_FUNCS(phalcon_http_responseinterface_method_entry) {
 	PHP_ABSTRACT_ME(Phalcon_Http_ResponseInterface, setFileToSend, arginfo_phalcon_http_responseinterface_setfiletosend)
   PHP_FE_END
 };
-=======
-#endif /* PHALCON_HTTP_RESPONSEINTERFACE_H */
->>>>>>> master:ext/http/responseinterface.h

@@ -1,36 +1,7 @@
 
-<<<<<<< HEAD:ext/phalcon/mvc/modelinterface.zep.h
 extern zend_class_entry *phalcon_mvc_modelinterface_ce;
 
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_ModelInterface);
-=======
-/*
-  +------------------------------------------------------------------------+
-  | Phalcon Framework                                                      |
-  +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
-  +------------------------------------------------------------------------+
-  | This source file is subject to the New BSD License that is bundled     |
-  | with this package in the file docs/LICENSE.txt.                        |
-  |                                                                        |
-  | If you did not receive a copy of the license and are unable to         |
-  | obtain it through the world-wide-web, please send an email             |
-  | to license@phalconphp.com so we can send you a copy immediately.       |
-  +------------------------------------------------------------------------+
-  | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
-  |          Eduar Carvajal <eduar@phalconphp.com>                         |
-  +------------------------------------------------------------------------+
-*/
-
-#ifndef PHALCON_MVC_MODELINTERFACE_H
-#define PHALCON_MVC_MODELINTERFACE_H
-
-#include "php_phalcon.h"
-
-extern zend_class_entry *phalcon_mvc_modelinterface_ce;
-
-PHALCON_INIT_CLASS(Phalcon_Mvc_ModelInterface);
->>>>>>> master:ext/mvc/modelinterface.h
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_modelinterface_settransaction, 0, 0, 1)
 	ZEND_ARG_OBJ_INFO(0, transaction, Phalcon\\Mvc\\Model\\TransactionInterface, 0)
@@ -155,7 +126,6 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_modelinterface_getrelated, 0, 0, 1)
 	ZEND_ARG_INFO(0, arguments)
 ZEND_END_ARG_INFO()
 
-<<<<<<< HEAD:ext/phalcon/mvc/modelinterface.zep.h
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_modelinterface_setsnapshotdata, 0, 0, 1)
 	ZEND_ARG_ARRAY_INFO(0, data, 0)
 	ZEND_ARG_INFO(0, columnMap)
@@ -205,6 +175,3 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_modelinterface_method_entry) {
 	PHP_ABSTRACT_ME(Phalcon_Mvc_ModelInterface, reset, NULL)
   PHP_FE_END
 };
-=======
-#endif /* PHALCON_MVC_MODELINTERFACE_H */
->>>>>>> master:ext/mvc/modelinterface.h

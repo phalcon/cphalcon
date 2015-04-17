@@ -38,8 +38,4 @@ class Autoloader
             require($fileName);
         }
     }
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> master

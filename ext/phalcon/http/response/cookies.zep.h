@@ -1,5 +1,4 @@
 
-<<<<<<< HEAD:ext/phalcon/http/response/cookies.zep.h
 extern zend_class_entry *phalcon_http_response_cookies_ce;
 
 ZEPHIR_INIT_CLASS(Phalcon_Http_Response_Cookies);
@@ -18,34 +17,33 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, reset);
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_response_cookies_setdi, 0, 0, 1)
 	ZEND_ARG_OBJ_INFO(0, dependencyInjector, Phalcon\\DiInterface, 0)
 ZEND_END_ARG_INFO()
-=======
-/*
-  +------------------------------------------------------------------------+
-  | Phalcon Framework                                                      |
-  +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
-  +------------------------------------------------------------------------+
-  | This source file is subject to the New BSD License that is bundled     |
-  | with this package in the file docs/LICENSE.txt.                        |
-  |                                                                        |
-  | If you did not receive a copy of the license and are unable to         |
-  | obtain it through the world-wide-web, please send an email             |
-  | to license@phalconphp.com so we can send you a copy immediately.       |
-  +------------------------------------------------------------------------+
-  | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
-  |          Eduar Carvajal <eduar@phalconphp.com>                         |
-  +------------------------------------------------------------------------+
-*/
 
-#ifndef PHALCON_HTTP_RESPONSE_COOKIES_H
-#define PHALCON_HTTP_RESPONSE_COOKIES_H
->>>>>>> master:ext/http/response/cookies.h
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_response_cookies_useencryption, 0, 0, 1)
+	ZEND_ARG_INFO(0, useEncryption)
+ZEND_END_ARG_INFO()
 
-#include "php_phalcon.h"
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_response_cookies_set, 0, 0, 1)
+	ZEND_ARG_INFO(0, name)
+	ZEND_ARG_INFO(0, value)
+	ZEND_ARG_INFO(0, expire)
+	ZEND_ARG_INFO(0, path)
+	ZEND_ARG_INFO(0, secure)
+	ZEND_ARG_INFO(0, domain)
+	ZEND_ARG_INFO(0, httpOnly)
+ZEND_END_ARG_INFO()
 
-extern zend_class_entry *phalcon_http_response_cookies_ce;
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_response_cookies_get, 0, 0, 1)
+	ZEND_ARG_INFO(0, name)
+ZEND_END_ARG_INFO()
 
-<<<<<<< HEAD:ext/phalcon/http/response/cookies.zep.h
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_response_cookies_has, 0, 0, 1)
+	ZEND_ARG_INFO(0, name)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_response_cookies_delete, 0, 0, 1)
+	ZEND_ARG_INFO(0, name)
+ZEND_END_ARG_INFO()
+
 ZEPHIR_INIT_FUNCS(phalcon_http_response_cookies_method_entry) {
 	PHP_ME(Phalcon_Http_Response_Cookies, setDI, arginfo_phalcon_http_response_cookies_setdi, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Response_Cookies, getDI, NULL, ZEND_ACC_PUBLIC)
@@ -59,8 +57,3 @@ ZEPHIR_INIT_FUNCS(phalcon_http_response_cookies_method_entry) {
 	PHP_ME(Phalcon_Http_Response_Cookies, reset, NULL, ZEND_ACC_PUBLIC)
   PHP_FE_END
 };
-=======
-PHALCON_INIT_CLASS(Phalcon_Http_Response_Cookies);
-
-#endif /* PHALCON_HTTP_RESPONSE_COOKIES_H */
->>>>>>> master:ext/http/response/cookies.h
