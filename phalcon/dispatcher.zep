@@ -207,6 +207,39 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 	}
 
 	/**
+	 * Gets the fully qualified controller class name that will be located to dispatch the request
+	 */
+	public function getControllerClass() -> string
+	{
+		var handlerSuffix, handlerName, namespaceName,
+			camelizedClass, handlerClass;
+
+		let handlerSuffix = this->_handlerSuffix,
+			handlerName = this->_handlerName,
+			namespaceName = this->_namespaceName;
+
+		// We don't camelize the classes if they are in namespaces
+		if !memstr(handlerName, "\\") {
+			let camelizedClass = camelize(handlerName);
+		} else {
+			let camelizedClass = handlerName;
+		}
+
+		// Create the complete controller class name prepending the namespace
+		if namespaceName {
+			if ends_with(namespaceName, "\\") {
+				let handlerClass = namespaceName . camelizedClass . handlerSuffix;
+			} else {
+				let handlerClass = namespaceName . "\\" . camelizedClass . handlerSuffix;
+			}
+		} else {
+			let handlerClass = camelizedClass . handlerSuffix;
+		}
+
+		return handlerClass;
+	}
+
+	/**
 	 * Sets action params to be dispatched
 	 *
 	 * @param array params
@@ -313,9 +346,8 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 		boolean hasService;
 		int numberDispatches;
 		var value, handler, dependencyInjector, namespaceName, handlerName,
-			actionName, camelizedClass, params, eventsManager,
-			handlerSuffix, actionSuffix, handlerClass, status, actionMethod,
-			wasFresh = false, e;
+			actionName, params, eventsManager, handlerSuffix, actionSuffix,
+			handlerClass, status, actionMethod, wasFresh = false, e;
 
 		let dependencyInjector = <DiInterface> this->_dependencyInjector;
 		if typeof dependencyInjector != "object" {
@@ -386,23 +418,8 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 				}
 			}
 
-			// We don't camelize the classes if they are in namespaces
-			if !memstr(handlerName, "\\") {
-				let camelizedClass = camelize(handlerName);
-			} else {
-				let camelizedClass = handlerName;
-			}
-
-			// Create the complete controller class name prepending the namespace
-			if namespaceName {
-				if ends_with(namespaceName, "\\") {
-					let handlerClass = namespaceName . camelizedClass . handlerSuffix;
-				} else {
-					let handlerClass = namespaceName . "\\" . camelizedClass . handlerSuffix;
-				}
-			} else {
-				let handlerClass = camelizedClass . handlerSuffix;
-			}
+			// Resolve controller class name
+			let handlerClass = this->getControllerClass();
 
 			// Handlers are retrieved as shared instances from the Service Container
 			let hasService = (bool) dependencyInjector->has(handlerClass);
