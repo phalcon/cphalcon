@@ -35,7 +35,7 @@ use Phalcon\Di\InjectionAwareInterface;
  *	$user->age = 22;
  *</code>
  */
-class Bag implements InjectionAwareInterface, BagInterface
+class Bag implements InjectionAwareInterface, BagInterface, \IteratorAggregate, \ArrayAccess, \Countable
 {
 
 	protected _dependencyInjector;
@@ -271,5 +271,51 @@ class Bag implements InjectionAwareInterface, BagInterface
 	public function __unset(string! property) -> boolean
 	{
 		return this->remove(property);
+	}
+
+	/**
+	 * Return length of bag
+	 *
+	 *<code>
+	 * echo $user->count();
+	 *</code>
+	 *
+	 * @return int
+	 */
+	public final function count() -> int
+	{
+		if this->_initalized === false {
+			this->initialize();
+		}
+		return count(this->_data);
+	}
+
+	public final function getIterator()
+	{
+		if this->_initalized === false {
+			this->initialize();
+		}
+
+		return new \ArrayIterator(this->_data);
+	}
+
+	public final function offsetSet(string! property, var value)
+	{
+		return this->set(property, value);
+	}
+
+	public final function offsetExists(string! property)
+	{
+		return this->has(property);
+	}
+
+	public final function offsetUnset(string! property)
+	{
+		return this->remove(property);
+	}
+
+	public final function offsetGet(string! property)
+	{
+		return this->get(property);
 	}
 }
