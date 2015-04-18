@@ -79,9 +79,6 @@ abstract class Injectable implements InjectionAwareInterface, EventsAwareInterfa
 	 */
 	public function setDI(<DiInterface> dependencyInjector)
 	{
-		if typeof dependencyInjector != "object" {
-			throw new Exception("Dependency Injector is invalid");
-		}
 		let this->_dependencyInjector = dependencyInjector;
 	}
 
