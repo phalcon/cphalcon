@@ -99,9 +99,6 @@ class Compiler implements InjectionAwareInterface
 	 */
 	public function setDI(<\Phalcon\DiInterface> dependencyInjector)
 	{
-		if typeof dependencyInjector != "object" {
-			throw new Exception("Dependency Injector is invalid");
-		}
 		let this->_dependencyInjector = dependencyInjector;
 	}
 
