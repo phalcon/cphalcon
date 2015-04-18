@@ -87,7 +87,7 @@ class Compiler implements InjectionAwareInterface
 	 *
 	 * @param Phalcon\Mvc\ViewInterface view
 	 */
-	public function __construct(view=null)
+	public function __construct(view = null)
 	{
 		if typeof view == "object" {
 			let this->_view = view;
@@ -2003,7 +2003,7 @@ class Compiler implements InjectionAwareInterface
 	 * @param boolean extendsMode
 	 * @return string
 	 */
-	final protected function _statementList(statements, boolean extendsMode=false) -> string
+	final protected function _statementList(statements, boolean extendsMode = false) -> string
 	{
 		var extended, blockMode, compilation, extensions,
 			statement, tempCompilation, type, blockName, blockStatements,
@@ -2366,7 +2366,7 @@ class Compiler implements InjectionAwareInterface
 	 * echo $compiler->compileString('{{ "hello world" }}');
 	 *</code>
 	 */
-	public function compileString(string! viewCode, boolean extendsMode=false) -> string
+	public function compileString(string! viewCode, boolean extendsMode = false) -> string
 	{
 		let this->_currentPath = "eval code";
 		return this->_compileSource(viewCode, extendsMode);

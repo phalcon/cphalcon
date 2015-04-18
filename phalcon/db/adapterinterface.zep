@@ -423,24 +423,24 @@ interface AdapterInterface
 	public function lastInsertId(sequenceName = null);
 
 	/**
-     * Starts a transaction in the connection
-     *
-     * @return boolean
-     */
+	 * Starts a transaction in the connection
+	 *
+	 * @return boolean
+	 */
 	public function begin(boolean nesting = true);
 
-    /**
-     * Rollbacks the active transaction in the connection
-     *
-     * @return boolean
-     */
+	/**
+	 * Rollbacks the active transaction in the connection
+	 *
+	 * @return boolean
+	 */
 	public function rollback(boolean nesting = true);
 
-    /**
-     * Commits the active transaction in the connection
-     *
-     * @return boolean
-     */
+	/**
+	 * Commits the active transaction in the connection
+	 *
+	 * @return boolean
+	 */
 	public function commit(boolean nesting = true);
 
 	/**

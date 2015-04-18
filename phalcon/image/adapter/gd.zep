@@ -535,7 +535,7 @@ class Gd extends \Phalcon\Image\Adapter implements \Phalcon\Image\AdapterInterfa
 
 	protected function _render(string ext, int quality)
 	{
-                ob_start();
+		ob_start();
 		if strcasecmp(ext, "gif") == 0 {
 			imagegif(this->_image);
 			return ob_get_clean();

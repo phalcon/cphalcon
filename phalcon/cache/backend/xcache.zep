@@ -47,8 +47,8 @@ use Phalcon\Cache\FrontendInterface;
  *
  *</code>
  */
- class Xcache extends Backend implements BackendInterface
- {
+class Xcache extends Backend implements BackendInterface
+{
 
 	/**
 	 * Phalcon\Cache\Backend\Xcache constructor
@@ -166,8 +166,8 @@ use Phalcon\Cache\FrontendInterface;
 			let options = this->_options;
 
 			if !fetch specialKey, this->_options["statsKey"] {
-	                        throw new Exception("Unexpected inconsistency in options");
-        	        }
+				throw new Exception("Unexpected inconsistency in options");
+			}
 
 			/**
 			 * xcache_list() is available only to the administrator (unless XCache was
@@ -225,10 +225,10 @@ use Phalcon\Cache\FrontendInterface;
 			let prefixed = "_PHCX" . prefix;
 		}
 
- 		let options = this->_options;
+		let options = this->_options;
 
 		if !fetch specialKey, this->_options["statsKey"] {
-                	throw new Exception("Unexpected inconsistency in options");
+			throw new Exception("Unexpected inconsistency in options");
 		}
 
 		let retval = [];

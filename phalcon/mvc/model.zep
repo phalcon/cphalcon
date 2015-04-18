@@ -1531,7 +1531,6 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 */
 	protected function _checkForeignKeysReverseCascade() -> boolean
 	{
-
 		var manager, relations, relation, foreignKey,
 			resulset, conditions, bindParams, referencedModel,
 			referencedFields, fields, field, position, value,
@@ -1768,7 +1767,6 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 */
 	protected function _preSave(<MetadataInterface> metaData, boolean exists, var identityField) -> boolean
 	{
-
 		var notNull, columnMap, dataTypeNumeric, automaticAttributes, field, attributeField, value;
 		boolean error, isNull;
 
@@ -1978,7 +1976,6 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 */
 	protected function _postSave(boolean success, boolean exists) -> boolean
 	{
-
 		if success === true {
 			if exists {
 				this->fireEvent("afterUpdate");
@@ -2456,7 +2453,6 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 					 */
 					let this->{columns} = record->readAttribute(referencedFields);
 				}
-
 			}
 		}
 

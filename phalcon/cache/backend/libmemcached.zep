@@ -70,7 +70,7 @@ class Libmemcached extends Backend implements BackendInterface
 	 * @param	Phalcon\Cache\FrontendInterface frontend
 	 * @param	array options
 	 */
-	public function __construct(<FrontendInterface> frontend, options=null)
+	public function __construct(<FrontendInterface> frontend, options = null)
 	{
 		var servers;
 
