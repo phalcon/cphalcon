@@ -20,7 +20,6 @@
 namespace Phalcon\Session\Adapter;
 
 use Phalcon\Session\Adapter;
-use Phalcon\Session\AdapterInterface;
 use Phalcon\Cache\Backend\Memcache;
 use Phalcon\Cache\Frontend\Data as FrontendData;
 
@@ -36,7 +35,14 @@ use Phalcon\Cache\Frontend\Data as FrontendData;
  *    'port' => 11211,
  *    'persistent' => TRUE,
  *    'lifetime' => 3600,
- *    'prefix' => 'my_'
+ *    'prefix' => 'my_',
+ *
+ *    'name' => 'session-name',
+ *    'cookie_lifetime' => 'session-cookie-lifetime',
+ *    'cookie_path' => 'session-cookie-path',
+ *    'cookie_domain' => 'session-cookie-domain',
+ *    'cookie_secure' => 'session-cookie-secure',
+ *    'cookie_httponly' => 'session-cookie-httponly'
  * ));
  *
  * $session->start();
@@ -46,46 +52,65 @@ use Phalcon\Cache\Frontend\Data as FrontendData;
  * echo $session->get('var');
  *</code>
  */
-class Memcache extends Adapter implements AdapterInterface
+class Memcache extends Adapter
 {
 
 	protected _memcache = NULL { get };
 
 	protected _lifetime = 8600 { get };
 
-	/**
-	 * Phalcon\Session\Adapter\Memcache constructor
-	 *
-	 * @param array options
-	 */
-	public function __construct(options = null)
+	public function open() -> boolean
 	{
-		var lifetime;
+		return true;
+	}
 
-		if typeof options != "array" {
-			let options = [];
+	public function close() -> boolean
+	{
+		return true;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function read(string! sessionId)
+	{
+		return this->_memcache->get(sessionId, this->_lifetime);
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function write(string! sessionId, var data)
+	{
+		this->_memcache->save(sessionId, data, this->_lifetime);
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function destroy(string session_id = null) -> boolean
+	{
+		if session_id === null {
+			return this->_memcache->delete(this->getId());
 		}
+		return this->_memcache->delete(session_id);
+	}
 
-		if !isset options["host"] {
-			let options["host"] = "127.0.0.1";
-		}
+	/**
+	 * {@inheritdoc}
+	 */
+	public function gc()
+	{
+		return true;
+	}
 
-		if !isset options["port"] {
-			let options["port"] = 11211;
-		}
-
-		if !isset options["persistent"] {
-			let options["persistent"] = 0;
-		}
-
-		if fetch lifetime, options["lifetime"] {
-			let this->_lifetime = lifetime;
-		}
-
-		let this->_memcache = new Memcache(
-			new FrontendData(["lifetime": this->_lifetime]),
-			options
-		);
+	/**
+	 * {@inheritdoc}
+	 */
+	protected function configure() -> void
+	{
+		let this->_lifetime = this->getOption("lifetime", this->getLifetime());
+		let this->_memcache = new Memcache(new FrontendData(["lifetime": this->_lifetime]), this->getOptions());
 
 		session_set_save_handler(
 			[this, "open"],
@@ -96,60 +121,6 @@ class Memcache extends Adapter implements AdapterInterface
 			[this, "gc"]
 		);
 
-		parent::__construct(options);
-	}
-
-	public function open()
-	{
-		return true;
-	}
-
-	public function close()
-	{
-		return true;
-	}
-
-	/**
-	 * {@inheritdoc}
-	 *
-	 * @param string sessionId
-	 * @return mixed
-	 */
-    public function read(sessionId)
-    {
-        return this->_memcache->get(sessionId, this->_lifetime);
-    }
-
-    /**
-     * {@inheritdoc}
-     *
-     * @param string sessionId
-     * @param string data
-     */
-    public function write(sessionId, data)
-    {
-        this->_memcache->save(sessionId, data, this->_lifetime);
-    }
-
-    /**
-     * {@inheritdoc}
-     *
-     * @param  string  sessionId
-     * @return boolean
-     */
-    public function destroy(session_id = null)
-    {
-        if session_id === null {
-            let session_id = this->getId();
-        }
-        return this->_memcache->delete(session_id);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function gc()
-    {
-		return true;
+		parent::configure();
 	}
 }
