@@ -14,6 +14,7 @@
  +------------------------------------------------------------------------+
  | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
  |          Eduar Carvajal <eduar@phalconphp.com>                         |
+ |          Stanislav Kiryukhin <korsar.zn@gmail.com>                     |
  +------------------------------------------------------------------------+
  */
 
@@ -30,17 +31,35 @@ interface AdapterInterface
 	/**
 	 * Starts session, optionally using an adapter
 	 */
-	public function start();
+	public function start() -> boolean;
+	
+	/**
+	 * Gets the session cookie parameters
+	 * @see http://php.net/manual/en/function.session-get-cookie-params.php
+	 */
+	public function getCookieParams() -> array;
+
+	/**
+	 * Sets the session cookie parameters
+	 * @see http://php.net/manual/en/function.session-set-cookie-params.php
+	 */
+	public function setCookieParams(int! lifetime, string path, string domain, bool secure = false, bool httpOnly = false) -> void;
 
 	/**
 	 * Sets session options
 	 */
-	public function setOptions(array! options);
+	public function setOptions(array! options) -> void;
 
 	/**
 	 * Get internal options
 	 */
 	public function getOptions() -> array;
+
+	/**
+	 * Returns an option in the session's options
+	 * Returns defaultValue if the option hasn't set
+	 */
+	public function getOption(string key, var defaultValue = null) -> var;
 
 	/**
 	 * Gets a session variable from an application context
@@ -60,12 +79,35 @@ interface AdapterInterface
 	/**
 	 * Removes a session variable from an application context
 	 */
-	public function remove(string index);
+	public function remove(string index) -> void;
+
+	/**
+	 * Set the current session id
+	 *
+	 *<code>
+	 *	$session->setId($id);
+	 *</code>
+	 */
+	public function setId(string id) -> void;
 
 	/**
 	 * Returns active session id
 	 */
 	public function getId() -> string;
+
+	/**
+	 * Gets the current session name
+	 * @see http://php.net/manual/en/function.session-name.php
+	 */
+	public function getName() -> string;
+
+	/**
+	 * Sets the current session name and return the old session name
+	 * Returns the previous name
+	 *
+	 * @see http://php.net/manual/en/function.session-name.php
+	 */
+	public function setName(string name) -> string;
 
 	/**
 	 * Check whether the session has been started
@@ -78,7 +120,51 @@ interface AdapterInterface
 	public function destroy(boolean removeData = false) -> boolean;
 
 	/**
-	 * Regenerate session's id
+	 * Update the current session id with a newly generated one.
+	 * Returns NEW session ID on success or FALSE on failure.
+	 * @see http://php.net/manual/en/function.session-regenerate-id.php
 	 */
-	public function regenerateId(bool deleteOldSession = true) -> <AdapterInterface>;
+	public function regenerateId(bool deleteOldSession = false) -> string | boolean;
+
+	/**
+	 * Re-initialize session array with original values
+	 * @see http://php.net/manual/en/function.session-reset.php
+	 */
+	public function reset() -> void;
+
+	/**
+	 * Write session data and end session
+	 * @see http://php.net/manual/en/function.session-write-close.php
+	 */
+	public function commit() -> void;
+
+	/**
+	 * Discard session array changes and finish session
+	 * @see http://php.net/manual/en/function.session-abort.php
+	 */
+	public function abort() -> void;
+
+	/**
+	 * Returns the current session status (const: SESSION_DISABLED, SESSION_NONE, SESSION_ACTIVE)
+	 * @see http://php.net/manual/en/function.session-status.php
+	 */
+	public function status() -> int;
+
+	/**
+	 * Clear all session variables
+	 * @see http://php.net/manual/en/function.session-unset.php
+	 */
+	public function clear() -> void;
+
+	/**
+	 * Encodes the current session data as a session encoded string
+	 * @see http://php.net/manual/en/function.session-encode.php
+	 */
+	public function encode() -> string;
+
+	/**
+	 * Decodes session data from a session encoded string
+	 * @see http://php.net/manual/en/function.session-encode.php
+	 */
+	public function decode(string data) -> boolean;
 }

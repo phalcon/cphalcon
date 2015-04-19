@@ -19,7 +19,6 @@
 
 namespace Phalcon\Session\Adapter;
 
-use Phalcon\Session\AdapterInterface;
 use Phalcon\Session\Adapter;
 
 /**
@@ -29,7 +28,14 @@ use Phalcon\Session\Adapter;
  *
  *<code>
  * $session = new \Phalcon\Session\Adapter\Files(array(
- *    'uniqueId' => 'my-private-app'
+ *    'uniqueId' => 'my-private-app',
+ *    'savePath' => 'session-save-path',
+ *    'name' => 'session-name',
+ *    'cookie_lifetime' => 'session-cookie-lifetime',
+ *    'cookie_path' => 'session-cookie-path',
+ *    'cookie_domain' => 'session-cookie-domain',
+ *    'cookie_secure' => 'session-cookie-secure',
+ *    'cookie_httponly' => 'session-cookie-httponly'
  * ));
  *
  * $session->start();
@@ -39,7 +45,36 @@ use Phalcon\Session\Adapter;
  * echo $session->get('var');
  *</code>
  */
-class Files extends Adapter implements AdapterInterface
+class Files extends Adapter
 {
+	/**
+	 * {@inheritdoc}
+	 */
+	public function read(string sessionId) -> string
+	{
+		var session_file;
+		let session_file = session_save_path() . DIRECTORY_SEPARATOR . "sess_" . this->getId();
 
+		if is_file(session_file) {
+			return file_get_contents(session_file);
+		} else {
+			return "";
+		}
+
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	protected function configure() -> void
+	{
+		var path;
+		let path = this->getOption("savePath");
+
+		if path {
+			session_save_path(path);
+		}
+
+		parent::configure();
+	}
 }
