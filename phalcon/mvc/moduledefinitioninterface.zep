@@ -35,7 +35,7 @@ interface ModuleDefinitionInterface
 	public function registerAutoloaders(<DiInterface> dependencyInjector = null);
 
 	/**
-	 * Registers an autoloader related to the module
+	 * Registers services related to the module
 	 */
 	public function registerServices(<DiInterface> dependencyInjector);
 

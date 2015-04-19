@@ -19,6 +19,8 @@
 
 namespace Phalcon\Validation\Validator;
 
+use Phalcon\Validation\Validator;
+
 /**
  * Phalcon\Validation\Validator\Between
  *
@@ -35,7 +37,8 @@ namespace Phalcon\Validation\Validator;
  *)));
  *</code>
  */
-class Between extends \Phalcon\Validation\Validator implements \Phalcon\Validation\ValidatorInterface {
+class Between extends Validator
+{
 
 	/**
 	 * Executes the validation

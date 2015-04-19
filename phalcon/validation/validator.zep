@@ -19,20 +19,19 @@
 namespace Phalcon\Validation;
 
 use Phalcon\Validation\Exception;
+use Phalcon\Validation\ValidatorInterface;
 
 /**
  * Phalcon\Validation\Validator
  *
  * This is a base class for validators
  */
-class Validator
+abstract class Validator implements ValidatorInterface
 {
 	protected _options;
 
 	/**
 	 * Phalcon\Validation\Validator constructor
-	 *
-	 * @param mixed options
 	 */
 	public function __construct(var options = null)
 	{
@@ -45,9 +44,6 @@ class Validator
 
 	/**
 	 * Checks if an option is defined
-	 *
-	 * @param string key
-	 * @return boolean
 	 */
 	public function isSetOption(string key) -> boolean
 	{
@@ -57,9 +53,6 @@ class Validator
 	/**
 	 * Returns an option in the validator's options
 	 * Returns null if the option hasn't set
-	 *
-	 * @param string key
-	 * @return mixed
 	 */
 	public function getOption(string! key)
 	{
@@ -75,13 +68,14 @@ class Validator
 
 	/**
 	 * Sets an option in the validator
-	 *
-	 * @param string key
-	 * @param mixed value
 	 */
 	public function setOption(string! key, value)
 	{
 		let this->_options[key] = value;
 	}
 
+    /**
+     * Executes the validation
+     */
+     abstract public function validate(<\Phalcon\Validation> validation, string! attribute) -> boolean;
 }

@@ -22,7 +22,6 @@ namespace Phalcon\Validation\Validator;
 use Phalcon\Validation;
 use Phalcon\Validation\Message;
 use Phalcon\Validation\Validator;
-use Phalcon\Validation\ValidatorInterface;
 
 /**
  * Phalcon\Validation\Validator\Digit
@@ -37,7 +36,7 @@ use Phalcon\Validation\ValidatorInterface;
  *)));
  *</code>
  */
-class Digit extends Validator implements ValidatorInterface
+class Digit extends Validator
 {
 
 	/**
