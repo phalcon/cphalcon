@@ -19,6 +19,7 @@
 
 namespace Phalcon\Mvc;
 
+use Phalcon\DiInterface;
 use Phalcon\Di\Injectable;
 use Phalcon\Mvc\View\Exception;
 use Phalcon\Mvc\ViewInterface;
@@ -499,7 +500,7 @@ class View extends Injectable implements ViewInterface
 		 */
 		if engines === false {
 
-			let dependencyInjector = <\Phalcon\DiInterface> this->_dependencyInjector;
+			let dependencyInjector = <DiInterface> this->_dependencyInjector;
 
 			let engines = [];
 			let registeredEngines = this->_registeredEngines;
@@ -1149,7 +1150,7 @@ class View extends Injectable implements ViewInterface
 		var dependencyInjector, cacheService, viewCache,
 			viewOptions, cacheOptions;
 
-		let dependencyInjector = <\Phalcon\DiInterface> this->_dependencyInjector;
+		let dependencyInjector = <DiInterface> this->_dependencyInjector;
 		if typeof dependencyInjector != "object" {
 			throw new Exception("A dependency injector container is required to obtain the view cache services");
 		}

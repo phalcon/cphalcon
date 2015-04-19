@@ -20,6 +20,7 @@
 
 namespace Phalcon\Cli;
 
+use Phalcon\DiInterface;
 use Phalcon\Cli\Router\Route;
 use Phalcon\CLi\Router\Exception;
 
@@ -108,7 +109,7 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
 	 *
 	 * @param Phalcon\DiInterface dependencyInjector
 	 */
-	public function setDI(<\Phalcon\DiInterface> dependencyInjector)
+	public function setDI(<DiInterface> dependencyInjector)
 	{
 		let this->_dependencyInjector = dependencyInjector;
 	}
@@ -118,7 +119,7 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
 	 *
 	 * @return Phalcon\DiInterface
 	 */
-	public function getDI() -> <\Phalcon\DiInterface>
+	public function getDI() -> <DiInterface>
 	{
 		return this->_dependencyInjector;
 	}
@@ -167,13 +168,9 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
 	 * @param array defaults
 	 * @return Phalcon\Mvc\Router
 	 */
-	public function setDefaults(defaults) -> <Router>
+	public function setDefaults(array! defaults) -> <Router>
 	{
 		var module, task, action, params;
-
-		if typeof defaults != "array" {
-			throw new Exception("Defaults must be an array");
-		}
 
 		// Set a default module
 		if fetch module, defaults["module"] {
@@ -534,5 +531,4 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
 		}
 		return false;
 	}
-
 }

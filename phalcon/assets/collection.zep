@@ -25,6 +25,7 @@ use Phalcon\Assets\Inline;
 use Phalcon\Assets\Resource\Css as ResourceCss;
 use Phalcon\Assets\Resource\Js as ResourceJs;
 use Phalcon\Assets\Inline\Js as InlineJs;
+use Phalcon\Assets\Inline\Css as InlineCss;
 
 /**
  * Phalcon\Assets\Collection
@@ -78,12 +79,6 @@ class Collection implements \Countable, \Iterator
 
 	/**
 	 * Adds a CSS resource to the collection
-	 *
-	 * @param string path
-	 * @param boolean local
-	 * @param boolean filter
-	 * @param array attributes
-	 * @return Phalcon\Assets\Collection
 	 */
 	public function addCss(string! path, var local = null, boolean filter = false, attributes = null) -> <Collection>
 	{
@@ -112,11 +107,6 @@ class Collection implements \Countable, \Iterator
 
 	/**
 	 * Adds a inline CSS to the collection
-	 *
-	 * @param string content
-	 * @param boolean filter
-	 * @param array attributes
-	 * @return Phalcon\Assets\Collection
 	 */
 	public function addInlineCss(string content, boolean filter = false, attributes = null) -> <Collection>
 	{
@@ -132,7 +122,7 @@ class Collection implements \Countable, \Iterator
 			let collectionAttributes = this->_attributes;
 		}
 
-		let this->_codes[] = new \Phalcon\Assets\Inline\Css(content, filter, collectionAttributes);
+		let this->_codes[] = new InlineCss(content, filter, collectionAttributes);
 		return this;
 	}
 
