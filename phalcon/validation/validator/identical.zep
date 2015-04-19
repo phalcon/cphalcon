@@ -19,6 +19,8 @@
 
 namespace Phalcon\Validation\Validator;
 
+use Phalcon\Validation\Validator;
+
 /**
  * Phalcon\Validation\Validator\Identical
  *
@@ -34,7 +36,7 @@ namespace Phalcon\Validation\Validator;
  *</code>
  *
  */
-class Identical extends \Phalcon\Validation\Validator implements \Phalcon\Validation\ValidatorInterface
+class Identical extends Validator
 {
 
 	/**

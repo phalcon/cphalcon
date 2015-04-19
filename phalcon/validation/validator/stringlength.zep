@@ -19,6 +19,8 @@
 
 namespace Phalcon\Validation\Validator;
 
+use Phalcon\Validation\Validator;
+
 /**
  * Phalcon\Validation\Validator\StringLength
  *
@@ -38,7 +40,7 @@ namespace Phalcon\Validation\Validator;
  *</code>
  *
  */
-class StringLength extends \Phalcon\Validation\Validator implements \Phalcon\Validation\ValidatorInterface
+class StringLength extends Validator
 {
 
 	/**
