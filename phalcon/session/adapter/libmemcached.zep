@@ -133,41 +133,41 @@ class Libmemcached extends Adapter implements AdapterInterface
 	 * @param string sessionId
 	 * @return mixed
 	 */
-    public function read(sessionId)
-    {
-        return this->_libmemcached->get(sessionId, this->_lifetime);
-    }
+	public function read(sessionId)
+	{
+		return this->_libmemcached->get(sessionId, this->_lifetime);
+	}
 
-    /**
-     * {@inheritdoc}
-     *
-     * @param string sessionId
-     * @param string data
-     */
-    public function write(sessionId, data)
-    {
-        this->_libmemcached->save(sessionId, data, this->_lifetime);
-    }
+	/**
+	 * {@inheritdoc}
+	 *
+	 * @param string sessionId
+	 * @param string data
+	 */
+	public function write(sessionId, data)
+	{
+		this->_libmemcached->save(sessionId, data, this->_lifetime);
+	}
 
-    /**
-     * {@inheritdoc}
-     *
-     * @param  string  sessionId
-     * @return boolean
-     */
-    public function destroy(session_id = null)
-    {
-        if session_id === null {
-            let session_id = this->getId();
-        }
-        return this->_libmemcached->delete(session_id);
-    }
+	/**
+	 * {@inheritdoc}
+	 *
+	 * @param  string  sessionId
+	 * @return boolean
+	 */
+	public function destroy(session_id = null)
+	{
+		if session_id === null {
+			let session_id = this->getId();
+		}
+		return this->_libmemcached->delete(session_id);
+	}
 
-    /**
-     * {@inheritdoc}
-     */
-    public function gc() -> boolean
-    {
+	/**
+	 * {@inheritdoc}
+	 */
+	public function gc() -> boolean
+	{
 		return true;
 	}
 }

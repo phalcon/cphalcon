@@ -47,7 +47,6 @@ class Filter implements FilterInterface
 	 */
 	public function add(string! name, handler) -> <Filter>
 	{
-
 		if typeof handler != "object" {
 			throw new Exception("Filter must be an object");
 		}

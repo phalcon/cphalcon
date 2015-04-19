@@ -203,7 +203,7 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
 	 *
 	 * @param array arguments
 	 */
-	public function handle(arguments=null)
+	public function handle(arguments = null)
 	{
 		var moduleName, taskName, actionName,
 			params, route, parts, pattern, routeFound, matches, paths,

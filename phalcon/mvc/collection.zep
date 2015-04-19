@@ -444,7 +444,6 @@ abstract class Collection implements CollectionInterface, InjectionAwareInterfac
 	 */
 	protected static function _getGroupResultset(params, <Collection> collection, connection) -> int
 	{
-
 		var source, mongoCollection, conditions, simple, limit, sort, documentsCursor;
 
 		let source = collection->getSource();
