@@ -32,8 +32,6 @@ abstract class Validator implements ValidatorInterface
 
 	/**
 	 * Phalcon\Validation\Validator constructor
-	 *
-	 * @param mixed options
 	 */
 	public function __construct(var options = null)
 	{
@@ -46,9 +44,6 @@ abstract class Validator implements ValidatorInterface
 
 	/**
 	 * Checks if an option is defined
-	 *
-	 * @param string key
-	 * @return boolean
 	 */
 	public function isSetOption(string key) -> boolean
 	{
@@ -58,9 +53,6 @@ abstract class Validator implements ValidatorInterface
 	/**
 	 * Returns an option in the validator's options
 	 * Returns null if the option hasn't set
-	 *
-	 * @param string key
-	 * @return mixed
 	 */
 	public function getOption(string! key)
 	{
@@ -76,9 +68,6 @@ abstract class Validator implements ValidatorInterface
 
 	/**
 	 * Sets an option in the validator
-	 *
-	 * @param string key
-	 * @param mixed value
 	 */
 	public function setOption(string! key, value)
 	{
@@ -87,10 +76,6 @@ abstract class Validator implements ValidatorInterface
 
     /**
      * Executes the validation
-     *
-     * @param Phalcon\Validation validator
-     * @param string attribute
-     * @return boolean
      */
      abstract public function validate(<\Phalcon\Validation> validation, string! attribute) -> boolean;
 }
