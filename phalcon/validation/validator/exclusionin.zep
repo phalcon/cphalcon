@@ -19,6 +19,8 @@
 
 namespace Phalcon\Validation\Validator;
 
+use Phalcon\Validation\Validator;
+
 /**
  * Phalcon\Validation\Validator\ExclusionIn
  *
@@ -33,7 +35,7 @@ namespace Phalcon\Validation\Validator;
  *)));
  *</code>
  */
-class ExclusionIn extends \Phalcon\Validation\Validator implements \Phalcon\Validation\ValidatorInterface
+class ExclusionIn extends Validator
 {
 
 	/**
