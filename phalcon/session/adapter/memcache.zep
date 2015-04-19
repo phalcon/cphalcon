@@ -20,7 +20,6 @@
 namespace Phalcon\Session\Adapter;
 
 use Phalcon\Session\Adapter;
-use Phalcon\Session\AdapterInterface;
 use Phalcon\Cache\Backend\Memcache;
 use Phalcon\Cache\Frontend\Data as FrontendData;
 
@@ -36,7 +35,14 @@ use Phalcon\Cache\Frontend\Data as FrontendData;
  *    'port' => 11211,
  *    'persistent' => true,
  *    'lifetime' => 3600,
- *    'prefix' => 'my_'
+ *    'prefix' => 'my_',
+ *
+ *    'name' => 'session-name',
+ *    'cookie_lifetime' => 'session-cookie-lifetime',
+ *    'cookie_path' => 'session-cookie-path',
+ *    'cookie_domain' => 'session-cookie-domain',
+ *    'cookie_secure' => 'session-cookie-secure',
+ *    'cookie_httponly' => 'session-cookie-httponly'
  * ));
  *
  * $session->start();
@@ -46,7 +52,7 @@ use Phalcon\Cache\Frontend\Data as FrontendData;
  * echo $session->get('var');
  *</code>
  */
-class Memcache extends Adapter implements AdapterInterface
+class Memcache extends Adapter implements \SessionHandlerInterface
 {
 
 	protected _memcache = null { get };
@@ -54,96 +60,79 @@ class Memcache extends Adapter implements AdapterInterface
 	protected _lifetime = 8600 { get };
 
 	/**
-	 * Phalcon\Session\Adapter\Memcache constructor
+	 * Re-initialize existing session, or creates a new one.
 	 */
-	public function __construct(array options = [])
+	public function open(string save_path, string session_name) -> boolean
 	{
-		var lifetime;
+		return true;
+	}
 
-		if !isset options["host"] {
-			let options["host"] = "127.0.0.1";
+	/**
+	 * Closes the current session.
+	 */
+	public function close() -> boolean
+	{
+		return true;
+	}
+
+	/**
+	 * Reads the session data from the session storage, and returns the results.
+	 * Note: SessionHandlerInterface::open() is called immediately before this function.
+	 */
+	public function read(string session_id) -> var
+	{
+		return this->_memcache->get(session_id, this->_lifetime);
+	}
+
+	/**
+	 * Writes the session data to the session storage.
+	 * Note: SessionHandlerInterface::close() is called immediately after this function.
+	 */
+	public function write(string session_id, var session_data) -> boolean
+	{
+		this->_memcache->save(session_id, session_data, this->_lifetime);
+		return true;
+	}
+
+	/**
+	 * Destroys the session data in the session storage.
+	 */
+	public function destroy(string session_id = null) -> boolean
+	{
+		return this->_memcache->delete(session_id ? session_id : this->getId());
+	}
+
+	/**
+	 * Cleans up expired sessions.
+	 */
+	public function gc(string maxlifetime) -> boolean
+	{
+		return true;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function setOptions(array! options) -> void
+	{
+		if isset options["lifetime"] {
+			let this->_lifetime = options["lifetime"];
 		}
 
-		if !isset options["port"] {
-			let options["port"] = 11211;
-		}
+		parent::setOptions(options);
+	}
 
-		if !isset options["persistent"] {
-			let options["persistent"] = 0;
-		}
-
-		if fetch lifetime, options["lifetime"] {
-			let this->_lifetime = lifetime;
-		}
-
+	/**
+	 * {@inheritdoc}
+	 */
+	protected function configure() -> void
+	{
 		let this->_memcache = new Memcache(
 			new FrontendData(["lifetime": this->_lifetime]),
-			options
+			this->getOptions()
 		);
 
-		session_set_save_handler(
-			[this, "open"],
-			[this, "close"],
-			[this, "read"],
-			[this, "write"],
-			[this, "destroy"],
-			[this, "gc"]
-		);
-
-		parent::__construct(options);
-	}
-
-	public function open()
-	{
-		return true;
-	}
-
-	public function close()
-	{
-		return true;
-	}
-
-	/**
-	 * {@inheritdoc}
-	 *
-	 * @param string sessionId
-	 * @return mixed
-	 */
-	public function read(sessionId)
-	{
-		return this->_memcache->get(sessionId, this->_lifetime);
-	}
-
-	/**
-	 * {@inheritdoc}
-	 *
-	 * @param string sessionId
-	 * @param string data
-	 */
-	public function write(sessionId, data)
-	{
-		this->_memcache->save(sessionId, data, this->_lifetime);
-	}
-
-	/**
-	 * {@inheritdoc}
-	 *
-	 * @param  string  sessionId
-	 * @return boolean
-	 */
-	public function destroy(sessionId = null) -> boolean
-	{
-		if sessionId === null {
-			let sessionId = this->getId();
-		}
-		return this->_memcache->delete(sessionId);
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function gc()
-	{
-		return true;
+		session_set_save_handler(this);
+		parent::configure();
 	}
 }

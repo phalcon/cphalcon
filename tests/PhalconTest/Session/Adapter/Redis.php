@@ -31,10 +31,10 @@ class Redis extends PhRedis
     {
         return parent::__construct($options);
     }
-    
-    public function open()
+
+    public function open($save_path, $session_name)
     {
-        return parent::open();
+        return parent::open($save_path, $session_name);
     }
 
     public function close()
@@ -42,24 +42,24 @@ class Redis extends PhRedis
         return parent::close();
     }
 
-    public function read($sessionId)
+    public function read($session_id)
     {
-        return parent::read($sessionId);
+        return parent::read($session_id);
     }
 
-    public function write($sessionId, $data)
+    public function write($session_id, $session_data)
     {
-        return parent::write($sessionId, $data);
+        return parent::write($session_id, $session_data);
     }
 
-    public function destroy($sessionId = null)
+    public function destroy($session_id = null)
     {
-        return parent::destroy($sessionId);
+        return parent::destroy($session_id);
     }
 
-    public function gc()
+    public function gc($maxlifetime)
     {
-        return parent::gc();
+        return parent::gc($maxlifetime);
     }
 
 

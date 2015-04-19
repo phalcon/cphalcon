@@ -21,7 +21,6 @@ namespace Phalcon\Session\Adapter;
 
 use Phalcon\Session\Adapter;
 use Phalcon\Session\Exception;
-use Phalcon\Session\AdapterInterface;
 use Phalcon\Cache\Backend\Libmemcached;
 use Phalcon\Cache\Frontend\Data as FrontendData;
 
@@ -40,7 +39,16 @@ use Phalcon\Cache\Frontend\Data as FrontendData;
  *         Memcached::OPT_PREFIX_KEY => 'prefix.',
  *     ),
  *    'lifetime' => 3600,
- *    'prefix' => 'my_'
+ *    'prefix' => 'my_',
+ *    'persistent_id' => 'phalcon-session',
+ *
+ *    'uniqueId' => 'my-private-app',
+ *    'name' => 'session-name',
+ *    'cookie_lifetime' => 'session-cookie-lifetime',
+ *    'cookie_path' => 'session-cookie-path',
+ *    'cookie_domain' => 'session-cookie-domain',
+ *    'cookie_secure' => 'session-cookie-secure',
+ *    'cookie_httponly' => 'session-cookie-httponly'
  * ));
  *
  * $session->start();
@@ -50,7 +58,7 @@ use Phalcon\Cache\Frontend\Data as FrontendData;
  * echo $session->get('var');
  *</code>
  */
-class Libmemcached extends Adapter implements AdapterInterface
+class Libmemcached extends Adapter implements \SessionHandlerInterface
 {
 
 	protected _libmemcached = null { get };
@@ -58,112 +66,87 @@ class Libmemcached extends Adapter implements AdapterInterface
 	protected _lifetime = 8600 { get };
 
 	/**
-	 * Phalcon\Session\Adapter\Libmemcached constructor
+	 * Re-initialize existing session, or creates a new one.
 	 */
-	public function __construct(array options)
-	{
-		var servers, client, lifetime, prefix, statsKey, persistentId;
-
-		if !fetch servers, options["servers"] {
-			throw new Exception("No servers given in options");
-		}
-
-		if !fetch client, options["client"] {
-			let client = null;
-		}
-
-		if !fetch lifetime, options["lifetime"] {
-			let lifetime = 8600;
-		}
-
-		let this->_lifetime = lifetime;
-
-		if !fetch prefix, options["prefix"] {
-			let prefix = null;
-		}
-
-		if !fetch statsKey, options["statsKey"] {
-			let statsKey = "";
-		}
-
-		if !fetch persistentId, options["persistent_id"] {
-			let persistentId = "phalcon-session";
-		}
-
-		let this->_libmemcached = new Libmemcached(
-			new FrontendData(["lifetime": this->_lifetime]),
-			[
-				"servers":  servers,
-				"client":   client,
-				"prefix":   prefix,
-				"statsKey": statsKey,
-				"persistent_id": persistentId
-			]
-		);
-
-		session_set_save_handler(
-			[this, "open"],
-			[this, "close"],
-			[this, "read"],
-			[this, "write"],
-			[this, "destroy"],
-			[this, "gc"]
-		);
-
-		parent::__construct(options);
-	}
-
-	public function open() -> boolean
+	public function open(string save_path, string session_name) -> boolean
 	{
 		return true;
 	}
 
+	/**
+	 * Closes the current session.
+	 */
 	public function close() -> boolean
 	{
 		return true;
 	}
 
 	/**
-	 * {@inheritdoc}
-	 *
-	 * @param string sessionId
-	 * @return mixed
+	 * Reads the session data from the session storage, and returns the results.
+	 * Note: SessionHandlerInterface::open() is called immediately before this function.
 	 */
-	public function read(sessionId)
+	public function read(string session_id) -> var
 	{
-		return this->_libmemcached->get(sessionId, this->_lifetime);
+		return this->_libmemcached->get(session_id, this->_lifetime);
 	}
 
 	/**
-	 * {@inheritdoc}
-	 *
-	 * @param string sessionId
-	 * @param string data
+	 * Writes the session data to the session storage.
+	 * Note: SessionHandlerInterface::close() is called immediately after this function.
 	 */
-	public function write(sessionId, data)
+	public function write(string session_id, var session_data) -> boolean
 	{
-		this->_libmemcached->save(sessionId, data, this->_lifetime);
+		this->_libmemcached->save(session_id, session_data, this->_lifetime);
+		return true;
 	}
 
 	/**
-	 * {@inheritdoc}
-	 *
-	 * @param  string  sessionId
-	 * @return boolean
+	 * Destroys the session data in the session storage.
 	 */
-	public function destroy(sessionId = null)
+	public function destroy(string session_id = null) -> boolean
 	{
-		if sessionId === null {
-			let sessionId = this->getId();
-		}
-		return this->_libmemcached->delete(sessionId);
+		return this->_libmemcached->delete(session_id ? session_id : this->getId());
 	}
 
 	/**
-	 * {@inheritdoc}
+	 * Cleans up expired sessions.
 	 */
-	public function gc() -> boolean
+	public function gc(string maxlifetime) -> boolean
 	{
 		return true;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function setOptions(array! options) -> void
+	{
+		if !isset options["servers"] {
+			throw new Exception("No servers given in options");
+        }
+
+		if isset options["lifetime"] {
+			let this->_lifetime = options["lifetime"];
+		}
+
+		if !isset options["persistent_id"] {
+			let options["persistent_id"] = "phalcon-session";
+		}
+
+		parent::setOptions(options);
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	protected function configure() -> void
+	{
+		let this->_libmemcached = new Libmemcached(
+			new FrontendData(["lifetime": this->_lifetime]),
+			this->getOptions()
+		);
+
+		session_set_save_handler(this);
+		parent::configure();
 	}
 }

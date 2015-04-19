@@ -23,6 +23,14 @@
 - Method `isSetOption` in `Phalcon\Validation\ValidatorInterface` marked as deprecated, please use `hasOption`
 - Added internal check "allowEmpty" before calling a validator. If it option is true and the value of empty, the validator is skipped
 - Added default header: `Content-Type: "application/json; charset=UTF-8"` in method `Phalcon\Http\Response::setJsonContent`
+- `Phalcon\Session`:
+   - Added public method (with support PHP 5.4):
+      - `getOption()`, `getCookieParams()`, `setCookieParams()`, `reset()`, `commit()`, `abort()`, `clear()`, `encode()`, `decode()`
+   - Added protected method:
+      - `configure()`
+   - Added options:
+      - name, cookie_lifetime, cookie_path, cookie_domain, cookie_secure, cookie_httponly
+   - `Phalcon\Session\Adapter\Files` added options: savePath
 
 # [2.0.8](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.0.8) (2015-09-19)
 - Added `Phalcon\Security\Random::base58` - to generate a random base58 string
