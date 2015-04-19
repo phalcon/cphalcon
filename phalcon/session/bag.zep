@@ -44,7 +44,7 @@ class Bag implements InjectionAwareInterface, BagInterface, \IteratorAggregate, 
 
 	protected _data;
 
-	protected _initalized = false;
+	protected _initialized = false;
 
 	protected _session;
 
@@ -105,7 +105,7 @@ class Bag implements InjectionAwareInterface, BagInterface, \IteratorAggregate, 
 			let data = [];
 		}
 		let this->_data = data;
-		let this->_initalized = true;
+		let this->_initialized = true;
 	}
 
 	/**
@@ -117,7 +117,7 @@ class Bag implements InjectionAwareInterface, BagInterface, \IteratorAggregate, 
 	 */
 	public function destroy()
 	{
-		if this->_initalized === false {
+		if this->_initialized === false {
 			this->initialize();
 		}
 		this->_session->remove(this->_name);
@@ -135,7 +135,7 @@ class Bag implements InjectionAwareInterface, BagInterface, \IteratorAggregate, 
 	 */
 	public function set(string! property, value)
 	{
-		if this->_initalized === false {
+		if this->_initialized === false {
 			this->initialize();
 		}
 		let this->_data[property] = value;
@@ -175,7 +175,7 @@ class Bag implements InjectionAwareInterface, BagInterface, \IteratorAggregate, 
 		/**
 		 * Check first if the bag is initialized
 		 */
-		if this->_initalized === false {
+		if this->_initialized === false {
 			this->initialize();
 		}
 
@@ -216,7 +216,7 @@ class Bag implements InjectionAwareInterface, BagInterface, \IteratorAggregate, 
 	 */
 	public function has(string! property) -> boolean
 	{
-		if this->_initalized === false {
+		if this->_initialized === false {
 			this->initialize();
 		}
 
@@ -251,7 +251,7 @@ class Bag implements InjectionAwareInterface, BagInterface, \IteratorAggregate, 
 	public function remove(string! property) -> boolean
 	{
 		if isset this->_data[property] {
-			unset this->_data[property];
+			unset(this->_data[property]);
 			this->_session->set(this->_name, this->_data);
 			return true;
 		}
@@ -284,7 +284,7 @@ class Bag implements InjectionAwareInterface, BagInterface, \IteratorAggregate, 
 	 */
 	public final function count() -> int
 	{
-		if this->_initalized === false {
+		if this->_initialized === false {
 			this->initialize();
 		}
 		return count(this->_data);
@@ -292,7 +292,7 @@ class Bag implements InjectionAwareInterface, BagInterface, \IteratorAggregate, 
 
 	public final function getIterator()
 	{
-		if this->_initalized === false {
+		if this->_initialized === false {
 			this->initialize();
 		}
 
