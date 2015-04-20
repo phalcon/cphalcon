@@ -83,16 +83,16 @@ interface GroupInterface
 	public function getPrefix() -> string;
 
 	/**
-	 * Set a before-match condition for the whole group
-	 *
-	 * @param callable beforeMatch
-	 * @return Phalcon\Mvc\Router\Group
+	 * Sets a callback that is called if the route is matched.
+	 * The developer can implement any arbitrary conditions here
+	 * If the callback returns false the route is treated as not matched
 	 */
-	public function beforeMatch(beforeMatch) -> <GroupInterface>;
+	 public function beforeMatch(callable beforeMatch) -> <GroupInterface>;
+
 	/**
-	 * Returns the before-match condition if any
+	 * Returns the 'before match' callback if any
 	 */
-	public function getBeforeMatch() -> string;
+	public function getBeforeMatch() -> callable;
 
 	/**
 	 * Set common paths for all the routes in the group
@@ -105,7 +105,7 @@ interface GroupInterface
 	/**
 	 * Returns the common paths defined for this group
 	 */
-	public function getPaths() -> array|string;
+	public function getPaths() -> array | string;
 
 	/**
 	 * Returns the routes added to the group

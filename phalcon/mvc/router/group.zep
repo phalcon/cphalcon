@@ -109,7 +109,7 @@ class Group implements GroupInterface
 	/**
 	 * Set a common uri prefix for all the routes in this group
 	 */
-	public function setPrefix(string! prefix) -> <GroupInterface>
+	public function setPrefix(string prefix) -> <GroupInterface>
 	{
 		let this->_prefix = prefix;
 		return this;
@@ -124,18 +124,20 @@ class Group implements GroupInterface
 	}
 
 	/**
-	 * Set a before-match condition for the whole group
+	 * Sets a callback that is called if the route is matched.
+	 * The developer can implement any arbitrary conditions here
+	 * If the callback returns false the route is treated as not matched
 	 */
-	public function beforeMatch(string beforeMatch) -> <GroupInterface>
+	 public function beforeMatch(callable beforeMatch) -> <GroupInterface>
 	{
 		let this->_beforeMatch = beforeMatch;
 		return this;
 	}
 
 	/**
-	 * Returns the before-match condition if any
+	 * Returns the 'before match' callback if any
 	 */
-	public function getBeforeMatch() -> string
+	public function getBeforeMatch() -> callable
 	{
 		return this->_beforeMatch;
 	}
@@ -152,7 +154,7 @@ class Group implements GroupInterface
 	/**
 	 * Returns the common paths defined for this group
 	 */
-	public function getPaths() -> array|string
+	public function getPaths() -> array | string
 	{
 		return this->_paths;
 	}
@@ -160,7 +162,7 @@ class Group implements GroupInterface
 	/**
 	 * Returns the routes added to the group
 	 */
-	public function getRoutes() -> <RouteInterface>
+	public function getRoutes() -> <RouteInterface[]>
 	{
 		return this->_routes;
 	}
@@ -208,7 +210,7 @@ class Group implements GroupInterface
 	 * @param string/array paths
 	 * @return Phalcon\Mvc\Router\Route
 	 */
-	public function addPut(string! pattern, paths = null) -> <RouteInterface>
+	public function addPut(string! pattern, var paths = null) -> <RouteInterface>
 	{
 		return this->_addRoute(pattern, paths, "PUT");
 	}
@@ -272,7 +274,7 @@ class Group implements GroupInterface
 	/**
 	 * Adds a route applying the common attributes
 	 */
-	protected function _addRoute(string! pattern, var paths = null, httpMethods = null) -> <RouteInterface>
+	protected function _addRoute(string! pattern, var paths = null, var httpMethods = null) -> <RouteInterface>
 	{
 		var mergedPaths, route, defaultPaths;
 

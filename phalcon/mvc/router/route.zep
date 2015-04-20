@@ -419,7 +419,7 @@ class Route implements RouteInterface
 	 * ))->setName('about');
 	 *</code>
 	 */
-	public function setName(string! name) -> <RouteInterface>
+	public function setName(string name) -> <RouteInterface>
 	{
 		let this->_name = name;
 		return this;
@@ -429,11 +429,8 @@ class Route implements RouteInterface
 	 * Sets a callback that is called if the route is matched.
 	 * The developer can implement any arbitrary conditions here
 	 * If the callback returns false the route is treated as not matched
-	 *
-	 * @param callback callback
-	 * @return Phalcon\Mvc\Router\Route
 	 */
-	public function beforeMatch(var callback) -> <RouteInterface>
+	public function beforeMatch(callable callback) -> <RouteInterface>
 	{
 		let this->_beforeMatch = callback;
 		return this;
@@ -442,7 +439,7 @@ class Route implements RouteInterface
 	/**
 	 * Returns the 'before match' callback if any
 	 */
-	public function getBeforeMatch() -> var
+	public function getBeforeMatch() -> callable
 	{
 		return this->_beforeMatch;
 	}
@@ -510,7 +507,7 @@ class Route implements RouteInterface
 	/**
 	 * Returns the HTTP methods that constraint matching the route
 	 */
-	public function getHttpMethods() -> array|string
+	public function getHttpMethods() -> array | string
 	{
 		return this->_methods;
 	}

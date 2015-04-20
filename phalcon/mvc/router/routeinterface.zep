@@ -55,7 +55,7 @@ interface RouteInterface
 	/**
 	 * Sets the route's name
 	 */
-	public function setName(string! name) -> void;
+	public function setName(string name) -> void;
 
 	/**
 	 * Sets a set of HTTP methods that constraint the matching of the route

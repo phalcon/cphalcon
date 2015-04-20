@@ -98,7 +98,7 @@ class Router implements InjectionAwareInterface, RouterInterface
 	/**
 	 * Phalcon\Mvc\Router constructor
 	 */
-	public function __construct(boolean defaultRoutes = true)
+	public function __construct(boolean! defaultRoutes = true)
 	{
 		array routes = [];
 
@@ -186,7 +186,7 @@ class Router implements InjectionAwareInterface, RouterInterface
 	/**
 	 * Set whether router must remove the extra slashes in the handled routes
 	 */
-	public function removeExtraSlashes(boolean remove) -> <RouterInterface>
+	public function removeExtraSlashes(boolean! remove) -> <RouterInterface>
 	{
 		let this->_removeExtraSlashes = remove;
 		return this;
