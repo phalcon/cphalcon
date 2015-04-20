@@ -352,7 +352,6 @@ abstract class Dialect
 			let escapeChar = null;
 		}
 
-		let columns = definition["columns"];
 		if typeof columns == "array" {
 
 			let selectedColumns = [];
