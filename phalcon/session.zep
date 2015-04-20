@@ -76,7 +76,7 @@ class Session
 		 * Create the instance
 		 */
 		if typeof adapter == "string" {
-			if strpos(adapter, "\\") !== 0 {
+			if !class_exists(adapter) {
 				let adapter = "\\Phalcon\\Session\\Adapter\\" . adapter;
 			}
 			let this->_adapter = new {adapter}(options);
