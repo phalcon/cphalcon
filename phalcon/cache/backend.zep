@@ -101,8 +101,6 @@ abstract class Backend
 
 	/**
 	 * Stops the frontend without store any cached content
-	 *
-	 * @param boolean stopBuffer
 	 */
 	public function stop(boolean stopBuffer = true) -> void
 	{
@@ -114,8 +112,6 @@ abstract class Backend
 
 	/**
 	 * Checks whether the last cache is fresh or cached
-	 *
-	 * @return boolean
 	 */
 	public function isFresh() -> boolean
 	{
@@ -124,8 +120,6 @@ abstract class Backend
 
 	/**
 	 * Checks whether the cache has starting buffering or not
-	 *
-	 * @return boolean
 	 */
 	public function isStarted() -> boolean
 	{

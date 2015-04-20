@@ -17,7 +17,6 @@
  +------------------------------------------------------------------------+
  */
 
-
 namespace Phalcon\Cache;
 
 use Phalcon\Cache\Exception;
@@ -88,7 +87,7 @@ class Multiple
 	}
 
 	/**
-	 * Adds a backend		 
+	 * Adds a backend
 	 */
 	public function push(<BackendInterface> backend) -> <Multiple>
 	{

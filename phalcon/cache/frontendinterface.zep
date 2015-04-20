@@ -29,17 +29,13 @@ interface FrontendInterface
 
 	/**
 	 * Returns the cache lifetime
-	 *
-	 * @return int
 	 */
-	public function getLifetime();
+	public function getLifetime() -> int;
 
 	/**
 	 * Check whether if frontend is buffering output
-	 *
-	 * @return boolean
 	 */
-	public function isBuffering();
+	public function isBuffering() -> boolean;
 
 	/**
 	 * Starts the frontend
