@@ -73,7 +73,11 @@ class Gettext extends Adapter implements AdapterInterface, \ArrayAccess
 	{
 		var translation, domain;
 
-		let domain = func_get_arg(2);
+		if func_num_args() > 2 {
+			let domain = func_get_arg(2);
+		} else {
+			let domain = null;
+		}
 
 		if !domain {
 			let translation = gettext(index);
