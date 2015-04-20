@@ -21,6 +21,7 @@ namespace Phalcon\Acl\Adapter;
 
 use Phalcon\Acl\Adapter;
 use Phalcon\Acl\Resource;
+use Phalcon\Acl\Role;
 use Phalcon\Acl\Exception;
 
 /**
@@ -161,7 +162,7 @@ class Memory extends Adapter
 			let roleObject = role;
 		} else {
 			let roleName = role;
-			let roleObject = new \Phalcon\Acl\Role(role);
+			let roleObject = new Role(role);
 		}
 
 		if isset this->_rolesNames[roleName] {
@@ -612,20 +613,16 @@ class Memory extends Adapter
 
 	/**
 	 * Return an array with every role registered in the list
-	 *
-	 * @return Phalcon\Acl\Role[]
 	 */
-	public function getRoles()
+	public function getRoles() -> <Role[]>
 	{
 		return this->_roles;
 	}
 
 	/**
 	 * Return an array with every resource registered in the list
-	 *
-	 * @return Phalcon\Acl\Resource[]
 	 */
-	public function getResources()
+	public function getResources() -> <$Resource[]>
 	{
 		return this->_resources;
 	}
