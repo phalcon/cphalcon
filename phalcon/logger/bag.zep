@@ -56,7 +56,7 @@ class Bag extends Adapter
 				} elseif typeof logger == "array" && isset(logger["adapter"]) && isset(logger["name"]) {
 					var adapterClass, options, instance, formatter;
 
-					if strpos(logger["adapter"], "\\") === 0 {
+					if class_exists(logger["adapter"]) {
 						let adapterClass = logger["adapter"];
 					} else {
 						let adapterClass = "\\Phalcon\\Logger\\Adapter\\" . logger["adapter"];
