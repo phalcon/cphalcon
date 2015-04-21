@@ -94,6 +94,13 @@ class Column implements ColumnInterface
 	const TYPE_BOOLEAN = 8;
 
 	/**
+	 * Double abstract data type
+	 *
+	 */
+	const TYPE_DOUBLE = 9;
+	
+	
+	/**
 	 * Bind Type Null
 	 */
 	const BIND_PARAM_NULL = 0;
@@ -279,7 +286,7 @@ class Column implements ColumnInterface
 		 * Check if the column has a decimal scale
 		 */
 		if fetch scale, definition["scale"] {
-			if type == self::TYPE_INTEGER || type == self::TYPE_FLOAT || type == self::TYPE_DECIMAL {
+			if type == self::TYPE_INTEGER || type == self::TYPE_FLOAT || type == self::TYPE_DECIMAL || type == self::TYPE_DOUBLE {
 				let this->_scale = scale;
 			} else {
 				throw new Exception("Column type does not support scale parameter");
