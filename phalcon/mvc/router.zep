@@ -49,7 +49,6 @@ use Phalcon\Http\RequestInterface;
  *
  *	echo $router->getControllerName();
  *</code>
- *
  */
 class Router implements InjectionAwareInterface,RouterInterface
 {
@@ -720,10 +719,6 @@ class Router implements InjectionAwareInterface,RouterInterface
 	public function mount(<Router\Group> group) -> <Router>
 	{
 		var groupRoutes, beforeMatch, hostname, routes, route;
-
-		if typeof group != "object" {
-			throw new Exception("The group of routes is not valid");
-		}
 
 		let groupRoutes = group->getRoutes();
 		if !count(groupRoutes) {
