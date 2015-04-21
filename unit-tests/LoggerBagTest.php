@@ -276,4 +276,29 @@ class LoggerBagTest extends PHPUnit_Framework_TestCase
 			$this->assertEquals($line, $loggerMessage2[$key]);
 		}
 	}
+
+	public function testHas()
+	{
+		$logfile1 = 'unit-tests/logs/file-1.log';
+		$logfile2 = 'unit-tests/logs/file-2.log';
+
+		@unlink($logfile1);
+		@unlink($logfile2);
+
+		$logger = new \Phalcon\Logger\Bag(array(
+			'file1' => array(
+				'adapter' => 'file',
+				'name' => $logfile1,
+			),
+			'file2' => array(
+				'adapter' => 'file',
+				'name' => $logfile2,
+				'formatter' => new \Phalcon\Logger\Formatter\Json(),
+			),
+		));
+
+		$this->assertTrue($logger->has('file1'));
+		$this->assertTrue($logger->has('file2'));
+		$this->assertFalse($logger->has('file3'));
+	}
 }

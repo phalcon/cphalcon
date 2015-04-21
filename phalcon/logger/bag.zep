@@ -101,7 +101,7 @@ class Bag extends Adapter
 	 * @param name
 	 * @param logger
 	 */
-	public function push(string name, logger)
+	public function push(string! name, logger)
 	{
 		if empty name || is_numeric(name) || !is_string(name) {
 			throw new Exception("Invalid logger bag name");
@@ -222,13 +222,21 @@ class Bag extends Adapter
 	 *
 	 * @return Phalcon\Logger\Bag
 	 */
-	public function setDefault(string name) -> <Bag>
+	public function setDefault(string! name) -> <Bag>
 	{
 		if !isset(this->_loggers[name]) {
 			throw new Exception("Undefined logger object: " . name);
 		}
 		let this->_default = name;
 		return this;
+	}
+
+	/**
+	 * Check whether the logger by a name
+	 */
+	public function has(string! name) -> boolean
+	{
+		return isset this->_loggers[name];
 	}
 
 	/**
