@@ -361,20 +361,22 @@ abstract class Dialect
 				/**
 				 * Escape column name
 				 */
+                                if isset column[0] {
 				let columnItem = column[0];
-				if typeof columnItem == "array" {
-					let columnSql = this->getSqlExpression(columnItem, escapeChar);
-				} else {
-					if columnItem == "*" {
-						let columnSql = columnItem;
+					if typeof columnItem == "array" {
+						let columnSql = this->getSqlExpression(columnItem, escapeChar);
 					} else {
-						if globals_get("db.escape_identifiers") {
-							let columnSql = escapeChar . columnItem . escapeChar;
-						} else {
+						if columnItem == "*" {
 							let columnSql = columnItem;
+						} else {
+							if globals_get("db.escape_identifiers") {
+								let columnSql = escapeChar . columnItem . escapeChar;
+							} else {
+								let columnSql = columnItem;
+							}
 						}
 					}
-				}
+                                }
 
 				/**
 				 * Escape column domain
