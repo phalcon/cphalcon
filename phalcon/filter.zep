@@ -39,11 +39,11 @@ use Phalcon\Filter\Exception;
  */
 class Filter implements FilterInterface
 {
-    const FILTER_EMAIL      = "email";
+	const FILTER_EMAIL      = "email";
 
-    const FILTER_ABSINT     = "absint";
+	const FILTER_ABSINT     = "absint";
 
-    const FILTER_INT        = "int";
+	const FILTER_INT        = "int";
 
 	const FILTER_INT_CAST   = "int!";
 
