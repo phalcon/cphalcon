@@ -50,7 +50,7 @@ interface ManagerInterface
 	 *
 	 * @param string type
 	 */
-	public function detachAll(type=null);
+	public function detachAll(type = null);
 
 	/**
 	 * Fires a event in the events manager causing that the acive listeners will be notified about it
@@ -60,7 +60,7 @@ interface ManagerInterface
 	 * @param mixed  data
 	 * @return mixed
 	 */
-	public function fire(eventType, source, data=null);
+	public function fire(eventType, source, data = null);
 
 	/**
 	 * Returns all the attached listeners of a certain type

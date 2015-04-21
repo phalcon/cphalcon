@@ -19,6 +19,8 @@
 
 namespace Phalcon\Di;
 
+use Phalcon\DiInterface;
+
 /**
  * Phalcon\Di\InjectionAwareInterface
  *
@@ -30,11 +32,10 @@ interface InjectionAwareInterface
 	/**
 	 * Sets the dependency injector
 	 */
-	public function setDI(<\Phalcon\DiInterface> dependencyInjector);
+	public function setDI(<DiInterface> dependencyInjector);
 
 	/**
 	 * Returns the internal dependency injector
 	 */
-	public function getDI() -> <\Phalcon\DiInterface>;
-
+	public function getDI() -> <DiInterface>;
 }

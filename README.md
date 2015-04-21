@@ -6,7 +6,7 @@ Phalcon is an open source web framework delivered as a C extension for the PHP l
 Get Started
 -----------
 
-Phalcon is written in Zephir/C with platform independence in mind. As a result, Phalcon is available on Microsoft Windows, GNU/Linux, and Mac OS X. You can either download a binary package for the system of your choice or build it from sources.
+Phalcon is written in Zephir/C with platform independence in mind. As a result, Phalcon is available on Microsoft Windows, GNU/Linux, and Mac OS X. You can either download a binary package for the system of your choice or build it from source.
 
 ### Windows
 

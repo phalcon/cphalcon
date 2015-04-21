@@ -83,5 +83,4 @@ class $Inline
 		let this->_attributes = attributes;
 		return this;
 	}
-
 }

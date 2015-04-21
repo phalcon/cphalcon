@@ -38,16 +38,9 @@ class Builder
 	 * @param array argument
 	 * @return mixed
 	 */
-	private function _buildParameter(<DiInterface> dependencyInjector, int position, argument)
+	private function _buildParameter(<DiInterface> dependencyInjector, int position, array! argument)
 	{
 		var type, name, value, instanceArguments;
-
-		/**
-		 * All the arguments must be an array
-		 */
-		if typeof argument != "array" {
-			throw new Exception("Argument at position " . position . " must be an array");
-		}
 
 		/**
 		 * All the arguments must have a type
@@ -102,7 +95,7 @@ class Builder
 				/**
 				 * The instance parameter does not have arguments for its constructor
 				 */
-				return dependencyInjector->get(name);				
+				return dependencyInjector->get(name);
 
 			default:
 				/**
@@ -113,22 +106,11 @@ class Builder
 	}
 
 	/**
-	 * Resolves an array of parameters
-	 *
-	 * @param Phalcon\DiInterface dependencyInjector
-	 * @param array arguments
-	 * @return array
+	 * Resolves an array of parameters	 	 
 	 */
-	private function _buildParameters(<DiInterface> dependencyInjector, arguments) -> array
+	private function _buildParameters(<DiInterface> dependencyInjector, array! arguments) -> array
 	{
 		var position, argument, buildArguments;
-
-		/**
-		 * The arguments group must be an array of arrays
-		 */
-		if typeof arguments != "array" {
-			throw new Exception("Definition arguments must be an array");
-		}
 
 		let buildArguments = [];
 		for position, argument in arguments {

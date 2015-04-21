@@ -23,7 +23,9 @@
 
 #include <php.h>
 #include <Zend/zend.h>
+
 #include "kernel/globals.h"
+#include "kernel/main.h"
 
 /** Class Retrieving/Checking */
 int zephir_class_exists(const zval *class_name, int autoload TSRMLS_DC);

@@ -19,6 +19,9 @@
 
 namespace Phalcon\Mvc\Model;
 
+use Phalcon\Mvc\ModelInterface;
+use Phalcon\Mvc\Model\Transaction\ManagerInterface;
+
 /**
  * Phalcon\Mvc\Model\TransactionInterface
  *
@@ -28,18 +31,9 @@ interface TransactionInterface
 {
 
 	/**
-	 * Phalcon\Mvc\Model\Transaction constructor
-	 *
-	 * @param Phalcon\DiInterface dependencyInjector
-	 * @param boolean autoBegin
-	 * @param string service
-	 */
-	public function __construct(<\Phalcon\DiInterface> dependencyInjector, autoBegin = false, service = null);
-
-	/**
 	 * Sets transaction manager related to the transaction
 	 */
-	public function setTransactionManager(<\Phalcon\Mvc\Model\Transaction\ManagerInterface> manager);
+	public function setTransactionManager(<ManagerInterface> manager);
 
 	/**
 	 * Starts the transaction
@@ -109,6 +103,5 @@ interface TransactionInterface
 	/**
 	 * Sets object which generates rollback action
 	 */
-	public function setRollbackedRecord(<\Phalcon\Mvc\ModelInterface> record);
-
+	public function setRollbackedRecord(<ModelInterface> record);
 }

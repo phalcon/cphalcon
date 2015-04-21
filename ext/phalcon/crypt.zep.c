@@ -655,7 +655,7 @@ PHP_METHOD(Phalcon_Crypt, _cryptUnpadText) {
 PHP_METHOD(Phalcon_Crypt, encrypt) {
 
 	zend_bool _4, _5;
-	zephir_nts_static zephir_fcall_cache_entry *_2 = NULL, *_6 = NULL;
+	zephir_nts_static zephir_fcall_cache_entry *_2 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS, _3;
 	zval *text_param = NULL, *key_param = NULL, *encryptKey = NULL, *ivSize = NULL, *iv = NULL, *cipher, *mode, *blockSize = NULL, *paddingType, *padded = NULL, _0, *_1 = NULL;
 	zval *text = NULL, *key = NULL;
@@ -743,7 +743,7 @@ PHP_METHOD(Phalcon_Crypt, encrypt) {
 		_4 = _5;
 	}
 	if (_4) {
-		ZEPHIR_CALL_METHOD(&padded, this_ptr, "_cryptpadtext", &_6, text, mode, blockSize, paddingType);
+		ZEPHIR_CALL_METHOD(&padded, this_ptr, "_cryptpadtext", NULL, text, mode, blockSize, paddingType);
 		zephir_check_call_status();
 	} else {
 		ZEPHIR_CPY_WRT(padded, text);
@@ -764,7 +764,6 @@ PHP_METHOD(Phalcon_Crypt, encrypt) {
  */
 PHP_METHOD(Phalcon_Crypt, decrypt) {
 
-	zephir_nts_static zephir_fcall_cache_entry *_4 = NULL;
 	zend_bool _3;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *text_param = NULL, *key = NULL, *decryptKey = NULL, *ivSize = NULL, *cipher, *mode, *keySize, *length, *blockSize = NULL, *paddingType, *decrypted = NULL, *_0, _1, *_2;
@@ -838,7 +837,7 @@ PHP_METHOD(Phalcon_Crypt, decrypt) {
 		_3 = ZEPHIR_IS_STRING(mode, "ecb");
 	}
 	if (_3) {
-		ZEPHIR_RETURN_CALL_METHOD(this_ptr, "_cryptunpadtext", &_4, decrypted, mode, blockSize, paddingType);
+		ZEPHIR_RETURN_CALL_METHOD(this_ptr, "_cryptunpadtext", NULL, decrypted, mode, blockSize, paddingType);
 		zephir_check_call_status();
 		RETURN_MM();
 	}

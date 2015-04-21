@@ -195,7 +195,7 @@ class Annotations implements StrategyInterface
 	/**
 	 * Read the model's column map, this can't be inferred
 	 */
-	public final function getColumnMaps(<ModelInterface> model, <\Phalcon\DiInterface> dependencyInjector) -> array
+	public final function getColumnMaps(<ModelInterface> model, <DiInterface> dependencyInjector) -> array
 	{
 		var annotations, className, reflection, propertiesAnnotations;
 		var property, propAnnotations, columnAnnotation, columnName;

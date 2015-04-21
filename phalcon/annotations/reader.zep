@@ -142,7 +142,7 @@ class Reader implements ReaderInterface
 	 * @param string docBlock
 	 * @return array
 	 */
-	public static function parseDocBlock(string docBlock, file=null, line=null)
+	public static function parseDocBlock(string docBlock, file = null, line = null)
 	{
 		if typeof file != "string" {
 			let file = "eval code";

@@ -88,10 +88,7 @@ class Multiple
 	}
 
 	/**
-	 * Adds a backend
-	 *
-	 * @param Phalcon\Cache\BackendInterface backend
-	 * @return Phalcon\Cache\Multiple
+	 * Adds a backend		 
 	 */
 	public function push(<BackendInterface> backend) -> <Multiple>
 	{

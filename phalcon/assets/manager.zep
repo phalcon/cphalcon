@@ -25,6 +25,8 @@ use Phalcon\Assets\Collection;
 use Phalcon\Assets\Exception;
 use Phalcon\Assets\Resource\Js as ResourceJs;
 use Phalcon\Assets\Resource\Css as ResourceCss;
+use Phalcon\Assets\Inline\Css as InlineCss;
+use Phalcon\Assets\Inline\Js as InlineJs;
 
 /**
  * Phalcon\Assets\Manager
@@ -113,7 +115,7 @@ class Manager
 	*/
 	public function addInlineCss(string content, filter = true, attributes = null)
 	{
-		this->addInlineCodeByType("css", new \Phalcon\Assets\Inline\Css(content, filter, attributes));
+		this->addInlineCodeByType("css", new InlineCss(content, filter, attributes));
 	}
 
 	/**
@@ -146,7 +148,7 @@ class Manager
 	*/
 	public function addInlineJs(string content, filter = true, attributes = null)
 	{
-		this->addInlineCodeByType("js", new \Phalcon\Assets\Inline\Js(content, filter, attributes));
+		this->addInlineCodeByType("js", new InlineJs(content, filter, attributes));
 	}
 
 	/**

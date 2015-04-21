@@ -37,7 +37,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_Digit) {
 
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Validation\\Validator, Digit, phalcon, validation_validator_digit, phalcon_validation_validator_ce, phalcon_validation_validator_digit_method_entry, 0);
 
-	zend_class_implements(phalcon_validation_validator_digit_ce TSRMLS_CC, 1, phalcon_validation_validatorinterface_ce);
 	return SUCCESS;
 
 }

@@ -38,42 +38,30 @@ abstract class Adapter
 
 	/**
 	 * Sets the annotations parser
-	 *
-	 * @param Phalcon\Annotations\ReaderInterface reader
 	 */
 	public function setReader(<ReaderInterface> reader)
 	{
-		if typeof reader != "object" {
-			throw new Exception("Invalid annotations reader");
-		}
 		let this->_reader = reader;
 	}
 
 	/**
 	 * Returns the annotation reader
-	 *
-	 * @return Phalcon\Annotations\ReaderInterface
 	 */
 	public function getReader() -> <ReaderInterface>
 	{
-		var reader;
-		let reader = this->_reader;
-		if typeof reader != "object" {
-			let reader = new \Phalcon\Annotations\Reader(),
-				this->_reader = reader;
+		if typeof this->_reader != "object" {
+			let this->_reader = new \Phalcon\Annotations\Reader();
 		}
-		return reader;
+		return this->_reader;
 	}
 
 	/**
 	 * Parses or retrieves all the annotations found in a class
 	 *
 	 * @param string|object className
-	 * @return Phalcon\Annotations\Reflection
 	 */
 	public function get(var className) -> <Reflection>
 	{
-
 		var annotations, classAnnotations, parsedAnnotations, realClassName, reader;
 
 		/**
@@ -119,11 +107,8 @@ abstract class Adapter
 
 	/**
 	 * Returns the annotations found in all the class' methods
-	 *
-	 * @param string className
-	 * @return array
 	 */
-	public function getMethods(var className)
+	public function getMethods(string className) -> array
 	{
 		var classAnnotations;
 
@@ -144,10 +129,6 @@ abstract class Adapter
 
 	/**
 	 * Returns the annotations found in a specific method
-	 *
-	 * @param string className
-	 * @param string methodName
-	 * @return Phalcon\Annotations\Collection
 	 */
 	public function getMethod(string className, string methodName) -> <Collection>
 	{
@@ -180,11 +161,8 @@ abstract class Adapter
 
 	/**
 	 * Returns the annotations found in all the class' methods
-	 *
-	 * @param string className
-	 * @return array
 	 */
-	public function getProperties(string className)
+	public function getProperties(string className) -> array
 	{
 		var classAnnotations;
 
@@ -205,10 +183,6 @@ abstract class Adapter
 
 	/**
 	 * Returns the annotations found in a specific property
-	 *
-	 * @param string className
-	 * @param string propertyName
-	 * @return Phalcon\Annotations\Collection
 	 */
 	public function getProperty(string className, string propertyName) -> <Collection>
 	{

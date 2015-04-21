@@ -41,14 +41,14 @@ interface EscaperInterface
 	 */
 	public function getEncoding();
 
-    /**
+	/**
      * Sets the HTML quoting type for htmlspecialchars
      *
      * @param int quoteType
      */
-    public function setHtmlQuoteType(quoteType);
+	public function setHtmlQuoteType(quoteType);
 
-    /**
+	/**
      * Escapes a HTML string
      *
      * @param string text

@@ -132,7 +132,7 @@ class Redis extends Backend implements BackendInterface
 	 * @param   long lifetime
 	 * @return  mixed
 	 */
-	public function get(keyName, lifetime=null)
+	public function get(keyName, lifetime = null)
 	{
 		var redis, frontend, prefix, lastKey, cachedContent;
 

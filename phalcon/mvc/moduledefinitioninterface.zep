@@ -19,6 +19,8 @@
 
 namespace Phalcon\Mvc;
 
+use Phalcon\DiInterface;
+
 /**
  * Phalcon\Mvc\ModuleDefinitionInterface
  *
@@ -30,11 +32,11 @@ interface ModuleDefinitionInterface
 	/**
 	 * Registers an autoloader related to the module
 	 */
-	public function registerAutoloaders(<\Phalcon\DiInterface> dependencyInjector=null);
+	public function registerAutoloaders(<DiInterface> dependencyInjector = null);
 
 	/**
-	 * Registers an autoloader related to the module
+	 * Registers services related to the module
 	 */
-	public function registerServices(<\Phalcon\DiInterface> dependencyInjector);
+	public function registerServices(<DiInterface> dependencyInjector);
 
 }

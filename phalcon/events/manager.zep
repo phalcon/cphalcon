@@ -212,7 +212,7 @@ class Manager implements ManagerInterface
 	 * @param Phalcon\Events\Event event
 	 * @return mixed
 	 */
-	public final function fireQueue(var queue, var event)
+	public final function fireQueue(var queue, <Event> event)
 	{
 		var status, arguments, eventName, data, iterator, source, handler;
 		boolean collect, cancelable;
@@ -225,10 +225,6 @@ class Manager implements ManagerInterface
 			} else {
 				throw new Exception("The queue is not valid");
 			}
-		}
-
-		if typeof event != "object" || !(event instanceof Event) {
-			throw new Exception("The event is not valid");
 		}
 
 		let status = null, arguments = null;

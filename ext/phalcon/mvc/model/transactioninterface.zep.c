@@ -26,15 +26,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_TransactionInterface) {
 }
 
 /**
- * Phalcon\Mvc\Model\Transaction constructor
- *
- * @param Phalcon\DiInterface dependencyInjector
- * @param boolean autoBegin
- * @param string service
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_TransactionInterface, __construct);
-
-/**
  * Sets transaction manager related to the transaction
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_TransactionInterface, setTransactionManager);

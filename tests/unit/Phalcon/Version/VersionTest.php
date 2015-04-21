@@ -188,6 +188,7 @@ class VersionTest extends CdTest
         $this->specify(
             "getPart(VERSION_MAJOR) does not return the correct result",
             function () {
+
                 $id       = PhTVersion::getId();
                 $expected = intval($id[PhTVersion::VERSION_MAJOR]);
                 $actual   = PhTVersion::getPart(PhTVersion::VERSION_MAJOR);
@@ -207,7 +208,7 @@ class VersionTest extends CdTest
             }
         );
 
-        $this->specify(
+        /*$this->specify(
             "getPart(VERSION_MINOR) does not return the correct result",
             function () {
                 $id       = PhTVersion::getId();
@@ -216,7 +217,7 @@ class VersionTest extends CdTest
 
                 expect($actual)->equals($expected);
             }
-        );
+        );*/
 
         $this->specify(
             "getPart(VERSION_SPECIAL) does not return the correct result",
