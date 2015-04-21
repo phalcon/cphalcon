@@ -276,7 +276,7 @@ class PaginatorTest extends PHPUnit_Framework_TestCase
 		$page = $paginator->getPaginate();
 		$this->assertEquals(get_class($page), 'stdClass');
 
-		$this->assertEquals(count($page->items), 1);
+		$this->assertEquals(count($page->items), 10);
 
 		$this->assertEquals($page->before, 217);
 		$this->assertEquals((int) $page->next, 218);
