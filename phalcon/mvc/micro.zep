@@ -365,10 +365,6 @@ class Micro extends Injectable implements \ArrayAccess
 		var mainHandler, handlers, lazyHandler, prefix, methods, pattern,
 			subHandler, realHandler, prefixedPattern, route, handler, name;
 
-		if typeof collection != "object" {
-			throw new Exception("Collection is not valid");
-		}
-
 		/**
 		 * Get the main handler
 		 */

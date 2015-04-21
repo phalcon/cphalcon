@@ -219,10 +219,6 @@ class Manager implements InjectionAwareInterface, EventsAwareInterface
 	{
 		var service, connectionService, connection, dependencyInjector, entityName;
 
-		if typeof model != "object" {
-			throw new Exception("A valid collection instance is required");
-		}
-
 		let service = "mongo";
 		let connectionService = this->_connectionServices;
 		if typeof connectionService == "array" {
