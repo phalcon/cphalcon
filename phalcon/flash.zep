@@ -58,7 +58,7 @@ abstract class Flash
 	}
 
 	/**
-	 * Set whether the output must be implictly flushed to the output or returned as string
+	 * Set whether the output must be implicitly flushed to the output or returned as string
 	 */
 	public function setImplicitFlush(boolean implicitFlush) -> <FlashInterface>
 	{
@@ -67,7 +67,7 @@ abstract class Flash
 	}
 
 	/**
-	 * Set if the output must be implictily formatted with HTML
+	 * Set if the output must be implicitly formatted with HTML
 	 */
 	public function setAutomaticHtml(boolean automaticHtml) -> <FlashInterface>
 	{
