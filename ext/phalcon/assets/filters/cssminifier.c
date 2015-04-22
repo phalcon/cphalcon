@@ -282,15 +282,15 @@ int phalcon_cssmin(zval *return_value, zval *style TSRMLS_DC) {
 	ZVAL_NULL(return_value);
 
 	if (Z_TYPE_P(style) != IS_STRING) {
-		PHALCON_THROW_EXCEPTION_STRW(phalcon_assets_exception_ce, "Style must be a string");
+		ZEPHIR_THROW_EXCEPTION_STRW(phalcon_assets_exception_ce, "Style must be a string");
 		return FAILURE;
 	}
 
 	if (phalcon_cssmin_internal(return_value, style, &error TSRMLS_CC) == FAILURE) {
 		if (error) {
-			PHALCON_THROW_EXCEPTION_STRW(phalcon_assets_exception_ce, error);
+			ZEPHIR_THROW_EXCEPTION_STRW(phalcon_assets_exception_ce, error);
 		} else {
-			PHALCON_THROW_EXCEPTION_STRW(phalcon_assets_exception_ce, "Unknown error");
+			ZEPHIR_THROW_EXCEPTION_STRW(phalcon_assets_exception_ce, "Unknown error");
 		}
 
 		return FAILURE;
