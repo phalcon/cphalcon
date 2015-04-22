@@ -91,8 +91,8 @@ class Redis extends Backend implements BackendInterface
 	}
 
 	/**
-	* Create internal connection to redis
-	*/
+	 * Create internal connection to redis
+	 */
 	public function _connect()
 	{
 		var options, redis, persistent, success, host, port, auth;
@@ -167,7 +167,7 @@ class Redis extends Backend implements BackendInterface
 	 * @param long lifetime
 	 * @param boolean stopBuffer
 	 */
-	public function save(keyName = null, content = null, lifetime = null, stopBuffer = true)
+	public function save(keyName = null, content = null, lifetime = null, boolean stopBuffer = true)
 	{
 		var prefixedKey, lastKey, prefix, frontend, redis, cachedContent, preparedContent,
 			tmp, tt1, success, options, specialKey, isBuffering;
@@ -436,10 +436,8 @@ class Redis extends Backend implements BackendInterface
 
 	/**
 	 * Immediately invalidates all existing items.
-	 *
-	 * @return boolean
 	 */
-	public function flush()
+	public function flush() -> boolean
 	{
 		var options, specialKey, redis, keys, key, lastKey;
 
