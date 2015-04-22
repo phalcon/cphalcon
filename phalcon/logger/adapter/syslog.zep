@@ -71,10 +71,8 @@ class Syslog extends Adapter implements AdapterInterface
 
 	/**
 	 * Returns the internal formatter
-	 *
-	 * @return Phalcon\Logger\Formatter\Line
 	 */
-	public function getFormatter()
+	public function getFormatter() -> <\Phalcon\Logger\Formatter\Syslog>
 	{
 		if typeof this->_formatter !== "object" {
 			let this->_formatter = new \Phalcon\Logger\Formatter\Syslog();
