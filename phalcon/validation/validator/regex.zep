@@ -42,12 +42,8 @@ class Regex extends Validator
 
 	/**
 	 * Executes the validation
-	 *
-	 * @param  Phalcon\Validation validation
-	 * @param  string field
-	 * @return boolean
 	 */
-	public function validate(<Validation> validation, field) -> boolean
+	public function validate(<Validation> validation, string! field) -> boolean
 	{
 		var matches, failed, message, value, label, replacePairs;
 

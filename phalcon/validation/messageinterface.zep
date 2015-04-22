@@ -40,24 +40,16 @@ interface MessageInterface
 
 	/**
 	 * Sets message type
-	 *
-	 * @param string type
-	 * @return Phalcon\Validation\Message
 	 */
 	public function setType(string! type) -> <Message>;
 
 	/**
 	 * Returns message type
-	 *
-	 * @return string
 	 */
 	public function getType() -> string;
 
 	/**
 	 * Sets verbose message
-	 *
-	 * @param string message
-	 * @return Phalcon\Validation\Message
 	 */
 	public function setMessage(string! message) -> <Message>;
 
@@ -70,9 +62,6 @@ interface MessageInterface
 
 	/**
 	 * Sets field name related to message
-	 *
-	 * @param string field
-	 * @return Phalcon\Validation\Message
 	 */
 	public function setField(string! field) -> <Message>;
 
@@ -85,16 +74,11 @@ interface MessageInterface
 
 	/**
 	 * Magic __toString method returns verbose message
-	 *
-	 * @return string
 	 */
-	public function __toString();
+	public function __toString() -> string;
 
 	/**
 	 * Magic __set_state helps to recover messsages from serialization
-	 *
-	 * @param array message
-	 * @return Phalcon\Validation\Message
 	 */
 	public static function __set_state(array! message) -> <MessageInterface>;
 
