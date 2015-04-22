@@ -14,49 +14,110 @@
  +------------------------------------------------------------------------+
  | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
  |          Eduar Carvajal <eduar@phalconphp.com>                         |
+ |          Stanislav Kiryukhin <korsar.zn@gmail.com>                     |
  +------------------------------------------------------------------------+
  */
 
-namespace Phalcon\Mvc;
+namespace Phalcon\Mvc\Router;
 
 use Phalcon\Mvc\Router\RouteInterface;
-use Phalcon\Mvc\Router\GroupInterface;
 
 /**
- * Phalcon\Mvc\RouterInterface
+ * Phalcon\Mvc\Router\GroupInterface
  *
- * Interface for Phalcon\Mvc\Router
+ *
+ *<code>
+ * $router = new \Phalcon\Mvc\Router();
+ *
+ * //Create a group with a common module and controller
+ * $blog = new Group(array(
+ * 	'module' => 'blog',
+ * 	'controller' => 'index'
+ * ));
+ *
+ * //All the routes start with /blog
+ * $blog->setPrefix('/blog');
+ *
+ * //Add a route to the group
+ * $blog->add('/save', array(
+ * 	'action' => 'save'
+ * ));
+ *
+ * //Add another route to the group
+ * $blog->add('/edit/{id}', array(
+ * 	'action' => 'edit'
+ * ));
+ *
+ * //This route maps to a controller different than the default
+ * $blog->add('/blog', array(
+ * 	'controller' => 'about',
+ * 	'action' => 'index'
+ * ));
+ *
+ * //Add the group to the router
+ * $router->mount($blog);
+ *</code>
+ *
  */
-interface RouterInterface
+interface GroupInterface
 {
 
 	/**
-	 * Sets the name of the default module
+	 * Set a hostname restriction for all the routes in the group
 	 */
-	public function setDefaultModule(string! moduleName) -> void;
+	public function setHostname(string hostname) -> <GroupInterface>;
 
 	/**
-	 * Sets the default controller name
+	 * Returns the hostname restriction
 	 */
-	public function setDefaultController(string! controllerName) -> void;
+	public function getHostname() -> string;
 
 	/**
-	 * Sets the default action name
+	 * Set a common uri prefix for all the routes in this group
 	 */
-	public function setDefaultAction(string! actionName) -> void;
+	public function setPrefix(string prefix) -> <GroupInterface>;
 
 	/**
-	 * Sets an array of default paths
+	 * Returns the common prefix for all the routes
 	 */
-	public function setDefaults(array! defaults) -> void;
+	public function getPrefix() -> string;
 
 	/**
-	 * Handles routing information received from the rewrite engine
+	 * Sets a callback that is called if the route is matched.
+	 * The developer can implement any arbitrary conditions here
+	 * If the callback returns false the route is treated as not matched
 	 */
-	public function handle(string uri = null) -> void;
+	 public function beforeMatch(callable beforeMatch) -> <GroupInterface>;
+
+	/**
+	 * Returns the 'before match' callback if any
+	 */
+	public function getBeforeMatch() -> callable;
+
+	/**
+	 * Set common paths for all the routes in the group
+	 *
+	 * @param array paths
+	 * @return Phalcon\Mvc\Router\Group
+	 */
+	public function setPaths(var paths) -> <GroupInterface>;
+
+	/**
+	 * Returns the common paths defined for this group
+	 */
+	public function getPaths() -> array | string;
+
+	/**
+	 * Returns the routes added to the group
+	 */
+	public function getRoutes() -> <RouteInterface[]>;
 
 	/**
 	 * Adds a route to the router on any HTTP method
+	 *
+	 *<code>
+	 * router->add('/about', 'About::index');
+	 *</code>
 	 */
 	public function add(string! pattern, var paths = null, var httpMethods = null) -> <RouteInterface>;
 
@@ -78,7 +139,7 @@ interface RouterInterface
 	/**
 	 * Adds a route to the router that only match if the HTTP method is PATCH
 	 */
-	public function addPatch(string! pattern, paths = null) -> <RouteInterface>;
+	public function addPatch(string! pattern, var paths = null) -> <RouteInterface>;
 
 	/**
 	 * Adds a route to the router that only match if the HTTP method is DELETE
@@ -96,68 +157,7 @@ interface RouterInterface
 	public function addHead(string! pattern, var paths = null) -> <RouteInterface>;
 
 	/**
-	 * Mounts a group of routes in the router
-	 */
-	public function mount(<GroupInterface> group) -> <RouterInterface>;
-
-	/**
-	 * Removes all the defined routes
+	 * Removes all the pre-defined routes
 	 */
 	public function clear() -> void;
-
-	/**
-	 * Returns processed module name
-	 */
-	public function getModuleName() -> string;
-
-	/**
-	 * Returns processed namespace name
-	 */
-	public function getNamespaceName() -> string;
-
-	/**
-	 * Returns processed controller name
-	 */
-	public function getControllerName() -> string;
-
-	/**
-	 * Returns processed action name
-	 */
-	public function getActionName() -> string;
-
-	/**
-	 * Returns processed extra params
-	 */
-	public function getParams() -> array;
-
-	/**
-	 * Returns the route that matchs the handled URI
-	 */
-	public function getMatchedRoute() -> <RouteInterface>;
-
-	/**
-	 * Return the sub expressions in the regular expression matched
-	 */
-	public function getMatches() -> array;
-
-	/**
-	 * Check if the router macthes any of the defined routes
-	 */
-	public function wasMatched() -> boolean;
-
-	/**
-	 * Return all the routes defined in the router
-	 */
-	public function getRoutes() -> <RouteInterface[]>;
-
-	/**
-	 * Returns a route object by its id
-	 */
-	public function getRouteById(string! id) -> <RouteInterface>;
-
-	/**
-	 * Returns a route object by its name
-	 */
-	public function getRouteByName(string! name) -> <RouteInterface>;
-
 }

@@ -59,17 +59,13 @@ interface BackendInterface
 
 	/**
 	 * Checks whether the last cache is fresh or cached
-	 *
-	 * @return boolean
 	 */
-	public function isFresh();
+	public function isFresh() -> boolean;
 
 	/**
 	 * Checks whether the cache has starting buffering or not
-	 *
-	 * @return boolean
 	 */
-	public function isStarted();
+	public function isStarted() -> boolean;
 
 	/**
 	 * Sets the last key used in the cache

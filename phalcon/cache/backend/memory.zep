@@ -83,7 +83,7 @@ class Memory extends Backend implements BackendInterface
 	 * @param long lifetime
 	 * @param boolean stopBuffer
 	 */
-	public function save(var keyName = null, var content = null, lifetime = null, stopBuffer = true) -> void
+	public function save(var keyName = null, var content = null, lifetime = null, boolean stopBuffer = true) -> void
 	{
 		var lastKey, frontend, cachedContent, preparedContent, isBuffering;
 
@@ -266,8 +266,6 @@ class Memory extends Backend implements BackendInterface
 
 	/**
 	 * Immediately invalidates all existing items.
-	 *
-	 * @return boolean
 	 */
 	public function flush() -> boolean
 	{

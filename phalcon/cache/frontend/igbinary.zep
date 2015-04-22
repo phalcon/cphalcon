@@ -76,10 +76,8 @@ class Igbinary extends Data implements FrontendInterface
 
 	/**
 	 * Returns the cache lifetime
-	 *
-	 * @return integer
 	 */
-	public function getLifetime()
+	public function getLifetime() -> int
 	{
 		var options, lifetime;
 		let options = this->_frontendOptions;
@@ -93,8 +91,6 @@ class Igbinary extends Data implements FrontendInterface
 
 	/**
 	 * Check whether if frontend is buffering output
-	 *
-	 * @return boolean
 	 */
 	public function isBuffering() -> boolean
 	{

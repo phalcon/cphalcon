@@ -62,8 +62,6 @@ class None implements FrontendInterface
 
 	/**
 	 * Returns cache lifetime, always one second expiring content
-	 *
-	 * @return int
 	 */
 	public function getLifetime() -> int
 	{
@@ -72,8 +70,6 @@ class None implements FrontendInterface
 
 	/**
 	 * Check whether if frontend is buffering output, always false
-	 *
-	 * @return boolean
 	 */
 	public function isBuffering() -> boolean
 	{

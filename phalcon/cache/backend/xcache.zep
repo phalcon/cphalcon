@@ -104,7 +104,7 @@ class Xcache extends Backend implements BackendInterface
 	 * @param long lifetime
 	 * @param boolean stopBuffer
 	 */
-	public function save(keyName = null, content = null, lifetime = null, stopBuffer = true)
+	public function save(keyName = null, content = null, lifetime = null, boolean stopBuffer = true)
 	{
 		var lastKey, frontend, cachedContent, preparedContent, tmp, tt1, success, isBuffering,
 			options, keys, specialKey;
@@ -131,8 +131,8 @@ class Xcache extends Backend implements BackendInterface
 		}
 
 		/**
-		* Take the lifetime from the frontend or read it from the set in start()
-		*/
+		 * Take the lifetime from the frontend or read it from the set in start()
+		 */
 		if !lifetime {
 			let tmp = this->_lastLifetime;
 			if !tmp {
@@ -215,7 +215,7 @@ class Xcache extends Backend implements BackendInterface
 	 * @param string prefix
 	 * @return array
 	 */
-	public function queryKeys(prefix = null)
+	public function queryKeys(prefix = null) -> array
 	{
 		var options, prefixed, specialKey, keys, retval, key, realKey;
 
@@ -257,7 +257,7 @@ class Xcache extends Backend implements BackendInterface
 	 * @param   long lifetime
 	 * @return boolean
 	 */
-	public function exists(var keyName = null, lifetime = null)
+	public function exists(var keyName = null, lifetime = null) -> boolean
 	{
 		var lastKey;
 
@@ -339,8 +339,6 @@ class Xcache extends Backend implements BackendInterface
 
 	/**
 	 * Immediately invalidates all existing items.
-	 *
-	 * @return boolean
 	 */
 	public function flush() -> boolean
 	{
