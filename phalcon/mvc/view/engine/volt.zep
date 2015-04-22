@@ -297,11 +297,8 @@ class Volt extends Engine implements EngineInterface
 
 	/**
 	 * Sorts an array
-	 *
-	 * @param array value
-	 * @return array
 	 */
-	public function sort(value)
+	public function sort(array value) -> array
 	{
 		asort(value);
 		return value;
