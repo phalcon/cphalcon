@@ -373,7 +373,7 @@ class Security implements InjectionAwareInterface
 		/**
 		 * The value is the same?
 		 */
-		let returnValue = token == session->get(this->_tokenValueSessionID);
+		let returnValue = (token == session->get(this->_tokenValueSessionID));
 
 		/**
 		 * Remove the key and value of the CSRF token in session
