@@ -74,8 +74,6 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
 
 	/**
 	 * Phalcon\Cli\Router constructor
-	 *
-	 * @param boolean defaultRoutes
 	 */
 	public function __construct(boolean defaultRoutes = true)
 	{
@@ -101,13 +99,10 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
 		let this->_params = [],
 			this->_defaultParams = [],
 			this->_routes = routes;
-
 	}
 
 	/**
 	 * Sets the dependency injector
-	 *
-	 * @param Phalcon\DiInterface dependencyInjector
 	 */
 	public function setDI(<DiInterface> dependencyInjector)
 	{
@@ -116,8 +111,6 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
 
 	/**
 	 * Returns the internal dependency injector
-	 *
-	 * @return Phalcon\DiInterface
 	 */
 	public function getDI() -> <DiInterface>
 	{
@@ -126,8 +119,6 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
 
 	/**
 	 * Sets the name of the default module
-	 *
-	 * @param string moduleName
 	 */
 	public function setDefaultModule(string moduleName)
 	{
@@ -136,8 +127,6 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
 
 	/**
 	 * Sets the default controller name
-	 *
-	 * @param string taskName
 	 */
 	public function setDefaultTask(string taskName)
 	{
@@ -146,8 +135,6 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
 
 	/**
 	 * Sets the default action name
-	 *
-	 * @param string actionName
 	 */
 	public function setDefaultAction(string actionName)
 	{
@@ -164,9 +151,6 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
 	 *		'action' => 'index'
 	 * ));
 	 *</code>
-	 *
-	 * @param array defaults
-	 * @return Phalcon\Mvc\Router
 	 */
 	public function setDefaults(array! defaults) -> <Router>
 	{
@@ -407,7 +391,7 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
 	 * @param string/array paths
 	 * @return Phalcon\Cli\Router\Route
 	 */
-	public function add(string! pattern, paths = null) -> <Router>
+	public function add(string! pattern, paths = null) -> <Route>
 	{
 		var route;
 
@@ -418,8 +402,6 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
 
 	/**
 	 * Returns proccesed module name
-	 *
-	 * @return string
 	 */
 	public function getModuleName() -> string
 	{
@@ -428,8 +410,6 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
 
 	/**
 	 * Returns proccesed task name
-	 *
-	 * @return string
 	 */
 	public function getTaskName() -> string
 	{
@@ -438,8 +418,6 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
 
 	/**
 	 * Returns proccesed action name
-	 *
-	 * @return string
 	 */
 	public function getActionName() -> string
 	{
@@ -458,8 +436,6 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
 
 	/**
 	 * Returns the route that matchs the handled URI
-	 *
-	 * @return Phalcon\Cli\Router\Route
 	 */
 	public function getMatchedRoute() -> <Route>
 	{
@@ -478,8 +454,6 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
 
 	/**
 	 * Checks if the router macthes any of the defined routes
-	 *
-	 * @return bool
 	 */
 	public function wasMatched() -> boolean
 	{
@@ -488,10 +462,8 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
 
 	/**
 	 * Returns all the routes defined in the router
-	 *
-	 * @return Phalcon\Cli\Router\Route[]
 	 */
-	public function getRoutes()
+	public function getRoutes() -> <Route[]>
 	{
 		return this->_routes;
 	}
@@ -516,9 +488,6 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
 
 	/**
 	 * Returns a route object by its name
-	 *
-	 * @param string name
-	 * @return Phalcon\Cli\Router\Route | boolean
 	 */
 	public function getRouteByName(string! name) -> <Route> | boolean
 	{
