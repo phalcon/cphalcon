@@ -426,7 +426,6 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 
 		let hiddenParam = this->_hiddenParamNumber;
 
-
 		let nextHiddenParam = hiddenParam + 1;
 
 		/**

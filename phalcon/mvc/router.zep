@@ -816,8 +816,6 @@ class Router implements InjectionAwareInterface, RouterInterface
 
 	/**
 	 * Returns all the routes defined in the router
-	 *
-	 * @return Phalcon\Mvc\Router\Route[]
 	 */
 	public function getRoutes() -> <RouteInterface[]>
 	{

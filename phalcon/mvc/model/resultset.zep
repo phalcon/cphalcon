@@ -385,10 +385,8 @@ abstract class Resultset
 
 	/**
 	 * Returns the error messages produced by a batch operation
-	 *
-	 * @return Phalcon\Mvc\Model\MessageInterface[]
 	 */
-	public function getMessages()
+	public function getMessages() -> <\Phalcon\Mvc\Model\MessageInterface[]>
 	{
 		return this->_errorMessages;
 	}

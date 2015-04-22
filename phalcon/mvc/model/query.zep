@@ -2203,10 +2203,8 @@ class Query implements QueryInterface, InjectionAwareInterface
 
 	/**
 	 * Returns the current cache backend instance
-	 *
-	 * @return Phalcon\Cache\BackendInterface
 	 */
-	public function getCache()
+	public function getCache() -> <\Phalcon\Cache\BackendInterface>
 	{
 		return this->_cache;
 	}

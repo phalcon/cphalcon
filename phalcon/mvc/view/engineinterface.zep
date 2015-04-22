@@ -29,11 +29,8 @@ interface EngineInterface
 
 	/**
 	 * Phalcon\Mvc\View\Engine constructor
-	 *
-	 * @param Phalcon\Mvc\ViewInterface view
-	 * @param Phalcon\DiInterface dependencyInjector
 	 */
-	public function __construct(view, <\Phalcon\DiInterface> dependencyInjector = null);
+	public function __construct(<\Phalcon\Mvc\ViewInterface> view, <\Phalcon\DiInterface> dependencyInjector = null);
 
 	/**
 	 * Returns cached ouput on another view stage
@@ -44,11 +41,8 @@ interface EngineInterface
 
 	/**
 	 * Renders a partial inside another view
-	 *
-	 * @param string partialPath
-	 * @return string
 	 */
-	public function partial(partialPath);
+	public function partial(string! partialPath) -> string;
 
 	/**
 	 * Renders a view using the template engine
@@ -57,6 +51,6 @@ interface EngineInterface
 	 * @param array params
 	 * @param boolean mustClean
 	 */
-	public function render(string path, params, mustClean = false);
+	public function render(string path, params, boolean mustClean = false);
 
 }
