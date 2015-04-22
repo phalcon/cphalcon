@@ -29,11 +29,8 @@ interface ReaderInterface
 
 	/**
 	 * Reads annotations from the class dockblocks, its methods and/or properties
-	 *
-	 * @param string className
-	 * @return array
 	 */
-	public function parse(className);
+	public function parse(string className) -> array;
 
 	/**
 	 * Parses a raw doc block returning the annotations found

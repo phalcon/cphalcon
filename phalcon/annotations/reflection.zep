@@ -63,12 +63,9 @@ class Reflection
 
 	/**
 	 * Returns the annotations found in the class docblock
-	 *
-	 * @return Phalcon\Annotations\Collection|false
 	 */
 	public function getClassAnnotations() -> <Collection> | boolean
 	{
-
 		var annotations, reflectionClass, collection;
 
 		let annotations = this->_classAnnotations;
@@ -155,7 +152,7 @@ class Reflection
 	 *
 	 * @return array data
 	 */
-	public static function __set_state(data)
+	public static function __set_state(data) -> <Reflection>
 	{
 		var reflectionData;
 

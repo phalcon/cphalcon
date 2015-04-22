@@ -71,8 +71,6 @@ class Collection implements \Iterator, \Countable
 
 	/**
 	 * Returns the number of annotations in the collection
-	 *
-	 * @return int
 	 */
 	public function count() -> int
 	{
@@ -103,8 +101,6 @@ class Collection implements \Iterator, \Countable
 
 	/**
 	 * Returns the current position/key in the iterator
-	 *
-	 * @return int
 	 */
 	public function key() -> int
 	{
@@ -113,7 +109,6 @@ class Collection implements \Iterator, \Countable
 
 	/**
 	 * Moves the internal iteration pointer to the next position
-	 *
 	 */
 	public function next() -> void
 	{
@@ -122,8 +117,6 @@ class Collection implements \Iterator, \Countable
 
 	/**
 	 * Check if the current annotation in the iterator is valid
-	 *
-	 * @return boolean
 	 */
 	public function valid() -> boolean
 	{
@@ -132,8 +125,6 @@ class Collection implements \Iterator, \Countable
 
 	/**
 	 * Returns the internal annotations as an array
-	 *
-	 * @return Phalcon\Annotations\Annotation[]
 	 */
 	public function getAnnotations() -> <Annotation[]>
 	{
@@ -142,9 +133,6 @@ class Collection implements \Iterator, \Countable
 
 	/**
 	 * Returns the first annotation that match a name
-	 *
-	 * @param string name
-	 * @return Phalcon\Annotations\Annotation
 	 */
 	public function get(string name) -> <Annotation>
 	{
@@ -163,9 +151,6 @@ class Collection implements \Iterator, \Countable
 
 	/**
 	 * Returns all the annotations that match a name
-	 *
-	 * @param string name
-	 * @return Phalcon\Annotations\Annotation[]
 	 */
 	public function getAll(string name) -> <Annotation[]>
 	{
@@ -186,9 +171,6 @@ class Collection implements \Iterator, \Countable
 
 	/**
 	 * Check if an annotation exists in a collection
-	 *
-	 * @param string name
-	 * @return boolean
 	 */
 	public function has(string name) -> boolean
 	{

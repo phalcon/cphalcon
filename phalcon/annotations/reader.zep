@@ -31,13 +31,9 @@ class Reader implements ReaderInterface
 
 	/**
 	 * Reads annotations from the class dockblocks, its methods and/or properties
-	 *
-	 * @param string className
-	 * @return array
 	 */
-	public function parse(string className)
+	public function parse(string className) -> array
 	{
-
 		var annotations, reflection, comment,
 			properties, methods, property, method,
 			classAnnotations, line, annotationsProperties,
