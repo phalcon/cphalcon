@@ -330,8 +330,13 @@ class Security implements InjectionAwareInterface
 
 	/**
 	 * Check if the CSRF token sent in the request is the same that the current in session
+	 *
+	 * @param string tokenKey
+	 * @param string tokenValue
+	 * @param boolean destroyIfValid  Removes the key and value of the CSRF token in session if true
+	 * @return boolean
 	 */
-	public function checkToken(var tokenKey = null, var tokenValue = null, boolean destroyIfValid = true) -> boolean
+	public function checkToken(tokenKey = null, tokenValue = null, destroyIfValid = true) -> boolean
 	{
 		var dependencyInjector, session, request, token, returnValue;
 
@@ -368,7 +373,7 @@ class Security implements InjectionAwareInterface
 		/**
 		 * The value is the same?
 		 */
-		let returnValue = (token == session->get(this->_tokenValueSessionID));
+		let returnValue = token == session->get(this->_tokenValueSessionID);
 
 		/**
 		 * Remove the key and value of the CSRF token in session
