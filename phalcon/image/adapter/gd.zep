@@ -505,25 +505,25 @@ class Gd extends \Phalcon\Image\Adapter implements \Phalcon\Image\AdapterInterfa
 			imagegif(this->_image, file);
 			return true;
 		}
-		if strcmp(ext, "jpg") == 0 || strcmp(ext, "jpeg") == 0 {
+		if strcasecmp(ext, "jpg") == 0 || strcasecmp(ext, "jpeg") == 0 {
 			let this->_type = 2;
 			let this->_mime = image_type_to_mime_type(this->_type);
 			imagejpeg(this->_image, file, quality);
 			return true;
 		}
-		if strcmp(ext, "png") == 0 {
+		if strcasecmp(ext, "png") == 0 {
 			let this->_type = 3;
 			let this->_mime = image_type_to_mime_type(this->_type);
 			imagejpeg(this->_image, file);
 			return true;
 		}
-		if strcmp(ext, "wbmp") == 0 {
+		if strcasecmp(ext, "wbmp") == 0 {
 			let this->_type = 15;
 			let this->_mime = image_type_to_mime_type(this->_type);
 			imagewbmp(this->_image, file);
 			return true;
 		}
-		if strcmp(ext, "xbm") == 0 {
+		if strcasecmp(ext, "xbm") == 0 {
 			let this->_type = 16;
 			let this->_mime = image_type_to_mime_type(this->_type);
 			imagexbm(this->_image, file);
@@ -540,19 +540,19 @@ class Gd extends \Phalcon\Image\Adapter implements \Phalcon\Image\AdapterInterfa
 			imagegif(this->_image);
 			return ob_get_clean();
 		}
-		if strcmp(ext, "jpg") == 0 || strcmp(ext, "jpeg") == 0 {
+		if strcasecmp(ext, "jpg") == 0 || strcasecmp(ext, "jpeg") == 0 {
 			imagejpeg(this->_image, null, quality);
 			return ob_get_clean();
 		}
-		if strcmp(ext, "png") == 0 {
+		if strcasecmp(ext, "png") == 0 {
 			imagejpeg(this->_image);
 			return ob_get_clean();
 		}
-		if strcmp(ext, "wbmp") == 0 {
+		if strcasecmp(ext, "wbmp") == 0 {
 			imagewbmp(this->_image);
 			return ob_get_clean();
 		}
-		if strcmp(ext, "xbm") == 0 {
+		if strcasecmp(ext, "xbm") == 0 {
 			imagexbm(this->_image, null);
 			return ob_get_clean();
 		}
