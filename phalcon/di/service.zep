@@ -305,7 +305,7 @@ class Service implements ServiceInterface
 		}
 
 		if !fetch definition, attributes["_definition"] {
-			throw new Exception("The attribute '_name' is required");
+			throw new Exception("The attribute '_definition' is required");
 		}
 
 		if !fetch shared, attributes["_shared"] {

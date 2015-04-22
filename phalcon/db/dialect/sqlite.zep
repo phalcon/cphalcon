@@ -184,10 +184,6 @@ class Sqlite extends Dialect implements DialectInterface
 	{
 		var sql, indexType;
 
-		if typeof index != "object" {
-			throw new Exception("Index parameter must be an object compatible with Phalcon\\Db\\IndexInterface");
-		}
-
 		let indexType = index->getType();
 
 		if !empty indexType {
