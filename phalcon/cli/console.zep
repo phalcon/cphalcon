@@ -249,22 +249,14 @@ class Console implements InjectionAwareInterface, EventsAwareInterface
 
 	/**
 	 * Set an specific argument
-	 *
-	 * @param var arguments
-	 * @param boolean str
-	 * @param boolean shift
 	 */
-	public function setArgument(arguments = null, boolean! str = true, boolean! shift = true) -> <Console>
+	public function setArgument(array! arguments = null, boolean! str = true, boolean! shift = true) -> <Console>
 	{
 		var arg, pos, args, opts, handleArgs;
 
 		let args = [],
 			opts = [],
 			handleArgs = [];
-
-		if typeof arguments != "array" {
-			throw new Exception("Arguments must be an array");
-		}
 
 		if shift && count(arguments) {
 			array_shift(arguments);
