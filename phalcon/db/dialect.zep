@@ -197,62 +197,46 @@ abstract class Dialect
 	 */
 	public final function getSqlTable(var table, string escapeChar = null) -> string
 	{
-		var sqlTable, sqlSchema, aliasName, sqlTableAlias,
-			schemaName, tableName;
-
-		if escapeChar === null{
-			let escapeChar = (string) this->_escapeChar;
-		}
+		array tableExpression;
+		let tableExpression = [
+			"type": "scalar",
+			"column": [
+				"type": "qualified"
+				"name": table,
+			]
+		];
 
 		if typeof table == "array" {
-
 			/**
 			 * The index "0" is the table name
 			 */
-			let tableName = table[0];
-
-			if globals_get("db.escape_identifiers") {
-				let sqlTable = escapeChar . tableName . escapeChar;
-			} else {
-				let sqlTable = tableName;
+			if isset table[0] {
+				let tableExpression["column"]["name"] = table[0];
 			}
 
 			/**
 			 * The index "1" is the schema name
 			 */
-			let schemaName = table[1];
-
-			if schemaName != null && schemaName != "" {
-				if globals_get("db.escape_identifiers") {
-					let sqlSchema = escapeChar . schemaName . escapeChar . "." . sqlTable;
-				} else {
-					let sqlSchema = schemaName . "." . sqlTable;
-				}
-			} else {
-				let sqlSchema = sqlTable;
+			if isset table[1] {
+				let tableExpression["column"]["domain"] = table[1];
 			}
 
 			/**
 			 * The index "2" is the table alias
 			 */
-			if fetch aliasName, table[2] {
-				if globals_get("db.escape_identifiers") {
-					let sqlTableAlias = sqlSchema . " AS " . escapeChar . aliasName . escapeChar;
-				} else {
-					let sqlTableAlias = sqlSchema . " AS " . aliasName;
-				}
-			} else {
-				let sqlTableAlias = sqlSchema;
+			if isset table[2] {
+				tableExpression["sqlAlias"] = table[2];
 			}
-
-			return sqlTableAlias;
 		}
 
-		if globals_get("db.escape_identifiers") {
-			return escapeChar . table . escapeChar;
+		if escapeChar === null{
+			let escapeChar = (string) this->_escapeChar;
 		}
 
-		return table;
+		/**
+		 * Resolve table SQL
+		 */
+		return this->getSqlExpression(tableExpression, escapeChar);
 	}
 
 	/**
@@ -260,14 +244,54 @@ abstract class Dialect
 	 */
 	public final function getSqlColumn(array! column, string escapeChar = null) -> string
 	{
-		var columnExpression;
+		array columnExpression;
+		let columnExpression = column;
 
 		if !isset column["type"] {
-			let columnExpression = this->convertToSqlExpressionColumn(column);
-		} else {
-			let columnExpression = column;
+
+			let tableExpression = [
+				"type": "scalar",
+				"column": null
+			];
+
+			/**
+			 * The index "0" is the column field
+			 */
+			if typeof column[0] == "array" {
+				let tableExpression["column"] = column[0];
+			} elseif column[0] == "*" {
+				let columnExpression["column"] = [
+					"type": "all"
+				];
+			} else {
+				let columnExpression["column"] = [
+					"type": "qualified",
+					"name": column[0],
+				];
+			}
+
+			/**
+			 * The index "1" is the domain column
+			 */
+			if isset column[1] {
+				if typeof column[0] == "array" {
+					let columnExpression["domain"] = column[1];
+				} else {
+					let columnExpression["column"]["domain"] = column[1];
+				}
+			}
+
+			/**
+			 * The index "2" is the column alias
+			 */
+			if !empty column[2] {
+				let columnExpression["sqlAlias"] = column[2];
+			}
 		}
 
+		/**
+		 * Resolve column SQL
+		 */
 		return this->getSqlExpression(columnExpression, escapeChar);
 	}
 
@@ -501,18 +525,35 @@ abstract class Dialect
 	/**
 	 * Resolve scalar expressions
 	 */
-	protected function getSqlExpressionScalar(array! expression, string escapeChar = null) -> string
+	protected final function getSqlExpressionScalar(array! expression, string escapeChar = null) -> string
 	{
 		if escapeChar === null && globals_get("db.escape_identifiers") {
 			let escapeChar = (string) this->_escapeChar;
 		}
 
-		var column, columnAlias, columnSql, columnAliasSql;
-
+		var column, domain, columnAlias, columnSql, columnAliasSql;
 		let column = expression["column"];
+
+		/**
+		 * Resolve column SQL
+		 */
 		let columnSql = this->getSqlExpression(column);
 
-		if fetch columnAlias, expression["sqlAlias"] {
+		/**
+		 * Escape domain and concatenate to column SQL
+		 */
+		if fetch domain, expression["domain"] && domain {
+			if globals_get("db.escape_identifiers") {
+				let domain = escapeChar . domain . escapeChar;
+			}
+
+			let columnSql = domain . "." . columnSql;
+		}
+
+		/**
+		 * Escape alias and concatenate to column SQL
+		 */
+		if fetch columnAlias, expression["sqlAlias"] && columnAlias {
 			if globals_get("db.escape_identifiers") {
 				let columnAliasSql = escapeChar . columnAlias . escapeChar;
 			} else {
@@ -530,36 +571,33 @@ abstract class Dialect
 	/**
 	 * Resolve qualified expressions
 	 */
-	protected function getSqlExpressionQualified(array! expression, string escapeChar = null) -> string
+	protected final function getSqlExpressionQualified(array! expression, string escapeChar = null) -> string
 	{
-		var name, domain;
+		var column, domain;
+		let column = expression["name"];
 		
-		let name = expression["name"];
-		
-		if name != "*" && globals_get("db.escape_identifiers") {
-			let name = escapeChar . name . escapeChar;
-		} else {
-			let name = name;
+		if column != "*" && globals_get("db.escape_identifiers") {
+			let column = escapeChar . column . escapeChar;
 		}
 
 		/**
 		 * A domain could be a table/schema
 		 */
-		if fetch domain, expression["domain"] {
+		if fetch domain, expression["domain"] && domain {
 			if globals_get("db.escape_identifiers") {
-				return escapeChar . domain . escapeChar . "." . name;
+				return escapeChar . domain . escapeChar . "." . column;
 			} else {
-				return domain . "." . name;
+				return domain . "." . column;
 			}
 		}
 
-		return name;
+		return column;
 	}
 
 	/**
 	 * Resolve object expressions
 	 */
-	protected function getSqlExpressionObject(array! expression, string escapeChar = null) -> string
+	protected final function getSqlExpressionObject(array! expression, string escapeChar = null) -> string
 	{
 		return this->getSqlExpression([
 			"type": "all",
@@ -570,7 +608,7 @@ abstract class Dialect
 	/**
 	 * Resolve binary operations expressions
 	 */
-	protected function getSqlExpressionBinaryOperations(array! expression, string escapeChar = null) -> string
+	protected final function getSqlExpressionBinaryOperations(array! expression, string escapeChar = null) -> string
 	{
 		var left, right;
 
@@ -583,7 +621,7 @@ abstract class Dialect
 	/**
 	 * Resolve unary operations expressions
 	 */
-	protected function getSqlExpressionUnaryOperations(array! expression, string escapeChar = null) -> string
+	protected final function getSqlExpressionUnaryOperations(array! expression, string escapeChar = null) -> string
 	{
 		var left, right;
 
@@ -607,7 +645,7 @@ abstract class Dialect
 	/**
 	 * Resolve function calls
 	 */
-	protected function getSqlExpressionFunctionCall(array! expression, string escapeChar = null) -> string
+	protected final function getSqlExpressionFunctionCall(array! expression, string escapeChar = null) -> string
 	{
 		var arguments, argument;
 		array sqlArguments = [];
@@ -626,7 +664,7 @@ abstract class Dialect
 	/**
 	 * Resolve Lists
 	 */
-	protected function getSqlExpressionLists(array! expression, string escapeChar = null) -> string
+	protected final function getSqlExpressionLists(array! expression, string escapeChar = null) -> string
 	{
 		var item;
 		array sqlItems = [];
@@ -641,25 +679,25 @@ abstract class Dialect
 	/**
 	 * Resolve *
 	 */
-	protected function getSqlExpressionAll(array! expression, string escapeChar = null) -> string
+	protected final function getSqlExpressionAll(array! expression, string escapeChar = null) -> string
 	{
 		var domain;
 
-		if !fetch domain, expression["domain"] {
-			return "*";
+		if fetch domain, expression["domain"] && domain {
+			if globals_get("db.escape_identifiers") {
+				return escapeChar . domain . escapeChar . ".*";
+			} else {
+				return domain . ".*";
+			}
 		}
 
-		if globals_get("db.escape_identifiers") {
-			return escapeChar . domain . escapeChar . ".*";
-		} else {
-			return domain . ".*";
-		}
+		return "*";
 	}
 	
 	/**
 	 * Resolve CAST of values
 	 */
-	protected function getSqlExpressionCastValue(array! expression, string escapeChar = null) -> string
+	protected final function getSqlExpressionCastValue(array! expression, string escapeChar = null) -> string
 	{
 		var left, right;
 	
@@ -672,7 +710,7 @@ abstract class Dialect
 	/**
 	 * Resolve CONVERT of values encodings
 	 */
-	protected function getSqlExpressionConvertValue(array! expression, string escapeChar = null) -> string
+	protected final function getSqlExpressionConvertValue(array! expression, string escapeChar = null) -> string
 	{
 		var left, right;
 	
@@ -680,43 +718,5 @@ abstract class Dialect
 			right = this->getSqlExpression(expression["right"], escapeChar);
 		
 		return "CONVERT(" . left . " USING " . right . ")";
-	}
-
-	/**
-	 * Converts raw representation column in SQL expression
-	 */
-	protected function convertToSqlExpressionColumn(array! column) -> array
-	{
-		array columnExpression = [];
-
-		/**
-		 * Column filed
-		 */
-		if typeof column[0] == "array" {
-			let columnExpression["column"] = column[0];
-		} elseif column[0] == "*" {
-			let columnExpression["column"] = [
-				"type": "all"
-			];
-		} else {
-			let columnExpression["column"] = [
-				"type": "qualified",
-				"name": column[0]
-			];
-
-			if isset column[1] {
-				let columnExpression["column"]["domain"] = column[1];
-			}
-		}
-
-		/**
-		 * Column alias
-		 */
-		if isset column[2] {
-			let columnExpression["sqlAlias"] = column[2];
-		}
-
-		let columnExpression["type"] = "scalar";
-		return columnExpression;
 	}
 }
