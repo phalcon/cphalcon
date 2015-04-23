@@ -3769,6 +3769,14 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	}
 
 	/**
+	 * Returns the name of the method for a gets properties
+	 */
+	protected function getGettersProperty(string! str) -> string
+	{
+		return "get" . Text::camelize(str);
+	}
+
+	/**
 	 * Handles method calls when a method is not implemented
 	 *
 	 * @param	string method
@@ -4021,7 +4029,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 		/**
 		 * Check if the property has a the getters
 		 */
-		let method = "get" . Text::camelize(property);
+		let method = this->getGettersProperty(property);
 
 		if method_exists(this, method) {
 			return this->{method}();
