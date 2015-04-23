@@ -52,76 +52,48 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_RouterInterface, handle);
 
 /**
  * Adds a route to the router on any HTTP method
- *
- * @param string pattern
- * @param string/array paths
- * @param string httpMethods
- * @return Phalcon\Mvc\Router\RouteInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_RouterInterface, add);
 
 /**
  * Adds a route to the router that only match if the HTTP method is GET
- *
- * @param string pattern
- * @param string/array paths
- * @return Phalcon\Mvc\Router\RouteInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_RouterInterface, addGet);
 
 /**
  * Adds a route to the router that only match if the HTTP method is POST
- *
- * @param string pattern
- * @param string/array paths
- * @return Phalcon\Mvc\Router\RouteInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_RouterInterface, addPost);
 
 /**
  * Adds a route to the router that only match if the HTTP method is PUT
- *
- * @param string pattern
- * @param string/array paths
- * @return Phalcon\Mvc\Router\RouteInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_RouterInterface, addPut);
 
 /**
  * Adds a route to the router that only match if the HTTP method is PATCH
- *
- * @param string pattern
- * @param string/array paths
- * @return Phalcon\Mvc\Router\Route
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_RouterInterface, addPatch);
 
 /**
  * Adds a route to the router that only match if the HTTP method is DELETE
- *
- * @param string pattern
- * @param string/array paths
- * @return Phalcon\Mvc\Router\RouteInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_RouterInterface, addDelete);
 
 /**
  * Add a route to the router that only match if the HTTP method is OPTIONS
- *
- * @param string pattern
- * @param string/array paths
- * @return Phalcon\Mvc\Router\RouteInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_RouterInterface, addOptions);
 
 /**
  * Adds a route to the router that only match if the HTTP method is HEAD
- *
- * @param string pattern
- * @param string/array paths
- * @return Phalcon\Mvc\Router\RouteInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_RouterInterface, addHead);
+
+/**
+ * Mounts a group of routes in the router
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_RouterInterface, mount);
 
 /**
  * Removes all the defined routes
@@ -130,80 +102,56 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_RouterInterface, clear);
 
 /**
  * Returns processed module name
- *
- * @return string
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_RouterInterface, getModuleName);
 
 /**
  * Returns processed namespace name
- *
- * @return string
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_RouterInterface, getNamespaceName);
 
 /**
  * Returns processed controller name
- *
- * @return string
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_RouterInterface, getControllerName);
 
 /**
  * Returns processed action name
- *
- * @return string
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_RouterInterface, getActionName);
 
 /**
  * Returns processed extra params
- *
- * @return array
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_RouterInterface, getParams);
 
 /**
  * Returns the route that matchs the handled URI
- *
- * @return Phalcon\Mvc\Router\RouteInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_RouterInterface, getMatchedRoute);
 
 /**
  * Return the sub expressions in the regular expression matched
- *
- * @return array
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_RouterInterface, getMatches);
 
 /**
  * Check if the router macthes any of the defined routes
- *
- * @return bool
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_RouterInterface, wasMatched);
 
 /**
  * Return all the routes defined in the router
- *
- * @return Phalcon\Mvc\Router\RouteInterface[]
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_RouterInterface, getRoutes);
 
 /**
  * Returns a route object by its id
- *
- * @param string id
- * @return Phalcon\Mvc\Router\RouteInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_RouterInterface, getRouteById);
 
 /**
  * Returns a route object by its name
- *
- * @param string name
- * @return Phalcon\Mvc\Router\RouteInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_RouterInterface, getRouteByName);
 

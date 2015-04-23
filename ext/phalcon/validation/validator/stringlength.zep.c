@@ -51,10 +51,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_StringLength) {
 
 /**
  * Executes the validation
- *
- * @param Phalcon\Validation validation
- * @param string field
- * @return boolean
  */
 PHP_METHOD(Phalcon_Validation_Validator_StringLength, validate) {
 
@@ -95,7 +91,7 @@ PHP_METHOD(Phalcon_Validation_Validator_StringLength, validate) {
 		_1 = !zephir_is_true(isSetMax);
 	}
 	if (_1) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_validation_exception_ce, "A minimum or maximum must be set", "phalcon/validation/validator/stringlength.zep", 64);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_validation_exception_ce, "A minimum or maximum must be set", "phalcon/validation/validator/stringlength.zep", 60);
 		return;
 	}
 	ZEPHIR_CALL_METHOD(&value, validation, "getvalue", NULL, field);

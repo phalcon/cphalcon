@@ -45,10 +45,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_Identical) {
 
 /**
  * Executes the validation
- *
- * @param Phalcon\Validation validation
- * @param string             field
- * @return boolean
  */
 PHP_METHOD(Phalcon_Validation_Validator_Identical, validate) {
 

@@ -15,7 +15,10 @@
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
 #include "kernel/operators.h"
+#include "kernel/string.h"
 #include "kernel/array.h"
+#include "ext/spl/spl_exceptions.h"
+#include "kernel/exception.h"
 
 
 /**
@@ -42,21 +45,29 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_Regex) {
 
 /**
  * Executes the validation
- *
- * @param  Phalcon\Validation validation
- * @param  string field
- * @return boolean
  */
 PHP_METHOD(Phalcon_Validation_Validator_Regex, validate) {
 
-	zephir_nts_static zephir_fcall_cache_entry *_5 = NULL, *_8 = NULL, *_10 = NULL;
+	zephir_nts_static zephir_fcall_cache_entry *_7 = NULL, *_9 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zend_bool failed, _2;
-	zval *validation, *field, *matches, *message = NULL, *value = NULL, *label = NULL, *replacePairs, *_0 = NULL, *_1 = NULL, *_3 = NULL, *_4 = NULL, *_6, *_7 = NULL, *_9;
+	zval *field = NULL;
+	zval *validation, *field_param = NULL, *matches, *message = NULL, *value = NULL, *label = NULL, *replacePairs, *_0 = NULL, *_1 = NULL, *_3 = NULL, *_4 = NULL, *_5, *_6 = NULL, *_8;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 2, 0, &validation, &field);
+	zephir_fetch_params(1, 2, 0, &validation, &field_param);
 
+	if (unlikely(Z_TYPE_P(field_param) != IS_STRING && Z_TYPE_P(field_param) != IS_NULL)) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'field' must be a string") TSRMLS_CC);
+		RETURN_MM_NULL();
+	}
+
+	if (likely(Z_TYPE_P(field_param) == IS_STRING)) {
+		zephir_get_strval(field, field_param);
+	} else {
+		ZEPHIR_INIT_VAR(field);
+		ZVAL_EMPTY_STRING(field);
+	}
 
 
 	ZEPHIR_INIT_VAR(matches);
@@ -76,55 +87,53 @@ PHP_METHOD(Phalcon_Validation_Validator_Regex, validate) {
 		RETURN_MM_BOOL(1);
 	}
 	ZEPHIR_INIT_NVAR(_1);
-	ZVAL_STRING(_1, "pattern", ZEPHIR_TEMP_PARAM_COPY);
-	ZEPHIR_CALL_METHOD(&_3, this_ptr, "getoption", NULL, _1);
-	zephir_check_temp_parameter(_1);
+	ZEPHIR_INIT_VAR(_4);
+	ZVAL_STRING(_4, "pattern", ZEPHIR_TEMP_PARAM_COPY);
+	ZEPHIR_CALL_METHOD(&_3, this_ptr, "getoption", NULL, _4);
+	zephir_check_temp_parameter(_4);
 	zephir_check_call_status();
-	Z_SET_ISREF_P(matches);
-	ZEPHIR_CALL_FUNCTION(&_4, "preg_match", &_5, _3, value, matches);
-	Z_UNSET_ISREF_P(matches);
-	zephir_check_call_status();
-	if (zephir_is_true(_4)) {
-		zephir_array_fetch_long(&_6, matches, 0, PH_NOISY | PH_READONLY, "phalcon/validation/validator/regex.zep", 66 TSRMLS_CC);
-		failed = !ZEPHIR_IS_EQUAL(_6, value);
+	zephir_preg_match(_1, _3, value, matches, 0, 0 , 0  TSRMLS_CC);
+	if (zephir_is_true(_1)) {
+		zephir_array_fetch_long(&_5, matches, 0, PH_NOISY | PH_READONLY, "phalcon/validation/validator/regex.zep", 62 TSRMLS_CC);
+		failed = !ZEPHIR_IS_EQUAL(_5, value);
 	} else {
 		failed = 1;
 	}
 	if (failed == 1) {
-		ZEPHIR_INIT_NVAR(_1);
-		ZVAL_STRING(_1, "label", ZEPHIR_TEMP_PARAM_COPY);
-		ZEPHIR_CALL_METHOD(&label, this_ptr, "getoption", NULL, _1);
-		zephir_check_temp_parameter(_1);
+		ZEPHIR_INIT_NVAR(_4);
+		ZVAL_STRING(_4, "label", ZEPHIR_TEMP_PARAM_COPY);
+		ZEPHIR_CALL_METHOD(&label, this_ptr, "getoption", NULL, _4);
+		zephir_check_temp_parameter(_4);
 		zephir_check_call_status();
 		if (ZEPHIR_IS_EMPTY(label)) {
 			ZEPHIR_CALL_METHOD(&label, validation, "getlabel", NULL, field);
 			zephir_check_call_status();
 		}
-		ZEPHIR_INIT_NVAR(_1);
-		ZVAL_STRING(_1, "message", ZEPHIR_TEMP_PARAM_COPY);
-		ZEPHIR_CALL_METHOD(&message, this_ptr, "getoption", NULL, _1);
-		zephir_check_temp_parameter(_1);
+		ZEPHIR_INIT_NVAR(_4);
+		ZVAL_STRING(_4, "message", ZEPHIR_TEMP_PARAM_COPY);
+		ZEPHIR_CALL_METHOD(&message, this_ptr, "getoption", NULL, _4);
+		zephir_check_temp_parameter(_4);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(replacePairs);
 		zephir_create_array(replacePairs, 1, 0 TSRMLS_CC);
 		zephir_array_update_string(&replacePairs, SL(":field"), &label, PH_COPY | PH_SEPARATE);
 		if (ZEPHIR_IS_EMPTY(message)) {
-			ZEPHIR_INIT_NVAR(_1);
-			ZVAL_STRING(_1, "Regex", ZEPHIR_TEMP_PARAM_COPY);
-			ZEPHIR_CALL_METHOD(&message, validation, "getdefaultmessage", NULL, _1);
-			zephir_check_temp_parameter(_1);
+			ZEPHIR_INIT_NVAR(_4);
+			ZVAL_STRING(_4, "Regex", ZEPHIR_TEMP_PARAM_COPY);
+			ZEPHIR_CALL_METHOD(&message, validation, "getdefaultmessage", NULL, _4);
+			zephir_check_temp_parameter(_4);
 			zephir_check_call_status();
 		}
-		ZEPHIR_INIT_NVAR(_1);
-		object_init_ex(_1, phalcon_validation_message_ce);
-		ZEPHIR_CALL_FUNCTION(&_7, "strtr", &_8, message, replacePairs);
+		ZEPHIR_INIT_NVAR(_4);
+		object_init_ex(_4, phalcon_validation_message_ce);
+		ZEPHIR_CALL_FUNCTION(&_6, "strtr", &_7, message, replacePairs);
 		zephir_check_call_status();
-		ZEPHIR_INIT_VAR(_9);
-		ZVAL_STRING(_9, "Regex", ZEPHIR_TEMP_PARAM_COPY);
-		ZEPHIR_CALL_METHOD(NULL, _1, "__construct", &_10, _7, field, _9);
-		zephir_check_temp_parameter(_9);
+		ZEPHIR_INIT_VAR(_8);
+		ZVAL_STRING(_8, "Regex", ZEPHIR_TEMP_PARAM_COPY);
+		ZEPHIR_CALL_METHOD(NULL, _4, "__construct", &_9, _6, field, _8);
+		zephir_check_temp_parameter(_8);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, _1);
+		ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, _4);
 		zephir_check_call_status();
 		RETURN_MM_BOOL(0);
 	}

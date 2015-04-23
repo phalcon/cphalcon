@@ -54,10 +54,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_Uniqueness) {
 
 /**
  * Executes the validation
- *
- * @param  Phalcon\Validation validation
- * @param  string             field
- * @return boolean
  */
 PHP_METHOD(Phalcon_Validation_Validator_Uniqueness, validate) {
 
@@ -102,7 +98,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Uniqueness, validate) {
 	zephir_check_temp_parameter(_0);
 	zephir_check_call_status();
 	if (ZEPHIR_IS_EMPTY(model)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_validation_exception_ce, "Model must be set", "phalcon/validation/validator/uniqueness.zep", 66);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_validation_exception_ce, "Model must be set", "phalcon/validation/validator/uniqueness.zep", 62);
 		return;
 	}
 	if (ZEPHIR_IS_EMPTY(attribute)) {

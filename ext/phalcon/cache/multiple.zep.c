@@ -92,7 +92,7 @@ PHP_METHOD(Phalcon_Cache_Multiple, __construct) {
 
 	if (Z_TYPE_P(backends) != IS_NULL) {
 		if (Z_TYPE_P(backends) != IS_ARRAY) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_cache_exception_ce, "The backends must be an array", "phalcon/cache/multiple.zep", 84);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_cache_exception_ce, "The backends must be an array", "phalcon/cache/multiple.zep", 83);
 			return;
 		}
 		zephir_update_property_this(this_ptr, SL("_backends"), backends TSRMLS_CC);
@@ -101,7 +101,7 @@ PHP_METHOD(Phalcon_Cache_Multiple, __construct) {
 }
 
 /**
- * Adds a backend		 
+ * Adds a backend
  */
 PHP_METHOD(Phalcon_Cache_Multiple, push) {
 
@@ -139,7 +139,7 @@ PHP_METHOD(Phalcon_Cache_Multiple, get) {
 
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_backends"), PH_NOISY_CC);
-	zephir_is_iterable(_0, &_2, &_1, 0, 0, "phalcon/cache/multiple.zep", 117);
+	zephir_is_iterable(_0, &_2, &_1, 0, 0, "phalcon/cache/multiple.zep", 116);
 	for (
 	  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_2, &_1)
@@ -177,7 +177,7 @@ PHP_METHOD(Phalcon_Cache_Multiple, start) {
 
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_backends"), PH_NOISY_CC);
-	zephir_is_iterable(_0, &_2, &_1, 0, 0, "phalcon/cache/multiple.zep", 133);
+	zephir_is_iterable(_0, &_2, &_1, 0, 0, "phalcon/cache/multiple.zep", 132);
 	for (
 	  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_2, &_1)
@@ -223,7 +223,7 @@ PHP_METHOD(Phalcon_Cache_Multiple, save) {
 
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_backends"), PH_NOISY_CC);
-	zephir_is_iterable(_0, &_2, &_1, 0, 0, "phalcon/cache/multiple.zep", 150);
+	zephir_is_iterable(_0, &_2, &_1, 0, 0, "phalcon/cache/multiple.zep", 149);
 	for (
 	  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_2, &_1)
@@ -255,7 +255,7 @@ PHP_METHOD(Phalcon_Cache_Multiple, delete) {
 
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_backends"), PH_NOISY_CC);
-	zephir_is_iterable(_0, &_2, &_1, 0, 0, "phalcon/cache/multiple.zep", 166);
+	zephir_is_iterable(_0, &_2, &_1, 0, 0, "phalcon/cache/multiple.zep", 165);
 	for (
 	  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_2, &_1)
@@ -294,7 +294,7 @@ PHP_METHOD(Phalcon_Cache_Multiple, exists) {
 
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_backends"), PH_NOISY_CC);
-	zephir_is_iterable(_0, &_2, &_1, 0, 0, "phalcon/cache/multiple.zep", 186);
+	zephir_is_iterable(_0, &_2, &_1, 0, 0, "phalcon/cache/multiple.zep", 185);
 	for (
 	  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_2, &_1)

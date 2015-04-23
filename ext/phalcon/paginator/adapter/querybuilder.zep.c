@@ -200,7 +200,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, getQueryBuilder) {
 PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, getPaginate) {
 
 	int numberPage, before, ZEPHIR_LAST_CALL_STATUS;
-	zval *originalBuilder, *builder, *totalBuilder, *totalPages, *limit, *number, *query = NULL, *page, *items = NULL, *totalQuery = NULL, *result = NULL, *row = NULL, *rowcount, *next = NULL, *_0, *_1, *_2 = NULL, *_3, _4;
+	zval *originalBuilder, *builder, *totalBuilder, *totalPages, *limit, *number, *query = NULL, *page, *items = NULL, *totalQuery = NULL, *result = NULL, *row = NULL, *rowcount, *next = NULL, *_0, *_1, *_2 = NULL, *_3, _4, _5;
 
 	ZEPHIR_MM_GROW();
 
@@ -268,12 +268,12 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, getPaginate) {
 	zephir_read_property(&_3, row, SL("rowcount"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(rowcount);
 	ZVAL_LONG(rowcount, zephir_get_intval(_3));
-	ZEPHIR_INIT_NVAR(_2);
 	ZEPHIR_SINIT_VAR(_4);
 	div_function(&_4, rowcount, limit TSRMLS_CC);
-	zephir_ceil(_2, &_4 TSRMLS_CC);
+	ZEPHIR_SINIT_VAR(_5);
+	ZVAL_DOUBLE(&_5, zephir_ceil(&_4 TSRMLS_CC));
 	ZEPHIR_INIT_VAR(totalPages);
-	ZVAL_LONG(totalPages, zephir_get_intval(_2));
+	ZVAL_LONG(totalPages, zephir_get_intval(&_5));
 	if (ZEPHIR_GT_LONG(totalPages, numberPage)) {
 		ZEPHIR_INIT_VAR(next);
 		ZVAL_LONG(next, (numberPage + 1));
