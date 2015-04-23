@@ -3978,12 +3978,6 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	{
 		var modelName, manager, lowerProperty, relation, result, method;
 
-		let method = "get" . ucfirst(property);
-
-		if method_exists(this, method) {
-			return this->{method}();
-		}
-
 		let modelName = get_class(this),
 			manager = this->getModelsManager(),
 			lowerProperty = strtolower(property);
@@ -4021,6 +4015,15 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 			}
 
 			return result;
+		}
+
+		/**
+		 * Check if the property has a the getters
+		 */
+		let method = "get" . ucfirst(property);
+
+		if method_exists(this, method) {
+			return this->{method}();
 		}
 
 		/**
