@@ -274,30 +274,30 @@ class AssetsFilterTest extends TBase
             }
         );
 
-		//Enabling join
-		$js->join(true);
-		$this->assertEquals(
-			$assets->outputJs('js'),
-			'<script type="text/javascript" src="unit-tests/assets/jquery.js"></script>' . 
-			PHP_EOL
-		);
+	//Enabling join
+	$js->join(true);
+	$this->assertEquals(
+		$assets->outputJs('js'),
+		'<script type="text/javascript" src="unit-tests/assets/jquery.js"></script>' . 
+		PHP_EOL
+	);
 
-		//Disabling join
-		$js->join(false);
-		$this->assertEquals(
-			$assets->outputJs('js'),
-			'<script type="text/javascript" src="unit-tests/assets/jquery.js"></script>' .
-			PHP_EOL
-		);
+	//Disabling join
+	$js->join(false);
+	$this->assertEquals(
+		$assets->outputJs('js'),
+		'<script type="text/javascript" src="unit-tests/assets/jquery.js"></script>' .
+		PHP_EOL
+	);
 
-		//Filter - Join
-		$js->join(false);
-		$js->addFilter(new Phalcon\Assets\Filters\None());
-		$this->assertEquals(
-			$assets->outputJs('js'),
-			'<script type="text/javascript" src="/unit-tests/assets/jquery.js"></script>' .
-			PHP_EOL
-		);
+	//Filter - Join
+	$js->join(false);
+	$js->addFilter(new Phalcon\Assets\Filters\None());
+	$this->assertEquals(
+		$assets->outputJs('js'),
+		'<script type="text/javascript" src="/unit-tests/assets/jquery.js"></script>' .
+		PHP_EOL
+	);
     }
 
     public function testFilterSimpleJoin()
