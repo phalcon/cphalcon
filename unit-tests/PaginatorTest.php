@@ -184,7 +184,6 @@ class PaginatorTest extends PHPUnit_Framework_TestCase
 
 		$this->assertEquals($page->current, 4);
 		$this->assertEquals($page->total_pages, 6);
-
 	}
 
 	public function testArrayPaginator_t445()
@@ -272,19 +271,19 @@ class PaginatorTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($page->total_pages, 218);
 
 		//Last Page
-		/*$paginator->setCurrentPage(219);
+		$paginator->setCurrentPage(218);
 
 		$page = $paginator->getPaginate();
 		$this->assertEquals(get_class($page), 'stdClass');
 
-		$this->assertEquals(count($page->items), 1);
+		$this->assertEquals(count($page->items), 10);
 
-		$this->assertEquals($page->before, 218);
-		$this->assertEquals((int) $page->next, 219);
-		$this->assertEquals($page->last, 219);
+		$this->assertEquals($page->before, 217);
+		$this->assertEquals((int) $page->next, 218);
+		$this->assertEquals($page->last, 218);
 
-		$this->assertEquals($page->current, 219);
-		$this->assertEquals($page->total_pages, 219);*/
+		$this->assertEquals($page->current, 218);
+		$this->assertEquals($page->total_pages, 218);
 	}
 
 	public function testModelPaginatorBind()

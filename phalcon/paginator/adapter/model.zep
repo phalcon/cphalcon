@@ -14,6 +14,7 @@
  +------------------------------------------------------------------------+
  | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
  |          Eduar Carvajal <eduar@phalconphp.com>                         |
+ |          Vladimir Metelitsa <green.cat@me.com>                         |
  +------------------------------------------------------------------------+
  */
 
@@ -25,7 +26,18 @@ use Phalcon\Paginator\AdapterInterface;
 /**
  * Phalcon\Paginator\Adapter\Model
  *
- * This adapter allows to paginate data using a Phalcon\Mvc\Model resultset as base
+ * This adapter allows to paginate data using a Phalcon\Mvc\Model resultset as a base
+ *<code>
+ *	$paginator = new \Phalcon\Paginator\Adapter\Model(
+ *		array(
+ *			"data"  => Robots::find(),
+ *			"limit" => 25,
+ *			"page"  => $currentPage
+ *		)
+ *	);
+ *
+ *  $paginate = $paginator->getPaginate();
+ *</code>
  */
 class Model implements AdapterInterface
 {
@@ -64,9 +76,11 @@ class Model implements AdapterInterface
 	/**
 	 * Set the current page number
 	 */
-	public function setCurrentPage(int page) -> void
+	public function setCurrentPage(int page) -> <Model>
 	{
 		let this->_page = page;
+
+		return this;
 	}
 
 	/**
@@ -93,55 +107,50 @@ class Model implements AdapterInterface
 	public function getPaginate() -> <\stdclass>
 	{
 		var config, items, pageItems, page, valid;
-		int pageNumber, show, n, start, lastPage, totalPages,
-			lastShowPage, i, maximumPages, next, pagesTotal,
-			before;
+		int pageNumber, show, n, start, lastShowPage,
+			i, next, pagesTotal, before;
 
 		let show       = (int) this->_limitRows,
 			config     = this->_config,
 			items      = config["data"],
 			pageNumber = (int) this->_page;
 
-		if pageNumber <= 0 {
-			let pageNumber = 1;
-		}
-
-		if show <= 0 {
-			throw new Exception("The start page number is zero or less");
-		}
-
-		let n          = count(items),
-			page       = new \stdClass(),
-			lastShowPage = pageNumber - 1,
-			start      = show * lastShowPage,
-			lastPage   = n - 1,
-			totalPages = (int) ceil(lastPage / show);
-
 		if typeof items != "object" {
 			throw new Exception("Invalid data for paginator");
 		}
 
+		//Prevents 0 or negative page numbers
 		if pageNumber <= 0 {
 			let pageNumber = 1;
 		}
 
-		let pageItems = [];
+		//Prevents a limit creating a negative or zero first page
+		if show <= 0 {
+			throw new Exception("The start page number is zero or less");
+		}
+
+		let n 				= count(items),
+			lastShowPage 	= pageNumber - 1,
+			start 			= show * lastShowPage,
+			pageItems 		= [];
+
+		if n % show != 0 {
+			let pagesTotal = (int) (n / show + 1);
+		} else {
+			let pagesTotal = (int) (n / show);
+		}
 
 		if n > 0 {
 
-			/**
-			 * Seek to the desired position
-			 */
+			//Seek to the desired position
 			if start <= n {
 				items->seek(start);
 			} else {
-				items->seek(1);
+				items->seek(0);
 				let pageNumber = 1;
 			}
 
-			/**
-			 * The record must be iterable
-			 */
+			//The record must be iterable
 			let i = 1;
 			loop {
 
@@ -157,24 +166,12 @@ class Model implements AdapterInterface
 				let i++;
 			}
 		}
-		let page->items = pageItems,
-			maximumPages = start + show;
-
-		if maximumPages < n {
-			let next = pageNumber + 1;
-		} else {
-			if maximumPages == n {
-				let next = n;
-			} else {
-				let next = (int) (n / show + 1);
-			}
-		}
 
 		//Fix next
-		if next > totalPages {
-			let next = totalPages;
+		let next = pageNumber + 1;
+		if next > pagesTotal {
+			let next = pagesTotal;
 		}
-		let page->next = next;
 
 		if pageNumber > 1 {
 			let before = pageNumber - 1;
@@ -182,17 +179,13 @@ class Model implements AdapterInterface
 			let before = 1;
 		}
 
-		let page->first = 1,
+		let page = new \stdClass(),
+			page->items = pageItems,
+			page->first = 1,
 			page->before =  before,
-			page->current = pageNumber;
-
-		if n % show != 0 {
-			let pagesTotal = (int) (n / show + 1);
-		} else {
-			let pagesTotal = (int) (n / show);
-		}
-
-		let page->last = pagesTotal,
+			page->current = pageNumber,
+			page->last = pagesTotal,
+			page->next = next,
 			page->total_pages = pagesTotal,
 			page->total_items = n,
 			page->limit = this->_limitRows;
