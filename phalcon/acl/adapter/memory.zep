@@ -20,6 +20,7 @@
 namespace Phalcon\Acl\Adapter;
 
 use Phalcon\Acl\Adapter;
+use Phalcon\Acl\Role;
 use Phalcon\Acl\Resource;
 use Phalcon\Acl\Exception;
 
@@ -161,7 +162,7 @@ class Memory extends Adapter
 			let roleObject = role;
 		} else {
 			let roleName = role;
-			let roleObject = new \Phalcon\Acl\Role(role);
+			let roleObject = new Role(role);
 		}
 
 		if isset this->_rolesNames[roleName] {
@@ -182,7 +183,7 @@ class Memory extends Adapter
 	/**
 	 * Do a role inherit from another existing role
 	 */
-	public function addInherit(string roleName, var roleToInherit)
+	public function addInherit(string roleName, var roleToInherit) -> boolean
 	{
 		var roleInheritName, rolesNames;
 
@@ -473,16 +474,16 @@ class Memory extends Adapter
 	}
 
 	/**
-	  * Check whether a role is allowed to access an action from a resource
-	  *
-	  * <code>
-	  * //Does andres have access to the customers resource to create?
-	  * $acl->isAllowed('andres', 'Products', 'create');
-	  *
-	  * //Do guests have access to any resource to edit?
-	  * $acl->isAllowed('guests', '*', 'edit');
-	  * </code>
-	  */
+	 * Check whether a role is allowed to access an action from a resource
+	 *
+	 * <code>
+	 * //Does andres have access to the customers resource to create?
+	 * $acl->isAllowed('andres', 'Products', 'create');
+	 *
+	 * //Do guests have access to any resource to edit?
+	 * $acl->isAllowed('guests', '*', 'edit');
+	 * </code>
+	 */
 	public function isAllowed(string roleName, string resourceName, string access) -> boolean
 	{
 		var eventsManager, accessList, accessKey,
@@ -612,20 +613,16 @@ class Memory extends Adapter
 
 	/**
 	 * Return an array with every role registered in the list
-	 *
-	 * @return Phalcon\Acl\Role[]
 	 */
-	public function getRoles()
+	public function getRoles() -> <Role[]>
 	{
 		return this->_roles;
 	}
 
 	/**
 	 * Return an array with every resource registered in the list
-	 *
-	 * @return Phalcon\Acl\Resource[]
 	 */
-	public function getResources()
+	public function getResources() -> <$Resource[]>
 	{
 		return this->_resources;
 	}
