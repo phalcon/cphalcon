@@ -19,6 +19,8 @@
 
 namespace Phalcon\Mvc\Collection;
 
+use Phalcon\Events\ManagerInterface as EventsManagerInterface;
+
 /**
  * Phalcon\Mvc\Collection\Manager
  *
@@ -43,12 +45,12 @@ interface ManagerInterface
 	/**
 	 * Sets a custom events manager for a specific model
 	 */
-	public function setCustomEventsManager(<CollectionInterface> model, <\Phalcon\Events\ManagerInterface> eventsManager);
+	public function setCustomEventsManager(<CollectionInterface> model, <EventsManagerInterface> eventsManager);
 
 	/**
 	 * Returns a custom events manager related to a model
 	 */
-	public function getCustomEventsManager(<CollectionInterface> model) -> <\Phalcon\Events\ManagerInterface>;
+	public function getCustomEventsManager(<CollectionInterface> model) -> <EventsManagerInterface>;
 
 	/**
 	 * Initializes a model in the models manager
