@@ -242,7 +242,7 @@ class VersionTest extends CdTest
             function () {
                 $id       = PhTVersion::getId();
                 $special  = $this->numberToSpecial($id[5]);
-                $expected = ($special) ? $id[6] : '';
+                $expected = ($special) ? $id[6] : 0;
                 $actual   = PhTVersion::getPart(PhTVersion::VERSION_SPECIAL_NUMBER);
 
                 expect($actual)->equals($expected);
