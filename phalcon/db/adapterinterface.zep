@@ -105,57 +105,33 @@ interface AdapterInterface
 
 	/**
 	 * Generates SQL checking for the existence of a schema.table
-	 *
-	 * @param string tableName
-	 * @param string schemaName
-	 * @return string
 	 */
-	public function tableExists(string! tableName, schemaName = null);
+	public function tableExists(string! tableName, string! schemaName = null) -> boolean;
 
 	/**
 	 * Generates SQL checking for the existence of a schema.view
-	 *
-	 * @param string viewName
-	 * @param string schemaName
-	 * @return string
 	 */
-	public function viewExists(string! viewName, schemaName = null);
+	public function viewExists(string! viewName, string! schemaName = null) -> boolean;
 
 	/**
 	 * Returns a SQL modified with a FOR UPDATE clause
-	 *
-	 * @param	string sqlQuery
-	 * @return	string
 	 */
-	public function forUpdate(string! sqlQuery);
+	public function forUpdate(string! sqlQuery) -> string;
 
 	/**
 	 * Returns a SQL modified with a LOCK IN SHARE MODE clause
-	 *
-	 * @param	string sqlQuery
-	 * @return	string
 	 */
-	public function sharedLock(sqlQuery);
+	public function sharedLock(string! sqlQuery) -> string;
 
 	/**
 	 * Creates a table
-	 *
-	 * @param	string tableName
-	 * @param	string schemaName
-	 * @param	array definition
-	 * @return	boolean
 	 */
-	public function createTable(tableName, schemaName, definition);
+	public function createTable(string! tableName, string! schemaName, array! definition) -> boolean;
 
 	/**
 	 * Drops a table from a schema/database
-	 *
-	 * @param	string tableName
-	 * @param   string schemaName
-	 * @param	boolean ifExists
-	 * @return	boolean
 	 */
-	public function dropTable(tableName, schemaName = null, ifExists = true);
+	public function dropTable(string! tableName, string! schemaName = null, boolean ifExists = true) -> boolean;
 
 	/**
 	 * Creates a view
@@ -165,17 +141,12 @@ interface AdapterInterface
 	 * @param	string schemaName
 	 * @return	boolean
 	 */
-	public function createView(viewName, definition, schemaName = null);
+	public function createView(string! viewName, array! definition, schemaName = null) -> boolean;
 
 	/**
 	 * Drops a view
-	 *
-	 * @param	string viewName
-	 * @param   string schemaName
-	 * @param	boolean ifExists
-	 * @return	boolean
 	 */
-	public function dropView(viewName, schemaName = null, ifExists = true);
+	public function dropView(string! viewName, string! schemaName = null, boolean ifExists = true) -> boolean;
 
 	/**
 	 * Adds a column to a table
@@ -185,7 +156,7 @@ interface AdapterInterface
 	 * @param	Phalcon\Db\ColumnInterface column
 	 * @return	boolean
 	 */
-	public function addColumn(tableName, schemaName, <\Phalcon\Db\ColumnInterface> column);
+	public function addColumn(tableName, schemaName, <ColumnInterface> column);
 
 	/**
 	 * Modifies a table column based on a definition
@@ -195,7 +166,7 @@ interface AdapterInterface
 	 * @param	Phalcon\Db\ColumnInterface column
 	 * @return 	boolean
 	 */
-	public function modifyColumn(tableName, schemaName, <\Phalcon\Db\ColumnInterface> column);
+	public function modifyColumn(tableName, schemaName, <ColumnInterface> column);
 
 	/**
 	 * Drops a column from a table
@@ -215,7 +186,7 @@ interface AdapterInterface
 	 * @param	Phalcon\Db\IndexInterface index
 	 * @return 	boolean
 	 */
-	public function addIndex(tableName, schemaName, <\Phalcon\Db\IndexInterface> index);
+	public function addIndex(tableName, schemaName, <IndexInterface> index);
 
 	/**
 	 * Drop an index from a table
@@ -235,7 +206,7 @@ interface AdapterInterface
 	 * @param	Phalcon\Db\IndexInterface index
 	 * @return 	boolean
 	 */
-	public function addPrimaryKey(tableName, schemaName, <\Phalcon\Db\IndexInterface> index);
+	public function addPrimaryKey(tableName, schemaName, <IndexInterface> index);
 
 	/**
 	 * Drops primary key from a table
@@ -254,7 +225,7 @@ interface AdapterInterface
 	 * @param	Phalcon\Db\ReferenceInterface reference
 	 * @return	boolean true
 	 */
-	public function addForeignKey(tableName, schemaName, <\Phalcon\Db\ReferenceInterface> reference);
+	public function addForeignKey(tableName, schemaName, <ReferenceInterface> reference);
 
 	/**
 	 * Drops a foreign key from a table
@@ -272,7 +243,7 @@ interface AdapterInterface
 	 * @param	Phalcon\Db\ColumnInterface column
 	 * @return	string
 	 */
-	public function getColumnDefinition(<\Phalcon\Db\ColumnInterface> column);
+	public function getColumnDefinition(<ColumnInterface> column);
 
 	 /**
 	 * List all tables on a database
@@ -464,7 +435,7 @@ interface AdapterInterface
 	 * @param	string schema
 	 * @return	Phalcon\Db\IndexInterface[]
 	 */
-	public function describeIndexes(table, schema = null);
+	public function describeIndexes(string! table, schema = null) -> <IndexInterface[]>;
 
 	/**
 	 * Lists table references
@@ -473,7 +444,7 @@ interface AdapterInterface
 	 * @param	string schema
 	 * @return	Phalcon\Db\ReferenceInterface[]
 	 */
-	public function describeReferences(table, schema = null);
+	public function describeReferences(string! table, schema = null) -> <ReferenceInterface[]>;
 
 	/**
 	 * Gets creation options from a table
@@ -493,50 +464,34 @@ interface AdapterInterface
 
 	/**
 	 * Return the default identity value to insert in an identity column
-	 *
-	 * @return Phalcon\Db\RawValue
 	 */
-	public function getDefaultIdValue();
+	public function getDefaultIdValue() -> <RawValue>;
 
 	/**
 	 * Check whether the database system requires a sequence to produce auto-numeric values
-	 *
-	 * @return boolean
 	 */
-	public function supportSequences();
+	public function supportSequences() -> boolean;
 
 
 	/**
 	 * Creates a new savepoint
-	 *
-	 * @param string name
-	 * @return boolean
 	 */
-	public function createSavepoint(name);
+	public function createSavepoint(string! name) -> boolean;
 
 	/**
 	 * Releases given savepoint
-	 *
-	 * @param string name
-	 * @return boolean
 	 */
-	public function releaseSavepoint(name);
+	public function releaseSavepoint(string! name) -> boolean;
 
 	/**
 	 * Rollbacks given savepoint
-	 *
-	 * @param string name
-	 * @return boolean
 	 */
-	public function rollbackSavepoint(name);
+	public function rollbackSavepoint(string! name) -> boolean;
 
 	/**
 	 * Set if nested transactions should use savepoints
-	 *
-	 * @param boolean nestedTransactionsWithSavepoints
-	 * @return Phalcon\Db\AdapterInterface
 	 */
-	public function setNestedTransactionsWithSavepoints(nestedTransactionsWithSavepoints) -> <\Phalcon\Db\AdapterInterface>;
+	public function setNestedTransactionsWithSavepoints(boolean nestedTransactionsWithSavepoints) -> <AdapterInterface>;
 
 	/**
 	 * Returns if nested transactions should use savepoints

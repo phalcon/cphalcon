@@ -50,55 +50,46 @@ class Column implements ColumnInterface
 
 	/**
 	 * Integer abstract type
-	 *
 	 */
 	const TYPE_INTEGER = 0;
 
 	/**
 	 * Date abstract type
-	 *
 	 */
 	const TYPE_DATE = 1;
 
 	/**
 	 * Varchar abstract type
-	 *
 	 */
 	const TYPE_VARCHAR = 2;
 
 	/**
 	 * Decimal abstract type
-	 *
 	 */
 	const TYPE_DECIMAL = 3;
 
 	/**
 	 * Datetime abstract type
-	 *
 	 */
 	const TYPE_DATETIME = 4;
 
 	/**
 	 * Char abstract type
-	 *
 	 */
 	const TYPE_CHAR = 5;
 
 	/**
 	 * Text abstract data type
-	 *
 	 */
 	const TYPE_TEXT = 6;
 
 	/**
 	 * Float abstract data type
-	 *
 	 */
 	const TYPE_FLOAT = 7;
 
 	/**
 	 * Boolean abstract data type
-	 *
 	 */
 	const TYPE_BOOLEAN = 8;
 
@@ -238,11 +229,8 @@ class Column implements ColumnInterface
 
 	/**
 	 * Phalcon\Db\Column constructor
-	 *
-	 * @param string name
-	 * @param array definition
 	 */
-	public function __construct(string! name, var definition)
+	public function __construct(string! name, array! definition)
 	{
 		var type, notNull, primary, size, scale, dunsigned, first,
 			after, bindType, isNumeric, autoIncrement, defaultValue,
@@ -417,10 +405,8 @@ class Column implements ColumnInterface
 
 	/**
 	 * Returns the type of bind handling
-	 *
-	 * @return int
 	 */
-	public function getBindType()
+	public function getBindType() -> int
 	{
 		return this->_bindType;
 	}
