@@ -41,12 +41,8 @@ class Confirmation extends Validator
 
 	/**
 	 * Executes the validation
-	 *
-	 * @param Phalcon\Validation validation
-	 * @param string field
-	 * @return boolean
 	 */
-	public function validate(<\Phalcon\Validation> validation, string field) -> boolean
+	public function validate(<\Phalcon\Validation> validation, string! field) -> boolean
 	{
 		var fieldWith, value, valueWith, message, label, labelWith, replacePairs;
 
