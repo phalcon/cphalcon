@@ -185,12 +185,19 @@ class VersionTest extends CdTest
      */
     public function testVersionGetPart()
     {
+        /*
+         * Note: getId() returns a version string in the format ABBCCDE
+         * where A is the major version, BB is the medium version (2 digits)
+         * CC is the minor version (2 digits), D is the release type (see Phalcon\Version)
+         * and E is the release number (for example 2 for RC2)
+         */
+
         $this->specify(
             "getPart(VERSION_MAJOR) does not return the correct result",
             function () {
 
                 $id       = PhTVersion::getId();
-                $expected = intval($id[PhTVersion::VERSION_MAJOR]);
+                $expected = intval($id[0]); //The major version is the first digit
                 $actual   = PhTVersion::getPart(PhTVersion::VERSION_MAJOR);
 
                 expect($actual)->equals($expected);
@@ -201,7 +208,7 @@ class VersionTest extends CdTest
             "getPart(VERSION_MEDIUM) does not return the correct result",
             function () {
                 $id       = PhTVersion::getId();
-                $expected = intval($id[PhTVersion::VERSION_MEDIUM]);
+                $expected = intval($id[1].$id[2]); //The medium version is the second and third digits
                 $actual   = PhTVersion::getPart(PhTVersion::VERSION_MEDIUM);
 
                 expect($actual)->equals($expected);
@@ -212,7 +219,7 @@ class VersionTest extends CdTest
             "getPart(VERSION_MINOR) does not return the correct result",
             function () {
                 $id       = PhTVersion::getId();
-                $expected = intval($id[PhTVersion::VERSION_MINOR]);
+                $expected = intval($id[3].$id[4]); //The minor version is the fourth and fifth digits
                 $actual   = PhTVersion::getPart(PhTVersion::VERSION_MINOR);
 
                 expect($actual)->equals($expected);
