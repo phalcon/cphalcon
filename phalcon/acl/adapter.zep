@@ -61,7 +61,7 @@ class Adapter
 
 	/**
 	 * Active access which the list is checking if some role can access it
-	 * "@var mixed
+	 * @var mixed
 	 */
 	protected _activeAccess { get };
 
