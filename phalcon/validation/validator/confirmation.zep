@@ -77,14 +77,10 @@ class Confirmation extends Validator
 
 	/**
 	 * Compare strings
-	 *
-	 * @param string a
-	 * @param string b
-	 * @return boolean
 	 */
 	protected function compare(string a, string b) -> boolean
 	{
-		if this->isSetOption("caseSensitive") && !this->getOption("caseSensitive") {
+		if this->getOption("ignoreCase", false) {
 
 			/**
 			 * mbstring is required here
