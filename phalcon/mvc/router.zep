@@ -316,12 +316,8 @@ class Router implements InjectionAwareInterface, RouterInterface
 		/**
 		 * Remove extra slashes in the route
 		 */
-		if this->_removeExtraSlashes {
-			if realUri != "/" {
-				let handledUri = rtrim(realUri, "/");
-			} else {
-				let handledUri = realUri;
-			}
+		if this->_removeExtraSlashes && realUri != "/" {
+			let handledUri = rtrim(realUri, "/");
 		} else {
 			let handledUri = realUri;
 		}
@@ -532,6 +528,15 @@ class Router implements InjectionAwareInterface, RouterInterface
 			}
 		}
 
+		/**
+		 * Use default values before we overwrite them if the route is matched
+		 */
+		let this->_namespace = this->_defaultNamespace,
+			this->_module = this->_defaultModule,
+			this->_controller = this->_defaultController,
+			this->_action = this->_defaultAction,
+			this->_params = this->_defaultParams;
+
 		if routeFound {
 
 			/**
@@ -542,8 +547,6 @@ class Router implements InjectionAwareInterface, RouterInterface
 					let this->_namespace = vnamespace;
 				}
 				unset parts["namespace"];
-			} else {
-				let this->_namespace = this->_defaultNamespace;
 			}
 
 			/**
@@ -554,8 +557,6 @@ class Router implements InjectionAwareInterface, RouterInterface
 					let this->_module = module;
 				}
 				unset parts["module"];
-			} else {
-				let this->_module = this->_defaultModule;
 			}
 
 			/**
@@ -566,8 +567,6 @@ class Router implements InjectionAwareInterface, RouterInterface
 					let this->_controller = controller;
 				}
 				unset parts["controller"];
-			} else {
-				let this->_controller = this->_defaultController;
 			}
 
 			/**
@@ -578,8 +577,6 @@ class Router implements InjectionAwareInterface, RouterInterface
 					let this->_action = action;
 				}
 				unset parts["action"];
-			} else {
-				let this->_action = this->_defaultAction;
 			}
 
 			/**
@@ -599,16 +596,6 @@ class Router implements InjectionAwareInterface, RouterInterface
 				let this->_params = parts;
 			}
 
-		} else {
-
-			/**
-			 * Use default values if the route hasn't matched
-			 */
-			let this->_namespace = this->_defaultNamespace,
-				this->_module = this->_defaultModule,
-				this->_controller = this->_defaultController,
-				this->_action = this->_defaultAction,
-				this->_params = this->_defaultParams;
 		}
 	}
 
