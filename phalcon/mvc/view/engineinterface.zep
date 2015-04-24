@@ -34,10 +34,8 @@ interface EngineInterface
 
 	/**
 	 * Returns cached ouput on another view stage
-	 *
-	 * @return array
 	 */
-	public function getContent();
+	public function getContent() -> array;
 
 	/**
 	 * Renders a partial inside another view
@@ -46,11 +44,7 @@ interface EngineInterface
 
 	/**
 	 * Renders a view using the template engine
-	 *
-	 * @param string path
-	 * @param array params
-	 * @param boolean mustClean
 	 */
-	public function render(string path, params, boolean mustClean = false);
+	public function render(string path, array params, boolean mustClean = false);
 
 }

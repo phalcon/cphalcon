@@ -62,10 +62,8 @@ class Simple extends Injectable
 
 	/**
 	 * Phalcon\Mvc\View\Simple constructor
-	 *
-	 * @param array options
 	 */
-	public function __construct(options = null)
+	public function __construct(array options = null)
 	{
 		if typeof options == "array" {
 			let this->_options = options;
@@ -106,10 +104,8 @@ class Simple extends Injectable
 
 	/**
 	 * Loads registered template engines, if none is registered it will use Phalcon\Mvc\View\Engine\Php
-	 *
-	 * @return array
 	 */
-	protected function _loadTemplateEngines()
+	protected function _loadTemplateEngines() -> array
 	{
 		var engines, dependencyInjector, registeredEngines, arguments, extension,
 			engineService, engineObject;
@@ -180,11 +176,8 @@ class Simple extends Injectable
 
 	/**
 	 * Tries to render the view with every engine registered in the component
-	 *
-	 * @param string path
-	 * @param array  params
 	 */
-	protected final function _internalRender(string! path, params)
+	protected final function _internalRender(string! path, array params)
 	{
 		var eventsManager, notExists, engines, extension, engine, mustClean, viewEnginePath, viewsDirPath;
 
@@ -270,12 +263,8 @@ class Simple extends Injectable
 
 	/**
 	 * Renders a view
-	 *
-	 * @param  string path
-	 * @param  array  params
-	 * @return string
 	 */
-	public function render(string! path, params = null)
+	public function render(string! path, array params = null) -> string
 	{
 		var cache, key, lifetime, cacheOptions, content, viewParams, mergedParams;
 
@@ -380,11 +369,8 @@ class Simple extends Injectable
 	 * 	//Show a partial inside another view with parameters
 	 * 	$this->partial('shared/footer', array('content' => $html));
 	 * </code>
-	 *
-	 * @param string partialPath
-	 * @param array  params
 	 */
-	public function partial(string! partialPath, params = null)
+	public function partial(string! partialPath, array params = null)
 	{
 		var viewParams, mergedParams;
 
@@ -443,11 +429,8 @@ class Simple extends Injectable
 
 	/**
 	 * Sets the cache options
-	 *
-	 * @param  array options
-	 * @return Phalcon\Mvc\View\Simple
 	 */
-	public function setCacheOptions(options) -> <Simple>
+	public function setCacheOptions(array options) -> <Simple>
 	{
 		let this->_cacheOptions = options;
 		return this;
@@ -455,10 +438,8 @@ class Simple extends Injectable
 
 	/**
 	 * Returns the cache options
-	 *
-	 * @return array
 	 */
-	public function getCacheOptions()
+	public function getCacheOptions() -> array
 	{
 		return this->_cacheOptions;
 	}
@@ -497,10 +478,8 @@ class Simple extends Injectable
 
 	/**
 	 * Returns the cache instance used to cache
-	 *
-	 * @return Phalcon\Cache\BackendInterface
 	 */
-	public function getCache()
+	public function getCache() -> <BackendInterface>
 	{
 		var cache;
 
@@ -521,7 +500,6 @@ class Simple extends Injectable
 	 *</code>
 	 *
 	 * @param boolean|array options
-	 * @return Phalcon\Mvc\View\Simple
 	 */
 	public function cache(var options = true) -> <Simple>
 	{
@@ -543,10 +521,6 @@ class Simple extends Injectable
 	 *<code>
 	 *	$this->view->setParamToView('products', $products);
 	 *</code>
-	 *
-	 * @param string $key
-	 * @param mixed $value
-	 * @return Phalcon\Mvc\View\Simple
 	 */
 	public function setParamToView(string! key, var value) -> <Simple>
 	{
@@ -586,10 +560,6 @@ class Simple extends Injectable
 	 *<code>
 	 *	$this->view->setVar('products', $products);
 	 *</code>
-	 *
-	 * @param string key
-	 * @param mixed  value
-	 * @return Phalcon\Mvc\View\Simple
 	 */
 	public function setVar(string! key, value) -> <Simple>
 	{
@@ -599,9 +569,6 @@ class Simple extends Injectable
 
 	/**
 	 * Returns a parameter previously set in the view
-	 *
-	 * @param string key
-	 * @return mixed
 	 */
 	public function getVar(string! key)
 	{
@@ -614,10 +581,8 @@ class Simple extends Injectable
 
 	/**
 	 * Returns parameters to views
-	 *
-	 * @return array
 	 */
-	public function getParamsToView()
+	public function getParamsToView() -> array
 	{
 		return this->_viewParams;
 	}
@@ -637,20 +602,16 @@ class Simple extends Injectable
 
 	/**
 	 * Returns cached ouput from another view stage
-	 *
-	 * @return string
 	 */
-	public function getContent()
+	public function getContent() -> string
 	{
 		return this->_content;
 	}
 
 	/**
 	 * Returns the path of the view that is currently rendered
-	 *
-	 * @return string
 	 */
-	public function getActiveRenderPath()
+	public function getActiveRenderPath() -> string
 	{
 		return this->_activeRenderPath;
 	}
@@ -661,9 +622,6 @@ class Simple extends Injectable
 	 *<code>
 	 *	$this->view->products = $products;
 	 *</code>
-	 *
-	 * @param string key
-	 * @param mixed  value
 	 */
 	public function __set(string! key, value)
 	{
@@ -676,9 +634,6 @@ class Simple extends Injectable
 	 *<code>
 	 *	echo $this->view->products;
 	 *</code>
-	 *
-	 * @param string key
-	 * @return mixed
 	 */
 	public function __get(string! key)
 	{
