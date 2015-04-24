@@ -50,6 +50,10 @@ class Security implements InjectionAwareInterface
 
 	protected _numberBytes = 16;
 
+	protected _tokenKeySessionID = "$PHALCON/CSRF/KEY$";
+
+	protected _tokenValueSessionID = "$PHALCON/CSRF$";
+
 	protected _csrf;
 
 	/**
@@ -163,7 +167,7 @@ class Security implements InjectionAwareInterface
 	/**
 	 * Checks if a password hash is a valid bcrypt's hash
 	 */
-	public function isLegacyHash(string password, string passwordHash) -> boolean
+	public function isLegacyHash(string passwordHash) -> boolean
 	{
 		return starts_with(passwordHash, "$2a$");
 	}
@@ -190,7 +194,7 @@ class Security implements InjectionAwareInterface
 
 		let safeBytes = phalcon_filter_alphanum(base64_encode(openssl_random_pseudo_bytes(numberBytes)));
 		let session = <SessionInterface> dependencyInjector->getShared("session");
-		session->set("$PHALCON/CSRF/KEY$", safeBytes);
+		session->set(this->_tokenKeySessionID, safeBytes);
 
 		return safeBytes;
 	}
@@ -221,7 +225,7 @@ class Security implements InjectionAwareInterface
 		}
 
 		let session = <SessionInterface> dependencyInjector->getShared("session");
-		session->set("$PHALCON/CSRF$", token);
+		session->set(this->_tokenValueSessionID, token);
 
 		return token;
 	}
@@ -231,11 +235,12 @@ class Security implements InjectionAwareInterface
 	 *
 	 * @param string tokenKey
 	 * @param string tokenValue
+	 * @param boolean destroyIfValid  Removes the key and value of the CSRF token in session if true
 	 * @return boolean
 	 */
-	public function checkToken(tokenKey = null, tokenValue = null) -> boolean
+	public function checkToken(tokenKey = null, tokenValue = null, destroyIfValid = true) -> boolean
 	{
-		var dependencyInjector, session, request, token;
+		var dependencyInjector, session, request, token, returnValue;
 
 		let dependencyInjector = <DiInterface> this->_dependencyInjector;
 
@@ -246,7 +251,14 @@ class Security implements InjectionAwareInterface
 		let session = <SessionInterface> dependencyInjector->getShared("session");
 
 		if !tokenKey {
-			let tokenKey = session->get("$PHALCON/CSRF/KEY$");
+			let tokenKey = session->get(this->_tokenKeySessionID);
+		}
+
+		/**
+		 * If tokenKey does not exist in session return false
+		 */
+		if !tokenKey {
+			return false;
 		}
 
 		if !tokenValue {
@@ -263,7 +275,17 @@ class Security implements InjectionAwareInterface
 		/**
 		 * The value is the same?
 		 */
-		return token == session->get("$PHALCON/CSRF$");
+		let returnValue = (token == session->get(this->_tokenValueSessionID));
+
+		/**
+		 * Remove the key and value of the CSRF token in session
+		 */
+		if returnValue && destroyIfValid {
+			session->remove(this->_tokenKeySessionID);
+			session->remove(this->_tokenValueSessionID);
+		}
+
+		return returnValue;
 	}
 
 	/**
@@ -280,11 +302,30 @@ class Security implements InjectionAwareInterface
 		}
 
 		let session = <SessionInterface> dependencyInjector->getShared("session");
-		return session->get("$PHALCON/CSRF$");
+		return session->get(this->_tokenValueSessionID);
 	}
 
 	/**
-	 * Computes a HMAC 
+	 * Removes the value of the CSRF token and key from session
+	 */
+	public function destroyToken()
+	{
+		var dependencyInjector, session;
+
+		let dependencyInjector = <DiInterface> this->_dependencyInjector;
+
+		if typeof dependencyInjector != "object" {
+			throw new Exception("A dependency injection container is required to access the 'session' service");
+		}
+
+		let session = <SessionInterface> dependencyInjector->getShared("session");
+
+		session->remove(this->_tokenKeySessionID);
+		session->remove(this->_tokenValueSessionID);
+	}
+
+	/**
+	 * Computes a HMAC
 	 *
 	 * @param string data
 	 * @param string key
