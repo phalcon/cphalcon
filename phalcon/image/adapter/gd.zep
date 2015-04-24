@@ -497,33 +497,33 @@ class Gd extends \Phalcon\Image\Adapter implements \Phalcon\Image\AdapterInterfa
 	{
 		var ext;
 
-		let ext = pathinfo(file, PATHINFO_EXTENSION);
+		let ext = strtolower(pathinfo(file, PATHINFO_EXTENSION));
 
-		if strcasecmp(ext, "gif") == 0 {
+		if strcmp(ext, "gif") == 0 {
 			let this->_type = 1;
 			let this->_mime = image_type_to_mime_type(this->_type);
 			imagegif(this->_image, file);
 			return true;
 		}
-		if strcasecmp(ext, "jpg") == 0 || strcasecmp(ext, "jpeg") == 0 {
+		if strcmp(ext, "jpg") == 0 || strcmp(ext, "jpeg") == 0 {
 			let this->_type = 2;
 			let this->_mime = image_type_to_mime_type(this->_type);
 			imagejpeg(this->_image, file, quality);
 			return true;
 		}
-		if strcasecmp(ext, "png") == 0 {
+		if strcmp(ext, "png") == 0 {
 			let this->_type = 3;
 			let this->_mime = image_type_to_mime_type(this->_type);
-			imagejpeg(this->_image, file);
+			imagepng(this->_image, file);
 			return true;
 		}
-		if strcasecmp(ext, "wbmp") == 0 {
+		if strcmp(ext, "wbmp") == 0 {
 			let this->_type = 15;
 			let this->_mime = image_type_to_mime_type(this->_type);
 			imagewbmp(this->_image, file);
 			return true;
 		}
-		if strcasecmp(ext, "xbm") == 0 {
+		if strcmp(ext, "xbm") == 0 {
 			let this->_type = 16;
 			let this->_mime = image_type_to_mime_type(this->_type);
 			imagexbm(this->_image, file);
@@ -535,24 +535,25 @@ class Gd extends \Phalcon\Image\Adapter implements \Phalcon\Image\AdapterInterfa
 
 	protected function _render(string ext, int quality)
 	{
+		let ext = strtolower(ext);
                 ob_start();
-		if strcasecmp(ext, "gif") == 0 {
+		if strcmp(ext, "gif") == 0 {
 			imagegif(this->_image);
 			return ob_get_clean();
 		}
-		if strcasecmp(ext, "jpg") == 0 || strcasecmp(ext, "jpeg") == 0 {
+		if strcmp(ext, "jpg") == 0 || strcmp(ext, "jpeg") == 0 {
 			imagejpeg(this->_image, null, quality);
 			return ob_get_clean();
 		}
-		if strcasecmp(ext, "png") == 0 {
-			imagejpeg(this->_image);
+		if strcmp(ext, "png") == 0 {
+			imagepng(this->_image);
 			return ob_get_clean();
 		}
-		if strcasecmp(ext, "wbmp") == 0 {
+		if strcmp(ext, "wbmp") == 0 {
 			imagewbmp(this->_image);
 			return ob_get_clean();
 		}
-		if strcasecmp(ext, "xbm") == 0 {
+		if strcmp(ext, "xbm") == 0 {
 			imagexbm(this->_image, null);
 			return ob_get_clean();
 		}
