@@ -108,7 +108,7 @@ class Response implements ResponseInterface, InjectionAwareInterface
 	 * Sets the HTTP response code
 	 *
 	 *<code>
-	 *	$response->setStatusCode(StatusCode::SC_NOT_FOUND, "Not Found");
+	 *	$response->setStatusCode(StatusCode::CLIENT_NOT_FOUND, "Not Found");
 	 *</code>
 	 */
 	public function setStatusCode(int code, string message = null) -> <Response>
@@ -286,7 +286,7 @@ class Response implements ResponseInterface, InjectionAwareInterface
 	 */
 	public function setNotModified() -> <Response>
 	{
-		this->setStatusCode(StatusCode::SC_NOT_MODIFIED, "Not modified");
+		this->setStatusCode(StatusCode::REDIRECT_NOT_MODIFIED, "Not modified");
 		return this;
 	}
 
@@ -389,9 +389,9 @@ class Response implements ResponseInterface, InjectionAwareInterface
 		/**
 		 * The HTTP status is 302 by default, a temporary redirection
 		 */
-		if statusCode < StatusCode::SC_MULTIPLE_CHOICES || statusCode > StatusCode::SC_TEMPORARY_REDIRECT {
-			let statusCode = StatusCode::SC_FOUND,
-				message = StatusCode::getStatusText(StatusCode::SC_FOUND);
+		if statusCode < StatusCode::REDIRECT_MULTIPLE_CHOICES || statusCode > StatusCode::REDIRECT_TEMPORARY_REDIRECT {
+			let statusCode = StatusCode::REDIRECT_FOUND,
+				message = StatusCode::getStatusText(StatusCode::REDIRECT_FOUND);
 		} else {
 			let message = StatusCode::getStatusText(statusCode);
 		}
