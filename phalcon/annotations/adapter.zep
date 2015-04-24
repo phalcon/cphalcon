@@ -132,7 +132,7 @@ abstract class Adapter
 	 */
 	public function getMethod(string className, string methodName) -> <Collection>
 	{
-		var classAnnotations, methods, name, method;
+		var classAnnotations, methods, method;
 
 		/**
 		 * Get the full annotations from the class
@@ -145,10 +145,8 @@ abstract class Adapter
 		if typeof classAnnotations == "object" {
 			let methods = classAnnotations->getMethodsAnnotations();
 			if typeof methods == "array" {
-				for name, method in methods {
-					if name == methodName {
-						return method;
-					}
+				if fetch method, methods[methodName] {
+					return method;
 				}
 			}
 		}
@@ -186,7 +184,7 @@ abstract class Adapter
 	 */
 	public function getProperty(string className, string propertyName) -> <Collection>
 	{
-		var classAnnotations, properties, name, property;
+		var classAnnotations, properties, property;
 
 		/**
 		 * Get the full annotations from the class
@@ -199,10 +197,8 @@ abstract class Adapter
 		if typeof classAnnotations == "object" {
 			let properties = classAnnotations->getPropertiesAnnotations();
 			if typeof properties == "array" {
-				for name, property in properties {
-					if name == propertyName {
-						return property;
-					}
+				if fetch property, properties[propertyName] {
+					return property;
 				}
 			}
 		}
