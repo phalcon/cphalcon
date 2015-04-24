@@ -1362,10 +1362,8 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 *  	echo "Great, a new robot was saved successfully!";
 	 *	}
 	 * </code>
-	 *
-	 * @return Phalcon\Mvc\Model\MessageInterface[]
 	 */
-	public function getMessages(var filter = null)
+	public function getMessages(var filter = null) -> <MessageInterface[]>
 	{
 		var filtered, message;
 
@@ -4142,10 +4140,8 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 *<code>
 	 * var_dump($robot->dump());
 	 *</code>
-	 *
-	 * @return array
 	 */
-	public function dump()
+	public function dump() -> array
 	{
 		return get_object_vars(this);
 	}

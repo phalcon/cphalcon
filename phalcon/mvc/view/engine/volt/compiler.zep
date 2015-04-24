@@ -84,10 +84,8 @@ class Compiler implements InjectionAwareInterface
 
 	/**
 	 * Phalcon\Mvc\View\Engine\Volt\Compiler
-	 *
-	 * @param Phalcon\Mvc\ViewInterface view
 	 */
-	public function __construct(view = null)
+	public function __construct(<\Phalcon\Mvc\ViewInterface> view = null)
 	{
 		if typeof view == "object" {
 			let this->_view = view;
@@ -382,11 +380,8 @@ class Compiler implements InjectionAwareInterface
 
 	/**
 	 * Resolves function intermediate code into PHP function calls
-	 *
-	 * @param array expr
-	 * @return string
 	 */
-	public function functionCall(array! expr)
+	public function functionCall(array! expr) -> string
 	{
 		var code, funcArguments, arguments, nameExpr,
 			nameType, name, extensions, functions, definition, macros,
@@ -610,12 +605,8 @@ class Compiler implements InjectionAwareInterface
 
 	/**
 	 * Resolves filter intermediate code into a valid PHP expression
-	 *
-	 * @param array test
-	 * @param string left
-	 * @return string
 	 */
-	public function resolveTest(array! test, left) -> string
+	public function resolveTest(array! test, string left) -> string
 	{
 		var type, name, testName;
 
@@ -708,12 +699,8 @@ class Compiler implements InjectionAwareInterface
 
 	/**
 	 * Resolves filter intermediate code into PHP function calls
-	 *
-	 * @param array filter
-	 * @param string left
-	 * @return string
 	 */
-	final protected function resolveFilter(array! filter, left)
+	final protected function resolveFilter(array! filter, string left) -> string
 	{
 		var code, type, functionName, name, file, line,
 			extensions, filters, funcArguments, arguments, definition;
@@ -1029,11 +1016,8 @@ class Compiler implements InjectionAwareInterface
 
 	/**
 	 * Resolves an expression node in an AST volt tree
-	 *
-	 * @param array expr
-	 * @return string
 	 */
-	final public function expression(array! expr)
+	final public function expression(array! expr) -> string
 	{
 		var exprCode, extensions, items, singleExpr, singleExprCode, name,
 			left, leftCode, right, rightCode, type, startCode, endCode, start, end;
@@ -1356,12 +1340,8 @@ class Compiler implements InjectionAwareInterface
 
 	/**
 	 * Compiles a "foreach" intermediate code representation into plain PHP code
-	 *
-	 * @param array statement
-	 * @param boolean extendsMode
-	 * @return string
 	 */
-	public function compileForeach(var statement, boolean extendsMode = false) -> string
+	public function compileForeach(array! statement, boolean extendsMode = false) -> string
 	{
 		var compilation, prefix, level, prefixLevel, expr,
 			exprCode, bstatement, type, blockStatements, forElse, code,
@@ -1515,8 +1495,6 @@ class Compiler implements InjectionAwareInterface
 
 	/**
 	 * Generates a 'forelse' PHP code
-	 *
-	 * @return string
 	 */
 	public function compileForElse() -> string
 	{
@@ -1535,12 +1513,8 @@ class Compiler implements InjectionAwareInterface
 
 	/**
 	 * Compiles a 'if' statement returning PHP code
-	 *
-	 * @param array statement
-	 * @param boolean extendsMode
-	 * @return string
 	 */
-	public function compileIf(statement, boolean extendsMode = false) -> string
+	public function compileIf(array! statement, boolean extendsMode = false) -> string
 	{
 		var compilation, blockStatements, expr;
 
@@ -1574,11 +1548,8 @@ class Compiler implements InjectionAwareInterface
 
 	/**
 	 * Compiles a "elseif" statement returning PHP code
-	 *
-	 * @param array statement
-	 * @return string
 	 */
-	public function compileElseIf(statement) -> string
+	public function compileElseIf(array! statement) -> string
 	{
 		var expr;
 
@@ -1597,12 +1568,8 @@ class Compiler implements InjectionAwareInterface
 
 	/**
 	 * Compiles a "cache" statement returning PHP code
-	 *
-	 * @param array statement
-	 * @param boolean extendsMode
-	 * @return string
 	 */
-	public function compileCache(statement, extendsMode = false) -> string
+	public function compileCache(array! statement, boolean extendsMode = false) -> string
 	{
 		var compilation, expr, exprCode, lifetime;
 
@@ -1646,9 +1613,6 @@ class Compiler implements InjectionAwareInterface
 
 	/**
 	 * Compiles a "set" statement returning PHP code
-	 *
-	 * @param array statement
-	 * @return string
 	 */
 	public function compileSet(array! statement) -> string
 	{
@@ -1710,11 +1674,8 @@ class Compiler implements InjectionAwareInterface
 
 	/**
 	 * Compiles a "do" statement returning PHP code
-	 *
-	 * @param array statement
-	 * @return string
 	 */
-	public function compileDo(statement) -> string
+	public function compileDo(array! statement) -> string
 	{
 		var expr;
 
@@ -1733,11 +1694,8 @@ class Compiler implements InjectionAwareInterface
 
 	/**
 	 * Compiles a "return" statement returning PHP code
-	 *
-	 * @param array statement
-	 * @return string
 	 */
-	public function compileReturn(statement) -> string
+	public function compileReturn(array! statement) -> string
 	{
 		var expr;
 
@@ -1756,12 +1714,8 @@ class Compiler implements InjectionAwareInterface
 
 	/**
 	 * Compiles a "autoescape" statement returning PHP code
-	 *
-	 * @param array   statement
-	 * @param boolean extendsMode
-	 * @return string
 	 */
-	public function compileAutoEscape(statement, boolean extendsMode) -> string
+	public function compileAutoEscape(array! statement, boolean extendsMode) -> string
 	{
 		var autoescape, oldAutoescape, compilation;
 
@@ -1791,7 +1745,7 @@ class Compiler implements InjectionAwareInterface
 	 * @param boolean extendsMode
 	 * @return string
 	 */
-	public function compileEcho(array! statement)
+	public function compileEcho(array! statement) -> string
 	{
 		var expr, exprCode, name;
 
@@ -1834,11 +1788,8 @@ class Compiler implements InjectionAwareInterface
 
 	/**
 	 * Compiles a 'include' statement returning PHP code
-	 *
-	 * @param  array statement
-	 * @return string
 	 */
-	public function compileInclude(statement) -> string
+	public function compileInclude(array! statement) -> string
 	{
 		var pathExpr, path, view, subCompiler, finalPath, compilation, params;
 
@@ -1910,12 +1861,8 @@ class Compiler implements InjectionAwareInterface
 
 	/**
 	 * Compiles macros
-	 *
-	 * @param array   statement
-	 * @param boolean extendsMode
-	 * @return string
 	 */
-	public function compileMacro(statement, boolean extendsMode) -> string
+	public function compileMacro(array! statement, boolean extendsMode) -> string
 	{
 		var code, name, parameters, position, parameter, variableName, blockStatements;
 
@@ -2249,10 +2196,6 @@ class Compiler implements InjectionAwareInterface
 
 	/**
 	 * Compiles a Volt source code returning a PHP plain version
-	 *
-	 * @param string  viewCode
-	 * @param boolean extendsMode
-	 * @return string
 	 */
 	protected function _compileSource(string! viewCode, boolean extendsMode = false) -> string
 	{
