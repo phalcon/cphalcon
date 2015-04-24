@@ -263,11 +263,12 @@ class Security implements InjectionAwareInterface
 	}
 
 	/**
-	 * Checks if a password hash is a valid bcrypt's hash
+	 * Checks if a password hash is not a valid bcrypt's hash
+	 * @return boolean  Returns TRUE if the provided hash is not a bcrypt hash, otherwise false
 	 */
 	public function isLegacyHash(string passwordHash) -> boolean
 	{
-		return starts_with(passwordHash, "$2a$");
+		return !starts_with(passwordHash, "$2a$");
 	}
 
 	/**
