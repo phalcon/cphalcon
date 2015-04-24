@@ -22,6 +22,7 @@ namespace Phalcon\Acl\Adapter;
 use Phalcon\Acl\Adapter;
 use Phalcon\Acl\Role;
 use Phalcon\Acl\Resource;
+use Phalcon\Acl\Role;
 use Phalcon\Acl\Exception;
 
 /**

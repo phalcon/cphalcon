@@ -63,7 +63,7 @@ interface AdapterInterface
 	 * Access names can be a particular action, by example
 	 * search, update, delete, etc or a list of them
 	 */
-	public function addResource(resourceObject, accessList = null) -> boolean;
+	public function addResource(resourceObject, accessList) -> boolean;
 
 	/**
 	 * Adds access to resources
