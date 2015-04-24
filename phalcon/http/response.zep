@@ -450,7 +450,9 @@ class Response implements ResponseInterface, InjectionAwareInterface
 
 		if dependencyInjector->has("view") {
 			let view = <ViewInterface> dependencyInjector->getShared("view");
-			view->disable();
+			if view instanceof \Phalcon\Mvc\ViewInterface {
+				view->disable();
+			}
 		}
 
 		/**
