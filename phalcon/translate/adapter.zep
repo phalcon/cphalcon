@@ -36,7 +36,7 @@ abstract class Adapter
 	 * @param array   placeholders
 	 * @return string
 	 */
-	public function t(string! translateKey, placeholders = null)
+	public function t(string! translateKey, placeholders = null) -> string
 	{
 		return this->{"query"}(translateKey, placeholders);
 	}
@@ -48,7 +48,7 @@ abstract class Adapter
 	 * @param array   placeholders
 	 * @return string
 	 */
-	public function _(string! translateKey, placeholders = null)
+	public function _(string! translateKey, placeholders = null) -> string
 	{
 		return this->{"query"}(translateKey, placeholders);
 	}
@@ -56,8 +56,8 @@ abstract class Adapter
 	/**
 	 * Sets a translation value
 	 *
-	 * @param         string offset
-	 * @param         string value
+	 * @param string offset
+	 * @param string value
 	 */
 	public function offsetSet(var offset, var value)
 	{
