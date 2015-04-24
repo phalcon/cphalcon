@@ -22,6 +22,7 @@ namespace Phalcon\Logger\Adapter;
 use Phalcon\Logger\Exception;
 use Phalcon\Logger\Adapter;
 use Phalcon\Logger\AdapterInterface;
+use Phalcon\Logger\Formatter\Syslog as SyslogFormatter;
 
 /**
  * Phalcon\Logger\Adapter\Syslog
@@ -71,13 +72,11 @@ class Syslog extends Adapter implements AdapterInterface
 
 	/**
 	 * Returns the internal formatter
-	 *
-	 * @return Phalcon\Logger\Formatter\Line
 	 */
-	public function getFormatter()
+	public function getFormatter() -> <SyslogFormatter>
 	{
 		if typeof this->_formatter !== "object" {
-			let this->_formatter = new \Phalcon\Logger\Formatter\Syslog();
+			let this->_formatter = new SyslogFormatter();
 		}
 
 		return this->_formatter;

@@ -37,13 +37,9 @@ class Firephp extends Formatter implements FormatterInterface
 
 	/**
 	 * Returns the string meaning of a logger constant
-	 *
-	 * @param  integer $type
-	 * @return string
 	 */
 	public function getTypeString(int type) -> string
 	{
-
 		switch type {
 
 			case Logger::EMERGENCY:
@@ -70,8 +66,6 @@ class Firephp extends Formatter implements FormatterInterface
 
 	/**
 	 * Returns the string meaning of a logger constant
-	 *
-	 * @return this
 	 */
 	public function setShowBacktrace(boolean isShow = null) -> <Firephp>
 	{
@@ -81,8 +75,6 @@ class Firephp extends Formatter implements FormatterInterface
 
 	/**
 	 * Returns the string meaning of a logger constant
-	 *
-	 * @return boolean
 	 */
 	public function getShowBacktrace() -> boolean
 	{
@@ -91,8 +83,6 @@ class Firephp extends Formatter implements FormatterInterface
 
 	/**
 	 * Returns the string meaning of a logger constant
-	 *
-	 * @return this
 	 */
 	public function enableLabels(boolean isEnable = null) -> <Firephp>
 	{
@@ -102,8 +92,6 @@ class Firephp extends Formatter implements FormatterInterface
 
 	/**
 	 * Returns the labels enabled
-	 *
-	 * @return boolean
 	 */
 	public function labelsEnabled() -> boolean
 	{
