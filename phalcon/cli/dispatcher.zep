@@ -60,7 +60,6 @@ class Dispatcher extends \Phalcon\Dispatcher
 
 	/**
 	 * Phalcon\Cli\Dispatcher constructor
-	 *
 	 */
 	public function __construct()
 	{
@@ -71,8 +70,6 @@ class Dispatcher extends \Phalcon\Dispatcher
 
 	/**
 	 * Sets the default task suffix
-	 *
-	 * @param string taskSuffix
 	 */
 	public function setTaskSuffix(string taskSuffix)
 	{
@@ -81,8 +78,6 @@ class Dispatcher extends \Phalcon\Dispatcher
 
 	/**
 	 * Sets the default task name
-     *
-	 * @param string taskName
 	 */
 	public function setDefaultTask(string taskName)
 	{
@@ -91,18 +86,14 @@ class Dispatcher extends \Phalcon\Dispatcher
 
 	/**
 	 * Sets the task name to be dispatched
-	 *
-	 * @param string taskName
 	 */
-	public function setTaskName(taskName)
+	public function setTaskName(string taskName)
 	{
 		let this->_handlerName = taskName;
 	}
 
 	/**
 	 * Gets last dispatched task name
-	 *
-	 * @return string
 	 */
 	public function getTaskName() -> string
 	{
@@ -111,9 +102,6 @@ class Dispatcher extends \Phalcon\Dispatcher
 
 	/**
 	 * Throws an internal exception
-	 *
-	 * @param string message
-	 * @param int exceptionCode
 	 */
 	protected function _throwDispatchException(string message, int exceptionCode = 0)
 	{
@@ -130,8 +118,6 @@ class Dispatcher extends \Phalcon\Dispatcher
 
 	/**
 	 * Handles a user exception
-	 *
-	 * @param \Exception exception
 	 */
 	protected function _handleException(<\Exception> exception)
 	{
@@ -146,8 +132,6 @@ class Dispatcher extends \Phalcon\Dispatcher
 
 	/**
 	 * Returns the lastest dispatched controller
-	 *
-	 * @return Phalcon\CLI\Task
 	 */
 	public function getLastTask() -> <Task>
 	{
@@ -156,8 +140,6 @@ class Dispatcher extends \Phalcon\Dispatcher
 
 	/**
 	 * Returns the active task in the dispatcher
-	 *
-	 * @return Phalcon\CLI\Task
 	 */
 	public function getActiveTask() -> <Task>
 	{
@@ -166,8 +148,6 @@ class Dispatcher extends \Phalcon\Dispatcher
 
 	/**
 	 * Set the options to be dispatched
-	 *
-	 * @param array options
 	 */
 	public function setOptions(array options)
 	{
@@ -176,8 +156,6 @@ class Dispatcher extends \Phalcon\Dispatcher
 
 	/**
 	 * Get dispatched options
-	 *
-	 * @return array
 	 */
 	public function getOptions() -> array
 	{
