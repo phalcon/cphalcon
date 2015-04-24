@@ -102,11 +102,12 @@
 #define PHQL_T_FALSE 334
 #define PHQL_T_CONVERT 335
 #define PHQL_T_USING 336
+#define PHQL_T_ALL 337
 
 /** Special Tokens */
 #define PHQL_T_FCALL 350
 #define PHQL_T_NLIKE 351
-#define PHQL_T_ALL 352
+#define PHQL_T_STARALL 352
 #define PHQL_T_DOMAINALL 353
 #define PHQL_T_EXPR 354
 #define PHQL_T_QUALIFIED 355

@@ -206,6 +206,11 @@ abstract class Dialect
 				for argument in arguments {
 					let sqlArguments[] = this->getSqlExpression(argument, escapeChar);
 				}
+				if isset expression["distinct"] {
+					return name . "(DISTINCT " . join(", ", sqlArguments) . ")";
+				} else {
+					return name . "(" . join(", ", sqlArguments) . ")";
+				}
 				return name . "(" . join(", ", sqlArguments) . ")";
 			}
 			return name . "()";
@@ -333,7 +338,7 @@ abstract class Dialect
 			selectedColumns, columnSql, columnDomainSql, columnAlias,
 			selectedTables, sqlJoin, joinExpressions, joinCondition,
 			joinConditionsArray, tablesSql, columnDomain, columnAliasSql,
-			columnsSql, table, sql, joins, join, sqlTable, whereConditions,
+			columnsSql, table, distinct, sql, joins, join, sqlTable, whereConditions,
 			groupFields, groupField, groupItems, havingConditions,
 			orderFields, orderItem, orderItems, orderSqlItem, sqlOrderType,
 			orderSqlItemType, limitValue, limitNumber, limitNumberValue, offset, offsetNumber;
@@ -428,7 +433,21 @@ abstract class Dialect
 			let tablesSql = tables;
 		}
 
-		let sql = "SELECT " . columnsSql . " FROM " . tablesSql;
+		if fetch distinct, definition["distinct"] {
+			if distinct == 0 {
+				let sql = "SELECT ALL ";
+			} else {
+				if distinct == 1 {
+					let sql = "SELECT DISTINCT ";
+				} else {
+					let sql = "SELECT ";
+				}
+			}
+		} else {
+			let sql = "SELECT ";
+		}
+
+		let sql = sql . columnsSql . " FROM " . tablesSql;
 
 		/**
 		 * Check for joins

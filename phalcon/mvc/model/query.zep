@@ -323,7 +323,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 	 */
 	protected final function _getCallArgument(array! argument) -> array
 	{
-		if argument["type"] == PHQL_T_ALL {
+		if argument["type"] == PHQL_T_STARALL {
 			return ["type": "all"];
 		}
 		return this->_getExpression(argument);
@@ -334,9 +334,15 @@ class Query implements QueryInterface, InjectionAwareInterface
 	 */
 	protected final function _getFunctionCall(array! expr) -> array
 	{
-		var arguments, argument, functionArgs;
+		var arguments, distinct, argument, functionArgs;
 
 		if fetch arguments, expr["arguments"] {
+			if isset expr["distinct"] {
+				let distinct = 1;
+			} else {
+				let distinct = 0;
+			}
+
 			if isset arguments[0] {
 				/**
 				 * There are more than one argument
@@ -351,11 +357,21 @@ class Query implements QueryInterface, InjectionAwareInterface
 				 */
 				let functionArgs = [this->_getCallArgument(arguments)];
 			}
-			return [
-				"type"     : "functionCall",
-				"name"     : expr["name"],
-				"arguments": functionArgs
-			];
+
+			if (distinct) {
+				return [
+					"type"     : "functionCall",
+					"name"     : expr["name"],
+					"arguments": functionArgs,
+					"distinct" : distinct
+				];
+			} else {
+				return [
+					"type"     : "functionCall",
+					"name"     : expr["name"],
+					"arguments": functionArgs
+				];
+			}
 		}
 
 		return [
@@ -632,7 +648,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 		/**
 		 * Check for select * (all)
 		 */
-		if columnType == PHQL_T_ALL {
+		if columnType == PHQL_T_STARALL {
 			for modelName, source in this->_models {
 				let sqlColumns[] = [
 					"type"  : "object",
@@ -1498,7 +1514,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 			models, modelsInstances, selectedModels, manager, metaData,
 			selectedModel, qualifiedName, modelName, nsAlias, realModelName, model,
 			schema, source, completeSource, alias, joins, sqlJoins, selectColumns,
-			sqlColumnAliases, column, sqlColumn, sqlSelect, having, where,
+			sqlColumnAliases, column, sqlColumn, sqlSelect, distinct, having, where,
 			groupBy, order, limit;
 		int position;
 
@@ -1730,6 +1746,10 @@ class Query implements QueryInterface, InjectionAwareInterface
 			"tables" : sqlTables,
 			"columns": sqlColumns
 		];
+
+		if fetch distinct, select["distinct"] {
+			let sqlSelect["distinct"] = distinct;
+		}
 
 		if count(sqlJoins) {
 			let sqlSelect["joins"] = sqlJoins;
