@@ -6,6 +6,9 @@
    with existing services
  - Added constants FILTER_* to Phalcon\Filter for filters names
  - Fixed multibyte characters in cssmin/jsmin
+ - Added Phalcon\Security::destroyToken() to remove current token key and value from session
+ - Changed Phalcon\Security::isLegacyHash() to return TRUE if passwordHash is not a valid bcrypt hash (instead of false), 
+   removed first argument (password), since it's not used in the function
 
 2.0.0
  - Full rewrite of most components in Zephir
