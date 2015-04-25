@@ -22,8 +22,28 @@
 
 namespace Phalcon\Tests\unit\Phalcon\Filter;
 
+use Phalcon\Filter;
+
 class FilterAlphanumTest extends Helper\FilterBase
 {
+    /**
+     * Tests Alphanum with an integer using constant
+     *
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2015-04-21
+     */
+    public function testSanitizeAlphanumIntegerConstant()
+    {
+        $this->specify(
+            "Alphanum integer (constant) filter is not correct",
+            function () {
+                $expected = '0';
+                $value    = 0;
+                $this->sanitizer(Filter::FILTER_ALPHANUM, $expected, $value);
+            }
+        );
+    }
+
     /**
      * Tests Alphanum with an integer
      *

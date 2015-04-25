@@ -57,15 +57,11 @@ ZEPHIR_DOC_METHOD(Phalcon_Cache_BackendInterface, getOptions);
 
 /**
  * Checks whether the last cache is fresh or cached
- *
- * @return boolean
  */
 ZEPHIR_DOC_METHOD(Phalcon_Cache_BackendInterface, isFresh);
 
 /**
  * Checks whether the cache has starting buffering or not
- *
- * @return boolean
  */
 ZEPHIR_DOC_METHOD(Phalcon_Cache_BackendInterface, isStarted);
 

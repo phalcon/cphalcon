@@ -50,14 +50,14 @@ use Phalcon\Di\Injectable;
  *
  *</code>
  */
- class Task extends Injectable
- {
+class Task extends Injectable
+{
 
- 	/**
- 	 * Phalcon\Cli\Task constructor
- 	 */
- 	public final function __construct()
- 	{
+	/**
+	 * Phalcon\Cli\Task constructor
+	 */
+	public final function __construct()
+	{
 
- 	}
- }
+	}
+}

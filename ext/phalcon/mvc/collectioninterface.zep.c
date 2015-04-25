@@ -26,11 +26,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_CollectionInterface) {
 }
 
 /**
- * Phalcon\Mvc\Collection
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_CollectionInterface, __construct);
-
-/**
  * Sets a value for the _id propery, creates a MongoId object if needed
  *
  * @param mixed id

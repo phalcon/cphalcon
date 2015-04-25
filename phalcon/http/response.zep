@@ -449,8 +449,10 @@ class Response implements ResponseInterface, InjectionAwareInterface
 		}
 
 		if dependencyInjector->has("view") {
-			let view = <ViewInterface> dependencyInjector->getShared("view");
-			view->disable();
+			let view = dependencyInjector->getShared("view");
+			if view instanceof ViewInterface {
+				view->disable();
+			}
 		}
 
 		/**

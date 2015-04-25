@@ -20,6 +20,7 @@
 namespace Phalcon\Validation\Validator;
 
 use Phalcon\Validation\Exception;
+use Phalcon\Validation\Validator;
 
 /**
  * Phalcon\Validation\Validator\Confirmation
@@ -35,17 +36,13 @@ use Phalcon\Validation\Exception;
  *)));
  *</code>
  */
-class Confirmation extends \Phalcon\Validation\Validator implements \Phalcon\Validation\ValidatorInterface
+class Confirmation extends Validator
 {
 
 	/**
 	 * Executes the validation
-	 *
-	 * @param Phalcon\Validation validation
-	 * @param string field
-	 * @return boolean
 	 */
-	public function validate(<\Phalcon\Validation> validation, string field) -> boolean
+	public function validate(<\Phalcon\Validation> validation, string! field) -> boolean
 	{
 		var fieldWith, value, valueWith, message, label, labelWith, replacePairs;
 
@@ -80,14 +77,10 @@ class Confirmation extends \Phalcon\Validation\Validator implements \Phalcon\Val
 
 	/**
 	 * Compare strings
-	 *
-	 * @param string a
-	 * @param string b
-	 * @return boolean
 	 */
 	protected function compare(string a, string b) -> boolean
 	{
-		if this->isSetOption("caseSensitive") && !this->getOption("caseSensitive") {
+		if this->getOption("ignoreCase", false) {
 
 			/**
 			 * mbstring is required here

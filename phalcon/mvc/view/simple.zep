@@ -82,10 +82,8 @@ class Simple extends Injectable
 
 	/**
 	 * Gets views directory
-	 *
-	 * @return string
 	 */
-	public function getViewsDir()
+	public function getViewsDir() -> string
 	{
 		return this->_viewsDir;
 	}

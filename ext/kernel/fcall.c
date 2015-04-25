@@ -433,7 +433,7 @@ ZEPHIR_ATTR_NONNULL static void zephir_fcall_populate_fci_cache(zend_fcall_info_
 /**
  * Calls a function/method in the PHP userland
  */
-int zephir_call_user_function(zval **object_pp, zend_class_entry *obj_ce, zephir_call_type type,
+int ZEPHIR_NO_OPT zephir_call_user_function(zval **object_pp, zend_class_entry *obj_ce, zephir_call_type type,
 	zval *function_name, zval **retval_ptr_ptr, zephir_fcall_cache_entry **cache_entry, zend_uint param_count,
 	zval *params[], zephir_fcall_info *info TSRMLS_DC)
 {

@@ -22,8 +22,58 @@
 
 namespace Phalcon\Tests\unit\Phalcon\Filter;
 
+use \Phalcon\Filter;
+
 class FilterIntegerTest extends Helper\FilterBase
 {
+    /**
+     * Tests sanitizing an integer with abs integer filter with constant
+     *
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
+     * @since  2015-04-21
+     */
+    public function testSanitizeAbsIntegerInteger()
+    {
+        $this->specify(
+            "sanitizing integer with abs int filter not correct",
+            function () {
+                $this->sanitizer(Filter::FILTER_ABSINT, 125, -125);
+            }
+        );
+    }
+
+    /**
+     * Tests sanitizing a string  with abs integer filter with constant
+     *
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
+     * @since  2015-04-21
+     */
+    public function testSanitizeAbsIntegerString()
+    {
+        $this->specify(
+            "sanitizing string with abs int filter not correct",
+            function () {
+                $this->sanitizer(Filter::FILTER_ABSINT, 125, '-125');
+            }
+        );
+    }
+
+    /**
+     * Tests sanitizing an integer with integer filter with constant
+     *
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
+     * @since  2015-04-21
+     */
+    public function testSanitizeIntegerIntegerConstant()
+    {
+        $this->specify(
+            "sanitizing integer with int filter not correct",
+            function () {
+                $this->sanitizer(Filter::FILTER_INT, 1000, 1000);
+            }
+        );
+    }
+
     /**
      * Tests sanitizing an integer with integer filter
      *

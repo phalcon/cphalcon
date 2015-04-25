@@ -20,12 +20,13 @@
 
 namespace Phalcon\Db\Dialect;
 
-use Phalcon\Db\Exception;
 use Phalcon\Db\Dialect;
-use Phalcon\Db\DialectInterface;
+use Phalcon\Db\Column;
+use Phalcon\Db\Exception;
+use Phalcon\Db\IndexInterface;
 use Phalcon\Db\ColumnInterface;
 use Phalcon\Db\ReferenceInterface;
-use Phalcon\Db\IndexInterface;
+use Phalcon\Db\DialectInterface;
 
 /**
  * Phalcon\Db\Dialect\Postgresql
@@ -42,7 +43,7 @@ class Postgresql extends Dialect implements DialectInterface
 	 */
 	public function getColumnDefinition(<ColumnInterface> column) -> string
 	{
-		var size, columnType, columnSql, typeValues;		
+		var size, columnType, columnSql, typeValues;
 
 		let size = column->getSize();
 		let columnType = column->getType();
@@ -54,58 +55,58 @@ class Postgresql extends Dialect implements DialectInterface
 
 		switch columnType {
 
-			case 0:
+			case Column::TYPE_INTEGER:
 				if empty columnSql {
 					let columnSql .= "INT";
 				}
 				break;
 
-			case 1:
+			case Column::TYPE_DATE:
 				if empty columnSql {
 					let columnSql .= "DATE";
 				}
 				break;
 
-			case 2:
+			case Column::TYPE_VARCHAR:
 				if empty columnSql {
 					let columnSql .= "CHARACTER VARYING";
 				}
 				let columnSql .= "(" . size . ")";
 				break;
 
-			case 3:
+			case Column::TYPE_DECIMAL:
 				if empty columnSql {
 					let columnSql .= "NUMERIC";
 				}
 				let columnSql .= "(" . size . "," . column->getScale() . ")";
 				break;
 
-			case 4:
+			case Column::TYPE_DATETIME:
 				if empty columnSql {
 					let columnSql .= "TIMESTAMP";
 				}
 				break;
 
-			case 5:
+			case Column::TYPE_CHAR:
 				if empty columnSql {
 					let columnSql .= "CHARACTER";
 				}
 				let columnSql .= "(" . size . ")";
 				break;
 
-			case 6:
+			case Column::TYPE_TEXT:
 				if empty columnSql {
 					let columnSql .= "TEXT";
 				}
 				break;
 
-			case 7:
+			case Column::TYPE_FLOAT:
 				if empty columnSql {
 					let columnSql .= "FLOAT";
 				}
 				break;
 
-			case 8:
+			case Column::TYPE_BOOLEAN:
 				if empty columnSql {
 					let columnSql .= "SMALLINT(1)";
 				}
@@ -363,13 +364,10 @@ class Postgresql extends Dialect implements DialectInterface
 	 */
 	public function tableExists(tableName, schemaName = null) -> string
 	{
-		var sql;
 		if schemaName {
-			let sql = "SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END FROM information_schema.tables WHERE table_schema = '" . schemaName . "' AND table_name='" . tableName . "'";
-		} else {
-			let sql = "SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END FROM information_schema.tables WHERE table_schema = 'public' AND table_name='" . tableName . "'";
+			return "SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END FROM information_schema.tables WHERE table_schema = '" . schemaName . "' AND table_name='" . tableName . "'";
 		}
-		return sql;
+		return "SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END FROM information_schema.tables WHERE table_schema = 'public' AND table_name='" . tableName . "'";
 	}
 
 	/**
@@ -381,13 +379,10 @@ class Postgresql extends Dialect implements DialectInterface
 	 */
 	public function viewExists(viewName, schemaName = null) -> string
 	{
-		var sql;
 		if schemaName {
-			let sql = "SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END FROM pg_views WHERE viewname='" . viewName . "' AND schemaname='" . schemaName . "'";
-		} else {
-			let sql = "SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END FROM pg_views WHERE viewname='" . viewName . "'";
+			return "SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END FROM pg_views WHERE viewname='" . viewName . "' AND schemaname='" . schemaName . "'";
 		}
-		return sql;
+		return "SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END FROM pg_views WHERE viewname='" . viewName . "'";
 	}
 
 	/**
@@ -401,13 +396,10 @@ class Postgresql extends Dialect implements DialectInterface
 	 */
 	public function describeColumns(table, schema = null) -> string
 	{
-		var sql;
 		if schema {
-			let sql = "SELECT DISTINCT c.column_name AS Field, c.data_type AS Type, c.character_maximum_length AS Size, c.numeric_precision AS NumericSize, c.numeric_scale AS NumericScale, c.is_nullable AS Null, CASE WHEN pkc.column_name NOTNULL THEN 'PRI' ELSE '' END AS Key, CASE WHEN c.data_type LIKE '%int%' AND c.column_default LIKE '%nextval%' THEN 'auto_increment' ELSE '' END AS Extra, c.ordinal_position AS Position, c.column_default FROM information_schema.columns c LEFT JOIN ( SELECT kcu.column_name, kcu.table_name, kcu.table_schema FROM information_schema.table_constraints tc INNER JOIN information_schema.key_column_usage kcu on (kcu.constraint_name = tc.constraint_name and kcu.table_name=tc.table_name and kcu.table_schema=tc.table_schema) WHERE tc.constraint_type='PRIMARY KEY') pkc ON (c.column_name=pkc.column_name AND c.table_schema = pkc.table_schema AND c.table_name=pkc.table_name) WHERE c.table_schema='" . schema . "' AND c.table_name='" . table . "' ORDER BY c.ordinal_position";
-		} else {
-			let sql = "SELECT DISTINCT c.column_name AS Field, c.data_type AS Type, c.character_maximum_length AS Size, c.numeric_precision AS NumericSize, c.numeric_scale AS NumericScale, c.is_nullable AS Null, CASE WHEN pkc.column_name NOTNULL THEN 'PRI' ELSE '' END AS Key, CASE WHEN c.data_type LIKE '%int%' AND c.column_default LIKE '%nextval%' THEN 'auto_increment' ELSE '' END AS Extra, c.ordinal_position AS Position, c.column_default FROM information_schema.columns c LEFT JOIN ( SELECT kcu.column_name, kcu.table_name, kcu.table_schema FROM information_schema.table_constraints tc INNER JOIN information_schema.key_column_usage kcu on (kcu.constraint_name = tc.constraint_name and kcu.table_name=tc.table_name and kcu.table_schema=tc.table_schema) WHERE tc.constraint_type='PRIMARY KEY') pkc ON (c.column_name=pkc.column_name AND c.table_schema = pkc.table_schema AND c.table_name=pkc.table_name) WHERE c.table_schema='public' AND c.table_name='" . table . "' ORDER BY c.ordinal_position";
+			return "SELECT DISTINCT c.column_name AS Field, c.data_type AS Type, c.character_maximum_length AS Size, c.numeric_precision AS NumericSize, c.numeric_scale AS NumericScale, c.is_nullable AS Null, CASE WHEN pkc.column_name NOTNULL THEN 'PRI' ELSE '' END AS Key, CASE WHEN c.data_type LIKE '%int%' AND c.column_default LIKE '%nextval%' THEN 'auto_increment' ELSE '' END AS Extra, c.ordinal_position AS Position, c.column_default FROM information_schema.columns c LEFT JOIN ( SELECT kcu.column_name, kcu.table_name, kcu.table_schema FROM information_schema.table_constraints tc INNER JOIN information_schema.key_column_usage kcu on (kcu.constraint_name = tc.constraint_name and kcu.table_name=tc.table_name and kcu.table_schema=tc.table_schema) WHERE tc.constraint_type='PRIMARY KEY') pkc ON (c.column_name=pkc.column_name AND c.table_schema = pkc.table_schema AND c.table_name=pkc.table_name) WHERE c.table_schema='" . schema . "' AND c.table_name='" . table . "' ORDER BY c.ordinal_position";
 		}
-		return sql;
+		return "SELECT DISTINCT c.column_name AS Field, c.data_type AS Type, c.character_maximum_length AS Size, c.numeric_precision AS NumericSize, c.numeric_scale AS NumericScale, c.is_nullable AS Null, CASE WHEN pkc.column_name NOTNULL THEN 'PRI' ELSE '' END AS Key, CASE WHEN c.data_type LIKE '%int%' AND c.column_default LIKE '%nextval%' THEN 'auto_increment' ELSE '' END AS Extra, c.ordinal_position AS Position, c.column_default FROM information_schema.columns c LEFT JOIN ( SELECT kcu.column_name, kcu.table_name, kcu.table_schema FROM information_schema.table_constraints tc INNER JOIN information_schema.key_column_usage kcu on (kcu.constraint_name = tc.constraint_name and kcu.table_name=tc.table_name and kcu.table_schema=tc.table_schema) WHERE tc.constraint_type='PRIMARY KEY') pkc ON (c.column_name=pkc.column_name AND c.table_schema = pkc.table_schema AND c.table_name=pkc.table_name) WHERE c.table_schema='public' AND c.table_name='" . table . "' ORDER BY c.ordinal_position";
 	}
 
 	/**
@@ -421,13 +413,10 @@ class Postgresql extends Dialect implements DialectInterface
 	 */
 	public function listTables(schemaName = null) -> string
 	{
-		var sql;
 		if schemaName {
-			let sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = '" . schemaName . "' ORDER BY table_name";
-		} else {
-			let sql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'public' ORDER BY table_name";
+			return "SELECT table_name FROM information_schema.tables WHERE table_schema = '" . schemaName . "' ORDER BY table_name";
 		}
-		return sql;
+		return "SELECT table_name FROM information_schema.tables WHERE table_schema = 'public' ORDER BY table_name";
 	}
 
 	/**
@@ -438,15 +427,11 @@ class Postgresql extends Dialect implements DialectInterface
 	 */
 	public function listViews(schemaName = null) -> string
 	{
-		var sql;
 		if schemaName {
-			let sql = "SELECT viewname AS view_name FROM pg_views WHERE schemaname = '" . schemaName . "' ORDER BY view_name";
-		} else {
-			let sql = "SELECT viewname AS view_name FROM pg_views WHERE schemaname = 'public' ORDER BY view_name";
+			return "SELECT viewname AS view_name FROM pg_views WHERE schemaname = '" . schemaName . "' ORDER BY view_name";
 		}
-		return sql;
+		return "SELECT viewname AS view_name FROM pg_views WHERE schemaname = 'public' ORDER BY view_name";
 	}
-
 
 	/**
 	 * Generates SQL to query indexes on a table
@@ -469,8 +454,7 @@ class Postgresql extends Dialect implements DialectInterface
 	 */
 	public function describeReferences(table, schema = null) -> string
 	{
-		var sql;
-		let sql = "SELECT tc.table_name as TABLE_NAME, kcu.column_name as COLUMN_NAME, tc.constraint_name as CONSTRAINT_NAME, tc.table_catalog as REFERENCED_TABLE_SCHEMA, ccu.table_name AS REFERENCED_TABLE_NAME, ccu.column_name AS REFERENCED_COLUMN_NAME FROM information_schema.table_constraints AS tc JOIN information_schema.key_column_usage AS kcu ON tc.constraint_name = kcu.constraint_name JOIN information_schema.constraint_column_usage AS ccu ON ccu.constraint_name = tc.constraint_name WHERE constraint_type = 'FOREIGN KEY' AND ";
+		var sql = "SELECT tc.table_name as TABLE_NAME, kcu.column_name as COLUMN_NAME, tc.constraint_name as CONSTRAINT_NAME, tc.table_catalog as REFERENCED_TABLE_SCHEMA, ccu.table_name AS REFERENCED_TABLE_NAME, ccu.column_name AS REFERENCED_COLUMN_NAME FROM information_schema.table_constraints AS tc JOIN information_schema.key_column_usage AS kcu ON tc.constraint_name = kcu.constraint_name JOIN information_schema.constraint_column_usage AS ccu ON ccu.constraint_name = tc.constraint_name WHERE constraint_type = 'FOREIGN KEY' AND ";
 		if schema {
 			let sql .= "tc.table_schema = '" . schema . "' AND tc.table_name='" . table . "'";
 		} else {

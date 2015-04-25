@@ -16,6 +16,7 @@
 #include "kernel/exception.h"
 #include "kernel/memory.h"
 #include "kernel/object.h"
+#include "kernel/string.h"
 #include "kernel/fcall.h"
 #include "kernel/concat.h"
 #include "kernel/file.h"
@@ -23,7 +24,6 @@
 #include "kernel/time.h"
 #include "kernel/iterator.h"
 #include "ext/spl/spl_directory.h"
-#include "kernel/string.h"
 
 
 /**
@@ -82,9 +82,9 @@ ZEPHIR_INIT_CLASS(Phalcon_Cache_Backend_File) {
 PHP_METHOD(Phalcon_Cache_Backend_File, __construct) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zephir_nts_static zephir_fcall_cache_entry *_4 = NULL, *_5 = NULL;
+	zephir_nts_static zephir_fcall_cache_entry *_5 = NULL;
 	zend_bool _1;
-	zval *frontend, *options = NULL, *prefix, *safekey, *_0, *_2, *_3 = NULL;
+	zval *frontend, *options = NULL, *prefix, *safekey, *_0, *_2, *_3, _4;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &frontend, &options);
@@ -112,10 +112,10 @@ PHP_METHOD(Phalcon_Cache_Backend_File, __construct) {
 		_1 = zephir_is_true(_0);
 		if (_1) {
 			ZEPHIR_INIT_VAR(_2);
-			ZVAL_STRING(_2, "/[^a-zA-Z0-9_.-]+/", ZEPHIR_TEMP_PARAM_COPY);
-			ZEPHIR_CALL_FUNCTION(&_3, "preg_match", &_4, _2, prefix);
-			zephir_check_temp_parameter(_2);
-			zephir_check_call_status();
+			ZEPHIR_INIT_VAR(_3);
+			ZEPHIR_SINIT_VAR(_4);
+			ZVAL_STRING(&_4, "/[^a-zA-Z0-9_.-]+/", 0);
+			zephir_preg_match(_3, &_4, prefix, _2, 0, 0 , 0  TSRMLS_CC);
 			_1 = zephir_is_true(_3);
 		}
 		if (_1) {
@@ -224,10 +224,11 @@ PHP_METHOD(Phalcon_Cache_Backend_File, save) {
 
 	zephir_nts_static zephir_fcall_cache_entry *_4 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *keyName = NULL, *content = NULL, *lifetime = NULL, *stopBuffer = NULL, *lastKey = NULL, *frontend, *cacheDir, *isBuffering = NULL, *cacheFile, *cachedContent = NULL, *preparedContent = NULL, *status = NULL, *_0, *_1 = NULL, *_2, *_3;
+	zend_bool stopBuffer;
+	zval *keyName = NULL, *content = NULL, *lifetime = NULL, *stopBuffer_param = NULL, *lastKey = NULL, *frontend, *cacheDir, *isBuffering = NULL, *cacheFile, *cachedContent = NULL, *preparedContent = NULL, *status = NULL, *_0, *_1 = NULL, *_2, *_3;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 0, 4, &keyName, &content, &lifetime, &stopBuffer);
+	zephir_fetch_params(1, 0, 4, &keyName, &content, &lifetime, &stopBuffer_param);
 
 	if (!keyName) {
 		keyName = ZEPHIR_GLOBAL(global_null);
@@ -238,8 +239,10 @@ PHP_METHOD(Phalcon_Cache_Backend_File, save) {
 	if (!lifetime) {
 		lifetime = ZEPHIR_GLOBAL(global_null);
 	}
-	if (!stopBuffer) {
-		stopBuffer = ZEPHIR_GLOBAL(global_true);
+	if (!stopBuffer_param) {
+		stopBuffer = 1;
+	} else {
+		stopBuffer = zephir_get_boolval(stopBuffer_param);
 	}
 
 
@@ -295,7 +298,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, save) {
 	}
 	ZEPHIR_CALL_METHOD(&isBuffering, frontend, "isbuffering", NULL);
 	zephir_check_call_status();
-	if (ZEPHIR_IS_TRUE_IDENTICAL(stopBuffer)) {
+	if (stopBuffer == 1) {
 		ZEPHIR_CALL_METHOD(NULL, frontend, "stop", NULL);
 		zephir_check_call_status();
 	}
@@ -637,8 +640,6 @@ PHP_METHOD(Phalcon_Cache_Backend_File, decrement) {
 
 /**
  * Immediately invalidates all existing items.
- *
- * @return boolean
  */
 PHP_METHOD(Phalcon_Cache_Backend_File, flush) {
 
@@ -655,7 +656,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, flush) {
 	ZEPHIR_OBS_VAR(cacheDir);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY_CC);
 	if (!(zephir_array_isset_string_fetch(&cacheDir, _0, SS("cacheDir"), 0 TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_cache_exception_ce, "Unexpected inconsistency in options", "phalcon/cache/backend/file.zep", 464);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_cache_exception_ce, "Unexpected inconsistency in options", "phalcon/cache/backend/file.zep", 462);
 		return;
 	}
 	ZEPHIR_INIT_VAR(_2);
@@ -697,8 +698,6 @@ PHP_METHOD(Phalcon_Cache_Backend_File, flush) {
 
 /**
  * Return a file-system safe identifier for a given key
- *
- * @return string
  */
 PHP_METHOD(Phalcon_Cache_Backend_File, getKey) {
 

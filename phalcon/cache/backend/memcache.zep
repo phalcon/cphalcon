@@ -90,8 +90,8 @@ class Memcache extends Backend implements BackendInterface
 	}
 
 	/**
-	* Create internal connection to memcached
-	*/
+	 * Create internal connection to memcached
+	 */
 	public function _connect()
 	{
 		var options, memcache, persistent, success, host, port;
@@ -157,7 +157,7 @@ class Memcache extends Backend implements BackendInterface
 	 * @param long lifetime
 	 * @param boolean stopBuffer
 	 */
-	public function save(var keyName = null, var content = null, var lifetime = null, var stopBuffer = true)
+	public function save(var keyName = null, var content = null, var lifetime = null, boolean stopBuffer = true)
 	{
 		var lastKey, frontend, memcache, cachedContent, preparedContent, tmp, ttl, success, options,
 			specialKey, keys, isBuffering;
@@ -221,10 +221,9 @@ class Memcache extends Backend implements BackendInterface
 
 		let options = this->_options;
 
-		if !isset options["statsKey"] {
+		if !fetch specialKey, options["statsKey"] {
 			throw new Exception("Unexpected inconsistency in options");
 		}
-		let specialKey = options["statsKey"];
 
 		if typeof specialKey != "null" {
 			/**
@@ -285,8 +284,8 @@ class Memcache extends Backend implements BackendInterface
 		}
 
 		/**
-		* Delete the key from memcached
-		*/
+		 * Delete the key from memcached
+		 */
 		let ret = memcache->delete(prefixedKey);
 		return ret;
 	}
@@ -315,8 +314,8 @@ class Memcache extends Backend implements BackendInterface
 		}
 
 		/**
-		* Get the key from memcached
-		*/
+		 * Get the key from memcached
+		 */
 		let realKey = [];
 		let keys = memcache->get(specialKey);
 		if typeof keys == "array" {
@@ -433,8 +432,6 @@ class Memcache extends Backend implements BackendInterface
 
 	/**
 	 * Immediately invalidates all existing items.
-	 *
-	 * @return boolean
 	 */
 	public function flush() -> boolean
 	{

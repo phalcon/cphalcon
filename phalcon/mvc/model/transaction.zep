@@ -165,10 +165,8 @@ class Transaction implements TransactionInterface
 
 	/**
 	 * Returns the connection related to transaction
-	 *
-	 * @return Phalcon\Db\AdapterInterface
 	 */
-	public function getConnection()
+	public function getConnection() -> <\Phalcon\Db\AdapterInterface>
 	{
 		if this->_rollbackOnAbort {
 			if connection_aborted() {
@@ -204,10 +202,8 @@ class Transaction implements TransactionInterface
 
 	/**
 	 * Returns validations messages from last save try
-	 *
-	 * @return array
 	 */
-	public function getMessages()
+	public function getMessages() -> array
 	{
 		return this->_messages;
 	}

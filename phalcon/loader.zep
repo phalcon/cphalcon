@@ -249,7 +249,7 @@ class Loader implements EventsAwareInterface
 	}
 
 	/**
-	 * Autoloades the registered classes
+	 * Autoloads the registered classes
 	 */
 	public function autoLoad(string! className) -> boolean
 	{

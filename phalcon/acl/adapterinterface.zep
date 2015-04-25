@@ -45,7 +45,7 @@ interface AdapterInterface
 	/**
 	 * Do a role inherit from another existing role
 	 */
-	public function addInherit(string roleName, roleToInherit);
+	public function addInherit(string roleName, roleToInherit) -> boolean;
 
 	/**
 	 * Check whether role exist in the roles list
@@ -63,7 +63,7 @@ interface AdapterInterface
 	 * Access names can be a particular action, by example
 	 * search, update, delete, etc or a list of them
 	 */
-	public function addResource(resourceObject, accessList=null) -> boolean;
+	public function addResource(resourceObject, accessList) -> boolean;
 
 	/**
 	 * Adds access to resources
@@ -107,15 +107,11 @@ interface AdapterInterface
 
 	/**
 	 * Return an array with every role registered in the list
-	 *
-	 * @return Phalcon\Acl\RoleInterface[]
 	 */
-	public function getRoles();
+	public function getRoles() -> <RoleInterface[]>;
 
 	/**
 	 * Return an array with every resource registered in the list
-	 *
-	 * @return Phalcon\Acl\ResourceInterface[]
 	 */
-	public function getResources();
+	public function getResources() -> <ResourceInterface[]>;
 }

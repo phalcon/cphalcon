@@ -30,7 +30,7 @@ interface FilterInterface
 	/**
 	 * Adds a user-defined filter
 	 */
-	public function add(string! name, handler) -> <\Phalcon\FilterInterface>;
+	public function add(string! name, handler) -> <FilterInterface>;
 
 	/**
 	 * Sanizites a value with a specified single or set of filters
@@ -41,5 +41,4 @@ interface FilterInterface
 	 * Return the user-defined filters in the instance
 	 */
 	public function getFilters() -> array;
-
 }

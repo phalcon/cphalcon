@@ -170,8 +170,6 @@ PHP_METHOD(Phalcon_Cache_Backend, start) {
 
 /**
  * Stops the frontend without store any cached content
- *
- * @param boolean stopBuffer
  */
 PHP_METHOD(Phalcon_Cache_Backend, stop) {
 
@@ -201,8 +199,6 @@ PHP_METHOD(Phalcon_Cache_Backend, stop) {
 
 /**
  * Checks whether the last cache is fresh or cached
- *
- * @return boolean
  */
 PHP_METHOD(Phalcon_Cache_Backend, isFresh) {
 
@@ -213,8 +209,6 @@ PHP_METHOD(Phalcon_Cache_Backend, isFresh) {
 
 /**
  * Checks whether the cache has starting buffering or not
- *
- * @return boolean
  */
 PHP_METHOD(Phalcon_Cache_Backend, isStarted) {
 

@@ -31,17 +31,13 @@ interface AdapterInterface
 
 	/**
 	 * Sets the annotations parser
-	 *
-	 * @param Phalcon\Annotations\ReaderInterface reader
 	 */
 	public function setReader(<ReaderInterface> reader);
 
 	/**
 	 * Returns the annotation reader
-	 *
-	 * @return Phalcon\Annotations\ReaderInterface
 	 */
-	public function getReader();
+	public function getReader() -> <ReaderInterface>;
 
 	/**
 	 * Parses or retrieves all the annotations found in a class

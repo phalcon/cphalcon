@@ -59,10 +59,7 @@ interface IndexInterface
 
 	/**
 	 * Restore a Phalcon\Db\Index object from export
-	 *
-	 * @param array data
-	 * @return Phalcon\Db\IndexInterface
 	 */
-	public static function __set_state(array! data);
+	public static function __set_state(array! data) -> <IndexInterface>;
 
 }

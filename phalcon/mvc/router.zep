@@ -22,8 +22,10 @@ namespace Phalcon\Mvc;
 use Phalcon\Di\InjectionAwareInterface;
 use Phalcon\DiInterface;
 use Phalcon\Mvc\Router\Route;
+use Phalcon\Mvc\Router\RouteInterface;
 use Phalcon\Mvc\Router\Exception;
 use Phalcon\Http\RequestInterface;
+use Phalcon\Mvc\Router\GroupInterface;
 
 /**
  * Phalcon\Mvc\Router
@@ -49,9 +51,8 @@ use Phalcon\Http\RequestInterface;
  *
  *	echo $router->getControllerName();
  *</code>
- *
  */
-class Router implements InjectionAwareInterface,RouterInterface
+class Router implements InjectionAwareInterface, RouterInterface
 {
 	protected _dependencyInjector;
 
@@ -96,7 +97,7 @@ class Router implements InjectionAwareInterface,RouterInterface
 	/**
 	 * Phalcon\Mvc\Router constructor
 	 */
-	public function __construct(boolean defaultRoutes = true)
+	public function __construct(boolean! defaultRoutes = true)
 	{
 		array routes = [];
 
@@ -124,7 +125,7 @@ class Router implements InjectionAwareInterface,RouterInterface
 	/**
 	 * Sets the dependency injector
 	 */
-	public function setDI(<DiInterface> dependencyInjector)
+	public function setDI(<DiInterface> dependencyInjector) -> void
 	{
 		let this->_dependencyInjector = dependencyInjector;
 	}
@@ -174,10 +175,8 @@ class Router implements InjectionAwareInterface,RouterInterface
 	 *<code>
 	 *	$router->setUriSource(Router::URI_SOURCE_SERVER_REQUEST_URI);
 	 *</code>
-	 *
-	 * @param string uriSource
 	 */
-	public function setUriSource(var uriSource) -> <Router>
+	public function setUriSource(var uriSource) -> <RouterInterface>
 	{
 		let this->_uriSource = uriSource;
 		return this;
@@ -186,7 +185,7 @@ class Router implements InjectionAwareInterface,RouterInterface
 	/**
 	 * Set whether router must remove the extra slashes in the handled routes
 	 */
-	public function removeExtraSlashes(boolean remove) -> <Router>
+	public function removeExtraSlashes(boolean! remove) -> <RouterInterface>
 	{
 		let this->_removeExtraSlashes = remove;
 		return this;
@@ -195,7 +194,7 @@ class Router implements InjectionAwareInterface,RouterInterface
 	/**
 	 * Sets the name of the default namespace
 	 */
-	public function setDefaultNamespace(string! namespaceName) -> <Router>
+	public function setDefaultNamespace(string! namespaceName) -> <RouterInterface>
 	{
 		let this->_defaultNamespace = namespaceName;
 		return this;
@@ -204,7 +203,7 @@ class Router implements InjectionAwareInterface,RouterInterface
 	/**
 	 * Sets the name of the default module
 	 */
-	public function setDefaultModule(string! moduleName) -> <Router>
+	public function setDefaultModule(string! moduleName) -> <RouterInterface>
 	{
 		let this->_defaultModule = moduleName;
 		return this;
@@ -213,7 +212,7 @@ class Router implements InjectionAwareInterface,RouterInterface
 	/**
 	 * Sets the default controller name
 	 */
-	public function setDefaultController(string! controllerName) -> <Router>
+	public function setDefaultController(string! controllerName) -> <RouterInterface>
 	{
 		let this->_defaultController = controllerName;
 		return this;
@@ -222,7 +221,7 @@ class Router implements InjectionAwareInterface,RouterInterface
 	/**
 	 * Sets the default action name
 	 */
-	public function setDefaultAction(string! actionName) -> <Router>
+	public function setDefaultAction(string! actionName) -> <RouterInterface>
 	{
 		let this->_defaultAction = actionName;
 		return this;
@@ -239,7 +238,7 @@ class Router implements InjectionAwareInterface,RouterInterface
 	 * ));
 	 *</code>
 	 */
-	public function setDefaults(array! defaults) -> <Router>
+	public function setDefaults(array! defaults) -> <RouterInterface>
 	{
 		var namespaceName, module, controller, action, params;
 
@@ -317,12 +316,8 @@ class Router implements InjectionAwareInterface,RouterInterface
 		/**
 		 * Remove extra slashes in the route
 		 */
-		if this->_removeExtraSlashes {
-			if realUri != "/" {
-				let handledUri = rtrim(realUri, "/");
-			} else {
-				let handledUri = realUri;
-			}
+		if this->_removeExtraSlashes && realUri != "/" {
+			let handledUri = rtrim(realUri, "/");
 		} else {
 			let handledUri = realUri;
 		}
@@ -533,6 +528,15 @@ class Router implements InjectionAwareInterface,RouterInterface
 			}
 		}
 
+		/**
+		 * Use default values before we overwrite them if the route is matched
+		 */
+		let this->_namespace = this->_defaultNamespace,
+			this->_module = this->_defaultModule,
+			this->_controller = this->_defaultController,
+			this->_action = this->_defaultAction,
+			this->_params = this->_defaultParams;
+
 		if routeFound {
 
 			/**
@@ -543,8 +547,6 @@ class Router implements InjectionAwareInterface,RouterInterface
 					let this->_namespace = vnamespace;
 				}
 				unset parts["namespace"];
-			} else {
-				let this->_namespace = this->_defaultNamespace;
 			}
 
 			/**
@@ -555,8 +557,6 @@ class Router implements InjectionAwareInterface,RouterInterface
 					let this->_module = module;
 				}
 				unset parts["module"];
-			} else {
-				let this->_module = this->_defaultModule;
 			}
 
 			/**
@@ -567,8 +567,6 @@ class Router implements InjectionAwareInterface,RouterInterface
 					let this->_controller = controller;
 				}
 				unset parts["controller"];
-			} else {
-				let this->_controller = this->_defaultController;
 			}
 
 			/**
@@ -579,8 +577,6 @@ class Router implements InjectionAwareInterface,RouterInterface
 					let this->_action = action;
 				}
 				unset parts["action"];
-			} else {
-				let this->_action = this->_defaultAction;
 			}
 
 			/**
@@ -600,16 +596,6 @@ class Router implements InjectionAwareInterface,RouterInterface
 				let this->_params = parts;
 			}
 
-		} else {
-
-			/**
-			 * Use default values if the route hasn't matched
-			 */
-			let this->_namespace = this->_defaultNamespace,
-				this->_module = this->_defaultModule,
-				this->_controller = this->_defaultController,
-				this->_action = this->_defaultAction,
-				this->_params = this->_defaultParams;
 		}
 	}
 
@@ -619,12 +605,8 @@ class Router implements InjectionAwareInterface,RouterInterface
 	 *<code>
 	 * $router->add('/about', 'About::index');
 	 *</code>
-	 *
-	 * @param string/array paths
-	 * @param string httpMethods
-	 * @return Phalcon\Mvc\Router\Route
 	 */
-	public function add(string! pattern, paths = null, httpMethods = null) -> <Route>
+	public function add(string! pattern, var paths = null, var httpMethods = null) -> <RouteInterface>
 	{
 		var route;
 
@@ -638,78 +620,56 @@ class Router implements InjectionAwareInterface,RouterInterface
 
 	/**
 	 * Adds a route to the router that only match if the HTTP method is GET
-	 *
-	 * @param string/array paths
 	 */
-	public function addGet(string! pattern, paths = null) -> <Route>
+	public function addGet(string! pattern, var paths = null) -> <RouteInterface>
 	{
 		return this->add(pattern, paths, "GET");
 	}
 
 	/**
 	 * Adds a route to the router that only match if the HTTP method is POST
-	 *
-	 * @param string/array paths
 	 */
-	public function addPost(string! pattern, var paths = null) -> <Route>
+	public function addPost(string! pattern, var paths = null) -> <RouteInterface>
 	{
 		return this->add(pattern, paths, "POST");
 	}
 
 	/**
 	 * Adds a route to the router that only match if the HTTP method is PUT
-	 *
-	 * @param string/array paths
 	 */
-	public function addPut(string! pattern, paths = null) -> <Route>
+	public function addPut(string! pattern, var paths = null) -> <RouteInterface>
 	{
 		return this->add(pattern, paths, "PUT");
 	}
 
 	/**
 	 * Adds a route to the router that only match if the HTTP method is PATCH
-	 *
-	 * @param string pattern
-	 * @param string/array paths
-	 * @return Phalcon\Mvc\Router\Route
 	 */
-	public function addPatch(string! pattern, paths = null)
+	public function addPatch(string! pattern, var paths = null) -> <RouteInterface>
 	{
 		return this->add(pattern, paths, "PATCH");
 	}
 
 	/**
 	 * Adds a route to the router that only match if the HTTP method is DELETE
-	 *
-	 * @param string pattern
-	 * @param string/array paths
-	 * @return Phalcon\Mvc\Router\Route
 	 */
-	public function addDelete(string! pattern, paths = null) -> <Route>
+	public function addDelete(string! pattern, var paths = null) -> <RouteInterface>
 	{
 		return this->add(pattern, paths, "DELETE");
 	}
 
 	/**
 	 * Add a route to the router that only match if the HTTP method is OPTIONS
-	 *
-	 * @param string pattern
-	 * @param string/array paths
-	 * @return Phalcon\Mvc\Router\Route
 	 */
-	public function addOptions(string! pattern, paths = null) -> <Route>
+	public function addOptions(string! pattern, var paths = null) -> <RouteInterface>
 	{
 		return this->add(pattern, paths, "OPTIONS");
 	}
 
 	/**
 	 * Adds a route to the router that only match if the HTTP method is HEAD
-	 *
-	 * @param string pattern
-	 * @param string/array paths
-	 * @return Phalcon\Mvc\Router\Route
 	 */
-	public function addHead(string! pattern, paths = null) -> <Route>
+	public function addHead(string! pattern, var paths = null) -> <RouteInterface>
 	{
 		return this->add(pattern, paths, "HEAD");
 	}
@@ -717,13 +677,9 @@ class Router implements InjectionAwareInterface,RouterInterface
 	/**
 	 * Mounts a group of routes in the router
 	 */
-	public function mount(<Router\Group> group) -> <Router>
+	public function mount(<GroupInterface> group) -> <RouterInterface>
 	{
 		var groupRoutes, beforeMatch, hostname, routes, route;
-
-		if typeof group != "object" {
-			throw new Exception("The group of routes is not valid");
-		}
 
 		let groupRoutes = group->getRoutes();
 		if !count(groupRoutes) {
@@ -763,10 +719,8 @@ class Router implements InjectionAwareInterface,RouterInterface
 
 	/**
 	 * Set a group of paths to be returned when none of the defined routes are matched
-	 *
-	 * @param array paths
 	 */
-	public function notFound(var paths) -> <Router>
+	public function notFound(var paths) -> <RouterInterface>
 	{
 		if typeof paths != "array" && typeof paths != "string" {
 			throw new Exception("The not-found paths must be an array or string");
@@ -778,7 +732,7 @@ class Router implements InjectionAwareInterface,RouterInterface
 	/**
 	 * Removes all the pre-defined routes
 	 */
-	public function clear()
+	public function clear() -> void
 	{
 		let this->_routes = [];
 	}
@@ -826,7 +780,7 @@ class Router implements InjectionAwareInterface,RouterInterface
 	/**
 	 * Returns the route that matchs the handled URI
 	 */
-	public function getMatchedRoute() -> <Route>
+	public function getMatchedRoute() -> <RouteInterface>
 	{
 		return this->_matchedRoute;
 	}
@@ -849,10 +803,8 @@ class Router implements InjectionAwareInterface,RouterInterface
 
 	/**
 	 * Returns all the routes defined in the router
-	 *
-	 * @return Phalcon\Mvc\Router\Route[]
 	 */
-	public function getRoutes()
+	public function getRoutes() -> <RouteInterface[]>
 	{
 		return this->_routes;
 	}
@@ -860,7 +812,7 @@ class Router implements InjectionAwareInterface,RouterInterface
 	/**
 	 * Returns a route object by its id
 	 */
-	public function getRouteById(var id) -> <Route> | boolean
+	public function getRouteById(var id) -> <RouteInterface> | boolean
 	{
 		var route;
 
@@ -876,7 +828,7 @@ class Router implements InjectionAwareInterface,RouterInterface
 	/**
 	 * Returns a route object by its name
 	 */
-	public function getRouteByName(string! name) -> <Route> | boolean
+	public function getRouteByName(string! name) -> <RouteInterface> | boolean
 	{
 		var route;
 

@@ -49,8 +49,6 @@ class Console implements InjectionAwareInterface, EventsAwareInterface
 
 	/**
 	 * Phalcon\Cli\Console constructor
-	 *
-	 * @param Phalcon\DiInterface dependencyInjector
 	 */
 	public function __construct(<DiInterface> dependencyInjector = null)
 	{
@@ -64,8 +62,6 @@ class Console implements InjectionAwareInterface, EventsAwareInterface
 
 	/**
 	 * Sets the DependencyInjector container
-	 *
-	 * @param Phalcon\DiInterface dependencyInjector
 	 */
 	public function setDI(<DiInterface> dependencyInjector)
 	{
@@ -74,8 +70,6 @@ class Console implements InjectionAwareInterface, EventsAwareInterface
 
 	/**
 	 * Returns the internal dependency injector
-	 *
-	 * @return Phalcon\DiInterface
 	 */
 	public function getDI() -> <DiInterface>
 	{
@@ -84,8 +78,6 @@ class Console implements InjectionAwareInterface, EventsAwareInterface
 
 	/**
 	 * Sets the events manager
-	 *
-	 * @param Phalcon\Events\ManagerInterface eventsManager
 	 */
 	public function setEventsManager(<ManagerInterface> eventsManager)
 	{
@@ -94,8 +86,6 @@ class Console implements InjectionAwareInterface, EventsAwareInterface
 
 	/**
 	 * Returns the internal event manager
-	 *
-	 * @return Phalcon\Events\ManagerInterface
 	 */
 	public function getEventsManager() -> <ManagerInterface>
 	{
@@ -117,8 +107,6 @@ class Console implements InjectionAwareInterface, EventsAwareInterface
 	 *		)
 	 *	));
 	 *</code>
-	 *
-	 * @param array modules
 	 */
 	public function registerModules(array! modules)
 	{
@@ -136,8 +124,6 @@ class Console implements InjectionAwareInterface, EventsAwareInterface
 	 *		)
 	 *	));
 	 *</code>
-	 *
-	 * @param array modules
 	 */
 	public function addModules(array! modules)
 	{
@@ -146,10 +132,8 @@ class Console implements InjectionAwareInterface, EventsAwareInterface
 
 	/**
 	 * Return the modules registered in the console
-	 *
-	 * @return array
 	 */
-	public function getModules()
+	public function getModules() -> array
 	{
 		return this->_modules;
 	}
@@ -249,22 +233,14 @@ class Console implements InjectionAwareInterface, EventsAwareInterface
 
 	/**
 	 * Set an specific argument
-	 *
-	 * @param var arguments
-	 * @param boolean str
-	 * @param boolean shift
 	 */
-	public function setArgument(arguments = null, boolean! str = true, boolean! shift = true) -> <Console>
+	public function setArgument(array! arguments = null, boolean! str = true, boolean! shift = true) -> <Console>
 	{
 		var arg, pos, args, opts, handleArgs;
 
 		let args = [],
 			opts = [],
 			handleArgs = [];
-
-		if typeof arguments != "array" {
-			throw new Exception("Arguments must be an array");
-		}
 
 		if shift && count(arguments) {
 			array_shift(arguments);

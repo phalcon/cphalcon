@@ -19,6 +19,7 @@
 
 namespace Phalcon\Di;
 
+use Phalcon\Di;
 use Phalcon\DiInterface;
 use Phalcon\Events\ManagerInterface;
 use Phalcon\Di\InjectionAwareInterface;
@@ -31,7 +32,7 @@ use Phalcon\Session\BagInterface;
  *
  * This class allows to access services in the services container by just only accessing a public property
  * with the same name of a registered service
- * 
+ *
  * @property \Phalcon\Mvc\Dispatcher|\Phalcon\Mvc\DispatcherInterface $dispatcher;
  * @property \Phalcon\Mvc\Router|\Phalcon\Mvc\RouterInterface $router
  * @property \Phalcon\Mvc\Url|\Phalcon\Mvc\UrlInterface $url
@@ -79,22 +80,19 @@ abstract class Injectable implements InjectionAwareInterface, EventsAwareInterfa
 	 */
 	public function setDI(<DiInterface> dependencyInjector)
 	{
-		if typeof dependencyInjector != "object" {
-			throw new Exception("Dependency Injector is invalid");
-		}
 		let this->_dependencyInjector = dependencyInjector;
 	}
 
 	/**
 	 * Returns the internal dependency injector
 	 */
-	public function getDI() -> <\Phalcon\DiInterface>
+	public function getDI() -> <DiInterface>
 	{
 		var dependencyInjector;
 
 		let dependencyInjector = this->_dependencyInjector;
 		if typeof dependencyInjector != "object" {
-			let dependencyInjector = \Phalcon\Di::getDefault();
+			let dependencyInjector = Di::getDefault();
 		}
 		return dependencyInjector;
 	}

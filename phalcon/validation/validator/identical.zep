@@ -19,6 +19,8 @@
 
 namespace Phalcon\Validation\Validator;
 
+use Phalcon\Validation\Validator;
+
 /**
  * Phalcon\Validation\Validator\Identical
  *
@@ -34,17 +36,13 @@ namespace Phalcon\Validation\Validator;
  *</code>
  *
  */
-class Identical extends \Phalcon\Validation\Validator implements \Phalcon\Validation\ValidatorInterface
+class Identical extends Validator
 {
 
 	/**
 	 * Executes the validation
-	 *
-	 * @param Phalcon\Validation validation
-	 * @param string             field
-	 * @return boolean
 	 */
-	public function validate(<\Phalcon\Validation> validation, string! field)
+	public function validate(<\Phalcon\Validation> validation, string! field) -> boolean
 	{
 		var message, label, replacePairs;
 

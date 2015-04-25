@@ -123,8 +123,6 @@ class Group implements \Countable, \ArrayAccess, \Iterator
 	 *<code>
 	 * $messages->appendMessage(new \Phalcon\Validation\Message('This is a message'));
 	 *</code>
-	 *
-	 * @param Phalcon\Validation\MessageInterface message
 	 */
 	public function appendMessage(<MessageInterface> message)
 	{
@@ -207,8 +205,6 @@ class Group implements \Countable, \ArrayAccess, \Iterator
 
 	/**
 	 * Returns the number of messages in the list
-	 *
-	 * @return int
 	 */
 	public function count() -> int
 	{
@@ -239,8 +235,6 @@ class Group implements \Countable, \ArrayAccess, \Iterator
 
 	/**
 	 * Returns the current position/key in the iterator
-	 *
-	 * @return int
 	 */
 	public function key() -> int
 	{
@@ -249,7 +243,6 @@ class Group implements \Countable, \ArrayAccess, \Iterator
 
 	/**
 	 * Moves the internal iteration pointer to the next position
-	 *
 	 */
 	public function next() -> void
 	{
@@ -258,8 +251,6 @@ class Group implements \Countable, \ArrayAccess, \Iterator
 
 	/**
 	 * Check if the current message in the iterator is valid
-	 *
-	 * @return boolean
 	 */
 	public function valid() -> boolean
 	{

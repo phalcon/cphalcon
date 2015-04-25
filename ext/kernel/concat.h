@@ -5,6 +5,8 @@
 #include <php.h>
 #include <Zend/zend.h>
 
+#include "kernel/main.h"
+
 #define ZEPHIR_CONCAT_SV(result, op1, op2) \
 	 zephir_concat_sv(&result, op1, sizeof(op1)-1, op2, 0 TSRMLS_CC);
 #define ZEPHIR_SCONCAT_SV(result, op1, op2) \

@@ -16,8 +16,9 @@
 #include "kernel/memory.h"
 #include "kernel/operators.h"
 #include "kernel/array.h"
-#include "kernel/object.h"
+#include "ext/spl/spl_exceptions.h"
 #include "kernel/exception.h"
+#include "kernel/object.h"
 
 
 /**
@@ -38,17 +39,12 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_Confirmation) {
 
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Validation\\Validator, Confirmation, phalcon, validation_validator_confirmation, phalcon_validation_validator_ce, phalcon_validation_validator_confirmation_method_entry, 0);
 
-	zend_class_implements(phalcon_validation_validator_confirmation_ce TSRMLS_CC, 1, phalcon_validation_validatorinterface_ce);
 	return SUCCESS;
 
 }
 
 /**
  * Executes the validation
- *
- * @param Phalcon\Validation validation
- * @param string field
- * @return boolean
  */
 PHP_METHOD(Phalcon_Validation_Validator_Confirmation, validate) {
 
@@ -60,7 +56,17 @@ PHP_METHOD(Phalcon_Validation_Validator_Confirmation, validate) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &validation, &field_param);
 
-	zephir_get_strval(field, field_param);
+	if (unlikely(Z_TYPE_P(field_param) != IS_STRING && Z_TYPE_P(field_param) != IS_NULL)) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'field' must be a string") TSRMLS_CC);
+		RETURN_MM_NULL();
+	}
+
+	if (likely(Z_TYPE_P(field_param) == IS_STRING)) {
+		zephir_get_strval(field, field_param);
+	} else {
+		ZEPHIR_INIT_VAR(field);
+		ZVAL_EMPTY_STRING(field);
+	}
 
 
 	ZEPHIR_INIT_VAR(_0);
@@ -164,7 +170,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Confirmation, compare) {
 	}
 	if (_2) {
 		if (!((zephir_function_exists_ex(SS("mb_strtolower") TSRMLS_CC) == SUCCESS))) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_validation_exception_ce, "Extension 'mbstring' is required", "phalcon/validation/validator/confirmation.zep", 96);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_validation_exception_ce, "Extension 'mbstring' is required", "phalcon/validation/validator/confirmation.zep", 93);
 			return;
 		}
 		ZEPHIR_SINIT_VAR(_4);
