@@ -20,13 +20,17 @@
 
 namespace Phalcon\Db;
 
+
+use Phalcon\Db\Exception;
+
+
 /**
  * Phalcon\Db\Dialect
  *
  * This is the base class to each database dialect. This implements
  * common methods to transform intermediate code into its RDBMS related syntax
  */
-abstract class Dialect
+abstract class Dialect implements DialectInterface
 {
 
 	protected _escapeChar;
@@ -34,14 +38,31 @@ abstract class Dialect
 	/**
 	 * Generates the SQL for LIMIT clause
 	 *
-	 *<code>
-	 * $sql = $dialect->limit('SELECT * FROM robots', 10);
-	 * echo $sql; // SELECT * FROM robots LIMIT 10
-	 *</code>
+	 * <code>
+	 *    $sql = $dialect->limit('SELECT * FROM robots', 10);
+	 *    echo $sql; // SELECT * FROM robots LIMIT 10
+	 *    
+	 *    $sql = $dialect->limit('SELECT * FROM robots', 10, 300);
+     *    echo $sql; // SELECT * FROM robots LIMIT 10 OFFSET 300
+	 * </code>
 	 */
-	public function limit(string! sqlQuery, int number) -> string
+	public function limit(string! sql, var limit, var offset = null) -> string
 	{
-		return sqlQuery . " " . this->getSqlExpressionLimit(number);
+		var limitSql;
+
+		if limit != "" {
+
+			let limitSql = " LIMIT " . limit;
+
+			if offset != "" {
+				let limitSql .= " OFFSET " . offset;
+			}
+
+			return sql . limitSql;
+
+		} else {
+			return sql;
+		}
 	}
 
 	/**
@@ -92,13 +113,9 @@ abstract class Dialect
 	/**
 	 * Transforms an intermediate representation for a expression into a database system valid expression
 	 */
-	public function getSqlExpression(array! expression, var escapeChar = null) -> string
+	public function getSqlExpression(array! expression, string escapeChar = null) -> string
 	{
 		var type;
-
-		if escapeChar === null && globals_get("db.escape_identifiers") {
-			let escapeChar = (string) this->_escapeChar;
-		}
 
 		if !fetch type, expression["type"] {
 			throw new Exception("Invalid SQL expression");
@@ -189,10 +206,6 @@ abstract class Dialect
 
 	/**
 	 * Transform an intermediate representation of a schema/table into a database system valid expression
-	 *
-	 * @param array table
-	 * @param string escapeChar
-	 * @return string
 	 */
 	public final function getSqlTable(var table, string escapeChar = null) -> string
 	{
@@ -208,17 +221,8 @@ abstract class Dialect
 	 */
 	public final function getSqlColumn(var column, string escapeChar = null) -> string
 	{
-		if escapeChar === null && globals_get("db.escape_identifiers") {
-			let escapeChar = (string) this->_escapeChar;
-		}
-
 		if typeof column != "array" {
-
-			if globals_get("db.escape_identifiers") {
-				return escapeChar . column . escapeChar;
-			} else {
-				return column;
-			}
+			return this->escape(column, escapeChar);
 		}
 
 		return this->getSqlExpression([
@@ -232,7 +236,7 @@ abstract class Dialect
 	 */
 	public function select(array! definition) -> string
 	{
-		var tables, columns, escapeChar, sql;
+		var tables, columns, sql;
 		var distinct, joins, where, groupBy, having, orderBy, limit;
 
 		if !fetch tables, definition["tables"] {
@@ -241,12 +245,6 @@ abstract class Dialect
 
 		if !fetch columns, definition["columns"] {
 			throw new Exception("The index 'columns' is required in the definition array");
-		}
-
-		if globals_get("db.escape_identifiers") {
-			let escapeChar = this->_escapeChar;
-		} else {
-			let escapeChar = null;
 		}
 
 		if fetch distinct, definition["distinct"] && distinct {
@@ -269,48 +267,70 @@ abstract class Dialect
 		/**
 		 * Resolve FROM
 		 */
-		let sql .= " " . this->getSqlExpressionFrom(tables, escapeChar);
+		let sql .= " " . this->getSqlExpressionFrom(tables);
 
 		/**
 		 * Resolve JOINs
 		 */
 		if fetch joins, definition["joins"] && joins {
-			let sql .= " " . this->getSqlExpressionJoins(definition["joins"], escapeChar);
+			let sql .= " " . this->getSqlExpressionJoins(definition["joins"]);
 		}
 
 		/**
 		 * Resolve WHERE
 		 */
 		if fetch where, definition["where"] && where {
-			let sql .= " " . this->getSqlExpressionWhere(where, escapeChar);
+			let sql .= " " . this->getSqlExpressionWhere(where);
 		}
 
 		/**
 		 * Resolve GROUP BY
 		 */
 		if fetch groupBy, definition["group"] && groupBy {
-			let sql .= " " . this->getSqlExpressionGroupBy(groupBy, escapeChar);
+			let sql .= " " . this->getSqlExpressionGroupBy(groupBy);
 		}
 
 		/**
 		 * Resolve HAVING
 		 */
 		if fetch having, definition["having"] && having {
-			let sql .= " " . this->getSqlExpressionHaving(having, escapeChar);
+			let sql .= " " . this->getSqlExpressionHaving(having);
 		}
 
 		/**
 		 * Resolve ORDER BY
 		 */
 		if fetch orderBy, definition["order"] && orderBy {
-			let sql .= " " . this->getSqlExpressionOrderBy(orderBy, escapeChar);
+			let sql .= " " . this->getSqlExpressionOrderBy(orderBy);
 		}
 
 		/**
 		 * Resolve LIMIT
 		 */
 		if fetch limit, definition["limit"] && limit {
-			let sql .= " " . this->getSqlExpressionLimit(limit, escapeChar);
+			
+			var number, offset = null;
+	
+			if typeof limit == "array" {
+	
+				if typeof limit["number"] == "array" {
+					let number = this->getSqlExpression(limit["number"]);
+				} else {
+					let number = limit["number"];
+				}
+
+				/**
+				 * Check for a OFFSET condition
+				 */
+				if fetch offset, limit["offset"] && typeof offset == "array" {
+					let offset = this->getSqlExpression(offset);
+				}
+
+			} else {
+				let number = limit;
+			}
+
+			let sql = this->limit(sql, number, offset);
 		}
 
 		return sql;
@@ -357,14 +377,26 @@ abstract class Dialect
 	}
 
 	/**
+	 * Escape identifiers
+	 */
+	public final function escape(string! str, string escapeChar = null) -> string
+	{
+		if str == "" || str == "*" || !globals_get("db.escape_identifiers") {
+			return str;
+		}
+
+		if escapeChar == "" {
+			let escapeChar = (string) this->_escapeChar;
+		}
+
+		return escapeChar . str . escapeChar;
+	}
+
+	/**
 	 * Resolve scalar expressions
 	 */
 	protected final function getSqlExpressionScalar(array! expression, string escapeChar = null) -> string
 	{
-		if globals_get("db.escape_identifiers") && escapeChar === null {
-			let escapeChar = (string) this->_escapeChar;
-		}
-
 		if isset expression["column"] {
 			return this->getSqlExpressionScalarColumn(expression, escapeChar);
 		}
@@ -440,15 +472,10 @@ abstract class Dialect
 		 * Escape alias and concatenate to value SQL
 		 */
 		if fetch columnAlias, columnExpression["sqlAlias"] || fetch columnAlias, columnExpression["alias"] {
-
-			if globals_get("db.escape_identifiers") {
-				let columnAlias = escapeChar . columnAlias . escapeChar;
-			}
-
-			let column .= " AS " . columnAlias;
+			return this->prepareColumn(column, columnAlias);
+		} else {
+			return this->prepareColumn(column);
 		}
-
-		return column;
 	}
 
 	/**
@@ -468,36 +495,21 @@ abstract class Dialect
 			 */
 			let tableName = table[0];
 
-			if globals_get("db.escape_identifiers") {
-				let tableName = escapeChar . tableName . escapeChar;
-			}
-
 			/**
 			 * The index "1" is the schema name
 			 */
-			if fetch schemaName, table[1] && schemaName != "" {
-
-				if globals_get("db.escape_identifiers") {
-					let schemaName = escapeChar . schemaName . escapeChar;
-				}
-
-				let tableName =  schemaName . "." . tableName;
+			if !fetch schemaName, table[1] {
+				let schemaName = null;
 			}
 
 			/**
 			 * The index "2" is the table alias
 			 */
-			if fetch aliasName, table[2] && aliasName != "" {
-
-				if globals_get("db.escape_identifiers") {
-					let aliasName = escapeChar . aliasName . escapeChar;
-				}
-
-				let tableName .= " AS " .aliasName;
+			if !fetch aliasName, table[2] {
+				let aliasName = null;
 			}
 
-			return tableName;
-
+			return this->prepareTable(tableName, schemaName, aliasName);
 		} else {
 			return table;
 		}
@@ -545,22 +557,14 @@ abstract class Dialect
 		var column, domain;
 		let column = expression["name"];
 
-		if column != "*" && globals_get("db.escape_identifiers") {
-			let column = escapeChar . column . escapeChar;
-		}
-
 		/**
 		 * A domain could be a table/schema
 		 */
-		if fetch domain, expression["domain"] && domain != "" {
-			if globals_get("db.escape_identifiers") {
-				return escapeChar . domain . escapeChar . "." . column;
-			} else {
-				return domain . "." . column;
-			}
+		if !fetch domain, expression["domain"] {
+			let domain = null;
 		}
 
-		return column;
+		return this->prepareQualified(column, domain);
 	}
 
 	/**
@@ -658,17 +662,11 @@ abstract class Dialect
 	{
 		var domain;
 
-		if fetch domain, expression["domain"] && domain != "" {
-
-			if globals_get("db.escape_identifiers") {
-				return escapeChar . domain . escapeChar . ".*";
-			} else {
-				return domain . ".*";
-			}
-
+		if !fetch domain, expression["domain"] {
+			let domain = null;
 		}
 
-		return "*";
+		return this->prepareQualified("*", domain);
 	}
 
 	/**
@@ -858,37 +856,57 @@ abstract class Dialect
 
 		return  "ORDER BY " . fields;
 	}
+	
+	/**
+	 * Prepares column for this RDBMS
+	 */
+	protected function prepareColumn(string! qualified, string alias = null) -> string
+	{
+		if alias != "" {
+			return qualified . " AS " . this->escape(alias);
+		} else {
+			return qualified;
+		}
+	}
 
 	/**
-	 * Resolve a LIMIT clause
+	 * Prepares table for this RDBMS
 	 */
-	protected final function getSqlExpressionLimit(var expression, string escapeChar = null) -> string
+	protected function prepareTable(string! table, string schema = null, string alias = null) -> string
 	{
-		var limit, offset = null;
+		/**
+		 * Schema
+		 */
+		let table = this->escape(table);
 
-		if typeof expression == "array" {
-
-			if typeof expression["number"] == "array" {
-				let limit = this->getSqlExpression(expression["number"], escapeChar);
-			} else {
-				let limit = expression["number"];
-			}
-
-			/**
-			 * Check for a OFFSET condition
-			 */
-			if fetch offset, expression["offset"] && typeof offset == "array" {
-				let offset = this->getSqlExpression(offset, escapeChar);
-			}
-
-			if offset != "" {
-				let limit .= " OFFSET " . offset;
-			}
-
-		} else {
-			let limit = expression;
+		/**
+		 * Schema
+		 */
+		if schema != "" {
+			let table = this->escape(schema) . "." . table;
 		}
 
-		return "LIMIT " . limit;
+		/**
+		 * Alias
+		 */
+		if alias != "" {
+			let table = table . " AS " . this->escape(alias);
+		}
+
+		return table;
+	}
+
+	/**
+	 * Prepares qualified for this RDBMS
+	 */
+	protected function prepareQualified(string! column, string domain = null) -> string
+	{
+		let column = this->escape(column);
+
+		if domain != "" {
+			return this->escape(domain) . "." . column;
+		} else {
+			return column;
+		}
 	}
 }
