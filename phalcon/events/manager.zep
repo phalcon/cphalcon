@@ -131,8 +131,6 @@ class Manager implements ManagerInterface
 
 	/**
 	 * Set if priorities are enabled in the EventsManager
-	 *
-	 * @param boolean enablePriorities
 	 */
 	public function enablePriorities(boolean enablePriorities)
 	{
@@ -141,8 +139,6 @@ class Manager implements ManagerInterface
 
 	/**
 	 * Returns if priorities are enabled
-	 *
-	 * @return boolean
 	 */
 	public function arePrioritiesEnabled() -> boolean
 	{
@@ -152,8 +148,6 @@ class Manager implements ManagerInterface
 	/**
 	 * Tells the event manager if it needs to collect all the responses returned by every
 	 * registered listener in a single fire
-	 *
-	 * @param boolean collect
 	 */
 	public function collectResponses(boolean collect)
 	{
@@ -181,8 +175,6 @@ class Manager implements ManagerInterface
 
 	/**
 	 * Removes all events from the EventsManager
-	 *
-	 * @param string type
 	 */
 	public function detachAll(string! type = null)
 	{
@@ -197,8 +189,6 @@ class Manager implements ManagerInterface
 
 	/**
 	 * Alias of detachAll
-	 *
-	 * @param string type
 	 */
 	public function dettachAll(string! type = null)
 	{
@@ -453,9 +443,6 @@ class Manager implements ManagerInterface
 
 	/**
 	 * Check whether certain type of event has listeners
-	 *
-	 * @param string type
-	 * @return boolean
 	 */
 	public function hasListeners(string! type) -> boolean
 	{
