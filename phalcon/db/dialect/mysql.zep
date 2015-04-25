@@ -716,11 +716,11 @@ class MySQL extends Dialect implements DialectInterface
 	 * @return	string
 	 */
 	public function describeReferences(string! table, schema = null) -> string
-	{
+	{	
 		var sql = "select a.TABLE_NAME,a.COLUMN_NAME,a.CONSTRAINT_NAME,a.REFERENCED_TABLE_SCHEMA,a.REFERENCED_TABLE_NAME,a.REFERENCED_COLUMN_NAME,b.update_rule,b.delete_rule from information_schema.KEY_COLUMN_USAGE as a join information_schema.REFERENTIAL_CONSTRAINTS as b on a.CONSTRAINT_NAME = b.CONSTRAINT_NAME and a.CONSTRAINT_SCHEMA = b.constraint_schema where a.REFERENCED_TABLE_NAME is not null and ";
 		if schema {
 			let sql .= "a.CONSTRAINT_SCHEMA = '" . schema . "' AND a.TABLE_NAME = '" . table . "'";
-		} else {
+		} else {	
 			let sql .= "a.TABLE_NAME = '" . table . "'";
 		}
 		return sql;
