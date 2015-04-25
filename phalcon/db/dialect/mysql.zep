@@ -25,14 +25,13 @@ use Phalcon\Db\Exception;
 use Phalcon\Db\IndexInterface;
 use Phalcon\Db\ColumnInterface;
 use Phalcon\Db\ReferenceInterface;
-use Phalcon\Db\DialectInterface;
 
 /**
  * Phalcon\Db\Dialect\Mysql
  *
- * Generates database specific SQL for the MySQL RBDM
+ * Generates database specific SQL for the MySQL RDBMS
  */
-class MySQL extends Dialect implements DialectInterface
+class MySQL extends Dialect
 {
 
 	protected _escapeChar = "`";
@@ -360,58 +359,6 @@ class MySQL extends Dialect implements DialectInterface
 	}
 
 	/**
-	 * Generates SQL to add the table creation options
-	 *
-	 * @param	array definition
-	 * @return	array
-	 */
-	protected function _getTableOptions(definition) -> string
-	{
-		var options, engine, autoIncrement, tableCollation,
-			collationParts, tableOptions;
-
-		if fetch options, definition["options"] {
-
-			let tableOptions = [];
-
-			/**
-			 * Check if there is an ENGINE option
-			 */
-			if fetch engine, options["ENGINE"] {
-				if engine {
-					let tableOptions[] = "ENGINE=" . engine;
-				}
-			}
-
-			/**
-			 * Check if there is an AUTO_INCREMENT option
-			 */
-			if fetch autoIncrement, options["AUTO_INCREMENT"] {
-				if autoIncrement {
-					let tableOptions[] = "AUTO_INCREMENT=" . autoIncrement;
-				}
-			}
-
-			/**
-			 * Check if there is a TABLE_COLLATION option
-			 */
-			if fetch tableCollation, options["TABLE_COLLATION"] {
-				if tableCollation {
-					let collationParts = explode("_", tableCollation),
-						tableOptions[] = "DEFAULT CHARSET=" . collationParts[0],
-						tableOptions[] = "COLLATE=" . tableCollation;
-				}
-			}
-
-			if count(tableOptions) {
-				return join(" ", tableOptions);
-			}
-		}
-
-		return "";
-	}
-
-	/**
 	 * Generates SQL to create a table in MySQL
 	 */
 	public function createTable(string! tableName, string! schemaName, array! definition) -> string
@@ -568,11 +515,6 @@ class MySQL extends Dialect implements DialectInterface
 
 	/**
 	 * Generates SQL to create a view
-	 *
-	 * @param string viewName
-	 * @param array definition
-	 * @param string schemaName
-	 * @return string
 	 */
 	public function createView(string! viewName, definition, string! schemaName) -> string
 	{
@@ -594,7 +536,7 @@ class MySQL extends Dialect implements DialectInterface
 	/**
 	 * Generates SQL to drop a view
 	 */
-	public function dropView(string! viewName, string! schemaName, boolean ifExists = true) -> string
+	public function dropView(string! viewName, string! schemaName, boolean! ifExists = true) -> string
 	{
 		var sql, view;
 
@@ -617,15 +559,11 @@ class MySQL extends Dialect implements DialectInterface
 	 * Generates SQL checking for the existence of a schema.table
 	 *
 	 * <code>
-	 * echo $dialect->tableExists("posts", "blog");
-	 * echo $dialect->tableExists("posts");
+	 *    echo $dialect->tableExists("posts", "blog");
+	 *    echo $dialect->tableExists("posts");
 	 * </code>
-	 *
-	 * @param string tableName
-	 * @param string schemaName
-	 * @return string
 	 */
-	public function tableExists(string! tableName, schemaName = null) -> string
+	public function tableExists(string! tableName, string schemaName = null) -> string
 	{
 		if schemaName {
 			return "SELECT IF(COUNT(*)>0, 1 , 0) FROM `INFORMATION_SCHEMA`.`TABLES` WHERE `TABLE_NAME`= '" . tableName . "' AND `TABLE_SCHEMA` = '" . schemaName . "'";
@@ -635,12 +573,8 @@ class MySQL extends Dialect implements DialectInterface
 
 	/**
 	 * Generates SQL checking for the existence of a schema.view
-	 *
-	 * @param string viewName
-	 * @param string schemaName
-	 * @return string
 	 */
-	public function viewExists(string! viewName, schemaName = null) -> string
+	public function viewExists(string! viewName, string schemaName = null) -> string
 	{
 		if schemaName {
 			return "SELECT IF(COUNT(*)>0, 1 , 0) FROM `INFORMATION_SCHEMA`.`VIEWS` WHERE `TABLE_NAME`= '" . viewName . "' AND `TABLE_SCHEMA`='" . schemaName . "'";
@@ -659,7 +593,7 @@ class MySQL extends Dialect implements DialectInterface
 	 * @param string schema
 	 * @return string
 	 */
-	public function describeColumns(string! table, schema = null) -> string
+	public function describeColumns(string! table, string schema = null) -> string
 	{
 		if schema {
 			return "DESCRIBE `" . schema . "`.`" . table . "`";
@@ -670,11 +604,11 @@ class MySQL extends Dialect implements DialectInterface
 	/**
 	 * List all tables in database
 	 *
-	 *<code>
-	 *	print_r($dialect->listTables("blog"))
-	 *</code>
+	 * <code>
+	 *    print_r($dialect->listTables("blog"))
+	 * </code>
 	 */
-	public function listTables(string! schemaName = null) -> string
+	public function listTables(string schemaName = null) -> string
 	{
 		if schemaName {
 			return "SHOW TABLES FROM `" . schemaName . "`";
@@ -685,7 +619,7 @@ class MySQL extends Dialect implements DialectInterface
 	/**
 	 * Generates the SQL to list all views of a schema or user
 	 */
-	public function listViews(string! schemaName = null) -> string
+	public function listViews(string schemaName = null) -> string
 	{
 		if schemaName {
 			return "SELECT `TABLE_NAME` AS view_name FROM `INFORMATION_SCHEMA`.`VIEWS` WHERE `TABLE_SCHEMA` = '" . schemaName . "' ORDER BY view_name";
@@ -695,12 +629,8 @@ class MySQL extends Dialect implements DialectInterface
 
 	/**
 	 * Generates SQL to query indexes on a table
-	 *
-	 * @param	string table
-	 * @param	string schema
-	 * @return	string
 	 */
-	public function describeIndexes(string! table, schema = null) -> string
+	public function describeIndexes(string! table, string schema = null) -> string
 	{
 		if schema {
 			return "SHOW INDEXES FROM `" . schema . "`.`" . table . "`";
@@ -710,12 +640,8 @@ class MySQL extends Dialect implements DialectInterface
 
 	/**
 	 * Generates SQL to query foreign keys on a table
-	 *
-	 * @param	string table
-	 * @param	string schema
-	 * @return	string
 	 */
-	public function describeReferences(string! table, schema = null) -> string
+	public function describeReferences(string! table, string schema = null) -> string
 	{
 		var sql = "SELECT TABLE_NAME,COLUMN_NAME,CONSTRAINT_NAME,REFERENCED_TABLE_SCHEMA,REFERENCED_TABLE_NAME,REFERENCED_COLUMN_NAME FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE REFERENCED_TABLE_NAME IS NOT NULL AND ";
 		if schema {
@@ -728,17 +654,62 @@ class MySQL extends Dialect implements DialectInterface
 
 	/**
 	 * Generates the SQL to describe the table creation options
-	 *
-	 * @param	string table
-	 * @param	string schema
-	 * @return	string
 	 */
-	public function tableOptions(string! table, schema = null) -> string
+	public function tableOptions(string! table, string schema = null) -> string
 	{
 		var sql = "SELECT TABLES.TABLE_TYPE AS table_type,TABLES.AUTO_INCREMENT AS auto_increment,TABLES.ENGINE AS engine,TABLES.TABLE_COLLATION AS table_collation FROM INFORMATION_SCHEMA.TABLES WHERE ";
 		if schema {
 			return sql . "TABLES.TABLE_SCHEMA = '" . schema . "' AND TABLES.TABLE_NAME = '" . table . "'";
 		}
 		return sql . "TABLES.TABLE_NAME = '" . table . "'";
+	}
+
+	/**
+	 * Generates SQL to add the table creation options
+	 */
+	protected function _getTableOptions(array! definition) -> string
+	{
+		var options, engine, autoIncrement, tableCollation,
+			collationParts, tableOptions;
+
+		if fetch options, definition["options"] {
+
+			let tableOptions = [];
+
+			/**
+			 * Check if there is an ENGINE option
+			 */
+			if fetch engine, options["ENGINE"] {
+				if engine {
+					let tableOptions[] = "ENGINE=" . engine;
+				}
+			}
+
+			/**
+			 * Check if there is an AUTO_INCREMENT option
+			 */
+			if fetch autoIncrement, options["AUTO_INCREMENT"] {
+				if autoIncrement {
+					let tableOptions[] = "AUTO_INCREMENT=" . autoIncrement;
+				}
+			}
+
+			/**
+			 * Check if there is a TABLE_COLLATION option
+			 */
+			if fetch tableCollation, options["TABLE_COLLATION"] {
+				if tableCollation {
+					let collationParts = explode("_", tableCollation),
+						tableOptions[] = "DEFAULT CHARSET=" . collationParts[0],
+						tableOptions[] = "COLLATE=" . tableCollation;
+				}
+			}
+
+			if count(tableOptions) {
+				return join(" ", tableOptions);
+			}
+		}
+
+		return "";
 	}
 }

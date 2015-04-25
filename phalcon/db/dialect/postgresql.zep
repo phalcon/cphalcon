@@ -26,14 +26,13 @@ use Phalcon\Db\Exception;
 use Phalcon\Db\IndexInterface;
 use Phalcon\Db\ColumnInterface;
 use Phalcon\Db\ReferenceInterface;
-use Phalcon\Db\DialectInterface;
 
 /**
  * Phalcon\Db\Dialect\Postgresql
  *
- * Generates database specific SQL for the PostgreSQL RBDM
+ * Generates database specific SQL for the PostgreSQL RDBMS
  */
-class Postgresql extends Dialect implements DialectInterface
+class Postgresql extends Dialect
 {
 
 	protected _escapeChar = "\"";
@@ -137,153 +136,88 @@ class Postgresql extends Dialect implements DialectInterface
 
 	/**
 	 * Generates SQL to add a column to a table
-	 *
-	 * @param	string tableName
-	 * @param	string schemaName
-	 * @param	Phalcon\Db\ColumnInterface column
-	 * @return	string
 	 */
-	public function addColumn(tableName, schemaName, <ColumnInterface> column)
+	public function addColumn(string! tableName, string! schemaName, <ColumnInterface> column) -> string
 	{
 		throw new Exception("Not implemented yet");
 	}
 
 	/**
 	 * Generates SQL to modify a column in a table
-	 *
-	 * @param	string tableName
-	 * @param	string schemaName
-	 * @param	Phalcon\Db\ColumnInterface column
-	 * @return	string
 	 */
-	public function modifyColumn(tableName, schemaName, <ColumnInterface> column)
+	public function modifyColumn(string! tableName, string! schemaName, <ColumnInterface> column) -> string
 	{
 		throw new Exception("Not implemented yet");
 	}
 
 	/**
 	 * Generates SQL to delete a column from a table
-	 *
-	 * @param	string tableName
-	 * @param	string schemaName
-	 * @param	string columnName
-	 * @return 	string
 	 */
-	public function dropColumn(tableName, schemaName, columnName)
+	public function dropColumn(string! tableName, string! schemaName, string columnName) -> string
 	{
 		throw new Exception("Not implemented yet");
 	}
 
 	/**
 	 * Generates SQL to add an index to a table
-	 *
-	 * @param	string tableName
-	 * @param	string schemaName
-	 * @param	Phalcon\Db\IndexInterface index
-	 * @return	string
 	 */
-	public function addIndex(tableName, schemaName, <IndexInterface> index)
+	public function addIndex(string! tableName, string! schemaName, <IndexInterface> index) -> string
 	{
 		throw new Exception("Not implemented yet");
 	}
 
 	/**
- 	 * Generates SQL to delete an index from a table
-	 *
-	 * @param	string tableName
-	 * @param	string schemaName
-	 * @param	string indexName
-	 * @return	string
+	 * Generates SQL to delete an index from a table
 	 */
-	public function dropIndex(tableName, schemaName, indexName)
+	public function dropIndex(string! tableName, string! schemaName, string! indexName) -> string
 	{
 		throw new Exception("Not implemented yet");
 	}
 
 	/**
 	 * Generates SQL to add the primary key to a table
-	 *
-	 * @param	string tableName
-	 * @param	string schemaName
-	 * @param	Phalcon\Db\IndexInterface index
-	 * @return	string
 	 */
-	public function addPrimaryKey(tableName, schemaName, <IndexInterface> index)
+	public function addPrimaryKey(string tableName, string schemaName, <IndexInterface> index) -> string
 	{
 		throw new Exception("Not implemented yet");
 	}
 
 	/**
 	 * Generates SQL to delete primary key from a table
-	 *
-	 * @param	string tableName
-	 * @param	string schemaName
-	 * @return	string
 	 */
-	public function dropPrimaryKey(tableName, schemaName)
+	public function dropPrimaryKey(string! tableName, string! schemaName) -> string
 	{
 		throw new Exception("Not implemented yet");
 	}
 
 	/**
 	 * Generates SQL to add an index to a table
-	 *
-	 * @param	string tableName
-	 * @param	string schemaName
-	 * @param	Phalcon\Db\ReferenceInterface reference
-	 * @return	string
 	 */
-	public function addForeignKey(tableName, schemaName, <ReferenceInterface> reference)
+	public function addForeignKey(string! tableName, string! schemaName, <ReferenceInterface> reference) -> string
 	{
 		throw new Exception("Not implemented yet");
 	}
 
 	/**
 	 * Generates SQL to delete a foreign key from a table
-	 *
-	 * @param	string tableName
-	 * @param	string schemaName
-	 * @param	string referenceName
-	 * @return	string
 	 */
-	public function dropForeignKey(tableName, schemaName, referenceName)
+	public function dropForeignKey(string! tableName, string! schemaName, string! referenceName) -> string
 	{
 		throw new Exception("Not implemented yet");
 	}
 
 	/**
-	 * Generates SQL to add the table creation options
-	 *
-	 * @param	array definition
-	 * @return	array
-	 */
-	protected function _getTableOptions(definition)
-	{
-		return [];
-	}
-
-	/**
 	 * Generates SQL to create a table in PostgreSQL
-	 *
-	 * @param 	string tableName
-	 * @param	string schemaName
-	 * @param	array definition
-	 * @return 	string
 	 */
-	public function createTable(tableName, schemaName, array! definition) -> string
+	public function createTable(string! tableName, string! schemaName, array! definition) -> string
 	{
 		throw new Exception("Not implemented yet");
 	}
 
 	/**
 	 * Generates SQL to drop a table
-	 *
-	 * @param  string tableName
-	 * @param  string schemaName
-	 * @param  boolean ifExists
-	 * @return boolean
 	 */
-	public function dropTable(tableName, schemaName, ifExists = true) -> string
+	public function dropTable(string! tableName, string! schemaName, boolean! ifExists = true) -> string
 	{
 		var table, sql;
 
@@ -302,13 +236,8 @@ class Postgresql extends Dialect implements DialectInterface
 
 	/**
 	 * Generates SQL to create a view
-	 *
-	 * @param string viewName
-	 * @param array definition
-	 * @param string schemaName
-	 * @return string
 	 */
-	public function createView(viewName, definition, schemaName) -> string
+	public function createView(string! viewName, definition, string! schemaName) -> string
 	{
 		var viewSql, view;
 
@@ -327,13 +256,8 @@ class Postgresql extends Dialect implements DialectInterface
 
 	/**
 	 * Generates SQL to drop a view
-	 *
-	 * @param string viewName
-	 * @param string schemaName
-	 * @param boolean ifExists
-	 * @return string
 	 */
-	public function dropView(viewName, schemaName, ifExists = true) -> string
+	public function dropView(string! viewName, string! schemaName, boolean! ifExists = true) -> string
 	{
  		var view, sql;
 
@@ -355,14 +279,12 @@ class Postgresql extends Dialect implements DialectInterface
 	/**
 	 * Generates SQL checking for the existence of a schema.table
 	 *
-	 * <code>echo dialect->tableExists("posts", "blog")</code>
-	 * <code>echo dialect->tableExists("posts")</code>
-	 *
-	 * @param string tableName
-	 * @param string schemaName
-	 * @return string
+	 * <code>
+	 *    echo $dialect->tableExists("posts", "blog");
+	 *    echo $dialect->tableExists("posts");
+	 * </code>
 	 */
-	public function tableExists(tableName, schemaName = null) -> string
+	public function tableExists(string! tableName, string schemaName = null) -> string
 	{
 		if schemaName {
 			return "SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END FROM information_schema.tables WHERE table_schema = '" . schemaName . "' AND table_name='" . tableName . "'";
@@ -372,12 +294,8 @@ class Postgresql extends Dialect implements DialectInterface
 
 	/**
 	 * Generates SQL checking for the existence of a schema.view
-	 *
-	 * @param string viewName
-	 * @param string schemaName
-	 * @return string
 	 */
-	public function viewExists(viewName, schemaName = null) -> string
+	public function viewExists(string! viewName, string schemaName = null) -> string
 	{
 		if schemaName {
 			return "SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END FROM pg_views WHERE viewname='" . viewName . "' AND schemaname='" . schemaName . "'";
@@ -386,15 +304,13 @@ class Postgresql extends Dialect implements DialectInterface
 	}
 
 	/**
-	 * Generates a SQL describing a table
+	 * Generates SQL describing a table
 	 *
-	 * <code>print_r(dialect->describeColumns("posts") ?></code>
-	 *
-	 * @param string table
-	 * @param string schema
-	 * @return string
+	 * <code>
+	 *    print_r($dialect->describeColumns("posts"));
+	 * </code>
 	 */
-	public function describeColumns(table, schema = null) -> string
+	public function describeColumns(string! table, string schema = null) -> string
 	{
 		if schema {
 			return "SELECT DISTINCT c.column_name AS Field, c.data_type AS Type, c.character_maximum_length AS Size, c.numeric_precision AS NumericSize, c.numeric_scale AS NumericScale, c.is_nullable AS Null, CASE WHEN pkc.column_name NOTNULL THEN 'PRI' ELSE '' END AS Key, CASE WHEN c.data_type LIKE '%int%' AND c.column_default LIKE '%nextval%' THEN 'auto_increment' ELSE '' END AS Extra, c.ordinal_position AS Position, c.column_default FROM information_schema.columns c LEFT JOIN ( SELECT kcu.column_name, kcu.table_name, kcu.table_schema FROM information_schema.table_constraints tc INNER JOIN information_schema.key_column_usage kcu on (kcu.constraint_name = tc.constraint_name and kcu.table_name=tc.table_name and kcu.table_schema=tc.table_schema) WHERE tc.constraint_type='PRIMARY KEY') pkc ON (c.column_name=pkc.column_name AND c.table_schema = pkc.table_schema AND c.table_name=pkc.table_name) WHERE c.table_schema='" . schema . "' AND c.table_name='" . table . "' ORDER BY c.ordinal_position";
@@ -405,13 +321,11 @@ class Postgresql extends Dialect implements DialectInterface
 	/**
 	 * List all tables in database
 	 *
-	 *<code>
-	 *	print_r(dialect->listTables("blog")) ?>
-	 *</code>
-	 *
-	 * @param       string schemaName
+	 * <code>
+	 *    print_r($dialect->listTables("blog"))
+	 * </code>
 	 */
-	public function listTables(schemaName = null) -> string
+	public function listTables(string schemaName = null) -> string
 	{
 		if schemaName {
 			return "SELECT table_name FROM information_schema.tables WHERE table_schema = '" . schemaName . "' ORDER BY table_name";
@@ -421,11 +335,8 @@ class Postgresql extends Dialect implements DialectInterface
 
 	/**
 	 * Generates the SQL to list all views of a schema or user
-	 *
-	 * @param string schemaName
-	 * @return string
 	 */
-	public function listViews(schemaName = null) -> string
+	public function listViews(string schemaName = null) -> string
 	{
 		if schemaName {
 			return "SELECT viewname AS view_name FROM pg_views WHERE schemaname = '" . schemaName . "' ORDER BY view_name";
@@ -435,24 +346,16 @@ class Postgresql extends Dialect implements DialectInterface
 
 	/**
 	 * Generates SQL to query indexes on a table
-	 *
-	 * @param	string table
-	 * @param	string schema
-	 * @return	string
 	 */
-	public function describeIndexes(table, schema = null) -> string
+	public function describeIndexes(string! table, string schema = null) -> string
 	{
 		return "SELECT 0 as c0, t.relname as table_name, i.relname as key_name, 3 as c3, a.attname as column_name FROM pg_class t, pg_class i, pg_index ix, pg_attribute a WHERE t.oid = ix.indrelid AND i.oid = ix.indexrelid AND a.attrelid = t.oid AND a.attnum = ANY(ix.indkey) AND t.relkind = 'r' AND t.relname = '" . table . "' ORDER BY t.relname, i.relname;";
 	}
 
 	/**
 	 * Generates SQL to query foreign keys on a table
-	 *
-	 * @param	string table
-	 * @param	string schema
-	 * @return	string
 	 */
-	public function describeReferences(table, schema = null) -> string
+	public function describeReferences(string! table, string schema = null) -> string
 	{
 		var sql = "SELECT tc.table_name as TABLE_NAME, kcu.column_name as COLUMN_NAME, tc.constraint_name as CONSTRAINT_NAME, tc.table_catalog as REFERENCED_TABLE_SCHEMA, ccu.table_name AS REFERENCED_TABLE_NAME, ccu.column_name AS REFERENCED_COLUMN_NAME FROM information_schema.table_constraints AS tc JOIN information_schema.key_column_usage AS kcu ON tc.constraint_name = kcu.constraint_name JOIN information_schema.constraint_column_usage AS ccu ON ccu.constraint_name = tc.constraint_name WHERE constraint_type = 'FOREIGN KEY' AND ";
 		if schema {
@@ -465,12 +368,8 @@ class Postgresql extends Dialect implements DialectInterface
 
 	/**
 	 * Generates the SQL to describe the table creation options
-	 *
-	 * @param	string table
-	 * @param	string schema
-	 * @return	string
 	 */
-	public function tableOptions(table, schema = null) -> string
+	public function tableOptions(string! table, string schema = null) -> string
 	{
 		return "";
 	}
