@@ -111,14 +111,14 @@ class Redis extends Backend implements BackendInterface
 		}
 
 		if !success {
-			throw new Exception("Cannot connect to Redisd server");
+			throw new Exception("Could not connect to the Redisd server ".host.":".port);
 		}
 
 		if fetch auth, options["auth"] {
 			let success = redis->auth(auth);
 
 			if !success {
-				throw new Exception("Redisd server is authentication failed");
+				throw new Exception("Failed to authenticate with the Redisd server");
 			}
 		}
 
@@ -182,7 +182,7 @@ class Redis extends Backend implements BackendInterface
 		}
 
 		if !lastKey {
-			throw new Exception("Cache must be started first");
+			throw new Exception("The cache must be started first");
 		}
 
 		let frontend = this->_frontend;
@@ -228,7 +228,7 @@ class Redis extends Backend implements BackendInterface
 		}
 
 		if !success {
-			throw new Exception("Failed storing data in redis");
+			throw new Exception("Failed storing the data in redis");
 		}
 
 		redis->settimeout(lastKey, tt1);
