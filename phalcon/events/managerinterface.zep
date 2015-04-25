@@ -35,7 +35,7 @@ interface ManagerInterface
 	 * @param string eventType
 	 * @param object|callable handler
 	 */
-	public function attach(eventType, handler);
+	public function attach(string! eventType, handler);
 
 	/**
 	 * Detach the listener from the events manager
@@ -43,14 +43,12 @@ interface ManagerInterface
 	 * @param string eventType
 	 * @param object handler
 	 */
-	public function detach(eventType, handler);
+	public function detach(string! eventType, handler);
 
 	/**
 	 * Removes all events from the EventsManager
-	 *
-	 * @param string type
 	 */
-	public function detachAll(type = null);
+	public function detachAll(string! type = null);
 
 	/**
 	 * Fires a event in the events manager causing that the acive listeners will be notified about it
@@ -60,7 +58,7 @@ interface ManagerInterface
 	 * @param mixed  data
 	 * @return mixed
 	 */
-	public function fire(eventType, source, data = null);
+	public function fire(string! eventType, source, data = null);
 
 	/**
 	 * Returns all the attached listeners of a certain type
@@ -68,6 +66,6 @@ interface ManagerInterface
 	 * @param string type
 	 * @return array
 	 */
-	public function getListeners(type);
+	public function getListeners(string! type);
 
 }

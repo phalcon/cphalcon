@@ -72,7 +72,6 @@ class Event
 	 */
 	public function __construct(string! type, source, data = null, boolean cancelable = true)
 	{
-
 		let this->_type = type,
 			this->_source = source;
 
@@ -99,8 +98,6 @@ class Event
 
 	/**
 	 * Check whether the event is currently stopped
-	 *
-	 * @return boolean
 	 */
 	public function isStopped() -> boolean
 	{
