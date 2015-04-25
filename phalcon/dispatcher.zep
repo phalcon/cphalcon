@@ -645,4 +645,50 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 	{
 		return this->_forwarded;
 	}
+
+	/**
+	 * Possible class name that will be located to dispatch the request
+	 *
+	 * @return string
+	 */
+	public function getHandlerClass() -> string
+	{
+		var camelized_class;
+
+		/**
+		 * If the current namespace is null we used the set in default namespace
+		 */
+		if (!this->_namespaceName) {
+			let this->_namespaceName = this->_defaultNamespace;
+		}
+
+		/**
+		 * If the handler is null we use the set in default handler
+		 */
+		if (!this->_handlerName) {
+			let this->_handlerName = this->_defaultHandler;
+		}
+
+		/**
+		 * We don't camelize the classes if they are in namespaces
+		 */
+		if substr(this->_handlerName, 0, 1) === "\\" {
+			let camelized_class = this->_handlerName;
+		} else {
+			let camelized_class = substr(this->_handlerName, 1);
+		}
+
+		/**
+		 * Create the complete controller class name prepending the namespace
+		 */
+		if this->_namespaceName {
+			if substr(this->_namespaceName, -1) === "\\" {
+				return this->_namespaceName . camelized_class . this->_handlerSuffix;
+			} else {
+				return this->_namespaceName . "\\" . camelized_class . this->_handlerSuffix;
+			}
+		}
+
+		return camelized_class . this->_handlerSuffix;
+	}
 }
