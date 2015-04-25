@@ -497,9 +497,9 @@ class Gd extends \Phalcon\Image\Adapter implements \Phalcon\Image\AdapterInterfa
 	{
 		var ext;
 
-		let ext = strtolower(pathinfo(file, PATHINFO_EXTENSION));
+		let ext = pathinfo(file, PATHINFO_EXTENSION);
 
-		if strcmp(ext, "gif") == 0 {
+		if strcasecmp(ext, "gif") == 0 {
 			let this->_type = 1;
 			let this->_mime = image_type_to_mime_type(this->_type);
 			imagegif(this->_image, file);
@@ -514,7 +514,7 @@ class Gd extends \Phalcon\Image\Adapter implements \Phalcon\Image\AdapterInterfa
 		if strcmp(ext, "png") == 0 {
 			let this->_type = 3;
 			let this->_mime = image_type_to_mime_type(this->_type);
-			imagepng(this->_image, file);
+			imagejpeg(this->_image, file);
 			return true;
 		}
 		if strcmp(ext, "wbmp") == 0 {
@@ -535,9 +535,8 @@ class Gd extends \Phalcon\Image\Adapter implements \Phalcon\Image\AdapterInterfa
 
 	protected function _render(string ext, int quality)
 	{
-		let ext = strtolower(ext);
                 ob_start();
-		if strcmp(ext, "gif") == 0 {
+		if strcasecmp(ext, "gif") == 0 {
 			imagegif(this->_image);
 			return ob_get_clean();
 		}
@@ -546,7 +545,7 @@ class Gd extends \Phalcon\Image\Adapter implements \Phalcon\Image\AdapterInterfa
 			return ob_get_clean();
 		}
 		if strcmp(ext, "png") == 0 {
-			imagepng(this->_image);
+			imagejpeg(this->_image);
 			return ob_get_clean();
 		}
 		if strcmp(ext, "wbmp") == 0 {
