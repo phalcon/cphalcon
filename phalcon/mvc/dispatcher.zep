@@ -157,14 +157,6 @@ class Dispatcher extends \Phalcon\Dispatcher implements DispatcherInterface
 	}
 
 	/**
-	 * Possible controller class name that will be located to dispatch the request
-	 */
-	public function getControllerClass() -> string
-	{
-		return this->{"getHandlerName"}();
-	}
-
-	/**
 	 * Returns the lastest dispatched controller
 	 */
 	public function getLastController() -> <ControllerInterface>
