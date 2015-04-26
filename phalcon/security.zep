@@ -1,19 +1,19 @@
 
 /*
  +------------------------------------------------------------------------+
- | Phalcon Framework                                                      |
+ | Phalcon Framework													  |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)	   |
  +------------------------------------------------------------------------+
- | This source file is subject to the New BSD License that is bundled     |
- | with this package in the file docs/LICENSE.txt.                        |
- |                                                                        |
- | If you did not receive a copy of the license and are unable to         |
- | obtain it through the world-wide-web, please send an email             |
- | to license@phalconphp.com so we can send you a copy immediately.       |
+ | This source file is subject to the New BSD License that is bundled	 |
+ | with this package in the file docs/LICENSE.txt.						|
+ |																		|
+ | If you did not receive a copy of the license and are unable to		 |
+ | obtain it through the world-wide-web, please send an email			 |
+ | to license@phalconphp.com so we can send you a copy immediately.	   |
  +------------------------------------------------------------------------+
- | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
- |          Eduar Carvajal <eduar@phalconphp.com>                         |
+ | Authors: Andres Gutierrez <andres@phalconphp.com>					  |
+ |		  Eduar Carvajal <eduar@phalconphp.com>						 |
  +------------------------------------------------------------------------+
  */
 
@@ -56,6 +56,18 @@ class Security implements InjectionAwareInterface
 
 	protected _csrf;
 
+	protected _defaultHash;
+
+	const CRYPT_DEFAULT	=	0;
+	const CRYPT_STD_DES	=	1;
+	const CRYPT_EXT_DES	=	2;
+	const CRYPT_MD5		=	3;
+	const CRYPT_BLOWFISH   =	4;
+	const CRYPT_BLOWFISH_X =	5;
+	const CRYPT_BLOWFISH_Y =	6;
+	const CRYPT_SHA256	 =	7;
+	const CRYPT_SHA512	 =	8;
+
 	/**
 	 * Sets the dependency injector
 	 */
@@ -91,7 +103,7 @@ class Security implements InjectionAwareInterface
 	/**
 	 * Generate a >22-length pseudo random string to be used as salt for passwords
 	 */
-	public function getSaltBytes() -> string
+	public function getSaltBytes(int numberBytes = 0) -> string
 	{
 		var safeBytes, numberBytes;
 
@@ -99,7 +111,9 @@ class Security implements InjectionAwareInterface
 			throw new Exception("Openssl extension must be loaded");
 		}
 
-		let numberBytes = this->_numberBytes;
+		if !numberBytes {
+			let numberBytes = (int) this->_numberBytes;
+		}
 
 		loop {
 
@@ -113,7 +127,7 @@ class Security implements InjectionAwareInterface
 				continue;
 			}
 
-			if strlen(safeBytes) < 22 {
+			if strlen(safeBytes) < numberBytes {
 				continue;
 			}
 
@@ -128,10 +142,86 @@ class Security implements InjectionAwareInterface
 	 */
 	public function hash(string password, int workFactor = 0) -> string
 	{
+		int hash;
+		string variant;
+		var saltBytes;
+
 		if !workFactor {
 			let workFactor = (int) this->_workFactor;
 		}
-		return crypt(password, "$2a$" . sprintf("%02s", workFactor) . "$" . this->getSaltBytes());
+
+		let hash = (int) this->_defaultHash;
+
+		switch hash {
+
+			case self::CRYPT_BLOWFISH_X:
+				let variant = "x";
+				break;
+
+			case self::CRYPT_BLOWFISH_Y:
+				let variant = "y";
+				break;
+
+			case self::CRYPT_SHA256:
+				let variant = "5";
+				break;
+
+			case self::CRYPT_SHA512:
+				let variant = "6";
+				break;
+
+			case self::CRYPT_DEFAULT:
+			default:
+				let variant = "a";
+				break;
+		}
+
+		switch hash {
+
+			case self::CRYPT_STD_DES: {
+
+				/* Standard DES-based hash with a two character salt from the alphabet "./0-9A-Za-z". */
+
+				let saltBytes = this->getSaltBytes(2);
+				if typeof saltBytes != "string" {
+					throw new Exception("Unable to get random bytes for the salt");
+				}
+
+				break;
+
+			case self::CRYPT_DEFAULT:
+			case self::CRYPT_BLOWFISH:
+			case self::CRYPT_BLOWFISH_X:
+			case self::CRYPT_BLOWFISH_Y:
+			default:
+
+				/*
+				 * Blowfish hashing with a salt as follows: "$2a$", "$2x$" or "$2y$",
+				 * a two digit cost parameter, "$", and 22 characters from the alphabet
+				 * "./0-9A-Za-z". Using characters outside of this range in the salt
+				 * will cause crypt() to return a zero-length string. The two digit cost
+				 * parameter is the base-2 logarithm of the iteration count for the
+				 * underlying Blowfish-based hashing algorithm and must be in
+				 * range 04-31, values outside this range will cause crypt() to fail.
+				 */
+
+				let saltBytes = this->getSaltBytes(22);
+				if typeof saltBytes != "string" {
+					throw new Exception("Unable to get random bytes for the salt");
+				}
+
+				if workFactor < 4 {
+					let workFactor = 4;
+				} else {
+					if workFactor > 31 {
+						let workFactor = 31;
+					}
+				}
+
+				return crypt(password, "$2" . variant . "$" . sprintf("%02s", workFactor) . "$" . saltBytes);
+		}
+
+		return "";
 	}
 
 	/**
@@ -232,13 +322,8 @@ class Security implements InjectionAwareInterface
 
 	/**
 	 * Check if the CSRF token sent in the request is the same that the current in session
-	 *
-	 * @param string tokenKey
-	 * @param string tokenValue
-	 * @param boolean destroyIfValid  Removes the key and value of the CSRF token in session if true
-	 * @return boolean
 	 */
-	public function checkToken(tokenKey = null, tokenValue = null, destroyIfValid = true) -> boolean
+	public function checkToken(var tokenKey = null, var tokenValue = null, boolean destroyIfValid = true) -> boolean
 	{
 		var dependencyInjector, session, request, token, returnValue;
 
@@ -342,5 +427,21 @@ class Security implements InjectionAwareInterface
 		}
 
 		return hmac;
+	}
+
+	/**
+ 	 * Sets the default hash
+ 	 */
+	public function setDefaultHash(var defaultHash)
+	{
+		let this->_defaultHash = defaultHash;
+	}
+
+	/**
+ 	 * Sets the default hash
+ 	 */
+	public function getDefaultHash()
+	{
+		return this->_defaultHash;
 	}
 }
