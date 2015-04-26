@@ -53,25 +53,21 @@ class View extends Injectable implements ViewInterface
 
 	/**
 	 * Render Level: To the main layout
-	 *
 	 */
 	const LEVEL_MAIN_LAYOUT = 5;
 
 	/**
 	 * Render Level: Render to the templates "after"
-	 *
 	 */
 	const LEVEL_AFTER_TEMPLATE = 4;
 
 	/**
 	 * Render Level: Hasta el layout del controlador
-	 *
 	 */
 	const LEVEL_LAYOUT = 3;
 
 	/**
 	 * Render Level: To the templates "before"
-	 *
 	 */
 	const LEVEL_BEFORE_TEMPLATE = 2;
 
@@ -82,13 +78,11 @@ class View extends Injectable implements ViewInterface
 
 	/**
 	 * Render Level: No render any view
-	 *
 	 */
 	const LEVEL_NO_RENDER = 0;
 
 	/**
 	 * Cache Mode
-	 *
 	 */
 	const CACHE_MODE_NONE = 0;
 	const CACHE_MODE_INVERSE = 1;
@@ -143,10 +137,8 @@ class View extends Injectable implements ViewInterface
 
 	/**
 	 * Phalcon\Mvc\View constructor
-	 *
-	 * @param array options
 	 */
-	public function __construct(options = null)
+	public function __construct(array options = null)
 	{
 		if typeof options == "array" {
 			let this->_options = options;
@@ -251,7 +243,6 @@ class View extends Injectable implements ViewInterface
 	 *</code>
 	 *
 	 * @param int|array level
-	 * @return Phalcon\Mvc\View
 	 */
 	public function disableLevel(var level) -> <View>
 	{
@@ -310,7 +301,6 @@ class View extends Injectable implements ViewInterface
 	 * Sets a template before the controller layout
 	 *
 	 * @param string|array templateBefore
-	 * @return Phalcon\Mvc\View
 	 */
 	public function setTemplateBefore(var templateBefore) -> <View>
 	{
@@ -335,7 +325,6 @@ class View extends Injectable implements ViewInterface
 	 * Sets a "template after" controller layout
 	 *
 	 * @param string|array templateAfter
-	 * @return Phalcon\Mvc\View
 	 */
 	public function setTemplateAfter(var templateAfter) -> <View>
 	{
@@ -362,10 +351,6 @@ class View extends Injectable implements ViewInterface
 	 *<code>
 	 *	$this->view->setParamToView('products', $products);
 	 *</code>
-	 *
-	 * @param string key
-	 * @param mixed value
-	 * @return Phalcon\Mvc\View
 	 */
 	public function setParamToView(string! key, value) -> <View>
 	{
@@ -379,10 +364,6 @@ class View extends Injectable implements ViewInterface
 	 *<code>
 	 *	$this->view->setVars(array('products' => $products));
 	 *</code>
-	 *
-	 * @param array params
-	 * @param boolean merge
-	 * @return Phalcon\Mvc\View
 	 */
 	public function setVars(array! params, boolean merge = true) -> <View>
 	{
@@ -408,10 +389,6 @@ class View extends Injectable implements ViewInterface
 	 *<code>
 	 *	$this->view->setVar('products', $products);
 	 *</code>
-	 *
-	 * @param string key
-	 * @param mixed value
-	 * @return Phalcon\Mvc\View
 	 */
 	public function setVar(string! key, value) -> <View>
 	{
@@ -421,9 +398,6 @@ class View extends Injectable implements ViewInterface
 
 	/**
 	 * Returns a parameter previously set in the view
-	 *
-	 * @param string key
-	 * @return mixed
 	 */
 	public function getVar(string! key)
 	{
@@ -437,40 +411,32 @@ class View extends Injectable implements ViewInterface
 
 	/**
 	 * Returns parameters to views
-	 *
-	 * @return array
 	 */
-	public function getParamsToView()
+	public function getParamsToView() -> array
 	{
 		return this->_viewParams;
 	}
 
 	/**
 	 * Gets the name of the controller rendered
-	 *
-	 * @return string
 	 */
-	public function getControllerName()
+	public function getControllerName() -> string
 	{
 		return this->_controllerName;
 	}
 
 	/**
 	 * Gets the name of the action rendered
-	 *
-	 * @return string
 	 */
-	public function getActionName()
+	public function getActionName() -> string
 	{
 		return this->_actionName;
 	}
 
 	/**
 	 * Gets extra parameters of the action rendered
-	 *
-	 * @return array
 	 */
-	public function getParams()
+	public function getParams() -> array
 	{
 		return this->_params;
 	}
@@ -552,14 +518,8 @@ class View extends Injectable implements ViewInterface
 
 	/**
 	 * Checks whether view exists on registered extensions and render it
-	 *
-	 * @param array engines
-	 * @param string viewPath
-	 * @param boolean silence
-	 * @param boolean mustClean
-	 * @param Phalcon\Cache\BackendInterface $cache
 	 */
-	protected function _engineRender(engines, string viewPath, boolean silence, boolean mustClean, <BackendInterface> cache = null)
+	protected function _engineRender(array engines, string viewPath, boolean silence, boolean mustClean, <BackendInterface> cache = null)
 	{
 		boolean notExists;
 		int renderLevel, cacheLevel;
@@ -729,12 +689,8 @@ class View extends Injectable implements ViewInterface
 	 * //Shows recent posts view (app/views/posts/recent.phtml)
 	 * $view->start()->render('posts', 'recent')->finish();
 	 *</code>
-	 *
-	 * @param string controllerName
-	 * @param string actionName
-	 * @param array params
 	 */
-	public function render(string! controllerName, string! actionName, params = null) -> <View>|boolean
+	public function render(string! controllerName, string! actionName, array params = null) -> <View>|boolean
 	{
 		boolean silence, mustClean;
 		int renderLevel;
@@ -961,7 +917,6 @@ class View extends Injectable implements ViewInterface
 	 * </code>
 	 *
 	 * @param string|array renderView
-	 * @return Phalcon\Mvc\View
 	 */
 	public function pick(var renderView) -> <View>
 	{
@@ -998,12 +953,8 @@ class View extends Injectable implements ViewInterface
 	 * 	//Retrieve the contents of a partial with arguments
 	 * 	echo $this->getPartial('shared/footer', array('content' => $html));
 	 * </code>
-	 *
-	 * @param string partialPath
-	 * @param array params
-	 * @return string
 	 */
-	public function getPartial(string! partialPath, params = null) -> string
+	public function getPartial(string! partialPath, array params = null) -> string
 	{
 		// not liking the ob_* functions here, but it will greatly reduce the
 		// amount of double code.
@@ -1024,11 +975,8 @@ class View extends Injectable implements ViewInterface
 	 * 	//Show a partial inside another view with parameters
 	 * 	$this->partial('shared/footer', array('content' => $html));
 	 * </code>
-	 *
-	 * @param string partialPath
-	 * @param array params
 	 */
-	public function partial(string! partialPath, params = null)
+	public function partial(string! partialPath, array params = null)
 	{
 		var viewParams;
 
@@ -1077,14 +1025,8 @@ class View extends Injectable implements ViewInterface
 	 * <code>
 	 * 	$template = $this->view->getRender('products', 'show', array('products' => $products));
 	 * </code>
-	 *
-	 * @param string controllerName
-	 * @param string actionName
-	 * @param array params
-	 * @param mixed configCallback
-	 * @return string
 	 */
-	public function getRender(string! controllerName, string! actionName, params = null, configCallback = null) -> string
+	public function getRender(string! controllerName, string! actionName, array params = null, configCallback = null) -> string
 	{
 		var view;
 
@@ -1212,7 +1154,6 @@ class View extends Injectable implements ViewInterface
 	 *</code>
 	 *
 	 * @param boolean|array options
-	 * @return Phalcon\Mvc\View
 	 */
 	public function cache(var options = true) -> <View>
 	{
@@ -1331,9 +1272,6 @@ class View extends Injectable implements ViewInterface
 	 *<code>
 	 *	$this->view->products = $products;
 	 *</code>
-	 *
-	 * @param string key
-	 * @param mixed value
 	 */
 	public function __set(string! key, value)
 	{
@@ -1346,9 +1284,6 @@ class View extends Injectable implements ViewInterface
 	 *<code>
 	 *	echo $this->view->products;
 	 *</code>
-	 *
-	 * @param string key
-	 * @return mixed
 	 */
 	public function __get(string! key)
 	{
@@ -1373,9 +1308,6 @@ class View extends Injectable implements ViewInterface
 	 *<code>
 	 *  echo isset($this->view->products);
 	 *</code>
-	 *
-	 * @param string key
-	 * @return boolean
 	 */
 	public function __isset(string! key) -> boolean
 	{

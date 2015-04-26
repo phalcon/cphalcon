@@ -46,10 +46,8 @@ class Volt extends Engine implements EngineInterface
 
 	/**
 	 * Return Volt's options
-	 *
-	 * @return array
 	 */
-	public function getOptions()
+	public function getOptions() -> array
 	{
 		return this->_options;
 	}
@@ -89,12 +87,8 @@ class Volt extends Engine implements EngineInterface
 
 	/**
 	 * Renders a view using the template engine
-	 *
-	 * @param string  $templatePath
-	 * @param array   $params
-	 * @param boolean $mustClean
 	 */
-	public function render(string! templatePath, var params, boolean mustClean = false)
+	public function render(string! templatePath, array params, boolean mustClean = false)
 	{
 		var compiler, compiledTemplatePath, key, value;
 
@@ -114,10 +108,8 @@ class Volt extends Engine implements EngineInterface
 		/**
 		 * Export the variables the current symbol table
 		 */
-		if typeof params == "array"	{
-			for key, value in params {
-				let {key} = value;
-			}
+		for key, value in params {
+			let {key} = value;
 		}
 
 		require compiledTemplatePath;
@@ -130,9 +122,6 @@ class Volt extends Engine implements EngineInterface
 
 	/**
 	 * Length filter. If an array/object is passed a count is performed otherwise a strlen/mb_strlen
-	 *
-	 * @param mixed $item
-	 * @return int
 	 */
 	public function length(var item) -> int
 	{
@@ -159,10 +148,6 @@ class Volt extends Engine implements EngineInterface
 
 	/**
 	 * Checks if the needle is included in the haystack
-	 *
-	 * @param  mixed needle
-	 * @param  mixed haystack
-	 * @return boolean
 	 */
 	public function isIncluded(needle, haystack) -> boolean
 	{
@@ -221,8 +206,6 @@ class Volt extends Engine implements EngineInterface
 
 	/**
 	 * Extracts a slice from a string/array/traversable object value
-	 *
-	 * @param mixed value
 	 */
 	public function slice(value, start, end = null)
 	{

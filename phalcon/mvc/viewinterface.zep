@@ -193,12 +193,8 @@ interface ViewInterface
 
 	/**
 	 * Executes render process from dispatching data
-	 *
-	 * @param string controllerName
-	 * @param string actionName
-	 * @param array params
 	 */
-	public function render(controllerName, actionName, params = null);
+	public function render(string! controllerName, string! actionName, array params = null);
 
 	/**
 	 * Choose a view different to render than last-controller/last-action

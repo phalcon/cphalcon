@@ -53,12 +53,8 @@ abstract class Engine extends Injectable
 
 	/**
 	 * Renders a partial inside another view
-	 *
-	 * @param string partialPath
-	 * @param array params
-	 * @return string
 	 */
-	public function partial(string! partialPath, params = null) -> string
+	public function partial(string! partialPath, array params = null) -> string
 	{
 		return this->_view->partial(partialPath, params);
 	}

@@ -32,12 +32,8 @@ class Php extends Engine implements EngineInterface
 
 	/**
 	 * Renders a view using the template engine
-	 *
-	 * @param string path
-	 * @param array params
-	 * @param boolean mustClean
 	 */
-	public function render(string! path, params, boolean mustClean = false)
+	public function render(string! path, array params, boolean mustClean = false)
 	{
 		var key, value;
 
@@ -48,10 +44,8 @@ class Php extends Engine implements EngineInterface
 		/**
 		 * Create the variables in local symbol table
 		 */
-		if typeof params == "array" {
-			for key, value in params {
-				let {key} = value;
-			}
+		for key, value in params {
+			let {key} = value;
 		}
 
 		/**
