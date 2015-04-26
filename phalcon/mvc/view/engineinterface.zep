@@ -45,6 +45,6 @@ interface EngineInterface
 	/**
 	 * Renders a view using the template engine
 	 */
-	public function render(string path, var params, boolean mustClean = false);
+	public function render(string path, params, boolean mustClean = false);
 
 }
