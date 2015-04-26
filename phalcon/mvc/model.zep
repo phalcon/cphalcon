@@ -40,6 +40,7 @@ use Phalcon\Mvc\Model\MetadataInterface;
 use Phalcon\Mvc\Model\MessageInterface;
 use Phalcon\Events\ManagerInterface as EventsManagerInterface;
 use Phalcon\Db\Column;
+use Phalcon\Text;
 
 /**
  * Phalcon\Mvc\Model
@@ -4018,7 +4019,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 		/**
 		 * Check if the property has a the getters
 		 */
-		let method = "get" . ucfirst(property);
+		let method = "get" . Text::camelize(str);
 
 		if method_exists(this, method) {
 			return this->{method}();
