@@ -17,6 +17,7 @@ PHP_METHOD(Phalcon_Security, getTokenKey);
 PHP_METHOD(Phalcon_Security, getToken);
 PHP_METHOD(Phalcon_Security, checkToken);
 PHP_METHOD(Phalcon_Security, getSessionToken);
+PHP_METHOD(Phalcon_Security, destroyToken);
 PHP_METHOD(Phalcon_Security, computeHmac);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_security_setworkfactor, 0, 0, 1)
@@ -42,8 +43,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_security_checkhash, 0, 0, 2)
 	ZEND_ARG_INFO(0, maxPassLength)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_security_islegacyhash, 0, 0, 2)
-	ZEND_ARG_INFO(0, password)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_security_islegacyhash, 0, 0, 1)
 	ZEND_ARG_INFO(0, passwordHash)
 ZEND_END_ARG_INFO()
 
@@ -58,6 +58,7 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_security_checktoken, 0, 0, 0)
 	ZEND_ARG_INFO(0, tokenKey)
 	ZEND_ARG_INFO(0, tokenValue)
+	ZEND_ARG_INFO(0, destroyIfValid)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_security_computehmac, 0, 0, 3)
@@ -82,6 +83,7 @@ ZEPHIR_INIT_FUNCS(phalcon_security_method_entry) {
 	PHP_ME(Phalcon_Security, getToken, arginfo_phalcon_security_gettoken, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Security, checkToken, arginfo_phalcon_security_checktoken, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Security, getSessionToken, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Security, destroyToken, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Security, computeHmac, arginfo_phalcon_security_computehmac, ZEND_ACC_PUBLIC)
   PHP_FE_END
 };

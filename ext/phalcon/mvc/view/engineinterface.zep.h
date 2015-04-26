@@ -4,7 +4,7 @@ extern zend_class_entry *phalcon_mvc_view_engineinterface_ce;
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_View_EngineInterface);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_engineinterface___construct, 0, 0, 1)
-	ZEND_ARG_INFO(0, view)
+	ZEND_ARG_OBJ_INFO(0, view, Phalcon\\Mvc\\ViewInterface, 0)
 	ZEND_ARG_OBJ_INFO(0, dependencyInjector, Phalcon\\DiInterface, 1)
 ZEND_END_ARG_INFO()
 

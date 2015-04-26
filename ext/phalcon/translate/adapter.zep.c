@@ -114,8 +114,8 @@ PHP_METHOD(Phalcon_Translate_Adapter, _) {
 /**
  * Sets a translation value
  *
- * @param         string offset
- * @param         string value
+ * @param string offset
+ * @param string value
  */
 PHP_METHOD(Phalcon_Translate_Adapter, offsetSet) {
 

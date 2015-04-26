@@ -418,27 +418,25 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, slice) {
 
 /**
  * Sorts an array
- *
- * @param array value
- * @return array
  */
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, sort) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
 	zephir_nts_static zephir_fcall_cache_entry *_0 = NULL;
-	zval *value;
+	zval *value_param = NULL;
+	zval *value = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &value);
+	zephir_fetch_params(1, 1, 0, &value_param);
 
+	zephir_get_arrval(value, value_param);
 
 
 	Z_SET_ISREF_P(value);
 	ZEPHIR_CALL_FUNCTION(NULL, "asort", &_0, value);
 	Z_UNSET_ISREF_P(value);
 	zephir_check_call_status();
-	RETVAL_ZVAL(value, 1, 0);
-	RETURN_MM();
+	RETURN_CTOR(value);
 
 }
 

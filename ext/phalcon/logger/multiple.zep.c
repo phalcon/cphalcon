@@ -52,8 +52,6 @@ PHP_METHOD(Phalcon_Logger_Multiple, getFormatter) {
 
 /**
  * Pushes a logger to the logger tail
- *
- * @param Phalcon\Logger\AdapterInterface logger
  */
 PHP_METHOD(Phalcon_Logger_Multiple, push) {
 
@@ -69,8 +67,6 @@ PHP_METHOD(Phalcon_Logger_Multiple, push) {
 
 /**
  * Sets a global formatter
- *
- * @param Phalcon\Logger\FormatterInterface formatter
  */
 PHP_METHOD(Phalcon_Logger_Multiple, setFormatter) {
 
@@ -87,7 +83,7 @@ PHP_METHOD(Phalcon_Logger_Multiple, setFormatter) {
 	ZEPHIR_OBS_VAR(loggers);
 	zephir_read_property_this(&loggers, this_ptr, SL("_loggers"), PH_NOISY_CC);
 	if (Z_TYPE_P(loggers) == IS_ARRAY) {
-		zephir_is_iterable(loggers, &_1, &_0, 0, 0, "phalcon/logger/multiple.zep", 63);
+		zephir_is_iterable(loggers, &_1, &_0, 0, 0, "phalcon/logger/multiple.zep", 59);
 		for (
 		  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_1, &_0)
@@ -104,9 +100,6 @@ PHP_METHOD(Phalcon_Logger_Multiple, setFormatter) {
 
 /**
  * Sends a message to each registered logger
- *
- * @param string message
- * @param int type
  */
 PHP_METHOD(Phalcon_Logger_Multiple, log) {
 
@@ -130,7 +123,7 @@ PHP_METHOD(Phalcon_Logger_Multiple, log) {
 	ZEPHIR_OBS_VAR(loggers);
 	zephir_read_property_this(&loggers, this_ptr, SL("_loggers"), PH_NOISY_CC);
 	if (Z_TYPE_P(loggers) == IS_ARRAY) {
-		zephir_is_iterable(loggers, &_1, &_0, 0, 0, "phalcon/logger/multiple.zep", 82);
+		zephir_is_iterable(loggers, &_1, &_0, 0, 0, "phalcon/logger/multiple.zep", 75);
 		for (
 		  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_1, &_0)
@@ -148,8 +141,6 @@ PHP_METHOD(Phalcon_Logger_Multiple, log) {
 
 /**
  * Sends/Writes an emergency message to the log
- *
- * @param string message
  */
 PHP_METHOD(Phalcon_Logger_Multiple, emergency) {
 
@@ -173,9 +164,6 @@ PHP_METHOD(Phalcon_Logger_Multiple, emergency) {
 
 /**
  * Sends/Writes a debug message to the log
- *
- * @param string message
- * @param ing type
  */
 PHP_METHOD(Phalcon_Logger_Multiple, debug) {
 
@@ -199,8 +187,6 @@ PHP_METHOD(Phalcon_Logger_Multiple, debug) {
 
 /**
  * Sends/Writes an error message to the log
- *
- * @param string message
  */
 PHP_METHOD(Phalcon_Logger_Multiple, error) {
 
@@ -224,8 +210,6 @@ PHP_METHOD(Phalcon_Logger_Multiple, error) {
 
 /**
  * Sends/Writes an info message to the log
- *
- * @param string message
  */
 PHP_METHOD(Phalcon_Logger_Multiple, info) {
 
@@ -249,8 +233,6 @@ PHP_METHOD(Phalcon_Logger_Multiple, info) {
 
 /**
  * Sends/Writes a notice message to the log
- *
- * @param string message
  */
 PHP_METHOD(Phalcon_Logger_Multiple, notice) {
 
@@ -274,8 +256,6 @@ PHP_METHOD(Phalcon_Logger_Multiple, notice) {
 
 /**
  * Sends/Writes a warning message to the log
- *
- * @param string message
  */
 PHP_METHOD(Phalcon_Logger_Multiple, warning) {
 
@@ -299,8 +279,6 @@ PHP_METHOD(Phalcon_Logger_Multiple, warning) {
 
 /**
  * Sends/Writes an alert message to the log
- *
- * @param string message
  */
 PHP_METHOD(Phalcon_Logger_Multiple, alert) {
 

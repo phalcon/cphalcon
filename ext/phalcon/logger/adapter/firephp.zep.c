@@ -161,8 +161,6 @@ PHP_METHOD(Phalcon_Logger_Adapter_Firephp, logInternal) {
 
 /**
  * Closes the logger
- *
- * @return boolean
  */
 PHP_METHOD(Phalcon_Logger_Adapter_Firephp, close) {
 

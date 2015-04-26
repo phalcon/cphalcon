@@ -4017,9 +4017,9 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 		}
 
 		/**
-		 * Check if the property has a the getters
+		 * Check if the property has getters
 		 */
-		let method = "get" . Text::camelize(str);
+		let method = "get" . Text::camelize(property);
 
 		if method_exists(this, method) {
 			return this->{method}();

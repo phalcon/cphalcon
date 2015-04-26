@@ -183,8 +183,6 @@ PHP_METHOD(Phalcon_Logger_Adapter_Stream, logInternal) {
 
 /**
  * Closes the logger
- *
- * @return boolean
  */
 PHP_METHOD(Phalcon_Logger_Adapter_Stream, close) {
 

@@ -261,8 +261,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, rollback) {
 
 /**
  * Returns the connection related to transaction
- *
- * @return Phalcon\Db\AdapterInterface
  */
 PHP_METHOD(Phalcon_Mvc_Model_Transaction, getConnection) {
 
@@ -337,8 +335,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, isManaged) {
 
 /**
  * Returns validations messages from last save try
- *
- * @return array
  */
 PHP_METHOD(Phalcon_Mvc_Model_Transaction, getMessages) {
 

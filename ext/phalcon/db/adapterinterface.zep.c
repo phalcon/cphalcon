@@ -103,55 +103,31 @@ ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, limit);
 
 /**
  * Generates SQL checking for the existence of a schema.table
- *
- * @param string tableName
- * @param string schemaName
- * @return string
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, tableExists);
 
 /**
  * Generates SQL checking for the existence of a schema.view
- *
- * @param string viewName
- * @param string schemaName
- * @return string
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, viewExists);
 
 /**
  * Returns a SQL modified with a FOR UPDATE clause
- *
- * @param	string sqlQuery
- * @return	string
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, forUpdate);
 
 /**
  * Returns a SQL modified with a LOCK IN SHARE MODE clause
- *
- * @param	string sqlQuery
- * @return	string
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, sharedLock);
 
 /**
  * Creates a table
- *
- * @param	string tableName
- * @param	string schemaName
- * @param	array definition
- * @return	boolean
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, createTable);
 
 /**
  * Drops a table from a schema/database
- *
- * @param	string tableName
- * @param   string schemaName
- * @param	boolean ifExists
- * @return	boolean
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, dropTable);
 
@@ -167,11 +143,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, createView);
 
 /**
  * Drops a view
- *
- * @param	string viewName
- * @param   string schemaName
- * @param	boolean ifExists
- * @return	boolean
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, dropView);
 
@@ -491,47 +462,31 @@ ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, useExplicitIdValue);
 
 /**
  * Return the default identity value to insert in an identity column
- *
- * @return Phalcon\Db\RawValue
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, getDefaultIdValue);
 
 /**
  * Check whether the database system requires a sequence to produce auto-numeric values
- *
- * @return boolean
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, supportSequences);
 
 /**
  * Creates a new savepoint
- *
- * @param string name
- * @return boolean
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, createSavepoint);
 
 /**
  * Releases given savepoint
- *
- * @param string name
- * @return boolean
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, releaseSavepoint);
 
 /**
  * Rollbacks given savepoint
- *
- * @param string name
- * @return boolean
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, rollbackSavepoint);
 
 /**
  * Set if nested transactions should use savepoints
- *
- * @param boolean nestedTransactionsWithSavepoints
- * @return Phalcon\Db\AdapterInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, setNestedTransactionsWithSavepoints);
 

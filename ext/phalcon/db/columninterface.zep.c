@@ -27,9 +27,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_ColumnInterface) {
 
 /**
  * Phalcon\Db\ColumnInterface constructor
- *
- * @param string columnName
- * @param array definition
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_ColumnInterface, __construct);
 

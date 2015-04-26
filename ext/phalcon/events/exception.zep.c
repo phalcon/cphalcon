@@ -18,7 +18,6 @@
  * Phalcon\Events\Exception
  *
  * Exceptions thrown in Phalcon\Events will use this class
- *
  */
 ZEPHIR_INIT_CLASS(Phalcon_Events_Exception) {
 

@@ -17,7 +17,6 @@
 #include "kernel/fcall.h"
 #include "kernel/array.h"
 #include "kernel/operators.h"
-#include "kernel/hash.h"
 
 
 /**
@@ -165,11 +164,9 @@ PHP_METHOD(Phalcon_Annotations_Adapter, getMethods) {
  */
 PHP_METHOD(Phalcon_Annotations_Adapter, getMethod) {
 
-	zephir_nts_static zephir_fcall_cache_entry *_3 = NULL;
-	HashTable *_1;
-	HashPosition _0;
+	zephir_nts_static zephir_fcall_cache_entry *_0 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *className_param = NULL, *methodName_param = NULL, *classAnnotations = NULL, *methods = NULL, *name = NULL, *method = NULL, **_2;
+	zval *className_param = NULL, *methodName_param = NULL, *classAnnotations = NULL, *methods = NULL, *method;
 	zval *className = NULL, *methodName = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -185,21 +182,13 @@ PHP_METHOD(Phalcon_Annotations_Adapter, getMethod) {
 		ZEPHIR_CALL_METHOD(&methods, classAnnotations, "getmethodsannotations", NULL);
 		zephir_check_call_status();
 		if (Z_TYPE_P(methods) == IS_ARRAY) {
-			zephir_is_iterable(methods, &_1, &_0, 0, 0, "phalcon/annotations/adapter.zep", 153);
-			for (
-			  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
-			  ; zephir_hash_move_forward_ex(_1, &_0)
-			) {
-				ZEPHIR_GET_HMKEY(name, _1, _0);
-				ZEPHIR_GET_HVALUE(method, _2);
-				if (ZEPHIR_IS_EQUAL(name, methodName)) {
-					RETURN_CCTOR(method);
-				}
+			if (zephir_array_isset_fetch(&method, methods, methodName, 1 TSRMLS_CC)) {
+				RETURN_CTOR(method);
 			}
 		}
 	}
 	object_init_ex(return_value, phalcon_annotations_collection_ce);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", &_3);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -237,11 +226,9 @@ PHP_METHOD(Phalcon_Annotations_Adapter, getProperties) {
  */
 PHP_METHOD(Phalcon_Annotations_Adapter, getProperty) {
 
-	zephir_nts_static zephir_fcall_cache_entry *_3 = NULL;
-	HashTable *_1;
-	HashPosition _0;
+	zephir_nts_static zephir_fcall_cache_entry *_0 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *className_param = NULL, *propertyName_param = NULL, *classAnnotations = NULL, *properties = NULL, *name = NULL, *property = NULL, **_2;
+	zval *className_param = NULL, *propertyName_param = NULL, *classAnnotations = NULL, *properties = NULL, *property;
 	zval *className = NULL, *propertyName = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -257,21 +244,13 @@ PHP_METHOD(Phalcon_Annotations_Adapter, getProperty) {
 		ZEPHIR_CALL_METHOD(&properties, classAnnotations, "getpropertiesannotations", NULL);
 		zephir_check_call_status();
 		if (Z_TYPE_P(properties) == IS_ARRAY) {
-			zephir_is_iterable(properties, &_1, &_0, 0, 0, "phalcon/annotations/adapter.zep", 207);
-			for (
-			  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
-			  ; zephir_hash_move_forward_ex(_1, &_0)
-			) {
-				ZEPHIR_GET_HMKEY(name, _1, _0);
-				ZEPHIR_GET_HVALUE(property, _2);
-				if (ZEPHIR_IS_EQUAL(name, propertyName)) {
-					RETURN_CCTOR(property);
-				}
+			if (zephir_array_isset_fetch(&property, properties, propertyName, 1 TSRMLS_CC)) {
+				RETURN_CTOR(property);
 			}
 		}
 	}
 	object_init_ex(return_value, phalcon_annotations_collection_ce);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", &_3);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 

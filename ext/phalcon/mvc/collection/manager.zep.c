@@ -203,17 +203,26 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, initialize) {
 
 /**
  * Check whether a model is already initialized
- *
- * @param string $modelName
- * @return bool
  */
 PHP_METHOD(Phalcon_Mvc_Collection_Manager, isInitialized) {
 
-	zval *modelName, *_0, *_1;
+	zval *modelName_param = NULL, *_0, *_1;
+	zval *modelName = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &modelName);
+	zephir_fetch_params(1, 1, 0, &modelName_param);
 
+	if (unlikely(Z_TYPE_P(modelName_param) != IS_STRING && Z_TYPE_P(modelName_param) != IS_NULL)) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'modelName' must be a string") TSRMLS_CC);
+		RETURN_MM_NULL();
+	}
+
+	if (likely(Z_TYPE_P(modelName_param) == IS_STRING)) {
+		zephir_get_strval(modelName, modelName_param);
+	} else {
+		ZEPHIR_INIT_VAR(modelName);
+		ZVAL_EMPTY_STRING(modelName);
+	}
 
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_initialized"), PH_NOISY_CC);
@@ -337,19 +346,19 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, getConnection) {
 		zephir_get_class(entityName, model, 0 TSRMLS_CC);
 		if (zephir_array_isset(connectionService, entityName)) {
 			ZEPHIR_OBS_NVAR(service);
-			zephir_array_fetch(&service, connectionService, entityName, PH_NOISY, "phalcon/mvc/collection/manager.zep", 231 TSRMLS_CC);
+			zephir_array_fetch(&service, connectionService, entityName, PH_NOISY, "phalcon/mvc/collection/manager.zep", 228 TSRMLS_CC);
 		}
 	}
 	ZEPHIR_OBS_VAR(dependencyInjector);
 	zephir_read_property_this(&dependencyInjector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	if (Z_TYPE_P(dependencyInjector) != IS_OBJECT) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_collection_exception_ce, "A dependency injector container is required to obtain the services related to the ORM", "phalcon/mvc/collection/manager.zep", 237);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_collection_exception_ce, "A dependency injector container is required to obtain the services related to the ORM", "phalcon/mvc/collection/manager.zep", 234);
 		return;
 	}
 	ZEPHIR_CALL_METHOD(&connection, dependencyInjector, "getshared", NULL, service);
 	zephir_check_call_status();
 	if (Z_TYPE_P(connection) != IS_OBJECT) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_collection_exception_ce, "Invalid injected connection service", "phalcon/mvc/collection/manager.zep", 245);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_collection_exception_ce, "Invalid injected connection service", "phalcon/mvc/collection/manager.zep", 242);
 		return;
 	}
 	RETURN_CCTOR(connection);
