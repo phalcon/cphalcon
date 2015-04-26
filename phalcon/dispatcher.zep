@@ -653,19 +653,19 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 	 */
 	public function getHandlerClass() -> string
 	{
-		var camelized_class;
+		var camelizedClass;
 
 		/**
 		 * If the current namespace is null we used the set in default namespace
 		 */
-		if (!this->_namespaceName) {
+		if !this->_namespaceName {
 			let this->_namespaceName = this->_defaultNamespace;
 		}
 
 		/**
 		 * If the handler is null we use the set in default handler
 		 */
-		if (!this->_handlerName) {
+		if !this->_handlerName {
 			let this->_handlerName = this->_defaultHandler;
 		}
 
@@ -673,9 +673,9 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 		 * We don't camelize the classes if they are in namespaces
 		 */
 		if substr(this->_handlerName, 0, 1) === "\\" {
-			let camelized_class = this->_handlerName;
+			let camelizedClass = this->_handlerName;
 		} else {
-			let camelized_class = substr(this->_handlerName, 1);
+			let camelizedClass = substr(this->_handlerName, 1);
 		}
 
 		/**
@@ -683,12 +683,12 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 		 */
 		if this->_namespaceName {
 			if substr(this->_namespaceName, -1) === "\\" {
-				return this->_namespaceName . camelized_class . this->_handlerSuffix;
+				return this->_namespaceName . camelizedClass . this->_handlerSuffix;
 			} else {
-				return this->_namespaceName . "\\" . camelized_class . this->_handlerSuffix;
+				return this->_namespaceName . "\\" . camelizedClass . this->_handlerSuffix;
 			}
 		}
 
-		return camelized_class . this->_handlerSuffix;
+		return camelizedClass . this->_handlerSuffix;
 	}
 }
