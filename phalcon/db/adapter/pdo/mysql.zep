@@ -195,6 +195,16 @@ class Mysql extends PdoAdapter implements AdapterInterface
 				}
 
 				/**
+				 * Doubles are float
+				 */
+				if memstr(columnType, "double") {
+					let definition["type"] = Column::TYPE_DOUBLE,
+						definition["isNumeric"] = true,
+						definition["bindType"] = Column::TYPE_DECIMAL;
+					break;
+				}
+				
+				/**
 				 * By default is string
 				 */
 				let definition["type"] = Column::TYPE_VARCHAR;
