@@ -79,6 +79,10 @@ class Redis extends Backend implements BackendInterface
 			let options["port"] = 6379;
 		}
 
+		if !isset options["index"] {
+			let options["index"] = 0;
+		}
+
 		if !isset options["persistent"] {
 			let options["persistent"] = false;
 		}
@@ -95,7 +99,7 @@ class Redis extends Backend implements BackendInterface
 	 */
 	public function _connect()
 	{
-		var options, redis, persistent, success, host, port, auth;
+		var options, redis, persistent, success, host, port, auth, index;
 
 		let options = this->_options;
 		let redis = new \Redis();
@@ -119,6 +123,14 @@ class Redis extends Backend implements BackendInterface
 
 			if !success {
 				throw new Exception("Failed to authenticate with the Redisd server");
+			}
+		}
+
+		if fetch index, options["index"] {
+			let success = redis->select(index);
+
+			if !success {
+				throw new Exception("Redisd server selected database failed");
 			}
 		}
 
