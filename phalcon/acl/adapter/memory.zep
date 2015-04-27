@@ -184,7 +184,7 @@ class Memory extends Adapter
 	 */
 	public function addInherit(string roleName, var roleToInherit)
 	{
-		var roleInheritName, rolesNames;
+		var roleInheritName, rolesNames, deepInheritName;
 
 		let rolesNames = this->_rolesNames;
 		if !isset rolesNames[roleName] {
@@ -195,6 +195,15 @@ class Memory extends Adapter
 			let roleInheritName = roleToInherit->getName();
 		} else {
 			let roleInheritName = roleToInherit;
+		}
+
+		/**
+		 * Deep inherits
+		 */
+		if isset this->_roleInherits[roleInheritName] {
+			for deepInheritName in this->_roleInherits[roleInheritName] {
+				this->addInherit(roleName, deepInheritName);
+			}
 		}
 
 		/**
