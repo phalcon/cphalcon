@@ -3121,10 +3121,11 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 */
 	public function readAttribute(string! attribute)
 	{
-		if isset this->{attribute} {
-			return this->{attribute};
+		if !isset this->{attribute} {
+			return null;
 		}
-		return null;
+
+		return this->{attribute};
 	}
 
 	/**
@@ -3468,10 +3469,8 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	{
 		var snapshot;
 		let snapshot = this->_snapshot;
-		if typeof snapshot == "array" {
-			return true;
-		}
-		return false;
+
+		return typeof snapshot == "array";
 	}
 
 	/**

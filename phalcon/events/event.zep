@@ -89,11 +89,11 @@ class Event
 	 */
 	public function stop() -> void
 	{
-		if this->_cancelable {
-			let this->_stopped = true;
-		} else {
+		if !this->_cancelable {
 			throw new Exception("Trying to cancel a non-cancelable event");
 		}
+
+		let this->_stopped = true;
 	}
 
 	/**
