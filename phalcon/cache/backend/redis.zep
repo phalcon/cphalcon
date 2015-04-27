@@ -79,6 +79,10 @@ class Redis extends Backend implements BackendInterface
 			let options["port"] = 6379;
 		}
 
+		if !isset options["index"] {
+			let options["index"] = 0;
+		}
+
 		if !isset options["persistent"] {
 			let options["persistent"] = false;
 		}
@@ -95,7 +99,7 @@ class Redis extends Backend implements BackendInterface
 	 */
 	public function _connect()
 	{
-		var options, redis, persistent, success, host, port, auth;
+		var options, redis, persistent, success, host, port, auth, index;
 
 		let options = this->_options;
 		let redis = new \Redis();
@@ -111,14 +115,22 @@ class Redis extends Backend implements BackendInterface
 		}
 
 		if !success {
-			throw new Exception("Cannot connect to Redisd server");
+			throw new Exception("Could not connect to the Redisd server ".host.":".port);
 		}
 
 		if fetch auth, options["auth"] {
 			let success = redis->auth(auth);
 
 			if !success {
-				throw new Exception("Redisd server is authentication failed");
+				throw new Exception("Failed to authenticate with the Redisd server");
+			}
+		}
+
+		if fetch index, options["index"] {
+			let success = redis->select(index);
+
+			if !success {
+				throw new Exception("Redisd server selected database failed");
 			}
 		}
 
@@ -182,7 +194,7 @@ class Redis extends Backend implements BackendInterface
 		}
 
 		if !lastKey {
-			throw new Exception("Cache must be started first");
+			throw new Exception("The cache must be started first");
 		}
 
 		let frontend = this->_frontend;
@@ -228,7 +240,7 @@ class Redis extends Backend implements BackendInterface
 		}
 
 		if !success {
-			throw new Exception("Failed storing data in redis");
+			throw new Exception("Failed storing the data in redis");
 		}
 
 		redis->settimeout(lastKey, tt1);
