@@ -132,6 +132,7 @@ static zval *phql_ret_select_clause(zval *distinct, zval *columns, zval *tables,
 
 	MAKE_STD_ZVAL(ret);
 	array_init(ret);
+
 	if (distinct) {
 		add_assoc_zval(ret, "distinct", distinct);
 	}
@@ -2750,6 +2751,7 @@ const phql_token_names phql_tokens[] =
   { SL("CAST"),          PHQL_T_CAST },
   { SL("CONVERT"),       PHQL_T_CONVERT },
   { SL("USING"),         PHQL_T_USING },
+  { SL("ALL"),           PHQL_T_ALL },
   { NULL, 0, 0 }
 };
 
