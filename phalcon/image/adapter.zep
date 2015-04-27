@@ -73,7 +73,7 @@ abstract class Adapter
  	 * Resize the image to the given size
  	 */
 	//Phalcon\Image::AUTO
-	public function resize(int width = null, int height = null, int master = 7) -> <Adapter>
+	public function resize(int width = null, int height = null, int master = Image::AUTO) -> <Adapter>
 	{
 		var ratio;
 
