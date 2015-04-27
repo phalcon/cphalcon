@@ -3,17 +3,17 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework													  |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)	   |
+ | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)	      |
  +------------------------------------------------------------------------+
- | This source file is subject to the New BSD License that is bundled	 |
- | with this package in the file docs/LICENSE.txt.						|
- |																		|
- | If you did not receive a copy of the license and are unable to		 |
- | obtain it through the world-wide-web, please send an email			 |
- | to license@phalconphp.com so we can send you a copy immediately.	   |
+ | This source file is subject to the New BSD License that is bundled	  |
+ | with this package in the file docs/LICENSE.txt.						  |
+ |																		  |
+ | If you did not receive a copy of the license and are unable to         |
+ | obtain it through the world-wide-web, please send an email			  |
+ | to license@phalconphp.com so we can send you a copy immediately.	      |
  +------------------------------------------------------------------------+
  | Authors: Andres Gutierrez <andres@phalconphp.com>					  |
- |		  Eduar Carvajal <eduar@phalconphp.com>						 |
+ |		  Eduar Carvajal <eduar@phalconphp.com>						      |
  +------------------------------------------------------------------------+
  */
 
@@ -58,15 +58,23 @@ class Security implements InjectionAwareInterface
 
 	protected _defaultHash;
 
-	const CRYPT_DEFAULT	=	0;
-	const CRYPT_STD_DES	=	1;
-	const CRYPT_EXT_DES	=	2;
-	const CRYPT_MD5		=	3;
+	const CRYPT_DEFAULT	   =	0;
+
+	const CRYPT_STD_DES	   =	1;
+
+	const CRYPT_EXT_DES	   =	2;
+
+	const CRYPT_MD5		   =	3;
+
 	const CRYPT_BLOWFISH   =	4;
+
 	const CRYPT_BLOWFISH_X =	5;
+
 	const CRYPT_BLOWFISH_Y =	6;
-	const CRYPT_SHA256	 =	7;
-	const CRYPT_SHA512	 =	8;
+
+	const CRYPT_SHA256	   =	7;
+
+	const CRYPT_SHA512	   =	8;
 
 	/**
 	 * Sets the dependency injector
@@ -105,7 +113,7 @@ class Security implements InjectionAwareInterface
 	 */
 	public function getSaltBytes(int numberBytes = 0) -> string
 	{
-		var safeBytes, numberBytes;
+		var safeBytes;
 
 		if !function_exists("openssl_random_pseudo_bytes") {
 			throw new Exception("Openssl extension must be loaded");
@@ -178,7 +186,7 @@ class Security implements InjectionAwareInterface
 
 		switch hash {
 
-			case self::CRYPT_STD_DES: {
+			case self::CRYPT_STD_DES:
 
 				/* Standard DES-based hash with a two character salt from the alphabet "./0-9A-Za-z". */
 
