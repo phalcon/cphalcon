@@ -33,12 +33,15 @@ abstract class Dialect
 	/**
 	 * Generates the SQL for LIMIT clause
 	 *
-	 *<code>
-	 * $sql = $dialect->limit('SELECT * FROM robots', 10);
-	 * echo $sql; // SELECT * FROM robots LIMIT 10
-	 *</code>
+	 * <code>
+	 *    $sql = $dialect->limit('SELECT * FROM robots', 10);
+	 *    echo $sql; // SELECT * FROM robots LIMIT 10
+	 *
+	 *    $sql = $dialect->limit('SELECT * FROM robots', [10, 50]);
+	 *    echo $sql; // SELECT * FROM robots LIMIT 10 OFFSET 50
+	 * </code>
 	 */
-	public function limit(string! sqlQuery, int number) -> string
+	public function limit(string! sqlQuery, var number) -> string
 	{
 		if is_numeric(number) {
 			return sqlQuery . " LIMIT " . number;
