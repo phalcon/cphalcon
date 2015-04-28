@@ -102,11 +102,12 @@
 #define PHQL_T_FALSE 334
 #define PHQL_T_CONVERT 335
 #define PHQL_T_USING 336
+#define PHQL_T_ALL 337
 
 /** Special Tokens */
 #define PHQL_T_FCALL 350
 #define PHQL_T_NLIKE 351
-#define PHQL_T_ALL 352
+#define PHQL_T_STARALL 352
 #define PHQL_T_DOMAINALL 353
 #define PHQL_T_EXPR 354
 #define PHQL_T_QUALIFIED 355
@@ -122,6 +123,14 @@
 #define PHQL_T_ISNULL 365
 #define PHQL_T_ISNOTNULL 366
 #define PHQL_T_MINUS 367
+
+/** Postgresql Text Search Operators */
+#define PHQL_T_TS_MATCHES 401
+#define PHQL_T_TS_OR 402
+#define PHQL_T_TS_AND 403
+#define PHQL_T_TS_NEGATE 404
+#define PHQL_T_TS_CONTAINS_ANOTHER 405
+#define PHQL_T_TS_CONTAINS_IN 406
 
 /* list of tokens and their names */
 typedef struct _phql_token_names {

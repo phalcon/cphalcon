@@ -347,6 +347,13 @@ class ModelsQueryBuilderTest extends PHPUnit_Framework_TestCase
 			->from('Robots')
 			->getPhql();
 		$this->assertEquals($phql, 'SELECT Robots.name FROM [Robots]');
+
+		$builder = new Builder();
+		$phql = $builder->setDi($di)
+			->distinct(true)
+			->from('Robots')
+			->getPhql();
+		$this->assertEquals($phql, 'SELECT DISTINCT [Robots].* FROM [Robots]');
 	}
 
 	/**
