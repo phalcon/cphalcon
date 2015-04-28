@@ -979,14 +979,26 @@ class ViewEnginesVoltTest extends PHPUnit_Framework_TestCase
 		$compilation = $volt->compileString('{% if a is empty %} hello {% endif %}');
 		$this->assertEquals($compilation, '<?php if (empty($a)) { ?> hello <?php } ?>');
 
+		$compilation = $volt->compileString('{% if a is not empty %} hello {% endif %}');
+		$this->assertEquals($compilation, '<?php if (!empty($a)) { ?> hello <?php } ?>');
+
 		$compilation = $volt->compileString('{% if a is numeric %} hello {% endif %}');
 		$this->assertEquals($compilation, '<?php if (is_numeric($a)) { ?> hello <?php } ?>');
+
+		$compilation = $volt->compileString('{% if a is not numeric %} hello {% endif %}');
+		$this->assertEquals($compilation, '<?php if (!is_numeric($a)) { ?> hello <?php } ?>');
 
 		$compilation = $volt->compileString('{% if a is scalar %} hello {% endif %}');
 		$this->assertEquals($compilation, '<?php if (is_scalar($a)) { ?> hello <?php } ?>');
 
+		$compilation = $volt->compileString('{% if a is not scalar %} hello {% endif %}');
+		$this->assertEquals($compilation, '<?php if (!is_scalar($a)) { ?> hello <?php } ?>');
+
 		$compilation = $volt->compileString('{% if a is iterable %} hello {% endif %}');
 		$this->assertEquals($compilation, '<?php if ((is_array($a) || ($a) instanceof Traversable)) { ?> hello <?php } ?>');
+
+		$compilation = $volt->compileString('{% if a is not iterable %} hello {% endif %}');
+		$this->assertEquals($compilation, '<?php if (!(is_array($a) || ($a) instanceof Traversable)) { ?> hello <?php } ?>');
 
 		$compilation = $volt->compileString('{% if a is sameas(false) %} hello {% endif %}');
 		$this->assertEquals($compilation, '<?php if (($a) === (false)) { ?> hello <?php } ?>');
