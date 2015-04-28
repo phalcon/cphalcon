@@ -1589,7 +1589,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 			/**
 			 * Load a model instance from the models manager
 			 */
-			let model = manager->load(realModelName);
+			let model = manager->load(realModelName, true);
 
 			/**
 			 * Define a complete schema/source
@@ -1768,7 +1768,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 		 */
 		if fetch limit, ast["limit"] {
 			let sqlSelect["limit"] = this->_getLimitClause(limit);
-		}		
+		}
 
 		return sqlSelect;
 	}
@@ -1804,7 +1804,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 
 		let manager = this->_manager, modelName = qualifiedName["name"];
 
-		let model = manager->load(modelName),
+		let model = manager->load(modelName, true),
 			source = model->getSource(),
 			schema = model->getSchema();
 		if schema {
@@ -1927,7 +1927,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 			/**
 			 * Load a model instance from the models manager
 			 */
-			let model = manager->load(realModelName),
+			let model = manager->load(realModelName, true),
 				source = model->getSource(),
 				schema = model->getSchema();
 
@@ -2067,7 +2067,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 			/**
 			 * Load a model instance from the models manager
 			 */
-			let model = manager->load(realModelName),
+			let model = manager->load(realModelName, true),
 				source = model->getSource(),
 				schema = model->getSchema();
 
@@ -2243,7 +2243,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 			 * Load model if it is not loaded
 			 */
 			if !fetch model, this->_modelsInstances[modelName] {
-				let model = manager->load(modelName),
+				let model = manager->load(modelName, true),
 					this->_modelsInstances[modelName] = model;
 			}
 
@@ -2537,7 +2537,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 
 		let manager = this->_manager;
 		if !fetch model, this->_modelsInstances[modelName] {
-			let model = manager->load(modelName);
+			let model = manager->load(modelName, true);
 		}
 
 		/**
