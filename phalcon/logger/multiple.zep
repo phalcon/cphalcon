@@ -38,8 +38,6 @@ class Multiple
 
 	/**
 	 * Pushes a logger to the logger tail
-	 *
-	 * @param Phalcon\Logger\AdapterInterface logger
 	 */
 	public function push(<AdapterInterface> logger)
 	{
@@ -48,8 +46,6 @@ class Multiple
 
 	/**
 	 * Sets a global formatter
-	 *
-	 * @param Phalcon\Logger\FormatterInterface formatter
 	 */
 	public function setFormatter(<FormatterInterface> formatter)
 	{
@@ -66,9 +62,6 @@ class Multiple
 
 	/**
 	 * Sends a message to each registered logger
-	 *
-	 * @param string message
-	 * @param int type
 	 */
 	public function log(string message, int type = 7)
 	{
@@ -84,8 +77,6 @@ class Multiple
 
 	/**
  	 * Sends/Writes an emergency message to the log
- 	 *
- 	 * @param string message
  	 */
 	public function emergency(string message)
 	{
@@ -94,9 +85,6 @@ class Multiple
 
 	/**
  	 * Sends/Writes a debug message to the log
- 	 *
- 	 * @param string message
- 	 * @param ing type
  	 */
 	public function debug(string message)
 	{
@@ -105,8 +93,6 @@ class Multiple
 
 	/**
  	 * Sends/Writes an error message to the log
- 	 *
- 	 * @param string message
  	 */
 	public function error(string message)
 	{
@@ -115,8 +101,6 @@ class Multiple
 
 	/**
  	 * Sends/Writes an info message to the log
- 	 *
- 	 * @param string message
  	 */
 	public function info(string message)
 	{
@@ -125,8 +109,6 @@ class Multiple
 
 	/**
  	 * Sends/Writes a notice message to the log
- 	 *
- 	 * @param string message
  	 */
 	public function notice(string message)
 	{
@@ -135,8 +117,6 @@ class Multiple
 
 	/**
  	 * Sends/Writes a warning message to the log
- 	 *
- 	 * @param string message
  	 */
 	public function warning(string message)
 	{
@@ -145,8 +125,6 @@ class Multiple
 
 	/**
  	 * Sends/Writes an alert message to the log
- 	 *
- 	 * @param string message
  	 */
 	public function alert(string message)
 	{

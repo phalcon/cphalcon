@@ -639,7 +639,7 @@ PHP_METHOD(Phalcon_Debug_Dump, output) {
 		zephir_array_update_string(&_1, SL(":style"), &_2, PH_COPY | PH_SEPARATE);
 		zephir_array_update_string(&_1, SL(":var"), &variable, PH_COPY | PH_SEPARATE);
 		ZEPHIR_SINIT_NVAR(_5);
-		ZVAL_STRING(&_5, "<b style=':style'>Intiger</b> (<span style=':style'>:var</span>)", 0);
+		ZVAL_STRING(&_5, "<b style=':style'>Integer</b> (<span style=':style'>:var</span>)", 0);
 		ZEPHIR_RETURN_CALL_FUNCTION("strtr", &_6, &_5, _1);
 		zephir_check_call_status();
 		RETURN_MM();

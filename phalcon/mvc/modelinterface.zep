@@ -128,7 +128,7 @@ interface ModelInterface
 	 * @param int dirtyState
 	 * @return Phalcon\Mvc\ModelInterface
 	 */
-	public static function cloneResult(<ModelInterface> base, data, dirtyState = 0);
+	public static function cloneResult(<ModelInterface> base, array! data, dirtyState = 0);
 
 	/**
 	 * Returns an hydrated result based on the data and the column map

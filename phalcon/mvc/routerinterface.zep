@@ -19,6 +19,9 @@
 
 namespace Phalcon\Mvc;
 
+use Phalcon\Mvc\Router\RouteInterface;
+use Phalcon\Mvc\Router\GroupInterface;
+
 /**
  * Phalcon\Mvc\RouterInterface
  *
@@ -30,183 +33,131 @@ interface RouterInterface
 	/**
 	 * Sets the name of the default module
 	 */
-	public function setDefaultModule(string! moduleName);
+	public function setDefaultModule(string! moduleName) -> void;
 
 	/**
 	 * Sets the default controller name
 	 */
-	public function setDefaultController(string! controllerName);
+	public function setDefaultController(string! controllerName) -> void;
 
 	/**
 	 * Sets the default action name
 	 */
-	public function setDefaultAction(string! actionName);
+	public function setDefaultAction(string! actionName) -> void;
 
 	/**
 	 * Sets an array of default paths
 	 */
-	public function setDefaults(array! defaults);
+	public function setDefaults(array! defaults) -> void;
 
 	/**
 	 * Handles routing information received from the rewrite engine
 	 */
-	public function handle(string uri = null);
+	public function handle(string uri = null) -> void;
 
 	/**
 	 * Adds a route to the router on any HTTP method
-	 *
-	 * @param string pattern
-	 * @param string/array paths
-	 * @param string httpMethods
-	 * @return Phalcon\Mvc\Router\RouteInterface
 	 */
-	public function add(pattern, paths = null, httpMethods = null);
+	public function add(string! pattern, var paths = null, var httpMethods = null) -> <RouteInterface>;
 
 	/**
 	 * Adds a route to the router that only match if the HTTP method is GET
-	 *
-	 * @param string pattern
-	 * @param string/array paths
-	 * @return Phalcon\Mvc\Router\RouteInterface
 	 */
-	public function addGet(pattern, paths = null);
+	public function addGet(string! pattern, var paths = null) -> <RouteInterface>;
 
 	/**
 	 * Adds a route to the router that only match if the HTTP method is POST
-	 *
-	 * @param string pattern
-	 * @param string/array paths
-	 * @return Phalcon\Mvc\Router\RouteInterface
 	 */
-	public function addPost(pattern, paths = null);
+	public function addPost(string! pattern, var paths = null) -> <RouteInterface>;
 
 	/**
 	 * Adds a route to the router that only match if the HTTP method is PUT
-	 *
-	 * @param string pattern
-	 * @param string/array paths
-	 * @return Phalcon\Mvc\Router\RouteInterface
 	 */
-	public function addPut(pattern, paths = null);
+	public function addPut(string! pattern, var paths = null) -> <RouteInterface>;
 
 	/**
 	 * Adds a route to the router that only match if the HTTP method is PATCH
-	 *
-	 * @param string pattern
-	 * @param string/array paths
-	 * @return Phalcon\Mvc\Router\Route
 	 */
-	public function addPatch(string! pattern, paths = null);
+	public function addPatch(string! pattern, paths = null) -> <RouteInterface>;
 
 	/**
 	 * Adds a route to the router that only match if the HTTP method is DELETE
-	 *
-	 * @param string pattern
-	 * @param string/array paths
-	 * @return Phalcon\Mvc\Router\RouteInterface
 	 */
-	public function addDelete(pattern, paths = null);
+	public function addDelete(string! pattern, var paths = null) -> <RouteInterface>;
 
 	/**
 	 * Add a route to the router that only match if the HTTP method is OPTIONS
-	 *
-	 * @param string pattern
-	 * @param string/array paths
-	 * @return Phalcon\Mvc\Router\RouteInterface
 	 */
-	public function addOptions(pattern, paths = null);
+	public function addOptions(string! pattern, var paths = null) -> <RouteInterface>;
 
 	/**
 	 * Adds a route to the router that only match if the HTTP method is HEAD
-	 *
-	 * @param string pattern
-	 * @param string/array paths
-	 * @return Phalcon\Mvc\Router\RouteInterface
 	 */
-	public function addHead(string pattern, paths = null);
+	public function addHead(string! pattern, var paths = null) -> <RouteInterface>;
+
+	/**
+	 * Mounts a group of routes in the router
+	 */
+	public function mount(<GroupInterface> group) -> <RouterInterface>;
 
 	/**
 	 * Removes all the defined routes
 	 */
-	public function clear();
+	public function clear() -> void;
 
 	/**
 	 * Returns processed module name
-	 *
-	 * @return string
 	 */
-	public function getModuleName();
+	public function getModuleName() -> string;
 
 	/**
 	 * Returns processed namespace name
-	 *
-	 * @return string
 	 */
-	public function getNamespaceName();
+	public function getNamespaceName() -> string;
 
 	/**
 	 * Returns processed controller name
-	 *
-	 * @return string
 	 */
-	public function getControllerName();
+	public function getControllerName() -> string;
 
 	/**
 	 * Returns processed action name
-	 *
-	 * @return string
 	 */
-	public function getActionName();
+	public function getActionName() -> string;
 
 	/**
 	 * Returns processed extra params
-	 *
-	 * @return array
 	 */
-	public function getParams();
+	public function getParams() -> array;
 
 	/**
 	 * Returns the route that matchs the handled URI
-	 *
-	 * @return Phalcon\Mvc\Router\RouteInterface
 	 */
-	public function getMatchedRoute();
+	public function getMatchedRoute() -> <RouteInterface>;
 
 	/**
 	 * Return the sub expressions in the regular expression matched
-	 *
-	 * @return array
 	 */
-	public function getMatches();
+	public function getMatches() -> array;
 
 	/**
 	 * Check if the router macthes any of the defined routes
-	 *
-	 * @return bool
 	 */
-	public function wasMatched();
+	public function wasMatched() -> boolean;
 
 	/**
 	 * Return all the routes defined in the router
-	 *
-	 * @return Phalcon\Mvc\Router\RouteInterface[]
 	 */
-	public function getRoutes();
+	public function getRoutes() -> <RouteInterface[]>;
 
 	/**
 	 * Returns a route object by its id
-	 *
-	 * @param string id
-	 * @return Phalcon\Mvc\Router\RouteInterface
 	 */
-	public function getRouteById(id);
+	public function getRouteById(string! id) -> <RouteInterface>;
 
 	/**
 	 * Returns a route object by its name
-	 *
-	 * @param string name
-	 * @return Phalcon\Mvc\Router\RouteInterface
 	 */
-	public function getRouteByName(name);
+	public function getRouteByName(string! name) -> <RouteInterface>;
 
 }

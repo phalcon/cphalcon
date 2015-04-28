@@ -274,6 +274,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/mvc/router/annotations.zep.c
 	phalcon/mvc/router/exception.zep.c
 	phalcon/mvc/router/group.zep.c
+	phalcon/mvc/router/groupinterface.zep.c
 	phalcon/mvc/router/route.zep.c
 	phalcon/mvc/router/routeinterface.zep.c
 	phalcon/mvc/routerinterface.zep.c

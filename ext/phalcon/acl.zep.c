@@ -26,7 +26,7 @@
  *	$acl = new \Phalcon\Acl\Adapter\Memory();
  *
  *	//Default action is deny access
- *	$acl->setDefaultAction(Phalcon\Acl::DENY);
+ *	$acl->setDefaultAction(\Phalcon\Acl::DENY);
  *
  *	//Create some roles
  *	$roleAdmins = new \Phalcon\Acl\Role('Administrators', 'Super-User role');

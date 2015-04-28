@@ -115,41 +115,41 @@ class Memcache extends Adapter implements AdapterInterface
 	 * @param string sessionId
 	 * @return mixed
 	 */
-    public function read(sessionId)
-    {
-        return this->_memcache->get(sessionId, this->_lifetime);
-    }
+	public function read(sessionId)
+	{
+		return this->_memcache->get(sessionId, this->_lifetime);
+	}
 
-    /**
-     * {@inheritdoc}
-     *
-     * @param string sessionId
-     * @param string data
-     */
-    public function write(sessionId, data)
-    {
-        this->_memcache->save(sessionId, data, this->_lifetime);
-    }
+	/**
+	 * {@inheritdoc}
+	 *
+	 * @param string sessionId
+	 * @param string data
+	 */
+	public function write(sessionId, data)
+	{
+		this->_memcache->save(sessionId, data, this->_lifetime);
+	}
 
-    /**
-     * {@inheritdoc}
-     *
-     * @param  string  sessionId
-     * @return boolean
-     */
-    public function destroy(session_id = null)
-    {
-        if session_id === null {
-            let session_id = this->getId();
-        }
-        return this->_memcache->delete(session_id);
-    }
+	/**
+	 * {@inheritdoc}
+	 *
+	 * @param  string  sessionId
+	 * @return boolean
+	 */
+	public function destroy(session_id = null)
+	{
+		if session_id === null {
+			let session_id = this->getId();
+		}
+		return this->_memcache->delete(session_id);
+	}
 
-    /**
-     * {@inheritdoc}
-     */
-    public function gc()
-    {
+	/**
+	 * {@inheritdoc}
+	 */
+	public function gc()
+	{
 		return true;
 	}
 }

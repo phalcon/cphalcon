@@ -27,16 +27,11 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Micro_CollectionInterface) {
 
 /**
  * Sets a prefix for all routes added to the collection
- *
- * @param string prefix
- * @return Phalcon\Mvc\Micro\Collection
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Micro_CollectionInterface, setPrefix);
 
 /**
  * Returns the collection prefix if any
- *
- * @return string
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Micro_CollectionInterface, getPrefix);
 
@@ -58,16 +53,11 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Micro_CollectionInterface, setHandler);
 
 /**
  * Sets if the main handler must be lazy loaded
- *
- * @param boolean lazy
- * @return Phalcon\Mvc\Micro\Collection
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Micro_CollectionInterface, setLazy);
 
 /**
  * Returns if the main handler must be lazy loaded
- *
- * @return boolean
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Micro_CollectionInterface, isLazy);
 

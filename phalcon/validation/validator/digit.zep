@@ -22,7 +22,6 @@ namespace Phalcon\Validation\Validator;
 use Phalcon\Validation;
 use Phalcon\Validation\Message;
 use Phalcon\Validation\Validator;
-use Phalcon\Validation\ValidatorInterface;
 
 /**
  * Phalcon\Validation\Validator\Digit
@@ -37,15 +36,11 @@ use Phalcon\Validation\ValidatorInterface;
  *)));
  *</code>
  */
-class Digit extends Validator implements ValidatorInterface
+class Digit extends Validator
 {
 
 	/**
 	 * Executes the validation
-	 *
-	 * @param  Phalcon\Validation validation
-	 * @param  string             field
-	 * @return boolean
 	 */
 	public function validate(<Validation> validation, string! field) -> boolean
 	{

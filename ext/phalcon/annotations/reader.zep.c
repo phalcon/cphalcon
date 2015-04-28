@@ -38,9 +38,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Annotations_Reader) {
 
 /**
  * Reads annotations from the class dockblocks, its methods and/or properties
- *
- * @param string className
- * @return array
  */
 PHP_METHOD(Phalcon_Annotations_Reader, parse) {
 
@@ -83,7 +80,7 @@ PHP_METHOD(Phalcon_Annotations_Reader, parse) {
 		line = 1;
 		ZEPHIR_INIT_VAR(annotationsProperties);
 		array_init(annotationsProperties);
-		zephir_is_iterable(properties, &_8, &_7, 0, 0, "phalcon/annotations/reader.zep", 100);
+		zephir_is_iterable(properties, &_8, &_7, 0, 0, "phalcon/annotations/reader.zep", 96);
 		for (
 		  ; zephir_hash_get_current_data_ex(_8, (void**) &_9, &_7) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_8, &_7)
@@ -115,7 +112,7 @@ PHP_METHOD(Phalcon_Annotations_Reader, parse) {
 	if (zephir_fast_count_int(methods TSRMLS_CC)) {
 		ZEPHIR_INIT_VAR(annotationsMethods);
 		array_init(annotationsMethods);
-		zephir_is_iterable(methods, &_14, &_13, 0, 0, "phalcon/annotations/reader.zep", 130);
+		zephir_is_iterable(methods, &_14, &_13, 0, 0, "phalcon/annotations/reader.zep", 126);
 		for (
 		  ; zephir_hash_get_current_data_ex(_14, (void**) &_15, &_13) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_14, &_13)

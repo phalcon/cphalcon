@@ -84,9 +84,6 @@ PHP_METHOD(Phalcon_Validation_Message, __construct) {
 
 /**
  * Sets message type
- *
- * @param string type
- * @return Phalcon\Validation\Message
  */
 PHP_METHOD(Phalcon_Validation_Message, setType) {
 
@@ -116,8 +113,6 @@ PHP_METHOD(Phalcon_Validation_Message, setType) {
 
 /**
  * Returns message type
- *
- * @return string
  */
 PHP_METHOD(Phalcon_Validation_Message, getType) {
 
@@ -128,9 +123,6 @@ PHP_METHOD(Phalcon_Validation_Message, getType) {
 
 /**
  * Sets verbose message
- *
- * @param string message
- * @return Phalcon\Validation\Message
  */
 PHP_METHOD(Phalcon_Validation_Message, setMessage) {
 
@@ -160,8 +152,6 @@ PHP_METHOD(Phalcon_Validation_Message, setMessage) {
 
 /**
  * Returns verbose message
- *
- * @return string
  */
 PHP_METHOD(Phalcon_Validation_Message, getMessage) {
 
@@ -172,9 +162,6 @@ PHP_METHOD(Phalcon_Validation_Message, getMessage) {
 
 /**
  * Sets field name related to message
- *
- * @param string field
- * @return Phalcon\Validation\Message
  */
 PHP_METHOD(Phalcon_Validation_Message, setField) {
 
@@ -216,8 +203,6 @@ PHP_METHOD(Phalcon_Validation_Message, getField) {
 
 /**
  * Magic __toString method returns verbose message
- *
- * @return string
  */
 PHP_METHOD(Phalcon_Validation_Message, __toString) {
 
@@ -228,9 +213,6 @@ PHP_METHOD(Phalcon_Validation_Message, __toString) {
 
 /**
  * Magic __set_state helps to recover messsages from serialization
- *
- * @param array message
- * @return Phalcon\Validation\Message
  */
 PHP_METHOD(Phalcon_Validation_Message, __set_state) {
 
@@ -247,9 +229,9 @@ PHP_METHOD(Phalcon_Validation_Message, __set_state) {
 
 
 	object_init_ex(return_value, phalcon_validation_message_ce);
-	zephir_array_fetch_string(&_0, message, SL("_message"), PH_NOISY | PH_READONLY, "phalcon/validation/message.zep", 136 TSRMLS_CC);
-	zephir_array_fetch_string(&_1, message, SL("_field"), PH_NOISY | PH_READONLY, "phalcon/validation/message.zep", 136 TSRMLS_CC);
-	zephir_array_fetch_string(&_2, message, SL("_type"), PH_NOISY | PH_READONLY, "phalcon/validation/message.zep", 136 TSRMLS_CC);
+	zephir_array_fetch_string(&_0, message, SL("_message"), PH_NOISY | PH_READONLY, "phalcon/validation/message.zep", 118 TSRMLS_CC);
+	zephir_array_fetch_string(&_1, message, SL("_field"), PH_NOISY | PH_READONLY, "phalcon/validation/message.zep", 118 TSRMLS_CC);
+	zephir_array_fetch_string(&_2, message, SL("_type"), PH_NOISY | PH_READONLY, "phalcon/validation/message.zep", 118 TSRMLS_CC);
 	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", &_3, _0, _1, _2);
 	zephir_check_call_status();
 	RETURN_MM();

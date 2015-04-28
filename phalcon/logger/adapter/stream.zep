@@ -53,7 +53,7 @@ class Stream extends Adapter implements AdapterInterface
 	 * @param string name
 	 * @param array options
 	 */
-	public function __construct(string! name, options=null)
+	public function __construct(string! name, options = null)
 	{
 		var mode, stream;
 
@@ -112,8 +112,6 @@ class Stream extends Adapter implements AdapterInterface
 
 	/**
  	 * Closes the logger
- 	 *
- 	 * @return boolean
  	 */
 	public function close() -> boolean
 	{

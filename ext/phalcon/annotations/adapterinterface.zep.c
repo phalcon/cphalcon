@@ -27,15 +27,11 @@ ZEPHIR_INIT_CLASS(Phalcon_Annotations_AdapterInterface) {
 
 /**
  * Sets the annotations parser
- *
- * @param Phalcon\Annotations\ReaderInterface reader
  */
 ZEPHIR_DOC_METHOD(Phalcon_Annotations_AdapterInterface, setReader);
 
 /**
  * Returns the annotation reader
- *
- * @return Phalcon\Annotations\ReaderInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Annotations_AdapterInterface, getReader);
 

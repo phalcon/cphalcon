@@ -22,10 +22,10 @@
 
 
 /**
-* Phalcon\Annotations\Adapter\Memory
-*
-* Stores the parsed annotations in memory. This adapter is the suitable development/testing
-*/
+ * Phalcon\Annotations\Adapter\Memory
+ *
+ * Stores the parsed annotations in memory. This adapter is the suitable development/testing
+ */
 ZEPHIR_INIT_CLASS(Phalcon_Annotations_Adapter_Memory) {
 
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Annotations\\Adapter, Memory, phalcon, annotations_adapter_memory, phalcon_annotations_adapter_ce, phalcon_annotations_adapter_memory_method_entry, 0);
@@ -80,9 +80,6 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Memory, read) {
 
 /**
  * Writes parsed annotations to memory
- *
- * @param string key
- * @param Phalcon\Annotations\Reflection data
  */
 PHP_METHOD(Phalcon_Annotations_Adapter_Memory, write) {
 

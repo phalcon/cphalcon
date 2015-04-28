@@ -161,7 +161,7 @@ PHP_METHOD(Phalcon_Image_Adapter, resize) {
 		height = zephir_get_intval(height_param);
 	}
 	if (!master_param) {
-		master = 7;
+		master = 4;
 	} else {
 		master = zephir_get_intval(master_param);
 	}

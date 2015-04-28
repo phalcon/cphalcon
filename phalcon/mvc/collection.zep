@@ -312,10 +312,6 @@ abstract class Collection implements CollectionInterface, InjectionAwareInterfac
 	{
 		var clonedCollection, key, value;
 
-		if typeof collection != "object" {
-			throw new Exception("Invalid collection");
-		}
-
 		let clonedCollection = clone collection;
 		for key, value in document {
 			clonedCollection->writeAttribute(key, value);
@@ -444,7 +440,6 @@ abstract class Collection implements CollectionInterface, InjectionAwareInterfac
 	 */
 	protected static function _getGroupResultset(params, <Collection> collection, connection) -> int
 	{
-
 		var source, mongoCollection, conditions, simple, limit, sort, documentsCursor;
 
 		let source = collection->getSource();
@@ -649,16 +644,10 @@ abstract class Collection implements CollectionInterface, InjectionAwareInterfac
 	 *
 	 *}
 	 *</code>
-	 *
-	 * @param object validator
 	 */
-	protected function validate(validator) -> void
+	protected function validate(<Model\ValidatorInterface> validator) -> void
 	{
 		var message;
-
-		if typeof validator != "object" {
-			throw new Exception("Validator must be an Object");
-		}
 
 		if validator->validate(this) === false {
 			for message in validator->getMessages() {
@@ -1316,55 +1305,46 @@ abstract class Collection implements CollectionInterface, InjectionAwareInterfac
 
 	/**
 	 * Unserializes the object from a serialized string
-	 *
-	 * @param string data
 	 */
-	public function unserialize(data)
+	public function unserialize(string! data)
 	{
 		var attributes, dependencyInjector, manager, key, value;
 
-		if typeof data == "string" {
+		let attributes = unserialize(data);
+		if typeof attributes == "array" {
 
-			let attributes = unserialize(data);
-			if typeof attributes == "array" {
+			/**
+			 * Obtain the default DI
+			 */
+			let dependencyInjector = \Phalcon\Di::getDefault();
+			if typeof dependencyInjector != "object" {
+				throw new Exception("A dependency injector container is required to obtain the services related to the ODM");
+			}
 
-				/**
-				 * Obtain the default DI
-				 */
-				let dependencyInjector = \Phalcon\Di::getDefault();
-				if typeof dependencyInjector != "object" {
-					throw new Exception("A dependency injector container is required to obtain the services related to the ODM");
-				}
+			/**
+			 * Update the dependency injector
+			 */
+			let this->_dependencyInjector = dependencyInjector;
 
-				/**
-				 * Update the dependency injector
-				 */
-				let this->_dependencyInjector = dependencyInjector;
+			/**
+			 * Gets the default modelsManager service
+			 */
+			let manager = dependencyInjector->getShared("collectionManager");
+			if typeof manager != "object" {
+				throw new Exception("The injected service 'collectionManager' is not valid");
+			}
 
-				/**
-				 * Gets the default modelsManager service
-				 */
-				let manager = dependencyInjector->getShared("collectionManager");
-				if typeof manager != "object" {
-					throw new Exception("The injected service 'collectionManager' is not valid");
-				}
+			/**
+			 * Update the models manager
+			 */
+			let this->_modelsManager = manager;
 
-				/**
-				 * Update the models manager
-				 */
-				let this->_modelsManager = manager;
-
-				/**
-				 * Update the objects attributes
-				 */
-				for key, value in attributes {
-					let this->{key} = value;
-				}
-
-				return null;
+			/**
+			 * Update the objects attributes
+			 */
+			for key, value in attributes {
+				let this->{key} = value;
 			}
 		}
-
-		throw new Exception("Invalid serialization data");
 	}
 }

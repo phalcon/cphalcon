@@ -16,8 +16,9 @@
 #include "kernel/memory.h"
 #include "kernel/operators.h"
 #include "kernel/array.h"
-#include "kernel/object.h"
+#include "ext/spl/spl_exceptions.h"
 #include "kernel/exception.h"
+#include "kernel/object.h"
 
 
 /**
@@ -38,17 +39,12 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_Confirmation) {
 
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Validation\\Validator, Confirmation, phalcon, validation_validator_confirmation, phalcon_validation_validator_ce, phalcon_validation_validator_confirmation_method_entry, 0);
 
-	zend_class_implements(phalcon_validation_validator_confirmation_ce TSRMLS_CC, 1, phalcon_validation_validatorinterface_ce);
 	return SUCCESS;
 
 }
 
 /**
  * Executes the validation
- *
- * @param Phalcon\Validation validation
- * @param string field
- * @return boolean
  */
 PHP_METHOD(Phalcon_Validation_Validator_Confirmation, validate) {
 
@@ -60,7 +56,17 @@ PHP_METHOD(Phalcon_Validation_Validator_Confirmation, validate) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &validation, &field_param);
 
-	zephir_get_strval(field, field_param);
+	if (unlikely(Z_TYPE_P(field_param) != IS_STRING && Z_TYPE_P(field_param) != IS_NULL)) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'field' must be a string") TSRMLS_CC);
+		RETURN_MM_NULL();
+	}
+
+	if (likely(Z_TYPE_P(field_param) == IS_STRING)) {
+		zephir_get_strval(field, field_param);
+	} else {
+		ZEPHIR_INIT_VAR(field);
+		ZVAL_EMPTY_STRING(field);
+	}
 
 
 	ZEPHIR_INIT_VAR(_0);
@@ -128,17 +134,12 @@ PHP_METHOD(Phalcon_Validation_Validator_Confirmation, validate) {
 
 /**
  * Compare strings
- *
- * @param string a
- * @param string b
- * @return boolean
  */
 PHP_METHOD(Phalcon_Validation_Validator_Confirmation, compare) {
 
-	zephir_fcall_cache_entry *_6 = NULL;
-	zend_bool _2;
+	zephir_fcall_cache_entry *_5 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *a_param = NULL, *b_param = NULL, *_0 = NULL, *_1 = NULL, *_3 = NULL, _4 = zval_used_for_init, *_5 = NULL, *_7 = NULL;
+	zval *a_param = NULL, *b_param = NULL, *_0 = NULL, *_1, *_2, _3 = zval_used_for_init, *_4 = NULL, *_6 = NULL;
 	zval *a = NULL, *b = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -149,34 +150,27 @@ PHP_METHOD(Phalcon_Validation_Validator_Confirmation, compare) {
 
 
 	ZEPHIR_INIT_VAR(_1);
-	ZVAL_STRING(_1, "caseSensitive", ZEPHIR_TEMP_PARAM_COPY);
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "issetoption", NULL, _1);
+	ZVAL_STRING(_1, "ignoreCase", ZEPHIR_TEMP_PARAM_COPY);
+	ZEPHIR_INIT_VAR(_2);
+	ZVAL_BOOL(_2, 0);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getoption", NULL, _1, _2);
 	zephir_check_temp_parameter(_1);
 	zephir_check_call_status();
-	_2 = zephir_is_true(_0);
-	if (_2) {
-		ZEPHIR_INIT_NVAR(_1);
-		ZVAL_STRING(_1, "caseSensitive", ZEPHIR_TEMP_PARAM_COPY);
-		ZEPHIR_CALL_METHOD(&_3, this_ptr, "getoption", NULL, _1);
-		zephir_check_temp_parameter(_1);
-		zephir_check_call_status();
-		_2 = !zephir_is_true(_3);
-	}
-	if (_2) {
+	if (zephir_is_true(_0)) {
 		if (!((zephir_function_exists_ex(SS("mb_strtolower") TSRMLS_CC) == SUCCESS))) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_validation_exception_ce, "Extension 'mbstring' is required", "phalcon/validation/validator/confirmation.zep", 96);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_validation_exception_ce, "Extension 'mbstring' is required", "phalcon/validation/validator/confirmation.zep", 89);
 			return;
 		}
-		ZEPHIR_SINIT_VAR(_4);
-		ZVAL_STRING(&_4, "utf-8", 0);
-		ZEPHIR_CALL_FUNCTION(&_5, "mb_strtolower", &_6, a, &_4);
+		ZEPHIR_SINIT_VAR(_3);
+		ZVAL_STRING(&_3, "utf-8", 0);
+		ZEPHIR_CALL_FUNCTION(&_4, "mb_strtolower", &_5, a, &_3);
 		zephir_check_call_status();
-		zephir_get_strval(a, _5);
-		ZEPHIR_SINIT_NVAR(_4);
-		ZVAL_STRING(&_4, "utf-8", 0);
-		ZEPHIR_CALL_FUNCTION(&_7, "mb_strtolower", &_6, b, &_4);
+		zephir_get_strval(a, _4);
+		ZEPHIR_SINIT_NVAR(_3);
+		ZVAL_STRING(&_3, "utf-8", 0);
+		ZEPHIR_CALL_FUNCTION(&_6, "mb_strtolower", &_5, b, &_3);
 		zephir_check_call_status();
-		zephir_get_strval(b, _7);
+		zephir_get_strval(b, _6);
 	}
 	RETURN_MM_BOOL(ZEPHIR_IS_EQUAL(a, b));
 

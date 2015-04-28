@@ -19,9 +19,6 @@
 
 namespace Phalcon\Db;
 
-use Phalcon\Db\Exception;
-use Phalcon\Db\IndexInterface;
-
 /**
  * Phalcon\Db\Index
  *

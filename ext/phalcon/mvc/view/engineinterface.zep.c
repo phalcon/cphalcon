@@ -27,9 +27,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_View_EngineInterface) {
 
 /**
  * Phalcon\Mvc\View\Engine constructor
- *
- * @param Phalcon\Mvc\ViewInterface view
- * @param Phalcon\DiInterface dependencyInjector
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_View_EngineInterface, __construct);
 
@@ -42,9 +39,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_View_EngineInterface, getContent);
 
 /**
  * Renders a partial inside another view
- *
- * @param string partialPath
- * @return string
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_View_EngineInterface, partial);
 

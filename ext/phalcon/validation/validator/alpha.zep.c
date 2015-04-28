@@ -37,17 +37,12 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_Alpha) {
 
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Validation\\Validator, Alpha, phalcon, validation_validator_alpha, phalcon_validation_validator_ce, phalcon_validation_validator_alpha_method_entry, 0);
 
-	zend_class_implements(phalcon_validation_validator_alpha_ce TSRMLS_CC, 1, phalcon_validation_validatorinterface_ce);
 	return SUCCESS;
 
 }
 
 /**
  * Executes the validation
- *
- * @param  Phalcon\Validation validation
- * @param  string             field
- * @return boolean
  */
 PHP_METHOD(Phalcon_Validation_Validator_Alpha, validate) {
 

@@ -217,7 +217,7 @@ class Dump
 		}
 
 		if is_int(variable) {
-			return strtr("<b style=':style'>Intiger</b> (<span style=':style'>:var</span>)", [":style": this->getStyle("int"), ":var": variable]);
+			return strtr("<b style=':style'>Integer</b> (<span style=':style'>:var</span>)", [":style": this->getStyle("int"), ":var": variable]);
 		}
 
 		if is_float(variable) {

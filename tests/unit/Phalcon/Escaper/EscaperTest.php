@@ -242,7 +242,7 @@ class EscaperTest extends TBase
                           . '\3f c\3d d\26 e\3d f\27 \29 \3b \20 \7d ';
                 $actual   = $escaper->escapeCss($source);
 
-                //expect($actual)->equals($expected);
+                expect($actual)->equals($expected);
 
             }
         );

@@ -27,9 +27,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_ReferenceInterface) {
 
 /**
  * Phalcon\Db\ReferenceInterface constructor
- *
- * @param string referenceName
- * @param array definition
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_ReferenceInterface, __construct);
 
@@ -91,9 +88,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Db_ReferenceInterface, getOnUpdate);
 
 /**
  * Restore a Phalcon\Db\Reference object from export
- *
- * @param array data
- * @return Phalcon\Db\ReferenceInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_ReferenceInterface, __set_state);
 

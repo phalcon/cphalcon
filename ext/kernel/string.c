@@ -1238,12 +1238,12 @@ void zephir_crc32(zval *return_value, zval *str TSRMLS_DC) {
 	RETVAL_LONG(crc ^ 0xFFFFFFFF);
 }
 
-#if ZEPHIR_USE_PHP_PCRE
+#ifdef ZEPHIR_USE_PHP_PCRE
 
 /**
  * Execute preg-match without function lookup in the PHP userland
  */
-void zephir_preg_match(zval *return_value, zval **return_value_ptr, zval *regex, zval *subject, zval *matches, int global, long flags, long offset TSRMLS_DC) {
+void zephir_preg_match(zval *return_value, zval *regex, zval *subject, zval *matches, int global, long flags, long offset TSRMLS_DC) {
 
 	zval copy;
 	int use_copy = 0;
@@ -1284,28 +1284,36 @@ void zephir_preg_match(zval *return_value, zval **return_value_ptr, zval *regex,
 
 #else
 
-void zephir_preg_match(zval *return_value, zval **return_value_ptr, zval *regex, zval *subject, zval *matches, int global, long flags, long offset TSRMLS_DC)
+void zephir_preg_match(zval *return_value, zval *regex, zval *subject, zval *matches, int global, long flags, long offset TSRMLS_DC)
 {
+	zval tmp_flags;
+	zval tmp_offset;
+	zval *rv = NULL;
+	zval **rvp = &rv;
+
 	if (matches) {
 		Z_SET_ISREF_P(matches);
 	}
+	ZEPHIR_SINIT_VAR(tmp_flags);
+	ZEPHIR_SINIT_VAR(tmp_offset);
+	ZVAL_LONG(&tmp_flags, flags);
+	ZVAL_LONG(&tmp_offset, offset);
 
-	if (global) {
-		if (flags != 0 || offset != 0) {
-			//zephir_call_func_params(return_value, return_value_ptr, SL("preg_match_all") TSRMLS_CC, (matches ? 3 : 2), regex, subject, matches, flags, offset);
+	{
+		zval *tmp_params[5] = { regex, subject, matches, &tmp_flags, &tmp_offset };
+
+		if (global) {
+			zephir_call_func_aparams(rvp, SL("preg_match_all"), NULL, 5, tmp_params TSRMLS_CC);
 		} else {
-			//zephir_call_func_params(return_value, return_value_ptr, SL("preg_match_all") TSRMLS_CC, (matches ? 3 : 2), regex, subject, matches);
-		}
-	} else {
-		if (flags != 0 || offset != 0) {
-			//zephir_call_func_params(return_value, return_value_ptr, SL("preg_match") TSRMLS_CC, (matches ? 3 : 2), regex, subject, matches, flags, offset);
-		} else {
-			//zephir_call_func_params(return_value, return_value_ptr, SL("preg_match") TSRMLS_CC, (matches ? 3 : 2), regex, subject, matches);
+			zephir_call_func_aparams(rvp, SL("preg_match"), NULL, 5, tmp_params TSRMLS_CC);
 		}
 	}
-
 	if (matches) {
 		Z_UNSET_ISREF_P(matches);
+	}
+
+	if (return_value) {
+		COPY_PZVAL_TO_ZVAL(*return_value, rv);
 	}
 }
 

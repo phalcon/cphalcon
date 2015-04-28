@@ -269,6 +269,7 @@
 #include "phalcon/mvc/router/annotations.zep.h"
 #include "phalcon/mvc/router/exception.zep.h"
 #include "phalcon/mvc/router/group.zep.h"
+#include "phalcon/mvc/router/groupinterface.zep.h"
 #include "phalcon/mvc/router/route.zep.h"
 #include "phalcon/mvc/router/routeinterface.zep.h"
 #include "phalcon/mvc/routerinterface.zep.h"

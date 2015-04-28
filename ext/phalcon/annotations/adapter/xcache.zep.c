@@ -87,9 +87,6 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Xcache, read) {
 
 /**
  * Writes parsed annotations to XCache
- *
- * @param string key
- * @param Phalcon\Annotations\Reflection $data
  */
 PHP_METHOD(Phalcon_Annotations_Adapter_Xcache, write) {
 

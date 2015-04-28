@@ -55,7 +55,6 @@ class Validation extends Injectable
 	 */
 	public function __construct(var validators = null)
 	{
-
 		if typeof validators != "null" {
 			if typeof validators != "array" {
 				throw new Exception("Validators must be an array");
@@ -155,10 +154,6 @@ class Validation extends Injectable
 
 	/**
 	 * Adds a validator to a field
-	 *
-	 * @param string field
-	 * @param Phalcon\Validation\ValidatorInterface validator
-	 * @return Phalcon\Validation
 	 */
 	public function add(string field, <ValidatorInterface> validator) -> <Validation>
 	{
@@ -168,10 +163,6 @@ class Validation extends Injectable
 
 	/**
 	 * Alias of `add` method
-	 *
-	 * @param string field
-	 * @param Phalcon\Validation\ValidatorInterface validator
-	 * @return Phalcon\Validation
 	 */
 	public function rule(string field, <ValidatorInterface> validator) -> <Validation>
 	{
@@ -180,10 +171,6 @@ class Validation extends Injectable
 
 	/**
 	 * Adds the validators to a field
-	 *
-	 * @param string field
-	 * @param array validators
-	 * @return Phalcon\Validation
 	 */
 	public function rules(string! field, array! validators) -> <Validation>
 	{
@@ -231,8 +218,6 @@ class Validation extends Injectable
 
 	/**
 	 * Returns the validators added to the validation
-	 *
-	 * @return array
 	 */
 	public function getValidators() -> array
 	{
@@ -310,8 +295,6 @@ class Validation extends Injectable
 
 	/**
 	 * Returns the registered validators
-	 *
-	 * @return Phalcon\Validation\Message\Group
 	 */
 	public function getMessages() -> <Group>
 	{
@@ -320,8 +303,6 @@ class Validation extends Injectable
 
 	/**
 	 * Adds labels for fields
-	 *
-	 * @param array labels
 	 */
 	public function setLabels(array! labels)
 	{
@@ -348,9 +329,6 @@ class Validation extends Injectable
 
 	/**
 	 * Appends a message to the messages list
-	 *
-	 * @param Phalcon\Validation\MessageInterface message
-	 * @return Phalcon\Validation
 	 */
 	public function appendMessage(<MessageInterface> message) -> <Validation>
 	{

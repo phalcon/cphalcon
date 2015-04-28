@@ -70,7 +70,7 @@ class Libmemcached extends Backend implements BackendInterface
 	 * @param	Phalcon\Cache\FrontendInterface frontend
 	 * @param	array options
 	 */
-	public function __construct(<FrontendInterface> frontend, options=null)
+	public function __construct(<FrontendInterface> frontend, options = null)
 	{
 		var servers;
 
@@ -91,8 +91,8 @@ class Libmemcached extends Backend implements BackendInterface
 	}
 
 	/**
-	* Create internal connection to memcached
-	*/
+	 * Create internal connection to memcached
+	 */
 	public function _connect()
 	{
 		var options, memcache, client, servers;
@@ -112,13 +112,11 @@ class Libmemcached extends Backend implements BackendInterface
 			throw new Exception("Cannot connect to Memcached server");
 		}
 
-		if isset options["client"] {
-			let client = options["client"];
-			if typeof client == "array" {
-				memcache->setOptions(client);
-			} else {
+		if fetch client, options["client"] {
+			if typeof client !== "array" {
 				throw new Exception("Client options must be instance of array");
 			}
+			memcache->setOptions(client);
 		}
 
 		let this->_memcache = memcache;
@@ -164,7 +162,7 @@ class Libmemcached extends Backend implements BackendInterface
 	 * @param long lifetime
 	 * @param boolean stopBuffer
 	 */
-	public function save(keyName = null, content = null, lifetime = null, stopBuffer = true)
+	public function save(keyName = null, content = null, lifetime = null, boolean stopBuffer = true)
 	{
 		var lastKey, frontend, memcache, cachedContent, preparedContent, tmp, tt1, success, options,
 			specialKey, keys, isBuffering;
@@ -441,8 +439,6 @@ class Libmemcached extends Backend implements BackendInterface
 
 	/**
 	 * Immediately invalidates all existing items.
-	 *
-	 * @return boolean
 	 */
 	public function flush() -> boolean
 	{

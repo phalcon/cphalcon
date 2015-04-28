@@ -382,7 +382,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, processControllerAnnotation) {
  */
 PHP_METHOD(Phalcon_Mvc_Router_Annotations, processActionAnnotation) {
 
-	zephir_fcall_cache_entry *_7 = NULL;
+	zephir_fcall_cache_entry *_7 = NULL, *_11 = NULL;
 	HashTable *_5, *_9;
 	HashPosition _4, _8;
 	int ZEPHIR_LAST_CALL_STATUS;
@@ -564,7 +564,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, processActionAnnotation) {
 			) {
 				ZEPHIR_GET_HMKEY(conversorParam, _9, _8);
 				ZEPHIR_GET_HVALUE(convert, _10);
-				ZEPHIR_CALL_METHOD(NULL, route, "convert", &_7, conversorParam, convert);
+				ZEPHIR_CALL_METHOD(NULL, route, "convert", &_11, conversorParam, convert);
 				zephir_check_call_status();
 			}
 		}

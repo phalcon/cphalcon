@@ -19,8 +19,6 @@
 
 namespace Phalcon\Db;
 
-use Phalcon\Db\Exception;
-
 /**
  * Phalcon\Db\Dialect
  *
@@ -352,7 +350,6 @@ abstract class Dialect
 			let escapeChar = null;
 		}
 
-		let columns = definition["columns"];
 		if typeof columns == "array" {
 
 			let selectedColumns = [];

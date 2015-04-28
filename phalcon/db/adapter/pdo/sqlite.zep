@@ -330,7 +330,7 @@ class Sqlite extends PdoAdapter implements AdapterInterface
 	 * @param	string schema
 	 * @return	Phalcon\Db\ReferenceInterface[]
 	 */
-	public function describeReferences(table, schema=null) -> <ReferenceInterface[]>
+	public function describeReferences(table, schema = null) -> <ReferenceInterface[]>
 	{
 		var references, reference,
 			arrayReference, constraintName, referenceObjects, name,

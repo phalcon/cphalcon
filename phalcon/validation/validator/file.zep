@@ -20,6 +20,7 @@
 namespace Phalcon\Validation\Validator;
 
 use Phalcon\Validation\Message;
+use Phalcon\Validation\Validator;
 
 /**
  * Phalcon\Validation\Validator\File
@@ -39,15 +40,11 @@ use Phalcon\Validation\Message;
  *)));
  *</code>
  */
-class File extends \Phalcon\Validation\Validator implements \Phalcon\Validation\ValidatorInterface
+class File extends Validator
 {
 
 	/**
 	 * Executes the validation
-	 *
-	 * @param  Phalcon\Validation validation
-	 * @param  string             field
-	 * @return boolean
 	 */
 	public function validate(<\Phalcon\Validation> validation, string! field) -> boolean
 	{

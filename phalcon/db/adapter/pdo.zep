@@ -173,13 +173,9 @@ abstract class Pdo extends Adapter
 	 * @param array dataTypes
 	 * @return \PDOStatement
 	 */
-	public function executePrepared(<\PDOStatement> statement, placeholders, dataTypes) -> <\PDOStatement>
+	public function executePrepared(<\PDOStatement> statement, array! placeholders, dataTypes) -> <\PDOStatement>
 	{
 		var wildcard, value, type, castValue, parameter;
-
-		if typeof placeholders != "array" {
-			throw new Exception("Placeholders must be an array");
-		}
 
 		for wildcard, value in placeholders {
 

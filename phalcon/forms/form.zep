@@ -19,6 +19,7 @@
 
 namespace Phalcon\Forms;
 
+use Phalcon\DiInterface;
 use Phalcon\FilterInterface;
 use Phalcon\Di\Injectable;
 use Phalcon\Forms\Exception;

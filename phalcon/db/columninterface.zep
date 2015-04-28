@@ -29,11 +29,8 @@ interface ColumnInterface
 
 	/**
 	 * Phalcon\Db\ColumnInterface constructor
-	 *
-	 * @param string columnName
-	 * @param array definition
 	 */
-	public function __construct(string! columnName, definition);
+	public function __construct(string! columnName, array! definition);
 
 	/**
 	 * Returns schema's table related to column

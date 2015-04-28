@@ -19,6 +19,8 @@
 
 namespace Phalcon\Mvc\Model\Transaction;
 
+use Phalcon\DiInterface;
+use Phalcon\Di\InjectionAwareInterface;
 use Phalcon\Mvc\Model\Transaction\ManagerInterface;
 use Phalcon\Mvc\Model\Transaction\Exception;
 use Phalcon\Mvc\Model\Transaction;
@@ -67,7 +69,7 @@ use Phalcon\Mvc\Model\TransactionInterface;
  *</code>
  *
  */
-class Manager implements ManagerInterface, \Phalcon\Di\InjectionAwareInterface
+class Manager implements ManagerInterface, InjectionAwareInterface
 {
 
 	protected _dependencyInjector;
@@ -85,7 +87,7 @@ class Manager implements ManagerInterface, \Phalcon\Di\InjectionAwareInterface
 	/**
 	 * Phalcon\Mvc\Model\Transaction\Manager constructor
 	 */
-	public function __construct(<\Phalcon\DiInterface> dependencyInjector = null)
+	public function __construct(<DiInterface> dependencyInjector = null)
 	{
 		if dependencyInjector {
 			let this->_dependencyInjector = dependencyInjector;
@@ -102,7 +104,7 @@ class Manager implements ManagerInterface, \Phalcon\Di\InjectionAwareInterface
 	/**
 	 * Sets the dependency injection container
 	 */
-	public function setDI(<\Phalcon\DiInterface> dependencyInjector)
+	public function setDI(<DiInterface> dependencyInjector)
 	{
 		let this->_dependencyInjector = dependencyInjector;
 	}
@@ -110,7 +112,7 @@ class Manager implements ManagerInterface, \Phalcon\Di\InjectionAwareInterface
 	/**
 	 * Returns the dependency injection container
 	 */
-	public function getDI() -> <\Phalcon\DiInterface>
+	public function getDI() -> <DiInterface>
 	{
 		return this->_dependencyInjector;
 	}
@@ -181,7 +183,7 @@ class Manager implements ManagerInterface, \Phalcon\Di\InjectionAwareInterface
 	{
 		var dependencyInjector, transaction, transactions;
 
-		let dependencyInjector = <\Phalcon\DiInterface> this->_dependencyInjector;
+		let dependencyInjector = <DiInterface> this->_dependencyInjector;
 		if typeof dependencyInjector != "object" {
 			throw new Exception("A dependency injector container is required to obtain the services related to the ORM");
 		}
@@ -307,5 +309,4 @@ class Manager implements ManagerInterface, \Phalcon\Di\InjectionAwareInterface
 			let this->_transactions = null;
 		}
 	}
-
 }

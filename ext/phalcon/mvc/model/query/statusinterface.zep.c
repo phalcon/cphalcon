@@ -37,8 +37,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_StatusInterface, getModel);
 
 /**
  * Returns the messages produced by a operation failed
- *
- * @return Phalcon\Mvc\Model\MessageInterface[]
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_StatusInterface, getMessages);
 

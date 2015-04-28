@@ -71,9 +71,6 @@ class Apc extends Adapter implements AdapterInterface
 
 	/**
 	 * Writes parsed annotations to APC
-	 *
-	 * @param string key
-	 * @param Phalcon\Annotations\Reflection data
 	 */
 	public function write(string! key, <Reflection> data)
 	{

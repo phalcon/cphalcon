@@ -107,9 +107,6 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Files, read) {
 
 /**
  * Writes parsed annotations to files
- *
- * @param string key
- * @param Phalcon\Annotations\Reflection data
  */
 PHP_METHOD(Phalcon_Annotations_Adapter_Files, write) {
 
@@ -146,7 +143,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Files, write) {
 	ZEPHIR_CONCAT_SVS(_5, "<?php return ", _4, "; ");
 	zephir_file_put_contents(_3, path, _5 TSRMLS_CC);
 	if (ZEPHIR_IS_FALSE_IDENTICAL(_3)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_annotations_exception_ce, "Annotations directory cannot be written", "phalcon/annotations/adapter/files.zep", 95);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_annotations_exception_ce, "Annotations directory cannot be written", "phalcon/annotations/adapter/files.zep", 92);
 		return;
 	}
 	ZEPHIR_MM_RESTORE();

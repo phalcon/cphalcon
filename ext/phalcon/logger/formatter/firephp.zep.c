@@ -42,9 +42,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Logger_Formatter_Firephp) {
 
 /**
  * Returns the string meaning of a logger constant
- *
- * @param  integer $type
- * @return string
  */
 PHP_METHOD(Phalcon_Logger_Formatter_Firephp, getTypeString) {
 
@@ -77,8 +74,6 @@ PHP_METHOD(Phalcon_Logger_Formatter_Firephp, getTypeString) {
 
 /**
  * Returns the string meaning of a logger constant
- *
- * @return this
  */
 PHP_METHOD(Phalcon_Logger_Formatter_Firephp, setShowBacktrace) {
 
@@ -101,8 +96,6 @@ PHP_METHOD(Phalcon_Logger_Formatter_Firephp, setShowBacktrace) {
 
 /**
  * Returns the string meaning of a logger constant
- *
- * @return boolean
  */
 PHP_METHOD(Phalcon_Logger_Formatter_Firephp, getShowBacktrace) {
 
@@ -113,8 +106,6 @@ PHP_METHOD(Phalcon_Logger_Formatter_Firephp, getShowBacktrace) {
 
 /**
  * Returns the string meaning of a logger constant
- *
- * @return this
  */
 PHP_METHOD(Phalcon_Logger_Formatter_Firephp, enableLabels) {
 
@@ -137,8 +128,6 @@ PHP_METHOD(Phalcon_Logger_Formatter_Firephp, enableLabels) {
 
 /**
  * Returns the labels enabled
- *
- * @return boolean
  */
 PHP_METHOD(Phalcon_Logger_Formatter_Firephp, labelsEnabled) {
 
@@ -212,14 +201,14 @@ PHP_METHOD(Phalcon_Logger_Formatter_Firephp, format) {
 		Z_UNSET_ISREF_P(backtrace);
 		zephir_check_call_status();
 		if (zephir_array_isset_string(lastTrace, SS("file"))) {
-			zephir_array_fetch_string(&_8, lastTrace, SL("file"), PH_NOISY | PH_READONLY, "phalcon/logger/formatter/firephp.zep", 145 TSRMLS_CC);
+			zephir_array_fetch_string(&_8, lastTrace, SL("file"), PH_NOISY | PH_READONLY, "phalcon/logger/formatter/firephp.zep", 133 TSRMLS_CC);
 			zephir_array_update_string(&meta, SL("File"), &_8, PH_COPY | PH_SEPARATE);
 		}
 		if (zephir_array_isset_string(lastTrace, SS("line"))) {
-			zephir_array_fetch_string(&_8, lastTrace, SL("line"), PH_NOISY | PH_READONLY, "phalcon/logger/formatter/firephp.zep", 149 TSRMLS_CC);
+			zephir_array_fetch_string(&_8, lastTrace, SL("line"), PH_NOISY | PH_READONLY, "phalcon/logger/formatter/firephp.zep", 137 TSRMLS_CC);
 			zephir_array_update_string(&meta, SL("Line"), &_8, PH_COPY | PH_SEPARATE);
 		}
-		zephir_is_iterable(backtrace, &_10, &_9, 1, 0, "phalcon/logger/formatter/firephp.zep", 158);
+		zephir_is_iterable(backtrace, &_10, &_9, 1, 0, "phalcon/logger/formatter/firephp.zep", 146);
 		for (
 		  ; zephir_hash_get_current_data_ex(_10, (void**) &_11, &_9) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_10, &_9)

@@ -19,6 +19,8 @@
 
 namespace Phalcon\Mvc;
 
+use Phalcon\Mvc\Model\MessageInterface;
+
 /**
  * Phalcon\Mvc\CollectionInterface
  *
@@ -26,11 +28,6 @@ namespace Phalcon\Mvc;
  */
 interface CollectionInterface
 {
-
-	/**
-	 * Phalcon\Mvc\Collection
-	 */
-	public function __construct(<\Phalcon\DiInterface> dependencyInjector = null);
 
 	/**
 	 * Sets a value for the _id propery, creates a MongoId object if needed
@@ -133,7 +130,7 @@ interface CollectionInterface
 	/**
 	 * Appends a customized message on the validation process
 	 */
-	public function appendMessage(<\Phalcon\Mvc\Model\MessageInterface> message);
+	public function appendMessage(<MessageInterface> message);
 
 	/**
 	 * Creates/Updates a collection based on the values in the atributes
@@ -180,5 +177,4 @@ interface CollectionInterface
 	 * @return boolean
 	 */
 	public function delete();
-
 }

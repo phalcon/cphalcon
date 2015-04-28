@@ -29,18 +29,13 @@ interface CollectionInterface
 
 	/**
 	 * Sets a prefix for all routes added to the collection
-	 *
-	 * @param string prefix
-	 * @return Phalcon\Mvc\Micro\Collection
 	 */
-	public function setPrefix(prefix);
+	public function setPrefix(string! prefix) -> <CollectionInterface>;
 
 	/**
 	 * Returns the collection prefix if any
-	 *
-	 * @return string
 	 */
-	public function getPrefix();
+	public function getPrefix() -> string;
 
 	/**
 	 * Returns the registered handlers
@@ -56,22 +51,17 @@ interface CollectionInterface
 	 * @param boolean lazy
 	 * @return Phalcon\Mvc\Micro\Collection
 	 */
-	public function setHandler(handler, lazy = false);
+	public function setHandler(handler, boolean lazy = false);
 
 	/**
 	 * Sets if the main handler must be lazy loaded
-	 *
-	 * @param boolean lazy
-	 * @return Phalcon\Mvc\Micro\Collection
 	 */
-	public function setLazy(boolean! lazy);
+	public function setLazy(boolean! lazy) -> <CollectionInterface>;
 
 	/**
 	 * Returns if the main handler must be lazy loaded
-	 *
-	 * @return boolean
 	 */
-	public function isLazy();
+	public function isLazy() -> boolean;
 
 	/**
 	 * Returns the main handler
@@ -88,7 +78,7 @@ interface CollectionInterface
 	 * @param  string name
 	 * @return Phalcon\Mvc\Router\RouteInterface
 	 */
-	public function map(routePattern, handler, name = null);
+	public function map(string! routePattern, handler, name = null);
 
 	/**
 	 * Maps a route to a handler that only matches if the HTTP method is GET
@@ -98,7 +88,7 @@ interface CollectionInterface
 	 * @param  string name
 	 * @return Phalcon\Mvc\Router\RouteInterface
 	 */
-	public function get(routePattern, handler, name = null);
+	public function get(string! routePattern, handler, name = null);
 
 	/**
 	 * Maps a route to a handler that only matches if the HTTP method is POST
@@ -108,7 +98,7 @@ interface CollectionInterface
 	 * @param  string name
 	 * @return Phalcon\Mvc\Router\RouteInterface
 	 */
-	public function post(routePattern, handler, name = null);
+	public function post(string! routePattern, handler, name = null);
 
 	/**
 	 * Maps a route to a handler that only matches if the HTTP method is PUT
@@ -118,7 +108,7 @@ interface CollectionInterface
 	 * @param  string name
 	 * @return Phalcon\Mvc\Router\RouteInterface
 	 */
-	public function put(routePattern, handler, name = null);
+	public function put(string! routePattern, handler, name = null);
 
 	/**
 	 * Maps a route to a handler that only matches if the HTTP method is PATCH
@@ -128,7 +118,7 @@ interface CollectionInterface
 	 * @param  string name
 	 * @return Phalcon\Mvc\Router\RouteInterface
 	 */
-	public function patch(routePattern, handler, name = null);
+	public function patch(string! routePattern, handler, name = null);
 
 	/**
 	 * Maps a route to a handler that only matches if the HTTP method is HEAD
@@ -138,7 +128,7 @@ interface CollectionInterface
 	 * @param  string name
 	 * @return Phalcon\Mvc\Router\RouteInterface
 	 */
-	public function head(routePattern, handler, name = null);
+	public function head(string! routePattern, handler, name = null);
 
 	/**
 	 * Maps a route to a handler that only matches if the HTTP method is DELETE
@@ -148,7 +138,7 @@ interface CollectionInterface
 	 * @param  string name
 	 * @return Phalcon\Mvc\Router\RouteInterface
 	 */
-	public function delete(routePattern, handler, name = null);
+	public function delete(string! routePattern, handler, name = null);
 
 	/**
 	 * Maps a route to a handler that only matches if the HTTP method is OPTIONS
@@ -158,6 +148,6 @@ interface CollectionInterface
 	 * @param  string name
 	 * @return Phalcon\Mvc\Router\RouteInterface
 	 */
-	public function options(routePattern, handler, name = null);
+	public function options(string! routePattern, handler, name = null);
 
 }
