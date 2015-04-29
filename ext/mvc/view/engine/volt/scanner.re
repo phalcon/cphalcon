@@ -323,12 +323,6 @@ int phvolt_get_token(phvolt_scanner_state *s, phvolt_scanner_token *token) {
 			return 0;
 		}
 
-		[i][s][ ]+[n][o][t] {
-			s->statement_position++;
-			token->opcode = PHVOLT_T_NOTEQUALS;
-			return 0;
-		}
-
 		'is' {
 			s->statement_position++;
 			token->opcode = PHVOLT_T_IS;
