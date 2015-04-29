@@ -18,7 +18,7 @@
 */
 
 #include "php_phalcon.h"
-#include "mvc/view/engine/volt/scanner.h"
+#include "scanner.h"
 
 #define YYCTYPE unsigned char
 #define YYCURSOR (s->start)
@@ -317,6 +317,18 @@ int phvolt_get_token(phvolt_scanner_state *s, phvolt_scanner_token *token) {
 			return 0;
 		}
 
+		'is not' {
+			s->statement_position++;
+			token->opcode = PHVOLT_T_NOTEQUALS;
+			return 0;
+		}
+
+		[i][s][ ]+[n][o][t] {
+			s->statement_position++;
+			token->opcode = PHVOLT_T_NOTEQUALS;
+			return 0;
+		}
+
 		'is' {
 			s->statement_position++;
 			token->opcode = PHVOLT_T_IS;
@@ -338,6 +350,42 @@ int phvolt_get_token(phvolt_scanner_state *s, phvolt_scanner_token *token) {
 		'include' {
 			s->statement_position++;
 			token->opcode = PHVOLT_T_INCLUDE;
+			return 0;
+		}
+
+		'empty' {
+			s->statement_position++;
+			token->opcode = PHVOLT_T_EMPTY;
+			return 0;
+		}
+
+		'even' {
+			s->statement_position++;
+			token->opcode = PHVOLT_T_EVEN;
+			return 0;
+		}
+
+		'odd' {
+			s->statement_position++;
+			token->opcode = PHVOLT_T_ODD;
+			return 0;
+		}
+
+		'numeric' {
+			s->statement_position++;
+			token->opcode = PHVOLT_T_NUMERIC;
+			return 0;
+		}
+
+		'scalar' {
+			s->statement_position++;
+			token->opcode = PHVOLT_T_SCALAR;
+			return 0;
+		}
+
+		'iterable' {
+			s->statement_position++;
+			token->opcode = PHVOLT_T_ITERABLE;
 			return 0;
 		}
 

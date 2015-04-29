@@ -240,7 +240,7 @@ class Volt extends Engine implements EngineInterface
 				let length = end;
 			}
 
-			let position = 1, slice = [];
+			let position = 0, slice = [];
 
 			value->rewind();
 			loop {

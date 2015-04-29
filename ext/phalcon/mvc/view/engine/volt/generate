@@ -1,4 +1,9 @@
-#! /bin/sh
+if [ ! -f lemon ]; then
+	gcc -O2 lemon.c -o lemon
+fi
+rm -f *.o
+rm -f *.lo
+re2c -b -o scanner.c scanner.re && ./lemon -s -q parser.lemon && cat base.c >> parser.c
+sed -i 's!^#line.*$$!/* & */!g' scanner.c
+sed -i 's!^#line.*$$!/* & */!g' parser.c
 
-make clean
-make all
