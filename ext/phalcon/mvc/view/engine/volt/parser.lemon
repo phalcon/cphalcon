@@ -406,7 +406,7 @@ static zval *phvolt_ret_empty_statement(phvolt_scanner_state *state)
 
 	MAKE_STD_ZVAL(ret);
 	array_init_size(ret, 3);
-	add_assoc_long(ret, "type", PHVOLT_T_EMPTY);
+	add_assoc_long(ret, "type", PHVOLT_T_EMPTY_STATEMENT);
 
 	Z_ADDREF_P(state->active_file);
 	add_assoc_zval(ret, "file", state->active_file);
@@ -1108,12 +1108,60 @@ expr(R) ::= expr(O1) EQUALS expr(O2) . {
 	R = phvolt_ret_expr(PHVOLT_T_EQUALS, O1, O2, NULL, status->scanner_state);
 }
 
-expr(R) ::= expr(O1) IS NOT DEFINED . {
+expr(R) ::= expr(O1) NOTEQUALS DEFINED . {
 	R = phvolt_ret_expr(PHVOLT_T_NOT_ISSET, O1, NULL, NULL, status->scanner_state);
 }
 
 expr(R) ::= expr(O1) IS DEFINED . {
 	R = phvolt_ret_expr(PHVOLT_T_ISSET, O1, NULL, NULL, status->scanner_state);
+}
+
+expr(R) ::= expr(O1) NOTEQUALS EMPTY . {
+	R = phvolt_ret_expr(PHVOLT_T_NOT_ISEMPTY, O1, NULL, NULL, status->scanner_state);
+}
+
+expr(R) ::= expr(O1) IS EMPTY . {
+	R = phvolt_ret_expr(PHVOLT_T_ISEMPTY, O1, NULL, NULL, status->scanner_state);
+}
+
+expr(R) ::= expr(O1) NOTEQUALS EVEN . {
+	R = phvolt_ret_expr(PHVOLT_T_NOT_ISEVEN, O1, NULL, NULL, status->scanner_state);
+}
+
+expr(R) ::= expr(O1) IS EVEN . {
+	R = phvolt_ret_expr(PHVOLT_T_ISEVEN, O1, NULL, NULL, status->scanner_state);
+}
+
+expr(R) ::= expr(O1) NOTEQUALS ODD . {
+	R = phvolt_ret_expr(PHVOLT_T_NOT_ISODD, O1, NULL, NULL, status->scanner_state);
+}
+
+expr(R) ::= expr(O1) IS ODD . {
+	R = phvolt_ret_expr(PHVOLT_T_ISODD, O1, NULL, NULL, status->scanner_state);
+}
+
+expr(R) ::= expr(O1) NOTEQUALS NUMERIC . {
+	R = phvolt_ret_expr(PHVOLT_T_NOT_ISNUMERIC, O1, NULL, NULL, status->scanner_state);
+}
+
+expr(R) ::= expr(O1) IS NUMERIC . {
+	R = phvolt_ret_expr(PHVOLT_T_ISNUMERIC, O1, NULL, NULL, status->scanner_state);
+}
+
+expr(R) ::= expr(O1) NOTEQUALS SCALAR . {
+	R = phvolt_ret_expr(PHVOLT_T_NOT_ISSCALAR, O1, NULL, NULL, status->scanner_state);
+}
+
+expr(R) ::= expr(O1) IS SCALAR . {
+	R = phvolt_ret_expr(PHVOLT_T_ISSCALAR, O1, NULL, NULL, status->scanner_state);
+}
+
+expr(R) ::= expr(O1) NOTEQUALS ITERABLE . {
+	R = phvolt_ret_expr(PHVOLT_T_NOT_ISITERABLE, O1, NULL, NULL, status->scanner_state);
+}
+
+expr(R) ::= expr(O1) IS ITERABLE . {
+	R = phvolt_ret_expr(PHVOLT_T_ISITERABLE, O1, NULL, NULL, status->scanner_state);
 }
 
 expr(R) ::= expr(O1) IS expr(O2) . {

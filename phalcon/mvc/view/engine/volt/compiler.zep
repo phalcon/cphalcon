@@ -1257,6 +1257,54 @@ class Compiler implements InjectionAwareInterface
 				case PHVOLT_T_ISSET:
 					let exprCode = "isset(" . leftCode . ")";
 					break;
+				
+				case PHVOLT_T_NOT_ISEMPTY:
+					let exprCode = "!empty(" . leftCode . ")";
+					break;
+	
+				case PHVOLT_T_ISEMPTY:
+					let exprCode = "empty(" . leftCode . ")";
+					break;
+		
+				case PHVOLT_T_NOT_ISEVEN:
+					let exprCode = "!(((" . leftCode . ") % 2) == 0)";
+					break;
+		
+				case PHVOLT_T_ISEVEN:
+					let exprCode = "(((" . leftCode . ") % 2) == 0)";
+					break;
+		
+				case PHVOLT_T_NOT_ISODD:
+					let exprCode = "!(((" . leftCode . ") % 2) != 0)";
+					break;
+		
+				case PHVOLT_T_ISODD:
+					let exprCode = "(((" . leftCode . ") % 2) != 0)";
+					break;
+		
+				case PHVOLT_T_NOT_ISNUMERIC:
+					let exprCode = "!is_numeric(" . leftCode . ")";
+					break;
+		
+				case PHVOLT_T_ISNUMERIC:
+					let exprCode = "is_numeric(" . leftCode . ")";
+					break;
+		
+				case PHVOLT_T_NOT_ISSCALAR:
+					let exprCode = "!is_scalar(" . leftCode . ")";
+					break;
+		
+				case PHVOLT_T_ISSCALAR:
+					let exprCode = "is_scalar(" . leftCode . ")";
+					break;
+		
+				case PHVOLT_T_NOT_ISITERABLE:
+					let exprCode = "!(is_array(" . leftCode . ") || (" . leftCode . ") instanceof Traversable)";
+					break;
+		
+				case PHVOLT_T_ISITERABLE:
+					let exprCode = "(is_array(" . leftCode . ") || (" . leftCode . ") instanceof Traversable)";
+					break;
 
 				case PHVOLT_T_IN:
 					let exprCode = "$this->isIncluded(" . leftCode . ", " . rightCode . ")";
