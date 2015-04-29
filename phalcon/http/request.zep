@@ -427,11 +427,11 @@ class Request implements RequestInterface, InjectionAwareInterface
 		var rawBody;
 
 		let rawBody = this->getRawBody();
-		if typeof rawBody == "string" {
-			return json_decode(rawBody, associative);
+		if typeof rawBody != "string" {
+			return false;
 		}
 
-		return false;
+		return json_decode(rawBody, associative);
 	}
 
 	/**

@@ -758,20 +758,19 @@ class Query implements QueryInterface, InjectionAwareInterface
 	{
 		var modelName, model, source, schema;
 
-		if fetch modelName, qualifiedName["name"] {
-
-			let model = manager->load(modelName),
-				source = model->getSource(),
-				schema = model->getSchema();
-
-			if schema {
-				return [schema, source];
-			}
-
-			return source;
+		if !fetch modelName, qualifiedName["name"] {
+			throw new Exception("Corrupted SELECT AST");
 		}
 
-		throw new Exception("Corrupted SELECT AST");
+		let model = manager->load(modelName),
+			source = model->getSource(),
+			schema = model->getSchema();
+
+		if schema {
+			return [schema, source];
+		}
+
+		return source;
 	}
 
 	/**

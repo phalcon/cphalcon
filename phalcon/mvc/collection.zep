@@ -284,10 +284,11 @@ abstract class Collection implements CollectionInterface, InjectionAwareInterfac
 	 */
 	public function readAttribute(string! attribute)
 	{
-		if isset this->{attribute} {
-			return this->{attribute};
+		if !isset this->{attribute} {
+			return null;
 		}
-		return null;
+
+		return this->{attribute};
 	}
 
 	/**
@@ -405,14 +406,15 @@ abstract class Collection implements CollectionInterface, InjectionAwareInterfac
 			documentsCursor->rewind();
 
 			let document = documentsCursor->current();
-			if typeof document == "array" {
 
-				/**
-				 * Assign the values to the base object
-				 */
-				return self::cloneResult(base, document);
+			if typeof document != "array" {
+				return false;
 			}
-			return false;
+
+			/**
+			 * Assign the values to the base object
+			 */
+			return self::cloneResult(base, document);
 		}
 
 		/**
@@ -762,29 +764,29 @@ abstract class Collection implements CollectionInterface, InjectionAwareInterfac
 	{
 		var id, mongoId;
 
-		if fetch id, this->_id {
+		if !fetch id, this->_id {
+			return false;
+		}
 
-			if typeof id == "object" {
-				let mongoId = id;
-			} else {
-
-				/**
-				 * Check if the model use implicit ids
-				 */
-				if this->_modelsManager->isUsingImplicitObjectIds(this) {
-					let mongoId = new \MongoId(id);
-					let this->_id = mongoId;
-				} else {
-					let mongoId = id;
-				}
-			}
+		if typeof id == "object" {
+			let mongoId = id;
+		} else {
 
 			/**
-			 * Perform the count using the function provided by the driver
+			 * Check if the model use implicit ids
 			 */
-			return collection->count(["_id": mongoId]) > 0;
+			if this->_modelsManager->isUsingImplicitObjectIds(this) {
+				let mongoId = new \MongoId(id);
+				let this->_id = mongoId;
+			} else {
+				let mongoId = id;
+			}
 		}
-		return false;
+
+		/**
+		 * Perform the count using the function provided by the driver
+		 */
+		return collection->count(["_id": mongoId]) > 0;
 	}
 
 	/**
