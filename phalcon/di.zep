@@ -80,7 +80,7 @@ class Di implements DiInterface
 	/**
 	 * Events Manager
 	 *
-	 * @var Phalcon\Events\ManagerInterface
+	 * @var \Phalcon\Events\ManagerInterface
 	 */
 	protected _eventsManager;
 
