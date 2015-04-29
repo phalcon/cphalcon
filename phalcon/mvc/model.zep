@@ -1963,10 +1963,9 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 			} else {
 				this->fireEvent("afterCreate");
 			}
-			return success;
 		}
 
-		return false;
+		return success;
 	}
 
 	/**

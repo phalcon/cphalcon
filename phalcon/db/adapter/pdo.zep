@@ -362,7 +362,6 @@ abstract class Pdo extends Adapter
 		let pdo = this->_pdo;
 		if typeof pdo == "object" {
 			let this->_pdo = null;
-			return true;
 		}
 		return true;
 	}
