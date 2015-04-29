@@ -19,6 +19,9 @@
 
 namespace Phalcon\Mvc\View;
 
+use Phalcon\DiInterface;
+use Phalcon\Mvc\ViewBaseInterface;
+
 /**
  * Phalcon\Mvc\View\EngineInterface
  *
@@ -30,7 +33,7 @@ interface EngineInterface
 	/**
 	 * Phalcon\Mvc\View\Engine constructor
 	 */
-	public function __construct(<\Phalcon\Mvc\ViewInterface> view, <\Phalcon\DiInterface> dependencyInjector = null);
+	public function __construct(<ViewBaseInterface> view, <DiInterface> dependencyInjector = null);
 
 	/**
 	 * Returns cached output on another view stage
@@ -46,11 +49,6 @@ interface EngineInterface
 
 	/**
 	 * Renders a view using the template engine
-	 *
-	 * @param string path
-	 * @param array params
-	 * @param boolean mustClean
 	 */
-	public function render(string path, params, boolean mustClean = false);
-
+	public function render(string path, var params, boolean mustClean = false);
 }
