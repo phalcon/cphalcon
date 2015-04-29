@@ -44,7 +44,7 @@ class AclTest extends PHPUnit_Framework_TestCase
 		foreach ($resources as $resource => $actions) {
 			$acl->addResource(new \Phalcon\Acl\Resource($resource), $actions);
 		}
-/*		
+/*
 		$this->assertFalse($acl->isAllowed('Admin', 'welcome', 'index'));
 		$this->assertFalse($acl->isAllowed('Admin', 'welcome', 'about'));
 
@@ -56,7 +56,7 @@ class AclTest extends PHPUnit_Framework_TestCase
 		$this->assertFalse($acl->isAllowed('Admin', 'account', 'index'));
 		$this->assertFalse($acl->isAllowed('Admin', 'account', 'about'));
 
-		$acl->allow('Admin', '*', '*');	
+		$acl->allow('Admin', '*', '*');
 
 		$this->assertTrue($acl->isAllowed('Admin', 'welcome', 'index'));
 		$this->assertTrue($acl->isAllowed('Admin', 'welcome', 'about'));
@@ -64,7 +64,7 @@ class AclTest extends PHPUnit_Framework_TestCase
 		$this->assertTrue($acl->isAllowed('Admin', 'account', 'index'));
 		$this->assertTrue($acl->isAllowed('Admin', 'account', 'about'));
 
-		$acl->deny('Admin', '*', '*');	
+		$acl->deny('Admin', '*', '*');
 
 		foreach ($roles as $role => $object) {
 			$this->assertFalse($acl->isAllowed($role, 'welcome', 'about'));
@@ -81,7 +81,7 @@ class AclTest extends PHPUnit_Framework_TestCase
 		foreach ($roles as $role => $object) {
 			$this->assertFalse($acl->isAllowed($role, 'welcome', 'index'));
 		}
-/*		
+/*
 		$acl->allow('Admin', '*', 'index');
 
 		foreach ($resources as $resource => $actions) {
@@ -105,5 +105,52 @@ class AclTest extends PHPUnit_Framework_TestCase
 		} catch (Exception $e) {
 			$this->assertTrue(FALSE);
 		}
+	}
+
+	public function testDeepInherit()
+	{
+
+		/**
+		 * Set deep inheritance rules and check them
+		 */
+		$acl = new \Phalcon\Acl\Adapter\Memory();
+		$acl->setDefaultAction(\Phalcon\Acl::DENY);
+
+		$roleUser = new \Phalcon\Acl\Role("User", "Basic access");
+		$acl->addRole($roleUser);
+
+		$roleManager = new \Phalcon\Acl\Role("Manager", "Extended access");
+		$acl->addRole($roleManager, $roleUser);
+
+		$roleAdmin = new \Phalcon\Acl\Role("Administrator", "Super-User role");
+		$acl->addRole($roleAdmin, $roleManager);
+
+		$acl->addResource(new \Phalcon\Acl\Resource('Resource'), ['index', 'edit', 'delete', 'add']);
+
+		$acl->allow('User', 'Resource', 'index');
+
+		$acl->allow('Manager', 'Resource', 'edit');
+		$acl->allow('Manager', 'Resource', 'add');
+
+		$acl->allow('Administrator', 'Resource', 'delete');
+		/**
+		 * Administrator should have access to index inherited from User
+		 */
+		$this->assertTrue($acl->isAllowed('Administrator', 'Resource', 'index'));
+		/**
+		 * And Administrator should inherit access from Manager
+		 */
+		$this->assertTrue($acl->isAllowed('Administrator', 'Resource', 'edit'));
+		/**
+		 * Disallow parent role resource and check if child also not have access
+		 */
+		$acl->deny('User', 'Resource', 'index');
+		$this->assertFalse($acl->isAllowed('Administrator', 'Resource', 'index'));
+		/**
+		 * Check wildcards
+		 */
+		$acl->addResource(new \Phalcon\Acl\Resource('Resource2'), ['index', 'edit', 'delete', 'add']);
+		$acl->allow('User', 'Resource2', '*');
+		$this->assertTrue($acl->isAllowed('Administrator', 'Resource2', 'delete'));
 	}
 }
