@@ -302,7 +302,7 @@ class Redis extends Backend implements BackendInterface
 	 */
 	public function queryKeys(prefix = null)
 	{
-		var redis, options, keys, specialKey, key;
+		var redis, options, keys, specialKey, key, value;
 
 		let redis = this->_redis;
 
@@ -324,8 +324,8 @@ class Redis extends Backend implements BackendInterface
 		*/
 		let keys = redis->sMembers(specialKey);
 		if typeof keys == "array" {
-			for key in keys {
-				if prefix && !starts_with(key, prefix) {
+			for key, value in keys {
+				if prefix && !starts_with(value, prefix) {
 					unset(keys[key]);
 				}
 			}
