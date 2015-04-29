@@ -24,9 +24,9 @@ namespace Phalcon\Db;
  * Phalcon\Db\Dialect
  *
  * This is the base class to each database dialect. This implements
- * common methods to transform intermediate code into its RDBM related syntax
+ * common methods to transform intermediate code into its RDBMS related syntax
  */
-abstract class Dialect
+abstract class Dialect implements DialectInterface
 {
 
 	protected _escapeChar;
