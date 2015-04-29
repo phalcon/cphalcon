@@ -946,6 +946,9 @@ class ViewEnginesVoltTest extends PHPUnit_Framework_TestCase
 		$compilation = $volt->compileString('{% if a!=b %} hello {% endif %}');
 		$this->assertEquals($compilation, '<?php if ($a != $b) { ?> hello <?php } ?>');
 
+		$compilation = $volt->compileString('{% if a is not b %} hello {% endif %}');
+		$this->assertEquals($compilation, '<?php if ($a != $b) { ?> hello <?php } ?>');
+
 		$compilation = $volt->compileString('{% if a<b %} hello {% endif %}');
 		$this->assertEquals($compilation, '<?php if ($a < $b) { ?> hello <?php } ?>');
 
