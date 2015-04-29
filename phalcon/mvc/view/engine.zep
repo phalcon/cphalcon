@@ -21,7 +21,7 @@ namespace Phalcon\Mvc\View;
 
 use Phalcon\DiInterface;
 use Phalcon\Di\Injectable;
-use Phalcon\Mvc\ViewInterface;
+use Phalcon\Mvc\ViewBaseInterface;
 
 /**
  * Phalcon\Mvc\View\Engine
@@ -37,7 +37,7 @@ abstract class Engine extends Injectable
 	/**
 	 * Phalcon\Mvc\View\Engine constructor
 	 */
-	public function __construct(<ViewInterface> view, <DiInterface> dependencyInjector = null)
+	public function __construct(<ViewBaseInterface> view, <DiInterface> dependencyInjector = null)
 	{
 		let this->_view = view;
 		let this->_dependencyInjector = dependencyInjector;
@@ -66,7 +66,7 @@ abstract class Engine extends Injectable
 	/**
 	 * Returns the view component related to the adapter
 	 */
-	public function getView() -> <ViewInterface>
+	public function getView() -> <ViewBaseInterface>
 	{
 		return this->_view;
 	}

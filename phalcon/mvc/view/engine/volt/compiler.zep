@@ -19,6 +19,8 @@
 
 namespace Phalcon\Mvc\View\Engine\Volt;
 
+use Phalcon\DiInterface;
+use Phalcon\Mvc\ViewBaseInterface;
 use Phalcon\Di\InjectionAwareInterface;
 use Phalcon\Mvc\View\Exception;
 
@@ -85,7 +87,7 @@ class Compiler implements InjectionAwareInterface
 	/**
 	 * Phalcon\Mvc\View\Engine\Volt\Compiler
 	 */
-	public function __construct(<\Phalcon\Mvc\ViewInterface> view = null)
+	public function __construct(<ViewBaseInterface> view = null)
 	{
 		if typeof view == "object" {
 			let this->_view = view;
@@ -95,7 +97,7 @@ class Compiler implements InjectionAwareInterface
 	/**
 	 * Sets the dependency injector
 	 */
-	public function setDI(<\Phalcon\DiInterface> dependencyInjector)
+	public function setDI(<DiInterface> dependencyInjector)
 	{
 		let this->_dependencyInjector = dependencyInjector;
 	}
@@ -103,7 +105,7 @@ class Compiler implements InjectionAwareInterface
 	/**
 	 * Returns the internal dependency injector
 	 */
-	public function getDI() -> <\Phalcon\DiInterface>
+	public function getDI() -> <DiInterface>
 	{
 		return this->_dependencyInjector;
 	}
@@ -1255,51 +1257,51 @@ class Compiler implements InjectionAwareInterface
 				case PHVOLT_T_ISSET:
 					let exprCode = "isset(" . leftCode . ")";
 					break;
-				
+
 				case PHVOLT_T_NOT_ISEMPTY:
 					let exprCode = "!empty(" . leftCode . ")";
 					break;
-	
+
 				case PHVOLT_T_ISEMPTY:
 					let exprCode = "empty(" . leftCode . ")";
 					break;
-		
+
 				case PHVOLT_T_NOT_ISEVEN:
 					let exprCode = "!(((" . leftCode . ") % 2) == 0)";
 					break;
-		
+
 				case PHVOLT_T_ISEVEN:
 					let exprCode = "(((" . leftCode . ") % 2) == 0)";
 					break;
-		
+
 				case PHVOLT_T_NOT_ISODD:
 					let exprCode = "!(((" . leftCode . ") % 2) != 0)";
 					break;
-		
+
 				case PHVOLT_T_ISODD:
 					let exprCode = "(((" . leftCode . ") % 2) != 0)";
 					break;
-		
+
 				case PHVOLT_T_NOT_ISNUMERIC:
 					let exprCode = "!is_numeric(" . leftCode . ")";
 					break;
-		
+
 				case PHVOLT_T_ISNUMERIC:
 					let exprCode = "is_numeric(" . leftCode . ")";
 					break;
-		
+
 				case PHVOLT_T_NOT_ISSCALAR:
 					let exprCode = "!is_scalar(" . leftCode . ")";
 					break;
-		
+
 				case PHVOLT_T_ISSCALAR:
 					let exprCode = "is_scalar(" . leftCode . ")";
 					break;
-		
+
 				case PHVOLT_T_NOT_ISITERABLE:
 					let exprCode = "!(is_array(" . leftCode . ") || (" . leftCode . ") instanceof Traversable)";
 					break;
-		
+
 				case PHVOLT_T_ISITERABLE:
 					let exprCode = "(is_array(" . leftCode . ") || (" . leftCode . ") instanceof Traversable)";
 					break;
