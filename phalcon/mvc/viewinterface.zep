@@ -242,7 +242,7 @@ interface ViewInterface
 	public function setContent(content);
 
 	/**
-	 * Returns cached ouput from another view stage
+	 * Returns cached output from another view stage
 	 *
 	 * @return string
 	 */

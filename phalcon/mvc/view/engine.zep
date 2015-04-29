@@ -44,7 +44,7 @@ abstract class Engine extends Injectable
 	}
 
 	/**
-	 * Returns cached ouput on another view stage
+	 * Returns cached output on another view stage
 	 */
 	public function getContent() -> string
 	{

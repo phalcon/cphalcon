@@ -389,7 +389,7 @@ class Simple extends Injectable
 		var viewParams, mergedParams;
 
 		/**
-		 * Start ouput buffering
+		 * Start output buffering
 		 */
 		ob_start();
 
@@ -636,7 +636,7 @@ class Simple extends Injectable
 	}
 
 	/**
-	 * Returns cached ouput from another view stage
+	 * Returns cached output from another view stage
 	 *
 	 * @return string
 	 */
