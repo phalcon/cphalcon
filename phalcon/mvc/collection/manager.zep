@@ -159,10 +159,7 @@ class Manager implements InjectionAwareInterface, EventsAwareInterface
 	 */
 	public function isInitialized(string! modelName) -> boolean
 	{
-		if isset this->_initialized[strtolower(modelName)] {
-			return true;
-		}
-		return false;
+		return isset this->_initialized[strtolower(modelName)];
 	}
 
 	/**

@@ -644,8 +644,6 @@ abstract class MetaData implements InjectionAwareInterface
 		} else {
 			return isset this->readMetaData(model)[self::MODELS_DATA_TYPES][attribute];
 		}
-
-		return false;
 	}
 
 	/**

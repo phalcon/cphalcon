@@ -33,7 +33,7 @@ interface EngineInterface
 	public function __construct(<\Phalcon\Mvc\ViewInterface> view, <\Phalcon\DiInterface> dependencyInjector = null);
 
 	/**
-	 * Returns cached ouput on another view stage
+	 * Returns cached output on another view stage
 	 *
 	 * @return array
 	 */

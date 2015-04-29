@@ -1042,7 +1042,7 @@ class Compiler implements InjectionAwareInterface
 				}
 			}
 
-			if !isset expr["type"] {
+			if !fetch type, expr["type"] {
 				let items = [];
 				for singleExpr in expr {
 					let singleExprCode = this->expression(singleExpr["expr"]);
@@ -1055,8 +1055,6 @@ class Compiler implements InjectionAwareInterface
 				let exprCode = join(", ", items);
 				break;
 			}
-
-			let type = expr["type"];
 
 			/**
 			 * Attribute reading needs special handling
