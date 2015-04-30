@@ -2501,7 +2501,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareSelect){
 	zval *sql_column_group = NULL, *sql_column = NULL, *type = NULL, *sql_select;
 	zval *where, *where_expr = NULL, *group_by, *sql_group = NULL;
 	zval *having, *having_expr = NULL, *order, *sql_order = NULL;
-	zval *limit, *sql_limit = NULL;
+	zval *limit, *sql_limit = NULL, *forupdate;
 	HashTable *ah0, *ah1, *ah2;
 	HashPosition hp0, hp1, hp2;
 	zval **hd;
@@ -2861,6 +2861,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareSelect){
 	if (phalcon_array_isset_string_fetch(&limit, ast, SS("limit"))) {
 		PHALCON_CALL_METHOD(&sql_limit, this_ptr, "_getlimitclause", limit);
 		phalcon_array_update_string(&sql_select, ISL(limit), sql_limit, PH_COPY);
+	}
+
+	/** 
+	 * Process FOR UPDATE clause if any
+	 */
+	if (phalcon_array_isset_string_fetch(&forupdate, ast, SS("forupdate"))) {
+		phalcon_array_update_string(&sql_select, ISL(forupdate), forupdate, PH_COPY);
 	}
 
 	RETURN_CTOR(sql_select);

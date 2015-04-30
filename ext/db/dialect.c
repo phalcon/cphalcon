@@ -974,6 +974,14 @@ PHP_METHOD(Phalcon_Db_Dialect, select){
 		}
 	}
 
+	/**
+	 * Check for a FOR UPDATE clause
+	 */
+	if (phalcon_array_isset_string(definition, SS("forupdate"))) {
+		PHALCON_RETURN_CALL_METHOD(this_ptr, "forupdate", sql);
+		RETURN_MM();
+	}
+
 	RETURN_CTOR(sql);
 }
 

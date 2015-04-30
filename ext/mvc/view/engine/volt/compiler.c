@@ -1914,6 +1914,54 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, expression){
 				PHALCON_CONCAT_SVS(expr_code, "isset(", left_code, ")");
 				break;
 	
+			case PHVOLT_T_NOT_ISEMPTY:
+				PHALCON_CONCAT_SVS(expr_code, "!empty(", left_code, ")");
+				break;
+	
+			case PHVOLT_T_ISEMPTY:
+				PHALCON_CONCAT_SVS(expr_code, "empty(", left_code, ")");
+				break;
+	
+			case PHVOLT_T_NOT_ISEVEN:
+				PHALCON_CONCAT_SVS(expr_code, "!(((", left_code, ") % 2) == 0)");
+				break;
+	
+			case PHVOLT_T_ISEVEN:
+				PHALCON_CONCAT_SVS(expr_code, "(((", left_code, ") % 2) == 0)");
+				break;
+	
+			case PHVOLT_T_NOT_ISODD:
+				PHALCON_CONCAT_SVS(expr_code, "!(((", left_code, ") % 2) != 0)");
+				break;
+	
+			case PHVOLT_T_ISODD:
+				PHALCON_CONCAT_SVS(expr_code, "(((", left_code, ") % 2) != 0)");
+				break;
+	
+			case PHVOLT_T_NOT_ISNUMERIC:
+				PHALCON_CONCAT_SVS(expr_code, "!is_numeric(", left_code, ")");
+				break;
+	
+			case PHVOLT_T_ISNUMERIC:
+				PHALCON_CONCAT_SVS(expr_code, "is_numeric(", left_code, ")");
+				break;
+	
+			case PHVOLT_T_NOT_ISSCALAR:
+				PHALCON_CONCAT_SVS(expr_code, "!is_scalar(", left_code, ")");
+				break;
+	
+			case PHVOLT_T_ISSCALAR:
+				PHALCON_CONCAT_SVS(expr_code, "is_scalar(", left_code, ")");
+				break;
+	
+			case PHVOLT_T_NOT_ISITERABLE:
+				PHALCON_CONCAT_SVSVS(expr_code, "!(is_array(", left_code, ") || (", left_code, ") instanceof Traversable)");
+				break;
+	
+			case PHVOLT_T_ISITERABLE:
+				PHALCON_CONCAT_SVSVS(expr_code, "(is_array(", left_code, ") || (", left_code, ") instanceof Traversable)");
+				break;
+	
 			case PHVOLT_T_IN:
 				PHALCON_CONCAT_SVSVS(expr_code, "$this->isIncluded(", left_code, ", ", right_code, ")");
 				break;

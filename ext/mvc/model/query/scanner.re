@@ -288,6 +288,11 @@ int phql_get_token(phql_scanner_state *s, phql_scanner_token *token) {
 			return 0;
 		}
 
+		'FOR' {
+			token->opcode = PHQL_T_FOR;
+			return 0;
+		}
+
 		STRING = (["] ([\\]["]|[\\].|[\001-\377]\[\\"])* ["])|(['] ([\\][']|[\\].|[\001-\377]\[\\'])* [']);
 		STRING {
 			token->opcode = PHQL_T_STRING;
