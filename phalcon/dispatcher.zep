@@ -648,8 +648,6 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 
 	/**
 	 * Possible class name that will be located to dispatch the request
-	 *
-	 * @return string
 	 */
 	public function getHandlerClass() -> string
 	{

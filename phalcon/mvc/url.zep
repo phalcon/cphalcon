@@ -114,6 +114,7 @@ class Url implements UrlInterface, InjectionAwareInterface
 			} else {
 				let uri = null;
 			}
+
 			if !uri {
 				let baseUri = "/";
 			} else {
@@ -201,7 +202,7 @@ class Url implements UrlInterface, InjectionAwareInterface
 				throw new Exception("It's necessary to define the route name with the parameter 'for'");
 			}
 
-			let router =  <RouterInterface> this->_router;
+			let router = <RouterInterface> this->_router;
 
 			/**
 			 * Check if the router has not previously set
@@ -234,8 +235,7 @@ class Url implements UrlInterface, InjectionAwareInterface
 		if local {
 			if ((substr(baseUri, -1) == "/") && (substr(uri, 0, 1) == "/")) {
 				let uri = baseUri . substr(uri, 1);
-			}
-			else {
+			} else {
 				let uri = baseUri . uri;
 			}
 		}

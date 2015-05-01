@@ -333,7 +333,6 @@ class Debug
 	 */
 	protected final function showTraceItem(int n, array! trace)
 	{
-
 		var space, twoSpaces, underscore, minus, className, namespaceSeparator,
 			prepareInternalClass, preparedFunctionName, html, classReflection, prepareUriClass,
 			functionName, functionReflection, traceArgs, arguments, argument,

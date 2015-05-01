@@ -234,9 +234,9 @@ abstract class Adapter implements EventsAwareInterface
 				let row = result->$fetch();
 				if !row {
 					break;
-				} else {
-					let results[] = row;
 				}
+
+				let results[] = row;
 			}
 		}
 		return results;
@@ -395,7 +395,7 @@ abstract class Adapter implements EventsAwareInterface
 		var values = [], fields = [];
 		var field, value;
 
-		if typeOf data != "array" || empty data {
+		if typeof data != "array" || empty data {
 			return false;
 		}
 
@@ -580,7 +580,7 @@ abstract class Adapter implements EventsAwareInterface
 		var values = [], fields = [];
 		var field, value;
 
-		if typeOf data != "array" || empty data {
+		if typeof data != "array" || empty data {
 			return false;
 		}
 
@@ -941,7 +941,7 @@ abstract class Adapter implements EventsAwareInterface
 			let references[constraintName] = [
 				"referencedSchema"  : referencedSchema,
 				"referencedTable"   : referencedTable,
-				"columns"		   : columns,
+				"columns"           : columns,
 				"referencedColumns" : referencedColumns
 			];
 		}
@@ -949,9 +949,9 @@ abstract class Adapter implements EventsAwareInterface
 		let referenceObjects = [];
 		for name, arrayReference in references {
 			let referenceObjects[name] = new Reference(name, [
-				"referencedSchema"	: arrayReference["referencedSchema"],
-				"referencedTable"	: arrayReference["referencedTable"],
-				"columns"			: arrayReference["columns"],
+				"referencedSchema"  : arrayReference["referencedSchema"],
+				"referencedTable"   : arrayReference["referencedTable"],
+				"columns"           : arrayReference["columns"],
 				"referencedColumns" : arrayReference["referencedColumns"]
 			]);
 		}

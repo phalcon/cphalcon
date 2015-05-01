@@ -483,7 +483,7 @@ class MySQL extends Dialect
 	}
 
 	/**
-	 * Generates SQL to drop a view
+	 * Generates SQL to drop a table
 	 */
 	public function dropTable(string! tableName, string schemaName = null, boolean! ifExists = true) -> string
 	{
