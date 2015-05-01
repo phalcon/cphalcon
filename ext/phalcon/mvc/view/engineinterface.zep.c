@@ -31,7 +31,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_View_EngineInterface) {
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_View_EngineInterface, __construct);
 
 /**
- * Returns cached ouput on another view stage
+ * Returns cached output on another view stage
  *
  * @return array
  */
@@ -44,10 +44,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_View_EngineInterface, partial);
 
 /**
  * Renders a view using the template engine
- *
- * @param string path
- * @param array params
- * @param boolean mustClean
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_View_EngineInterface, render);
 

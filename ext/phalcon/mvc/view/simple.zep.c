@@ -29,7 +29,7 @@
 /**
  * Phalcon\Mvc\View\Simple
  *
- * This component allows to render views without hicherquical levels
+ * This component allows to render views without hierarchical levels
  *
  *<code>
  * $view = new \Phalcon\Mvc\View\Simple();
@@ -37,7 +37,6 @@
  * //or with filename with extension
  * echo $view->render('templates/my-view.volt', array('content' => $html));
  *</code>
- *
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_View_Simple) {
 
@@ -63,6 +62,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_View_Simple) {
 
 	zend_declare_property_null(phalcon_mvc_view_simple_ce, SL("_cacheOptions"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
+	zend_class_implements(phalcon_mvc_view_simple_ce TSRMLS_CC, 1, phalcon_mvc_viewbaseinterface_ce);
 	return SUCCESS;
 
 }
@@ -880,7 +880,7 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, setContent) {
 }
 
 /**
- * Returns cached ouput from another view stage
+ * Returns cached output from another view stage
  *
  * @return string
  */

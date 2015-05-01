@@ -77,7 +77,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Di) {
 	/**
 	 * Events Manager
 	 *
-	 * @var Phalcon\Events\ManagerInterface
+	 * @var \Phalcon\Events\ManagerInterface
 	 */
 	zend_declare_property_null(phalcon_di_ce, SL("_eventsManager"), ZEND_ACC_PROTECTED TSRMLS_CC);
 

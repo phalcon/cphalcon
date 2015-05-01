@@ -3,10 +3,6 @@ extern zend_class_entry *phalcon_mvc_viewinterface_ce;
 
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_ViewInterface);
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_viewinterface_setviewsdir, 0, 0, 1)
-	ZEND_ARG_INFO(0, viewsDir)
-ZEND_END_ARG_INFO()
-
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_viewinterface_setlayoutsdir, 0, 0, 1)
 	ZEND_ARG_INFO(0, layoutsDir)
 ZEND_END_ARG_INFO()
@@ -39,16 +35,6 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_viewinterface_settemplateafter, 0, 0,
 	ZEND_ARG_INFO(0, templateAfter)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_viewinterface_setparamtoview, 0, 0, 2)
-	ZEND_ARG_INFO(0, key)
-	ZEND_ARG_INFO(0, value)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_viewinterface_setvar, 0, 0, 2)
-	ZEND_ARG_INFO(0, key)
-	ZEND_ARG_INFO(0, value)
-ZEND_END_ARG_INFO()
-
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_viewinterface_registerengines, 0, 0, 1)
 	ZEND_ARG_ARRAY_INFO(0, engines, 0)
 ZEND_END_ARG_INFO()
@@ -67,17 +53,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_viewinterface_partial, 0, 0, 1)
 	ZEND_ARG_INFO(0, partialPath)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_viewinterface_cache, 0, 0, 0)
-	ZEND_ARG_INFO(0, options)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_viewinterface_setcontent, 0, 0, 1)
-	ZEND_ARG_INFO(0, content)
-ZEND_END_ARG_INFO()
-
 ZEPHIR_INIT_FUNCS(phalcon_mvc_viewinterface_method_entry) {
-	PHP_ABSTRACT_ME(Phalcon_Mvc_ViewInterface, setViewsDir, arginfo_phalcon_mvc_viewinterface_setviewsdir)
-	PHP_ABSTRACT_ME(Phalcon_Mvc_ViewInterface, getViewsDir, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_ViewInterface, setLayoutsDir, arginfo_phalcon_mvc_viewinterface_setlayoutsdir)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_ViewInterface, getLayoutsDir, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_ViewInterface, setPartialsDir, arginfo_phalcon_mvc_viewinterface_setpartialsdir)
@@ -92,9 +68,6 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_viewinterface_method_entry) {
 	PHP_ABSTRACT_ME(Phalcon_Mvc_ViewInterface, cleanTemplateBefore, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_ViewInterface, setTemplateAfter, arginfo_phalcon_mvc_viewinterface_settemplateafter)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_ViewInterface, cleanTemplateAfter, NULL)
-	PHP_ABSTRACT_ME(Phalcon_Mvc_ViewInterface, setParamToView, arginfo_phalcon_mvc_viewinterface_setparamtoview)
-	PHP_ABSTRACT_ME(Phalcon_Mvc_ViewInterface, setVar, arginfo_phalcon_mvc_viewinterface_setvar)
-	PHP_ABSTRACT_ME(Phalcon_Mvc_ViewInterface, getParamsToView, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_ViewInterface, getControllerName, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_ViewInterface, getActionName, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_ViewInterface, getParams, NULL)
@@ -104,10 +77,6 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_viewinterface_method_entry) {
 	PHP_ABSTRACT_ME(Phalcon_Mvc_ViewInterface, pick, arginfo_phalcon_mvc_viewinterface_pick)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_ViewInterface, partial, arginfo_phalcon_mvc_viewinterface_partial)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_ViewInterface, finish, NULL)
-	PHP_ABSTRACT_ME(Phalcon_Mvc_ViewInterface, getCache, NULL)
-	PHP_ABSTRACT_ME(Phalcon_Mvc_ViewInterface, cache, arginfo_phalcon_mvc_viewinterface_cache)
-	PHP_ABSTRACT_ME(Phalcon_Mvc_ViewInterface, setContent, arginfo_phalcon_mvc_viewinterface_setcontent)
-	PHP_ABSTRACT_ME(Phalcon_Mvc_ViewInterface, getContent, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_ViewInterface, getActiveRenderPath, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_ViewInterface, disable, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_ViewInterface, enable, NULL)

@@ -287,6 +287,7 @@
 #include "phalcon/mvc/view/engineinterface.zep.h"
 #include "phalcon/mvc/view/exception.zep.h"
 #include "phalcon/mvc/view/simple.zep.h"
+#include "phalcon/mvc/viewbaseinterface.zep.h"
 #include "phalcon/mvc/viewinterface.zep.h"
 #include "phalcon/paginator/adapter/model.zep.h"
 #include "phalcon/paginator/adapter/nativearray.zep.h"

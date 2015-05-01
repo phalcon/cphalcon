@@ -961,7 +961,6 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, hasAttribute) {
 		zephir_array_fetch_long(&_2, _0, 4, PH_READONLY, "phalcon/mvc/model/metadata.zep", 645 TSRMLS_CC);
 		RETURN_MM_BOOL(zephir_array_isset(_2, attribute));
 	}
-	RETURN_MM_BOOL(0);
 
 }
 

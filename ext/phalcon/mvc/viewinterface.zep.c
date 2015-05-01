@@ -21,23 +21,10 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_ViewInterface) {
 
 	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Mvc, ViewInterface, phalcon, mvc_viewinterface, phalcon_mvc_viewinterface_method_entry);
 
+	zend_class_implements(phalcon_mvc_viewinterface_ce TSRMLS_CC, 1, phalcon_mvc_viewbaseinterface_ce);
 	return SUCCESS;
 
 }
-
-/**
- * Sets views directory. Depending of your platform, always add a trailing slash or backslash
- *
- * @param string viewsDir
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_ViewInterface, setViewsDir);
-
-/**
- * Gets views directory
- *
- * @return string
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_ViewInterface, getViewsDir);
 
 /**
  * Sets the layouts sub-directory. Must be a directory under the views directory. Depending of your platform, always add a trailing slash or backslash
@@ -136,29 +123,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_ViewInterface, setTemplateAfter);
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ViewInterface, cleanTemplateAfter);
 
 /**
- * Adds parameters to views (alias of setVar)
- *
- * @param string key
- * @param mixed value
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_ViewInterface, setParamToView);
-
-/**
- * Adds parameters to views
- *
- * @param string key
- * @param mixed value
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_ViewInterface, setVar);
-
-/**
- * Returns parameters to views
- *
- * @return array
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_ViewInterface, getParamsToView);
-
-/**
  * Gets the name of the controller rendered
  *
  * @return string
@@ -217,34 +181,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_ViewInterface, partial);
  * Finishes the render process by stopping the output buffering
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ViewInterface, finish);
-
-/**
- * Returns the cache instance used to cache
- *
- * @return Phalcon\Cache\BackendInterface
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_ViewInterface, getCache);
-
-/**
- * Cache the actual view render to certain level
- *
- * @param boolean|array options
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_ViewInterface, cache);
-
-/**
- * Externally sets the view content
- *
- * @param string content
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_ViewInterface, setContent);
-
-/**
- * Returns cached ouput from another view stage
- *
- * @return string
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_ViewInterface, getContent);
 
 /**
  * Returns the path of the view that is currently rendered

@@ -43,6 +43,7 @@ zend_class_entry *phalcon_mvc_model_resultsetinterface_ce;
 zend_class_entry *phalcon_assets_filterinterface_ce;
 zend_class_entry *phalcon_db_dialectinterface_ce;
 zend_class_entry *phalcon_diinterface_ce;
+zend_class_entry *phalcon_mvc_viewbaseinterface_ce;
 zend_class_entry *phalcon_paginator_adapterinterface_ce;
 zend_class_entry *phalcon_session_adapterinterface_ce;
 zend_class_entry *phalcon_translate_adapterinterface_ce;
@@ -402,6 +403,7 @@ static PHP_MINIT_FUNCTION(phalcon)
 	ZEPHIR_INIT(Phalcon_Assets_FilterInterface);
 	ZEPHIR_INIT(Phalcon_Db_DialectInterface);
 	ZEPHIR_INIT(Phalcon_DiInterface);
+	ZEPHIR_INIT(Phalcon_Mvc_ViewBaseInterface);
 	ZEPHIR_INIT(Phalcon_Paginator_AdapterInterface);
 	ZEPHIR_INIT(Phalcon_Session_AdapterInterface);
 	ZEPHIR_INIT(Phalcon_Translate_AdapterInterface);

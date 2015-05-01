@@ -869,11 +869,11 @@ PHP_METHOD(Phalcon_Http_Request, getJsonRawBody) {
 
 	ZEPHIR_CALL_METHOD(&rawBody, this_ptr, "getrawbody", NULL);
 	zephir_check_call_status();
-	if (Z_TYPE_P(rawBody) == IS_STRING) {
-		zephir_json_decode(return_value, &(return_value), rawBody, zephir_get_intval((associative ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)))  TSRMLS_CC);
-		RETURN_MM();
+	if (Z_TYPE_P(rawBody) != IS_STRING) {
+		RETURN_MM_BOOL(0);
 	}
-	RETURN_MM_BOOL(0);
+	zephir_json_decode(return_value, &(return_value), rawBody, zephir_get_intval((associative ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)))  TSRMLS_CC);
+	RETURN_MM();
 
 }
 
