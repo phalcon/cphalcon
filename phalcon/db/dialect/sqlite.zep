@@ -32,9 +32,9 @@ use Phalcon\Db\ReferenceInterface;
 /**
  * Phalcon\Db\Dialect\Sqlite
  *
- * Generates database specific SQL for the Sqlite RBDM
+ * Generates database specific SQL for the Sqlite RDBMS
  */
-class Sqlite extends Dialect implements DialectInterface
+class Sqlite extends Dialect
 {
 
 	protected _escapeChar = "\"";
@@ -172,7 +172,7 @@ class Sqlite extends Dialect implements DialectInterface
 	/**
 	 * Generates SQL to delete a column from a table
 	 */
-	public function dropColumn(string! tableName, string! schemaName, string columnName) -> string
+	public function dropColumn(string! tableName, string! schemaName, string! columnName) -> string
 	{
 		throw new Exception("Dropping DB column is not supported by SQLite");
 	}
@@ -219,7 +219,7 @@ class Sqlite extends Dialect implements DialectInterface
 	/**
 	 * Generates SQL to add the primary key to a table
 	 */
-	public function addPrimaryKey(string tableName, string schemaName, <IndexInterface> index) -> string
+	public function addPrimaryKey(string! tableName, string! schemaName, <IndexInterface> index) -> string
 	{
 		throw new Exception("Adding a primary key after table has been created is not supported by SQLite");
 	}
@@ -242,30 +242,14 @@ class Sqlite extends Dialect implements DialectInterface
 
 	/**
 	 * Generates SQL to delete a foreign key from a table
-	 *
-	 * @param	string tableName
-	 * @param	string schemaName
-	 * @param	string referenceName
-	 * @return	string
 	 */
-	public function dropForeignKey(string! tableName, string! schemaName, referenceName) -> string
+	public function dropForeignKey(string! tableName, string! schemaName, string! referenceName) -> string
 	{
 		throw new Exception("Dropping a foreign key constraint is not supported by SQLite");
 	}
 
 	/**
-	 * Generates SQL to add the table creation options
-	 *
-	 * @param	array definition
-	 * @return	array
-	 */
-	protected function _getTableOptions(definition) -> string
-	{
-		return "";
-	}
-
-	/**
-	 * Generates SQL to create a table in MySQL
+	 * Generates SQL to create a table
 	 */
 	public function createTable(string! tableName, string! schemaName, array! definition) -> string
 	{
@@ -273,14 +257,9 @@ class Sqlite extends Dialect implements DialectInterface
 	}
 
 	/**
-	 * Generates SQL to drop a table
-	 *
-	 * @param  string tableName
-	 * @param  string schemaName
-	 * @param  boolean ifExists
-	 * @return string
+	 * Generates SQL to drop a view
 	 */
-	public function dropTable(string! tableName, string! schemaName, ifExists = true) -> string
+	public function dropTable(string! tableName, string schemaName = null, boolean! ifExists = true) -> string
 	{
 		var sql, table;
 
@@ -301,13 +280,8 @@ class Sqlite extends Dialect implements DialectInterface
 
 	/**
 	 * Generates SQL to create a view
-	 *
-	 * @param string viewName
-	 * @param array definition
-	 * @param string schemaName
-	 * @return string
 	 */
-	public function createView(string! viewName, definition, string! schemaName) -> string
+	public function createView(string! viewName, array! definition, string schemaName = null) -> string
 	{
 		var view, viewSql;
 
@@ -327,7 +301,7 @@ class Sqlite extends Dialect implements DialectInterface
 	/**
 	 * Generates SQL to drop a view
 	 */
-	public function dropView(string! viewName, string! schemaName, boolean ifExists = true) -> string
+	public function dropView(string! viewName, string schemaName = null, boolean! ifExists = true) -> string
 	{
 		var sql, view;
 
@@ -350,27 +324,19 @@ class Sqlite extends Dialect implements DialectInterface
 	 * Generates SQL checking for the existence of a schema.table
 	 *
 	 * <code>
-	 * echo $dialect->tableExists("posts", "blog");
-	 * echo $dialect->tableExists("posts");
+	 *    echo $dialect->tableExists("posts", "blog");
+	 *    echo $dialect->tableExists("posts");
 	 * </code>
-	 *
-	 * @param string tableName
-	 * @param string schemaName
-	 * @return string
 	 */
-	public function tableExists(string! tableName, schemaName = null) -> string
+	public function tableExists(string! tableName, string schemaName = null) -> string
 	{
 		return "SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END FROM sqlite_master WHERE type='table' AND tbl_name='" . tableName . "'";
 	}
 
 	/**
 	 * Generates SQL checking for the existence of a schema.view
-	 *
-	 * @param string viewName
-	 * @param string schemaName
-	 * @return string
 	 */
-	public function viewExists(string! viewName, schemaName = null) -> string
+	public function viewExists(string! viewName, string schemaName = null) -> string
 	{
 		return "SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END FROM sqlite_master WHERE type='view' AND tbl_name='" . viewName . "'";
 	}
@@ -378,15 +344,11 @@ class Sqlite extends Dialect implements DialectInterface
 	/**
 	 * Generates SQL describing a table
 	 *
-	 *<code>
-	 *	print_r($dialect->describeColumns("posts"));
-	 *</code>
-	 *
-	 * @param string table
-	 * @param string schema
-	 * @return string
+	 * <code>
+	 *    print_r($dialect->describeColumns("posts"));
+	 * </code>
 	 */
-	public function describeColumns(string! table, schema = null) -> string
+	public function describeColumns(string! table, string schema = null) -> string
 	{
 		return "PRAGMA table_info('" . table . "')";
 	}
@@ -394,11 +356,11 @@ class Sqlite extends Dialect implements DialectInterface
 	/**
 	 * List all tables in database
 	 *
-	 *<code>
-	 *	print_r($dialect->listTables("blog"))
-	 *</code>
+	 * <code>
+	 *     print_r($dialect->listTables("blog"))
+	 * </code>
 	 */
-	public function listTables(string! schemaName = null) -> string
+	public function listTables(string schemaName = null) -> string
 	{
 		return "SELECT tbl_name FROM sqlite_master WHERE type = 'table' ORDER BY tbl_name";
 	}
@@ -413,12 +375,8 @@ class Sqlite extends Dialect implements DialectInterface
 
 	/**
 	 * Generates SQL to query indexes on a table
-	 *
-	 * @param	string table
-	 * @param	string schema
-	 * @return	string
 	 */
-	public function describeIndexes(string! table, schema = null) -> string
+	public function describeIndexes(string! table, string schema = null) -> string
 	{
 		return "PRAGMA index_list('" . table . "')";
 	}
@@ -433,24 +391,16 @@ class Sqlite extends Dialect implements DialectInterface
 
 	/**
 	 * Generates SQL to query foreign keys on a table
-	 *
-	 * @param	string table
-	 * @param	string schema
-	 * @return	string
 	 */
-	public function describeReferences(string! table, schema = null) -> string
+	public function describeReferences(string! table, string schema = null) -> string
 	{
 		return "PRAGMA foreign_key_list('" . table . "')";
 	}
 
 	/**
 	 * Generates the SQL to describe the table creation options
-	 *
-	 * @param	string table
-	 * @param	string schema
-	 * @return	string
 	 */
-	public function tableOptions(string! table, schema = null) -> string
+	public function tableOptions(string! table, string schema = null) -> string
 	{
 		return "";
 	}
