@@ -562,7 +562,12 @@ abstract class Dialect implements DialectInterface
 				"value": arguments
 			], escapeChar);
 
-			return expression["name"] . "(" . arguments . ")";
+			if isset expression["distinct"] && expression["distinct"] {
+				return expression["name"] . "(DISTINCT " . arguments . ")";
+			} else {
+				return expression["name"] . "(" . arguments . ")";
+			}
+
 		}
 
 		return expression["name"] . "()";
