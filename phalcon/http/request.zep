@@ -723,7 +723,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 	/**
 	 * Gets attached files as Phalcon\Http\Request\File instances
 	 */
-	public function getUploadedFiles(boolean notErrored = false) -> <File[]>
+	public function getUploadedFiles(boolean onlySuccessful = false) -> <File[]>
 	{
 		var superFiles, prefix, input, smoothInput, file, dataFile;
 		array files = [];
@@ -737,7 +737,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 					let smoothInput = this->smoothFiles(input["name"], input["type"], input["tmp_name"], input["size"], input["error"], prefix);
 
 					for file in smoothInput {
-						if notErrored == false || file["error"] == UPLOAD_ERR_OK {
+						if onlySuccessful == false || file["error"] == UPLOAD_ERR_OK {
 							let dataFile = [
 								"name": file["name"],
 								"type": file["type"],
@@ -750,7 +750,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 						}
 					}
 				} else {
-					if notErrored == false || input["error"] == UPLOAD_ERR_OK {
+					if onlySuccessful == false || input["error"] == UPLOAD_ERR_OK {
 						let files[] = new File(input, prefix);
 					}
 				}
