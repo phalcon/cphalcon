@@ -457,58 +457,58 @@ static zval *phql_ret_func_call(phql_parser_token *name, zval *arguments, zval *
 #endif
 /* The next thing included is series of defines which control
 ** various aspects of the generated parser.
-**    YYCODETYPE         is the data type used for storing terminal
+**    PPCODETYPE         is the data type used for storing terminal
 **                       and nonterminal numbers.  "unsigned char" is
 **                       used if there are fewer than 250 terminals
 **                       and nonterminals.  "int" is used otherwise.
-**    YYNOCODE           is a number of type YYCODETYPE which corresponds
+**    PPNOCODE           is a number of type PPCODETYPE which corresponds
 **                       to no legal terminal or nonterminal number.  This
 **                       number is used to fill in empty slots of the hash 
 **                       table.
-**    YYFALLBACK         If defined, this indicates that one or more tokens
+**    PPFALLBACK         If defined, this indicates that one or more tokens
 **                       have fall-back values which should be used if the
 **                       original value of the token will not parse.
-**    YYACTIONTYPE       is the data type used for storing terminal
+**    PPACTIONTYPE       is the data type used for storing terminal
 **                       and nonterminal numbers.  "unsigned char" is
 **                       used if there are fewer than 250 rules and
 **                       states combined.  "int" is used otherwise.
 **    phql_TOKENTYPE     is the data type used for minor tokens given 
 **                       directly to the parser from the tokenizer.
-**    YYMINORTYPE        is the data type used for all minor tokens.
+**    PPMINORTYPE        is the data type used for all minor tokens.
 **                       This is typically a union of many types, one of
 **                       which is phql_TOKENTYPE.  The entry in the union
-**                       for base tokens is called "yy0".
-**    YYSTACKDEPTH       is the maximum depth of the parser's stack.
+**                       for base tokens is called "pp0".
+**    PPSTACKDEPTH       is the maximum depth of the parser's stack.
 **    phql_ARG_SDECL     A static variable declaration for the %extra_argument
 **    phql_ARG_PDECL     A parameter declaration for the %extra_argument
-**    phql_ARG_STORE     Code to store %extra_argument into yypParser
-**    phql_ARG_FETCH     Code to extract %extra_argument from yypParser
-**    YYNSTATE           the combined number of states.
-**    YYNRULE            the number of rules in the grammar
-**    YYERRORSYMBOL      is the code number of the error symbol.  If not
+**    phql_ARG_STORE     Code to store %extra_argument into pppParser
+**    phql_ARG_FETCH     Code to extract %extra_argument from pppParser
+**    PPNSTATE           the combined number of states.
+**    PPNRULE            the number of rules in the grammar
+**    PPERRORSYMBOL      is the code number of the error symbol.  If not
 **                       defined, then do no error processing.
 */
-#define YYCODETYPE unsigned char
-#define YYNOCODE 120
-#define YYACTIONTYPE unsigned short int
+#define PPCODETYPE unsigned char
+#define PPNOCODE 120
+#define PPACTIONTYPE unsigned short int
 #define phql_TOKENTYPE phql_parser_token*
 typedef union {
-  phql_TOKENTYPE yy0;
-  zval* yy92;
-  int yy239;
-} YYMINORTYPE;
-#define YYSTACKDEPTH 100
+  phql_TOKENTYPE pp0;
+  zval* pp92;
+  int pp239;
+} PPMINORTYPE;
+#define PPSTACKDEPTH 100
 #define phql_ARG_SDECL phql_parser_status *status;
 #define phql_ARG_PDECL ,phql_parser_status *status
-#define phql_ARG_FETCH phql_parser_status *status = yypParser->status
-#define phql_ARG_STORE yypParser->status = status
-#define YYNSTATE 249
-#define YYNRULE 139
-#define YYERRORSYMBOL 70
-#define YYERRSYMDT yy239
-#define YY_NO_ACTION      (YYNSTATE+YYNRULE+2)
-#define YY_ACCEPT_ACTION  (YYNSTATE+YYNRULE+1)
-#define YY_ERROR_ACTION   (YYNSTATE+YYNRULE)
+#define phql_ARG_FETCH phql_parser_status *status = pppParser->status
+#define phql_ARG_STORE pppParser->status = status
+#define PPNSTATE 249
+#define PPNRULE 139
+#define PPERRORSYMBOL 70
+#define PPERRSYMDT pp239
+#define PP_NO_ACTION      (PPNSTATE+PPNRULE+2)
+#define PP_ACCEPT_ACTION  (PPNSTATE+PPNRULE+1)
+#define PP_ERROR_ACTION   (PPNSTATE+PPNRULE)
 
 /* Next are that tables used to determine what action to take based on the
 ** current state and lookahead token.  These tables are used to implement
@@ -518,234 +518,234 @@ typedef union {
 ** Suppose the action integer is N.  Then the action is determined as
 ** follows
 **
-**   0 <= N < YYNSTATE                  Shift N.  That is, push the lookahead
+**   0 <= N < PPNSTATE                  Shift N.  That is, push the lookahead
 **                                      token onto the stack and goto state N.
 **
-**   YYNSTATE <= N < YYNSTATE+YYNRULE   Reduce by rule N-YYNSTATE.
+**   PPNSTATE <= N < PPNSTATE+PPNRULE   Reduce by rule N-PPNSTATE.
 **
-**   N == YYNSTATE+YYNRULE              A syntax error has occurred.
+**   N == PPNSTATE+PPNRULE              A syntax error has occurred.
 **
-**   N == YYNSTATE+YYNRULE+1            The parser accepts its input.
+**   N == PPNSTATE+PPNRULE+1            The parser accepts its input.
 **
-**   N == YYNSTATE+YYNRULE+2            No such action.  Denotes unused
-**                                      slots in the yy_action[] table.
+**   N == PPNSTATE+PPNRULE+2            No such action.  Denotes unused
+**                                      slots in the pp_action[] table.
 **
-** The action table is constructed as a single large table named yy_action[].
+** The action table is constructed as a single large table named pp_action[].
 ** Given state S and lookahead X, the action is computed as
 **
-**      yy_action[ yy_shift_ofst[S] + X ]
+**      pp_action[ pp_shift_ofst[S] + X ]
 **
-** If the index value yy_shift_ofst[S]+X is out of range or if the value
-** yy_lookahead[yy_shift_ofst[S]+X] is not equal to X or if yy_shift_ofst[S]
-** is equal to YY_SHIFT_USE_DFLT, it means that the action is not in the table
-** and that yy_default[S] should be used instead.  
+** If the index value pp_shift_ofst[S]+X is out of range or if the value
+** pp_lookahead[pp_shift_ofst[S]+X] is not equal to X or if pp_shift_ofst[S]
+** is equal to PP_SHIFT_USE_DFLT, it means that the action is not in the table
+** and that pp_default[S] should be used instead.  
 **
 ** The formula above is for computing the action when the lookahead is
 ** a terminal symbol.  If the lookahead is a non-terminal (as occurs after
-** a reduce action) then the yy_reduce_ofst[] array is used in place of
-** the yy_shift_ofst[] array and YY_REDUCE_USE_DFLT is used in place of
-** YY_SHIFT_USE_DFLT.
+** a reduce action) then the pp_reduce_ofst[] array is used in place of
+** the pp_shift_ofst[] array and PP_REDUCE_USE_DFLT is used in place of
+** PP_SHIFT_USE_DFLT.
 **
 ** The following are the tables generated in this section:
 **
-**  yy_action[]        A single table containing all actions.
-**  yy_lookahead[]     A table containing the lookahead for each entry in
-**                     yy_action.  Used to detect hash collisions.
-**  yy_shift_ofst[]    For each state, the offset into yy_action for
+**  pp_action[]        A single table containing all actions.
+**  pp_lookahead[]     A table containing the lookahead for each entry in
+**                     pp_action.  Used to detect hash collisions.
+**  pp_shift_ofst[]    For each state, the offset into pp_action for
 **                     shifting terminals.
-**  yy_reduce_ofst[]   For each state, the offset into yy_action for
+**  pp_reduce_ofst[]   For each state, the offset into pp_action for
 **                     shifting non-terminals after a reduce.
-**  yy_default[]       Default action for each state.
+**  pp_default[]       Default action for each state.
 */
-static YYACTIONTYPE yy_action[] = {
+static PPACTIONTYPE pp_action[] = {
  /*     0 */    72,   78,   50,   52,   54,   56,   58,   60,   40,   42,
  /*    10 */    62,   67,   44,   46,   48,   36,   34,   38,   32,   29,
- /*    20 */    74,   69,   64,  145,   72,   78,   50,   52,   54,   56,
+ /*    20 */    74,   69,   64,   64,   72,   78,   50,   52,   54,   56,
  /*    30 */    58,   60,   40,   42,   62,   67,   44,   46,   48,   36,
- /*    40 */    34,   38,   32,   29,   74,   69,   64,   16,   17,   18,
- /*    50 */   249,   27,   28,  201,  192,  199,  150,   72,   78,   50,
+ /*    40 */    34,   38,   32,   29,   74,   69,   64,   74,   69,   64,
+ /*    50 */   167,   27,   28,  201,  192,  199,  150,   72,   78,   50,
  /*    60 */    52,   54,   56,   58,   60,   40,   42,   62,   67,   44,
  /*    70 */    46,   48,   36,   34,   38,   32,   29,   74,   69,   64,
- /*    80 */    36,   34,   38,   32,   29,   74,   69,   64,   83,    7,
+ /*    80 */    36,   34,   38,   32,   29,   74,   69,   64,   83,   77,
  /*    90 */    72,   78,   50,   52,   54,   56,   58,   60,   40,   42,
  /*   100 */    62,   67,   44,   46,   48,   36,   34,   38,   32,   29,
- /*   110 */    74,   69,   64,   72,   78,   50,   52,   54,   56,   58,
- /*   120 */    60,   40,   42,   62,   67,   44,   46,   48,   36,   34,
- /*   130 */    38,   32,   29,   74,   69,   64,   40,   42,   62,   67,
- /*   140 */    44,   46,   48,   36,   34,   38,   32,   29,   74,   69,
- /*   150 */    64,  327,   89,   74,   69,   64,  158,  108,  156,   72,
+ /*   110 */    74,   69,   64,   50,   52,   54,   56,   58,   60,   40,
+ /*   120 */    42,   62,   67,   44,   46,   48,   36,   34,   38,   32,
+ /*   130 */    29,   74,   69,   64,  108,  168,   72,   78,   50,   52,
+ /*   140 */    54,   56,   58,   60,   40,   42,   62,   67,   44,   46,
+ /*   150 */    48,   36,   34,   38,   32,   29,   74,   69,   64,   72,
  /*   160 */    78,   50,   52,   54,   56,   58,   60,   40,   42,   62,
  /*   170 */    67,   44,   46,   48,   36,   34,   38,   32,   29,   74,
- /*   180 */    69,   64,   50,   52,   54,   56,   58,   60,   40,   42,
- /*   190 */    62,   67,   44,   46,   48,   36,   34,   38,   32,   29,
- /*   200 */    74,   69,   64,  101,  203,  204,   30,   12,  250,  102,
- /*   210 */   104,   65,  128,  138,  101,  153,   93,   30,  324,   99,
- /*   220 */   102,  104,  130,  173,  189,  175,  177,   93,  181,  185,
- /*   230 */   106,  364,  173,  189,  175,  177,   76,  181,  185,  363,
- /*   240 */   172,  106,  170,   14,  110,  116,  117,   80,   86,   26,
- /*   250 */   113,  111,  112,  114,  115,  110,  116,  117,   80,   86,
- /*   260 */    26,  113,  111,  112,  114,  115,  194,  109,   71,   30,
- /*   270 */    23,  135,  102,  104,  251,   19,   92,   75,  109,  195,
- /*   280 */    30,    8,   25,  102,  104,  124,  109,   92,  208,  216,
- /*   290 */    93,  252,   99,  106,   98,   92,  253,   96,  118,   32,
- /*   300 */    29,   74,   69,   64,  106,  136,    9,  110,  116,  117,
- /*   310 */    80,   86,  127,  113,  111,  112,  114,  115,  110,  116,
- /*   320 */   117,   80,   86,  120,  113,  111,  112,  114,  115,   62,
- /*   330 */    67,   44,   46,   48,   36,   34,   38,   32,   29,   74,
- /*   340 */    69,   64,   44,   46,   48,   36,   34,   38,   32,   29,
- /*   350 */    74,   69,   64,   71,  143,  389,    1,    2,    3,    4,
- /*   360 */     5,    6,  162,  163,  164,  235,  242,  238,   10,   71,
- /*   370 */   180,  109,  109,  178,  237,  238,   21,  140,  144,  126,
- /*   380 */    92,   92,  214,  118,   11,  149,  227,  109,  202,  198,
- /*   390 */   254,  210,  243,  124,  215,  132,   92,  152,  147,  118,
- /*   400 */   109,  161,  190,  163,  164,  214,   94,  109,   71,   92,
- /*   410 */   143,   13,   15,  205,  221,  151,   92,  215,  232,  191,
- /*   420 */   246,  193,  198,  109,  155,  241,  109,  214,  109,  134,
- /*   430 */    31,  120,   92,   33,  142,   92,  159,   92,  100,  213,
- /*   440 */   109,   35,   22,  109,  240,  109,   37,  109,  109,   92,
- /*   450 */   154,  109,   92,  165,   92,  155,   92,   92,   39,  109,
- /*   460 */    92,   41,  196,   99,  109,  159,   43,  159,   92,   45,
- /*   470 */   325,   47,   49,   92,   51,   94,  109,   53,  184,  109,
- /*   480 */    20,  182,  326,  133,  109,   92,   64,  109,   92,  109,
- /*   490 */   109,   55,  109,   92,   57,  109,   92,   59,   92,   92,
- /*   500 */   120,   92,   61,  197,   92,   63,   24,   66,   68,  109,
- /*   510 */    73,  188,  109,   79,  186,  109,  125,   70,   92,  212,
- /*   520 */   109,   92,  223,  109,   92,  109,  109,   82,  109,   92,
- /*   530 */    88,  109,   92,  103,   92,   92,  329,   92,  105,  211,
- /*   540 */    92,  107,  218,  129,  169,  109,  137,  217,  109,  146,
- /*   550 */   226,  109,  212,   77,   92,   81,  109,   92,  233,  109,
- /*   560 */    92,  109,  109,  155,  109,   92,  207,  109,   92,  248,
- /*   570 */    92,   92,  222,   92,  155,  159,   92,   84,  159,   85,
- /*   580 */    90,   87,  119,   91,   95,   97,  159,  121,  131,  122,
- /*   590 */   123,  125,  230,  139,  141,  148,  160,  157,  166,  168,
- /*   600 */   167,  171,  174,  277,  176,  278,  179,  279,  280,  281,
- /*   610 */   183,  282,  283,  284,  187,  285,  200,  288,  209,  225,
- /*   620 */   289,  224,  229,  228,  296,  328,  206,  231,  236,  239,
- /*   630 */   219,  244,  220,  245,  302,  247,  260,  234,
+ /*   180 */    69,   64,  101,  217,  196,   30,  226,   21,  102,  104,
+ /*   190 */    16,   17,   18,  101,  153,   93,   30,   94,   89,  102,
+ /*   200 */   104,   79,  173,  189,  175,  177,   93,  181,  185,  106,
+ /*   210 */   364,  173,  189,  175,  177,  188,  181,  185,  186,  109,
+ /*   220 */   106,  324,  120,  110,  116,  117,   80,   86,   92,  113,
+ /*   230 */   111,  112,  114,  115,  110,  116,  117,   80,   86,  166,
+ /*   240 */   113,  111,  112,  114,  115,  194,   14,   71,   30,   65,
+ /*   250 */   128,  102,  104,   32,   29,   74,   69,   64,  195,   30,
+ /*   260 */   130,   10,  102,  104,  124,  109,  235,  242,  238,   93,
+ /*   270 */   171,   99,  106,   98,   92,  152,   96,  118,   19,  161,
+ /*   280 */   190,  163,  164,  106,  237,  238,  110,  116,  117,   80,
+ /*   290 */    86,  133,  113,  111,  112,  114,  115,  110,  116,  117,
+ /*   300 */    80,   86,  120,  113,  111,  112,  114,  115,   40,   42,
+ /*   310 */    62,   67,   44,   46,   48,   36,   34,   38,   32,   29,
+ /*   320 */    74,   69,   64,   62,   67,   44,   46,   48,   36,   34,
+ /*   330 */    38,   32,   29,   74,   69,   64,   44,   46,   48,   36,
+ /*   340 */    34,   38,   32,   29,   74,   69,   64,   26,   76,  124,
+ /*   350 */   160,  158,  143,  156,  214,  389,    1,    2,    3,    4,
+ /*   360 */     5,    6,   94,  210,   71,  109,  215,  174,   23,  135,
+ /*   370 */   109,   81,  109,  207,   92,  140,  144,   71,  176,   92,
+ /*   380 */   149,   92,  109,  202,  198,  159,  227,  120,  214,   75,
+ /*   390 */   132,   92,  243,  180,  118,  109,  178,  221,  241,  147,
+ /*   400 */   215,  329,  109,  126,   92,   26,  109,  118,  165,  151,
+ /*   410 */   143,   92,   11,  191,  205,   92,  109,  240,  155,  232,
+ /*   420 */   159,  246,   71,  109,  105,   92,  214,   25,  109,   73,
+ /*   430 */   159,  254,   92,  179,  142,  193,  198,   92,  213,  277,
+ /*   440 */   109,  107,  109,   82,  109,  233,   33,  109,   41,   92,
+ /*   450 */   155,   92,  100,   92,  109,  183,   92,  230,   43,  109,
+ /*   460 */   278,  109,  159,   92,  109,   35,  109,  279,   92,  146,
+ /*   470 */    92,  134,   66,   92,  251,   92,  109,   45,  162,  163,
+ /*   480 */   164,  203,  204,  109,   37,   92,   24,  109,   47,  109,
+ /*   490 */   109,   59,   92,  327,   49,  109,   92,    9,   92,   92,
+ /*   500 */   154,   85,  109,  197,   92,  155,  109,  169,   31,  109,
+ /*   510 */    51,   92,  109,  212,  248,   92,  125,  159,   92,  155,
+ /*   520 */   172,   92,  170,   63,   68,  109,  109,   53,  109,   39,
+ /*   530 */   137,  159,   99,  211,   92,   92,  280,   92,  208,  216,
+ /*   540 */    55,  109,  109,   61,  223,  109,  212,  109,  109,   12,
+ /*   550 */    92,   92,  127,  103,   92,   57,   92,   92,  109,  129,
+ /*   560 */    88,  109,  184,   99,  218,  182,  222,   92,  187,   84,
+ /*   570 */    92,  109,  281,  109,  282,   87,  283,  109,  109,  284,
+ /*   580 */    92,  285,   92,  363,   90,   91,   92,   92,   13,  119,
+ /*   590 */   200,   70,   95,  157,  206,   97,  288,  209,  225,  219,
+ /*   600 */    15,  220,  289,  136,  224,  148,  325,  145,  228,  296,
+ /*   610 */   231,  229,  328,  252,  234,  236,  131,  250,  239,  253,
+ /*   620 */    22,  245,    8,  244,  302,  141,  247,  249,  139,  122,
+ /*   630 */   326,  121,  138,  123,  125,  260,   20,    7,
 };
-static YYCODETYPE yy_lookahead[] = {
+static PPCODETYPE pp_lookahead[] = {
  /*     0 */     1,    2,    3,    4,    5,    6,    7,    8,    9,   10,
  /*    10 */    11,   12,   13,   14,   15,   16,   17,   18,   19,   20,
- /*    20 */    21,   22,   23,   49,    1,    2,    3,    4,    5,    6,
+ /*    20 */    21,   22,   23,   23,    1,    2,    3,    4,    5,    6,
  /*    30 */     7,    8,    9,   10,   11,   12,   13,   14,   15,   16,
- /*    40 */    17,   18,   19,   20,   21,   22,   23,   58,   59,   60,
- /*    50 */     0,   52,   53,   30,   25,   32,   27,    1,    2,    3,
+ /*    40 */    17,   18,   19,   20,   21,   22,   23,   21,   22,   23,
+ /*    50 */    96,   52,   53,   30,   25,   32,   27,    1,    2,    3,
  /*    60 */     4,    5,    6,    7,    8,    9,   10,   11,   12,   13,
  /*    70 */    14,   15,   16,   17,   18,   19,   20,   21,   22,   23,
- /*    80 */    16,   17,   18,   19,   20,   21,   22,   23,   32,   78,
+ /*    80 */    16,   17,   18,   19,   20,   21,   22,   23,   32,   64,
  /*    90 */     1,    2,    3,    4,    5,    6,    7,    8,    9,   10,
  /*   100 */    11,   12,   13,   14,   15,   16,   17,   18,   19,   20,
- /*   110 */    21,   22,   23,    1,    2,    3,    4,    5,    6,    7,
- /*   120 */     8,    9,   10,   11,   12,   13,   14,   15,   16,   17,
- /*   130 */    18,   19,   20,   21,   22,   23,    9,   10,   11,   12,
- /*   140 */    13,   14,   15,   16,   17,   18,   19,   20,   21,   22,
- /*   150 */    23,    0,   63,   21,   22,   23,   30,   45,   32,    1,
+ /*   110 */    21,   22,   23,    3,    4,    5,    6,    7,    8,    9,
+ /*   120 */    10,   11,   12,   13,   14,   15,   16,   17,   18,   19,
+ /*   130 */    20,   21,   22,   23,   45,   40,    1,    2,    3,    4,
+ /*   140 */     5,    6,    7,    8,    9,   10,   11,   12,   13,   14,
+ /*   150 */    15,   16,   17,   18,   19,   20,   21,   22,   23,    1,
  /*   160 */     2,    3,    4,    5,    6,    7,    8,    9,   10,   11,
  /*   170 */    12,   13,   14,   15,   16,   17,   18,   19,   20,   21,
- /*   180 */    22,   23,    3,    4,    5,    6,    7,    8,    9,   10,
- /*   190 */    11,   12,   13,   14,   15,   16,   17,   18,   19,   20,
- /*   200 */    21,   22,   23,   17,   28,   29,   20,   56,    0,   23,
- /*   210 */    24,   11,   12,   54,   17,   25,   30,   20,    0,   25,
- /*   220 */    23,   24,   22,   33,   34,   35,   36,   30,   38,   39,
- /*   230 */    44,   45,   33,   34,   35,   36,   23,   38,   39,   45,
- /*   240 */    30,   44,   32,   25,   58,   59,   60,   61,   62,   88,
- /*   250 */    64,   65,   66,   67,   68,   58,   59,   60,   61,   62,
- /*   260 */    88,   64,   65,   66,   67,   68,   17,  106,   88,   20,
- /*   270 */   109,  110,   23,   24,    0,   57,  115,   64,  106,   30,
- /*   280 */    20,   79,  110,   23,   24,   31,  106,  115,   43,   44,
- /*   290 */    30,    0,   25,   44,  114,  115,    0,  117,  118,   19,
- /*   300 */    20,   21,   22,   23,   44,   55,   80,   58,   59,   60,
- /*   310 */    61,   62,   45,   64,   65,   66,   67,   68,   58,   59,
- /*   320 */    60,   61,   62,   69,   64,   65,   66,   67,   68,   11,
- /*   330 */    12,   13,   14,   15,   16,   17,   18,   19,   20,   21,
- /*   340 */    22,   23,   13,   14,   15,   16,   17,   18,   19,   20,
- /*   350 */    21,   22,   23,   88,   88,   71,   72,   73,   74,   75,
- /*   360 */    76,   77,   91,   92,   93,  104,  105,  106,   81,   88,
- /*   370 */    34,  106,  106,   37,  105,  106,   50,  111,  112,  114,
- /*   380 */   115,  115,   88,  118,   82,   84,  102,  106,   87,   88,
- /*   390 */     0,   97,  108,   31,  100,  114,  115,   86,   26,  118,
- /*   400 */   106,   90,   91,   92,   93,   88,   44,  106,   88,  115,
- /*   410 */    88,  113,  113,   41,   97,   85,  115,  100,   46,   89,
- /*   420 */    48,   87,   88,  106,   94,   88,  106,   88,  106,   88,
- /*   430 */    88,   69,  115,   88,  112,  115,  106,  115,  118,  100,
- /*   440 */   106,   88,   51,  106,  107,  106,   88,  106,  106,  115,
- /*   450 */    89,  106,  115,   94,  115,   94,  115,  115,   88,  106,
- /*   460 */   115,   88,   31,   25,  106,  106,   88,  106,  115,   88,
- /*   470 */     0,   88,   88,  115,   88,   44,  106,   88,   34,  106,
- /*   480 */   113,   37,    0,   45,  106,  115,   23,  106,  115,  106,
- /*   490 */   106,   88,  106,  115,   88,  106,  115,   88,  115,  115,
- /*   500 */    69,  115,   88,   17,  115,   88,   25,   88,   88,  106,
- /*   510 */    88,   34,  106,   88,   37,  106,   30,   44,  115,   25,
- /*   520 */   106,  115,   25,  106,  115,  106,  106,   88,  106,  115,
- /*   530 */    88,  106,  115,   88,  115,  115,    0,  115,   88,   45,
- /*   540 */   115,   88,   45,   88,   88,  106,   88,   98,  106,   88,
- /*   550 */   101,  106,   25,   64,  115,   44,  106,  115,   89,  106,
- /*   560 */   115,  106,  106,   94,  106,  115,   94,  106,  115,   89,
- /*   570 */   115,  115,   45,  115,   94,  106,  115,   30,  106,   45,
- /*   580 */    30,   44,   28,   45,  116,   45,  106,   30,   44,   31,
- /*   590 */    30,   30,   56,   51,   25,   83,   30,   30,   95,   40,
- /*   600 */    96,   30,   34,   30,   34,   30,   34,   30,   30,   30,
- /*   610 */    34,   30,   30,   30,   34,   30,   30,    0,   44,   30,
- /*   620 */     0,  101,  103,   78,    0,    0,   42,  113,   25,    3,
- /*   630 */    43,   78,   44,  103,    0,   27,  119,   47,
+ /*   180 */    22,   23,   17,   98,   31,   20,  101,   50,   23,   24,
+ /*   190 */    58,   59,   60,   17,   25,   30,   20,   44,   63,   23,
+ /*   200 */    24,   88,   33,   34,   35,   36,   30,   38,   39,   44,
+ /*   210 */    45,   33,   34,   35,   36,   34,   38,   39,   37,  106,
+ /*   220 */    44,    0,   69,   58,   59,   60,   61,   62,  115,   64,
+ /*   230 */    65,   66,   67,   68,   58,   59,   60,   61,   62,   95,
+ /*   240 */    64,   65,   66,   67,   68,   17,   25,   88,   20,   11,
+ /*   250 */    12,   23,   24,   19,   20,   21,   22,   23,   30,   20,
+ /*   260 */    22,   81,   23,   24,   31,  106,  104,  105,  106,   30,
+ /*   270 */    30,   25,   44,  114,  115,   86,  117,  118,   57,   90,
+ /*   280 */    91,   92,   93,   44,  105,  106,   58,   59,   60,   61,
+ /*   290 */    62,   45,   64,   65,   66,   67,   68,   58,   59,   60,
+ /*   300 */    61,   62,   69,   64,   65,   66,   67,   68,    9,   10,
+ /*   310 */    11,   12,   13,   14,   15,   16,   17,   18,   19,   20,
+ /*   320 */    21,   22,   23,   11,   12,   13,   14,   15,   16,   17,
+ /*   330 */    18,   19,   20,   21,   22,   23,   13,   14,   15,   16,
+ /*   340 */    17,   18,   19,   20,   21,   22,   23,   88,   23,   31,
+ /*   350 */    30,   30,   88,   32,   88,   71,   72,   73,   74,   75,
+ /*   360 */    76,   77,   44,   97,   88,  106,  100,   34,  109,  110,
+ /*   370 */   106,   44,  106,   94,  115,  111,  112,   88,   34,  115,
+ /*   380 */    84,  115,  106,   87,   88,  106,  102,   69,   88,   64,
+ /*   390 */   114,  115,  108,   34,  118,  106,   37,   97,   88,   26,
+ /*   400 */   100,    0,  106,  114,  115,   88,  106,  118,   94,   85,
+ /*   410 */    88,  115,   82,   89,   41,  115,  106,  107,   94,   46,
+ /*   420 */   106,   48,   88,  106,   88,  115,   88,  110,  106,   88,
+ /*   430 */   106,    0,  115,   34,  112,   87,   88,  115,  100,   30,
+ /*   440 */   106,   88,  106,   88,  106,   89,   88,  106,   88,  115,
+ /*   450 */    94,  115,  118,  115,  106,   34,  115,   56,   88,  106,
+ /*   460 */    30,  106,  106,  115,  106,   88,  106,   30,  115,   88,
+ /*   470 */   115,   88,   88,  115,    0,  115,  106,   88,   91,   92,
+ /*   480 */    93,   28,   29,  106,   88,  115,   25,  106,   88,  106,
+ /*   490 */   106,   88,  115,    0,   88,  106,  115,   80,  115,  115,
+ /*   500 */    89,   45,  106,   17,  115,   94,  106,   88,   88,  106,
+ /*   510 */    88,  115,  106,   25,   89,  115,   30,  106,  115,   94,
+ /*   520 */    30,  115,   32,   88,   88,  106,  106,   88,  106,   88,
+ /*   530 */    88,  106,   25,   45,  115,  115,   30,  115,   43,   44,
+ /*   540 */    88,  106,  106,   88,   25,  106,   25,  106,  106,   56,
+ /*   550 */   115,  115,   45,   88,  115,   88,  115,  115,  106,   88,
+ /*   560 */    88,  106,   34,   25,   45,   37,   45,  115,   34,   30,
+ /*   570 */   115,  106,   30,  106,   30,   44,   30,  106,  106,   30,
+ /*   580 */   115,   30,  115,   45,   30,   45,  115,  115,  113,   28,
+ /*   590 */    30,   44,  116,   30,   42,   45,    0,   44,   30,   43,
+ /*   600 */   113,   44,    0,   55,  101,   83,    0,   49,   78,    0,
+ /*   610 */   113,  103,    0,    0,   47,   25,   44,    0,    3,    0,
+ /*   620 */    51,  103,   79,   78,    0,   25,   27,    0,   51,   31,
+ /*   630 */     0,   30,   54,   30,   30,  119,  113,   78,
 };
-#define YY_SHIFT_USE_DFLT (-27)
-static short yy_shift_ofst[] = {
- /*     0 */   372,   50,  208,  274,  291,  296,  -26,  159,  250,  326,
- /*    10 */   151,  390,  -11,  218,  -11,  470,  -27,  -27,  -27,  -11,
- /*    20 */   482,  391,  260,  481,  260,  -27,   -1,  -27,  -27,  260,
- /*    30 */   260,  132,  260,  132,  260,  280,  260,  280,  260,  280,
- /*    40 */   260,  318,  260,  318,  260,   64,  260,   64,  260,   64,
- /*    50 */   260,  127,  260,  127,  260,  127,  260,  127,  260,  127,
- /*    60 */   260,  127,  260,  329,  200,  260,  463,  260,  329,  473,
- /*    70 */   197,  158,  260,  158,  213,  -27,  489,  -27,  260,  179,
- /*    80 */   511,  260,   56,  547,  534,  -27,  537,  260,   89,  550,
- /*    90 */   538,  -27,  -27,  362,  554,  186,  540,  -27,  194,  197,
- /*   100 */   -27,  -27,  260,  463,  260,  463,  260,  112,  -27,  -27,
- /*   110 */   -27,  -27,  -27,  -27,  -27,  -27,  -27,  -27,  -27,  -27,
- /*   120 */   557,  558,  560,  -27,  561,  -27,  267,  -27,  260,  463,
- /*   130 */   544,  197,  438,  -27,  132,  -27,  260,  158,  542,  260,
- /*   140 */   569,  260,  -27,  158,  -27,  260,  158,  176,  249,   29,
- /*   150 */   566,  190,  -27,  566,  -27,  126,  567,  -27,  -27,  -27,
- /*   160 */   254,  199,  -27,  -27,  566,  210,  559,  -27,  260,  158,
- /*   170 */   571,  -27,  -27,  568,  573,  570,  575,  336,  572,  577,
- /*   180 */   578,  444,  576,  579,  581,  477,  580,  582,  583,  585,
- /*   190 */   -27,  -27,  249,  -27,  -27,  431,  486,  -27,   23,  586,
- /*   200 */   -27,  -27,  -27,  -27,  -27,  584,  566,  245,  574,  260,
- /*   210 */   494,  617,  260,  -27,  158,  -27,  589,  497,  587,  588,
- /*   220 */   260,  527,  620,  589,  -27,  -27,  -27,  -26,  536,  624,
- /*   230 */   -11,  625,  566,  590,  566,  603,  566,  -27,  626,  260,
- /*   240 */   -27,  158,  -27,  -26,  536,  634,  608,  566,  -27,
+#define PP_SHIFT_USE_DFLT (-2)
+static short pp_shift_ofst[] = {
+ /*     0 */   373,  627,  617,  474,  613,  619,  558,  578,  548,  137,
+ /*    10 */   493,  431,  132,  221,  132,  606,   -2,   -2,   -2,  132,
+ /*    20 */   630,  569,  239,  461,  239,   -2,   -1,   -2,   -2,  239,
+ /*    30 */   239,   26,  239,   26,  239,  234,  239,  234,  239,  234,
+ /*    40 */   239,  312,  239,  312,  239,   64,  239,   64,  239,   64,
+ /*    50 */   239,  299,  239,  299,  239,  299,  239,  299,  239,  299,
+ /*    60 */   239,  299,  239,  323,  238,  239,    0,  239,  323,  547,
+ /*    70 */   176,  158,  239,  158,  325,   -2,   25,   -2,  239,  110,
+ /*    80 */   327,  239,   56,  539,  456,   -2,  531,  239,  135,  554,
+ /*    90 */   540,   -2,   -2,  318,  561,  165,  550,   -2,  538,  176,
+ /*   100 */    -2,   -2,  239,    0,  239,    0,  239,   89,   -2,   -2,
+ /*   110 */    -2,   -2,   -2,   -2,   -2,   -2,   -2,   -2,   -2,   -2,
+ /*   120 */   601,  598,  603,   -2,  604,   -2,  507,   -2,  239,    0,
+ /*   130 */   572,  176,  246,   -2,   26,   -2,  239,  158,  577,  239,
+ /*   140 */   600,  239,   -2,  158,   -2,  239,  158,  453,  228,   29,
+ /*   150 */   320,  169,   -2,  320,   -2,  321,  563,   -2,   -2,   -2,
+ /*   160 */   233,  178,   -2,   -2,  320,  490,   95,   -2,  239,  158,
+ /*   170 */   240,   -2,   -2,  333,  409,  344,  430,  359,  399,  437,
+ /*   180 */   506,  528,  421,  542,  544,  181,  534,  546,  549,  551,
+ /*   190 */    -2,   -2,  228,   -2,   -2,  153,  486,   -2,   23,  560,
+ /*   200 */    -2,   -2,   -2,   -2,   -2,  552,  320,  495,  553,  239,
+ /*   210 */   488,  596,  239,   -2,  158,   -2,  568,  519,  556,  557,
+ /*   220 */   239,  521,  602,  568,   -2,   -2,   -2,  558,  401,  609,
+ /*   230 */   132,  612,  320,  567,  320,  590,  320,   -2,  615,  239,
+ /*   240 */    -2,  158,   -2,  558,  401,  624,  599,  320,   -2,
 };
-#define YY_REDUCE_USE_DFLT (-1)
-static short yy_reduce_ofst[] = {
- /*     0 */   284,   -1,   -1,   -1,   -1,   -1,   11,  202,  226,  287,
- /*    10 */   302,   -1,  298,   -1,  299,   -1,   -1,   -1,   -1,  367,
- /*    20 */    -1,   -1,  161,   -1,  172,   -1,   -1,   -1,   -1,  341,
- /*    30 */   342,   -1,  345,   -1,  353,   -1,  358,   -1,  370,   -1,
- /*    40 */   373,   -1,  378,   -1,  381,   -1,  383,   -1,  384,   -1,
- /*    50 */   386,   -1,  389,   -1,  403,   -1,  406,   -1,  409,   -1,
- /*    60 */   414,   -1,  417,   -1,   -1,  419,   -1,  420,   -1,   -1,
- /*    70 */   265,   -1,  422,   -1,   -1,   -1,   -1,   -1,  425,   -1,
- /*    80 */    -1,  439,   -1,   -1,   -1,   -1,   -1,  442,   -1,   -1,
- /*    90 */    -1,   -1,   -1,   -1,  468,  180,   -1,   -1,   -1,  320,
- /*   100 */    -1,   -1,  445,   -1,  450,   -1,  453,   -1,   -1,   -1,
- /*   110 */    -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,
- /*   120 */    -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,  455,   -1,
- /*   130 */    -1,  281,   -1,   -1,   -1,   -1,  458,   -1,   -1,  266,
- /*   140 */    -1,  322,   -1,   -1,   -1,  461,   -1,  512,  301,   -1,
- /*   150 */   330,  311,   -1,  361,   -1,   -1,   -1,   -1,   -1,   -1,
- /*   160 */    -1,  271,   -1,   -1,  359,  503,  504,   -1,  456,   -1,
- /*   170 */    -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,
- /*   180 */    -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,
- /*   190 */    -1,   -1,  334,   -1,   -1,   -1,   -1,   -1,   -1,   -1,
- /*   200 */    -1,   -1,   -1,   -1,   -1,   -1,  472,   -1,   -1,  294,
- /*   210 */    -1,   -1,  339,   -1,   -1,   -1,  449,   -1,   -1,   -1,
- /*   220 */   317,   -1,   -1,  520,   -1,   -1,   -1,  545,  519,   -1,
- /*   230 */   514,   -1,  469,   -1,  261,   -1,  269,   -1,   -1,  337,
- /*   240 */    -1,   -1,   -1,  553,  530,   -1,   -1,  480,   -1,
+#define PP_REDUCE_USE_DFLT (-47)
+static short pp_reduce_ofst[] = {
+ /*     0 */   284,  -47,  -47,  -47,  -47,  -47,  559,  543,  417,  180,
+ /*    10 */   330,  -47,  475,  -47,  487,  -47,  -47,  -47,  -47,  523,
+ /*    20 */   -47,  -47,  259,  -47,  317,  -47,  -47,  -47,  -47,  383,
+ /*    30 */   420,  -47,  358,  -47,  377,  -47,  396,  -47,  441,  -47,
+ /*    40 */   360,  -47,  370,  -47,  389,  -47,  400,  -47,  406,  -47,
+ /*    50 */   422,  -47,  439,  -47,  452,  -47,  467,  -47,  403,  -47,
+ /*    60 */   455,  -47,  435,  -47,  -47,  384,  -47,  436,  -47,  -47,
+ /*    70 */   289,  -47,  341,  -47,  -47,  -47,  -47,  -47,  113,  -47,
+ /*    80 */   -47,  355,  -47,  -47,  -47,  -47,  -47,  472,  -47,  -47,
+ /*    90 */   -47,  -47,  -47,  -47,  476,  159,  -47,  -47,  -47,  334,
+ /*   100 */   -47,  -47,  465,  -47,  336,  -47,  353,  -47,  -47,  -47,
+ /*   110 */   -47,  -47,  -47,  -47,  -47,  -47,  -47,  -47,  -47,  -47,
+ /*   120 */   -47,  -47,  -47,  -47,  -47,  -47,  -47,  -47,  471,  -47,
+ /*   130 */   -47,  276,  -47,  -47,  -47,  -47,  442,  -47,  -47,  264,
+ /*   140 */   -47,  322,  -47,  -47,  -47,  381,  -47,  522,  296,  -47,
+ /*   150 */   324,  189,  -47,  411,  -47,  -47,  -47,  -47,  -47,  -47,
+ /*   160 */   -47,  387,  -47,  -47,  314,  144,  -46,  -47,  419,  -47,
+ /*   170 */   -47,  -47,  -47,  -47,  -47,  -47,  -47,  -47,  -47,  -47,
+ /*   180 */   -47,  -47,  -47,  -47,  -47,  -47,  -47,  -47,  -47,  -47,
+ /*   190 */   -47,  -47,  348,  -47,  -47,  -47,  -47,  -47,  -47,  -47,
+ /*   200 */   -47,  -47,  -47,  -47,  -47,  -47,  279,  -47,  -47,  266,
+ /*   210 */   -47,  -47,  338,  -47,  -47,  -47,   85,  -47,  -47,  -47,
+ /*   220 */   300,  -47,  -47,  503,  -47,  -47,  -47,  530,  508,  -47,
+ /*   230 */   497,  -47,  356,  -47,  162,  -47,  179,  -47,  -47,  310,
+ /*   240 */   -47,  -47,  -47,  545,  518,  -47,  -47,  425,  -47,
 };
-static YYACTIONTYPE yy_default[] = {
+static PPACTIONTYPE pp_default[] = {
  /*     0 */   388,  388,  388,  388,  388,  388,  309,  318,  323,  311,
  /*    10 */   388,  388,  388,  388,  388,  388,  330,  331,  332,  388,
  /*    20 */   388,  388,  388,  310,  388,  312,  314,  315,  316,  388,
@@ -772,7 +772,7 @@ static YYACTIONTYPE yy_default[] = {
  /*   230 */   388,  388,  388,  388,  388,  297,  388,  298,  388,  388,
  /*   240 */   300,  301,  299,  309,  388,  388,  388,  388,  303,
 };
-#define YY_SZ_ACTTAB (sizeof(yy_action)/sizeof(yy_action[0]))
+#define PP_SZ_ACTTAB (sizeof(pp_action)/sizeof(pp_action[0]))
 
 /* The next table maps tokens into fallback tokens.  If a construct
 ** like the following:
@@ -784,10 +784,10 @@ static YYACTIONTYPE yy_default[] = {
 ** but it does not parse, the type of the token is changed to ID and
 ** the parse is retried before an error is thrown.
 */
-#ifdef YYFALLBACK
-static const YYCODETYPE yyFallback[] = {
+#ifdef PPFALLBACK
+static const PPCODETYPE ppFallback[] = {
 };
-#endif /* YYFALLBACK */
+#endif /* PPFALLBACK */
 
 /* The following structure represents a single element of the
 ** parser's stack.  Information stored includes:
@@ -801,29 +801,29 @@ static const YYCODETYPE yyFallback[] = {
 **      the information used by the action routines in the grammar.
 **      It is sometimes called the "minor" token.
 */
-struct yyStackEntry {
+struct ppStackEntry {
   int stateno;       /* The state-number */
   int major;         /* The major token value.  This is the code
                      ** number for the token at this stack level */
-  YYMINORTYPE minor; /* The user-supplied minor token value.  This
+  PPMINORTYPE minor; /* The user-supplied minor token value.  This
                      ** is the value of the token  */
 };
-typedef struct yyStackEntry yyStackEntry;
+typedef struct ppStackEntry ppStackEntry;
 
 /* The state of the parser is completely contained in an instance of
 ** the following structure */
-struct yyParser {
-  int yyidx;                    /* Index of top element in stack */
-  int yyerrcnt;                 /* Shifts left before out of the error */
+struct ppParser {
+  int ppidx;                    /* Index of top element in stack */
+  int pperrcnt;                 /* Shifts left before out of the error */
   phql_ARG_SDECL                /* A place to hold %extra_argument */
-  yyStackEntry yystack[YYSTACKDEPTH];  /* The parser's stack */
+  ppStackEntry ppstack[PPSTACKDEPTH];  /* The parser's stack */
 };
-typedef struct yyParser yyParser;
+typedef struct ppParser ppParser;
 
 #ifndef NDEBUG
 #include <stdio.h>
-static FILE *yyTraceFILE = 0;
-static char *yyTracePrompt = 0;
+static FILE *ppTraceFILE = 0;
+static char *ppTracePrompt = 0;
 #endif /* NDEBUG */
 
 #ifndef NDEBUG
@@ -845,17 +845,17 @@ static char *yyTracePrompt = 0;
 ** None.
 */
 void phql_Trace(FILE *TraceFILE, char *zTracePrompt){
-  yyTraceFILE = TraceFILE;
-  yyTracePrompt = zTracePrompt;
-  if( yyTraceFILE==0 ) yyTracePrompt = 0;
-  else if( yyTracePrompt==0 ) yyTraceFILE = 0;
+  ppTraceFILE = TraceFILE;
+  ppTracePrompt = zTracePrompt;
+  if( ppTraceFILE==0 ) ppTracePrompt = 0;
+  else if( ppTracePrompt==0 ) ppTraceFILE = 0;
 }
 #endif /* NDEBUG */
 
 #ifndef NDEBUG
 /* For tracing shifts, the names of all terminals and nonterminals
 ** are required.  The following table supplies these names */
-static const char *yyTokenName[] = { 
+static const char *ppTokenName[] = { 
   "$",             "AGAINST",       "BETWEEN",       "EQUALS",      
   "NOTEQUALS",     "LESS",          "GREATER",       "GREATEREQUAL",
   "LESSEQUAL",     "AND",           "OR",            "LIKE",        
@@ -892,7 +892,7 @@ static const char *yyTokenName[] = {
 #ifndef NDEBUG
 /* For tracing reduce actions, the names of all rules are required.
 */
-static const char *yyRuleName[] = {
+static const char *ppRuleName[] = {
  /*   0 */ "program ::= query_language",
  /*   1 */ "query_language ::= select_statement",
  /*   2 */ "query_language ::= insert_statement",
@@ -1041,8 +1041,8 @@ static const char *yyRuleName[] = {
 */
 const char *phql_TokenName(int tokenType){
 #ifndef NDEBUG
-  if( tokenType>0 && tokenType<(sizeof(yyTokenName)/sizeof(yyTokenName[0])) ){
-    return yyTokenName[tokenType];
+  if( tokenType>0 && tokenType<(sizeof(ppTokenName)/sizeof(ppTokenName[0])) ){
+    return ppTokenName[tokenType];
   }else{
     return "Unknown";
   }
@@ -1064,21 +1064,21 @@ const char *phql_TokenName(int tokenType){
 ** to phql_ and phql_Free.
 */
 void *phql_Alloc(void *(*mallocProc)(size_t)){
-  yyParser *pParser;
-  pParser = (yyParser*)(*mallocProc)( (size_t)sizeof(yyParser) );
+  ppParser *pParser;
+  pParser = (ppParser*)(*mallocProc)( (size_t)sizeof(ppParser) );
   if( pParser ){
-    pParser->yyidx = -1;
+    pParser->ppidx = -1;
   }
   return pParser;
 }
 
 /* The following function deletes the value associated with a
 ** symbol.  The symbol can be either a terminal or nonterminal.
-** "yymajor" is the symbol code, and "yypminor" is a pointer to
+** "ppmajor" is the symbol code, and "pppminor" is a pointer to
 ** the value.
 */
-static void yy_destructor(YYCODETYPE yymajor, YYMINORTYPE *yypminor){
-  switch( yymajor ){
+static void pp_destructor(PPCODETYPE ppmajor, PPMINORTYPE *pppminor){
+  switch( ppmajor ){
     /* Here is inserted the actions which take place when a
     ** terminal or non-terminal is destroyed.  This can happen
     ** when the symbol is popped from the stack during a
@@ -1160,11 +1160,11 @@ static void yy_destructor(YYCODETYPE yymajor, YYMINORTYPE *yypminor){
     case 69:
 // 541 "parser.lemon"
 {
-	if ((yypminor->yy0)) {
-		if ((yypminor->yy0)->free_flag) {
-			efree((yypminor->yy0)->token);
+	if ((pppminor->pp0)) {
+		if ((pppminor->pp0)->free_flag) {
+			efree((pppminor->pp0)->token);
 		}
-		efree((yypminor->yy0));
+		efree((pppminor->pp0));
 	}
 }
 // 1171 "parser.c"
@@ -1201,7 +1201,7 @@ static void yy_destructor(YYCODETYPE yymajor, YYMINORTYPE *yypminor){
     case 115:
     case 118:
 // 554 "parser.lemon"
-{ zval_ptr_dtor(&(yypminor->yy92)); }
+{ zval_ptr_dtor(&(pppminor->pp92)); }
 // 1206 "parser.c"
       break;
     case 78:
@@ -1216,7 +1216,7 @@ static void yy_destructor(YYCODETYPE yymajor, YYMINORTYPE *yypminor){
     case 116:
     case 117:
 // 842 "parser.lemon"
-{ zephir_safe_zval_ptr_dtor((yypminor->yy92)); }
+{ zephir_safe_zval_ptr_dtor((pppminor->pp92)); }
 // 1221 "parser.c"
       break;
     default:  break;   /* If no destructor action specified: do nothing */
@@ -1231,22 +1231,22 @@ static void yy_destructor(YYCODETYPE yymajor, YYMINORTYPE *yypminor){
 **
 ** Return the major token number for the symbol popped.
 */
-static int yy_pop_parser_stack(yyParser *pParser){
-  YYCODETYPE yymajor;
-  yyStackEntry *yytos = &pParser->yystack[pParser->yyidx];
+static int pp_pop_parser_stack(ppParser *pParser){
+  PPCODETYPE ppmajor;
+  ppStackEntry *pptos = &pParser->ppstack[pParser->ppidx];
 
-  if( pParser->yyidx<0 ) return 0;
+  if( pParser->ppidx<0 ) return 0;
 #ifndef NDEBUG
-  if( yyTraceFILE && pParser->yyidx>=0 ){
-    fprintf(yyTraceFILE,"%sPopping %s\n",
-      yyTracePrompt,
-      yyTokenName[yytos->major]);
+  if( ppTraceFILE && pParser->ppidx>=0 ){
+    fprintf(ppTraceFILE,"%sPopping %s\n",
+      ppTracePrompt,
+      ppTokenName[pptos->major]);
   }
 #endif
-  yymajor = yytos->major;
-  yy_destructor( yymajor, &yytos->minor);
-  pParser->yyidx--;
-  return yymajor;
+  ppmajor = pptos->major;
+  pp_destructor( ppmajor, &pptos->minor);
+  pParser->ppidx--;
+  return ppmajor;
 }
 
 /* 
@@ -1265,9 +1265,9 @@ void phql_Free(
   void *p,                    /* The parser to be deleted */
   void (*freeProc)(void*)     /* Function used to reclaim memory */
 ){
-  yyParser *pParser = (yyParser*)p;
+  ppParser *pParser = (ppParser*)p;
   if( pParser==0 ) return;
-  while( pParser->yyidx>=0 ) yy_pop_parser_stack(pParser);
+  while( pParser->ppidx>=0 ) pp_pop_parser_stack(pParser);
   (*freeProc)((void*)pParser);
 }
 
@@ -1275,43 +1275,43 @@ void phql_Free(
 ** Find the appropriate action for a parser given the terminal
 ** look-ahead token iLookAhead.
 **
-** If the look-ahead token is YYNOCODE, then check to see if the action is
+** If the look-ahead token is PPNOCODE, then check to see if the action is
 ** independent of the look-ahead.  If it is, return the action, otherwise
-** return YY_NO_ACTION.
+** return PP_NO_ACTION.
 */
-static int yy_find_shift_action(
-  yyParser *pParser,        /* The parser */
+static int pp_find_shift_action(
+  ppParser *pParser,        /* The parser */
   int iLookAhead            /* The look-ahead token */
 ){
   int i;
-  int stateno = pParser->yystack[pParser->yyidx].stateno;
+  int stateno = pParser->ppstack[pParser->ppidx].stateno;
  
-  /* if( pParser->yyidx<0 ) return YY_NO_ACTION;  */
-  i = yy_shift_ofst[stateno];
-  if( i==YY_SHIFT_USE_DFLT ){
-    return yy_default[stateno];
+  /* if( pParser->ppidx<0 ) return PP_NO_ACTION;  */
+  i = pp_shift_ofst[stateno];
+  if( i==PP_SHIFT_USE_DFLT ){
+    return pp_default[stateno];
   }
-  if( iLookAhead==YYNOCODE ){
-    return YY_NO_ACTION;
+  if( iLookAhead==PPNOCODE ){
+    return PP_NO_ACTION;
   }
   i += iLookAhead;
-  if( i<0 || i>=YY_SZ_ACTTAB || yy_lookahead[i]!=iLookAhead ){
-#ifdef YYFALLBACK
+  if( i<0 || i>=PP_SZ_ACTTAB || pp_lookahead[i]!=iLookAhead ){
+#ifdef PPFALLBACK
     int iFallback;            /* Fallback token */
-    if( iLookAhead<sizeof(yyFallback)/sizeof(yyFallback[0])
-           && (iFallback = yyFallback[iLookAhead])!=0 ){
+    if( iLookAhead<sizeof(ppFallback)/sizeof(ppFallback[0])
+           && (iFallback = ppFallback[iLookAhead])!=0 ){
 #ifndef NDEBUG
-      if( yyTraceFILE ){
-        fprintf(yyTraceFILE, "%sFALLBACK %s => %s\n",
-           yyTracePrompt, yyTokenName[iLookAhead], yyTokenName[iFallback]);
+      if( ppTraceFILE ){
+        fprintf(ppTraceFILE, "%sFALLBACK %s => %s\n",
+           ppTracePrompt, ppTokenName[iLookAhead], ppTokenName[iFallback]);
       }
 #endif
-      return yy_find_shift_action(pParser, iFallback);
+      return pp_find_shift_action(pParser, iFallback);
     }
 #endif
-    return yy_default[stateno];
+    return pp_default[stateno];
   }else{
-    return yy_action[i];
+    return pp_action[i];
   }
 }
 
@@ -1319,69 +1319,69 @@ static int yy_find_shift_action(
 ** Find the appropriate action for a parser given the non-terminal
 ** look-ahead token iLookAhead.
 **
-** If the look-ahead token is YYNOCODE, then check to see if the action is
+** If the look-ahead token is PPNOCODE, then check to see if the action is
 ** independent of the look-ahead.  If it is, return the action, otherwise
-** return YY_NO_ACTION.
+** return PP_NO_ACTION.
 */
-static int yy_find_reduce_action(
-  yyParser *pParser,        /* The parser */
+static int pp_find_reduce_action(
+  ppParser *pParser,        /* The parser */
   int iLookAhead            /* The look-ahead token */
 ){
   int i;
-  int stateno = pParser->yystack[pParser->yyidx].stateno;
+  int stateno = pParser->ppstack[pParser->ppidx].stateno;
  
-  i = yy_reduce_ofst[stateno];
-  if( i==YY_REDUCE_USE_DFLT ){
-    return yy_default[stateno];
+  i = pp_reduce_ofst[stateno];
+  if( i==PP_REDUCE_USE_DFLT ){
+    return pp_default[stateno];
   }
-  if( iLookAhead==YYNOCODE ){
-    return YY_NO_ACTION;
+  if( iLookAhead==PPNOCODE ){
+    return PP_NO_ACTION;
   }
   i += iLookAhead;
-  if( i<0 || i>=YY_SZ_ACTTAB || yy_lookahead[i]!=iLookAhead ){
-    return yy_default[stateno];
+  if( i<0 || i>=PP_SZ_ACTTAB || pp_lookahead[i]!=iLookAhead ){
+    return pp_default[stateno];
   }else{
-    return yy_action[i];
+    return pp_action[i];
   }
 }
 
 /*
 ** Perform a shift action.
 */
-static void yy_shift(
-  yyParser *yypParser,          /* The parser to be shifted */
-  int yyNewState,               /* The new state to shift in */
-  int yyMajor,                  /* The major token to shift in */
-  YYMINORTYPE *yypMinor         /* Pointer ot the minor token to shift in */
+static void pp_shift(
+  ppParser *pppParser,          /* The parser to be shifted */
+  int ppNewState,               /* The new state to shift in */
+  int ppMajor,                  /* The major token to shift in */
+  PPMINORTYPE *pppMinor         /* Pointer ot the minor token to shift in */
 ){
-  yyStackEntry *yytos;
-  yypParser->yyidx++;
-  if( yypParser->yyidx>=YYSTACKDEPTH ){
+  ppStackEntry *pptos;
+  pppParser->ppidx++;
+  if( pppParser->ppidx>=PPSTACKDEPTH ){
      phql_ARG_FETCH;
-     yypParser->yyidx--;
+     pppParser->ppidx--;
 #ifndef NDEBUG
-     if( yyTraceFILE ){
-       fprintf(yyTraceFILE,"%sStack Overflow!\n",yyTracePrompt);
+     if( ppTraceFILE ){
+       fprintf(ppTraceFILE,"%sStack Overflow!\n",ppTracePrompt);
      }
 #endif
-     while( yypParser->yyidx>=0 ) yy_pop_parser_stack(yypParser);
+     while( pppParser->ppidx>=0 ) pp_pop_parser_stack(pppParser);
      /* Here code is inserted which will execute if the parser
      ** stack every overflows */
      phql_ARG_STORE; /* Suppress warning about unused %extra_argument var */
      return;
   }
-  yytos = &yypParser->yystack[yypParser->yyidx];
-  yytos->stateno = yyNewState;
-  yytos->major = yyMajor;
-  yytos->minor = *yypMinor;
+  pptos = &pppParser->ppstack[pppParser->ppidx];
+  pptos->stateno = ppNewState;
+  pptos->major = ppMajor;
+  pptos->minor = *pppMinor;
 #ifndef NDEBUG
-  if( yyTraceFILE && yypParser->yyidx>0 ){
+  if( ppTraceFILE && pppParser->ppidx>0 ){
     int i;
-    fprintf(yyTraceFILE,"%sShift %d\n",yyTracePrompt,yyNewState);
-    fprintf(yyTraceFILE,"%sStack:",yyTracePrompt);
-    for(i=1; i<=yypParser->yyidx; i++)
-      fprintf(yyTraceFILE," %s",yyTokenName[yypParser->yystack[i].major]);
-    fprintf(yyTraceFILE,"\n");
+    fprintf(ppTraceFILE,"%sShift %d\n",ppTracePrompt,ppNewState);
+    fprintf(ppTraceFILE,"%sStack:",ppTracePrompt);
+    for(i=1; i<=pppParser->ppidx; i++)
+      fprintf(ppTraceFILE," %s",ppTokenName[pppParser->ppstack[i].major]);
+    fprintf(ppTraceFILE,"\n");
   }
 #endif
 }
@@ -1390,9 +1390,9 @@ static void yy_shift(
 ** is used during the reduce.
 */
 static struct {
-  YYCODETYPE lhs;         /* Symbol on the left-hand side of the rule */
+  PPCODETYPE lhs;         /* Symbol on the left-hand side of the rule */
   unsigned char nrhs;     /* Number of right-hand side symbols in the rule */
-} yyRuleInfo[] = {
+} ppRuleInfo[] = {
   { 71, 1 },
   { 72, 1 },
   { 72, 1 },
@@ -1534,32 +1534,32 @@ static struct {
   { 106, 1 },
 };
 
-static void yy_accept(yyParser*);  /* Forward Declaration */
+static void pp_accept(ppParser*);  /* Forward Declaration */
 
 /*
 ** Perform a reduce action and the shift that must immediately
 ** follow the reduce.
 */
-static void yy_reduce(
-  yyParser *yypParser,         /* The parser */
-  int yyruleno                 /* Number of the rule by which to reduce */
+static void pp_reduce(
+  ppParser *pppParser,         /* The parser */
+  int ppruleno                 /* Number of the rule by which to reduce */
 ){
-  int yygoto;                     /* The next state */
-  int yyact;                      /* The next action */
-  YYMINORTYPE yygotominor;        /* The LHS of the rule reduced */
-  yyStackEntry *yymsp;            /* The top of the parser's stack */
-  int yysize;                     /* Amount to pop the stack */
+  int ppgoto;                     /* The next state */
+  int ppact;                      /* The next action */
+  PPMINORTYPE ppgotominor;        /* The LHS of the rule reduced */
+  ppStackEntry *ppmsp;            /* The top of the parser's stack */
+  int ppsize;                     /* Amount to pop the stack */
   phql_ARG_FETCH;
-  yymsp = &yypParser->yystack[yypParser->yyidx];
+  ppmsp = &pppParser->ppstack[pppParser->ppidx];
 #ifndef NDEBUG
-  if( yyTraceFILE && yyruleno>=0 
-        && yyruleno<sizeof(yyRuleName)/sizeof(yyRuleName[0]) ){
-    fprintf(yyTraceFILE, "%sReduce [%s].\n", yyTracePrompt,
-      yyRuleName[yyruleno]);
+  if( ppTraceFILE && ppruleno>=0 
+        && ppruleno<sizeof(ppRuleName)/sizeof(ppRuleName[0]) ){
+    fprintf(ppTraceFILE, "%sReduce [%s].\n", ppTracePrompt,
+      ppRuleName[ppruleno]);
   }
 #endif /* NDEBUG */
 
-  switch( yyruleno ){
+  switch( ppruleno ){
   /* Beginning here are the reduction cases.  A typical example
   ** follows:
   **   case 0:
@@ -1571,7 +1571,7 @@ static void yy_reduce(
       case 0:
 // 550 "parser.lemon"
 {
-	status->ret = yymsp[0].minor.yy92;
+	status->ret = ppmsp[0].minor.pp92;
 }
 // 1577 "parser.c"
         break;
@@ -1596,39 +1596,39 @@ static void yy_reduce(
       case 126:
 // 556 "parser.lemon"
 {
-	yygotominor.yy92 = yymsp[0].minor.yy92;
+	ppgotominor.pp92 = ppmsp[0].minor.pp92;
 }
 // 1602 "parser.c"
         break;
       case 5:
 // 574 "parser.lemon"
 {
-	yygotominor.yy92 = phql_ret_select_statement(yymsp[-5].minor.yy92, yymsp[-4].minor.yy92, yymsp[-1].minor.yy92, yymsp[-3].minor.yy92, yymsp[-2].minor.yy92, yymsp[0].minor.yy92);
+	ppgotominor.pp92 = phql_ret_select_statement(ppmsp[-5].minor.pp92, ppmsp[-4].minor.pp92, ppmsp[-1].minor.pp92, ppmsp[-3].minor.pp92, ppmsp[-2].minor.pp92, ppmsp[0].minor.pp92);
 }
 // 1609 "parser.c"
         break;
       case 6:
 // 580 "parser.lemon"
 {
-	yygotominor.yy92 = phql_ret_select_clause(yymsp[-4].minor.yy92, yymsp[-3].minor.yy92, yymsp[-1].minor.yy92, yymsp[0].minor.yy92);
-  yy_destructor(26,&yymsp[-5].minor);
-  yy_destructor(27,&yymsp[-2].minor);
+	ppgotominor.pp92 = phql_ret_select_clause(ppmsp[-4].minor.pp92, ppmsp[-3].minor.pp92, ppmsp[-1].minor.pp92, ppmsp[0].minor.pp92);
+  pp_destructor(26,&ppmsp[-5].minor);
+  pp_destructor(27,&ppmsp[-2].minor);
 }
 // 1618 "parser.c"
         break;
       case 7:
 // 586 "parser.lemon"
 {
-	yygotominor.yy92 = phql_ret_distinct_all(1);
-  yy_destructor(28,&yymsp[0].minor);
+	ppgotominor.pp92 = phql_ret_distinct_all(1);
+  pp_destructor(28,&ppmsp[0].minor);
 }
 // 1626 "parser.c"
         break;
       case 8:
 // 590 "parser.lemon"
 {
-	yygotominor.yy92 = phql_ret_distinct_all(0);
-  yy_destructor(29,&yymsp[0].minor);
+	ppgotominor.pp92 = phql_ret_distinct_all(0);
+  pp_destructor(29,&ppmsp[0].minor);
 }
 // 1634 "parser.c"
         break;
@@ -1646,7 +1646,7 @@ static void yy_reduce(
       case 115:
 // 594 "parser.lemon"
 {
-	yygotominor.yy92 = NULL;
+	ppgotominor.pp92 = NULL;
 }
 // 1652 "parser.c"
         break;
@@ -1660,8 +1660,8 @@ static void yy_reduce(
       case 116:
 // 600 "parser.lemon"
 {
-	yygotominor.yy92 = phql_ret_zval_list(yymsp[-2].minor.yy92, yymsp[0].minor.yy92);
-  yy_destructor(25,&yymsp[-1].minor);
+	ppgotominor.pp92 = phql_ret_zval_list(ppmsp[-2].minor.pp92, ppmsp[0].minor.pp92);
+  pp_destructor(25,&ppmsp[-1].minor);
 }
 // 1667 "parser.c"
         break;
@@ -1671,7 +1671,7 @@ static void yy_reduce(
       case 117:
 // 604 "parser.lemon"
 {
-	yygotominor.yy92 = phql_ret_zval_list(yymsp[0].minor.yy92, NULL);
+	ppgotominor.pp92 = phql_ret_zval_list(ppmsp[0].minor.pp92, NULL);
 }
 // 1677 "parser.c"
         break;
@@ -1679,61 +1679,61 @@ static void yy_reduce(
       case 118:
 // 610 "parser.lemon"
 {
-	yygotominor.yy92 = phql_ret_column_item(PHQL_T_STARALL, NULL, NULL, NULL);
-  yy_destructor(17,&yymsp[0].minor);
+	ppgotominor.pp92 = phql_ret_column_item(PHQL_T_STARALL, NULL, NULL, NULL);
+  pp_destructor(17,&ppmsp[0].minor);
 }
 // 1686 "parser.c"
         break;
       case 13:
 // 614 "parser.lemon"
 {
-	yygotominor.yy92 = phql_ret_column_item(PHQL_T_DOMAINALL, NULL, yymsp[-2].minor.yy0, NULL);
-  yy_destructor(31,&yymsp[-1].minor);
-  yy_destructor(17,&yymsp[0].minor);
+	ppgotominor.pp92 = phql_ret_column_item(PHQL_T_DOMAINALL, NULL, ppmsp[-2].minor.pp0, NULL);
+  pp_destructor(31,&ppmsp[-1].minor);
+  pp_destructor(17,&ppmsp[0].minor);
 }
 // 1695 "parser.c"
         break;
       case 14:
 // 618 "parser.lemon"
 {
-	yygotominor.yy92 = phql_ret_column_item(PHQL_T_EXPR, yymsp[-2].minor.yy92, NULL, yymsp[0].minor.yy0);
-  yy_destructor(32,&yymsp[-1].minor);
+	ppgotominor.pp92 = phql_ret_column_item(PHQL_T_EXPR, ppmsp[-2].minor.pp92, NULL, ppmsp[0].minor.pp0);
+  pp_destructor(32,&ppmsp[-1].minor);
 }
 // 1703 "parser.c"
         break;
       case 15:
 // 622 "parser.lemon"
 {
-	yygotominor.yy92 = phql_ret_column_item(PHQL_T_EXPR, yymsp[-1].minor.yy92, NULL, yymsp[0].minor.yy0);
+	ppgotominor.pp92 = phql_ret_column_item(PHQL_T_EXPR, ppmsp[-1].minor.pp92, NULL, ppmsp[0].minor.pp0);
 }
 // 1710 "parser.c"
         break;
       case 16:
 // 626 "parser.lemon"
 {
-	yygotominor.yy92 = phql_ret_column_item(PHQL_T_EXPR, yymsp[0].minor.yy92, NULL, NULL);
+	ppgotominor.pp92 = phql_ret_column_item(PHQL_T_EXPR, ppmsp[0].minor.pp92, NULL, NULL);
 }
 // 1717 "parser.c"
         break;
       case 21:
 // 650 "parser.lemon"
 {
-	yygotominor.yy92 = phql_ret_zval_list(yymsp[-1].minor.yy92, yymsp[0].minor.yy92);
+	ppgotominor.pp92 = phql_ret_zval_list(ppmsp[-1].minor.pp92, ppmsp[0].minor.pp92);
 }
 // 1724 "parser.c"
         break;
       case 24:
 // 667 "parser.lemon"
 {
-	yygotominor.yy92 = phql_ret_join_item(yymsp[-3].minor.yy92, yymsp[-2].minor.yy92, yymsp[-1].minor.yy92, yymsp[0].minor.yy92);
+	ppgotominor.pp92 = phql_ret_join_item(ppmsp[-3].minor.pp92, ppmsp[-2].minor.pp92, ppmsp[-1].minor.pp92, ppmsp[0].minor.pp92);
 }
 // 1731 "parser.c"
         break;
       case 25:
 // 673 "parser.lemon"
 {
-	yygotominor.yy92 = phql_ret_qualified_name(NULL, NULL, yymsp[0].minor.yy0);
-  yy_destructor(32,&yymsp[-1].minor);
+	ppgotominor.pp92 = phql_ret_qualified_name(NULL, NULL, ppmsp[0].minor.pp0);
+  pp_destructor(32,&ppmsp[-1].minor);
 }
 // 1739 "parser.c"
         break;
@@ -1742,243 +1742,243 @@ static void yy_reduce(
       case 138:
 // 677 "parser.lemon"
 {
-	yygotominor.yy92 = phql_ret_qualified_name(NULL, NULL, yymsp[0].minor.yy0);
+	ppgotominor.pp92 = phql_ret_qualified_name(NULL, NULL, ppmsp[0].minor.pp0);
 }
 // 1748 "parser.c"
         break;
       case 28:
 // 687 "parser.lemon"
 {
-	yygotominor.yy92 = phql_ret_join_type(PHQL_T_INNERJOIN);
-  yy_destructor(33,&yymsp[-1].minor);
-  yy_destructor(34,&yymsp[0].minor);
+	ppgotominor.pp92 = phql_ret_join_type(PHQL_T_INNERJOIN);
+  pp_destructor(33,&ppmsp[-1].minor);
+  pp_destructor(34,&ppmsp[0].minor);
 }
 // 1757 "parser.c"
         break;
       case 29:
 // 691 "parser.lemon"
 {
-	yygotominor.yy92 = phql_ret_join_type(PHQL_T_CROSSJOIN);
-  yy_destructor(35,&yymsp[-1].minor);
-  yy_destructor(34,&yymsp[0].minor);
+	ppgotominor.pp92 = phql_ret_join_type(PHQL_T_CROSSJOIN);
+  pp_destructor(35,&ppmsp[-1].minor);
+  pp_destructor(34,&ppmsp[0].minor);
 }
 // 1766 "parser.c"
         break;
       case 30:
 // 695 "parser.lemon"
 {
-	yygotominor.yy92 = phql_ret_join_type(PHQL_T_LEFTJOIN);
-  yy_destructor(36,&yymsp[-2].minor);
-  yy_destructor(37,&yymsp[-1].minor);
-  yy_destructor(34,&yymsp[0].minor);
+	ppgotominor.pp92 = phql_ret_join_type(PHQL_T_LEFTJOIN);
+  pp_destructor(36,&ppmsp[-2].minor);
+  pp_destructor(37,&ppmsp[-1].minor);
+  pp_destructor(34,&ppmsp[0].minor);
 }
 // 1776 "parser.c"
         break;
       case 31:
 // 699 "parser.lemon"
 {
-	yygotominor.yy92 = phql_ret_join_type(PHQL_T_LEFTJOIN);
-  yy_destructor(36,&yymsp[-1].minor);
-  yy_destructor(34,&yymsp[0].minor);
+	ppgotominor.pp92 = phql_ret_join_type(PHQL_T_LEFTJOIN);
+  pp_destructor(36,&ppmsp[-1].minor);
+  pp_destructor(34,&ppmsp[0].minor);
 }
 // 1785 "parser.c"
         break;
       case 32:
 // 703 "parser.lemon"
 {
-	yygotominor.yy92 = phql_ret_join_type(PHQL_T_RIGHTJOIN);
-  yy_destructor(38,&yymsp[-2].minor);
-  yy_destructor(37,&yymsp[-1].minor);
-  yy_destructor(34,&yymsp[0].minor);
+	ppgotominor.pp92 = phql_ret_join_type(PHQL_T_RIGHTJOIN);
+  pp_destructor(38,&ppmsp[-2].minor);
+  pp_destructor(37,&ppmsp[-1].minor);
+  pp_destructor(34,&ppmsp[0].minor);
 }
 // 1795 "parser.c"
         break;
       case 33:
 // 707 "parser.lemon"
 {
-	yygotominor.yy92 = phql_ret_join_type(PHQL_T_RIGHTJOIN);
-  yy_destructor(38,&yymsp[-1].minor);
-  yy_destructor(34,&yymsp[0].minor);
+	ppgotominor.pp92 = phql_ret_join_type(PHQL_T_RIGHTJOIN);
+  pp_destructor(38,&ppmsp[-1].minor);
+  pp_destructor(34,&ppmsp[0].minor);
 }
 // 1804 "parser.c"
         break;
       case 34:
 // 711 "parser.lemon"
 {
-	yygotominor.yy92 = phql_ret_join_type(PHQL_T_FULLJOIN);
-  yy_destructor(39,&yymsp[-2].minor);
-  yy_destructor(37,&yymsp[-1].minor);
-  yy_destructor(34,&yymsp[0].minor);
+	ppgotominor.pp92 = phql_ret_join_type(PHQL_T_FULLJOIN);
+  pp_destructor(39,&ppmsp[-2].minor);
+  pp_destructor(37,&ppmsp[-1].minor);
+  pp_destructor(34,&ppmsp[0].minor);
 }
 // 1814 "parser.c"
         break;
       case 35:
 // 715 "parser.lemon"
 {
-	yygotominor.yy92 = phql_ret_join_type(PHQL_T_FULLJOIN);
-  yy_destructor(39,&yymsp[-1].minor);
-  yy_destructor(34,&yymsp[0].minor);
+	ppgotominor.pp92 = phql_ret_join_type(PHQL_T_FULLJOIN);
+  pp_destructor(39,&ppmsp[-1].minor);
+  pp_destructor(34,&ppmsp[0].minor);
 }
 // 1823 "parser.c"
         break;
       case 36:
 // 719 "parser.lemon"
 {
-	yygotominor.yy92 = phql_ret_join_type(PHQL_T_INNERJOIN);
-  yy_destructor(34,&yymsp[0].minor);
+	ppgotominor.pp92 = phql_ret_join_type(PHQL_T_INNERJOIN);
+  pp_destructor(34,&ppmsp[0].minor);
 }
 // 1831 "parser.c"
         break;
       case 37:
 // 725 "parser.lemon"
 {
-	yygotominor.yy92 = yymsp[0].minor.yy92;
-  yy_destructor(40,&yymsp[-1].minor);
+	ppgotominor.pp92 = ppmsp[0].minor.pp92;
+  pp_destructor(40,&ppmsp[-1].minor);
 }
 // 1839 "parser.c"
         break;
       case 39:
 // 736 "parser.lemon"
 {
-	yygotominor.yy92 = phql_ret_insert_statement(yymsp[-4].minor.yy92, NULL, yymsp[-1].minor.yy92);
-  yy_destructor(41,&yymsp[-6].minor);
-  yy_destructor(42,&yymsp[-5].minor);
-  yy_destructor(43,&yymsp[-3].minor);
-  yy_destructor(44,&yymsp[-2].minor);
-  yy_destructor(45,&yymsp[0].minor);
+	ppgotominor.pp92 = phql_ret_insert_statement(ppmsp[-4].minor.pp92, NULL, ppmsp[-1].minor.pp92);
+  pp_destructor(41,&ppmsp[-6].minor);
+  pp_destructor(42,&ppmsp[-5].minor);
+  pp_destructor(43,&ppmsp[-3].minor);
+  pp_destructor(44,&ppmsp[-2].minor);
+  pp_destructor(45,&ppmsp[0].minor);
 }
 // 1851 "parser.c"
         break;
       case 40:
 // 740 "parser.lemon"
 {
-	yygotominor.yy92 = phql_ret_insert_statement(yymsp[-7].minor.yy92, yymsp[-5].minor.yy92, yymsp[-1].minor.yy92);
-  yy_destructor(41,&yymsp[-9].minor);
-  yy_destructor(42,&yymsp[-8].minor);
-  yy_destructor(44,&yymsp[-6].minor);
-  yy_destructor(45,&yymsp[-4].minor);
-  yy_destructor(43,&yymsp[-3].minor);
-  yy_destructor(44,&yymsp[-2].minor);
-  yy_destructor(45,&yymsp[0].minor);
+	ppgotominor.pp92 = phql_ret_insert_statement(ppmsp[-7].minor.pp92, ppmsp[-5].minor.pp92, ppmsp[-1].minor.pp92);
+  pp_destructor(41,&ppmsp[-9].minor);
+  pp_destructor(42,&ppmsp[-8].minor);
+  pp_destructor(44,&ppmsp[-6].minor);
+  pp_destructor(45,&ppmsp[-4].minor);
+  pp_destructor(43,&ppmsp[-3].minor);
+  pp_destructor(44,&ppmsp[-2].minor);
+  pp_destructor(45,&ppmsp[0].minor);
 }
 // 1865 "parser.c"
         break;
       case 47:
 // 778 "parser.lemon"
 {
-	yygotominor.yy92 = phql_ret_update_statement(yymsp[-2].minor.yy92, yymsp[-1].minor.yy92, yymsp[0].minor.yy92);
+	ppgotominor.pp92 = phql_ret_update_statement(ppmsp[-2].minor.pp92, ppmsp[-1].minor.pp92, ppmsp[0].minor.pp92);
 }
 // 1872 "parser.c"
         break;
       case 48:
 // 784 "parser.lemon"
 {
-	yygotominor.yy92 = phql_ret_update_clause(yymsp[-2].minor.yy92, yymsp[0].minor.yy92);
-  yy_destructor(46,&yymsp[-3].minor);
-  yy_destructor(47,&yymsp[-1].minor);
+	ppgotominor.pp92 = phql_ret_update_clause(ppmsp[-2].minor.pp92, ppmsp[0].minor.pp92);
+  pp_destructor(46,&ppmsp[-3].minor);
+  pp_destructor(47,&ppmsp[-1].minor);
 }
 // 1881 "parser.c"
         break;
       case 51:
 // 800 "parser.lemon"
 {
-	yygotominor.yy92 = phql_ret_update_item(yymsp[-2].minor.yy92, yymsp[0].minor.yy92);
-  yy_destructor(3,&yymsp[-1].minor);
+	ppgotominor.pp92 = phql_ret_update_item(ppmsp[-2].minor.pp92, ppmsp[0].minor.pp92);
+  pp_destructor(3,&ppmsp[-1].minor);
 }
 // 1889 "parser.c"
         break;
       case 53:
 // 812 "parser.lemon"
 {
-	yygotominor.yy92 = phql_ret_delete_statement(yymsp[-2].minor.yy92, yymsp[-1].minor.yy92, yymsp[0].minor.yy92);
+	ppgotominor.pp92 = phql_ret_delete_statement(ppmsp[-2].minor.pp92, ppmsp[-1].minor.pp92, ppmsp[0].minor.pp92);
 }
 // 1896 "parser.c"
         break;
       case 54:
 // 818 "parser.lemon"
 {
-	yygotominor.yy92 = phql_ret_delete_clause(yymsp[0].minor.yy92);
-  yy_destructor(48,&yymsp[-2].minor);
-  yy_destructor(27,&yymsp[-1].minor);
+	ppgotominor.pp92 = phql_ret_delete_clause(ppmsp[0].minor.pp92);
+  pp_destructor(48,&ppmsp[-2].minor);
+  pp_destructor(27,&ppmsp[-1].minor);
 }
 // 1905 "parser.c"
         break;
       case 55:
 // 824 "parser.lemon"
 {
-	yygotominor.yy92 = phql_ret_assoc_name(yymsp[-2].minor.yy92, yymsp[0].minor.yy0);
-  yy_destructor(32,&yymsp[-1].minor);
+	ppgotominor.pp92 = phql_ret_assoc_name(ppmsp[-2].minor.pp92, ppmsp[0].minor.pp0);
+  pp_destructor(32,&ppmsp[-1].minor);
 }
 // 1913 "parser.c"
         break;
       case 56:
 // 828 "parser.lemon"
 {
-	yygotominor.yy92 = phql_ret_assoc_name(yymsp[-1].minor.yy92, yymsp[0].minor.yy0);
+	ppgotominor.pp92 = phql_ret_assoc_name(ppmsp[-1].minor.pp92, ppmsp[0].minor.pp0);
 }
 // 1920 "parser.c"
         break;
       case 57:
 // 832 "parser.lemon"
 {
-	yygotominor.yy92 = phql_ret_assoc_name(yymsp[0].minor.yy92, NULL);
+	ppgotominor.pp92 = phql_ret_assoc_name(ppmsp[0].minor.pp92, NULL);
 }
 // 1927 "parser.c"
         break;
       case 59:
 // 844 "parser.lemon"
 {
-	yygotominor.yy92 = yymsp[0].minor.yy92;
-  yy_destructor(49,&yymsp[-1].minor);
+	ppgotominor.pp92 = ppmsp[0].minor.pp92;
+  pp_destructor(49,&ppmsp[-1].minor);
 }
 // 1935 "parser.c"
         break;
       case 61:
 // 854 "parser.lemon"
 {
-	yygotominor.yy92 = yymsp[0].minor.yy92;
-  yy_destructor(50,&yymsp[-2].minor);
-  yy_destructor(51,&yymsp[-1].minor);
+	ppgotominor.pp92 = ppmsp[0].minor.pp92;
+  pp_destructor(50,&ppmsp[-2].minor);
+  pp_destructor(51,&ppmsp[-1].minor);
 }
 // 1944 "parser.c"
         break;
       case 65:
 // 874 "parser.lemon"
 {
-	yygotominor.yy92 = phql_ret_order_item(yymsp[0].minor.yy92, 0);
+	ppgotominor.pp92 = phql_ret_order_item(ppmsp[0].minor.pp92, 0);
 }
 // 1951 "parser.c"
         break;
       case 66:
 // 878 "parser.lemon"
 {
-	yygotominor.yy92 = phql_ret_order_item(yymsp[-1].minor.yy92, PHQL_T_ASC);
-  yy_destructor(52,&yymsp[0].minor);
+	ppgotominor.pp92 = phql_ret_order_item(ppmsp[-1].minor.pp92, PHQL_T_ASC);
+  pp_destructor(52,&ppmsp[0].minor);
 }
 // 1959 "parser.c"
         break;
       case 67:
 // 882 "parser.lemon"
 {
-	yygotominor.yy92 = phql_ret_order_item(yymsp[-1].minor.yy92, PHQL_T_DESC);
-  yy_destructor(53,&yymsp[0].minor);
+	ppgotominor.pp92 = phql_ret_order_item(ppmsp[-1].minor.pp92, PHQL_T_DESC);
+  pp_destructor(53,&ppmsp[0].minor);
 }
 // 1967 "parser.c"
         break;
       case 68:
 // 888 "parser.lemon"
 {
-	yygotominor.yy92 = yymsp[0].minor.yy92;
-  yy_destructor(54,&yymsp[-2].minor);
-  yy_destructor(51,&yymsp[-1].minor);
+	ppgotominor.pp92 = ppmsp[0].minor.pp92;
+  pp_destructor(54,&ppmsp[-2].minor);
+  pp_destructor(51,&ppmsp[-1].minor);
 }
 // 1976 "parser.c"
         break;
       case 73:
 // 914 "parser.lemon"
 {
-	yygotominor.yy92 = yymsp[0].minor.yy92;
-  yy_destructor(55,&yymsp[-1].minor);
+	ppgotominor.pp92 = ppmsp[0].minor.pp92;
+  pp_destructor(55,&ppmsp[-1].minor);
 }
 // 1984 "parser.c"
         break;
@@ -1986,26 +1986,26 @@ static void yy_reduce(
       case 79:
 // 924 "parser.lemon"
 {
-	yygotominor.yy92 = phql_ret_limit_clause(yymsp[0].minor.yy92, NULL);
-  yy_destructor(56,&yymsp[-1].minor);
+	ppgotominor.pp92 = phql_ret_limit_clause(ppmsp[0].minor.pp92, NULL);
+  pp_destructor(56,&ppmsp[-1].minor);
 }
 // 1993 "parser.c"
         break;
       case 76:
 // 928 "parser.lemon"
 {
-	yygotominor.yy92 = phql_ret_limit_clause(yymsp[0].minor.yy92, yymsp[-2].minor.yy92);
-  yy_destructor(56,&yymsp[-3].minor);
-  yy_destructor(25,&yymsp[-1].minor);
+	ppgotominor.pp92 = phql_ret_limit_clause(ppmsp[0].minor.pp92, ppmsp[-2].minor.pp92);
+  pp_destructor(56,&ppmsp[-3].minor);
+  pp_destructor(25,&ppmsp[-1].minor);
 }
 // 2002 "parser.c"
         break;
       case 77:
 // 932 "parser.lemon"
 {
-	yygotominor.yy92 = phql_ret_limit_clause(yymsp[-2].minor.yy92, yymsp[0].minor.yy92);
-  yy_destructor(56,&yymsp[-3].minor);
-  yy_destructor(57,&yymsp[-1].minor);
+	ppgotominor.pp92 = phql_ret_limit_clause(ppmsp[-2].minor.pp92, ppmsp[0].minor.pp92);
+  pp_destructor(56,&ppmsp[-3].minor);
+  pp_destructor(57,&ppmsp[-1].minor);
 }
 // 2011 "parser.c"
         break;
@@ -2013,7 +2013,7 @@ static void yy_reduce(
       case 127:
 // 950 "parser.lemon"
 {
-	yygotominor.yy92 = phql_ret_literal_zval(PHQL_T_INTEGER, yymsp[0].minor.yy0);
+	ppgotominor.pp92 = phql_ret_literal_zval(PHQL_T_INTEGER, ppmsp[0].minor.pp0);
 }
 // 2019 "parser.c"
         break;
@@ -2021,7 +2021,7 @@ static void yy_reduce(
       case 133:
 // 954 "parser.lemon"
 {
-	yygotominor.yy92 = phql_ret_placeholder_zval(PHQL_T_NPLACEHOLDER, yymsp[0].minor.yy0);
+	ppgotominor.pp92 = phql_ret_placeholder_zval(PHQL_T_NPLACEHOLDER, ppmsp[0].minor.pp0);
 }
 // 2027 "parser.c"
         break;
@@ -2029,388 +2029,388 @@ static void yy_reduce(
       case 134:
 // 958 "parser.lemon"
 {
-	yygotominor.yy92 = phql_ret_placeholder_zval(PHQL_T_SPLACEHOLDER, yymsp[0].minor.yy0);
+	ppgotominor.pp92 = phql_ret_placeholder_zval(PHQL_T_SPLACEHOLDER, ppmsp[0].minor.pp0);
 }
 // 2035 "parser.c"
         break;
       case 84:
 // 964 "parser.lemon"
 {
-	yygotominor.yy92 = phql_ret_expr(PHQL_T_MINUS, NULL, yymsp[0].minor.yy92);
-  yy_destructor(20,&yymsp[-1].minor);
+	ppgotominor.pp92 = phql_ret_expr(PHQL_T_MINUS, NULL, ppmsp[0].minor.pp92);
+  pp_destructor(20,&ppmsp[-1].minor);
 }
 // 2043 "parser.c"
         break;
       case 85:
 // 968 "parser.lemon"
 {
-	yygotominor.yy92 = phql_ret_expr(PHQL_T_SUB, yymsp[-2].minor.yy92, yymsp[0].minor.yy92);
-  yy_destructor(20,&yymsp[-1].minor);
+	ppgotominor.pp92 = phql_ret_expr(PHQL_T_SUB, ppmsp[-2].minor.pp92, ppmsp[0].minor.pp92);
+  pp_destructor(20,&ppmsp[-1].minor);
 }
 // 2051 "parser.c"
         break;
       case 86:
 // 972 "parser.lemon"
 {
-	yygotominor.yy92 = phql_ret_expr(PHQL_T_ADD, yymsp[-2].minor.yy92, yymsp[0].minor.yy92);
-  yy_destructor(19,&yymsp[-1].minor);
+	ppgotominor.pp92 = phql_ret_expr(PHQL_T_ADD, ppmsp[-2].minor.pp92, ppmsp[0].minor.pp92);
+  pp_destructor(19,&ppmsp[-1].minor);
 }
 // 2059 "parser.c"
         break;
       case 87:
 // 976 "parser.lemon"
 {
-	yygotominor.yy92 = phql_ret_expr(PHQL_T_MUL, yymsp[-2].minor.yy92, yymsp[0].minor.yy92);
-  yy_destructor(17,&yymsp[-1].minor);
+	ppgotominor.pp92 = phql_ret_expr(PHQL_T_MUL, ppmsp[-2].minor.pp92, ppmsp[0].minor.pp92);
+  pp_destructor(17,&ppmsp[-1].minor);
 }
 // 2067 "parser.c"
         break;
       case 88:
 // 980 "parser.lemon"
 {
-	yygotominor.yy92 = phql_ret_expr(PHQL_T_DIV, yymsp[-2].minor.yy92, yymsp[0].minor.yy92);
-  yy_destructor(16,&yymsp[-1].minor);
+	ppgotominor.pp92 = phql_ret_expr(PHQL_T_DIV, ppmsp[-2].minor.pp92, ppmsp[0].minor.pp92);
+  pp_destructor(16,&ppmsp[-1].minor);
 }
 // 2075 "parser.c"
         break;
       case 89:
 // 984 "parser.lemon"
 {
-	yygotominor.yy92 = phql_ret_expr(PHQL_T_MOD, yymsp[-2].minor.yy92, yymsp[0].minor.yy92);
-  yy_destructor(18,&yymsp[-1].minor);
+	ppgotominor.pp92 = phql_ret_expr(PHQL_T_MOD, ppmsp[-2].minor.pp92, ppmsp[0].minor.pp92);
+  pp_destructor(18,&ppmsp[-1].minor);
 }
 // 2083 "parser.c"
         break;
       case 90:
 // 988 "parser.lemon"
 {
-	yygotominor.yy92 = phql_ret_expr(PHQL_T_AND, yymsp[-2].minor.yy92, yymsp[0].minor.yy92);
-  yy_destructor(9,&yymsp[-1].minor);
+	ppgotominor.pp92 = phql_ret_expr(PHQL_T_AND, ppmsp[-2].minor.pp92, ppmsp[0].minor.pp92);
+  pp_destructor(9,&ppmsp[-1].minor);
 }
 // 2091 "parser.c"
         break;
       case 91:
 // 992 "parser.lemon"
 {
-	yygotominor.yy92 = phql_ret_expr(PHQL_T_OR, yymsp[-2].minor.yy92, yymsp[0].minor.yy92);
-  yy_destructor(10,&yymsp[-1].minor);
+	ppgotominor.pp92 = phql_ret_expr(PHQL_T_OR, ppmsp[-2].minor.pp92, ppmsp[0].minor.pp92);
+  pp_destructor(10,&ppmsp[-1].minor);
 }
 // 2099 "parser.c"
         break;
       case 92:
 // 996 "parser.lemon"
 {
-	yygotominor.yy92 = phql_ret_expr(PHQL_T_BITWISE_AND, yymsp[-2].minor.yy92, yymsp[0].minor.yy92);
-  yy_destructor(13,&yymsp[-1].minor);
+	ppgotominor.pp92 = phql_ret_expr(PHQL_T_BITWISE_AND, ppmsp[-2].minor.pp92, ppmsp[0].minor.pp92);
+  pp_destructor(13,&ppmsp[-1].minor);
 }
 // 2107 "parser.c"
         break;
       case 93:
 // 1000 "parser.lemon"
 {
-	yygotominor.yy92 = phql_ret_expr(PHQL_T_BITWISE_OR, yymsp[-2].minor.yy92, yymsp[0].minor.yy92);
-  yy_destructor(14,&yymsp[-1].minor);
+	ppgotominor.pp92 = phql_ret_expr(PHQL_T_BITWISE_OR, ppmsp[-2].minor.pp92, ppmsp[0].minor.pp92);
+  pp_destructor(14,&ppmsp[-1].minor);
 }
 // 2115 "parser.c"
         break;
       case 94:
 // 1004 "parser.lemon"
 {
-	yygotominor.yy92 = phql_ret_expr(PHQL_T_BITWISE_XOR, yymsp[-2].minor.yy92, yymsp[0].minor.yy92);
-  yy_destructor(15,&yymsp[-1].minor);
+	ppgotominor.pp92 = phql_ret_expr(PHQL_T_BITWISE_XOR, ppmsp[-2].minor.pp92, ppmsp[0].minor.pp92);
+  pp_destructor(15,&ppmsp[-1].minor);
 }
 // 2123 "parser.c"
         break;
       case 95:
 // 1008 "parser.lemon"
 {
-	yygotominor.yy92 = phql_ret_expr(PHQL_T_EQUALS, yymsp[-2].minor.yy92, yymsp[0].minor.yy92);
-  yy_destructor(3,&yymsp[-1].minor);
+	ppgotominor.pp92 = phql_ret_expr(PHQL_T_EQUALS, ppmsp[-2].minor.pp92, ppmsp[0].minor.pp92);
+  pp_destructor(3,&ppmsp[-1].minor);
 }
 // 2131 "parser.c"
         break;
       case 96:
 // 1012 "parser.lemon"
 {
-	yygotominor.yy92 = phql_ret_expr(PHQL_T_NOTEQUALS, yymsp[-2].minor.yy92, yymsp[0].minor.yy92);
-  yy_destructor(4,&yymsp[-1].minor);
+	ppgotominor.pp92 = phql_ret_expr(PHQL_T_NOTEQUALS, ppmsp[-2].minor.pp92, ppmsp[0].minor.pp92);
+  pp_destructor(4,&ppmsp[-1].minor);
 }
 // 2139 "parser.c"
         break;
       case 97:
 // 1016 "parser.lemon"
 {
-	yygotominor.yy92 = phql_ret_expr(PHQL_T_LESS, yymsp[-2].minor.yy92, yymsp[0].minor.yy92);
-  yy_destructor(5,&yymsp[-1].minor);
+	ppgotominor.pp92 = phql_ret_expr(PHQL_T_LESS, ppmsp[-2].minor.pp92, ppmsp[0].minor.pp92);
+  pp_destructor(5,&ppmsp[-1].minor);
 }
 // 2147 "parser.c"
         break;
       case 98:
 // 1020 "parser.lemon"
 {
-	yygotominor.yy92 = phql_ret_expr(PHQL_T_GREATER, yymsp[-2].minor.yy92, yymsp[0].minor.yy92);
-  yy_destructor(6,&yymsp[-1].minor);
+	ppgotominor.pp92 = phql_ret_expr(PHQL_T_GREATER, ppmsp[-2].minor.pp92, ppmsp[0].minor.pp92);
+  pp_destructor(6,&ppmsp[-1].minor);
 }
 // 2155 "parser.c"
         break;
       case 99:
 // 1024 "parser.lemon"
 {
-	yygotominor.yy92 = phql_ret_expr(PHQL_T_GREATEREQUAL, yymsp[-2].minor.yy92, yymsp[0].minor.yy92);
-  yy_destructor(7,&yymsp[-1].minor);
+	ppgotominor.pp92 = phql_ret_expr(PHQL_T_GREATEREQUAL, ppmsp[-2].minor.pp92, ppmsp[0].minor.pp92);
+  pp_destructor(7,&ppmsp[-1].minor);
 }
 // 2163 "parser.c"
         break;
       case 100:
 // 1028 "parser.lemon"
 {
-	yygotominor.yy92 = phql_ret_expr(PHQL_T_LESSEQUAL, yymsp[-2].minor.yy92, yymsp[0].minor.yy92);
-  yy_destructor(8,&yymsp[-1].minor);
+	ppgotominor.pp92 = phql_ret_expr(PHQL_T_LESSEQUAL, ppmsp[-2].minor.pp92, ppmsp[0].minor.pp92);
+  pp_destructor(8,&ppmsp[-1].minor);
 }
 // 2171 "parser.c"
         break;
       case 101:
 // 1032 "parser.lemon"
 {
-	yygotominor.yy92 = phql_ret_expr(PHQL_T_LIKE, yymsp[-2].minor.yy92, yymsp[0].minor.yy92);
-  yy_destructor(11,&yymsp[-1].minor);
+	ppgotominor.pp92 = phql_ret_expr(PHQL_T_LIKE, ppmsp[-2].minor.pp92, ppmsp[0].minor.pp92);
+  pp_destructor(11,&ppmsp[-1].minor);
 }
 // 2179 "parser.c"
         break;
       case 102:
 // 1036 "parser.lemon"
 {
-	yygotominor.yy92 = phql_ret_expr(PHQL_T_NLIKE, yymsp[-3].minor.yy92, yymsp[0].minor.yy92);
-  yy_destructor(23,&yymsp[-2].minor);
-  yy_destructor(11,&yymsp[-1].minor);
+	ppgotominor.pp92 = phql_ret_expr(PHQL_T_NLIKE, ppmsp[-3].minor.pp92, ppmsp[0].minor.pp92);
+  pp_destructor(23,&ppmsp[-2].minor);
+  pp_destructor(11,&ppmsp[-1].minor);
 }
 // 2188 "parser.c"
         break;
       case 103:
 // 1040 "parser.lemon"
 {
-	yygotominor.yy92 = phql_ret_expr(PHQL_T_ILIKE, yymsp[-2].minor.yy92, yymsp[0].minor.yy92);
-  yy_destructor(12,&yymsp[-1].minor);
+	ppgotominor.pp92 = phql_ret_expr(PHQL_T_ILIKE, ppmsp[-2].minor.pp92, ppmsp[0].minor.pp92);
+  pp_destructor(12,&ppmsp[-1].minor);
 }
 // 2196 "parser.c"
         break;
       case 104:
 // 1044 "parser.lemon"
 {
-	yygotominor.yy92 = phql_ret_expr(PHQL_T_NILIKE, yymsp[-3].minor.yy92, yymsp[0].minor.yy92);
-  yy_destructor(23,&yymsp[-2].minor);
-  yy_destructor(12,&yymsp[-1].minor);
+	ppgotominor.pp92 = phql_ret_expr(PHQL_T_NILIKE, ppmsp[-3].minor.pp92, ppmsp[0].minor.pp92);
+  pp_destructor(23,&ppmsp[-2].minor);
+  pp_destructor(12,&ppmsp[-1].minor);
 }
 // 2205 "parser.c"
         break;
       case 105:
 // 1048 "parser.lemon"
 {
-	yygotominor.yy92 = phql_ret_expr(PHQL_T_IN, yymsp[-4].minor.yy92, yymsp[-1].minor.yy92);
-  yy_destructor(22,&yymsp[-3].minor);
-  yy_destructor(44,&yymsp[-2].minor);
-  yy_destructor(45,&yymsp[0].minor);
+	ppgotominor.pp92 = phql_ret_expr(PHQL_T_IN, ppmsp[-4].minor.pp92, ppmsp[-1].minor.pp92);
+  pp_destructor(22,&ppmsp[-3].minor);
+  pp_destructor(44,&ppmsp[-2].minor);
+  pp_destructor(45,&ppmsp[0].minor);
 }
 // 2215 "parser.c"
         break;
       case 106:
 // 1052 "parser.lemon"
 {
-	yygotominor.yy92 = phql_ret_expr(PHQL_T_NOTIN, yymsp[-5].minor.yy92, yymsp[-1].minor.yy92);
-  yy_destructor(23,&yymsp[-4].minor);
-  yy_destructor(22,&yymsp[-3].minor);
-  yy_destructor(44,&yymsp[-2].minor);
-  yy_destructor(45,&yymsp[0].minor);
+	ppgotominor.pp92 = phql_ret_expr(PHQL_T_NOTIN, ppmsp[-5].minor.pp92, ppmsp[-1].minor.pp92);
+  pp_destructor(23,&ppmsp[-4].minor);
+  pp_destructor(22,&ppmsp[-3].minor);
+  pp_destructor(44,&ppmsp[-2].minor);
+  pp_destructor(45,&ppmsp[0].minor);
 }
 // 2226 "parser.c"
         break;
       case 107:
 // 1056 "parser.lemon"
 {
-	yygotominor.yy92 = phql_ret_expr(PHQL_T_AGAINST, yymsp[-2].minor.yy92, yymsp[0].minor.yy92);
-  yy_destructor(1,&yymsp[-1].minor);
+	ppgotominor.pp92 = phql_ret_expr(PHQL_T_AGAINST, ppmsp[-2].minor.pp92, ppmsp[0].minor.pp92);
+  pp_destructor(1,&ppmsp[-1].minor);
 }
 // 2234 "parser.c"
         break;
       case 108:
 // 1060 "parser.lemon"
 {
-	yygotominor.yy92 = phql_ret_expr(PHQL_T_CAST, yymsp[-3].minor.yy92, phql_ret_raw_qualified_name(yymsp[-1].minor.yy0, NULL));
-  yy_destructor(61,&yymsp[-5].minor);
-  yy_destructor(44,&yymsp[-4].minor);
-  yy_destructor(32,&yymsp[-2].minor);
-  yy_destructor(45,&yymsp[0].minor);
+	ppgotominor.pp92 = phql_ret_expr(PHQL_T_CAST, ppmsp[-3].minor.pp92, phql_ret_raw_qualified_name(ppmsp[-1].minor.pp0, NULL));
+  pp_destructor(61,&ppmsp[-5].minor);
+  pp_destructor(44,&ppmsp[-4].minor);
+  pp_destructor(32,&ppmsp[-2].minor);
+  pp_destructor(45,&ppmsp[0].minor);
 }
 // 2245 "parser.c"
         break;
       case 109:
 // 1064 "parser.lemon"
 {
-	yygotominor.yy92 = phql_ret_expr(PHQL_T_CONVERT, yymsp[-3].minor.yy92, phql_ret_raw_qualified_name(yymsp[-1].minor.yy0, NULL));
-  yy_destructor(62,&yymsp[-5].minor);
-  yy_destructor(44,&yymsp[-4].minor);
-  yy_destructor(63,&yymsp[-2].minor);
-  yy_destructor(45,&yymsp[0].minor);
+	ppgotominor.pp92 = phql_ret_expr(PHQL_T_CONVERT, ppmsp[-3].minor.pp92, phql_ret_raw_qualified_name(ppmsp[-1].minor.pp0, NULL));
+  pp_destructor(62,&ppmsp[-5].minor);
+  pp_destructor(44,&ppmsp[-4].minor);
+  pp_destructor(63,&ppmsp[-2].minor);
+  pp_destructor(45,&ppmsp[0].minor);
 }
 // 2256 "parser.c"
         break;
       case 111:
 // 1074 "parser.lemon"
 {
-	yygotominor.yy92 = phql_ret_func_call(yymsp[-4].minor.yy0, yymsp[-1].minor.yy92, yymsp[-2].minor.yy92);
-  yy_destructor(44,&yymsp[-3].minor);
-  yy_destructor(45,&yymsp[0].minor);
+	ppgotominor.pp92 = phql_ret_func_call(ppmsp[-4].minor.pp0, ppmsp[-1].minor.pp92, ppmsp[-2].minor.pp92);
+  pp_destructor(44,&ppmsp[-3].minor);
+  pp_destructor(45,&ppmsp[0].minor);
 }
 // 2265 "parser.c"
         break;
       case 112:
 // 1080 "parser.lemon"
 {
-	yygotominor.yy92 = phql_ret_distinct();
-  yy_destructor(28,&yymsp[0].minor);
+	ppgotominor.pp92 = phql_ret_distinct();
+  pp_destructor(28,&ppmsp[0].minor);
 }
 // 2273 "parser.c"
         break;
       case 120:
 // 1118 "parser.lemon"
 {
-	yygotominor.yy92 = phql_ret_expr(PHQL_T_ISNULL, yymsp[-2].minor.yy92, NULL);
-  yy_destructor(21,&yymsp[-1].minor);
-  yy_destructor(64,&yymsp[0].minor);
+	ppgotominor.pp92 = phql_ret_expr(PHQL_T_ISNULL, ppmsp[-2].minor.pp92, NULL);
+  pp_destructor(21,&ppmsp[-1].minor);
+  pp_destructor(64,&ppmsp[0].minor);
 }
 // 2282 "parser.c"
         break;
       case 121:
 // 1122 "parser.lemon"
 {
-	yygotominor.yy92 = phql_ret_expr(PHQL_T_ISNOTNULL, yymsp[-3].minor.yy92, NULL);
-  yy_destructor(21,&yymsp[-2].minor);
-  yy_destructor(23,&yymsp[-1].minor);
-  yy_destructor(64,&yymsp[0].minor);
+	ppgotominor.pp92 = phql_ret_expr(PHQL_T_ISNOTNULL, ppmsp[-3].minor.pp92, NULL);
+  pp_destructor(21,&ppmsp[-2].minor);
+  pp_destructor(23,&ppmsp[-1].minor);
+  pp_destructor(64,&ppmsp[0].minor);
 }
 // 2292 "parser.c"
         break;
       case 122:
 // 1126 "parser.lemon"
 {
-	yygotominor.yy92 = phql_ret_expr(PHQL_T_BETWEEN, yymsp[-2].minor.yy92, yymsp[0].minor.yy92);
-  yy_destructor(2,&yymsp[-1].minor);
+	ppgotominor.pp92 = phql_ret_expr(PHQL_T_BETWEEN, ppmsp[-2].minor.pp92, ppmsp[0].minor.pp92);
+  pp_destructor(2,&ppmsp[-1].minor);
 }
 // 2300 "parser.c"
         break;
       case 123:
 // 1130 "parser.lemon"
 {
-	yygotominor.yy92 = phql_ret_expr(PHQL_T_NOT, NULL, yymsp[0].minor.yy92);
-  yy_destructor(23,&yymsp[-1].minor);
+	ppgotominor.pp92 = phql_ret_expr(PHQL_T_NOT, NULL, ppmsp[0].minor.pp92);
+  pp_destructor(23,&ppmsp[-1].minor);
 }
 // 2308 "parser.c"
         break;
       case 124:
 // 1134 "parser.lemon"
 {
-	yygotominor.yy92 = phql_ret_expr(PHQL_T_BITWISE_NOT, NULL, yymsp[0].minor.yy92);
-  yy_destructor(24,&yymsp[-1].minor);
+	ppgotominor.pp92 = phql_ret_expr(PHQL_T_BITWISE_NOT, NULL, ppmsp[0].minor.pp92);
+  pp_destructor(24,&ppmsp[-1].minor);
 }
 // 2316 "parser.c"
         break;
       case 125:
 // 1138 "parser.lemon"
 {
-	yygotominor.yy92 = phql_ret_expr(PHQL_T_ENCLOSED, yymsp[-1].minor.yy92, NULL);
-  yy_destructor(44,&yymsp[-2].minor);
-  yy_destructor(45,&yymsp[0].minor);
+	ppgotominor.pp92 = phql_ret_expr(PHQL_T_ENCLOSED, ppmsp[-1].minor.pp92, NULL);
+  pp_destructor(44,&ppmsp[-2].minor);
+  pp_destructor(45,&ppmsp[0].minor);
 }
 // 2325 "parser.c"
         break;
       case 128:
 // 1150 "parser.lemon"
 {
-	yygotominor.yy92 = phql_ret_literal_zval(PHQL_T_STRING, yymsp[0].minor.yy0);
+	ppgotominor.pp92 = phql_ret_literal_zval(PHQL_T_STRING, ppmsp[0].minor.pp0);
 }
 // 2332 "parser.c"
         break;
       case 129:
 // 1154 "parser.lemon"
 {
-	yygotominor.yy92 = phql_ret_literal_zval(PHQL_T_DOUBLE, yymsp[0].minor.yy0);
+	ppgotominor.pp92 = phql_ret_literal_zval(PHQL_T_DOUBLE, ppmsp[0].minor.pp0);
 }
 // 2339 "parser.c"
         break;
       case 130:
 // 1158 "parser.lemon"
 {
-	yygotominor.yy92 = phql_ret_literal_zval(PHQL_T_NULL, NULL);
-  yy_destructor(64,&yymsp[0].minor);
+	ppgotominor.pp92 = phql_ret_literal_zval(PHQL_T_NULL, NULL);
+  pp_destructor(64,&ppmsp[0].minor);
 }
 // 2347 "parser.c"
         break;
       case 131:
 // 1162 "parser.lemon"
 {
-	yygotominor.yy92 = phql_ret_literal_zval(PHQL_T_TRUE, NULL);
-  yy_destructor(67,&yymsp[0].minor);
+	ppgotominor.pp92 = phql_ret_literal_zval(PHQL_T_TRUE, NULL);
+  pp_destructor(67,&ppmsp[0].minor);
 }
 // 2355 "parser.c"
         break;
       case 132:
 // 1166 "parser.lemon"
 {
-	yygotominor.yy92 = phql_ret_literal_zval(PHQL_T_FALSE, NULL);
-  yy_destructor(68,&yymsp[0].minor);
+	ppgotominor.pp92 = phql_ret_literal_zval(PHQL_T_FALSE, NULL);
+  pp_destructor(68,&ppmsp[0].minor);
 }
 // 2363 "parser.c"
         break;
       case 135:
 // 1180 "parser.lemon"
 {
-	yygotominor.yy92 = phql_ret_qualified_name(yymsp[-4].minor.yy0, yymsp[-2].minor.yy0, yymsp[0].minor.yy0);
-  yy_destructor(69,&yymsp[-3].minor);
-  yy_destructor(31,&yymsp[-1].minor);
+	ppgotominor.pp92 = phql_ret_qualified_name(ppmsp[-4].minor.pp0, ppmsp[-2].minor.pp0, ppmsp[0].minor.pp0);
+  pp_destructor(69,&ppmsp[-3].minor);
+  pp_destructor(31,&ppmsp[-1].minor);
 }
 // 2372 "parser.c"
         break;
       case 136:
 // 1184 "parser.lemon"
 {
-	yygotominor.yy92 = phql_ret_qualified_name(yymsp[-2].minor.yy0, NULL, yymsp[0].minor.yy0);
-  yy_destructor(69,&yymsp[-1].minor);
+	ppgotominor.pp92 = phql_ret_qualified_name(ppmsp[-2].minor.pp0, NULL, ppmsp[0].minor.pp0);
+  pp_destructor(69,&ppmsp[-1].minor);
 }
 // 2380 "parser.c"
         break;
       case 137:
 // 1188 "parser.lemon"
 {
-	yygotominor.yy92 = phql_ret_qualified_name(NULL, yymsp[-2].minor.yy0, yymsp[0].minor.yy0);
-  yy_destructor(31,&yymsp[-1].minor);
+	ppgotominor.pp92 = phql_ret_qualified_name(NULL, ppmsp[-2].minor.pp0, ppmsp[0].minor.pp0);
+  pp_destructor(31,&ppmsp[-1].minor);
 }
 // 2388 "parser.c"
         break;
   };
-  yygoto = yyRuleInfo[yyruleno].lhs;
-  yysize = yyRuleInfo[yyruleno].nrhs;
-  yypParser->yyidx -= yysize;
-  yyact = yy_find_reduce_action(yypParser,yygoto);
-  if( yyact < YYNSTATE ){
-    yy_shift(yypParser,yyact,yygoto,&yygotominor);
-  }else if( yyact == YYNSTATE + YYNRULE + 1 ){
-    yy_accept(yypParser);
+  ppgoto = ppRuleInfo[ppruleno].lhs;
+  ppsize = ppRuleInfo[ppruleno].nrhs;
+  pppParser->ppidx -= ppsize;
+  ppact = pp_find_reduce_action(pppParser,ppgoto);
+  if( ppact < PPNSTATE ){
+    pp_shift(pppParser,ppact,ppgoto,&ppgotominor);
+  }else if( ppact == PPNSTATE + PPNRULE + 1 ){
+    pp_accept(pppParser);
   }
 }
 
 /*
 ** The following code executes when the parse fails
 */
-static void yy_parse_failed(
-  yyParser *yypParser           /* The parser */
+static void pp_parse_failed(
+  ppParser *pppParser           /* The parser */
 ){
   phql_ARG_FETCH;
 #ifndef NDEBUG
-  if( yyTraceFILE ){
-    fprintf(yyTraceFILE,"%sFail!\n",yyTracePrompt);
+  if( ppTraceFILE ){
+    fprintf(ppTraceFILE,"%sFail!\n",ppTracePrompt);
   }
 #endif
-  while( yypParser->yyidx>=0 ) yy_pop_parser_stack(yypParser);
+  while( pppParser->ppidx>=0 ) pp_pop_parser_stack(pppParser);
   /* Here code is inserted which will be executed whenever the
   ** parser fails */
   phql_ARG_STORE; /* Suppress warning about unused %extra_argument variable */
@@ -2419,13 +2419,13 @@ static void yy_parse_failed(
 /*
 ** The following code executes when a syntax error first occurs.
 */
-static void yy_syntax_error(
-  yyParser *yypParser,           /* The parser */
-  int yymajor,                   /* The major type of the error token */
-  YYMINORTYPE yyminor            /* The minor type of the error token */
+static void pp_syntax_error(
+  ppParser *pppParser,           /* The parser */
+  int ppmajor,                   /* The major type of the error token */
+  PPMINORTYPE ppminor            /* The minor type of the error token */
 ){
   phql_ARG_FETCH;
-#define TOKEN (yyminor.yy0)
+#define TOKEN (ppminor.pp0)
 // 474 "parser.lemon"
 
 	if (status->scanner_state->start_length) {
@@ -2500,16 +2500,16 @@ static void yy_syntax_error(
 /*
 ** The following is executed when the parser accepts
 */
-static void yy_accept(
-  yyParser *yypParser           /* The parser */
+static void pp_accept(
+  ppParser *pppParser           /* The parser */
 ){
   phql_ARG_FETCH;
 #ifndef NDEBUG
-  if( yyTraceFILE ){
-    fprintf(yyTraceFILE,"%sAccept!\n",yyTracePrompt);
+  if( ppTraceFILE ){
+    fprintf(ppTraceFILE,"%sAccept!\n",ppTracePrompt);
   }
 #endif
-  while( yypParser->yyidx>=0 ) yy_pop_parser_stack(yypParser);
+  while( pppParser->ppidx>=0 ) pp_pop_parser_stack(pppParser);
   /* Here code is inserted which will be executed whenever the
   ** parser accepts */
   phql_ARG_STORE; /* Suppress warning about unused %extra_argument variable */
@@ -2535,56 +2535,56 @@ static void yy_accept(
 ** None.
 */
 void phql_(
-  void *yyp,                   /* The parser */
-  int yymajor,                 /* The major token code number */
-  phql_TOKENTYPE yyminor       /* The value for the token */
+  void *ppp,                   /* The parser */
+  int ppmajor,                 /* The major token code number */
+  phql_TOKENTYPE ppminor       /* The value for the token */
   phql_ARG_PDECL               /* Optional %extra_argument parameter */
 ){
-  YYMINORTYPE yyminorunion;
-  int yyact;            /* The parser action. */
-  int yyendofinput;     /* True if we are at the end of input */
-  int yyerrorhit = 0;   /* True if yymajor has invoked an error */
-  yyParser *yypParser;  /* The parser */
+  PPMINORTYPE ppminorunion;
+  int ppact;            /* The parser action. */
+  int ppendofinput;     /* True if we are at the end of input */
+  int pperrorhit = 0;   /* True if ppmajor has invoked an error */
+  ppParser *pppParser;  /* The parser */
 
   /* (re)initialize the parser, if necessary */
-  yypParser = (yyParser*)yyp;
-  if( yypParser->yyidx<0 ){
-    if( yymajor==0 ) return;
-    yypParser->yyidx = 0;
-    yypParser->yyerrcnt = -1;
-    yypParser->yystack[0].stateno = 0;
-    yypParser->yystack[0].major = 0;
+  pppParser = (ppParser*)ppp;
+  if( pppParser->ppidx<0 ){
+    if( ppmajor==0 ) return;
+    pppParser->ppidx = 0;
+    pppParser->pperrcnt = -1;
+    pppParser->ppstack[0].stateno = 0;
+    pppParser->ppstack[0].major = 0;
   }
-  yyminorunion.yy0 = yyminor;
-  yyendofinput = (yymajor==0);
+  ppminorunion.pp0 = ppminor;
+  ppendofinput = (ppmajor==0);
   phql_ARG_STORE;
 
 #ifndef NDEBUG
-  if( yyTraceFILE ){
-    fprintf(yyTraceFILE,"%sInput %s\n",yyTracePrompt,yyTokenName[yymajor]);
+  if( ppTraceFILE ){
+    fprintf(ppTraceFILE,"%sInput %s\n",ppTracePrompt,ppTokenName[ppmajor]);
   }
 #endif
 
   do{
-    yyact = yy_find_shift_action(yypParser,yymajor);
-    if( yyact<YYNSTATE ){
-      yy_shift(yypParser,yyact,yymajor,&yyminorunion);
-      yypParser->yyerrcnt--;
-      if( yyendofinput && yypParser->yyidx>=0 ){
-        yymajor = 0;
+    ppact = pp_find_shift_action(pppParser,ppmajor);
+    if( ppact<PPNSTATE ){
+      pp_shift(pppParser,ppact,ppmajor,&ppminorunion);
+      pppParser->pperrcnt--;
+      if( ppendofinput && pppParser->ppidx>=0 ){
+        ppmajor = 0;
       }else{
-        yymajor = YYNOCODE;
+        ppmajor = PPNOCODE;
       }
-    }else if( yyact < YYNSTATE + YYNRULE ){
-      yy_reduce(yypParser,yyact-YYNSTATE);
-    }else if( yyact == YY_ERROR_ACTION ){
-      int yymx;
+    }else if( ppact < PPNSTATE + PPNRULE ){
+      pp_reduce(pppParser,ppact-PPNSTATE);
+    }else if( ppact == PP_ERROR_ACTION ){
+      int ppmx;
 #ifndef NDEBUG
-      if( yyTraceFILE ){
-        fprintf(yyTraceFILE,"%sSyntax Error!\n",yyTracePrompt);
+      if( ppTraceFILE ){
+        fprintf(ppTraceFILE,"%sSyntax Error!\n",ppTracePrompt);
       }
 #endif
-#ifdef YYERRORSYMBOL
+#ifdef PPERRORSYMBOL
       /* A syntax error has occurred.
       ** The response to an error depends upon whether or not the
       ** grammar defines an error token "ERROR".  
@@ -2604,40 +2604,40 @@ void phql_(
       **    shifted successfully.
       **
       */
-      if( yypParser->yyerrcnt<0 ){
-        yy_syntax_error(yypParser,yymajor,yyminorunion);
+      if( pppParser->pperrcnt<0 ){
+        pp_syntax_error(pppParser,ppmajor,ppminorunion);
       }
-      yymx = yypParser->yystack[yypParser->yyidx].major;
-      if( yymx==YYERRORSYMBOL || yyerrorhit ){
+      ppmx = pppParser->ppstack[pppParser->ppidx].major;
+      if( ppmx==PPERRORSYMBOL || pperrorhit ){
 #ifndef NDEBUG
-        if( yyTraceFILE ){
-          fprintf(yyTraceFILE,"%sDiscard input token %s\n",
-             yyTracePrompt,yyTokenName[yymajor]);
+        if( ppTraceFILE ){
+          fprintf(ppTraceFILE,"%sDiscard input token %s\n",
+             ppTracePrompt,ppTokenName[ppmajor]);
         }
 #endif
-        yy_destructor(yymajor,&yyminorunion);
-        yymajor = YYNOCODE;
+        pp_destructor(ppmajor,&ppminorunion);
+        ppmajor = PPNOCODE;
       }else{
          while(
-          yypParser->yyidx >= 0 &&
-          yymx != YYERRORSYMBOL &&
-          (yyact = yy_find_shift_action(yypParser,YYERRORSYMBOL)) >= YYNSTATE
+          pppParser->ppidx >= 0 &&
+          ppmx != PPERRORSYMBOL &&
+          (ppact = pp_find_shift_action(pppParser,PPERRORSYMBOL)) >= PPNSTATE
         ){
-          yy_pop_parser_stack(yypParser);
+          pp_pop_parser_stack(pppParser);
         }
-        if( yypParser->yyidx < 0 || yymajor==0 ){
-          yy_destructor(yymajor,&yyminorunion);
-          yy_parse_failed(yypParser);
-          yymajor = YYNOCODE;
-        }else if( yymx!=YYERRORSYMBOL ){
-          YYMINORTYPE u2;
-          u2.YYERRSYMDT = 0;
-          yy_shift(yypParser,yyact,YYERRORSYMBOL,&u2);
+        if( pppParser->ppidx < 0 || ppmajor==0 ){
+          pp_destructor(ppmajor,&ppminorunion);
+          pp_parse_failed(pppParser);
+          ppmajor = PPNOCODE;
+        }else if( ppmx!=PPERRORSYMBOL ){
+          PPMINORTYPE u2;
+          u2.PPERRSYMDT = 0;
+          pp_shift(pppParser,ppact,PPERRORSYMBOL,&u2);
         }
       }
-      yypParser->yyerrcnt = 3;
-      yyerrorhit = 1;
-#else  /* YYERRORSYMBOL is not defined */
+      pppParser->pperrcnt = 3;
+      pperrorhit = 1;
+#else  /* PPERRORSYMBOL is not defined */
       /* This is what we do if the grammar does not define ERROR:
       **
       **  * Report an error message, and throw away the input token.
@@ -2647,21 +2647,21 @@ void phql_(
       ** As before, subsequent error messages are suppressed until
       ** three input tokens have been successfully shifted.
       */
-      if( yypParser->yyerrcnt<=0 ){
-        yy_syntax_error(yypParser,yymajor,yyminorunion);
+      if( pppParser->pperrcnt<=0 ){
+        pp_syntax_error(pppParser,ppmajor,ppminorunion);
       }
-      yypParser->yyerrcnt = 3;
-      yy_destructor(yymajor,&yyminorunion);
-      if( yyendofinput ){
-        yy_parse_failed(yypParser);
+      pppParser->pperrcnt = 3;
+      pp_destructor(ppmajor,&ppminorunion);
+      if( ppendofinput ){
+        pp_parse_failed(pppParser);
       }
-      yymajor = YYNOCODE;
+      ppmajor = PPNOCODE;
 #endif
     }else{
-      yy_accept(yypParser);
-      yymajor = YYNOCODE;
+      pp_accept(pppParser);
+      ppmajor = PPNOCODE;
     }
-  }while( yymajor!=YYNOCODE && yypParser->yyidx>=0 );
+  }while( ppmajor!=PPNOCODE && pppParser->ppidx>=0 );
   return;
 }
 
