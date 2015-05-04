@@ -18,7 +18,6 @@
  * Phalcon\Mvc\Url\Exception
  *
  * Exceptions thrown in Phalcon\Mvc\Url will use this class
- *
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Url_Exception) {
 

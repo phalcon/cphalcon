@@ -367,9 +367,8 @@ PHP_METHOD(Phalcon_Db_Adapter, fetchAll) {
 			zephir_check_call_status();
 			if (!(zephir_is_true(row))) {
 				break;
-			} else {
-				zephir_array_append(&results, row, PH_SEPARATE, "phalcon/db/adapter.zep", 238);
 			}
+			zephir_array_append(&results, row, PH_SEPARATE, "phalcon/db/adapter.zep", 239);
 		}
 	}
 	RETURN_CCTOR(results);

@@ -13,7 +13,6 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, addPrimaryKey);
 PHP_METHOD(Phalcon_Db_Dialect_Postgresql, dropPrimaryKey);
 PHP_METHOD(Phalcon_Db_Dialect_Postgresql, addForeignKey);
 PHP_METHOD(Phalcon_Db_Dialect_Postgresql, dropForeignKey);
-PHP_METHOD(Phalcon_Db_Dialect_Postgresql, _getTableOptions);
 PHP_METHOD(Phalcon_Db_Dialect_Postgresql, createTable);
 PHP_METHOD(Phalcon_Db_Dialect_Postgresql, dropTable);
 PHP_METHOD(Phalcon_Db_Dialect_Postgresql, createView);
@@ -84,29 +83,25 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_dialect_postgresql_dropforeignkey, 0, 
 	ZEND_ARG_INFO(0, referenceName)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_dialect_postgresql__gettableoptions, 0, 0, 1)
-	ZEND_ARG_INFO(0, definition)
-ZEND_END_ARG_INFO()
-
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_dialect_postgresql_createtable, 0, 0, 3)
 	ZEND_ARG_INFO(0, tableName)
 	ZEND_ARG_INFO(0, schemaName)
 	ZEND_ARG_ARRAY_INFO(0, definition, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_dialect_postgresql_droptable, 0, 0, 2)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_dialect_postgresql_droptable, 0, 0, 1)
 	ZEND_ARG_INFO(0, tableName)
 	ZEND_ARG_INFO(0, schemaName)
 	ZEND_ARG_INFO(0, ifExists)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_dialect_postgresql_createview, 0, 0, 3)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_dialect_postgresql_createview, 0, 0, 2)
 	ZEND_ARG_INFO(0, viewName)
-	ZEND_ARG_INFO(0, definition)
+	ZEND_ARG_ARRAY_INFO(0, definition, 0)
 	ZEND_ARG_INFO(0, schemaName)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_dialect_postgresql_dropview, 0, 0, 2)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_dialect_postgresql_dropview, 0, 0, 1)
 	ZEND_ARG_INFO(0, viewName)
 	ZEND_ARG_INFO(0, schemaName)
 	ZEND_ARG_INFO(0, ifExists)
@@ -161,7 +156,6 @@ ZEPHIR_INIT_FUNCS(phalcon_db_dialect_postgresql_method_entry) {
 	PHP_ME(Phalcon_Db_Dialect_Postgresql, dropPrimaryKey, arginfo_phalcon_db_dialect_postgresql_dropprimarykey, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Dialect_Postgresql, addForeignKey, arginfo_phalcon_db_dialect_postgresql_addforeignkey, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Dialect_Postgresql, dropForeignKey, arginfo_phalcon_db_dialect_postgresql_dropforeignkey, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Db_Dialect_Postgresql, _getTableOptions, arginfo_phalcon_db_dialect_postgresql__gettableoptions, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Db_Dialect_Postgresql, createTable, arginfo_phalcon_db_dialect_postgresql_createtable, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Dialect_Postgresql, dropTable, arginfo_phalcon_db_dialect_postgresql_droptable, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Dialect_Postgresql, createView, arginfo_phalcon_db_dialect_postgresql_createview, ZEND_ACC_PUBLIC)

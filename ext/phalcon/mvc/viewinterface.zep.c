@@ -105,7 +105,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_ViewInterface, setTemplateBefore);
 
 /**
  * Resets any template before layouts
- *
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ViewInterface, cleanTemplateBefore);
 
@@ -191,19 +190,16 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_ViewInterface, getActiveRenderPath);
 
 /**
  * Disables the auto-rendering process
- *
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ViewInterface, disable);
 
 /**
  * Enables the auto-rendering process
- *
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ViewInterface, enable);
 
 /**
  * Resets the view component to its factory default values
- *
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ViewInterface, reset);
 

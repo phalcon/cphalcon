@@ -877,8 +877,6 @@ PHP_METHOD(Phalcon_Dispatcher, wasForwarded) {
 
 /**
  * Possible class name that will be located to dispatch the request
- *
- * @return string
  */
 PHP_METHOD(Phalcon_Dispatcher, getHandlerClass) {
 

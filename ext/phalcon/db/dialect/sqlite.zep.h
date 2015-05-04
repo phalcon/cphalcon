@@ -13,7 +13,6 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, addPrimaryKey);
 PHP_METHOD(Phalcon_Db_Dialect_Sqlite, dropPrimaryKey);
 PHP_METHOD(Phalcon_Db_Dialect_Sqlite, addForeignKey);
 PHP_METHOD(Phalcon_Db_Dialect_Sqlite, dropForeignKey);
-PHP_METHOD(Phalcon_Db_Dialect_Sqlite, _getTableOptions);
 PHP_METHOD(Phalcon_Db_Dialect_Sqlite, createTable);
 PHP_METHOD(Phalcon_Db_Dialect_Sqlite, dropTable);
 PHP_METHOD(Phalcon_Db_Dialect_Sqlite, createView);
@@ -85,29 +84,25 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_dialect_sqlite_dropforeignkey, 0, 0, 3
 	ZEND_ARG_INFO(0, referenceName)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_dialect_sqlite__gettableoptions, 0, 0, 1)
-	ZEND_ARG_INFO(0, definition)
-ZEND_END_ARG_INFO()
-
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_dialect_sqlite_createtable, 0, 0, 3)
 	ZEND_ARG_INFO(0, tableName)
 	ZEND_ARG_INFO(0, schemaName)
 	ZEND_ARG_ARRAY_INFO(0, definition, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_dialect_sqlite_droptable, 0, 0, 2)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_dialect_sqlite_droptable, 0, 0, 1)
 	ZEND_ARG_INFO(0, tableName)
 	ZEND_ARG_INFO(0, schemaName)
 	ZEND_ARG_INFO(0, ifExists)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_dialect_sqlite_createview, 0, 0, 3)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_dialect_sqlite_createview, 0, 0, 2)
 	ZEND_ARG_INFO(0, viewName)
-	ZEND_ARG_INFO(0, definition)
+	ZEND_ARG_ARRAY_INFO(0, definition, 0)
 	ZEND_ARG_INFO(0, schemaName)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_dialect_sqlite_dropview, 0, 0, 2)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_dialect_sqlite_dropview, 0, 0, 1)
 	ZEND_ARG_INFO(0, viewName)
 	ZEND_ARG_INFO(0, schemaName)
 	ZEND_ARG_INFO(0, ifExists)
@@ -166,7 +161,6 @@ ZEPHIR_INIT_FUNCS(phalcon_db_dialect_sqlite_method_entry) {
 	PHP_ME(Phalcon_Db_Dialect_Sqlite, dropPrimaryKey, arginfo_phalcon_db_dialect_sqlite_dropprimarykey, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Dialect_Sqlite, addForeignKey, arginfo_phalcon_db_dialect_sqlite_addforeignkey, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Dialect_Sqlite, dropForeignKey, arginfo_phalcon_db_dialect_sqlite_dropforeignkey, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Db_Dialect_Sqlite, _getTableOptions, arginfo_phalcon_db_dialect_sqlite__gettableoptions, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Db_Dialect_Sqlite, createTable, arginfo_phalcon_db_dialect_sqlite_createtable, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Dialect_Sqlite, dropTable, arginfo_phalcon_db_dialect_sqlite_droptable, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Dialect_Sqlite, createView, arginfo_phalcon_db_dialect_sqlite_createview, ZEND_ACC_PUBLIC)

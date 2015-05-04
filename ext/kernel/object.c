@@ -54,7 +54,7 @@ int zephir_get_class_constant(zval *return_value, zend_class_entry *ce, char *co
 }
 
 /**
- * Check if class is instance of
+ * Check if a zval is instance of a class returning its value in a zval
  */
 int zephir_instance_of(zval *result, const zval *object, const zend_class_entry *ce TSRMLS_DC) {
 
@@ -68,6 +68,9 @@ int zephir_instance_of(zval *result, const zval *object, const zend_class_entry 
 	return SUCCESS;
 }
 
+/**
+ * Check if a zval is instance of a class returning an integer
+ */
 int zephir_instance_of_ev(const zval *object, const zend_class_entry *ce TSRMLS_DC) {
 
 	if (Z_TYPE_P(object) != IS_OBJECT) {
@@ -101,6 +104,9 @@ int zephir_is_instance_of(zval *object, const char *class_name, unsigned int cla
 	return 0;
 }
 
+/**
+ * Checks if a zval is traversable
+ */
 int zephir_zval_is_traversable(zval *object TSRMLS_DC) {
 
 	zend_class_entry *ce;
@@ -1822,4 +1828,3 @@ int zephir_create_closure_ex(zval *return_value, zval *this_ptr, zend_class_entr
 #endif
 	return SUCCESS;
 }
-

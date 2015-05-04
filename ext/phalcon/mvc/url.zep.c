@@ -324,7 +324,7 @@ PHP_METHOD(Phalcon_Mvc_Url, get) {
 	if (Z_TYPE_P(uri) == IS_ARRAY) {
 		ZEPHIR_OBS_VAR(routeName);
 		if (!(zephir_array_isset_string_fetch(&routeName, uri, SS("for"), 0 TSRMLS_CC))) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_url_exception_ce, "It's necessary to define the route name with the parameter 'for'", "phalcon/mvc/url.zep", 201);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_url_exception_ce, "It's necessary to define the route name with the parameter 'for'", "phalcon/mvc/url.zep", 202);
 			return;
 		}
 		_5 = zephir_fetch_nproperty_this(this_ptr, SL("_router"), PH_NOISY_CC);
@@ -333,7 +333,7 @@ PHP_METHOD(Phalcon_Mvc_Url, get) {
 			_5 = zephir_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 			ZEPHIR_CPY_WRT(dependencyInjector, _5);
 			if (Z_TYPE_P(dependencyInjector) != IS_OBJECT) {
-				ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_url_exception_ce, "A dependency injector container is required to obtain the 'router' service", "phalcon/mvc/url.zep", 213);
+				ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_url_exception_ce, "A dependency injector container is required to obtain the 'router' service", "phalcon/mvc/url.zep", 214);
 				return;
 			}
 			ZEPHIR_INIT_VAR(_6);
@@ -354,7 +354,7 @@ PHP_METHOD(Phalcon_Mvc_Url, get) {
 			ZEPHIR_CONCAT_SVS(_7, "Cannot obtain a route using the name '", routeName, "'");
 			ZEPHIR_CALL_METHOD(NULL, _6, "__construct", &_8, _7);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(_6, "phalcon/mvc/url.zep", 225 TSRMLS_CC);
+			zephir_throw_exception_debug(_6, "phalcon/mvc/url.zep", 226 TSRMLS_CC);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}

@@ -297,9 +297,6 @@ PHP_METHOD(Phalcon_Config, offsetUnset) {
  * $appConfig = new \Phalcon\Config(array('database' => array('host' => 'localhost')));
  * $globalConfig->merge($config2);
  *</code>
- *
- * @param Config config
- * @return this merged config
  */
 PHP_METHOD(Phalcon_Config, merge) {
 
@@ -339,7 +336,7 @@ PHP_METHOD(Phalcon_Config, toArray) {
 	array_init(arrayConfig);
 	ZEPHIR_CALL_FUNCTION(&_0, "get_object_vars", &_1, this_ptr);
 	zephir_check_call_status();
-	zephir_is_iterable(_0, &_3, &_2, 0, 0, "phalcon/config.zep", 179);
+	zephir_is_iterable(_0, &_3, &_2, 0, 0, "phalcon/config.zep", 176);
 	for (
 	  ; zephir_hash_get_current_data_ex(_3, (void**) &_4, &_2) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_3, &_2)
@@ -447,7 +444,7 @@ PHP_METHOD(Phalcon_Config, _merge) {
 	zephir_check_call_status();
 	ZEPHIR_CALL_FUNCTION(&_0, "get_object_vars", &_1, config);
 	zephir_check_call_status();
-	zephir_is_iterable(_0, &_3, &_2, 0, 0, "phalcon/config.zep", 238);
+	zephir_is_iterable(_0, &_3, &_2, 0, 0, "phalcon/config.zep", 235);
 	for (
 	  ; zephir_hash_get_current_data_ex(_3, (void**) &_4, &_2) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_3, &_2)
