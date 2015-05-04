@@ -442,7 +442,7 @@ abstract class Collection implements CollectionInterface, InjectionAwareInterfac
 	 */
 	protected static function _getGroupResultset(params, <Collection> collection, connection) -> int
 	{
-		var source, mongoCollection, conditions, simple, limit, sort, documentsCursor;
+		var source, mongoCollection, conditions, limit, sort, documentsCursor;
 
 		let source = collection->getSource();
 		if empty source {
@@ -460,21 +460,7 @@ abstract class Collection implements CollectionInterface, InjectionAwareInterfac
 			}
 		}
 
-		let simple = true;
-
-		if isset params["limit"] {
-			let simple = false;
-		} else {
-			if isset params["sort"] {
-				let simple = false;
-			} else {
-				if isset params["skip"] {
-					let simple = false;
-				}
-			}
-		}
-
-		if simple === false {
+		if isset params["limit"] || isset params["sort"] || isset params["skip"] {
 
 			/**
 			 * Perform the find
