@@ -300,10 +300,7 @@ class Redis extends Backend implements BackendInterface
 		/**
 		* Delete the key from redis
 		*/
-		if redis->delete(lastKey) != 1 {
-			return false;
-		}
-		return true;
+		return redis->delete(lastKey);
 	}
 
 	/**
