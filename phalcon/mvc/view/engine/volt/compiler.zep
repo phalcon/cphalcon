@@ -146,10 +146,8 @@ class Compiler implements InjectionAwareInterface
 
 	/**
 	 * Returns the compiler options
-	 *
-	 * @return array
 	 */
-	public function getOptions()
+	public function getOptions() -> array
 	{
 		return this->_options;
 	}
@@ -216,10 +214,8 @@ class Compiler implements InjectionAwareInterface
 
 	/**
 	 * Returns the list of extensions registered in Volt
-	 *
-	 * @return array
 	 */
-	public function getExtensions()
+	public function getExtensions() -> array
 	{
 		return this->_extensions;
 	}
@@ -239,10 +235,8 @@ class Compiler implements InjectionAwareInterface
 
 	/**
 	 * Register the user registered functions
-	 *
-	 * @return array
 	 */
-	public function getFunctions()
+	public function getFunctions() -> array
 	{
 		return this->_functions;
 	}
@@ -262,10 +256,8 @@ class Compiler implements InjectionAwareInterface
 
 	/**
 	 * Register the user registered filters
-	 *
-	 * @return array
 	 */
-	public function getFilters()
+	public function getFilters() -> array
 	{
 		return this->_filters;
 	}
@@ -1951,19 +1943,15 @@ class Compiler implements InjectionAwareInterface
 	 * @param boolean  extendsMode
 	 * @return string
 	 */
-	public function compileCall(statement, extendsMode)
+	public function compileCall(array! statement, boolean extendsMode)
 	{
 
 	}
 
 	/**
 	 * Traverses a statement list compiling each of its nodes
-	 *
-	 * @param array statement
-	 * @param boolean extendsMode
-	 * @return string
 	 */
-	final protected function _statementList(statements, boolean extendsMode = false) -> string
+	final protected function _statementList(array! statements, boolean extendsMode = false) -> string
 	{
 		var extended, blockMode, compilation, extensions,
 			statement, tempCompilation, type, blockName, blockStatements,
@@ -2593,20 +2581,16 @@ class Compiler implements InjectionAwareInterface
 
 	/**
 	 * Returns the path that is currently being compiled
-	 *
-	 * @return string
 	 */
-	public function getTemplatePath()
+	public function getTemplatePath() -> string
 	{
 		return this->_currentPath;
 	}
 
 	/**
 	 * Returns the path to the last compiled template
-	 *
-	 * @return string
 	 */
-	public function getCompiledTemplatePath()
+	public function getCompiledTemplatePath() -> string
 	{
 		return this->_compiledTemplatePath;
 	}
