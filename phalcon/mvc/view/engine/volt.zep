@@ -210,7 +210,7 @@ class Volt extends Engine implements EngineInterface
 	/**
 	 * Extracts a slice from a string/array/traversable object value
 	 */
-	public function slice(var value, var start, var end = null)
+	public function slice(var value, int start = 0, var end = null)
 	{
 		var length, slice;
 		int position;
@@ -221,21 +221,15 @@ class Volt extends Engine implements EngineInterface
 		if typeof value == "object" {
 
 			if end === null {
-				let length = count(value);
-			} else {
-				let length = end;
+				let end = count(value) - 1;
 			}
 
 			let position = 0, slice = [];
 
 			value->rewind();
-			loop {
 
-				if !value->valid() {
-					break;
-				}
-
-				if position >= start && position <= length {
+			while value->valid() {
+				if position >= start && position <= end {
 					let slice[] = value->current();
 				}
 
