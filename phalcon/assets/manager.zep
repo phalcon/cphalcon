@@ -257,7 +257,7 @@ class Manager
 	/**
 	 * Returns the CSS collection of assets
 	 */
-	public function getCss() -> <\Phalcon\Assets\Collection>
+	public function getCss() -> <Collection>
 	{
 		var collection;
 
@@ -265,7 +265,7 @@ class Manager
 		 * Check if the collection does not exist and create an implicit collection
 		 */
 		if !fetch collection, this->_collections["css"] {
-			return new \Phalcon\Assets\Collection();
+			return new Collection();
 		}
 		return collection;
 	}
@@ -440,7 +440,7 @@ class Manager
 					/**
 					 * Get the complete path
 					 */
-					let sourcePath = $resource->getRealSourcePath();
+					let sourcePath = $resource->getRealSourcePath(completeSourcePath);
 
 					/**
 					 * We need a valid source path
