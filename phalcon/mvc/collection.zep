@@ -63,7 +63,7 @@ abstract class Collection implements CollectionInterface, InjectionAwareInterfac
 	const OP_DELETE = 3;
 
 	/**
-	 * Phalcon\Mvc\Model constructor
+	 * Phalcon\Mvc\Collection constructor
 	 */
 	public final function __construct(<DiInterface> dependencyInjector = null, <ManagerInterface> modelsManager = null)
 	{
@@ -585,6 +585,7 @@ abstract class Collection implements CollectionInterface, InjectionAwareInterfac
 			} else {
 				let eventName = "beforeCreate";
 			}
+
 			if this->fireEventCancel(eventName) === false {
 				return false;
 			}

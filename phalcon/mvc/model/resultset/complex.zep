@@ -46,7 +46,6 @@ class Complex extends Resultset implements ResultsetInterface
 	 */
 	public function __construct(var columnTypes, result, <BackendInterface> cache = null)
 	{
-
 		/**
 		 * Column types, tell the resultset how to build the result
 		 */
@@ -79,8 +78,6 @@ class Complex extends Resultset implements ResultsetInterface
 
 	/**
 	 * Returns current row in the resultset
-	 *
-	 * @return Phalcon\Mvc\ModelInterface|false
 	 */
 	public final function current() -> <ModelInterface> | boolean
 	{
@@ -96,8 +93,8 @@ class Complex extends Resultset implements ResultsetInterface
 		}
 
 		/**
-		* Get current row
-		*/
+		 * Get current row
+		 */
 		let isPartial = this->_type;
 		if isPartial {
 			let row = this->_row;
@@ -127,8 +124,8 @@ class Complex extends Resultset implements ResultsetInterface
 		}
 
 		/**
-		* Resulset was unserialized, we do not need to hydrate
-		*/
+		 * Resulset was unserialized, we do not need to hydrate
+		 */
 		if !isPartial {
 			let this->_activeRow = row;
 			return row;
@@ -327,16 +324,14 @@ class Complex extends Resultset implements ResultsetInterface
 
 	/**
 	 * Unserializing a resultset will allow to only works on the rows present in the saved state
-	 *
-	 * @param string data
 	 */
 	public function unserialize(string! data) -> void
 	{
 		var resultset;
 
 		/**
-		* Enable fetch by array
-		*/
+		 * Enable fetch by array
+		 */
 		let this->_type = 0;
 
 		let resultset = unserialize(data);

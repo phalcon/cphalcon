@@ -65,11 +65,9 @@ class Sqlite extends PdoAdapter implements AdapterInterface
 			let descriptor = this->_descriptor;
 		}
 
-		if !isset descriptor["dbname"] {
+		if !fetch dbname, descriptor["dbname"] {
 			throw new Exception("dbname must be specified");
 		}
-
-		fetch dbname, descriptor["dbname"];
 
 		let descriptor["dsn"] = dbname;
 
@@ -293,7 +291,7 @@ class Sqlite extends PdoAdapter implements AdapterInterface
 	 * @param	string schema
 	 * @return	Phalcon\Db\IndexInterface[]
 	 */
-	public function describeIndexes(table, schema = null) -> <IndexInterface>
+	public function describeIndexes(table, schema = null) -> <IndexInterface[]>
 	{
 		var indexes, index, keyName, indexObjects, name, indexColumns, columns,
 			describe_index;

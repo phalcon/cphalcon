@@ -50,7 +50,6 @@ use Phalcon\Mvc\Model\ResultsetInterface;
  *  $robots->next();
  * }
  * </code>
- *
  */
 abstract class Resultset
 	implements ResultsetInterface, \Iterator, \SeekableIterator, \Countable, \ArrayAccess, \Serializable
@@ -99,8 +98,6 @@ abstract class Resultset
 	
 	/**
 	 * Check whether internal resource has rows to fetch
-	 *
-	 * @return boolean
 	 */
 	public function valid() -> boolean
 	{		
@@ -109,15 +106,13 @@ abstract class Resultset
 
 	/**
 	 * Gets pointer number of active row in the resultset
-	 *
-	 * @return int|null
 	 */
 	public function key() -> int | null
 	{		
 		if this->_pointer >= this->count() {
 			return null;
 		}
-		
+
 		return this->_pointer;
 	}
 

@@ -21,6 +21,7 @@ namespace Phalcon\Image;
 
 interface AdapterInterface
 {
+
 	public function resize(int width = null, int height = null, int master = Image::AUTO);
 	public function crop(int width, int height, int offsetX = null, int offsetY = null);
 	public function rotate(int degrees);

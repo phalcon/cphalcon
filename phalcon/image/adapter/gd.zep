@@ -534,7 +534,7 @@ class Gd extends Adapter implements AdapterInterface
 			return true;
 		}
 
-		throw new \Phalcon\Image\Exception("Installed GD does not support '" . ext . "' images");
+		throw new Exception("Installed GD does not support '" . ext . "' images");
 	}
 
 	protected function _render(string ext, int quality)

@@ -53,7 +53,7 @@ class Manager
 	 */
 	public function __construct(options = null)
 	{
-		if  typeof options == "array" {
+		if typeof options == "array" {
 			let this->_options = options;
 		}
 	}

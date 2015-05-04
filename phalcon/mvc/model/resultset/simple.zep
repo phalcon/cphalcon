@@ -91,8 +91,6 @@ class Simple extends Resultset
 
 	/**
 	 * Returns current row in the resultset
-	 *
-	 * @return Phalcon\Mvc\ModelInterface|false
 	 */
 	public final function current() -> <ModelInterface> | boolean
 	{
@@ -104,18 +102,18 @@ class Simple extends Resultset
 		}
 
 		/**
-		* Get current row
-		*/
+		 * Get current row
+		 */
 		if this->_type {
 			/**
-			* Fetch from PDO one-by-one. Functions "next" and "seek" set this->_row
-			*/
+			 * Fetch from PDO one-by-one. Functions "next" and "seek" set this->_row
+			 */
 			let row = this->_row;
 		} else {
 			/**
-			* Fetch from array. Functions "next" and "seek" set this->_pointer
-			* We have to ensure this->_rows is populated
-			*/
+			 * Fetch from array. Functions "next" and "seek" set this->_pointer
+			 * We have to ensure this->_rows is populated
+			 */
 			if this->_rows === null {
 				let result = this->_result;
 				if typeof result == "object" {
@@ -206,8 +204,8 @@ class Simple extends Resultset
 
 		} else {
 			/**
-			* Fetch from array. this->_rows is alreay our data-array we want to return
-			*/
+			 * Fetch from array. this->_rows is alreay our data-array we want to return
+			 */
 			let records = this->_rows;
 			if typeof records != "array" {
 				let result = this->_result;
@@ -295,8 +293,8 @@ class Simple extends Resultset
 		var resultset;
 
 		/**
-		* Enable fetch by array
-		*/
+		 * Enable fetch by array
+		 */
 		let this->_type = 0;
 
 		let resultset = unserialize(data);

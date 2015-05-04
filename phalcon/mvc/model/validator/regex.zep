@@ -48,7 +48,6 @@ use Phalcon\Mvc\ModelInterface;
  *
  *}
  *</code>
- *
  */
 class Regex extends Validator implements ValidatorInterface
 {

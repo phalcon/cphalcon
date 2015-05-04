@@ -76,8 +76,8 @@ class Micro extends Injectable implements \ArrayAccess
 	protected _returnedValue;
 
 	/**
-	* Phalcon\Mvc\Micro constructor
-	*/
+	 * Phalcon\Mvc\Micro constructor
+	 */
 	public function __construct(<DiInterface> dependencyInjector = null)
 	{
 		if typeof dependencyInjector == "object" {

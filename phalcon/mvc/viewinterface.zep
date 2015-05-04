@@ -105,7 +105,6 @@ interface ViewInterface extends ViewBaseInterface
 
 	/**
 	 * Resets any template before layouts
-	 *
 	 */
 	public function cleanTemplateBefore();
 
@@ -191,19 +190,16 @@ interface ViewInterface extends ViewBaseInterface
 
 	/**
 	 * Disables the auto-rendering process
-	 *
 	 */
 	public function disable();
 
 	/**
 	 * Enables the auto-rendering process
-	 *
 	 */
 	public function enable();
 
 	/**
 	 * Resets the view component to its factory default values
-	 *
 	 */
 	public function reset();
 

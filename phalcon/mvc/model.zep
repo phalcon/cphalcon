@@ -21,7 +21,6 @@ namespace Phalcon\Mvc;
 
 use Phalcon\DiInterface;
 use Phalcon\Mvc\Model\Message;
-use Phalcon\Mvc\ModelInterface;
 use Phalcon\Mvc\Model\ResultInterface;
 use Phalcon\Di\InjectionAwareInterface;
 use Phalcon\Mvc\Model\ManagerInterface;
@@ -2657,7 +2656,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 
 		let metaData = this->getModelsMetaData();
 
-		if typeof data == "array" && count(data)>0 {
+		if typeof data == "array" && count(data) > 0 {
 			this->assign(data, null, whiteList);
 		}
 
