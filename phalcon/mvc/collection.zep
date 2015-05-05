@@ -442,7 +442,7 @@ abstract class Collection implements CollectionInterface, InjectionAwareInterfac
 	 */
 	protected static function _getGroupResultset(params, <Collection> collection, connection) -> int
 	{
-		var source, mongoCollection, conditions, simple, limit, sort, documentsCursor;
+		var source, mongoCollection, conditions, limit, sort, documentsCursor;
 
 		let source = collection->getSource();
 		if empty source {
@@ -460,21 +460,7 @@ abstract class Collection implements CollectionInterface, InjectionAwareInterfac
 			}
 		}
 
-		let simple = true;
-
-		if isset params["limit"] {
-			let simple = false;
-		} else {
-			if isset params["sort"] {
-				let simple = false;
-			} else {
-				if isset params["skip"] {
-					let simple = false;
-				}
-			}
-		}
-
-		if simple === false {
+		if isset params["limit"] || isset params["sort"] || isset params["skip"] {
 
 			/**
 			 * Perform the find
@@ -519,7 +505,7 @@ abstract class Collection implements CollectionInterface, InjectionAwareInterfac
 	 * @param boolean exists
 	 * @return boolean
 	 */
-	protected final function _preSave(dependencyInjector, disableEvents, exists) -> boolean
+	protected final function _preSave(dependencyInjector, boolean disableEvents, boolean exists) -> boolean
 	{
 		var eventName;
 
@@ -808,7 +794,7 @@ abstract class Collection implements CollectionInterface, InjectionAwareInterfac
 	 *}
 	 * </code>
 	 */
-	public function getMessages() -> <\Phalcon\Mvc\Model\MessageInterface[]>
+	public function getMessages() -> <MessageInterface[]>
 	{
 		return this->_errorMessages;
 	}
@@ -990,19 +976,10 @@ abstract class Collection implements CollectionInterface, InjectionAwareInterfac
 	 * echo "The first virtual robot name is ", robot->name, "\n";
 	 *
 	 * </code>
-	 *
-	 * @param array parameters
-	 * @return array
 	 */
-	public static function findFirst(parameters = null) -> array
+	public static function findFirst(array parameters = null) -> array
 	{
 		var className, collection, connection;
-
-		if parameters {
-			if typeof parameters != "array" {
-				throw new Exception("Invalid parameters for findFirst");
-			}
-		}
 
 		let className = get_called_class();
 
@@ -1047,19 +1024,10 @@ abstract class Collection implements CollectionInterface, InjectionAwareInterfac
 	 *	   echo robot->name, "\n";
 	 * }
 	 * </code>
-	 *
-	 * @param 	array parameters
-	 * @return  array
 	 */
-	public static function find(parameters = null) -> array
+	public static function find(array parameters = null) -> array
 	{
 		var className, collection;
-
-		if parameters {
-			if typeof parameters != "array" {
-				throw new Exception("Invalid parameters for find");
-			}
-		}
 
 		let className = get_called_class();
 		let collection = new {className}();
@@ -1072,19 +1040,10 @@ abstract class Collection implements CollectionInterface, InjectionAwareInterfac
 	 *<code>
 	 * echo 'There are ', Robots::count(), ' robots';
 	 *</code>
-	 *
-	 * @param array parameters
-	 * @return array
 	 */
-	public static function count(parameters = null) -> array
+	public static function count(array parameters = null) -> array
 	{
 		var className, collection, connection;
-
-		if parameters {
-			if typeof parameters != "array" {
-				throw new Exception("Invalid parameters for count");
-			}
-		}
 
 		let className = get_called_class();
 
@@ -1097,19 +1056,10 @@ abstract class Collection implements CollectionInterface, InjectionAwareInterfac
 
 	/**
 	 * Perform an aggregation using the Mongo aggregation framework
-	 *
-	 * @param array parameters
-	 * @return array
 	 */
-	public static function aggregate(parameters)
+	public static function aggregate(array parameters = null) -> array
 	{
 		var className, model, connection, source;
-
-		if parameters {
-			if typeof parameters != "array" {
-				throw new Exception("Invalid parameters for aggregate");
-			}
-		}
 
 		let className = get_called_class();
 
@@ -1295,10 +1245,8 @@ abstract class Collection implements CollectionInterface, InjectionAwareInterfac
 
 	/**
 	 * Serializes the object ignoring connections or protected properties
-	 *
-	 * @return string
 	 */
-	public function serialize()
+	public function serialize() -> string
 	{
 		/**
 		 * Use the standard serialize function to serialize the array data
