@@ -80,12 +80,8 @@ class Sqlite extends PdoAdapter implements AdapterInterface
 	 * <code>
 	 * print_r($connection->describeColumns("posts"));
 	 * </code>
-	 *
-	 * @param string table
-	 * @param string schema
-	 * @return Phalcon\Db\Column[]
 	 */
-	public function describeColumns(string table, string schema = null)
+	public function describeColumns(string table, string schema = null) -> <Column[]>
 	{
 		var columns, columnType, field, definition,
 			oldColumn, sizePattern, matches, matchOne, matchTwo, columnName;
