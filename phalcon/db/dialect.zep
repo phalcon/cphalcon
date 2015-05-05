@@ -45,9 +45,20 @@ abstract class Dialect implements DialectInterface
 		let isEscape = (boolean) globals_get("db.escape_identifiers");
 
 		if !memstr(str, ".") {
+
 			if isEscape {
+
+				if escapeChar == "" {
+					return str;
+				}
+
+				if str == "*" {
+					return str;
+				}
+
 				return escapeChar . str . escapeChar;
 			}
+
 			return str;
 		}
 
