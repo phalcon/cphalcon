@@ -13,6 +13,9 @@
  - Fixed bug that makes instances returned in Model::findFirst to be not completely initialized
  - Added support for general SELECT ALL/SELECT DISTINCT in PHQL
  - Added support for "not in" test in Volt
+ - Phalcon\Debug\Dump
+ -- Renamed method var() to variable()
+ -- Renamed method vars() to variables()
 
 2.0.0
  - Full rewrite of most components in Zephir
