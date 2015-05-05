@@ -1748,7 +1748,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 */
 	protected function _preSave(<MetadataInterface> metaData, boolean exists, var identityField) -> boolean
 	{
-		var notNull, columnMap, dataTypeNumeric, automaticAttributes, field, attributeField, value;
+		var notNull, columnMap, dataTypeNumeric, automaticAttributes, defaultValues, field, attributeField, value;
 		boolean error, isNull;
 
 		/**
@@ -1812,6 +1812,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 					let automaticAttributes = metaData->getAutomaticUpdateAttributes(this);
 				} else {
 					let automaticAttributes = metaData->getAutomaticCreateAttributes(this);
+					let defaultValues = metaData->getDefaultValues(this);
 				}
 
 				let error = false;
@@ -1863,6 +1864,13 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 								 * The identity field can be null
 								 */
 								if field == identityField {
+									continue;
+								}
+
+								/**
+								 * The field have default value can be null
+								 */
+								if isset defaultValues[field] {
 									continue;
 								}
 							}
