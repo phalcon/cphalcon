@@ -26,7 +26,7 @@ use Phalcon\Acl\Exception;
  *
  * This class defines resource entity and its description
  */
-class $Resource
+class Resource
 {
 
 	/**
