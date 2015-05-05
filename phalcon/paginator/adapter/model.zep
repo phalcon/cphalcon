@@ -21,6 +21,7 @@
 namespace Phalcon\Paginator\Adapter;
 
 use Phalcon\Paginator\Exception;
+use Phalcon\Paginator\Adapter;
 use Phalcon\Paginator\AdapterInterface;
 
 /**
@@ -39,23 +40,13 @@ use Phalcon\Paginator\AdapterInterface;
  *  $paginate = $paginator->getPaginate();
  *</code>
  */
-class Model implements AdapterInterface
+class Model extends Adapter implements AdapterInterface
 {
-
-	/**
-	 * Number of rows to show in the paginator. By default is null
-	 */
-	protected _limitRows = null;
 
 	/**
 	 * Configuration of paginator by model
 	 */
 	protected _config = null;
-
-	/**
-	 * Current page in paginate
-	*/
-	protected _page = null;
 
 	/**
 	 * Phalcon\Paginator\Adapter\Model constructor
@@ -65,40 +56,14 @@ class Model implements AdapterInterface
 		var page, limit;
 
 		let this->_config = config;
+
 		if fetch limit, config["limit"] {
 			let this->_limitRows = limit;
 		}
+
 		if fetch page, config["page"] {
 			let this->_page = page;
 		}
-	}
-
-	/**
-	 * Set the current page number
-	 */
-	public function setCurrentPage(int page) -> <Model>
-	{
-		let this->_page = page;
-
-		return this;
-	}
-
-	/**
-	 * Set current rows limit
-	 */
-	public function setLimit(int limitRows) -> <Model>
-	{
-		let this->_limitRows = limitRows;
-
-		return this;
-	}
-
-	/**
-	 * Get current rows limit
-	 */
-	public function getLimit() -> int
-	{
-		return this->_limitRows;
 	}
 
 	/**
@@ -108,7 +73,7 @@ class Model implements AdapterInterface
 	{
 		var config, items, pageItems, page, valid;
 		int pageNumber, show, n, start, lastShowPage,
-			i, next, pagesTotal, before;
+			i, next, totalPages, before;
 
 		let show       = (int) this->_limitRows,
 			config     = this->_config,
@@ -135,9 +100,9 @@ class Model implements AdapterInterface
 			pageItems 		= [];
 
 		if n % show != 0 {
-			let pagesTotal = (int) (n / show + 1);
+			let totalPages = (int) (n / show + 1);
 		} else {
-			let pagesTotal = (int) (n / show);
+			let totalPages = (int) (n / show);
 		}
 
 		if n > 0 {
@@ -169,8 +134,8 @@ class Model implements AdapterInterface
 
 		//Fix next
 		let next = pageNumber + 1;
-		if next > pagesTotal {
-			let next = pagesTotal;
+		if next > totalPages {
+			let next = totalPages;
 		}
 
 		if pageNumber > 1 {
@@ -184,9 +149,9 @@ class Model implements AdapterInterface
 			page->first = 1,
 			page->before =  before,
 			page->current = pageNumber,
-			page->last = pagesTotal,
+			page->last = totalPages,
 			page->next = next,
-			page->total_pages = pagesTotal,
+			page->total_pages = totalPages,
 			page->total_items = n,
 			page->limit = this->_limitRows;
 

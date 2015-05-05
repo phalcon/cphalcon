@@ -20,11 +20,46 @@
 namespace Phalcon\Paginator;
 
 /**
- * Phalcon\Paginator\Exception
- *
- * Exceptions thrown in Phalcon\Paginator will use this class
+ * Phalcon\Paginator\Adapter
  */
-class Exception extends \Phalcon\Exception
+abstract class Adapter
 {
 
+	/**
+	 * Number of rows to show in the paginator. By default is null
+	 */
+	protected _limitRows = null;
+
+	/**
+	 * Current page in paginate
+	 */
+	protected _page = null;
+
+	/**
+	 * Set the current page number
+	 */
+	public function setCurrentPage(int page) -> <Adapter>
+	{
+		let this->_page = page;
+
+		return this;
+	}
+
+	/**
+	 * Set current rows limit
+	 */
+	public function setLimit(int limitRows) -> <Adapter>
+	{
+		let this->_limitRows = limitRows;
+
+		return this;
+	}
+
+	/**
+	 * Get current rows limit
+	 */
+	public function getLimit() -> int
+	{
+		return this->_limitRows;
+	}
 }
