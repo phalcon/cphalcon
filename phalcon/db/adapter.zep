@@ -965,12 +965,8 @@ abstract class Adapter implements EventsAwareInterface
 	 *<code>
 	 * print_r($connection->tableOptions('robots'));
 	 *</code>
-	 *
-	 * @param	string tableName
-	 * @param	string schemaName
-	 * @return	array
 	 */
-	public function tableOptions(tableName, schemaName = null)
+	public function tableOptions(string! tableName, string schemaName = null) -> array
 	{
 		var sql;
 

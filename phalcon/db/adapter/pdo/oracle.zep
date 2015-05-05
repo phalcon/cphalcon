@@ -83,12 +83,8 @@ class Oracle extends PdoAdapter implements AdapterInterface
 	 * Returns an array of Phalcon\Db\Column objects describing a table
 	 *
 	 * <code>print_r($connection->describeColumns("posts")); ?></code>
-	 *
-	 * @param string table
-	 * @param string schema
-	 * @return Phalcon\Db\Column[]
 	 */
-	public function describeColumns(string! table, schema = null) -> <Column[]>
+	public function describeColumns(string! table, string schema = null) -> <Column[]>
 	{
 		var columns, oldColumn, field, definition, columnSize,
 			columnPrecision, columnScale, columnType, columnName;
@@ -221,11 +217,8 @@ class Oracle extends PdoAdapter implements AdapterInterface
 	 * //Getting the generated id
 	 * $id = $connection->lastInsertId();
 	 *</code>
-	 *
-	 * @param string sequenceName
-	 * @return int
 	 */
-	public function lastInsertId(sequenceName = null) -> int
+	public function lastInsertId(string sequenceName = null) -> int
 	{
 		return this->fetchAll("SELECT " . sequenceName . ".CURRVAL FROM dual", \Phalcon\Db::FETCH_NUM)[0];
 	}
