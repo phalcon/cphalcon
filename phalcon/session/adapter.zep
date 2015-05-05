@@ -106,12 +106,10 @@ abstract class Adapter
 
 		let key = this->_uniqueId . index;
 		if fetch value, _SESSION[key] {
-			if !empty value {
-				if remove {
-					unset _SESSION[key];
-				}
-				return value;
+			if remove {
+				unset _SESSION[key];
 			}
+			return value;
 		}
 		return defaultValue;
 	}
