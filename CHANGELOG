@@ -6,6 +6,7 @@
  - Readded Http\Request::hasPut() (#10283)
  - Phalcon\Text
  -- Added method reduceSlashes() - Reduces multiple slashes in a string to single slashes
+ -- Added method concat() - Concatenates strings using the separator only once without duplication in places concatenation
 
 2.0.1
  - Added missing Phalcon\Debug::listenLowSeverity
