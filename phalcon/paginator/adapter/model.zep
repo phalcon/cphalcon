@@ -71,7 +71,7 @@ class Model extends Adapter implements AdapterInterface
 	 */
 	public function getPaginate() -> <\stdclass>
 	{
-		var config, items, pageItems, page, valid;
+		var config, items, pageItems, page;
 		int pageNumber, show, n, start, lastShowPage,
 			i, next, totalPages, before;
 
@@ -117,18 +117,13 @@ class Model extends Adapter implements AdapterInterface
 
 			//The record must be iterable
 			let i = 1;
-			loop {
-
-				let valid = items->valid();
-				if valid == false {
-					break;
-				}
-
+			while items->valid() {
 				let pageItems[] = items->current();
 				if i >= show {
 					break;
 				}
 				let i++;
+				items->next();
 			}
 		}
 
