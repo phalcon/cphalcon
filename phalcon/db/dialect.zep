@@ -36,25 +36,34 @@ abstract class Dialect implements DialectInterface
 	 */
 	public final function escape(string! str, string escapeChar = null) -> string
 	{
-		var parts, key, part, isEscape;
+		var parts, key, part, newParts, isEscape;
 
 		if escapeChar == "" {
 			let escapeChar = (string) this->_escapeChar;
 		}
 
-		let parts = (array) explode(".", trim(str, escapeChar));
 		let isEscape = (boolean) globals_get("db.escape_identifiers");
 
+		if !memstr(str, ".") {
+			if isEscape {
+				return escapeChar . str . escapeChar;
+			}
+			return str;
+		}
+
+		let parts = (array) explode(".", trim(str, escapeChar));
+
+		let newParts = parts;
 		for key, part in parts {
 
 			if escapeChar == "" || !isEscape || part == "" || part == "*" {
 				continue;
 			}
 
-			let parts[key] = escapeChar . part . escapeChar;
+			let newParts[key] = escapeChar . part . escapeChar;
 		}
 
-		return implode(".", parts);
+		return implode(".", newParts);
 	}
 
 	/**
@@ -79,10 +88,9 @@ abstract class Dialect implements DialectInterface
 			}
 
 			return sqlQuery;
-
-		} else {
-			return sqlQuery . " LIMIT " . number;
 		}
+
+		return sqlQuery . " LIMIT " . number;
 	}
 
 	/**
