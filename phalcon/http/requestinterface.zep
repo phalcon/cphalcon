@@ -186,15 +186,15 @@ interface RequestInterface
 	/**
 	 * Checks whether request include attached files
 	 *
-	 * @param boolean notErrored
+	 * @param boolean onlySuccessful
 	 * @return boolean
 	 */
-	public function hasFiles(notErrored = false);
+	public function hasFiles(onlySuccessful = false);
 
 	/**
 	 * Gets attached files as Phalcon\Http\Request\FileInterface compatible instances
 	 */
-	public function getUploadedFiles(boolean notErrored = false) -> <\Phalcon\Http\Request\FileInterface[]>;
+	public function getUploadedFiles(boolean onlySuccessful = false) -> <\Phalcon\Http\Request\FileInterface[]>;
 
 	/**
 	 * Gets web page that refers active request. ie: http://www.google.com
