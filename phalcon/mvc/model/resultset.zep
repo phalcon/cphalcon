@@ -148,15 +148,16 @@ abstract class Resultset
 					if this->_row === null || this->_pointer > position {
 						result->dataSeek(position);
 						let this->_row = result->$fetch(result);
-					}
-					/**
-					* Requested postion is greater than current pointer,
-					* seek forward until the requested position is reached.
-					* We do not need to re-excute the query!
-					*/
-					while this->_pointer < position {
-						let this->_row = result->$fetch(result);
-						let this->_pointer++;
+					} else {
+						/**
+						* Requested postion is greater than current pointer,
+						* seek forward until the requested position is reached.
+						* We do not need to re-excute the query!
+						*/
+						while this->_pointer < position {
+							let this->_row = result->$fetch(result);
+							let this->_pointer++;
+						}
 					}
 				}
 				
