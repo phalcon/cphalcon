@@ -167,12 +167,10 @@ PHP_METHOD(Phalcon_Session_Adapter, get) {
 	ZEPHIR_OBS_VAR(value);
 	zephir_get_global(&_SESSION, SS("_SESSION") TSRMLS_CC);
 	if (zephir_array_isset_fetch(&value, _SESSION, key, 0 TSRMLS_CC)) {
-		if (!(ZEPHIR_IS_EMPTY(value))) {
-			if (remove) {
-				zephir_array_unset(&_SESSION, key, PH_SEPARATE);
-			}
-			RETURN_CCTOR(value);
+		if (remove) {
+			zephir_array_unset(&_SESSION, key, PH_SEPARATE);
 		}
+		RETURN_CCTOR(value);
 	}
 	RETVAL_ZVAL(defaultValue, 1, 0);
 	RETURN_MM();

@@ -2143,21 +2143,32 @@ PHP_METHOD(Phalcon_Db_Adapter, describeReferences) {
  *<code>
  * print_r($connection->tableOptions('robots'));
  *</code>
- *
- * @param	string tableName
- * @param	string schemaName
- * @return	array
  */
 PHP_METHOD(Phalcon_Db_Adapter, tableOptions) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *tableName, *schemaName = NULL, *sql = NULL, *_0, *_1 = NULL, *_2, *_3;
+	zval *tableName_param = NULL, *schemaName_param = NULL, *sql = NULL, *_0, *_1 = NULL, *_2, *_3;
+	zval *tableName = NULL, *schemaName = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 1, &tableName, &schemaName);
+	zephir_fetch_params(1, 1, 1, &tableName_param, &schemaName_param);
 
-	if (!schemaName) {
-		schemaName = ZEPHIR_GLOBAL(global_null);
+	if (unlikely(Z_TYPE_P(tableName_param) != IS_STRING && Z_TYPE_P(tableName_param) != IS_NULL)) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'tableName' must be a string") TSRMLS_CC);
+		RETURN_MM_NULL();
+	}
+
+	if (likely(Z_TYPE_P(tableName_param) == IS_STRING)) {
+		zephir_get_strval(tableName, tableName_param);
+	} else {
+		ZEPHIR_INIT_VAR(tableName);
+		ZVAL_EMPTY_STRING(tableName);
+	}
+	if (!schemaName_param) {
+		ZEPHIR_INIT_VAR(schemaName);
+		ZVAL_EMPTY_STRING(schemaName);
+	} else {
+		zephir_get_strval(schemaName, schemaName_param);
 	}
 
 
@@ -2169,7 +2180,7 @@ PHP_METHOD(Phalcon_Db_Adapter, tableOptions) {
 		ZVAL_LONG(_2, 1);
 		ZEPHIR_CALL_METHOD(&_1, this_ptr, "fetchall", NULL, sql, _2);
 		zephir_check_call_status();
-		zephir_array_fetch_long(&_3, _1, 0, PH_NOISY | PH_READONLY, "phalcon/db/adapter.zep", 979 TSRMLS_CC);
+		zephir_array_fetch_long(&_3, _1, 0, PH_NOISY | PH_READONLY, "phalcon/db/adapter.zep", 975 TSRMLS_CC);
 		RETURN_CTOR(_3);
 	}
 	array_init(return_value);
@@ -2207,7 +2218,7 @@ PHP_METHOD(Phalcon_Db_Adapter, createSavepoint) {
 	ZEPHIR_CALL_METHOD(&_0, dialect, "supportssavepoints", NULL);
 	zephir_check_call_status();
 	if (!(zephir_is_true(_0))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Savepoints are not supported by this database adapter.", "phalcon/db/adapter.zep", 994);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Savepoints are not supported by this database adapter.", "phalcon/db/adapter.zep", 990);
 		return;
 	}
 	ZEPHIR_CALL_METHOD(&_1, dialect, "createsavepoint", NULL, name);
@@ -2248,7 +2259,7 @@ PHP_METHOD(Phalcon_Db_Adapter, releaseSavepoint) {
 	ZEPHIR_CALL_METHOD(&_0, dialect, "supportssavepoints", NULL);
 	zephir_check_call_status();
 	if (!(zephir_is_true(_0))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Savepoints are not supported by this database adapter", "phalcon/db/adapter.zep", 1010);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Savepoints are not supported by this database adapter", "phalcon/db/adapter.zep", 1006);
 		return;
 	}
 	ZEPHIR_CALL_METHOD(&_1, dialect, "supportsreleasesavepoints", NULL);
@@ -2294,7 +2305,7 @@ PHP_METHOD(Phalcon_Db_Adapter, rollbackSavepoint) {
 	ZEPHIR_CALL_METHOD(&_0, dialect, "supportssavepoints", NULL);
 	zephir_check_call_status();
 	if (!(zephir_is_true(_0))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Savepoints are not supported by this database adapter", "phalcon/db/adapter.zep", 1030);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Savepoints are not supported by this database adapter", "phalcon/db/adapter.zep", 1026);
 		return;
 	}
 	ZEPHIR_CALL_METHOD(&_1, dialect, "rollbacksavepoint", NULL, name);
@@ -2322,14 +2333,14 @@ PHP_METHOD(Phalcon_Db_Adapter, setNestedTransactionsWithSavepoints) {
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_transactionLevel"), PH_NOISY_CC);
 	if (ZEPHIR_GT_LONG(_0, 0)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Nested transaction with savepoints behavior cannot be changed while a transaction is open", "phalcon/db/adapter.zep", 1043);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Nested transaction with savepoints behavior cannot be changed while a transaction is open", "phalcon/db/adapter.zep", 1039);
 		return;
 	}
 	_1 = zephir_fetch_nproperty_this(this_ptr, SL("_dialect"), PH_NOISY_CC);
 	ZEPHIR_CALL_METHOD(&_2, _1, "supportssavepoints", NULL);
 	zephir_check_call_status();
 	if (!(zephir_is_true(_2))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Savepoints are not supported by this database adapter", "phalcon/db/adapter.zep", 1047);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Savepoints are not supported by this database adapter", "phalcon/db/adapter.zep", 1043);
 		return;
 	}
 	zephir_update_property_this(this_ptr, SL("_transactionsWithSavepoints"), nestedTransactionsWithSavepoints ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);

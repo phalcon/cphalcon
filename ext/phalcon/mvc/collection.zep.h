@@ -142,19 +142,19 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_collection_findbyid, 0, 0, 1)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_collection_findfirst, 0, 0, 0)
-	ZEND_ARG_INFO(0, parameters)
+	ZEND_ARG_ARRAY_INFO(0, parameters, 1)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_collection_find, 0, 0, 0)
-	ZEND_ARG_INFO(0, parameters)
+	ZEND_ARG_ARRAY_INFO(0, parameters, 1)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_collection_count, 0, 0, 0)
-	ZEND_ARG_INFO(0, parameters)
+	ZEND_ARG_ARRAY_INFO(0, parameters, 1)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_collection_aggregate, 0, 0, 1)
-	ZEND_ARG_INFO(0, parameters)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_collection_aggregate, 0, 0, 0)
+	ZEND_ARG_ARRAY_INFO(0, parameters, 1)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_collection_summatory, 0, 0, 1)

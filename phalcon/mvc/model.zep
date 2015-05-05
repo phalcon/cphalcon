@@ -19,6 +19,8 @@
 
 namespace Phalcon\Mvc;
 
+use Phalcon\Text;
+use Phalcon\Db\Column;
 use Phalcon\DiInterface;
 use Phalcon\Mvc\Model\Message;
 use Phalcon\Mvc\Model\ResultInterface;
@@ -26,6 +28,7 @@ use Phalcon\Di\InjectionAwareInterface;
 use Phalcon\Mvc\Model\ManagerInterface;
 use Phalcon\Mvc\Model\MetaDataInterface;
 use Phalcon\Db\AdapterInterface;
+use Phalcon\Db\DialectInterface;
 use Phalcon\Mvc\Model\Criteria;
 use Phalcon\Mvc\Model\CriteriaInterface;
 use Phalcon\Mvc\Model\TransactionInterface;
@@ -38,8 +41,6 @@ use Phalcon\Mvc\Model\Exception;
 use Phalcon\Mvc\Model\MetadataInterface;
 use Phalcon\Mvc\Model\MessageInterface;
 use Phalcon\Events\ManagerInterface as EventsManagerInterface;
-use Phalcon\Db\Column;
-use Phalcon\Text;
 
 /**
  * Phalcon\Mvc\Model
@@ -3034,7 +3035,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	public function refresh() -> <Model>
 	{
 		var metaData, readConnection, schema, source, table,
-			uniqueKey, uniqueParams, dialect, row, fields, attribute;
+			uniqueKey, tables, uniqueParams, dialect, row, fields, attribute;
 
 		if this->_dirtyState != self::DIRTY_STATE_PERSISTENT {
 			throw new Exception("The record cannot be refreshed because it does not exist or is deleted");
@@ -3082,11 +3083,12 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 		 * We directly build the SELECT to save resources
 		 */
 		let dialect = readConnection->getDialect(),
-			row = readConnection->fetchOne(dialect->select([
+			tables = dialect->select([
 				"columns": fields,
 				"tables": readConnection->escapeIdentifier(table),
 				"where": uniqueKey
-			]), \Phalcon\Db::FETCH_ASSOC, uniqueParams, this->_uniqueTypes);
+			]),
+			row = readConnection->fetchOne(tables, \Phalcon\Db::FETCH_ASSOC, uniqueParams, this->_uniqueTypes);
 
 		/**
 		 * Get a column map if any

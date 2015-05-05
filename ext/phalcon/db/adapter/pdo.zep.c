@@ -319,11 +319,12 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, query) {
 
 	zephir_nts_static zephir_fcall_cache_entry *_3 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *sqlStatement_param = NULL, *bindParams = NULL, *bindTypes = NULL, *eventsManager = NULL, *pdo = NULL, *statement = NULL, *_0, *_1 = NULL, *_2 = NULL;
+	zval *bindParams = NULL;
+	zval *sqlStatement_param = NULL, *bindParams_param = NULL, *bindTypes = NULL, *eventsManager = NULL, *pdo = NULL, *statement = NULL, *_0, *_1 = NULL, *_2 = NULL;
 	zval *sqlStatement = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 2, &sqlStatement_param, &bindParams, &bindTypes);
+	zephir_fetch_params(1, 1, 2, &sqlStatement_param, &bindParams_param, &bindTypes);
 
 	if (unlikely(Z_TYPE_P(sqlStatement_param) != IS_STRING && Z_TYPE_P(sqlStatement_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'sqlStatement' must be a string") TSRMLS_CC);
@@ -336,8 +337,11 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, query) {
 		ZEPHIR_INIT_VAR(sqlStatement);
 		ZVAL_EMPTY_STRING(sqlStatement);
 	}
-	if (!bindParams) {
-		bindParams = ZEPHIR_GLOBAL(global_null);
+	if (!bindParams_param) {
+	ZEPHIR_INIT_VAR(bindParams);
+	array_init(bindParams);
+	} else {
+		zephir_get_arrval(bindParams, bindParams_param);
 	}
 	if (!bindTypes) {
 		bindTypes = ZEPHIR_GLOBAL(global_null);
@@ -361,7 +365,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, query) {
 	}
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_pdo"), PH_NOISY_CC);
 	ZEPHIR_CPY_WRT(pdo, _0);
-	if (Z_TYPE_P(bindParams) == IS_ARRAY) {
+	if (1 == 1) {
 		ZEPHIR_CALL_METHOD(&statement, pdo, "prepare", NULL, sqlStatement);
 		zephir_check_call_status();
 		if (Z_TYPE_P(statement) == IS_OBJECT) {
@@ -392,7 +396,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, query) {
 
 /**
  * Sends SQL statements to the database server returning the success state.
- * Use this method only when the SQL statement sent to the server doesn't return any row
+ * Use this method only when the SQL statement sent to the server doesn't return any rows
  *
  *<code>
  *	//Inserting data
@@ -408,11 +412,12 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, query) {
 PHP_METHOD(Phalcon_Db_Adapter_Pdo, execute) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *sqlStatement_param = NULL, *bindParams = NULL, *bindTypes = NULL, *eventsManager = NULL, *affectedRows = NULL, *pdo = NULL, *newStatement = NULL, *statement = NULL, *_0, *_1 = NULL, *_2 = NULL;
+	zval *bindParams = NULL;
+	zval *sqlStatement_param = NULL, *bindParams_param = NULL, *bindTypes = NULL, *eventsManager = NULL, *affectedRows = NULL, *pdo = NULL, *newStatement = NULL, *statement = NULL, *_0, *_1 = NULL, *_2 = NULL;
 	zval *sqlStatement = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 2, &sqlStatement_param, &bindParams, &bindTypes);
+	zephir_fetch_params(1, 1, 2, &sqlStatement_param, &bindParams_param, &bindTypes);
 
 	if (unlikely(Z_TYPE_P(sqlStatement_param) != IS_STRING && Z_TYPE_P(sqlStatement_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'sqlStatement' must be a string") TSRMLS_CC);
@@ -425,8 +430,11 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, execute) {
 		ZEPHIR_INIT_VAR(sqlStatement);
 		ZVAL_EMPTY_STRING(sqlStatement);
 	}
-	if (!bindParams) {
-		bindParams = ZEPHIR_GLOBAL(global_null);
+	if (!bindParams_param) {
+	ZEPHIR_INIT_VAR(bindParams);
+	array_init(bindParams);
+	} else {
+		zephir_get_arrval(bindParams, bindParams_param);
 	}
 	if (!bindTypes) {
 		bindTypes = ZEPHIR_GLOBAL(global_null);
@@ -452,7 +460,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, execute) {
 	ZVAL_LONG(affectedRows, 0);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_pdo"), PH_NOISY_CC);
 	ZEPHIR_CPY_WRT(pdo, _0);
-	if (Z_TYPE_P(bindParams) == IS_ARRAY) {
+	if (1 == 1) {
 		ZEPHIR_CALL_METHOD(&statement, pdo, "prepare", NULL, sqlStatement);
 		zephir_check_call_status();
 		if (Z_TYPE_P(statement) == IS_OBJECT) {
@@ -983,8 +991,6 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, isUnderTransaction) {
 
 /**
  * Return internal PDO handler
- *
- * @return \PDO
  */
 PHP_METHOD(Phalcon_Db_Adapter_Pdo, getInternalHandler) {
 

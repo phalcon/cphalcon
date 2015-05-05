@@ -697,7 +697,7 @@ PHP_METHOD(Phalcon_Assets_Manager, output) {
 		zephir_check_call_status();
 		if (zephir_fast_count_int(filters TSRMLS_CC)) {
 			if (zephir_is_true(local)) {
-				ZEPHIR_CALL_METHOD(&sourcePath, resource, "getrealsourcepath", NULL);
+				ZEPHIR_CALL_METHOD(&sourcePath, resource, "getrealsourcepath", NULL, completeSourcePath);
 				zephir_check_call_status();
 				if (!(zephir_is_true(sourcePath))) {
 					ZEPHIR_CALL_METHOD(&sourcePath, resource, "getpath", NULL);

@@ -289,6 +289,7 @@
 #include "phalcon/mvc/view/simple.zep.h"
 #include "phalcon/mvc/viewbaseinterface.zep.h"
 #include "phalcon/mvc/viewinterface.zep.h"
+#include "phalcon/paginator/adapter.zep.h"
 #include "phalcon/paginator/adapter/model.zep.h"
 #include "phalcon/paginator/adapter/nativearray.zep.h"
 #include "phalcon/paginator/adapter/querybuilder.zep.h"

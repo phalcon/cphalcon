@@ -294,6 +294,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/mvc/view/simple.zep.c
 	phalcon/mvc/viewbaseinterface.zep.c
 	phalcon/mvc/viewinterface.zep.c
+	phalcon/paginator/adapter.zep.c
 	phalcon/paginator/adapter/model.zep.c
 	phalcon/paginator/adapter/nativearray.zep.c
 	phalcon/paginator/adapter/querybuilder.zep.c

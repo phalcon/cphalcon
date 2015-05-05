@@ -133,11 +133,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, dropTable);
 
 /**
  * Creates a view
- *
- * @param	string tableName
- * @param	array definition
- * @param	string schemaName
- * @return	boolean
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, createView);
 
@@ -148,114 +143,61 @@ ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, dropView);
 
 /**
  * Adds a column to a table
- *
- * @param	string tableName
- * @param 	string schemaName
- * @param	Phalcon\Db\ColumnInterface column
- * @return	boolean
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, addColumn);
 
 /**
  * Modifies a table column based on a definition
- *
- * @param	string tableName
- * @param	string schemaName
- * @param	Phalcon\Db\ColumnInterface column
- * @return 	boolean
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, modifyColumn);
 
 /**
  * Drops a column from a table
- *
- * @param	string tableName
- * @param	string schemaName
- * @param	string columnName
- * @return 	boolean
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, dropColumn);
 
 /**
  * Adds an index to a table
- *
- * @param	string tableName
- * @param	string schemaName
- * @param	Phalcon\Db\IndexInterface index
- * @return 	boolean
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, addIndex);
 
 /**
  * Drop an index from a table
- *
- * @param	string tableName
- * @param	string schemaName
- * @param	string indexName
- * @return 	boolean
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, dropIndex);
 
 /**
  * Adds a primary key to a table
- *
- * @param	string tableName
- * @param	string schemaName
- * @param	Phalcon\Db\IndexInterface index
- * @return 	boolean
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, addPrimaryKey);
 
 /**
  * Drops primary key from a table
- *
- * @param	string tableName
- * @param	string schemaName
- * @return 	boolean
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, dropPrimaryKey);
 
 /**
  * Adds a foreign key to a table
- *
- * @param	string tableName
- * @param	string schemaName
- * @param	Phalcon\Db\ReferenceInterface reference
- * @return	boolean true
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, addForeignKey);
 
 /**
  * Drops a foreign key from a table
- *
- * @param	string tableName
- * @param	string schemaName
- * @param	string referenceName
- * @return	boolean true
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, dropForeignKey);
 
 /**
  * Returns the SQL column definition from a column
- *
- * @param	Phalcon\Db\ColumnInterface column
- * @return	string
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, getColumnDefinition);
 
 /**
  * List all tables on a database
- *
- * @param string schemaName
- * @return array
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, listTables);
 
 /**
  * List all views on a database
- *
- * @param string schemaName
- * @return array
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, listViews);
 
@@ -275,15 +217,11 @@ ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, getConnectionId);
 
 /**
  * Active SQL statement in the object
- *
- * @return string
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, getSQLStatement);
 
 /**
  * Active SQL statement in the object without replace bound paramters
- *
- * @return string
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, getRealSQLStatement);
 
@@ -317,8 +255,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, getDialectType);
 
 /**
  * Returns internal dialect instance
- *
- * @return Phalcon\Db\DialectInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, getDialect);
 
@@ -344,7 +280,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, query);
 
 /**
  * Sends SQL statements to the database server returning the success state.
- * Use this method only when the SQL statement sent to the server don't return any row
+ * Use this method only when the SQL statement sent to the server doesn't return any rows
  *
  * @param  string sqlStatement
  * @param  array placeholders
@@ -355,15 +291,11 @@ ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, execute);
 
 /**
  * Returns the number of affected rows by the last INSERT/UPDATE/DELETE reported by the database system
- *
- * @return int
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, affectedRows);
 
 /**
  * Closes active connection returning success. Phalcon automatically closes and destroys active connections within Phalcon\Db\Pool
- *
- * @return boolean
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, close);
 
@@ -377,9 +309,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, escapeIdentifier);
 
 /**
  * Escapes a value to avoid SQL injections
- *
- * @param string str
- * @return string
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, escapeString);
 
@@ -393,70 +322,46 @@ ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, lastInsertId);
 
 /**
  * Starts a transaction in the connection
- *
- * @return boolean
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, begin);
 
 /**
  * Rollbacks the active transaction in the connection
- *
- * @return boolean
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, rollback);
 
 /**
  * Commits the active transaction in the connection
- *
- * @return boolean
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, commit);
 
 /**
  * Checks whether connection is under database transaction
- *
- * @return boolean
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, isUnderTransaction);
 
 /**
  * Return internal PDO handler
- *
- * @return \PDO
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, getInternalHandler);
 
 /**
  * Lists table indexes
- *
- * @param	string table
- * @param	string schema
- * @return	Phalcon\Db\IndexInterface[]
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, describeIndexes);
 
 /**
  * Lists table references
- *
- * @param	string table
- * @param	string schema
- * @return	Phalcon\Db\ReferenceInterface[]
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, describeReferences);
 
 /**
  * Gets creation options from a table
- *
- * @param	string tableName
- * @param	string schemaName
- * @return	array
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, tableOptions);
 
 /**
  * Check whether the database system requires an explicit value for identity columns
- *
- * @return boolean
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, useExplicitIdValue);
 
@@ -502,10 +407,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, getNestedTransactionSavepointName
 
 /**
  * Returns an array of Phalcon\Db\Column objects describing a table
- *
- * @param string table
- * @param string schema
- * @return Phalcon\Db\ColumnInterface[]
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, describeColumns);
 

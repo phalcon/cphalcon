@@ -29,16 +29,16 @@
  *
  * Dumps information about a variable(s)
  *
- *<code>
- *	$foo = 123;
- *	echo (new \Phalcon\Debug\Dump())->var($foo, "foo");
+ * <code>
+ *    $foo = 123;
+ *    echo (new \Phalcon\Debug\Dump())->variable($foo, "foo");
  *</code>
  *
- *<code>
- *	$foo = "string";
- *	$bar = ["key" => "value"];
- *	$baz = new stdClass();
- *	echo (new \Phalcon\Debug\Dump())->vars($foo, $bar, $baz);
+ * <code>
+ *    $foo = "string";
+ *    $bar = ["key" => "value"];
+ *    $baz = new stdClass();
+ *    echo (new \Phalcon\Debug\Dump())->variables($foo, $bar, $baz);
  *</code>
  */
 ZEPHIR_INIT_CLASS(Phalcon_Debug_Dump) {
@@ -121,7 +121,7 @@ PHP_METHOD(Phalcon_Debug_Dump, __construct) {
 }
 
 /**
- * Alias of vars() method
+ * Alias of variables() method
  *
  * @param mixed variable
  * @param ...
@@ -139,7 +139,7 @@ PHP_METHOD(Phalcon_Debug_Dump, all) {
 	zephir_create_array(_0, 2, 0 TSRMLS_CC);
 	zephir_array_fast_append(_0, this_ptr);
 	ZEPHIR_INIT_VAR(_1);
-	ZVAL_STRING(_1, "vars", 1);
+	ZVAL_STRING(_1, "variables", 1);
 	zephir_array_fast_append(_0, _1);
 	ZEPHIR_CALL_FUNCTION(&_2, "func_get_args", &_3);
 	zephir_check_call_status();
@@ -228,7 +228,7 @@ PHP_METHOD(Phalcon_Debug_Dump, setStyles) {
 }
 
 /**
- * Alias of var() method
+ * Alias of variable() method
  */
 PHP_METHOD(Phalcon_Debug_Dump, one) {
 
@@ -247,7 +247,7 @@ PHP_METHOD(Phalcon_Debug_Dump, one) {
 	}
 
 
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "var", NULL, variable, name);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "variable", NULL, variable, name);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -763,11 +763,11 @@ PHP_METHOD(Phalcon_Debug_Dump, output) {
 /**
  * Returns an HTML string of information about a single variable.
  *
- *<code>
- *	echo (new \Phalcon\Debug\Dump())->var($foo, "foo");
- *</code>
+ * <code>
+ *    echo (new \Phalcon\Debug\Dump())->variable($foo, "foo");
+ * </code>
  */
-PHP_METHOD(Phalcon_Debug_Dump, var) {
+PHP_METHOD(Phalcon_Debug_Dump, variable) {
 
 	zephir_nts_static zephir_fcall_cache_entry *_4 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
@@ -809,17 +809,17 @@ PHP_METHOD(Phalcon_Debug_Dump, var) {
  * Returns an HTML string of debugging information about any number of
  * variables, each wrapped in a "pre" tag.
  *
- *<code>
- *	$foo = "string";
- *	$bar = ["key" => "value"];
- *	$baz = new stdClass();
- *	echo (new \Phalcon\Debug\Dump())->vars($foo, $bar, $baz);
+ * <code>
+ *    $foo = "string";
+ *    $bar = ["key" => "value"];
+ *    $baz = new stdClass();
+ *    echo (new \Phalcon\Debug\Dump())->variables($foo, $bar, $baz);
  *</code>
  *
  * @param mixed variable
  * @param ...
  */
-PHP_METHOD(Phalcon_Debug_Dump, vars) {
+PHP_METHOD(Phalcon_Debug_Dump, variables) {
 
 	zephir_fcall_cache_entry *_7 = NULL;
 	HashTable *_3;

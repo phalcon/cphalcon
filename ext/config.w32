@@ -80,8 +80,8 @@ if (PHP_PHALCON != "no") {
 	ADD_SOURCES(configure_module_dirname + "/phalcon/mvc/view", "engine.zep.c engineinterface.zep.c exception.zep.c simple.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/mvc/view/engine", "php.zep.c volt.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/mvc/view/engine/volt", "compiler.zep.c", "phalcon");
+	ADD_SOURCES(configure_module_dirname + "/phalcon/paginator", "adapter.zep.c adapterinterface.zep.c exception.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/paginator/adapter", "model.zep.c nativearray.zep.c querybuilder.zep.c", "phalcon");
-	ADD_SOURCES(configure_module_dirname + "/phalcon/paginator", "adapterinterface.zep.c exception.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/queue", "beanstalk.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/queue/beanstalk", "job.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/security", "exception.zep.c", "phalcon");
