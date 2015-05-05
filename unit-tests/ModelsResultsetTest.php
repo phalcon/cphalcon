@@ -566,21 +566,21 @@ class ModelsResultsetTest extends PHPUnit_Framework_TestCase
 		$this->assertTrue($iterator->valid());
 		$this->assertEquals($iterator->key(), 0);
 		$this->assertEquals($iterator->getIteratorIndex(), 0);
-		$this->assertInstanceOf(Robots::class, $iterator->current());
+		$this->assertEquals(get_class($iterator->current()), 'Robots');
 		$this->assertEquals($robots_first_0->name, $iterator->current()->name);
 		
 		$iterator->next();
 		$this->assertTrue($iterator->valid());
 		$this->assertEquals($iterator->key(), 1);
 		$this->assertEquals($iterator->getIteratorIndex(), 0);
-		$this->assertInstanceOf(Robots::class, $iterator->current());
+		$this->assertEquals(get_class($iterator->current()), 'Robots');
 		$this->assertEquals($robots_first_1->name, $iterator->current()->name);
 		
 		$iterator->next();
 		$this->assertTrue($iterator->valid());
 		$this->assertEquals($iterator->key(), 0);
 		$this->assertEquals($iterator->getIteratorIndex(), 1);
-		$this->assertInstanceOf(Robots::class, $iterator->current());
+		$this->assertEquals(get_class($iterator->current()), 'Robots');
 		$this->assertEquals($robots_second_0->name, $iterator->current()->name);
 		
 		$iterator->next();
@@ -600,11 +600,11 @@ class ModelsResultsetTest extends PHPUnit_Framework_TestCase
 		
 		$this->assertEquals(count($personas), 33);
 		
-		$this->assertInstanceOf(Personas::class, $personas->getLast());
+		$this->assertEquals(get_class($personas->getLast()), 'Personas');
 		
 		// take first object as reference
 		$persona_first = $personas[0];
-		$this->assertInstanceOf(Personas::class, $persona_first);
+		$this->assertEquals(get_class($persona_first), 'Personas');
 		
 		// make sure objects are the same -> object was not recreared
 		$this->assertSame($personas[0], $persona_first);
@@ -651,13 +651,13 @@ class ModelsResultsetTest extends PHPUnit_Framework_TestCase
 		// move to second element and validate
 		$personas->next();
 		$this->assertTrue($personas->valid());
-		$this->assertInstanceOf(Personas::class, $personas[1]);
+		$this->assertEquals(get_class($personas[1]), 'Personas');
 		$this->assertSame($personas->current(), $personas[1]);
 		$this->assertEquals($persona_second, $personas[1]);
 		
 		// pick some random indices
-		$this->assertInstanceOf(Personas::class, $personas[12]);
-		$this->assertInstanceOf(Personas::class, $personas[23]);
-		$this->assertInstanceOf(Personas::class, $personas[23]);
+		$this->assertEquals(get_class($personas[12]), 'Personas');
+		$this->assertEquals(get_class($personas[23]), 'Personas');
+		$this->assertEquals(get_class($personas[23]), 'Personas');
 	}
 }
