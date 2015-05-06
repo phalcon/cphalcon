@@ -769,7 +769,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 */
 	public static function findFirst(parameters = null) -> <Model>
 	{
-		var params, builder, query, bindParams, bindTypes, cache;
+		var params, builder, query, bindParams, bindTypes, cache, resultset, hydration;
 
 		if typeof parameters != "array" {
 			let params = [];
@@ -815,7 +815,18 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 		/**
 		 * Execute the query passing the bind-params and casting-types
 		 */
-		return query->execute(bindParams, bindTypes);
+		let resultset = query->execute(bindParams, bindTypes);
+
+		/**
+		 * Define an hydration mode
+		 */
+		if typeof resultset == "object" {
+			if fetch hydration, params["hydration"] {
+				resultset->setHydrateMode(hydration);
+			}
+		}
+
+		return resultset;
 	}
 
 	/**
