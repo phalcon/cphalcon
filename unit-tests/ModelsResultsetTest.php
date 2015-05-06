@@ -600,6 +600,8 @@ class ModelsResultsetTest extends PHPUnit_Framework_TestCase
 		
 		$this->assertEquals(count($personas), 33);
 		
+		$this->assertEquals(get_class($personas->getLast()), 'Personas');
+		
 		// take first object as reference
 		$persona_first = $personas[0];
 		$this->assertEquals(get_class($persona_first), 'Personas');
@@ -652,6 +654,10 @@ class ModelsResultsetTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(get_class($personas[1]), 'Personas');
 		$this->assertSame($personas->current(), $personas[1]);
 		$this->assertEquals($persona_second, $personas[1]);
+		
+		// pick some random indices
+		$this->assertEquals(get_class($personas[12]), 'Personas');
+		$this->assertEquals(get_class($personas[23]), 'Personas');
+		$this->assertEquals(get_class($personas[23]), 'Personas');
 	}
-
 }
