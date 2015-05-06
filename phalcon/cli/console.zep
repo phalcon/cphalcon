@@ -141,7 +141,7 @@ class Console implements InjectionAwareInterface, EventsAwareInterface
 	/**
 	 * Handle the whole command-line tasks
 	 */
-	public function handle(array arguments = null) -> var
+	public function handle(array arguments = null)
 	{
 		var dependencyInjector, router, eventsManager,
 			moduleName, modules, module, path, className,
@@ -154,9 +154,9 @@ class Console implements InjectionAwareInterface, EventsAwareInterface
 
 		let eventsManager = <ManagerInterface> this->_eventsManager;
 
-		let router = <\Phalcon\Cli\Router> dependencyInjector->getShared("router");
+		let router = <Router> dependencyInjector->getShared("router");
 
-		if !arguments && this->_arguments {
+		if !count(arguments) && this->_arguments {
 			router->handle(this->_arguments);
 		} else {
 			router->handle(arguments);

@@ -37,7 +37,7 @@
  *    ->andWhere("year < 2000")
  *    ->bind(array("type" => "mechanical"))
  *    ->limit(5, 10)
- *    ->order("name")
+ *    ->orderBy("name")
  *    ->execute();
  *</code>
  */
