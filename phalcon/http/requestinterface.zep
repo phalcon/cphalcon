@@ -203,24 +203,18 @@ interface RequestInterface
 
 	/**
 	 * Gets array with mime/types and their quality accepted by the browser/client from $_SERVER['HTTP_ACCEPT']
-	 *
-	 * @return array
 	 */
-	public function getAcceptableContent();
+	public function getAcceptableContent() -> array;
 
 	/**
 	 * Gets best mime/type accepted by the browser/client from $_SERVER['HTTP_ACCEPT']
-	 *
-	 * @return array
 	 */
-	public function getBestAccept();
+	public function getBestAccept() -> string;
 
 	/**
 	 * Gets charsets array and their quality accepted by the browser/client from $_SERVER['HTTP_ACCEPT_CHARSET']
-	 *
-	 * @return array
 	 */
-	public function getClientCharsets();
+	public function getClientCharsets() -> array;
 
 	/**
 	 * Gets best charset accepted by the browser/client from $_SERVER['HTTP_ACCEPT_CHARSET']

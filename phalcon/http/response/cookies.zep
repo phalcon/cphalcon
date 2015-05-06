@@ -88,7 +88,7 @@ class Cookies implements CookiesInterface, InjectionAwareInterface
 	 * @param boolean httpOnly
 	 * @return Phalcon\Http\Response\Cookies
 	 */
-	public function set(string! name, value = null, int expire = 0, string path = "/", secure = null, string! domain = null, httpOnly = null)
+	public function set(string! name, value = null, int expire = 0, string path = "/", secure = null, string! domain = null, httpOnly = null) -> <Cookies>
 	{
 		var cookie, encryption, dependencyInjector, response;
 

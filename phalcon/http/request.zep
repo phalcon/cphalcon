@@ -835,9 +835,8 @@ class Request implements RequestInterface, InjectionAwareInterface
 
 	/**
 	 * Gets a charsets array and their quality accepted by the browser/client from _SERVER["HTTP_ACCEPT_CHARSET"]
-	 *
 	 */
-	public function getClientCharsets()
+	public function getClientCharsets() -> var
 	{
 		return this->_getQualityHeader("HTTP_ACCEPT_CHARSET", "charset");
 	}
