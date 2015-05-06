@@ -16,6 +16,7 @@
  - Phalcon\Debug\Dump
  -- Renamed method var() to variable()
  -- Renamed method vars() to variables()
+ - Phalcon\Mvc\Model::findFirst() now allows hydration (#10259).
 
 2.0.0
  - Full rewrite of most components in Zephir
