@@ -90,7 +90,6 @@
 			<file>unit-tests/ViewEnginesVoltTest.php</file>
 			<file>unit-tests/ViewSimpleTest.php</file>
 			<file>unit-tests/ViewTest.php</file>
-			<file>unit-tests/TextTest.php</file>
 		</testsuite>
 
 	</testsuites>
