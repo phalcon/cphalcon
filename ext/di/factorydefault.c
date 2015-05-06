@@ -64,7 +64,7 @@ PHALCON_INIT_CLASS(Phalcon_DI_FactoryDefault){
 PHP_METHOD(Phalcon_DI_FactoryDefault, __construct){
 
 	zval *shared, *name = NULL, *definition = NULL, *router, *dispatcher;
-	zval *url, *models_manager, *models_metadata;
+	zval *url, *models_manager, *models_metadata, *models_query, *models_query_builder, *models_criteria;
 	zval *response, *cookies, *request, *filter, *escaper;
 	zval *annotations, *security, *crypt, *flash, *flash_session;
 	zval *tag, *session, *session_bag, *events_manager;
@@ -150,6 +150,51 @@ PHP_METHOD(Phalcon_DI_FactoryDefault, __construct){
 	PHALCON_CALL_METHOD(NULL, models_metadata, "__construct", name, definition, shared);
 
 	phalcon_di_set_service(this_ptr, name, models_metadata, PH_COPY TSRMLS_CC);
+
+	/**
+	 * Models Query for ORM
+	 */
+	PHALCON_INIT_NVAR(name);
+	PHALCON_ZVAL_MAYBE_INTERNED_STRING(name, phalcon_interned_modelsQuery);
+
+	PHALCON_INIT_NVAR(definition);
+	ZVAL_STRING(definition, "Phalcon\\Mvc\\Model\\Query", 1);
+
+	PHALCON_INIT_VAR(models_query);
+	object_init_ex(models_query, phalcon_di_service_ce);
+	PHALCON_CALL_METHOD(NULL, models_query, "__construct", name, definition);
+
+	phalcon_di_set_service(this_ptr, name, models_query, PH_COPY TSRMLS_CC);
+
+	/**
+	 * Models Query Builder for ORM
+	 */
+	PHALCON_INIT_NVAR(name);
+	PHALCON_ZVAL_MAYBE_INTERNED_STRING(name, phalcon_interned_modelsQueryBuilder);
+
+	PHALCON_INIT_NVAR(definition);
+	ZVAL_STRING(definition, "Phalcon\\Mvc\\Model\\Query\\Builder", 1);
+
+	PHALCON_INIT_VAR(models_query_builder);
+	object_init_ex(models_query_builder, phalcon_di_service_ce);
+	PHALCON_CALL_METHOD(NULL, models_query_builder, "__construct", name, definition);
+
+	phalcon_di_set_service(this_ptr, name, models_query_builder, PH_COPY TSRMLS_CC);
+
+	/**
+	 * Models Criteria for ORM
+	 */
+	PHALCON_INIT_NVAR(name);
+	PHALCON_ZVAL_MAYBE_INTERNED_STRING(name, phalcon_interned_modelsCriteria);
+
+	PHALCON_INIT_NVAR(definition);
+	ZVAL_STRING(definition, "Phalcon\\Mvc\\Model\\Criteria", 1);
+
+	PHALCON_INIT_VAR(models_criteria);
+	object_init_ex(models_criteria, phalcon_di_service_ce);
+	PHALCON_CALL_METHOD(NULL, models_criteria, "__construct", name, definition);
+
+	phalcon_di_set_service(this_ptr, name, models_criteria, PH_COPY TSRMLS_CC);
 
 	/**
 	 * Request/Response are always shared

@@ -1840,7 +1840,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getQuery){
 
-	zval *phql = NULL, *dependency_injector, *bind_params, *bind_types;
+	zval *phql = NULL, *dependency_injector, *service_name, *parameters, *query = NULL, *bind_params, *bind_types;
 
 	PHALCON_MM_GROW();
 
@@ -1854,24 +1854,32 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getQuery){
 
 	dependency_injector = phalcon_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY TSRMLS_CC);
 
-	object_init_ex(return_value, phalcon_mvc_model_query_ce);
-	PHALCON_CALL_METHOD(NULL, return_value, "__construct", phql, dependency_injector);
+	PHALCON_INIT_VAR(service_name);
+	ZVAL_STRING(service_name, "modelsQuery", 1);
+
+	PHALCON_INIT_VAR(parameters);
+	array_init(parameters);
+
+	phalcon_array_append(&parameters, phql, 0);
+	phalcon_array_append(&parameters, dependency_injector, 0);
+
+	PHALCON_CALL_METHOD(&query, dependency_injector, "get", service_name, parameters);
 
 	/** 
 	 * Set default bind params
 	 */
 	if (Z_TYPE_P(bind_params) == IS_ARRAY) { 
-		PHALCON_CALL_METHOD(NULL, return_value, "setbindparams", bind_params);
+		PHALCON_CALL_METHOD(NULL, query, "setbindparams", bind_params);
 	}
 
 	/** 
 	 * Set default bind params
 	 */
 	if (Z_TYPE_P(bind_types) == IS_ARRAY) { 
-		PHALCON_CALL_METHOD(NULL, return_value, "setbindtypes", bind_types);
+		PHALCON_CALL_METHOD(NULL, query, "setbindtypes", bind_types);
 	}
 
-	RETURN_MM();
+	RETURN_CTOR(query);
 }
 
 /**

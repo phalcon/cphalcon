@@ -57,6 +57,10 @@ class ModelsQueryBuilderTest extends PHPUnit_Framework_TestCase
 			return new Phalcon\Mvc\Model\Metadata\Memory();
 		});
 
+		$di->set('modelsQuery', 'Phalcon\Mvc\Model\Query');
+		$di->set('modelsQueryBuilder', 'Phalcon\Mvc\Model\Query\Builder');
+		$di->set('modelsCriteria', 'Phalcon\\Mvc\\Model\\Criteria');
+
 		$di->set('db', function(){
 			require 'unit-tests/config.db.php';
 			return new Phalcon\Db\Adapter\Pdo\Mysql($configMysql);
