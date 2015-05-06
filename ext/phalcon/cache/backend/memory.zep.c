@@ -48,6 +48,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Cache_Backend_Memory) {
 	zend_declare_property_null(phalcon_cache_backend_memory_ce, SL("_data"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	zend_class_implements(phalcon_cache_backend_memory_ce TSRMLS_CC, 1, phalcon_cache_backendinterface_ce);
+	zend_class_implements(phalcon_cache_backend_memory_ce TSRMLS_CC, 1, zend_ce_serializable);
 	return SUCCESS;
 
 }
@@ -392,6 +393,55 @@ PHP_METHOD(Phalcon_Cache_Backend_Memory, flush) {
 
 	zephir_update_property_this(this_ptr, SL("_data"), ZEPHIR_GLOBAL(global_null) TSRMLS_CC);
 	RETURN_BOOL(1);
+
+}
+
+/**
+ * Required for interface \Serializable
+ */
+PHP_METHOD(Phalcon_Cache_Backend_Memory, serialize) {
+
+	int ZEPHIR_LAST_CALL_STATUS;
+	zephir_nts_static zephir_fcall_cache_entry *_2 = NULL;
+	zval *_1;
+	zval *_0;
+
+	ZEPHIR_MM_GROW();
+
+	ZEPHIR_INIT_VAR(_0);
+	zephir_create_array(_0, 1, 0 TSRMLS_CC);
+	ZEPHIR_OBS_VAR(_1);
+	zephir_read_property_this(&_1, this_ptr, SL("_frontend"), PH_NOISY_CC);
+	zephir_array_update_string(&_0, SL("frontend"), &_1, PH_COPY | PH_SEPARATE);
+	ZEPHIR_RETURN_CALL_FUNCTION("serialize", &_2, _0);
+	zephir_check_call_status();
+	RETURN_MM();
+
+}
+
+/**
+ * Required for interface \Serializable
+ */
+PHP_METHOD(Phalcon_Cache_Backend_Memory, unserialize) {
+
+	int ZEPHIR_LAST_CALL_STATUS;
+	zephir_nts_static zephir_fcall_cache_entry *_0 = NULL;
+	zval *data, *unserialized = NULL, *_1;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &data);
+
+
+
+	ZEPHIR_CALL_FUNCTION(&unserialized, "unserialize", &_0, data);
+	zephir_check_call_status();
+	if (Z_TYPE_P(unserialized) != IS_ARRAY) {
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(zend_exception_get_default(TSRMLS_C), "Unserialized data must be an array", "phalcon/cache/backend/memory.zep", 295);
+		return;
+	}
+	zephir_array_fetch_string(&_1, unserialized, SL("frontend"), PH_NOISY | PH_READONLY, "phalcon/cache/backend/memory.zep", 298 TSRMLS_CC);
+	zephir_update_property_this(this_ptr, SL("_frontend"), _1 TSRMLS_CC);
+	ZEPHIR_MM_RESTORE();
 
 }
 

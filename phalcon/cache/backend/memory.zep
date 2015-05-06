@@ -42,7 +42,7 @@ use Phalcon\Cache\Exception;
  *
  *</code>
  */
-class Memory extends Backend implements BackendInterface
+class Memory extends Backend implements BackendInterface, \Serializable
 {
 
 	protected _data;
@@ -271,5 +271,30 @@ class Memory extends Backend implements BackendInterface
 	{
 		let this->_data = null;
 		return true;
+	}
+
+	/**
+	 * Required for interface \Serializable
+	 */
+	public function serialize() -> string
+	{
+		return serialize([
+			"frontend": this->_frontend
+		]);
+	}
+
+	/**
+	 * Required for interface \Serializable
+	 */
+	public function unserialize(var data)
+	{
+		var unserialized;
+
+		let unserialized = unserialize(data);
+		if typeof unserialized != "array" {
+			throw new \Exception("Unserialized data must be an array");
+		}
+
+		let this->_frontend = unserialized["frontend"];
 	}
 }
