@@ -67,6 +67,8 @@ extern const char *phalcon_interned_models;
 extern const char *phalcon_interned_modelsCache;
 extern const char *phalcon_interned_modelsManager;
 extern const char *phalcon_interned_modelsMetadata;
+extern const char *phalcon_interned_modelsQuery;
+extern const char *phalcon_interned_modelsQueryBuilder;
 extern const char *phalcon_interned_module;
 extern const char *phalcon_interned_name;
 extern const char *phalcon_interned_namespace;

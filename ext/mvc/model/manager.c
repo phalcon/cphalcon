@@ -2961,7 +2961,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationsBetween){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Manager, createQuery){
 
-	zval *phql, *dependency_injector, *query;
+	zval *phql, *dependency_injector, *service_name, *parameters, *query = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -2974,11 +2974,17 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, createQuery){
 	/** 
 	 * Create a query
 	 */
-	PHALCON_INIT_VAR(query);
-	object_init_ex(query, phalcon_mvc_model_query_ce);
-	PHALCON_CALL_METHOD(NULL, query, "__construct", phql);
+	PHALCON_INIT_VAR(service_name);
+	ZVAL_STRING(service_name, "modelsQuery", 1);
 
-	PHALCON_CALL_METHOD(NULL, query, "setdi", dependency_injector);
+	PHALCON_INIT_VAR(parameters);
+	array_init(parameters);
+
+	phalcon_array_append(&parameters, phql, 0);
+	phalcon_array_append(&parameters, dependency_injector, 0);
+
+	PHALCON_CALL_METHOD(&query, dependency_injector, "get", service_name, parameters);
+
 	phalcon_update_property_this(this_ptr, SL("_lastQuery"), query TSRMLS_CC);
 
 	RETURN_CTOR(query);
@@ -2994,7 +3000,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, createQuery){
 PHP_METHOD(Phalcon_Mvc_Model_Manager, executeQuery){
 
 	zval *phql, *placeholders = NULL, *types = NULL, *dependency_injector;
-	zval *query;
+	zval *service_name, *parameters, *query = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -3018,11 +3024,17 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, executeQuery){
 	/** 
 	 * Create a query
 	 */
-	PHALCON_INIT_VAR(query);
-	object_init_ex(query, phalcon_mvc_model_query_ce);
-	PHALCON_CALL_METHOD(NULL, query, "__construct", phql);
+	PHALCON_INIT_VAR(service_name);
+	ZVAL_STRING(service_name, "modelsQuery", 1);
 
-	PHALCON_CALL_METHOD(NULL, query, "setdi", dependency_injector);
+	PHALCON_INIT_VAR(parameters);
+	array_init(parameters);
+
+	phalcon_array_append(&parameters, phql, 0);
+	phalcon_array_append(&parameters, dependency_injector, 0);
+
+	PHALCON_CALL_METHOD(&query, dependency_injector, "get", service_name, parameters);
+
 	phalcon_update_property_this(this_ptr, SL("_lastQuery"), query TSRMLS_CC);
 
 	/** 

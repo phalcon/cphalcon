@@ -67,6 +67,8 @@ const char *phalcon_interned_models				= NULL;
 const char *phalcon_interned_modelsCache		= NULL;
 const char *phalcon_interned_modelsManager		= NULL;
 const char *phalcon_interned_modelsMetadata		= NULL;
+const char *phalcon_interned_modelsQuery		= NULL;
+const char *phalcon_interned_modelsQueryBuilder	= NULL;
 const char *phalcon_interned_module				= NULL;
 const char *phalcon_interned_name				= NULL;
 const char *phalcon_interned_namespace			= NULL;
@@ -160,6 +162,8 @@ PHALCON_STATIC void phalcon_init_interned_strings(TSRMLS_D)
 	phalcon_interned_modelsCache		= zend_new_interned_string(ZEND_STRS("modelsCache"), 0 TSRMLS_CC);
 	phalcon_interned_modelsManager		= zend_new_interned_string(ZEND_STRS("modelsManager"), 0 TSRMLS_CC);
 	phalcon_interned_modelsMetadata		= zend_new_interned_string(ZEND_STRS("modelsMetadata"), 0 TSRMLS_CC);
+	phalcon_interned_modelsQuery		= zend_new_interned_string(ZEND_STRS("modelsQuery"), 0 TSRMLS_CC);
+	phalcon_interned_modelsQueryBuilder	= zend_new_interned_string(ZEND_STRS("modelsQueryBuilder"), 0 TSRMLS_CC);
 	phalcon_interned_module				= zend_new_interned_string(ZEND_STRS("module"), 0 TSRMLS_CC);
 	phalcon_interned_name				= zend_new_interned_string(ZEND_STRS("name"), 0 TSRMLS_CC);
 	phalcon_interned_namespace			= zend_new_interned_string(ZEND_STRS("namespace"), 0 TSRMLS_CC);

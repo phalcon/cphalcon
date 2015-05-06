@@ -4473,7 +4473,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getRelatedRecords){
 	zval *selected_tables, *selected_models, *source = NULL;
 	zval *model_name, *select_column, *selected_columns;
 	zval *select_ir, *where_conditions, *limit_conditions;
-	zval *type_select, *dependency_injector, *query;
+	zval *type_select, *dependency_injector, *service_name, *parameters, *query = NULL;
 	zval *a0 = NULL;
 
 	PHALCON_MM_GROW();
@@ -4542,11 +4542,17 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getRelatedRecords){
 	/** 
 	 * We create another Phalcon\Mvc\Model\Query to get the related records
 	 */
-	PHALCON_INIT_VAR(query);
-	object_init_ex(query, phalcon_mvc_model_query_ce);
-	PHALCON_CALL_METHOD(NULL, query, "__construct");
+	PHALCON_INIT_VAR(service_name);
+	ZVAL_STRING(service_name, "modelsQuery", 1);
 
-	PHALCON_CALL_METHOD(NULL, query, "setdi", dependency_injector);
+	PHALCON_INIT_VAR(parameters);
+	array_init(parameters);
+
+	phalcon_array_append(&parameters, PHALCON_GLOBAL(z_null), 0);
+	phalcon_array_append(&parameters, dependency_injector, 0);
+
+	PHALCON_CALL_METHOD(&query, dependency_injector, "get", service_name, parameters);
+
 	PHALCON_CALL_METHOD(NULL, query, "settype", type_select);
 	PHALCON_CALL_METHOD(NULL, query, "setintermediate", select_ir);
 

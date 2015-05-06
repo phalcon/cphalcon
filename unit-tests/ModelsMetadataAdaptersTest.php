@@ -118,6 +118,9 @@ class ModelsMetadataAdaptersTest extends PHPUnit_Framework_TestCase
 			return new Phalcon\Mvc\Model\Manager();
 		});
 
+		$di->set('modelsQuery', 'Phalcon\Mvc\Model\Query');
+		$di->set('modelsQueryBuilder', 'Phalcon\Mvc\Model\Query\Builder');
+
 		$di->set('db', function(){
 			require 'unit-tests/config.db.php';
 			return new Phalcon\Db\Adapter\Pdo\Mysql($configMysql);
