@@ -19,6 +19,8 @@
 
 namespace Phalcon\Http;
 
+use Phalcon\Http\Response\HeadersInterface;
+
 /**
  * Phalcon\Http\Response
  *
@@ -29,19 +31,13 @@ interface ResponseInterface
 
 	/**
 	 * Sets the HTTP response code
-	 *
-	 * @param int code
-	 * @param string message
-	 * @return Phalcon\Http\ResponseInterface
 	 */
-	public function setStatusCode(code, message);
+	public function setStatusCode(int code, string message = null) -> <ResponseInterface>;
 
 	/**
 	 * Returns headers set by the user
-	 *
-	 * @return Phalcon\Http\Response\Headers
 	 */
-	public function getHeaders();
+	public function getHeaders() -> <HeadersInterface>;
 
 	/**
 	 * Overwrites a header in the response
@@ -50,36 +46,26 @@ interface ResponseInterface
 	 * @param string value
 	 * @return Phalcon\Http\ResponseInterface
 	 */
-	public function setHeader(name, value);
+	public function setHeader(string name, value) -> <ResponseInterface>;
 
 	/**
 	 * Send a raw header to the response
-	 *
-	 * @param string header
-	 * @return Phalcon\Http\ResponseInterface
 	 */
-	public function setRawHeader(header);
+	public function setRawHeader(string header) -> <ResponseInterface>;
 
 	/**
 	 * Resets all the stablished headers
-	 *
-	 * @return Phalcon\Http\ResponseInterface
 	 */
-	public function resetHeaders();
+	public function resetHeaders() -> <ResponseInterface>;
 
 	/**
 	 * Sets output expire time header
-	 *
-	 * @param DateTime datetime
-	 * @return Phalcon\Http\ResponseInterface
 	 */
-	public function setExpires(<\DateTime> datetime);
+	public function setExpires(<\DateTime> datetime) -> <ResponseInterface>;
 	/**
 	 * Sends a Not-Modified response
-	 *
-	 * @return Phalcon\Http\ResponseInterface
 	 */
-	public function setNotModified();
+	public function setNotModified() -> <ResponseInterface>;
 
 	/**
 	 * Sets the response content-type mime, optionally the charset
@@ -88,7 +74,7 @@ interface ResponseInterface
 	 * @param string charset
 	 * @return Phalcon\Http\ResponseInterface
 	 */
-	public function setContentType(contentType, charset = null);
+	public function setContentType(string contentType, charset = null) -> <ResponseInterface>;
 
 	/**
 	 * Redirect by HTTP to another action or URL
@@ -98,15 +84,12 @@ interface ResponseInterface
 	 * @param int statusCode
 	 * @return Phalcon\Http\ResponseInterface
 	 */
-	public function redirect(location = null, externalRedirect = false, statusCode = 302);
+	public function redirect(location = null, boolean externalRedirect = false, int statusCode = 302) -> <ResponseInterface>;
 
 	/**
 	 * Sets HTTP response body
-	 *
-	 * @param string content
-	 * @return Phalcon\Http\ResponseInterface
 	 */
-	public function setContent(content);
+	public function setContent(string content) -> <ResponseInterface>;
 
 	/**
 	 * Sets HTTP response body. The parameter is automatically converted to JSON
@@ -118,7 +101,7 @@ interface ResponseInterface
 	 * @param string content
 	 * @return Phalcon\Http\ResponseInterface
 	 */
-	public function setJsonContent(content);
+	public function setJsonContent(content) -> <ResponseInterface>;
 
 	/**
 	 * Appends a string to the HTTP response body
@@ -126,14 +109,12 @@ interface ResponseInterface
 	 * @param string content
 	 * @return Phalcon\Http\ResponseInterface
 	 */
-	public function appendContent(content);
+	public function appendContent(content) -> <ResponseInterface>;
 
 	/**
 	 * Gets the HTTP response body
-	 *
-	 * @return string
 	 */
-	public function getContent();
+	public function getContent() -> string;
 
 	/**
 	 * Sends headers to the client
@@ -156,6 +137,6 @@ interface ResponseInterface
 	 * @param string filePath
 	 * @param string attachmentName
 	 */
-	public function setFileToSend(filePath, attachmentName = null);
+	public function setFileToSend(string filePath, attachmentName = null) -> <ResponseInterface>;
 
 }

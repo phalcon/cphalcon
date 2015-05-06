@@ -418,7 +418,7 @@ class Response implements ResponseInterface, InjectionAwareInterface
 	 * @param int statusCode
 	 * @return Phalcon\Http\Response
 	 */
-	public function redirect(location = null, externalRedirect = false, int statusCode = 302) -> <Response>
+	public function redirect(location = null, boolean externalRedirect = false, int statusCode = 302) -> <Response>
 	{
 		var header, url, dependencyInjector, matched, message, view;
 

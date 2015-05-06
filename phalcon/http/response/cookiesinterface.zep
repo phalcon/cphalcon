@@ -49,7 +49,7 @@ interface CookiesInterface
 	 * @param boolean httpOnly
 	 * @return Phalcon\Http\Response\CookiesInterface
 	 */
-	public function set(name, value = null, expire = 0, path = "/", secure = null, domain = null, httpOnly = null);
+	public function set(string! name, value = null, int expire = 0, string path = "/", secure = null, string! domain = null, httpOnly = null) -> <CookiesInterface>;
 
 	/**
 	 * Gets a cookie from the bag
@@ -74,9 +74,7 @@ interface CookiesInterface
 
 	/**
 	 * Reset set cookies
-	 *
-	 * @return Phalcon\Http\Response\CookiesInterface
 	 */
-	public function reset();
+	public function reset() -> <CookiesInterface>;
 
 }
