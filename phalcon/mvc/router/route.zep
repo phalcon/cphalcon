@@ -141,7 +141,7 @@ class Route implements RouteInterface
 	 * $route->via(array('GET', 'POST'));
 	 *</code>
 	 */
-	public function via(var httpMethods) -> <RouteInterface>
+	public function via(var httpMethods) -> <Route>
 	{
 		let this->_methods = httpMethods;
 		return this;
@@ -419,7 +419,7 @@ class Route implements RouteInterface
 	 * ))->setName('about');
 	 *</code>
 	 */
-	public function setName(string name) -> <RouteInterface>
+	public function setName(string name) -> <Route>
 	{
 		let this->_name = name;
 		return this;
@@ -430,7 +430,7 @@ class Route implements RouteInterface
 	 * The developer can implement any arbitrary conditions here
 	 * If the callback returns false the route is treated as not matched
 	 */
-	public function beforeMatch(callable callback) -> <RouteInterface>
+	public function beforeMatch(callable callback) -> <Route>
 	{
 		let this->_beforeMatch = callback;
 		return this;
@@ -498,7 +498,7 @@ class Route implements RouteInterface
 	 * $route->setHttpMethods(array('GET', 'POST'));
 	 *</code>
 	 */
-	public function setHttpMethods(var httpMethods) -> <RouteInterface>
+	public function setHttpMethods(var httpMethods) -> <Route>
 	{
 		let this->_methods = httpMethods;
 		return this;
@@ -519,7 +519,7 @@ class Route implements RouteInterface
 	 * $route->setHostname('localhost');
 	 *</code>
 	 */
-	public function setHostname(string! hostname) -> <RouteInterface>
+	public function setHostname(string! hostname) -> <Route>
 	{
 		let this->_hostname = hostname;
 		return this;
@@ -536,7 +536,7 @@ class Route implements RouteInterface
 	/**
 	 * Sets the group associated with the route
 	 */
-	public function setGroup(<GroupInterface> group) -> <RouteInterface>
+	public function setGroup(<GroupInterface> group) -> <Route>
 	{
 		let this->_group = group;
 		return this;
@@ -553,7 +553,7 @@ class Route implements RouteInterface
 	/**
 	 * Adds a converter to perform an additional transformation for certain parameter
 	 */
-	public function convert(string! name, var converter) -> <RouteInterface>
+	public function convert(string! name, var converter) -> <Route>
 	{
 		let this->_converters[name] = converter;
 		return this;
