@@ -3052,7 +3052,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, executeQuery){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Manager, createBuilder){
 
-	zval *params = NULL, *dependency_injector;
+	zval *params = NULL, *dependency_injector, *service, *service_params, *builder = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -3072,10 +3072,18 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, createBuilder){
 	/** 
 	 * Create a query builder
 	 */
-	object_init_ex(return_value, phalcon_mvc_model_query_builder_ce);
-	PHALCON_CALL_METHOD(NULL, return_value, "__construct", params, dependency_injector);
+	PHALCON_INIT_VAR(service);
+	ZVAL_STRING(service, "modelsQueryBuilder", 1);
 
-	RETURN_MM();
+	PHALCON_INIT_VAR(service_params);
+	array_init(service_params);
+
+	phalcon_array_append(&service_params, params, 0);
+	phalcon_array_append(&service_params, dependency_injector, 0);
+
+	PHALCON_CALL_METHOD(&builder, dependency_injector, "get", service, service_params);
+
+	RETURN_CTOR(builder);
 }
 
 /**

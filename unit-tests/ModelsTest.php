@@ -73,6 +73,7 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 
 		$di->set('modelsQuery', 'Phalcon\Mvc\Model\Query');
 		$di->set('modelsQueryBuilder', 'Phalcon\Mvc\Model\Query\Builder');
+		$di->set('modelsCriteria', 'Phalcon\\Mvc\\Model\\Criteria');
 
 		$di->set('db', $dbService, true);
 
