@@ -635,20 +635,22 @@ PHP_METHOD(Phalcon_Http_Response, setEtag) {
 PHP_METHOD(Phalcon_Http_Response, redirect) {
 
 	zephir_nts_static zephir_fcall_cache_entry *_3 = NULL;
-	zend_bool _0;
 	int statusCode, ZEPHIR_LAST_CALL_STATUS;
-	zval *location = NULL, *externalRedirect = NULL, *statusCode_param = NULL, *header = NULL, *url = NULL, *dependencyInjector = NULL, *matched, *message = NULL, *view = NULL, _1 = zval_used_for_init, *_2 = NULL, *_4, *_5 = NULL, *_6;
+	zend_bool externalRedirect, _0;
+	zval *location = NULL, *externalRedirect_param = NULL, *statusCode_param = NULL, *header = NULL, *url = NULL, *dependencyInjector = NULL, *matched, *message = NULL, *view = NULL, _1 = zval_used_for_init, *_2 = NULL, *_4, *_5 = NULL, *_6;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 0, 3, &location, &externalRedirect, &statusCode_param);
+	zephir_fetch_params(1, 0, 3, &location, &externalRedirect_param, &statusCode_param);
 
 	if (!location) {
 		ZEPHIR_CPY_WRT(location, ZEPHIR_GLOBAL(global_null));
 	} else {
 		ZEPHIR_SEPARATE_PARAM(location);
 	}
-	if (!externalRedirect) {
-		externalRedirect = ZEPHIR_GLOBAL(global_false);
+	if (!externalRedirect_param) {
+		externalRedirect = 0;
+	} else {
+		externalRedirect = zephir_get_boolval(externalRedirect_param);
 	}
 	if (!statusCode_param) {
 		statusCode = 302;
@@ -661,7 +663,7 @@ PHP_METHOD(Phalcon_Http_Response, redirect) {
 		ZEPHIR_INIT_NVAR(location);
 		ZVAL_STRING(location, "", 1);
 	}
-	if (zephir_is_true(externalRedirect)) {
+	if (externalRedirect) {
 		ZEPHIR_CPY_WRT(header, location);
 	} else {
 		_0 = Z_TYPE_P(location) == IS_STRING;

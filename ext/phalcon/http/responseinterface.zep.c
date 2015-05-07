@@ -27,17 +27,11 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_ResponseInterface) {
 
 /**
  * Sets the HTTP response code
- *
- * @param int code
- * @param string message
- * @return Phalcon\Http\ResponseInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_ResponseInterface, setStatusCode);
 
 /**
  * Returns headers set by the user
- *
- * @return Phalcon\Http\Response\Headers
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_ResponseInterface, getHeaders);
 
@@ -52,31 +46,21 @@ ZEPHIR_DOC_METHOD(Phalcon_Http_ResponseInterface, setHeader);
 
 /**
  * Send a raw header to the response
- *
- * @param string header
- * @return Phalcon\Http\ResponseInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_ResponseInterface, setRawHeader);
 
 /**
  * Resets all the stablished headers
- *
- * @return Phalcon\Http\ResponseInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_ResponseInterface, resetHeaders);
 
 /**
  * Sets output expire time header
- *
- * @param DateTime datetime
- * @return Phalcon\Http\ResponseInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_ResponseInterface, setExpires);
 
 /**
  * Sends a Not-Modified response
- *
- * @return Phalcon\Http\ResponseInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_ResponseInterface, setNotModified);
 
@@ -101,9 +85,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Http_ResponseInterface, redirect);
 
 /**
  * Sets HTTP response body
- *
- * @param string content
- * @return Phalcon\Http\ResponseInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_ResponseInterface, setContent);
 
@@ -129,8 +110,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Http_ResponseInterface, appendContent);
 
 /**
  * Gets the HTTP response body
- *
- * @return string
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_ResponseInterface, getContent);
 

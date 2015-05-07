@@ -164,7 +164,7 @@ typedef struct _zephir_function_cache {
 #ifdef ZTS
 #define zephir_nts_static
 #else
-#define zephir_nts_static static
+#define zephir_nts_static
 #endif
 #else
 #define zephir_nts_static

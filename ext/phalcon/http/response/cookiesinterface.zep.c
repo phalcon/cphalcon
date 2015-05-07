@@ -72,8 +72,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Http_Response_CookiesInterface, send);
 
 /**
  * Reset set cookies
- *
- * @return Phalcon\Http\Response\CookiesInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_Response_CookiesInterface, reset);
 
