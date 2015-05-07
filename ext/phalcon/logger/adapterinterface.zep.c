@@ -84,8 +84,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Logger_AdapterInterface, rollback);
 
 /**
  * Closes the logger
- *
- * @return boolean
  */
 ZEPHIR_DOC_METHOD(Phalcon_Logger_AdapterInterface, close);
 

@@ -85,6 +85,7 @@ const phql_token_names phql_tokens[] =
   { SL("CAST"),          PHQL_T_CAST },
   { SL("CONVERT"),       PHQL_T_CONVERT },
   { SL("USING"),         PHQL_T_USING },
+  { SL("ALL"),           PHQL_T_ALL },
   { NULL, 0, 0 }
 };
 
@@ -457,6 +458,9 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 				break;
 			case PHQL_T_DISTINCT:
 				phql_(phql_parser, PHQL_DISTINCT, NULL, parser_status);
+				break;
+			case PHQL_T_ALL:
+				phql_(phql_parser, PHQL_ALL, NULL, parser_status);
 				break;
 			case PHQL_T_CAST:
 				phql_(phql_parser, PHQL_CAST, NULL, parser_status);

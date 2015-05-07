@@ -173,13 +173,9 @@ abstract class Pdo extends Adapter
 	 * @param array dataTypes
 	 * @return \PDOStatement
 	 */
-	public function executePrepared(<\PDOStatement> statement, placeholders, dataTypes) -> <\PDOStatement>
+	public function executePrepared(<\PDOStatement> statement, array! placeholders, dataTypes) -> <\PDOStatement>
 	{
 		var wildcard, value, type, castValue, parameter;
-
-		if typeof placeholders != "array" {
-			throw new Exception("Placeholders must be an array");
-		}
 
 		for wildcard, value in placeholders {
 
@@ -241,7 +237,7 @@ abstract class Pdo extends Adapter
 	 * @param  array bindTypes
 	 * @return Phalcon\Db\ResultInterface|bool
 	 */
-	public function query(string! sqlStatement, bindParams = null, bindTypes = null) -> <ResultInterface> | boolean
+	public function query(string! sqlStatement, array bindParams = null, bindTypes = null) -> <ResultInterface> | boolean
 	{
 		var eventsManager, pdo, statement;
 
@@ -284,7 +280,7 @@ abstract class Pdo extends Adapter
 
 	/**
 	 * Sends SQL statements to the database server returning the success state.
-	 * Use this method only when the SQL statement sent to the server doesn't return any row
+	 * Use this method only when the SQL statement sent to the server doesn't return any rows
 	 *
 	 *<code>
 	 *	//Inserting data
@@ -297,7 +293,7 @@ abstract class Pdo extends Adapter
 	 * @param  array bindTypes
 	 * @return boolean
 	 */
-	public function execute(string! sqlStatement, bindParams = null, bindTypes = null) -> boolean
+	public function execute(string! sqlStatement, array bindParams = null, bindTypes = null) -> boolean
 	{
 		var eventsManager, affectedRows, pdo, newStatement, statement;
 
@@ -366,7 +362,6 @@ abstract class Pdo extends Adapter
 		let pdo = this->_pdo;
 		if typeof pdo == "object" {
 			let this->_pdo = null;
-			return true;
 		}
 		return true;
 	}
@@ -706,10 +701,8 @@ abstract class Pdo extends Adapter
 
 	/**
 	 * Return internal PDO handler
-	 *
-	 * @return \PDO
 	 */
-	public function getInternalHandler()
+	public function getInternalHandler() -> <\Pdo>
 	{
 		return this->_pdo;
 	}

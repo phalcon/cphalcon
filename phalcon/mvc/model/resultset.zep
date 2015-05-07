@@ -50,7 +50,6 @@ use Phalcon\Mvc\Model\ResultsetInterface;
  *  $robots->next();
  * }
  * </code>
- *
  */
 abstract class Resultset
 	implements ResultsetInterface, \Iterator, \SeekableIterator, \Countable, \ArrayAccess, \Serializable
@@ -64,13 +63,15 @@ abstract class Resultset
 
 	protected _isFresh = true;
 
-	protected _pointer = -1;
+	protected _pointer = 0;
 
 	protected _count;
 
-	protected _activeRow;
+	protected _activeRow = null;
 
-	protected _rows;
+	protected _rows = null;
+	
+	protected _row = null;
 
 	protected _errorMessages;
 
@@ -89,104 +90,88 @@ abstract class Resultset
 	/**
 	 * Moves cursor to next row in the resultset
 	 */
-	public function next()
+	public function next() -> void
 	{
-		let this->_pointer++;
+		// Seek to the next position
+		this->seek(this->_pointer + 1);
+	}
+	
+	/**
+	 * Check whether internal resource has rows to fetch
+	 */
+	public function valid() -> boolean
+	{		
+		return this->_pointer < this->count();
 	}
 
 	/**
 	 * Gets pointer number of active row in the resultset
-	 *
-	 * @return int
 	 */
-	public function key()
-	{
+	public function key() -> int | null
+	{		
+		if this->_pointer >= this->count() {
+			return null;
+		}
+
 		return this->_pointer;
 	}
 
 	/**
 	 * Rewinds resultset to its beginning
 	 */
-	public final function rewind()
-	{
-		var rows, result;
-
-		if this->_type {
-
-			/**
-			 * Here, the resultset act as a result that is fetched one by one
-			 */
-			let result = this->_result;
-			if result !== false {
-				if this->_activeRow !== null {
-					result->dataSeek(0);
-				}
-			}
-		} else {
-
-			/**
-			 * Here, the resultset act as an array
-			 */
-			let rows = this->_rows;
-			if rows === null {
-				let result = this->_result;
-				if typeof result == "object" {
-					let rows = result->fetchAll(),
-						this->_rows = rows;
-				}
-			}
-
-			if typeof rows == "array" {
-				reset(rows);
-			}
-		}
-
-		let this->_pointer = 0;
+	public final function rewind() -> void
+	{		
+		this->seek(0);
 	}
 
 	/**
 	 * Changes internal pointer to a specific position in the resultset
 	 */
-	public final function seek(int position)
+	public final function seek(int position) -> void
 	{
-		var result, rows; int i;
-
-		if this->_pointer != position {
-
-			if this->_type {
-
-				/**
-				 * Here, the resultset act as a result that is fetched one by one
-				 */
+		var result;
+		
+		if this->_type {
+			/**
+			* Fetch from PDO one-by-one. Set new position if required and set this->_row
+			*/
+			if this->_row === null || this->_pointer != position {
 				let result = this->_result;
 				if result !== false {
-					result->dataSeek(position);
-				}
-			} else {
-
-				/**
-				 * Here, the resultset act as an array
-				 */
-				let rows = this->_rows;
-				if rows === null {
-					let result = this->_result;
-					if typeof result == "object" {
-						let rows = result->fetchAll(),
-							this->_rows = rows;
+					/**
+					* 1. If row is not set, query is executed in "result->dataSeek()"
+					*    Set _row to prepare for hydration in "current()"
+					*
+					* 2. Backwards seeks have to re-execute the query
+					*    There is no fetchPrevious :(
+					*/
+					if this->_row === null || this->_pointer > position {
+						result->dataSeek(position);
+						let this->_row = result->$fetch(result);
+					} else {
+						/**
+						* Requested postion is greater than current pointer,
+						* seek forward until the requested position is reached.
+						* We do not need to re-excute the query!
+						*/
+						while this->_pointer < position {
+							let this->_row = result->$fetch(result);
+							let this->_pointer++;
+						}
 					}
 				}
-
-				if typeof rows == "array" {
-					let i = 0;
-					reset(rows);
-					while i < position {
-						next(rows);
-						let i++;
-					}
-				}
+				
+				let this->_pointer = position;
+				let this->_activeRow = null;
 			}
-
-			let this->_pointer = position;
+		} else {
+			/**
+			* Reset activeRow for simple arrays if new position requested
+			*/
+			if this->_pointer != position {
+				let this->_pointer = position;
+				let this->_activeRow = null;
+			}
 		}
 	}
 
@@ -200,7 +185,7 @@ abstract class Resultset
 		let count = this->_count;
 
 		/**
-		 * We only calculate the row number is it wasn't calculated before
+		 * We only calculate the row number if it wasn't calculated before
 		 */
 		if typeof count === "null" {
 			let count = 0;
@@ -247,27 +232,13 @@ abstract class Resultset
 	public function offsetGet(int! index) -> <ModelInterface> | boolean
 	{
 		if index < this->count() {
-
-			/**
-			 * Check if the last record returned is the current requested
-			 */
-			if this->_pointer == index {
-				return this->current();
-			}
-
-			/**
-			 * Move the cursor to the specific position
-			 */
+	   		/**
+	   		 * Move the cursor to the specific position
+	   		 */
 			this->seek(index);
-
-			/**
-			 * Check if the last record returned is the requested
-			 */
-			if this->{"valid"}() !== false {
-				return this->current();
-			}
-
-			return false;
+			
+			return this->{"current"}();
+			
 		}
 		throw new Exception("The index does not exist in the cursor");
 	}
@@ -303,34 +274,28 @@ abstract class Resultset
 	 * Get first row in the resultset
 	 */
 	public function getFirst() -> <ModelInterface> | boolean
-	{
-		/**
-		 * Check if the last record returned is the current requested
-		 */
-		if this->_pointer == 0 {
-			return this->current();
+	{		
+		if this->count() == 0 {
+			return false;
 		}
 
-		/**
-		 * Otherwise re-execute the statement
-		 */
-		this->rewind();
-		if this->{"valid"}() !== false {
-			return this->current();
-		}
-		return false;
+		this->seek(0);
+		return this->{"current"}();
 	}
 
 	/**
 	 * Get last row in the resultset
 	 */
 	public function getLast() -> <ModelInterface> | boolean
-	{
-		this->seek(this->count() - 1);
-		if this->{"valid"}() !== false {
-			return this->current();
+	{		
+		var count;
+		let count = this->count();	
+		if count == 0 {
+			return false;
 		}
-		return false;
+		
+		this->seek(count - 1);
+		return this->{"current"}();
 	}
 
 	/**
@@ -376,19 +341,9 @@ abstract class Resultset
 	}
 
 	/**
-	 * Returns current row in the resultset
-	 */
-	public final function current() -> <ModelInterface>
-	{
-		return this->_activeRow;
-	}
-
-	/**
 	 * Returns the error messages produced by a batch operation
-	 *
-	 * @return Phalcon\Mvc\Model\MessageInterface[]
 	 */
-	public function getMessages()
+	public function getMessages() -> <\Phalcon\Mvc\Model\MessageInterface[]>
 	{
 		return this->_errorMessages;
 	}

@@ -208,19 +208,16 @@ PHP_METHOD(Phalcon_Events_Event, stop) {
 
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_cancelable"), PH_NOISY_CC);
-	if (zephir_is_true(_0)) {
-		zephir_update_property_this(this_ptr, SL("_stopped"), (1) ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
-	} else {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_events_exception_ce, "Trying to cancel a non-cancelable event", "phalcon/events/event.zep", 96);
+	if (!(zephir_is_true(_0))) {
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_events_exception_ce, "Trying to cancel a non-cancelable event", "phalcon/events/event.zep", 93);
 		return;
 	}
+	zephir_update_property_this(this_ptr, SL("_stopped"), (1) ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
 
 }
 
 /**
  * Check whether the event is currently stopped
- *
- * @return boolean
  */
 PHP_METHOD(Phalcon_Events_Event, isStopped) {
 

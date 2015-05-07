@@ -105,190 +105,103 @@ interface AdapterInterface
 
 	/**
 	 * Generates SQL checking for the existence of a schema.table
-	 *
-	 * @param string tableName
-	 * @param string schemaName
-	 * @return string
 	 */
-	public function tableExists(string! tableName, schemaName = null);
+	public function tableExists(string! tableName, string! schemaName = null) -> boolean;
 
 	/**
 	 * Generates SQL checking for the existence of a schema.view
-	 *
-	 * @param string viewName
-	 * @param string schemaName
-	 * @return string
 	 */
-	public function viewExists(string! viewName, schemaName = null);
+	public function viewExists(string! viewName, string! schemaName = null) -> boolean;
 
 	/**
 	 * Returns a SQL modified with a FOR UPDATE clause
-	 *
-	 * @param	string sqlQuery
-	 * @return	string
 	 */
-	public function forUpdate(string! sqlQuery);
+	public function forUpdate(string! sqlQuery) -> string;
 
 	/**
 	 * Returns a SQL modified with a LOCK IN SHARE MODE clause
-	 *
-	 * @param	string sqlQuery
-	 * @return	string
 	 */
-	public function sharedLock(sqlQuery);
+	public function sharedLock(string! sqlQuery) -> string;
 
 	/**
 	 * Creates a table
-	 *
-	 * @param	string tableName
-	 * @param	string schemaName
-	 * @param	array definition
-	 * @return	boolean
 	 */
-	public function createTable(tableName, schemaName, definition);
+	public function createTable(string! tableName, string! schemaName, array! definition) -> boolean;
 
 	/**
 	 * Drops a table from a schema/database
-	 *
-	 * @param	string tableName
-	 * @param   string schemaName
-	 * @param	boolean ifExists
-	 * @return	boolean
 	 */
-	public function dropTable(tableName, schemaName = null, ifExists = true);
+	public function dropTable(string! tableName, string! schemaName = null, boolean ifExists = true) -> boolean;
 
 	/**
 	 * Creates a view
-	 *
-	 * @param	string tableName
-	 * @param	array definition
-	 * @param	string schemaName
-	 * @return	boolean
 	 */
-	public function createView(viewName, definition, schemaName = null);
+	public function createView(string! viewName, array! definition, string schemaName = null) -> boolean;
 
 	/**
 	 * Drops a view
-	 *
-	 * @param	string viewName
-	 * @param   string schemaName
-	 * @param	boolean ifExists
-	 * @return	boolean
 	 */
-	public function dropView(viewName, schemaName = null, ifExists = true);
+	public function dropView(string! viewName, string! schemaName = null, boolean ifExists = true) -> boolean;
 
 	/**
 	 * Adds a column to a table
-	 *
-	 * @param	string tableName
-	 * @param 	string schemaName
-	 * @param	Phalcon\Db\ColumnInterface column
-	 * @return	boolean
 	 */
-	public function addColumn(tableName, schemaName, <\Phalcon\Db\ColumnInterface> column);
+	public function addColumn(string! tableName, string! schemaName, <ColumnInterface> column) -> boolean;
 
 	/**
 	 * Modifies a table column based on a definition
-	 *
-	 * @param	string tableName
-	 * @param	string schemaName
-	 * @param	Phalcon\Db\ColumnInterface column
-	 * @return 	boolean
 	 */
-	public function modifyColumn(tableName, schemaName, <\Phalcon\Db\ColumnInterface> column);
+	public function modifyColumn(string! tableName, string! schemaName, <ColumnInterface> column) -> boolean;
 
 	/**
 	 * Drops a column from a table
-	 *
-	 * @param	string tableName
-	 * @param	string schemaName
-	 * @param	string columnName
-	 * @return 	boolean
 	 */
-	public function dropColumn(tableName, schemaName, columnName);
+	public function dropColumn(string! tableName, string! schemaName, string columnName) -> boolean;
 
 	/**
 	 * Adds an index to a table
-	 *
-	 * @param	string tableName
-	 * @param	string schemaName
-	 * @param	Phalcon\Db\IndexInterface index
-	 * @return 	boolean
 	 */
-	public function addIndex(tableName, schemaName, <\Phalcon\Db\IndexInterface> index);
+	public function addIndex(string! tableName, string! schemaName, <IndexInterface> index) -> boolean;
 
 	/**
 	 * Drop an index from a table
-	 *
-	 * @param	string tableName
-	 * @param	string schemaName
-	 * @param	string indexName
-	 * @return 	boolean
 	 */
-	public function dropIndex(tableName, schemaName, indexName);
+	public function dropIndex(string! tableName, string! schemaName, string indexName) -> boolean;
 
 	/**
 	 * Adds a primary key to a table
-	 *
-	 * @param	string tableName
-	 * @param	string schemaName
-	 * @param	Phalcon\Db\IndexInterface index
-	 * @return 	boolean
 	 */
-	public function addPrimaryKey(tableName, schemaName, <\Phalcon\Db\IndexInterface> index);
+	public function addPrimaryKey(string! tableName, string! schemaName, <IndexInterface> index) -> boolean;
 
 	/**
 	 * Drops primary key from a table
-	 *
-	 * @param	string tableName
-	 * @param	string schemaName
-	 * @return 	boolean
 	 */
-	public function dropPrimaryKey(tableName, schemaName);
+	public function dropPrimaryKey(string! tableName, string! schemaName) -> boolean;
 
 	/**
 	 * Adds a foreign key to a table
-	 *
-	 * @param	string tableName
-	 * @param	string schemaName
-	 * @param	Phalcon\Db\ReferenceInterface reference
-	 * @return	boolean true
 	 */
-	public function addForeignKey(tableName, schemaName, <\Phalcon\Db\ReferenceInterface> reference);
+	public function addForeignKey(string! tableName, string! schemaName, <ReferenceInterface> reference) -> boolean;
 
 	/**
 	 * Drops a foreign key from a table
-	 *
-	 * @param	string tableName
-	 * @param	string schemaName
-	 * @param	string referenceName
-	 * @return	boolean true
 	 */
-	public function dropForeignKey(tableName, schemaName, referenceName);
+	public function dropForeignKey(string! tableName, string! schemaName, string referenceName) -> boolean;
 
 	/**
 	 * Returns the SQL column definition from a column
-	 *
-	 * @param	Phalcon\Db\ColumnInterface column
-	 * @return	string
 	 */
-	public function getColumnDefinition(<\Phalcon\Db\ColumnInterface> column);
+	public function getColumnDefinition(<ColumnInterface> column) -> string;
 
 	 /**
 	 * List all tables on a database
-	 *
-	 * @param string schemaName
-	 * @return array
 	 */
-	public function listTables(schemaName = null);
+	public function listTables(string! schemaName = null) -> array;
 
 	/**
 	 * List all views on a database
-	 *
-	 * @param string schemaName
-	 * @return array
 	 */
-	public function listViews(schemaName = null);
+	public function listViews(string! schemaName = null) -> array;
 
 	/**
 	 * Return descriptor used to connect to the active database
@@ -306,17 +219,13 @@ interface AdapterInterface
 
 	/**
 	 * Active SQL statement in the object
-	 *
-	 * @return string
 	 */
-	public function getSQLStatement();
+	public function getSQLStatement() -> string;
 
 	/**
 	 * Active SQL statement in the object without replace bound paramters
-	 *
-	 * @return string
 	 */
-	public function getRealSQLStatement();
+	public function getRealSQLStatement() -> string;
 
 	/**
 	 * Active SQL statement in the object
@@ -348,10 +257,8 @@ interface AdapterInterface
 
 	/**
 	 * Returns internal dialect instance
-	 *
-	 * @return Phalcon\Db\DialectInterface
 	 */
-	public function getDialect();
+	public function getDialect() -> <DialectInterface>;
 
 	/**
 	 * This method is automatically called in Phalcon\Db\Adapter\Pdo constructor.
@@ -371,32 +278,28 @@ interface AdapterInterface
 	 * @param  array dataTypes
 	 * @return Phalcon\Db\ResultInterface
 	 */
-	public function query(sqlStatement, placeholders = null, dataTypes = null);
+	public function query(string! sqlStatement, array placeholders = null, dataTypes = null) -> <ResultInterface> | boolean;
 
 	/**
 	 * Sends SQL statements to the database server returning the success state.
-	 * Use this method only when the SQL statement sent to the server don't return any row
+	 * Use this method only when the SQL statement sent to the server doesn't return any rows
 	 *
 	 * @param  string sqlStatement
 	 * @param  array placeholders
 	 * @param  array dataTypes
 	 * @return boolean
 	 */
-	public function execute(sqlStatement, placeholders = null, dataTypes = null);
+	public function execute(string! sqlStatement, array placeholders = null, dataTypes = null) -> boolean;
 
 	/**
 	 * Returns the number of affected rows by the last INSERT/UPDATE/DELETE reported by the database system
-	 *
-	 * @return int
 	 */
-	public function affectedRows();
+	public function affectedRows() -> int;
 
 	/**
 	 * Closes active connection returning success. Phalcon automatically closes and destroys active connections within Phalcon\Db\Pool
-	 *
-	 * @return boolean
 	 */
-	public function close();
+	public function close() -> boolean;
 
 	/**
 	 * Escapes a column/table/schema name
@@ -404,15 +307,12 @@ interface AdapterInterface
 	 * @param string identifier
 	 * @return string
 	 */
-	public function escapeIdentifier(identifier);
+	public function escapeIdentifier(identifier) -> string;
 
 	/**
 	 * Escapes a value to avoid SQL injections
-	 *
-	 * @param string str
-	 * @return string
 	 */
-	public function escapeString(str);
+	public function escapeString(string! str) -> string;
 
 	/**
 	 * Returns insert id for the auto_increment column inserted in the last SQL statement
@@ -423,120 +323,79 @@ interface AdapterInterface
 	public function lastInsertId(sequenceName = null);
 
 	/**
-     * Starts a transaction in the connection
-     *
-     * @return boolean
-     */
-	public function begin(boolean nesting = true);
+	 * Starts a transaction in the connection
+	 */
+	public function begin(boolean nesting = true) -> boolean;
 
-    /**
-     * Rollbacks the active transaction in the connection
-     *
-     * @return boolean
-     */
-	public function rollback(boolean nesting = true);
+	/**
+	 * Rollbacks the active transaction in the connection
+	 */
+	public function rollback(boolean nesting = true) -> boolean;
 
-    /**
-     * Commits the active transaction in the connection
-     *
-     * @return boolean
-     */
-	public function commit(boolean nesting = true);
+	/**
+	 * Commits the active transaction in the connection
+	 */
+	public function commit(boolean nesting = true) -> boolean;
 
 	/**
 	 * Checks whether connection is under database transaction
-	 *
-	 * @return boolean
 	 */
-	public function isUnderTransaction();
+	public function isUnderTransaction() -> boolean;
 
 	/**
 	 * Return internal PDO handler
-	 *
-	 * @return \PDO
 	 */
-	public function getInternalHandler();
+	public function getInternalHandler() -> <\Pdo>;
 
 	/**
 	 * Lists table indexes
-	 *
-	 * @param	string table
-	 * @param	string schema
-	 * @return	Phalcon\Db\IndexInterface[]
 	 */
-	public function describeIndexes(table, schema = null);
+	public function describeIndexes(string! table, string schema = null) -> <IndexInterface[]>;
 
 	/**
 	 * Lists table references
-	 *
-	 * @param	string table
-	 * @param	string schema
-	 * @return	Phalcon\Db\ReferenceInterface[]
 	 */
-	public function describeReferences(table, schema = null);
+	public function describeReferences(string! table, string schema = null) -> <ReferenceInterface[]>;
 
 	/**
 	 * Gets creation options from a table
-	 *
-	 * @param	string tableName
-	 * @param	string schemaName
-	 * @return	array
 	 */
-	public function tableOptions(tableName, schemaName = null);
+	public function tableOptions(string! tableName, string schemaName = null) -> array;
 
 	/**
 	 * Check whether the database system requires an explicit value for identity columns
-	 *
-	 * @return boolean
 	 */
-	public function useExplicitIdValue();
+	public function useExplicitIdValue() -> boolean;
 
 	/**
 	 * Return the default identity value to insert in an identity column
-	 *
-	 * @return Phalcon\Db\RawValue
 	 */
-	public function getDefaultIdValue();
+	public function getDefaultIdValue() -> <RawValue>;
 
 	/**
 	 * Check whether the database system requires a sequence to produce auto-numeric values
-	 *
-	 * @return boolean
 	 */
-	public function supportSequences();
-
+	public function supportSequences() -> boolean;
 
 	/**
 	 * Creates a new savepoint
-	 *
-	 * @param string name
-	 * @return boolean
 	 */
-	public function createSavepoint(name);
+	public function createSavepoint(string! name) -> boolean;
 
 	/**
 	 * Releases given savepoint
-	 *
-	 * @param string name
-	 * @return boolean
 	 */
-	public function releaseSavepoint(name);
+	public function releaseSavepoint(string! name) -> boolean;
 
 	/**
 	 * Rollbacks given savepoint
-	 *
-	 * @param string name
-	 * @return boolean
 	 */
-	public function rollbackSavepoint(name);
+	public function rollbackSavepoint(string! name) -> boolean;
 
 	/**
 	 * Set if nested transactions should use savepoints
-	 *
-	 * @param boolean nestedTransactionsWithSavepoints
-	 * @return Phalcon\Db\AdapterInterface
 	 */
-	public function setNestedTransactionsWithSavepoints(nestedTransactionsWithSavepoints) -> <\Phalcon\Db\AdapterInterface>;
+	public function setNestedTransactionsWithSavepoints(boolean nestedTransactionsWithSavepoints) -> <AdapterInterface>;
 
 	/**
 	 * Returns if nested transactions should use savepoints
@@ -550,11 +409,7 @@ interface AdapterInterface
 
 	/**
 	 * Returns an array of Phalcon\Db\Column objects describing a table
-	 *
-	 * @param string table
-	 * @param string schema
-	 * @return Phalcon\Db\ColumnInterface[]
 	 */
-	public function describeColumns(table, schema = null);
+	public function describeColumns(string! table, string schema = null) -> <ColumnInterface[]>;
 
 }

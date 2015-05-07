@@ -21,13 +21,14 @@ namespace Phalcon\Mvc\View;
 
 use Phalcon\Di\Injectable;
 use Phalcon\Mvc\View\Exception;
+use Phalcon\Mvc\ViewBaseInterface;
 use Phalcon\Cache\BackendInterface;
 use Phalcon\Mvc\View\Engine\Php as PhpEngine;
 
 /**
  * Phalcon\Mvc\View\Simple
  *
- * This component allows to render views without hicherquical levels
+ * This component allows to render views without hierarchical levels
  *
  *<code>
  * $view = new \Phalcon\Mvc\View\Simple();
@@ -35,9 +36,8 @@ use Phalcon\Mvc\View\Engine\Php as PhpEngine;
  * //or with filename with extension
  * echo $view->render('templates/my-view.volt', array('content' => $html));
  *</code>
- *
  */
-class Simple extends Injectable
+class Simple extends Injectable implements ViewBaseInterface
 {
 
 	protected _options;
@@ -82,10 +82,8 @@ class Simple extends Injectable
 
 	/**
 	 * Gets views directory
-	 *
-	 * @return string
 	 */
-	public function getViewsDir()
+	public function getViewsDir() -> string
 	{
 		return this->_viewsDir;
 	}
@@ -391,7 +389,7 @@ class Simple extends Injectable
 		var viewParams, mergedParams;
 
 		/**
-		 * Start ouput buffering
+		 * Start output buffering
 		 */
 		ob_start();
 
@@ -638,7 +636,7 @@ class Simple extends Injectable
 	}
 
 	/**
-	 * Returns cached ouput from another view stage
+	 * Returns cached output from another view stage
 	 *
 	 * @return string
 	 */

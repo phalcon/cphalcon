@@ -42,7 +42,7 @@ class FilterBase extends TBase
     {
         $fl = new PhTFilter();
         $actual = $fl->sanitize($value, $filter);
-        expect($actual)->equals($expected);
+        expect($expected)->equals($actual);
     }
 }
 

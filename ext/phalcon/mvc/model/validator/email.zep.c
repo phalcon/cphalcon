@@ -42,7 +42,6 @@
  *
  *	}
  *</code>
- *
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Validator_Email) {
 
@@ -75,7 +74,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Email, validate) {
 	zephir_check_temp_parameter(_0);
 	zephir_check_call_status();
 	if (Z_TYPE_P(field) != IS_STRING) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "Field name must be a string", "phalcon/mvc/model/validator/email.zep", 64);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "Field name must be a string", "phalcon/mvc/model/validator/email.zep", 63);
 		return;
 	}
 	ZEPHIR_CALL_METHOD(&value, record, "readattribute", NULL, field);

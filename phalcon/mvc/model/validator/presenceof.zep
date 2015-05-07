@@ -48,7 +48,6 @@ use Phalcon\Mvc\Model\ValidatorInterface;
  *
  *}
  *</code>
- *
  */
 class PresenceOf extends Validator implements ValidatorInterface
 {

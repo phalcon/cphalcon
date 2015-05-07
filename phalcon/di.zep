@@ -25,7 +25,7 @@ use Phalcon\Di\InjectionAwareInterface;
 use Phalcon\Di\Service;
 use Phalcon\Di\ServiceInterface;
 use Phalcon\Di\Exception;
-use Phalcon\Events\EventsAwareInterface;
+use Phalcon\Events\ManagerInterface;
 
 /**
  * Phalcon\Di
@@ -59,22 +59,34 @@ use Phalcon\Events\EventsAwareInterface;
  *
  *</code>
  */
-class Di implements DiInterface, EventsAwareInterface
+class Di implements DiInterface
 {
 
+	/**
+	 * List of registered services
+	 */
 	protected _services;
 
+	/**
+	 * List of shared instances
+	 */
 	protected _sharedInstances;
 
+	/**
+	 * To know if the latest resolved instance was shared or not
+	 */
 	protected _freshInstance = false;
 
 	/**
 	 * Events Manager
 	 *
-	 * @var Phalcon\Events\ManagerInterface
+	 * @var \Phalcon\Events\ManagerInterface
 	 */
 	protected _eventsManager;
 
+	/**
+	 * Latest DI build
+	 */
 	protected static _default;
 
 	/**
@@ -90,14 +102,25 @@ class Di implements DiInterface, EventsAwareInterface
 	}
 
 	/**
-	 * Registers a service in the services container
-	 *
-	 * @param string name
-	 * @param mixed definition
-	 * @param boolean shared
-	 * @return Phalcon\Di\ServiceInterface
+	 * Sets the internal event manager
 	 */
-	public function set(string! name, definition, boolean shared = false) -> <ServiceInterface>
+	public function setInternalEventsManager(<ManagerInterface> eventsManager)
+	{
+		let this->_eventsManager = eventsManager;
+	}
+
+	/**
+	 * Returns the internal event manager
+	 */
+	public function getInternalEventsManager() -> <ManagerInterface>
+	{
+		return this->_eventsManager;
+	}
+
+	/**
+	 * Registers a service in the services container
+	 */
+	public function set(string! name, var definition, boolean shared = false) -> <ServiceInterface>
 	{
 		var service;
 		let service = new Service(name, definition, shared),
@@ -107,10 +130,6 @@ class Di implements DiInterface, EventsAwareInterface
 
 	/**
 	 * Registers an "always shared" service in the services container
-	 *
-	 * @param string name
-	 * @param mixed definition
-	 * @return Phalcon\Di\ServiceInterface
 	 */
 	public function setShared(string! name, var definition) -> <ServiceInterface>
 	{
@@ -132,11 +151,6 @@ class Di implements DiInterface, EventsAwareInterface
 	 * Attempts to register a service in the services container
 	 * Only is successful if a service hasn"t been registered previously
 	 * with the same name
-	 *
-	 * @param string name
-	 * @param mixed definition
-	 * @param boolean shared
-	 * @return Phalcon\Di\ServiceInterface|false
 	 */
 	public function attempt(string! name, definition, boolean shared = false) -> <ServiceInterface> | boolean
 	{
@@ -162,9 +176,6 @@ class Di implements DiInterface, EventsAwareInterface
 
 	/**
 	 * Returns a service definition without resolving
-	 *
-	 * @param string name
-	 * @return mixed
 	 */
 	public function getRaw(string! name)
 	{
@@ -193,16 +204,12 @@ class Di implements DiInterface, EventsAwareInterface
 
 	/**
 	 * Resolves the service based on its configuration
-	 *
-	 * @param string name
-	 * @param array parameters
-	 * @return mixed
 	 */
 	public function get(string! name, parameters = null)
 	{
 		var service, instance, reflection, eventsManager;
 
-		let eventsManager = <\Phalcon\Events\ManagerInterface> this->getEventsManager();
+		let eventsManager = <ManagerInterface> this->_eventsManager;
 
 		if typeof eventsManager == "object" {
 			eventsManager->fire("di:beforeServiceResolve", this, ["name": name, "parameters": parameters]);
@@ -257,15 +264,6 @@ class Di implements DiInterface, EventsAwareInterface
 		}
 
 		if typeof eventsManager == "object" {
-			/**
-			 * Pass the EventsManager if the instance implements \Phalcon\Events\EventsAwareInterface
-			 */
-			if typeof instance == "object" {
-				if instance instanceof EventsAwareInterface {
-					instance->setEventsManager(eventsManager);
-				}
-			}
-
 			eventsManager->fire("di:afterServiceResolve", this, ["name": name, "parameters": parameters, "instance": instance]);
 		}
 
@@ -375,22 +373,6 @@ class Di implements DiInterface, EventsAwareInterface
 	public function offsetUnset(string! name) -> boolean
 	{
 		return false;
-	}
-
-	/**
-	 * Sets the event manager
-	 */
-	public function setEventsManager(<\Phalcon\Events\ManagerInterface> eventsManager)
-	{
-		let this->_eventsManager = eventsManager;
-	}
-
-	/**
-	 * Returns the internal event manager
-	 */
-	public function getEventsManager() -> <\Phalcon\Events\ManagerInterface>
-	{
-		return this->_eventsManager;
 	}
 
 	/**

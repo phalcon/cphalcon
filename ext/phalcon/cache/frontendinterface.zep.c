@@ -27,15 +27,11 @@ ZEPHIR_INIT_CLASS(Phalcon_Cache_FrontendInterface) {
 
 /**
  * Returns the cache lifetime
- *
- * @return int
  */
 ZEPHIR_DOC_METHOD(Phalcon_Cache_FrontendInterface, getLifetime);
 
 /**
  * Check whether if frontend is buffering output
- *
- * @return boolean
  */
 ZEPHIR_DOC_METHOD(Phalcon_Cache_FrontendInterface, isBuffering);
 

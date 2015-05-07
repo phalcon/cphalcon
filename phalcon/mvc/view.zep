@@ -19,6 +19,7 @@
 
 namespace Phalcon\Mvc;
 
+use Phalcon\DiInterface;
 use Phalcon\Di\Injectable;
 use Phalcon\Mvc\View\Exception;
 use Phalcon\Mvc\ViewInterface;
@@ -158,7 +159,7 @@ class View extends Injectable implements ViewInterface
 	public function setViewsDir(string viewsDir) -> <View>
 	{
 		if (substr(viewsDir, -1) != DIRECTORY_SEPARATOR) {
-			let viewsDir = viewsDir.DIRECTORY_SEPARATOR;
+			let viewsDir = viewsDir . DIRECTORY_SEPARATOR;
 		}
 		let this->_viewsDir = viewsDir;
 		return this;
@@ -499,7 +500,7 @@ class View extends Injectable implements ViewInterface
 		 */
 		if engines === false {
 
-			let dependencyInjector = <\Phalcon\DiInterface> this->_dependencyInjector;
+			let dependencyInjector = <DiInterface> this->_dependencyInjector;
 
 			let engines = [];
 			let registeredEngines = this->_registeredEngines;
@@ -1149,7 +1150,7 @@ class View extends Injectable implements ViewInterface
 		var dependencyInjector, cacheService, viewCache,
 			viewOptions, cacheOptions;
 
-		let dependencyInjector = <\Phalcon\DiInterface> this->_dependencyInjector;
+		let dependencyInjector = <DiInterface> this->_dependencyInjector;
 		if typeof dependencyInjector != "object" {
 			throw new Exception("A dependency injector container is required to obtain the view cache services");
 		}
@@ -1366,18 +1367,18 @@ class View extends Injectable implements ViewInterface
 		return this->_disabled;
 	}
 
-    /**
-     * Magic method to retrieve if a variable is set in the view
-     *
-     *<code>
-     *  echo isset($this->view->products);
-     *</code>
-     *
-     * @param string key
-     * @return boolean
-     */
-    public function __isset(string! key) -> boolean
-    {
-        return isset(this->_viewParams[key]);
-    }
+	/**
+	 * Magic method to retrieve if a variable is set in the view
+	 *
+	 *<code>
+	 *  echo isset($this->view->products);
+	 *</code>
+	 *
+	 * @param string key
+	 * @return boolean
+	 */
+	public function __isset(string! key) -> boolean
+	{
+		return isset(this->_viewParams[key]);
+	}
 }

@@ -62,10 +62,7 @@ interface HeadersInterface
 
 	/**
 	 * Restore a Phalcon\Http\Response\Headers object
-	 *
-	 * @param array data
-	 * @return Phalcon\Http\Response\HeadersInterface
 	 */
-	public static function __set_state(data) -> <HeadersInterface>;
+	public static function __set_state(array! data) -> <HeadersInterface>;
 
 }

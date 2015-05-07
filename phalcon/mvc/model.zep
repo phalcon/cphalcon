@@ -19,14 +19,16 @@
 
 namespace Phalcon\Mvc;
 
+use Phalcon\Text;
+use Phalcon\Db\Column;
 use Phalcon\DiInterface;
 use Phalcon\Mvc\Model\Message;
-use Phalcon\Mvc\ModelInterface;
 use Phalcon\Mvc\Model\ResultInterface;
 use Phalcon\Di\InjectionAwareInterface;
 use Phalcon\Mvc\Model\ManagerInterface;
 use Phalcon\Mvc\Model\MetaDataInterface;
 use Phalcon\Db\AdapterInterface;
+use Phalcon\Db\DialectInterface;
 use Phalcon\Mvc\Model\Criteria;
 use Phalcon\Mvc\Model\CriteriaInterface;
 use Phalcon\Mvc\Model\TransactionInterface;
@@ -39,7 +41,6 @@ use Phalcon\Mvc\Model\Exception;
 use Phalcon\Mvc\Model\MetadataInterface;
 use Phalcon\Mvc\Model\MessageInterface;
 use Phalcon\Events\ManagerInterface as EventsManagerInterface;
-use Phalcon\Db\Column;
 
 /**
  * Phalcon\Mvc\Model
@@ -121,7 +122,6 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 */
 	public final function __construct(<DiInterface> dependencyInjector = null, <ManagerInterface> modelsManager = null)
 	{
-
 		/**
 		 * We use a default DI if the user doesn't define one
 		 */
@@ -275,11 +275,8 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 */
 	public function setTransaction(<TransactionInterface> transaction) -> <Model>
 	{
-		if typeof transaction == "object" {
-			let this->_transaction = transaction;
-			return this;
-		}
-		throw new Exception("Transaction should be an object");
+		let this->_transaction = transaction;
+		return this;
 	}
 
 	/**
@@ -634,13 +631,9 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 * @param int dirtyState
 	 * @return Phalcon\Mvc\ModelInterface
 	 */
-	public static function cloneResult(<ModelInterface> base, var data, int dirtyState = 0)
+	public static function cloneResult(<ModelInterface> base, array! data, int dirtyState = 0)
 	{
 		var instance, key, value;
-
-		if typeof data != "array" {
-			throw new Exception("Data to dump in the object must be an Array");
-		}
 
 		/**
 		 * Clone the base record
@@ -776,7 +769,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 */
 	public static function findFirst(parameters = null) -> <Model>
 	{
-		var params, builder, query, bindParams, bindTypes, cache;
+		var params, builder, query, bindParams, bindTypes, cache, resultset, hydration;
 
 		if typeof parameters != "array" {
 			let params = [];
@@ -822,7 +815,18 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 		/**
 		 * Execute the query passing the bind-params and casting-types
 		 */
-		return query->execute(bindParams, bindTypes);
+		let resultset = query->execute(bindParams, bindTypes);
+
+		/**
+		 * Define an hydration mode
+		 */
+		if typeof resultset == "object" {
+			if fetch hydration, params["hydration"] {
+				resultset->setHydrateMode(hydration);
+			}
+		}
+
+		return resultset;
 	}
 
 	/**
@@ -1303,20 +1307,10 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 *
 	 *}
 	 *</code>
-	 *
-	 * @param object validator
-	 * @return Phalcon\Mvc\Model
 	 */
-	protected function validate(validator) -> <Model>
+	protected function validate(<Model\ValidatorInterface> validator) -> <Model>
 	{
 		var message;
-
-		/**
-		 * Valid validators are objects
-		 */
-		if typeof validator != "object" {
-			throw new Exception("Validator must be an Object");
-		}
 
 		/**
 		 * Call the validation, if it returns false we append the messages to the current object
@@ -1380,10 +1374,8 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 *  	echo "Great, a new robot was saved successfully!";
 	 *	}
 	 * </code>
-	 *
-	 * @return Phalcon\Mvc\Model\MessageInterface[]
 	 */
-	public function getMessages(var filter = null)
+	public function getMessages(var filter = null) -> <MessageInterface[]>
 	{
 		var filtered, message;
 
@@ -1531,7 +1523,6 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 */
 	protected function _checkForeignKeysReverseCascade() -> boolean
 	{
-
 		var manager, relations, relation, foreignKey,
 			resulset, conditions, bindParams, referencedModel,
 			referencedFields, fields, field, position, value,
@@ -1768,7 +1759,6 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 */
 	protected function _preSave(<MetadataInterface> metaData, boolean exists, var identityField) -> boolean
 	{
-
 		var notNull, columnMap, dataTypeNumeric, automaticAttributes, field, attributeField, value;
 		boolean error, isNull;
 
@@ -1978,17 +1968,15 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 */
 	protected function _postSave(boolean success, boolean exists) -> boolean
 	{
-
 		if success === true {
 			if exists {
 				this->fireEvent("afterUpdate");
 			} else {
 				this->fireEvent("afterCreate");
 			}
-			return success;
 		}
 
-		return false;
+		return success;
 	}
 
 	/**
@@ -2456,7 +2444,6 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 					 */
 					let this->{columns} = record->readAttribute(referencedFields);
 				}
-
 			}
 		}
 
@@ -2681,7 +2668,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 
 		let metaData = this->getModelsMetaData();
 
-		if typeof data == "array" && count(data)>0 {
+		if typeof data == "array" && count(data) > 0 {
 			this->assign(data, null, whiteList);
 		}
 
@@ -3059,7 +3046,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	public function refresh() -> <Model>
 	{
 		var metaData, readConnection, schema, source, table,
-			uniqueKey, uniqueParams, dialect, row, fields, attribute;
+			uniqueKey, tables, uniqueParams, dialect, row, fields, attribute;
 
 		if this->_dirtyState != self::DIRTY_STATE_PERSISTENT {
 			throw new Exception("The record cannot be refreshed because it does not exist or is deleted");
@@ -3107,11 +3094,12 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 		 * We directly build the SELECT to save resources
 		 */
 		let dialect = readConnection->getDialect(),
-			row = readConnection->fetchOne(dialect->select([
+			tables = dialect->select([
 				"columns": fields,
 				"tables": readConnection->escapeIdentifier(table),
 				"where": uniqueKey
-			]), \Phalcon\Db::FETCH_ASSOC, uniqueParams, this->_uniqueTypes);
+			]),
+			row = readConnection->fetchOne(tables, \Phalcon\Db::FETCH_ASSOC, uniqueParams, this->_uniqueTypes);
 
 		/**
 		 * Get a column map if any
@@ -3144,10 +3132,11 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 */
 	public function readAttribute(string! attribute)
 	{
-		if isset this->{attribute} {
-			return this->{attribute};
+		if !isset this->{attribute} {
+			return null;
 		}
-		return null;
+
+		return this->{attribute};
 	}
 
 	/**
@@ -3491,10 +3480,8 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	{
 		var snapshot;
 		let snapshot = this->_snapshot;
-		if typeof snapshot == "array" {
-			return true;
-		}
-		return false;
+
+		return typeof snapshot == "array";
 	}
 
 	/**
@@ -4000,12 +3987,6 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	{
 		var modelName, manager, lowerProperty, relation, result, method;
 
-		let method = "get" . ucfirst(property);
-
-		if method_exists(this, method) {
-			return this->{method}();
-		}
-
 		let modelName = get_class(this),
 			manager = this->getModelsManager(),
 			lowerProperty = strtolower(property);
@@ -4043,6 +4024,15 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 			}
 
 			return result;
+		}
+
+		/**
+		 * Check if the property has getters
+		 */
+		let method = "get" . Text::camelize(property);
+
+		if method_exists(this, method) {
+			return this->{method}();
 		}
 
 		/**
@@ -4107,59 +4097,52 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 
 	/**
 	 * Unserializes the object from a serialized string
-	 *
-	 * @param string data
 	 */
-	public function unserialize(var data)
+	public function unserialize(string! data)
 	{
 		var attributes, dependencyInjector, manager, key, value;
 
-		if typeof data == "string" {
-			let attributes = unserialize(data);
-			if typeof attributes == "array" {
+		let attributes = unserialize(data);
+		if typeof attributes == "array" {
 
-				/**
-				 * Obtain the default DI
-				 */
-				let dependencyInjector = \Phalcon\Di::getDefault();
-				if typeof dependencyInjector != "object" {
-					throw new Exception("A dependency injector container is required to obtain the services related to the ORM");
-				}
+			/**
+			 * Obtain the default DI
+			 */
+			let dependencyInjector = \Phalcon\Di::getDefault();
+			if typeof dependencyInjector != "object" {
+				throw new Exception("A dependency injector container is required to obtain the services related to the ORM");
+			}
 
-				/**
-				 * Update the dependency injector
-				 */
-				let this->_dependencyInjector = dependencyInjector;
+			/**
+			 * Update the dependency injector
+			 */
+			let this->_dependencyInjector = dependencyInjector;
 
-				/**
-				 * Gets the default modelsManager service
-				 */
-				let manager = <ManagerInterface> dependencyInjector->getShared("modelsManager");
-				if typeof manager != "object" {
-					throw new Exception("The injected service 'modelsManager' is not valid");
-				}
+			/**
+			 * Gets the default modelsManager service
+			 */
+			let manager = <ManagerInterface> dependencyInjector->getShared("modelsManager");
+			if typeof manager != "object" {
+				throw new Exception("The injected service 'modelsManager' is not valid");
+			}
 
-				/**
-				 * Update the models manager
-				 */
-				let this->_modelsManager = manager;
+			/**
+			 * Update the models manager
+			 */
+			let this->_modelsManager = manager;
 
-				/**
-				 * Try to initialize the model
-				 */
-				manager->initialize(this);
+			/**
+			 * Try to initialize the model
+			 */
+			manager->initialize(this);
 
-				/**
-				 * Update the objects attributes
-				 */
-				for key, value in attributes {
-					let this->{key} = value;
-				}
-
-				return null;
+			/**
+			 * Update the objects attributes
+			 */
+			for key, value in attributes {
+				let this->{key} = value;
 			}
 		}
-		throw new Exception("Invalid serialization data");
 	}
 
 	/**
@@ -4168,10 +4151,8 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 *<code>
 	 * var_dump($robot->dump());
 	 *</code>
-	 *
-	 * @return array
 	 */
-	public function dump()
+	public function dump() -> array
 	{
 		return get_object_vars(this);
 	}

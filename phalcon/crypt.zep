@@ -135,7 +135,7 @@ class Crypt implements CryptInterface
 	 * @param padding_type Padding scheme
 	 * @see http://www.di-mgt.com.au/cryptopad.html
 	 */
-	private function _cryptPadText(string! text, string! mode, int! blockSize, int! paddingType)
+	protected function _cryptPadText(string! text, string! mode, int! blockSize, int! paddingType)
 	{
 		int i;
 		var paddingSize = 0, padding = null;
@@ -204,7 +204,7 @@ class Crypt implements CryptInterface
 	 * @param block_size Cipher block size
 	 * @param padding_type Padding scheme
 	 */
-	private function _cryptUnpadText(string! text, string! mode, int! blockSize, int! paddingType)
+	protected function _cryptUnpadText(string! text, string! mode, int! blockSize, int! paddingType)
 	{
 		var padding, last;
 		long length;

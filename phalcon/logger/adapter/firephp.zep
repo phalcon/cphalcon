@@ -103,8 +103,6 @@ class Firephp extends Adapter implements AdapterInterface
 
 	/**
 	 * Closes the logger
-	 *
-	 * @return boolean
 	 */
 	public function close() -> boolean
 	{

@@ -34,7 +34,7 @@ interface AdapterInterface
 	 * @param	array placeholders
 	 * @return	string
 	 */
-	public function t(translateKey, placeholders = null);
+	public function t(string! translateKey, placeholders = null) -> string;
 
 	/**
 	 * Returns the translation related to the given key
@@ -43,7 +43,7 @@ interface AdapterInterface
 	 * @param	array placeholders
 	 * @return	string
 	 */
-	public function query(index, placeholders = null);
+	public function query(string! index, placeholders = null) -> string;
 
 	/**
 	 * Check whether is defined a translation key in the internal array

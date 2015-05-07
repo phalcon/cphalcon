@@ -78,10 +78,10 @@ class Status implements StatusInterface
 	{
 		var model;
 		let model = this->_model;
-		if typeof model == "object" {
-			return model->getMessages();
+		if typeof model != "object" {
+			return [];
 		}
-		return [];
+		return model->getMessages();
 	}
 
 	/**

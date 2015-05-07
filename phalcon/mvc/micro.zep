@@ -24,6 +24,7 @@ use Phalcon\Mvc\Micro\Exception;
 use Phalcon\Mvc\Router\RouteInterface;
 use Phalcon\Mvc\Micro\MiddlewareInterface;
 use Phalcon\Mvc\Micro\Collection;
+use Phalcon\Mvc\Micro\CollectionInterface;
 use Phalcon\Mvc\Micro\LazyLoader;
 use Phalcon\Http\ResponseInterface;
 use Phalcon\Di\ServiceInterface;
@@ -75,8 +76,8 @@ class Micro extends Injectable implements \ArrayAccess
 	protected _returnedValue;
 
 	/**
-	* Phalcon\Mvc\Micro constructor
-	*/
+	 * Phalcon\Mvc\Micro constructor
+	 */
 	public function __construct(<DiInterface> dependencyInjector = null)
 	{
 		if typeof dependencyInjector == "object" {
@@ -360,14 +361,10 @@ class Micro extends Injectable implements \ArrayAccess
 	/**
 	 * Mounts a collection of handlers
 	 */
-	public function mount(<Collection> collection) -> <Micro>
+	public function mount(<CollectionInterface> collection) -> <Micro>
 	{
 		var mainHandler, handlers, lazyHandler, prefix, methods, pattern,
 			subHandler, realHandler, prefixedPattern, route, handler, name;
-
-		if typeof collection != "object" {
-			throw new Exception("Collection is not valid");
-		}
 
 		/**
 		 * Get the main handler

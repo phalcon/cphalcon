@@ -61,16 +61,16 @@ class Manager implements InjectionAwareInterface, EventsAwareInterface
 	protected _implicitObjectsIds;
 
 	/**
-	* Sets the DependencyInjector container
-	*/
+	 * Sets the DependencyInjector container
+	 */
 	public function setDI(<DiInterface> dependencyInjector) -> void
 	{
 		let this->_dependencyInjector = dependencyInjector;
 	}
 
 	/**
-	* Returns the DependencyInjector container
-	*/
+	 * Returns the DependencyInjector container
+	 */
 	public function getDI() -> <DiInterface>
 	{
 		return this->_dependencyInjector;
@@ -156,16 +156,10 @@ class Manager implements InjectionAwareInterface, EventsAwareInterface
 
 	/**
 	 * Check whether a model is already initialized
-	 *
-	 * @param string $modelName
-	 * @return bool
 	 */
-	public function isInitialized(modelName) -> boolean
+	public function isInitialized(string! modelName) -> boolean
 	{
-		if isset this->_initialized[strtolower(modelName)] {
-			return true;
-		}
-		return false;
+		return isset this->_initialized[strtolower(modelName)];
 	}
 
 	/**
@@ -219,10 +213,6 @@ class Manager implements InjectionAwareInterface, EventsAwareInterface
 	{
 		var service, connectionService, connection, dependencyInjector, entityName;
 
-		if typeof model != "object" {
-			throw new Exception("A valid collection instance is required");
-		}
-
 		let service = "mongo";
 		let connectionService = this->_connectionServices;
 		if typeof connectionService == "array" {
@@ -261,8 +251,8 @@ class Manager implements InjectionAwareInterface, EventsAwareInterface
 		var eventsManager, status = null, customEventsManager;
 
 		/**
-		* Dispatch events to the global events manager
-		*/
+		 * Dispatch events to the global events manager
+		 */
 		let eventsManager = this->_eventsManager;
 		if typeof eventsManager == "object" {
 			let status = eventsManager->fire( "collection:". eventName, model);
@@ -272,8 +262,8 @@ class Manager implements InjectionAwareInterface, EventsAwareInterface
 		}
 
 		/**
-		* A model can has a specific events manager for it
-		*/
+		 * A model can has a specific events manager for it
+		 */
 		let customEventsManager = this->_customEventsManager;
 		if typeof customEventsManager == "array" {
 			if isset customEventsManager[get_class_lower(model)] {

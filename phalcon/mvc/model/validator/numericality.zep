@@ -47,7 +47,6 @@ use Phalcon\Mvc\Model\ValidatorInterface;
  *
  *}
  *</code>
- *
  */
 class Numericality extends Validator implements ValidatorInterface
 {

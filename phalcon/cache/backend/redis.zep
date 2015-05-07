@@ -79,6 +79,10 @@ class Redis extends Backend implements BackendInterface
 			let options["port"] = 6379;
 		}
 
+		if !isset options["index"] {
+			let options["index"] = 0;
+		}
+
 		if !isset options["persistent"] {
 			let options["persistent"] = false;
 		}
@@ -91,11 +95,11 @@ class Redis extends Backend implements BackendInterface
 	}
 
 	/**
-	* Create internal connection to redis
-	*/
+	 * Create internal connection to redis
+	 */
 	public function _connect()
 	{
-		var options, redis, persistent, success, host, port, auth;
+		var options, redis, persistent, success, host, port, auth, index;
 
 		let options = this->_options;
 		let redis = new \Redis();
@@ -111,14 +115,22 @@ class Redis extends Backend implements BackendInterface
 		}
 
 		if !success {
-			throw new Exception("Cannot connect to Redisd server");
+			throw new Exception("Could not connect to the Redisd server ".host.":".port);
 		}
 
 		if fetch auth, options["auth"] {
 			let success = redis->auth(auth);
 
 			if !success {
-				throw new Exception("Redisd server is authentication failed");
+				throw new Exception("Failed to authenticate with the Redisd server");
+			}
+		}
+
+		if fetch index, options["index"] {
+			let success = redis->select(index);
+
+			if !success {
+				throw new Exception("Redisd server selected database failed");
 			}
 		}
 
@@ -132,7 +144,7 @@ class Redis extends Backend implements BackendInterface
 	 * @param   long lifetime
 	 * @return  mixed
 	 */
-	public function get(keyName, lifetime=null)
+	public function get(keyName, lifetime = null)
 	{
 		var redis, frontend, prefix, lastKey, cachedContent;
 
@@ -167,7 +179,7 @@ class Redis extends Backend implements BackendInterface
 	 * @param long lifetime
 	 * @param boolean stopBuffer
 	 */
-	public function save(keyName = null, content = null, lifetime = null, stopBuffer = true)
+	public function save(keyName = null, content = null, lifetime = null, boolean stopBuffer = true)
 	{
 		var prefixedKey, lastKey, prefix, frontend, redis, cachedContent, preparedContent,
 			tmp, tt1, success, options, specialKey, isBuffering;
@@ -182,7 +194,7 @@ class Redis extends Backend implements BackendInterface
 		}
 
 		if !lastKey {
-			throw new Exception("Cache must be started first");
+			throw new Exception("The cache must be started first");
 		}
 
 		let frontend = this->_frontend;
@@ -228,7 +240,7 @@ class Redis extends Backend implements BackendInterface
 		}
 
 		if !success {
-			throw new Exception("Failed storing data in redis");
+			throw new Exception("Failed storing the data in redis");
 		}
 
 		redis->settimeout(lastKey, tt1);
@@ -288,10 +300,7 @@ class Redis extends Backend implements BackendInterface
 		/**
 		* Delete the key from redis
 		*/
-		if redis->delete(lastKey) != 1 {
-			return false;
-		}
-		return true;
+		return redis->delete(lastKey);
 	}
 
 	/**
@@ -302,7 +311,7 @@ class Redis extends Backend implements BackendInterface
 	 */
 	public function queryKeys(prefix = null)
 	{
-		var redis, options, keys, specialKey, key;
+		var redis, options, keys, specialKey, key, value;
 
 		let redis = this->_redis;
 
@@ -324,8 +333,8 @@ class Redis extends Backend implements BackendInterface
 		*/
 		let keys = redis->sMembers(specialKey);
 		if typeof keys == "array" {
-			for key in keys {
-				if prefix && !starts_with(key, prefix) {
+			for key, value in keys {
+				if prefix && !starts_with(value, prefix) {
 					unset(keys[key]);
 				}
 			}
@@ -436,10 +445,8 @@ class Redis extends Backend implements BackendInterface
 
 	/**
 	 * Immediately invalidates all existing items.
-	 *
-	 * @return boolean
 	 */
-	public function flush()
+	public function flush() -> boolean
 	{
 		var options, specialKey, redis, keys, key, lastKey;
 

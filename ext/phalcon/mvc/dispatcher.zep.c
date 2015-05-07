@@ -290,7 +290,7 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, getControllerClass) {
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "gethandlername", NULL);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "gethandlerclass", NULL);
 	zephir_check_call_status();
 	RETURN_MM();
 

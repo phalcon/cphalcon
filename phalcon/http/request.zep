@@ -83,42 +83,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 	 */
 	public function get(string! name = null, var filters = null, var defaultValue = null, boolean notAllowEmpty = false, boolean noRecursive = false)
 	{
-		var request, value, filter, dependencyInjector;
-
-		let request = _REQUEST;
-		if name !== null {
-			if fetch value, request[name] {
-				if filters !== null {
-					let filter = this->_filter;
-					if typeof filter != "object" {
-						let dependencyInjector = <DiInterface> this->_dependencyInjector;
-						if typeof dependencyInjector != "object" {
-							throw new Exception("A dependency injection object is required to access the 'filter' service");
-						}
-						let filter = <FilterInterface> dependencyInjector->getShared("filter");
-						let this->_filter = filter;
-					}
-
-					let value = filter->sanitize(value, filters, noRecursive);
-
-					if (empty value && notAllowEmpty === true) || value === false {
-						return defaultValue;
-					}
-
-					return value;
-
-				} else {
-
-				 	if empty value && notAllowEmpty === true {
-				 		return defaultValue;
-				 	}
-
-					return value;
-				}
-			}
-			return defaultValue;
-		}
-		return request;
+		return this->getHelper(_REQUEST, name, filters, defaultValue, notAllowEmpty, noRecursive);
 	}
 
 	/**
@@ -135,41 +100,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 	 */
 	public function getPost(string! name = null, var filters = null, var defaultValue = null, boolean notAllowEmpty = false, boolean noRecursive = false)
 	{
-		var post, value, filter, dependencyInjector;
-
-		let post = _POST;
-		if name !== null {
-			if fetch value, post[name] {
-				if filters !== null {
-					let filter = this->_filter;
-					if typeof filter != "object" {
-						let dependencyInjector = <DiInterface> this->_dependencyInjector;
-						if typeof dependencyInjector != "object" {
-							throw new Exception("A dependency injection object is required to access the 'filter' service");
-						}
-						let filter = <FilterInterface> dependencyInjector->getShared("filter");
-						let this->_filter = filter;
-					}
-
-					let value = filter->sanitize(value, filters, noRecursive);
-
-					if empty(value) && notAllowEmpty === true {
-						return defaultValue;
-					}
-
-					return value;
-
-				} else {
-				 	if empty(value) && notAllowEmpty === true {
-				 		return defaultValue;
-				 	}
-					return value;
-
-				}
-			}
-			return defaultValue;
-		}
-		return post;
+		return this->getHelper(_POST, name, filters, defaultValue, notAllowEmpty, noRecursive);
 	}
 
 	/**
@@ -185,43 +116,12 @@ class Request implements RequestInterface, InjectionAwareInterface
 	 */
 	public function getPut(string! name = null, var filters = null, var defaultValue = null, boolean notAllowEmpty = false, boolean noRecursive = false)
 	{
-		var put, value, filter, dependencyInjector;
+		var put;
 
 		let put = [];
 		parse_str(file_get_contents("php://input"), put);
 
-		if name !== null {
-			if fetch value, put[name] {
-				if filters !== null {
-					let filter = this->_filter;
-					if typeof filter != "object" {
-						let dependencyInjector = <DiInterface> this->_dependencyInjector;
-						if typeof dependencyInjector != "object" {
-							throw new Exception("A dependency injection object is required to access the 'filter' service");
-						}
-						let filter = <FilterInterface> dependencyInjector->getShared("filter");
-						let this->_filter = filter;
-					}
-
-					let value = filter->sanitize(value, filters, noRecursive);
-
-					if (empty(value) && notAllowEmpty === true) {
-						return defaultValue;
-					}
-
-					return value;
-
-				} else {
-				 	if empty(value) && notAllowEmpty === true {
-				 		return defaultValue;
-				 	}
-					return value;
-
-				}
-			}
-			return defaultValue;
-		}
-		return put;
+		return this->getHelper(put, name, filters, defaultValue, notAllowEmpty, noRecursive);
 	}
 
 	/**
@@ -241,42 +141,44 @@ class Request implements RequestInterface, InjectionAwareInterface
 	 */
 	public function getQuery(string! name = null, var filters = null, var defaultValue = null, boolean notAllowEmpty = false, boolean noRecursive = false)
 	{
-		var get, value, filter, dependencyInjector;
+		return this->getHelper(_GET, name, filters, defaultValue, notAllowEmpty, noRecursive);
+	}
 
-		let get = _GET;
-		if name !== null {
-			if fetch value, get[name] {
-				if filters !== null {
-					let filter = this->_filter;
-					if typeof filter != "object" {
-						let dependencyInjector = <DiInterface> this->_dependencyInjector;
-						if typeof dependencyInjector != "object" {
-							throw new Exception("A dependency injection object is required to access the 'filter' service");
-						}
-						let filter = <FilterInterface> dependencyInjector->getShared("filter");
-						let this->_filter = filter;
-					}
+	/**
+	 * Helper to get data from superglobals, applying filters if needed.
+	 * If no parameters are given the superglobal is returned.
+	 */
+	protected function getHelper(array source, string! name = null, var filters = null, var defaultValue = null, boolean notAllowEmpty = false, boolean noRecursive = false)
+	{
+		var value, filter, dependencyInjector;
 
-					let value = filter->sanitize(value, filters, noRecursive);
+		if name === null {
+			return source;
+		}
 
-					if (empty(value) && notAllowEmpty === true) {
-						return defaultValue;
-					}
-
-					return value;
-
-				} else {
-
-					if empty(value) && notAllowEmpty === true {
-						return defaultValue;
-					}
-
-					return value;
-				}
-			}
+		if !fetch value, source[name] {
 			return defaultValue;
 		}
-		return get;
+
+		if filters !== null {
+			let filter = this->_filter;
+			if typeof filter != "object" {
+				let dependencyInjector = <DiInterface> this->_dependencyInjector;
+				if typeof dependencyInjector != "object" {
+					throw new Exception("A dependency injection object is required to access the 'filter' service");
+				}
+				let filter = <FilterInterface> dependencyInjector->getShared("filter");
+				let this->_filter = filter;
+			}
+
+			let value = filter->sanitize(value, filters, noRecursive);
+		}
+
+		if empty value && notAllowEmpty === true {
+			return defaultValue;
+		}
+
+		return value;
 	}
 
 	/**
@@ -427,11 +329,11 @@ class Request implements RequestInterface, InjectionAwareInterface
 		var rawBody;
 
 		let rawBody = this->getRawBody();
-		if typeof rawBody == "string" {
-			return json_decode(rawBody, associative);
+		if typeof rawBody != "string" {
+			return false;
 		}
 
-		return false;
+		return json_decode(rawBody, associative);
 	}
 
 	/**
@@ -723,7 +625,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 	/**
 	 * Gets attached files as Phalcon\Http\Request\File instances
 	 */
-	public function getUploadedFiles(boolean notErrored = false) -> <File[]>
+	public function getUploadedFiles(boolean onlySuccessful = false) -> <File[]>
 	{
 		var superFiles, prefix, input, smoothInput, file, dataFile;
 		array files = [];
@@ -737,7 +639,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 					let smoothInput = this->smoothFiles(input["name"], input["type"], input["tmp_name"], input["size"], input["error"], prefix);
 
 					for file in smoothInput {
-						if notErrored == false || file["error"] == UPLOAD_ERR_OK {
+						if onlySuccessful == false || file["error"] == UPLOAD_ERR_OK {
 							let dataFile = [
 								"name": file["name"],
 								"type": file["type"],
@@ -750,7 +652,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 						}
 					}
 				} else {
-					if notErrored == false || input["error"] == UPLOAD_ERR_OK {
+					if onlySuccessful == false || input["error"] == UPLOAD_ERR_OK {
 						let files[] = new File(input, prefix);
 					}
 				}
@@ -933,9 +835,8 @@ class Request implements RequestInterface, InjectionAwareInterface
 
 	/**
 	 * Gets a charsets array and their quality accepted by the browser/client from _SERVER["HTTP_ACCEPT_CHARSET"]
-	 *
 	 */
-	public function getClientCharsets()
+	public function getClientCharsets() -> var
 	{
 		return this->_getQualityHeader("HTTP_ACCEPT_CHARSET", "charset");
 	}

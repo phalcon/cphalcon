@@ -1,34 +1,27 @@
 
 /*
  +------------------------------------------------------------------------+
- | Phalcon Framework													  |
+ | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)	   |
+ | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
  +------------------------------------------------------------------------+
- | This source file is subject to the New BSD License that is bundled	 |
- | with this package in the file docs/LICENSE.txt.						|
- |																		|
- | If you did not receive a copy of the license and are unable to		 |
- | obtain it through the world-wide-web, please send an email			 |
- | to license@phalconphp.com so we can send you a copy immediately.	   |
+ | This source file is subject to the New BSD License that is bundled     |
+ | with this package in the file docs/LICENSE.txt.                        |
+ |                                                                        |
+ | If you did not receive a copy of the license and are unable to         |
+ | obtain it through the world-wide-web, please send an email             |
+ | to license@phalconphp.com so we can send you a copy immediately.       |
  +------------------------------------------------------------------------+
- | Authors: Andres Gutierrez <andres@phalconphp.com>					  |
- |		  Eduar Carvajal <eduar@phalconphp.com>						 |
+ | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
+ |          Eduar Carvajal <eduar@phalconphp.com>                         |
  +------------------------------------------------------------------------+
  */
 
 namespace Phalcon\Db;
 
 use Phalcon\Db;
-use Phalcon\Db\Exception;
-use Phalcon\Db\RawValue;
 use Phalcon\Events\EventsAwareInterface;
 use Phalcon\Events\ManagerInterface;
-use Phalcon\Db\DialectInterface;
-use Phalcon\Db\ReferenceInterface;
-use Phalcon\Db\ColumnInterface;
-use Phalcon\Db\AdapterInterface;
-use Phalcon\Db\IndexInterface;
 
 /**
  * Phalcon\Db\Adapter
@@ -241,9 +234,9 @@ abstract class Adapter implements EventsAwareInterface
 				let row = result->$fetch();
 				if !row {
 					break;
-				} else {
-					let results[] = row;
 				}
+
+				let results[] = row;
 			}
 		}
 		return results;
@@ -267,7 +260,7 @@ abstract class Adapter implements EventsAwareInterface
 	 * @param  int|string column
 	 * @return string|
 	 */
-	public function fetchColumn(var sqlQuery, placeholders = null, column = 0) -> string | bool
+	public function fetchColumn(var sqlQuery, placeholders = null, column = 0) -> string | boolean
 	{
 		var row;
 		let row = this->fetchOne(sqlQuery, Db::FETCH_BOTH, placeholders);
@@ -402,7 +395,7 @@ abstract class Adapter implements EventsAwareInterface
 		var values = [], fields = [];
 		var field, value;
 
-		if typeOf data != "array" || empty data {
+		if typeof data != "array" || empty data {
 			return false;
 		}
 
@@ -587,7 +580,7 @@ abstract class Adapter implements EventsAwareInterface
 		var values = [], fields = [];
 		var field, value;
 
-		if typeOf data != "array" || empty data {
+		if typeof data != "array" || empty data {
 			return false;
 		}
 
@@ -682,12 +675,8 @@ abstract class Adapter implements EventsAwareInterface
 	 *<code>
 	 * var_dump($connection->viewExists("active_users", "posts"));
 	 *</code>
-	 *
-	 * @param string viewName
-	 * @param string schemaName
-	 * @return boolean
 	 */
-	public function viewExists(string! viewName, schemaName = null)
+	public function viewExists(string! viewName, string! schemaName = null) -> boolean
 	{
 		return this->fetchOne(this->_dialect->viewExists(viewName, schemaName), Db::FETCH_NUM)[0] > 0;
 	}
@@ -710,19 +699,10 @@ abstract class Adapter implements EventsAwareInterface
 
 	/**
 	 * Creates a table
-	 *
-	 * @param	string tableName
-	 * @param	string schemaName
-	 * @param	array definition
-	 * @return	boolean
 	 */
-	public function createTable(string! tableName, string! schemaName, definition) -> boolean
+	public function createTable(string! tableName, string! schemaName, array! definition) -> boolean
 	{
 		var columns;
-
-		if typeof definition != "array" {
-			throw new Exception("Invalid definition to create the table '" . tableName . "'");
-		}
 
 		if !fetch columns, definition["columns"] {
 			throw new Exception("The table must contain at least one column");
@@ -737,13 +717,8 @@ abstract class Adapter implements EventsAwareInterface
 
 	/**
 	 * Drops a table from a schema/database
-	 *
-	 * @param	string tableName
-	 * @param   string schemaName
-	 * @param	boolean ifExists
-	 * @return	boolean
 	 */
-	public function dropTable(string! tableName, string! schemaName = null, ifExists = true) -> boolean
+	public function dropTable(string! tableName, string! schemaName = null, boolean ifExists = true) -> boolean
 	{
 		return this->{"execute"}(this->_dialect->dropTable(tableName, schemaName, ifExists));
 	}
@@ -756,12 +731,8 @@ abstract class Adapter implements EventsAwareInterface
 	 * @param	string schemaName
 	 * @return	boolean
 	 */
-	public function createView(string! viewName, definition, schemaName = null) -> boolean
+	public function createView(string! viewName, array! definition, schemaName = null) -> boolean
 	{
-		if typeof definition != "array" {
-			throw new Exception("Invalid definition to create the view '" . viewName . "'");
-		}
-
 		if !isset definition["sql"] {
 			throw new Exception("The table must contain at least one column");
 		}
@@ -771,13 +742,8 @@ abstract class Adapter implements EventsAwareInterface
 
 	/**
 	 * Drops a view
-	 *
-	 * @param	string viewName
-	 * @param   string schemaName
-	 * @param	boolean ifExists
-	 * @return	boolean
 	 */
-	public function dropView(string! viewName, string! schemaName = null, ifExists = true) -> boolean
+	public function dropView(string! viewName, string! schemaName = null, boolean ifExists = true) -> boolean
 	{
 		return this->{"execute"}(this->_dialect->dropView(viewName, schemaName, ifExists));
 	}
@@ -909,7 +875,7 @@ abstract class Adapter implements EventsAwareInterface
 	 * @param	string schema
 	 * @return	Phalcon\Db\Index[]
 	 */
-	public function describeIndexes(string! table, schema = null)
+	public function describeIndexes(string! table, schema = null) -> <Index[]>
 	{
 		var indexes, index, keyName, indexObjects, name, indexColumns, columns;
 
@@ -933,7 +899,7 @@ abstract class Adapter implements EventsAwareInterface
 			/**
 			 * Every index is abstracted using a Phalcon\Db\Index instance
 			 */
-			let indexObjects[name] = new \Phalcon\Db\Index(name, indexColumns);
+			let indexObjects[name] = new Index(name, indexColumns);
 		}
 
 		return indexObjects;
@@ -945,12 +911,8 @@ abstract class Adapter implements EventsAwareInterface
 	 *<code>
 	 * print_r($connection->describeReferences('robots_parts'));
 	 *</code>
-	 *
-	 * @param	string table
-	 * @param	string schema
-	 * @return	Phalcon\Db\Reference[]
 	 */
-	public function describeReferences(string! table, string! schema = null)
+	public function describeReferences(string! table, string! schema = null) -> <Reference[]>
 	{
 		var references, reference,
 			arrayReference, constraintName, referenceObjects, name,
@@ -979,17 +941,17 @@ abstract class Adapter implements EventsAwareInterface
 			let references[constraintName] = [
 				"referencedSchema"  : referencedSchema,
 				"referencedTable"   : referencedTable,
-				"columns"		   : columns,
+				"columns"           : columns,
 				"referencedColumns" : referencedColumns
 			];
 		}
 
 		let referenceObjects = [];
 		for name, arrayReference in references {
-			let referenceObjects[name] = new \Phalcon\Db\Reference(name, [
-				"referencedSchema"	: arrayReference["referencedSchema"],
-				"referencedTable"	: arrayReference["referencedTable"],
-				"columns"			: arrayReference["columns"],
+			let referenceObjects[name] = new Reference(name, [
+				"referencedSchema"  : arrayReference["referencedSchema"],
+				"referencedTable"   : arrayReference["referencedTable"],
+				"columns"           : arrayReference["columns"],
 				"referencedColumns" : arrayReference["referencedColumns"]
 			]);
 		}
@@ -1003,12 +965,8 @@ abstract class Adapter implements EventsAwareInterface
 	 *<code>
 	 * print_r($connection->tableOptions('robots'));
 	 *</code>
-	 *
-	 * @param	string tableName
-	 * @param	string schemaName
-	 * @return	array
 	 */
-	public function tableOptions(tableName, schemaName = null)
+	public function tableOptions(string! tableName, string schemaName = null) -> array
 	{
 		var sql;
 

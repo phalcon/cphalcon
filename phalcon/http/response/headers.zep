@@ -110,21 +110,16 @@ class Headers implements HeadersInterface
 
 	/**
 	 * Returns the current headers as an array
-	 *
-	 * @return array
 	 */
-	public function toArray()
+	public function toArray() -> array
 	{
 		return this->_headers;
 	}
 
 	/**
 	 * Restore a Phalcon\Http\Response\Headers object
-	 *
-	 * @param array data
-	 * @return Phalcon\Http\Response\Headers
 	 */
-	public static function __set_state(data) -> <Headers>
+	public static function __set_state(array! data) -> <Headers>
 	{
 		var headers, key, value, dataHeaders;
 		let headers = new self();

@@ -63,6 +63,10 @@ class SessionTest extends PHPUnit_Framework_TestCase
 		// Automatically deleted after reading
 		$this->assertEquals($session->get('some', NULL, TRUE), 'value');
 		$this->assertFalse($session->has('some'));
+
+		// Issue 10238
+		$session->set('some', 0);
+		$this->assertEquals($session->get('some'), 0);
 	}
 
 	public function testSessionFilesWrite()

@@ -45,13 +45,20 @@ void zephir_throw_exception(zval *object TSRMLS_DC){
 /**
  * Throws a zval object as exception
  */
-void zephir_throw_exception_debug(zval *object, const char *file, zend_uint line TSRMLS_DC){
+void zephir_throw_exception_debug(zval *object, const char *file, zend_uint line TSRMLS_DC) {
 
 	zend_class_entry *default_exception_ce;
 	int ZEPHIR_LAST_CALL_STATUS = 0;
-	zval *curline = NULL;
+	zval *curline = NULL, *object_copy = NULL;
 
 	ZEPHIR_MM_GROW();
+
+	if (Z_TYPE_P(object) != IS_OBJECT) {
+		object_copy = object;
+		ALLOC_INIT_ZVAL(object);
+		object_init_ex(object, zend_exception_get_default(TSRMLS_C));
+		ZEPHIR_CALL_METHOD(NULL, object, "__construct", NULL, object_copy);
+	}
 
 	Z_ADDREF_P(object);
 
@@ -61,8 +68,8 @@ void zephir_throw_exception_debug(zval *object, const char *file, zend_uint line
 		zephir_check_call_status();
 		if (ZEPHIR_IS_LONG(curline, 0)) {
 			default_exception_ce = zend_exception_get_default(TSRMLS_C);
-			zend_update_property_string(default_exception_ce, object, "file", sizeof("file")-1, file TSRMLS_CC);
-			zend_update_property_long(default_exception_ce, object, "line", sizeof("line")-1, line TSRMLS_CC);
+			zend_update_property_string(default_exception_ce, object, "file", sizeof("file") - 1, file TSRMLS_CC);
+			zend_update_property_long(default_exception_ce, object, "line", sizeof("line") - 1, line TSRMLS_CC);
 		}
 	}
 
@@ -189,4 +196,3 @@ void zephir_throw_exception_zval(zend_class_entry *ce, zval *message TSRMLS_DC){
 
 	zend_throw_exception_object(object TSRMLS_CC);
 }
-

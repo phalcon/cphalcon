@@ -88,10 +88,8 @@ interface AdapterInterface
 
 	/**
  	 * Closes the logger
- 	 *
- 	 * @return boolean
  	 */
-	public function close();
+	public function close() -> boolean;
 
 	/**
  	 * Sends/Writes a debug message to the log

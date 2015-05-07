@@ -26,7 +26,7 @@
 /**
  * Phalcon\Db\Dialect\Postgresql
  *
- * Generates database specific SQL for the PostgreSQL RBDM
+ * Generates database specific SQL for the PostgreSQL RDBMS
  */
 ZEPHIR_INIT_CLASS(Phalcon_Db_Dialect_Postgresql) {
 
@@ -34,7 +34,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Dialect_Postgresql) {
 
 	zend_declare_property_string(phalcon_db_dialect_postgresql_ce, SL("_escapeChar"), "\"", ZEND_ACC_PROTECTED TSRMLS_CC);
 
-	zend_class_implements(phalcon_db_dialect_postgresql_ce TSRMLS_CC, 1, phalcon_db_dialectinterface_ce);
 	return SUCCESS;
 
 }
@@ -133,7 +132,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, getColumnDefinition) {
 			break;
 		}
 		if (ZEPHIR_IS_EMPTY(columnSql)) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Unrecognized PostgreSQL data type", "phalcon/db/dialect/postgresql.zep", 116);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Unrecognized PostgreSQL data type", "phalcon/db/dialect/postgresql.zep", 117);
 			return;
 		}
 		ZEPHIR_CALL_METHOD(&typeValues, column, "gettypevalues", NULL);
@@ -142,7 +141,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, getColumnDefinition) {
 			if (Z_TYPE_P(typeValues) == IS_ARRAY) {
 				ZEPHIR_INIT_VAR(valueSql);
 				ZVAL_STRING(valueSql, "", 1);
-				zephir_is_iterable(typeValues, &_3, &_2, 0, 0, "phalcon/db/dialect/postgresql.zep", 127);
+				zephir_is_iterable(typeValues, &_3, &_2, 0, 0, "phalcon/db/dialect/postgresql.zep", 128);
 				for (
 				  ; zephir_hash_get_current_data_ex(_3, (void**) &_4, &_2) == SUCCESS
 				  ; zephir_hash_move_forward_ex(_3, &_2)
@@ -183,263 +182,490 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, getColumnDefinition) {
 
 /**
  * Generates SQL to add a column to a table
- *
- * @param	string tableName
- * @param	string schemaName
- * @param	Phalcon\Db\ColumnInterface column
- * @return	string
  */
 PHP_METHOD(Phalcon_Db_Dialect_Postgresql, addColumn) {
 
-	zval *tableName, *schemaName, *column;
+	zval *tableName_param = NULL, *schemaName_param = NULL, *column;
+	zval *tableName = NULL, *schemaName = NULL;
 
-	zephir_fetch_params(0, 3, 0, &tableName, &schemaName, &column);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 3, 0, &tableName_param, &schemaName_param, &column);
+
+	if (unlikely(Z_TYPE_P(tableName_param) != IS_STRING && Z_TYPE_P(tableName_param) != IS_NULL)) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'tableName' must be a string") TSRMLS_CC);
+		RETURN_MM_NULL();
+	}
+
+	if (likely(Z_TYPE_P(tableName_param) == IS_STRING)) {
+		zephir_get_strval(tableName, tableName_param);
+	} else {
+		ZEPHIR_INIT_VAR(tableName);
+		ZVAL_EMPTY_STRING(tableName);
+	}
+	if (unlikely(Z_TYPE_P(schemaName_param) != IS_STRING && Z_TYPE_P(schemaName_param) != IS_NULL)) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'schemaName' must be a string") TSRMLS_CC);
+		RETURN_MM_NULL();
+	}
+
+	if (likely(Z_TYPE_P(schemaName_param) == IS_STRING)) {
+		zephir_get_strval(schemaName, schemaName_param);
+	} else {
+		ZEPHIR_INIT_VAR(schemaName);
+		ZVAL_EMPTY_STRING(schemaName);
+	}
 
 
-
-	ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_db_exception_ce, "Not implemented yet", "phalcon/db/dialect/postgresql.zep", 147);
+	ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Not implemented yet", "phalcon/db/dialect/postgresql.zep", 143);
 	return;
 
 }
 
 /**
  * Generates SQL to modify a column in a table
- *
- * @param	string tableName
- * @param	string schemaName
- * @param	Phalcon\Db\ColumnInterface column
- * @return	string
  */
 PHP_METHOD(Phalcon_Db_Dialect_Postgresql, modifyColumn) {
 
-	zval *tableName, *schemaName, *column;
+	zval *tableName_param = NULL, *schemaName_param = NULL, *column;
+	zval *tableName = NULL, *schemaName = NULL;
 
-	zephir_fetch_params(0, 3, 0, &tableName, &schemaName, &column);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 3, 0, &tableName_param, &schemaName_param, &column);
+
+	if (unlikely(Z_TYPE_P(tableName_param) != IS_STRING && Z_TYPE_P(tableName_param) != IS_NULL)) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'tableName' must be a string") TSRMLS_CC);
+		RETURN_MM_NULL();
+	}
+
+	if (likely(Z_TYPE_P(tableName_param) == IS_STRING)) {
+		zephir_get_strval(tableName, tableName_param);
+	} else {
+		ZEPHIR_INIT_VAR(tableName);
+		ZVAL_EMPTY_STRING(tableName);
+	}
+	if (unlikely(Z_TYPE_P(schemaName_param) != IS_STRING && Z_TYPE_P(schemaName_param) != IS_NULL)) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'schemaName' must be a string") TSRMLS_CC);
+		RETURN_MM_NULL();
+	}
+
+	if (likely(Z_TYPE_P(schemaName_param) == IS_STRING)) {
+		zephir_get_strval(schemaName, schemaName_param);
+	} else {
+		ZEPHIR_INIT_VAR(schemaName);
+		ZVAL_EMPTY_STRING(schemaName);
+	}
 
 
-
-	ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_db_exception_ce, "Not implemented yet", "phalcon/db/dialect/postgresql.zep", 160);
+	ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Not implemented yet", "phalcon/db/dialect/postgresql.zep", 151);
 	return;
 
 }
 
 /**
  * Generates SQL to delete a column from a table
- *
- * @param	string tableName
- * @param	string schemaName
- * @param	string columnName
- * @return 	string
  */
 PHP_METHOD(Phalcon_Db_Dialect_Postgresql, dropColumn) {
 
-	zval *tableName, *schemaName, *columnName;
+	zval *tableName_param = NULL, *schemaName_param = NULL, *columnName_param = NULL;
+	zval *tableName = NULL, *schemaName = NULL, *columnName = NULL;
 
-	zephir_fetch_params(0, 3, 0, &tableName, &schemaName, &columnName);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 3, 0, &tableName_param, &schemaName_param, &columnName_param);
+
+	if (unlikely(Z_TYPE_P(tableName_param) != IS_STRING && Z_TYPE_P(tableName_param) != IS_NULL)) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'tableName' must be a string") TSRMLS_CC);
+		RETURN_MM_NULL();
+	}
+
+	if (likely(Z_TYPE_P(tableName_param) == IS_STRING)) {
+		zephir_get_strval(tableName, tableName_param);
+	} else {
+		ZEPHIR_INIT_VAR(tableName);
+		ZVAL_EMPTY_STRING(tableName);
+	}
+	if (unlikely(Z_TYPE_P(schemaName_param) != IS_STRING && Z_TYPE_P(schemaName_param) != IS_NULL)) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'schemaName' must be a string") TSRMLS_CC);
+		RETURN_MM_NULL();
+	}
+
+	if (likely(Z_TYPE_P(schemaName_param) == IS_STRING)) {
+		zephir_get_strval(schemaName, schemaName_param);
+	} else {
+		ZEPHIR_INIT_VAR(schemaName);
+		ZVAL_EMPTY_STRING(schemaName);
+	}
+	if (unlikely(Z_TYPE_P(columnName_param) != IS_STRING && Z_TYPE_P(columnName_param) != IS_NULL)) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'columnName' must be a string") TSRMLS_CC);
+		RETURN_MM_NULL();
+	}
+
+	if (likely(Z_TYPE_P(columnName_param) == IS_STRING)) {
+		zephir_get_strval(columnName, columnName_param);
+	} else {
+		ZEPHIR_INIT_VAR(columnName);
+		ZVAL_EMPTY_STRING(columnName);
+	}
 
 
-
-	ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_db_exception_ce, "Not implemented yet", "phalcon/db/dialect/postgresql.zep", 173);
+	ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Not implemented yet", "phalcon/db/dialect/postgresql.zep", 159);
 	return;
 
 }
 
 /**
  * Generates SQL to add an index to a table
- *
- * @param	string tableName
- * @param	string schemaName
- * @param	Phalcon\Db\IndexInterface index
- * @return	string
  */
 PHP_METHOD(Phalcon_Db_Dialect_Postgresql, addIndex) {
 
-	zval *tableName, *schemaName, *index;
+	zval *tableName_param = NULL, *schemaName_param = NULL, *index;
+	zval *tableName = NULL, *schemaName = NULL;
 
-	zephir_fetch_params(0, 3, 0, &tableName, &schemaName, &index);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 3, 0, &tableName_param, &schemaName_param, &index);
+
+	if (unlikely(Z_TYPE_P(tableName_param) != IS_STRING && Z_TYPE_P(tableName_param) != IS_NULL)) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'tableName' must be a string") TSRMLS_CC);
+		RETURN_MM_NULL();
+	}
+
+	if (likely(Z_TYPE_P(tableName_param) == IS_STRING)) {
+		zephir_get_strval(tableName, tableName_param);
+	} else {
+		ZEPHIR_INIT_VAR(tableName);
+		ZVAL_EMPTY_STRING(tableName);
+	}
+	if (unlikely(Z_TYPE_P(schemaName_param) != IS_STRING && Z_TYPE_P(schemaName_param) != IS_NULL)) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'schemaName' must be a string") TSRMLS_CC);
+		RETURN_MM_NULL();
+	}
+
+	if (likely(Z_TYPE_P(schemaName_param) == IS_STRING)) {
+		zephir_get_strval(schemaName, schemaName_param);
+	} else {
+		ZEPHIR_INIT_VAR(schemaName);
+		ZVAL_EMPTY_STRING(schemaName);
+	}
 
 
-
-	ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_db_exception_ce, "Not implemented yet", "phalcon/db/dialect/postgresql.zep", 186);
+	ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Not implemented yet", "phalcon/db/dialect/postgresql.zep", 167);
 	return;
 
 }
 
 /**
  * Generates SQL to delete an index from a table
- *
- * @param	string tableName
- * @param	string schemaName
- * @param	string indexName
- * @return	string
  */
 PHP_METHOD(Phalcon_Db_Dialect_Postgresql, dropIndex) {
 
-	zval *tableName, *schemaName, *indexName;
+	zval *tableName_param = NULL, *schemaName_param = NULL, *indexName_param = NULL;
+	zval *tableName = NULL, *schemaName = NULL, *indexName = NULL;
 
-	zephir_fetch_params(0, 3, 0, &tableName, &schemaName, &indexName);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 3, 0, &tableName_param, &schemaName_param, &indexName_param);
+
+	if (unlikely(Z_TYPE_P(tableName_param) != IS_STRING && Z_TYPE_P(tableName_param) != IS_NULL)) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'tableName' must be a string") TSRMLS_CC);
+		RETURN_MM_NULL();
+	}
+
+	if (likely(Z_TYPE_P(tableName_param) == IS_STRING)) {
+		zephir_get_strval(tableName, tableName_param);
+	} else {
+		ZEPHIR_INIT_VAR(tableName);
+		ZVAL_EMPTY_STRING(tableName);
+	}
+	if (unlikely(Z_TYPE_P(schemaName_param) != IS_STRING && Z_TYPE_P(schemaName_param) != IS_NULL)) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'schemaName' must be a string") TSRMLS_CC);
+		RETURN_MM_NULL();
+	}
+
+	if (likely(Z_TYPE_P(schemaName_param) == IS_STRING)) {
+		zephir_get_strval(schemaName, schemaName_param);
+	} else {
+		ZEPHIR_INIT_VAR(schemaName);
+		ZVAL_EMPTY_STRING(schemaName);
+	}
+	if (unlikely(Z_TYPE_P(indexName_param) != IS_STRING && Z_TYPE_P(indexName_param) != IS_NULL)) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'indexName' must be a string") TSRMLS_CC);
+		RETURN_MM_NULL();
+	}
+
+	if (likely(Z_TYPE_P(indexName_param) == IS_STRING)) {
+		zephir_get_strval(indexName, indexName_param);
+	} else {
+		ZEPHIR_INIT_VAR(indexName);
+		ZVAL_EMPTY_STRING(indexName);
+	}
 
 
-
-	ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_db_exception_ce, "Not implemented yet", "phalcon/db/dialect/postgresql.zep", 199);
+	ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Not implemented yet", "phalcon/db/dialect/postgresql.zep", 175);
 	return;
 
 }
 
 /**
  * Generates SQL to add the primary key to a table
- *
- * @param	string tableName
- * @param	string schemaName
- * @param	Phalcon\Db\IndexInterface index
- * @return	string
  */
 PHP_METHOD(Phalcon_Db_Dialect_Postgresql, addPrimaryKey) {
 
-	zval *tableName, *schemaName, *index;
+	zval *tableName_param = NULL, *schemaName_param = NULL, *index;
+	zval *tableName = NULL, *schemaName = NULL;
 
-	zephir_fetch_params(0, 3, 0, &tableName, &schemaName, &index);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 3, 0, &tableName_param, &schemaName_param, &index);
+
+	if (unlikely(Z_TYPE_P(tableName_param) != IS_STRING && Z_TYPE_P(tableName_param) != IS_NULL)) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'tableName' must be a string") TSRMLS_CC);
+		RETURN_MM_NULL();
+	}
+
+	if (likely(Z_TYPE_P(tableName_param) == IS_STRING)) {
+		zephir_get_strval(tableName, tableName_param);
+	} else {
+		ZEPHIR_INIT_VAR(tableName);
+		ZVAL_EMPTY_STRING(tableName);
+	}
+	if (unlikely(Z_TYPE_P(schemaName_param) != IS_STRING && Z_TYPE_P(schemaName_param) != IS_NULL)) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'schemaName' must be a string") TSRMLS_CC);
+		RETURN_MM_NULL();
+	}
+
+	if (likely(Z_TYPE_P(schemaName_param) == IS_STRING)) {
+		zephir_get_strval(schemaName, schemaName_param);
+	} else {
+		ZEPHIR_INIT_VAR(schemaName);
+		ZVAL_EMPTY_STRING(schemaName);
+	}
 
 
-
-	ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_db_exception_ce, "Not implemented yet", "phalcon/db/dialect/postgresql.zep", 212);
+	ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Not implemented yet", "phalcon/db/dialect/postgresql.zep", 183);
 	return;
 
 }
 
 /**
  * Generates SQL to delete primary key from a table
- *
- * @param	string tableName
- * @param	string schemaName
- * @return	string
  */
 PHP_METHOD(Phalcon_Db_Dialect_Postgresql, dropPrimaryKey) {
 
-	zval *tableName, *schemaName;
+	zval *tableName_param = NULL, *schemaName_param = NULL;
+	zval *tableName = NULL, *schemaName = NULL;
 
-	zephir_fetch_params(0, 2, 0, &tableName, &schemaName);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 2, 0, &tableName_param, &schemaName_param);
+
+	if (unlikely(Z_TYPE_P(tableName_param) != IS_STRING && Z_TYPE_P(tableName_param) != IS_NULL)) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'tableName' must be a string") TSRMLS_CC);
+		RETURN_MM_NULL();
+	}
+
+	if (likely(Z_TYPE_P(tableName_param) == IS_STRING)) {
+		zephir_get_strval(tableName, tableName_param);
+	} else {
+		ZEPHIR_INIT_VAR(tableName);
+		ZVAL_EMPTY_STRING(tableName);
+	}
+	if (unlikely(Z_TYPE_P(schemaName_param) != IS_STRING && Z_TYPE_P(schemaName_param) != IS_NULL)) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'schemaName' must be a string") TSRMLS_CC);
+		RETURN_MM_NULL();
+	}
+
+	if (likely(Z_TYPE_P(schemaName_param) == IS_STRING)) {
+		zephir_get_strval(schemaName, schemaName_param);
+	} else {
+		ZEPHIR_INIT_VAR(schemaName);
+		ZVAL_EMPTY_STRING(schemaName);
+	}
 
 
-
-	ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_db_exception_ce, "Not implemented yet", "phalcon/db/dialect/postgresql.zep", 224);
+	ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Not implemented yet", "phalcon/db/dialect/postgresql.zep", 191);
 	return;
 
 }
 
 /**
  * Generates SQL to add an index to a table
- *
- * @param	string tableName
- * @param	string schemaName
- * @param	Phalcon\Db\ReferenceInterface reference
- * @return	string
  */
 PHP_METHOD(Phalcon_Db_Dialect_Postgresql, addForeignKey) {
 
-	zval *tableName, *schemaName, *reference;
+	zval *tableName_param = NULL, *schemaName_param = NULL, *reference;
+	zval *tableName = NULL, *schemaName = NULL;
 
-	zephir_fetch_params(0, 3, 0, &tableName, &schemaName, &reference);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 3, 0, &tableName_param, &schemaName_param, &reference);
+
+	if (unlikely(Z_TYPE_P(tableName_param) != IS_STRING && Z_TYPE_P(tableName_param) != IS_NULL)) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'tableName' must be a string") TSRMLS_CC);
+		RETURN_MM_NULL();
+	}
+
+	if (likely(Z_TYPE_P(tableName_param) == IS_STRING)) {
+		zephir_get_strval(tableName, tableName_param);
+	} else {
+		ZEPHIR_INIT_VAR(tableName);
+		ZVAL_EMPTY_STRING(tableName);
+	}
+	if (unlikely(Z_TYPE_P(schemaName_param) != IS_STRING && Z_TYPE_P(schemaName_param) != IS_NULL)) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'schemaName' must be a string") TSRMLS_CC);
+		RETURN_MM_NULL();
+	}
+
+	if (likely(Z_TYPE_P(schemaName_param) == IS_STRING)) {
+		zephir_get_strval(schemaName, schemaName_param);
+	} else {
+		ZEPHIR_INIT_VAR(schemaName);
+		ZVAL_EMPTY_STRING(schemaName);
+	}
 
 
-
-	ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_db_exception_ce, "Not implemented yet", "phalcon/db/dialect/postgresql.zep", 237);
+	ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Not implemented yet", "phalcon/db/dialect/postgresql.zep", 199);
 	return;
 
 }
 
 /**
  * Generates SQL to delete a foreign key from a table
- *
- * @param	string tableName
- * @param	string schemaName
- * @param	string referenceName
- * @return	string
  */
 PHP_METHOD(Phalcon_Db_Dialect_Postgresql, dropForeignKey) {
 
-	zval *tableName, *schemaName, *referenceName;
+	zval *tableName_param = NULL, *schemaName_param = NULL, *referenceName_param = NULL;
+	zval *tableName = NULL, *schemaName = NULL, *referenceName = NULL;
 
-	zephir_fetch_params(0, 3, 0, &tableName, &schemaName, &referenceName);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 3, 0, &tableName_param, &schemaName_param, &referenceName_param);
+
+	if (unlikely(Z_TYPE_P(tableName_param) != IS_STRING && Z_TYPE_P(tableName_param) != IS_NULL)) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'tableName' must be a string") TSRMLS_CC);
+		RETURN_MM_NULL();
+	}
+
+	if (likely(Z_TYPE_P(tableName_param) == IS_STRING)) {
+		zephir_get_strval(tableName, tableName_param);
+	} else {
+		ZEPHIR_INIT_VAR(tableName);
+		ZVAL_EMPTY_STRING(tableName);
+	}
+	if (unlikely(Z_TYPE_P(schemaName_param) != IS_STRING && Z_TYPE_P(schemaName_param) != IS_NULL)) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'schemaName' must be a string") TSRMLS_CC);
+		RETURN_MM_NULL();
+	}
+
+	if (likely(Z_TYPE_P(schemaName_param) == IS_STRING)) {
+		zephir_get_strval(schemaName, schemaName_param);
+	} else {
+		ZEPHIR_INIT_VAR(schemaName);
+		ZVAL_EMPTY_STRING(schemaName);
+	}
+	if (unlikely(Z_TYPE_P(referenceName_param) != IS_STRING && Z_TYPE_P(referenceName_param) != IS_NULL)) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'referenceName' must be a string") TSRMLS_CC);
+		RETURN_MM_NULL();
+	}
+
+	if (likely(Z_TYPE_P(referenceName_param) == IS_STRING)) {
+		zephir_get_strval(referenceName, referenceName_param);
+	} else {
+		ZEPHIR_INIT_VAR(referenceName);
+		ZVAL_EMPTY_STRING(referenceName);
+	}
 
 
-
-	ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_db_exception_ce, "Not implemented yet", "phalcon/db/dialect/postgresql.zep", 250);
+	ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Not implemented yet", "phalcon/db/dialect/postgresql.zep", 207);
 	return;
 
 }
 
 /**
- * Generates SQL to add the table creation options
- *
- * @param	array definition
- * @return	array
- */
-PHP_METHOD(Phalcon_Db_Dialect_Postgresql, _getTableOptions) {
-
-	zval *definition;
-
-	zephir_fetch_params(0, 1, 0, &definition);
-
-
-
-	array_init(return_value);
-	return;
-
-}
-
-/**
- * Generates SQL to create a table in PostgreSQL
- *
- * @param 	string tableName
- * @param	string schemaName
- * @param	array definition
- * @return 	string
+ * Generates SQL to create a table
  */
 PHP_METHOD(Phalcon_Db_Dialect_Postgresql, createTable) {
 
 	zval *definition = NULL;
-	zval *tableName, *schemaName, *definition_param = NULL;
+	zval *tableName_param = NULL, *schemaName_param = NULL, *definition_param = NULL;
+	zval *tableName = NULL, *schemaName = NULL;
 
-	zephir_fetch_params(0, 3, 0, &tableName, &schemaName, &definition_param);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 3, 0, &tableName_param, &schemaName_param, &definition_param);
 
+	if (unlikely(Z_TYPE_P(tableName_param) != IS_STRING && Z_TYPE_P(tableName_param) != IS_NULL)) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'tableName' must be a string") TSRMLS_CC);
+		RETURN_MM_NULL();
+	}
+
+	if (likely(Z_TYPE_P(tableName_param) == IS_STRING)) {
+		zephir_get_strval(tableName, tableName_param);
+	} else {
+		ZEPHIR_INIT_VAR(tableName);
+		ZVAL_EMPTY_STRING(tableName);
+	}
+	if (unlikely(Z_TYPE_P(schemaName_param) != IS_STRING && Z_TYPE_P(schemaName_param) != IS_NULL)) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'schemaName' must be a string") TSRMLS_CC);
+		RETURN_MM_NULL();
+	}
+
+	if (likely(Z_TYPE_P(schemaName_param) == IS_STRING)) {
+		zephir_get_strval(schemaName, schemaName_param);
+	} else {
+		ZEPHIR_INIT_VAR(schemaName);
+		ZVAL_EMPTY_STRING(schemaName);
+	}
 	definition = definition_param;
 
 
 
-	ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_db_exception_ce, "Not implemented yet", "phalcon/db/dialect/postgresql.zep", 274);
+	ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Not implemented yet", "phalcon/db/dialect/postgresql.zep", 215);
 	return;
 
 }
 
 /**
- * Generates SQL to drop a table
- *
- * @param  string tableName
- * @param  string schemaName
- * @param  boolean ifExists
- * @return boolean
+ * Generates SQL to drop a view
  */
 PHP_METHOD(Phalcon_Db_Dialect_Postgresql, dropTable) {
 
-	zval *tableName, *schemaName, *ifExists = NULL, *table = NULL, *sql;
+	zend_bool ifExists;
+	zval *tableName_param = NULL, *schemaName_param = NULL, *ifExists_param = NULL, *table = NULL, *sql;
+	zval *tableName = NULL, *schemaName = NULL, *_0;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 2, 1, &tableName, &schemaName, &ifExists);
+	zephir_fetch_params(1, 1, 2, &tableName_param, &schemaName_param, &ifExists_param);
 
-	if (!ifExists) {
-		ifExists = ZEPHIR_GLOBAL(global_true);
+	if (unlikely(Z_TYPE_P(tableName_param) != IS_STRING && Z_TYPE_P(tableName_param) != IS_NULL)) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'tableName' must be a string") TSRMLS_CC);
+		RETURN_MM_NULL();
+	}
+
+	if (likely(Z_TYPE_P(tableName_param) == IS_STRING)) {
+		zephir_get_strval(tableName, tableName_param);
+	} else {
+		ZEPHIR_INIT_VAR(tableName);
+		ZVAL_EMPTY_STRING(tableName);
+	}
+	if (!schemaName_param) {
+		ZEPHIR_INIT_VAR(schemaName);
+		ZVAL_EMPTY_STRING(schemaName);
+	} else {
+		zephir_get_strval(schemaName, schemaName_param);
+	}
+	if (!ifExists_param) {
+		ifExists = 1;
+	} else {
+	if (unlikely(Z_TYPE_P(ifExists_param) != IS_BOOL)) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'ifExists' must be a bool") TSRMLS_CC);
+		RETURN_MM_NULL();
+	}
+
+	ifExists = Z_BVAL_P(ifExists_param);
 	}
 
 
-	if (zephir_is_true(schemaName)) {
-		ZEPHIR_INIT_VAR(table);
-		ZEPHIR_CONCAT_VSV(table, schemaName, ".", tableName);
+	if (schemaName && Z_STRLEN_P(schemaName)) {
+		ZEPHIR_INIT_VAR(_0);
+		ZEPHIR_CONCAT_VSV(_0, schemaName, ".", tableName);
+		ZEPHIR_CPY_WRT(table, _0);
 	} else {
 		ZEPHIR_CPY_WRT(table, tableName);
 	}
 	ZEPHIR_INIT_VAR(sql);
-	if (zephir_is_true(ifExists)) {
+	if (ifExists) {
 		ZEPHIR_CONCAT_SV(sql, "DROP TABLE IF EXISTS ", table);
 	} else {
 		ZEPHIR_CONCAT_SV(sql, "DROP TABLE ", table);
@@ -450,29 +676,46 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, dropTable) {
 
 /**
  * Generates SQL to create a view
- *
- * @param string viewName
- * @param array definition
- * @param string schemaName
- * @return string
  */
 PHP_METHOD(Phalcon_Db_Dialect_Postgresql, createView) {
 
-	zval *viewName, *definition, *schemaName, *viewSql, *view = NULL;
+	zval *definition = NULL;
+	zval *viewName_param = NULL, *definition_param = NULL, *schemaName_param = NULL, *viewSql, *view = NULL;
+	zval *viewName = NULL, *schemaName = NULL, *_0;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 3, 0, &viewName, &definition, &schemaName);
+	zephir_fetch_params(1, 2, 1, &viewName_param, &definition_param, &schemaName_param);
 
+	if (unlikely(Z_TYPE_P(viewName_param) != IS_STRING && Z_TYPE_P(viewName_param) != IS_NULL)) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'viewName' must be a string") TSRMLS_CC);
+		RETURN_MM_NULL();
+	}
+
+	if (likely(Z_TYPE_P(viewName_param) == IS_STRING)) {
+		zephir_get_strval(viewName, viewName_param);
+	} else {
+		ZEPHIR_INIT_VAR(viewName);
+		ZVAL_EMPTY_STRING(viewName);
+	}
+	definition = definition_param;
+
+	if (!schemaName_param) {
+		ZEPHIR_INIT_VAR(schemaName);
+		ZVAL_EMPTY_STRING(schemaName);
+	} else {
+		zephir_get_strval(schemaName, schemaName_param);
+	}
 
 
 	ZEPHIR_OBS_VAR(viewSql);
 	if (!(zephir_array_isset_string_fetch(&viewSql, definition, SS("sql"), 0 TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "The index 'sql' is required in the definition array", "phalcon/db/dialect/postgresql.zep", 315);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "The index 'sql' is required in the definition array", "phalcon/db/dialect/postgresql.zep", 246);
 		return;
 	}
-	if (zephir_is_true(schemaName)) {
-		ZEPHIR_INIT_VAR(view);
-		ZEPHIR_CONCAT_VSV(view, viewName, ".", schemaName);
+	if (schemaName && Z_STRLEN_P(schemaName)) {
+		ZEPHIR_INIT_VAR(_0);
+		ZEPHIR_CONCAT_VSV(_0, viewName, ".", schemaName);
+		ZEPHIR_CPY_WRT(view, _0);
 	} else {
 		ZEPHIR_CPY_WRT(view, viewName);
 	}
@@ -483,32 +726,54 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, createView) {
 
 /**
  * Generates SQL to drop a view
- *
- * @param string viewName
- * @param string schemaName
- * @param boolean ifExists
- * @return string
  */
 PHP_METHOD(Phalcon_Db_Dialect_Postgresql, dropView) {
 
-	zval *viewName, *schemaName, *ifExists = NULL, *view = NULL, *sql;
+	zend_bool ifExists;
+	zval *viewName_param = NULL, *schemaName_param = NULL, *ifExists_param = NULL, *view = NULL, *sql;
+	zval *viewName = NULL, *schemaName = NULL, *_0;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 2, 1, &viewName, &schemaName, &ifExists);
+	zephir_fetch_params(1, 1, 2, &viewName_param, &schemaName_param, &ifExists_param);
 
-	if (!ifExists) {
-		ifExists = ZEPHIR_GLOBAL(global_true);
+	if (unlikely(Z_TYPE_P(viewName_param) != IS_STRING && Z_TYPE_P(viewName_param) != IS_NULL)) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'viewName' must be a string") TSRMLS_CC);
+		RETURN_MM_NULL();
+	}
+
+	if (likely(Z_TYPE_P(viewName_param) == IS_STRING)) {
+		zephir_get_strval(viewName, viewName_param);
+	} else {
+		ZEPHIR_INIT_VAR(viewName);
+		ZVAL_EMPTY_STRING(viewName);
+	}
+	if (!schemaName_param) {
+		ZEPHIR_INIT_VAR(schemaName);
+		ZVAL_EMPTY_STRING(schemaName);
+	} else {
+		zephir_get_strval(schemaName, schemaName_param);
+	}
+	if (!ifExists_param) {
+		ifExists = 1;
+	} else {
+	if (unlikely(Z_TYPE_P(ifExists_param) != IS_BOOL)) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'ifExists' must be a bool") TSRMLS_CC);
+		RETURN_MM_NULL();
+	}
+
+	ifExists = Z_BVAL_P(ifExists_param);
 	}
 
 
-	if (zephir_is_true(schemaName)) {
-		ZEPHIR_INIT_VAR(view);
-		ZEPHIR_CONCAT_VSV(view, viewName, ".", schemaName);
+	if (schemaName && Z_STRLEN_P(schemaName)) {
+		ZEPHIR_INIT_VAR(_0);
+		ZEPHIR_CONCAT_VSV(_0, viewName, ".", schemaName);
+		ZEPHIR_CPY_WRT(view, _0);
 	} else {
 		ZEPHIR_CPY_WRT(view, viewName);
 	}
 	ZEPHIR_INIT_VAR(sql);
-	if (zephir_is_true(ifExists)) {
+	if (ifExists) {
 		ZEPHIR_CONCAT_SV(sql, "DROP VIEW IF EXISTS ", view);
 	} else {
 		ZEPHIR_CONCAT_SV(sql, "DROP VIEW ", view);
@@ -520,123 +785,157 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, dropView) {
 /**
  * Generates SQL checking for the existence of a schema.table
  *
- * <code>echo dialect->tableExists("posts", "blog")</code>
- * <code>echo dialect->tableExists("posts")</code>
- *
- * @param string tableName
- * @param string schemaName
- * @return string
+ * <code>
+ *    echo $dialect->tableExists("posts", "blog");
+ *    echo $dialect->tableExists("posts");
+ * </code>
  */
 PHP_METHOD(Phalcon_Db_Dialect_Postgresql, tableExists) {
 
-	zval *tableName, *schemaName = NULL, *sql;
+	zval *tableName_param = NULL, *schemaName_param = NULL;
+	zval *tableName = NULL, *schemaName = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 1, &tableName, &schemaName);
+	zephir_fetch_params(1, 1, 1, &tableName_param, &schemaName_param);
 
-	if (!schemaName) {
-		schemaName = ZEPHIR_GLOBAL(global_null);
+	if (unlikely(Z_TYPE_P(tableName_param) != IS_STRING && Z_TYPE_P(tableName_param) != IS_NULL)) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'tableName' must be a string") TSRMLS_CC);
+		RETURN_MM_NULL();
 	}
 
-
-	ZEPHIR_INIT_VAR(sql);
-	if (zephir_is_true(schemaName)) {
-		ZEPHIR_CONCAT_SVSVS(sql, "SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END FROM information_schema.tables WHERE table_schema = '", schemaName, "' AND table_name='", tableName, "'");
+	if (likely(Z_TYPE_P(tableName_param) == IS_STRING)) {
+		zephir_get_strval(tableName, tableName_param);
 	} else {
-		ZEPHIR_CONCAT_SVS(sql, "SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END FROM information_schema.tables WHERE table_schema = 'public' AND table_name='", tableName, "'");
+		ZEPHIR_INIT_VAR(tableName);
+		ZVAL_EMPTY_STRING(tableName);
 	}
-	RETURN_CCTOR(sql);
+	if (!schemaName_param) {
+		ZEPHIR_INIT_VAR(schemaName);
+		ZVAL_EMPTY_STRING(schemaName);
+	} else {
+		zephir_get_strval(schemaName, schemaName_param);
+	}
+
+
+	if (schemaName && Z_STRLEN_P(schemaName)) {
+		ZEPHIR_CONCAT_SVSVS(return_value, "SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END FROM information_schema.tables WHERE table_schema = '", schemaName, "' AND table_name='", tableName, "'");
+		RETURN_MM();
+	}
+	ZEPHIR_CONCAT_SVS(return_value, "SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END FROM information_schema.tables WHERE table_schema = 'public' AND table_name='", tableName, "'");
+	RETURN_MM();
 
 }
 
 /**
  * Generates SQL checking for the existence of a schema.view
- *
- * @param string viewName
- * @param string schemaName
- * @return string
  */
 PHP_METHOD(Phalcon_Db_Dialect_Postgresql, viewExists) {
 
-	zval *viewName, *schemaName = NULL, *sql;
+	zval *viewName_param = NULL, *schemaName_param = NULL;
+	zval *viewName = NULL, *schemaName = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 1, &viewName, &schemaName);
+	zephir_fetch_params(1, 1, 1, &viewName_param, &schemaName_param);
 
-	if (!schemaName) {
-		schemaName = ZEPHIR_GLOBAL(global_null);
+	if (unlikely(Z_TYPE_P(viewName_param) != IS_STRING && Z_TYPE_P(viewName_param) != IS_NULL)) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'viewName' must be a string") TSRMLS_CC);
+		RETURN_MM_NULL();
 	}
 
-
-	ZEPHIR_INIT_VAR(sql);
-	if (zephir_is_true(schemaName)) {
-		ZEPHIR_CONCAT_SVSVS(sql, "SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END FROM pg_views WHERE viewname='", viewName, "' AND schemaname='", schemaName, "'");
+	if (likely(Z_TYPE_P(viewName_param) == IS_STRING)) {
+		zephir_get_strval(viewName, viewName_param);
 	} else {
-		ZEPHIR_CONCAT_SVS(sql, "SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END FROM pg_views WHERE viewname='", viewName, "'");
+		ZEPHIR_INIT_VAR(viewName);
+		ZVAL_EMPTY_STRING(viewName);
 	}
-	RETURN_CCTOR(sql);
+	if (!schemaName_param) {
+		ZEPHIR_INIT_VAR(schemaName);
+		ZVAL_EMPTY_STRING(schemaName);
+	} else {
+		zephir_get_strval(schemaName, schemaName_param);
+	}
+
+
+	if (schemaName && Z_STRLEN_P(schemaName)) {
+		ZEPHIR_CONCAT_SVSVS(return_value, "SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END FROM pg_views WHERE viewname='", viewName, "' AND schemaname='", schemaName, "'");
+		RETURN_MM();
+	}
+	ZEPHIR_CONCAT_SVS(return_value, "SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END FROM pg_views WHERE viewname='", viewName, "'");
+	RETURN_MM();
 
 }
 
 /**
- * Generates a SQL describing a table
+ * Generates SQL describing a table
  *
- * <code>print_r(dialect->describeColumns("posts") ?></code>
- *
- * @param string table
- * @param string schema
- * @return string
+ * <code>
+ *    print_r($dialect->describeColumns("posts"));
+ * </code>
  */
 PHP_METHOD(Phalcon_Db_Dialect_Postgresql, describeColumns) {
 
-	zval *table, *schema = NULL, *sql;
+	zval *table_param = NULL, *schema_param = NULL;
+	zval *table = NULL, *schema = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 1, &table, &schema);
+	zephir_fetch_params(1, 1, 1, &table_param, &schema_param);
 
-	if (!schema) {
-		schema = ZEPHIR_GLOBAL(global_null);
+	if (unlikely(Z_TYPE_P(table_param) != IS_STRING && Z_TYPE_P(table_param) != IS_NULL)) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'table' must be a string") TSRMLS_CC);
+		RETURN_MM_NULL();
 	}
 
-
-	ZEPHIR_INIT_VAR(sql);
-	if (zephir_is_true(schema)) {
-		ZEPHIR_CONCAT_SVSVS(sql, "SELECT DISTINCT c.column_name AS Field, c.data_type AS Type, c.character_maximum_length AS Size, c.numeric_precision AS NumericSize, c.numeric_scale AS NumericScale, c.is_nullable AS Null, CASE WHEN pkc.column_name NOTNULL THEN 'PRI' ELSE '' END AS Key, CASE WHEN c.data_type LIKE '%int%' AND c.column_default LIKE '%nextval%' THEN 'auto_increment' ELSE '' END AS Extra, c.ordinal_position AS Position, c.column_default FROM information_schema.columns c LEFT JOIN ( SELECT kcu.column_name, kcu.table_name, kcu.table_schema FROM information_schema.table_constraints tc INNER JOIN information_schema.key_column_usage kcu on (kcu.constraint_name = tc.constraint_name and kcu.table_name=tc.table_name and kcu.table_schema=tc.table_schema) WHERE tc.constraint_type='PRIMARY KEY') pkc ON (c.column_name=pkc.column_name AND c.table_schema = pkc.table_schema AND c.table_name=pkc.table_name) WHERE c.table_schema='", schema, "' AND c.table_name='", table, "' ORDER BY c.ordinal_position");
+	if (likely(Z_TYPE_P(table_param) == IS_STRING)) {
+		zephir_get_strval(table, table_param);
 	} else {
-		ZEPHIR_CONCAT_SVS(sql, "SELECT DISTINCT c.column_name AS Field, c.data_type AS Type, c.character_maximum_length AS Size, c.numeric_precision AS NumericSize, c.numeric_scale AS NumericScale, c.is_nullable AS Null, CASE WHEN pkc.column_name NOTNULL THEN 'PRI' ELSE '' END AS Key, CASE WHEN c.data_type LIKE '%int%' AND c.column_default LIKE '%nextval%' THEN 'auto_increment' ELSE '' END AS Extra, c.ordinal_position AS Position, c.column_default FROM information_schema.columns c LEFT JOIN ( SELECT kcu.column_name, kcu.table_name, kcu.table_schema FROM information_schema.table_constraints tc INNER JOIN information_schema.key_column_usage kcu on (kcu.constraint_name = tc.constraint_name and kcu.table_name=tc.table_name and kcu.table_schema=tc.table_schema) WHERE tc.constraint_type='PRIMARY KEY') pkc ON (c.column_name=pkc.column_name AND c.table_schema = pkc.table_schema AND c.table_name=pkc.table_name) WHERE c.table_schema='public' AND c.table_name='", table, "' ORDER BY c.ordinal_position");
+		ZEPHIR_INIT_VAR(table);
+		ZVAL_EMPTY_STRING(table);
 	}
-	RETURN_CCTOR(sql);
+	if (!schema_param) {
+		ZEPHIR_INIT_VAR(schema);
+		ZVAL_EMPTY_STRING(schema);
+	} else {
+		zephir_get_strval(schema, schema_param);
+	}
+
+
+	if (schema && Z_STRLEN_P(schema)) {
+		ZEPHIR_CONCAT_SVSVS(return_value, "SELECT DISTINCT c.column_name AS Field, c.data_type AS Type, c.character_maximum_length AS Size, c.numeric_precision AS NumericSize, c.numeric_scale AS NumericScale, c.is_nullable AS Null, CASE WHEN pkc.column_name NOTNULL THEN 'PRI' ELSE '' END AS Key, CASE WHEN c.data_type LIKE '%int%' AND c.column_default LIKE '%nextval%' THEN 'auto_increment' ELSE '' END AS Extra, c.ordinal_position AS Position, c.column_default FROM information_schema.columns c LEFT JOIN ( SELECT kcu.column_name, kcu.table_name, kcu.table_schema FROM information_schema.table_constraints tc INNER JOIN information_schema.key_column_usage kcu on (kcu.constraint_name = tc.constraint_name and kcu.table_name=tc.table_name and kcu.table_schema=tc.table_schema) WHERE tc.constraint_type='PRIMARY KEY') pkc ON (c.column_name=pkc.column_name AND c.table_schema = pkc.table_schema AND c.table_name=pkc.table_name) WHERE c.table_schema='", schema, "' AND c.table_name='", table, "' ORDER BY c.ordinal_position");
+		RETURN_MM();
+	}
+	ZEPHIR_CONCAT_SVS(return_value, "SELECT DISTINCT c.column_name AS Field, c.data_type AS Type, c.character_maximum_length AS Size, c.numeric_precision AS NumericSize, c.numeric_scale AS NumericScale, c.is_nullable AS Null, CASE WHEN pkc.column_name NOTNULL THEN 'PRI' ELSE '' END AS Key, CASE WHEN c.data_type LIKE '%int%' AND c.column_default LIKE '%nextval%' THEN 'auto_increment' ELSE '' END AS Extra, c.ordinal_position AS Position, c.column_default FROM information_schema.columns c LEFT JOIN ( SELECT kcu.column_name, kcu.table_name, kcu.table_schema FROM information_schema.table_constraints tc INNER JOIN information_schema.key_column_usage kcu on (kcu.constraint_name = tc.constraint_name and kcu.table_name=tc.table_name and kcu.table_schema=tc.table_schema) WHERE tc.constraint_type='PRIMARY KEY') pkc ON (c.column_name=pkc.column_name AND c.table_schema = pkc.table_schema AND c.table_name=pkc.table_name) WHERE c.table_schema='public' AND c.table_name='", table, "' ORDER BY c.ordinal_position");
+	RETURN_MM();
 
 }
 
 /**
  * List all tables in database
  *
- *<code>
- *	print_r(dialect->listTables("blog")) ?>
- *</code>
- *
- * @param       string schemaName
+ * <code>
+ *     print_r($dialect->listTables("blog"))
+ * </code>
  */
 PHP_METHOD(Phalcon_Db_Dialect_Postgresql, listTables) {
 
-	zval *schemaName = NULL, *sql;
+	zval *schemaName_param = NULL;
+	zval *schemaName = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 0, 1, &schemaName);
+	zephir_fetch_params(1, 0, 1, &schemaName_param);
 
-	if (!schemaName) {
-		schemaName = ZEPHIR_GLOBAL(global_null);
-	}
-
-
-	ZEPHIR_INIT_VAR(sql);
-	if (zephir_is_true(schemaName)) {
-		ZEPHIR_CONCAT_SVS(sql, "SELECT table_name FROM information_schema.tables WHERE table_schema = '", schemaName, "' ORDER BY table_name");
+	if (!schemaName_param) {
+		ZEPHIR_INIT_VAR(schemaName);
+		ZVAL_EMPTY_STRING(schemaName);
 	} else {
-		ZVAL_STRING(sql, "SELECT table_name FROM information_schema.tables WHERE table_schema = 'public' ORDER BY table_name", 1);
+		zephir_get_strval(schemaName, schemaName_param);
 	}
-	RETURN_CCTOR(sql);
+
+
+	if (schemaName && Z_STRLEN_P(schemaName)) {
+		ZEPHIR_CONCAT_SVS(return_value, "SELECT table_name FROM information_schema.tables WHERE table_schema = '", schemaName, "' ORDER BY table_name");
+		RETURN_MM();
+	}
+	RETURN_MM_STRING("SELECT table_name FROM information_schema.tables WHERE table_schema = 'public' ORDER BY table_name", 1);
 
 }
 
@@ -648,71 +947,91 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, listTables) {
  */
 PHP_METHOD(Phalcon_Db_Dialect_Postgresql, listViews) {
 
-	zval *schemaName = NULL, *sql;
+	zval *schemaName = NULL;
 
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 0, 1, &schemaName);
+	zephir_fetch_params(0, 0, 1, &schemaName);
 
 	if (!schemaName) {
 		schemaName = ZEPHIR_GLOBAL(global_null);
 	}
 
 
-	ZEPHIR_INIT_VAR(sql);
 	if (zephir_is_true(schemaName)) {
-		ZEPHIR_CONCAT_SVS(sql, "SELECT viewname AS view_name FROM pg_views WHERE schemaname = '", schemaName, "' ORDER BY view_name");
-	} else {
-		ZVAL_STRING(sql, "SELECT viewname AS view_name FROM pg_views WHERE schemaname = 'public' ORDER BY view_name", 1);
+		ZEPHIR_CONCAT_SVS(return_value, "SELECT viewname AS view_name FROM pg_views WHERE schemaname = '", schemaName, "' ORDER BY view_name");
+		return;
 	}
-	RETURN_CCTOR(sql);
+	RETURN_STRING("SELECT viewname AS view_name FROM pg_views WHERE schemaname = 'public' ORDER BY view_name", 1);
 
 }
 
 /**
  * Generates SQL to query indexes on a table
- *
- * @param	string table
- * @param	string schema
- * @return	string
  */
 PHP_METHOD(Phalcon_Db_Dialect_Postgresql, describeIndexes) {
 
-	zval *table, *schema = NULL;
+	zval *table_param = NULL, *schema_param = NULL;
+	zval *table = NULL, *schema = NULL;
 
-	zephir_fetch_params(0, 1, 1, &table, &schema);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 1, &table_param, &schema_param);
 
-	if (!schema) {
-		schema = ZEPHIR_GLOBAL(global_null);
+	if (unlikely(Z_TYPE_P(table_param) != IS_STRING && Z_TYPE_P(table_param) != IS_NULL)) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'table' must be a string") TSRMLS_CC);
+		RETURN_MM_NULL();
+	}
+
+	if (likely(Z_TYPE_P(table_param) == IS_STRING)) {
+		zephir_get_strval(table, table_param);
+	} else {
+		ZEPHIR_INIT_VAR(table);
+		ZVAL_EMPTY_STRING(table);
+	}
+	if (!schema_param) {
+		ZEPHIR_INIT_VAR(schema);
+		ZVAL_EMPTY_STRING(schema);
+	} else {
+		zephir_get_strval(schema, schema_param);
 	}
 
 
 	ZEPHIR_CONCAT_SVS(return_value, "SELECT 0 as c0, t.relname as table_name, i.relname as key_name, 3 as c3, a.attname as column_name FROM pg_class t, pg_class i, pg_index ix, pg_attribute a WHERE t.oid = ix.indrelid AND i.oid = ix.indexrelid AND a.attrelid = t.oid AND a.attnum = ANY(ix.indkey) AND t.relkind = 'r' AND t.relname = '", table, "' ORDER BY t.relname, i.relname;");
-	return;
+	RETURN_MM();
 
 }
 
 /**
  * Generates SQL to query foreign keys on a table
- *
- * @param	string table
- * @param	string schema
- * @return	string
  */
 PHP_METHOD(Phalcon_Db_Dialect_Postgresql, describeReferences) {
 
-	zval *table, *schema = NULL, *sql, *_0 = NULL;
+	zval *table_param = NULL, *schema_param = NULL, *sql;
+	zval *table = NULL, *schema = NULL, *_0 = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 1, &table, &schema);
+	zephir_fetch_params(1, 1, 1, &table_param, &schema_param);
 
-	if (!schema) {
-		schema = ZEPHIR_GLOBAL(global_null);
+	if (unlikely(Z_TYPE_P(table_param) != IS_STRING && Z_TYPE_P(table_param) != IS_NULL)) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'table' must be a string") TSRMLS_CC);
+		RETURN_MM_NULL();
 	}
 
-
+	if (likely(Z_TYPE_P(table_param) == IS_STRING)) {
+		zephir_get_strval(table, table_param);
+	} else {
+		ZEPHIR_INIT_VAR(table);
+		ZVAL_EMPTY_STRING(table);
+	}
+	if (!schema_param) {
+		ZEPHIR_INIT_VAR(schema);
+		ZVAL_EMPTY_STRING(schema);
+	} else {
+		zephir_get_strval(schema, schema_param);
+	}
 	ZEPHIR_INIT_VAR(sql);
 	ZVAL_STRING(sql, "SELECT tc.table_name as TABLE_NAME, kcu.column_name as COLUMN_NAME, tc.constraint_name as CONSTRAINT_NAME, tc.table_catalog as REFERENCED_TABLE_SCHEMA, ccu.table_name AS REFERENCED_TABLE_NAME, ccu.column_name AS REFERENCED_COLUMN_NAME FROM information_schema.table_constraints AS tc JOIN information_schema.key_column_usage AS kcu ON tc.constraint_name = kcu.constraint_name JOIN information_schema.constraint_column_usage AS ccu ON ccu.constraint_name = tc.constraint_name WHERE constraint_type = 'FOREIGN KEY' AND ", 1);
-	if (zephir_is_true(schema)) {
+
+
+	if (schema && Z_STRLEN_P(schema)) {
 		ZEPHIR_INIT_VAR(_0);
 		ZEPHIR_CONCAT_SVSVS(_0, "tc.table_schema = '", schema, "' AND tc.table_name='", table, "'");
 		zephir_concat_self(&sql, _0 TSRMLS_CC);
@@ -727,23 +1046,35 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, describeReferences) {
 
 /**
  * Generates the SQL to describe the table creation options
- *
- * @param	string table
- * @param	string schema
- * @return	string
  */
 PHP_METHOD(Phalcon_Db_Dialect_Postgresql, tableOptions) {
 
-	zval *table, *schema = NULL;
+	zval *table_param = NULL, *schema_param = NULL;
+	zval *table = NULL, *schema = NULL;
 
-	zephir_fetch_params(0, 1, 1, &table, &schema);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 1, &table_param, &schema_param);
 
-	if (!schema) {
-		schema = ZEPHIR_GLOBAL(global_null);
+	if (unlikely(Z_TYPE_P(table_param) != IS_STRING && Z_TYPE_P(table_param) != IS_NULL)) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'table' must be a string") TSRMLS_CC);
+		RETURN_MM_NULL();
+	}
+
+	if (likely(Z_TYPE_P(table_param) == IS_STRING)) {
+		zephir_get_strval(table, table_param);
+	} else {
+		ZEPHIR_INIT_VAR(table);
+		ZVAL_EMPTY_STRING(table);
+	}
+	if (!schema_param) {
+		ZEPHIR_INIT_VAR(schema);
+		ZVAL_EMPTY_STRING(schema);
+	} else {
+		zephir_get_strval(schema, schema_param);
 	}
 
 
-	RETURN_STRING("", 1);
+	RETURN_MM_STRING("", 1);
 
 }
 

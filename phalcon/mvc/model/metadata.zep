@@ -303,7 +303,7 @@ abstract class MetaData implements InjectionAwareInterface
 	{
 		var source, schema, key;
 
-		if typeof data != "array" && typeof data != "string" &&  typeof data != "boolean" {
+		if typeof data != "array" && typeof data != "string" && typeof data != "boolean" {
 			throw new Exception("Invalid data for index");
 		}
 
@@ -644,8 +644,6 @@ abstract class MetaData implements InjectionAwareInterface
 		} else {
 			return isset this->readMetaData(model)[self::MODELS_DATA_TYPES][attribute];
 		}
-
-		return false;
 	}
 
 	/**

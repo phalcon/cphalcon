@@ -323,7 +323,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 	 */
 	protected final function _getCallArgument(array! argument) -> array
 	{
-		if argument["type"] == PHQL_T_ALL {
+		if argument["type"] == PHQL_T_STARALL {
 			return ["type": "all"];
 		}
 		return this->_getExpression(argument);
@@ -334,9 +334,15 @@ class Query implements QueryInterface, InjectionAwareInterface
 	 */
 	protected final function _getFunctionCall(array! expr) -> array
 	{
-		var arguments, argument, functionArgs;
+		var arguments, distinct, argument, functionArgs;
 
 		if fetch arguments, expr["arguments"] {
+			if isset expr["distinct"] {
+				let distinct = 1;
+			} else {
+				let distinct = 0;
+			}
+
 			if isset arguments[0] {
 				/**
 				 * There are more than one argument
@@ -351,11 +357,21 @@ class Query implements QueryInterface, InjectionAwareInterface
 				 */
 				let functionArgs = [this->_getCallArgument(arguments)];
 			}
-			return [
-				"type"     : "functionCall",
-				"name"     : expr["name"],
-				"arguments": functionArgs
-			];
+
+			if (distinct) {
+				return [
+					"type"     : "functionCall",
+					"name"     : expr["name"],
+					"arguments": functionArgs,
+					"distinct" : distinct
+				];
+			} else {
+				return [
+					"type"     : "functionCall",
+					"name"     : expr["name"],
+					"arguments": functionArgs
+				];
+			}
 		}
 
 		return [
@@ -632,7 +648,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 		/**
 		 * Check for select * (all)
 		 */
-		if columnType == PHQL_T_ALL {
+		if columnType == PHQL_T_STARALL {
 			for modelName, source in this->_models {
 				let sqlColumns[] = [
 					"type"  : "object",
@@ -742,20 +758,19 @@ class Query implements QueryInterface, InjectionAwareInterface
 	{
 		var modelName, model, source, schema;
 
-		if fetch modelName, qualifiedName["name"] {
-
-			let model = manager->load(modelName),
-				source = model->getSource(),
-				schema = model->getSchema();
-
-			if schema {
-				return [schema, source];
-			}
-
-			return source;
+		if !fetch modelName, qualifiedName["name"] {
+			throw new Exception("Corrupted SELECT AST");
 		}
 
-		throw new Exception("Corrupted SELECT AST");
+		let model = manager->load(modelName),
+			source = model->getSource(),
+			schema = model->getSchema();
+
+		if schema {
+			return [schema, source];
+		}
+
+		return source;
 	}
 
 	/**
@@ -1498,7 +1513,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 			models, modelsInstances, selectedModels, manager, metaData,
 			selectedModel, qualifiedName, modelName, nsAlias, realModelName, model,
 			schema, source, completeSource, alias, joins, sqlJoins, selectColumns,
-			sqlColumnAliases, column, sqlColumn, sqlSelect, having, where,
+			sqlColumnAliases, column, sqlColumn, sqlSelect, distinct, having, where,
 			groupBy, order, limit;
 		int position;
 
@@ -1589,7 +1604,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 			/**
 			 * Load a model instance from the models manager
 			 */
-			let model = manager->load(realModelName);
+			let model = manager->load(realModelName, true);
 
 			/**
 			 * Define a complete schema/source
@@ -1731,6 +1746,10 @@ class Query implements QueryInterface, InjectionAwareInterface
 			"columns": sqlColumns
 		];
 
+		if fetch distinct, select["distinct"] {
+			let sqlSelect["distinct"] = distinct;
+		}
+
 		if count(sqlJoins) {
 			let sqlSelect["joins"] = sqlJoins;
 		}
@@ -1768,7 +1787,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 		 */
 		if fetch limit, ast["limit"] {
 			let sqlSelect["limit"] = this->_getLimitClause(limit);
-		}		
+		}
 
 		return sqlSelect;
 	}
@@ -1804,7 +1823,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 
 		let manager = this->_manager, modelName = qualifiedName["name"];
 
-		let model = manager->load(modelName),
+		let model = manager->load(modelName, true),
 			source = model->getSource(),
 			schema = model->getSchema();
 		if schema {
@@ -1927,7 +1946,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 			/**
 			 * Load a model instance from the models manager
 			 */
-			let model = manager->load(realModelName),
+			let model = manager->load(realModelName, true),
 				source = model->getSource(),
 				schema = model->getSchema();
 
@@ -2067,7 +2086,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 			/**
 			 * Load a model instance from the models manager
 			 */
-			let model = manager->load(realModelName),
+			let model = manager->load(realModelName, true),
 				source = model->getSource(),
 				schema = model->getSchema();
 
@@ -2203,10 +2222,8 @@ class Query implements QueryInterface, InjectionAwareInterface
 
 	/**
 	 * Returns the current cache backend instance
-	 *
-	 * @return Phalcon\Cache\BackendInterface
 	 */
-	public function getCache()
+	public function getCache() -> <\Phalcon\Cache\BackendInterface>
 	{
 		return this->_cache;
 	}
@@ -2245,7 +2262,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 			 * Load model if it is not loaded
 			 */
 			if !fetch model, this->_modelsInstances[modelName] {
-				let model = manager->load(modelName),
+				let model = manager->load(modelName, true),
 					this->_modelsInstances[modelName] = model;
 			}
 
@@ -2539,7 +2556,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 
 		let manager = this->_manager;
 		if !fetch model, this->_modelsInstances[modelName] {
-			let model = manager->load(modelName);
+			let model = manager->load(modelName, true);
 		}
 
 		/**

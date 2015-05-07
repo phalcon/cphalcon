@@ -39,7 +39,7 @@ use Phalcon\Db\Column;
  *    ->andWhere("year < 2000")
  *    ->bind(array("type" => "mechanical"))
  *    ->limit(5, 10)
- *    ->order("name")
+ *    ->orderBy("name")
  *    ->execute();
  *</code>
  */
@@ -425,7 +425,6 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 		var hiddenParam, nextHiddenParam, minimumKey, maximumKey;
 
 		let hiddenParam = this->_hiddenParamNumber;
-
 
 		let nextHiddenParam = hiddenParam + 1;
 

@@ -161,7 +161,7 @@ class Dispatcher extends \Phalcon\Dispatcher implements DispatcherInterface
 	 */
 	public function getControllerClass() -> string
 	{
-		return this->{"getHandlerName"}();
+		return this->getHandlerClass();
 	}
 
 	/**

@@ -28,26 +28,24 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation_ValidatorInterface) {
 /**
  * Checks if an option is defined
  *
- * @param string key
- * @return mixed
+ * @deprecated since 2.1.0
+ * @see \Phalcon\Validation\Validator::hasOption()
  */
 ZEPHIR_DOC_METHOD(Phalcon_Validation_ValidatorInterface, isSetOption);
 
 /**
+ * Checks if an option is defined
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Validation_ValidatorInterface, hasOption);
+
+/**
  * Returns an option in the validator's options
- * Returns null if the option hasn't been set
- *
- * @param string key
- * @return mixed
+ * Returns null if the option hasn't set
  */
 ZEPHIR_DOC_METHOD(Phalcon_Validation_ValidatorInterface, getOption);
 
 /**
  * Executes the validation
- *
- * @param Phalcon\Validation validator
- * @param string attribute
- * @return boolean
  */
 ZEPHIR_DOC_METHOD(Phalcon_Validation_ValidatorInterface, validate);
 

@@ -80,6 +80,12 @@ const phvolt_token_names phvolt_tokens[] =
   { SL("EXTENDS"),        PHVOLT_T_EXTENDS },
   { SL("IS"),             PHVOLT_T_IS },
   { SL("DEFINED"),        PHVOLT_T_DEFINED },
+  { SL("EMPTY"),          PHVOLT_T_EMPTY },
+  { SL("EVEN"),           PHVOLT_T_EVEN },
+  { SL("ODD"),            PHVOLT_T_ODD },
+  { SL("NUMERIC"),        PHVOLT_T_NUMERIC },
+  { SL("SCALAR"),         PHVOLT_T_SCALAR },
+  { SL("ITERABLE"),       PHVOLT_T_ITERABLE },
   { SL("INCLUDE"),        PHVOLT_T_INCLUDE },
   { SL("DO"),             PHVOLT_T_DO },
   { SL("WHITESPACE"),     PHVOLT_T_IGNORE },
@@ -245,6 +251,11 @@ int phvolt_internal_parse_view(zval **result, zval *view_code, zval *template_pa
 
 	/** Start the reentrant parser */
 	phvolt_parser = phvolt_Alloc(phvolt_wrapper_alloc);
+	if (unlikely(!phvolt_parser)) {
+		MAKE_STD_ZVAL(*error_msg);
+		ZVAL_STRING(*error_msg, "Memory allocation error", 1);
+		return FAILURE;
+	}
 
 	parser_status = emalloc(sizeof(phvolt_parser_status));
 	state = emalloc(sizeof(phvolt_scanner_state));
@@ -593,6 +604,30 @@ int phvolt_internal_parse_view(zval **result, zval *view_code, zval *template_pa
 
 			case PHVOLT_T_DEFINED:
 				phvolt_(phvolt_parser, PHVOLT_DEFINED, NULL, parser_status);
+				break;
+
+			case PHVOLT_T_EMPTY:
+				phvolt_(phvolt_parser, PHVOLT_EMPTY, NULL, parser_status);
+				break;
+
+			case PHVOLT_T_EVEN:
+				phvolt_(phvolt_parser, PHVOLT_EVEN, NULL, parser_status);
+				break;
+
+			case PHVOLT_T_ODD:
+				phvolt_(phvolt_parser, PHVOLT_ODD, NULL, parser_status);
+				break;
+
+			case PHVOLT_T_NUMERIC:
+				phvolt_(phvolt_parser, PHVOLT_NUMERIC, NULL, parser_status);
+				break;
+
+			case PHVOLT_T_SCALAR:
+				phvolt_(phvolt_parser, PHVOLT_SCALAR, NULL, parser_status);
+				break;
+
+			case PHVOLT_T_ITERABLE:
+				phvolt_(phvolt_parser, PHVOLT_ITERABLE, NULL, parser_status);
 				break;
 
 			case PHVOLT_T_DO:

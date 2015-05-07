@@ -38,9 +38,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_View_Engine) {
 
 /**
  * Phalcon\Mvc\View\Engine constructor
- *
- * @param Phalcon\Mvc\ViewInterface view
- * @param Phalcon\DiInterface dependencyInjector
  */
 PHP_METHOD(Phalcon_Mvc_View_Engine, __construct) {
 
@@ -59,7 +56,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine, __construct) {
 }
 
 /**
- * Returns cached ouput on another view stage
+ * Returns cached output on another view stage
  */
 PHP_METHOD(Phalcon_Mvc_View_Engine, getContent) {
 

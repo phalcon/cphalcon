@@ -24,16 +24,16 @@ namespace Phalcon\Debug;
  *
  * Dumps information about a variable(s)
  *
- *<code>
- *	$foo = 123;
- *	echo (new \Phalcon\Debug\Dump())->var($foo, "foo");
+ * <code>
+ *    $foo = 123;
+ *    echo (new \Phalcon\Debug\Dump())->variable($foo, "foo");
  *</code>
  *
- *<code>
- *	$foo = "string";
- *	$bar = ["key" => "value"];
- *	$baz = new stdClass();
- *	echo (new \Phalcon\Debug\Dump())->vars($foo, $bar, $baz);
+ * <code>
+ *    $foo = "string";
+ *    $bar = ["key" => "value"];
+ *    $baz = new stdClass();
+ *    echo (new \Phalcon\Debug\Dump())->variables($foo, $bar, $baz);
  *</code>
  */
 class Dump
@@ -62,14 +62,14 @@ class Dump
 
 
 	/**
-	 * Alias of vars() method
+	 * Alias of variables() method
 	 *
 	 * @param mixed variable
 	 * @param ...
 	 */
 	public function all() -> string
 	{
-		return call_user_func_array([this, "vars"], func_get_args());
+		return call_user_func_array([this, "variables"], func_get_args());
 	}
 
 	/**
@@ -119,17 +119,17 @@ class Dump
 	}
 
 	/**
-	 * Alias of var() method
+	 * Alias of variable() method
 	 */
-	public function one(variable, string name = null) -> string
+	public function one(var variable, string name = null) -> string
 	{
-		return this->$var(variable, name);
+		return this->variable(variable, name);
 	}
 
 	/**
 	 * Prepare an HTML string of information about a single variable.
 	 */
-	protected function output(variable, string name = null, int tab = 1) -> string
+	protected function output(var variable, string name = null, int tab = 1) -> string
 	{
 		var key, value, output, space, type, attr;
 		let space = "  ",
@@ -217,7 +217,7 @@ class Dump
 		}
 
 		if is_int(variable) {
-			return strtr("<b style=':style'>Intiger</b> (<span style=':style'>:var</span>)", [":style": this->getStyle("int"), ":var": variable]);
+			return strtr("<b style=':style'>Integer</b> (<span style=':style'>:var</span>)", [":style": this->getStyle("int"), ":var": variable]);
 		}
 
 		if is_float(variable) {
@@ -245,11 +245,11 @@ class Dump
 	/**
 	 * Returns an HTML string of information about a single variable.
 	 *
-	 *<code>
-	 *	echo (new \Phalcon\Debug\Dump())->var($foo, "foo");
-	 *</code>
+	 * <code>
+	 *    echo (new \Phalcon\Debug\Dump())->variable($foo, "foo");
+	 * </code>
 	 */
-	public function $var(variable, string name = null) -> string
+	public function variable(var variable, string name = null) -> string
 	{
 		return strtr("<pre style=':style'>:output</pre>", [
 			":style": this->getStyle("pre"),
@@ -261,17 +261,17 @@ class Dump
 	 * Returns an HTML string of debugging information about any number of
 	 * variables, each wrapped in a "pre" tag.
 	 *
-	 *<code>
-	 *	$foo = "string";
-	 *	$bar = ["key" => "value"];
-	 *	$baz = new stdClass();
-	 *	echo (new \Phalcon\Debug\Dump())->vars($foo, $bar, $baz);
+	 * <code>
+	 *    $foo = "string";
+	 *    $bar = ["key" => "value"];
+	 *    $baz = new stdClass();
+	 *    echo (new \Phalcon\Debug\Dump())->variables($foo, $bar, $baz);
 	 *</code>
 	 *
 	 * @param mixed variable
 	 * @param ...
 	 */
-	public function vars() -> string
+	public function variables() -> string
 	{
 		var key, value, output;
 

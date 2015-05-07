@@ -26,7 +26,7 @@ namespace Phalcon;
  */
 class Debug
 {
-	public _uri = "http://static.phalconphp.com/debug/1.2.0/";
+	public _uri = "http://static.phalconphp.com/debug/2.0.0/";
 
 	public _theme = "default";
 
@@ -107,7 +107,8 @@ class Debug
 	 */
 	public function listenLowSeverity() -> <Debug>
 	{
-		set_exception_handler([this, "onUncaughtLowSeverity"]);
+		set_error_handler([this, "onUncaughtLowSeverity"]);
+		set_exception_handler([this, "onUncaughtException"]);
 		return this;
 	}
 
@@ -332,7 +333,6 @@ class Debug
 	 */
 	protected final function showTraceItem(int n, array! trace)
 	{
-
 		var space, twoSpaces, underscore, minus, className, namespaceSeparator,
 			prepareInternalClass, preparedFunctionName, html, classReflection, prepareUriClass,
 			functionName, functionReflection, traceArgs, arguments, argument,
@@ -582,6 +582,16 @@ class Debug
 		let html .= "</td></tr>";
 
 		return html;
+	}
+
+	/**
+	 * Throws an exception when a notice or warning is raised
+	 */
+	public function onUncaughtLowSeverity(severity, message, file, line)
+	{
+		if error_reporting() & severity {
+			throw new \ErrorException(message, 0, severity, file, line);
+		}
 	}
 
 	/**

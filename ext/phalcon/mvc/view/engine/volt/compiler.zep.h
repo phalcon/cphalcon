@@ -48,7 +48,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, getCompiledTemplatePath);
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, parse);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_engine_volt_compiler___construct, 0, 0, 0)
-	ZEND_ARG_INFO(0, view)
+	ZEND_ARG_OBJ_INFO(0, view, Phalcon\\Mvc\\ViewBaseInterface, 1)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_engine_volt_compiler_setdi, 0, 0, 1)
@@ -118,21 +118,21 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_engine_volt_compiler__statementl
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_engine_volt_compiler_compileforeach, 0, 0, 1)
-	ZEND_ARG_INFO(0, statement)
+	ZEND_ARG_ARRAY_INFO(0, statement, 0)
 	ZEND_ARG_INFO(0, extendsMode)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_engine_volt_compiler_compileif, 0, 0, 1)
-	ZEND_ARG_INFO(0, statement)
+	ZEND_ARG_ARRAY_INFO(0, statement, 0)
 	ZEND_ARG_INFO(0, extendsMode)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_engine_volt_compiler_compileelseif, 0, 0, 1)
-	ZEND_ARG_INFO(0, statement)
+	ZEND_ARG_ARRAY_INFO(0, statement, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_engine_volt_compiler_compilecache, 0, 0, 1)
-	ZEND_ARG_INFO(0, statement)
+	ZEND_ARG_ARRAY_INFO(0, statement, 0)
 	ZEND_ARG_INFO(0, extendsMode)
 ZEND_END_ARG_INFO()
 
@@ -141,15 +141,15 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_engine_volt_compiler_compileset,
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_engine_volt_compiler_compiledo, 0, 0, 1)
-	ZEND_ARG_INFO(0, statement)
+	ZEND_ARG_ARRAY_INFO(0, statement, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_engine_volt_compiler_compilereturn, 0, 0, 1)
-	ZEND_ARG_INFO(0, statement)
+	ZEND_ARG_ARRAY_INFO(0, statement, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_engine_volt_compiler_compileautoescape, 0, 0, 2)
-	ZEND_ARG_INFO(0, statement)
+	ZEND_ARG_ARRAY_INFO(0, statement, 0)
 	ZEND_ARG_INFO(0, extendsMode)
 ZEND_END_ARG_INFO()
 
@@ -158,21 +158,21 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_engine_volt_compiler_compileecho
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_engine_volt_compiler_compileinclude, 0, 0, 1)
-	ZEND_ARG_INFO(0, statement)
+	ZEND_ARG_ARRAY_INFO(0, statement, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_engine_volt_compiler_compilemacro, 0, 0, 2)
-	ZEND_ARG_INFO(0, statement)
+	ZEND_ARG_ARRAY_INFO(0, statement, 0)
 	ZEND_ARG_INFO(0, extendsMode)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_engine_volt_compiler_compilecall, 0, 0, 2)
-	ZEND_ARG_INFO(0, statement)
+	ZEND_ARG_ARRAY_INFO(0, statement, 0)
 	ZEND_ARG_INFO(0, extendsMode)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_engine_volt_compiler__statementlist, 0, 0, 1)
-	ZEND_ARG_INFO(0, statements)
+	ZEND_ARG_ARRAY_INFO(0, statements, 0)
 	ZEND_ARG_INFO(0, extendsMode)
 ZEND_END_ARG_INFO()
 

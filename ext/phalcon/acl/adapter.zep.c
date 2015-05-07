@@ -24,7 +24,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Acl_Adapter) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Acl, Adapter, phalcon, acl_adapter, phalcon_acl_adapter_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Acl, Adapter, phalcon, acl_adapter, phalcon_acl_adapter_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
 
 	/**
 	 * Events manager
@@ -58,10 +58,12 @@ ZEPHIR_INIT_CLASS(Phalcon_Acl_Adapter) {
 
 	/**
 	 * Active access which the list is checking if some role can access it
-	 * "@var mixed
+	 * @var mixed
 	 */
 	zend_declare_property_null(phalcon_acl_adapter_ce, SL("_activeAccess"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
+	zend_class_implements(phalcon_acl_adapter_ce TSRMLS_CC, 1, phalcon_acl_adapterinterface_ce);
+	zend_class_implements(phalcon_acl_adapter_ce TSRMLS_CC, 1, phalcon_events_eventsawareinterface_ce);
 	return SUCCESS;
 
 }
@@ -90,7 +92,7 @@ PHP_METHOD(Phalcon_Acl_Adapter, getActiveResource) {
 
 /**
  * Active access which the list is checking if some role can access it
- * "@var mixed
+ * @var mixed
  */
 PHP_METHOD(Phalcon_Acl_Adapter, getActiveAccess) {
 

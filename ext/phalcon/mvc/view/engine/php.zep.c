@@ -38,10 +38,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_View_Engine_Php) {
 
 /**
  * Renders a view using the template engine
- *
- * @param string path
- * @param array params
- * @param boolean mustClean
  */
 PHP_METHOD(Phalcon_Mvc_View_Engine_Php, render) {
 
@@ -79,7 +75,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Php, render) {
 		zephir_check_call_status();
 	}
 	if (Z_TYPE_P(params) == IS_ARRAY) {
-		zephir_is_iterable(params, &_2, &_1, 0, 0, "phalcon/mvc/view/engine/php.zep", 55);
+		zephir_is_iterable(params, &_2, &_1, 0, 0, "phalcon/mvc/view/engine/php.zep", 51);
 		for (
 		  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_2, &_1)

@@ -11,8 +11,8 @@ PHP_METHOD(Phalcon_Debug_Dump, getStyle);
 PHP_METHOD(Phalcon_Debug_Dump, setStyles);
 PHP_METHOD(Phalcon_Debug_Dump, one);
 PHP_METHOD(Phalcon_Debug_Dump, output);
-PHP_METHOD(Phalcon_Debug_Dump, var);
-PHP_METHOD(Phalcon_Debug_Dump, vars);
+PHP_METHOD(Phalcon_Debug_Dump, variable);
+PHP_METHOD(Phalcon_Debug_Dump, variables);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_debug_dump_setdetailed, 0, 0, 1)
 	ZEND_ARG_INFO(0, detailed)
@@ -42,7 +42,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_debug_dump_output, 0, 0, 1)
 	ZEND_ARG_INFO(0, tab)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_debug_dump_var, 0, 0, 1)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_debug_dump_variable, 0, 0, 1)
 	ZEND_ARG_INFO(0, variable)
 	ZEND_ARG_INFO(0, name)
 ZEND_END_ARG_INFO()
@@ -56,7 +56,7 @@ ZEPHIR_INIT_FUNCS(phalcon_debug_dump_method_entry) {
 	PHP_ME(Phalcon_Debug_Dump, setStyles, arginfo_phalcon_debug_dump_setstyles, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Debug_Dump, one, arginfo_phalcon_debug_dump_one, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Debug_Dump, output, arginfo_phalcon_debug_dump_output, ZEND_ACC_PROTECTED)
-	PHP_ME(Phalcon_Debug_Dump, var, arginfo_phalcon_debug_dump_var, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Debug_Dump, vars, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Debug_Dump, variable, arginfo_phalcon_debug_dump_variable, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Debug_Dump, variables, NULL, ZEND_ACC_PUBLIC)
   PHP_FE_END
 };

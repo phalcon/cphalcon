@@ -20,6 +20,7 @@
 namespace Phalcon\Paginator\Adapter;
 
 use Phalcon\Mvc\Model\Query\Builder;
+use Phalcon\Paginator\Adapter;
 use Phalcon\Paginator\AdapterInterface;
 use Phalcon\Paginator\Exception;
 
@@ -41,7 +42,7 @@ use Phalcon\Paginator\Exception;
  *  ));
  *</code>
  */
-class QueryBuilder implements AdapterInterface
+class QueryBuilder extends Adapter implements AdapterInterface
 {
 	/**
 	 * Configuration of paginator by model
@@ -54,16 +55,6 @@ class QueryBuilder implements AdapterInterface
 	protected _builder;
 
 	/**
-	 * Number of rows to be shown in the paginator. By default is null
-	 */
-	protected _limitRows;
-
-	/**
-	 * Current page in paginate
-	 */
-	protected _page = 1;
-
-	/**
 	 * Phalcon\Paginator\Adapter\QueryBuilder
 	 */
 	public function __construct(array config)
@@ -74,28 +65,18 @@ class QueryBuilder implements AdapterInterface
 
 		if !fetch builder, config["builder"] {
 			throw new Exception("Parameter 'builder' is required");
-		} else {
-			this->setQueryBuilder(builder);
 		}
 
 		if !fetch limit, config["limit"] {
 			throw new Exception("Parameter 'limit' is required");
-		} else {
-			this->setLimit(limit);
 		}
+
+		this->setQueryBuilder(builder);
+		this->setLimit(limit);
 
 		if fetch page, config["page"] {
 			this->setCurrentPage(page);
 		}
-	}
-
-	/**
-	 * Set the current page number
-	 */
-	public function setCurrentPage(int currentPage) -> <QueryBuilder>
-	{
-		let this->_page = currentPage;
-		return this;
 	}
 
 	/**
@@ -104,24 +85,6 @@ class QueryBuilder implements AdapterInterface
 	public function getCurrentPage() -> int
 	{
 		return this->_page;
-	}
-
-	/**
-	 * Set current rows limit
-	 */
-	public function setLimit(int limitRows) -> <QueryBuilder>
-	{
-		let this->_limitRows = limitRows;
-
-		return this;
-	}
-
-	/**
-	 * Get current rows limit
-	 */
-	public function getLimit() -> int
-	{
-		return this->_limitRows;
 	}
 
 	/**
@@ -183,21 +146,16 @@ class QueryBuilder implements AdapterInterface
 
 		let query = builder->getQuery();
 
-		let page = new \stdClass();
-		let page->first = 1;
-
 		if numberPage == 1 {
 			let before = 1;
 		} else {
 			let before = numberPage - 1;
 		}
-		let page->before = before;
 
 		/**
 		 * Execute the query an return the requested slice of data
 		 */
-		let items = query->execute(),
-			page->items = items;
+		let items = query->execute();
 
 		/**
 		 * Change the queried columns by a COUNT(*)
@@ -228,9 +186,13 @@ class QueryBuilder implements AdapterInterface
 			let next = totalPages;
 		}
 
-		let page->next = next,
-			page->last = totalPages,
+		let page = new \stdClass(),
+			page->items = items,
+			page->first = 1,
+			page->before = before,
 			page->current = numberPage,
+			page->last = totalPages,
+			page->next = next,
 			page->total_pages = totalPages,
 			page->total_items = rowcount,
 			page->limit = this->_limitRows;

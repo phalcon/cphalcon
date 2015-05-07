@@ -47,7 +47,6 @@ use Phalcon\Mvc\ModelInterface;
  *
  *}
  *</code>
- *
  */
 class Url extends Validator implements ValidatorInterface
 {

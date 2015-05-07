@@ -50,7 +50,6 @@ use Phalcon\Mvc\Model\ValidatorInterface;
  *
  *}
  *</code>
- *
  */
 class Uniqueness extends Validator implements ValidatorInterface
 {

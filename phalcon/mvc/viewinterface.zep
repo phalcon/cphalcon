@@ -24,23 +24,8 @@ namespace Phalcon\Mvc;
  *
  * Interface for Phalcon\Mvc\View
  */
-interface ViewInterface
+interface ViewInterface extends ViewBaseInterface
 {
-
-	/**
-	 * Sets views directory. Depending of your platform, always add a trailing slash or backslash
-	 *
-	 * @param string viewsDir
-	 */
-	public function setViewsDir(viewsDir);
-
-	/**
-	 * Gets views directory
-	 *
-	 * @return string
-	 */
-	public function getViewsDir();
-
 	/**
 	 * Sets the layouts sub-directory. Must be a directory under the views directory. Depending of your platform, always add a trailing slash or backslash
 	 *
@@ -120,7 +105,6 @@ interface ViewInterface
 
 	/**
 	 * Resets any template before layouts
-	 *
 	 */
 	public function cleanTemplateBefore();
 
@@ -136,29 +120,6 @@ interface ViewInterface
 	 *
 	 */
 	public function cleanTemplateAfter();
-
-	/**
-	 * Adds parameters to views (alias of setVar)
-	 *
-	 * @param string key
-	 * @param mixed value
-	 */
-	public function setParamToView(key, value);
-
-	/**
-	 * Adds parameters to views
-	 *
-	 * @param string key
-	 * @param mixed value
-	 */
-	public function setVar(key, value);
-
-	/**
-	 * Returns parameters to views
-	 *
-	 * @return array
-	 */
-	public function getParamsToView();
 
 	/**
 	 * Gets the name of the controller rendered
@@ -221,34 +182,6 @@ interface ViewInterface
 	public function finish();
 
 	/**
-	 * Returns the cache instance used to cache
-	 *
-	 * @return Phalcon\Cache\BackendInterface
-	 */
-	public function getCache();
-
-	/**
-	 * Cache the actual view render to certain level
-	 *
-	 * @param boolean|array options
-	 */
-	public function cache(options = true);
-
-	/**
-	 * Externally sets the view content
-	 *
-	 * @param string content
-	 */
-	public function setContent(content);
-
-	/**
-	 * Returns cached ouput from another view stage
-	 *
-	 * @return string
-	 */
-	public function getContent();
-
-	/**
 	 * Returns the path of the view that is currently rendered
 	 *
 	 * @return string
@@ -257,19 +190,16 @@ interface ViewInterface
 
 	/**
 	 * Disables the auto-rendering process
-	 *
 	 */
 	public function disable();
 
 	/**
 	 * Enables the auto-rendering process
-	 *
 	 */
 	public function enable();
 
 	/**
 	 * Resets the view component to its factory default values
-	 *
 	 */
 	public function reset();
 
@@ -279,5 +209,4 @@ interface ViewInterface
 	 * @return boolean
 	 */
 	public function isDisabled();
-
 }

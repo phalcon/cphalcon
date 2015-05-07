@@ -197,3 +197,7 @@ build/install-gentoo
 build/safe/tests/
 ext/phalcon/mvc/view/engine/volt/lemon
 ext/phalcon/mvc/view/engine/volt/parser.out
+ext/phalcon/annotations/lemon
+ext/phalcon/annotations/lemon.dSYM/
+ext/phalcon/annotations/parser.out
+ext/phalcon/mvc/model/query/lemon

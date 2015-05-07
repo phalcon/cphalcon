@@ -19,6 +19,8 @@
 
 namespace Phalcon\Mvc;
 
+use Phalcon\Mvc\Model\MessageInterface;
+
 /**
  * Phalcon\Mvc\CollectionInterface
  *
@@ -26,11 +28,6 @@ namespace Phalcon\Mvc;
  */
 interface CollectionInterface
 {
-
-	/**
-	 * Phalcon\Mvc\Collection
-	 */
-	public function __construct(<\Phalcon\DiInterface> dependencyInjector = null);
 
 	/**
 	 * Sets a value for the _id propery, creates a MongoId object if needed
@@ -48,24 +45,18 @@ interface CollectionInterface
 
 	/**
 	 * Returns an array with reserved properties that cannot be part of the insert/update
-	 *
-	 * @return array
 	 */
-	public function getReservedAttributes();
+	public function getReservedAttributes() -> array;
 
 	/**
 	 * Returns collection name mapped in the model
-	 *
-	 * @return string
 	 */
-	public function getSource();
+	public function getSource() -> string;
 
 	/**
 	 * Sets a service in the services container that returns the Mongo database
-	 *
-	 * @param string connectionService
 	 */
-	public function setConnectionService(connectionService);
+	public function setConnectionService(string! connectionService);
 
 	/**
 	 * Retrieves a database connection
@@ -92,55 +83,39 @@ interface CollectionInterface
 
 	/**
 	 * Returns a cloned collection
-	 *
-	 * @param Phalcon\Mvc\Collection collection
-	 * @param array document
-	 * @return Phalcon\Mvc\Collection
 	 */
-	public static function cloneResult(<CollectionInterface> collection, array! document);
+	public static function cloneResult(<CollectionInterface> collection, array! document) -> <CollectionInterface>;
 
 	/**
 	 * Fires an event, implicitly calls behaviors and listeners in the events manager are notified
-	 *
-	 * @param string eventName
-	 * @return boolean
 	 */
-	public function fireEvent(eventName);
+	public function fireEvent(string! eventName) -> boolean;
 
 	/**
 	 * Fires an event, implicitly listeners in the events manager are notified
 	 * This method stops if one of the callbacks/listeners returns boolean false
-	 *
-	 * @param string eventName
-	 * @return boolean
 	 */
-	public function fireEventCancel(eventName);
+	public function fireEventCancel(string! eventName) -> boolean;
 
 	/**
 	 * Check whether validation process has generated any messages
-	 *
-	 * @return boolean
 	 */
-	public function validationHasFailed();
+	public function validationHasFailed() -> boolean;
 
 	/**
 	 * Returns all the validation messages
-	 *
-	 * @return Phalcon\Mvc\Model\MessageInterface[]
 	 */
-	public function getMessages();
+	public function getMessages() -> <MessageInterface[]>;
 
 	/**
 	 * Appends a customized message on the validation process
 	 */
-	public function appendMessage(<\Phalcon\Mvc\Model\MessageInterface> message);
+	public function appendMessage(<MessageInterface> message);
 
 	/**
 	 * Creates/Updates a collection based on the values in the atributes
-	 *
-	 * @return boolean
 	 */
-	public function save();
+	public function save() -> boolean;
 
 	/**
 	 * Find a document by its id
@@ -148,7 +123,7 @@ interface CollectionInterface
 	 * @param string id
 	 * @return Phalcon\Mvc\Collection
 	 */
-	public static function findById(id);
+	public static function findById(id) -> <CollectionInterface>;
 
 	/**
 	 * Allows to query the first record that match the specified conditions
@@ -156,7 +131,7 @@ interface CollectionInterface
 	 * @param array parameters
 	 * @return array
 	 */
-	public static function findFirst(parameters = null);
+	public static function findFirst(array parameters = null);
 
 	/**
 	 * Allows to query a set of records that match the specified conditions
@@ -164,7 +139,7 @@ interface CollectionInterface
 	 * @param 	array parameters
 	 * @return  array
 	 */
-	public static function find(parameters = null);
+	public static function find(array parameters = null);
 
 	/**
 	 * Perform a count over a collection
@@ -172,13 +147,10 @@ interface CollectionInterface
 	 * @param array parameters
 	 * @return array
 	 */
-	public static function count(parameters = null);
+	public static function count(array parameters = null);
 
 	/**
 	 * Deletes a model instance. Returning true on success or false otherwise
-	 *
-	 * @return boolean
 	 */
-	public function delete();
-
+	public function delete() -> boolean;
 }

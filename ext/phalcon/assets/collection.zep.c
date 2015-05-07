@@ -175,12 +175,6 @@ PHP_METHOD(Phalcon_Assets_Collection, addInline) {
 
 /**
  * Adds a CSS resource to the collection
- *
- * @param string path
- * @param boolean local
- * @param boolean filter
- * @param array attributes
- * @return Phalcon\Assets\Collection
  */
 PHP_METHOD(Phalcon_Assets_Collection, addCss) {
 
@@ -243,11 +237,6 @@ PHP_METHOD(Phalcon_Assets_Collection, addCss) {
 
 /**
  * Adds a inline CSS to the collection
- *
- * @param string content
- * @param boolean filter
- * @param array attributes
- * @return Phalcon\Assets\Collection
  */
 PHP_METHOD(Phalcon_Assets_Collection, addInlineCss) {
 

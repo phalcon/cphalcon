@@ -79,7 +79,7 @@ PHP_METHOD(Phalcon_Flash, __construct) {
 }
 
 /**
- * Set whether the output must be implictly flushed to the output or returned as string
+ * Set whether the output must be implicitly flushed to the output or returned as string
  */
 PHP_METHOD(Phalcon_Flash, setImplicitFlush) {
 
@@ -97,7 +97,7 @@ PHP_METHOD(Phalcon_Flash, setImplicitFlush) {
 }
 
 /**
- * Set if the output must be implictily formatted with HTML
+ * Set if the output must be implicitly formatted with HTML
  */
 PHP_METHOD(Phalcon_Flash, setAutomaticHtml) {
 

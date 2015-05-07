@@ -302,12 +302,23 @@ static ulong zephir_make_fcall_info_key(char **result, size_t *length, const zen
 			buf[len - 1] = '\0';
 			break;
 
-		case ZEPHIR_FCALL_TYPE_CE_METHOD:
-		case ZEPHIR_FCALL_TYPE_ZVAL_METHOD:
 		case ZEPHIR_FCALL_TYPE_CLASS_SELF_METHOD:
 		case ZEPHIR_FCALL_TYPE_CLASS_STATIC_METHOD:
 		case ZEPHIR_FCALL_TYPE_CLASS_PARENT_METHOD:
+			l   = (size_t)(info->func_length) + 2; /* reserve 1 char for fcall-type */
+			c   = (char*) info->func_name;
+			len = 2 * ppzce_size + l + 1;
+			buf = emalloc(len);
 
+			buf[0] = info->type;
+			memcpy(buf + 1,              c,               l - 1);
+			memcpy(buf + l,              &calling_scope,  ppzce_size);
+			memcpy(buf + l + ppzce_size, &obj_ce,         ppzce_size);
+			buf[len - 1] = '\0';
+			break;
+
+		case ZEPHIR_FCALL_TYPE_CE_METHOD:
+		case ZEPHIR_FCALL_TYPE_ZVAL_METHOD:
 			l   = (size_t)(info->func_length) + 1;
 			c   = (char*) info->func_name;
 			len = 2 * ppzce_size + l + 1;
@@ -433,7 +444,7 @@ ZEPHIR_ATTR_NONNULL static void zephir_fcall_populate_fci_cache(zend_fcall_info_
 /**
  * Calls a function/method in the PHP userland
  */
-int zephir_call_user_function(zval **object_pp, zend_class_entry *obj_ce, zephir_call_type type,
+int ZEPHIR_NO_OPT zephir_call_user_function(zval **object_pp, zend_class_entry *obj_ce, zephir_call_type type,
 	zval *function_name, zval **retval_ptr_ptr, zephir_fcall_cache_entry **cache_entry, zend_uint param_count,
 	zval *params[], zephir_fcall_info *info TSRMLS_DC)
 {

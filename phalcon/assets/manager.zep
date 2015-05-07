@@ -25,6 +25,8 @@ use Phalcon\Assets\Collection;
 use Phalcon\Assets\Exception;
 use Phalcon\Assets\Resource\Js as ResourceJs;
 use Phalcon\Assets\Resource\Css as ResourceCss;
+use Phalcon\Assets\Inline\Css as InlineCss;
+use Phalcon\Assets\Inline\Js as InlineJs;
 
 /**
  * Phalcon\Assets\Manager
@@ -51,7 +53,7 @@ class Manager
 	 */
 	public function __construct(options = null)
 	{
-		if  typeof options == "array" {
+		if typeof options == "array" {
 			let this->_options = options;
 		}
 	}
@@ -113,7 +115,7 @@ class Manager
 	*/
 	public function addInlineCss(string content, filter = true, attributes = null)
 	{
-		this->addInlineCodeByType("css", new \Phalcon\Assets\Inline\Css(content, filter, attributes));
+		this->addInlineCodeByType("css", new InlineCss(content, filter, attributes));
 	}
 
 	/**
@@ -146,7 +148,7 @@ class Manager
 	*/
 	public function addInlineJs(string content, filter = true, attributes = null)
 	{
-		this->addInlineCodeByType("js", new \Phalcon\Assets\Inline\Js(content, filter, attributes));
+		this->addInlineCodeByType("js", new InlineJs(content, filter, attributes));
 	}
 
 	/**
@@ -255,7 +257,7 @@ class Manager
 	/**
 	 * Returns the CSS collection of assets
 	 */
-	public function getCss() -> <\Phalcon\Assets\Collection>
+	public function getCss() -> <Collection>
 	{
 		var collection;
 
@@ -263,7 +265,7 @@ class Manager
 		 * Check if the collection does not exist and create an implicit collection
 		 */
 		if !fetch collection, this->_collections["css"] {
-			return new \Phalcon\Assets\Collection();
+			return new Collection();
 		}
 		return collection;
 	}
@@ -438,7 +440,7 @@ class Manager
 					/**
 					 * Get the complete path
 					 */
-					let sourcePath = $resource->getRealSourcePath();
+					let sourcePath = $resource->getRealSourcePath(completeSourcePath);
 
 					/**
 					 * We need a valid source path

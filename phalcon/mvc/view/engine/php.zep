@@ -32,12 +32,8 @@ class Php extends Engine implements EngineInterface
 
 	/**
 	 * Renders a view using the template engine
-	 *
-	 * @param string path
-	 * @param array params
-	 * @param boolean mustClean
 	 */
-	public function render(string! path, params, boolean mustClean = false)
+	public function render(string! path, var params, boolean mustClean = false)
 	{
 		var key, value;
 

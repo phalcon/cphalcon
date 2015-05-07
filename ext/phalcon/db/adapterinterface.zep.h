@@ -71,7 +71,7 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapterinterface_createtable, 0, 0, 3)
 	ZEND_ARG_INFO(0, tableName)
 	ZEND_ARG_INFO(0, schemaName)
-	ZEND_ARG_INFO(0, definition)
+	ZEND_ARG_ARRAY_INFO(0, definition, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapterinterface_droptable, 0, 0, 1)
@@ -82,7 +82,7 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapterinterface_createview, 0, 0, 2)
 	ZEND_ARG_INFO(0, viewName)
-	ZEND_ARG_INFO(0, definition)
+	ZEND_ARG_ARRAY_INFO(0, definition, 0)
 	ZEND_ARG_INFO(0, schemaName)
 ZEND_END_ARG_INFO()
 
@@ -163,13 +163,13 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapterinterface_query, 0, 0, 1)
 	ZEND_ARG_INFO(0, sqlStatement)
-	ZEND_ARG_INFO(0, placeholders)
+	ZEND_ARG_ARRAY_INFO(0, placeholders, 1)
 	ZEND_ARG_INFO(0, dataTypes)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapterinterface_execute, 0, 0, 1)
 	ZEND_ARG_INFO(0, sqlStatement)
-	ZEND_ARG_INFO(0, placeholders)
+	ZEND_ARG_ARRAY_INFO(0, placeholders, 1)
 	ZEND_ARG_INFO(0, dataTypes)
 ZEND_END_ARG_INFO()
 

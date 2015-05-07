@@ -20,11 +20,9 @@
 namespace Phalcon\Image;
 
 use Phalcon\Image;
-use Phalcon\Image\Adapter;
-use Phalcon\Image\Exception;
 
 /**
- * Phalcon\Image
+ * Phalcon\Image\Adapter
  *
  * All image adapters must use this class
  */
@@ -37,34 +35,34 @@ abstract class Adapter
 
 	protected _realpath { get };
 
-    /**
-     * Image width
-     *
-     * @var int
-     */
+	/**
+	 * Image width
+	 *
+	 * @var int
+	 */
 	protected _width { get };
 
-    /**
-     * Image height
-     *
-     * @var int
-     */
+	/**
+	 * Image height
+	 *
+	 * @var int
+	 */
 	protected _height { get };
 
-    /**
-     * Image type
-     *
-     * Driver dependent
-     *
-     * @var int
-     */
+	/**
+	 * Image type
+	 *
+	 * Driver dependent
+	 *
+	 * @var int
+	 */
 	protected _type { get };
 
-    /**
-     * Image mime type
-     *
-     * @var string
-     */
+	/**
+	 * Image mime type
+	 *
+	 * @var string
+	 */
 	protected _mime { get };
 
 	protected static _checked = false;
@@ -73,7 +71,7 @@ abstract class Adapter
  	 * Resize the image to the given size
  	 */
 	//Phalcon\Image::AUTO
-	public function resize(int width = null, int height = null, int master = 7) -> <Adapter>
+	public function resize(int width = null, int height = null, int master = Image::AUTO) -> <Adapter>
 	{
 		var ratio;
 
@@ -353,8 +351,6 @@ abstract class Adapter
 
 	/**
  	 * Composite one image onto another
- 	 *
- 	 * @param Phalcon\Image\Adapter watermark
  	 */
 	public function mask(<Adapter> watermark) -> <Adapter>
 	{

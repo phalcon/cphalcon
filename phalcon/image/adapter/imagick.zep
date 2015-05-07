@@ -19,6 +19,8 @@
 
 namespace Phalcon\Image\Adapter;
 
+use Phalcon\Image\Adapter;
+use Phalcon\Image\AdapterInterface;
 use Phalcon\Image\Exception;
 
 /**
@@ -34,17 +36,15 @@ use Phalcon\Image\Exception;
  * }
  *</code>
  */
-class Imagick extends \Phalcon\Image\Adapter implements \Phalcon\Image\AdapterInterface
+class Imagick extends Adapter implements AdapterInterface
 {
 	protected static _version = 0;
 	protected static _checked = false;
 
 	/**
 	 * Checks if Imagick is enabled
-	 *
-	 * @return  boolean
 	 */
-	public static function check()
+	public static function check() -> boolean
 	{
 		if self::_checked {
 			return true;
@@ -64,7 +64,7 @@ class Imagick extends \Phalcon\Image\Adapter implements \Phalcon\Image\AdapterIn
 	}
 
 	/**
-	 * \Phalcon\Image\Imagick constructor
+	 * \Phalcon\Image\Adapter\Imagick constructor
 	 */
 	public function __construct(string! file, int width = null, int height = null)
 	{
@@ -107,7 +107,6 @@ class Imagick extends \Phalcon\Image\Adapter implements \Phalcon\Image\AdapterIn
 
 			let this->_realpath = this->_file;
 		}
-
 
 		let this->_width = this->_image->getImageWidth();
 		let this->_height = this->_image->getImageHeight();
@@ -346,7 +345,7 @@ class Imagick extends \Phalcon\Image\Adapter implements \Phalcon\Image\AdapterIn
 	/**
 	 * Execute a watermarking.
 	 */
-	protected function _watermark(<\Phalcon\Image\Adapter> image, int offsetX, int offsetY, int opacity)
+	protected function _watermark(<Adapter> image, int offsetX, int offsetY, int opacity)
 	{
 		var watermark, ret;
 
@@ -435,9 +434,9 @@ class Imagick extends \Phalcon\Image\Adapter implements \Phalcon\Image\AdapterIn
 	/**
 	 * Composite one image onto another
 	 *
-	 * @param \Phalcon\Image\Adapter $mask mask Image instance
+	 * @param Adapter $mask mask Image instance
 	 */
-	protected function _mask(<\Phalcon\Image\Adapter> image)
+	protected function _mask(<Adapter> image)
 	{
 		var mask, ret;
 

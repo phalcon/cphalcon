@@ -4,6 +4,7 @@ extern zend_class_entry *phalcon_mvc_model_resultset_ce;
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Resultset);
 
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, next);
+PHP_METHOD(Phalcon_Mvc_Model_Resultset, valid);
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, key);
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, rewind);
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, seek);
@@ -20,7 +21,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, isFresh);
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, setHydrateMode);
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, getHydrateMode);
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, getCache);
-PHP_METHOD(Phalcon_Mvc_Model_Resultset, current);
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, getMessages);
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, update);
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, delete);
@@ -70,6 +70,7 @@ ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_mvc_model_resultset_method_entry) {
 	PHP_ME(Phalcon_Mvc_Model_Resultset, next, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Resultset, valid, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Resultset, key, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Resultset, rewind, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_FINAL)
 	PHP_ME(Phalcon_Mvc_Model_Resultset, seek, arginfo_phalcon_mvc_model_resultset_seek, ZEND_ACC_PUBLIC|ZEND_ACC_FINAL)
@@ -86,7 +87,6 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_model_resultset_method_entry) {
 	PHP_ME(Phalcon_Mvc_Model_Resultset, setHydrateMode, arginfo_phalcon_mvc_model_resultset_sethydratemode, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Resultset, getHydrateMode, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Resultset, getCache, NULL, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Mvc_Model_Resultset, current, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_FINAL)
 	PHP_ME(Phalcon_Mvc_Model_Resultset, getMessages, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Resultset, update, arginfo_phalcon_mvc_model_resultset_update, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Resultset, delete, arginfo_phalcon_mvc_model_resultset_delete, ZEND_ACC_PUBLIC)

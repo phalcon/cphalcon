@@ -875,3 +875,64 @@ PHP_METHOD(Phalcon_Dispatcher, wasForwarded) {
 
 }
 
+/**
+ * Possible class name that will be located to dispatch the request
+ */
+PHP_METHOD(Phalcon_Dispatcher, getHandlerClass) {
+
+	zval *camelizedClass = NULL, *_0, *_1, *_2, _3, _4, *_5, _6 = zval_used_for_init, *_7, *_8, *_9;
+
+	ZEPHIR_MM_GROW();
+
+	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_namespaceName"), PH_NOISY_CC);
+	if (!(zephir_is_true(_0))) {
+		_1 = zephir_fetch_nproperty_this(this_ptr, SL("_defaultNamespace"), PH_NOISY_CC);
+		zephir_update_property_this(this_ptr, SL("_namespaceName"), _1 TSRMLS_CC);
+	}
+	_1 = zephir_fetch_nproperty_this(this_ptr, SL("_handlerName"), PH_NOISY_CC);
+	if (!(zephir_is_true(_1))) {
+		_2 = zephir_fetch_nproperty_this(this_ptr, SL("_defaultHandler"), PH_NOISY_CC);
+		zephir_update_property_this(this_ptr, SL("_handlerName"), _2 TSRMLS_CC);
+	}
+	_1 = zephir_fetch_nproperty_this(this_ptr, SL("_handlerName"), PH_NOISY_CC);
+	ZEPHIR_SINIT_VAR(_3);
+	ZVAL_LONG(&_3, 0);
+	ZEPHIR_SINIT_VAR(_4);
+	ZVAL_LONG(&_4, 1);
+	ZEPHIR_INIT_VAR(_5);
+	zephir_substr(_5, _1, 0 , 1 , 0);
+	if (ZEPHIR_IS_STRING_IDENTICAL(_5, "\\")) {
+		ZEPHIR_OBS_VAR(camelizedClass);
+		zephir_read_property_this(&camelizedClass, this_ptr, SL("_handlerName"), PH_NOISY_CC);
+	} else {
+		_1 = zephir_fetch_nproperty_this(this_ptr, SL("_handlerName"), PH_NOISY_CC);
+		ZEPHIR_SINIT_VAR(_6);
+		ZVAL_LONG(&_6, 1);
+		ZEPHIR_INIT_NVAR(camelizedClass);
+		zephir_substr(camelizedClass, _1, 1 , 0, ZEPHIR_SUBSTR_NO_LENGTH);
+	}
+	_1 = zephir_fetch_nproperty_this(this_ptr, SL("_namespaceName"), PH_NOISY_CC);
+	if (zephir_is_true(_1)) {
+		_2 = zephir_fetch_nproperty_this(this_ptr, SL("_namespaceName"), PH_NOISY_CC);
+		ZEPHIR_SINIT_NVAR(_6);
+		ZVAL_LONG(&_6, -1);
+		ZEPHIR_INIT_VAR(_7);
+		zephir_substr(_7, _2, -1 , 0, ZEPHIR_SUBSTR_NO_LENGTH);
+		if (ZEPHIR_IS_STRING_IDENTICAL(_7, "\\")) {
+			_8 = zephir_fetch_nproperty_this(this_ptr, SL("_namespaceName"), PH_NOISY_CC);
+			_9 = zephir_fetch_nproperty_this(this_ptr, SL("_handlerSuffix"), PH_NOISY_CC);
+			ZEPHIR_CONCAT_VVV(return_value, _8, camelizedClass, _9);
+			RETURN_MM();
+		} else {
+			_8 = zephir_fetch_nproperty_this(this_ptr, SL("_namespaceName"), PH_NOISY_CC);
+			_9 = zephir_fetch_nproperty_this(this_ptr, SL("_handlerSuffix"), PH_NOISY_CC);
+			ZEPHIR_CONCAT_VSVV(return_value, _8, "\\", camelizedClass, _9);
+			RETURN_MM();
+		}
+	}
+	_1 = zephir_fetch_nproperty_this(this_ptr, SL("_handlerSuffix"), PH_NOISY_CC);
+	ZEPHIR_CONCAT_VV(return_value, camelizedClass, _1);
+	RETURN_MM();
+
+}
+

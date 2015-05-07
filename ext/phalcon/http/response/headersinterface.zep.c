@@ -60,9 +60,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Http_Response_HeadersInterface, reset);
 
 /**
  * Restore a Phalcon\Http\Response\Headers object
- *
- * @param array data
- * @return Phalcon\Http\Response\HeadersInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_Response_HeadersInterface, __set_state);
 

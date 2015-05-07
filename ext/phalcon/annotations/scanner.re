@@ -19,7 +19,7 @@
 
 #include "php_phalcon.h"
 
-#include "annotations/scanner.h"
+#include "scanner.h"
 
 #define YYCTYPE unsigned char
 #define YYCURSOR (s->start)

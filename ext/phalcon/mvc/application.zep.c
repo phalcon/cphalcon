@@ -453,62 +453,75 @@ PHP_METHOD(Phalcon_Mvc_Application, handle) {
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&possibleResponse, dispatcher, "getreturnedvalue", NULL);
 	zephir_check_call_status();
-	if (Z_TYPE_P(possibleResponse) == IS_OBJECT) {
-		returnedResponse = zephir_instance_of_ev(possibleResponse, phalcon_http_responseinterface_ce TSRMLS_CC);
-	} else {
-		returnedResponse = 0;
+	_3 = Z_TYPE_P(possibleResponse) == IS_BOOL;
+	if (_3) {
+		_3 = ZEPHIR_IS_FALSE(possibleResponse);
 	}
-	if (Z_TYPE_P(eventsManager) == IS_OBJECT) {
-		ZEPHIR_INIT_NVAR(_2);
-		ZVAL_STRING(_2, "application:afterHandleRequest", ZEPHIR_TEMP_PARAM_COPY);
-		ZEPHIR_CALL_METHOD(NULL, eventsManager, "fire", NULL, _2, this_ptr, controller);
-		zephir_check_temp_parameter(_2);
-		zephir_check_call_status();
-	}
-	if (returnedResponse == 0) {
-		if (ZEPHIR_IS_TRUE_IDENTICAL(implicitView)) {
-			if (Z_TYPE_P(controller) == IS_OBJECT) {
-				ZEPHIR_INIT_VAR(renderStatus);
-				ZVAL_BOOL(renderStatus, 1);
-				if (Z_TYPE_P(eventsManager) == IS_OBJECT) {
-					ZEPHIR_INIT_NVAR(_2);
-					ZVAL_STRING(_2, "application:viewRender", ZEPHIR_TEMP_PARAM_COPY);
-					ZEPHIR_CALL_METHOD(&renderStatus, eventsManager, "fire", NULL, _2, this_ptr, view);
-					zephir_check_temp_parameter(_2);
-					zephir_check_call_status();
-				}
-				if (!ZEPHIR_IS_FALSE_IDENTICAL(renderStatus)) {
-					ZEPHIR_CALL_METHOD(&_1, dispatcher, "getcontrollername", NULL);
-					zephir_check_call_status();
-					ZEPHIR_CALL_METHOD(&_6, dispatcher, "getactionname", NULL);
-					zephir_check_call_status();
-					ZEPHIR_CALL_METHOD(&_11, dispatcher, "getparams", NULL);
-					zephir_check_call_status();
-					ZEPHIR_CALL_METHOD(NULL, view, "render", NULL, _1, _6, _11);
-					zephir_check_call_status();
-				}
-			}
-		}
-	}
-	if (ZEPHIR_IS_TRUE_IDENTICAL(implicitView)) {
-		ZEPHIR_CALL_METHOD(NULL, view, "finish", NULL);
-		zephir_check_call_status();
-	}
-	if (returnedResponse == 0) {
+	if (_3) {
 		ZEPHIR_INIT_NVAR(_2);
 		ZVAL_STRING(_2, "response", ZEPHIR_TEMP_PARAM_COPY);
 		ZEPHIR_CALL_METHOD(&_1, dependencyInjector, "getshared", NULL, _2);
 		zephir_check_temp_parameter(_2);
 		zephir_check_call_status();
 		ZEPHIR_CPY_WRT(response, _1);
-		if (ZEPHIR_IS_TRUE_IDENTICAL(implicitView)) {
-			ZEPHIR_CALL_METHOD(&_1, view, "getcontent", NULL);
-			zephir_check_call_status();
-			ZEPHIR_CALL_METHOD(NULL, response, "setcontent", NULL, _1);
+	} else {
+		if (Z_TYPE_P(possibleResponse) == IS_OBJECT) {
+			returnedResponse = zephir_instance_of_ev(possibleResponse, phalcon_http_responseinterface_ce TSRMLS_CC);
+		} else {
+			returnedResponse = 0;
+		}
+		if (Z_TYPE_P(eventsManager) == IS_OBJECT) {
+			ZEPHIR_INIT_NVAR(_2);
+			ZVAL_STRING(_2, "application:afterHandleRequest", ZEPHIR_TEMP_PARAM_COPY);
+			ZEPHIR_CALL_METHOD(NULL, eventsManager, "fire", NULL, _2, this_ptr, controller);
+			zephir_check_temp_parameter(_2);
 			zephir_check_call_status();
 		}
-	} else {
-		ZEPHIR_CPY_WRT(response, possibleResponse);
+		if (returnedResponse == 0) {
+			if (ZEPHIR_IS_TRUE_IDENTICAL(implicitView)) {
+				if (Z_TYPE_P(controller) == IS_OBJECT) {
+					ZEPHIR_INIT_VAR(renderStatus);
+					ZVAL_BOOL(renderStatus, 1);
+					if (Z_TYPE_P(eventsManager) == IS_OBJECT) {
+						ZEPHIR_INIT_NVAR(_2);
+						ZVAL_STRING(_2, "application:viewRender", ZEPHIR_TEMP_PARAM_COPY);
+						ZEPHIR_CALL_METHOD(&renderStatus, eventsManager, "fire", NULL, _2, this_ptr, view);
+						zephir_check_temp_parameter(_2);
+						zephir_check_call_status();
+					}
+					if (!ZEPHIR_IS_FALSE_IDENTICAL(renderStatus)) {
+						ZEPHIR_CALL_METHOD(&_1, dispatcher, "getcontrollername", NULL);
+						zephir_check_call_status();
+						ZEPHIR_CALL_METHOD(&_6, dispatcher, "getactionname", NULL);
+						zephir_check_call_status();
+						ZEPHIR_CALL_METHOD(&_11, dispatcher, "getparams", NULL);
+						zephir_check_call_status();
+						ZEPHIR_CALL_METHOD(NULL, view, "render", NULL, _1, _6, _11);
+						zephir_check_call_status();
+					}
+				}
+			}
+		}
+		if (ZEPHIR_IS_TRUE_IDENTICAL(implicitView)) {
+			ZEPHIR_CALL_METHOD(NULL, view, "finish", NULL);
+			zephir_check_call_status();
+		}
+		if (returnedResponse == 0) {
+			ZEPHIR_INIT_NVAR(_2);
+			ZVAL_STRING(_2, "response", ZEPHIR_TEMP_PARAM_COPY);
+			ZEPHIR_CALL_METHOD(&_6, dependencyInjector, "getshared", NULL, _2);
+			zephir_check_temp_parameter(_2);
+			zephir_check_call_status();
+			ZEPHIR_CPY_WRT(response, _6);
+			if (ZEPHIR_IS_TRUE_IDENTICAL(implicitView)) {
+				ZEPHIR_CALL_METHOD(&_6, view, "getcontent", NULL);
+				zephir_check_call_status();
+				ZEPHIR_CALL_METHOD(NULL, response, "setcontent", NULL, _6);
+				zephir_check_call_status();
+			}
+		} else {
+			ZEPHIR_CPY_WRT(response, possibleResponse);
+		}
 	}
 	if (Z_TYPE_P(eventsManager) == IS_OBJECT) {
 		ZEPHIR_INIT_NVAR(_2);

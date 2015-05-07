@@ -154,6 +154,12 @@ typedef struct _zephir_function_cache {
 # define __func__ __FUNCTION__
 #endif
 
+#if defined(__GNUC__)
+# define ZEPHIR_NO_OPT __attribute__((optimize("O0")))
+#else
+# define ZEPHIR_NO_OPT 
+#endif
+
 /*#if PHP_VERSION_ID > 50399
 # define ZLK_DC , const struct _zend_literal* key
 # define ZLK_CC , key
@@ -168,7 +174,7 @@ typedef struct _zephir_function_cache {
 #ifdef ZTS
 #define zephir_nts_static
 #else
-#define zephir_nts_static static
+#define zephir_nts_static
 #endif
 #else
 #define zephir_nts_static
@@ -180,7 +186,7 @@ typedef struct _zephir_function_cache {
 
 
 #define PHP_PHALCON_NAME        "phalcon"
-#define PHP_PHALCON_VERSION     "2.0.0"
+#define PHP_PHALCON_VERSION     "2.0.1"
 #define PHP_PHALCON_EXTNAME     "phalcon"
 #define PHP_PHALCON_AUTHOR      "Phalcon Team and contributors"
 #define PHP_PHALCON_ZEPVERSION  "0.6.2a"

@@ -50,7 +50,31 @@ class Security implements InjectionAwareInterface
 
 	protected _numberBytes = 16;
 
+	protected _tokenKeySessionID = "$PHALCON/CSRF/KEY$";
+
+	protected _tokenValueSessionID = "$PHALCON/CSRF$";
+
 	protected _csrf;
+
+	protected _defaultHash;
+
+	const CRYPT_DEFAULT	   =	0;
+
+	const CRYPT_STD_DES	   =	1;
+
+	const CRYPT_EXT_DES	   =	2;
+
+	const CRYPT_MD5		   =	3;
+
+	const CRYPT_BLOWFISH       =	4;
+
+	const CRYPT_BLOWFISH_X     =	5;
+
+	const CRYPT_BLOWFISH_Y     =	6;
+
+	const CRYPT_SHA256	   =	7;
+
+	const CRYPT_SHA512	   =	8;
 
 	/**
 	 * Sets the dependency injector
@@ -87,15 +111,17 @@ class Security implements InjectionAwareInterface
 	/**
 	 * Generate a >22-length pseudo random string to be used as salt for passwords
 	 */
-	public function getSaltBytes() -> string
+	public function getSaltBytes(int numberBytes = 0) -> string
 	{
-		var safeBytes, numberBytes;
+		var safeBytes;
 
 		if !function_exists("openssl_random_pseudo_bytes") {
 			throw new Exception("Openssl extension must be loaded");
 		}
 
-		let numberBytes = this->_numberBytes;
+		if !numberBytes {
+			let numberBytes = (int) this->_numberBytes;
+		}
 
 		loop {
 
@@ -109,7 +135,7 @@ class Security implements InjectionAwareInterface
 				continue;
 			}
 
-			if strlen(safeBytes) < 22 {
+			if strlen(safeBytes) < numberBytes {
 				continue;
 			}
 
@@ -124,10 +150,86 @@ class Security implements InjectionAwareInterface
 	 */
 	public function hash(string password, int workFactor = 0) -> string
 	{
+		int hash;
+		string variant;
+		var saltBytes;
+
 		if !workFactor {
 			let workFactor = (int) this->_workFactor;
 		}
-		return crypt(password, "$2a$" . sprintf("%02s", workFactor) . "$" . this->getSaltBytes());
+
+		let hash = (int) this->_defaultHash;
+
+		switch hash {
+
+			case self::CRYPT_BLOWFISH_X:
+				let variant = "x";
+				break;
+
+			case self::CRYPT_BLOWFISH_Y:
+				let variant = "y";
+				break;
+
+			case self::CRYPT_SHA256:
+				let variant = "5";
+				break;
+
+			case self::CRYPT_SHA512:
+				let variant = "6";
+				break;
+
+			case self::CRYPT_DEFAULT:
+			default:
+				let variant = "a";
+				break;
+		}
+
+		switch hash {
+
+			case self::CRYPT_STD_DES:
+
+				/* Standard DES-based hash with a two character salt from the alphabet "./0-9A-Za-z". */
+
+				let saltBytes = this->getSaltBytes(2);
+				if typeof saltBytes != "string" {
+					throw new Exception("Unable to get random bytes for the salt");
+				}
+
+				break;
+
+			case self::CRYPT_DEFAULT:
+			case self::CRYPT_BLOWFISH:
+			case self::CRYPT_BLOWFISH_X:
+			case self::CRYPT_BLOWFISH_Y:
+			default:
+
+				/*
+				 * Blowfish hashing with a salt as follows: "$2a$", "$2x$" or "$2y$",
+				 * a two digit cost parameter, "$", and 22 characters from the alphabet
+				 * "./0-9A-Za-z". Using characters outside of this range in the salt
+				 * will cause crypt() to return a zero-length string. The two digit cost
+				 * parameter is the base-2 logarithm of the iteration count for the
+				 * underlying Blowfish-based hashing algorithm and must be in
+				 * range 04-31, values outside this range will cause crypt() to fail.
+				 */
+
+				let saltBytes = this->getSaltBytes(22);
+				if typeof saltBytes != "string" {
+					throw new Exception("Unable to get random bytes for the salt");
+				}
+
+				if workFactor < 4 {
+					let workFactor = 4;
+				} else {
+					if workFactor > 31 {
+						let workFactor = 31;
+					}
+				}
+
+				return crypt(password, "$2" . variant . "$" . sprintf("%02s", workFactor) . "$" . saltBytes);
+		}
+
+		return "";
 	}
 
 	/**
@@ -163,7 +265,7 @@ class Security implements InjectionAwareInterface
 	/**
 	 * Checks if a password hash is a valid bcrypt's hash
 	 */
-	public function isLegacyHash(string password, string passwordHash) -> boolean
+	public function isLegacyHash(string passwordHash) -> boolean
 	{
 		return starts_with(passwordHash, "$2a$");
 	}
@@ -190,7 +292,7 @@ class Security implements InjectionAwareInterface
 
 		let safeBytes = phalcon_filter_alphanum(base64_encode(openssl_random_pseudo_bytes(numberBytes)));
 		let session = <SessionInterface> dependencyInjector->getShared("session");
-		session->set("$PHALCON/CSRF/KEY$", safeBytes);
+		session->set(this->_tokenKeySessionID, safeBytes);
 
 		return safeBytes;
 	}
@@ -221,21 +323,17 @@ class Security implements InjectionAwareInterface
 		}
 
 		let session = <SessionInterface> dependencyInjector->getShared("session");
-		session->set("$PHALCON/CSRF$", token);
+		session->set(this->_tokenValueSessionID, token);
 
 		return token;
 	}
 
 	/**
 	 * Check if the CSRF token sent in the request is the same that the current in session
-	 *
-	 * @param string tokenKey
-	 * @param string tokenValue
-	 * @return boolean
 	 */
-	public function checkToken(tokenKey = null, tokenValue = null) -> boolean
+	public function checkToken(var tokenKey = null, var tokenValue = null, boolean destroyIfValid = true) -> boolean
 	{
-		var dependencyInjector, session, request, token;
+		var dependencyInjector, session, request, token, returnValue;
 
 		let dependencyInjector = <DiInterface> this->_dependencyInjector;
 
@@ -246,7 +344,14 @@ class Security implements InjectionAwareInterface
 		let session = <SessionInterface> dependencyInjector->getShared("session");
 
 		if !tokenKey {
-			let tokenKey = session->get("$PHALCON/CSRF/KEY$");
+			let tokenKey = session->get(this->_tokenKeySessionID);
+		}
+
+		/**
+		 * If tokenKey does not exist in session return false
+		 */
+		if !tokenKey {
+			return false;
 		}
 
 		if !tokenValue {
@@ -263,7 +368,17 @@ class Security implements InjectionAwareInterface
 		/**
 		 * The value is the same?
 		 */
-		return token == session->get("$PHALCON/CSRF$");
+		let returnValue = (token == session->get(this->_tokenValueSessionID));
+
+		/**
+		 * Remove the key and value of the CSRF token in session
+		 */
+		if returnValue && destroyIfValid {
+			session->remove(this->_tokenKeySessionID);
+			session->remove(this->_tokenValueSessionID);
+		}
+
+		return returnValue;
 	}
 
 	/**
@@ -280,11 +395,30 @@ class Security implements InjectionAwareInterface
 		}
 
 		let session = <SessionInterface> dependencyInjector->getShared("session");
-		return session->get("$PHALCON/CSRF$");
+		return session->get(this->_tokenValueSessionID);
 	}
 
 	/**
-	 * Computes a HMAC 
+	 * Removes the value of the CSRF token and key from session
+	 */
+	public function destroyToken()
+	{
+		var dependencyInjector, session;
+
+		let dependencyInjector = <DiInterface> this->_dependencyInjector;
+
+		if typeof dependencyInjector != "object" {
+			throw new Exception("A dependency injection container is required to access the 'session' service");
+		}
+
+		let session = <SessionInterface> dependencyInjector->getShared("session");
+
+		session->remove(this->_tokenKeySessionID);
+		session->remove(this->_tokenValueSessionID);
+	}
+
+	/**
+	 * Computes a HMAC
 	 *
 	 * @param string data
 	 * @param string key
@@ -301,5 +435,21 @@ class Security implements InjectionAwareInterface
 		}
 
 		return hmac;
+	}
+
+	/**
+ 	 * Sets the default hash
+ 	 */
+	public function setDefaultHash(var defaultHash)
+	{
+		let this->_defaultHash = defaultHash;
+	}
+
+	/**
+ 	 * Sets the default hash
+ 	 */
+	public function getDefaultHash()
+	{
+		return this->_defaultHash;
 	}
 }

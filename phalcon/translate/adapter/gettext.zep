@@ -53,8 +53,6 @@ class Gettext extends Adapter implements AdapterInterface, \ArrayAccess
 
 	/**
 	 * Phalcon\Translate\Adapter\Gettext constructor
-	 *
-	 * @param array options
 	 */
 	public function __construct(array! options)
 	{
@@ -73,7 +71,11 @@ class Gettext extends Adapter implements AdapterInterface, \ArrayAccess
 	{
 		var translation, domain;
 
-		let domain = func_get_arg(2);
+		if func_num_args() > 2 {
+			let domain = func_get_arg(2);
+		} else {
+			let domain = null;
+		}
 
 		if !domain {
 			let translation = gettext(index);
@@ -86,9 +88,6 @@ class Gettext extends Adapter implements AdapterInterface, \ArrayAccess
 
 	/**
 	 * Check whether is defined a translation key in the internal array
-	 *
-	 * @param    string index
-	 * @return   bool
 	 */
 	public function exists(string! index) -> boolean
 	{
@@ -129,7 +128,7 @@ class Gettext extends Adapter implements AdapterInterface, \ArrayAccess
 	 * @return string Returns the new current domain.
 	 * @throws \InvalidArgumentException
 	 */
-	public function setDomain(string! domain)
+	public function setDomain(string! domain) -> string
 	{
 		/*if domain != this->_defaultDomain || !in_array(domain, this->_domains) {
 			throw new \InvalidArgumentException(domain . " is invalid translation domain");
@@ -143,16 +142,13 @@ class Gettext extends Adapter implements AdapterInterface, \ArrayAccess
 	 *
 	 * @return string Returns the new current domain.
 	 */
-	public function resetDomain()
+	public function resetDomain() -> string
 	{
 		return textdomain(this->getDefaultDomain());
 	}
 
 	/**
 	 * Sets the domain default to search within when calls are made to gettext()
-	 *
-	 * @param    string domain
-	 * @return   void
 	 */
 	public function setDefaultDomain(string! domain) -> void
 	{
@@ -161,8 +157,6 @@ class Gettext extends Adapter implements AdapterInterface, \ArrayAccess
 
 	/**
 	 * Gets the default domain
-	 *
-	 * @return string
 	 */
 	public function getDefaultDomain() -> string
 	{
@@ -171,8 +165,6 @@ class Gettext extends Adapter implements AdapterInterface, \ArrayAccess
 
 	/**
 	 * Sets the path for a domain
-	 *
-	 * @return string
 	 */
 	public function setDirectory(var directory) -> void
 	{
@@ -192,8 +184,6 @@ class Gettext extends Adapter implements AdapterInterface, \ArrayAccess
 	}
 	/**
 	 * Gets the path for a domain
-	 *
-	 * @return string|array
 	 */
 	public function getDirectory(var directory) -> string|array
 	{
@@ -202,10 +192,6 @@ class Gettext extends Adapter implements AdapterInterface, \ArrayAccess
 
 	/**
 	 * Sets locale information
-	 *
-	 * @param    string locale
-	 * @param    int    category
-	 * @return   string|boolean
 	 */
 	public function setLocale(int category, string! locale) -> string|boolean
 	{
@@ -218,8 +204,6 @@ class Gettext extends Adapter implements AdapterInterface, \ArrayAccess
 
 	/**
 	 * Gets locale
-	 *
-	 * @return string
 	 */
 	public function getLocale() -> string
 	{
@@ -228,8 +212,6 @@ class Gettext extends Adapter implements AdapterInterface, \ArrayAccess
 
 	/**
 	 * Gets locale category
-	 *
-	 * @return int
 	 */
 	public function getCategory() -> int
 	{
@@ -238,9 +220,6 @@ class Gettext extends Adapter implements AdapterInterface, \ArrayAccess
 
 	/**
 	 * Validator for constructor
-	 *
-	 * @param array options
-	 * @return void
 	 */
 	protected function prepareOptions(array! options) -> void
 	{
@@ -262,8 +241,6 @@ class Gettext extends Adapter implements AdapterInterface, \ArrayAccess
 
 	/**
 	 * Gets default options
-	 *
-	 * @return array
 	 */
 	protected function getOptionsDefault() -> array
 	{

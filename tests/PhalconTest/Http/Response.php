@@ -37,7 +37,7 @@ class Response extends PhResponse
         return parent::getDI();
     }
 
-    public function setStatusCode($code, $message)
+    public function setStatusCode($code, $message = null)
     {
         return parent::setStatusCode($code, $message);
     }

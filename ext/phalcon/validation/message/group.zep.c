@@ -194,8 +194,6 @@ PHP_METHOD(Phalcon_Validation_Message_Group, offsetUnset) {
  *<code>
  * $messages->appendMessage(new \Phalcon\Validation\Message('This is a message'));
  *</code>
- *
- * @param Phalcon\Validation\MessageInterface message
  */
 PHP_METHOD(Phalcon_Validation_Message_Group, appendMessage) {
 
@@ -236,7 +234,7 @@ PHP_METHOD(Phalcon_Validation_Message_Group, appendMessages) {
 		_0 = Z_TYPE_P(messages) != IS_OBJECT;
 	}
 	if (_0) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_validation_exception_ce, "The messages must be array or object", "phalcon/validation/message/group.zep", 148);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_validation_exception_ce, "The messages must be array or object", "phalcon/validation/message/group.zep", 146);
 		return;
 	}
 	ZEPHIR_OBS_VAR(currentMessages);
@@ -302,7 +300,7 @@ PHP_METHOD(Phalcon_Validation_Message_Group, filter) {
 	ZEPHIR_OBS_VAR(messages);
 	zephir_read_property_this(&messages, this_ptr, SL("_messages"), PH_NOISY_CC);
 	if (Z_TYPE_P(messages) == IS_ARRAY) {
-		zephir_is_iterable(messages, &_1, &_0, 0, 0, "phalcon/validation/message/group.zep", 203);
+		zephir_is_iterable(messages, &_1, &_0, 0, 0, "phalcon/validation/message/group.zep", 201);
 		for (
 		  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_1, &_0)
@@ -312,7 +310,7 @@ PHP_METHOD(Phalcon_Validation_Message_Group, filter) {
 				ZEPHIR_CALL_METHOD(&_3, message, "getfield", NULL);
 				zephir_check_call_status();
 				if (ZEPHIR_IS_EQUAL(fieldName, _3)) {
-					zephir_array_append(&filtered, message, PH_SEPARATE, "phalcon/validation/message/group.zep", 198);
+					zephir_array_append(&filtered, message, PH_SEPARATE, "phalcon/validation/message/group.zep", 196);
 				}
 			}
 		}
@@ -323,8 +321,6 @@ PHP_METHOD(Phalcon_Validation_Message_Group, filter) {
 
 /**
  * Returns the number of messages in the list
- *
- * @return int
  */
 PHP_METHOD(Phalcon_Validation_Message_Group, count) {
 
@@ -371,8 +367,6 @@ PHP_METHOD(Phalcon_Validation_Message_Group, current) {
 
 /**
  * Returns the current position/key in the iterator
- *
- * @return int
  */
 PHP_METHOD(Phalcon_Validation_Message_Group, key) {
 
@@ -383,7 +377,6 @@ PHP_METHOD(Phalcon_Validation_Message_Group, key) {
 
 /**
  * Moves the internal iteration pointer to the next position
- *
  */
 PHP_METHOD(Phalcon_Validation_Message_Group, next) {
 
@@ -394,8 +387,6 @@ PHP_METHOD(Phalcon_Validation_Message_Group, next) {
 
 /**
  * Check if the current message in the iterator is valid
- *
- * @return boolean
  */
 PHP_METHOD(Phalcon_Validation_Message_Group, valid) {
 
@@ -426,7 +417,7 @@ PHP_METHOD(Phalcon_Validation_Message_Group, __set_state) {
 
 
 	object_init_ex(return_value, phalcon_validation_message_group_ce);
-	zephir_array_fetch_string(&_0, group, SL("_messages"), PH_NOISY | PH_READONLY, "phalcon/validation/message/group.zep", 277 TSRMLS_CC);
+	zephir_array_fetch_string(&_0, group, SL("_messages"), PH_NOISY | PH_READONLY, "phalcon/validation/message/group.zep", 268 TSRMLS_CC);
 	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", &_1, _0);
 	zephir_check_call_status();
 	RETURN_MM();

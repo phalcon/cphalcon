@@ -19,6 +19,8 @@
 #include "kernel/fcall.h"
 #include "kernel/hash.h"
 #include "kernel/concat.h"
+#include "ext/spl/spl_exceptions.h"
+#include "kernel/exception.h"
 
 
 /**
@@ -176,8 +178,6 @@ PHP_METHOD(Phalcon_Http_Response_Headers, reset) {
 
 /**
  * Returns the current headers as an array
- *
- * @return array
  */
 PHP_METHOD(Phalcon_Http_Response_Headers, toArray) {
 
@@ -188,9 +188,6 @@ PHP_METHOD(Phalcon_Http_Response_Headers, toArray) {
 
 /**
  * Restore a Phalcon\Http\Response\Headers object
- *
- * @param array data
- * @return Phalcon\Http\Response\Headers
  */
 PHP_METHOD(Phalcon_Http_Response_Headers, __set_state) {
 
@@ -198,10 +195,13 @@ PHP_METHOD(Phalcon_Http_Response_Headers, __set_state) {
 	HashTable *_1;
 	HashPosition _0;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *data, *headers, *key = NULL, *value = NULL, *dataHeaders, **_2;
+	zval *data_param = NULL, *headers, *key = NULL, *value = NULL, *dataHeaders, **_2;
+	zval *data = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &data);
+	zephir_fetch_params(1, 1, 0, &data_param);
+
+	data = data_param;
 
 
 
@@ -213,7 +213,7 @@ PHP_METHOD(Phalcon_Http_Response_Headers, __set_state) {
 	}
 	ZEPHIR_OBS_VAR(dataHeaders);
 	if (zephir_array_isset_string_fetch(&dataHeaders, data, SS("_headers"), 0 TSRMLS_CC)) {
-		zephir_is_iterable(dataHeaders, &_1, &_0, 0, 0, "phalcon/http/response/headers.zep", 135);
+		zephir_is_iterable(dataHeaders, &_1, &_0, 0, 0, "phalcon/http/response/headers.zep", 130);
 		for (
 		  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_1, &_0)

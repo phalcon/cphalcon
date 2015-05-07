@@ -52,7 +52,6 @@ use Phalcon\Mvc\ModelInterface;
  *
  *}
  *</code>
- *
  */
 class StringLength extends Validator implements ValidatorInterface
 {

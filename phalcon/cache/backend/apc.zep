@@ -195,9 +195,6 @@ class Apc extends Backend implements BackendInterface
 
 	/**
 	 * Deletes a value from the cache by its key
-	 *
-	 * @param string keyName
-	 * @return boolean
 	 */
 	public function delete(string! keyName) -> boolean
 	{
@@ -258,8 +255,6 @@ class Apc extends Backend implements BackendInterface
 
 	/**
  	 * Immediately invalidates all existing items.
- 	 *
-	 * @return boolean
 	 */
 	public function flush() -> boolean
 	{

@@ -57,9 +57,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Db_IndexInterface, getType);
 
 /**
  * Restore a Phalcon\Db\Index object from export
- *
- * @param array data
- * @return Phalcon\Db\IndexInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_IndexInterface, __set_state);
 

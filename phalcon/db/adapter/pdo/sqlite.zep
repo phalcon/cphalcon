@@ -65,11 +65,9 @@ class Sqlite extends PdoAdapter implements AdapterInterface
 			let descriptor = this->_descriptor;
 		}
 
-		if !isset descriptor["dbname"] {
+		if !fetch dbname, descriptor["dbname"] {
 			throw new Exception("dbname must be specified");
 		}
-
-		fetch dbname, descriptor["dbname"];
 
 		let descriptor["dsn"] = dbname;
 
@@ -82,12 +80,8 @@ class Sqlite extends PdoAdapter implements AdapterInterface
 	 * <code>
 	 * print_r($connection->describeColumns("posts"));
 	 * </code>
-	 *
-	 * @param string table
-	 * @param string schema
-	 * @return Phalcon\Db\Column[]
 	 */
-	public function describeColumns(string table, string schema = null)
+	public function describeColumns(string table, string schema = null) -> <Column[]>
 	{
 		var columns, columnType, field, definition,
 			oldColumn, sizePattern, matches, matchOne, matchTwo, columnName;
@@ -293,7 +287,7 @@ class Sqlite extends PdoAdapter implements AdapterInterface
 	 * @param	string schema
 	 * @return	Phalcon\Db\IndexInterface[]
 	 */
-	public function describeIndexes(table, schema = null) -> <IndexInterface>
+	public function describeIndexes(table, schema = null) -> <IndexInterface[]>
 	{
 		var indexes, index, keyName, indexObjects, name, indexColumns, columns,
 			describe_index;
@@ -330,7 +324,7 @@ class Sqlite extends PdoAdapter implements AdapterInterface
 	 * @param	string schema
 	 * @return	Phalcon\Db\ReferenceInterface[]
 	 */
-	public function describeReferences(table, schema=null) -> <ReferenceInterface[]>
+	public function describeReferences(table, schema = null) -> <ReferenceInterface[]>
 	{
 		var references, reference,
 			arrayReference, constraintName, referenceObjects, name,

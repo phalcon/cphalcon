@@ -396,7 +396,7 @@ PHP_METHOD(Phalcon_Loader, unregister) {
 }
 
 /**
- * Autoloades the registered classes
+ * Autoloads the registered classes
  */
 PHP_METHOD(Phalcon_Loader, autoLoad) {
 

@@ -19,6 +19,7 @@
 
 namespace Phalcon\Mvc\View\Engine;
 
+use Phalcon\DiInterface;
 use Phalcon\Mvc\View\Engine;
 use Phalcon\Mvc\View\EngineInterface;
 use Phalcon\Mvc\View\Engine\Volt\Compiler;
@@ -45,11 +46,9 @@ class Volt extends Engine implements EngineInterface
 	}
 
 	/**
-	 * Return Volt's options
-	 *
-	 * @return array
+	 * Return Volt's options	 
 	 */
-	public function getOptions()
+	public function getOptions() -> array
 	{
 		return this->_options;
 	}
@@ -69,7 +68,7 @@ class Volt extends Engine implements EngineInterface
 			/**
 			 * Pass the IoC to the compiler only of it's an object
 			 */
-			let dependencyInjector = <\Phalcon\Di> this->_dependencyInjector;
+			let dependencyInjector = <DiInterface> this->_dependencyInjector;
 			if typeof dependencyInjector == "object" {
 				compiler->setDi(dependencyInjector);
 			}
@@ -89,10 +88,6 @@ class Volt extends Engine implements EngineInterface
 
 	/**
 	 * Renders a view using the template engine
-	 *
-	 * @param string  $templatePath
-	 * @param array   $params
-	 * @param boolean $mustClean
 	 */
 	public function render(string! templatePath, var params, boolean mustClean = false)
 	{
@@ -130,9 +125,6 @@ class Volt extends Engine implements EngineInterface
 
 	/**
 	 * Length filter. If an array/object is passed a count is performed otherwise a strlen/mb_strlen
-	 *
-	 * @param mixed $item
-	 * @return int
 	 */
 	public function length(var item) -> int
 	{
@@ -159,12 +151,8 @@ class Volt extends Engine implements EngineInterface
 
 	/**
 	 * Checks if the needle is included in the haystack
-	 *
-	 * @param  mixed needle
-	 * @param  mixed haystack
-	 * @return boolean
 	 */
-	public function isIncluded(needle, haystack) -> boolean
+	public function isIncluded(var needle, var haystack) -> boolean
 	{
 		if typeof haystack == "array" {
 			return in_array(needle, haystack);
@@ -221,10 +209,8 @@ class Volt extends Engine implements EngineInterface
 
 	/**
 	 * Extracts a slice from a string/array/traversable object value
-	 *
-	 * @param mixed value
 	 */
-	public function slice(value, start, end = null)
+	public function slice(var value, int start = 0, var end = null)
 	{
 		var length, slice;
 		int position;
@@ -235,21 +221,15 @@ class Volt extends Engine implements EngineInterface
 		if typeof value == "object" {
 
 			if end === null {
-				let length = count(value);
-			} else {
-				let length = end;
+				let end = count(value) - 1;
 			}
 
-			let position = 1, slice = [];
+			let position = 0, slice = [];
 
 			value->rewind();
-			loop {
 
-				if !value->valid() {
-					break;
-				}
-
-				if position >= start && position <= length {
+			while value->valid() {
+				if position >= start && position <= end {
 					let slice[] = value->current();
 				}
 
@@ -297,14 +277,10 @@ class Volt extends Engine implements EngineInterface
 
 	/**
 	 * Sorts an array
-	 *
-	 * @param array value
-	 * @return array
 	 */
-	public function sort(value)
+	public function sort(array value) -> array
 	{
 		asort(value);
 		return value;
 	}
-
 }

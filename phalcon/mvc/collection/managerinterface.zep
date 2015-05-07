@@ -19,6 +19,8 @@
 
 namespace Phalcon\Mvc\Collection;
 
+use Phalcon\Events\ManagerInterface as EventsManagerInterface;
+
 /**
  * Phalcon\Mvc\Collection\Manager
  *
@@ -42,65 +44,43 @@ interface ManagerInterface
 
 	/**
 	 * Sets a custom events manager for a specific model
-	 *
-	 * @param Phalcon\Mvc\CollectionInterface model
-	 * @param Phalcon\Events\ManagerInterface eventsManager
 	 */
-	public function setCustomEventsManager(model, eventsManager);
+	public function setCustomEventsManager(<CollectionInterface> model, <EventsManagerInterface> eventsManager);
 
 	/**
 	 * Returns a custom events manager related to a model
-	 *
-	 * @param Phalcon\Mvc\CollectionInterface model
-	 * @return Phalcon\Events\ManagerInterface
 	 */
-	public function getCustomEventsManager(model);
+	public function getCustomEventsManager(<CollectionInterface> model) -> <EventsManagerInterface>;
 
 	/**
 	 * Initializes a model in the models manager
-	 *
-	 * @param Phalcon\Mvc\CollectionInterface model
 	 */
-	public function initialize(model);
+	public function initialize(<CollectionInterface> model);
 
 	/**
 	 * Check whether a model is already initialized
-	 *
-	 * @param string modelName
-	 * @return bool
 	 */
-	public function isInitialized(modelName);
+	public function isInitialized(string! modelName) -> boolean;
 
 	/**
 	 * Get the latest initialized model
-	 *
-	 * @return Phalcon\Mvc\CollectionInterface
 	 */
-	public function getLastInitialized();
+	public function getLastInitialized() -> <CollectionInterface>;
 
 	/**
 	 * Sets a connection service for a specific model
-	 *
-	 * @param Phalcon\Mvc\CollectionInterface model
-	 * @param string connectionService
 	 */
-	public function setConnectionService(model, connectionService);
+	public function setConnectionService(<CollectionInterface> model, string! connectionService);
 
 	/**
 	 * Sets if a model must use implicit objects ids
-	 *
-	 * @param Phalcon\Mvc\CollectionInterface model
-	 * @param boolean useImplicitObjectIds
 	 */
-	public function useImplicitObjectIds(model, useImplicitObjectIds);
+	public function useImplicitObjectIds(<CollectionInterface> model, boolean useImplicitObjectIds);
 
 	/**
 	 * Checks if a model is using implicit object ids
-	 *
-	 * @param Phalcon\Mvc\CollectionInterface model
-	 * @return boolean
 	 */
-	public function isUsingImplicitObjectIds(model);
+	public function isUsingImplicitObjectIds(<CollectionInterface> model) -> boolean;
 
 	/**
 	 * Returns the connection related to a model
@@ -108,15 +88,12 @@ interface ManagerInterface
 	 * @param Phalcon\Mvc\CollectionInterface model
 	 * @return Phalcon\Db\AdapterInterface
 	 */
-	public function getConnection(model);
+	public function getConnection(<CollectionInterface> model);
 
 	/**
 	 * Receives events generated in the models and dispatches them to a events-manager if available
 	 * Notify the behaviors that are listening in the model
-	 *
-	 * @param string eventName
-	 * @param Phalcon\Mvc\CollectionInterface model
 	 */
-	public function notifyEvent(eventName, model);
+	public function notifyEvent(string! eventName, <CollectionInterface> model);
 
 }

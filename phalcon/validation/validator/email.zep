@@ -19,6 +19,8 @@
 
 namespace Phalcon\Validation\Validator;
 
+use Phalcon\Validation\Validator;
+
 /**
  * Phalcon\Validation\Validator\Email
  *
@@ -32,15 +34,11 @@ namespace Phalcon\Validation\Validator;
  *)));
  *</code>
  */
-class Email extends \Phalcon\Validation\Validator implements \Phalcon\Validation\ValidatorInterface
+class Email extends Validator
 {
 
 	/**
 	 * Executes the validation
-	 *
-	 * @param  Phalcon\Validation validation
-	 * @param  string             field
-	 * @return boolean
 	 */
 	public function validate(<\Phalcon\Validation> validation, string! field) -> boolean
 	{

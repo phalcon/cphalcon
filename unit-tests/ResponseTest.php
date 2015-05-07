@@ -137,6 +137,14 @@ class ResponseTest extends PHPUnit_Framework_TestCase
 
 	public function testRedirect()
 	{
+	
+		$di = $this->_response->getDI();
+
+		$di->set('view', function() {
+			$view = new Phalcon\Mvc\View\Simple();
+			return $view;
+		}, true);
+	
 		//local URI
 		$this->_response->resetHeaders();
 

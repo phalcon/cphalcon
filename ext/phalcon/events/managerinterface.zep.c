@@ -45,8 +45,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Events_ManagerInterface, detach);
 
 /**
  * Removes all events from the EventsManager
- *
- * @param string type
  */
 ZEPHIR_DOC_METHOD(Phalcon_Events_ManagerInterface, detachAll);
 

@@ -895,15 +895,16 @@ double zephir_safe_div_double_zval(double op1, zval *op2 TSRMLS_DC) {
 
 double zephir_floor(zval *op1 TSRMLS_DC)
 {
-	convert_scalar_to_number_ex(&op1);
-
-	if (Z_TYPE_PP(&op1) == IS_DOUBLE) {
-		return floor(Z_DVAL_PP(&op1));
-	} else if (Z_TYPE_PP(&op1) == IS_LONG) {
-		convert_to_double_ex(&op1);
-		return Z_DVAL_PP(&op1);
+	switch (Z_TYPE_P(op1)) {
+		case IS_LONG:
+			return (double) Z_LVAL_P(op1);
+		case IS_ARRAY:
+		case IS_OBJECT:
+		case IS_RESOURCE:
+			zend_error(E_WARNING, "Unsupported operand types");
+			break;
 	}
-	return 0;
+	return floor(zephir_get_numberval(op1));
 }
 
 /**
@@ -1022,17 +1023,18 @@ long zephir_safe_mod_double_zval(double op1, zval *op2 TSRMLS_DC) {
 	return (long) op1 % ((long) zephir_get_numberval(op2));
 }
 
-void zephir_ceil(zval *return_value, zval *op1 TSRMLS_DC)
+double zephir_ceil(zval *op1 TSRMLS_DC)
 {
-	convert_scalar_to_number_ex(&op1);
-
-	if (Z_TYPE_PP(&op1) == IS_DOUBLE) {
-		RETURN_DOUBLE(ceil(Z_DVAL_PP(&op1)));
-	} else if (Z_TYPE_PP(&op1) == IS_LONG) {
-		convert_to_double_ex(&op1);
-		RETURN_DOUBLE(Z_DVAL_PP(&op1));
+	switch (Z_TYPE_P(op1)) {
+		case IS_LONG:
+			return (double) Z_LVAL_P(op1);
+		case IS_ARRAY:
+		case IS_OBJECT:
+		case IS_RESOURCE:
+			zend_error(E_WARNING, "Unsupported operand types");
+			break;
 	}
-	RETURN_FALSE;
+	return ceil(zephir_get_numberval(op1));
 }
 
 extern double _php_math_round(double value, int places, int mode);

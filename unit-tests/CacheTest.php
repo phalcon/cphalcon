@@ -1593,4 +1593,41 @@ class CacheTest extends PHPUnit_Framework_TestCase
 		$this->assertFalse($cache->exists('data'));
 		$this->assertFalse($cache->exists('data2'));
 	}
+
+	public function testDataRedisSelect()
+	{
+		$redis = $this->_prepareRedis();
+		if (!$redis) {
+			return false;
+		}
+
+		$redis->delete('test-data');
+
+		$frontCache = new Phalcon\Cache\Frontend\Data();
+		$cache = new Phalcon\Cache\Backend\Redis($frontCache, array(
+			'host' => 'localhost',
+			'port' => 6379,
+			'index' => 1
+		));
+
+		$data = array(1, 2, 3, 4, 5);
+
+		$cache->save('test-data', $data);
+
+		$cachedContent = $cache->get('test-data');
+		$this->assertEquals($cachedContent, $data);
+
+		$cache->save('test-data', "sure, nothing interesting");
+
+		$cachedContent = $cache->get('test-data');
+		$this->assertEquals($cachedContent, "sure, nothing interesting");
+
+		$data = $redis->get('_PHCR' . 'test-data');
+		$this->assertFalse($data);
+		$redis->select(1);
+		$data = $redis->get('_PHCR' . 'test-data');
+		$this->assertEquals($data, serialize("sure, nothing interesting"));
+
+		$this->assertTrue($cache->delete('test-data'));
+	}
 }

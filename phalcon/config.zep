@@ -57,13 +57,7 @@ class Config implements \ArrayAccess, \Countable
 		var key, value;
 
 		for key, value in arrayConfig {
-
-			let key = strval(key);
-			if typeof value === "array" {
-				let this->{key} = new self(value);
-			} else {
-				let this->{key} = value;
-			}
+			this->offsetSet(key, value);
 		}
 	}
 
@@ -74,8 +68,10 @@ class Config implements \ArrayAccess, \Countable
 	 * var_dump(isset($config['database']));
 	 *</code>
 	 */
-	public function offsetExists(string! index) -> boolean
+	public function offsetExists(var index) -> boolean
 	{
+		let index = strval(index);
+
 		return isset this->{index};
 	}
 
@@ -87,8 +83,10 @@ class Config implements \ArrayAccess, \Countable
 	 * echo $config->get('controllersDir', '../app/controllers/');
 	 *</code>
 	 */
-	public function get(string! index, var defaultValue = null)
+	public function get(var index, var defaultValue = null)
 	{
+		let index = strval(index);
+
 		if isset this->{index} {
 			return this->{index};
 		}
@@ -103,8 +101,10 @@ class Config implements \ArrayAccess, \Countable
 	 * print_r($config['database']);
 	 *</code>
 	 */
-	public function offsetGet(string! index) -> string
+	public function offsetGet(var index) -> string
 	{
+		let index = strval(index);
+
 		return this->{index};
 	}
 
@@ -115,8 +115,10 @@ class Config implements \ArrayAccess, \Countable
 	 * $config['database'] = array('type' => 'Sqlite');
 	 *</code>
 	 */
-	public function offsetSet(string! index, var value)
+	public function offsetSet(var index, var value)
 	{
+		let index = strval(index);
+
 		if typeof value === "array" {
 			let this->{index} = new self(value);
 		} else {
@@ -131,8 +133,10 @@ class Config implements \ArrayAccess, \Countable
 	 * unset($config['database']);
 	 *</code>
 	 */
-	public function offsetUnset(string! index)
+	public function offsetUnset(var index)
 	{
+		let index = strval(index);
+
 		//unset(this->{index});
 		let this->{index} = null;
 	}
@@ -144,9 +148,6 @@ class Config implements \ArrayAccess, \Countable
 	 * $appConfig = new \Phalcon\Config(array('database' => array('host' => 'localhost')));
 	 * $globalConfig->merge($config2);
 	 *</code>
-	 *
-	 * @param Config config
-	 * @return this merged config
 	 */
 	public function merge(<Config> config) -> <Config>
 	{

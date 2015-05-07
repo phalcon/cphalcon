@@ -20,9 +20,9 @@
 #ifndef ZEPHIR_KERNEL_MAIN_H
 #define ZEPHIR_KERNEL_MAIN_H
 
-#include "Zend/zend_interfaces.h"
-#include "ext/spl/spl_exceptions.h"
-#include "ext/spl/spl_iterators.h"
+#include <Zend/zend_interfaces.h>
+#include <ext/spl/spl_exceptions.h>
+#include <ext/spl/spl_iterators.h>
 
 /** Main macros */
 #define PH_DEBUG 0
@@ -38,12 +38,16 @@
 #define PH_COPY 1024
 #define PH_CTOR 4096
 
+#ifndef zend_uint
+ #define zend_uint uint
+#endif
+
 #define SL(str) ZEND_STRL(str)
 #define SS(str) ZEND_STRS(str)
 #define ISL(str) (zephir_interned_##str), (sizeof(#str)-1)
 #define ISS(str) (zephir_interned_##str), (sizeof(#str))
 
-#include "Zend/zend_constants.h"
+#include <Zend/zend_constants.h>
 #include "kernel/exception.h"
 
 /* Compatibility with PHP 5.3 */
