@@ -211,6 +211,19 @@ class Request implements RequestInterface, InjectionAwareInterface
 	}
 
 	/**
+	 * Checks whether the PUT data has certain index
+	 */
+	public function hasPut(string! name) -> boolean
+	{
+		var put;
+
+		let put = [];
+		parse_str(file_get_contents("php://input"), put);
+
+		return isset put[name];
+	}
+
+	/**
 	 * Checks whether $_GET superglobal has certain index
 	 */
 	public function hasQuery(string! name) -> boolean
