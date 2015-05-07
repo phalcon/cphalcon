@@ -583,10 +583,14 @@ class Router implements InjectionAwareInterface, RouterInterface
 			 * Check for parameters
 			 */
 			if fetch paramsStr, parts["params"] {
-				let strParams = substr(paramsStr, 1);
-				if strParams {
-					let params = explode("/", strParams);
+				if typeof paramsStr == "string" {
+					let strParams = trim(paramsStr, "/");
+
+					if strParams {
+						let params = explode("/", strParams);
+					}
 				}
+
 				unset parts["params"];
 			}
 
