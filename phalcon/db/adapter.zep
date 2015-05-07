@@ -759,9 +759,9 @@ abstract class Adapter implements EventsAwareInterface
 	/**
 	 * Modifies a table column based on a definition
 	 */
-	public function modifyColumn(string! tableName, string! schemaName, <ColumnInterface> column) -> boolean
+	public function modifyColumn(string! tableName, string! schemaName, <ColumnInterface> column, <ColumnInterface> currentColumn = null) -> boolean
 	{
-		return this->{"execute"}(this->_dialect->modifyColumn(tableName, schemaName, column));
+		return this->{"execute"}(this->_dialect->modifyColumn(tableName, schemaName, column, currentColumn));
 	}
 
 	/**
