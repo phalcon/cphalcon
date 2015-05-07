@@ -139,7 +139,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	protected _keepSnapshots;
 
 	/**
-	 *
+	 * Does the model use dynamic update, instead of updating all rows?
 	 */
 	protected _dynamicUpdate;
 
