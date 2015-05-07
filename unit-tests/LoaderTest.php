@@ -46,6 +46,9 @@ class LoaderTest extends PHPUnit_Framework_TestCase
 		$leEngine = new \Example\Engines\LeEngine();
 		$this->assertEquals(get_class($leEngine), 'Example\Engines\LeEngine');
 
+		$example = new \Example\Example\Example();
+		$this->assertEquals(get_class($example), 'Example\Example\Example');
+
 		$loader->unregister();
 	}
 
