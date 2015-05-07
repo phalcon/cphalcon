@@ -226,7 +226,7 @@ class RouterMvcAnnotationsTest extends PHPUnit_Framework_TestCase
 			array(
 				'uri' => '/',
 				'method' => 'GET',
-				'controller' => 'Main',
+				'controller' => 'main',
 				'action' => 'index',
 				'params' => array()
 			),
