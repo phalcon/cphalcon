@@ -208,15 +208,9 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 
 	/**
 	 * Sets action params to be dispatched
-	 *
-	 * @param array params
 	 */
-	public function setParams(var params)
+	public function setParams(array! params)
 	{
-		if typeof params != "array" {
-			this->{"_throwDispatchException"}("Parameters must be an Array");
-			return null;
-		}
 		let this->_params = params;
 	}
 
@@ -595,17 +589,10 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 	 *<code>
 	 *  $this->dispatcher->forward(array("controller" => "posts", "action" => "index"));
 	 *</code>
-	 *
-	 * @param array forward
 	 */
-	public function forward(var forward)
+	public function forward(array! forward)
 	{
 		var namespaceName, controllerName, params, actionName, taskName;
-
-		if typeof forward != "array" {
-			this->{"_throwDispatchException"}("Forward parameter must be an Array");
-			return null;
-		}
 
 		// Check if we need to forward to another namespace
 		if fetch namespaceName, forward["namespace"] {
