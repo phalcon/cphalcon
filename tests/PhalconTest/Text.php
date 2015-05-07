@@ -65,4 +65,9 @@ class Text extends PhText
     {
         return parent::upper($str);
     }
+
+    public static function reduceSlashes($str)
+    {
+        return parent::reduceSlashes($str);
+    }
 }

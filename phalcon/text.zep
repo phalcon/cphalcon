@@ -196,4 +196,17 @@ abstract class Text
 		}
 		return strtoupper(str);
 	}
+
+       /**
+        * Reduces multiple slashes in a string to single slashes
+        *
+        *<code>
+        *  echo Phalcon\Text::reduceSlashes("foo//bar/baz"); // foo/bar/baz
+        *  echo Phalcon\Text::reduceSlashes("http://foo.bar///baz/buz"); // http://foo.bar/baz/buz
+        *</code>
+        */
+	public static function reduceSlashes(string str) -> string
+	{
+	    return preg_replace("#(?<!:)//+#", "/", str);
+	}
 }
