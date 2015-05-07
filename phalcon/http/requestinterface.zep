@@ -76,6 +76,11 @@ interface RequestInterface
 	public function hasPost(string! name) -> boolean;
 
 	/**
+	 * Checks whether $_PUT superglobal has certain index
+	 */
+	public function hasPut(string! name) -> boolean;
+
+	/**
 	 * Checks whether $_GET superglobal has certain index
 	 */
 	public function hasQuery(string! name) -> boolean;
