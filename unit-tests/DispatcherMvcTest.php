@@ -161,7 +161,7 @@ class DispatcherMvcTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($value, "hello");
 
 		$value = $dispatcher->getControllerClass();
-		$this->assertEquals($value, "est7Controller");
+		$this->assertEquals($value, "Test7Controller");
 	}
 
 	public function testDispatcherForward()

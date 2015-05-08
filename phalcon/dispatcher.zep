@@ -313,7 +313,7 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 		boolean hasService;
 		int numberDispatches;
 		var value, handler, dependencyInjector, namespaceName, handlerName,
-			actionName, camelizedClass, params, eventsManager,
+			actionName, params, eventsManager,
 			handlerSuffix, actionSuffix, handlerClass, status, actionMethod,
 			wasFresh = false, e;
 
@@ -357,6 +357,7 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 			let namespaceName = this->_namespaceName;
 			let handlerName = this->_handlerName;
 			let actionName = this->_actionName;
+			let handlerClass = this->getHandlerClass();
 
 			// Calling beforeDispatch
 			if typeof eventsManager == "object" {
@@ -369,24 +370,6 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 				if this->_finished === false {
 					continue;
 				}
-			}
-
-			// We don't camelize the classes if they are in namespaces
-			if !memstr(handlerName, "\\") {
-				let camelizedClass = camelize(handlerName);
-			} else {
-				let camelizedClass = handlerName;
-			}
-
-			// Create the complete controller class name prepending the namespace
-			if namespaceName {
-				if ends_with(namespaceName, "\\") {
-					let handlerClass = namespaceName . camelizedClass . handlerSuffix;
-				} else {
-					let handlerClass = namespaceName . "\\" . camelizedClass . handlerSuffix;
-				}
-			} else {
-				let handlerClass = camelizedClass . handlerSuffix;
 			}
 
 			// Handlers are retrieved as shared instances from the Service Container
@@ -636,31 +619,34 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 	 */
 	public function getHandlerClass() -> string
 	{
-		var camelizedClass;
+		var handlerSuffix, handlerName, namespaceName,
+			camelizedClass, handlerClass;
 
 		this->_resolveEmptyProperties();
 
-		/**
-		 * We don't camelize the classes if they are in namespaces
-		 */
-		if substr(this->_handlerName, 0, 1) === "\\" {
-			let camelizedClass = this->_handlerName;
+		let handlerSuffix = this->_handlerSuffix,
+			handlerName = this->_handlerName,
+			namespaceName = this->_namespaceName;
+
+		// We don't camelize the classes if they are in namespaces
+		if !memstr(handlerName, "\\") {
+			let camelizedClass = camelize(handlerName);
 		} else {
-			let camelizedClass = substr(this->_handlerName, 1);
+			let camelizedClass = handlerName;
 		}
 
-		/**
-		 * Create the complete controller class name prepending the namespace
-		 */
-		if this->_namespaceName {
-			if substr(this->_namespaceName, -1) === "\\" {
-				return this->_namespaceName . camelizedClass . this->_handlerSuffix;
+		// Create the complete controller class name prepending the namespace
+		if namespaceName {
+			if ends_with(namespaceName, "\\") {
+				let handlerClass = namespaceName . camelizedClass . handlerSuffix;
 			} else {
-				return this->_namespaceName . "\\" . camelizedClass . this->_handlerSuffix;
+				let handlerClass = namespaceName . "\\" . camelizedClass . handlerSuffix;
 			}
+		} else {
+			let handlerClass = camelizedClass . handlerSuffix;
 		}
 
-		return camelizedClass . this->_handlerSuffix;
+		return handlerClass;
 	}
 
 	/**
