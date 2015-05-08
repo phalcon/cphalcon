@@ -352,26 +352,11 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 
 			let this->_finished = true;
 
-			// If the current namespace is null we used the set in this->_defaultNamespace
+			this->_resolveEmptyProperties();
+
 			let namespaceName = this->_namespaceName;
-			if !namespaceName {
-				let namespaceName = this->_defaultNamespace;
-				let this->_namespaceName = namespaceName;
-			}
-
-			// If the handler is null we use the set in this->_defaultHandler
 			let handlerName = this->_handlerName;
-			if !handlerName {
-				let handlerName = this->_defaultHandler;
-				let this->_handlerName = handlerName;
-			}
-
-			// If the action is null we use the set in this->_defaultAction
 			let actionName = this->_actionName;
-			if !actionName {
-				let actionName = this->_defaultAction;
-				let this->_actionName = actionName;
-			}
 
 			// Calling beforeDispatch
 			if typeof eventsManager == "object" {
@@ -653,19 +638,7 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 	{
 		var camelizedClass;
 
-		/**
-		 * If the current namespace is null we used the set in default namespace
-		 */
-		if !this->_namespaceName {
-			let this->_namespaceName = this->_defaultNamespace;
-		}
-
-		/**
-		 * If the handler is null we use the set in default handler
-		 */
-		if !this->_handlerName {
-			let this->_handlerName = this->_defaultHandler;
-		}
+		this->_resolveEmptyProperties();
 
 		/**
 		 * We don't camelize the classes if they are in namespaces
@@ -688,5 +661,26 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 		}
 
 		return camelizedClass . this->_handlerSuffix;
+	}
+
+	/**
+	 * Set empty properties to their defaults (where defaults are available)
+	 */
+	protected function _resolveEmptyProperties() -> void
+	{
+		// If the current namespace is null we used the set in this->_defaultNamespace
+		if !this->_namespaceName {
+			let this->_namespaceName = this->_defaultNamespace;
+		}
+
+		// If the handler is null we use the set in this->_defaultHandler
+		if !this->_handlerName {
+			let this->_handlerName = this->_defaultHandler;
+		}
+
+		// If the action is null we use the set in this->_defaultAction
+		if !this->_actionName {
+			let this->_actionName = this->_defaultAction;
+		}
 	}
 }
