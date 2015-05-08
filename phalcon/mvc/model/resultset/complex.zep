@@ -19,6 +19,7 @@
 
 namespace Phalcon\Mvc\Model\Resultset;
 
+use Phalcon\Db;
 use Phalcon\Mvc\Model;
 use Phalcon\Mvc\Model\Resultset;
 use Phalcon\Mvc\Model\ResultsetInterface;
@@ -72,7 +73,7 @@ class Complex extends Resultset implements ResultsetInterface
 		 * If the database result is an object, change it to fetch assoc
 		 */
 		if typeof result == "object" {
-			result->setFetchMode(\Phalcon\Db::FETCH_ASSOC);
+			result->setFetchMode(Db::FETCH_ASSOC);
 		}
 	}
 
