@@ -193,4 +193,72 @@ class DispatcherMvcTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($value, 'index');
 	}
 
+	public function testGetControllerClass()
+	{
+		Phalcon\DI::reset();
+
+		$di = new Phalcon\DI();
+
+		$dispatcher = new Phalcon\Mvc\Dispatcher();
+		$dispatcher->setDI($di);
+
+		$di->set('dispatcher', $dispatcher);
+
+		// With namespace
+		$dispatcher->setNamespaceName('Foo\Bar');
+		$dispatcher->setControllerName('test');
+
+		$value = $dispatcher->getControllerClass();
+		$this->assertEquals($value, 'Foo\Bar\TestController');
+
+		// Without namespace
+		$dispatcher->setNamespaceName(null);
+		$dispatcher->setControllerName('Test');
+
+		$value = $dispatcher->getControllerClass();
+		$this->assertEquals($value, 'TestController');
+	}
+
+	public function testDefaultsResolve()
+	{
+		Phalcon\DI::reset();
+		$di = new Phalcon\DI();
+
+		$dispatcher = new Phalcon\Mvc\Dispatcher();
+		$dispatcher->setDI($di);
+
+		$di->set('dispatcher', $dispatcher);
+
+		$dispatcher->setDefaultNamespace('Foo');
+
+		$value = $dispatcher->getControllerClass();
+		$this->assertEquals($value, 'Foo\IndexController');
+	}
+
+	public function testDefaultsResolvedAfterDispatch()
+	{
+		Phalcon\DI::reset();
+
+		$di = new Phalcon\DI();
+		$di->set('response', new \Phalcon\Http\Response());
+
+		$dispatcher = new Phalcon\Mvc\Dispatcher();
+		$dispatcher->setDI($di);
+
+		$di->set('dispatcher', $dispatcher);
+
+		$dispatcher->setDefaultNamespace('Foo');
+
+		try {
+			$dispatcher->dispatch();
+			$this->assertTrue(FALSE, 'oh, Why?');
+		} catch (Phalcon\Exception $e) {
+			$this->assertEquals($e->getMessage(), "Foo\IndexController handler class cannot be loaded");
+			$this->assertInstanceOf('Phalcon\Mvc\Dispatcher\Exception', $e);
+		}
+
+		$value = $dispatcher->getControllerClass();
+		$this->assertEquals($value, 'Foo\IndexController');
+	}
+
 }
