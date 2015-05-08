@@ -72,7 +72,7 @@ class Complex extends Resultset implements ResultsetInterface
 		 * If the database result is an object, change it to fetch assoc
 		 */
 		if typeof result == "object" {
-			result->setFetchMode(1);
+			result->setFetchMode(\Phalcon\Db::FETCH_ASSOC);
 		}
 	}
 
