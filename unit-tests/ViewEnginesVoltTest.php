@@ -899,6 +899,9 @@ class ViewEnginesVoltTest extends PHPUnit_Framework_TestCase
 		$compilation = $volt->compileString("{{ image('img/logo.png', 'width': 80) }}");
 		$this->assertEquals($compilation, "<?php echo \$this->tag->image(array('img/logo.png', 'width' => 80)); ?>");
 
+		$compilation = $volt->compileString("{{ email_field('email', 'class': 'form-control', 'placeholder': 'Email Address') }}");
+		$this->assertEquals($compilation, "<?php echo \$this->tag->emailField(array('email', 'class' => 'form-control', 'placeholder' => 'Email Address')); ?>");
+
 		//Filters
 		$compilation = $volt->compileString('{{ "hello"|e }}');
 		$this->assertEquals($compilation, '<?php echo $this->escaper->escapeHtml(\'hello\'); ?>');
