@@ -53,6 +53,8 @@ class Request implements RequestInterface, InjectionAwareInterface
 
 	protected _filter;
 
+	protected _putCache;
+
 	/**
 	 * Sets the dependency injector
 	 */
@@ -118,8 +120,14 @@ class Request implements RequestInterface, InjectionAwareInterface
 	{
 		var put;
 
-		let put = [];
-		parse_str(file_get_contents("php://input"), put);
+		let put = this->_putCache;
+
+		if typeof put != "array" {
+			let put = [];
+			parse_str(file_get_contents("php://input"), put);
+
+			let this->_putCache = put;
+		}
 
 		return this->getHelper(put, name, filters, defaultValue, notAllowEmpty, noRecursive);
 	}
@@ -217,8 +225,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 	{
 		var put;
 
-		let put = [];
-		parse_str(file_get_contents("php://input"), put);
+		let put = this->getPut();
 
 		return isset put[name];
 	}
