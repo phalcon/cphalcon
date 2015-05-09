@@ -242,7 +242,7 @@ class Annotations extends Router
 		<Annotation> annotation)
 	{
 		var isRoute, name, actionName, routePrefix, paths, value, uri,
-			route, methods, converts, param, convert, conversorParam, routeName;
+			route, methods, converts, param, convert, conversorParam, routeName, routerAnnotations;
 
 		let isRoute = false, methods = null;
 
@@ -251,24 +251,11 @@ class Annotations extends Router
 		/**
 		 * Find if the route is for adding routes
 		 */
-		if name == "Route" {
+		let routerAnnotations = ["Route": null, "Get": "GET", "Post": "POST", "Put": "PUT", "Options": "OPTIONS", "Delete": "DELETE"];
+
+		if isset routerAnnotations[name] {
 			let isRoute = true;
-		} else {
-			if name == "Get" {
-				let isRoute = true, methods = "GET";
-			} else {
-				if name == "Post" {
-					let isRoute = true, methods = "POST";
-				} else {
-					if name == "Put" {
-						let isRoute = true, methods = "PUT";
-					} else {
-						if name == "Options" {
-							let isRoute = true, methods = "OPTIONS";
-						}
-					}
-				}
-			}
+			let methods = routerAnnotations[name];
 		}
 
 		if isRoute === true {
