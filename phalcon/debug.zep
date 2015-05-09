@@ -157,46 +157,46 @@ class Debug
 		var numberArguments, dump, varDump, k, v;
 
 		let numberArguments = count(argument);
-		if n < 3 {
-			if numberArguments > 0 {
-				if numberArguments < 10 {
 
-					let dump = [];
-					for  k, v in argument {
-						if is_scalar(v) {
-							if v == "" {
-								let varDump = "[" . k . "] =&gt; (empty string)";
-							} else {
-								let varDump = "[" . k . "] =&gt; " . this->_escapeString(v);
-							}
-							let dump[] = varDump;
-						} else {
-
-							if typeof v == "array" {
-								let dump[] = "[" . k . "] =&gt; Array(" . this->_getArrayDump(v, n + 1) . ")";
-								continue;
-							}
-
-							if typeof v == "object" {
-								let dump[] = "[" . k . "] =&gt; Object(" . get_class(v) . ")";
-								continue;
-							}
-
-							if typeof v == "null" {
-								let dump[] = "[" . k . "] =&gt; null";
-								continue;
-							}
-
-							let dump[] = "[" . k . "] =&gt; " . v;
-						}
-					}
-
-					return join(", ", dump);
-				}
-				return numberArguments;
-			}
+		if n >= 3 || numberArguments == 0 {
+			return null;
 		}
-		return null;
+
+		if numberArguments >= 10 {
+			return numberArguments;
+		}
+
+		let dump = [];
+		for k, v in argument {
+			if is_scalar(v) {
+				if v == "" {
+					let varDump = "[" . k . "] =&gt; (empty string)";
+				} else {
+					let varDump = "[" . k . "] =&gt; " . this->_escapeString(v);
+				}
+				let dump[] = varDump;
+				continue;
+			}
+
+			if typeof v == "array" {
+				let dump[] = "[" . k . "] =&gt; Array(" . this->_getArrayDump(v, n + 1) . ")";
+				continue;
+			}
+
+			if typeof v == "object" {
+				let dump[] = "[" . k . "] =&gt; Object(" . get_class(v) . ")";
+				continue;
+			}
+
+			if typeof v == "null" {
+				let dump[] = "[" . k . "] =&gt; null";
+				continue;
+			}
+
+			let dump[] = "[" . k . "] =&gt; " . v;
+		}
+
+		return join(", ", dump);
 	}
 
 	/**
