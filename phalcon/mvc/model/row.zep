@@ -131,4 +131,14 @@ class Row implements EntityInterface, ResultInterface, \ArrayAccess
 	{
 		return get_object_vars(this);
 	}
+
+    /**
+    * Serializes the object for json_encode
+    *
+    * @return array
+    */
+	public function jsonSerialize() -> array
+	{
+	    return this->toArray();
+	}
 }

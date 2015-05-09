@@ -4339,6 +4339,20 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		return data;
 	}
 
+    /**
+    * Serializes the object for json_encode
+    *
+	*<code>
+	* echo json_encode($robot->jsonSerialize());
+	*</code>
+    *
+    * @return array
+    */
+	public function jsonSerialize() -> array
+	{
+	    return this->toArray();
+	}
+
 	/**
 	 * Enables/disables options in the ORM
 	 */
