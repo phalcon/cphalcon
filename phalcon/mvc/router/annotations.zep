@@ -310,7 +310,11 @@ class Annotations extends Router
 				if value != "/" {
 					let uri = routePrefix . value;
 				} else {
-					let uri = routePrefix;
+					if typeof routePrefix !== "null" {
+						let uri = routePrefix;
+					} else {
+						let uri = value;
+					}
 				}
 			} else {
 				let uri = routePrefix . actionName;
