@@ -19,6 +19,7 @@
 
 namespace Phalcon\Mvc\Model\Resultset;
 
+use Phalcon\Db;
 use Phalcon\Mvc\Model;
 use Phalcon\Mvc\Model\Resultset;
 use Phalcon\Mvc\Model\Exception;
@@ -65,7 +66,7 @@ class Simple extends Resultset
 		/**
 		 * Do the fetch using only associative indexes
 		 */
-		result->setFetchMode(\Phalcon\Db::FETCH_ASSOC);
+		result->setFetchMode(Db::FETCH_ASSOC);
 
 		let rowCount = result->numRows();
 
