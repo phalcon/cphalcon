@@ -1,3 +1,6 @@
+2.0.2
+ - Added `stats()` methods to Beanstalk
+
 2.0.1
  - Added missing Phalcon\Debug::listenLowSeverity
  - Added new theme in Phalcon\Debug
