@@ -140,15 +140,15 @@ class Postgresql extends Dialect
 	 */
 	public function addColumn(string! tableName, string! schemaName, <ColumnInterface> column) -> string
 	{
-		var sql, defaultValue;		
+		var sql, defaultValue;
                 
 		if schemaName {
-			let sql = "ALTER TABLE " . schemaName . "." . tableName . " ADD COLUMN ";
+			let sql = "ALTER TABLE \"" . schemaName . "\".\"" . tableName . "\" ADD COLUMN ";
 		} else {
-			let sql = "ALTER TABLE " . tableName . " ADD COLUMN ";
+			let sql = "ALTER TABLE \"" . tableName . "\" ADD COLUMN ";
 		}
 		
-		let sql .= "" . column->getName() . " " . this->getColumnDefinition(column);
+		let sql .= "\"" . column->getName() . "\" " . this->getColumnDefinition(column);
 		
 		let defaultValue = column->getDefault();
 		if ! empty defaultValue {
@@ -170,36 +170,36 @@ class Postgresql extends Dialect
 		var sql = "", sqlAlterTable, defaultValue;
 			
 		if schemaName {
-			let sqlAlterTable = "ALTER TABLE " . schemaName . "." . tableName . " ";
+			let sqlAlterTable = "ALTER TABLE \"" . schemaName . "\".\"" . tableName . "\"";
 		} else {
-			let sqlAlterTable = "ALTER TABLE " . tableName . " ";
+			let sqlAlterTable = "ALTER TABLE \"" . tableName . "\"";
 		}
 		
 		//Rename
 		if column->getName() != currentColumn->getName() {
-			let sql .= sqlAlterTable . " RENAME COLUMN " . currentColumn->getName() . " TO " . column->getName() . ";";
+			let sql .= sqlAlterTable . " RENAME COLUMN \"" . currentColumn->getName() . "\" TO \"" . column->getName() . "\";";
 		}
 		//Change type
 		if column->getType() != currentColumn->getType() {
-			let sql .= sqlAlterTable . " ALTER COLUMN " . column->getName() . " TYPE " . this->getColumnDefinition(column) . ";";
+			let sql .= sqlAlterTable . " ALTER COLUMN \"" . column->getName() . "\" TYPE " . this->getColumnDefinition(column) . ";";
 		}
 		//NULL
 		if column->isNotNull() != currentColumn->isNotNull() {
 			if column->isNotNull() {
-				let sql .= sqlAlterTable . " ALTER COLUMN " . column->getName() . " SET NOT NULL;";
+				let sql .= sqlAlterTable . " ALTER COLUMN \"" . column->getName() . "\" SET NOT NULL;";
 			} else {
-				let sql .= sqlAlterTable . " ALTER COLUMN " . column->getName() . " DROP NOT NULL;";
-				let sql .= sqlAlterTable . " ALTER COLUMN " . column->getName() . " SET NULL;";
+				let sql .= sqlAlterTable . " ALTER COLUMN \"" . column->getName() . "\" DROP NOT NULL;";
+				let sql .= sqlAlterTable . " ALTER COLUMN \"" . column->getName() . "\" SET NULL;";
 			}
 		}
 		//DEFAULT
 		if column->getDefault() != currentColumn->getDefault() {
 			if empty column->getDefault() && !empty currentColumn->getDefault() {
-				let sql .= sqlAlterTable . " ALTER COLUMN " . column->getName() . " DROP DEFAULT;";
+				let sql .= sqlAlterTable . " ALTER COLUMN \"" . column->getName() . "\" DROP DEFAULT;";
 			}
 			let defaultValue = column->getDefault();
 			if ! empty defaultValue {
-				let sql .= sqlAlterTable . " ALTER COLUMN " . column->getName() . " SET DEFAULT \"" . addcslashes(defaultValue, "\"") . "\"";
+				let sql .= sqlAlterTable . " ALTER COLUMN \"" . column->getName() . "\" SET DEFAULT \"" . addcslashes(defaultValue, "\"") . "\"";
 			}
 		}
 		
@@ -214,12 +214,12 @@ class Postgresql extends Dialect
 		var sql;
                 
         if schemaName {
-            let sql = "ALTER TABLE " . schemaName . "." . tableName;
+            let sql = "ALTER TABLE \"" . schemaName . "\".\"" . tableName."\" ";
         } else {
-            let sql = "ALTER TABLE " . tableName;
+            let sql = "ALTER TABLE \"" . tableName . "\" ";
         }
 
-        let sql .= " DROP COLUMN ".columnName;
+        let sql .= " DROP COLUMN \"".columnName."\"";
         
         return sql;
 	}
@@ -229,20 +229,23 @@ class Postgresql extends Dialect
 	 */
 	public function addIndex(string! tableName, string! schemaName, <IndexInterface> index) -> string
 	{
+		if index->getName() === "PRIMARY" {
+			return this->addPrimaryKey( tableName, schemaName, index);
+		}
 		var sql, indexType;
 				
-		let sql = "CREATE ";
+		let sql = "CREATE";
 		
 		let indexType = index->getType();
 		if !empty indexType {
-			let sql .= indexType;
+			let sql .= " " . indexType;
 		}
-		let sql .= " INDEX " . index->getName() . " ON ";
+		let sql .= " INDEX \"" . index->getName() . "\" ON";
 		
 		if schemaName {
-			let sql .= schemaName . "." . tableName;
+			let sql .= " \"" . schemaName . "\".\"" . tableName."\"";
 		} else {
-			let sql .= tableName;
+			let sql .= " \"" . tableName . "\"";
 		}
 		
 		let sql .= " (" . this->getColumnList(index->getColumns()) . ")";
@@ -255,7 +258,7 @@ class Postgresql extends Dialect
 	public function dropIndex(string! tableName, string! schemaName, string! indexName) -> string
 	{
 		var sql;
-		let sql = "DROP INDEX " . indexName;
+		let sql = "DROP INDEX \"" . indexName . "\"";
 		return sql;
 	}
 
@@ -267,11 +270,11 @@ class Postgresql extends Dialect
 		var sql;
 				
 		if schemaName {
-			let sql = "ALTER TABLE " . schemaName . "." . tableName;
+			let sql = "ALTER TABLE \"" . schemaName . "\".\"" . tableName . "\"";
 		} else {
-			let sql = "ALTER TABLE " . tableName;
+			let sql = "ALTER TABLE \"" . tableName . "\"";
 		}
-		let sql .= " ADD CONSTRAINT pk PRIMARY KEY (" . this->getColumnList(index->getColumns()) . ")";
+		let sql .= " ADD CONSTRAINT \"pk\" PRIMARY KEY (" . this->getColumnList(index->getColumns()) . ")";
 		
 		return sql;
 	}
@@ -284,11 +287,11 @@ class Postgresql extends Dialect
 		var sql;
 				
 		if schemaName {
-			let sql = "ALTER TABLE " . schemaName . "." . tableName;
+			let sql = "ALTER TABLE \"" . schemaName . "\".\"" . tableName . "\"";
 		} else {
-			let sql = "ALTER TABLE " . tableName;
+			let sql = "ALTER TABLE \"" . tableName . "\"";
 		}
-		let sql .= " DROP CONSTRAINT pk";
+		let sql .= " DROP CONSTRAINT \"pk\"";
 		
 		return sql;
 	}
@@ -298,15 +301,15 @@ class Postgresql extends Dialect
 	 */
 	public function addForeignKey(string! tableName, string! schemaName, <ReferenceInterface> reference) -> string
 	{
-		var sql, referencedSchema, onDelete, onUpdate;
+		var sql, onDelete, onUpdate;
 				
 		if schemaName {
-			let sql = "ALTER TABLE " . schemaName . "." . tableName . " ADD FOREIGN KEY ";
+			let sql = "ALTER TABLE \"" . schemaName . "\".\"" . tableName . "\" ADD FOREIGN KEY ";
 		} else {
-			let sql = "ALTER TABLE " . tableName . " ADD FOREIGN KEY ";
+			let sql = "ALTER TABLE \"" . tableName . "\" ADD FOREIGN KEY ";
 		}
-		let sql .= "ADD CONSTRAINT " . reference->getName() . " FOREIGN KEY (" . this->getColumnList(reference->getColumns()) . ")"
-				. " REFERENCES " . reference->getReferencedTable() . "(" . this->getColumnList(reference->getReferencedColumns()) . ")";
+		let sql .= "ADD CONSTRAINT \"" . reference->getName() . "\" FOREIGN KEY (" . this->getColumnList(reference->getColumns()) . ")"
+				. " REFERENCES \"" . reference->getReferencedTable() . "\" (" . this->getColumnList(reference->getReferencedColumns()) . ")";
 		
 		let onDelete = reference->getOnDelete();
 		if !empty onDelete {
@@ -329,12 +332,12 @@ class Postgresql extends Dialect
 		var sql;
 				
 		if schemaName {
-			let sql = "ALTER TABLE " . schemaName . "." . tableName;
+			let sql = "ALTER TABLE \"" . schemaName . "\".\"" . tableName . "\"";
 		} else {
-			let sql = "ALTER TABLE " . tableName;
+			let sql = "ALTER TABLE \"" . tableName . "\"";
 		}
 		
-		let sql .= " DROP CONSTRAINT " . referenceName ;
+		let sql .= " DROP CONSTRAINT \"" . referenceName . "\"" ;
 		
 		return sql;
 	}
@@ -368,15 +371,15 @@ class Postgresql extends Dialect
 		 * Create a temporary o normal table
 		 */
 		if temporary {
-			let sql = "CREATE TEMPORARY TABLE " . table . " (\n\t";
+			let sql = "CREATE TEMPORARY TABLE \"" . table . "\" (\n\t";
 		} else {
-			let sql = "CREATE TABLE " . table . " (\n\t";
+			let sql = "CREATE TABLE \"" . table . "\" (\n\t";
 		}
 		
 		let createLines = [];
 		for column in columns {
 		
-			let columnLine = column->getName() . " " . this->getColumnDefinition(column);
+			let columnLine = "\"" . column->getName() . "\" " . this->getColumnDefinition(column);
 		
 			/**
 			 * Add a Default clause
@@ -428,15 +431,15 @@ class Postgresql extends Dialect
 					let indexSql = "CONSTRAINT pk PRIMARY KEY (" . this->getColumnList(index->getColumns()) . ")";
 				} else {
 					if !empty indexType {
-						let indexSql = "CONSTRAINT " . indexName . " " . indexType . " (" . this->getColumnList(index->getColumns()) . ")";
+						let indexSql = "CONSTRAINT \"" . indexName . "\" " . indexType . " (" . this->getColumnList(index->getColumns()) . ")";
 					} else {
 					
-						let indexSqlAfterCreate .= "CREATE INDEX " . index->getName() . " ON ";
+						let indexSqlAfterCreate .= "CREATE INDEX \"" . index->getName() . "\" ON ";
 								
 						if schemaName {
-							let indexSqlAfterCreate .= schemaName . "." . tableName;
+							let indexSqlAfterCreate .= "\"" . schemaName . "\".\"" . tableName . "\"";
 						} else {
-							let indexSqlAfterCreate .= tableName;
+							let indexSqlAfterCreate .= "\"" . tableName . "\"";
 						}
 				
 						let indexSqlAfterCreate .= " (" . this->getColumnList(index->getColumns()) . ");";
@@ -451,8 +454,8 @@ class Postgresql extends Dialect
 		 */
 		if fetch references, definition["references"] {
 			for reference in references {
-				let referenceSql = "CONSTRAINT " . reference->getName() . " FOREIGN KEY (" . this->getColumnList(reference->getColumns()) . ")"
-					. " REFERENCES " . reference->getReferencedTable() . "(" . this->getColumnList(reference->getReferencedColumns()) . ")";
+				let referenceSql = "CONSTRAINT \"" . reference->getName() . "\" FOREIGN KEY (" . this->getColumnList(reference->getColumns()) . ")"
+					. " REFERENCES \"" . reference->getReferencedTable() . "\" (" . this->getColumnList(reference->getReferencedColumns()) . ")";
 		
 				let onDelete = reference->getOnDelete();
 				if !empty onDelete {
@@ -485,14 +488,14 @@ class Postgresql extends Dialect
 		var table, sql;
 		
 		if schemaName {
-			let table = schemaName . "." . tableName;
+			let table = "\"" . schemaName . "\".\"" . tableName . "\"";
 		} else {
-			let table = tableName;
+			let table = "\"" . tableName . "\"";
 		}
 		if ifExists {
-			let sql = "DROP TABLE IF EXISTS " . table;
+			let sql = "DROP TABLE IF EXISTS \"" . table . "\"";
 		} else {
-			let sql = "DROP TABLE " . table;
+			let sql = "DROP TABLE \"" . table . "\"";
 		}
 		return sql;
 	}
@@ -509,9 +512,9 @@ class Postgresql extends Dialect
 		}
 		
 		if schemaName {
-			let view = viewName . "." . schemaName;
+			let view = "\"" . schemaName . "\".\"" . viewName . "\"";
 		} else {
-			let view = viewName;
+			let view = "\"" . viewName . "\"";
 		}
 		
 		return "CREATE VIEW " . view . " AS " . viewSql;
@@ -525,15 +528,15 @@ class Postgresql extends Dialect
 		var view, sql;
 		
 		if schemaName {
-			let view = viewName . "." . schemaName;
+			let view = "\"" . schemaName . "\".\"" . viewName . "\"";
 		} else {
-			let view = viewName;
+			let view = "\"" . viewName . "\"";
 		}
 		
 		if ifExists {
-			let sql = "DROP VIEW IF EXISTS " . view;
+			let sql = "DROP VIEW IF EXISTS " . view . "";
 		} else {
-			let sql = "DROP VIEW " . view;
+			let sql = "DROP VIEW " . view . "";
 		}
 		
 		return sql;
@@ -636,6 +639,10 @@ class Postgresql extends Dialect
 	 * Generates the SQL to describe the table creation options
 	 */
 	public function tableOptions(string! table, string schema = null) -> string
+	{
+		return "";
+	}
+	protected function _getTableOptions(array! definition) -> string
 	{
 		return "";
 	}
