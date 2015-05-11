@@ -7,22 +7,17 @@
 // 28 "parser.lemon"
 
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "php.h"
-#include "ext/standard/php_smart_str.h"
 #include "php_phalcon.h"
 #include "phalcon.h"
+
+#include <ext/standard/php_smart_str.h>
+#include <main/spprintf.h>
 
 #include "parser.h"
 #include "scanner.h"
 #include "annot.h"
 
 #include "kernel/main.h"
-#include "kernel/memory.h"
-#include "kernel/fcall.h"
 #include "kernel/exception.h"
 
 static zval *phannot_ret_literal_zval(int type, phannot_parser_token *T)
@@ -30,7 +25,7 @@ static zval *phannot_ret_literal_zval(int type, phannot_parser_token *T)
 	zval *ret;
 
 	MAKE_STD_ZVAL(ret);
-	array_init(ret);
+	array_init_size(ret, 2);
 	add_assoc_long(ret, "type", type);
 	if (T) {
 		add_assoc_stringl(ret, "value", T->token, T->token_len, 0);
@@ -45,7 +40,7 @@ static zval *phannot_ret_array(zval *items)
 	zval *ret;
 
 	MAKE_STD_ZVAL(ret);
-	array_init(ret);
+	array_init_size(ret, 2);
 	add_assoc_long(ret, "type", PHANNOT_T_ARRAY);
 
 	if (items) {
@@ -57,7 +52,6 @@ static zval *phannot_ret_array(zval *items)
 
 static zval *phannot_ret_zval_list(zval *list_left, zval *right_list)
 {
-
 	zval *ret;
 	HashPosition pos;
 	HashTable *list;
@@ -98,7 +92,7 @@ static zval *phannot_ret_named_item(phannot_parser_token *name, zval *expr)
 	zval *ret;
 
 	MAKE_STD_ZVAL(ret);
-	array_init(ret);
+	array_init_size(ret, 2);
 	add_assoc_zval(ret, "expr", expr);
 	if (name != NULL) {
 		add_assoc_stringl(ret, "name", name->token, name->token_len, 0);
@@ -110,11 +104,10 @@ static zval *phannot_ret_named_item(phannot_parser_token *name, zval *expr)
 
 static zval *phannot_ret_annotation(phannot_parser_token *name, zval *arguments, phannot_scanner_state *state)
 {
-
 	zval *ret;
 
 	MAKE_STD_ZVAL(ret);
-	array_init(ret);
+	array_init_size(ret, 5);
 
 	add_assoc_long(ret, "type", PHANNOT_T_ANNOTATION);
 
@@ -127,15 +120,14 @@ static zval *phannot_ret_annotation(phannot_parser_token *name, zval *arguments,
 		add_assoc_zval(ret, "arguments", arguments);
 	}
 
-	Z_ADDREF_P(state->active_file);
-	add_assoc_zval(ret, "file", state->active_file);
+	add_assoc_string(ret, "file", (char*)state->active_file, !IS_INTERNED(state->active_file));
 	add_assoc_long(ret, "line", state->active_line);
 
 	return ret;
 }
 
 
-// 139 "parser.c"
+// 131 "parser.c"
 /* Next is all token values, in a form suitable for use by makeheaders.
 ** This section will be null unless lemon is run with the -m switch.
 */
@@ -254,40 +246,42 @@ typedef union {
 **  aa_default[]       Default action for each state.
 */
 static AAACTIONTYPE aa_action[] = {
- /*     0 */     4,   28,   15,   38,   12,   37,   16,   18,   20,   21,
- /*    10 */    22,   23,   24,    4,   31,    4,   17,   15,   40,   19,
- /*    20 */    35,   16,   18,   20,   21,   22,   23,   24,    3,   31,
- /*    30 */     4,   28,   15,    6,   12,   30,   16,   18,   20,   21,
- /*    40 */    22,   23,   24,   54,   31,   15,   25,   27,   11,   16,
- /*    50 */    13,   36,   15,    7,   27,   11,   16,   15,   32,   27,
- /*    60 */    11,   16,   15,    9,   10,   11,   16,   66,    1,    2,
- /*    70 */    39,   15,    9,    5,   14,   16,   41,   26,    4,    9,
- /*    80 */    29,   34,   54,    8,   54,   54,   54,   54,   33,
+ /*     0 */     4,   28,   15,   38,   12,   14,   16,   18,   20,   21,
+ /*    10 */    22,   23,   24,    4,   31,    4,   28,   15,   40,   12,
+ /*    20 */    30,   16,   18,   20,   21,   22,   23,   24,    3,   31,
+ /*    30 */     4,   17,   15,    6,   19,   35,   16,   18,   20,   21,
+ /*    40 */    22,   23,   24,    5,   31,   15,    7,   27,   11,   16,
+ /*    50 */    54,   54,   15,   25,   27,   11,   16,   15,   32,   27,
+ /*    60 */    11,   16,   66,    1,    2,   39,   41,   15,    4,   10,
+ /*    70 */    11,   16,   15,    9,    9,   37,   16,    8,   13,   36,
+ /*    80 */     9,   29,   34,   54,   54,   54,   54,   54,   26,   54,
+ /*    90 */    54,   54,   54,   54,   54,   54,   33,
 };
 static AACODETYPE aa_lookahead[] = {
  /*     0 */     2,    3,   22,    5,    6,   25,   26,    9,   10,   11,
  /*    10 */    12,   13,   14,    2,   16,    2,    3,   22,    0,    6,
  /*    20 */    25,   26,    9,   10,   11,   12,   13,   14,   22,   16,
  /*    30 */     2,    3,   22,    4,    6,   25,   26,    9,   10,   11,
- /*    40 */    12,   13,   14,   27,   16,   22,   23,   24,   25,   26,
- /*    50 */     7,    8,   22,   23,   24,   25,   26,   22,   23,   24,
- /*    60 */    25,   26,   22,    1,   24,   25,   26,   19,   20,   21,
- /*    70 */    22,   22,    1,    3,   25,   26,    0,   15,    2,    1,
- /*    80 */     7,    8,   27,    5,   27,   27,   27,   27,   17,
+ /*    40 */    12,   13,   14,    3,   16,   22,   23,   24,   25,   26,
+ /*    50 */    27,   27,   22,   23,   24,   25,   26,   22,   23,   24,
+ /*    60 */    25,   26,   19,   20,   21,   22,    0,   22,    2,   24,
+ /*    70 */    25,   26,   22,    1,    1,   25,   26,    5,    7,    8,
+ /*    80 */     1,    7,    8,   27,   27,   27,   27,   27,   15,   27,
+ /*    90 */    27,   27,   27,   27,   27,   27,   17,
 };
 #define AA_SHIFT_USE_DFLT (-3)
 static signed char aa_shift_ofst[] = {
- /*     0 */    11,   18,   76,   -3,   70,   29,   -2,   78,   -3,   28,
- /*    10 */    -3,   -3,   43,   13,   -3,   -3,   -3,   -3,   -3,   -3,
- /*    20 */    -3,   -3,   -3,   -3,   28,   62,   -3,   -3,   73,   13,
- /*    30 */    -3,   28,   71,   -3,   13,   -3,   13,   -3,   -3,   -3,
+ /*     0 */    11,   18,   66,   -3,   40,   29,   -2,   72,   -3,   13,
+ /*    10 */    -3,   -3,   71,   28,   -3,   -3,   -3,   -3,   -3,   -3,
+ /*    20 */    -3,   -3,   -3,   -3,   13,   73,   -3,   -3,   74,   28,
+ /*    30 */    -3,   13,   79,   -3,   28,   -3,   28,   -3,   -3,   -3,
 };
 #define AA_REDUCE_USE_DFLT (-21)
 static signed char aa_reduce_ofst[] = {
- /*     0 */    48,  -21,    6,  -21,  -21,  -21,   30,  -21,  -21,   40,
- /*    10 */   -21,  -21,  -21,   49,  -21,  -21,  -21,  -21,  -21,  -21,
- /*    20 */   -21,  -21,  -21,  -21,   23,  -21,  -21,  -21,  -21,   10,
- /*    30 */   -21,   35,  -21,  -21,   -5,  -21,  -20,  -21,  -21,  -21,
+ /*     0 */    43,  -21,    6,  -21,  -21,  -21,   23,  -21,  -21,   45,
+ /*    10 */   -21,  -21,  -21,  -20,  -21,  -21,  -21,  -21,  -21,  -21,
+ /*    20 */   -21,  -21,  -21,  -21,   30,  -21,  -21,  -21,  -21,   -5,
+ /*    30 */   -21,   35,  -21,  -21,   10,  -21,   50,  -21,  -21,  -21,
 };
 static AAACTIONTYPE aa_default[] = {
  /*     0 */    65,   65,   65,   42,   65,   46,   65,   65,   44,   65,
@@ -492,7 +486,7 @@ static void aa_destructor(AACODETYPE aamajor, AAMINORTYPE *aapminor){
     case 15:
     case 16:
     case 17:
-// 222 "parser.lemon"
+// 196 "parser.lemon"
 {
 	if ((aapminor->aa0)) {
 		if ((aapminor->aa0)->free_flag) {
@@ -501,7 +495,7 @@ static void aa_destructor(AACODETYPE aamajor, AAMINORTYPE *aapminor){
 		efree((aapminor->aa0));
 	}
 }
-// 505 "parser.c"
+// 499 "parser.c"
       break;
     case 20:
     case 21:
@@ -509,9 +503,9 @@ static void aa_destructor(AACODETYPE aamajor, AAMINORTYPE *aapminor){
     case 23:
     case 24:
     case 25:
-// 235 "parser.lemon"
+// 209 "parser.lemon"
 { zval_ptr_dtor(&(aapminor->aa36)); }
-// 515 "parser.c"
+// 509 "parser.c"
       break;
     default:  break;   /* If no destructor action specified: do nothing */
   }
@@ -749,166 +743,166 @@ static void aa_reduce(
   **     break;
   */
       case 0:
-// 231 "parser.lemon"
+// 205 "parser.lemon"
 {
 	status->ret = aamsp[0].minor.aa36;
 }
-// 757 "parser.c"
+// 751 "parser.c"
         break;
       case 1:
       case 14:
       case 15:
-// 237 "parser.lemon"
+// 211 "parser.lemon"
 {
 	aagotominor.aa36 = aamsp[0].minor.aa36;
 }
-// 766 "parser.c"
+// 760 "parser.c"
         break;
       case 2:
-// 243 "parser.lemon"
+// 217 "parser.lemon"
 {
 	aagotominor.aa36 = phannot_ret_zval_list(aamsp[-1].minor.aa36, aamsp[0].minor.aa36);
 }
-// 773 "parser.c"
+// 767 "parser.c"
         break;
       case 3:
       case 8:
-// 247 "parser.lemon"
+// 221 "parser.lemon"
 {
 	aagotominor.aa36 = phannot_ret_zval_list(NULL, aamsp[0].minor.aa36);
 }
-// 781 "parser.c"
+// 775 "parser.c"
         break;
       case 4:
-// 254 "parser.lemon"
+// 228 "parser.lemon"
 {
 	aagotominor.aa36 = phannot_ret_annotation(aamsp[-3].minor.aa0, aamsp[-1].minor.aa36, status->scanner_state);
   aa_destructor(2,&aamsp[-4].minor);
   aa_destructor(4,&aamsp[-2].minor);
   aa_destructor(5,&aamsp[0].minor);
 }
-// 791 "parser.c"
+// 785 "parser.c"
         break;
       case 5:
-// 258 "parser.lemon"
+// 232 "parser.lemon"
 {
 	aagotominor.aa36 = phannot_ret_annotation(aamsp[-2].minor.aa0, NULL, status->scanner_state);
   aa_destructor(2,&aamsp[-3].minor);
   aa_destructor(4,&aamsp[-1].minor);
   aa_destructor(5,&aamsp[0].minor);
 }
-// 801 "parser.c"
+// 795 "parser.c"
         break;
       case 6:
-// 262 "parser.lemon"
+// 236 "parser.lemon"
 {
 	aagotominor.aa36 = phannot_ret_annotation(aamsp[0].minor.aa0, NULL, status->scanner_state);
   aa_destructor(2,&aamsp[-1].minor);
 }
-// 809 "parser.c"
+// 803 "parser.c"
         break;
       case 7:
-// 268 "parser.lemon"
+// 242 "parser.lemon"
 {
 	aagotominor.aa36 = phannot_ret_zval_list(aamsp[-2].minor.aa36, aamsp[0].minor.aa36);
   aa_destructor(1,&aamsp[-1].minor);
 }
-// 817 "parser.c"
+// 811 "parser.c"
         break;
       case 9:
-// 278 "parser.lemon"
+// 252 "parser.lemon"
 {
 	aagotominor.aa36 = phannot_ret_named_item(NULL, aamsp[0].minor.aa36);
 }
-// 824 "parser.c"
+// 818 "parser.c"
         break;
       case 10:
       case 12:
-// 282 "parser.lemon"
+// 256 "parser.lemon"
 {
 	aagotominor.aa36 = phannot_ret_named_item(aamsp[-2].minor.aa0, aamsp[0].minor.aa36);
   aa_destructor(7,&aamsp[-1].minor);
 }
-// 833 "parser.c"
+// 827 "parser.c"
         break;
       case 11:
       case 13:
-// 286 "parser.lemon"
+// 260 "parser.lemon"
 {
 	aagotominor.aa36 = phannot_ret_named_item(aamsp[-2].minor.aa0, aamsp[0].minor.aa36);
   aa_destructor(8,&aamsp[-1].minor);
 }
-// 842 "parser.c"
+// 836 "parser.c"
         break;
       case 16:
-// 308 "parser.lemon"
+// 282 "parser.lemon"
 {
 	aagotominor.aa36 = phannot_ret_literal_zval(PHANNOT_T_IDENTIFIER, aamsp[0].minor.aa0);
 }
-// 849 "parser.c"
+// 843 "parser.c"
         break;
       case 17:
-// 312 "parser.lemon"
+// 286 "parser.lemon"
 {
 	aagotominor.aa36 = phannot_ret_literal_zval(PHANNOT_T_INTEGER, aamsp[0].minor.aa0);
 }
-// 856 "parser.c"
+// 850 "parser.c"
         break;
       case 18:
-// 316 "parser.lemon"
+// 290 "parser.lemon"
 {
 	aagotominor.aa36 = phannot_ret_literal_zval(PHANNOT_T_STRING, aamsp[0].minor.aa0);
 }
-// 863 "parser.c"
+// 857 "parser.c"
         break;
       case 19:
-// 320 "parser.lemon"
+// 294 "parser.lemon"
 {
 	aagotominor.aa36 = phannot_ret_literal_zval(PHANNOT_T_DOUBLE, aamsp[0].minor.aa0);
 }
-// 870 "parser.c"
+// 864 "parser.c"
         break;
       case 20:
-// 324 "parser.lemon"
+// 298 "parser.lemon"
 {
 	aagotominor.aa36 = phannot_ret_literal_zval(PHANNOT_T_NULL, NULL);
   aa_destructor(11,&aamsp[0].minor);
 }
-// 878 "parser.c"
+// 872 "parser.c"
         break;
       case 21:
-// 328 "parser.lemon"
+// 302 "parser.lemon"
 {
 	aagotominor.aa36 = phannot_ret_literal_zval(PHANNOT_T_FALSE, NULL);
   aa_destructor(12,&aamsp[0].minor);
 }
-// 886 "parser.c"
+// 880 "parser.c"
         break;
       case 22:
-// 332 "parser.lemon"
+// 306 "parser.lemon"
 {
 	aagotominor.aa36 = phannot_ret_literal_zval(PHANNOT_T_TRUE, NULL);
   aa_destructor(13,&aamsp[0].minor);
 }
-// 894 "parser.c"
+// 888 "parser.c"
         break;
       case 23:
-// 336 "parser.lemon"
+// 310 "parser.lemon"
 {
 	aagotominor.aa36 = phannot_ret_array(aamsp[-1].minor.aa36);
   aa_destructor(14,&aamsp[-2].minor);
   aa_destructor(15,&aamsp[0].minor);
 }
-// 903 "parser.c"
+// 897 "parser.c"
         break;
       case 24:
-// 340 "parser.lemon"
+// 314 "parser.lemon"
 {
 	aagotominor.aa36 = phannot_ret_array(aamsp[-1].minor.aa36);
   aa_destructor(16,&aamsp[-2].minor);
   aa_destructor(17,&aamsp[0].minor);
 }
-// 912 "parser.c"
+// 906 "parser.c"
         break;
   };
   aagoto = aaRuleInfo[aaruleno].lhs;
@@ -949,71 +943,53 @@ static void aa_syntax_error(
   AAMINORTYPE aaminor            /* The minor type of the error token */
 ){
   phannot_ARG_FETCH;
-#define TOKEN (aaminor.aa0)
-// 159 "parser.lemon"
+#define ATOKEN (aaminor.aa0)
+// 151 "parser.lemon"
 
 	if (status->scanner_state->start_length) {
-		{
+		char *token_name = NULL;
+		const phannot_token_names *tokens = phannot_tokens;
+		uint active_token = status->scanner_state->active_token;
+		uint near_length = status->scanner_state->start_length;
 
-			char *token_name = NULL;
-			const phannot_token_names *tokens = phannot_tokens;
-			int token_found = 0;
-			int active_token = status->scanner_state->active_token;
-			int near_length = status->scanner_state->start_length;
+		if (active_token) {
+			do {
+				if (tokens->code == active_token) {
+					token_name = tokens->name;
+					break;
+				}
+				++tokens;
+			} while (tokens[0].code != 0);
+		}
 
-			if (active_token) {
-				do {
-					if (tokens->code == active_token) {
-						token_found = 1;
-						token_name = tokens->name;
-						break;
-					}
-					++tokens;
-				} while (tokens[0].code != 0);
+		if (!token_name) {
+			token_name  = "UNKNOWN";
+		}
+
+		if (near_length > 0) {
+			if (status->token->value) {
+				spprintf(&status->syntax_error, 0, "Syntax error, unexpected token %s(%s), near to '%s' in %s on line %d", token_name, status->token->value, status->scanner_state->start, status->scanner_state->active_file, status->scanner_state->active_line);
+			} else {
+				spprintf(&status->syntax_error, 0, "Syntax error, unexpected token %s, near to '%s' in %s on line %d", token_name, status->scanner_state->start, status->scanner_state->active_file, status->scanner_state->active_line);
 			}
-
-			if (!token_name) {
-				token_found = 0;
-				token_name = estrndup("UNKNOWN", strlen("UNKNOWN"));
-			}
-
-			status->syntax_error_len = 128 + strlen(token_name) + Z_STRLEN_P(status->scanner_state->active_file);
-			status->syntax_error = emalloc(sizeof(char) * status->syntax_error_len);
-
-			if (near_length > 0) {
+		} else {
+			if (active_token != PHANNOT_T_IGNORE) {
 				if (status->token->value) {
-					snprintf(status->syntax_error, status->syntax_error_len, "Syntax error, unexpected token %s(%s), near to '%s' in %s on line %d", token_name, status->token->value, status->scanner_state->start, Z_STRVAL_P(status->scanner_state->active_file), status->scanner_state->active_line);
+					spprintf(&status->syntax_error, 0, "Syntax error, unexpected token %s(%s), at the end of docblock in %s on line %d", token_name, status->token->value, status->scanner_state->active_file, status->scanner_state->active_line);
 				} else {
-					snprintf(status->syntax_error, status->syntax_error_len, "Syntax error, unexpected token %s, near to '%s' in %s on line %d", token_name, status->scanner_state->start, Z_STRVAL_P(status->scanner_state->active_file), status->scanner_state->active_line);
+					spprintf(&status->syntax_error, 0, "Syntax error, unexpected token %s, at the end of docblock in %s on line %d", token_name, status->scanner_state->active_file, status->scanner_state->active_line);
 				}
 			} else {
-				if (active_token != PHANNOT_T_IGNORE) {
-					if (status->token->value) {
-						snprintf(status->syntax_error, status->syntax_error_len, "Syntax error, unexpected token %s(%s), at the end of docblock in %s on line %d", token_name, status->token->value, Z_STRVAL_P(status->scanner_state->active_file), status->scanner_state->active_line);
-					} else {
-						snprintf(status->syntax_error, status->syntax_error_len, "Syntax error, unexpected token %s, at the end of docblock in %s on line %d", token_name, Z_STRVAL_P(status->scanner_state->active_file), status->scanner_state->active_line);
-					}
-				} else {
-					snprintf(status->syntax_error, status->syntax_error_len, "Syntax error, unexpected EOF, at the end of docblock in %s on line %d", Z_STRVAL_P(status->scanner_state->active_file), status->scanner_state->active_line);
-				}
-				status->syntax_error[status->syntax_error_len-1] = '\0';
-			}
-
-			if (!token_found) {
-				if (token_name) {
-					efree(token_name);
-				}
+				spprintf(&status->syntax_error, 0, "Syntax error, unexpected EOF, at the end of docblock in %s on line %d", status->scanner_state->active_file, status->scanner_state->active_line);
 			}
 		}
 	} else {
-		status->syntax_error_len = 48 + Z_STRLEN_P(status->scanner_state->active_file);
-		status->syntax_error = emalloc(sizeof(char) * status->syntax_error_len);
-		sprintf(status->syntax_error, "Syntax error, unexpected EOF in %s", Z_STRVAL_P(status->scanner_state->active_file));
+		spprintf(&status->syntax_error, 0, "Syntax error, unexpected EOF in %s", status->scanner_state->active_file);
 	}
 
 	status->status = PHANNOT_PARSING_FAILED;
 
-// 1017 "parser.c"
+// 993 "parser.c"
   phannot_ARG_STORE; /* Suppress warning about unused %extra_argument variable */
 }
 
@@ -1189,7 +1165,7 @@ void phannot_(
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -1217,7 +1193,7 @@ const phannot_token_names phannot_tokens[] =
 	{ ")",              PHANNOT_T_PARENTHESES_CLOSE },
 	{ "{",              PHANNOT_T_BRACKET_OPEN },
 	{ "}",              PHANNOT_T_BRACKET_CLOSE },
-	{ "[",              PHANNOT_T_SBRACKET_OPEN },
+ 	{ "[",              PHANNOT_T_SBRACKET_OPEN },
 	{ "]",              PHANNOT_T_SBRACKET_CLOSE },
 	{ "ARBITRARY TEXT", PHANNOT_T_ARBITRARY_TEXT },
 	{ NULL, 0 }
@@ -1259,51 +1235,64 @@ static void phannot_parse_with_token(void* phannot_parser, int opcode, int parse
 /**
  * Creates an error message when it's triggered by the scanner
  */
-static void phannot_scanner_error_msg(phannot_parser_status *parser_status, zval **error_msg TSRMLS_DC){
+static void phannot_scanner_error_msg(phannot_parser_status *parser_status, char **error_msg TSRMLS_DC){
 
-	int error_length;
-	char *error, *error_part;
 	phannot_scanner_state *state = parser_status->scanner_state;
 
-	MAKE_STD_ZVAL(*error_msg);
 	if (state->start) {
-		error_length = 128 + state->start_length +  Z_STRLEN_P(state->active_file);
-		error = emalloc(sizeof(char) * error_length);
 		if (state->start_length > 16) {
-			error_part = estrndup(state->start, 16);
-			snprintf(error, 64 + state->start_length, "Scanning error before '%s...' in %s on line %d", error_part, Z_STRVAL_P(state->active_file), state->active_line);
-			efree(error_part);
+			spprintf(error_msg, 0, "Scanning error before '%.16s...' in %s on line %d", state->start, state->active_file, state->active_line);
 		} else {
-			snprintf(error, error_length - 1, "Scanning error before '%s' in %s on line %d", state->start, Z_STRVAL_P(state->active_file), state->active_line);
+			spprintf(error_msg, 0, "Scanning error before '%s' in %s on line %d", state->start, state->active_file, state->active_line);
 		}
-		error[error_length - 1] = '\0';
-		ZVAL_STRING(*error_msg, error, 1);
 	} else {
-		error_length = sizeof(char) * (64 + Z_STRLEN_P(state->active_file));
-		error = emalloc(error_length);
-		snprintf(error, error_length - 1, "Scanning error near to EOF in %s", Z_STRVAL_P(state->active_file));
-		ZVAL_STRING(*error_msg, error, 1);
-		error[error_length - 1] = '\0';
+		spprintf(error_msg, 0, "Scanning error near to EOF in %s", state->active_file);
 	}
-	efree(error);
 }
 
 /**
  * Receives the comment tokenizes and parses it
  */
-int phannot_parse_annotations(zval *result, zval *comment, zval *file_path, zval *line TSRMLS_DC){
+int phannot_parse_annotations(zval *result, zval *comment, zval *file_path, zval *line TSRMLS_DC) {
 
-	zval *error_msg = NULL;
+	char *comment_str;
+	zend_uint comment_len;
+	char *file_path_str;
+	zend_uint line_num;
+
+	char *error_msg = NULL;
 
 	ZVAL_NULL(result);
 
-	if (Z_TYPE_P(comment) != IS_STRING) {
-		ZEPHIR_THROW_EXCEPTION_STR(phalcon_annotations_exception_ce, "Comment must be a string");
-		return FAILURE;
+	if (Z_TYPE_P(comment) == IS_STRING) {
+		comment_str = Z_STRVAL_P(comment);
+		comment_len = Z_STRLEN_P(comment);
+	} else {
+		comment_str = "";
+		comment_len = 0;
 	}
 
-	if (phannot_internal_parse_annotations(&result, comment, file_path, line, &error_msg TSRMLS_CC) == FAILURE){
-		ZEPHIR_THROW_EXCEPTION_STRW(phalcon_annotations_exception_ce, Z_STRVAL_P(error_msg));
+	if (Z_TYPE_P(file_path) == IS_STRING) {
+		file_path_str = Z_STRVAL_P(file_path);
+	} else {
+		file_path_str = "eval";
+	}
+
+	if (Z_TYPE_P(line) == IS_LONG) {
+		line_num = Z_LVAL_P(line);
+	} else {
+		line_num = 0;
+	}
+
+	if (phannot_internal_parse_annotations(&result, comment_str, comment_len, file_path_str, line_num, &error_msg TSRMLS_CC) == FAILURE) {
+		if (likely(error_msg != NULL)) {
+			zephir_throw_exception_string(phalcon_annotations_exception_ce, error_msg, strlen(error_msg) TSRMLS_CC);
+			efree(error_msg);
+		}
+		else {
+			zephir_throw_exception_string(phalcon_annotations_exception_ce, SL("There was an error parsing annotation") TSRMLS_CC);
+		}
+
 		return FAILURE;
 	}
 
@@ -1313,8 +1302,8 @@ int phannot_parse_annotations(zval *result, zval *comment, zval *file_path, zval
 /**
  * Remove comment separators from a docblock
  */
-void phannot_remove_comment_separators(zval *return_value, char *comment, int length, int *start_lines) {
-
+static void phannot_remove_comment_separators(char **ret, zend_uint *ret_len, const char *comment, zend_uint length, zend_uint *start_lines)
+{
 	int start_mode = 1, j, i, open_parentheses;
 	smart_str processed_str = {0};
 	char ch;
@@ -1351,7 +1340,7 @@ void phannot_remove_comment_separators(zval *return_value, char *comment, int le
 
 				if (open_parentheses == 0) {
 
-					if ((ch >= 'A' && ch <= 'Z') || (ch >= 'a' && ch <= 'z')) {
+					if (isalnum(ch) || '_' == ch || '\\' == ch) {
 						smart_str_appendc(&processed_str, ch);
 						continue;
 					}
@@ -1368,15 +1357,11 @@ void phannot_remove_comment_separators(zval *return_value, char *comment, int le
 
 					if (ch == '(') {
 						open_parentheses++;
-					} else {
-						if (ch == ')') {
-							open_parentheses--;
-						} else {
-							if (ch == '\n') {
-								(*start_lines)++;
-								start_mode = 1;
-							}
-						}
+					} else if (ch == ')') {
+						open_parentheses--;
+					} else if (ch == '\n') {
+						(*start_lines)++;
+						start_mode = 1;
 					}
 
 					if (open_parentheses > 0) {
@@ -1399,34 +1384,40 @@ void phannot_remove_comment_separators(zval *return_value, char *comment, int le
 	smart_str_0(&processed_str);
 
 	if (processed_str.len) {
-		RETURN_STRINGL(processed_str.c, processed_str.len, 0);
+		*ret     = processed_str.c;
+		*ret_len = processed_str.len;
 	} else {
-		RETURN_EMPTY_STRING();
+		*ret     = NULL;
+		*ret_len = 0;
 	}
 }
 
 /**
  * Parses a comment returning an intermediate array representation
  */
-int phannot_internal_parse_annotations(zval **result, zval *comment, zval *file_path, zval *line, zval **error_msg TSRMLS_DC) {
-
-	char *error;
+int phannot_internal_parse_annotations(zval **result, const char *comment, zend_uint comment_len, const char *file_path, zend_uint line, char **error_msg TSRMLS_DC)
+{
 	phannot_scanner_state *state;
 	phannot_scanner_token token;
-	int scanner_status, status = SUCCESS, start_lines, error_length;
+	zend_uint start_lines;
+	int scanner_status, status = SUCCESS;
 	phannot_parser_status *parser_status = NULL;
 	void* phannot_parser;
-	zval processed_comment;
+	char *processed_comment;
+	zend_uint processed_comment_len;
+
+	*error_msg = NULL;
 
 	/**
 	 * Check if the comment has content
 	 */
-	if (!Z_STRVAL_P(comment)) {
+	if (UNEXPECTED(!comment)) {
 		ZVAL_BOOL(*result, 0);
+		spprintf(error_msg, 0, "Empty annotation");
 		return FAILURE;
 	}
 
-	if (Z_STRLEN_P(comment) < 2) {
+	if (comment_len < 2) {
 		ZVAL_BOOL(*result, 0);
 		return SUCCESS;
 	}
@@ -1434,11 +1425,14 @@ int phannot_internal_parse_annotations(zval **result, zval *comment, zval *file_
 	/**
 	 * Remove comment separators
 	 */
-	phannot_remove_comment_separators(&processed_comment, Z_STRVAL_P(comment), Z_STRLEN_P(comment), &start_lines);
+	phannot_remove_comment_separators(&processed_comment, &processed_comment_len, comment, comment_len, &start_lines);
 
-	if (Z_STRLEN(processed_comment) < 2) {
+	if (processed_comment_len < 2) {
 		ZVAL_BOOL(*result, 0);
-		efree(Z_STRVAL(processed_comment));
+		if (processed_comment) {
+			efree(processed_comment);
+		}
+
 		return SUCCESS;
 	}
 
@@ -1446,9 +1440,13 @@ int phannot_internal_parse_annotations(zval **result, zval *comment, zval *file_
 	 * Start the reentrant parser
 	 */
 	phannot_parser = phannot_Alloc(phannot_wrapper_alloc);
+	if (unlikely(!phannot_parser)) {
+		ZVAL_BOOL(*result, 0);
+		return FAILURE;
+	}
 
-	parser_status = emalloc(sizeof(phannot_parser_status));
-	state = emalloc(sizeof(phannot_scanner_state));
+	parser_status = emalloc(sizeof(phannot_parser_status) + sizeof(phannot_scanner_state));
+	state         = (phannot_scanner_state*)((char*)parser_status + sizeof(phannot_parser_status));
 
 	parser_status->status = PHANNOT_PARSING_OK;
 	parser_status->scanner_state = state;
@@ -1460,7 +1458,7 @@ int phannot_internal_parse_annotations(zval **result, zval *comment, zval *file_
 	 * Initialize the scanner state
 	 */
 	state->active_token = 0;
-	state->start = Z_STRVAL(processed_comment);
+	state->start = processed_comment;
 	state->start_length = 0;
 	state->mode = PHANNOT_MODE_RAW;
 	state->active_file = file_path;
@@ -1471,8 +1469,8 @@ int phannot_internal_parse_annotations(zval **result, zval *comment, zval *file_
 	/**
 	 * Possible start line
 	 */
-	if (Z_TYPE_P(line) == IS_LONG) {
-		state->active_line = Z_LVAL_P(line) - start_lines;
+	if (line) {
+		state->active_line = line - start_lines;
 	} else {
 		state->active_line = 1;
 	}
@@ -1483,7 +1481,7 @@ int phannot_internal_parse_annotations(zval **result, zval *comment, zval *file_
 
 		state->active_token = token.opcode;
 
-		state->start_length = (Z_STRVAL(processed_comment) + Z_STRLEN(processed_comment) - state->start);
+		state->start_length = processed_comment + processed_comment_len - state->start;
 
 		switch (token.opcode) {
 
@@ -1553,13 +1551,7 @@ int phannot_internal_parse_annotations(zval **result, zval *comment, zval *file_
 			default:
 				parser_status->status = PHANNOT_PARSING_FAILED;
 				if (!*error_msg) {
-					error_length = sizeof(char) * (48 + Z_STRLEN_P(state->active_file));
-					error = emalloc(error_length);
-					snprintf(error, error_length - 1, "Scanner: unknown opcode %d on in %s line %d", token.opcode, Z_STRVAL_P(state->active_file), state->active_line);
-					error[error_length - 1] = '\0';
-					MAKE_STD_ZVAL(*error_msg);
-					ZVAL_STRING(*error_msg, error, 1);
-					efree(error);
+					spprintf(error_msg, 0, "Scanner: unknown opcode %d on in %s line %d", token.opcode, state->active_file, state->active_line);
 				}
 				break;
 		}
@@ -1593,10 +1585,11 @@ int phannot_internal_parse_annotations(zval **result, zval *comment, zval *file_
 		status = FAILURE;
 		if (parser_status->syntax_error) {
 			if (!*error_msg) {
-				MAKE_STD_ZVAL(*error_msg);
-				ZVAL_STRING(*error_msg, parser_status->syntax_error, 1);
+				*error_msg = parser_status->syntax_error;
 			}
-			efree(parser_status->syntax_error);
+			else {
+				efree(parser_status->syntax_error);
+			}
 		}
 	}
 
@@ -1614,10 +1607,8 @@ int phannot_internal_parse_annotations(zval **result, zval *comment, zval *file_
 		}
 	}
 
-	efree(Z_STRVAL(processed_comment));
-
+	efree(processed_comment);
 	efree(parser_status);
-	efree(state);
 
 	return status;
 }
