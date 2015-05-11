@@ -3,6 +3,7 @@
  - Fixed segfault when a docblock does not have annotations #10301
  - Fixed wrong number of parameters passed when triggering an event in Mvc\Collection
  - Now Mvc\Model checks if an attribute has a default value associated in the database and ignores it from the insert/update generated SQL
+ - Readded Http\Request::hasPut() (#10283)
 
 2.0.1
  - Added missing Phalcon\Debug::listenLowSeverity
