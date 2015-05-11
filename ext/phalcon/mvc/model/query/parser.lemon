@@ -1053,6 +1053,14 @@ expr(R) ::= expr(E) NOT IN PARENTHESES_OPEN argument_list(L) PARENTHESES_CLOSE .
 	R = phql_ret_expr(PHQL_T_NOTIN, E, L);
 }
 
+expr(R) ::= expr(E) IN PARENTHESES_OPEN select_statement(S) PARENTHESES_CLOSE . {
+	R = phql_ret_expr(PHQL_T_IN, E, S);
+}
+
+expr(R) ::= expr(E) NOT IN PARENTHESES_OPEN select_statement(S) PARENTHESES_CLOSE . {
+	R = phql_ret_expr(PHQL_T_NOTIN, E, S);
+}
+
 expr(R) ::= expr(O1) AGAINST expr(O2) . {
 	R = phql_ret_expr(PHQL_T_AGAINST, O1, O2);
 }

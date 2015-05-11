@@ -6866,6 +6866,61 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 		$query->setDI($di);
 		$expected['distinct'] = 0;
 		$this->assertEquals($query->parse(), $expected);
+
+		$expected = array(
+			'models' => array(
+				'Robots',
+			),
+			'tables' => array(
+				'robots',
+			),
+			'columns' => array(
+				array(
+					'type' => 'object',
+					'model' => 'Robots',
+					'column' => 'robots',
+				),
+			),
+			'where' => array(
+				'type' => 'binary-op',
+				'op' => 'IN',
+				'left' => array(
+					'type' => 'qualified',
+					'domain' => 'robots',
+					'name' => 'id',
+					'balias' => 'id',
+				),
+				'right' => array(
+					'type' => 'select',
+					'value' => array(
+						'models' => array(
+							'RobotsParts',
+						),
+						'tables' => array(
+							'robots_parts',
+						),
+						'columns' => array(
+							'robots_id' => array(
+								'type' => 'scalar',
+								'balias' => 'robots_id',
+								'sqlAlias' => 'robots_id',
+								'sqlAlias' => 'robots_id',
+								'column' => array(
+									'type' => 'qualified',
+									'domain' => 'robots_parts',
+									'name' => 'robots_id',
+									'balias' => 'robots_id',
+								),
+							),
+						),
+					),
+				),
+			),
+		);
+
+		$query = new Query('SELECT * FROM Robots WHERE id IN (SELECT robots_id FROM RobotsParts)');
+		$query->setDI($di);
+		$this->assertEquals($query->parse(), $expected);
 	}
 
 	public function testInsertParsing()

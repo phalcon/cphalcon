@@ -598,6 +598,10 @@ class Query implements QueryInterface, InjectionAwareInterface
 					let exprReturn = this->_getFunctionCall(expr);
 					break;
 
+				case PHQL_T_SELECT:
+					let exprReturn = ["type": "select", "value": expr["select"]];
+					break;
+
 				default:
 					throw new Exception("Unknown expression type " . exprType);
 			}
@@ -1506,9 +1510,9 @@ class Query implements QueryInterface, InjectionAwareInterface
 	/**
 	 * Analyzes a SELECT intermediate code and produces an array to be executed later
 	 */
-	protected final function _prepareSelect() -> array
+	protected final function _prepareSelect(var ast = null) -> array
 	{
-		var ast, sqlModels, sqlTables, sqlAliases, sqlColumns, select, tables, columns,
+		var sqlModels, sqlTables, sqlAliases, sqlColumns, select, tables, columns,
 			sqlAliasesModels, sqlModelsAliases, sqlAliasesModelsInstances,
 			models, modelsInstances, selectedModels, manager, metaData,
 			selectedModel, qualifiedName, modelName, nsAlias, realModelName, model,
@@ -1517,8 +1521,13 @@ class Query implements QueryInterface, InjectionAwareInterface
 			groupBy, order, limit;
 		int position;
 
-		let ast = this->_ast,
-			select = ast["select"];
+		if empty ast {
+			let ast = this->_ast;
+		}
+
+		if !fetch select, ast["select"] {
+			let select = ast;
+		}
 
 		if !fetch tables, select["tables"] {
 			throw new Exception("Corrupted SELECT AST");
