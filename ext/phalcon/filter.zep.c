@@ -334,7 +334,7 @@ PHP_METHOD(Phalcon_Filter, _sanitize) {
 		ZEPHIR_CONCAT_SVS(_13, "Sanitize filter '", filter, "' is not supported");
 		ZEPHIR_CALL_METHOD(NULL, _2, "__construct", &_14, _13);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(_2, "phalcon/filter.zep", 214 TSRMLS_CC);
+		zephir_throw_exception_debug(_2, "phalcon/filter.zep", 213 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	} while(0);

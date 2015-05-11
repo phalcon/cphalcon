@@ -130,7 +130,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Manager) {
 	zend_declare_property_null(phalcon_mvc_model_manager_ce, SL("_keepSnapshots"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	/**
-	 *
+	 * Does the model use dynamic update, instead of updating all rows?
 	 */
 	zend_declare_property_null(phalcon_mvc_model_manager_ce, SL("_dynamicUpdate"), ZEND_ACC_PROTECTED TSRMLS_CC);
 

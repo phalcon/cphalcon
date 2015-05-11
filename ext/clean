@@ -7,8 +7,5 @@ done
 for i in `find . -name "*.gch"`; do
  rm -f $i
 done
-for i in `find . -name ".libs"`; do
- rm -fr $i
-done
 make clean
 phpize --clean
