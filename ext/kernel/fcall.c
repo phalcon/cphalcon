@@ -749,10 +749,11 @@ int zephir_call_class_method_aparams(zval **return_value_ptr, zend_class_entry *
 	char *possible_method;
 	zval *rv = NULL, **rvp = return_value_ptr ? return_value_ptr : &rv;
 	zval *fn = NULL;
-	zval *mn;
 	int status;
 #if PHP_VERSION_ID >= 50600
 	zephir_fcall_info info;
+#else
+	zval *mn;
 #endif
 
 #ifndef ZEPHIR_RELEASE
