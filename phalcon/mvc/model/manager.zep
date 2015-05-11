@@ -376,35 +376,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	 */
 	public function getReadConnection(<ModelInterface> model) -> <AdapterInterface>
 	{
-		var connectionServices, dependencyInjector, service = null, connection;
-
-		let connectionServices = this->_readConnectionServices;
-
-		/**
-		 * Check if the model has a custom connection service
-		 */
-		if typeof connectionServices == "array" {
-			fetch service, connectionServices[get_class_lower(model)];
-		}
-
-		let dependencyInjector = <DiInterface> this->_dependencyInjector;
-		if typeof dependencyInjector != "object" {
-			throw new Exception("A dependency injector container is required to obtain the services related to the ORM");
-		}
-
-		/**
-		 * Request the connection service from the DI
-		 */
-		if service {
-			let connection = <AdapterInterface> dependencyInjector->getShared(service);
-		} else {
-			let connection = <AdapterInterface> dependencyInjector->getShared("db");
-		}
-		if typeof connection != "object" {
-			throw new Exception("Invalid injected connection service");
-		}
-
-		return connection;
+		return this->_getConnection(model, this->_readConnectionServices);
 	}
 
 	/**
@@ -412,9 +384,15 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	 */
 	public function getWriteConnection(<ModelInterface> model) -> <AdapterInterface>
 	{
-		var connectionServices, dependencyInjector, service = null, connection;
+		return this->_getConnection(model, this->_writeConnectionServices);
+	}
 
-		let connectionServices = this->_writeConnectionServices;
+	/**
+	 * Returns the connection to read or write data related to a model depending on the connection services.
+	 */
+	protected function _getConnection(<ModelInterface> model, connectionServices) -> <AdapterInterface>
+	{
+		var dependencyInjector, service = null, connection;
 
 		/**
 		 * Check if the model has a custom connection service
@@ -436,6 +414,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 		} else {
 			let connection = <AdapterInterface> dependencyInjector->getShared("db");
 		}
+
 		if typeof connection != "object" {
 			throw new Exception("Invalid injected connection service");
 		}
@@ -448,14 +427,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	 */
 	public function getReadConnectionService(<ModelInterface> model) -> string
 	{
-		var connectionServices, connection;
-		let connectionServices = this->_readConnectionServices;
-		if typeof connectionServices == "array" {
-			if fetch connection, connectionServices[get_class_lower(model)] {
-				return connection;
-			}
-		}
-		return "db";
+		return this->_getConnectionService(model, this->_readConnectionServices);
 	}
 
 	/**
@@ -463,13 +435,22 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	 */
 	public function getWriteConnectionService(<ModelInterface> model) -> string
 	{
-		var connectionServices, connection;
-		let connectionServices = this->_writeConnectionServices;
+		return this->_getConnectionService(model, this->_writeConnectionServices);
+	}
+
+	/**
+	 * Returns the connection service name used to read or write data related to a model depending on the connection services
+	 */
+	public function _getConnectionService(<ModelInterface> model, connectionServices) -> string
+	{
+		var connection;
+
 		if typeof connectionServices == "array" {
 			if fetch connection, connectionServices[get_class_lower(model)] {
 				return connection;
 			}
 		}
+
 		return "db";
 	}
 
