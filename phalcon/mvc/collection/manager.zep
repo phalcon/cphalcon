@@ -146,7 +146,7 @@ class Manager implements InjectionAwareInterface, EventsAwareInterface
 			*/
 			let eventsManager = this->_eventsManager;
 			if typeof eventsManager == "object" {
-				eventsManager->fire("collectionManager:afterInitialize");
+				eventsManager->fire("collectionManager:afterInitialize", model);
 			}
 
 			let this->_initialized[className] = model;
