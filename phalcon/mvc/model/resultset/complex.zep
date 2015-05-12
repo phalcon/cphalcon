@@ -86,7 +86,6 @@ class Complex extends Resultset implements ResultsetInterface
 			dirtyState, alias, activeRow, type, columnTypes,
 			column, columnValue, value, attribute, source, attributes,
 			columnMap, rowModel, keepSnapshots, sqlAlias, isPartial;
-
 		
 		let activeRow = this->_activeRow;
 		if activeRow !== null {
@@ -229,7 +228,9 @@ class Complex extends Resultset implements ResultsetInterface
 				/**
 				 * The complete object is assigned to an attribute with the name of the alias or the model name
 				 */
-				let attribute = column["balias"];
+				if isset column["balias"] {
+					let attribute = column["balias"];
+				}
 
 			} else {
 
