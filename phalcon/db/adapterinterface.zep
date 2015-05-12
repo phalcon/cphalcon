@@ -151,7 +151,7 @@ interface AdapterInterface
 	/**
 	 * Modifies a table column based on a definition
 	 */
-	public function modifyColumn(string! tableName, string! schemaName, <ColumnInterface> column) -> boolean;
+	public function modifyColumn(string! tableName, string! schemaName, <ColumnInterface> column, <ColumnInterface> currentColumn = null) -> boolean;
 
 	/**
 	 * Drops a column from a table

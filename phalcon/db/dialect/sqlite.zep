@@ -164,7 +164,7 @@ class Sqlite extends Dialect
 	/**
 	 * Generates SQL to modify a column in a table
 	 */
-	public function modifyColumn(string! tableName, string! schemaName, <ColumnInterface> column) -> string
+	public function modifyColumn(string! tableName, string! schemaName, <ColumnInterface> column, <ColumnInterface> currentColumn = null) -> string
 	{
 		throw new Exception("Altering a DB column is not supported by SQLite");
 	}
