@@ -205,6 +205,8 @@ PHALCON_ATTR_NONNULL static inline int phalcon_update_property_this(zval *object
 int phalcon_update_property_array(zval *object, const char *property, zend_uint property_length, const zval *index, zval *value TSRMLS_DC) PHALCON_ATTR_NONNULL;
 int phalcon_update_property_array_string(zval *object, const char *property, zend_uint property_length, const char *index, zend_uint index_length, zval *value TSRMLS_DC) PHALCON_ATTR_NONNULL;
 int phalcon_update_property_array_append(zval *object, const char *property, zend_uint property_length, zval *value TSRMLS_DC) PHALCON_ATTR_NONNULL;
+int phalcon_update_property_array_merge(zval *object, const char *property, zend_uint property_length, zval *values TSRMLS_DC) PHALCON_ATTR_NONNULL;
+int phalcon_update_property_array_merge_append(zval *object, const char *property, zend_uint property_length, zval *values TSRMLS_DC) PHALCON_ATTR_NONNULL;
 
 /** Increment/Decrement properties */
 int phalcon_property_incr(zval *object, const char *property_name, zend_uint property_length TSRMLS_DC) PHALCON_ATTR_NONNULL;

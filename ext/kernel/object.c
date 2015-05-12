@@ -1182,6 +1182,107 @@ int phalcon_update_property_array_append(zval *object, const char *property, zen
 	return SUCCESS;
 }
 
+int phalcon_update_property_array_merge(zval *object, const char *property, zend_uint property_length, zval *values TSRMLS_DC) {
+
+	zval *tmp;
+	int separated = 0;
+
+	if (Z_TYPE_P(object) != IS_OBJECT) {
+		return SUCCESS;
+	}
+
+	phalcon_read_property(&tmp, object, property, property_length, PH_NOISY TSRMLS_CC);
+
+	Z_DELREF_P(tmp);
+
+	/** Separation only when refcount > 1 */
+	if (Z_REFCOUNT_P(tmp) > 1) {
+		zval *new_zv;
+		ALLOC_ZVAL(new_zv);
+		INIT_PZVAL_COPY(new_zv, tmp);
+		tmp = new_zv;
+		zval_copy_ctor(new_zv);
+		Z_SET_REFCOUNT_P(tmp, 0);
+		separated = 1;
+	}
+
+	/** Convert the value to array if not is an array */
+	if (Z_TYPE_P(tmp) != IS_ARRAY) {
+		if (separated) {
+			convert_to_array(tmp);
+		} else {
+			zval *new_zv;
+			ALLOC_ZVAL(new_zv);
+			INIT_PZVAL_COPY(new_zv, tmp);
+			tmp = new_zv;
+			zval_copy_ctor(new_zv);
+			Z_SET_REFCOUNT_P(tmp, 0);
+			array_init(tmp);
+			separated = 1;
+		}
+	}
+
+	phalcon_array_merge_recursive_n(&tmp, values);
+
+	if (separated) {
+		phalcon_update_property_zval(object, property, property_length, tmp TSRMLS_CC);
+	}
+
+	return SUCCESS;
+}
+
+/**
+ * Appends every element of an array at the end of the array property
+ */
+int phalcon_update_property_array_merge_append(zval *object, const char *property, zend_uint property_length, zval *values TSRMLS_DC) {
+
+	zval *tmp;
+	int separated = 0;
+
+	if (Z_TYPE_P(object) != IS_OBJECT) {
+		return SUCCESS;
+	}
+
+	phalcon_read_property(&tmp, object, property, property_length, PH_NOISY TSRMLS_CC);
+
+	Z_DELREF_P(tmp);
+
+	/** Separation only when refcount > 1 */
+	if (Z_REFCOUNT_P(tmp) > 1) {
+		zval *new_zv;
+		ALLOC_ZVAL(new_zv);
+		INIT_PZVAL_COPY(new_zv, tmp);
+		tmp = new_zv;
+		zval_copy_ctor(new_zv);
+		Z_SET_REFCOUNT_P(tmp, 0);
+		separated = 1;
+	}
+
+	/** Convert the value to array if not is an array */
+	if (Z_TYPE_P(tmp) != IS_ARRAY) {
+		if (separated) {
+			convert_to_array(tmp);
+		} else {
+			zval *new_zv;
+			ALLOC_ZVAL(new_zv);
+			INIT_PZVAL_COPY(new_zv, tmp);
+			tmp = new_zv;
+			zval_copy_ctor(new_zv);
+			Z_SET_REFCOUNT_P(tmp, 0);
+			array_init(tmp);
+			separated = 1;
+		}
+	}
+
+	phalcon_merge_append(tmp, values);
+
+	if (separated) {
+		phalcon_update_property_zval(object, property, property_length, tmp TSRMLS_CC);
+	}
+
+	return SUCCESS;
+}
+
 /**
  * Intializes an object property with an empty array
  */

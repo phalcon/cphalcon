@@ -1180,6 +1180,17 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getExpression){
 				phalcon_array_update_string(&return_value, ISL(right), right, PH_COPY);
 				break;
 
+			case PHQL_T_SELECT:
+				array_init_size(return_value, 2);
+
+				PHALCON_OBS_NVAR(value);
+				phalcon_array_fetch_string(&value, expr, SL("select"), PH_NOISY);
+				PHALCON_CALL_METHOD(&expr_value, this_ptr, "_prepareselect", value, PHALCON_GLOBAL(z_true));
+
+				add_assoc_stringl_ex(return_value, ISS(type), SL("select"), 1);
+				phalcon_array_update_string(&return_value, ISL(value), expr_value, PH_COPY);
+				break;
+
 			default:
 				PHALCON_INIT_VAR(exception_message);
 				PHALCON_CONCAT_SV(exception_message, "Unknown expression type ", expr_type);
@@ -2488,7 +2499,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getLimitClause) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareSelect){
 
-	zval *ast, *select, *distinct = NULL, *sql_models, *sql_tables, *sql_aliases;
+	zval *ast = NULL, *merge = NULL, *select, *distinct = NULL, *sql_models, *sql_tables, *sql_aliases;
 	zval *sql_columns, *sql_aliases_models, *sql_models_aliases;
 	zval *sql_aliases_models_instances, *models;
 	zval *models_instances, *tables, *selected_models = NULL;
@@ -2508,10 +2519,23 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareSelect){
 
 	PHALCON_MM_GROW();
 
-	ast = phalcon_fetch_nproperty_this(this_ptr, SL("_ast"), PH_NOISY TSRMLS_CC);
+	phalcon_fetch_params(1, 0, 2, &ast, &merge);
 
-	PHALCON_OBS_VAR(select);
-	phalcon_array_fetch_string(&select, ast, SL("select"), PH_NOISY);
+	if (!ast) {
+		ast = phalcon_fetch_nproperty_this(this_ptr, SL("_ast"), PH_NOISY TSRMLS_CC);
+	}
+
+	if (!merge) {
+		merge = PHALCON_GLOBAL(z_false);
+	}
+
+	if (phalcon_array_isset_string(ast, SS("select"))) {
+		PHALCON_OBS_VAR(select);
+		phalcon_array_fetch_string(&select, ast, SL("select"), PH_NOISY);
+	} else {
+		PHALCON_CPY_WRT(select, ast);
+	}
+
 	if (!phalcon_array_isset_string_fetch(&tables, select, SS("tables"))) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Corrupted SELECT AST");
 		return;
@@ -2524,50 +2548,50 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareSelect){
 
 	phalcon_array_isset_string_fetch(&distinct, select, SS("distinct"));
 
-	/** 
+	/**
 	 * sql_models are all the models that are using in the query
 	 */
 	PHALCON_INIT_VAR(sql_models);
 	array_init(sql_models);
 
-	/** 
+	/**
 	 * sql_tables are all the mapped sources regarding the models in use
 	 */
 	PHALCON_INIT_VAR(sql_tables);
 	array_init(sql_tables);
 
-	/** 
+	/**
 	 * sql_aliases are the aliases as keys and the mapped sources as values
 	 */
 	PHALCON_INIT_VAR(sql_aliases);
 	array_init(sql_aliases);
 
-	/** 
+	/**
 	 * sql_columns are all every column expression
 	 */
 	PHALCON_INIT_VAR(sql_columns);
 	array_init(sql_columns);
 
-	/** 
+	/**
 	 * sql_aliases_models are the aliases as keys and the model names as values
 	 */
 	PHALCON_INIT_VAR(sql_aliases_models);
 	array_init(sql_aliases_models);
 
-	/** 
+	/**
 	 * sql_aliases_models are the model names as keys and the aliases as values
 	 */
 	PHALCON_INIT_VAR(sql_models_aliases);
 	array_init(sql_models_aliases);
 
-	/** 
+	/**
 	 * sql_aliases_models_instances are the aliases as keys and the model instances as
 	 * values
 	 */
 	PHALCON_INIT_VAR(sql_aliases_models_instances);
 	array_init(sql_aliases_models_instances);
 
-	/** 
+	/**
 	 * Models information
 	 */
 	PHALCON_INIT_VAR(models);
@@ -2703,13 +2727,23 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareSelect){
 	/** 
 	 * Assign Models/Tables information
 	 */
-	phalcon_update_property_this(this_ptr, SL("_models"), models TSRMLS_CC);
-	phalcon_update_property_this(this_ptr, SL("_modelsInstances"), models_instances TSRMLS_CC);
-	phalcon_update_property_this(this_ptr, SL("_sqlAliases"), sql_aliases TSRMLS_CC);
-	phalcon_update_property_this(this_ptr, SL("_sqlAliasesModels"), sql_aliases_models TSRMLS_CC);
-	phalcon_update_property_this(this_ptr, SL("_sqlModelsAliases"), sql_models_aliases TSRMLS_CC);
-	phalcon_update_property_this(this_ptr, SL("_sqlAliasesModelsInstances"), sql_aliases_models_instances TSRMLS_CC);
-	phalcon_update_property_this(this_ptr, SL("_modelsInstances"), models_instances TSRMLS_CC);
+	if (!zend_is_true(merge)) {
+		phalcon_update_property_this(this_ptr, SL("_models"), models TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_modelsInstances"), models_instances TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_sqlAliases"), sql_aliases TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_sqlAliasesModels"), sql_aliases_models TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_sqlModelsAliases"), sql_models_aliases TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_sqlAliasesModelsInstances"), sql_aliases_models_instances TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_modelsInstances"), models_instances TSRMLS_CC);
+	} else {
+		phalcon_update_property_array_merge(this_ptr, SL("_models"), models TSRMLS_CC);
+		phalcon_update_property_array_merge(this_ptr, SL("_modelsInstances"), models_instances TSRMLS_CC);
+		phalcon_update_property_array_merge(this_ptr, SL("_sqlAliases"), sql_aliases TSRMLS_CC);
+		phalcon_update_property_array_merge(this_ptr, SL("_sqlAliasesModels"), sql_aliases_models TSRMLS_CC);
+		phalcon_update_property_array_merge(this_ptr, SL("_sqlModelsAliases"), sql_models_aliases TSRMLS_CC);
+		phalcon_update_property_array_merge(this_ptr, SL("_sqlAliasesModelsInstances"), sql_aliases_models_instances TSRMLS_CC);
+		phalcon_update_property_array_merge(this_ptr, SL("_modelsInstances"), models_instances TSRMLS_CC);
+	}
 
 	/** 
 	 * Processing joins
