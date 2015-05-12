@@ -599,7 +599,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 					break;
 
 				case PHQL_T_SELECT:
-					let exprReturn = ["type": "select", "value": expr["select"]];
+					let exprReturn = ["type": "select", "value": this->_prepareSelect(expr["select"])];
 					break;
 
 				default:
@@ -877,18 +877,20 @@ class Query implements QueryInterface, InjectionAwareInterface
 			 * Create the right part of the expression
 			 */
 			let sqlJoinConditions = [
-				"type"     : "binary-op",
-				"op"       : "=",
-				"left"     : this->_getQualified([
-					"type"   : 355,
-					"domain" : modelAlias,
-					"name"   : fields
-				]),
-				"right"    : this->_getQualified([
-					"type"   : "qualified",
-					"domain" : joinAlias,
-					"name"   : referencedFields
-				])
+				[
+					"type"     : "binary-op",
+					"op"       : "=",
+					"left"     : this->_getQualified([
+						"type"   : 355,
+						"domain" : modelAlias,
+						"name"   : fields
+					]),
+					"right"    : this->_getQualified([
+						"type"   : "qualified",
+						"domain" : joinAlias,
+						"name"   : referencedFields
+					])
+				]
 			];
 
 		} else {
@@ -1512,7 +1514,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 	 */
 	protected final function _prepareSelect(var ast = null) -> array
 	{
-		var sqlModels, sqlTables, sqlAliases, sqlColumns, select, tables, columns,
+		var merge, sqlModels, sqlTables, sqlAliases, sqlColumns, select, tables, columns,
 			sqlAliasesModels, sqlModelsAliases, sqlAliasesModelsInstances,
 			models, modelsInstances, selectedModels, manager, metaData,
 			selectedModel, qualifiedName, modelName, nsAlias, realModelName, model,
@@ -1522,7 +1524,10 @@ class Query implements QueryInterface, InjectionAwareInterface
 		int position;
 
 		if empty ast {
-			let ast = this->_ast;
+			let ast = this->_ast,
+				merge = false;
+		} else {
+			let merge = true;
 		}
 
 		if !fetch select, ast["select"] {
@@ -1673,13 +1678,23 @@ class Query implements QueryInterface, InjectionAwareInterface
 		/**
 		 * Assign Models/Tables information
 		 */
-		let this->_models = models,
-			this->_modelsInstances = modelsInstances,
-			this->_sqlAliases = sqlAliases,
-			this->_sqlAliasesModels = sqlAliasesModels,
-			this->_sqlModelsAliases = sqlModelsAliases,
-			this->_sqlAliasesModelsInstances = sqlAliasesModelsInstances,
-			this->_modelsInstances = modelsInstances;
+		if !merge {
+			let this->_models = models,
+				this->_modelsInstances = modelsInstances,
+				this->_sqlAliases = sqlAliases,
+				this->_sqlAliasesModels = sqlAliasesModels,
+				this->_sqlModelsAliases = sqlModelsAliases,
+				this->_sqlAliasesModelsInstances = sqlAliasesModelsInstances,
+				this->_modelsInstances = modelsInstances;
+		} else {
+			let this->_models = array_merge(this->_models, models),
+				this->_modelsInstances = array_merge(this->_modelsInstances, modelsInstances),
+				this->_sqlAliases = array_merge(this->_sqlAliases, sqlAliases),
+				this->_sqlAliasesModels = array_merge(this->_sqlAliasesModels, sqlAliasesModels),
+				this->_sqlModelsAliases = array_merge(this->_sqlModelsAliases, sqlModelsAliases),
+				this->_sqlAliasesModelsInstances = array_merge(this->_sqlAliasesModelsInstances, sqlAliasesModelsInstances),
+				this->_modelsInstances = array_merge(this->_modelsInstances, modelsInstances);
+		}
 
 		/**
 		 * Processing joins
