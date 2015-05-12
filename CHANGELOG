@@ -4,6 +4,8 @@
  - Fixed wrong number of parameters passed when triggering an event in Mvc\Collection
  - Now Mvc\Model checks if an attribute has a default value associated in the database and ignores it from the insert/update generated SQL
  - Readded Http\Request::hasPut() (#10283)
+ - Phalcon\Text
+ -- Added method reduceSlashes() - Reduces multiple slashes in a string to single slashes
 
 2.0.1
  - Added missing Phalcon\Debug::listenLowSeverity
@@ -21,7 +23,7 @@
  - Phalcon\Debug\Dump
  -- Renamed method var() to variable()
  -- Renamed method vars() to variables()
- - Phalcon\Mvc\Model::findFirst() now allows hydration (#10259).
+ - Phalcon\Mvc\Model::findFirst() now allows hydration (#10259)
 
 2.0.0
  - Full rewrite of most components in Zephir
