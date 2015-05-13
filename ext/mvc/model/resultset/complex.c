@@ -433,7 +433,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, valid){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, toArray){
 
-	zval *valid = NULL, *current = NULL;
+	zval *valid = NULL, *current = NULL, *arr = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -447,7 +447,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, toArray){
 		}
 
 		PHALCON_CALL_METHOD(&current, this_ptr, "current");
-		phalcon_array_append(&return_value, current, 0);
+		if (Z_TYPE_P(current) == IS_OBJECT && phalcon_method_exists_ex(current, SS("toarray") TSRMLS_CC) == SUCCESS) {
+			PHALCON_CALL_METHOD(&arr, current, "toarray");
+			phalcon_array_append(&return_value, arr, 0);
+		} else {
+			phalcon_array_append(&return_value, current, 0);
+		}
 		PHALCON_CALL_METHOD(NULL, this_ptr, "next");
 	}
 

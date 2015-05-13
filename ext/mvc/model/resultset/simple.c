@@ -280,7 +280,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, valid){
 				/** 
 				 * Performs the standard hydration based on objects
 				 */
-
 				PHALCON_CALL_CE_STATIC(&active_row, ce, "cloneresultmap", model, row, column_map, dirty_state, keep_snapshots, source_model);
 
 				phalcon_update_property_array(this_ptr, SL("_rowsModels"), key, active_row TSRMLS_CC);
@@ -344,8 +343,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, toArray){
 		}
 
 		PHALCON_CALL_METHOD(&current, this_ptr, "current");
-		PHALCON_CALL_METHOD(&arr, current, "toarray", PHALCON_GLOBAL(z_null), rename_columns);
-		phalcon_array_append(&records, arr, 0);
+		if (Z_TYPE_P(current) == IS_OBJECT && phalcon_method_exists_ex(current, SS("toarray") TSRMLS_CC) == SUCCESS) {
+			PHALCON_CALL_METHOD(&arr, current, "toarray", PHALCON_GLOBAL(z_null), rename_columns);
+			phalcon_array_append(&records, arr, 0);
+		} else {
+			phalcon_array_append(&records, current, 0);
+		}
 		PHALCON_CALL_METHOD(NULL, this_ptr, "next");
 	}
 

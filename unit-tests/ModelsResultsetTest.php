@@ -33,6 +33,7 @@ class ModelsResultsetTest extends PHPUnit_Framework_TestCase
 
 	public function modelsAutoloader($className)
 	{
+		$className = str_replace('\\', '/', $className);
 		if (file_exists('unit-tests/models/'.$className.'.php')) {
 			require 'unit-tests/models/'.$className.'.php';
 		}
@@ -547,4 +548,14 @@ class ModelsResultsetTest extends PHPUnit_Framework_TestCase
 		$this->assertFalse(isset($robots[0]));
 	}
 
+	public function testResultsetCloneResultMap()
+	{
+		if (!$this->_prepareTestMysql()) {
+			$this->markTestSkipped("Skipped");
+			return;
+		}
+
+		$robots = Resultset\Robots::find(array('limit' => 1));
+		$this->assertEquals(get_class($robots[0]), 'ArrayObject');
+	}
 }
