@@ -3757,6 +3757,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect){
 	zval *value = NULL, *wildcard = NULL, *string_wildcard = NULL, *processed_types = NULL;
 	zval *type_wildcard = NULL, *result = NULL, *count = NULL, *result_data = NULL;
 	zval *cache, *result_object = NULL;
+	zval *dependency_injector, *service_name, *has = NULL, *service_params, *resultset = NULL;
 	HashTable *ah0, *ah1, *ah2, *ah3, *ah4, *ah5, *ah6;
 	HashPosition hp0, hp1, hp2, hp3, hp4, hp5, hp6;
 	zval **hd;
@@ -4153,6 +4154,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect){
 		ZVAL_BOOL(result_data, 0);
 	}
 
+	PHALCON_OBS_VAR(dependency_injector);
+	phalcon_read_property_this(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY TSRMLS_CC);
+
 	/** 
 	 * Choose a resultset type
 	 */
@@ -4194,19 +4198,55 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect){
 		/** 
 		 * Simple resultsets contains only complete objects
 		 */
-		object_init_ex(return_value, phalcon_mvc_model_resultset_simple_ce);
-		PHALCON_CALL_METHOD(NULL, return_value, "__construct", simple_column_map, result_object, result_data, cache, is_keeping_snapshots, model);
+		PHALCON_INIT_VAR(service_name);
+		ZVAL_STRING(service_name, "modelsResultsetSimple", 1);
 
-		RETURN_MM();
+		PHALCON_CALL_METHOD(&has, dependency_injector, "has", service_name);
+		if (zend_is_true(has)) {
+			PHALCON_INIT_VAR(service_params);
+			array_init(service_params);
+
+			phalcon_array_append(&service_params, simple_column_map, 0);
+			phalcon_array_append(&service_params, result_object, 0);
+			phalcon_array_append(&service_params, result_data, 0);
+			phalcon_array_append(&service_params, cache, 0);
+			phalcon_array_append(&service_params, is_keeping_snapshots, 0);
+			phalcon_array_append(&service_params, model, 0);
+
+			PHALCON_CALL_METHOD(&resultset, dependency_injector, "get", service_name, service_params);
+		} else {
+			PHALCON_INIT_NVAR(resultset);
+			object_init_ex(resultset, phalcon_mvc_model_resultset_simple_ce);
+			PHALCON_CALL_METHOD(NULL, resultset, "__construct", simple_column_map, result_object, result_data, cache, is_keeping_snapshots, model);
+		}
+
+		RETURN_CTOR(resultset);
+	} else {
+		/** 
+		 * Complex resultsets may contain complete objects and scalars
+		 */
+		PHALCON_INIT_VAR(service_name);
+		ZVAL_STRING(service_name, "modelsResultsetComplex", 1);
+
+		PHALCON_CALL_METHOD(&has, dependency_injector, "has", service_name);
+		if (zend_is_true(has)) {
+			PHALCON_INIT_VAR(service_params);
+			array_init(service_params);
+
+			phalcon_array_append(&service_params, columns, 0);
+			phalcon_array_append(&service_params, result_data, 0);
+			phalcon_array_append(&service_params, cache, 0);
+			phalcon_array_append(&service_params, model, 0);
+
+			PHALCON_CALL_METHOD(&resultset, dependency_injector, "get", service_name, service_params);
+		} else {
+			PHALCON_INIT_NVAR(resultset);
+			object_init_ex(resultset, phalcon_mvc_model_resultset_complex_ce);
+			PHALCON_CALL_METHOD(NULL, resultset, "__construct", columns, result_data, cache, model);
+		}
 	}
 
-	/** 
-	 * Complex resultsets may contain complete objects and scalars
-	 */
-	object_init_ex(return_value, phalcon_mvc_model_resultset_complex_ce);
-	PHALCON_CALL_METHOD(NULL, return_value, "__construct", columns, result_data, cache, model);
-
-	RETURN_MM();
+	RETURN_CTOR(resultset);
 }
 
 /**
@@ -4507,7 +4547,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getRelatedRecords){
 	zval *selected_tables, *selected_models, *source = NULL;
 	zval *model_name, *select_column, *selected_columns;
 	zval *select_ir, *where_conditions, *limit_conditions;
-	zval *type_select, *dependency_injector, *service_name, *parameters, *query = NULL;
+	zval *type_select, *dependency_injector, *service_name, *has = NULL, *parameters, *query = NULL;
 	zval *a0 = NULL;
 
 	PHALCON_MM_GROW();
@@ -4579,13 +4619,20 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getRelatedRecords){
 	PHALCON_INIT_VAR(service_name);
 	ZVAL_STRING(service_name, "modelsQuery", 1);
 
-	PHALCON_INIT_VAR(parameters);
-	array_init(parameters);
+	PHALCON_CALL_METHOD(&has, dependency_injector, "has", service_name);
+	if (zend_is_true(has)) {
+		PHALCON_INIT_VAR(parameters);
+		array_init(parameters);
 
-	phalcon_array_append(&parameters, PHALCON_GLOBAL(z_null), 0);
-	phalcon_array_append(&parameters, dependency_injector, 0);
+		phalcon_array_append(&parameters, PHALCON_GLOBAL(z_null), 0);
+		phalcon_array_append(&parameters, dependency_injector, 0);
 
-	PHALCON_CALL_METHOD(&query, dependency_injector, "get", service_name, parameters);
+		PHALCON_CALL_METHOD(&query, dependency_injector, "get", service_name, parameters);
+	} else {
+		PHALCON_INIT_NVAR(query);
+		object_init_ex(query, phalcon_mvc_model_query_ce);
+		PHALCON_CALL_METHOD(NULL, query, "__construct", PHALCON_GLOBAL(z_null), dependency_injector);
+	}
 
 	PHALCON_CALL_METHOD(NULL, query, "settype", type_select);
 	PHALCON_CALL_METHOD(NULL, query, "setintermediate", select_ir);
