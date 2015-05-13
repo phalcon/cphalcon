@@ -519,10 +519,9 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	 *
 	 * @param Phalcon\Mvc\ModelInterface model
 	 * @param string eventName
-	 * @param array data
-	 * @return boolean
+	 * @param array data	 
 	 */
-	public function missingMethod(<ModelInterface> model, string! eventName, var data) -> boolean
+	public function missingMethod(<ModelInterface> model, string! eventName, var data)
 	{
 		var behaviors, modelsBehaviors, result, eventsManager, behavior;
 
@@ -544,7 +543,6 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 					}
 				}
 			}
-
 		}
 
 		/**
@@ -555,7 +553,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 			return eventsManager->fire("model:" . eventName, model, data);
 		}
 
-		return false;
+		return null;
 	}
 
 	/**
