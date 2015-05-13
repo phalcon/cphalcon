@@ -159,6 +159,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, valid){
 	zval *column_map = NULL, *row_model = NULL, *attribute = NULL, *column_alias = NULL;
 	zval *column_value = NULL;
 	zval *value = NULL, *sql_alias = NULL, *n_alias = NULL;
+	zend_class_entry *ce;
 	HashTable *ah0, *ah1;
 	HashPosition hp0, hp1;
 	zval **hd;
@@ -171,6 +172,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, valid){
 	i_type     = (Z_TYPE_P(type) == IS_LONG) ? Z_LVAL_P(type) : phalcon_get_intval(type);
 	is_partial = (i_type == PHALCON_MVC_MODEL_RESULTSET_TYPE_PARTIAL);
 	type       = NULL;
+
+	if (Z_TYPE_P(source_model) == IS_OBJECT) {
+		ce = Z_OBJCE_P(source_model);
+	} else {
+		ce = phalcon_mvc_model_ce;
+	}
 
 	PHALCON_INIT_VAR(row);
 	if (is_partial) {
@@ -324,7 +331,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, valid){
 							/** 
 							 * Assign the values to the attributes using a column map
 							 */
-							PHALCON_CALL_CE_STATIC(&value, phalcon_mvc_model_ce, "cloneresultmap", instance, row_model, column_map, dirty_state, keep_snapshots, source_model);
+							PHALCON_CALL_CE_STATIC(&value, ce, "cloneresultmap", instance, row_model, column_map, dirty_state, keep_snapshots, source_model);
 							break;
 						}
 
@@ -332,7 +339,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, valid){
 							/** 
 							 * Other kinds of hydrations
 							 */
-							PHALCON_CALL_CE_STATIC(&value, phalcon_mvc_model_ce, "cloneresultmaphydrate", row_model, column_map, hydrate_mode, source_model);
+							PHALCON_CALL_CE_STATIC(&value, ce, "cloneresultmaphydrate", row_model, column_map, hydrate_mode, source_model);
 							break;
 					}
 
@@ -426,7 +433,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, valid){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, toArray){
 
-	zval *valid = NULL, *current = NULL;
+	zval *valid = NULL, *current = NULL, *arr = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -440,7 +447,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, toArray){
 		}
 
 		PHALCON_CALL_METHOD(&current, this_ptr, "current");
-		phalcon_array_append(&return_value, current, 0);
+		if (Z_TYPE_P(current) == IS_OBJECT && phalcon_method_exists_ex(current, SS("toarray") TSRMLS_CC) == SUCCESS) {
+			PHALCON_CALL_METHOD(&arr, current, "toarray");
+			phalcon_array_append(&return_value, arr, 0);
+		} else {
+			phalcon_array_append(&return_value, current, 0);
+		}
 		PHALCON_CALL_METHOD(NULL, this_ptr, "next");
 	}
 

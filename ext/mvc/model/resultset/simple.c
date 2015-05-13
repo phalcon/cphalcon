@@ -180,6 +180,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, valid){
 
 	zval *type, *result = NULL, *row = NULL, *rows = NULL, *dirty_state, *hydrate_mode;
 	zval *keep_snapshots, *column_map, *source_model, *model, *active_row = NULL, *key = NULL, *rows_objects;
+	zend_class_entry *ce;
 
 	PHALCON_MM_GROW();
 
@@ -255,6 +256,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, valid){
 	PHALCON_OBS_VAR(source_model);
 	phalcon_read_property_this(&source_model, this_ptr, SL("_sourceModel"), PH_NOISY TSRMLS_CC);
 
+	if (Z_TYPE_P(source_model) == IS_OBJECT) {
+		ce = Z_OBJCE_P(source_model);
+	} else {
+		ce = phalcon_mvc_model_ce;
+	}
+
 	/** 
 	 * Hydrate based on the current hydration
 	 */
@@ -273,7 +280,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, valid){
 				/** 
 				 * Performs the standard hydration based on objects
 				 */
-				PHALCON_CALL_CE_STATIC(&active_row, phalcon_mvc_model_ce, "cloneresultmap", model, row, column_map, dirty_state, keep_snapshots, source_model);
+				PHALCON_CALL_CE_STATIC(&active_row, ce, "cloneresultmap", model, row, column_map, dirty_state, keep_snapshots, source_model);
 
 				phalcon_update_property_array(this_ptr, SL("_rowsModels"), key, active_row TSRMLS_CC);
 			} else {
@@ -289,7 +296,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, valid){
 				/** 
 				 * Other kinds of hydrations
 				 */
-				PHALCON_CALL_CE_STATIC(&active_row, phalcon_mvc_model_ce, "cloneresultmaphydrate", row, column_map, hydrate_mode, source_model);
+				PHALCON_CALL_CE_STATIC(&active_row, ce, "cloneresultmaphydrate", row, column_map, hydrate_mode, source_model);
 
 				phalcon_update_property_array(this_ptr, SL("_rowsModels"), key, active_row TSRMLS_CC);
 			} else {
@@ -336,8 +343,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, toArray){
 		}
 
 		PHALCON_CALL_METHOD(&current, this_ptr, "current");
-		PHALCON_CALL_METHOD(&arr, current, "toarray", PHALCON_GLOBAL(z_null), rename_columns);
-		phalcon_array_append(&records, arr, 0);
+		if (Z_TYPE_P(current) == IS_OBJECT && phalcon_method_exists_ex(current, SS("toarray") TSRMLS_CC) == SUCCESS) {
+			PHALCON_CALL_METHOD(&arr, current, "toarray", PHALCON_GLOBAL(z_null), rename_columns);
+			phalcon_array_append(&records, arr, 0);
+		} else {
+			phalcon_array_append(&records, current, 0);
+		}
 		PHALCON_CALL_METHOD(NULL, this_ptr, "next");
 	}
 

@@ -237,7 +237,7 @@ PHP_METHOD(Phalcon_Db_Dialect, getEscapeChar){
 PHP_METHOD(Phalcon_Db_Dialect, getSqlExpression){
 
 	zval *expression, *escape_char = NULL, *quoting = NULL, *type, *name = NULL, *escaped_name = NULL;
-	zval *quoting_value, *domain, *escaped_domain = NULL, *value = NULL, *operator = NULL;
+	zval *quoting_value, *domain, *escaped_domain = NULL, *value = NULL, *expression_value = NULL, *operator = NULL;
 	zval *left = NULL, *expression_left = NULL, *right = NULL, *expression_right = NULL;
 	zval *expression_group, *sql_arguments, *arguments;
 	zval *argument = NULL, *argument_expression = NULL, *arguments_joined;
@@ -520,6 +520,19 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpression){
 
 		PHALCON_CALL_METHOD(&expression_right, this_ptr, "getsqlexpression", right, escape_char);
 		PHALCON_CONCAT_SVSVS(return_value, "CONVERT(", expression_left, " USING ", expression_right, ")");
+		RETURN_MM();
+	}
+
+	/**
+	 * Resolve SELECT
+	 */
+	if (PHALCON_IS_STRING(type, "select")) {
+		PHALCON_OBS_NVAR(value);
+		phalcon_array_fetch_string(&value, expression, SL("value"), PH_NOISY);
+
+		PHALCON_CALL_METHOD(&expression_value, this_ptr, "select", value);
+
+		PHALCON_CONCAT_SVS(return_value, "(", expression_value, ")");
 		RETURN_MM();
 	}
 
