@@ -49,7 +49,7 @@ class Pdo implements ResultInterface
 	/**
 	 * Active fetch mode
 	 */
-	protected _fetchMode = 4;
+	protected _fetchMode = Db::FETCH_OBJ;
 
 	/**
 	 * Internal resultset
@@ -303,27 +303,9 @@ class Pdo implements ResultInterface
 		var pdoStatement;
 
 		let pdoStatement = this->_pdoStatement;
-		switch fetchMode {
 
-			case Db::FETCH_BOTH:
-				pdoStatement->setFetchMode(\Pdo::FETCH_BOTH);
-				let this->_fetchMode = \Pdo::FETCH_BOTH;
-				break;
-
-			case Db::FETCH_ASSOC:
-				pdoStatement->setFetchMode(\Pdo::FETCH_ASSOC);
-				let this->_fetchMode = \Pdo::FETCH_ASSOC;
-				break;
-
-			case Db::FETCH_NUM:
-				pdoStatement->setFetchMode(\Pdo::FETCH_NUM);
-				let this->_fetchMode = \Pdo::FETCH_NUM;
-				break;
-
-			case Db::FETCH_OBJ:
-				pdoStatement->setFetchMode(\Pdo::FETCH_OBJ);
-				let this->_fetchMode = \Pdo::FETCH_OBJ;
-				break;
+		if pdoStatement->setFetchMode(fetchMode) {
+			let this->_fetchMode = fetchMode;
 		}
 	}
 
