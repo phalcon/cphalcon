@@ -673,7 +673,7 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 		if substr(this->_handlerName, 0, 1) === "\\" {
 			let camelizedClass = this->_handlerName;
 		} else {
-			let camelizedClass = substr(this->_handlerName, 1);
+			let camelizedClass = str_replace(' ', '', ucwords(str_replace('_', ' ', this->_handlerName)))
 		}
 
 		/**
