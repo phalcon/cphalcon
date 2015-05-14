@@ -656,7 +656,7 @@ abstract class Dialect implements DialectInterface
 			let tables = [];
 
 			for table in expression {
-				let tables[] = this->getSqlTable(table);
+				let tables[] = this->getSqlTable(table, escapeChar);
 			}
 
 			let tables = join(", ", tables);
