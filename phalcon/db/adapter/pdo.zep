@@ -392,7 +392,7 @@ abstract class Pdo extends Adapter
 	 *	$escapedStr = $connection->escapeString('some dangerous value');
 	 *</code>
 	 */
-	public function escapeString(string! str) -> string
+	public function escapeString(string str) -> string
 	{
 		return this->_pdo->quote(str);
 	}
