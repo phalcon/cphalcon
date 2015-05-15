@@ -232,6 +232,34 @@ PHP_METHOD(Phalcon_Queue_Beanstalk_Job, kick) {
 }
 
 /**
+ * Get stats of the job.
+ */
+PHP_METHOD(Phalcon_Queue_Beanstalk_Job, stats) {
+
+	int ZEPHIR_LAST_CALL_STATUS;
+	zval *queue, *response = NULL, *_0, *_1, *_2, *_3;
+
+	ZEPHIR_MM_GROW();
+
+	ZEPHIR_OBS_VAR(queue);
+	zephir_read_property_this(&queue, this_ptr, SL("_queue"), PH_NOISY_CC);
+	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_id"), PH_NOISY_CC);
+	ZEPHIR_INIT_VAR(_1);
+	ZEPHIR_CONCAT_SV(_1, "stats-job ", _0);
+	ZEPHIR_CALL_METHOD(NULL, queue, "write", NULL, _1);
+	zephir_check_call_status();
+	ZEPHIR_CALL_METHOD(&response, queue, "readyaml", NULL);
+	zephir_check_call_status();
+	zephir_array_fetch_long(&_2, response, 0, PH_NOISY | PH_READONLY, "phalcon/queue/beanstalk/job.zep", 130 TSRMLS_CC);
+	if (ZEPHIR_IS_STRING(_2, "NOT_FOUND")) {
+		RETURN_MM_BOOL(0);
+	}
+	zephir_array_fetch_long(&_3, response, 2, PH_NOISY | PH_READONLY, "phalcon/queue/beanstalk/job.zep", 134 TSRMLS_CC);
+	RETURN_CTOR(_3);
+
+}
+
+/**
  * Checks if the job has been modified after unserializing the object
  */
 PHP_METHOD(Phalcon_Queue_Beanstalk_Job, __wakeup) {
@@ -255,7 +283,7 @@ PHP_METHOD(Phalcon_Queue_Beanstalk_Job, __wakeup) {
 		zephir_check_temp_parameter(_2);
 		zephir_check_temp_parameter(_3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(_1, "phalcon/queue/beanstalk/job.zep", 125 TSRMLS_CC);
+		zephir_throw_exception_debug(_1, "phalcon/queue/beanstalk/job.zep", 143 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}

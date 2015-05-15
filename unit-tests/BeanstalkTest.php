@@ -93,4 +93,39 @@ class BeanstalkTest extends PHPUnit_Framework_TestCase
 
 		$this->assertTrue($job->delete());
 	}
+
+	public function testStats()
+	{
+		$queue = new Phalcon\Queue\Beanstalk();
+		try {
+			@$queue->connect();
+		}
+		catch (Exception $e) {
+			$this->markTestSkipped($e->getMessage());
+			return;
+		}
+
+		$this->assertTrue($queue->choose('beanstalk-test') !== false);
+
+		$queueStats = $queue->stats();
+		$this->assertTrue(is_array($queueStats));
+
+		$tubeStats = $queue->statsTube('beanstalk-test');
+		$this->assertTrue(is_array($tubeStats));
+		$this->assertTrue($jobStats['name'] === 'beanstalk-test');
+
+		$this->assertTrue($queue->statsTube('beanstalk-test-does-not-exist') === false);
+
+		$this->assertTrue($queue->choose('beanstalk-test') !== false);
+
+		$queue->put('doSomething');
+
+		$queue->watch('beanstalk-test');
+
+		$job = $queue->peekReady();
+		$jobStats = $job->stats();
+
+		$this->assertTrue(is_array($jobStats));
+		$this->assertTrue($jobStats['tube'] === 'beanstalk-test');
+	}
 }

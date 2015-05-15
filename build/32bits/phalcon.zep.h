@@ -5841,6 +5841,7 @@ static PHP_METHOD(Phalcon_Dispatcher, dispatch);
 static PHP_METHOD(Phalcon_Dispatcher, forward);
 static PHP_METHOD(Phalcon_Dispatcher, wasForwarded);
 static PHP_METHOD(Phalcon_Dispatcher, getHandlerClass);
+static PHP_METHOD(Phalcon_Dispatcher, _resolveEmptyProperties);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_dispatcher_setdi, 0, 0, 1)
 	ZEND_ARG_OBJ_INFO(0, dependencyInjector, Phalcon\\DiInterface, 0)
@@ -5925,6 +5926,7 @@ ZEPHIR_INIT_FUNCS(phalcon_dispatcher_method_entry) {
 	PHP_ME(Phalcon_Dispatcher, forward, arginfo_phalcon_dispatcher_forward, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Dispatcher, wasForwarded, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Dispatcher, getHandlerClass, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Dispatcher, _resolveEmptyProperties, NULL, ZEND_ACC_PROTECTED)
   PHP_FE_END
 };
 
@@ -15894,9 +15896,12 @@ static PHP_METHOD(Phalcon_Queue_Beanstalk, put);
 static PHP_METHOD(Phalcon_Queue_Beanstalk, reserve);
 static PHP_METHOD(Phalcon_Queue_Beanstalk, choose);
 static PHP_METHOD(Phalcon_Queue_Beanstalk, watch);
+static PHP_METHOD(Phalcon_Queue_Beanstalk, stats);
+static PHP_METHOD(Phalcon_Queue_Beanstalk, statsTube);
 static PHP_METHOD(Phalcon_Queue_Beanstalk, peekReady);
 static PHP_METHOD(Phalcon_Queue_Beanstalk, peekBuried);
 static PHP_METHOD(Phalcon_Queue_Beanstalk, readStatus);
+static PHP_METHOD(Phalcon_Queue_Beanstalk, readYaml);
 static PHP_METHOD(Phalcon_Queue_Beanstalk, read);
 static PHP_METHOD(Phalcon_Queue_Beanstalk, write);
 static PHP_METHOD(Phalcon_Queue_Beanstalk, disconnect);
@@ -15922,6 +15927,10 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_queue_beanstalk_watch, 0, 0, 1)
 	ZEND_ARG_INFO(0, tube)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_queue_beanstalk_statstube, 0, 0, 1)
+	ZEND_ARG_INFO(0, tube)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_queue_beanstalk_read, 0, 0, 0)
 	ZEND_ARG_INFO(0, length)
 ZEND_END_ARG_INFO()
@@ -15937,9 +15946,12 @@ ZEPHIR_INIT_FUNCS(phalcon_queue_beanstalk_method_entry) {
 	PHP_ME(Phalcon_Queue_Beanstalk, reserve, arginfo_phalcon_queue_beanstalk_reserve, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Queue_Beanstalk, choose, arginfo_phalcon_queue_beanstalk_choose, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Queue_Beanstalk, watch, arginfo_phalcon_queue_beanstalk_watch, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Queue_Beanstalk, stats, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Queue_Beanstalk, statsTube, arginfo_phalcon_queue_beanstalk_statstube, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Queue_Beanstalk, peekReady, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Queue_Beanstalk, peekBuried, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Queue_Beanstalk, readStatus, NULL, ZEND_ACC_FINAL|ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Queue_Beanstalk, readYaml, NULL, ZEND_ACC_FINAL|ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Queue_Beanstalk, read, arginfo_phalcon_queue_beanstalk_read, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Queue_Beanstalk, write, arginfo_phalcon_queue_beanstalk_write, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Queue_Beanstalk, disconnect, NULL, ZEND_ACC_PUBLIC)
@@ -15958,6 +15970,7 @@ static PHP_METHOD(Phalcon_Queue_Beanstalk_Job, release);
 static PHP_METHOD(Phalcon_Queue_Beanstalk_Job, bury);
 static PHP_METHOD(Phalcon_Queue_Beanstalk_Job, touch);
 static PHP_METHOD(Phalcon_Queue_Beanstalk_Job, kick);
+static PHP_METHOD(Phalcon_Queue_Beanstalk_Job, stats);
 static PHP_METHOD(Phalcon_Queue_Beanstalk_Job, __wakeup);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_queue_beanstalk_job___construct, 0, 0, 3)
@@ -15984,6 +15997,7 @@ ZEPHIR_INIT_FUNCS(phalcon_queue_beanstalk_job_method_entry) {
 	PHP_ME(Phalcon_Queue_Beanstalk_Job, bury, arginfo_phalcon_queue_beanstalk_job_bury, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Queue_Beanstalk_Job, touch, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Queue_Beanstalk_Job, kick, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Queue_Beanstalk_Job, stats, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Queue_Beanstalk_Job, __wakeup, NULL, ZEND_ACC_PUBLIC)
   PHP_FE_END
 };
@@ -17249,7 +17263,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_validation_setvalidators, 0, 0, 1)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_validation___construct, 0, 0, 0)
-	ZEND_ARG_INFO(0, validators)
+	ZEND_ARG_ARRAY_INFO(0, validators, 1)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_validation_validate, 0, 0, 0)
@@ -17282,7 +17296,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_validation_getfilters, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_validation_setdefaultmessages, 0, 0, 0)
-	ZEND_ARG_INFO(0, messages)
+	ZEND_ARG_ARRAY_INFO(0, messages, 1)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_validation_getdefaultmessage, 0, 0, 1)

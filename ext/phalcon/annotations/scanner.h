@@ -1,21 +1,24 @@
 
 /*
-	+------------------------------------------------------------------------+
-	| Phalcon Framework                                                      |
-	+------------------------------------------------------------------------+
-	| Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
-	+------------------------------------------------------------------------+
-	| This source file is subject to the New BSD License that is bundled     |
-	| with this package in the file docs/LICENSE.txt.                        |
-	|                                                                        |
-	| If you did not receive a copy of the license and are unable to         |
-	| obtain it through the world-wide-web, please send an email             |
-	| to license@phalconphp.com so we can send you a copy immediately.       |
-	+------------------------------------------------------------------------+
-	| Authors: Andres Gutierrez <andres@phalconphp.com>                      |
-	|          Eduar Carvajal <eduar@phalconphp.com>                         |
-	+------------------------------------------------------------------------+
+ +------------------------------------------------------------------------+
+ | Phalcon Framework                                                      |
+ +------------------------------------------------------------------------+
+ | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+ +------------------------------------------------------------------------+
+ | This source file is subject to the New BSD License that is bundled     |
+ | with this package in the file docs/LICENSE.txt.                        |
+ |                                                                        |
+ | If you did not receive a copy of the license and are unable to         |
+ | obtain it through the world-wide-web, please send an email             |
+ | to license@phalconphp.com so we can send you a copy immediately.       |
+ +------------------------------------------------------------------------+
+ | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
+ |          Eduar Carvajal <eduar@phalconphp.com>                         |
+ +------------------------------------------------------------------------+
 */
+
+#ifndef PHALCON_ANNOTATIONS_SCANNER_H
+#define PHALCON_ANNOTATIONS_SCANNER_H
 
 #define PHANNOT_SCANNER_RETCODE_EOF -1
 #define PHANNOT_SCANNER_RETCODE_ERR -2
@@ -68,7 +71,7 @@ typedef struct _phannot_scanner_state {
 	unsigned int start_length;
 	int mode;
 	unsigned int active_line;
-	zval *active_file;
+	const char *active_file;
 } phannot_scanner_state;
 
 /* Extra information tokens */
@@ -81,3 +84,5 @@ typedef struct _phannot_scanner_token {
 int phannot_get_token(phannot_scanner_state *s, phannot_scanner_token *token);
 
 extern const phannot_token_names phannot_tokens[];
+
+#endif /* PHALCON_ANNOTATIONS_SCANNER_H */

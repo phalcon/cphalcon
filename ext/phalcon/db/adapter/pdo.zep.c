@@ -565,17 +565,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, escapeString) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &str_param);
 
-	if (unlikely(Z_TYPE_P(str_param) != IS_STRING && Z_TYPE_P(str_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'str' must be a string") TSRMLS_CC);
-		RETURN_MM_NULL();
-	}
-
-	if (likely(Z_TYPE_P(str_param) == IS_STRING)) {
-		zephir_get_strval(str, str_param);
-	} else {
-		ZEPHIR_INIT_VAR(str);
-		ZVAL_EMPTY_STRING(str);
-	}
+	zephir_get_strval(str, str_param);
 
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_pdo"), PH_NOISY_CC);

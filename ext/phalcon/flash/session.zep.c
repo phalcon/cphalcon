@@ -238,6 +238,9 @@ PHP_METHOD(Phalcon_Flash_Session, getMessages) {
 		if (Z_TYPE_P(type) == IS_STRING) {
 			if (zephir_array_isset_fetch(&returnMessages, messages, type, 1 TSRMLS_CC)) {
 				RETURN_CTOR(returnMessages);
+			} else {
+				array_init(return_value);
+				RETURN_MM();
 			}
 		}
 		RETURN_CCTOR(messages);
@@ -272,7 +275,7 @@ PHP_METHOD(Phalcon_Flash_Session, output) {
 	ZEPHIR_CALL_METHOD(&messages, this_ptr, "_getsessionmessages", NULL, (remove ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)));
 	zephir_check_call_status();
 	if (Z_TYPE_P(messages) == IS_ARRAY) {
-		zephir_is_iterable(messages, &_1, &_0, 0, 0, "phalcon/flash/session.zep", 161);
+		zephir_is_iterable(messages, &_1, &_0, 0, 0, "phalcon/flash/session.zep", 163);
 		for (
 		  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_1, &_0)

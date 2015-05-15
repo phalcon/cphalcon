@@ -69,11 +69,8 @@ class Apc extends MetaData implements MetaDataInterface
 
 	/**
 	 * Reads meta-data from APC
-	 *
-	 * @param  string key
-	 * @return array
 	 */
-	public function read(string! key)
+	public function read(string! key) -> array | null
 	{
 		var data;
 
@@ -86,11 +83,8 @@ class Apc extends MetaData implements MetaDataInterface
 
 	/**
 	 * Writes the meta-data to APC
-	 *
-	 * @param string key
-	 * @param array data
 	 */
-	public function write(string! key, data) -> void
+	public function write(string! key, var data) -> void
 	{
 		apc_store("$PMM$" . this->_prefix . key, data, this->_ttl);
 	}

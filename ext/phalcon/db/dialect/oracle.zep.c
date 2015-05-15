@@ -220,11 +220,11 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, addColumn) {
  */
 PHP_METHOD(Phalcon_Db_Dialect_Oracle, modifyColumn) {
 
-	zval *tableName_param = NULL, *schemaName_param = NULL, *column;
+	zval *tableName_param = NULL, *schemaName_param = NULL, *column, *currentColumn = NULL;
 	zval *tableName = NULL, *schemaName = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 3, 0, &tableName_param, &schemaName_param, &column);
+	zephir_fetch_params(1, 3, 1, &tableName_param, &schemaName_param, &column, &currentColumn);
 
 	if (unlikely(Z_TYPE_P(tableName_param) != IS_STRING && Z_TYPE_P(tableName_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'tableName' must be a string") TSRMLS_CC);
@@ -247,6 +247,9 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, modifyColumn) {
 	} else {
 		ZEPHIR_INIT_VAR(schemaName);
 		ZVAL_EMPTY_STRING(schemaName);
+	}
+	if (!currentColumn) {
+		currentColumn = ZEPHIR_GLOBAL(global_null);
 	}
 
 

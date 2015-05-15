@@ -26,43 +26,53 @@ use \Phalcon\Text as PhText;
 
 class Text extends PhText
 {
-    public static function camelize($str)
-    {
-        return parent::camelize($str);
-    }
+	public static function camelize($str)
+	{
+		return parent::camelize($str);
+	}
 
-    public static function uncamelize($str)
-    {
-        return parent::uncamelize($str);
-    }
+	public static function uncamelize($str)
+	{
+		return parent::uncamelize($str);
+	}
 
-    public static function increment($str, $separator = null)
-    {
-        return parent::increment($str, $separator);
-    }
+	public static function increment($str, $separator = null)
+	{
+		return parent::increment($str, $separator);
+	}
 
-    public static function random($type = 0, $length = 8)
-    {
-        return parent::random($type, $length);
-    }
+	public static function random($type = 0, $length = 8)
+	{
+		return parent::random($type, $length);
+	}
 
-    public static function startsWith($str, $start, $ignoreCase = true)
-    {
-        return parent::startsWith($str, $start, $ignoreCase);
-    }
+	public static function startsWith($str, $start, $ignoreCase = true)
+	{
+		return parent::startsWith($str, $start, $ignoreCase);
+	}
 
-    public static function endsWith($str, $end, $ignoreCase = true)
-    {
-        return parent::endsWith($str, $end, $ignoreCase);
-    }
+	public static function endsWith($str, $end, $ignoreCase = true)
+	{
+		return parent::endsWith($str, $end, $ignoreCase);
+	}
 
-    public static function lower($str)
-    {
-        return parent::lower($str);
-    }
+	public static function lower($str)
+	{
+		return parent::lower($str);
+	}
 
-    public static function upper($str)
-    {
-        return parent::upper($str);
-    }
+	public static function upper($str)
+	{
+		return parent::upper($str);
+	}
+
+	public static function reduceSlashes($str)
+	{
+		return parent::reduceSlashes($str);
+	}
+
+	public static function concat($separator, $a, $b)
+	{
+		return call_user_func_array('parent::concat', func_get_args());
+	}
 }

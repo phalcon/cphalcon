@@ -469,12 +469,12 @@ PHP_METHOD(Phalcon_Loader, autoLoad) {
 			ZEPHIR_GET_HMKEY(nsPrefix, _2, _1);
 			ZEPHIR_GET_HVALUE(directory, _3);
 			if (zephir_start_with(className, nsPrefix, NULL)) {
-				ZEPHIR_INIT_NVAR(fileName);
 				ZEPHIR_INIT_LNVAR(_4);
 				ZEPHIR_CONCAT_VV(_4, nsPrefix, namespaceSeparator);
 				ZEPHIR_SINIT_NVAR(_5);
-				ZVAL_STRING(&_5, "", 0);
-				zephir_fast_str_replace(&fileName, _4, &_5, className TSRMLS_CC);
+				ZVAL_LONG(&_5, zephir_fast_strlen_ev(_4));
+				ZEPHIR_INIT_NVAR(fileName);
+				zephir_substr(fileName, className, zephir_get_intval(&_5), 0, ZEPHIR_SUBSTR_NO_LENGTH);
 				ZEPHIR_INIT_NVAR(_0);
 				zephir_fast_str_replace(&_0, namespaceSeparator, ds, fileName TSRMLS_CC);
 				ZEPHIR_CPY_WRT(fileName, _0);

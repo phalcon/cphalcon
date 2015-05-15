@@ -58,13 +58,39 @@ ZEPHIR_INIT_CLASS(Phalcon_Db) {
 
 	ZEPHIR_REGISTER_CLASS(Phalcon, Db, phalcon, db, phalcon_db_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
 
-	zend_declare_class_constant_long(phalcon_db_ce, SL("FETCH_ASSOC"), 1 TSRMLS_CC);
+	zend_declare_class_constant_long(phalcon_db_ce, SL("FETCH_LAZY"), 1 TSRMLS_CC);
 
-	zend_declare_class_constant_long(phalcon_db_ce, SL("FETCH_BOTH"), 2 TSRMLS_CC);
+	zend_declare_class_constant_long(phalcon_db_ce, SL("FETCH_ASSOC"), 2 TSRMLS_CC);
+
+	zend_declare_class_constant_long(phalcon_db_ce, SL("FETCH_NAMED"), 11 TSRMLS_CC);
 
 	zend_declare_class_constant_long(phalcon_db_ce, SL("FETCH_NUM"), 3 TSRMLS_CC);
 
-	zend_declare_class_constant_long(phalcon_db_ce, SL("FETCH_OBJ"), 4 TSRMLS_CC);
+	zend_declare_class_constant_long(phalcon_db_ce, SL("FETCH_BOTH"), 4 TSRMLS_CC);
+
+	zend_declare_class_constant_long(phalcon_db_ce, SL("FETCH_OBJ"), 5 TSRMLS_CC);
+
+	zend_declare_class_constant_long(phalcon_db_ce, SL("FETCH_BOUND"), 6 TSRMLS_CC);
+
+	zend_declare_class_constant_long(phalcon_db_ce, SL("FETCH_COLUMN"), 7 TSRMLS_CC);
+
+	zend_declare_class_constant_long(phalcon_db_ce, SL("FETCH_CLASS"), 8 TSRMLS_CC);
+
+	zend_declare_class_constant_long(phalcon_db_ce, SL("FETCH_INTO"), 9 TSRMLS_CC);
+
+	zend_declare_class_constant_long(phalcon_db_ce, SL("FETCH_FUNC"), 10 TSRMLS_CC);
+
+	zend_declare_class_constant_long(phalcon_db_ce, SL("FETCH_GROUP"), 65536 TSRMLS_CC);
+
+	zend_declare_class_constant_long(phalcon_db_ce, SL("FETCH_UNIQUE"), 196608 TSRMLS_CC);
+
+	zend_declare_class_constant_long(phalcon_db_ce, SL("FETCH_KEY_PAIR"), 12 TSRMLS_CC);
+
+	zend_declare_class_constant_long(phalcon_db_ce, SL("FETCH_CLASSTYPE"), 262144 TSRMLS_CC);
+
+	zend_declare_class_constant_long(phalcon_db_ce, SL("FETCH_SERIALIZE"), 524288 TSRMLS_CC);
+
+	zend_declare_class_constant_long(phalcon_db_ce, SL("FETCH_PROPS_LATE"), 1048576 TSRMLS_CC);
 
 	return SUCCESS;
 

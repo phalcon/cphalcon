@@ -140,7 +140,8 @@ class Collection implements CollectionInterface
 	 */
 	public function map(string! routePattern, var handler, var name = null) -> <Collection>
 	{
-		return this->_addMap(null, routePattern, handler, name);
+		this->_addMap(null, routePattern, handler, name);
+		return this;
 	}
 
 	/**

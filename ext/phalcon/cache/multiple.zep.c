@@ -111,7 +111,7 @@ PHP_METHOD(Phalcon_Cache_Multiple, push) {
 
 
 
-	zephir_update_property_this(this_ptr, SL("_backends"), backend TSRMLS_CC);
+	zephir_update_property_array_append(this_ptr, SL("_backends"), backend TSRMLS_CC);
 	RETURN_THISW();
 
 }

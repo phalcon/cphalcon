@@ -210,7 +210,6 @@ class Filter implements FilterInterface
 				return strtoupper(value);
 
 			default:
-
 				throw new Exception("Sanitize filter '" . filter . "' is not supported");
 		}
 	}

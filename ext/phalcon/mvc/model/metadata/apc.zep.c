@@ -85,9 +85,6 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Apc, __construct) {
 
 /**
  * Reads meta-data from APC
- *
- * @param  string key
- * @return array
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Apc, read) {
 
@@ -125,9 +122,6 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Apc, read) {
 
 /**
  * Writes the meta-data to APC
- *
- * @param string key
- * @param array data
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Apc, write) {
 

@@ -190,7 +190,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, initialize) {
 		if (Z_TYPE_P(eventsManager) == IS_OBJECT) {
 			ZEPHIR_INIT_VAR(_0);
 			ZVAL_STRING(_0, "collectionManager:afterInitialize", ZEPHIR_TEMP_PARAM_COPY);
-			ZEPHIR_CALL_METHOD(NULL, eventsManager, "fire", NULL, _0);
+			ZEPHIR_CALL_METHOD(NULL, eventsManager, "fire", NULL, _0, model);
 			zephir_check_temp_parameter(_0);
 			zephir_check_call_status();
 		}

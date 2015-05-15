@@ -147,7 +147,7 @@ typedef struct _zephir_function_cache {
 #if defined(__GNUC__)
 # define ZEPHIR_NO_OPT __attribute__((optimize("O0")))
 #else
-# define ZEPHIR_NO_OPT 
+# define ZEPHIR_NO_OPT
 #endif
 
 /*#if PHP_VERSION_ID > 50399
@@ -160,12 +160,8 @@ typedef struct _zephir_function_cache {
 # define ZLK_NULL_CC
 #endif*/
 
-#if PHP_VERSION_ID < 50600
 #ifdef ZTS
 #define zephir_nts_static
-#else
-#define zephir_nts_static
-#endif
 #else
 #define zephir_nts_static
 #endif

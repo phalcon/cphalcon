@@ -91,7 +91,7 @@ class Multiple
 	 */
 	public function push(<BackendInterface> backend) -> <Multiple>
 	{
-		let this->_backends = backend;
+		let this->_backends[] = backend;
 		return this;
 	}
 
