@@ -258,7 +258,7 @@ abstract class MetaData implements InjectionAwareInterface
 	}
 
 	/**
-	 * Reads meta-data for certain model using a MODEL_* constant
+	 * Reads meta-data for certain model
 	 *
 	 *<code>
 	 *	print_r($metaData->readMetaDataIndex(new Robots(), 0);
