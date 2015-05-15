@@ -3865,7 +3865,7 @@ PHP_METHOD(Phalcon_Mvc_Model, refresh) {
 	zephir_check_call_status();
 	_6 = zephir_fetch_nproperty_this(this_ptr, SL("_uniqueTypes"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(_7);
-	ZVAL_LONG(_7, 1);
+	ZVAL_LONG(_7, 2);
 	ZEPHIR_CALL_METHOD(&row, readConnection, "fetchone", NULL, tables, _7, uniqueParams, _6);
 	zephir_check_call_status();
 	if (Z_TYPE_P(row) == IS_ARRAY) {

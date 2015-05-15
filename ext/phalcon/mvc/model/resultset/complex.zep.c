@@ -72,7 +72,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, __construct) {
 	zephir_update_property_this(this_ptr, SL("_type"), _0 TSRMLS_CC);
 	if (Z_TYPE_P(result) == IS_OBJECT) {
 		ZEPHIR_INIT_VAR(_1);
-		ZVAL_LONG(_1, 1);
+		ZVAL_LONG(_1, 2);
 		ZEPHIR_CALL_METHOD(NULL, result, "setfetchmode", NULL, _1);
 		zephir_check_call_status();
 	}

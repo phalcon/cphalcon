@@ -539,12 +539,6 @@ PHP_METHOD(Phalcon_Events_Manager, fireQueue) {
  *<code>
  *	$eventsManager->fire('db', $connection);
  *</code>
- *
- * @param string eventType
- * @param object source
- * @param mixed  data
- * @param boolean cancelable
- * @return mixed
  */
 PHP_METHOD(Phalcon_Events_Manager, fire) {
 
@@ -583,23 +577,23 @@ PHP_METHOD(Phalcon_Events_Manager, fire) {
 	if (Z_TYPE_P(events) != IS_ARRAY) {
 		RETURN_MM_NULL();
 	}
-	if (!(zephir_memnstr_str(eventType, SL(":"), "phalcon/events/manager.zep", 392))) {
+	if (!(zephir_memnstr_str(eventType, SL(":"), "phalcon/events/manager.zep", 386))) {
 		ZEPHIR_INIT_VAR(_0);
 		object_init_ex(_0, phalcon_events_exception_ce);
 		ZEPHIR_INIT_VAR(_1);
 		ZEPHIR_CONCAT_SV(_1, "Invalid event type ", eventType);
 		ZEPHIR_CALL_METHOD(NULL, _0, "__construct", &_2, _1);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(_0, "phalcon/events/manager.zep", 393 TSRMLS_CC);
+		zephir_throw_exception_debug(_0, "phalcon/events/manager.zep", 387 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
 	ZEPHIR_INIT_VAR(eventParts);
 	zephir_fast_explode_str(eventParts, SL(":"), eventType, LONG_MAX TSRMLS_CC);
 	ZEPHIR_OBS_VAR(type);
-	zephir_array_fetch_long(&type, eventParts, 0, PH_NOISY, "phalcon/events/manager.zep", 397 TSRMLS_CC);
+	zephir_array_fetch_long(&type, eventParts, 0, PH_NOISY, "phalcon/events/manager.zep", 391 TSRMLS_CC);
 	ZEPHIR_OBS_VAR(eventName);
-	zephir_array_fetch_long(&eventName, eventParts, 1, PH_NOISY, "phalcon/events/manager.zep", 398 TSRMLS_CC);
+	zephir_array_fetch_long(&eventName, eventParts, 1, PH_NOISY, "phalcon/events/manager.zep", 392 TSRMLS_CC);
 	ZEPHIR_INIT_VAR(status);
 	ZVAL_NULL(status);
 	_3 = zephir_fetch_nproperty_this(this_ptr, SL("_collect"), PH_NOISY_CC);
@@ -674,10 +668,7 @@ PHP_METHOD(Phalcon_Events_Manager, hasListeners) {
 }
 
 /**
- * Returns all the attached listeners of a certain type
- *
- * @param string type
- * @return array
+ * Returns all the attached listeners of a certain type	 	 
  */
 PHP_METHOD(Phalcon_Events_Manager, getListeners) {
 

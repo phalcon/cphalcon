@@ -74,6 +74,11 @@ ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, has);
 ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, hasPost);
 
 /**
+ * Checks whether the PUT data has certain index
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, hasPut);
+
+/**
  * Checks whether $_GET superglobal has certain index
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, hasQuery);

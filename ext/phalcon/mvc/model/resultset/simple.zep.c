@@ -82,7 +82,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, __construct) {
 		RETURN_MM_NULL();
 	}
 	ZEPHIR_INIT_VAR(_0);
-	ZVAL_LONG(_0, 1);
+	ZVAL_LONG(_0, 2);
 	ZEPHIR_CALL_METHOD(NULL, result, "setfetchmode", NULL, _0);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&rowCount, result, "numrows", NULL);

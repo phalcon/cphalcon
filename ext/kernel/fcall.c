@@ -546,7 +546,7 @@ int ZEPHIR_NO_OPT zephir_call_user_function(zval **object_pp, zend_class_entry *
 		zephir_fcall_populate_fci_cache(&fcic, &fci, type TSRMLS_CC);
 #ifndef ZEPHIR_RELEASE
 		fcic.function_handler = (*cache_entry)->f;
-		++(*temp_cache_entry)->times;
+		++(*cache_entry)->times;
 #else
 		fcic.function_handler = *cache_entry;
 #endif
@@ -609,11 +609,11 @@ int ZEPHIR_NO_OPT zephir_call_user_function(zval **object_pp, zend_class_entry *
 				free(temp_cache_entry);
 #endif
 			} else {
-#ifdef ZEPHIR_RELEASE
 				if (cache_entry) {
-					*cache_entry = temp_cache_entry;
+					//if (fcic.function_handler->type == ZEND_INTERNAL_FUNCTION) {
+						*cache_entry = temp_cache_entry;
+					//}
 				}
-#endif
 			}
 		}
 	}
@@ -749,7 +749,9 @@ int zephir_call_class_method_aparams(zval **return_value_ptr, zend_class_entry *
 	char *possible_method;
 	zval *rv = NULL, **rvp = return_value_ptr ? return_value_ptr : &rv;
 	zval *fn = NULL;
+#if PHP_VERSION_ID < 50600
 	zval *mn;
+#endif
 	int status;
 #if PHP_VERSION_ID >= 50600
 	zephir_fcall_info info;

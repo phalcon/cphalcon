@@ -22,12 +22,6 @@
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/exception.h"
 
-
-/**
- * Phalcon\Http\Response\Headers
- *
- * This class is a bag to manage the response headers
- */
 ZEPHIR_INIT_CLASS(Phalcon_Http_Response_Headers) {
 
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Http\\Response, Headers, phalcon, http_response_headers, phalcon_http_response_headers_method_entry, 0);
@@ -191,11 +185,12 @@ PHP_METHOD(Phalcon_Http_Response_Headers, toArray) {
  */
 PHP_METHOD(Phalcon_Http_Response_Headers, __set_state) {
 
-	zephir_fcall_cache_entry *_3 = NULL;
-	HashTable *_1;
-	HashPosition _0;
+	zephir_fcall_cache_entry *_4 = NULL;
+	HashTable *_2;
+	HashPosition _1;
+	zephir_nts_static zephir_fcall_cache_entry *_0 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *data_param = NULL, *headers, *key = NULL, *value = NULL, *dataHeaders, **_2;
+	zval *data_param = NULL, *headers, *key = NULL, *value = NULL, *dataHeaders, **_3;
 	zval *data = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -207,24 +202,35 @@ PHP_METHOD(Phalcon_Http_Response_Headers, __set_state) {
 
 	ZEPHIR_INIT_VAR(headers);
 	object_init_ex(headers, phalcon_http_response_headers_ce);
-	if (zephir_has_constructor(headers TSRMLS_CC)) {
-		ZEPHIR_CALL_METHOD(NULL, headers, "__construct", NULL);
-		zephir_check_call_status();
-	}
+	ZEPHIR_CALL_METHOD(NULL, headers, "__construct", &_0);
+	zephir_check_call_status();
 	ZEPHIR_OBS_VAR(dataHeaders);
 	if (zephir_array_isset_string_fetch(&dataHeaders, data, SS("_headers"), 0 TSRMLS_CC)) {
-		zephir_is_iterable(dataHeaders, &_1, &_0, 0, 0, "phalcon/http/response/headers.zep", 130);
+		zephir_is_iterable(dataHeaders, &_2, &_1, 0, 0, "phalcon/http/response/headers.zep", 130);
 		for (
-		  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
-		  ; zephir_hash_move_forward_ex(_1, &_0)
+		  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
+		  ; zephir_hash_move_forward_ex(_2, &_1)
 		) {
-			ZEPHIR_GET_HMKEY(key, _1, _0);
-			ZEPHIR_GET_HVALUE(value, _2);
-			ZEPHIR_CALL_METHOD(NULL, headers, "set", &_3, key, value);
+			ZEPHIR_GET_HMKEY(key, _2, _1);
+			ZEPHIR_GET_HVALUE(value, _3);
+			ZEPHIR_CALL_METHOD(NULL, headers, "set", &_4, key, value);
 			zephir_check_call_status();
 		}
 	}
 	RETURN_CCTOR(headers);
+
+}
+
+PHP_METHOD(Phalcon_Http_Response_Headers, __construct) {
+
+	zval *_0;
+
+	ZEPHIR_MM_GROW();
+
+	ZEPHIR_INIT_VAR(_0);
+	array_init(_0);
+	zephir_update_property_this(this_ptr, SL("_headers"), _0 TSRMLS_CC);
+	ZEPHIR_MM_RESTORE();
 
 }
 

@@ -278,7 +278,7 @@ PHP_METHOD(Phalcon_Db_Adapter, fetchOne) {
 	}
 	if (!fetchMode) {
 		ZEPHIR_INIT_VAR(fetchMode);
-		ZVAL_LONG(fetchMode, 2);
+		ZVAL_LONG(fetchMode, 4);
 	}
 	if (!bindParams) {
 		bindParams = ZEPHIR_GLOBAL(global_null);
@@ -412,7 +412,7 @@ PHP_METHOD(Phalcon_Db_Adapter, fetchColumn) {
 
 
 	ZEPHIR_INIT_VAR(_0);
-	ZVAL_LONG(_0, 2);
+	ZVAL_LONG(_0, 4);
 	ZEPHIR_CALL_METHOD(&row, this_ptr, "fetchone", NULL, sqlQuery, _0, placeholders);
 	zephir_check_call_status();
 	_1 = !(ZEPHIR_IS_EMPTY(row));
@@ -1417,11 +1417,11 @@ PHP_METHOD(Phalcon_Db_Adapter, addColumn) {
 PHP_METHOD(Phalcon_Db_Adapter, modifyColumn) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *tableName_param = NULL, *schemaName_param = NULL, *column, *_0, *_1 = NULL;
+	zval *tableName_param = NULL, *schemaName_param = NULL, *column, *currentColumn = NULL, *_0, *_1 = NULL;
 	zval *tableName = NULL, *schemaName = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 3, 0, &tableName_param, &schemaName_param, &column);
+	zephir_fetch_params(1, 3, 1, &tableName_param, &schemaName_param, &column, &currentColumn);
 
 	if (unlikely(Z_TYPE_P(tableName_param) != IS_STRING && Z_TYPE_P(tableName_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'tableName' must be a string") TSRMLS_CC);
@@ -1445,10 +1445,13 @@ PHP_METHOD(Phalcon_Db_Adapter, modifyColumn) {
 		ZEPHIR_INIT_VAR(schemaName);
 		ZVAL_EMPTY_STRING(schemaName);
 	}
+	if (!currentColumn) {
+		currentColumn = ZEPHIR_GLOBAL(global_null);
+	}
 
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_dialect"), PH_NOISY_CC);
-	ZEPHIR_CALL_METHOD(&_1, _0, "modifycolumn", NULL, tableName, schemaName, column);
+	ZEPHIR_CALL_METHOD(&_1, _0, "modifycolumn", NULL, tableName, schemaName, column, currentColumn);
 	zephir_check_call_status();
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "execute", NULL, _1);
 	zephir_check_call_status();
@@ -2177,7 +2180,7 @@ PHP_METHOD(Phalcon_Db_Adapter, tableOptions) {
 	zephir_check_call_status();
 	if (zephir_is_true(sql)) {
 		ZEPHIR_INIT_VAR(_2);
-		ZVAL_LONG(_2, 1);
+		ZVAL_LONG(_2, 2);
 		ZEPHIR_CALL_METHOD(&_1, this_ptr, "fetchall", NULL, sql, _2);
 		zephir_check_call_status();
 		zephir_array_fetch_long(&_3, _1, 0, PH_NOISY | PH_READONLY, "phalcon/db/adapter.zep", 975 TSRMLS_CC);
