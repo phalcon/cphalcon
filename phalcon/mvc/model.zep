@@ -4072,35 +4072,10 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 */
 	public function serialize() -> string
 	{
-		var data, metaData, columnMap, value, attribute, attributeField;
-
-		let data = [],
-			metaData = this->getModelsMetaData(),
-			columnMap = metaData->getColumnMap(this);
-		for attribute in metaData->getAttributes(this) {
-
-			/**
-			 * Check if the columns must be renamed
-			 */
-			if typeof columnMap == "array" {
-				if !fetch attributeField, columnMap[attribute] {
-					throw new Exception("Column '" . attribute . "' doesn't make part of the column map");
-				}
-			} else {
-				let attributeField = attribute;
-			}
-
-			if fetch value, this->{attributeField} {
-				let data[attributeField] = value;
-			} else {
-				let data[attributeField] = null;
-			}
-		}
-
 		/**
 		 * Use the standard serialize function to serialize the array data
 		 */
-		return serialize(data);
+		return serialize(this->toArray());
 	}
 
 	/**
