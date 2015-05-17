@@ -511,9 +511,8 @@ int zephir_call_user_function(zval **object_pp, zend_class_entry *obj_ce, zephir
 		if (zephir_globals_ptr->cache_enabled) {
 
 			if (cache_slot > 0) {
-				if (!zephir_globals_ptr->scache[cache_slot]) {
-					reload_cache = 1;
-				} else {
+				if (zephir_globals_ptr->scache[cache_slot]) {
+					reload_cache = 0;				
 					temp_cache_entry = &zephir_globals_ptr->scache[cache_slot];
 				}
 			}
