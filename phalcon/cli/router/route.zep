@@ -313,15 +313,18 @@ class Route
 
 				// Create the array paths dynamically
 				switch count(parts) {
+
 					case 3:
 						let moduleName = parts[0],
 							taskName = parts[1],
 							actionName = parts[2];
 						break;
+
 					case 2:
 						let taskName = parts[0],
 							actionName = parts[1];
 						break;
+
 					case 1:
 						let taskName = parts[0];
 						break;

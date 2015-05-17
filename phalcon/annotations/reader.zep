@@ -134,11 +134,8 @@ class Reader implements ReaderInterface
 
 	/**
 	 * Parses a raw doc block returning the annotations found
-	 *
-	 * @param string docBlock
-	 * @return array
 	 */
-	public static function parseDocBlock(string docBlock, file = null, line = null)
+	public static function parseDocBlock(string docBlock, file = null, line = null) -> array
 	{
 		if typeof file != "string" {
 			let file = "eval code";

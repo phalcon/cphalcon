@@ -220,7 +220,10 @@ class Simple extends Injectable implements ViewBaseInterface
 			if file_exists(viewsDirPath . extension) {
 				let viewEnginePath = viewsDirPath . extension;
 			} else {
-				//if passed filename with engine extension
+
+				/**
+				 * if passed filename with engine extension
+				 */
 				if extension && substr(viewsDirPath, -strlen(extension)) == extension && file_exists(viewsDirPath) {
 					let viewEnginePath = viewsDirPath;
 				} else {
@@ -497,10 +500,8 @@ class Simple extends Injectable implements ViewBaseInterface
 
 	/**
 	 * Returns the cache instance used to cache
-	 *
-	 * @return Phalcon\Cache\BackendInterface
 	 */
-	public function getCache()
+	public function getCache() -> <BackendInterface>
 	{
 		var cache;
 
@@ -519,9 +520,6 @@ class Simple extends Injectable implements ViewBaseInterface
 	 *<code>
 	 *  $this->view->cache(array('key' => 'my-key', 'lifetime' => 86400));
 	 *</code>
-	 *
-	 * @param boolean|array options
-	 * @return Phalcon\Mvc\View\Simple
 	 */
 	public function cache(var options = true) -> <Simple>
 	{
@@ -543,10 +541,6 @@ class Simple extends Injectable implements ViewBaseInterface
 	 *<code>
 	 *	$this->view->setParamToView('products', $products);
 	 *</code>
-	 *
-	 * @param string $key
-	 * @param mixed $value
-	 * @return Phalcon\Mvc\View\Simple
 	 */
 	public function setParamToView(string! key, var value) -> <Simple>
 	{
@@ -586,10 +580,6 @@ class Simple extends Injectable implements ViewBaseInterface
 	 *<code>
 	 *	$this->view->setVar('products', $products);
 	 *</code>
-	 *
-	 * @param string key
-	 * @param mixed  value
-	 * @return Phalcon\Mvc\View\Simple
 	 */
 	public function setVar(string! key, value) -> <Simple>
 	{
@@ -661,11 +651,8 @@ class Simple extends Injectable implements ViewBaseInterface
 	 *<code>
 	 *	$this->view->products = $products;
 	 *</code>
-	 *
-	 * @param string key
-	 * @param mixed  value
 	 */
-	public function __set(string! key, value)
+	public function __set(string! key, var value)
 	{
 		let this->_viewParams[key] = value;
 	}

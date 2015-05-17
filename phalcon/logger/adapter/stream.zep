@@ -23,7 +23,7 @@ use Phalcon\Logger\Exception;
 use Phalcon\Logger\Adapter;
 use Phalcon\Logger\AdapterInterface;
 use Phalcon\Logger\FormatterInterface;
-
+use Phalcon\Logger\Formatter\Line as LineFormatter;
 
 /**
  * Phalcon\Logger\Adapter\Stream
@@ -78,13 +78,11 @@ class Stream extends Adapter implements AdapterInterface
 
 	/**
 	 * Returns the internal formatter
-	 *
-	 * @return Phalcon\Logger\Formatter\Line
 	 */
 	public function getFormatter() -> <FormatterInterface>
 	{
 		if typeof this->_formatter !== "object" {
-			let this->_formatter = new \Phalcon\Logger\Formatter\Line();
+			let this->_formatter = new LineFormatter();
 		}
 
 		return this->_formatter;
@@ -92,11 +90,6 @@ class Stream extends Adapter implements AdapterInterface
 
 	/**
 	 * Writes the log to the stream itself
-	 *
-	 * @param string message
-	 * @param int type
-	 * @param int time
-	 * @param array $context
 	 */
 	public function logInternal(string message, int type, int time, array context)
 	{
@@ -117,5 +110,4 @@ class Stream extends Adapter implements AdapterInterface
 	{
 		return fclose(this->_stream);
 	}
-
 }

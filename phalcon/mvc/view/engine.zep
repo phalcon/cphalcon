@@ -58,7 +58,7 @@ abstract class Engine extends Injectable
 	 * @param array params
 	 * @return string
 	 */
-	public function partial(string! partialPath, params = null) -> string
+	public function partial(string! partialPath, var params = null) -> string
 	{
 		return this->_view->partial(partialPath, params);
 	}
