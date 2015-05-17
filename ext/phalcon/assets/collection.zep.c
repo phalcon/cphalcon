@@ -696,7 +696,6 @@ PHP_METHOD(Phalcon_Assets_Collection, join) {
 PHP_METHOD(Phalcon_Assets_Collection, getRealTargetPath) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zephir_fcall_cache_entry *_0 = NULL;
 	zval *basePath_param = NULL, *targetPath, *completePath;
 	zval *basePath = NULL;
 
@@ -721,7 +720,7 @@ PHP_METHOD(Phalcon_Assets_Collection, getRealTargetPath) {
 	ZEPHIR_INIT_VAR(completePath);
 	ZEPHIR_CONCAT_VV(completePath, basePath, targetPath);
 	if ((zephir_file_exists(completePath TSRMLS_CC) == SUCCESS)) {
-		ZEPHIR_RETURN_CALL_FUNCTION("realpath", &_0, 25, completePath);
+		ZEPHIR_RETURN_CALL_FUNCTION("realpath", NULL, 25, completePath);
 		zephir_check_call_status();
 		RETURN_MM();
 	}

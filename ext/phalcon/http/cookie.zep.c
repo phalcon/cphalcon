@@ -272,7 +272,6 @@ PHP_METHOD(Phalcon_Http_Cookie, getValue) {
  */
 PHP_METHOD(Phalcon_Http_Cookie, send) {
 
-	zephir_fcall_cache_entry *_4 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *name, *value, *expire, *domain, *path, *secure, *httpOnly, *dependencyInjector, *definition, *session = NULL, *crypt = NULL, *encryptValue = NULL, *_0 = NULL, *_1 = NULL, *_2, *_3;
 
@@ -348,7 +347,7 @@ PHP_METHOD(Phalcon_Http_Cookie, send) {
 	} else {
 		ZEPHIR_CPY_WRT(encryptValue, value);
 	}
-	ZEPHIR_CALL_FUNCTION(NULL, "setcookie", &_4, 181, name, encryptValue, expire, path, domain, secure, httpOnly);
+	ZEPHIR_CALL_FUNCTION(NULL, "setcookie", NULL, 186, name, encryptValue, expire, path, domain, secure, httpOnly);
 	zephir_check_call_status();
 	RETURN_THIS();
 
@@ -409,7 +408,6 @@ PHP_METHOD(Phalcon_Http_Cookie, restore) {
  */
 PHP_METHOD(Phalcon_Http_Cookie, delete) {
 
-	zephir_fcall_cache_entry *_5 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *name, *domain, *path, *secure, *httpOnly, *dependencyInjector = NULL, *session = NULL, *_0, *_1 = NULL, *_2 = NULL, *_3, _4;
 
@@ -444,7 +442,7 @@ PHP_METHOD(Phalcon_Http_Cookie, delete) {
 	zephir_time(_2);
 	ZEPHIR_SINIT_VAR(_4);
 	ZVAL_LONG(&_4, (zephir_get_numberval(_2) - 691200));
-	ZEPHIR_CALL_FUNCTION(NULL, "setcookie", &_5, 181, name, ZEPHIR_GLOBAL(global_null), &_4, path, domain, secure, httpOnly);
+	ZEPHIR_CALL_FUNCTION(NULL, "setcookie", NULL, 186, name, ZEPHIR_GLOBAL(global_null), &_4, path, domain, secure, httpOnly);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 

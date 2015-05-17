@@ -366,7 +366,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, save) {
 PHP_METHOD(Phalcon_Cache_Backend_Mongo, delete) {
 
 	zval *_2;
-	zephir_fcall_cache_entry *_1 = NULL, *_6 = NULL;
+	zephir_fcall_cache_entry *_1 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *keyName, *_0 = NULL, *_3, *_4, *_5 = NULL;
 
@@ -385,7 +385,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, delete) {
 	zephir_array_update_string(&_2, SL("key"), &_4, PH_COPY | PH_SEPARATE);
 	ZEPHIR_CALL_METHOD(NULL, _0, "remove", NULL, 0, _2);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&_5, "rand", &_6, 40);
+	ZEPHIR_CALL_FUNCTION(&_5, "rand", NULL, 40);
 	zephir_check_call_status();
 	if (zephir_safe_mod_long_long(zephir_get_intval(_5), 100 TSRMLS_CC) == 0) {
 		ZEPHIR_CALL_METHOD(NULL, this_ptr, "gc", NULL, 0);
@@ -677,7 +677,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, decrement) {
  */
 PHP_METHOD(Phalcon_Cache_Backend_Mongo, flush) {
 
-	zephir_fcall_cache_entry *_1 = NULL, *_3 = NULL;
+	zephir_fcall_cache_entry *_1 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *_0 = NULL, *_2 = NULL;
 
@@ -687,7 +687,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, flush) {
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(NULL, _0, "remove", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&_2, "rand", &_3, 40);
+	ZEPHIR_CALL_FUNCTION(&_2, "rand", NULL, 40);
 	zephir_check_call_status();
 	if (zephir_safe_mod_long_long(zephir_get_intval(_2), 100 TSRMLS_CC) == 0) {
 		ZEPHIR_CALL_METHOD(NULL, this_ptr, "gc", NULL, 0);

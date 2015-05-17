@@ -63,7 +63,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Validator_Uniqueness) {
 PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate) {
 
 	zend_class_entry *_16;
-	zephir_fcall_cache_entry *_5 = NULL, *_9 = NULL, *_18 = NULL;
+	zephir_fcall_cache_entry *_5 = NULL, *_9 = NULL;
 	HashTable *_2, *_12;
 	HashPosition _1, _11;
 	int number, ZEPHIR_LAST_CALL_STATUS;
@@ -279,7 +279,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate) {
 				ZVAL_STRING(message, "Value of field: ':field' is already present in another record", 1);
 			}
 		}
-		ZEPHIR_CALL_FUNCTION(&_8, "strtr", &_18, 68, message, replacePairs);
+		ZEPHIR_CALL_FUNCTION(&_8, "strtr", NULL, 73, message, replacePairs);
 		zephir_check_call_status();
 		ZEPHIR_INIT_NVAR(_17);
 		ZVAL_STRING(_17, "Unique", ZEPHIR_TEMP_PARAM_COPY);

@@ -188,7 +188,7 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, _loadTemplateEngines) {
 		if (Z_TYPE_P(registeredEngines) != IS_ARRAY) {
 			ZEPHIR_INIT_VAR(_0);
 			object_init_ex(_0, phalcon_mvc_view_engine_php_ce);
-			ZEPHIR_CALL_METHOD(NULL, _0, "__construct", &_1, 343, this_ptr, dependencyInjector);
+			ZEPHIR_CALL_METHOD(NULL, _0, "__construct", &_1, 348, this_ptr, dependencyInjector);
 			zephir_check_call_status();
 			zephir_array_update_string(&engines, SL(".phtml"), &_0, PH_COPY | PH_SEPARATE);
 		} else {
@@ -384,9 +384,9 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, _internalRender) {
  */
 PHP_METHOD(Phalcon_Mvc_View_Simple, render) {
 
-	zephir_fcall_cache_entry *_2 = NULL, *_3 = NULL, *_5 = NULL;
+	zephir_fcall_cache_entry *_2 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *path_param = NULL, *params = NULL, *cache = NULL, *key = NULL, *lifetime = NULL, *cacheOptions, *content = NULL, *viewParams, *mergedParams = NULL, *_0 = NULL, *_1, *_4 = NULL;
+	zval *path_param = NULL, *params = NULL, *cache = NULL, *key = NULL, *lifetime = NULL, *cacheOptions, *content = NULL, *viewParams, *mergedParams = NULL, *_0 = NULL, *_1, *_3 = NULL;
 	zval *path = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -441,7 +441,7 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, render) {
 	ZEPHIR_INIT_VAR(_1);
 	zephir_create_symbol_table(TSRMLS_C);
 	
-	ZEPHIR_CALL_FUNCTION(NULL, "ob_start", &_2, 49);
+	ZEPHIR_CALL_FUNCTION(NULL, "ob_start", NULL, 49);
 	zephir_check_call_status();
 	ZEPHIR_OBS_VAR(viewParams);
 	zephir_read_property_this(&viewParams, this_ptr, SL("_viewParams"), PH_NOISY_CC);
@@ -455,15 +455,15 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, render) {
 	} else {
 		ZEPHIR_CPY_WRT(mergedParams, viewParams);
 	}
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "_internalrender", &_3, 361, path, mergedParams);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "_internalrender", &_2, 366, path, mergedParams);
 	zephir_check_call_status();
 	if (Z_TYPE_P(cache) == IS_OBJECT) {
 		ZEPHIR_CALL_METHOD(&_0, cache, "isstarted", NULL, 0);
 		zephir_check_call_status();
 		if (ZEPHIR_IS_TRUE_IDENTICAL(_0)) {
-			ZEPHIR_CALL_METHOD(&_4, cache, "isfresh", NULL, 0);
+			ZEPHIR_CALL_METHOD(&_3, cache, "isfresh", NULL, 0);
 			zephir_check_call_status();
-			if (ZEPHIR_IS_TRUE_IDENTICAL(_4)) {
+			if (ZEPHIR_IS_TRUE_IDENTICAL(_3)) {
 				ZEPHIR_CALL_METHOD(NULL, cache, "save", NULL, 0);
 				zephir_check_call_status();
 			} else {
@@ -475,7 +475,7 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, render) {
 			zephir_check_call_status();
 		}
 	}
-	ZEPHIR_CALL_FUNCTION(NULL, "ob_end_clean", &_5, 51);
+	ZEPHIR_CALL_FUNCTION(NULL, "ob_end_clean", NULL, 51);
 	zephir_check_call_status();
 	RETURN_MM_MEMBER(this_ptr, "_content");
 
@@ -499,9 +499,9 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, render) {
  */
 PHP_METHOD(Phalcon_Mvc_View_Simple, partial) {
 
+	zephir_fcall_cache_entry *_1 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zephir_fcall_cache_entry *_0 = NULL, *_2 = NULL, *_3 = NULL;
-	zval *partialPath_param = NULL, *params = NULL, *viewParams, *mergedParams = NULL, *_1, *_4;
+	zval *partialPath_param = NULL, *params = NULL, *viewParams, *mergedParams = NULL, *_0, *_2;
 	zval *partialPath = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -523,7 +523,7 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, partial) {
 	}
 
 
-	ZEPHIR_CALL_FUNCTION(NULL, "ob_start", &_0, 49);
+	ZEPHIR_CALL_FUNCTION(NULL, "ob_start", NULL, 49);
 	zephir_check_call_status();
 	if (Z_TYPE_P(params) == IS_ARRAY) {
 		ZEPHIR_OBS_VAR(viewParams);
@@ -534,21 +534,21 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, partial) {
 		} else {
 			ZEPHIR_CPY_WRT(mergedParams, params);
 		}
-		ZEPHIR_INIT_VAR(_1);
+		ZEPHIR_INIT_VAR(_0);
 		zephir_create_symbol_table(TSRMLS_C);
 		
 	} else {
 		ZEPHIR_CPY_WRT(mergedParams, params);
 	}
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "_internalrender", &_2, 361, partialPath, mergedParams);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "_internalrender", &_1, 366, partialPath, mergedParams);
 	zephir_check_call_status();
 	if (Z_TYPE_P(params) == IS_ARRAY) {
 		zephir_update_property_this(this_ptr, SL("_viewParams"), viewParams TSRMLS_CC);
 	}
-	ZEPHIR_CALL_FUNCTION(NULL, "ob_end_clean", &_3, 51);
+	ZEPHIR_CALL_FUNCTION(NULL, "ob_end_clean", NULL, 51);
 	zephir_check_call_status();
-	_4 = zephir_fetch_nproperty_this(this_ptr, SL("_content"), PH_NOISY_CC);
-	zend_print_zval(_4, 0);
+	_2 = zephir_fetch_nproperty_this(this_ptr, SL("_content"), PH_NOISY_CC);
+	zend_print_zval(_2, 0);
 	ZEPHIR_MM_RESTORE();
 
 }

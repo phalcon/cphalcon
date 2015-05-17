@@ -318,7 +318,6 @@ PHP_METHOD(Phalcon_Cache_Backend_File, save) {
  */
 PHP_METHOD(Phalcon_Cache_Backend_File, delete) {
 
-	zephir_fcall_cache_entry *_3 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *keyName, *cacheFile, *cacheDir, *_0, *_1, *_2 = NULL;
 
@@ -339,7 +338,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, delete) {
 	ZEPHIR_INIT_VAR(cacheFile);
 	ZEPHIR_CONCAT_VVV(cacheFile, cacheDir, _1, _2);
 	if ((zephir_file_exists(cacheFile TSRMLS_CC) == SUCCESS)) {
-		ZEPHIR_RETURN_CALL_FUNCTION("unlink", &_3, 37, cacheFile);
+		ZEPHIR_RETURN_CALL_FUNCTION("unlink", NULL, 37, cacheFile);
 		zephir_check_call_status();
 		RETURN_MM();
 	}

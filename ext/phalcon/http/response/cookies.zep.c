@@ -180,30 +180,30 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, set) {
 		object_init_ex(cookie, phalcon_http_cookie_ce);
 		ZEPHIR_INIT_VAR(_1);
 		ZVAL_LONG(_1, expire);
-		ZEPHIR_CALL_METHOD(NULL, cookie, "__construct", &_2, 198, name, value, _1, path, secure, domain, httpOnly);
+		ZEPHIR_CALL_METHOD(NULL, cookie, "__construct", &_2, 203, name, value, _1, path, secure, domain, httpOnly);
 		zephir_check_call_status();
 		_3 = zephir_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
-		ZEPHIR_CALL_METHOD(NULL, cookie, "setdi", &_4, 199, _3);
+		ZEPHIR_CALL_METHOD(NULL, cookie, "setdi", &_4, 204, _3);
 		zephir_check_call_status();
 		if (zephir_is_true(encryption)) {
-			ZEPHIR_CALL_METHOD(NULL, cookie, "useencryption", &_5, 200, encryption);
+			ZEPHIR_CALL_METHOD(NULL, cookie, "useencryption", &_5, 205, encryption);
 			zephir_check_call_status();
 		}
 		zephir_update_property_array(this_ptr, SL("_cookies"), name, cookie TSRMLS_CC);
 	} else {
-		ZEPHIR_CALL_METHOD(NULL, cookie, "setvalue", &_6, 201, value);
+		ZEPHIR_CALL_METHOD(NULL, cookie, "setvalue", &_6, 206, value);
 		zephir_check_call_status();
 		ZEPHIR_INIT_NVAR(_1);
 		ZVAL_LONG(_1, expire);
-		ZEPHIR_CALL_METHOD(NULL, cookie, "setexpiration", &_7, 202, _1);
+		ZEPHIR_CALL_METHOD(NULL, cookie, "setexpiration", &_7, 207, _1);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(NULL, cookie, "setpath", &_8, 203, path);
+		ZEPHIR_CALL_METHOD(NULL, cookie, "setpath", &_8, 208, path);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(NULL, cookie, "setsecure", &_9, 204, secure);
+		ZEPHIR_CALL_METHOD(NULL, cookie, "setsecure", &_9, 209, secure);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(NULL, cookie, "setdomain", &_10, 205, domain);
+		ZEPHIR_CALL_METHOD(NULL, cookie, "setdomain", &_10, 210, domain);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(NULL, cookie, "sethttponly", &_11, 206, httpOnly);
+		ZEPHIR_CALL_METHOD(NULL, cookie, "sethttponly", &_11, 211, httpOnly);
 		zephir_check_call_status();
 	}
 	_3 = zephir_fetch_nproperty_this(this_ptr, SL("_registered"), PH_NOISY_CC);
@@ -259,17 +259,17 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, get) {
 	}
 	ZEPHIR_INIT_NVAR(cookie);
 	object_init_ex(cookie, phalcon_http_cookie_ce);
-	ZEPHIR_CALL_METHOD(NULL, cookie, "__construct", &_1, 198, name);
+	ZEPHIR_CALL_METHOD(NULL, cookie, "__construct", &_1, 203, name);
 	zephir_check_call_status();
 	ZEPHIR_OBS_VAR(dependencyInjector);
 	zephir_read_property_this(&dependencyInjector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	if (Z_TYPE_P(dependencyInjector) == IS_OBJECT) {
-		ZEPHIR_CALL_METHOD(NULL, cookie, "setdi", &_2, 199, dependencyInjector);
+		ZEPHIR_CALL_METHOD(NULL, cookie, "setdi", &_2, 204, dependencyInjector);
 		zephir_check_call_status();
 		ZEPHIR_OBS_VAR(encryption);
 		zephir_read_property_this(&encryption, this_ptr, SL("_useEncryption"), PH_NOISY_CC);
 		if (zephir_is_true(encryption)) {
-			ZEPHIR_CALL_METHOD(NULL, cookie, "useencryption", &_3, 200, encryption);
+			ZEPHIR_CALL_METHOD(NULL, cookie, "useencryption", &_3, 205, encryption);
 			zephir_check_call_status();
 		}
 	}
@@ -357,24 +357,23 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, delete) {
  */
 PHP_METHOD(Phalcon_Http_Response_Cookies, send) {
 
-	HashTable *_4;
-	HashPosition _3;
+	HashTable *_3;
+	HashPosition _2;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zephir_fcall_cache_entry *_1 = NULL;
-	zval *cookie = NULL, *_0 = NULL, *_2, **_5;
+	zval *cookie = NULL, *_0 = NULL, *_1, **_4;
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_CALL_FUNCTION(&_0, "headers_sent", &_1, 207);
+	ZEPHIR_CALL_FUNCTION(&_0, "headers_sent", NULL, 212);
 	zephir_check_call_status();
 	if (!(zephir_is_true(_0))) {
-		_2 = zephir_fetch_nproperty_this(this_ptr, SL("_cookies"), PH_NOISY_CC);
-		zephir_is_iterable(_2, &_4, &_3, 0, 0, "phalcon/http/response/cookies.zep", 243);
+		_1 = zephir_fetch_nproperty_this(this_ptr, SL("_cookies"), PH_NOISY_CC);
+		zephir_is_iterable(_1, &_3, &_2, 0, 0, "phalcon/http/response/cookies.zep", 243);
 		for (
-		  ; zephir_hash_get_current_data_ex(_4, (void**) &_5, &_3) == SUCCESS
-		  ; zephir_hash_move_forward_ex(_4, &_3)
+		  ; zephir_hash_get_current_data_ex(_3, (void**) &_4, &_2) == SUCCESS
+		  ; zephir_hash_move_forward_ex(_3, &_2)
 		) {
-			ZEPHIR_GET_HVALUE(cookie, _5);
+			ZEPHIR_GET_HVALUE(cookie, _4);
 			ZEPHIR_CALL_METHOD(NULL, cookie, "send", NULL, 0);
 			zephir_check_call_status();
 		}

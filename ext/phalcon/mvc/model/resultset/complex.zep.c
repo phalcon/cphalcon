@@ -292,7 +292,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, toArray) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, serialize) {
 
-	zephir_fcall_cache_entry *_1 = NULL;
 	zval *_0;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *records = NULL, *cache, *columnTypes, *hydrateMode, *serialized = NULL;
@@ -313,7 +312,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, serialize) {
 	zephir_array_update_string(&_0, SL("rows"), &records, PH_COPY | PH_SEPARATE);
 	zephir_array_update_string(&_0, SL("columnTypes"), &columnTypes, PH_COPY | PH_SEPARATE);
 	zephir_array_update_string(&_0, SL("hydrateMode"), &hydrateMode, PH_COPY | PH_SEPARATE);
-	ZEPHIR_CALL_FUNCTION(&serialized, "serialize", &_1, 11, _0);
+	ZEPHIR_CALL_FUNCTION(&serialized, "serialize", NULL, 11, _0);
 	zephir_check_call_status();
 	if (Z_TYPE_P(serialized) != IS_STRING) {
 		RETURN_MM_NULL();
@@ -328,8 +327,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, serialize) {
 PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, unserialize) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zephir_fcall_cache_entry *_1 = NULL;
-	zval *data_param = NULL, *resultset = NULL, *_0, *_2, *_3, *_4, *_5;
+	zval *data_param = NULL, *resultset = NULL, *_0, *_1, *_2, *_3, *_4;
 	zval *data = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -351,20 +349,20 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, unserialize) {
 	ZEPHIR_INIT_ZVAL_NREF(_0);
 	ZVAL_LONG(_0, 0);
 	zephir_update_property_this(this_ptr, SL("_type"), _0 TSRMLS_CC);
-	ZEPHIR_CALL_FUNCTION(&resultset, "unserialize", &_1, 10, data);
+	ZEPHIR_CALL_FUNCTION(&resultset, "unserialize", NULL, 10, data);
 	zephir_check_call_status();
 	if (Z_TYPE_P(resultset) != IS_ARRAY) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "Invalid serialization data", "phalcon/mvc/model/resultset/complex.zep", 340);
 		return;
 	}
-	zephir_array_fetch_string(&_2, resultset, SL("rows"), PH_NOISY | PH_READONLY, "phalcon/mvc/model/resultset/complex.zep", 343 TSRMLS_CC);
-	zephir_update_property_this(this_ptr, SL("_rows"), _2 TSRMLS_CC);
-	zephir_array_fetch_string(&_3, resultset, SL("cache"), PH_NOISY | PH_READONLY, "phalcon/mvc/model/resultset/complex.zep", 344 TSRMLS_CC);
-	zephir_update_property_this(this_ptr, SL("_cache"), _3 TSRMLS_CC);
-	zephir_array_fetch_string(&_4, resultset, SL("columnTypes"), PH_NOISY | PH_READONLY, "phalcon/mvc/model/resultset/complex.zep", 345 TSRMLS_CC);
-	zephir_update_property_this(this_ptr, SL("_columnTypes"), _4 TSRMLS_CC);
-	zephir_array_fetch_string(&_5, resultset, SL("hydrateMode"), PH_NOISY | PH_READONLY, "phalcon/mvc/model/resultset/complex.zep", 346 TSRMLS_CC);
-	zephir_update_property_this(this_ptr, SL("_hydrateMode"), _5 TSRMLS_CC);
+	zephir_array_fetch_string(&_1, resultset, SL("rows"), PH_NOISY | PH_READONLY, "phalcon/mvc/model/resultset/complex.zep", 343 TSRMLS_CC);
+	zephir_update_property_this(this_ptr, SL("_rows"), _1 TSRMLS_CC);
+	zephir_array_fetch_string(&_2, resultset, SL("cache"), PH_NOISY | PH_READONLY, "phalcon/mvc/model/resultset/complex.zep", 344 TSRMLS_CC);
+	zephir_update_property_this(this_ptr, SL("_cache"), _2 TSRMLS_CC);
+	zephir_array_fetch_string(&_3, resultset, SL("columnTypes"), PH_NOISY | PH_READONLY, "phalcon/mvc/model/resultset/complex.zep", 345 TSRMLS_CC);
+	zephir_update_property_this(this_ptr, SL("_columnTypes"), _3 TSRMLS_CC);
+	zephir_array_fetch_string(&_4, resultset, SL("hydrateMode"), PH_NOISY | PH_READONLY, "phalcon/mvc/model/resultset/complex.zep", 346 TSRMLS_CC);
+	zephir_update_property_this(this_ptr, SL("_hydrateMode"), _4 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 
 }

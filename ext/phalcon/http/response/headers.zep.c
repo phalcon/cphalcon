@@ -119,32 +119,32 @@ PHP_METHOD(Phalcon_Http_Response_Headers, remove) {
  */
 PHP_METHOD(Phalcon_Http_Response_Headers, send) {
 
-	HashTable *_4;
-	HashPosition _3;
+	zephir_fcall_cache_entry *_6 = NULL;
+	HashTable *_3;
+	HashPosition _2;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zephir_fcall_cache_entry *_1 = NULL, *_7 = NULL;
-	zval *header = NULL, *value = NULL, *_0 = NULL, *_2, **_5, *_6 = NULL;
+	zval *header = NULL, *value = NULL, *_0 = NULL, *_1, **_4, *_5 = NULL;
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_CALL_FUNCTION(&_0, "headers_sent", &_1, 207);
+	ZEPHIR_CALL_FUNCTION(&_0, "headers_sent", NULL, 212);
 	zephir_check_call_status();
 	if (!(zephir_is_true(_0))) {
-		_2 = zephir_fetch_nproperty_this(this_ptr, SL("_headers"), PH_NOISY_CC);
-		zephir_is_iterable(_2, &_4, &_3, 0, 0, "phalcon/http/response/headers.zep", 98);
+		_1 = zephir_fetch_nproperty_this(this_ptr, SL("_headers"), PH_NOISY_CC);
+		zephir_is_iterable(_1, &_3, &_2, 0, 0, "phalcon/http/response/headers.zep", 98);
 		for (
-		  ; zephir_hash_get_current_data_ex(_4, (void**) &_5, &_3) == SUCCESS
-		  ; zephir_hash_move_forward_ex(_4, &_3)
+		  ; zephir_hash_get_current_data_ex(_3, (void**) &_4, &_2) == SUCCESS
+		  ; zephir_hash_move_forward_ex(_3, &_2)
 		) {
-			ZEPHIR_GET_HMKEY(header, _4, _3);
-			ZEPHIR_GET_HVALUE(value, _5);
+			ZEPHIR_GET_HMKEY(header, _3, _2);
+			ZEPHIR_GET_HVALUE(value, _4);
 			if (!(ZEPHIR_IS_EMPTY(value))) {
-				ZEPHIR_INIT_LNVAR(_6);
-				ZEPHIR_CONCAT_VSV(_6, header, ": ", value);
-				ZEPHIR_CALL_FUNCTION(NULL, "header", &_7, 208, _6, ZEPHIR_GLOBAL(global_true));
+				ZEPHIR_INIT_LNVAR(_5);
+				ZEPHIR_CONCAT_VSV(_5, header, ": ", value);
+				ZEPHIR_CALL_FUNCTION(NULL, "header", &_6, 213, _5, ZEPHIR_GLOBAL(global_true));
 				zephir_check_call_status();
 			} else {
-				ZEPHIR_CALL_FUNCTION(NULL, "header", &_7, 208, header, ZEPHIR_GLOBAL(global_true));
+				ZEPHIR_CALL_FUNCTION(NULL, "header", &_6, 213, header, ZEPHIR_GLOBAL(global_true));
 				zephir_check_call_status();
 			}
 		}
@@ -201,7 +201,7 @@ PHP_METHOD(Phalcon_Http_Response_Headers, __set_state) {
 
 	ZEPHIR_INIT_VAR(headers);
 	object_init_ex(headers, phalcon_http_response_headers_ce);
-	ZEPHIR_CALL_METHOD(NULL, headers, "__construct", &_0, 209);
+	ZEPHIR_CALL_METHOD(NULL, headers, "__construct", &_0, 214);
 	zephir_check_call_status();
 	ZEPHIR_OBS_VAR(dataHeaders);
 	if (zephir_array_isset_string_fetch(&dataHeaders, data, SS("_headers"), 0 TSRMLS_CC)) {
