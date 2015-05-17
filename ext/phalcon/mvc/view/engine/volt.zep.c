@@ -321,7 +321,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, convertEncoding) {
  */
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, slice) {
 
-	zephir_fcall_cache_entry *_3 = NULL, *_4 = NULL;
+	zephir_fcall_cache_entry *_3 = NULL, *_4 = NULL, *_6 = NULL;
 	zend_bool _1;
 	int start, position, ZEPHIR_LAST_CALL_STATUS;
 	zval *value, *start_param = NULL, *end = NULL, *length, *slice, *_0 = NULL, *_2 = NULL, _5 = zval_used_for_init;
@@ -389,13 +389,13 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, slice) {
 		if (Z_TYPE_P(length) != IS_NULL) {
 			ZEPHIR_SINIT_NVAR(_5);
 			ZVAL_LONG(&_5, start);
-			ZEPHIR_RETURN_CALL_FUNCTION("mb_substr", NULL, 358, value, &_5, length);
+			ZEPHIR_RETURN_CALL_FUNCTION("mb_substr", &_6, 358, value, &_5, length);
 			zephir_check_call_status();
 			RETURN_MM();
 		}
 		ZEPHIR_SINIT_NVAR(_5);
 		ZVAL_LONG(&_5, start);
-		ZEPHIR_RETURN_CALL_FUNCTION("mb_substr", NULL, 358, value, &_5);
+		ZEPHIR_RETURN_CALL_FUNCTION("mb_substr", &_6, 358, value, &_5);
 		zephir_check_call_status();
 		RETURN_MM();
 	}

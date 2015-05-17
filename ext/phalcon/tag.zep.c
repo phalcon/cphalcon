@@ -2141,11 +2141,12 @@ PHP_METHOD(Phalcon_Tag, image) {
  */
 PHP_METHOD(Phalcon_Tag, friendlyTitle) {
 
-	HashTable *_6;
-	HashPosition _5;
+	HashTable *_8;
+	HashPosition _7;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zend_bool lowercase, _4;
-	zval *text_param = NULL, *separator_param = NULL, *lowercase_param = NULL, *replace = NULL, *friendly = NULL, *locale = NULL, *search = NULL, _0 = zval_used_for_init, *_1 = NULL, _2 = zval_used_for_init, *_3 = NULL, **_7, *_8 = NULL, *_9 = NULL, *_10;
+	zephir_fcall_cache_entry *_2 = NULL, *_4 = NULL, *_13 = NULL;
+	zend_bool lowercase, _6;
+	zval *text_param = NULL, *separator_param = NULL, *lowercase_param = NULL, *replace = NULL, *friendly = NULL, *locale = NULL, *search = NULL, _0 = zval_used_for_init, *_1 = NULL, _3 = zval_used_for_init, *_5 = NULL, **_9, *_10 = NULL, *_11 = NULL, *_12;
 	zval *text = NULL, *separator = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -2170,83 +2171,83 @@ PHP_METHOD(Phalcon_Tag, friendlyTitle) {
 
 	ZEPHIR_SINIT_VAR(_0);
 	ZVAL_STRING(&_0, "iconv", 0);
-	ZEPHIR_CALL_FUNCTION(&_1, "extension_loaded", NULL, 63, &_0);
+	ZEPHIR_CALL_FUNCTION(&_1, "extension_loaded", &_2, 63, &_0);
 	zephir_check_call_status();
 	if (zephir_is_true(_1)) {
 		ZEPHIR_SINIT_NVAR(_0);
 		ZVAL_LONG(&_0, 0);
-		ZEPHIR_SINIT_VAR(_2);
-		ZVAL_STRING(&_2, "en_US.UTF-8", 0);
-		ZEPHIR_CALL_FUNCTION(&locale, "setlocale", NULL, 398, &_0, &_2);
+		ZEPHIR_SINIT_VAR(_3);
+		ZVAL_STRING(&_3, "en_US.UTF-8", 0);
+		ZEPHIR_CALL_FUNCTION(&locale, "setlocale", &_4, 398, &_0, &_3);
 		zephir_check_call_status();
 		ZEPHIR_SINIT_NVAR(_0);
 		ZVAL_STRING(&_0, "UTF-8", 0);
-		ZEPHIR_SINIT_NVAR(_2);
-		ZVAL_STRING(&_2, "ASCII//TRANSLIT", 0);
-		ZEPHIR_CALL_FUNCTION(&_3, "iconv", NULL, 356, &_0, &_2, text);
+		ZEPHIR_SINIT_NVAR(_3);
+		ZVAL_STRING(&_3, "ASCII//TRANSLIT", 0);
+		ZEPHIR_CALL_FUNCTION(&_5, "iconv", NULL, 356, &_0, &_3, text);
 		zephir_check_call_status();
-		zephir_get_strval(text, _3);
+		zephir_get_strval(text, _5);
 	}
 	if (zephir_is_true(replace)) {
-		_4 = Z_TYPE_P(replace) != IS_ARRAY;
-		if (_4) {
-			_4 = Z_TYPE_P(replace) != IS_STRING;
+		_6 = Z_TYPE_P(replace) != IS_ARRAY;
+		if (_6) {
+			_6 = Z_TYPE_P(replace) != IS_STRING;
 		}
-		if (_4) {
+		if (_6) {
 			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_tag_exception_ce, "Parameter replace must be an array or a string", "phalcon/tag.zep", 1344);
 			return;
 		}
 		if (Z_TYPE_P(replace) == IS_ARRAY) {
-			zephir_is_iterable(replace, &_6, &_5, 0, 0, "phalcon/tag.zep", 1350);
+			zephir_is_iterable(replace, &_8, &_7, 0, 0, "phalcon/tag.zep", 1350);
 			for (
-			  ; zephir_hash_get_current_data_ex(_6, (void**) &_7, &_5) == SUCCESS
-			  ; zephir_hash_move_forward_ex(_6, &_5)
+			  ; zephir_hash_get_current_data_ex(_8, (void**) &_9, &_7) == SUCCESS
+			  ; zephir_hash_move_forward_ex(_8, &_7)
 			) {
-				ZEPHIR_GET_HVALUE(search, _7);
-				ZEPHIR_INIT_NVAR(_8);
+				ZEPHIR_GET_HVALUE(search, _9);
+				ZEPHIR_INIT_NVAR(_10);
 				ZEPHIR_SINIT_NVAR(_0);
 				ZVAL_STRING(&_0, " ", 0);
-				zephir_fast_str_replace(&_8, search, &_0, text TSRMLS_CC);
-				zephir_get_strval(text, _8);
+				zephir_fast_str_replace(&_10, search, &_0, text TSRMLS_CC);
+				zephir_get_strval(text, _10);
 			}
 		} else {
-			ZEPHIR_INIT_NVAR(_8);
-			ZEPHIR_SINIT_NVAR(_2);
-			ZVAL_STRING(&_2, " ", 0);
-			zephir_fast_str_replace(&_8, replace, &_2, text TSRMLS_CC);
-			zephir_get_strval(text, _8);
+			ZEPHIR_INIT_NVAR(_10);
+			ZEPHIR_SINIT_NVAR(_3);
+			ZVAL_STRING(&_3, " ", 0);
+			zephir_fast_str_replace(&_10, replace, &_3, text TSRMLS_CC);
+			zephir_get_strval(text, _10);
 		}
 	}
-	ZEPHIR_INIT_VAR(_9);
-	ZVAL_STRING(_9, "/[^a-zA-Z0-9\\/_|+ -]/", ZEPHIR_TEMP_PARAM_COPY);
-	ZEPHIR_INIT_VAR(_10);
-	ZVAL_STRING(_10, "", ZEPHIR_TEMP_PARAM_COPY);
-	ZEPHIR_CALL_FUNCTION(&friendly, "preg_replace", NULL, 80, _9, _10, text);
-	zephir_check_temp_parameter(_9);
-	zephir_check_temp_parameter(_10);
+	ZEPHIR_INIT_VAR(_11);
+	ZVAL_STRING(_11, "/[^a-zA-Z0-9\\/_|+ -]/", ZEPHIR_TEMP_PARAM_COPY);
+	ZEPHIR_INIT_VAR(_12);
+	ZVAL_STRING(_12, "", ZEPHIR_TEMP_PARAM_COPY);
+	ZEPHIR_CALL_FUNCTION(&friendly, "preg_replace", &_13, 80, _11, _12, text);
+	zephir_check_temp_parameter(_11);
+	zephir_check_temp_parameter(_12);
 	zephir_check_call_status();
 	if (lowercase) {
-		ZEPHIR_INIT_NVAR(_9);
-		zephir_fast_strtolower(_9, friendly);
-		ZEPHIR_CPY_WRT(friendly, _9);
+		ZEPHIR_INIT_NVAR(_11);
+		zephir_fast_strtolower(_11, friendly);
+		ZEPHIR_CPY_WRT(friendly, _11);
 	}
-	ZEPHIR_INIT_NVAR(_9);
-	ZVAL_STRING(_9, "/[\\/_|+ -]+/", ZEPHIR_TEMP_PARAM_COPY);
-	ZEPHIR_CALL_FUNCTION(&_3, "preg_replace", NULL, 80, _9, separator, friendly);
-	zephir_check_temp_parameter(_9);
+	ZEPHIR_INIT_NVAR(_11);
+	ZVAL_STRING(_11, "/[\\/_|+ -]+/", ZEPHIR_TEMP_PARAM_COPY);
+	ZEPHIR_CALL_FUNCTION(&_5, "preg_replace", &_13, 80, _11, separator, friendly);
+	zephir_check_temp_parameter(_11);
 	zephir_check_call_status();
-	ZEPHIR_CPY_WRT(friendly, _3);
-	ZEPHIR_INIT_NVAR(_9);
-	zephir_fast_trim(_9, friendly, separator, ZEPHIR_TRIM_BOTH TSRMLS_CC);
-	ZEPHIR_CPY_WRT(friendly, _9);
-	ZEPHIR_SINIT_NVAR(_2);
-	ZVAL_STRING(&_2, "iconv", 0);
-	ZEPHIR_CALL_FUNCTION(&_3, "extension_loaded", NULL, 63, &_2);
+	ZEPHIR_CPY_WRT(friendly, _5);
+	ZEPHIR_INIT_NVAR(_11);
+	zephir_fast_trim(_11, friendly, separator, ZEPHIR_TRIM_BOTH TSRMLS_CC);
+	ZEPHIR_CPY_WRT(friendly, _11);
+	ZEPHIR_SINIT_NVAR(_3);
+	ZVAL_STRING(&_3, "iconv", 0);
+	ZEPHIR_CALL_FUNCTION(&_5, "extension_loaded", &_2, 63, &_3);
 	zephir_check_call_status();
-	if (zephir_is_true(_3)) {
-		ZEPHIR_SINIT_NVAR(_2);
-		ZVAL_LONG(&_2, 0);
-		ZEPHIR_CALL_FUNCTION(NULL, "setlocale", NULL, 398, &_2, locale);
+	if (zephir_is_true(_5)) {
+		ZEPHIR_SINIT_NVAR(_3);
+		ZVAL_LONG(&_3, 0);
+		ZEPHIR_CALL_FUNCTION(NULL, "setlocale", &_4, 398, &_3, locale);
 		zephir_check_call_status();
 	}
 	RETURN_CCTOR(friendly);

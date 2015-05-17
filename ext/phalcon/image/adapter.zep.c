@@ -141,9 +141,10 @@ PHP_METHOD(Phalcon_Image_Adapter, getMime) {
  */
 PHP_METHOD(Phalcon_Image_Adapter, resize) {
 
+	zephir_fcall_cache_entry *_12 = NULL;
 	zend_bool _0, _4;
 	double ratio;
-	zval *width_param = NULL, *height_param = NULL, *master_param = NULL, *_1 = NULL, *_2, *_3, *_5, *_6, *_7 = NULL, *_8, _9, *_10 = NULL, *_11 = NULL, _12, *_13 = NULL, *_14 = NULL, *_15;
+	zval *width_param = NULL, *height_param = NULL, *master_param = NULL, *_1 = NULL, *_2, *_3, *_5, *_6, *_7 = NULL, *_8, _9, *_10 = NULL, *_11 = NULL, _13, *_14 = NULL, *_15 = NULL, *_16;
 	int width, height, master, ZEPHIR_LAST_CALL_STATUS;
 
 	ZEPHIR_MM_GROW();
@@ -286,23 +287,23 @@ PHP_METHOD(Phalcon_Image_Adapter, resize) {
 	zephir_round(_8, &_9, NULL, NULL TSRMLS_CC);
 	ZEPHIR_INIT_VAR(_10);
 	ZVAL_LONG(_10, 1);
-	ZEPHIR_CALL_FUNCTION(&_11, "max", NULL, 215, _8, _10);
+	ZEPHIR_CALL_FUNCTION(&_11, "max", &_12, 215, _8, _10);
 	zephir_check_call_status();
 	width = zephir_get_intval(_11);
 	ZEPHIR_INIT_NVAR(_10);
-	ZEPHIR_SINIT_VAR(_12);
-	ZVAL_LONG(&_12, height);
-	zephir_round(_10, &_12, NULL, NULL TSRMLS_CC);
-	ZEPHIR_INIT_VAR(_13);
-	ZVAL_LONG(_13, 1);
-	ZEPHIR_CALL_FUNCTION(&_14, "max", NULL, 215, _10, _13);
+	ZEPHIR_SINIT_VAR(_13);
+	ZVAL_LONG(&_13, height);
+	zephir_round(_10, &_13, NULL, NULL TSRMLS_CC);
+	ZEPHIR_INIT_VAR(_14);
+	ZVAL_LONG(_14, 1);
+	ZEPHIR_CALL_FUNCTION(&_15, "max", &_12, 215, _10, _14);
 	zephir_check_call_status();
-	height = zephir_get_intval(_14);
-	ZEPHIR_INIT_NVAR(_13);
-	ZVAL_LONG(_13, width);
-	ZEPHIR_INIT_VAR(_15);
-	ZVAL_LONG(_15, height);
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "_resize", NULL, 0, _13, _15);
+	height = zephir_get_intval(_15);
+	ZEPHIR_INIT_NVAR(_14);
+	ZVAL_LONG(_14, width);
+	ZEPHIR_INIT_VAR(_16);
+	ZVAL_LONG(_16, height);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "_resize", NULL, 0, _14, _16);
 	zephir_check_call_status();
 	RETURN_THIS();
 

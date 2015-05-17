@@ -59,10 +59,10 @@ ZEPHIR_INIT_CLASS(Phalcon_Config_Adapter_Yaml) {
  */
 PHP_METHOD(Phalcon_Config_Adapter_Yaml, __construct) {
 
-	zephir_fcall_cache_entry *_5 = NULL, *_6 = NULL;
+	zephir_fcall_cache_entry *_4 = NULL, *_6 = NULL, *_7 = NULL;
 	int ndocs = 0, ZEPHIR_LAST_CALL_STATUS;
 	zval *callbacks = NULL;
-	zval *filePath_param = NULL, *callbacks_param = NULL, *yamlConfig = NULL, _0, *_1 = NULL, *_2 = NULL, *_3 = NULL, *_4;
+	zval *filePath_param = NULL, *callbacks_param = NULL, *yamlConfig = NULL, _0, *_1 = NULL, *_2 = NULL, *_3 = NULL, *_5;
 	zval *filePath = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -102,11 +102,11 @@ PHP_METHOD(Phalcon_Config_Adapter_Yaml, __construct) {
 		ZEPHIR_INIT_VAR(_3);
 		ZVAL_LONG(_3, ndocs);
 		Z_SET_ISREF_P(_3);
-		ZEPHIR_CALL_FUNCTION(&yamlConfig, "yaml_parse_file", NULL, 64, filePath, _2, _3, callbacks);
+		ZEPHIR_CALL_FUNCTION(&yamlConfig, "yaml_parse_file", &_4, 64, filePath, _2, _3, callbacks);
 		Z_UNSET_ISREF_P(_3);
 		zephir_check_call_status();
 	} else {
-		ZEPHIR_CALL_FUNCTION(&yamlConfig, "yaml_parse_file", NULL, 64, filePath);
+		ZEPHIR_CALL_FUNCTION(&yamlConfig, "yaml_parse_file", &_4, 64, filePath);
 		zephir_check_call_status();
 	}
 	if (ZEPHIR_IS_FALSE_IDENTICAL(yamlConfig)) {
@@ -114,15 +114,15 @@ PHP_METHOD(Phalcon_Config_Adapter_Yaml, __construct) {
 		object_init_ex(_2, phalcon_config_exception_ce);
 		ZEPHIR_INIT_NVAR(_3);
 		zephir_basename(_3, filePath TSRMLS_CC);
-		ZEPHIR_INIT_VAR(_4);
-		ZEPHIR_CONCAT_SVS(_4, "Configuration file ", _3, " can't be loaded");
-		ZEPHIR_CALL_METHOD(NULL, _2, "__construct", &_5, 2, _4);
+		ZEPHIR_INIT_VAR(_5);
+		ZEPHIR_CONCAT_SVS(_5, "Configuration file ", _3, " can't be loaded");
+		ZEPHIR_CALL_METHOD(NULL, _2, "__construct", &_6, 2, _5);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(_2, "phalcon/config/adapter/yaml.zep", 72 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	ZEPHIR_CALL_PARENT(NULL, phalcon_config_adapter_yaml_ce, this_ptr, "__construct", &_6, 58, yamlConfig);
+	ZEPHIR_CALL_PARENT(NULL, phalcon_config_adapter_yaml_ce, this_ptr, "__construct", &_7, 58, yamlConfig);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 

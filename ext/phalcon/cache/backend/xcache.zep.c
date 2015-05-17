@@ -143,6 +143,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Xcache, get) {
  */
 PHP_METHOD(Phalcon_Cache_Backend_Xcache, save) {
 
+	zephir_fcall_cache_entry *_1 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zend_bool stopBuffer;
 	zval *keyName = NULL, *content = NULL, *lifetime = NULL, *stopBuffer_param = NULL, *lastKey = NULL, *frontend, *cachedContent = NULL, *preparedContent = NULL, *tmp, *tt1 = NULL, *success = NULL, *isBuffering = NULL, *options, *keys = NULL, *specialKey, *_0;
@@ -203,10 +204,10 @@ PHP_METHOD(Phalcon_Cache_Backend_Xcache, save) {
 		ZEPHIR_CPY_WRT(tt1, lifetime);
 	}
 	if (zephir_is_numeric(cachedContent)) {
-		ZEPHIR_CALL_FUNCTION(&success, "xcache_set", NULL, 12, lastKey, cachedContent, tt1);
+		ZEPHIR_CALL_FUNCTION(&success, "xcache_set", &_1, 12, lastKey, cachedContent, tt1);
 		zephir_check_call_status();
 	} else {
-		ZEPHIR_CALL_FUNCTION(&success, "xcache_set", NULL, 12, lastKey, preparedContent, tt1);
+		ZEPHIR_CALL_FUNCTION(&success, "xcache_set", &_1, 12, lastKey, preparedContent, tt1);
 		zephir_check_call_status();
 	}
 	ZEPHIR_CALL_METHOD(&isBuffering, frontend, "isbuffering", NULL, 0);
@@ -235,7 +236,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Xcache, save) {
 			array_init(keys);
 		}
 		zephir_array_update_zval(&keys, lastKey, &tt1, PH_COPY | PH_SEPARATE);
-		ZEPHIR_CALL_FUNCTION(NULL, "xcache_set", NULL, 12, specialKey, keys);
+		ZEPHIR_CALL_FUNCTION(NULL, "xcache_set", &_1, 12, specialKey, keys);
 		zephir_check_call_status();
 	}
 	ZEPHIR_MM_RESTORE();
