@@ -113,7 +113,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_NativeArray, getPaginate) {
 	number = zephir_fast_count_int(items TSRMLS_CC);
 	ZEPHIR_SINIT_VAR(_2);
 	ZVAL_LONG(&_2, show);
-	ZEPHIR_CALL_FUNCTION(&_3, "floatval", &_4, 214, &_2);
+	ZEPHIR_CALL_FUNCTION(&_3, "floatval", &_4, 283, &_2);
 	zephir_check_call_status();
 	roundedTotal = zephir_safe_div_long_zval(number, _3 TSRMLS_CC);
 	totalPages = (int) (roundedTotal);
@@ -124,7 +124,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_NativeArray, getPaginate) {
 	ZVAL_LONG(&_2, (show * ((pageNumber - 1))));
 	ZEPHIR_SINIT_VAR(_5);
 	ZVAL_LONG(&_5, show);
-	ZEPHIR_CALL_FUNCTION(&_6, "array_slice", &_7, 278, items, &_2, &_5);
+	ZEPHIR_CALL_FUNCTION(&_6, "array_slice", &_7, 352, items, &_2, &_5);
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(items, _6);
 	if (pageNumber < totalPages) {

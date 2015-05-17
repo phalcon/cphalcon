@@ -199,10 +199,10 @@ PHP_METHOD(Phalcon_Filter, sanitize) {
  */
 PHP_METHOD(Phalcon_Filter, _sanitize) {
 
-	zephir_fcall_cache_entry *_7 = NULL, *_8 = NULL, *_9 = NULL, *_11 = NULL, *_12 = NULL, *_14 = NULL;
+	zephir_fcall_cache_entry *_7 = NULL, *_8 = NULL, *_9 = NULL, *_11 = NULL, *_12 = NULL, *_13 = NULL, *_14 = NULL, *_16 = NULL;
 	zval *_1 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *filter = NULL, *_13;
+	zval *filter = NULL, *_15;
 	zval *value, *filter_param = NULL, *filterObject, *_0, *_2 = NULL, _3 = zval_used_for_init, _4, _5, *_6 = NULL, *_10;
 
 	ZEPHIR_MM_GROW();
@@ -246,16 +246,16 @@ PHP_METHOD(Phalcon_Filter, _sanitize) {
 			zephir_fast_str_replace(&_2, &_3, &_4, value TSRMLS_CC);
 			ZEPHIR_SINIT_VAR(_5);
 			ZVAL_STRING(&_5, "FILTER_SANITIZE_EMAIL", 0);
-			ZEPHIR_CALL_FUNCTION(&_6, "constant", &_7, 136, &_5);
+			ZEPHIR_CALL_FUNCTION(&_6, "constant", &_7, 155, &_5);
 			zephir_check_call_status();
-			ZEPHIR_RETURN_CALL_FUNCTION("filter_var", &_8, 0, _2, _6);
+			ZEPHIR_RETURN_CALL_FUNCTION("filter_var", &_8, 156, _2, _6);
 			zephir_check_call_status();
 			RETURN_MM();
 		}
 		if (ZEPHIR_IS_STRING(filter, "int")) {
 			ZEPHIR_SINIT_NVAR(_3);
 			ZVAL_LONG(&_3, 519);
-			ZEPHIR_RETURN_CALL_FUNCTION("filter_var", &_8, 0, value, &_3);
+			ZEPHIR_RETURN_CALL_FUNCTION("filter_var", &_8, 156, value, &_3);
 			zephir_check_call_status();
 			RETURN_MM();
 		}
@@ -265,14 +265,14 @@ PHP_METHOD(Phalcon_Filter, _sanitize) {
 		if (ZEPHIR_IS_STRING(filter, "absint")) {
 			ZEPHIR_SINIT_NVAR(_3);
 			ZVAL_LONG(&_3, zephir_get_intval(value));
-			ZEPHIR_RETURN_CALL_FUNCTION("abs", &_9, 137, &_3);
+			ZEPHIR_RETURN_CALL_FUNCTION("abs", &_9, 157, &_3);
 			zephir_check_call_status();
 			RETURN_MM();
 		}
 		if (ZEPHIR_IS_STRING(filter, "string")) {
 			ZEPHIR_SINIT_NVAR(_3);
 			ZVAL_LONG(&_3, 513);
-			ZEPHIR_RETURN_CALL_FUNCTION("filter_var", &_8, 0, value, &_3);
+			ZEPHIR_RETURN_CALL_FUNCTION("filter_var", &_8, 156, value, &_3);
 			zephir_check_call_status();
 			RETURN_MM();
 		}
@@ -282,7 +282,7 @@ PHP_METHOD(Phalcon_Filter, _sanitize) {
 			add_assoc_long_ex(_1, SS("flags"), 4096);
 			ZEPHIR_SINIT_NVAR(_3);
 			ZVAL_LONG(&_3, 520);
-			ZEPHIR_RETURN_CALL_FUNCTION("filter_var", &_8, 0, value, &_3, _1);
+			ZEPHIR_RETURN_CALL_FUNCTION("filter_var", &_8, 156, value, &_3, _1);
 			zephir_check_call_status();
 			RETURN_MM();
 		}
@@ -294,7 +294,7 @@ PHP_METHOD(Phalcon_Filter, _sanitize) {
 			ZVAL_STRING(_2, "/[^A-Za-z0-9]/", ZEPHIR_TEMP_PARAM_COPY);
 			ZEPHIR_INIT_VAR(_10);
 			ZVAL_STRING(_10, "", ZEPHIR_TEMP_PARAM_COPY);
-			ZEPHIR_RETURN_CALL_FUNCTION("preg_replace", &_11, 58, _2, _10, value);
+			ZEPHIR_RETURN_CALL_FUNCTION("preg_replace", &_11, 75, _2, _10, value);
 			zephir_check_temp_parameter(_2);
 			zephir_check_temp_parameter(_10);
 			zephir_check_call_status();
@@ -305,13 +305,13 @@ PHP_METHOD(Phalcon_Filter, _sanitize) {
 			RETURN_MM();
 		}
 		if (ZEPHIR_IS_STRING(filter, "striptags")) {
-			ZEPHIR_RETURN_CALL_FUNCTION("strip_tags", &_12, 138, value);
+			ZEPHIR_RETURN_CALL_FUNCTION("strip_tags", &_12, 158, value);
 			zephir_check_call_status();
 			RETURN_MM();
 		}
 		if (ZEPHIR_IS_STRING(filter, "lower")) {
 			if ((zephir_function_exists_ex(SS("mb_strtolower") TSRMLS_CC) == SUCCESS)) {
-				ZEPHIR_RETURN_CALL_FUNCTION("mb_strtolower", NULL, 0, value);
+				ZEPHIR_RETURN_CALL_FUNCTION("mb_strtolower", &_13, 159, value);
 				zephir_check_call_status();
 				RETURN_MM();
 			}
@@ -320,7 +320,7 @@ PHP_METHOD(Phalcon_Filter, _sanitize) {
 		}
 		if (ZEPHIR_IS_STRING(filter, "upper")) {
 			if ((zephir_function_exists_ex(SS("mb_strtoupper") TSRMLS_CC) == SUCCESS)) {
-				ZEPHIR_RETURN_CALL_FUNCTION("mb_strtoupper", NULL, 0, value);
+				ZEPHIR_RETURN_CALL_FUNCTION("mb_strtoupper", &_14, 160, value);
 				zephir_check_call_status();
 				RETURN_MM();
 			}
@@ -329,9 +329,9 @@ PHP_METHOD(Phalcon_Filter, _sanitize) {
 		}
 		ZEPHIR_INIT_NVAR(_2);
 		object_init_ex(_2, phalcon_filter_exception_ce);
-		ZEPHIR_INIT_VAR(_13);
-		ZEPHIR_CONCAT_SVS(_13, "Sanitize filter '", filter, "' is not supported");
-		ZEPHIR_CALL_METHOD(NULL, _2, "__construct", &_14, 2, _13);
+		ZEPHIR_INIT_VAR(_15);
+		ZEPHIR_CONCAT_SVS(_15, "Sanitize filter '", filter, "' is not supported");
+		ZEPHIR_CALL_METHOD(NULL, _2, "__construct", &_16, 2, _15);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(_2, "phalcon/filter.zep", 213 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();

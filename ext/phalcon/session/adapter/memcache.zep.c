@@ -75,7 +75,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Memcache, getLifetime) {
  */
 PHP_METHOD(Phalcon_Session_Adapter_Memcache, __construct) {
 
-	zephir_fcall_cache_entry *_4 = NULL, *_5 = NULL, *_13 = NULL;
+	zephir_fcall_cache_entry *_4 = NULL, *_5 = NULL, *_13 = NULL, *_14 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *_2, *_6, *_8, *_9, *_10, *_11, *_12;
 	zval *options = NULL, *lifetime, *_0 = NULL, *_1, *_3, *_7 = NULL;
@@ -122,9 +122,9 @@ PHP_METHOD(Phalcon_Session_Adapter_Memcache, __construct) {
 	ZEPHIR_OBS_VAR(_3);
 	zephir_read_property_this(&_3, this_ptr, SL("_lifetime"), PH_NOISY_CC);
 	zephir_array_update_string(&_2, SL("lifetime"), &_3, PH_COPY | PH_SEPARATE);
-	ZEPHIR_CALL_METHOD(NULL, _1, "__construct", &_4, 305, _2);
+	ZEPHIR_CALL_METHOD(NULL, _1, "__construct", &_4, 385, _2);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, _0, "__construct", &_5, 308, _1, options);
+	ZEPHIR_CALL_METHOD(NULL, _0, "__construct", &_5, 389, _1, options);
 	zephir_check_call_status();
 	zephir_update_property_this(this_ptr, SL("_memcache"), _0 TSRMLS_CC);
 	ZEPHIR_INIT_VAR(_6);
@@ -163,9 +163,9 @@ PHP_METHOD(Phalcon_Session_Adapter_Memcache, __construct) {
 	ZEPHIR_INIT_NVAR(_7);
 	ZVAL_STRING(_7, "gc", 1);
 	zephir_array_fast_append(_12, _7);
-	ZEPHIR_CALL_FUNCTION(NULL, "session_set_save_handler", NULL, 0, _6, _8, _9, _10, _11, _12);
+	ZEPHIR_CALL_FUNCTION(NULL, "session_set_save_handler", &_13, 387, _6, _8, _9, _10, _11, _12);
 	zephir_check_call_status();
-	ZEPHIR_CALL_PARENT(NULL, phalcon_session_adapter_memcache_ce, this_ptr, "__construct", &_13, 307, options);
+	ZEPHIR_CALL_PARENT(NULL, phalcon_session_adapter_memcache_ce, this_ptr, "__construct", &_14, 388, options);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 
