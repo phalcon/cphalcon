@@ -49,7 +49,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_Between) {
  */
 PHP_METHOD(Phalcon_Validation_Validator_Between, validate) {
 
-	zephir_nts_static zephir_fcall_cache_entry *_5 = NULL, *_7 = NULL;
+	zephir_fcall_cache_entry *_5 = NULL, *_7 = NULL;
 	zend_bool _2, _3;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *field = NULL;
@@ -71,21 +71,21 @@ PHP_METHOD(Phalcon_Validation_Validator_Between, validate) {
 	}
 
 
-	ZEPHIR_CALL_METHOD(&value, validation, "getvalue", NULL, field);
+	ZEPHIR_CALL_METHOD(&value, validation, "getvalue", NULL, 0, field);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(_0);
 	ZVAL_STRING(_0, "minimum", ZEPHIR_TEMP_PARAM_COPY);
-	ZEPHIR_CALL_METHOD(&minimum, this_ptr, "getoption", NULL, _0);
+	ZEPHIR_CALL_METHOD(&minimum, this_ptr, "getoption", NULL, 0, _0);
 	zephir_check_temp_parameter(_0);
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(_0);
 	ZVAL_STRING(_0, "maximum", ZEPHIR_TEMP_PARAM_COPY);
-	ZEPHIR_CALL_METHOD(&maximum, this_ptr, "getoption", NULL, _0);
+	ZEPHIR_CALL_METHOD(&maximum, this_ptr, "getoption", NULL, 0, _0);
 	zephir_check_temp_parameter(_0);
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(_0);
 	ZVAL_STRING(_0, "allowEmpty", ZEPHIR_TEMP_PARAM_COPY);
-	ZEPHIR_CALL_METHOD(&_1, this_ptr, "issetoption", NULL, _0);
+	ZEPHIR_CALL_METHOD(&_1, this_ptr, "issetoption", NULL, 0, _0);
 	zephir_check_temp_parameter(_0);
 	zephir_check_call_status();
 	_2 = zephir_is_true(_1);
@@ -102,16 +102,16 @@ PHP_METHOD(Phalcon_Validation_Validator_Between, validate) {
 	if (_3) {
 		ZEPHIR_INIT_NVAR(_0);
 		ZVAL_STRING(_0, "label", ZEPHIR_TEMP_PARAM_COPY);
-		ZEPHIR_CALL_METHOD(&label, this_ptr, "getoption", NULL, _0);
+		ZEPHIR_CALL_METHOD(&label, this_ptr, "getoption", NULL, 0, _0);
 		zephir_check_temp_parameter(_0);
 		zephir_check_call_status();
 		if (ZEPHIR_IS_EMPTY(label)) {
-			ZEPHIR_CALL_METHOD(&label, validation, "getlabel", NULL, field);
+			ZEPHIR_CALL_METHOD(&label, validation, "getlabel", NULL, 0, field);
 			zephir_check_call_status();
 		}
 		ZEPHIR_INIT_NVAR(_0);
 		ZVAL_STRING(_0, "message", ZEPHIR_TEMP_PARAM_COPY);
-		ZEPHIR_CALL_METHOD(&message, this_ptr, "getoption", NULL, _0);
+		ZEPHIR_CALL_METHOD(&message, this_ptr, "getoption", NULL, 0, _0);
 		zephir_check_temp_parameter(_0);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(replacePairs);
@@ -122,20 +122,20 @@ PHP_METHOD(Phalcon_Validation_Validator_Between, validate) {
 		if (ZEPHIR_IS_EMPTY(message)) {
 			ZEPHIR_INIT_NVAR(_0);
 			ZVAL_STRING(_0, "Between", ZEPHIR_TEMP_PARAM_COPY);
-			ZEPHIR_CALL_METHOD(&message, validation, "getdefaultmessage", NULL, _0);
+			ZEPHIR_CALL_METHOD(&message, validation, "getdefaultmessage", NULL, 0, _0);
 			zephir_check_temp_parameter(_0);
 			zephir_check_call_status();
 		}
 		ZEPHIR_INIT_NVAR(_0);
 		object_init_ex(_0, phalcon_validation_message_ce);
-		ZEPHIR_CALL_FUNCTION(&_4, "strtr", &_5, message, replacePairs);
+		ZEPHIR_CALL_FUNCTION(&_4, "strtr", &_5, 53, message, replacePairs);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(_6);
 		ZVAL_STRING(_6, "Between", ZEPHIR_TEMP_PARAM_COPY);
-		ZEPHIR_CALL_METHOD(NULL, _0, "__construct", &_7, _4, field, _6);
+		ZEPHIR_CALL_METHOD(NULL, _0, "__construct", &_7, 322, _4, field, _6);
 		zephir_check_temp_parameter(_6);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, _0);
+		ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, 0, _0);
 		zephir_check_call_status();
 		RETURN_MM_BOOL(0);
 	}

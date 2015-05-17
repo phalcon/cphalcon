@@ -155,7 +155,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Data, stop) {
 PHP_METHOD(Phalcon_Cache_Frontend_Data, beforeStore) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zephir_nts_static zephir_fcall_cache_entry *_0 = NULL;
+	zephir_fcall_cache_entry *_0 = NULL;
 	zval *data;
 
 	ZEPHIR_MM_GROW();
@@ -163,7 +163,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Data, beforeStore) {
 
 
 
-	ZEPHIR_RETURN_CALL_FUNCTION("serialize", &_0, data);
+	ZEPHIR_RETURN_CALL_FUNCTION("serialize", &_0, 8, data);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -178,7 +178,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Data, beforeStore) {
 PHP_METHOD(Phalcon_Cache_Frontend_Data, afterRetrieve) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zephir_nts_static zephir_fcall_cache_entry *_0 = NULL;
+	zephir_fcall_cache_entry *_0 = NULL;
 	zval *data;
 
 	ZEPHIR_MM_GROW();
@@ -186,7 +186,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Data, afterRetrieve) {
 
 
 
-	ZEPHIR_RETURN_CALL_FUNCTION("unserialize", &_0, data);
+	ZEPHIR_RETURN_CALL_FUNCTION("unserialize", &_0, 7, data);
 	zephir_check_call_status();
 	RETURN_MM();
 

@@ -59,8 +59,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Config_Adapter_Yaml) {
  */
 PHP_METHOD(Phalcon_Config_Adapter_Yaml, __construct) {
 
-	zephir_fcall_cache_entry *_5 = NULL;
-	zephir_nts_static zephir_fcall_cache_entry *_2 = NULL, *_7 = NULL, *_8 = NULL;
+	zephir_fcall_cache_entry *_2 = NULL, *_5 = NULL, *_7 = NULL, *_8 = NULL;
 	int ndocs = 0, ZEPHIR_LAST_CALL_STATUS;
 	zval *callbacks = NULL;
 	zval *filePath_param = NULL, *callbacks_param = NULL, *yamlConfig = NULL, _0, *_1 = NULL, *_3 = NULL, *_4 = NULL, *_6;
@@ -91,7 +90,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Yaml, __construct) {
 
 	ZEPHIR_SINIT_VAR(_0);
 	ZVAL_STRING(&_0, "yaml", 0);
-	ZEPHIR_CALL_FUNCTION(&_1, "extension_loaded", &_2, &_0);
+	ZEPHIR_CALL_FUNCTION(&_1, "extension_loaded", &_2, 49, &_0);
 	zephir_check_call_status();
 	if (!(zephir_is_true(_1))) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_config_exception_ce, "Yaml extension not loaded", "phalcon/config/adapter/yaml.zep", 62);
@@ -103,11 +102,11 @@ PHP_METHOD(Phalcon_Config_Adapter_Yaml, __construct) {
 		ZEPHIR_INIT_VAR(_4);
 		ZVAL_LONG(_4, ndocs);
 		Z_SET_ISREF_P(_4);
-		ZEPHIR_CALL_FUNCTION(&yamlConfig, "yaml_parse_file", &_5, filePath, _3, _4, callbacks);
+		ZEPHIR_CALL_FUNCTION(&yamlConfig, "yaml_parse_file", &_5, 0, filePath, _3, _4, callbacks);
 		Z_UNSET_ISREF_P(_4);
 		zephir_check_call_status();
 	} else {
-		ZEPHIR_CALL_FUNCTION(&yamlConfig, "yaml_parse_file", &_5, filePath);
+		ZEPHIR_CALL_FUNCTION(&yamlConfig, "yaml_parse_file", &_5, 0, filePath);
 		zephir_check_call_status();
 	}
 	if (ZEPHIR_IS_FALSE_IDENTICAL(yamlConfig)) {
@@ -117,13 +116,13 @@ PHP_METHOD(Phalcon_Config_Adapter_Yaml, __construct) {
 		zephir_basename(_4, filePath TSRMLS_CC);
 		ZEPHIR_INIT_VAR(_6);
 		ZEPHIR_CONCAT_SVS(_6, "Configuration file ", _4, " can't be loaded");
-		ZEPHIR_CALL_METHOD(NULL, _3, "__construct", &_7, _6);
+		ZEPHIR_CALL_METHOD(NULL, _3, "__construct", &_7, 2, _6);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(_3, "phalcon/config/adapter/yaml.zep", 72 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	ZEPHIR_CALL_PARENT(NULL, phalcon_config_adapter_yaml_ce, this_ptr, "__construct", &_8, yamlConfig);
+	ZEPHIR_CALL_PARENT(NULL, phalcon_config_adapter_yaml_ce, this_ptr, "__construct", &_8, 44, yamlConfig);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 

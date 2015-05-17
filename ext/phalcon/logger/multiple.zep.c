@@ -91,7 +91,7 @@ PHP_METHOD(Phalcon_Logger_Multiple, setFormatter) {
 		  ; zephir_hash_move_forward_ex(_1, &_0)
 		) {
 			ZEPHIR_GET_HVALUE(logger, _2);
-			ZEPHIR_CALL_METHOD(NULL, logger, "setformatter", NULL, formatter);
+			ZEPHIR_CALL_METHOD(NULL, logger, "setformatter", NULL, 0, formatter);
 			zephir_check_call_status();
 		}
 	}
@@ -135,7 +135,7 @@ PHP_METHOD(Phalcon_Logger_Multiple, log) {
 		  ; zephir_hash_move_forward_ex(_1, &_0)
 		) {
 			ZEPHIR_GET_HVALUE(logger, _2);
-			ZEPHIR_CALL_METHOD(NULL, logger, "log", NULL, type, message, context);
+			ZEPHIR_CALL_METHOD(NULL, logger, "log", NULL, 0, type, message, context);
 			zephir_check_call_status();
 		}
 	}
@@ -178,7 +178,7 @@ PHP_METHOD(Phalcon_Logger_Multiple, critical) {
 
 	ZEPHIR_INIT_VAR(_0);
 	ZVAL_LONG(_0, 1);
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "log", NULL, _0, message, context);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "log", NULL, 0, _0, message, context);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 
@@ -219,7 +219,7 @@ PHP_METHOD(Phalcon_Logger_Multiple, emergency) {
 
 	ZEPHIR_INIT_VAR(_0);
 	ZVAL_LONG(_0, 0);
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "log", NULL, _0, message, context);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "log", NULL, 0, _0, message, context);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 
@@ -260,7 +260,7 @@ PHP_METHOD(Phalcon_Logger_Multiple, debug) {
 
 	ZEPHIR_INIT_VAR(_0);
 	ZVAL_LONG(_0, 7);
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "log", NULL, _0, message, context);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "log", NULL, 0, _0, message, context);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 
@@ -301,7 +301,7 @@ PHP_METHOD(Phalcon_Logger_Multiple, error) {
 
 	ZEPHIR_INIT_VAR(_0);
 	ZVAL_LONG(_0, 3);
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "log", NULL, _0, message, context);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "log", NULL, 0, _0, message, context);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 
@@ -342,7 +342,7 @@ PHP_METHOD(Phalcon_Logger_Multiple, info) {
 
 	ZEPHIR_INIT_VAR(_0);
 	ZVAL_LONG(_0, 6);
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "log", NULL, _0, message, context);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "log", NULL, 0, _0, message, context);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 
@@ -383,7 +383,7 @@ PHP_METHOD(Phalcon_Logger_Multiple, notice) {
 
 	ZEPHIR_INIT_VAR(_0);
 	ZVAL_LONG(_0, 5);
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "log", NULL, _0, message, context);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "log", NULL, 0, _0, message, context);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 
@@ -424,7 +424,7 @@ PHP_METHOD(Phalcon_Logger_Multiple, warning) {
 
 	ZEPHIR_INIT_VAR(_0);
 	ZVAL_LONG(_0, 4);
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "log", NULL, _0, message, context);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "log", NULL, 0, _0, message, context);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 
@@ -465,7 +465,7 @@ PHP_METHOD(Phalcon_Logger_Multiple, alert) {
 
 	ZEPHIR_INIT_VAR(_0);
 	ZVAL_LONG(_0, 2);
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "log", NULL, _0, message, context);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "log", NULL, 0, _0, message, context);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 

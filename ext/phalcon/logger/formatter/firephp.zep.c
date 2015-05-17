@@ -151,7 +151,7 @@ PHP_METHOD(Phalcon_Logger_Formatter_Firephp, format) {
 	zval *_21;
 	HashTable *_10;
 	HashPosition _9;
-	zephir_nts_static zephir_fcall_cache_entry *_5 = NULL, *_6 = NULL, *_7 = NULL;
+	zephir_fcall_cache_entry *_5 = NULL, *_6 = NULL, *_7 = NULL;
 	zend_bool param, _14, _17;
 	int type, timestamp, ZEPHIR_LAST_CALL_STATUS;
 	zval *message_param = NULL, *type_param = NULL, *timestamp_param = NULL, *context = NULL, *meta, *body = NULL, *backtrace = NULL, *encoded, *len, *lastTrace = NULL, *_0 = NULL, *_1 = NULL, *_2, *backtraceItem = NULL, *key = NULL, _3, _4, *_8, **_11, *_12, *_13, *_15, *_16, *_18, *_19, *_20;
@@ -169,7 +169,7 @@ PHP_METHOD(Phalcon_Logger_Formatter_Firephp, format) {
 
 
 	if (Z_TYPE_P(context) == IS_ARRAY) {
-		ZEPHIR_CALL_METHOD(&_0, this_ptr, "interpolate", NULL, message, context);
+		ZEPHIR_CALL_METHOD(&_0, this_ptr, "interpolate", NULL, 0, message, context);
 		zephir_check_call_status();
 		zephir_get_strval(message, _0);
 	}
@@ -177,7 +177,7 @@ PHP_METHOD(Phalcon_Logger_Formatter_Firephp, format) {
 	zephir_create_array(meta, 1, 0 TSRMLS_CC);
 	ZEPHIR_INIT_VAR(_1);
 	ZVAL_LONG(_1, type);
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "gettypestring", NULL, _1);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "gettypestring", NULL, 0, _1);
 	zephir_check_call_status();
 	zephir_array_update_string(&meta, SL("Type"), &_0, PH_COPY | PH_SEPARATE);
 	_2 = zephir_fetch_nproperty_this(this_ptr, SL("_showBacktrace"), PH_NOISY_CC);
@@ -189,15 +189,15 @@ PHP_METHOD(Phalcon_Logger_Formatter_Firephp, format) {
 		ZVAL_STRING(&_3, "5.3.6", 0);
 		ZEPHIR_SINIT_VAR(_4);
 		ZVAL_STRING(&_4, "<", 0);
-		ZEPHIR_CALL_FUNCTION(&_0, "version_compare", &_5, _1, &_3, &_4);
+		ZEPHIR_CALL_FUNCTION(&_0, "version_compare", &_5, 188, _1, &_3, &_4);
 		zephir_check_call_status();
 		if (!(zephir_is_true(_0))) {
 			param = (2) ? 1 : 0;
 		}
-		ZEPHIR_CALL_FUNCTION(&backtrace, "debug_backtrace", &_6, (param ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)));
+		ZEPHIR_CALL_FUNCTION(&backtrace, "debug_backtrace", &_6, 94, (param ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)));
 		zephir_check_call_status();
 		Z_SET_ISREF_P(backtrace);
-		ZEPHIR_CALL_FUNCTION(&lastTrace, "end", &_7, backtrace);
+		ZEPHIR_CALL_FUNCTION(&lastTrace, "end", &_7, 113, backtrace);
 		Z_UNSET_ISREF_P(backtrace);
 		zephir_check_call_status();
 		if (zephir_array_isset_string(lastTrace, SS("file"))) {

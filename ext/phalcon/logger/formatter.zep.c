@@ -93,7 +93,7 @@ PHP_METHOD(Phalcon_Logger_Formatter, getTypeString) {
 PHP_METHOD(Phalcon_Logger_Formatter, interpolate) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zephir_nts_static zephir_fcall_cache_entry *_5 = NULL;
+	zephir_fcall_cache_entry *_5 = NULL;
 	HashTable *_2;
 	HashPosition _1;
 	zend_bool _0;
@@ -127,7 +127,7 @@ PHP_METHOD(Phalcon_Logger_Formatter, interpolate) {
 			ZEPHIR_CONCAT_SVS(_4, "{", key, "}");
 			zephir_array_update_zval(&replace, _4, &value, PH_COPY | PH_SEPARATE);
 		}
-		ZEPHIR_RETURN_CALL_FUNCTION("strtr", &_5, message, replace);
+		ZEPHIR_RETURN_CALL_FUNCTION("strtr", &_5, 53, message, replace);
 		zephir_check_call_status();
 		RETURN_MM();
 	}

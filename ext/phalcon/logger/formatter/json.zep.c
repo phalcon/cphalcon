@@ -61,7 +61,7 @@ PHP_METHOD(Phalcon_Logger_Formatter_Json, format) {
 
 
 	if (Z_TYPE_P(context) == IS_ARRAY) {
-		ZEPHIR_CALL_METHOD(&_0, this_ptr, "interpolate", NULL, message, context);
+		ZEPHIR_CALL_METHOD(&_0, this_ptr, "interpolate", NULL, 0, message, context);
 		zephir_check_call_status();
 		zephir_get_strval(message, _0);
 	}
@@ -69,7 +69,7 @@ PHP_METHOD(Phalcon_Logger_Formatter_Json, format) {
 	zephir_create_array(_1, 3, 0 TSRMLS_CC);
 	ZEPHIR_INIT_VAR(_2);
 	ZVAL_LONG(_2, type);
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "gettypestring", NULL, _2);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "gettypestring", NULL, 0, _2);
 	zephir_check_call_status();
 	zephir_array_update_string(&_1, SL("type"), &_0, PH_COPY | PH_SEPARATE);
 	zephir_array_update_string(&_1, SL("message"), &message, PH_COPY | PH_SEPARATE);
