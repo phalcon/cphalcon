@@ -1578,6 +1578,14 @@ class Query implements QueryInterface, InjectionAwareInterface
 		let manager = this->_manager,
 			metaData = this->_metaData;
 
+		if typeof manager != "object" {
+			throw new Exception("A models-manager is required to execute the query");
+		}
+
+		if typeof metaData != "object" {
+			throw new Exception("A meta-data is required to execute the query");
+		}
+
 		/**
 		 * Processing selected columns
 		 */
