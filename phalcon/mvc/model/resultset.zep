@@ -138,27 +138,33 @@ abstract class Resultset
 			if this->_row === null || this->_pointer != position {
 				let result = this->_result;
 				if result !== false {
-					/**
-					* 1. If row is not set, query is executed in "result->dataSeek()"
-					*    Set _row to prepare for hydration in "current()"
-					*
-					* 2. Backwards seeks have to re-execute the query
-					*    There is no fetchPrevious :(
-					*/
-					if this->_row === null || this->_pointer > position {
+				    if this->_row === null && this->_pointer === 0 {
+				    	/**
+			            * Fresh result-set: Query was already executed in model\query::_executeSelect()
+			            * The first row is available with fetch
+			            */
+				        let this->_row = result->$fetch(result);
+				    }
+
+					if this->_pointer > position {
+					    /**
+					    * Current pointer is ahead requested position: e.g. request a previous row
+					    * It is not possible to rewind. Re-execute query with dataSeek
+					    */
 						result->dataSeek(position);
 						let this->_row = result->$fetch(result);
-					} else {
-						/**
-						* Requested postion is greater than current pointer,
-						* seek forward until the requested position is reached.
-						* We do not need to re-excute the query!
-						*/
-						while this->_pointer < position {
-							let this->_row = result->$fetch(result);
-							let this->_pointer++;
-						}
+						let this->_pointer = position;
 					}
+
+                    while this->_pointer < position {
+                        /**
+						* Requested position is greater than current pointer,
+						* seek forward until the requested position is reached.
+						* We do not need to re-execute the query!
+						*/
+                        let this->_row = result->$fetch(result);
+                        let this->_pointer++;
+                    }
 				}
 				
 				let this->_pointer = position;

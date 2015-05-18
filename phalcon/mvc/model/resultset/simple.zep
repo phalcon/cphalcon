@@ -198,7 +198,8 @@ class Simple extends Resultset
 					result->execute();
 				}
 				let records = result->fetchAll();
-				let this->_row = null; 
+				let this->_pointer = this->count(); // invalidate current row
+				let this->_row = null;
 			} else {
 				let records = [];
 			}
