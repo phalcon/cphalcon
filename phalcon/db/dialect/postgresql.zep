@@ -57,7 +57,11 @@ class Postgresql extends Dialect
 
 			case Column::TYPE_INTEGER:
 				if empty columnSql {
-					let columnSql .= "INT";
+					if column->isAutoIncrement() {
+						let columnSql .= "SERIAL";
+					} else {
+						let columnSql .= "INT";
+					}
 				}
 				break;
 
@@ -189,7 +193,6 @@ class Postgresql extends Dialect
 				let sql .= sqlAlterTable . " ALTER COLUMN \"" . column->getName() . "\" SET NOT NULL;";
 			} else {
 				let sql .= sqlAlterTable . " ALTER COLUMN \"" . column->getName() . "\" DROP NOT NULL;";
-				let sql .= sqlAlterTable . " ALTER COLUMN \"" . column->getName() . "\" SET NULL;";
 			}
 		}
 		//DEFAULT
@@ -274,7 +277,7 @@ class Postgresql extends Dialect
 		} else {
 			let sql = "ALTER TABLE \"" . tableName . "\"";
 		}
-		let sql .= " ADD CONSTRAINT \"pk\" PRIMARY KEY (" . this->getColumnList(index->getColumns()) . ")";
+		let sql .= " ADD CONSTRAINT \"PRIMARY\" PRIMARY KEY (" . this->getColumnList(index->getColumns()) . ")";
 		
 		return sql;
 	}
@@ -291,7 +294,7 @@ class Postgresql extends Dialect
 		} else {
 			let sql = "ALTER TABLE \"" . tableName . "\"";
 		}
-		let sql .= " DROP CONSTRAINT \"pk\"";
+		let sql .= " DROP CONSTRAINT \"PRIMARY\"";
 		
 		return sql;
 	}
@@ -304,9 +307,9 @@ class Postgresql extends Dialect
 		var sql, onDelete, onUpdate;
 				
 		if schemaName {
-			let sql = "ALTER TABLE \"" . schemaName . "\".\"" . tableName . "\" ADD FOREIGN KEY ";
+			let sql = "ALTER TABLE \"" . schemaName . "\".\"" . tableName . "\" ";
 		} else {
-			let sql = "ALTER TABLE \"" . tableName . "\" ADD FOREIGN KEY ";
+			let sql = "ALTER TABLE \"" . tableName . "\" ";
 		}
 		let sql .= "ADD CONSTRAINT \"" . reference->getName() . "\" FOREIGN KEY (" . this->getColumnList(reference->getColumns()) . ")"
 				. " REFERENCES \"" . reference->getReferencedTable() . "\" (" . this->getColumnList(reference->getReferencedColumns()) . ")";
@@ -345,21 +348,21 @@ class Postgresql extends Dialect
 	/**
 	 * Generates SQL to create a table
 	 */
-	public function createTable(string! tableName, string! schemaName, array! definition) -> string
+	public function createTable(string! tableName, string! schemaName, array! definition) -> string | array
 	{
 		var temporary, options, table, createLines, columns,
 			column, indexes, index, reference, references, indexName,
 			indexSql, indexSqlAfterCreate, sql, columnLine, indexType,
-			referenceSql, onDelete, onUpdate, defaultValue;
+			referenceSql, onDelete, onUpdate, defaultValue, primaryColumns;
 		
 		if !fetch columns, definition["columns"] {
 			throw new Exception("The index 'columns' is required in the definition array");
 		}
 		
 		if schemaName {
-			let table = schemaName . "." . tableName;
+			let table = "\"" . schemaName . "\".\"" . tableName . "\"";
 		} else {
-			let table = tableName;
+			let table = "\"" . tableName . "\"";
 		}
 		
 		let temporary = false;
@@ -371,12 +374,13 @@ class Postgresql extends Dialect
 		 * Create a temporary o normal table
 		 */
 		if temporary {
-			let sql = "CREATE TEMPORARY TABLE \"" . table . "\" (\n\t";
+			let sql = "CREATE TEMPORARY TABLE " . table . " (\n\t";
 		} else {
-			let sql = "CREATE TABLE \"" . table . "\" (\n\t";
+			let sql = "CREATE TABLE " . table . " (\n\t";
 		}
 		
 		let createLines = [];
+		let primaryColumns = [];
 		for column in columns {
 		
 			let columnLine = "\"" . column->getName() . "\" " . this->getColumnDefinition(column);
@@ -407,10 +411,13 @@ class Postgresql extends Dialect
 			 * Mark the column as primary key
 			 */
 			if column->isPrimary() {
-				let columnLine .= " PRIMARY KEY";
+				let primaryColumns[] = column->getName() ;
 			}
 		
 			let createLines[] = columnLine;
+		}
+		if !empty primaryColumns {
+			let createLines[] = "PRIMARY KEY (" . implode(",",primaryColumns) . ")";
 		}
 		
 		/**
@@ -423,12 +430,13 @@ class Postgresql extends Dialect
 		
 				let indexName = index->getName();
 				let indexType = index->getType();
+				let indexSql = "";
 		
 				/**
 				 * If the index name is primary we add a primary key
 				 */
 				if indexName == "PRIMARY" {
-					let indexSql = "CONSTRAINT pk PRIMARY KEY (" . this->getColumnList(index->getColumns()) . ")";
+					let indexSql = "CONSTRAINT \"PRIMARY\" PRIMARY KEY (" . this->getColumnList(index->getColumns()) . ")";
 				} else {
 					if !empty indexType {
 						let indexSql = "CONSTRAINT \"" . indexName . "\" " . indexType . " (" . this->getColumnList(index->getColumns()) . ")";
@@ -445,8 +453,9 @@ class Postgresql extends Dialect
 						let indexSqlAfterCreate .= " (" . this->getColumnList(index->getColumns()) . ");";
 					}
 				}
-		
-				let createLines[] = indexSql;
+				if !empty indexSql {
+					let createLines[] = indexSql;
+				}
 			}
 		}
 		/**
@@ -454,8 +463,16 @@ class Postgresql extends Dialect
 		 */
 		if fetch references, definition["references"] {
 			for reference in references {
-				let referenceSql = "CONSTRAINT \"" . reference->getName() . "\" FOREIGN KEY (" . this->getColumnList(reference->getColumns()) . ")"
-					. " REFERENCES \"" . reference->getReferencedTable() . "\" (" . this->getColumnList(reference->getReferencedColumns()) . ")";
+			
+				let referenceSql = "CONSTRAINT \"" . reference->getName() . "\" FOREIGN KEY (" . this->getColumnList(reference->getColumns()) . ") REFERENCES ";
+				
+				if schemaName {
+					let referenceSql .= "\"" . schemaName . "\".\"" . reference->getReferencedTable() . "\" ";
+				} else {
+					let referenceSql .= "\"" . reference->getReferencedTable() . "\" ";
+				}
+				
+				let referenceSql .= "(" . this->getColumnList(reference->getReferencedColumns()) . ")";
 		
 				let onDelete = reference->getOnDelete();
 				if !empty onDelete {
@@ -466,7 +483,7 @@ class Postgresql extends Dialect
 				if !empty onUpdate {
 					let referenceSql .= " ON UPDATE " . onUpdate;
 				}
-		
+				
 				let createLines[] = referenceSql;
 			}
 		}
