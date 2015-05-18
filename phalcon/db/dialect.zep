@@ -295,6 +295,12 @@ abstract class Dialect implements DialectInterface
 			 */
 			case "convert":
 				return this->getSqlExpressionConvertValue(expression, escapeChar);
+
+			/**
+			 * Resolve SELECT
+			 */
+			case "select":
+				return "(" . this->select(expression["value"]) . ")";
 		}
 
 		/**
