@@ -260,6 +260,7 @@
 #include "mvc/model/behaviorinterface.h"
 #include "mvc/model/behavior/softdelete.h"
 #include "mvc/model/behavior/timestampable.h"
+#include "mvc/model/behavior/nestedset.h"
 #include "mvc/model/criteria.h"
 #include "mvc/model/criteriainterface.h"
 #include "mvc/model/exception.h"

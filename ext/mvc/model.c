@@ -24,12 +24,14 @@
 #include "mvc/model/manager.h"
 #include "mvc/model/message.h"
 #include "mvc/model/metadatainterface.h"
+#include "mvc/model/metadata/memory.h"
 #include "mvc/model/query/builder.h"
 #include "mvc/model/query.h"
 #include "mvc/model/resultinterface.h"
 #include "mvc/model/resultsetinterface.h"
 #include "mvc/model/validationfailed.h"
 #include "mvc/model/validatorinterface.h"
+#include "mvc/model/criteria.h"
 #include "di.h"
 #include "diinterface.h"
 #include "di/injectionawareinterface.h"
@@ -190,6 +192,9 @@ PHP_METHOD(Phalcon_Mvc_Model, setup);
 PHP_METHOD(Phalcon_Mvc_Model, remove);
 PHP_METHOD(Phalcon_Mvc_Model, reset);
 PHP_METHOD(Phalcon_Mvc_Model, filter);
+PHP_METHOD(Phalcon_Mvc_Model, isRecord);
+PHP_METHOD(Phalcon_Mvc_Model, isNewRecord);
+PHP_METHOD(Phalcon_Mvc_Model, isDeletedRecord);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model___construct, 0, 0, 0)
 	ZEND_ARG_INFO(0, dependencyInjector)
@@ -431,6 +436,9 @@ static const zend_function_entry phalcon_mvc_model_method_entry[] = {
 	PHP_ME(Phalcon_Mvc_Model, remove, arginfo_phalcon_mvc_modelinterface_remove, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Mvc_Model, reset, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model, filter, arginfo_phalcon_mvc_model_filter, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Mvc_Model, isRecord, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model, isNewRecord, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model, isDeletedRecord, NULL, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };
 
@@ -674,7 +682,7 @@ PHP_METHOD(Phalcon_Mvc_Model, getEventsManager){
  */
 PHP_METHOD(Phalcon_Mvc_Model, getModelsMetaData){
 
-	zval *meta_data = NULL, *dependency_injector, *service_name, *service = NULL;
+	zval *meta_data = NULL, *dependency_injector, *service_name, *has = NULL, *service = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -696,16 +704,22 @@ PHP_METHOD(Phalcon_Mvc_Model, getModelsMetaData){
 		PHALCON_INIT_VAR(service_name);
 		ZVAL_STRING(service_name, "modelsMetadata", 1);
 
-		/**
-		 * Obtain the models-metadata service from the DI
-		 */
-		PHALCON_CALL_METHOD(&service, dependency_injector, "getshared", service_name);
-		if (Z_TYPE_P(service) != IS_OBJECT) {
-			PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The injected service 'modelsMetadata' is not valid");
-			return;
-		}
+		PHALCON_CALL_METHOD(&has, dependency_injector, "has", service_name);
+		if (zend_is_true(has)) {
+			/**
+			 * Obtain the models-metadata service from the DI
+			 */
+			PHALCON_CALL_METHOD(&service, dependency_injector, "getshared", service_name);
+			if (Z_TYPE_P(service) != IS_OBJECT) {
+				PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The injected service 'modelsMetadata' is not valid");
+				return;
+			}
 
-		PHALCON_VERIFY_INTERFACE(service, phalcon_mvc_model_metadatainterface_ce);
+			PHALCON_VERIFY_INTERFACE(service, phalcon_mvc_model_metadatainterface_ce);
+		} else {
+			PHALCON_INIT_NVAR(service);
+			object_init_ex(service, phalcon_mvc_model_metadata_memory_ce);
+		}
 
 		/**
 		 * Update the models-metada property
@@ -1893,7 +1907,7 @@ PHP_METHOD(Phalcon_Mvc_Model, findFirst){
  */
 PHP_METHOD(Phalcon_Mvc_Model, query){
 
-	zval *dependency_injector = NULL, *model_name, *service_name, *criteria = NULL;
+	zval *dependency_injector = NULL, *model_name, *service_name, *has = NULL, *criteria = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -1918,7 +1932,13 @@ PHP_METHOD(Phalcon_Mvc_Model, query){
 	PHALCON_INIT_VAR(service_name);
 	ZVAL_STRING(service_name, "modelsCriteria", 1);
 
-	PHALCON_CALL_METHOD(&criteria, dependency_injector, "get", service_name);
+	PHALCON_CALL_METHOD(&has, dependency_injector, "has", service_name);
+	if (zend_is_true(has)) {
+		PHALCON_CALL_METHOD(&criteria, dependency_injector, "get", service_name);
+	} else {
+		PHALCON_INIT_NVAR(criteria);
+		object_init_ex(criteria, phalcon_mvc_model_criteria_ce);
+	}
 
 	PHALCON_CALL_METHOD(NULL, criteria, "setdi", dependency_injector);
 	PHALCON_CALL_METHOD(NULL, criteria, "setmodelname", model_name);
@@ -1996,7 +2016,10 @@ PHP_METHOD(Phalcon_Mvc_Model, _reBuild){
 	 */
 	PHALCON_OBS_VAR(unique_key);
 	phalcon_read_property_this(&unique_key, this_ptr, SL("_uniqueKey"), PH_NOISY TSRMLS_CC);
-	if (Z_TYPE_P(unique_key) == IS_NULL) {
+
+	PHALCON_OBS_VAR(unique_params);
+	phalcon_read_property_this(&unique_params, this_ptr, SL("_uniqueParams"), PH_NOISY TSRMLS_CC);
+	if (Z_TYPE_P(unique_key) == IS_NULL || Z_TYPE_P(unique_params) == IS_NULL) {
 		PHALCON_CALL_METHOD(&primary_keys, meta_data, "getprimarykeyattributes", this_ptr);
 		PHALCON_CALL_METHOD(&bind_data_types, meta_data, "getbindtypes", this_ptr);
 
@@ -2016,7 +2039,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _reBuild){
 		PHALCON_INIT_VAR(where_pk);
 		array_init(where_pk);
 
-		PHALCON_INIT_VAR(unique_params);
+		PHALCON_INIT_NVAR(unique_params);
 		array_init(unique_params);
 
 		PHALCON_INIT_VAR(unique_types);
@@ -2311,7 +2334,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _groupResult){
 		PHALCON_CALL_METHOD(&builder, dependency_injector, "get", service_name, service_params);
 	} else {
 		PHALCON_INIT_NVAR(builder);
-		object_init_ex(builder, phalcon_mvc_model_query_ce);
+		object_init_ex(builder, phalcon_mvc_model_query_builder_ce);
 		PHALCON_CALL_METHOD(NULL, builder, "__construct", params);
 	}
 
@@ -5613,7 +5636,7 @@ PHP_METHOD(Phalcon_Mvc_Model, refresh){
 	PHALCON_OBS_VAR(dirty_state);
 	phalcon_read_property_this(&dirty_state, this_ptr, SL("_dirtyState"), PH_NOISY TSRMLS_CC);
 	if (!PHALCON_IS_LONG(dirty_state, 0)) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The record cannot be refreshed because it does not exist or is deleted");
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The record cannot be refreshed because it does not exist or is deleted1");
 		return;
 	}
 
@@ -5691,7 +5714,7 @@ PHP_METHOD(Phalcon_Mvc_Model, refresh){
 		 */
 		PHALCON_CALL_METHOD(&exists, this_ptr, "_exists", meta_data, read_connection, table);
 		if (!zend_is_true(exists)) {
-			PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The record cannot be refreshed because it does not exist or is deleted");
+			PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The record cannot be refreshed because it does not exist or is deleted2");
 			return;
 		}
 
@@ -5701,8 +5724,9 @@ PHP_METHOD(Phalcon_Mvc_Model, refresh){
 
 	PHALCON_OBS_VAR(unique_params);
 	phalcon_read_property_this(&unique_params, this_ptr, SL("_uniqueParams"), PH_NOISY TSRMLS_CC);
+
 	if (Z_TYPE_P(unique_params) != IS_ARRAY) { 
-		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The record cannot be refreshed because it does not exist or is deleted");
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The record cannot be refreshed because it does not exist or is deleted3");
 		return;
 	}
 
@@ -7066,7 +7090,7 @@ PHP_METHOD(Phalcon_Mvc_Model, __callStatic){
  */
 PHP_METHOD(Phalcon_Mvc_Model, __set){
 
-	zval *property, *value, *lower_property = NULL, *possible_setter = NULL, *method_exists = NULL, *class_name = NULL;
+	zval *property, *value, *lower_property = NULL, *possible_setter = NULL;
 	zval *model_name = NULL, *values = NULL, *meta_data = NULL, *column_map = NULL, *attributes = NULL;
 	zval *related, *key = NULL, *lower_key = NULL, *item = NULL;
 	zval *manager = NULL, *exception_message = NULL;
@@ -7091,11 +7115,10 @@ PHP_METHOD(Phalcon_Mvc_Model, __set){
 			PHALCON_CONCAT_SV(possible_setter, "set", property);
 			zend_str_tolower(Z_STRVAL_P(possible_setter), Z_STRLEN_P(possible_setter));
 
-			PHALCON_INIT_VAR(class_name);
-			ZVAL_STRING(class_name, "Phalcon\\Mvc\\Model", 1);
-
-			PHALCON_CALL_FUNCTION(&method_exists, "method_exists", class_name, possible_setter);
-			if (!zend_is_true(method_exists)) {
+			/*
+			 * Check method is not 
+			 */
+			if (phalcon_method_exists_ce(phalcon_mvc_model_ce, possible_setter TSRMLS_CC) != SUCCESS) {
 				if (phalcon_method_exists_ex(this_ptr, Z_STRVAL_P(possible_setter), Z_STRLEN_P(possible_setter)+1 TSRMLS_CC) == SUCCESS) {
 					PHALCON_CALL_METHOD(NULL, this_ptr, Z_STRVAL_P(possible_setter), value);
 					RETURN_CTOR(value);
@@ -7256,7 +7279,7 @@ PHP_METHOD(Phalcon_Mvc_Model, __set){
  */
 PHP_METHOD(Phalcon_Mvc_Model, __get){
 
-	zval *property, *possible_getter = NULL, *class_name, *method_exists = NULL;
+	zval *property, *possible_getter = NULL;
 	zval *meta_data = NULL, *column_map = NULL, *attributes = NULL;
 	zval *model_name, *manager = NULL, *lower_property, *related_result;
 	zval *relation = NULL, *call_args, *call_object, *result;
@@ -7271,11 +7294,7 @@ PHP_METHOD(Phalcon_Mvc_Model, __get){
 			PHALCON_CONCAT_SV(possible_getter, "get", property);
 			zend_str_tolower(Z_STRVAL_P(possible_getter), Z_STRLEN_P(possible_getter));
 
-			PHALCON_INIT_VAR(class_name);
-			ZVAL_STRING(class_name, "Phalcon\\Mvc\\Model", 1);
-
-			PHALCON_CALL_FUNCTION(&method_exists, "method_exists", class_name, possible_getter);
-			if (!zend_is_true(method_exists)) {
+			if (phalcon_method_exists_ce(phalcon_mvc_model_ce, possible_getter TSRMLS_CC) != SUCCESS) {
 				if (phalcon_method_exists_ex(this_ptr, Z_STRVAL_P(possible_getter), Z_STRLEN_P(possible_getter)+1 TSRMLS_CC) == SUCCESS) {
 					PHALCON_CALL_METHOD(&return_value, this_ptr, Z_STRVAL_P(possible_getter));
 					RETURN_MM();
@@ -8032,4 +8051,64 @@ PHP_METHOD(Phalcon_Mvc_Model, filter){
 	}
 
 	RETURN_THIS();
+}
+
+/**
+ * Whether the record is not new and deleted
+ *
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Mvc_Model, isRecord){
+
+	zval *dirty_state;
+	int d;
+
+	dirty_state = phalcon_fetch_nproperty_this(this_ptr, SL("_dirtyState"), PH_NOISY TSRMLS_CC);
+	d = phalcon_get_intval(dirty_state);
+
+	if (d == PHALCON_MODEL_DIRTY_STATE_PERSISTEN) {
+		RETURN_TRUE;
+	}
+
+	RETURN_FALSE;
+}
+
+/**
+ * Whether the record is new and deleted
+ *
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Mvc_Model, isNewRecord){
+
+	zval *dirty_state;
+	int d;
+
+	dirty_state = phalcon_fetch_nproperty_this(this_ptr, SL("_dirtyState"), PH_NOISY TSRMLS_CC);
+	d = phalcon_get_intval(dirty_state);
+
+	if (d == PHALCON_MODEL_DIRTY_STATE_TRANSIENT) {
+		RETURN_TRUE;
+	}
+
+	RETURN_FALSE;
+}
+
+/**
+ * Whether the record is new and deleted
+ *
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Mvc_Model, isDeletedRecord){
+
+	zval *dirty_state;
+	int d;
+
+	dirty_state = phalcon_fetch_nproperty_this(this_ptr, SL("_dirtyState"), PH_NOISY TSRMLS_CC);
+	d = phalcon_get_intval(dirty_state);
+
+	if (d == PHALCON_MODEL_DIRTY_STATE_DETACHED) {
+		RETURN_TRUE;
+	}
+
+	RETURN_FALSE;
 }

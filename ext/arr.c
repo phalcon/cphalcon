@@ -440,14 +440,12 @@ PHP_METHOD(Phalcon_Arr, set_path){
 				convert_to_long(key);
 			}
 
-			if (!phalcon_array_isset(cpy_array, key)) {
+			if (phalcon_array_isset_fetch(&tmp, cpy_array, key)) {
+				PHALCON_CPY_WRT(cpy_array, tmp);
+			} else {
 				PHALCON_INIT_NVAR(arr);
 				array_init(arr);
 				phalcon_array_update_zval(&cpy_array, key, arr, PH_COPY);
-			}
-
-			if (phalcon_array_isset_fetch(&tmp, cpy_array, key)) {
-				PHALCON_CPY_WRT(cpy_array, tmp);
 			}
 		}
 	}

@@ -28,6 +28,7 @@
 #include "mvc/model/exception.h"
 #include "mvc/model/managerinterface.h"
 #include "mvc/model/metadatainterface.h"
+#include "mvc/model/metadata/memory.h"
 #include "mvc/model/row.h"
 #include "cache/backendinterface.h"
 #include "cache/frontendinterface.h"
@@ -274,7 +275,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, __construct){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Query, setDI){
 
-	zval *dependency_injector, *service = NULL, *manager = NULL;
+	zval *dependency_injector, *service_name = NULL, *has = NULL, *manager = NULL;
 	zval *meta_data = NULL;
 
 	PHALCON_MM_GROW();
@@ -282,10 +283,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, setDI){
 	phalcon_fetch_params(1, 1, 0, &dependency_injector);
 	PHALCON_VERIFY_INTERFACE_EX(dependency_injector, phalcon_diinterface_ce, phalcon_mvc_model_exception_ce, 1);
 
-	PHALCON_INIT_VAR(service);
-	PHALCON_ZVAL_MAYBE_INTERNED_STRING(service, phalcon_interned_modelsManager);
+	PHALCON_INIT_VAR(service_name);
+	PHALCON_ZVAL_MAYBE_INTERNED_STRING(service_name, phalcon_interned_modelsManager);
 
-	PHALCON_CALL_METHOD(&manager, dependency_injector, "getshared", service);
+	PHALCON_CALL_METHOD(&manager, dependency_injector, "getshared", service_name);
 	if (Z_TYPE_P(manager) != IS_OBJECT) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Injected service 'modelsManager' is invalid");
 		return;
@@ -293,16 +294,22 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, setDI){
 
 	PHALCON_VERIFY_INTERFACE(manager, phalcon_mvc_model_managerinterface_ce);
 
-	PHALCON_INIT_NVAR(service);
-	PHALCON_ZVAL_MAYBE_INTERNED_STRING(service, phalcon_interned_modelsMetadata);
+	PHALCON_INIT_NVAR(service_name);
+	PHALCON_ZVAL_MAYBE_INTERNED_STRING(service_name, phalcon_interned_modelsMetadata);
 
-	PHALCON_CALL_METHOD(&meta_data, dependency_injector, "getshared", service);
-	if (Z_TYPE_P(meta_data) != IS_OBJECT) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Injected service 'modelsMetadata' is invalid");
-		return;
+	PHALCON_CALL_METHOD(&has, dependency_injector, "has", service_name);
+	if (zend_is_true(has)) {
+		PHALCON_CALL_METHOD(&meta_data, dependency_injector, "getshared", service_name);
+		if (Z_TYPE_P(meta_data) != IS_OBJECT) {
+			PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Injected service 'modelsMetadata' is invalid");
+			return;
+		}
+
+		PHALCON_VERIFY_INTERFACE(meta_data, phalcon_mvc_model_metadatainterface_ce);
+	} else {
+		PHALCON_INIT_NVAR(meta_data);
+		object_init_ex(meta_data, phalcon_mvc_model_metadata_memory_ce);
 	}
-
-	PHALCON_VERIFY_INTERFACE(meta_data, phalcon_mvc_model_metadatainterface_ce);
 
 	phalcon_update_property_this(this_ptr, SL("_manager"), manager TSRMLS_CC);
 	phalcon_update_property_this(this_ptr, SL("_metaData"), meta_data TSRMLS_CC);

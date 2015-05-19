@@ -1004,6 +1004,19 @@ int phalcon_update_property_this_quick(zval *object, const char *property_name, 
 }
 
 /**
+ * Checks whether obj is an object and updates zval property with long value
+ */
+int phalcon_update_property_zval_long(zval *object, const zval *property, int value TSRMLS_DC){
+
+	if (Z_TYPE_P(property) != IS_STRING) {
+		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Property should be string");
+		return FAILURE;
+	}
+
+	return phalcon_update_property_long(object, Z_STRVAL_P(property), Z_STRLEN_P(property), value TSRMLS_CC);
+}
+
+/**
  * Checks whether obj is an object and updates zval property with another zval
  */
 int phalcon_update_property_zval_zval(zval *object, const zval *property, zval *value TSRMLS_DC){
@@ -1373,6 +1386,43 @@ int phalcon_method_quick_exists_ex(const zval *object, const char *method_name, 
 	} else {
 		return FAILURE;
 	}
+
+	return (ce && phalcon_hash_quick_exists(&ce->function_table, method_name, method_len, hash)) ? SUCCESS : FAILURE;
+}
+
+/**
+ * Check if a method is implemented on certain object
+ */
+int phalcon_method_exists_ce(const zend_class_entry *ce, const zval *method_name TSRMLS_DC){
+
+	char *lcname = zend_str_tolower_dup(Z_STRVAL_P(method_name), Z_STRLEN_P(method_name));
+	int res = phalcon_method_exists_ce_ex(ce, lcname, Z_STRLEN_P(method_name)+1 TSRMLS_CC);
+	efree(lcname);
+	return res;
+}
+
+/**
+ * Check if method exists on certain object using explicit char param
+ *
+ * @param zend_class_entry
+ * @param method_name
+ * @param method_length strlen(method_name)+1
+ */
+int phalcon_method_exists_ce_ex(const zend_class_entry *ce, const char *method_name, zend_uint method_len TSRMLS_DC)
+{
+#ifdef __GNUC__
+	if (__builtin_constant_p(method_name) && __builtin_constant_p(method_len)) {
+		return phalcon_method_quick_exists_ce_ex(ce, method_name, method_len, zend_inline_hash_func(method_name, method_len) TSRMLS_CC);
+	}
+#endif
+
+	return phalcon_method_quick_exists_ce_ex(ce, method_name, method_len, zend_hash_func(method_name, method_len) TSRMLS_CC);
+}
+
+/**
+ * Check if method exists on certain object using explicit char param
+ */
+int phalcon_method_quick_exists_ce_ex(const zend_class_entry *ce, const char *method_name, zend_uint method_len, ulong hash TSRMLS_DC){
 
 	return (ce && phalcon_hash_quick_exists(&ce->function_table, method_name, method_len, hash)) ? SUCCESS : FAILURE;
 }

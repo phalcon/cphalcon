@@ -20,6 +20,7 @@
 #include "mvc/model/query/builderinterface.h"
 #include "mvc/model/exception.h"
 #include "mvc/model/metadatainterface.h"
+#include "mvc/model/metadata/memory.h"
 #include "mvc/model/query.h"
 #include "di.h"
 #include "diinterface.h"
@@ -1840,7 +1841,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getQuery){
 
-	zval *phql = NULL, *dependency_injector, *service_name, *parameters, *query = NULL, *bind_params, *bind_types;
+	zval *phql = NULL, *dependency_injector, *service_name, *has = NULL, *parameters, *query = NULL, *bind_params, *bind_types;
 
 	PHALCON_MM_GROW();
 
@@ -1857,13 +1858,20 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getQuery){
 	PHALCON_INIT_VAR(service_name);
 	ZVAL_STRING(service_name, "modelsQuery", 1);
 
-	PHALCON_INIT_VAR(parameters);
-	array_init(parameters);
+	PHALCON_CALL_METHOD(&has, dependency_injector, "has", service_name);
+	if (zend_is_true(has)) {
+		PHALCON_INIT_VAR(parameters);
+		array_init(parameters);
 
-	phalcon_array_append(&parameters, phql, 0);
-	phalcon_array_append(&parameters, dependency_injector, 0);
+		phalcon_array_append(&parameters, phql, 0);
+		phalcon_array_append(&parameters, dependency_injector, 0);
 
-	PHALCON_CALL_METHOD(&query, dependency_injector, "get", service_name, parameters);
+		PHALCON_CALL_METHOD(&query, dependency_injector, "get", service_name, parameters);
+	} else {
+		PHALCON_INIT_NVAR(query);
+		object_init_ex(query, phalcon_mvc_model_query_ce);
+		PHALCON_CALL_METHOD(NULL, query, "__construct", phql, dependency_injector);
+	}
 
 	/** 
 	 * Set default bind params
@@ -1896,7 +1904,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getConditions){
 
 	zval *conditions, *dependency_injector = NULL, *models;
 	zval *z_one, *number_models, *invalid_condition;
-	zval *model = NULL, *service_name, *meta_data = NULL, *model_instance;
+	zval *model = NULL, *service_name, *has = NULL, *meta_data = NULL, *model_instance;
 	zval *no_primary = NULL, *primary_keys = NULL, *first_primary_key;
 	zval *column_map = NULL, *attribute_field = NULL, *exception_message;
 	zval *primary_key_condition;
@@ -1953,12 +1961,19 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getConditions){
 		PHALCON_INIT_VAR(service_name);
 		PHALCON_ZVAL_MAYBE_INTERNED_STRING(service_name, phalcon_interned_modelsMetadata);
 
-		/** 
-		 * Get the models metadata service to obtain the column names, column map and
-		 * primary key
-		 */
-		PHALCON_CALL_METHOD(&meta_data, dependency_injector, "getshared", service_name);
-		PHALCON_VERIFY_INTERFACE(meta_data, phalcon_mvc_model_metadatainterface_ce);
+		PHALCON_CALL_METHOD(&has, dependency_injector, "has", service_name);
+		if (zend_is_true(has)) {
+			/** 
+			 * Get the models metadata service to obtain the column names, column map and
+			 * primary key
+			 */
+			PHALCON_CALL_METHOD(&meta_data, dependency_injector, "getshared", service_name);
+			PHALCON_VERIFY_INTERFACE(meta_data, phalcon_mvc_model_metadatainterface_ce);
+		} else {
+			PHALCON_INIT_NVAR(meta_data);
+			object_init_ex(meta_data, phalcon_mvc_model_metadata_memory_ce);
+		}
+
 		ce0 = phalcon_fetch_class(model TSRMLS_CC);
 
 		PHALCON_INIT_VAR(model_instance);

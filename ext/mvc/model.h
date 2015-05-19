@@ -22,6 +22,15 @@
 
 #include "php_phalcon.h"
 
+#define PHALCON_MODEL_OP_NONE					0
+#define PHALCON_MODEL_OP_CREATE					1
+#define PHALCON_MODEL_OP_UPDATE					2
+#define PHALCON_MODEL_OP_DELETE					3
+
+#define PHALCON_MODEL_DIRTY_STATE_PERSISTEN		0
+#define PHALCON_MODEL_DIRTY_STATE_TRANSIENT		1
+#define PHALCON_MODEL_DIRTY_STATE_DETACHED		2
+
 extern zend_class_entry *phalcon_mvc_model_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Mvc_Model);

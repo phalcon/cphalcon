@@ -108,6 +108,7 @@ ZEND_BEGIN_MODULE_GLOBALS(phalcon)
 	zval *z_false;
 	zval *z_zero;
 	zval *z_one;
+	zval *z_two;
 
 	/** Function cache */
 	HashTable *fcache;
