@@ -36,26 +36,19 @@ abstract class Dialect implements DialectInterface
 	 */
 	public final function escape(string! str, string escapeChar = null) -> string
 	{
-		var parts, key, part, newParts, isEscape;
+		var parts, key, part, newParts;
+
+		if !globals_get("db.escape_identifiers") {
+			return str;
+		}
 
 		if escapeChar == "" {
 			let escapeChar = (string) this->_escapeChar;
 		}
 
-		let isEscape = (boolean) globals_get("db.escape_identifiers");
-
 		if !memstr(str, ".") {
 
-			if isEscape {
-
-				if escapeChar == "" {
-					return str;
-				}
-
-				if str == "*" {
-					return str;
-				}
-
+			if escapeChar != "" && str != "*" {
 				return escapeChar . str . escapeChar;
 			}
 
@@ -67,7 +60,7 @@ abstract class Dialect implements DialectInterface
 		let newParts = parts;
 		for key, part in parts {
 
-			if escapeChar == "" || !isEscape || part == "" || part == "*" {
+			if escapeChar == "" || part == "" || part == "*" {
 				continue;
 			}
 
@@ -212,9 +205,9 @@ abstract class Dialect implements DialectInterface
 		 */
 		if fetch columnAlias, columnExpression["sqlAlias"] || fetch columnAlias, columnExpression["alias"] {
 			return this->prepareColumnAlias(column, columnAlias);
-		} else {
-			return this->prepareColumnAlias(column);
 		}
+
+		return this->prepareColumnAlias(column);
 	}
 
 	/**
@@ -302,6 +295,12 @@ abstract class Dialect implements DialectInterface
 			 */
 			case "convert":
 				return this->getSqlExpressionConvertValue(expression, escapeChar);
+
+			/**
+			 * Resolve SELECT
+			 */
+			case "select":
+				return "(" . this->select(expression["value"]) . ")";
 		}
 
 		/**
@@ -312,10 +311,6 @@ abstract class Dialect implements DialectInterface
 
 	/**
 	 * Transform an intermediate representation of a schema/table into a database system valid expression
-	 *
-	 * @param array table
-	 * @param string escapeChar
-	 * @return string
 	 */
 	public final function getSqlTable(var table, string escapeChar = null) -> string
 	{
@@ -331,21 +326,17 @@ abstract class Dialect implements DialectInterface
 			/**
 			 * The index "1" is the schema name
 			 */
-			if !fetch schemaName, table[1] {
-				let schemaName = null;
-			}
+			fetch schemaName, table[1];
 
 			/**
 			 * The index "2" is the table alias
 			 */
-			if !fetch aliasName, table[2] {
-				let aliasName = null;
-			}
+			fetch aliasName, table[2];
 
 			return this->prepareTable(tableName, schemaName, aliasName, escapeChar);
-		} else {
-			return table;
 		}
+
+		return this->escape(table, escapeChar);
 	}
 
 	/**
@@ -488,9 +479,9 @@ abstract class Dialect implements DialectInterface
 
 		if typeof value == "array" {
 			return this->getSqlExpression(value, escapeChar);
-		} else {
-			return value;
 		}
+
+		return value;
 	}
 
 	/**
@@ -511,7 +502,7 @@ abstract class Dialect implements DialectInterface
 		return this->getSqlExpression(objectExpression, escapeChar);
 	}
 
-/**
+	/**
 	 * Resolve qualified expressions
 	 */
 	protected final function getSqlExpressionQualified(array! expression, string escapeChar = null) -> string
@@ -583,10 +574,9 @@ abstract class Dialect implements DialectInterface
 
 			if isset expression["distinct"] && expression["distinct"] {
 				return expression["name"] . "(DISTINCT " . arguments . ")";
-			} else {
-				return expression["name"] . "(" . arguments . ")";
 			}
 
+			return expression["name"] . "(" . arguments . ")";
 		}
 
 		return expression["name"] . "()";
@@ -614,9 +604,9 @@ abstract class Dialect implements DialectInterface
 
 			if isset expression["parentheses"] && expression["parentheses"] === false {
 				return join(separator, items);
-			} else {
-				return "(" . join(separator, items) . ")";
 			}
+
+			return "(" . join(separator, items) . ")";
 		}
 
 		throw new Exception("Invalid SQL-list expression");
@@ -629,9 +619,7 @@ abstract class Dialect implements DialectInterface
 	{
 		var domain;
 
-		if !fetch domain, expression["domain"] {
-			let domain = null;
-		}
+		fetch domain, expression["domain"];
 
 		return this->prepareQualified("*", domain, escapeChar);
 	}
@@ -674,7 +662,7 @@ abstract class Dialect implements DialectInterface
 			let tables = [];
 
 			for table in expression {
-				let tables[] = this->getSqlTable(table);
+				let tables[] = this->getSqlTable(table, escapeChar);
 			}
 
 			let tables = join(", ", tables);
@@ -780,9 +768,9 @@ abstract class Dialect implements DialectInterface
 	{
 		if typeof expression == "array" {
 			return "HAVING " . this->getSqlExpression(expression, escapeChar);
-		} else {
-			throw new Exception("Invalid SQL-HAVING expression");
 		}
+
+		throw new Exception("Invalid SQL-HAVING expression");
 	}
 
 	/**
@@ -900,8 +888,8 @@ abstract class Dialect implements DialectInterface
 	{
 		if domain != "" {
 			return this->escape(domain . "." . column, escapeChar);
-		} else {
-			return this->escape(column, escapeChar);
 		}
+
+		return this->escape(column, escapeChar);
 	}
 }

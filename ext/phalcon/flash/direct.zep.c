@@ -48,7 +48,7 @@ PHP_METHOD(Phalcon_Flash_Direct, message) {
 	zephir_get_strval(type, type_param);
 
 
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "outputmessage", NULL, type, message);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "outputmessage", NULL, 0, type, message);
 	zephir_check_call_status();
 	RETURN_MM();
 

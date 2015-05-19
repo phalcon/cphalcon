@@ -102,7 +102,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, query) {
 	ZEPHIR_OBS_VAR(translation);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_translate"), PH_NOISY_CC);
 	if (zephir_array_isset_fetch(&translation, _0, index, 0 TSRMLS_CC)) {
-		ZEPHIR_RETURN_CALL_METHOD(this_ptr, "replaceplaceholders", NULL, translation, placeholders);
+		ZEPHIR_RETURN_CALL_METHOD(this_ptr, "replaceplaceholders", NULL, 0, translation, placeholders);
 		zephir_check_call_status();
 		RETURN_MM();
 	}

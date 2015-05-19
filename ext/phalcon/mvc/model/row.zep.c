@@ -142,11 +142,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, offsetUnset) {
 PHP_METHOD(Phalcon_Mvc_Model_Row, toArray) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zephir_nts_static zephir_fcall_cache_entry *_0 = NULL;
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_RETURN_CALL_FUNCTION("get_object_vars", &_0, this_ptr);
+	ZEPHIR_RETURN_CALL_FUNCTION("get_object_vars", NULL, 60, this_ptr);
 	zephir_check_call_status();
 	RETURN_MM();
 

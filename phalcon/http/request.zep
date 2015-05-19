@@ -53,6 +53,8 @@ class Request implements RequestInterface, InjectionAwareInterface
 
 	protected _filter;
 
+	protected _putCache;
+
 	/**
 	 * Sets the dependency injector
 	 */
@@ -118,8 +120,14 @@ class Request implements RequestInterface, InjectionAwareInterface
 	{
 		var put;
 
-		let put = [];
-		parse_str(file_get_contents("php://input"), put);
+		let put = this->_putCache;
+
+		if typeof put != "array" {
+			let put = [];
+			parse_str(file_get_contents("php://input"), put);
+
+			let this->_putCache = put;
+		}
 
 		return this->getHelper(put, name, filters, defaultValue, notAllowEmpty, noRecursive);
 	}
@@ -148,7 +156,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 	 * Helper to get data from superglobals, applying filters if needed.
 	 * If no parameters are given the superglobal is returned.
 	 */
-	protected function getHelper(array source, string! name = null, var filters = null, var defaultValue = null, boolean notAllowEmpty = false, boolean noRecursive = false)
+	protected final function getHelper(array source, string! name = null, var filters = null, var defaultValue = null, boolean notAllowEmpty = false, boolean noRecursive = false)
 	{
 		var value, filter, dependencyInjector;
 
@@ -208,6 +216,18 @@ class Request implements RequestInterface, InjectionAwareInterface
 	public function hasPost(string! name) -> boolean
 	{
 		return isset _POST[name];
+	}
+
+	/**
+	 * Checks whether the PUT data has certain index
+	 */
+	public function hasPut(string! name) -> boolean
+	{
+		var put;
+
+		let put = this->getPut();
+
+		return isset put[name];
 	}
 
 	/**
@@ -598,7 +618,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 	/**
 	 * Recursively counts file in an array of files
 	 */
-	protected function hasFileHelper(var data, boolean onlySuccessful) -> long
+	protected final function hasFileHelper(var data, boolean onlySuccessful) -> long
 	{
 		var value;
 		int numberFiles = 0;
@@ -665,7 +685,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 	/**
 	 * Smooth out $_FILES to have plain array with all files uploaded
 	 */
-	protected function smoothFiles(array! names, array! types, array! tmp_names, array! sizes, array! errors, string prefix) -> array
+	protected final function smoothFiles(array! names, array! types, array! tmp_names, array! sizes, array! errors, string prefix) -> array
 	{
 		var idx, name, file, files, parentFiles, p;
 
@@ -739,7 +759,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 	/**
 	 * Process a request header and return an array of values with their qualities
 	 */
-	protected function _getQualityHeader(string! serverIndex, string! name) -> array
+	protected final function _getQualityHeader(string! serverIndex, string! name) -> array
 	{
 		var returnedParts, part, headerParts, headerPart, split;
 
@@ -770,7 +790,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 	/**
 	 * Process a request header and return the one with best quality
 	 */
-	protected function _getBestQuality(array qualityParts, string! name) -> string
+	protected final function _getBestQuality(array qualityParts, string! name) -> string
 	{
 		int i;
 		double quality, acceptQuality;

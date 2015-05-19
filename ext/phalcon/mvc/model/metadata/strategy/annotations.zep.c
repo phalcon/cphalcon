@@ -39,7 +39,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getMetaData) {
 	zend_bool _12;
 	HashTable *_4;
 	HashPosition _3;
-	zephir_nts_static zephir_fcall_cache_entry *_2 = NULL;
+	zephir_fcall_cache_entry *_2 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *model, *dependencyInjector, *annotations = NULL, *className, *reflection = NULL, *propertiesAnnotations = NULL, *property = NULL, *propAnnotations = NULL, *columnAnnotation = NULL, *columnName = NULL, *feature = NULL, *fieldTypes, *fieldBindTypes, *numericTyped, *primaryKeys, *nonPrimaryKeys, *identityField = NULL, *notNull, *attributes, *automaticDefault, *defaultValues, *defaultValue = NULL, *_0 = NULL, *_1 = NULL, **_5, *_6 = NULL, *_7 = NULL, *_8 = NULL, *_9 = NULL, *_10 = NULL, *_11 = NULL, *_13 = NULL;
 
@@ -54,32 +54,32 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getMetaData) {
 	}
 	ZEPHIR_INIT_VAR(_0);
 	ZVAL_STRING(_0, "annotations", ZEPHIR_TEMP_PARAM_COPY);
-	ZEPHIR_CALL_METHOD(&annotations, dependencyInjector, "get", NULL, _0);
+	ZEPHIR_CALL_METHOD(&annotations, dependencyInjector, "get", NULL, 0, _0);
 	zephir_check_temp_parameter(_0);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(className);
 	zephir_get_class(className, model, 0 TSRMLS_CC);
-	ZEPHIR_CALL_METHOD(&reflection, annotations, "get", NULL, className);
+	ZEPHIR_CALL_METHOD(&reflection, annotations, "get", NULL, 0, className);
 	zephir_check_call_status();
 	if (Z_TYPE_P(reflection) != IS_OBJECT) {
 		ZEPHIR_INIT_NVAR(_0);
 		object_init_ex(_0, phalcon_mvc_model_exception_ce);
 		ZEPHIR_INIT_VAR(_1);
 		ZEPHIR_CONCAT_SV(_1, "No annotations were found in class ", className);
-		ZEPHIR_CALL_METHOD(NULL, _0, "__construct", &_2, _1);
+		ZEPHIR_CALL_METHOD(NULL, _0, "__construct", &_2, 2, _1);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(_0, "phalcon/mvc/model/metadata/strategy/annotations.zep", 49 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	ZEPHIR_CALL_METHOD(&propertiesAnnotations, reflection, "getpropertiesannotations", NULL);
+	ZEPHIR_CALL_METHOD(&propertiesAnnotations, reflection, "getpropertiesannotations", NULL, 0);
 	zephir_check_call_status();
 	if (!(zephir_fast_count_int(propertiesAnnotations TSRMLS_CC))) {
 		ZEPHIR_INIT_NVAR(_0);
 		object_init_ex(_0, phalcon_mvc_model_exception_ce);
 		ZEPHIR_INIT_LNVAR(_1);
 		ZEPHIR_CONCAT_SV(_1, "No properties with annotations were found in class ", className);
-		ZEPHIR_CALL_METHOD(NULL, _0, "__construct", &_2, _1);
+		ZEPHIR_CALL_METHOD(NULL, _0, "__construct", &_2, 2, _1);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(_0, "phalcon/mvc/model/metadata/strategy/annotations.zep", 57 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
@@ -114,7 +114,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getMetaData) {
 		ZEPHIR_GET_HVALUE(propAnnotations, _5);
 		ZEPHIR_INIT_NVAR(_0);
 		ZVAL_STRING(_0, "Column", ZEPHIR_TEMP_PARAM_COPY);
-		ZEPHIR_CALL_METHOD(&_6, propAnnotations, "has", NULL, _0);
+		ZEPHIR_CALL_METHOD(&_6, propAnnotations, "has", NULL, 0, _0);
 		zephir_check_temp_parameter(_0);
 		zephir_check_call_status();
 		if (!(zephir_is_true(_6))) {
@@ -122,12 +122,12 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getMetaData) {
 		}
 		ZEPHIR_INIT_NVAR(_0);
 		ZVAL_STRING(_0, "Column", ZEPHIR_TEMP_PARAM_COPY);
-		ZEPHIR_CALL_METHOD(&columnAnnotation, propAnnotations, "get", NULL, _0);
+		ZEPHIR_CALL_METHOD(&columnAnnotation, propAnnotations, "get", NULL, 0, _0);
 		zephir_check_temp_parameter(_0);
 		zephir_check_call_status();
 		ZEPHIR_INIT_NVAR(_0);
 		ZVAL_STRING(_0, "column", ZEPHIR_TEMP_PARAM_COPY);
-		ZEPHIR_CALL_METHOD(&columnName, columnAnnotation, "getnamedparameter", NULL, _0);
+		ZEPHIR_CALL_METHOD(&columnName, columnAnnotation, "getnamedparameter", NULL, 0, _0);
 		zephir_check_temp_parameter(_0);
 		zephir_check_call_status();
 		if (ZEPHIR_IS_EMPTY(columnName)) {
@@ -135,7 +135,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getMetaData) {
 		}
 		ZEPHIR_INIT_NVAR(_0);
 		ZVAL_STRING(_0, "type", ZEPHIR_TEMP_PARAM_COPY);
-		ZEPHIR_CALL_METHOD(&feature, columnAnnotation, "getnamedparameter", NULL, _0);
+		ZEPHIR_CALL_METHOD(&feature, columnAnnotation, "getnamedparameter", NULL, 0, _0);
 		zephir_check_temp_parameter(_0);
 		zephir_check_call_status();
 		do {
@@ -205,7 +205,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getMetaData) {
 
 		ZEPHIR_INIT_NVAR(_7);
 		ZVAL_STRING(_7, "Primary", ZEPHIR_TEMP_PARAM_COPY);
-		ZEPHIR_CALL_METHOD(&_9, propAnnotations, "has", NULL, _7);
+		ZEPHIR_CALL_METHOD(&_9, propAnnotations, "has", NULL, 0, _7);
 		zephir_check_temp_parameter(_7);
 		zephir_check_call_status();
 		if (zephir_is_true(_9)) {
@@ -215,7 +215,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getMetaData) {
 		}
 		ZEPHIR_INIT_NVAR(_7);
 		ZVAL_STRING(_7, "Identity", ZEPHIR_TEMP_PARAM_COPY);
-		ZEPHIR_CALL_METHOD(&_10, propAnnotations, "has", NULL, _7);
+		ZEPHIR_CALL_METHOD(&_10, propAnnotations, "has", NULL, 0, _7);
 		zephir_check_temp_parameter(_7);
 		zephir_check_call_status();
 		if (zephir_is_true(_10)) {
@@ -223,7 +223,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getMetaData) {
 		}
 		ZEPHIR_INIT_NVAR(_7);
 		ZVAL_STRING(_7, "nullable", ZEPHIR_TEMP_PARAM_COPY);
-		ZEPHIR_CALL_METHOD(&_11, columnAnnotation, "getnamedparameter", NULL, _7);
+		ZEPHIR_CALL_METHOD(&_11, columnAnnotation, "getnamedparameter", NULL, 0, _7);
 		zephir_check_temp_parameter(_7);
 		zephir_check_call_status();
 		if (!(zephir_is_true(_11))) {
@@ -231,14 +231,14 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getMetaData) {
 		}
 		ZEPHIR_INIT_NVAR(_7);
 		ZVAL_STRING(_7, "default", ZEPHIR_TEMP_PARAM_COPY);
-		ZEPHIR_CALL_METHOD(&defaultValue, columnAnnotation, "getnamedparameter", NULL, _7);
+		ZEPHIR_CALL_METHOD(&defaultValue, columnAnnotation, "getnamedparameter", NULL, 0, _7);
 		zephir_check_temp_parameter(_7);
 		zephir_check_call_status();
 		_12 = Z_TYPE_P(defaultValue) != IS_NULL;
 		if (!(_12)) {
 			ZEPHIR_INIT_NVAR(_7);
 			ZVAL_STRING(_7, "nullable", ZEPHIR_TEMP_PARAM_COPY);
-			ZEPHIR_CALL_METHOD(&_13, columnAnnotation, "getnamedparameter", NULL, _7);
+			ZEPHIR_CALL_METHOD(&_13, columnAnnotation, "getnamedparameter", NULL, 0, _7);
 			zephir_check_temp_parameter(_7);
 			zephir_check_call_status();
 			_12 = zephir_is_true(_13);
@@ -271,7 +271,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getColumnMaps) {
 
 	HashTable *_4;
 	HashPosition _3;
-	zephir_nts_static zephir_fcall_cache_entry *_2 = NULL;
+	zephir_fcall_cache_entry *_2 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *model, *dependencyInjector, *annotations = NULL, *className, *reflection = NULL, *propertiesAnnotations = NULL, *property = NULL, *propAnnotations = NULL, *columnAnnotation = NULL, *columnName = NULL, *orderedColumnMap = NULL, *reversedColumnMap = NULL, *_0 = NULL, *_1 = NULL, **_5, *_6 = NULL;
 
@@ -286,32 +286,32 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getColumnMaps) {
 	}
 	ZEPHIR_INIT_VAR(_0);
 	ZVAL_STRING(_0, "annotations", ZEPHIR_TEMP_PARAM_COPY);
-	ZEPHIR_CALL_METHOD(&annotations, dependencyInjector, "get", NULL, _0);
+	ZEPHIR_CALL_METHOD(&annotations, dependencyInjector, "get", NULL, 0, _0);
 	zephir_check_temp_parameter(_0);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(className);
 	zephir_get_class(className, model, 0 TSRMLS_CC);
-	ZEPHIR_CALL_METHOD(&reflection, annotations, "get", NULL, className);
+	ZEPHIR_CALL_METHOD(&reflection, annotations, "get", NULL, 0, className);
 	zephir_check_call_status();
 	if (Z_TYPE_P(reflection) != IS_OBJECT) {
 		ZEPHIR_INIT_NVAR(_0);
 		object_init_ex(_0, phalcon_mvc_model_exception_ce);
 		ZEPHIR_INIT_VAR(_1);
 		ZEPHIR_CONCAT_SV(_1, "No annotations were found in class ", className);
-		ZEPHIR_CALL_METHOD(NULL, _0, "__construct", &_2, _1);
+		ZEPHIR_CALL_METHOD(NULL, _0, "__construct", &_2, 2, _1);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(_0, "phalcon/mvc/model/metadata/strategy/annotations.zep", 212 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	ZEPHIR_CALL_METHOD(&propertiesAnnotations, reflection, "getpropertiesannotations", NULL);
+	ZEPHIR_CALL_METHOD(&propertiesAnnotations, reflection, "getpropertiesannotations", NULL, 0);
 	zephir_check_call_status();
 	if (!(zephir_fast_count_int(propertiesAnnotations TSRMLS_CC))) {
 		ZEPHIR_INIT_NVAR(_0);
 		object_init_ex(_0, phalcon_mvc_model_exception_ce);
 		ZEPHIR_INIT_LNVAR(_1);
 		ZEPHIR_CONCAT_SV(_1, "No properties with annotations were found in class ", className);
-		ZEPHIR_CALL_METHOD(NULL, _0, "__construct", &_2, _1);
+		ZEPHIR_CALL_METHOD(NULL, _0, "__construct", &_2, 2, _1);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(_0, "phalcon/mvc/model/metadata/strategy/annotations.zep", 220 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
@@ -330,7 +330,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getColumnMaps) {
 		ZEPHIR_GET_HVALUE(propAnnotations, _5);
 		ZEPHIR_INIT_NVAR(_0);
 		ZVAL_STRING(_0, "Column", ZEPHIR_TEMP_PARAM_COPY);
-		ZEPHIR_CALL_METHOD(&_6, propAnnotations, "has", NULL, _0);
+		ZEPHIR_CALL_METHOD(&_6, propAnnotations, "has", NULL, 0, _0);
 		zephir_check_temp_parameter(_0);
 		zephir_check_call_status();
 		if (!(zephir_is_true(_6))) {
@@ -338,12 +338,12 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getColumnMaps) {
 		}
 		ZEPHIR_INIT_NVAR(_0);
 		ZVAL_STRING(_0, "Column", ZEPHIR_TEMP_PARAM_COPY);
-		ZEPHIR_CALL_METHOD(&columnAnnotation, propAnnotations, "get", NULL, _0);
+		ZEPHIR_CALL_METHOD(&columnAnnotation, propAnnotations, "get", NULL, 0, _0);
 		zephir_check_temp_parameter(_0);
 		zephir_check_call_status();
 		ZEPHIR_INIT_NVAR(_0);
 		ZVAL_STRING(_0, "column", ZEPHIR_TEMP_PARAM_COPY);
-		ZEPHIR_CALL_METHOD(&columnName, columnAnnotation, "getnamedparameter", NULL, _0);
+		ZEPHIR_CALL_METHOD(&columnName, columnAnnotation, "getnamedparameter", NULL, 0, _0);
 		zephir_check_temp_parameter(_0);
 		zephir_check_call_status();
 		if (!(ZEPHIR_IS_EMPTY(columnName))) {

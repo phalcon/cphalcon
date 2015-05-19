@@ -20,6 +20,7 @@
 namespace Phalcon\Mvc\Collection;
 
 use Phalcon\Events\ManagerInterface as EventsManagerInterface;
+use Phalcon\Mvc\CollectionInterface;
 
 /**
  * Phalcon\Mvc\Collection\Manager

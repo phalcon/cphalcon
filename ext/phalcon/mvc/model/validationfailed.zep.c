@@ -60,7 +60,7 @@ PHP_METHOD(Phalcon_Mvc_Model_ValidationFailed, __construct) {
 	if (zephir_fast_count_int(validationMessages TSRMLS_CC) > 0) {
 		ZEPHIR_OBS_VAR(message);
 		zephir_array_fetch_long(&message, validationMessages, 0, PH_NOISY, "phalcon/mvc/model/validationfailed.zep", 51 TSRMLS_CC);
-		ZEPHIR_CALL_METHOD(&messageStr, message, "getmessage", NULL);
+		ZEPHIR_CALL_METHOD(&messageStr, message, "getmessage", NULL, 0);
 		zephir_check_call_status();
 	} else {
 		ZEPHIR_INIT_NVAR(messageStr);
@@ -68,7 +68,7 @@ PHP_METHOD(Phalcon_Mvc_Model_ValidationFailed, __construct) {
 	}
 	zephir_update_property_this(this_ptr, SL("_model"), model TSRMLS_CC);
 	zephir_update_property_this(this_ptr, SL("_messages"), validationMessages TSRMLS_CC);
-	ZEPHIR_CALL_PARENT(NULL, phalcon_mvc_model_validationfailed_ce, this_ptr, "__construct", NULL, messageStr);
+	ZEPHIR_CALL_PARENT(NULL, phalcon_mvc_model_validationfailed_ce, this_ptr, "__construct", NULL, 0, messageStr);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 

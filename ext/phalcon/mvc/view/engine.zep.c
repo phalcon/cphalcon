@@ -66,7 +66,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine, getContent) {
 	ZEPHIR_MM_GROW();
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_view"), PH_NOISY_CC);
-	ZEPHIR_RETURN_CALL_METHOD(_0, "getcontent", NULL);
+	ZEPHIR_RETURN_CALL_METHOD(_0, "getcontent", NULL, 0);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -105,7 +105,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine, partial) {
 
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_view"), PH_NOISY_CC);
-	ZEPHIR_RETURN_CALL_METHOD(_0, "partial", NULL, partialPath, params);
+	ZEPHIR_RETURN_CALL_METHOD(_0, "partial", NULL, 0, partialPath, params);
 	zephir_check_call_status();
 	RETURN_MM();
 

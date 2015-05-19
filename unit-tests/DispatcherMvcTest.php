@@ -161,7 +161,7 @@ class DispatcherMvcTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($value, "hello");
 
 		$value = $dispatcher->getControllerClass();
-		$this->assertEquals($value, "est7Controller");
+		$this->assertEquals($value, "Test7Controller");
 	}
 
 	public function testDispatcherForward()
@@ -194,6 +194,48 @@ class DispatcherMvcTest extends PHPUnit_Framework_TestCase
 
 		$value = $dispatcher->getPreviousActionName();
 		$this->assertEquals($value, 'index');
+	}
+
+	public function testGetControllerClass()
+	{
+		Phalcon\DI::reset();
+
+		$di = new Phalcon\DI();
+
+		$dispatcher = new Phalcon\Mvc\Dispatcher();
+		$dispatcher->setDI($di);
+
+		$di->set('dispatcher', $dispatcher);
+
+		// With namespace
+		$dispatcher->setNamespaceName('Foo\Bar');
+		$dispatcher->setControllerName('test');
+
+		$value = $dispatcher->getControllerClass();
+		$this->assertEquals($value, 'Foo\Bar\TestController');
+
+		// Without namespace
+		$dispatcher->setNamespaceName(null);
+		$dispatcher->setControllerName('Test');
+
+		$value = $dispatcher->getControllerClass();
+		$this->assertEquals('TestController', $value);
+	}
+
+	public function testDefaultsResolve()
+	{
+		Phalcon\DI::reset();
+		$di = new Phalcon\DI();
+
+		$dispatcher = new Phalcon\Mvc\Dispatcher();
+		$dispatcher->setDI($di);
+
+		$di->set('dispatcher', $dispatcher);
+
+		$dispatcher->setDefaultNamespace('Foo');
+
+		$value = $dispatcher->getControllerClass();
+		$this->assertEquals('Foo\IndexController', $value);
 	}
 
 }

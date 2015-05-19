@@ -119,7 +119,7 @@ static char *zephir_fcall_possible_method(zend_class_entry *ce, const char *wron
 		ZVAL_STRING(&method_name, wrong_name, 0);
 
 		params[0] = &method_name;
-		zephir_call_func_aparams(&right, SL("metaphone"), NULL, 1, params TSRMLS_CC);
+		zephir_call_func_aparams(&right, SL("metaphone"), NULL, 0, 1, params TSRMLS_CC);
 
 		methods = &ce->function_table;
 		zend_hash_internal_pointer_reset_ex(methods, &pos);
@@ -135,7 +135,7 @@ static char *zephir_fcall_possible_method(zend_class_entry *ce, const char *wron
 			left = NULL;
 
 			params[0] = &method_name;
-			zephir_call_func_aparams(&left, SL("metaphone"), NULL, 1, params TSRMLS_CC);
+			zephir_call_func_aparams(&left, SL("metaphone"), NULL, 0, 1, params TSRMLS_CC);
 
 			if (zephir_is_equal(left, right TSRMLS_CC)) {
 				possible_method = (char *) method->common.function_name;
@@ -444,8 +444,8 @@ ZEPHIR_ATTR_NONNULL static void zephir_fcall_populate_fci_cache(zend_fcall_info_
 /**
  * Calls a function/method in the PHP userland
  */
-int ZEPHIR_NO_OPT zephir_call_user_function(zval **object_pp, zend_class_entry *obj_ce, zephir_call_type type,
-	zval *function_name, zval **retval_ptr_ptr, zephir_fcall_cache_entry **cache_entry, zend_uint param_count,
+int zephir_call_user_function(zval **object_pp, zend_class_entry *obj_ce, zephir_call_type type,
+	zval *function_name, zval **retval_ptr_ptr, zephir_fcall_cache_entry **cache_entry, int cache_slot, zend_uint param_count,
 	zval *params[], zephir_fcall_info *info TSRMLS_DC)
 {
 	zval ***params_ptr, ***params_array = NULL;
@@ -460,6 +460,7 @@ int ZEPHIR_NO_OPT zephir_call_user_function(zval **object_pp, zend_class_entry *
 	ulong fcall_key_hash;
 	zephir_fcall_cache_entry **temp_cache_entry = NULL;
 	zend_class_entry *old_scope = EG(scope);
+	int reload_cache = 1;
 
 	assert(obj_ce || !object_pp);
 
@@ -508,10 +509,20 @@ int ZEPHIR_NO_OPT zephir_call_user_function(zval **object_pp, zend_class_entry *
 
 	if (!cache_entry || !*cache_entry) {
 		if (zephir_globals_ptr->cache_enabled) {
-			if (info) {
-				fcall_key_hash = zephir_make_fcall_info_key(&fcall_key, &fcall_key_len, (object_pp && type != zephir_fcall_ce ? Z_OBJCE_PP(object_pp) : obj_ce), type, info TSRMLS_CC);
-			} else {
-				fcall_key_hash = zephir_make_fcall_key(&fcall_key, &fcall_key_len, (object_pp && type != zephir_fcall_ce ? Z_OBJCE_PP(object_pp) : obj_ce), type, function_name TSRMLS_CC);
+
+			if (cache_slot > 0) {
+				if (zephir_globals_ptr->scache[cache_slot]) {
+					reload_cache = 0;				
+					temp_cache_entry = &zephir_globals_ptr->scache[cache_slot];
+				}
+			}
+
+			if (reload_cache) {
+				if (info) {
+					fcall_key_hash = zephir_make_fcall_info_key(&fcall_key, &fcall_key_len, (object_pp && type != zephir_fcall_ce ? Z_OBJCE_PP(object_pp) : obj_ce), type, info TSRMLS_CC);
+				} else {
+					fcall_key_hash = zephir_make_fcall_key(&fcall_key, &fcall_key_len, (object_pp && type != zephir_fcall_ce ? Z_OBJCE_PP(object_pp) : obj_ce), type, function_name TSRMLS_CC);
+				}
 			}
 		}
 	}
@@ -546,7 +557,7 @@ int ZEPHIR_NO_OPT zephir_call_user_function(zval **object_pp, zend_class_entry *
 		zephir_fcall_populate_fci_cache(&fcic, &fci, type TSRMLS_CC);
 #ifndef ZEPHIR_RELEASE
 		fcic.function_handler = (*cache_entry)->f;
-		++(*temp_cache_entry)->times;
+		++(*cache_entry)->times;
 #else
 		fcic.function_handler = *cache_entry;
 #endif
@@ -609,11 +620,12 @@ int ZEPHIR_NO_OPT zephir_call_user_function(zval **object_pp, zend_class_entry *
 				free(temp_cache_entry);
 #endif
 			} else {
-#ifdef ZEPHIR_RELEASE
 				if (cache_entry) {
 					*cache_entry = temp_cache_entry;
+					if (cache_slot > 0) {
+						zephir_globals_ptr->scache[cache_slot] = *cache_entry;
+					}
 				}
-#endif
 			}
 		}
 	}
@@ -637,7 +649,7 @@ int ZEPHIR_NO_OPT zephir_call_user_function(zval **object_pp, zend_class_entry *
 }
 
 int zephir_call_func_aparams(zval **return_value_ptr, const char *func_name, uint func_length,
-	zephir_fcall_cache_entry **cache_entry,
+	zephir_fcall_cache_entry **cache_entry, int cache_slot,
 	uint param_count, zval **params TSRMLS_DC)
 {
 	int status;
@@ -662,14 +674,14 @@ int zephir_call_func_aparams(zval **return_value_ptr, const char *func_name, uin
 	info.func_name = func_name;
 	info.func_length = func_length;
 
-	status = zephir_call_user_function(NULL, NULL, zephir_fcall_function, func, rvp, cache_entry, param_count, params, &info TSRMLS_CC);
+	status = zephir_call_user_function(NULL, NULL, zephir_fcall_function, func, rvp, cache_entry, cache_slot, param_count, params, &info TSRMLS_CC);
 
 #else
 
 	ALLOC_INIT_ZVAL(func);
 	ZVAL_STRINGL(func, func_name, func_length, 0);
 
-	status = zephir_call_user_function(NULL, NULL, zephir_fcall_function, func, rvp, cache_entry, param_count, params, NULL TSRMLS_CC);
+	status = zephir_call_user_function(NULL, NULL, zephir_fcall_function, func, rvp, cache_entry, 0, param_count, params, NULL TSRMLS_CC);
 
 #endif
 
@@ -704,7 +716,7 @@ int zephir_call_func_aparams(zval **return_value_ptr, const char *func_name, uin
 }
 
 int zephir_call_zval_func_aparams(zval **return_value_ptr, zval *func_name,
-	zephir_fcall_cache_entry **cache_entry,
+	zephir_fcall_cache_entry **cache_entry, int cache_slot,
 	uint param_count, zval **params TSRMLS_DC)
 {
 	int status;
@@ -718,7 +730,7 @@ int zephir_call_zval_func_aparams(zval **return_value_ptr, zval *func_name,
 	}
 #endif
 
-	status = zephir_call_user_function(NULL, NULL, zephir_fcall_function, func_name, rvp, cache_entry, param_count, params, NULL TSRMLS_CC);
+	status = zephir_call_user_function(NULL, NULL, zephir_fcall_function, func_name, rvp, cache_entry, cache_slot, param_count, params, NULL TSRMLS_CC);
 
 	if (status == FAILURE && !EG(exception)) {
 		zephir_throw_exception_format(spl_ce_RuntimeException TSRMLS_CC, "Call to undefined function %s()", Z_TYPE_P(func_name) ? Z_STRVAL_P(func_name) : "undefined");
@@ -743,13 +755,15 @@ int zephir_call_zval_func_aparams(zval **return_value_ptr, zval *func_name,
 
 int zephir_call_class_method_aparams(zval **return_value_ptr, zend_class_entry *ce, zephir_call_type type, zval *object,
 	const char *method_name, uint method_len,
-	zephir_fcall_cache_entry **cache_entry,
+	zephir_fcall_cache_entry **cache_entry, int cache_slot,
 	uint param_count, zval **params TSRMLS_DC)
 {
 	char *possible_method;
 	zval *rv = NULL, **rvp = return_value_ptr ? return_value_ptr : &rv;
 	zval *fn = NULL;
+#if PHP_VERSION_ID < 50600
 	zval *mn;
+#endif
 	int status;
 #if PHP_VERSION_ID >= 50600
 	zephir_fcall_info info;
@@ -812,7 +826,7 @@ int zephir_call_class_method_aparams(zval **return_value_ptr, zend_class_entry *
 		info.func_length = method_len;
 	}
 
-	status = zephir_call_user_function(object ? &object : NULL, ce, type, fn, rvp, cache_entry, param_count, params, &info TSRMLS_CC);
+	status = zephir_call_user_function(object ? &object : NULL, ce, type, fn, rvp, cache_entry, cache_slot, param_count, params, &info TSRMLS_CC);
 
 #else
 
@@ -846,7 +860,7 @@ int zephir_call_class_method_aparams(zval **return_value_ptr, zend_class_entry *
 		ZVAL_STRINGL(fn, "undefined", sizeof("undefined")-1, 1);
 	}
 
-	status = zephir_call_user_function(object ? &object : NULL, ce, type, fn, rvp, cache_entry, param_count, params, NULL TSRMLS_CC);
+	status = zephir_call_user_function(object ? &object : NULL, ce, type, fn, rvp, cache_entry, cache_slot, param_count, params, NULL TSRMLS_CC);
 
 #endif
 
