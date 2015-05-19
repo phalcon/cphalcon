@@ -24,6 +24,7 @@
 #include "di/injectionawareinterface.h"
 #include "di/service.h"
 #include "di/serviceinterface.h"
+#include "events/managerinterface.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
@@ -482,6 +483,8 @@ void phalcon_di_set_services(zval *this_ptr, zval *services TSRMLS_DC)
 }
 
 PHP_METHOD(Phalcon_DI, __construct);
+PHP_METHOD(Phalcon_DI, setEventsManager);
+PHP_METHOD(Phalcon_DI, getEventsManager);
 PHP_METHOD(Phalcon_DI, set);
 PHP_METHOD(Phalcon_DI, setShared);
 PHP_METHOD(Phalcon_DI, remove);
@@ -522,6 +525,8 @@ ZEND_END_ARG_INFO()
 
 static const zend_function_entry phalcon_di_method_entry[] = {
 	PHP_ME(Phalcon_DI, __construct, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_ME(Phalcon_DI, setEventsManager, NULL, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_DI, getEventsManager, NULL, ZEND_ACC_PROTECTED)
 	/* Phalcon\DiInterface*/
 	PHP_ME(Phalcon_DI, set, arginfo_phalcon_diinterface_set, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_DI, remove, arginfo_phalcon_diinterface_remove, ZEND_ACC_PUBLIC)
@@ -565,6 +570,7 @@ PHALCON_INIT_CLASS(Phalcon_DI){
 	PHALCON_REGISTER_CLASS(Phalcon, DI, di, phalcon_di_method_entry, 0);
 
 	zend_declare_property_null(phalcon_di_ce, SL("_default"), ZEND_ACC_PROTECTED|ZEND_ACC_STATIC TSRMLS_CC);
+	zend_declare_property_null(phalcon_di_ce, SL("_eventsManager"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_class_implements(phalcon_di_ce TSRMLS_CC, 1, phalcon_diinterface_ce);
 
 	phalcon_di_ce->create_object = phalcon_di_ctor;
@@ -599,6 +605,36 @@ PHP_METHOD(Phalcon_DI, __construct){
 	if (Z_TYPE_P(default_di) == IS_NULL) {
 		phalcon_update_static_property_ce(phalcon_di_ce, SL("_default"), this_ptr TSRMLS_CC);
 	}
+}
+
+/**
+ * Sets a custom events manager
+ *
+ * @param Phalcon\Events\ManagerInterface $eventsManager
+ */
+PHP_METHOD(Phalcon_DI, setEventsManager){
+
+	zval *events_manager;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 1, 0, &events_manager);
+
+	PHALCON_VERIFY_INTERFACE_EX(events_manager, phalcon_events_managerinterface_ce, phalcon_di_exception_ce, 0);
+
+	phalcon_update_property_this(this_ptr, SL("_eventsManager"), events_manager TSRMLS_CC);
+
+	PHALCON_MM_RESTORE();
+}
+
+/**
+ * Returns the custom events manager
+ *
+ * @return Phalcon\Events\ManagerInterface
+ */
+PHP_METHOD(Phalcon_DI, getEventsManager){
+
+	RETURN_MEMBER(this_ptr, "_eventsManager");
 }
 
 /**
@@ -798,21 +834,37 @@ PHP_METHOD(Phalcon_DI, getService){
  */
 PHP_METHOD(Phalcon_DI, get){
 
-	zval **name, **parameters = NULL, **service;
+	zval *name, *parameters = NULL, *events_manager, *event_name = NULL, *event_data = NULL, **service;
 	phalcon_di_object *obj;
 	zend_class_entry *ce;
 
-	phalcon_fetch_params_ex(1, 1, &name, &parameters);
-	PHALCON_ENSURE_IS_STRING(name);
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 1, 1, &name, &parameters);
+	PHALCON_ENSURE_IS_STRING(&name);
 	
 	if (!parameters) {
-		parameters = &PHALCON_GLOBAL(z_null);
+		parameters = PHALCON_GLOBAL(z_null);
+	}
+
+	events_manager = phalcon_fetch_nproperty_this(this_ptr, SL("_eventsManager"), PH_NOISY TSRMLS_CC);
+	if (Z_TYPE_P(events_manager) == IS_OBJECT) {
+		PHALCON_INIT_NVAR(event_name);
+		ZVAL_STRING(event_name, "di:beforeServiceResolve", 1);
+
+		PHALCON_INIT_NVAR(event_data);
+		array_init(event_data);
+
+		phalcon_array_update_string(&event_data, SL("name"), name, PH_COPY);
+		phalcon_array_update_string(&event_data, SL("parameters"), parameters, PH_COPY);
+
+		PHALCON_CALL_METHOD(NULL, events_manager, "fire", event_name, this_ptr, event_data);
 	}
 
 	obj = phalcon_di_get_object(getThis() TSRMLS_CC);
-	if (SUCCESS == zend_symtable_find(obj->services, Z_STRVAL_PP(name), Z_STRLEN_PP(name)+1, (void**)&service)) {
+	if (SUCCESS == zend_symtable_find(obj->services, Z_STRVAL_P(name), Z_STRLEN_P(name)+1, (void**)&service)) {
 		/* The service is registered in the DI */
-		PHALCON_RETURN_CALL_METHODW(*service, "resolve", *parameters, this_ptr);
+		PHALCON_RETURN_CALL_METHOD(*service, "resolve", parameters, this_ptr);
 
 		if (return_value_ptr) {
 			return_value = *return_value_ptr;
@@ -822,21 +874,37 @@ PHP_METHOD(Phalcon_DI, get){
 	}
 	else {
 		/* The DI also acts as builder for any class even if it isn't defined in the DI */
-		if (phalcon_class_exists_ex(&ce, *name, 1 TSRMLS_CC)) {
-			if (FAILURE == phalcon_create_instance_params_ce(return_value, ce, *parameters TSRMLS_CC)) {
-				return;
+		if (phalcon_class_exists_ex(&ce, name, 1 TSRMLS_CC)) {
+			if (FAILURE == phalcon_create_instance_params_ce(return_value, ce, parameters TSRMLS_CC)) {
+				RETURN_MM();
 			}
 		}
 		else {
-			zend_throw_exception_ex(phalcon_di_exception_ce, 0 TSRMLS_CC, "Service '%s' was not found in the dependency injection container", Z_STRVAL_PP(name));
-			return;
+			zend_throw_exception_ex(phalcon_di_exception_ce, 0 TSRMLS_CC, "Service '%s' was not found in the dependency injection container", Z_STRVAL_P(name));
+			RETURN_MM();
 		}
 	}
 
 	/* Pass the DI itself if the instance implements Phalcon\DI\InjectionAwareInterface */
 	if (ce && instanceof_function_ex(ce, phalcon_di_injectionawareinterface_ce, 1 TSRMLS_CC)) {
-		PHALCON_CALL_METHODW(NULL, return_value, "setdi", this_ptr);
+		PHALCON_CALL_METHOD(NULL, return_value, "setdi", this_ptr);
 	}
+
+	if (Z_TYPE_P(events_manager) == IS_OBJECT) {
+		PHALCON_INIT_NVAR(event_name);
+		ZVAL_STRING(event_name, "di:afterServiceResolve", 1);
+
+		PHALCON_INIT_NVAR(event_data);
+		array_init(event_data);
+
+		phalcon_array_update_string(&event_data, SL("name"), name, PH_COPY);
+		phalcon_array_update_string(&event_data, SL("parameters"), parameters, PH_COPY);
+		phalcon_array_update_string(&event_data, SL("instance"), return_value, PH_COPY);
+
+		PHALCON_CALL_METHOD(NULL, events_manager, "fire", event_name, this_ptr, event_data);
+	}
+
+	RETURN_MM();
 }
 
 /**
