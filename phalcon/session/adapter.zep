@@ -27,6 +27,12 @@ namespace Phalcon\Session;
 abstract class Adapter
 {
 
+	const SESSION_ACTIVE = 2;
+
+	const SESSION_NONE = 1;
+
+	const SESSION_DISABLED = 0;
+
 	protected _uniqueId;
 
 	protected _started = false;
@@ -53,7 +59,7 @@ abstract class Adapter
 	public function start() -> boolean
 	{
 		if !headers_sent() {
-			if !this->_started && session_status() !== PHP_SESSION_ACTIVE {
+			if !this->_started && this->status() !== self::SESSION_ACTIVE {
 				session_start();
 				let this->_started = true;
 				return true;
@@ -206,6 +212,31 @@ abstract class Adapter
 	{
 		let this->_started = false;
 		return session_destroy();
+	}
+
+	/**
+	 * Returns the status of the current session
+	 *
+	 *<code>
+	 *	var_dump(session->status());
+	 *</code>
+	 */
+	public function status() -> int
+	{
+		int status;
+
+		let status = session_status();
+
+		switch status {
+			case PHP_SESSION_DISABLED:
+				return self::SESSION_DISABLED;
+
+			case PHP_SESSION_NONE:
+				return self::SESSION_NONE;
+
+			case PHP_SESSION_ACTIVE:
+				return self::SESSION_ACTIVE;
+		}
 	}
 
 	/**

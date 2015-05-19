@@ -7,6 +7,8 @@
  - Phalcon\Text
  -- Added method reduceSlashes() - Reduces multiple slashes in a string to single slashes
  -- Added method concat() - Concatenates strings using the separator only once without duplication in places concatenation
+ - Added conditional on Session adapter start() to check if the session has already been started
+ - Added status() function in Session adapter to return the status of the session (disabled/none/started)
 
 2.0.1
  - Added missing Phalcon\Debug::listenLowSeverity
