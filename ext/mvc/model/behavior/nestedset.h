@@ -17,38 +17,13 @@
   +------------------------------------------------------------------------+
 */
 
-#include "di/injectionawareinterface.h"
+#ifndef PHALCON_MVC_MODEL_BEHAVIOR_NESTEDSET_H
+#define PHALCON_MVC_MODEL_BEHAVIOR_NESTEDSET_H
 
-#include "kernel/main.h"
+#include "php_phalcon.h"
 
-zend_class_entry *phalcon_di_injectionawareinterface_ce;
+extern zend_class_entry *phalcon_mvc_model_behavior_nestedset_ce;
 
-static const zend_function_entry phalcon_di_injectionawareinterface_method_entry[] = {
-	PHP_ABSTRACT_ME(Phalcon_DI_InjectionAwareInterface, setDI, arginfo_phalcon_di_injectionawareinterface_setdi)
-	PHP_ABSTRACT_ME(Phalcon_DI_InjectionAwareInterface, getDI, arginfo_phalcon_di_injectionawareinterface_getdi)
-	PHP_FE_END
-};
+PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Behavior_NestedSet);
 
-/**
- * Phalcon\DI\InjectionAwareInterface initializer
- */
-PHALCON_INIT_CLASS(Phalcon_DI_InjectionAwareInterface){
-
-	PHALCON_REGISTER_INTERFACE(Phalcon\\DI, InjectionAwareInterface, di_injectionawareinterface, phalcon_di_injectionawareinterface_method_entry);
-
-	return SUCCESS;
-}
-
-/**
- * Sets the dependency injector
- *
- * @param Phalcon\DiInterface $dependencyInjector
- */
-PHALCON_DOC_METHOD(Phalcon_DI_InjectionAwareInterface, setDI);
-
-/**
- * Returns the internal dependency injector
- *
- * @return Phalcon\DiInterface
- */
-PHALCON_DOC_METHOD(Phalcon_DI_InjectionAwareInterface, getDI);
+#endif /* PHALCON_MVC_MODEL_BEHAVIOR_NESTEDSET_H */

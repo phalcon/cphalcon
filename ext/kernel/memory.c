@@ -109,6 +109,10 @@ void phalcon_initialize_memory(zend_phalcon_globals *phalcon_globals_ptr TSRMLS_
 	Z_SET_REFCOUNT_P(phalcon_globals_ptr->z_one, 2);
 	ZVAL_LONG(phalcon_globals_ptr->z_one, 1);
 
+	ALLOC_INIT_ZVAL(phalcon_globals_ptr->z_two);
+	Z_SET_REFCOUNT_P(phalcon_globals_ptr->z_two, 2);
+	ZVAL_LONG(phalcon_globals_ptr->z_two, 2);
+
 	phalcon_globals_ptr->initialized = 1;
 }
 
@@ -152,6 +156,7 @@ void phalcon_deinitialize_memory(TSRMLS_D)
 		zval_ptr_dtor(&phalcon_globals_ptr->z_true);
 		zval_ptr_dtor(&phalcon_globals_ptr->z_zero);
 		zval_ptr_dtor(&phalcon_globals_ptr->z_one);
+		zval_ptr_dtor(&phalcon_globals_ptr->z_two);
 	}
 
 	phalcon_globals_ptr->initialized = 0;

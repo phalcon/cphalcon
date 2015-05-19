@@ -225,6 +225,7 @@ mvc/model/resultset/complex.c \
 mvc/model/resultset/simple.c \
 mvc/model/behavior/timestampable.c \
 mvc/model/behavior/softdelete.c \
+mvc/model/behavior/nestedset.c \
 mvc/model/validator.c \
 mvc/model/metadatainterface.c \
 mvc/model/relationinterface.c \

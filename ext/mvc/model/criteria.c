@@ -281,12 +281,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, getModelName) {
  * Sets the bound parameters in the criteria
  * This method replaces all previously set bound parameters
  *
-<<<<<<< HEAD
  * @param string $bindParams
  * @param boolean $merge
-=======
- * @param array $bindParams
->>>>>>> phalcon/1.3.5
+ *
  * @return Phalcon\Mvc\Model\CriteriaInterface
  */
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, bind) {

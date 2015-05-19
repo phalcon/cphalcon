@@ -55,6 +55,9 @@ int phalcon_zval_is_traversable(zval *object TSRMLS_DC);
 int phalcon_method_exists(const zval *object, const zval *method_name TSRMLS_DC) PHALCON_ATTR_NONNULL;
 int phalcon_method_exists_ex(const zval *object, const char *method_name, zend_uint method_len TSRMLS_DC) PHALCON_ATTR_NONNULL;
 int phalcon_method_quick_exists_ex(const zval *object, const char *method_name, zend_uint method_len, ulong hash TSRMLS_DC) PHALCON_ATTR_NONNULL;
+int phalcon_method_exists_ce(const zend_class_entry *ce, const zval *method_name TSRMLS_DC) PHALCON_ATTR_NONNULL;
+int phalcon_method_exists_ce_ex(const zend_class_entry *ce, const char *method_name, zend_uint method_len TSRMLS_DC) PHALCON_ATTR_NONNULL;
+int phalcon_method_quick_exists_ce_ex(const zend_class_entry *ce, const char *method_name, zend_uint method_len, ulong hash TSRMLS_DC) PHALCON_ATTR_NONNULL;
 
 /** Isset properties */
 int phalcon_isset_property_quick(zval *object, const char *property_name, zend_uint property_length, ulong hash TSRMLS_DC) PHALCON_ATTR_NONNULL;
@@ -148,6 +151,11 @@ PHALCON_ATTR_NONNULL static inline zval* phalcon_fetch_nproperty_this(zval *obje
 	return phalcon_fetch_nproperty_this_quick(object, property_name, property_length, zend_hash_func(property_name, property_length + 1), silent TSRMLS_CC);
 }
 
+PHALCON_ATTR_NONNULL static inline zval* phalcon_fetch_nproperty_this_zval(zval *object, const zval *property, int silent TSRMLS_DC)
+{
+	return phalcon_fetch_nproperty_this_quick(object, Z_STRVAL_P(property), Z_STRLEN_P(property), zend_hash_func(Z_STRVAL_P(property), Z_STRLEN_P(property) + 1), silent TSRMLS_CC);
+}
+
 PHALCON_ATTR_NONNULL static inline zval* phalcon_fetch_property_this(zval *object, const char *property_name, zend_uint property_length, int silent TSRMLS_DC)
 {
 #ifdef __GNUC__
@@ -180,6 +188,7 @@ int phalcon_update_property_string(zval *object, const char *property_name, zend
 int phalcon_update_property_bool(zval *obj, const char *property_name, zend_uint property_length, int value TSRMLS_DC) PHALCON_ATTR_NONNULL;
 int phalcon_update_property_null(zval *obj, const char *property_name, zend_uint property_length TSRMLS_DC) PHALCON_ATTR_NONNULL;
 int phalcon_update_property_zval(zval *obj, const char *property_name, zend_uint property_length, zval *value TSRMLS_DC) PHALCON_ATTR_NONNULL;
+int phalcon_update_property_zval_long(zval *obj, const zval *property, int value TSRMLS_DC) PHALCON_ATTR_NONNULL;
 int phalcon_update_property_zval_zval(zval *obj, const zval *property, zval *value TSRMLS_DC) PHALCON_ATTR_NONNULL;
 int phalcon_update_property_empty_array(zval *object, const char *property, zend_uint property_length TSRMLS_DC) PHALCON_ATTR_NONNULL;
 
