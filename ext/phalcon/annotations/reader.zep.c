@@ -145,9 +145,6 @@ PHP_METHOD(Phalcon_Annotations_Reader, parse) {
 
 /**
  * Parses a raw doc block returning the annotations found
- *
- * @param string docBlock
- * @return array
  */
 PHP_METHOD(Phalcon_Annotations_Reader, parseDocBlock) {
 

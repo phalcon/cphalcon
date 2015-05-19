@@ -13,31 +13,20 @@
   | to license@zephir-lang.com so we can send you a copy immediately.      |
   +------------------------------------------------------------------------+
   | Authors: Andres Gutierrez <andres@zephir-lang.com>                     |
+  |          Eduar Carvajal <eduar@zephir-lang.com>                        |
   +------------------------------------------------------------------------+
 */
 
-#ifndef ZEPHIR_KERNEL_FCALL_EXT_H
-#define ZEPHIR_KERNEL_FCALL_EXT_H
+#ifndef ZEPHIR_KERNEL_MATH_H
+#define ZEPHIR_KERNEL_MATH_H
 
-#define ZEPHIR_FCALL_TYPE_UNKNOWN 0
-#define ZEPHIR_FCALL_TYPE_FUNC 1
-#define ZEPHIR_FCALL_TYPE_ZVAL_METHOD 2
-#define ZEPHIR_FCALL_TYPE_CLASS_PARENT_METHOD 3
-#define ZEPHIR_FCALL_TYPE_CLASS_SELF_METHOD 4
-#define ZEPHIR_FCALL_TYPE_CLASS_STATIC_METHOD 5
-#define ZEPHIR_FCALL_TYPE_CE_METHOD 6
+#include <php.h>
+#include <Zend/zend.h>
 
-typedef struct _zephir_fcall_info {
-  int type;
-  zend_class_entry *ce;
-  zval *object_ptr;
-  const char *class_name;
-  int class_length;
-  const char *func_name;
-  int func_length;
-} zephir_fcall_info;
-
-int zephir_call_function_opt(zend_fcall_info *fci, zend_fcall_info_cache *fci_cache, zephir_fcall_info *info TSRMLS_DC);
-int zephir_call_func_aparams_fast(zval **return_value_ptr, zephir_fcall_cache_entry **cache_entry, uint param_count, zval **params TSRMLS_DC);
+double zephir_floor(zval *op1 TSRMLS_DC);
+double zephir_ceil(zval *op1 TSRMLS_DC);
+void zephir_round(zval *return_value, zval *op1, zval *op2, zval *op3 TSRMLS_DC);
+void zephir_pow(zval *return_value, zval *op1, zval *op2 TSRMLS_DC);
+long zephir_mt_rand(long min, long max TSRMLS_DC);
 
 #endif

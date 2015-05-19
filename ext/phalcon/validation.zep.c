@@ -133,7 +133,7 @@ PHP_METHOD(Phalcon_Validation, validate) {
 	zephir_update_property_this(this_ptr, SL("_values"), ZEPHIR_GLOBAL(global_null) TSRMLS_CC);
 	ZEPHIR_INIT_VAR(messages);
 	object_init_ex(messages, phalcon_validation_message_group_ce);
-	ZEPHIR_CALL_METHOD(NULL, messages, "__construct", &_0, 169);
+	ZEPHIR_CALL_METHOD(NULL, messages, "__construct", &_0, 171);
 	zephir_check_call_status();
 	if ((zephir_method_exists_ex(this_ptr, SS("beforevalidation") TSRMLS_CC) == SUCCESS)) {
 		ZEPHIR_CALL_METHOD(&status, this_ptr, "beforevalidation", NULL, 0, data, entity, messages);

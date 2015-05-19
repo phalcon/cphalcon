@@ -18,6 +18,7 @@
 #include "kernel/exception.h"
 #include "kernel/fcall.h"
 #include "kernel/operators.h"
+#include "kernel/math.h"
 
 
 /**

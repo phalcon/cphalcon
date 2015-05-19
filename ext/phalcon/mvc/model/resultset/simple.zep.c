@@ -162,11 +162,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, current) {
 			_4 = zephir_fetch_nproperty_this(this_ptr, SL("_keepSnapshots"), PH_NOISY_CC);
 			ZEPHIR_INIT_VAR(_7);
 			ZVAL_LONG(_7, 0);
-			ZEPHIR_CALL_CE_STATIC(&activeRow, phalcon_mvc_model_ce, "cloneresultmap", &_6, 335, _1, row, columnMap, _7, _4);
+			ZEPHIR_CALL_CE_STATIC(&activeRow, phalcon_mvc_model_ce, "cloneresultmap", &_6, 340, _1, row, columnMap, _7, _4);
 			zephir_check_call_status();
 			break;
 		}
-		ZEPHIR_CALL_CE_STATIC(&activeRow, phalcon_mvc_model_ce, "cloneresultmaphydrate", &_8, 336, row, columnMap, hydrateMode);
+		ZEPHIR_CALL_CE_STATIC(&activeRow, phalcon_mvc_model_ce, "cloneresultmaphydrate", &_8, 341, row, columnMap, hydrateMode);
 		zephir_check_call_status();
 		break;
 	} while(0);

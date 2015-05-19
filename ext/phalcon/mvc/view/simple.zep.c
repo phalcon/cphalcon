@@ -188,7 +188,7 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, _loadTemplateEngines) {
 		if (Z_TYPE_P(registeredEngines) != IS_ARRAY) {
 			ZEPHIR_INIT_VAR(_0);
 			object_init_ex(_0, phalcon_mvc_view_engine_php_ce);
-			ZEPHIR_CALL_METHOD(NULL, _0, "__construct", &_1, 348, this_ptr, dependencyInjector);
+			ZEPHIR_CALL_METHOD(NULL, _0, "__construct", &_1, 353, this_ptr, dependencyInjector);
 			zephir_check_call_status();
 			zephir_array_update_string(&engines, SL(".phtml"), &_0, PH_COPY | PH_SEPARATE);
 		} else {
@@ -297,7 +297,7 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, _internalRender) {
 	ZEPHIR_CONCAT_VV(viewsDirPath, _2, path);
 	ZEPHIR_CALL_METHOD(&engines, this_ptr, "_loadtemplateengines", NULL, 0);
 	zephir_check_call_status();
-	zephir_is_iterable(engines, &_4, &_3, 0, 0, "phalcon/mvc/view/simple.zep", 258);
+	zephir_is_iterable(engines, &_4, &_3, 0, 0, "phalcon/mvc/view/simple.zep", 261);
 	for (
 	  ; zephir_hash_get_current_data_ex(_4, (void**) &_5, &_3) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_4, &_3)
@@ -360,7 +360,7 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, _internalRender) {
 		ZEPHIR_CONCAT_SVS(_6, "View '", viewsDirPath, "' was not found in the views directory");
 		ZEPHIR_CALL_METHOD(NULL, _1, "__construct", &_13, 2, _6);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(_1, "phalcon/mvc/view/simple.zep", 259 TSRMLS_CC);
+		zephir_throw_exception_debug(_1, "phalcon/mvc/view/simple.zep", 262 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -455,7 +455,7 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, render) {
 	} else {
 		ZEPHIR_CPY_WRT(mergedParams, viewParams);
 	}
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "_internalrender", &_2, 366, path, mergedParams);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "_internalrender", &_2, 371, path, mergedParams);
 	zephir_check_call_status();
 	if (Z_TYPE_P(cache) == IS_OBJECT) {
 		ZEPHIR_CALL_METHOD(&_0, cache, "isstarted", NULL, 0);
@@ -540,7 +540,7 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, partial) {
 	} else {
 		ZEPHIR_CPY_WRT(mergedParams, params);
 	}
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "_internalrender", &_1, 366, partialPath, mergedParams);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "_internalrender", &_1, 371, partialPath, mergedParams);
 	zephir_check_call_status();
 	if (Z_TYPE_P(params) == IS_ARRAY) {
 		zephir_update_property_this(this_ptr, SL("_viewParams"), viewParams TSRMLS_CC);
@@ -597,7 +597,7 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, _createCache) {
 	ZEPHIR_OBS_VAR(dependencyInjector);
 	zephir_read_property_this(&dependencyInjector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	if (Z_TYPE_P(dependencyInjector) != IS_OBJECT) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_view_exception_ce, "A dependency injector container is required to obtain the view cache services", "phalcon/mvc/view/simple.zep", 475);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_view_exception_ce, "A dependency injector container is required to obtain the view cache services", "phalcon/mvc/view/simple.zep", 478);
 		return;
 	}
 	ZEPHIR_INIT_VAR(cacheService);
@@ -614,7 +614,7 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, _createCache) {
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(viewCache, _0);
 	if (Z_TYPE_P(viewCache) != IS_OBJECT) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_view_exception_ce, "The injected caching service is invalid", "phalcon/mvc/view/simple.zep", 492);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_view_exception_ce, "The injected caching service is invalid", "phalcon/mvc/view/simple.zep", 495);
 		return;
 	}
 	RETURN_CCTOR(viewCache);
@@ -623,8 +623,6 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, _createCache) {
 
 /**
  * Returns the cache instance used to cache
- *
- * @return Phalcon\Cache\BackendInterface
  */
 PHP_METHOD(Phalcon_Mvc_View_Simple, getCache) {
 
@@ -652,9 +650,6 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, getCache) {
  *<code>
  *  $this->view->cache(array('key' => 'my-key', 'lifetime' => 86400));
  *</code>
- *
- * @param boolean|array options
- * @return Phalcon\Mvc\View\Simple
  */
 PHP_METHOD(Phalcon_Mvc_View_Simple, cache) {
 
@@ -687,10 +682,6 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, cache) {
  *<code>
  *	$this->view->setParamToView('products', $products);
  *</code>
- *
- * @param string $key
- * @param mixed $value
- * @return Phalcon\Mvc\View\Simple
  */
 PHP_METHOD(Phalcon_Mvc_View_Simple, setParamToView) {
 
@@ -766,10 +757,6 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, setVars) {
  *<code>
  *	$this->view->setVar('products', $products);
  *</code>
- *
- * @param string key
- * @param mixed  value
- * @return Phalcon\Mvc\View\Simple
  */
 PHP_METHOD(Phalcon_Mvc_View_Simple, setVar) {
 
@@ -907,9 +894,6 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, getActiveRenderPath) {
  *<code>
  *	$this->view->products = $products;
  *</code>
- *
- * @param string key
- * @param mixed  value
  */
 PHP_METHOD(Phalcon_Mvc_View_Simple, __set) {
 

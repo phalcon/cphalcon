@@ -94,7 +94,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Stream, __construct) {
 		ZEPHIR_INIT_NVAR(mode);
 		ZVAL_STRING(mode, "ab", 1);
 	}
-	ZEPHIR_CALL_FUNCTION(&stream, "fopen", NULL, 263, name, mode);
+	ZEPHIR_CALL_FUNCTION(&stream, "fopen", NULL, 268, name, mode);
 	zephir_check_call_status();
 	if (!(zephir_is_true(stream))) {
 		ZEPHIR_INIT_VAR(_0);
@@ -114,8 +114,6 @@ PHP_METHOD(Phalcon_Logger_Adapter_Stream, __construct) {
 
 /**
  * Returns the internal formatter
- *
- * @return Phalcon\Logger\Formatter\Line
  */
 PHP_METHOD(Phalcon_Logger_Adapter_Stream, getFormatter) {
 
@@ -130,7 +128,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Stream, getFormatter) {
 	if (Z_TYPE_P(_0) != IS_OBJECT) {
 		ZEPHIR_INIT_VAR(_1);
 		object_init_ex(_1, phalcon_logger_formatter_line_ce);
-		ZEPHIR_CALL_METHOD(NULL, _1, "__construct", &_2, 268);
+		ZEPHIR_CALL_METHOD(NULL, _1, "__construct", &_2, 273);
 		zephir_check_call_status();
 		zephir_update_property_this(this_ptr, SL("_formatter"), _1 TSRMLS_CC);
 	}
@@ -140,11 +138,6 @@ PHP_METHOD(Phalcon_Logger_Adapter_Stream, getFormatter) {
 
 /**
  * Writes the log to the stream itself
- *
- * @param string message
- * @param int type
- * @param int time
- * @param array $context
  */
 PHP_METHOD(Phalcon_Logger_Adapter_Stream, logInternal) {
 
@@ -165,7 +158,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Stream, logInternal) {
 	ZEPHIR_OBS_VAR(stream);
 	zephir_read_property_this(&stream, this_ptr, SL("_stream"), PH_NOISY_CC);
 	if (Z_TYPE_P(stream) != IS_RESOURCE) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_logger_exception_ce, "Cannot send message to the log because it is invalid", "phalcon/logger/adapter/stream.zep", 107);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_logger_exception_ce, "Cannot send message to the log because it is invalid", "phalcon/logger/adapter/stream.zep", 100);
 		return;
 	}
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getformatter", NULL, 0);

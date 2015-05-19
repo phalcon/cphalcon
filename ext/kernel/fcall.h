@@ -25,6 +25,7 @@
 #include "kernel/main.h"
 #include "kernel/memory.h"
 #include "kernel/extended/fcall.h"
+
 #include <Zend/zend_hash.h>
 #include <Zend/zend.h>
 
@@ -59,13 +60,17 @@ typedef enum _zephir_call_type {
  * @note If the call fails or an exception occurs, the memory frame is @em not restored.
  * In this case if @c return_value_ptr is not @c NULL, <tt>*return_value_ptr</tt> is set to @c NULL
  */
-#define ZEPHIR_CALL_FUNCTIONW(return_value_ptr, func_name, ...) \
+#define ZEPHIR_CALL_FUNCTIONW(return_value_ptr, func_name, cache, cache_slot, ...) \
 	do { \
+		zephir_fcall_cache_entry **cache_entry_ = cache; \
 		zval *params_[] = {ZEPHIR_FETCH_VA_ARGS __VA_ARGS__}; \
 		if (__builtin_constant_p(func_name)) { \
-			ZEPHIR_LAST_CALL_STATUS = zephir_call_func_aparams(return_value_ptr, func_name, sizeof(func_name)-1, ZEPHIR_CALL_NUM_PARAMS(params_), ZEPHIR_PASS_CALL_PARAMS(params_) TSRMLS_CC); \
-		} \
-		else { \
+			if (cache_entry_ && *cache_entry_) { \
+				ZEPHIR_LAST_CALL_STATUS = zephir_call_func_aparams_fast(return_value_ptr, cache, ZEPHIR_CALL_NUM_PARAMS(params_), ZEPHIR_PASS_CALL_PARAMS(params_) TSRMLS_CC); \
+			} else { \
+				ZEPHIR_LAST_CALL_STATUS = zephir_call_func_aparams(return_value_ptr, func_name, sizeof(func_name)-1, cache, cache_slot, ZEPHIR_CALL_NUM_PARAMS(params_), ZEPHIR_PASS_CALL_PARAMS(params_) TSRMLS_CC); \
+			} \
+		} else { \
 			ZEPHIR_LAST_CALL_STATUS = zephir_call_func_aparams(return_value_ptr, func_name, strlen(func_name), ZEPHIR_CALL_NUM_PARAMS(params_), ZEPHIR_PASS_CALL_PARAMS(params_) TSRMLS_CC); \
 		} \
 	} while (0)
@@ -78,17 +83,38 @@ typedef enum _zephir_call_type {
  * @note If the call fails or an exception occurs, the memory frame is restored.
  * In this case if @c return_value_ptr is not @c NULL, <tt>*return_value_ptr</tt> is set to @c NULL
  */
+#if PHP_VERSION_ID >= 50600
+
+#define ZEPHIR_CALL_FUNCTION(return_value_ptr, func_name, cache, cache_slot, ...) \
+	do { \
+		zephir_fcall_cache_entry **cache_entry_ = cache; \
+		zval *params_[] = {ZEPHIR_FETCH_VA_ARGS __VA_ARGS__}; \
+		ZEPHIR_OBSERVE_OR_NULLIFY_PPZV(return_value_ptr); \
+		if (__builtin_constant_p(func_name)) { \
+			if (cache_entry_ && *cache_entry_) { \
+				ZEPHIR_LAST_CALL_STATUS = zephir_call_func_aparams_fast(return_value_ptr, cache, ZEPHIR_CALL_NUM_PARAMS(params_), ZEPHIR_PASS_CALL_PARAMS(params_) TSRMLS_CC); \
+			} else { \
+				ZEPHIR_LAST_CALL_STATUS = zephir_call_func_aparams(return_value_ptr, func_name, sizeof(func_name)-1, cache, cache_slot, ZEPHIR_CALL_NUM_PARAMS(params_), ZEPHIR_PASS_CALL_PARAMS(params_) TSRMLS_CC); \
+			} \
+		} else { \
+			ZEPHIR_LAST_CALL_STATUS = zephir_call_func_aparams(return_value_ptr, func_name, strlen(func_name), cache, cache_slot, ZEPHIR_CALL_NUM_PARAMS(params_), ZEPHIR_PASS_CALL_PARAMS(params_) TSRMLS_CC); \
+		} \
+	} while (0)
+
+#else
+
 #define ZEPHIR_CALL_FUNCTION(return_value_ptr, func_name, cache, cache_slot, ...) \
 	do { \
 		zval *params_[] = {ZEPHIR_FETCH_VA_ARGS __VA_ARGS__}; \
 		ZEPHIR_OBSERVE_OR_NULLIFY_PPZV(return_value_ptr); \
 		if (__builtin_constant_p(func_name)) { \
 			ZEPHIR_LAST_CALL_STATUS = zephir_call_func_aparams(return_value_ptr, func_name, sizeof(func_name)-1, cache, cache_slot, ZEPHIR_CALL_NUM_PARAMS(params_), ZEPHIR_PASS_CALL_PARAMS(params_) TSRMLS_CC); \
-		} \
-		else { \
+		} else { \
 			ZEPHIR_LAST_CALL_STATUS = zephir_call_func_aparams(return_value_ptr, func_name, strlen(func_name), cache, cache_slot, ZEPHIR_CALL_NUM_PARAMS(params_), ZEPHIR_PASS_CALL_PARAMS(params_) TSRMLS_CC); \
 		} \
 	} while (0)
+
+#endif
 
 /**
  * @brief Invokes a function @a func_name passing @c return_value and @c return_value_ptr
@@ -140,14 +166,9 @@ typedef enum _zephir_call_type {
  */
 #define ZEPHIR_CALL_ZVAL_FUNCTION(return_value_ptr, func_name, cache, cache_slot, ...) \
 	do { \
-		zval *params_[] = {ZEPHIR_FETCH_VA_ARGS __VA_ARGS__}; \
-		ZEPHIR_OBSERVE_OR_NULLIFY_PPZV(return_value_ptr); \
-		if (__builtin_constant_p(func_name)) { \
-			ZEPHIR_LAST_CALL_STATUS = zephir_call_zval_func_aparams(return_value_ptr, func_name, cache, cache_slot, ZEPHIR_CALL_NUM_PARAMS(params_), ZEPHIR_PASS_CALL_PARAMS(params_) TSRMLS_CC); \
-		} \
-		else { \
-			ZEPHIR_LAST_CALL_STATUS = zephir_call_zval_func_aparams(return_value_ptr, func_name, cache, cache_slot, ZEPHIR_CALL_NUM_PARAMS(params_), ZEPHIR_PASS_CALL_PARAMS(params_) TSRMLS_CC); \
-		} \
+        	zval *params_[] = {ZEPHIR_FETCH_VA_ARGS __VA_ARGS__}; \
+        	ZEPHIR_OBSERVE_OR_NULLIFY_PPZV(return_value_ptr); \
+        	ZEPHIR_LAST_CALL_STATUS = zephir_call_zval_func_aparams(return_value_ptr, func_name, cache, cache_slot, ZEPHIR_CALL_NUM_PARAMS(params_), ZEPHIR_PASS_CALL_PARAMS(params_) TSRMLS_CC); \
 	} while (0)
 
 /**
@@ -162,12 +183,7 @@ typedef enum _zephir_call_type {
 #define ZEPHIR_RETURN_CALL_ZVAL_FUNCTION(func_name, cache, cache_slot, ...) \
 	do { \
 		zval *params_[] = {ZEPHIR_FETCH_VA_ARGS __VA_ARGS__}; \
-		if (__builtin_constant_p(func_name)) { \
-			ZEPHIR_LAST_CALL_STATUS = zephir_return_call_zval_function(return_value, return_value_ptr, func_name, cache, cache_slot, ZEPHIR_CALL_NUM_PARAMS(params_), ZEPHIR_PASS_CALL_PARAMS(params_) TSRMLS_CC); \
-		} \
-		else { \
-			ZEPHIR_LAST_CALL_STATUS = zephir_return_call_zval_function(return_value, return_value_ptr, func_name, cache, cache_slot, ZEPHIR_CALL_NUM_PARAMS(params_), ZEPHIR_PASS_CALL_PARAMS(params_) TSRMLS_CC); \
-		} \
+		ZEPHIR_LAST_CALL_STATUS = zephir_return_call_zval_function(return_value, return_value_ptr, func_name, cache, cache_slot, ZEPHIR_CALL_NUM_PARAMS(params_), ZEPHIR_PASS_CALL_PARAMS(params_) TSRMLS_CC); \
 	} while (0)
 
 /**
@@ -191,8 +207,7 @@ typedef enum _zephir_call_type {
 		ZEPHIR_OBSERVE_OR_NULLIFY_PPZV(return_value_ptr); \
 		if (__builtin_constant_p(method)) { \
 			ZEPHIR_LAST_CALL_STATUS = zephir_call_class_method_aparams(return_value_ptr, Z_TYPE_P(object) == IS_OBJECT ? Z_OBJCE_P(object) : NULL, zephir_fcall_method, object, method, sizeof(method)-1, cache, cache_slot, ZEPHIR_CALL_NUM_PARAMS(params_), ZEPHIR_PASS_CALL_PARAMS(params_) TSRMLS_CC); \
-		} \
-		else { \
+		} else { \
 			ZEPHIR_LAST_CALL_STATUS = zephir_call_class_method_aparams(return_value_ptr, Z_TYPE_P(object) == IS_OBJECT ? Z_OBJCE_P(object) : NULL, zephir_fcall_method, object, method, strlen(method), cache, cache_slot, ZEPHIR_CALL_NUM_PARAMS(params_), ZEPHIR_PASS_CALL_PARAMS(params_) TSRMLS_CC); \
 		} \
 	} while (0)
@@ -202,8 +217,7 @@ typedef enum _zephir_call_type {
 		zval *params_[] = {ZEPHIR_FETCH_VA_ARGS __VA_ARGS__}; \
 		if (__builtin_constant_p(method)) { \
 			ZEPHIR_LAST_CALL_STATUS = zephir_return_call_class_method(return_value, return_value_ptr, Z_TYPE_P(object) == IS_OBJECT ? Z_OBJCE_P(object) : NULL, zephir_fcall_method, object, method, sizeof(method)-1, cache, cache_slot, ZEPHIR_CALL_NUM_PARAMS(params_), ZEPHIR_PASS_CALL_PARAMS(params_) TSRMLS_CC); \
-		} \
-		else { \
+		} else { \
 			ZEPHIR_LAST_CALL_STATUS = zephir_return_call_class_method(return_value, return_value_ptr, Z_TYPE_P(object) == IS_OBJECT ? Z_OBJCE_P(object) : NULL, zephir_fcall_method, object, method, strlen(method), cache, cache_slot, ZEPHIR_CALL_NUM_PARAMS(params_), ZEPHIR_PASS_CALL_PARAMS(params_) TSRMLS_CC); \
 		} \
 	} while (0)
@@ -213,8 +227,7 @@ typedef enum _zephir_call_type {
 		zval *params_[] = {ZEPHIR_FETCH_VA_ARGS __VA_ARGS__}; \
 		if (__builtin_constant_p(method)) { \
 			ZEPHIR_LAST_CALL_STATUS = zephir_return_call_class_method(return_value, return_value_ptr, Z_TYPE_P(object) == IS_OBJECT ? Z_OBJCE_P(object) : NULL, zephir_fcall_method, object, method, sizeof(method)-1, cache, cache_slot, ZEPHIR_CALL_NUM_PARAMS(params_), ZEPHIR_PASS_CALL_PARAMS(params_) TSRMLS_CC); \
-		} \
-		else { \
+		} else { \
 			ZEPHIR_LAST_CALL_STATUS = zephir_return_call_class_method(return_value, return_value_ptr, Z_TYPE_P(object) == IS_OBJECT ? Z_OBJCE_P(object) : NULL, zephir_fcall_method, object, method, strlen(method), cache, cache_slot, ZEPHIR_CALL_NUM_PARAMS(params_), ZEPHIR_PASS_CALL_PARAMS(params_) TSRMLS_CC); \
 		} \
 	} while (0)
@@ -524,6 +537,8 @@ typedef enum _zephir_call_type {
 int zephir_call_func_aparams(zval **return_value_ptr, const char *func_name, uint func_length,
 	zephir_fcall_cache_entry **cache_entry, int cache_slot,
 	uint param_count, zval **params TSRMLS_DC);
+
+int zephir_call_func_aparams_fast(zval **return_value_ptr, zephir_fcall_cache_entry **cache_entry, uint param_count, zval **params TSRMLS_DC);
 
 int zephir_call_zval_func_aparams(zval **return_value_ptr, zval *func_name,
 	zephir_fcall_cache_entry **cache_entry, int cache_slot,

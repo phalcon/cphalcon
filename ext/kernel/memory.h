@@ -221,7 +221,7 @@ void zephir_deinitialize_memory(TSRMLS_D);
 
 #define ZEPHIR_OBSERVE_OR_NULLIFY_PPZV(ppzv) \
 	do { \
-		zval **tmp_ = (ppzv); \
+		zval ** restrict tmp_ = (ppzv); \
 		if (tmp_ != NULL) { \
 			if (*tmp_) { \
 				zephir_ptr_dtor(tmp_); \
