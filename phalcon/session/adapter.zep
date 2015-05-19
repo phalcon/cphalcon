@@ -53,9 +53,11 @@ abstract class Adapter
 	public function start() -> boolean
 	{
 		if !headers_sent() {
-			session_start();
-			let this->_started = true;
-			return true;
+			if !this->_started && session_status() !== PHP_SESSION_ACTIVE {
+				session_start();
+				let this->_started = true;
+				return true;
+			}
 		}
 		return false;
 	}
