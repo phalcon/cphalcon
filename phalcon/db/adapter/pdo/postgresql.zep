@@ -360,7 +360,7 @@ class Postgresql extends PdoAdapter implements AdapterInterface
 			 }
 			
 		} else {
-			return !empty query ? this->{"execute"}(queries[0] . ";") : true;
+			return !empty sql ? this->{"execute"}(queries[0] . ";") : true;
 		}
 		return true;
 	}
