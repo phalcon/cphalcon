@@ -71,6 +71,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, commit);
 PHP_METHOD(Phalcon_Db_Adapter_Pdo, getTransactionLevel);
 PHP_METHOD(Phalcon_Db_Adapter_Pdo, isUnderTransaction);
 PHP_METHOD(Phalcon_Db_Adapter_Pdo, getInternalHandler);
+PHP_METHOD(Phalcon_Db_Adapter_Pdo, getErrorInfo);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_pdo___construct, 0, 0, 1)
 	ZEND_ARG_INFO(0, descriptor)
@@ -117,6 +118,7 @@ static const zend_function_entry phalcon_db_adapter_pdo_method_entry[] = {
 	PHP_ME(Phalcon_Db_Adapter_Pdo, getTransactionLevel, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Adapter_Pdo, isUnderTransaction, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Adapter_Pdo, getInternalHandler, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Adapter_Pdo, getErrorInfo, NULL, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };
 
@@ -1138,4 +1140,17 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, getInternalHandler){
 
 	pdo = phalcon_fetch_nproperty_this(this_ptr, SL("_pdo"), PH_NOISY TSRMLS_CC);
 	RETURN_ZVAL(pdo, 1, 0);
+}
+
+/**
+ * Return the error info, if any
+ *
+ * @return array
+ */
+PHP_METHOD(Phalcon_Db_Adapter_Pdo, getErrorInfo){
+
+	zval *pdo;
+
+	pdo = phalcon_fetch_nproperty_this(this_ptr, SL("_pdo"), PH_NOISY TSRMLS_CC);
+	PHALCON_RETURN_CALL_METHODW(pdo, "errorinfo");
 }
