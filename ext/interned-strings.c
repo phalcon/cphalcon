@@ -117,6 +117,7 @@ const char *phalcon_interned_eventsManager			= NULL;
 const char *phalcon_interned_transactionManager		= NULL;
 const char *phalcon_interned_assets					= NULL;
 const char *phalcon_interned_rows					= NULL;
+const char *phalcon_interned_view					= NULL;
 
 PHALCON_STATIC void phalcon_init_interned_strings(TSRMLS_D)
 {
@@ -215,4 +216,5 @@ PHALCON_STATIC void phalcon_init_interned_strings(TSRMLS_D)
 	phalcon_interned_eventsManager				= zend_new_interned_string(ZEND_STRS("eventsManager"), 0 TSRMLS_CC);
 	phalcon_interned_transactionManager			= zend_new_interned_string(ZEND_STRS("transactions"), 0 TSRMLS_CC);
 	phalcon_interned_assets						= zend_new_interned_string(ZEND_STRS("assets"), 0 TSRMLS_CC);
+	phalcon_interned_view						= zend_new_interned_string(ZEND_STRS("view"), 0 TSRMLS_CC);
 }
