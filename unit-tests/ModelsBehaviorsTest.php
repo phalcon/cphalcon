@@ -91,4 +91,117 @@ class ModelsBehaviorsTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(News\Subscribers::count(), $number);
 	}
 
+	public function testBehaviorsNestedSet()
+	{
+		require 'unit-tests/config.db.php';
+		if (empty($configMysql)) {
+			$this->markTestSkipped("Test skipped");
+			return;
+		}
+
+		$this->_prepareDI();
+
+		$cars = new Categories();
+		$cars->title='Cars';
+		$this->assertTrue($cars->saveNode());
+
+		$phones = new Categories();
+		$phones->title='Mobile phones';
+		$this->assertTrue($phones->saveNode());
+
+		$ford = new Categories();
+		$ford->title='Ford';
+		$this->assertTrue($ford->appendTo($cars));
+
+		$mercedes = new Categories();
+		$mercedes->title='Mercedes';
+		$this->assertTrue($mercedes->insertBefore($ford));
+
+		$audi = new Categories();
+		$audi->title='Audi';
+		$this->assertTrue($audi->prependTo($cars));
+
+		$samsung = new Categories();
+		$samsung->title='Samsung';
+		$this->assertTrue($samsung->appendTo($phones));
+
+		$motorola = new Categories();
+		$motorola->title='Motorola';
+		$this->assertTrue($motorola->insertAfter($samsung));
+
+		$iphone = new Categories();
+		$iphone->title='iPhone';
+		$this->assertTrue($iphone->insertBefore($samsung));
+
+		$data = array(
+			array(
+				"id" => 1,
+				"root" => 1,
+				"lft" => 1,
+				"rgt" => 8,
+				"lvl" => 1,
+				"title" => "Cars"
+			),
+			array(
+				"id" => 5,
+				"root" => 1,
+				"lft" => 2,
+				"rgt" => 3,
+				"lvl" => 2,
+				"title" => "Audi"
+			),
+			array(
+				"id" => 4,
+				"root" => 1,
+				"lft" => 4,
+				"rgt" => 5,
+				"lvl" => 2,
+				"title" => "Mercedes",
+			),
+			array(
+				"id" => 3,
+				"root" => 1,
+				"lft" => 6,
+				"rgt" => 7,
+				"lvl" => 2,
+				"title" => "Ford",
+			),
+			array(
+				"id" => 2,
+				"root" => 2,
+				"lft" => 1,
+				"rgt" => 8,
+				"lvl" => 1,
+				"title" => "Mobile phones",
+			),
+			array(
+				"id" => 8,
+				"root" => 2,
+				"lft" => 2,
+				"rgt" => 3,
+				"lvl" => 2,
+				"title" => "iPhone",
+			),
+			array(
+				"id" => 6,
+				"root" => 2,
+				"lft" => 4,
+				"rgt" => 5,
+				"lvl" => 2,
+				"title" => "Samsung",
+			),
+			array(
+				"id" => 7,
+				"root" => 2,
+				"lft" => 6,
+				"rgt" => 7,
+				"lvl" => 2,
+				"title" => "Motorola",
+			)
+		);
+
+		$categories = Categories::find(array('order'=> 'root, lft'));
+		$this->assertEquals($data, $categories->toArray());
+	}
+
 }
