@@ -95,7 +95,7 @@ class Simple extends Resultset
 	 */
 	public final function current() -> <ModelInterface> | boolean
 	{
-		var result, row, hydrateMode, columnMap, activeRow;
+		var row, hydrateMode, columnMap, activeRow;
 		
 		let activeRow = this->_activeRow;
 		if activeRow !== null {
@@ -103,34 +103,13 @@ class Simple extends Resultset
 		}
 
 		/**
-		 * Get current row
+		 * Get current row regardless of fetch mode
 		 */
-		if this->_type {
-			/**
-			 * Fetch from PDO one-by-one. Functions "next" and "seek" set this->_row
-			 */
-			let row = this->_row;
-		} else {
-			/**
-			 * Fetch from array. Functions "next" and "seek" set this->_pointer
-			 * We have to ensure this->_rows is populated
-			 */
-			if this->_rows === null {
-				let result = this->_result;
-				if typeof result == "object" {
-					let this->_rows = result->fetchAll();
-				}
-			}
+		let row = parent::current();
 
-			if typeof this->_rows == "array" {
-				if !fetch row, this->_rows[this->_pointer] {
-					let row = false;
-				}
-			} else {
-				let row = false;
-			}
-		}
-
+		/**
+		 * Valid records are arrays
+		 */
 		if typeof row != "array" {
 			let this->_activeRow = false;
 			return false;

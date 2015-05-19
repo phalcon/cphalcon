@@ -182,6 +182,44 @@ abstract class Resultset
 	}
 
 	/**
+	 * Returns current row in the result-set
+	 */
+	 public function current() -> array | boolean
+	 {
+        var result, row;
+        /**
+         * Get current row
+         */
+        if this->_type {
+            /**
+             * Fetch from PDO one-by-one. Functions "next" and "seek" set this->_row
+             */
+             let row = this->_row;
+             if row !== null {
+                return row;
+             }
+        } else {
+            /**
+             * Fetch from array. Functions "next" and "seek" set this->_pointer
+             * We have to ensure this->_rows is populated
+             */
+            if this->_rows === null {
+                let result = this->_result;
+                if typeof result == "object" {
+                    let this->_rows = result->fetchAll();
+                }
+            }
+
+            if typeof this->_rows == "array" {
+                if fetch row, this->_rows[this->_pointer] {
+                    return row;
+                }
+            }
+        }
+		return false;
+	 }
+
+	/**
 	 * Counts how many rows are in the resultset
 	 */
 	public final function count() -> int

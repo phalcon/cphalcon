@@ -47,6 +47,8 @@ class Complex extends Resultset implements ResultsetInterface
 	 */
 	public function __construct(var columnTypes, result, <BackendInterface> cache = null)
 	{
+	    var rowCount;
+
 		/**
 		 * Column types, tell the resultset how to build the result
 		 */
@@ -64,10 +66,21 @@ class Complex extends Resultset implements ResultsetInterface
 			let this->_cache = cache;
 		}
 
+		let rowCount = result->numRows();
+
 		/**
-		 * Resultsets type 1 are traversed one-by-one
+		 * Check if it's a big resultset
 		 */
-		let this->_type = 1;
+		if rowCount > 32 {
+			let this->_type = 1;
+		} else {
+			let this->_type = 0;
+		}
+
+		/**
+		 * Update the row-count
+		 */
+		let this->_count = rowCount;
 
 		/**
 		 * If the database result is an object, change it to fetch assoc
@@ -82,10 +95,10 @@ class Complex extends Resultset implements ResultsetInterface
 	 */
 	public final function current() -> <ModelInterface> | boolean
 	{
-		var result, row, underscore, hydrateMode,
+		var row, underscore, hydrateMode,
 			dirtyState, alias, activeRow, type, columnTypes,
 			column, columnValue, value, attribute, source, attributes,
-			columnMap, rowModel, keepSnapshots, sqlAlias, isPartial;
+			columnMap, rowModel, keepSnapshots, sqlAlias;
 
 		
 		let activeRow = this->_activeRow;
@@ -94,42 +107,24 @@ class Complex extends Resultset implements ResultsetInterface
 		}
 
 		/**
-		 * Get current row
+		 * Get current row regardless of fetch mode
 		 */
-		let isPartial = this->_type;
-		if isPartial {
-			let row = this->_row;
-		} else {
-			if this->_rows === null {
-				let result = this->_result;
-				if typeof result == "object" {
-					let this->_rows = result->fetchAll();
-				}
-			}
-
-			if typeof this->_rows == "array" {
-				if !fetch row, this->_rows[this->_pointer] {
-					let row = false;
-				}
-			} else {
-				let row = false;
-			}
-		}
-
-		/**
-		 * Valid records are arrays
-		 */
-		if typeof row != "object" && typeof row != "array" {
-			let this->_activeRow = false;
-			return false;
-		}
+		let row = parent::current();
 
 		/**
 		 * Resulset was unserialized, we do not need to hydrate
 		 */
-		if !isPartial {
-			let this->_activeRow = row;
-			return row;
+        if typeof row == "object" {
+            let this->_activeRow = row;
+            return row;
+        }
+
+		/**
+		 * Valid records are arrays
+		 */
+		if typeof row != "array" {
+			let this->_activeRow = false;
+			return false;
 		}
 		
 		/**
