@@ -297,12 +297,12 @@ class Postgresql extends PdoAdapter implements AdapterInterface
 	 */
 	public function createTable(string! tableName, string! schemaName, array! definition) -> boolean
 	{
-		var sql,queries,query,e,columns;
-
+		var sql,queries,query,exception,columns;
+		
 		if !fetch columns, definition["columns"] {
 			throw new Exception("The table must contain at least one column");
 		}
-
+		
 		if !count(columns) {
 			throw new Exception("The table must contain at least one column");
 		}
@@ -321,11 +321,11 @@ class Postgresql extends PdoAdapter implements AdapterInterface
 					this->{"query"}(query . ";");
 				}
 				return this->{"commit"}();
-			} catch \Exception, e {
-             
-             	this->{"rollback"}();
-                 throw e;
-             }
+			} catch \Exception, exception {
+			 
+				this->{"rollback"}();
+				 throw e;
+			 }
 			
 		} else {
 			return this->{"execute"}(queries[0] . ";");
@@ -338,11 +338,11 @@ class Postgresql extends PdoAdapter implements AdapterInterface
 	 */
 	public function modifyColumn(string! tableName, string! schemaName, <\Phalcon\Db\ColumnInterface> column, <\Phalcon\Db\ColumnInterface> currentColumn = null) -> boolean
 	{
-		var sql,queries,query,e;
-	
-	    let sql = this->_dialect->modifyColumn(tableName, schemaName, column, currentColumn);
+		var sql,queries,query,exception;
+		
+		let sql = this->_dialect->modifyColumn(tableName, schemaName, column, currentColumn);
 		let queries = explode(";",sql);
-        		
+		
 		if count(queries) > 1 {
 			try {
 				this->{"begin"}();
@@ -353,10 +353,10 @@ class Postgresql extends PdoAdapter implements AdapterInterface
 					this->{"query"}(query . ";");
 				}
 				return this->{"commit"}();
-			} catch \Exception, e {
+			} catch \Exception, exception {
 			 
 				this->{"rollback"}();
-				 throw e;
+				 throw exception;
 			 }
 			
 		} else {

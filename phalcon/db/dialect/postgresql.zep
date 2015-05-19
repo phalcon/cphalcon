@@ -427,11 +427,11 @@ class Postgresql extends Dialect
 		if fetch indexes, definition["indexes"] {
 		
 			for index in indexes {
-		
+			
 				let indexName = index->getName();
 				let indexType = index->getType();
 				let indexSql = "";
-		
+			
 				/**
 				 * If the index name is primary we add a primary key
 				 */
