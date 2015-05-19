@@ -19,7 +19,6 @@
 
 namespace Phalcon\Mvc\Model\Resultset;
 
-use Phalcon\Db;
 use Phalcon\Mvc\Model;
 use Phalcon\Mvc\Model\Resultset;
 use Phalcon\Mvc\Model\Exception;
@@ -52,42 +51,15 @@ class Simple extends Resultset
 	 */
 	public function __construct(var columnMap, var model, result, <BackendInterface> cache = null, keepSnapshots = null)
 	{
-		var rowCount;
-
 		let this->_model = model,
-			this->_result = result,
-			this->_cache = cache,
 			this->_columnMap = columnMap;
-
-		if typeof result != "object" {
-			return;
-		}
-
-		/**
-		 * Do the fetch using only associative indexes
-		 */
-		result->setFetchMode(Db::FETCH_ASSOC);
-
-		let rowCount = result->numRows();
-
-		/**
-		 * Check if it's a big resultset
-		 */
-		if rowCount > 32 {
-			let this->_type = 1;
-		} else {
-			let this->_type = 0;
-		}
-
-		/**
-		 * Update the row-count
-		 */
-		let this->_count = rowCount;
 
 		/**
 		 * Set if the returned resultset must keep the record snapshots
 		 */
 		let this->_keepSnapshots = keepSnapshots;
+
+		parent::__construct(result, cache);
 	}
 
 	/**
@@ -103,9 +75,9 @@ class Simple extends Resultset
 		}
 
 		/**
-		 * Get current row regardless of fetch mode
+		 * Current row is set by seek() operations
 		 */
-		let row = parent::current();
+		let row = this->_row;
 
 		/**
 		 * Valid records are arrays
@@ -166,41 +138,21 @@ class Simple extends Resultset
 		var result, records, record, renamed, renamedKey,
 			key, value, renamedRecords, columnMap;
 
-		if this->_type {
-			/**
-			* Fetch from PDO one-by-one. For toArray we fetch all rows at once
-			*/
-			let result = this->_result;
-			if typeof result == "object" {
-				// re-execute query if required and fetchAll rows
-				if this->_row !== null {
-					result->execute();
-				}
-				let records = result->fetchAll();
-				let this->_pointer = this->count(); // invalidate current row
-				let this->_row = null;
-			} else {
-				let records = [];
-			}
-
-		} else {
-			/**
-			 * Fetch from array. this->_rows is alreay our data-array we want to return
-			 */
-			let records = this->_rows;
-			if typeof records != "array" {
-				let result = this->_result;
-				if typeof result == "object" {
-					/**
-					 * We fetch all the results in memory again
-					 */
-					let records = result->fetchAll(),
-						this->_rows = records;
-				} else {
-					let records = [];
-				}
-			}
-		}
+		/**
+		* If _rows is not present, fetchAll from database
+		* and keep them in memory for further operations
+		*/
+		let records = this->_rows;
+        if typeof records != "array" {
+            let result = this->_result;
+            if this->_row !== null {
+                // re-execute query if required and fetchAll rows
+                result->execute();
+            }
+            let records = result->fetchAll();
+            let this->_row = null;
+            let this->_rows = records; // keep result-set in memory
+        }
 
 		/**
 		 * We need to rename the whole set here, this could be slow
@@ -273,11 +225,6 @@ class Simple extends Resultset
 	{
 		var resultset;
 
-		/**
-		 * Enable fetch by array
-		 */
-		let this->_type = 0;
-
 		let resultset = unserialize(data);
 		if typeof resultset != "array" {
 			throw new Exception("Invalid serialization data");
@@ -285,6 +232,7 @@ class Simple extends Resultset
 
 		let this->_model = resultset["model"],
 			this->_rows = resultset["rows"],
+			this->_count = count(resultset["rows"]),
 			this->_cache = resultset["cache"],
 			this->_columnMap = resultset["columnMap"],
 			this->_hydrateMode = resultset["hydrateMode"];

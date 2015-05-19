@@ -19,7 +19,6 @@
 
 namespace Phalcon\Mvc\Model\Resultset;
 
-use Phalcon\Db;
 use Phalcon\Mvc\Model;
 use Phalcon\Mvc\Model\Resultset;
 use Phalcon\Mvc\Model\ResultsetInterface;
@@ -39,6 +38,11 @@ class Complex extends Resultset implements ResultsetInterface
 	protected _columnTypes;
 
 	/**
+	* Unserialised result-set hydrated all rows already. unserialise() sets _disableHydration to true
+	*/
+	protected _disableHydration = false;
+
+	/**
 	 * Phalcon\Mvc\Model\Resultset\Complex constructor
 	 *
 	 * @param array columnTypes
@@ -47,47 +51,12 @@ class Complex extends Resultset implements ResultsetInterface
 	 */
 	public function __construct(var columnTypes, result, <BackendInterface> cache = null)
 	{
-	    var rowCount;
-
 		/**
 		 * Column types, tell the resultset how to build the result
 		 */
 		let this->_columnTypes = columnTypes;
 
-		/**
-		 * Valid resultsets are Phalcon\Db\ResultInterface instances
-		 */
-		let this->_result = result;
-
-		/**
-		 * Update the related cache if any
-		 */
-		if cache !== null {
-			let this->_cache = cache;
-		}
-
-		let rowCount = result->numRows();
-
-		/**
-		 * Check if it's a big resultset
-		 */
-		if rowCount > 32 {
-			let this->_type = 1;
-		} else {
-			let this->_type = 0;
-		}
-
-		/**
-		 * Update the row-count
-		 */
-		let this->_count = rowCount;
-
-		/**
-		 * If the database result is an object, change it to fetch assoc
-		 */
-		if typeof result == "object" {
-			result->setFetchMode(Db::FETCH_ASSOC);
-		}
+		parent::__construct(result, cache);
 	}
 
 	/**
@@ -107,14 +76,14 @@ class Complex extends Resultset implements ResultsetInterface
 		}
 
 		/**
-		 * Get current row regardless of fetch mode
+		 * Current row is set by seek() operations
 		 */
-		let row = parent::current();
+		let row = this->_row;
 
 		/**
 		 * Resulset was unserialized, we do not need to hydrate
 		 */
-        if typeof row == "object" {
+        if this->_disableHydration {
             let this->_activeRow = row;
             return row;
         }
@@ -326,9 +295,9 @@ class Complex extends Resultset implements ResultsetInterface
 		var resultset;
 
 		/**
-		 * Enable fetch by array
-		 */
-		let this->_type = 0;
+		* Rows are already hydrated
+		*/
+		let this->_disableHydration = true;
 
 		let resultset = unserialize(data);
 		if typeof resultset != "array" {
@@ -336,6 +305,7 @@ class Complex extends Resultset implements ResultsetInterface
 		}
 
 		let this->_rows = resultset["rows"],
+		    this->_count = count(resultset["rows"]),
 			this->_cache = resultset["cache"],
 			this->_columnTypes = resultset["columnTypes"],
 			this->_hydrateMode = resultset["hydrateMode"];
