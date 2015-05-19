@@ -659,8 +659,8 @@ class DbDialectTest extends PHPUnit_Framework_TestCase
     $this->assertEquals($dialect->addIndex('table', 'schema', $indexes['index1']), 'CREATE INDEX "index1" ON "schema"."table" ("column1")');
     $this->assertEquals($dialect->addIndex('table', null, $indexes['index2']), 'CREATE INDEX "index2" ON "table" ("column1", "column2")');
     $this->assertEquals($dialect->addIndex('table', 'schema', $indexes['index2']), 'CREATE INDEX "index2" ON "schema"."table" ("column1", "column2")');
-    $this->assertEquals($dialect->addIndex('table', null, $indexes['PRIMARY']), 'ALTER TABLE "table" ADD CONSTRAINT "pk" PRIMARY KEY ("column3")');
-    $this->assertEquals($dialect->addIndex('table', 'schema', $indexes['PRIMARY']), 'ALTER TABLE "schema"."table" ADD CONSTRAINT "pk" PRIMARY KEY ("column3")');
+    $this->assertEquals($dialect->addIndex('table', null, $indexes['PRIMARY']), 'ALTER TABLE "table" ADD CONSTRAINT "PRIMARY" PRIMARY KEY ("column3")');
+    $this->assertEquals($dialect->addIndex('table', 'schema', $indexes['PRIMARY']), 'ALTER TABLE "schema"."table" ADD CONSTRAINT "PRIMARY" PRIMARY KEY ("column3")');
     $this->assertEquals($dialect->addIndex('table', null, $indexes['index4']), 'CREATE UNIQUE INDEX "index4" ON "table" ("column4")');
     $this->assertEquals($dialect->addIndex('table', 'schema', $indexes['index4']), 'CREATE UNIQUE INDEX "index4" ON "schema"."table" ("column4")');
 
@@ -669,27 +669,27 @@ class DbDialectTest extends PHPUnit_Framework_TestCase
     $this->assertEquals($dialect->dropIndex('table', 'schema', 'index1'), 'DROP INDEX "index1"');
 
     //Add Primary 
-    $this->assertEquals($dialect->addPrimaryKey('table', null, $indexes['PRIMARY']), 'ALTER TABLE "table" ADD CONSTRAINT "pk" PRIMARY KEY ("column3")');
-    $this->assertEquals($dialect->addPrimaryKey('table', 'schema', $indexes['PRIMARY']), 'ALTER TABLE "schema"."table" ADD CONSTRAINT "pk" PRIMARY KEY ("column3")');
+    $this->assertEquals($dialect->addPrimaryKey('table', null, $indexes['PRIMARY']), 'ALTER TABLE "table" ADD CONSTRAINT "PRIMARY" PRIMARY KEY ("column3")');
+    $this->assertEquals($dialect->addPrimaryKey('table', 'schema', $indexes['PRIMARY']), 'ALTER TABLE "schema"."table" ADD CONSTRAINT "PRIMARY" PRIMARY KEY ("column3")');
 
     //Drop Primary Key
-    $this->assertEquals($dialect->dropPrimaryKey('table', null), 'ALTER TABLE "table" DROP CONSTRAINT "pk"');
-    $this->assertEquals($dialect->dropPrimaryKey('table', 'schema'), 'ALTER TABLE "schema"."table" DROP CONSTRAINT "pk"');
+    $this->assertEquals($dialect->dropPrimaryKey('table', null), 'ALTER TABLE "table" DROP CONSTRAINT "PRIMARY"');
+    $this->assertEquals($dialect->dropPrimaryKey('table', 'schema'), 'ALTER TABLE "schema"."table" DROP CONSTRAINT "PRIMARY"');
 
     $references = $this->getReferences();
 
     //Add Foreign Key
-    $this->assertEquals($dialect->addForeignKey('table', null, $references['fk1']), 'ALTER TABLE "table" ADD FOREIGN KEY ADD CONSTRAINT "fk1" FOREIGN KEY ("column1") REFERENCES "ref_table" ("column2")');
-    $this->assertEquals($dialect->addForeignKey('table', 'schema', $references['fk1']), 'ALTER TABLE "schema"."table" ADD FOREIGN KEY ADD CONSTRAINT "fk1" FOREIGN KEY ("column1") REFERENCES "ref_table" ("column2")');
-    $this->assertEquals($dialect->addForeignKey('table', null, $references['fk2']), 'ALTER TABLE "table" ADD FOREIGN KEY ADD CONSTRAINT "fk2" FOREIGN KEY ("column3", "column4") REFERENCES "ref_table" ("column5", "column6")');
-    $this->assertEquals($dialect->addForeignKey('table', 'schema', $references['fk2']), 'ALTER TABLE "schema"."table" ADD FOREIGN KEY ADD CONSTRAINT "fk2" FOREIGN KEY ("column3", "column4") REFERENCES "ref_table" ("column5", "column6")');
+    $this->assertEquals($dialect->addForeignKey('table', null, $references['fk1']), 'ALTER TABLE "table" ADD CONSTRAINT "fk1" FOREIGN KEY ("column1") REFERENCES "ref_table" ("column2")');
+    $this->assertEquals($dialect->addForeignKey('table', 'schema', $references['fk1']), 'ALTER TABLE "schema"."table" ADD CONSTRAINT "fk1" FOREIGN KEY ("column1") REFERENCES "ref_table" ("column2")');
+    $this->assertEquals($dialect->addForeignKey('table', null, $references['fk2']), 'ALTER TABLE "table" ADD CONSTRAINT "fk2" FOREIGN KEY ("column3", "column4") REFERENCES "ref_table" ("column5", "column6")');
+    $this->assertEquals($dialect->addForeignKey('table', 'schema', $references['fk2']), 'ALTER TABLE "schema"."table" ADD CONSTRAINT "fk2" FOREIGN KEY ("column3", "column4") REFERENCES "ref_table" ("column5", "column6")');
 
-    $this->assertEquals($dialect->addForeignKey('table', null, $references['fk3']), 'ALTER TABLE "table" ADD FOREIGN KEY ADD CONSTRAINT "fk3" FOREIGN KEY ("column1") REFERENCES "ref_table" ("column2") ON DELETE CASCADE');
-    $this->assertEquals($dialect->addForeignKey('table', 'schema', $references['fk3']), 'ALTER TABLE "schema"."table" ADD FOREIGN KEY ADD CONSTRAINT "fk3" FOREIGN KEY ("column1") REFERENCES "ref_table" ("column2") ON DELETE CASCADE');
-    $this->assertEquals($dialect->addForeignKey('table', null, $references['fk4']), 'ALTER TABLE "table" ADD FOREIGN KEY ADD CONSTRAINT "fk4" FOREIGN KEY ("column1") REFERENCES "ref_table" ("column2") ON UPDATE SET NULL');
-    $this->assertEquals($dialect->addForeignKey('table', 'schema', $references['fk4']), 'ALTER TABLE "schema"."table" ADD FOREIGN KEY ADD CONSTRAINT "fk4" FOREIGN KEY ("column1") REFERENCES "ref_table" ("column2") ON UPDATE SET NULL');
-    $this->assertEquals($dialect->addForeignKey('table', null, $references['fk5']), 'ALTER TABLE "table" ADD FOREIGN KEY ADD CONSTRAINT "fk5" FOREIGN KEY ("column1") REFERENCES "ref_table" ("column2") ON DELETE CASCADE ON UPDATE NO ACTION');
-    $this->assertEquals($dialect->addForeignKey('table', 'schema', $references['fk5']), 'ALTER TABLE "schema"."table" ADD FOREIGN KEY ADD CONSTRAINT "fk5" FOREIGN KEY ("column1") REFERENCES "ref_table" ("column2") ON DELETE CASCADE ON UPDATE NO ACTION');
+    $this->assertEquals($dialect->addForeignKey('table', null, $references['fk3']), 'ALTER TABLE "table" ADD CONSTRAINT "fk3" FOREIGN KEY ("column1") REFERENCES "ref_table" ("column2") ON DELETE CASCADE');
+    $this->assertEquals($dialect->addForeignKey('table', 'schema', $references['fk3']), 'ALTER TABLE "schema"."table" ADD CONSTRAINT "fk3" FOREIGN KEY ("column1") REFERENCES "ref_table" ("column2") ON DELETE CASCADE');
+    $this->assertEquals($dialect->addForeignKey('table', null, $references['fk4']), 'ALTER TABLE "table" ADD CONSTRAINT "fk4" FOREIGN KEY ("column1") REFERENCES "ref_table" ("column2") ON UPDATE SET NULL');
+    $this->assertEquals($dialect->addForeignKey('table', 'schema', $references['fk4']), 'ALTER TABLE "schema"."table" ADD CONSTRAINT "fk4" FOREIGN KEY ("column1") REFERENCES "ref_table" ("column2") ON UPDATE SET NULL');
+    $this->assertEquals($dialect->addForeignKey('table', null, $references['fk5']), 'ALTER TABLE "table" ADD CONSTRAINT "fk5" FOREIGN KEY ("column1") REFERENCES "ref_table" ("column2") ON DELETE CASCADE ON UPDATE NO ACTION');
+    $this->assertEquals($dialect->addForeignKey('table', 'schema', $references['fk5']), 'ALTER TABLE "schema"."table" ADD CONSTRAINT "fk5" FOREIGN KEY ("column1") REFERENCES "ref_table" ("column2") ON DELETE CASCADE ON UPDATE NO ACTION');
 
     $this->assertEquals($dialect->dropForeignKey('table', null, 'fk1'), 'ALTER TABLE "table" DROP CONSTRAINT "fk1"');
     $this->assertEquals($dialect->dropForeignKey('table', 'schema', 'fk1'), 'ALTER TABLE "schema"."table" DROP CONSTRAINT "fk1"');
@@ -723,7 +723,7 @@ class DbDialectTest extends PHPUnit_Framework_TestCase
     $expected .= "	\"column2\" INT,\n";
     $expected .= "	\"column3\" NUMERIC(10,2) NOT NULL,\n";
     $expected .= "	\"column1\" CHARACTER VARYING(10),\n";
-    $expected .= "	CONSTRAINT pk PRIMARY KEY (\"column3\")\n";
+    $expected .= "	CONSTRAINT \"PRIMARY\" PRIMARY KEY (\"column3\")\n";
     $expected .= ");";
     $this->assertEquals($dialect->createTable('table', null, $definition), $expected);
 
@@ -735,7 +735,7 @@ class DbDialectTest extends PHPUnit_Framework_TestCase
     $expected .= "	\"column2\" INT,\n";
     $expected .= "	\"column3\" NUMERIC(10,2) NOT NULL,\n";
     $expected .= "	\"column1\" CHARACTER VARYING(10),\n";
-    $expected .= "	CONSTRAINT pk PRIMARY KEY (\"column3\"),\n";
+    $expected .= "	CONSTRAINT \"PRIMARY\" PRIMARY KEY (\"column3\"),\n";
     $expected .= "	CONSTRAINT \"fk3\" FOREIGN KEY (\"column1\") REFERENCES \"ref_table\" (\"column2\") ON DELETE CASCADE\n";
     $expected .= ");";
     $this->assertEquals($dialect->createTable('table', null, $definition), $expected);
