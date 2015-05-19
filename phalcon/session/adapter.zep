@@ -215,7 +215,7 @@ abstract class Adapter
 	}
 
 	/**
-	 * Returns the status of the current session
+	 * Returns the status of the current session. For PHP 5.3 this function will always return SESSION_NONE
 	 *
 	 *<code>
 	 *	var_dump(session->status());
