@@ -223,20 +223,21 @@ abstract class Adapter
 	 */
 	public function status() -> int
 	{
-		int status;
+		var status;
 
-		let status = session_status();
+		if !is_php_version("5.3") {
+			let status = session_status();
 
-		switch status {
-			case PHP_SESSION_DISABLED:
-				return self::SESSION_DISABLED;
+			switch status {
+				case PHP_SESSION_DISABLED:
+					return self::SESSION_DISABLED;
 
-			case PHP_SESSION_NONE:
-				return self::SESSION_NONE;
-
-			case PHP_SESSION_ACTIVE:
-				return self::SESSION_ACTIVE;
+				case PHP_SESSION_ACTIVE:
+					return self::SESSION_ACTIVE;
+			}
 		}
+
+		return self::SESSION_NONE;
 	}
 
 	/**
