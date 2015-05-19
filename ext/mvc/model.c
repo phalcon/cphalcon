@@ -1748,7 +1748,7 @@ PHP_METHOD(Phalcon_Mvc_Model, findFirst){
 	zval *query = NULL, *bind_params = NULL, *bind_types = NULL, *cache;
 	zval *event_name = NULL, *unique, *index, tmp = zval_used_for_init;
 	zval *dependency_injector = NULL, *service_name, *has = NULL, *service_params, *manager = NULL, *model = NULL;
-	zval *result = NULL;
+	zval *result = NULL, *hydration = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -1890,6 +1890,13 @@ PHP_METHOD(Phalcon_Mvc_Model, findFirst){
 		ZVAL_STRING(event_name, "afterQuery", 1);
 
 		PHALCON_CALL_METHOD(NULL, model, "fireevent", event_name, result);
+
+		/**
+		 * Define an hydration mode
+		 */
+		if (phalcon_array_isset_string_fetch(&hydration, params, SS("hydration"))) {
+			PHALCON_CALL_METHOD(NULL, result, "sethydratemode", hydration);
+		}
 
 		RETURN_CTOR(result);
 	} else if (zend_is_true(auto_create)) {
