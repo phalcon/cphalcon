@@ -324,7 +324,7 @@ class Postgresql extends PdoAdapter implements AdapterInterface
 			} catch \Exception, exception {
 			 
 				this->{"rollback"}();
-				 throw e;
+				 throw exception;
 			 }
 			
 		} else {
