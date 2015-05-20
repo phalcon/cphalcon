@@ -220,7 +220,7 @@ abstract class Adapter
 	 *<code>
 	 *	var_dump($session->status());
 	 *
-	 *  // PHP 5.4 and above will give meaningful messages, 5.3 gets NONE always
+	 *  // PHP 5.4 and above will give meaningful messages, 5.3 gets SESSION_NONE always
 	 *  if ($session->status() !== $session::SESSION_ACTIVE) {
 	 *      $session->start();
 	 *  }
