@@ -649,9 +649,9 @@ PHP_METHOD(Phalcon_Http_Response, redirect){
 		header = NULL;
 	}
 
-	if (!header) {
-		PHALCON_CALL_METHOD(&dependency_injector, this_ptr, "getdi");
+	PHALCON_CALL_METHOD(&dependency_injector, this_ptr, "getdi");
 
+	if (!header) {
 		PHALCON_INIT_NVAR(service_name);
 		PHALCON_ZVAL_MAYBE_INTERNED_STRING(service_name, phalcon_interned_url);
 
@@ -661,7 +661,7 @@ PHP_METHOD(Phalcon_Http_Response, redirect){
 		PHALCON_CALL_METHOD(&header, url, "get", location);
 	}
 
-	PHALCON_INIT_VAR(service_name);
+	PHALCON_INIT_NVAR(service_name);
 	PHALCON_ZVAL_MAYBE_INTERNED_STRING(service_name, phalcon_interned_view);
 
 	PHALCON_CALL_METHOD(&has, dependency_injector, "has", service_name);

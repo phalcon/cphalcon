@@ -2961,7 +2961,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationsBetween){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Manager, createQuery){
 
-	zval *phql, *dependency_injector, *service_name, *parameters, *query = NULL;
+	zval *phql, *dependency_injector, *service_name, *has = NULL, *parameters, *query = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -2977,13 +2977,20 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, createQuery){
 	PHALCON_INIT_VAR(service_name);
 	ZVAL_STRING(service_name, "modelsQuery", 1);
 
-	PHALCON_INIT_VAR(parameters);
-	array_init(parameters);
+	PHALCON_CALL_METHOD(&has, dependency_injector, "has", service_name);
+	if (zend_is_true(has)) {
+		PHALCON_INIT_VAR(parameters);
+		array_init(parameters);
 
-	phalcon_array_append(&parameters, phql, 0);
-	phalcon_array_append(&parameters, dependency_injector, 0);
+		phalcon_array_append(&parameters, phql, 0);
+		phalcon_array_append(&parameters, dependency_injector, 0);
 
-	PHALCON_CALL_METHOD(&query, dependency_injector, "get", service_name, parameters);
+		PHALCON_CALL_METHOD(&query, dependency_injector, "get", service_name, parameters);
+	} else {
+		PHALCON_INIT_NVAR(query);
+		object_init_ex(query, phalcon_mvc_model_query_ce);
+		PHALCON_CALL_METHOD(NULL, query, "__construct", phql, dependency_injector);
+	}
 
 	phalcon_update_property_this(this_ptr, SL("_lastQuery"), query TSRMLS_CC);
 
@@ -3000,7 +3007,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, createQuery){
 PHP_METHOD(Phalcon_Mvc_Model_Manager, executeQuery){
 
 	zval *phql, *placeholders = NULL, *types = NULL, *dependency_injector;
-	zval *service_name, *parameters, *query = NULL;
+	zval *service_name, *has = NULL, *parameters, *query = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -3027,13 +3034,20 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, executeQuery){
 	PHALCON_INIT_VAR(service_name);
 	ZVAL_STRING(service_name, "modelsQuery", 1);
 
-	PHALCON_INIT_VAR(parameters);
-	array_init(parameters);
+	PHALCON_CALL_METHOD(&has, dependency_injector, "has", service_name);
+	if (zend_is_true(has)) {
+		PHALCON_INIT_VAR(parameters);
+		array_init(parameters);
 
-	phalcon_array_append(&parameters, phql, 0);
-	phalcon_array_append(&parameters, dependency_injector, 0);
+		phalcon_array_append(&parameters, phql, 0);
+		phalcon_array_append(&parameters, dependency_injector, 0);
 
-	PHALCON_CALL_METHOD(&query, dependency_injector, "get", service_name, parameters);
+		PHALCON_CALL_METHOD(&query, dependency_injector, "get", service_name, parameters);
+	} else {
+		PHALCON_INIT_NVAR(query);
+		object_init_ex(query, phalcon_mvc_model_query_ce);
+		PHALCON_CALL_METHOD(NULL, query, "__construct", phql, dependency_injector);
+	}
 
 	phalcon_update_property_this(this_ptr, SL("_lastQuery"), query TSRMLS_CC);
 
