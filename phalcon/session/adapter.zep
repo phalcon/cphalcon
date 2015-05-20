@@ -205,7 +205,7 @@ abstract class Adapter
 	 * Destroys the active session
 	 *
 	 *<code>
-	 *	var_dump(session->destroy());
+	 *	var_dump($session->destroy());
 	 *</code>
 	 */
 	public function destroy() -> boolean
@@ -218,7 +218,12 @@ abstract class Adapter
 	 * Returns the status of the current session. For PHP 5.3 this function will always return SESSION_NONE
 	 *
 	 *<code>
-	 *	var_dump(session->status());
+	 *	var_dump($session->status());
+	 *
+	 *  // PHP 5.4 and above will give meaningful messages, 5.3 gets NONE always
+	 *  if ($session->status() !== $session::SESSION_ACTIVE) {
+	 *      $session->start();
+	 *  }
 	 *</code>
 	 */
 	public function status() -> int
