@@ -429,6 +429,7 @@ static PHP_MINIT_FUNCTION(phalcon)
 	PHALCON_INIT(Phalcon_Validation_Validator_Confirmation);
 	PHALCON_INIT(Phalcon_Validation_Validator_Url);
 	PHALCON_INIT(Phalcon_Validation_Validator_File);
+	PHALCON_INIT(Phalcon_Validation_Validator_Numericality);
 	PHALCON_INIT(Phalcon_Db_Index);
 	PHALCON_INIT(Phalcon_Db_Column);
 	PHALCON_INIT(Phalcon_Db_Adapter_Pdo_Sqlite);
