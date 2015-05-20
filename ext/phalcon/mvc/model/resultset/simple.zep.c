@@ -162,11 +162,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, current) {
 			_4 = zephir_fetch_nproperty_this(this_ptr, SL("_keepSnapshots"), PH_NOISY_CC);
 			ZEPHIR_INIT_VAR(_7);
 			ZVAL_LONG(_7, 0);
-			ZEPHIR_CALL_CE_STATIC(&activeRow, phalcon_mvc_model_ce, "cloneresultmap", &_6, 340, _1, row, columnMap, _7, _4);
+			ZEPHIR_CALL_CE_STATIC(&activeRow, phalcon_mvc_model_ce, "cloneresultmap", &_6, 274, _1, row, columnMap, _7, _4);
 			zephir_check_call_status();
 			break;
 		}
-		ZEPHIR_CALL_CE_STATIC(&activeRow, phalcon_mvc_model_ce, "cloneresultmaphydrate", &_8, 341, row, columnMap, hydrateMode);
+		ZEPHIR_CALL_CE_STATIC(&activeRow, phalcon_mvc_model_ce, "cloneresultmaphydrate", &_8, 275, row, columnMap, hydrateMode);
 		zephir_check_call_status();
 		break;
 	} while(0);
@@ -263,7 +263,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, toArray) {
 						object_init_ex(_8, phalcon_mvc_model_exception_ce);
 						ZEPHIR_INIT_LNVAR(_9);
 						ZEPHIR_CONCAT_SVS(_9, "Column '", key, "' is not part of the column map");
-						ZEPHIR_CALL_METHOD(NULL, _8, "__construct", &_10, 0, _9);
+						ZEPHIR_CALL_METHOD(NULL, _8, "__construct", &_10, 2, _9);
 						zephir_check_call_status();
 						zephir_throw_exception_debug(_8, "phalcon/mvc/model/resultset/simple.zep", 250 TSRMLS_CC);
 						ZEPHIR_MM_RESTORE();
@@ -310,7 +310,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, serialize) {
 	ZEPHIR_OBS_NVAR(_1);
 	zephir_read_property_this(&_1, this_ptr, SL("_hydrateMode"), PH_NOISY_CC);
 	zephir_array_update_string(&_0, SL("hydrateMode"), &_1, PH_COPY | PH_SEPARATE);
-	ZEPHIR_RETURN_CALL_FUNCTION("serialize", NULL, 11, _0);
+	ZEPHIR_RETURN_CALL_FUNCTION("serialize", NULL, 10, _0);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -344,7 +344,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, unserialize) {
 	ZEPHIR_INIT_ZVAL_NREF(_0);
 	ZVAL_LONG(_0, 0);
 	zephir_update_property_this(this_ptr, SL("_type"), _0 TSRMLS_CC);
-	ZEPHIR_CALL_FUNCTION(&resultset, "unserialize", NULL, 10, data);
+	ZEPHIR_CALL_FUNCTION(&resultset, "unserialize", NULL, 9, data);
 	zephir_check_call_status();
 	if (Z_TYPE_P(resultset) != IS_ARRAY) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "Invalid serialization data", "phalcon/mvc/model/resultset/simple.zep", 303);

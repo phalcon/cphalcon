@@ -312,7 +312,6 @@ PHP_METHOD(Phalcon_Assets_Resource, setTargetPath) {
  */
 PHP_METHOD(Phalcon_Assets_Resource, getContent) {
 
-	zephir_fcall_cache_entry *_3 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *basePath_param = NULL, *sourcePath = NULL, *completePath, *content, *_0, *_1 = NULL, *_2 = NULL;
 	zval *basePath = NULL;
@@ -343,7 +342,7 @@ PHP_METHOD(Phalcon_Assets_Resource, getContent) {
 			object_init_ex(_1, phalcon_assets_exception_ce);
 			ZEPHIR_INIT_VAR(_2);
 			ZEPHIR_CONCAT_SVS(_2, "Resource's content for '", completePath, "' cannot be read");
-			ZEPHIR_CALL_METHOD(NULL, _1, "__construct", &_3, 2, _2);
+			ZEPHIR_CALL_METHOD(NULL, _1, "__construct", NULL, 2, _2);
 			zephir_check_call_status();
 			zephir_throw_exception_debug(_1, "phalcon/assets/resource.zep", 169 TSRMLS_CC);
 			ZEPHIR_MM_RESTORE();
@@ -357,7 +356,7 @@ PHP_METHOD(Phalcon_Assets_Resource, getContent) {
 		object_init_ex(_1, phalcon_assets_exception_ce);
 		ZEPHIR_INIT_LNVAR(_2);
 		ZEPHIR_CONCAT_SVS(_2, "Resource's content for '", completePath, "' cannot be read");
-		ZEPHIR_CALL_METHOD(NULL, _1, "__construct", &_3, 2, _2);
+		ZEPHIR_CALL_METHOD(NULL, _1, "__construct", NULL, 2, _2);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(_1, "phalcon/assets/resource.zep", 179 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
@@ -416,7 +415,7 @@ PHP_METHOD(Phalcon_Assets_Resource, getRealSourcePath) {
 	if (zephir_is_true(_0)) {
 		ZEPHIR_INIT_VAR(_1);
 		ZEPHIR_CONCAT_VV(_1, basePath, sourcePath);
-		ZEPHIR_RETURN_CALL_FUNCTION("realpath", NULL, 25, _1);
+		ZEPHIR_RETURN_CALL_FUNCTION("realpath", NULL, 23, _1);
 		zephir_check_call_status();
 		RETURN_MM();
 	}
@@ -455,7 +454,7 @@ PHP_METHOD(Phalcon_Assets_Resource, getRealTargetPath) {
 		ZEPHIR_INIT_VAR(completePath);
 		ZEPHIR_CONCAT_VV(completePath, basePath, targetPath);
 		if ((zephir_file_exists(completePath TSRMLS_CC) == SUCCESS)) {
-			ZEPHIR_RETURN_CALL_FUNCTION("realpath", NULL, 25, completePath);
+			ZEPHIR_RETURN_CALL_FUNCTION("realpath", NULL, 23, completePath);
 			zephir_check_call_status();
 			RETURN_MM();
 		}

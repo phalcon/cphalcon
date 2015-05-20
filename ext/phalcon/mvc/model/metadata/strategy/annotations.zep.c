@@ -36,12 +36,11 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_MetaData_Strategy_Annotations) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getMetaData) {
 
-	zend_bool _12;
-	HashTable *_4;
-	HashPosition _3;
-	zephir_fcall_cache_entry *_2 = NULL;
+	zend_bool _11;
+	HashTable *_3;
+	HashPosition _2;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *model, *dependencyInjector, *annotations = NULL, *className, *reflection = NULL, *propertiesAnnotations = NULL, *property = NULL, *propAnnotations = NULL, *columnAnnotation = NULL, *columnName = NULL, *feature = NULL, *fieldTypes, *fieldBindTypes, *numericTyped, *primaryKeys, *nonPrimaryKeys, *identityField = NULL, *notNull, *attributes, *automaticDefault, *defaultValues, *defaultValue = NULL, *_0 = NULL, *_1 = NULL, **_5, *_6 = NULL, *_7 = NULL, *_8 = NULL, *_9 = NULL, *_10 = NULL, *_11 = NULL, *_13 = NULL;
+	zval *model, *dependencyInjector, *annotations = NULL, *className, *reflection = NULL, *propertiesAnnotations = NULL, *property = NULL, *propAnnotations = NULL, *columnAnnotation = NULL, *columnName = NULL, *feature = NULL, *fieldTypes, *fieldBindTypes, *numericTyped, *primaryKeys, *nonPrimaryKeys, *identityField = NULL, *notNull, *attributes, *automaticDefault, *defaultValues, *defaultValue = NULL, *_0 = NULL, *_1 = NULL, **_4, *_5 = NULL, *_6 = NULL, *_7 = NULL, *_8 = NULL, *_9 = NULL, *_10 = NULL, *_12 = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &model, &dependencyInjector);
@@ -66,7 +65,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getMetaData) {
 		object_init_ex(_0, phalcon_mvc_model_exception_ce);
 		ZEPHIR_INIT_VAR(_1);
 		ZEPHIR_CONCAT_SV(_1, "No annotations were found in class ", className);
-		ZEPHIR_CALL_METHOD(NULL, _0, "__construct", &_2, 2, _1);
+		ZEPHIR_CALL_METHOD(NULL, _0, "__construct", NULL, 2, _1);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(_0, "phalcon/mvc/model/metadata/strategy/annotations.zep", 49 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
@@ -79,7 +78,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getMetaData) {
 		object_init_ex(_0, phalcon_mvc_model_exception_ce);
 		ZEPHIR_INIT_LNVAR(_1);
 		ZEPHIR_CONCAT_SV(_1, "No properties with annotations were found in class ", className);
-		ZEPHIR_CALL_METHOD(NULL, _0, "__construct", &_2, 2, _1);
+		ZEPHIR_CALL_METHOD(NULL, _0, "__construct", NULL, 2, _1);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(_0, "phalcon/mvc/model/metadata/strategy/annotations.zep", 57 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
@@ -105,19 +104,19 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getMetaData) {
 	ZVAL_BOOL(identityField, 0);
 	ZEPHIR_INIT_VAR(defaultValues);
 	array_init(defaultValues);
-	zephir_is_iterable(propertiesAnnotations, &_4, &_3, 0, 0, "phalcon/mvc/model/metadata/strategy/annotations.zep", 180);
+	zephir_is_iterable(propertiesAnnotations, &_3, &_2, 0, 0, "phalcon/mvc/model/metadata/strategy/annotations.zep", 180);
 	for (
-	  ; zephir_hash_get_current_data_ex(_4, (void**) &_5, &_3) == SUCCESS
-	  ; zephir_hash_move_forward_ex(_4, &_3)
+	  ; zephir_hash_get_current_data_ex(_3, (void**) &_4, &_2) == SUCCESS
+	  ; zephir_hash_move_forward_ex(_3, &_2)
 	) {
-		ZEPHIR_GET_HMKEY(property, _4, _3);
-		ZEPHIR_GET_HVALUE(propAnnotations, _5);
+		ZEPHIR_GET_HMKEY(property, _3, _2);
+		ZEPHIR_GET_HVALUE(propAnnotations, _4);
 		ZEPHIR_INIT_NVAR(_0);
 		ZVAL_STRING(_0, "Column", ZEPHIR_TEMP_PARAM_COPY);
-		ZEPHIR_CALL_METHOD(&_6, propAnnotations, "has", NULL, 0, _0);
+		ZEPHIR_CALL_METHOD(&_5, propAnnotations, "has", NULL, 0, _0);
 		zephir_check_temp_parameter(_0);
 		zephir_check_call_status();
-		if (!(zephir_is_true(_6))) {
+		if (!(zephir_is_true(_5))) {
 			continue;
 		}
 		ZEPHIR_INIT_NVAR(_0);
@@ -143,107 +142,107 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getMetaData) {
 				ZEPHIR_INIT_NVAR(_0);
 				ZVAL_LONG(_0, 0);
 				zephir_array_update_zval(&fieldTypes, property, &_0, PH_COPY | PH_SEPARATE);
-				ZEPHIR_INIT_NVAR(_7);
-				ZVAL_LONG(_7, 1);
-				zephir_array_update_zval(&fieldBindTypes, columnName, &_7, PH_COPY | PH_SEPARATE);
+				ZEPHIR_INIT_NVAR(_6);
+				ZVAL_LONG(_6, 1);
+				zephir_array_update_zval(&fieldBindTypes, columnName, &_6, PH_COPY | PH_SEPARATE);
 				zephir_array_update_zval(&numericTyped, columnName, &ZEPHIR_GLOBAL(global_true), PH_COPY | PH_SEPARATE);
 				break;
 			}
 			if (ZEPHIR_IS_STRING(feature, "decimal")) {
+				ZEPHIR_INIT_NVAR(_6);
+				ZVAL_LONG(_6, 3);
+				zephir_array_update_zval(&fieldTypes, columnName, &_6, PH_COPY | PH_SEPARATE);
 				ZEPHIR_INIT_NVAR(_7);
-				ZVAL_LONG(_7, 3);
-				zephir_array_update_zval(&fieldTypes, columnName, &_7, PH_COPY | PH_SEPARATE);
-				ZEPHIR_INIT_NVAR(_8);
-				ZVAL_LONG(_8, 32);
-				zephir_array_update_zval(&fieldBindTypes, columnName, &_8, PH_COPY | PH_SEPARATE);
+				ZVAL_LONG(_7, 32);
+				zephir_array_update_zval(&fieldBindTypes, columnName, &_7, PH_COPY | PH_SEPARATE);
 				zephir_array_update_zval(&numericTyped, columnName, &ZEPHIR_GLOBAL(global_true), PH_COPY | PH_SEPARATE);
 				break;
 			}
 			if (ZEPHIR_IS_STRING(feature, "boolean")) {
+				ZEPHIR_INIT_NVAR(_6);
+				ZVAL_LONG(_6, 8);
+				zephir_array_update_zval(&fieldTypes, columnName, &_6, PH_COPY | PH_SEPARATE);
 				ZEPHIR_INIT_NVAR(_7);
-				ZVAL_LONG(_7, 8);
-				zephir_array_update_zval(&fieldTypes, columnName, &_7, PH_COPY | PH_SEPARATE);
-				ZEPHIR_INIT_NVAR(_8);
-				ZVAL_LONG(_8, 5);
-				zephir_array_update_zval(&fieldBindTypes, columnName, &_8, PH_COPY | PH_SEPARATE);
+				ZVAL_LONG(_7, 5);
+				zephir_array_update_zval(&fieldBindTypes, columnName, &_7, PH_COPY | PH_SEPARATE);
 				break;
 			}
 			if (ZEPHIR_IS_STRING(feature, "date")) {
+				ZEPHIR_INIT_NVAR(_6);
+				ZVAL_LONG(_6, 1);
+				zephir_array_update_zval(&fieldTypes, columnName, &_6, PH_COPY | PH_SEPARATE);
 				ZEPHIR_INIT_NVAR(_7);
-				ZVAL_LONG(_7, 1);
-				zephir_array_update_zval(&fieldTypes, columnName, &_7, PH_COPY | PH_SEPARATE);
-				ZEPHIR_INIT_NVAR(_8);
-				ZVAL_LONG(_8, 2);
-				zephir_array_update_zval(&fieldBindTypes, columnName, &_8, PH_COPY | PH_SEPARATE);
+				ZVAL_LONG(_7, 2);
+				zephir_array_update_zval(&fieldBindTypes, columnName, &_7, PH_COPY | PH_SEPARATE);
 				break;
 			}
 			if (ZEPHIR_IS_STRING(feature, "datetime")) {
+				ZEPHIR_INIT_NVAR(_6);
+				ZVAL_LONG(_6, 4);
+				zephir_array_update_zval(&fieldTypes, columnName, &_6, PH_COPY | PH_SEPARATE);
 				ZEPHIR_INIT_NVAR(_7);
-				ZVAL_LONG(_7, 4);
-				zephir_array_update_zval(&fieldTypes, columnName, &_7, PH_COPY | PH_SEPARATE);
-				ZEPHIR_INIT_NVAR(_8);
-				ZVAL_LONG(_8, 2);
-				zephir_array_update_zval(&fieldBindTypes, columnName, &_8, PH_COPY | PH_SEPARATE);
+				ZVAL_LONG(_7, 2);
+				zephir_array_update_zval(&fieldBindTypes, columnName, &_7, PH_COPY | PH_SEPARATE);
 				break;
 			}
 			if (ZEPHIR_IS_STRING(feature, "text")) {
+				ZEPHIR_INIT_NVAR(_6);
+				ZVAL_LONG(_6, 6);
+				zephir_array_update_zval(&fieldTypes, columnName, &_6, PH_COPY | PH_SEPARATE);
 				ZEPHIR_INIT_NVAR(_7);
-				ZVAL_LONG(_7, 6);
-				zephir_array_update_zval(&fieldTypes, columnName, &_7, PH_COPY | PH_SEPARATE);
-				ZEPHIR_INIT_NVAR(_8);
-				ZVAL_LONG(_8, 2);
-				zephir_array_update_zval(&fieldBindTypes, columnName, &_8, PH_COPY | PH_SEPARATE);
+				ZVAL_LONG(_7, 2);
+				zephir_array_update_zval(&fieldBindTypes, columnName, &_7, PH_COPY | PH_SEPARATE);
 				break;
 			}
+			ZEPHIR_INIT_NVAR(_6);
+			ZVAL_LONG(_6, 2);
+			zephir_array_update_zval(&fieldTypes, columnName, &_6, PH_COPY | PH_SEPARATE);
 			ZEPHIR_INIT_NVAR(_7);
 			ZVAL_LONG(_7, 2);
-			zephir_array_update_zval(&fieldTypes, columnName, &_7, PH_COPY | PH_SEPARATE);
-			ZEPHIR_INIT_NVAR(_8);
-			ZVAL_LONG(_8, 2);
-			zephir_array_update_zval(&fieldBindTypes, columnName, &_8, PH_COPY | PH_SEPARATE);
+			zephir_array_update_zval(&fieldBindTypes, columnName, &_7, PH_COPY | PH_SEPARATE);
 		} while(0);
 
-		ZEPHIR_INIT_NVAR(_7);
-		ZVAL_STRING(_7, "Primary", ZEPHIR_TEMP_PARAM_COPY);
-		ZEPHIR_CALL_METHOD(&_9, propAnnotations, "has", NULL, 0, _7);
-		zephir_check_temp_parameter(_7);
+		ZEPHIR_INIT_NVAR(_6);
+		ZVAL_STRING(_6, "Primary", ZEPHIR_TEMP_PARAM_COPY);
+		ZEPHIR_CALL_METHOD(&_8, propAnnotations, "has", NULL, 0, _6);
+		zephir_check_temp_parameter(_6);
 		zephir_check_call_status();
-		if (zephir_is_true(_9)) {
+		if (zephir_is_true(_8)) {
 			zephir_array_append(&primaryKeys, columnName, PH_SEPARATE, "phalcon/mvc/model/metadata/strategy/annotations.zep", 147);
 		} else {
 			zephir_array_append(&nonPrimaryKeys, columnName, PH_SEPARATE, "phalcon/mvc/model/metadata/strategy/annotations.zep", 149);
 		}
-		ZEPHIR_INIT_NVAR(_7);
-		ZVAL_STRING(_7, "Identity", ZEPHIR_TEMP_PARAM_COPY);
-		ZEPHIR_CALL_METHOD(&_10, propAnnotations, "has", NULL, 0, _7);
-		zephir_check_temp_parameter(_7);
+		ZEPHIR_INIT_NVAR(_6);
+		ZVAL_STRING(_6, "Identity", ZEPHIR_TEMP_PARAM_COPY);
+		ZEPHIR_CALL_METHOD(&_9, propAnnotations, "has", NULL, 0, _6);
+		zephir_check_temp_parameter(_6);
 		zephir_check_call_status();
-		if (zephir_is_true(_10)) {
+		if (zephir_is_true(_9)) {
 			ZEPHIR_CPY_WRT(identityField, columnName);
 		}
-		ZEPHIR_INIT_NVAR(_7);
-		ZVAL_STRING(_7, "nullable", ZEPHIR_TEMP_PARAM_COPY);
-		ZEPHIR_CALL_METHOD(&_11, columnAnnotation, "getnamedparameter", NULL, 0, _7);
-		zephir_check_temp_parameter(_7);
+		ZEPHIR_INIT_NVAR(_6);
+		ZVAL_STRING(_6, "nullable", ZEPHIR_TEMP_PARAM_COPY);
+		ZEPHIR_CALL_METHOD(&_10, columnAnnotation, "getnamedparameter", NULL, 0, _6);
+		zephir_check_temp_parameter(_6);
 		zephir_check_call_status();
-		if (!(zephir_is_true(_11))) {
+		if (!(zephir_is_true(_10))) {
 			zephir_array_append(&notNull, columnName, PH_SEPARATE, "phalcon/mvc/model/metadata/strategy/annotations.zep", 163);
 		}
-		ZEPHIR_INIT_NVAR(_7);
-		ZVAL_STRING(_7, "default", ZEPHIR_TEMP_PARAM_COPY);
-		ZEPHIR_CALL_METHOD(&defaultValue, columnAnnotation, "getnamedparameter", NULL, 0, _7);
-		zephir_check_temp_parameter(_7);
+		ZEPHIR_INIT_NVAR(_6);
+		ZVAL_STRING(_6, "default", ZEPHIR_TEMP_PARAM_COPY);
+		ZEPHIR_CALL_METHOD(&defaultValue, columnAnnotation, "getnamedparameter", NULL, 0, _6);
+		zephir_check_temp_parameter(_6);
 		zephir_check_call_status();
-		_12 = Z_TYPE_P(defaultValue) != IS_NULL;
-		if (!(_12)) {
-			ZEPHIR_INIT_NVAR(_7);
-			ZVAL_STRING(_7, "nullable", ZEPHIR_TEMP_PARAM_COPY);
-			ZEPHIR_CALL_METHOD(&_13, columnAnnotation, "getnamedparameter", NULL, 0, _7);
-			zephir_check_temp_parameter(_7);
+		_11 = Z_TYPE_P(defaultValue) != IS_NULL;
+		if (!(_11)) {
+			ZEPHIR_INIT_NVAR(_6);
+			ZVAL_STRING(_6, "nullable", ZEPHIR_TEMP_PARAM_COPY);
+			ZEPHIR_CALL_METHOD(&_12, columnAnnotation, "getnamedparameter", NULL, 0, _6);
+			zephir_check_temp_parameter(_6);
 			zephir_check_call_status();
-			_12 = zephir_is_true(_13);
+			_11 = zephir_is_true(_12);
 		}
-		if (_12) {
+		if (_11) {
 			zephir_array_update_zval(&defaultValues, columnName, &defaultValue, PH_COPY | PH_SEPARATE);
 		}
 		zephir_array_append(&attributes, columnName, PH_SEPARATE, "phalcon/mvc/model/metadata/strategy/annotations.zep", 174);
@@ -269,11 +268,10 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getMetaData) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getColumnMaps) {
 
-	HashTable *_4;
-	HashPosition _3;
-	zephir_fcall_cache_entry *_2 = NULL;
+	HashTable *_3;
+	HashPosition _2;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *model, *dependencyInjector, *annotations = NULL, *className, *reflection = NULL, *propertiesAnnotations = NULL, *property = NULL, *propAnnotations = NULL, *columnAnnotation = NULL, *columnName = NULL, *orderedColumnMap = NULL, *reversedColumnMap = NULL, *_0 = NULL, *_1 = NULL, **_5, *_6 = NULL;
+	zval *model, *dependencyInjector, *annotations = NULL, *className, *reflection = NULL, *propertiesAnnotations = NULL, *property = NULL, *propAnnotations = NULL, *columnAnnotation = NULL, *columnName = NULL, *orderedColumnMap = NULL, *reversedColumnMap = NULL, *_0 = NULL, *_1 = NULL, **_4, *_5 = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &model, &dependencyInjector);
@@ -298,7 +296,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getColumnMaps) {
 		object_init_ex(_0, phalcon_mvc_model_exception_ce);
 		ZEPHIR_INIT_VAR(_1);
 		ZEPHIR_CONCAT_SV(_1, "No annotations were found in class ", className);
-		ZEPHIR_CALL_METHOD(NULL, _0, "__construct", &_2, 2, _1);
+		ZEPHIR_CALL_METHOD(NULL, _0, "__construct", NULL, 2, _1);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(_0, "phalcon/mvc/model/metadata/strategy/annotations.zep", 212 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
@@ -311,7 +309,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getColumnMaps) {
 		object_init_ex(_0, phalcon_mvc_model_exception_ce);
 		ZEPHIR_INIT_LNVAR(_1);
 		ZEPHIR_CONCAT_SV(_1, "No properties with annotations were found in class ", className);
-		ZEPHIR_CALL_METHOD(NULL, _0, "__construct", &_2, 2, _1);
+		ZEPHIR_CALL_METHOD(NULL, _0, "__construct", NULL, 2, _1);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(_0, "phalcon/mvc/model/metadata/strategy/annotations.zep", 220 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
@@ -321,19 +319,19 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getColumnMaps) {
 	ZVAL_NULL(orderedColumnMap);
 	ZEPHIR_INIT_VAR(reversedColumnMap);
 	ZVAL_NULL(reversedColumnMap);
-	zephir_is_iterable(propertiesAnnotations, &_4, &_3, 0, 0, "phalcon/mvc/model/metadata/strategy/annotations.zep", 257);
+	zephir_is_iterable(propertiesAnnotations, &_3, &_2, 0, 0, "phalcon/mvc/model/metadata/strategy/annotations.zep", 257);
 	for (
-	  ; zephir_hash_get_current_data_ex(_4, (void**) &_5, &_3) == SUCCESS
-	  ; zephir_hash_move_forward_ex(_4, &_3)
+	  ; zephir_hash_get_current_data_ex(_3, (void**) &_4, &_2) == SUCCESS
+	  ; zephir_hash_move_forward_ex(_3, &_2)
 	) {
-		ZEPHIR_GET_HMKEY(property, _4, _3);
-		ZEPHIR_GET_HVALUE(propAnnotations, _5);
+		ZEPHIR_GET_HMKEY(property, _3, _2);
+		ZEPHIR_GET_HVALUE(propAnnotations, _4);
 		ZEPHIR_INIT_NVAR(_0);
 		ZVAL_STRING(_0, "Column", ZEPHIR_TEMP_PARAM_COPY);
-		ZEPHIR_CALL_METHOD(&_6, propAnnotations, "has", NULL, 0, _0);
+		ZEPHIR_CALL_METHOD(&_5, propAnnotations, "has", NULL, 0, _0);
 		zephir_check_temp_parameter(_0);
 		zephir_check_call_status();
-		if (!(zephir_is_true(_6))) {
+		if (!(zephir_is_true(_5))) {
 			continue;
 		}
 		ZEPHIR_INIT_NVAR(_0);

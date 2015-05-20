@@ -84,7 +84,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior_Timestampable, notify) {
 		ZVAL_NULL(timestamp);
 		ZEPHIR_OBS_VAR(format);
 		if (zephir_array_isset_string_fetch(&format, options, SS("format"), 0 TSRMLS_CC)) {
-			ZEPHIR_CALL_FUNCTION(&timestamp, "date", NULL, 277, format);
+			ZEPHIR_CALL_FUNCTION(&timestamp, "date", NULL, 242, format);
 			zephir_check_call_status();
 		} else {
 			ZEPHIR_OBS_VAR(generator);
@@ -113,7 +113,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior_Timestampable, notify) {
 				zephir_check_call_status();
 			}
 		} else {
-			ZEPHIR_CALL_METHOD(NULL, model, "writeattribute", &_4, 0, field, timestamp);
+			ZEPHIR_CALL_METHOD(NULL, model, "writeattribute", NULL, 0, field, timestamp);
 			zephir_check_call_status();
 		}
 	}

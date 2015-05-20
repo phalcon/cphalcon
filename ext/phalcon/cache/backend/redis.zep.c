@@ -119,7 +119,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Redis, __construct) {
 		ZVAL_STRING(_0, "_PHCR", 1);
 		zephir_array_update_string(&options, SL("statsKey"), &_0, PH_COPY | PH_SEPARATE);
 	}
-	ZEPHIR_CALL_PARENT(NULL, phalcon_cache_backend_redis_ce, this_ptr, "__construct", &_3, 36, frontend, options);
+	ZEPHIR_CALL_PARENT(NULL, phalcon_cache_backend_redis_ce, this_ptr, "__construct", &_3, 34, frontend, options);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 
@@ -130,7 +130,6 @@ PHP_METHOD(Phalcon_Cache_Backend_Redis, __construct) {
  */
 PHP_METHOD(Phalcon_Cache_Backend_Redis, _connect) {
 
-	zephir_fcall_cache_entry *_4 = NULL;
 	zend_bool _0, _1;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *options, *redis, *persistent, *success = NULL, *host, *port, *auth, *index, *_2, *_3;
@@ -170,7 +169,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Redis, _connect) {
 		object_init_ex(_2, phalcon_cache_exception_ce);
 		ZEPHIR_INIT_VAR(_3);
 		ZEPHIR_CONCAT_SVSV(_3, "Could not connect to the Redisd server ", host, ":", port);
-		ZEPHIR_CALL_METHOD(NULL, _2, "__construct", &_4, 2, _3);
+		ZEPHIR_CALL_METHOD(NULL, _2, "__construct", NULL, 2, _3);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(_2, "phalcon/cache/backend/redis.zep", 118 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
