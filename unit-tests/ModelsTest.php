@@ -136,6 +136,11 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 		$this->issue886($di);
 	}
 
+    public function testIssue10371()
+    {
+        $this->assertTrue(in_array('addBehavior', get_class_methods('Phalcon\Mvc\Model')));
+    }
+
 	protected function issue1534($di)
 	{
 		$db = $di->getShared('db');
