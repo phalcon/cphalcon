@@ -24,6 +24,7 @@
 #include "diinterface.h"
 #include "di/injectionawareinterface.h"
 #include "mvc/urlinterface.h"
+#include "mvc/viewinterface.h"
 
 #include <ext/date/php_date.h>
 
@@ -587,8 +588,8 @@ PHP_METHOD(Phalcon_Http_Response, setEtag){
 PHP_METHOD(Phalcon_Http_Response, redirect){
 
 	zval *location = NULL, *external_redirect = NULL, *status_code = NULL;
-	zval *header = NULL, *dependency_injector = NULL, *service;
-	zval *url = NULL, *status_text, *header_name;
+	zval *header = NULL, *dependency_injector = NULL, *service_name = NULL, *has = NULL;
+	zval *url = NULL, *view = NULL, *status_text, *header_name;
 	zval *matched, *pattern;
 
 	static const char* redirect_phrases[] = {
@@ -648,16 +649,27 @@ PHP_METHOD(Phalcon_Http_Response, redirect){
 		header = NULL;
 	}
 
+	PHALCON_CALL_METHOD(&dependency_injector, this_ptr, "getdi");
+
 	if (!header) {
-		PHALCON_CALL_METHOD(&dependency_injector, this_ptr, "getdi");
+		PHALCON_INIT_NVAR(service_name);
+		PHALCON_ZVAL_MAYBE_INTERNED_STRING(service_name, phalcon_interned_url);
 
-		PHALCON_INIT_VAR(service);
-		PHALCON_ZVAL_MAYBE_INTERNED_STRING(service, phalcon_interned_url);
-
-		PHALCON_CALL_METHOD(&url, dependency_injector, "getshared", service);
+		PHALCON_CALL_METHOD(&url, dependency_injector, "getshared", service_name);
 		PHALCON_VERIFY_INTERFACE(url, phalcon_mvc_urlinterface_ce);
 
 		PHALCON_CALL_METHOD(&header, url, "get", location);
+	}
+
+	PHALCON_INIT_NVAR(service_name);
+	PHALCON_ZVAL_MAYBE_INTERNED_STRING(service_name, phalcon_interned_view);
+
+	PHALCON_CALL_METHOD(&has, dependency_injector, "has", service_name);
+	if (zend_is_true(has)) {
+		PHALCON_CALL_METHOD(&view, dependency_injector, "get", service_name);
+		if (Z_TYPE_P(view) == IS_OBJECT && instanceof_function(Z_OBJCE_P(view), phalcon_mvc_viewinterface_ce TSRMLS_CC)) {
+			PHALCON_CALL_METHOD(NULL, view, "disable");
+		}
 	}
 
 	/* The HTTP status is 302 by default, a temporary redirection */

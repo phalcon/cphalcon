@@ -685,7 +685,7 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 		$result = $manager->executeQuery('SELECT r.* FROM Robots r WHERE r.id NOT IN (SELECT p.id FROM Parts p WHERE r.id < p.id)');
 		$this->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Simple', $result);
 
-		$result = $manager->executeQuery('SELECT * FROM Robots r JOIN RobotsParts rp WHERE rp.id IN (SELECT p.id FROM Parts p WHERE r.partId = p.id)');
+		$result = $manager->executeQuery('SELECT * FROM Robots r JOIN RobotsParts rp WHERE rp.id IN (SELECT p.id FROM Parts p WHERE rp.parts_id = p.id)');
 		$this->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Complex', $result);
 
 		$result = $manager->executeQuery('SELECT * FROM Robots r JOIN RobotsParts rp WHERE r.id IN (SELECT p.id FROM Parts p)');

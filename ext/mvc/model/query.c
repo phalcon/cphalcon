@@ -1190,9 +1190,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getExpression){
 			case PHQL_T_SELECT:
 				array_init_size(return_value, 2);
 
-				PHALCON_OBS_NVAR(value);
-				phalcon_array_fetch_string(&value, expr, SL("select"), PH_NOISY);
-				PHALCON_CALL_METHOD(&expr_value, this_ptr, "_prepareselect", value, PHALCON_GLOBAL(z_true));
+				PHALCON_CALL_METHOD(&expr_value, this_ptr, "_prepareselect", expr, PHALCON_GLOBAL(z_true));
 
 				add_assoc_stringl_ex(return_value, ISS(type), SL("select"), 1);
 				phalcon_array_update_string(&return_value, ISL(value), expr_value, PH_COPY);
@@ -2506,7 +2504,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getLimitClause) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareSelect){
 
-	zval *ast = NULL, *merge = NULL, *select, *distinct = NULL, *sql_models, *sql_tables, *sql_aliases;
+	zval *ast = NULL, *merge = NULL, *select = NULL, *distinct = NULL, *sql_models, *sql_tables, *sql_aliases;
 	zval *sql_columns, *sql_aliases_models, *sql_models_aliases;
 	zval *sql_aliases_models_instances, *models;
 	zval *models_instances, *tables, *selected_models = NULL;
@@ -4145,7 +4143,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect){
 		PHALCON_CPY_WRT(processed_types, bind_types);
 	}
 
-	/** 
+	/**
 	 * Execute the query
 	 */
 	PHALCON_CALL_METHOD(&result, connection, "query", sql_select, processed, processed_types);

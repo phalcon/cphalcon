@@ -117,6 +117,7 @@ extern const char *phalcon_interned_sessionBag;
 extern const char *phalcon_interned_eventsManager;
 extern const char *phalcon_interned_transactionManager;
 extern const char *phalcon_interned_assets;
+extern const char *phalcon_interned_view;
 
 void phalcon_init_interned_strings(TSRMLS_D);
 

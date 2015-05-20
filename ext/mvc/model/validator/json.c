@@ -94,26 +94,26 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Json, validate){
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 1, 0, &record);
-	
+
 	PHALCON_INIT_VAR(option);
 	ZVAL_STRING(option, "field", 1);
-	
+
 	PHALCON_CALL_METHOD(&field_name, this_ptr, "getoption", option);
 	if (Z_TYPE_P(field_name) != IS_STRING) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Field name must be a string");
 		return;
 	}
-	
+
 	PHALCON_INIT_VAR(invalid);
 	ZVAL_BOOL(invalid, 0);
 	
 	PHALCON_CALL_METHOD(&value, record, "readattribute", field_name);
-	
+
 	PHALCON_INIT_VAR(assoc);
 	ZVAL_TRUE(assoc);
 
 	PHALCON_CALL_FUNCTION(&json, "json_decode", value, assoc);
-	
+
 	if (Z_TYPE_P(json) == IS_NULL) {
 		PHALCON_INIT_VAR(constant);
 		if (zend_get_constant(SL("JSON_ERROR_NONE"), constant TSRMLS_CC)) {
@@ -142,9 +142,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Json, validate){
 			}
 		}
 	}
-	
+
 	if (PHALCON_IS_TRUE(invalid)) {
-	
+
 		/** 
 		 * Check if the developer has defined a custom message
 		 */
@@ -156,7 +156,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Json, validate){
 			PHALCON_INIT_NVAR(message);
 			PHALCON_CONCAT_SVS(message, "Value of field '", field_name, "' must have a valid json format");
 		}
-	
+
 		PHALCON_INIT_VAR(type);
 		ZVAL_STRING(type, "Json", 1);
 
@@ -177,7 +177,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Json, validate){
 		PHALCON_CALL_METHOD(NULL, this_ptr, "appendmessage", message, field_name, type, code);
 		RETURN_MM_FALSE;
 	}
-	
+
 	RETURN_MM_TRUE;
 }
 

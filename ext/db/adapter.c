@@ -54,6 +54,7 @@ PHP_METHOD(Phalcon_Db_Adapter, getDialect);
 PHP_METHOD(Phalcon_Db_Adapter, fetchOne);
 PHP_METHOD(Phalcon_Db_Adapter, fetchAll);
 PHP_METHOD(Phalcon_Db_Adapter, insert);
+PHP_METHOD(Phalcon_Db_Adapter, insertAsDict);
 PHP_METHOD(Phalcon_Db_Adapter, update);
 PHP_METHOD(Phalcon_Db_Adapter, delete);
 PHP_METHOD(Phalcon_Db_Adapter, getColumnList);
@@ -107,6 +108,12 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_setdialect, 0, 0, 1)
 	ZEND_ARG_INFO(0, dialect)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_insertasdict, 0, 0, 2)
+	ZEND_ARG_INFO(0, table)
+	ZEND_ARG_INFO(0, data)
+	ZEND_ARG_INFO(0, dataTypes)
+ZEND_END_ARG_INFO()
+
 static const zend_function_entry phalcon_db_adapter_method_entry[] = {
 	PHP_ME(Phalcon_Db_Adapter, __construct, NULL, ZEND_ACC_PROTECTED|ZEND_ACC_CTOR)
 	PHP_ME(Phalcon_Db_Adapter, setEventsManager, arginfo_phalcon_db_adapter_seteventsmanager, ZEND_ACC_PUBLIC)
@@ -116,6 +123,7 @@ static const zend_function_entry phalcon_db_adapter_method_entry[] = {
 	PHP_ME(Phalcon_Db_Adapter, fetchOne, arginfo_phalcon_db_adapterinterface_fetchone, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Adapter, fetchAll, arginfo_phalcon_db_adapterinterface_fetchall, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Adapter, insert, arginfo_phalcon_db_adapterinterface_insert, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Adapter, insertAsDict, arginfo_phalcon_db_adapter_insertasdict, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Adapter, update, arginfo_phalcon_db_adapterinterface_update, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Adapter, delete, arginfo_phalcon_db_adapterinterface_delete, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Adapter, getColumnList, arginfo_phalcon_db_adapterinterface_getcolumnlist, ZEND_ACC_PUBLIC)
@@ -602,6 +610,71 @@ PHP_METHOD(Phalcon_Db_Adapter, insert){
 	 * Perform the execution via execute
 	 */
 	PHALCON_RETURN_CALL_METHOD(this_ptr, "execute", insert_sql, insert_values, bind_data_types);
+	RETURN_MM();
+}
+
+/**
+ * Inserts data into a table using custom RBDM SQL syntax
+ * Another, more convenient syntax
+ *
+ * <code>
+ * //Inserting a new robot
+ * $success = $connection->insertAsDict(
+ *	 "robots",
+ *	 array(
+ *		  "name" => "Astro Boy",
+ *		  "year" => 1952
+ *	  )
+ * );
+ *
+ * //Next SQL sentence is sent to the database system
+ * INSERT INTO `robots` (`name`, `year`) VALUES ("Astro boy", 1952);
+ * </code>
+ *
+ * @param string table
+ * @param array data
+ * @param array dataTypes
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Db_Adapter, insertAsDict){
+
+	zval *table, *data, *data_types = NULL, *fields, *values, *field = NULL, *value = NULL;
+	HashTable *ah0;
+	HashPosition hp0;
+	zval **hd;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 2, 1, &table, &data, &data_types);
+
+	if (!data_types) {
+		data_types = PHALCON_GLOBAL(z_null);
+	}
+
+	if (Z_TYPE_P(data) != IS_ARRAY || PHALCON_IS_EMPTY(data)) {
+		RETURN_MM_FALSE;
+	}
+
+	PHALCON_INIT_VAR(fields);
+	array_init(fields);
+
+	PHALCON_INIT_VAR(values);
+	array_init(values);
+
+	phalcon_is_iterable(data, &ah0, &hp0, 0, 0);
+
+	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
+
+		PHALCON_GET_HKEY(field, ah0, hp0);
+		PHALCON_GET_HVALUE(value);
+
+		phalcon_array_append(&fields, field, 0);
+		phalcon_array_append(&values, values, 0);
+
+		zend_hash_move_forward_ex(ah0, &hp0);
+	}
+
+	PHALCON_RETURN_CALL_METHOD(this_ptr, "insert", table, values, fields, data_types);
 	RETURN_MM();
 }
 
