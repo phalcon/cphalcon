@@ -3411,7 +3411,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 *}
 	 *</code>
 	 */
-	protected function addBehavior(<BehaviorInterface> behavior) -> void
+	public function addBehavior(<BehaviorInterface> behavior) -> void
 	{
 		(<ManagerInterface> this->_modelsManager)->addBehavior(this, behavior);
 	}
