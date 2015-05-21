@@ -599,7 +599,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 					break;
 
 				case PHQL_T_SELECT:
-					let exprReturn = ["type": "select", "value": this->_prepareSelect(expr["select"])];
+					let exprReturn = ["type": "select", "value": this->_prepareSelect(expr, true)];
 					break;
 
 				default:
@@ -1512,9 +1512,9 @@ class Query implements QueryInterface, InjectionAwareInterface
 	/**
 	 * Analyzes a SELECT intermediate code and produces an array to be executed later
 	 */
-	protected final function _prepareSelect(var ast = null) -> array
+	protected final function _prepareSelect(var ast = null, var merge = null) -> array
 	{
-		var merge, sqlModels, sqlTables, sqlAliases, sqlColumns, select, tables, columns,
+		var sqlModels, sqlTables, sqlAliases, sqlColumns, select, tables, columns,
 			sqlAliasesModels, sqlModelsAliases, sqlAliasesModelsInstances,
 			models, modelsInstances, selectedModels, manager, metaData,
 			selectedModel, qualifiedName, modelName, nsAlias, realModelName, model,
@@ -1524,10 +1524,11 @@ class Query implements QueryInterface, InjectionAwareInterface
 		int position;
 
 		if empty ast {
-			let ast = this->_ast,
-				merge = false;
-		} else {
-			let merge = true;
+			let ast = this->_ast;
+		}
+
+		if typeof merge == "null" {
+			let merge = false;
 		}
 
 		if !fetch select, ast["select"] {
