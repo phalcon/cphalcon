@@ -4356,7 +4356,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowUpdate){
 	zval *bind_skip, *fields, *values, *bind_types;
 	zval *manager, *use_dynamic_update = NULL, *snapshot;
 	zval *bind_data_types = NULL, *non_primary = NULL, *automatic_attributes = NULL;
-	zval *column_map = NULL, *field = NULL, *exception_message = NULL;
+	zval *column_map = NULL, *columns = NULL, *field = NULL, *exception_message = NULL;
 	zval *attribute_field = NULL, *value = NULL, *bind_type = NULL, *changed = NULL;
 	zval *snapshot_value = NULL, *unique_key, *unique_params = NULL;
 	zval *unique_types, *primary_keys = NULL, *conditions, *ret = NULL, *type, *message;
@@ -4412,7 +4412,12 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowUpdate){
 	 * We only make the update based on the non-primary attributes, values in primary
 	 * key attributes are ignored
 	 */
-	phalcon_is_iterable(non_primary, &ah0, &hp0, 0, 0);
+	if (PHALCON_GLOBAL(orm).allow_update_primary) {
+		PHALCON_CALL_SELF(&columns, "getcolumns");
+		phalcon_is_iterable(columns, &ah0, &hp0, 0, 0);
+	} else {
+		phalcon_is_iterable(non_primary, &ah0, &hp0, 0, 0);
+	}
 
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 
@@ -4611,6 +4616,10 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowUpdate){
 	if (zend_is_true(ret)) {
 		PHALCON_CALL_METHOD(&ret, connection, "affectedrows");
 		if (zend_is_true(ret)) {
+			if (PHALCON_GLOBAL(orm).allow_update_primary) {
+				phalcon_update_property_null(this_ptr, SL("_uniqueParams") TSRMLS_CC);
+				PHALCON_CALL_METHOD(NULL, this_ptr, "_rebuild", meta_data, connection);
+			}
 			RETURN_MM_TRUE;
 		}
 	}
@@ -7720,7 +7729,7 @@ PHP_METHOD(Phalcon_Mvc_Model, setup){
 	zval *options, *disable_events, *virtual_foreign_keys;
 	zval *column_renaming, *not_null_validations, *length_validations;
 	zval *exception_on_failed_save, *phql_literals;
-	zval *phql_cache, *property_method, *auto_convert;
+	zval *phql_cache, *property_method, *auto_convert, *allow_update_primary;
 
 	PHALCON_MM_GROW();
 
@@ -7819,6 +7828,15 @@ PHP_METHOD(Phalcon_Mvc_Model, setup){
 		PHALCON_OBS_VAR(auto_convert);
 		phalcon_array_fetch_string(&auto_convert, options, SL("autoConvert"), PH_NOISY);
 		PHALCON_GLOBAL(orm).enable_auto_convert = zend_is_true(auto_convert);
+	}
+
+	/**
+	 * Enables/Disables allow update primary
+	 */
+	if (phalcon_array_isset_string(options, SS("allowUpdatePrimary"))) {
+		PHALCON_OBS_VAR(allow_update_primary);
+		phalcon_array_fetch_string(&allow_update_primary, options, SL("allowUpdatePrimary"), PH_NOISY);
+		PHALCON_GLOBAL(orm).allow_update_primary = zend_is_true(allow_update_primary);
 	}
 
 	PHALCON_MM_RESTORE();
