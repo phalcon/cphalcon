@@ -272,9 +272,9 @@ class Validation extends Injectable
 	 */
 	public function getDefaultMessage(string! type) -> string
 	{
-	    if (!array_key_exists(type, $this->_defaultMessages)) {
-	        return "";
-	    }
+		if !isset this->_defaultMessages[type] {
+			return "";
+		}
 		return this->_defaultMessages[type];
 	}
 
