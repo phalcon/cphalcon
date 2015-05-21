@@ -63,7 +63,7 @@ class Message implements MessageInterface
 	 * Phalcon\Mvc\Model\Message constructor
 	 *
 	 * @param string message
-	 * @param string field
+	 * @param string|array field
 	 * @param string type
 	 * @param Phalcon\Mvc\ModelInterface model
 	 */
@@ -114,7 +114,7 @@ class Message implements MessageInterface
 	/**
 	 * Sets field name related to message
 	 */
-	public function setField(string! field) -> <Message>
+	public function setField(var field) -> <Message>
 	{
 		let this->_field = field;
 		return this;
@@ -123,7 +123,7 @@ class Message implements MessageInterface
 	/**
 	 * Returns field name related to message
 	 */
-	public function getField() -> string
+	public function getField()
 	{
 		return this->_field;
 	}

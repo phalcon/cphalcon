@@ -209,12 +209,15 @@ class Uniqueness extends Validator implements ValidatorInterface
 			 * Check if the developer has defined a custom message
 			 */
 			let message = this->getOption("message");
-			let replacePairs = [":field": field];
-			if empty message {
-				if typeof field == "array" {
-					let replacePairs = [":fields": join(", ", field)];
+			
+			if typeof field == "array" {
+				let replacePairs = [":fields": join(", ", field)];
+				if empty message {
 					let message = "Value of fields: :fields are already present in another record";
-				} else {
+				}
+			} else {
+				let replacePairs = [":field": field];
+				if empty message {
 					let message = "Value of field: ':field' is already present in another record";
 				}
 			}
