@@ -340,7 +340,7 @@ PHP_METHOD(Phalcon_Http_Client_Header, parse){
 				phalcon_array_fetch_long(&value, header_parts, 1, PH_NOISY);
 
 				PHALCON_INIT_NVAR(trimmed);
-				phalcon_fast_trim(trimmed, value, PHALCON_TRIM_BOTH TSRMLS_CC);
+				phalcon_fast_trim(trimmed, value, NULL, PHALCON_TRIM_BOTH TSRMLS_CC);
 
 				PHALCON_CALL_METHOD(NULL, this_ptr, "set", name, trimmed);
 		}

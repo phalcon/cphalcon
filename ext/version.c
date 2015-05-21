@@ -132,7 +132,7 @@ PHP_METHOD(Phalcon_Version, get){
 
 	}
 	phalcon_concat_self(&result, suffix TSRMLS_CC);
-	phalcon_fast_trim(return_value, result, PHALCON_TRIM_BOTH TSRMLS_CC);
+	phalcon_fast_trim(return_value, result, NULL, PHALCON_TRIM_BOTH TSRMLS_CC);
 	RETURN_MM();
 }
 

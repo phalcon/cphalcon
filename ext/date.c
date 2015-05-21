@@ -706,7 +706,7 @@ PHP_METHOD(Phalcon_Date, span){
 		PHALCON_SEPARATE_PARAM(output);
 
 		PHALCON_INIT_VAR(tmp);
-		phalcon_fast_trim(tmp, output, PHALCON_TRIM_BOTH TSRMLS_CC);
+		phalcon_fast_trim(tmp, output, NULL, PHALCON_TRIM_BOTH TSRMLS_CC);
 
 		PHALCON_INIT_VAR(lowercased_output);
 		phalcon_fast_strtolower(lowercased_output, tmp);
@@ -824,7 +824,7 @@ PHP_METHOD(Phalcon_Date, span2){
 		PHALCON_SEPARATE_PARAM(output);
 
 		PHALCON_INIT_VAR(tmp);
-		phalcon_fast_trim(tmp, output, PHALCON_TRIM_BOTH TSRMLS_CC);
+		phalcon_fast_trim(tmp, output, NULL, PHALCON_TRIM_BOTH TSRMLS_CC);
 
 		PHALCON_INIT_VAR(lowercased_output);
 		phalcon_fast_strtolower(lowercased_output, tmp);

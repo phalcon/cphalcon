@@ -49,7 +49,8 @@ PHP_METHOD(Phalcon_Debug, setShowFiles);
 PHP_METHOD(Phalcon_Debug, setShowFileFragment);
 PHP_METHOD(Phalcon_Debug, listen);
 PHP_METHOD(Phalcon_Debug, listenExceptions);
-PHP_METHOD(Phalcon_Debug, listenErrors);
+PHP_METHOD(Phalcon_Debug, listenLowSeverity);
+PHP_METHOD(Phalcon_Debug, halt);
 PHP_METHOD(Phalcon_Debug, debugVar);
 PHP_METHOD(Phalcon_Debug, clearVars);
 PHP_METHOD(Phalcon_Debug, _escapeString);
@@ -130,7 +131,8 @@ static const zend_function_entry phalcon_debug_method_entry[] = {
 	PHP_ME(Phalcon_Debug, setShowFileFragment, arginfo_phalcon_debug_setshowfilefragment, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Debug, listen, arginfo_phalcon_debug_listen, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Debug, listenExceptions, NULL, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Debug, listenErrors, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Debug, listenLowSeverity, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Debug, halt, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Debug, debugVar, arginfo_phalcon_debug_debugvar, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Debug, clearVars, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Debug, _escapeString, NULL, ZEND_ACC_PROTECTED)
@@ -245,23 +247,23 @@ PHP_METHOD(Phalcon_Debug, setShowFileFragment){
  * Listen for uncaught exceptions and unsilent notices or warnings
  *
  * @param boolean $exceptions
- * @param boolean $errors
+ * @param boolean $lowSeverity
  * @return Phalcon\Debug
  */
 PHP_METHOD(Phalcon_Debug, listen){
 
-	zval *exceptions = NULL, *errors = NULL;
+	zval *exceptions = NULL, *low_severity = NULL;
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 0, 2, &exceptions, &errors);
+	phalcon_fetch_params(1, 0, 2, &exceptions, &low_severity);
 	
 	if (!exceptions || zend_is_true(exceptions)) {
 		PHALCON_CALL_METHOD(NULL, this_ptr, "listenexceptions");
 	}
 
-	if (errors && zend_is_true(errors)) {
-		PHALCON_CALL_METHOD(NULL, this_ptr, "listenerrors");
+	if (low_severity && zend_is_true(low_severity)) {
+		PHALCON_CALL_METHOD(NULL, this_ptr, "listenlowseverity");
 	}
 	
 	RETURN_THIS();
@@ -287,11 +289,11 @@ PHP_METHOD(Phalcon_Debug, listenExceptions){
 }
 
 /**
- * Listen for user-defined error
+ * Listen for unsilent notices or warnings or user-defined error
  *
  * @return Phalcon\Debug
  */
-PHP_METHOD(Phalcon_Debug, listenErrors){
+PHP_METHOD(Phalcon_Debug, listenLowSeverity){
 
 	zval *handler;
 
@@ -310,6 +312,14 @@ PHP_METHOD(Phalcon_Debug, listenErrors){
 	PHALCON_CALL_FUNCTION(NULL, "register_shutdown_function", handler);
 
 	RETURN_THIS();
+}
+
+/**
+ * Halts the request showing a backtrace
+ */
+PHP_METHOD(Phalcon_Debug, halt){
+
+	zend_throw_exception(NULL, "Halted request", 0 TSRMLS_CC);
 }
 
 /**
@@ -996,7 +1006,7 @@ PHP_METHOD(Phalcon_Debug, showTraceItem){
 					if (PHALCON_IS_EQUAL(i, first_line)) {
 	
 						PHALCON_INIT_NVAR(trimmed);
-						phalcon_fast_trim(trimmed, current_line, PHALCON_TRIM_RIGHT TSRMLS_CC);
+						phalcon_fast_trim(trimmed, current_line, NULL, PHALCON_TRIM_RIGHT TSRMLS_CC);
 	
 						PHALCON_INIT_NVAR(is_comment);
 	
