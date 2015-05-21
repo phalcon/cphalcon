@@ -998,9 +998,9 @@ class ValidationTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($expectedMessages, $messages);
 	}
 
-    public function testGetDefaultValidationMessageShouldReturnEmptyStringIfNoneIsSet()
-    {
-        $validation = new \Phalcon\Validation();
-        $this->assertEmpty($validation->getDefaultMessage('_notexistentvalidationmessage_'));
-    }
+	public function testGetDefaultValidationMessageShouldReturnEmptyStringIfNoneIsSet()
+	{
+		$validation = new \Phalcon\Validation();
+		$this->assertEmpty($validation->getDefaultMessage('_notexistentvalidationmessage_'));
+	}
 }
