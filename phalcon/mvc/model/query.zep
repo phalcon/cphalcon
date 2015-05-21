@@ -2760,9 +2760,14 @@ class Query implements QueryInterface, InjectionAwareInterface
 
 		for number, field in fields {
 
-			let fieldName = field["name"],
-				value = values[number],
+			let value = values[number],
 				exprValue = value["value"];
+
+			if isset field["balias"] {
+				let fieldName = field["balias"];
+			} else {
+				let fieldName = field["name"];
+			}
 
 			switch value["type"] {
 
