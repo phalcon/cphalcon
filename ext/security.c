@@ -88,6 +88,7 @@ PHP_METHOD(Phalcon_Security, getTokenKey);
 PHP_METHOD(Phalcon_Security, getToken);
 PHP_METHOD(Phalcon_Security, checkToken);
 PHP_METHOD(Phalcon_Security, getSessionToken);
+PHP_METHOD(Phalcon_Security, destroyToken);
 PHP_METHOD(Phalcon_Security, computeHmac);
 PHP_METHOD(Phalcon_Security, deriveKey);
 PHP_METHOD(Phalcon_Security, pbkdf2);
@@ -168,6 +169,7 @@ static const zend_function_entry phalcon_security_method_entry[] = {
 	PHP_ME(Phalcon_Security, getToken, arginfo_phalcon_security_gettoken, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Security, checkToken, arginfo_phalcon_security_checktoken, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Security, getSessionToken, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Security, destroyToken, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Security, computeHmac, arginfo_phalcon_security_computehmac, ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Security, deriveKey, arginfo_phalcon_security_derivekey, ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Security, pbkdf2, arginfo_phalcon_security_derivekey, ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
@@ -873,6 +875,39 @@ PHP_METHOD(Phalcon_Security, getSessionToken){
 	ZVAL_STRING(key, "$PHALCON/CSRF$", 1);
 
 	PHALCON_RETURN_CALL_METHOD(session, "get", key);
+
+	PHALCON_MM_RESTORE();
+}
+
+/**
+ * Removes the value of the CSRF token and key from session
+ */
+PHP_METHOD(Phalcon_Security, destroyToken){
+
+	zval *dependency_injector, *service, *session = NULL;
+	zval *key;
+
+	PHALCON_MM_GROW();
+
+	dependency_injector = phalcon_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY TSRMLS_CC);
+	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_security_exception_ce, "A dependency injection container is required to access the 'session' service");
+		return;
+	}
+
+	PHALCON_ALLOC_GHOST_ZVAL(service);
+	PHALCON_ZVAL_MAYBE_INTERNED_STRING(service, phalcon_interned_session);
+
+	PHALCON_CALL_METHOD(&session, dependency_injector, "getshared", service);
+	PHALCON_VERIFY_INTERFACE(session, phalcon_session_adapterinterface_ce);
+
+	PHALCON_ALLOC_GHOST_ZVAL(key);
+	ZVAL_STRING(key, "$PHALCON/CSRF$", 1);
+
+	PHALCON_CALL_METHOD(NULL, session, "remove", key);
+
+	ZVAL_STRING(key, "$PHALCON/CSRF/KEY$", 1);
+	PHALCON_CALL_METHOD(NULL, session, "remove", key);
 
 	PHALCON_MM_RESTORE();
 }

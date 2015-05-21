@@ -286,7 +286,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, _initialize){
 		phalcon_update_property_this(this_ptr, SL("_columnMap"), column_map TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-	
+
 	/** 
 	 * Get the meta-data extraction strategy
 	 */
@@ -298,7 +298,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, _initialize){
 	 * Get the meta-data
 	 */
 	PHALCON_CALL_METHOD(&model_column_map, strategy, "getcolumnmaps", model, dependency_injector);
-	
+
 	/** 
 	 * Update the column map locally
 	 */
@@ -636,7 +636,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, readColumnMapIndex){
 		PHALCON_OBS_NVAR(column_map);
 		phalcon_read_property_this(&column_map, this_ptr, SL("_columnMap"), PH_NOISY TSRMLS_CC);
 	}
-	
+
 	PHALCON_OBS_VAR(column_map_model);
 	phalcon_array_fetch(&column_map_model, column_map, key_name, PH_NOISY);
 	
