@@ -43,6 +43,7 @@ PHP_METHOD(Phalcon_Text, endsWith);
 PHP_METHOD(Phalcon_Text, lower);
 PHP_METHOD(Phalcon_Text, upper);
 PHP_METHOD(Phalcon_Text, bytes);
+PHP_METHOD(Phalcon_Text, reduceSlashes);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_text_camelize, 0, 0, 1)
 	ZEND_ARG_INFO(0, str)
@@ -89,6 +90,10 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_text_bytes, 0, 0, 1)
 	ZEND_ARG_INFO(0, si)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_text_reduceslashes, 0, 0, 1)
+	ZEND_ARG_INFO(0, str)
+ZEND_END_ARG_INFO()
+
 static const zend_function_entry phalcon_text_method_entry[] = {
 	PHP_ME(Phalcon_Text, camelize, arginfo_phalcon_text_camelize, ZEND_ACC_STATIC|ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Text, uncamelize, arginfo_phalcon_text_uncamelize, ZEND_ACC_STATIC|ZEND_ACC_PUBLIC)
@@ -99,6 +104,7 @@ static const zend_function_entry phalcon_text_method_entry[] = {
 	PHP_ME(Phalcon_Text, lower, arginfo_phalcon_text_lower, ZEND_ACC_STATIC|ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Text, upper, arginfo_phalcon_text_upper, ZEND_ACC_STATIC|ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Text, bytes, arginfo_phalcon_text_bytes, ZEND_ACC_STATIC|ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Text, reduceSlashes, arginfo_phalcon_text_reduceslashes, ZEND_ACC_STATIC|ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };
 
@@ -437,6 +443,33 @@ PHP_METHOD(Phalcon_Text, bytes){
 	ZVAL_STRING(z_force_unit, units[power], 1);
 
 	PHALCON_RETURN_CALL_FUNCTION("sprintf", format, z_size, z_force_unit);
+
+	RETURN_MM();
+}
+
+/**
+ * Reduces multiple slashes in a string to single slashes
+ *
+ * <code>
+ *    echo Phalcon\Text::reduceSlashes("foo//bar/baz"); // foo/bar/baz
+ *    echo Phalcon\Text::reduceSlashes("http://foo.bar///baz/buz"); // http://foo.bar/baz/buz
+ * </code>
+ */
+PHP_METHOD(Phalcon_Text, reduceSlashes){
+
+	zval *str, *pattern, *replacement;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 1, 0, &str);
+
+	PHALCON_INIT_VAR(pattern);
+	ZVAL_STRING(pattern, "#(?<!:)//+#", 1);
+
+	PHALCON_INIT_VAR(replacement);
+	ZVAL_STRING(replacement, "/", 1);
+
+	PHALCON_RETURN_CALL_FUNCTION("preg_replace", pattern, replacement, str);
 
 	RETURN_MM();
 }
