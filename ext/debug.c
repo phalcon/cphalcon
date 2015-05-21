@@ -1006,7 +1006,7 @@ PHP_METHOD(Phalcon_Debug, showTraceItem){
 					if (PHALCON_IS_EQUAL(i, first_line)) {
 	
 						PHALCON_INIT_NVAR(trimmed);
-						phalcon_fast_trim(trimmed, current_line, PHALCON_TRIM_RIGHT TSRMLS_CC);
+						phalcon_fast_trim(trimmed, current_line, NULL, PHALCON_TRIM_RIGHT TSRMLS_CC);
 	
 						PHALCON_INIT_NVAR(is_comment);
 	

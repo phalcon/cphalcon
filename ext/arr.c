@@ -814,7 +814,7 @@ PHP_METHOD(Phalcon_Arr, merge){
 
 	zval *array1, *array2;
 	zval *key = NULL, *value = NULL, *value1 = NULL, *arr = NULL;
-	zval *arg_num, *arg_list, *args, *tmp;
+	zval *arg_num = NULL, *arg_list = NULL, *args = NULL, *tmp;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -861,17 +861,14 @@ PHP_METHOD(Phalcon_Arr, merge){
 		}
 	}
 
-	PHALCON_INIT_VAR(arg_num);
 	PHALCON_CALL_FUNCTION(&arg_num, "func_num_args");
  
 	if (Z_LVAL_P(arg_num) > 2) {
-		PHALCON_INIT_VAR(arg_list);
 		PHALCON_CALL_FUNCTION(&arg_list, "func_get_args");
 
 		PHALCON_INIT_VAR(tmp);
 		ZVAL_LONG(tmp, 2);
 
-		PHALCON_INIT_VAR(args);
 		PHALCON_CALL_FUNCTION(&args, "array_slice", arg_list, tmp);
 
 		phalcon_is_iterable(args, &ah0, &hp0, 0, 0);

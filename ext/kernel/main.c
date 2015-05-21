@@ -317,9 +317,9 @@ int phalcon_fetch_parameters(int num_args TSRMLS_DC, int required_args, int opti
 	va_list va;
 	int arg_count = (int) (zend_uintptr_t) *(zend_vm_stack_top(TSRMLS_C) - 1);
 	zval **arg, **p;
-	int i;
+	int i, use_args_num;
 
-	if (num_args < required_args || (num_args > (required_args + optional_args))) {
+	if (num_args < required_args) {
 		phalcon_throw_exception_string(spl_ce_BadMethodCallException, "Wrong number of parameters" TSRMLS_CC);
 		return FAILURE;
 	}
@@ -334,6 +334,9 @@ int phalcon_fetch_parameters(int num_args TSRMLS_DC, int required_args, int opti
 	}
 
 	va_start(va, optional_args);
+
+	use_args_num = required_args + optional_args;
+	num_args = num_args > use_args_num ? use_args_num : num_args;
 
 	i = 0;
 	while (num_args-- > 0) {

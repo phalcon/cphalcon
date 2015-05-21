@@ -374,7 +374,7 @@ PHP_METHOD(Phalcon_Filter, _sanitize){
 	
 	if (PHALCON_IS_STRING(filter, "trim")) {
 		PHALCON_INIT_NVAR(filtered);
-		phalcon_fast_trim(filtered, value, PHALCON_TRIM_BOTH TSRMLS_CC);
+		phalcon_fast_trim(filtered, value, NULL, PHALCON_TRIM_BOTH TSRMLS_CC);
 		goto ph_end_0;
 	}
 	
