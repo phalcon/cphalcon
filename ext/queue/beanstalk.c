@@ -54,6 +54,7 @@ PHP_METHOD(Phalcon_Queue_Beanstalk, peekReady);
 PHP_METHOD(Phalcon_Queue_Beanstalk, peekDelayed);
 PHP_METHOD(Phalcon_Queue_Beanstalk, peekBuried);
 PHP_METHOD(Phalcon_Queue_Beanstalk, readStatus);
+PHP_METHOD(Phalcon_Queue_Beanstalk, readYaml);
 PHP_METHOD(Phalcon_Queue_Beanstalk, read);
 PHP_METHOD(Phalcon_Queue_Beanstalk, write);
 PHP_METHOD(Phalcon_Queue_Beanstalk, disconnect);
@@ -96,6 +97,7 @@ static const zend_function_entry phalcon_queue_beanstalk_method_entry[] = {
 	PHP_ME(Phalcon_Queue_Beanstalk, peekDelayed, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Queue_Beanstalk, peekBuried, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Queue_Beanstalk, readStatus, NULL, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Queue_Beanstalk, readYaml, NULL, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Queue_Beanstalk, read, arginfo_phalcon_queue_beanstalk_read, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Queue_Beanstalk, write, NULL, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Queue_Beanstalk, disconnect, NULL, ZEND_ACC_PUBLIC)
@@ -537,6 +539,42 @@ PHP_METHOD(Phalcon_Queue_Beanstalk, readStatus){
 
 	PHALCON_CALL_METHOD(&response, this_ptr, "read");
 	phalcon_fast_explode_str(return_value, SL(" "), response);
+	RETURN_MM();
+}
+
+/**
+ * Fetch a YAML payload from the Beanstalkd server
+ */
+PHP_METHOD(Phalcon_Queue_Beanstalk, readYaml){
+
+	zval *response = NULL, *status, *num_bytes, *yaml_data = NULL, *data = NULL;
+
+	PHALCON_MM_GROW();
+
+	PHALCON_CALL_METHOD(&response, this_ptr, "readstatus");
+
+	PHALCON_INIT_VAR(status);
+	phalcon_array_fetch_long(&status, response, 0, PH_NOISY);
+
+	if (phalcon_array_isset_long(response, 1)) {
+		PHALCON_INIT_VAR(num_bytes);
+		phalcon_array_fetch_long(&num_bytes, response, 1, PH_NOISY);
+
+		PHALCON_CALL_METHOD(&yaml_data, this_ptr, "read");
+		PHALCON_CALL_FUNCTION(&data, "yaml_parse", yaml_data);
+	} else {
+		PHALCON_INIT_VAR(num_bytes);
+		ZVAL_LONG(num_bytes, 0);
+
+		PHALCON_INIT_VAR(data);
+		array_init(data);
+	}
+
+	array_init_size(return_value, 3);
+	phalcon_array_append(&return_value, status, PH_COPY);
+	phalcon_array_append(&return_value, num_bytes, PH_COPY);
+	phalcon_array_append(&return_value, data, PH_COPY);
+
 	RETURN_MM();
 }
 
