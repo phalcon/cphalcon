@@ -51,6 +51,7 @@ PHP_METHOD(Phalcon_Queue_Beanstalk, reserve);
 PHP_METHOD(Phalcon_Queue_Beanstalk, choose);
 PHP_METHOD(Phalcon_Queue_Beanstalk, watch);
 PHP_METHOD(Phalcon_Queue_Beanstalk, stats);
+PHP_METHOD(Phalcon_Queue_Beanstalk, statsTube);
 PHP_METHOD(Phalcon_Queue_Beanstalk, peekReady);
 PHP_METHOD(Phalcon_Queue_Beanstalk, peekDelayed);
 PHP_METHOD(Phalcon_Queue_Beanstalk, peekBuried);
@@ -83,6 +84,10 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_queue_beanstalk_watch, 0, 0, 1)
 	ZEND_ARG_INFO(0, tube)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_queue_beanstalk_statstube, 0, 0, 1)
+	ZEND_ARG_INFO(0, tube)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_queue_beanstalk_read, 0, 0, 0)
 	ZEND_ARG_INFO(0, length)
 ZEND_END_ARG_INFO()
@@ -95,6 +100,7 @@ static const zend_function_entry phalcon_queue_beanstalk_method_entry[] = {
 	PHP_ME(Phalcon_Queue_Beanstalk, choose, arginfo_phalcon_queue_beanstalk_choose, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Queue_Beanstalk, watch, arginfo_phalcon_queue_beanstalk_watch, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Queue_Beanstalk, stats, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Queue_Beanstalk, statsTube, arginfo_phalcon_queue_beanstalk_statstube, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Queue_Beanstalk, peekReady, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Queue_Beanstalk, peekDelayed, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Queue_Beanstalk, peekBuried, NULL, ZEND_ACC_PUBLIC)
@@ -448,6 +454,36 @@ PHP_METHOD(Phalcon_Queue_Beanstalk, stats){
 		PHALCON_OBS_VAR(stats);
 		phalcon_array_fetch_long(&stats, response, 2, PH_NOISY);
 		RETURN_CCTOR(stats);
+	}
+
+	RETURN_MM_FALSE;
+}
+
+/**
+ * Get stats of a tube
+ *
+ * @param string $tube
+ * @return boolean|array
+ */
+PHP_METHOD(Phalcon_Queue_Beanstalk, statsTube){
+
+	zval *tube, *command, *response = NULL, *status, *stats_tube;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 1, 0, &tube);
+
+	PHALCON_INIT_VAR(command);
+	PHALCON_CONCAT_SV(command, "stats-tube ", tube);
+	PHALCON_CALL_METHOD(NULL, this_ptr, "write", command);
+	PHALCON_CALL_METHOD(&response, this_ptr, "readyaml");
+
+	PHALCON_OBS_VAR(status);
+	phalcon_array_fetch_long(&status, response, 0, PH_NOISY);
+	if (PHALCON_IS_STRING(status, "OK")) {
+		PHALCON_OBS_VAR(stats_tube);
+		phalcon_array_fetch_long(&stats_tube, response, 2, PH_NOISY);
+		RETURN_CCTOR(stats_tube);
 	}
 
 	RETURN_MM_FALSE;
