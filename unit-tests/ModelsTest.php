@@ -96,6 +96,7 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 
 		$this->issue1534($di);
 		$this->issue886($di);
+		$this->getterSetterMagic($di);
 	}
 
 	public function ytestModelsPostgresql()
@@ -139,6 +140,24 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 	public function testIssue10371()
 	{
 		$this->assertTrue(in_array('addBehavior', get_class_methods('Phalcon\Mvc\Model')));
+	}
+
+	protected function getterSetterMagic($di)
+	{
+		$this->_prepareDb($di->getShared('db'));
+
+		$server = new Server();
+		$server->name = 'mothership';
+
+		// protected var with getter, setter
+		$server->ip = '192-168-0-1';
+
+		// private var only with getter
+		$server->mac = '11:--:22:--:33:--';
+
+		$this->assertEquals('mothership', $server->name);
+		$this->assertEquals('192.168.0.1', $server->ip);
+		$this->assertEquals('11:00:22:00:33:00', $server->mac);
 	}
 
 	protected function issue1534($di)
