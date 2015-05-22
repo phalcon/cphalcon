@@ -1,19 +1,19 @@
 
 /*
  +------------------------------------------------------------------------+
- | Phalcon Framework                                                      |
+ | Phalcon Framework													  |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)	      |
  +------------------------------------------------------------------------+
- | This source file is subject to the New BSD License that is bundled     |
- | with this package in the file docs/LICENSE.txt.                        |
- |                                                                        |
- | If you did not receive a copy of the license and are unable to         |
- | obtain it through the world-wide-web, please send an email             |
- | to license@phalconphp.com so we can send you a copy immediately.       |
+ | This source file is subject to the New BSD License that is bundled	  |
+ | with this package in the file docs/LICENSE.txt.						  |
+ |																		  |
+ | If you did not receive a copy of the license and are unable to		  |
+ | obtain it through the world-wide-web, please send an email			  |
+ | to license@phalconphp.com so we can send you a copy immediately.	      |
  +------------------------------------------------------------------------+
- | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
- |          Eduar Carvajal <eduar@phalconphp.com>                         |
+ | Authors: Andres Gutierrez <andres@phalconphp.com>					  |
+ |		  Eduar Carvajal <eduar@phalconphp.com>					          |
  +------------------------------------------------------------------------+
  */
 
@@ -68,7 +68,7 @@ class Simple extends Resultset
 	public final function current() -> <ModelInterface> | boolean
 	{
 		var row, hydrateMode, columnMap, activeRow;
-		
+
 		let activeRow = this->_activeRow;
 		if activeRow !== null {
 			return activeRow;
@@ -95,7 +95,7 @@ class Simple extends Resultset
 		/**
 		 * Get the resultset column map
 		 */
-		let columnMap = this->_columnMap;		
+		let columnMap = this->_columnMap;
 
 		/**
 		 * Hydrate based on the current hydration
@@ -143,16 +143,16 @@ class Simple extends Resultset
 		* and keep them in memory for further operations
 		*/
 		let records = this->_rows;
-        if typeof records != "array" {
-            let result = this->_result;
-            if this->_row !== null {
-                // re-execute query if required and fetchAll rows
-                result->execute();
-            }
-            let records = result->fetchAll();
-            let this->_row = null;
-            let this->_rows = records; // keep result-set in memory
-        }
+		if typeof records != "array" {
+			let result = this->_result;
+			if this->_row !== null {
+				// re-execute query if required and fetchAll rows
+				result->execute();
+			}
+			let records = result->fetchAll();
+			let this->_row = null;
+			let this->_rows = records; // keep result-set in memory
+		}
 
 		/**
 		 * We need to rename the whole set here, this could be slow
@@ -210,9 +210,9 @@ class Simple extends Resultset
 		 * Serialize the cache using the serialize function
 		 */
 		return serialize([
-			"model"       : this->_model,
-			"cache"       : this->_cache,
-			"rows"        : this->toArray(false),
+			"model"	   : this->_model,
+			"cache"	   : this->_cache,
+			"rows"		: this->toArray(false),
 			"columnMap"   : this->_columnMap,
 			"hydrateMode" : this->_hydrateMode
 		]);

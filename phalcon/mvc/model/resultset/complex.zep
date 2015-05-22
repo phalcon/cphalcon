@@ -1,19 +1,19 @@
 
 /*
  +------------------------------------------------------------------------+
- | Phalcon Framework                                                      |
+ | Phalcon Framework													  |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)	   |
  +------------------------------------------------------------------------+
- | This source file is subject to the New BSD License that is bundled     |
- | with this package in the file docs/LICENSE.txt.                        |
- |                                                                        |
- | If you did not receive a copy of the license and are unable to         |
- | obtain it through the world-wide-web, please send an email             |
- | to license@phalconphp.com so we can send you a copy immediately.       |
+ | This source file is subject to the New BSD License that is bundled	 |
+ | with this package in the file docs/LICENSE.txt.						|
+ |																		|
+ | If you did not receive a copy of the license and are unable to		 |
+ | obtain it through the world-wide-web, please send an email			 |
+ | to license@phalconphp.com so we can send you a copy immediately.	   |
  +------------------------------------------------------------------------+
- | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
- |          Eduar Carvajal <eduar@phalconphp.com>                         |
+ | Authors: Andres Gutierrez <andres@phalconphp.com>					  |
+ |		  Eduar Carvajal <eduar@phalconphp.com>						 |
  +------------------------------------------------------------------------+
  */
 
@@ -69,7 +69,7 @@ class Complex extends Resultset implements ResultsetInterface
 			column, columnValue, value, attribute, source, attributes,
 			columnMap, rowModel, keepSnapshots, sqlAlias;
 
-		
+
 		let activeRow = this->_activeRow;
 		if activeRow !== null {
 			return activeRow;
@@ -83,10 +83,10 @@ class Complex extends Resultset implements ResultsetInterface
 		/**
 		 * Resulset was unserialized, we do not need to hydrate
 		 */
-        if this->_disableHydration {
-            let this->_activeRow = row;
-            return row;
-        }
+		if this->_disableHydration {
+			let this->_activeRow = row;
+			return row;
+		}
 
 		/**
 		 * Valid records are arrays
@@ -95,7 +95,7 @@ class Complex extends Resultset implements ResultsetInterface
 			let this->_activeRow = false;
 			return false;
 		}
-		
+
 		/**
 		 * Get current hydration mode
 		 */
@@ -271,8 +271,8 @@ class Complex extends Resultset implements ResultsetInterface
 			hydrateMode = this->_hydrateMode;
 
 		let serialized = serialize([
-			"cache"       : cache,
-			"rows"        : records,
+			"cache"	      : cache,
+			"rows"		  : records,
 			"columnTypes" : columnTypes,
 			"hydrateMode" : hydrateMode
 		]);
@@ -305,7 +305,7 @@ class Complex extends Resultset implements ResultsetInterface
 		}
 
 		let this->_rows = resultset["rows"],
-		    this->_count = count(resultset["rows"]),
+			this->_count = count(resultset["rows"]),
 			this->_cache = resultset["cache"],
 			this->_columnTypes = resultset["columnTypes"],
 			this->_hydrateMode = resultset["hydrateMode"];
