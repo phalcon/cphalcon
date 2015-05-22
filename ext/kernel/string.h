@@ -29,6 +29,11 @@
 /** Fast char position */
 int phalcon_memnstr(const zval *haystack, const zval *needle);
 int phalcon_memnstr_str(const zval *haystack, char *needle, unsigned int needle_length);
+int phalcon_same_name(const char *key, const char *name, zend_uint name_len);
+
+void phalcon_strtr(zval *return_value, zval *str, zval *str_from, zval *str_to TSRMLS_DC);
+void phalcon_strtr_array(zval *return_value, zval *str, zval *replace_pairs TSRMLS_DC);
+void phalcon_strtr_str(zval *return_value, zval *str, char *str_from, unsigned int str_from_length, char *str_to, unsigned int str_to_length TSRMLS_DC);
 
 /** Function replacement */
 void phalcon_fast_strlen(zval *return_value, zval *str);

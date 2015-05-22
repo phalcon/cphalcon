@@ -233,6 +233,7 @@ static PHP_MINIT_FUNCTION(phalcon)
 
 	/* 1. Register exceptions */
 	PHALCON_INIT(Phalcon_Exception);
+	PHALCON_INIT(Phalcon_Debug_Exception);
 	PHALCON_INIT(Phalcon_Acl_Exception);
 	PHALCON_INIT(Phalcon_Annotations_Exception);
 	PHALCON_INIT(Phalcon_Assets_Exception);
@@ -451,6 +452,7 @@ static PHP_MINIT_FUNCTION(phalcon)
 	PHALCON_INIT(Phalcon_Acl_Adapter_Memory);
 	PHALCON_INIT(Phalcon_Kernel);
 	PHALCON_INIT(Phalcon_Debug);
+	PHALCON_INIT(Phalcon_Debug_Dump);
 	PHALCON_INIT(Phalcon_Text);
 	PHALCON_INIT(Phalcon_Date);
 	PHALCON_INIT(Phalcon_Security);

@@ -27,6 +27,7 @@
 #include "kernel/hash.h"
 #include "kernel/array.h"
 #include "kernel/operators.h"
+#include "kernel/string.h"
 
 /**
  * Reads class constant from string name and returns its value
@@ -333,6 +334,156 @@ void phalcon_get_called_class(zval *return_value TSRMLS_DC)
 		php_error_docref(NULL TSRMLS_CC, E_WARNING, "phalcon_get_called_class() called from outside a class");
 	}
 
+}
+
+/**
+ * Returns a parent class name into a zval result
+ */
+void phalcon_get_parent_class(zval *result, const zval *object, int lower TSRMLS_DC) {
+
+	if (Z_TYPE_P(object) == IS_OBJECT) {
+		const zend_class_entry *ce = Z_OBJCE_P(object);
+		if (ce && ce->parent) {
+			ZVAL_STRINGL(result, ce->parent->name, ce->parent->name_length, !IS_INTERNED(ce->name) || lower);
+
+			if (lower) {
+				zend_str_tolower(Z_STRVAL_P(result), Z_STRLEN_P(result));
+			}
+		} else {
+			ZVAL_NULL(result);
+		}
+	} else {
+		php_error_docref(NULL TSRMLS_CC, E_WARNING, "phalcon_get_class expects an object");
+	}
+}
+
+/**
+ * Returns an array of object properties
+ */
+void phalcon_get_object_vars(zval *result, zval *object, int check_access TSRMLS_DC) {
+
+	zval **value;
+	HashTable *properties;
+	HashPosition pos;
+	char *key;
+#if PHP_VERSION_ID < 50400
+	char *prop_name, *class_name;
+#else
+	const char *prop_name, *class_name;
+#endif
+	uint key_len;
+	ulong num_index;
+	zend_object *zobj;
+
+	if (Z_TYPE_P(object) == IS_OBJECT) {
+		if (Z_OBJ_HT_P(object)->get_properties == NULL) {
+			ZVAL_NULL(result);
+			return;
+		}
+
+		properties = Z_OBJ_HT_P(object)->get_properties(object TSRMLS_CC);
+
+		if (properties == NULL) {
+			ZVAL_NULL(result);
+			return;
+		}
+
+		zobj = zend_objects_get_address(object TSRMLS_CC);
+
+		array_init(result);
+
+		zend_hash_internal_pointer_reset_ex(properties, &pos);
+
+		while (zend_hash_get_current_data_ex(properties, (void **) &value, &pos) == SUCCESS) {
+			if (zend_hash_get_current_key_ex(properties, &key, &key_len, &num_index, 0, &pos) == HASH_KEY_IS_STRING) {
+				if (!check_access || zend_check_property_access(zobj, key, key_len-1 TSRMLS_CC) == SUCCESS) {
+					zend_unmangle_property_name(key, key_len-1, &class_name, &prop_name);
+					/* Not separating references */
+					Z_ADDREF_PP(value);
+					add_assoc_zval_ex(result, prop_name, strlen(prop_name)+1, *value);
+				}
+			}
+			zend_hash_move_forward_ex(properties, &pos);
+		}
+	} else {
+		php_error_docref(NULL TSRMLS_CC, E_WARNING, "phalcon_get_object_vars expects an object");
+	}
+}
+
+/**
+ * Returns an array of method names for class or class instance
+ */
+void phalcon_get_class_methods(zval *return_value, zval *object, int check_access TSRMLS_DC) {
+
+	zval *method_name;
+	zend_class_entry *ce = NULL, **pce;
+	HashPosition pos;
+	zend_function *mptr;
+
+	if (Z_TYPE_P(object) == IS_OBJECT) {
+		ce = Z_OBJCE_P(object);
+	} else if (Z_TYPE_P(object) == IS_STRING) {
+		if (zend_lookup_class(Z_STRVAL_P(object), Z_STRLEN_P(object), &pce TSRMLS_CC) == SUCCESS) {
+			ce = *pce;
+		}
+	}
+
+	if (!ce) {
+		RETURN_NULL();
+	}
+
+	array_init(return_value);
+	zend_hash_internal_pointer_reset_ex(&ce->function_table, &pos);
+
+	while (zend_hash_get_current_data_ex(&ce->function_table, (void **) &mptr, &pos) == SUCCESS) {
+		if (!check_access || (mptr->common.fn_flags & ZEND_ACC_PUBLIC) 
+		 || (EG(scope) &&
+		     (((mptr->common.fn_flags & ZEND_ACC_PROTECTED) &&
+		       zend_check_protected(mptr->common.scope, EG(scope)))
+		   || ((mptr->common.fn_flags & ZEND_ACC_PRIVATE) &&
+		       EG(scope) == mptr->common.scope)))) {
+			char *key;
+			uint key_len;
+			ulong num_index;
+			uint len = strlen(mptr->common.function_name);
+#if PHP_VERSION_ID < 50400
+			/* Do not display old-style inherited constructors */
+			if ((mptr->common.fn_flags & ZEND_ACC_CTOR) == 0 ||
+			    mptr->common.scope == ce ||
+			    zend_hash_get_current_key_ex(&ce->function_table, &key, &key_len, &num_index, 0, &pos) != HASH_KEY_IS_STRING ||
+			    zend_binary_strcasecmp(key, key_len-1, mptr->common.function_name, len) == 0) {
+
+				MAKE_STD_ZVAL(method_name);
+				ZVAL_STRINGL(method_name, mptr->common.function_name, len, 1);
+				zend_hash_next_index_insert(return_value->value.ht, &method_name, sizeof(zval *), NULL);
+			}
+#else
+			/* Do not display old-style inherited constructors */
+			if (zend_hash_get_current_key_ex(&ce->function_table, &key, &key_len, &num_index, 0, &pos) != HASH_KEY_IS_STRING) {
+				MAKE_STD_ZVAL(method_name);
+				ZVAL_STRINGL(method_name, mptr->common.function_name, len, 1);
+				zend_hash_next_index_insert(return_value->value.ht, &method_name, sizeof(zval *), NULL);
+			} else if ((mptr->common.fn_flags & ZEND_ACC_CTOR) == 0 ||
+			    mptr->common.scope == ce ||
+			    zend_binary_strcasecmp(key, key_len-1, mptr->common.function_name, len) == 0) {
+
+				if (mptr->type == ZEND_USER_FUNCTION &&
+				    *mptr->op_array.refcount > 1 &&
+			    	(len != key_len - 1 ||
+			    	 !phalcon_same_name(key, mptr->common.function_name, len))) {
+					MAKE_STD_ZVAL(method_name);
+					ZVAL_STRINGL(method_name, (char*)zend_find_alias_name(mptr->common.scope, key, key_len - 1), key_len - 1, 1);
+					zend_hash_next_index_insert(return_value->value.ht, &method_name, sizeof(zval *), NULL);
+				} else {
+					MAKE_STD_ZVAL(method_name);
+					ZVAL_STRINGL(method_name, mptr->common.function_name, len, 1);
+					zend_hash_next_index_insert(return_value->value.ht, &method_name, sizeof(zval *), NULL);
+				}
+			}
+#endif
+		}
+		zend_hash_move_forward_ex(&ce->function_table, &pos);
+	}
 }
 
 /**
