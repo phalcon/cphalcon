@@ -568,6 +568,7 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 			'songs',
 			'subscriptores',
 			'tipo_documento',
+			'server',
 		);
 
 		$tables = $connection->listTables();
