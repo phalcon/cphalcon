@@ -61,7 +61,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator, __construct) {
  * Appends a message to the validator
  *
  * @param string message
- * @param string field
+ * @param string|array field
  * @param string type
  */
 PHP_METHOD(Phalcon_Mvc_Model_Validator, appendMessage) {

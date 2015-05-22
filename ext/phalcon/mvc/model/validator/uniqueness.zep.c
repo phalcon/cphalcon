@@ -67,7 +67,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate) {
 	HashTable *_2, *_12;
 	HashPosition _1, _11;
 	int number, ZEPHIR_LAST_CALL_STATUS;
-	zval *record, *field = NULL, *dependencyInjector = NULL, *metaData = NULL, *message = NULL, *bindTypes, *bindDataTypes = NULL, *columnMap = NULL, *conditions, *bindParams, *composeField = NULL, *columnField = NULL, *bindType = NULL, *primaryField = NULL, *attributeField = NULL, *params, *className, *replacePairs = NULL, *_0 = NULL, **_3, *_4 = NULL, _6 = zval_used_for_init, *_7 = NULL, *_8 = NULL, *_10 = NULL, **_13, *_14 = NULL, *_15 = NULL, *_18 = NULL;
+	zval *record, *field = NULL, *dependencyInjector = NULL, *metaData = NULL, *message = NULL, *bindTypes, *bindDataTypes = NULL, *columnMap = NULL, *conditions, *bindParams, *composeField = NULL, *columnField = NULL, *bindType = NULL, *primaryField = NULL, *attributeField = NULL, *params, *className, *replacePairs, *_0 = NULL, **_3, *_4 = NULL, _6 = zval_used_for_init, *_7 = NULL, *_8 = NULL, *_10 = NULL, **_13, *_14 = NULL, *_15 = NULL, *_18 = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &record);
@@ -264,18 +264,20 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate) {
 		zephir_check_temp_parameter(_18);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(replacePairs);
-		zephir_create_array(replacePairs, 1, 0 TSRMLS_CC);
-		zephir_array_update_string(&replacePairs, SL(":field"), &field, PH_COPY | PH_SEPARATE);
-		if (ZEPHIR_IS_EMPTY(message)) {
-			ZEPHIR_INIT_NVAR(message);
-			if (Z_TYPE_P(field) == IS_ARRAY) {
-				ZEPHIR_INIT_NVAR(replacePairs);
-				zephir_create_array(replacePairs, 1, 0 TSRMLS_CC);
-				ZEPHIR_INIT_NVAR(_18);
-				zephir_fast_join_str(_18, SL(", "), field TSRMLS_CC);
-				zephir_array_update_string(&replacePairs, SL(":fields"), &_18, PH_COPY | PH_SEPARATE);
+		if (Z_TYPE_P(field) == IS_ARRAY) {
+			zephir_create_array(replacePairs, 1, 0 TSRMLS_CC);
+			ZEPHIR_INIT_NVAR(_18);
+			zephir_fast_join_str(_18, SL(", "), field TSRMLS_CC);
+			zephir_array_update_string(&replacePairs, SL(":fields"), &_18, PH_COPY | PH_SEPARATE);
+			if (ZEPHIR_IS_EMPTY(message)) {
+				ZEPHIR_INIT_NVAR(message);
 				ZVAL_STRING(message, "Value of fields: :fields are already present in another record", 1);
-			} else {
+			}
+		} else {
+			zephir_create_array(replacePairs, 1, 0 TSRMLS_CC);
+			zephir_array_update_string(&replacePairs, SL(":field"), &field, PH_COPY | PH_SEPARATE);
+			if (ZEPHIR_IS_EMPTY(message)) {
+				ZEPHIR_INIT_NVAR(message);
 				ZVAL_STRING(message, "Value of field: ':field' is already present in another record", 1);
 			}
 		}

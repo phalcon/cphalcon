@@ -34,14 +34,14 @@
  *
  *	public function validation()
  *	{
- *		this->validate(new StringLengthValidator(array(
+ *		$this->validate(new StringLengthValidator(array(
  *			"field" => 'name_last',
  *			'max' => 50,
  *			'min' => 2,
  *			'messageMaximum' => 'We don\'t like really long names',
  *			'messageMinimum' => 'We want more than just their initials'
  *		)));
- *		if (this->validationHasFailed() == true) {
+ *		if ($this->validationHasFailed() == true) {
  *			return false;
  *		}
  *	}
@@ -116,7 +116,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_StringLength, validate) {
 		RETURN_MM_BOOL(1);
 	}
 	if ((zephir_function_exists_ex(SS("mb_strlen") TSRMLS_CC) == SUCCESS)) {
-		ZEPHIR_CALL_FUNCTION(&length, "mb_strlen", NULL, 282, value);
+		ZEPHIR_CALL_FUNCTION(&length, "mb_strlen", NULL, 283, value);
 		zephir_check_call_status();
 	} else {
 		ZEPHIR_INIT_NVAR(length);

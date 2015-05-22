@@ -68,7 +68,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Message) {
  * Phalcon\Mvc\Model\Message constructor
  *
  * @param string message
- * @param string field
+ * @param string|array field
  * @param string type
  * @param Phalcon\Mvc\ModelInterface model
  */
@@ -195,27 +195,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Message, getMessage) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Message, setField) {
 
-	zval *field_param = NULL;
-	zval *field = NULL;
+	zval *field;
 
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &field_param);
+	zephir_fetch_params(0, 1, 0, &field);
 
-	if (unlikely(Z_TYPE_P(field_param) != IS_STRING && Z_TYPE_P(field_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'field' must be a string") TSRMLS_CC);
-		RETURN_MM_NULL();
-	}
-
-	if (likely(Z_TYPE_P(field_param) == IS_STRING)) {
-		zephir_get_strval(field, field_param);
-	} else {
-		ZEPHIR_INIT_VAR(field);
-		ZVAL_EMPTY_STRING(field);
-	}
 
 
 	zephir_update_property_this(this_ptr, SL("_field"), field TSRMLS_CC);
-	RETURN_THIS();
+	RETURN_THISW();
 
 }
 
