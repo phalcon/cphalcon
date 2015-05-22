@@ -267,9 +267,14 @@ class Validation extends Injectable
 
 	/**
 	 * Get default message for validator type
+	 *
+	 * @param string type
 	 */
 	public function getDefaultMessage(string! type) -> string
 	{
+		if !isset this->_defaultMessages[type] {
+			return "";
+		}
 		return this->_defaultMessages[type];
 	}
 
