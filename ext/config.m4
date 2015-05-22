@@ -119,6 +119,8 @@ text.c \
 arr.c \
 date.c \
 debug.c \
+debug/exception.c \
+debug/dump.c \
 tag.c \
 mvc/controller.c \
 mvc/dispatcher/exception.c \

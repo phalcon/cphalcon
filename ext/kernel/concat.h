@@ -22,6 +22,11 @@
 
 #include "php_phalcon.h"
 
+#define PHALCON_SCONCAT(result, op1) \
+	 phalcon_concat_self(&result, op1 TSRMLS_CC);
+#define PHALCON_SCONCAT_STR(result, op1) \
+	 phalcon_concat_self_str(&result, op1, sizeof(op1)-1 TSRMLS_CC);
+
 #define PHALCON_CONCAT_SV(result, op1, op2) \
 	 phalcon_concat_sv(&result, op1, sizeof(op1)-1, op2, 0 TSRMLS_CC);
 #define PHALCON_SCONCAT_SV(result, op1, op2) \
@@ -182,4 +187,9 @@ void phalcon_concat_vvvv(zval **result, zval *op1, zval *op2, zval *op3, zval *o
 void phalcon_concat_vvvvsvv(zval **result, zval *op1, zval *op2, zval *op3, zval *op4, const char *op5, zend_uint op5_len, zval *op6, zval *op7, int self_var TSRMLS_DC);
 void phalcon_concat_vvvvv(zval **result, zval *op1, zval *op2, zval *op3, zval *op4, zval *op5, int self_var TSRMLS_DC);
 
+void phalcon_concat_self(zval **left, zval *right TSRMLS_DC);
+void phalcon_concat_self_str(zval **left, const char *right, int right_length TSRMLS_DC);
+
+void phalcon_concat_self_long(zval **left, const long right TSRMLS_DC);
+void phalcon_concat_self_char(zval **left, unsigned char right TSRMLS_DC);
 #endif /* PHALCON_KERNEL_CONCAT_H */

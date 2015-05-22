@@ -111,6 +111,8 @@
 #include "db/result/pdo.h"
 
 #include "debug.h"
+#include "debug/exception.h"
+#include "debug/dump.h"
 
 #include "di.h"
 #include "diinterface.h"

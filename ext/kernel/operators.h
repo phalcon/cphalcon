@@ -104,11 +104,6 @@ int phalcon_bitwise_or_function(zval *result, zval *op1, zval *op2 TSRMLS_DC);
 int phalcon_bitwise_xor_function(zval *result, zval *op1, zval *op2 TSRMLS_DC);
 int phalcon_shift_left_function(zval *result, zval *op1, zval *op2 TSRMLS_DC);
 int phalcon_shift_right_function(zval *result, zval *op1, zval *op2 TSRMLS_DC);
-void phalcon_concat_self(zval **left, zval *right TSRMLS_DC);
-void phalcon_concat_self_str(zval **left, const char *right, int right_length TSRMLS_DC);
-
-void phalcon_concat_self_long(zval **left, const long right TSRMLS_DC);
-void phalcon_concat_self_char(zval **left, unsigned char right TSRMLS_DC);
 
 /** Strict comparing */
 int phalcon_compare_strict_string(zval *op1, const char *op2, int op2_length);
