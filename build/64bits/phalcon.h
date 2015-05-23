@@ -1833,6 +1833,30 @@ PHALCON_INIT_CLASS(Phalcon_Debug);
 #endif /* PHALCON_DEBUG_H */
 
 
+#ifndef PHALCON_DEBUG_EXCEPTION
+#define PHALCON_DEBUG_EXCEPTION
+
+#include "php_phalcon.h"
+
+zend_class_entry *phalcon_debug_exception_ce;
+
+PHALCON_INIT_CLASS(Phalcon_Debug_Exception);
+
+#endif /* PHALCON_DEBUG_EXCEPTION */
+
+
+#ifndef PHALCON_DEBUG_DUMP_H
+#define PHALCON_DEBUG_DUMP_H
+
+#include "php_phalcon.h"
+
+zend_class_entry *phalcon_http_dump_ce;
+
+PHALCON_INIT_CLASS(Phalcon_Debug_Dump);
+
+#endif /* PHALCON_DEBUG_DUMP_H */
+
+
 
 #ifndef PHALCON_DI_H
 #define PHALCON_DI_H
@@ -2050,6 +2074,13 @@ ZEND_END_ARG_INFO()
 
 #include "php_phalcon.h"
 
+#define PHALCON_EXCEPTION_NO_DI				1
+#define PHALCON_EXCEPTION_CYCLIC_ROUTING	2
+#define PHALCON_EXCEPTION_HANDLER_NOT_FOUND	4
+#define PHALCON_EXCEPTION_INVALID_HANDLER	8
+#define PHALCON_EXCEPTION_INVALID_PARAMS	16
+#define PHALCON_EXCEPTION_ACTION_NOT_FOUND	32
+
 zend_class_entry *phalcon_dispatcher_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Dispatcher);
@@ -2106,6 +2137,15 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_dispatcherinterface_camelizecontroller, 0, 0, 1)
 	ZEND_ARG_INFO(0, camelize)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_dispatcherinterface_seterrorhandler, 0, 0, 1)
+	ZEND_ARG_INFO(0, callback)
+	ZEND_ARG_INFO(0, exception_code)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_dispatcherinterface_geterrorhandler, 0, 0, 1)
+	ZEND_ARG_INFO(0, exception_code)
 ZEND_END_ARG_INFO()
 
 #endif /* PHALCON_DISPATCHERINTERFACE_H */
@@ -2177,8 +2217,8 @@ PHALCON_INIT_CLASS(Phalcon_Escaper_Exception);
 
 
 
-#ifndef PHALCON_EVENT_H
-#define PHALCON_EVENT_H
+#ifndef PHALCON_EVENTS_EVENT_H
+#define PHALCON_EVENTS_EVENT_H
 
 #include "php_phalcon.h"
 
@@ -2186,7 +2226,7 @@ zend_class_entry *phalcon_events_event_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Events_Event);
 
-#endif /* PHALCON_EVENT_H */
+#endif /* PHALCON_EVENTS_EVENT_H */
 
 
 #ifndef PHALCON_EVENTS_EVENTSAWAREINTERFACE_H
@@ -2234,6 +2274,11 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_events_managerinterface_attach, 0, 0, 2)
 	ZEND_ARG_INFO(0, handler)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_events_managerinterface_detach, 0, 0, 2)
+	ZEND_ARG_INFO(0, type)
+	ZEND_ARG_INFO(0, handler)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_events_managerinterface_detachall, 0, 0, 0)
 	ZEND_ARG_INFO(0, type)
 ZEND_END_ARG_INFO()
@@ -2246,6 +2291,7 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_events_managerinterface_getlisteners, 0, 0, 1)
 	ZEND_ARG_INFO(0, type)
+	ZEND_ARG_INFO(0, full)
 ZEND_END_ARG_INFO()
 
 #endif /* PHALCON_EVENTS_MANAGERINTERFACE_H */
@@ -2261,6 +2307,18 @@ zend_class_entry *phalcon_events_manager_ce;
 PHALCON_INIT_CLASS(Phalcon_Events_Manager);
 
 #endif /* PHALCON_EVENTS_MANAGER_H */
+
+
+#ifndef PHALCON_EVENTS_LISTENER_H
+#define PHALCON_EVENTS_LISTENER_H
+
+#include "php_phalcon.h"
+
+zend_class_entry *phalcon_events_listener_ce;
+
+PHALCON_INIT_CLASS(Phalcon_Events_Listener);
+
+#endif /* PHALCON_EVENTS_LISTENER_H */
 
 
 
@@ -2684,6 +2742,9 @@ PHALCON_INIT_CLASS(Phalcon_Forms_Exception);
 
 #include "php_phalcon.h"
 
+#define PHALCON_FROM_VALUES_RAW	1
+#define PHALCON_FROM_VALUES_AS_ARRAY	2
+
 zend_class_entry *phalcon_forms_form_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Forms_Form);
@@ -2761,18 +2822,24 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_requestinterface_getpost, 0, 0, 0)
 	ZEND_ARG_INFO(0, name)
 	ZEND_ARG_INFO(0, filters)
 	ZEND_ARG_INFO(0, defaultValue)
+	ZEND_ARG_INFO(0, notAllowEmpty)
+	ZEND_ARG_INFO(0, noRecursive)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_requestinterface_getput, 0, 0, 0)
 	ZEND_ARG_INFO(0, name)
 	ZEND_ARG_INFO(0, filters)
 	ZEND_ARG_INFO(0, defaultValue)
+	ZEND_ARG_INFO(0, notAllowEmpty)
+	ZEND_ARG_INFO(0, noRecursive)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_requestinterface_getquery, 0, 0, 0)
 	ZEND_ARG_INFO(0, name)
 	ZEND_ARG_INFO(0, filters)
 	ZEND_ARG_INFO(0, defaultValue)
+	ZEND_ARG_INFO(0, notAllowEmpty)
+	ZEND_ARG_INFO(0, noRecursive)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_requestinterface_getserver, 0, 0, 1)
@@ -4429,6 +4496,15 @@ ZEND_END_ARG_INFO()
 
 #include "php_phalcon.h"
 
+#define PHALCON_MODEL_OP_NONE					0
+#define PHALCON_MODEL_OP_CREATE					1
+#define PHALCON_MODEL_OP_UPDATE					2
+#define PHALCON_MODEL_OP_DELETE					3
+
+#define PHALCON_MODEL_DIRTY_STATE_PERSISTEN		0
+#define PHALCON_MODEL_DIRTY_STATE_TRANSIENT		1
+#define PHALCON_MODEL_DIRTY_STATE_DETACHED		2
+
 zend_class_entry *phalcon_mvc_model_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Mvc_Model);
@@ -4638,6 +4714,18 @@ zend_class_entry *phalcon_mvc_model_behavior_timestampable_ce;
 PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Behavior_Timestampable);
 
 #endif /* PHALCON_MVC_MODEL_BEHAVIOR_TIMESTAMPABLE_H */
+
+
+#ifndef PHALCON_MVC_MODEL_BEHAVIOR_NESTEDSET_H
+#define PHALCON_MVC_MODEL_BEHAVIOR_NESTEDSET_H
+
+#include "php_phalcon.h"
+
+zend_class_entry *phalcon_mvc_model_behavior_nestedset_ce;
+
+PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Behavior_NestedSet);
+
+#endif /* PHALCON_MVC_MODEL_BEHAVIOR_NESTEDSET_H */
 
 
 #ifndef PHALCON_MVC_MODEL_CRITERIA_H
@@ -6253,6 +6341,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_viewinterface_render, 0, 0, 2)
 	ZEND_ARG_INFO(0, actionName)
 	ZEND_ARG_INFO(0, params)
 	ZEND_ARG_INFO(0, namespace)
+	ZEND_ARG_INFO(0, viewModel)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_viewinterface_pick, 0, 0, 1)
@@ -6376,6 +6465,80 @@ zend_class_entry *phalcon_mvc_view_simple_ce;
 PHALCON_INIT_CLASS(Phalcon_Mvc_View_Simple);
 
 #endif /* PHALCON_MVC_VIEW_SIMPLE_H */
+
+
+#ifndef PHALCON_MVC_VIEW_MODEL_H
+#define PHALCON_MVC_VIEW_MODEL_H
+
+#include "php_phalcon.h"
+
+zend_class_entry *phalcon_mvc_view_model_ce;
+
+PHALCON_INIT_CLASS(Phalcon_Mvc_View_Model);
+
+#endif /* PHALCON_MVC_VIEW_MODEL_H */
+
+
+#ifndef PHALCON_MVC_VIEW_MODELINTERFACE_H
+#define PHALCON_MVC_VIEW_MODELINTERFACE_H
+
+#include "php_phalcon.h"
+
+zend_class_entry *phalcon_mvc_view_modelinterface_ce;
+
+PHALCON_INIT_CLASS(Phalcon_Mvc_View_ModelInterface);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_modelinterface_settemplate, 0, 0, 1)
+	ZEND_ARG_INFO(0, template)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_modelinterface_setvars, 0, 0, 1)
+	ZEND_ARG_INFO(0, params)
+	ZEND_ARG_INFO(0, merge)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_modelinterface_setvar, 0, 0, 2)
+	ZEND_ARG_INFO(0, key)
+	ZEND_ARG_INFO(0, value)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_modelinterface_getvar, 0, 0, 1)
+	ZEND_ARG_INFO(0, key)
+	ZEND_ARG_INFO(0, default_value)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_modelinterface_addchild, 0, 0, 1)
+	ZEND_ARG_INFO(0, viewmodel)
+	ZEND_ARG_INFO(0, name)
+	ZEND_ARG_INFO(0, append)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_modelinterface_appendchild, 0, 0, 1)
+	ZEND_ARG_INFO(0, viewmodel)
+	ZEND_ARG_INFO(0, name)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_modelinterface_getchild, 0, 0, 1)
+	ZEND_ARG_INFO(0, name)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_modelinterface_setcaptureto, 0, 0, 1)
+	ZEND_ARG_INFO(0, capture)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_modelinterface_setterminal, 0, 0, 1)
+	ZEND_ARG_INFO(0, terminate)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_modelinterface_setappend, 0, 0, 1)
+	ZEND_ARG_INFO(0, append)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_modelinterface_setview, 0, 0, 1)
+	ZEND_ARG_INFO(0, view)
+ZEND_END_ARG_INFO()
+
+#endif /* PHALCON_MVC_VIEW_MODELINTERFACE_H */
 
 #ifndef PHALCON_MVC_JSONRPC_H
 #define PHALCON_MVC_JSONRPC_H
@@ -7304,6 +7467,18 @@ zend_class_entry *phalcon_validation_validator_file_ce;
 PHALCON_INIT_CLASS(Phalcon_Validation_Validator_File);
 
 #endif /* PHALCON_VALIDATION_VALIDATOR_FILE_H */
+
+
+#ifndef PHALCON_VALIDATION_VALIDATOR_NUMERICALITY_H
+#define PHALCON_VALIDATION_VALIDATOR_NUMERICALITY_H
+
+#include "php_phalcon.h"
+
+zend_class_entry *phalcon_validation_validator_numericality_ce;
+
+PHALCON_INIT_CLASS(Phalcon_Validation_Validator_Numericality);
+
+#endif /* PHALCON_VALIDATION_VALIDATOR_NUMERICALITY_H */
 
 
 #ifndef PHALCON_CHART_QRCODE_H

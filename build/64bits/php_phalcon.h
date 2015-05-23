@@ -29,7 +29,7 @@
 #include <TSRM/TSRM.h>
 #endif
 
-#define PHP_PHALCON_VERSION "Dao-1.3.5"
+#define PHP_PHALCON_VERSION "Dao-1.3.6"
 #define PHP_PHALCON_EXTNAME "phalcon"
 
 #define PHALCON_NUM_PREALLOCATED_FRAMES 25
@@ -71,6 +71,7 @@ typedef struct _phalcon_orm_options {
 	zend_bool enable_ast_cache;
 	zend_bool enable_property_method;
 	zend_bool enable_auto_convert;
+	zend_bool allow_update_primary;
 } phalcon_orm_options;
 
 /** DB options */
@@ -108,6 +109,7 @@ ZEND_BEGIN_MODULE_GLOBALS(phalcon)
 	zval *z_false;
 	zval *z_zero;
 	zval *z_one;
+	zval *z_two;
 
 	/** Function cache */
 	HashTable *fcache;
