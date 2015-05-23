@@ -46,94 +46,30 @@ class Postgresql extends Dialect
 		var size, columnType, columnSql, typeValues;
 
 		let size = column->getSize();
-		let columnType = column->getType();
+		let columnType = column->getType(false);
 		let columnSql = "";
-		if typeof columnType == "string" {
+		/*if typeof columnType == "string" {
 			let columnSql .= columnType;
 			let columnType = column->getTypeReference();
-		}
+		}*/
 
-		switch columnType {
-
-			case Column::TYPE_INTEGER:
-				if empty columnSql {
-					if column->isAutoIncrement() {
-						let columnSql .= "SERIAL";
-					} else {
-						let columnSql .= "INT";
-					}
+		let columnSql = columnType->getDialect("postresql");
+		let columnSql = str_replace("#size#",size,columnSql);
+		let columnSql = str_replace("#scale#",column->getScale() ,columnSql);
+		
+		let typeValues = column->getTypeValues();
+		if !empty typeValues {
+			if typeof typeValues == "array" {
+				var value, valueSql;
+				let valueSql = "";
+				for value in typeValues {
+					let valueSql .= "\"" . addcslashes(value, "\"") . "\", ";
 				}
-				break;
-
-			case Column::TYPE_DATE:
-				if empty columnSql {
-					let columnSql .= "DATE";
-				}
-				break;
-
-			case Column::TYPE_VARCHAR:
-				if empty columnSql {
-					let columnSql .= "CHARACTER VARYING";
-				}
-				let columnSql .= "(" . size . ")";
-				break;
-
-			case Column::TYPE_DECIMAL:
-				if empty columnSql {
-					let columnSql .= "NUMERIC";
-				}
-				let columnSql .= "(" . size . "," . column->getScale() . ")";
-				break;
-
-			case Column::TYPE_DATETIME:
-				if empty columnSql {
-					let columnSql .= "TIMESTAMP";
-				}
-				break;
-
-			case Column::TYPE_CHAR:
-				if empty columnSql {
-					let columnSql .= "CHARACTER";
-				}
-				let columnSql .= "(" . size . ")";
-				break;
-
-			case Column::TYPE_TEXT:
-				if empty columnSql {
-					let columnSql .= "TEXT";
-				}
-				break;
-
-			case Column::TYPE_FLOAT:
-				if empty columnSql {
-					let columnSql .= "FLOAT";
-				}
-				break;
-
-			case Column::TYPE_BOOLEAN:
-				if empty columnSql {
-					let columnSql .= "SMALLINT(1)";
-				}
-				break;
-
-			default:
-				if empty columnSql {
-					throw new Exception("Unrecognized PostgreSQL data type");
-				}
-
-				let typeValues = column->getTypeValues();
-				if !empty typeValues {
-					if typeof typeValues == "array" {
-						var value, valueSql;
-						let valueSql = "";
-						for value in typeValues {
-							let valueSql .= "\"" . addcslashes(value, "\"") . "\", ";
-						}
-						let columnSql .= "(" . substr(valueSql, 0, -2) . ")";
-					} else {
-						let columnSql .= "(\"" . addcslashes(typeValues, "\"") . "\")";
-					}
-				}
+				let columnSql = str_replace("#values#","(" . substr(valueSql, 0, -2) . ")",columnSql);
+				
+			} else {
+				let columnSql = str_replace("#values#","(\"" . addcslashes(typeValues, "\"") . "\")",columnSql);
+			}
 		}
 
 		return columnSql;

@@ -21,6 +21,7 @@ namespace Phalcon\Db;
 
 use Phalcon\Db\Exception;
 use Phalcon\Db\ColumnInterface;
+use Phalcon\Db\Column\Type as ColumnType;
 
 /**
  * Phalcon\Db\Column
@@ -51,47 +52,47 @@ class Column implements ColumnInterface
 	/**
 	 * Integer abstract type
 	 */
-	const TYPE_INTEGER = 0;
+	const TYPE_INTEGER = "integer";
 
 	/**
 	 * Date abstract type
 	 */
-	const TYPE_DATE = 1;
+	const TYPE_DATE = "date";
 
 	/**
 	 * Varchar abstract type
 	 */
-	const TYPE_VARCHAR = 2;
+	const TYPE_VARCHAR = "varchar";
 
 	/**
 	 * Decimal abstract type
 	 */
-	const TYPE_DECIMAL = 3;
+	const TYPE_DECIMAL = "decimal";
 
 	/**
 	 * Datetime abstract type
 	 */
-	const TYPE_DATETIME = 4;
+	const TYPE_DATETIME = "datetime";
 
 	/**
 	 * Char abstract type
 	 */
-	const TYPE_CHAR = 5;
+	const TYPE_CHAR = "char";
 
 	/**
 	 * Text abstract data type
 	 */
-	const TYPE_TEXT = 6;
+	const TYPE_TEXT = "text";
 
 	/**
 	 * Float abstract data type
 	 */
-	const TYPE_FLOAT = 7;
+	const TYPE_FLOAT = "float";
 
 	/**
 	 * Boolean abstract data type
 	 */
-	const TYPE_BOOLEAN = 8;
+	const TYPE_BOOLEAN = "boolean";
 
 	/**
 	 * Bind Type Null
@@ -142,7 +143,7 @@ class Column implements ColumnInterface
 	 *
 	 * @var int|string
 	 */
-	protected _type { get };
+	protected _type;
 
 	/**
 	 * Column data type reference
@@ -226,15 +227,76 @@ class Column implements ColumnInterface
 	 * Bind Type
 	 */
 	protected _bindType = 2;
+	
+	
+	public static columnTypes;
+	public static columnTypesDialect;
+	
+	public static function addTypes(<ColumnType> type)
+	{
+		
+	}
+	
+	public static function getColumnTypes() {
+		self::initialize();
+		
+		return self::columnTypes;
+	}
+	
+	public static function initialize() {
+		
+		var type,className,dialects,dialect,dialectType;
+	
+		if empty self::columnTypes {
+			let self::columnTypes  = [
+										"integer" : "\\Phalcon\\Db\\Column\\Type\\Integer",
+										"date" : "\\Phalcon\\Db\\Column\\Type\\Date",
+										"varchar" : "\\Phalcon\\Db\\Column\\Type\\Varchar",
+										"decimal" : "\\Phalcon\\Db\\Column\\Type\\Decimal",
+										"datetime" : "\\Phalcon\\Db\\Column\\Type\\Datetime"
+									];
+			let self::columnTypesDialect = [];
+			for type, className in self::columnTypes {
+				
+			
+				let dialects = (new {className}())->getDialects();
+				
+				for dialect, dialectType in dialects {
+					let self::columnTypesDialect[dialect][dialectType] = type;
+				}
+			}
+									
+		}
+	}
+	
+	public static function getColumnTypeByDialect(string! dialect, string! type) {
+		
+		var columnType;
+		
+		self::initialize();
+		
+		if fetch columnType, self::columnTypesDialect[dialect][type] {
+			return columnType;
+		}
+		return "varchar"; 
+	}
+	
+	public function getDialect(dialect) {
+		
+	}
+	
 
 	/**
 	 * Phalcon\Db\Column constructor
 	 */
 	public function __construct(string! name, array! definition)
 	{
+	
 		var type, notNull, primary, size, scale, dunsigned, first,
 			after, bindType, isNumeric, autoIncrement, defaultValue,
-			typeReference, typeValues;
+			typeReference, typeValues,typeClass,columnTypes;
+			
+		let columnTypes = self::getColumnTypes();
 
 		let this->_name = name;
 
@@ -242,7 +304,22 @@ class Column implements ColumnInterface
 		 * Get the column type, one of the TYPE_* constants
 		 */
 		if fetch type, definition["type"] {
-			let this->_type = type;
+		
+			if typeof type == "integer" {
+				
+				if !fetch typeClass,columnTypes[array_keys(columnTypes)[type]] {
+					throw new Exception("Unknown column type \"" . type . "\"");
+				}
+				
+			} else {
+				
+				if !fetch typeClass,columnTypes[type] {
+					throw new Exception("Unknown column type \"" . type . "\"");
+				}
+				
+			}
+			let this->_type = new {typeClass}();
+			
 		} else {
 			throw new Exception("Column type is required");
 		}
@@ -279,10 +356,8 @@ class Column implements ColumnInterface
 		 * Check if the column has a decimal scale
 		 */
 		if fetch scale, definition["scale"] {
-			if type == self::TYPE_INTEGER || type == self::TYPE_FLOAT || type == self::TYPE_DECIMAL {
+			if this->_type->supportScale() {
 				let this->_scale = scale;
-			} else {
-				throw new Exception("Column type does not support scale parameter");
 			}
 		}
 
@@ -312,7 +387,7 @@ class Column implements ColumnInterface
 		 */
 		if fetch autoIncrement, definition["autoIncrement"] {
 			if autoIncrement {
-				if type == self::TYPE_INTEGER {
+				if this->_type->supportAutoIncrement() {
 					let this->_autoIncrement = true;
 				} else {
 					throw new Exception("Column type cannot be auto-increment");
@@ -340,9 +415,14 @@ class Column implements ColumnInterface
 		 * The bind type to cast the field when passing it to PDO
 		 */
 		if fetch bindType, definition["bindType"] {
-			let this->_bindType = bindType;
+			let this->_bindType = this->_type->getBindType();//bindType;
 		}
 
+	}
+	
+	public function getType(onlyName = true) -> string
+	{
+		return onlyName ? strtolower(get_class(this->_type)) : this->_type;
 	}
 
 	/**

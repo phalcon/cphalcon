@@ -118,129 +118,15 @@ class Postgresql extends PdoAdapter implements AdapterInterface
 				numericSize = field[3],
 				numericScale = field[4];
 
-			loop {
+			let definition["type"] = Column::getColumnTypeByDialect("postgresql",columnType),
+				definition["isNumeric"] = true,
+				definition["scale"] = numericScale,
+				definition["size"] = numericSize,
+				definition["size"] = charSize;
 
-				/**
-				 * Smallint(1) is boolean
-				 */
-				if memstr(columnType, "smallint(1)") {
-					let definition["type"] = Column::TYPE_BOOLEAN,
-						definition["bindType"] = Column::BIND_PARAM_BOOL;
-					break;
-				}
+			
 
-				/**
-				 * Int
-				 */
-				if memstr(columnType, "int") {
-					let definition["type"] = Column::TYPE_INTEGER,
-						definition["isNumeric"] = true,
-						definition["size"] = numericSize,
-						definition["bindType"] = Column::BIND_PARAM_INT;
-					break;
-				}
-
-				/**
-				 * Varchar
-				 */
-				if memstr(columnType, "varying") {
-					let definition["type"] = Column::TYPE_VARCHAR,
-						definition["size"] = charSize;
-					break;
-				}
-
-				/**
-				 * Special type for datetime
-				 */
-				if memstr(columnType, "date") {
-					let definition["type"] = Column::TYPE_DATE,
-						definition["size"] = 0;
-					break;
-				}
-
-				/**
-				 * Numeric
-				 */
-				if memstr(columnType, "numeric") {
-					let definition["type"] = Column::TYPE_DECIMAL,
-						definition["isNumeric"] = true,
-						definition["size"] = numericSize,
-						definition["scale"] = numericScale,
-						definition["bindType"] = Column::BIND_PARAM_DECIMAL;
-					break;
-				}
-
-				/**
-				 * Chars are chars
-				 */
-				if memstr(columnType, "char") {
-					let definition["type"] = Column::TYPE_CHAR,
-						definition["size"] = charSize;
-					break;
-				}
-
-				/**
-				 * Date
-				 */
-				if memstr(columnType, "timestamp") {
-					let definition["type"] = Column::TYPE_DATETIME,
-						definition["size"] = 0;
-					break;
-				}
-
-				/**
-				 * Text are varchars
-				 */
-				if memstr(columnType, "text") {
-					let definition["type"] = Column::TYPE_TEXT,
-						definition["size"] = charSize;
-					break;
-				}
-
-				/**
-				 * Float/Smallfloats/Decimals are float
-				 */
-				if memstr(columnType, "float") {
-					let definition["type"] = Column::TYPE_FLOAT,
-						definition["isNumeric"] = true,
-						definition["size"] = numericSize,
-						definition["bindType"] = Column::BIND_PARAM_DECIMAL;
-					break;
-				}
-
-				/**
-				 * Boolean
-				 */
-				if memstr(columnType, "bool") {
-					let definition["type"] = Column::TYPE_BOOLEAN,
-						definition["size"] = 0,
-						definition["bindType"] = Column::BIND_PARAM_BOOL;
-					break;
-				}
-
-				/**
-				 * UUID
-				 */
-				if memstr(columnType, "uuid") {
-					let definition["type"] = Column::TYPE_CHAR,
-						definition["size"] = 36;
-					break;
-				}
-
-				/**
-				 * By default is string
-				 */
-				let definition["type"] = Column::TYPE_VARCHAR;
-				break;
-			}
-
-			/**
-			 * Check if the column is unsigned, only MySQL support this
-			 */
-			if memstr(columnType, "unsigned") {
-				let definition["unsigned"] = true;
-			}
-
+			
 			/**
 			 * Positions
 			 */
