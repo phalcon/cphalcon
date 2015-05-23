@@ -189,12 +189,7 @@ abstract class Pdo extends Adapter
 				}
 			}
 
-			if typeof dataTypes == "array" {
-
-				if !fetch type, dataTypes[wildcard] {
-					throw new Exception("Invalid bind type parameter (2)");
-				}
-
+			if typeof dataTypes == "array" && fetch type, dataTypes[wildcard] {
 				/**
 				 * The bind type is double so we try to get the double value
 				 */
@@ -212,7 +207,6 @@ abstract class Pdo extends Adapter
 				} else {
 					statement->bindValue(parameter, castValue, type);
 				}
-
 			} else {
 				statement->bindValue(parameter, value);
 			}
