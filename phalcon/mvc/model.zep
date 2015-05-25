@@ -2193,7 +2193,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	{
 		var bindSkip, fields, values, bindTypes, manager, bindDataTypes, field,
 			automaticAttributes, snapshotValue, uniqueKey, uniqueParams, uniqueTypes,
-			snapshot, nonPrimary, columnMap, attributeField, value, primaryKeys, bindType;
+			snapshot, nonPrimary, columnMap, attributeField, value, primaryKeys, bindType,columnTypeClassName,columnType;
 		boolean useDynamicUpdate, changed;
 
 		let bindSkip = Column::BIND_SKIP,
@@ -2283,31 +2283,16 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 								if snapshotValue === null {
 									let changed = true;
 								} else {
-									switch (bindType) {
-										case Column::TYPE_BOOLEAN:
-											let changed = (boolean)snapshotValue !== (boolean)value;
-											break;
-										case Column::TYPE_INTEGER:
-											let changed = (int)snapshotValue !== (int)value;
-											break;
-										case Column::TYPE_DECIMAL:
-										case Column::TYPE_FLOAT:
-											let changed = floatval(snapshotValue) !== floatval(value);
-											break;
-										case Column::TYPE_DATE:
-										case Column::TYPE_VARCHAR:
-										case Column::TYPE_DATETIME:
-										case Column::TYPE_CHAR:
-										case Column::TYPE_TEXT:
-										case Column::TYPE_VARCHAR:
-											let changed = (string)snapshotValue !== (string)value;
-											break;
-
-										/**
-										 * Any other type is not really supported...
-										 */
-										default:
-											let changed = value != snapshotValue;
+								
+									let columnTypeClassName = Column::getColumnTypes(bindType);
+								
+									if columnTypeClassName !== false {
+									
+										let columnType = new {columnTypeClassName}();
+										let changed = columnType->castValue(snapshotValue) !== columnType->castValue(value);
+									
+									} else {
+										let changed = value != snapshotValue;
 									}
 								}
 							}

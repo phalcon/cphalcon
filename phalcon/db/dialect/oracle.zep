@@ -71,55 +71,20 @@ class Oracle extends Dialect
 	 */
 	public function getColumnDefinition(<ColumnInterface> column) -> string
 	{
-		var columnSql, size, scale, type;
+		var columnSql,columnType, size, type;
 
+		let columnType = column->getType(false);
 		let type = column->getType();
 		let size = column->getSize();
-
-		switch type {
-
-			case Column::TYPE_INTEGER:
-				let columnSql = "INTEGER";
-			break;
-
-			case Column::TYPE_DATE:
-				let columnSql = "DATE";
-			break;
-
-			case Column::TYPE_VARCHAR:
-				let columnSql = "VARCHAR2(" . size . ")";
-			break;
-
-			case Column::TYPE_DECIMAL:
-				let scale = column->getScale();
-				let columnSql = "NUMBER(" . size . "," . scale . ")";
-			break;
-
-			case Column::TYPE_DATETIME:
-				let columnSql = "TIMESTAMP";
-			break;
-
-			case Column::TYPE_CHAR:
-				let columnSql = "CHAR(" . size . ")";
-			break;
-
-			case Column::TYPE_TEXT:
-				let columnSql = "TEXT";
-			break;
-
-			case Column::TYPE_FLOAT:
-				let scale = column->getScale();
-				let columnSql = "FLOAT(" . size . "," . scale .")";
-			break;
-
-			case Column::TYPE_BOOLEAN:
-				let columnSql = "TINYINT(1)";
-			break;
-
-			default:
-				throw new Exception("Unrecognized Oracle data type");
+		let columnSql = "";
+		
+		let columnSql = columnType->getDialect("oracle");
+		if columnSql === false {
+			throw new Exception("Unrecognized Orcale data type");
 		}
-
+		let columnSql = str_replace("#size#",size,columnSql);
+		let columnSql = str_replace("#scale#",column->getScale() ,columnSql);
+		
 		return columnSql;
 	}
 

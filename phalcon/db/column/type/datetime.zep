@@ -66,4 +66,7 @@ class Datetime extends ColumnType
 	 */
 	protected _isNumeric = false;
 
+	public function castValue(value) {
+		return (string)value;
+	}
 }

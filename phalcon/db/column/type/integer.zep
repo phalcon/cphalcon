@@ -21,6 +21,7 @@ namespace Phalcon\Db\Column\Type;
 use Phalcon\Db\Exception;
 use Phalcon\Db\ColumnInterface;
 use Phalcon\Db\Column\Type as ColumnType;
+use Phalcon\Db\Column;
 
 /**
  * Phalcon\Db\Column
@@ -71,10 +72,13 @@ class Integer extends ColumnType
 	protected _isNumeric = true;
 	
 
-	protected _bindType = ColumnType::BIND_PARAM_INT;
+	protected _bindType = Column::BIND_PARAM_INT;
 
 	public function __construct()
 	{
 		
+	}
+	public function castValue(value) {
+		return (int)value;
 	}
 }

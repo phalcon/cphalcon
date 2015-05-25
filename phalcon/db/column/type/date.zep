@@ -65,5 +65,8 @@ class Date extends ColumnType
 	 * The column have some numeric type?
 	 */
 	protected _isNumeric = false;
-
+	
+	public function castValue(value) {
+		return (string)value;
+	}
 }

@@ -87,7 +87,7 @@ class Oracle extends PdoAdapter implements AdapterInterface
 	public function describeColumns(string! table, string schema = null) -> <Column[]>
 	{
 		var columns, oldColumn, field, definition, columnSize,
-			columnPrecision, columnScale, columnType, columnName;
+			columnPrecision, columnScale, columnType, columnName, columnTypeObject;
 
 		let columns = [];
 
@@ -104,72 +104,19 @@ class Oracle extends PdoAdapter implements AdapterInterface
 				columnScale = field[4],
 				columnType = field[1];
 
-			loop {
+			
+			let definition["type"] = Column::getColumnTypeByDialect("postgresql",columnType),
+				definition["scale"] = columnScale,
+				definition["size"] = columnPrecision;
+				
+			let columnTypeObject = Column::getColumnTypes(definition["type"]);
+			let columnTypeObject = {columnTypeObject}();
 
-				/**
-				 * Check the column type to get the correct Phalcon type
-				 */
-				if memstr(columnType, "NUMBER") {
-					let definition["type"]      = Column::TYPE_DECIMAL,
-						definition["isNumeric"] = true,
-						definition["size"]      = columnPrecision,
-						definition["scale"]     = columnScale,
-						definition["bindType"]  = 32;
-					break;
-				}
-
-				if memstr(columnType, "INTEGER") {
-					let definition["type"]       = Column::TYPE_INTEGER,
-						definition["isNumeric"]  = true,
-						definition["size"]       = columnPrecision,
-						definition["bindType"]   = 1;
-					break;
-				}
-
-				if memstr(columnType, "VARCHAR2") {
-					let definition["type"] = Column::TYPE_VARCHAR,
-						definition["size"] = columnSize;
-						break;
-				}
-
-				if memstr(columnType, "FLOAT") {
-					let definition["type"]      = Column::TYPE_FLOAT,
-						definition["isNumeric"] = true,
-						definition["size"]      = columnSize,
-						definition["scale"]     = columnScale,
-						definition["bindType"]  = 32;
-					break;
-				}
-
-				if memstr(columnType, "TIMESTAMP") {
-					let definition["type"] = Column::TYPE_INTEGER;
-					break;
-				}
-
-				if memstr(columnType, "RAW") {
-					let definition["type"] = Column::TYPE_TEXT;
-					break;
-				}
-
-				if memstr(columnType, "BLOB") {
-					let definition["type"] = Column::TYPE_TEXT;
-					break;
-				}
-
-				if memstr(columnType, "CLOB") {
-					let definition["type"] = Column::TYPE_TEXT;
-					break;
-				}
-
-				if memstr(columnType, "CHAR") {
-					let definition["type"] = Column::TYPE_CHAR,
-						definition["size"] = columnSize;
-					break;
-				}
-
-				let definition["type"] = Column::TYPE_TEXT;
-				break;
+			if columnTypeObject->isNumeric() {
+				let definition["isNumeric"] = true;
 			}
+            let definition["bindType"] = columnTypeObject->getBindType();
+
 
 			if oldColumn === null {
 				let definition["first"] = true;

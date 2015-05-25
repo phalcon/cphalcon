@@ -44,88 +44,33 @@ class Sqlite extends Dialect
 	 */
 	public function getColumnDefinition(<ColumnInterface> column) -> string
 	{
-		var columnSql, type, typeValues;
+		var columnSql,columnType, typeValues;
 
 		let columnSql = "";
-
-		let type = column->getType();
-		if typeof type == "string" {
-			let columnSql .= type;
-			let type = column->getTypeReference();
+		let columnType = column->getType(false);
+		
+		let columnSql = columnType->getDialect("sqlite");
+		if columnSql === false {
+			throw new Exception("Unrecognized sqlite data type");
 		}
-
-		switch type {
-
-			case Column::TYPE_INTEGER:
-				if empty columnSql {
-					let columnSql .= "INT";
+		let columnSql = str_replace("#size#",column->getSize(),columnSql);
+		let columnSql = str_replace("#scale#",column->getScale() ,columnSql);
+		
+		let typeValues = column->getTypeValues();
+		if !empty typeValues {
+			if typeof typeValues == "array" {
+				var value, valueSql;
+				let valueSql = "";
+				for value in typeValues {
+					let valueSql .= "\"" . addcslashes(value, "\"") . "\", ";
 				}
-				break;
-
-			case Column::TYPE_DATE:
-				if empty columnSql {
-					let columnSql .= "DATE";
-				}
-				break;
-
-			case Column::TYPE_VARCHAR:
-				if empty columnSql {
-					let columnSql .= "VARCHAR";
-				}
-				let columnSql .= "(" . column->getSize() . ")";
-				break;
-
-			case Column::TYPE_DECIMAL:
-				if empty columnSql {
-					let columnSql .= "NUMERIC";
-				}
-				let columnSql .= "(" . column->getSize() . "," . column->getScale() . ")";
-				break;
-
-			case Column::TYPE_DATETIME:
-				if empty columnSql {
-					let columnSql .= "TIMESTAMP";
-				}
-				break;
-
-			case Column::TYPE_CHAR:
-				if empty columnSql {
-					let columnSql .= "CHARACTER";
-				}
-				let columnSql .= "(" . column->getSize() . ")";
-				break;
-
-			case Column::TYPE_TEXT:
-				if empty columnSql {
-					let columnSql .= "TEXT";
-				}
-				break;
-
-			case Column::TYPE_FLOAT:
-				if empty columnSql {
-					let columnSql .= "FLOAT";
-				}
-				break;
-
-			default:
-				if empty columnSql {
-					throw new Exception("Unrecognized SQLite data type");
-				}
-
-				let typeValues = column->getTypeValues();
-				if !empty typeValues {
-					if typeof typeValues == "array" {
-						var value, valueSql;
-						let valueSql = "";
-						for value in typeValues {
-							let valueSql .= "\"" . addcslashes(value, "\"") . "\", ";
-						}
-						let columnSql .= "(" . substr(valueSql, 0, -2) . ")";
-					} else {
-						let columnSql .= "(\"" . addcslashes(typeValues, "\"") . "\")";
-					}
-				}
+				let columnSql = str_replace("#values#","(" . substr(valueSql, 0, -2) . ")",columnSql);
+				
+			} else {
+				let columnSql = str_replace("#values#","(\"" . addcslashes(typeValues, "\"") . "\")",columnSql);
+			}
 		}
+		
 
 		return columnSql;
 	}

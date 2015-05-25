@@ -84,7 +84,7 @@ class Sqlite extends PdoAdapter implements AdapterInterface
 	public function describeColumns(string table, string schema = null) -> <Column[]>
 	{
 		var columns, columnType, field, definition,
-			oldColumn, sizePattern, matches, matchOne, matchTwo, columnName;
+			oldColumn, sizePattern, matches, matchOne, matchTwo, columnName,pregMatches,columnTypeObject;
 
 		let oldColumn = null,
 			sizePattern = "#\\(([0-9]+)(?:,\\s*([0-9]+))*\\)#";
@@ -106,115 +106,20 @@ class Sqlite extends PdoAdapter implements AdapterInterface
 			 */
 			let columnType = field[2];
 
-			loop {
-
-				/**
-				 * Tinyint(1) is boolean
-				 */
-				if memstr(columnType, "tinyint(1)") {
-					let definition["type"] = Column::TYPE_BOOLEAN,
-						definition["bindType"] = Column::BIND_PARAM_BOOL,
-						columnType = "boolean"; // Change column type to skip size check
-					break;
-				}
-
-				/**
-				 * Smallint/Bigint/Integers/Int are int
-				 */
-				if memstr(columnType, "int") || memstr(columnType, "INT") {
-
-					let definition["type"] = Column::TYPE_INTEGER,
-						definition["isNumeric"] = true,
-						definition["bindType"] = Column::BIND_PARAM_INT;
-
-					if field[5] {
-						let definition["autoIncrement"] = true;
-					}
-					break;
-				}
-
-				/**
-				 * Varchar are varchars
-				 */
-				if memstr(columnType, "varchar") {
-					let definition["type"] = Column::TYPE_VARCHAR;
-					break;
-				}
-
-				/**
-				 * Date/Datetime are varchars
-				 */
-				if memstr(columnType, "date") {
-					let definition["type"] = Column::TYPE_DATE;
-					break;
-				}
-
-				/**
-				 * Timestamp as date
-				 */
-				if memstr(columnType, "timestamp") {
-					let definition["type"] = Column::TYPE_DATE;
-					break;
-				}
-
-				/**
-				 * Decimals are floats
-				 */
-				if memstr(columnType, "decimal") {
-					let definition["type"] = Column::TYPE_DECIMAL,
-						definition["isNumeric"] = true,
-						definition["bindType"] = Column::BIND_PARAM_DECIMAL;
-					break;
-				}
-
-				/**
-				 * Chars are chars
-				 */
-				if memstr(columnType, "char") {
-					let definition["type"] = Column::TYPE_CHAR;
-					break;
-				}
-
-				/**
-				 * Special type for datetime
-				 */
-				if memstr(columnType, "datetime") {
-					let definition["type"] = Column::TYPE_DATETIME;
-					break;
-				}
-
-				/**
-				 * Text are varchars
-				 */
-				if memstr(columnType, "text") {
-					let definition["type"] = Column::TYPE_TEXT;
-					break;
-				}
-
-				/**
-				 * Float/Smallfloats/Decimals are float
-				 */
-				if memstr(columnType, "float") {
-					let definition["type"] = Column::TYPE_FLOAT,
-						definition["isNumeric"] = true,
-						definition["bindType"] = Column::TYPE_DECIMAL;
-					break;
-				}
-
-				/**
-				 * Enum are treated as char
-				 */
-				if memstr(columnType, "enum") {
-					let definition["type"] = Column::TYPE_CHAR;
-					break;
-				}
-
-				/**
-				 * By default is string
-				 */
-				let definition["type"] = Column::TYPE_VARCHAR;
-				break;
+			preg_match("#[^(]*#",columnType,pregMatches);
+			let definition["type"] = Column::getColumnTypeByDialect("sqlite",pregMatches[0]);
+			
+			let columnTypeObject = Column::getColumnTypes(pregMatches[0]);
+			let columnTypeObject = {columnTypeObject}();
+			
+			
+			if columnTypeObject->isNumeric() {
+				let definition["isNumeric"] = true;
 			}
+            let definition["bindType"] = columnTypeObject->getBindType();
+
+
+			
 
 			/**
 			 * If the column type has a parentheses we try to get the column size from it

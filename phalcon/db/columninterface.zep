@@ -51,7 +51,7 @@ interface ColumnInterface
 	 *
 	 * @return int
 	 */
-	public function getType();
+	public function getType(onlyName = true);
 
 	/**
 	 * Returns column type reference

@@ -43,9 +43,8 @@ class Postgresql extends Dialect
 	 */
 	public function getColumnDefinition(<ColumnInterface> column) -> string
 	{
-		var size, columnType, columnSql, typeValues;
+		var columnType, columnSql, typeValues;
 
-		let size = column->getSize();
 		let columnType = column->getType(false);
 		let columnSql = "";
 		/*if typeof columnType == "string" {
@@ -54,7 +53,10 @@ class Postgresql extends Dialect
 		}*/
 
 		let columnSql = columnType->getDialect("postresql");
-		let columnSql = str_replace("#size#",size,columnSql);
+		if columnSql === false {
+			throw new Exception("Unrecognized Postgresql data type");
+		}
+		let columnSql = str_replace("#size#",column->getSize(),columnSql);
 		let columnSql = str_replace("#scale#",column->getScale() ,columnSql);
 		
 		let typeValues = column->getTypeValues();

@@ -706,7 +706,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 			for field, value in data {
 				if fetch type, dataTypes[field] {
 					if value !== null && value !== "" {
-						if type == Column::TYPE_VARCHAR {
+						if type == "varchar" {
 							/**
 							 * For varchar types we use LIKE operator
 							 */

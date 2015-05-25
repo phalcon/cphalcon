@@ -67,4 +67,7 @@ class Decimal extends ColumnType
 	 */
 	protected _isNumeric = true;
 
+	public function castValue(value) {
+		return floatval(value);
+	}
 }

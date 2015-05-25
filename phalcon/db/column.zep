@@ -50,51 +50,6 @@ class Column implements ColumnInterface
 {
 
 	/**
-	 * Integer abstract type
-	 */
-	const TYPE_INTEGER = "integer";
-
-	/**
-	 * Date abstract type
-	 */
-	const TYPE_DATE = "date";
-
-	/**
-	 * Varchar abstract type
-	 */
-	const TYPE_VARCHAR = "varchar";
-
-	/**
-	 * Decimal abstract type
-	 */
-	const TYPE_DECIMAL = "decimal";
-
-	/**
-	 * Datetime abstract type
-	 */
-	const TYPE_DATETIME = "datetime";
-
-	/**
-	 * Char abstract type
-	 */
-	const TYPE_CHAR = "char";
-
-	/**
-	 * Text abstract data type
-	 */
-	const TYPE_TEXT = "text";
-
-	/**
-	 * Float abstract data type
-	 */
-	const TYPE_FLOAT = "float";
-
-	/**
-	 * Boolean abstract data type
-	 */
-	const TYPE_BOOLEAN = "boolean";
-
-	/**
 	 * Bind Type Null
 	 */
 	const BIND_PARAM_NULL = 0;
@@ -237,10 +192,14 @@ class Column implements ColumnInterface
 		
 	}
 	
-	public static function getColumnTypes() {
+	public static function getColumnTypes( name = null ) {
 		self::initialize();
 		
-		return self::columnTypes;
+		if name !== null {
+			return isset self::columnTypes[name] ? self::columnTypes[name] : false;
+		} else {
+			return self::columnTypes;
+		}
 	}
 	
 	public static function initialize() {
@@ -414,9 +373,9 @@ class Column implements ColumnInterface
 		/**
 		 * The bind type to cast the field when passing it to PDO
 		 */
-		if fetch bindType, definition["bindType"] {
+		//if fetch bindType, definition["bindType"] {
 			let this->_bindType = this->_type->getBindType();//bindType;
-		}
+		//}
 
 	}
 	
@@ -536,9 +495,9 @@ class Column implements ColumnInterface
 		}
 
 		if fetch scale, data["_scale"] {
-			if definition["type"] == self::TYPE_INTEGER || definition["type"] == self::TYPE_FLOAT || definition["type"] == self::TYPE_DECIMAL {
+			//if definition["type"] == self::TYPE_INTEGER || definition["type"] == self::TYPE_FLOAT || definition["type"] == self::TYPE_DECIMAL {
 				let definition["scale"] = scale;
-			}
+			//}
 		}
 
 		if fetch defaultValue, data["_default"] {

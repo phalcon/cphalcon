@@ -42,114 +42,38 @@ class MySQL extends Dialect
 	 */
 	public function getColumnDefinition(<ColumnInterface> column) -> string
 	{
-		var columnSql, size, scale, type, typeValues;
+		var columnSql, columnType, typeValues;
 
+		let columnType = column->getType(false);
 		let columnSql = "";
-
-		let type = column->getType();
-		if typeof type == "string" {
-			let columnSql .= type;
-			let type = column->getTypeReference();
+		
+		
+		let columnSql = columnType->getDialect("mysql");
+		if columnSql === false {
+			throw new Exception("Unrecognized Mysql data type");
 		}
-
-		switch type {
-
-			case Column::TYPE_INTEGER:
-				if empty columnSql {
-					let columnSql .= "INT";
-				}
-				let columnSql .= "(" . column->getSize() . ")";
-				if column->isUnsigned() {
-					let columnSql .= " UNSIGNED";
-				}
-				break;
-
-			case Column::TYPE_DATE:
-				if empty columnSql {
-					let columnSql .= "DATE";
-				}
-				break;
-
-			case Column::TYPE_VARCHAR:
-				if empty columnSql {
-					let columnSql .= "VARCHAR";
-				}
-				let columnSql .= "(" . column->getSize() . ")";
-				break;
-
-			case Column::TYPE_DECIMAL:
-				if empty columnSql {
-					let columnSql .= "DECIMAL";
-				}
-				let columnSql .= "(" . column->getSize() . "," . column->getScale() . ")";
-				if column->isUnsigned() {
-					let columnSql .= " UNSIGNED";
-				}
-				break;
-
-			case Column::TYPE_DATETIME:
-				if empty columnSql {
-					let columnSql .= "DATETIME";
-				}
-				break;
-
-			case Column::TYPE_CHAR:
-				if empty columnSql {
-					let columnSql .= "CHAR";
-				}
-				let columnSql .= "(" . column->getSize() . ")";
-				break;
-
-			case Column::TYPE_TEXT:
-				if empty columnSql {
-					let columnSql .= "TEXT";
-				}
-				break;
-
-			case Column::TYPE_FLOAT:
-				if empty columnSql {
-					let columnSql .= "FLOAT";
-				}
-				let size = column->getSize();
-				if size {
-					let scale = column->getScale(),
-						columnSql .= "(" . size;
-					if scale {
-						let columnSql .= "," . scale . ")";
-					} else {
-						let columnSql .= ")";
-					}
-				}
-				if column->isUnsigned() {
-					let columnSql .= " UNSIGNED";
-				}
-				break;
-
-			case Column::TYPE_BOOLEAN:
-				if empty columnSql {
-					let columnSql .= "TINYINT(1)";
-				}
-				break;
-
-			default:
-				if empty columnSql {
-					throw new Exception("Unrecognized MySQL data type");
-				}
-
-				let typeValues = column->getTypeValues();
-				if !empty typeValues {
-					if typeof typeValues == "array" {
-						var value, valueSql;
-						let valueSql = "";
-						for value in typeValues {
-							let valueSql .= "\"" . addcslashes(value, "\"") . "\", ";
-						}
-						let columnSql .= "(" . substr(valueSql, 0, -2) . ")";
-					} else {
-						let columnSql .= "(\"" . addcslashes(typeValues, "\"") . "\")";
-					}
-				}
+		let columnSql = str_replace("#size#",column->getSize(),columnSql);
+		let columnSql = str_replace("#scale#",column->getScale() ,columnSql);
+		
+		if column->isUnsigned() {
+			let columnSql .= " UNSIGNED";
 		}
+		
+		let typeValues = column->getTypeValues();
+		if !empty typeValues {
+			if typeof typeValues == "array" {
+				var value, valueSql;
+				let valueSql = "";
+				for value in typeValues {
+					let valueSql .= "\"" . addcslashes(value, "\"") . "\", ";
+				}
+				let columnSql = str_replace("#values#","(" . substr(valueSql, 0, -2) . ")",columnSql);
+				
+			} else {
+				let columnSql = str_replace("#values#","(\"" . addcslashes(typeValues, "\"") . "\")",columnSql);
+			}
+		}
+		
 
 		return columnSql;
 	}

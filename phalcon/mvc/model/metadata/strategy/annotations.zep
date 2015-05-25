@@ -36,7 +36,7 @@ class Annotations implements StrategyInterface
 		var annotations, className, reflection, propertiesAnnotations;
 		var property, propAnnotations, columnAnnotation, columnName, feature;
 		var fieldTypes, fieldBindTypes, numericTyped, primaryKeys, nonPrimaryKeys, identityField,
-			notNull, attributes, automaticDefault, defaultValues, defaultValue;
+			notNull, attributes, automaticDefault, defaultValues, defaultValue,columnTypeClassName,columnType;
 
 		if typeof dependencyInjector != "object" {
 			throw new Exception("The dependency injector is invalid");
@@ -98,47 +98,23 @@ class Annotations implements StrategyInterface
 			 * Check if annotation has the 'type' named parameter
 			 */
 			let feature = columnAnnotation->getNamedParameter("type");
-
-			switch feature {
-				case "integer":
-					let fieldTypes[property] = Column::TYPE_INTEGER,
-						fieldBindTypes[columnName] = Column::BIND_PARAM_INT,
-						numericTyped[columnName] = true;
-					break;
-
-				case "decimal":
-					let fieldTypes[columnName] = Column::TYPE_DECIMAL,
-						fieldBindTypes[columnName] = Column::BIND_PARAM_DECIMAL,
-						numericTyped[columnName] = true;
-					break;
-
-				case "boolean":
-					let fieldTypes[columnName] = Column::TYPE_BOOLEAN,
-						fieldBindTypes[columnName] = Column::BIND_PARAM_BOOL;
-					break;
-
-				case "date":
-					let fieldTypes[columnName] = Column::TYPE_DATE,
-						fieldBindTypes[columnName] = Column::BIND_PARAM_STR;
-					break;
-
-				case "datetime":
-					let fieldTypes[columnName] = Column::TYPE_DATETIME,
-						fieldBindTypes[columnName] = Column::BIND_PARAM_STR;
-					break;
-
-				case "text":
-					let fieldTypes[columnName] = Column::TYPE_TEXT,
-						fieldBindTypes[columnName] = Column::BIND_PARAM_STR;
-					break;
-
-				default:
-					/**
-					 * By default all columns are varchar/string
-					 */
-					let fieldTypes[columnName] = Column::TYPE_VARCHAR,
-						fieldBindTypes[columnName] = Column::BIND_PARAM_STR;
+			
+			let columnTypeClassName = Column::getColumnTypes(feature);
+			
+			if columnTypeClassName !== false {
+				let columnType = new {columnTypeClassName}();
+			} else {
+				let columnTypeClassName = Column::getColumnTypes("varchar");
+				let columnType = new {columnTypeClassName}();
 			}
+			
+			let fieldTypes[property] = columnType->getName(),
+				fieldBindTypes[columnName] = columnType->getBindType();
+				
+			if columnType->isNumeric() {
+				let numericTyped[columnName] = true;
+			}
+			
 
 			/**
 			 * All columns marked with the 'Primary' annotation are considered primary keys
