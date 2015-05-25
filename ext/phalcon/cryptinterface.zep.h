@@ -48,5 +48,5 @@ ZEPHIR_INIT_FUNCS(phalcon_cryptinterface_method_entry) {
 	PHP_ABSTRACT_ME(Phalcon_CryptInterface, decryptBase64, arginfo_phalcon_cryptinterface_decryptbase64)
 	PHP_ABSTRACT_ME(Phalcon_CryptInterface, getAvailableCiphers, NULL)
 	PHP_ABSTRACT_ME(Phalcon_CryptInterface, getAvailableModes, NULL)
-  PHP_FE_END
+	PHP_FE_END
 };

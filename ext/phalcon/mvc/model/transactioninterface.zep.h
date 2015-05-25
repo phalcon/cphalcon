@@ -36,5 +36,5 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_model_transactioninterface_method_entry) {
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_TransactionInterface, getMessages, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_TransactionInterface, isValid, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_TransactionInterface, setRollbackedRecord, arginfo_phalcon_mvc_model_transactioninterface_setrollbackedrecord)
-  PHP_FE_END
+	PHP_FE_END
 };

@@ -572,7 +572,7 @@ zval* zephir_fetch_property_this_quick(zval *object, const char *property_name, 
 				}
 			} else if (UNEXPECTED(!zobj->properties)) {
 				flag = 1;
-			} else if (UNEXPECTED(zephir_hash_quick_find(zobj->properties, property_info->name, property_info->name_length + 1, property_info->h, (void **) &zv) == FAILURE)) {
+			} else if (UNEXPECTED(zephir_hash_quick_find(zobj->properties, property_info->name, property_info->name_length+1, property_info->h, (void **) &zv) == FAILURE)) {
 				flag = 2;
 			} else {
 				flag = 0;
@@ -580,7 +580,7 @@ zval* zephir_fetch_property_this_quick(zval *object, const char *property_name, 
 
 			if (unlikely(flag) && zobj->properties) {
 				if (
-					(flag == 2 || zephir_hash_quick_find(zobj->properties, property_info->name, property_info->name_length + 1, property_info->h, (void **) &zv) == FAILURE)
+					(flag == 2 || zephir_hash_quick_find(zobj->properties, property_info->name, property_info->name_length+1, property_info->h, (void **) &zv) == FAILURE)
 					&& zv && *zv
 				) {
 					flag = 0;
@@ -593,6 +593,7 @@ zval* zephir_fetch_property_this_quick(zval *object, const char *property_name, 
 			}
 
 			#endif
+
 		}
 
 		EG(scope) = old_scope;

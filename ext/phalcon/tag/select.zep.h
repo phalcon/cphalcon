@@ -29,5 +29,5 @@ ZEPHIR_INIT_FUNCS(phalcon_tag_select_method_entry) {
 	PHP_ME(Phalcon_Tag_Select, selectField, arginfo_phalcon_tag_select_selectfield, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Tag_Select, _optionsFromResultset, arginfo_phalcon_tag_select__optionsfromresultset, ZEND_ACC_PRIVATE|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Tag_Select, _optionsFromArray, arginfo_phalcon_tag_select__optionsfromarray, ZEND_ACC_PRIVATE|ZEND_ACC_STATIC)
-  PHP_FE_END
+	PHP_FE_END
 };

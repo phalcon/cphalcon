@@ -48,7 +48,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_Identical) {
  */
 PHP_METHOD(Phalcon_Validation_Validator_Identical, validate) {
 
-	zephir_fcall_cache_entry *_5 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *field = NULL;
 	zval *validation, *field_param = NULL, *message = NULL, *label = NULL, *replacePairs, *_0 = NULL, *_1 = NULL, *_2 = NULL, *_3 = NULL, *_4;
@@ -103,11 +102,11 @@ PHP_METHOD(Phalcon_Validation_Validator_Identical, validate) {
 		}
 		ZEPHIR_INIT_NVAR(_2);
 		object_init_ex(_2, phalcon_validation_message_ce);
-		ZEPHIR_CALL_FUNCTION(&_3, "strtr", NULL, 68, message, replacePairs);
+		ZEPHIR_CALL_FUNCTION(&_3, "strtr", NULL, 73, message, replacePairs);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(_4);
 		ZVAL_STRING(_4, "Identical", ZEPHIR_TEMP_PARAM_COPY);
-		ZEPHIR_CALL_METHOD(NULL, _2, "__construct", &_5, 342, _3, field, _4);
+		ZEPHIR_CALL_METHOD(NULL, _2, "__construct", NULL, 425, _3, field, _4);
 		zephir_check_temp_parameter(_4);
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, 0, _2);

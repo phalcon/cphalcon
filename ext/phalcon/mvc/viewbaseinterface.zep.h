@@ -35,5 +35,5 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_viewbaseinterface_method_entry) {
 	PHP_ABSTRACT_ME(Phalcon_Mvc_ViewBaseInterface, cache, arginfo_phalcon_mvc_viewbaseinterface_cache)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_ViewBaseInterface, setContent, arginfo_phalcon_mvc_viewbaseinterface_setcontent)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_ViewBaseInterface, getContent, NULL)
-  PHP_FE_END
+	PHP_FE_END
 };

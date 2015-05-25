@@ -93,5 +93,5 @@ ZEPHIR_INIT_FUNCS(phalcon_image_adapterinterface_method_entry) {
 	PHP_ABSTRACT_ME(Phalcon_Image_AdapterInterface, pixelate, arginfo_phalcon_image_adapterinterface_pixelate)
 	PHP_ABSTRACT_ME(Phalcon_Image_AdapterInterface, save, arginfo_phalcon_image_adapterinterface_save)
 	PHP_ABSTRACT_ME(Phalcon_Image_AdapterInterface, render, arginfo_phalcon_image_adapterinterface_render)
-  PHP_FE_END
+	PHP_FE_END
 };

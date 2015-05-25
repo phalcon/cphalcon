@@ -38,5 +38,5 @@ ZEPHIR_INIT_FUNCS(phalcon_http_response_cookiesinterface_method_entry) {
 	PHP_ABSTRACT_ME(Phalcon_Http_Response_CookiesInterface, delete, arginfo_phalcon_http_response_cookiesinterface_delete)
 	PHP_ABSTRACT_ME(Phalcon_Http_Response_CookiesInterface, send, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Http_Response_CookiesInterface, reset, NULL)
-  PHP_FE_END
+	PHP_FE_END
 };

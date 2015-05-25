@@ -105,5 +105,5 @@ ZEPHIR_INIT_FUNCS(phalcon_http_requestinterface_method_entry) {
 	PHP_ABSTRACT_ME(Phalcon_Http_RequestInterface, getBestLanguage, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Http_RequestInterface, getBasicAuth, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Http_RequestInterface, getDigestAuth, NULL)
-  PHP_FE_END
+	PHP_FE_END
 };

@@ -19,5 +19,5 @@ ZEND_END_ARG_INFO()
 ZEPHIR_INIT_FUNCS(phalcon_mvc_model_metadata_strategy_annotations_method_entry) {
 	PHP_ME(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getMetaData, arginfo_phalcon_mvc_model_metadata_strategy_annotations_getmetadata, ZEND_ACC_PUBLIC|ZEND_ACC_FINAL)
 	PHP_ME(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getColumnMaps, arginfo_phalcon_mvc_model_metadata_strategy_annotations_getcolumnmaps, ZEND_ACC_PUBLIC|ZEND_ACC_FINAL)
-  PHP_FE_END
+	PHP_FE_END
 };

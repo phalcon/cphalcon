@@ -75,5 +75,5 @@ ZEPHIR_INIT_FUNCS(phalcon_cache_backend_file_method_entry) {
 	PHP_ME(Phalcon_Cache_Backend_File, flush, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Cache_Backend_File, getKey, arginfo_phalcon_cache_backend_file_getkey, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Cache_Backend_File, useSafeKey, arginfo_phalcon_cache_backend_file_usesafekey, ZEND_ACC_PUBLIC)
-  PHP_FE_END
+	PHP_FE_END
 };

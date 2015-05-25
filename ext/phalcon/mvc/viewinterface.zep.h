@@ -82,5 +82,5 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_viewinterface_method_entry) {
 	PHP_ABSTRACT_ME(Phalcon_Mvc_ViewInterface, enable, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_ViewInterface, reset, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_ViewInterface, isDisabled, NULL)
-  PHP_FE_END
+	PHP_FE_END
 };

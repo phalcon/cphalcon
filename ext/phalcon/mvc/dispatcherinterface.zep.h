@@ -22,5 +22,5 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_dispatcherinterface_method_entry) {
 	PHP_ABSTRACT_ME(Phalcon_Mvc_DispatcherInterface, getControllerName, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_DispatcherInterface, getLastController, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_DispatcherInterface, getActiveController, NULL)
-  PHP_FE_END
+	PHP_FE_END
 };

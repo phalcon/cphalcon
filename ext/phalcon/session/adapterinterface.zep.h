@@ -36,5 +36,5 @@ ZEPHIR_INIT_FUNCS(phalcon_session_adapterinterface_method_entry) {
 	PHP_ABSTRACT_ME(Phalcon_Session_AdapterInterface, getId, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Session_AdapterInterface, isStarted, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Session_AdapterInterface, destroy, NULL)
-  PHP_FE_END
+	PHP_FE_END
 };

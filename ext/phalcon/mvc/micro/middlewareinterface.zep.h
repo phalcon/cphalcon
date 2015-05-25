@@ -9,5 +9,5 @@ ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_mvc_micro_middlewareinterface_method_entry) {
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Micro_MiddlewareInterface, call, arginfo_phalcon_mvc_micro_middlewareinterface_call)
-  PHP_FE_END
+	PHP_FE_END
 };

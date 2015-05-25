@@ -19,5 +19,5 @@ ZEPHIR_INIT_FUNCS(phalcon_db_indexinterface_method_entry) {
 	PHP_ABSTRACT_ME(Phalcon_Db_IndexInterface, getColumns, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Db_IndexInterface, getType, NULL)
 	ZEND_FENTRY(__set_state, NULL, arginfo_phalcon_db_indexinterface___set_state, ZEND_ACC_STATIC|ZEND_ACC_ABSTRACT|ZEND_ACC_PUBLIC)
-  PHP_FE_END
+	PHP_FE_END
 };

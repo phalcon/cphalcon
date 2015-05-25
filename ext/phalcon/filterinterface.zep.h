@@ -17,5 +17,5 @@ ZEPHIR_INIT_FUNCS(phalcon_filterinterface_method_entry) {
 	PHP_ABSTRACT_ME(Phalcon_FilterInterface, add, arginfo_phalcon_filterinterface_add)
 	PHP_ABSTRACT_ME(Phalcon_FilterInterface, sanitize, arginfo_phalcon_filterinterface_sanitize)
 	PHP_ABSTRACT_ME(Phalcon_FilterInterface, getFilters, NULL)
-  PHP_FE_END
+	PHP_FE_END
 };

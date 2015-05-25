@@ -28,5 +28,5 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_urlinterface_method_entry) {
 	PHP_ABSTRACT_ME(Phalcon_Mvc_UrlInterface, getBasePath, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_UrlInterface, get, arginfo_phalcon_mvc_urlinterface_get)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_UrlInterface, path, arginfo_phalcon_mvc_urlinterface_path)
-  PHP_FE_END
+	PHP_FE_END
 };

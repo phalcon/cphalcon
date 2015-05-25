@@ -20,5 +20,5 @@ ZEPHIR_INIT_FUNCS(phalcon_http_request_fileinterface_method_entry) {
 	PHP_ABSTRACT_ME(Phalcon_Http_Request_FileInterface, getType, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Http_Request_FileInterface, getRealType, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Http_Request_FileInterface, moveTo, arginfo_phalcon_http_request_fileinterface_moveto)
-  PHP_FE_END
+	PHP_FE_END
 };

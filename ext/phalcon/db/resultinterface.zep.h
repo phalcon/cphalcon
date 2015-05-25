@@ -29,5 +29,5 @@ ZEPHIR_INIT_FUNCS(phalcon_db_resultinterface_method_entry) {
 	PHP_ABSTRACT_ME(Phalcon_Db_ResultInterface, dataSeek, arginfo_phalcon_db_resultinterface_dataseek)
 	PHP_ABSTRACT_ME(Phalcon_Db_ResultInterface, setFetchMode, arginfo_phalcon_db_resultinterface_setfetchmode)
 	PHP_ABSTRACT_ME(Phalcon_Db_ResultInterface, getInternalResult, NULL)
-  PHP_FE_END
+	PHP_FE_END
 };

@@ -64,5 +64,5 @@ ZEPHIR_INIT_FUNCS(phalcon_cache_backend_memory_method_entry) {
 	PHP_ME(Phalcon_Cache_Backend_Memory, flush, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Cache_Backend_Memory, serialize, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Cache_Backend_Memory, unserialize, arginfo_phalcon_cache_backend_memory_unserialize, ZEND_ACC_PUBLIC)
-  PHP_FE_END
+	PHP_FE_END
 };

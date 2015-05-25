@@ -21,5 +21,5 @@ ZEPHIR_INIT_FUNCS(phalcon_paginator_adapterinterface_method_entry) {
 	PHP_ABSTRACT_ME(Phalcon_Paginator_AdapterInterface, getPaginate, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Paginator_AdapterInterface, setLimit, arginfo_phalcon_paginator_adapterinterface_setlimit)
 	PHP_ABSTRACT_ME(Phalcon_Paginator_AdapterInterface, getLimit, NULL)
-  PHP_FE_END
+	PHP_FE_END
 };

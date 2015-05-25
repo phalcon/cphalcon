@@ -9,5 +9,5 @@ ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_filter_userfilterinterface_method_entry) {
 	PHP_ABSTRACT_ME(Phalcon_Filter_UserFilterInterface, filter, arginfo_phalcon_filter_userfilterinterface_filter)
-  PHP_FE_END
+	PHP_FE_END
 };
