@@ -20,6 +20,7 @@
 namespace Phalcon\Db;
 
 use Phalcon\Db;
+use Phalcon\Db\ColumnInterface;
 use Phalcon\Events\EventsAwareInterface;
 use Phalcon\Events\ManagerInterface;
 
