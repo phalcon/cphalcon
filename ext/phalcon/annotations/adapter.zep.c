@@ -67,7 +67,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter, getReader) {
 		ZEPHIR_INIT_VAR(_1);
 		object_init_ex(_1, phalcon_annotations_reader_ce);
 		if (zephir_has_constructor(_1 TSRMLS_CC)) {
-			ZEPHIR_CALL_METHOD(NULL, _1, "__construct", NULL);
+			ZEPHIR_CALL_METHOD(NULL, _1, "__construct", NULL, 0);
 			zephir_check_call_status();
 		}
 		zephir_update_property_this(this_ptr, SL("_reader"), _1 TSRMLS_CC);
@@ -83,7 +83,6 @@ PHP_METHOD(Phalcon_Annotations_Adapter, getReader) {
  */
 PHP_METHOD(Phalcon_Annotations_Adapter, get) {
 
-	zephir_nts_static zephir_fcall_cache_entry *_2 = NULL;
 	zend_bool _1;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *className, *annotations, *classAnnotations = NULL, *parsedAnnotations = NULL, *realClassName = NULL, *reader = NULL, *_0;
@@ -107,24 +106,24 @@ PHP_METHOD(Phalcon_Annotations_Adapter, get) {
 			RETURN_CTOR(_0);
 		}
 	}
-	ZEPHIR_CALL_METHOD(&classAnnotations, this_ptr, "read", NULL, realClassName);
+	ZEPHIR_CALL_METHOD(&classAnnotations, this_ptr, "read", NULL, 0, realClassName);
 	zephir_check_call_status();
 	_1 = Z_TYPE_P(classAnnotations) == IS_NULL;
 	if (!(_1)) {
 		_1 = ZEPHIR_IS_FALSE_IDENTICAL(classAnnotations);
 	}
 	if (_1) {
-		ZEPHIR_CALL_METHOD(&reader, this_ptr, "getreader", NULL);
+		ZEPHIR_CALL_METHOD(&reader, this_ptr, "getreader", NULL, 0);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(&parsedAnnotations, reader, "parse", NULL, realClassName);
+		ZEPHIR_CALL_METHOD(&parsedAnnotations, reader, "parse", NULL, 0, realClassName);
 		zephir_check_call_status();
 		if (Z_TYPE_P(parsedAnnotations) == IS_ARRAY) {
 			ZEPHIR_INIT_NVAR(classAnnotations);
 			object_init_ex(classAnnotations, phalcon_annotations_reflection_ce);
-			ZEPHIR_CALL_METHOD(NULL, classAnnotations, "__construct", &_2, parsedAnnotations);
+			ZEPHIR_CALL_METHOD(NULL, classAnnotations, "__construct", NULL, 5, parsedAnnotations);
 			zephir_check_call_status();
 			zephir_update_property_array(this_ptr, SL("_annotations"), realClassName, classAnnotations TSRMLS_CC);
-			ZEPHIR_CALL_METHOD(NULL, this_ptr, "write", NULL, realClassName, classAnnotations);
+			ZEPHIR_CALL_METHOD(NULL, this_ptr, "write", NULL, 0, realClassName, classAnnotations);
 			zephir_check_call_status();
 		}
 	}
@@ -147,10 +146,10 @@ PHP_METHOD(Phalcon_Annotations_Adapter, getMethods) {
 	zephir_get_strval(className, className_param);
 
 
-	ZEPHIR_CALL_METHOD(&classAnnotations, this_ptr, "get", NULL, className);
+	ZEPHIR_CALL_METHOD(&classAnnotations, this_ptr, "get", NULL, 0, className);
 	zephir_check_call_status();
 	if (Z_TYPE_P(classAnnotations) == IS_OBJECT) {
-		ZEPHIR_RETURN_CALL_METHOD(classAnnotations, "getmethodsannotations", NULL);
+		ZEPHIR_RETURN_CALL_METHOD(classAnnotations, "getmethodsannotations", NULL, 0);
 		zephir_check_call_status();
 		RETURN_MM();
 	}
@@ -164,7 +163,6 @@ PHP_METHOD(Phalcon_Annotations_Adapter, getMethods) {
  */
 PHP_METHOD(Phalcon_Annotations_Adapter, getMethod) {
 
-	zephir_nts_static zephir_fcall_cache_entry *_0 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *className_param = NULL, *methodName_param = NULL, *classAnnotations = NULL, *methods = NULL, *method;
 	zval *className = NULL, *methodName = NULL;
@@ -176,10 +174,10 @@ PHP_METHOD(Phalcon_Annotations_Adapter, getMethod) {
 	zephir_get_strval(methodName, methodName_param);
 
 
-	ZEPHIR_CALL_METHOD(&classAnnotations, this_ptr, "get", NULL, className);
+	ZEPHIR_CALL_METHOD(&classAnnotations, this_ptr, "get", NULL, 0, className);
 	zephir_check_call_status();
 	if (Z_TYPE_P(classAnnotations) == IS_OBJECT) {
-		ZEPHIR_CALL_METHOD(&methods, classAnnotations, "getmethodsannotations", NULL);
+		ZEPHIR_CALL_METHOD(&methods, classAnnotations, "getmethodsannotations", NULL, 0);
 		zephir_check_call_status();
 		if (Z_TYPE_P(methods) == IS_ARRAY) {
 			if (zephir_array_isset_fetch(&method, methods, methodName, 1 TSRMLS_CC)) {
@@ -188,7 +186,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter, getMethod) {
 		}
 	}
 	object_init_ex(return_value, phalcon_annotations_collection_ce);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", &_0);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 6);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -209,10 +207,10 @@ PHP_METHOD(Phalcon_Annotations_Adapter, getProperties) {
 	zephir_get_strval(className, className_param);
 
 
-	ZEPHIR_CALL_METHOD(&classAnnotations, this_ptr, "get", NULL, className);
+	ZEPHIR_CALL_METHOD(&classAnnotations, this_ptr, "get", NULL, 0, className);
 	zephir_check_call_status();
 	if (Z_TYPE_P(classAnnotations) == IS_OBJECT) {
-		ZEPHIR_RETURN_CALL_METHOD(classAnnotations, "getpropertiesannotations", NULL);
+		ZEPHIR_RETURN_CALL_METHOD(classAnnotations, "getpropertiesannotations", NULL, 0);
 		zephir_check_call_status();
 		RETURN_MM();
 	}
@@ -226,7 +224,6 @@ PHP_METHOD(Phalcon_Annotations_Adapter, getProperties) {
  */
 PHP_METHOD(Phalcon_Annotations_Adapter, getProperty) {
 
-	zephir_nts_static zephir_fcall_cache_entry *_0 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *className_param = NULL, *propertyName_param = NULL, *classAnnotations = NULL, *properties = NULL, *property;
 	zval *className = NULL, *propertyName = NULL;
@@ -238,10 +235,10 @@ PHP_METHOD(Phalcon_Annotations_Adapter, getProperty) {
 	zephir_get_strval(propertyName, propertyName_param);
 
 
-	ZEPHIR_CALL_METHOD(&classAnnotations, this_ptr, "get", NULL, className);
+	ZEPHIR_CALL_METHOD(&classAnnotations, this_ptr, "get", NULL, 0, className);
 	zephir_check_call_status();
 	if (Z_TYPE_P(classAnnotations) == IS_OBJECT) {
-		ZEPHIR_CALL_METHOD(&properties, classAnnotations, "getpropertiesannotations", NULL);
+		ZEPHIR_CALL_METHOD(&properties, classAnnotations, "getpropertiesannotations", NULL, 0);
 		zephir_check_call_status();
 		if (Z_TYPE_P(properties) == IS_ARRAY) {
 			if (zephir_array_isset_fetch(&property, properties, propertyName, 1 TSRMLS_CC)) {
@@ -250,7 +247,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter, getProperty) {
 		}
 	}
 	object_init_ex(return_value, phalcon_annotations_collection_ce);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", &_0);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 6);
 	zephir_check_call_status();
 	RETURN_MM();
 

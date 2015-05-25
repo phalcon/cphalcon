@@ -163,5 +163,5 @@ ZEPHIR_INIT_FUNCS(phalcon_forms_form_method_entry) {
 	PHP_ME(Phalcon_Forms_Form, key, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Forms_Form, next, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Forms_Form, valid, NULL, ZEND_ACC_PUBLIC)
-  PHP_FE_END
+	PHP_FE_END
 };

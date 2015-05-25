@@ -61,5 +61,5 @@ ZEPHIR_INIT_FUNCS(phalcon_dispatcherinterface_method_entry) {
 	PHP_ABSTRACT_ME(Phalcon_DispatcherInterface, getReturnedValue, NULL)
 	PHP_ABSTRACT_ME(Phalcon_DispatcherInterface, dispatch, NULL)
 	PHP_ABSTRACT_ME(Phalcon_DispatcherInterface, forward, arginfo_phalcon_dispatcherinterface_forward)
-  PHP_FE_END
+	PHP_FE_END
 };

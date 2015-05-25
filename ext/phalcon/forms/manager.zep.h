@@ -31,5 +31,5 @@ ZEPHIR_INIT_FUNCS(phalcon_forms_manager_method_entry) {
 	PHP_ME(Phalcon_Forms_Manager, get, arginfo_phalcon_forms_manager_get, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Forms_Manager, has, arginfo_phalcon_forms_manager_has, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Forms_Manager, set, arginfo_phalcon_forms_manager_set, ZEND_ACC_PUBLIC)
-  PHP_FE_END
+	PHP_FE_END
 };

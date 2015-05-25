@@ -29,5 +29,5 @@ ZEPHIR_INIT_FUNCS(phalcon_filter_method_entry) {
 	PHP_ME(Phalcon_Filter, sanitize, arginfo_phalcon_filter_sanitize, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Filter, _sanitize, arginfo_phalcon_filter__sanitize, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Filter, getFilters, NULL, ZEND_ACC_PUBLIC)
-  PHP_FE_END
+	PHP_FE_END
 };

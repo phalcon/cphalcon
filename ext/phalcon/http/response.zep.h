@@ -127,5 +127,5 @@ ZEPHIR_INIT_FUNCS(phalcon_http_response_method_entry) {
 	PHP_ME(Phalcon_Http_Response, sendCookies, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Response, send, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Response, setFileToSend, arginfo_phalcon_http_response_setfiletosend, ZEND_ACC_PUBLIC)
-  PHP_FE_END
+	PHP_FE_END
 };

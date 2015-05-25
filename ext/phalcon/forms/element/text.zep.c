@@ -39,7 +39,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Forms_Element_Text) {
 PHP_METHOD(Phalcon_Forms_Element_Text, render) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zephir_nts_static zephir_fcall_cache_entry *_0 = NULL;
+	zephir_fcall_cache_entry *_0 = NULL;
 	zval *attributes = NULL, *_1 = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -50,9 +50,9 @@ PHP_METHOD(Phalcon_Forms_Element_Text, render) {
 	}
 
 
-	ZEPHIR_CALL_METHOD(&_1, this_ptr, "prepareattributes", NULL, attributes);
+	ZEPHIR_CALL_METHOD(&_1, this_ptr, "prepareattributes", NULL, 0, attributes);
 	zephir_check_call_status();
-	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_tag_ce, "textfield", &_0, _1);
+	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_tag_ce, "textfield", &_0, 184, _1);
 	zephir_check_call_status();
 	RETURN_MM();
 

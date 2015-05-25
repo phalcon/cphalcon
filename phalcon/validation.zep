@@ -50,15 +50,10 @@ class Validation extends Injectable
 
 	/**
 	 * Phalcon\Validation constructor
-	 *
-	 * @param array validators
 	 */
-	public function __construct(var validators = null)
+	public function __construct(array validators = null)
 	{
-		if typeof validators != "null" {
-			if typeof validators != "array" {
-				throw new Exception("Validators must be an array");
-			}
+		if typeof validators == "array" {
 			let this->_validators = validators;
 		}
 
@@ -110,12 +105,8 @@ class Validation extends Injectable
 
 		let this->_messages = messages;
 
-		if typeof data == "array" {
+		if typeof data == "array" || typeof data == "object" {
 			let this->_data = data;
-		} else {
-			if typeof data == "object" {
-				let this->_data = data;
-			}
 		}
 
 		for scope in validators {
@@ -188,7 +179,7 @@ class Validation extends Injectable
 	 * Adds filters to the field
 	 *
 	 * @param string field
-	 * @param array|string field
+	 * @param array|string filters
 	 * @return Phalcon\Validation
 	 */
 	public function setFilters(string field, filters) -> <Validation>
@@ -203,17 +194,20 @@ class Validation extends Injectable
 	 * @param string field
 	 * @return mixed
 	 */
-	public function getFilters(var field = null)
+	public function getFilters(string field = null)
 	{
 		var filters, fieldFilters;
 		let filters = this->_filters;
-		if typeof field == "string" {
-			if fetch fieldFilters, filters[field] {
-				return fieldFilters;
-			}
+
+		if typeof field == "null" {
+			return filters;
+		}
+
+		if !fetch fieldFilters, filters[field] {
 			return null;
 		}
-		return filters;
+
+		return fieldFilters;
 	}
 
 	/**
@@ -236,21 +230,10 @@ class Validation extends Injectable
 
 	/**
 	 * Adds default messages to validators
-	 *
-	 * @param array messages
-	 * @return array
 	 */
-	public function setDefaultMessages(messages = null)
+	public function setDefaultMessages(array messages = []) -> array
 	{
 		var defaultMessages;
-
-		if typeof messages == "null" {
-			let messages = [];
-		}
-
-		if typeof messages != "array" {
-			throw new Exception("Messages must be an array");
-		}
 
 		let defaultMessages = [
 			"Alnum": "Field :field must contain only letters and numbers",
@@ -286,10 +269,12 @@ class Validation extends Injectable
 	 * Get default message for validator type
 	 *
 	 * @param string type
-	 * @return string
 	 */
-	public function getDefaultMessage(string! type)
+	public function getDefaultMessage(string! type) -> string
 	{
+		if !isset this->_defaultMessages[type] {
+			return "";
+		}
 		return this->_defaultMessages[type];
 	}
 
@@ -340,8 +325,8 @@ class Validation extends Injectable
 	 * Assigns the data to an entity
 	 * The entity is used to obtain the validation values
 	 *
-	 * @param string entity
-	 * @param string data
+	 * @param object entity
+	 * @param array|object data
 	 * @return Phalcon\Validation
 	 */
 	public function bind(entity, data) -> <Validation>
@@ -414,49 +399,46 @@ class Validation extends Injectable
 			if isset data[field] {
 				let value = data[field];
 			}
-		} else  {
-			if typeof data == "object" {
-				if isset data->{field} {
-					let value = data->{field};
-				}
+		} elseif typeof data == "object" {
+			if isset data->{field} {
+				let value = data->{field};
 			}
 		}
 
-		if typeof value != "null" {
+		if typeof value == "null" {
+			return null;
+		}
 
-			let filters = this->_filters;
-			if typeof filters == "array" {
+		let filters = this->_filters;
+		if typeof filters == "array" {
 
-				if fetch fieldFilters, filters[field] {
+			if fetch fieldFilters, filters[field] {
 
-					if fieldFilters {
+				if fieldFilters {
 
-						let dependencyInjector = this->getDI();
+					let dependencyInjector = this->getDI();
+					if typeof dependencyInjector != "object" {
+						let dependencyInjector = \Phalcon\Di::getDefault();
 						if typeof dependencyInjector != "object" {
-							let dependencyInjector = \Phalcon\Di::getDefault();
-							if typeof dependencyInjector != "object" {
-								throw new Exception("A dependency injector is required to obtain the 'filter' service");
-							}
+							throw new Exception("A dependency injector is required to obtain the 'filter' service");
 						}
-
-						let filterService = dependencyInjector->getShared("filter");
-						if typeof filterService != "object" {
-							throw new Exception("Returned 'filter' service is invalid");
-						}
-
-						return filterService->sanitize(value, fieldFilters);
 					}
+
+					let filterService = dependencyInjector->getShared("filter");
+					if typeof filterService != "object" {
+						throw new Exception("Returned 'filter' service is invalid");
+					}
+
+					return filterService->sanitize(value, fieldFilters);
 				}
 			}
-
-			/**
-			 * Cache the calculated value
-			 */
-			let this->_values[field] = value;
-
-			return value;
 		}
 
-		return null;
+		/**
+		 * Cache the calculated value
+		 */
+		let this->_values[field] = value;
+
+		return value;
 	}
 }

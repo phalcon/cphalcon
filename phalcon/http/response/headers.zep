@@ -28,7 +28,7 @@ use Phalcon\Http\Response\HeadersInterface;
  */
 class Headers implements HeadersInterface
 {
-	protected _headers;
+	protected _headers = [];
 
 	/**
 	 * Sets a header to be sent at the end of the request

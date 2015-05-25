@@ -39,5 +39,5 @@ ZEPHIR_INIT_FUNCS(phalcon_session_baginterface_method_entry) {
 	PHP_ABSTRACT_ME(Phalcon_Session_BagInterface, __set, arginfo_phalcon_session_baginterface___set)
 	PHP_ABSTRACT_ME(Phalcon_Session_BagInterface, __get, arginfo_phalcon_session_baginterface___get)
 	PHP_ABSTRACT_ME(Phalcon_Session_BagInterface, __isset, arginfo_phalcon_session_baginterface___isset)
-  PHP_FE_END
+	PHP_FE_END
 };

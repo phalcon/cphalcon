@@ -496,6 +496,6 @@ class Cookie implements InjectionAwareInterface
 	 */
 	public function __toString() -> string
 	{
-		return (string)this->getValue();
+		return (string) this->getValue();
 	}
 }

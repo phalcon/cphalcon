@@ -57,5 +57,5 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_url_method_entry) {
 	PHP_ME(Phalcon_Mvc_Url, get, arginfo_phalcon_mvc_url_get, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Url, getStatic, arginfo_phalcon_mvc_url_getstatic, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Url, path, arginfo_phalcon_mvc_url_path, ZEND_ACC_PUBLIC)
-  PHP_FE_END
+	PHP_FE_END
 };

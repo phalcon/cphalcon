@@ -79,5 +79,5 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_router_groupinterface_method_entry) {
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Router_GroupInterface, addOptions, arginfo_phalcon_mvc_router_groupinterface_addoptions)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Router_GroupInterface, addHead, arginfo_phalcon_mvc_router_groupinterface_addhead)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Router_GroupInterface, clear, NULL)
-  PHP_FE_END
+	PHP_FE_END
 };

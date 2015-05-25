@@ -60,5 +60,5 @@ ZEPHIR_INIT_FUNCS(phalcon_flash_method_entry) {
 	PHP_ME(Phalcon_Flash, success, arginfo_phalcon_flash_success, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Flash, warning, arginfo_phalcon_flash_warning, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Flash, outputMessage, arginfo_phalcon_flash_outputmessage, ZEND_ACC_PUBLIC)
-  PHP_FE_END
+	PHP_FE_END
 };

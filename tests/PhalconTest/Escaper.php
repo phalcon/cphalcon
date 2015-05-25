@@ -41,16 +41,6 @@ class Escaper extends PhEscaper
         parent::setHtmlQuoteType($quoteType);
     }
 
-    public function detectEncoding($str)
-    {
-        return parent::detectEncoding($str);
-    }
-
-    public function normalizeEncoding($str)
-    {
-        return parent::normalizeEncoding($str);
-    }
-
     public function escapeHtml($text)
     {
         return parent::escapeHtml($text);

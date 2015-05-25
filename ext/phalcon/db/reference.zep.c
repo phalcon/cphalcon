@@ -254,7 +254,6 @@ PHP_METHOD(Phalcon_Db_Reference, __construct) {
  */
 PHP_METHOD(Phalcon_Db_Reference, __set_state) {
 
-	zephir_nts_static zephir_fcall_cache_entry *_1 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *data_param = NULL, *referencedSchema, *referencedTable, *columns, *referencedColumns, *constraintName = NULL, *onDelete, *onUpdate;
 	zval *data = NULL, *_0;
@@ -289,7 +288,7 @@ PHP_METHOD(Phalcon_Db_Reference, __set_state) {
 	zephir_array_update_string(&_0, SL("referencedColumns"), &referencedColumns, PH_COPY | PH_SEPARATE);
 	zephir_array_update_string(&_0, SL("onDelete"), &onDelete, PH_COPY | PH_SEPARATE);
 	zephir_array_update_string(&_0, SL("onUpdate"), &onUpdate, PH_COPY | PH_SEPARATE);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", &_1, constraintName, _0);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 77, constraintName, _0);
 	zephir_check_call_status();
 	RETURN_MM();
 

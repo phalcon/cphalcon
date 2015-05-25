@@ -136,6 +136,11 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 		$this->issue886($di);
 	}
 
+	public function testIssue10371()
+	{
+		$this->assertTrue(in_array('addBehavior', get_class_methods('Phalcon\Mvc\Model')));
+	}
+
 	protected function issue1534($di)
 	{
 		$db = $di->getShared('db');
@@ -355,7 +360,7 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 		$this->assertFalse($persona->save());
 
 		//Messages
-		$this->assertEquals(count($persona->getMessages()), 4);
+		$this->assertEquals(count($persona->getMessages()), 3);
 
 		$messages = array(
 			0 => ModelMessage::__set_state(array(
@@ -366,17 +371,11 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 			)),
 			1 => ModelMessage::__set_state(array(
 				'_type' => 'PresenceOf',
-				'_message' => 'nombres is required',
-				'_field' => 'nombres',
-				'_code' => 0,
-			)),
-			2 => ModelMessage::__set_state(array(
-				'_type' => 'PresenceOf',
 				'_message' => 'cupo is required',
 				'_field' => 'cupo',
 				'_code' => 0,
 			)),
-			3 => ModelMessage::__set_state(array(
+			2 => ModelMessage::__set_state(array(
 				'_type' => 'PresenceOf',
 				'_message' => 'estado is required',
 				'_field' => 'estado',
@@ -657,7 +656,7 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 		$this->assertFalse($personer->save());
 
 		//Messages
-		$this->assertEquals(count($personer->getMessages()), 4);
+		$this->assertEquals(count($personer->getMessages()), 3);
 
 		$messages = array(
 			0 => ModelMessage::__set_state(array(
@@ -668,17 +667,11 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 			)),
 			1 => ModelMessage::__set_state(array(
 				'_type' => 'PresenceOf',
-				'_message' => 'navnes is required',
-				'_field' => 'navnes',
-				'_code' => 0,
-			)),
-			2 => ModelMessage::__set_state(array(
-				'_type' => 'PresenceOf',
 				'_message' => 'kredit is required',
 				'_field' => 'kredit',
 				'_code' => 0,
 			)),
-			3 => ModelMessage::__set_state(array(
+			2 => ModelMessage::__set_state(array(
 				'_type' => 'PresenceOf',
 				'_message' => 'status is required',
 				'_field' => 'status',

@@ -68,7 +68,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Message) {
  * Phalcon\Mvc\Model\Message constructor
  *
  * @param string message
- * @param string field
+ * @param string|array field
  * @param string type
  * @param Phalcon\Mvc\ModelInterface model
  */
@@ -195,27 +195,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Message, getMessage) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Message, setField) {
 
-	zval *field_param = NULL;
-	zval *field = NULL;
+	zval *field;
 
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &field_param);
+	zephir_fetch_params(0, 1, 0, &field);
 
-	if (unlikely(Z_TYPE_P(field_param) != IS_STRING && Z_TYPE_P(field_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'field' must be a string") TSRMLS_CC);
-		RETURN_MM_NULL();
-	}
-
-	if (likely(Z_TYPE_P(field_param) == IS_STRING)) {
-		zephir_get_strval(field, field_param);
-	} else {
-		ZEPHIR_INIT_VAR(field);
-		ZVAL_EMPTY_STRING(field);
-	}
 
 
 	zephir_update_property_this(this_ptr, SL("_field"), field TSRMLS_CC);
-	RETURN_THIS();
+	RETURN_THISW();
 
 }
 
@@ -270,7 +257,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Message, __toString) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Message, __set_state) {
 
-	zephir_nts_static zephir_fcall_cache_entry *_3 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *message_param = NULL, *_0, *_1, *_2;
 	zval *message = NULL;
@@ -286,7 +272,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Message, __set_state) {
 	zephir_array_fetch_string(&_0, message, SL("_message"), PH_NOISY | PH_READONLY, "phalcon/mvc/model/message.zep", 161 TSRMLS_CC);
 	zephir_array_fetch_string(&_1, message, SL("_field"), PH_NOISY | PH_READONLY, "phalcon/mvc/model/message.zep", 161 TSRMLS_CC);
 	zephir_array_fetch_string(&_2, message, SL("_type"), PH_NOISY | PH_READONLY, "phalcon/mvc/model/message.zep", 161 TSRMLS_CC);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", &_3, _0, _1, _2);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 299, _0, _1, _2);
 	zephir_check_call_status();
 	RETURN_MM();
 

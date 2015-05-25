@@ -30,5 +30,5 @@ ZEPHIR_INIT_FUNCS(phalcon_flashinterface_method_entry) {
 	PHP_ABSTRACT_ME(Phalcon_FlashInterface, success, arginfo_phalcon_flashinterface_success)
 	PHP_ABSTRACT_ME(Phalcon_FlashInterface, warning, arginfo_phalcon_flashinterface_warning)
 	PHP_ABSTRACT_ME(Phalcon_FlashInterface, message, arginfo_phalcon_flashinterface_message)
-  PHP_FE_END
+	PHP_FE_END
 };

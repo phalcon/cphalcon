@@ -113,9 +113,9 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, getColumnDefinition) {
 
 
 
-	ZEPHIR_CALL_METHOD(&type, column, "gettype", NULL);
+	ZEPHIR_CALL_METHOD(&type, column, "gettype", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&size, column, "getsize", NULL);
+	ZEPHIR_CALL_METHOD(&size, column, "getsize", NULL, 0);
 	zephir_check_call_status();
 	do {
 		if (ZEPHIR_IS_LONG(type, 0)) {
@@ -134,7 +134,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, getColumnDefinition) {
 			break;
 		}
 		if (ZEPHIR_IS_LONG(type, 3)) {
-			ZEPHIR_CALL_METHOD(&scale, column, "getscale", NULL);
+			ZEPHIR_CALL_METHOD(&scale, column, "getscale", NULL, 0);
 			zephir_check_call_status();
 			ZEPHIR_INIT_NVAR(columnSql);
 			ZEPHIR_CONCAT_SVSVS(columnSql, "NUMBER(", size, ",", scale, ")");
@@ -156,7 +156,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, getColumnDefinition) {
 			break;
 		}
 		if (ZEPHIR_IS_LONG(type, 7)) {
-			ZEPHIR_CALL_METHOD(&scale, column, "getscale", NULL);
+			ZEPHIR_CALL_METHOD(&scale, column, "getscale", NULL, 0);
 			zephir_check_call_status();
 			ZEPHIR_INIT_NVAR(columnSql);
 			ZEPHIR_CONCAT_SVSVS(columnSql, "FLOAT(", size, ",", scale, ")");
@@ -220,11 +220,11 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, addColumn) {
  */
 PHP_METHOD(Phalcon_Db_Dialect_Oracle, modifyColumn) {
 
-	zval *tableName_param = NULL, *schemaName_param = NULL, *column;
+	zval *tableName_param = NULL, *schemaName_param = NULL, *column, *currentColumn = NULL;
 	zval *tableName = NULL, *schemaName = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 3, 0, &tableName_param, &schemaName_param, &column);
+	zephir_fetch_params(1, 3, 1, &tableName_param, &schemaName_param, &column, &currentColumn);
 
 	if (unlikely(Z_TYPE_P(tableName_param) != IS_STRING && Z_TYPE_P(tableName_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'tableName' must be a string") TSRMLS_CC);
@@ -247,6 +247,9 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, modifyColumn) {
 	} else {
 		ZEPHIR_INIT_VAR(schemaName);
 		ZVAL_EMPTY_STRING(schemaName);
+	}
+	if (!currentColumn) {
+		currentColumn = ZEPHIR_GLOBAL(global_null);
 	}
 
 
@@ -588,9 +591,9 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, createTable) {
 PHP_METHOD(Phalcon_Db_Dialect_Oracle, dropTable) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zephir_nts_static zephir_fcall_cache_entry *_2 = NULL, *_3 = NULL;
+	zephir_fcall_cache_entry *_2 = NULL;
 	zend_bool ifExists;
-	zval *tableName_param = NULL, *schemaName_param = NULL, *ifExists_param = NULL, *table = NULL, *_0 = NULL, *_1 = NULL, *_4 = NULL, *_5 = NULL;
+	zval *tableName_param = NULL, *schemaName_param = NULL, *ifExists_param = NULL, *table = NULL, *_0 = NULL, *_1 = NULL, *_3 = NULL, *_4 = NULL;
 	zval *tableName = NULL, *schemaName = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -631,20 +634,20 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, dropTable) {
 
 
 	if (schemaName && Z_STRLEN_P(schemaName)) {
-		ZEPHIR_CALL_CE_STATIC(&_1, phalcon_text_ce, "upper", &_2, schemaName);
+		ZEPHIR_CALL_CE_STATIC(&_1, phalcon_text_ce, "upper", &_2, 109, schemaName);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(&_0, this_ptr, "escape", &_3, _1);
+		ZEPHIR_CALL_METHOD(&_0, this_ptr, "escape", NULL, 98, _1);
 		zephir_check_call_status();
-		ZEPHIR_CALL_CE_STATIC(&_5, phalcon_text_ce, "upper", &_2, tableName);
+		ZEPHIR_CALL_CE_STATIC(&_4, phalcon_text_ce, "upper", &_2, 109, tableName);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(&_4, this_ptr, "escape", &_3, _5);
+		ZEPHIR_CALL_METHOD(&_3, this_ptr, "escape", NULL, 98, _4);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(table);
-		ZEPHIR_CONCAT_VSV(table, _0, ".", _4);
+		ZEPHIR_CONCAT_VSV(table, _0, ".", _3);
 	} else {
-		ZEPHIR_CALL_CE_STATIC(&_0, phalcon_text_ce, "upper", &_2, tableName);
+		ZEPHIR_CALL_CE_STATIC(&_0, phalcon_text_ce, "upper", &_2, 109, tableName);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(&table, this_ptr, "escape", &_3, _0);
+		ZEPHIR_CALL_METHOD(&table, this_ptr, "escape", NULL, 98, _0);
 		zephir_check_call_status();
 	}
 	if (ifExists) {
@@ -663,7 +666,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, dropTable) {
 PHP_METHOD(Phalcon_Db_Dialect_Oracle, createView) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zephir_nts_static zephir_fcall_cache_entry *_1 = NULL, *_4 = NULL;
+	zephir_fcall_cache_entry *_1 = NULL;
 	zval *definition = NULL;
 	zval *viewName_param = NULL, *definition_param = NULL, *schemaName_param = NULL, *view = NULL, *viewSql, *_0 = NULL, *_2 = NULL, *_3;
 	zval *viewName = NULL, *schemaName = NULL;
@@ -698,18 +701,18 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, createView) {
 		return;
 	}
 	if (schemaName && Z_STRLEN_P(schemaName)) {
-		ZEPHIR_CALL_CE_STATIC(&_0, phalcon_text_ce, "upper", &_1, schemaName);
+		ZEPHIR_CALL_CE_STATIC(&_0, phalcon_text_ce, "upper", &_1, 109, schemaName);
 		zephir_check_call_status();
-		ZEPHIR_CALL_CE_STATIC(&_2, phalcon_text_ce, "upper", &_1, viewName);
+		ZEPHIR_CALL_CE_STATIC(&_2, phalcon_text_ce, "upper", &_1, 109, viewName);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(_3);
 		ZEPHIR_CONCAT_VSV(_3, _0, ".", _2);
-		ZEPHIR_CALL_METHOD(&view, this_ptr, "escape", &_4, _3);
+		ZEPHIR_CALL_METHOD(&view, this_ptr, "escape", NULL, 98, _3);
 		zephir_check_call_status();
 	} else {
-		ZEPHIR_CALL_CE_STATIC(&_0, phalcon_text_ce, "upper", &_1, viewName);
+		ZEPHIR_CALL_CE_STATIC(&_0, phalcon_text_ce, "upper", &_1, 109, viewName);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(&view, this_ptr, "escape", &_4, _0);
+		ZEPHIR_CALL_METHOD(&view, this_ptr, "escape", NULL, 98, _0);
 		zephir_check_call_status();
 	}
 	ZEPHIR_CONCAT_SVSV(return_value, "CREATE VIEW ", view, " AS ", viewSql);
@@ -723,7 +726,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, createView) {
 PHP_METHOD(Phalcon_Db_Dialect_Oracle, dropView) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zephir_nts_static zephir_fcall_cache_entry *_1 = NULL, *_4 = NULL;
+	zephir_fcall_cache_entry *_1 = NULL;
 	zend_bool ifExists;
 	zval *viewName_param = NULL, *schemaName_param = NULL, *ifExists_param = NULL, *view = NULL, *_0 = NULL, *_2 = NULL, *_3;
 	zval *viewName = NULL, *schemaName = NULL;
@@ -761,18 +764,18 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, dropView) {
 
 
 	if (schemaName && Z_STRLEN_P(schemaName)) {
-		ZEPHIR_CALL_CE_STATIC(&_0, phalcon_text_ce, "upper", &_1, schemaName);
+		ZEPHIR_CALL_CE_STATIC(&_0, phalcon_text_ce, "upper", &_1, 109, schemaName);
 		zephir_check_call_status();
-		ZEPHIR_CALL_CE_STATIC(&_2, phalcon_text_ce, "upper", &_1, viewName);
+		ZEPHIR_CALL_CE_STATIC(&_2, phalcon_text_ce, "upper", &_1, 109, viewName);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(_3);
 		ZEPHIR_CONCAT_VSV(_3, _0, ".", _2);
-		ZEPHIR_CALL_METHOD(&view, this_ptr, "escape", &_4, _3);
+		ZEPHIR_CALL_METHOD(&view, this_ptr, "escape", NULL, 98, _3);
 		zephir_check_call_status();
 	} else {
-		ZEPHIR_CALL_CE_STATIC(&_0, phalcon_text_ce, "upper", &_1, viewName);
+		ZEPHIR_CALL_CE_STATIC(&_0, phalcon_text_ce, "upper", &_1, 109, viewName);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(&view, this_ptr, "escape", &_4, _0);
+		ZEPHIR_CALL_METHOD(&view, this_ptr, "escape", NULL, 98, _0);
 		zephir_check_call_status();
 	}
 	if (ifExists) {
@@ -791,7 +794,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, dropView) {
 PHP_METHOD(Phalcon_Db_Dialect_Oracle, viewExists) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zephir_nts_static zephir_fcall_cache_entry *_1 = NULL;
+	zephir_fcall_cache_entry *_1 = NULL;
 	zval *viewName_param = NULL, *schemaName_param = NULL, *_0 = NULL, *_2 = NULL;
 	zval *viewName = NULL, *schemaName = NULL;
 
@@ -818,14 +821,14 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, viewExists) {
 
 
 	if (!ZEPHIR_IS_STRING(schemaName, "")) {
-		ZEPHIR_CALL_CE_STATIC(&_0, phalcon_text_ce, "upper", &_1, viewName);
+		ZEPHIR_CALL_CE_STATIC(&_0, phalcon_text_ce, "upper", &_1, 109, viewName);
 		zephir_check_call_status();
-		ZEPHIR_CALL_CE_STATIC(&_2, phalcon_text_ce, "upper", &_1, schemaName);
+		ZEPHIR_CALL_CE_STATIC(&_2, phalcon_text_ce, "upper", &_1, 109, schemaName);
 		zephir_check_call_status();
 		ZEPHIR_CONCAT_SVSVS(return_value, "SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END RET FROM ALL_VIEWS WHERE VIEW_NAME='", _0, "' AND OWNER='", _2, "'");
 		RETURN_MM();
 	} else {
-		ZEPHIR_CALL_CE_STATIC(&_0, phalcon_text_ce, "upper", &_1, viewName);
+		ZEPHIR_CALL_CE_STATIC(&_0, phalcon_text_ce, "upper", &_1, 109, viewName);
 		zephir_check_call_status();
 		ZEPHIR_CONCAT_SVS(return_value, "SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END RET FROM ALL_VIEWS WHERE VIEW_NAME='", _0, "'");
 		RETURN_MM();
@@ -839,7 +842,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, viewExists) {
 PHP_METHOD(Phalcon_Db_Dialect_Oracle, listViews) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zephir_nts_static zephir_fcall_cache_entry *_1 = NULL;
+	zephir_fcall_cache_entry *_1 = NULL;
 	zval *schemaName_param = NULL, *_0 = NULL;
 	zval *schemaName = NULL;
 
@@ -855,7 +858,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, listViews) {
 
 
 	if (!ZEPHIR_IS_STRING(schemaName, "")) {
-		ZEPHIR_CALL_CE_STATIC(&_0, phalcon_text_ce, "upper", &_1, schemaName);
+		ZEPHIR_CALL_CE_STATIC(&_0, phalcon_text_ce, "upper", &_1, 109, schemaName);
 		zephir_check_call_status();
 		ZEPHIR_CONCAT_SVS(return_value, "SELECT VIEW_NAME FROM ALL_VIEWS WHERE OWNER='", _0, "' ORDER BY VIEW_NAME");
 		RETURN_MM();
@@ -876,7 +879,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, listViews) {
 PHP_METHOD(Phalcon_Db_Dialect_Oracle, tableExists) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zephir_nts_static zephir_fcall_cache_entry *_1 = NULL;
+	zephir_fcall_cache_entry *_1 = NULL;
 	zval *tableName_param = NULL, *schemaName_param = NULL, *_0 = NULL, *_2 = NULL;
 	zval *tableName = NULL, *schemaName = NULL;
 
@@ -903,14 +906,14 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, tableExists) {
 
 
 	if (!ZEPHIR_IS_STRING(schemaName, "")) {
-		ZEPHIR_CALL_CE_STATIC(&_0, phalcon_text_ce, "upper", &_1, tableName);
+		ZEPHIR_CALL_CE_STATIC(&_0, phalcon_text_ce, "upper", &_1, 109, tableName);
 		zephir_check_call_status();
-		ZEPHIR_CALL_CE_STATIC(&_2, phalcon_text_ce, "upper", &_1, schemaName);
+		ZEPHIR_CALL_CE_STATIC(&_2, phalcon_text_ce, "upper", &_1, 109, schemaName);
 		zephir_check_call_status();
 		ZEPHIR_CONCAT_SVSVS(return_value, "SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END RET FROM ALL_TABLES WHERE TABLE_NAME='", _0, "' AND OWNER = '", _2, "'");
 		RETURN_MM();
 	} else {
-		ZEPHIR_CALL_CE_STATIC(&_0, phalcon_text_ce, "upper", &_1, tableName);
+		ZEPHIR_CALL_CE_STATIC(&_0, phalcon_text_ce, "upper", &_1, 109, tableName);
 		zephir_check_call_status();
 		ZEPHIR_CONCAT_SVS(return_value, "SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END RET FROM ALL_TABLES WHERE TABLE_NAME='", _0, "'");
 		RETURN_MM();
@@ -928,7 +931,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, tableExists) {
 PHP_METHOD(Phalcon_Db_Dialect_Oracle, describeColumns) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zephir_nts_static zephir_fcall_cache_entry *_1 = NULL;
+	zephir_fcall_cache_entry *_1 = NULL;
 	zval *table_param = NULL, *schema_param = NULL, *_0 = NULL, *_2 = NULL;
 	zval *table = NULL, *schema = NULL;
 
@@ -955,14 +958,14 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, describeColumns) {
 
 
 	if (!ZEPHIR_IS_STRING(schema, "")) {
-		ZEPHIR_CALL_CE_STATIC(&_0, phalcon_text_ce, "upper", &_1, table);
+		ZEPHIR_CALL_CE_STATIC(&_0, phalcon_text_ce, "upper", &_1, 109, table);
 		zephir_check_call_status();
-		ZEPHIR_CALL_CE_STATIC(&_2, phalcon_text_ce, "upper", &_1, schema);
+		ZEPHIR_CALL_CE_STATIC(&_2, phalcon_text_ce, "upper", &_1, 109, schema);
 		zephir_check_call_status();
 		ZEPHIR_CONCAT_SVSVS(return_value, "SELECT TC.COLUMN_NAME, TC.DATA_TYPE, TC.DATA_LENGTH, TC.DATA_PRECISION, TC.DATA_SCALE, TC.NULLABLE, C.CONSTRAINT_TYPE, TC.DATA_DEFAULT, CC.POSITION FROM ALL_TAB_COLUMNS TC LEFT JOIN (ALL_CONS_COLUMNS CC JOIN ALL_CONSTRAINTS C ON (CC.CONSTRAINT_NAME = C.CONSTRAINT_NAME AND CC.TABLE_NAME = C.TABLE_NAME AND CC.OWNER = C.OWNER AND C.CONSTRAINT_TYPE = 'P')) ON TC.TABLE_NAME = CC.TABLE_NAME AND TC.COLUMN_NAME = CC.COLUMN_NAME WHERE TC.TABLE_NAME = '", _0, "' AND TC.OWNER = '", _2, "' ORDER BY TC.COLUMN_ID");
 		RETURN_MM();
 	} else {
-		ZEPHIR_CALL_CE_STATIC(&_0, phalcon_text_ce, "upper", &_1, table);
+		ZEPHIR_CALL_CE_STATIC(&_0, phalcon_text_ce, "upper", &_1, 109, table);
 		zephir_check_call_status();
 		ZEPHIR_CONCAT_SVS(return_value, "SELECT TC.COLUMN_NAME, TC.DATA_TYPE, TC.DATA_LENGTH, TC.DATA_PRECISION, TC.DATA_SCALE, TC.NULLABLE, C.CONSTRAINT_TYPE, TC.DATA_DEFAULT, CC.POSITION FROM ALL_TAB_COLUMNS TC LEFT JOIN (ALL_CONS_COLUMNS CC JOIN ALL_CONSTRAINTS C ON (CC.CONSTRAINT_NAME = C.CONSTRAINT_NAME AND CC.TABLE_NAME = C.TABLE_NAME AND CC.OWNER = C.OWNER AND C.CONSTRAINT_TYPE = 'P')) ON TC.TABLE_NAME = CC.TABLE_NAME AND TC.COLUMN_NAME = CC.COLUMN_NAME WHERE TC.TABLE_NAME = '", _0, "' ORDER BY TC.COLUMN_ID");
 		RETURN_MM();
@@ -980,7 +983,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, describeColumns) {
 PHP_METHOD(Phalcon_Db_Dialect_Oracle, listTables) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zephir_nts_static zephir_fcall_cache_entry *_1 = NULL;
+	zephir_fcall_cache_entry *_1 = NULL;
 	zval *schemaName_param = NULL, *_0 = NULL;
 	zval *schemaName = NULL;
 
@@ -996,7 +999,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, listTables) {
 
 
 	if (!ZEPHIR_IS_STRING(schemaName, "")) {
-		ZEPHIR_CALL_CE_STATIC(&_0, phalcon_text_ce, "upper", &_1, schemaName);
+		ZEPHIR_CALL_CE_STATIC(&_0, phalcon_text_ce, "upper", &_1, 109, schemaName);
 		zephir_check_call_status();
 		ZEPHIR_CONCAT_SVS(return_value, "SELECT TABLE_NAME, OWNER FROM ALL_TABLES WHERE OWNER='", _0, "' ORDER BY OWNER, TABLE_NAME");
 		RETURN_MM();
@@ -1012,7 +1015,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, listTables) {
 PHP_METHOD(Phalcon_Db_Dialect_Oracle, describeIndexes) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zephir_nts_static zephir_fcall_cache_entry *_1 = NULL;
+	zephir_fcall_cache_entry *_1 = NULL;
 	zval *table_param = NULL, *schema_param = NULL, *_0 = NULL, *_2 = NULL;
 	zval *table = NULL, *schema = NULL;
 
@@ -1039,14 +1042,14 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, describeIndexes) {
 
 
 	if (!ZEPHIR_IS_STRING(schema, "")) {
-		ZEPHIR_CALL_CE_STATIC(&_0, phalcon_text_ce, "upper", &_1, table);
+		ZEPHIR_CALL_CE_STATIC(&_0, phalcon_text_ce, "upper", &_1, 109, table);
 		zephir_check_call_status();
-		ZEPHIR_CALL_CE_STATIC(&_2, phalcon_text_ce, "upper", &_1, schema);
+		ZEPHIR_CALL_CE_STATIC(&_2, phalcon_text_ce, "upper", &_1, 109, schema);
 		zephir_check_call_status();
 		ZEPHIR_CONCAT_SVSVS(return_value, "SELECT I.TABLE_NAME, 0 AS C0, I.INDEX_NAME, IC.COLUMN_POSITION, IC.COLUMN_NAME FROM ALL_INDEXES I JOIN ALL_IND_COLUMNS IC ON I.INDEX_NAME = IC.INDEX_NAME WHERE  I.TABLE_NAME = '", _0, "' AND IC.INDEX_OWNER = '", _2, "'");
 		RETURN_MM();
 	} else {
-		ZEPHIR_CALL_CE_STATIC(&_0, phalcon_text_ce, "upper", &_1, table);
+		ZEPHIR_CALL_CE_STATIC(&_0, phalcon_text_ce, "upper", &_1, 109, table);
 		zephir_check_call_status();
 		ZEPHIR_CONCAT_SVS(return_value, "SELECT I.TABLE_NAME, 0 AS C0, I.INDEX_NAME, IC.COLUMN_POSITION, IC.COLUMN_NAME FROM ALL_INDEXES I JOIN ALL_IND_COLUMNS IC ON I.INDEX_NAME = IC.INDEX_NAME WHERE  I.TABLE_NAME = '", _0, "'");
 		RETURN_MM();
@@ -1060,7 +1063,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, describeIndexes) {
 PHP_METHOD(Phalcon_Db_Dialect_Oracle, describeReferences) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zephir_nts_static zephir_fcall_cache_entry *_1 = NULL;
+	zephir_fcall_cache_entry *_1 = NULL;
 	zval *table_param = NULL, *schema_param = NULL, *sql, *_0 = NULL, *_2 = NULL, *_3 = NULL;
 	zval *table = NULL, *schema = NULL;
 
@@ -1089,15 +1092,15 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, describeReferences) {
 	ZEPHIR_INIT_VAR(sql);
 	ZVAL_STRING(sql, "SELECT AC.TABLE_NAME, CC.COLUMN_NAME, AC.CONSTRAINT_NAME, AC.R_OWNER, RCC.TABLE_NAME R_TABLE_NAME, RCC.COLUMN_NAME R_COLUMN_NAME FROM ALL_CONSTRAINTS AC JOIN ALL_CONS_COLUMNS CC ON AC.CONSTRAINT_NAME = CC.CONSTRAINT_NAME JOIN ALL_CONS_COLUMNS RCC ON AC.R_OWNER = RCC.OWNER AND AC.R_CONSTRAINT_NAME = RCC.CONSTRAINT_NAME WHERE AC.CONSTRAINT_TYPE='R' ", 1);
 	if (!ZEPHIR_IS_STRING(schema, "")) {
-		ZEPHIR_CALL_CE_STATIC(&_0, phalcon_text_ce, "upper", &_1, schema);
+		ZEPHIR_CALL_CE_STATIC(&_0, phalcon_text_ce, "upper", &_1, 109, schema);
 		zephir_check_call_status();
-		ZEPHIR_CALL_CE_STATIC(&_2, phalcon_text_ce, "upper", &_1, table);
+		ZEPHIR_CALL_CE_STATIC(&_2, phalcon_text_ce, "upper", &_1, 109, table);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(_3);
 		ZEPHIR_CONCAT_SVSVS(_3, "AND AC.OWNER='", _0, "' AND AC.TABLE_NAME = '", _2, "'");
 		zephir_concat_self(&sql, _3 TSRMLS_CC);
 	} else {
-		ZEPHIR_CALL_CE_STATIC(&_0, phalcon_text_ce, "upper", &_1, table);
+		ZEPHIR_CALL_CE_STATIC(&_0, phalcon_text_ce, "upper", &_1, 109, table);
 		zephir_check_call_status();
 		ZEPHIR_INIT_LNVAR(_3);
 		ZEPHIR_CONCAT_SVS(_3, "AND AC.TABLE_NAME = '", _0, "'");

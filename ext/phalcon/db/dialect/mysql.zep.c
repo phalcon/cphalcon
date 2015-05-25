@@ -43,7 +43,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Dialect_MySQL) {
  */
 PHP_METHOD(Phalcon_Db_Dialect_MySQL, getColumnDefinition) {
 
-	zephir_nts_static zephir_fcall_cache_entry *_9 = NULL;
+	zephir_fcall_cache_entry *_9 = NULL;
 	HashTable *_6;
 	HashPosition _5;
 	int ZEPHIR_LAST_CALL_STATUS;
@@ -56,11 +56,11 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, getColumnDefinition) {
 
 	ZEPHIR_INIT_VAR(columnSql);
 	ZVAL_STRING(columnSql, "", 1);
-	ZEPHIR_CALL_METHOD(&type, column, "gettype", NULL);
+	ZEPHIR_CALL_METHOD(&type, column, "gettype", NULL, 0);
 	zephir_check_call_status();
 	if (Z_TYPE_P(type) == IS_STRING) {
 		zephir_concat_self(&columnSql, type TSRMLS_CC);
-		ZEPHIR_CALL_METHOD(&type, column, "gettypereference", NULL);
+		ZEPHIR_CALL_METHOD(&type, column, "gettypereference", NULL, 0);
 		zephir_check_call_status();
 	}
 	do {
@@ -68,12 +68,12 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, getColumnDefinition) {
 			if (ZEPHIR_IS_EMPTY(columnSql)) {
 				zephir_concat_self_str(&columnSql, SL("INT") TSRMLS_CC);
 			}
-			ZEPHIR_CALL_METHOD(&_0, column, "getsize", NULL);
+			ZEPHIR_CALL_METHOD(&_0, column, "getsize", NULL, 0);
 			zephir_check_call_status();
 			ZEPHIR_INIT_VAR(_1);
 			ZEPHIR_CONCAT_SVS(_1, "(", _0, ")");
 			zephir_concat_self(&columnSql, _1 TSRMLS_CC);
-			ZEPHIR_CALL_METHOD(&_2, column, "isunsigned", NULL);
+			ZEPHIR_CALL_METHOD(&_2, column, "isunsigned", NULL, 0);
 			zephir_check_call_status();
 			if (zephir_is_true(_2)) {
 				zephir_concat_self_str(&columnSql, SL(" UNSIGNED") TSRMLS_CC);
@@ -90,7 +90,7 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, getColumnDefinition) {
 			if (ZEPHIR_IS_EMPTY(columnSql)) {
 				zephir_concat_self_str(&columnSql, SL("VARCHAR") TSRMLS_CC);
 			}
-			ZEPHIR_CALL_METHOD(&_0, column, "getsize", NULL);
+			ZEPHIR_CALL_METHOD(&_0, column, "getsize", NULL, 0);
 			zephir_check_call_status();
 			ZEPHIR_INIT_LNVAR(_1);
 			ZEPHIR_CONCAT_SVS(_1, "(", _0, ")");
@@ -101,14 +101,14 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, getColumnDefinition) {
 			if (ZEPHIR_IS_EMPTY(columnSql)) {
 				zephir_concat_self_str(&columnSql, SL("DECIMAL") TSRMLS_CC);
 			}
-			ZEPHIR_CALL_METHOD(&_0, column, "getsize", NULL);
+			ZEPHIR_CALL_METHOD(&_0, column, "getsize", NULL, 0);
 			zephir_check_call_status();
-			ZEPHIR_CALL_METHOD(&_2, column, "getscale", NULL);
+			ZEPHIR_CALL_METHOD(&_2, column, "getscale", NULL, 0);
 			zephir_check_call_status();
 			ZEPHIR_INIT_LNVAR(_1);
 			ZEPHIR_CONCAT_SVSVS(_1, "(", _0, ",", _2, ")");
 			zephir_concat_self(&columnSql, _1 TSRMLS_CC);
-			ZEPHIR_CALL_METHOD(&_3, column, "isunsigned", NULL);
+			ZEPHIR_CALL_METHOD(&_3, column, "isunsigned", NULL, 0);
 			zephir_check_call_status();
 			if (zephir_is_true(_3)) {
 				zephir_concat_self_str(&columnSql, SL(" UNSIGNED") TSRMLS_CC);
@@ -125,7 +125,7 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, getColumnDefinition) {
 			if (ZEPHIR_IS_EMPTY(columnSql)) {
 				zephir_concat_self_str(&columnSql, SL("CHAR") TSRMLS_CC);
 			}
-			ZEPHIR_CALL_METHOD(&_0, column, "getsize", NULL);
+			ZEPHIR_CALL_METHOD(&_0, column, "getsize", NULL, 0);
 			zephir_check_call_status();
 			ZEPHIR_INIT_LNVAR(_1);
 			ZEPHIR_CONCAT_SVS(_1, "(", _0, ")");
@@ -142,10 +142,10 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, getColumnDefinition) {
 			if (ZEPHIR_IS_EMPTY(columnSql)) {
 				zephir_concat_self_str(&columnSql, SL("FLOAT") TSRMLS_CC);
 			}
-			ZEPHIR_CALL_METHOD(&size, column, "getsize", NULL);
+			ZEPHIR_CALL_METHOD(&size, column, "getsize", NULL, 0);
 			zephir_check_call_status();
 			if (zephir_is_true(size)) {
-				ZEPHIR_CALL_METHOD(&scale, column, "getscale", NULL);
+				ZEPHIR_CALL_METHOD(&scale, column, "getscale", NULL, 0);
 				zephir_check_call_status();
 				ZEPHIR_INIT_LNVAR(_1);
 				ZEPHIR_CONCAT_SV(_1, "(", size);
@@ -158,7 +158,7 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, getColumnDefinition) {
 					zephir_concat_self_str(&columnSql, SL(")") TSRMLS_CC);
 				}
 			}
-			ZEPHIR_CALL_METHOD(&_0, column, "isunsigned", NULL);
+			ZEPHIR_CALL_METHOD(&_0, column, "isunsigned", NULL, 0);
 			zephir_check_call_status();
 			if (zephir_is_true(_0)) {
 				zephir_concat_self_str(&columnSql, SL(" UNSIGNED") TSRMLS_CC);
@@ -175,7 +175,7 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, getColumnDefinition) {
 			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Unrecognized MySQL data type", "phalcon/db/dialect/mysql.zep", 136);
 			return;
 		}
-		ZEPHIR_CALL_METHOD(&typeValues, column, "gettypevalues", NULL);
+		ZEPHIR_CALL_METHOD(&typeValues, column, "gettypevalues", NULL, 0);
 		zephir_check_call_status();
 		if (!(ZEPHIR_IS_EMPTY(typeValues))) {
 			if (Z_TYPE_P(typeValues) == IS_ARRAY) {
@@ -189,7 +189,7 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, getColumnDefinition) {
 					ZEPHIR_GET_HVALUE(value, _7);
 					ZEPHIR_SINIT_NVAR(_8);
 					ZVAL_STRING(&_8, "\"", 0);
-					ZEPHIR_CALL_FUNCTION(&_0, "addcslashes", &_9, value, &_8);
+					ZEPHIR_CALL_FUNCTION(&_0, "addcslashes", &_9, 108, value, &_8);
 					zephir_check_call_status();
 					ZEPHIR_INIT_LNVAR(_1);
 					ZEPHIR_CONCAT_SVS(_1, "\"", _0, "\", ");
@@ -207,7 +207,7 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, getColumnDefinition) {
 			} else {
 				ZEPHIR_SINIT_NVAR(_10);
 				ZVAL_STRING(&_10, "\"", 0);
-				ZEPHIR_CALL_FUNCTION(&_2, "addcslashes", &_9, typeValues, &_10);
+				ZEPHIR_CALL_FUNCTION(&_2, "addcslashes", &_9, 108, typeValues, &_10);
 				zephir_check_call_status();
 				ZEPHIR_INIT_LNVAR(_4);
 				ZEPHIR_CONCAT_SVS(_4, "(\"", _2, "\")");
@@ -225,9 +225,8 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, getColumnDefinition) {
  */
 PHP_METHOD(Phalcon_Db_Dialect_MySQL, addColumn) {
 
-	zephir_nts_static zephir_fcall_cache_entry *_6 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *tableName_param = NULL, *schemaName_param = NULL, *column, *afterPosition = NULL, *sql = NULL, *defaultValue = NULL, *_1 = NULL, *_2 = NULL, *_3, _4, *_5 = NULL, *_7 = NULL;
+	zval *tableName_param = NULL, *schemaName_param = NULL, *column, *afterPosition = NULL, *sql = NULL, *defaultValue = NULL, *_1 = NULL, *_2 = NULL, *_3, _4, *_5 = NULL, *_6 = NULL;
 	zval *tableName = NULL, *schemaName = NULL, *_0 = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -267,40 +266,40 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, addColumn) {
 		ZEPHIR_CONCAT_SVS(_0, "ALTER TABLE `", tableName, "` ADD ");
 		ZEPHIR_CPY_WRT(sql, _0);
 	}
-	ZEPHIR_CALL_METHOD(&_1, column, "getname", NULL);
+	ZEPHIR_CALL_METHOD(&_1, column, "getname", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_2, this_ptr, "getcolumndefinition", NULL, column);
+	ZEPHIR_CALL_METHOD(&_2, this_ptr, "getcolumndefinition", NULL, 0, column);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(_3);
 	ZEPHIR_CONCAT_SVSV(_3, "`", _1, "` ", _2);
 	zephir_concat_self(&sql, _3 TSRMLS_CC);
-	ZEPHIR_CALL_METHOD(&defaultValue, column, "getdefault", NULL);
+	ZEPHIR_CALL_METHOD(&defaultValue, column, "getdefault", NULL, 0);
 	zephir_check_call_status();
 	if (!(ZEPHIR_IS_EMPTY(defaultValue))) {
 		ZEPHIR_SINIT_VAR(_4);
 		ZVAL_STRING(&_4, "\"", 0);
-		ZEPHIR_CALL_FUNCTION(&_5, "addcslashes", &_6, defaultValue, &_4);
+		ZEPHIR_CALL_FUNCTION(&_5, "addcslashes", NULL, 108, defaultValue, &_4);
 		zephir_check_call_status();
-		ZEPHIR_INIT_VAR(_7);
-		ZEPHIR_CONCAT_SVS(_7, " DEFAULT \"", _5, "\"");
-		zephir_concat_self(&sql, _7 TSRMLS_CC);
+		ZEPHIR_INIT_VAR(_6);
+		ZEPHIR_CONCAT_SVS(_6, " DEFAULT \"", _5, "\"");
+		zephir_concat_self(&sql, _6 TSRMLS_CC);
 	}
-	ZEPHIR_CALL_METHOD(&_5, column, "isnotnull", NULL);
+	ZEPHIR_CALL_METHOD(&_5, column, "isnotnull", NULL, 0);
 	zephir_check_call_status();
 	if (zephir_is_true(_5)) {
 		zephir_concat_self_str(&sql, SL(" NOT NULL") TSRMLS_CC);
 	}
-	ZEPHIR_CALL_METHOD(&_5, column, "isfirst", NULL);
+	ZEPHIR_CALL_METHOD(&_5, column, "isfirst", NULL, 0);
 	zephir_check_call_status();
 	if (zephir_is_true(_5)) {
 		zephir_concat_self_str(&sql, SL(" FIRST") TSRMLS_CC);
 	} else {
-		ZEPHIR_CALL_METHOD(&afterPosition, column, "getafterposition", NULL);
+		ZEPHIR_CALL_METHOD(&afterPosition, column, "getafterposition", NULL, 0);
 		zephir_check_call_status();
 		if (zephir_is_true(afterPosition)) {
-			ZEPHIR_INIT_LNVAR(_7);
-			ZEPHIR_CONCAT_SV(_7, " AFTER ", afterPosition);
-			zephir_concat_self(&sql, _7 TSRMLS_CC);
+			ZEPHIR_INIT_LNVAR(_6);
+			ZEPHIR_CONCAT_SV(_6, " AFTER ", afterPosition);
+			zephir_concat_self(&sql, _6 TSRMLS_CC);
 		}
 	}
 	RETURN_CCTOR(sql);
@@ -312,13 +311,12 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, addColumn) {
  */
 PHP_METHOD(Phalcon_Db_Dialect_MySQL, modifyColumn) {
 
-	zephir_nts_static zephir_fcall_cache_entry *_6 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *tableName_param = NULL, *schemaName_param = NULL, *column, *sql = NULL, *defaultValue = NULL, *_1 = NULL, *_2 = NULL, *_3, _4, *_5 = NULL, *_7;
+	zval *tableName_param = NULL, *schemaName_param = NULL, *column, *currentColumn = NULL, *sql = NULL, *defaultValue = NULL, *_1 = NULL, *_2 = NULL, *_3, _4, *_5 = NULL, *_6;
 	zval *tableName = NULL, *schemaName = NULL, *_0 = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 3, 0, &tableName_param, &schemaName_param, &column);
+	zephir_fetch_params(1, 3, 1, &tableName_param, &schemaName_param, &column, &currentColumn);
 
 	if (unlikely(Z_TYPE_P(tableName_param) != IS_STRING && Z_TYPE_P(tableName_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'tableName' must be a string") TSRMLS_CC);
@@ -342,6 +340,9 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, modifyColumn) {
 		ZEPHIR_INIT_VAR(schemaName);
 		ZVAL_EMPTY_STRING(schemaName);
 	}
+	if (!currentColumn) {
+		currentColumn = ZEPHIR_GLOBAL(global_null);
+	}
 
 
 	ZEPHIR_INIT_VAR(sql);
@@ -354,25 +355,25 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, modifyColumn) {
 		ZEPHIR_CONCAT_SVS(_0, "ALTER TABLE `", tableName, "` MODIFY ");
 		ZEPHIR_CPY_WRT(sql, _0);
 	}
-	ZEPHIR_CALL_METHOD(&_1, column, "getname", NULL);
+	ZEPHIR_CALL_METHOD(&_1, column, "getname", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_2, this_ptr, "getcolumndefinition", NULL, column);
+	ZEPHIR_CALL_METHOD(&_2, this_ptr, "getcolumndefinition", NULL, 0, column);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(_3);
 	ZEPHIR_CONCAT_SVSV(_3, "`", _1, "` ", _2);
 	zephir_concat_self(&sql, _3 TSRMLS_CC);
-	ZEPHIR_CALL_METHOD(&defaultValue, column, "getdefault", NULL);
+	ZEPHIR_CALL_METHOD(&defaultValue, column, "getdefault", NULL, 0);
 	zephir_check_call_status();
 	if (!(ZEPHIR_IS_EMPTY(defaultValue))) {
 		ZEPHIR_SINIT_VAR(_4);
 		ZVAL_STRING(&_4, "\"", 0);
-		ZEPHIR_CALL_FUNCTION(&_5, "addcslashes", &_6, defaultValue, &_4);
+		ZEPHIR_CALL_FUNCTION(&_5, "addcslashes", NULL, 108, defaultValue, &_4);
 		zephir_check_call_status();
-		ZEPHIR_INIT_VAR(_7);
-		ZEPHIR_CONCAT_SVS(_7, " DEFAULT \"", _5, "\"");
-		zephir_concat_self(&sql, _7 TSRMLS_CC);
+		ZEPHIR_INIT_VAR(_6);
+		ZEPHIR_CONCAT_SVS(_6, " DEFAULT \"", _5, "\"");
+		zephir_concat_self(&sql, _6 TSRMLS_CC);
 	}
-	ZEPHIR_CALL_METHOD(&_5, column, "isnotnull", NULL);
+	ZEPHIR_CALL_METHOD(&_5, column, "isnotnull", NULL, 0);
 	zephir_check_call_status();
 	if (zephir_is_true(_5)) {
 		zephir_concat_self_str(&sql, SL(" NOT NULL") TSRMLS_CC);
@@ -449,7 +450,6 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, dropColumn) {
  */
 PHP_METHOD(Phalcon_Db_Dialect_MySQL, addIndex) {
 
-	zephir_nts_static zephir_fcall_cache_entry *_5 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *tableName_param = NULL, *schemaName_param = NULL, *index, *sql = NULL, *indexType = NULL, *_1 = NULL, *_2 = NULL, *_3 = NULL, *_4 = NULL;
 	zval *tableName = NULL, *schemaName = NULL, *_0 = NULL;
@@ -491,7 +491,7 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, addIndex) {
 		ZEPHIR_CONCAT_SV(_0, "ALTER TABLE `", tableName);
 		ZEPHIR_CPY_WRT(sql, _0);
 	}
-	ZEPHIR_CALL_METHOD(&indexType, index, "gettype", NULL);
+	ZEPHIR_CALL_METHOD(&indexType, index, "gettype", NULL, 0);
 	zephir_check_call_status();
 	if (!(ZEPHIR_IS_EMPTY(indexType))) {
 		ZEPHIR_INIT_VAR(_1);
@@ -500,11 +500,11 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, addIndex) {
 	} else {
 		zephir_concat_self_str(&sql, SL("` ADD INDEX ") TSRMLS_CC);
 	}
-	ZEPHIR_CALL_METHOD(&_2, index, "getname", NULL);
+	ZEPHIR_CALL_METHOD(&_2, index, "getname", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_4, index, "getcolumns", NULL);
+	ZEPHIR_CALL_METHOD(&_4, index, "getcolumns", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_3, this_ptr, "getcolumnlist", &_5, _4);
+	ZEPHIR_CALL_METHOD(&_3, this_ptr, "getcolumnlist", NULL, 99, _4);
 	zephir_check_call_status();
 	ZEPHIR_INIT_LNVAR(_1);
 	ZEPHIR_CONCAT_SVSVS(_1, "`", _2, "` (", _3, ")");
@@ -581,9 +581,8 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, dropIndex) {
  */
 PHP_METHOD(Phalcon_Db_Dialect_MySQL, addPrimaryKey) {
 
-	zephir_nts_static zephir_fcall_cache_entry *_3 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *tableName_param = NULL, *schemaName_param = NULL, *index, *sql = NULL, *_1 = NULL, *_2 = NULL, *_4;
+	zval *tableName_param = NULL, *schemaName_param = NULL, *index, *sql = NULL, *_1 = NULL, *_2 = NULL, *_3;
 	zval *tableName = NULL, *schemaName = NULL, *_0 = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -623,13 +622,13 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, addPrimaryKey) {
 		ZEPHIR_CONCAT_SVS(_0, "ALTER TABLE `", tableName, "` ADD PRIMARY KEY ");
 		ZEPHIR_CPY_WRT(sql, _0);
 	}
-	ZEPHIR_CALL_METHOD(&_2, index, "getcolumns", NULL);
+	ZEPHIR_CALL_METHOD(&_2, index, "getcolumns", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_1, this_ptr, "getcolumnlist", &_3, _2);
+	ZEPHIR_CALL_METHOD(&_1, this_ptr, "getcolumnlist", NULL, 99, _2);
 	zephir_check_call_status();
-	ZEPHIR_INIT_VAR(_4);
-	ZEPHIR_CONCAT_SVS(_4, "(", _1, ")");
-	zephir_concat_self(&sql, _4 TSRMLS_CC);
+	ZEPHIR_INIT_VAR(_3);
+	ZEPHIR_CONCAT_SVS(_3, "(", _1, ")");
+	zephir_concat_self(&sql, _3 TSRMLS_CC);
 	RETURN_CCTOR(sql);
 
 }
@@ -688,9 +687,8 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, dropPrimaryKey) {
  */
 PHP_METHOD(Phalcon_Db_Dialect_MySQL, addForeignKey) {
 
-	zephir_nts_static zephir_fcall_cache_entry *_4 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *tableName_param = NULL, *schemaName_param = NULL, *reference, *sql = NULL, *referencedSchema = NULL, *onDelete = NULL, *onUpdate = NULL, *_1 = NULL, *_2 = NULL, *_3 = NULL, *_5, *_6 = NULL, *_7 = NULL, *_8 = NULL, *_9 = NULL, *_10;
+	zval *tableName_param = NULL, *schemaName_param = NULL, *reference, *sql = NULL, *referencedSchema = NULL, *onDelete = NULL, *onUpdate = NULL, *_1 = NULL, *_2 = NULL, *_3 = NULL, *_4, *_5 = NULL, *_6 = NULL, *_7 = NULL, *_8 = NULL, *_9;
 	zval *tableName = NULL, *schemaName = NULL, *_0 = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -730,44 +728,44 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, addForeignKey) {
 		ZEPHIR_CONCAT_SVS(_0, "ALTER TABLE `", tableName, "` ADD FOREIGN KEY ");
 		ZEPHIR_CPY_WRT(sql, _0);
 	}
-	ZEPHIR_CALL_METHOD(&_1, reference, "getname", NULL);
+	ZEPHIR_CALL_METHOD(&_1, reference, "getname", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_3, reference, "getcolumns", NULL);
+	ZEPHIR_CALL_METHOD(&_3, reference, "getcolumns", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_2, this_ptr, "getcolumnlist", &_4, _3);
+	ZEPHIR_CALL_METHOD(&_2, this_ptr, "getcolumnlist", NULL, 99, _3);
 	zephir_check_call_status();
-	ZEPHIR_INIT_VAR(_5);
-	ZEPHIR_CONCAT_SVSVS(_5, "`", _1, "`(", _2, ") REFERENCES ");
-	zephir_concat_self(&sql, _5 TSRMLS_CC);
-	ZEPHIR_CALL_METHOD(&referencedSchema, reference, "getreferencedschema", NULL);
+	ZEPHIR_INIT_VAR(_4);
+	ZEPHIR_CONCAT_SVSVS(_4, "`", _1, "`(", _2, ") REFERENCES ");
+	zephir_concat_self(&sql, _4 TSRMLS_CC);
+	ZEPHIR_CALL_METHOD(&referencedSchema, reference, "getreferencedschema", NULL, 0);
 	zephir_check_call_status();
 	if (zephir_is_true(referencedSchema)) {
-		ZEPHIR_INIT_VAR(_6);
-		ZEPHIR_CONCAT_SVS(_6, "`", referencedSchema, "`.");
-		zephir_concat_self(&sql, _6 TSRMLS_CC);
+		ZEPHIR_INIT_VAR(_5);
+		ZEPHIR_CONCAT_SVS(_5, "`", referencedSchema, "`.");
+		zephir_concat_self(&sql, _5 TSRMLS_CC);
 	}
-	ZEPHIR_CALL_METHOD(&_7, reference, "getreferencedtable", NULL);
+	ZEPHIR_CALL_METHOD(&_6, reference, "getreferencedtable", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_9, reference, "getreferencedcolumns", NULL);
+	ZEPHIR_CALL_METHOD(&_8, reference, "getreferencedcolumns", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_8, this_ptr, "getcolumnlist", &_4, _9);
+	ZEPHIR_CALL_METHOD(&_7, this_ptr, "getcolumnlist", NULL, 99, _8);
 	zephir_check_call_status();
-	ZEPHIR_INIT_LNVAR(_6);
-	ZEPHIR_CONCAT_SVSVS(_6, "`", _7, "`(", _8, ")");
-	zephir_concat_self(&sql, _6 TSRMLS_CC);
-	ZEPHIR_CALL_METHOD(&onDelete, reference, "getondelete", NULL);
+	ZEPHIR_INIT_LNVAR(_5);
+	ZEPHIR_CONCAT_SVSVS(_5, "`", _6, "`(", _7, ")");
+	zephir_concat_self(&sql, _5 TSRMLS_CC);
+	ZEPHIR_CALL_METHOD(&onDelete, reference, "getondelete", NULL, 0);
 	zephir_check_call_status();
 	if (!(ZEPHIR_IS_EMPTY(onDelete))) {
-		ZEPHIR_INIT_VAR(_10);
-		ZEPHIR_CONCAT_SV(_10, " ON DELETE ", onDelete);
-		zephir_concat_self(&sql, _10 TSRMLS_CC);
+		ZEPHIR_INIT_VAR(_9);
+		ZEPHIR_CONCAT_SV(_9, " ON DELETE ", onDelete);
+		zephir_concat_self(&sql, _9 TSRMLS_CC);
 	}
-	ZEPHIR_CALL_METHOD(&onUpdate, reference, "getonupdate", NULL);
+	ZEPHIR_CALL_METHOD(&onUpdate, reference, "getonupdate", NULL, 0);
 	zephir_check_call_status();
 	if (!(ZEPHIR_IS_EMPTY(onUpdate))) {
-		ZEPHIR_INIT_LNVAR(_6);
-		ZEPHIR_CONCAT_SV(_6, " ON UPDATE ", onUpdate);
-		zephir_concat_self(&sql, _6 TSRMLS_CC);
+		ZEPHIR_INIT_LNVAR(_5);
+		ZEPHIR_CONCAT_SV(_5, " ON UPDATE ", onUpdate);
+		zephir_concat_self(&sql, _5 TSRMLS_CC);
 	}
 	RETURN_CCTOR(sql);
 
@@ -839,8 +837,7 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, dropForeignKey) {
  */
 PHP_METHOD(Phalcon_Db_Dialect_MySQL, createTable) {
 
-	zephir_nts_static zephir_fcall_cache_entry *_9 = NULL, *_14 = NULL;
-	zephir_fcall_cache_entry *_6 = NULL;
+	zephir_fcall_cache_entry *_6 = NULL, *_9 = NULL, *_14 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
 	HashTable *_2, *_12, *_18;
 	HashPosition _1, _11, _17;
@@ -913,34 +910,34 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, createTable) {
 	  ; zephir_hash_move_forward_ex(_2, &_1)
 	) {
 		ZEPHIR_GET_HVALUE(column, _3);
-		ZEPHIR_CALL_METHOD(&_4, column, "getname", NULL);
+		ZEPHIR_CALL_METHOD(&_4, column, "getname", NULL, 0);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(&_5, this_ptr, "getcolumndefinition", &_6, column);
+		ZEPHIR_CALL_METHOD(&_5, this_ptr, "getcolumndefinition", &_6, 0, column);
 		zephir_check_call_status();
 		ZEPHIR_INIT_NVAR(columnLine);
 		ZEPHIR_CONCAT_SVSV(columnLine, "`", _4, "` ", _5);
-		ZEPHIR_CALL_METHOD(&defaultValue, column, "getdefault", NULL);
+		ZEPHIR_CALL_METHOD(&defaultValue, column, "getdefault", NULL, 0);
 		zephir_check_call_status();
 		if (!(ZEPHIR_IS_EMPTY(defaultValue))) {
 			ZEPHIR_SINIT_NVAR(_7);
 			ZVAL_STRING(&_7, "\"", 0);
-			ZEPHIR_CALL_FUNCTION(&_8, "addcslashes", &_9, defaultValue, &_7);
+			ZEPHIR_CALL_FUNCTION(&_8, "addcslashes", &_9, 108, defaultValue, &_7);
 			zephir_check_call_status();
 			ZEPHIR_INIT_LNVAR(_10);
 			ZEPHIR_CONCAT_SVS(_10, " DEFAULT \"", _8, "\"");
 			zephir_concat_self(&columnLine, _10 TSRMLS_CC);
 		}
-		ZEPHIR_CALL_METHOD(&_8, column, "isnotnull", NULL);
+		ZEPHIR_CALL_METHOD(&_8, column, "isnotnull", NULL, 0);
 		zephir_check_call_status();
 		if (zephir_is_true(_8)) {
 			zephir_concat_self_str(&columnLine, SL(" NOT NULL") TSRMLS_CC);
 		}
-		ZEPHIR_CALL_METHOD(&_8, column, "isautoincrement", NULL);
+		ZEPHIR_CALL_METHOD(&_8, column, "isautoincrement", NULL, 0);
 		zephir_check_call_status();
 		if (zephir_is_true(_8)) {
 			zephir_concat_self_str(&columnLine, SL(" AUTO_INCREMENT") TSRMLS_CC);
 		}
-		ZEPHIR_CALL_METHOD(&_8, column, "isprimary", NULL);
+		ZEPHIR_CALL_METHOD(&_8, column, "isprimary", NULL, 0);
 		zephir_check_call_status();
 		if (zephir_is_true(_8)) {
 			zephir_concat_self_str(&columnLine, SL(" PRIMARY KEY") TSRMLS_CC);
@@ -955,29 +952,29 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, createTable) {
 		  ; zephir_hash_move_forward_ex(_12, &_11)
 		) {
 			ZEPHIR_GET_HVALUE(index, _13);
-			ZEPHIR_CALL_METHOD(&indexName, index, "getname", NULL);
+			ZEPHIR_CALL_METHOD(&indexName, index, "getname", NULL, 0);
 			zephir_check_call_status();
-			ZEPHIR_CALL_METHOD(&indexType, index, "gettype", NULL);
+			ZEPHIR_CALL_METHOD(&indexType, index, "gettype", NULL, 0);
 			zephir_check_call_status();
 			if (ZEPHIR_IS_STRING(indexName, "PRIMARY")) {
-				ZEPHIR_CALL_METHOD(&_5, index, "getcolumns", NULL);
+				ZEPHIR_CALL_METHOD(&_5, index, "getcolumns", NULL, 0);
 				zephir_check_call_status();
-				ZEPHIR_CALL_METHOD(&_4, this_ptr, "getcolumnlist", &_14, _5);
+				ZEPHIR_CALL_METHOD(&_4, this_ptr, "getcolumnlist", &_14, 99, _5);
 				zephir_check_call_status();
 				ZEPHIR_INIT_NVAR(indexSql);
 				ZEPHIR_CONCAT_SVS(indexSql, "PRIMARY KEY (", _4, ")");
 			} else {
 				ZEPHIR_INIT_NVAR(indexSql);
 				if (!(ZEPHIR_IS_EMPTY(indexType))) {
-					ZEPHIR_CALL_METHOD(&_15, index, "getcolumns", NULL);
+					ZEPHIR_CALL_METHOD(&_15, index, "getcolumns", NULL, 0);
 					zephir_check_call_status();
-					ZEPHIR_CALL_METHOD(&_8, this_ptr, "getcolumnlist", &_14, _15);
+					ZEPHIR_CALL_METHOD(&_8, this_ptr, "getcolumnlist", &_14, 99, _15);
 					zephir_check_call_status();
 					ZEPHIR_CONCAT_VSVSVS(indexSql, indexType, " KEY `", indexName, "` (", _8, ")");
 				} else {
-					ZEPHIR_CALL_METHOD(&_16, index, "getcolumns", NULL);
+					ZEPHIR_CALL_METHOD(&_16, index, "getcolumns", NULL, 0);
 					zephir_check_call_status();
-					ZEPHIR_CALL_METHOD(&_15, this_ptr, "getcolumnlist", &_14, _16);
+					ZEPHIR_CALL_METHOD(&_15, this_ptr, "getcolumnlist", &_14, 99, _16);
 					zephir_check_call_status();
 					ZEPHIR_CONCAT_SVSVS(indexSql, "KEY `", indexName, "` (", _15, ")");
 				}
@@ -993,28 +990,28 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, createTable) {
 		  ; zephir_hash_move_forward_ex(_18, &_17)
 		) {
 			ZEPHIR_GET_HVALUE(reference, _19);
-			ZEPHIR_CALL_METHOD(&_4, reference, "getname", NULL);
+			ZEPHIR_CALL_METHOD(&_4, reference, "getname", NULL, 0);
 			zephir_check_call_status();
-			ZEPHIR_CALL_METHOD(&_8, reference, "getcolumns", NULL);
+			ZEPHIR_CALL_METHOD(&_8, reference, "getcolumns", NULL, 0);
 			zephir_check_call_status();
-			ZEPHIR_CALL_METHOD(&_5, this_ptr, "getcolumnlist", &_14, _8);
+			ZEPHIR_CALL_METHOD(&_5, this_ptr, "getcolumnlist", &_14, 99, _8);
 			zephir_check_call_status();
-			ZEPHIR_CALL_METHOD(&_15, reference, "getreferencedtable", NULL);
+			ZEPHIR_CALL_METHOD(&_15, reference, "getreferencedtable", NULL, 0);
 			zephir_check_call_status();
-			ZEPHIR_CALL_METHOD(&_20, reference, "getreferencedcolumns", NULL);
+			ZEPHIR_CALL_METHOD(&_20, reference, "getreferencedcolumns", NULL, 0);
 			zephir_check_call_status();
-			ZEPHIR_CALL_METHOD(&_16, this_ptr, "getcolumnlist", &_14, _20);
+			ZEPHIR_CALL_METHOD(&_16, this_ptr, "getcolumnlist", &_14, 99, _20);
 			zephir_check_call_status();
 			ZEPHIR_INIT_NVAR(referenceSql);
 			ZEPHIR_CONCAT_SVSVSSVSVS(referenceSql, "CONSTRAINT `", _4, "` FOREIGN KEY (", _5, ")", " REFERENCES `", _15, "`(", _16, ")");
-			ZEPHIR_CALL_METHOD(&onDelete, reference, "getondelete", NULL);
+			ZEPHIR_CALL_METHOD(&onDelete, reference, "getondelete", NULL, 0);
 			zephir_check_call_status();
 			if (!(ZEPHIR_IS_EMPTY(onDelete))) {
 				ZEPHIR_INIT_LNVAR(_10);
 				ZEPHIR_CONCAT_SV(_10, " ON DELETE ", onDelete);
 				zephir_concat_self(&referenceSql, _10 TSRMLS_CC);
 			}
-			ZEPHIR_CALL_METHOD(&onUpdate, reference, "getonupdate", NULL);
+			ZEPHIR_CALL_METHOD(&onUpdate, reference, "getonupdate", NULL, 0);
 			zephir_check_call_status();
 			if (!(ZEPHIR_IS_EMPTY(onUpdate))) {
 				ZEPHIR_INIT_LNVAR(_21);
@@ -1030,7 +1027,7 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, createTable) {
 	ZEPHIR_CONCAT_VS(_10, _22, "\n)");
 	zephir_concat_self(&sql, _10 TSRMLS_CC);
 	if (zephir_array_isset_string(definition, SS("options"))) {
-		ZEPHIR_CALL_METHOD(&_4, this_ptr, "_gettableoptions", NULL, definition);
+		ZEPHIR_CALL_METHOD(&_4, this_ptr, "_gettableoptions", NULL, 0, definition);
 		zephir_check_call_status();
 		ZEPHIR_INIT_LNVAR(_21);
 		ZEPHIR_CONCAT_SV(_21, " ", _4);

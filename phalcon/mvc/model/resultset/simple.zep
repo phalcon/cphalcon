@@ -1,19 +1,19 @@
 
 /*
  +------------------------------------------------------------------------+
- | Phalcon Framework                                                      |
+ | Phalcon Framework													  |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)	      |
  +------------------------------------------------------------------------+
- | This source file is subject to the New BSD License that is bundled     |
- | with this package in the file docs/LICENSE.txt.                        |
- |                                                                        |
- | If you did not receive a copy of the license and are unable to         |
- | obtain it through the world-wide-web, please send an email             |
- | to license@phalconphp.com so we can send you a copy immediately.       |
+ | This source file is subject to the New BSD License that is bundled	  |
+ | with this package in the file docs/LICENSE.txt.						  |
+ |																		  |
+ | If you did not receive a copy of the license and are unable to		  |
+ | obtain it through the world-wide-web, please send an email			  |
+ | to license@phalconphp.com so we can send you a copy immediately.	      |
  +------------------------------------------------------------------------+
- | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
- |          Eduar Carvajal <eduar@phalconphp.com>                         |
+ | Authors: Andres Gutierrez <andres@phalconphp.com>					  |
+ |		  Eduar Carvajal <eduar@phalconphp.com>					          |
  +------------------------------------------------------------------------+
  */
 
@@ -51,42 +51,15 @@ class Simple extends Resultset
 	 */
 	public function __construct(var columnMap, var model, result, <BackendInterface> cache = null, keepSnapshots = null)
 	{
-		var rowCount;
-
 		let this->_model = model,
-			this->_result = result,
-			this->_cache = cache,
 			this->_columnMap = columnMap;
-
-		if typeof result != "object" {
-			return;
-		}
-
-		/**
-		 * Do the fetch using only associative indexes
-		 */
-		result->setFetchMode(\Phalcon\Db::FETCH_ASSOC);
-
-		let rowCount = result->numRows();
-
-		/**
-		 * Check if it's a big resultset
-		 */
-		if rowCount > 32 {
-			let this->_type = 1;
-		} else {
-			let this->_type = 0;
-		}
-
-		/**
-		 * Update the row-count
-		 */
-		let this->_count = rowCount;
 
 		/**
 		 * Set if the returned resultset must keep the record snapshots
 		 */
 		let this->_keepSnapshots = keepSnapshots;
+
+		parent::__construct(result, cache);
 	}
 
 	/**
@@ -94,42 +67,21 @@ class Simple extends Resultset
 	 */
 	public final function current() -> <ModelInterface> | boolean
 	{
-		var result, row, hydrateMode, columnMap, activeRow;
-		
+		var row, hydrateMode, columnMap, activeRow;
+
 		let activeRow = this->_activeRow;
 		if activeRow !== null {
 			return activeRow;
 		}
 
 		/**
-		 * Get current row
+		 * Current row is set by seek() operations
 		 */
-		if this->_type {
-			/**
-			 * Fetch from PDO one-by-one. Functions "next" and "seek" set this->_row
-			 */
-			let row = this->_row;
-		} else {
-			/**
-			 * Fetch from array. Functions "next" and "seek" set this->_pointer
-			 * We have to ensure this->_rows is populated
-			 */
-			if this->_rows === null {
-				let result = this->_result;
-				if typeof result == "object" {
-					let this->_rows = result->fetchAll();
-				}
-			}
+		let row = this->_row;
 
-			if typeof this->_rows == "array" {
-				if !fetch row, this->_rows[this->_pointer] {
-					let row = false;
-				}
-			} else {
-				let row = false;
-			}
-		}
-
+		/**
+		 * Valid records are arrays
+		 */
 		if typeof row != "array" {
 			let this->_activeRow = false;
 			return false;
@@ -143,7 +95,7 @@ class Simple extends Resultset
 		/**
 		 * Get the resultset column map
 		 */
-		let columnMap = this->_columnMap;		
+		let columnMap = this->_columnMap;
 
 		/**
 		 * Hydrate based on the current hydration
@@ -186,39 +138,20 @@ class Simple extends Resultset
 		var result, records, record, renamed, renamedKey,
 			key, value, renamedRecords, columnMap;
 
-		if this->_type {
-			/**
-			* Fetch from PDO one-by-one. For toArray we fetch all rows at once
-			*/
+		/**
+		* If _rows is not present, fetchAll from database
+		* and keep them in memory for further operations
+		*/
+		let records = this->_rows;
+		if typeof records != "array" {
 			let result = this->_result;
-			if typeof result == "object" {
+			if this->_row !== null {
 				// re-execute query if required and fetchAll rows
-				if this->_row !== null {
-					result->execute();
-				}
-				let records = result->fetchAll();
-				let this->_row = null; 
-			} else {
-				let records = [];
+				result->execute();
 			}
-
-		} else {
-			/**
-			 * Fetch from array. this->_rows is alreay our data-array we want to return
-			 */
-			let records = this->_rows;
-			if typeof records != "array" {
-				let result = this->_result;
-				if typeof result == "object" {
-					/**
-					 * We fetch all the results in memory again
-					 */
-					let records = result->fetchAll(),
-						this->_rows = records;
-				} else {
-					let records = [];
-				}
-			}
+			let records = result->fetchAll();
+			let this->_row = null;
+			let this->_rows = records; // keep result-set in memory
 		}
 
 		/**
@@ -277,9 +210,9 @@ class Simple extends Resultset
 		 * Serialize the cache using the serialize function
 		 */
 		return serialize([
-			"model"       : this->_model,
-			"cache"       : this->_cache,
-			"rows"        : this->toArray(false),
+			"model"	   : this->_model,
+			"cache"	   : this->_cache,
+			"rows"		: this->toArray(false),
 			"columnMap"   : this->_columnMap,
 			"hydrateMode" : this->_hydrateMode
 		]);
@@ -292,11 +225,6 @@ class Simple extends Resultset
 	{
 		var resultset;
 
-		/**
-		 * Enable fetch by array
-		 */
-		let this->_type = 0;
-
 		let resultset = unserialize(data);
 		if typeof resultset != "array" {
 			throw new Exception("Invalid serialization data");
@@ -304,6 +232,7 @@ class Simple extends Resultset
 
 		let this->_model = resultset["model"],
 			this->_rows = resultset["rows"],
+			this->_count = count(resultset["rows"]),
 			this->_cache = resultset["cache"],
 			this->_columnMap = resultset["columnMap"],
 			this->_hydrateMode = resultset["hydrateMode"];

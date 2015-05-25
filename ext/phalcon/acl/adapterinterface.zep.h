@@ -76,5 +76,5 @@ ZEPHIR_INIT_FUNCS(phalcon_acl_adapterinterface_method_entry) {
 	PHP_ABSTRACT_ME(Phalcon_Acl_AdapterInterface, getActiveAccess, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Acl_AdapterInterface, getRoles, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Acl_AdapterInterface, getResources, NULL)
-  PHP_FE_END
+	PHP_FE_END
 };

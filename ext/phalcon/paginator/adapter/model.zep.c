@@ -121,30 +121,30 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, getPaginate) {
 		if (start <= n) {
 			ZEPHIR_INIT_VAR(_2);
 			ZVAL_LONG(_2, start);
-			ZEPHIR_CALL_METHOD(NULL, items, "seek", NULL, _2);
+			ZEPHIR_CALL_METHOD(NULL, items, "seek", NULL, 0, _2);
 			zephir_check_call_status();
 		} else {
 			ZEPHIR_INIT_NVAR(_2);
 			ZVAL_LONG(_2, 0);
-			ZEPHIR_CALL_METHOD(NULL, items, "seek", NULL, _2);
+			ZEPHIR_CALL_METHOD(NULL, items, "seek", NULL, 0, _2);
 			zephir_check_call_status();
 			pageNumber = 1;
 		}
 		i = 1;
 		while (1) {
-			ZEPHIR_CALL_METHOD(&_3, items, "valid", NULL);
+			ZEPHIR_CALL_METHOD(&_3, items, "valid", NULL, 0);
 			zephir_check_call_status();
 			if (!(zephir_is_true(_3))) {
 				break;
 			}
-			ZEPHIR_CALL_METHOD(&_4, items, "current", &_5);
+			ZEPHIR_CALL_METHOD(&_4, items, "current", &_5, 0);
 			zephir_check_call_status();
 			zephir_array_append(&pageItems, _4, PH_SEPARATE, "phalcon/paginator/adapter/model.zep", 121);
 			if (i >= show) {
 				break;
 			}
 			i++;
-			ZEPHIR_CALL_METHOD(NULL, items, "next", &_6);
+			ZEPHIR_CALL_METHOD(NULL, items, "next", &_6, 0);
 			zephir_check_call_status();
 		}
 	}

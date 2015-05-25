@@ -36,5 +36,5 @@ ZEPHIR_INIT_FUNCS(phalcon_logger_formatter_firephp_method_entry) {
 	PHP_ME(Phalcon_Logger_Formatter_Firephp, enableLabels, arginfo_phalcon_logger_formatter_firephp_enablelabels, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Logger_Formatter_Firephp, labelsEnabled, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Logger_Formatter_Firephp, format, arginfo_phalcon_logger_formatter_firephp_format, ZEND_ACC_PUBLIC)
-  PHP_FE_END
+	PHP_FE_END
 };

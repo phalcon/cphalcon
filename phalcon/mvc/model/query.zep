@@ -598,6 +598,10 @@ class Query implements QueryInterface, InjectionAwareInterface
 					let exprReturn = this->_getFunctionCall(expr);
 					break;
 
+				case PHQL_T_SELECT:
+					let exprReturn = ["type": "select", "value": this->_prepareSelect(expr, true)];
+					break;
+
 				default:
 					throw new Exception("Unknown expression type " . exprType);
 			}
@@ -873,18 +877,20 @@ class Query implements QueryInterface, InjectionAwareInterface
 			 * Create the right part of the expression
 			 */
 			let sqlJoinConditions = [
-				"type"     : "binary-op",
-				"op"       : "=",
-				"left"     : this->_getQualified([
-					"type"   : 355,
-					"domain" : modelAlias,
-					"name"   : fields
-				]),
-				"right"    : this->_getQualified([
-					"type"   : "qualified",
-					"domain" : joinAlias,
-					"name"   : referencedFields
-				])
+				[
+					"type"     : "binary-op",
+					"op"       : "=",
+					"left"     : this->_getQualified([
+						"type"   : 355,
+						"domain" : modelAlias,
+						"name"   : fields
+					]),
+					"right"    : this->_getQualified([
+						"type"   : "qualified",
+						"domain" : joinAlias,
+						"name"   : referencedFields
+					])
+				]
 			];
 
 		} else {
@@ -1506,9 +1512,9 @@ class Query implements QueryInterface, InjectionAwareInterface
 	/**
 	 * Analyzes a SELECT intermediate code and produces an array to be executed later
 	 */
-	protected final function _prepareSelect() -> array
+	protected final function _prepareSelect(var ast = null, var merge = null) -> array
 	{
-		var ast, sqlModels, sqlTables, sqlAliases, sqlColumns, select, tables, columns,
+		var sqlModels, sqlTables, sqlAliases, sqlColumns, select, tables, columns,
 			sqlAliasesModels, sqlModelsAliases, sqlAliasesModelsInstances,
 			models, modelsInstances, selectedModels, manager, metaData,
 			selectedModel, qualifiedName, modelName, nsAlias, realModelName, model,
@@ -1517,8 +1523,17 @@ class Query implements QueryInterface, InjectionAwareInterface
 			groupBy, order, limit;
 		int position;
 
-		let ast = this->_ast,
-			select = ast["select"];
+		if empty ast {
+			let ast = this->_ast;
+		}
+
+		if typeof merge == "null" {
+			let merge = false;
+		}
+
+		if !fetch select, ast["select"] {
+			let select = ast;
+		}
 
 		if !fetch tables, select["tables"] {
 			throw new Exception("Corrupted SELECT AST");
@@ -1577,6 +1592,14 @@ class Query implements QueryInterface, InjectionAwareInterface
 
 		let manager = this->_manager,
 			metaData = this->_metaData;
+
+		if typeof manager != "object" {
+			throw new Exception("A models-manager is required to execute the query");
+		}
+
+		if typeof metaData != "object" {
+			throw new Exception("A meta-data is required to execute the query");
+		}
 
 		/**
 		 * Processing selected columns
@@ -1664,13 +1687,23 @@ class Query implements QueryInterface, InjectionAwareInterface
 		/**
 		 * Assign Models/Tables information
 		 */
-		let this->_models = models,
-			this->_modelsInstances = modelsInstances,
-			this->_sqlAliases = sqlAliases,
-			this->_sqlAliasesModels = sqlAliasesModels,
-			this->_sqlModelsAliases = sqlModelsAliases,
-			this->_sqlAliasesModelsInstances = sqlAliasesModelsInstances,
-			this->_modelsInstances = modelsInstances;
+		if !merge {
+			let this->_models = models,
+				this->_modelsInstances = modelsInstances,
+				this->_sqlAliases = sqlAliases,
+				this->_sqlAliasesModels = sqlAliasesModels,
+				this->_sqlModelsAliases = sqlModelsAliases,
+				this->_sqlAliasesModelsInstances = sqlAliasesModelsInstances,
+				this->_modelsInstances = modelsInstances;
+		} else {
+			let this->_models = array_merge(this->_models, models),
+				this->_modelsInstances = array_merge(this->_modelsInstances, modelsInstances),
+				this->_sqlAliases = array_merge(this->_sqlAliases, sqlAliases),
+				this->_sqlAliasesModels = array_merge(this->_sqlAliasesModels, sqlAliasesModels),
+				this->_sqlModelsAliases = array_merge(this->_sqlModelsAliases, sqlModelsAliases),
+				this->_sqlAliasesModelsInstances = array_merge(this->_sqlAliasesModelsInstances, sqlAliasesModelsInstances),
+				this->_modelsInstances = array_merge(this->_modelsInstances, modelsInstances);
+		}
 
 		/**
 		 * Processing joins
@@ -2727,9 +2760,14 @@ class Query implements QueryInterface, InjectionAwareInterface
 
 		for number, field in fields {
 
-			let fieldName = field["name"],
-				value = values[number],
+			let value = values[number],
 				exprValue = value["value"];
+
+			if isset field["balias"] {
+				let fieldName = field["balias"];
+			} else {
+				let fieldName = field["name"];
+			}
 
 			switch value["type"] {
 

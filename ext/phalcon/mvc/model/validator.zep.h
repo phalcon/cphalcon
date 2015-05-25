@@ -35,5 +35,5 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_model_validator_method_entry) {
 	PHP_ME(Phalcon_Mvc_Model_Validator, getOptions, NULL, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Mvc_Model_Validator, getOption, arginfo_phalcon_mvc_model_validator_getoption, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Mvc_Model_Validator, isSetOption, arginfo_phalcon_mvc_model_validator_issetoption, ZEND_ACC_PROTECTED)
-  PHP_FE_END
+	PHP_FE_END
 };

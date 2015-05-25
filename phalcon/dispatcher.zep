@@ -252,19 +252,20 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 		var params, filter, paramValue, dependencyInjector;
 
 		let params = this->_params;
-		if  fetch paramValue, params[param] {
-			if filters !== null {
-				let dependencyInjector = this->_dependencyInjector;
-				if typeof dependencyInjector != "object" {
-					this->{"_throwDispatchException"}("A dependency injection object is required to access the 'filter' service", self::EXCEPTION_NO_DI);
-				}
-				let filter = <FilterInterface> dependencyInjector->getShared("filter");
-				return filter->sanitize(paramValue, filters);
-			} else {
-				return paramValue;
-			}
+		if !fetch paramValue, params[param] {
+			return defaultValue;
 		}
-		return defaultValue;
+
+		if filters === null {
+			return paramValue;
+		}
+
+		let dependencyInjector = this->_dependencyInjector;
+		if typeof dependencyInjector != "object" {
+			this->{"_throwDispatchException"}("A dependency injection object is required to access the 'filter' service", self::EXCEPTION_NO_DI);
+		}
+		let filter = <FilterInterface> dependencyInjector->getShared("filter");
+		return filter->sanitize(paramValue, filters);
 	}
 
 	/**
@@ -313,7 +314,7 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 		boolean hasService;
 		int numberDispatches;
 		var value, handler, dependencyInjector, namespaceName, handlerName,
-			actionName, camelizedClass, params, eventsManager,
+			actionName, params, eventsManager,
 			handlerSuffix, actionSuffix, handlerClass, status, actionMethod,
 			wasFresh = false, e;
 
@@ -352,26 +353,12 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 
 			let this->_finished = true;
 
-			// If the current namespace is null we used the set in this->_defaultNamespace
+			this->_resolveEmptyProperties();
+
 			let namespaceName = this->_namespaceName;
-			if !namespaceName {
-				let namespaceName = this->_defaultNamespace;
-				let this->_namespaceName = namespaceName;
-			}
-
-			// If the handler is null we use the set in this->_defaultHandler
 			let handlerName = this->_handlerName;
-			if !handlerName {
-				let handlerName = this->_defaultHandler;
-				let this->_handlerName = handlerName;
-			}
-
-			// If the action is null we use the set in this->_defaultAction
 			let actionName = this->_actionName;
-			if !actionName {
-				let actionName = this->_defaultAction;
-				let this->_actionName = actionName;
-			}
+			let handlerClass = this->getHandlerClass();
 
 			// Calling beforeDispatch
 			if typeof eventsManager == "object" {
@@ -384,24 +371,6 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 				if this->_finished === false {
 					continue;
 				}
-			}
-
-			// We don't camelize the classes if they are in namespaces
-			if !memstr(handlerName, "\\") {
-				let camelizedClass = camelize(handlerName);
-			} else {
-				let camelizedClass = handlerName;
-			}
-
-			// Create the complete controller class name prepending the namespace
-			if namespaceName {
-				if ends_with(namespaceName, "\\") {
-					let handlerClass = namespaceName . camelizedClass . handlerSuffix;
-				} else {
-					let handlerClass = namespaceName . "\\" . camelizedClass . handlerSuffix;
-				}
-			} else {
-				let handlerClass = camelizedClass . handlerSuffix;
 			}
 
 			// Handlers are retrieved as shared instances from the Service Container
@@ -651,42 +620,54 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 	 */
 	public function getHandlerClass() -> string
 	{
-		var camelizedClass;
+		var handlerSuffix, handlerName, namespaceName,
+			camelizedClass, handlerClass;
 
-		/**
-		 * If the current namespace is null we used the set in default namespace
-		 */
+		this->_resolveEmptyProperties();
+
+		let handlerSuffix = this->_handlerSuffix,
+			handlerName = this->_handlerName,
+			namespaceName = this->_namespaceName;
+
+		// We don't camelize the classes if they are in namespaces
+		if !memstr(handlerName, "\\") {
+			let camelizedClass = camelize(handlerName);
+		} else {
+			let camelizedClass = handlerName;
+		}
+
+		// Create the complete controller class name prepending the namespace
+		if namespaceName {
+			if ends_with(namespaceName, "\\") {
+				let handlerClass = namespaceName . camelizedClass . handlerSuffix;
+			} else {
+				let handlerClass = namespaceName . "\\" . camelizedClass . handlerSuffix;
+			}
+		} else {
+			let handlerClass = camelizedClass . handlerSuffix;
+		}
+
+		return handlerClass;
+	}
+
+	/**
+	 * Set empty properties to their defaults (where defaults are available)
+	 */
+	protected function _resolveEmptyProperties() -> void
+	{
+		// If the current namespace is null we used the set in this->_defaultNamespace
 		if !this->_namespaceName {
 			let this->_namespaceName = this->_defaultNamespace;
 		}
 
-		/**
-		 * If the handler is null we use the set in default handler
-		 */
+		// If the handler is null we use the set in this->_defaultHandler
 		if !this->_handlerName {
 			let this->_handlerName = this->_defaultHandler;
 		}
 
-		/**
-		 * We don't camelize the classes if they are in namespaces
-		 */
-		if substr(this->_handlerName, 0, 1) === "\\" {
-			let camelizedClass = this->_handlerName;
-		} else {
-			let camelizedClass = substr(this->_handlerName, 1);
+		// If the action is null we use the set in this->_defaultAction
+		if !this->_actionName {
+			let this->_actionName = this->_defaultAction;
 		}
-
-		/**
-		 * Create the complete controller class name prepending the namespace
-		 */
-		if this->_namespaceName {
-			if substr(this->_namespaceName, -1) === "\\" {
-				return this->_namespaceName . camelizedClass . this->_handlerSuffix;
-			} else {
-				return this->_namespaceName . "\\" . camelizedClass . this->_handlerSuffix;
-			}
-		}
-
-		return camelizedClass . this->_handlerSuffix;
 	}
 }

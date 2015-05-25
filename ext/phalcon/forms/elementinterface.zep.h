@@ -113,5 +113,5 @@ ZEPHIR_INIT_FUNCS(phalcon_forms_elementinterface_method_entry) {
 	PHP_ABSTRACT_ME(Phalcon_Forms_ElementInterface, appendMessage, arginfo_phalcon_forms_elementinterface_appendmessage)
 	PHP_ABSTRACT_ME(Phalcon_Forms_ElementInterface, clear, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Forms_ElementInterface, render, arginfo_phalcon_forms_elementinterface_render)
-  PHP_FE_END
+	PHP_FE_END
 };

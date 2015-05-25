@@ -63,5 +63,4 @@ class Memory extends MetaData implements MetaDataInterface
 	{
 		return;
 	}
-
 }

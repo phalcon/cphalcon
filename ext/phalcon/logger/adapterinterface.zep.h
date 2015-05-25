@@ -69,5 +69,5 @@ ZEPHIR_INIT_FUNCS(phalcon_logger_adapterinterface_method_entry) {
 	PHP_ABSTRACT_ME(Phalcon_Logger_AdapterInterface, warning, arginfo_phalcon_logger_adapterinterface_warning)
 	PHP_ABSTRACT_ME(Phalcon_Logger_AdapterInterface, alert, arginfo_phalcon_logger_adapterinterface_alert)
 	PHP_ABSTRACT_ME(Phalcon_Logger_AdapterInterface, emergency, arginfo_phalcon_logger_adapterinterface_emergency)
-  PHP_FE_END
+	PHP_FE_END
 };

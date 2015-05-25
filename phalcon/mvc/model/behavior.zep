@@ -87,5 +87,4 @@ abstract class Behavior
 	{
 		return null;
 	}
-
 }

@@ -15,6 +15,7 @@ PHP_METHOD(Phalcon_Session_Adapter, getId);
 PHP_METHOD(Phalcon_Session_Adapter, setId);
 PHP_METHOD(Phalcon_Session_Adapter, isStarted);
 PHP_METHOD(Phalcon_Session_Adapter, destroy);
+PHP_METHOD(Phalcon_Session_Adapter, status);
 PHP_METHOD(Phalcon_Session_Adapter, __get);
 PHP_METHOD(Phalcon_Session_Adapter, __set);
 PHP_METHOD(Phalcon_Session_Adapter, __isset);
@@ -81,9 +82,10 @@ ZEPHIR_INIT_FUNCS(phalcon_session_adapter_method_entry) {
 	PHP_ME(Phalcon_Session_Adapter, setId, arginfo_phalcon_session_adapter_setid, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Session_Adapter, isStarted, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Session_Adapter, destroy, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Session_Adapter, status, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Session_Adapter, __get, arginfo_phalcon_session_adapter___get, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Session_Adapter, __set, arginfo_phalcon_session_adapter___set, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Session_Adapter, __isset, arginfo_phalcon_session_adapter___isset, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Session_Adapter, __unset, arginfo_phalcon_session_adapter___unset, ZEND_ACC_PUBLIC)
-  PHP_FE_END
+	PHP_FE_END
 };

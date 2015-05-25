@@ -23,5 +23,5 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_model_queryinterface_method_entry) {
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_QueryInterface, setUniqueRow, arginfo_phalcon_mvc_model_queryinterface_setuniquerow)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_QueryInterface, getUniqueRow, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_QueryInterface, execute, arginfo_phalcon_mvc_model_queryinterface_execute)
-  PHP_FE_END
+	PHP_FE_END
 };

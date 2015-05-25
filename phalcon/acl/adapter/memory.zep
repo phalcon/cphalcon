@@ -19,10 +19,12 @@
 
 namespace Phalcon\Acl\Adapter;
 
+use Phalcon\Acl;
 use Phalcon\Acl\Adapter;
 use Phalcon\Acl\Role;
 use Phalcon\Acl\Resource;
 use Phalcon\Acl\Exception;
+use Phalcon\Events\Manager as EventsManager;
 
 /**
  * Phalcon\Acl\Adapter\Memory
@@ -441,10 +443,10 @@ class Memory extends Adapter
 		var innerRoleName;
 
 		if roleName != "*" {
-			return this->_allowOrDeny(roleName, resourceName, access, \Phalcon\Acl::ALLOW);
+			return this->_allowOrDeny(roleName, resourceName, access, Acl::ALLOW);
 		} else {
 			for innerRoleName, _ in this->_rolesNames {
-				this->_allowOrDeny(innerRoleName, resourceName, access, \Phalcon\Acl::ALLOW);
+				this->_allowOrDeny(innerRoleName, resourceName, access, Acl::ALLOW);
 			}
 		}
 	}
@@ -474,10 +476,10 @@ class Memory extends Adapter
 		var innerRoleName;
 
 		if roleName != "*" {
-			return this->_allowordeny(roleName, resourceName, access, \Phalcon\Acl::DENY);
+			return this->_allowordeny(roleName, resourceName, access, Acl::DENY);
 		} else {
 			for innerRoleName, _ in this->_rolesNames {
-				this->_allowordeny(innerRoleName, resourceName, access, \Phalcon\Acl::DENY);
+				this->_allowordeny(innerRoleName, resourceName, access, Acl::DENY);
 			}
 		}
 	}
@@ -503,7 +505,7 @@ class Memory extends Adapter
 		let this->_activeResource = resourceName;
 		let this->_activeAccess = access;
 		let accessList = this->_access;
-		let eventsManager = <\Phalcon\Events\Manager> this->_eventsManager;
+		let eventsManager = <EventsManager> this->_eventsManager;
 
 		if typeof eventsManager == "object" {
 			if eventsManager->fire("acl:beforeCheckAccess", this) === false {
@@ -516,7 +518,7 @@ class Memory extends Adapter
 		 */
 		let rolesNames = this->_rolesNames;
 		if !isset rolesNames[roleName] {
-			return (this->_defaultAccess == \Phalcon\Acl::ALLOW);
+			return (this->_defaultAccess == Acl::ALLOW);
 		}
 
 		let accessKey = roleName . "!" . resourceName . "!" . access;
@@ -617,7 +619,7 @@ class Memory extends Adapter
 			return false;
 		}
 
-		return (haveAccess == \Phalcon\Acl::ALLOW);
+		return (haveAccess == Acl::ALLOW);
 	}
 
 	/**

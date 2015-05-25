@@ -298,9 +298,7 @@ class Manager implements ManagerInterface
 									break;
 								}
 							}
-
 						}
-
 					}
 				}
 

@@ -1,19 +1,19 @@
 
 /*
  +------------------------------------------------------------------------+
- | Phalcon Framework                                                      |
+ | Phalcon Framework													  |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)	   |
  +------------------------------------------------------------------------+
- | This source file is subject to the New BSD License that is bundled     |
- | with this package in the file docs/LICENSE.txt.                        |
- |                                                                        |
- | If you did not receive a copy of the license and are unable to         |
- | obtain it through the world-wide-web, please send an email             |
- | to license@phalconphp.com so we can send you a copy immediately.       |
+ | This source file is subject to the New BSD License that is bundled	 |
+ | with this package in the file docs/LICENSE.txt.						|
+ |																		|
+ | If you did not receive a copy of the license and are unable to		 |
+ | obtain it through the world-wide-web, please send an email			 |
+ | to license@phalconphp.com so we can send you a copy immediately.	   |
  +------------------------------------------------------------------------+
- | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
- |          Eduar Carvajal <eduar@phalconphp.com>                         |
+ | Authors: Andres Gutierrez <andres@phalconphp.com>					  |
+ |		  Eduar Carvajal <eduar@phalconphp.com>						 |
  +------------------------------------------------------------------------+
  */
 
@@ -38,6 +38,11 @@ class Complex extends Resultset implements ResultsetInterface
 	protected _columnTypes;
 
 	/**
+	* Unserialised result-set hydrated all rows already. unserialise() sets _disableHydration to true
+	*/
+	protected _disableHydration = false;
+
+	/**
 	 * Phalcon\Mvc\Model\Resultset\Complex constructor
 	 *
 	 * @param array columnTypes
@@ -51,29 +56,7 @@ class Complex extends Resultset implements ResultsetInterface
 		 */
 		let this->_columnTypes = columnTypes;
 
-		/**
-		 * Valid resultsets are Phalcon\Db\ResultInterface instances
-		 */
-		let this->_result = result;
-
-		/**
-		 * Update the related cache if any
-		 */
-		if cache !== null {
-			let this->_cache = cache;
-		}
-
-		/**
-		 * Resultsets type 1 are traversed one-by-one
-		 */
-		let this->_type = 1;
-
-		/**
-		 * If the database result is an object, change it to fetch assoc
-		 */
-		if typeof result == "object" {
-			result->setFetchMode(1);
-		}
+		parent::__construct(result, cache);
 	}
 
 	/**
@@ -81,56 +64,38 @@ class Complex extends Resultset implements ResultsetInterface
 	 */
 	public final function current() -> <ModelInterface> | boolean
 	{
-		var result, row, underscore, hydrateMode,
+		var row, underscore, hydrateMode,
 			dirtyState, alias, activeRow, type, columnTypes,
 			column, columnValue, value, attribute, source, attributes,
-			columnMap, rowModel, keepSnapshots, sqlAlias, isPartial;
+			columnMap, rowModel, keepSnapshots, sqlAlias;
 
-		
+
 		let activeRow = this->_activeRow;
 		if activeRow !== null {
 			return activeRow;
 		}
 
 		/**
-		 * Get current row
+		 * Current row is set by seek() operations
 		 */
-		let isPartial = this->_type;
-		if isPartial {
-			let row = this->_row;
-		} else {
-			if this->_rows === null {
-				let result = this->_result;
-				if typeof result == "object" {
-					let this->_rows = result->fetchAll();
-				}
-			}
+		let row = this->_row;
 
-			if typeof this->_rows == "array" {
-				if !fetch row, this->_rows[this->_pointer] {
-					let row = false;
-				}
-			} else {
-				let row = false;
-			}
+		/**
+		 * Resulset was unserialized, we do not need to hydrate
+		 */
+		if this->_disableHydration {
+			let this->_activeRow = row;
+			return row;
 		}
 
 		/**
 		 * Valid records are arrays
 		 */
-		if typeof row != "object" && typeof row != "array" {
+		if typeof row != "array" {
 			let this->_activeRow = false;
 			return false;
 		}
 
-		/**
-		 * Resulset was unserialized, we do not need to hydrate
-		 */
-		if !isPartial {
-			let this->_activeRow = row;
-			return row;
-		}
-		
 		/**
 		 * Get current hydration mode
 		 */
@@ -306,8 +271,8 @@ class Complex extends Resultset implements ResultsetInterface
 			hydrateMode = this->_hydrateMode;
 
 		let serialized = serialize([
-			"cache"       : cache,
-			"rows"        : records,
+			"cache"	      : cache,
+			"rows"		  : records,
 			"columnTypes" : columnTypes,
 			"hydrateMode" : hydrateMode
 		]);
@@ -330,9 +295,9 @@ class Complex extends Resultset implements ResultsetInterface
 		var resultset;
 
 		/**
-		 * Enable fetch by array
-		 */
-		let this->_type = 0;
+		* Rows are already hydrated
+		*/
+		let this->_disableHydration = true;
 
 		let resultset = unserialize(data);
 		if typeof resultset != "array" {
@@ -340,6 +305,7 @@ class Complex extends Resultset implements ResultsetInterface
 		}
 
 		let this->_rows = resultset["rows"],
+			this->_count = count(resultset["rows"]),
 			this->_cache = resultset["cache"],
 			this->_columnTypes = resultset["columnTypes"],
 			this->_hydrateMode = resultset["hydrateMode"];

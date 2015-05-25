@@ -53,20 +53,12 @@ int zephir_require_ret(zval **return_value_ptr, const char *require_path TSRMLS_
 	if (!require_path) {
 		/* @TODO, throw an exception here */
 		return FAILURE;
-	}
-
-	mode = ENFORCE_SAFE_MODE | USE_PATH | STREAM_OPEN_FOR_INCLUDE;
-
-	if (strlen(require_path) < 7 || memcmp(require_path, "phar://", 7)) {
-		/* No phar archive */
-		mode |= IGNORE_URL;
-	}
+	}	
 
 	use_ret = !!return_value_ptr;
 
-	ret = php_stream_open_for_zend_ex(require_path, &file_handle, mode TSRMLS_CC);
+	ret = php_stream_open_for_zend_ex(require_path, &file_handle, ENFORCE_SAFE_MODE | USE_PATH | STREAM_OPEN_FOR_INCLUDE | IGNORE_URL TSRMLS_CC);
 	if (ret == SUCCESS) {
-
 		int dummy = 1;
 		zend_op_array *new_op_array;
 
@@ -74,12 +66,11 @@ int zephir_require_ret(zval **return_value_ptr, const char *require_path TSRMLS_
 			file_handle.opened_path = estrdup(require_path);
 		}
 
-		zend_hash_add(&EG(included_files), file_handle.opened_path, strlen(file_handle.opened_path)+1, (void *)&dummy, sizeof(int), NULL);
+		zend_hash_add(&EG(included_files), file_handle.opened_path, strlen(file_handle.opened_path) + 1, (void *)&dummy, sizeof(int), NULL);
 		new_op_array = zend_compile_file(&file_handle, ZEND_REQUIRE TSRMLS_CC);
 		zend_destroy_file_handle(&file_handle TSRMLS_CC);
 
 		if (new_op_array) {
-
 			zval **original_return_value            = EG(return_value_ptr_ptr);
 			zend_op_array *original_active_op_array = EG(active_op_array);
 			zend_op **original_opline_ptr           = EG(opline_ptr);
@@ -95,14 +86,9 @@ int zephir_require_ret(zval **return_value_ptr, const char *require_path TSRMLS_
 			if (EG(exception)) {
 				assert(!return_value_ptr || !*return_value_ptr);
 				ret = FAILURE;
-			} else {
-				ret = SUCCESS;
 			}
-
-			if (!use_ret) {
-				if (EG(return_value_ptr_ptr)) {
-					zval_ptr_dtor(EG(return_value_ptr_ptr));
-				}
+			else {
+				ret = SUCCESS;
 			}
 
 			EG(return_value_ptr_ptr) = original_return_value;

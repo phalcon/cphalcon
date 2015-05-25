@@ -40,10 +40,10 @@ ZEPHIR_INIT_CLASS(Phalcon_Translate_Adapter_Csv) {
  */
 PHP_METHOD(Phalcon_Translate_Adapter_Csv, __construct) {
 
-	zend_bool _15;
+	zend_bool _13;
+	zephir_fcall_cache_entry *_10 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zephir_nts_static zephir_fcall_cache_entry *_5 = NULL, *_9 = NULL, *_12 = NULL;
-	zval *options_param = NULL, *_0, *_1, *file = NULL, *_3, _4 = zval_used_for_init, *_6 = NULL, *_7, *_8, *data = NULL, *_10, *_11, *_13, _14 = zval_used_for_init, *_16, *_17 = NULL;
+	zval *options_param = NULL, *_0, *_1, *file = NULL, *_3, _4 = zval_used_for_init, *_5 = NULL, *_6, *_7, *data = NULL, *_8, *_9, *_11, _12 = zval_used_for_init, *_14, *_15 = NULL;
 	zval *options = NULL, *_2;
 
 	ZEPHIR_MM_GROW();
@@ -71,47 +71,47 @@ PHP_METHOD(Phalcon_Translate_Adapter_Csv, __construct) {
 	zephir_array_fetch_string(&_3, options, SL("content"), PH_NOISY | PH_READONLY, "phalcon/translate/adapter/csv.zep", 51 TSRMLS_CC);
 	ZEPHIR_SINIT_VAR(_4);
 	ZVAL_STRING(&_4, "rb", 0);
-	ZEPHIR_CALL_FUNCTION(&file, "fopen", &_5, _3, &_4);
+	ZEPHIR_CALL_FUNCTION(&file, "fopen", NULL, 274, _3, &_4);
 	zephir_check_call_status();
 	if (Z_TYPE_P(file) != IS_RESOURCE) {
-		ZEPHIR_INIT_VAR(_6);
-		object_init_ex(_6, phalcon_translate_exception_ce);
-		zephir_array_fetch_string(&_7, options, SL("content"), PH_NOISY | PH_READONLY, "phalcon/translate/adapter/csv.zep", 54 TSRMLS_CC);
-		ZEPHIR_INIT_VAR(_8);
-		ZEPHIR_CONCAT_SVS(_8, "Error opening translation file '", _7, "'");
-		ZEPHIR_CALL_METHOD(NULL, _6, "__construct", &_9, _8);
+		ZEPHIR_INIT_VAR(_5);
+		object_init_ex(_5, phalcon_translate_exception_ce);
+		zephir_array_fetch_string(&_6, options, SL("content"), PH_NOISY | PH_READONLY, "phalcon/translate/adapter/csv.zep", 54 TSRMLS_CC);
+		ZEPHIR_INIT_VAR(_7);
+		ZEPHIR_CONCAT_SVS(_7, "Error opening translation file '", _6, "'");
+		ZEPHIR_CALL_METHOD(NULL, _5, "__construct", NULL, 2, _7);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(_6, "phalcon/translate/adapter/csv.zep", 54 TSRMLS_CC);
+		zephir_throw_exception_debug(_5, "phalcon/translate/adapter/csv.zep", 54 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
 	while (1) {
-		zephir_array_fetch_string(&_7, options, SL("length"), PH_NOISY | PH_READONLY, "phalcon/translate/adapter/csv.zep", 60 TSRMLS_CC);
-		zephir_array_fetch_string(&_10, options, SL("delimiter"), PH_NOISY | PH_READONLY, "phalcon/translate/adapter/csv.zep", 60 TSRMLS_CC);
-		zephir_array_fetch_string(&_11, options, SL("enclosure"), PH_NOISY | PH_READONLY, "phalcon/translate/adapter/csv.zep", 60 TSRMLS_CC);
-		ZEPHIR_CALL_FUNCTION(&data, "fgetcsv", &_12, file, _7, _10, _11);
+		zephir_array_fetch_string(&_6, options, SL("length"), PH_NOISY | PH_READONLY, "phalcon/translate/adapter/csv.zep", 60 TSRMLS_CC);
+		zephir_array_fetch_string(&_8, options, SL("delimiter"), PH_NOISY | PH_READONLY, "phalcon/translate/adapter/csv.zep", 60 TSRMLS_CC);
+		zephir_array_fetch_string(&_9, options, SL("enclosure"), PH_NOISY | PH_READONLY, "phalcon/translate/adapter/csv.zep", 60 TSRMLS_CC);
+		ZEPHIR_CALL_FUNCTION(&data, "fgetcsv", &_10, 417, file, _6, _8, _9);
 		zephir_check_call_status();
 		if (ZEPHIR_IS_FALSE_IDENTICAL(data)) {
 			break;
 		}
-		zephir_array_fetch_long(&_13, data, 0, PH_NOISY | PH_READONLY, "phalcon/translate/adapter/csv.zep", 65 TSRMLS_CC);
+		zephir_array_fetch_long(&_11, data, 0, PH_NOISY | PH_READONLY, "phalcon/translate/adapter/csv.zep", 65 TSRMLS_CC);
 		ZEPHIR_SINIT_NVAR(_4);
 		ZVAL_LONG(&_4, 0);
-		ZEPHIR_SINIT_NVAR(_14);
-		ZVAL_LONG(&_14, 1);
-		ZEPHIR_INIT_NVAR(_6);
-		zephir_substr(_6, _13, 0 , 1 , 0);
-		_15 = ZEPHIR_IS_STRING_IDENTICAL(_6, "#");
-		if (!(_15)) {
-			_15 = !(zephir_array_isset_long(data, 1));
+		ZEPHIR_SINIT_NVAR(_12);
+		ZVAL_LONG(&_12, 1);
+		ZEPHIR_INIT_NVAR(_5);
+		zephir_substr(_5, _11, 0 , 1 , 0);
+		_13 = ZEPHIR_IS_STRING_IDENTICAL(_5, "#");
+		if (!(_13)) {
+			_13 = !(zephir_array_isset_long(data, 1));
 		}
-		if (_15) {
+		if (_13) {
 			continue;
 		}
-		zephir_array_fetch_long(&_16, data, 1, PH_NOISY | PH_READONLY, "phalcon/translate/adapter/csv.zep", 69 TSRMLS_CC);
-		ZEPHIR_OBS_NVAR(_17);
-		zephir_array_fetch_long(&_17, data, 0, PH_NOISY, "phalcon/translate/adapter/csv.zep", 69 TSRMLS_CC);
-		zephir_update_property_array(this_ptr, SL("_translate"), _17, _16 TSRMLS_CC);
+		zephir_array_fetch_long(&_14, data, 1, PH_NOISY | PH_READONLY, "phalcon/translate/adapter/csv.zep", 69 TSRMLS_CC);
+		ZEPHIR_OBS_NVAR(_15);
+		zephir_array_fetch_long(&_15, data, 0, PH_NOISY, "phalcon/translate/adapter/csv.zep", 69 TSRMLS_CC);
+		zephir_update_property_array(this_ptr, SL("_translate"), _15, _14 TSRMLS_CC);
 	}
 	zephir_fclose(file TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
@@ -153,7 +153,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_Csv, query) {
 	ZEPHIR_OBS_VAR(translation);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_translate"), PH_NOISY_CC);
 	if (zephir_array_isset_fetch(&translation, _0, index, 0 TSRMLS_CC)) {
-		ZEPHIR_RETURN_CALL_METHOD(this_ptr, "replaceplaceholders", NULL, translation, placeholders);
+		ZEPHIR_RETURN_CALL_METHOD(this_ptr, "replaceplaceholders", NULL, 0, translation, placeholders);
 		zephir_check_call_status();
 		RETURN_MM();
 	}

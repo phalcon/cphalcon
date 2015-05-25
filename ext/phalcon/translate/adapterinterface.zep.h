@@ -21,5 +21,5 @@ ZEPHIR_INIT_FUNCS(phalcon_translate_adapterinterface_method_entry) {
 	PHP_ABSTRACT_ME(Phalcon_Translate_AdapterInterface, t, arginfo_phalcon_translate_adapterinterface_t)
 	PHP_ABSTRACT_ME(Phalcon_Translate_AdapterInterface, query, arginfo_phalcon_translate_adapterinterface_query)
 	PHP_ABSTRACT_ME(Phalcon_Translate_AdapterInterface, exists, arginfo_phalcon_translate_adapterinterface_exists)
-  PHP_FE_END
+	PHP_FE_END
 };

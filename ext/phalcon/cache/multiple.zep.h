@@ -53,5 +53,5 @@ ZEPHIR_INIT_FUNCS(phalcon_cache_multiple_method_entry) {
 	PHP_ME(Phalcon_Cache_Multiple, save, arginfo_phalcon_cache_multiple_save, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Cache_Multiple, delete, arginfo_phalcon_cache_multiple_delete, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Cache_Multiple, exists, arginfo_phalcon_cache_multiple_exists, ZEND_ACC_PUBLIC)
-  PHP_FE_END
+	PHP_FE_END
 };

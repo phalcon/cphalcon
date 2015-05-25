@@ -111,7 +111,7 @@ PHP_METHOD(Phalcon_Cache_Multiple, push) {
 
 
 
-	zephir_update_property_this(this_ptr, SL("_backends"), backend TSRMLS_CC);
+	zephir_update_property_array_append(this_ptr, SL("_backends"), backend TSRMLS_CC);
 	RETURN_THISW();
 
 }
@@ -145,7 +145,7 @@ PHP_METHOD(Phalcon_Cache_Multiple, get) {
 	  ; zephir_hash_move_forward_ex(_2, &_1)
 	) {
 		ZEPHIR_GET_HVALUE(backend, _3);
-		ZEPHIR_CALL_METHOD(&content, backend, "get", NULL, keyName, lifetime);
+		ZEPHIR_CALL_METHOD(&content, backend, "get", NULL, 0, keyName, lifetime);
 		zephir_check_call_status();
 		if (Z_TYPE_P(content) != IS_NULL) {
 			RETURN_CCTOR(content);
@@ -183,7 +183,7 @@ PHP_METHOD(Phalcon_Cache_Multiple, start) {
 	  ; zephir_hash_move_forward_ex(_2, &_1)
 	) {
 		ZEPHIR_GET_HVALUE(backend, _3);
-		ZEPHIR_CALL_METHOD(NULL, backend, "start", NULL, keyName, lifetime);
+		ZEPHIR_CALL_METHOD(NULL, backend, "start", NULL, 0, keyName, lifetime);
 		zephir_check_call_status();
 	}
 	ZEPHIR_MM_RESTORE();
@@ -229,7 +229,7 @@ PHP_METHOD(Phalcon_Cache_Multiple, save) {
 	  ; zephir_hash_move_forward_ex(_2, &_1)
 	) {
 		ZEPHIR_GET_HVALUE(backend, _3);
-		ZEPHIR_CALL_METHOD(NULL, backend, "save", NULL, keyName, content, lifetime, stopBuffer);
+		ZEPHIR_CALL_METHOD(NULL, backend, "save", NULL, 0, keyName, content, lifetime, stopBuffer);
 		zephir_check_call_status();
 	}
 	ZEPHIR_MM_RESTORE();
@@ -261,7 +261,7 @@ PHP_METHOD(Phalcon_Cache_Multiple, delete) {
 	  ; zephir_hash_move_forward_ex(_2, &_1)
 	) {
 		ZEPHIR_GET_HVALUE(backend, _3);
-		ZEPHIR_CALL_METHOD(NULL, backend, "delete", NULL, keyName);
+		ZEPHIR_CALL_METHOD(NULL, backend, "delete", NULL, 0, keyName);
 		zephir_check_call_status();
 	}
 	RETURN_MM_BOOL(1);
@@ -300,7 +300,7 @@ PHP_METHOD(Phalcon_Cache_Multiple, exists) {
 	  ; zephir_hash_move_forward_ex(_2, &_1)
 	) {
 		ZEPHIR_GET_HVALUE(backend, _3);
-		ZEPHIR_CALL_METHOD(&_4, backend, "exists", NULL, keyName, lifetime);
+		ZEPHIR_CALL_METHOD(&_4, backend, "exists", NULL, 0, keyName, lifetime);
 		zephir_check_call_status();
 		if (ZEPHIR_IS_TRUE(_4)) {
 			RETURN_MM_BOOL(1);

@@ -49,5 +49,4 @@ interface BehaviorInterface
 	 * @param array arguments
 	 */
 	public function missingMethod(<ModelInterface> model, string !method, arguments = null);
-
 }

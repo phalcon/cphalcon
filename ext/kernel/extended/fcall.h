@@ -38,5 +38,6 @@ typedef struct _zephir_fcall_info {
 } zephir_fcall_info;
 
 int zephir_call_function_opt(zend_fcall_info *fci, zend_fcall_info_cache *fci_cache, zephir_fcall_info *info TSRMLS_DC);
+int zephir_call_func_aparams_fast(zval **return_value_ptr, zephir_fcall_cache_entry **cache_entry, uint param_count, zval **params TSRMLS_DC);
 
 #endif

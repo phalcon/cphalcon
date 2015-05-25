@@ -66,5 +66,5 @@ ZEPHIR_INIT_FUNCS(phalcon_config_method_entry) {
 	PHP_ME(Phalcon_Config, count, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Config, __set_state, arginfo_phalcon_config___set_state, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Config, _merge, arginfo_phalcon_config__merge, ZEND_ACC_PROTECTED|ZEND_ACC_FINAL)
-  PHP_FE_END
+	PHP_FE_END
 };

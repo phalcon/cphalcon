@@ -204,7 +204,7 @@ PHP_METHOD(Phalcon_Http_Cookie, getValue) {
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_restored"), PH_NOISY_CC);
 	if (!(zephir_is_true(_0))) {
-		ZEPHIR_CALL_METHOD(NULL, this_ptr, "restore", NULL);
+		ZEPHIR_CALL_METHOD(NULL, this_ptr, "restore", NULL, 0);
 		zephir_check_call_status();
 	}
 	ZEPHIR_INIT_VAR(dependencyInjector);
@@ -225,10 +225,10 @@ PHP_METHOD(Phalcon_Http_Cookie, getValue) {
 				}
 				ZEPHIR_INIT_VAR(_5);
 				ZVAL_STRING(_5, "crypt", ZEPHIR_TEMP_PARAM_COPY);
-				ZEPHIR_CALL_METHOD(&crypt, dependencyInjector, "getshared", NULL, _5);
+				ZEPHIR_CALL_METHOD(&crypt, dependencyInjector, "getshared", NULL, 0, _5);
 				zephir_check_temp_parameter(_5);
 				zephir_check_call_status();
-				ZEPHIR_CALL_METHOD(&decryptedValue, crypt, "decryptbase64", NULL, value);
+				ZEPHIR_CALL_METHOD(&decryptedValue, crypt, "decryptbase64", NULL, 0, value);
 				zephir_check_call_status();
 			} else {
 				ZEPHIR_CPY_WRT(decryptedValue, value);
@@ -248,12 +248,12 @@ PHP_METHOD(Phalcon_Http_Cookie, getValue) {
 					}
 					ZEPHIR_INIT_NVAR(_5);
 					ZVAL_STRING(_5, "filter", ZEPHIR_TEMP_PARAM_COPY);
-					ZEPHIR_CALL_METHOD(&filter, dependencyInjector, "getshared", NULL, _5);
+					ZEPHIR_CALL_METHOD(&filter, dependencyInjector, "getshared", NULL, 0, _5);
 					zephir_check_temp_parameter(_5);
 					zephir_check_call_status();
 					zephir_update_property_this(this_ptr, SL("_filter"), filter TSRMLS_CC);
 				}
-				ZEPHIR_RETURN_CALL_METHOD(filter, "sanitize", NULL, decryptedValue, filters);
+				ZEPHIR_RETURN_CALL_METHOD(filter, "sanitize", NULL, 0, decryptedValue, filters);
 				zephir_check_call_status();
 				RETURN_MM();
 			}
@@ -272,7 +272,6 @@ PHP_METHOD(Phalcon_Http_Cookie, getValue) {
  */
 PHP_METHOD(Phalcon_Http_Cookie, send) {
 
-	zephir_nts_static zephir_fcall_cache_entry *_4 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *name, *value, *expire, *domain, *path, *secure, *httpOnly, *dependencyInjector, *definition, *session = NULL, *crypt = NULL, *encryptValue = NULL, *_0 = NULL, *_1 = NULL, *_2, *_3;
 
@@ -318,13 +317,13 @@ PHP_METHOD(Phalcon_Http_Cookie, send) {
 	if (zephir_fast_count_int(definition TSRMLS_CC)) {
 		ZEPHIR_INIT_VAR(_1);
 		ZVAL_STRING(_1, "session", ZEPHIR_TEMP_PARAM_COPY);
-		ZEPHIR_CALL_METHOD(&_0, dependencyInjector, "getshared", NULL, _1);
+		ZEPHIR_CALL_METHOD(&_0, dependencyInjector, "getshared", NULL, 0, _1);
 		zephir_check_temp_parameter(_1);
 		zephir_check_call_status();
 		ZEPHIR_CPY_WRT(session, _0);
 		ZEPHIR_INIT_VAR(_2);
 		ZEPHIR_CONCAT_SV(_2, "_PHCOOKIE_", name);
-		ZEPHIR_CALL_METHOD(NULL, session, "set", NULL, _2, definition);
+		ZEPHIR_CALL_METHOD(NULL, session, "set", NULL, 0, _2, definition);
 		zephir_check_call_status();
 	}
 	_3 = zephir_fetch_nproperty_this(this_ptr, SL("_useEncryption"), PH_NOISY_CC);
@@ -336,11 +335,11 @@ PHP_METHOD(Phalcon_Http_Cookie, send) {
 			}
 			ZEPHIR_INIT_NVAR(_1);
 			ZVAL_STRING(_1, "crypt", ZEPHIR_TEMP_PARAM_COPY);
-			ZEPHIR_CALL_METHOD(&_0, dependencyInjector, "getshared", NULL, _1);
+			ZEPHIR_CALL_METHOD(&_0, dependencyInjector, "getshared", NULL, 0, _1);
 			zephir_check_temp_parameter(_1);
 			zephir_check_call_status();
 			ZEPHIR_CPY_WRT(crypt, _0);
-			ZEPHIR_CALL_METHOD(&encryptValue, crypt, "encryptbase64", NULL, value);
+			ZEPHIR_CALL_METHOD(&encryptValue, crypt, "encryptbase64", NULL, 0, value);
 			zephir_check_call_status();
 		} else {
 			ZEPHIR_CPY_WRT(encryptValue, value);
@@ -348,7 +347,7 @@ PHP_METHOD(Phalcon_Http_Cookie, send) {
 	} else {
 		ZEPHIR_CPY_WRT(encryptValue, value);
 	}
-	ZEPHIR_CALL_FUNCTION(NULL, "setcookie", &_4, name, encryptValue, expire, path, domain, secure, httpOnly);
+	ZEPHIR_CALL_FUNCTION(NULL, "setcookie", NULL, 192, name, encryptValue, expire, path, domain, secure, httpOnly);
 	zephir_check_call_status();
 	RETURN_THIS();
 
@@ -372,13 +371,13 @@ PHP_METHOD(Phalcon_Http_Cookie, restore) {
 		if (Z_TYPE_P(dependencyInjector) == IS_OBJECT) {
 			ZEPHIR_INIT_VAR(_1);
 			ZVAL_STRING(_1, "session", ZEPHIR_TEMP_PARAM_COPY);
-			ZEPHIR_CALL_METHOD(&session, dependencyInjector, "getshared", NULL, _1);
+			ZEPHIR_CALL_METHOD(&session, dependencyInjector, "getshared", NULL, 0, _1);
 			zephir_check_temp_parameter(_1);
 			zephir_check_call_status();
 			_2 = zephir_fetch_nproperty_this(this_ptr, SL("_name"), PH_NOISY_CC);
 			ZEPHIR_INIT_VAR(_3);
 			ZEPHIR_CONCAT_SV(_3, "_PHCOOKIE_", _2);
-			ZEPHIR_CALL_METHOD(&definition, session, "get", NULL, _3);
+			ZEPHIR_CALL_METHOD(&definition, session, "get", NULL, 0, _3);
 			zephir_check_call_status();
 			if (Z_TYPE_P(definition) == IS_ARRAY) {
 				if (zephir_array_isset_string_fetch(&expire, definition, SS("expire"), 1 TSRMLS_CC)) {
@@ -409,7 +408,6 @@ PHP_METHOD(Phalcon_Http_Cookie, restore) {
  */
 PHP_METHOD(Phalcon_Http_Cookie, delete) {
 
-	zephir_nts_static zephir_fcall_cache_entry *_5 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *name, *domain, *path, *secure, *httpOnly, *dependencyInjector = NULL, *session = NULL, *_0, *_1 = NULL, *_2 = NULL, *_3, _4;
 
@@ -430,13 +428,13 @@ PHP_METHOD(Phalcon_Http_Cookie, delete) {
 	if (Z_TYPE_P(dependencyInjector) != IS_OBJECT) {
 		ZEPHIR_INIT_VAR(_2);
 		ZVAL_STRING(_2, "session", ZEPHIR_TEMP_PARAM_COPY);
-		ZEPHIR_CALL_METHOD(&_1, dependencyInjector, "getshared", NULL, _2);
+		ZEPHIR_CALL_METHOD(&_1, dependencyInjector, "getshared", NULL, 0, _2);
 		zephir_check_temp_parameter(_2);
 		zephir_check_call_status();
 		ZEPHIR_CPY_WRT(session, _1);
 		ZEPHIR_INIT_VAR(_3);
 		ZEPHIR_CONCAT_SV(_3, "_PHCOOKIE_", name);
-		ZEPHIR_CALL_METHOD(NULL, session, "remove", NULL, _3);
+		ZEPHIR_CALL_METHOD(NULL, session, "remove", NULL, 0, _3);
 		zephir_check_call_status();
 	}
 	zephir_update_property_this(this_ptr, SL("_value"), ZEPHIR_GLOBAL(global_null) TSRMLS_CC);
@@ -444,7 +442,7 @@ PHP_METHOD(Phalcon_Http_Cookie, delete) {
 	zephir_time(_2);
 	ZEPHIR_SINIT_VAR(_4);
 	ZVAL_LONG(&_4, (zephir_get_numberval(_2) - 691200));
-	ZEPHIR_CALL_FUNCTION(NULL, "setcookie", &_5, name, ZEPHIR_GLOBAL(global_null), &_4, path, domain, secure, httpOnly);
+	ZEPHIR_CALL_FUNCTION(NULL, "setcookie", NULL, 192, name, ZEPHIR_GLOBAL(global_null), &_4, path, domain, secure, httpOnly);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 
@@ -494,7 +492,7 @@ PHP_METHOD(Phalcon_Http_Cookie, setExpiration) {
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_restored"), PH_NOISY_CC);
 	if (!(zephir_is_true(_0))) {
-		ZEPHIR_CALL_METHOD(NULL, this_ptr, "restore", NULL);
+		ZEPHIR_CALL_METHOD(NULL, this_ptr, "restore", NULL, 0);
 		zephir_check_call_status();
 	}
 	ZEPHIR_INIT_ZVAL_NREF(_1);
@@ -516,7 +514,7 @@ PHP_METHOD(Phalcon_Http_Cookie, getExpiration) {
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_restored"), PH_NOISY_CC);
 	if (!(zephir_is_true(_0))) {
-		ZEPHIR_CALL_METHOD(NULL, this_ptr, "restore", NULL);
+		ZEPHIR_CALL_METHOD(NULL, this_ptr, "restore", NULL, 0);
 		zephir_check_call_status();
 	}
 	RETURN_MM_MEMBER(this_ptr, "_expire");
@@ -550,7 +548,7 @@ PHP_METHOD(Phalcon_Http_Cookie, setPath) {
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_restored"), PH_NOISY_CC);
 	if (!(zephir_is_true(_0))) {
-		ZEPHIR_CALL_METHOD(NULL, this_ptr, "restore", NULL);
+		ZEPHIR_CALL_METHOD(NULL, this_ptr, "restore", NULL, 0);
 		zephir_check_call_status();
 	}
 	zephir_update_property_this(this_ptr, SL("_path"), path TSRMLS_CC);
@@ -580,7 +578,7 @@ PHP_METHOD(Phalcon_Http_Cookie, getPath) {
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_restored"), PH_NOISY_CC);
 	if (!(zephir_is_true(_0))) {
-		ZEPHIR_CALL_METHOD(NULL, this_ptr, "restore", NULL);
+		ZEPHIR_CALL_METHOD(NULL, this_ptr, "restore", NULL, 0);
 		zephir_check_call_status();
 	}
 	RETURN_MM_MEMBER(this_ptr, "_path");
@@ -614,7 +612,7 @@ PHP_METHOD(Phalcon_Http_Cookie, setDomain) {
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_restored"), PH_NOISY_CC);
 	if (!(zephir_is_true(_0))) {
-		ZEPHIR_CALL_METHOD(NULL, this_ptr, "restore", NULL);
+		ZEPHIR_CALL_METHOD(NULL, this_ptr, "restore", NULL, 0);
 		zephir_check_call_status();
 	}
 	zephir_update_property_this(this_ptr, SL("_domain"), domain TSRMLS_CC);
@@ -634,7 +632,7 @@ PHP_METHOD(Phalcon_Http_Cookie, getDomain) {
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_restored"), PH_NOISY_CC);
 	if (!(zephir_is_true(_0))) {
-		ZEPHIR_CALL_METHOD(NULL, this_ptr, "restore", NULL);
+		ZEPHIR_CALL_METHOD(NULL, this_ptr, "restore", NULL, 0);
 		zephir_check_call_status();
 	}
 	RETURN_MM_MEMBER(this_ptr, "_domain");
@@ -658,7 +656,7 @@ PHP_METHOD(Phalcon_Http_Cookie, setSecure) {
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_restored"), PH_NOISY_CC);
 	if (!(zephir_is_true(_0))) {
-		ZEPHIR_CALL_METHOD(NULL, this_ptr, "restore", NULL);
+		ZEPHIR_CALL_METHOD(NULL, this_ptr, "restore", NULL, 0);
 		zephir_check_call_status();
 	}
 	zephir_update_property_this(this_ptr, SL("_secure"), secure ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
@@ -678,7 +676,7 @@ PHP_METHOD(Phalcon_Http_Cookie, getSecure) {
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_restored"), PH_NOISY_CC);
 	if (!(zephir_is_true(_0))) {
-		ZEPHIR_CALL_METHOD(NULL, this_ptr, "restore", NULL);
+		ZEPHIR_CALL_METHOD(NULL, this_ptr, "restore", NULL, 0);
 		zephir_check_call_status();
 	}
 	RETURN_MM_MEMBER(this_ptr, "_secure");
@@ -702,7 +700,7 @@ PHP_METHOD(Phalcon_Http_Cookie, setHttpOnly) {
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_restored"), PH_NOISY_CC);
 	if (!(zephir_is_true(_0))) {
-		ZEPHIR_CALL_METHOD(NULL, this_ptr, "restore", NULL);
+		ZEPHIR_CALL_METHOD(NULL, this_ptr, "restore", NULL, 0);
 		zephir_check_call_status();
 	}
 	zephir_update_property_this(this_ptr, SL("_httpOnly"), httpOnly ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
@@ -722,7 +720,7 @@ PHP_METHOD(Phalcon_Http_Cookie, getHttpOnly) {
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_restored"), PH_NOISY_CC);
 	if (!(zephir_is_true(_0))) {
-		ZEPHIR_CALL_METHOD(NULL, this_ptr, "restore", NULL);
+		ZEPHIR_CALL_METHOD(NULL, this_ptr, "restore", NULL, 0);
 		zephir_check_call_status();
 	}
 	RETURN_MM_MEMBER(this_ptr, "_httpOnly");
@@ -740,7 +738,7 @@ PHP_METHOD(Phalcon_Http_Cookie, __toString) {
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getvalue", NULL);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getvalue", NULL, 0);
 	zephir_check_call_status();
 	zephir_get_strval(_1, _0);
 	RETURN_CTOR(_1);

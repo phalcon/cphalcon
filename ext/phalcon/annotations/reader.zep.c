@@ -41,11 +41,10 @@ ZEPHIR_INIT_CLASS(Phalcon_Annotations_Reader) {
  */
 PHP_METHOD(Phalcon_Annotations_Reader, parse) {
 
-	HashTable *_8, *_14;
-	HashPosition _7, _13;
-	zephir_nts_static zephir_fcall_cache_entry *_0 = NULL, *_1 = NULL, *_3 = NULL, *_5 = NULL, *_6 = NULL, *_12 = NULL;
+	HashTable *_3, *_8;
+	HashPosition _2, _7;
 	int line, ZEPHIR_LAST_CALL_STATUS;
-	zval *className_param = NULL, *annotations, *reflection, *comment = NULL, *properties = NULL, *methods = NULL, *property = NULL, *method = NULL, *classAnnotations, *annotationsProperties, *propertyAnnotations = NULL, *annotationsMethods, *methodAnnotations = NULL, *_2 = NULL, *_4 = NULL, **_9, *_10 = NULL, *_11 = NULL, **_15;
+	zval *className_param = NULL, *annotations, *reflection, *comment = NULL, *properties = NULL, *methods = NULL, *property = NULL, *method = NULL, *classAnnotations, *annotationsProperties, *propertyAnnotations = NULL, *annotationsMethods, *methodAnnotations = NULL, *_0 = NULL, *_1 = NULL, **_4, *_5 = NULL, *_6 = NULL, **_9;
 	zval *className = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -58,48 +57,48 @@ PHP_METHOD(Phalcon_Annotations_Reader, parse) {
 	array_init(annotations);
 	ZEPHIR_INIT_VAR(reflection);
 	object_init_ex(reflection, zephir_get_internal_ce(SS("reflectionclass") TSRMLS_CC));
-	ZEPHIR_CALL_METHOD(NULL, reflection, "__construct", &_0, className);
+	ZEPHIR_CALL_METHOD(NULL, reflection, "__construct", NULL, 15, className);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&comment, reflection, "getdoccomment", &_1);
+	ZEPHIR_CALL_METHOD(&comment, reflection, "getdoccomment", NULL, 16);
 	zephir_check_call_status();
 	if (Z_TYPE_P(comment) == IS_STRING) {
 		ZEPHIR_INIT_VAR(classAnnotations);
-		ZEPHIR_CALL_METHOD(&_2, reflection, "getfilename", &_3);
+		ZEPHIR_CALL_METHOD(&_0, reflection, "getfilename", NULL, 17);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(&_4, reflection, "getstartline", &_5);
+		ZEPHIR_CALL_METHOD(&_1, reflection, "getstartline", NULL, 18);
 		zephir_check_call_status();
-		ZEPHIR_LAST_CALL_STATUS = phannot_parse_annotations(classAnnotations, comment, _2, _4 TSRMLS_CC);
+		ZEPHIR_LAST_CALL_STATUS = phannot_parse_annotations(classAnnotations, comment, _0, _1 TSRMLS_CC);
 		zephir_check_call_status();
 		if (Z_TYPE_P(classAnnotations) == IS_ARRAY) {
 			zephir_array_update_string(&annotations, SL("class"), &classAnnotations, PH_COPY | PH_SEPARATE);
 		}
 	}
-	ZEPHIR_CALL_METHOD(&properties, reflection, "getproperties", &_6);
+	ZEPHIR_CALL_METHOD(&properties, reflection, "getproperties", NULL, 19);
 	zephir_check_call_status();
 	if (zephir_fast_count_int(properties TSRMLS_CC)) {
 		line = 1;
 		ZEPHIR_INIT_VAR(annotationsProperties);
 		array_init(annotationsProperties);
-		zephir_is_iterable(properties, &_8, &_7, 0, 0, "phalcon/annotations/reader.zep", 96);
+		zephir_is_iterable(properties, &_3, &_2, 0, 0, "phalcon/annotations/reader.zep", 96);
 		for (
-		  ; zephir_hash_get_current_data_ex(_8, (void**) &_9, &_7) == SUCCESS
-		  ; zephir_hash_move_forward_ex(_8, &_7)
+		  ; zephir_hash_get_current_data_ex(_3, (void**) &_4, &_2) == SUCCESS
+		  ; zephir_hash_move_forward_ex(_3, &_2)
 		) {
-			ZEPHIR_GET_HVALUE(property, _9);
-			ZEPHIR_CALL_METHOD(&comment, property, "getdoccomment", NULL);
+			ZEPHIR_GET_HVALUE(property, _4);
+			ZEPHIR_CALL_METHOD(&comment, property, "getdoccomment", NULL, 0);
 			zephir_check_call_status();
 			if (Z_TYPE_P(comment) == IS_STRING) {
 				ZEPHIR_INIT_NVAR(propertyAnnotations);
-				ZEPHIR_CALL_METHOD(&_2, reflection, "getfilename", &_3);
+				ZEPHIR_CALL_METHOD(&_0, reflection, "getfilename", NULL, 17);
 				zephir_check_call_status();
-				ZEPHIR_INIT_NVAR(_10);
-				ZVAL_LONG(_10, line);
-				ZEPHIR_LAST_CALL_STATUS = phannot_parse_annotations(propertyAnnotations, comment, _2, _10 TSRMLS_CC);
+				ZEPHIR_INIT_NVAR(_5);
+				ZVAL_LONG(_5, line);
+				ZEPHIR_LAST_CALL_STATUS = phannot_parse_annotations(propertyAnnotations, comment, _0, _5 TSRMLS_CC);
 				zephir_check_call_status();
 				if (Z_TYPE_P(propertyAnnotations) == IS_ARRAY) {
-					ZEPHIR_OBS_NVAR(_11);
-					zephir_read_property(&_11, property, SL("name"), PH_NOISY_CC);
-					zephir_array_update_zval(&annotationsProperties, _11, &propertyAnnotations, PH_COPY | PH_SEPARATE);
+					ZEPHIR_OBS_NVAR(_6);
+					zephir_read_property(&_6, property, SL("name"), PH_NOISY_CC);
+					zephir_array_update_zval(&annotationsProperties, _6, &propertyAnnotations, PH_COPY | PH_SEPARATE);
 				}
 			}
 		}
@@ -107,31 +106,31 @@ PHP_METHOD(Phalcon_Annotations_Reader, parse) {
 			zephir_array_update_string(&annotations, SL("properties"), &annotationsProperties, PH_COPY | PH_SEPARATE);
 		}
 	}
-	ZEPHIR_CALL_METHOD(&methods, reflection, "getmethods", &_12);
+	ZEPHIR_CALL_METHOD(&methods, reflection, "getmethods", NULL, 20);
 	zephir_check_call_status();
 	if (zephir_fast_count_int(methods TSRMLS_CC)) {
 		ZEPHIR_INIT_VAR(annotationsMethods);
 		array_init(annotationsMethods);
-		zephir_is_iterable(methods, &_14, &_13, 0, 0, "phalcon/annotations/reader.zep", 126);
+		zephir_is_iterable(methods, &_8, &_7, 0, 0, "phalcon/annotations/reader.zep", 126);
 		for (
-		  ; zephir_hash_get_current_data_ex(_14, (void**) &_15, &_13) == SUCCESS
-		  ; zephir_hash_move_forward_ex(_14, &_13)
+		  ; zephir_hash_get_current_data_ex(_8, (void**) &_9, &_7) == SUCCESS
+		  ; zephir_hash_move_forward_ex(_8, &_7)
 		) {
-			ZEPHIR_GET_HVALUE(method, _15);
-			ZEPHIR_CALL_METHOD(&comment, method, "getdoccomment", NULL);
+			ZEPHIR_GET_HVALUE(method, _9);
+			ZEPHIR_CALL_METHOD(&comment, method, "getdoccomment", NULL, 0);
 			zephir_check_call_status();
 			if (Z_TYPE_P(comment) == IS_STRING) {
 				ZEPHIR_INIT_NVAR(methodAnnotations);
-				ZEPHIR_CALL_METHOD(&_2, method, "getfilename", NULL);
+				ZEPHIR_CALL_METHOD(&_0, method, "getfilename", NULL, 0);
 				zephir_check_call_status();
-				ZEPHIR_CALL_METHOD(&_4, method, "getstartline", NULL);
+				ZEPHIR_CALL_METHOD(&_1, method, "getstartline", NULL, 0);
 				zephir_check_call_status();
-				ZEPHIR_LAST_CALL_STATUS = phannot_parse_annotations(methodAnnotations, comment, _2, _4 TSRMLS_CC);
+				ZEPHIR_LAST_CALL_STATUS = phannot_parse_annotations(methodAnnotations, comment, _0, _1 TSRMLS_CC);
 				zephir_check_call_status();
 				if (Z_TYPE_P(methodAnnotations) == IS_ARRAY) {
-					ZEPHIR_OBS_NVAR(_11);
-					zephir_read_property(&_11, method, SL("name"), PH_NOISY_CC);
-					zephir_array_update_zval(&annotationsMethods, _11, &methodAnnotations, PH_COPY | PH_SEPARATE);
+					ZEPHIR_OBS_NVAR(_6);
+					zephir_read_property(&_6, method, SL("name"), PH_NOISY_CC);
+					zephir_array_update_zval(&annotationsMethods, _6, &methodAnnotations, PH_COPY | PH_SEPARATE);
 				}
 			}
 		}
@@ -145,9 +144,6 @@ PHP_METHOD(Phalcon_Annotations_Reader, parse) {
 
 /**
  * Parses a raw doc block returning the annotations found
- *
- * @param string docBlock
- * @return array
  */
 PHP_METHOD(Phalcon_Annotations_Reader, parseDocBlock) {
 

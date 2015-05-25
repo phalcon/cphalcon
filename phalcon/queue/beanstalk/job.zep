@@ -117,6 +117,24 @@ class Job
 	}
 
 	/**
+	 * Get stats of the job.
+	 */
+	public function stats() -> boolean|array
+	{
+		var queue, response;
+
+		let queue = this->_queue;
+		queue->write("stats-job " . this->_id);
+
+		let response = queue->readYaml();
+		if response[0] == "NOT_FOUND" {
+			return false;
+		}
+
+		return response[2];
+	}
+
+	/**
 	 * Checks if the job has been modified after unserializing the object
 	 */
 	public function __wakeup()

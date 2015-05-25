@@ -138,6 +138,8 @@ class Session extends \Phalcon\Flash implements FlashInterface, InjectionAwareIn
 			if typeof type == "string" {
 				if fetch returnMessages, messages[type] {
 					return returnMessages;
+				} else {
+					return [];
 				}
 			}
 			return messages;

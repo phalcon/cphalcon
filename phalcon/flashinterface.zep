@@ -51,5 +51,4 @@ interface FlashInterface
 	 * Outputs a message
 	 */
 	public function message(string type, var message);
-
 }

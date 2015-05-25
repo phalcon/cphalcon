@@ -1759,7 +1759,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 */
 	protected function _preSave(<MetadataInterface> metaData, boolean exists, var identityField) -> boolean
 	{
-		var notNull, columnMap, dataTypeNumeric, automaticAttributes, field, attributeField, value;
+		var notNull, columnMap, dataTypeNumeric, automaticAttributes, defaultValues, field, attributeField, value;
 		boolean error, isNull;
 
 		/**
@@ -1823,6 +1823,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 					let automaticAttributes = metaData->getAutomaticUpdateAttributes(this);
 				} else {
 					let automaticAttributes = metaData->getAutomaticCreateAttributes(this);
+					let defaultValues = metaData->getDefaultValues(this);
 				}
 
 				let error = false;
@@ -1874,6 +1875,13 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 								 * The identity field can be null
 								 */
 								if field == identityField {
+									continue;
+								}
+
+								/**
+								 * The field have default value can be null
+								 */
+								if isset defaultValues[field] {
 									continue;
 								}
 							}
@@ -3403,7 +3411,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 *}
 	 *</code>
 	 */
-	protected function addBehavior(<BehaviorInterface> behavior) -> void
+	public function addBehavior(<BehaviorInterface> behavior) -> void
 	{
 		(<ManagerInterface> this->_modelsManager)->addBehavior(this, behavior);
 	}
@@ -4064,35 +4072,10 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 */
 	public function serialize() -> string
 	{
-		var data, metaData, columnMap, value, attribute, attributeField;
-
-		let data = [],
-			metaData = this->getModelsMetaData(),
-			columnMap = metaData->getColumnMap(this);
-		for attribute in metaData->getAttributes(this) {
-
-			/**
-			 * Check if the columns must be renamed
-			 */
-			if typeof columnMap == "array" {
-				if !fetch attributeField, columnMap[attribute] {
-					throw new Exception("Column '" . attribute . "' doesn't make part of the column map");
-				}
-			} else {
-				let attributeField = attribute;
-			}
-
-			if fetch value, this->{attributeField} {
-				let data[attributeField] = value;
-			} else {
-				let data[attributeField] = null;
-			}
-		}
-
 		/**
 		 * Use the standard serialize function to serialize the array data
 		 */
-		return serialize(data);
+		return serialize(this->toArray());
 	}
 
 	/**
