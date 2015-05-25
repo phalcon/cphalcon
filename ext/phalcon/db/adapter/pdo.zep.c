@@ -235,8 +235,9 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, prepare) {
  */
 PHP_METHOD(Phalcon_Db_Adapter_Pdo, executePrepared) {
 
-	zephir_fcall_cache_entry *_3 = NULL;
+	zephir_fcall_cache_entry *_4 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
+	zend_bool _3;
 	HashTable *_1;
 	HashPosition _0;
 	zval *placeholders = NULL;
@@ -249,7 +250,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, executePrepared) {
 
 
 
-	zephir_is_iterable(placeholders, &_1, &_0, 0, 0, "phalcon/db/adapter/pdo.zep", 221);
+	zephir_is_iterable(placeholders, &_1, &_0, 0, 0, "phalcon/db/adapter/pdo.zep", 215);
 	for (
 	  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_1, &_0)
@@ -267,12 +268,12 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, executePrepared) {
 				return;
 			}
 		}
-		if (Z_TYPE_P(dataTypes) == IS_ARRAY) {
+		_3 = Z_TYPE_P(dataTypes) == IS_ARRAY;
+		if (_3) {
 			ZEPHIR_OBS_NVAR(type);
-			if (!(zephir_array_isset_fetch(&type, dataTypes, wildcard, 0 TSRMLS_CC))) {
-				ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Invalid bind type parameter (2)", "phalcon/db/adapter/pdo.zep", 195);
-				return;
-			}
+			_3 = zephir_array_isset_fetch(&type, dataTypes, wildcard, 0 TSRMLS_CC);
+		}
+		if (_3) {
 			if (ZEPHIR_IS_LONG(type, 32)) {
 				ZEPHIR_INIT_NVAR(castValue);
 				ZVAL_DOUBLE(castValue, zephir_get_doubleval(value));
@@ -282,14 +283,14 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, executePrepared) {
 				ZEPHIR_CPY_WRT(castValue, value);
 			}
 			if (ZEPHIR_IS_LONG(type, 1024)) {
-				ZEPHIR_CALL_METHOD(NULL, statement, "bindvalue", &_3, 0, parameter, castValue);
+				ZEPHIR_CALL_METHOD(NULL, statement, "bindvalue", &_4, 0, parameter, castValue);
 				zephir_check_call_status();
 			} else {
-				ZEPHIR_CALL_METHOD(NULL, statement, "bindvalue", &_3, 0, parameter, castValue, type);
+				ZEPHIR_CALL_METHOD(NULL, statement, "bindvalue", &_4, 0, parameter, castValue, type);
 				zephir_check_call_status();
 			}
 		} else {
-			ZEPHIR_CALL_METHOD(NULL, statement, "bindvalue", &_3, 0, parameter, value);
+			ZEPHIR_CALL_METHOD(NULL, statement, "bindvalue", &_4, 0, parameter, value);
 			zephir_check_call_status();
 		}
 	}
@@ -538,8 +539,8 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, escapeIdentifier) {
 
 
 	if (Z_TYPE_P(identifier) == IS_ARRAY) {
-		zephir_array_fetch_long(&_0, identifier, 0, PH_NOISY | PH_READONLY, "phalcon/db/adapter/pdo.zep", 383 TSRMLS_CC);
-		zephir_array_fetch_long(&_1, identifier, 1, PH_NOISY | PH_READONLY, "phalcon/db/adapter/pdo.zep", 383 TSRMLS_CC);
+		zephir_array_fetch_long(&_0, identifier, 0, PH_NOISY | PH_READONLY, "phalcon/db/adapter/pdo.zep", 377 TSRMLS_CC);
+		zephir_array_fetch_long(&_1, identifier, 1, PH_NOISY | PH_READONLY, "phalcon/db/adapter/pdo.zep", 377 TSRMLS_CC);
 		ZEPHIR_CONCAT_SVSVS(return_value, "\"", _0, "\".\"", _1, "\"");
 		return;
 	}
@@ -626,28 +627,28 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, convertBoundParams) {
 	Z_UNSET_ISREF_P(matches);
 	zephir_check_call_status();
 	if (zephir_is_true(_1)) {
-		zephir_is_iterable(matches, &_3, &_2, 0, 0, "phalcon/db/adapter/pdo.zep", 433);
+		zephir_is_iterable(matches, &_3, &_2, 0, 0, "phalcon/db/adapter/pdo.zep", 427);
 		for (
 		  ; zephir_hash_get_current_data_ex(_3, (void**) &_4, &_2) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_3, &_2)
 		) {
 			ZEPHIR_GET_HVALUE(placeMatch, _4);
 			ZEPHIR_OBS_NVAR(value);
-			zephir_array_fetch_long(&_5, placeMatch, 1, PH_READONLY, "phalcon/db/adapter/pdo.zep", 419 TSRMLS_CC);
+			zephir_array_fetch_long(&_5, placeMatch, 1, PH_READONLY, "phalcon/db/adapter/pdo.zep", 413 TSRMLS_CC);
 			if (!(zephir_array_isset_fetch(&value, params, _5, 0 TSRMLS_CC))) {
 				if (zephir_array_isset_long(placeMatch, 2)) {
 					ZEPHIR_OBS_NVAR(value);
-					zephir_array_fetch_long(&_6, placeMatch, 2, PH_READONLY, "phalcon/db/adapter/pdo.zep", 421 TSRMLS_CC);
+					zephir_array_fetch_long(&_6, placeMatch, 2, PH_READONLY, "phalcon/db/adapter/pdo.zep", 415 TSRMLS_CC);
 					if (!(zephir_array_isset_fetch(&value, params, _6, 0 TSRMLS_CC))) {
-						ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Matched parameter wasn't found in parameters list", "phalcon/db/adapter/pdo.zep", 422);
+						ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Matched parameter wasn't found in parameters list", "phalcon/db/adapter/pdo.zep", 416);
 						return;
 					}
 				} else {
-					ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Matched parameter wasn't found in parameters list", "phalcon/db/adapter/pdo.zep", 425);
+					ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Matched parameter wasn't found in parameters list", "phalcon/db/adapter/pdo.zep", 419);
 					return;
 				}
 			}
-			zephir_array_append(&placeHolders, value, PH_SEPARATE, "phalcon/db/adapter/pdo.zep", 429);
+			zephir_array_append(&placeHolders, value, PH_SEPARATE, "phalcon/db/adapter/pdo.zep", 423);
 		}
 		ZEPHIR_INIT_NVAR(_0);
 		ZVAL_STRING(_0, "?", ZEPHIR_TEMP_PARAM_COPY);
@@ -807,7 +808,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, rollback) {
 	zephir_read_property_this(&_0, this_ptr, SL("_transactionLevel"), PH_NOISY_CC);
 	transactionLevel = zephir_get_intval(_0);
 	if (!(transactionLevel)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "There is no active transaction", "phalcon/db/adapter/pdo.zep", 547);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "There is no active transaction", "phalcon/db/adapter/pdo.zep", 541);
 		return;
 	}
 	if (transactionLevel == 1) {
@@ -888,7 +889,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, commit) {
 	zephir_read_property_this(&_0, this_ptr, SL("_transactionLevel"), PH_NOISY_CC);
 	transactionLevel = zephir_get_intval(_0);
 	if (!(transactionLevel)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "There is no active transaction", "phalcon/db/adapter/pdo.zep", 621);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "There is no active transaction", "phalcon/db/adapter/pdo.zep", 615);
 		return;
 	}
 	if (transactionLevel == 1) {
