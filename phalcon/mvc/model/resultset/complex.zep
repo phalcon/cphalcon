@@ -64,7 +64,7 @@ class Complex extends Resultset implements ResultsetInterface
 	 */
 	public final function current() -> <ModelInterface> | boolean
 	{
-		var row, underscore, hydrateMode,
+		var row, hydrateMode,
 			dirtyState, alias, activeRow, type, columnTypes,
 			column, columnValue, value, attribute, source, attributes,
 			columnMap, rowModel, keepSnapshots, sqlAlias;
@@ -100,8 +100,6 @@ class Complex extends Resultset implements ResultsetInterface
 		 * Get current hydration mode
 		 */
 		let hydrateMode = this->_hydrateMode;
-
-		let underscore = "_";
 
 		/**
 		 * Each row in a complex result is a Phalcon\Mvc\Model\Row instance
@@ -157,7 +155,7 @@ class Complex extends Resultset implements ResultsetInterface
 					/**
 					 * Columns are supposed to be in the form _table_field
 					 */
-					let columnValue = row[underscore . source . underscore. attribute],
+					let columnValue = row["_" . source . "_". attribute],
 						rowModel[attribute] = columnValue;
 				}
 
@@ -212,7 +210,7 @@ class Complex extends Resultset implements ResultsetInterface
 				if isset column["balias"] {
 					let attribute = alias;
 				} else {
-					let attribute = str_replace(underscore, "", alias);
+					let attribute = str_replace("_", "", alias);
 				}
 			}
 
