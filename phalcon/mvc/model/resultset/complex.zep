@@ -49,7 +49,7 @@ class Complex extends Resultset implements ResultsetInterface
 	 * @param Phalcon\Db\ResultInterface result
 	 * @param Phalcon\Cache\BackendInterface cache
 	 */
-	public function __construct(var columnTypes, result, <BackendInterface> cache = null)
+	public function __construct(var columnTypes, <\Phalcon\Db\ResultInterface> result = null, <BackendInterface> cache = null)
 	{
 		/**
 		 * Column types, tell the resultset how to build the result
@@ -252,10 +252,8 @@ class Complex extends Resultset implements ResultsetInterface
 
 	/**
 	 * Serializing a resultset will dump all related rows into a big array
-	 *
-	 * @return string
 	 */
-	public function serialize()
+	public function serialize() -> string
 	{
 		var records, cache, columnTypes, hydrateMode, serialized;
 
@@ -274,13 +272,6 @@ class Complex extends Resultset implements ResultsetInterface
 			"columnTypes" : columnTypes,
 			"hydrateMode" : hydrateMode
 		]);
-
-		/**
-		 * Avoid return bad serialized data
-		 */
-		if typeof serialized != "string" {
-			return null;
-		}
 
 		return serialized;
 	}

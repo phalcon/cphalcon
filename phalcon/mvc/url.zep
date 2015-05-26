@@ -177,7 +177,7 @@ class Url implements UrlInterface, InjectionAwareInterface
 	 * @param bool $local
 	 * @return string
 	 */
-	public function get(var uri = null, args = null, boolean local = null)
+	public function get(var uri = null, args = null, boolean local = null) -> string
 	{
 		var baseUri, router, dependencyInjector, routeName, route, matched, queryString;
 

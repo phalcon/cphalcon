@@ -269,7 +269,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 	 * @param array bindTypes
 	 * @return Phalcon\Mvc\Model\Criteria
 	 */
-	public function addWhere(conditions, bindParams = null, bindTypes = null) -> <Criteria>
+	public function addWhere(string! conditions, bindParams = null, bindTypes = null) -> <Criteria>
 	{
 		return this->andWhere(conditions, bindParams, bindTypes);
 	}

@@ -502,7 +502,7 @@ class Micro extends Injectable implements \ArrayAccess
 	 * @param boolean shared
 	 * @return Phalcon\DI\ServiceInterface
 	 */
-	public function setService(var serviceName, var definition, boolean shared = false) -> <ServiceInterface>
+	public function setService(string! serviceName, var definition, boolean shared = false) -> <ServiceInterface>
 	{
 		var dependencyInjector;
 
