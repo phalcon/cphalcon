@@ -632,7 +632,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 
 	/**
 	 * Resolves a column from its intermediate representation into an array used to determine
-	 * if the resulset produced is simple or complex
+	 * if the resultset produced is simple or complex
 	 *
 	 * @param array column
 	 * @return array

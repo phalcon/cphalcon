@@ -71,14 +71,14 @@ interface ResultInterface
 	public function fetchAll();
 
 	/**
-	 * Gets number of rows returned by a resulset
+	 * Gets number of rows returned by a resultset
 	 *
 	 * @return int
 	 */
 	public function numRows();
 
 	/**
-	 * Moves internal resulset cursor to another position letting us to fetch a certain row
+	 * Moves internal resultset cursor to another position letting us to fetch a certain row
 	 *
 	 * @param int number
 	 */

@@ -157,11 +157,11 @@ class Pdo implements ResultInterface
 	}
 
 	/**
-	 * Gets number of rows returned by a resulset
+	 * Gets number of rows returned by a resultset
 	 *
 	 *<code>
 	 *	$result = $connection->query("SELECT * FROM robots ORDER BY name");
-	 *	echo 'There are ', $result->numRows(), ' rows in the resulset';
+	 *	echo 'There are ', $result->numRows(), ' rows in the resultset';
 	 *</code>
 	 */
 	public function numRows() -> int
@@ -218,7 +218,7 @@ class Pdo implements ResultInterface
 	}
 
 	/**
-	 * Moves internal resulset cursor to another position letting us to fetch a certain row
+	 * Moves internal resultset cursor to another position letting us to fetch a certain row
 	 *
 	 *<code>
 	 *	$result = $connection->query("SELECT * FROM robots ORDER BY name");

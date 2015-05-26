@@ -81,7 +81,7 @@ class Complex extends Resultset implements ResultsetInterface
 		let row = this->_row;
 
 		/**
-		 * Resulset was unserialized, we do not need to hydrate
+		 * Resultset was unserialized, we do not need to hydrate
 		 */
 		if this->_disableHydration {
 			let this->_activeRow = row;
