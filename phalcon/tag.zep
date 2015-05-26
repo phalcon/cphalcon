@@ -20,11 +20,9 @@
 
 namespace Phalcon;
 
-use Phalcon\DiInterface;
 use Phalcon\Tag\Select;
 use Phalcon\Tag\Exception;
 use Phalcon\Mvc\UrlInterface;
-use Phalcon\EscaperInterface;
 
 /**
  * Phalcon\Tag
