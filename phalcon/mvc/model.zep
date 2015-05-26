@@ -2684,7 +2684,12 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 		 * Create/Get the current database connection
 		 */
 		let writeConnection = this->getWriteConnection();
-
+		
+		/**
+		 * Fire the start event
+		 */
+		this->fireEvent("prepareSave");
+		
 		/**
 		 * Save related records in belongsTo relationships
 		 */
