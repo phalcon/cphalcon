@@ -50,7 +50,7 @@ class MySQL extends Dialect
 		
 		let columnSql = columnType->getDialect("mysql");
 		if columnSql === false {
-			throw new Exception("Unrecognized Mysql data type");
+			throw new Exception("Unrecognized Mysql data type for " . column->getType() );
 		}
 		let columnSql = str_replace("#size#",column->getSize(),columnSql);
 		let columnSql = str_replace("#scale#",column->getScale() ,columnSql);
@@ -67,10 +67,10 @@ class MySQL extends Dialect
 				for value in typeValues {
 					let valueSql .= "\"" . addcslashes(value, "\"") . "\", ";
 				}
-				let columnSql = str_replace("#values#","(" . substr(valueSql, 0, -2) . ")",columnSql);
+				let columnSql = str_replace("#values#", substr(valueSql, 0, -2) ,columnSql);
 				
 			} else {
-				let columnSql = str_replace("#values#","(\"" . addcslashes(typeValues, "\"") . "\")",columnSql);
+				let columnSql = str_replace("#values#","\"" . addcslashes(typeValues, "\"") . "\"",columnSql);
 			}
 		}
 		

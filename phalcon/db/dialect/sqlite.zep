@@ -51,7 +51,7 @@ class Sqlite extends Dialect
 		
 		let columnSql = columnType->getDialect("sqlite");
 		if columnSql === false {
-			throw new Exception("Unrecognized sqlite data type");
+			throw new Exception("Unrecognized sqlite data type for " . column->getType() );
 		}
 		let columnSql = str_replace("#size#",column->getSize(),columnSql);
 		let columnSql = str_replace("#scale#",column->getScale() ,columnSql);

@@ -22,21 +22,39 @@ use Phalcon\Db\Exception;
 use Phalcon\Db\ColumnInterface;
 use Phalcon\Db\Column\Type as ColumnType;
 
-class Datetime extends ColumnType
+/**
+ * Phalcon\Db\Column
+ *
+ * Allows to define columns to be used on create or alter table operations
+ *
+ *<code>
+ *	use Phalcon\Db\Column as Column;
+ *
+ * //column definition
+ * $column = new Column("id", array(
+ *   "type" => Column::TYPE_INTEGER,
+ *   "size" => 10,
+ *   "unsigned" => true,
+ *   "notNull" => true,
+ *   "autoIncrement" => true,
+ *   "first" => true
+ * ));
+ *
+ * //add column to existing table
+ * $connection->addColumn("robots", null, $column);
+ *</code>
+ *
+ */
+class FloatType extends ColumnType
 {
-	
 	public function setup()
 	{
 		let this->dialect = [
-    				"mysql":"DATETIME",
-    				"postgresql":"TIMESTAMP"
-    			];
+				"mysql":"FLOAT(#size#,#scale#)",
+				"postgresql":"FLOAT"
+			];
 		let this->_autoIncrement = false;
-		let this->_scale = false;
-		let this->_isNumeric = false;
-	}
-
-	public function castValue(value) {
-		return (string)value;
+		let this->_scale = true;
+		let this->_isNumeric = true;
 	}
 }

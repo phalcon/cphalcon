@@ -22,49 +22,19 @@ use Phalcon\Db\Exception;
 use Phalcon\Db\ColumnInterface;
 use Phalcon\Db\Column\Type as ColumnType;
 
-/**
- * Phalcon\Db\Column
- *
- * Allows to define columns to be used on create or alter table operations
- *
- *<code>
- *	use Phalcon\Db\Column as Column;
- *
- * //column definition
- * $column = new Column("id", array(
- *   "type" => Column::TYPE_INTEGER,
- *   "size" => 10,
- *   "unsigned" => true,
- *   "notNull" => true,
- *   "autoIncrement" => true,
- *   "first" => true
- * ));
- *
- * //add column to existing table
- * $connection->addColumn("robots", null, $column);
- *</code>
- *
- */
 class Date extends ColumnType
 {
-	/**
-	 * Column is autoIncrement?
-	 *
-	 * @var boolean
-	 */
-	protected _autoIncrement = false;
 	
-	/**
-	 * Column is autoIncrement?
-	 *
-	 * @var boolean
-	 */
-	protected _scale = false;
-	
-	/**
-	 * The column have some numeric type?
-	 */
-	protected _isNumeric = false;
+	public function setup()
+	{
+		let this->dialect = [
+				"mysql":"DATE",
+				"postgresql":"DATE"
+			];
+		let this->_autoIncrement = false;
+		let this->_scale = false;
+		let this->_isNumeric = false;
+	}
 	
 	public function castValue(value) {
 		return (string)value;

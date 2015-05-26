@@ -21,22 +21,16 @@ namespace Phalcon\Db\Column\Type;
 use Phalcon\Db\Exception;
 use Phalcon\Db\ColumnInterface;
 use Phalcon\Db\Column\Type as ColumnType;
+use Phalcon\Db\Column;
 
-class Datetime extends ColumnType
+class Bigint extends Integer
 {
-	
 	public function setup()
 	{
+		parent::setup();
 		let this->dialect = [
-    				"mysql":"DATETIME",
-    				"postgresql":"TIMESTAMP"
-    			];
-		let this->_autoIncrement = false;
-		let this->_scale = false;
-		let this->_isNumeric = false;
-	}
-
-	public function castValue(value) {
-		return (string)value;
+                  		"mysql":"BIGINT(#size#)",
+                  		"postgresql":"BIGINT"
+                  	];
 	}
 }

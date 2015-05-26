@@ -73,6 +73,13 @@ abstract class Type
 	
 	protected _bindType = Column::BIND_PARAM_STR;
 	
+	public function __construct()
+	{
+		this->setup();
+	}
+	
+	abstract public function setup(){}
+	
 	public function getDialects() {
 		return $this->dialect;
 	}
@@ -119,7 +126,9 @@ abstract class Type
 	}
 	
 	public function getDialect(dialect) {
-		return isset this->dialect[dialect] ? this->dialect[dialect] : false ;
+		var out;
+		let out = isset this->dialect[dialect] ? this->dialect[dialect] : false ;
+		return out;
 	}
 	
 	public function castValue(value) {

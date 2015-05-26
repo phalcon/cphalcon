@@ -50,6 +50,57 @@ class Column implements ColumnInterface
 {
 
 	/**
+	 * Integer abstract type
+	 */
+	const TYPE_INTEGER = "integer";
+
+	/**
+	 * Date abstract type
+	 */
+	const TYPE_DATE = "date";
+
+	/**
+	 * Varchar abstract type
+	 */
+	const TYPE_VARCHAR = "varchar";
+
+	/**
+	 * Decimal abstract type
+	 */
+	const TYPE_DECIMAL = "decimal";
+
+	/**
+	 * Datetime abstract type
+	 */
+	const TYPE_DATETIME = "datetime";
+
+	/**
+	 * Char abstract type
+	 */
+	const TYPE_CHAR = "char";
+
+	/**
+	 * Text abstract data type
+	 */
+	const TYPE_TEXT = "text";
+
+	/**
+	 * Float abstract data type
+	 */
+	const TYPE_FLOAT = "float";
+
+	/**
+	 * Boolean abstract data type
+	 */
+	const TYPE_BOOLEAN = "boolean";
+
+	/**
+	 * Double abstract data type
+	 *
+	 */
+	const TYPE_DOUBLE = "double";
+
+	/**
 	 * Bind Type Null
 	 */
 	const BIND_PARAM_NULL = 0;
@@ -209,10 +260,15 @@ class Column implements ColumnInterface
 		if empty self::columnTypes {
 			let self::columnTypes  = [
 										"integer" : "\\Phalcon\\Db\\Column\\Type\\Integer",
+										"bigint" : "\\Phalcon\\Db\\Column\\Type\\Bigint",
 										"date" : "\\Phalcon\\Db\\Column\\Type\\Date",
 										"varchar" : "\\Phalcon\\Db\\Column\\Type\\Varchar",
+										"char" : "\\Phalcon\\Db\\Column\\Type\\CharType",
+										"text" : "\\Phalcon\\Db\\Column\\Type\\Text",
 										"decimal" : "\\Phalcon\\Db\\Column\\Type\\Decimal",
-										"datetime" : "\\Phalcon\\Db\\Column\\Type\\Datetime"
+										"float" : "\\Phalcon\\Db\\Column\\Type\\FloatType",
+										"datetime" : "\\Phalcon\\Db\\Column\\Type\\Datetime",
+										"enum" : "\\Phalcon\\Db\\Column\\Type\\Enum"
 									];
 			let self::columnTypesDialect = [];
 			for type, className in self::columnTypes {
@@ -252,7 +308,7 @@ class Column implements ColumnInterface
 	{
 	
 		var type, notNull, primary, size, scale, dunsigned, first,
-			after, bindType, isNumeric, autoIncrement, defaultValue,
+			after, isNumeric, autoIncrement, defaultValue,
 			typeReference, typeValues,typeClass,columnTypes;
 			
 		let columnTypes = self::getColumnTypes();
@@ -272,7 +328,7 @@ class Column implements ColumnInterface
 				
 			} else {
 				
-				if !fetch typeClass,columnTypes[type] {
+				if !fetch typeClass,columnTypes[strtolower(type)] {
 					throw new Exception("Unknown column type \"" . type . "\"");
 				}
 				
@@ -381,7 +437,15 @@ class Column implements ColumnInterface
 	
 	public function getType(onlyName = true) -> string
 	{
-		return onlyName ? strtolower(get_class(this->_type)) : this->_type;
+		var completeClassName;
+		if onlyName === true {
+			let completeClassName = get_class(this->_type);
+        		
+			return strtolower(str_replace("Type","",substr(completeClassName, strrpos(completeClassName,"\\")+1)));
+		}
+		else {
+		return this->_type;
+		}
 	}
 
 	/**

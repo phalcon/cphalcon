@@ -18,25 +18,18 @@
 
 namespace Phalcon\Db\Column\Type;
 
-use Phalcon\Db\Exception;
-use Phalcon\Db\ColumnInterface;
 use Phalcon\Db\Column\Type as ColumnType;
 
-class Datetime extends ColumnType
+class Enum extends ColumnType
 {
-	
 	public function setup()
 	{
 		let this->dialect = [
-    				"mysql":"DATETIME",
-    				"postgresql":"TIMESTAMP"
-    			];
+				"mysql":"ENUM(#values#)",
+				"postgresql":"ENUM(#values#)"
+			];
 		let this->_autoIncrement = false;
 		let this->_scale = false;
 		let this->_isNumeric = false;
-	}
-
-	public function castValue(value) {
-		return (string)value;
 	}
 }
