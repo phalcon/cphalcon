@@ -1524,7 +1524,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	protected function _checkForeignKeysReverseCascade() -> boolean
 	{
 		var manager, relations, relation, foreignKey,
-			resulset, conditions, bindParams, referencedModel,
+			resultset, conditions, bindParams, referencedModel,
 			referencedFields, fields, field, position, value,
 			extraConditions;
 		int action;
@@ -1604,7 +1604,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 						 * We don't trust the actual values in the object and then we're passing the values using bound parameters
 						 * Let's make the checking
 						 */
-						let resulset = referencedModel->find([
+						let resultset = referencedModel->find([
 							join(" AND ", conditions),
 							"bind": bindParams
 						]);
@@ -1613,7 +1613,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 						 * Delete the resultset
 						 * Stop the operation if needed
 						 */
-						if resulset->delete() === false {
+						if resultset->delete() === false {
 							return false;
 						}
 					}
