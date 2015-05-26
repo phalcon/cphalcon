@@ -394,7 +394,7 @@ class Manager
 			/**
 			 * Global filtered content
 			 */
-			let filteredJoinedContent = null;
+			let filteredJoinedContent = "";
 
 			/**
 			 * Check if the collection have its own target base path
@@ -573,17 +573,9 @@ class Manager
 					 */
 					if join == true {
 						if type == typeCss {
-							if filteredJoinedContent == null {
-								let filteredJoinedContent = filteredContent;
-							} else {
-								let filteredJoinedContent .= filteredContent;
-							}
+							let filteredJoinedContent .= filteredContent;
 						} else {
-							if filteredJoinedContent == null {
-								let filteredJoinedContent = filteredContent . ";";
-							} else {
-								let filteredJoinedContent .= filteredContent. ";";
-							}
+							let filteredJoinedContent .= filteredContent . ";";
 						}
 					}
 				} else {
@@ -592,11 +584,7 @@ class Manager
 					 * Update the joined filtered content
 					 */
 					if join == true {
-						if filteredJoinedContent == null {
-							let filteredJoinedContent = content;
-						} else {
-							let filteredJoinedContent .= content;
-						}
+						let filteredJoinedContent .= content;
 					} else {
 						let filteredContent = content;
 					}
