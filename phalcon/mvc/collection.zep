@@ -21,7 +21,6 @@
 namespace Phalcon\Mvc;
 
 use Phalcon\DiInterface;
-use Phalcon\Mvc\CollectionInterface;
 use Phalcon\Di\InjectionAwareInterface;
 use Phalcon\Mvc\Collection\ManagerInterface;
 use Phalcon\Mvc\Collection\Exception;
