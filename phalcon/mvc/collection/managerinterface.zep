@@ -111,12 +111,13 @@ interface ManagerInterface
 	public function getConnection(model);
 
 	/**
-	 * Receives events generated in the models and dispatches them to a events-manager if available
-	 * Notify the behaviors that are listening in the model
-	 *
-	 * @param string eventName
-	 * @param Phalcon\Mvc\CollectionInterface model
+	 * Receives events generated in the collections and dispatches them to a events-manager if available
+	 * Notify the behaviors that are listening in the collection
 	 */
 	public function notifyEvent(eventName, model);
 
+	/**
+	 * Binds a behavior to a collection
+	 */
+	public function addBehavior(<CollectionInterface> model, <\Phalcon\Mvc\Collection\BehaviorInterface> behavior);
 }

@@ -24,6 +24,7 @@ use Phalcon\DiInterface;
 use Phalcon\Mvc\CollectionInterface;
 use Phalcon\Di\InjectionAwareInterface;
 use Phalcon\Mvc\Collection\ManagerInterface;
+use Phalcon\Mvc\Collection\BehaviorInterface;
 use Phalcon\Mvc\Collection\Exception;
 use Phalcon\Mvc\Model\MessageInterface;
 
@@ -1346,5 +1347,34 @@ abstract class Collection implements CollectionInterface, InjectionAwareInterfac
 				let this->{key} = value;
 			}
 		}
+	}
+
+	/**
+	 * Sets up a behavior in a collection
+	 *
+	 *<code>
+	 *<?php
+	 *
+	 *use Phalcon\Mvc\Collection\Behavior\Timestampable;
+	 *
+	 *class Robots extends \Phalcon\Mvc\Collection
+	 *{
+	 *
+	 *   public function initialize()
+	 *   {
+	 *		$this->addBehavior(new Timestampable(array(
+	 *			'onCreate' => array(
+	 *				'field' => 'created_at',
+	 *				'format' => 'Y-m-d'
+	 *			)
+	 *		)));
+	 *   }
+	 *
+	 *}
+	 *</code>
+	 */
+	protected function addBehavior(<BehaviorInterface> behavior) -> void
+	{
+		(<ManagerInterface> this->_modelsManager)->addBehavior(this, behavior);
 	}
 }
