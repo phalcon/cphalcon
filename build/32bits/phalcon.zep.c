@@ -99902,7 +99902,7 @@ static void pp_syntax_error(
   PPMINORTYPE ppminor            /* The minor type of the error token */
 ){
   phql_ARG_FETCH;
-#define TOKEN (ppminor.pp0)
+//#define TOKEN (ppminor.pp0)
 // 474 "parser.lemon"
 
 	if (status->scanner_state->start_length) {
@@ -117887,7 +117887,7 @@ static void vv_syntax_error(
   VVMINORTYPE vvminor            /* The minor type of the error token */
 ){
   phvolt_ARG_FETCH;
-#define TOKEN (vvminor.vv0)
+//#define TOKEN (vvminor.vv0)
 // 604 "parser.lemon"
 
 	{
