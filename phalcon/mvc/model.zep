@@ -847,9 +847,9 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 		 * Gets Criteria instance from DI container
 		 */
 		if dependencyInjector instanceof DiInterface {
-			let criteria = <CriteriaInterface> dependencyInjector->get("\Phalcon\Mvc\Model\Criteria");
+			let criteria = <CriteriaInterface> dependencyInjector->get("Phalcon\\Mvc\\Model\\Criteria");
 		} else {
-			let criteria = new \Phalcon\Mvc\Model\Criteria();
+			let criteria = new Criteria();
 			criteria->setDI(dependencyInjector);
 		}
 
@@ -1399,9 +1399,9 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	{
 		var manager, belongsTo, foreignKey, relation, conditions,
 			position, bindParams, extraConditions, message, fields,
-			referencedFields, field, referencedModel, value;
-		int action;
-		boolean error;
+			referencedFields, field, referencedModel, value, allowNulls;
+		int action, numberNull;
+		boolean error, validateWithNulls = false;
 
 		/**
 		 * Get the models manager
@@ -1449,7 +1449,8 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 						 */
 						let conditions = [], bindParams = [];
 
-						let fields = relation->getFields(),
+						let numberNull = 0,
+							fields = relation->getFields(),
 							referencedFields = relation->getReferencedFields();
 
 						if typeof fields == "array" {
@@ -1460,11 +1461,22 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 								fetch value, this->{field};
 								let conditions[] = "[" . referencedFields[position] . "] = ?" . position,
 									bindParams[] = value;
+								if typeof value == "null" {
+									let numberNull++;
+								}
 							}
+
+							let validateWithNulls = numberNull == count(fields);
+
 						} else {
+
 							fetch value, this->{fields};
 							let conditions[] = "[" . referencedFields . "] = ?0",
 								bindParams[] = value;
+
+							if typeof value == "null" {
+								let validateWithNulls = true;
+							}
 						}
 
 						/**
@@ -1475,10 +1487,21 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 						}
 
 						/**
+						 * Check if the relation definition allows nulls
+						 */
+						if validateWithNulls {
+							if fetch allowNulls, foreignKey["allowNulls"] {
+								let validateWithNulls = (boolean) allowNulls;
+							} else {
+								let validateWithNulls = false;
+							}
+						}
+
+						/**
 						 * We don't trust the actual values in the object and pass the values using bound parameters
 						 * Let's make the checking
 						 */
-						if !referencedModel->count([join(" AND ", conditions), "bind": bindParams]) {
+						if !validateWithNulls && !referencedModel->count([join(" AND ", conditions), "bind": bindParams]) {
 
 							/**
 							 * Get the user message or produce a new one
@@ -1692,11 +1715,13 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 						let conditions = [], bindParams = [];
 
 						if typeof fields == "array" {
+
 							for position, field in fields {
 								fetch value, this->{field};
 								let conditions[] = "[" . referencedFields[position] . "] = ?" . position,
 									bindParams[] = value;
 							}
+
 						} else {
 							fetch value, this->{fields};
 							let conditions[] = "[" . referencedFields . "] = ?0",
@@ -2003,7 +2028,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 			field, columnMap, value, attributeField, success, bindType, defaultValue, sequenceName;
 		boolean useExplicitIdentity;
 
-		let bindSkip = \Phalcon\Db\Column::BIND_SKIP;
+		let bindSkip = Column::BIND_SKIP;
 
 		let fields = [],
 			values = [],
@@ -2171,7 +2196,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 			snapshot, nonPrimary, columnMap, attributeField, value, primaryKeys, bindType;
 		boolean useDynamicUpdate, changed;
 
-		let bindSkip = \Phalcon\Db\Column::BIND_SKIP,
+		let bindSkip = Column::BIND_SKIP,
 			fields = [],
 			values = [],
 			bindTypes = [],
