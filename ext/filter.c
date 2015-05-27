@@ -353,7 +353,7 @@ PHP_METHOD(Phalcon_Filter, _sanitize){
 		 * The 'float' filter uses the filter extension
 		 */
 		PHALCON_INIT_VAR(allow_fraction);
-		ZVAL_LONG(allow_fraction, 4096);
+		ZVAL_LONG(allow_fraction, 4096); /* FILTER_FLAG_ALLOW_FRACTION */
 	
 		PHALCON_INIT_VAR(options);
 		array_init_size(options, 1);
