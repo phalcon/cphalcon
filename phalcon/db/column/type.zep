@@ -85,7 +85,11 @@ abstract class Type
 	}
 	
 	public function getName() {
-		return get_class(this);
+		var completeClassName;
+		
+		let completeClassName = get_class(this);
+                		
+		return strtolower(str_replace("Type","",substr(completeClassName, strrpos(completeClassName,"\\")+1)));
 	}
 
 	public function supportScale() {

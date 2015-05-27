@@ -584,7 +584,7 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 
 		$expectedDescribe = $this->getExpectedColumnsMysql();
 		$describe = $connection->describeColumns('personas');
-
+    
 		$this->assertEquals($describe, $expectedDescribe);
 
 		$describe = $connection->describeColumns('personas', 'phalcon_test');

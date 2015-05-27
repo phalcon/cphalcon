@@ -260,14 +260,14 @@ class Column implements ColumnInterface
 		if empty self::columnTypes {
 			let self::columnTypes  = [
 										"integer" : "\\Phalcon\\Db\\Column\\Type\\Integer",
-										"bigint" : "\\Phalcon\\Db\\Column\\Type\\Bigint",
 										"date" : "\\Phalcon\\Db\\Column\\Type\\Date",
 										"varchar" : "\\Phalcon\\Db\\Column\\Type\\Varchar",
+										"decimal" : "\\Phalcon\\Db\\Column\\Type\\Decimal",
+										"datetime" : "\\Phalcon\\Db\\Column\\Type\\Datetime",
 										"char" : "\\Phalcon\\Db\\Column\\Type\\CharType",
 										"text" : "\\Phalcon\\Db\\Column\\Type\\Text",
-										"decimal" : "\\Phalcon\\Db\\Column\\Type\\Decimal",
 										"float" : "\\Phalcon\\Db\\Column\\Type\\FloatType",
-										"datetime" : "\\Phalcon\\Db\\Column\\Type\\Datetime",
+										"bigint" : "\\Phalcon\\Db\\Column\\Type\\Bigint",
 										"enum" : "\\Phalcon\\Db\\Column\\Type\\Enum"
 									];
 			let self::columnTypesDialect = [];
@@ -300,6 +300,27 @@ class Column implements ColumnInterface
 		
 	}
 	
+	protected function setType(type) {
+		
+		var columnTypes,typeClass;
+		let columnTypes = self::getColumnTypes();
+		
+		if typeof type == "integer" {
+        				
+			if !fetch typeClass,columnTypes[array_keys(columnTypes)[type]] {
+				throw new Exception("Unknown column type \"" . type . "\"");
+			}
+			
+		} else {
+			
+			if !fetch typeClass,columnTypes[strtolower(type)] {
+				throw new Exception("Unknown column type \"" . type . "\"");
+			}
+			
+		}
+		let this->_type = new {typeClass}();
+		
+	}
 
 	/**
 	 * Phalcon\Db\Column constructor
@@ -309,10 +330,8 @@ class Column implements ColumnInterface
 	
 		var type, notNull, primary, size, scale, dunsigned, first,
 			after, isNumeric, autoIncrement, defaultValue,
-			typeReference, typeValues,typeClass,columnTypes;
+			typeReference, typeValues;
 			
-		let columnTypes = self::getColumnTypes();
-
 		let this->_name = name;
 
 		/**
@@ -320,20 +339,7 @@ class Column implements ColumnInterface
 		 */
 		if fetch type, definition["type"] {
 		
-			if typeof type == "integer" {
-				
-				if !fetch typeClass,columnTypes[array_keys(columnTypes)[type]] {
-					throw new Exception("Unknown column type \"" . type . "\"");
-				}
-				
-			} else {
-				
-				if !fetch typeClass,columnTypes[strtolower(type)] {
-					throw new Exception("Unknown column type \"" . type . "\"");
-				}
-				
-			}
-			let this->_type = new {typeClass}();
+			this->setType(type);
 			
 		} else {
 			throw new Exception("Column type is required");
@@ -437,14 +443,11 @@ class Column implements ColumnInterface
 	
 	public function getType(onlyName = true) -> string
 	{
-		var completeClassName;
 		if onlyName === true {
-			let completeClassName = get_class(this->_type);
-        		
-			return strtolower(str_replace("Type","",substr(completeClassName, strrpos(completeClassName,"\\")+1)));
+			return this->_type->getName();
 		}
 		else {
-		return this->_type;
+			return this->_type;
 		}
 	}
 
@@ -522,7 +525,8 @@ class Column implements ColumnInterface
 		var definition, columnType, notNull, size, dunsigned, after,
 			isNumeric, first, bindType, primary, columnName, scale,
 			defaultValue, autoIncrement,
-			columnTypeReference, columnTypeValues;
+			columnTypeReference, columnTypeValues,
+			columnTypes,typeClass;
 
 		if !fetch columnName, data["_columnName"] {
 			if !fetch columnName, data["_name"] {
@@ -533,7 +537,24 @@ class Column implements ColumnInterface
 		let definition = [];
 
 		if fetch columnType,  data["_type"] {
-			let definition["type"] = columnType;
+		
+			let columnTypes = self::getColumnTypes();
+			
+			if typeof columnType == "integer" {
+							
+				if !fetch typeClass,columnTypes[array_keys(columnTypes)[columnType]] {
+					throw new Exception("Unknown column type \"" . columnType . "\"");
+				}
+				
+			} else {
+				
+				if !fetch typeClass,columnTypes[strtolower(columnType)] {
+					throw new Exception("Unknown column type \"" . columnType . "\"");
+				}
+				
+			}
+		
+			let definition["type"] = (new {typeClass}())->getName();
 		}
 
 		if fetch columnTypeReference,  data["_typeReference"] {
