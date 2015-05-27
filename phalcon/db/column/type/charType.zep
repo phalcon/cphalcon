@@ -27,6 +27,7 @@ class CharType extends ColumnType
 	{
 		let this->dialect = [
         		"mysql":"CHAR(#size#)",
+        		"sqlite":"CHARACTER(#size#)",
         		"postgresql":"CHARACTER(#size#)"
         	];
 		let this->_autoIncrement = false;

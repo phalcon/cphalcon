@@ -27,6 +27,7 @@ class Decimal extends ColumnType
 	{
 		let this->dialect = [
 				"mysql":"DECIMAL(#size#,#scale#)",
+				"sqlite":"NUMERIC(#size#,#scale#)",
 				"postgresql":"NUMERIC(#size#,#scale#)"
 			];
 		let this->_autoIncrement = false;

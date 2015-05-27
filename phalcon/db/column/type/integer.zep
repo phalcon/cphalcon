@@ -27,6 +27,7 @@ class Integer extends ColumnType
 	{
 		let this->dialect = [
 				"mysql":"INT(#size#)",
+				"sqlite":"INT",
 				"postgresql":"INT"
 			];
 		let this->_autoIncrement = true;

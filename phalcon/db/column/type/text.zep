@@ -33,6 +33,7 @@ class Text extends ColumnType
 	{
 		let this->dialect = [
 				"mysql":"TEXT",
+				"sqlite":"TEXT",
 				"postgresql":"TEXT"
 			];
 		let this->_autoIncrement = false;

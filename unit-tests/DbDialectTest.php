@@ -254,7 +254,7 @@ class DbDialectTest extends PHPUnit_Framework_TestCase
 		$column11 = $columns['column11'];
 
 		$this->assertEquals($column11->getName(), 'column11');
-		$this->assertEquals($column11->getType(), 'BIGINT');
+		$this->assertEquals($column11->getType(), 'bigint');
 		$this->assertEquals($column11->getTypeReference(), Column::TYPE_INTEGER);
 		$this->assertEquals($column11->getSize(), 20);
 		$this->assertEquals($column11->getScale(), 0);
@@ -265,7 +265,7 @@ class DbDialectTest extends PHPUnit_Framework_TestCase
 		$column12 = $columns['column12'];
 
 		$this->assertEquals($column12->getName(), 'column12');
-		$this->assertEquals($column12->getType(), 'ENUM');
+		$this->assertEquals($column12->getType(), 'enum');
 		$this->assertEquals($column12->getTypeReference(), -1);
 		$this->assertEquals($column12->getTypeValues(), array('A', 'B', 'C'));
 		$this->assertEquals($column12->getSize(), 0);
@@ -643,10 +643,10 @@ class DbDialectTest extends PHPUnit_Framework_TestCase
     $this->assertEquals($dialect->modifyColumn('table', 'schema', $columns['column9'],$columns['column2']), 'ALTER TABLE "schema"."table" RENAME COLUMN "column2" TO "column9";ALTER TABLE "schema"."table" ALTER COLUMN "column9" TYPE CHARACTER VARYING(10);ALTER TABLE "schema"."table" ALTER COLUMN "column9" SET DEFAULT "column9"');
     $this->assertEquals($dialect->modifyColumn('table', null, $columns['column10'],$columns['column2']), 'ALTER TABLE "table" RENAME COLUMN "column2" TO "column10";ALTER TABLE "table" ALTER COLUMN "column10" SET DEFAULT "10"');
     $this->assertEquals($dialect->modifyColumn('table', 'schema', $columns['column10'],$columns['column2']), 'ALTER TABLE "schema"."table" RENAME COLUMN "column2" TO "column10";ALTER TABLE "schema"."table" ALTER COLUMN "column10" SET DEFAULT "10"');
-    $this->assertEquals($dialect->modifyColumn('table', null, $columns['column11'],$columns['column2']), 'ALTER TABLE "table" RENAME COLUMN "column2" TO "column11";');
-    $this->assertEquals($dialect->modifyColumn('table', 'schema', $columns['column11'],$columns['column2']), 'ALTER TABLE "schema"."table" RENAME COLUMN "column2" TO "column11";');
-    $this->assertEquals($dialect->modifyColumn('table', null, $columns['column12'],$columns['column2']), 'ALTER TABLE "table" RENAME COLUMN "column2" TO "column12";ALTER TABLE "table" ALTER COLUMN "column12" SET NOT NULL;ALTER TABLE "table" ALTER COLUMN "column12" SET DEFAULT "A"');
-    $this->assertEquals($dialect->modifyColumn('table', 'schema', $columns['column12'],$columns['column2']), 'ALTER TABLE "schema"."table" RENAME COLUMN "column2" TO "column12";ALTER TABLE "schema"."table" ALTER COLUMN "column12" SET NOT NULL;ALTER TABLE "schema"."table" ALTER COLUMN "column12" SET DEFAULT "A"');
+    $this->assertEquals($dialect->modifyColumn('table', null, $columns['column11'],$columns['column2']), 'ALTER TABLE "table" RENAME COLUMN "column2" TO "column11";ALTER TABLE "table" ALTER COLUMN "column11" TYPE BIGINT;');
+    $this->assertEquals($dialect->modifyColumn('table', 'schema', $columns['column11'],$columns['column2']), 'ALTER TABLE "schema"."table" RENAME COLUMN "column2" TO "column11";ALTER TABLE "schema"."table" ALTER COLUMN "column11" TYPE BIGINT;');
+    $this->assertEquals($dialect->modifyColumn('table', null, $columns['column12'],$columns['column2']), 'ALTER TABLE "table" RENAME COLUMN "column2" TO "column12";ALTER TABLE "table" ALTER COLUMN "column12" TYPE ENUM("A", "B", "C");ALTER TABLE "table" ALTER COLUMN "column12" SET NOT NULL;ALTER TABLE "table" ALTER COLUMN "column12" SET DEFAULT "A"');
+    $this->assertEquals($dialect->modifyColumn('table', 'schema', $columns['column12'],$columns['column2']), 'ALTER TABLE "schema"."table" RENAME COLUMN "column2" TO "column12";ALTER TABLE "schema"."table" ALTER COLUMN "column12" TYPE ENUM("A", "B", "C");ALTER TABLE "schema"."table" ALTER COLUMN "column12" SET NOT NULL;ALTER TABLE "schema"."table" ALTER COLUMN "column12" SET DEFAULT "A"');
 
     //Drop Columns
     $this->assertEquals($dialect->dropColumn('table', null, 'column1'), 'ALTER TABLE "table"  DROP COLUMN "column1"');

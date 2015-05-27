@@ -29,6 +29,7 @@ class Date extends ColumnType
 	{
 		let this->dialect = [
 				"mysql":"DATE",
+				"sqlite":"DATE",
 				"postgresql":"DATE"
 			];
 		let this->_autoIncrement = false;

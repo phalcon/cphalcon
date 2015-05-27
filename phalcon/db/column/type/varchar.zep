@@ -27,6 +27,7 @@ class Varchar extends ColumnType
 	{
 		let this->dialect = [
         		"mysql":"VARCHAR(#size#)",
+        		"sqlite":"VARCHAR(#size#)",
         		"postgresql":"CHARACTER VARYING(#size#)"
         	];
 		let this->_autoIncrement = false;
