@@ -2022,7 +2022,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 * @return boolean
 	 */
 	protected function _doLowInsert(<MetadataInterface> metaData, <AdapterInterface> connection,
-		table, identityField)
+		table, identityField) -> boolean
 	{
 		var bindSkip, fields, values, bindTypes, attributes, bindDataTypes, automaticAttributes,
 			field, columnMap, value, attributeField, success, bindType, defaultValue, sequenceName;
