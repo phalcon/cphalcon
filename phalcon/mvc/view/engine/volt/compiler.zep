@@ -1580,7 +1580,7 @@ class Compiler implements InjectionAwareInterface
 	 */
 	public function compileCache(array! statement, boolean extendsMode = false) -> string
 	{
-		var compilation, expr, exprCode, lifetime, type, value;
+		var compilation, expr, exprCode, lifetime;
 
 		/**
 		 * A valid expression is required
