@@ -257,7 +257,7 @@ class Column implements ColumnInterface
 	
 	public static function initialize() {
 		
-		var type,className,dialects,dialect,dialectType;
+		var type,className,dialects,dialect,dialectType,dialectTypes,dtypes;
 	
 		if empty self::columnTypes {
 			let self::columnTypes  = [
@@ -277,13 +277,22 @@ class Column implements ColumnInterface
 				
 				let dialects = (new {className}())->getDialects();
 				
-				for dialect, dialectType in dialects {
-					if preg_match("#\\(#",dialectType) {
-						let dialectType = substr(dialectType, 0, strpos(dialectType, "("));
-					}
-					let dialectType = strtoupper(dialectType);
+				for dialect, dialectTypes in dialects {
 					
-					let self::columnTypesDialect[dialect][dialectType] = type;
+					if typeof dialectTypes == "string" {
+						let dtypes = [dialectTypes];
+					} else {
+						let dtypes = dialectTypes;
+					}
+					
+					for dialectType in dtypes {
+						if preg_match("#\\(#",dialectType) {
+							let dialectType = substr(dialectType, 0, strpos(dialectType, "("));
+						}
+						let dialectType = strtoupper(dialectType);
+						
+						let self::columnTypesDialect[dialect][dialectType] = type;
+					}
 				}
 			}
 									
