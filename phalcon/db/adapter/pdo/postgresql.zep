@@ -121,8 +121,7 @@ class Postgresql extends PdoAdapter implements AdapterInterface
 			let definition["type"] = Column::getColumnTypeByDialect("postgresql",columnType),
 				definition["isNumeric"] = true,
 				definition["scale"] = numericScale,
-				definition["size"] = numericSize,
-				definition["size"] = charSize;
+				definition["size"] = empty charSize ? numericSize : charSize;
 
 			
 

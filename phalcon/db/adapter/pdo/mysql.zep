@@ -84,7 +84,7 @@ class Mysql extends PdoAdapter implements AdapterInterface
 	 */
 	public function describeColumns(string table, string schema = null) -> <Column[]>
 	{
-		var columns, columnType, columnTypeObject, field, definition,
+		var columns, columnType, columnTypeClass,columnTypeObject, field, definition,
 			oldColumn, sizePattern, matches, matchOne, matchTwo, columnName,pregMatches;
 
 		let oldColumn = null,
@@ -113,9 +113,8 @@ class Mysql extends PdoAdapter implements AdapterInterface
 			preg_match("#[^(]*#",columnType,pregMatches);
 			let definition["type"] = Column::getColumnTypeByDialect("mysql",pregMatches[0]);
 			
-			let columnTypeObject = Column::getColumnTypes(pregMatches[0]);
-			let columnTypeObject = {columnTypeObject}();
-			
+			let columnTypeClass = Column::getColumnTypes(definition["type"]);
+			let columnTypeObject = new {columnTypeClass}();
 			if columnTypeObject->isNumeric() {
 				let definition["isNumeric"] = true;
 			}

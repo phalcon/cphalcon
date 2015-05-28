@@ -18,17 +18,11 @@
 
 namespace Phalcon\Db\Column\Type;
 
-use Phalcon\Db\Exception;
-use Phalcon\Db\ColumnInterface;
 use Phalcon\Db\Column\Type as ColumnType;
+use Phalcon\Db\Column;
 
 class Text extends ColumnType
 {
-
-	public function castValue(value) {
-		return (string)value;
-	}
-	
 	public function setup()
 	{
 		let this->dialect = [
@@ -36,8 +30,8 @@ class Text extends ColumnType
 				"sqlite":"TEXT",
 				"postgresql":"TEXT"
 			];
-		let this->_autoIncrement = false;
-		let this->_scale = false;
-		let this->_isNumeric = false;
+	}
+	public function castValue(value) {
+		return (int)value;
 	}
 }

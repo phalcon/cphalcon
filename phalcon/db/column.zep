@@ -99,6 +99,8 @@ class Column implements ColumnInterface
 	 *
 	 */
 	const TYPE_DOUBLE = "double";
+	
+	const TYPE_ENUM = "enum";
 
 	/**
 	 * Bind Type Null
@@ -273,10 +275,14 @@ class Column implements ColumnInterface
 			let self::columnTypesDialect = [];
 			for type, className in self::columnTypes {
 				
-			
 				let dialects = (new {className}())->getDialects();
 				
 				for dialect, dialectType in dialects {
+					if preg_match("#\\(#",dialectType) {
+						let dialectType = substr(dialectType, 0, strpos(dialectType, "("));
+					}
+					let dialectType = strtoupper(dialectType);
+					
 					let self::columnTypesDialect[dialect][dialectType] = type;
 				}
 			}
@@ -284,16 +290,22 @@ class Column implements ColumnInterface
 		}
 	}
 	
-	public static function getColumnTypeByDialect(string! dialect, string! type) {
+	public static function getColumnTypeByDialect(string dialect, string type) {
 		
-		var columnType;
+		var formattedType;
+		
 		
 		self::initialize();
 		
-		if fetch columnType, self::columnTypesDialect[dialect][type] {
-			return columnType;
+		if !isset self::columnTypesDialect[dialect] {
+			throw new Exception("Unknown dialect");
 		}
-		return "varchar"; 
+		let formattedType = strtoupper(type);
+		if isset self::columnTypesDialect[dialect][formattedType] {
+			return self::columnTypesDialect[dialect][formattedType];
+		}
+		
+		return "varchar";
 	}
 	
 	public function getDialect(dialect) {
@@ -399,9 +411,9 @@ class Column implements ColumnInterface
 		/**
 		 * Check if the field is numeric
 		 */
-		if fetch isNumeric, definition["isNumeric"] {
-			let this->_isNumeric = isNumeric;
-		}
+		//if fetch isNumeric, definition["isNumeric"] {
+			let this->_isNumeric = this->_type->isNumeric();
+		//}
 
 		/**
 		 * Check if the field is auto-increment/serial
@@ -488,7 +500,8 @@ class Column implements ColumnInterface
 	 */
 	public function isNumeric() -> boolean
 	{
-		return this->_isNumeric;
+		//return this->_isNumeric;
+		return this->_type->isNumeric();
 	}
 
 	/**
