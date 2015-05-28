@@ -23,6 +23,7 @@ namespace Phalcon\Mvc;
 use Phalcon\DiInterface;
 use Phalcon\Di\InjectionAwareInterface;
 use Phalcon\Mvc\Collection\ManagerInterface;
+use Phalcon\Mvc\Collection\BehaviorInterface;
 use Phalcon\Mvc\Collection\Exception;
 use Phalcon\Mvc\Model\MessageInterface;
 
@@ -52,6 +53,8 @@ abstract class Collection implements CollectionInterface, InjectionAwareInterfac
 	protected static _reserved;
 
 	protected static _disableEvents;
+
+	protected _skipped = false;
 
 	const OP_NONE = 0;
 
@@ -1157,6 +1160,10 @@ abstract class Collection implements CollectionInterface, InjectionAwareInterfac
 			}
 		}
 
+		if this->_skipped === true {
+			return true;
+		}
+
 		let connection = this->getConnection();
 
 		let source = this->getSource();
@@ -1296,5 +1303,21 @@ abstract class Collection implements CollectionInterface, InjectionAwareInterfac
 				let this->{key} = value;
 			}
 		}
+	}
+
+	/**
+	 * Sets up a behavior in a collection
+	 */
+	protected function addBehavior(<BehaviorInterface> behavior) -> void
+	{
+		(<ManagerInterface> this->_modelsManager)->addBehavior(this, behavior);
+	}
+
+	/**
+	 * Skips the current operation forcing a success state
+	 */
+	public function skipOperation(boolean skip)
+	{
+		let this->_skipped = skip;
 	}
 }

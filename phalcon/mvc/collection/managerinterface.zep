@@ -21,6 +21,7 @@ namespace Phalcon\Mvc\Collection;
 
 use Phalcon\Events\ManagerInterface as EventsManagerInterface;
 use Phalcon\Mvc\CollectionInterface;
+use Phalcon\Mvc\Collection\BehaviorInterface;
 
 /**
  * Phalcon\Mvc\Collection\Manager
@@ -96,5 +97,10 @@ interface ManagerInterface
 	 * Notify the behaviors that are listening in the model
 	 */
 	public function notifyEvent(string! eventName, <CollectionInterface> model);
+
+	/**
+	 * Binds a behavior to a collection
+	 */
+	public function addBehavior(<CollectionInterface> model, <BehaviorInterface> behavior);
 
 }
