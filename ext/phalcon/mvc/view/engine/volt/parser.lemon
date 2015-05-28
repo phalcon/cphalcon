@@ -163,7 +163,7 @@ static zval *phvolt_ret_for_statement(phvolt_parser_token *variable, phvolt_pars
 	return ret;
 }
 
-static zval *phvolt_ret_cache_statement(zval *expr, phvolt_parser_token *lifetime, zval *block_statements, phvolt_scanner_state *state)
+static zval *phvolt_ret_cache_statement(zval *expr, zval *lifetime, zval *block_statements, phvolt_scanner_state *state)
 {
 	zval *ret;
 
@@ -174,8 +174,7 @@ static zval *phvolt_ret_cache_statement(zval *expr, phvolt_parser_token *lifetim
 	add_assoc_zval(ret, "expr", expr);
 
 	if (lifetime) {
-		add_assoc_stringl(ret, "lifetime", lifetime->token, lifetime->token_len, 0);
-		efree(lifetime);
+		add_assoc_zval(ret, "lifetime", lifetime);
 	}
 	add_assoc_zval(ret, "block_statements", block_statements);
 
@@ -986,8 +985,18 @@ cache_statement(R) ::= OPEN_DELIMITER CACHE expr(E) CLOSE_DELIMITER statement_li
 	R = phvolt_ret_cache_statement(E, NULL, T, status->scanner_state);
 }
 
-cache_statement(R) ::= OPEN_DELIMITER CACHE expr(E) INTEGER(N) CLOSE_DELIMITER statement_list(T) OPEN_DELIMITER ENDCACHE CLOSE_DELIMITER . {
+cache_statement(R) ::= OPEN_DELIMITER CACHE expr(E) cache_lifetime(N) CLOSE_DELIMITER statement_list(T) OPEN_DELIMITER ENDCACHE CLOSE_DELIMITER . {
 	R = phvolt_ret_cache_statement(E, N, T, status->scanner_state);
+}
+
+%destructor cache_lifetime { zval_ptr_dtor(&$$); }
+
+cache_lifetime(R) ::= INTEGER(I) . {
+	R = phvolt_ret_literal_zval(PHVOLT_T_INTEGER, I, status->scanner_state);
+}
+
+cache_lifetime(R) ::= IDENTIFIER(I) . {
+	R = phvolt_ret_literal_zval(PHVOLT_T_IDENTIFIER, I, status->scanner_state);
 }
 
 %destructor extends_statement { zval_ptr_dtor(&$$); }
