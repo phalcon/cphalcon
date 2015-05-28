@@ -340,6 +340,31 @@ PHP_METHOD(Phalcon_Filter, _sanitize){
 		goto ph_end_0;
 	}
 	
+	if (PHALCON_IS_STRING(filter, "int!")) {
+		PHALCON_INIT_NVAR(filtered);
+		ZVAL_ZVAL(filtered, value, 1, 0);
+		convert_to_long_base(filtered, 10);
+		goto ph_end_0;
+	}
+	
+	if (PHALCON_IS_STRING(filter, "abs")) {	
+		convert_scalar_to_number_ex(&value);
+	
+		PHALCON_INIT_NVAR(filtered);
+		if (Z_TYPE_P(value) == IS_DOUBLE) {
+			ZVAL_DOUBLE(filtered, fabs(Z_DVAL_P(value)));
+		} else if (Z_DVAL_P(value) == IS_LONG) {
+			if (Z_DVAL_P(value) == LONG_MIN) {
+				ZVAL_DOUBLE(filtered, -(double)LONG_MIN);
+			} else {
+				ZVAL_LONG(filtered, Z_LVAL_P(value) < 0 ? -Z_LVAL_P(value) : Z_LVAL_P(value));
+			}
+		} else {
+			ZVAL_FALSE(filtered);
+		}
+		goto ph_end_0;
+	}
+	
 	if (PHALCON_IS_STRING(filter, "string")) {
 		PHALCON_INIT_NVAR(type);
 		ZVAL_LONG(type, 513); /* FILTER_SANITIZE_STRING */
@@ -353,16 +378,23 @@ PHP_METHOD(Phalcon_Filter, _sanitize){
 		 * The 'float' filter uses the filter extension
 		 */
 		PHALCON_INIT_VAR(allow_fraction);
-		ZVAL_LONG(allow_fraction, 4096);
+		ZVAL_LONG(allow_fraction, 4096); /* FILTER_FLAG_ALLOW_FRACTION */
 	
 		PHALCON_INIT_VAR(options);
 		array_init_size(options, 1);
 		phalcon_array_update_string(&options, SL("flags"), allow_fraction, PH_COPY);
 	
 		PHALCON_INIT_NVAR(type);
-		ZVAL_LONG(type, 520);
+		ZVAL_LONG(type, 520); /* FILTER_SANITIZE_NUMBER_FLOAT */
 	
 		PHALCON_CALL_FUNCTION(&filtered, "filter_var", value, type, options);
+		goto ph_end_0;
+	}
+	
+	if (PHALCON_IS_STRING(filter, "float!")) {
+		PHALCON_INIT_NVAR(filtered);
+		ZVAL_ZVAL(filtered, value, 1, 0);
+		convert_to_double(filtered);
 		goto ph_end_0;
 	}
 	

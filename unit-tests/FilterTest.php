@@ -32,5 +32,14 @@ class FilterTest extends PHPUnit_Framework_TestCase
 		$ret = $filter->sanitize('<strong style="color:blue" onclick="alert(\'clicked\')">Click</strong><div style="color:expression(1+1)">name</div>', 'xssclean');
 
 		$this->assertEquals($ret, $str);
+
+		$ret = $filter->sanitize('1.1111', 'int!');
+		$this->assertTrue(is_int($ret));
+
+		$ret = $filter->sanitize('1.1111', 'float!');
+		$this->assertTrue(is_float($ret));
+
+		$ret = $filter->sanitize('-1.1111', 'abs');
+		$this->assertTrue($ret === 1.1111);
 	}
 }
