@@ -2407,7 +2407,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileElseIf){
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileCache){
 
 	zval *statement, *extends_mode = NULL, *compilation;
-	zval *expr, *expr_code = NULL, *lifetime = NULL, *block_statements;
+	zval *expr, *expr_code = NULL, *lifetime = NULL, *lifetime_type = NULL, *lifetime_value = NULL, *block_statements;
 	zval *code = NULL;
 
 	PHALCON_MM_GROW();
@@ -2442,7 +2442,17 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileCache){
 	PHALCON_SCONCAT_SVS(compilation, "<?php $_cache[", expr_code, "] = $this->di->get('viewCache'); ");
 	if (phalcon_array_isset_string_fetch(&lifetime, statement, SS("lifetime"))) {
 		PHALCON_SCONCAT_SVS(compilation, "$_cacheKey[", expr_code, "]");
-		PHALCON_SCONCAT_SVSVSVS(compilation, " = $_cache[", expr_code, "]->start(", expr_code, ", ", lifetime, "); ");
+		
+		PHALCON_OBS_NVAR(lifetime_type);
+		phalcon_array_fetch_string(&lifetime_type, lifetime, SL("type"), PH_NOISY);
+
+		PHALCON_OBS_NVAR(lifetime_value);
+		phalcon_array_fetch_string(&lifetime_value, lifetime, SL("value"), PH_NOISY);
+		if (PHALCON_IS_LONG(lifetime_type, PHVOLT_T_IDENTIFIER)) {
+			PHALCON_SCONCAT_SVSVSVS(compilation, " = $_cache[", expr_code, "]->start(", expr_code, ", $", lifetime_value, "); ");
+		} else {
+			PHALCON_SCONCAT_SVSVSVS(compilation, " = $_cache[", expr_code, "]->start(", expr_code, ", ", lifetime_value, "); ");
+		}
 	} else {
 		PHALCON_SCONCAT_SVSVSVS(compilation, "$_cacheKey[", expr_code, "] = $_cache[", expr_code, "]->start(", expr_code, "); ");
 	}
@@ -2461,7 +2471,16 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileCache){
 	 * Check if the cache has a lifetime
 	 */
 	if (phalcon_array_isset_string_fetch(&lifetime, statement, SS("lifetime"))) {
-		PHALCON_SCONCAT_SVSVSVS(compilation, "<?php $_cache[", expr_code, "]->save(", expr_code, ", null, ", lifetime, "); ");
+		PHALCON_OBS_NVAR(lifetime_type);
+		phalcon_array_fetch_string(&lifetime_type, lifetime, SL("type"), PH_NOISY);
+
+		PHALCON_OBS_NVAR(lifetime_value);
+		phalcon_array_fetch_string(&lifetime_value, lifetime, SL("value"), PH_NOISY);
+		if (PHALCON_IS_LONG(lifetime_type, PHVOLT_T_IDENTIFIER)) {
+			PHALCON_SCONCAT_SVSVSVS(compilation, "<?php $_cache[", expr_code, "]->save(", expr_code, ", null, $", lifetime_value, "); ");
+		} else {
+			PHALCON_SCONCAT_SVSVSVS(compilation, "<?php $_cache[", expr_code, "]->save(", expr_code, ", null, ", lifetime_value, "); ");
+		}
 		PHALCON_SCONCAT_SVS(compilation, "} else { echo $_cacheKey[", expr_code, "]; } ?>");
 	} else {
 		PHALCON_SCONCAT_SVSVSVS(compilation, "<?php $_cache[", expr_code, "]->save(", expr_code, "); } else { echo $_cacheKey[", expr_code, "]; } ?>");
