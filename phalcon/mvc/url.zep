@@ -243,7 +243,7 @@ class Url implements UrlInterface, InjectionAwareInterface
 		if args {
 			let queryString = http_build_query(args);
 			if typeof queryString == "string" && strlen(queryString) {
-				if strpos(queryString, "?") !== false {
+				if strpos(uri, "?") !== false {
 					let uri .= "&" . queryString;
 				} else {
 					let uri .= "?" . queryString;
