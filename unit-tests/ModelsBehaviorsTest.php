@@ -95,4 +95,28 @@ class ModelsBehaviorsTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(News\Subscribers::count(), $number);
 	}
 
+	public function testBehaviorsBlameable()
+	{
+		require 'unit-tests/config.db.php';
+		if (empty($configMysql)) {
+			$this->markTestSkipped("Test skipped");
+			return;
+		}
+		$this->_prepareDI();
+		$this->assertEquals(Audit::count(), 1);
+		$subscriber = News\Subscribers::findFirst();
+		$subscriber->email = "hello@example.com";
+		$subscriber->save();
+		$this->assertEquals(Audit::count(), 2);
+		
+		$audit = Audit::find(2);
+		
+		$this->assertEquals($audit->type, "U");
+		$detail = AuditDetail::find(2);
+		$this->assertEquals($detail->audit_id = 2);
+		$this->assertEquals($detail->field_name, "email");
+		$this->assertEquals($detail->old_value, "some@some.com");
+		$this->assertEquals($detail->new_value, "hello@example.com");
+	}
+
 }
