@@ -30,5 +30,9 @@ class UrlTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals('http://www.test.com/', $url->get(''));
 		$this->assertEquals('http://www.test.com/', $url->get('/'));
 		$this->assertEquals('http://www.test.com/path', $url->get('/path'));
+
+		$url->setBaseUri('http://www.test.com/?_url=/');
+		
+		$this->assertEquals('http://www.test.com/?_url=/path&params=one', $url->get('/path', array('params' => 'one')));
 	}
 }
