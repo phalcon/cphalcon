@@ -1,3 +1,8 @@
+2.0.3
+- Added support for Behaviors in Phalcon\Mvc\Collection
+- Added SoftDelete and Timestampable behaviors to Collections
+- Added Blameable Behavior
+
 2.0.2
  - Added `stats()` methods to Beanstalk
  - Fixed segfault when a docblock does not have annotations #10301
