@@ -114,6 +114,7 @@ class Mysql extends PdoAdapter implements AdapterInterface
 			let definition["type"] = Column::getColumnTypeByDialect("mysql",pregMatches[0]);
 			
 			let columnTypeClass = Column::getColumnTypes(definition["type"]);
+			
 			let columnTypeObject = new {columnTypeClass}();
 			if columnTypeObject->isNumeric() {
 				let definition["isNumeric"] = true;

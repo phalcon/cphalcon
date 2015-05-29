@@ -84,7 +84,7 @@ class Sqlite extends PdoAdapter implements AdapterInterface
 	public function describeColumns(string table, string schema = null) -> <Column[]>
 	{
 		var columns, columnType, field, definition,
-			oldColumn, sizePattern, matches, matchOne, matchTwo, columnName,pregMatches,columnTypeObject;
+			oldColumn, sizePattern, matches, matchOne, matchTwo, columnName,pregMatches,columnTypeObject,columnTypeClass;
 
 		let oldColumn = null,
 			sizePattern = "#\\(([0-9]+)(?:,\\s*([0-9]+))*\\)#";
@@ -109,9 +109,11 @@ class Sqlite extends PdoAdapter implements AdapterInterface
 			preg_match("#[^(]*#",columnType,pregMatches);
 			let definition["type"] = Column::getColumnTypeByDialect("sqlite",pregMatches[0]);
 			
-			let columnTypeObject = Column::getColumnTypes(definition["type"]);
-			let columnTypeObject = new {columnTypeObject}();
-			
+			let columnTypeClass = Column::getColumnTypes(definition["type"]);
+			if empty columnTypeClass {
+				throw new \Exception(pregMatches[0] . " - ".definition["type"]."-".var_export(Column::columnTypesDialect,true));
+			}
+			let columnTypeObject = new {columnTypeClass}();
 			
 			if columnTypeObject->isNumeric() {
 				let definition["isNumeric"] = true;
