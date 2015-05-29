@@ -20,6 +20,7 @@
 
 namespace Phalcon\Mvc;
 
+use Phalcon\Di;
 use Phalcon\DiInterface;
 use Phalcon\Di\InjectionAwareInterface;
 use Phalcon\Mvc\Collection\ManagerInterface;
@@ -73,7 +74,7 @@ abstract class Collection implements CollectionInterface, InjectionAwareInterfac
 		 * We use a default DI if the user doesn't define one
 		 */
 		if typeof dependencyInjector != "object" {
-			let dependencyInjector = \Phalcon\Di::getDefault();
+			let dependencyInjector = Di::getDefault();
 		}
 
 		if typeof dependencyInjector != "object" {
@@ -1273,7 +1274,7 @@ abstract class Collection implements CollectionInterface, InjectionAwareInterfac
 			/**
 			 * Obtain the default DI
 			 */
-			let dependencyInjector = \Phalcon\Di::getDefault();
+			let dependencyInjector = Di::getDefault();
 			if typeof dependencyInjector != "object" {
 				throw new Exception("A dependency injector container is required to obtain the services related to the ODM");
 			}
