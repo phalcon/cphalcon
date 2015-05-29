@@ -25,7 +25,7 @@ class Integer extends ColumnType
 {
 	public function setup()
 	{
-		let this->dialect = [
+		let this->dialects = [
 				"mysql":"INT(#size#)",
 				"sqlite":"INT",
 				"postgresql":"INTEGER"

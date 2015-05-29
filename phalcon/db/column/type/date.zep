@@ -18,16 +18,15 @@
 
 namespace Phalcon\Db\Column\Type;
 
-use Phalcon\Db\Exception;
-use Phalcon\Db\ColumnInterface;
 use Phalcon\Db\Column\Type as ColumnType;
+use Phalcon\Db\Column as Column;
 
 class Date extends ColumnType
 {
 	
 	public function setup()
 	{
-		let this->dialect = [
+		let this->dialects = [
 				"mysql":"DATE",
 				"sqlite":"DATE",
 				"postgresql":"DATE"
@@ -35,6 +34,7 @@ class Date extends ColumnType
 		let this->_autoIncrement = false;
 		let this->_scale = false;
 		let this->_isNumeric = false;
+		let this->_bindType = Column::BIND_PARAM_STR;
 	}
 	
 	public function castValue(value) {

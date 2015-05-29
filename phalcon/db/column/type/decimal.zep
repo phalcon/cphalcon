@@ -19,13 +19,14 @@
 namespace Phalcon\Db\Column\Type;
 
 use Phalcon\Db\Column\Type as ColumnType;
+use Phalcon\Db\Column as Column;
 
 class Decimal extends ColumnType
 {
 	
 	public function setup()
 	{
-		let this->dialect = [
+		let this->dialects = [
 				"mysql":"DECIMAL(#size#,#scale#)",
 				"sqlite":"NUMERIC(#size#,#scale#)",
 				"postgresql":"NUMERIC(#size#,#scale#)"
@@ -33,6 +34,7 @@ class Decimal extends ColumnType
 		let this->_autoIncrement = false;
 		let this->_scale = true;
 		let this->_isNumeric = true;
+		let this->_bindType = Column::BIND_PARAM_STR;
 	}
 
 	public function castValue(value) {

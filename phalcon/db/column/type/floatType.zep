@@ -18,16 +18,14 @@
 
 namespace Phalcon\Db\Column\Type;
 
-use Phalcon\Db\Exception;
-use Phalcon\Db\ColumnInterface;
 use Phalcon\Db\Column\Type as ColumnType;
-
+use Phalcon\Db\Column as Column;
 
 class FloatType extends ColumnType
 {
 	public function setup()
 	{
-		let this->dialect = [
+		let this->dialects = [
 				"mysql":"FLOAT(#size#,#scale#)",
 				"sqlite":"FLOAT",
 				"postgresql":"FLOAT"
@@ -35,5 +33,6 @@ class FloatType extends ColumnType
 		let this->_autoIncrement = false;
 		let this->_scale = true;
 		let this->_isNumeric = true;
+		let this->_bindType = Column::BIND_PARAM_DECIMAL;
 	}
 }

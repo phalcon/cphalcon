@@ -33,7 +33,7 @@ use Phalcon\Db\Column\Type as ColumnType;
  *
  * //column definition
  * $column = new Column("id", array(
- *   "type" => Column::TYPE_INTEGER,
+ *   "type" => "integer",
  *   "size" => 10,
  *   "unsigned" => true,
  *   "notNull" => true,
@@ -232,35 +232,88 @@ class Column implements ColumnInterface
 	protected _after;
 
 	/**
-	 * Bind Type
+	 * Default Bind Type
 	 */
 	protected _bindType = 2;
 	
+	/**
+	 * List of column type
+	 * @var array
+	 */
+	protected static _columnTypes;
 	
-	public static columnTypes;
-	public static columnTypesDialect;
+	/**
+	 * List of column type by dialect keyword
+	 * @var array
+	 */
+	protected static _columnTypesDialectKeywords;
 	
-	public static function addTypes(<ColumnType> type)
+	
+	/**
+	 *
+	 * Allows to add column type to be used on create or alter table operations
+	 *
+	 *<code>
+	 *	use Phalcon\Db\Column as Column;
+	 *
+	 * //column definition
+	 * Column::addType( (new \MyNamespace\MyColumnType()) );
+	 *</code>
+	 *
+	 */
+	public static function addType(<ColumnType> type)
 	{
+		let self::_columnTypes[type->getName()] = get_class(type);
 		
+		self::addDialectKeywords(type);
 	}
 	
-	public static function getColumnTypes( name = null ) {
+	/**
+	 * get all column types if type is null 
+	 *
+	 *
+	 */
+	public static function getColumnTypes( type = null ) {
 		self::initialize();
 		
 		if name !== null {
-			return isset self::columnTypes[name] ? self::columnTypes[name] : false;
+			return isset self::_columnTypes[type] ? self::_columnTypes[type] : false;
 		} else {
-			return self::columnTypes;
+			return self::_columnTypes;
 		}
 	}
 	
-	public static function initialize() {
+	private static function addDialectKeywords(<ColumnType> ColumnType) {
 		
-		var type,className,dialects,dialect,dialectType,dialectTypes,dtypes;
+		var dialects,dialect,keyword,dialectKeywords,keywords;
+		
+		let dialects = ColumnType->getDialects();
+        				
+		for dialect, dialectKeywords in dialects {
+			
+			if typeof dialectKeywords == "string" {
+				let keywords = [dialectKeywords];
+			} else {
+				let keywords = dialectKeywords;
+			}
+			
+			for keyword in keywords {
+				if preg_match("#\\(#",keyword) {
+					let keyword = substr(keyword, 0, strpos(keyword, "("));
+				}
+				let keyword = strtoupper(keyword);
+				
+				let self::_columnTypesDialectKeywords[dialect][keyword] = ColumnType->getName();
+			}
+		}
+	}
 	
-		if empty self::columnTypes {
-			let self::columnTypes  = [
+	protected static function initialize() {
+		
+		var className;
+	
+		if empty self::_columnTypes {
+			let self::_columnTypes  = [
 										"integer" : "\\Phalcon\\Db\\Column\\Type\\Integer",
 										"date" : "\\Phalcon\\Db\\Column\\Type\\Date",
 										"varchar" : "\\Phalcon\\Db\\Column\\Type\\Varchar",
@@ -272,75 +325,70 @@ class Column implements ColumnInterface
 										"bigint" : "\\Phalcon\\Db\\Column\\Type\\Bigint",
 										"enum" : "\\Phalcon\\Db\\Column\\Type\\Enum"
 									];
-			let self::columnTypesDialect = [];
-			for type, className in self::columnTypes {
-				
-				let dialects = (new {className}())->getDialects();
-				
-				for dialect, dialectTypes in dialects {
-					
-					if typeof dialectTypes == "string" {
-						let dtypes = [dialectTypes];
-					} else {
-						let dtypes = dialectTypes;
-					}
-					
-					for dialectType in dtypes {
-						if preg_match("#\\(#",dialectType) {
-							let dialectType = substr(dialectType, 0, strpos(dialectType, "("));
-						}
-						let dialectType = strtoupper(dialectType);
-						
-						let self::columnTypesDialect[dialect][dialectType] = type;
-					}
-				}
-			}
 									
+			let self::_columnTypesDialectKeywords = [];
+			for className in self::_columnTypes {
+				self::addDialectKeywords( (new {className}()) );
+			}
 		}
 	}
 	
-	public static function getColumnTypeByDialect(string dialect, string type) {
+	/**
+	 * Get column type name by dialect and keyword
+	 *
+	 *<code>
+	 *	use Phalcon\Db\Column as Column;
+	 *
+	 * //column definition
+	 * $columnType = Column::getColumnTypeByDialectKeyword("mysql","INT");
+	 *</code>
+	 *
+	 */
+	public static function getColumnTypeByDialectKeyword(string dialect, string type) {
 		
 		var formattedType;
 		
-		
 		self::initialize();
 		
-		if !isset self::columnTypesDialect[dialect] {
+		if !isset self::_columnTypesDialectKeywords[dialect] {
 			throw new Exception("Unknown dialect");
 		}
+		
 		let formattedType = strtoupper(type);
-		if isset self::columnTypesDialect[dialect][formattedType] {
-			return self::columnTypesDialect[dialect][formattedType];
+		if isset self::_columnTypesDialectKeywords[dialect][formattedType] {
+			return self::_columnTypesDialectKeywords[dialect][formattedType];
 		}
 		
 		return "varchar";
 	}
 	
-	public function getDialect(dialect) {
-		
-	}
-	
+	/**
+	 * Set column type for column
+	 * 
+	 *
+	 *
+	 *
+	 */
 	protected function setType(type) {
 		
-		var columnTypes,typeClass;
+		var columnTypes,columnTypeClass;
+		
 		let columnTypes = self::getColumnTypes();
 		
 		if typeof type == "integer" {
         				
-			if !fetch typeClass,columnTypes[array_keys(columnTypes)[type]] {
+			if !fetch columnTypeClass,columnTypes[ array_keys(columnTypes)[type] ] {
 				throw new Exception("Unknown column type \"" . type . "\"");
 			}
 			
 		} else {
 			
-			if !fetch typeClass,columnTypes[strtolower(type)] {
+			if !fetch columnTypeClass,columnTypes[strtolower(type)] {
 				throw new Exception("Unknown column type \"" . type . "\"");
 			}
 			
 		}
-		let this->_type = new {typeClass}();
-		
+		let this->_type = new {columnTypeClass}();
 	}
 
 	/**
@@ -350,7 +398,7 @@ class Column implements ColumnInterface
 	{
 	
 		var type, notNull, primary, size, scale, dunsigned, first,
-			after, isNumeric, autoIncrement, defaultValue,
+			after, autoIncrement, defaultValue,
 			typeReference, typeValues;
 			
 		let this->_name = name;
@@ -420,9 +468,7 @@ class Column implements ColumnInterface
 		/**
 		 * Check if the field is numeric
 		 */
-		//if fetch isNumeric, definition["isNumeric"] {
-			let this->_isNumeric = this->_type->isNumeric();
-		//}
+		let this->_isNumeric = this->_type->isNumeric();
 
 		/**
 		 * Check if the field is auto-increment/serial
@@ -456,13 +502,17 @@ class Column implements ColumnInterface
 		/**
 		 * The bind type to cast the field when passing it to PDO
 		 */
-		//if fetch bindType, definition["bindType"] {
-			let this->_bindType = this->_type->getBindType();//bindType;
-		//}
+		let this->_bindType = this->_type->getBindType();
 
 	}
 	
-	public function getType(onlyName = true) -> string
+	/**
+	 *
+	 *
+	 *
+	 *
+	 */
+	public function getType(onlyName = true)
 	{
 		if onlyName === true {
 			return this->_type->getName();
@@ -509,7 +559,6 @@ class Column implements ColumnInterface
 	 */
 	public function isNumeric() -> boolean
 	{
-		//return this->_isNumeric;
 		return this->_type->isNumeric();
 	}
 
@@ -602,9 +651,7 @@ class Column implements ColumnInterface
 		}
 
 		if fetch scale, data["_scale"] {
-			//if definition["type"] == self::TYPE_INTEGER || definition["type"] == self::TYPE_FLOAT || definition["type"] == self::TYPE_DECIMAL {
-				let definition["scale"] = scale;
-			//}
+			let definition["scale"] = scale;
 		}
 
 		if fetch defaultValue, data["_default"] {

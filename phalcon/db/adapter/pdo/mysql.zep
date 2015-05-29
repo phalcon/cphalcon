@@ -111,7 +111,7 @@ class Mysql extends PdoAdapter implements AdapterInterface
 			let columnType = field[1];
 			
 			preg_match("#[^(]*#",columnType,pregMatches);
-			let definition["type"] = Column::getColumnTypeByDialect("mysql",pregMatches[0]);
+			let definition["type"] = Column::getColumnTypeByDialectKeyword("mysql",pregMatches[0]);
 			
 			let columnTypeClass = Column::getColumnTypes(definition["type"]);
 			

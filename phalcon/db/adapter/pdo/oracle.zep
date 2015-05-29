@@ -105,12 +105,12 @@ class Oracle extends PdoAdapter implements AdapterInterface
 				columnType = field[1];
 
 			
-			let definition["type"] = Column::getColumnTypeByDialect("postgresql",columnType),
+			let definition["type"] = Column::getColumnTypeByDialectKeyword("postgresql",columnType),
 				definition["scale"] = columnScale,
 				definition["size"] = columnPrecision;
 				
 			let columnTypeObject = Column::getColumnTypes(definition["type"]);
-			let columnTypeObject = {columnTypeObject}();
+			let columnTypeObject = new {columnTypeObject}();
 
 			if columnTypeObject->isNumeric() {
 				let definition["isNumeric"] = true;

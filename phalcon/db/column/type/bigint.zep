@@ -28,7 +28,7 @@ class Bigint extends Integer
 	public function setup()
 	{
 		parent::setup();
-		let this->dialect = [
+		let this->dialects = [
                   		"mysql":"BIGINT(#size#)",
                   		"sqlite":"INT",
                   		"postgresql":"BIGINT"

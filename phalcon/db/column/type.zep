@@ -24,34 +24,14 @@ use Phalcon\Db\ColumnInterface;
 use Phalcon\Db\Column;
 
 /**
- * Phalcon\Db\Column
+ * Phalcon\Db\Column\Type
  *
- * Allows to define columns to be used on create or alter table operations
- *
- *<code>
- *	use Phalcon\Db\Column as Column;
- *
- * //column definition
- * $column = new Column("id", array(
- *   "type" => Column::TYPE_INTEGER,
- *   "size" => 10,
- *   "unsigned" => true,
- *   "notNull" => true,
- *   "autoIncrement" => true,
- *   "first" => true
- * ));
- *
- * //add column to existing table
- * $connection->addColumn("robots", null, $column);
- *</code>
- *
+ * ColumnType 
  */
 abstract class Type
 {
 
-
-
-	protected dialect = [];
+	protected dialects = [];
 	/**
 	 * Column is autoIncrement?
 	 *
@@ -80,8 +60,12 @@ abstract class Type
 	
 	abstract public function setup(){}
 	
+	public function castValue(value) {
+		return value;
+	}
+	
 	public function getDialects() {
-		return $this->dialect;
+		return this->dialects;
 	}
 	
 	public function getName() {
@@ -100,43 +84,12 @@ abstract class Type
 		return this->_autoIncrement;
 	}
 	
-	public function hasDialectName(dialect,test) {
-		var name;
-		
-		let name = this->getNameForDialect(dialect);
-		
-		if name == test {
-			return true;
-		}
-		
-		return false;
-	}
-	
 	public function getBindType() {
 		return this->_bindType;
 	}
+	
 	public function isNumeric() {
 		return this->_isNumeric;
-	}
-	
-	public function getNameForDialect(dialect) {
-		var name;
-		
-		if !fetch name, this->dialect[dialect] {
-			throw new Exception("Unsupported dialect \"" . dialect . "\""); 
-		}
-		let name = substr(name, 0, strpos(name, "("));
-		return name;
-	}
-	
-	public function getDialect(dialect) {
-		var out;
-		let out = isset this->dialect[dialect] ? this->dialect[dialect] : false ;
-		return out;
-	}
-	
-	public function castValue(value) {
-		return value;
 	}
 	
 }

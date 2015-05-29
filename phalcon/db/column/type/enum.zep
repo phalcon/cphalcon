@@ -24,7 +24,7 @@ class Enum extends ColumnType
 {
 	public function setup()
 	{
-		let this->dialect = [
+		let this->dialects = [
 				"mysql":"ENUM(#values#)",
 				"postgresql":"ENUM(#values#)"
 			];

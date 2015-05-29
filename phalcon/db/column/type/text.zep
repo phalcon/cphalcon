@@ -25,11 +25,13 @@ class Text extends ColumnType
 {
 	public function setup()
 	{
-		let this->dialect = [
+		let this->dialects = [
 				"mysql":"TEXT",
 				"sqlite":"TEXT",
 				"postgresql":"TEXT"
 			];
+			
+		let this->_bindType = Column::BIND_PARAM_STR;
 	}
 	public function castValue(value) {
 		return (int)value;

@@ -107,12 +107,9 @@ class Sqlite extends PdoAdapter implements AdapterInterface
 			let columnType = field[2];
 
 			preg_match("#[^(]*#",columnType,pregMatches);
-			let definition["type"] = Column::getColumnTypeByDialect("sqlite",pregMatches[0]);
+			let definition["type"] = Column::getColumnTypeByDialectKeyword("sqlite",pregMatches[0]);
 			
 			let columnTypeClass = Column::getColumnTypes(definition["type"]);
-			if empty columnTypeClass {
-				throw new \Exception(pregMatches[0] . " - ".definition["type"]."-".var_export(Column::columnTypesDialect,true));
-			}
 			let columnTypeObject = new {columnTypeClass}();
 			
 			if columnTypeObject->isNumeric() {
