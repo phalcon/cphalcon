@@ -495,7 +495,7 @@ abstract class Dialect implements DialectInterface
 			"type": "all"
 		];
 
-		if (fetch domain, expression["balias"] || fetch domain, expression["domain"]) && domain != "" {
+		if (fetch domain, expression["column"] || fetch domain, expression["domain"]) && domain != "" {
 			let objectExpression["domain"] = domain;
 		}
 

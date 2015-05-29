@@ -6,6 +6,7 @@
 - Fixed bug that added two ? in Mvc\Url::get when using query parameters (#10421)
 - Now string attributes in models can be marked to allow empty string values (#440)
 - Added an option to return the SQL to be generated from a Mvc\Model\Query instance (#1908)
+- Fix doesn't correct column domain in `Phalcon\Db\Dialect::select()` see [#10439](https://github.com/phalcon/cphalcon/pull/10439)
 
 # 2.0.2 (2015-05-26)
  - Added `stats()` methods to Beanstalk
