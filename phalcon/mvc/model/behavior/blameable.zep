@@ -48,18 +48,15 @@ class Blameable extends Behavior implements BehaviorInterface
     /**
      * Creates an Audit instance based on the current enviroment
      */
-    internal function createAudit(string! type, <ModelInterface> model) -> <Audit>
+    private function createAudit(string! type, <ModelInterface> model) -> <Audit>
     {
         var session, request, audit;
-
-        //Get the session service
+        
         session = model->getDI()->getSession();
-
-        //Get the request service
         request = model->getDI()->getRequest();
-
+        
         audit = new Audit();
-
+        
         //Get the username from session
         audit->user_name = session->get("userName");
 
@@ -81,7 +78,7 @@ class Blameable extends Behavior implements BehaviorInterface
     /**
      * Audits a DELETE operation
      */
-    internal function auditAfterCreate(<ModelInterface> model) -> bool
+    private function auditAfterCreate(<ModelInterface> model) -> bool
     {
         var audit, metaData, fields, field, auditDetail;
         array details;
@@ -108,7 +105,7 @@ class Blameable extends Behavior implements BehaviorInterface
     /**
      * Audits an UPDATE operation
      */
-    internal function auditAfterUpdate(<ModelInterface> model) -> bool
+    private function auditAfterUpdate(<ModelInterface> model) -> bool
     {
         var changedFields, field, audit, originalData, auditDetail;
         array details;
