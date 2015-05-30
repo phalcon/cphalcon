@@ -4,6 +4,7 @@ namespace News;
 
 use Phalcon\Mvc\Model\Behavior\Timestampable;
 use Phalcon\Mvc\Model\Behavior\SoftDelete;
+use Phalcon\Mvc\Model\Behavior\Blameable;
 
 class Subscribers extends \Phalcon\Mvc\Model
 {
@@ -26,6 +27,10 @@ class Subscribers extends \Phalcon\Mvc\Model
 			'field' => 'status',
 			'value' => 'D'
 		)));
+
+		$this->addBehavior(new Blameable());
+
+		$this->keepSnapshots(true);
 	}
 
 }
