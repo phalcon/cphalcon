@@ -29,24 +29,18 @@ interface AdapterInterface
 
 	/**
 	 * Starts session, optionally using an adapter
-	 *
-	 * @param array options
 	 */
 	public function start();
 
 	/**
 	 * Sets session options
-	 *
-	 * @param array options
 	 */
 	public function setOptions(array! options);
 
 	/**
 	 * Get internal options
-	 *
-	 * @return array
 	 */
-	public function getOptions();
+	public function getOptions() -> array;
 
 	/**
 	 * Gets a session variable from an application context
@@ -55,7 +49,7 @@ interface AdapterInterface
 	 * @param mixed defaultValue
 	 * @return mixed
 	 */
-	public function get(index, defaultValue = null);
+	public function get(string index, defaultValue = null);
 
 	/**
 	 * Sets a session variable in an application context
@@ -63,42 +57,31 @@ interface AdapterInterface
 	 * @param string index
 	 * @param string value
 	 */
-	public function set(index, value);
+	public function set(string index, value);
 
 	/**
 	 * Check whether a session variable is set in an application context
-	 *
-	 * @param string index
-	 * @return boolean
 	 */
-	public function has(index);
+	public function has(string index) -> boolean;
 
 	/**
 	 * Removes a session variable from an application context
-	 *
-	 * @param string index
 	 */
-	public function remove(index);
+	public function remove(string index);
 
 	/**
 	 * Returns active session id
-	 *
-	 * @return string
 	 */
-	public function getId();
+	public function getId() -> string;
 
 	/**
 	 * Check whether the session has been started
-	 *
-	 * @return boolean
 	 */
-	public function isStarted();
+	public function isStarted() -> boolean;
 
 	/**
 	 * Destroys the active session
-	 *
-	 * @return boolean
 	 */
-	public function destroy();
+	public function destroy() -> boolean;
 
 }

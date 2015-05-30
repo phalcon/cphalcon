@@ -59,50 +59,41 @@ class Libmemcached extends Adapter implements AdapterInterface
 
 	/**
 	 * Phalcon\Session\Adapter\Libmemcached constructor
-	 *
-	 * @param array options
 	 */
-	public function __construct(options = null)
+	public function __construct(array options)
 	{
 		var servers, client, lifetime, prefix, statsKey;
 
-		if typeof options != "array" {
-			throw new Exception("The options must be an array");
-		}
-
-		if !isset options["servers"] {
+		if !fetch servers, options["servers"] {
 			throw new Exception("No servers given in options");
 		}
 
-		let servers = options["servers"];
-
-		if !isset options["client"] {
-			let client = NULL;
-		} else {
-			let client = options["client"];
+		if !fetch client, options["client"] {
+			let client = null;
 		}
 
-		if fetch lifetime, options["lifetime"] {
-			let this->_lifetime = lifetime;
-		} else {
-			let this->_lifetime = 8600;
+		if !fetch lifetime, options["lifetime"] {
+			let lifetime = 8600;
 		}
+
+		let this->_lifetime = lifetime;
 
 		if !fetch prefix, options["prefix"] {
-			let prefix = NULL;
-		} else {
-			let prefix = options["prefix"];
+			let prefix = null;
 		}
 
 		if !fetch statsKey, options["statsKey"] {
-			let statsKey = NULL;
-		} else {
-			let statsKey = options["statsKey"];
+			let statsKey = null;
 		}
 
 		let this->_libmemcached = new Libmemcached(
 			new FrontendData(["lifetime": this->_lifetime]),
-			["servers": servers, "client": client, "prefix": prefix, "statsKey": statsKey]
+			[
+				"servers":  servers,
+				"client":   client,
+				"prefix":   prefix,
+				"statsKey": statsKey
+			]
 		);
 
 		session_set_save_handler(
@@ -155,12 +146,12 @@ class Libmemcached extends Adapter implements AdapterInterface
 	 * @param  string  sessionId
 	 * @return boolean
 	 */
-	public function destroy(session_id = null)
+	public function destroy(sessionId = null)
 	{
-		if session_id === null {
-			let session_id = this->getId();
+		if sessionId === null {
+			let sessionId = this->getId();
 		}
-		return this->_libmemcached->delete(session_id);
+		return this->_libmemcached->delete(sessionId);
 	}
 
 	/**
