@@ -50,8 +50,6 @@ class Bag implements InjectionAwareInterface, BagInterface, \IteratorAggregate, 
 
 	/**
 	 * Phalcon\Session\Bag constructor
-	 *
-	 * @param string name
 	 */
 	public function __construct(string! name)
 	{
@@ -60,8 +58,6 @@ class Bag implements InjectionAwareInterface, BagInterface, \IteratorAggregate, 
 
 	/**
 	 * Sets the DependencyInjector container
-	 *
-	 * @param Phalcon\DiInterface dependencyInjector
 	 */
 	public function setDI(<DiInterface> dependencyInjector)
 	{
@@ -70,8 +66,6 @@ class Bag implements InjectionAwareInterface, BagInterface, \IteratorAggregate, 
 
 	/**
 	 * Returns the DependencyInjector container
-	 *
-	 * @return Phalcon\DiInterface
 	 */
 	public function getDI() -> <DiInterface>
 	{
@@ -210,9 +204,6 @@ class Bag implements InjectionAwareInterface, BagInterface, \IteratorAggregate, 
 	 *<code>
 	 * var_dump($user->has('name'));
 	 *</code>
-	 *
-	 * @param string property
-	 * @return boolean
 	 */
 	public function has(string! property) -> boolean
 	{
@@ -229,9 +220,6 @@ class Bag implements InjectionAwareInterface, BagInterface, \IteratorAggregate, 
 	 *<code>
 	 * var_dump(isset($user['name']));
 	 *</code>
-	 *
-	 * @param string property
-	 * @return boolean
 	 */
 	public function __isset(string! property) -> boolean
 	{
@@ -244,9 +232,6 @@ class Bag implements InjectionAwareInterface, BagInterface, \IteratorAggregate, 
 	 *<code>
 	 * $user->remove('name');
 	 *</code>
-	 *
-	 * @param string property
-	 * @return boolean
 	 */
 	public function remove(string! property) -> boolean
 	{
@@ -264,9 +249,6 @@ class Bag implements InjectionAwareInterface, BagInterface, \IteratorAggregate, 
 	 *<code>
 	 * unset($user['name']);
 	 *</code>
-	 *
-	 * @param string property
-	 * @return boolean
 	 */
 	public function __unset(string! property) -> boolean
 	{
@@ -279,8 +261,6 @@ class Bag implements InjectionAwareInterface, BagInterface, \IteratorAggregate, 
 	 *<code>
 	 * echo $user->count();
 	 *</code>
-	 *
-	 * @return int
 	 */
 	public final function count() -> int
 	{
