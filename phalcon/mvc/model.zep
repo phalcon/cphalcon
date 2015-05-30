@@ -21,6 +21,7 @@ namespace Phalcon\Mvc;
 
 use Phalcon\Text;
 use Phalcon\Db\Column;
+use Phalcon\Di;
 use Phalcon\DiInterface;
 use Phalcon\Mvc\Model\Message;
 use Phalcon\Mvc\Model\ResultInterface;
@@ -126,7 +127,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 		 * We use a default DI if the user doesn't define one
 		 */
 		if typeof dependencyInjector != "object" {
-			let dependencyInjector = \Phalcon\Di::getDefault();
+			let dependencyInjector = Di::getDefault();
 		}
 
 		if typeof dependencyInjector != "object" {
@@ -840,7 +841,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 		 * Use the global dependency injector if there is no one defined
 		 */
 		if typeof dependencyInjector != "object" {
-			let dependencyInjector = \Phalcon\Di::getDefault();
+			let dependencyInjector = Di::getDefault();
 		}
 
 		/**
@@ -4116,7 +4117,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 			/**
 			 * Obtain the default DI
 			 */
-			let dependencyInjector = \Phalcon\Di::getDefault();
+			let dependencyInjector = Di::getDefault();
 			if typeof dependencyInjector != "object" {
 				throw new Exception("A dependency injector container is required to obtain the services related to the ORM");
 			}
