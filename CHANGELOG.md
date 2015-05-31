@@ -1,6 +1,10 @@
 # 2.0.3 (2015-XX-XX)
 - Added support for Behaviors in Phalcon\Mvc\Collection
 - Added SoftDelete and Timestampable behaviors to Collections
+- Implemented Namespace aliases in PHQL
+- Now you can define if a virtual foreign key must ignore null values or not
+- Fixed bug that added two ? in Mvc\Url::get when using query parameters (#10421)
+- Now string attributes in models can be marked to allow empty string values (#440)
 
 # 2.0.2 (2015-05-26)
  - Added `stats()` methods to Beanstalk
