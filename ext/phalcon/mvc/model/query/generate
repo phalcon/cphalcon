@@ -12,3 +12,4 @@ sed s/YY/PP/g scanner.c > xx && mv -f xx scanner.c
 sed s/yy/pp/g scanner.c > xx && mv -f xx scanner.c
 sed s/YY/PP/g parser.c > xx && mv -f xx parser.c
 sed s/yy/pp/g parser.c > xx && mv -f xx parser.c
+sed s/"define TOKEN"/"define PPTOKEN"/g parser.c > xx && mv -f xx parser.c

@@ -796,8 +796,9 @@ class Query implements QueryInterface, InjectionAwareInterface
 
 				let modelName = qualified["name"];
 
-				if fetch nsAlias, qualified["ns-alias"] {
-					let realModelName = manager->getNamespaceAlias(nsAlias) . "\\" . modelName;
+				if memstr(modelName, ":") {
+					let nsAlias = explode(":", modelName);
+					let realModelName = manager->getNamespaceAlias(nsAlias[0]) . "\\" . nsAlias[1];
 				} else {
 					let realModelName = modelName;
 				}
@@ -1621,14 +1622,9 @@ class Query implements QueryInterface, InjectionAwareInterface
 			/**
 			 * Check if the table have a namespace alias
 			 */
-			if fetch nsAlias, qualifiedName["ns-alias"] {
-
-				/**
-				 * Get the real namespace alias
-				 * Create the real namespaced name
-				 */
-				let realModelName = manager->getNamespaceAlias(nsAlias) . "\\" . modelName;
-
+			if memstr(modelName, ":") {
+				let nsAlias = explode(":", modelName);
+				let realModelName = manager->getNamespaceAlias(nsAlias[0]) . "\\" . nsAlias[1];
 			} else {
 				let realModelName = modelName;
 			}

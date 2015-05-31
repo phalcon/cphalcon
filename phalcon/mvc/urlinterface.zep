@@ -64,5 +64,4 @@ interface UrlInterface
 	 * @return string
 	 */
 	public function path(path = null) -> string;
-
 }

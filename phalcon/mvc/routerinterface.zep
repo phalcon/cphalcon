@@ -159,5 +159,4 @@ interface RouterInterface
 	 * Returns a route object by its name
 	 */
 	public function getRouteByName(string! name) -> <RouteInterface>;
-
 }

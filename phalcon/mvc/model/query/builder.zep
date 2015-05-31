@@ -19,6 +19,7 @@
 
 namespace Phalcon\Mvc\Model\Query;
 
+use Phalcon\Di;
 use Phalcon\DiInterface;
 use Phalcon\Mvc\Model\Query;
 use Phalcon\Mvc\Model\Exception;
@@ -88,10 +89,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	protected _hiddenParamNumber = 0;
 
 	/**
-	 * Phalcon\Mvc\Model\Query\Builder constructor
-	 *
-	 * @param array params
-	 * @param Phalcon\DiInterface dependencyInjector
+	 * Phalcon\Mvc\Model\Query\Builder constructor	 
 	 */
 	public function __construct(var params = null, <DiInterface> dependencyInjector = null)
 	{
@@ -921,7 +919,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 
 		let dependencyInjector = this->_dependencyInjector;
 		if typeof dependencyInjector != "object" {
-			let dependencyInjector = \Phalcon\Di::getDefault(),
+			let dependencyInjector = Di::getDefault(),
 				this->_dependencyInjector = dependencyInjector;
 		}
 
