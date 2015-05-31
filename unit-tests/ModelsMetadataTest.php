@@ -264,7 +264,5 @@ class ModelsMetadataTest extends PHPUnit_Framework_TestCase
 
 		$modelDefValues = $metaData->getDefaultValues($robots);
 		$this->assertEquals($defValues, $modelDefValues);
-
 	}
-
 }
