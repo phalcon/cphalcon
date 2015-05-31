@@ -64,6 +64,8 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 
 	protected _joins;
 
+	protected _with;
+
 	protected _conditions;
 
 	protected _group;
@@ -97,7 +99,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 			forUpdate, sharedLock, orderClause, offsetClause, joinsClause,
 			singleConditionArray, limit, offset, fromClause,
 			mergedConditions, mergedParams, mergedTypes,
-			singleCondition, singleParams, singleTypes;
+			singleCondition, singleParams, singleTypes, with;
 
 		if typeof params == "array" {
 
@@ -163,6 +165,13 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 			 */
 			if fetch joinsClause, params["joins"] {
 				let this->_joins = joinsClause;
+			}
+
+			/**
+			 * Check if the resultset must be eager loaded
+			 */
+			if fetch with, params["with"] {
+				let this->_with = with;
 			}
 
 			/**
@@ -906,7 +915,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 *
 	 * @return string
 	 */
-	public function getPhql()
+	public final function getPhql()
 	{
 		var dependencyInjector, models, conditions, model, metaData,
 			modelInstance, primaryKeys, firstPrimaryKey, columnMap, modelAlias,
@@ -914,8 +923,8 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 			selectedModel, selectedModels, columnAlias, modelColumnAlias,
 			joins, join, joinModel, joinConditions, joinAlias, joinType, group,
 			groupItems, groupItem, having, order, orderItems, orderItem,
-			limit, number, offset, distinct;
-		boolean noPrimary;
+			limit, number, offset, distinct, withModels;
+		boolean noPrimary, hasColumns = false;
 
 		let dependencyInjector = this->_dependencyInjector;
 		if typeof dependencyInjector != "object" {
@@ -1009,6 +1018,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 			 * Generate PHQL for columns
 			 */
 			if typeof columns == "array" {
+
 				let selectedColumns = [];
 				for columnAlias, column in columns {
 					if typeof columnAlias == "integer" {
@@ -1017,10 +1027,14 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 						let selectedColumns[] = column . " AS " . columnAlias;
 					}
 				}
+
 				let phql .= join(", ", selectedColumns);
+
 			} else {
 				let phql .= columns;
 			}
+
+			let hasColumns = true;
 
 		} else {
 
@@ -1028,6 +1042,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 			 * Automatically generate an array of models
 			 */
 			if typeof models == "array" {
+
 				let selectedColumns = [];
 				for modelColumnAlias, model in models {
 					if typeof modelColumnAlias == "integer" {
@@ -1037,9 +1052,27 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 					}
 					let selectedColumns[] = selectedColumn;
 				}
+
 				let phql .= join(", ", selectedColumns);
 			} else {
 				let phql .= "[" . models . "].*";
+			}
+
+			let hasColumns = true;
+		}
+
+		let withModels = this->_with;
+		if withModels == "array" {
+
+			let selectedColumns = [];
+			for model in withModels {
+				let selectedColumn = "[" . model . "].*";
+			}
+
+			if hasColumns {
+				let phql .= join(", ", selectedColumns);
+			} else {
+				let phql .= ", " . join(", ", selectedColumns);
 			}
 		}
 
@@ -1066,7 +1099,11 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 			}
 			let phql .= " FROM " . join(", ", selectedModels);
 		} else {
-			let phql .= " FROM [" . models . "]";
+			if memstr(models, "[") {
+				let phql .= " FROM " . models . "";
+			} else {
+				let phql .= " FROM [" . models . "]";
+			}
 		}
 
 		/**
