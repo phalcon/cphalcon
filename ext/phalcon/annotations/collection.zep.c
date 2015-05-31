@@ -98,6 +98,7 @@ PHP_METHOD(Phalcon_Annotations_Collection, __construct) {
 			object_init_ex(_4, phalcon_annotations_annotation_ce);
 			ZEPHIR_CALL_METHOD(NULL, _4, "__construct", &_5, 14, annotationData);
 			zephir_check_call_status();
+			zephir_check_call_status();
 			zephir_array_append(&annotations, _4, PH_SEPARATE, "phalcon/annotations/collection.zep", 66);
 		}
 	}
@@ -224,6 +225,7 @@ PHP_METHOD(Phalcon_Annotations_Collection, get) {
 			ZEPHIR_GET_HVALUE(annotation, _2);
 			ZEPHIR_CALL_METHOD(&_3, annotation, "getname", NULL, 0);
 			zephir_check_call_status();
+			zephir_check_call_status();
 			if (ZEPHIR_IS_EQUAL(name, _3)) {
 				RETURN_CCTOR(annotation);
 			}
@@ -234,6 +236,7 @@ PHP_METHOD(Phalcon_Annotations_Collection, get) {
 	ZEPHIR_INIT_VAR(_5);
 	ZEPHIR_CONCAT_SVS(_5, "Collection doesn't have an annotation called '", name, "'");
 	ZEPHIR_CALL_METHOD(NULL, _4, "__construct", NULL, 2, _5);
+	zephir_check_call_status();
 	zephir_check_call_status();
 	zephir_throw_exception_debug(_4, "phalcon/annotations/collection.zep", 149 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
@@ -271,6 +274,7 @@ PHP_METHOD(Phalcon_Annotations_Collection, getAll) {
 			ZEPHIR_GET_HVALUE(annotation, _2);
 			ZEPHIR_CALL_METHOD(&_3, annotation, "getname", NULL, 0);
 			zephir_check_call_status();
+			zephir_check_call_status();
 			if (ZEPHIR_IS_EQUAL(name, _3)) {
 				zephir_array_append(&found, annotation, PH_SEPARATE, "phalcon/annotations/collection.zep", 164);
 			}
@@ -307,6 +311,7 @@ PHP_METHOD(Phalcon_Annotations_Collection, has) {
 		) {
 			ZEPHIR_GET_HVALUE(annotation, _2);
 			ZEPHIR_CALL_METHOD(&_3, annotation, "getname", NULL, 0);
+			zephir_check_call_status();
 			zephir_check_call_status();
 			if (ZEPHIR_IS_EQUAL(name, _3)) {
 				RETURN_MM_BOOL(1);

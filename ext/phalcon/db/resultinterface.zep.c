@@ -69,14 +69,14 @@ ZEPHIR_DOC_METHOD(Phalcon_Db_ResultInterface, fetchArray);
 ZEPHIR_DOC_METHOD(Phalcon_Db_ResultInterface, fetchAll);
 
 /**
- * Gets number of rows returned by a resulset
+ * Gets number of rows returned by a resultset
  *
  * @return int
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_ResultInterface, numRows);
 
 /**
- * Moves internal resulset cursor to another position letting us to fetch a certain row
+ * Moves internal resultset cursor to another position letting us to fetch a certain row
  *
  * @param int number
  */

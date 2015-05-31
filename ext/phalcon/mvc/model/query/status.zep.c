@@ -87,8 +87,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Status, getModel) {
 
 /**
  * Returns the messages produced because of a failed operation
- *
- * @return Phalcon\Mvc\Model\MessageInterface[]
  */
 PHP_METHOD(Phalcon_Mvc_Model_Query_Status, getMessages) {
 
@@ -104,6 +102,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Status, getMessages) {
 		RETURN_MM();
 	}
 	ZEPHIR_RETURN_CALL_METHOD(model, "getmessages", NULL, 0);
+	zephir_check_call_status();
 	zephir_check_call_status();
 	RETURN_MM();
 

@@ -46,7 +46,8 @@ PHP_METHOD(Phalcon_Di_FactoryDefault_Cli, __construct) {
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_CALL_PARENT(NULL, phalcon_di_factorydefault_cli_ce, this_ptr, "__construct", &_0, 144);
+	ZEPHIR_CALL_PARENT(NULL, phalcon_di_factorydefault_cli_ce, this_ptr, "__construct", &_0, 145);
+	zephir_check_call_status();
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(_1);
 	zephir_create_array(_1, 10, 0 TSRMLS_CC);
@@ -58,9 +59,10 @@ PHP_METHOD(Phalcon_Di_FactoryDefault_Cli, __construct) {
 	ZVAL_STRING(_4, "Phalcon\\CLI\\Router", ZEPHIR_TEMP_PARAM_COPY);
 	ZEPHIR_SINIT_VAR(_5);
 	ZVAL_BOOL(&_5, 1);
-	ZEPHIR_CALL_METHOD(NULL, _2, "__construct", &_6, 139, _3, _4, &_5);
+	ZEPHIR_CALL_METHOD(NULL, _2, "__construct", &_6, 140, _3, _4, &_5);
 	zephir_check_temp_parameter(_3);
 	zephir_check_temp_parameter(_4);
+	zephir_check_call_status();
 	zephir_check_call_status();
 	zephir_array_update_string(&_1, SL("router"), &_2, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_NVAR(_2);
@@ -71,9 +73,10 @@ PHP_METHOD(Phalcon_Di_FactoryDefault_Cli, __construct) {
 	ZVAL_STRING(_4, "Phalcon\\CLI\\Dispatcher", ZEPHIR_TEMP_PARAM_COPY);
 	ZEPHIR_SINIT_NVAR(_5);
 	ZVAL_BOOL(&_5, 1);
-	ZEPHIR_CALL_METHOD(NULL, _2, "__construct", &_6, 139, _3, _4, &_5);
+	ZEPHIR_CALL_METHOD(NULL, _2, "__construct", &_6, 140, _3, _4, &_5);
 	zephir_check_temp_parameter(_3);
 	zephir_check_temp_parameter(_4);
+	zephir_check_call_status();
 	zephir_check_call_status();
 	zephir_array_update_string(&_1, SL("dispatcher"), &_2, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_NVAR(_2);
@@ -84,9 +87,10 @@ PHP_METHOD(Phalcon_Di_FactoryDefault_Cli, __construct) {
 	ZVAL_STRING(_4, "Phalcon\\Mvc\\Model\\Manager", ZEPHIR_TEMP_PARAM_COPY);
 	ZEPHIR_SINIT_NVAR(_5);
 	ZVAL_BOOL(&_5, 1);
-	ZEPHIR_CALL_METHOD(NULL, _2, "__construct", &_6, 139, _3, _4, &_5);
+	ZEPHIR_CALL_METHOD(NULL, _2, "__construct", &_6, 140, _3, _4, &_5);
 	zephir_check_temp_parameter(_3);
 	zephir_check_temp_parameter(_4);
+	zephir_check_call_status();
 	zephir_check_call_status();
 	zephir_array_update_string(&_1, SL("modelsManager"), &_2, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_NVAR(_2);
@@ -97,9 +101,10 @@ PHP_METHOD(Phalcon_Di_FactoryDefault_Cli, __construct) {
 	ZVAL_STRING(_4, "Phalcon\\Mvc\\Model\\MetaData\\Memory", ZEPHIR_TEMP_PARAM_COPY);
 	ZEPHIR_SINIT_NVAR(_5);
 	ZVAL_BOOL(&_5, 1);
-	ZEPHIR_CALL_METHOD(NULL, _2, "__construct", &_6, 139, _3, _4, &_5);
+	ZEPHIR_CALL_METHOD(NULL, _2, "__construct", &_6, 140, _3, _4, &_5);
 	zephir_check_temp_parameter(_3);
 	zephir_check_temp_parameter(_4);
+	zephir_check_call_status();
 	zephir_check_call_status();
 	zephir_array_update_string(&_1, SL("modelsMetadata"), &_2, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_NVAR(_2);
@@ -110,9 +115,10 @@ PHP_METHOD(Phalcon_Di_FactoryDefault_Cli, __construct) {
 	ZVAL_STRING(_4, "Phalcon\\Filter", ZEPHIR_TEMP_PARAM_COPY);
 	ZEPHIR_SINIT_NVAR(_5);
 	ZVAL_BOOL(&_5, 1);
-	ZEPHIR_CALL_METHOD(NULL, _2, "__construct", &_6, 139, _3, _4, &_5);
+	ZEPHIR_CALL_METHOD(NULL, _2, "__construct", &_6, 140, _3, _4, &_5);
 	zephir_check_temp_parameter(_3);
 	zephir_check_temp_parameter(_4);
+	zephir_check_call_status();
 	zephir_check_call_status();
 	zephir_array_update_string(&_1, SL("filter"), &_2, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_NVAR(_2);
@@ -123,9 +129,10 @@ PHP_METHOD(Phalcon_Di_FactoryDefault_Cli, __construct) {
 	ZVAL_STRING(_4, "Phalcon\\Escaper", ZEPHIR_TEMP_PARAM_COPY);
 	ZEPHIR_SINIT_NVAR(_5);
 	ZVAL_BOOL(&_5, 1);
-	ZEPHIR_CALL_METHOD(NULL, _2, "__construct", &_6, 139, _3, _4, &_5);
+	ZEPHIR_CALL_METHOD(NULL, _2, "__construct", &_6, 140, _3, _4, &_5);
 	zephir_check_temp_parameter(_3);
 	zephir_check_temp_parameter(_4);
+	zephir_check_call_status();
 	zephir_check_call_status();
 	zephir_array_update_string(&_1, SL("escaper"), &_2, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_NVAR(_2);
@@ -136,9 +143,10 @@ PHP_METHOD(Phalcon_Di_FactoryDefault_Cli, __construct) {
 	ZVAL_STRING(_4, "Phalcon\\Annotations\\Adapter\\Memory", ZEPHIR_TEMP_PARAM_COPY);
 	ZEPHIR_SINIT_NVAR(_5);
 	ZVAL_BOOL(&_5, 1);
-	ZEPHIR_CALL_METHOD(NULL, _2, "__construct", &_6, 139, _3, _4, &_5);
+	ZEPHIR_CALL_METHOD(NULL, _2, "__construct", &_6, 140, _3, _4, &_5);
 	zephir_check_temp_parameter(_3);
 	zephir_check_temp_parameter(_4);
+	zephir_check_call_status();
 	zephir_check_call_status();
 	zephir_array_update_string(&_1, SL("annotations"), &_2, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_NVAR(_2);
@@ -149,9 +157,10 @@ PHP_METHOD(Phalcon_Di_FactoryDefault_Cli, __construct) {
 	ZVAL_STRING(_4, "Phalcon\\Security", ZEPHIR_TEMP_PARAM_COPY);
 	ZEPHIR_SINIT_NVAR(_5);
 	ZVAL_BOOL(&_5, 1);
-	ZEPHIR_CALL_METHOD(NULL, _2, "__construct", &_6, 139, _3, _4, &_5);
+	ZEPHIR_CALL_METHOD(NULL, _2, "__construct", &_6, 140, _3, _4, &_5);
 	zephir_check_temp_parameter(_3);
 	zephir_check_temp_parameter(_4);
+	zephir_check_call_status();
 	zephir_check_call_status();
 	zephir_array_update_string(&_1, SL("security"), &_2, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_NVAR(_2);
@@ -162,9 +171,10 @@ PHP_METHOD(Phalcon_Di_FactoryDefault_Cli, __construct) {
 	ZVAL_STRING(_4, "Phalcon\\Events\\Manager", ZEPHIR_TEMP_PARAM_COPY);
 	ZEPHIR_SINIT_NVAR(_5);
 	ZVAL_BOOL(&_5, 1);
-	ZEPHIR_CALL_METHOD(NULL, _2, "__construct", &_6, 139, _3, _4, &_5);
+	ZEPHIR_CALL_METHOD(NULL, _2, "__construct", &_6, 140, _3, _4, &_5);
 	zephir_check_temp_parameter(_3);
 	zephir_check_temp_parameter(_4);
+	zephir_check_call_status();
 	zephir_check_call_status();
 	zephir_array_update_string(&_1, SL("eventsManager"), &_2, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_NVAR(_2);
@@ -175,9 +185,10 @@ PHP_METHOD(Phalcon_Di_FactoryDefault_Cli, __construct) {
 	ZVAL_STRING(_4, "Phalcon\\Mvc\\Model\\Transaction\\Manager", ZEPHIR_TEMP_PARAM_COPY);
 	ZEPHIR_SINIT_NVAR(_5);
 	ZVAL_BOOL(&_5, 1);
-	ZEPHIR_CALL_METHOD(NULL, _2, "__construct", &_6, 139, _3, _4, &_5);
+	ZEPHIR_CALL_METHOD(NULL, _2, "__construct", &_6, 140, _3, _4, &_5);
 	zephir_check_temp_parameter(_3);
 	zephir_check_temp_parameter(_4);
+	zephir_check_call_status();
 	zephir_check_call_status();
 	zephir_array_update_string(&_1, SL("transactionManager"), &_2, PH_COPY | PH_SEPARATE);
 	zephir_update_property_this(this_ptr, SL("_services"), _1 TSRMLS_CC);

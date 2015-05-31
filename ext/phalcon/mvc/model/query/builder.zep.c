@@ -871,6 +871,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, betweenWhere) {
 	zephir_array_update_zval(&_1, maximumKey, &maximum, PH_COPY);
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "andwhere", NULL, 0, _0, _1);
 	zephir_check_call_status();
+	zephir_check_call_status();
 	ZEPHIR_SEPARATE(nextHiddenParam);
 	zephir_increment(nextHiddenParam);
 	zephir_update_property_this(this_ptr, SL("_hiddenParamNumber"), nextHiddenParam TSRMLS_CC);
@@ -928,6 +929,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, notBetweenWhere) {
 	zephir_array_update_zval(&_1, minimumKey, &minimum, PH_COPY);
 	zephir_array_update_zval(&_1, maximumKey, &maximum, PH_COPY);
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "andwhere", NULL, 0, _0, _1);
+	zephir_check_call_status();
 	zephir_check_call_status();
 	ZEPHIR_SEPARATE(nextHiddenParam);
 	zephir_increment(nextHiddenParam);
@@ -1000,6 +1002,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, inWhere) {
 	ZEPHIR_CONCAT_VSVS(_7, expr, " IN (", _6, ")");
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "andwhere", NULL, 0, _7, bindParams);
 	zephir_check_call_status();
+	zephir_check_call_status();
 	ZEPHIR_INIT_ZVAL_NREF(_8);
 	ZVAL_LONG(_8, hiddenParam);
 	zephir_update_property_this(this_ptr, SL("_hiddenParamNumber"), _8 TSRMLS_CC);
@@ -1070,6 +1073,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, notInWhere) {
 	ZEPHIR_INIT_VAR(_7);
 	ZEPHIR_CONCAT_VSVS(_7, expr, " NOT IN (", _6, ")");
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "andwhere", NULL, 0, _7, bindParams);
+	zephir_check_call_status();
 	zephir_check_call_status();
 	ZEPHIR_INIT_ZVAL_NREF(_8);
 	ZVAL_LONG(_8, hiddenParam);
@@ -1313,7 +1317,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql) {
 	ZEPHIR_OBS_VAR(dependencyInjector);
 	zephir_read_property_this(&dependencyInjector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	if (Z_TYPE_P(dependencyInjector) != IS_OBJECT) {
-		ZEPHIR_CALL_CE_STATIC(&dependencyInjector, phalcon_di_ce, "getdefault", &_0, 145);
+		ZEPHIR_CALL_CE_STATIC(&dependencyInjector, phalcon_di_ce, "getdefault", &_0, 146);
+		zephir_check_call_status();
 		zephir_check_call_status();
 		zephir_update_property_this(this_ptr, SL("_dependencyInjector"), dependencyInjector TSRMLS_CC);
 	}
@@ -1348,6 +1353,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql) {
 		ZEPHIR_CALL_METHOD(&metaData, dependencyInjector, "getshared", NULL, 0, _1);
 		zephir_check_temp_parameter(_1);
 		zephir_check_call_status();
+		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(modelInstance);
 		zephir_fetch_safe_class(_2, model);
 		_3 = zend_fetch_class(Z_STRVAL_P(_2), Z_STRLEN_P(_2), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
@@ -1355,15 +1361,18 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql) {
 		if (zephir_has_constructor(modelInstance TSRMLS_CC)) {
 			ZEPHIR_CALL_METHOD(NULL, modelInstance, "__construct", NULL, 0, dependencyInjector);
 			zephir_check_call_status();
+			zephir_check_call_status();
 		}
 		noPrimary = 1;
 		ZEPHIR_CALL_METHOD(&primaryKeys, metaData, "getprimarykeyattributes", NULL, 0, modelInstance);
+		zephir_check_call_status();
 		zephir_check_call_status();
 		if (zephir_fast_count_int(primaryKeys TSRMLS_CC)) {
 			ZEPHIR_OBS_VAR(firstPrimaryKey);
 			if (zephir_array_isset_long_fetch(&firstPrimaryKey, primaryKeys, 0, 0 TSRMLS_CC)) {
 				if (ZEPHIR_GLOBAL(orm).column_renaming) {
 					ZEPHIR_CALL_METHOD(&columnMap, metaData, "getcolumnmap", NULL, 0, modelInstance);
+					zephir_check_call_status();
 					zephir_check_call_status();
 				} else {
 					ZEPHIR_INIT_NVAR(columnMap);
@@ -1377,6 +1386,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql) {
 						ZEPHIR_INIT_VAR(_4);
 						ZEPHIR_CONCAT_SVS(_4, "Column '", firstPrimaryKey, "' isn't part of the column map");
 						ZEPHIR_CALL_METHOD(NULL, _1, "__construct", NULL, 2, _4);
+						zephir_check_call_status();
 						zephir_check_call_status();
 						zephir_throw_exception_debug(_1, "phalcon/mvc/model/query/builder.zep", 977 TSRMLS_CC);
 						ZEPHIR_MM_RESTORE();
@@ -1708,19 +1718,23 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getQuery) {
 	object_init_ex(query, phalcon_mvc_model_query_ce);
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getphql", NULL, 0);
 	zephir_check_call_status();
+	zephir_check_call_status();
 	_1 = zephir_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
-	ZEPHIR_CALL_METHOD(NULL, query, "__construct", NULL, 333, _0, _1);
+	ZEPHIR_CALL_METHOD(NULL, query, "__construct", NULL, 334, _0, _1);
+	zephir_check_call_status();
 	zephir_check_call_status();
 	ZEPHIR_OBS_VAR(bindParams);
 	zephir_read_property_this(&bindParams, this_ptr, SL("_bindParams"), PH_NOISY_CC);
 	if (Z_TYPE_P(bindParams) == IS_ARRAY) {
-		ZEPHIR_CALL_METHOD(NULL, query, "setbindparams", NULL, 342, bindParams);
+		ZEPHIR_CALL_METHOD(NULL, query, "setbindparams", NULL, 343, bindParams);
+		zephir_check_call_status();
 		zephir_check_call_status();
 	}
 	ZEPHIR_OBS_VAR(bindTypes);
 	zephir_read_property_this(&bindTypes, this_ptr, SL("_bindTypes"), PH_NOISY_CC);
 	if (Z_TYPE_P(bindTypes) == IS_ARRAY) {
-		ZEPHIR_CALL_METHOD(NULL, query, "setbindtypes", NULL, 343, bindTypes);
+		ZEPHIR_CALL_METHOD(NULL, query, "setbindtypes", NULL, 344, bindTypes);
+		zephir_check_call_status();
 		zephir_check_call_status();
 	}
 	RETURN_CCTOR(query);

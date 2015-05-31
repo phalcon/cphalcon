@@ -123,10 +123,12 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, getPaginate) {
 			ZVAL_LONG(_2, start);
 			ZEPHIR_CALL_METHOD(NULL, items, "seek", NULL, 0, _2);
 			zephir_check_call_status();
+			zephir_check_call_status();
 		} else {
 			ZEPHIR_INIT_NVAR(_2);
 			ZVAL_LONG(_2, 0);
 			ZEPHIR_CALL_METHOD(NULL, items, "seek", NULL, 0, _2);
+			zephir_check_call_status();
 			zephir_check_call_status();
 			pageNumber = 1;
 		}
@@ -134,10 +136,12 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, getPaginate) {
 		while (1) {
 			ZEPHIR_CALL_METHOD(&_3, items, "valid", NULL, 0);
 			zephir_check_call_status();
+			zephir_check_call_status();
 			if (!(zephir_is_true(_3))) {
 				break;
 			}
 			ZEPHIR_CALL_METHOD(&_4, items, "current", &_5, 0);
+			zephir_check_call_status();
 			zephir_check_call_status();
 			zephir_array_append(&pageItems, _4, PH_SEPARATE, "phalcon/paginator/adapter/model.zep", 121);
 			if (i >= show) {
@@ -145,6 +149,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, getPaginate) {
 			}
 			i++;
 			ZEPHIR_CALL_METHOD(NULL, items, "next", &_6, 0);
+			zephir_check_call_status();
 			zephir_check_call_status();
 		}
 	}

@@ -32,8 +32,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_View_EngineInterface, __construct);
 
 /**
  * Returns cached output on another view stage
- *
- * @return array
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_View_EngineInterface, getContent);
 
