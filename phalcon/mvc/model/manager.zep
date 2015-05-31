@@ -1149,6 +1149,9 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 			}
 		}
 
+		print_r(extraParameters);
+		print_r(parameters);
+
 		/**
 		 * Perform the query on the referenced model
 		 */
@@ -1250,6 +1253,14 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 			let findArguments = array_merge(findParams, parameters);
 		} else {
 			let findArguments = findParams;
+		}
+
+		/**
+		 * Join conditions in '0' and 'conditions'
+		 */
+		if isset findArguments[0] && isset findArguments["conditions"] {
+			let findArguments[0] = "(" . findArguments[0] . ") AND (" . findArguments["conditions"] . ")";
+			unset findArguments["conditions"];
 		}
 
 		/**

@@ -924,7 +924,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 			joins, join, joinModel, joinConditions, joinAlias, joinType, group,
 			groupItems, groupItem, having, order, orderItems, orderItem,
 			limit, number, offset, distinct, withModels;
-		boolean noPrimary, hasColumns = false;
+		boolean noPrimary;
 
 		let dependencyInjector = this->_dependencyInjector;
 		if typeof dependencyInjector != "object" {
@@ -1034,8 +1034,6 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 				let phql .= columns;
 			}
 
-			let hasColumns = true;
-
 		} else {
 
 			/**
@@ -1057,8 +1055,6 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 			} else {
 				let phql .= "[" . models . "].*";
 			}
-
-			let hasColumns = true;
 		}
 
 		let withModels = this->_with;
@@ -1066,14 +1062,10 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 
 			let selectedColumns = [];
 			for model in withModels {
-				let selectedColumn = "[" . model . "].*";
+				let selectedColumns[] = "[" . model . "].*";
 			}
 
-			if hasColumns {
-				let phql .= join(", ", selectedColumns);
-			} else {
-				let phql .= ", " . join(", ", selectedColumns);
-			}
+			let phql .= ", " . join(", ", selectedColumns);
 		}
 
 		/**
