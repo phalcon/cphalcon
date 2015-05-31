@@ -98,11 +98,7 @@ class Ini extends Config
 	 *          ],
 	 *      ],
 	 * ];
-	 * </code>
-	 * @param string path
-	 * @param mixed value
-	 *
-	 * @return array parsed path
+	 * </code>	 
 	 */
 	protected function _parseIniString(string! path, var value) -> array
 	{

@@ -206,7 +206,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 			let sqlAliases = this->_sqlAliases;
 
 			/**
-			 * The column has a domain, we need to check if it"s an alias
+			 * The column has a domain, we need to check if it's an alias
 			 */
 			if !fetch source, sqlAliases[columnDomain] {
 				throw new Exception("Unknown model or alias '" . columnDomain . "' (1), when preparing: " . this->_phql);
@@ -223,7 +223,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 				let sqlAliasesModelsInstances = this->_sqlAliasesModelsInstances;
 
 				/**
-				 * We need to model instance to retrieve the reversed column map
+				 * We need the model instance to retrieve the reversed column map
 				 */
 				if !fetch model, sqlAliasesModelsInstances[columnDomain] {
 					throw new Exception("There is no model related to model or alias '" . columnDomain . "', when executing: " . this->_phql);
@@ -248,6 +248,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 			 * If the column IR doesn't have a domain, we must check for ambiguities
 			 */
 			let number = 0, hasModel = false;
+
 			for model in this->_modelsInstances {
 
 				/**
@@ -337,6 +338,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 		var arguments, distinct, argument, functionArgs;
 
 		if fetch arguments, expr["arguments"] {
+
 			if isset expr["distinct"] {
 				let distinct = 1;
 			} else {
@@ -358,7 +360,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 				let functionArgs = [this->_getCallArgument(arguments)];
 			}
 
-			if (distinct) {
+			if distinct {
 				return [
 					"type"     : "functionCall",
 					"name"     : expr["name"],
@@ -786,21 +788,28 @@ class Query implements QueryInterface, InjectionAwareInterface
 	 */
 	protected final function _getJoin(<ManagerInterface> manager, join) -> array
 	{
-		var qualified, modelName, source, model, schema;
+		var qualified, modelName, realModelName, nsAlias, source, model, schema;
 
 		if fetch qualified, join["qualified"] {
 
 			if qualified["type"] == 355 {
 
-				let modelName = qualified["name"],
-					model = manager->load(modelName),
+				let modelName = qualified["name"];
+
+				if fetch nsAlias, qualified["ns-alias"] {
+					let realModelName = manager->getNamespaceAlias(nsAlias) . "\\" . modelName;
+				} else {
+					let realModelName = modelName;
+				}
+
+				let model = manager->load(realModelName, true),
 					source = model->getSource(),
 					schema = model->getSchema();
 
 				return [
 					"schema"   : schema,
 					"source"   : source,
-					"modelName": modelName,
+					"modelName": realModelName,
 					"model"    : model
 				];
 			}
@@ -1123,7 +1132,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 		var models, sqlAliases, sqlAliasesModels, sqlModelsAliases, sqlAliasesModelsInstances,
 			modelsInstances, fromModels, sqlJoins, joinModels, joinSources, joinTypes, joinPreCondition,
 			joinPrepared, manager, selectJoins, joinItem, joins, joinData, schema, source, model,
-			modelName, completeSource, joinType, aliasExpr, alias, joinAliasName, joinExpr,
+			realModelName, completeSource, joinType, aliasExpr, alias, joinAliasName, joinExpr,
 			fromModelName, joinAlias, joinModel, joinSource, preCondition, modelNameAlias,
 			relation, relations, modelAlias, sqlJoin;
 
@@ -1160,7 +1169,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 				source = joinData["source"],
 				schema = joinData["schema"],
 				model = joinData["model"],
-				modelName = joinData["modelName"],
+				realModelName = joinData["modelName"],
 				completeSource = [source, schema];
 
 			/**
@@ -1200,17 +1209,17 @@ class Query implements QueryInterface, InjectionAwareInterface
 				/**
 				 * Update model: alias
 				 */
-				let joinModels[alias] = modelName;
+				let joinModels[alias] = realModelName;
 
 				/**
 				 * Update model: alias
 				 */
-				let sqlModelsAliases[modelName] = alias;
+				let sqlModelsAliases[realModelName] = alias;
 
 				/**
 				 * Update model: model
 				 */
-				let sqlAliasesModels[alias] = modelName;
+				let sqlAliasesModels[alias] = realModelName;
 
 				/**
 				 * Update alias: model
@@ -1220,7 +1229,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 				/**
 				 * Update model: alias
 				 */
-				let models[modelName] = alias;
+				let models[realModelName] = alias;
 
 				/**
 				 * Complete source related to a model
@@ -1237,57 +1246,57 @@ class Query implements QueryInterface, InjectionAwareInterface
 				/**
 				 * Check if alias is unique
 				 */
-				if isset joinModels[modelName] {
-					throw new Exception("Cannot use '" . modelName . "' as join alias because it was already used, when preparing: " . this->_phql);
+				if isset joinModels[realModelName] {
+					throw new Exception("Cannot use '" . realModelName . "' as join alias because it was already used, when preparing: " . this->_phql);
 				}
 
 				/**
 				 * Set the join type
 				 */
-				let joinTypes[modelName] = joinType;
+				let joinTypes[realModelName] = joinType;
 
 				/**
 				 * Update model: source
 				 */
-				let sqlAliases[modelName] = source;
+				let sqlAliases[realModelName] = source;
 
 				/**
 				 * Update model: source
 				 */
-				let joinModels[modelName] = source;
+				let joinModels[realModelName] = source;
 
 				/**
 				 * Update model: model
 				 */
-				let sqlModelsAliases[modelName] = modelName;
+				let sqlModelsAliases[realModelName] = realModelName;
 
 				/**
 				 * Update model: model
 				 */
-				let sqlAliasesModels[modelName] = modelName;
+				let sqlAliasesModels[realModelName] = realModelName;
 
 				/**
 				 * Update model: model instance
 				 */
-				let sqlAliasesModelsInstances[modelName] = model;
+				let sqlAliasesModelsInstances[realModelName] = model;
 
 				/**
 				 * Update model: source
 				 */
-				let models[modelName] = source;
+				let models[realModelName] = source;
 
 				/**
 				 * Complete source related to a model
 				 */
-				let joinSources[modelName] = completeSource;
+				let joinSources[realModelName] = completeSource;
 
 				/**
 				 * Complete source related to a model
 				 */
-				let joinPrepared[modelName] = joinItem;
+				let joinPrepared[realModelName] = joinItem;
 			}
 
-			let modelsInstances[modelName] = model;
+			let modelsInstances[realModelName] = model;
 		}
 
 		/**
@@ -1355,7 +1364,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 							 * More than one relation must throw an exception
 							 */
 							if count(relations) != 1 {
-								throw new Exception("There is more than one relation between models '" . modelName . "' and '" . joinModel . "', the join must be done using an alias, when preparing: " . this->_phql);
+								throw new Exception("There is more than one relation between models '" . fromModelName . "' and '" . joinModel . "', the join must be done using an alias, when preparing: " . this->_phql);
 							}
 
 							/**
@@ -1514,6 +1523,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 	 */
 	protected final function _prepareSelect(var ast = null, var merge = null) -> array
 	{
+		int position;
 		var sqlModels, sqlTables, sqlAliases, sqlColumns, select, tables, columns,
 			sqlAliasesModels, sqlModelsAliases, sqlAliasesModelsInstances,
 			models, modelsInstances, selectedModels, manager, metaData,
@@ -1521,7 +1531,6 @@ class Query implements QueryInterface, InjectionAwareInterface
 			schema, source, completeSource, alias, joins, sqlJoins, selectColumns,
 			sqlColumnAliases, column, sqlColumn, sqlSelect, distinct, having, where,
 			groupBy, order, limit;
-		int position;
 
 		if empty ast {
 			let ast = this->_ast;
@@ -1657,8 +1666,8 @@ class Query implements QueryInterface, InjectionAwareInterface
 				}
 
 				let sqlAliases[alias] = alias,
-					sqlAliasesModels[alias] = modelName,
-					sqlModelsAliases[modelName] = alias,
+					sqlAliasesModels[alias] = realModelName,
+					sqlModelsAliases[realModelName] = alias,
 					sqlAliasesModelsInstances[alias] = model;
 
 				/**
@@ -1669,19 +1678,19 @@ class Query implements QueryInterface, InjectionAwareInterface
 				} else {
 					let completeSource = [source, null, alias];
 				}
-				let models[modelName] = alias;
+				let models[realModelName] = alias;
 
 			} else {
-				let sqlAliases[modelName] = source,
-					sqlAliasesModels[modelName] = modelName,
-					sqlModelsAliases[modelName] = modelName,
-					sqlAliasesModelsInstances[modelName] = model,
-					models[modelName] = source;
+				let sqlAliases[realModelName] = source,
+					sqlAliasesModels[realModelName] = realModelName,
+					sqlModelsAliases[realModelName] = realModelName,
+					sqlAliasesModelsInstances[realModelName] = model,
+					models[realModelName] = source;
 			}
 
-			let sqlModels[] = modelName,
+			let sqlModels[] = realModelName,
 				sqlTables[] = completeSource,
-				modelsInstances[modelName] = model;
+				modelsInstances[realModelName] = model;
 		}
 
 		/**
@@ -1968,7 +1977,6 @@ class Query implements QueryInterface, InjectionAwareInterface
 
 				/**
 				 * Get the real namespace alias
-				 * Create the real namespaced name
 				 */
 				let realModelName = manager->getNamespaceAlias(nsAlias) . "\\" . modelName;
 
@@ -2000,16 +2008,16 @@ class Query implements QueryInterface, InjectionAwareInterface
 					completeSource[] = alias,
 					sqlTables[] = completeSource,
 					sqlAliasesModelsInstances[alias] = model,
-					models[alias] = modelName;
+					models[alias] = realModelName;
 			} else {
-				let sqlAliases[modelName] = source,
-					sqlAliasesModelsInstances[modelName] = model,
+				let sqlAliases[realModelName] = source,
+					sqlAliasesModelsInstances[realModelName] = model,
 					sqlTables[] = source,
-					models[modelName] = source;
+					models[realModelName] = source;
 			}
 
-			let sqlModels[] = modelName,
-				modelsInstances[modelName] = model;
+			let sqlModels[] = realModelName,
+				modelsInstances[realModelName] = model;
 		}
 
 		/**
@@ -2134,16 +2142,16 @@ class Query implements QueryInterface, InjectionAwareInterface
 					completeSource[] = alias,
 					sqlTables[] = completeSource,
 					sqlAliasesModelsInstances[alias] = model,
-					models[alias] = modelName;
+					models[alias] = realModelName;
 			} else {
 				let sqlAliases[modelName] = source,
-					sqlAliasesModelsInstances[modelName] = model,
+					sqlAliasesModelsInstances[realModelName] = model,
 					sqlTables[] = source,
-					models[modelName] = source;
+					models[realModelName] = source;
 			}
 
-			let sqlModels[] = modelName,
-				modelsInstances[modelName] = model;
+			let sqlModels[] = realModelName,
+				modelsInstances[realModelName] = model;
 		}
 
 		/**
