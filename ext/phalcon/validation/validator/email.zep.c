@@ -124,7 +124,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Email, validate) {
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(_6);
 		ZVAL_STRING(_6, "Email", ZEPHIR_TEMP_PARAM_COPY);
-		ZEPHIR_CALL_METHOD(NULL, _1, "__construct", NULL, 426, _5, field, _6);
+		ZEPHIR_CALL_METHOD(NULL, _1, "__construct", NULL, 427, _5, field, _6);
 		zephir_check_temp_parameter(_6);
 		zephir_check_call_status();
 		zephir_check_call_status();
