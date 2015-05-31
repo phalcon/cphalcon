@@ -915,7 +915,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 *
 	 * @return string
 	 */
-	public final function getPhql()
+	public final function getPhql() -> string
 	{
 		var dependencyInjector, models, conditions, model, metaData,
 			modelInstance, primaryKeys, firstPrimaryKey, columnMap, modelAlias,
@@ -1062,7 +1062,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 		}
 
 		let withModels = this->_with;
-		if withModels == "array" {
+		if typeof withModels == "array" {
 
 			let selectedColumns = [];
 			for model in withModels {
@@ -1080,8 +1080,10 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 		 * Join multiple models or use a single one if it is a string
 		 */
 		if typeof models == "array" {
+
 			let selectedModels = [];
 			for modelAlias, model in models {
+
 				if typeof modelAlias == "string" {
 					if memstr(model, "[") {
 						let selectedModel = model . " AS [" . modelAlias . "]";
@@ -1095,10 +1097,14 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 						let selectedModel = "[" . model . "]";
 					}
 				}
+
 				let selectedModels[] = selectedModel;
 			}
+
 			let phql .= " FROM " . join(", ", selectedModels);
+
 		} else {
+
 			if memstr(models, "[") {
 				let phql .= " FROM " . models . "";
 			} else {
@@ -1138,13 +1144,13 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 				 * Create the join according to the type
 				 */
 				if joinType {
-					if memstr(model, "[") {
+					if memstr(joinModel, "[") {
 						let phql .= " " . joinType . " JOIN " . joinModel;
 					} else {
 						let phql .= " " . joinType . " JOIN [" . joinModel . "]";
 					}
 				} else {
-					if memstr(model, "[") {
+					if memstr(joinModel, "[") {
 						let phql .= " JOIN " . joinModel . "";
 					} else {
 						let phql .= " JOIN [" . joinModel . "]";
@@ -1205,9 +1211,9 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 						if memstr(group, ",") {
 							let group = str_replace(" ", "", group);
 							let groupItems = explode(",", group);
-							let phql .= " GROUP BY [".join("], [", groupItems)."]";
+							let phql .= " GROUP BY [" . join("], [", groupItems) . "]";
 						} else {
-							let phql .= " GROUP BY [".group."]";
+							let phql .= " GROUP BY [" . group . "]";
 						}
 					}
 				}
