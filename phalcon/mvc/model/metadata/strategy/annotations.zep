@@ -36,7 +36,7 @@ class Annotations implements StrategyInterface
 		var annotations, className, reflection, propertiesAnnotations;
 		var property, propAnnotations, columnAnnotation, columnName, feature;
 		var fieldTypes, fieldBindTypes, numericTyped, primaryKeys, nonPrimaryKeys, identityField,
-			notNull, attributes, automaticDefault, defaultValues, defaultValue;
+			notNull, attributes, automaticDefault, defaultValues, defaultValue, emptyStringValues;
 
 		if typeof dependencyInjector != "object" {
 			throw new Exception("The dependency injector is invalid");
@@ -44,7 +44,9 @@ class Annotations implements StrategyInterface
 
 		let annotations = dependencyInjector->get("annotations");
 
-		let className = get_class(model), reflection = annotations->get(className);
+		let className = get_class(model),
+			reflection = annotations->get(className);
+
 		if typeof reflection != "object" {
 			throw new Exception("No annotations were found in class " . className);
 		}
@@ -53,6 +55,7 @@ class Annotations implements StrategyInterface
 		 * Get the properties defined in
 		 */
 		let propertiesAnnotations = reflection->getPropertiesAnnotations();
+
 		if !count(propertiesAnnotations) {
 			throw new Exception("No properties with annotations were found in class " . className);
 		}
@@ -69,7 +72,8 @@ class Annotations implements StrategyInterface
 			fieldBindTypes = [],
 			automaticDefault = [],
 			identityField = false,
-			defaultValues = [];
+			defaultValues = [],
+			emptyStringValues = [];
 
 		for property, propAnnotations in propertiesAnnotations {
 
@@ -188,7 +192,8 @@ class Annotations implements StrategyInterface
 			MetaData::MODELS_DATA_TYPES_BIND          : fieldBindTypes,
 			MetaData::MODELS_AUTOMATIC_DEFAULT_INSERT : automaticDefault,
 			MetaData::MODELS_AUTOMATIC_DEFAULT_UPDATE : automaticDefault,
-			MetaData::MODELS_DEFAULT_VALUES           : defaultValues
+			MetaData::MODELS_DEFAULT_VALUES           : defaultValues,
+			MetaData::MODELS_EMPTY_STRING_VALUES      : emptyStringValues
 		];
 	}
 

@@ -89,7 +89,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	protected _hiddenParamNumber = 0;
 
 	/**
-	 * Phalcon\Mvc\Model\Query\Builder constructor	 
+	 * Phalcon\Mvc\Model\Query\Builder constructor
 	 */
 	public function __construct(var params = null, <DiInterface> dependencyInjector = null)
 	{
@@ -1050,9 +1050,17 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 			let selectedModels = [];
 			for modelAlias, model in models {
 				if typeof modelAlias == "string" {
-					let selectedModel = "[" . model . "] AS [" . modelAlias . "]";
+					if memstr(model, "[") {
+						let selectedModel = model . " AS [" . modelAlias . "]";
+					} else {
+						let selectedModel = "[" . model . "] AS [" . modelAlias . "]";
+					}
 				} else {
-					let selectedModel = "[" . model . "]";
+					if memstr(model, "[") {
+						let selectedModel = model;
+					} else {
+						let selectedModel = "[" . model . "]";
+					}
 				}
 				let selectedModels[] = selectedModel;
 			}
@@ -1093,9 +1101,17 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 				 * Create the join according to the type
 				 */
 				if joinType {
-					let phql .= " " . joinType . " JOIN [" . joinModel . "]";
+					if memstr(model, "[") {
+						let phql .= " " . joinType . " JOIN " . joinModel;
+					} else {
+						let phql .= " " . joinType . " JOIN [" . joinModel . "]";
+					}
 				} else {
-					let phql .= " JOIN [" . joinModel . "]";
+					if memstr(model, "[") {
+						let phql .= " JOIN " . joinModel . "";
+					} else {
+						let phql .= " JOIN [" . joinModel . "]";
+					}
 				}
 
 				/**
@@ -1229,7 +1245,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	/**
 	 * Returns the query built
 	 */
-	public function getQuery() -> <\Phalcon\Mvc\Model\Query>
+	public function getQuery() -> <Query>
 	{
 		var query, bindParams, bindTypes;
 
@@ -1253,5 +1269,4 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 
 		return query;
 	}
-
 }
