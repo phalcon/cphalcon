@@ -1149,9 +1149,6 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 			}
 		}
 
-		print_r(extraParameters);
-		print_r(parameters);
-
 		/**
 		 * Perform the query on the referenced model
 		 */
