@@ -1777,15 +1777,11 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 
 	/**
 	 * Executes internal hooks before save a record
-	 *
-	 * @param Phalcon\Mvc\Model\MetadataInterface metaData
-	 * @param boolean exists
-	 * @param string identityField
-	 * @return boolean
 	 */
 	protected function _preSave(<MetadataInterface> metaData, boolean exists, var identityField) -> boolean
 	{
-		var notNull, columnMap, dataTypeNumeric, automaticAttributes, defaultValues, field, attributeField, value;
+		var notNull, columnMap, dataTypeNumeric, automaticAttributes, defaultValues,
+			field, attributeField, value, emptyStringValues;
 		boolean error, isNull;
 
 		/**
@@ -1852,6 +1848,11 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 					let defaultValues = metaData->getDefaultValues(this);
 				}
 
+				/**
+				 * Get string attributes that allow empty strings as defaults
+				 */
+				let emptyStringValues = metaData->getEmptyStringAttributes(this);
+
 				let error = false;
 				for field in notNull {
 
@@ -1881,8 +1882,14 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 							 */
 							if typeof value != "object" {
 								if !isset dataTypeNumeric[field] {
-									if value === null || value === "" {
-										let isNull = true;
+									if isset emptyStringValues[field] {
+										if value === null {
+											let isNull = true;
+										}
+									} else {
+										if value === null || value === "" {
+											let isNull = true;
+										}
 									}
 								} else {
 									if !is_numeric(value) {
@@ -1890,6 +1897,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 									}
 								}
 							}
+
 						} else {
 							let isNull = true;
 						}
@@ -2026,7 +2034,8 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 		table, identityField) -> boolean
 	{
 		var bindSkip, fields, values, bindTypes, attributes, bindDataTypes, automaticAttributes,
-			field, columnMap, value, attributeField, success, bindType, defaultValue, sequenceName;
+			field, columnMap, value, attributeField, success, bindType,
+			defaultValue, sequenceName, defaultValues;
 		boolean useExplicitIdentity;
 
 		let bindSkip = Column::BIND_SKIP;
@@ -2037,7 +2046,8 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 
 		let attributes = metaData->getAttributes(this),
 			bindDataTypes = metaData->getBindTypes(this),
-			automaticAttributes = metaData->getAutomaticCreateAttributes(this);
+			automaticAttributes = metaData->getAutomaticCreateAttributes(this),
+			defaultValues = metaData->getDefaultValues(this);
 
 		if globals_get("orm.column_renaming") {
 			let columnMap = metaData->getColumnMap(this);
@@ -2075,6 +2085,10 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 					 */
 					if fetch value, this->{attributeField} {
 
+						if value === null && isset defaultValues[field] {
+							let value = defaultValues[field];
+						}
+
 						/**
 						 * Every column must have a bind data type defined
 						 */
@@ -2084,7 +2098,11 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 
 						let values[] = value, bindTypes[] = bindType;
 					} else {
-						let values[] = null, bindTypes[] = bindSkip;
+
+						let bindTypes[] = bindSkip;
+
+						fetch value, defaultValues[field];
+						let values[] = value;
 					}
 				}
 			}
@@ -3160,9 +3178,6 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 * <code>
 	 * echo $robot->readAttribute('name');
 	 * </code>
-	 *
-	 * @param string attribute
-	 * @return mixed
 	 */
 	public function readAttribute(string! attribute)
 	{
@@ -3176,14 +3191,11 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	/**
 	 * Writes an attribute value by its name
 	 *
-	 * <code>
+	 *<code>
 	 * 	$robot->writeAttribute('name', 'Rosey');
-	 * </code>
-	 *
-	 * @param string attribute
-	 * @param mixed value
+	 *</code>
 	 */
-	public function writeAttribute(string! attribute, value)
+	public function writeAttribute(string! attribute, var value)
 	{
 		let this->{attribute} = value;
 	}
@@ -3202,7 +3214,6 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 *   {
 	 *       $this->skipAttributes(array('price'));
 	 *   }
-	 *
 	 *}
 	 *</code>
 	 */
@@ -3234,7 +3245,6 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 *   {
 	 *       $this->skipAttributesOnCreate(array('created_at'));
 	 *   }
-	 *
 	 *}
 	 *</code>
 	 */
@@ -3264,7 +3274,6 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 *   {
 	 *       $this->skipAttributesOnUpdate(array('modified_in'));
 	 *   }
-	 *
 	 *}
 	 *</code>
 	 */
@@ -3281,6 +3290,35 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	}
 
 	/**
+	 * Sets a list of attributes that must be skipped from the
+	 * generated UPDATE statement
+	 *
+	 *<code>
+	 *<?php
+	 *
+	 *class Robots extends \Phalcon\Mvc\Model
+	 *{
+	 *
+	 *   public function initialize()
+	 *   {
+	 *       $this->allowEmptyStringValues(array('name'));
+	 *   }
+	 *}
+	 *</code>
+	 */
+	protected function allowEmptyStringValues(array! attributes) -> void
+	{
+		var keysAttributes, attribute;
+
+		let keysAttributes = [];
+		for attribute in attributes {
+			let keysAttributes[attribute] = null;
+		}
+
+		this->getModelsMetaData()->setEmptyStringAttributes(this, keysAttributes);
+	}
+
+	/**
 	 * Setup a 1-1 relation between two models
 	 *
 	 *<code>
@@ -3293,15 +3331,8 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 *   {
 	 *       $this->hasOne('id', 'RobotsDescription', 'robots_id');
 	 *   }
-	 *
 	 *}
 	 *</code>
-	 *
-	 * @param	mixed fields
-	 * @param	string referenceModel
-	 * @param	mixed referencedFields
-	 * @param   array options
-	 * @return  Phalcon\Mvc\Model\Relation
 	 */
 	protected function hasOne(var fields, string! referenceModel, var referencedFields, options = null) -> <Relation>
 	{
@@ -3324,12 +3355,6 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 *
 	 *}
 	 *</code>
-	 *
-	 * @param	mixed fields
-	 * @param	string referenceModel
-	 * @param	mixed referencedFields
-	 * @param   array options
-	 * @return  Phalcon\Mvc\Model\Relation
 	 */
 	protected function belongsTo(var fields, string! referenceModel, var referencedFields, options = null) -> <Relation>
 	{
@@ -3349,15 +3374,8 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 *   {
 	 *       $this->hasMany('id', 'RobotsParts', 'robots_id');
 	 *   }
-	 *
 	 *}
 	 *</code>
-	 *
-	 * @param	mixed fields
-	 * @param	string referenceModel
-	 * @param	mixed referencedFields
-	 * @param   array options
-	 * @return  Phalcon\Mvc\Model\Relation
 	 */
 	protected function hasMany(var fields, string! referenceModel, var referencedFields, options = null) -> <Relation>
 	{
