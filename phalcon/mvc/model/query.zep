@@ -430,7 +430,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 					let exprReturn = ["type": "binary-op", "op": ">", "left": left, "right": right];
 					break;
 
-				case 270:
+				case PHQL_T_NOTEQUALS:
 					let exprReturn = ["type": "binary-op", "op": "<>", "left": left, "right": right];
 					break;
 
@@ -452,10 +452,6 @@ class Query implements QueryInterface, InjectionAwareInterface
 
 				case PHQL_T_QUALIFIED:
 					let exprReturn = this->_getQualified(expr);
-					break;
-
-				case 359:
-					//let exprReturn = this->_getAliased(expr);
 					break;
 
 				case PHQL_T_ADD:
@@ -487,6 +483,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 					break;
 
 				case PHQL_T_ENCLOSED:
+				case PHQL_T_SUBQUERY:
 					let exprReturn = ["type": "parentheses", "left": left];
 					break;
 

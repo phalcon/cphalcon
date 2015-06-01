@@ -470,7 +470,8 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 				break;
 			case PHQL_T_USING:
 				phql_(phql_parser, PHQL_USING, NULL, parser_status);
-				break;
+				break;        
+
 			default:
 				parser_status->status = PHQL_PARSING_FAILED;
 				error_length = sizeof(char) * 32;

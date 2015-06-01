@@ -100,7 +100,6 @@ PHP_METHOD(Phalcon_Cli_Router_Route, __construct) {
 	zephir_update_property_this(this_ptr, SL("_delimiter"), delimiter TSRMLS_CC);
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "reconfigure", NULL, 0, pattern, paths);
 	zephir_check_call_status();
-	zephir_check_call_status();
 	ZEPHIR_OBS_VAR(uniqueId);
 	zephir_read_static_property_ce(&uniqueId, phalcon_cli_router_route_ce, SL("_uniqueId") TSRMLS_CC);
 	if (Z_TYPE_P(uniqueId) == IS_NULL) {
@@ -551,7 +550,6 @@ PHP_METHOD(Phalcon_Cli_Router_Route, reConfigure) {
 		if (zephir_memnstr_str(pattern, SL("{"), "phalcon/cli/router/route.zep", 384)) {
 			ZEPHIR_CALL_METHOD(&extracted, this_ptr, "extractnamedparams", NULL, 0, pattern);
 			zephir_check_call_status();
-			zephir_check_call_status();
 			ZEPHIR_OBS_VAR(pcrePattern);
 			zephir_array_fetch_long(&pcrePattern, extracted, 0, PH_NOISY, "phalcon/cli/router/route.zep", 389 TSRMLS_CC);
 			ZEPHIR_INIT_NVAR(_1);
@@ -562,7 +560,6 @@ PHP_METHOD(Phalcon_Cli_Router_Route, reConfigure) {
 			ZEPHIR_CPY_WRT(pcrePattern, pattern);
 		}
 		ZEPHIR_CALL_METHOD(&compiledPattern, this_ptr, "compilepattern", NULL, 0, pcrePattern);
-		zephir_check_call_status();
 		zephir_check_call_status();
 	} else {
 		if (zephir_memnstr_str(pattern, SL(":delimiter"), "phalcon/cli/router/route.zep", 401)) {

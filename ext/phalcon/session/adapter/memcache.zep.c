@@ -119,9 +119,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Memcache, __construct) {
 	zephir_array_update_string(&_2, SL("lifetime"), &_3, PH_COPY | PH_SEPARATE);
 	ZEPHIR_CALL_METHOD(NULL, _1, "__construct", NULL, 404, _2);
 	zephir_check_call_status();
-	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(NULL, _0, "__construct", NULL, 408, _1, options);
-	zephir_check_call_status();
 	zephir_check_call_status();
 	zephir_update_property_this(this_ptr, SL("_memcache"), _0 TSRMLS_CC);
 	ZEPHIR_INIT_VAR(_4);
@@ -162,9 +160,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Memcache, __construct) {
 	zephir_array_fast_append(_10, _5);
 	ZEPHIR_CALL_FUNCTION(NULL, "session_set_save_handler", NULL, 406, _4, _6, _7, _8, _9, _10);
 	zephir_check_call_status();
-	zephir_check_call_status();
 	ZEPHIR_CALL_PARENT(NULL, phalcon_session_adapter_memcache_ce, this_ptr, "__construct", &_11, 407, options);
-	zephir_check_call_status();
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 
@@ -204,7 +200,6 @@ PHP_METHOD(Phalcon_Session_Adapter_Memcache, read) {
 	_1 = zephir_fetch_nproperty_this(this_ptr, SL("_lifetime"), PH_NOISY_CC);
 	ZEPHIR_RETURN_CALL_METHOD(_0, "get", NULL, 0, sessionId, _1);
 	zephir_check_call_status();
-	zephir_check_call_status();
 	RETURN_MM();
 
 }
@@ -228,7 +223,6 @@ PHP_METHOD(Phalcon_Session_Adapter_Memcache, write) {
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_memcache"), PH_NOISY_CC);
 	_1 = zephir_fetch_nproperty_this(this_ptr, SL("_lifetime"), PH_NOISY_CC);
 	ZEPHIR_CALL_METHOD(NULL, _0, "save", NULL, 0, sessionId, data, _1);
-	zephir_check_call_status();
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 
@@ -258,11 +252,9 @@ PHP_METHOD(Phalcon_Session_Adapter_Memcache, destroy) {
 	if (Z_TYPE_P(sessionId) == IS_NULL) {
 		ZEPHIR_CALL_METHOD(&sessionId, this_ptr, "getid", NULL, 0);
 		zephir_check_call_status();
-		zephir_check_call_status();
 	}
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_memcache"), PH_NOISY_CC);
 	ZEPHIR_RETURN_CALL_METHOD(_0, "delete", NULL, 0, sessionId);
-	zephir_check_call_status();
 	zephir_check_call_status();
 	RETURN_MM();
 
