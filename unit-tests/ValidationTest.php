@@ -73,6 +73,8 @@ class ValidationTest extends PHPUnit_Framework_TestCase
 
 		$validation->add('last_name', new PresenceOf());
 
+		$validation->add('number', new PresenceOf());
+
 		$messages = $validation->validate($_POST);
 
 		$expectedMessages = Phalcon\Validation\Message\Group::__set_state(array(
@@ -89,12 +91,20 @@ class ValidationTest extends PHPUnit_Framework_TestCase
 					'_field' => 'last_name',
 					'_code' => '0',
 				)),
+				2 => Phalcon\Validation\Message::__set_state(array(
+					'_type' => 'PresenceOf',
+					'_message' => 'Field number is required',
+					'_field' => 'number',
+					'_code' => '0',
+				)),
 			)
 		));
 
 		$this->assertEquals($expectedMessages, $messages);
 
 		$_POST['last_name'] = 'Walter';
+
+		$_POST['number'] = '0';
 
 		$messages = $validation->validate($_POST);
 
