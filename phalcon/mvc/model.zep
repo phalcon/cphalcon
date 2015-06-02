@@ -695,7 +695,9 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 */
 	public static function find(var parameters = null) -> <ResultsetInterface>
 	{
-		var params, builder, query, bindParams, bindTypes, cache, resultset, hydration;
+		var params, builder, query, bindParams, bindTypes, cache, resultset, hydration, dependencyInjector, manager;
+		let dependencyInjector = \Phalcon\Di::getDefault();
+		let manager = <ManagerInterface> dependencyInjector->getShared("modelsManager");
 
 		if typeof parameters != "array" {
 			let params = [];
@@ -709,7 +711,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 		/**
 		 * Builds a query with the passed parameters
 		 */
-		let builder = new Builder(params);
+		let builder = manager->createBuilder(params);
 		builder->from(get_called_class());
 
 		let query = builder->getQuery();
@@ -771,7 +773,9 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 */
 	public static function findFirst(parameters = null) -> <Model>
 	{
-		var params, builder, query, bindParams, bindTypes, cache, resultset, hydration;
+		var params, builder, query, bindParams, bindTypes, cache, resultset, hydration, dependencyInjector, manager;
+		let dependencyInjector = \Phalcon\Di::getDefault();
+		let manager = <ManagerInterface> dependencyInjector->getShared("modelsManager");
 
 		if typeof parameters != "array" {
 			let params = [];
@@ -785,7 +789,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 		/**
 		 * Builds a query with the passed parameters
 		 */
-		let builder = new Builder(params);
+		let builder = manager->createBuilder(params);
 		builder->from(get_called_class());
 
 		/**
@@ -1021,7 +1025,9 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	{
 		var params, distinctColumn, groupColumn, columns,
 			bindParams, bindTypes, resultset, cache, firstRow, groupColumns,
-			builder, query;
+			builder, query, dependencyInjector, manager;
+		let dependencyInjector = \Phalcon\Di::getDefault();
+		let manager = <ManagerInterface> dependencyInjector->getShared("modelsManager");
 
 		if typeof parameters != "array" {
 			let params = [];
@@ -1052,7 +1058,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 		/**
 		 * Builds a query with the passed parameters
 		 */
-		let builder = new Builder(params);
+		let builder = manager->createBuilder(params);
 		builder->columns(columns);
 		builder->from(get_called_class());
 
