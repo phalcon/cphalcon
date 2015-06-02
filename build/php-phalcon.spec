@@ -10,7 +10,7 @@ License:        New BSD, Zend, PHP
 URL:            http://phalconphp.com/
 Source0:        https://github.com/phalcon/cphalcon/archive/phalcon-v%{version}.tar.gz
 
-BuildRequires:  php-devel libtool pcre-devel >= 5.3 gcc make
+BuildRequires:  php-devel >= 5.3 libtool pcre-devel gcc make
 %if 0%{?php_zend_api:1}
 Requires:		php(zend-abi) = %{php_zend_api}
 Requires:		php(api) = %{php_core_api}
