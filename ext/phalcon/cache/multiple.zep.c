@@ -147,6 +147,7 @@ PHP_METHOD(Phalcon_Cache_Multiple, get) {
 		ZEPHIR_GET_HVALUE(backend, _3);
 		ZEPHIR_CALL_METHOD(&content, backend, "get", NULL, 0, keyName, lifetime);
 		zephir_check_call_status();
+		zephir_check_call_status();
 		if (Z_TYPE_P(content) != IS_NULL) {
 			RETURN_CCTOR(content);
 		}
@@ -184,6 +185,7 @@ PHP_METHOD(Phalcon_Cache_Multiple, start) {
 	) {
 		ZEPHIR_GET_HVALUE(backend, _3);
 		ZEPHIR_CALL_METHOD(NULL, backend, "start", NULL, 0, keyName, lifetime);
+		zephir_check_call_status();
 		zephir_check_call_status();
 	}
 	ZEPHIR_MM_RESTORE();
@@ -231,6 +233,7 @@ PHP_METHOD(Phalcon_Cache_Multiple, save) {
 		ZEPHIR_GET_HVALUE(backend, _3);
 		ZEPHIR_CALL_METHOD(NULL, backend, "save", NULL, 0, keyName, content, lifetime, stopBuffer);
 		zephir_check_call_status();
+		zephir_check_call_status();
 	}
 	ZEPHIR_MM_RESTORE();
 
@@ -262,6 +265,7 @@ PHP_METHOD(Phalcon_Cache_Multiple, delete) {
 	) {
 		ZEPHIR_GET_HVALUE(backend, _3);
 		ZEPHIR_CALL_METHOD(NULL, backend, "delete", NULL, 0, keyName);
+		zephir_check_call_status();
 		zephir_check_call_status();
 	}
 	RETURN_MM_BOOL(1);
@@ -301,6 +305,7 @@ PHP_METHOD(Phalcon_Cache_Multiple, exists) {
 	) {
 		ZEPHIR_GET_HVALUE(backend, _3);
 		ZEPHIR_CALL_METHOD(&_4, backend, "exists", NULL, 0, keyName, lifetime);
+		zephir_check_call_status();
 		zephir_check_call_status();
 		if (ZEPHIR_IS_TRUE(_4)) {
 			RETURN_MM_BOOL(1);

@@ -104,6 +104,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, query) {
 	if (zephir_array_isset_fetch(&translation, _0, index, 0 TSRMLS_CC)) {
 		ZEPHIR_RETURN_CALL_METHOD(this_ptr, "replaceplaceholders", NULL, 0, translation, placeholders);
 		zephir_check_call_status();
+		zephir_check_call_status();
 		RETURN_MM();
 	}
 	RETURN_CTOR(index);

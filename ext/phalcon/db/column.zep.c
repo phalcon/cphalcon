@@ -612,6 +612,7 @@ PHP_METHOD(Phalcon_Db_Column, __set_state) {
 	object_init_ex(return_value, phalcon_db_column_ce);
 	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 83, columnName, definition);
 	zephir_check_call_status();
+	zephir_check_call_status();
 	RETURN_MM();
 
 }
