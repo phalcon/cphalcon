@@ -69,12 +69,10 @@ PHP_METHOD(Phalcon_Validation_Validator_Email, validate) {
 
 	ZEPHIR_CALL_METHOD(&value, validation, "getvalue", NULL, 0, field);
 	zephir_check_call_status();
-	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(_1);
 	ZVAL_STRING(_1, "allowEmpty", ZEPHIR_TEMP_PARAM_COPY);
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "issetoption", NULL, 0, _1);
 	zephir_check_temp_parameter(_1);
-	zephir_check_call_status();
 	zephir_check_call_status();
 	_2 = zephir_is_true(_0);
 	if (_2) {
@@ -87,24 +85,20 @@ PHP_METHOD(Phalcon_Validation_Validator_Email, validate) {
 	ZVAL_LONG(&_3, 274);
 	ZEPHIR_CALL_FUNCTION(&_4, "filter_var", NULL, 164, value, &_3);
 	zephir_check_call_status();
-	zephir_check_call_status();
 	if (!(zephir_is_true(_4))) {
 		ZEPHIR_INIT_NVAR(_1);
 		ZVAL_STRING(_1, "label", ZEPHIR_TEMP_PARAM_COPY);
 		ZEPHIR_CALL_METHOD(&label, this_ptr, "getoption", NULL, 0, _1);
 		zephir_check_temp_parameter(_1);
 		zephir_check_call_status();
-		zephir_check_call_status();
 		if (ZEPHIR_IS_EMPTY(label)) {
 			ZEPHIR_CALL_METHOD(&label, validation, "getlabel", NULL, 0, field);
-			zephir_check_call_status();
 			zephir_check_call_status();
 		}
 		ZEPHIR_INIT_NVAR(_1);
 		ZVAL_STRING(_1, "message", ZEPHIR_TEMP_PARAM_COPY);
 		ZEPHIR_CALL_METHOD(&message, this_ptr, "getoption", NULL, 0, _1);
 		zephir_check_temp_parameter(_1);
-		zephir_check_call_status();
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(replacePairs);
 		zephir_create_array(replacePairs, 1, 0 TSRMLS_CC);
@@ -115,21 +109,17 @@ PHP_METHOD(Phalcon_Validation_Validator_Email, validate) {
 			ZEPHIR_CALL_METHOD(&message, validation, "getdefaultmessage", NULL, 0, _1);
 			zephir_check_temp_parameter(_1);
 			zephir_check_call_status();
-			zephir_check_call_status();
 		}
 		ZEPHIR_INIT_NVAR(_1);
 		object_init_ex(_1, phalcon_validation_message_ce);
 		ZEPHIR_CALL_FUNCTION(&_5, "strtr", NULL, 73, message, replacePairs);
 		zephir_check_call_status();
-		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(_6);
 		ZVAL_STRING(_6, "Email", ZEPHIR_TEMP_PARAM_COPY);
-		ZEPHIR_CALL_METHOD(NULL, _1, "__construct", NULL, 427, _5, field, _6);
+		ZEPHIR_CALL_METHOD(NULL, _1, "__construct", NULL, 422, _5, field, _6);
 		zephir_check_temp_parameter(_6);
 		zephir_check_call_status();
-		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, 0, _1);
-		zephir_check_call_status();
 		zephir_check_call_status();
 		RETURN_MM_BOOL(0);
 	}

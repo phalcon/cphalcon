@@ -94,19 +94,18 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator, appendMessage) {
 
 
 	if (!(zephir_is_true(type))) {
-		ZEPHIR_INIT_NVAR(type);
 		ZEPHIR_INIT_VAR(_0);
 		zephir_get_class(_0, this_ptr, 0 TSRMLS_CC);
 		ZEPHIR_SINIT_VAR(_1);
 		ZVAL_STRING(&_1, "Validator", 0);
 		ZEPHIR_SINIT_VAR(_2);
 		ZVAL_STRING(&_2, "", 0);
+		ZEPHIR_INIT_NVAR(type);
 		zephir_fast_str_replace(&type, &_1, &_2, _0 TSRMLS_CC);
 	}
 	ZEPHIR_INIT_NVAR(_0);
 	object_init_ex(_0, phalcon_mvc_model_message_ce);
-	ZEPHIR_CALL_METHOD(NULL, _0, "__construct", NULL, 300, message, field, type);
-	zephir_check_call_status();
+	ZEPHIR_CALL_METHOD(NULL, _0, "__construct", NULL, 295, message, field, type);
 	zephir_check_call_status();
 	zephir_update_property_array_append(this_ptr, SL("_messages"), _0 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();

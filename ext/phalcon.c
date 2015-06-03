@@ -787,6 +787,7 @@ static void php_zephir_init_globals(zend_phalcon_globals *zephir_globals TSRMLS_
 	zephir_globals->orm.not_null_validations = 1;
 	zephir_globals->orm.exception_on_failed_save = 0;
 	zephir_globals->orm.enable_literals = 1;
+	zephir_globals->orm.late_state_binding = 0;
 
 }
 
@@ -799,6 +800,7 @@ static PHP_RINIT_FUNCTION(phalcon)
 	//zephir_init_interned_strings(TSRMLS_C);
 
 	zephir_initialize_memory(zephir_globals_ptr TSRMLS_CC);
+
 
 	return SUCCESS;
 }

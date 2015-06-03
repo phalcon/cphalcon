@@ -244,9 +244,8 @@ PHP_METHOD(Phalcon_Registry, next) {
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_data"), PH_NOISY_CC);
 	Z_SET_ISREF_P(_0);
-	ZEPHIR_CALL_FUNCTION(NULL, "next", NULL, 389, _0);
+	ZEPHIR_CALL_FUNCTION(NULL, "next", NULL, 384, _0);
 	Z_UNSET_ISREF_P(_0);
-	zephir_check_call_status();
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 
@@ -264,9 +263,8 @@ PHP_METHOD(Phalcon_Registry, key) {
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_data"), PH_NOISY_CC);
 	Z_SET_ISREF_P(_0);
-	ZEPHIR_RETURN_CALL_FUNCTION("key", NULL, 390, _0);
+	ZEPHIR_RETURN_CALL_FUNCTION("key", NULL, 385, _0);
 	Z_UNSET_ISREF_P(_0);
-	zephir_check_call_status();
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -284,9 +282,8 @@ PHP_METHOD(Phalcon_Registry, rewind) {
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_data"), PH_NOISY_CC);
 	Z_SET_ISREF_P(_0);
-	ZEPHIR_CALL_FUNCTION(NULL, "reset", NULL, 391, _0);
+	ZEPHIR_CALL_FUNCTION(NULL, "reset", NULL, 386, _0);
 	Z_UNSET_ISREF_P(_0);
-	zephir_check_call_status();
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 
@@ -304,9 +301,8 @@ PHP_METHOD(Phalcon_Registry, valid) {
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_data"), PH_NOISY_CC);
 	Z_SET_ISREF_P(_0);
-	ZEPHIR_CALL_FUNCTION(&_1, "key", NULL, 390, _0);
+	ZEPHIR_CALL_FUNCTION(&_1, "key", NULL, 385, _0);
 	Z_UNSET_ISREF_P(_0);
-	zephir_check_call_status();
 	zephir_check_call_status();
 	RETURN_MM_BOOL(Z_TYPE_P(_1) != IS_NULL);
 
@@ -324,9 +320,8 @@ PHP_METHOD(Phalcon_Registry, current) {
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_data"), PH_NOISY_CC);
 	Z_SET_ISREF_P(_0);
-	ZEPHIR_RETURN_CALL_FUNCTION("current", NULL, 392, _0);
+	ZEPHIR_RETURN_CALL_FUNCTION("current", NULL, 387, _0);
 	Z_UNSET_ISREF_P(_0);
-	zephir_check_call_status();
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -357,8 +352,7 @@ PHP_METHOD(Phalcon_Registry, __set) {
 	}
 
 
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "offsetset", NULL, 393, key, value);
-	zephir_check_call_status();
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "offsetset", NULL, 388, key, value);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 
@@ -389,8 +383,7 @@ PHP_METHOD(Phalcon_Registry, __get) {
 	}
 
 
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "offsetget", NULL, 394, key);
-	zephir_check_call_status();
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "offsetget", NULL, 389, key);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -418,8 +411,7 @@ PHP_METHOD(Phalcon_Registry, __isset) {
 	}
 
 
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "offsetexists", NULL, 395, key);
-	zephir_check_call_status();
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "offsetexists", NULL, 390, key);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -447,8 +439,7 @@ PHP_METHOD(Phalcon_Registry, __unset) {
 	}
 
 
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "offsetunset", NULL, 396, key);
-	zephir_check_call_status();
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "offsetunset", NULL, 391, key);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 

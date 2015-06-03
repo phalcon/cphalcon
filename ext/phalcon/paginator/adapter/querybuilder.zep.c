@@ -86,14 +86,11 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, __construct) {
 	}
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "setquerybuilder", NULL, 0, builder);
 	zephir_check_call_status();
-	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "setlimit", NULL, 0, limit);
-	zephir_check_call_status();
 	zephir_check_call_status();
 	ZEPHIR_OBS_VAR(page);
 	if (zephir_array_isset_string_fetch(&page, config, SS("page"), 0 TSRMLS_CC)) {
 		ZEPHIR_CALL_METHOD(NULL, this_ptr, "setcurrentpage", NULL, 0, page);
-		zephir_check_call_status();
 		zephir_check_call_status();
 	}
 	ZEPHIR_MM_RESTORE();
@@ -169,14 +166,11 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, getPaginate) {
 	if (ZEPHIR_LT(number, limit)) {
 		ZEPHIR_CALL_METHOD(NULL, builder, "limit", NULL, 0, limit);
 		zephir_check_call_status();
-		zephir_check_call_status();
 	} else {
 		ZEPHIR_CALL_METHOD(NULL, builder, "limit", NULL, 0, limit, number);
 		zephir_check_call_status();
-		zephir_check_call_status();
 	}
 	ZEPHIR_CALL_METHOD(&query, builder, "getquery", NULL, 0);
-	zephir_check_call_status();
 	zephir_check_call_status();
 	if (numberPage == 1) {
 		before = 1;
@@ -185,26 +179,20 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, getPaginate) {
 	}
 	ZEPHIR_CALL_METHOD(&items, query, "execute", NULL, 0);
 	zephir_check_call_status();
-	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(_1);
 	ZVAL_STRING(_1, "COUNT(*) [rowcount]", ZEPHIR_TEMP_PARAM_COPY);
 	ZEPHIR_CALL_METHOD(NULL, totalBuilder, "columns", NULL, 0, _1);
 	zephir_check_temp_parameter(_1);
 	zephir_check_call_status();
-	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(_1);
 	ZVAL_NULL(_1);
 	ZEPHIR_CALL_METHOD(NULL, totalBuilder, "orderby", NULL, 0, _1);
 	zephir_check_call_status();
-	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&totalQuery, totalBuilder, "getquery", NULL, 0);
-	zephir_check_call_status();
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&result, totalQuery, "execute", NULL, 0);
 	zephir_check_call_status();
-	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&row, result, "getfirst", NULL, 0);
-	zephir_check_call_status();
 	zephir_check_call_status();
 	ZEPHIR_OBS_VAR(_2);
 	zephir_read_property(&_2, row, SL("rowcount"), PH_NOISY_CC);

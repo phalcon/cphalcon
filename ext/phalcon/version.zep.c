@@ -166,7 +166,6 @@ PHP_METHOD(Phalcon_Version, get) {
 
 	ZEPHIR_CALL_SELF(&version, "_getversion", NULL, 0);
 	zephir_check_call_status();
-	zephir_check_call_status();
 	ZEPHIR_OBS_VAR(major);
 	zephir_array_fetch_long(&major, version, 0, PH_NOISY, "phalcon/version.zep", 124 TSRMLS_CC);
 	ZEPHIR_OBS_VAR(medium);
@@ -179,8 +178,7 @@ PHP_METHOD(Phalcon_Version, get) {
 	zephir_array_fetch_long(&specialNumber, version, 4, PH_NOISY, "phalcon/version.zep", 128 TSRMLS_CC);
 	ZEPHIR_INIT_VAR(result);
 	ZEPHIR_CONCAT_VSVSVS(result, major, ".", medium, ".", minor, " ");
-	ZEPHIR_CALL_SELF(&suffix, "_getspecial", &_0, 431, special);
-	zephir_check_call_status();
+	ZEPHIR_CALL_SELF(&suffix, "_getspecial", &_0, 426, special);
 	zephir_check_call_status();
 	if (!ZEPHIR_IS_STRING(suffix, "")) {
 		ZEPHIR_INIT_VAR(_1);
@@ -209,7 +207,6 @@ PHP_METHOD(Phalcon_Version, getId) {
 
 	ZEPHIR_CALL_SELF(&version, "_getversion", NULL, 0);
 	zephir_check_call_status();
-	zephir_check_call_status();
 	ZEPHIR_OBS_VAR(major);
 	zephir_array_fetch_long(&major, version, 0, PH_NOISY, "phalcon/version.zep", 154 TSRMLS_CC);
 	ZEPHIR_OBS_VAR(medium);
@@ -224,11 +221,9 @@ PHP_METHOD(Phalcon_Version, getId) {
 	ZVAL_STRING(&_0, "%02s", 0);
 	ZEPHIR_CALL_FUNCTION(&_1, "sprintf", &_2, 160, &_0, medium);
 	zephir_check_call_status();
-	zephir_check_call_status();
 	ZEPHIR_SINIT_NVAR(_0);
 	ZVAL_STRING(&_0, "%02s", 0);
 	ZEPHIR_CALL_FUNCTION(&_3, "sprintf", &_2, 160, &_0, minor);
-	zephir_check_call_status();
 	zephir_check_call_status();
 	ZEPHIR_CONCAT_VVVVV(return_value, major, _1, _3, special, specialNumber);
 	RETURN_MM();
@@ -257,7 +252,6 @@ PHP_METHOD(Phalcon_Version, getPart) {
 
 	ZEPHIR_CALL_SELF(&version, "_getversion", NULL, 0);
 	zephir_check_call_status();
-	zephir_check_call_status();
 	do {
 		if (part == 0 || part == 1 || part == 2 || part == 4) {
 			ZEPHIR_OBS_VAR(result);
@@ -266,13 +260,11 @@ PHP_METHOD(Phalcon_Version, getPart) {
 		}
 		if (part == 3) {
 			zephir_array_fetch_long(&_1, version, 3, PH_NOISY | PH_READONLY, "phalcon/version.zep", 187 TSRMLS_CC);
-			ZEPHIR_CALL_SELF(&result, "_getspecial", &_0, 431, _1);
-			zephir_check_call_status();
+			ZEPHIR_CALL_SELF(&result, "_getspecial", &_0, 426, _1);
 			zephir_check_call_status();
 			break;
 		}
 		ZEPHIR_CALL_SELF(&result, "get", NULL, 0);
-		zephir_check_call_status();
 		zephir_check_call_status();
 		break;
 	} while(0);

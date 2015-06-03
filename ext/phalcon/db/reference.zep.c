@@ -290,7 +290,6 @@ PHP_METHOD(Phalcon_Db_Reference, __set_state) {
 	zephir_array_update_string(&_0, SL("onUpdate"), &onUpdate, PH_COPY | PH_SEPARATE);
 	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 77, constraintName, _0);
 	zephir_check_call_status();
-	zephir_check_call_status();
 	RETURN_MM();
 
 }

@@ -74,13 +74,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_PresenceOf, validate) {
 	ZEPHIR_CALL_METHOD(&field, this_ptr, "getoption", NULL, 0, _0);
 	zephir_check_temp_parameter(_0);
 	zephir_check_call_status();
-	zephir_check_call_status();
 	if (Z_TYPE_P(field) != IS_STRING) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "Field name must be a string", "phalcon/mvc/model/validator/presenceof.zep", 63);
 		return;
 	}
 	ZEPHIR_CALL_METHOD(&value, record, "readattribute", NULL, 0, field);
-	zephir_check_call_status();
 	zephir_check_call_status();
 	_1 = Z_TYPE_P(value) == IS_NULL;
 	if (!(_1)) {
@@ -96,7 +94,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_PresenceOf, validate) {
 		ZEPHIR_CALL_METHOD(&message, this_ptr, "getoption", NULL, 0, _0);
 		zephir_check_temp_parameter(_0);
 		zephir_check_call_status();
-		zephir_check_call_status();
 		if (ZEPHIR_IS_EMPTY(message)) {
 			ZEPHIR_INIT_NVAR(message);
 			ZVAL_STRING(message, "':field' is required", 1);
@@ -106,12 +103,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_PresenceOf, validate) {
 		zephir_array_update_string(&_3, SL(":field"), &field, PH_COPY | PH_SEPARATE);
 		ZEPHIR_CALL_FUNCTION(&_4, "strtr", NULL, 73, message, _3);
 		zephir_check_call_status();
-		zephir_check_call_status();
 		ZEPHIR_INIT_NVAR(_0);
 		ZVAL_STRING(_0, "PresenceOf", ZEPHIR_TEMP_PARAM_COPY);
 		ZEPHIR_CALL_METHOD(NULL, this_ptr, "appendmessage", NULL, 0, _4, field, _0);
 		zephir_check_temp_parameter(_0);
-		zephir_check_call_status();
 		zephir_check_call_status();
 		RETURN_MM_BOOL(0);
 	}
