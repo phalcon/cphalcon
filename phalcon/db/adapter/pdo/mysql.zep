@@ -205,10 +205,10 @@ class Mysql extends PdoAdapter implements AdapterInterface
 				let matches = null;
 				if preg_match(sizePattern, columnType, matches) {
 					if fetch matchOne, matches[1] {
-						let definition["size"] = (int)matchOne;
+						let definition["size"] = (int) matchOne;
 					}
 					if fetch matchTwo, matches[2] {
-						let definition["scale"] = (int)matchTwo;
+						let definition["scale"] = (int) matchTwo;
 					}
 				}
 			}

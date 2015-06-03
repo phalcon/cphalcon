@@ -21,11 +21,11 @@
 namespace Phalcon;
 
 use Phalcon\DiInterface;
-use Phalcon\Di\InjectionAwareInterface;
 use Phalcon\Di\Service;
 use Phalcon\Di\ServiceInterface;
 use Phalcon\Di\Exception;
 use Phalcon\Events\ManagerInterface;
+use Phalcon\Di\InjectionAwareInterface;
 
 /**
  * Phalcon\Di
