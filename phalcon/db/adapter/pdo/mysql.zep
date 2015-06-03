@@ -19,6 +19,7 @@
 
 namespace Phalcon\Db\Adapter\Pdo;
 
+use Phalcon\Db;
 use Phalcon\Db\Column;
 use Phalcon\Db\AdapterInterface;
 use Phalcon\Db\Adapter\Pdo as PdoAdapter;
@@ -98,7 +99,7 @@ class Mysql extends PdoAdapter implements AdapterInterface
 		 * Get the describe
 		 * Field Indexes: 0:name, 1:type, 2:not null, 3:key, 4:default, 5:extra
 		 */
-		for field in this->fetchAll(this->_dialect->describeColumns(table, schema), \Phalcon\Db::FETCH_NUM) {
+		for field in this->fetchAll(this->_dialect->describeColumns(table, schema), Db::FETCH_NUM) {
 
 			/**
 			 * By default the bind types is two
@@ -149,7 +150,7 @@ class Mysql extends PdoAdapter implements AdapterInterface
 				/**
 				 * Decimals are floats
 				 */
-				if memstr(columnType, "decimal") {
+				if memstr(columnType, "decimal") || memstr(columnType, "double") {
 					let definition["type"] = Column::TYPE_DECIMAL,
 						definition["isNumeric"] = true,
 						definition["bindType"] = Column::BIND_PARAM_DECIMAL;

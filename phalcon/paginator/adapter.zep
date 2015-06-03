@@ -41,7 +41,6 @@ abstract class Adapter
 	public function setCurrentPage(int page) -> <Adapter>
 	{
 		let this->_page = page;
-
 		return this;
 	}
 
@@ -51,7 +50,6 @@ abstract class Adapter
 	public function setLimit(int limitRows) -> <Adapter>
 	{
 		let this->_limitRows = limitRows;
-
 		return this;
 	}
 

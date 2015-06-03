@@ -236,7 +236,7 @@ class Bag implements InjectionAwareInterface, BagInterface, \IteratorAggregate, 
 	public function remove(string! property) -> boolean
 	{
 		if isset this->_data[property] {
-			unset(this->_data[property]);
+			unset this->_data[property];
 			this->_session->set(this->_name, this->_data);
 			return true;
 		}
@@ -270,6 +270,11 @@ class Bag implements InjectionAwareInterface, BagInterface, \IteratorAggregate, 
 		return count(this->_data);
 	}
 
+	/**
+	 * Returns the bag iterator
+	 *
+	 * @return \ArrayIterator
+	 */
 	public final function getIterator()
 	{
 		if this->_initialized === false {
@@ -279,21 +284,34 @@ class Bag implements InjectionAwareInterface, BagInterface, \IteratorAggregate, 
 		return new \ArrayIterator(this->_data);
 	}
 
+	/**
+	 * @param string property
+	 * @param mixed value
+	 */
 	public final function offsetSet(string! property, var value)
 	{
 		return this->set(property, value);
 	}
 
+	/**
+	 * @param string property
+	 */
 	public final function offsetExists(string! property)
 	{
 		return this->has(property);
 	}
 
+	/**
+	 * @param string property
+	 */
 	public final function offsetUnset(string! property)
 	{
 		return this->remove(property);
 	}
 
+	/**
+	 * @param string property	 
+	 */
 	public final function offsetGet(string! property)
 	{
 		return this->get(property);
