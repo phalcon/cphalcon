@@ -741,7 +741,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 	public function execute() -> <ResultsetInterface>
 	{
 		var model;
-		let model = this->_model;
+		let model = this->getModelName();
 		if typeof model != "string" {
 			throw new Exception("Model name must be string");
 		}
