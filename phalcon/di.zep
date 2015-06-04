@@ -21,11 +21,11 @@
 namespace Phalcon;
 
 use Phalcon\DiInterface;
-use Phalcon\Di\InjectionAwareInterface;
 use Phalcon\Di\Service;
 use Phalcon\Di\ServiceInterface;
 use Phalcon\Di\Exception;
 use Phalcon\Events\ManagerInterface;
+use Phalcon\Di\InjectionAwareInterface;
 
 /**
  * Phalcon\Di
@@ -224,22 +224,17 @@ class Di implements DiInterface
 			/**
 			 * The DI also acts as builder for any class even if it isn't defined in the DI
 			 */
-			if class_exists(name) {
-				if typeof parameters == "array" {
-					if count(parameters) {
-						if is_php_version("5.6") {
-							let reflection = new \ReflectionClass(name),
-								instance = reflection->newInstanceArgs(parameters);
-						} else {
-							let instance = create_instance_params(name, parameters);
-						}
+			if !class_exists(name) {
+				throw new Exception("Service '" . name . "' wasn't found in the dependency injection container");
+			}
+
+			if typeof parameters == "array" {
+				if count(parameters) {
+					if is_php_version("5.6") {
+						let reflection = new \ReflectionClass(name),
+							instance = reflection->newInstanceArgs(parameters);
 					} else {
-						if is_php_version("5.6") {
-							let reflection = new \ReflectionClass(name),
-								instance = reflection->newInstance();
-						} else {
-							let instance = create_instance(name);
-						}
+						let instance = create_instance_params(name, parameters);
 					}
 				} else {
 					if is_php_version("5.6") {
@@ -250,7 +245,12 @@ class Di implements DiInterface
 					}
 				}
 			} else {
-				throw new Exception("Service '" . name . "' wasn't found in the dependency injection container");
+				if is_php_version("5.6") {
+					let reflection = new \ReflectionClass(name),
+						instance = reflection->newInstance();
+				} else {
+					let instance = create_instance(name);
+				}
 			}
 		}
 
@@ -264,7 +264,15 @@ class Di implements DiInterface
 		}
 
 		if typeof eventsManager == "object" {
-			eventsManager->fire("di:afterServiceResolve", this, ["name": name, "parameters": parameters, "instance": instance]);
+			eventsManager->fire(
+				"di:afterServiceResolve",
+				this,
+				[
+					"name": name,
+					"parameters": parameters,
+					"instance": instance
+				]
+			);
 		}
 
 		return instance;

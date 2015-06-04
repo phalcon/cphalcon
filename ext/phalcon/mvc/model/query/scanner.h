@@ -132,6 +132,8 @@
 #define PHQL_T_TS_CONTAINS_ANOTHER 405
 #define PHQL_T_TS_CONTAINS_IN 406
 
+#define PHQL_T_SUBQUERY 407
+
 /* list of tokens and their names */
 typedef struct _phql_token_names {
 	char *name;

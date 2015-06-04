@@ -29,17 +29,13 @@ interface ViewBaseInterface
 
 	/**
 	 * Sets views directory. Depending of your platform, always add a trailing slash or backslash
-	 *
-	 * @param string viewsDir
 	 */
-	public function setViewsDir(viewsDir);
+	public function setViewsDir(string! viewsDir);
 
 	/**
 	 * Gets views directory
-	 *
-	 * @return string
 	 */
-	public function getViewsDir();
+	public function getViewsDir() -> string;
 
 	/**
 	 * Adds parameters to views (alias of setVar)
@@ -47,7 +43,7 @@ interface ViewBaseInterface
 	 * @param string key
 	 * @param mixed value
 	 */
-	public function setParamToView(key, value);
+	public function setParamToView(string! key, value);
 
 	/**
 	 * Adds parameters to views
@@ -55,21 +51,17 @@ interface ViewBaseInterface
 	 * @param string key
 	 * @param mixed value
 	 */
-	public function setVar(key, value);
+	public function setVar(string! key, value);
 
 	/**
 	 * Returns parameters to views
-	 *
-	 * @return array
 	 */
-	public function getParamsToView();
+	public function getParamsToView() -> array;
 
 	/**
 	 * Returns the cache instance used to cache
-	 *
-	 * @return Phalcon\Cache\BackendInterface
 	 */
-	public function getCache();
+	public function getCache() -> <\Phalcon\Cache\BackendInterface>;
 
 	/**
 	 * Cache the actual view render to certain level
@@ -80,15 +72,11 @@ interface ViewBaseInterface
 
 	/**
 	 * Externally sets the view content
-	 *
-	 * @param string content
 	 */
-	public function setContent(content);
+	public function setContent(string! content);
 
 	/**
 	 * Returns cached output from another view stage
-	 *
-	 * @return string
 	 */
-	public function getContent();
+	public function getContent() -> string;
 }

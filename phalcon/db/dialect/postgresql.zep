@@ -145,24 +145,24 @@ class Postgresql extends Dialect
 	public function addColumn(string! tableName, string! schemaName, <ColumnInterface> column) -> string
 	{
 		var sql, defaultValue;
-                
+
 		if schemaName {
 			let sql = "ALTER TABLE \"" . schemaName . "\".\"" . tableName . "\" ADD COLUMN ";
 		} else {
 			let sql = "ALTER TABLE \"" . tableName . "\" ADD COLUMN ";
 		}
-		
+
 		let sql .= "\"" . column->getName() . "\" " . this->getColumnDefinition(column);
-		
+
 		let defaultValue = column->getDefault();
-		if ! empty defaultValue {
+		if !empty defaultValue {
 			let sql .= " DEFAULT \"" . addcslashes(defaultValue, "\"") . "\"";
 		}
-		
+
 		if column->isNotNull() {
 			let sql .= " NOT NULL";
 		}
-		
+
 		return sql;
 	}
 
@@ -172,13 +172,13 @@ class Postgresql extends Dialect
 	public function modifyColumn(string! tableName, string! schemaName, <ColumnInterface> column, <ColumnInterface> currentColumn = null) -> string
 	{
 		var sql = "", sqlAlterTable, defaultValue;
-			
+
 		if schemaName {
 			let sqlAlterTable = "ALTER TABLE \"" . schemaName . "\".\"" . tableName . "\"";
 		} else {
 			let sqlAlterTable = "ALTER TABLE \"" . tableName . "\"";
 		}
-		
+
 		//Rename
 		if column->getName() != currentColumn->getName() {
 			let sql .= sqlAlterTable . " RENAME COLUMN \"" . currentColumn->getName() . "\" TO \"" . column->getName() . "\";";
@@ -201,11 +201,11 @@ class Postgresql extends Dialect
 				let sql .= sqlAlterTable . " ALTER COLUMN \"" . column->getName() . "\" DROP DEFAULT;";
 			}
 			let defaultValue = column->getDefault();
-			if ! empty defaultValue {
+			if !empty defaultValue {
 				let sql .= sqlAlterTable . " ALTER COLUMN \"" . column->getName() . "\" SET DEFAULT \"" . addcslashes(defaultValue, "\"") . "\"";
 			}
 		}
-		
+
 		return sql;
 	}
 
@@ -215,16 +215,16 @@ class Postgresql extends Dialect
 	public function dropColumn(string! tableName, string! schemaName, string! columnName) -> string
 	{
 		var sql;
-                
-        if schemaName {
-            let sql = "ALTER TABLE \"" . schemaName . "\".\"" . tableName."\" ";
-        } else {
-            let sql = "ALTER TABLE \"" . tableName . "\" ";
-        }
 
-        let sql .= " DROP COLUMN \"".columnName."\"";
-        
-        return sql;
+		if schemaName {
+			let sql = "ALTER TABLE \"" . schemaName . "\".\"" . tableName."\" ";
+		} else {
+			let sql = "ALTER TABLE \"" . tableName . "\" ";
+		}
+
+		let sql .= " DROP COLUMN \"".columnName."\"";
+
+		return sql;
 	}
 
 	/**
@@ -232,37 +232,36 @@ class Postgresql extends Dialect
 	 */
 	public function addIndex(string! tableName, string! schemaName, <IndexInterface> index) -> string
 	{
-		if index->getName() === "PRIMARY" {
-			return this->addPrimaryKey( tableName, schemaName, index);
-		}
 		var sql, indexType;
-				
+
+		if index->getName() === "PRIMARY" {
+			return this->addPrimaryKey(tableName, schemaName, index);
+		}
+
 		let sql = "CREATE";
-		
+
 		let indexType = index->getType();
 		if !empty indexType {
 			let sql .= " " . indexType;
 		}
 		let sql .= " INDEX \"" . index->getName() . "\" ON";
-		
+
 		if schemaName {
 			let sql .= " \"" . schemaName . "\".\"" . tableName."\"";
 		} else {
 			let sql .= " \"" . tableName . "\"";
 		}
-		
+
 		let sql .= " (" . this->getColumnList(index->getColumns()) . ")";
 		return sql;
 	}
 
 	/**
- 	 * Generates SQL to delete an index from a table
+	 * Generates SQL to delete an index from a table
 	 */
 	public function dropIndex(string! tableName, string! schemaName, string! indexName) -> string
 	{
-		var sql;
-		let sql = "DROP INDEX \"" . indexName . "\"";
-		return sql;
+		return "DROP INDEX \"" . indexName . "\"";
 	}
 
 	/**
@@ -271,14 +270,14 @@ class Postgresql extends Dialect
 	public function addPrimaryKey(string! tableName, string! schemaName, <IndexInterface> index) -> string
 	{
 		var sql;
-				
+
 		if schemaName {
 			let sql = "ALTER TABLE \"" . schemaName . "\".\"" . tableName . "\"";
 		} else {
 			let sql = "ALTER TABLE \"" . tableName . "\"";
 		}
 		let sql .= " ADD CONSTRAINT \"PRIMARY\" PRIMARY KEY (" . this->getColumnList(index->getColumns()) . ")";
-		
+
 		return sql;
 	}
 
@@ -288,14 +287,14 @@ class Postgresql extends Dialect
 	public function dropPrimaryKey(string! tableName, string! schemaName) -> string
 	{
 		var sql;
-				
+
 		if schemaName {
 			let sql = "ALTER TABLE \"" . schemaName . "\".\"" . tableName . "\"";
 		} else {
 			let sql = "ALTER TABLE \"" . tableName . "\"";
 		}
 		let sql .= " DROP CONSTRAINT \"PRIMARY\"";
-		
+
 		return sql;
 	}
 
@@ -305,7 +304,7 @@ class Postgresql extends Dialect
 	public function addForeignKey(string! tableName, string! schemaName, <ReferenceInterface> reference) -> string
 	{
 		var sql, onDelete, onUpdate;
-				
+
 		if schemaName {
 			let sql = "ALTER TABLE \"" . schemaName . "\".\"" . tableName . "\" ";
 		} else {
@@ -313,17 +312,17 @@ class Postgresql extends Dialect
 		}
 		let sql .= "ADD CONSTRAINT \"" . reference->getName() . "\" FOREIGN KEY (" . this->getColumnList(reference->getColumns()) . ")"
 				. " REFERENCES \"" . reference->getReferencedTable() . "\" (" . this->getColumnList(reference->getReferencedColumns()) . ")";
-		
+
 		let onDelete = reference->getOnDelete();
 		if !empty onDelete {
 			let sql .= " ON DELETE " . onDelete;
 		}
-		
+
 		let onUpdate = reference->getOnUpdate();
 		if !empty onUpdate {
 			let sql .= " ON UPDATE " . onUpdate;
 		}
-		
+
 		return sql;
 	}
 
@@ -333,15 +332,15 @@ class Postgresql extends Dialect
 	public function dropForeignKey(string! tableName, string! schemaName, string! referenceName) -> string
 	{
 		var sql;
-				
+
 		if schemaName {
 			let sql = "ALTER TABLE \"" . schemaName . "\".\"" . tableName . "\"";
 		} else {
 			let sql = "ALTER TABLE \"" . tableName . "\"";
 		}
-		
+
 		let sql .= " DROP CONSTRAINT \"" . referenceName . "\"" ;
-		
+
 		return sql;
 	}
 
@@ -354,22 +353,22 @@ class Postgresql extends Dialect
 			column, indexes, index, reference, references, indexName,
 			indexSql, indexSqlAfterCreate, sql, columnLine, indexType,
 			referenceSql, onDelete, onUpdate, defaultValue, primaryColumns;
-		
+
 		if !fetch columns, definition["columns"] {
 			throw new Exception("The index 'columns' is required in the definition array");
 		}
-		
+
 		if schemaName {
 			let table = "\"" . schemaName . "\".\"" . tableName . "\"";
 		} else {
 			let table = "\"" . tableName . "\"";
 		}
-		
+
 		let temporary = false;
 		if fetch options, definition["options"] {
 			fetch temporary, options["temporary"];
 		}
-		
+
 		/**
 		 * Create a temporary o normal table
 		 */
@@ -378,60 +377,60 @@ class Postgresql extends Dialect
 		} else {
 			let sql = "CREATE TABLE " . table . " (\n\t";
 		}
-		
+
 		let createLines = [];
 		let primaryColumns = [];
 		for column in columns {
-		
+
 			let columnLine = "\"" . column->getName() . "\" " . this->getColumnDefinition(column);
-		
+
 			/**
 			 * Add a Default clause
 			 */
 			let defaultValue = column->getDefault();
-			if ! empty defaultValue {
+			if !empty defaultValue {
 				let columnLine .= " DEFAULT \"" . addcslashes(defaultValue, "\"") . "\"";
 			}
-		
+
 			/**
 			 * Add a NOT NULL clause
 			 */
 			if column->isNotNull() {
 				let columnLine .= " NOT NULL";
 			}
-		
+
 			/**
 			 * Add an AUTO_INCREMENT clause
 			 */
 			if column->isAutoIncrement() {
 				//let columnLine .= " AUTO_INCREMENT";
 			}
-		
+
 			/**
 			 * Mark the column as primary key
 			 */
 			if column->isPrimary() {
 				let primaryColumns[] = column->getName() ;
 			}
-		
+
 			let createLines[] = columnLine;
 		}
 		if !empty primaryColumns {
 			let createLines[] = "PRIMARY KEY (" . implode(",",primaryColumns) . ")";
 		}
-		
+
 		/**
 		 * Create related indexes
 		 */
 		let indexSqlAfterCreate = "";
 		if fetch indexes, definition["indexes"] {
-		
+
 			for index in indexes {
-			
+
 				let indexName = index->getName();
 				let indexType = index->getType();
 				let indexSql = "";
-			
+
 				/**
 				 * If the index name is primary we add a primary key
 				 */
@@ -441,15 +440,15 @@ class Postgresql extends Dialect
 					if !empty indexType {
 						let indexSql = "CONSTRAINT \"" . indexName . "\" " . indexType . " (" . this->getColumnList(index->getColumns()) . ")";
 					} else {
-					
+
 						let indexSqlAfterCreate .= "CREATE INDEX \"" . index->getName() . "\" ON ";
-								
+
 						if schemaName {
 							let indexSqlAfterCreate .= "\"" . schemaName . "\".\"" . tableName . "\"";
 						} else {
 							let indexSqlAfterCreate .= "\"" . tableName . "\"";
 						}
-				
+
 						let indexSqlAfterCreate .= " (" . this->getColumnList(index->getColumns()) . ");";
 					}
 				}
@@ -463,37 +462,37 @@ class Postgresql extends Dialect
 		 */
 		if fetch references, definition["references"] {
 			for reference in references {
-			
+
 				let referenceSql = "CONSTRAINT \"" . reference->getName() . "\" FOREIGN KEY (" . this->getColumnList(reference->getColumns()) . ") REFERENCES ";
-				
+
 				if schemaName {
 					let referenceSql .= "\"" . schemaName . "\".\"" . reference->getReferencedTable() . "\" ";
 				} else {
 					let referenceSql .= "\"" . reference->getReferencedTable() . "\" ";
 				}
-				
+
 				let referenceSql .= "(" . this->getColumnList(reference->getReferencedColumns()) . ")";
-		
+
 				let onDelete = reference->getOnDelete();
 				if !empty onDelete {
 					let referenceSql .= " ON DELETE " . onDelete;
 				}
-		
+
 				let onUpdate = reference->getOnUpdate();
 				if !empty onUpdate {
 					let referenceSql .= " ON UPDATE " . onUpdate;
 				}
-				
+
 				let createLines[] = referenceSql;
 			}
 		}
-		
+
 		let sql .= join(",\n\t", createLines) . "\n)";
 		if isset definition["options"] {
 			let sql .= " " . this->_getTableOptions(definition);
 		}
 		let sql .= ";" . indexSqlAfterCreate;
-		
+
 		return sql;
 	}
 
@@ -503,17 +502,19 @@ class Postgresql extends Dialect
 	public function dropTable(string! tableName, string schemaName = null, boolean! ifExists = true) -> string
 	{
 		var table, sql;
-		
+
 		if schemaName {
 			let table = "\"" . schemaName . "\".\"" . tableName . "\"";
 		} else {
 			let table = "\"" . tableName . "\"";
 		}
+
 		if ifExists {
 			let sql = "DROP TABLE IF EXISTS \"" . table . "\"";
 		} else {
 			let sql = "DROP TABLE \"" . table . "\"";
 		}
+
 		return sql;
 	}
 
@@ -523,17 +524,17 @@ class Postgresql extends Dialect
 	public function createView(string! viewName, array! definition, string schemaName = null) -> string
 	{
 		var viewSql, view;
-		
+
 		if !fetch viewSql, definition["sql"] {
 			throw new Exception("The index 'sql' is required in the definition array");
 		}
-		
+
 		if schemaName {
 			let view = "\"" . schemaName . "\".\"" . viewName . "\"";
 		} else {
 			let view = "\"" . viewName . "\"";
 		}
-		
+
 		return "CREATE VIEW " . view . " AS " . viewSql;
 	}
 
@@ -543,19 +544,19 @@ class Postgresql extends Dialect
 	public function dropView(string! viewName, string schemaName = null, boolean! ifExists = true) -> string
 	{
 		var view, sql;
-		
+
 		if schemaName {
 			let view = "\"" . schemaName . "\".\"" . viewName . "\"";
 		} else {
 			let view = "\"" . viewName . "\"";
 		}
-		
+
 		if ifExists {
 			let sql = "DROP VIEW IF EXISTS " . view . "";
 		} else {
 			let sql = "DROP VIEW " . view . "";
 		}
-		
+
 		return sql;
 	}
 
@@ -644,11 +645,13 @@ class Postgresql extends Dialect
 	public function describeReferences(string! table, string schema = null) -> string
 	{
 		var sql = "SELECT tc.table_name as TABLE_NAME, kcu.column_name as COLUMN_NAME, tc.constraint_name as CONSTRAINT_NAME, tc.table_catalog as REFERENCED_TABLE_SCHEMA, ccu.table_name AS REFERENCED_TABLE_NAME, ccu.column_name AS REFERENCED_COLUMN_NAME FROM information_schema.table_constraints AS tc JOIN information_schema.key_column_usage AS kcu ON tc.constraint_name = kcu.constraint_name JOIN information_schema.constraint_column_usage AS ccu ON ccu.constraint_name = tc.constraint_name WHERE constraint_type = 'FOREIGN KEY' AND ";
+
 		if schema {
 			let sql .= "tc.table_schema = '" . schema . "' AND tc.table_name='" . table . "'";
 		} else {
 			let sql .= "tc.table_name='" . table . "'";
 		}
+
 		return sql;
 	}
 

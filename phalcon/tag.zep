@@ -20,11 +20,9 @@
 
 namespace Phalcon;
 
-use Phalcon\DiInterface;
 use Phalcon\Tag\Select;
 use Phalcon\Tag\Exception;
 use Phalcon\Mvc\UrlInterface;
-use Phalcon\EscaperInterface;
 
 /**
  * Phalcon\Tag
@@ -178,7 +176,7 @@ class Tag
 		var di;
 		let di = self::_dependencyInjector;
 		if typeof di != "object" {
-			let di = \Phalcon\Di::getDefault();
+			let di = Di::getDefault();
 		}
 		return di;
 	}
@@ -195,7 +193,7 @@ class Tag
 
 			let dependencyInjector = <DiInterface> self::_dependencyInjector;
 			if typeof dependencyInjector != "object" {
-				let dependencyInjector = \Phalcon\Di::getDefault();
+				let dependencyInjector = Di::getDefault();
 			}
 
 			if typeof dependencyInjector != "object" {
@@ -220,7 +218,7 @@ class Tag
 
 			let dependencyInjector = <DiInterface> self::_dependencyInjector;
 			if typeof dependencyInjector != "object" {
-				let dependencyInjector = \Phalcon\Di::getDefault();
+				let dependencyInjector = Di::getDefault();
 			}
 
 			if typeof dependencyInjector != "object" {

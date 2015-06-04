@@ -225,13 +225,8 @@ abstract class Pdo extends Adapter
 	 *	$resultset = $connection->query("SELECT * FROM robots WHERE type='mechanical'");
 	 *	$resultset = $connection->query("SELECT * FROM robots WHERE type=?", array("mechanical"));
 	 *</code>
-	 *
-	 * @param  string sqlStatement
-	 * @param  array bindParams
-	 * @param  array bindTypes
-	 * @return Phalcon\Db\ResultInterface|bool
 	 */
-	public function query(string! sqlStatement, array bindParams = null, bindTypes = null) -> <ResultInterface> | boolean
+	public function query(string! sqlStatement, var bindParams = null, var bindTypes = null) -> <ResultInterface> | boolean
 	{
 		var eventsManager, pdo, statement;
 
@@ -281,13 +276,8 @@ abstract class Pdo extends Adapter
 	 *	$success = $connection->execute("INSERT INTO robots VALUES (1, 'Astro Boy')");
 	 *	$success = $connection->execute("INSERT INTO robots VALUES (?, ?)", array(1, 'Astro Boy'));
 	 *</code>
-	 *
-	 * @param  string sqlStatement
-	 * @param  array bindParams
-	 * @param  array bindTypes
-	 * @return boolean
 	 */
-	public function execute(string! sqlStatement, array bindParams = null, bindTypes = null) -> boolean
+	public function execute(string! sqlStatement, var bindParams = null, var bindTypes = null) -> boolean
 	{
 		var eventsManager, affectedRows, pdo, newStatement, statement;
 
@@ -421,7 +411,6 @@ abstract class Pdo extends Adapter
 				}
 
 				let placeHolders[] = value;
-
 			}
 
 			let boundSql = preg_replace(bindPattern, "?", sql);

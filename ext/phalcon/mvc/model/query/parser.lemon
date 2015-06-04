@@ -461,7 +461,7 @@ static zval *phql_ret_func_call(phql_parser_token *name, zval *arguments, zval *
 	if (arguments) {
 		add_assoc_zval(ret, "arguments", arguments);
 	}
-	
+
 	if (distinct) {
 		add_assoc_zval(ret, "distinct", distinct);
 	}
@@ -849,7 +849,7 @@ where_clause(R) ::= . {
 	R = NULL;
 }
 
-%destructor order_clause { zephir_safe_zval_ptr_dtor($$); } 
+%destructor order_clause { zephir_safe_zval_ptr_dtor($$); }
 
 order_clause(R) ::= ORDER BY order_list(O) . {
 	R = O;
@@ -1053,6 +1053,10 @@ expr(R) ::= expr(E) NOT IN PARENTHESES_OPEN argument_list(L) PARENTHESES_CLOSE .
 	R = phql_ret_expr(PHQL_T_NOTIN, E, L);
 }
 
+expr(R) ::= PARENTHESES_OPEN select_statement(S) PARENTHESES_CLOSE . {
+	R = phql_ret_expr(PHQL_T_SUBQUERY, S, NULL);
+}
+
 expr(R) ::= expr(E) IN PARENTHESES_OPEN select_statement(S) PARENTHESES_CLOSE . {
 	R = phql_ret_expr(PHQL_T_IN, E, S);
 }
@@ -1184,14 +1188,6 @@ expr(R) ::= SPLACEHOLDER(P) . {
 }
 
 %destructor qualified_name { zval_ptr_dtor(&$$); }
-
-qualified_name(R) ::= IDENTIFIER(A) COLON IDENTIFIER(B) DOT IDENTIFIER(C) . {
-	R = phql_ret_qualified_name(A, B, C);
-}
-
-qualified_name(R) ::= IDENTIFIER(A) COLON IDENTIFIER(B) . {
-	R = phql_ret_qualified_name(A, NULL, B);
-}
 
 qualified_name(R) ::= IDENTIFIER(A) DOT IDENTIFIER(B) . {
 	R = phql_ret_qualified_name(NULL, A, B);

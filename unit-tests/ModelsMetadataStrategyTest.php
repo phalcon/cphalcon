@@ -9,7 +9,7 @@
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
   |                                                                        |
-  | If you did not receive a copy of the licnse and are unable to         |
+  | If you did not receive a copy of the licnse and are unable to          |
   | obtain it through the world-wide-web, please send an email             |
   | to license@phalconphp.com so we can send you a copy immediately.       |
   +------------------------------------------------------------------------+
@@ -75,6 +75,7 @@ class ModelsMetadataStrategyTest extends PHPUnit_Framework_TestCase
 			'type' => 'mechanical',
 			'year' => 1900
 		),
+		13 => array()
 	);
 
 	public function __construct()
@@ -171,5 +172,4 @@ class ModelsMetadataStrategyTest extends PHPUnit_Framework_TestCase
 		$meta = $metaData->readMetaData($robots);
 		$this->assertEquals($meta, $this->_expectedMeta);
 	}
-
 }

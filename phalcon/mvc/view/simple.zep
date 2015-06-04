@@ -627,10 +627,8 @@ class Simple extends Injectable implements ViewBaseInterface
 
 	/**
 	 * Returns cached output from another view stage
-	 *
-	 * @return string
 	 */
-	public function getContent()
+	public function getContent() -> string
 	{
 		return this->_content;
 	}

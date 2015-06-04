@@ -21,6 +21,7 @@ namespace Phalcon\Mvc;
 
 use Phalcon\Text;
 use Phalcon\Db\Column;
+use Phalcon\Di;
 use Phalcon\DiInterface;
 use Phalcon\Mvc\Model\Message;
 use Phalcon\Mvc\Model\ResultInterface;
@@ -33,6 +34,7 @@ use Phalcon\Mvc\Model\Criteria;
 use Phalcon\Mvc\Model\CriteriaInterface;
 use Phalcon\Mvc\Model\TransactionInterface;
 use Phalcon\Mvc\Model\Resultset;
+use Phalcon\Mvc\Model\Query;
 use Phalcon\Mvc\Model\Query\Builder;
 use Phalcon\Mvc\Model\Relation;
 use Phalcon\Mvc\Model\RelationInterface;
@@ -126,7 +128,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 		 * We use a default DI if the user doesn't define one
 		 */
 		if typeof dependencyInjector != "object" {
-			let dependencyInjector = \Phalcon\Di::getDefault();
+			let dependencyInjector = Di::getDefault();
 		}
 
 		if typeof dependencyInjector != "object" {
@@ -693,7 +695,9 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 */
 	public static function find(var parameters = null) -> <ResultsetInterface>
 	{
-		var params, builder, query, bindParams, bindTypes, cache, resultset, hydration;
+		var params, builder, query, bindParams, bindTypes, cache, resultset, hydration, dependencyInjector, manager;
+		let dependencyInjector = \Phalcon\Di::getDefault();
+		let manager = <ManagerInterface> dependencyInjector->getShared("modelsManager");
 
 		if typeof parameters != "array" {
 			let params = [];
@@ -707,7 +711,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 		/**
 		 * Builds a query with the passed parameters
 		 */
-		let builder = new Builder(params);
+		let builder = manager->createBuilder(params);
 		builder->from(get_called_class());
 
 		let query = builder->getQuery();
@@ -769,7 +773,9 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 */
 	public static function findFirst(parameters = null) -> <Model>
 	{
-		var params, builder, query, bindParams, bindTypes, cache, resultset, hydration;
+		var params, builder, query, bindParams, bindTypes, cache, resultset, hydration, dependencyInjector, manager;
+		let dependencyInjector = \Phalcon\Di::getDefault();
+		let manager = <ManagerInterface> dependencyInjector->getShared("modelsManager");
 
 		if typeof parameters != "array" {
 			let params = [];
@@ -783,7 +789,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 		/**
 		 * Builds a query with the passed parameters
 		 */
-		let builder = new Builder(params);
+		let builder = manager->createBuilder(params);
 		builder->from(get_called_class());
 
 		/**
@@ -840,16 +846,16 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 		 * Use the global dependency injector if there is no one defined
 		 */
 		if typeof dependencyInjector != "object" {
-			let dependencyInjector = \Phalcon\Di::getDefault();
+			let dependencyInjector = Di::getDefault();
 		}
 
 		/**
 		 * Gets Criteria instance from DI container
 		 */
 		if dependencyInjector instanceof DiInterface {
-			let criteria = <CriteriaInterface> dependencyInjector->get("\Phalcon\Mvc\Model\Criteria");
+			let criteria = <CriteriaInterface> dependencyInjector->get("Phalcon\\Mvc\\Model\\Criteria");
 		} else {
-			let criteria = new \Phalcon\Mvc\Model\Criteria();
+			let criteria = new Criteria();
 			criteria->setDI(dependencyInjector);
 		}
 
@@ -1019,7 +1025,9 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	{
 		var params, distinctColumn, groupColumn, columns,
 			bindParams, bindTypes, resultset, cache, firstRow, groupColumns,
-			builder, query;
+			builder, query, dependencyInjector, manager;
+		let dependencyInjector = \Phalcon\Di::getDefault();
+		let manager = <ManagerInterface> dependencyInjector->getShared("modelsManager");
 
 		if typeof parameters != "array" {
 			let params = [];
@@ -1050,7 +1058,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 		/**
 		 * Builds a query with the passed parameters
 		 */
-		let builder = new Builder(params);
+		let builder = manager->createBuilder(params);
 		builder->columns(columns);
 		builder->from(get_called_class());
 
@@ -1399,9 +1407,9 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	{
 		var manager, belongsTo, foreignKey, relation, conditions,
 			position, bindParams, extraConditions, message, fields,
-			referencedFields, field, referencedModel, value;
-		int action;
-		boolean error;
+			referencedFields, field, referencedModel, value, allowNulls;
+		int action, numberNull;
+		boolean error, validateWithNulls = false;
 
 		/**
 		 * Get the models manager
@@ -1449,7 +1457,8 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 						 */
 						let conditions = [], bindParams = [];
 
-						let fields = relation->getFields(),
+						let numberNull = 0,
+							fields = relation->getFields(),
 							referencedFields = relation->getReferencedFields();
 
 						if typeof fields == "array" {
@@ -1460,11 +1469,22 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 								fetch value, this->{field};
 								let conditions[] = "[" . referencedFields[position] . "] = ?" . position,
 									bindParams[] = value;
+								if typeof value == "null" {
+									let numberNull++;
+								}
 							}
+
+							let validateWithNulls = numberNull == count(fields);
+
 						} else {
+
 							fetch value, this->{fields};
 							let conditions[] = "[" . referencedFields . "] = ?0",
 								bindParams[] = value;
+
+							if typeof value == "null" {
+								let validateWithNulls = true;
+							}
 						}
 
 						/**
@@ -1475,10 +1495,21 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 						}
 
 						/**
+						 * Check if the relation definition allows nulls
+						 */
+						if validateWithNulls {
+							if fetch allowNulls, foreignKey["allowNulls"] {
+								let validateWithNulls = (boolean) allowNulls;
+							} else {
+								let validateWithNulls = false;
+							}
+						}
+
+						/**
 						 * We don't trust the actual values in the object and pass the values using bound parameters
 						 * Let's make the checking
 						 */
-						if !referencedModel->count([join(" AND ", conditions), "bind": bindParams]) {
+						if !validateWithNulls && !referencedModel->count([join(" AND ", conditions), "bind": bindParams]) {
 
 							/**
 							 * Get the user message or produce a new one
@@ -1524,7 +1555,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	protected function _checkForeignKeysReverseCascade() -> boolean
 	{
 		var manager, relations, relation, foreignKey,
-			resulset, conditions, bindParams, referencedModel,
+			resultset, conditions, bindParams, referencedModel,
 			referencedFields, fields, field, position, value,
 			extraConditions;
 		int action;
@@ -1604,7 +1635,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 						 * We don't trust the actual values in the object and then we're passing the values using bound parameters
 						 * Let's make the checking
 						 */
-						let resulset = referencedModel->find([
+						let resultset = referencedModel->find([
 							join(" AND ", conditions),
 							"bind": bindParams
 						]);
@@ -1613,7 +1644,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 						 * Delete the resultset
 						 * Stop the operation if needed
 						 */
-						if resulset->delete() === false {
+						if resultset->delete() === false {
 							return false;
 						}
 					}
@@ -1692,11 +1723,13 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 						let conditions = [], bindParams = [];
 
 						if typeof fields == "array" {
+
 							for position, field in fields {
 								fetch value, this->{field};
 								let conditions[] = "[" . referencedFields[position] . "] = ?" . position,
 									bindParams[] = value;
 							}
+
 						} else {
 							fetch value, this->{fields};
 							let conditions[] = "[" . referencedFields . "] = ?0",
@@ -1751,15 +1784,11 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 
 	/**
 	 * Executes internal hooks before save a record
-	 *
-	 * @param Phalcon\Mvc\Model\MetadataInterface metaData
-	 * @param boolean exists
-	 * @param string identityField
-	 * @return boolean
 	 */
 	protected function _preSave(<MetadataInterface> metaData, boolean exists, var identityField) -> boolean
 	{
-		var notNull, columnMap, dataTypeNumeric, automaticAttributes, defaultValues, field, attributeField, value;
+		var notNull, columnMap, dataTypeNumeric, automaticAttributes, defaultValues,
+			field, attributeField, value, emptyStringValues;
 		boolean error, isNull;
 
 		/**
@@ -1826,6 +1855,11 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 					let defaultValues = metaData->getDefaultValues(this);
 				}
 
+				/**
+				 * Get string attributes that allow empty strings as defaults
+				 */
+				let emptyStringValues = metaData->getEmptyStringAttributes(this);
+
 				let error = false;
 				for field in notNull {
 
@@ -1855,8 +1889,14 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 							 */
 							if typeof value != "object" {
 								if !isset dataTypeNumeric[field] {
-									if value === null || value === "" {
-										let isNull = true;
+									if isset emptyStringValues[field] {
+										if value === null {
+											let isNull = true;
+										}
+									} else {
+										if value === null || value === "" {
+											let isNull = true;
+										}
 									}
 								} else {
 									if !is_numeric(value) {
@@ -1864,6 +1904,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 									}
 								}
 							}
+
 						} else {
 							let isNull = true;
 						}
@@ -1997,13 +2038,14 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 * @return boolean
 	 */
 	protected function _doLowInsert(<MetadataInterface> metaData, <AdapterInterface> connection,
-		table, identityField)
+		table, identityField) -> boolean
 	{
 		var bindSkip, fields, values, bindTypes, attributes, bindDataTypes, automaticAttributes,
-			field, columnMap, value, attributeField, success, bindType, defaultValue, sequenceName;
+			field, columnMap, value, attributeField, success, bindType,
+			defaultValue, sequenceName, defaultValues;
 		boolean useExplicitIdentity;
 
-		let bindSkip = \Phalcon\Db\Column::BIND_SKIP;
+		let bindSkip = Column::BIND_SKIP;
 
 		let fields = [],
 			values = [],
@@ -2011,7 +2053,8 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 
 		let attributes = metaData->getAttributes(this),
 			bindDataTypes = metaData->getBindTypes(this),
-			automaticAttributes = metaData->getAutomaticCreateAttributes(this);
+			automaticAttributes = metaData->getAutomaticCreateAttributes(this),
+			defaultValues = metaData->getDefaultValues(this);
 
 		if globals_get("orm.column_renaming") {
 			let columnMap = metaData->getColumnMap(this);
@@ -2049,6 +2092,10 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 					 */
 					if fetch value, this->{attributeField} {
 
+						if value === null && isset defaultValues[field] {
+							let value = defaultValues[field];
+						}
+
 						/**
 						 * Every column must have a bind data type defined
 						 */
@@ -2058,7 +2105,11 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 
 						let values[] = value, bindTypes[] = bindType;
 					} else {
-						let values[] = null, bindTypes[] = bindSkip;
+
+						let bindTypes[] = bindSkip;
+
+						fetch value, defaultValues[field];
+						let values[] = value;
 					}
 				}
 			}
@@ -2171,7 +2222,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 			snapshot, nonPrimary, columnMap, attributeField, value, primaryKeys, bindType;
 		boolean useDynamicUpdate, changed;
 
-		let bindSkip = \Phalcon\Db\Column::BIND_SKIP,
+		let bindSkip = Column::BIND_SKIP,
 			fields = [],
 			values = [],
 			bindTypes = [],
@@ -3134,9 +3185,6 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 * <code>
 	 * echo $robot->readAttribute('name');
 	 * </code>
-	 *
-	 * @param string attribute
-	 * @return mixed
 	 */
 	public function readAttribute(string! attribute)
 	{
@@ -3150,14 +3198,11 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	/**
 	 * Writes an attribute value by its name
 	 *
-	 * <code>
+	 *<code>
 	 * 	$robot->writeAttribute('name', 'Rosey');
-	 * </code>
-	 *
-	 * @param string attribute
-	 * @param mixed value
+	 *</code>
 	 */
-	public function writeAttribute(string! attribute, value)
+	public function writeAttribute(string! attribute, var value)
 	{
 		let this->{attribute} = value;
 	}
@@ -3176,7 +3221,6 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 *   {
 	 *       $this->skipAttributes(array('price'));
 	 *   }
-	 *
 	 *}
 	 *</code>
 	 */
@@ -3208,7 +3252,6 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 *   {
 	 *       $this->skipAttributesOnCreate(array('created_at'));
 	 *   }
-	 *
 	 *}
 	 *</code>
 	 */
@@ -3238,7 +3281,6 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 *   {
 	 *       $this->skipAttributesOnUpdate(array('modified_in'));
 	 *   }
-	 *
 	 *}
 	 *</code>
 	 */
@@ -3255,6 +3297,35 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	}
 
 	/**
+	 * Sets a list of attributes that must be skipped from the
+	 * generated UPDATE statement
+	 *
+	 *<code>
+	 *<?php
+	 *
+	 *class Robots extends \Phalcon\Mvc\Model
+	 *{
+	 *
+	 *   public function initialize()
+	 *   {
+	 *       $this->allowEmptyStringValues(array('name'));
+	 *   }
+	 *}
+	 *</code>
+	 */
+	protected function allowEmptyStringValues(array! attributes) -> void
+	{
+		var keysAttributes, attribute;
+
+		let keysAttributes = [];
+		for attribute in attributes {
+			let keysAttributes[attribute] = null;
+		}
+
+		this->getModelsMetaData()->setEmptyStringAttributes(this, keysAttributes);
+	}
+
+	/**
 	 * Setup a 1-1 relation between two models
 	 *
 	 *<code>
@@ -3267,15 +3338,8 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 *   {
 	 *       $this->hasOne('id', 'RobotsDescription', 'robots_id');
 	 *   }
-	 *
 	 *}
 	 *</code>
-	 *
-	 * @param	mixed fields
-	 * @param	string referenceModel
-	 * @param	mixed referencedFields
-	 * @param   array options
-	 * @return  Phalcon\Mvc\Model\Relation
 	 */
 	protected function hasOne(var fields, string! referenceModel, var referencedFields, options = null) -> <Relation>
 	{
@@ -3298,12 +3362,6 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 *
 	 *}
 	 *</code>
-	 *
-	 * @param	mixed fields
-	 * @param	string referenceModel
-	 * @param	mixed referencedFields
-	 * @param   array options
-	 * @return  Phalcon\Mvc\Model\Relation
 	 */
 	protected function belongsTo(var fields, string! referenceModel, var referencedFields, options = null) -> <Relation>
 	{
@@ -3323,15 +3381,8 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 *   {
 	 *       $this->hasMany('id', 'RobotsParts', 'robots_id');
 	 *   }
-	 *
 	 *}
 	 *</code>
-	 *
-	 * @param	mixed fields
-	 * @param	string referenceModel
-	 * @param	mixed referencedFields
-	 * @param   array options
-	 * @return  Phalcon\Mvc\Model\Relation
 	 */
 	protected function hasMany(var fields, string! referenceModel, var referencedFields, options = null) -> <Relation>
 	{
@@ -4091,7 +4142,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 			/**
 			 * Obtain the default DI
 			 */
-			let dependencyInjector = \Phalcon\Di::getDefault();
+			let dependencyInjector = Di::getDefault();
 			if typeof dependencyInjector != "object" {
 				throw new Exception("A dependency injector container is required to obtain the services related to the ORM");
 			}

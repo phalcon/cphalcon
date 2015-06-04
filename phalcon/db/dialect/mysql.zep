@@ -159,7 +159,7 @@ class MySQL extends Dialect
 	 */
 	public function addColumn(string! tableName, string! schemaName, <ColumnInterface> column) -> string
 	{
-		var afterPosition, sql, defaultValue;		
+		var afterPosition, sql, defaultValue;
 
 		if schemaName {
 			let sql = "ALTER TABLE `" . schemaName . "`.`" . tableName . "` ADD ";
@@ -557,9 +557,9 @@ class MySQL extends Dialect
 	public function tableExists(string! tableName, string schemaName = null) -> string
 	{
 		if schemaName {
-			return "SELECT IF(COUNT(*)>0, 1 , 0) FROM `INFORMATION_SCHEMA`.`TABLES` WHERE `TABLE_NAME`= '" . tableName . "' AND `TABLE_SCHEMA` = '" . schemaName . "'";
+			return "SELECT IF(COUNT(*) > 0, 1, 0) FROM `INFORMATION_SCHEMA`.`TABLES` WHERE `TABLE_NAME`= '" . tableName . "' AND `TABLE_SCHEMA` = '" . schemaName . "'";
 		}
-		return "SELECT IF(COUNT(*)>0, 1 , 0) FROM `INFORMATION_SCHEMA`.`TABLES` WHERE `TABLE_NAME` = '" . tableName . "' AND `TABLE_SCHEMA` = DATABASE()";
+		return "SELECT IF(COUNT(*) > 0, 1, 0) FROM `INFORMATION_SCHEMA`.`TABLES` WHERE `TABLE_NAME` = '" . tableName . "' AND `TABLE_SCHEMA` = DATABASE()";
 	}
 
 	/**
@@ -568,9 +568,9 @@ class MySQL extends Dialect
 	public function viewExists(string! viewName, string schemaName = null) -> string
 	{
 		if schemaName {
-			return "SELECT IF(COUNT(*)>0, 1 , 0) FROM `INFORMATION_SCHEMA`.`VIEWS` WHERE `TABLE_NAME`= '" . viewName . "' AND `TABLE_SCHEMA`='" . schemaName . "'";
+			return "SELECT IF(COUNT(*) > 0, 1, 0) FROM `INFORMATION_SCHEMA`.`VIEWS` WHERE `TABLE_NAME`= '" . viewName . "' AND `TABLE_SCHEMA`='" . schemaName . "'";
 		}
-		return "SELECT IF(COUNT(*)>0, 1 , 0) FROM `INFORMATION_SCHEMA`.`VIEWS` WHERE `TABLE_NAME`='" . viewName . "'";
+		return "SELECT IF(COUNT(*) > 0, 1, 0) FROM `INFORMATION_SCHEMA`.`VIEWS` WHERE `TABLE_NAME`='" . viewName . "'";
 	}
 
 	/**

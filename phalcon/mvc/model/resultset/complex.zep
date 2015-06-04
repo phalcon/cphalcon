@@ -49,7 +49,7 @@ class Complex extends Resultset implements ResultsetInterface
 	 * @param Phalcon\Db\ResultInterface result
 	 * @param Phalcon\Cache\BackendInterface cache
 	 */
-	public function __construct(var columnTypes, result, <BackendInterface> cache = null)
+	public function __construct(var columnTypes, <\Phalcon\Db\ResultInterface> result = null, <BackendInterface> cache = null)
 	{
 		/**
 		 * Column types, tell the resultset how to build the result
@@ -64,7 +64,7 @@ class Complex extends Resultset implements ResultsetInterface
 	 */
 	public final function current() -> <ModelInterface> | boolean
 	{
-		var row, underscore, hydrateMode,
+		var row, hydrateMode,
 			dirtyState, alias, activeRow, type, columnTypes,
 			column, columnValue, value, attribute, source, attributes,
 			columnMap, rowModel, keepSnapshots, sqlAlias;
@@ -81,7 +81,7 @@ class Complex extends Resultset implements ResultsetInterface
 		let row = this->_row;
 
 		/**
-		 * Resulset was unserialized, we do not need to hydrate
+		 * Resultset was unserialized, we do not need to hydrate
 		 */
 		if this->_disableHydration {
 			let this->_activeRow = row;
@@ -100,8 +100,6 @@ class Complex extends Resultset implements ResultsetInterface
 		 * Get current hydration mode
 		 */
 		let hydrateMode = this->_hydrateMode;
-
-		let underscore = "_";
 
 		/**
 		 * Each row in a complex result is a Phalcon\Mvc\Model\Row instance
@@ -157,7 +155,7 @@ class Complex extends Resultset implements ResultsetInterface
 					/**
 					 * Columns are supposed to be in the form _table_field
 					 */
-					let columnValue = row[underscore . source . underscore. attribute],
+					let columnValue = row["_" . source . "_". attribute],
 						rowModel[attribute] = columnValue;
 				}
 
@@ -212,7 +210,7 @@ class Complex extends Resultset implements ResultsetInterface
 				if isset column["balias"] {
 					let attribute = alias;
 				} else {
-					let attribute = str_replace(underscore, "", alias);
+					let attribute = str_replace("_", "", alias);
 				}
 			}
 
@@ -254,10 +252,8 @@ class Complex extends Resultset implements ResultsetInterface
 
 	/**
 	 * Serializing a resultset will dump all related rows into a big array
-	 *
-	 * @return string
 	 */
-	public function serialize()
+	public function serialize() -> string
 	{
 		var records, cache, columnTypes, hydrateMode, serialized;
 
@@ -276,13 +272,6 @@ class Complex extends Resultset implements ResultsetInterface
 			"columnTypes" : columnTypes,
 			"hydrateMode" : hydrateMode
 		]);
-
-		/**
-		 * Avoid return bad serialized data
-		 */
-		if typeof serialized != "string" {
-			return null;
-		}
 
 		return serialized;
 	}

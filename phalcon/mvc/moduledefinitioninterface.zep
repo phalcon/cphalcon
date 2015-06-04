@@ -38,5 +38,4 @@ interface ModuleDefinitionInterface
 	 * Registers services related to the module
 	 */
 	public function registerServices(<DiInterface> dependencyInjector);
-
 }

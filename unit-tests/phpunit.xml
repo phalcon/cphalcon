@@ -19,6 +19,7 @@
 			<file>unit-tests/BeanstalkTest.php</file>
 			<file>unit-tests/CacheResultsetTest.php</file>
 			<file>unit-tests/CacheTest.php</file>
+			<file>unit-tests/CollectionsBehaviorsTest.php</file>
 			<file>unit-tests/CollectionsEventsTest.php</file>
 			<file>unit-tests/CollectionsSerializeTest.php</file>
 			<file>unit-tests/CollectionsTest.php</file>

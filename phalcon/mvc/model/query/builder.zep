@@ -19,6 +19,7 @@
 
 namespace Phalcon\Mvc\Model\Query;
 
+use Phalcon\Di;
 use Phalcon\DiInterface;
 use Phalcon\Mvc\Model\Query;
 use Phalcon\Mvc\Model\Exception;
@@ -63,6 +64,8 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 
 	protected _joins;
 
+	protected _with;
+
 	protected _conditions;
 
 	protected _group;
@@ -89,9 +92,6 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 
 	/**
 	 * Phalcon\Mvc\Model\Query\Builder constructor
-	 *
-	 * @param array params
-	 * @param Phalcon\DiInterface dependencyInjector
 	 */
 	public function __construct(var params = null, <DiInterface> dependencyInjector = null)
 	{
@@ -99,7 +99,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 			forUpdate, sharedLock, orderClause, offsetClause, joinsClause,
 			singleConditionArray, limit, offset, fromClause,
 			mergedConditions, mergedParams, mergedTypes,
-			singleCondition, singleParams, singleTypes;
+			singleCondition, singleParams, singleTypes, with;
 
 		if typeof params == "array" {
 
@@ -165,6 +165,13 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 			 */
 			if fetch joinsClause, params["joins"] {
 				let this->_joins = joinsClause;
+			}
+
+			/**
+			 * Check if the resultset must be eager loaded
+			 */
+			if fetch with, params["with"] {
+				let this->_with = with;
 			}
 
 			/**
@@ -908,7 +915,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 *
 	 * @return string
 	 */
-	public function getPhql()
+	public final function getPhql() -> string
 	{
 		var dependencyInjector, models, conditions, model, metaData,
 			modelInstance, primaryKeys, firstPrimaryKey, columnMap, modelAlias,
@@ -916,12 +923,12 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 			selectedModel, selectedModels, columnAlias, modelColumnAlias,
 			joins, join, joinModel, joinConditions, joinAlias, joinType, group,
 			groupItems, groupItem, having, order, orderItems, orderItem,
-			limit, number, offset, distinct;
+			limit, number, offset, distinct, withModels;
 		boolean noPrimary;
 
 		let dependencyInjector = this->_dependencyInjector;
 		if typeof dependencyInjector != "object" {
-			let dependencyInjector = \Phalcon\Di::getDefault(),
+			let dependencyInjector = Di::getDefault(),
 				this->_dependencyInjector = dependencyInjector;
 		}
 
@@ -1011,6 +1018,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 			 * Generate PHQL for columns
 			 */
 			if typeof columns == "array" {
+
 				let selectedColumns = [];
 				for columnAlias, column in columns {
 					if typeof columnAlias == "integer" {
@@ -1019,7 +1027,9 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 						let selectedColumns[] = column . " AS " . columnAlias;
 					}
 				}
+
 				let phql .= join(", ", selectedColumns);
+
 			} else {
 				let phql .= columns;
 			}
@@ -1030,6 +1040,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 			 * Automatically generate an array of models
 			 */
 			if typeof models == "array" {
+
 				let selectedColumns = [];
 				for modelColumnAlias, model in models {
 					if typeof modelColumnAlias == "integer" {
@@ -1039,28 +1050,58 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 					}
 					let selectedColumns[] = selectedColumn;
 				}
+
 				let phql .= join(", ", selectedColumns);
 			} else {
 				let phql .= "[" . models . "].*";
 			}
 		}
 
+		let withModels = this->_with;
+		if typeof withModels == "array" {
+
+			let selectedColumns = [];
+			for model in withModels {
+				let selectedColumns[] = "[" . model . "].*";
+			}
+
+			let phql .= ", " . join(", ", selectedColumns);
+		}
+
 		/**
 		 * Join multiple models or use a single one if it is a string
 		 */
 		if typeof models == "array" {
+
 			let selectedModels = [];
 			for modelAlias, model in models {
+
 				if typeof modelAlias == "string" {
-					let selectedModel = "[" . model . "] AS [" . modelAlias . "]";
+					if memstr(model, "[") {
+						let selectedModel = model . " AS [" . modelAlias . "]";
+					} else {
+						let selectedModel = "[" . model . "] AS [" . modelAlias . "]";
+					}
 				} else {
-					let selectedModel = "[" . model . "]";
+					if memstr(model, "[") {
+						let selectedModel = model;
+					} else {
+						let selectedModel = "[" . model . "]";
+					}
 				}
+
 				let selectedModels[] = selectedModel;
 			}
+
 			let phql .= " FROM " . join(", ", selectedModels);
+
 		} else {
-			let phql .= " FROM [" . models . "]";
+
+			if memstr(models, "[") {
+				let phql .= " FROM " . models . "";
+			} else {
+				let phql .= " FROM [" . models . "]";
+			}
 		}
 
 		/**
@@ -1095,9 +1136,17 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 				 * Create the join according to the type
 				 */
 				if joinType {
-					let phql .= " " . joinType . " JOIN [" . joinModel . "]";
+					if memstr(joinModel, "[") {
+						let phql .= " " . joinType . " JOIN " . joinModel;
+					} else {
+						let phql .= " " . joinType . " JOIN [" . joinModel . "]";
+					}
 				} else {
-					let phql .= " JOIN [" . joinModel . "]";
+					if memstr(joinModel, "[") {
+						let phql .= " JOIN " . joinModel . "";
+					} else {
+						let phql .= " JOIN [" . joinModel . "]";
+					}
 				}
 
 				/**
@@ -1154,9 +1203,9 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 						if memstr(group, ",") {
 							let group = str_replace(" ", "", group);
 							let groupItems = explode(",", group);
-							let phql .= " GROUP BY [".join("], [", groupItems)."]";
+							let phql .= " GROUP BY [" . join("], [", groupItems) . "]";
 						} else {
-							let phql .= " GROUP BY [".group."]";
+							let phql .= " GROUP BY [" . group . "]";
 						}
 					}
 				}
@@ -1231,7 +1280,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	/**
 	 * Returns the query built
 	 */
-	public function getQuery() -> <\Phalcon\Mvc\Model\Query>
+	public function getQuery() -> <Query>
 	{
 		var query, bindParams, bindTypes;
 
@@ -1255,5 +1304,4 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 
 		return query;
 	}
-
 }

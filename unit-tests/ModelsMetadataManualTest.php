@@ -83,7 +83,5 @@ class ModelsMetadataManualTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($pnpkAttributes, $npkAttributes);
 
 		$this->assertEquals($metaData->getIdentityField($robotto), 'id');
-
 	}
-
 }

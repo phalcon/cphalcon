@@ -188,7 +188,7 @@ PHP_METHOD(Phalcon_Logger_Formatter_Firephp, format) {
 		ZVAL_STRING(&_3, "5.3.6", 0);
 		ZEPHIR_SINIT_VAR(_4);
 		ZVAL_STRING(&_4, "<", 0);
-		ZEPHIR_CALL_FUNCTION(&_0, "version_compare", NULL, 230, _1, &_3, &_4);
+		ZEPHIR_CALL_FUNCTION(&_0, "version_compare", NULL, 231, _1, &_3, &_4);
 		zephir_check_call_status();
 		if (!(zephir_is_true(_0))) {
 			param = (2) ? 1 : 0;
@@ -196,7 +196,7 @@ PHP_METHOD(Phalcon_Logger_Formatter_Firephp, format) {
 		ZEPHIR_CALL_FUNCTION(&backtrace, "debug_backtrace", NULL, 116, (param ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)));
 		zephir_check_call_status();
 		Z_SET_ISREF_P(backtrace);
-		ZEPHIR_CALL_FUNCTION(&lastTrace, "end", NULL, 135, backtrace);
+		ZEPHIR_CALL_FUNCTION(&lastTrace, "end", NULL, 136, backtrace);
 		Z_UNSET_ISREF_P(backtrace);
 		zephir_check_call_status();
 		if (zephir_array_isset_string(lastTrace, SS("file"))) {
@@ -252,11 +252,11 @@ PHP_METHOD(Phalcon_Logger_Formatter_Firephp, format) {
 			zephir_array_update_string(&body, SL("message"), &message, PH_COPY | PH_SEPARATE);
 		}
 	}
-	ZEPHIR_INIT_VAR(encoded);
 	ZEPHIR_INIT_VAR(_18);
 	zephir_create_array(_18, 2, 0 TSRMLS_CC);
 	zephir_array_fast_append(_18, meta);
 	zephir_array_fast_append(_18, body);
+	ZEPHIR_INIT_VAR(encoded);
 	zephir_json_encode(encoded, &(encoded), _18, 0  TSRMLS_CC);
 	ZEPHIR_INIT_VAR(len);
 	ZVAL_LONG(len, zephir_fast_strlen_ev(encoded));

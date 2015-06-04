@@ -826,7 +826,7 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionObject) {
 	zephir_create_array(objectExpression, 1, 0 TSRMLS_CC);
 	add_assoc_stringl_ex(objectExpression, SS("type"), SL("all"), 1);
 	ZEPHIR_OBS_NVAR(domain);
-	_0 = zephir_array_isset_string_fetch(&domain, expression, SS("balias"), 0 TSRMLS_CC);
+	_0 = zephir_array_isset_string_fetch(&domain, expression, SS("column"), 0 TSRMLS_CC);
 	if (!(_0)) {
 		ZEPHIR_OBS_NVAR(domain);
 		_0 = zephir_array_isset_string_fetch(&domain, expression, SS("domain"), 0 TSRMLS_CC);

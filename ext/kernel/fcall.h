@@ -192,39 +192,68 @@ typedef enum _zephir_call_type {
 
 #define ZEPHIR_RETURN_CALL_INTERNAL_METHOD_P0(object, method) \
 	do { \
-		zval *ZEPHIR_OLD_THIS_PTR = this_ptr; \
+		zval *old_this_ptr = this_ptr; \
 		EG(This) = object; \
 		method(0, return_value, return_value_ptr, object, 1 TSRMLS_CC); \
 		ZEPHIR_LAST_CALL_STATUS = EG(exception) ? FAILURE : SUCCESS; \
-		EG(This) = ZEPHIR_OLD_THIS_PTR; \
+		EG(This) = old_this_ptr; \
 	} while (0)
 
 #define ZEPHIR_RETURN_CALL_INTERNAL_METHOD_P1(object, method, p1) \
 	do { \
-		zval *ZEPHIR_OLD_THIS_PTR = this_ptr; \
+		zval *old_this_ptr = this_ptr; \
 		EG(This) = object; \
+		Z_ADDREF_P(p1); \
 		method(0, return_value, return_value_ptr, object, 1, p1 TSRMLS_CC); \
 		ZEPHIR_LAST_CALL_STATUS = EG(exception) ? FAILURE : SUCCESS; \
-		EG(This) = ZEPHIR_OLD_THIS_PTR; \
+		Z_DELREF_P(p1); \
+		EG(This) = old_this_ptr; \
 	} while (0)
 
 
 #define ZEPHIR_RETURN_CALL_INTERNAL_METHOD_P2(object, method, p1, p2) \
 	do { \
-		zval *ZEPHIR_OLD_THIS_PTR = this_ptr; \
+		zval *old_this_ptr = this_ptr; \
 		EG(This) = object; \
+		Z_ADDREF_P(p1); \
+		Z_ADDREF_P(p2); \
 		method(0, return_value, return_value_ptr, object, 1, p1, p2 TSRMLS_CC); \
+		Z_DELREF_P(p1); \
+		Z_DELREF_P(p2); \
 		ZEPHIR_LAST_CALL_STATUS = EG(exception) ? FAILURE : SUCCESS; \
-		EG(This) = ZEPHIR_OLD_THIS_PTR; \
+		EG(This) = old_this_ptr; \
 	} while (0)
 
 #define ZEPHIR_RETURN_CALL_INTERNAL_METHOD_P3(object, method, p1, p2, p3) \
 	do { \
-		zval *ZEPHIR_OLD_THIS_PTR = this_ptr; \
+		zval *old_this_ptr = this_ptr; \
 		EG(This) = object; \
+		Z_ADDREF_P(p1); \
+		Z_ADDREF_P(p2); \
+		Z_ADDREF_P(p3); \
 		method(0, return_value, return_value_ptr, object, 1, p1, p2, p3 TSRMLS_CC); \
+		Z_DELREF_P(p1); \
+		Z_DELREF_P(p2); \
+		Z_DELREF_P(p3); \
 		ZEPHIR_LAST_CALL_STATUS = EG(exception) ? FAILURE : SUCCESS; \
-		EG(This) = ZEPHIR_OLD_THIS_PTR; \
+		EG(This) = old_this_ptr; \
+	} while (0)
+
+#define ZEPHIR_RETURN_CALL_INTERNAL_METHOD_P4(object, method, p1, p2, p3, p4) \
+	do { \
+		zval *old_this_ptr = this_ptr; \
+		EG(This) = object; \
+		Z_ADDREF_P(p1); \
+		Z_ADDREF_P(p2); \
+		Z_ADDREF_P(p3); \
+		Z_ADDREF_P(p4); \
+		method(0, return_value, return_value_ptr, object, 1, p1, p2, p3 TSRMLS_CC); \
+		Z_DELREF_P(p1); \
+		Z_DELREF_P(p2); \
+		Z_DELREF_P(p3); \
+		Z_DELREF_P(p4); \
+		ZEPHIR_LAST_CALL_STATUS = EG(exception) ? FAILURE : SUCCESS; \
+		EG(This) = old_this_ptr; \
 	} while (0)
 
 /**
@@ -232,94 +261,116 @@ typedef enum _zephir_call_type {
   */
 #define ZEPHIR_CALL_INTERNAL_METHOD_NORETURN_P0(object, method) \
 	do { \
-		zval *ZEPHIR_OLD_THIS_PTR = this_ptr; \
+		zval *old_this_ptr = this_ptr; \
 		zval *rv = NULL; \
 		zval **rvp = &rv; \
 		ALLOC_INIT_ZVAL(rv); \
 		EG(This) = object; \
 		method(0, rv, rvp, object, 0 TSRMLS_CC); \
 		ZEPHIR_LAST_CALL_STATUS = EG(exception) ? FAILURE : SUCCESS; \
-		EG(This) = ZEPHIR_OLD_THIS_PTR; \
+		EG(This) = old_this_ptr; \
 		zval_ptr_dtor(rvp); \
 	} while (0)
 
 #define ZEPHIR_CALL_INTERNAL_METHOD_NORETURN_P1(object, method, p1) \
 	do { \
-		zval *ZEPHIR_OLD_THIS_PTR = this_ptr; \
+		zval *old_this_ptr = this_ptr; \
 		zval *rv = NULL; \
 		zval **rvp = &rv; \
 		ALLOC_INIT_ZVAL(rv); \
 		EG(This) = object; \
+		Z_ADDREF_P(p1); \
 		method(0, rv, rvp, object, 0, p1 TSRMLS_CC); \
 		ZEPHIR_LAST_CALL_STATUS = EG(exception) ? FAILURE : SUCCESS; \
-		EG(This) = ZEPHIR_OLD_THIS_PTR; \
+		Z_DELREF_P(p1); \
+		EG(This) = old_this_ptr; \
 		zval_ptr_dtor(rvp); \
 	} while (0)
 
 #define ZEPHIR_CALL_INTERNAL_METHOD_NORETURN_P2(object, method, p1, p2) \
 	do { \
-		zval *ZEPHIR_OLD_THIS_PTR = this_ptr; \
+		zval *old_this_ptr = this_ptr; \
 		zval *rv = NULL; \
 		zval **rvp = &rv; \
 		ALLOC_INIT_ZVAL(rv); \
 		EG(This) = object; \
+		Z_ADDREF_P(p1); \
+		Z_ADDREF_P(p2); \
 		method(0, rv, rvp, object, 0, p1, p2 TSRMLS_CC); \
+		Z_DELREF_P(p1); \
+		Z_DELREF_P(p2); \
 		ZEPHIR_LAST_CALL_STATUS = EG(exception) ? FAILURE : SUCCESS; \
-		EG(This) = ZEPHIR_OLD_THIS_PTR; \
+		EG(This) = old_this_ptr; \
 		zval_ptr_dtor(rvp); \
 	} while (0)
-	
+
 #define ZEPHIR_CALL_INTERNAL_METHOD_NORETURN_P3(object, method, p1, p2, p3) \
 	do { \
-		zval *ZEPHIR_OLD_THIS_PTR = this_ptr; \
+		zval *old_this_ptr = this_ptr; \
 		zval *rv = NULL; \
 		zval **rvp = &rv; \
 		ALLOC_INIT_ZVAL(rv); \
 		EG(This) = object; \
+		Z_ADDREF_P(p1); \
+		Z_ADDREF_P(p2); \
+		Z_ADDREF_P(p3); \
 		method(0, rv, rvp, object, 0, p1, p2, p3 TSRMLS_CC); \
+		Z_DELREF_P(p1); \
+		Z_DELREF_P(p2); \
+		Z_DELREF_P(p3); \
 		ZEPHIR_LAST_CALL_STATUS = EG(exception) ? FAILURE : SUCCESS; \
-		EG(This) = ZEPHIR_OLD_THIS_PTR; \
+		EG(This) = old_this_ptr; \
 		zval_ptr_dtor(rvp); \
 	} while (0)
 
 #define ZEPHIR_CALL_INTERNAL_METHOD_P0(return_value_ptr, object, method) \
-		do { \
-			zval *ZEPHIR_OLD_THIS_PTR = this_ptr; \
-			EG(This) = object; \
-			ZEPHIR_INIT_NVAR(*return_value_ptr); \
-			method(0, *return_value_ptr, return_value_ptr, object, 1 TSRMLS_CC); \
-			ZEPHIR_LAST_CALL_STATUS = EG(exception) ? FAILURE : SUCCESS; \
-			EG(This) = ZEPHIR_OLD_THIS_PTR; \
-		} while (0)
+	do { \
+		zval *old_this_ptr = this_ptr; \
+		EG(This) = object; \
+		ZEPHIR_INIT_NVAR(*return_value_ptr); \
+		method(0, *return_value_ptr, return_value_ptr, object, 1 TSRMLS_CC); \
+		ZEPHIR_LAST_CALL_STATUS = EG(exception) ? FAILURE : SUCCESS; \
+		EG(This) = old_this_ptr; \
+	} while (0)
 
 #define ZEPHIR_CALL_INTERNAL_METHOD_P1(return_value_ptr, object, method, p1) \
 	do { \
-		zval *ZEPHIR_OLD_THIS_PTR = this_ptr; \
+		zval *old_this_ptr = this_ptr; \
 		EG(This) = object; \
 		ZEPHIR_INIT_NVAR(*return_value_ptr); \
+		Z_ADDREF_P(p1); \
 		method(0, *return_value_ptr, return_value_ptr, object, 1, p1 TSRMLS_CC); \
+		Z_DELREF_P(p1); \
 		ZEPHIR_LAST_CALL_STATUS = EG(exception) ? FAILURE : SUCCESS; \
-		EG(This) = ZEPHIR_OLD_THIS_PTR; \
+		EG(This) = old_this_ptr; \
 	} while (0)
 
 #define ZEPHIR_CALL_INTERNAL_METHOD_P2(return_value_ptr, object, method, p1, p2) \
 	do { \
-		zval *ZEPHIR_OLD_THIS_PTR = this_ptr; \
+		zval *old_this_ptr = this_ptr; \
 		EG(This) = object; \
 		ZEPHIR_INIT_NVAR(*return_value_ptr); \
+		Z_ADDREF_P(p1); \
 		method(0, *return_value_ptr, return_value_ptr, object, 1, p1, p2 TSRMLS_CC); \
+		Z_DELREF_P(p1); \
 		ZEPHIR_LAST_CALL_STATUS = EG(exception) ? FAILURE : SUCCESS; \
-		EG(This) = ZEPHIR_OLD_THIS_PTR; \
+		EG(This) = old_this_ptr; \
 	} while (0)
 
 #define ZEPHIR_CALL_INTERNAL_METHOD_P3(return_value_ptr, object, method, p1, p2, p3) \
 	do { \
-		zval *ZEPHIR_OLD_THIS_PTR = this_ptr; \
+		zval *old_this_ptr = this_ptr; \
 		EG(This) = object; \
 		ZEPHIR_INIT_NVAR(*return_value_ptr); \
+		Z_ADDREF_P(p1); \
+		Z_ADDREF_P(p2); \
+		Z_ADDREF_P(p3); \
 		method(0, *return_value_ptr, return_value_ptr, object, 1, p1, p2, p3 TSRMLS_CC); \
+		Z_DELREF_P(p1); \
+		Z_DELREF_P(p2); \
+		Z_DELREF_P(p3); \
 		ZEPHIR_LAST_CALL_STATUS = EG(exception) ? FAILURE : SUCCESS; \
-		EG(This) = ZEPHIR_OLD_THIS_PTR; \
+		EG(This) = old_this_ptr; \
 	} while (0)
 
 #define ZEPHIR_CALL_METHODW(return_value_ptr, object, method, cache, cache_slot, ...) \
