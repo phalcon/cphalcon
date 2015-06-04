@@ -4484,7 +4484,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowUpdate){
 				/**
 				 * When dynamic update is not used we pass every field to the update
 				 */
-				if (!i_use_dynamic_update || (Z_TYPE_P(value) == IS_OBJECT && instanceof_function(Z_OBJCE_P(convert_value), phalcon_db_rawvalue_ce TSRMLS_CC))) {
+				if (!i_use_dynamic_update || (Z_TYPE_P(value) == IS_OBJECT && instanceof_function(Z_OBJCE_P(value), phalcon_db_rawvalue_ce TSRMLS_CC))) {
 					phalcon_array_append(&fields, field, PH_SEPARATE);
 					phalcon_array_append(&values, convert_value, PH_SEPARATE);
 
