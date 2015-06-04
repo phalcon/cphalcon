@@ -111,6 +111,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, __construct) {
 	} else {
 		ZEPHIR_CALL_CE_STATIC(&dependencyInjector, phalcon_di_ce, "getdefault", &_0, 146);
 		zephir_check_call_status();
+		zephir_check_call_status();
 		zephir_update_property_this(this_ptr, SL("_dependencyInjector"), dependencyInjector TSRMLS_CC);
 	}
 	if (Z_TYPE_P(dependencyInjector) != IS_OBJECT) {
@@ -261,10 +262,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, get) {
 			zephir_array_fast_append(_2, _3);
 			ZEPHIR_CALL_FUNCTION(NULL, "register_shutdown_function", NULL, 347, _2);
 			zephir_check_call_status();
+			zephir_check_call_status();
 		}
 		zephir_update_property_this(this_ptr, SL("_initialized"), (1) ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
 	}
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "getorcreatetransaction", NULL, 0);
+	zephir_check_call_status();
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -313,6 +316,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, getOrCreateTransaction) {
 					ZVAL_BOOL(_4, 0);
 					ZEPHIR_CALL_METHOD(NULL, transaction, "setisnewtransaction", NULL, 0, _4);
 					zephir_check_call_status();
+					zephir_check_call_status();
 					RETURN_CCTOR(transaction);
 				}
 			}
@@ -323,7 +327,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, getOrCreateTransaction) {
 	_5 = zephir_fetch_nproperty_this(this_ptr, SL("_service"), PH_NOISY_CC);
 	ZEPHIR_CALL_METHOD(NULL, transaction, "__construct", NULL, 348, dependencyInjector, (autoBegin ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)), _5);
 	zephir_check_call_status();
+	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(NULL, transaction, "settransactionmanager", NULL, 349, this_ptr);
+	zephir_check_call_status();
 	zephir_check_call_status();
 	zephir_update_property_array_append(this_ptr, SL("_transactions"), transaction TSRMLS_CC);
 	RETURN_ON_FAILURE(zephir_property_incr(this_ptr, SL("_number") TSRMLS_CC));
@@ -341,6 +347,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, rollbackPendent) {
 	ZEPHIR_MM_GROW();
 
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "rollback", NULL, 0);
+	zephir_check_call_status();
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 
@@ -369,10 +376,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, commit) {
 			ZEPHIR_GET_HVALUE(transaction, _2);
 			ZEPHIR_CALL_METHOD(&connection, transaction, "getconnection", NULL, 0);
 			zephir_check_call_status();
+			zephir_check_call_status();
 			ZEPHIR_CALL_METHOD(&_3, connection, "isundertransaction", NULL, 0);
+			zephir_check_call_status();
 			zephir_check_call_status();
 			if (zephir_is_true(_3)) {
 				ZEPHIR_CALL_METHOD(NULL, connection, "commit", NULL, 0);
+				zephir_check_call_status();
 				zephir_check_call_status();
 			}
 		}
@@ -414,16 +424,21 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, rollback) {
 			ZEPHIR_GET_HVALUE(transaction, _2);
 			ZEPHIR_CALL_METHOD(&connection, transaction, "getconnection", NULL, 0);
 			zephir_check_call_status();
+			zephir_check_call_status();
 			ZEPHIR_CALL_METHOD(&_3, connection, "isundertransaction", NULL, 0);
+			zephir_check_call_status();
 			zephir_check_call_status();
 			if (zephir_is_true(_3)) {
 				ZEPHIR_CALL_METHOD(NULL, connection, "rollback", NULL, 0);
 				zephir_check_call_status();
+				zephir_check_call_status();
 				ZEPHIR_CALL_METHOD(NULL, connection, "close", NULL, 0);
+				zephir_check_call_status();
 				zephir_check_call_status();
 			}
 			if (zephir_is_true(collect)) {
 				ZEPHIR_CALL_METHOD(NULL, this_ptr, "_collecttransaction", &_4, 0, transaction);
+				zephir_check_call_status();
 				zephir_check_call_status();
 			}
 		}
@@ -447,6 +462,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, notifyRollback) {
 
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "_collecttransaction", NULL, 0, transaction);
 	zephir_check_call_status();
+	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -465,6 +481,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, notifyCommit) {
 
 
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "_collecttransaction", NULL, 0, transaction);
+	zephir_check_call_status();
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 

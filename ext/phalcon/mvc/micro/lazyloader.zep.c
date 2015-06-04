@@ -110,6 +110,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, __call) {
 		if (zephir_has_constructor(handler TSRMLS_CC)) {
 			ZEPHIR_CALL_METHOD(NULL, handler, "__construct", NULL, 0);
 			zephir_check_call_status();
+			zephir_check_call_status();
 		}
 		zephir_update_property_this(this_ptr, SL("_handler"), handler TSRMLS_CC);
 	}
@@ -118,6 +119,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, __call) {
 	zephir_array_fast_append(_2, handler);
 	zephir_array_fast_append(_2, method);
 	ZEPHIR_CALL_USER_FUNC_ARRAY(return_value, _2, arguments);
+	zephir_check_call_status();
 	zephir_check_call_status();
 	RETURN_MM();
 

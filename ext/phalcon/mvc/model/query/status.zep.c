@@ -103,6 +103,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Status, getMessages) {
 	}
 	ZEPHIR_RETURN_CALL_METHOD(model, "getmessages", NULL, 0);
 	zephir_check_call_status();
+	zephir_check_call_status();
 	RETURN_MM();
 
 }

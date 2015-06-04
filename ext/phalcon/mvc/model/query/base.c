@@ -86,6 +86,7 @@ const phql_token_names phql_tokens[] =
   { SL("CONVERT"),       PHQL_T_CONVERT },
   { SL("USING"),         PHQL_T_USING },
   { SL("ALL"),           PHQL_T_ALL },
+  { SL("EXISTS"),        PHQL_T_EXISTS },
   { NULL, 0, 0 }
 };
 
@@ -295,10 +296,7 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 				break;
 			case PHQL_T_DOT:
 				phql_(phql_parser, PHQL_DOT, NULL, parser_status);
-				break;
-			case PHQL_T_COLON:
-				phql_(phql_parser, PHQL_COLON, NULL, parser_status);
-				break;
+				break;			
 			case PHQL_T_COMMA:
 				phql_(phql_parser, PHQL_COMMA, NULL, parser_status);
 				break;
@@ -470,7 +468,10 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 				break;
 			case PHQL_T_USING:
 				phql_(phql_parser, PHQL_USING, NULL, parser_status);
-				break;        
+				break;
+            case PHQL_T_EXISTS:
+    			phql_(phql_parser, PHQL_EXISTS, NULL, parser_status);
+    			break;
 
 			default:
 				parser_status->status = PHQL_PARSING_FAILED;

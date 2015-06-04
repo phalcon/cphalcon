@@ -89,8 +89,10 @@ PHP_METHOD(Phalcon_Validation, __construct) {
 	}
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "setdefaultmessages", NULL, 0);
 	zephir_check_call_status();
+	zephir_check_call_status();
 	if ((zephir_method_exists_ex(this_ptr, SS("initialize") TSRMLS_CC) == SUCCESS)) {
 		ZEPHIR_CALL_METHOD(NULL, this_ptr, "initialize", NULL, 0);
+		zephir_check_call_status();
 		zephir_check_call_status();
 	}
 	ZEPHIR_MM_RESTORE();
@@ -134,8 +136,10 @@ PHP_METHOD(Phalcon_Validation, validate) {
 	object_init_ex(messages, phalcon_validation_message_group_ce);
 	ZEPHIR_CALL_METHOD(NULL, messages, "__construct", NULL, 172);
 	zephir_check_call_status();
+	zephir_check_call_status();
 	if ((zephir_method_exists_ex(this_ptr, SS("beforevalidation") TSRMLS_CC) == SUCCESS)) {
 		ZEPHIR_CALL_METHOD(&status, this_ptr, "beforevalidation", NULL, 0, data, entity, messages);
+		zephir_check_call_status();
 		zephir_check_call_status();
 		if (ZEPHIR_IS_FALSE_IDENTICAL(status)) {
 			RETURN_CCTOR(status);
@@ -169,11 +173,13 @@ PHP_METHOD(Phalcon_Validation, validate) {
 		}
 		ZEPHIR_CALL_METHOD(&_4, validator, "validate", NULL, 0, this_ptr, field);
 		zephir_check_call_status();
+		zephir_check_call_status();
 		if (ZEPHIR_IS_FALSE_IDENTICAL(_4)) {
 			ZEPHIR_INIT_NVAR(_6);
 			ZVAL_STRING(_6, "cancelOnFail", ZEPHIR_TEMP_PARAM_COPY);
 			ZEPHIR_CALL_METHOD(&_5, validator, "getoption", NULL, 0, _6);
 			zephir_check_temp_parameter(_6);
+			zephir_check_call_status();
 			zephir_check_call_status();
 			if (zephir_is_true(_5)) {
 				break;
@@ -184,6 +190,7 @@ PHP_METHOD(Phalcon_Validation, validate) {
 	zephir_read_property_this(&messages, this_ptr, SL("_messages"), PH_NOISY_CC);
 	if ((zephir_method_exists_ex(this_ptr, SS("aftervalidation") TSRMLS_CC) == SUCCESS)) {
 		ZEPHIR_CALL_METHOD(NULL, this_ptr, "aftervalidation", NULL, 0, data, entity, messages);
+		zephir_check_call_status();
 		zephir_check_call_status();
 	}
 	RETURN_CCTOR(messages);
@@ -230,6 +237,7 @@ PHP_METHOD(Phalcon_Validation, rule) {
 
 
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "add", NULL, 0, field, validator);
+	zephir_check_call_status();
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -528,6 +536,7 @@ PHP_METHOD(Phalcon_Validation, appendMessage) {
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_messages"), PH_NOISY_CC);
 	ZEPHIR_CALL_METHOD(NULL, _0, "appendmessage", NULL, 0, message);
 	zephir_check_call_status();
+	zephir_check_call_status();
 	RETURN_THIS();
 
 }
@@ -596,9 +605,11 @@ PHP_METHOD(Phalcon_Validation, getValue) {
 		if ((zephir_method_exists(entity, method TSRMLS_CC)  == SUCCESS)) {
 			ZEPHIR_CALL_METHOD_ZVAL(&value, entity, method,  NULL, 0);
 			zephir_check_call_status();
+			zephir_check_call_status();
 		} else {
 			if ((zephir_method_exists_ex(entity, SS("readattribute") TSRMLS_CC) == SUCCESS)) {
 				ZEPHIR_CALL_METHOD(&value, entity, "readattribute", NULL, 0, field);
+				zephir_check_call_status();
 				zephir_check_call_status();
 			} else {
 				ZEPHIR_INIT_NVAR(value);
@@ -651,8 +662,10 @@ PHP_METHOD(Phalcon_Validation, getValue) {
 			if (zephir_is_true(fieldFilters)) {
 				ZEPHIR_CALL_METHOD(&dependencyInjector, this_ptr, "getdi", NULL, 0);
 				zephir_check_call_status();
+				zephir_check_call_status();
 				if (Z_TYPE_P(dependencyInjector) != IS_OBJECT) {
 					ZEPHIR_CALL_CE_STATIC(&dependencyInjector, phalcon_di_ce, "getdefault", &_2, 146);
+					zephir_check_call_status();
 					zephir_check_call_status();
 					if (Z_TYPE_P(dependencyInjector) != IS_OBJECT) {
 						ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_validation_exception_ce, "A dependency injector is required to obtain the 'filter' service", "phalcon/validation.zep", 423);
@@ -664,11 +677,13 @@ PHP_METHOD(Phalcon_Validation, getValue) {
 				ZEPHIR_CALL_METHOD(&filterService, dependencyInjector, "getshared", NULL, 0, _3);
 				zephir_check_temp_parameter(_3);
 				zephir_check_call_status();
+				zephir_check_call_status();
 				if (Z_TYPE_P(filterService) != IS_OBJECT) {
 					ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_validation_exception_ce, "Returned 'filter' service is invalid", "phalcon/validation.zep", 429);
 					return;
 				}
 				ZEPHIR_RETURN_CALL_METHOD(filterService, "sanitize", NULL, 0, value, fieldFilters);
+				zephir_check_call_status();
 				zephir_check_call_status();
 				RETURN_MM();
 			}

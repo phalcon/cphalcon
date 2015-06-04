@@ -128,6 +128,7 @@ PHP_METHOD(Phalcon_Logger_Formatter, interpolate) {
 		}
 		ZEPHIR_RETURN_CALL_FUNCTION("strtr", NULL, 73, message, replace);
 		zephir_check_call_status();
+		zephir_check_call_status();
 		RETURN_MM();
 	}
 	RETURN_CTOR(message);

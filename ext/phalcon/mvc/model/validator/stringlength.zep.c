@@ -79,6 +79,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_StringLength, validate) {
 	ZEPHIR_CALL_METHOD(&field, this_ptr, "getoption", NULL, 0, _0);
 	zephir_check_temp_parameter(_0);
 	zephir_check_call_status();
+	zephir_check_call_status();
 	if (Z_TYPE_P(field) != IS_STRING) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "Field name must be a string", "phalcon/mvc/model/validator/stringlength.zep", 67);
 		return;
@@ -88,10 +89,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_StringLength, validate) {
 	ZEPHIR_CALL_METHOD(&isSetMin, this_ptr, "issetoption", NULL, 0, _0);
 	zephir_check_temp_parameter(_0);
 	zephir_check_call_status();
+	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(_0);
 	ZVAL_STRING(_0, "max", ZEPHIR_TEMP_PARAM_COPY);
 	ZEPHIR_CALL_METHOD(&isSetMax, this_ptr, "issetoption", NULL, 0, _0);
 	zephir_check_temp_parameter(_0);
+	zephir_check_call_status();
 	zephir_check_call_status();
 	_1 = !zephir_is_true(isSetMin);
 	if (_1) {
@@ -103,10 +106,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_StringLength, validate) {
 	}
 	ZEPHIR_CALL_METHOD(&value, record, "readattribute", NULL, 0, field);
 	zephir_check_call_status();
+	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(_0);
 	ZVAL_STRING(_0, "allowEmpty", ZEPHIR_TEMP_PARAM_COPY);
 	ZEPHIR_CALL_METHOD(&_2, this_ptr, "issetoption", NULL, 0, _0);
 	zephir_check_temp_parameter(_0);
+	zephir_check_call_status();
 	zephir_check_call_status();
 	_3 = zephir_is_true(_2);
 	if (_3) {
@@ -118,6 +123,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_StringLength, validate) {
 	if ((zephir_function_exists_ex(SS("mb_strlen") TSRMLS_CC) == SUCCESS)) {
 		ZEPHIR_CALL_FUNCTION(&length, "mb_strlen", NULL, 351, value);
 		zephir_check_call_status();
+		zephir_check_call_status();
 	} else {
 		ZEPHIR_INIT_NVAR(length);
 		ZVAL_LONG(length, zephir_fast_strlen_ev(value));
@@ -128,11 +134,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_StringLength, validate) {
 		ZEPHIR_CALL_METHOD(&maximum, this_ptr, "getoption", NULL, 0, _0);
 		zephir_check_temp_parameter(_0);
 		zephir_check_call_status();
+		zephir_check_call_status();
 		if (ZEPHIR_GT(length, maximum)) {
 			ZEPHIR_INIT_NVAR(_0);
 			ZVAL_STRING(_0, "messageMaximum", ZEPHIR_TEMP_PARAM_COPY);
 			ZEPHIR_CALL_METHOD(&message, this_ptr, "getoption", NULL, 0, _0);
 			zephir_check_temp_parameter(_0);
+			zephir_check_call_status();
 			zephir_check_call_status();
 			if (ZEPHIR_IS_EMPTY(message)) {
 				ZEPHIR_INIT_NVAR(message);
@@ -144,10 +152,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_StringLength, validate) {
 			zephir_array_update_string(&_4, SL(":max"), &maximum, PH_COPY | PH_SEPARATE);
 			ZEPHIR_CALL_FUNCTION(&_5, "strtr", &_6, 73, message, _4);
 			zephir_check_call_status();
+			zephir_check_call_status();
 			ZEPHIR_INIT_NVAR(_0);
 			ZVAL_STRING(_0, "TooLong", ZEPHIR_TEMP_PARAM_COPY);
 			ZEPHIR_CALL_METHOD(NULL, this_ptr, "appendmessage", NULL, 0, _5, field, _0);
 			zephir_check_temp_parameter(_0);
+			zephir_check_call_status();
 			zephir_check_call_status();
 			RETURN_MM_BOOL(0);
 		}
@@ -158,11 +168,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_StringLength, validate) {
 		ZEPHIR_CALL_METHOD(&minimum, this_ptr, "getoption", NULL, 0, _0);
 		zephir_check_temp_parameter(_0);
 		zephir_check_call_status();
+		zephir_check_call_status();
 		if (ZEPHIR_LT(length, minimum)) {
 			ZEPHIR_INIT_NVAR(_0);
 			ZVAL_STRING(_0, "messageMinimum", ZEPHIR_TEMP_PARAM_COPY);
 			ZEPHIR_CALL_METHOD(&message, this_ptr, "getoption", NULL, 0, _0);
 			zephir_check_temp_parameter(_0);
+			zephir_check_call_status();
 			zephir_check_call_status();
 			if (ZEPHIR_IS_EMPTY(message)) {
 				ZEPHIR_INIT_NVAR(message);
@@ -174,10 +186,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_StringLength, validate) {
 			zephir_array_update_string(&_4, SL(":min"), &minimum, PH_COPY | PH_SEPARATE);
 			ZEPHIR_CALL_FUNCTION(&_5, "strtr", &_6, 73, message, _4);
 			zephir_check_call_status();
+			zephir_check_call_status();
 			ZEPHIR_INIT_NVAR(_0);
 			ZVAL_STRING(_0, "TooShort", ZEPHIR_TEMP_PARAM_COPY);
 			ZEPHIR_CALL_METHOD(NULL, this_ptr, "appendmessage", NULL, 0, _5, field, _0);
 			zephir_check_temp_parameter(_0);
+			zephir_check_call_status();
 			zephir_check_call_status();
 			RETURN_MM_BOOL(0);
 		}

@@ -84,6 +84,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Oracle, connect) {
 	}
 	ZEPHIR_CALL_PARENT(&status, phalcon_db_adapter_pdo_oracle_ce, this_ptr, "connect", &_0, 84, descriptor);
 	zephir_check_call_status();
+	zephir_check_call_status();
 	ZEPHIR_OBS_VAR(startup);
 	if (zephir_array_isset_string_fetch(&startup, descriptor, SS("startup"), 0 TSRMLS_CC)) {
 		if (Z_TYPE_P(startup) == IS_ARRAY) {
@@ -94,6 +95,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Oracle, connect) {
 			) {
 				ZEPHIR_GET_HVALUE(value, _3);
 				ZEPHIR_CALL_METHOD(NULL, this_ptr, "execute", &_4, 0, value);
+				zephir_check_call_status();
 				zephir_check_call_status();
 			}
 		}
@@ -145,9 +147,11 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Oracle, describeColumns) {
 	_1 = zephir_fetch_nproperty_this(this_ptr, SL("_dialect"), PH_NOISY_CC);
 	ZEPHIR_CALL_METHOD(&_2, _1, "describecolumns", NULL, 0, table, schema);
 	zephir_check_call_status();
+	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(_3);
 	ZVAL_LONG(_3, 3);
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "fetchall", NULL, 0, _2, _3);
+	zephir_check_call_status();
 	zephir_check_call_status();
 	zephir_is_iterable(_0, &_5, &_4, 0, 0, "phalcon/db/adapter/pdo/oracle.zep", 203);
 	for (
@@ -263,6 +267,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Oracle, describeColumns) {
 		object_init_ex(_8, phalcon_db_column_ce);
 		ZEPHIR_CALL_METHOD(NULL, _8, "__construct", &_11, 83, columnName, definition);
 		zephir_check_call_status();
+		zephir_check_call_status();
 		zephir_array_append(&columns, _8, PH_SEPARATE, "phalcon/db/adapter/pdo/oracle.zep", 199);
 		ZEPHIR_CPY_WRT(oldColumn, columnName);
 	}
@@ -308,6 +313,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Oracle, lastInsertId) {
 	ZVAL_LONG(_2, 3);
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "fetchall", NULL, 0, _1, _2);
 	zephir_check_call_status();
+	zephir_check_call_status();
 	zephir_array_fetch_long(&_3, _0, 0, PH_NOISY | PH_READONLY, "phalcon/db/adapter/pdo/oracle.zep", 223 TSRMLS_CC);
 	RETURN_CTOR(_3);
 
@@ -338,6 +344,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Oracle, getDefaultIdValue) {
 	ZVAL_STRING(_0, "default", ZEPHIR_TEMP_PARAM_COPY);
 	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 78, _0);
 	zephir_check_temp_parameter(_0);
+	zephir_check_call_status();
 	zephir_check_call_status();
 	RETURN_MM();
 

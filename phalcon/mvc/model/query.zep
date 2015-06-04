@@ -570,6 +570,10 @@ class Query implements QueryInterface, InjectionAwareInterface
 					let exprReturn = ["type": "binary-op", "op": "NOT IN", "left": left, "right": right];
 					break;
 
+				case PHQL_T_EXISTS:
+					let exprReturn = ["type": "unary-op", "op": "EXISTS", "right": right];
+					break;
+
 				case PHQL_T_DISTINCT:
 					let exprReturn = ["type": "unary-op", "op": "DISTINCT ", "right": right];
 					break;
