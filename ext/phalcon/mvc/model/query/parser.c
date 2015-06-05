@@ -3164,7 +3164,6 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
     			phql_parse_with_token(phql_parser, PHQL_T_STPLACEHOLDER, PHQL_STPLACEHOLDER, &token, parser_status);
     			break;
 
-
 			case PHQL_T_FROM:
 				phql_(phql_parser, PHQL_FROM, NULL, parser_status);
 				break;

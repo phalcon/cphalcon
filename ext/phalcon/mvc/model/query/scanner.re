@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -69,15 +69,6 @@ int phql_get_token(phql_scanner_state *s, phql_scanner_token *token) {
 			return 0;
 		}
 
-		NTPLACEHOLDER = "?"[0-9]+":"[a-z];
-		NTPLACEHOLDER {
-			token->opcode = PHQL_T_NTPLACEHOLDER;
-			token->value = estrndup(q, YYCURSOR - q);
-			token->len = YYCURSOR - q;
-			q = YYCURSOR;
-			return 0;
-		}
-
 		SPLACEHOLDER = ":"[a-zA-Z0-9\_\-]+":";
 		SPLACEHOLDER {
 			token->opcode = PHQL_T_SPLACEHOLDER;
@@ -85,16 +76,7 @@ int phql_get_token(phql_scanner_state *s, phql_scanner_token *token) {
 			token->len = YYCURSOR - q - 1;
 			q = YYCURSOR;
 			return 0;
-		}
-
-		STPLACEHOLDER = ":"[a-zA-Z0-9\_\-]+":"[a-z];
-		STPLACEHOLDER {
-			token->opcode = PHQL_T_STPLACEHOLDER;
-			token->value = estrndup(q, YYCURSOR - q);
-			token->len = YYCURSOR - q;
-			q = YYCURSOR;
-			return 0;
-		}
+		}		
 
 		'UPDATE' {
 			token->opcode = PHQL_T_UPDATE;

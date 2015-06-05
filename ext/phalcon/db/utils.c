@@ -20,8 +20,8 @@
 int phalcon_db_checktype(zval *return_value, zval *placeholder TSRMLS_DC) {
 
     if (Z_TYPE_P(placeholder) != IS_STRING) {
-        
+
     }
 
-    return
+    return 
 }
