@@ -38,6 +38,7 @@
 #include "kernel/file.h"
 #include "kernel/string.h"
 #include "kernel/output.h"
+#include "kernel/debug.h"
 
 /**
  * Phalcon\Mvc\View\Simple
@@ -376,7 +377,7 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, _loadTemplateEngines){
  */
 PHP_METHOD(Phalcon_Mvc_View_Simple, _internalRender){
 
-	zval *path, *params, *events_manager, *event_name = NULL;
+	zval *path, *params, *events_manager, *event_name = NULL, *debug_message = NULL;
 	zval *status = NULL, *not_exists = NULL, *views_dir;
 	zval *views_dir_path, *engines = NULL, *engine = NULL, *extension = NULL;
 	zval *view_engine_path = NULL, *exception_message;
@@ -408,6 +409,12 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, _internalRender){
 		}
 	}
 
+	if (unlikely(PHALCON_GLOBAL(debug).enable_debug)) {
+		PHALCON_INIT_NVAR(debug_message);
+		PHALCON_CONCAT_SV(debug_message, "Render Simple View: ", path);
+		phalcon_debug_print_r(debug_message TSRMLS_CC);
+	}
+
 	PHALCON_INIT_VAR(not_exists);
 	ZVAL_TRUE(not_exists);
 
@@ -436,6 +443,12 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, _internalRender){
 		PHALCON_CONCAT_VV(view_engine_path, views_dir_path, extension);
 
 		if (phalcon_file_exists(view_engine_path TSRMLS_CC) == SUCCESS) {
+
+			if (unlikely(PHALCON_GLOBAL(debug).enable_debug)) {
+				PHALCON_INIT_NVAR(debug_message);
+				PHALCON_CONCAT_SV(debug_message, "--Found: ", view_engine_path);
+				phalcon_debug_print_r(debug_message TSRMLS_CC);
+			}
 
 			/** 
 			 * Call beforeRenderView if there is a events manager available
@@ -466,6 +479,10 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, _internalRender){
 			}
 
 			break;
+		} else if (unlikely(PHALCON_GLOBAL(debug).enable_debug)) {
+			PHALCON_INIT_NVAR(debug_message);
+			PHALCON_CONCAT_SV(debug_message, "--Not Found: ", view_engine_path);
+			phalcon_debug_print_r(debug_message TSRMLS_CC);
 		}
 
 		zend_hash_move_forward_ex(ah0, &hp0);

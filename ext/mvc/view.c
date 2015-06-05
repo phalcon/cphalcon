@@ -40,6 +40,7 @@
 #include "kernel/concat.h"
 #include "kernel/string.h"
 #include "kernel/file.h"
+#include "kernel/debug.h"
 
 #include "internal/arginfo.h"
 
@@ -1014,7 +1015,7 @@ PHP_METHOD(Phalcon_Mvc_View, _loadTemplateEngines){
  */
 PHP_METHOD(Phalcon_Mvc_View, _engineRender){
 
-	zval *engines, *view_path, *silence, *must_clean, *absolute_path = NULL;
+	zval *engines, *view_path, *silence, *must_clean, *absolute_path = NULL, *debug_message = NULL;
 	zval *cache = NULL, *not_exists = NULL, *views_dir, *base_path;
 	zval *path = NULL, *views_dir_paths, *views_dir_path = NULL, *render_level, *cache_level, *cache_mode;
 	zval *key = NULL, *lifetime = NULL, *view_options;
@@ -1169,6 +1170,12 @@ PHP_METHOD(Phalcon_Mvc_View, _engineRender){
 		}
 	}
 
+	if (unlikely(PHALCON_GLOBAL(debug).enable_debug)) {
+		PHALCON_INIT_NVAR(debug_message);
+		PHALCON_CONCAT_SV(debug_message, "Render View: ", view_path);
+		phalcon_debug_print_r(debug_message TSRMLS_CC);
+	}
+
 	PHALCON_OBS_VAR(view_params);
 	phalcon_read_property_this(&view_params, this_ptr, SL("_viewParams"), PH_NOISY TSRMLS_CC);
 
@@ -1176,6 +1183,7 @@ PHP_METHOD(Phalcon_Mvc_View, _engineRender){
 	phalcon_read_property_this(&events_manager, this_ptr, SL("_eventsManager"), PH_NOISY TSRMLS_CC);
 
 	PHALCON_INIT_VAR(view_engine_path);
+
 	/** 
 	 * Views are rendered in each engine
 	 */
@@ -1196,7 +1204,13 @@ PHP_METHOD(Phalcon_Mvc_View, _engineRender){
 			PHALCON_CONCAT_VV(view_engine_path, path, extension);
 
 			if (phalcon_file_exists(view_engine_path TSRMLS_CC) == SUCCESS) {
-		
+
+				if (unlikely(PHALCON_GLOBAL(debug).enable_debug)) {
+					PHALCON_INIT_NVAR(debug_message);
+					PHALCON_CONCAT_SV(debug_message, "--Found: ", view_engine_path);
+					phalcon_debug_print_r(debug_message TSRMLS_CC);
+				}
+
 				/** 
 				 * Call beforeRenderView if there is a events manager available
 				 */
@@ -1228,6 +1242,10 @@ PHP_METHOD(Phalcon_Mvc_View, _engineRender){
 				}
 
 				break;
+			} else if (unlikely(PHALCON_GLOBAL(debug).enable_debug)) {
+				PHALCON_INIT_NVAR(debug_message);
+				PHALCON_CONCAT_SV(debug_message, "--Not Found: ", view_engine_path);
+				phalcon_debug_print_r(debug_message TSRMLS_CC);
 			}
 
 			zend_hash_move_forward_ex(ah2, &hp2);

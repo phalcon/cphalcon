@@ -62,6 +62,16 @@ int phalcon_print_r(zval *userval TSRMLS_DC){
 }
 
 /**
+ * Executes a print_r on an interal zval
+ */
+int phalcon_debug_print_r(zval *message TSRMLS_DC){
+	zend_printf("[DEBUG] ");
+	zend_print_zval_r(message, 0 TSRMLS_CC);
+	zend_printf("<br>\r\n");
+	return SUCCESS;
+}
+
+/**
  * Internal fast zval dump
  */
 int phalcon_vdump(zval *uservar TSRMLS_DC){
