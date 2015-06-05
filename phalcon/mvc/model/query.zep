@@ -348,7 +348,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 				];
 			} else {
 				let whenClauses[] = [
-					"type": "when",
+					"type": "else",
 					"expr": this->_getExpression(whenExpr["left"])
 				];
 			}
