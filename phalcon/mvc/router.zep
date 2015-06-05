@@ -523,7 +523,7 @@ class Router implements InjectionAwareInterface, RouterInterface
 		if !routeFound {
 			let notFoundPaths = this->_notFoundPaths;
 			if notFoundPaths !== null {
-				let parts = notFoundPaths,
+				let parts = Route::getRoutePaths(notFoundPaths),
 					routeFound = true;
 			}
 		}
