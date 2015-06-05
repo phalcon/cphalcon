@@ -91,7 +91,7 @@ int phql_get_token(phql_scanner_state *s, phql_scanner_token *token) {
 		STPLACEHOLDER {
 			token->opcode = PHQL_T_STPLACEHOLDER;
 			token->value = estrndup(q, YYCURSOR - q);
-			token->len = YYCURSOR - q - 1;
+			token->len = YYCURSOR - q;
 			q = YYCURSOR;
 			return 0;
 		}
