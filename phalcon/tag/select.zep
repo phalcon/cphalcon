@@ -145,7 +145,7 @@ abstract class Select
 	}
 
 	/**
-	 * Generate the OPTION tags based on a resulset
+	 * Generate the OPTION tags based on a resultset
 	 *
 	 * @param Phalcon\Mvc\Model\Resultset resultset
 	 * @param array using
@@ -154,7 +154,8 @@ abstract class Select
 	 */
 	private static function _optionsFromResultset(resultset, using, value, closeOption)
 	{
-		var code, params, option, usingZero, usingOne, optionValue, optionText;
+		var code, params, option, usingZero, usingOne,
+			optionValue, optionText, strValue, strOptionValue;
 
 		let code = "";
 		let params = null;
@@ -194,10 +195,12 @@ abstract class Select
 						let code .= "\t<option value=\"" . optionValue . "\">" . optionText . closeOption;
 					}
 				} else {
-					if optionValue == value {
-						let code .= "\t<option selected=\"selected\" value=\"" . optionValue . "\">" . optionText . closeOption;
+					let strOptionValue = (string) optionValue,
+						strValue = (string) value;
+					if strOptionValue === strValue {
+						let code .= "\t<option selected=\"selected\" value=\"" . strOptionValue . "\">" . optionText . closeOption;
 					} else {
-						let code .= "\t<option value=\"" . optionValue . "\">" . optionText . closeOption;
+						let code .= "\t<option value=\"" . strOptionValue . "\">" . optionText . closeOption;
 					}
 				}
 			} else {
@@ -227,11 +230,16 @@ abstract class Select
 	 */
 	private static function _optionsFromArray(data, value, closeOption)
 	{
-		var code, optionValue, optionText, escaped;
+		var strValue, strOptionValue, code, optionValue, optionText, escaped;
 
-		let code = "";
+		let code = "",
+			strValue = (string) value;
+
 		for optionValue, optionText in data {
-			let escaped = htmlspecialchars(optionValue);
+
+			let strOptionValue = (string) optionValue,
+				escaped = htmlspecialchars(optionValue);
+
 			if typeof optionText == "array" {
 				let code .= "\t<optgroup label=\"" . escaped . "\">" . PHP_EOL . self::_optionsFromArray(optionText, value, closeOption) . "\t</optgroup>" . PHP_EOL;
 			} else {
@@ -242,7 +250,7 @@ abstract class Select
 						let code .= "\t<option value=\"" . escaped . "\">" . optionText . closeOption;
 					}
 				} else {
-					if optionValue == value {
+					if strOptionValue === strValue {
 						let code .= "\t<option selected=\"selected\" value=\"" . escaped . "\">" . optionText . closeOption;
 					} else {
 						let code .= "\t<option value=\"" . escaped . "\">" . optionText . closeOption;
@@ -250,6 +258,7 @@ abstract class Select
 				}
 			}
 		}
+
 		return code;
 	}
 }

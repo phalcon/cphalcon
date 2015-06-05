@@ -49,22 +49,16 @@ use Phalcon\Cache\Frontend\Data as FrontendData;
 class Memcache extends Adapter implements AdapterInterface
 {
 
-	protected _memcache = NULL { get };
+	protected _memcache = null { get };
 
 	protected _lifetime = 8600 { get };
 
 	/**
 	 * Phalcon\Session\Adapter\Memcache constructor
-	 *
-	 * @param array options
 	 */
-	public function __construct(options = null)
+	public function __construct(array options = [])
 	{
 		var lifetime;
-
-		if typeof options != "array" {
-			let options = [];
-		}
 
 		if !isset options["host"] {
 			let options["host"] = "127.0.0.1";
@@ -137,12 +131,12 @@ class Memcache extends Adapter implements AdapterInterface
 	 * @param  string  sessionId
 	 * @return boolean
 	 */
-	public function destroy(session_id = null)
+	public function destroy(sessionId = null) -> boolean
 	{
-		if session_id === null {
-			let session_id = this->getId();
+		if sessionId === null {
+			let sessionId = this->getId();
 		}
-		return this->_memcache->delete(session_id);
+		return this->_memcache->delete(sessionId);
 	}
 
 	/**

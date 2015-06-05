@@ -78,6 +78,7 @@ class ModelsMetadataAdaptersTest extends PHPUnit_Framework_TestCase
 				'type' => 'mechanical',
 				'year' => 1900
 			),
+			13 => array(),
 		),
 		'map-robots' => array(
 			0 => null,
@@ -312,5 +313,4 @@ class ModelsMetadataAdaptersTest extends PHPUnit_Framework_TestCase
 
 		Robots::findFirst();
 	}
-
 }

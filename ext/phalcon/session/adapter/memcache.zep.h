@@ -14,7 +14,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Memcache, destroy);
 PHP_METHOD(Phalcon_Session_Adapter_Memcache, gc);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_session_adapter_memcache___construct, 0, 0, 0)
-	ZEND_ARG_INFO(0, options)
+	ZEND_ARG_ARRAY_INFO(0, options, 1)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_session_adapter_memcache_read, 0, 0, 1)
@@ -27,7 +27,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_session_adapter_memcache_write, 0, 0, 2)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_session_adapter_memcache_destroy, 0, 0, 0)
-	ZEND_ARG_INFO(0, session_id)
+	ZEND_ARG_INFO(0, sessionId)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_session_adapter_memcache_method_entry) {

@@ -162,56 +162,47 @@ interface MetaDataInterface
 	 * @param Phalcon\Mvc\ModelInterface model
 	 * @return array
 	 */
-	public function getAutomaticUpdateAttributes(<ModelInterface> model);
+	public function getAutomaticUpdateAttributes(<ModelInterface> model) -> array;
 
 	/**
 	 * Set the attributes that must be ignored from the INSERT SQL generation
-	 *
-	 * @param  Phalcon\Mvc\ModelInterface model
-	 * @param  array attributes
 	 */
-	public function setAutomaticCreateAttributes(<ModelInterface> model, attributes);
+	public function setAutomaticCreateAttributes(<ModelInterface> model, array attributes);
 
 	/**
 	 * Set the attributes that must be ignored from the UPDATE SQL generation
-	 *
-	 * @param  Phalcon\Mvc\ModelInterface model
-	 * @param  array attributes
 	 */
-	public function setAutomaticUpdateAttributes(<ModelInterface> model, attributes);
+	public function setAutomaticUpdateAttributes(<ModelInterface> model, array attributes);
+
+	/**
+	 * Set the attributes that allow empty string values	 
+	 */
+	public function setEmptyStringAttributes(<ModelInterface> model, array attributes) -> void;
+
+	/**
+	 * Returns attributes allow empty strings
+	 */
+	public function getEmptyStringAttributes(<ModelInterface> model) -> array;
 
 	/**
 	 * Returns attributes (which have default values) and their default values
-	 *
-	 * @param Phalcon\Mvc\ModelInterface model
-	 * @return array
 	 */
-	public function getDefaultValues(<ModelInterface> model);
+	public function getDefaultValues(<ModelInterface> model) -> array;
 
 	/**
 	 * Returns the column map if any
-	 *
-	 * @param Phalcon\Mvc\ModelInterface model
-	 * @return array
 	 */
-	public function getColumnMap(<ModelInterface> model);
+	public function getColumnMap(<ModelInterface> model) -> array;
 
 	/**
 	 * Returns the reverse column map if any
-	 *
-	 * @param Phalcon\Mvc\ModelInterface model
-	 * @return array
 	 */
-	public function getReverseColumnMap(<ModelInterface> model);
+	public function getReverseColumnMap(<ModelInterface> model) -> array;
 
 	/**
 	 * Check if a model has certain attribute
-	 *
-	 * @param Phalcon\Mvc\ModelInterface model
-	 * @param string attribute
-	 * @return boolean
 	 */
-	public function hasAttribute(<ModelInterface> model, attribute);
+	public function hasAttribute(<ModelInterface> model, string attribute) -> boolean;
 
 	/**
 	 * Checks if the internal meta-data container is empty
@@ -240,5 +231,4 @@ interface MetaDataInterface
 	 * @param array data
 	 */
 	public function write(key, data);
-
 }

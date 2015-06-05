@@ -126,9 +126,6 @@ class Data implements FrontendInterface
 
 	/**
 	 * Serializes data before storing them
-	 *
-	 * @param mixed data
-	 * @return string
 	 */
 	public function beforeStore(var data)
 	{
@@ -136,10 +133,7 @@ class Data implements FrontendInterface
 	}
 
 	/**
-	 * Unserializes data after retrieval
-	 *
-	 * @param mixed data
-	 * @return mixed
+	 * Unserializes data after retrieval	 
 	 */
 	public function afterRetrieve(var data)
 	{

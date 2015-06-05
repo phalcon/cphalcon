@@ -76,7 +76,9 @@ class Ini extends Config
 			for path, lastValue in directives {
 				let sections[] = this->_parseIniString(path, lastValue);
 			}
-			let config[section] = call_user_func_array("array_merge_recursive", sections);
+			if count(sections) {
+				let config[section] = call_user_func_array("array_merge_recursive", sections);
+			}
 		}
 
 		parent::__construct(config);
@@ -96,11 +98,7 @@ class Ini extends Config
 	 *          ],
 	 *      ],
 	 * ];
-	 * </code>
-	 * @param string path
-	 * @param mixed value
-	 *
-	 * @return array parsed path
+	 * </code>	 
 	 */
 	protected function _parseIniString(string! path, var value) -> array
 	{

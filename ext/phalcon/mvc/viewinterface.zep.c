@@ -28,71 +28,51 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_ViewInterface) {
 
 /**
  * Sets the layouts sub-directory. Must be a directory under the views directory. Depending of your platform, always add a trailing slash or backslash
- *
- * @param string layoutsDir
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ViewInterface, setLayoutsDir);
 
 /**
  * Gets the current layouts sub-directory
- *
- * @return string
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ViewInterface, getLayoutsDir);
 
 /**
  * Sets a partials sub-directory. Must be a directory under the views directory. Depending of your platform, always add a trailing slash or backslash
- *
- * @param string partialsDir
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ViewInterface, setPartialsDir);
 
 /**
  * Gets the current partials sub-directory
- *
- * @return string
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ViewInterface, getPartialsDir);
 
 /**
  * Sets base path. Depending of your platform, always add a trailing slash or backslash
- *
- * @param string basePath
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ViewInterface, setBasePath);
 
 /**
  * Sets the render level for the view
- *
- * @param string level
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ViewInterface, setRenderLevel);
 
 /**
  * Sets default view name. Must be a file without extension in the views directory
- *
- * @param string viewPath
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ViewInterface, setMainView);
 
 /**
  * Returns the name of the main view
- *
- * @return string
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ViewInterface, getMainView);
 
 /**
  * Change the layout to be used instead of using the name of the latest controller name
- *
- * @param string layout
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ViewInterface, setLayout);
 
 /**
  * Returns the name of the main view
- *
- * @return string
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ViewInterface, getLayout);
 
@@ -117,28 +97,21 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_ViewInterface, setTemplateAfter);
 
 /**
  * Resets any template before layouts
- *
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ViewInterface, cleanTemplateAfter);
 
 /**
  * Gets the name of the controller rendered
- *
- * @return string
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ViewInterface, getControllerName);
 
 /**
  * Gets the name of the action rendered
- *
- * @return string
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ViewInterface, getActionName);
 
 /**
  * Gets extra parameters of the action rendered
- *
- * @return array
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ViewInterface, getParams);
 
@@ -163,16 +136,11 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_ViewInterface, render);
 
 /**
  * Choose a view different to render than last-controller/last-action
- *
- * @param string renderView
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ViewInterface, pick);
 
 /**
  * Renders a partial view
- *
- * @param string partialPath
- * @return string
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ViewInterface, partial);
 
@@ -183,8 +151,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_ViewInterface, finish);
 
 /**
  * Returns the path of the view that is currently rendered
- *
- * @return string
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ViewInterface, getActiveRenderPath);
 
@@ -205,8 +171,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_ViewInterface, reset);
 
 /**
  * Whether the automatic rendering is disabled
- *
- * @return boolean
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ViewInterface, isDisabled);
 

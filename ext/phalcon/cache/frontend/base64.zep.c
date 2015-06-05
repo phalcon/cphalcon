@@ -113,7 +113,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Base64, isBuffering) {
 }
 
 /**
- * Starts output frontend. Actually, does nothing
+ * Starts output frontend. Actually, does nothing in this adapter
  */
 PHP_METHOD(Phalcon_Cache_Frontend_Base64, start) {
 
@@ -160,6 +160,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Base64, beforeStore) {
 
 	ZEPHIR_RETURN_CALL_FUNCTION("base64_encode", NULL, 45, data);
 	zephir_check_call_status();
+	zephir_check_call_status();
 	RETURN_MM();
 
 }
@@ -181,6 +182,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Base64, afterRetrieve) {
 
 
 	ZEPHIR_RETURN_CALL_FUNCTION("base64_decode", NULL, 46, data);
+	zephir_check_call_status();
 	zephir_check_call_status();
 	RETURN_MM();
 

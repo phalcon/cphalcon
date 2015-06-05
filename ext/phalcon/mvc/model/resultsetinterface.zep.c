@@ -28,8 +28,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_ResultsetInterface) {
 
 /**
  * Returns the internal type of data retrieval that the resultset is using
- *
- * @return int
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ResultsetInterface, getType);
 
@@ -49,15 +47,11 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ResultsetInterface, getLast);
 
 /**
  * Set if the resultset is fresh or an old one cached
- *
- * @param boolean isFresh
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ResultsetInterface, setIsFresh);
 
 /**
  * Tell if the resultset if fresh or an old one cached
- *
- * @return boolean
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ResultsetInterface, isFresh);
 
@@ -71,8 +65,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ResultsetInterface, getCache);
 /**
  * Returns a complete resultset as an array, if the resultset has a big number of rows
  * it could consume more memory than currently it does.
- *
- * @return array
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ResultsetInterface, toArray);
 

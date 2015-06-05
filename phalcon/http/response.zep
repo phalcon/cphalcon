@@ -20,7 +20,6 @@
 namespace Phalcon\Http;
 
 use Phalcon\DiInterface;
-use Phalcon\Http\ResponseInterface;
 use Phalcon\Http\Response\Exception;
 use Phalcon\Http\Response\HeadersInterface;
 use Phalcon\Http\Response\CookiesInterface;

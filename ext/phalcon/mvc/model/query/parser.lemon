@@ -461,7 +461,7 @@ static zval *phql_ret_func_call(phql_parser_token *name, zval *arguments, zval *
 	if (arguments) {
 		add_assoc_zval(ret, "arguments", arguments);
 	}
-	
+
 	if (distinct) {
 		add_assoc_zval(ret, "distinct", distinct);
 	}
@@ -849,7 +849,7 @@ where_clause(R) ::= . {
 	R = NULL;
 }
 
-%destructor order_clause { zephir_safe_zval_ptr_dtor($$); } 
+%destructor order_clause { zephir_safe_zval_ptr_dtor($$); }
 
 order_clause(R) ::= ORDER BY order_list(O) . {
 	R = O;
@@ -1053,12 +1053,20 @@ expr(R) ::= expr(E) NOT IN PARENTHESES_OPEN argument_list(L) PARENTHESES_CLOSE .
 	R = phql_ret_expr(PHQL_T_NOTIN, E, L);
 }
 
+expr(R) ::= PARENTHESES_OPEN select_statement(S) PARENTHESES_CLOSE . {
+	R = phql_ret_expr(PHQL_T_SUBQUERY, S, NULL);
+}
+
 expr(R) ::= expr(E) IN PARENTHESES_OPEN select_statement(S) PARENTHESES_CLOSE . {
 	R = phql_ret_expr(PHQL_T_IN, E, S);
 }
 
 expr(R) ::= expr(E) NOT IN PARENTHESES_OPEN select_statement(S) PARENTHESES_CLOSE . {
 	R = phql_ret_expr(PHQL_T_NOTIN, E, S);
+}
+
+expr(R) ::= EXISTS PARENTHESES_OPEN select_statement(S) PARENTHESES_CLOSE . {
+	R = phql_ret_expr(PHQL_T_EXISTS, NULL, S);
 }
 
 expr(R) ::= expr(O1) AGAINST expr(O2) . {
@@ -1071,6 +1079,22 @@ expr(R) ::= CAST PARENTHESES_OPEN expr(E) AS IDENTIFIER(I) PARENTHESES_CLOSE . {
 
 expr(R) ::= CONVERT PARENTHESES_OPEN expr(E) USING IDENTIFIER(I) PARENTHESES_CLOSE . {
 	R = phql_ret_expr(PHQL_T_CONVERT, E, phql_ret_raw_qualified_name(I, NULL));
+}
+
+expr(R) ::= CASE expr(E) when_clauses(W) END . {
+	R = phql_ret_expr(PHQL_T_CASE, E, W);
+}
+
+when_clauses(R) ::= when_clauses(L) when_clause(W) . {
+	R = phql_ret_zval_list(L, W);
+}
+
+when_clauses(R) ::= when_clause(W) . {
+	R = phql_ret_zval_list(W, NULL);
+}
+
+when_clause(R) ::= WHEN expr(E) THEN expr(T) . {
+	R = phql_ret_expr(PHQL_T_WHEN, E, T);
 }
 
 %destructor function_call { zval_ptr_dtor(&$$); }
@@ -1184,14 +1208,6 @@ expr(R) ::= SPLACEHOLDER(P) . {
 }
 
 %destructor qualified_name { zval_ptr_dtor(&$$); }
-
-qualified_name(R) ::= IDENTIFIER(A) COLON IDENTIFIER(B) DOT IDENTIFIER(C) . {
-	R = phql_ret_qualified_name(A, B, C);
-}
-
-qualified_name(R) ::= IDENTIFIER(A) COLON IDENTIFIER(B) . {
-	R = phql_ret_qualified_name(A, NULL, B);
-}
 
 qualified_name(R) ::= IDENTIFIER(A) DOT IDENTIFIER(B) . {
 	R = phql_ret_qualified_name(NULL, A, B);

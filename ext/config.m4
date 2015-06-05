@@ -197,6 +197,10 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/mvc/application.zep.c
 	phalcon/mvc/application/exception.zep.c
 	phalcon/mvc/collection.zep.c
+	phalcon/mvc/collection/behavior.zep.c
+	phalcon/mvc/collection/behavior/softdelete.zep.c
+	phalcon/mvc/collection/behavior/timestampable.zep.c
+	phalcon/mvc/collection/behaviorinterface.zep.c
 	phalcon/mvc/collection/document.zep.c
 	phalcon/mvc/collection/exception.zep.c
 	phalcon/mvc/collection/manager.zep.c

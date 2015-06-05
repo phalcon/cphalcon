@@ -92,3 +92,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Collection_ManagerInterface, getConnection);
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Collection_ManagerInterface, notifyEvent);
 
+/**
+ * Binds a behavior to a collection
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Collection_ManagerInterface, addBehavior);
+

@@ -91,6 +91,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct) {
 
 	ZEPHIR_CALL_FUNCTION(&iniConfig, "parse_ini_file", NULL, 61, filePath, ZEPHIR_GLOBAL(global_true));
 	zephir_check_call_status();
+	zephir_check_call_status();
 	if (ZEPHIR_IS_FALSE_IDENTICAL(iniConfig)) {
 		ZEPHIR_INIT_VAR(_0);
 		object_init_ex(_0, phalcon_config_exception_ce);
@@ -100,13 +101,14 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct) {
 		ZEPHIR_CONCAT_SVS(_2, "Configuration file ", _1, " can't be loaded");
 		ZEPHIR_CALL_METHOD(NULL, _0, "__construct", NULL, 2, _2);
 		zephir_check_call_status();
+		zephir_check_call_status();
 		zephir_throw_exception_debug(_0, "phalcon/config/adapter/ini.zep", 67 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
 	ZEPHIR_INIT_VAR(config);
 	array_init(config);
-	zephir_is_iterable(iniConfig, &_4, &_3, 0, 0, "phalcon/config/adapter/ini.zep", 82);
+	zephir_is_iterable(iniConfig, &_4, &_3, 0, 0, "phalcon/config/adapter/ini.zep", 84);
 	for (
 	  ; zephir_hash_get_current_data_ex(_4, (void**) &_5, &_3) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_4, &_3)
@@ -124,16 +126,21 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct) {
 			ZEPHIR_GET_HVALUE(lastValue, _8);
 			ZEPHIR_CALL_METHOD(&_9, this_ptr, "_parseinistring", &_10, 0, path, lastValue);
 			zephir_check_call_status();
+			zephir_check_call_status();
 			zephir_array_append(&sections, _9, PH_SEPARATE, "phalcon/config/adapter/ini.zep", 77);
 		}
-		ZEPHIR_INIT_NVAR(_0);
-		ZEPHIR_SINIT_NVAR(_11);
-		ZVAL_STRING(&_11, "array_merge_recursive", 0);
-		ZEPHIR_CALL_USER_FUNC_ARRAY(_0, &_11, sections);
-		zephir_check_call_status();
-		zephir_array_update_zval(&config, section, &_0, PH_COPY | PH_SEPARATE);
+		if (zephir_fast_count_int(sections TSRMLS_CC)) {
+			ZEPHIR_INIT_NVAR(_0);
+			ZEPHIR_SINIT_NVAR(_11);
+			ZVAL_STRING(&_11, "array_merge_recursive", 0);
+			ZEPHIR_CALL_USER_FUNC_ARRAY(_0, &_11, sections);
+			zephir_check_call_status();
+			zephir_check_call_status();
+			zephir_array_update_zval(&config, section, &_0, PH_COPY | PH_SEPARATE);
+		}
 	}
 	ZEPHIR_CALL_PARENT(NULL, phalcon_config_adapter_ini_ce, this_ptr, "__construct", &_12, 58, config);
+	zephir_check_call_status();
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 
@@ -153,11 +160,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct) {
  *          ],
  *      ],
  * ];
- * </code>
- * @param string path
- * @param mixed value
- *
- * @return array parsed path
+ * </code>	 
  */
 PHP_METHOD(Phalcon_Config_Adapter_Ini, _parseIniString) {
 
@@ -201,6 +204,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, _parseIniString) {
 	zephir_get_strval(path, _3);
 	zephir_create_array(return_value, 1, 0 TSRMLS_CC);
 	ZEPHIR_CALL_METHOD(&_4, this_ptr, "_parseinistring", NULL, 62, path, value);
+	zephir_check_call_status();
 	zephir_check_call_status();
 	zephir_array_update_zval(&return_value, key, &_4, PH_COPY);
 	RETURN_MM();
