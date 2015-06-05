@@ -8,6 +8,7 @@
 - Added an option to return the SQL to be generated from a Mvc\Model\Query instance (#1908)
 - Fix doesn't correct column domain in `Phalcon\Db\Dialect::select()` see [#10439](https://github.com/phalcon/cphalcon/pull/10439)
 - Added support for DOUBLE type in MySQL
+- Phalcon\Tag\Select now handles array values as strings avoiding that zero will be handled as empty string (#2921)
 
 # 2.0.2 (2015-05-26)
  - Added `stats()` methods to Beanstalk
