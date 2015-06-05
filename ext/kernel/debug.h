@@ -41,6 +41,7 @@ int phalcon_start_debug();
 int phalcon_stop_debug();
 
 int phalcon_print_r(zval *userval TSRMLS_DC);
+int phalcon_debug_print_r(zval *message TSRMLS_DC);
 int phalcon_vdump(zval *uservar TSRMLS_DC);
 int phalcon_debug_assign(char *name, zval *value TSRMLS_DC);
 int phalcon_vpdump(const zval **uservar TSRMLS_DC);

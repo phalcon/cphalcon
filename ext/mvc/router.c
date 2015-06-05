@@ -648,8 +648,8 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 
 	if (unlikely(PHALCON_GLOBAL(debug).enable_debug)) {
 		PHALCON_INIT_NVAR(debug_message);
-		PHALCON_CONCAT_SVS(debug_message, "Handle the URI pattern: ", real_uri, "<br>\n");
-		phalcon_print_r(debug_message TSRMLS_CC);
+		PHALCON_CONCAT_SV(debug_message, "Handle the URI pattern: ", real_uri);
+		phalcon_debug_print_r(debug_message TSRMLS_CC);
 	}
 
 	/**
@@ -795,8 +795,8 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 
 				if (unlikely(PHALCON_GLOBAL(debug).enable_debug)) {
 					PHALCON_INIT_NVAR(debug_message);
-					PHALCON_CONCAT_SVS(debug_message, "--Found Route: ", pattern, "<br>\n");
-					phalcon_print_r(debug_message TSRMLS_CC);
+					PHALCON_CONCAT_SV(debug_message, "--Found Route: ", pattern);
+					phalcon_debug_print_r(debug_message TSRMLS_CC);
 				}
 
 				/**
@@ -866,8 +866,8 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 				break;
 			} else if (unlikely(PHALCON_GLOBAL(debug).enable_debug)) {
 				PHALCON_INIT_NVAR(debug_message);
-				PHALCON_CONCAT_SVS(debug_message, "--Not Found Route: ", pattern, "<br>\n");
-				phalcon_print_r(debug_message TSRMLS_CC);
+				PHALCON_CONCAT_SV(debug_message, "--Not Found Route: ", pattern);
+				phalcon_debug_print_r(debug_message TSRMLS_CC);
 			}
 		}
 
@@ -1021,8 +1021,8 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 
 		if (unlikely(PHALCON_GLOBAL(debug).enable_debug)) {
 			PHALCON_INIT_NVAR(debug_message);
-			ZVAL_STRING(debug_message, "--Use Debug<br>\n", 1);
-			phalcon_print_r(debug_message TSRMLS_CC);
+			ZVAL_STRING(debug_message, "--Use Debug", 1);
+			phalcon_debug_print_r(debug_message TSRMLS_CC);
 		}
 
 		/**

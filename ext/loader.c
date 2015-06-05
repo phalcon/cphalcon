@@ -519,8 +519,8 @@ PHP_METHOD(Phalcon_Loader, findFile){
 
 	if (unlikely(PHALCON_GLOBAL(debug).enable_debug)) {
 		PHALCON_INIT_NVAR(debug_message);
-		PHALCON_CONCAT_SVS(debug_message, "Find class: ", class_name, "<br>\n");
-		phalcon_print_r(debug_message TSRMLS_CC);
+		PHALCON_CONCAT_SV(debug_message, "Find class: ", class_name);
+		phalcon_debug_print_r(debug_message TSRMLS_CC);
 	}
 
 	phalcon_is_iterable(directories, &ah0, &hp0, 0, 0);
@@ -560,8 +560,8 @@ PHP_METHOD(Phalcon_Loader, findFile){
 
 				if (unlikely(PHALCON_GLOBAL(debug).enable_debug)) {
 					PHALCON_INIT_NVAR(debug_message);
-					PHALCON_CONCAT_SVS(debug_message, "--Found: ", file_path, "<br>\n");
-					phalcon_print_r(debug_message TSRMLS_CC);
+					PHALCON_CONCAT_SV(debug_message, "--Found: ", file_path);
+					phalcon_debug_print_r(debug_message TSRMLS_CC);
 				}
 
 				if (Z_TYPE_P(events_manager) == IS_OBJECT) {
@@ -584,8 +584,8 @@ PHP_METHOD(Phalcon_Loader, findFile){
 				RETURN_MM_TRUE;
 			} else if (unlikely(PHALCON_GLOBAL(debug).enable_debug)) {
 				PHALCON_INIT_NVAR(debug_message);
-				PHALCON_CONCAT_SVS(debug_message, "--Not Found: ", file_path, "<br>\n");
-				phalcon_print_r(debug_message TSRMLS_CC);
+				PHALCON_CONCAT_SV(debug_message, "--Not Found: ", file_path);
+				phalcon_debug_print_r(debug_message TSRMLS_CC);
 			}
 
 			zend_hash_move_forward_ex(ah1, &hp1);

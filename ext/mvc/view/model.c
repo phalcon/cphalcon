@@ -38,6 +38,7 @@
 #include "kernel/file.h"
 #include "kernel/string.h"
 #include "kernel/output.h"
+#include "kernel/debug.h"
 
 #include "internal/arginfo.h"
 
@@ -583,7 +584,7 @@ PHP_METHOD(Phalcon_Mvc_View_Model, getView){
  */
 PHP_METHOD(Phalcon_Mvc_View_Model, render){
 
-	zval *child_contents, *child_content = NULL, *content_append = NULL;
+	zval *child_contents, *child_content = NULL, *content_append = NULL, *debug_message = NULL;
 	zval *childs = NULL, *child = NULL, *isappend = NULL, *capture = NULL, *content = NULL;
 	zval *view, *dependency_injector = NULL, *service = NULL, *events_manager = NULL, *event_name = NULL;
 	zval *status = NULL, *not_exists = NULL, *base_path = NULL, *paths = NULL, *views_dir = NULL, *vars = NULL, *new_vars, *template = NULL;
@@ -679,6 +680,12 @@ PHP_METHOD(Phalcon_Mvc_View_Model, render){
 	PHALCON_CALL_SELF(&template, "gettemplate");
 	PHALCON_CALL_SELF(&vars, "getVars");
 
+	if (unlikely(PHALCON_GLOBAL(debug).enable_debug)) {
+		PHALCON_INIT_NVAR(debug_message);
+		PHALCON_CONCAT_SV(debug_message, "Render Model View: ", template);
+		phalcon_debug_print_r(debug_message TSRMLS_CC);
+	}
+
 	PHALCON_INIT_VAR(new_vars);
 	phalcon_fast_array_merge(new_vars, &vars, &child_contents TSRMLS_CC);
 
@@ -707,6 +714,12 @@ PHP_METHOD(Phalcon_Mvc_View_Model, render){
 			PHALCON_CONCAT_VVV(view_engine_path, path, views_dir_path, extension);
 
 			if (phalcon_file_exists(view_engine_path TSRMLS_CC) == SUCCESS) {
+
+				if (unlikely(PHALCON_GLOBAL(debug).enable_debug)) {
+					PHALCON_INIT_NVAR(debug_message);
+					PHALCON_CONCAT_SV(debug_message, "--Found: ", view_engine_path);
+					phalcon_debug_print_r(debug_message TSRMLS_CC);
+				}
 
 				/** 
 				 * Call beforeRenderView if there is a events manager available
@@ -737,6 +750,10 @@ PHP_METHOD(Phalcon_Mvc_View_Model, render){
 				}
 
 				break;
+			} else if (unlikely(PHALCON_GLOBAL(debug).enable_debug)) {
+				PHALCON_INIT_NVAR(debug_message);
+				PHALCON_CONCAT_SV(debug_message, "--Not Found: ", view_engine_path);
+				phalcon_debug_print_r(debug_message TSRMLS_CC);
 			}
 
 			zend_hash_move_forward_ex(ah2, &hp2);
