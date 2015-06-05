@@ -233,7 +233,6 @@ PHP_METHOD(Phalcon_Validation_Message, __set_state) {
 	zephir_array_fetch_string(&_2, message, SL("_type"), PH_NOISY | PH_READONLY, "phalcon/validation/message.zep", 118 TSRMLS_CC);
 	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 424, _0, _1, _2);
 	zephir_check_call_status();
-	zephir_check_call_status();
 	RETURN_MM();
 
 }

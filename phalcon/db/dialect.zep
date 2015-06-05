@@ -663,10 +663,14 @@ abstract class Dialect implements DialectInterface
 		let sql = "CASE " . this->getSqlExpression(expression["expr"], escapeChar);
 
 		for whenClause in expression["when-clauses"] {
-			let sql .= " WHEN " .
+			if whenClause["type"] == "when" {
+				let sql .= " WHEN " .
 						this->getSqlExpression(whenClause["expr"], escapeChar) .
 						" THEN " .
 						this->getSqlExpression(whenClause["then"], escapeChar);
+			} else {
+				let sql .= " ELSE " . this->getSqlExpression(whenClause["expr"], escapeChar);
+			}
 		}
 
 		return sql . " END";

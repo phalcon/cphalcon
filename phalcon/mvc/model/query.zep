@@ -340,11 +340,18 @@ class Query implements QueryInterface, InjectionAwareInterface
 
 		let whenClauses = [];
 		for whenExpr in expr["right"] {
-			let whenClauses[] = [
-				"type": "when",
-				"expr": this->_getExpression(whenExpr["left"]),
-				"then": this->_getExpression(whenExpr["right"])
-			];
+			if isset whenExpr["right"] {
+				let whenClauses[] = [
+					"type": "when",
+					"expr": this->_getExpression(whenExpr["left"]),
+					"then": this->_getExpression(whenExpr["right"])
+				];
+			} else {
+				let whenClauses[] = [
+					"type": "else",
+					"expr": this->_getExpression(whenExpr["left"])
+				];
+			}
 		}
 
 		return [

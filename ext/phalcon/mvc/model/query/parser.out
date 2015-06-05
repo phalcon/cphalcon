@@ -14,9 +14,9 @@
           delete_clause ::= * DELETE FROM associated_name
 
                         SELECT shift  71
-                        INSERT shift  221
-                        UPDATE shift  248
-                        DELETE shift  262
+                        INSERT shift  223
+                        UPDATE shift  250
+                        DELETE shift  264
                        program accept
                 query_language shift  1
               select_statement shift  2
@@ -24,8 +24,8 @@
               update_statement shift  4
               delete_statement shift  5
                  select_clause shift  6
-                 update_clause shift  243
-                 delete_clause shift  259
+                 update_clause shift  245
+                 delete_clause shift  261
 
 State 1:
       (0) program ::= query_language *
@@ -57,7 +57,7 @@ State 6:
           where_clause ::= * WHERE expr
      (60) where_clause ::= *
 
-                         WHERE shift  219
+                         WHERE shift  221
                   where_clause shift  7
                      {default} reduce 60
 
@@ -66,7 +66,7 @@ State 7:
           group_clause ::= * GROUP BY group_list
      (69) group_clause ::= *
 
-                         GROUP shift  212
+                         GROUP shift  214
                   group_clause shift  8
                      {default} reduce 69
 
@@ -75,7 +75,7 @@ State 8:
           having_clause ::= * HAVING expr
      (74) having_clause ::= *
 
-                        HAVING shift  210
+                        HAVING shift  212
                  having_clause shift  9
                      {default} reduce 74
 
@@ -256,7 +256,7 @@ State 22:
                           expr shift  26
                 qualified_name shift  149
                     order_list shift  23
-                    order_item shift  209
+                    order_item shift  211
                  function_call shift  134
 
 State 23:
@@ -489,7 +489,7 @@ State 29:
                         DOUBLE shift  152
                           TRUE shift  154
                          FALSE shift  155
-                          expr shift  208
+                          expr shift  210
                 qualified_name shift  149
                  function_call shift  134
 
@@ -2491,8 +2491,8 @@ State 64:
           expr ::= expr NOT * IN PARENTHESES_OPEN select_statement PARENTHESES_CLOSE
 
                           LIKE shift  65
-                         ILIKE shift  200
-                            IN shift  202
+                         ILIKE shift  202
+                            IN shift  204
 
 State 65:
           expr ::= * MINUS expr
@@ -2805,11 +2805,11 @@ State 70:
                         DOUBLE shift  152
                           TRUE shift  154
                          FALSE shift  155
-              select_statement shift  198
+              select_statement shift  200
                  select_clause shift  6
                           expr shift  138
                 qualified_name shift  149
-                 argument_list shift  196
+                 argument_list shift  198
                  function_call shift  134
                  argument_item shift  158
 
@@ -2819,8 +2819,8 @@ State 71:
           distinct_all ::= * ALL
       (9) distinct_all ::= *
 
-                      DISTINCT shift  194
-                           ALL shift  195
+                      DISTINCT shift  196
+                           ALL shift  197
                   distinct_all shift  72
                      {default} reduce 9
 
@@ -2884,11 +2884,11 @@ State 72:
           qualified_name ::= * IDENTIFIER DOT IDENTIFIER
           qualified_name ::= * IDENTIFIER
 
-                         TIMES shift  185
+                         TIMES shift  187
                          MINUS shift  30
                            NOT shift  145
                    BITWISE_NOT shift  147
-                    IDENTIFIER shift  186
+                    IDENTIFIER shift  188
               PARENTHESES_OPEN shift  104
                        INTEGER shift  150
                   NPLACEHOLDER shift  156
@@ -2903,8 +2903,8 @@ State 72:
                           TRUE shift  154
                          FALSE shift  155
                    column_list shift  73
-                   column_item shift  193
-                          expr shift  189
+                   column_item shift  195
+                          expr shift  191
                 qualified_name shift  149
                  function_call shift  134
 
@@ -2912,7 +2912,7 @@ State 73:
           select_clause ::= SELECT distinct_all column_list * FROM associated_name_list join_list_or_null
           column_list ::= column_list * COMMA column_item
 
-                         COMMA shift  183
+                         COMMA shift  185
                           FROM shift  74
 
 State 74:
@@ -2928,7 +2928,7 @@ State 74:
 
                     IDENTIFIER shift  84
           associated_name_list shift  75
-               associated_name shift  182
+               associated_name shift  184
      aliased_or_qualified_name shift  79
                 qualified_name shift  83
 
@@ -2952,15 +2952,15 @@ State 75:
           join_type ::= * JOIN
 
                          COMMA shift  77
-                         INNER shift  164
-                          JOIN shift  180
-                         CROSS shift  166
-                          LEFT shift  168
-                         RIGHT shift  172
-                          FULL shift  176
+                         INNER shift  166
+                          JOIN shift  182
+                         CROSS shift  168
+                          LEFT shift  170
+                         RIGHT shift  174
+                          FULL shift  178
              join_list_or_null shift  76
                      join_list shift  87
-                     join_item shift  181
+                     join_item shift  183
                    join_clause shift  89
                      join_type shift  90
                      {default} reduce 20
@@ -3020,10 +3020,10 @@ State 83:
 
 State 84:
           qualified_name ::= IDENTIFIER * DOT IDENTIFIER
-    (144) qualified_name ::= IDENTIFIER *
+    (145) qualified_name ::= IDENTIFIER *
 
                            DOT shift  85
-                     {default} reduce 144
+                     {default} reduce 145
 
 State 85:
           qualified_name ::= IDENTIFIER DOT * IDENTIFIER
@@ -3031,9 +3031,9 @@ State 85:
                     IDENTIFIER shift  86
 
 State 86:
-    (143) qualified_name ::= IDENTIFIER DOT IDENTIFIER *
+    (144) qualified_name ::= IDENTIFIER DOT IDENTIFIER *
 
-                     {default} reduce 143
+                     {default} reduce 144
 
 State 87:
      (19) join_list_or_null ::= join_list *
@@ -3050,12 +3050,12 @@ State 87:
           join_type ::= * FULL JOIN
           join_type ::= * JOIN
 
-                         INNER shift  164
-                          JOIN shift  180
-                         CROSS shift  166
-                          LEFT shift  168
-                         RIGHT shift  172
-                          FULL shift  176
+                         INNER shift  166
+                          JOIN shift  182
+                         CROSS shift  168
+                          LEFT shift  170
+                         RIGHT shift  174
+                          FULL shift  178
                      join_item shift  88
                    join_clause shift  89
                      join_type shift  90
@@ -3087,8 +3087,8 @@ State 91:
           join_associated_name ::= * IDENTIFIER
      (27) join_associated_name ::= *
 
-                    IDENTIFIER shift  163
-                            AS shift  161
+                    IDENTIFIER shift  165
+                            AS shift  163
           join_associated_name shift  92
                      {default} reduce 27
 
@@ -3374,9 +3374,9 @@ State 98:
                           NULL shift  99
 
 State 99:
-    (128) expr ::= expr IS NULL *
+    (129) expr ::= expr IS NULL *
 
-                     {default} reduce 128
+                     {default} reduce 129
 
 State 100:
           expr ::= expr IS NOT * NULL
@@ -3384,9 +3384,9 @@ State 100:
                           NULL shift  101
 
 State 101:
-    (129) expr ::= expr IS NOT NULL *
+    (130) expr ::= expr IS NOT NULL *
 
-                     {default} reduce 129
+                     {default} reduce 130
 
 State 102:
           expr ::= * MINUS expr
@@ -3491,7 +3491,7 @@ State 103:
           expr ::= expr * IS NULL
           expr ::= expr * IS NOT NULL
           expr ::= expr * BETWEEN expr
-    (130) expr ::= expr BETWEEN expr *
+    (131) expr ::= expr BETWEEN expr *
 
                         EQUALS shift  50
                      NOTEQUALS shift  52
@@ -3514,7 +3514,7 @@ State 103:
                             IS shift  98
                             IN shift  69
                            NOT shift  64
-                     {default} reduce 130
+                     {default} reduce 131
 
 State 104:
           select_statement ::= * select_clause where_clause group_clause having_clause order_clause select_limit_clause
@@ -3653,9 +3653,9 @@ State 105:
              PARENTHESES_CLOSE shift  106
 
 State 106:
-    (133) expr ::= PARENTHESES_OPEN expr PARENTHESES_CLOSE *
+    (134) expr ::= PARENTHESES_OPEN expr PARENTHESES_CLOSE *
 
-                     {default} reduce 133
+                     {default} reduce 134
 
 State 107:
           expr ::= PARENTHESES_OPEN select_statement * PARENTHESES_CLOSE
@@ -4095,6 +4095,7 @@ State 126:
           when_clauses ::= * when_clauses when_clause
           when_clauses ::= * when_clause
           when_clause ::= * WHEN expr THEN expr
+          when_clause ::= * ELSE expr
           expr ::= expr * IS NULL
           expr ::= expr * IS NOT NULL
           expr ::= expr * BETWEEN expr
@@ -4123,16 +4124,19 @@ State 126:
                             IN shift  69
                            NOT shift  64
                           WHEN shift  130
+                          ELSE shift  160
                   when_clauses shift  127
-                   when_clause shift  160
+                   when_clause shift  162
 
 State 127:
           expr ::= CASE expr when_clauses * END
           when_clauses ::= when_clauses * when_clause
           when_clause ::= * WHEN expr THEN expr
+          when_clause ::= * ELSE expr
 
                            END shift  128
                           WHEN shift  130
+                          ELSE shift  160
                    when_clause shift  129
 
 State 128:
@@ -4406,27 +4410,27 @@ State 133:
                      {default} reduce 117
 
 State 134:
-    (118) expr ::= function_call *
+    (119) expr ::= function_call *
 
-                     {default} reduce 118
+                     {default} reduce 119
 
 State 135:
           function_call ::= IDENTIFIER * PARENTHESES_OPEN distinct_or_null argument_list_or_null PARENTHESES_CLOSE
           qualified_name ::= IDENTIFIER * DOT IDENTIFIER
-    (144) qualified_name ::= IDENTIFIER *
+    (145) qualified_name ::= IDENTIFIER *
 
                            DOT shift  85
               PARENTHESES_OPEN shift  136
-                     {default} reduce 144
+                     {default} reduce 145
 
 State 136:
           function_call ::= IDENTIFIER PARENTHESES_OPEN * distinct_or_null argument_list_or_null PARENTHESES_CLOSE
           distinct_or_null ::= * DISTINCT
-    (121) distinct_or_null ::= *
+    (122) distinct_or_null ::= *
 
                       DISTINCT shift  159
               distinct_or_null shift  137
-                     {default} reduce 121
+                     {default} reduce 122
 
 State 137:
           expr ::= * MINUS expr
@@ -4464,7 +4468,7 @@ State 137:
           function_call ::= * IDENTIFIER PARENTHESES_OPEN distinct_or_null argument_list_or_null PARENTHESES_CLOSE
           function_call ::= IDENTIFIER PARENTHESES_OPEN distinct_or_null * argument_list_or_null PARENTHESES_CLOSE
           argument_list_or_null ::= * argument_list
-    (123) argument_list_or_null ::= *
+    (124) argument_list_or_null ::= *
           argument_list ::= * argument_list COMMA argument_item
           argument_list ::= * argument_item
           argument_item ::= * TIMES
@@ -4493,7 +4497,7 @@ State 137:
                    BITWISE_NOT shift  147
                     IDENTIFIER shift  135
               PARENTHESES_OPEN shift  104
-             PARENTHESES_CLOSE reduce 123
+             PARENTHESES_CLOSE reduce 124
                        INTEGER shift  150
                   NPLACEHOLDER shift  156
                   SPLACEHOLDER shift  157
@@ -4539,7 +4543,7 @@ State 138:
           expr ::= expr * IN PARENTHESES_OPEN select_statement PARENTHESES_CLOSE
           expr ::= expr * NOT IN PARENTHESES_OPEN select_statement PARENTHESES_CLOSE
           expr ::= expr * AGAINST expr
-    (127) argument_item ::= expr *
+    (128) argument_item ::= expr *
           expr ::= expr * IS NULL
           expr ::= expr * IS NOT NULL
           expr ::= expr * BETWEEN expr
@@ -4567,7 +4571,7 @@ State 138:
                             IS shift  98
                             IN shift  69
                            NOT shift  64
-                     {default} reduce 127
+                     {default} reduce 128
 
 State 139:
           function_call ::= IDENTIFIER PARENTHESES_OPEN distinct_or_null argument_list_or_null * PARENTHESES_CLOSE
@@ -4575,16 +4579,16 @@ State 139:
              PARENTHESES_CLOSE shift  140
 
 State 140:
-    (119) function_call ::= IDENTIFIER PARENTHESES_OPEN distinct_or_null argument_list_or_null PARENTHESES_CLOSE *
+    (120) function_call ::= IDENTIFIER PARENTHESES_OPEN distinct_or_null argument_list_or_null PARENTHESES_CLOSE *
 
-                     {default} reduce 119
+                     {default} reduce 120
 
 State 141:
-    (122) argument_list_or_null ::= argument_list *
+    (123) argument_list_or_null ::= argument_list *
           argument_list ::= argument_list * COMMA argument_item
 
                          COMMA shift  142
-             PARENTHESES_CLOSE reduce 122
+             PARENTHESES_CLOSE reduce 123
 
 State 142:
           expr ::= * MINUS expr
@@ -4665,14 +4669,14 @@ State 142:
                  argument_item shift  143
 
 State 143:
-    (124) argument_list ::= argument_list COMMA argument_item *
+    (125) argument_list ::= argument_list COMMA argument_item *
 
-                     {default} reduce 124
+                     {default} reduce 125
 
 State 144:
-    (126) argument_item ::= TIMES *
+    (127) argument_item ::= TIMES *
 
-                     {default} reduce 126
+                     {default} reduce 127
 
 State 145:
           expr ::= * MINUS expr
@@ -4777,10 +4781,10 @@ State 146:
           expr ::= expr * IS NULL
           expr ::= expr * IS NOT NULL
           expr ::= expr * BETWEEN expr
-    (131) expr ::= NOT expr *
+    (132) expr ::= NOT expr *
 
                            NOT shift  64
-                     {default} reduce 131
+                     {default} reduce 132
 
 State 147:
           expr ::= * MINUS expr
@@ -4885,188 +4889,318 @@ State 148:
           expr ::= expr * IS NULL
           expr ::= expr * IS NOT NULL
           expr ::= expr * BETWEEN expr
-    (132) expr ::= BITWISE_NOT expr *
+    (133) expr ::= BITWISE_NOT expr *
 
                            NOT shift  64
-                     {default} reduce 132
+                     {default} reduce 133
 
 State 149:
-    (134) expr ::= qualified_name *
-
-                     {default} reduce 134
-
-State 150:
-    (135) expr ::= INTEGER *
+    (135) expr ::= qualified_name *
 
                      {default} reduce 135
 
-State 151:
-    (136) expr ::= STRING *
+State 150:
+    (136) expr ::= INTEGER *
 
                      {default} reduce 136
 
-State 152:
-    (137) expr ::= DOUBLE *
+State 151:
+    (137) expr ::= STRING *
 
                      {default} reduce 137
 
-State 153:
-    (138) expr ::= NULL *
+State 152:
+    (138) expr ::= DOUBLE *
 
                      {default} reduce 138
 
-State 154:
-    (139) expr ::= TRUE *
+State 153:
+    (139) expr ::= NULL *
 
                      {default} reduce 139
 
-State 155:
-    (140) expr ::= FALSE *
+State 154:
+    (140) expr ::= TRUE *
 
                      {default} reduce 140
 
-State 156:
-    (141) expr ::= NPLACEHOLDER *
+State 155:
+    (141) expr ::= FALSE *
 
                      {default} reduce 141
 
-State 157:
-    (142) expr ::= SPLACEHOLDER *
+State 156:
+    (142) expr ::= NPLACEHOLDER *
 
                      {default} reduce 142
 
-State 158:
-    (125) argument_list ::= argument_item *
+State 157:
+    (143) expr ::= SPLACEHOLDER *
 
-                     {default} reduce 125
+                     {default} reduce 143
+
+State 158:
+    (126) argument_list ::= argument_item *
+
+                     {default} reduce 126
 
 State 159:
-    (120) distinct_or_null ::= DISTINCT *
+    (121) distinct_or_null ::= DISTINCT *
 
-                     {default} reduce 120
+                     {default} reduce 121
 
 State 160:
+          expr ::= * MINUS expr
+          expr ::= * expr MINUS expr
+          expr ::= * expr PLUS expr
+          expr ::= * expr TIMES expr
+          expr ::= * expr DIVIDE expr
+          expr ::= * expr MOD expr
+          expr ::= * expr AND expr
+          expr ::= * expr OR expr
+          expr ::= * expr BITWISE_AND expr
+          expr ::= * expr BITWISE_OR expr
+          expr ::= * expr BITWISE_XOR expr
+          expr ::= * expr EQUALS expr
+          expr ::= * expr NOTEQUALS expr
+          expr ::= * expr LESS expr
+          expr ::= * expr GREATER expr
+          expr ::= * expr GREATEREQUAL expr
+          expr ::= * expr LESSEQUAL expr
+          expr ::= * expr LIKE expr
+          expr ::= * expr NOT LIKE expr
+          expr ::= * expr ILIKE expr
+          expr ::= * expr NOT ILIKE expr
+          expr ::= * expr IN PARENTHESES_OPEN argument_list PARENTHESES_CLOSE
+          expr ::= * expr NOT IN PARENTHESES_OPEN argument_list PARENTHESES_CLOSE
+          expr ::= * PARENTHESES_OPEN select_statement PARENTHESES_CLOSE
+          expr ::= * expr IN PARENTHESES_OPEN select_statement PARENTHESES_CLOSE
+          expr ::= * expr NOT IN PARENTHESES_OPEN select_statement PARENTHESES_CLOSE
+          expr ::= * EXISTS PARENTHESES_OPEN select_statement PARENTHESES_CLOSE
+          expr ::= * expr AGAINST expr
+          expr ::= * CAST PARENTHESES_OPEN expr AS IDENTIFIER PARENTHESES_CLOSE
+          expr ::= * CONVERT PARENTHESES_OPEN expr USING IDENTIFIER PARENTHESES_CLOSE
+          expr ::= * CASE expr when_clauses END
+          when_clause ::= ELSE * expr
+          expr ::= * function_call
+          function_call ::= * IDENTIFIER PARENTHESES_OPEN distinct_or_null argument_list_or_null PARENTHESES_CLOSE
+          expr ::= * expr IS NULL
+          expr ::= * expr IS NOT NULL
+          expr ::= * expr BETWEEN expr
+          expr ::= * NOT expr
+          expr ::= * BITWISE_NOT expr
+          expr ::= * PARENTHESES_OPEN expr PARENTHESES_CLOSE
+          expr ::= * qualified_name
+          expr ::= * INTEGER
+          expr ::= * STRING
+          expr ::= * DOUBLE
+          expr ::= * NULL
+          expr ::= * TRUE
+          expr ::= * FALSE
+          expr ::= * NPLACEHOLDER
+          expr ::= * SPLACEHOLDER
+          qualified_name ::= * IDENTIFIER DOT IDENTIFIER
+          qualified_name ::= * IDENTIFIER
+
+                         MINUS shift  30
+                           NOT shift  145
+                   BITWISE_NOT shift  147
+                    IDENTIFIER shift  135
+              PARENTHESES_OPEN shift  104
+                       INTEGER shift  150
+                  NPLACEHOLDER shift  156
+                  SPLACEHOLDER shift  157
+                        EXISTS shift  109
+                          CAST shift  113
+                       CONVERT shift  119
+                          CASE shift  125
+                          NULL shift  153
+                        STRING shift  151
+                        DOUBLE shift  152
+                          TRUE shift  154
+                         FALSE shift  155
+                          expr shift  161
+                qualified_name shift  149
+                 function_call shift  134
+
+State 161:
+          expr ::= expr * MINUS expr
+          expr ::= expr * PLUS expr
+          expr ::= expr * TIMES expr
+          expr ::= expr * DIVIDE expr
+          expr ::= expr * MOD expr
+          expr ::= expr * AND expr
+          expr ::= expr * OR expr
+          expr ::= expr * BITWISE_AND expr
+          expr ::= expr * BITWISE_OR expr
+          expr ::= expr * BITWISE_XOR expr
+          expr ::= expr * EQUALS expr
+          expr ::= expr * NOTEQUALS expr
+          expr ::= expr * LESS expr
+          expr ::= expr * GREATER expr
+          expr ::= expr * GREATEREQUAL expr
+          expr ::= expr * LESSEQUAL expr
+          expr ::= expr * LIKE expr
+          expr ::= expr * NOT LIKE expr
+          expr ::= expr * ILIKE expr
+          expr ::= expr * NOT ILIKE expr
+          expr ::= expr * IN PARENTHESES_OPEN argument_list PARENTHESES_CLOSE
+          expr ::= expr * NOT IN PARENTHESES_OPEN argument_list PARENTHESES_CLOSE
+          expr ::= expr * IN PARENTHESES_OPEN select_statement PARENTHESES_CLOSE
+          expr ::= expr * NOT IN PARENTHESES_OPEN select_statement PARENTHESES_CLOSE
+          expr ::= expr * AGAINST expr
+    (118) when_clause ::= ELSE expr *
+          expr ::= expr * IS NULL
+          expr ::= expr * IS NOT NULL
+          expr ::= expr * BETWEEN expr
+
+                       AGAINST shift  96
+                       BETWEEN shift  102
+                        EQUALS shift  50
+                     NOTEQUALS shift  52
+                          LESS shift  54
+                       GREATER shift  56
+                  GREATEREQUAL shift  58
+                     LESSEQUAL shift  60
+                           AND shift  40
+                            OR shift  42
+                          LIKE shift  62
+                         ILIKE shift  67
+                   BITWISE_AND shift  44
+                    BITWISE_OR shift  46
+                   BITWISE_XOR shift  48
+                        DIVIDE shift  36
+                         TIMES shift  34
+                           MOD shift  38
+                          PLUS shift  32
+                         MINUS shift  29
+                            IS shift  98
+                            IN shift  69
+                           NOT shift  64
+                     {default} reduce 118
+
+State 162:
     (116) when_clauses ::= when_clause *
 
                      {default} reduce 116
 
-State 161:
+State 163:
           join_associated_name ::= AS * IDENTIFIER
 
-                    IDENTIFIER shift  162
+                    IDENTIFIER shift  164
 
-State 162:
+State 164:
      (25) join_associated_name ::= AS IDENTIFIER *
 
                      {default} reduce 25
 
-State 163:
+State 165:
      (26) join_associated_name ::= IDENTIFIER *
 
                      {default} reduce 26
 
-State 164:
-          join_type ::= INNER * JOIN
-
-                          JOIN shift  165
-
-State 165:
-     (28) join_type ::= INNER JOIN *
-
-                    IDENTIFIER reduce 28
-
 State 166:
-          join_type ::= CROSS * JOIN
+          join_type ::= INNER * JOIN
 
                           JOIN shift  167
 
 State 167:
+     (28) join_type ::= INNER JOIN *
+
+                    IDENTIFIER reduce 28
+
+State 168:
+          join_type ::= CROSS * JOIN
+
+                          JOIN shift  169
+
+State 169:
      (29) join_type ::= CROSS JOIN *
 
                     IDENTIFIER reduce 29
 
-State 168:
+State 170:
           join_type ::= LEFT * OUTER JOIN
           join_type ::= LEFT * JOIN
 
-                          JOIN shift  171
-                         OUTER shift  169
+                          JOIN shift  173
+                         OUTER shift  171
 
-State 169:
+State 171:
           join_type ::= LEFT OUTER * JOIN
 
-                          JOIN shift  170
+                          JOIN shift  172
 
-State 170:
+State 172:
      (30) join_type ::= LEFT OUTER JOIN *
 
                     IDENTIFIER reduce 30
 
-State 171:
+State 173:
      (31) join_type ::= LEFT JOIN *
 
                     IDENTIFIER reduce 31
 
-State 172:
+State 174:
           join_type ::= RIGHT * OUTER JOIN
           join_type ::= RIGHT * JOIN
 
-                          JOIN shift  175
-                         OUTER shift  173
+                          JOIN shift  177
+                         OUTER shift  175
 
-State 173:
+State 175:
           join_type ::= RIGHT OUTER * JOIN
 
-                          JOIN shift  174
+                          JOIN shift  176
 
-State 174:
+State 176:
      (32) join_type ::= RIGHT OUTER JOIN *
 
                     IDENTIFIER reduce 32
 
-State 175:
+State 177:
      (33) join_type ::= RIGHT JOIN *
 
                     IDENTIFIER reduce 33
 
-State 176:
+State 178:
           join_type ::= FULL * OUTER JOIN
           join_type ::= FULL * JOIN
 
-                          JOIN shift  179
-                         OUTER shift  177
+                          JOIN shift  181
+                         OUTER shift  179
 
-State 177:
+State 179:
           join_type ::= FULL OUTER * JOIN
 
-                          JOIN shift  178
+                          JOIN shift  180
 
-State 178:
+State 180:
      (34) join_type ::= FULL OUTER JOIN *
 
                     IDENTIFIER reduce 34
 
-State 179:
+State 181:
      (35) join_type ::= FULL JOIN *
 
                     IDENTIFIER reduce 35
 
-State 180:
+State 182:
      (36) join_type ::= JOIN *
 
                     IDENTIFIER reduce 36
 
-State 181:
+State 183:
      (22) join_list ::= join_item *
 
                      {default} reduce 22
 
-State 182:
+State 184:
      (18) associated_name_list ::= associated_name *
 
                      {default} reduce 18
 
-State 183:
+State 185:
           column_list ::= column_list COMMA * column_item
           column_item ::= * TIMES
           column_item ::= * IDENTIFIER DOT TIMES
@@ -5124,11 +5258,11 @@ State 183:
           qualified_name ::= * IDENTIFIER DOT IDENTIFIER
           qualified_name ::= * IDENTIFIER
 
-                         TIMES shift  185
+                         TIMES shift  187
                          MINUS shift  30
                            NOT shift  145
                    BITWISE_NOT shift  147
-                    IDENTIFIER shift  186
+                    IDENTIFIER shift  188
               PARENTHESES_OPEN shift  104
                        INTEGER shift  150
                   NPLACEHOLDER shift  156
@@ -5142,44 +5276,44 @@ State 183:
                         DOUBLE shift  152
                           TRUE shift  154
                          FALSE shift  155
-                   column_item shift  184
-                          expr shift  189
+                   column_item shift  186
+                          expr shift  191
                 qualified_name shift  149
                  function_call shift  134
 
-State 184:
+State 186:
      (10) column_list ::= column_list COMMA column_item *
 
                      {default} reduce 10
 
-State 185:
+State 187:
      (12) column_item ::= TIMES *
 
                      {default} reduce 12
 
-State 186:
+State 188:
           column_item ::= IDENTIFIER * DOT TIMES
           function_call ::= IDENTIFIER * PARENTHESES_OPEN distinct_or_null argument_list_or_null PARENTHESES_CLOSE
           qualified_name ::= IDENTIFIER * DOT IDENTIFIER
-    (144) qualified_name ::= IDENTIFIER *
+    (145) qualified_name ::= IDENTIFIER *
 
-                           DOT shift  187
+                           DOT shift  189
               PARENTHESES_OPEN shift  136
-                     {default} reduce 144
+                     {default} reduce 145
 
-State 187:
+State 189:
           column_item ::= IDENTIFIER DOT * TIMES
           qualified_name ::= IDENTIFIER DOT * IDENTIFIER
 
-                         TIMES shift  188
+                         TIMES shift  190
                     IDENTIFIER shift  86
 
-State 188:
+State 190:
      (13) column_item ::= IDENTIFIER DOT TIMES *
 
                      {default} reduce 13
 
-State 189:
+State 191:
           column_item ::= expr * AS IDENTIFIER
           column_item ::= expr * IDENTIFIER
      (16) column_item ::= expr *
@@ -5235,63 +5369,63 @@ State 189:
                             IS shift  98
                             IN shift  69
                            NOT shift  64
-                    IDENTIFIER shift  192
-                            AS shift  190
+                    IDENTIFIER shift  194
+                            AS shift  192
                      {default} reduce 16
 
-State 190:
+State 192:
           column_item ::= expr AS * IDENTIFIER
 
-                    IDENTIFIER shift  191
+                    IDENTIFIER shift  193
 
-State 191:
+State 193:
      (14) column_item ::= expr AS IDENTIFIER *
 
                      {default} reduce 14
 
-State 192:
+State 194:
      (15) column_item ::= expr IDENTIFIER *
 
                      {default} reduce 15
 
-State 193:
+State 195:
      (11) column_list ::= column_item *
 
                      {default} reduce 11
 
-State 194:
+State 196:
       (7) distinct_all ::= DISTINCT *
 
                      {default} reduce 7
 
-State 195:
+State 197:
       (8) distinct_all ::= ALL *
 
                      {default} reduce 8
 
-State 196:
+State 198:
           expr ::= expr IN PARENTHESES_OPEN argument_list * PARENTHESES_CLOSE
           argument_list ::= argument_list * COMMA argument_item
 
                          COMMA shift  142
-             PARENTHESES_CLOSE shift  197
+             PARENTHESES_CLOSE shift  199
 
-State 197:
+State 199:
     (105) expr ::= expr IN PARENTHESES_OPEN argument_list PARENTHESES_CLOSE *
 
                      {default} reduce 105
 
-State 198:
+State 200:
           expr ::= expr IN PARENTHESES_OPEN select_statement * PARENTHESES_CLOSE
 
-             PARENTHESES_CLOSE shift  199
+             PARENTHESES_CLOSE shift  201
 
-State 199:
+State 201:
     (108) expr ::= expr IN PARENTHESES_OPEN select_statement PARENTHESES_CLOSE *
 
                      {default} reduce 108
 
-State 200:
+State 202:
           expr ::= * MINUS expr
           expr ::= * expr MINUS expr
           expr ::= * expr PLUS expr
@@ -5361,11 +5495,11 @@ State 200:
                         DOUBLE shift  152
                           TRUE shift  154
                          FALSE shift  155
-                          expr shift  201
+                          expr shift  203
                 qualified_name shift  149
                  function_call shift  134
 
-State 201:
+State 203:
           expr ::= expr * MINUS expr
           expr ::= expr * PLUS expr
           expr ::= expr * TIMES expr
@@ -5399,13 +5533,13 @@ State 201:
                            NOT shift  64
                      {default} reduce 104
 
-State 202:
+State 204:
           expr ::= expr NOT IN * PARENTHESES_OPEN argument_list PARENTHESES_CLOSE
           expr ::= expr NOT IN * PARENTHESES_OPEN select_statement PARENTHESES_CLOSE
 
-              PARENTHESES_OPEN shift  203
+              PARENTHESES_OPEN shift  205
 
-State 203:
+State 205:
           select_statement ::= * select_clause where_clause group_clause having_clause order_clause select_limit_clause
           select_clause ::= * SELECT distinct_all column_list FROM associated_name_list join_list_or_null
           expr ::= * MINUS expr
@@ -5484,37 +5618,37 @@ State 203:
                         DOUBLE shift  152
                           TRUE shift  154
                          FALSE shift  155
-              select_statement shift  206
+              select_statement shift  208
                  select_clause shift  6
                           expr shift  138
                 qualified_name shift  149
-                 argument_list shift  204
+                 argument_list shift  206
                  function_call shift  134
                  argument_item shift  158
 
-State 204:
+State 206:
           expr ::= expr NOT IN PARENTHESES_OPEN argument_list * PARENTHESES_CLOSE
           argument_list ::= argument_list * COMMA argument_item
 
                          COMMA shift  142
-             PARENTHESES_CLOSE shift  205
+             PARENTHESES_CLOSE shift  207
 
-State 205:
+State 207:
     (106) expr ::= expr NOT IN PARENTHESES_OPEN argument_list PARENTHESES_CLOSE *
 
                      {default} reduce 106
 
-State 206:
+State 208:
           expr ::= expr NOT IN PARENTHESES_OPEN select_statement * PARENTHESES_CLOSE
 
-             PARENTHESES_CLOSE shift  207
+             PARENTHESES_CLOSE shift  209
 
-State 207:
+State 209:
     (109) expr ::= expr NOT IN PARENTHESES_OPEN select_statement PARENTHESES_CLOSE *
 
                      {default} reduce 109
 
-State 208:
+State 210:
           expr ::= expr * MINUS expr
      (85) expr ::= expr MINUS expr *
           expr ::= expr * PLUS expr
@@ -5550,12 +5684,12 @@ State 208:
                            NOT shift  64
                      {default} reduce 85
 
-State 209:
+State 211:
      (64) order_list ::= order_item *
 
                      {default} reduce 64
 
-State 210:
+State 212:
           having_clause ::= HAVING * expr
           expr ::= * MINUS expr
           expr ::= * expr MINUS expr
@@ -5625,11 +5759,11 @@ State 210:
                         DOUBLE shift  152
                           TRUE shift  154
                          FALSE shift  155
-                          expr shift  211
+                          expr shift  213
                 qualified_name shift  149
                  function_call shift  134
 
-State 211:
+State 213:
      (73) having_clause ::= HAVING expr *
           expr ::= expr * MINUS expr
           expr ::= expr * PLUS expr
@@ -5685,12 +5819,12 @@ State 211:
                            NOT shift  64
                      {default} reduce 73
 
-State 212:
+State 214:
           group_clause ::= GROUP * BY group_list
 
-                            BY shift  213
+                            BY shift  215
 
-State 213:
+State 215:
           group_clause ::= GROUP BY * group_list
           group_list ::= * group_list COMMA group_item
           group_list ::= * group_item
@@ -5763,20 +5897,20 @@ State 213:
                         DOUBLE shift  152
                           TRUE shift  154
                          FALSE shift  155
-                          expr shift  217
+                          expr shift  219
                 qualified_name shift  149
-                    group_list shift  214
-                    group_item shift  218
+                    group_list shift  216
+                    group_item shift  220
                  function_call shift  134
 
-State 214:
+State 216:
      (68) group_clause ::= GROUP BY group_list *
           group_list ::= group_list * COMMA group_item
 
-                         COMMA shift  215
+                         COMMA shift  217
                      {default} reduce 68
 
-State 215:
+State 217:
           group_list ::= group_list COMMA * group_item
           group_item ::= * expr
           expr ::= * MINUS expr
@@ -5847,17 +5981,17 @@ State 215:
                         DOUBLE shift  152
                           TRUE shift  154
                          FALSE shift  155
-                          expr shift  217
+                          expr shift  219
                 qualified_name shift  149
-                    group_item shift  216
+                    group_item shift  218
                  function_call shift  134
 
-State 216:
+State 218:
      (70) group_list ::= group_list COMMA group_item *
 
                      {default} reduce 70
 
-State 217:
+State 219:
      (72) group_item ::= expr *
           expr ::= expr * MINUS expr
           expr ::= expr * PLUS expr
@@ -5913,12 +6047,12 @@ State 217:
                            NOT shift  64
                      {default} reduce 72
 
-State 218:
+State 220:
      (71) group_list ::= group_item *
 
                      {default} reduce 71
 
-State 219:
+State 221:
           where_clause ::= WHERE * expr
           expr ::= * MINUS expr
           expr ::= * expr MINUS expr
@@ -5988,11 +6122,11 @@ State 219:
                         DOUBLE shift  152
                           TRUE shift  154
                          FALSE shift  155
-                          expr shift  220
+                          expr shift  222
                 qualified_name shift  149
                  function_call shift  134
 
-State 220:
+State 222:
      (59) where_clause ::= WHERE expr *
           expr ::= expr * MINUS expr
           expr ::= expr * PLUS expr
@@ -6048,13 +6182,13 @@ State 220:
                            NOT shift  64
                      {default} reduce 59
 
-State 221:
+State 223:
           insert_statement ::= INSERT * INTO aliased_or_qualified_name VALUES PARENTHESES_OPEN values_list PARENTHESES_CLOSE
           insert_statement ::= INSERT * INTO aliased_or_qualified_name PARENTHESES_OPEN field_list PARENTHESES_CLOSE VALUES PARENTHESES_OPEN values_list PARENTHESES_CLOSE
 
-                          INTO shift  222
+                          INTO shift  224
 
-State 222:
+State 224:
           insert_statement ::= INSERT INTO * aliased_or_qualified_name VALUES PARENTHESES_OPEN values_list PARENTHESES_CLOSE
           insert_statement ::= INSERT INTO * aliased_or_qualified_name PARENTHESES_OPEN field_list PARENTHESES_CLOSE VALUES PARENTHESES_OPEN values_list PARENTHESES_CLOSE
           aliased_or_qualified_name ::= * qualified_name
@@ -6062,22 +6196,22 @@ State 222:
           qualified_name ::= * IDENTIFIER
 
                     IDENTIFIER shift  84
-     aliased_or_qualified_name shift  223
+     aliased_or_qualified_name shift  225
                 qualified_name shift  83
 
-State 223:
+State 225:
           insert_statement ::= INSERT INTO aliased_or_qualified_name * VALUES PARENTHESES_OPEN values_list PARENTHESES_CLOSE
           insert_statement ::= INSERT INTO aliased_or_qualified_name * PARENTHESES_OPEN field_list PARENTHESES_CLOSE VALUES PARENTHESES_OPEN values_list PARENTHESES_CLOSE
 
-                        VALUES shift  224
-              PARENTHESES_OPEN shift  232
+                        VALUES shift  226
+              PARENTHESES_OPEN shift  234
 
-State 224:
+State 226:
           insert_statement ::= INSERT INTO aliased_or_qualified_name VALUES * PARENTHESES_OPEN values_list PARENTHESES_CLOSE
 
-              PARENTHESES_OPEN shift  225
+              PARENTHESES_OPEN shift  227
 
-State 225:
+State 227:
           insert_statement ::= INSERT INTO aliased_or_qualified_name VALUES PARENTHESES_OPEN * values_list PARENTHESES_CLOSE
           values_list ::= * values_list COMMA value_item
           values_list ::= * value_item
@@ -6150,25 +6284,25 @@ State 225:
                         DOUBLE shift  152
                           TRUE shift  154
                          FALSE shift  155
-                          expr shift  230
-                   values_list shift  226
-                    value_item shift  231
+                          expr shift  232
+                   values_list shift  228
+                    value_item shift  233
                 qualified_name shift  149
                  function_call shift  134
 
-State 226:
+State 228:
           insert_statement ::= INSERT INTO aliased_or_qualified_name VALUES PARENTHESES_OPEN values_list * PARENTHESES_CLOSE
           values_list ::= values_list * COMMA value_item
 
-                         COMMA shift  228
-             PARENTHESES_CLOSE shift  227
+                         COMMA shift  230
+             PARENTHESES_CLOSE shift  229
 
-State 227:
+State 229:
      (39) insert_statement ::= INSERT INTO aliased_or_qualified_name VALUES PARENTHESES_OPEN values_list PARENTHESES_CLOSE *
 
                              $ reduce 39
 
-State 228:
+State 230:
           values_list ::= values_list COMMA * value_item
           value_item ::= * expr
           expr ::= * MINUS expr
@@ -6239,17 +6373,17 @@ State 228:
                         DOUBLE shift  152
                           TRUE shift  154
                          FALSE shift  155
-                          expr shift  230
-                    value_item shift  229
+                          expr shift  232
+                    value_item shift  231
                 qualified_name shift  149
                  function_call shift  134
 
-State 229:
+State 231:
      (41) values_list ::= values_list COMMA value_item *
 
                      {default} reduce 41
 
-State 230:
+State 232:
      (43) value_item ::= expr *
           expr ::= expr * MINUS expr
           expr ::= expr * PLUS expr
@@ -6305,39 +6439,39 @@ State 230:
                            NOT shift  64
                      {default} reduce 43
 
-State 231:
+State 233:
      (42) values_list ::= value_item *
 
                      {default} reduce 42
 
-State 232:
+State 234:
           insert_statement ::= INSERT INTO aliased_or_qualified_name PARENTHESES_OPEN * field_list PARENTHESES_CLOSE VALUES PARENTHESES_OPEN values_list PARENTHESES_CLOSE
           field_list ::= * field_list COMMA field_item
           field_list ::= * field_item
           field_item ::= * IDENTIFIER
 
-                    IDENTIFIER shift  241
-                    field_list shift  233
-                    field_item shift  242
+                    IDENTIFIER shift  243
+                    field_list shift  235
+                    field_item shift  244
 
-State 233:
+State 235:
           insert_statement ::= INSERT INTO aliased_or_qualified_name PARENTHESES_OPEN field_list * PARENTHESES_CLOSE VALUES PARENTHESES_OPEN values_list PARENTHESES_CLOSE
           field_list ::= field_list * COMMA field_item
 
-                         COMMA shift  239
-             PARENTHESES_CLOSE shift  234
-
-State 234:
-          insert_statement ::= INSERT INTO aliased_or_qualified_name PARENTHESES_OPEN field_list PARENTHESES_CLOSE * VALUES PARENTHESES_OPEN values_list PARENTHESES_CLOSE
-
-                        VALUES shift  235
-
-State 235:
-          insert_statement ::= INSERT INTO aliased_or_qualified_name PARENTHESES_OPEN field_list PARENTHESES_CLOSE VALUES * PARENTHESES_OPEN values_list PARENTHESES_CLOSE
-
-              PARENTHESES_OPEN shift  236
+                         COMMA shift  241
+             PARENTHESES_CLOSE shift  236
 
 State 236:
+          insert_statement ::= INSERT INTO aliased_or_qualified_name PARENTHESES_OPEN field_list PARENTHESES_CLOSE * VALUES PARENTHESES_OPEN values_list PARENTHESES_CLOSE
+
+                        VALUES shift  237
+
+State 237:
+          insert_statement ::= INSERT INTO aliased_or_qualified_name PARENTHESES_OPEN field_list PARENTHESES_CLOSE VALUES * PARENTHESES_OPEN values_list PARENTHESES_CLOSE
+
+              PARENTHESES_OPEN shift  238
+
+State 238:
           insert_statement ::= INSERT INTO aliased_or_qualified_name PARENTHESES_OPEN field_list PARENTHESES_CLOSE VALUES PARENTHESES_OPEN * values_list PARENTHESES_CLOSE
           values_list ::= * values_list COMMA value_item
           values_list ::= * value_item
@@ -6410,70 +6544,70 @@ State 236:
                         DOUBLE shift  152
                           TRUE shift  154
                          FALSE shift  155
-                          expr shift  230
-                   values_list shift  237
-                    value_item shift  231
+                          expr shift  232
+                   values_list shift  239
+                    value_item shift  233
                 qualified_name shift  149
                  function_call shift  134
 
-State 237:
+State 239:
           insert_statement ::= INSERT INTO aliased_or_qualified_name PARENTHESES_OPEN field_list PARENTHESES_CLOSE VALUES PARENTHESES_OPEN values_list * PARENTHESES_CLOSE
           values_list ::= values_list * COMMA value_item
 
-                         COMMA shift  228
-             PARENTHESES_CLOSE shift  238
+                         COMMA shift  230
+             PARENTHESES_CLOSE shift  240
 
-State 238:
+State 240:
      (40) insert_statement ::= INSERT INTO aliased_or_qualified_name PARENTHESES_OPEN field_list PARENTHESES_CLOSE VALUES PARENTHESES_OPEN values_list PARENTHESES_CLOSE *
 
                              $ reduce 40
 
-State 239:
+State 241:
           field_list ::= field_list COMMA * field_item
           field_item ::= * IDENTIFIER
 
-                    IDENTIFIER shift  241
-                    field_item shift  240
+                    IDENTIFIER shift  243
+                    field_item shift  242
 
-State 240:
+State 242:
      (44) field_list ::= field_list COMMA field_item *
 
                      {default} reduce 44
 
-State 241:
+State 243:
      (46) field_item ::= IDENTIFIER *
 
                      {default} reduce 46
 
-State 242:
+State 244:
      (45) field_list ::= field_item *
 
                      {default} reduce 45
 
-State 243:
+State 245:
           update_statement ::= update_clause * where_clause limit_clause
           where_clause ::= * WHERE expr
      (60) where_clause ::= *
 
-                         WHERE shift  219
-                  where_clause shift  244
+                         WHERE shift  221
+                  where_clause shift  246
                      {default} reduce 60
 
-State 244:
+State 246:
           update_statement ::= update_clause where_clause * limit_clause
           limit_clause ::= * LIMIT integer_or_placeholder
      (80) limit_clause ::= *
 
                              $ reduce 80
-                         LIMIT shift  246
-                  limit_clause shift  245
+                         LIMIT shift  248
+                  limit_clause shift  247
 
-State 245:
+State 247:
      (47) update_statement ::= update_clause where_clause limit_clause *
 
                              $ reduce 47
 
-State 246:
+State 248:
           limit_clause ::= LIMIT * integer_or_placeholder
           integer_or_placeholder ::= * INTEGER
           integer_or_placeholder ::= * NPLACEHOLDER
@@ -6482,14 +6616,14 @@ State 246:
                        INTEGER shift  16
                   NPLACEHOLDER shift  17
                   SPLACEHOLDER shift  18
-        integer_or_placeholder shift  247
+        integer_or_placeholder shift  249
 
-State 247:
+State 249:
      (79) limit_clause ::= LIMIT integer_or_placeholder *
 
                              $ reduce 79
 
-State 248:
+State 250:
           update_clause ::= UPDATE * associated_name SET update_item_list
           associated_name ::= * aliased_or_qualified_name AS IDENTIFIER
           associated_name ::= * aliased_or_qualified_name IDENTIFIER
@@ -6499,16 +6633,16 @@ State 248:
           qualified_name ::= * IDENTIFIER
 
                     IDENTIFIER shift  84
-               associated_name shift  249
+               associated_name shift  251
      aliased_or_qualified_name shift  79
                 qualified_name shift  83
 
-State 249:
+State 251:
           update_clause ::= UPDATE associated_name * SET update_item_list
 
-                           SET shift  250
+                           SET shift  252
 
-State 250:
+State 252:
           update_clause ::= UPDATE associated_name SET * update_item_list
           update_item_list ::= * update_item_list COMMA update_item
           update_item_list ::= * update_item
@@ -6517,38 +6651,38 @@ State 250:
           qualified_name ::= * IDENTIFIER
 
                     IDENTIFIER shift  84
-              update_item_list shift  251
-                   update_item shift  258
-                qualified_name shift  254
+              update_item_list shift  253
+                   update_item shift  260
+                qualified_name shift  256
 
-State 251:
+State 253:
      (48) update_clause ::= UPDATE associated_name SET update_item_list *
           update_item_list ::= update_item_list * COMMA update_item
 
-                         COMMA shift  252
+                         COMMA shift  254
                      {default} reduce 48
 
-State 252:
+State 254:
           update_item_list ::= update_item_list COMMA * update_item
           update_item ::= * qualified_name EQUALS new_value
           qualified_name ::= * IDENTIFIER DOT IDENTIFIER
           qualified_name ::= * IDENTIFIER
 
                     IDENTIFIER shift  84
-                   update_item shift  253
-                qualified_name shift  254
+                   update_item shift  255
+                qualified_name shift  256
 
-State 253:
+State 255:
      (49) update_item_list ::= update_item_list COMMA update_item *
 
                      {default} reduce 49
 
-State 254:
+State 256:
           update_item ::= qualified_name * EQUALS new_value
 
-                        EQUALS shift  255
+                        EQUALS shift  257
 
-State 255:
+State 257:
           update_item ::= qualified_name EQUALS * new_value
           new_value ::= * expr
           expr ::= * MINUS expr
@@ -6619,17 +6753,17 @@ State 255:
                         DOUBLE shift  152
                           TRUE shift  154
                          FALSE shift  155
-                          expr shift  257
+                          expr shift  259
                 qualified_name shift  149
-                     new_value shift  256
+                     new_value shift  258
                  function_call shift  134
 
-State 256:
+State 258:
      (51) update_item ::= qualified_name EQUALS new_value *
 
                      {default} reduce 51
 
-State 257:
+State 259:
      (52) new_value ::= expr *
           expr ::= expr * MINUS expr
           expr ::= expr * PLUS expr
@@ -6685,40 +6819,40 @@ State 257:
                            NOT shift  64
                      {default} reduce 52
 
-State 258:
+State 260:
      (50) update_item_list ::= update_item *
 
                      {default} reduce 50
 
-State 259:
+State 261:
           delete_statement ::= delete_clause * where_clause limit_clause
           where_clause ::= * WHERE expr
      (60) where_clause ::= *
 
-                         WHERE shift  219
-                  where_clause shift  260
+                         WHERE shift  221
+                  where_clause shift  262
                      {default} reduce 60
 
-State 260:
+State 262:
           delete_statement ::= delete_clause where_clause * limit_clause
           limit_clause ::= * LIMIT integer_or_placeholder
      (80) limit_clause ::= *
 
                              $ reduce 80
-                         LIMIT shift  246
-                  limit_clause shift  261
+                         LIMIT shift  248
+                  limit_clause shift  263
 
-State 261:
+State 263:
      (53) delete_statement ::= delete_clause where_clause limit_clause *
 
                              $ reduce 53
 
-State 262:
+State 264:
           delete_clause ::= DELETE * FROM associated_name
 
-                          FROM shift  263
+                          FROM shift  265
 
-State 263:
+State 265:
           delete_clause ::= DELETE FROM * associated_name
           associated_name ::= * aliased_or_qualified_name AS IDENTIFIER
           associated_name ::= * aliased_or_qualified_name IDENTIFIER
@@ -6728,11 +6862,11 @@ State 263:
           qualified_name ::= * IDENTIFIER
 
                     IDENTIFIER shift  84
-               associated_name shift  264
+               associated_name shift  266
      aliased_or_qualified_name shift  79
                 qualified_name shift  83
 
-State 264:
+State 266:
      (54) delete_clause ::= DELETE FROM associated_name *
 
                      {default} reduce 54

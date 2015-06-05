@@ -88,7 +88,6 @@ PHP_METHOD(Phalcon_Annotations_Annotation, __construct) {
 			zephir_array_fetch_string(&_4, argument, SL("expr"), PH_NOISY | PH_READONLY, "phalcon/annotations/annotation.zep", 66 TSRMLS_CC);
 			ZEPHIR_CALL_METHOD(&resolvedArgument, this_ptr, "getexpression", &_5, 0, _4);
 			zephir_check_call_status();
-			zephir_check_call_status();
 			if (zephir_array_isset_string_fetch(&name, argument, SS("name"), 1 TSRMLS_CC)) {
 				zephir_array_update_zval(&arguments, name, &resolvedArgument, PH_COPY | PH_SEPARATE);
 			} else {
@@ -170,7 +169,6 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getExpression) {
 				zephir_array_fetch_string(&_4, item, SL("expr"), PH_NOISY | PH_READONLY, "phalcon/annotations/annotation.zep", 121 TSRMLS_CC);
 				ZEPHIR_CALL_METHOD(&resolvedItem, this_ptr, "getexpression", &_5, 13, _4);
 				zephir_check_call_status();
-				zephir_check_call_status();
 				ZEPHIR_OBS_NVAR(name);
 				if (zephir_array_isset_string_fetch(&name, item, SS("name"), 0 TSRMLS_CC)) {
 					zephir_array_update_zval(&arrayValue, name, &resolvedItem, PH_COPY | PH_SEPARATE);
@@ -184,7 +182,6 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getExpression) {
 			object_init_ex(return_value, phalcon_annotations_annotation_ce);
 			ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 14, expr);
 			zephir_check_call_status();
-			zephir_check_call_status();
 			RETURN_MM();
 		}
 		ZEPHIR_INIT_VAR(_6);
@@ -192,7 +189,6 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getExpression) {
 		ZEPHIR_INIT_VAR(_7);
 		ZEPHIR_CONCAT_SVS(_7, "The expression ", type, " is unknown");
 		ZEPHIR_CALL_METHOD(NULL, _6, "__construct", NULL, 2, _7);
-		zephir_check_call_status();
 		zephir_check_call_status();
 		zephir_throw_exception_debug(_6, "phalcon/annotations/annotation.zep", 134 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
@@ -344,7 +340,6 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getNamedParameter) {
 
 
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "getnamedargument", NULL, 0, name);
-	zephir_check_call_status();
 	zephir_check_call_status();
 	RETURN_MM();
 

@@ -170,7 +170,6 @@ PHP_METHOD(Phalcon_Logger_Formatter_Firephp, format) {
 	if (Z_TYPE_P(context) == IS_ARRAY) {
 		ZEPHIR_CALL_METHOD(&_0, this_ptr, "interpolate", NULL, 0, message, context);
 		zephir_check_call_status();
-		zephir_check_call_status();
 		zephir_get_strval(message, _0);
 	}
 	ZEPHIR_INIT_VAR(meta);
@@ -178,7 +177,6 @@ PHP_METHOD(Phalcon_Logger_Formatter_Firephp, format) {
 	ZEPHIR_INIT_VAR(_1);
 	ZVAL_LONG(_1, type);
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "gettypestring", NULL, 0, _1);
-	zephir_check_call_status();
 	zephir_check_call_status();
 	zephir_array_update_string(&meta, SL("Type"), &_0, PH_COPY | PH_SEPARATE);
 	_2 = zephir_fetch_nproperty_this(this_ptr, SL("_showBacktrace"), PH_NOISY_CC);
@@ -192,17 +190,14 @@ PHP_METHOD(Phalcon_Logger_Formatter_Firephp, format) {
 		ZVAL_STRING(&_4, "<", 0);
 		ZEPHIR_CALL_FUNCTION(&_0, "version_compare", NULL, 232, _1, &_3, &_4);
 		zephir_check_call_status();
-		zephir_check_call_status();
 		if (!(zephir_is_true(_0))) {
 			param = (2) ? 1 : 0;
 		}
 		ZEPHIR_CALL_FUNCTION(&backtrace, "debug_backtrace", NULL, 117, (param ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)));
 		zephir_check_call_status();
-		zephir_check_call_status();
 		Z_SET_ISREF_P(backtrace);
 		ZEPHIR_CALL_FUNCTION(&lastTrace, "end", NULL, 137, backtrace);
 		Z_UNSET_ISREF_P(backtrace);
-		zephir_check_call_status();
 		zephir_check_call_status();
 		if (zephir_array_isset_string(lastTrace, SS("file"))) {
 			zephir_array_fetch_string(&_5, lastTrace, SL("file"), PH_NOISY | PH_READONLY, "phalcon/logger/formatter/firephp.zep", 133 TSRMLS_CC);

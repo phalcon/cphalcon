@@ -73,10 +73,8 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Xcache, read) {
 	zephir_fast_strtolower(_0, _1);
 	ZEPHIR_CALL_FUNCTION(&serialized, "xcache_get", NULL, 9, _0);
 	zephir_check_call_status();
-	zephir_check_call_status();
 	if (Z_TYPE_P(serialized) == IS_STRING) {
 		ZEPHIR_CALL_FUNCTION(&data, "unserialize", NULL, 10, serialized);
-		zephir_check_call_status();
 		zephir_check_call_status();
 		if (Z_TYPE_P(data) == IS_OBJECT) {
 			RETURN_CCTOR(data);
@@ -117,9 +115,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Xcache, write) {
 	zephir_fast_strtolower(_0, _1);
 	ZEPHIR_CALL_FUNCTION(&_2, "serialize", NULL, 11, data);
 	zephir_check_call_status();
-	zephir_check_call_status();
 	ZEPHIR_CALL_FUNCTION(NULL, "xcache_set", NULL, 12, _0, _2);
-	zephir_check_call_status();
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 

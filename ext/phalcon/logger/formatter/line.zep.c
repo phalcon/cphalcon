@@ -169,7 +169,6 @@ PHP_METHOD(Phalcon_Logger_Formatter_Line, format) {
 		ZVAL_LONG(&_2, timestamp);
 		ZEPHIR_CALL_FUNCTION(&_3, "date", NULL, 285, _1, &_2);
 		zephir_check_call_status();
-		zephir_check_call_status();
 		ZEPHIR_SINIT_NVAR(_2);
 		ZVAL_STRING(&_2, "%date%", 0);
 		zephir_fast_str_replace(&_0, &_2, _3, format TSRMLS_CC);
@@ -180,7 +179,6 @@ PHP_METHOD(Phalcon_Logger_Formatter_Line, format) {
 		ZEPHIR_INIT_VAR(_4);
 		ZVAL_LONG(_4, type);
 		ZEPHIR_CALL_METHOD(&_3, this_ptr, "gettypestring", NULL, 0, _4);
-		zephir_check_call_status();
 		zephir_check_call_status();
 		ZEPHIR_SINIT_NVAR(_2);
 		ZVAL_STRING(&_2, "%type%", 0);
@@ -194,7 +192,6 @@ PHP_METHOD(Phalcon_Logger_Formatter_Line, format) {
 	ZEPHIR_CPY_WRT(format, _0);
 	if (Z_TYPE_P(context) == IS_ARRAY) {
 		ZEPHIR_RETURN_CALL_METHOD(this_ptr, "interpolate", NULL, 0, format, context);
-		zephir_check_call_status();
 		zephir_check_call_status();
 		RETURN_MM();
 	}

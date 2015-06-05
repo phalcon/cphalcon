@@ -1097,6 +1097,10 @@ when_clause(R) ::= WHEN expr(E) THEN expr(T) . {
 	R = phql_ret_expr(PHQL_T_WHEN, E, T);
 }
 
+when_clause(R) ::= ELSE expr(E) . {
+	R = phql_ret_expr(PHQL_T_ELSE, E, NULL);
+}
+
 %destructor function_call { zval_ptr_dtor(&$$); }
 
 expr(R) ::= function_call(F) . {
