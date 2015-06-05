@@ -32,6 +32,7 @@
 #include "kernel/hash.h"
 #include "kernel/string.h"
 #include "kernel/concat.h"
+#include "kernel/debug.h"
 
 /**
  * Phalcon\Loader
@@ -485,7 +486,7 @@ PHP_METHOD(Phalcon_Loader, findFile){
 
 	zval *class_name, *directory, *extensions, *ds = NULL;
 	zval *events_manager, *event_name = NULL, *directories = NULL, *dir = NULL;
-	zval *fixed_dir = NULL, *extension = NULL, *file_path = NULL;
+	zval *fixed_dir = NULL, *extension = NULL, *file_path = NULL, *debug_message = NULL;
 	HashTable *ah0, *ah1;
 	HashPosition hp0, hp1;
 	zval **hd;
@@ -514,6 +515,12 @@ PHP_METHOD(Phalcon_Loader, findFile){
 	if (ds == NULL) {
 		PHALCON_INIT_VAR(ds);
 		ZVAL_STRING(ds, slash, 1);
+	}
+
+	if (unlikely(PHALCON_GLOBAL(debug).enable_debug)) {
+		PHALCON_INIT_NVAR(debug_message);
+		PHALCON_CONCAT_SVS(debug_message, "Find class: ", class_name, "<br>\n");
+		phalcon_print_r(debug_message TSRMLS_CC);
 	}
 
 	phalcon_is_iterable(directories, &ah0, &hp0, 0, 0);
@@ -550,6 +557,13 @@ PHP_METHOD(Phalcon_Loader, findFile){
 			 * This is probably a good path, let's check if the file exist
 			 */
 			if (phalcon_file_exists(file_path TSRMLS_CC) == SUCCESS) {
+
+				if (unlikely(PHALCON_GLOBAL(debug).enable_debug)) {
+					PHALCON_INIT_NVAR(debug_message);
+					PHALCON_CONCAT_SVS(debug_message, "--Found: ", file_path, "<br>\n");
+					phalcon_print_r(debug_message TSRMLS_CC);
+				}
+
 				if (Z_TYPE_P(events_manager) == IS_OBJECT) {
 					phalcon_update_property_this(this_ptr, SL("_foundPath"), file_path TSRMLS_CC);
 
@@ -568,6 +582,10 @@ PHP_METHOD(Phalcon_Loader, findFile){
 				 * Return true mean success
 				 */
 				RETURN_MM_TRUE;
+			} else if (unlikely(PHALCON_GLOBAL(debug).enable_debug)) {
+				PHALCON_INIT_NVAR(debug_message);
+				PHALCON_CONCAT_SVS(debug_message, "--Not Found: ", file_path, "<br>\n");
+				phalcon_print_r(debug_message TSRMLS_CC);
 			}
 
 			zend_hash_move_forward_ex(ah1, &hp1);

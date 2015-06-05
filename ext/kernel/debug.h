@@ -56,6 +56,10 @@ int phalcon_step_over(char *message);
 int phalcon_step_into(char *message);
 int phalcon_step_out(char *message);
 
+int phalcon_step_over_zval(zval *message);
+int phalcon_step_into_zval(zval *message);
+int phalcon_step_out_zval(zval *message);
+
 int phalcon_step_into_entry(char *class_name, char *method_name, int lineno);
 int phalcon_step_out_entry();
 

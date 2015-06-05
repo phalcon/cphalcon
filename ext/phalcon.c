@@ -182,6 +182,8 @@ static void phalcon_execute_internal(zend_execute_data *execute_data_ptr, int re
 #endif
 
 PHP_INI_BEGIN()
+	/* Enables/Disables debug */
+	STD_PHP_INI_BOOLEAN("phalcon.debug.enable_debug",           "0", PHP_INI_ALL,    OnUpdateBool, debug.enable_debug,           zend_phalcon_globals, phalcon_globals)
 	/* Enables/Disables globally the internal events */
 	STD_PHP_INI_BOOLEAN("phalcon.orm.events",                   "1", PHP_INI_ALL,    OnUpdateBool, orm.events,                   zend_phalcon_globals, phalcon_globals)
 	/* Enables/Disables virtual foreign keys */
