@@ -213,7 +213,7 @@ abstract class Dialect implements DialectInterface
 	/**
 	 * Transforms an intermediate representation for a expression into a database system valid expression
 	 */
-	public function getSqlExpression(array! expression, var escapeChar = null) -> string
+	public function getSqlExpression(array! expression, string escapeChar = null) -> string
 	{
 		var type;
 

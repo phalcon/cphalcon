@@ -4244,7 +4244,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	public static function setup(array! options) -> void
 	{
 		var disableEvents, columnRenaming, notNullValidations,
-			exceptionOnFailedSave, phqlLiterals, virtualForeignKeys;
+			exceptionOnFailedSave, phqlLiterals, virtualForeignKeys, lateStateBinding;
 
 		/**
 		 * Enables/Disables globally the internal events
@@ -4287,6 +4287,13 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 		if fetch phqlLiterals, options["phqlLiterals"] {
 			globals_set("orm.enable_literals", phqlLiterals);
 		}
+
+                /**
+                 * Enables/Disables late state binding on model hydration
+                 */
+                if fetch lateStateBinding, options["lateStateBinding"] {
+                        globals_set("orm.late_state_binding", lateStateBinding);
+                }
 	}
 
 	/**
