@@ -336,8 +336,21 @@ class Query implements QueryInterface, InjectionAwareInterface
 	 */
 	protected final function _getCaseExpression(array! expr) -> array
 	{
+		var whenClauses, whenExpr;
+
+		let whenClauses = [];
+		for whenExpr in expr["right"] {
+			let whenClauses[] = [
+				"type": "when",
+				"expr": this->_getExpression(whenExpr["left"]),
+				"then": this->_getExpression(whenExpr["right"])
+			];
+		}
+
 		return [
-			"type": "case"			
+			"type"        : "case",
+			"expr"        : this->_getExpression(expr["left"]),
+			"when-clauses": whenClauses
 		];
 	}
 
@@ -402,7 +415,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 	 */
 	protected final function _getExpression(expr, boolean quoting = true) -> string
 	{
-		var exprType, exprLeft, exprRight, left, right, listItems, exprListItem,
+		var exprType, exprLeft, exprRight, left = null, right = null, listItems, exprListItem,
 			exprReturn, tempNotQuoting, value, escapedValue, exprValue;
 
 		if fetch exprType, expr["type"] {

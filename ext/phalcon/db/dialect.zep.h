@@ -27,6 +27,7 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionList);
 PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionAll);
 PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionCastValue);
 PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionConvertValue);
+PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionCase);
 PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionFrom);
 PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionJoins);
 PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionWhere);
@@ -140,6 +141,11 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_dialect_getsqlexpressionconvertvalue, 
 	ZEND_ARG_INFO(0, escapeChar)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_dialect_getsqlexpressioncase, 0, 0, 1)
+	ZEND_ARG_ARRAY_INFO(0, expression, 0)
+	ZEND_ARG_INFO(0, escapeChar)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_dialect_getsqlexpressionfrom, 0, 0, 1)
 	ZEND_ARG_INFO(0, expression)
 	ZEND_ARG_INFO(0, escapeChar)
@@ -218,6 +224,7 @@ ZEPHIR_INIT_FUNCS(phalcon_db_dialect_method_entry) {
 	PHP_ME(Phalcon_Db_Dialect, getSqlExpressionAll, arginfo_phalcon_db_dialect_getsqlexpressionall, ZEND_ACC_PROTECTED|ZEND_ACC_FINAL)
 	PHP_ME(Phalcon_Db_Dialect, getSqlExpressionCastValue, arginfo_phalcon_db_dialect_getsqlexpressioncastvalue, ZEND_ACC_PROTECTED|ZEND_ACC_FINAL)
 	PHP_ME(Phalcon_Db_Dialect, getSqlExpressionConvertValue, arginfo_phalcon_db_dialect_getsqlexpressionconvertvalue, ZEND_ACC_PROTECTED|ZEND_ACC_FINAL)
+	PHP_ME(Phalcon_Db_Dialect, getSqlExpressionCase, arginfo_phalcon_db_dialect_getsqlexpressioncase, ZEND_ACC_PROTECTED|ZEND_ACC_FINAL)
 	PHP_ME(Phalcon_Db_Dialect, getSqlExpressionFrom, arginfo_phalcon_db_dialect_getsqlexpressionfrom, ZEND_ACC_PROTECTED|ZEND_ACC_FINAL)
 	PHP_ME(Phalcon_Db_Dialect, getSqlExpressionJoins, arginfo_phalcon_db_dialect_getsqlexpressionjoins, ZEND_ACC_PROTECTED|ZEND_ACC_FINAL)
 	PHP_ME(Phalcon_Db_Dialect, getSqlExpressionWhere, arginfo_phalcon_db_dialect_getsqlexpressionwhere, ZEND_ACC_PROTECTED|ZEND_ACC_FINAL)

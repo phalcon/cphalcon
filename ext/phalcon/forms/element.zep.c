@@ -599,7 +599,7 @@ PHP_METHOD(Phalcon_Forms_Element, label) {
 	}
 	ZEPHIR_INIT_VAR(_1);
 	ZVAL_STRING(_1, "<label", ZEPHIR_TEMP_PARAM_COPY);
-	ZEPHIR_CALL_CE_STATIC(&code, phalcon_tag_ce, "renderattributes", &_0, 169, _1, attributes);
+	ZEPHIR_CALL_CE_STATIC(&code, phalcon_tag_ce, "renderattributes", &_0, 170, _1, attributes);
 	zephir_check_temp_parameter(_1);
 	zephir_check_call_status();
 	zephir_check_call_status();
@@ -675,13 +675,13 @@ PHP_METHOD(Phalcon_Forms_Element, getValue) {
 		zephir_check_call_status();
 		_0 = Z_TYPE_P(value) == IS_NULL;
 		if (_0) {
-			ZEPHIR_CALL_CE_STATIC(&_1, phalcon_tag_ce, "hasvalue", &_2, 170, name);
+			ZEPHIR_CALL_CE_STATIC(&_1, phalcon_tag_ce, "hasvalue", &_2, 171, name);
 			zephir_check_call_status();
 			zephir_check_call_status();
 			_0 = zephir_is_true(_1);
 		}
 		if (_0) {
-			ZEPHIR_CALL_CE_STATIC(&value, phalcon_tag_ce, "getvalue", &_3, 171, name);
+			ZEPHIR_CALL_CE_STATIC(&value, phalcon_tag_ce, "getvalue", &_3, 172, name);
 			zephir_check_call_status();
 			zephir_check_call_status();
 		}
@@ -712,7 +712,7 @@ PHP_METHOD(Phalcon_Forms_Element, getMessages) {
 	}
 	ZEPHIR_INIT_NVAR(messages);
 	object_init_ex(messages, phalcon_validation_message_group_ce);
-	ZEPHIR_CALL_METHOD(NULL, messages, "__construct", NULL, 172);
+	ZEPHIR_CALL_METHOD(NULL, messages, "__construct", NULL, 173);
 	zephir_check_call_status();
 	zephir_check_call_status();
 	zephir_update_property_this(this_ptr, SL("_messages"), messages TSRMLS_CC);
@@ -772,7 +772,7 @@ PHP_METHOD(Phalcon_Forms_Element, appendMessage) {
 	if (Z_TYPE_P(messages) != IS_OBJECT) {
 		ZEPHIR_INIT_VAR(_0);
 		object_init_ex(_0, phalcon_validation_message_group_ce);
-		ZEPHIR_CALL_METHOD(NULL, _0, "__construct", NULL, 172);
+		ZEPHIR_CALL_METHOD(NULL, _0, "__construct", NULL, 173);
 		zephir_check_call_status();
 		zephir_check_call_status();
 		zephir_update_property_this(this_ptr, SL("_messages"), _0 TSRMLS_CC);
@@ -798,7 +798,7 @@ PHP_METHOD(Phalcon_Forms_Element, clear) {
 	_1 = zephir_fetch_nproperty_this(this_ptr, SL("_name"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(_2);
 	ZVAL_NULL(_2);
-	ZEPHIR_CALL_CE_STATIC(NULL, phalcon_tag_ce, "setdefault", &_0, 173, _1, _2);
+	ZEPHIR_CALL_CE_STATIC(NULL, phalcon_tag_ce, "setdefault", &_0, 174, _1, _2);
 	zephir_check_call_status();
 	zephir_check_call_status();
 	RETURN_THIS();

@@ -225,7 +225,7 @@ PHP_METHOD(Phalcon_Di_Service, resolve) {
 						ZEPHIR_CALL_METHOD(NULL, reflection, "__construct", NULL, 15, definition);
 						zephir_check_call_status();
 						zephir_check_call_status();
-						ZEPHIR_CALL_METHOD(&instance, reflection, "newinstanceargs", NULL, 141, parameters);
+						ZEPHIR_CALL_METHOD(&instance, reflection, "newinstanceargs", NULL, 142, parameters);
 						zephir_check_call_status();
 						zephir_check_call_status();
 					} else {
@@ -241,7 +241,7 @@ PHP_METHOD(Phalcon_Di_Service, resolve) {
 						ZEPHIR_CALL_METHOD(NULL, reflection, "__construct", NULL, 15, definition);
 						zephir_check_call_status();
 						zephir_check_call_status();
-						ZEPHIR_CALL_METHOD(&instance, reflection, "newinstance", NULL, 142);
+						ZEPHIR_CALL_METHOD(&instance, reflection, "newinstance", NULL, 143);
 						zephir_check_call_status();
 						zephir_check_call_status();
 					} else {
@@ -258,7 +258,7 @@ PHP_METHOD(Phalcon_Di_Service, resolve) {
 					ZEPHIR_CALL_METHOD(NULL, reflection, "__construct", NULL, 15, definition);
 					zephir_check_call_status();
 					zephir_check_call_status();
-					ZEPHIR_CALL_METHOD(&instance, reflection, "newinstance", NULL, 142);
+					ZEPHIR_CALL_METHOD(&instance, reflection, "newinstance", NULL, 143);
 					zephir_check_call_status();
 					zephir_check_call_status();
 				} else {
@@ -297,7 +297,7 @@ PHP_METHOD(Phalcon_Di_Service, resolve) {
 					zephir_check_call_status();
 					zephir_check_call_status();
 				}
-				ZEPHIR_CALL_METHOD(&instance, builder, "build", NULL, 148, dependencyInjector, definition, parameters);
+				ZEPHIR_CALL_METHOD(&instance, builder, "build", NULL, 149, dependencyInjector, definition, parameters);
 				zephir_check_call_status();
 				zephir_check_call_status();
 			} else {
@@ -437,7 +437,7 @@ PHP_METHOD(Phalcon_Di_Service, __set_state) {
 		return;
 	}
 	object_init_ex(return_value, phalcon_di_service_ce);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 140, name, definition, shared);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 141, name, definition, shared);
 	zephir_check_call_status();
 	zephir_check_call_status();
 	RETURN_MM();

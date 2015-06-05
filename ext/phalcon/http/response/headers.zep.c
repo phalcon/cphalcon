@@ -127,7 +127,7 @@ PHP_METHOD(Phalcon_Http_Response_Headers, send) {
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_CALL_FUNCTION(&_0, "headers_sent", NULL, 223);
+	ZEPHIR_CALL_FUNCTION(&_0, "headers_sent", NULL, 224);
 	zephir_check_call_status();
 	zephir_check_call_status();
 	if (!(zephir_is_true(_0))) {
@@ -142,11 +142,11 @@ PHP_METHOD(Phalcon_Http_Response_Headers, send) {
 			if (!(ZEPHIR_IS_EMPTY(value))) {
 				ZEPHIR_INIT_LNVAR(_5);
 				ZEPHIR_CONCAT_VSV(_5, header, ": ", value);
-				ZEPHIR_CALL_FUNCTION(NULL, "header", &_6, 224, _5, ZEPHIR_GLOBAL(global_true));
+				ZEPHIR_CALL_FUNCTION(NULL, "header", &_6, 225, _5, ZEPHIR_GLOBAL(global_true));
 				zephir_check_call_status();
 				zephir_check_call_status();
 			} else {
-				ZEPHIR_CALL_FUNCTION(NULL, "header", &_6, 224, header, ZEPHIR_GLOBAL(global_true));
+				ZEPHIR_CALL_FUNCTION(NULL, "header", &_6, 225, header, ZEPHIR_GLOBAL(global_true));
 				zephir_check_call_status();
 				zephir_check_call_status();
 			}
@@ -204,7 +204,7 @@ PHP_METHOD(Phalcon_Http_Response_Headers, __set_state) {
 
 	ZEPHIR_INIT_VAR(headers);
 	object_init_ex(headers, phalcon_http_response_headers_ce);
-	ZEPHIR_CALL_METHOD(NULL, headers, "__construct", NULL, 225);
+	ZEPHIR_CALL_METHOD(NULL, headers, "__construct", NULL, 226);
 	zephir_check_call_status();
 	zephir_check_call_status();
 	ZEPHIR_OBS_VAR(dataHeaders);
@@ -216,7 +216,7 @@ PHP_METHOD(Phalcon_Http_Response_Headers, __set_state) {
 		) {
 			ZEPHIR_GET_HMKEY(key, _1, _0);
 			ZEPHIR_GET_HVALUE(value, _2);
-			ZEPHIR_CALL_METHOD(NULL, headers, "set", &_3, 226, key, value);
+			ZEPHIR_CALL_METHOD(NULL, headers, "set", &_3, 227, key, value);
 			zephir_check_call_status();
 			zephir_check_call_status();
 		}

@@ -128,7 +128,7 @@ PHP_METHOD(Phalcon_Session_Bag, initialize) {
 		ZEPHIR_OBS_VAR(dependencyInjector);
 		zephir_read_property_this(&dependencyInjector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 		if (Z_TYPE_P(dependencyInjector) != IS_OBJECT) {
-			ZEPHIR_CALL_CE_STATIC(&dependencyInjector, phalcon_di_ce, "getdefault", &_0, 146);
+			ZEPHIR_CALL_CE_STATIC(&dependencyInjector, phalcon_di_ce, "getdefault", &_0, 147);
 			zephir_check_call_status();
 			zephir_check_call_status();
 			if (Z_TYPE_P(dependencyInjector) != IS_OBJECT) {
@@ -567,7 +567,7 @@ PHP_METHOD(Phalcon_Session_Bag, getIterator) {
 	}
 	object_init_ex(return_value, zephir_get_internal_ce(SS("arrayiterator") TSRMLS_CC));
 	_1 = zephir_fetch_nproperty_this(this_ptr, SL("_data"), PH_NOISY_CC);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 405, _1);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 406, _1);
 	zephir_check_call_status();
 	zephir_check_call_status();
 	RETURN_MM();

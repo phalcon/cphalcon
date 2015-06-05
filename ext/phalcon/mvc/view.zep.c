@@ -760,7 +760,7 @@ PHP_METHOD(Phalcon_Mvc_View, _loadTemplateEngines) {
 		if (Z_TYPE_P(registeredEngines) != IS_ARRAY) {
 			ZEPHIR_INIT_VAR(_1);
 			object_init_ex(_1, phalcon_mvc_view_engine_php_ce);
-			ZEPHIR_CALL_METHOD(NULL, _1, "__construct", NULL, 357, this_ptr, dependencyInjector);
+			ZEPHIR_CALL_METHOD(NULL, _1, "__construct", NULL, 358, this_ptr, dependencyInjector);
 			zephir_check_call_status();
 			zephir_check_call_status();
 			zephir_array_update_string(&engines, SL(".phtml"), &_1, PH_COPY | PH_SEPARATE);
@@ -1414,7 +1414,7 @@ PHP_METHOD(Phalcon_Mvc_View, getPartial) {
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "partial", NULL, 0, partialPath, params);
 	zephir_check_call_status();
 	zephir_check_call_status();
-	ZEPHIR_RETURN_CALL_FUNCTION("ob_get_clean", NULL, 274);
+	ZEPHIR_RETURN_CALL_FUNCTION("ob_get_clean", NULL, 275);
 	zephir_check_call_status();
 	zephir_check_call_status();
 	RETURN_MM();

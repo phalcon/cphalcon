@@ -70,7 +70,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Php, render) {
 
 
 	if (mustClean == 1) {
-		ZEPHIR_CALL_FUNCTION(NULL, "ob_clean", NULL, 358);
+		ZEPHIR_CALL_FUNCTION(NULL, "ob_clean", NULL, 359);
 		zephir_check_call_status();
 		zephir_check_call_status();
 	}

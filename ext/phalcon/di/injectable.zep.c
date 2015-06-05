@@ -106,7 +106,7 @@ PHP_METHOD(Phalcon_Di_Injectable, getDI) {
 	ZEPHIR_OBS_VAR(dependencyInjector);
 	zephir_read_property_this(&dependencyInjector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	if (Z_TYPE_P(dependencyInjector) != IS_OBJECT) {
-		ZEPHIR_CALL_CE_STATIC(&dependencyInjector, phalcon_di_ce, "getdefault", &_0, 146);
+		ZEPHIR_CALL_CE_STATIC(&dependencyInjector, phalcon_di_ce, "getdefault", &_0, 147);
 		zephir_check_call_status();
 		zephir_check_call_status();
 	}
@@ -169,7 +169,7 @@ PHP_METHOD(Phalcon_Di_Injectable, __get) {
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	ZEPHIR_CPY_WRT(dependencyInjector, _0);
 	if (Z_TYPE_P(dependencyInjector) != IS_OBJECT) {
-		ZEPHIR_CALL_CE_STATIC(&dependencyInjector, phalcon_di_ce, "getdefault", &_1, 146);
+		ZEPHIR_CALL_CE_STATIC(&dependencyInjector, phalcon_di_ce, "getdefault", &_1, 147);
 		zephir_check_call_status();
 		zephir_check_call_status();
 		if (Z_TYPE_P(dependencyInjector) != IS_OBJECT) {
@@ -209,7 +209,7 @@ PHP_METHOD(Phalcon_Di_Injectable, __get) {
 	}
 	ZEPHIR_INIT_VAR(_6);
 	ZEPHIR_CONCAT_SV(_6, "Access to undefined property ", propertyName);
-	ZEPHIR_CALL_FUNCTION(NULL, "trigger_error", NULL, 147, _6);
+	ZEPHIR_CALL_FUNCTION(NULL, "trigger_error", NULL, 148, _6);
 	zephir_check_call_status();
 	zephir_check_call_status();
 	RETURN_MM_NULL();

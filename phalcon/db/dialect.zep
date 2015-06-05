@@ -285,6 +285,12 @@ abstract class Dialect implements DialectInterface
 				return this->getSqlExpressionAll(expression, escapeChar);
 
 			/**
+			 * Resolve SELECT
+			 */
+			case "select":
+				return "(" . this->select(expression["value"]) . ")";
+
+			/**
 			 * Resolve CAST of values
 			 */
 			case "cast":
@@ -296,11 +302,8 @@ abstract class Dialect implements DialectInterface
 			case "convert":
 				return this->getSqlExpressionConvertValue(expression, escapeChar);
 
-			/**
-			 * Resolve SELECT
-			 */
-			case "select":
-				return "(" . this->select(expression["value"]) . ")";
+			case "case":
+				return this->getSqlExpressionCase(expression, escapeChar);
 		}
 
 		/**
@@ -648,6 +651,25 @@ abstract class Dialect implements DialectInterface
 			right = this->getSqlExpression(expression["right"], escapeChar);
 
 		return "CONVERT(" . left . " USING " . right . ")";
+	}
+
+	/**
+	 * Resolve CASE expressions
+	 */
+	protected final function getSqlExpressionCase(array! expression, string escapeChar = null) -> string
+	{
+		var sql, whenClause;
+
+		let sql = "CASE " . this->getSqlExpression(expression["expr"], escapeChar);
+
+		for whenClause in expression["when-clauses"] {
+			let sql .= " WHEN " .
+						this->getSqlExpression(whenClause["expr"], escapeChar) .
+						" THEN " .
+						this->getSqlExpression(whenClause["then"], escapeChar);
+		}
+
+		return sql . " END";
 	}
 
 	/**

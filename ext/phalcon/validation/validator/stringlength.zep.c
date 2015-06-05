@@ -124,7 +124,7 @@ PHP_METHOD(Phalcon_Validation_Validator_StringLength, validate) {
 		zephir_check_call_status();
 	}
 	if ((zephir_function_exists_ex(SS("mb_strlen") TSRMLS_CC) == SUCCESS)) {
-		ZEPHIR_CALL_FUNCTION(&length, "mb_strlen", NULL, 352, value);
+		ZEPHIR_CALL_FUNCTION(&length, "mb_strlen", NULL, 353, value);
 		zephir_check_call_status();
 		zephir_check_call_status();
 	} else {
@@ -164,7 +164,7 @@ PHP_METHOD(Phalcon_Validation_Validator_StringLength, validate) {
 			zephir_check_call_status();
 			ZEPHIR_INIT_VAR(_6);
 			ZVAL_STRING(_6, "TooLong", ZEPHIR_TEMP_PARAM_COPY);
-			ZEPHIR_CALL_METHOD(NULL, _0, "__construct", &_7, 423, _4, field, _6);
+			ZEPHIR_CALL_METHOD(NULL, _0, "__construct", &_7, 424, _4, field, _6);
 			zephir_check_temp_parameter(_6);
 			zephir_check_call_status();
 			zephir_check_call_status();
@@ -207,7 +207,7 @@ PHP_METHOD(Phalcon_Validation_Validator_StringLength, validate) {
 			zephir_check_call_status();
 			ZEPHIR_INIT_VAR(_8);
 			ZVAL_STRING(_8, "TooShort", ZEPHIR_TEMP_PARAM_COPY);
-			ZEPHIR_CALL_METHOD(NULL, _6, "__construct", &_7, 423, _4, field, _8);
+			ZEPHIR_CALL_METHOD(NULL, _6, "__construct", &_7, 424, _4, field, _8);
 			zephir_check_temp_parameter(_8);
 			zephir_check_call_status();
 			zephir_check_call_status();

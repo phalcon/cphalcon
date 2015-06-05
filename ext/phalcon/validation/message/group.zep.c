@@ -419,7 +419,7 @@ PHP_METHOD(Phalcon_Validation_Message_Group, __set_state) {
 
 	object_init_ex(return_value, phalcon_validation_message_group_ce);
 	zephir_array_fetch_string(&_0, group, SL("_messages"), PH_NOISY | PH_READONLY, "phalcon/validation/message/group.zep", 268 TSRMLS_CC);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 172, _0);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 173, _0);
 	zephir_check_call_status();
 	zephir_check_call_status();
 	RETURN_MM();

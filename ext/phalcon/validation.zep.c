@@ -134,7 +134,7 @@ PHP_METHOD(Phalcon_Validation, validate) {
 	zephir_update_property_this(this_ptr, SL("_values"), ZEPHIR_GLOBAL(global_null) TSRMLS_CC);
 	ZEPHIR_INIT_VAR(messages);
 	object_init_ex(messages, phalcon_validation_message_group_ce);
-	ZEPHIR_CALL_METHOD(NULL, messages, "__construct", NULL, 172);
+	ZEPHIR_CALL_METHOD(NULL, messages, "__construct", NULL, 173);
 	zephir_check_call_status();
 	zephir_check_call_status();
 	if ((zephir_method_exists_ex(this_ptr, SS("beforevalidation") TSRMLS_CC) == SUCCESS)) {
@@ -664,7 +664,7 @@ PHP_METHOD(Phalcon_Validation, getValue) {
 				zephir_check_call_status();
 				zephir_check_call_status();
 				if (Z_TYPE_P(dependencyInjector) != IS_OBJECT) {
-					ZEPHIR_CALL_CE_STATIC(&dependencyInjector, phalcon_di_ce, "getdefault", &_2, 146);
+					ZEPHIR_CALL_CE_STATIC(&dependencyInjector, phalcon_di_ce, "getdefault", &_2, 147);
 					zephir_check_call_status();
 					zephir_check_call_status();
 					if (Z_TYPE_P(dependencyInjector) != IS_OBJECT) {
