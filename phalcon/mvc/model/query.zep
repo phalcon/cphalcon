@@ -348,7 +348,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 				];
 			} else {
 				let whenClauses[] = [
-					"type": "else",
+					"type": "when",
 					"expr": this->_getExpression(whenExpr["left"])
 				];
 			}
@@ -560,6 +560,14 @@ class Query implements QueryInterface, InjectionAwareInterface
 					break;
 
 				case PHQL_T_SPLACEHOLDER:
+					let exprReturn = ["type": "placeholder", "value": ":" . expr["value"]];
+					break;
+
+				case PHQL_T_NTPLACEHOLDER:
+					let exprReturn = ["type": "placeholder", "value": str_replace("?", ":", expr["value"])];
+					break;
+
+				case PHQL_T_STPLACEHOLDER:
 					let exprReturn = ["type": "placeholder", "value": ":" . expr["value"]];
 					break;
 

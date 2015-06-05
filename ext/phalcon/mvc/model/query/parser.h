@@ -72,3 +72,5 @@
 #define PHQL_DOUBLE                         72
 #define PHQL_TRUE                           73
 #define PHQL_FALSE                          74
+#define PHQL_NTPLACEHOLDER                  75
+#define PHQL_STPLACEHOLDER                  76

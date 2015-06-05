@@ -1211,6 +1211,14 @@ expr(R) ::= SPLACEHOLDER(P) . {
 	R = phql_ret_placeholder_zval(PHQL_T_SPLACEHOLDER, P);
 }
 
+expr(R) ::= NTPLACEHOLDER(P) . {
+	R = phql_ret_placeholder_zval(PHQL_T_NTPLACEHOLDER, P);
+}
+
+expr(R) ::= STPLACEHOLDER(P) . {
+	R = phql_ret_placeholder_zval(PHQL_T_STPLACEHOLDER, P);
+}
+
 %destructor qualified_name { zval_ptr_dtor(&$$); }
 
 qualified_name(R) ::= IDENTIFIER(A) DOT IDENTIFIER(B) . {

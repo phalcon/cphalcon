@@ -69,10 +69,28 @@ int phql_get_token(phql_scanner_state *s, phql_scanner_token *token) {
 			return 0;
 		}
 
+		NTPLACEHOLDER = "?"[0-9]+":"[a-z];
+		NTPLACEHOLDER {
+			token->opcode = PHQL_T_NTPLACEHOLDER;
+			token->value = estrndup(q, YYCURSOR - q);
+			token->len = YYCURSOR - q;
+			q = YYCURSOR;
+			return 0;
+		}
+
 		SPLACEHOLDER = ":"[a-zA-Z0-9\_\-]+":";
 		SPLACEHOLDER {
 			token->opcode = PHQL_T_SPLACEHOLDER;
 			token->value = estrndup(q, YYCURSOR - q - 1);
+			token->len = YYCURSOR - q - 1;
+			q = YYCURSOR;
+			return 0;
+		}
+
+		STPLACEHOLDER = ":"[a-zA-Z0-9\_\-]+":"[a-z];
+		STPLACEHOLDER {
+			token->opcode = PHQL_T_STPLACEHOLDER;
+			token->value = estrndup(q, YYCURSOR - q);
 			token->len = YYCURSOR - q - 1;
 			q = YYCURSOR;
 			return 0;
