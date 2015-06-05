@@ -198,9 +198,9 @@ abstract class Select
 					let strOptionValue = (string) optionValue,
 						strValue = (string) value;
 					if strOptionValue === strValue {
-						let code .= "\t<option selected=\"selected\" value=\"" . optionValue . "\">" . optionText . closeOption;
+						let code .= "\t<option selected=\"selected\" value=\"" . strOptionValue . "\">" . optionText . closeOption;
 					} else {
-						let code .= "\t<option value=\"" . optionValue . "\">" . optionText . closeOption;
+						let code .= "\t<option value=\"" . strOptionValue . "\">" . optionText . closeOption;
 					}
 				}
 			} else {

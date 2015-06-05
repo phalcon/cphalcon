@@ -334,6 +334,16 @@ class Query implements QueryInterface, InjectionAwareInterface
 	/**
 	 * Resolves a expression in a single call argument
 	 */
+	protected final function _getCaseExpression(array! expr) -> array
+	{
+		return [
+			"type": "case"			
+		];
+	}
+
+	/**
+	 * Resolves a expression in a single call argument
+	 */
 	protected final function _getFunctionCall(array! expr) -> array
 	{
 		var arguments, distinct, argument, functionArgs;
@@ -399,18 +409,21 @@ class Query implements QueryInterface, InjectionAwareInterface
 
 			let tempNotQuoting = true;
 
-			/**
-			 * Resolving the left part of the expression if any
-			 */
-			if fetch exprLeft, expr["left"] {
-				let left = this->_getExpression(exprLeft, tempNotQuoting);
-			}
+			if exprType != PHQL_T_CASE {
 
-			/**
-			 * Resolving the right part of the expression if any
-			 */
-			if fetch exprRight, expr["right"] {
-				let right = this->_getExpression(exprRight, tempNotQuoting);
+				/**
+				 * Resolving the left part of the expression if any
+				 */
+				if fetch exprLeft, expr["left"] {
+					let left = this->_getExpression(exprLeft, tempNotQuoting);
+				}
+
+				/**
+				 * Resolving the right part of the expression if any
+				 */
+				if fetch exprRight, expr["right"] {
+					let right = this->_getExpression(exprRight, tempNotQuoting);
+				}
 			}
 
 			/**
@@ -600,6 +613,10 @@ class Query implements QueryInterface, InjectionAwareInterface
 
 				case PHQL_T_FCALL:
 					let exprReturn = this->_getFunctionCall(expr);
+					break;
+
+				case PHQL_T_CASE:
+					let exprReturn = this->_getCaseExpression(expr);
 					break;
 
 				case PHQL_T_SELECT:

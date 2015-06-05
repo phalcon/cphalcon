@@ -298,6 +298,31 @@ int phql_get_token(phql_scanner_state *s, phql_scanner_token *token) {
 			return 0;
 		}
 
+        'CASE' {
+			token->opcode = PHQL_T_CASE;
+			return 0;
+		}
+
+        'WHEN' {
+			token->opcode = PHQL_T_WHEN;
+			return 0;
+		}
+
+        'THEN' {
+			token->opcode = PHQL_T_THEN;
+			return 0;
+		}
+
+        'ELSE' {
+			token->opcode = PHQL_T_ELSE;
+			return 0;
+		}
+
+        'END' {
+			token->opcode = PHQL_T_END;
+			return 0;
+		}
+
 		STRING = (["] ([\\]["]|[\\].|[\001-\377]\[\\"])* ["])|(['] ([\\][']|[\\].|[\001-\377]\[\\'])* [']);
 		STRING {
 			token->opcode = PHQL_T_STRING;

@@ -1081,6 +1081,22 @@ expr(R) ::= CONVERT PARENTHESES_OPEN expr(E) USING IDENTIFIER(I) PARENTHESES_CLO
 	R = phql_ret_expr(PHQL_T_CONVERT, E, phql_ret_raw_qualified_name(I, NULL));
 }
 
+expr(R) ::= CASE expr(E) when_clauses(W) END . {
+	R = phql_ret_expr(PHQL_T_CASE, E, W);
+}
+
+when_clauses(R) ::= when_clauses(L) when_clause(W) . {
+	R = phql_ret_zval_list(L, W);
+}
+
+when_clauses(R) ::= when_clause(W) . {
+	R = phql_ret_zval_list(W, NULL);
+}
+
+when_clause(R) ::= WHEN expr(E) THEN expr(T) . {
+	R = phql_ret_expr(PHQL_T_WHEN, E, T);
+}
+
 %destructor function_call { zval_ptr_dtor(&$$); }
 
 expr(R) ::= function_call(F) . {

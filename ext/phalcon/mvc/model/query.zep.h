@@ -10,6 +10,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, setUniqueRow);
 PHP_METHOD(Phalcon_Mvc_Model_Query, getUniqueRow);
 PHP_METHOD(Phalcon_Mvc_Model_Query, _getQualified);
 PHP_METHOD(Phalcon_Mvc_Model_Query, _getCallArgument);
+PHP_METHOD(Phalcon_Mvc_Model_Query, _getCaseExpression);
 PHP_METHOD(Phalcon_Mvc_Model_Query, _getFunctionCall);
 PHP_METHOD(Phalcon_Mvc_Model_Query, _getExpression);
 PHP_METHOD(Phalcon_Mvc_Model_Query, _getSelectColumn);
@@ -66,6 +67,10 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_query__getcallargument, 0, 0, 1)
 	ZEND_ARG_ARRAY_INFO(0, argument, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_query__getcaseexpression, 0, 0, 1)
+	ZEND_ARG_ARRAY_INFO(0, expr, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_query__getfunctioncall, 0, 0, 1)
@@ -202,6 +207,7 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_model_query_method_entry) {
 	PHP_ME(Phalcon_Mvc_Model_Query, getUniqueRow, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Query, _getQualified, arginfo_phalcon_mvc_model_query__getqualified, ZEND_ACC_PROTECTED|ZEND_ACC_FINAL)
 	PHP_ME(Phalcon_Mvc_Model_Query, _getCallArgument, arginfo_phalcon_mvc_model_query__getcallargument, ZEND_ACC_PROTECTED|ZEND_ACC_FINAL)
+	PHP_ME(Phalcon_Mvc_Model_Query, _getCaseExpression, arginfo_phalcon_mvc_model_query__getcaseexpression, ZEND_ACC_PROTECTED|ZEND_ACC_FINAL)
 	PHP_ME(Phalcon_Mvc_Model_Query, _getFunctionCall, arginfo_phalcon_mvc_model_query__getfunctioncall, ZEND_ACC_PROTECTED|ZEND_ACC_FINAL)
 	PHP_ME(Phalcon_Mvc_Model_Query, _getExpression, arginfo_phalcon_mvc_model_query__getexpression, ZEND_ACC_PROTECTED|ZEND_ACC_FINAL)
 	PHP_ME(Phalcon_Mvc_Model_Query, _getSelectColumn, arginfo_phalcon_mvc_model_query__getselectcolumn, ZEND_ACC_PROTECTED|ZEND_ACC_FINAL)

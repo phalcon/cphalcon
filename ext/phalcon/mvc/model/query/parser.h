@@ -62,8 +62,12 @@
 #define PHQL_CAST                           62
 #define PHQL_CONVERT                        63
 #define PHQL_USING                          64
-#define PHQL_NULL                           65
-#define PHQL_STRING                         66
-#define PHQL_DOUBLE                         67
-#define PHQL_TRUE                           68
-#define PHQL_FALSE                          69
+#define PHQL_CASE                           65
+#define PHQL_END                            66
+#define PHQL_WHEN                           67
+#define PHQL_THEN                           68
+#define PHQL_NULL                           69
+#define PHQL_STRING                         70
+#define PHQL_DOUBLE                         71
+#define PHQL_TRUE                           72
+#define PHQL_FALSE                          73

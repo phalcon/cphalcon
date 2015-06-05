@@ -87,6 +87,9 @@ const phql_token_names phql_tokens[] =
   { SL("USING"),         PHQL_T_USING },
   { SL("ALL"),           PHQL_T_ALL },
   { SL("EXISTS"),        PHQL_T_EXISTS },
+  { SL("CASE"),          PHQL_T_CASE },
+  { SL("WHEN"),          PHQL_T_WHEN },
+  { SL("THEN"),          PHQL_T_THEN },
   { NULL, 0, 0 }
 };
 
@@ -270,6 +273,25 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 			case PHQL_T_LESSEQUAL:
 				phql_(phql_parser, PHQL_LESSEQUAL, NULL, parser_status);
 				break;
+
+            case PHQL_T_IDENTIFIER:
+    			phql_parse_with_token(phql_parser, PHQL_T_IDENTIFIER, PHQL_IDENTIFIER, &token, parser_status);
+    			break;
+
+            case PHQL_T_DOT:
+    			phql_(phql_parser, PHQL_DOT, NULL, parser_status);
+    			break;
+    		case PHQL_T_COMMA:
+    			phql_(phql_parser, PHQL_COMMA, NULL, parser_status);
+    			break;
+
+    		case PHQL_T_PARENTHESES_OPEN:
+    			phql_(phql_parser, PHQL_PARENTHESES_OPEN, NULL, parser_status);
+    			break;
+    		case PHQL_T_PARENTHESES_CLOSE:
+    			phql_(phql_parser, PHQL_PARENTHESES_CLOSE, NULL, parser_status);
+    			break;
+
 			case PHQL_T_LIKE:
 				phql_(phql_parser, PHQL_LIKE, NULL, parser_status);
 				break;
@@ -294,19 +316,21 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 			case PHQL_T_AGAINST:
 				phql_(phql_parser, PHQL_AGAINST, NULL, parser_status);
 				break;
-			case PHQL_T_DOT:
-				phql_(phql_parser, PHQL_DOT, NULL, parser_status);
-				break;			
-			case PHQL_T_COMMA:
-				phql_(phql_parser, PHQL_COMMA, NULL, parser_status);
-				break;
-
-			case PHQL_T_PARENTHESES_OPEN:
-				phql_(phql_parser, PHQL_PARENTHESES_OPEN, NULL, parser_status);
-				break;
-			case PHQL_T_PARENTHESES_CLOSE:
-				phql_(phql_parser, PHQL_PARENTHESES_CLOSE, NULL, parser_status);
-				break;
+            case PHQL_T_CASE:
+    			phql_(phql_parser, PHQL_CASE, NULL, parser_status);
+    			break;
+            case PHQL_T_WHEN:
+        		phql_(phql_parser, PHQL_WHEN, NULL, parser_status);
+        		break;
+            case PHQL_T_THEN:
+            	phql_(phql_parser, PHQL_THEN, NULL, parser_status);
+            	break;
+            case PHQL_T_END:
+            	phql_(phql_parser, PHQL_END, NULL, parser_status);
+            	break;
+            //case PHQL_T_ELSE:
+            //    phql_(phql_parser, PHQL_ELSE, NULL, parser_status);
+            //    break;
 
 			case PHQL_T_INTEGER:
 				if (parser_status->enable_literals) {
@@ -354,9 +378,6 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 				}
 				break;
 
-			case PHQL_T_IDENTIFIER:
-				phql_parse_with_token(phql_parser, PHQL_T_IDENTIFIER, PHQL_IDENTIFIER, &token, parser_status);
-				break;
 			case PHQL_T_NPLACEHOLDER:
 				phql_parse_with_token(phql_parser, PHQL_T_NPLACEHOLDER, PHQL_NPLACEHOLDER, &token, parser_status);
 				break;
@@ -477,7 +498,7 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 				parser_status->status = PHQL_PARSING_FAILED;
 				error_length = sizeof(char) * 32;
 				error = emalloc(error_length);
-				snprintf(error, error_length, "Scanner: Unknown opcode %c", token.opcode);
+				snprintf(error, error_length, "Scanner: Unknown opcode %d", token.opcode);
 				error[error_length - 1] = '\0';
 				MAKE_STD_ZVAL(*error_msg);
 				ZVAL_STRING(*error_msg, error, 1);
@@ -495,6 +516,7 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 
 	if (status != FAILURE) {
 		switch (scanner_status) {
+
 			case PHQL_SCANNER_RETCODE_ERR:
 			case PHQL_SCANNER_RETCODE_IMPOSSIBLE:
 				if (!*error_msg) {
@@ -504,6 +526,7 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 				}
 				status = FAILURE;
 				break;
+
 			default:
 				phql_(phql_parser, 0, NULL, parser_status);
 		}
