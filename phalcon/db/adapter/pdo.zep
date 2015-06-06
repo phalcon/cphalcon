@@ -20,6 +20,7 @@
 namespace Phalcon\Db\Adapter;
 
 use Phalcon\Db\Adapter;
+use Phalcon\Db\Profiler;
 use Phalcon\Db\Exception;
 use Phalcon\Db\Column;
 use Phalcon\Db\ResultInterface;
@@ -157,6 +158,7 @@ abstract class Pdo extends Adapter
 	 */
 	public function prepare(string! sqlStatement) -> <\PDOStatement>
 	{
+		let this->_sqlStatement = sqlStatement;
 		return this->_pdo->prepare(sqlStatement);
 	}
 
@@ -175,7 +177,7 @@ abstract class Pdo extends Adapter
 	 */
 	public function executePrepared(<\PDOStatement> statement, array! placeholders, dataTypes) -> <\PDOStatement>
 	{
-		var wildcard, value, type, castValue, parameter;
+		var wildcard, value, type, castValue, parameter, profiler;
 
 		for wildcard, value in placeholders {
 
@@ -212,7 +214,18 @@ abstract class Pdo extends Adapter
 			}
 		}
 
+
+		let profiler = <Profiler> this->_profiler;
+		if typeof profiler == "object" {
+			profiler->startProfile(this->_sqlStatement, placeholders, dataTypes);
+		}
+
 		statement->execute();
+
+		if typeof profiler == "object" {
+			profiler->stopProfile();
+		}
+
 		return statement;
 	}
 
@@ -228,7 +241,7 @@ abstract class Pdo extends Adapter
 	 */
 	public function query(string! sqlStatement, var bindParams = null, var bindTypes = null) -> <ResultInterface> | boolean
 	{
-		var eventsManager, pdo, statement;
+		var eventsManager, profiler, pdo, statement;
 
 		let eventsManager = <ManagerInterface> this->_eventsManager;
 
@@ -244,6 +257,11 @@ abstract class Pdo extends Adapter
 			}
 		}
 
+		let profiler = <Profiler> this->_profiler;
+		if typeof profiler == "object" {
+			profiler->startProfile(sqlStatement, bindParams, bindTypes);
+		}
+
 		let pdo = <\Pdo> this->_pdo;
 		if typeof bindParams == "array" {
 			let statement = pdo->prepare(sqlStatement);
@@ -252,6 +270,10 @@ abstract class Pdo extends Adapter
 			}
 		} else {
 			let statement = pdo->query(sqlStatement);
+		}
+
+		if typeof profiler == "object" {
+			profiler->stopProfile();
 		}
 
 		/**
@@ -279,7 +301,7 @@ abstract class Pdo extends Adapter
 	 */
 	public function execute(string! sqlStatement, var bindParams = null, var bindTypes = null) -> boolean
 	{
-		var eventsManager, affectedRows, pdo, newStatement, statement;
+		var eventsManager, affectedRows, pdo, profiler, newStatement, statement;
 
 		/**
 		 * Execute the beforeQuery event if a EventsManager is available
@@ -307,7 +329,16 @@ abstract class Pdo extends Adapter
 					affectedRows = newStatement->rowCount();
 			}
 		} else {
+			let profiler = <Profiler> this->_profiler;
+			if typeof profiler == "object" {
+				profiler->startProfile(sqlStatement);
+			}
+
 			let affectedRows = pdo->exec(sqlStatement);
+
+			if typeof profiler == "object" {
+				profiler->stopProfile();
+			}
 		}
 
 		/**

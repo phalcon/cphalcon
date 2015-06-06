@@ -95,6 +95,11 @@ abstract class Adapter implements EventsAwareInterface
 	protected _transactionLevel = 0;
 
 	/**
+	 * Profiler instance
+	 */
+	protected _profiler { get, set };
+
+	/**
 	 * Whether the database supports transactions with save points
 	 */
 	protected _transactionsWithSavepoints = false;
