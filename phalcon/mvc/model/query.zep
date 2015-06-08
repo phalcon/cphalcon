@@ -689,8 +689,8 @@ class Query implements QueryInterface, InjectionAwareInterface
 	protected final function _getSelectColumn(array! column)
 	{
 		var sqlColumns, columnType, sqlAliases, modelName, source,
-			columnDomain, sqlColumnAlias, bestAlias, preparedAlias, sqlExprColumn,
-			sqlAliasesModels, sqlModelsAliases, sqlColumn, columnData, balias;
+			columnDomain, sqlColumnAlias, preparedAlias, sqlExprColumn,
+			sqlAliasesModels, sqlColumn, columnData, balias;
 
 		if !fetch columnType, column["type"] {
 			throw new Exception("Corrupted SELECT AST");
@@ -744,18 +744,12 @@ class Query implements QueryInterface, InjectionAwareInterface
 				modelName = sqlAliasesModels[columnDomain];
 
 			/**
-			 * Get the best alias for the column
-			 */
-			let sqlModelsAliases = this->_sqlModelsAliases,
-				bestAlias = sqlModelsAliases[modelName];
-
-			/**
 			 * If the best alias is the model name we lowercase the first letter
 			 */
-			if bestAlias == modelName {
+			if columnDomain == modelName {
 				let preparedAlias = lcfirst(modelName);
 			} else {
-				let preparedAlias = bestAlias;
+				let preparedAlias = columnDomain;
 			}
 
 			/**
