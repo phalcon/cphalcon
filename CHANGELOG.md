@@ -10,6 +10,8 @@
 - Added support for DOUBLE type in MySQL
 - Phalcon\Tag\Select now handles array values as strings avoiding that zero will be handled as empty string (#2921)
 - PHQL now supports CASE/WHEN/ELSE expressions (#651)
+- Fixed bug that passes non-string values to Phalcon\Crypt::encrypt from Phalcon\Http\Cookies
+- Fixed bug that didn't pass the schema name in the sequence name (PostgreSQL)
 
 # 2.0.2 (2015-05-26)
  - Added `stats()` methods to Beanstalk

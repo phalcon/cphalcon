@@ -217,6 +217,7 @@ typedef struct _zephir_struct_orm {
 	zend_bool not_null_validations;
 	zend_bool exception_on_failed_save;
 	zend_bool enable_literals;
+	zend_bool late_state_binding;
 } zephir_struct_orm;
 
 
