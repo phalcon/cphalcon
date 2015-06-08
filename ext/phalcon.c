@@ -801,6 +801,7 @@ static PHP_RINIT_FUNCTION(phalcon)
 
 	zephir_initialize_memory(zephir_globals_ptr TSRMLS_CC);
 
+
 	return SUCCESS;
 }
 
@@ -823,6 +824,7 @@ static PHP_MINFO_FUNCTION(phalcon)
 	php_info_print_table_header(2, PHP_PHALCON_NAME, "enabled");
 	php_info_print_table_row(2, "Author", PHP_PHALCON_AUTHOR);
 	php_info_print_table_row(2, "Version", PHP_PHALCON_VERSION);
+	php_info_print_table_row(2, "Build Date", __DATE__ " " __TIME__ );
 	php_info_print_table_row(2, "Powered by Zephir", "Version " PHP_PHALCON_ZEPVERSION);
 	php_info_print_table_end();
 

@@ -94,13 +94,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator, appendMessage) {
 
 
 	if (!(zephir_is_true(type))) {
-		ZEPHIR_INIT_NVAR(type);
 		ZEPHIR_INIT_VAR(_0);
 		zephir_get_class(_0, this_ptr, 0 TSRMLS_CC);
 		ZEPHIR_SINIT_VAR(_1);
 		ZVAL_STRING(&_1, "Validator", 0);
 		ZEPHIR_SINIT_VAR(_2);
 		ZVAL_STRING(&_2, "", 0);
+		ZEPHIR_INIT_NVAR(type);
 		zephir_fast_str_replace(&type, &_1, &_2, _0 TSRMLS_CC);
 	}
 	ZEPHIR_INIT_NVAR(_0);

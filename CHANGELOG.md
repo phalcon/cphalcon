@@ -12,6 +12,7 @@
 - PHQL now supports CASE/WHEN/ELSE expressions (#651)
 - Fixed bug that passes non-string values to Phalcon\Crypt::encrypt from Phalcon\Http\Cookies
 - Fixed bug that didn't pass the schema name in the sequence name (PostgreSQL)
+- Attribute persistent is now removed from the DNS attributes in PDO connections to avoid errors in PostgreSQL (#10484)
 
 # 2.0.2 (2015-05-26)
  - Added `stats()` methods to Beanstalk

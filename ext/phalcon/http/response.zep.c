@@ -674,9 +674,9 @@ PHP_METHOD(Phalcon_Http_Response, redirect) {
 		}
 		if (_0) {
 			ZEPHIR_INIT_VAR(_3);
-			ZEPHIR_INIT_VAR(matched);
 			ZEPHIR_SINIT_NVAR(_1);
 			ZVAL_STRING(&_1, "/^[^:\\/?#]++:/", 0);
+			ZEPHIR_INIT_VAR(matched);
 			zephir_preg_match(matched, &_1, location, _3, 0, 0 , 0  TSRMLS_CC);
 			if (zephir_is_true(matched)) {
 				ZEPHIR_CPY_WRT(header, location);

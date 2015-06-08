@@ -285,6 +285,7 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, has) {
 	zval *name = NULL;
 
 	ZEPHIR_MM_GROW();
+	zephir_get_global(&_COOKIE, SS("_COOKIE") TSRMLS_CC);
 	zephir_fetch_params(1, 1, 0, &name_param);
 
 	if (unlikely(Z_TYPE_P(name_param) != IS_STRING && Z_TYPE_P(name_param) != IS_NULL)) {
@@ -304,7 +305,6 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, has) {
 	if (zephir_array_isset(_0, name)) {
 		RETURN_MM_BOOL(1);
 	}
-	zephir_get_global(&_COOKIE, SS("_COOKIE") TSRMLS_CC);
 	if (zephir_array_isset(_COOKIE, name)) {
 		RETURN_MM_BOOL(1);
 	}

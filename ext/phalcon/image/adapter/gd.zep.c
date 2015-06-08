@@ -297,13 +297,13 @@ PHP_METHOD(Phalcon_Image_Adapter_Gd, _resize) {
 			_4 = height > (zephir_safe_div_zval_long(_5, 2 TSRMLS_CC));
 		}
 		if (_4) {
-			ZEPHIR_INIT_VAR(reduction_width);
 			ZEPHIR_SINIT_NVAR(_1);
 			ZVAL_LONG(&_1, (width * 1.1));
+			ZEPHIR_INIT_VAR(reduction_width);
 			zephir_round(reduction_width, &_1, NULL, NULL TSRMLS_CC);
-			ZEPHIR_INIT_VAR(reduction_height);
 			ZEPHIR_SINIT_VAR(_6);
 			ZVAL_LONG(&_6, (height * 1.1));
+			ZEPHIR_INIT_VAR(reduction_height);
 			zephir_round(reduction_height, &_6, NULL, NULL TSRMLS_CC);
 			while (1) {
 				_7 = ZEPHIR_LT_LONG(reduction_width, zephir_safe_div_zval_long(pre_width, 2 TSRMLS_CC));
@@ -1387,11 +1387,11 @@ PHP_METHOD(Phalcon_Image_Adapter_Gd, _save) {
 	quality = zephir_get_intval(quality_param);
 
 
-	ZEPHIR_INIT_VAR(ext);
 	ZEPHIR_SINIT_VAR(_0);
 	ZVAL_LONG(&_0, 4);
 	ZEPHIR_CALL_FUNCTION(&_1, "pathinfo", NULL, 207, file, &_0);
 	zephir_check_call_status();
+	ZEPHIR_INIT_VAR(ext);
 	zephir_fast_strtolower(ext, _1);
 	ZEPHIR_SINIT_NVAR(_0);
 	ZVAL_STRING(&_0, "gif", 0);

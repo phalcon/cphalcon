@@ -5280,7 +5280,6 @@ PHP_METHOD(Phalcon_Mvc_Model, __get) {
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(relation, _0);
 	if (Z_TYPE_P(relation) == IS_OBJECT) {
-		ZEPHIR_INIT_VAR(result);
 		ZEPHIR_INIT_VAR(_1);
 		zephir_create_array(_1, 2, 0 TSRMLS_CC);
 		zephir_array_fast_append(_1, manager);
@@ -5293,6 +5292,7 @@ PHP_METHOD(Phalcon_Mvc_Model, __get) {
 		zephir_array_fast_append(_3, ZEPHIR_GLOBAL(global_null));
 		zephir_array_fast_append(_3, this_ptr);
 		zephir_array_fast_append(_3, ZEPHIR_GLOBAL(global_null));
+		ZEPHIR_INIT_VAR(result);
 		ZEPHIR_CALL_USER_FUNC_ARRAY(result, _1, _3);
 		zephir_check_call_status();
 		if (Z_TYPE_P(result) == IS_OBJECT) {

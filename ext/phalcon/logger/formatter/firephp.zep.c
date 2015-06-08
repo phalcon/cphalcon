@@ -252,11 +252,11 @@ PHP_METHOD(Phalcon_Logger_Formatter_Firephp, format) {
 			zephir_array_update_string(&body, SL("message"), &message, PH_COPY | PH_SEPARATE);
 		}
 	}
-	ZEPHIR_INIT_VAR(encoded);
 	ZEPHIR_INIT_VAR(_18);
 	zephir_create_array(_18, 2, 0 TSRMLS_CC);
 	zephir_array_fast_append(_18, meta);
 	zephir_array_fast_append(_18, body);
+	ZEPHIR_INIT_VAR(encoded);
 	zephir_json_encode(encoded, &(encoded), _18, 0  TSRMLS_CC);
 	ZEPHIR_INIT_VAR(len);
 	ZVAL_LONG(len, zephir_fast_strlen_ev(encoded));

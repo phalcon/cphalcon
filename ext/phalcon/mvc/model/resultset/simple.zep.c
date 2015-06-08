@@ -119,8 +119,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, current) {
 				ZEPHIR_OBS_VAR(_0);
 				zephir_read_property_this(&_0, this_ptr, SL("_model"), PH_NOISY_CC);
 				if (zephir_instance_of_ev(_0, phalcon_mvc_model_ce TSRMLS_CC)) {
-					ZEPHIR_INIT_NVAR(modelName);
 					_1 = zephir_fetch_nproperty_this(this_ptr, SL("_model"), PH_NOISY_CC);
+					ZEPHIR_INIT_NVAR(modelName);
 					zephir_get_class(modelName, _1, 0 TSRMLS_CC);
 				}
 				_1 = zephir_fetch_nproperty_this(this_ptr, SL("_model"), PH_NOISY_CC);
