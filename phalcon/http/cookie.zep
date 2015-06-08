@@ -263,7 +263,8 @@ class Cookie implements InjectionAwareInterface
 				/**
 				 * Encrypt the value also coding it with base64
 				 */
-				let encryptValue = crypt->encryptBase64(value);
+				let encryptValue = crypt->encryptBase64((string) value);
+
 			} else {
 				let encryptValue = value;
 			}
