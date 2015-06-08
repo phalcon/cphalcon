@@ -157,7 +157,6 @@ PHP_METHOD(Phalcon_Session_Adapter, get) {
 	zval *index = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_get_global(&_SESSION, SS("_SESSION") TSRMLS_CC);
 	zephir_fetch_params(1, 1, 2, &index_param, &defaultValue, &remove_param);
 
 	zephir_get_strval(index, index_param);
@@ -175,6 +174,7 @@ PHP_METHOD(Phalcon_Session_Adapter, get) {
 	ZEPHIR_INIT_VAR(key);
 	ZEPHIR_CONCAT_VV(key, _0, index);
 	ZEPHIR_OBS_VAR(value);
+	zephir_get_global(&_SESSION, SS("_SESSION") TSRMLS_CC);
 	if (zephir_array_isset_fetch(&value, _SESSION, key, 0 TSRMLS_CC)) {
 		if (remove) {
 			zephir_array_unset(&_SESSION, key, PH_SEPARATE);
@@ -203,12 +203,12 @@ PHP_METHOD(Phalcon_Session_Adapter, set) {
 	zval *index = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_get_global(&_SESSION, SS("_SESSION") TSRMLS_CC);
 	zephir_fetch_params(1, 2, 0, &index_param, &value);
 
 	zephir_get_strval(index, index_param);
 
 
+	zephir_get_global(&_SESSION, SS("_SESSION") TSRMLS_CC);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_uniqueId"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(_1);
 	ZEPHIR_CONCAT_VV(_1, _0, index);
@@ -234,12 +234,12 @@ PHP_METHOD(Phalcon_Session_Adapter, has) {
 	zval *index = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_get_global(&_SESSION, SS("_SESSION") TSRMLS_CC);
 	zephir_fetch_params(1, 1, 0, &index_param);
 
 	zephir_get_strval(index, index_param);
 
 
+	zephir_get_global(&_SESSION, SS("_SESSION") TSRMLS_CC);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_uniqueId"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(_1);
 	ZEPHIR_CONCAT_VV(_1, _0, index);
@@ -260,7 +260,6 @@ PHP_METHOD(Phalcon_Session_Adapter, remove) {
 	zval *index = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_get_global(&_SESSION, SS("_SESSION") TSRMLS_CC);
 	zephir_fetch_params(1, 1, 0, &index_param);
 
 	zephir_get_strval(index, index_param);
@@ -269,6 +268,7 @@ PHP_METHOD(Phalcon_Session_Adapter, remove) {
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_uniqueId"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(_1);
 	ZEPHIR_CONCAT_VV(_1, _0, index);
+	zephir_get_global(&_SESSION, SS("_SESSION") TSRMLS_CC);
 	zephir_array_unset(&_SESSION, _1, PH_SEPARATE);
 	ZEPHIR_MM_RESTORE();
 

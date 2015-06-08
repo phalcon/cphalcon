@@ -280,19 +280,19 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, fireExtensionEvent) {
 			ZEPHIR_GET_HVALUE(extension, _2);
 			if ((zephir_method_exists(extension, name TSRMLS_CC)  == SUCCESS)) {
 				if (Z_TYPE_P(arguments) == IS_ARRAY) {
+					ZEPHIR_INIT_NVAR(status);
 					ZEPHIR_INIT_NVAR(_3);
 					zephir_create_array(_3, 2, 0 TSRMLS_CC);
 					zephir_array_fast_append(_3, extension);
 					zephir_array_fast_append(_3, name);
-					ZEPHIR_INIT_NVAR(status);
 					ZEPHIR_CALL_USER_FUNC_ARRAY(status, _3, arguments);
 					zephir_check_call_status();
 				} else {
+					ZEPHIR_INIT_NVAR(status);
 					ZEPHIR_INIT_NVAR(_3);
 					zephir_create_array(_3, 2, 0 TSRMLS_CC);
 					zephir_array_fast_append(_3, extension);
 					zephir_array_fast_append(_3, name);
-					ZEPHIR_INIT_NVAR(status);
 					ZEPHIR_CALL_USER_FUNC(status, _3);
 					zephir_check_call_status();
 				}
@@ -481,10 +481,10 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, getUniquePrefix) {
 	}
 	if (Z_TYPE_P(prefix) == IS_OBJECT) {
 		if (zephir_instance_of_ev(prefix, zend_ce_closure TSRMLS_CC)) {
+			ZEPHIR_INIT_VAR(calculatedPrefix);
 			ZEPHIR_INIT_VAR(_1);
 			zephir_create_array(_1, 1, 0 TSRMLS_CC);
 			zephir_array_fast_append(_1, this_ptr);
-			ZEPHIR_INIT_VAR(calculatedPrefix);
 			ZEPHIR_CALL_USER_FUNC_ARRAY(calculatedPrefix, prefix, _1);
 			zephir_check_call_status();
 			zephir_update_property_this(this_ptr, SL("_prefix"), calculatedPrefix TSRMLS_CC);
@@ -2227,9 +2227,9 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileInclude) {
 			ZEPHIR_CALL_METHOD(&compilation, subCompiler, "compile", NULL, 0, finalPath, _2);
 			zephir_check_call_status();
 			if (Z_TYPE_P(compilation) == IS_NULL) {
+				ZEPHIR_INIT_NVAR(compilation);
 				ZEPHIR_CALL_METHOD(&_1, subCompiler, "getcompiledtemplatepath", NULL, 0);
 				zephir_check_call_status();
-				ZEPHIR_INIT_NVAR(compilation);
 				zephir_file_get_contents(compilation, _1 TSRMLS_CC);
 			}
 			RETURN_CCTOR(compilation);
@@ -2534,9 +2534,9 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _statementList) {
 				ZEPHIR_CALL_METHOD(&tempCompilation, subCompiler, "compile", NULL, 0, finalPath, extended);
 				zephir_check_call_status();
 				if (Z_TYPE_P(tempCompilation) == IS_NULL) {
+					ZEPHIR_INIT_NVAR(tempCompilation);
 					ZEPHIR_CALL_METHOD(&_18, subCompiler, "getcompiledtemplatepath", NULL, 0);
 					zephir_check_call_status();
-					ZEPHIR_INIT_NVAR(tempCompilation);
 					zephir_file_get_contents(tempCompilation, _18 TSRMLS_CC);
 				}
 				zephir_update_property_this(this_ptr, SL("_extended"), (1) ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
@@ -2999,9 +2999,9 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compile) {
 	}
 	if (Z_TYPE_P(compiledPath) == IS_STRING) {
 		if (!(ZEPHIR_IS_EMPTY(compiledPath))) {
+			ZEPHIR_INIT_VAR(templateSepPath);
 			ZEPHIR_CALL_FUNCTION(&_1, "realpath", NULL, 25, templatePath);
 			zephir_check_call_status();
-			ZEPHIR_INIT_VAR(templateSepPath);
 			zephir_prepare_virtual_path(templateSepPath, _1, compiledSeparator TSRMLS_CC);
 		} else {
 			ZEPHIR_CPY_WRT(templateSepPath, templatePath);
@@ -3015,6 +3015,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compile) {
 	} else {
 		if (Z_TYPE_P(compiledPath) == IS_OBJECT) {
 			if (zephir_instance_of_ev(compiledPath, zend_ce_closure TSRMLS_CC)) {
+				ZEPHIR_INIT_NVAR(compiledTemplatePath);
 				ZEPHIR_INIT_VAR(_2);
 				zephir_create_array(_2, 3, 0 TSRMLS_CC);
 				zephir_array_fast_append(_2, templatePath);
@@ -3022,7 +3023,6 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compile) {
 				ZEPHIR_INIT_VAR(_3);
 				ZVAL_BOOL(_3, extendsMode);
 				zephir_array_fast_append(_2, _3);
-				ZEPHIR_INIT_NVAR(compiledTemplatePath);
 				ZEPHIR_CALL_USER_FUNC_ARRAY(compiledTemplatePath, compiledPath, _2);
 				zephir_check_call_status();
 				if (Z_TYPE_P(compiledTemplatePath) != IS_STRING) {

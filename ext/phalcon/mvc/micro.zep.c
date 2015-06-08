@@ -1073,10 +1073,10 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle) {
 					ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_micro_exception_ce, "Error handler is not callable", "phalcon/mvc/micro.zep", 851);
 					return;
 				}
+				ZEPHIR_INIT_NVAR(returnedValue);
 				ZEPHIR_INIT_VAR(_17);
 				zephir_create_array(_17, 1, 0 TSRMLS_CC);
 				zephir_array_fast_append(_17, e);
-				ZEPHIR_INIT_NVAR(returnedValue);
 				ZEPHIR_CALL_USER_FUNC_ARRAY(returnedValue, errorHandler, _17);
 				zephir_check_call_status();
 				if (Z_TYPE_P(returnedValue) == IS_OBJECT) {

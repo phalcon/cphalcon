@@ -378,10 +378,10 @@ PHP_METHOD(Phalcon_Mvc_Application, handle) {
 			zephir_check_call_status();
 		} else {
 			if (zephir_instance_of_ev(module, zend_ce_closure TSRMLS_CC)) {
+				ZEPHIR_INIT_NVAR(moduleObject);
 				ZEPHIR_INIT_VAR(_6);
 				zephir_create_array(_6, 1, 0 TSRMLS_CC);
 				zephir_array_fast_append(_6, dependencyInjector);
-				ZEPHIR_INIT_NVAR(moduleObject);
 				ZEPHIR_CALL_USER_FUNC_ARRAY(moduleObject, module, _6);
 				zephir_check_call_status();
 			} else {

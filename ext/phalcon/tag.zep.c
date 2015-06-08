@@ -497,7 +497,6 @@ PHP_METHOD(Phalcon_Tag, hasValue) {
 
 	zval *name, *_0, *_POST;
 
-	zephir_get_global(&_POST, SS("_POST") TSRMLS_CC);
 	zephir_fetch_params(0, 1, 0, &name);
 
 
@@ -506,6 +505,7 @@ PHP_METHOD(Phalcon_Tag, hasValue) {
 	if (zephir_array_isset(_0, name)) {
 		RETURN_BOOL(1);
 	}
+	zephir_get_global(&_POST, SS("_POST") TSRMLS_CC);
 	RETURN_BOOL(zephir_array_isset(_POST, name));
 
 }
@@ -524,7 +524,6 @@ PHP_METHOD(Phalcon_Tag, getValue) {
 	zval *name, *params = NULL, *value = NULL, *_1, *_POST;
 
 	ZEPHIR_MM_GROW();
-	zephir_get_global(&_POST, SS("_POST") TSRMLS_CC);
 	zephir_fetch_params(1, 1, 1, &name, &params);
 
 	if (!params) {
@@ -542,6 +541,7 @@ PHP_METHOD(Phalcon_Tag, getValue) {
 		_1 = zephir_fetch_static_property_ce(phalcon_tag_ce, SL("_displayValues") TSRMLS_CC);
 		if (!(zephir_array_isset_fetch(&value, _1, name, 0 TSRMLS_CC))) {
 			ZEPHIR_OBS_NVAR(value);
+			zephir_get_global(&_POST, SS("_POST") TSRMLS_CC);
 			if (!(zephir_array_isset_fetch(&value, _POST, name, 0 TSRMLS_CC))) {
 				RETURN_MM_NULL();
 			}

@@ -197,12 +197,11 @@ PHP_METHOD(Phalcon_Mvc_Router, getRewriteUri) {
 	zval *url = NULL, *urlParts, *realUri, *_0, *_GET, *_SERVER;
 
 	ZEPHIR_MM_GROW();
-	zephir_get_global(&_SERVER, SS("_SERVER") TSRMLS_CC);
-	zephir_get_global(&_GET, SS("_GET") TSRMLS_CC);
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_uriSource"), PH_NOISY_CC);
 	if (!(zephir_is_true(_0))) {
 		ZEPHIR_OBS_VAR(url);
+		zephir_get_global(&_GET, SS("_GET") TSRMLS_CC);
 		if (zephir_array_isset_string_fetch(&url, _GET, SS("_url"), 0 TSRMLS_CC)) {
 			if (!(ZEPHIR_IS_EMPTY(url))) {
 				RETURN_CCTOR(url);
@@ -210,6 +209,7 @@ PHP_METHOD(Phalcon_Mvc_Router, getRewriteUri) {
 		}
 	} else {
 		ZEPHIR_OBS_NVAR(url);
+		zephir_get_global(&_SERVER, SS("_SERVER") TSRMLS_CC);
 		if (zephir_array_isset_string_fetch(&url, _SERVER, SS("REQUEST_URI"), 0 TSRMLS_CC)) {
 			ZEPHIR_INIT_VAR(urlParts);
 			zephir_fast_explode_str(urlParts, SL("?"), url, LONG_MAX TSRMLS_CC);
@@ -496,9 +496,9 @@ PHP_METHOD(Phalcon_Mvc_Router, handle) {
 		_1 = !ZEPHIR_IS_STRING(realUri, "/");
 	}
 	if (_1) {
+		ZEPHIR_INIT_VAR(handledUri);
 		ZEPHIR_SINIT_VAR(_2);
 		ZVAL_STRING(&_2, "/", 0);
-		ZEPHIR_INIT_VAR(handledUri);
 		zephir_fast_trim(handledUri, realUri, &_2, ZEPHIR_TRIM_RIGHT TSRMLS_CC);
 	} else {
 		ZEPHIR_CPY_WRT(handledUri, realUri);
@@ -606,12 +606,12 @@ PHP_METHOD(Phalcon_Mvc_Router, handle) {
 					ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_router_exception_ce, "Before-Match callback is not callable in matched route", "phalcon/mvc/router.zep", 442);
 					return;
 				}
+				ZEPHIR_INIT_NVAR(routeFound);
 				ZEPHIR_INIT_NVAR(_11);
 				zephir_create_array(_11, 3, 0 TSRMLS_CC);
 				zephir_array_fast_append(_11, handledUri);
 				zephir_array_fast_append(_11, route);
 				zephir_array_fast_append(_11, this_ptr);
-				ZEPHIR_INIT_NVAR(routeFound);
 				ZEPHIR_CALL_USER_FUNC_ARRAY(routeFound, beforeMatch, _11);
 				zephir_check_call_status();
 			}
@@ -723,9 +723,9 @@ PHP_METHOD(Phalcon_Mvc_Router, handle) {
 		ZEPHIR_OBS_VAR(paramsStr);
 		if (zephir_array_isset_string_fetch(&paramsStr, parts, SS("params"), 0 TSRMLS_CC)) {
 			if (Z_TYPE_P(paramsStr) == IS_STRING) {
+				ZEPHIR_INIT_VAR(strParams);
 				ZEPHIR_SINIT_NVAR(_2);
 				ZVAL_STRING(&_2, "/", 0);
-				ZEPHIR_INIT_VAR(strParams);
 				zephir_fast_trim(strParams, paramsStr, &_2, ZEPHIR_TRIM_BOTH TSRMLS_CC);
 				if (zephir_is_true(strParams)) {
 					ZEPHIR_INIT_NVAR(params);

@@ -89,9 +89,7 @@ int zephir_is_instance_of(zval *object, const char *class_name, unsigned int cla
 
 		ce = Z_OBJCE_P(object);
 		if (ce->name_length == class_length) {
-		  	if (!zend_binary_strcasecmp(ce->name, ce->name_length, class_name, class_length)) {
-                            return 1;
-                        }
+			return !zend_binary_strcasecmp(ce->name, ce->name_length, class_name, class_length);
 		}
 
 		temp_ce = zend_fetch_class(class_name, class_length, ZEND_FETCH_CLASS_DEFAULT TSRMLS_CC);

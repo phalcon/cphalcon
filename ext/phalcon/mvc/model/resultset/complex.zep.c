@@ -199,11 +199,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, current) {
 			if (zephir_array_isset_string(column, SS("balias"))) {
 				ZEPHIR_CPY_WRT(attribute, alias);
 			} else {
+				ZEPHIR_INIT_NVAR(attribute);
 				ZEPHIR_SINIT_NVAR(_12);
 				ZVAL_STRING(&_12, "_", 0);
 				ZEPHIR_SINIT_NVAR(_13);
 				ZVAL_STRING(&_13, "", 0);
-				ZEPHIR_INIT_NVAR(attribute);
 				zephir_fast_str_replace(&attribute, &_12, &_13, alias TSRMLS_CC);
 			}
 		}

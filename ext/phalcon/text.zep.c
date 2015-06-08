@@ -193,6 +193,7 @@ PHP_METHOD(Phalcon_Text, random) {
 
 	do {
 		if (type == 1) {
+			ZEPHIR_INIT_VAR(pool);
 			ZEPHIR_SINIT_VAR(_0);
 			ZVAL_STRING(&_0, "a", 0);
 			ZEPHIR_SINIT_VAR(_1);
@@ -205,11 +206,11 @@ PHP_METHOD(Phalcon_Text, random) {
 			ZVAL_STRING(&_1, "Z", 0);
 			ZEPHIR_CALL_FUNCTION(&_4, "range", &_3, 412, &_0, &_1);
 			zephir_check_call_status();
-			ZEPHIR_INIT_VAR(pool);
 			zephir_fast_array_merge(pool, &(_2), &(_4) TSRMLS_CC);
 			break;
 		}
 		if (type == 2) {
+			ZEPHIR_INIT_NVAR(pool);
 			ZEPHIR_SINIT_NVAR(_0);
 			ZVAL_LONG(&_0, 0);
 			ZEPHIR_SINIT_NVAR(_1);
@@ -222,7 +223,6 @@ PHP_METHOD(Phalcon_Text, random) {
 			ZVAL_STRING(&_1, "f", 0);
 			ZEPHIR_CALL_FUNCTION(&_4, "range", &_3, 412, &_0, &_1);
 			zephir_check_call_status();
-			ZEPHIR_INIT_NVAR(pool);
 			zephir_fast_array_merge(pool, &(_2), &(_4) TSRMLS_CC);
 			break;
 		}

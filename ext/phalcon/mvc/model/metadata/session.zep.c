@@ -82,7 +82,6 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Session, read) {
 	zval *key = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_get_global(&_SESSION, SS("_SESSION") TSRMLS_CC);
 	zephir_fetch_params(1, 1, 0, &key_param);
 
 	if (unlikely(Z_TYPE_P(key_param) != IS_STRING && Z_TYPE_P(key_param) != IS_NULL)) {
@@ -98,6 +97,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Session, read) {
 	}
 
 
+	zephir_get_global(&_SESSION, SS("_SESSION") TSRMLS_CC);
 	_1 = zephir_fetch_nproperty_this(this_ptr, SL("_prefix"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(_2);
 	ZEPHIR_CONCAT_SV(_2, "$PMM$", _1);
@@ -121,7 +121,6 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Session, write) {
 	zval *key = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_get_global(&_SESSION, SS("_SESSION") TSRMLS_CC);
 	zephir_fetch_params(1, 2, 0, &key_param, &data);
 
 	if (unlikely(Z_TYPE_P(key_param) != IS_STRING && Z_TYPE_P(key_param) != IS_NULL)) {
@@ -137,6 +136,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Session, write) {
 	}
 
 
+	zephir_get_global(&_SESSION, SS("_SESSION") TSRMLS_CC);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_prefix"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(_1);
 	ZEPHIR_CONCAT_SV(_1, "$PMM$", _0);

@@ -444,9 +444,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getModelSource) {
 			RETURN_CCTOR(source);
 		}
 	}
+	ZEPHIR_INIT_NVAR(source);
 	ZEPHIR_INIT_VAR(_0);
 	zephir_get_class_ns(_0, model, 0 TSRMLS_CC);
-	ZEPHIR_INIT_NVAR(source);
 	zephir_uncamelize(source, _0);
 	zephir_update_property_array(this_ptr, SL("_sources"), entityName, source TSRMLS_CC);
 	RETURN_CCTOR(source);
@@ -1877,13 +1877,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords) {
 			RETURN_CCTOR(records);
 		}
 	}
+	ZEPHIR_INIT_NVAR(records);
 	ZEPHIR_INIT_VAR(_16);
 	zephir_create_array(_16, 2, 0 TSRMLS_CC);
 	ZEPHIR_CALL_METHOD(&_3, this_ptr, "load", NULL, 0, referencedModel);
 	zephir_check_call_status();
 	zephir_array_fast_append(_16, _3);
 	zephir_array_fast_append(_16, retrieveMethod);
-	ZEPHIR_INIT_NVAR(records);
 	ZEPHIR_CALL_USER_FUNC_ARRAY(records, _16, arguments);
 	zephir_check_call_status();
 	if (reusable) {

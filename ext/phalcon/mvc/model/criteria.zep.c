@@ -264,10 +264,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, join) {
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_params"), PH_NOISY_CC);
 	if (zephir_array_isset_string_fetch(&currentJoins, _0, SS("joins"), 0 TSRMLS_CC)) {
 		if (Z_TYPE_P(currentJoins) == IS_ARRAY) {
+			ZEPHIR_INIT_VAR(mergedJoins);
 			ZEPHIR_INIT_VAR(_1);
 			zephir_create_array(_1, 1, 0 TSRMLS_CC);
 			zephir_array_fast_append(_1, join);
-			ZEPHIR_INIT_VAR(mergedJoins);
 			zephir_fast_array_merge(mergedJoins, &(currentJoins), &(_1) TSRMLS_CC);
 		} else {
 			ZEPHIR_INIT_NVAR(mergedJoins);
