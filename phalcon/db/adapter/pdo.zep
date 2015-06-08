@@ -139,6 +139,7 @@ abstract class Pdo extends Adapter
 			if persistent {
 				let options[\Pdo::ATTR_PERSISTENT] = true;
 			}
+			unset descriptor["persistent"];
 		}
 
 		/**
