@@ -53,19 +53,16 @@ class NativeArray extends Adapter implements AdapterInterface, \ArrayAccess
 
 	/**
 	 * Returns the translation related to the given key
-	 *
-	 * @param string  index
-	 * @param array   placeholders
-	 * @return string
 	 */
 	public function query(string! index, placeholders = null) -> string
 	{
 		var translation;
 
-		if fetch translation, this->_translate[index] {
-			return this->replacePlaceholders(translation, placeholders);
+		if !fetch translation, this->_translate[index] {
+			let translation = index;
 		}
-		return index;
+
+		return this->replacePlaceholders(translation, placeholders);
 	}
 
 	/**
