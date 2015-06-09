@@ -49,6 +49,8 @@ zend_class_entry *phalcon_db_adapter_ce;
 PHP_METHOD(Phalcon_Db_Adapter, __construct);
 PHP_METHOD(Phalcon_Db_Adapter, setEventsManager);
 PHP_METHOD(Phalcon_Db_Adapter, getEventsManager);
+PHP_METHOD(Phalcon_Db_Adapter, setProfiler);
+PHP_METHOD(Phalcon_Db_Adapter, getProfiler);
 PHP_METHOD(Phalcon_Db_Adapter, setDialect);
 PHP_METHOD(Phalcon_Db_Adapter, getDialect);
 PHP_METHOD(Phalcon_Db_Adapter, fetchOne);
@@ -104,6 +106,10 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_seteventsmanager, 0, 0, 1)
 	ZEND_ARG_INFO(0, eventsManager)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_setprofiler, 0, 0, 1)
+	ZEND_ARG_INFO(0, profiler)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_setdialect, 0, 0, 1)
 	ZEND_ARG_INFO(0, dialect)
 ZEND_END_ARG_INFO()
@@ -118,6 +124,8 @@ static const zend_function_entry phalcon_db_adapter_method_entry[] = {
 	PHP_ME(Phalcon_Db_Adapter, __construct, NULL, ZEND_ACC_PROTECTED|ZEND_ACC_CTOR)
 	PHP_ME(Phalcon_Db_Adapter, setEventsManager, arginfo_phalcon_db_adapter_seteventsmanager, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Adapter, getEventsManager, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Adapter, setProfiler, arginfo_phalcon_db_adapter_setprofiler, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Adapter, getProfiler, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Adapter, setDialect, arginfo_phalcon_db_adapter_setdialect, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Adapter, getDialect, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Adapter, fetchOne, arginfo_phalcon_db_adapterinterface_fetchone, ZEND_ACC_PUBLIC)
@@ -179,6 +187,7 @@ PHALCON_INIT_CLASS(Phalcon_Db_Adapter){
 	PHALCON_REGISTER_CLASS(Phalcon\\Db, Adapter, db_adapter, phalcon_db_adapter_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
 
 	zend_declare_property_null(phalcon_db_adapter_ce, SL("_eventsManager"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_db_adapter_ce, SL("_profiler"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_db_adapter_ce, SL("_descriptor"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_db_adapter_ce, SL("_dialectType"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_db_adapter_ce, SL("_type"), ZEND_ACC_PROTECTED TSRMLS_CC);
@@ -275,6 +284,32 @@ PHP_METHOD(Phalcon_Db_Adapter, getEventsManager){
 
 
 	RETURN_MEMBER(this_ptr, "_eventsManager");
+}
+
+/**
+ * Sets the profiler
+ *
+ * @param Phalcon\Db\Profiler $profiler
+ */
+PHP_METHOD(Phalcon_Db_Adapter, setProfiler){
+
+	zval *profiler;
+
+	phalcon_fetch_params(0, 1, 0, &profiler);
+
+	phalcon_update_property_this(this_ptr, SL("_profiler"), profiler TSRMLS_CC);
+
+}
+
+/**
+ * Returns the profiler
+ *
+ * @return Phalcon\Db\Profiler
+ */
+PHP_METHOD(Phalcon_Db_Adapter, getProfiler){
+
+
+	RETURN_MEMBER(this_ptr, "_profiler");
 }
 
 /**

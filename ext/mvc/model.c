@@ -1638,6 +1638,11 @@ PHP_METHOD(Phalcon_Mvc_Model, find){
 
 	PHALCON_CALL_CE_STATIC(&dependency_injector, phalcon_di_ce, "getdefault");
 
+	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "A dependency injector container is required to obtain the services related to the ORM");
+		return;
+	}
+
 	PHALCON_INIT_VAR(service_name);
 	ZVAL_STRING(service_name, "modelsManager", 1);
 
@@ -1766,6 +1771,11 @@ PHP_METHOD(Phalcon_Mvc_Model, findFirst){
 	phalcon_get_called_class(model_name  TSRMLS_CC);
 
 	PHALCON_CALL_CE_STATIC(&dependency_injector, phalcon_di_ce, "getdefault");
+
+	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "A dependency injector container is required to obtain the services related to the ORM");
+		return;
+	}
 
 	PHALCON_INIT_VAR(service_name);
 	ZVAL_STRING(service_name, "modelsManager", 1);
@@ -1931,6 +1941,11 @@ PHP_METHOD(Phalcon_Mvc_Model, query){
 	 */
 	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
 		PHALCON_CALL_CE_STATIC(&dependency_injector, phalcon_di_ce, "getdefault");
+	}
+
+	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "A dependency injector container is required to obtain the services related to the ORM");
+		return;
 	}
 
 	PHALCON_INIT_VAR(model_name);
@@ -2317,6 +2332,11 @@ PHP_METHOD(Phalcon_Mvc_Model, _groupResult){
 	phalcon_get_called_class(model_name  TSRMLS_CC);
 
 	PHALCON_CALL_CE_STATIC(&dependency_injector, phalcon_di_ce, "getdefault");
+
+	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "A dependency injector container is required to obtain the services related to the ORM");
+		return;
+	}
 
 	PHALCON_INIT_VAR(service_name);
 	ZVAL_STRING(service_name, "modelsManager", 1);
@@ -7870,6 +7890,11 @@ PHP_METHOD(Phalcon_Mvc_Model, remove){
 	}
 
 	PHALCON_CALL_CE_STATIC(&dependency_injector, phalcon_di_ce, "getdefault");
+
+	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "A dependency injector container is required to obtain the services related to the ORM");
+		return;
+	}
 
 	PHALCON_INIT_VAR(model_name);
 	phalcon_get_called_class(model_name  TSRMLS_CC);
