@@ -114,7 +114,7 @@ abstract class Pdo extends Adapter
 		 * Check if the developer has defined custom options or create one from scratch
 		 */
 		if fetch options, descriptor["options"] {
-			unset descriptor["options"] ;
+			unset descriptor["options"];
 		} else {
 			let options = [];
 		}
@@ -127,6 +127,13 @@ abstract class Pdo extends Adapter
 				let options[\Pdo::ATTR_PERSISTENT] = true;
 			}
 			unset descriptor["persistent"];
+		}
+
+		/**
+		 * Remove the dialectClass from the descriptor if any
+		 */
+		if isset descriptor["dialectClass"] {
+			unset descriptor["dialectClass"];
 		}
 
 		/**
