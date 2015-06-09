@@ -91,6 +91,7 @@ PHP_METHOD(Phalcon_Config, __construct) {
 		ZEPHIR_GET_HVALUE(value, _2);
 		ZEPHIR_CALL_METHOD(NULL, this_ptr, "offsetset", &_3, 0, key, value);
 		zephir_check_call_status();
+		zephir_check_call_status();
 	}
 	ZEPHIR_MM_RESTORE();
 
@@ -115,6 +116,7 @@ PHP_METHOD(Phalcon_Config, offsetExists) {
 
 
 	ZEPHIR_CALL_FUNCTION(&_0, "strval", NULL, 57, index);
+	zephir_check_call_status();
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(index, _0);
 	RETURN_MM_BOOL(zephir_isset_property_zval(this_ptr, index TSRMLS_CC));
@@ -144,6 +146,7 @@ PHP_METHOD(Phalcon_Config, get) {
 
 
 	ZEPHIR_CALL_FUNCTION(&_0, "strval", NULL, 57, index);
+	zephir_check_call_status();
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(index, _0);
 	if (zephir_isset_property_zval(this_ptr, index TSRMLS_CC)) {
@@ -176,6 +179,7 @@ PHP_METHOD(Phalcon_Config, offsetGet) {
 
 	ZEPHIR_CALL_FUNCTION(&_0, "strval", NULL, 57, index);
 	zephir_check_call_status();
+	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(index, _0);
 	ZEPHIR_OBS_VAR(_1);
 	zephir_read_property_zval(&_1, this_ptr, index, PH_NOISY_CC);
@@ -203,11 +207,13 @@ PHP_METHOD(Phalcon_Config, offsetSet) {
 
 	ZEPHIR_CALL_FUNCTION(&_0, "strval", NULL, 57, index);
 	zephir_check_call_status();
+	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(index, _0);
 	if (Z_TYPE_P(value) == IS_ARRAY) {
 		ZEPHIR_INIT_VAR(_1);
 		object_init_ex(_1, phalcon_config_ce);
 		ZEPHIR_CALL_METHOD(NULL, _1, "__construct", NULL, 58, value);
+		zephir_check_call_status();
 		zephir_check_call_status();
 		zephir_update_property_zval_zval(this_ptr, index, _1 TSRMLS_CC);
 	} else {
@@ -237,6 +243,7 @@ PHP_METHOD(Phalcon_Config, offsetUnset) {
 
 	ZEPHIR_CALL_FUNCTION(&_0, "strval", NULL, 57, index);
 	zephir_check_call_status();
+	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(index, _0);
 	zephir_update_property_zval_zval(this_ptr, index, ZEPHIR_GLOBAL(global_null) TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
@@ -263,6 +270,7 @@ PHP_METHOD(Phalcon_Config, merge) {
 
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "_merge", NULL, 59, config);
 	zephir_check_call_status();
+	zephir_check_call_status();
 	RETURN_MM();
 
 }
@@ -287,6 +295,7 @@ PHP_METHOD(Phalcon_Config, toArray) {
 	array_init(arrayConfig);
 	ZEPHIR_CALL_FUNCTION(&_0, "get_object_vars", NULL, 60, this_ptr);
 	zephir_check_call_status();
+	zephir_check_call_status();
 	zephir_is_iterable(_0, &_2, &_1, 0, 0, "phalcon/config.zep", 180);
 	for (
 	  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
@@ -297,6 +306,7 @@ PHP_METHOD(Phalcon_Config, toArray) {
 		if (Z_TYPE_P(value) == IS_OBJECT) {
 			if ((zephir_method_exists_ex(value, SS("toarray") TSRMLS_CC) == SUCCESS)) {
 				ZEPHIR_CALL_METHOD(&_4, value, "toarray", NULL, 0);
+				zephir_check_call_status();
 				zephir_check_call_status();
 				zephir_array_update_zval(&arrayConfig, key, &_4, PH_COPY | PH_SEPARATE);
 			} else {
@@ -332,6 +342,7 @@ PHP_METHOD(Phalcon_Config, count) {
 
 	ZEPHIR_CALL_FUNCTION(&_0, "get_object_vars", NULL, 60, this_ptr);
 	zephir_check_call_status();
+	zephir_check_call_status();
 	RETURN_MM_LONG(zephir_fast_count_int(_0 TSRMLS_CC));
 
 }
@@ -354,6 +365,7 @@ PHP_METHOD(Phalcon_Config, __set_state) {
 
 	object_init_ex(return_value, phalcon_config_ce);
 	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 58, data);
+	zephir_check_call_status();
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -391,7 +403,9 @@ PHP_METHOD(Phalcon_Config, _merge) {
 	}
 	ZEPHIR_CALL_METHOD(&number, instance, "count", NULL, 0);
 	zephir_check_call_status();
+	zephir_check_call_status();
 	ZEPHIR_CALL_FUNCTION(&_0, "get_object_vars", NULL, 60, config);
+	zephir_check_call_status();
 	zephir_check_call_status();
 	zephir_is_iterable(_0, &_2, &_1, 0, 0, "phalcon/config.zep", 239);
 	for (
@@ -415,9 +429,11 @@ PHP_METHOD(Phalcon_Config, _merge) {
 			zephir_read_property_zval(&_7, instance, key, PH_NOISY_CC);
 			ZEPHIR_CALL_METHOD(NULL, this_ptr, "_merge", &_8, 59, value, _7);
 			zephir_check_call_status();
+			zephir_check_call_status();
 		} else {
 			if (Z_TYPE_P(key) == IS_LONG) {
 				ZEPHIR_CALL_FUNCTION(&key, "strval", &_9, 57, number);
+				zephir_check_call_status();
 				zephir_check_call_status();
 				ZEPHIR_SEPARATE(number);
 				zephir_increment(number);

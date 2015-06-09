@@ -107,6 +107,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Apc, read) {
 	zephir_fast_strtolower(_0, _2);
 	ZEPHIR_RETURN_CALL_FUNCTION("apc_fetch", NULL, 7, _0);
 	zephir_check_call_status();
+	zephir_check_call_status();
 	RETURN_MM();
 
 }
@@ -143,6 +144,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Apc, write) {
 	zephir_fast_strtolower(_0, _2);
 	_3 = zephir_fetch_nproperty_this(this_ptr, SL("_ttl"), PH_NOISY_CC);
 	ZEPHIR_RETURN_CALL_FUNCTION("apc_store", NULL, 8, _0, data, _3);
+	zephir_check_call_status();
 	zephir_check_call_status();
 	RETURN_MM();
 

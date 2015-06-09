@@ -147,6 +147,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, toArray) {
 
 	ZEPHIR_RETURN_CALL_FUNCTION("get_object_vars", NULL, 60, this_ptr);
 	zephir_check_call_status();
+	zephir_check_call_status();
 	RETURN_MM();
 
 }
