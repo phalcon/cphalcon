@@ -22,7 +22,7 @@
 #include "http/response/headers.h"
 #include "di.h"
 #include "diinterface.h"
-#include "di/injectionawareinterface.h"
+#include "di/injectable.h"
 #include "mvc/urlinterface.h"
 #include "mvc/viewinterface.h"
 
@@ -60,8 +60,6 @@
 zend_class_entry *phalcon_http_response_ce;
 
 PHP_METHOD(Phalcon_Http_Response, __construct);
-PHP_METHOD(Phalcon_Http_Response, setDI);
-PHP_METHOD(Phalcon_Http_Response, getDI);
 PHP_METHOD(Phalcon_Http_Response, setStatusCode);
 PHP_METHOD(Phalcon_Http_Response, setHeaders);
 PHP_METHOD(Phalcon_Http_Response, getHeaders);
@@ -106,8 +104,6 @@ ZEND_END_ARG_INFO()
 
 static const zend_function_entry phalcon_http_response_method_entry[] = {
 	PHP_ME(Phalcon_Http_Response, __construct, arginfo_phalcon_http_response___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
-	PHP_ME(Phalcon_Http_Response, setDI, arginfo_phalcon_di_injectionawareinterface_setdi, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Http_Response, getDI, arginfo_phalcon_di_injectionawareinterface_getdi, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Response, setStatusCode, arginfo_phalcon_http_responseinterface_setstatuscode, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Response, setHeaders, arginfo_phalcon_http_response_setheaders, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Response, getHeaders, NULL, ZEND_ACC_PUBLIC)
@@ -139,16 +135,15 @@ static const zend_function_entry phalcon_http_response_method_entry[] = {
  */
 PHALCON_INIT_CLASS(Phalcon_Http_Response){
 
-	PHALCON_REGISTER_CLASS(Phalcon\\Http, Response, http_response, phalcon_http_response_method_entry, 0);
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Http, Response, http_response, phalcon_di_injectable_ce, phalcon_http_response_method_entry, 0);
 
 	zend_declare_property_bool(phalcon_http_response_ce, SL("_sent"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_http_response_ce, SL("_content"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_http_response_ce, SL("_headers"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_http_response_ce, SL("_cookies"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_http_response_ce, SL("_file"), ZEND_ACC_PROTECTED TSRMLS_CC);
-	zend_declare_property_null(phalcon_http_response_ce, SL("_dependencyInjector"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
-	zend_class_implements(phalcon_http_response_ce TSRMLS_CC, 2, phalcon_http_responseinterface_ce, phalcon_di_injectionawareinterface_ce);
+	zend_class_implements(phalcon_http_response_ce TSRMLS_CC, 1, phalcon_http_responseinterface_ce);
 
 	return SUCCESS;
 }
@@ -179,42 +174,6 @@ PHP_METHOD(Phalcon_Http_Response, __construct){
 		PHALCON_CALL_METHOD(NULL, this_ptr, "setstatuscode", code, status);
 		PHALCON_MM_RESTORE();
 	}
-}
-
-/**
- * Sets the dependency injector
- *
- * @param Phalcon\DiInterface $dependencyInjector
- */
-PHP_METHOD(Phalcon_Http_Response, setDI){
-
-	zval *dependency_injector;
-
-	phalcon_fetch_params(0, 1, 0, &dependency_injector);
-	PHALCON_VERIFY_INTERFACE_EX(dependency_injector, phalcon_diinterface_ce, phalcon_http_response_exception_ce, 0);
-	phalcon_update_property_this(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
-}
-
-/**
- * Returns the internal dependency injector
- *
- * @return Phalcon\DiInterface
- */
-PHP_METHOD(Phalcon_Http_Response, getDI){
-
-	zval *dependency_injector;
-
-	dependency_injector = phalcon_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY TSRMLS_CC);
-	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
-		dependency_injector = NULL;
-		PHALCON_CALL_CE_STATICW(&dependency_injector, phalcon_di_ce, "getdefault");
-		PHALCON_VERIFY_INTERFACE_EX(dependency_injector, phalcon_diinterface_ce, phalcon_http_response_exception_ce, 0);
-		phalcon_update_property_this(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
-
-		RETURN_ZVAL(dependency_injector, 1, 1);
-	}
-
-	RETURN_ZVAL(dependency_injector, 1, 0);
 }
 
 /**
