@@ -31,6 +31,25 @@ abstract class Dialect implements DialectInterface
 
 	protected _escapeChar;
 
+	protected _customFunctions;
+
+	/**
+	 * Registers custom SQL functions
+	 */
+	public function registerCustomFunction(string name, callable customFunction) -> <Dialect>
+	{
+		let this->_customFunctions[name] = customFunction;
+		return this;
+	}
+
+	/**
+	 * Returns registered functions
+	 */
+	public function getCustomFunctions() -> array
+	{
+		return this->_customFunctions;
+	}
+
 	/**
 	 * Escape identifiers
 	 */
@@ -565,7 +584,13 @@ abstract class Dialect implements DialectInterface
 	 */
 	protected final function getSqlExpressionFunctionCall(array! expression, string escapeChar = null) -> string
 	{
-		var arguments;
+		var name, customFunction, arguments;
+
+		let name = expression["name"];
+
+		if fetch customFunction, this->_customFunctions[name] {
+			return {customFunction}(this, expression, escapeChar);
+		}
 
 		if fetch arguments, expression["arguments"] && typeof arguments == "array" {
 
@@ -576,13 +601,13 @@ abstract class Dialect implements DialectInterface
 			], escapeChar);
 
 			if isset expression["distinct"] && expression["distinct"] {
-				return expression["name"] . "(DISTINCT " . arguments . ")";
+				return name . "(DISTINCT " . arguments . ")";
 			}
 
-			return expression["name"] . "(" . arguments . ")";
+			return name . "(" . arguments . ")";
 		}
 
-		return expression["name"] . "()";
+		return name . "()";
 	}
 
 	/**
