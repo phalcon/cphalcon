@@ -108,29 +108,23 @@ PHP_METHOD(Phalcon_Db_Profiler, startProfile) {
 	if (zephir_has_constructor(activeProfile TSRMLS_CC)) {
 		ZEPHIR_CALL_METHOD(NULL, activeProfile, "__construct", NULL, 0);
 		zephir_check_call_status();
-		zephir_check_call_status();
 	}
 	ZEPHIR_CALL_METHOD(NULL, activeProfile, "setsqlstatement", NULL, 111, sqlStatement);
-	zephir_check_call_status();
 	zephir_check_call_status();
 	if (Z_TYPE_P(sqlVariables) == IS_ARRAY) {
 		ZEPHIR_CALL_METHOD(NULL, activeProfile, "setsqlvariables", NULL, 112, sqlVariables);
 		zephir_check_call_status();
-		zephir_check_call_status();
 	}
 	if (Z_TYPE_P(sqlBindTypes) == IS_ARRAY) {
 		ZEPHIR_CALL_METHOD(NULL, activeProfile, "setsqlbindtypes", NULL, 113, sqlBindTypes);
-		zephir_check_call_status();
 		zephir_check_call_status();
 	}
 	ZEPHIR_INIT_VAR(_0);
 	zephir_microtime(_0, ZEPHIR_GLOBAL(global_true) TSRMLS_CC);
 	ZEPHIR_CALL_METHOD(NULL, activeProfile, "setinitialtime", NULL, 114, _0);
 	zephir_check_call_status();
-	zephir_check_call_status();
 	if ((zephir_method_exists_ex(this_ptr, SS("beforestartprofile") TSRMLS_CC) == SUCCESS)) {
 		ZEPHIR_CALL_METHOD(NULL, this_ptr, "beforestartprofile", NULL, 0, activeProfile);
-		zephir_check_call_status();
 		zephir_check_call_status();
 	}
 	zephir_update_property_this(this_ptr, SL("_activeProfile"), activeProfile TSRMLS_CC);
@@ -154,9 +148,7 @@ PHP_METHOD(Phalcon_Db_Profiler, stopProfile) {
 	ZEPHIR_CPY_WRT(activeProfile, _0);
 	ZEPHIR_CALL_METHOD(NULL, activeProfile, "setfinaltime", NULL, 0, finalTime);
 	zephir_check_call_status();
-	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&initialTime, activeProfile, "getinitialtime", NULL, 0);
-	zephir_check_call_status();
 	zephir_check_call_status();
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_totalSeconds"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(_1);
@@ -167,7 +159,6 @@ PHP_METHOD(Phalcon_Db_Profiler, stopProfile) {
 	zephir_update_property_array_append(this_ptr, SL("_allProfiles"), activeProfile TSRMLS_CC);
 	if ((zephir_method_exists_ex(this_ptr, SS("afterendprofile") TSRMLS_CC) == SUCCESS)) {
 		ZEPHIR_CALL_METHOD(NULL, this_ptr, "afterendprofile", NULL, 0, activeProfile);
-		zephir_check_call_status();
 		zephir_check_call_status();
 	}
 	RETURN_THIS();

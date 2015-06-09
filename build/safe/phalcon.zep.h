@@ -3816,6 +3816,8 @@ zend_class_entry *phalcon_db_dialect_ce;
 
 ZEPHIR_INIT_CLASS(Phalcon_Db_Dialect);
 
+static PHP_METHOD(Phalcon_Db_Dialect, registerCustomFunction);
+static PHP_METHOD(Phalcon_Db_Dialect, getCustomFunctions);
 static PHP_METHOD(Phalcon_Db_Dialect, escape);
 static PHP_METHOD(Phalcon_Db_Dialect, limit);
 static PHP_METHOD(Phalcon_Db_Dialect, forUpdate);
@@ -3851,6 +3853,11 @@ static PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionLimit);
 static PHP_METHOD(Phalcon_Db_Dialect, prepareColumnAlias);
 static PHP_METHOD(Phalcon_Db_Dialect, prepareTable);
 static PHP_METHOD(Phalcon_Db_Dialect, prepareQualified);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_dialect_registercustomfunction, 0, 0, 2)
+	ZEND_ARG_INFO(0, name)
+	ZEND_ARG_INFO(0, customFunction)
+ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_dialect_escape, 0, 0, 1)
 	ZEND_ARG_INFO(0, str)
@@ -4013,6 +4020,8 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_dialect_preparequalified, 0, 0, 1)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_db_dialect_method_entry) {
+	PHP_ME(Phalcon_Db_Dialect, registerCustomFunction, arginfo_phalcon_db_dialect_registercustomfunction, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Dialect, getCustomFunctions, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Dialect, escape, arginfo_phalcon_db_dialect_escape, ZEND_ACC_PUBLIC|ZEND_ACC_FINAL)
 	PHP_ME(Phalcon_Db_Dialect, limit, arginfo_phalcon_db_dialect_limit, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Dialect, forUpdate, arginfo_phalcon_db_dialect_forupdate, ZEND_ACC_PUBLIC)

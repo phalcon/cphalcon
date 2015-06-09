@@ -157,13 +157,11 @@ PHP_METHOD(Phalcon_Escaper, detectEncoding) {
 		ZEPHIR_GET_HVALUE(charset, _4);
 		ZEPHIR_CALL_FUNCTION(&_5, "mb_detect_encoding", &_6, 152, str, charset, ZEPHIR_GLOBAL(global_true));
 		zephir_check_call_status();
-		zephir_check_call_status();
 		if (zephir_is_true(_5)) {
 			RETURN_CCTOR(charset);
 		}
 	}
 	ZEPHIR_RETURN_CALL_FUNCTION("mb_detect_encoding", &_6, 152, str);
-	zephir_check_call_status();
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -190,11 +188,9 @@ PHP_METHOD(Phalcon_Escaper, normalizeEncoding) {
 	}
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "detectencoding", NULL, 153, str);
 	zephir_check_call_status();
-	zephir_check_call_status();
 	ZEPHIR_SINIT_VAR(_1);
 	ZVAL_STRING(&_1, "UTF-32", 0);
 	ZEPHIR_RETURN_CALL_FUNCTION("mb_convert_encoding", NULL, 154, str, &_1, _0);
-	zephir_check_call_status();
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -218,7 +214,6 @@ PHP_METHOD(Phalcon_Escaper, escapeHtml) {
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_htmlQuoteType"), PH_NOISY_CC);
 	_1 = zephir_fetch_nproperty_this(this_ptr, SL("_encoding"), PH_NOISY_CC);
 	ZEPHIR_RETURN_CALL_FUNCTION("htmlspecialchars", NULL, 155, text, _0, _1);
-	zephir_check_call_status();
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -244,7 +239,6 @@ PHP_METHOD(Phalcon_Escaper, escapeHtmlAttr) {
 	ZVAL_LONG(&_1, 3);
 	ZEPHIR_RETURN_CALL_FUNCTION("htmlspecialchars", NULL, 155, attribute, &_1, _0);
 	zephir_check_call_status();
-	zephir_check_call_status();
 	RETURN_MM();
 
 }
@@ -265,7 +259,6 @@ PHP_METHOD(Phalcon_Escaper, escapeCss) {
 
 
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "normalizeencoding", NULL, 156, css);
-	zephir_check_call_status();
 	zephir_check_call_status();
 	zephir_escape_css(return_value, _0);
 	RETURN_MM();
@@ -289,7 +282,6 @@ PHP_METHOD(Phalcon_Escaper, escapeJs) {
 
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "normalizeencoding", NULL, 156, js);
 	zephir_check_call_status();
-	zephir_check_call_status();
 	zephir_escape_js(return_value, _0);
 	RETURN_MM();
 
@@ -311,7 +303,6 @@ PHP_METHOD(Phalcon_Escaper, escapeUrl) {
 
 
 	ZEPHIR_RETURN_CALL_FUNCTION("rawurlencode", NULL, 157, url);
-	zephir_check_call_status();
 	zephir_check_call_status();
 	RETURN_MM();
 

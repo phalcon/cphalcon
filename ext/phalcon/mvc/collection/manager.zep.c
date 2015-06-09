@@ -187,7 +187,6 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, initialize) {
 		if ((zephir_method_exists_ex(model, SS("initialize") TSRMLS_CC) == SUCCESS)) {
 			ZEPHIR_CALL_METHOD(NULL, model, "initialize", NULL, 0);
 			zephir_check_call_status();
-			zephir_check_call_status();
 		}
 		ZEPHIR_OBS_VAR(eventsManager);
 		zephir_read_property_this(&eventsManager, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
@@ -196,7 +195,6 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, initialize) {
 			ZVAL_STRING(_0, "collectionManager:afterInitialize", ZEPHIR_TEMP_PARAM_COPY);
 			ZEPHIR_CALL_METHOD(NULL, eventsManager, "fire", NULL, 0, _0, model);
 			zephir_check_temp_parameter(_0);
-			zephir_check_call_status();
 			zephir_check_call_status();
 		}
 		zephir_update_property_array(this_ptr, SL("_initialized"), className, model TSRMLS_CC);
@@ -359,7 +357,6 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, getConnection) {
 	}
 	ZEPHIR_CALL_METHOD(&connection, dependencyInjector, "getshared", NULL, 0, service);
 	zephir_check_call_status();
-	zephir_check_call_status();
 	if (Z_TYPE_P(connection) != IS_OBJECT) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_collection_exception_ce, "Invalid injected connection service", "phalcon/mvc/collection/manager.zep", 242);
 		return;
@@ -413,7 +410,6 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, notifyEvent) {
 				ZEPHIR_GET_HVALUE(behavior, _3);
 				ZEPHIR_CALL_METHOD(&status, behavior, "notify", NULL, 0, eventName, model);
 				zephir_check_call_status();
-				zephir_check_call_status();
 				if (ZEPHIR_IS_FALSE_IDENTICAL(status)) {
 					RETURN_MM_BOOL(0);
 				}
@@ -426,7 +422,6 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, notifyEvent) {
 		ZEPHIR_INIT_VAR(_4);
 		ZEPHIR_CONCAT_SV(_4, "collection:", eventName);
 		ZEPHIR_CALL_METHOD(&status, eventsManager, "fire", NULL, 0, _4, model);
-		zephir_check_call_status();
 		zephir_check_call_status();
 		if (!(zephir_is_true(status))) {
 			RETURN_CCTOR(status);
@@ -441,7 +436,6 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, notifyEvent) {
 			ZEPHIR_INIT_LNVAR(_4);
 			ZEPHIR_CONCAT_SV(_4, "collection:", eventName);
 			ZEPHIR_CALL_METHOD(&status, customEventsManager, "fire", NULL, 0, _4, model);
-			zephir_check_call_status();
 			zephir_check_call_status();
 			if (!(zephir_is_true(status))) {
 				RETURN_CCTOR(status);
@@ -496,7 +490,6 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, missingMethod) {
 				ZEPHIR_GET_HVALUE(behavior, _3);
 				ZEPHIR_CALL_METHOD(&result, behavior, "missingmethod", NULL, 0, model, eventName, data);
 				zephir_check_call_status();
-				zephir_check_call_status();
 				if (Z_TYPE_P(result) != IS_NULL) {
 					RETURN_CCTOR(result);
 				}
@@ -509,7 +502,6 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, missingMethod) {
 		ZEPHIR_INIT_VAR(_4);
 		ZEPHIR_CONCAT_SV(_4, "model:", eventName);
 		ZEPHIR_RETURN_CALL_METHOD(eventsManager, "fire", NULL, 0, _4, model, data);
-		zephir_check_call_status();
 		zephir_check_call_status();
 		RETURN_MM();
 	}

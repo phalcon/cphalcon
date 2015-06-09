@@ -69,7 +69,6 @@ PHP_METHOD(Phalcon_Annotations_Adapter, getReader) {
 		if (zephir_has_constructor(_1 TSRMLS_CC)) {
 			ZEPHIR_CALL_METHOD(NULL, _1, "__construct", NULL, 0);
 			zephir_check_call_status();
-			zephir_check_call_status();
 		}
 		zephir_update_property_this(this_ptr, SL("_reader"), _1 TSRMLS_CC);
 	}
@@ -109,7 +108,6 @@ PHP_METHOD(Phalcon_Annotations_Adapter, get) {
 	}
 	ZEPHIR_CALL_METHOD(&classAnnotations, this_ptr, "read", NULL, 0, realClassName);
 	zephir_check_call_status();
-	zephir_check_call_status();
 	_1 = Z_TYPE_P(classAnnotations) == IS_NULL;
 	if (!(_1)) {
 		_1 = ZEPHIR_IS_FALSE_IDENTICAL(classAnnotations);
@@ -117,19 +115,15 @@ PHP_METHOD(Phalcon_Annotations_Adapter, get) {
 	if (_1) {
 		ZEPHIR_CALL_METHOD(&reader, this_ptr, "getreader", NULL, 0);
 		zephir_check_call_status();
-		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(&parsedAnnotations, reader, "parse", NULL, 0, realClassName);
-		zephir_check_call_status();
 		zephir_check_call_status();
 		if (Z_TYPE_P(parsedAnnotations) == IS_ARRAY) {
 			ZEPHIR_INIT_NVAR(classAnnotations);
 			object_init_ex(classAnnotations, phalcon_annotations_reflection_ce);
 			ZEPHIR_CALL_METHOD(NULL, classAnnotations, "__construct", NULL, 5, parsedAnnotations);
 			zephir_check_call_status();
-			zephir_check_call_status();
 			zephir_update_property_array(this_ptr, SL("_annotations"), realClassName, classAnnotations TSRMLS_CC);
 			ZEPHIR_CALL_METHOD(NULL, this_ptr, "write", NULL, 0, realClassName, classAnnotations);
-			zephir_check_call_status();
 			zephir_check_call_status();
 		}
 	}
@@ -154,10 +148,8 @@ PHP_METHOD(Phalcon_Annotations_Adapter, getMethods) {
 
 	ZEPHIR_CALL_METHOD(&classAnnotations, this_ptr, "get", NULL, 0, className);
 	zephir_check_call_status();
-	zephir_check_call_status();
 	if (Z_TYPE_P(classAnnotations) == IS_OBJECT) {
 		ZEPHIR_RETURN_CALL_METHOD(classAnnotations, "getmethodsannotations", NULL, 0);
-		zephir_check_call_status();
 		zephir_check_call_status();
 		RETURN_MM();
 	}
@@ -184,10 +176,8 @@ PHP_METHOD(Phalcon_Annotations_Adapter, getMethod) {
 
 	ZEPHIR_CALL_METHOD(&classAnnotations, this_ptr, "get", NULL, 0, className);
 	zephir_check_call_status();
-	zephir_check_call_status();
 	if (Z_TYPE_P(classAnnotations) == IS_OBJECT) {
 		ZEPHIR_CALL_METHOD(&methods, classAnnotations, "getmethodsannotations", NULL, 0);
-		zephir_check_call_status();
 		zephir_check_call_status();
 		if (Z_TYPE_P(methods) == IS_ARRAY) {
 			if (zephir_array_isset_fetch(&method, methods, methodName, 1 TSRMLS_CC)) {
@@ -197,7 +187,6 @@ PHP_METHOD(Phalcon_Annotations_Adapter, getMethod) {
 	}
 	object_init_ex(return_value, phalcon_annotations_collection_ce);
 	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 6);
-	zephir_check_call_status();
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -220,10 +209,8 @@ PHP_METHOD(Phalcon_Annotations_Adapter, getProperties) {
 
 	ZEPHIR_CALL_METHOD(&classAnnotations, this_ptr, "get", NULL, 0, className);
 	zephir_check_call_status();
-	zephir_check_call_status();
 	if (Z_TYPE_P(classAnnotations) == IS_OBJECT) {
 		ZEPHIR_RETURN_CALL_METHOD(classAnnotations, "getpropertiesannotations", NULL, 0);
-		zephir_check_call_status();
 		zephir_check_call_status();
 		RETURN_MM();
 	}
@@ -250,10 +237,8 @@ PHP_METHOD(Phalcon_Annotations_Adapter, getProperty) {
 
 	ZEPHIR_CALL_METHOD(&classAnnotations, this_ptr, "get", NULL, 0, className);
 	zephir_check_call_status();
-	zephir_check_call_status();
 	if (Z_TYPE_P(classAnnotations) == IS_OBJECT) {
 		ZEPHIR_CALL_METHOD(&properties, classAnnotations, "getpropertiesannotations", NULL, 0);
-		zephir_check_call_status();
 		zephir_check_call_status();
 		if (Z_TYPE_P(properties) == IS_ARRAY) {
 			if (zephir_array_isset_fetch(&property, properties, propertyName, 1 TSRMLS_CC)) {
@@ -263,7 +248,6 @@ PHP_METHOD(Phalcon_Annotations_Adapter, getProperty) {
 	}
 	object_init_ex(return_value, phalcon_annotations_collection_ce);
 	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 6);
-	zephir_check_call_status();
 	zephir_check_call_status();
 	RETURN_MM();
 

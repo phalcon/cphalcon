@@ -229,7 +229,6 @@ PHP_METHOD(Phalcon_Assets_Collection, addCss) {
 	object_init_ex(_0, phalcon_assets_resource_css_ce);
 	ZEPHIR_CALL_METHOD(NULL, _0, "__construct", NULL, 21, path, collectionLocal, (filter ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)), collectionAttributes);
 	zephir_check_call_status();
-	zephir_check_call_status();
 	zephir_update_property_array_append(this_ptr, SL("_resources"), _0 TSRMLS_CC);
 	RETURN_THIS();
 
@@ -271,7 +270,6 @@ PHP_METHOD(Phalcon_Assets_Collection, addInlineCss) {
 	ZEPHIR_INIT_VAR(_0);
 	object_init_ex(_0, phalcon_assets_inline_css_ce);
 	ZEPHIR_CALL_METHOD(NULL, _0, "__construct", NULL, 22, content, (filter ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)), collectionAttributes);
-	zephir_check_call_status();
 	zephir_check_call_status();
 	zephir_update_property_array_append(this_ptr, SL("_codes"), _0 TSRMLS_CC);
 	RETURN_THIS();
@@ -340,7 +338,6 @@ PHP_METHOD(Phalcon_Assets_Collection, addJs) {
 	object_init_ex(_0, phalcon_assets_resource_js_ce);
 	ZEPHIR_CALL_METHOD(NULL, _0, "__construct", NULL, 23, path, collectionLocal, (filter ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)), collectionAttributes);
 	zephir_check_call_status();
-	zephir_check_call_status();
 	zephir_update_property_array_append(this_ptr, SL("_resources"), _0 TSRMLS_CC);
 	RETURN_THIS();
 
@@ -387,7 +384,6 @@ PHP_METHOD(Phalcon_Assets_Collection, addInlineJs) {
 	ZEPHIR_INIT_VAR(_0);
 	object_init_ex(_0, phalcon_assets_inline_js_ce);
 	ZEPHIR_CALL_METHOD(NULL, _0, "__construct", NULL, 24, content, (filter ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)), collectionAttributes);
-	zephir_check_call_status();
 	zephir_check_call_status();
 	zephir_update_property_array_append(this_ptr, SL("_codes"), _0 TSRMLS_CC);
 	RETURN_THIS();
@@ -721,7 +717,6 @@ PHP_METHOD(Phalcon_Assets_Collection, getRealTargetPath) {
 	ZEPHIR_CONCAT_VV(completePath, basePath, targetPath);
 	if ((zephir_file_exists(completePath TSRMLS_CC) == SUCCESS)) {
 		ZEPHIR_RETURN_CALL_FUNCTION("realpath", NULL, 25, completePath);
-		zephir_check_call_status();
 		zephir_check_call_status();
 		RETURN_MM();
 	}
