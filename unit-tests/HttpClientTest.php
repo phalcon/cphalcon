@@ -28,7 +28,7 @@ class HttpClientTest extends PHPUnit_Framework_TestCase
 			return false;
 		}
 	
-		$client = new Phalcon\Http\Client\Adapter\Curl('http://phalconphp.com/');
+		$client = new Phalcon\Http\Client\Adapter\Curl('http://baidu.com/');
 
 		$response = $client->get();
 
@@ -37,7 +37,7 @@ class HttpClientTest extends PHPUnit_Framework_TestCase
 
 	public function testStream()
 	{
-		$client = new Phalcon\Http\Client\Adapter\Stream('http://phalconphp.com/');
+		$client = new Phalcon\Http\Client\Adapter\Stream('http://baidu.com/');
 
 		$response = $client->get();
 
@@ -46,7 +46,7 @@ class HttpClientTest extends PHPUnit_Framework_TestCase
 
 	public function testFactory()
 	{
-		$client = Phalcon\Http\Client::factory('http://phalconphp.com/');
+		$client = Phalcon\Http\Client::factory('http://baidu.com/');
 
 		$response = $client->get();
 
