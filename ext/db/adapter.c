@@ -23,7 +23,7 @@
 #include "db/index.h"
 #include "db/rawvalue.h"
 #include "db/reference.h"
-#include "events/eventsawareinterface.h"
+#include "di/injectable.h"
 
 #include "ext/pdo/php_pdo_driver.h"
 
@@ -47,8 +47,6 @@
 zend_class_entry *phalcon_db_adapter_ce;
 
 PHP_METHOD(Phalcon_Db_Adapter, __construct);
-PHP_METHOD(Phalcon_Db_Adapter, setEventsManager);
-PHP_METHOD(Phalcon_Db_Adapter, getEventsManager);
 PHP_METHOD(Phalcon_Db_Adapter, setProfiler);
 PHP_METHOD(Phalcon_Db_Adapter, getProfiler);
 PHP_METHOD(Phalcon_Db_Adapter, setDialect);
@@ -102,10 +100,6 @@ PHP_METHOD(Phalcon_Db_Adapter, getSQLBindTypes);
 PHP_METHOD(Phalcon_Db_Adapter, getType);
 PHP_METHOD(Phalcon_Db_Adapter, getDialectType);
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_seteventsmanager, 0, 0, 1)
-	ZEND_ARG_INFO(0, eventsManager)
-ZEND_END_ARG_INFO()
-
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_setprofiler, 0, 0, 1)
 	ZEND_ARG_INFO(0, profiler)
 ZEND_END_ARG_INFO()
@@ -122,8 +116,6 @@ ZEND_END_ARG_INFO()
 
 static const zend_function_entry phalcon_db_adapter_method_entry[] = {
 	PHP_ME(Phalcon_Db_Adapter, __construct, NULL, ZEND_ACC_PROTECTED|ZEND_ACC_CTOR)
-	PHP_ME(Phalcon_Db_Adapter, setEventsManager, arginfo_phalcon_db_adapter_seteventsmanager, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Db_Adapter, getEventsManager, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Adapter, setProfiler, arginfo_phalcon_db_adapter_setprofiler, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Adapter, getProfiler, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Adapter, setDialect, arginfo_phalcon_db_adapter_setdialect, ZEND_ACC_PUBLIC)
@@ -184,9 +176,9 @@ static const zend_function_entry phalcon_db_adapter_method_entry[] = {
  */
 PHALCON_INIT_CLASS(Phalcon_Db_Adapter){
 
-	PHALCON_REGISTER_CLASS(Phalcon\\Db, Adapter, db_adapter, phalcon_db_adapter_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Db, Adapter, db_adapter, phalcon_di_injectable_ce, phalcon_db_adapter_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
 
-	zend_declare_property_null(phalcon_db_adapter_ce, SL("_eventsManager"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_declare_property_null(phalcon_db_adapter_ce, SL("_profiler"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_db_adapter_ce, SL("_descriptor"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_db_adapter_ce, SL("_dialectType"), ZEND_ACC_PROTECTED TSRMLS_CC);
@@ -200,7 +192,7 @@ PHALCON_INIT_CLASS(Phalcon_Db_Adapter){
 	zend_declare_property_long(phalcon_db_adapter_ce, SL("_transactionsWithSavepoints"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_long(phalcon_db_adapter_ce, SL("_connectionConsecutive"), 0, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC TSRMLS_CC);
 
-	zend_class_implements(phalcon_db_adapter_ce TSRMLS_CC, 2, phalcon_events_eventsawareinterface_ce, phalcon_db_adapterinterface_ce);
+	zend_class_implements(phalcon_db_adapter_ce TSRMLS_CC, 1, phalcon_db_adapterinterface_ce);
 
 	return SUCCESS;
 }
@@ -258,32 +250,6 @@ PHP_METHOD(Phalcon_Db_Adapter, __construct){
 	phalcon_update_property_this(this_ptr, SL("_descriptor"), descriptor TSRMLS_CC);
 
 	PHALCON_MM_RESTORE();
-}
-
-/**
- * Sets the event manager
- *
- * @param Phalcon\Events\ManagerInterface $eventsManager
- */
-PHP_METHOD(Phalcon_Db_Adapter, setEventsManager){
-
-	zval *events_manager;
-
-	phalcon_fetch_params(0, 1, 0, &events_manager);
-
-	phalcon_update_property_this(this_ptr, SL("_eventsManager"), events_manager TSRMLS_CC);
-
-}
-
-/**
- * Returns the internal event manager
- *
- * @return Phalcon\Events\ManagerInterface
- */
-PHP_METHOD(Phalcon_Db_Adapter, getEventsManager){
-
-
-	RETURN_MEMBER(this_ptr, "_eventsManager");
 }
 
 /**

@@ -153,11 +153,9 @@ PHP_METHOD(Phalcon_Chart_Captcha, __construct){
 
 	if (font && Z_TYPE_P(font) != IS_NULL) {
 		PHALCON_CALL_METHOD(NULL, draw, "setfont", font);
-		phalcon_update_property_this(this_ptr, SL("_font"), font TSRMLS_CC);
 	}
 
 	PHALCON_CALL_METHOD(NULL, draw, "setfontsize", font_size);
-	phalcon_update_property_this(this_ptr, SL("_fontSize"), font_size TSRMLS_CC);
 
 	if (width && Z_TYPE_P(width) != IS_NULL) {
 		phalcon_update_property_this(this_ptr, SL("_width"), width TSRMLS_CC);
