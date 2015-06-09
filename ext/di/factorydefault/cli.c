@@ -64,9 +64,6 @@ PHALCON_INIT_CLASS(Phalcon_DI_FactoryDefault_CLI){
 PHP_METHOD(Phalcon_DI_FactoryDefault_CLI, __construct){
 
 	zval *shared, *name = NULL, *definition = NULL, *router, *dispatcher;
-	zval *models_manager, *models_metadata, *filter;
-	zval *escaper, *annotations, *security, *events_manager;
-	zval *transaction_manager, *services;
 
 	PHALCON_MM_GROW();
 
@@ -82,7 +79,7 @@ PHP_METHOD(Phalcon_DI_FactoryDefault_CLI, __construct){
 
 	PHALCON_INIT_VAR(router);
 	object_init_ex(router, phalcon_di_service_ce);
-	PHALCON_CALL_METHOD(NULL, router, "__construct", name, definition);
+	PHALCON_CALL_METHOD(NULL, router, "__construct", name, definition, shared);
 
 	phalcon_di_set_service(this_ptr, name, router, PH_COPY TSRMLS_CC);
 
@@ -94,7 +91,7 @@ PHP_METHOD(Phalcon_DI_FactoryDefault_CLI, __construct){
 
 	PHALCON_INIT_VAR(dispatcher);
 	object_init_ex(dispatcher, phalcon_di_service_ce);
-	PHALCON_CALL_METHOD(NULL, dispatcher, "__construct", name, definition);
+	PHALCON_CALL_METHOD(NULL, dispatcher, "__construct", name, definition, shared);
 
 	phalcon_di_set_service(this_ptr, name, dispatcher, PH_COPY TSRMLS_CC);
 
