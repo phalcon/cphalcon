@@ -114,9 +114,26 @@ abstract class Pdo extends Adapter
 		 * Check if the developer has defined custom options or create one from scratch
 		 */
 		if fetch options, descriptor["options"] {
-			unset descriptor["options"] ;
+			unset descriptor["options"];
 		} else {
 			let options = [];
+		}
+
+		/**
+		 * Check if the connection must be persistent
+		 */
+		if fetch persistent, descriptor["persistent"] {
+			if persistent {
+				let options[\Pdo::ATTR_PERSISTENT] = true;
+			}
+			unset descriptor["persistent"];
+		}
+
+		/**
+		 * Remove the dialectClass from the descriptor if any
+		 */
+		if isset descriptor["dialectClass"] {
+			unset descriptor["dialectClass"];
 		}
 
 		/**
@@ -131,15 +148,6 @@ abstract class Pdo extends Adapter
 		}
 
 		let options[\Pdo::ATTR_ERRMODE] = \Pdo::ERRMODE_EXCEPTION;
-
-		/**
-		 * Check if the connection must be persistent
-		 */
-		if fetch persistent, descriptor["persistent"] {
-			if persistent {
-				let options[\Pdo::ATTR_PERSISTENT] = true;
-			}
-		}
 
 		/**
 		 * Create the connection using PDO
@@ -225,13 +233,8 @@ abstract class Pdo extends Adapter
 	 *	$resultset = $connection->query("SELECT * FROM robots WHERE type='mechanical'");
 	 *	$resultset = $connection->query("SELECT * FROM robots WHERE type=?", array("mechanical"));
 	 *</code>
-	 *
-	 * @param  string sqlStatement
-	 * @param  array bindParams
-	 * @param  array bindTypes
-	 * @return Phalcon\Db\ResultInterface|bool
 	 */
-	public function query(string! sqlStatement, array bindParams = null, bindTypes = null) -> <ResultInterface> | boolean
+	public function query(string! sqlStatement, var bindParams = null, var bindTypes = null) -> <ResultInterface> | boolean
 	{
 		var eventsManager, pdo, statement;
 
@@ -281,13 +284,8 @@ abstract class Pdo extends Adapter
 	 *	$success = $connection->execute("INSERT INTO robots VALUES (1, 'Astro Boy')");
 	 *	$success = $connection->execute("INSERT INTO robots VALUES (?, ?)", array(1, 'Astro Boy'));
 	 *</code>
-	 *
-	 * @param  string sqlStatement
-	 * @param  array bindParams
-	 * @param  array bindTypes
-	 * @return boolean
 	 */
-	public function execute(string! sqlStatement, array bindParams = null, bindTypes = null) -> boolean
+	public function execute(string! sqlStatement, var bindParams = null, var bindTypes = null) -> boolean
 	{
 		var eventsManager, affectedRows, pdo, newStatement, statement;
 
@@ -421,7 +419,6 @@ abstract class Pdo extends Adapter
 				}
 
 				let placeHolders[] = value;
-
 			}
 
 			let boundSql = preg_replace(bindPattern, "?", sql);

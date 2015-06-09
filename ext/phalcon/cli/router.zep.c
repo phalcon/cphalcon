@@ -324,12 +324,12 @@ PHP_METHOD(Phalcon_Cli_Router, handle) {
 						ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_cli_router_exception_ce, "Before-Match callback is not callable in matched route", "phalcon/cli/router.zep", 232);
 						return;
 					}
-					ZEPHIR_INIT_NVAR(routeFound);
 					ZEPHIR_INIT_NVAR(_5);
 					zephir_create_array(_5, 3, 0 TSRMLS_CC);
 					zephir_array_fast_append(_5, arguments);
 					zephir_array_fast_append(_5, route);
 					zephir_array_fast_append(_5, this_ptr);
+					ZEPHIR_INIT_NVAR(routeFound);
 					ZEPHIR_CALL_USER_FUNC_ARRAY(routeFound, beforeMatch, _5);
 					zephir_check_call_status();
 				}
@@ -439,9 +439,9 @@ PHP_METHOD(Phalcon_Cli_Router, handle) {
 				ZEPHIR_INIT_VAR(strParams);
 				zephir_substr(strParams, _15, 1 , 0, ZEPHIR_SUBSTR_NO_LENGTH);
 				if (zephir_is_true(strParams)) {
-					ZEPHIR_INIT_NVAR(params);
 					ZEPHIR_CALL_CE_STATIC(&_17, phalcon_cli_router_route_ce, "getdelimiter", &_18, 54);
 					zephir_check_call_status();
+					ZEPHIR_INIT_NVAR(params);
 					zephir_fast_explode(params, _17, strParams, LONG_MAX TSRMLS_CC);
 				} else {
 					ZEPHIR_INIT_NVAR(params);

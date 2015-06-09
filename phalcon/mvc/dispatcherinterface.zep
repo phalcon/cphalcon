@@ -19,12 +19,15 @@
 
 namespace Phalcon\Mvc;
 
+use Phalcon\Mvc\ControllerInterface;
+use Phalcon\DispatcherInterface as DispatcherInterfaceBase;
+
 /**
  * Phalcon\Mvc\DispatcherInterface
  *
  * Interface for Phalcon\Mvc\Dispatcher
  */
-interface DispatcherInterface extends \Phalcon\DispatcherInterface
+interface DispatcherInterface extends DispatcherInterfaceBase
 {
 
 	/**
@@ -50,11 +53,10 @@ interface DispatcherInterface extends \Phalcon\DispatcherInterface
 	/**
 	 * Returns the lastest dispatched controller
 	 */
-	public function getLastController() -> <\Phalcon\Mvc\ControllerInterface>;
+	public function getLastController() -> <ControllerInterface>;
 
 	/**
 	 * Returns the active controller in the dispatcher
 	 */
-	public function getActiveController() -> <\Phalcon\Mvc\ControllerInterface>;
-
+	public function getActiveController() -> <ControllerInterface>;
 }

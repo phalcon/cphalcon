@@ -68,7 +68,7 @@ class Cookie implements InjectionAwareInterface
 	 * @param string domain
 	 * @param boolean httpOnly
 	 */
-	public function __construct(string! name, value = null, expire = 0, path = "/", secure = null, domain = null, httpOnly = null)
+	public function __construct(string! name, var value = null, expire = 0, path = "/", secure = null, domain = null, httpOnly = null)
 	{
 		let this->_name = name;
 
@@ -263,7 +263,8 @@ class Cookie implements InjectionAwareInterface
 				/**
 				 * Encrypt the value also coding it with base64
 				 */
-				let encryptValue = crypt->encryptBase64(value);
+				let encryptValue = crypt->encryptBase64((string) value);
+
 			} else {
 				let encryptValue = value;
 			}
@@ -318,7 +319,6 @@ class Cookie implements InjectionAwareInterface
 					if fetch httpOnly, definition["httpOnly"] {
 						let this->_httpOnly = httpOnly;
 					}
-
 				}
 			}
 

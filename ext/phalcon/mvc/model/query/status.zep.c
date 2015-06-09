@@ -87,8 +87,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Status, getModel) {
 
 /**
  * Returns the messages produced because of a failed operation
- *
- * @return Phalcon\Mvc\Model\MessageInterface[]
  */
 PHP_METHOD(Phalcon_Mvc_Model_Query_Status, getMessages) {
 

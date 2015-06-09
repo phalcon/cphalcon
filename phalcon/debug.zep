@@ -168,6 +168,7 @@ class Debug
 
 		let dump = [];
 		for k, v in argument {
+
 			if is_scalar(v) {
 				if v == "" {
 					let varDump = "[" . k . "] =&gt; (empty string)";
@@ -620,7 +621,7 @@ class Debug
 		}
 
 		/**
-		 * Globally block the debug component to avoid other exceptions must be shown
+		 * Globally block the debug component to avoid other exceptions to be shown
 		 */
 		let self::_isActive = true;
 
@@ -692,7 +693,11 @@ class Debug
 			let html .= "<div id=\"error-tabs-2\"><table cellspacing=\"0\" align=\"center\" class=\"superglobal-detail\">";
 			let html .= "<tr><th>Key</th><th>Value</th></tr>";
 			for keyRequest, value in _REQUEST {
-				let html .= "<tr><td class=\"key\">" . keyRequest . "</td><td>" . value . "</td></tr>";
+				if typeof value != "array" {
+					let html .= "<tr><td class=\"key\">" . keyRequest . "</td><td>" . value . "</td></tr>";
+				} else {
+					let html .= "<tr><td class=\"key\">" . keyRequest . "</td><td>" . print_r(value, true) . "</td></tr>";
+				}
 			}
 			let html .= "</table></div>";
 
@@ -709,7 +714,6 @@ class Debug
 			/**
 			 * Show included files
 			 */
-
 			let html .= "<div id=\"error-tabs-4\"><table cellspacing=\"0\" align=\"center\" class=\"superglobal-detail\">";
 			let html .= "<tr><th>#</th><th>Path</th></tr>";
 			for keyFile, value in get_included_files() {

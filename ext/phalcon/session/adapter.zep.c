@@ -75,8 +75,6 @@ PHP_METHOD(Phalcon_Session_Adapter, __construct) {
 
 /**
  * Starts the session (if headers are already sent the session will not be started)
- *
- * @return boolean
  */
 PHP_METHOD(Phalcon_Session_Adapter, start) {
 
@@ -86,7 +84,7 @@ PHP_METHOD(Phalcon_Session_Adapter, start) {
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_CALL_FUNCTION(&_0, "headers_sent", NULL, 222);
+	ZEPHIR_CALL_FUNCTION(&_0, "headers_sent", NULL, 224);
 	zephir_check_call_status();
 	if (!(zephir_is_true(_0))) {
 		_1 = zephir_fetch_nproperty_this(this_ptr, SL("_started"), PH_NOISY_CC);
@@ -115,8 +113,6 @@ PHP_METHOD(Phalcon_Session_Adapter, start) {
  *		'uniqueId' => 'my-private-app'
  *	));
  *</code>
- *
- * @param array options
  */
 PHP_METHOD(Phalcon_Session_Adapter, setOptions) {
 
@@ -138,8 +134,6 @@ PHP_METHOD(Phalcon_Session_Adapter, setOptions) {
 
 /**
  * Get internal options
- *
- * @return array
  */
 PHP_METHOD(Phalcon_Session_Adapter, getOptions) {
 
@@ -163,6 +157,7 @@ PHP_METHOD(Phalcon_Session_Adapter, get) {
 	zval *index = NULL;
 
 	ZEPHIR_MM_GROW();
+	zephir_get_global(&_SESSION, SS("_SESSION") TSRMLS_CC);
 	zephir_fetch_params(1, 1, 2, &index_param, &defaultValue, &remove_param);
 
 	zephir_get_strval(index, index_param);
@@ -180,7 +175,6 @@ PHP_METHOD(Phalcon_Session_Adapter, get) {
 	ZEPHIR_INIT_VAR(key);
 	ZEPHIR_CONCAT_VV(key, _0, index);
 	ZEPHIR_OBS_VAR(value);
-	zephir_get_global(&_SESSION, SS("_SESSION") TSRMLS_CC);
 	if (zephir_array_isset_fetch(&value, _SESSION, key, 0 TSRMLS_CC)) {
 		if (remove) {
 			zephir_array_unset(&_SESSION, key, PH_SEPARATE);
@@ -209,12 +203,12 @@ PHP_METHOD(Phalcon_Session_Adapter, set) {
 	zval *index = NULL;
 
 	ZEPHIR_MM_GROW();
+	zephir_get_global(&_SESSION, SS("_SESSION") TSRMLS_CC);
 	zephir_fetch_params(1, 2, 0, &index_param, &value);
 
 	zephir_get_strval(index, index_param);
 
 
-	zephir_get_global(&_SESSION, SS("_SESSION") TSRMLS_CC);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_uniqueId"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(_1);
 	ZEPHIR_CONCAT_VV(_1, _0, index);
@@ -233,8 +227,6 @@ PHP_METHOD(Phalcon_Session_Adapter, set) {
  *<code>
  *	var_dump($session->has('auth'));
  *</code>
- *
- * @param string index
  */
 PHP_METHOD(Phalcon_Session_Adapter, has) {
 
@@ -242,12 +234,12 @@ PHP_METHOD(Phalcon_Session_Adapter, has) {
 	zval *index = NULL;
 
 	ZEPHIR_MM_GROW();
+	zephir_get_global(&_SESSION, SS("_SESSION") TSRMLS_CC);
 	zephir_fetch_params(1, 1, 0, &index_param);
 
 	zephir_get_strval(index, index_param);
 
 
-	zephir_get_global(&_SESSION, SS("_SESSION") TSRMLS_CC);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_uniqueId"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(_1);
 	ZEPHIR_CONCAT_VV(_1, _0, index);
@@ -268,6 +260,7 @@ PHP_METHOD(Phalcon_Session_Adapter, remove) {
 	zval *index = NULL;
 
 	ZEPHIR_MM_GROW();
+	zephir_get_global(&_SESSION, SS("_SESSION") TSRMLS_CC);
 	zephir_fetch_params(1, 1, 0, &index_param);
 
 	zephir_get_strval(index, index_param);
@@ -276,7 +269,6 @@ PHP_METHOD(Phalcon_Session_Adapter, remove) {
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_uniqueId"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(_1);
 	ZEPHIR_CONCAT_VV(_1, _0, index);
-	zephir_get_global(&_SESSION, SS("_SESSION") TSRMLS_CC);
 	zephir_array_unset(&_SESSION, _1, PH_SEPARATE);
 	ZEPHIR_MM_RESTORE();
 
@@ -307,8 +299,6 @@ PHP_METHOD(Phalcon_Session_Adapter, getId) {
  *<code>
  *	$session->setId($id);
  *</code>
- *
- * @param string id
  */
 PHP_METHOD(Phalcon_Session_Adapter, setId) {
 
@@ -448,8 +438,6 @@ PHP_METHOD(Phalcon_Session_Adapter, __set) {
 
 /**
  * Alias: Check whether a session variable is set in an application context
- *
- * @param string index
  */
 PHP_METHOD(Phalcon_Session_Adapter, __isset) {
 

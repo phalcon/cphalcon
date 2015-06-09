@@ -224,7 +224,7 @@ PHP_METHOD(Phalcon_Di_Service, resolve) {
 						object_init_ex(reflection, zephir_get_internal_ce(SS("reflectionclass") TSRMLS_CC));
 						ZEPHIR_CALL_METHOD(NULL, reflection, "__construct", NULL, 15, definition);
 						zephir_check_call_status();
-						ZEPHIR_CALL_METHOD(&instance, reflection, "newinstanceargs", NULL, 140, parameters);
+						ZEPHIR_CALL_METHOD(&instance, reflection, "newinstanceargs", NULL, 142, parameters);
 						zephir_check_call_status();
 					} else {
 						ZEPHIR_INIT_NVAR(instance);
@@ -237,7 +237,7 @@ PHP_METHOD(Phalcon_Di_Service, resolve) {
 						object_init_ex(reflection, zephir_get_internal_ce(SS("reflectionclass") TSRMLS_CC));
 						ZEPHIR_CALL_METHOD(NULL, reflection, "__construct", NULL, 15, definition);
 						zephir_check_call_status();
-						ZEPHIR_CALL_METHOD(&instance, reflection, "newinstance", NULL, 141);
+						ZEPHIR_CALL_METHOD(&instance, reflection, "newinstance", NULL, 143);
 						zephir_check_call_status();
 					} else {
 						ZEPHIR_INIT_NVAR(instance);
@@ -251,7 +251,7 @@ PHP_METHOD(Phalcon_Di_Service, resolve) {
 					object_init_ex(reflection, zephir_get_internal_ce(SS("reflectionclass") TSRMLS_CC));
 					ZEPHIR_CALL_METHOD(NULL, reflection, "__construct", NULL, 15, definition);
 					zephir_check_call_status();
-					ZEPHIR_CALL_METHOD(&instance, reflection, "newinstance", NULL, 141);
+					ZEPHIR_CALL_METHOD(&instance, reflection, "newinstance", NULL, 143);
 					zephir_check_call_status();
 				} else {
 					ZEPHIR_INIT_NVAR(instance);
@@ -285,7 +285,7 @@ PHP_METHOD(Phalcon_Di_Service, resolve) {
 					ZEPHIR_CALL_METHOD(NULL, builder, "__construct", NULL, 0);
 					zephir_check_call_status();
 				}
-				ZEPHIR_CALL_METHOD(&instance, builder, "build", NULL, 147, dependencyInjector, definition, parameters);
+				ZEPHIR_CALL_METHOD(&instance, builder, "build", NULL, 149, dependencyInjector, definition, parameters);
 				zephir_check_call_status();
 			} else {
 				found = 0;
@@ -423,7 +423,7 @@ PHP_METHOD(Phalcon_Di_Service, __set_state) {
 		return;
 	}
 	object_init_ex(return_value, phalcon_di_service_ce);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 139, name, definition, shared);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 141, name, definition, shared);
 	zephir_check_call_status();
 	RETURN_MM();
 

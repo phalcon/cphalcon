@@ -272,24 +272,14 @@ interface AdapterInterface
 	/**
 	 * Sends SQL statements to the database server returning the success state.
 	 * Use this method only when the SQL statement sent to the server return rows
-	 *
-	 * @param  string sqlStatement
-	 * @param  array placeholders
-	 * @param  array dataTypes
-	 * @return Phalcon\Db\ResultInterface
 	 */
-	public function query(string! sqlStatement, array placeholders = null, dataTypes = null) -> <ResultInterface> | boolean;
+	public function query(string! sqlStatement, var placeholders = null, var dataTypes = null) -> <ResultInterface> | boolean;
 
 	/**
 	 * Sends SQL statements to the database server returning the success state.
-	 * Use this method only when the SQL statement sent to the server doesn't return any rows
-	 *
-	 * @param  string sqlStatement
-	 * @param  array placeholders
-	 * @param  array dataTypes
-	 * @return boolean
+	 * Use this method only when the SQL statement sent to the server doesn't return any rows	 
 	 */
-	public function execute(string! sqlStatement, array placeholders = null, dataTypes = null) -> boolean;
+	public function execute(string! sqlStatement, var placeholders = null, var dataTypes = null) -> boolean;
 
 	/**
 	 * Returns the number of affected rows by the last INSERT/UPDATE/DELETE reported by the database system

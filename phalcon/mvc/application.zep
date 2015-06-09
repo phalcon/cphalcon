@@ -368,8 +368,6 @@ class Application extends Injectable
 				eventsManager->fire("application:afterHandleRequest", this, controller);
 			}
 
-			
-
 			/**
 			 * If the dispatcher returns an object we try to render the view in auto-rendering mode
 			 */

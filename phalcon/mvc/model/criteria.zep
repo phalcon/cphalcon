@@ -269,7 +269,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 	 * @param array bindTypes
 	 * @return Phalcon\Mvc\Model\Criteria
 	 */
-	public function addWhere(conditions, bindParams = null, bindTypes = null) -> <Criteria>
+	public function addWhere(string! conditions, bindParams = null, bindTypes = null) -> <Criteria>
 	{
 		return this->andWhere(conditions, bindParams, bindTypes);
 	}
@@ -741,7 +741,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 	public function execute() -> <ResultsetInterface>
 	{
 		var model;
-		let model = this->_model;
+		let model = this->getModelName();
 		if typeof model != "string" {
 			throw new Exception("Model name must be string");
 		}

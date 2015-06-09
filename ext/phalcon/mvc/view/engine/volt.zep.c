@@ -201,7 +201,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, length) {
 			ZVAL_LONG(length, zephir_fast_count_int(item TSRMLS_CC));
 		} else {
 			if ((zephir_function_exists_ex(SS("mb_strlen") TSRMLS_CC) == SUCCESS)) {
-				ZEPHIR_CALL_FUNCTION(&length, "mb_strlen", NULL, 354, item);
+				ZEPHIR_CALL_FUNCTION(&length, "mb_strlen", NULL, 353, item);
 				zephir_check_call_status();
 			} else {
 				ZEPHIR_INIT_NVAR(length);
@@ -301,7 +301,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, convertEncoding) {
 		RETURN_MM();
 	}
 	if ((zephir_function_exists_ex(SS("mb_convert_encoding") TSRMLS_CC) == SUCCESS)) {
-		ZEPHIR_RETURN_CALL_FUNCTION("mb_convert_encoding", NULL, 152, text, from, to);
+		ZEPHIR_RETURN_CALL_FUNCTION("mb_convert_encoding", NULL, 154, text, from, to);
 		zephir_check_call_status();
 		RETURN_MM();
 	}

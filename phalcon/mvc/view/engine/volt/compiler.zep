@@ -1596,7 +1596,11 @@ class Compiler implements InjectionAwareInterface
 		let compilation = "<?php $_cache[" . this->expression(expr) . "] = $this->di->get('viewCache'); ";
 		if fetch lifetime, statement["lifetime"] {
 			let compilation .= "$_cacheKey[" . exprCode . "]";
-			let compilation .= " = $_cache[" . exprCode . "]->start(" . exprCode . ", " . lifetime . "); ";
+			if lifetime["type"] == PHVOLT_T_IDENTIFIER {
+				let compilation .= " = $_cache[" . exprCode . "]->start(" . exprCode . ", $" . lifetime["value"] . "); ";
+			} else {
+				let compilation .= " = $_cache[" . exprCode . "]->start(" . exprCode . ", " . lifetime["value"] . "); ";
+			}
 		} else {
 			let compilation .= "$_cacheKey[" . exprCode . "] = $_cache[" . exprCode."]->start(" . exprCode . "); ";
 		}
@@ -1611,7 +1615,11 @@ class Compiler implements InjectionAwareInterface
 		 * Check if the cache has a lifetime
 		 */
 		if fetch lifetime, statement["lifetime"] {
-			let compilation .= "<?php $_cache[" . exprCode . "]->save(" . exprCode . ", null, " . lifetime . "); ";
+			if lifetime["type"] == PHVOLT_T_IDENTIFIER {
+				let compilation .= "<?php $_cache[" . exprCode . "]->save(" . exprCode . ", null, $" . lifetime["value"] . "); ";
+			} else {
+				let compilation .= "<?php $_cache[" . exprCode . "]->save(" . exprCode . ", null, " . lifetime["value"] . "); ";
+			}
 			let compilation .= "} else { echo $_cacheKey[" . exprCode . "]; } ?>";
 		} else {
 			let compilation .= "<?php $_cache[" . exprCode . "]->save(" . exprCode . "); } else { echo $_cacheKey[" . exprCode . "]; } ?>";

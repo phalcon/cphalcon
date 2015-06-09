@@ -95,7 +95,7 @@ class Base64 implements FrontendInterface
 	}
 
 	/**
-	 * Starts output frontend. Actually, does nothing
+	 * Starts output frontend. Actually, does nothing in this adapter
 	 */
 	public function start()
 	{

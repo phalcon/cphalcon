@@ -21,7 +21,6 @@ namespace Phalcon\Http;
 
 use Phalcon\DiInterface;
 use Phalcon\FilterInterface;
-use Phalcon\Http\RequestInterface;
 use Phalcon\Di\InjectionAwareInterface;
 use Phalcon\Http\Request\Exception;
 use Phalcon\Http\Request\File;

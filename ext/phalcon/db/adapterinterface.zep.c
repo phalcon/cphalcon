@@ -270,22 +270,12 @@ ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, connect);
 /**
  * Sends SQL statements to the database server returning the success state.
  * Use this method only when the SQL statement sent to the server return rows
- *
- * @param  string sqlStatement
- * @param  array placeholders
- * @param  array dataTypes
- * @return Phalcon\Db\ResultInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, query);
 
 /**
  * Sends SQL statements to the database server returning the success state.
- * Use this method only when the SQL statement sent to the server doesn't return any rows
- *
- * @param  string sqlStatement
- * @param  array placeholders
- * @param  array dataTypes
- * @return boolean
+ * Use this method only when the SQL statement sent to the server doesn't return any rows	 
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, execute);
 

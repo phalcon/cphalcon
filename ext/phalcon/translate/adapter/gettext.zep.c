@@ -434,7 +434,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_Gettext, setLocale) {
 
 
 	ZEPHIR_INIT_VAR(_0);
-	ZEPHIR_CALL_FUNCTION(&_1, "func_get_args", NULL, 131);
+	ZEPHIR_CALL_FUNCTION(&_1, "func_get_args", NULL, 133);
 	zephir_check_call_status();
 	ZEPHIR_SINIT_VAR(_2);
 	ZVAL_STRING(&_2, "setlocale", 0);

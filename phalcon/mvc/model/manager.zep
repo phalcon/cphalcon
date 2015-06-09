@@ -1253,6 +1253,14 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 		}
 
 		/**
+		 * Join conditions in '0' and 'conditions'
+		 */
+		if isset findArguments[0] && isset findArguments["conditions"] {
+			let findArguments[0] = "(" . findArguments[0] . ") AND (" . findArguments["conditions"] . ")";
+			unset findArguments["conditions"];
+		}
+
+		/**
 		 * Check the right method to get the data
 		 */
 		if method === null {

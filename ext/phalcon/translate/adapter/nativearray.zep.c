@@ -69,15 +69,11 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, __construct) {
 
 /**
  * Returns the translation related to the given key
- *
- * @param string  index
- * @param array   placeholders
- * @return string
  */
 PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, query) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *index_param = NULL, *placeholders = NULL, *translation, *_0;
+	zval *index_param = NULL, *placeholders = NULL, *translation = NULL, *_0;
 	zval *index = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -101,12 +97,12 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, query) {
 
 	ZEPHIR_OBS_VAR(translation);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_translate"), PH_NOISY_CC);
-	if (zephir_array_isset_fetch(&translation, _0, index, 0 TSRMLS_CC)) {
-		ZEPHIR_RETURN_CALL_METHOD(this_ptr, "replaceplaceholders", NULL, 0, translation, placeholders);
-		zephir_check_call_status();
-		RETURN_MM();
+	if (!(zephir_array_isset_fetch(&translation, _0, index, 0 TSRMLS_CC))) {
+		ZEPHIR_CPY_WRT(translation, index);
 	}
-	RETURN_CTOR(index);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "replaceplaceholders", NULL, 0, translation, placeholders);
+	zephir_check_call_status();
+	RETURN_MM();
 
 }
 

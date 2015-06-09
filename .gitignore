@@ -177,10 +177,7 @@ build/install2
 *~
 .DS_Store
 ext/.DS_Store
-ext/mvc/view/engine/volt/parser.out
-ext/mvc/view/engine/volt/lemon
 .temp/
-/vendor/
 composer.lock
 composer.phar
 php-tests/tests/var/logs/*.log
@@ -201,3 +198,4 @@ ext/phalcon/annotations/lemon
 ext/phalcon/annotations/lemon.dSYM/
 ext/phalcon/annotations/parser.out
 ext/phalcon/mvc/model/query/lemon
+ext/phalcon/mvc/model/query/parser.out

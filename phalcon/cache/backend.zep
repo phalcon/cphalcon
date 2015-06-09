@@ -79,6 +79,7 @@ abstract class Backend
 		 * Get the cache content verifying if it was expired
 		 */
 		let existingCache = this->{"get"}(keyName, lifetime);
+
 		if existingCache === null {
 			let fresh = true;
 			this->_frontend->start();
@@ -127,11 +128,11 @@ abstract class Backend
 	}
 
 	/**
-	* Gets the last lifetime set
-	*
-	* @return int
-	*/
-	public function getLifetime()
+	 * Gets the last lifetime set
+	 *
+	 * @return int
+	 */
+	public function getLifetime() -> int
 	{
 		return this->_lastLifetime;
 	}

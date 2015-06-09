@@ -13,8 +13,8 @@
 
 #include "kernel/main.h"
 #include "kernel/object.h"
-#include "kernel/memory.h"
 #include "kernel/array.h"
+#include "kernel/memory.h"
 #include "kernel/fcall.h"
 #include "kernel/operators.h"
 
@@ -70,30 +70,25 @@ PHP_METHOD(Phalcon_Session_Adapter_Memcache, getLifetime) {
 
 /**
  * Phalcon\Session\Adapter\Memcache constructor
- *
- * @param array options
  */
 PHP_METHOD(Phalcon_Session_Adapter_Memcache, __construct) {
 
 	zephir_fcall_cache_entry *_11 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *_2, *_4, *_6, *_7, *_8, *_9, *_10;
-	zval *options = NULL, *lifetime, *_0 = NULL, *_1, *_3, *_5 = NULL;
+	zval *options_param = NULL, *lifetime, *_0 = NULL, *_1, *_3, *_5 = NULL;
+	zval *options = NULL, *_2, *_4, *_6, *_7, *_8, *_9, *_10;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 0, 1, &options);
+	zephir_fetch_params(1, 0, 1, &options_param);
 
-	if (!options) {
-		ZEPHIR_CPY_WRT(options, ZEPHIR_GLOBAL(global_null));
-	} else {
-		ZEPHIR_SEPARATE_PARAM(options);
-	}
-
-
-	if (Z_TYPE_P(options) != IS_ARRAY) {
-		ZEPHIR_INIT_NVAR(options);
+	if (!options_param) {
+		ZEPHIR_INIT_VAR(options);
 		array_init(options);
+	} else {
+		zephir_get_arrval(options, options_param);
 	}
+
+
 	if (!(zephir_array_isset_string(options, SS("host")))) {
 		ZEPHIR_INIT_VAR(_0);
 		ZVAL_STRING(_0, "127.0.0.1", 1);
@@ -242,24 +237,24 @@ PHP_METHOD(Phalcon_Session_Adapter_Memcache, write) {
 PHP_METHOD(Phalcon_Session_Adapter_Memcache, destroy) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *session_id = NULL, *_0;
+	zval *sessionId = NULL, *_0;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 0, 1, &session_id);
+	zephir_fetch_params(1, 0, 1, &sessionId);
 
-	if (!session_id) {
-		ZEPHIR_CPY_WRT(session_id, ZEPHIR_GLOBAL(global_null));
+	if (!sessionId) {
+		ZEPHIR_CPY_WRT(sessionId, ZEPHIR_GLOBAL(global_null));
 	} else {
-		ZEPHIR_SEPARATE_PARAM(session_id);
+		ZEPHIR_SEPARATE_PARAM(sessionId);
 	}
 
 
-	if (Z_TYPE_P(session_id) == IS_NULL) {
-		ZEPHIR_CALL_METHOD(&session_id, this_ptr, "getid", NULL, 0);
+	if (Z_TYPE_P(sessionId) == IS_NULL) {
+		ZEPHIR_CALL_METHOD(&sessionId, this_ptr, "getid", NULL, 0);
 		zephir_check_call_status();
 	}
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_memcache"), PH_NOISY_CC);
-	ZEPHIR_RETURN_CALL_METHOD(_0, "delete", NULL, 0, session_id);
+	ZEPHIR_RETURN_CALL_METHOD(_0, "delete", NULL, 0, sessionId);
 	zephir_check_call_status();
 	RETURN_MM();
 

@@ -20,10 +20,11 @@
 
 namespace Phalcon\Mvc;
 
+use Phalcon\Di;
 use Phalcon\DiInterface;
-use Phalcon\Mvc\CollectionInterface;
 use Phalcon\Di\InjectionAwareInterface;
 use Phalcon\Mvc\Collection\ManagerInterface;
+use Phalcon\Mvc\Collection\BehaviorInterface;
 use Phalcon\Mvc\Collection\Exception;
 use Phalcon\Mvc\Model\MessageInterface;
 
@@ -54,6 +55,8 @@ abstract class Collection implements CollectionInterface, InjectionAwareInterfac
 
 	protected static _disableEvents;
 
+	protected _skipped = false;
+
 	const OP_NONE = 0;
 
 	const OP_CREATE = 1;
@@ -71,7 +74,7 @@ abstract class Collection implements CollectionInterface, InjectionAwareInterfac
 		 * We use a default DI if the user doesn't define one
 		 */
 		if typeof dependencyInjector != "object" {
-			let dependencyInjector = \Phalcon\Di::getDefault();
+			let dependencyInjector = Di::getDefault();
 		}
 
 		if typeof dependencyInjector != "object" {
@@ -414,7 +417,7 @@ abstract class Collection implements CollectionInterface, InjectionAwareInterfac
 			/**
 			 * Assign the values to the base object
 			 */
-			return self::cloneResult(base, document);
+			return static::cloneResult(base, document);
 		}
 
 		/**
@@ -426,7 +429,7 @@ abstract class Collection implements CollectionInterface, InjectionAwareInterfac
 			/**
 			 * Assign the values to the base object
 			 */
-			let collections[] = self::cloneResult(base, document);
+			let collections[] = static::cloneResult(base, document);
 		}
 
 		return collections;
@@ -950,7 +953,7 @@ abstract class Collection implements CollectionInterface, InjectionAwareInterfac
 			let mongoId = id;
 		}
 
-		return self::findFirst([["_id": mongoId]]);
+		return static::findFirst([["_id": mongoId]]);
 	}
 
 	/**
@@ -987,7 +990,7 @@ abstract class Collection implements CollectionInterface, InjectionAwareInterfac
 
 		let connection = collection->getConnection();
 
-		return self::_getResultset(parameters, collection, connection, true);
+		return static::_getResultset(parameters, collection, connection, true);
 	}
 
 	/**
@@ -1031,7 +1034,7 @@ abstract class Collection implements CollectionInterface, InjectionAwareInterfac
 
 		let className = get_called_class();
 		let collection = new {className}();
-		return self::_getResultset(parameters, collection, collection->getConnection(), false);
+		return static::_getResultset(parameters, collection, collection->getConnection(), false);
 	}
 
 	/**
@@ -1051,7 +1054,7 @@ abstract class Collection implements CollectionInterface, InjectionAwareInterfac
 
 		let connection = collection->getConnection();
 
-		return self::_getGroupResultset(parameters, collection, connection);
+		return static::_getGroupResultset(parameters, collection, connection);
 	}
 
 	/**
@@ -1156,6 +1159,10 @@ abstract class Collection implements CollectionInterface, InjectionAwareInterfac
 			if this->fireEventCancel("beforeDelete") === false {
 				return false;
 			}
+		}
+
+		if this->_skipped === true {
+			return true;
 		}
 
 		let connection = this->getConnection();
@@ -1267,7 +1274,7 @@ abstract class Collection implements CollectionInterface, InjectionAwareInterfac
 			/**
 			 * Obtain the default DI
 			 */
-			let dependencyInjector = \Phalcon\Di::getDefault();
+			let dependencyInjector = Di::getDefault();
 			if typeof dependencyInjector != "object" {
 				throw new Exception("A dependency injector container is required to obtain the services related to the ODM");
 			}
@@ -1297,5 +1304,21 @@ abstract class Collection implements CollectionInterface, InjectionAwareInterfac
 				let this->{key} = value;
 			}
 		}
+	}
+
+	/**
+	 * Sets up a behavior in a collection
+	 */
+	protected function addBehavior(<BehaviorInterface> behavior) -> void
+	{
+		(<ManagerInterface> this->_modelsManager)->addBehavior(this, behavior);
+	}
+
+	/**
+	 * Skips the current operation forcing a success state
+	 */
+	public function skipOperation(boolean skip)
+	{
+		let this->_skipped = skip;
 	}
 }

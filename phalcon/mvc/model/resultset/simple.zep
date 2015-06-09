@@ -67,8 +67,7 @@ class Simple extends Resultset
 	 */
 	public final function current() -> <ModelInterface> | boolean
 	{
-		var row, hydrateMode, columnMap, activeRow;
-
+		var row, hydrateMode, columnMap, activeRow, modelName;
 		let activeRow = this->_activeRow;
 		if activeRow !== null {
 			return activeRow;
@@ -107,13 +106,27 @@ class Simple extends Resultset
 				 * Set records as dirty state PERSISTENT by default
 				 * Performs the standard hydration based on objects
 				 */
-				let activeRow = Model::cloneResultMap(
-					this->_model,
-					row,
-					columnMap,
-					Model::DIRTY_STATE_PERSISTENT,
-					this->_keepSnapshots
-				);
+				if globals_get("orm.late_state_binding") {
+					let modelName = "Phalcon\\Mvc\\Model";
+					if this->_model instanceof \Phalcon\Mvc\Model {
+						let modelName = get_class(this->_model);
+					}
+					let activeRow = {modelName}::cloneResultMap(
+						this->_model,
+						row,
+						columnMap,
+						Model::DIRTY_STATE_PERSISTENT,
+						this->_keepSnapshots
+					);
+				} else {
+					let activeRow = Model::cloneResultMap(
+						this->_model,
+						row,
+						columnMap,
+						Model::DIRTY_STATE_PERSISTENT,
+						this->_keepSnapshots
+					);
+				}
 				break;
 
 			default:

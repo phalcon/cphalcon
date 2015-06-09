@@ -161,50 +161,41 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, getAutomaticUpdateAttribu
 
 /**
  * Set the attributes that must be ignored from the INSERT SQL generation
- *
- * @param  Phalcon\Mvc\ModelInterface model
- * @param  array attributes
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, setAutomaticCreateAttributes);
 
 /**
  * Set the attributes that must be ignored from the UPDATE SQL generation
- *
- * @param  Phalcon\Mvc\ModelInterface model
- * @param  array attributes
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, setAutomaticUpdateAttributes);
 
 /**
+ * Set the attributes that allow empty string values	 
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, setEmptyStringAttributes);
+
+/**
+ * Returns attributes allow empty strings
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, getEmptyStringAttributes);
+
+/**
  * Returns attributes (which have default values) and their default values
- *
- * @param Phalcon\Mvc\ModelInterface model
- * @return array
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, getDefaultValues);
 
 /**
  * Returns the column map if any
- *
- * @param Phalcon\Mvc\ModelInterface model
- * @return array
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, getColumnMap);
 
 /**
  * Returns the reverse column map if any
- *
- * @param Phalcon\Mvc\ModelInterface model
- * @return array
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, getReverseColumnMap);
 
 /**
  * Check if a model has certain attribute
- *
- * @param Phalcon\Mvc\ModelInterface model
- * @param string attribute
- * @return boolean
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, hasAttribute);
 

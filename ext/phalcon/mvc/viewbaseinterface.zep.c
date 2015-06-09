@@ -27,15 +27,11 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_ViewBaseInterface) {
 
 /**
  * Sets views directory. Depending of your platform, always add a trailing slash or backslash
- *
- * @param string viewsDir
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ViewBaseInterface, setViewsDir);
 
 /**
  * Gets views directory
- *
- * @return string
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ViewBaseInterface, getViewsDir);
 
@@ -57,15 +53,11 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_ViewBaseInterface, setVar);
 
 /**
  * Returns parameters to views
- *
- * @return array
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ViewBaseInterface, getParamsToView);
 
 /**
  * Returns the cache instance used to cache
- *
- * @return Phalcon\Cache\BackendInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ViewBaseInterface, getCache);
 
@@ -78,15 +70,11 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_ViewBaseInterface, cache);
 
 /**
  * Externally sets the view content
- *
- * @param string content
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ViewBaseInterface, setContent);
 
 /**
  * Returns cached output from another view stage
- *
- * @return string
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ViewBaseInterface, getContent);
 

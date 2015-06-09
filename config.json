@@ -10,7 +10,7 @@
     "name": "phalcon",
     "description": "Web framework delivered as a C-extension for PHP",
     "author": "Phalcon Team and contributors",
-    "version": "2.0.2",
+    "version": "2.0.3",
     "verbose": false,
     "optimizer-dirs": [
         "optimizers"
@@ -76,6 +76,10 @@
         "orm.enable_literals": {
             "type": "bool",
             "default": true
+        },
+        "orm.late_state_binding": {
+            "type": "bool",
+            "default": false
         }
     },
     "destructors": {

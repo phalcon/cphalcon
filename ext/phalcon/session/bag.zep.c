@@ -59,8 +59,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Session_Bag) {
 
 /**
  * Phalcon\Session\Bag constructor
- *
- * @param string name
  */
 PHP_METHOD(Phalcon_Session_Bag, __construct) {
 
@@ -90,8 +88,6 @@ PHP_METHOD(Phalcon_Session_Bag, __construct) {
 
 /**
  * Sets the DependencyInjector container
- *
- * @param Phalcon\DiInterface dependencyInjector
  */
 PHP_METHOD(Phalcon_Session_Bag, setDI) {
 
@@ -107,8 +103,6 @@ PHP_METHOD(Phalcon_Session_Bag, setDI) {
 
 /**
  * Returns the DependencyInjector container
- *
- * @return Phalcon\DiInterface
  */
 PHP_METHOD(Phalcon_Session_Bag, getDI) {
 
@@ -134,10 +128,10 @@ PHP_METHOD(Phalcon_Session_Bag, initialize) {
 		ZEPHIR_OBS_VAR(dependencyInjector);
 		zephir_read_property_this(&dependencyInjector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 		if (Z_TYPE_P(dependencyInjector) != IS_OBJECT) {
-			ZEPHIR_CALL_CE_STATIC(&dependencyInjector, phalcon_di_ce, "getdefault", &_0, 145);
+			ZEPHIR_CALL_CE_STATIC(&dependencyInjector, phalcon_di_ce, "getdefault", &_0, 147);
 			zephir_check_call_status();
 			if (Z_TYPE_P(dependencyInjector) != IS_OBJECT) {
-				ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_session_exception_ce, "A dependency injection object is required to access the 'session' service", "phalcon/session/bag.zep", 95);
+				ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_session_exception_ce, "A dependency injection object is required to access the 'session' service", "phalcon/session/bag.zep", 89);
 				return;
 			}
 		}
@@ -367,9 +361,6 @@ PHP_METHOD(Phalcon_Session_Bag, __get) {
  *<code>
  * var_dump($user->has('name'));
  *</code>
- *
- * @param string property
- * @return boolean
  */
 PHP_METHOD(Phalcon_Session_Bag, has) {
 
@@ -409,9 +400,6 @@ PHP_METHOD(Phalcon_Session_Bag, has) {
  *<code>
  * var_dump(isset($user['name']));
  *</code>
- *
- * @param string property
- * @return boolean
  */
 PHP_METHOD(Phalcon_Session_Bag, __isset) {
 
@@ -447,9 +435,6 @@ PHP_METHOD(Phalcon_Session_Bag, __isset) {
  *<code>
  * $user->remove('name');
  *</code>
- *
- * @param string property
- * @return boolean
  */
 PHP_METHOD(Phalcon_Session_Bag, remove) {
 
@@ -494,9 +479,6 @@ PHP_METHOD(Phalcon_Session_Bag, remove) {
  *<code>
  * unset($user['name']);
  *</code>
- *
- * @param string property
- * @return boolean
  */
 PHP_METHOD(Phalcon_Session_Bag, __unset) {
 
@@ -532,8 +514,6 @@ PHP_METHOD(Phalcon_Session_Bag, __unset) {
  *<code>
  * echo $user->count();
  *</code>
- *
- * @return int
  */
 PHP_METHOD(Phalcon_Session_Bag, count) {
 
@@ -552,6 +532,11 @@ PHP_METHOD(Phalcon_Session_Bag, count) {
 
 }
 
+/**
+ * Returns the bag iterator
+ *
+ * @return \ArrayIterator
+ */
 PHP_METHOD(Phalcon_Session_Bag, getIterator) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
@@ -572,6 +557,10 @@ PHP_METHOD(Phalcon_Session_Bag, getIterator) {
 
 }
 
+/**
+ * @param string property
+ * @param mixed value
+ */
 PHP_METHOD(Phalcon_Session_Bag, offsetSet) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
@@ -600,6 +589,9 @@ PHP_METHOD(Phalcon_Session_Bag, offsetSet) {
 
 }
 
+/**
+ * @param string property
+ */
 PHP_METHOD(Phalcon_Session_Bag, offsetExists) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
@@ -628,6 +620,9 @@ PHP_METHOD(Phalcon_Session_Bag, offsetExists) {
 
 }
 
+/**
+ * @param string property
+ */
 PHP_METHOD(Phalcon_Session_Bag, offsetUnset) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
@@ -656,6 +651,9 @@ PHP_METHOD(Phalcon_Session_Bag, offsetUnset) {
 
 }
 
+/**
+ * @param string property	 
+ */
 PHP_METHOD(Phalcon_Session_Bag, offsetGet) {
 
 	int ZEPHIR_LAST_CALL_STATUS;

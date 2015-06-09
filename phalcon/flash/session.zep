@@ -134,18 +134,16 @@ class Session extends \Phalcon\Flash implements FlashInterface, InjectionAwareIn
 		var messages, returnMessages;
 
 		let messages = this->_getSessionMessages(remove);
-		if typeof messages == "array" {
-			if typeof type == "string" {
-				if fetch returnMessages, messages[type] {
-					return returnMessages;
-				} else {
-					return [];
-				}
-			}
+
+		if typeof type != "string" {
 			return messages;
 		}
 
-		return [];
+		if !fetch returnMessages, messages[type] {
+			return [];
+		}
+
+		return returnMessages;
 	}
 
 	/**

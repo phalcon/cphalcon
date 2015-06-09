@@ -37,6 +37,8 @@ class Csv extends Adapter implements AdapterInterface, \ArrayAccess
 	 */
 	public function __construct(array! options)
 	{
+		var data, file;
+
 		if !isset options["content"] {
 			throw new Exception("Parameter 'content' is required");
 		}
@@ -47,16 +49,14 @@ class Csv extends Adapter implements AdapterInterface, \ArrayAccess
 			"enclosure": "\""
 		], options);
 
-		var file;
 		let file = fopen(options["content"], "rb");
 
 		if typeof file !== "resource" {
 			throw new Exception("Error opening translation file '" . options["content"] . "'");
 		}
 
-		var data;
-
 		loop {
+
 			let data = fgetcsv(file, options["length"], options["delimiter"], options["enclosure"]);
 			if data === false {
 				break;
@@ -74,19 +74,16 @@ class Csv extends Adapter implements AdapterInterface, \ArrayAccess
 
 	/**
 	 * Returns the translation related to the given key
-	 *
-	 * @param string  index
-	 * @param array   placeholders
-	 * @return string
 	 */
 	public function query(string! index, placeholders = null) -> string
 	{
 		var translation;
 
-		if fetch translation, this->_translate[index] {
-			return this->replacePlaceholders(translation, placeholders);
+		if !fetch translation, this->_translate[index] {
+			let translation = index;
 		}
-		return index;
+
+		return this->replacePlaceholders(translation, placeholders);
 	}
 
 	/**

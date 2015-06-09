@@ -864,8 +864,6 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, setContent) {
 
 /**
  * Returns cached output from another view stage
- *
- * @return string
  */
 PHP_METHOD(Phalcon_Mvc_View_Simple, getContent) {
 

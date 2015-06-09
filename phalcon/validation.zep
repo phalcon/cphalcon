@@ -418,7 +418,7 @@ class Validation extends Injectable
 
 					let dependencyInjector = this->getDI();
 					if typeof dependencyInjector != "object" {
-						let dependencyInjector = \Phalcon\Di::getDefault();
+						let dependencyInjector = Di::getDefault();
 						if typeof dependencyInjector != "object" {
 							throw new Exception("A dependency injector is required to obtain the 'filter' service");
 						}

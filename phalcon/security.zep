@@ -197,6 +197,13 @@ class Security implements InjectionAwareInterface
 
 				break;
 
+			case self::CRYPT_SHA512:
+				let saltBytes = this->getSaltBytes(8);
+				if typeof saltBytes != "string" {
+					throw new Exception("Unable to get random bytes for the salt");
+				}   
+				return crypt(password, "$" . variant . "$"  . saltBytes);
+
 			case self::CRYPT_DEFAULT:
 			case self::CRYPT_BLOWFISH:
 			case self::CRYPT_BLOWFISH_X:

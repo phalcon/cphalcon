@@ -50,8 +50,6 @@ class Bag implements InjectionAwareInterface, BagInterface, \IteratorAggregate, 
 
 	/**
 	 * Phalcon\Session\Bag constructor
-	 *
-	 * @param string name
 	 */
 	public function __construct(string! name)
 	{
@@ -60,8 +58,6 @@ class Bag implements InjectionAwareInterface, BagInterface, \IteratorAggregate, 
 
 	/**
 	 * Sets the DependencyInjector container
-	 *
-	 * @param Phalcon\DiInterface dependencyInjector
 	 */
 	public function setDI(<DiInterface> dependencyInjector)
 	{
@@ -70,8 +66,6 @@ class Bag implements InjectionAwareInterface, BagInterface, \IteratorAggregate, 
 
 	/**
 	 * Returns the DependencyInjector container
-	 *
-	 * @return Phalcon\DiInterface
 	 */
 	public function getDI() -> <DiInterface>
 	{
@@ -210,9 +204,6 @@ class Bag implements InjectionAwareInterface, BagInterface, \IteratorAggregate, 
 	 *<code>
 	 * var_dump($user->has('name'));
 	 *</code>
-	 *
-	 * @param string property
-	 * @return boolean
 	 */
 	public function has(string! property) -> boolean
 	{
@@ -229,9 +220,6 @@ class Bag implements InjectionAwareInterface, BagInterface, \IteratorAggregate, 
 	 *<code>
 	 * var_dump(isset($user['name']));
 	 *</code>
-	 *
-	 * @param string property
-	 * @return boolean
 	 */
 	public function __isset(string! property) -> boolean
 	{
@@ -244,14 +232,11 @@ class Bag implements InjectionAwareInterface, BagInterface, \IteratorAggregate, 
 	 *<code>
 	 * $user->remove('name');
 	 *</code>
-	 *
-	 * @param string property
-	 * @return boolean
 	 */
 	public function remove(string! property) -> boolean
 	{
 		if isset this->_data[property] {
-			unset(this->_data[property]);
+			unset this->_data[property];
 			this->_session->set(this->_name, this->_data);
 			return true;
 		}
@@ -264,9 +249,6 @@ class Bag implements InjectionAwareInterface, BagInterface, \IteratorAggregate, 
 	 *<code>
 	 * unset($user['name']);
 	 *</code>
-	 *
-	 * @param string property
-	 * @return boolean
 	 */
 	public function __unset(string! property) -> boolean
 	{
@@ -279,8 +261,6 @@ class Bag implements InjectionAwareInterface, BagInterface, \IteratorAggregate, 
 	 *<code>
 	 * echo $user->count();
 	 *</code>
-	 *
-	 * @return int
 	 */
 	public final function count() -> int
 	{
@@ -290,6 +270,11 @@ class Bag implements InjectionAwareInterface, BagInterface, \IteratorAggregate, 
 		return count(this->_data);
 	}
 
+	/**
+	 * Returns the bag iterator
+	 *
+	 * @return \ArrayIterator
+	 */
 	public final function getIterator()
 	{
 		if this->_initialized === false {
@@ -299,21 +284,34 @@ class Bag implements InjectionAwareInterface, BagInterface, \IteratorAggregate, 
 		return new \ArrayIterator(this->_data);
 	}
 
+	/**
+	 * @param string property
+	 * @param mixed value
+	 */
 	public final function offsetSet(string! property, var value)
 	{
 		return this->set(property, value);
 	}
 
+	/**
+	 * @param string property
+	 */
 	public final function offsetExists(string! property)
 	{
 		return this->has(property);
 	}
 
+	/**
+	 * @param string property
+	 */
 	public final function offsetUnset(string! property)
 	{
 		return this->remove(property);
 	}
 
+	/**
+	 * @param string property	 
+	 */
 	public final function offsetGet(string! property)
 	{
 		return this->get(property);

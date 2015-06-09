@@ -113,7 +113,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Base64, isBuffering) {
 }
 
 /**
- * Starts output frontend. Actually, does nothing
+ * Starts output frontend. Actually, does nothing in this adapter
  */
 PHP_METHOD(Phalcon_Cache_Frontend_Base64, start) {
 

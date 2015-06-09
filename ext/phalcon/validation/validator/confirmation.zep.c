@@ -162,12 +162,12 @@ PHP_METHOD(Phalcon_Validation_Validator_Confirmation, compare) {
 		}
 		ZEPHIR_SINIT_VAR(_3);
 		ZVAL_STRING(&_3, "utf-8", 0);
-		ZEPHIR_CALL_FUNCTION(&_4, "mb_strtolower", &_5, 166, a, &_3);
+		ZEPHIR_CALL_FUNCTION(&_4, "mb_strtolower", &_5, 168, a, &_3);
 		zephir_check_call_status();
 		zephir_get_strval(a, _4);
 		ZEPHIR_SINIT_NVAR(_3);
 		ZVAL_STRING(&_3, "utf-8", 0);
-		ZEPHIR_CALL_FUNCTION(&_6, "mb_strtolower", &_5, 166, b, &_3);
+		ZEPHIR_CALL_FUNCTION(&_6, "mb_strtolower", &_5, 168, b, &_3);
 		zephir_check_call_status();
 		zephir_get_strval(b, _6);
 	}

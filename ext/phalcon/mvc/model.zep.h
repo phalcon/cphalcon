@@ -66,6 +66,7 @@ PHP_METHOD(Phalcon_Mvc_Model, writeAttribute);
 PHP_METHOD(Phalcon_Mvc_Model, skipAttributes);
 PHP_METHOD(Phalcon_Mvc_Model, skipAttributesOnCreate);
 PHP_METHOD(Phalcon_Mvc_Model, skipAttributesOnUpdate);
+PHP_METHOD(Phalcon_Mvc_Model, allowEmptyStringValues);
 PHP_METHOD(Phalcon_Mvc_Model, hasOne);
 PHP_METHOD(Phalcon_Mvc_Model, belongsTo);
 PHP_METHOD(Phalcon_Mvc_Model, hasMany);
@@ -297,6 +298,10 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_skipattributesonupdate, 0, 0, 1
 	ZEND_ARG_ARRAY_INFO(0, attributes, 0)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_allowemptystringvalues, 0, 0, 1)
+	ZEND_ARG_ARRAY_INFO(0, attributes, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_hasone, 0, 0, 3)
 	ZEND_ARG_INFO(0, fields)
 	ZEND_ARG_INFO(0, referenceModel)
@@ -459,6 +464,7 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_model_method_entry) {
 	PHP_ME(Phalcon_Mvc_Model, skipAttributes, arginfo_phalcon_mvc_model_skipattributes, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Mvc_Model, skipAttributesOnCreate, arginfo_phalcon_mvc_model_skipattributesoncreate, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Mvc_Model, skipAttributesOnUpdate, arginfo_phalcon_mvc_model_skipattributesonupdate, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Mvc_Model, allowEmptyStringValues, arginfo_phalcon_mvc_model_allowemptystringvalues, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Mvc_Model, hasOne, arginfo_phalcon_mvc_model_hasone, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Mvc_Model, belongsTo, arginfo_phalcon_mvc_model_belongsto, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Mvc_Model, hasMany, arginfo_phalcon_mvc_model_hasmany, ZEND_ACC_PROTECTED)

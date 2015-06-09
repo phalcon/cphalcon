@@ -54,9 +54,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Session_BagInterface, get);
 
 /**
  * Isset property
- *
- * @param string property
- * @return boolean
  */
 ZEPHIR_DOC_METHOD(Phalcon_Session_BagInterface, has);
 
@@ -78,9 +75,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Session_BagInterface, __get);
 
 /**
  * Isset property
- *
- * @param string property
- * @return boolean
  */
 ZEPHIR_DOC_METHOD(Phalcon_Session_BagInterface, __isset);
 

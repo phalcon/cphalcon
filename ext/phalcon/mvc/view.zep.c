@@ -1383,7 +1383,7 @@ PHP_METHOD(Phalcon_Mvc_View, getPartial) {
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "partial", NULL, 0, partialPath, params);
 	zephir_check_call_status();
-	ZEPHIR_RETURN_CALL_FUNCTION("ob_get_clean", NULL, 273);
+	ZEPHIR_RETURN_CALL_FUNCTION("ob_get_clean", NULL, 275);
 	zephir_check_call_status();
 	RETURN_MM();
 
