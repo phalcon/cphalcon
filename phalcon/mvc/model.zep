@@ -19,9 +19,9 @@
 
 namespace Phalcon\Mvc;
 
+use Phalcon\Di;
 use Phalcon\Text;
 use Phalcon\Db\Column;
-use Phalcon\Di;
 use Phalcon\DiInterface;
 use Phalcon\Mvc\Model\Message;
 use Phalcon\Mvc\Model\ResultInterface;
@@ -3410,7 +3410,6 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 *			'id'
 	 *		);
 	 *   }
-	 *
 	 *}
 	 *</code>
 	 *
@@ -3458,7 +3457,6 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 *			)
 	 *		)));
 	 *   }
-	 *
 	 *}
 	 *</code>
 	 */
@@ -3480,7 +3478,6 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 *   {
 	 *		$this->keepSnapshots(true);
 	 *   }
-	 *
 	 *}
 	 *</code>
 	 */
@@ -3704,6 +3701,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 		 * Check every attribute in the model
 		 */
 		let changed = [];
+
 		for name, _ in allAttributes {
 
 			/**
@@ -3729,7 +3727,6 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 				let changed[] = name;
 				continue;
 			}
-
 		}
 
 		return changed;
@@ -3748,7 +3745,6 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 *   {
 	 *		$this->useDynamicUpdate(true);
 	 *   }
-	 *
 	 *}
 	 *</code>
 	 */
@@ -4288,12 +4284,12 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 			globals_set("orm.enable_literals", phqlLiterals);
 		}
 
-                /**
-                 * Enables/Disables late state binding on model hydration
-                 */
-                if fetch lateStateBinding, options["lateStateBinding"] {
-                        globals_set("orm.late_state_binding", lateStateBinding);
-                }
+        /**
+         * Enables/Disables late state binding on model hydration
+         */
+        if fetch lateStateBinding, options["lateStateBinding"] {
+            globals_set("orm.late_state_binding", lateStateBinding);
+        }
 	}
 
 	/**
