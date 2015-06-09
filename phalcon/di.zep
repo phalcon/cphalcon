@@ -56,7 +56,6 @@ use Phalcon\Di\InjectionAwareInterface;
  * }, true);
  *
  * $request = $di->getRequest();
- *
  *</code>
  */
 class Di implements DiInterface
