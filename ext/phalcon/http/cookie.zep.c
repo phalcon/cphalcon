@@ -272,6 +272,7 @@ PHP_METHOD(Phalcon_Http_Cookie, getValue) {
  */
 PHP_METHOD(Phalcon_Http_Cookie, send) {
 
+	zval *_4 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *name, *value, *expire, *domain, *path, *secure, *httpOnly, *dependencyInjector, *definition, *session = NULL, *crypt = NULL, *encryptValue = NULL, *_0 = NULL, *_1 = NULL, *_2, *_3;
 
@@ -339,7 +340,8 @@ PHP_METHOD(Phalcon_Http_Cookie, send) {
 			zephir_check_temp_parameter(_1);
 			zephir_check_call_status();
 			ZEPHIR_CPY_WRT(crypt, _0);
-			ZEPHIR_CALL_METHOD(&encryptValue, crypt, "encryptbase64", NULL, 0, value);
+			zephir_get_strval(_4, value);
+			ZEPHIR_CALL_METHOD(&encryptValue, crypt, "encryptbase64", NULL, 0, _4);
 			zephir_check_call_status();
 		} else {
 			ZEPHIR_CPY_WRT(encryptValue, value);

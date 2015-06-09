@@ -2042,7 +2042,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	{
 		var bindSkip, fields, values, bindTypes, attributes, bindDataTypes, automaticAttributes,
 			field, columnMap, value, attributeField, success, bindType,
-			defaultValue, sequenceName, defaultValues;
+			defaultValue, sequenceName, defaultValues, source, schema;
 		boolean useExplicitIdentity;
 
 		let bindSkip = Column::BIND_SKIP;
@@ -2189,7 +2189,15 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 				if method_exists(this, "getSequenceName") {
 					let sequenceName = this->{"getSequenceName"}();
 				} else {
-					let sequenceName = this->getSource() . "_" . identityField . "_seq";
+
+					let source = this->getSource(),
+						schema = this->getSchema();
+
+					if empty schema {
+						let sequenceName = source . "_" . identityField . "_seq";
+					} else {
+						let sequenceName = schema . "." . source . "_" . identityField . "_seq";
+					}
 				}
 			}
 

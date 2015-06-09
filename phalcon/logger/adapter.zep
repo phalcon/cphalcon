@@ -115,7 +115,12 @@ abstract class Adapter
 		let queue = this->_queue;
 		if typeof queue == "array" {
 			for message in queue {
-				this->{"logInternal"}(message->getMessage(), message->getType(), message->getTime(), message->getContext());
+				this->{"logInternal"}(
+					message->getMessage(),
+					message->getType(),
+					message->getTime(),
+					message->getContext()
+				);
 			}
 		}
 

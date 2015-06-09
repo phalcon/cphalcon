@@ -286,9 +286,59 @@ class Route implements RouteInterface
 	 */
 	public function reConfigure(string! pattern, var paths = null) -> void
 	{
+		var routePaths, pcrePattern, compiledPattern,
+			extracted;
+
+		let routePaths = self::getRoutePaths(paths);
+
+		/**
+		 * If the route starts with '#' we assume that it is a regular expression
+		 */
+		if !starts_with(pattern, "#") {
+
+			if memstr(pattern, "{") {
+				/**
+				 * The route has named parameters so we need to extract them
+				 */
+				let extracted = this->extractNamedParams(pattern),
+					pcrePattern = extracted[0],
+					routePaths = array_merge(routePaths, extracted[1]);
+			} else {
+				let pcrePattern = pattern;
+			}
+
+			/**
+			 * Transform the route's pattern to a regular expression
+			 */
+			let compiledPattern = this->compilePattern(pcrePattern);
+		} else {
+			let compiledPattern = pattern;
+		}
+
+		/**
+		 * Update the original pattern
+		 */
+		let this->_pattern = pattern;
+
+		/**
+		 * Update the compiled pattern
+		 */
+		let this->_compiledPattern = compiledPattern;
+
+		/**
+		 * Update the route's paths
+		 */
+		let this->_paths = routePaths;
+	}
+
+	/**
+	 * Returns routePaths
+	 */
+	public static function getRoutePaths(var paths = null) -> array
+	{
 		var moduleName, controllerName, actionName,
-			parts, routePaths, realClassName, namespaceName,
-			pcrePattern, compiledPattern, extracted;
+			parts, routePaths, realClassName,
+			namespaceName;
 
 		if paths !== null {
 			if typeof paths == "string" {
@@ -302,15 +352,18 @@ class Route implements RouteInterface
 
 				// Create the array paths dynamically
 				switch count(parts) {
+
 					case 3:
 						let moduleName = parts[0],
 							controllerName = parts[1],
 							actionName = parts[2];
 						break;
+
 					case 2:
 						let controllerName = parts[0],
 							actionName = parts[1];
 						break;
+
 					case 1:
 						let controllerName = parts[0];
 						break;
@@ -362,44 +415,7 @@ class Route implements RouteInterface
 			throw new Exception("The route contains invalid paths");
 		}
 
-		/**
-		 * If the route starts with '#' we assume that it is a regular expression
-		 */
-		if !starts_with(pattern, "#") {
-
-			if memstr(pattern, "{") {
-				/**
-				 * The route has named parameters so we need to extract them
-				 */
-				let extracted = this->extractNamedParams(pattern),
-					pcrePattern = extracted[0],
-					routePaths = array_merge(routePaths, extracted[1]);
-			} else {
-				let pcrePattern = pattern;
-			}
-
-			/**
-			 * Transform the route's pattern to a regular expression
-			 */
-			let compiledPattern = this->compilePattern(pcrePattern);
-		} else {
-			let compiledPattern = pattern;
-		}
-
-		/**
-		 * Update the original pattern
-		 */
-		let this->_pattern = pattern;
-
-		/**
-		 * Update the compiled pattern
-		 */
-		let this->_compiledPattern = compiledPattern;
-
-		/**
-		 * Update the route's paths
-		 */
-		let this->_paths = routePaths;
+		return routePaths;
 	}
 
 	/**

@@ -120,6 +120,16 @@ abstract class Pdo extends Adapter
 		}
 
 		/**
+		 * Check if the connection must be persistent
+		 */
+		if fetch persistent, descriptor["persistent"] {
+			if persistent {
+				let options[\Pdo::ATTR_PERSISTENT] = true;
+			}
+			unset descriptor["persistent"];
+		}
+
+		/**
 		 * Check if the user has defined a custom dsn
 		 */
 		 if !fetch dsnAttributes, descriptor["dsn"] {
@@ -131,15 +141,6 @@ abstract class Pdo extends Adapter
 		}
 
 		let options[\Pdo::ATTR_ERRMODE] = \Pdo::ERRMODE_EXCEPTION;
-
-		/**
-		 * Check if the connection must be persistent
-		 */
-		if fetch persistent, descriptor["persistent"] {
-			if persistent {
-				let options[\Pdo::ATTR_PERSISTENT] = true;
-			}
-		}
 
 		/**
 		 * Create the connection using PDO
