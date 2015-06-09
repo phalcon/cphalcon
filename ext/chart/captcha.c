@@ -47,10 +47,9 @@
  * Phalcon\Chart\Captcha
  * 
  *<code>
- * $qr = new \Phalcon\Chart\Captcha();
- * $ret = $qr->generate('Phalcon framework');
- * $data = $qr->render();
- * $ret = $qr->save('unit-tests/assets/captcha.png');
+ * header('Content-Type: image/png');
+ * $captcha = new \Phalcon\Chart\Captcha(NULL, NULL, 30, 150, 50);
+ * echo $captcha = $qr->render('Phalcon', 15, -10);
  *</code>
  */
 zend_class_entry *phalcon_chart_captcha_ce;
@@ -122,14 +121,14 @@ PHP_METHOD(Phalcon_Chart_Captcha, __construct){
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 0, 3, &word, &font, &font_size, &width, &height);
+	phalcon_fetch_params(1, 0, 5, &word, &font, &font_size, &width, &height);
 
 	if (!phalcon_class_exists(SL("imagick"), 0 TSRMLS_CC)) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_chart_exception_ce, "Imagick is not installed, or the extension is not loaded");
 		return;
 	}
 
-	if (!font_size) {
+	if (!font_size && Z_TYPE_P(font_size) == IS_NULL) {
 		font_size  = phalcon_fetch_nproperty_this(this_ptr, SL("_fontSize"), PH_NOISY TSRMLS_CC);
 	}
 
@@ -152,7 +151,7 @@ PHP_METHOD(Phalcon_Chart_Captcha, __construct){
 
 	phalcon_update_property_this(this_ptr, SL("_draw"), draw TSRMLS_CC);
 
-	if (font) {
+	if (font && Z_TYPE_P(font) != IS_NULL) {
 		PHALCON_CALL_METHOD(NULL, draw, "setfont", font);
 		phalcon_update_property_this(this_ptr, SL("_font"), font TSRMLS_CC);
 	}
@@ -160,11 +159,11 @@ PHP_METHOD(Phalcon_Chart_Captcha, __construct){
 	PHALCON_CALL_METHOD(NULL, draw, "setfontsize", font_size);
 	phalcon_update_property_this(this_ptr, SL("_fontSize"), font_size TSRMLS_CC);
 
-	if (width) {
+	if (width && Z_TYPE_P(width) != IS_NULL) {
 		phalcon_update_property_this(this_ptr, SL("_width"), width TSRMLS_CC);
 	}
 
-	if (height) {
+	if (height && Z_TYPE_P(height) != IS_NULL) {
 		phalcon_update_property_this(this_ptr, SL("_height"), height TSRMLS_CC);
 	}
 
@@ -225,20 +224,28 @@ PHP_METHOD(Phalcon_Chart_Captcha, setFontSize){
  */
 PHP_METHOD(Phalcon_Chart_Captcha, render){
 
-	zval *word = NULL, *foreground = NULL, *background = NULL, *width = NULL, *height = NULL;
-	zval *imagick, *draw, *font_size, *imagickpixel;
-	zval *x, *y, *min, *max, *roll1 = NULL, *roll2 = NULL, *corner1 = NULL, *corner2 = NULL;
+	zval *word = NULL, *offset_x = NULL, *offset_y = NULL, *foreground = NULL, *background = NULL, *width = NULL, *height = NULL;
+	zval *imagick, *draw, *imagickpixel, *gravity;
+	zval *min, *max, *roll1 = NULL, *roll2 = NULL, *corner1 = NULL, *corner2 = NULL;
 	zval *format;
-	zend_class_entry *imagickpixel_ce;
+	zend_class_entry  *imagick_ce, *imagickpixel_ce;
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 0, 5, &word, &foreground, &background, &width, &height);
+	phalcon_fetch_params(1, 0, 6, &word, &offset_x, &offset_y, &foreground, &background, &width, &height);
 
 	if (!word) {
 		word  = phalcon_fetch_nproperty_this(this_ptr, SL("_word"), PH_NOISY TSRMLS_CC);
 	} else {
 		phalcon_update_property_this(this_ptr, SL("_word"), word TSRMLS_CC);
+	}
+
+	if (!offset_x) {
+		offset_x  = PHALCON_GLOBAL(z_zero);
+	}
+
+	if (!offset_y) {
+		offset_y  = PHALCON_GLOBAL(z_zero);
 	}
 
 	if (!foreground) {
@@ -273,8 +280,8 @@ PHP_METHOD(Phalcon_Chart_Captcha, render){
 
 	imagick = phalcon_fetch_nproperty_this(this_ptr, SL("_imagick"), PH_NOISY TSRMLS_CC);
 	draw = phalcon_fetch_nproperty_this(this_ptr, SL("_draw"), PH_NOISY TSRMLS_CC);
-	font_size  = phalcon_fetch_nproperty_this(this_ptr, SL("_fontSize"), PH_NOISY TSRMLS_CC);
 
+	imagick_ce = zend_fetch_class(SL("Imagick"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 	imagickpixel_ce = zend_fetch_class(SL("ImagickPixel"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 
 	PHALCON_INIT_VAR(imagickpixel);
@@ -287,13 +294,11 @@ PHP_METHOD(Phalcon_Chart_Captcha, render){
 
 	PHALCON_CALL_METHOD(NULL, imagick, "newimage", width,  height, imagickpixel);
 
-	PHALCON_INIT_VAR(x);
-	ZVAL_LONG(x, (Z_LVAL_P(width)-Z_LVAL_P(font_size)*Z_STRLEN_P(word))/2);
+	PHALCON_INIT_VAR(gravity);
+	phalcon_get_class_constant(gravity, imagick_ce, SS("GRAVITY_CENTER") TSRMLS_CC);
 
-	PHALCON_INIT_VAR(y);
-	ZVAL_LONG(y, (Z_LVAL_P(height)-Z_LVAL_P(font_size))/2);
-
-	PHALCON_CALL_METHOD(NULL, imagick, "annotateimage", draw, x, y, PHALCON_GLOBAL(z_zero), word);
+	PHALCON_CALL_METHOD(NULL, draw, "setgravity", gravity);
+	PHALCON_CALL_METHOD(NULL, imagick, "annotateimage", draw, offset_x, offset_y, PHALCON_GLOBAL(z_zero), word);
 
 	PHALCON_INIT_VAR(min);
 	ZVAL_LONG(min, 20);
