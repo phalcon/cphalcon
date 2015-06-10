@@ -1,4 +1,4 @@
-# 2.0.3 (2015-XX-XX)
+# 2.0.3 (2015-06-X0)
 - Added support for Behaviors in Phalcon\Mvc\Collection
 - Added SoftDelete and Timestampable behaviors to Collections
 - Implemented Namespace aliases in PHQL
