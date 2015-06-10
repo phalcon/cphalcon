@@ -846,4 +846,12 @@ class Manager
 
 		return this->outputInline(collection, "script");
 	}
+
+	/**
+	 * Returns existing collections in the manager
+	 */
+	public function getCollections() -> <Collection[]>
+	{
+		return this->_collections;
+	}
 }
