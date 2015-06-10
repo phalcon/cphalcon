@@ -28,7 +28,7 @@
 #include "mvc/collection/managerinterface.h"
 #include "di.h"
 #include "diinterface.h"
-#include "di/injectionawareinterface.h"
+#include "di/injectable.h"
 #include "events/eventsawareinterface.h"
 
 #include "kernel/main.h"
@@ -58,8 +58,6 @@ PHP_METHOD(Phalcon_Mvc_Collection, __construct);
 PHP_METHOD(Phalcon_Mvc_Collection, setId);
 PHP_METHOD(Phalcon_Mvc_Collection, getId);
 PHP_METHOD(Phalcon_Mvc_Collection, getIdString);
-PHP_METHOD(Phalcon_Mvc_Collection, setDI);
-PHP_METHOD(Phalcon_Mvc_Collection, getDI);
 PHP_METHOD(Phalcon_Mvc_Collection, setEventsManager);
 PHP_METHOD(Phalcon_Mvc_Collection, getEventsManager);
 PHP_METHOD(Phalcon_Mvc_Collection, setColumnMap);
@@ -181,10 +179,8 @@ static const zend_function_entry phalcon_mvc_collection_method_entry[] = {
 	PHP_ME(Phalcon_Mvc_Collection, setId, arginfo_phalcon_mvc_collectioninterface_setid, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Collection, getId, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Collection, getIdString, NULL, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Mvc_Collection, setDI, arginfo_phalcon_di_injectionawareinterface_setdi, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Mvc_Collection, getDI, arginfo_phalcon_di_injectionawareinterface_getdi, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Mvc_Collection, setEventsManager, arginfo_phalcon_events_eventsawareinterface_seteventsmanager, ZEND_ACC_PROTECTED)
-	PHP_ME(Phalcon_Mvc_Collection, getEventsManager, arginfo_phalcon_events_eventsawareinterface_geteventsmanager, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Mvc_Collection, setEventsManager, arginfo_phalcon_events_eventsawareinterface_seteventsmanager, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Collection, getEventsManager, arginfo_phalcon_events_eventsawareinterface_geteventsmanager, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Collection, setColumnMap, arginfo_phalcon_mvc_collection_setcolumnmap, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Collection, getColumnMap, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Collection, getColumnName, arginfo_phalcon_mvc_collection_getcolumnname, ZEND_ACC_PUBLIC)
@@ -243,9 +239,8 @@ static const zend_function_entry phalcon_mvc_collection_method_entry[] = {
  */
 PHALCON_INIT_CLASS(Phalcon_Mvc_Collection){
 
-	PHALCON_REGISTER_CLASS(Phalcon\\Mvc, Collection, mvc_collection, phalcon_mvc_collection_method_entry, 0);
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Mvc, Collection, mvc_collection, phalcon_di_injectable_ce, phalcon_mvc_collection_method_entry, 0);
 
-	zend_declare_property_null(phalcon_mvc_collection_ce, SL("_dependencyInjector"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_collection_ce, SL("_collectionManager"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_long(phalcon_mvc_collection_ce, SL("_operationMade"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_collection_ce, SL("_connection"), ZEND_ACC_PROTECTED TSRMLS_CC);
@@ -258,7 +253,7 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Collection){
 	zend_declare_class_constant_long(phalcon_mvc_collection_ce, SL("OP_UPDATE"), 2 TSRMLS_CC);
 	zend_declare_class_constant_long(phalcon_mvc_collection_ce, SL("OP_DELETE"), 3 TSRMLS_CC);
 
-	zend_class_implements(phalcon_mvc_collection_ce TSRMLS_CC, 3, phalcon_mvc_collectioninterface_ce, phalcon_di_injectionawareinterface_ce, zend_ce_serializable);
+	zend_class_implements(phalcon_mvc_collection_ce TSRMLS_CC, 2, phalcon_mvc_collectioninterface_ce, zend_ce_serializable);
 
 	return SUCCESS;
 }
@@ -456,31 +451,6 @@ PHP_METHOD(Phalcon_Mvc_Collection, getIdString){
 	}
 
 	RETURN_CTOR(id);
-}
-
-/**
- * Sets the dependency injection container
- *
- * @param Phalcon\DiInterface $dependencyInjector
- */
-PHP_METHOD(Phalcon_Mvc_Collection, setDI){
-
-	zval *dependency_injector;
-
-	phalcon_fetch_params(0, 1, 0, &dependency_injector);
-	PHALCON_VERIFY_INTERFACE_EX(dependency_injector, phalcon_diinterface_ce, phalcon_mvc_collection_exception_ce, 0);
-	phalcon_update_property_this(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
-}
-
-/**
- * Returns the dependency injection container
- *
- * @return Phalcon\DiInterface
- */
-PHP_METHOD(Phalcon_Mvc_Collection, getDI){
-
-
-	RETURN_MEMBER(this_ptr, "_dependencyInjector");
 }
 
 /**

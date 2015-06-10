@@ -24,7 +24,7 @@
 #include "mvc/model/query.h"
 #include "di.h"
 #include "diinterface.h"
-#include "di/injectionawareinterface.h"
+#include "di/injectable.h"
 #include "mvc/model/query/scanner.h"
 
 #include "kernel/main.h"
@@ -59,8 +59,6 @@
  */
 zend_class_entry *phalcon_mvc_model_criteria_ce;
 
-PHP_METHOD(Phalcon_Mvc_Model_Criteria, setDI);
-PHP_METHOD(Phalcon_Mvc_Model_Criteria, getDI);
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, setModelName);
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, getModelName);
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, bind);
@@ -140,8 +138,6 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_criteria_cache, 0, 0, 1)
 ZEND_END_ARG_INFO()
 
 static const zend_function_entry phalcon_mvc_model_criteria_method_entry[] = {
-	PHP_ME(Phalcon_Mvc_Model_Criteria, setDI, arginfo_phalcon_di_injectionawareinterface_setdi, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Mvc_Model_Criteria, getDI, arginfo_phalcon_di_injectionawareinterface_getdi, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Criteria, setModelName, arginfo_phalcon_mvc_model_criteriainterface_setmodelname, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Criteria, getModelName, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Criteria, bind, arginfo_phalcon_mvc_model_criteriainterface_bind, ZEND_ACC_PUBLIC)
@@ -195,9 +191,8 @@ static const zend_function_entry phalcon_mvc_model_criteria_method_entry[] = {
  */
 PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Criteria) {
 
-	PHALCON_REGISTER_CLASS(Phalcon\\Mvc\\Model, Criteria, mvc_model_criteria, phalcon_mvc_model_criteria_method_entry, 0);
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Mvc\\Model, Criteria, mvc_model_criteria, phalcon_di_injectable_ce, phalcon_mvc_model_criteria_method_entry, 0);
 
-	zend_declare_property_null(phalcon_mvc_model_criteria_ce, SL("_dependencyInjector"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_model_criteria_ce, SL("_type"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_model_criteria_ce, SL("_model"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_model_criteria_ce, SL("_bindParams"), ZEND_ACC_PROTECTED TSRMLS_CC);
@@ -217,33 +212,9 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Criteria) {
 	zend_declare_property_null(phalcon_mvc_model_criteria_ce, SL("_having"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_model_criteria_ce, SL("_uniqueRow"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
-	zend_class_implements(phalcon_mvc_model_criteria_ce TSRMLS_CC, 2, phalcon_mvc_model_criteriainterface_ce, phalcon_di_injectionawareinterface_ce);
+	zend_class_implements(phalcon_mvc_model_criteria_ce TSRMLS_CC, 1, phalcon_mvc_model_criteriainterface_ce);
 
 	return SUCCESS;
-}
-
-/**
- * Sets the DependencyInjector container
- *
- * @param Phalcon\DiInterface $dependencyInjector
- */
-PHP_METHOD(Phalcon_Mvc_Model_Criteria, setDI) {
-
-	zval *dependency_injector;
-
-	phalcon_fetch_params(0, 1, 0, &dependency_injector);
-	PHALCON_VERIFY_INTERFACE_EX(dependency_injector, phalcon_diinterface_ce, phalcon_mvc_model_exception_ce, 0);
-	phalcon_update_property_this(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
-}
-
-/**
- * Returns the DependencyInjector container
- *
- * @return Phalcon\DiInterface
- */
-PHP_METHOD(Phalcon_Mvc_Model_Criteria, getDI) {
-
-	RETURN_MEMBER(this_ptr, "_dependencyInjector");
 }
 
 /**

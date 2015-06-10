@@ -20,6 +20,7 @@
 #include "flash.h"
 #include "flashinterface.h"
 #include "flash/exception.h"
+#include "di/injectable.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
@@ -92,7 +93,7 @@ static const zend_function_entry phalcon_flash_method_entry[] = {
  */
 PHALCON_INIT_CLASS(Phalcon_Flash){
 
-	PHALCON_REGISTER_CLASS(Phalcon, Flash, flash, phalcon_flash_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
+	PHALCON_REGISTER_CLASS_EX(Phalcon, Flash, flash, phalcon_di_injectable_ce, phalcon_flash_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
 
 	zend_declare_property_null(phalcon_flash_ce, SL("_cssClasses"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_bool(phalcon_flash_ce, SL("_implicitFlush"), 1, ZEND_ACC_PROTECTED TSRMLS_CC);

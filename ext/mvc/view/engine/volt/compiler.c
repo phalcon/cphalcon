@@ -21,7 +21,7 @@
 #include "mvc/view/engine/volt/volt.h"
 #include "mvc/view/exception.h"
 #include "diinterface.h"
-#include "di/injectionawareinterface.h"
+#include "di/injectable.h"
 #include "interned-strings.h"
 
 #include <Zend/zend_closures.h>
@@ -55,8 +55,6 @@
 zend_class_entry *phalcon_mvc_view_engine_volt_compiler_ce;
 
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, __construct);
-PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, setDI);
-PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, getDI);
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, setOptions);
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, setOption);
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, getOption);
@@ -226,8 +224,6 @@ ZEND_END_ARG_INFO()
 
 static const zend_function_entry phalcon_mvc_view_engine_volt_compiler_method_entry[] = {
 	PHP_ME(Phalcon_Mvc_View_Engine_Volt_Compiler, __construct, arginfo_phalcon_mvc_view_engine_volt_compiler___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
-	PHP_ME(Phalcon_Mvc_View_Engine_Volt_Compiler, setDI, arginfo_phalcon_di_injectionawareinterface_setdi, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Mvc_View_Engine_Volt_Compiler, getDI, arginfo_phalcon_di_injectionawareinterface_getdi, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_View_Engine_Volt_Compiler, setOptions, arginfo_phalcon_mvc_view_engine_volt_compiler_setoptions, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_View_Engine_Volt_Compiler, setOption, arginfo_phalcon_mvc_view_engine_volt_compiler_setoption, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_View_Engine_Volt_Compiler, getOption, arginfo_phalcon_mvc_view_engine_volt_compiler_getoption, ZEND_ACC_PUBLIC)
@@ -276,9 +272,8 @@ static const zend_function_entry phalcon_mvc_view_engine_volt_compiler_method_en
  */
 PHALCON_INIT_CLASS(Phalcon_Mvc_View_Engine_Volt_Compiler){
 
-	PHALCON_REGISTER_CLASS(Phalcon\\Mvc\\View\\Engine\\Volt, Compiler, mvc_view_engine_volt_compiler, phalcon_mvc_view_engine_volt_compiler_method_entry, 0);
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Mvc\\View\\Engine\\Volt, Compiler, mvc_view_engine_volt_compiler, phalcon_di_injectable_ce, phalcon_mvc_view_engine_volt_compiler_method_entry, 0);
 
-	zend_declare_property_null(phalcon_mvc_view_engine_volt_compiler_ce, SL("_dependencyInjector"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_view_engine_volt_compiler_ce, SL("_view"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_view_engine_volt_compiler_ce, SL("_options"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_view_engine_volt_compiler_ce, SL("_arrayHelpers"), ZEND_ACC_PROTECTED TSRMLS_CC);
@@ -301,8 +296,6 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_View_Engine_Volt_Compiler){
 	zend_declare_property_null(phalcon_mvc_view_engine_volt_compiler_ce, SL("_currentPath"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_view_engine_volt_compiler_ce, SL("_compiledTemplatePath"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
-	zend_class_implements(phalcon_mvc_view_engine_volt_compiler_ce TSRMLS_CC, 1, phalcon_di_injectionawareinterface_ce);
-
 	return SUCCESS;
 }
 
@@ -320,31 +313,6 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, __construct){
 	if (view && Z_TYPE_P(view) == IS_OBJECT) {
 		phalcon_update_property_this(this_ptr, SL("_view"), view TSRMLS_CC);
 	}
-}
-
-/**
- * Sets the dependency injector
- *
- * @param Phalcon\DiInterface $dependencyInjector
- */
-PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, setDI){
-
-	zval *dependency_injector;
-
-	phalcon_fetch_params(0, 1, 0, &dependency_injector);
-	PHALCON_VERIFY_INTERFACE_EX(dependency_injector, phalcon_diinterface_ce, phalcon_mvc_view_exception_ce, 0);
-	phalcon_update_property_this(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
-}
-
-/**
- * Returns the internal dependency injector
- *
- * @return Phalcon\DiInterface
- */
-PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, getDI){
-
-
-	RETURN_MEMBER(this_ptr, "_dependencyInjector");
 }
 
 /**

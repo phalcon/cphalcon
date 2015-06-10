@@ -21,7 +21,7 @@
 #include "http/cookie/exception.h"
 #include "cryptinterface.h"
 #include "diinterface.h"
-#include "di/injectionawareinterface.h"
+#include "di/injectable.h"
 #include "filterinterface.h"
 #include "session/adapterinterface.h"
 
@@ -47,8 +47,6 @@
 zend_class_entry *phalcon_http_cookie_ce;
 
 PHP_METHOD(Phalcon_Http_Cookie, __construct);
-PHP_METHOD(Phalcon_Http_Cookie, setDI);
-PHP_METHOD(Phalcon_Http_Cookie, getDI);
 PHP_METHOD(Phalcon_Http_Cookie, setValue);
 PHP_METHOD(Phalcon_Http_Cookie, getValue);
 PHP_METHOD(Phalcon_Http_Cookie, send);
@@ -113,8 +111,6 @@ ZEND_END_ARG_INFO()
 
 static const zend_function_entry phalcon_http_cookie_method_entry[] = {
 	PHP_ME(Phalcon_Http_Cookie, __construct, arginfo_phalcon_http_cookie___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
-	PHP_ME(Phalcon_Http_Cookie, setDI, arginfo_phalcon_di_injectionawareinterface_setdi, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Http_Cookie, getDI, arginfo_phalcon_di_injectionawareinterface_getdi, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Cookie, setValue, arginfo_phalcon_http_cookie_setvalue, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Cookie, getValue, arginfo_phalcon_http_cookie_getvalue, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Cookie, send, NULL, ZEND_ACC_PUBLIC)
@@ -141,12 +137,11 @@ static const zend_function_entry phalcon_http_cookie_method_entry[] = {
  */
 PHALCON_INIT_CLASS(Phalcon_Http_Cookie){
 
-	PHALCON_REGISTER_CLASS(Phalcon\\Http, Cookie, http_cookie, phalcon_http_cookie_method_entry, 0);
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Http, Cookie, http_cookie, phalcon_di_injectable_ce, phalcon_http_cookie_method_entry, 0);
 
 	zend_declare_property_bool(phalcon_http_cookie_ce, SL("_readed"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_bool(phalcon_http_cookie_ce, SL("_restored"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_bool(phalcon_http_cookie_ce, SL("_useEncryption"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
-	zend_declare_property_null(phalcon_http_cookie_ce, SL("_dependencyInjector"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_http_cookie_ce, SL("_filter"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_http_cookie_ce, SL("_name"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_http_cookie_ce, SL("_value"), ZEND_ACC_PROTECTED TSRMLS_CC);
@@ -155,8 +150,6 @@ PHALCON_INIT_CLASS(Phalcon_Http_Cookie){
 	zend_declare_property_null(phalcon_http_cookie_ce, SL("_domain"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_http_cookie_ce, SL("_secure"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_bool(phalcon_http_cookie_ce, SL("_httpOnly"), 1, ZEND_ACC_PROTECTED TSRMLS_CC);
-
-	zend_class_implements(phalcon_http_cookie_ce TSRMLS_CC, 1, phalcon_di_injectionawareinterface_ce);
 
 	return SUCCESS;
 }
@@ -214,31 +207,6 @@ PHP_METHOD(Phalcon_Http_Cookie, __construct){
 	if (http_only && Z_TYPE_PP(http_only) != IS_NULL) {
 		phalcon_update_property_this(this_ptr, SL("_httpOnly"), *http_only TSRMLS_CC);
 	}
-}
-
-/**
- * Sets the dependency injector
- *
- * @param Phalcon\DiInterface $dependencyInjector
- */
-PHP_METHOD(Phalcon_Http_Cookie, setDI){
-
-	zval *dependency_injector;
-
-	phalcon_fetch_params(0, 1, 0, &dependency_injector);
-	PHALCON_VERIFY_INTERFACE_EX(dependency_injector, phalcon_diinterface_ce, phalcon_http_cookie_exception_ce, 0);
-	phalcon_update_property_this(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
-}
-
-/**
- * Returns the internal dependency injector
- *
- * @return Phalcon\DiInterface
- */
-PHP_METHOD(Phalcon_Http_Cookie, getDI){
-
-
-	RETURN_MEMBER(this_ptr, "_dependencyInjector");
 }
 
 /**
@@ -935,3 +903,4 @@ PHP_METHOD(Phalcon_Http_Cookie, __toString){
 
 	RETURN_ZVAL(value, 1, 0);
 }
+

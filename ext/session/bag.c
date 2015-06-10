@@ -21,9 +21,9 @@
 #include "session/baginterface.h"
 #include "session/exception.h"
 #include "session/adapterinterface.h"
-#include "di/injectionawareinterface.h"
 #include "di.h"
 #include "diinterface.h"
+#include "di/injectable.h"
 #include "internal/arginfo.h"
 
 #include <ext/spl/spl_array.h>
@@ -53,8 +53,6 @@
 zend_class_entry *phalcon_session_bag_ce;
 
 PHP_METHOD(Phalcon_Session_Bag, __construct);
-PHP_METHOD(Phalcon_Session_Bag, setDI);
-PHP_METHOD(Phalcon_Session_Bag, getDI);
 PHP_METHOD(Phalcon_Session_Bag, initialize);
 PHP_METHOD(Phalcon_Session_Bag, destroy);
 PHP_METHOD(Phalcon_Session_Bag, set);
@@ -71,8 +69,6 @@ ZEND_END_ARG_INFO()
 
 static const zend_function_entry phalcon_session_bag_method_entry[] = {
 	PHP_ME(Phalcon_Session_Bag, __construct, arginfo_phalcon_session_bag___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
-	PHP_ME(Phalcon_Session_Bag, setDI, arginfo_phalcon_di_injectionawareinterface_setdi, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Session_Bag, getDI, arginfo_phalcon_di_injectionawareinterface_getdi, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Session_Bag, initialize, arginfo_empty, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Session_Bag, destroy, arginfo_empty, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Session_Bag, set, arginfo_phalcon_session_baginterface_set, ZEND_ACC_PUBLIC)
@@ -139,9 +135,8 @@ static zend_object_iterator* phalcon_session_bag_get_iterator(zend_class_entry *
  */
 PHALCON_INIT_CLASS(Phalcon_Session_Bag){
 
-	PHALCON_REGISTER_CLASS(Phalcon\\Session, Bag, session_bag, phalcon_session_bag_method_entry, 0);
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Session, Bag, session_bag, phalcon_di_injectable_ce, phalcon_session_bag_method_entry, 0);
 
-	zend_declare_property_null(phalcon_session_bag_ce, SL("_dependencyInjector"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_session_bag_ce, SL("_name"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_session_bag_ce, SL("_data"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_bool(phalcon_session_bag_ce, SL("_initialized"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
@@ -149,14 +144,7 @@ PHALCON_INIT_CLASS(Phalcon_Session_Bag){
 
 	phalcon_session_bag_ce->get_iterator = phalcon_session_bag_get_iterator;
 
-	zend_class_implements(
-		phalcon_session_bag_ce TSRMLS_CC, 5,
-		phalcon_di_injectionawareinterface_ce,
-		phalcon_session_baginterface_ce,
-		zend_ce_aggregate,
-		zend_ce_arrayaccess,
-		spl_ce_Countable
-	);
+	zend_class_implements(phalcon_session_bag_ce TSRMLS_CC, 4, phalcon_session_baginterface_ce, zend_ce_aggregate, zend_ce_arrayaccess, spl_ce_Countable);
 
 	return SUCCESS;
 }
@@ -173,31 +161,6 @@ PHP_METHOD(Phalcon_Session_Bag, __construct){
 	phalcon_fetch_params_ex(1, 0, &name);
 	PHALCON_ENSURE_IS_STRING(name);
 	phalcon_update_property_this(this_ptr, SL("_name"), *name TSRMLS_CC);
-}
-
-/**
- * Sets the DependencyInjector container
- *
- * @param Phalcon\DiInterface $dependencyInjector
- */
-PHP_METHOD(Phalcon_Session_Bag, setDI){
-
-	zval *dependency_injector;
-
-	phalcon_fetch_params(0, 1, 0, &dependency_injector);
-	PHALCON_VERIFY_INTERFACE_EX(dependency_injector, phalcon_diinterface_ce, phalcon_session_exception_ce, 0);
-	phalcon_update_property_this(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
-}
-
-/**
- * Returns the DependencyInjector container
- *
- * @return Phalcon\DiInterface
- */
-PHP_METHOD(Phalcon_Session_Bag, getDI){
-
-
-	RETURN_MEMBER(this_ptr, "_dependencyInjector");
 }
 
 /**

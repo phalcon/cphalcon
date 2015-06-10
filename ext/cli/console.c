@@ -20,11 +20,10 @@
 #include "cli/console.h"
 #include "cli/console/exception.h"
 #include "cli/router.h"
-#include "di/injectionawareinterface.h"
-#include "events/eventsawareinterface.h"
 #include "diinterface.h"
 #include "dispatcherinterface.h"
 #include "diinterface.h"
+#include "di/injectable.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
@@ -47,10 +46,6 @@
 zend_class_entry *phalcon_cli_console_ce;
 
 PHP_METHOD(Phalcon_CLI_Console, __construct);
-PHP_METHOD(Phalcon_CLI_Console, setDI);
-PHP_METHOD(Phalcon_CLI_Console, getDI);
-PHP_METHOD(Phalcon_CLI_Console, setEventsManager);
-PHP_METHOD(Phalcon_CLI_Console, getEventsManager);
 PHP_METHOD(Phalcon_CLI_Console, registerModules);
 PHP_METHOD(Phalcon_CLI_Console, addModules);
 PHP_METHOD(Phalcon_CLI_Console, getModules);
@@ -58,14 +53,6 @@ PHP_METHOD(Phalcon_CLI_Console, handle);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cli_console___construct, 0, 0, 0)
 	ZEND_ARG_INFO(0, dependencyInjector)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cli_console_setdi, 0, 0, 1)
-	ZEND_ARG_INFO(0, dependencyInjector)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cli_console_seteventsmanager, 0, 0, 1)
-	ZEND_ARG_INFO(0, eventsManager)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cli_console_registermodules, 0, 0, 1)
@@ -82,10 +69,6 @@ ZEND_END_ARG_INFO()
 
 static const zend_function_entry phalcon_cli_console_method_entry[] = {
 	PHP_ME(Phalcon_CLI_Console, __construct, arginfo_phalcon_cli_console___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
-	PHP_ME(Phalcon_CLI_Console, setDI, arginfo_phalcon_cli_console_setdi, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_CLI_Console, getDI, NULL, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_CLI_Console, setEventsManager, arginfo_phalcon_cli_console_seteventsmanager, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_CLI_Console, getEventsManager, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_CLI_Console, registerModules, arginfo_phalcon_cli_console_registermodules, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_CLI_Console, addModules, arginfo_phalcon_cli_console_addmodules, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_CLI_Console, getModules, NULL, ZEND_ACC_PUBLIC)
@@ -98,14 +81,10 @@ static const zend_function_entry phalcon_cli_console_method_entry[] = {
  */
 PHALCON_INIT_CLASS(Phalcon_CLI_Console){
 
-	PHALCON_REGISTER_CLASS(Phalcon\\CLI, Console, cli_console, phalcon_cli_console_method_entry, 0);
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\CLI, Console, cli_console, phalcon_di_injectable_ce, phalcon_cli_console_method_entry, 0);
 
-	zend_declare_property_null(phalcon_cli_console_ce, SL("_dependencyInjector"), ZEND_ACC_PROTECTED TSRMLS_CC);
-	zend_declare_property_null(phalcon_cli_console_ce, SL("_eventsManager"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_cli_console_ce, SL("_modules"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_cli_console_ce, SL("_moduleObject"), ZEND_ACC_PROTECTED TSRMLS_CC);
-
-	zend_class_implements(phalcon_cli_console_ce TSRMLS_CC, 2, phalcon_di_injectionawareinterface_ce, phalcon_events_eventsawareinterface_ce);
 
 	return SUCCESS;
 }
@@ -122,57 +101,6 @@ PHP_METHOD(Phalcon_CLI_Console, __construct){
 	if (dependency_injector && Z_TYPE_P(dependency_injector) == IS_OBJECT) {
 		phalcon_update_property_this(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
 	}
-}
-
-/**
- * Sets the DependencyInjector container
- *
- * @param Phalcon\DiInterface $dependencyInjector
- */
-PHP_METHOD(Phalcon_CLI_Console, setDI){
-
-	zval *dependency_injector;
-
-	phalcon_fetch_params(0, 1, 0, &dependency_injector);
-	PHALCON_VERIFY_INTERFACE_EX(dependency_injector, phalcon_diinterface_ce, phalcon_cli_console_exception_ce, 0);
-	phalcon_update_property_this(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
-}
-
-/**
- * Returns the internal dependency injector
- *
- * @return Phalcon\DiInterface
- */
-PHP_METHOD(Phalcon_CLI_Console, getDI){
-
-
-	RETURN_MEMBER(this_ptr, "_dependencyInjector");
-}
-
-/**
- * Sets the events manager
- *
- * @param Phalcon\Events\ManagerInterface $eventsManager
- */
-PHP_METHOD(Phalcon_CLI_Console, setEventsManager){
-
-	zval *events_manager;
-
-	phalcon_fetch_params(0, 1, 0, &events_manager);
-
-	phalcon_update_property_this(this_ptr, SL("_eventsManager"), events_manager TSRMLS_CC);
-
-}
-
-/**
- * Returns the internal event manager
- *
- * @return Phalcon\Events\ManagerInterface
- */
-PHP_METHOD(Phalcon_CLI_Console, getEventsManager){
-
-
-	RETURN_MEMBER(this_ptr, "_eventsManager");
 }
 
 /**

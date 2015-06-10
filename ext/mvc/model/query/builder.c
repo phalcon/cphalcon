@@ -24,7 +24,7 @@
 #include "mvc/model/query.h"
 #include "di.h"
 #include "diinterface.h"
-#include "di/injectionawareinterface.h"
+#include "di/injectable.h"
 #include "db/rawvalue.h"
 
 #include "kernel/main.h"
@@ -61,8 +61,6 @@ zend_class_entry *phalcon_mvc_model_query_builder_ce;
 PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, __construct);
 PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, distinct);
 PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getDistinct);
-PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getDI);
-PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, setDI);
 PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, columns);
 PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getColumns);
 PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, from);
@@ -106,8 +104,6 @@ static const zend_function_entry phalcon_mvc_model_query_builder_method_entry[] 
 	PHP_ME(Phalcon_Mvc_Model_Query_Builder, __construct, arginfo_phalcon_mvc_model_query_builder___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_ME(Phalcon_Mvc_Model_Query_Builder, distinct, arginfo_phalcon_mvc_model_query_builderinterface_distinct, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Query_Builder, getDistinct, NULL, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Mvc_Model_Query_Builder, setDI, arginfo_phalcon_di_injectionawareinterface_setdi, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Mvc_Model_Query_Builder, getDI, arginfo_phalcon_di_injectionawareinterface_getdi, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Query_Builder, columns, arginfo_phalcon_mvc_model_query_builderinterface_columns, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Query_Builder, getColumns, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Query_Builder, from, arginfo_phalcon_mvc_model_query_builderinterface_from, ZEND_ACC_PUBLIC)
@@ -146,9 +142,8 @@ static const zend_function_entry phalcon_mvc_model_query_builder_method_entry[] 
  */
 PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Query_Builder){
 
-	PHALCON_REGISTER_CLASS(Phalcon\\Mvc\\Model\\Query, Builder, mvc_model_query_builder, phalcon_mvc_model_query_builder_method_entry, 0);
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Mvc\\Model\\Query, Builder, mvc_model_query_builder, phalcon_di_injectable_ce, phalcon_mvc_model_query_builder_method_entry, 0);
 
-	zend_declare_property_null(phalcon_mvc_model_query_builder_ce, SL("_dependencyInjector"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_model_query_builder_ce, SL("_columns"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_model_query_builder_ce, SL("_models"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_model_query_builder_ce, SL("_joins"), ZEND_ACC_PROTECTED TSRMLS_CC);
@@ -165,7 +160,7 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Query_Builder){
 	zend_declare_property_null(phalcon_mvc_model_query_builder_ce, SL("_distinct"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_long(phalcon_mvc_model_query_builder_ce, SL("_hiddenParamNumber"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
 
-	zend_class_implements(phalcon_mvc_model_query_builder_ce TSRMLS_CC, 2, phalcon_mvc_model_query_builderinterface_ce, phalcon_di_injectionawareinterface_ce);
+	zend_class_implements(phalcon_mvc_model_query_builder_ce TSRMLS_CC, 1, phalcon_mvc_model_query_builderinterface_ce);
 
 	return SUCCESS;
 }
@@ -439,34 +434,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getDistinct){
 
 
 	RETURN_MEMBER(this_ptr, "_distinct");
-}
-
-
-/**
- * Sets the DependencyInjector container
- *
- * @param Phalcon\DiInterface $dependencyInjector
- * @return Phalcon\Mvc\Model\Query\Builder
- */
-PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, setDI){
-
-	zval *dependency_injector;
-
-	phalcon_fetch_params(0, 1, 0, &dependency_injector);
-	PHALCON_VERIFY_INTERFACE_EX(dependency_injector, phalcon_diinterface_ce, phalcon_mvc_model_exception_ce, 0);
-	phalcon_update_property_this(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
-	RETURN_THISW();
-}
-
-/**
- * Returns the DependencyInjector container
- *
- * @return Phalcon\DiInterface
- */
-PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getDI){
-
-
-	RETURN_MEMBER(this_ptr, "_dependencyInjector");
 }
 
 /**
