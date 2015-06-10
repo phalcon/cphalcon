@@ -38,8 +38,7 @@
  *      'messageMaximum' => 'We don\'t like really long names',
  *      'messageMinimum' => 'We want more than just their initials'
  *)));
- *</code>
- *
+ *</code> 
  */
 ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_StringLength) {
 
@@ -91,7 +90,7 @@ PHP_METHOD(Phalcon_Validation_Validator_StringLength, validate) {
 		_1 = !zephir_is_true(isSetMax);
 	}
 	if (_1) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_validation_exception_ce, "A minimum or maximum must be set", "phalcon/validation/validator/stringlength.zep", 60);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_validation_exception_ce, "A minimum or maximum must be set", "phalcon/validation/validator/stringlength.zep", 62);
 		return;
 	}
 	ZEPHIR_CALL_METHOD(&value, validation, "getvalue", NULL, 0, field);

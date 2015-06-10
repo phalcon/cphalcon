@@ -19,7 +19,10 @@
 
 namespace Phalcon\Validation\Validator;
 
+use Phalcon\Validation;
 use Phalcon\Validation\Validator;
+use Phalcon\Validation\Exception;
+use Phalcon\Validation\Message;
 
 /**
  * Phalcon\Validation\Validator\Uniqueness
@@ -34,7 +37,7 @@ use Phalcon\Validation\Validator;
  *    'message' => ':field must be unique'
  *)));
  *</code>
- * 
+ *
  * Different attribute from the field
  *<code>
  *$validator->add('username', new UniquenessValidator(array(
@@ -49,7 +52,7 @@ class Uniqueness extends Validator
 	/**
 	 * Executes the validation
 	 */
-	public function validate(<\Phalcon\Validation> validation, string! field) -> boolean
+	public function validate(<Validation> validation, string! field) -> boolean
 	{
 		var attribute, value, model, except, number, message, label, replacePairs;
 
@@ -59,7 +62,7 @@ class Uniqueness extends Validator
 			except = this->getOption("except");
 
 		if empty model {
-			throw new \Phalcon\Validation\Exception("Model must be set");
+			throw new Exception("Model must be set");
 		}
 
 		if empty attribute {
@@ -71,6 +74,7 @@ class Uniqueness extends Validator
 		} else {
 			let number = {model}::count([attribute . "=:value:", "bind": ["value": value]]);
 		}
+
 		if number {
 
 			let label = this->getOption("label");
@@ -84,7 +88,7 @@ class Uniqueness extends Validator
 				let message = validation->getDefaultMessage("Uniqueness");
 			}
 
-			validation->appendMessage(new \Phalcon\Validation\Message(strtr(message, replacePairs), field, "Uniqueness"));
+			validation->appendMessage(new Message(strtr(message, replacePairs), field, "Uniqueness"));
 			return false;
 		}
 

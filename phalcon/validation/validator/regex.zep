@@ -83,5 +83,4 @@ class Regex extends Validator
 
 		return true;
 	}
-
 }

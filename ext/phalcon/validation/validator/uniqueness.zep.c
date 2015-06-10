@@ -35,7 +35,7 @@
  *    'message' => ':field must be unique'
  *)));
  *</code>
- * 
+ *
  * Different attribute from the field
  *<code>
  *$validator->add('username', new UniquenessValidator(array(
@@ -97,7 +97,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Uniqueness, validate) {
 	zephir_check_temp_parameter(_0);
 	zephir_check_call_status();
 	if (ZEPHIR_IS_EMPTY(model)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_validation_exception_ce, "Model must be set", "phalcon/validation/validator/uniqueness.zep", 62);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_validation_exception_ce, "Model must be set", "phalcon/validation/validator/uniqueness.zep", 65);
 		return;
 	}
 	if (ZEPHIR_IS_EMPTY(attribute)) {

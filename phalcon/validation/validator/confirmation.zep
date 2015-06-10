@@ -19,6 +19,7 @@
 
 namespace Phalcon\Validation\Validator;
 
+use Phalcon\Validation\Message;
 use Phalcon\Validation\Exception;
 use Phalcon\Validation\Validator;
 
@@ -42,7 +43,7 @@ class Confirmation extends Validator
 	/**
 	 * Executes the validation
 	 */
-	public function validate(<\Phalcon\Validation> validation, string! field) -> boolean
+	public function validate(<Validation> validation, string! field) -> boolean
 	{
 		var fieldWith, value, valueWith, message, label, labelWith, replacePairs;
 
@@ -64,11 +65,12 @@ class Confirmation extends Validator
 
 			let message = this->getOption("message");
 			let replacePairs = [":field": label, ":with":  labelWith];
+
 			if empty message {
 				let message = validation->getDefaultMessage("Confirmation");
 			}
 
-			validation->appendMessage(new \Phalcon\Validation\Message(strtr(message, replacePairs), field, "Confirmation"));
+			validation->appendMessage(new Message(strtr(message, replacePairs), field, "Confirmation"));
 			return false;
 		}
 
@@ -78,7 +80,7 @@ class Confirmation extends Validator
 	/**
 	 * Compare strings
 	 */
-	protected function compare(string a, string b) -> boolean
+	protected final function compare(string a, string b) -> boolean
 	{
 		if this->getOption("ignoreCase", false) {
 

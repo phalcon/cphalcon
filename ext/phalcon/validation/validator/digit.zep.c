@@ -81,7 +81,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Digit, validate) {
 	if (_2) {
 		RETURN_MM_BOOL(1);
 	}
-	ZEPHIR_CALL_FUNCTION(&_3, "ctype_digit", NULL, 428, value);
+	ZEPHIR_CALL_FUNCTION(&_3, "ctype_digit", NULL, 429, value);
 	zephir_check_call_status();
 	if (!(zephir_is_true(_3))) {
 		ZEPHIR_INIT_NVAR(_1);

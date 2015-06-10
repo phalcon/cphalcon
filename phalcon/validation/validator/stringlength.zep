@@ -19,7 +19,10 @@
 
 namespace Phalcon\Validation\Validator;
 
+use Phalcon\Validation;
 use Phalcon\Validation\Validator;
+use Phalcon\Validation\Exception;
+use Phalcon\Validation\Message;
 
 /**
  * Phalcon\Validation\Validator\StringLength
@@ -37,8 +40,7 @@ use Phalcon\Validation\Validator;
  *      'messageMaximum' => 'We don\'t like really long names',
  *      'messageMinimum' => 'We want more than just their initials'
  *)));
- *</code>
- *
+ *</code> 
  */
 class StringLength extends Validator
 {
@@ -46,7 +48,7 @@ class StringLength extends Validator
 	/**
 	 * Executes the validation
 	 */
-	public function validate(<\Phalcon\Validation> validation, string! field) -> boolean
+	public function validate(<Validation> validation, string! field) -> boolean
 	{
 		var isSetMin, isSetMax, value, length, message, minimum, maximum, label, replacePairs;
 
@@ -57,7 +59,7 @@ class StringLength extends Validator
 			isSetMax = this->isSetOption("max");
 
 		if !isSetMin && !isSetMax {
-			throw new \Phalcon\Validation\Exception("A minimum or maximum must be set");
+			throw new Exception("A minimum or maximum must be set");
 		}
 
 		let value = validation->getValue(field);
@@ -97,7 +99,7 @@ class StringLength extends Validator
 					let message = validation->getDefaultMessage("TooLong");
 				}
 
-				validation->appendMessage(new \Phalcon\Validation\Message(strtr(message, replacePairs), field, "TooLong"));
+				validation->appendMessage(new Message(strtr(message, replacePairs), field, "TooLong"));
 				return false;
 			}
 		}
@@ -119,12 +121,11 @@ class StringLength extends Validator
 					let message = validation->getDefaultMessage("TooShort");
 				}
 
-				validation->appendMessage(new \Phalcon\Validation\Message(strtr(message, replacePairs), field, "TooShort"));
+				validation->appendMessage(new Message(strtr(message, replacePairs), field, "TooShort"));
 				return false;
 			}
 		}
 
 		return true;
 	}
-
 }
