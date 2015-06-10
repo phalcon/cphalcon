@@ -491,6 +491,24 @@ class ViewEnginesVoltTest extends PHPUnit_Framework_TestCase
 		$this->assertTrue(is_array($intermediate));
 		$this->assertEquals(count($intermediate), 1);
 
+		$intermediate = $volt->parse('{% set a[0] = 1 %}');
+		$this->assertTrue(is_array($intermediate));
+
+		$intermediate = $volt->parse('{% set a[0][1] = 1 %}');
+		$this->assertTrue(is_array($intermediate));
+
+		$intermediate = $volt->parse('{% set a.y = 1 %}');
+		$this->assertTrue(is_array($intermediate));
+
+		$intermediate = $volt->parse('{% set a.y.x = 1 %}');
+		$this->assertTrue(is_array($intermediate));
+
+		$intermediate = $volt->parse('{% set a[0].y = 1 %}');
+		$this->assertTrue(is_array($intermediate));
+
+		$intermediate = $volt->parse('{% set a.y[0] = 1 %}');
+		$this->assertTrue(is_array($intermediate));
+
 		$intermediate = $volt->parse('{% do 1 %}');
 		$this->assertTrue(is_array($intermediate));
 		$this->assertEquals(count($intermediate), 1);

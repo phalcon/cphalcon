@@ -40,7 +40,6 @@
  *	$dispatcher->setParams(array());
  *
  *	$controller = $dispatcher->dispatch();
- *
  *</code>
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Dispatcher) {

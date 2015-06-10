@@ -3634,7 +3634,7 @@ PHP_METHOD(Phalcon_Mvc_Model, update) {
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(&_1, this_ptr, "_exists", NULL, 0, metaData, _2);
 		zephir_check_call_status();
-		if (zephir_is_true(_1)) {
+		if (!(zephir_is_true(_1))) {
 			ZEPHIR_INIT_VAR(_3);
 			zephir_create_array(_3, 1, 0 TSRMLS_CC);
 			ZEPHIR_INIT_VAR(_4);

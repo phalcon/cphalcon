@@ -349,7 +349,7 @@ class Compiler implements InjectionAwareInterface
 		} else {
 			let leftCode = this->expression(left), leftType = left["type"];
 			if leftType != PHVOLT_T_DOT && leftType != PHVOLT_T_FCALL {
-				let exprCode .= "(" . leftCode . ")";
+				let exprCode .= leftCode;
 			} else {
 				let exprCode .= leftCode;
 			}
@@ -500,7 +500,8 @@ class Compiler implements InjectionAwareInterface
 				return "''";
 			}
 
-			let method = lcfirst(camelize(name)), className = "Phalcon\\Tag";
+			let method = lcfirst(camelize(name)),
+				className = "Phalcon\\Tag";
 
 			/**
 			 * Check if it's a method in Phalcon\Tag
@@ -1060,23 +1061,23 @@ class Compiler implements InjectionAwareInterface
 			let exprCode = null;
 			switch type {
 
-				case 33:
+				case PHVOLT_T_NOT:
 					let exprCode = "!" . rightCode;
 					break;
 
-				case 42:
+				case PHVOLT_T_MUL:
 					let exprCode = leftCode . " * " . rightCode;
 					break;
 
-				case 43:
+				case PHVOLT_T_ADD:
 					let exprCode = leftCode . " + " . rightCode;
 					break;
 
-				case 45:
+				case PHVOLT_T_SUB:
 					let exprCode = leftCode . " - " . rightCode;
 					break;
 
-				case 47:
+				case PHVOLT_T_DIV:
 					let exprCode = leftCode . " / " . rightCode;
 					break;
 
@@ -1084,7 +1085,7 @@ class Compiler implements InjectionAwareInterface
 					let exprCode = leftCode . " % " . rightCode;
 					break;
 
-				case 60:
+				case PHVOLT_T_LESS:
 					let exprCode = leftCode . " < " . rightCode;
 					break;
 
@@ -1140,7 +1141,7 @@ class Compiler implements InjectionAwareInterface
 					let exprCode = "$" . expr["value"];
 					break;
 
-				case 266:
+				case PHVOLT_T_AND:
 					let exprCode = leftCode . " && " . rightCode;
 					break;
 
@@ -1148,7 +1149,7 @@ class Compiler implements InjectionAwareInterface
 					let exprCode = leftCode . " || " . rightCode;
 					break;
 
-				case 270:
+				case PHVOLT_T_LESSEQUAL:
 					let exprCode = leftCode . " <= " . rightCode;
 					break;
 
@@ -1513,9 +1514,8 @@ class Compiler implements InjectionAwareInterface
 		if fetch prefix, this->_forElsePointers[level] {
 			if isset this->_loopPointers[level] {
 				return "<?php $" . prefix . "incr++; } if (!$" . prefix . "iterated) { ?>";
-			} else {
-				return "<?php } if (!$" . prefix . "iterated) { ?>";
 			}
+			return "<?php } if (!$" . prefix . "iterated) { ?>";
 		}
 		return "";
 	}
@@ -1633,7 +1633,7 @@ class Compiler implements InjectionAwareInterface
 	 */
 	public function compileSet(array! statement) -> string
 	{
-		var assignments, assignment, exprCode, variable, compilation;
+		var assignments, assignment, exprCode, target, compilation;
 
 		/**
 		 * A valid assigment list is required
@@ -1652,9 +1652,9 @@ class Compiler implements InjectionAwareInterface
 			let exprCode = this->expression(assignment["expr"]);
 
 			/**
-			 * Set statement
+			 * Resolve the expression assigned
 			 */
-			let variable = assignment["variable"];
+			let target = this->expression(assignment["variable"]);
 
 			/**
 			 * Assignment operator
@@ -1663,23 +1663,23 @@ class Compiler implements InjectionAwareInterface
 			switch assignment["op"] {
 
 				case PHVOLT_T_ADD_ASSIGN:
-					let compilation .= " $" . variable . " += " . exprCode . ";";
+					let compilation .= " " . target . " += " . exprCode . ";";
 					break;
 
 				case PHVOLT_T_SUB_ASSIGN:
-					let compilation .= " $" . variable . " -= " . exprCode . ";";
+					let compilation .= " " . target . " -= " . exprCode . ";";
 					break;
 
 				case PHVOLT_T_MUL_ASSIGN:
-					let compilation .= " $" . variable . " *= " . exprCode . ";";
+					let compilation .= " " . target . " *= " . exprCode . ";";
 					break;
 
 				case PHVOLT_T_DIV_ASSIGN:
-					let compilation .= " $" . variable . " /= " . exprCode . ";";
+					let compilation .= " " . target . " /= " . exprCode . ";";
 					break;
 
 				default:
-					let compilation .= " $" . variable . " = " . exprCode . ";";
+					let compilation .= " " . target . " = " . exprCode . ";";
 					break;
 			}
 
