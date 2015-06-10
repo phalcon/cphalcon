@@ -1,4 +1,8 @@
-# 2.0.3 (2015-XX-XX)
+# 2.0.4 (2015-??-??)
+- Fixed bug in `Phalcon\Mvc\Model::update()` that throws an exception when the record does exist
+- Now links in Phalcon\\Debug point to https://api.phalconphp.com instead of http://docs.phalconphp.com
+
+# 2.0.3 (2015-06-10)
 - Added support for Behaviors in Phalcon\Mvc\Collection
 - Added SoftDelete and Timestampable behaviors to Collections
 - Implemented Namespace aliases in PHQL
