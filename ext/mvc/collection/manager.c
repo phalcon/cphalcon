@@ -117,7 +117,7 @@ static const zend_function_entry phalcon_mvc_collection_manager_method_entry[] =
  */
 PHALCON_INIT_CLASS(Phalcon_Mvc_Collection_Manager){
 
-	PHALCON_REGISTER_CLASS(Phalcon\\Mvc\\Collection, Manager, mvc_collection_manager, phalcon_mvc_collection_manager_method_entry, 0);
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Mvc\\Collection, Manager, mvc_collection_manager, phalcon_di_injectable_ce, phalcon_mvc_collection_manager_method_entry, 0);
 
 	zend_declare_property_null(phalcon_mvc_collection_manager_ce, SL("_initialized"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_collection_manager_ce, SL("_lastInitialized"), ZEND_ACC_PROTECTED TSRMLS_CC);

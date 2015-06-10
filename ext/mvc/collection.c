@@ -179,8 +179,8 @@ static const zend_function_entry phalcon_mvc_collection_method_entry[] = {
 	PHP_ME(Phalcon_Mvc_Collection, setId, arginfo_phalcon_mvc_collectioninterface_setid, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Collection, getId, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Collection, getIdString, NULL, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Mvc_Collection, setEventsManager, arginfo_phalcon_events_eventsawareinterface_seteventsmanager, ZEND_ACC_PROTECTED)
-	PHP_ME(Phalcon_Mvc_Collection, getEventsManager, arginfo_phalcon_events_eventsawareinterface_geteventsmanager, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Mvc_Collection, setEventsManager, arginfo_phalcon_events_eventsawareinterface_seteventsmanager, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Collection, getEventsManager, arginfo_phalcon_events_eventsawareinterface_geteventsmanager, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Collection, setColumnMap, arginfo_phalcon_mvc_collection_setcolumnmap, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Collection, getColumnMap, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Collection, getColumnName, arginfo_phalcon_mvc_collection_getcolumnname, ZEND_ACC_PUBLIC)
@@ -239,7 +239,7 @@ static const zend_function_entry phalcon_mvc_collection_method_entry[] = {
  */
 PHALCON_INIT_CLASS(Phalcon_Mvc_Collection){
 
-	PHALCON_REGISTER_CLASS(Phalcon\\Mvc, Collection, mvc_collection, phalcon_mvc_collection_method_entry, 0);
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Mvc, Collection, mvc_collection, phalcon_di_injectable_ce, phalcon_mvc_collection_method_entry, 0);
 
 	zend_declare_property_null(phalcon_mvc_collection_ce, SL("_collectionManager"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_long(phalcon_mvc_collection_ce, SL("_operationMade"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
