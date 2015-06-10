@@ -2935,7 +2935,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 
 			let metaData = this->getModelsMetaData();
 
-			if this->_exists(metaData, this->getReadConnection()) {
+			if !this->_exists(metaData, this->getReadConnection()) {
 				let this->_errorMessages = [new Message("Record cannot be updated because it does not exist", null, "InvalidUpdateAttempt")];
 				return false;
 			}
