@@ -185,6 +185,23 @@ static zval *phvolt_ret_cache_statement(zval *expr, zval *lifetime, zval *block_
 	return ret;
 }
 
+static zval *phvolt_ret_raw_statement(zval *statement, phvolt_scanner_state *state)
+{
+	zval *ret;
+
+	MAKE_STD_ZVAL(ret);
+	array_init(ret);
+
+	add_assoc_long(ret, "type", PHVOLT_T_RAW);
+	add_assoc_zval(ret, "content", statement);
+
+	Z_ADDREF_P(state->active_file);
+	add_assoc_zval(ret, "file", state->active_file);
+	add_assoc_long(ret, "line", state->active_line);
+
+	return ret;
+}
+
 static zval *phvolt_ret_set_statement(zval *assignments)
 {
 	zval *ret;
@@ -782,6 +799,10 @@ statement(R) ::= autoescape_statement(E) . {
 	R = E;
 }
 
+statement(R) ::= raw_statement(E) . {
+	R = E;
+}
+
 statement(R) ::= break_statement(E) . {
 	R = E;
 }
@@ -1008,6 +1029,12 @@ cache_lifetime(R) ::= INTEGER(I) . {
 
 cache_lifetime(R) ::= IDENTIFIER(I) . {
 	R = phvolt_ret_literal_zval(PHVOLT_T_IDENTIFIER, I, status->scanner_state);
+}
+
+%destructor raw_statement { zval_ptr_dtor(&$$); }
+
+raw_statement(R) ::= OPEN_DELIMITER RAW CLOSE_DELIMITER statement(T) OPEN_DELIMITER ENDRAW CLOSE_DELIMITER . {
+	R = phvolt_ret_raw_statement(T, status->scanner_state);
 }
 
 %destructor extends_statement { zval_ptr_dtor(&$$); }

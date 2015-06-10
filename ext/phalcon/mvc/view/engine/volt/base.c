@@ -284,6 +284,7 @@ int phvolt_internal_parse_view(zval **result, zval *view_code, zval *template_pa
 	state->if_level = 0;
 	state->for_level = 0;
 	state->whitespace_control = 0;
+    state->forced_raw_state = 0;
 
 	state->end = state->start;
 
@@ -397,7 +398,7 @@ int phvolt_internal_parse_view(zval **result, zval *view_code, zval *template_pa
 				phvolt_(phvolt_parser, PHVOLT_OPEN_DELIMITER, NULL, parser_status);
 				break;
 			case PHVOLT_T_CLOSE_DELIMITER:
-				phvolt_(phvolt_parser, PHVOLT_CLOSE_DELIMITER, NULL, parser_status);
+				phvolt_(phvolt_parser, PHVOLT_CLOSE_DELIMITER, NULL, parser_status);                
 				break;
 
 			case PHVOLT_T_OPEN_EDELIMITER:
@@ -593,6 +594,15 @@ int phvolt_internal_parse_view(zval **result, zval *view_code, zval *template_pa
 			case PHVOLT_T_ENDCACHE:
 				phvolt_(phvolt_parser, PHVOLT_ENDCACHE, NULL, parser_status);
 				break;
+
+            case PHVOLT_T_RAW:
+    			phvolt_(phvolt_parser, PHVOLT_RAW, NULL, parser_status);
+                state->forced_raw_state++;
+    			break;
+    		case PHVOLT_T_ENDRAW:
+    			phvolt_(phvolt_parser, PHVOLT_ENDRAW, NULL, parser_status);
+                state->forced_raw_state--;
+    			break;
 
 			case PHVOLT_T_INCLUDE:
 				phvolt_(phvolt_parser, PHVOLT_INCLUDE, NULL, parser_status);

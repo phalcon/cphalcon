@@ -157,7 +157,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Confirmation, compare) {
 	zephir_check_call_status();
 	if (zephir_is_true(_0)) {
 		if (!((zephir_function_exists_ex(SS("mb_strtolower") TSRMLS_CC) == SUCCESS))) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_validation_exception_ce, "Extension 'mbstring' is required", "phalcon/validation/validator/confirmation.zep", 91);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_validation_exception_ce, "Extension 'mbstring' is required", "phalcon/validation/validator/confirmation.zep", 92);
 			return;
 		}
 		ZEPHIR_SINIT_VAR(_3);

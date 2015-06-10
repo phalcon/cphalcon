@@ -430,6 +430,18 @@ int phvolt_get_token(phvolt_scanner_state *s, phvolt_scanner_token *token) {
 			return 0;
 		}
 
+		'raw' {
+			s->statement_position++;
+			token->opcode = PHVOLT_T_RAW;
+			return 0;
+		}
+
+		'endraw' {
+			s->statement_position++;
+			token->opcode = PHVOLT_T_ENDRAW;
+			return 0;
+		}
+
 		"{%" {
 			s->whitespace_control = 0;
 			token->opcode = PHVOLT_T_OPEN_DELIMITER;

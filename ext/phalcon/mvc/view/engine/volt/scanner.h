@@ -163,6 +163,9 @@
 #define PHVOLT_T_NOT_ISSCALAR 396
 #define PHVOLT_T_NOT_ISITERABLE 397
 
+#define PHVOLT_T_RAW 400
+#define PHVOLT_T_ENDRAW 401
+
 /* List of tokens and their names */
 typedef struct _phvolt_token_names {
 	char *name;
@@ -190,6 +193,7 @@ typedef struct _phvolt_scanner_state {
 	unsigned int if_level;
 	unsigned int for_level;
 	int whitespace_control;
+	int forced_raw_state;
 } phvolt_scanner_state;
 
 /* Extra information tokens */
