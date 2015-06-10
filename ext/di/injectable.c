@@ -91,6 +91,8 @@ PHP_METHOD(Phalcon_DI_Injectable, setDI){
 	
 	PHALCON_VERIFY_INTERFACE_OR_NULL_EX(*dependency_injector, phalcon_diinterface_ce, phalcon_di_exception_ce, 0);
 	phalcon_update_property_this(this_ptr, SL("_dependencyInjector"), *dependency_injector TSRMLS_CC);
+
+	RETURN_THISW();
 }
 
 /**
@@ -122,6 +124,8 @@ PHP_METHOD(Phalcon_DI_Injectable, setEventsManager)
 	PHALCON_VERIFY_INTERFACE_OR_NULL_EX(events_manager, phalcon_events_managerinterface_ce, phalcon_di_exception_ce, 0);
 	
 	phalcon_update_property_this(this_ptr, SL("_eventsManager"), events_manager TSRMLS_CC);
+
+	RETURN_THISW();
 }
 
 /**
