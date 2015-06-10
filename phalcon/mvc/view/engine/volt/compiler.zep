@@ -191,9 +191,6 @@ class Compiler implements InjectionAwareInterface
 
 	/**
 	 * Registers a Volt's extension
-	 *
-	 * @param object extension
-	 * @return Phalcon\Mvc\View\Engine\Volt\Compiler
 	 */
 	public function addExtension(extension) -> <Compiler>
 	{
@@ -374,7 +371,7 @@ class Compiler implements InjectionAwareInterface
 	public function functionCall(array! expr) -> string
 	{
 		var code, funcArguments, arguments, nameExpr,
-			nameType, name, extensions, functions, definition, macros,
+			nameType, name, extensions, functions, definition,
 			extendedBlocks, block, currentBlock, exprLevel, escapedCode,
 			method, arrayHelpers, className;
 
@@ -439,13 +436,11 @@ class Compiler implements InjectionAwareInterface
 				}
 			}
 
-			let macros = this->_macros;
-
 			/**
 			 * Check if the function name is a macro
 			 */
-			if isset macros[name] {
-				return "vmacro_" . name . "(array(" . arguments . "))";
+			if isset this->_macros[name] {
+				return "$vmacro_" . name . "(array(" . arguments . "))";
 			}
 
 			/**
@@ -1881,7 +1876,7 @@ class Compiler implements InjectionAwareInterface
 	 */
 	public function compileMacro(array! statement, boolean extendsMode) -> string
 	{
-		var code, name, parameters, position, parameter, variableName, blockStatements;
+		var code, name, defaultValue, macroName, parameters, position, parameter, variableName, blockStatements;
 
 		/**
 		 * A valid name is required
@@ -1902,27 +1897,33 @@ class Compiler implements InjectionAwareInterface
 		 */
 		let this->_macros[name] = name;
 
-		let code = "<?php function vmacro_";
+		let macroName = "$vmacro_" . name;
+
+		let code = "<?php ";
 
 		if !fetch parameters, statement["parameters"] {
-			let code .=  name . "() { ?>";
+			let code .= macroName . " = function() { ?>";
 		} else {
 
 			/**
 			 * Parameters are always received as an array
 			 */
-			let code .=  name . "($__p) { ";
+			let code .= macroName . " = function($__p = null) { ";
 			for position, parameter in parameters {
 
 				let variableName = parameter["variable"];
 
 				let code .= "if (isset($__p[" . position . "])) { ";
-				let code .= "$" . variableName . " = $__p[" . position."];";
+				let code .= "$" . variableName . " = $__p[" . position ."];";
 				let code .= " } else { ";
 				let code .= "if (isset($__p[\"" . variableName."\"])) { ";
-				let code .= "$" . variableName . " = $__p[\"" . variableName."\"];";
+				let code .= "$" . variableName . " = $__p[\"" . variableName ."\"];";
 				let code .= " } else { ";
-				let code .= " throw new \\Phalcon\\Mvc\\View\\Exception(\"Macro " . name . " was called without parameter: " . variableName . "\"); ";
+				if fetch defaultValue, parameter["default"] {
+					let code .= "$" . variableName . " = " . this->expression(defaultValue) . ";";
+				} else {
+					let code .= " throw new \\Phalcon\\Mvc\\View\\Exception(\"Macro " . name . " was called without parameter: " . variableName . "\"); ";
+				}
 				let code .= " } } ";
 			}
 
@@ -1937,10 +1938,15 @@ class Compiler implements InjectionAwareInterface
 			/**
 			 * Process statements block
 			 */
-			let code .= this->_statementList(blockStatements, extendsMode) . "<?php } ?>";
+			let code .= this->_statementList(blockStatements, extendsMode) . "<?php }; ";
 		}  else {
-			let code .= "<?php } ?>";
+			let code .= "<?php }; ";
 		}
+
+		/**
+		 * Bind the closure to the $this object allowing to call services
+		 */
+		let code .= macroName . " = \\Closure::bind(" . macroName . ", $this); ?>";
 
 		return code;
 	}

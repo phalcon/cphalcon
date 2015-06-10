@@ -1,6 +1,10 @@
 # 2.0.4 (2015-??-??)
 - Fixed bug in `Phalcon\Mvc\Model::update()` that throws an exception when the record does exist
 - Now links in Phalcon\\Debug point to https://api.phalconphp.com instead of http://docs.phalconphp.com
+- Implemented a more versatile way to assign variables in Volt allowing to assign properties and array indexes
+- Improved generation of macros in Volt using anonymous functions instead of plain PHP functions 
+  This allow to bind the adapter object to inject services within them
+- Fixed default parameters in macros
 
 # 2.0.3 (2015-06-10)
 - Added support for Behaviors in Phalcon\Mvc\Collection
