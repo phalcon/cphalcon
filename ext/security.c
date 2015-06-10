@@ -20,7 +20,7 @@
 #include "security.h"
 #include "security/exception.h"
 #include "diinterface.h"
-#include "di/injectionawareinterface.h"
+#include "di/injectable.h"
 #include "http/requestinterface.h"
 #include "session/adapterinterface.h"
 
@@ -74,8 +74,6 @@ static const unsigned char ascii64[] = "./0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZab
  */
 zend_class_entry *phalcon_security_ce;
 
-PHP_METHOD(Phalcon_Security, setDI);
-PHP_METHOD(Phalcon_Security, getDI);
 PHP_METHOD(Phalcon_Security, setRandomBytes);
 PHP_METHOD(Phalcon_Security, getRandomBytes);
 PHP_METHOD(Phalcon_Security, setWorkFactor);
@@ -94,10 +92,6 @@ PHP_METHOD(Phalcon_Security, deriveKey);
 PHP_METHOD(Phalcon_Security, pbkdf2);
 PHP_METHOD(Phalcon_Security, getDefaultHash);
 PHP_METHOD(Phalcon_Security, setDefaultHash);
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_security_setdi, 0, 0, 1)
-	ZEND_ARG_INFO(0, dependencyInjector)
-ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_security_setrandombytes, 0, 0, 1)
 	ZEND_ARG_INFO(0, randomBytes)
@@ -155,8 +149,6 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_security_setdefaulthash, 0, 0, 1)
 ZEND_END_ARG_INFO()
 
 static const zend_function_entry phalcon_security_method_entry[] = {
-	PHP_ME(Phalcon_Security, setDI, arginfo_phalcon_security_setdi, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Security, getDI, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Security, setRandomBytes, arginfo_phalcon_security_setrandombytes, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Security, getRandomBytes, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Security, setWorkFactor, arginfo_phalcon_security_setworkfactor, ZEND_ACC_PUBLIC)
@@ -183,15 +175,12 @@ static const zend_function_entry phalcon_security_method_entry[] = {
  */
 PHALCON_INIT_CLASS(Phalcon_Security){
 
-	PHALCON_REGISTER_CLASS(Phalcon, Security, security, phalcon_security_method_entry, 0);
+	PHALCON_REGISTER_CLASS_EX(Phalcon, Security, security, phalcon_di_injectable_ce, phalcon_security_method_entry, 0);
 
-	zend_declare_property_null(phalcon_security_ce, SL("_dependencyInjector"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_long(phalcon_security_ce, SL("_workFactor"), 8, ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_long(phalcon_security_ce, SL("_numberBytes"), 16, ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_security_ce, SL("_csrf"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_long(phalcon_security_ce, SL("_defaultHash"), PHALCON_SECURITY_CRYPT_DEFAULT, ZEND_ACC_PROTECTED TSRMLS_CC);
-
-	zend_class_implements(phalcon_security_ce TSRMLS_CC, 1, phalcon_di_injectionawareinterface_ce);
 
 	zend_declare_class_constant_long(phalcon_security_ce, SL("CRYPT_DEFAULT"),    PHALCON_SECURITY_CRYPT_DEFAULT    TSRMLS_CC);
 	zend_declare_class_constant_long(phalcon_security_ce, SL("CRYPT_STD_DES"),    PHALCON_SECURITY_CRYPT_STD_DES    TSRMLS_CC);
@@ -204,31 +193,6 @@ PHALCON_INIT_CLASS(Phalcon_Security){
 	zend_declare_class_constant_long(phalcon_security_ce, SL("CRYPT_SHA512"),     PHALCON_SECURITY_CRYPT_SHA512     TSRMLS_CC);
 
 	return SUCCESS;
-}
-
-/**
- * Sets the dependency injector
- *
- * @param Phalcon\DiInterface $dependencyInjector
- */
-PHP_METHOD(Phalcon_Security, setDI){
-
-	zval *dependency_injector;
-
-	phalcon_fetch_params(0, 1, 0, &dependency_injector);
-	PHALCON_VERIFY_INTERFACE_EX(dependency_injector, phalcon_diinterface_ce, phalcon_security_exception_ce, 0);
-	phalcon_update_property_this(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
-}
-
-/**
- * Returns the internal dependency injector
- *
- * @return Phalcon\DiInterface
- */
-PHP_METHOD(Phalcon_Security, getDI){
-
-
-	RETURN_MEMBER(this_ptr, "_dependencyInjector");
 }
 
 /**
