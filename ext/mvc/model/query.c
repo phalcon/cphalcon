@@ -699,16 +699,16 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getCaseExpression){
 
 		PHALCON_GET_HVALUE(when_expr);
 
+		zval *expr_left, *expr_right;
+
+		/** 
+		 * Resolving left part of the expression if any
+		 */
+		if (phalcon_array_isset_string_fetch(&expr_left, when_expr, SS("left"))) {
+			PHALCON_CALL_METHOD(&when_left, this_ptr, "_getexpression", expr_left);
+		}
+
 		if (phalcon_array_isset_string(when_expr, SS("right"))) {
-			zval *expr_left, *expr_right;
-
-			/** 
-			 * Resolving left part of the expression if any
-			 */
-			if (phalcon_array_isset_string_fetch(&expr_left, when_expr, SS("left"))) {
-				PHALCON_CALL_METHOD(&when_left, this_ptr, "_getexpression", expr_left);
-			}
-
 			/** 
 			 * Resolving right part of the expression if any
 			 */
@@ -725,6 +725,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getCaseExpression){
 
 			phalcon_array_append(&when_clauses, tmp, 0);
 		} else {
+
 			PHALCON_INIT_NVAR(tmp);
 			array_init(tmp);
 
