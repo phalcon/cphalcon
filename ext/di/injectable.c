@@ -34,6 +34,7 @@
 #include "kernel/concat.h"
 #include "kernel/array.h"
 #include "kernel/operators.h"
+#include "kernel/string.h"
 
 #include "internal/arginfo.h"
 #include "interned-strings.h"
@@ -50,6 +51,8 @@ PHP_METHOD(Phalcon_DI_Injectable, setDI);
 PHP_METHOD(Phalcon_DI_Injectable, getDI);
 PHP_METHOD(Phalcon_DI_Injectable, setEventsManager);
 PHP_METHOD(Phalcon_DI_Injectable, getEventsManager);
+PHP_METHOD(Phalcon_DI_Injectable, fireEvent);
+PHP_METHOD(Phalcon_DI_Injectable, fireEventCancel);
 PHP_METHOD(Phalcon_DI_Injectable, __get);
 
 static const zend_function_entry phalcon_di_injectable_method_entry[] = {
@@ -57,6 +60,8 @@ static const zend_function_entry phalcon_di_injectable_method_entry[] = {
 	PHP_ME(Phalcon_DI_Injectable, getDI, arginfo_phalcon_di_injectionawareinterface_getdi, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_DI_Injectable, setEventsManager, arginfo_phalcon_events_eventsawareinterface_seteventsmanager, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_DI_Injectable, getEventsManager, arginfo_phalcon_events_eventsawareinterface_geteventsmanager, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_DI_Injectable, fireEvent, arginfo_phalcon_di_injectable_fireevent, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_DI_Injectable, fireEventCancel, arginfo_phalcon_di_injectable_fireeventcancel, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_DI_Injectable, __get, arginfo___get, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };
@@ -137,6 +142,130 @@ PHP_METHOD(Phalcon_DI_Injectable, getEventsManager){
 
 
 	RETURN_MEMBER(this_ptr, "_eventsManager");
+}
+
+/**
+ * Fires an event, implicitly calls behaviors and listeners in the events manager are notified
+ *
+ * @param string $eventName
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_DI_Injectable, fireEvent){
+
+	zval *event_name, *data = NULL, *cancelable = NULL, *events_manager;
+	zval *lower, *event_parts, *name = NULL;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 1, 2, &event_name, &data, &cancelable);
+	PHALCON_ENSURE_IS_STRING(&event_name);
+
+	if (!data) {
+		data = PHALCON_GLOBAL(z_null);
+	}
+
+	if (!cancelable) {
+		cancelable = PHALCON_GLOBAL(z_true);
+	}
+
+	PHALCON_INIT_VAR(lower);
+	phalcon_fast_strtolower(lower, event_name);
+
+	if (phalcon_memnstr_str(lower, SL(":"))) {
+		PHALCON_INIT_VAR(event_parts);
+		phalcon_fast_explode_str(event_parts, SL(":"), lower);
+
+		PHALCON_OBS_VAR(name);
+		phalcon_array_fetch_long(&name, event_parts, 1, PH_NOISY);
+	} else {
+		PHALCON_CPY_WRT(name, lower);
+	}
+
+	/**
+	 * Check if there is a method with the same name of the event
+	 */
+	if (phalcon_method_exists(this_ptr, name TSRMLS_CC) == SUCCESS) {
+		PHALCON_CALL_METHOD(NULL, this_ptr, Z_STRVAL_P(name), data);
+	}
+
+	PHALCON_OBS_VAR(events_manager);
+	phalcon_read_property_this(&events_manager, this_ptr, SL("_eventsManager"), PH_NOISY TSRMLS_CC);
+
+	if (Z_TYPE_P(events_manager) != IS_NULL) {
+		PHALCON_VERIFY_INTERFACE_EX(events_manager, phalcon_events_managerinterface_ce, phalcon_di_exception_ce, 1);
+
+		/**
+		 * Send a notification to the events manager
+		 */
+		PHALCON_CALL_METHOD(NULL, events_manager, "fire", event_name, this_ptr, data, cancelable);
+	}
+
+	RETURN_MM_TRUE;
+}
+
+/**
+ * Fires an event, implicitly calls behaviors and listeners in the events manager are notified
+ * This method stops if one of the callbacks/listeners returns boolean false
+ *
+ * @param string $eventName
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_DI_Injectable, fireEventCancel){
+
+	zval *event_name, *data = NULL, *cancelable = NULL, *status = NULL, *events_manager;
+	zval *lower, *event_parts, *name = NULL;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 1, 2, &event_name, &data, &cancelable);
+	PHALCON_ENSURE_IS_STRING(&event_name);
+
+	if (!data) {
+		data = PHALCON_GLOBAL(z_null);
+	}
+
+	if (!cancelable) {
+		cancelable = PHALCON_GLOBAL(z_true);
+	}
+
+	PHALCON_INIT_VAR(lower);
+	phalcon_fast_strtolower(lower, event_name);
+
+	if (phalcon_memnstr_str(lower, SL(":"))) {
+		PHALCON_INIT_VAR(event_parts);
+		phalcon_fast_explode_str(event_parts, SL(":"), lower);
+
+		PHALCON_OBS_VAR(name);
+		phalcon_array_fetch_long(&name, event_parts, 1, PH_NOISY);
+	} else {
+		PHALCON_CPY_WRT(name, lower);
+	}
+
+	/**
+	 * Check if there is a method with the same name of the event
+	 */
+	if (phalcon_method_exists(this_ptr, name TSRMLS_CC) == SUCCESS) {
+		PHALCON_CALL_METHOD(&status, this_ptr, Z_STRVAL_P(name), data);
+		if (PHALCON_IS_FALSE(status)) {
+			RETURN_MM_FALSE;
+		}
+	}
+
+	PHALCON_OBS_VAR(events_manager);
+	phalcon_read_property_this(&events_manager, this_ptr, SL("_eventsManager"), PH_NOISY TSRMLS_CC);
+	if (Z_TYPE_P(events_manager) != IS_NULL) {
+		PHALCON_VERIFY_INTERFACE_EX(events_manager, phalcon_events_managerinterface_ce, phalcon_di_exception_ce, 1);
+
+		/**
+		 * Send a notification to the events manager
+		 */
+		PHALCON_CALL_METHOD(&status, events_manager, "fire", event_name, this_ptr, data, cancelable);
+		if (PHALCON_IS_FALSE(status)) {
+			RETURN_MM_FALSE;
+		}
+	}
+
+	RETURN_MM_TRUE;
 }
 
 /**

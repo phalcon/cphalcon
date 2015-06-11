@@ -1389,7 +1389,7 @@ PHP_METHOD(Phalcon_Debug, onUserDefinedError){
  */
 PHP_METHOD(Phalcon_Debug, onShutdown){
 
-	zval *error, *message, *type, *file, *line, *exception;
+	zval *error = NULL, *message, *type, *file, *line, *exception;
 	zend_class_entry *default_exception_ce;
 
 	PHALCON_MM_GROW();
