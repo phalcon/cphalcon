@@ -26,6 +26,7 @@
 #include "mvc/routerinterface.h"
 #include "diinterface.h"
 #include "di/injectable.h"
+#include "di/injectionawareinterface.h"
 #include "di/factorydefault.h"
 #include "http/responseinterface.h"
 
@@ -91,13 +92,8 @@ PHP_METHOD(Phalcon_Mvc_Micro, finish);
 PHP_METHOD(Phalcon_Mvc_Micro, getHandlers);
 PHP_METHOD(Phalcon_Mvc_Micro, error);
 PHP_METHOD(Phalcon_Mvc_Micro, _throwException);
-PHP_METHOD(Phalcon_Mvc_Micro, fireEvent);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_micro___construct, 0, 0, 0)
-	ZEND_ARG_INFO(0, dependencyInjector)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_micro_setdi, 0, 0, 1)
 	ZEND_ARG_INFO(0, dependencyInjector)
 ZEND_END_ARG_INFO()
 
@@ -199,13 +195,9 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_micro__throwexception, 0, 0, 1)
 	ZEND_ARG_INFO(0, message)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_micro_fireevent, 0, 0, 1)
-	ZEND_ARG_INFO(0, eventName)
-ZEND_END_ARG_INFO()
-
 static const zend_function_entry phalcon_mvc_micro_method_entry[] = {
 	PHP_ME(Phalcon_Mvc_Micro, __construct, arginfo_phalcon_mvc_micro___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
-	PHP_ME(Phalcon_Mvc_Micro, setDI, arginfo_phalcon_mvc_micro_setdi, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Micro, setDI, arginfo_phalcon_di_injectionawareinterface_setdi, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Micro, map, arginfo_phalcon_mvc_micro_map, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Micro, get, arginfo_phalcon_mvc_micro_get, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Micro, post, arginfo_phalcon_mvc_micro_post, ZEND_ACC_PUBLIC)
@@ -236,7 +228,6 @@ static const zend_function_entry phalcon_mvc_micro_method_entry[] = {
 	PHP_ME(Phalcon_Mvc_Micro, getHandlers, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Micro, error, arginfo_phalcon_mvc_micro_error, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Micro, _throwException, arginfo_phalcon_mvc_micro__throwexception, ZEND_ACC_PROTECTED)
-	PHP_ME(Phalcon_Mvc_Micro, fireEvent, arginfo_phalcon_mvc_micro_fireevent, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };
 
@@ -247,7 +238,6 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Micro){
 
 	PHALCON_REGISTER_CLASS_EX(Phalcon\\Mvc, Micro, mvc_micro, phalcon_di_injectable_ce, phalcon_mvc_micro_method_entry, 0);
 
-	zend_declare_property_null(phalcon_mvc_micro_ce, SL("_dependencyInjector"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_micro_ce, SL("_handlers"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_micro_ce, SL("_router"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_micro_ce, SL("_stopped"), ZEND_ACC_PROTECTED TSRMLS_CC);
@@ -757,7 +747,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle){
 	PHALCON_INIT_NVAR(event_name);
 	ZVAL_STRING(event_name, "micro:beforeHandleRoute", 1);
 
-	PHALCON_CALL_SELF(&status, "fireevent", event_name);
+	PHALCON_CALL_SELF(&status, "fireeventcancel", event_name);
 	if (PHALCON_IS_FALSE(status)) {
 		RETURN_MM_FALSE;
 	}
@@ -804,7 +794,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle){
 		PHALCON_INIT_NVAR(event_name);
 		ZVAL_STRING(event_name, "micro:beforeExecuteRoute", 1);
 
-		PHALCON_CALL_SELF(&status, "fireevent", event_name);
+		PHALCON_CALL_SELF(&status, "fireeventcancel", event_name);
 		if (PHALCON_IS_FALSE(status)) {
 			RETURN_MM_FALSE;
 		} else {
@@ -960,7 +950,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle){
 		PHALCON_INIT_NVAR(event_name);
 		ZVAL_STRING(event_name, "micro:beforeNotFound", 1);
 
-		PHALCON_CALL_SELF(&status, "fireevent", event_name);
+		PHALCON_CALL_SELF(&status, "fireeventcancel", event_name);
 		if (PHALCON_IS_FALSE(status)) {
 			RETURN_MM_FALSE;
 		}
@@ -1310,27 +1300,4 @@ PHP_METHOD(Phalcon_Mvc_Micro, _throwException){
 	}
 
 	RETURN_CTOR(status);
-}
-
-/**
- * Fires an event, implicitly calls behaviors and listeners in the events manager are notified
- *
- * @param string $eventName
- * @return boolean
- */
-PHP_METHOD(Phalcon_Mvc_Micro, fireEvent){
-
-	zval *event_name, *events_manager;
-
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 0, &event_name);
-	PHALCON_ENSURE_IS_STRING(&event_name);
-
-	events_manager = phalcon_fetch_nproperty_this(this_ptr, SL("_eventsManager"), PH_NOISY TSRMLS_CC);
-	if (Z_TYPE_P(events_manager) == IS_OBJECT) {
-		PHALCON_RETURN_CALL_METHOD(events_manager, "fire", event_name, this_ptr);
-	}
-
-	RETURN_MM();
 }

@@ -903,4 +903,3 @@ PHP_METHOD(Phalcon_Http_Cookie, __toString){
 
 	RETURN_ZVAL(value, 1, 0);
 }
-

@@ -358,7 +358,7 @@ PHP_METHOD(Phalcon_Events_Manager, detach){
 			PHALCON_CALL_METHOD(&handler_embeded, listener, "getlistener");
 
 			if (phalcon_is_equal_object(handler_embeded, handler TSRMLS_CC)) {
-				phalcon_array_unset(&priority_queue, key, 0);
+				phalcon_array_unset(&priority_queue, key, PH_SEPARATE);
 			}
 
 			zend_hash_move_forward_ex(ah0, &hp0);

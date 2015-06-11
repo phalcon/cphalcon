@@ -376,8 +376,8 @@ static const zend_function_entry phalcon_mvc_model_method_entry[] = {
 	PHP_ME(Phalcon_Mvc_Model, maximum, arginfo_phalcon_mvc_modelinterface_maximum, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Mvc_Model, minimum, arginfo_phalcon_mvc_modelinterface_minimum, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Mvc_Model, average, arginfo_phalcon_mvc_modelinterface_average, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
-	PHP_ME(Phalcon_Mvc_Model, fireEvent, arginfo_phalcon_mvc_modelinterface_fireevent, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Mvc_Model, fireEventCancel, arginfo_phalcon_mvc_modelinterface_fireeventcancel, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model, fireEvent, arginfo_phalcon_di_injectable_fireevent, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model, fireEventCancel, arginfo_phalcon_di_injectable_fireeventcancel, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model, _cancelOperation, NULL, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Mvc_Model, appendMessage, arginfo_phalcon_mvc_modelinterface_appendmessage, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model, validate, arginfo_phalcon_mvc_model_validate, ZEND_ACC_PROTECTED)
@@ -2599,29 +2599,23 @@ PHP_METHOD(Phalcon_Mvc_Model, average){
  */
 PHP_METHOD(Phalcon_Mvc_Model, fireEvent){
 
-	zval *event_name, *data = NULL, *models_manager;
+	zval *event_name, *data = NULL, *cancelable = NULL, *models_manager;
 	zval *lower;
-	char *tmp;
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 1, 1, &event_name, &data);
+	phalcon_fetch_params(1, 1, 2, &event_name, &data, &cancelable);
 	PHALCON_ENSURE_IS_STRING(&event_name);
 
 	if (likely(PHALCON_GLOBAL(orm).events)) {
 		PHALCON_INIT_VAR(lower);
-		tmp = zend_str_tolower_dup(Z_STRVAL_P(event_name), Z_STRLEN_P(event_name));
-		ZVAL_STRINGL(lower, tmp, Z_STRLEN_P(event_name), 0);
+		phalcon_fast_strtolower(lower, event_name);
 
 		/**
 		 * Check if there is a method with the same name of the event
 		 */
-		if (phalcon_method_exists_ex(this_ptr, Z_STRVAL_P(lower), Z_STRLEN_P(lower)+1  TSRMLS_CC) == SUCCESS) {
-			if (!data) {
-				PHALCON_CALL_METHOD(NULL, this_ptr, Z_STRVAL_P(lower));
-			} else {
-				PHALCON_CALL_METHOD(NULL, this_ptr, Z_STRVAL_P(lower), data);
-			}
+		if (phalcon_method_exists(this_ptr, lower TSRMLS_CC) == SUCCESS) {
+			PHALCON_CALL_METHOD(NULL, this_ptr, Z_STRVAL_P(lower), data);
 		}
 
 		PHALCON_OBS_VAR(models_manager);
@@ -2632,6 +2626,7 @@ PHP_METHOD(Phalcon_Mvc_Model, fireEvent){
 		 */
 		PHALCON_RETURN_CALL_METHOD(models_manager, "notifyevent", event_name, this_ptr);
 	}
+
 	RETURN_MM();
 }
 
@@ -2644,25 +2639,27 @@ PHP_METHOD(Phalcon_Mvc_Model, fireEvent){
  */
 PHP_METHOD(Phalcon_Mvc_Model, fireEventCancel){
 
-	zval **event_name, *status = NULL, *models_manager;
+	zval *event_name, *data = NULL, *cancelable = NULL, *status = NULL, *models_manager;
 	zval *lower;
-	char *tmp;
-
-	phalcon_fetch_params_ex(1, 0, &event_name);
-	PHALCON_ENSURE_IS_STRING(event_name);
 
 	PHALCON_MM_GROW();
 
+	phalcon_fetch_params(1, 1, 2, &event_name, &data, &cancelable);
+	PHALCON_ENSURE_IS_STRING(&event_name);
+
+	if (!data) {
+		data = PHALCON_GLOBAL(z_null);
+	}
+
 	if (likely(PHALCON_GLOBAL(orm).events)) {
 		PHALCON_INIT_VAR(lower);
-		tmp = zend_str_tolower_dup(Z_STRVAL_PP(event_name), Z_STRLEN_PP(event_name));
-		ZVAL_STRINGL(lower, tmp, Z_STRLEN_PP(event_name), 0);
+		phalcon_fast_strtolower(lower, event_name);
 
 		/**
 		 * Check if there is a method with the same name of the event
 		 */
-		if (phalcon_method_exists_ex(this_ptr, Z_STRVAL_P(lower), Z_STRLEN_P(lower)+1  TSRMLS_CC) == SUCCESS) {
-			PHALCON_CALL_METHOD(&status, this_ptr, Z_STRVAL_P(lower));
+		if (phalcon_method_exists(this_ptr, lower TSRMLS_CC) == SUCCESS) {
+			PHALCON_CALL_METHOD(&status, this_ptr, Z_STRVAL_P(lower), data);
 			if (PHALCON_IS_FALSE(status)) {
 				RETURN_MM_FALSE;
 			}
@@ -2674,7 +2671,7 @@ PHP_METHOD(Phalcon_Mvc_Model, fireEventCancel){
 		/**
 		 * Send a notification to the events manager
 		 */
-		PHALCON_CALL_METHOD(&status, models_manager, "notifyevent", *event_name, this_ptr);
+		PHALCON_CALL_METHOD(&status, models_manager, "notifyevent", event_name, this_ptr);
 		if (PHALCON_IS_FALSE(status)) {
 			RETURN_MM_FALSE;
 		}
