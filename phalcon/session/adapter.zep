@@ -95,6 +95,22 @@ abstract class Adapter
 	}
 
 	/**
+	 * Set session name
+	 */
+	public function setName(string name)
+	{
+	    session_name(name);
+	}
+
+	/**
+	 * Get session name
+	 */
+	public function getName()
+	{
+	    return session_name();
+	}
+
+	/**
 	 * Gets a session variable from an application context
 	 *
 	 * @param string index
