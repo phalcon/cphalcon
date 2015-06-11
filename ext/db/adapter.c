@@ -244,7 +244,9 @@ PHP_METHOD(Phalcon_Db_Adapter, __construct){
 		if (phalcon_has_constructor(dialect_object TSRMLS_CC)) {
 			PHALCON_CALL_METHOD(NULL, dialect_object, "__construct");
 		}
-		phalcon_update_property_this(this_ptr, SL("_dialect"), dialect_object TSRMLS_CC);
+		PHALCON_CALL_SELF(NULL, "setdialect", dialect_object);
+	} else if (Z_TYPE_P(dialect_class) == IS_OBJECT) {
+		PHALCON_CALL_SELF(NULL, "setdialect", dialect_class);
 	}
 
 	phalcon_update_property_this(this_ptr, SL("_descriptor"), descriptor TSRMLS_CC);
