@@ -172,4 +172,15 @@ class SessionTest extends PHPUnit_Framework_TestCase
 
 	}
 
+    public function testSessionName()
+    {
+        $session = new Phalcon\Session\Adapter\Files();
+        $session->setName('NAMEFOO');
+        $this->assertEquals('NAMEFOO', $session->getName());
+        $this->assertEquals('NAMEFOO', session_name());
+
+        session_name('NAMEBAR');
+        $this->assertEquals('NAMEBAR', $session->getName());
+    }
+
 }
