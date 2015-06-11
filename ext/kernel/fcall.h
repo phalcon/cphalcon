@@ -135,6 +135,45 @@ typedef zend_function phalcon_fcall_cache_entry;
 	} while (0)
 
 /**
+ * @brief Invokes a function @a func_name and returns if the function fails due to an error or exception.
+ * @param[out] return_value_ptr function return value (<tt>zval**</tt>); can be @c NULL (in this case it is assumed that the caller is not interested in the return value)
+ * @param[in] func_name name of the function to call (<tt>const char*</tt>)
+ * @param arguments function arguments (<tt>zval*</tt>)
+ * @note If the call fails or an exception occurs, the memory frame is restored.
+ * In this case if @c return_value_ptr is not @c NULL, <tt>*return_value_ptr</tt> is set to @c NULL
+ */
+#define PHALCON_CALL_ZVAL_FUNCTION(return_value_ptr, func_name, ...) \
+	do { \
+		zval *params_[] = {__VA_ARGS__}; \
+		if (__builtin_constant_p(func_name)) { \
+			RETURN_MM_ON_FAILURE(phalcon_call_zval_func_aparams(return_value_ptr, func_name, sizeof(params_)/sizeof(zval*), params_ TSRMLS_CC)); \
+		} \
+		else { \
+			RETURN_MM_ON_FAILURE(phalcon_call_zval_func_aparams(return_value_ptr, func_name, sizeof(params_)/sizeof(zval*), params_ TSRMLS_CC)); \
+		} \
+	} while (0)
+
+/**
+ * @brief Invokes a function @a func_name passing @c return_value and @c return_value_ptr
+ * as return value address; returns if the function fails due to an error or exception.
+ * @param[in] func_name name of the function to call (<tt>const char*</tt>)
+ * @param arguments function arguments (<tt>zval*</tt>)
+ * @note If the call fails or an exception occurs, the memory frame is restored.
+ * @li if @c return_value_ptr is not @c NULL, @c *return_value_ptr is initialized with @c ALLOC_INIT_ZVAL
+ * @li otherwise, if @c return_value is not @c NULL, @c return_value and @c *return_value are not changed
+ */
+#define PHALCON_RETURN_CALL_ZVAL_FUNCTION(func_name, ...) \
+	do { \
+		zval *params_[] = {__VA_ARGS__}; \
+		if (__builtin_constant_p(func_name)) { \
+			RETURN_MM_ON_FAILURE(phalcon_return_call_zval_function(return_value, return_value_ptr, func_name, sizeof(params_)/sizeof(zval*), params_ TSRMLS_CC)); \
+		} \
+		else { \
+			RETURN_MM_ON_FAILURE(phalcon_return_call_zval_function(return_value, return_value_ptr, func_name, sizeof(params_)/sizeof(zval*), params_ TSRMLS_CC)); \
+		} \
+	} while (0)
+
+/**
  * @}
  */
 
@@ -560,6 +599,8 @@ typedef zend_function phalcon_fcall_cache_entry;
 
 int phalcon_call_func_aparams(zval **return_value_ptr, const char *func_name, uint func_length, uint param_count, zval **params TSRMLS_DC) PHALCON_ATTR_WARN_UNUSED_RESULT;
 
+int phalcon_call_zval_func_aparams(zval **return_value_ptr, zval *func_name, uint param_count, zval **params TSRMLS_DC) PHALCON_ATTR_WARN_UNUSED_RESULT;
+
 /**
  * @ingroup callfuncs
  * @brief Calls a function @a func
@@ -580,6 +621,42 @@ PHALCON_ATTR_WARN_UNUSED_RESULT static inline int phalcon_return_call_function(z
 	}
 
 	status = phalcon_call_func_aparams(rvp, func, func_len, param_count, params TSRMLS_CC);
+
+	if (status == FAILURE) {
+		if (return_value_ptr && EG(exception)) {
+			ALLOC_INIT_ZVAL(*return_value_ptr);
+		}
+
+		return FAILURE;
+	}
+
+	if (!return_value_ptr) {
+		COPY_PZVAL_TO_ZVAL(*return_value, rv);
+	}
+
+	return SUCCESS;
+}
+
+/**
+ * @ingroup callfuncs
+ * @brief Calls a function @a func
+ * @param return_value Calling function's @c return_value
+ * @param return_value_ptr Calling function's @c return_value_ptr
+ * @param func Function name
+ * @param func_len Length of @a func (<tt>strlen(func)</tt>)
+ * @param param_count Number of parameters
+ */
+PHALCON_ATTR_WARN_UNUSED_RESULT static inline int phalcon_return_call_zval_function(zval *return_value, zval **return_value_ptr, zval *func, uint param_count, zval **params TSRMLS_DC)
+{
+	zval *rv = NULL, **rvp = return_value_ptr ? return_value_ptr : &rv;
+	int status;
+
+	if (return_value_ptr) {
+		zval_ptr_dtor(return_value_ptr);
+		*return_value_ptr = NULL;
+	}
+
+	status = phalcon_call_zval_func_aparams(rvp, func, param_count, params TSRMLS_CC);
 
 	if (status == FAILURE) {
 		if (return_value_ptr && EG(exception)) {

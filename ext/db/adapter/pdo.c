@@ -241,6 +241,13 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, connect){
 	}
 
 	/**
+	 * Remove the dialectClass from the descriptor if any
+	 */
+	if (phalcon_array_isset_string(descriptor, SS("dialectClass"))) {
+		phalcon_array_unset_string(&descriptor, SS("dialectClass"), PH_SEPARATE);
+	}
+
+	/**
 	 * Check if the user has defined a custom dsn
 	 */
 	if (!phalcon_array_isset_string(descriptor, SS("dsn"))) {
