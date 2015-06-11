@@ -83,6 +83,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, setUniqueRow);
 PHP_METHOD(Phalcon_Mvc_Model_Query, getUniqueRow);
 PHP_METHOD(Phalcon_Mvc_Model_Query, _getQualified);
 PHP_METHOD(Phalcon_Mvc_Model_Query, _getCallArgument);
+PHP_METHOD(Phalcon_Mvc_Model_Query, _getCaseExpression);
 PHP_METHOD(Phalcon_Mvc_Model_Query, _getFunctionCall);
 PHP_METHOD(Phalcon_Mvc_Model_Query, _getExpression);
 PHP_METHOD(Phalcon_Mvc_Model_Query, _getSelectColumn);
@@ -166,6 +167,7 @@ static const zend_function_entry phalcon_mvc_model_query_method_entry[] = {
 	PHP_ME(Phalcon_Mvc_Model_Query, getUniqueRow, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Query, _getQualified, NULL, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Mvc_Model_Query, _getCallArgument, NULL, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Mvc_Model_Query, _getCaseExpression, NULL, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Mvc_Model_Query, _getFunctionCall, NULL, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Mvc_Model_Query, _getExpression, NULL, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Mvc_Model_Query, _getSelectColumn, NULL, ZEND_ACC_PROTECTED)
@@ -668,6 +670,87 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getCallArgument){
 /**
  * Resolves a expression in a single call argument
  *
+ * @param array $argument
+ * @return string
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Query, _getCaseExpression){
+
+	zval *expr, *when_clauses, *left, *right, *when_expr = NULL;
+	zval *when_left = NULL, *when_right = NULL, *tmp = NULL, *tmp1 = NULL;
+	HashTable *ah0;
+	HashPosition hp0;
+	zval **hd;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 1, 0, &expr);
+
+	PHALCON_INIT_VAR(when_clauses);
+	array_init(when_clauses);
+
+	PHALCON_OBS_VAR(left);
+	phalcon_array_fetch_string(&left, expr, ISL(left), PH_NOISY);
+
+	PHALCON_OBS_VAR(right);
+	phalcon_array_fetch_string(&right, expr, ISL(right), PH_NOISY);
+
+	phalcon_is_iterable(right, &ah0, &hp0, 0, 0);
+	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
+
+		PHALCON_GET_HVALUE(when_expr);
+
+		if (phalcon_array_isset_string(when_expr, SS("right"))) {
+			zval *expr_left, *expr_right;
+
+			/** 
+			 * Resolving left part of the expression if any
+			 */
+			if (phalcon_array_isset_string_fetch(&expr_left, when_expr, SS("left"))) {
+				PHALCON_CALL_METHOD(&when_left, this_ptr, "_getexpression", expr_left);
+			}
+
+			/** 
+			 * Resolving right part of the expression if any
+			 */
+			if (phalcon_array_isset_string_fetch(&expr_right, when_expr, SS("right"))) {
+				PHALCON_CALL_METHOD(&when_right, this_ptr, "_getexpression", expr_right);
+			}
+
+			PHALCON_INIT_NVAR(tmp);
+			array_init(tmp);
+
+			phalcon_array_update_string_string(&tmp, ISL(type), SL("when"), PH_COPY);
+			phalcon_array_update_string(&tmp, SL("when"), when_left, PH_COPY);
+			phalcon_array_update_string(&tmp, SL("then"), when_right, PH_COPY);
+
+			phalcon_array_append(&when_clauses, tmp, 0);
+		} else {
+			PHALCON_INIT_NVAR(tmp);
+			array_init(tmp);
+
+			phalcon_array_update_string_string(&tmp, ISL(type), SL("else"), PH_COPY);
+			phalcon_array_update_string(&tmp, SL("expr"), when_left, PH_COPY);
+
+			phalcon_array_append(&when_clauses, tmp, 0);
+		}
+
+		zend_hash_move_forward_ex(ah0, &hp0);
+	}
+
+	PHALCON_CALL_METHOD(&tmp1, this_ptr, "_getexpression", left);
+
+	array_init(return_value);
+
+	phalcon_array_update_string_string(&return_value, ISL(type), SL("case"), PH_COPY);
+	phalcon_array_update_string(&return_value, SL("expr"), tmp1, PH_COPY);
+	phalcon_array_update_string(&return_value, SL("when-clauses"), when_clauses, PH_COPY);
+
+	RETURN_MM();
+}
+
+/**
+ * Resolves a expression in a single call argument
+ *
  * @param array $expr
  * @return string
  */
@@ -762,6 +845,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getExpression){
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
+	int type;
 
 	PHALCON_MM_GROW();
 
@@ -778,26 +862,29 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getExpression){
 		ZVAL_TRUE(temp_not_quoting);
 
 		/** 
-		 * Resolving left part of the expression if any
-		 */
-		if (phalcon_array_isset_string_fetch(&expr_left, expr, SS("left"))) {
-			PHALCON_CALL_METHOD(&left, this_ptr, "_getexpression", expr_left, temp_not_quoting);
-		}
-
-		/** 
-		 * Resolving right part of the expression if any
-		 */
-		if (phalcon_array_isset_string_fetch(&expr_right, expr, SS("right"))) {
-			PHALCON_CALL_METHOD(&right, this_ptr, "_getexpression", expr_right, temp_not_quoting);
-		}
-
-		/** 
 		 * Every node in the AST has a unique integer type
 		 */
 		PHALCON_OBS_VAR(expr_type);
 		phalcon_array_fetch_string(&expr_type, expr, ISL(type), PH_NOISY);
 
-		switch (phalcon_get_intval(expr_type)) {
+		type = phalcon_get_intval(expr_type);
+		if (type != PHQL_T_CASE) {
+			/** 
+			 * Resolving left part of the expression if any
+			 */
+			if (phalcon_array_isset_string_fetch(&expr_left, expr, SS("left"))) {
+				PHALCON_CALL_METHOD(&left, this_ptr, "_getexpression", expr_left, temp_not_quoting);
+			}
+
+			/** 
+			 * Resolving right part of the expression if any
+			 */
+			if (phalcon_array_isset_string_fetch(&expr_right, expr, SS("right"))) {
+				PHALCON_CALL_METHOD(&right, this_ptr, "_getexpression", expr_right, temp_not_quoting);
+			}
+		}
+
+		switch (type) {
 
 			case PHQL_T_LESS:
 				assert(left != NULL && right != NULL);
@@ -1047,6 +1134,39 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getExpression){
 				phalcon_array_update_string(&return_value, ISL(value), placeholder, PH_COPY);
 				break;
 
+			case PHQL_T_NTPLACEHOLDER: {
+				zval question_mark, colon;
+
+				PHALCON_OBS_VAR(value);
+				phalcon_array_fetch_string(&value, expr, SL("value"), PH_NOISY);
+
+				INIT_ZVAL(question_mark);
+				INIT_ZVAL(colon);
+
+				ZVAL_STRING(&question_mark, "?", 0);
+				ZVAL_STRING(&colon, ":", 0);
+
+				PHALCON_INIT_VAR(placeholder);
+				phalcon_fast_str_replace(placeholder, &question_mark, &colon, value);
+
+				array_init_size(return_value, 2);
+				add_assoc_stringl_ex(return_value, ISS(type), SL("placeholder"), 1);
+				phalcon_array_update_string(&return_value, ISL(value), placeholder, PH_COPY);
+				break;
+			}
+
+			case PHQL_T_STPLACEHOLDER:
+				PHALCON_OBS_NVAR(value);
+				phalcon_array_fetch_string(&value, expr, SL("value"), PH_NOISY);
+
+				PHALCON_INIT_NVAR(placeholder);
+				PHALCON_CONCAT_SV(placeholder, ":", value);
+
+				array_init_size(return_value, 2);
+				add_assoc_stringl_ex(return_value, ISS(type), SL("placeholder"), 1);
+				phalcon_array_update_string(&return_value, ISL(value), placeholder, PH_COPY);
+				break;
+
 			case PHQL_T_NULL:
 				array_init_size(return_value, 2);
 				add_assoc_stringl_ex(return_value, ISS(type), SL("literal"), 1);
@@ -1131,6 +1251,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getExpression){
 				phalcon_array_update_string(&return_value, ISL(right), right, PH_COPY);
 				break;
 
+			case PHQL_T_EXISTS:
+				assert(right != NULL);
+				array_init_size(return_value, 3);
+				add_assoc_stringl_ex(return_value, ISS(type), SL("unary-op"), 1);
+				add_assoc_stringl_ex(return_value, ISS(op), SL("EXISTS"), 1);
+				phalcon_array_update_string(&return_value, ISL(right), right, PH_COPY);
+				break;
+
 			case PHQL_T_DISTINCT:
 				assert(0);
 				PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Unexpected PHQL_T_DISTINCT - this should not happen");
@@ -1180,6 +1308,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getExpression){
 
 			case PHQL_T_FCALL:
 				PHALCON_RETURN_CALL_METHOD(this_ptr, "_getfunctioncall", expr);
+				break;
+
+			case PHQL_T_CASE:
+				PHALCON_RETURN_CALL_METHOD(this_ptr, "_getcaseexpression", expr);
 				break;
 
 			case PHQL_T_TS_MATCHES:

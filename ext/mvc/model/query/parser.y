@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -61,7 +61,7 @@ static zval *phql_ret_literal_zval(int type, phql_parser_token *T)
 	zval *ret;
 
 	MAKE_STD_ZVAL(ret);
-	array_init(ret);
+	array_init_size(ret, 2);
 	add_assoc_long(ret, phalcon_interned_type, type);
 	if (T) {
 		add_assoc_stringl(ret, phalcon_interned_value, T->token, T->token_len, 0);
@@ -1123,12 +1123,20 @@ expr(R) ::= expr(E) NOT IN PARENTHESES_OPEN argument_list(L) PARENTHESES_CLOSE .
 	R = phql_ret_expr(PHQL_T_NOTIN, E, L);
 }
 
+expr(R) ::= PARENTHESES_OPEN select_statement(S) PARENTHESES_CLOSE . {
+	R = phql_ret_expr(PHQL_T_SUBQUERY, S, NULL);
+}
+
 expr(R) ::= expr(E) IN PARENTHESES_OPEN select_statement(S) PARENTHESES_CLOSE . {
 	R = phql_ret_expr(PHQL_T_IN, E, S);
 }
 
 expr(R) ::= expr(E) NOT IN PARENTHESES_OPEN select_statement(S) PARENTHESES_CLOSE . {
 	R = phql_ret_expr(PHQL_T_NOTIN, E, S);
+}
+
+expr(R) ::= EXISTS PARENTHESES_OPEN select_statement(S) PARENTHESES_CLOSE . {
+	R = phql_ret_expr(PHQL_T_EXISTS, NULL, S);
 }
 
 expr(R) ::= expr(O1) AGAINST expr(O2) . {
@@ -1141,6 +1149,26 @@ expr(R) ::= CAST PARENTHESES_OPEN expr(E) AS IDENTIFIER(I) PARENTHESES_CLOSE . {
 
 expr(R) ::= CONVERT PARENTHESES_OPEN expr(E) USING IDENTIFIER(I) PARENTHESES_CLOSE . {
 	R = phql_ret_expr(PHQL_T_CONVERT, E, phql_ret_raw_qualified_name(I, NULL));
+}
+
+expr(R) ::= CASE expr(E) when_clauses(W) END . {
+	R = phql_ret_expr(PHQL_T_CASE, E, W);
+}
+
+when_clauses(R) ::= when_clauses(L) when_clause(W) . {
+	R = phql_ret_zval_list(L, W);
+}
+
+when_clauses(R) ::= when_clause(W) . {
+	R = phql_ret_zval_list(W, NULL);
+}
+
+when_clause(R) ::= WHEN expr(E) THEN expr(T) . {
+	R = phql_ret_expr(PHQL_T_WHEN, E, T);
+}
+
+when_clause(R) ::= ELSE expr(E) . {
+	R = phql_ret_expr(PHQL_T_ELSE, E, NULL);
 }
 
 %destructor function_call { zval_ptr_dtor(&$$); }
@@ -1251,6 +1279,14 @@ expr(R) ::= NPLACEHOLDER(P) . {
 
 expr(R) ::= SPLACEHOLDER(P) . {
 	R = phql_ret_placeholder_zval(PHQL_T_SPLACEHOLDER, P);
+}
+
+expr(R) ::= NTPLACEHOLDER(P) . {
+	R = phql_ret_placeholder_zval(PHQL_T_NTPLACEHOLDER, P);
+}
+
+expr(R) ::= STPLACEHOLDER(P) . {
+	R = phql_ret_placeholder_zval(PHQL_T_STPLACEHOLDER, P);
 }
 
 %destructor qualified_name { zval_ptr_dtor(&$$); }
