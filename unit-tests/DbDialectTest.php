@@ -507,7 +507,7 @@ class DbDialectTest extends PHPUnit_Framework_TestCase
 
 	public function testViews()
 	{
-	// MySQL
+		// MySQL
 		$dialect = new \Phalcon\Db\Dialect\Mysql();
 
 		$definition = array(
@@ -526,7 +526,7 @@ class DbDialectTest extends PHPUnit_Framework_TestCase
 
 		$this->assertEquals($dialect->listViews(), 'SELECT `TABLE_NAME` AS view_name FROM `INFORMATION_SCHEMA`.`VIEWS` ORDER BY view_name');
 
-	// SQLite
+		// SQLite
 		$dialect = new \Phalcon\Db\Dialect\Sqlite();
 
 		//Create View
@@ -540,6 +540,42 @@ class DbDialectTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($dialect->dropView('test_view', 'schema', true), 'DROP VIEW IF EXISTS "schema"."test_view"');
 
 		$this->assertEquals($dialect->listViews(), "SELECT tbl_name FROM sqlite_master WHERE type = 'view' ORDER BY tbl_name");
+	}
+
+	public function testCustomFunction() {
+		/*
+		$dialect = new Phalcon\Db\Dialect\MySQL();
+
+		$dialect->registerCustomFunction(
+			'MATCH_AGAINST', 
+			function($dialect, $expression) {
+				$arguments = $expression['arguments'];
+			
+				return sprintf(
+					" MATCH (%s) AGAINST (%s)",
+					$dialect->getSqlExpression($arguments[0]),
+					$dialect->getSqlExpression($arguments[1])
+				 );
+			}
+		);
+
+		$configMysql = array(
+			'host' => 'localhost',
+			'username' => 'root',
+			'password' => '123456',
+			'dbname' => 'phalcon_test',
+			"dialectClass"  => $dialect
+		);
+
+		$connection = new \Phalcon\Db\Adapter\Pdo\Mysql($configMysql);
+
+		$connection->setEventsManager($eventsManager);
+		);
+
+
+		$phql = "SELECT * FROM Robots WHERE MATCH_AGAINST(name, :pattern:)";
+		$result = $di->modelsManager->executeQuery($phql, ['pattern' => $pattern]);
+		*/
 	}
 
 }
