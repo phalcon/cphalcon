@@ -194,7 +194,7 @@ class Mysql extends PdoAdapter implements AdapterInterface
 				/**
 				 * Tinyblob
 				 */
-				if(memstr(columnType, "tinyblob")) {
+				if memstr(columnType, "tinyblob") {
 					let definition["type"] = Column::TYPE_TINYBLOB;
 					break;
 				}
@@ -202,7 +202,7 @@ class Mysql extends PdoAdapter implements AdapterInterface
 				/**
 				 * Mediumblob
 				 */
-				if(memstr(columnType, "mediumblob")) {
+				if memstr(columnType, "mediumblob") {
 					let definition["type"] = Column::TYPE_MEDIUMBLOB;
 					break;
 				}
@@ -210,7 +210,7 @@ class Mysql extends PdoAdapter implements AdapterInterface
 				/**
 				 * Longblob
 				 */
-				if(memstr(columnType, "longblob")) {
+				if memstr(columnType, "longblob") {
 					let definition["type"] = Column::TYPE_LONGBLOB;
 					break;
 				}
@@ -218,7 +218,7 @@ class Mysql extends PdoAdapter implements AdapterInterface
 				/**
 				* Blob
 				*/
-				if(memstr(columnType, "blob")) {
+				if memstr(columnType, "blob") {
 					let definition["type"] = Column::TYPE_BLOB;
 					break;
 				}
