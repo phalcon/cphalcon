@@ -736,6 +736,25 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 	}
 
 	/**
+	 * Creates a query builder from criteria
+	 */
+	public function createBuilder() -> <BuilderInterface>
+	{
+		var dependencyInjector,manager, builder;
+
+		let dependencyInjector = \Phalcon\Di::getDefault();
+		let manager = <ManagerInterface> dependencyInjector->getShared("modelsManager");
+
+		/**
+		* Builds a query with the passed parameters
+		*/
+		let builder = manager->createBuilder(this->_params);
+		builder->from(this->_model);
+
+		return builder;
+	}
+
+	/**
 	 * Executes a find using the parameters built with the criteria
 	 */
 	public function execute() -> <ResultsetInterface>

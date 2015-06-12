@@ -352,4 +352,9 @@ class ModelsCriteriaTest extends PHPUnit_Framework_TestCase
 		$this->assertFalse($personas->isFresh());
 	}
 
+    public function testCreateBuilder()
+    {
+        $criteria = Personas::query()->where("estado='I'");
+        $this->assertInstanceOf('Phalcon\Mvc\Model\Query\Builder', $criteria->createBuilder());
+    }
 }
