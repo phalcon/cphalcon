@@ -1137,3 +1137,13 @@ PHP_METHOD(Phalcon_Assets_Manager, outputInlineJs) {
 
 }
 
+/**
+ * Returns existing collections in the manager
+ */
+PHP_METHOD(Phalcon_Assets_Manager, getCollections) {
+
+
+	RETURN_MEMBER(this_ptr, "_collections");
+
+}
+

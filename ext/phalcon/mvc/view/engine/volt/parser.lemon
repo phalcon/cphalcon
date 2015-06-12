@@ -322,7 +322,7 @@ static zval *phvolt_ret_macro_parameter(phvolt_parser_token *variable, zval *def
 	return ret;
 }
 
-static zval *phvolt_ret_extends_statement(phvolt_parser_token *P, phvolt_scanner_state *state)
+static zval *phvolt_ret_extends_statement(zval *path, phvolt_scanner_state *state)
 {
 	zval *ret;
 
@@ -330,8 +330,7 @@ static zval *phvolt_ret_extends_statement(phvolt_parser_token *P, phvolt_scanner
 	array_init_size(ret, 4);
 
 	add_assoc_long(ret, "type", PHVOLT_T_EXTENDS);
-	add_assoc_stringl(ret, "path", P->token, P->token_len, 0);
-	efree(P);
+	add_assoc_zval(ret, "path", path);	
 
 	Z_ADDREF_P(state->active_file);
 	add_assoc_zval(ret, "file", state->active_file);
@@ -1039,7 +1038,7 @@ raw_statement(R) ::= OPEN_DELIMITER RAW CLOSE_DELIMITER statement(T) OPEN_DELIMI
 
 %destructor extends_statement { zval_ptr_dtor(&$$); }
 
-extends_statement(R) ::= OPEN_DELIMITER EXTENDS STRING(S) CLOSE_DELIMITER . {
+extends_statement(R) ::= OPEN_DELIMITER EXTENDS expr(S) CLOSE_DELIMITER . {
 	R = phvolt_ret_extends_statement(S, status->scanner_state);
 }
 

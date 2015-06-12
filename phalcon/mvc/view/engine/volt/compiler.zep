@@ -2101,11 +2101,12 @@ class Compiler implements InjectionAwareInterface
 					 * Extends statement
 					 */
 					let path = statement["path"];
+
 					let view = this->_view;
 					if typeof view == "object" {
-						let finalPath = view->getViewsDir() . path;
+						let finalPath = view->getViewsDir() . path["value"];
 					} else {
-						let finalPath = path;
+						let finalPath = path["value"];
 					}
 
 					let extended = true;

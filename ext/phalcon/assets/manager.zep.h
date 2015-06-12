@@ -26,6 +26,7 @@ PHP_METHOD(Phalcon_Assets_Manager, outputCss);
 PHP_METHOD(Phalcon_Assets_Manager, outputInlineCss);
 PHP_METHOD(Phalcon_Assets_Manager, outputJs);
 PHP_METHOD(Phalcon_Assets_Manager, outputInlineJs);
+PHP_METHOD(Phalcon_Assets_Manager, getCollections);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_assets_manager___construct, 0, 0, 0)
 	ZEND_ARG_INFO(0, options)
@@ -147,5 +148,6 @@ ZEPHIR_INIT_FUNCS(phalcon_assets_manager_method_entry) {
 	PHP_ME(Phalcon_Assets_Manager, outputInlineCss, arginfo_phalcon_assets_manager_outputinlinecss, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Assets_Manager, outputJs, arginfo_phalcon_assets_manager_outputjs, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Assets_Manager, outputInlineJs, arginfo_phalcon_assets_manager_outputinlinejs, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Assets_Manager, getCollections, NULL, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };
