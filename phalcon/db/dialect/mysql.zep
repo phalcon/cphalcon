@@ -131,6 +131,30 @@ class MySQL extends Dialect
 				}
 				break;
 
+			case Column::TYPE_TINYBLOB:
+				if empty columnSql {
+					let columnSql .= "TINYBLOB";
+				}
+				break;
+
+			case Column::TYPE_BLOB:
+				if empty columnSql {
+					let columnSql .= "BLOB";
+				}
+				break;
+
+			case Column::TYPE_MEDIUMBLOB:
+				if empty columnSql {
+					let columnSql .= "MEDIUMBLOB";
+				}
+				break;
+
+			case Column::TYPE_LONGBLOB:
+				if empty columnSql {
+					let columnSql .= "LONGBLOB";
+				}
+				break;
+
 			default:
 				if empty columnSql {
 					throw new Exception("Unrecognized MySQL data type");

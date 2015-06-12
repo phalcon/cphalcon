@@ -192,6 +192,38 @@ class Mysql extends PdoAdapter implements AdapterInterface
 				}
 
 				/**
+				 * Tinyblob
+				 */
+				if(memstr(columnType, "tinyblob")) {
+					let definition["type"] = Column::TYPE_TINYBLOB;
+					break;
+				}
+
+				/**
+				 * Mediumblob
+				 */
+				if(memstr(columnType, "mediumblob")) {
+					let definition["type"] = Column::TYPE_MEDIUMBLOB;
+					break;
+				}
+
+				/**
+				 * Longblob
+				 */
+				if(memstr(columnType, "longblob")) {
+					let definition["type"] = Column::TYPE_LONGBLOB;
+					break;
+				}
+
+				/**
+				* Blob
+				*/
+				if(memstr(columnType, "blob")) {
+					let definition["type"] = Column::TYPE_BLOB;
+					break;
+				}
+
+				/**
 				 * By default is string
 				 */
 				let definition["type"] = Column::TYPE_VARCHAR;
