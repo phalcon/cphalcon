@@ -1,4 +1,3 @@
-
 /*
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
@@ -62,6 +61,10 @@ int phalcon_start_with_str(const zval *str, char *compared, unsigned int compare
 int phalcon_start_with_str_str(char *str, unsigned int str_length, char *compared, unsigned int compared_length);
 int phalcon_end_with(const zval *str, const zval *compared, zval *case_sensitive);
 int phalcon_end_with_str(const zval *str, char *compared, unsigned int compared_length);
+
+/** Compare */
+int phalcon_comparestr(const zval *str, const zval *compared, zval *case_sensitive);
+int phalcon_comparestr_str(const zval *str, char *compared, unsigned int compared_length, zval *case_sensitive);
 
 /** Random string */
 void phalcon_random_string(zval *return_value, const zval *type, const zval *length TSRMLS_DC);

@@ -1,4 +1,3 @@
-
 /*
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
@@ -1195,6 +1194,50 @@ int phalcon_end_with_str(const zval *str, char *compared, unsigned int compared_
 	}
 
 	return !memcmp(Z_STRVAL_P(str) + Z_STRLEN_P(str) - compared_length, compared, compared_length);
+}
+
+/**
+ * Checks if a zval string equal with other string
+ */
+int phalcon_comparestr(const zval *str, const zval *compared, zval *case_sensitive){
+
+	if (Z_TYPE_P(str) != IS_STRING || Z_TYPE_P(compared) != IS_STRING) {
+		return 0;
+	}
+
+	if (!Z_STRLEN_P(compared) || !Z_STRLEN_P(str) || Z_STRLEN_P(compared) != Z_STRLEN_P(str)) {
+		return 0;
+	}
+
+	if (Z_STRVAL_P(str) == Z_STRVAL_P(compared)) {
+		return 1;
+	}
+
+	if (!zend_is_true(case_sensitive)) {
+		return !strcmp(Z_STRVAL_P(str), Z_STRVAL_P(compared));
+	}
+
+	return !strcasecmp(Z_STRVAL_P(str), Z_STRVAL_P(compared));
+}
+
+/**
+ * Checks if a zval string equal with a zval string
+ */
+int phalcon_comparestr_str(const zval *str, char *compared, unsigned int compared_length, zval *case_sensitive){
+
+	if (Z_TYPE_P(str) != IS_STRING) {
+		return 0;
+	}
+
+	if (!compared_length || !Z_STRLEN_P(str) || compared_length != (uint)(Z_STRLEN_P(str))) {
+		return 0;
+	}
+
+	if (!zend_is_true(case_sensitive)) {
+		return !strcmp(Z_STRVAL_P(str), compared);
+	}
+
+	return !strcasecmp(Z_STRVAL_P(str), compared);
 }
 
 /**

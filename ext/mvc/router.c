@@ -1,4 +1,3 @@
-
 /*
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
@@ -582,9 +581,9 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 	zval *uri = NULL, *real_uri = NULL, *debug_message = NULL;
 	zval *handled_uri = NULL, *request = NULL, *current_host_name = NULL;
 	zval *route_found = NULL, *parts = NULL, *params = NULL, *matches, *routes;
-	zval *route = NULL, *methods = NULL;
+	zval *route = NULL, *case_sensitive = NULL, *methods = NULL;
 	zval *service, *match_method = NULL, *hostname = NULL, *regex_host_name = NULL;
-	zval *matched = NULL, *pattern = NULL, *before_match = NULL, *before_match_params = NULL;
+	zval *matched = NULL, *pattern = NULL, *case_pattern = NULL, *before_match = NULL, *before_match_params = NULL;
 	zval *paths = NULL, *converters = NULL, *position = NULL, *part = NULL;
 	zval *parameters = NULL, *converted_part = NULL;
 	zval *namespace, *module, *controller;
@@ -657,6 +656,8 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 
 		PHALCON_GET_HVALUE(route);
+
+		PHALCON_CALL_METHOD(&case_sensitive, route, "getcasesensitive");
 
 		/**
 		 * Look for HTTP method constraints
@@ -731,6 +732,11 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 				}
 
 				RETURN_MM_ON_FAILURE(phalcon_preg_match(matched, regex_host_name, current_host_name, NULL TSRMLS_CC));
+
+				if (!zend_is_true(matched)) {
+					zend_hash_move_backwards_ex(ah0, &hp0);
+					continue;
+				}
 			} else {
 				/* FIXME: handle mixed case */
 				is_equal_function(matched, current_host_name, hostname TSRMLS_CC);
@@ -749,9 +755,15 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 
 		PHALCON_INIT_NVAR(route_found);
 		if (Z_TYPE_P(pattern) == IS_STRING && Z_STRLEN_P(pattern) > 3 && Z_STRVAL_P(pattern)[1] == '^') {
-			RETURN_MM_ON_FAILURE(phalcon_preg_match(route_found, pattern, handled_uri, matches TSRMLS_CC));
+			if (zend_is_true(case_sensitive)) {
+				PHALCON_INIT_NVAR(case_pattern);
+				PHALCON_CONCAT_VS(case_pattern, pattern, "i");
+				RETURN_MM_ON_FAILURE(phalcon_preg_match(route_found, case_pattern, handled_uri, matches TSRMLS_CC));
+			} else {
+				RETURN_MM_ON_FAILURE(phalcon_preg_match(route_found, pattern, handled_uri, matches TSRMLS_CC));
+			}
 		} else {
-			is_equal_function(route_found, pattern, handled_uri TSRMLS_CC);
+			ZVAL_BOOL(route_found, phalcon_comparestr(pattern, handled_uri, case_sensitive));
 		}
 
 		/**

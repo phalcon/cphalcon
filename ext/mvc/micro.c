@@ -1275,16 +1275,16 @@ PHP_METHOD(Phalcon_Mvc_Micro, _throwException){
 
 	phalcon_fetch_params(1, 1, 0, &message);
 
-	PHALCON_INIT_VAR(object);
-	object_init_ex(object, phalcon_mvc_micro_exception_ce);
-	PHALCON_CALL_METHOD(NULL, object, "__construct", message);
-
 	handler = phalcon_fetch_nproperty_this(this_ptr, SL("_errorHandler"), PH_NOISY TSRMLS_CC);
 
 	if (!phalcon_is_callable(handler TSRMLS_CC)) {
-		zend_throw_exception_object(object TSRMLS_CC);
-		RETURN_MM();
+		PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_micro_exception_ce, message);
+		return;
 	}
+
+	PHALCON_INIT_VAR(object);
+	object_init_ex(object, phalcon_mvc_micro_exception_ce);
+	PHALCON_CALL_METHOD(NULL, object, "__construct", message);
 
 	PHALCON_INIT_VAR(arguments);
 	array_init_size(arguments, 1);
@@ -1294,7 +1294,8 @@ PHP_METHOD(Phalcon_Mvc_Micro, _throwException){
 	PHALCON_CALL_USER_FUNC_ARRAY(status, handler, arguments);
 
 	if (Z_TYPE_P(status) != IS_OBJECT || !instanceof_function_ex(Z_OBJCE_P(status), phalcon_http_responseinterface_ce, 1 TSRMLS_CC)) {
-		zend_throw_exception_object(object TSRMLS_CC);
+		PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_micro_exception_ce, message);
+		return;
 	} else {
 		PHALCON_CALL_METHOD(NULL, status, "send");
 	}
