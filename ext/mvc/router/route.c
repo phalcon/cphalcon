@@ -1,4 +1,3 @@
-
 /*
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
@@ -76,6 +75,8 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, getDefaultAction);
 PHP_METHOD(Phalcon_Mvc_Router_Route, getDefaultParams);
 PHP_METHOD(Phalcon_Mvc_Router_Route, setUrlGenerator);
 PHP_METHOD(Phalcon_Mvc_Router_Route, getUrlGenerator);
+PHP_METHOD(Phalcon_Mvc_Router_Route, setCaseSensitive);
+PHP_METHOD(Phalcon_Mvc_Router_Route, getCaseSensitive);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_router_route___construct, 0, 0, 1)
 	ZEND_ARG_INFO(0, pattern)
@@ -103,6 +104,10 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_router_route_seturlgenerator, 0, 0, 1)
 	ZEND_ARG_INFO(0, handler)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_router_route_setcasesensitive, 0, 0, 1)
+	ZEND_ARG_INFO(0, caseSensitive)
 ZEND_END_ARG_INFO()
 
 static const zend_function_entry phalcon_mvc_router_route_method_entry[] = {
@@ -137,6 +142,8 @@ static const zend_function_entry phalcon_mvc_router_route_method_entry[] = {
 	PHP_ME(Phalcon_Mvc_Router_Route, getDefaultParams, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Router_Route, setUrlGenerator, arginfo_phalcon_mvc_router_route_seturlgenerator, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Router_Route, getUrlGenerator, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Router_Route, setCaseSensitive, arginfo_phalcon_mvc_router_route_setcasesensitive, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Router_Route, getCaseSensitive, NULL, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };
 
@@ -164,6 +171,7 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Router_Route){
 	zend_declare_property_null(phalcon_mvc_router_route_ce, SL("_defaultAction"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_router_route_ce, SL("_defaultParams"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_router_route_ce, SL("_urlGenerator"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_bool(phalcon_mvc_router_route_ce, SL("_caseSensitive"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	zend_class_implements(phalcon_mvc_router_route_ce TSRMLS_CC, 1, phalcon_mvc_router_routeinterface_ce);
 
@@ -1033,4 +1041,30 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, setUrlGenerator){
 PHP_METHOD(Phalcon_Mvc_Router_Route, getUrlGenerator){
 
 	RETURN_MEMBER(this_ptr, "_urlGenerator");
+}
+
+/**
+ * Sets the case sensitive
+ * @param boolean $caseSensitive
+ * @return string
+ */
+PHP_METHOD(Phalcon_Mvc_Router_Route, setCaseSensitive){
+
+	zval *case_sensitive;
+
+	phalcon_fetch_params(0, 1, 0, &case_sensitive);
+
+	phalcon_update_property_bool(this_ptr, SL("_caseSensitive"), zend_is_true(case_sensitive) TSRMLS_CC);
+
+	RETURN_THISW();
+}
+
+/**
+ * Returns the case sensitive
+ *
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Mvc_Router_Route, getCaseSensitive){
+
+	RETURN_MEMBER(this_ptr, "_caseSensitive");
 }
