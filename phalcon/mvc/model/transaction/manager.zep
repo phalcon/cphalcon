@@ -173,7 +173,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface
 			}
 			let this->_initialized = true;
 		}
-		return this->getOrCreateTransaction();
+		return this->getOrCreateTransaction(autoBegin);
 	}
 
 	/**
