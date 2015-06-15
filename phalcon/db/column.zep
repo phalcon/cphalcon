@@ -456,7 +456,7 @@ class Column implements ColumnInterface
 		}
 
 		if fetch scale, data["_scale"] {
-			if definition["type"] == self::TYPE_INTEGER || definition["type"] == self::TYPE_FLOAT || definition["type"] == self::TYPE_DECIMAL {
+			if definition["type"] == self::TYPE_INTEGER || definition["type"] == self::TYPE_FLOAT || definition["type"] == self::TYPE_DECIMAL || definition["type"] == self::TYPE_DOUBLE {
 				let definition["scale"] = scale;
 			}
 		}
