@@ -19,7 +19,7 @@
 
 namespace Phalcon\Mvc\Model\Validator;
 
-use Phalcon\Mvc\ModelInterface;
+use Phalcon\Mvc\EntityInterface;
 use Phalcon\Mvc\Model\Exception;
 use Phalcon\Mvc\Model\Validator;
 use Phalcon\Mvc\Model\ValidatorInterface;
@@ -54,7 +54,7 @@ class Inclusionin extends Validator implements ValidatorInterface
 	/**
 	 * Executes validator
 	 */
-	public function validate(<ModelInterface> record) -> boolean
+	public function validate(<EntityInterface> record) -> boolean
 	{
 		var field, domain, value, message, strict;
 

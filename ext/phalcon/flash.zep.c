@@ -44,6 +44,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Flash) {
 
 	zend_declare_property_bool(phalcon_flash_ce, SL("_automaticHtml"), 1, ZEND_ACC_PROTECTED TSRMLS_CC);
 
+	zend_declare_property_null(phalcon_flash_ce, SL("_messages"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	return SUCCESS;
 
 }
@@ -293,7 +295,7 @@ PHP_METHOD(Phalcon_Flash, outputMessage) {
 			ZEPHIR_INIT_VAR(content);
 			ZVAL_STRING(content, "", 1);
 		}
-		zephir_is_iterable(message, &_3, &_2, 0, 0, "phalcon/flash.zep", 200);
+		zephir_is_iterable(message, &_3, &_2, 0, 0, "phalcon/flash.zep", 203);
 		for (
 		  ; zephir_hash_get_current_data_ex(_3, (void**) &_4, &_2) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_3, &_2)
@@ -309,6 +311,7 @@ PHP_METHOD(Phalcon_Flash, outputMessage) {
 				zend_print_zval(htmlMessage, 0);
 			} else {
 				zephir_concat_self(&content, htmlMessage TSRMLS_CC);
+				zephir_update_property_array_append(this_ptr, SL("_messages"), htmlMessage TSRMLS_CC);
 			}
 		}
 		if (implicitFlush == 0) {
@@ -324,9 +327,26 @@ PHP_METHOD(Phalcon_Flash, outputMessage) {
 		if (implicitFlush == 1) {
 			zend_print_zval(htmlMessage, 0);
 		} else {
+			zephir_update_property_array_append(this_ptr, SL("_messages"), htmlMessage TSRMLS_CC);
 			RETURN_CCTOR(htmlMessage);
 		}
 	}
+	ZEPHIR_MM_RESTORE();
+
+}
+
+/**
+ * Clears accumulated messages when implicit flush is disabled
+ */
+PHP_METHOD(Phalcon_Flash, clear) {
+
+	zval *_0;
+
+	ZEPHIR_MM_GROW();
+
+	ZEPHIR_INIT_VAR(_0);
+	array_init(_0);
+	zephir_update_property_this(this_ptr, SL("_messages"), _0 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 
 }

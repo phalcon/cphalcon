@@ -76,7 +76,7 @@ int phql_get_token(phql_scanner_state *s, phql_scanner_token *token) {
 			token->len = YYCURSOR - q - 1;
 			q = YYCURSOR;
 			return 0;
-		}		
+		}
 
 		'UPDATE' {
 			token->opcode = PHQL_T_UPDATE;
@@ -320,6 +320,11 @@ int phql_get_token(phql_scanner_state *s, phql_scanner_token *token) {
 
         'END' {
 			token->opcode = PHQL_T_END;
+			return 0;
+		}
+
+		'FOR' {
+			token->opcode = PHQL_T_FOR;
 			return 0;
 		}
 

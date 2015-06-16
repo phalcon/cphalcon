@@ -105,6 +105,7 @@
 #define PHQL_T_CONVERT 335
 #define PHQL_T_USING 336
 #define PHQL_T_ALL 337
+#define PHQL_T_FOR 338
 
 /** Special Tokens */
 #define PHQL_T_FCALL 350

@@ -63,23 +63,7 @@ interface CollectionInterface
 	 *
 	 * @return MongoDb
 	 */
-	public function getConnection();
-
-	/**
-	 * Reads an attribute value by its name
-	 *
-	 * @param string attribute
-	 * @return mixed
-	 */
-	public function readAttribute(string! attribute);
-
-	/**
-	 * Writes an attribute value by its name
-	 *
-	 * @param string attribute
-	 * @param mixed value
-	 */
-	public function writeAttribute(string! attribute, value);
+	public function getConnection();	
 
 	/**
 	 * Returns a cloned collection

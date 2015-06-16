@@ -207,13 +207,10 @@ class Sqlite extends Dialect
 	 */
 	public function dropIndex(string! tableName, string! schemaName, string! indexName) -> string
 	{
-		var sql;
 		if schemaName {
-			let sql = "DROP INDEX \"" . schemaName . "\".\"" . indexName . "\"";
-		} else {
-			let sql = "DROP INDEX \"" . indexName . "\"";
+			return "DROP INDEX \"" . schemaName . "\".\"" . indexName . "\"";
 		}
-		return sql;
+		return "DROP INDEX \"" . indexName . "\"";
 	}
 
 	/**
@@ -303,7 +300,7 @@ class Sqlite extends Dialect
 	 */
 	public function dropView(string! viewName, string schemaName = null, boolean! ifExists = true) -> string
 	{
-		var sql, view;
+		var view;
 
 		if schemaName {
 			let view = schemaName . "\".\"" . viewName;
@@ -312,12 +309,9 @@ class Sqlite extends Dialect
 		}
 
 		if ifExists {
-			let sql = "DROP VIEW IF EXISTS \"" . view . "\"";
-		} else {
-			let sql = "DROP VIEW \"" . view . "\"";
+			return "DROP VIEW IF EXISTS \"" . view . "\"";
 		}
-
-		return sql;
+		return "DROP VIEW \"" . view . "\"";
 	}
 
 	/**

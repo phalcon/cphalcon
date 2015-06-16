@@ -19,6 +19,7 @@
 
 namespace Phalcon\Flash;
 
+use Phalcon\Flash as FlashBase;
 use Phalcon\DiInterface;
 use Phalcon\FlashInterface;
 use Phalcon\Di\InjectionAwareInterface;
@@ -30,7 +31,7 @@ use Phalcon\Session\AdapterInterface as SessionInterface;
  *
  * Temporarily stores the messages in session, then messages can be printed in the next request
  */
-class Session extends \Phalcon\Flash implements FlashInterface, InjectionAwareInterface
+class Session extends FlashBase implements FlashInterface, InjectionAwareInterface
 {
 
 	protected _dependencyInjector;
@@ -159,6 +160,8 @@ class Session extends \Phalcon\Flash implements FlashInterface, InjectionAwareIn
 				this->outputMessage(type, message);
 			}
 		}
+
+		parent::clear();
 	}
 
 	/**
@@ -167,5 +170,6 @@ class Session extends \Phalcon\Flash implements FlashInterface, InjectionAwareIn
 	public function clear() -> void
 	{
 		this->_getSessionMessages(true);
+		parent::clear();
 	}
 }

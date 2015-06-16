@@ -211,6 +211,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/mvc/dispatcher.zep.c
 	phalcon/mvc/dispatcher/exception.zep.c
 	phalcon/mvc/dispatcherinterface.zep.c
+	phalcon/mvc/entityinterface.zep.c
 	phalcon/mvc/micro.zep.c
 	phalcon/mvc/micro/collection.zep.c
 	phalcon/mvc/micro/collectioninterface.zep.c

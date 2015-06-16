@@ -188,7 +188,7 @@ PHP_METHOD(Phalcon_Logger_Formatter_Firephp, format) {
 		ZVAL_STRING(&_3, "5.3.6", 0);
 		ZEPHIR_SINIT_VAR(_4);
 		ZVAL_STRING(&_4, "<", 0);
-		ZEPHIR_CALL_FUNCTION(&_0, "version_compare", NULL, 232, _1, &_3, &_4);
+		ZEPHIR_CALL_FUNCTION(&_0, "version_compare", NULL, 233, _1, &_3, &_4);
 		zephir_check_call_status();
 		if (!(zephir_is_true(_0))) {
 			param = (2) ? 1 : 0;

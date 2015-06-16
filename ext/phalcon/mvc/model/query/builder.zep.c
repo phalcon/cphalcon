@@ -1757,21 +1757,21 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getQuery) {
 
 	ZEPHIR_INIT_VAR(query);
 	object_init_ex(query, phalcon_mvc_model_query_ce);
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getphql", NULL, 340);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getphql", NULL, 341);
 	zephir_check_call_status();
 	_1 = zephir_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
-	ZEPHIR_CALL_METHOD(NULL, query, "__construct", NULL, 331, _0, _1);
+	ZEPHIR_CALL_METHOD(NULL, query, "__construct", NULL, 332, _0, _1);
 	zephir_check_call_status();
 	ZEPHIR_OBS_VAR(bindParams);
 	zephir_read_property_this(&bindParams, this_ptr, SL("_bindParams"), PH_NOISY_CC);
 	if (Z_TYPE_P(bindParams) == IS_ARRAY) {
-		ZEPHIR_CALL_METHOD(NULL, query, "setbindparams", NULL, 341, bindParams);
+		ZEPHIR_CALL_METHOD(NULL, query, "setbindparams", NULL, 342, bindParams);
 		zephir_check_call_status();
 	}
 	ZEPHIR_OBS_VAR(bindTypes);
 	zephir_read_property_this(&bindTypes, this_ptr, SL("_bindTypes"), PH_NOISY_CC);
 	if (Z_TYPE_P(bindTypes) == IS_ARRAY) {
-		ZEPHIR_CALL_METHOD(NULL, query, "setbindtypes", NULL, 342, bindTypes);
+		ZEPHIR_CALL_METHOD(NULL, query, "setbindtypes", NULL, 343, bindTypes);
 		zephir_check_call_status();
 	}
 	RETURN_CCTOR(query);

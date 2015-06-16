@@ -62,22 +62,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_CollectionInterface, setConnectionService);
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_CollectionInterface, getConnection);
 
 /**
- * Reads an attribute value by its name
- *
- * @param string attribute
- * @return mixed
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_CollectionInterface, readAttribute);
-
-/**
- * Writes an attribute value by its name
- *
- * @param string attribute
- * @param mixed value
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_CollectionInterface, writeAttribute);
-
-/**
  * Returns a cloned collection
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_CollectionInterface, cloneResult);

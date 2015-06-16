@@ -19,6 +19,8 @@
 
 namespace Phalcon\Mvc\Model;
 
+use Phalcon\Mvc\EntityInterface;
+
 /**
  * Phalcon\Mvc\Model\ValidatorInterface
  *
@@ -40,6 +42,5 @@ interface ValidatorInterface
 	 * @param Phalcon\Mvc\ModelInterface record
 	 * @return boolean
 	 */
-	public function validate(<\Phalcon\Mvc\ModelInterface> record);
-
+	public function validate(<EntityInterface> record) -> boolean;
 }

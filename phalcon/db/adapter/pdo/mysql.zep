@@ -148,16 +148,6 @@ class Mysql extends PdoAdapter implements AdapterInterface
 				}
 
 				/**
-				 * Decimals are floats
-				 */
-				if memstr(columnType, "decimal") || memstr(columnType, "double") {
-					let definition["type"] = Column::TYPE_DECIMAL,
-						definition["isNumeric"] = true,
-						definition["bindType"] = Column::BIND_PARAM_DECIMAL;
-					break;
-				}
-
-				/**
 				 * Chars are chars
 				 */
 				if memstr(columnType, "char") {
@@ -182,12 +172,74 @@ class Mysql extends PdoAdapter implements AdapterInterface
 				}
 
 				/**
+				 * Decimals are floats
+				 */
+				if memstr(columnType, "decimal"){
+					let definition["type"] = Column::TYPE_DECIMAL,
+						definition["isNumeric"] = true,
+						definition["bindType"] = Column::BIND_PARAM_DECIMAL;
+					break;
+				}
+
+				/**
+				 * Doubles
+				 */
+				if memstr(columnType, "double"){
+					let definition["type"] = Column::TYPE_DOUBLE,
+						definition["isNumeric"] = true,
+						definition["bindType"] = Column::BIND_PARAM_DECIMAL;
+					break;
+				}
+
+				/**
 				 * Float/Smallfloats/Decimals are float
 				 */
 				if memstr(columnType, "float") {
 					let definition["type"] = Column::TYPE_FLOAT,
 						definition["isNumeric"] = true,
-						definition["bindType"] = Column::TYPE_DECIMAL;
+						definition["bindType"] = Column::BIND_PARAM_DECIMAL;
+					break;
+				}
+
+				/**
+				 * Boolean
+				 */
+				if memstr(columnType, "bit") {
+					let definition["type"] = Column::TYPE_BOOLEAN,						
+						definition["bindType"] = Column::BIND_PARAM_BOOL;
+					break;
+				}
+
+				/**
+				 * Tinyblob
+				 */
+				if memstr(columnType, "tinyblob") {
+					let definition["type"] = Column::TYPE_TINYBLOB,
+						definition["bindType"] = Column::BIND_PARAM_BOOL;
+					break;
+				}
+
+				/**
+				 * Mediumblob
+				 */
+				if memstr(columnType, "mediumblob") {
+					let definition["type"] = Column::TYPE_MEDIUMBLOB;
+					break;
+				}
+
+				/**
+				 * Longblob
+				 */
+				if memstr(columnType, "longblob") {
+					let definition["type"] = Column::TYPE_LONGBLOB;
+					break;
+				}
+
+				/**
+				 * Blob
+				 */
+				if memstr(columnType, "blob") {
+					let definition["type"] = Column::TYPE_BLOB;
 					break;
 				}
 

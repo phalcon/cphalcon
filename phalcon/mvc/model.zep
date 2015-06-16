@@ -76,7 +76,7 @@ use Phalcon\Events\ManagerInterface as EventsManagerInterface;
  * </code>
  *
  */
-abstract class Model implements ModelInterface, ResultInterface, InjectionAwareInterface, \Serializable
+abstract class Model implements EntityInterface, ModelInterface, ResultInterface, InjectionAwareInterface, \Serializable
 {
 
 	protected _dependencyInjector;
