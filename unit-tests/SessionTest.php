@@ -172,4 +172,63 @@ class SessionTest extends PHPUnit_Framework_TestCase
 
 	}
 
+	public function testSessionClass()
+	{
+		$session = new Phalcon\Session();
+
+		$this->assertFalse($session->start());
+		$this->assertFalse($session->isStarted());
+
+		@session_start();
+
+		$session->set('some', 'value');
+
+		$this->assertEquals($session->get('some'), 'value');
+		$this->assertTrue($session->has('some'));
+		$this->assertEquals($session->get('undefined', 'my-default'), 'my-default');
+
+		// Automatically deleted after reading
+		$this->assertEquals($session->get('some', NULL, TRUE), 'value');
+		$this->assertFalse($session->has('some'));
+	}
+
+	public function testSessionAdapterFiles()
+	{
+		$session = new Phalcon\Session(array('adapter' => 'files'));
+
+		$this->assertFalse($session->start());
+		$this->assertFalse($session->isStarted());
+
+		@session_start();
+
+		$session->set('some', 'value');
+
+		$this->assertEquals($session->get('some'), 'value');
+		$this->assertTrue($session->has('some'));
+		$this->assertEquals($session->get('undefined', 'my-default'), 'my-default');
+
+		// Automatically deleted after reading
+		$this->assertEquals($session->get('some', NULL, TRUE), 'value');
+		$this->assertFalse($session->has('some'));
+	}
+
+	public function testSessionAdapterInstance()
+	{
+		$session = new Phalcon\Session(array('adapter' => new Phalcon\Session\Adapter\Files()));
+
+		$this->assertFalse($session->start());
+		$this->assertFalse($session->isStarted());
+
+		@session_start();
+
+		$session->set('some', 'value');
+
+		$this->assertEquals($session->get('some'), 'value');
+		$this->assertTrue($session->has('some'));
+		$this->assertEquals($session->get('undefined', 'my-default'), 'my-default');
+
+		// Automatically deleted after reading
+		$this->assertEquals($session->get('some', NULL, TRUE), 'value');
+		$this->assertFalse($session->has('some'));
+	}
 }
