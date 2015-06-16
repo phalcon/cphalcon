@@ -484,7 +484,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, mount) {
 		if (zephir_is_true(_0)) {
 			ZEPHIR_INIT_VAR(lazyHandler);
 			object_init_ex(lazyHandler, phalcon_mvc_micro_lazyloader_ce);
-			ZEPHIR_CALL_METHOD(NULL, lazyHandler, "__construct", NULL, 289, mainHandler);
+			ZEPHIR_CALL_METHOD(NULL, lazyHandler, "__construct", NULL, 290, mainHandler);
 			zephir_check_call_status();
 		} else {
 			ZEPHIR_CPY_WRT(lazyHandler, mainHandler);
@@ -660,7 +660,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, setService) {
 		zephir_check_call_status();
 		zephir_update_property_this(this_ptr, SL("_dependencyInjector"), dependencyInjector TSRMLS_CC);
 	}
-	ZEPHIR_RETURN_CALL_METHOD(dependencyInjector, "set", NULL, 290, serviceName, definition, (shared ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)));
+	ZEPHIR_RETURN_CALL_METHOD(dependencyInjector, "set", NULL, 291, serviceName, definition, (shared ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)));
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -700,7 +700,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, hasService) {
 		zephir_check_call_status();
 		zephir_update_property_this(this_ptr, SL("_dependencyInjector"), dependencyInjector TSRMLS_CC);
 	}
-	ZEPHIR_RETURN_CALL_METHOD(dependencyInjector, "has", NULL, 291, serviceName);
+	ZEPHIR_RETURN_CALL_METHOD(dependencyInjector, "has", NULL, 292, serviceName);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -743,7 +743,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, getService) {
 		zephir_check_call_status();
 		zephir_update_property_this(this_ptr, SL("_dependencyInjector"), dependencyInjector TSRMLS_CC);
 	}
-	ZEPHIR_RETURN_CALL_METHOD(dependencyInjector, "get", NULL, 292, serviceName);
+	ZEPHIR_RETURN_CALL_METHOD(dependencyInjector, "get", NULL, 293, serviceName);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -774,7 +774,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, getSharedService) {
 		zephir_check_call_status();
 		zephir_update_property_this(this_ptr, SL("_dependencyInjector"), dependencyInjector TSRMLS_CC);
 	}
-	ZEPHIR_RETURN_CALL_METHOD(dependencyInjector, "getshared", NULL, 293, serviceName);
+	ZEPHIR_RETURN_CALL_METHOD(dependencyInjector, "getshared", NULL, 294, serviceName);
 	zephir_check_call_status();
 	RETURN_MM();
 

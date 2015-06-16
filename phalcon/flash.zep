@@ -41,6 +41,8 @@ abstract class Flash
 
 	protected _automaticHtml = true;
 
+	protected _messages;
+
 	/**
 	 * Phalcon\Flash constructor
 	 */
@@ -191,6 +193,7 @@ abstract class Flash
 					echo htmlMessage;
 				} else {
 					let content .= htmlMessage;
+					let this->_messages[] = htmlMessage;
 				}
 			}
 
@@ -218,8 +221,17 @@ abstract class Flash
 			if implicitFlush === true {
 				echo htmlMessage;
 			} else {
+				let this->_messages[] = htmlMessage;
 				return htmlMessage;
 			}
 		}
+	}
+
+	/**
+	 * Clears accumulated messages when implicit flush is disabled
+	 */
+	public function clear() -> void
+	{
+		let this->_messages = [];
 	}
 }

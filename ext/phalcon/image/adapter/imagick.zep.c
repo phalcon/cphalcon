@@ -70,7 +70,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, check) {
 	}
 	ZEPHIR_SINIT_VAR(_2);
 	ZVAL_STRING(&_2, "Imagick::IMAGICK_EXTNUM", 0);
-	ZEPHIR_CALL_FUNCTION(&_3, "defined", NULL, 206, &_2);
+	ZEPHIR_CALL_FUNCTION(&_3, "defined", NULL, 207, &_2);
 	zephir_check_call_status();
 	if (zephir_is_true(_3)) {
 		ZEPHIR_SINIT_NVAR(_2);
@@ -1297,7 +1297,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _save) {
 
 	ZEPHIR_SINIT_VAR(_0);
 	ZVAL_LONG(&_0, 4);
-	ZEPHIR_CALL_FUNCTION(&ext, "pathinfo", NULL, 207, file, &_0);
+	ZEPHIR_CALL_FUNCTION(&ext, "pathinfo", NULL, 208, file, &_0);
 	zephir_check_call_status();
 	_1 = zephir_fetch_nproperty_this(this_ptr, SL("_image"), PH_NOISY_CC);
 	ZEPHIR_CALL_METHOD(NULL, _1, "setformat", NULL, 0, ext);
@@ -1325,7 +1325,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _save) {
 		zephir_check_call_status();
 		ZEPHIR_SINIT_NVAR(_0);
 		ZVAL_STRING(&_0, "w", 0);
-		ZEPHIR_CALL_FUNCTION(&fp, "fopen", NULL, 276, file, &_0);
+		ZEPHIR_CALL_FUNCTION(&fp, "fopen", NULL, 277, file, &_0);
 		zephir_check_call_status();
 		_11 = zephir_fetch_nproperty_this(this_ptr, SL("_image"), PH_NOISY_CC);
 		ZEPHIR_CALL_METHOD(NULL, _11, "writeimagesfile", NULL, 0, fp);

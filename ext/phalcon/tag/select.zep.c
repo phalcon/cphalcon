@@ -86,7 +86,7 @@ PHP_METHOD(Phalcon_Tag_Select, selectField) {
 	}
 	ZEPHIR_OBS_VAR(value);
 	if (!(zephir_array_isset_string_fetch(&value, params, SS("value"), 0 TSRMLS_CC))) {
-		ZEPHIR_CALL_CE_STATIC(&value, phalcon_tag_ce, "getvalue", &_1, 172, id, params);
+		ZEPHIR_CALL_CE_STATIC(&value, phalcon_tag_ce, "getvalue", &_1, 173, id, params);
 		zephir_check_call_status();
 	} else {
 		zephir_array_unset_string(&params, SS("value"), PH_SEPARATE);
@@ -132,7 +132,7 @@ PHP_METHOD(Phalcon_Tag_Select, selectField) {
 	zephir_array_unset_string(&params, SS("using"), PH_SEPARATE);
 	ZEPHIR_INIT_VAR(_5);
 	ZVAL_STRING(_5, "<select", ZEPHIR_TEMP_PARAM_COPY);
-	ZEPHIR_CALL_CE_STATIC(&_3, phalcon_tag_ce, "renderattributes", &_4, 170, _5, params);
+	ZEPHIR_CALL_CE_STATIC(&_3, phalcon_tag_ce, "renderattributes", &_4, 171, _5, params);
 	zephir_check_temp_parameter(_5);
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(_5);
@@ -151,7 +151,7 @@ PHP_METHOD(Phalcon_Tag_Select, selectField) {
 		ZEPHIR_GET_CONSTANT(_6, "PHP_EOL");
 		ZEPHIR_INIT_LNVAR(_7);
 		ZEPHIR_CONCAT_SV(_7, "</option>", _6);
-		ZEPHIR_CALL_SELF(&_8, "_optionsfromresultset", &_9, 412, options, using, value, _7);
+		ZEPHIR_CALL_SELF(&_8, "_optionsfromresultset", &_9, 413, options, using, value, _7);
 		zephir_check_call_status();
 		zephir_concat_self(&code, _8 TSRMLS_CC);
 	} else {
@@ -160,7 +160,7 @@ PHP_METHOD(Phalcon_Tag_Select, selectField) {
 			ZEPHIR_GET_CONSTANT(_6, "PHP_EOL");
 			ZEPHIR_INIT_LNVAR(_7);
 			ZEPHIR_CONCAT_SV(_7, "</option>", _6);
-			ZEPHIR_CALL_SELF(&_8, "_optionsfromarray", &_10, 413, options, value, _7);
+			ZEPHIR_CALL_SELF(&_8, "_optionsfromarray", &_10, 414, options, value, _7);
 			zephir_check_call_status();
 			zephir_concat_self(&code, _8 TSRMLS_CC);
 		} else {
@@ -318,7 +318,7 @@ PHP_METHOD(Phalcon_Tag_Select, _optionsFromArray) {
 		if (Z_TYPE_P(optionText) == IS_ARRAY) {
 			ZEPHIR_INIT_NVAR(_6);
 			ZEPHIR_GET_CONSTANT(_6, "PHP_EOL");
-			ZEPHIR_CALL_SELF(&_7, "_optionsfromarray", &_8, 413, optionText, value, closeOption);
+			ZEPHIR_CALL_SELF(&_7, "_optionsfromarray", &_8, 414, optionText, value, closeOption);
 			zephir_check_call_status();
 			ZEPHIR_INIT_NVAR(_9);
 			ZEPHIR_GET_CONSTANT(_9, "PHP_EOL");
