@@ -135,6 +135,11 @@ class Column implements ColumnInterface
 	const BIND_PARAM_STR = 2;
 
 	/**
+	 * Bind Type Blob
+	 */
+	const BIND_PARAM_BLOB = 3;
+
+	/**
 	 * Bind Type Bool
 	 */
 	const BIND_PARAM_BOOL = 5;

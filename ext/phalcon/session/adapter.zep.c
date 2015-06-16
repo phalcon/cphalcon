@@ -143,6 +143,42 @@ PHP_METHOD(Phalcon_Session_Adapter, getOptions) {
 }
 
 /**
+ * Set session name
+ */
+PHP_METHOD(Phalcon_Session_Adapter, setName) {
+
+	int ZEPHIR_LAST_CALL_STATUS;
+	zval *name_param = NULL;
+	zval *name = NULL;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &name_param);
+
+	zephir_get_strval(name, name_param);
+
+
+	ZEPHIR_CALL_FUNCTION(NULL, "session_name", NULL, 399, name);
+	zephir_check_call_status();
+	ZEPHIR_MM_RESTORE();
+
+}
+
+/**
+ * Get session name
+ */
+PHP_METHOD(Phalcon_Session_Adapter, getName) {
+
+	int ZEPHIR_LAST_CALL_STATUS;
+
+	ZEPHIR_MM_GROW();
+
+	ZEPHIR_RETURN_CALL_FUNCTION("session_name", NULL, 399);
+	zephir_check_call_status();
+	RETURN_MM();
+
+}
+
+/**
  * Gets a session variable from an application context
  *
  * @param string index
@@ -287,7 +323,7 @@ PHP_METHOD(Phalcon_Session_Adapter, getId) {
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_RETURN_CALL_FUNCTION("session_id", NULL, 399);
+	ZEPHIR_RETURN_CALL_FUNCTION("session_id", NULL, 400);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -312,7 +348,7 @@ PHP_METHOD(Phalcon_Session_Adapter, setId) {
 	zephir_get_strval(id, id_param);
 
 
-	ZEPHIR_CALL_FUNCTION(NULL, "session_id", NULL, 399, id);
+	ZEPHIR_CALL_FUNCTION(NULL, "session_id", NULL, 400, id);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 
@@ -346,7 +382,7 @@ PHP_METHOD(Phalcon_Session_Adapter, destroy) {
 	ZEPHIR_MM_GROW();
 
 	zephir_update_property_this(this_ptr, SL("_started"), (0) ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
-	ZEPHIR_RETURN_CALL_FUNCTION("session_destroy", NULL, 400);
+	ZEPHIR_RETURN_CALL_FUNCTION("session_destroy", NULL, 401);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -372,7 +408,7 @@ PHP_METHOD(Phalcon_Session_Adapter, status) {
 	ZEPHIR_MM_GROW();
 
 	if (!(zephir_is_php_version(50300))) {
-		ZEPHIR_CALL_FUNCTION(&status, "session_status", NULL, 401);
+		ZEPHIR_CALL_FUNCTION(&status, "session_status", NULL, 402);
 		zephir_check_call_status();
 		do {
 			if (ZEPHIR_IS_LONG(status, 0)) {

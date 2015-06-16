@@ -3,12 +3,15 @@
 - Now links in Phalcon\\Debug point to https://api.phalconphp.com instead of http://docs.phalconphp.com
 - Implemented a more versatile way to assign variables in Volt allowing to assign properties and array indexes
 - Improved generation of macros in Volt using anonymous functions instead of plain PHP functions
-  This allow to bind the adapter object to inject services within them
+  This allow to bind the adapter object and inject services within them
 - Fixed generation and validation of default parameters in Volt's macros
 - Added Phalcon\\Assets\\Manager::getCollections() to return all collections registered [#2488](https://github.com/phalcon/cphalcon/pull/2488)
-- Now Phalcon\Mvc\Url::getStatic() generates URLs from routes
-- Introduced Phalcon\Mvc\EntityInterface to allow parameters receive both Phalcon\Mvc\Model and Phalcon\Mvc\Collection instances
-- Added Phalcon\Session\Adapter::setName() to change the session name
+- Now Phalcon\\Mvc\\Url::getStatic() generates URLs from routes
+- Introduced Phalcon\\Mvc\\EntityInterface to allow parameters receive both Phalcon\Mvc\Model and Phalcon\Mvc\Collection instances
+- Added Phalcon\\Session\\Adapter::setName() to change the session name
+- Added new types Phalcon\\Db\\Column::BLOB and Phalcon\\Db\\Column::DOUBLE [#10506](https://github.com/phalcon/cphalcon/pull/10506)
+- Automatic binding of Large Object data (LOB) in the ORM
+- Support for BIT types in MySQL with binding as booleans
 
 # 2.0.3 (2015-06-10)
 - Added support for Behaviors in Phalcon\Mvc\Collection
@@ -17,12 +20,12 @@
 - Now you can define if a virtual foreign key must ignore null values or not
 - Fixed bug that added two ? in Mvc\Url::get when using query parameters (#10421)
 - Now string attributes in models can be marked to allow empty string values (#440)
-- Added an option to return the SQL to be generated from a Mvc\Model\Query instance (#1908)
+- Added an option to return the SQL to be generated from a Mvc\\Model\\Query instance (#1908)
 - Fix doesn't correct column domain in `Phalcon\Db\Dialect::select()` see [#10439](https://github.com/phalcon/cphalcon/pull/10439)
 - Added support for DOUBLE type in MySQL
-- Phalcon\Tag\Select now handles array values as strings avoiding that zero will be handled as empty string (#2921)
+- Phalcon\\Tag\\Select now handles array values as strings avoiding that zero will be handled as empty string (#2921)
 - PHQL now supports CASE/WHEN/ELSE expressions (#651)
-- Fixed bug that passes non-string values to Phalcon\Crypt::encrypt from Phalcon\Http\Cookies
+- Fixed bug that passes non-string values to Phalcon\\Crypt::encrypt from Phalcon\\Http\\Cookies
 - Fixed bug that didn't pass the schema name in the sequence name (PostgreSQL)
 - Attribute persistent is now removed from the DNS attributes in PDO connections to avoid errors in PostgreSQL (#10484)
 

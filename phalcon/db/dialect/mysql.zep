@@ -106,6 +106,12 @@ class MySQL extends Dialect
 				}
 				break;
 
+			case Column::TYPE_BOOLEAN:
+				if empty columnSql {
+					let columnSql .= "BIT";
+				}
+				break;
+
 			case Column::TYPE_FLOAT:
 				if empty columnSql {
 					let columnSql .= "FLOAT";
@@ -125,11 +131,24 @@ class MySQL extends Dialect
 				}
 				break;
 
-			case Column::TYPE_BOOLEAN:
+			case Column::TYPE_DOUBLE:
 				if empty columnSql {
-					let columnSql .= "TINYINT(1)";
+					let columnSql .= "DOUBLE";
 				}
-				break;
+				let size = column->getSize();
+				if size {
+					let scale = column->getScale(),
+						columnSql .= "(" . size;
+					if scale {
+						let columnSql .= "," . scale . ")";
+					} else {
+						let columnSql .= ")";
+					}
+				}
+				if column->isUnsigned() {
+					let columnSql .= " UNSIGNED";
+				}
+				break;			
 
 			case Column::TYPE_TINYBLOB:
 				if empty columnSql {

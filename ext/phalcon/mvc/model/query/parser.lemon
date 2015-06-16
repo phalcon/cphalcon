@@ -128,7 +128,7 @@ static zval *phql_ret_raw_qualified_name(phql_parser_token *A, phql_parser_token
 	return ret;
 }
 
-static zval *phql_ret_select_statement(zval *S, zval *W, zval *O, zval *G, zval *H, zval *L)
+static zval *phql_ret_select_statement(zval *S, zval *W, zval *O, zval *G, zval *H, zval *L, zval *F)
 {
 	zval *ret;
 
@@ -152,6 +152,9 @@ static zval *phql_ret_select_statement(zval *S, zval *W, zval *O, zval *G, zval 
 	}
 	if (L != NULL) {
 		add_assoc_zval(ret, "limit", L);
+	}
+	if (F != NULL) {
+		add_assoc_zval(ret, "forUpdate", F);
 	}
 
 	return ret;
@@ -223,6 +226,16 @@ static zval *phql_ret_limit_clause(zval *L, zval *O)
 	if (O != NULL) {
 		add_assoc_zval(ret, "offset", O);
 	}
+
+	return ret;
+}
+
+static zval *phql_ret_for_update_clause()
+{
+	zval *ret;
+
+	MAKE_STD_ZVAL(ret);
+	ZVAL_BOOL(ret, 1);
 
 	return ret;
 }
@@ -571,8 +584,8 @@ query_language(R) ::= delete_statement(D) . {
 
 %destructor select_statement { zval_ptr_dtor(&$$); }
 
-select_statement(R) ::= select_clause(S) where_clause(W) group_clause(G) having_clause(H) order_clause(O) select_limit_clause(L) . {
-	R = phql_ret_select_statement(S, W, O, G, H, L);
+select_statement(R) ::= select_clause(S) where_clause(W) group_clause(G) having_clause(H) order_clause(O) select_limit_clause(L) for_update_clause(F) . {
+	R = phql_ret_select_statement(S, W, O, G, H, L, F);
 }
 
 %destructor select_clause { zval_ptr_dtor(&$$); }
@@ -916,6 +929,16 @@ having_clause(R) ::= HAVING expr(E) . {
 }
 
 having_clause(R) ::= . {
+	R = NULL;
+}
+
+%destructor for_update_clause { zephir_safe_zval_ptr_dtor($$); }
+
+for_update_clause(R) ::= FOR UPDATE . {
+	R = phql_ret_for_update_clause();
+}
+
+for_update_clause(R) ::= . {
 	R = NULL;
 }
 
