@@ -546,7 +546,6 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 					continue;
 				}
 			}
-
 		}
 
 		// Call afterDispatchLoop

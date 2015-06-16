@@ -2880,11 +2880,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 *      'name' => 'Astroy Boy',
 	 *      'year' => 1952
 	 *  ));
-	 *</code>
-	 *
-	 * @param array data
-	 * @param array whiteList
-	 * @return boolean
+	 *</code>	 
 	 */
 	public function create(var data = null, var whiteList = null) -> boolean
 	{
@@ -2919,10 +2915,6 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 *	$robot->name = "Biomass";
 	 *	$robot->update();
 	 *</code>
-	 *
-	 * @param array data
-	 * @param array whiteList
-	 * @return boolean
 	 */
 	public function update(var data = null, var whiteList = null) -> boolean
 	{

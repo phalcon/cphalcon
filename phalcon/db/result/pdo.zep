@@ -298,15 +298,18 @@ class Pdo implements ResultInterface
 	 *	$result->setFetchMode(Phalcon\Db::FETCH_OBJ);
 	 *</code>
 	 */
-	public function setFetchMode(int fetchMode)
+	public function setFetchMode(int fetchMode, var colNoOrClassNameOrObject = null, var ctorargs = null) -> boolean
 	{
 		var pdoStatement;
 
 		let pdoStatement = this->_pdoStatement;
 
-		if pdoStatement->setFetchMode(fetchMode) {
+		if pdoStatement->setFetchMode(fetchMode, colNoOrClassNameOrObject, ctorargs) {
 			let this->_fetchMode = fetchMode;
+			return true;
 		}
+
+		return false;
 	}
 
 	/**
