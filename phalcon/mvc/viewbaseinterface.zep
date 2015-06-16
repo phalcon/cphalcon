@@ -79,4 +79,9 @@ interface ViewBaseInterface
 	 * Returns cached output from another view stage
 	 */
 	public function getContent() -> string;
+
+	/**
+	 * Renders a partial view
+	 */
+	public function partial(string! partialPath, var params = null) -> string;
 }
