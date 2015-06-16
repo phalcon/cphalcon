@@ -206,6 +206,7 @@
 #include "phalcon/mvc/dispatcher.zep.h"
 #include "phalcon/mvc/dispatcher/exception.zep.h"
 #include "phalcon/mvc/dispatcherinterface.zep.h"
+#include "phalcon/mvc/entityinterface.zep.h"
 #include "phalcon/mvc/micro.zep.h"
 #include "phalcon/mvc/micro/collection.zep.h"
 #include "phalcon/mvc/micro/collectioninterface.zep.h"

@@ -34,7 +34,7 @@ use Phalcon\Mvc\Model\MessageInterface;
  * This component implements a high level abstraction for NoSQL databases which
  * works with documents
  */
-abstract class Collection implements CollectionInterface, InjectionAwareInterface, \Serializable
+abstract class Collection implements EntityInterface, CollectionInterface, InjectionAwareInterface, \Serializable
 {
 
 	public _id;
@@ -279,7 +279,7 @@ abstract class Collection implements CollectionInterface, InjectionAwareInterfac
 	 * Reads an attribute value by its name
 	 *
 	 *<code>
-	 *	echo robot->readAttribute('name');
+	 *	echo $robot->readAttribute('name');
 	 *</code>
 	 *
 	 * @param string attribute
@@ -298,7 +298,7 @@ abstract class Collection implements CollectionInterface, InjectionAwareInterfac
 	 * Writes an attribute value by its name
 	 *
 	 *<code>
-	 *	robot->writeAttribute('name', 'Rosey');
+	 *	$robot->writeAttribute('name', 'Rosey');
 	 *</code>
 	 *
 	 * @param string attribute
@@ -783,13 +783,13 @@ abstract class Collection implements CollectionInterface, InjectionAwareInterfac
 	 * Returns all the validation messages
 	 *
 	 * <code>
-	 *robot = new Robots();
-	 *robot->type = 'mechanical';
-	 *robot->name = 'Astro Boy';
-	 *robot->year = 1952;
-	 *if (robot->save() == false) {
+	 * $robot = new Robots();
+	 * $robot->type = 'mechanical';
+	 * $robot->name = 'Astro Boy';
+	 * $robot->year = 1952;
+	 * if ($robot->save() == false) {
 	 *	echo "Umh, We can't store robots right now ";
-	 *	foreach (robot->getMessages() as message) {
+	 *	foreach ($robot->getMessages() as message) {
 	 *		echo message;
 	 *	}
 	 *} else {
@@ -813,9 +813,9 @@ abstract class Collection implements CollectionInterface, InjectionAwareInterfac
 	 *
 	 *		public function beforeSave()
 	 *		{
-	 *			if (this->name == 'Peter') {
+	 *			if ($this->name == 'Peter') {
 	 *				message = new Message("Sorry, but a robot cannot be named Peter");
-	 *				this->appendMessage(message);
+	 *				$this->appendMessage(message);
 	 *			}
 	 *		}
 	 *	}
@@ -962,22 +962,21 @@ abstract class Collection implements CollectionInterface, InjectionAwareInterfac
 	 * <code>
 	 *
 	 * //What's the first robot in the robots table?
-	 * robot = Robots::findFirst();
-	 * echo "The robot name is ", robot->name, "\n";
+	 * $robot = Robots::findFirst();
+	 * echo "The robot name is ", $robot->name, "\n";
 	 *
 	 * //What's the first mechanical robot in robots table?
-	 * robot = Robots::findFirst(array(
+	 * $robot = Robots::findFirst(array(
 	 *     array("type" => "mechanical")
 	 * ));
-	 * echo "The first mechanical robot name is ", robot->name, "\n";
+	 * echo "The first mechanical robot name is ", $robot->name, "\n";
 	 *
 	 * //Get first virtual robot ordered by name
-	 * robot = Robots::findFirst(array(
+	 * $robot = Robots::findFirst(array(
 	 *     array("type" => "mechanical"),
 	 *     "order" => array("name" => 1)
 	 * ));
-	 * echo "The first virtual robot name is ", robot->name, "\n";
-	 *
+	 * echo "The first virtual robot name is ", $robot->name, "\n";
 	 * </code>
 	 */
 	public static function findFirst(array parameters = null) -> array
@@ -999,32 +998,32 @@ abstract class Collection implements CollectionInterface, InjectionAwareInterfac
 	 * <code>
 	 *
 	 * //How many robots are there?
-	 * robots = Robots::find();
-	 * echo "There are ", count(robots), "\n";
+	 * $robots = Robots::find();
+	 * echo "There are ", count($robots), "\n";
 	 *
 	 * //How many mechanical robots are there?
-	 * robots = Robots::find(array(
+	 * $robots = Robots::find(array(
 	 *     array("type" => "mechanical")
 	 * ));
 	 * echo "There are ", count(robots), "\n";
 	 *
 	 * //Get and print virtual robots ordered by name
-	 * robots = Robots::findFirst(array(
+	 * $robots = Robots::findFirst(array(
 	 *     array("type" => "virtual"),
 	 *     "order" => array("name" => 1)
 	 * ));
-	 * foreach (robots as robot) {
-	 *	   echo robot->name, "\n";
+	 * foreach ($robots as $robot) {
+	 *	   echo $robot->name, "\n";
 	 * }
 	 *
 	 * //Get first 100 virtual robots ordered by name
-	 * robots = Robots::find(array(
+	 * $robots = Robots::find(array(
 	 *     array("type" => "virtual"),
 	 *     "order" => array("name" => 1),
 	 *     "limit" => 100
 	 * ));
-	 * foreach (robots as robot) {
-	 *	   echo robot->name, "\n";
+	 * foreach ($robots as $robot) {
+	 *	   echo $robot->name, "\n";
 	 * }
 	 * </code>
 	 */
@@ -1080,15 +1079,10 @@ abstract class Collection implements CollectionInterface, InjectionAwareInterfac
 
 	/**
 	 * Allows to perform a summatory group for a column in the collection
-	 *
-	 * @param string field
-	 * @param array conditions
-	 * @param string finalize
-	 * @return array
 	 */
-	public static function summatory(string! field, conditions = null, finalize = null)
+	public static function summatory(string! field, conditions = null, finalize = null) -> array
 	{
-		var className, model, connection, source, collection, keys, emptyArray, initial,
+		var className, model, connection, source, collection, initial,
 			reduce, group, retval, firstRetval;
 
 		let className = get_called_class();
@@ -1104,21 +1098,17 @@ abstract class Collection implements CollectionInterface, InjectionAwareInterfac
 
 		let collection = connection->selectCollection(source);
 
-		let keys = [];
-
-		let emptyArray = [];
-
 		/**
 		 * Uses a javascript hash to group the results
 		 */
-		let initial = ["summatory": emptyArray];
+		let initial = ["summatory": []];
 
 		/**
 		 * Uses a javascript hash to group the results, however this is slow with larger datasets
 		 */
 		let reduce = "function (curr, result) { if (typeof result.summatory[curr." . field . "] === \"undefined\") { result.summatory[curr." . field . "] = 1; } else { result.summatory[curr." . field . "]++; } }";
 
-		let group = collection->group(keys, initial, reduce);
+		let group = collection->group([], initial, reduce);
 
 		if fetch retval, group["retval"] {
 			if fetch firstRetval, retval[0] {
@@ -1129,18 +1119,19 @@ abstract class Collection implements CollectionInterface, InjectionAwareInterfac
 			}
 			return retval;
 		}
+
+		return [];
 	}
 
 	/**
 	 * Deletes a model instance. Returning true on success or false otherwise.
 	 *
 	 * <code>
+	 *	$robot = Robots::findFirst();
+	 *	$robot->delete();
 	 *
-	 *	robot = Robots::findFirst();
-	 *	robot->delete();
-	 *
-	 *	foreach (Robots::find() as robot) {
-	 *		robot->delete();
+	 *	foreach (Robots::find() as $robot) {
+	 *		$robot->delete();
 	 *	}
 	 * </code>
 	 */
@@ -1218,10 +1209,26 @@ abstract class Collection implements CollectionInterface, InjectionAwareInterfac
 	}
 
 	/**
+	 * Sets up a behavior in a collection
+	 */
+	protected function addBehavior(<BehaviorInterface> behavior) -> void
+	{
+		(<ManagerInterface> this->_modelsManager)->addBehavior(this, behavior);
+	}
+
+	/**
+	 * Skips the current operation forcing a success state
+	 */
+	public function skipOperation(boolean skip)
+	{
+		let this->_skipped = skip;
+	}
+
+	/**
 	 * Returns the instance as an array representation
 	 *
 	 *<code>
-	 * print_r(robot->to[]);
+	 * print_r($robot->toArray());
 	 *</code>
 	 */
 	public function toArray() -> array
@@ -1304,21 +1311,5 @@ abstract class Collection implements CollectionInterface, InjectionAwareInterfac
 				let this->{key} = value;
 			}
 		}
-	}
-
-	/**
-	 * Sets up a behavior in a collection
-	 */
-	protected function addBehavior(<BehaviorInterface> behavior) -> void
-	{
-		(<ManagerInterface> this->_modelsManager)->addBehavior(this, behavior);
-	}
-
-	/**
-	 * Skips the current operation forcing a success state
-	 */
-	public function skipOperation(boolean skip)
-	{
-		let this->_skipped = skip;
 	}
 }

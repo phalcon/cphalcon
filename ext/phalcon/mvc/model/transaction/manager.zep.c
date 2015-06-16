@@ -264,7 +264,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, get) {
 		}
 		zephir_update_property_this(this_ptr, SL("_initialized"), (1) ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
 	}
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "getorcreatetransaction", NULL, 0);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "getorcreatetransaction", NULL, 0, (autoBegin ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)));
 	zephir_check_call_status();
 	RETURN_MM();
 

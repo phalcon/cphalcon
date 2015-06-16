@@ -17,56 +17,28 @@
  +------------------------------------------------------------------------+
  */
 
-namespace Phalcon\Mvc\Model;
+namespace Phalcon\Mvc;
 
 /**
- * Phalcon\Mvc\Model\ResultsetInterface
+ * Phalcon\Mvc\EntityInterface
  *
- * Interface for Phalcon\Mvc\Model\Resultset
- *
+ * Interface for Phalcon\Mvc\Collection and Phalcon\Mvc\Model
  */
-interface ResultsetInterface
+interface EntityInterface
 {
-
-	/**
-	 * Returns the internal type of data retrieval that the resultset is using
-	 */
-	public function getType() -> int;
-
-	/**
-	 * Get first row in the resultset
+    /**
+	 * Reads an attribute value by its name
 	 *
-	 * @return Phalcon\Mvc\ModelInterface
+	 * @param string attribute
+	 * @return mixed
 	 */
-	public function getFirst();
+	public function readAttribute(string! attribute);
 
 	/**
-	 * Get last row in the resultset
+	 * Writes an attribute value by its name
 	 *
-	 * @return Phalcon\Mvc\ModelInterface
+	 * @param string attribute
+	 * @param mixed value
 	 */
-	public function getLast();
-
-	/**
-	 * Set if the resultset is fresh or an old one cached
-	 */
-	public function setIsFresh(boolean isFresh);
-
-	/**
-	 * Tell if the resultset if fresh or an old one cached
-	 */
-	public function isFresh() -> boolean;
-
-	/**
-	 * Returns the associated cache for the resultset
-	 *
-	 * @return Phalcon\Cache\BackendInterface
-	 */
-	public function getCache();
-
-	/**
-	 * Returns a complete resultset as an array, if the resultset has a big number of rows
-	 * it could consume more memory than currently it does.
-	 */
-	public function toArray() -> array;
+	public function writeAttribute(string! attribute, value);
 }

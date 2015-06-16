@@ -19,7 +19,7 @@
 
 namespace Phalcon\Mvc\Model\Validator;
 
-use Phalcon\Mvc\ModelInterface;
+use Phalcon\Mvc\EntityInterface;
 use Phalcon\Mvc\Model\Exception;
 use Phalcon\Mvc\Model\Validator;
 use Phalcon\Mvc\Model\ValidatorInterface;
@@ -44,7 +44,6 @@ use Phalcon\Mvc\Model\ValidatorInterface;
  *				return false;
  *      	}
  *  	}
- *
  *	}
  *</code>
  */
@@ -54,7 +53,7 @@ class Email extends Validator implements ValidatorInterface
 	/**
 	 * Executes the validator
 	 */
-	public function validate(<ModelInterface> record) -> boolean
+	public function validate(<EntityInterface> record) -> boolean
 	{
 		var field, value, message;
 

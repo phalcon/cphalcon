@@ -6,6 +6,9 @@
   This allow to bind the adapter object to inject services within them
 - Fixed generation and validation of default parameters in Volt's macros
 - Added Phalcon\\Assets\\Manager::getCollections() to return all collections registered [#2488](https://github.com/phalcon/cphalcon/pull/2488)
+- Now Phalcon\Mvc\Url::getStatic() generates URLs from routes
+- Introduced Phalcon\Mvc\EntityInterface to allow parameters receive both Phalcon\Mvc\Model and Phalcon\Mvc\Collection instances
+- Added Phalcon\Session\Adapter::setName() to change the session name
 
 # 2.0.3 (2015-06-10)
 - Added support for Behaviors in Phalcon\Mvc\Collection

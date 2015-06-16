@@ -291,23 +291,7 @@ interface ModelInterface
 	/**
 	 * Skips the current operation forcing a success state
 	 */
-	public function skipOperation(boolean skip);
-
-	/**
-	 * Reads an attribute value by its name
-	 *
-	 * @param string attribute
-	 * @return mixed
-	 */
-	public function readAttribute(attribute);
-
-	/**
-	 * Writes an attribute value by its name
-	 *
-	 * @param string attribute
-	 * @param mixed value
-	 */
-	public function writeAttribute(attribute, value);
+	public function skipOperation(boolean skip);	
 
 	/**
 	 * Returns related records based on defined relations
@@ -326,7 +310,7 @@ interface ModelInterface
 	 * @param array columnMap
 	 */
 	public function setSnapshotData(array! data, columnMap = null);
-	
+
 	/**
 	 * Reset a model instance data
 	 */

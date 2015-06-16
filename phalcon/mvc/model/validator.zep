@@ -97,5 +97,4 @@ abstract class Validator
 	{
 		return isset this->_options[option];
 	}
-
 }
