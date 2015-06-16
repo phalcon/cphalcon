@@ -12,6 +12,7 @@
 - Added new types Phalcon\\Db\\Column::BLOB and Phalcon\\Db\\Column::DOUBLE [#10506](https://github.com/phalcon/cphalcon/pull/10506)
 - Automatic binding of Large Object data (LOB) in the ORM
 - Support for BIT types in MySQL with binding as booleans
+- Added Phalcon\Flash\Direct::output() allowing to place flash messages in a specific place of the view
 
 # 2.0.3 (2015-06-10)
 - Added support for Behaviors in Phalcon\Mvc\Collection
