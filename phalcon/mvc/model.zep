@@ -22,6 +22,7 @@ namespace Phalcon\Mvc;
 use Phalcon\Di;
 use Phalcon\Text;
 use Phalcon\Db\Column;
+use Phalcon\Db\RawValue;
 use Phalcon\DiInterface;
 use Phalcon\Mvc\Model\Message;
 use Phalcon\Mvc\Model\ResultInterface;
@@ -47,17 +48,17 @@ use Phalcon\Events\ManagerInterface as EventsManagerInterface;
 /**
  * Phalcon\Mvc\Model
  *
- * <p>Phalcon\Mvc\Model connects business objects and database tables to create
+ * Phalcon\Mvc\Model connects business objects and database tables to create
  * a persistable domain model where logic and data are presented in one wrapping.
- * It‘s an implementation of the object-relational mapping (ORM).</p>
+ * It‘s an implementation of the object-relational mapping (ORM).
  *
- * <p>A model represents the information (data) of the application and the rules to manipulate that data.
+ * A model represents the information (data) of the application and the rules to manipulate that data.
  * Models are primarily used for managing the rules of interaction with a corresponding database table.
  * In most cases, each table in your database will correspond to one model in your application.
- * The bulk of your application's business logic will be concentrated in the models.</p>
+ * The bulk of your application's business logic will be concentrated in the models.
  *
- * <p>Phalcon\Mvc\Model is the first ORM written in C-language for PHP, giving to developers high performance
- * when interacting with databases while is also easy to use.</p>
+ * Phalcon\Mvc\Model is the first ORM written in C-language for PHP, giving to developers high performance
+ * when interacting with databases while is also easy to use.
  *
  * <code>
  *
@@ -2093,7 +2094,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 					if fetch value, this->{attributeField} {
 
 						if value === null && isset defaultValues[field] {
-							let value = defaultValues[field];
+							let value = new RawValue(defaultValues[field]);
 						}
 
 						/**
@@ -2103,14 +2104,17 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 							throw new Exception("Column '" . field . "' have not defined a bind data type");
 						}
 
-						let values[] = value, bindTypes[] = bindType;
+						let values[] = value;
 					} else {
 
-						let bindTypes[] = bindSkip;
-
-						fetch value, defaultValues[field];
-						let values[] = value;
+						if fetch value, defaultValues[field] {
+							let values[] = new RawValue(value);
+						} else {
+							let values[] = value;
+						}
 					}
+
+					let bindTypes[] = bindSkip;
 				}
 			}
 		}
@@ -2880,7 +2884,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 *      'name' => 'Astroy Boy',
 	 *      'year' => 1952
 	 *  ));
-	 *</code>	 
+	 *</code>
 	 */
 	public function create(var data = null, var whiteList = null) -> boolean
 	{
