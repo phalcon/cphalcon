@@ -121,11 +121,11 @@ class Version
 
 		let version       = static::_getVersion();
 
-		let major         = version[static::VERSION_MAJOR],
-			medium        = version[static::VERSION_MEDIUM],
-			minor         = version[static::VERSION_MINOR],
-			special       = version[static::VERSION_SPECIAL],
-			specialNumber = version[static::VERSION_SPECIAL_NUMBER];
+		let major         = version[self::VERSION_MAJOR],
+			medium        = version[self::VERSION_MEDIUM],
+			minor         = version[self::VERSION_MINOR],
+			special       = version[self::VERSION_SPECIAL],
+			specialNumber = version[self::VERSION_SPECIAL_NUMBER];
 
 		let result  = major . "." . medium . "." . minor . " ";
 		let suffix  = static::_getSpecial(special);
@@ -151,11 +151,11 @@ class Version
 
 		let version       = static::_getVersion();
 
-		let major         = version[static::VERSION_MAJOR],
-			medium        = version[static::VERSION_MEDIUM],
-			minor         = version[static::VERSION_MINOR],
-			special       = version[static::VERSION_SPECIAL],
-			specialNumber = version[static::VERSION_SPECIAL_NUMBER];
+		let major         = version[self::VERSION_MAJOR],
+			medium        = version[self::VERSION_MEDIUM],
+			minor         = version[self::VERSION_MINOR],
+			special       = version[self::VERSION_SPECIAL],
+			specialNumber = version[self::VERSION_SPECIAL_NUMBER];
 
 		return major . sprintf("%02s", medium) . sprintf("%02s", minor) . special . specialNumber;
 	}
@@ -176,15 +176,15 @@ class Version
 
 		switch part {
 
-			case static::VERSION_MAJOR:
-			case static::VERSION_MEDIUM:
-			case static::VERSION_MINOR:
-			case static::VERSION_SPECIAL_NUMBER:
+			case self::VERSION_MAJOR:
+			case self::VERSION_MEDIUM:
+			case self::VERSION_MINOR:
+			case self::VERSION_SPECIAL_NUMBER:
 				let result = version[part];
 				break;
 
-			case static::VERSION_SPECIAL:
-				let result = static::_getSpecial(version[static::VERSION_SPECIAL]);
+			case self::VERSION_SPECIAL:
+				let result = static::_getSpecial(version[self::VERSION_SPECIAL]);
 				break;
 
 			default:
