@@ -864,7 +864,7 @@ PHP_METHOD(Phalcon_Dispatcher, getHandlerClass) {
 	zephir_read_property_this(&handlerName, this_ptr, SL("_handlerName"), PH_NOISY_CC);
 	ZEPHIR_OBS_VAR(namespaceName);
 	zephir_read_property_this(&namespaceName, this_ptr, SL("_namespaceName"), PH_NOISY_CC);
-	if (!(zephir_memnstr_str(handlerName, SL("\\"), "phalcon/dispatcher.zep", 633))) {
+	if (!(zephir_memnstr_str(handlerName, SL("\\"), "phalcon/dispatcher.zep", 632))) {
 		ZEPHIR_INIT_VAR(camelizedClass);
 		zephir_camelize(camelizedClass, handlerName);
 	} else {

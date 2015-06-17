@@ -871,6 +871,13 @@ PHP_METHOD(Phalcon_Forms_Form, getValue) {
 
 	ZEPHIR_OBS_VAR(entity);
 	zephir_read_property_this(&entity, this_ptr, SL("_entity"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(data);
+	zephir_read_property_this(&data, this_ptr, SL("_data"), PH_NOISY_CC);
+	if ((zephir_method_exists_ex(this_ptr, SS("getcustomvalue") TSRMLS_CC) == SUCCESS)) {
+		ZEPHIR_RETURN_CALL_METHOD(this_ptr, "getcustomvalue", NULL, 0, name, entity, data);
+		zephir_check_call_status();
+		RETURN_MM();
+	}
 	if (Z_TYPE_P(entity) == IS_OBJECT) {
 		ZEPHIR_INIT_VAR(_0);
 		ZEPHIR_CONCAT_SV(_0, "get", name);
@@ -885,8 +892,6 @@ PHP_METHOD(Phalcon_Forms_Form, getValue) {
 			RETURN_CCTOR(value);
 		}
 	}
-	ZEPHIR_OBS_VAR(data);
-	zephir_read_property_this(&data, this_ptr, SL("_data"), PH_NOISY_CC);
 	if (Z_TYPE_P(data) == IS_ARRAY) {
 		ZEPHIR_OBS_NVAR(value);
 		if (zephir_array_isset_fetch(&value, data, name, 0 TSRMLS_CC)) {
@@ -993,7 +998,7 @@ PHP_METHOD(Phalcon_Forms_Form, clear) {
 	ZEPHIR_OBS_VAR(elements);
 	zephir_read_property_this(&elements, this_ptr, SL("_elements"), PH_NOISY_CC);
 	if (Z_TYPE_P(elements) == IS_ARRAY) {
-		zephir_is_iterable(elements, &_1, &_0, 0, 0, "phalcon/forms/form.zep", 678);
+		zephir_is_iterable(elements, &_1, &_0, 0, 0, "phalcon/forms/form.zep", 686);
 		for (
 		  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_1, &_0)

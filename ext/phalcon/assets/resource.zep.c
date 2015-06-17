@@ -358,7 +358,7 @@ PHP_METHOD(Phalcon_Assets_Resource, getContent) {
 		ZEPHIR_CONCAT_SVS(_2, "Resource's content for '", completePath, "' cannot be read");
 		ZEPHIR_CALL_METHOD(NULL, _1, "__construct", NULL, 2, _2);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(_1, "phalcon/assets/resource.zep", 179 TSRMLS_CC);
+		zephir_throw_exception_debug(_1, "phalcon/assets/resource.zep", 178 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}

@@ -219,12 +219,8 @@ class Compiler implements InjectionAwareInterface
 
 	/**
 	 * Register a new function in the compiler
-	 *
-	 * @param string name
-	 * @param Closure|string definition
-	 * @return Phalcon\Mvc\View\Engine\Volt\Compiler
 	 */
-	public function addFunction(string! name, definition) -> <Compiler>
+	public function addFunction(string! name, var definition) -> <Compiler>
 	{
 		let this->_functions[name] = definition;
 		return this;
@@ -240,12 +236,8 @@ class Compiler implements InjectionAwareInterface
 
 	/**
 	 * Register a new filter in the compiler
-	 *
-	 * @param string name
-	 * @param Closure|string definition
-	 * @return Phalcon\Mvc\View\Engine\Volt\Compiler
 	 */
-	public function addFilter(string! name, definition) -> <Compiler>
+	public function addFilter(string! name, var definition) -> <Compiler>
 	{
 		let this->_filters[name] = definition;
 		return this;
