@@ -112,10 +112,10 @@ class Pdo implements ResultInterface
 	 *	while ($robot = $result->fetch()) {
 	 *		echo robot->name;
 	 *	}
-	 *</code>	 
+	 *</code>
 	 */
 	public function $fetch(var fetchStyle = null, var cursorOrientation = null, var cursorOffset = null)
-	{
+	{		
 		return this->_pdoStatement->$fetch(fetchStyle, cursorOrientation, cursorOffset);
 	}
 
@@ -131,9 +131,9 @@ class Pdo implements ResultInterface
 	 *	}
 	 *</code>
 	 */
-	public function fetchArray(var fetchStyle = null, var cursorOrientation = null, var cursorOffset = null)
+	public function fetchArray()
 	{
-		return this->_pdoStatement->$fetch(fetchStyle, cursorOrientation, cursorOffset);
+		return this->_pdoStatement->$fetch();
 	}
 
 	/**
@@ -147,7 +147,24 @@ class Pdo implements ResultInterface
 	 */
 	public function fetchAll(var fetchStyle = null, var fetchArgument = null, var ctorArgs = null) -> array
 	{
-		return this->_pdoStatement->fetchAll(fetchStyle, fetchArgument, ctorArgs);
+		if typeof fetchStyle == "integer" {
+
+			if (fetchStyle & Db::FETCH_CLASS) == Db::FETCH_CLASS {
+				return this->_pdoStatement->fetchAll(fetchStyle, fetchArgument, ctorArgs);
+			}
+
+			if (fetchStyle & Db::FETCH_COLUMN) == Db::FETCH_COLUMN {
+				return this->_pdoStatement->fetchAll(fetchStyle, fetchArgument);
+			}
+
+			if (fetchStyle & Db::FETCH_FUNC) == Db::FETCH_FUNC {
+				return this->_pdoStatement->fetchAll(fetchStyle, fetchArgument);
+			}
+
+			return this->_pdoStatement->fetchAll(fetchStyle);
+		}
+
+		return this->_pdoStatement->fetchAll();
 	}
 
 	/**

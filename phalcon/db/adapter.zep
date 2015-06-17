@@ -229,13 +229,17 @@ abstract class Adapter implements EventsAwareInterface
 	public function fetchAll(string sqlQuery, var fetchMode = 2, var bindParams = null, var bindTypes = null) -> array
 	{
 		var results, result, row;
+
 		let results = [],
 			result = this->{"query"}(sqlQuery, bindParams, bindTypes);
 		if typeof result == "object" {
+
 			if fetchMode !== null {
 				result->setFetchMode(fetchMode);
 			}
+
 			loop {
+
 				let row = result->$fetch();
 				if !row {
 					break;
@@ -244,6 +248,7 @@ abstract class Adapter implements EventsAwareInterface
 				let results[] = row;
 			}
 		}
+		
 		return results;
 	}
 
