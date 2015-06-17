@@ -578,6 +578,15 @@ class Form extends Injectable implements \Countable, \Iterator
 		var entity, method, value, data;
 
 		let entity = this->_entity;
+		let data = this->_data;
+
+		/**
+		 * Check if form has a getter
+		 */
+		if method_exists(this, "getCustomValue") {
+			return this->{"getCustomValue"}(name, entity, data);
+		}
+
 		if typeof entity == "object" {
 
 			/**
@@ -596,7 +605,6 @@ class Form extends Injectable implements \Countable, \Iterator
 			}
 		}
 
-		let data = this->_data;
 		if typeof data == "array" {
 
 			/**
