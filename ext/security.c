@@ -729,13 +729,13 @@ PHP_METHOD(Phalcon_Security, getToken){
 		return;
 	}
 
-	PHALCON_ALLOC_GHOST_ZVAL(service);
+	PHALCON_INIT_VAR(service);
 	PHALCON_ZVAL_MAYBE_INTERNED_STRING(service, phalcon_interned_session);
 
 	PHALCON_CALL_METHOD(&session, dependency_injector, "getshared", service);
 	PHALCON_VERIFY_INTERFACE(session, phalcon_session_adapterinterface_ce);
 
-	PHALCON_ALLOC_GHOST_ZVAL(key);
+	PHALCON_INIT_VAR(key);
 	ZVAL_STRING(key, "$PHALCON/CSRF$", 1);
 	PHALCON_CALL_METHOD(NULL, session, "set", key, token);
 
@@ -777,7 +777,7 @@ PHP_METHOD(Phalcon_Security, checkToken){
 	PHALCON_VERIFY_INTERFACE(session, phalcon_session_adapterinterface_ce);
 
 	if (!token_key || Z_TYPE_P(token_key) == IS_NULL) {
-		PHALCON_INIT_VAR(key);
+		PHALCON_INIT_NVAR(key);
 		ZVAL_STRING(key, "$PHALCON/CSRF/KEY$", 1);
 
 		PHALCON_CALL_METHOD(&token_key, session, "get", key);
@@ -818,8 +818,7 @@ PHP_METHOD(Phalcon_Security, checkToken){
  */
 PHP_METHOD(Phalcon_Security, getSessionToken){
 
-	zval *dependency_injector, *service, *session = NULL;
-	zval *key;
+	zval *dependency_injector, *service, *session = NULL, *key;
 
 	PHALCON_MM_GROW();
 
@@ -829,13 +828,13 @@ PHP_METHOD(Phalcon_Security, getSessionToken){
 		return;
 	}
 
-	PHALCON_ALLOC_GHOST_ZVAL(service);
+	PHALCON_INIT_VAR(service);
 	PHALCON_ZVAL_MAYBE_INTERNED_STRING(service, phalcon_interned_session);
 
 	PHALCON_CALL_METHOD(&session, dependency_injector, "getshared", service);
 	PHALCON_VERIFY_INTERFACE(session, phalcon_session_adapterinterface_ce);
 
-	PHALCON_ALLOC_GHOST_ZVAL(key);
+	PHALCON_INIT_VAR(key);
 	ZVAL_STRING(key, "$PHALCON/CSRF$", 1);
 
 	PHALCON_RETURN_CALL_METHOD(session, "get", key);
@@ -848,8 +847,7 @@ PHP_METHOD(Phalcon_Security, getSessionToken){
  */
 PHP_METHOD(Phalcon_Security, destroyToken){
 
-	zval *dependency_injector, *service, *session = NULL;
-	zval *key;
+	zval *dependency_injector, *service, *session = NULL, *key = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -859,17 +857,18 @@ PHP_METHOD(Phalcon_Security, destroyToken){
 		return;
 	}
 
-	PHALCON_ALLOC_GHOST_ZVAL(service);
+	PHALCON_INIT_VAR(service);
 	PHALCON_ZVAL_MAYBE_INTERNED_STRING(service, phalcon_interned_session);
 
 	PHALCON_CALL_METHOD(&session, dependency_injector, "getshared", service);
 	PHALCON_VERIFY_INTERFACE(session, phalcon_session_adapterinterface_ce);
 
-	PHALCON_ALLOC_GHOST_ZVAL(key);
+	PHALCON_INIT_VAR(key);
 	ZVAL_STRING(key, "$PHALCON/CSRF$", 1);
 
 	PHALCON_CALL_METHOD(NULL, session, "remove", key);
 
+	PHALCON_INIT_NVAR(key);
 	ZVAL_STRING(key, "$PHALCON/CSRF/KEY$", 1);
 	PHALCON_CALL_METHOD(NULL, session, "remove", key);
 

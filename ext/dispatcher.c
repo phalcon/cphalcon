@@ -612,10 +612,6 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 		RETURN_MM_FALSE;
 	}
 
-	PHALCON_INIT_VAR(value);
-
-	PHALCON_INIT_VAR(handler);
-
 	handler_suffix = phalcon_fetch_nproperty_this(this_ptr, SL("_handlerSuffix"), PH_NOISY TSRMLS_CC);
 	action_suffix  = phalcon_fetch_nproperty_this(this_ptr, SL("_actionSuffix"), PH_NOISY TSRMLS_CC);
 
@@ -1027,7 +1023,12 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 	 * Call afterDispatchLoop
 	 */
 	RETURN_MM_ON_FAILURE(phalcon_dispatcher_fire_event(NULL, events_manager, "dispatch:afterDispatchLoop", this_ptr, NULL TSRMLS_CC));
-	RETURN_CCTOR(handler);
+
+	if (handler) {
+		RETURN_CCTOR(handler);
+	}
+
+	RETURN_NULL();
 }
 
 /**
