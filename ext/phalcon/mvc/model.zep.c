@@ -27,17 +27,17 @@
 /**
  * Phalcon\Mvc\Model
  *
- * <p>Phalcon\Mvc\Model connects business objects and database tables to create
+ * Phalcon\Mvc\Model connects business objects and database tables to create
  * a persistable domain model where logic and data are presented in one wrapping.
- * It‘s an implementation of the object-relational mapping (ORM).</p>
+ * It‘s an implementation of the object-relational mapping (ORM).
  *
- * <p>A model represents the information (data) of the application and the rules to manipulate that data.
+ * A model represents the information (data) of the application and the rules to manipulate that data.
  * Models are primarily used for managing the rules of interaction with a corresponding database table.
  * In most cases, each table in your database will correspond to one model in your application.
- * The bulk of your application's business logic will be concentrated in the models.</p>
+ * The bulk of your application's business logic will be concentrated in the models.
  *
- * <p>Phalcon\Mvc\Model is the first ORM written in C-language for PHP, giving to developers high performance
- * when interacting with databases while is also easy to use.</p>
+ * Phalcon\Mvc\Model is the first ORM written in C-language for PHP, giving to developers high performance
+ * when interacting with databases while is also easy to use.
  *
  * <code>
  *

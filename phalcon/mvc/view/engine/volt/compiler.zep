@@ -2213,9 +2213,26 @@ class Compiler implements InjectionAwareInterface
 	{
 		var currentPath, intermediate, extended,
 			finalCompilation, blocks, extendedBlocks, name, block,
-			blockCompilation, localBlock, compilation;
+			blockCompilation, localBlock, compilation, options, autoescape;
 
 		let currentPath = this->_currentPath;
+
+		/**
+		 * Check for compilation options
+		 */
+		let options = this->_options;
+		if typeof options == "array" {
+
+			/**
+			 * Enable autoescape globally
+			 */
+			if fetch autoescape, options["autoescape"] {
+				if typeof autoescape != "bool" {
+					throw new Exception("'autoescape' must be boolean");
+				}
+				let this->_autoescape = autoescape;
+			}
+		}
 
 		let intermediate = phvolt_parse_view(viewCode, currentPath);
 
@@ -2379,10 +2396,6 @@ class Compiler implements InjectionAwareInterface
 	 *	$compiler->compile('views/layouts/main.volt');
 	 *	require $compiler->getCompiledTemplatePath();
 	 *</code>
-	 *
-	 * @param string templatePath
-	 * @param boolean extendsMode
-	 * @return string|array
 	 */
 	public function compile(string! templatePath, boolean extendsMode = false)
 	{
@@ -2418,7 +2431,7 @@ class Compiler implements InjectionAwareInterface
 			if isset options["compileAlways"] {
 				let compileAlways = options["compileAlways"];
 				if typeof compileAlways != "boolean" {
-					throw new Exception("compileAlways must be a bool value");
+					throw new Exception("'compileAlways' must be a bool value");
 				}
 			}
 
@@ -2428,7 +2441,7 @@ class Compiler implements InjectionAwareInterface
 			if isset options["prefix"] {
 				let prefix = options["prefix"];
 				if typeof prefix != "string" {
-					throw new Exception("prefix must be a string");
+					throw new Exception("'prefix' must be a string");
 				}
 			}
 
@@ -2439,7 +2452,7 @@ class Compiler implements InjectionAwareInterface
 				let compiledPath = options["compiledPath"];
 				if typeof compiledPath != "string" {
 					if typeof compiledPath != "object" {
-						throw new Exception("compiledPath must be a string or a closure");
+						throw new Exception("'compiledPath' must be a string or a closure");
 					}
 				}
 			}
@@ -2450,7 +2463,7 @@ class Compiler implements InjectionAwareInterface
 			if isset options["compiledSeparator"] {
 				let compiledSeparator = options["compiledSeparator"];
 				if typeof compiledSeparator != "string" {
-					throw new Exception("compiledSeparator must be a string");
+					throw new Exception("'compiledSeparator' must be a string");
 				}
 			}
 
@@ -2460,7 +2473,7 @@ class Compiler implements InjectionAwareInterface
 			if isset options["compiledExtension"] {
 				let compiledExtension = options["compiledExtension"];
 				if typeof compiledExtension != "string" {
-					throw new Exception("compiledExtension must be a string");
+					throw new Exception("'compiledExtension' must be a string");
 				}
 			}
 

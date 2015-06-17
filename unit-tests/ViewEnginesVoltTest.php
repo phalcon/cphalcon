@@ -1117,8 +1117,10 @@ class ViewEnginesVoltTest extends PHPUnit_Framework_TestCase
 		$compilation = $volt->compileString('{# some comment #}{{ "hello" }}{# other comment }}');
 		$this->assertEquals($compilation, "<?php echo 'hello'; ?>");
 
-		//
-
+		//Autoescape from options
+		$volt->setOption("autoescape", true);
+		$compilation = $volt->compileString('{{ "hello" }}{% autoescape true %}{{ "hello" }}{% autoescape false %}{{ "hello" }}{% endautoescape %}{{ "hello" }}{% endautoescape %}{{ "hello" }}');
+		$this->assertEquals($compilation, "<?php echo \$this->escaper->escapeHtml('hello'); ?><?php echo \$this->escaper->escapeHtml('hello'); ?><?php echo 'hello'; ?><?php echo \$this->escaper->escapeHtml('hello'); ?><?php echo \$this->escaper->escapeHtml('hello'); ?>");
 	}
 
 	public function testVoltUsersFunctions()
