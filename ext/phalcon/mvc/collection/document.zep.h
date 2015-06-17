@@ -9,6 +9,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Document, offsetSet);
 PHP_METHOD(Phalcon_Mvc_Collection_Document, offsetUnset);
 PHP_METHOD(Phalcon_Mvc_Collection_Document, readAttribute);
 PHP_METHOD(Phalcon_Mvc_Collection_Document, writeAttribute);
+PHP_METHOD(Phalcon_Mvc_Collection_Document, toArray);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_collection_document_offsetexists, 0, 0, 1)
 	ZEND_ARG_INFO(0, index)
@@ -43,5 +44,6 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_collection_document_method_entry) {
 	PHP_ME(Phalcon_Mvc_Collection_Document, offsetUnset, arginfo_phalcon_mvc_collection_document_offsetunset, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Collection_Document, readAttribute, arginfo_phalcon_mvc_collection_document_readattribute, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Collection_Document, writeAttribute, arginfo_phalcon_mvc_collection_document_writeattribute, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Collection_Document, toArray, NULL, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };
