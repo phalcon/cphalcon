@@ -1633,10 +1633,18 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 		let query = <QueryInterface> dependencyInjector->get("Phalcon\\Mvc\\Model\\Query", [phql, dependencyInjector]);
 		let this->_lastQuery = query;
 
+		if typeof placeholders == "array" {
+			query->setBindParams(placeholders);
+		}
+
+		if typeof types == "array" {
+			query->setBindTypes(types);
+		}
+
 		/**
 		 * Execute the query
 		 */
-		return query->execute(placeholders, types);
+		return query->execute();
 	}
 
 	/**

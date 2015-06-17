@@ -20,9 +20,11 @@
 
 namespace Phalcon\Mvc\Model;
 
-use Phalcon\DiInterface;
+use Phalcon\Db\Column;
 use Phalcon\Db\RawValue;
+use Phalcon\DiInterface;
 use Phalcon\Mvc\Model\Row;
+use Phalcon\Mvc\ModelInterface;
 use Phalcon\Mvc\Model\Exception;
 use Phalcon\Mvc\Model\ManagerInterface;
 use Phalcon\Mvc\Model\QueryInterface;
@@ -31,7 +33,6 @@ use Phalcon\Mvc\Model\Query\Status;
 use Phalcon\Mvc\Model\Resultset\Complex;
 use Phalcon\Mvc\Model\Query\StatusInterface;
 use Phalcon\Mvc\Model\ResultsetInterface;
-use Phalcon\Mvc\ModelInterface;
 use Phalcon\Mvc\Model\Resultset\Simple;
 use Phalcon\Di\InjectionAwareInterface;
 use Phalcon\Mvc\Model\RelationInterface;
@@ -42,7 +43,6 @@ use Phalcon\Mvc\Model\RelationInterface;
  * This class takes a PHQL intermediate representation and executes it.
  *
  *<code>
- *
  * $phql = "SELECT c.price*0.16 AS taxes, c.* FROM Cars AS c JOIN Brands AS b
  *          WHERE b.name = :name: ORDER BY c.name";
  *
@@ -423,7 +423,8 @@ class Query implements QueryInterface, InjectionAwareInterface
 	protected final function _getExpression(expr, boolean quoting = true) -> string
 	{
 		var exprType, exprLeft, exprRight, left = null, right = null, listItems, exprListItem,
-			exprReturn, tempNotQuoting, value, escapedValue, exprValue;
+			exprReturn, tempNotQuoting, value, escapedValue, exprValue,
+			valueParts, name, bindType, bind;
 
 		if fetch exprType, expr["type"] {
 
@@ -563,12 +564,62 @@ class Query implements QueryInterface, InjectionAwareInterface
 					let exprReturn = ["type": "placeholder", "value": ":" . expr["value"]];
 					break;
 
-				case PHQL_T_NTPLACEHOLDER:
-					let exprReturn = ["type": "placeholder", "value": str_replace("?", ":", expr["value"])];
-					break;
+				case PHQL_T_BPLACEHOLDER:
+					let value = expr["value"];
+					if memstr(value, ":") {
 
-				case PHQL_T_STPLACEHOLDER:
-					let exprReturn = ["type": "placeholder", "value": ":" . expr["value"]];
+						let valueParts = explode(":", value),
+							name = valueParts[0],
+							bindType = valueParts[1];
+
+						switch bindType {
+
+							case "str":
+								let this->_bindTypes[name] = Column::BIND_PARAM_STR;
+								break;
+
+							case "int":
+								let this->_bindTypes[name] = Column::BIND_PARAM_INT;
+								break;
+
+							case "double":
+								let this->_bindTypes[name] = Column::BIND_PARAM_DECIMAL;
+								break;
+
+							case "bool":
+								let this->_bindTypes[name] = Column::BIND_PARAM_BOOL;
+								break;
+
+							case "blob":
+								let this->_bindTypes[name] = Column::BIND_PARAM_BLOB;
+								break;
+
+							case "null":
+								let this->_bindTypes[name] = Column::BIND_PARAM_NULL;
+								break;
+
+							case "array":
+							case "array-str":
+							case "array-int":
+
+								if !fetch bind, this->_bindParams[name] {
+									throw new Exception("Bind value is required for array type placeholder: " . name);
+								}
+
+								if typeof bind != "array" {
+									throw new Exception("Bind type requires an array in placeholder: " . name);
+								}
+
+								break;
+
+							default:
+								throw new Exception("Unknown bind type: " . bindType);
+						}
+
+						let exprReturn = ["type": "placeholder", "value": ":" . name];
+					} else {
+						let exprReturn = ["type": "placeholder", "value": ":" . value];
+					}
 					break;
 
 				case PHQL_T_NULL:
@@ -1866,6 +1917,10 @@ class Query implements QueryInterface, InjectionAwareInterface
 		 */
 		if fetch limit, ast["limit"] {
 			let sqlSelect["limit"] = this->_getLimitClause(limit);
+		}
+
+		if isset ast["forUpdate"] {
+			let sqlSelect["forUpdate"] = true;
 		}
 
 		return sqlSelect;

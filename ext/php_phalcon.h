@@ -19,6 +19,7 @@
 
 typedef struct _zephir_struct_db { 
 	zend_bool escape_identifiers;
+	zend_bool force_casting;
 } zephir_struct_db;
 
 typedef struct _zephir_struct_orm { 

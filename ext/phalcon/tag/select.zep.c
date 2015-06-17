@@ -86,7 +86,7 @@ PHP_METHOD(Phalcon_Tag_Select, selectField) {
 	}
 	ZEPHIR_OBS_VAR(value);
 	if (!(zephir_array_isset_string_fetch(&value, params, SS("value"), 0 TSRMLS_CC))) {
-		ZEPHIR_CALL_CE_STATIC(&value, phalcon_tag_ce, "getvalue", &_1, 173, id, params);
+		ZEPHIR_CALL_CE_STATIC(&value, phalcon_tag_ce, "getvalue", &_1, 174, id, params);
 		zephir_check_call_status();
 	} else {
 		zephir_array_unset_string(&params, SS("value"), PH_SEPARATE);
@@ -132,7 +132,7 @@ PHP_METHOD(Phalcon_Tag_Select, selectField) {
 	zephir_array_unset_string(&params, SS("using"), PH_SEPARATE);
 	ZEPHIR_INIT_VAR(_5);
 	ZVAL_STRING(_5, "<select", ZEPHIR_TEMP_PARAM_COPY);
-	ZEPHIR_CALL_CE_STATIC(&_3, phalcon_tag_ce, "renderattributes", &_4, 171, _5, params);
+	ZEPHIR_CALL_CE_STATIC(&_3, phalcon_tag_ce, "renderattributes", &_4, 172, _5, params);
 	zephir_check_temp_parameter(_5);
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(_5);
@@ -151,7 +151,7 @@ PHP_METHOD(Phalcon_Tag_Select, selectField) {
 		ZEPHIR_GET_CONSTANT(_6, "PHP_EOL");
 		ZEPHIR_INIT_LNVAR(_7);
 		ZEPHIR_CONCAT_SV(_7, "</option>", _6);
-		ZEPHIR_CALL_SELF(&_8, "_optionsfromresultset", &_9, 413, options, using, value, _7);
+		ZEPHIR_CALL_SELF(&_8, "_optionsfromresultset", &_9, 414, options, using, value, _7);
 		zephir_check_call_status();
 		zephir_concat_self(&code, _8 TSRMLS_CC);
 	} else {
@@ -160,7 +160,7 @@ PHP_METHOD(Phalcon_Tag_Select, selectField) {
 			ZEPHIR_GET_CONSTANT(_6, "PHP_EOL");
 			ZEPHIR_INIT_LNVAR(_7);
 			ZEPHIR_CONCAT_SV(_7, "</option>", _6);
-			ZEPHIR_CALL_SELF(&_8, "_optionsfromarray", &_10, 414, options, value, _7);
+			ZEPHIR_CALL_SELF(&_8, "_optionsfromarray", &_10, 415, options, value, _7);
 			zephir_check_call_status();
 			zephir_concat_self(&code, _8 TSRMLS_CC);
 		} else {
@@ -198,10 +198,14 @@ PHP_METHOD(Phalcon_Tag_Select, _optionsFromResultset) {
 	ZEPHIR_INIT_VAR(params);
 	ZVAL_NULL(params);
 	if (Z_TYPE_P(using) == IS_ARRAY) {
+		if (zephir_fast_count_int(using TSRMLS_CC) != 2) {
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_tag_exception_ce, "Parameter 'using' requires two values", "phalcon/tag/select.zep", 165);
+			return;
+		}
 		ZEPHIR_OBS_VAR(usingZero);
-		zephir_array_fetch_long(&usingZero, using, 0, PH_NOISY, "phalcon/tag/select.zep", 164 TSRMLS_CC);
+		zephir_array_fetch_long(&usingZero, using, 0, PH_NOISY, "phalcon/tag/select.zep", 167 TSRMLS_CC);
 		ZEPHIR_OBS_VAR(usingOne);
-		zephir_array_fetch_long(&usingOne, using, 1, PH_NOISY, "phalcon/tag/select.zep", 164 TSRMLS_CC);
+		zephir_array_fetch_long(&usingOne, using, 1, PH_NOISY, "phalcon/tag/select.zep", 167 TSRMLS_CC);
 	}
 	_0 = zephir_get_iterator(resultset TSRMLS_CC);
 	_0->funcs->rewind(_0 TSRMLS_CC);
@@ -227,11 +231,11 @@ PHP_METHOD(Phalcon_Tag_Select, _optionsFromResultset) {
 			} else {
 				if (Z_TYPE_P(option) == IS_ARRAY) {
 					ZEPHIR_OBS_NVAR(optionValue);
-					zephir_array_fetch(&optionValue, option, usingZero, PH_NOISY, "phalcon/tag/select.zep", 181 TSRMLS_CC);
+					zephir_array_fetch(&optionValue, option, usingZero, PH_NOISY, "phalcon/tag/select.zep", 184 TSRMLS_CC);
 					ZEPHIR_OBS_NVAR(optionText);
-					zephir_array_fetch(&optionText, option, usingOne, PH_NOISY, "phalcon/tag/select.zep", 182 TSRMLS_CC);
+					zephir_array_fetch(&optionText, option, usingOne, PH_NOISY, "phalcon/tag/select.zep", 185 TSRMLS_CC);
 				} else {
-					ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_tag_exception_ce, "Resultset returned an invalid value", "phalcon/tag/select.zep", 184);
+					ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_tag_exception_ce, "Resultset returned an invalid value", "phalcon/tag/select.zep", 187);
 					return;
 				}
 			}
@@ -266,7 +270,7 @@ PHP_METHOD(Phalcon_Tag_Select, _optionsFromResultset) {
 					ZEPHIR_INIT_NVAR(params);
 					array_init(params);
 				}
-				zephir_array_update_long(&params, 0, &option, PH_COPY | PH_SEPARATE, "phalcon/tag/select.zep", 215);
+				zephir_array_update_long(&params, 0, &option, PH_COPY | PH_SEPARATE, "phalcon/tag/select.zep", 218);
 				ZEPHIR_INIT_NVAR(_4);
 				ZEPHIR_CALL_USER_FUNC_ARRAY(_4, using, params);
 				zephir_check_call_status();
@@ -304,7 +308,7 @@ PHP_METHOD(Phalcon_Tag_Select, _optionsFromArray) {
 	ZVAL_STRING(code, "", 1);
 	zephir_get_strval(_0, value);
 	ZEPHIR_CPY_WRT(strValue, _0);
-	zephir_is_iterable(data, &_2, &_1, 0, 0, "phalcon/tag/select.zep", 262);
+	zephir_is_iterable(data, &_2, &_1, 0, 0, "phalcon/tag/select.zep", 265);
 	for (
 	  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_2, &_1)
@@ -313,12 +317,12 @@ PHP_METHOD(Phalcon_Tag_Select, _optionsFromArray) {
 		ZEPHIR_GET_HVALUE(optionText, _3);
 		zephir_get_strval(_4, optionValue);
 		ZEPHIR_CPY_WRT(strOptionValue, _4);
-		ZEPHIR_CALL_FUNCTION(&escaped, "htmlspecialchars", &_5, 155, optionValue);
+		ZEPHIR_CALL_FUNCTION(&escaped, "htmlspecialchars", &_5, 156, optionValue);
 		zephir_check_call_status();
 		if (Z_TYPE_P(optionText) == IS_ARRAY) {
 			ZEPHIR_INIT_NVAR(_6);
 			ZEPHIR_GET_CONSTANT(_6, "PHP_EOL");
-			ZEPHIR_CALL_SELF(&_7, "_optionsfromarray", &_8, 414, optionText, value, closeOption);
+			ZEPHIR_CALL_SELF(&_7, "_optionsfromarray", &_8, 415, optionText, value, closeOption);
 			zephir_check_call_status();
 			ZEPHIR_INIT_NVAR(_9);
 			ZEPHIR_GET_CONSTANT(_9, "PHP_EOL");

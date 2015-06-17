@@ -721,9 +721,16 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		 * Check for bind parameters
 		 */
 		if fetch bindParams, params["bind"] {
-			fetch bindTypes, params["bindTypes"];
-		} else {
-			let bindTypes = null;
+
+			if typeof bindParams == "array" {
+				query->setBindParams(bindParams);
+			}
+
+			if fetch bindTypes, params["bindTypes"] {
+				if typeof bindTypes == "array" {
+					query->setBindTypes(bindTypes);
+				}
+			}
 		}
 
 		/**
@@ -736,7 +743,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		/**
 		 * Execute the query passing the bind-params and casting-types
 		 */
-		let resultset = query->execute(bindParams, bindTypes);
+		let resultset = query->execute();
 
 		/**
 		 * Define an hydration mode
@@ -802,9 +809,17 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		/**
 		 * Check for bind parameters
 		 */
-		let bindParams = null, bindTypes = null;
 		if fetch bindParams, params["bind"] {
-			fetch bindTypes, params["bindTypes"];
+
+			if typeof bindParams == "array" {
+				query->setBindParams(bindParams);
+			}
+
+			if fetch bindTypes, params["bindTypes"] {
+				if typeof bindTypes == "array" {
+					query->setBindTypes(bindTypes);
+				}
+			}
 		}
 
 		/**

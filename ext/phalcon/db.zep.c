@@ -101,7 +101,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Db) {
  */
 PHP_METHOD(Phalcon_Db, setup) {
 
-	zval *options_param = NULL, *escapeIdentifiers;
+	zval *options_param = NULL, *escapeIdentifiers, *forceCasting;
 	zval *options = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -114,6 +114,10 @@ PHP_METHOD(Phalcon_Db, setup) {
 	ZEPHIR_OBS_VAR(escapeIdentifiers);
 	if (zephir_array_isset_string_fetch(&escapeIdentifiers, options, SS("escapeSqlIdentifiers"), 0 TSRMLS_CC)) {
 		ZEPHIR_GLOBAL(db).escape_identifiers = zend_is_true(escapeIdentifiers);
+	}
+	ZEPHIR_OBS_VAR(forceCasting);
+	if (zephir_array_isset_string_fetch(&forceCasting, options, SS("forceCasting"), 0 TSRMLS_CC)) {
+		ZEPHIR_GLOBAL(db).force_casting = zend_is_true(forceCasting);
 	}
 	ZEPHIR_MM_RESTORE();
 

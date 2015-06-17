@@ -390,12 +390,9 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 			case PHQL_T_SPLACEHOLDER:
 				phql_parse_with_token(phql_parser, PHQL_T_SPLACEHOLDER, PHQL_SPLACEHOLDER, &token, parser_status);
 				break;
-            case PHQL_T_NTPLACEHOLDER:
-    			phql_parse_with_token(phql_parser, PHQL_T_NTPLACEHOLDER, PHQL_NTPLACEHOLDER, &token, parser_status);
-    			break;
-    		case PHQL_T_STPLACEHOLDER:
-    			phql_parse_with_token(phql_parser, PHQL_T_STPLACEHOLDER, PHQL_STPLACEHOLDER, &token, parser_status);
-    			break;
+            case PHQL_T_BPLACEHOLDER:
+    			phql_parse_with_token(phql_parser, PHQL_T_BPLACEHOLDER, PHQL_BPLACEHOLDER, &token, parser_status);
+    			break;    		
 
 			case PHQL_T_FROM:
 				phql_(phql_parser, PHQL_FROM, NULL, parser_status);

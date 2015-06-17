@@ -99,13 +99,20 @@ abstract class Db
 	 */
 	public static function setup(array! options) -> void
 	{
-		var escapeIdentifiers;
+		var escapeIdentifiers, forceCasting;
 
 		/**
 		 * Enables/Disables globally the escaping of SQL identifiers
 		 */
 		if fetch escapeIdentifiers, options["escapeSqlIdentifiers"] {
 			globals_set("db.escape_identifiers", escapeIdentifiers);
+		}
+
+		/**
+		 * Force cast bound values in the PHP userland
+		 */
+		if fetch forceCasting, options["forceCasting"] {
+			globals_set("db.force_casting", forceCasting);
 		}
 	}
 }

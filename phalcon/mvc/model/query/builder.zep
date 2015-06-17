@@ -936,7 +936,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 			selectedModel, selectedModels, columnAlias, modelColumnAlias,
 			joins, join, joinModel, joinConditions, joinAlias, joinType, group,
 			groupItems, groupItem, having, order, orderItems, orderItem,
-			limit, number, offset, distinct, withModels;
+			limit, number, offset, forUpdate, distinct, withModels;
 		boolean noPrimary;
 
 		let dependencyInjector = this->_dependencyInjector;

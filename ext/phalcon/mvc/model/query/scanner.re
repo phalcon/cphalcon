@@ -78,6 +78,15 @@ int phql_get_token(phql_scanner_state *s, phql_scanner_token *token) {
 			return 0;
 		}
 
+		BPLACEHOLDER = "{"[a-zA-Z0-9\_\-\:]+"}";
+		BPLACEHOLDER {
+			token->opcode = PHQL_T_BPLACEHOLDER;
+			token->value = estrndup(q, YYCURSOR - q - 1);
+			token->len = YYCURSOR - q - 1;
+			q = YYCURSOR;
+			return 0;
+		}
+
 		'UPDATE' {
 			token->opcode = PHQL_T_UPDATE;
 			return 0;
