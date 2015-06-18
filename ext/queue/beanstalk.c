@@ -505,7 +505,7 @@ static void phalcon_queue_beanstalk_peek_common(zval *return_value, zval *this_p
 
 	MAKE_STD_ZVAL(body);
 	phalcon_unserialize(body, serialized TSRMLS_CC);
-	zval_ptr_dtor(&serialized);
+	phalcon_ptr_dtor(&serialized);
 	if (Z_REFCOUNT_P(body) >= 1) {
 		Z_DELREF_P(body);
 	}

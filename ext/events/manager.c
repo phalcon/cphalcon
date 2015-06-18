@@ -954,5 +954,5 @@ PHP_METHOD(Phalcon_Events_Manager, getEvents){
 	zval *events;
 
 	events = phalcon_fetch_nproperty_this(this_ptr, SL("_events"), PH_NOISY TSRMLS_CC);
-	phalcon_array_keys(return_value, events);
+	phalcon_array_keys(return_value, events TSRMLS_CC);
 }

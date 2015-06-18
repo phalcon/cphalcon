@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -14,28 +14,45 @@
   +------------------------------------------------------------------------+
   | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
   |          Eduar Carvajal <eduar@phalconphp.com>                         |
+  |          ZhuZongXin <dreamsxin@qq.com>                                 |
   +------------------------------------------------------------------------+
 */
 
-#ifndef PHALCON_KERNEL_REQUIRE_H
-#define PHALCON_KERNEL_REQUIRE_H
 
-#include "php_phalcon.h"
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
 
-int phalcon_require_ret(zval **return_value_ptr, const char *require_path TSRMLS_DC) PHALCON_ATTR_NONNULL1(2);
+#include <php.h>
 
-PHALCON_ATTR_NONNULL static inline int phalcon_require(const char *require_path TSRMLS_DC)
-{
-	return phalcon_require_ret(NULL, require_path TSRMLS_CC);
+#include "kernel/main.h"
+#include "kernel/memory.h"
+
+/**
+ * Returns an iterator from the object
+ */
+zend_object_iterator *phalcon_get_iterator(zval *iterator TSRMLS_DC) {
+
+	zend_class_entry *ce;
+	zend_object_iterator *it;
+
+	if (Z_TYPE_P(iterator) != IS_OBJECT) {
+		return NULL;
+	}
+
+	ce = Z_OBJCE_P(iterator);
+	it = ce->get_iterator(ce, iterator, 0 TSRMLS_CC);
+	if (!it || EG(exception)) {
+		return NULL;
+	}
+
+	if (it->funcs->get_current_key == NULL) {
+		return NULL;
+	}
+
+	if (it->funcs->rewind == NULL) {
+		return NULL;
+	}
+
+	return it;
 }
-
-PHALCON_ATTR_NONNULL static inline int phalcon_require_zval(const zval *require_path TSRMLS_DC)
-{
-    return phalcon_require_ret(NULL, Z_TYPE_P(require_path) == IS_STRING ? Z_STRVAL_P(require_path) : "" TSRMLS_CC);
-}
-
-PHALCON_ATTR_NONNULL static inline int phalcon_require_zval_ret(zval **return_value_ptr, const zval *require_path TSRMLS_DC)
-{
-    return phalcon_require_ret(return_value_ptr, Z_TYPE_P(require_path) == IS_STRING ? Z_STRVAL_P(require_path) : "" TSRMLS_CC);
-}
-#endif /* PHALCON_KERNEL_REQUIRE_H */

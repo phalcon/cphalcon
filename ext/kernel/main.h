@@ -95,17 +95,6 @@ int phalcon_fast_count_ev(zval *array TSRMLS_DC);
 /* Utils functions */
 int phalcon_is_iterable_ex(zval *arr, HashTable **arr_hash, HashPosition *hash_position, int duplicate, int reverse);
 
-/**
- * @brief destroys @c pzval if it is not @c NULL
- * @param pzval
- */
-static inline void phalcon_safe_zval_ptr_dtor(zval *pzval)
-{
-	if (pzval) {
-		zval_ptr_dtor(&pzval);
-	}
-}
-
 static inline int is_phalcon_class(const zend_class_entry *ce)
 {
 #if PHP_VERSION_ID >= 50400
@@ -553,5 +542,8 @@ void phalcon_clean_and_cache_symbol_table(HashTable *symbol_table TSRMLS_DC);
 #endif
 
 #endif
+
+#define PHALCON_CHECK_POINTER(v) if (!v) fprintf(stderr, "%s:%d\n", __PRETTY_FUNCTION__, __LINE__)
+#define PHALCON_DEBUG_POINTER() fprintf(stderr, "%s:%d\n", __PRETTY_FUNCTION__, __LINE__)
 
 #endif /* PHALCON_KERNEL_MAIN_H */

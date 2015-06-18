@@ -153,6 +153,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, __construct){
 		PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "The descriptor must be an array");
 		return;
 	}
+
 	PHALCON_CALL_METHOD(NULL, this_ptr, "connect", descriptor);
 	PHALCON_CALL_PARENT(NULL, phalcon_db_adapter_pdo_ce, this_ptr, "__construct", descriptor);
 

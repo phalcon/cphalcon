@@ -18,6 +18,7 @@
 */
 
 #include "kernel/require.h"
+#include "kernel/memory.h"
 #include "kernel/backtrace.h"
 
 #include <main/php_main.h>
@@ -91,7 +92,7 @@ int phalcon_require_ret(zval **return_value_ptr, const char *require_path TSRMLS
 
 			if (!use_ret) {
 				if (EG(return_value_ptr_ptr)) {
-					zval_ptr_dtor(EG(return_value_ptr_ptr));
+					phalcon_ptr_dtor(EG(return_value_ptr_ptr));
 				}
 			}
 

@@ -77,7 +77,7 @@ int phalcon_set_session_id(zval *sid TSRMLS_DC)
 	PS(id) = estrndup(Z_STRVAL_P(sid), Z_STRLEN_P(sid));
 
 	if (unlikely(use_copy)) {
-		zval_dtor(&copy);
+		phalcon_dtor(&copy);
 	}
 
 	return SUCCESS;

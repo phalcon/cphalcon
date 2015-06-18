@@ -66,7 +66,7 @@
 	if (!(A)) { \
 		ALLOC_INIT_ZVAL((A)); \
 	} else { \
-		zval_dtor((A)); \
+		phalcon_dtor((A)); \
 		ZVAL_NULL((A)); \
 	}
 

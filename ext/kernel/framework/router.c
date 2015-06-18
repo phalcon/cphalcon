@@ -18,6 +18,7 @@
 */
 
 #include "php_phalcon.h"
+#include "kernel/memory.h"
 
 #include <ext/standard/php_smart_str.h>
 #include <ext/standard/php_string.h>
@@ -168,7 +169,7 @@ void phalcon_replace_paths(zval *return_value, zval *pattern, zval *paths, zval 
 								}
 								smart_str_appendl(&route_str, Z_STRVAL_P(replace), Z_STRLEN_P(replace));
 								if (use_copy) {
-									zval_dtor(&replace_copy);
+									phalcon_dtor(&replace_copy);
 								}
 							}
 							cursor++;
@@ -202,7 +203,7 @@ void phalcon_replace_paths(zval *return_value, zval *pattern, zval *paths, zval 
 								}
 								smart_str_appendl(&route_str, Z_STRVAL_P(replace), Z_STRLEN_P(replace));
 								if (use_copy) {
-									zval_dtor(&replace_copy);
+									phalcon_dtor(&replace_copy);
 								}
 							}
 							cursor++;
@@ -228,7 +229,7 @@ void phalcon_replace_paths(zval *return_value, zval *pattern, zval *paths, zval 
 							}
 							smart_str_appendl(&route_str, Z_STRVAL_P(replace), Z_STRLEN_P(replace));
 							if (use_copy) {
-								zval_dtor(&replace_copy);
+								phalcon_dtor(&replace_copy);
 							}
 						}
 						looking_placeholder = 0;

@@ -243,7 +243,7 @@ static zval* phalcon_di_read_dimension_internal(zval *this_ptr, phalcon_di_objec
 	if (ce && instanceof_function_ex(ce, phalcon_di_injectionawareinterface_ce, 1 TSRMLS_CC)) {
 		zval *params[] = { this_ptr };
 		if (FAILURE == phalcon_call_method(NULL, *retval, "setdi", 1, params TSRMLS_CC)) {
-			zval_ptr_dtor(retval);
+			phalcon_ptr_dtor(retval);
 			return NULL;
 		}
 	}
@@ -276,7 +276,7 @@ static zval* phalcon_di_read_dimension(zval *object, zval *offset, int type TSRM
 	ret = phalcon_di_read_dimension_internal(object, obj, offset, PHALCON_GLOBAL(z_null) TSRMLS_CC);
 
 	if (UNEXPECTED(offset == &tmp)) {
-		zval_dtor(&tmp);
+		phalcon_dtor(&tmp);
 	}
 
 	return ret;
@@ -348,7 +348,7 @@ static void phalcon_di_write_dimension(zval *object, zval *offset, zval *value T
 	phalcon_di_write_dimension_internal(obj, offset, value TSRMLS_CC);
 
 	if (UNEXPECTED(offset == &tmp)) {
-		zval_dtor(&tmp);
+		phalcon_dtor(&tmp);
 	}
 }
 
@@ -377,7 +377,7 @@ static void phalcon_di_unset_dimension(zval *object, zval *offset TSRMLS_DC)
 	phalcon_di_unset_dimension_internal(obj, offset);
 
 	if (UNEXPECTED(offset == &tmp)) {
-		zval_dtor(&tmp);
+		phalcon_dtor(&tmp);
 	}
 }
 
@@ -766,7 +766,7 @@ PHP_METHOD(Phalcon_DI, setService)
 
 		Z_ADDREF_PP(raw_definition);
 		zend_hash_update(obj->services, Z_STRVAL_P(name), Z_STRLEN_P(name)+1, (void*)raw_definition, sizeof(zval*), NULL);
-		zval_ptr_dtor(&name);
+		phalcon_ptr_dtor(&name);
 	}
 	else {
 		zval **name = name_or_def;

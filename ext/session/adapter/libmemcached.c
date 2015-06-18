@@ -222,7 +222,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Libmemcached, __construct){
 	PHALCON_CALL_FUNCTION(NULL, "session_set_save_handler", callable_open, callable_close, callable_read, callable_write, callable_destroy, callable_gc);
 
 	PHALCON_CALL_PARENT(NULL, phalcon_session_adapter_libmemcached_ce, this_ptr, "__construct", options);
-	
+
 	PHALCON_MM_RESTORE();
 }
 
