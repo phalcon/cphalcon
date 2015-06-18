@@ -21,7 +21,7 @@
 /**
  * Phalcon\Assets\Inline\Css
  *
- * Represents inline CSS
+ * Represents an inlined CSS
  */
 ZEPHIR_INIT_CLASS(Phalcon_Assets_Inline_Css) {
 

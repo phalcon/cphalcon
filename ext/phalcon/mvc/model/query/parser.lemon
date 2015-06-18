@@ -1226,20 +1226,19 @@ expr(R) ::= FALSE . {
 	R = phql_ret_literal_zval(PHQL_T_FALSE, NULL);
 }
 
+/* ?0 */
 expr(R) ::= NPLACEHOLDER(P) . {
 	R = phql_ret_placeholder_zval(PHQL_T_NPLACEHOLDER, P);
 }
 
+/* :placeholder: */
 expr(R) ::= SPLACEHOLDER(P) . {
 	R = phql_ret_placeholder_zval(PHQL_T_SPLACEHOLDER, P);
 }
 
-expr(R) ::= NTPLACEHOLDER(P) . {
-	R = phql_ret_placeholder_zval(PHQL_T_NTPLACEHOLDER, P);
-}
-
-expr(R) ::= STPLACEHOLDER(P) . {
-	R = phql_ret_placeholder_zval(PHQL_T_STPLACEHOLDER, P);
+/* {placeholder} */
+expr(R) ::= BPLACEHOLDER(P) . {
+	R = phql_ret_placeholder_zval(PHQL_T_BPLACEHOLDER, P);
 }
 
 %destructor qualified_name { zval_ptr_dtor(&$$); }

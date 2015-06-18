@@ -825,6 +825,19 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	}
 
 	/**
+	 * Sets a FOR UPDATE clause
+	 *
+	 *<code>
+	 *	$builder->forUpdate(true);
+	 *</code>
+	 */
+	public function forUpdate(boolean forUpdate) -> <Builder>
+	{
+		let this->_forUpdate = forUpdate;
+		return this;
+	}
+
+	/**
 	 * Return the current having clause
 	 *
 	 * @return string|array
@@ -923,7 +936,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 			selectedModel, selectedModels, columnAlias, modelColumnAlias,
 			joins, join, joinModel, joinConditions, joinAlias, joinType, group,
 			groupItems, groupItem, having, order, orderItems, orderItem,
-			limit, number, offset, distinct, withModels;
+			limit, number, offset, forUpdate, distinct, withModels;
 		boolean noPrimary;
 
 		let dependencyInjector = this->_dependencyInjector;
@@ -1215,7 +1228,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 		let having = this->_having;
 		if having !== null {
 			if !empty having {
-				let phql .= " HAVING ".having;
+				let phql .= " HAVING " . having;
 			}
 		}
 
@@ -1271,6 +1284,13 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 						}
 					}
 				}
+			}
+		}
+
+		let forUpdate = this->_forUpdate;
+		if typeof forUpdate === "boolean" {
+			if forUpdate {
+				let phql .= " FOR UPDATE";
 			}
 		}
 

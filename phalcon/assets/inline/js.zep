@@ -19,12 +19,14 @@
 
 namespace Phalcon\Assets\Inline;
 
+use Phalcon\Assets\Inline as InlineBase;
+
 /**
  * Phalcon\Assets\Inline\Js
  *
- * Represents inline Javascript
+ * Represents an inline Javascript
  */
-class Js extends \Phalcon\Assets\Inline
+class Js extends InlineBase
 {
 
 	/**

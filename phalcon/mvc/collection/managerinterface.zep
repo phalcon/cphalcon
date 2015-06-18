@@ -19,9 +19,10 @@
 
 namespace Phalcon\Mvc\Collection;
 
-use Phalcon\Events\ManagerInterface as EventsManagerInterface;
+use Phalcon\Db\AdapterInterface;
 use Phalcon\Mvc\CollectionInterface;
 use Phalcon\Mvc\Collection\BehaviorInterface;
+use Phalcon\Events\ManagerInterface as EventsManagerInterface;
 
 /**
  * Phalcon\Mvc\Collection\Manager
@@ -34,11 +35,11 @@ use Phalcon\Mvc\Collection\BehaviorInterface;
  * <code>
  * $di = new \Phalcon\Di();
  *
- * $di->set('collectionManager', function(){
+ * $di->set('collectionManager', function() {
  *      return new \Phalcon\Mvc\Collection\Manager();
  * });
  *
- * robot = new Robots(di);
+ * $robot = new Robots(di);
  * </code>
  */
 interface ManagerInterface
@@ -86,11 +87,8 @@ interface ManagerInterface
 
 	/**
 	 * Returns the connection related to a model
-	 *
-	 * @param Phalcon\Mvc\CollectionInterface model
-	 * @return Phalcon\Db\AdapterInterface
 	 */
-	public function getConnection(<CollectionInterface> model);
+	public function getConnection(<CollectionInterface> model) -> <AdapterInterface>;
 
 	/**
 	 * Receives events generated in the models and dispatches them to a events-manager if available
@@ -102,5 +100,4 @@ interface ManagerInterface
 	 * Binds a behavior to a collection
 	 */
 	public function addBehavior(<CollectionInterface> model, <BehaviorInterface> behavior);
-
 }

@@ -161,6 +161,9 @@ abstract class Select
 		let params = null;
 
 		if typeof using == "array" {
+			if count(using) != 2 {
+				throw new Exception("Parameter 'using' requires two values");
+			}
 			let usingZero = using[0], usingOne = using[1];
 		}
 

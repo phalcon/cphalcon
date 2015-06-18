@@ -198,13 +198,40 @@ abstract class Pdo extends Adapter
 			}
 
 			if typeof dataTypes == "array" && fetch type, dataTypes[wildcard] {
+
 				/**
 				 * The bind type is double so we try to get the double value
 				 */
 				if type == Column::BIND_PARAM_DECIMAL {
-					let castValue = doubleval(value), type = Column::BIND_SKIP;
+					let castValue = doubleval(value),
+						type = Column::BIND_SKIP;
 				} else {
-					let castValue = value;
+					if globals_get("db.force_casting") {
+						switch type {
+
+							case Column::BIND_PARAM_INT:
+								let castValue = intval(value, 10);
+								break;
+
+							case Column::BIND_PARAM_STR:
+								let castValue = (string) value;
+								break;
+
+							case Column::BIND_PARAM_NULL:
+								let castValue = null;
+								break;
+
+							case Column::BIND_PARAM_BOOL:
+								let castValue = (boolean) value;
+								break;
+
+							default:
+								let castValue = value;
+								break;
+						}
+					} else {
+						let castValue = value;
+					}
 				}
 
 				/**

@@ -63,8 +63,7 @@
 /** Placeholders */
 #define PHQL_T_NPLACEHOLDER 273
 #define PHQL_T_SPLACEHOLDER 274
-#define PHQL_T_NTPLACEHOLDER 277
-#define PHQL_T_STPLACEHOLDER 278
+#define PHQL_T_BPLACEHOLDER 277
 
 /** Reserved words */
 #define PHQL_T_UPDATE 300

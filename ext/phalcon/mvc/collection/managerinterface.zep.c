@@ -23,11 +23,11 @@
  * <code>
  * $di = new \Phalcon\Di();
  *
- * $di->set('collectionManager', function(){
+ * $di->set('collectionManager', function() {
  *      return new \Phalcon\Mvc\Collection\Manager();
  * });
  *
- * robot = new Robots(di);
+ * $robot = new Robots(di);
  * </code>
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Collection_ManagerInterface) {
@@ -80,9 +80,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Collection_ManagerInterface, isUsingImplicitObject
 
 /**
  * Returns the connection related to a model
- *
- * @param Phalcon\Mvc\CollectionInterface model
- * @return Phalcon\Db\AdapterInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Collection_ManagerInterface, getConnection);
 

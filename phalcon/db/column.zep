@@ -43,7 +43,6 @@ use Phalcon\Db\ColumnInterface;
  * //add column to existing table
  * $connection->addColumn("robots", null, $column);
  *</code>
- *
  */
 class Column implements ColumnInterface
 {

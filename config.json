@@ -37,6 +37,10 @@
             "type": "bool",
             "default": true
         },
+        "db.force_casting": {
+            "type": "bool",
+            "default": false
+        },
         "orm.parser_cache": {
             "type": "hash",
             "default": "NULL"

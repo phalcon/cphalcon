@@ -19,12 +19,14 @@
 
 namespace Phalcon\Assets\Resource;
 
+use Phalcon\Assets\Resource as ResourceBase;
+
 /**
  * Phalcon\Assets\Resource\Css
  *
  * Represents CSS resources
  */
-class Css extends \Phalcon\Assets\Resource
+class Css extends ResourceBase
 {
 
 	/**
