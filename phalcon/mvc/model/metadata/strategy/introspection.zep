@@ -154,6 +154,7 @@ class Introspection implements StrategyInterface
 
 						case Column::TYPE_VARCHAR:
 						case Column::TYPE_TEXT:
+						case Column::TYPE_DATE:
 							let defaultValues[fieldName] = "'" . defaultValue . "'";
 							break;
 
