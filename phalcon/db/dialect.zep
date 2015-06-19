@@ -234,7 +234,8 @@ abstract class Dialect implements DialectInterface
 	 */
 	public function getSqlExpression(array! expression, string escapeChar = null) -> string
 	{
-		var type;
+		var type, times, placeholders, value;
+		int i;
 
 		if !fetch type, expression["type"] {
 			throw new Exception("Invalid SQL expression");
@@ -264,8 +265,18 @@ abstract class Dialect implements DialectInterface
 			 * Resolve literal OR placeholder expressions
 			 */
 			case "literal":
-			case "placeholder":
 				return expression["value"];
+
+			case "placeholder":
+				if fetch times, expression["times"] {
+					let placeholders = [], value = expression["value"];
+					for i in range(1, times) {
+						let placeholders[] = value . (i - 1);
+					}
+					return join(", ", placeholders);
+				} else {
+					return expression["value"];
+				}
 
 			/**
 			 * Resolve binary operations expressions

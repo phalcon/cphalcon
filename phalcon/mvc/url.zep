@@ -162,14 +162,12 @@ class Url implements UrlInterface, InjectionAwareInterface
 	/**
 	 * Generates a URL
 	 *
-	 *<code>
-	 *
+	 *<code>	 
 	 * //Generate a URL appending the URI to the base URI
 	 * echo $url->get('products/edit/1');
 	 *
 	 * //Generate a URL for a predefined route
 	 * echo $url->get(array('for' => 'blog-post', 'title' => 'some-cool-stuff', 'year' => '2012'));
-	 *
 	 *</code>
 	 */
 	public function get(var uri = null, var args = null, boolean local = null, var baseUri = null) -> string
@@ -177,8 +175,8 @@ class Url implements UrlInterface, InjectionAwareInterface
 		var router, dependencyInjector, routeName, route, queryString;
 
 		if local == null {
-			if typeof uri == "string" && memstr(uri, "//") {
-				if preg_match("#^[a-zA-Z\:]*//#", uri) {
+			if typeof uri == "string" && (memstr(uri, "//") || memstr(uri, ":")) {
+				if preg_match("#^[a-zA-Z\:]*//#", uri) || preg_match("#^[a-zA-Z]:#", uri) {
 					let local = false;
 				} else {
 					let local = true;

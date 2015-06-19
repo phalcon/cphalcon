@@ -837,7 +837,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		/**
 		 * Execute the query passing the bind-params and casting-types
 		 */
-		let resultset = query->execute(bindParams, bindTypes);
+		let resultset = query->execute();
 
 		/**
 		 * Define an hydration mode

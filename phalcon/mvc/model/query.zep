@@ -576,26 +576,32 @@ class Query implements QueryInterface, InjectionAwareInterface
 
 							case "str":
 								let this->_bindTypes[name] = Column::BIND_PARAM_STR;
+								let exprReturn = ["type": "placeholder", "value": ":" . name];
 								break;
 
 							case "int":
 								let this->_bindTypes[name] = Column::BIND_PARAM_INT;
+								let exprReturn = ["type": "placeholder", "value": ":" . name];
 								break;
 
 							case "double":
 								let this->_bindTypes[name] = Column::BIND_PARAM_DECIMAL;
+								let exprReturn = ["type": "placeholder", "value": ":" . name];
 								break;
 
 							case "bool":
 								let this->_bindTypes[name] = Column::BIND_PARAM_BOOL;
+								let exprReturn = ["type": "placeholder", "value": ":" . name];
 								break;
 
 							case "blob":
 								let this->_bindTypes[name] = Column::BIND_PARAM_BLOB;
+								let exprReturn = ["type": "placeholder", "value": ":" . name];
 								break;
 
 							case "null":
 								let this->_bindTypes[name] = Column::BIND_PARAM_NULL;
+								let exprReturn = ["type": "placeholder", "value": ":" . name];
 								break;
 
 							case "array":
@@ -610,13 +616,17 @@ class Query implements QueryInterface, InjectionAwareInterface
 									throw new Exception("Bind type requires an array in placeholder: " . name);
 								}
 
+								if count(bind) < 1 {
+									throw new Exception("At least one value must be bound in placeholder: " . name);
+								}
+
+								let exprReturn = ["type": "placeholder", "value": ":" . name, "times": count(bind)];
 								break;
 
 							default:
 								throw new Exception("Unknown bind type: " . bindType);
 						}
 
-						let exprReturn = ["type": "placeholder", "value": ":" . name];
 					} else {
 						let exprReturn = ["type": "placeholder", "value": ":" . value];
 					}
