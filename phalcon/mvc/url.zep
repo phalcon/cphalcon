@@ -162,7 +162,7 @@ class Url implements UrlInterface, InjectionAwareInterface
 	/**
 	 * Generates a URL
 	 *
-	 *<code>	 
+	 *<code>
 	 * //Generate a URL appending the URI to the base URI
 	 * echo $url->get('products/edit/1');
 	 *
@@ -176,7 +176,7 @@ class Url implements UrlInterface, InjectionAwareInterface
 
 		if local == null {
 			if typeof uri == "string" && (memstr(uri, "//") || memstr(uri, ":")) {
-				if preg_match("#^[a-zA-Z\:]*//#", uri) || preg_match("#^[a-zA-Z]:#", uri) {
+				if preg_match("#^[a-zA-Z\:]*//#", uri) || preg_match("#^[a-zA-Z]+:#", uri) {
 					let local = false;
 				} else {
 					let local = true;
