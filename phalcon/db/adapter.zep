@@ -1092,6 +1092,23 @@ abstract class Adapter implements EventsAwareInterface
 	}
 
 	/**
+	 * Returns the default value to make the RBDM use the default value declared in the table definition
+	 *
+	 *<code>
+	 * //Inserting a new robot with a valid default value for the column 'year'
+	 * $success = $connection->insert(
+	 *	 "robots",
+	 *	 array("Astro Boy", $connection->getDefaultValue()),
+	 *	 array("name", "year")
+	 * );
+	 *</code>
+	 */
+	public function getDefaultValue() -> <RawValue>
+	{
+		return new RawValue("DEFAULT");
+	}
+
+	/**
 	 * Check whether the database system requires a sequence to produce auto-numeric values
 	 */
 	public function supportSequences() -> boolean

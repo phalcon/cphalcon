@@ -19,6 +19,7 @@
 - Global setting db.force_casting now forces casting bound parameters to specified bind types
 - Introduced new placeholders in PHQL enclosed in brackets that allow to set the type: {name:str} or {names:array}
 - Now you can bind arrays in bound parameters in PHQL
+- Global setting orm.cast_on_hydrate allow to cast hydrated attributes to the original types in the mapped tables instead of using strings 
 
 # 2.0.3 (2015-06-10)
 - Added support for Behaviors in Phalcon\Mvc\Collection

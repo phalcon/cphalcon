@@ -167,7 +167,7 @@ class Url implements UrlInterface, InjectionAwareInterface
 	 * echo $url->get('products/edit/1');
 	 *
 	 * //Generate a URL for a predefined route
-	 * echo $url->get(array('for' => 'blog-post', 'title' => 'some-cool-stuff', 'year' => '2012'));
+	 * echo $url->get(array('for' => 'blog-post', 'title' => 'some-cool-stuff', 'year' => '2015'));
 	 *</code>
 	 */
 	public function get(var uri = null, var args = null, boolean local = null, var baseUri = null) -> string

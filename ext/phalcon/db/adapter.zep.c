@@ -2406,6 +2406,35 @@ PHP_METHOD(Phalcon_Db_Adapter, getDefaultIdValue) {
 }
 
 /**
+ * Returns the default value to make the RBDM use the default value declared in the table definition
+ *
+ *<code>
+ * //Inserting a new robot with a valid default value for the column 'year'
+ * $success = $connection->insert(
+ *	 "robots",
+ *	 array("Astro Boy", $connection->getDefaultValue()),
+ *	 array("name", "year")
+ * );
+ *</code>
+ */
+PHP_METHOD(Phalcon_Db_Adapter, getDefaultValue) {
+
+	int ZEPHIR_LAST_CALL_STATUS;
+	zval *_0;
+
+	ZEPHIR_MM_GROW();
+
+	object_init_ex(return_value, phalcon_db_rawvalue_ce);
+	ZEPHIR_INIT_VAR(_0);
+	ZVAL_STRING(_0, "DEFAULT", ZEPHIR_TEMP_PARAM_COPY);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 12, _0);
+	zephir_check_temp_parameter(_0);
+	zephir_check_call_status();
+	RETURN_MM();
+
+}
+
+/**
  * Check whether the database system requires a sequence to produce auto-numeric values
  */
 PHP_METHOD(Phalcon_Db_Adapter, supportSequences) {

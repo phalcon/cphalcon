@@ -569,7 +569,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, getDefaultIdValue) {
 
 	object_init_ex(return_value, phalcon_db_rawvalue_ce);
 	ZEPHIR_INIT_VAR(_0);
-	ZVAL_STRING(_0, "default", ZEPHIR_TEMP_PARAM_COPY);
+	ZVAL_STRING(_0, "DEFAULT", ZEPHIR_TEMP_PARAM_COPY);
 	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 12, _0);
 	zephir_check_temp_parameter(_0);
 	zephir_check_call_status();

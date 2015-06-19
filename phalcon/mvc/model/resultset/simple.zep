@@ -68,6 +68,7 @@ class Simple extends Resultset
 	public final function current() -> <ModelInterface> | boolean
 	{
 		var row, hydrateMode, columnMap, activeRow, modelName;
+
 		let activeRow = this->_activeRow;
 		if activeRow !== null {
 			return activeRow;

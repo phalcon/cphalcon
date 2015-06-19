@@ -2388,7 +2388,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 			sqlColumn, attributes, instance, columnMap, attribute,
 			columnAlias, sqlAlias, dialect, sqlSelect,
 			processed, wildcard, value, processedTypes, typeWildcard, result,
-			resultData, cache, resultObject, columns1;
+			resultData, cache, resultObject, columns1, typesColumnMap;
 		boolean haveObjects, haveScalars, isComplex, isSimpleStd, isKeepingSnapshots;
 		int numberObjects;
 
@@ -2670,7 +2670,25 @@ class Query implements QueryInterface, InjectionAwareInterface
 				/**
 				 * Get the column map
 				 */
-				let simpleColumnMap = metaData->getColumnMap(model);
+				if !globals_get("orm.cast_on_hydrate") {
+					let simpleColumnMap = metaData->getColumnMap(model);
+				} else {
+
+					let columnMap = metaData->getColumnMap(model),
+						typesColumnMap = metaData->getDataTypes(model);
+
+					if typeof columnMap === "null" {
+						let simpleColumnMap = [];
+						for attribute in metaData->getAttributes(model) {
+							let simpleColumnMap[attribute] = [attribute, typesColumnMap[attribute]];
+						}
+					} else {
+						let simpleColumnMap = [];
+						for column, attribute in columnMap {
+							let simpleColumnMap[column] = [attribute, typesColumnMap[column]];
+						}
+					}
+				}
 
 				/**
 				 * Check if the model keeps snapshots

@@ -51,6 +51,7 @@ PHP_METHOD(Phalcon_Db_Adapter, setNestedTransactionsWithSavepoints);
 PHP_METHOD(Phalcon_Db_Adapter, isNestedTransactionsWithSavepoints);
 PHP_METHOD(Phalcon_Db_Adapter, getNestedTransactionSavepointName);
 PHP_METHOD(Phalcon_Db_Adapter, getDefaultIdValue);
+PHP_METHOD(Phalcon_Db_Adapter, getDefaultValue);
 PHP_METHOD(Phalcon_Db_Adapter, supportSequences);
 PHP_METHOD(Phalcon_Db_Adapter, useExplicitIdValue);
 PHP_METHOD(Phalcon_Db_Adapter, getDescriptor);
@@ -323,6 +324,7 @@ ZEPHIR_INIT_FUNCS(phalcon_db_adapter_method_entry) {
 	PHP_ME(Phalcon_Db_Adapter, isNestedTransactionsWithSavepoints, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Adapter, getNestedTransactionSavepointName, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Adapter, getDefaultIdValue, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Adapter, getDefaultValue, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Adapter, supportSequences, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Adapter, useExplicitIdValue, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Adapter, getDescriptor, NULL, ZEND_ACC_PUBLIC)
