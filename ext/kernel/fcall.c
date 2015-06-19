@@ -359,7 +359,7 @@ int phalcon_call_user_function(zval **object_pp, zend_class_entry *obj_ce, phalc
 	assert(obj_ce || !object_pp);
 
 	if (retval_ptr_ptr && *retval_ptr_ptr) {
-		zval_ptr_dtor(retval_ptr_ptr);
+		phalcon_ptr_dtor(retval_ptr_ptr);
 		*retval_ptr_ptr = NULL;
 	}
 
@@ -483,7 +483,7 @@ int phalcon_call_user_function(zval **object_pp, zend_class_entry *obj_ce, phalc
 
 	if (!retval_ptr_ptr) {
 		if (local_retval_ptr) {
-			zval_ptr_dtor(&local_retval_ptr);
+			phalcon_ptr_dtor(&local_retval_ptr);
 		}
 	}
 
@@ -519,7 +519,7 @@ int phalcon_call_func_aparams(zval **return_value_ptr, const char *func_name, ui
 	}
 
 	if (rv) {
-		zval_ptr_dtor(&rv);
+		phalcon_ptr_dtor(&rv);
 	}
 
 	return status;
@@ -554,7 +554,7 @@ int phalcon_call_zval_func_aparams(zval **return_value_ptr, zval *func_name, uin
 	}
 
 	if (rv) {
-		zval_ptr_dtor(&rv);
+		phalcon_ptr_dtor(&rv);
 	}
 
 	return status;
@@ -574,6 +574,15 @@ int phalcon_call_class_method_aparams(zval **return_value_ptr, zend_class_entry 
 	}
 #endif
 
+	if (object) {
+		if (Z_TYPE_P(object) != IS_OBJECT) {
+			phalcon_throw_exception_format(spl_ce_RuntimeException TSRMLS_CC, "Trying to call method %s on a non-object", method_name);
+			if (return_value_ptr) {
+				*return_value_ptr = NULL;
+			}
+			return FAILURE;
+		}
+	}
 	array_init_size(&fn, 2);
 	switch (type) {
 		case phalcon_fcall_parent: add_next_index_stringl(&fn, ISL(parent), !IS_INTERNED(phalcon_interned_parent)); break;
@@ -615,10 +624,10 @@ int phalcon_call_class_method_aparams(zval **return_value_ptr, zend_class_entry 
 	}
 
 	if (rv) {
-		zval_ptr_dtor(&rv);
+		phalcon_ptr_dtor(&rv);
 	}
 
-	zval_dtor(&fn);
+	phalcon_dtor(&fn);
 	return status;
 }
 
@@ -952,7 +961,7 @@ int phalcon_call_function(zend_fcall_info *fci, zend_fcall_info_cache *fci_cache
 			INIT_PZVAL(*fci->retval_ptr_ptr);
 		}*/
 		if (EG(exception) && fci->retval_ptr_ptr) {
-			zval_ptr_dtor(fci->retval_ptr_ptr);
+			phalcon_ptr_dtor(fci->retval_ptr_ptr);
 			*fci->retval_ptr_ptr = NULL;
 		}
 
@@ -976,7 +985,7 @@ int phalcon_call_function(zend_fcall_info *fci, zend_fcall_info_cache *fci_cache
 		efree(EX(function_state).function);
 
 		if (EG(exception) && fci->retval_ptr_ptr) {
-			zval_ptr_dtor(fci->retval_ptr_ptr);
+			phalcon_ptr_dtor(fci->retval_ptr_ptr);
 			*fci->retval_ptr_ptr = NULL;
 		}
 	}
@@ -987,7 +996,7 @@ int phalcon_call_function(zend_fcall_info *fci, zend_fcall_info_cache *fci_cache
 	#endif
 
 	if (EG(This)) {
-		zval_ptr_dtor(&EG(This));
+		phalcon_ptr_dtor(&EG(This));
 	}
 	EG(called_scope) = current_called_scope;
 	EG(scope) = current_scope;
@@ -1518,7 +1527,7 @@ static zend_bool phalcon_is_callable_ex(zval *callable, zval *object_ptr, uint c
 				zend_make_printable_zval(callable, &expr_copy, &use_copy);
 				*callable_name = estrndup(Z_STRVAL(expr_copy), Z_STRLEN(expr_copy));
 				*callable_name_len = Z_STRLEN(expr_copy);
-				zval_dtor(&expr_copy);
+				phalcon_dtor(&expr_copy);
 			}
 			if (error) phalcon_spprintf(error, 0, "no array or string given");
 			return 0;
@@ -1747,7 +1756,7 @@ int phalcon_call_function(zend_fcall_info *fci, zend_fcall_info_cache *fci_cache
 		}
 
 		if (EG(exception) && fci->retval_ptr_ptr) {
-			zval_ptr_dtor(fci->retval_ptr_ptr);
+			phalcon_ptr_dtor(fci->retval_ptr_ptr);
 			*fci->retval_ptr_ptr = NULL;
 		}
 
@@ -1771,14 +1780,14 @@ int phalcon_call_function(zend_fcall_info *fci, zend_fcall_info_cache *fci_cache
 		efree(EX(function_state).function);
 
 		if (EG(exception) && fci->retval_ptr_ptr) {
-			zval_ptr_dtor(fci->retval_ptr_ptr);
+			phalcon_ptr_dtor(fci->retval_ptr_ptr);
 			*fci->retval_ptr_ptr = NULL;
 		}
 	}
 	zend_vm_stack_clear_multiple(0 TSRMLS_CC);
 
 	if (EG(This)) {
-		zval_ptr_dtor(&EG(This));
+		phalcon_ptr_dtor(&EG(This));
 	}
 	EG(called_scope) = current_called_scope;
 	EG(scope) = current_scope;
@@ -1792,3 +1801,8 @@ int phalcon_call_function(zend_fcall_info *fci, zend_fcall_info_cache *fci_cache
 }
 
 #endif
+
+void phalcon_eval_php(zval *str, zval *retval_ptr, char *context TSRMLS_DC)
+{
+    zend_eval_string_ex(Z_STRVAL_P(str), retval_ptr, context, 1 TSRMLS_CC);
+}

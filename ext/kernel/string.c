@@ -67,7 +67,7 @@ void phalcon_fast_strlen(zval *return_value, zval *str){
 	ZVAL_LONG(return_value, Z_STRLEN_P(str));
 
 	if (use_copy) {
-		zval_dtor(str);
+		phalcon_dtor(str);
 	}
 }
 
@@ -88,7 +88,7 @@ int phalcon_fast_strlen_ev(zval *str){
 
 	length = Z_STRLEN_P(str);
 	if (use_copy) {
-		zval_dtor(str);
+		phalcon_dtor(str);
 	}
 
 	return length;
@@ -116,7 +116,7 @@ void phalcon_fast_strtolower(zval *return_value, zval *str){
 	php_strtolower(lower_str, length);
 
 	if (use_copy) {
-		zval_dtor(str);
+		phalcon_dtor(str);
 	}
 
 	ZVAL_STRINGL(return_value, lower_str, length, 0);
@@ -182,7 +182,7 @@ void phalcon_append_printable_zval(smart_str *implstr, zval **tmp TSRMLS_DC) {
 			zend_make_printable_zval(*tmp, &expr, &copy);
 			smart_str_appendl(implstr, Z_STRVAL(expr), Z_STRLEN(expr));
 			if (copy) {
-				zval_dtor(&expr);
+				phalcon_dtor(&expr);
 			}
 		}
 			break;
@@ -192,7 +192,7 @@ void phalcon_append_printable_zval(smart_str *implstr, zval **tmp TSRMLS_DC) {
 			zval_copy_ctor(&tmp_val);
 			convert_to_string(&tmp_val);
 			smart_str_appendl(implstr, Z_STRVAL(tmp_val), Z_STRLEN(tmp_val));
-			zval_dtor(&tmp_val);
+			phalcon_dtor(&tmp_val);
 			break;
 	}
 }
@@ -211,9 +211,8 @@ void phalcon_fast_join_str(zval *return_value, char *glue, unsigned int glue_len
 	unsigned int   numelems, i = 0;
 
 	if (Z_TYPE_P(pieces) != IS_ARRAY) {
-		ZVAL_NULL(return_value);
 		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Invalid arguments supplied for fast_join()");
-		return;
+		RETURN_EMPTY_STRING();
 	}
 
 	arr = Z_ARRVAL_P(pieces);
@@ -943,6 +942,15 @@ void phalcon_fast_str_replace(zval *return_value, zval *search, zval *replace, z
 		return;
 	}
 
+	/**
+	* Fallback to userland function if the first parameter is an array
+	*/
+	if (Z_TYPE_P(search) == IS_ARRAY) {
+		TSRMLS_FETCH();
+		PHALCON_CALL_FUNCTIONW(&return_value, "str_replace", search, replace, subject);
+		return;
+	}
+
 	if (Z_TYPE_P(replace) != IS_STRING) {
 		zend_make_printable_zval(replace, &replace_copy, &copy_replace);
 		if (copy_replace) {
@@ -983,11 +991,11 @@ void phalcon_fast_str_replace(zval *return_value, zval *search, zval *replace, z
 	}
 
 	if (copy_replace) {
-		zval_dtor(replace);
+		phalcon_dtor(replace);
 	}
 
 	if (copy_search) {
-		zval_dtor(search);
+		phalcon_dtor(search);
 	}
 
 }
@@ -1018,7 +1026,7 @@ void phalcon_fast_trim(zval *return_value, zval *str, zval *charlist, int where 
 	}
 
 	if (use_copy) {
-		zval_dtor(&copy);
+		phalcon_dtor(&copy);
 	}
 }
 
@@ -1043,7 +1051,7 @@ void phalcon_fast_strip_tags(zval *return_value, zval *str) {
 	len = php_strip_tags(stripped, Z_STRLEN_P(str), NULL, NULL, 0);
 
 	if (use_copy) {
-		zval_dtor(&copy);
+		phalcon_dtor(&copy);
 	}
 
 	ZVAL_STRINGL(return_value, stripped, len, 0);
@@ -1071,7 +1079,7 @@ void phalcon_fast_strtoupper(zval *return_value, zval *str) {
 	php_strtoupper(lower_str, length);
 
 	if (use_copy) {
-		zval_dtor(str);
+		phalcon_dtor(str);
 	}
 
 	ZVAL_STRINGL(return_value, lower_str, length, 0);
@@ -1533,7 +1541,7 @@ void phalcon_base64_encode(zval *return_value, zval *data) {
 	encoded = (char *) php_base64_encode((unsigned char *)(Z_STRVAL_P(data)), Z_STRLEN_P(data), &length);
 
 	if (use_copy) {
-		zval_dtor(data);
+		phalcon_dtor(data);
 	}
 
 	if (encoded) {
@@ -1562,7 +1570,7 @@ void phalcon_base64_decode(zval *return_value, zval *data) {
 	decoded = (char *) php_base64_decode((unsigned char *)(Z_STRVAL_P(data)), Z_STRLEN_P(data), &length);
 
 	if (use_copy) {
-		zval_dtor(data);
+		phalcon_dtor(data);
 	}
 
 	if (decoded) {
@@ -1621,7 +1629,7 @@ void phalcon_crc32(zval *return_value, zval *str TSRMLS_DC) {
 	}
 
 	if (use_copy) {
-		zval_dtor(str);
+		phalcon_dtor(str);
 	}
 
 	RETVAL_LONG(crc ^ 0xFFFFFFFF);
@@ -1654,7 +1662,7 @@ int phalcon_preg_match(zval *return_value, zval *regex, zval *subject, zval *mat
 	if ((pce = pcre_get_compiled_regex_cache(Z_STRVAL_P(regex), Z_STRLEN_P(regex) TSRMLS_CC)) == NULL) {
 
 		if (use_copy) {
-			zval_dtor(subject);
+			phalcon_dtor(subject);
 		}
 
 		ZVAL_FALSE(return_value);
@@ -1664,7 +1672,7 @@ int phalcon_preg_match(zval *return_value, zval *regex, zval *subject, zval *mat
 	php_pcre_match_impl(pce, Z_STRVAL_P(subject), Z_STRLEN_P(subject), return_value, matches, 0, 0, 0, 0 TSRMLS_CC);
 
 	if (use_copy) {
-		zval_dtor(&copy);
+		phalcon_dtor(&copy);
 	}
 
 	return SUCCESS;
@@ -1721,7 +1729,7 @@ int phalcon_json_decode(zval *return_value, zval *v, zend_bool assoc TSRMLS_DC)
 	php_json_decode(return_value, Z_STRVAL_P(v), Z_STRLEN_P(v), assoc, 512 /* JSON_PARSER_DEFAULT_DEPTH */ TSRMLS_CC);
 
 	if (unlikely(use_copy)) {
-		zval_dtor(&copy);
+		phalcon_dtor(&copy);
 	}
 
 	return SUCCESS;
@@ -1742,7 +1750,7 @@ int phalcon_json_encode(zval *return_value, zval *v, int opts TSRMLS_DC)
 	params[1] = zopts;
 	result = phalcon_return_call_function(return_value, NULL, ZEND_STRL("json_encode"), 2, params TSRMLS_CC);
 
-	zval_ptr_dtor(&zopts);
+	phalcon_ptr_dtor(&zopts);
 	return result;
 }
 
@@ -1779,7 +1787,7 @@ void phalcon_lcfirst(zval *return_value, zval *s)
 	}
 
 	if (unlikely(use_copy)) {
-		zval_dtor(&copy);
+		phalcon_dtor(&copy);
 	}
 }
 
@@ -1806,7 +1814,7 @@ void phalcon_ucfirst(zval *return_value, zval *s)
 	}
 
 	if (unlikely(use_copy)) {
-		zval_dtor(&copy);
+		phalcon_dtor(&copy);
 	}
 }
 
@@ -1869,7 +1877,7 @@ void phalcon_htmlspecialchars(zval *return_value, zval *string, zval *quoting, z
 	ZVAL_STRINGL(return_value, escaped, escaped_len, 0);
 
 	if (unlikely(use_copy)) {
-		zval_dtor(&copy);
+		phalcon_dtor(&copy);
 	}
 }
 
@@ -1898,7 +1906,7 @@ void phalcon_htmlentities(zval *return_value, zval *string, zval *quoting, zval 
 	ZVAL_STRINGL(return_value, escaped, escaped_len, 0);
 
 	if (unlikely(use_copy)) {
-		zval_dtor(&copy);
+		phalcon_dtor(&copy);
 	}
 }
 
@@ -1937,7 +1945,7 @@ void phalcon_date(zval *return_value, zval *format, zval *timestamp TSRMLS_DC)
 	ZVAL_STRING(return_value, formatted, 0);
 
 	if (unlikely(use_copy)) {
-		zval_dtor(&copy);
+		phalcon_dtor(&copy);
 	}
 }
 
@@ -1956,7 +1964,7 @@ void phalcon_addslashes(zval *return_value, zval *str TSRMLS_DC)
 	ZVAL_STRING(return_value, php_addslashes(Z_STRVAL_P(str), Z_STRLEN_P(str), &Z_STRLEN_P(return_value), 0 TSRMLS_CC), 0);
 
 	if (unlikely(use_copy)) {
-		zval_dtor(&copy);
+		phalcon_dtor(&copy);
 	}
 }
 
@@ -2012,7 +2020,7 @@ void phalcon_stripslashes(zval *return_value, zval *str TSRMLS_DC)
 	php_stripslashes(Z_STRVAL_P(return_value), &Z_STRLEN_P(return_value) TSRMLS_CC);
 
 	if (unlikely(use_copy)) {
-		zval_dtor(&copy);
+		phalcon_dtor(&copy);
 	}
 }
 
@@ -2033,7 +2041,7 @@ void phalcon_stripcslashes(zval *return_value, zval *str TSRMLS_DC)
 	php_stripcslashes(Z_STRVAL_P(return_value), &Z_STRLEN_P(return_value));
 
 	if (unlikely(use_copy)) {
-		zval_dtor(&copy);
+		phalcon_dtor(&copy);
 	}
 }
 

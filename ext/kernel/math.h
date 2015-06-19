@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -14,28 +14,27 @@
   +------------------------------------------------------------------------+
   | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
   |          Eduar Carvajal <eduar@phalconphp.com>                         |
+  |          ZhuZongXin <dreamsxin@qq.com>                                 |
   +------------------------------------------------------------------------+
 */
 
-#ifndef PHALCON_KERNEL_REQUIRE_H
-#define PHALCON_KERNEL_REQUIRE_H
+
+#ifndef PHALCON_KERNEL_MATH_H
+#define PHALCON_KERNEL_MATH_H
 
 #include "php_phalcon.h"
 
-int phalcon_require_ret(zval **return_value_ptr, const char *require_path TSRMLS_DC) PHALCON_ATTR_NONNULL1(2);
+double phalcon_floor(zval *op1 TSRMLS_DC);
+double phalcon_ceil(zval *op1 TSRMLS_DC);
+void phalcon_round(zval *return_value, zval *op1, zval *op2, zval *op3 TSRMLS_DC);
+void phalcon_pow(zval *return_value, zval *op1, zval *op2 TSRMLS_DC);
+long phalcon_mt_rand(long min, long max TSRMLS_DC);
 
-PHALCON_ATTR_NONNULL static inline int phalcon_require(const char *require_path TSRMLS_DC)
-{
-	return phalcon_require_ret(NULL, require_path TSRMLS_CC);
-}
+#if PHP_VERSION_ID < 50600
+void phalcon_pow_function_ex(zval *return_value, zval *zbase, zval *zexp TSRMLS_DC);
+#define phalcon_pow_function(result, op1, op2) phalcon_pow_function_ex(result, op1, op2 TSRMLS_CC)
+#else
+#define phalcon_pow_function(result, op1, op2) pow_function(result, op1, op2 TSRMLS_CC)
+#endif
 
-PHALCON_ATTR_NONNULL static inline int phalcon_require_zval(const zval *require_path TSRMLS_DC)
-{
-    return phalcon_require_ret(NULL, Z_TYPE_P(require_path) == IS_STRING ? Z_STRVAL_P(require_path) : "" TSRMLS_CC);
-}
-
-PHALCON_ATTR_NONNULL static inline int phalcon_require_zval_ret(zval **return_value_ptr, const zval *require_path TSRMLS_DC)
-{
-    return phalcon_require_ret(return_value_ptr, Z_TYPE_P(require_path) == IS_STRING ? Z_STRVAL_P(require_path) : "" TSRMLS_CC);
-}
-#endif /* PHALCON_KERNEL_REQUIRE_H */
+#endif

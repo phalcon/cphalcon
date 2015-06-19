@@ -24,6 +24,7 @@
 
 /** Class Retrieving/Checking */
 int phalcon_class_exists(const char *class_name, zend_uint class_len, int autoload TSRMLS_DC) PHALCON_ATTR_NONNULL;
+int phalcon_interface_exists(const zval *interface_name, int autoload TSRMLS_DC) PHALCON_ATTR_NONNULL;
 int phalcon_class_exists_ex(zend_class_entry **zce, const zval *class_name, int autoload TSRMLS_DC) PHALCON_ATTR_NONNULL;
 void phalcon_get_class(zval *result, const zval *object, int lower TSRMLS_DC) PHALCON_ATTR_NONNULL;
 void phalcon_get_class_ns(zval *result, const zval *object, int lower TSRMLS_DC) PHALCON_ATTR_NONNULL;
@@ -215,6 +216,7 @@ PHALCON_ATTR_NONNULL static inline int phalcon_update_property_this(zval *object
 
 /** Updating array properties */
 int phalcon_update_property_array(zval *object, const char *property, zend_uint property_length, const zval *index, zval *value TSRMLS_DC) PHALCON_ATTR_NONNULL;
+int phalcon_update_property_array_multi(zval *object, const char *property, zend_uint property_length, zval *value TSRMLS_DC, const char *types, int types_length, int types_count, ...);
 int phalcon_update_property_array_string(zval *object, const char *property, zend_uint property_length, const char *index, zend_uint index_length, zval *value TSRMLS_DC) PHALCON_ATTR_NONNULL;
 int phalcon_update_property_array_append(zval *object, const char *property, zend_uint property_length, zval *value TSRMLS_DC) PHALCON_ATTR_NONNULL;
 int phalcon_update_property_array_merge(zval *object, const char *property, zend_uint property_length, zval *values TSRMLS_DC) PHALCON_ATTR_NONNULL;
@@ -279,6 +281,9 @@ PHALCON_ATTR_NONNULL static inline int phalcon_update_static_property(const char
 int phalcon_create_instance_params_ce(zval *return_value, zend_class_entry *ce, zval *params TSRMLS_DC) PHALCON_ATTR_NONNULL2(1, 2);
 int phalcon_create_instance(zval *return_value, const zval *class_name TSRMLS_DC) PHALCON_ATTR_NONNULL;
 int phalcon_create_instance_params(zval *return_value, const zval *class_name, zval *params TSRMLS_DC) PHALCON_ATTR_NONNULL2(1, 2);
+
+/** Create closures */
+int phalcon_create_closure_ex(zval *return_value, zval *this_ptr, zend_class_entry *ce, const char *method_name, zend_uint method_length TSRMLS_DC);
 
 #if PHP_VERSION_ID < 50400
 void object_properties_init(zend_object *object, zend_class_entry *class_type);

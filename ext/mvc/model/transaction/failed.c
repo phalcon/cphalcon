@@ -73,10 +73,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Failed, __construct){
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 2, 0, &message, &record);
-	
+
 	phalcon_update_property_this(this_ptr, SL("_record"), record TSRMLS_CC);
 	PHALCON_CALL_PARENT(NULL, phalcon_mvc_model_transaction_failed_ce, this_ptr, "__construct", message);
-	
+
 	PHALCON_MM_RESTORE();
 }
 

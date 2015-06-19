@@ -95,7 +95,7 @@ static ZEND_RSRC_DTOR_FUNC(php_scws_dtor)
 		scws_free(ps->s);
 
 		if (ps->zt) {
-			zval_ptr_dtor(&ps->zt);
+			phalcon_ptr_dtor(&ps->zt);
 			ps->zt = NULL;
 		}
 		efree(ps);
@@ -535,7 +535,7 @@ PHP_METHOD(Phalcon_Scws, sendText){
 	ZEND_FETCH_RESOURCE(ps, struct php_scws *, &scws, -1, PHALCON_SCWS_OBJECT_TAG, phalcon_list_scws);
 
 	if (ps->zt) {
-		zval_ptr_dtor(&ps->zt);
+		phalcon_ptr_dtor(&ps->zt);
 	}
 
 	ALLOC_INIT_ZVAL(ps->zt);

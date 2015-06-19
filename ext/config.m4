@@ -34,6 +34,11 @@ kernel/variables.c \
 kernel/framework/orm.c \
 kernel/framework/router.c \
 kernel/framework/url.c \
+kernel/assert.c \
+kernel/exit.c \
+kernel/iterator.c \
+kernel/math.c \
+kernel/time.c \
 interned-strings.c \
 logger.c \
 flash.c \

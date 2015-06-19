@@ -514,20 +514,16 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 		if (Z_TYPE_P(possible_response) == IS_OBJECT && instanceof_function_ex(Z_OBJCE_P(possible_response), phalcon_http_responseinterface_ce, 1 TSRMLS_CC)) {
 			PHALCON_CPY_WRT(response, possible_response);
 			ZVAL_TRUE(returned_response);
-		} else if (Z_TYPE_P(possible_response) == IS_BOOL && !zend_is_true(possible_response)) {
-			PHALCON_INIT_NVAR(service);
-			PHALCON_ZVAL_MAYBE_INTERNED_STRING(service, phalcon_interned_response);
-
-			PHALCON_CALL_METHOD(&response, dependency_injector, "getshared", service);
-			PHALCON_VERIFY_INTERFACE(response, phalcon_http_responseinterface_ce);
-
-			RETURN_CCTOR(response);
 		} else {
 			PHALCON_INIT_NVAR(service);
 			PHALCON_ZVAL_MAYBE_INTERNED_STRING(service, phalcon_interned_response);
 
 			PHALCON_CALL_METHOD(&response, dependency_injector, "getshared", service);
 			PHALCON_VERIFY_INTERFACE(response, phalcon_http_responseinterface_ce);
+
+			if (Z_TYPE_P(possible_response) == IS_BOOL && !zend_is_true(possible_response)) {
+				RETURN_CCTOR(response);
+			}
 
 			ZVAL_FALSE(returned_response);
 		}
@@ -577,6 +573,12 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 				}
 			}
 		}
+	} else {		
+		PHALCON_INIT_NVAR(service);
+		PHALCON_ZVAL_MAYBE_INTERNED_STRING(service, phalcon_interned_response);
+
+		PHALCON_CALL_METHOD(&response, dependency_injector, "getshared", service);
+		PHALCON_VERIFY_INTERFACE(response, phalcon_http_responseinterface_ce);
 	}
 
 	/* Calling beforeSendResponse */

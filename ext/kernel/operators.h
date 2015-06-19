@@ -53,15 +53,15 @@
 /** Greater/Smaller equals */
 #define PHALCON_LE(op1, op2)       phalcon_less_equal(op1, op2 TSRMLS_CC)
 #define PHALCON_LE_LONG(op1, op2)  phalcon_less_equal_long(op1, op2 TSRMLS_CC)
-#define PHALCON_LE_DOUBLE(op1, op2)  ((Z_TYPE_P(op1) == IS_DOUBLE && Z_DVAL_P(op1) <= op2) || zephir_less_equal_double(op1, op2 TSRMLS_CC))
+#define PHALCON_LE_DOUBLE(op1, op2)  ((Z_TYPE_P(op1) == IS_DOUBLE && Z_DVAL_P(op1) <= op2) || phalcon_less_equal_double(op1, op2 TSRMLS_CC))
 #define PHALCON_GE(op1, op2)       phalcon_greater_equal(op1, op2 TSRMLS_CC)
 #define PHALCON_GE_LONG(op1, op2)  phalcon_greater_equal_long(op1, op2 TSRMLS_CC)
 #define PHALCON_LT(op1, op2)       phalcon_less(op1, op2 TSRMLS_CC)
 #define PHALCON_LT_LONG(op1, op2)  phalcon_less_long(op1, op2 TSRMLS_CC)
-#define PHALCON_LT_DOUBLE(op1, op2)  ((Z_TYPE_P(op1) == IS_DOUBLE && Z_DVAL_P(op1) < op2) || zephir_less_double(op1, op2 TSRMLS_CC))
+#define PHALCON_LT_DOUBLE(op1, op2)  ((Z_TYPE_P(op1) == IS_DOUBLE && Z_DVAL_P(op1) < op2) || phalcon_less_double(op1, op2 TSRMLS_CC))
 #define PHALCON_GT(op1, op2)       phalcon_greater(op1, op2 TSRMLS_CC)
 #define PHALCON_GT_LONG(op1, op2)  phalcon_greater_long(op1, op2 TSRMLS_CC)
-#define PHALCON_GT_DOUBLE(op1, op2)  ((Z_TYPE_P(op1) == IS_DOUBLE && Z_DVAL_P(op1) > op2) || zephir_greater_double(op1, op2 TSRMLS_CC))
+#define PHALCON_GT_DOUBLE(op1, op2)  ((Z_TYPE_P(op1) == IS_DOUBLE && Z_DVAL_P(op1) > op2) || phalcon_greater_double(op1, op2 TSRMLS_CC))
 
 #define PHALCON_STRING_OFFSET(op1, index) ((index >= 0 && index < Z_STRLEN_P(op1)) ? Z_STRVAL_P(op1)[index] : '\0')
 #if PHP_VERSION_ID < 50400
@@ -87,12 +87,6 @@ void phalcon_make_printable_zval(zval *expr, zval *expr_copy, int *use_copy);
 #define phalcon_div_function(result, left, right) fast_div_function(result, left, right TSRMLS_CC)
 #endif
 
-#if PHP_VERSION_ID < 50600
-void phalcon_pow_function_ex(zval *return_value, zval *zbase, zval *zexp TSRMLS_DC);
-#define phalcon_pow_function(result, op1, op2) phalcon_pow_function_ex(result, op1, op2 TSRMLS_CC)
-#else
-#define phalcon_pow_function(result, op1, op2) pow_function(result, op1, op2 TSRMLS_CC)
-#endif
 /** Operator functions */
 int phalcon_add_function_ex(zval *result, zval *op1, zval *op2 TSRMLS_DC);
 int phalcon_and_function(zval *result, zval *left, zval *right);
@@ -143,7 +137,4 @@ int phalcon_less_equal_long(zval *op1, long op2 TSRMLS_DC);
 int phalcon_greater_equal(zval *op1, zval *op2 TSRMLS_DC);
 int phalcon_greater_equal_long(zval *op1, long op2 TSRMLS_DC);
 
-void phalcon_floor(zval *return_value, zval *op1 TSRMLS_DC);
-void phalcon_ceil(zval *return_value, zval *op1 TSRMLS_DC);
-void phalcon_round(zval *return_value, zval *op1, zval *op2, zval *op3 TSRMLS_DC);
 #endif /* PHALCON_KERNEL_OPERATORS_H */

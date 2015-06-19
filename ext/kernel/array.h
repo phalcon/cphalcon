@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -14,11 +14,15 @@
   +------------------------------------------------------------------------+
   | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
   |          Eduar Carvajal <eduar@phalconphp.com>                         |
+  |          ZhuZongXin <dreamsxin@qq.com>                                 |
   +------------------------------------------------------------------------+
 */
 
+
 #ifndef PHALCON_KERNEL_ARRAY_H
 #define PHALCON_KERNEL_ARRAY_H
+
+#define PHALCON_MAX_ARRAY_LEVELS 16
 
 #include "php_phalcon.h"
 #include "kernel/memory.h"
@@ -756,7 +760,7 @@ void phalcon_array_unshift(zval *arr, zval *arg TSRMLS_DC) PHALCON_ATTR_NONNULL;
  * @param return_value
  * @param arr
  */
-void phalcon_array_keys(zval *return_value, zval *arr) PHALCON_ATTR_NONNULL;
+void phalcon_array_keys(zval *return_value, zval *arr TSRMLS_DC) PHALCON_ATTR_NONNULL;
 
 /**
  * @brief <tt>$return_value = array_values($arr)</tt>
@@ -774,5 +778,8 @@ void phalcon_array_values(zval *return_value, zval *arr) PHALCON_ATTR_NONNULL;
 int phalcon_array_key_exists(zval *arr, zval *key TSRMLS_DC) PHALCON_ATTR_NONNULL;
 
 int phalcon_array_is_associative(zval *arr);
+
+void phalcon_array_update_multi_ex(zval **arr, zval *value, const char *types, int types_length, int types_count, va_list ap TSRMLS_DC);
+int phalcon_array_update_multi(zval **arr, zval *value TSRMLS_DC, const char *types, int types_length, int types_count, ...);
 
 #endif /* PHALCON_KERNEL_ARRAY_H */

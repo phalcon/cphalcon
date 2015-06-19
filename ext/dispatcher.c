@@ -73,6 +73,7 @@ PHP_METHOD(Phalcon_Dispatcher, camelizeNamespace);
 PHP_METHOD(Phalcon_Dispatcher, camelizeController);
 PHP_METHOD(Phalcon_Dispatcher, setErrorHandler);
 PHP_METHOD(Phalcon_Dispatcher, getErrorHandler);
+PHP_METHOD(Phalcon_Dispatcher, fireEvent);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_dispatcher_setmodulename, 0, 0, 1)
 	ZEND_ARG_INFO(0, moduleName)
@@ -114,6 +115,7 @@ static const zend_function_entry phalcon_dispatcher_method_entry[] = {
 	PHP_ME(Phalcon_Dispatcher, camelizeController, arginfo_phalcon_dispatcherinterface_camelizecontroller, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Dispatcher, setErrorHandler, arginfo_phalcon_dispatcherinterface_seterrorhandler, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Dispatcher, getErrorHandler, arginfo_phalcon_dispatcherinterface_geterrorhandler, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Dispatcher, fireEvent, arginfo_phalcon_di_injectable_fireevent, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };
 
@@ -510,63 +512,6 @@ PHP_METHOD(Phalcon_Dispatcher, getReturnedValue){
 	RETURN_MEMBER(this_ptr, "_returnedValue");
 }
 
-static int phalcon_dispatcher_fire_event(zval **return_value_ptr, zval *mgr, const char *event, zval *source, zval *data TSRMLS_DC)
-{
-	if (mgr) {
-		zval *event_name;
-		int status, status2;
-		zend_uint nparams = (data ? 3 : 2);
-		zval *params[3];
-
-		MAKE_STD_ZVAL(event_name);
-		ZVAL_STRING(event_name, event, 0);
-
-		params[0] = event_name;
-		params[1] = source;
-		params[2] = data;
-
-		status = phalcon_call_method(return_value_ptr, mgr, "fire", nparams, params TSRMLS_CC);
-
-		if (EG(exception)) {
-			zval *exception = EG(exception);
-			Z_ADDREF_P(exception);
-
-			zend_clear_exception(TSRMLS_C);
-
-			assert(Z_REFCOUNT_P(exception) == 1);
-			/* exception will be destroyed automatically after return from _handleexception */
-			Z_DELREF_P(exception);
-
-			/* source == this_ptr */
-			assert(Z_TYPE_P(source) == IS_OBJECT && instanceof_function_ex(Z_OBJCE_P(source), phalcon_dispatcherinterface_ce, 1 TSRMLS_CC));
-			if (is_phalcon_class(Z_OBJCE_P(source))) {
-				zval *params[] = { event_name, source, exception };
-				/* Shortcut, save one method call */
-				ZVAL_STRING(event_name, "dispatch:beforeException", 0);
-				status2 = phalcon_call_method(NULL, mgr, "fire", 3, params TSRMLS_CC);
-			}
-			else {
-				zval *params[] = { exception };
-				status2 = phalcon_call_method(NULL, source, "_handleexception", 1, params TSRMLS_CC);
-			}
-
-			if (FAILURE == status2) {
-				status = FAILURE;
-			}
-		}
-
-		ZVAL_NULL(event_name);
-		zval_ptr_dtor(&event_name);
-		return status;
-	}
-	else if (return_value_ptr) {
-		MAKE_STD_ZVAL(*return_value_ptr);
-		ZVAL_TRUE(*return_value_ptr);
-	}
-
-	return SUCCESS;
-}
-
 /**
  * Dispatches a handle action taking into account the routing parameters
  *
@@ -574,16 +519,15 @@ static int phalcon_dispatcher_fire_event(zval **return_value_ptr, zval *mgr, con
  */
 PHP_METHOD(Phalcon_Dispatcher, dispatch){
 
-	zval *exception_code = NULL;
-	zval *exception_message = NULL;
+	zval *exception_code = NULL, *exception_message = NULL;
 	zval *status = NULL, *value = NULL, *handler = NULL;
 	zval *camelized_class = NULL, *handler_class = NULL, *has_service = NULL;
 	zval *was_fresh = NULL, *action_method = NULL, *params = NULL, *call_object = NULL;
-	zval *exception = NULL;
-	zval *dependency_injector, *events_manager, *tmp;
+	zval *exception = NULL, *dependency_injector, *events_manager, *event_name= NULL, *tmp;
 	zval *handler_suffix, *action_suffix, *namespace_name, *handler_name, *action_name;
 	zval *camelize, *camelized_namespace = NULL;
 	int number_dispatches = 0;
+	int has = 0, max_dispatches = 256;
 
 	PHALCON_MM_GROW();
 
@@ -606,15 +550,12 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 	/**
 	 * Calling beforeDispatchLoop
 	 */
-	PHALCON_OBSERVE_OR_NULLIFY_VAR(status);
-	RETURN_MM_ON_FAILURE(phalcon_dispatcher_fire_event(&status, events_manager, "dispatch:beforeDispatchLoop", this_ptr, NULL TSRMLS_CC));
+	PHALCON_INIT_NVAR(event_name);
+	ZVAL_STRING(event_name, "dispatch:beforeDispatchLoop", 1);
+	PHALCON_CALL_METHOD(&status, this_ptr, "fireevent", event_name);
 	if (PHALCON_IS_FALSE(status)) {
 		RETURN_MM_FALSE;
 	}
-
-	PHALCON_INIT_VAR(value);
-
-	PHALCON_INIT_VAR(handler);
 
 	handler_suffix = phalcon_fetch_nproperty_this(this_ptr, SL("_handlerSuffix"), PH_NOISY TSRMLS_CC);
 	action_suffix  = phalcon_fetch_nproperty_this(this_ptr, SL("_actionSuffix"), PH_NOISY TSRMLS_CC);
@@ -624,7 +565,7 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 	 */
 	phalcon_update_property_this(this_ptr, SL("_finished"), PHALCON_GLOBAL(z_false) TSRMLS_CC);
 
-	while (1) {
+	do {
 
 		/**
 		 * Loop until finished is false
@@ -639,7 +580,7 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 		/**
 		 * Throw an exception after 256 consecutive forwards
 		 */
-		if (number_dispatches == 256) {
+		if (number_dispatches == max_dispatches) {
 			PHALCON_INIT_NVAR(exception_code);
 			ZVAL_LONG(exception_code, PHALCON_EXCEPTION_CYCLIC_ROUTING);
 
@@ -682,8 +623,9 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 		 * Calling beforeDispatch
 		 */
 		if (events_manager) {
-			PHALCON_OBSERVE_OR_NULLIFY_VAR(status);
-			RETURN_MM_ON_FAILURE(phalcon_dispatcher_fire_event(&status, events_manager, "dispatch:beforeDispatch", this_ptr, NULL TSRMLS_CC));
+			PHALCON_INIT_NVAR(event_name);
+			ZVAL_STRING(event_name, "dispatch:beforeDispatch", 1);
+			PHALCON_CALL_METHOD(&status, this_ptr, "fireevent", event_name);
 			if (PHALCON_IS_FALSE(status)) {
 				continue;
 			}
@@ -744,16 +686,16 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 			/**
 			 * DI doesn't have a service with that name, try to load it using an autoloader
 			 */
-			PHALCON_INIT_NVAR(has_service);
 			assert(Z_TYPE_P(handler_class) == IS_STRING);
-			ZVAL_LONG(has_service, phalcon_class_exists(Z_STRVAL_P(handler_class), Z_STRLEN_P(handler_class), 1 TSRMLS_CC));
+			has = phalcon_class_exists(Z_STRVAL_P(handler_class), Z_STRLEN_P(handler_class), 1 TSRMLS_CC) ? 1 : 0;
+		} else {
+			has = zend_is_true(has_service) ? 1 : 0;
 		}
 
 		/**
 		 * If the service cannot be loaded we throw an exception
 		 */
-		if (!zend_is_true(has_service)) {
-
+		if (!has) {
 			PHALCON_INIT_NVAR(exception_code);
 			ZVAL_LONG(exception_code, PHALCON_EXCEPTION_HANDLER_NOT_FOUND);
 
@@ -820,8 +762,9 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 			 * Call beforeNotFoundAction
 			 */
 			if (events_manager) {
-				PHALCON_OBSERVE_OR_NULLIFY_VAR(status);
-				RETURN_MM_ON_FAILURE(phalcon_dispatcher_fire_event(&status, events_manager, "dispatch:beforeNotFoundAction", this_ptr, NULL TSRMLS_CC));
+				PHALCON_INIT_NVAR(event_name);
+				ZVAL_STRING(event_name, "dispatch:beforeNotFoundAction", 1);
+				PHALCON_CALL_METHOD(&status, this_ptr, "fireevent", event_name);
 				if (PHALCON_IS_FALSE(status)) {
 					continue;
 				}
@@ -857,8 +800,9 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 		 * Calling beforeExecuteRoute
 		 */
 		if (events_manager) {
-			PHALCON_OBSERVE_OR_NULLIFY_VAR(status);
-			RETURN_MM_ON_FAILURE(phalcon_dispatcher_fire_event(&status, events_manager, "dispatch:beforeExecuteRoute", this_ptr, NULL TSRMLS_CC));
+			PHALCON_INIT_NVAR(event_name);
+			ZVAL_STRING(event_name, "dispatch:beforeExecuteRoute", 1);
+			PHALCON_CALL_METHOD(&status, this_ptr, "fireevent", event_name);
 			if (PHALCON_IS_FALSE(status)) {
 				continue;
 			}
@@ -902,8 +846,9 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 			 * Calling afterInitialize
 			 */
 			if (events_manager) {
-				PHALCON_OBSERVE_OR_NULLIFY_VAR(status);
-				RETURN_MM_ON_FAILURE(phalcon_dispatcher_fire_event(&status, events_manager, "dispatch:afterInitialize", this_ptr, NULL TSRMLS_CC));
+				PHALCON_INIT_NVAR(event_name);
+				ZVAL_STRING(event_name, "dispatch:afterInitialize", 1);
+				PHALCON_CALL_METHOD(&status, this_ptr, "fireevent", event_name);
 				if (PHALCON_IS_FALSE(status)) {
 					continue;
 				}
@@ -990,8 +935,9 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 			/**
 			 * Call afterExecuteRoute
 			 */
-			PHALCON_OBSERVE_OR_NULLIFY_VAR(status);
-			RETURN_MM_ON_FAILURE(phalcon_dispatcher_fire_event(&status, events_manager, "dispatch:afterExecuteRoute", this_ptr, value TSRMLS_CC));
+			PHALCON_INIT_NVAR(event_name);
+			ZVAL_STRING(event_name, "dispatch:afterExecuteRoute", 1);
+			PHALCON_CALL_METHOD(&status, this_ptr, "fireevent", event_name);
 			if (PHALCON_IS_FALSE(status)) {
 				continue;
 			}
@@ -1004,7 +950,9 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 			/**
 			 * Call afterDispatch
 			 */
-			RETURN_MM_ON_FAILURE(phalcon_dispatcher_fire_event(NULL, events_manager, "dispatch:afterDispatch", this_ptr, NULL TSRMLS_CC));
+			PHALCON_INIT_NVAR(event_name);
+			ZVAL_STRING(event_name, "dispatch:afterDispatch", 1);
+			PHALCON_CALL_METHOD(&status, this_ptr, "fireevent", event_name);
 		}
 
 		/**
@@ -1021,13 +969,20 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 				continue;
 			}
 		}
-	}
+	} while (number_dispatches <= max_dispatches);
 
 	/**
 	 * Call afterDispatchLoop
 	 */
-	RETURN_MM_ON_FAILURE(phalcon_dispatcher_fire_event(NULL, events_manager, "dispatch:afterDispatchLoop", this_ptr, NULL TSRMLS_CC));
-	RETURN_CCTOR(handler);
+	PHALCON_INIT_NVAR(event_name);
+	ZVAL_STRING(event_name, "dispatch:afterDispatchLoop", 1);
+	PHALCON_CALL_METHOD(NULL, this_ptr, "fireevent", event_name);
+
+	if (handler) {
+		RETURN_CCTOR(handler);
+	}
+
+	RETURN_MM_NULL();
 }
 
 /**
@@ -1358,4 +1313,64 @@ PHP_METHOD(Phalcon_Dispatcher, getErrorHandler){
 	}
 
 	RETURN_NULL();
+}
+
+/**
+ * Fires an event, implicitly calls behaviors and listeners in the events manager are notified
+ *
+ * @param string $eventName
+ * @param string $data
+ * @param string $cancelable
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Dispatcher, fireEvent){
+
+	zval *event_name, *data = NULL, *cancelable = NULL, *status = NULL;
+	int ret, ret2;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 1, 2, &event_name, &data, &cancelable);
+	PHALCON_SEPARATE_PARAM(event_name);
+
+	if (!data) {
+		data = PHALCON_GLOBAL(z_null);
+	}
+
+	if (!cancelable) {
+		cancelable = PHALCON_GLOBAL(z_null);
+	}
+
+	Z_SET_ISREF_P(data);
+	zval *params[] = {PHALCON_FETCH_VA_ARGS event_name, data, cancelable};
+	ret = phalcon_call_class_method_aparams(&status, phalcon_dispatcher_ce, phalcon_fcall_parent, this_ptr, SL("fireevent"), PHALCON_CALL_NUM_PARAMS(params), PHALCON_PASS_CALL_PARAMS(params) TSRMLS_CC);
+	Z_UNSET_ISREF_P(data);
+
+	if (EG(exception)) {
+		zval *exception = EG(exception);
+		Z_ADDREF_P(exception);
+
+		zend_clear_exception(TSRMLS_C);
+
+		assert(Z_REFCOUNT_P(exception) == 1);
+		/* exception will be destroyed automatically after return from _handleexception */
+		Z_DELREF_P(exception);
+
+		/* Shortcut, save one method call */
+		PHALCON_INIT_NVAR(event_name);
+		ZVAL_STRING(event_name, "dispatch:beforeException", 1);
+
+		zval *params[] = {PHALCON_FETCH_VA_ARGS event_name, exception};
+		ret2 = phalcon_call_class_method_aparams(&status, phalcon_dispatcher_ce, phalcon_fcall_parent, this_ptr, SL("fireevent"), PHALCON_CALL_NUM_PARAMS(params), PHALCON_PASS_CALL_PARAMS(params) TSRMLS_CC);
+
+		if (ret2 == SUCCESS && PHALCON_IS_FALSE(status)) {
+			RETURN_MM_FALSE;
+		}
+	}
+
+	if (ret == FAILURE || PHALCON_IS_FALSE(status)) {
+		RETURN_MM_FALSE;
+	}
+
+	RETURN_MM_TRUE;
 }

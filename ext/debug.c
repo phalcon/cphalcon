@@ -405,7 +405,7 @@ PHP_METHOD(Phalcon_Debug, _escapeString){
 		ALLOC_INIT_ZVAL(replaced_value);
 		phalcon_fast_str_replace(replaced_value, &line_break, &escaped_line_break, value);
 		phalcon_htmlentities(return_value, replaced_value, NULL, charset TSRMLS_CC);
-		zval_ptr_dtor(&replaced_value);
+		phalcon_ptr_dtor(&replaced_value);
 		return;
 	}
 
