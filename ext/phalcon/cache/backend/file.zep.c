@@ -123,7 +123,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, __construct) {
 			return;
 		}
 	}
-	ZEPHIR_CALL_PARENT(NULL, phalcon_cache_backend_file_ce, this_ptr, "__construct", &_5, 36, frontend, options);
+	ZEPHIR_CALL_PARENT(NULL, phalcon_cache_backend_file_ce, this_ptr, "__construct", &_5, 103, frontend, options);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 
@@ -192,7 +192,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, get) {
 				object_init_ex(_6, phalcon_cache_exception_ce);
 				ZEPHIR_INIT_VAR(_7);
 				ZEPHIR_CONCAT_SVS(_7, "Cache file ", cacheFile, " could not be opened");
-				ZEPHIR_CALL_METHOD(NULL, _6, "__construct", NULL, 2, _7);
+				ZEPHIR_CALL_METHOD(NULL, _6, "__construct", NULL, 9, _7);
 				zephir_check_call_status();
 				zephir_throw_exception_debug(_6, "phalcon/cache/backend/file.zep", 151 TSRMLS_CC);
 				ZEPHIR_MM_RESTORE();
@@ -288,7 +288,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, save) {
 		object_init_ex(_2, phalcon_cache_exception_ce);
 		ZEPHIR_INIT_VAR(_3);
 		ZEPHIR_CONCAT_SVS(_3, "Cache file ", cacheFile, " could not be written");
-		ZEPHIR_CALL_METHOD(NULL, _2, "__construct", NULL, 2, _3);
+		ZEPHIR_CALL_METHOD(NULL, _2, "__construct", NULL, 9, _3);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(_2, "phalcon/cache/backend/file.zep", 215 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
@@ -336,7 +336,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, delete) {
 	ZEPHIR_INIT_VAR(cacheFile);
 	ZEPHIR_CONCAT_VVV(cacheFile, cacheDir, _1, _2);
 	if ((zephir_file_exists(cacheFile TSRMLS_CC) == SUCCESS)) {
-		ZEPHIR_RETURN_CALL_FUNCTION("unlink", NULL, 37, cacheFile);
+		ZEPHIR_RETURN_CALL_FUNCTION("unlink", NULL, 104, cacheFile);
 		zephir_check_call_status();
 		RETURN_MM();
 	}
@@ -375,7 +375,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, queryKeys) {
 	}
 	ZEPHIR_INIT_VAR(_2);
 	object_init_ex(_2, spl_ce_DirectoryIterator);
-	ZEPHIR_CALL_METHOD(NULL, _2, "__construct", NULL, 38, cacheDir);
+	ZEPHIR_CALL_METHOD(NULL, _2, "__construct", NULL, 105, cacheDir);
 	zephir_check_call_status();
 	_1 = zephir_get_iterator(_2 TSRMLS_CC);
 	_1->funcs->rewind(_1 TSRMLS_CC);
@@ -527,7 +527,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, increment) {
 				object_init_ex(_6, phalcon_cache_exception_ce);
 				ZEPHIR_INIT_VAR(_7);
 				ZEPHIR_CONCAT_SVS(_7, "Cache file ", cacheFile, " could not be opened");
-				ZEPHIR_CALL_METHOD(NULL, _6, "__construct", NULL, 2, _7);
+				ZEPHIR_CALL_METHOD(NULL, _6, "__construct", NULL, 9, _7);
 				zephir_check_call_status();
 				zephir_throw_exception_debug(_6, "phalcon/cache/backend/file.zep", 377 TSRMLS_CC);
 				ZEPHIR_MM_RESTORE();
@@ -609,7 +609,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, decrement) {
 				object_init_ex(_7, phalcon_cache_exception_ce);
 				ZEPHIR_INIT_VAR(_8);
 				ZEPHIR_CONCAT_SVS(_8, "Cache file ", cacheFile, " could not be opened");
-				ZEPHIR_CALL_METHOD(NULL, _7, "__construct", NULL, 2, _8);
+				ZEPHIR_CALL_METHOD(NULL, _7, "__construct", NULL, 9, _8);
 				zephir_check_call_status();
 				zephir_throw_exception_debug(_7, "phalcon/cache/backend/file.zep", 436 TSRMLS_CC);
 				ZEPHIR_MM_RESTORE();
@@ -655,7 +655,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, flush) {
 	}
 	ZEPHIR_INIT_VAR(_2);
 	object_init_ex(_2, spl_ce_DirectoryIterator);
-	ZEPHIR_CALL_METHOD(NULL, _2, "__construct", NULL, 38, cacheDir);
+	ZEPHIR_CALL_METHOD(NULL, _2, "__construct", NULL, 105, cacheDir);
 	zephir_check_call_status();
 	_1 = zephir_get_iterator(_2 TSRMLS_CC);
 	_1->funcs->rewind(_1 TSRMLS_CC);
@@ -677,7 +677,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, flush) {
 				_4 = zephir_start_with(key, prefix, NULL);
 			}
 			if (_4) {
-				ZEPHIR_CALL_FUNCTION(&_5, "unlink", &_6, 37, cacheFile);
+				ZEPHIR_CALL_FUNCTION(&_5, "unlink", &_6, 104, cacheFile);
 				zephir_check_call_status();
 				if (!(zephir_is_true(_5))) {
 					RETURN_MM_BOOL(0);

@@ -2109,7 +2109,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 					if fetch value, this->{attributeField} {
 
 						if value === null && isset defaultValues[field] {
-							let value = new RawValue(defaultValues[field]);
+							let value = new RawValue("default");
 						}
 
 						/**
@@ -2122,8 +2122,8 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 						let values[] = value;
 					} else {
 
-						if fetch value, defaultValues[field] {
-							let values[] = new RawValue(value);
+						if isset defaultValues[field] {
+							let values[] = new RawValue("default");
 						} else {
 							let values[] = value;
 						}

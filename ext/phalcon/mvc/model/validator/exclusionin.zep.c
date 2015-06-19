@@ -18,6 +18,7 @@
 #include "kernel/operators.h"
 #include "kernel/array.h"
 #include "kernel/string.h"
+#include "kernel/object.h"
 
 
 /**
@@ -48,6 +49,8 @@
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Validator_Exclusionin) {
 
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Mvc\\Model\\Validator, Exclusionin, phalcon, mvc_model_validator_exclusionin, phalcon_mvc_model_validator_ce, phalcon_mvc_model_validator_exclusionin_method_entry, 0);
+
+	phalcon_mvc_model_validator_exclusionin_ce->create_object = zephir_init_properties;
 
 	zend_class_implements(phalcon_mvc_model_validator_exclusionin_ce TSRMLS_CC, 1, phalcon_mvc_model_validatorinterface_ce);
 	return SUCCESS;
@@ -126,7 +129,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Exclusionin, validate) {
 		ZEPHIR_INIT_NVAR(_0);
 		zephir_fast_join_str(_0, SL(", "), domain TSRMLS_CC);
 		zephir_array_update_string(&_4, SL(":domain"), &_0, PH_COPY | PH_SEPARATE);
-		ZEPHIR_CALL_FUNCTION(&_5, "strtr", NULL, 73, message, _4);
+		ZEPHIR_CALL_FUNCTION(&_5, "strtr", NULL, 53, message, _4);
 		zephir_check_call_status();
 		ZEPHIR_INIT_NVAR(_0);
 		ZVAL_STRING(_0, "Exclusion", ZEPHIR_TEMP_PARAM_COPY);
@@ -136,6 +139,27 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Exclusionin, validate) {
 		RETURN_MM_BOOL(0);
 	}
 	RETURN_MM_BOOL(1);
+
+}
+
+static zend_object_value zephir_init_properties(zend_class_entry *class_type TSRMLS_DC) {
+
+		zval *_0, *_1;
+
+		ZEPHIR_MM_GROW();
+	
+	{
+		zval *this_ptr = NULL;
+		ZEPHIR_CREATE_OBJECT(this_ptr, class_type);
+		_0 = zephir_fetch_nproperty_this(this_ptr, SL("_messages"), PH_NOISY_CC);
+		if (Z_TYPE_P(_0) == IS_NULL) {
+			ZEPHIR_INIT_VAR(_1);
+			array_init(_1);
+			zephir_update_property_this(this_ptr, SL("_messages"), _1 TSRMLS_CC);
+		}
+		ZEPHIR_MM_RESTORE();
+		return Z_OBJVAL_P(this_ptr);
+	}
 
 }
 

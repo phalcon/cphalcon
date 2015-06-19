@@ -218,7 +218,7 @@ PHP_METHOD(Phalcon_Mvc_Application, getModule) {
 		object_init_ex(_1, phalcon_mvc_application_exception_ce);
 		ZEPHIR_INIT_VAR(_2);
 		ZEPHIR_CONCAT_SVS(_2, "Module '", name, "' isn't registered in the application container");
-		ZEPHIR_CALL_METHOD(NULL, _1, "__construct", NULL, 2, _2);
+		ZEPHIR_CALL_METHOD(NULL, _1, "__construct", NULL, 9, _2);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(_1, "phalcon/mvc/application.zep", 159 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
@@ -277,8 +277,8 @@ PHP_METHOD(Phalcon_Mvc_Application, handle) {
 
 	zval *_6;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zend_bool returnedResponse, _3;
-	zval *uri = NULL, *dependencyInjector, *eventsManager = NULL, *router = NULL, *dispatcher = NULL, *response = NULL, *view = NULL, *module = NULL, *moduleObject = NULL, *moduleName = NULL, *className = NULL, *path, *implicitView, *controller = NULL, *possibleResponse = NULL, *renderStatus = NULL, *_0, *_1 = NULL, *_2 = NULL, *_4, *_5 = NULL, *_7 = NULL, *_8 = NULL, *_9 = NULL, *_10 = NULL;
+	zend_bool returnedResponse, renderStatus, _3;
+	zval *uri = NULL, *dependencyInjector, *eventsManager = NULL, *router = NULL, *dispatcher = NULL, *response = NULL, *view = NULL, *module = NULL, *moduleObject = NULL, *moduleName = NULL, *className = NULL, *path, *implicitView, *controller = NULL, *possibleResponse = NULL, *_0, *_1 = NULL, *_2 = NULL, *_4, *_5 = NULL, *_7 = NULL, *_8 = NULL, *_9 = NULL, *_10 = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &uri);
@@ -361,7 +361,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle) {
 						object_init_ex(_2, phalcon_mvc_application_exception_ce);
 						ZEPHIR_INIT_VAR(_4);
 						ZEPHIR_CONCAT_SVS(_4, "Module definition path '", path, "' doesn't exist");
-						ZEPHIR_CALL_METHOD(NULL, _2, "__construct", NULL, 2, _4);
+						ZEPHIR_CALL_METHOD(NULL, _2, "__construct", NULL, 9, _4);
 						zephir_check_call_status();
 						zephir_throw_exception_debug(_2, "phalcon/mvc/application.zep", 271 TSRMLS_CC);
 						ZEPHIR_MM_RESTORE();
@@ -478,16 +478,16 @@ PHP_METHOD(Phalcon_Mvc_Application, handle) {
 		if (returnedResponse == 0) {
 			if (ZEPHIR_IS_TRUE_IDENTICAL(implicitView)) {
 				if (Z_TYPE_P(controller) == IS_OBJECT) {
-					ZEPHIR_INIT_VAR(renderStatus);
-					ZVAL_BOOL(renderStatus, 1);
+					renderStatus = 1;
 					if (Z_TYPE_P(eventsManager) == IS_OBJECT) {
 						ZEPHIR_INIT_NVAR(_2);
 						ZVAL_STRING(_2, "application:viewRender", ZEPHIR_TEMP_PARAM_COPY);
-						ZEPHIR_CALL_METHOD(&renderStatus, eventsManager, "fire", NULL, 0, _2, this_ptr, view);
+						ZEPHIR_CALL_METHOD(&_1, eventsManager, "fire", NULL, 0, _2, this_ptr, view);
 						zephir_check_temp_parameter(_2);
 						zephir_check_call_status();
+						renderStatus = zephir_get_boolval(_1);
 					}
-					if (!ZEPHIR_IS_FALSE_IDENTICAL(renderStatus)) {
+					if (renderStatus != 0) {
 						ZEPHIR_CALL_METHOD(&_1, dispatcher, "getcontrollername", NULL, 0);
 						zephir_check_call_status();
 						ZEPHIR_CALL_METHOD(&_5, dispatcher, "getactionname", NULL, 0);

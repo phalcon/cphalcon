@@ -107,7 +107,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, __construct) {
 		ZVAL_STRING(_0, "_PHCM", 1);
 		zephir_array_update_string(&options, SL("statsKey"), &_0, PH_COPY | PH_SEPARATE);
 	}
-	ZEPHIR_CALL_PARENT(NULL, phalcon_cache_backend_memcache_ce, this_ptr, "__construct", &_1, 36, frontend, options);
+	ZEPHIR_CALL_PARENT(NULL, phalcon_cache_backend_memcache_ce, this_ptr, "__construct", &_1, 103, frontend, options);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 

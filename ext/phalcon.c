@@ -375,6 +375,22 @@ zend_class_entry *phalcon_version_ce;
 
 ZEND_DECLARE_MODULE_GLOBALS(phalcon)
 
+PHP_INI_BEGIN()
+	STD_PHP_INI_BOOLEAN("phalcon.db.escape_identifiers", "1", PHP_INI_ALL, OnUpdateBool, db.escape_identifiers, zend_phalcon_globals, phalcon_globals)
+	STD_PHP_INI_BOOLEAN("phalcon.db.force_casting", "0", PHP_INI_ALL, OnUpdateBool, db.force_casting, zend_phalcon_globals, phalcon_globals)
+	
+	
+	
+	
+	STD_PHP_INI_BOOLEAN("phalcon.orm.events", "1", PHP_INI_ALL, OnUpdateBool, orm.events, zend_phalcon_globals, phalcon_globals)
+	STD_PHP_INI_BOOLEAN("phalcon.orm.virtual_foreign_keys", "1", PHP_INI_ALL, OnUpdateBool, orm.virtual_foreign_keys, zend_phalcon_globals, phalcon_globals)
+	STD_PHP_INI_BOOLEAN("phalcon.orm.column_renaming", "1", PHP_INI_ALL, OnUpdateBool, orm.column_renaming, zend_phalcon_globals, phalcon_globals)
+	STD_PHP_INI_BOOLEAN("phalcon.orm.not_null_validations", "1", PHP_INI_ALL, OnUpdateBool, orm.not_null_validations, zend_phalcon_globals, phalcon_globals)
+	STD_PHP_INI_BOOLEAN("phalcon.orm.exception_on_failed_save", "0", PHP_INI_ALL, OnUpdateBool, orm.exception_on_failed_save, zend_phalcon_globals, phalcon_globals)
+	STD_PHP_INI_BOOLEAN("phalcon.orm.enable_literals", "1", PHP_INI_ALL, OnUpdateBool, orm.enable_literals, zend_phalcon_globals, phalcon_globals)
+	STD_PHP_INI_BOOLEAN("phalcon.orm.late_state_binding", "0", PHP_INI_ALL, OnUpdateBool, orm.late_state_binding, zend_phalcon_globals, phalcon_globals)
+PHP_INI_END()
+
 static PHP_MINIT_FUNCTION(phalcon)
 {
 #if PHP_VERSION_ID < 50500
@@ -392,7 +408,7 @@ static PHP_MINIT_FUNCTION(phalcon)
 
 	setlocale(LC_ALL, "C");
 #endif
-
+	REGISTER_INI_ENTRIES();
 	ZEPHIR_INIT(Phalcon_Di_InjectionAwareInterface);
 	ZEPHIR_INIT(Phalcon_Events_EventsAwareInterface);
 	ZEPHIR_INIT(Phalcon_Forms_ElementInterface);
@@ -751,7 +767,7 @@ static PHP_MSHUTDOWN_FUNCTION(phalcon)
 {
 
 	zephir_deinitialize_memory(TSRMLS_C);
-
+	UNREGISTER_INI_ENTRIES();
 	return SUCCESS;
 }
 #endif
@@ -759,50 +775,50 @@ static PHP_MSHUTDOWN_FUNCTION(phalcon)
 /**
  * Initialize globals on each request or each thread started
  */
-static void php_zephir_init_globals(zend_phalcon_globals *zephir_globals TSRMLS_DC)
+static void php_zephir_init_globals(zend_phalcon_globals *phalcon_globals TSRMLS_DC)
 {
-	zephir_globals->initialized = 0;
+	phalcon_globals->initialized = 0;
 
 	/* Memory options */
-	zephir_globals->active_memory = NULL;
+	phalcon_globals->active_memory = NULL;
 
 	/* Virtual Symbol Tables */
-	zephir_globals->active_symbol_table = NULL;
+	phalcon_globals->active_symbol_table = NULL;
 
 	/* Cache Enabled */
-	zephir_globals->cache_enabled = 1;
+	phalcon_globals->cache_enabled = 1;
 
 	/* Recursive Lock */
-	zephir_globals->recursive_lock = 0;
+	phalcon_globals->recursive_lock = 0;
 
 	/* Static cache */
-	memset(zephir_globals->scache, '\0', sizeof(zephir_fcall_cache_entry*) * ZEPHIR_MAX_CACHE_SLOTS);
+	memset(phalcon_globals->scache, '\0', sizeof(zephir_fcall_cache_entry*) * ZEPHIR_MAX_CACHE_SLOTS);
 
-	zephir_globals->db.escape_identifiers = 1;
-	zephir_globals->db.force_casting = 0;
-	zephir_globals->orm.parser_cache = NULL;
-	zephir_globals->orm.ast_cache = NULL;
-	zephir_globals->orm.cache_level = 3;
-	zephir_globals->orm.unique_cache_id = 3;
-	zephir_globals->orm.events = 1;
-	zephir_globals->orm.virtual_foreign_keys = 1;
-	zephir_globals->orm.column_renaming = 1;
-	zephir_globals->orm.not_null_validations = 1;
-	zephir_globals->orm.exception_on_failed_save = 0;
-	zephir_globals->orm.enable_literals = 1;
-	zephir_globals->orm.late_state_binding = 0;
+
+
+	phalcon_globals->orm.parser_cache = NULL;
+	phalcon_globals->orm.ast_cache = NULL;
+	phalcon_globals->orm.cache_level = 3;
+	phalcon_globals->orm.unique_cache_id = 3;
+
+
+
+
+
+
+
 
 }
 
 static PHP_RINIT_FUNCTION(phalcon)
 {
 
-	zend_phalcon_globals *zephir_globals_ptr = ZEPHIR_VGLOBAL;
+	zend_phalcon_globals *phalcon_globals_ptr = ZEPHIR_VGLOBAL;
 
-	php_zephir_init_globals(zephir_globals_ptr TSRMLS_CC);
+	php_zephir_init_globals(phalcon_globals_ptr TSRMLS_CC);
 	//zephir_init_interned_strings(TSRMLS_C);
 
-	zephir_initialize_memory(zephir_globals_ptr TSRMLS_CC);
+	zephir_initialize_memory(phalcon_globals_ptr TSRMLS_CC);
 
 
 	return SUCCESS;
@@ -831,7 +847,7 @@ static PHP_MINFO_FUNCTION(phalcon)
 	php_info_print_table_row(2, "Powered by Zephir", "Version " PHP_PHALCON_ZEPVERSION);
 	php_info_print_table_end();
 
-
+	DISPLAY_INI_ENTRIES();
 }
 
 static PHP_GINIT_FUNCTION(phalcon)

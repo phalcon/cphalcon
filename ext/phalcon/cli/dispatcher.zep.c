@@ -72,7 +72,7 @@ PHP_METHOD(Phalcon_Cli_Dispatcher, __construct) {
 	ZEPHIR_INIT_VAR(_0);
 	array_init(_0);
 	zephir_update_property_this(this_ptr, SL("_options"), _0 TSRMLS_CC);
-	ZEPHIR_CALL_PARENT(NULL, phalcon_cli_dispatcher_ce, this_ptr, "__construct", &_1, 55);
+	ZEPHIR_CALL_PARENT(NULL, phalcon_cli_dispatcher_ce, this_ptr, "__construct", &_1, 122);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 
@@ -169,7 +169,7 @@ PHP_METHOD(Phalcon_Cli_Dispatcher, _throwDispatchException) {
 	object_init_ex(exception, phalcon_cli_dispatcher_exception_ce);
 	ZEPHIR_INIT_VAR(_0);
 	ZVAL_LONG(_0, exceptionCode);
-	ZEPHIR_CALL_METHOD(NULL, exception, "__construct", NULL, 2, message, _0);
+	ZEPHIR_CALL_METHOD(NULL, exception, "__construct", NULL, 9, message, _0);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&_1, this_ptr, "_handleexception", NULL, 0, exception);
 	zephir_check_call_status();
