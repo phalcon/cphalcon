@@ -149,11 +149,7 @@ class Introspection implements StrategyInterface
 			let defaultValue = column->getDefault();
 			if defaultValue !== null || column->isNotNull() === false {
 				if !column->isAutoIncrement() {
-					if defaultValue === "" {
-						let defaultValues[fieldName] = '""';
-					} else {
-						let defaultValues[fieldName] = defaultValue;
-					}
+					let defaultValues[fieldName] = defaultValue;					
 				}
 			}
 		}
