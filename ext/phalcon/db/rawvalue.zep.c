@@ -79,7 +79,8 @@ PHP_METHOD(Phalcon_Db_RawValue, __construct) {
 	zend_bool _0;
 	zval *value, *_1;
 
-	zephir_fetch_params(0, 1, 0, &value);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &value);
 
 
 
@@ -91,16 +92,17 @@ PHP_METHOD(Phalcon_Db_RawValue, __construct) {
 		ZEPHIR_INIT_ZVAL_NREF(_1);
 		ZVAL_STRING(_1, "''", 1);
 		zephir_update_property_this(this_ptr, SL("_value"), _1 TSRMLS_CC);
-		RETURN_NULL();
+		RETURN_MM_NULL();
 	}
 	if (Z_TYPE_P(value) == IS_NULL) {
 		ZEPHIR_INIT_ZVAL_NREF(_1);
 		ZVAL_STRING(_1, "NULL", 1);
 		zephir_update_property_this(this_ptr, SL("_value"), _1 TSRMLS_CC);
-		RETURN_NULL();
+		RETURN_MM_NULL();
 	}
 	zephir_get_strval(_2, value);
 	zephir_update_property_this(this_ptr, SL("_value"), _2 TSRMLS_CC);
+	ZEPHIR_MM_RESTORE();
 
 }
 
