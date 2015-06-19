@@ -39,6 +39,7 @@ int nusphere_dbg_present;
 
 ZEND_DECLARE_MODULE_GLOBALS(phalcon)
 
+/*
 #if PHP_VERSION_ID >= 50500
 static void (*orig_execute_internal)(zend_execute_data *, zend_fcall_info *, int TSRMLS_DC) = NULL;
 #else
@@ -75,7 +76,7 @@ static void phalcon_execute_internal(zend_execute_data *execute_data_ptr, int re
 
 #ifndef PHALCON_RELEASE
 
-/*static void phalcon_verify_permanent_zvals(int strict TSRMLS_DC)
+static void phalcon_verify_permanent_zvals(int strict TSRMLS_DC)
 {
 	int ok = 1;
 	zend_phalcon_globals *pg = PHALCON_VGLOBAL;
@@ -177,9 +178,10 @@ static void phalcon_execute_internal(zend_execute_data *execute_data_ptr, int re
 	if (!ok) {
 		abort();
 	}
-}*/
+}
 
 #endif
+*/
 
 PHP_INI_BEGIN()
 	/* Enables/Disables debug */
@@ -630,10 +632,12 @@ static PHP_MINIT_FUNCTION(phalcon)
 	free(old_lc_all);
 #endif
 
+/*
 	orig_execute_internal = zend_execute_internal;
 	if (!zend_execute_internal && !getenv("PHALCON_NO_RVO")) {
 		zend_execute_internal = phalcon_execute_internal;
 	}
+*/
 
 #if 0
 	{
@@ -658,8 +662,9 @@ static PHP_MSHUTDOWN_FUNCTION(phalcon){
 	assert(PHALCON_GLOBAL(orm).ast_cache == NULL);
 
 	UNREGISTER_INI_ENTRIES();
-
+/*
 	zend_execute_internal = orig_execute_internal;
+*/
 	return SUCCESS;
 }
 

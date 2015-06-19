@@ -1326,6 +1326,7 @@ PHP_METHOD(Phalcon_Dispatcher, getErrorHandler){
 PHP_METHOD(Phalcon_Dispatcher, fireEvent){
 
 	zval *event_name, *data = NULL, *cancelable = NULL, *status = NULL;
+	int ret, ret2;
 
 	PHALCON_MM_GROW();
 
@@ -1341,7 +1342,8 @@ PHP_METHOD(Phalcon_Dispatcher, fireEvent){
 	}
 
 	Z_SET_ISREF_P(data);
-	PHALCON_CALL_PARENT(&status, phalcon_dispatcher_ce, this_ptr, "fireevent", event_name, data, cancelable);
+	zval *params[] = {PHALCON_FETCH_VA_ARGS event_name, data, cancelable};
+	ret = phalcon_call_class_method_aparams(&status, phalcon_dispatcher_ce, phalcon_fcall_parent, this_ptr, SL("fireevent"), PHALCON_CALL_NUM_PARAMS(params), PHALCON_PASS_CALL_PARAMS(params) TSRMLS_CC);
 	Z_UNSET_ISREF_P(data);
 
 	if (EG(exception)) {
@@ -1357,12 +1359,18 @@ PHP_METHOD(Phalcon_Dispatcher, fireEvent){
 		/* Shortcut, save one method call */
 		PHALCON_INIT_NVAR(event_name);
 		ZVAL_STRING(event_name, "dispatch:beforeException", 1);
-		PHALCON_CALL_PARENT(&status, phalcon_dispatcher_ce, this_ptr, "fireevent", event_name, exception);
+
+		zval *params[] = {PHALCON_FETCH_VA_ARGS event_name, exception};
+		ret2 = phalcon_call_class_method_aparams(&status, phalcon_dispatcher_ce, phalcon_fcall_parent, this_ptr, SL("fireevent"), PHALCON_CALL_NUM_PARAMS(params), PHALCON_PASS_CALL_PARAMS(params) TSRMLS_CC);
+
+		if (ret2 == SUCCESS && PHALCON_IS_FALSE(status)) {
+			RETURN_MM_FALSE;
+		}
 	}
 
-	if (zend_is_true(status)) {
-		RETURN_MM_TRUE;
+	if (ret == FAILURE || PHALCON_IS_FALSE(status)) {
+		RETURN_MM_FALSE;
 	}
 
-	RETURN_MM_FALSE;
+	RETURN_MM_TRUE;
 }

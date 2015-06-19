@@ -151,12 +151,12 @@ void phalcon_deinitialize_memory(TSRMLS_D)
 	phalcon_globals_ptr->fcache = NULL;
 
 	for (i = 0; i < 2; i++) {
-		zval_ptr_dtor(&phalcon_globals_ptr->z_null);
-		zval_ptr_dtor(&phalcon_globals_ptr->z_false);
-		zval_ptr_dtor(&phalcon_globals_ptr->z_true);
-		zval_ptr_dtor(&phalcon_globals_ptr->z_zero);
-		zval_ptr_dtor(&phalcon_globals_ptr->z_one);
-		zval_ptr_dtor(&phalcon_globals_ptr->z_two);
+		phalcon_ptr_dtor(&phalcon_globals_ptr->z_null);
+		phalcon_ptr_dtor(&phalcon_globals_ptr->z_false);
+		phalcon_ptr_dtor(&phalcon_globals_ptr->z_true);
+		phalcon_ptr_dtor(&phalcon_globals_ptr->z_zero);
+		phalcon_ptr_dtor(&phalcon_globals_ptr->z_one);
+		phalcon_ptr_dtor(&phalcon_globals_ptr->z_two);
 	}
 
 	phalcon_globals_ptr->initialized = 0;

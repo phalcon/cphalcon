@@ -942,6 +942,15 @@ void phalcon_fast_str_replace(zval *return_value, zval *search, zval *replace, z
 		return;
 	}
 
+	/**
+	* Fallback to userland function if the first parameter is an array
+	*/
+	if (Z_TYPE_P(search) == IS_ARRAY) {
+		TSRMLS_FETCH();
+		PHALCON_CALL_FUNCTIONW(&return_value, "str_replace", search, replace, subject);
+		return;
+	}
+
 	if (Z_TYPE_P(replace) != IS_STRING) {
 		zend_make_printable_zval(replace, &replace_copy, &copy_replace);
 		if (copy_replace) {
