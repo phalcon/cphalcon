@@ -150,18 +150,7 @@ class Introspection implements StrategyInterface
 			let defaultValue = column->getDefault();
 			if defaultValue !== null || column->isNotNull() === false {
 				if !column->isAutoIncrement() {
-					switch column->getType() {
-
-						case Column::TYPE_VARCHAR:
-						case Column::TYPE_TEXT:
-						case Column::TYPE_DATE:
-							let defaultValues[fieldName] = "'" . defaultValue . "'";
-							break;
-
-						default:
-							let defaultValues[fieldName] = defaultValue;
-							break;
-					}
+					let defaultValues[fieldName] = defaultValue;					
 				}
 			}
 		}
