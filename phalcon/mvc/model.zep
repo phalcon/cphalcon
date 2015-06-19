@@ -746,12 +746,12 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		if fetch bindParams, params["bind"] {
 
 			if typeof bindParams == "array" {
-				query->setBindParams(bindParams);
+				query->setBindParams(bindParams, true);
 			}
 
 			if fetch bindTypes, params["bindTypes"] {
 				if typeof bindTypes == "array" {
-					query->setBindTypes(bindTypes);
+					query->setBindTypes(bindTypes, true);
 				}
 			}
 		}
@@ -836,12 +836,12 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		if fetch bindParams, params["bind"] {
 
 			if typeof bindParams == "array" {
-				query->setBindParams(bindParams);
+				query->setBindParams(bindParams, true);
 			}
 
 			if fetch bindTypes, params["bindTypes"] {
 				if typeof bindTypes == "array" {
-					query->setBindTypes(bindTypes);
+					query->setBindTypes(bindTypes, true);
 				}
 			}
 		}

@@ -1041,7 +1041,7 @@ PHP_METHOD(Phalcon_Mvc_Model, find) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_0 = NULL;
-	zval *parameters = NULL, *params = NULL, *builder = NULL, *query = NULL, *bindParams, *bindTypes, *cache, *resultset = NULL, *hydration, *dependencyInjector = NULL, *manager = NULL, *_1 = NULL, *_2 = NULL;
+	zval *parameters = NULL, *params = NULL, *builder = NULL, *query = NULL, *bindParams, *bindTypes, *cache, *resultset = NULL, *hydration, *dependencyInjector = NULL, *manager = NULL, *_1 = NULL, *_2 = NULL, *_3 = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &parameters);
@@ -1079,13 +1079,17 @@ PHP_METHOD(Phalcon_Mvc_Model, find) {
 	ZEPHIR_OBS_VAR(bindParams);
 	if (zephir_array_isset_string_fetch(&bindParams, params, SS("bind"), 0 TSRMLS_CC)) {
 		if (Z_TYPE_P(bindParams) == IS_ARRAY) {
-			ZEPHIR_CALL_METHOD(NULL, query, "setbindparams", NULL, 0, bindParams);
+			ZEPHIR_INIT_VAR(_3);
+			ZVAL_BOOL(_3, 1);
+			ZEPHIR_CALL_METHOD(NULL, query, "setbindparams", NULL, 0, bindParams, _3);
 			zephir_check_call_status();
 		}
 		ZEPHIR_OBS_VAR(bindTypes);
 		if (zephir_array_isset_string_fetch(&bindTypes, params, SS("bindTypes"), 0 TSRMLS_CC)) {
 			if (Z_TYPE_P(bindTypes) == IS_ARRAY) {
-				ZEPHIR_CALL_METHOD(NULL, query, "setbindtypes", NULL, 0, bindTypes);
+				ZEPHIR_INIT_NVAR(_3);
+				ZVAL_BOOL(_3, 1);
+				ZEPHIR_CALL_METHOD(NULL, query, "setbindtypes", NULL, 0, bindTypes, _3);
 				zephir_check_call_status();
 			}
 		}
@@ -1176,13 +1180,17 @@ PHP_METHOD(Phalcon_Mvc_Model, findFirst) {
 	ZEPHIR_OBS_VAR(bindParams);
 	if (zephir_array_isset_string_fetch(&bindParams, params, SS("bind"), 0 TSRMLS_CC)) {
 		if (Z_TYPE_P(bindParams) == IS_ARRAY) {
-			ZEPHIR_CALL_METHOD(NULL, query, "setbindparams", NULL, 0, bindParams);
+			ZEPHIR_INIT_NVAR(_3);
+			ZVAL_BOOL(_3, 1);
+			ZEPHIR_CALL_METHOD(NULL, query, "setbindparams", NULL, 0, bindParams, _3);
 			zephir_check_call_status();
 		}
 		ZEPHIR_OBS_VAR(bindTypes);
 		if (zephir_array_isset_string_fetch(&bindTypes, params, SS("bindTypes"), 0 TSRMLS_CC)) {
 			if (Z_TYPE_P(bindTypes) == IS_ARRAY) {
-				ZEPHIR_CALL_METHOD(NULL, query, "setbindtypes", NULL, 0, bindTypes);
+				ZEPHIR_INIT_NVAR(_3);
+				ZVAL_BOOL(_3, 1);
+				ZEPHIR_CALL_METHOD(NULL, query, "setbindtypes", NULL, 0, bindTypes, _3);
 				zephir_check_call_status();
 			}
 		}

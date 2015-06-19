@@ -20,6 +20,7 @@
 namespace Phalcon\Mvc\Model\Query;
 
 use Phalcon\Di;
+use Phalcon\Db\Column;
 use Phalcon\DiInterface;
 use Phalcon\Mvc\Model\Query;
 use Phalcon\Mvc\Model\Exception;
@@ -622,11 +623,6 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 *<code>
 	 *	$builder->betweenWhere('price', 100.25, 200.50);
 	 *</code>
-	 *
-	 * @param string expr
-	 * @param mixed minimum
-	 * @param mixed maximum
-	 * @return Phalcon\Mvc\Model\Query\Builder
 	 */
 	public function betweenWhere(string! expr, var minimum, var maximum) -> <Builder>
 	{
@@ -639,8 +635,8 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 		 * Minimum key with auto bind-params and
 		 * Maximum key with auto bind-params
 		 */
-		let minimumKey = "phb" . hiddenParam,
-			maximumKey = "phb" . nextHiddenParam;
+		let minimumKey = "AP" . hiddenParam,
+			maximumKey = "AP" . nextHiddenParam;
 
 		/**
 		 * Create a standard BETWEEN condition with bind params
@@ -663,11 +659,6 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 *<code>
 	 *	$builder->notBetweenWhere('price', 100.25, 200.50);
 	 *</code>
-	 *
-	 * @param string expr
-	 * @param mixed minimum
-	 * @param mixed maximum
-	 * @return Phalcon\Mvc\Model\Query\Builder
 	 */
 	public function notBetweenWhere(string! expr, var minimum, var maximum) -> <Builder>
 	{
@@ -680,8 +671,8 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 		 * Minimum key with auto bind-params and
 		 * Maximum key with auto bind-params
 		 */
-		let minimumKey = "phb" . hiddenParam,
-			maximumKey = "phb" . nextHiddenParam;
+		let minimumKey = "AP" . hiddenParam,
+			maximumKey = "AP" . nextHiddenParam;
 
 		/**
 		 * Create a standard BETWEEN condition with bind params
@@ -718,7 +709,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 			/**
 			 * Key with auto bind-params
 			 */
-			let key = "phi" . hiddenParam,
+			let key = "AP" . hiddenParam,
 				queryKey = ":" . key . ":",
 				bindKeys[] = queryKey,
 				bindParams[key] = value,
@@ -756,7 +747,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 			/**
 			 * Key with auto bind-params
 			 */
-			let key = "phi" . hiddenParam,
+			let key = "AP" . hiddenParam,
 				queryKey = ":" . key . ":",
 				bindKeys[] = queryKey,
 				bindParams[key] = value,
@@ -936,7 +927,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 			selectedModel, selectedModels, columnAlias, modelColumnAlias,
 			joins, join, joinModel, joinConditions, joinAlias, joinType, group,
 			groupItems, groupItem, having, order, orderItems, orderItem,
-			limit, number, offset, forUpdate, distinct, withModels;
+			limit, number, offset, forUpdate, distinct, withModels, hiddenParam;
 		boolean noPrimary;
 
 		let dependencyInjector = this->_dependencyInjector;
@@ -1178,9 +1169,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 			}
 		}
 
-		/**
-		 * Only append conditions if it"s string
-		 */
+		// Only append conditions if it's string
 		if typeof conditions == "string" {
 			if !empty conditions {
 				let phql .= " WHERE " . conditions;
@@ -1261,29 +1250,44 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 		 */
 		let limit = this->_limit;
 		if limit !== null {
+
+			let number = null;
 			if typeof limit == "array" {
+
 				let number = limit["number"];
 				if fetch offset, limit["offset"] {
-					if is_numeric(offset) {
-						let phql .= " LIMIT " . number . " OFFSET " . offset;
-					} else {
-						let phql .= " LIMIT " . number . " OFFSET 0";
+					if !is_numeric(offset) {
+						let offset = 0;
 					}
-				} else {
-					let phql .= " LIMIT " . number;
 				}
+
 			} else {
 				if is_numeric(limit) {
-					let phql .= " LIMIT " . limit,
+					let number = limit,
 						offset = this->_offset;
 					if offset !== null {
-						if is_numeric(offset) {
-							let phql .= " OFFSET " . offset;
-						} else {
-							let phql .= " OFFSET 0";
+						if !is_numeric(offset) {
+							let offset = 0;
 						}
 					}
 				}
+			}
+
+			if is_numeric(limit) {
+
+				let hiddenParam = this->_hiddenParamNumber,
+					phql .= " LIMIT :AP" . hiddenParam . ":",
+					this->_bindParams["AP" . hiddenParam] = number,
+					this->_bindTypes["AP" . hiddenParam] = Column::BIND_PARAM_INT;
+
+				if is_numeric(offset) {
+					let hiddenParam++,
+						phql .= " OFFSET :AP" . hiddenParam . ":",
+						this->_bindParams["AP" . hiddenParam] = offset,
+						this->_bindTypes["AP" . hiddenParam] = Column::BIND_PARAM_INT;
+				}
+
+				let this->_hiddenParamNumber = hiddenParam + 1;
 			}
 		}
 
@@ -1306,17 +1310,13 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 
 		let query = new Query(this->getPhql(), this->_dependencyInjector);
 
-		/**
-		 * Set default bind params
-		 */
+		// Set default bind params
 		let bindParams = this->_bindParams;
 		if typeof bindParams == "array" {
 			query->setBindParams(bindParams);
 		}
 
-		/**
-		 * Set default bind params
-		 */
+		// Set default bind params
 		let bindTypes = this->_bindTypes;
 		if typeof bindTypes == "array" {
 			query->setBindTypes(bindTypes);

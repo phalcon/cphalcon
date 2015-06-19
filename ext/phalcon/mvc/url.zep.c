@@ -305,7 +305,7 @@ PHP_METHOD(Phalcon_Mvc_Url, get) {
 			ZEPHIR_INIT_VAR(_2);
 			ZEPHIR_INIT_VAR(_3);
 			ZEPHIR_SINIT_VAR(_4);
-			ZVAL_STRING(&_4, "^(//(?=[a-z0-9]+)|[a-z0-9]+:(:?//)?)#i", 0);
+			ZVAL_STRING(&_4, "#^(//(?=[a-z0-9]+)|[a-z0-9]+:(:?//)?)#i", 0);
 			zephir_preg_match(_3, &_4, uri, _2, 0, 0 , 0  TSRMLS_CC);
 			if (zephir_is_true(_3)) {
 				local = 0;
