@@ -193,7 +193,7 @@ PHP_METHOD(Phalcon_Logger_Formatter_Firephp, format) {
 		if (!(zephir_is_true(_0))) {
 			param = (2) ? 1 : 0;
 		}
-		ZEPHIR_CALL_FUNCTION(&backtrace, "debug_backtrace", NULL, 149, (param ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)));
+		ZEPHIR_CALL_FUNCTION(&backtrace, "debug_backtrace", NULL, 150, (param ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)));
 		zephir_check_call_status();
 		Z_SET_ISREF_P(backtrace);
 		ZEPHIR_CALL_FUNCTION(&lastTrace, "end", NULL, 169, backtrace);

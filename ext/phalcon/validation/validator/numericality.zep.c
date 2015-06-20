@@ -114,7 +114,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Numericality, validate) {
 		}
 		ZEPHIR_INIT_NVAR(_5);
 		object_init_ex(_5, phalcon_validation_message_ce);
-		ZEPHIR_CALL_FUNCTION(&_6, "strtr", NULL, 53, message, replacePairs);
+		ZEPHIR_CALL_FUNCTION(&_6, "strtr", NULL, 54, message, replacePairs);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(_7);
 		ZVAL_STRING(_7, "Numericality", ZEPHIR_TEMP_PARAM_COPY);

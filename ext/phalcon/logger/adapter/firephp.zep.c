@@ -132,7 +132,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Firephp, logInternal) {
 	zephir_check_call_status();
 	ZEPHIR_SINIT_NVAR(_2);
 	ZVAL_LONG(&_2, 4500);
-	ZEPHIR_CALL_FUNCTION(&chunk, "str_split", NULL, 67, format, &_2);
+	ZEPHIR_CALL_FUNCTION(&chunk, "str_split", NULL, 68, format, &_2);
 	zephir_check_call_status();
 	zephir_is_iterable(chunk, &_8, &_7, 0, 0, "phalcon/logger/adapter/firephp.zep", 102);
 	for (
