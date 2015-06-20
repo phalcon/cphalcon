@@ -475,6 +475,7 @@ class Manager
 				}
 
 				if local {
+
 					/**
 					 * Make sure the target path is not the same source path
 					 */

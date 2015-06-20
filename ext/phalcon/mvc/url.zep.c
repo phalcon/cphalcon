@@ -266,11 +266,11 @@ PHP_METHOD(Phalcon_Mvc_Url, getBasePath) {
 PHP_METHOD(Phalcon_Mvc_Url, get) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zend_bool local, _0, _1;
-	zval *uri = NULL, *args = NULL, *local_param = NULL, *baseUri = NULL, *router = NULL, *dependencyInjector = NULL, *routeName, *route = NULL, *queryString = NULL, *_2, *_3 = NULL, _4 = zval_used_for_init, *_5, *_6 = NULL, *_7 = NULL, *_8 = NULL, _9, _10, *_11, _12, *_13, *_14;
+	zend_bool _0, _1;
+	zval *uri = NULL, *args = NULL, *local = NULL, *baseUri = NULL, *router = NULL, *dependencyInjector = NULL, *routeName, *route = NULL, *queryString = NULL, *_2, *_3 = NULL, _4 = zval_used_for_init, *_5, *_6 = NULL, *_7 = NULL, *_8 = NULL, *_9;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 0, 4, &uri, &args, &local_param, &baseUri);
+	zephir_fetch_params(1, 0, 4, &uri, &args, &local, &baseUri);
 
 	if (!uri) {
 		ZEPHIR_CPY_WRT(uri, ZEPHIR_GLOBAL(global_null));
@@ -280,10 +280,10 @@ PHP_METHOD(Phalcon_Mvc_Url, get) {
 	if (!args) {
 		args = ZEPHIR_GLOBAL(global_null);
 	}
-	if (!local_param) {
-		local = 0;
+	if (!local) {
+		ZEPHIR_CPY_WRT(local, ZEPHIR_GLOBAL(global_null));
 	} else {
-		local = zephir_get_boolval(local_param);
+		ZEPHIR_SEPARATE_PARAM(local);
 	}
 	if (!baseUri) {
 		ZEPHIR_CPY_WRT(baseUri, ZEPHIR_GLOBAL(global_null));
@@ -292,7 +292,7 @@ PHP_METHOD(Phalcon_Mvc_Url, get) {
 	}
 
 
-	if (local == 0) {
+	if (Z_TYPE_P(local) == IS_NULL) {
 		_0 = Z_TYPE_P(uri) == IS_STRING;
 		if (_0) {
 			_1 = zephir_memnstr_str(uri, SL("//"), "phalcon/mvc/url.zep", 178);
@@ -305,15 +305,17 @@ PHP_METHOD(Phalcon_Mvc_Url, get) {
 			ZEPHIR_INIT_VAR(_2);
 			ZEPHIR_INIT_VAR(_3);
 			ZEPHIR_SINIT_VAR(_4);
-			ZVAL_STRING(&_4, "#^(//(?=[a-z0-9]+)|[a-z0-9]+:(:?//)?)#i", 0);
+			ZVAL_STRING(&_4, "#^(//)|([a-z0-9]+://)|([a-z0-9]+:)#i", 0);
 			zephir_preg_match(_3, &_4, uri, _2, 0, 0 , 0  TSRMLS_CC);
+			ZEPHIR_INIT_NVAR(local);
 			if (zephir_is_true(_3)) {
-				local = 0;
+				ZVAL_BOOL(local, 0);
 			} else {
-				local = 1;
+				ZVAL_BOOL(local, 1);
 			}
 		} else {
-			local = 1;
+			ZEPHIR_INIT_NVAR(local);
+			ZVAL_BOOL(local, 1);
 		}
 	}
 	if (Z_TYPE_P(baseUri) != IS_STRING) {
@@ -365,34 +367,10 @@ PHP_METHOD(Phalcon_Mvc_Url, get) {
 		phalcon_replace_paths(_3, _6, _8, uri TSRMLS_CC);
 		ZEPHIR_CPY_WRT(uri, _3);
 	}
-	if (local) {
-		ZEPHIR_SINIT_NVAR(_4);
-		ZVAL_LONG(&_4, -1);
-		ZEPHIR_INIT_NVAR(_3);
-		zephir_substr(_3, baseUri, -1 , 0, ZEPHIR_SUBSTR_NO_LENGTH);
-		_0 = ZEPHIR_IS_STRING(_3, "/");
-		if (_0) {
-			ZEPHIR_SINIT_VAR(_9);
-			ZVAL_LONG(&_9, 0);
-			ZEPHIR_SINIT_VAR(_10);
-			ZVAL_LONG(&_10, 1);
-			ZEPHIR_INIT_VAR(_11);
-			zephir_substr(_11, uri, 0 , 1 , 0);
-			_0 = ZEPHIR_IS_STRING(_11, "/");
-		}
-		if (_0) {
-			ZEPHIR_SINIT_VAR(_12);
-			ZVAL_LONG(&_12, 1);
-			ZEPHIR_INIT_VAR(_13);
-			zephir_substr(_13, uri, 1 , 0, ZEPHIR_SUBSTR_NO_LENGTH);
-			ZEPHIR_INIT_LNVAR(_7);
-			ZEPHIR_CONCAT_VV(_7, baseUri, _13);
-			ZEPHIR_CPY_WRT(uri, _7);
-		} else {
-			ZEPHIR_INIT_LNVAR(_7);
-			ZEPHIR_CONCAT_VV(_7, baseUri, uri);
-			ZEPHIR_CPY_WRT(uri, _7);
-		}
+	if (zephir_is_true(local)) {
+		ZEPHIR_INIT_LNVAR(_7);
+		ZEPHIR_CONCAT_VV(_7, baseUri, uri);
+		ZEPHIR_CPY_WRT(uri, _7);
 	}
 	if (zephir_is_true(args)) {
 		ZEPHIR_CALL_FUNCTION(&queryString, "http_build_query", NULL, 363, args);
@@ -411,9 +389,9 @@ PHP_METHOD(Phalcon_Mvc_Url, get) {
 				ZEPHIR_CONCAT_SV(_7, "&", queryString);
 				zephir_concat_self(&uri, _7 TSRMLS_CC);
 			} else {
-				ZEPHIR_INIT_VAR(_14);
-				ZEPHIR_CONCAT_SV(_14, "?", queryString);
-				zephir_concat_self(&uri, _14 TSRMLS_CC);
+				ZEPHIR_INIT_VAR(_9);
+				ZEPHIR_CONCAT_SV(_9, "?", queryString);
+				zephir_concat_self(&uri, _9 TSRMLS_CC);
 			}
 		}
 	}
