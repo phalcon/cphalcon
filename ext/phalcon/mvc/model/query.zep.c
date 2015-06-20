@@ -3189,7 +3189,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect) {
 		) {
 			ZEPHIR_GET_HMKEY(typeWildcard, _31, _30);
 			ZEPHIR_GET_HVALUE(value, _32);
-			if (Z_TYPE_P(wildcard) == IS_LONG) {
+			if (Z_TYPE_P(typeWildcard) == IS_LONG) {
 				ZEPHIR_INIT_LNVAR(_33);
 				ZEPHIR_CONCAT_SV(_33, ":", typeWildcard);
 				zephir_array_update_zval(&processedTypes, _33, &value, PH_COPY | PH_SEPARATE);

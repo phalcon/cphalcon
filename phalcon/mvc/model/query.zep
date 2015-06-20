@@ -2533,7 +2533,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 		if typeof bindTypes == "array" {
 			let processedTypes = [];
 			for typeWildcard, value in bindTypes {
-				if typeof wildcard == "integer" {
+				if typeof typeWildcard == "integer" {
 					let processedTypes[":" . typeWildcard] = value;
 				} else {
 					let processedTypes[typeWildcard] = value;
