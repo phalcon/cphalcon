@@ -377,8 +377,8 @@ abstract class Dialect implements DialectInterface
 	 */
 	public function select(array! definition) -> string
 	{
-		var tables, columns, sql;
-		var distinct, joins, where, groupBy, having, orderBy, limit;
+		var tables, columns, sql, distinct, joins, where,
+			groupBy, having, orderBy, limit, forUpdate;
 
 		if !fetch tables, definition["tables"] {
 			throw new Exception("The index 'tables' is required in the definition array");
@@ -398,7 +398,7 @@ abstract class Dialect implements DialectInterface
 
 		} else {
 			let sql = "SELECT";
-		}
+		}		
 
 		/**
 		 * Resolve COLUMNS
@@ -450,6 +450,13 @@ abstract class Dialect implements DialectInterface
 		 */
 		if fetch limit, definition["limit"] && limit {
 			let sql = this->getSqlExpressionLimit(["sql": sql, "value": limit]);
+		}
+
+		/**
+		 * Resolve FOR UPDATE
+		 */
+		if fetch forUpdate, definition["forUpdate"] && forUpdate {
+			let sql .= "FOR UPDATE";
 		}
 
 		return sql;
