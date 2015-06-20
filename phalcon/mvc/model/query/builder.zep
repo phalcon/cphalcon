@@ -1287,13 +1287,13 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 
 				let hiddenParam = this->_hiddenParamNumber,
 					phql .= " LIMIT :AP" . hiddenParam . ":",
-					this->_bindParams["AP" . hiddenParam] = number,
+					this->_bindParams["AP" . hiddenParam] = intval(number, 10),
 					this->_bindTypes["AP" . hiddenParam] = Column::BIND_PARAM_INT;
 
 				if is_numeric(offset) {
 					let hiddenParam++,
 						phql .= " OFFSET :AP" . hiddenParam . ":",
-						this->_bindParams["AP" . hiddenParam] = offset,
+						this->_bindParams["AP" . hiddenParam] = intval(offset, 10),
 						this->_bindTypes["AP" . hiddenParam] = Column::BIND_PARAM_INT;
 				}
 
