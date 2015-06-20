@@ -103,15 +103,19 @@ class Simple extends Resultset
 		switch hydrateMode {
 
 			case Resultset::HYDRATE_RECORDS:
+
 				/**
 				 * Set records as dirty state PERSISTENT by default
 				 * Performs the standard hydration based on objects
 				 */
 				if globals_get("orm.late_state_binding") {
-					let modelName = "Phalcon\\Mvc\\Model";
+
 					if this->_model instanceof \Phalcon\Mvc\Model {
 						let modelName = get_class(this->_model);
+					} else {
+						let modelName = "Phalcon\\Mvc\\Model";
 					}
+
 					let activeRow = {modelName}::cloneResultMap(
 						this->_model,
 						row,
