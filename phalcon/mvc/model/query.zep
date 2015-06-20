@@ -2733,7 +2733,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 						throw new Exception("Bound parameter '" . wildcard . "' cannot be replaced because it isn't in the placeholders list");
 					}
 
-					break;				
+					break;
 
 				default:
 					let insertValue = new RawValue(dialect->getSqlExpression(exprValue));
@@ -2853,6 +2853,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 
 				case PHQL_T_NPLACEHOLDER:
 				case PHQL_T_SPLACEHOLDER:
+				case PHQL_T_BPLACEHOLDER:
 
 					if typeof bindParams != "array" {
 						throw new Exception("Bound parameter cannot be replaced because placeholders is not an array");
