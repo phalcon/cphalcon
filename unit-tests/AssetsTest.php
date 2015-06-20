@@ -121,7 +121,9 @@ class AssetsTest extends PHPUnit_Framework_TestCase
 			return $url;
 		});
 
-		$di->set('escaper', function() { return new \Phalcon\Escaper(); });
+		$di->set('escaper', function() { 
+			return new \Phalcon\Escaper(); 
+		});
 
 		//With implicit output
 
@@ -129,16 +131,18 @@ class AssetsTest extends PHPUnit_Framework_TestCase
 		$assets->outputCss();
 		$html = ob_get_clean();
 
-		$this->assertEquals($html, '<link rel="stylesheet" type="text/css" href="//css/style1.css" />
-<link rel="stylesheet" type="text/css" href="//css/style2.css" />
+		$this->assertEquals($html, 
+'<link rel="stylesheet" type="text/css" href="/css/style1.css" />
+<link rel="stylesheet" type="text/css" href="/css/style2.css" />
 <link rel="stylesheet" type="text/css" href="/css/style.css" />' . PHP_EOL);
 
 		ob_start();
 		$assets->outputJs();
 		$html = ob_get_clean();
 
-		$this->assertEquals($html, '<script type="text/javascript" src="//js/scripts1.js"></script>
-<script type="text/javascript" src="//js/scripts2.js"></script>' . PHP_EOL);
+		$this->assertEquals($html, 
+'<script type="text/javascript" src="/js/scripts1.js"></script>
+<script type="text/javascript" src="/js/scripts2.js"></script>' . PHP_EOL);
 
 		//Without implicit output
 
@@ -146,14 +150,16 @@ class AssetsTest extends PHPUnit_Framework_TestCase
 
 		$html = $assets->outputCss();
 
-		$this->assertEquals($html, '<link rel="stylesheet" type="text/css" href="//css/style1.css" />
-<link rel="stylesheet" type="text/css" href="//css/style2.css" />
+		$this->assertEquals($html, 
+'<link rel="stylesheet" type="text/css" href="/css/style1.css" />
+<link rel="stylesheet" type="text/css" href="/css/style2.css" />
 <link rel="stylesheet" type="text/css" href="/css/style.css" />' . PHP_EOL);
 
 		$html = $assets->outputJs();
 
-		$this->assertEquals($html, '<script type="text/javascript" src="//js/scripts1.js"></script>
-<script type="text/javascript" src="//js/scripts2.js"></script>' . PHP_EOL);
+		$this->assertEquals($html, 
+'<script type="text/javascript" src="/js/scripts1.js"></script>
+<script type="text/javascript" src="/js/scripts2.js"></script>' . PHP_EOL);
 
 		//Test collections
 		$assets->collection('footer')
@@ -164,20 +170,22 @@ class AssetsTest extends PHPUnit_Framework_TestCase
 
 		$html = $assets->outputCss('footer');
 
-		$this->assertEquals($html, '<link rel="stylesheet" type="text/css" href="/css/style-1.css" />
+		$this->assertEquals($html, 
+'<link rel="stylesheet" type="text/css" href="/css/style-1.css" />
 <link rel="stylesheet" type="text/css" href="/css/style-2.css" />' . PHP_EOL);
 
 		$scripts = $assets
 			->collection('header')
-    		->setPrefix('http:://cdn.example.com/')
+    		->setPrefix('http://cdn.example.com/')
     		->setLocal(false)
 			->addJs('js/jquery.js')
         	->addJs('js/bootstrap.min.js');
 
 		$html = $assets->outputJs('header');
 
-		$this->assertEquals($html, '<script type="text/javascript" src="http:://cdn.example.com/js/jquery.js"></script>
-<script type="text/javascript" src="http:://cdn.example.com/js/bootstrap.min.js"></script>' . PHP_EOL);
+		$this->assertEquals($html, 
+'<script type="text/javascript" src="http://cdn.example.com/js/jquery.js"></script>
+<script type="text/javascript" src="http://cdn.example.com/js/bootstrap.min.js"></script>' . PHP_EOL);
 	}
 
 	public function testJsminFilter()
