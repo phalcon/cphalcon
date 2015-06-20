@@ -701,6 +701,11 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 		var key, queryKey, value, bindKeys, bindParams;
 		int hiddenParam;
 
+		if !count(values) {
+			this->andWhere(expr . " != " . expr);
+			return this;
+		}
+
 		let hiddenParam = (int) this->_hiddenParamNumber;
 
 		let bindParams = [], bindKeys = [];
@@ -738,6 +743,11 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	{
 		var key, queryKey, value, bindKeys, bindParams;
 		int hiddenParam;
+
+		if !count(values) {
+			this->andWhere(expr . " != " . expr);
+			return this;
+		}
 
 		let hiddenParam = (int) this->_hiddenParamNumber;
 
