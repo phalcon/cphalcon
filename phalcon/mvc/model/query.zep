@@ -204,13 +204,13 @@ class Query implements QueryInterface, InjectionAwareInterface
 		 */
 		if fetch columnDomain, expr["domain"] {
 
-			let sqlAliases = this->_sqlAliases;
+			let sqlAliases = this->_sqlAliases;			
 
 			/**
 			 * The column has a domain, we need to check if it's an alias
 			 */
 			if !fetch source, sqlAliases[columnDomain] {
-				throw new Exception("Unknown model or alias '" . columnDomain . "' (1), when preparing: " . this->_phql);
+				throw new Exception("Unknown model or alias '" . columnDomain . "' (11), when preparing: " . this->_phql);
 			}
 
 			/**
@@ -306,7 +306,6 @@ class Query implements QueryInterface, InjectionAwareInterface
 			} else {
 				let realColumnName = columnName;
 			}
-
 		}
 
 		/**
@@ -1129,6 +1128,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 		let referencedModelName = relation->getReferencedModel();
 
 		if typeof fields == "array" {
+
 			for field, position in fields {
 
 				if !isset referencedFields[position] {
@@ -1233,7 +1233,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 			joinPrepared, manager, selectJoins, joinItem, joins, joinData, schema, source, model,
 			realModelName, completeSource, joinType, aliasExpr, alias, joinAliasName, joinExpr,
 			fromModelName, joinAlias, joinModel, joinSource, preCondition, modelNameAlias,
-			relation, relations, modelAlias, sqlJoin;
+			relation, relations, modelAlias, sqlJoin, sqlJoinItem;
 
 		let models = this->_models,
 			sqlAliases = this->_sqlAliases,
@@ -1496,7 +1496,9 @@ class Query implements QueryInterface, InjectionAwareInterface
 						 * Append or merge joins
 						 */
 						if isset sqlJoin[0] {
-							let sqlJoins = array_merge(sqlJoins, sqlJoin);
+							for sqlJoinItem in sqlJoin {
+								let sqlJoins[] = sqlJoinItem;
+							}
 						} else {
 							let sqlJoins[] = sqlJoin;
 						}

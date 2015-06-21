@@ -398,7 +398,7 @@ abstract class Dialect implements DialectInterface
 
 		} else {
 			let sql = "SELECT";
-		}		
+		}
 
 		/**
 		 * Resolve COLUMNS
@@ -748,20 +748,19 @@ abstract class Dialect implements DialectInterface
 	 */
 	protected final function getSqlExpressionJoins(var expression, string escapeChar = null) -> string
 	{
-		var join, sql = "", joinCondition, joinTable, joinType = "", joinConditionsArray;
+		var condition, join, sql = "", joinCondition, joinTable, joinType = "", joinConditionsArray;
 
 		for join in expression {
 
 			/**
 			 * Check if the join has conditions
 			 */
-			if fetch joinConditionsArray, join["conditions"] && !empty joinConditionsArray {
+			if fetch joinConditionsArray, join["conditions"] && !empty joinConditionsArray {				
 
 				if !isset joinConditionsArray[0] {
 					let joinCondition = this->getSqlExpression(joinConditionsArray, escapeChar);
 				} else {
 
-					var condition;
 					let joinCondition = [];
 
 					for condition in joinConditionsArray {
