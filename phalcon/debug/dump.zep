@@ -282,4 +282,21 @@ class Dump
 
 		return output;
 	}
+	
+	/**
+	 * Returns an JSON string of information about a single variable.
+	 *
+	 * <code>
+	 *    $foo = ["key" => "value"];
+	 *    echo (new \Phalcon\Debug\Dump())->toJson($foo);
+	 *    $foo = new stdClass();
+	 *    $foo->bar = 'buz';
+	 *    echo (new \Phalcon\Debug\Dump())->toJson($foo);
+	 * </code>
+	 */
+	public function toJson(var variable)
+	{
+		return json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+	
+	}
 }
