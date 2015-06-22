@@ -293,8 +293,10 @@ class Dump
 	 *    $foo->bar = 'buz';
 	 *    echo (new \Phalcon\Debug\Dump())->toJson($foo);
 	 * </code>
+	 *
+	 * @param mixed variable
 	 */
-	public function toJson(var variable)
+	public function toJson(var variable) -> string
 	{
 		return json_encode(variable, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
 	
