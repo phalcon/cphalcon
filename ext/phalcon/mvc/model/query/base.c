@@ -19,47 +19,48 @@
 
 const phql_token_names phql_tokens[] =
 {
-  { SL("INTEGER"),       PHQL_T_INTEGER },
-  { SL("DOUBLE"),        PHQL_T_DOUBLE },
-  { SL("STRING"),        PHQL_T_STRING },
-  { SL("IDENTIFIER"),    PHQL_T_IDENTIFIER },
-  { SL("MINUS"),         PHQL_T_MINUS },
-  { SL("+"),             PHQL_T_ADD },
-  { SL("-"),             PHQL_T_SUB },
-  { SL("*"),             PHQL_T_MUL },
-  { SL("/"),             PHQL_T_DIV },
-  { SL("&"),             PHQL_T_BITWISE_AND },
-  { SL("|"),             PHQL_T_BITWISE_OR },
-  { SL("%%"),            PHQL_T_MOD },
-  { SL("AND"),           PHQL_T_AND },
-  { SL("OR"),            PHQL_T_OR },
-  { SL("LIKE"),          PHQL_T_LIKE },
-  { SL("ILIKE"),         PHQL_T_ILIKE },
-  { SL("DOT"),           PHQL_T_DOT },
-  { SL("COLON"),         PHQL_T_COLON },
-  { SL("COMMA"),         PHQL_T_COMMA },
-  { SL("EQUALS"),        PHQL_T_EQUALS },
-  { SL("NOT EQUALS"),    PHQL_T_NOTEQUALS },
-  { SL("NOT"),           PHQL_T_NOT },
-  { SL("<"),             PHQL_T_LESS },
-  { SL("<="),            PHQL_T_LESSEQUAL },
-  { SL(">"),             PHQL_T_GREATER },
-  { SL(">="),            PHQL_T_GREATEREQUAL },
-  { SL("("),             PHQL_T_PARENTHESES_OPEN },
-  { SL(")"),             PHQL_T_PARENTHESES_CLOSE },
+  { SL("INTEGER"),             PHQL_T_INTEGER },
+  { SL("DOUBLE"),              PHQL_T_DOUBLE },
+  { SL("STRING"),              PHQL_T_STRING },
+  { SL("IDENTIFIER"),          PHQL_T_IDENTIFIER },
+  { SL("HEXAINTEGER"),         PHQL_T_HINTEGER },
+  { SL("MINUS"),               PHQL_T_MINUS },
+  { SL("+"),                   PHQL_T_ADD },
+  { SL("-"),                   PHQL_T_SUB },
+  { SL("*"),                   PHQL_T_MUL },
+  { SL("/"),                   PHQL_T_DIV },
+  { SL("&"),                   PHQL_T_BITWISE_AND },
+  { SL("|"),                   PHQL_T_BITWISE_OR },
+  { SL("%%"),                  PHQL_T_MOD },
+  { SL("AND"),                 PHQL_T_AND },
+  { SL("OR"),                  PHQL_T_OR },
+  { SL("LIKE"),                PHQL_T_LIKE },
+  { SL("ILIKE"),               PHQL_T_ILIKE },
+  { SL("DOT"),                 PHQL_T_DOT },
+  { SL("COLON"),               PHQL_T_COLON },
+  { SL("COMMA"),               PHQL_T_COMMA },
+  { SL("EQUALS"),              PHQL_T_EQUALS },
+  { SL("NOT EQUALS"),          PHQL_T_NOTEQUALS },
+  { SL("NOT"),                 PHQL_T_NOT },
+  { SL("<"),                   PHQL_T_LESS },
+  { SL("<="),                  PHQL_T_LESSEQUAL },
+  { SL(">"),                   PHQL_T_GREATER },
+  { SL(">="),                  PHQL_T_GREATEREQUAL },
+  { SL("("),                   PHQL_T_PARENTHESES_OPEN },
+  { SL(")"),                   PHQL_T_PARENTHESES_CLOSE },
   { SL("NUMERIC PLACEHOLDER"), PHQL_T_NPLACEHOLDER },
   { SL("STRING PLACEHOLDER"),  PHQL_T_SPLACEHOLDER },
-  { SL("UPDATE"),        PHQL_T_UPDATE },
-  { SL("SET"),           PHQL_T_SET },
-  { SL("WHERE"),         PHQL_T_WHERE },
-  { SL("DELETE"),        PHQL_T_DELETE },
-  { SL("FROM"),          PHQL_T_FROM },
-  { SL("AS"),            PHQL_T_AS },
-  { SL("INSERT"),        PHQL_T_INSERT },
-  { SL("INTO"),          PHQL_T_INTO },
-  { SL("VALUES"),        PHQL_T_VALUES },
-  { SL("SELECT"),        PHQL_T_SELECT },
-  { SL("ORDER"),         PHQL_T_ORDER },
+  { SL("UPDATE"),              PHQL_T_UPDATE },
+  { SL("SET"),                 PHQL_T_SET },
+  { SL("WHERE"),               PHQL_T_WHERE },
+  { SL("DELETE"),              PHQL_T_DELETE },
+  { SL("FROM"),                PHQL_T_FROM },
+  { SL("AS"),                  PHQL_T_AS },
+  { SL("INSERT"),              PHQL_T_INSERT },
+  { SL("INTO"),                PHQL_T_INTO },
+  { SL("VALUES"),              PHQL_T_VALUES },
+  { SL("SELECT"),              PHQL_T_SELECT },
+  { SL("ORDER"),               PHQL_T_ORDER },
   { SL("BY"),            PHQL_T_BY },
   { SL("LIMIT"),         PHQL_T_LIMIT },
   { SL("OFFSET"),        PHQL_T_OFFSET },
@@ -383,6 +384,15 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 					parser_status->status = PHQL_PARSING_FAILED;
 				}
 				break;
+            case PHQL_T_HINTEGER:
+    			if (parser_status->enable_literals) {
+    				phql_parse_with_token(phql_parser, PHQL_T_HINTEGER, PHQL_HINTEGER, &token, parser_status);
+    			} else {
+    				MAKE_STD_ZVAL(*error_msg);
+    				ZVAL_STRING(*error_msg, "Literals are disabled in PHQL statements", 1);
+    				parser_status->status = PHQL_PARSING_FAILED;
+    			}
+    			break;
 
 			case PHQL_T_NPLACEHOLDER:
 				phql_parse_with_token(phql_parser, PHQL_T_NPLACEHOLDER, PHQL_NPLACEHOLDER, &token, parser_status);
@@ -392,7 +402,7 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 				break;
             case PHQL_T_BPLACEHOLDER:
     			phql_parse_with_token(phql_parser, PHQL_T_BPLACEHOLDER, PHQL_BPLACEHOLDER, &token, parser_status);
-    			break;    		
+    			break;
 
 			case PHQL_T_FROM:
 				phql_(phql_parser, PHQL_FROM, NULL, parser_status);

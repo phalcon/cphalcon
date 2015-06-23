@@ -60,6 +60,15 @@ int phql_get_token(phql_scanner_state *s, phql_scanner_token *token) {
 			return 0;
 		}
 
+		HINTEGER = "0""x"[0-9A-Za-z]+;
+		HINTEGER {
+			token->opcode = PHQL_T_HINTEGER;
+			token->value = estrndup(q, YYCURSOR - q);
+			token->len = YYCURSOR - q;
+			q = YYCURSOR;
+			return 0;
+		}
+
 		NPLACEHOLDER = "?"[0-9]+;
 		NPLACEHOLDER {
 			token->opcode = PHQL_T_NPLACEHOLDER;

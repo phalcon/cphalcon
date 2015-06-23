@@ -30,9 +30,10 @@
  * present more than once in the existing records of the related table
  *
  *<code>
- *use Phalcon\Mvc\Model\Validator\Uniqueness as Uniqueness;
+ *use Phalcon\Mvc\Model;
+ *use Phalcon\Mvc\Model\Validator\Uniqueness;
  *
- *class Subscriptors extends \Phalcon\Mvc\Model
+ *class Subscriptors extends Model
  *{
  *
  *  public function validation()
@@ -44,7 +45,6 @@
  *          return false;
  *      }
  *  }
- *
  *}
  *</code>
  */
@@ -283,7 +283,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate) {
 				ZVAL_STRING(message, "Value of field: ':field' is already present in another record", 1);
 			}
 		}
-		ZEPHIR_CALL_FUNCTION(&_8, "strtr", NULL, 54, message, replacePairs);
+		ZEPHIR_CALL_FUNCTION(&_8, "strtr", NULL, 53, message, replacePairs);
 		zephir_check_call_status();
 		ZEPHIR_INIT_NVAR(_18);
 		ZVAL_STRING(_18, "Unique", ZEPHIR_TEMP_PARAM_COPY);

@@ -28,6 +28,7 @@
 #define PHQL_T_DOUBLE 259
 #define PHQL_T_STRING 260
 #define PHQL_T_IDENTIFIER 265
+#define PHQL_T_HINTEGER 414
 
 /* Operators */
 #define PHQL_T_ADD '+'

@@ -51,11 +51,10 @@ use Phalcon\Mvc\Model\RelationInterface;
  * ));
  *
  * foreach ($result as $row) {
- *   echo "Name: ", $row->cars->name, "\n";
+ *   echo "Name: ",  $row->cars->name, "\n";
  *   echo "Price: ", $row->cars->price, "\n";
  *   echo "Taxes: ", $row->taxes, "\n";
  * }
- *
  *</code>
  */
 class Query implements QueryInterface, InjectionAwareInterface
@@ -204,7 +203,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 		 */
 		if fetch columnDomain, expr["domain"] {
 
-			let sqlAliases = this->_sqlAliases;			
+			let sqlAliases = this->_sqlAliases;
 
 			/**
 			 * The column has a domain, we need to check if it's an alias
@@ -522,6 +521,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 
 				case PHQL_T_INTEGER:
 				case PHQL_T_DOUBLE:
+				case PHQL_T_HINTEGER:
 					let exprReturn = ["type": "literal", "value": expr["value"]];
 					break;
 
