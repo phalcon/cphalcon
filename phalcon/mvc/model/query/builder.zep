@@ -100,7 +100,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 			forUpdate, sharedLock, orderClause, offsetClause, joinsClause,
 			singleConditionArray, limit, offset, fromClause,
 			mergedConditions, mergedParams, mergedTypes,
-			singleCondition, singleParams, singleTypes, with;
+			singleCondition, singleParams, singleTypes, with, distinct;
 
 		if typeof params == "array" {
 
@@ -145,6 +145,13 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 						let this->_conditions = conditions;
 					}
 				}
+			}
+
+			/**
+			 * Assign SELECT DISTINCT / SELECT ALL clause
+			 */
+			if fetch distinct, params["distinct"] {
+				let this->_distinct = distinct;
 			}
 
 			/**

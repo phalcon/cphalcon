@@ -22,6 +22,7 @@
 - Global setting orm.cast_on_hydrate allow to cast hydrated attributes to the original types in the mapped tables instead of using strings
 - Values in LIMIT/OFFSET clause are now passed using bound parameters in PHQL
 - Allowing late state binding in both Simple/Complex results to allow override Mvc\Model::cloneResultMap
+- Added method `distinct()` in `Phalcon\Mvc\Model\Criteria` [#10536](https://github.com/phalcon/cphalcon/issues/10536)
 
 # 2.0.3 (2015-06-10)
 - Added support for Behaviors in Phalcon\Mvc\Collection

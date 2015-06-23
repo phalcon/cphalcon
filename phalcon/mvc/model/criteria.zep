@@ -114,6 +114,15 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 	}
 
 	/**
+	 * Sets SELECT DISTINCT / SELECT ALL flag
+	 */
+	 public function distinct(var distinct) -> <Criteria>
+	 {
+	 	let this->_params["distinct"] = distinct;
+	 	return this;
+	 }
+
+	/**
 	 * Sets the columns to be queried
 	 *
 	 *<code>
