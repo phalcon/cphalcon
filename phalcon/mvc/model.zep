@@ -1357,6 +1357,28 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	}
 
 	/**
+	 * Add a customized message on the validation process
+	 *
+	 * <code>
+	 * class Robots extends \Phalcon\Mvc\Model
+	 * {
+	 *
+	 *   public function beforeSave()
+	 *   {
+	 *     if ($this->name == 'Peter') {
+	 *        $this->addErrorMessage("Sorry, but a robot cannot be named Peter");
+	 *     }
+	 *   }
+	 * }
+	 * </code>
+	 */
+	public function addErrorMessage(string! message, var field = null, var type = null, var model = null) -> <Model>
+	{
+		this->appendMessage(new Message(message, field, type, model));
+		return this;
+	}
+
+	/**
 	 * Executes validators on every validation call
 	 *
 	 *<code>
