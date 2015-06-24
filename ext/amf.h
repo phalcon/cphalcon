@@ -23,7 +23,7 @@
 
 #include "php_phalcon.h"
 
-#include "ext/standard/php_smart_str.h"
+#include <ext/standard/php_smart_str.h>
 
 #define PHALCON_AMF3_CLIENT_SUCCESS_METHOD			"/onResult"
 #define PHALCON_AMF3_CLIENT_FAILURE_METHOD			"/onStatus"

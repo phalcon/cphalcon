@@ -19,7 +19,7 @@
 
 #include "queue/beanstalk/job.h"
 #include "queue/beanstalk.h"
-#include "exception.h"
+#include "queue/../exception.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"

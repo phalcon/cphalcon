@@ -19,8 +19,8 @@
   +------------------------------------------------------------------------+
 */
 
-#ifndef PHALCON_CHART_EXCEPTION
-#define PHALCON_CHART_EXCEPTION
+#ifndef PHALCON_CHART_EXCEPTION_H
+#define PHALCON_CHART_EXCEPTION_H
 
 #include "php_phalcon.h"
 
@@ -28,4 +28,4 @@ extern zend_class_entry *phalcon_chart_exception_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Chart_Exception);
 
-#endif /* PHALCON_CHART_EXCEPTION */
+#endif /* PHALCON_CHART_EXCEPTION_H */

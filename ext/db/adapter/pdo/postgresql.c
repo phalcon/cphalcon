@@ -25,7 +25,7 @@
 #include "db/rawvalue.h"
 #include "db/reference.h"
 
-#include "ext/pdo/php_pdo_driver.h"
+#include <ext/pdo/php_pdo_driver.h>
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
