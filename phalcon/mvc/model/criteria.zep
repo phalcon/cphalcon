@@ -147,14 +147,8 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 	 *	$criteria->join('Robots', 'r.id = RobotsParts.robots_id', 'r');
 	 *	$criteria->join('Robots', 'r.id = RobotsParts.robots_id', 'r', 'LEFT');
 	 *</code>
-	 *
-	 * @param string model
-	 * @param string conditions
-	 * @param string alias
-	 * @param string type
-	 * @return Phalcon\Mvc\Model\Criteria
 	 */
-	public function join(string! model, conditions = null, alias = null, type = null) -> <Criteria>
+	public function join(string! model, var conditions = null, var alias = null, var type = null) -> <Criteria>
 	{
 		var join, mergedJoins, currentJoins;
 
@@ -528,12 +522,8 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 
 	/**
 	 * Adds the limit parameter to the criteria
-	 *
-	 * @param int limit
-	 * @param int offset
-	 * @return Phalcon\Mvc\Model\Criteria
 	 */
-	public function limit(int limit, var offset = null) -> <Criteria>
+	public function limit(var limit, var offset = null) -> <Criteria>
 	{
 		if typeof offset == "null" {
 			let this->_params["limit"] = limit;
@@ -706,10 +696,12 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 	public function execute() -> <ResultsetInterface>
 	{
 		var model;
+
 		let model = this->getModelName();
 		if typeof model != "string" {
 			throw new Exception("Model name must be string");
 		}
+
 		return {model}::find(this->getParams());
 	}
 }

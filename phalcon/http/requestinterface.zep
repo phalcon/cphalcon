@@ -156,7 +156,7 @@ interface RequestInterface
 	 * @param string|array methods
 	 * @return boolean
 	 */
-	public function isMethod(methods) -> boolean;
+	public function isMethod(methods, boolean strict = false) -> boolean;
 
 	/**
 	 * Checks whether HTTP method is POST. if $_SERVER['REQUEST_METHOD']=='POST'
