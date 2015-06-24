@@ -18,7 +18,7 @@
 
 #include "queue/beanstalk.h"
 #include "queue/beanstalk/job.h"
-#include "exception.h"
+#include "queue/../exception.h"
 
 #include <ext/standard/file.h>
 #include <main/php_streams.h>

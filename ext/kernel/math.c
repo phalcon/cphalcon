@@ -117,7 +117,7 @@ long phalcon_mt_rand(long min, long max TSRMLS_DC) {
 }
 
 #if PHP_VERSION_ID < 50600
-#include "Zend/zend_multiply.h"
+#include <Zend/zend_multiply.h>
 void phalcon_pow_function_ex(zval *return_value, zval *zbase, zval *zexp TSRMLS_DC)
 {
 	/* make sure we're dealing with numbers */

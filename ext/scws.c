@@ -19,19 +19,15 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
+#include "scws.h"
+#include "exception.h"
 
-#include "php.h"
-#include "php_phalcon.h"
-#include "ext/standard/php_array.h"
-#include "ext/pcre/php_pcre.h"
-#include "phalcon.h"
+#include <ext/standard/php_array.h>
+#include <ext/pcre/php_pcre.h>
 
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
+#include <Zend/zend_operators.h>
+#include <Zend/zend_exceptions.h>
+#include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
@@ -45,8 +41,6 @@
 #include "kernel/operators.h"
 #include "kernel/string.h"
 #include "kernel/file.h"
-
-#include "scws.h"
 
 #ifdef PHALCON_USE_SCWS
 #include <scws/scws.h>

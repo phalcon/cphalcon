@@ -22,7 +22,7 @@
 #include "paginator/exception.h"
 #include "db/adapterinterface.h"
 
-#include "ext/pdo/php_pdo_driver.h"
+#include <ext/pdo/php_pdo_driver.h>
 
 #include "kernel/main.h"
 #include "kernel/memory.h"

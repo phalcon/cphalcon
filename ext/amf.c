@@ -19,7 +19,7 @@
 
 #include "amf.h"
 
-#include "ext/standard/php_smart_str.h"
+#include <ext/standard/php_smart_str.h>
 
 #include "kernel/main.h"
 #include "kernel/operators.h"
