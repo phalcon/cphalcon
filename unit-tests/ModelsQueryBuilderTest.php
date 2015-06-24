@@ -254,14 +254,14 @@ class ModelsQueryBuilderTest extends PHPUnit_Framework_TestCase
 						->from('Robots')
 						->limit(10)
 						->getPhql();
-		$this->assertEquals($phql, 'SELECT [Robots].* FROM [Robots] LIMIT 10');
+		$this->assertEquals($phql, 'SELECT [Robots].* FROM [Robots] LIMIT :AP0:');
 
 		$builder = new Builder();
 		$phql = $builder->setDi($di)
 						->from('Robots')
 						->limit(10, 5)
 						->getPhql();
-		$this->assertEquals($phql, 'SELECT [Robots].* FROM [Robots] LIMIT 10 OFFSET 5');
+		$this->assertEquals($phql, 'SELECT [Robots].* FROM [Robots] LIMIT :AP0: OFFSET :AP1:');
 	}
 
 	public function testIssue701()
@@ -386,7 +386,7 @@ class ModelsQueryBuilderTest extends PHPUnit_Framework_TestCase
 		$expectedPhql = "SELECT id, name, status FROM [Robots] "
 			. "WHERE a > 5 GROUP BY [type], [source] "
 			. "HAVING b < 5 ORDER BY [name], [created] "
-			. "LIMIT 10 OFFSET 15";
+			. "LIMIT :AP0: OFFSET :AP1:";
 
 		$this->assertEquals($expectedPhql, $builder->getPhql());
 		$this->assertEquals($di, $builder->getDI());
@@ -426,7 +426,7 @@ class ModelsQueryBuilderTest extends PHPUnit_Framework_TestCase
 		$builderLimitWithOffset = new Builder($params);
 
 		$expectedPhql = "SELECT [Robots].* FROM [Robots] "
-			. "LIMIT 10 OFFSET 15";
+			. "LIMIT :AP0: OFFSET :AP1:";
 
 		$this->assertEquals($expectedPhql, $builderLimitAndOffset->getPhql());
 		$this->assertEquals($expectedPhql, $builderLimitWithOffset->getPhql());

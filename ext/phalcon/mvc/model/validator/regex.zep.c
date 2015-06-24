@@ -18,6 +18,7 @@
 #include "kernel/operators.h"
 #include "kernel/string.h"
 #include "kernel/array.h"
+#include "kernel/object.h"
 
 
 /**
@@ -48,6 +49,8 @@
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Validator_Regex) {
 
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Mvc\\Model\\Validator, Regex, phalcon, mvc_model_validator_regex, phalcon_mvc_model_validator_ce, phalcon_mvc_model_validator_regex_method_entry, 0);
+
+	phalcon_mvc_model_validator_regex_ce->create_object = zephir_init_properties;
 
 	zend_class_implements(phalcon_mvc_model_validator_regex_ce TSRMLS_CC, 1, phalcon_mvc_model_validatorinterface_ce);
 	return SUCCESS;
@@ -130,7 +133,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Regex, validate) {
 		ZEPHIR_INIT_VAR(_6);
 		zephir_create_array(_6, 1, 0 TSRMLS_CC);
 		zephir_array_update_string(&_6, SL(":field"), &field, PH_COPY | PH_SEPARATE);
-		ZEPHIR_CALL_FUNCTION(&_7, "strtr", NULL, 73, message, _6);
+		ZEPHIR_CALL_FUNCTION(&_7, "strtr", NULL, 53, message, _6);
 		zephir_check_call_status();
 		ZEPHIR_INIT_NVAR(_5);
 		ZVAL_STRING(_5, "Regex", ZEPHIR_TEMP_PARAM_COPY);
@@ -140,6 +143,27 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Regex, validate) {
 		RETURN_MM_BOOL(0);
 	}
 	RETURN_MM_BOOL(1);
+
+}
+
+static zend_object_value zephir_init_properties(zend_class_entry *class_type TSRMLS_DC) {
+
+		zval *_0, *_1;
+
+		ZEPHIR_MM_GROW();
+	
+	{
+		zval *this_ptr = NULL;
+		ZEPHIR_CREATE_OBJECT(this_ptr, class_type);
+		_0 = zephir_fetch_nproperty_this(this_ptr, SL("_messages"), PH_NOISY_CC);
+		if (Z_TYPE_P(_0) == IS_NULL) {
+			ZEPHIR_INIT_VAR(_1);
+			array_init(_1);
+			zephir_update_property_this(this_ptr, SL("_messages"), _1 TSRMLS_CC);
+		}
+		ZEPHIR_MM_RESTORE();
+		return Z_OBJVAL_P(this_ptr);
+	}
 
 }
 

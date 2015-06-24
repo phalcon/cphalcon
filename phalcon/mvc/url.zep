@@ -163,22 +163,20 @@ class Url implements UrlInterface, InjectionAwareInterface
 	 * Generates a URL
 	 *
 	 *<code>
-	 *
 	 * //Generate a URL appending the URI to the base URI
 	 * echo $url->get('products/edit/1');
 	 *
 	 * //Generate a URL for a predefined route
-	 * echo $url->get(array('for' => 'blog-post', 'title' => 'some-cool-stuff', 'year' => '2012'));
-	 *
+	 * echo $url->get(array('for' => 'blog-post', 'title' => 'some-cool-stuff', 'year' => '2015'));
 	 *</code>
 	 */
-	public function get(var uri = null, var args = null, boolean local = null, var baseUri = null) -> string
+	public function get(var uri = null, var args = null, var local = null, var baseUri = null) -> string
 	{
 		var router, dependencyInjector, routeName, route, queryString;
 
 		if local == null {
-			if typeof uri == "string" && memstr(uri, "//") {
-				if preg_match("#^[a-zA-Z\:]*//#", uri) {
+			if typeof uri == "string" && (memstr(uri, "//") || memstr(uri, ":")) {
+				if preg_match("#^(//)|([a-z0-9]+://)|([a-z0-9]+:)#i", uri) {
 					let local = false;
 				} else {
 					let local = true;
@@ -229,11 +227,7 @@ class Url implements UrlInterface, InjectionAwareInterface
 		}
 
 		if local {
-			if ((substr(baseUri, -1) == "/") && (substr(uri, 0, 1) == "/")) {
-				let uri = baseUri . substr(uri, 1);
-			} else {
-				let uri = baseUri . uri;
-			}
+			let uri = baseUri . uri;			
 		}
 
 		if args {

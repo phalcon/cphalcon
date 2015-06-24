@@ -84,6 +84,10 @@
         "orm.late_state_binding": {
             "type": "bool",
             "default": false
+        },
+        "orm.cast_on_hydrate": {
+            "type": "bool",
+            "default": false
         }
     },
     "destructors": {

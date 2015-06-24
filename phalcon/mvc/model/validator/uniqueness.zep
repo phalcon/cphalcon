@@ -32,9 +32,10 @@ use Phalcon\Mvc\Model\ValidatorInterface;
  * present more than once in the existing records of the related table
  *
  *<code>
- *use Phalcon\Mvc\Model\Validator\Uniqueness as Uniqueness;
+ *use Phalcon\Mvc\Model;
+ *use Phalcon\Mvc\Model\Validator\Uniqueness;
  *
- *class Subscriptors extends \Phalcon\Mvc\Model
+ *class Subscriptors extends Model
  *{
  *
  *  public function validation()
@@ -46,7 +47,6 @@ use Phalcon\Mvc\Model\ValidatorInterface;
  *          return false;
  *      }
  *  }
- *
  *}
  *</code>
  */

@@ -20,6 +20,7 @@
 namespace Phalcon\Mvc\Model\MetaData\Strategy;
 
 use Phalcon\DiInterface;
+use Phalcon\Db\Column;
 use Phalcon\Mvc\ModelInterface;
 use Phalcon\Mvc\Model\Exception;
 use Phalcon\Mvc\Model\MetaData;
@@ -149,7 +150,7 @@ class Introspection implements StrategyInterface
 			let defaultValue = column->getDefault();
 			if defaultValue !== null || column->isNotNull() === false {
 				if !column->isAutoIncrement() {
-					let defaultValues[fieldName] = defaultValue;
+					let defaultValues[fieldName] = defaultValue;					
 				}
 			}
 		}

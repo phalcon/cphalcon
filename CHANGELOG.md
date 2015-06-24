@@ -14,7 +14,14 @@
 - Support for BIT types in MySQL with binding as booleans
 - Added Phalcon\Flash\Direct::output() allowing to place flash messages in a specific place of the view [#629](https://github.com/phalcon/cphalcon/pull/629)
 - Added 'autoescape' option that allows to globally enable autoescape in any Volt template
-- Added readAttribute/writeAttribute to Phalcon\Mvc\Collection\Document
+- Added readAttribute/writeAttribute to Phalcon\\Mvc\\Collection\Document
+- Added toArray to Phalcon\\Mvc\\Collection\\Document
+- Global setting db.force_casting now forces casting bound parameters to specified bind types
+- Introduced new placeholders in PHQL enclosed in brackets that allow to set the type: {name:str} or {names:array}
+- Now you can bind arrays in bound parameters in PHQL
+- Global setting orm.cast_on_hydrate allow to cast hydrated attributes to the original types in the mapped tables instead of using strings
+- Values in LIMIT/OFFSET clause are now passed using bound parameters in PHQL
+- Allowing late state binding in both Simple/Complex results to allow override Mvc\Model::cloneResultMap
 
 # 2.0.3 (2015-06-10)
 - Added support for Behaviors in Phalcon\Mvc\Collection

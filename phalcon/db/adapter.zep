@@ -226,7 +226,7 @@ abstract class Adapter implements EventsAwareInterface
 	 * @param array bindTypes
 	 * @return array
 	 */
-	public function fetchAll(string sqlQuery, var fetchMode = 2, var bindParams = null, var bindTypes = null) -> array
+	public function fetchAll(string sqlQuery, var fetchMode = Db::FETCH_BOTH, var bindParams = null, var bindTypes = null) -> array
 	{
 		var results, result, row;
 
@@ -248,7 +248,7 @@ abstract class Adapter implements EventsAwareInterface
 				let results[] = row;
 			}
 		}
-		
+
 		return results;
 	}
 
@@ -261,7 +261,7 @@ abstract class Adapter implements EventsAwareInterface
 	 *	print_r($robotsCount);
 	 *
 	 *	//Getting name of last edited robot
-	 *	$robot = $connection->fetchColumn("SELECT id, name FROM robots order by modified desc");
+	 *	$robot = $connection->fetchColumn("SELECT id, name FROM robots order by modified desc", 1);
 	 *	print_r($robot);
 	 *</code>
 	 *
@@ -270,12 +270,14 @@ abstract class Adapter implements EventsAwareInterface
 	 * @param  int|string column
 	 * @return string|
 	 */
-	public function fetchColumn(var sqlQuery, placeholders = null, column = 0) -> string | boolean
+	public function fetchColumn(var sqlQuery, var placeholders = null, var column = 0) -> string | boolean
 	{
-		var row;
+		var row, columnValue;
+
 		let row = this->fetchOne(sqlQuery, Db::FETCH_BOTH, placeholders);
-		if !empty row && isset row[column] {
-			return row[column];
+
+		if !empty row && fetch columnValue, row[column] {
+			return columnValue;
 		}
 		return false;
 	}
@@ -301,7 +303,7 @@ abstract class Adapter implements EventsAwareInterface
 	 * @param 	array dataTypes
 	 * @return 	boolean
 	 */
-	public function insert(var table, array! values, fields = null, dataTypes = null) -> boolean
+	public function insert(var table, array! values, var fields = null, var dataTypes = null) -> boolean
 	{
 		var placeholders, insertValues, bindDataTypes, bindType,
 			position, value, escapedTable, joinedValues, escapedFields,
@@ -379,11 +381,10 @@ abstract class Adapter implements EventsAwareInterface
 
 	/**
 	 * Inserts data into a table using custom RBDM SQL syntax
-	 * Another, more convenient syntax
 	 *
 	 * <code>
 	 * //Inserting a new robot
-	 * $success = $connection->insert(
+	 * $success = $connection->insertAsDict(
 	 *	 "robots",
 	 *	 array(
 	 *		  "name" => "Astro Boy",
@@ -410,8 +411,8 @@ abstract class Adapter implements EventsAwareInterface
 		}
 
 		for field, value in data {
-			let fields[] = field;
-			let values[] = value;
+			let fields[] = field,
+				values[] = value;
 		}
 
 		return this->insert(table, values, fields, dataTypes);
@@ -1088,6 +1089,23 @@ abstract class Adapter implements EventsAwareInterface
 	public function getDefaultIdValue() -> <RawValue>
 	{
 		return new RawValue("null");
+	}
+
+	/**
+	 * Returns the default value to make the RBDM use the default value declared in the table definition
+	 *
+	 *<code>
+	 * //Inserting a new robot with a valid default value for the column 'year'
+	 * $success = $connection->insert(
+	 *	 "robots",
+	 *	 array("Astro Boy", $connection->getDefaultValue()),
+	 *	 array("name", "year")
+	 * );
+	 *</code>
+	 */
+	public function getDefaultValue() -> <RawValue>
+	{
+		return new RawValue("DEFAULT");
 	}
 
 	/**
