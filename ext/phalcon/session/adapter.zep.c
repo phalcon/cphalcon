@@ -109,7 +109,7 @@ PHP_METHOD(Phalcon_Session_Adapter, start) {
  * Sets session's options
  *
  *<code>
- *	session->setOptions(array(
+ *	$session->setOptions(array(
  *		'uniqueId' => 'my-private-app'
  *	));
  *</code>
@@ -226,7 +226,7 @@ PHP_METHOD(Phalcon_Session_Adapter, get) {
  * Sets a session variable in an application context
  *
  *<code>
- *	session->set('auth', 'yes');
+ *	$session->set('auth', 'yes');
  *</code>
  *
  * @param string index
