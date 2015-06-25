@@ -25,6 +25,7 @@
 - Added method `distinct()` in `Phalcon\Mvc\Model\Criteria` [#10536](https://github.com/phalcon/cphalcon/issues/10536)
 - Added global setting orm.ignore_unknown_columns to ignore unexpected columns when hydrating instances in the ORM
   This fixes extra auxiliar columns used in Db\\Adapter\\Pdo\\Oracle
+- Added support for afterFetch in Mvc\Collection
 
 # 2.0.3 (2015-06-10)
 - Added support for Behaviors in Phalcon\Mvc\Collection
