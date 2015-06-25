@@ -23,6 +23,8 @@
 - Values in LIMIT/OFFSET clause are now passed using bound parameters in PHQL
 - Allowing late state binding in both Simple/Complex results to allow override Mvc\Model::cloneResultMap
 - Added method `distinct()` in `Phalcon\Mvc\Model\Criteria` [#10536](https://github.com/phalcon/cphalcon/issues/10536)
+- Added global setting orm.ignore_unknown_columns to ignore unexpected columns when hydrating instances in the ORM
+  This fixes extra auxiliar columns used in Db\\Adapter\\Pdo\\Oracle
 
 # 2.0.3 (2015-06-10)
 - Added support for Behaviors in Phalcon\Mvc\Collection

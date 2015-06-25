@@ -88,6 +88,10 @@
         "orm.cast_on_hydrate": {
             "type": "bool",
             "default": false
+        },
+        "orm.ignore_unknown_columns": {
+            "type": "bool",
+            "default": false
         }
     },
     "destructors": {
