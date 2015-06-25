@@ -28,6 +28,8 @@
 - Added support for afterFetch in Mvc\Collection
 - Added 'beforeMatch' parameter in @Route annotation of Mvc\Router\Annotations
 - Added groupBy/getGroupBy/having/getHaving to Mvc\Model\Criteria
+- Phalcon\Mvc\Model::count() now return values as a integer
+- Removed __construct from Phalcon\Mvc\View\EngineInterface
 
 # 2.0.3 (2015-06-10)
 - Added support for Behaviors in Phalcon\Mvc\Collection
