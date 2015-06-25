@@ -504,25 +504,65 @@ class Request implements RequestInterface, InjectionAwareInterface
 	}
 
 	/**
-	 * Check if HTTP method match any of the passed methods
+	 * Checks if a method is a valid HTTP method
 	 */
-	public function isMethod(var methods) -> boolean
+	public function isValidHttpMethod(string method) -> boolean
+	{
+		var lowerMethod;
+
+		let lowerMethod = strtoupper(method);
+
+		switch method {
+
+			case "GET":
+			case "POST":
+			case "PUT":
+			case "DELETE":
+			case "HEAD":
+			case "OPTIONS":
+			case "PATCH":
+				return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Check if HTTP method match any of the passed methods
+	 * When strict is true it checks if validated methods are real HTTP methods
+	 */
+	public function isMethod(var methods, boolean strict = false) -> boolean
 	{
 		var httpMethod, method;
 
 		let httpMethod = this->getMethod();
 
 		if typeof methods == "string" {
+			if strict && !this->isValidHttpMethod(methods) {
+				throw new Exception("Invalid HTTP method: " . methods);
+			}
 			return methods == httpMethod;
-		} else {
-			if typeof methods == "array" {
-				for method in methods {
-					if method == httpMethod {
-						return true;
+		}
+
+		if typeof methods == "array" {
+			for method in methods {
+				if strict && !this->isValidHttpMethod(method) {
+					if typeof method == "string" {
+						throw new Exception("Invalid HTTP method: " . method);
+					} else {
+						throw new Exception("Invalid HTTP method: non-string");
 					}
+				}
+				if method == httpMethod {
+					return true;
 				}
 			}
 		}
+
+		if strict {
+			throw new Exception("Invalid HTTP method: non-string");
+		}
+
 		return false;
 	}
 

@@ -203,7 +203,7 @@ PHP_METHOD(Phalcon_Debug_Dump, setStyles) {
 		array_init(styles);
 	}
 	if (Z_TYPE_P(styles) != IS_ARRAY) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_debug_exception_ce, "The styles must be an array", "phalcon/debug/dump.zep", 101);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_debug_exception_ce, "The styles must be an array", "phalcon/debug/dump.zep", 100);
 		return;
 	}
 	ZEPHIR_INIT_VAR(defaultStyles);
@@ -306,7 +306,7 @@ PHP_METHOD(Phalcon_Debug_Dump, output) {
 		ZEPHIR_CALL_FUNCTION(&_2, "strtr", &_6, 53, &_5, _1);
 		zephir_check_call_status();
 		zephir_concat_self(&output, _2 TSRMLS_CC);
-		zephir_is_iterable(variable, &_8, &_7, 0, 0, "phalcon/debug/dump.zep", 155);
+		zephir_is_iterable(variable, &_8, &_7, 0, 0, "phalcon/debug/dump.zep", 154);
 		for (
 		  ; zephir_hash_get_current_data_ex(_8, (void**) &_9, &_7) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_8, &_7)
@@ -409,7 +409,7 @@ PHP_METHOD(Phalcon_Debug_Dump, output) {
 		if (!(zephir_is_true(_22))) {
 			ZEPHIR_CALL_FUNCTION(&_10, "get_object_vars", NULL, 23, variable);
 			zephir_check_call_status();
-			zephir_is_iterable(_10, &_24, &_23, 0, 0, "phalcon/debug/dump.zep", 172);
+			zephir_is_iterable(_10, &_24, &_23, 0, 0, "phalcon/debug/dump.zep", 171);
 			for (
 			  ; zephir_hash_get_current_data_ex(_24, (void**) &_25, &_23) == SUCCESS
 			  ; zephir_hash_move_forward_ex(_24, &_23)
@@ -458,9 +458,9 @@ PHP_METHOD(Phalcon_Debug_Dump, output) {
 					continue;
 				}
 				ZEPHIR_OBS_NVAR(key);
-				zephir_array_fetch_string(&key, attr, SL("key"), PH_NOISY, "phalcon/debug/dump.zep", 179 TSRMLS_CC);
+				zephir_array_fetch_string(&key, attr, SL("key"), PH_NOISY, "phalcon/debug/dump.zep", 180 TSRMLS_CC);
 				ZEPHIR_OBS_NVAR(value);
-				zephir_array_fetch_string(&value, attr, SL("value"), PH_NOISY, "phalcon/debug/dump.zep", 180 TSRMLS_CC);
+				zephir_array_fetch_string(&value, attr, SL("value"), PH_NOISY, "phalcon/debug/dump.zep", 181 TSRMLS_CC);
 				if (!(zephir_is_true(key))) {
 					continue;
 				}
@@ -478,7 +478,7 @@ PHP_METHOD(Phalcon_Debug_Dump, output) {
 				if (zephir_array_isset_long(key, 1)) {
 					ZEPHIR_INIT_NVAR(type);
 					ZVAL_STRING(type, "private", 1);
-					zephir_array_fetch_long(&_31, key, 1, PH_NOISY | PH_READONLY, "phalcon/debug/dump.zep", 191 TSRMLS_CC);
+					zephir_array_fetch_long(&_31, key, 1, PH_NOISY | PH_READONLY, "phalcon/debug/dump.zep", 193 TSRMLS_CC);
 					if (ZEPHIR_IS_STRING(_31, "*")) {
 						ZEPHIR_INIT_NVAR(type);
 						ZVAL_STRING(type, "protected", 1);
@@ -558,7 +558,7 @@ PHP_METHOD(Phalcon_Debug_Dump, output) {
 			ZEPHIR_CONCAT_VS(_20, _18, "[already listed]\n");
 			zephir_concat_self(&output, _20 TSRMLS_CC);
 		} else {
-			zephir_is_iterable(attr, &_35, &_34, 0, 0, "phalcon/debug/dump.zep", 215);
+			zephir_is_iterable(attr, &_35, &_34, 0, 0, "phalcon/debug/dump.zep", 219);
 			for (
 			  ; zephir_hash_get_current_data_ex(_35, (void**) &_36, &_34) == SUCCESS
 			  ; zephir_hash_move_forward_ex(_35, &_34)
@@ -830,7 +830,7 @@ PHP_METHOD(Phalcon_Debug_Dump, variables) {
 	ZVAL_STRING(output, "", 1);
 	ZEPHIR_CALL_FUNCTION(&_0, "func_get_args", NULL, 165);
 	zephir_check_call_status();
-	zephir_is_iterable(_0, &_2, &_1, 0, 0, "phalcon/debug/dump.zep", 284);
+	zephir_is_iterable(_0, &_2, &_1, 0, 0, "phalcon/debug/dump.zep", 290);
 	for (
 	  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_2, &_1)
@@ -844,6 +844,34 @@ PHP_METHOD(Phalcon_Debug_Dump, variables) {
 		zephir_concat_self(&output, _4 TSRMLS_CC);
 	}
 	RETURN_CCTOR(output);
+
+}
+
+/**
+ * Returns an JSON string of information about a single variable.
+ *
+ * <code>
+ *    $foo = ["key" => "value"];
+ *    echo (new \Phalcon\Debug\Dump())->toJson($foo);
+ *    $foo = new stdClass();
+ *    $foo->bar = 'buz';
+ *    echo (new \Phalcon\Debug\Dump())->toJson($foo);
+ * </code>
+ *
+ * @param mixed variable
+ */
+PHP_METHOD(Phalcon_Debug_Dump, toJson) {
+
+	zval *variable, _0;
+
+	zephir_fetch_params(0, 1, 0, &variable);
+
+
+
+	ZEPHIR_SINIT_VAR(_0);
+	ZVAL_LONG(&_0, ((128 | 64) | 256));
+	zephir_json_encode(return_value, &(return_value), variable, zephir_get_intval(&_0)  TSRMLS_CC);
+	return;
 
 }
 

@@ -23,9 +23,9 @@ namespace Phalcon;
 use Phalcon\DiInterface;
 use Phalcon\FilterInterface;
 use Phalcon\DispatcherInterface;
+use Phalcon\Events\ManagerInterface;
 use Phalcon\Di\InjectionAwareInterface;
 use Phalcon\Events\EventsAwareInterface;
-use Phalcon\Events\ManagerInterface;
 
 /**
  * Phalcon\Dispatcher
