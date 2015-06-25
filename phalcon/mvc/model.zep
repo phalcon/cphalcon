@@ -1162,7 +1162,9 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 */
 	public static function count(var parameters = null)
 	{
-		var result = self::_groupResult("COUNT", "rowcount", parameters);
+		var result;
+
+		let result = self::_groupResult("COUNT", "rowcount", parameters);
 		if typeof result == "string" {
 			return (int) result;
 		}
