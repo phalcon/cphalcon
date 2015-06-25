@@ -26,6 +26,8 @@
 - Added global setting orm.ignore_unknown_columns to ignore unexpected columns when hydrating instances in the ORM
   This fixes extra auxiliar columns used in Db\\Adapter\\Pdo\\Oracle
 - Added support for afterFetch in Mvc\Collection
+- Added 'beforeMatch' parameter in @Route annotation of Mvc\Router\Annotations
+- Added groupBy/getGroupBy/having/getHaving to Mvc\Model\Criteria
 
 # 2.0.3 (2015-06-10)
 - Added support for Behaviors in Phalcon\Mvc\Collection

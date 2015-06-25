@@ -512,11 +512,29 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 	}
 
 	/**
-	 * Adds the order-by parameter to the criteria
+	 * Adds the order-by clause to the criteria
 	 */
 	public function orderBy(string! orderColumns) -> <Criteria>
 	{
 		let this->_params["order"] = orderColumns;
+		return this;
+	}
+
+	/**
+	 * Adds the group-by clause to the criteria
+	 */
+	public function groupBy(var group) -> <Criteria>
+	{
+		let this->_params["group"] = group;
+		return this;
+	}
+
+	/**
+	 * Adds the having clause to the criteria
+	 */
+	public function having(var having) -> <Criteria>
+	{
+		let this->_params["group"] = having;
 		return this;
 	}
 
@@ -618,13 +636,37 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 	}
 
 	/**
-	 * Returns the order parameter in the criteria
+	 * Returns the order clause in the criteria
 	 */
 	public function getOrder() -> string | null
 	{
 		var order;
 		if fetch order, this->_params["order"] {
 			return order;
+		}
+		return null;
+	}
+
+	/**
+	 * Returns the group clause in the criteria
+	 */
+	public function getGroupBy()
+	{
+		var group;
+		if fetch group, this->_params["group"] {
+			return group;
+		}
+		return null;
+	}
+
+	/**
+	 * Returns the having clause in the criteria
+	 */
+	public function getHaving()
+	{
+		var having;
+		if fetch having, this->_params["having"] {
+			return having;
 		}
 		return null;
 	}
