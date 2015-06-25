@@ -409,6 +409,6 @@ class Annotations extends Router
 	 */
 	public function getResources()
 	{
-		return this->_handlers;
+		return (array) this->_handlers;
 	}
 }
