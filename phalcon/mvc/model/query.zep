@@ -521,12 +521,9 @@ class Query implements QueryInterface, InjectionAwareInterface
 
 				case PHQL_T_INTEGER:
 				case PHQL_T_DOUBLE:
-					let exprReturn = ["type": "literal", "value": expr["value"]];
-					break;
-
 				case PHQL_T_HINTEGER:
-					let exprReturn = ["type": "literal", "value": "0" . expr["value"]];
-					break;
+					let exprReturn = ["type": "literal", "value": expr["value"]];
+					break;				
 
 				case PHQL_T_TRUE:
 					let exprReturn = ["type": "literal", "value": "TRUE"];

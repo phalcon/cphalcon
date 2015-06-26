@@ -405,7 +405,6 @@ static zval *phql_ret_assoc_name(zval *qualified_name, phql_parser_token *alias)
 	}
 
 	return ret;
-
 }
 
 static zval *phql_ret_join_type(int type)
@@ -440,7 +439,6 @@ static zval *phql_ret_join_item(zval *type, zval *qualified, zval *alias, zval *
 	}
 
 	return ret;
-
 }
 
 static zval *phql_ret_expr(int type, zval *left, zval *right)
