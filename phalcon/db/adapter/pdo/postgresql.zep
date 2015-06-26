@@ -282,7 +282,7 @@ class Postgresql extends PdoAdapter implements AdapterInterface
 			}
 
 			/**
-			 * Check if the column is default values
+			 * Check if the column has default values
 			 */
 			if typeof field[9] != "null" {
 				let definition["default"] = preg_replace("/^'|'?::[[:alnum:][:space:]]+$/", "", field[9]);
@@ -336,7 +336,6 @@ class Postgresql extends PdoAdapter implements AdapterInterface
 				this->{"rollback"}();
 				 throw exception;
 			 }
-
 		} else {
 			return this->{"execute"}(queries[0] . ";");
 		}
@@ -355,6 +354,7 @@ class Postgresql extends PdoAdapter implements AdapterInterface
 
 		if count(queries) > 1 {
 			try {
+				
 				this->{"begin"}();
 				for query in queries {
 					if empty query {
@@ -363,6 +363,7 @@ class Postgresql extends PdoAdapter implements AdapterInterface
 					this->{"query"}(query . ";");
 				}
 				return this->{"commit"}();
+
 			} catch \Exception, exception {
 
 				this->{"rollback"}();

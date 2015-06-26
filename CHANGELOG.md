@@ -9,6 +9,7 @@
 - Now `Phalcon\Mvc\Url::getStatic()` generates URLs from routes
 - Introduced `Phalcon\Mvc\EntityInterface` to allow parameters receive both Phalcon\Mvc\Model and `Phalcon\Mvc\Collection` instances
 - Added `Phalcon\Session\Adapter::setName()` to change the session name
+- Added BIGINT support in Phalcon\Db
 - Added new types `Phalcon\Db\Column::BLOB` and `Phalcon\Db\Column::DOUBLE` [#10506](https://github.com/phalcon/cphalcon/pull/10506)
 - Automatic binding of Large Object data (LOB) in the ORM
 - Support for BIT types in MySQL with binding as booleans
@@ -31,6 +32,7 @@
 - `Phalcon\Mvc\Model::count()` now return values as a integer
 - Removed `__construct` from `Phalcon\Mvc\View\EngineInterface`
 - Added `Phalcon\Debug\Dump::toJson()` to return an JSON string of information about a single variable
+- Now instances in Phalcon\Di are built using internal optimizers instead of ReflectionClass (PHP 5.6)
 
 # [2.0.3](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.0.3) (2015-06-10)
 - Added support for Behaviors in `Phalcon\Mvc\Collection`

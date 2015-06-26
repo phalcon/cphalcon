@@ -106,7 +106,7 @@ class Builder
 	}
 
 	/**
-	 * Resolves an array of parameters	 	 
+	 * Resolves an array of parameters
 	 */
 	private function _buildParameters(<DiInterface> dependencyInjector, array! arguments) -> array
 	{
@@ -131,7 +131,7 @@ class Builder
 	{
 		var className, arguments, paramCalls, methodPosition, method,
 			methodName, methodCall, instance, propertyPosition, property,
-			propertyName, propertyValue, reflection;
+			propertyName, propertyValue;
 
 		/**
 		 * The class name is required
@@ -146,19 +146,9 @@ class Builder
 			 * Build the instance overriding the definition constructor parameters
 			 */
 			if count(parameters) {
-				if is_php_version("5.6") {
-					let reflection = new \ReflectionClass(className),
-						instance = reflection->newInstanceArgs(parameters);
-				} else {
-					let instance = create_instance_params(className, parameters);
-				}
+				let instance = create_instance_params(className, parameters);
 			} else {
-				if is_php_version("5.6") {
-					let reflection = new \ReflectionClass(className),
-						instance = reflection->newInstance();
-				} else {
-					let instance = create_instance(className);
-				}
+				let instance = create_instance(className);
 			}
 
 		} else {
@@ -174,12 +164,7 @@ class Builder
 				let instance = create_instance_params(className, this->_buildParameters(dependencyInjector, arguments));
 
 			} else {
-				if is_php_version("5.6") {
-					let reflection = new \ReflectionClass(className),
-						instance = reflection->newInstance();
-				} else {
-					let instance = create_instance(className);
-				}
+				let instance = create_instance(className);				
 			}
 		}
 

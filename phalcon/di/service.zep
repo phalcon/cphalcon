@@ -126,7 +126,7 @@ class Service implements ServiceInterface
 	public function resolve(parameters = null, <DiInterface> dependencyInjector = null)
 	{
 		boolean found;
-		var shared, definition, sharedInstance, instance, builder, reflection;
+		var shared, definition, sharedInstance, instance, builder;
 
 		let shared = this->_shared;
 
@@ -152,27 +152,12 @@ class Service implements ServiceInterface
 			if class_exists(definition) {
 				if typeof parameters == "array" {
 					if count(parameters) {
-						if is_php_version("5.6") {
-							let reflection = new \ReflectionClass(definition),
-								instance = reflection->newInstanceArgs(parameters);
-						} else {
-							let instance = create_instance_params(definition, parameters);
-						}
-					} else {
-						if is_php_version("5.6") {
-							let reflection = new \ReflectionClass(definition),
-								instance = reflection->newInstance();
-						} else {
-							let instance = create_instance(definition);
-						}
-					}
-				} else {
-					if is_php_version("5.6") {
-						let reflection = new \ReflectionClass(definition),
-							instance = reflection->newInstance();
+						let instance = create_instance_params(definition, parameters);
 					} else {
 						let instance = create_instance(definition);
 					}
+				} else {
+					let instance = create_instance(definition);					
 				}
 			} else {
 				let found = false;
