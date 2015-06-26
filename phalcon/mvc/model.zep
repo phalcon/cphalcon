@@ -806,7 +806,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * @param array parameters
 	 * @return Phalcon\Mvc\Model
 	 */
-	public static function findFirst(parameters = null) -> <Model>
+	public static function findFirst(var parameters = null) -> <Model>
 	{
 		var params, builder, query, bindParams, bindTypes, cache, resultset, hydration, dependencyInjector, manager;
 
@@ -865,18 +865,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		/**
 		 * Execute the query passing the bind-params and casting-types
 		 */
-		let resultset = query->execute();
-
-		/**
-		 * Define an hydration mode
-		 */
-		if typeof resultset == "object" {
-			if fetch hydration, params["hydration"] {
-				resultset->setHydrateMode(hydration);
-			}
-		}
-
-		return resultset;
+		return query->execute();
 	}
 
 	/**
@@ -1362,7 +1351,6 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 *			return false;
 	 *		}
 	 *	}
-	 *
 	 *}
 	 *</code>
 	 */
@@ -1401,7 +1389,6 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 *			return false;
 	 *		}
 	 *	}
-	 *
 	 *}
 	 *</code>
 	 */
