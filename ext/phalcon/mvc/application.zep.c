@@ -218,7 +218,7 @@ PHP_METHOD(Phalcon_Mvc_Application, getModule) {
 		object_init_ex(_1, phalcon_mvc_application_exception_ce);
 		ZEPHIR_INIT_VAR(_2);
 		ZEPHIR_CONCAT_SVS(_2, "Module '", name, "' isn't registered in the application container");
-		ZEPHIR_CALL_METHOD(NULL, _1, "__construct", NULL, 2, _2);
+		ZEPHIR_CALL_METHOD(NULL, _1, "__construct", NULL, 9, _2);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(_1, "phalcon/mvc/application.zep", 159 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
@@ -361,7 +361,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle) {
 						object_init_ex(_2, phalcon_mvc_application_exception_ce);
 						ZEPHIR_INIT_VAR(_4);
 						ZEPHIR_CONCAT_SVS(_4, "Module definition path '", path, "' doesn't exist");
-						ZEPHIR_CALL_METHOD(NULL, _2, "__construct", NULL, 2, _4);
+						ZEPHIR_CALL_METHOD(NULL, _2, "__construct", NULL, 9, _4);
 						zephir_check_call_status();
 						zephir_throw_exception_debug(_2, "phalcon/mvc/application.zep", 271 TSRMLS_CC);
 						ZEPHIR_MM_RESTORE();

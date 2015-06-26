@@ -12,10 +12,10 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
-#include "kernel/memory.h"
 #include "kernel/object.h"
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/exception.h"
+#include "kernel/memory.h"
 #include "kernel/operators.h"
 #include "kernel/string.h"
 #include "kernel/fcall.h"
@@ -29,6 +29,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Validator) {
 
 	zend_declare_property_null(phalcon_mvc_model_validator_ce, SL("_messages"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
+	phalcon_mvc_model_validator_ce->create_object = zephir_init_properties;
 	return SUCCESS;
 
 }
@@ -38,21 +39,16 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Validator) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Validator, __construct) {
 
-	zval *options_param = NULL, *_0;
+	zval *options_param = NULL;
 	zval *options = NULL;
 
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &options_param);
+	zephir_fetch_params(0, 1, 0, &options_param);
 
 	options = options_param;
 
 
 
-	ZEPHIR_INIT_VAR(_0);
-	array_init(_0);
-	zephir_update_property_this(this_ptr, SL("_messages"), _0 TSRMLS_CC);
 	zephir_update_property_this(this_ptr, SL("_options"), options TSRMLS_CC);
-	ZEPHIR_MM_RESTORE();
 
 }
 
@@ -105,7 +101,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator, appendMessage) {
 	}
 	ZEPHIR_INIT_NVAR(_0);
 	object_init_ex(_0, phalcon_mvc_model_message_ce);
-	ZEPHIR_CALL_METHOD(NULL, _0, "__construct", NULL, 296, message, field, type);
+	ZEPHIR_CALL_METHOD(NULL, _0, "__construct", NULL, 8, message, field, type);
 	zephir_check_call_status();
 	zephir_update_property_array_append(this_ptr, SL("_messages"), _0 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
@@ -195,6 +191,27 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator, isSetOption) {
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY_CC);
 	RETURN_MM_BOOL(zephir_array_isset(_0, option));
+
+}
+
+static zend_object_value zephir_init_properties(zend_class_entry *class_type TSRMLS_DC) {
+
+		zval *_0, *_1;
+
+		ZEPHIR_MM_GROW();
+	
+	{
+		zval *this_ptr = NULL;
+		ZEPHIR_CREATE_OBJECT(this_ptr, class_type);
+		_0 = zephir_fetch_nproperty_this(this_ptr, SL("_messages"), PH_NOISY_CC);
+		if (Z_TYPE_P(_0) == IS_NULL) {
+			ZEPHIR_INIT_VAR(_1);
+			array_init(_1);
+			zephir_update_property_this(this_ptr, SL("_messages"), _1 TSRMLS_CC);
+		}
+		ZEPHIR_MM_RESTORE();
+		return Z_OBJVAL_P(this_ptr);
+	}
 
 }
 

@@ -73,7 +73,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getMetaData) {
 		zephir_get_class(_2, model, 0 TSRMLS_CC);
 		ZEPHIR_INIT_VAR(_3);
 		ZEPHIR_CONCAT_SVSV(_3, "Table '", completeTable, "' doesn't exist in database when dumping meta-data for ", _2);
-		ZEPHIR_CALL_METHOD(NULL, _1, "__construct", NULL, 2, _3);
+		ZEPHIR_CALL_METHOD(NULL, _1, "__construct", NULL, 9, _3);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(_1, "phalcon/mvc/model/metadata/strategy/introspection.zep", 65 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
@@ -94,7 +94,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getMetaData) {
 		zephir_get_class(_2, model, 0 TSRMLS_CC);
 		ZEPHIR_INIT_LNVAR(_3);
 		ZEPHIR_CONCAT_SVSV(_3, "Cannot obtain table columns for the mapped source '", completeTable, "' used in model ", _2);
-		ZEPHIR_CALL_METHOD(NULL, _1, "__construct", NULL, 2, _3);
+		ZEPHIR_CALL_METHOD(NULL, _1, "__construct", NULL, 9, _3);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(_1, "phalcon/mvc/model/metadata/strategy/introspection.zep", 83 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
