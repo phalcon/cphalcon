@@ -299,7 +299,7 @@ PHP_METHOD(Phalcon_Mvc_Url, get) {
 		if (_0) {
 			ZEPHIR_SINIT_VAR(_1);
 			ZVAL_STRING(&_1, ":", 0);
-			ZEPHIR_CALL_FUNCTION(&_2, "strstr", NULL, 230, uri, &_1);
+			ZEPHIR_CALL_FUNCTION(&_2, "strstr", NULL, 213, uri, &_1);
 			zephir_check_call_status();
 			_0 = zephir_is_true(_2);
 		}
@@ -351,7 +351,7 @@ PHP_METHOD(Phalcon_Mvc_Url, get) {
 			object_init_ex(_5, phalcon_mvc_url_exception_ce);
 			ZEPHIR_INIT_VAR(_6);
 			ZEPHIR_CONCAT_SVS(_6, "Cannot obtain a route using the name '", routeName, "'");
-			ZEPHIR_CALL_METHOD(NULL, _5, "__construct", NULL, 9, _6);
+			ZEPHIR_CALL_METHOD(NULL, _5, "__construct", NULL, 2, _6);
 			zephir_check_call_status();
 			zephir_throw_exception_debug(_5, "phalcon/mvc/url.zep", 226 TSRMLS_CC);
 			ZEPHIR_MM_RESTORE();
@@ -395,7 +395,7 @@ PHP_METHOD(Phalcon_Mvc_Url, get) {
 		}
 	}
 	if (zephir_is_true(args)) {
-		ZEPHIR_CALL_FUNCTION(&queryString, "http_build_query", NULL, 360, args);
+		ZEPHIR_CALL_FUNCTION(&queryString, "http_build_query", NULL, 358, args);
 		zephir_check_call_status();
 		_0 = Z_TYPE_P(queryString) == IS_STRING;
 		if (_0) {

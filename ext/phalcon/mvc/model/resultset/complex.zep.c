@@ -72,7 +72,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, __construct) {
 
 
 	zephir_update_property_this(this_ptr, SL("_columnTypes"), columnTypes TSRMLS_CC);
-	ZEPHIR_CALL_PARENT(NULL, phalcon_mvc_model_resultset_complex_ce, this_ptr, "__construct", &_0, 348, result, cache);
+	ZEPHIR_CALL_PARENT(NULL, phalcon_mvc_model_resultset_complex_ce, this_ptr, "__construct", &_0, 344, result, cache);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 
@@ -275,7 +275,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, serialize) {
 	zephir_array_update_string(&_0, SL("rows"), &records, PH_COPY | PH_SEPARATE);
 	zephir_array_update_string(&_0, SL("columnTypes"), &columnTypes, PH_COPY | PH_SEPARATE);
 	zephir_array_update_string(&_0, SL("hydrateMode"), &hydrateMode, PH_COPY | PH_SEPARATE);
-	ZEPHIR_CALL_FUNCTION(&serialized, "serialize", NULL, 69, _0);
+	ZEPHIR_CALL_FUNCTION(&serialized, "serialize", NULL, 11, _0);
 	zephir_check_call_status();
 	RETURN_CCTOR(serialized);
 
@@ -307,7 +307,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, unserialize) {
 
 
 	zephir_update_property_this(this_ptr, SL("_disableHydration"), (1) ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
-	ZEPHIR_CALL_FUNCTION(&resultset, "unserialize", NULL, 70, data);
+	ZEPHIR_CALL_FUNCTION(&resultset, "unserialize", NULL, 10, data);
 	zephir_check_call_status();
 	if (Z_TYPE_P(resultset) != IS_ARRAY) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "Invalid serialization data", "phalcon/mvc/model/resultset/complex.zep", 293);

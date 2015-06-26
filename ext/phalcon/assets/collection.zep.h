@@ -38,7 +38,7 @@ PHP_METHOD(Phalcon_Assets_Collection, setTargetLocal);
 PHP_METHOD(Phalcon_Assets_Collection, join);
 PHP_METHOD(Phalcon_Assets_Collection, getRealTargetPath);
 PHP_METHOD(Phalcon_Assets_Collection, addFilter);
-static zend_object_value zephir_init_properties(zend_class_entry *class_type TSRMLS_DC);
+PHP_METHOD(Phalcon_Assets_Collection, __construct);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_assets_collection_add, 0, 0, 1)
 	ZEND_ARG_OBJ_INFO(0, resource, Phalcon\\Assets\\Resource, 0)
@@ -154,5 +154,6 @@ ZEPHIR_INIT_FUNCS(phalcon_assets_collection_method_entry) {
 	PHP_ME(Phalcon_Assets_Collection, join, arginfo_phalcon_assets_collection_join, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Assets_Collection, getRealTargetPath, arginfo_phalcon_assets_collection_getrealtargetpath, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Assets_Collection, addFilter, arginfo_phalcon_assets_collection_addfilter, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Assets_Collection, __construct, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_FE_END
 };

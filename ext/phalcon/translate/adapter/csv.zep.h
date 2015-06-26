@@ -6,7 +6,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Translate_Adapter_Csv);
 PHP_METHOD(Phalcon_Translate_Adapter_Csv, __construct);
 PHP_METHOD(Phalcon_Translate_Adapter_Csv, query);
 PHP_METHOD(Phalcon_Translate_Adapter_Csv, exists);
-static zend_object_value zephir_init_properties(zend_class_entry *class_type TSRMLS_DC);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_translate_adapter_csv___construct, 0, 0, 1)
 	ZEND_ARG_ARRAY_INFO(0, options, 0)
