@@ -578,7 +578,7 @@ PHP_METHOD(Phalcon_Mvc_Router, getDefaults){
  */
 PHP_METHOD(Phalcon_Mvc_Router, handle){
 
-	zval *uri = NULL, *real_uri = NULL, *debug_message = NULL;
+	zval *uri = NULL, *real_uri = NULL, *debug_message = NULL, *event_name = NULL;
 	zval *handled_uri = NULL, *request = NULL, *current_host_name = NULL;
 	zval *route_found = NULL, *parts = NULL, *params = NULL, *matches, *routes;
 	zval *route = NULL, *case_sensitive = NULL, *methods = NULL;
@@ -645,6 +645,11 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 		PHALCON_CONCAT_SV(debug_message, "Handle the URI pattern: ", real_uri);
 		phalcon_debug_print_r(debug_message TSRMLS_CC);
 	}
+
+	PHALCON_INIT_NVAR(event_name);
+	ZVAL_STRING(event_name, "router:beforeCheckRoutes", 1);
+
+	PHALCON_CALL_METHOD(NULL, this_ptr, "fireevent", event_name);
 
 	/**
 	 * Routes are traversed in reversed order
@@ -748,6 +753,11 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 			}
 		}
 
+		PHALCON_INIT_NVAR(event_name);
+		ZVAL_STRING(event_name, "router:beforeCheckRoute", 1);
+
+		PHALCON_CALL_METHOD(NULL, this_ptr, "fireevent", event_name);
+
 		/**
 		 * If the route has parentheses use preg_match
 		 */
@@ -770,6 +780,12 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 		 * Check for beforeMatch conditions
 		 */
 		if (zend_is_true(route_found)) {
+			PHALCON_INIT_NVAR(event_name);
+			ZVAL_STRING(event_name, "router:matchedRoute", 1);
+
+			Z_SET_ISREF_P(route);
+			PHALCON_CALL_METHOD(NULL, this_ptr, "fireevent", event_name, route);
+			Z_UNSET_ISREF_P(route);
 
 			PHALCON_CALL_METHOD(&before_match, route, "getbeforematch");
 			if (Z_TYPE_P(before_match) != IS_NULL) {
@@ -876,6 +892,13 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 				PHALCON_CONCAT_SV(debug_message, "--Not Found Route: ", pattern);
 				phalcon_debug_print_r(debug_message TSRMLS_CC);
 			}
+		} else {
+			PHALCON_INIT_NVAR(event_name);
+			ZVAL_STRING(event_name, "router:notMatchedRoute", 1);
+
+			Z_SET_ISREF_P(route);
+			PHALCON_CALL_METHOD(NULL, this_ptr, "fireevent", event_name, route);
+			Z_UNSET_ISREF_P(route);
 		}
 
 		zend_hash_move_backwards_ex(ah0, &hp0);
@@ -1050,6 +1073,11 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 		tmp = phalcon_fetch_nproperty_this(this_ptr, SL("_defaultParams"), PH_NOISY TSRMLS_CC);
 		phalcon_update_property_this(this_ptr, SL("_params"), tmp TSRMLS_CC);
 	}
+
+	PHALCON_INIT_NVAR(event_name);
+	ZVAL_STRING(event_name, "router:afterCheckRoutes", 1);
+
+	PHALCON_CALL_METHOD(NULL, this_ptr, "fireevent", event_name);
 
 	PHALCON_MM_RESTORE();
 }

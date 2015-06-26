@@ -48,6 +48,12 @@
 #define PHALCON_THROW_EXCEPTION_STRW(class_entry, message)  phalcon_throw_exception_string(class_entry, message TSRMLS_CC)
 #define PHALCON_THROW_EXCEPTION_ZVALW(class_entry, message) phalcon_throw_exception_zval(class_entry, message TSRMLS_CC)
 
+#define PHALCON_THROW_EXCEPTION_FORMAT(class_entry, format, ...) \
+	do { \
+		phalcon_throw_exception_format(class_entry TSRMLS_CC, format, __VA_ARGS__); \
+		PHALCON_MM_RESTORE(); \
+	} while (0)
+
 /** Throw Exceptions */
 void phalcon_throw_exception(zval *object TSRMLS_DC) PHALCON_ATTR_NONNULL;
 void phalcon_throw_exception_debug(zval *object, const char *file, zend_uint line TSRMLS_DC);

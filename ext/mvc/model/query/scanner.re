@@ -37,6 +37,15 @@ int phql_get_token(phql_scanner_state *s, phql_scanner_token *token) {
 		re2c:indent:top = 2;
 		re2c:yyfill:enable = 0;
 
+		HINTEGER = [0][x]([0-9A-Za-z]+);
+		HINTEGER {
+			token->opcode = PHQL_T_HINTEGER;
+			token->value = estrndup(q, YYCURSOR - q);
+			token->len = YYCURSOR - q;
+			q = YYCURSOR;
+			return 0;
+		}
+
 		INTEGER = [0-9]+;
 		INTEGER {
 			token->opcode = PHQL_T_INTEGER;
