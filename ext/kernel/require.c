@@ -41,6 +41,7 @@ int zephir_require_ret(zval **return_value_ptr, const char *require_path TSRMLS_
 {
 	zend_file_handle file_handle;
 	int ret, use_ret, mode;
+	zend_op_array *new_op_array;
 
 #ifndef ZEPHIR_RELEASE
 	if (return_value_ptr && *return_value_ptr) {
@@ -57,26 +58,30 @@ int zephir_require_ret(zval **return_value_ptr, const char *require_path TSRMLS_
 
 	use_ret = !!return_value_ptr;
 
-	ret = php_stream_open_for_zend_ex(require_path, &file_handle, ENFORCE_SAFE_MODE | USE_PATH | STREAM_OPEN_FOR_INCLUDE | IGNORE_URL TSRMLS_CC);
-	if (ret == SUCCESS) {
-		int dummy = 1;
-		zend_op_array *new_op_array;
+	file_handle.filename = require_path;
+	file_handle.free_filename = 0;
+	file_handle.type = ZEND_HANDLE_FILENAME;
+	file_handle.opened_path = NULL;
+	file_handle.handle.fp = NULL;
+	new_op_array = zend_compile_file(&file_handle, ZEND_REQUIRE TSRMLS_CC);
+	if (new_op_array) {
+		if (file_handle.handle.stream.handle) {
+			int dummy = 1;
 
-		if (!file_handle.opened_path) {
-			file_handle.opened_path = estrdup(require_path);
+			if (!file_handle.opened_path) {
+				file_handle.opened_path = estrdup(require_path);
+			}
+
+			zend_hash_add(&EG(included_files), file_handle.opened_path, strlen(file_handle.opened_path) + 1, (void *)&dummy, sizeof(int), NULL);
+			zend_destroy_file_handle(&file_handle TSRMLS_CC);
 		}
-
-		zend_hash_add(&EG(included_files), file_handle.opened_path, strlen(file_handle.opened_path) + 1, (void *)&dummy, sizeof(int), NULL);
-		new_op_array = zend_compile_file(&file_handle, ZEND_REQUIRE TSRMLS_CC);
-		zend_destroy_file_handle(&file_handle TSRMLS_CC);
-
-		if (new_op_array) {
-			zval **original_return_value            = EG(return_value_ptr_ptr);
+		{
+			zval **original_return_value = EG(return_value_ptr_ptr);
 			zend_op_array *original_active_op_array = EG(active_op_array);
-			zend_op **original_opline_ptr           = EG(opline_ptr);
+			zend_op **original_opline_ptr = EG(opline_ptr);
 
 			EG(return_value_ptr_ptr) = return_value_ptr;
-			EG(active_op_array)      = new_op_array;
+			EG(active_op_array) = new_op_array;
 
 			zend_execute(new_op_array TSRMLS_CC);
 			zend_exception_restore(TSRMLS_C);
@@ -92,8 +97,8 @@ int zephir_require_ret(zval **return_value_ptr, const char *require_path TSRMLS_
 			}
 
 			EG(return_value_ptr_ptr) = original_return_value;
-			EG(active_op_array)      = original_active_op_array;
-			EG(opline_ptr)           = original_opline_ptr;
+			EG(active_op_array) = original_active_op_array;
+			EG(opline_ptr) = original_opline_ptr;
 			return ret;
 		}
 	}

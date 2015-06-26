@@ -808,7 +808,8 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 */
 	public static function findFirst(var parameters = null) -> <Model>
 	{
-		var params, builder, query, bindParams, bindTypes, cache, resultset, hydration, dependencyInjector, manager;
+		var params, builder, query, bindParams, bindTypes, cache,
+			hydration, dependencyInjector, manager;
 
 		let dependencyInjector = Di::getDefault();
 		let manager = <ManagerInterface> dependencyInjector->getShared("modelsManager");

@@ -187,7 +187,7 @@ abstract class Adapter implements EventsAwareInterface
 	 * @param array bindTypes
 	 * @return array
 	 */
-	public function fetchOne(string! sqlQuery, var fetchMode = Db::FETCH_BOTH, var bindParams = null, var bindTypes = null)
+	public function fetchOne(string! sqlQuery, var fetchMode = Db::FETCH_ASSOC, var bindParams = null, var bindTypes = null)
 	{
 		var result;
 		let result = this->{"query"}(sqlQuery, bindParams, bindTypes);
@@ -226,7 +226,7 @@ abstract class Adapter implements EventsAwareInterface
 	 * @param array bindTypes
 	 * @return array
 	 */
-	public function fetchAll(string sqlQuery, var fetchMode = Db::FETCH_BOTH, var bindParams = null, var bindTypes = null) -> array
+	public function fetchAll(string sqlQuery, var fetchMode = Db::FETCH_ASSOC, var bindParams = null, var bindTypes = null) -> array
 	{
 		var results, result, row;
 
