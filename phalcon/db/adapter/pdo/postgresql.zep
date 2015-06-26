@@ -130,6 +130,16 @@ class Postgresql extends PdoAdapter implements AdapterInterface
 				}
 
 				/**
+				 * Bigint
+				 */
+				if memstr(columnType, "bigint") {
+					let definition["type"] = Column::TYPE_BIGINTEGER,
+						definition["isNumeric"] = true,
+						definition["bindType"] = Column::BIND_PARAM_INT;
+					break;
+				}
+
+				/**
 				 * Int
 				 */
 				if memstr(columnType, "int") {

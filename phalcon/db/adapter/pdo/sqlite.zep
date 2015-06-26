@@ -42,7 +42,6 @@ use Phalcon\Db\Adapter\Pdo as PdoAdapter;
  * );
  *
  * $connection = new \Phalcon\Db\Adapter\Pdo\Sqlite($config);
- *
  * </code>
  */
 class Sqlite extends PdoAdapter implements AdapterInterface
@@ -121,7 +120,17 @@ class Sqlite extends PdoAdapter implements AdapterInterface
 				}
 
 				/**
-				 * Smallint/Bigint/Integers/Int are int
+				 * Bigint are int
+				 */
+				if memstr(columnType, "bigint") {
+					let definition["type"] = Column::TYPE_BIGINTEGER,
+						definition["isNumeric"] = true,
+						definition["bindType"] = Column::BIND_PARAM_INT;
+					break;
+				}
+
+				/**
+				 * Smallint/Integers/Int are int
 				 */
 				if memstr(columnType, "int") || memstr(columnType, "INT") {
 

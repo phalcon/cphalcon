@@ -119,6 +119,11 @@ class Column implements ColumnInterface
 	const TYPE_LONGBLOB = 13;
 
 	/**
+	 * Big integer abstract type
+	 */
+	const TYPE_BIGINTEGER = 14;
+
+	/**
 	 * Bind Type Null
 	 */
 	const BIND_PARAM_NULL = 0;

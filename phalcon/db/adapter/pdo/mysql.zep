@@ -31,16 +31,15 @@ use Phalcon\Db\Adapter\Pdo as PdoAdapter;
  *
  *<code>
  *
- *	$config = array(
- *		"host" => "192.168.0.11",
- *		"dbname" => "blog",
- *		"port" => 3306,
- *		"username" => "sigma",
- *		"password" => "secret"
- *	);
+ *$config = array(
+ *	"host" => "192.168.0.11",
+ *	"dbname" => "blog",
+ *	"port" => 3306,
+ *	"username" => "sigma",
+ *	"password" => "secret"
+ *);
  *
- *	$connection = new \Phalcon\Db\Adapter\Pdo\Mysql($config);
- *
+ *$connection = new \Phalcon\Db\Adapter\Pdo\Mysql($config);
  *</code>
  */
 class Mysql extends PdoAdapter implements AdapterInterface
@@ -114,10 +113,12 @@ class Mysql extends PdoAdapter implements AdapterInterface
 			loop {
 
 				/**
-				 * Enum are treated as char
+				 * Smallint/Bigint/Integers/Int are int
 				 */
-				if memstr(columnType, "enum") {
-					let definition["type"] = Column::TYPE_CHAR;
+				if memstr(columnType, "bigint") {
+					let definition["type"] = Column::TYPE_BIGINTEGER,
+						definition["isNumeric"] = true,
+						definition["bindType"] = Column::BIND_PARAM_INT;
 					break;
 				}
 
@@ -148,6 +149,14 @@ class Mysql extends PdoAdapter implements AdapterInterface
 				}
 
 				/**
+				 * Enum are treated as char
+				 */
+				if memstr(columnType, "enum") {
+					let definition["type"] = Column::TYPE_CHAR;
+					break;
+				}
+
+				/**
 				 * Chars are chars
 				 */
 				if memstr(columnType, "char") {
@@ -156,7 +165,7 @@ class Mysql extends PdoAdapter implements AdapterInterface
 				}
 
 				/**
-				 * Date/Datetime are varchars
+				 * Date are dates
 				 */
 				if memstr(columnType, "date") {
 					let definition["type"] = Column::TYPE_DATE;
@@ -205,7 +214,7 @@ class Mysql extends PdoAdapter implements AdapterInterface
 				 * Boolean
 				 */
 				if memstr(columnType, "bit") {
-					let definition["type"] = Column::TYPE_BOOLEAN,						
+					let definition["type"] = Column::TYPE_BOOLEAN,
 						definition["bindType"] = Column::BIND_PARAM_BOOL;
 					break;
 				}

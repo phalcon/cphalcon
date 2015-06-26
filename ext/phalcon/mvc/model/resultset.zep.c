@@ -130,7 +130,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, __construct) {
 		zephir_update_property_this(this_ptr, SL("_cache"), cache TSRMLS_CC);
 	}
 	ZEPHIR_INIT_NVAR(_1);
-	ZVAL_NULL(_1);
+	ZVAL_LONG(_1, 2);
 	ZEPHIR_CALL_METHOD(NULL, result, "setfetchmode", NULL, 0, _1);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&rowCount, result, "numrows", NULL, 0);

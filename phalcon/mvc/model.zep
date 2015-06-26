@@ -803,13 +803,13 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 *
 	 * </code>
 	 *
-	 * @param array parameters
+	 * @param string|array parameters
 	 * @return Phalcon\Mvc\Model
 	 */
 	public static function findFirst(var parameters = null) -> <Model>
 	{
 		var params, builder, query, bindParams, bindTypes, cache,
-			hydration, dependencyInjector, manager;
+			dependencyInjector, manager;
 
 		let dependencyInjector = Di::getDefault();
 		let manager = <ManagerInterface> dependencyInjector->getShared("modelsManager");
