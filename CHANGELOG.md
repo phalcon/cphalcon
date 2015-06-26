@@ -30,6 +30,7 @@
 - Added groupBy/getGroupBy/having/getHaving to `Mvc\Model\Criteria`
 - `Phalcon\Mvc\Model::count()` now return values as a integer
 - Removed `__construct` from `Phalcon\Mvc\View\EngineInterface`
+- Added `Phalcon\Debug\Dump::toJson()` to return an JSON string of information about a single variable
 
 # [2.0.3](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.0.3) (2015-06-10)
 - Added support for Behaviors in `Phalcon\Mvc\Collection`
