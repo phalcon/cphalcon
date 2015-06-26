@@ -49,8 +49,8 @@ int phql_get_token(phql_scanner_state *s, phql_scanner_token *token) {
             if (token->len > 2 && !memcmp(token->value, "0x", 2)) {
 			    token->opcode = PHQL_T_HINTEGER;
             } else {
-                int alpha = 0;
-                for (int i = 0; i < token->len; i++) {
+                int i, alpha = 0;
+                for (i = 0; i < token->len; i++) {
                     unsigned char ch = token->value[i];
                     if (!((ch >= '0') && (ch <= '9'))) {
                         alpha = 1;

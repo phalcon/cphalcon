@@ -144,7 +144,7 @@ int phvolt_get_token(phvolt_scanner_state *s, phvolt_scanner_token *token) {
 
 					while ((next = *(++YYCURSOR))) {
 						if (next == '#' && *(YYCURSOR + 1) == '}') {
-							YYCURSOR+=2;
+							YYCURSOR += 2;
 							token->opcode = PHVOLT_T_IGNORE;
 							return 0;
 						} else {
