@@ -127,9 +127,9 @@ class Request extends PhRequest
         return parent::getUserAgent();
     }
 
-    public function isMethod($methods)
+    public function isMethod($methods, $strict = null)
     {
-        return parent::isMethod($methods);
+        return parent::isMethod($methods, $strict);
     }
 
     public function isPost()

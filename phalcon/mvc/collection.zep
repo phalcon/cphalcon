@@ -22,6 +22,7 @@ namespace Phalcon\Mvc;
 
 use Phalcon\Di;
 use Phalcon\DiInterface;
+use Phalcon\Mvc\Collection\Document;
 use Phalcon\Di\InjectionAwareInterface;
 use Phalcon\Mvc\Collection\ManagerInterface;
 use Phalcon\Mvc\Collection\BehaviorInterface;
@@ -321,6 +322,10 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 			clonedCollection->writeAttribute(key, value);
 		}
 
+		if method_exists(clonedCollection, "afterFetch") {
+			clonedCollection->{"afterFetch"}();
+		}
+
 		return clonedCollection;
 	}
 
@@ -396,7 +401,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 		 * If a group of specific fields are requested we use a Phalcon\Mvc\Collection\Document instead
 		 */
 		if isset params["fields"] {
-			let base = new \Phalcon\Mvc\Collection\Document();
+			let base = new Document();
 		} else {
 			let base = collection;
 		}

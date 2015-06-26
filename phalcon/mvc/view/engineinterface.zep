@@ -29,12 +29,6 @@ use Phalcon\Mvc\ViewBaseInterface;
  */
 interface EngineInterface
 {
-
-	/**
-	 * Phalcon\Mvc\View\Engine constructor
-	 */
-	public function __construct(<ViewBaseInterface> view, <DiInterface> dependencyInjector = null);
-
 	/**
 	 * Returns cached output on another view stage
 	 */

@@ -28,10 +28,10 @@ use Phalcon\Http\Request\File;
 /**
  * Phalcon\Http\Request
  *
- * <p>Encapsulates request information for easy and secure access from application controllers.</p>
+ * Encapsulates request information for easy and secure access from application controllers.
  *
- * <p>The request object is a simple value object that is passed between the dispatcher and controller classes.
- * It packages the HTTP request environment.</p>
+ * The request object is a simple value object that is passed between the dispatcher and controller classes.
+ * It packages the HTTP request environment.
  *
  *<code>
  *	$request = new \Phalcon\Http\Request();
@@ -557,6 +557,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 					return true;
 				}
 			}
+			return false;
 		}
 
 		if strict {

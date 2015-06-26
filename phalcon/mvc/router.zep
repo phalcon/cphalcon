@@ -628,8 +628,7 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
 			if fetch paramsStr, parts["params"] {
 				if typeof paramsStr == "string" {
 					let strParams = trim(paramsStr, "/");
-
-					if strParams {
+					if strParams !== "" {
 						let params = explode("/", strParams);
 					}
 				}

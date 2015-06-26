@@ -522,7 +522,11 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 
 					// Every field must be part of the column map
 					if !fetch attribute, columnMap[key] {
-						throw new Exception("Column '" . key . "' doesn't make part of the column map");
+						if !globals_get("orm.ignore_unknown_columns") {
+							throw new Exception("Column '" . key . "' doesn't make part of the column map");
+						} else {
+							continue;
+						}
 					}
 
 					if typeof attribute != "array" {
@@ -1158,7 +1162,13 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 */
 	public static function count(var parameters = null)
 	{
-		return self::_groupResult("COUNT", "rowcount", parameters);
+		var result;
+
+		let result = self::_groupResult("COUNT", "rowcount", parameters);
+		if typeof result == "string" {
+			return (int) result;
+		}
+		return result;
 	}
 
 	/**
@@ -2897,7 +2907,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 			}
 		}
 
-		if success === false {			
+		if success === false {
 			this->_cancelOperation();
 		} else {
 			this->fireEvent("afterSave");
@@ -4286,7 +4296,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	{
 		var disableEvents, columnRenaming, notNullValidations,
 			exceptionOnFailedSave, phqlLiterals, virtualForeignKeys,
-			lateStateBinding, castOnHydrate;
+			lateStateBinding, castOnHydrate, ignoreUnknownColumns;
 
 		/**
 		 * Enables/Disables globally the internal events
@@ -4342,6 +4352,13 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
          */
         if fetch castOnHydrate, options["castOnHydrate"] {
             globals_set("orm.cast_on_hydrate", castOnHydrate);
+        }
+
+		/**
+         * Allows to ignore unknown columns when hydrating objects
+         */
+        if fetch ignoreUnknownColumns, options["ignoreUnknownColumns"] {
+            globals_set("orm.ignore_unknown_columns", ignoreUnknownColumns);
         }
 	}
 
