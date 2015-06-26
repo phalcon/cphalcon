@@ -993,6 +993,10 @@ forupdate_clause(R) ::= . {
 	R = NULL;
 }
 
+integer_or_placeholder(R) ::= HINTEGER(I) . {
+	R = phql_ret_literal_zval(PHQL_T_HINTEGER, I);
+}
+
 integer_or_placeholder(R) ::= INTEGER(I) . {
 	R = phql_ret_literal_zval(PHQL_T_INTEGER, I);
 }
@@ -1247,6 +1251,10 @@ expr(R) ::= PARENTHESES_OPEN expr(E) PARENTHESES_CLOSE . {
 
 expr(R) ::= qualified_name(Q) . {
 	R = Q;
+}
+
+expr(R) ::= HINTEGER(I) . {
+	R = phql_ret_literal_zval(PHQL_T_HINTEGER, I);
 }
 
 expr(R) ::= INTEGER(I) . {
