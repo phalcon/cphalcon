@@ -26,11 +26,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_View_EngineInterface) {
 }
 
 /**
- * Phalcon\Mvc\View\Engine constructor
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_View_EngineInterface, __construct);
-
-/**
  * Returns cached output on another view stage
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_View_EngineInterface, getContent);

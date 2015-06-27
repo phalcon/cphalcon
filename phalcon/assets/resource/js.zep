@@ -19,12 +19,14 @@
 
 namespace Phalcon\Assets\Resource;
 
+use Phalcon\Assets\Resource as ResourceBase;
+
 /**
  * Phalcon\Assets\Resource\Js
  *
  * Represents Javascript resources
  */
-class Js extends \Phalcon\Assets\Resource
+class Js extends ResourceBase
 {
 
 	/**

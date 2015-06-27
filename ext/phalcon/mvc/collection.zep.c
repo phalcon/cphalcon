@@ -62,6 +62,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Collection) {
 
 	zend_declare_class_constant_long(phalcon_mvc_collection_ce, SL("OP_DELETE"), 3 TSRMLS_CC);
 
+	zend_class_implements(phalcon_mvc_collection_ce TSRMLS_CC, 1, phalcon_mvc_entityinterface_ce);
 	zend_class_implements(phalcon_mvc_collection_ce TSRMLS_CC, 1, phalcon_mvc_collectioninterface_ce);
 	zend_class_implements(phalcon_mvc_collection_ce TSRMLS_CC, 1, phalcon_di_injectionawareinterface_ce);
 	zend_class_implements(phalcon_mvc_collection_ce TSRMLS_CC, 1, zend_ce_serializable);
@@ -94,11 +95,11 @@ PHP_METHOD(Phalcon_Mvc_Collection, __construct) {
 
 
 	if (Z_TYPE_P(dependencyInjector) != IS_OBJECT) {
-		ZEPHIR_CALL_CE_STATIC(&dependencyInjector, phalcon_di_ce, "getdefault", &_0, 147);
+		ZEPHIR_CALL_CE_STATIC(&dependencyInjector, phalcon_di_ce, "getdefault", &_0, 1);
 		zephir_check_call_status();
 	}
 	if (Z_TYPE_P(dependencyInjector) != IS_OBJECT) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_collection_exception_ce, "A dependency injector container is required to obtain the services related to the ORM", "phalcon/mvc/collection.zep", 81);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_collection_exception_ce, "A dependency injector container is required to obtain the services related to the ORM", "phalcon/mvc/collection.zep", 82);
 		return;
 	}
 	zephir_update_property_this(this_ptr, SL("_dependencyInjector"), dependencyInjector TSRMLS_CC);
@@ -109,7 +110,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, __construct) {
 		zephir_check_temp_parameter(_1);
 		zephir_check_call_status();
 		if (Z_TYPE_P(modelsManager) != IS_OBJECT) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_collection_exception_ce, "The injected service 'modelsManager' is not valid", "phalcon/mvc/collection.zep", 92);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_collection_exception_ce, "The injected service 'modelsManager' is not valid", "phalcon/mvc/collection.zep", 93);
 			return;
 		}
 	}
@@ -419,7 +420,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, getConnection) {
  * Reads an attribute value by its name
  *
  *<code>
- *	echo robot->readAttribute('name');
+ *	echo $robot->readAttribute('name');
  *</code>
  *
  * @param string attribute
@@ -459,7 +460,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, readAttribute) {
  * Writes an attribute value by its name
  *
  *<code>
- *	robot->writeAttribute('name', 'Rosey');
+ *	$robot->writeAttribute('name', 'Rosey');
  *</code>
  *
  * @param string attribute
@@ -514,7 +515,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, cloneResult) {
 	if (zephir_clone(clonedCollection, collection TSRMLS_CC) == FAILURE) {
 		RETURN_MM();
 	}
-	zephir_is_iterable(document, &_1, &_0, 0, 0, "phalcon/mvc/collection.zep", 324);
+	zephir_is_iterable(document, &_1, &_0, 0, 0, "phalcon/mvc/collection.zep", 325);
 	for (
 	  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_1, &_0)
@@ -522,6 +523,10 @@ PHP_METHOD(Phalcon_Mvc_Collection, cloneResult) {
 		ZEPHIR_GET_HMKEY(key, _1, _0);
 		ZEPHIR_GET_HVALUE(value, _2);
 		ZEPHIR_CALL_METHOD(NULL, clonedCollection, "writeattribute", &_3, 0, key, value);
+		zephir_check_call_status();
+	}
+	if ((zephir_method_exists_ex(clonedCollection, SS("afterfetch") TSRMLS_CC) == SUCCESS)) {
+		ZEPHIR_CALL_METHOD(NULL, clonedCollection, "afterfetch", NULL, 0);
 		zephir_check_call_status();
 	}
 	RETURN_CCTOR(clonedCollection);
@@ -555,13 +560,13 @@ PHP_METHOD(Phalcon_Mvc_Collection, _getResultset) {
 	ZEPHIR_CALL_METHOD(&source, collection, "getsource", NULL, 0);
 	zephir_check_call_status();
 	if (ZEPHIR_IS_EMPTY(source)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_collection_exception_ce, "Method getSource() returns empty string", "phalcon/mvc/collection.zep", 343);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_collection_exception_ce, "Method getSource() returns empty string", "phalcon/mvc/collection.zep", 348);
 		return;
 	}
 	ZEPHIR_CALL_METHOD(&mongoCollection, connection, "selectcollection", NULL, 0, source);
 	zephir_check_call_status();
 	if (Z_TYPE_P(mongoCollection) != IS_OBJECT) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_collection_exception_ce, "Couldn't select mongo collection", "phalcon/mvc/collection.zep", 349);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_collection_exception_ce, "Couldn't select mongo collection", "phalcon/mvc/collection.zep", 354);
 		return;
 	}
 	ZEPHIR_OBS_VAR(conditions);
@@ -573,7 +578,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, _getResultset) {
 		}
 	}
 	if (Z_TYPE_P(conditions) != IS_ARRAY) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_collection_exception_ce, "Find parameters must be an array", "phalcon/mvc/collection.zep", 362);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_collection_exception_ce, "Find parameters must be an array", "phalcon/mvc/collection.zep", 367);
 		return;
 	}
 	ZEPHIR_OBS_VAR(fields);
@@ -623,9 +628,9 @@ PHP_METHOD(Phalcon_Mvc_Collection, _getResultset) {
 	}
 	ZEPHIR_INIT_VAR(collections);
 	array_init(collections);
-	ZEPHIR_CALL_FUNCTION(&_0, "iterator_to_array", NULL, 286, documentsCursor);
+	ZEPHIR_CALL_FUNCTION(&_0, "iterator_to_array", NULL, 300, documentsCursor);
 	zephir_check_call_status();
-	zephir_is_iterable(_0, &_2, &_1, 0, 0, "phalcon/mvc/collection.zep", 435);
+	zephir_is_iterable(_0, &_2, &_1, 0, 0, "phalcon/mvc/collection.zep", 440);
 	for (
 	  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_2, &_1)
@@ -633,7 +638,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, _getResultset) {
 		ZEPHIR_GET_HVALUE(document, _3);
 		ZEPHIR_CALL_STATIC(&_4, "cloneresult", &_5, 0, base, document);
 		zephir_check_call_status();
-		zephir_array_append(&collections, _4, PH_SEPARATE, "phalcon/mvc/collection.zep", 432);
+		zephir_array_append(&collections, _4, PH_SEPARATE, "phalcon/mvc/collection.zep", 437);
 	}
 	RETURN_CCTOR(collections);
 
@@ -661,7 +666,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, _getGroupResultset) {
 	ZEPHIR_CALL_METHOD(&source, collection, "getsource", NULL, 0);
 	zephir_check_call_status();
 	if (ZEPHIR_IS_EMPTY(source)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_collection_exception_ce, "Method getSource() returns empty string", "phalcon/mvc/collection.zep", 452);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_collection_exception_ce, "Method getSource() returns empty string", "phalcon/mvc/collection.zep", 457);
 		return;
 	}
 	ZEPHIR_CALL_METHOD(&mongoCollection, connection, "selectcollection", NULL, 0, source);
@@ -899,7 +904,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, validate) {
 	if (ZEPHIR_IS_FALSE_IDENTICAL(_0)) {
 		ZEPHIR_CALL_METHOD(&_1, validator, "getmessages", NULL, 0);
 		zephir_check_call_status();
-		zephir_is_iterable(_1, &_3, &_2, 0, 0, "phalcon/mvc/collection.zep", 648);
+		zephir_is_iterable(_1, &_3, &_2, 0, 0, "phalcon/mvc/collection.zep", 653);
 		for (
 		  ; zephir_hash_get_current_data_ex(_3, (void**) &_4, &_2) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_3, &_2)
@@ -1110,13 +1115,13 @@ PHP_METHOD(Phalcon_Mvc_Collection, _exists) {
  * Returns all the validation messages
  *
  * <code>
- *robot = new Robots();
- *robot->type = 'mechanical';
- *robot->name = 'Astro Boy';
- *robot->year = 1952;
- *if (robot->save() == false) {
+ * $robot = new Robots();
+ * $robot->type = 'mechanical';
+ * $robot->name = 'Astro Boy';
+ * $robot->year = 1952;
+ * if ($robot->save() == false) {
  *	echo "Umh, We can't store robots right now ";
- *	foreach (robot->getMessages() as message) {
+ *	foreach ($robot->getMessages() as message) {
  *		echo message;
  *	}
  *} else {
@@ -1142,9 +1147,9 @@ PHP_METHOD(Phalcon_Mvc_Collection, getMessages) {
  *
  *		public function beforeSave()
  *		{
- *			if (this->name == 'Peter') {
+ *			if ($this->name == 'Peter') {
  *				message = new Message("Sorry, but a robot cannot be named Peter");
- *				this->appendMessage(message);
+ *				$this->appendMessage(message);
  *			}
  *		}
  *	}
@@ -1179,13 +1184,13 @@ PHP_METHOD(Phalcon_Mvc_Collection, save) {
 	ZEPHIR_OBS_VAR(dependencyInjector);
 	zephir_read_property_this(&dependencyInjector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	if (Z_TYPE_P(dependencyInjector) != IS_OBJECT) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_collection_exception_ce, "A dependency injector container is required to obtain the services related to the ORM", "phalcon/mvc/collection.zep", 839);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_collection_exception_ce, "A dependency injector container is required to obtain the services related to the ORM", "phalcon/mvc/collection.zep", 844);
 		return;
 	}
 	ZEPHIR_CALL_METHOD(&source, this_ptr, "getsource", NULL, 0);
 	zephir_check_call_status();
 	if (ZEPHIR_IS_EMPTY(source)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_collection_exception_ce, "Method getSource() returns empty string", "phalcon/mvc/collection.zep", 844);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_collection_exception_ce, "Method getSource() returns empty string", "phalcon/mvc/collection.zep", 849);
 		return;
 	}
 	ZEPHIR_CALL_METHOD(&connection, this_ptr, "getconnection", NULL, 0);
@@ -1208,7 +1213,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, save) {
 	zephir_update_property_this(this_ptr, SL("_errorMessages"), _1 TSRMLS_CC);
 	ZEPHIR_OBS_VAR(disableEvents);
 	zephir_read_static_property_ce(&disableEvents, phalcon_mvc_collection_ce, SL("_disableEvents") TSRMLS_CC);
-	ZEPHIR_CALL_METHOD(&_2, this_ptr, "_presave", NULL, 287, dependencyInjector, disableEvents, exists);
+	ZEPHIR_CALL_METHOD(&_2, this_ptr, "_presave", NULL, 301, dependencyInjector, disableEvents, exists);
 	zephir_check_call_status();
 	if (ZEPHIR_IS_FALSE_IDENTICAL(_2)) {
 		RETURN_MM_BOOL(0);
@@ -1217,9 +1222,9 @@ PHP_METHOD(Phalcon_Mvc_Collection, save) {
 	array_init(data);
 	ZEPHIR_CALL_METHOD(&reserved, this_ptr, "getreservedattributes", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&properties, "get_object_vars", NULL, 60, this_ptr);
+	ZEPHIR_CALL_FUNCTION(&properties, "get_object_vars", NULL, 23, this_ptr);
 	zephir_check_call_status();
-	zephir_is_iterable(properties, &_4, &_3, 0, 0, "phalcon/mvc/collection.zep", 899);
+	zephir_is_iterable(properties, &_4, &_3, 0, 0, "phalcon/mvc/collection.zep", 904);
 	for (
 	  ; zephir_hash_get_current_data_ex(_4, (void**) &_5, &_3) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_4, &_3)
@@ -1258,7 +1263,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, save) {
 	} else {
 		success = 0;
 	}
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "_postsave", NULL, 288, disableEvents, (success ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)), exists);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "_postsave", NULL, 302, disableEvents, (success ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)), exists);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -1326,22 +1331,21 @@ PHP_METHOD(Phalcon_Mvc_Collection, findById) {
  * <code>
  *
  * //What's the first robot in the robots table?
- * robot = Robots::findFirst();
- * echo "The robot name is ", robot->name, "\n";
+ * $robot = Robots::findFirst();
+ * echo "The robot name is ", $robot->name, "\n";
  *
  * //What's the first mechanical robot in robots table?
- * robot = Robots::findFirst(array(
+ * $robot = Robots::findFirst(array(
  *     array("type" => "mechanical")
  * ));
- * echo "The first mechanical robot name is ", robot->name, "\n";
+ * echo "The first mechanical robot name is ", $robot->name, "\n";
  *
  * //Get first virtual robot ordered by name
- * robot = Robots::findFirst(array(
+ * $robot = Robots::findFirst(array(
  *     array("type" => "mechanical"),
  *     "order" => array("name" => 1)
  * ));
- * echo "The first virtual robot name is ", robot->name, "\n";
- *
+ * echo "The first virtual robot name is ", $robot->name, "\n";
  * </code>
  */
 PHP_METHOD(Phalcon_Mvc_Collection, findFirst) {
@@ -1388,32 +1392,32 @@ PHP_METHOD(Phalcon_Mvc_Collection, findFirst) {
  * <code>
  *
  * //How many robots are there?
- * robots = Robots::find();
- * echo "There are ", count(robots), "\n";
+ * $robots = Robots::find();
+ * echo "There are ", count($robots), "\n";
  *
  * //How many mechanical robots are there?
- * robots = Robots::find(array(
+ * $robots = Robots::find(array(
  *     array("type" => "mechanical")
  * ));
  * echo "There are ", count(robots), "\n";
  *
  * //Get and print virtual robots ordered by name
- * robots = Robots::findFirst(array(
+ * $robots = Robots::findFirst(array(
  *     array("type" => "virtual"),
  *     "order" => array("name" => 1)
  * ));
- * foreach (robots as robot) {
- *	   echo robot->name, "\n";
+ * foreach ($robots as $robot) {
+ *	   echo $robot->name, "\n";
  * }
  *
  * //Get first 100 virtual robots ordered by name
- * robots = Robots::find(array(
+ * $robots = Robots::find(array(
  *     array("type" => "virtual"),
  *     "order" => array("name" => 1),
  *     "limit" => 100
  * ));
- * foreach (robots as robot) {
- *	   echo robot->name, "\n";
+ * foreach ($robots as $robot) {
+ *	   echo $robot->name, "\n";
  * }
  * </code>
  */
@@ -1534,7 +1538,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, aggregate) {
 	ZEPHIR_CALL_METHOD(&source, model, "getsource", NULL, 0);
 	zephir_check_call_status();
 	if (ZEPHIR_IS_EMPTY(source)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_collection_exception_ce, "Method getSource() returns empty string", "phalcon/mvc/collection.zep", 1075);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_collection_exception_ce, "Method getSource() returns empty string", "phalcon/mvc/collection.zep", 1079);
 		return;
 	}
 	ZEPHIR_CALL_METHOD(&_2, connection, "selectcollection", NULL, 0, source);
@@ -1547,18 +1551,13 @@ PHP_METHOD(Phalcon_Mvc_Collection, aggregate) {
 
 /**
  * Allows to perform a summatory group for a column in the collection
- *
- * @param string field
- * @param array conditions
- * @param string finalize
- * @return array
  */
 PHP_METHOD(Phalcon_Mvc_Collection, summatory) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
 	zend_class_entry *_1;
-	zval *field_param = NULL, *conditions = NULL, *finalize = NULL, *className, *model, *connection = NULL, *source = NULL, *collection = NULL, *keys, *emptyArray, *initial, *reduce = NULL, *group = NULL, *retval, *firstRetval, *_0 = NULL, *_3;
-	zval *field = NULL, *_2;
+	zval *field_param = NULL, *conditions = NULL, *finalize = NULL, *className, *model, *connection = NULL, *source = NULL, *collection = NULL, *initial, *reduce = NULL, *group = NULL, *retval, *firstRetval, *_0 = NULL, *_2 = NULL, *_4;
+	zval *field = NULL, *_3;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 2, &field_param, &conditions, &finalize);
@@ -1597,34 +1596,35 @@ PHP_METHOD(Phalcon_Mvc_Collection, summatory) {
 	ZEPHIR_CALL_METHOD(&source, model, "getsource", NULL, 0);
 	zephir_check_call_status();
 	if (ZEPHIR_IS_EMPTY(source)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_collection_exception_ce, "Method getSource() returns empty string", "phalcon/mvc/collection.zep", 1102);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_collection_exception_ce, "Method getSource() returns empty string", "phalcon/mvc/collection.zep", 1101);
 		return;
 	}
 	ZEPHIR_CALL_METHOD(&collection, connection, "selectcollection", NULL, 0, source);
 	zephir_check_call_status();
-	ZEPHIR_INIT_VAR(keys);
-	array_init(keys);
-	ZEPHIR_INIT_VAR(emptyArray);
-	array_init(emptyArray);
 	ZEPHIR_INIT_VAR(initial);
 	zephir_create_array(initial, 1, 0 TSRMLS_CC);
-	zephir_array_update_string(&initial, SL("summatory"), &emptyArray, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_VAR(_2);
-	ZEPHIR_CONCAT_SVSVSVS(_2, "function (curr, result) { if (typeof result.summatory[curr.", field, "] === \"undefined\") { result.summatory[curr.", field, "] = 1; } else { result.summatory[curr.", field, "]++; } }");
-	ZEPHIR_CPY_WRT(reduce, _2);
-	ZEPHIR_CALL_METHOD(&group, collection, "group", NULL, 0, keys, initial, reduce);
+	array_init(_2);
+	zephir_array_update_string(&initial, SL("summatory"), &_2, PH_COPY | PH_SEPARATE);
+	ZEPHIR_INIT_VAR(_3);
+	ZEPHIR_CONCAT_SVSVSVS(_3, "function (curr, result) { if (typeof result.summatory[curr.", field, "] === \"undefined\") { result.summatory[curr.", field, "] = 1; } else { result.summatory[curr.", field, "]++; } }");
+	ZEPHIR_CPY_WRT(reduce, _3);
+	ZEPHIR_INIT_NVAR(_2);
+	array_init(_2);
+	ZEPHIR_CALL_METHOD(&group, collection, "group", NULL, 0, _2, initial, reduce);
 	zephir_check_call_status();
 	if (zephir_array_isset_string_fetch(&retval, group, SS("retval"), 1 TSRMLS_CC)) {
 		if (zephir_array_isset_long_fetch(&firstRetval, retval, 0, 1 TSRMLS_CC)) {
 			if (zephir_array_isset_string(firstRetval, SS("summatory"))) {
-				zephir_array_fetch_string(&_3, firstRetval, SL("summatory"), PH_NOISY | PH_READONLY, "phalcon/mvc/collection.zep", 1126 TSRMLS_CC);
-				RETURN_CTOR(_3);
+				zephir_array_fetch_string(&_4, firstRetval, SL("summatory"), PH_NOISY | PH_READONLY, "phalcon/mvc/collection.zep", 1121 TSRMLS_CC);
+				RETURN_CTOR(_4);
 			}
 			RETURN_CTOR(firstRetval);
 		}
 		RETURN_CTOR(retval);
 	}
-	ZEPHIR_MM_RESTORE();
+	array_init(return_value);
+	RETURN_MM();
 
 }
 
@@ -1632,12 +1632,11 @@ PHP_METHOD(Phalcon_Mvc_Collection, summatory) {
  * Deletes a model instance. Returning true on success or false otherwise.
  *
  * <code>
+ *	$robot = Robots::findFirst();
+ *	$robot->delete();
  *
- *	robot = Robots::findFirst();
- *	robot->delete();
- *
- *	foreach (Robots::find() as robot) {
- *		robot->delete();
+ *	foreach (Robots::find() as $robot) {
+ *		$robot->delete();
  *	}
  * </code>
  */
@@ -1652,7 +1651,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, delete) {
 
 	ZEPHIR_OBS_VAR(id);
 	if (!(zephir_fetch_property(&id, this_ptr, SL("_id"), PH_SILENT_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_collection_exception_ce, "The document cannot be deleted because it doesn't exist", "phalcon/mvc/collection.zep", 1153);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_collection_exception_ce, "The document cannot be deleted because it doesn't exist", "phalcon/mvc/collection.zep", 1149);
 		return;
 	}
 	ZEPHIR_OBS_VAR(disableEvents);
@@ -1676,7 +1675,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, delete) {
 	ZEPHIR_CALL_METHOD(&source, this_ptr, "getsource", NULL, 0);
 	zephir_check_call_status();
 	if (ZEPHIR_IS_EMPTY(source)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_collection_exception_ce, "Method getSource() returns empty string", "phalcon/mvc/collection.zep", 1172);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_collection_exception_ce, "Method getSource() returns empty string", "phalcon/mvc/collection.zep", 1168);
 		return;
 	}
 	ZEPHIR_CALL_METHOD(&collection, connection, "selectcollection", NULL, 0, source);
@@ -1728,129 +1727,6 @@ PHP_METHOD(Phalcon_Mvc_Collection, delete) {
 }
 
 /**
- * Returns the instance as an array representation
- *
- *<code>
- * print_r(robot->to[]);
- *</code>
- */
-PHP_METHOD(Phalcon_Mvc_Collection, toArray) {
-
-	HashTable *_2;
-	HashPosition _1;
-	int ZEPHIR_LAST_CALL_STATUS;
-	zval *data, *reserved = NULL, *key = NULL, *value = NULL, *_0 = NULL, **_3;
-
-	ZEPHIR_MM_GROW();
-
-	ZEPHIR_CALL_METHOD(&reserved, this_ptr, "getreservedattributes", NULL, 0);
-	zephir_check_call_status();
-	ZEPHIR_INIT_VAR(data);
-	array_init(data);
-	ZEPHIR_CALL_FUNCTION(&_0, "get_object_vars", NULL, 60, this_ptr);
-	zephir_check_call_status();
-	zephir_is_iterable(_0, &_2, &_1, 0, 0, "phalcon/mvc/collection.zep", 1250);
-	for (
-	  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
-	  ; zephir_hash_move_forward_ex(_2, &_1)
-	) {
-		ZEPHIR_GET_HMKEY(key, _2, _1);
-		ZEPHIR_GET_HVALUE(value, _3);
-		if (ZEPHIR_IS_STRING(key, "_id")) {
-			if (zephir_is_true(value)) {
-				zephir_array_update_zval(&data, key, &value, PH_COPY | PH_SEPARATE);
-			}
-		} else {
-			if (!(zephir_array_isset(reserved, key))) {
-				zephir_array_update_zval(&data, key, &value, PH_COPY | PH_SEPARATE);
-			}
-		}
-	}
-	RETURN_CCTOR(data);
-
-}
-
-/**
- * Serializes the object ignoring connections or protected properties
- */
-PHP_METHOD(Phalcon_Mvc_Collection, serialize) {
-
-	int ZEPHIR_LAST_CALL_STATUS;
-	zval *_0 = NULL;
-
-	ZEPHIR_MM_GROW();
-
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "toarray", NULL, 0);
-	zephir_check_call_status();
-	ZEPHIR_RETURN_CALL_FUNCTION("serialize", NULL, 11, _0);
-	zephir_check_call_status();
-	RETURN_MM();
-
-}
-
-/**
- * Unserializes the object from a serialized string
- */
-PHP_METHOD(Phalcon_Mvc_Collection, unserialize) {
-
-	HashTable *_3;
-	HashPosition _2;
-	zephir_fcall_cache_entry *_0 = NULL;
-	int ZEPHIR_LAST_CALL_STATUS;
-	zval *data_param = NULL, *attributes = NULL, *dependencyInjector = NULL, *manager = NULL, *key = NULL, *value = NULL, *_1, **_4;
-	zval *data = NULL;
-
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &data_param);
-
-	if (unlikely(Z_TYPE_P(data_param) != IS_STRING && Z_TYPE_P(data_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'data' must be a string") TSRMLS_CC);
-		RETURN_MM_NULL();
-	}
-
-	if (likely(Z_TYPE_P(data_param) == IS_STRING)) {
-		zephir_get_strval(data, data_param);
-	} else {
-		ZEPHIR_INIT_VAR(data);
-		ZVAL_EMPTY_STRING(data);
-	}
-
-
-	ZEPHIR_CALL_FUNCTION(&attributes, "unserialize", NULL, 10, data);
-	zephir_check_call_status();
-	if (Z_TYPE_P(attributes) == IS_ARRAY) {
-		ZEPHIR_CALL_CE_STATIC(&dependencyInjector, phalcon_di_ce, "getdefault", &_0, 147);
-		zephir_check_call_status();
-		if (Z_TYPE_P(dependencyInjector) != IS_OBJECT) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_collection_exception_ce, "A dependency injector container is required to obtain the services related to the ODM", "phalcon/mvc/collection.zep", 1279);
-			return;
-		}
-		zephir_update_property_this(this_ptr, SL("_dependencyInjector"), dependencyInjector TSRMLS_CC);
-		ZEPHIR_INIT_VAR(_1);
-		ZVAL_STRING(_1, "collectionManager", ZEPHIR_TEMP_PARAM_COPY);
-		ZEPHIR_CALL_METHOD(&manager, dependencyInjector, "getshared", NULL, 0, _1);
-		zephir_check_temp_parameter(_1);
-		zephir_check_call_status();
-		if (Z_TYPE_P(manager) != IS_OBJECT) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_collection_exception_ce, "The injected service 'collectionManager' is not valid", "phalcon/mvc/collection.zep", 1292);
-			return;
-		}
-		zephir_update_property_this(this_ptr, SL("_modelsManager"), manager TSRMLS_CC);
-		zephir_is_iterable(attributes, &_3, &_2, 0, 0, "phalcon/mvc/collection.zep", 1306);
-		for (
-		  ; zephir_hash_get_current_data_ex(_3, (void**) &_4, &_2) == SUCCESS
-		  ; zephir_hash_move_forward_ex(_3, &_2)
-		) {
-			ZEPHIR_GET_HMKEY(key, _3, _2);
-			ZEPHIR_GET_HVALUE(value, _4);
-			zephir_update_property_zval_zval(this_ptr, key, value TSRMLS_CC);
-		}
-	}
-	ZEPHIR_MM_RESTORE();
-
-}
-
-/**
  * Sets up a behavior in a collection
  */
 PHP_METHOD(Phalcon_Mvc_Collection, addBehavior) {
@@ -1884,6 +1760,129 @@ PHP_METHOD(Phalcon_Mvc_Collection, skipOperation) {
 
 
 	zephir_update_property_this(this_ptr, SL("_skipped"), skip ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+
+}
+
+/**
+ * Returns the instance as an array representation
+ *
+ *<code>
+ * print_r($robot->toArray());
+ *</code>
+ */
+PHP_METHOD(Phalcon_Mvc_Collection, toArray) {
+
+	HashTable *_2;
+	HashPosition _1;
+	int ZEPHIR_LAST_CALL_STATUS;
+	zval *data, *reserved = NULL, *key = NULL, *value = NULL, *_0 = NULL, **_3;
+
+	ZEPHIR_MM_GROW();
+
+	ZEPHIR_CALL_METHOD(&reserved, this_ptr, "getreservedattributes", NULL, 0);
+	zephir_check_call_status();
+	ZEPHIR_INIT_VAR(data);
+	array_init(data);
+	ZEPHIR_CALL_FUNCTION(&_0, "get_object_vars", NULL, 23, this_ptr);
+	zephir_check_call_status();
+	zephir_is_iterable(_0, &_2, &_1, 0, 0, "phalcon/mvc/collection.zep", 1262);
+	for (
+	  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
+	  ; zephir_hash_move_forward_ex(_2, &_1)
+	) {
+		ZEPHIR_GET_HMKEY(key, _2, _1);
+		ZEPHIR_GET_HVALUE(value, _3);
+		if (ZEPHIR_IS_STRING(key, "_id")) {
+			if (zephir_is_true(value)) {
+				zephir_array_update_zval(&data, key, &value, PH_COPY | PH_SEPARATE);
+			}
+		} else {
+			if (!(zephir_array_isset(reserved, key))) {
+				zephir_array_update_zval(&data, key, &value, PH_COPY | PH_SEPARATE);
+			}
+		}
+	}
+	RETURN_CCTOR(data);
+
+}
+
+/**
+ * Serializes the object ignoring connections or protected properties
+ */
+PHP_METHOD(Phalcon_Mvc_Collection, serialize) {
+
+	int ZEPHIR_LAST_CALL_STATUS;
+	zval *_0 = NULL;
+
+	ZEPHIR_MM_GROW();
+
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "toarray", NULL, 0);
+	zephir_check_call_status();
+	ZEPHIR_RETURN_CALL_FUNCTION("serialize", NULL, 71, _0);
+	zephir_check_call_status();
+	RETURN_MM();
+
+}
+
+/**
+ * Unserializes the object from a serialized string
+ */
+PHP_METHOD(Phalcon_Mvc_Collection, unserialize) {
+
+	HashTable *_3;
+	HashPosition _2;
+	zephir_fcall_cache_entry *_0 = NULL;
+	int ZEPHIR_LAST_CALL_STATUS;
+	zval *data_param = NULL, *attributes = NULL, *dependencyInjector = NULL, *manager = NULL, *key = NULL, *value = NULL, *_1, **_4;
+	zval *data = NULL;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &data_param);
+
+	if (unlikely(Z_TYPE_P(data_param) != IS_STRING && Z_TYPE_P(data_param) != IS_NULL)) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'data' must be a string") TSRMLS_CC);
+		RETURN_MM_NULL();
+	}
+
+	if (likely(Z_TYPE_P(data_param) == IS_STRING)) {
+		zephir_get_strval(data, data_param);
+	} else {
+		ZEPHIR_INIT_VAR(data);
+		ZVAL_EMPTY_STRING(data);
+	}
+
+
+	ZEPHIR_CALL_FUNCTION(&attributes, "unserialize", NULL, 72, data);
+	zephir_check_call_status();
+	if (Z_TYPE_P(attributes) == IS_ARRAY) {
+		ZEPHIR_CALL_CE_STATIC(&dependencyInjector, phalcon_di_ce, "getdefault", &_0, 1);
+		zephir_check_call_status();
+		if (Z_TYPE_P(dependencyInjector) != IS_OBJECT) {
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_collection_exception_ce, "A dependency injector container is required to obtain the services related to the ODM", "phalcon/mvc/collection.zep", 1291);
+			return;
+		}
+		zephir_update_property_this(this_ptr, SL("_dependencyInjector"), dependencyInjector TSRMLS_CC);
+		ZEPHIR_INIT_VAR(_1);
+		ZVAL_STRING(_1, "collectionManager", ZEPHIR_TEMP_PARAM_COPY);
+		ZEPHIR_CALL_METHOD(&manager, dependencyInjector, "getshared", NULL, 0, _1);
+		zephir_check_temp_parameter(_1);
+		zephir_check_call_status();
+		if (Z_TYPE_P(manager) != IS_OBJECT) {
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_collection_exception_ce, "The injected service 'collectionManager' is not valid", "phalcon/mvc/collection.zep", 1304);
+			return;
+		}
+		zephir_update_property_this(this_ptr, SL("_modelsManager"), manager TSRMLS_CC);
+		zephir_is_iterable(attributes, &_3, &_2, 0, 0, "phalcon/mvc/collection.zep", 1318);
+		for (
+		  ; zephir_hash_get_current_data_ex(_3, (void**) &_4, &_2) == SUCCESS
+		  ; zephir_hash_move_forward_ex(_3, &_2)
+		) {
+			ZEPHIR_GET_HMKEY(key, _3, _2);
+			ZEPHIR_GET_HVALUE(value, _4);
+			zephir_update_property_zval_zval(this_ptr, key, value TSRMLS_CC);
+		}
+	}
+	ZEPHIR_MM_RESTORE();
 
 }
 

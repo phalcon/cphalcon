@@ -78,3 +78,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_ViewBaseInterface, setContent);
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ViewBaseInterface, getContent);
 
+/**
+ * Renders a partial view
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_ViewBaseInterface, partial);
+

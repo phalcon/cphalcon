@@ -26,7 +26,7 @@ namespace Phalcon;
  */
 class Debug
 {
-	public _uri = "http://static.phalconphp.com/debug/2.0.0/";
+	public _uri = "//static.phalconphp.com/debug/2.0.0/";
 
 	public _theme = "default";
 
@@ -295,7 +295,7 @@ class Debug
 	 */
 	public function getVersion() -> string
 	{
-		return "<div class=\"version\">Phalcon Framework <a target=\"_new\" href=\"http://docs.phalconphp.com/en/" .
+		return "<div class=\"version\">Phalcon Framework <a target=\"_new\" href=\"//docs.phalconphp.com/en/" .
 			this->getMajorVersion() . "/\">" .
 			\Phalcon\Version::get() . "</a></div>";
 	}
@@ -334,7 +334,7 @@ class Debug
 	 */
 	protected final function showTraceItem(int n, array! trace)
 	{
-		var space, twoSpaces, underscore, minus, className, namespaceSeparator,
+		var space, twoSpaces, underscore, minus, className,
 			prepareInternalClass, preparedFunctionName, html, classReflection, prepareUriClass,
 			functionName, functionReflection, traceArgs, arguments, argument,
 			filez, line, showFiles, lines, numberLines, showFileFragment,
@@ -356,21 +356,19 @@ class Debug
 			let className = trace["class"];
 
 			/**
-			 * We assume that classes starting by Phalcon are framework"s classes
+			 * We assume that classes starting by Phalcon are framework's classes
 			 */
 			if preg_match("/^Phalcon/", className) {
 
-				let namespaceSeparator = "\\";
-
 				/**
-				 * Prepare the class name according to the Phalcon"s conventions
+				 * Prepare the class name according to the Phalcon's conventions
 				 */
-				let prepareUriClass = str_replace(namespaceSeparator, underscore, className);
+				let prepareUriClass = str_replace("\\", "/", className);
 
 				/**
 				 * Generate a link to the official docs
 				 */
-				let html .= "<span class=\"error-class\"><a target=\"_new\" href=\"http://docs.phalconphp.com/en/latest/api/" . prepareUriClass . ".html\">" . className . "</a></span>";
+				let html .= "<span class=\"error-class\"><a target=\"_new\" href=\"//api.phalconphp.com/class/" . prepareUriClass . ".html\">" . className . "</a></span>";
 			} else {
 
 				let classReflection = new \ReflectionClass(className);

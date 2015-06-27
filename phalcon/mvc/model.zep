@@ -22,6 +22,7 @@ namespace Phalcon\Mvc;
 use Phalcon\Di;
 use Phalcon\Text;
 use Phalcon\Db\Column;
+use Phalcon\Db\RawValue;
 use Phalcon\DiInterface;
 use Phalcon\Mvc\Model\Message;
 use Phalcon\Mvc\Model\ResultInterface;
@@ -47,17 +48,17 @@ use Phalcon\Events\ManagerInterface as EventsManagerInterface;
 /**
  * Phalcon\Mvc\Model
  *
- * <p>Phalcon\Mvc\Model connects business objects and database tables to create
+ * Phalcon\Mvc\Model connects business objects and database tables to create
  * a persistable domain model where logic and data are presented in one wrapping.
- * It‘s an implementation of the object-relational mapping (ORM).</p>
+ * It‘s an implementation of the object-relational mapping (ORM).
  *
- * <p>A model represents the information (data) of the application and the rules to manipulate that data.
+ * A model represents the information (data) of the application and the rules to manipulate that data.
  * Models are primarily used for managing the rules of interaction with a corresponding database table.
  * In most cases, each table in your database will correspond to one model in your application.
- * The bulk of your application's business logic will be concentrated in the models.</p>
+ * The bulk of your application's business logic will be concentrated in the models.
  *
- * <p>Phalcon\Mvc\Model is the first ORM written in C-language for PHP, giving to developers high performance
- * when interacting with databases while is also easy to use.</p>
+ * Phalcon\Mvc\Model is the first ORM written in C-language for PHP, giving to developers high performance
+ * when interacting with databases while is also easy to use.
  *
  * <code>
  *
@@ -76,7 +77,7 @@ use Phalcon\Events\ManagerInterface as EventsManagerInterface;
  * </code>
  *
  */
-abstract class Model implements ModelInterface, ResultInterface, InjectionAwareInterface, \Serializable
+abstract class Model implements EntityInterface, ModelInterface, ResultInterface, InjectionAwareInterface, \Serializable
 {
 
 	protected _dependencyInjector;
@@ -415,7 +416,6 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 *
 	 * //allow assign only name and year
 	 * $robot->assign($_POST, null, array('name', 'year');
-	 *
 	 *</code>
 	 *
 	 * @param array data
@@ -506,31 +506,58 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 */
 	public static function cloneResultMap(var base, array! data, var columnMap, int dirtyState = 0, boolean keepSnapshots = null) -> <Model>
 	{
-		var instance, attribute, key, value;
+		var instance, attribute, key, value, castValue, attributeName;
 
 		let instance = clone base;
 
-		/**
-		 * Change the dirty state to persistent
-		 */
+		// Change the dirty state to persistent
 		instance->setDirtyState(dirtyState);
 
 		for key, value in data {
 
 			if typeof key == "string" {
 
-				/**
-				 * Only string keys in the data are valid
-				 */
+				// Only string keys in the data are valid
 				if typeof columnMap == "array" {
-					/**
-					 * Every field must be part of the column map
-					 */
-					if fetch attribute, columnMap[key] {
-						let instance->{attribute} = value;
-					} else {
-						throw new Exception("Column '" . key . "' doesn't make part of the column map");
+
+					// Every field must be part of the column map
+					if !fetch attribute, columnMap[key] {
+						if !globals_get("orm.ignore_unknown_columns") {
+							throw new Exception("Column '" . key . "' doesn't make part of the column map");
+						} else {
+							continue;
+						}
 					}
+
+					if typeof attribute != "array" {
+						let instance->{attribute} = value;
+						continue;
+					}
+
+					switch attribute[1] {
+
+						case Column::TYPE_INTEGER:
+							let castValue = intval(value, 10);
+							break;
+
+						case Column::TYPE_DOUBLE:
+						case Column::TYPE_DECIMAL:
+						case Column::TYPE_FLOAT:
+							let castValue = doubleval(value);
+							break;
+
+						case Column::TYPE_BOOLEAN:
+							let castValue = (boolean) value;
+							break;
+
+						default:
+							let castValue = value;
+							break;
+					}
+
+					let attributeName = attribute[0],
+						instance->{attributeName} = castValue;
+
 				} else {
 					let instance->{key} = value;
 				}
@@ -696,7 +723,8 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	public static function find(var parameters = null) -> <ResultsetInterface>
 	{
 		var params, builder, query, bindParams, bindTypes, cache, resultset, hydration, dependencyInjector, manager;
-		let dependencyInjector = \Phalcon\Di::getDefault();
+
+		let dependencyInjector = Di::getDefault();
 		let manager = <ManagerInterface> dependencyInjector->getShared("modelsManager");
 
 		if typeof parameters != "array" {
@@ -720,9 +748,16 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 		 * Check for bind parameters
 		 */
 		if fetch bindParams, params["bind"] {
-			fetch bindTypes, params["bindTypes"];
-		} else {
-			let bindTypes = null;
+
+			if typeof bindParams == "array" {
+				query->setBindParams(bindParams, true);
+			}
+
+			if fetch bindTypes, params["bindTypes"] {
+				if typeof bindTypes == "array" {
+					query->setBindTypes(bindTypes, true);
+				}
+			}
 		}
 
 		/**
@@ -735,7 +770,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 		/**
 		 * Execute the query passing the bind-params and casting-types
 		 */
-		let resultset = query->execute(bindParams, bindTypes);
+		let resultset = query->execute();
 
 		/**
 		 * Define an hydration mode
@@ -768,13 +803,15 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 *
 	 * </code>
 	 *
-	 * @param array parameters
+	 * @param string|array parameters
 	 * @return Phalcon\Mvc\Model
 	 */
-	public static function findFirst(parameters = null) -> <Model>
+	public static function findFirst(var parameters = null) -> <Model>
 	{
-		var params, builder, query, bindParams, bindTypes, cache, resultset, hydration, dependencyInjector, manager;
-		let dependencyInjector = \Phalcon\Di::getDefault();
+		var params, builder, query, bindParams, bindTypes, cache,
+			dependencyInjector, manager;
+
+		let dependencyInjector = Di::getDefault();
 		let manager = <ManagerInterface> dependencyInjector->getShared("modelsManager");
 
 		if typeof parameters != "array" {
@@ -801,9 +838,17 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 		/**
 		 * Check for bind parameters
 		 */
-		let bindParams = null, bindTypes = null;
 		if fetch bindParams, params["bind"] {
-			fetch bindTypes, params["bindTypes"];
+
+			if typeof bindParams == "array" {
+				query->setBindParams(bindParams, true);
+			}
+
+			if fetch bindTypes, params["bindTypes"] {
+				if typeof bindTypes == "array" {
+					query->setBindTypes(bindTypes, true);
+				}
+			}
 		}
 
 		/**
@@ -821,18 +866,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 		/**
 		 * Execute the query passing the bind-params and casting-types
 		 */
-		let resultset = query->execute(bindParams, bindTypes);
-
-		/**
-		 * Define an hydration mode
-		 */
-		if typeof resultset == "object" {
-			if fetch hydration, params["hydration"] {
-				resultset->setHydrateMode(hydration);
-			}
-		}
-
-		return resultset;
+		return query->execute();
 	}
 
 	/**
@@ -1118,7 +1152,13 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 */
 	public static function count(var parameters = null)
 	{
-		return self::_groupResult("COUNT", "rowcount", parameters);
+		var result;
+
+		let result = self::_groupResult("COUNT", "rowcount", parameters);
+		if typeof result == "string" {
+			return (int) result;
+		}
+		return result;
 	}
 
 	/**
@@ -1312,7 +1352,6 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 *			return false;
 	 *		}
 	 *	}
-	 *
 	 *}
 	 *</code>
 	 */
@@ -1351,7 +1390,6 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 *			return false;
 	 *		}
 	 *	}
-	 *
 	 *}
 	 *</code>
 	 */
@@ -2085,15 +2123,13 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 				 */
 				if field != identityField {
 
-					let fields[] = field;
-
 					/**
 					 * This isset checks that the property be defined in the model
 					 */
 					if fetch value, this->{attributeField} {
 
 						if value === null && isset defaultValues[field] {
-							let value = defaultValues[field];
+							let value = connection->getDefaultValue();
 						}
 
 						/**
@@ -2103,13 +2139,17 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 							throw new Exception("Column '" . field . "' have not defined a bind data type");
 						}
 
-						let values[] = value, bindTypes[] = bindType;
+						let fields[] = field, values[] = value, bindTypes[] = bindType;
+
 					} else {
 
-						let bindTypes[] = bindSkip;
+						if isset defaultValues[field] {
+							let values[] = connection->getDefaultValue();
+						} else {
+							let values[] = value;
+						}
 
-						fetch value, defaultValues[field];
-						let values[] = value;
+						let fields[] = field, bindTypes[] = bindSkip;
 					}
 				}
 			}
@@ -2318,23 +2358,27 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 									let changed = true;
 								} else {
 									switch (bindType) {
+
 										case Column::TYPE_BOOLEAN:
-											let changed = (boolean)snapshotValue !== (boolean)value;
+											let changed = (boolean) snapshotValue !== (boolean) value;
 											break;
+
 										case Column::TYPE_INTEGER:
-											let changed = (int)snapshotValue !== (int)value;
+											let changed = (int) snapshotValue !== (int) value;
 											break;
+
 										case Column::TYPE_DECIMAL:
 										case Column::TYPE_FLOAT:
 											let changed = floatval(snapshotValue) !== floatval(value);
 											break;
+
 										case Column::TYPE_DATE:
 										case Column::TYPE_VARCHAR:
 										case Column::TYPE_DATETIME:
 										case Column::TYPE_CHAR:
 										case Column::TYPE_TEXT:
 										case Column::TYPE_VARCHAR:
-											let changed = (string)snapshotValue !== (string)value;
+											let changed = (string) snapshotValue !== (string) value;
 											break;
 
 										/**
@@ -2852,7 +2896,6 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 		}
 
 		if success === false {
-			this->fireEvent("notSave");
 			this->_cancelOperation();
 		} else {
 			this->fireEvent("afterSave");
@@ -2881,10 +2924,6 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 *      'year' => 1952
 	 *  ));
 	 *</code>
-	 *
-	 * @param array data
-	 * @param array whiteList
-	 * @return boolean
 	 */
 	public function create(var data = null, var whiteList = null) -> boolean
 	{
@@ -2919,10 +2958,6 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	 *	$robot->name = "Biomass";
 	 *	$robot->update();
 	 *</code>
-	 *
-	 * @param array data
-	 * @param array whiteList
-	 * @return boolean
 	 */
 	public function update(var data = null, var whiteList = null) -> boolean
 	{
@@ -2935,7 +2970,7 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 
 			let metaData = this->getModelsMetaData();
 
-			if this->_exists(metaData, this->getReadConnection()) {
+			if !this->_exists(metaData, this->getReadConnection()) {
 				let this->_errorMessages = [new Message("Record cannot be updated because it does not exist", null, "InvalidUpdateAttempt")];
 				return false;
 			}
@@ -4248,7 +4283,8 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
 	public static function setup(array! options) -> void
 	{
 		var disableEvents, columnRenaming, notNullValidations,
-			exceptionOnFailedSave, phqlLiterals, virtualForeignKeys, lateStateBinding;
+			exceptionOnFailedSave, phqlLiterals, virtualForeignKeys,
+			lateStateBinding, castOnHydrate, ignoreUnknownColumns;
 
 		/**
 		 * Enables/Disables globally the internal events
@@ -4297,6 +4333,20 @@ abstract class Model implements ModelInterface, ResultInterface, InjectionAwareI
          */
         if fetch lateStateBinding, options["lateStateBinding"] {
             globals_set("orm.late_state_binding", lateStateBinding);
+        }
+
+		/**
+         * Enables/Disables automatic cast to original types on hydration
+         */
+        if fetch castOnHydrate, options["castOnHydrate"] {
+            globals_set("orm.cast_on_hydrate", castOnHydrate);
+        }
+
+		/**
+         * Allows to ignore unknown columns when hydrating objects
+         */
+        if fetch ignoreUnknownColumns, options["ignoreUnknownColumns"] {
+            globals_set("orm.ignore_unknown_columns", ignoreUnknownColumns);
         }
 	}
 

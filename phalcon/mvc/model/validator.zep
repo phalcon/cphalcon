@@ -69,7 +69,7 @@ abstract class Validator
 	 *
 	 * @return array
 	 */
-	protected function getOptions()
+	public function getOptions()
 	{
 		return this->_options;
 	}
@@ -80,7 +80,7 @@ abstract class Validator
 	 * @param	string option
 	 * @return	mixed
 	 */
-	protected function getOption(string! option)
+	public function getOption(string! option)
 	{
 		var options, value;
 		let options = this->_options;
@@ -93,9 +93,8 @@ abstract class Validator
 	/**
 	 * Check whether a option has been defined in the validator options
 	 */
-	protected function isSetOption(string! option) -> boolean
+	public function isSetOption(string! option) -> boolean
 	{
 		return isset this->_options[option];
 	}
-
 }

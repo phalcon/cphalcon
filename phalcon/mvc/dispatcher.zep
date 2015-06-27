@@ -24,6 +24,7 @@ use Phalcon\Mvc\Dispatcher\Exception;
 use Phalcon\Events\ManagerInterface;
 use Phalcon\Http\ResponseInterface;
 use Phalcon\Mvc\ControllerInterface;
+use Phalcon\Dispatcher as BaseDispatcher;
 
 /**
  * Phalcon\Mvc\Dispatcher
@@ -45,10 +46,9 @@ use Phalcon\Mvc\ControllerInterface;
  *	$dispatcher->setParams(array());
  *
  *	$controller = $dispatcher->dispatch();
- *
  *</code>
  */
-class Dispatcher extends \Phalcon\Dispatcher implements DispatcherInterface
+class Dispatcher extends BaseDispatcher implements DispatcherInterface
 {
 
 	protected _handlerSuffix = "Controller";
@@ -116,7 +116,7 @@ class Dispatcher extends \Phalcon\Dispatcher implements DispatcherInterface
 		if typeof dependencyInjector != "object" {
 			throw new Exception(
 				"A dependency injection container is required to access the 'response' service",
-				\Phalcon\Dispatcher::EXCEPTION_NO_DI
+				BaseDispatcher::EXCEPTION_NO_DI
 			);
 		}
 

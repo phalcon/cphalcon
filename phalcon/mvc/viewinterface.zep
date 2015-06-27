@@ -137,12 +137,7 @@ interface ViewInterface extends ViewBaseInterface
 	/**
 	 * Choose a view different to render than last-controller/last-action
 	 */
-	public function pick(string! renderView);
-
-	/**
-	 * Renders a partial view
-	 */
-	public function partial(string! partialPath) -> string;
+	public function pick(string! renderView);	
 
 	/**
 	 * Finishes the render process by stopping the output buffering

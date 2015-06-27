@@ -40,7 +40,6 @@
  *	$dispatcher->setParams(array());
  *
  *	$controller = $dispatcher->dispatch();
- *
  *</code>
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Dispatcher) {
@@ -214,7 +213,7 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, _throwDispatchException) {
 		ZVAL_STRING(_1, "A dependency injection container is required to access the 'response' service", ZEPHIR_TEMP_PARAM_COPY);
 		ZEPHIR_INIT_VAR(_2);
 		ZVAL_LONG(_2, 0);
-		ZEPHIR_CALL_METHOD(NULL, _0, "__construct", NULL, 2, _1, _2);
+		ZEPHIR_CALL_METHOD(NULL, _0, "__construct", NULL, 9, _1, _2);
 		zephir_check_temp_parameter(_1);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(_0, "phalcon/mvc/dispatcher.zep", 120 TSRMLS_CC);
@@ -238,7 +237,7 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, _throwDispatchException) {
 	object_init_ex(exception, phalcon_mvc_dispatcher_exception_ce);
 	ZEPHIR_INIT_NVAR(_0);
 	ZVAL_LONG(_0, exceptionCode);
-	ZEPHIR_CALL_METHOD(NULL, exception, "__construct", NULL, 2, message, _0);
+	ZEPHIR_CALL_METHOD(NULL, exception, "__construct", NULL, 9, message, _0);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&_3, this_ptr, "_handleexception", NULL, 0, exception);
 	zephir_check_call_status();

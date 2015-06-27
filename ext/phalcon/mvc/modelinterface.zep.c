@@ -287,22 +287,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, refresh);
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, skipOperation);
 
 /**
- * Reads an attribute value by its name
- *
- * @param string attribute
- * @return mixed
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, readAttribute);
-
-/**
- * Writes an attribute value by its name
- *
- * @param string attribute
- * @param mixed value
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, writeAttribute);
-
-/**
  * Returns related records based on defined relations
  *
  * @param string alias

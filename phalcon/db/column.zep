@@ -43,7 +43,6 @@ use Phalcon\Db\ColumnInterface;
  * //add column to existing table
  * $connection->addColumn("robots", null, $column);
  *</code>
- *
  */
 class Column implements ColumnInterface
 {
@@ -94,13 +93,6 @@ class Column implements ColumnInterface
 	const TYPE_BOOLEAN = 8;
 
 	/**
-	 * Double abstract data type
-	 *
-	 */
-	const TYPE_DOUBLE = 9;
-	
-	
-	/**
 	 * Bind Type Null
 	 */
 	const BIND_PARAM_NULL = 0;
@@ -114,6 +106,11 @@ class Column implements ColumnInterface
 	 * Bind Type String
 	 */
 	const BIND_PARAM_STR = 2;
+
+	/**
+	 * Bind Type Blob
+	 */
+	const BIND_PARAM_BLOB = 3;
 
 	/**
 	 * Bind Type Bool

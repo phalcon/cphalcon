@@ -19,28 +19,31 @@
 
 namespace Phalcon\Mvc;
 
-use Phalcon\Di\InjectionAwareInterface;
 use Phalcon\DiInterface;
 use Phalcon\Mvc\Router\Route;
-use Phalcon\Mvc\Router\RouteInterface;
 use Phalcon\Mvc\Router\Exception;
 use Phalcon\Http\RequestInterface;
+use Phalcon\Events\ManagerInterface;
 use Phalcon\Mvc\Router\GroupInterface;
+use Phalcon\Mvc\Router\RouteInterface;
+use Phalcon\Di\InjectionAwareInterface;
+use Phalcon\Events\ManagerInterface;
+use Phalcon\Events\EventsAwareInterface;
 
 /**
  * Phalcon\Mvc\Router
  *
- * <p>Phalcon\Mvc\Router is the standard framework router. Routing is the
+ * Phalcon\Mvc\Router is the standard framework router. Routing is the
  * process of taking a URI endpoint (that part of the URI which comes after the base URL) and
  * decomposing it into parameters to determine which module, controller, and
- * action of that controller should receive the request</p>
+ * action of that controller should receive the request
  *
  *<code>
  *
  *	$router = new Router();
  *
  *	$router->add(
- *		"/documentation/{chapter}/{name}.{type:[a-z]+}",
+ *		"/documentation/{chapter}/{name}\.{type:[a-z]+}",
  *		array(
  *			"controller" => "documentation",
  *			"action"     => "show"
@@ -52,9 +55,11 @@ use Phalcon\Mvc\Router\GroupInterface;
  *	echo $router->getControllerName();
  *</code>
  */
-class Router implements InjectionAwareInterface, RouterInterface
+class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInterface
 {
 	protected _dependencyInjector;
+
+	protected _eventsManager;
 
 	protected _uriSource;
 
@@ -93,6 +98,10 @@ class Router implements InjectionAwareInterface, RouterInterface
 	const URI_SOURCE_GET_URL = 0;
 
 	const URI_SOURCE_SERVER_REQUEST_URI = 1;
+
+	const POSITION_FIRST = 0;
+
+	const POSITION_LAST = 1;
 
 	/**
 	 * Phalcon\Mvc\Router constructor
@@ -136,6 +145,22 @@ class Router implements InjectionAwareInterface, RouterInterface
 	public function getDI() -> <DiInterface>
 	{
 		return this->_dependencyInjector;
+	}
+
+	/**
+	 * Sets the events manager
+	 */
+	public function setEventsManager(<ManagerInterface> eventsManager)
+	{
+		let this->_eventsManager = eventsManager;
+	}
+
+	/**
+	 * Returns the internal event manager
+	 */
+	public function getEventsManager() -> <ManagerInterface>
+	{
+		return this->_eventsManager;
 	}
 
 	/**
@@ -302,7 +327,7 @@ class Router implements InjectionAwareInterface, RouterInterface
 			vnamespace, module,  controller, action, paramsStr, strParams,
 			route, methods, dependencyInjector,
 			hostname, regexHostName, matched, pattern, handledUri, beforeMatch,
-			paths, converters, part, position, matchPosition, converter;
+			paths, converters, part, position, matchPosition, converter, eventsManager;
 
 		if !uri {
 			/**
@@ -331,6 +356,12 @@ class Router implements InjectionAwareInterface, RouterInterface
 			this->_wasMatched = false,
 			this->_matchedRoute = null;
 
+		let eventsManager = this->_eventsManager;
+
+		if typeof eventsManager == "object" {
+			eventsManager->fire("router:beforeCheckRoutes", this);
+		}
+
 		/**
 		 * Routes are traversed in reversed order
 		 */
@@ -347,7 +378,7 @@ class Router implements InjectionAwareInterface, RouterInterface
 				 */
 				if request === null {
 
-					let dependencyInjector = <\Phalcon\DiInterface> this->_dependencyInjector;
+					let dependencyInjector = <DiInterface> this->_dependencyInjector;
 					if typeof dependencyInjector != "object" {
 						throw new Exception("A dependency injection container is required to access the 'request' service");
 					}
@@ -358,7 +389,7 @@ class Router implements InjectionAwareInterface, RouterInterface
 				/**
 				 * Check if the current method is allowed by the route
 				 */
-				if request->isMethod(methods) === false {
+				if request->isMethod(methods, true) === false {
 					continue;
 				}
 			}
@@ -413,7 +444,10 @@ class Router implements InjectionAwareInterface, RouterInterface
 				if !matched {
 					continue;
 				}
+			}
 
+			if typeof eventsManager == "object" {
+				eventsManager->fire("router:beforeCheckRoute", this, route);
 			}
 
 			/**
@@ -432,6 +466,10 @@ class Router implements InjectionAwareInterface, RouterInterface
 			 */
 			if routeFound {
 
+				if typeof eventsManager == "object" {
+					eventsManager->fire("router:matchedRoute", this, route);
+				}
+
 				let beforeMatch = route->getBeforeMatch();
 				if beforeMatch !== null {
 
@@ -446,6 +484,11 @@ class Router implements InjectionAwareInterface, RouterInterface
 					 * Check first if the callback is callable
 					 */
 					let routeFound = call_user_func_array(beforeMatch, [handledUri, route, this]);
+				}
+
+			} else {
+				if typeof eventsManager == "object" {
+					let routeFound = eventsManager->fire("router:notMatchedRoute", this, route);
 				}
 			}
 
@@ -585,8 +628,7 @@ class Router implements InjectionAwareInterface, RouterInterface
 			if fetch paramsStr, parts["params"] {
 				if typeof paramsStr == "string" {
 					let strParams = trim(paramsStr, "/");
-
-					if strParams {
+					if strParams !== "" {
 						let params = explode("/", strParams);
 					}
 				}
@@ -599,7 +641,10 @@ class Router implements InjectionAwareInterface, RouterInterface
 			} else {
 				let this->_params = parts;
 			}
+		}
 
+		if typeof eventsManager == "object" {
+			eventsManager->fire("router:afterCheckRoutes", this);
 		}
 	}
 
@@ -607,75 +652,93 @@ class Router implements InjectionAwareInterface, RouterInterface
 	 * Adds a route to the router without any HTTP constraint
 	 *
 	 *<code>
+	 * use Phalcon\Mvc\Router;
+	 *
 	 * $router->add('/about', 'About::index');
+	 * $router->add('/about', 'About::index', ['GET', 'POST']);
+	 * $router->add('/about', 'About::index', ['GET', 'POST'], Router::POSITION_FIRST);
 	 *</code>
 	 */
-	public function add(string! pattern, var paths = null, var httpMethods = null) -> <RouteInterface>
+	public function add(string! pattern, var paths = null, var httpMethods = null, var position = Router::POSITION_LAST) -> <RouteInterface>
 	{
 		var route;
 
 		/**
 		 * Every route is internally stored as a Phalcon\Mvc\Router\Route
 		 */
-		let route = new Route(pattern, paths, httpMethods),
-			this->_routes[] = route;
+		let route = new Route(pattern, paths, httpMethods);
+
+		switch position {
+
+			case self::POSITION_LAST:
+				let this->_routes[] = route;
+				break;
+
+			case self::POSITION_FIRST:
+				let this->_routes = array_merge([route], this->_routes);
+				break;
+
+			default:
+				throw new Exception("Invalid route position");
+		}
+
 		return route;
 	}
 
 	/**
 	 * Adds a route to the router that only match if the HTTP method is GET
 	 */
-	public function addGet(string! pattern, var paths = null) -> <RouteInterface>
+	public function addGet(string! pattern, var paths = null, var position = null) -> <RouteInterface>
 	{
-		return this->add(pattern, paths, "GET");
+		return this->add(pattern, paths, "GET", position);
 	}
 
 	/**
 	 * Adds a route to the router that only match if the HTTP method is POST
 	 */
-	public function addPost(string! pattern, var paths = null) -> <RouteInterface>
+	public function addPost(string! pattern, var paths = null, var position = null) -> <RouteInterface>
 	{
-		return this->add(pattern, paths, "POST");
+		return this->add(pattern, paths, "POST", position);
 	}
 
 	/**
 	 * Adds a route to the router that only match if the HTTP method is PUT
 	 */
-	public function addPut(string! pattern, var paths = null) -> <RouteInterface>
+	public function addPut(string! pattern, var paths = null, var position = null) -> <RouteInterface>
 	{
-		return this->add(pattern, paths, "PUT");
+		return this->add(pattern, paths, "PUT", position);
 	}
 
 	/**
 	 * Adds a route to the router that only match if the HTTP method is PATCH
 	 */
-	public function addPatch(string! pattern, var paths = null) -> <RouteInterface>
+	public function addPatch(string! pattern, var paths = null, var position = null) -> <RouteInterface>
 	{
-		return this->add(pattern, paths, "PATCH");
+		return this->add(pattern, paths, "PATCH", position);
 	}
 
 	/**
 	 * Adds a route to the router that only match if the HTTP method is DELETE
 	 */
-	public function addDelete(string! pattern, var paths = null) -> <RouteInterface>
+	public function addDelete(string! pattern, var paths = null, var position = null) -> <RouteInterface>
 	{
-		return this->add(pattern, paths, "DELETE");
+		return this->add(pattern, paths, "DELETE", position);
 	}
 
 	/**
 	 * Add a route to the router that only match if the HTTP method is OPTIONS
 	 */
-	public function addOptions(string! pattern, var paths = null) -> <RouteInterface>
+	public function addOptions(string! pattern, var paths = null, var position = null) -> <RouteInterface>
 	{
-		return this->add(pattern, paths, "OPTIONS");
+		return this->add(pattern, paths, "OPTIONS", position);
 	}
 
 	/**
 	 * Adds a route to the router that only match if the HTTP method is HEAD
 	 */
-	public function addHead(string! pattern, var paths = null) -> <RouteInterface>
+	public function addHead(string! pattern, var paths = null, var position = null) -> <RouteInterface>
 	{
-		return this->add(pattern, paths, "HEAD");
+		return this->add(pattern, paths, "HEAD", position);
 	}
 
 	/**

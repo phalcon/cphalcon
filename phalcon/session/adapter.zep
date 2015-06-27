@@ -70,7 +70,7 @@ abstract class Adapter
 	 * Sets session's options
 	 *
 	 *<code>
-	 *	session->setOptions(array(
+	 *	$session->setOptions(array(
 	 *		'uniqueId' => 'my-private-app'
 	 *	));
 	 *</code>
@@ -92,6 +92,22 @@ abstract class Adapter
 	public function getOptions() -> array
 	{
 		return this->_options;
+	}
+
+	/**
+	 * Set session name
+	 */
+	public function setName(string name)
+	{
+	    session_name(name);
+	}
+
+	/**
+	 * Get session name
+	 */
+	public function getName()
+	{
+	    return session_name();
 	}
 
 	/**
@@ -120,7 +136,7 @@ abstract class Adapter
 	 * Sets a session variable in an application context
 	 *
 	 *<code>
-	 *	session->set('auth', 'yes');
+	 *	$session->set('auth', 'yes');
 	 *</code>
 	 *
 	 * @param string index
@@ -166,7 +182,7 @@ abstract class Adapter
 	{
 		return session_id();
 	}
-	
+
 	/**
 	 * Set the current session id
 	 *

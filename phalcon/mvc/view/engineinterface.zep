@@ -29,12 +29,6 @@ use Phalcon\Mvc\ViewBaseInterface;
  */
 interface EngineInterface
 {
-
-	/**
-	 * Phalcon\Mvc\View\Engine constructor
-	 */
-	public function __construct(<ViewBaseInterface> view, <DiInterface> dependencyInjector = null);
-
 	/**
 	 * Returns cached output on another view stage
 	 */
@@ -43,7 +37,7 @@ interface EngineInterface
 	/**
 	 * Renders a partial inside another view
 	 */
-	public function partial(string! partialPath) -> string;
+	public function partial(string! partialPath, var params = null) -> string;
 
 	/**
 	 * Renders a view using the template engine

@@ -89,7 +89,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct) {
 	}
 
 
-	ZEPHIR_CALL_FUNCTION(&iniConfig, "parse_ini_file", NULL, 61, filePath, ZEPHIR_GLOBAL(global_true));
+	ZEPHIR_CALL_FUNCTION(&iniConfig, "parse_ini_file", NULL, 124, filePath, ZEPHIR_GLOBAL(global_true));
 	zephir_check_call_status();
 	if (ZEPHIR_IS_FALSE_IDENTICAL(iniConfig)) {
 		ZEPHIR_INIT_VAR(_0);
@@ -98,7 +98,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct) {
 		zephir_basename(_1, filePath TSRMLS_CC);
 		ZEPHIR_INIT_VAR(_2);
 		ZEPHIR_CONCAT_SVS(_2, "Configuration file ", _1, " can't be loaded");
-		ZEPHIR_CALL_METHOD(NULL, _0, "__construct", NULL, 2, _2);
+		ZEPHIR_CALL_METHOD(NULL, _0, "__construct", NULL, 9, _2);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(_0, "phalcon/config/adapter/ini.zep", 67 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
@@ -106,36 +106,40 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct) {
 	}
 	ZEPHIR_INIT_VAR(config);
 	array_init(config);
-	zephir_is_iterable(iniConfig, &_4, &_3, 0, 0, "phalcon/config/adapter/ini.zep", 84);
+	zephir_is_iterable(iniConfig, &_4, &_3, 0, 0, "phalcon/config/adapter/ini.zep", 88);
 	for (
 	  ; zephir_hash_get_current_data_ex(_4, (void**) &_5, &_3) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_4, &_3)
 	) {
 		ZEPHIR_GET_HMKEY(section, _4, _3);
 		ZEPHIR_GET_HVALUE(directives, _5);
-		ZEPHIR_INIT_NVAR(sections);
-		array_init(sections);
-		zephir_is_iterable(directives, &_7, &_6, 0, 0, "phalcon/config/adapter/ini.zep", 79);
-		for (
-		  ; zephir_hash_get_current_data_ex(_7, (void**) &_8, &_6) == SUCCESS
-		  ; zephir_hash_move_forward_ex(_7, &_6)
-		) {
-			ZEPHIR_GET_HMKEY(path, _7, _6);
-			ZEPHIR_GET_HVALUE(lastValue, _8);
-			ZEPHIR_CALL_METHOD(&_9, this_ptr, "_parseinistring", &_10, 0, path, lastValue);
-			zephir_check_call_status();
-			zephir_array_append(&sections, _9, PH_SEPARATE, "phalcon/config/adapter/ini.zep", 77);
-		}
-		if (zephir_fast_count_int(sections TSRMLS_CC)) {
-			ZEPHIR_INIT_NVAR(_0);
-			ZEPHIR_SINIT_NVAR(_11);
-			ZVAL_STRING(&_11, "array_merge_recursive", 0);
-			ZEPHIR_CALL_USER_FUNC_ARRAY(_0, &_11, sections);
-			zephir_check_call_status();
-			zephir_array_update_zval(&config, section, &_0, PH_COPY | PH_SEPARATE);
+		if (Z_TYPE_P(directives) == IS_ARRAY) {
+			ZEPHIR_INIT_NVAR(sections);
+			array_init(sections);
+			zephir_is_iterable(directives, &_7, &_6, 0, 0, "phalcon/config/adapter/ini.zep", 80);
+			for (
+			  ; zephir_hash_get_current_data_ex(_7, (void**) &_8, &_6) == SUCCESS
+			  ; zephir_hash_move_forward_ex(_7, &_6)
+			) {
+				ZEPHIR_GET_HMKEY(path, _7, _6);
+				ZEPHIR_GET_HVALUE(lastValue, _8);
+				ZEPHIR_CALL_METHOD(&_9, this_ptr, "_parseinistring", &_10, 0, path, lastValue);
+				zephir_check_call_status();
+				zephir_array_append(&sections, _9, PH_SEPARATE, "phalcon/config/adapter/ini.zep", 78);
+			}
+			if (zephir_fast_count_int(sections TSRMLS_CC)) {
+				ZEPHIR_INIT_NVAR(_0);
+				ZEPHIR_SINIT_NVAR(_11);
+				ZVAL_STRING(&_11, "array_merge_recursive", 0);
+				ZEPHIR_CALL_USER_FUNC_ARRAY(_0, &_11, sections);
+				zephir_check_call_status();
+				zephir_array_update_zval(&config, section, &_0, PH_COPY | PH_SEPARATE);
+			}
+		} else {
+			zephir_array_update_zval(&config, section, &directives, PH_COPY | PH_SEPARATE);
 		}
 	}
-	ZEPHIR_CALL_PARENT(NULL, phalcon_config_adapter_ini_ce, this_ptr, "__construct", &_12, 58, config);
+	ZEPHIR_CALL_PARENT(NULL, phalcon_config_adapter_ini_ce, this_ptr, "__construct", &_12, 21, config);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 
@@ -155,7 +159,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct) {
  *          ],
  *      ],
  * ];
- * </code>	 
+ * </code>
  */
 PHP_METHOD(Phalcon_Config_Adapter_Ini, _parseIniString) {
 
@@ -198,7 +202,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, _parseIniString) {
 	zephir_substr(_3, path, zephir_get_intval(&_2), 0, ZEPHIR_SUBSTR_NO_LENGTH);
 	zephir_get_strval(path, _3);
 	zephir_create_array(return_value, 1, 0 TSRMLS_CC);
-	ZEPHIR_CALL_METHOD(&_4, this_ptr, "_parseinistring", NULL, 62, path, value);
+	ZEPHIR_CALL_METHOD(&_4, this_ptr, "_parseinistring", NULL, 125, path, value);
 	zephir_check_call_status();
 	zephir_array_update_zval(&return_value, key, &_4, PH_COPY);
 	RETURN_MM();

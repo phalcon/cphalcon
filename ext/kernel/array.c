@@ -1136,22 +1136,24 @@ void zephir_array_unshift(zval *arr, zval *arg TSRMLS_DC)
 {
 	if (likely(Z_TYPE_P(arr) == IS_ARRAY)) {
 
-		HashTable  oldhash;
 		zval** args[1]      = { &arg };
 
-		HashTable *newhash = Z_ARRVAL_P(arr);
-
 		#if PHP_VERSION_ID < 50600
+			HashTable  oldhash;
+			HashTable *newhash = Z_ARRVAL_P(arr);
 			newhash = php_splice(newhash, 0, 0, args, 1, NULL);
+
+			oldhash = *Z_ARRVAL_P(arr);
+			if (Z_ARRVAL_P(arr) == &EG(symbol_table)) {
+				zend_reset_all_cv(&EG(symbol_table) TSRMLS_CC);
+			}
+			*Z_ARRVAL_P(arr)   = *newhash;
+
+			FREE_HASHTABLE(newhash);
+			zend_hash_destroy(&oldhash);
 		#else
-			php_splice(newhash, 0, 0, args, 1, NULL TSRMLS_CC);
+			php_splice(Z_ARRVAL_P(arr), 0, 0, args, 1, NULL TSRMLS_CC);
 		#endif
-
-		oldhash = *Z_ARRVAL_P(arr);
-		*Z_ARRVAL_P(arr)   = *newhash;
-
-		FREE_HASHTABLE(newhash);
-		zend_hash_destroy(&oldhash);
 	}
 }
 

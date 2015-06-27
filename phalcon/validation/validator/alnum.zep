@@ -19,6 +19,7 @@
 
 namespace Phalcon\Validation\Validator;
 
+use Phalcon\Validation;
 use Phalcon\Validation\Validator;
 use Phalcon\Validation\Message;
 
@@ -41,7 +42,7 @@ class Alnum extends Validator
 	/**
 	 * Executes the validation
 	 */
-	public function validate(<\Phalcon\Validation> validation, string! field) -> boolean
+	public function validate(<Validation> validation, string! field) -> boolean
 	{
 		var value, message, label, replacePairs;
 

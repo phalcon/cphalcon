@@ -93,6 +93,7 @@ class Reflection
 
 		let annotations = this->_methodAnnotations;
 		if typeof annotations != "object" {
+
 			if fetch reflectionMethods, this->_reflectionData["methods"] {
 				if count(reflectionMethods) {
 					let collections = [];
@@ -103,6 +104,7 @@ class Reflection
 					return collections;
 				}
 			}
+
 			let this->_methodAnnotations = false;
 			return false;
 		}
@@ -167,5 +169,4 @@ class Reflection
 
 		return new self();
 	}
-
 }

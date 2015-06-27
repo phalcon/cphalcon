@@ -221,10 +221,10 @@ abstract class Resultset
 			let result = this->_result;
 			if this->_row === null && this->_pointer === 0 {
 				/**
-				* Fresh result-set: Query was already executed in model\query::_executeSelect()
-				* The first row is available with fetch
-				*/
-				let this->_row = result->$fetch(result);
+				 * Fresh result-set: Query was already executed in model\query::_executeSelect()
+				 * The first row is available with fetch
+				 */
+				let this->_row = result->$fetch();
 			}
 
 			if this->_pointer > position {
@@ -233,7 +233,7 @@ abstract class Resultset
 				* It is not possible to rewind. Re-execute query with dataSeek
 				*/
 				result->dataSeek(position);
-				let this->_row = result->$fetch(result);
+				let this->_row = result->$fetch();
 				let this->_pointer = position;
 			}
 
@@ -243,7 +243,7 @@ abstract class Resultset
 				* seek forward until the requested position is reached.
 				* We do not need to re-execute the query!
 				*/
-				let this->_row = result->$fetch(result);
+				let this->_row = result->$fetch();
 				let this->_pointer++;
 			}
 

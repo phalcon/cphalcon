@@ -23,6 +23,7 @@ namespace Phalcon\Db\Adapter\Pdo;
 use Phalcon\Db;
 use Phalcon\Db\Column;
 use Phalcon\Db\Exception;
+use Phalcon\Db\RawValue;
 use Phalcon\Db\Reference;
 use Phalcon\Db\ReferenceInterface;
 use Phalcon\Db\Index;
@@ -41,7 +42,6 @@ use Phalcon\Db\Adapter\Pdo as PdoAdapter;
  * );
  *
  * $connection = new \Phalcon\Db\Adapter\Pdo\Sqlite($config);
- *
  * </code>
  */
 class Sqlite extends PdoAdapter implements AdapterInterface
@@ -120,7 +120,17 @@ class Sqlite extends PdoAdapter implements AdapterInterface
 				}
 
 				/**
-				 * Smallint/Bigint/Integers/Int are int
+				 * Bigint are int
+				 */
+				if memstr(columnType, "bigint") {
+					let definition["type"] = Column::TYPE_BIGINTEGER,
+						definition["isNumeric"] = true,
+						definition["bindType"] = Column::BIND_PARAM_INT;
+					break;
+				}
+
+				/**
+				 * Smallint/Integers/Int are int
 				 */
 				if memstr(columnType, "int") || memstr(columnType, "INT") {
 
@@ -379,5 +389,22 @@ class Sqlite extends PdoAdapter implements AdapterInterface
 	public function useExplicitIdValue() -> boolean
 	{
 		return true;
+	}
+
+	/**
+	 * Returns the default value to make the RBDM use the default value declared in the table definition
+	 *
+	 *<code>
+	 * //Inserting a new robot with a valid default value for the column 'year'
+	 * $success = $connection->insert(
+	 *	 "robots",
+	 *	 array("Astro Boy", $connection->getDefaultValue()),
+	 *	 array("name", "year")
+	 * );
+	 *</code>
+	 */
+	public function getDefaultValue() -> <RawValue>
+	{
+		return new RawValue("NULL");
 	}
 }

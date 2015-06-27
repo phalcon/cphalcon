@@ -69,5 +69,4 @@ interface ResultsetInterface
 	 * it could consume more memory than currently it does.
 	 */
 	public function toArray() -> array;
-
 }

@@ -110,15 +110,13 @@ class Pdo implements ResultInterface
 	 *	$result = $connection->query("SELECT * FROM robots ORDER BY name");
 	 *	$result->setFetchMode(Phalcon\Db::FETCH_OBJ);
 	 *	while ($robot = $result->fetch()) {
-	 *		echo robot->name;
+	 *		echo $robot->name;
 	 *	}
 	 *</code>
-	 *
-	 * @return mixed
 	 */
-	public function $fetch()
-	{
-		return this->_pdoStatement->$fetch();
+	public function $fetch(var fetchStyle = null, var cursorOrientation = null, var cursorOffset = null)
+	{		
+		return this->_pdoStatement->$fetch(fetchStyle, cursorOrientation, cursorOffset);
 	}
 
 	/**
@@ -132,8 +130,6 @@ class Pdo implements ResultInterface
 	 *		print_r($robot);
 	 *	}
 	 *</code>
-	 *
-	 * @return mixed
 	 */
 	public function fetchArray()
 	{
@@ -148,11 +144,26 @@ class Pdo implements ResultInterface
 	 *	$result = $connection->query("SELECT * FROM robots ORDER BY name");
 	 *	$robots = $result->fetchAll();
 	 *</code>
-	 *
-	 * @return array
 	 */
-	public function fetchAll()
+	public function fetchAll(var fetchStyle = null, var fetchArgument = null, var ctorArgs = null) -> array
 	{
+		if typeof fetchStyle == "integer" {
+
+			if (fetchStyle & Db::FETCH_CLASS) == Db::FETCH_CLASS {
+				return this->_pdoStatement->fetchAll(fetchStyle, fetchArgument, ctorArgs);
+			}
+
+			if (fetchStyle & Db::FETCH_COLUMN) == Db::FETCH_COLUMN {
+				return this->_pdoStatement->fetchAll(fetchStyle, fetchArgument);
+			}
+
+			if (fetchStyle & Db::FETCH_FUNC) == Db::FETCH_FUNC {
+				return this->_pdoStatement->fetchAll(fetchStyle, fetchArgument);
+			}
+
+			return this->_pdoStatement->fetchAll(fetchStyle);
+		}
+
 		return this->_pdoStatement->fetchAll();
 	}
 
@@ -277,8 +288,6 @@ class Pdo implements ResultInterface
 		}
 
 		}%
-
-
 	}
 
 	/**
@@ -298,15 +307,41 @@ class Pdo implements ResultInterface
 	 *	$result->setFetchMode(Phalcon\Db::FETCH_OBJ);
 	 *</code>
 	 */
-	public function setFetchMode(int fetchMode)
+	public function setFetchMode(int fetchMode, var colNoOrClassNameOrObject = null, var ctorargs = null) -> boolean
 	{
 		var pdoStatement;
 
 		let pdoStatement = this->_pdoStatement;
 
+		if (fetchMode & Db::FETCH_COLUMN) == Db::FETCH_COLUMN {
+			if pdoStatement->setFetchMode(fetchMode, colNoOrClassNameOrObject) {
+				let this->_fetchMode = fetchMode;
+				return true;
+			}
+			return false;
+		}
+
+		if (fetchMode & Db::FETCH_CLASS) == Db::FETCH_CLASS {
+			if pdoStatement->setFetchMode(fetchMode, colNoOrClassNameOrObject, ctorargs) {
+				let this->_fetchMode = fetchMode;
+				return true;
+			}
+			return false;
+		}
+
+		if (fetchMode & Db::FETCH_INTO) == Db::FETCH_INTO {
+			if pdoStatement->setFetchMode(fetchMode, colNoOrClassNameOrObject) {
+				let this->_fetchMode = fetchMode;
+				return true;
+			}
+			return false;
+		}
+
 		if pdoStatement->setFetchMode(fetchMode) {
 			let this->_fetchMode = fetchMode;
+			return true;
 		}
+		return false;
 	}
 
 	/**

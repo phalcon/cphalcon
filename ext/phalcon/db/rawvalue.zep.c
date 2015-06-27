@@ -13,8 +13,6 @@
 
 #include "kernel/main.h"
 #include "kernel/object.h"
-#include "ext/spl/spl_exceptions.h"
-#include "kernel/exception.h"
 #include "kernel/operators.h"
 #include "kernel/memory.h"
 
@@ -77,26 +75,33 @@ PHP_METHOD(Phalcon_Db_RawValue, __toString) {
  */
 PHP_METHOD(Phalcon_Db_RawValue, __construct) {
 
-	zval *value_param = NULL;
-	zval *value = NULL;
+	zval *_2 = NULL;
+	zend_bool _0;
+	zval *value, *_1;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &value_param);
+	zephir_fetch_params(1, 1, 0, &value);
 
-	if (unlikely(Z_TYPE_P(value_param) != IS_STRING && Z_TYPE_P(value_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'value' must be a string") TSRMLS_CC);
+
+
+	_0 = Z_TYPE_P(value) == IS_STRING;
+	if (_0) {
+		_0 = ZEPHIR_IS_STRING(value, "");
+	}
+	if (_0) {
+		ZEPHIR_INIT_ZVAL_NREF(_1);
+		ZVAL_STRING(_1, "''", 1);
+		zephir_update_property_this(this_ptr, SL("_value"), _1 TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
-	if (likely(Z_TYPE_P(value_param) == IS_STRING)) {
-		zephir_get_strval(value, value_param);
-	} else {
-		ZEPHIR_INIT_VAR(value);
-		ZVAL_EMPTY_STRING(value);
+	if (Z_TYPE_P(value) == IS_NULL) {
+		ZEPHIR_INIT_ZVAL_NREF(_1);
+		ZVAL_STRING(_1, "NULL", 1);
+		zephir_update_property_this(this_ptr, SL("_value"), _1 TSRMLS_CC);
+		RETURN_MM_NULL();
 	}
-
-
-	zephir_update_property_this(this_ptr, SL("_value"), value TSRMLS_CC);
+	zephir_get_strval(_2, value);
+	zephir_update_property_this(this_ptr, SL("_value"), _2 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 
 }

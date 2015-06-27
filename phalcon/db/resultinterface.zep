@@ -89,7 +89,7 @@ interface ResultInterface
 	 *
 	 * @param int fetchMode
 	 */
-	public function setFetchMode(fetchMode);
+	public function setFetchMode(fetchMode) -> boolean;
 
 	/**
 	 * Gets the internal PDO result object

@@ -676,6 +676,9 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 		 * Check an alias for the relation
 		 */
 		if fetch alias, options["alias"] {
+			if typeof alias != "string" {
+				throw new Exception("Relation alias must be a string");
+			}
 			let lowerAlias = strtolower(alias);
 		} else {
 			let lowerAlias = referencedEntity;
@@ -758,6 +761,9 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 		 * Check an alias for the relation
 		 */
 		if fetch alias, options["alias"] {
+			if typeof alias != "string" {
+				throw new Exception("Relation alias must be a string");
+			}
 			let lowerAlias = strtolower(alias);
 		} else {
 			let lowerAlias = referencedEntity;
@@ -840,6 +846,9 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 		 * Check an alias for the relation
 		 */
 		if fetch alias, options["alias"] {
+			if typeof alias != "string" {
+				throw new Exception("Relation alias must be a string");
+			}
 			let lowerAlias = strtolower(alias);
 		} else {
 			let lowerAlias = referencedEntity;
@@ -941,6 +950,9 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 		 * Check an alias for the relation
 		 */
 		if fetch alias, options["alias"] {
+			if typeof alias != "string" {
+				throw new Exception("Relation alias must be a string");
+			}
 			let lowerAlias = strtolower(alias);
 		} else {
 			let lowerAlias = referencedEntity;
@@ -1222,8 +1234,8 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 		 */
 		let fields = relation->getFields();
 		if typeof fields != "array" {
-			let conditions[] = "[". relation->getReferencedFields() . "] = ?0",
-				placeholders[] = record->readAttribute(fields);
+			let conditions[] = "[". relation->getReferencedFields() . "] = :APR0:",
+				placeholders["APR0"] = record->readAttribute(fields);
 		} else {
 
 			/**
@@ -1231,8 +1243,8 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 			 */
 			let referencedFields = relation->getReferencedFields();
 			for refPosition, field in relation->getReferencedFields() {
-				let conditions[] = "[". referencedFields[refPosition] . "] = ?" . refPosition,
-					placeholders[] = record->readAttribute(field);
+				let conditions[] = "[". referencedFields[refPosition] . "] = :APR" . refPosition . ":",
+					placeholders["APR" . refPosition] = record->readAttribute(field);
 			}
 		}
 
@@ -1633,10 +1645,18 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 		let query = <QueryInterface> dependencyInjector->get("Phalcon\\Mvc\\Model\\Query", [phql, dependencyInjector]);
 		let this->_lastQuery = query;
 
+		if typeof placeholders == "array" {
+			query->setBindParams(placeholders);
+		}
+
+		if typeof types == "array" {
+			query->setBindTypes(types);
+		}
+
 		/**
 		 * Execute the query
 		 */
-		return query->execute(placeholders, types);
+		return query->execute();
 	}
 
 	/**

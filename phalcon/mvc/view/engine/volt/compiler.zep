@@ -191,9 +191,6 @@ class Compiler implements InjectionAwareInterface
 
 	/**
 	 * Registers a Volt's extension
-	 *
-	 * @param object extension
-	 * @return Phalcon\Mvc\View\Engine\Volt\Compiler
 	 */
 	public function addExtension(extension) -> <Compiler>
 	{
@@ -222,12 +219,8 @@ class Compiler implements InjectionAwareInterface
 
 	/**
 	 * Register a new function in the compiler
-	 *
-	 * @param string name
-	 * @param Closure|string definition
-	 * @return Phalcon\Mvc\View\Engine\Volt\Compiler
 	 */
-	public function addFunction(string! name, definition) -> <Compiler>
+	public function addFunction(string! name, var definition) -> <Compiler>
 	{
 		let this->_functions[name] = definition;
 		return this;
@@ -243,12 +236,8 @@ class Compiler implements InjectionAwareInterface
 
 	/**
 	 * Register a new filter in the compiler
-	 *
-	 * @param string name
-	 * @param Closure|string definition
-	 * @return Phalcon\Mvc\View\Engine\Volt\Compiler
 	 */
-	public function addFilter(string! name, definition) -> <Compiler>
+	public function addFilter(string! name, var definition) -> <Compiler>
 	{
 		let this->_filters[name] = definition;
 		return this;
@@ -349,7 +338,7 @@ class Compiler implements InjectionAwareInterface
 		} else {
 			let leftCode = this->expression(left), leftType = left["type"];
 			if leftType != PHVOLT_T_DOT && leftType != PHVOLT_T_FCALL {
-				let exprCode .= "(" . leftCode . ")";
+				let exprCode .= leftCode;
 			} else {
 				let exprCode .= leftCode;
 			}
@@ -374,7 +363,7 @@ class Compiler implements InjectionAwareInterface
 	public function functionCall(array! expr) -> string
 	{
 		var code, funcArguments, arguments, nameExpr,
-			nameType, name, extensions, functions, definition, macros,
+			nameType, name, extensions, functions, definition,
 			extendedBlocks, block, currentBlock, exprLevel, escapedCode,
 			method, arrayHelpers, className;
 
@@ -439,13 +428,11 @@ class Compiler implements InjectionAwareInterface
 				}
 			}
 
-			let macros = this->_macros;
-
 			/**
 			 * Check if the function name is a macro
 			 */
-			if isset macros[name] {
-				return "vmacro_" . name . "(array(" . arguments . "))";
+			if isset this->_macros[name] {
+				return "$vmacro_" . name . "(array(" . arguments . "))";
 			}
 
 			/**
@@ -500,7 +487,8 @@ class Compiler implements InjectionAwareInterface
 				return "''";
 			}
 
-			let method = lcfirst(camelize(name)), className = "Phalcon\\Tag";
+			let method = lcfirst(camelize(name)),
+				className = "Phalcon\\Tag";
 
 			/**
 			 * Check if it's a method in Phalcon\Tag
@@ -1060,23 +1048,23 @@ class Compiler implements InjectionAwareInterface
 			let exprCode = null;
 			switch type {
 
-				case 33:
+				case PHVOLT_T_NOT:
 					let exprCode = "!" . rightCode;
 					break;
 
-				case 42:
+				case PHVOLT_T_MUL:
 					let exprCode = leftCode . " * " . rightCode;
 					break;
 
-				case 43:
+				case PHVOLT_T_ADD:
 					let exprCode = leftCode . " + " . rightCode;
 					break;
 
-				case 45:
+				case PHVOLT_T_SUB:
 					let exprCode = leftCode . " - " . rightCode;
 					break;
 
-				case 47:
+				case PHVOLT_T_DIV:
 					let exprCode = leftCode . " / " . rightCode;
 					break;
 
@@ -1084,7 +1072,7 @@ class Compiler implements InjectionAwareInterface
 					let exprCode = leftCode . " % " . rightCode;
 					break;
 
-				case 60:
+				case PHVOLT_T_LESS:
 					let exprCode = leftCode . " < " . rightCode;
 					break;
 
@@ -1140,7 +1128,7 @@ class Compiler implements InjectionAwareInterface
 					let exprCode = "$" . expr["value"];
 					break;
 
-				case 266:
+				case PHVOLT_T_AND:
 					let exprCode = leftCode . " && " . rightCode;
 					break;
 
@@ -1148,7 +1136,7 @@ class Compiler implements InjectionAwareInterface
 					let exprCode = leftCode . " || " . rightCode;
 					break;
 
-				case 270:
+				case PHVOLT_T_LESSEQUAL:
 					let exprCode = leftCode . " <= " . rightCode;
 					break;
 
@@ -1513,9 +1501,8 @@ class Compiler implements InjectionAwareInterface
 		if fetch prefix, this->_forElsePointers[level] {
 			if isset this->_loopPointers[level] {
 				return "<?php $" . prefix . "incr++; } if (!$" . prefix . "iterated) { ?>";
-			} else {
-				return "<?php } if (!$" . prefix . "iterated) { ?>";
 			}
+			return "<?php } if (!$" . prefix . "iterated) { ?>";
 		}
 		return "";
 	}
@@ -1633,7 +1620,7 @@ class Compiler implements InjectionAwareInterface
 	 */
 	public function compileSet(array! statement) -> string
 	{
-		var assignments, assignment, exprCode, variable, compilation;
+		var assignments, assignment, exprCode, target, compilation;
 
 		/**
 		 * A valid assigment list is required
@@ -1652,9 +1639,9 @@ class Compiler implements InjectionAwareInterface
 			let exprCode = this->expression(assignment["expr"]);
 
 			/**
-			 * Set statement
+			 * Resolve the expression assigned
 			 */
-			let variable = assignment["variable"];
+			let target = this->expression(assignment["variable"]);
 
 			/**
 			 * Assignment operator
@@ -1663,23 +1650,23 @@ class Compiler implements InjectionAwareInterface
 			switch assignment["op"] {
 
 				case PHVOLT_T_ADD_ASSIGN:
-					let compilation .= " $" . variable . " += " . exprCode . ";";
+					let compilation .= " " . target . " += " . exprCode . ";";
 					break;
 
 				case PHVOLT_T_SUB_ASSIGN:
-					let compilation .= " $" . variable . " -= " . exprCode . ";";
+					let compilation .= " " . target . " -= " . exprCode . ";";
 					break;
 
 				case PHVOLT_T_MUL_ASSIGN:
-					let compilation .= " $" . variable . " *= " . exprCode . ";";
+					let compilation .= " " . target . " *= " . exprCode . ";";
 					break;
 
 				case PHVOLT_T_DIV_ASSIGN:
-					let compilation .= " $" . variable . " /= " . exprCode . ";";
+					let compilation .= " " . target . " /= " . exprCode . ";";
 					break;
 
 				default:
-					let compilation .= " $" . variable . " = " . exprCode . ";";
+					let compilation .= " " . target . " = " . exprCode . ";";
 					break;
 			}
 
@@ -1881,7 +1868,7 @@ class Compiler implements InjectionAwareInterface
 	 */
 	public function compileMacro(array! statement, boolean extendsMode) -> string
 	{
-		var code, name, parameters, position, parameter, variableName, blockStatements;
+		var code, name, defaultValue, macroName, parameters, position, parameter, variableName, blockStatements;
 
 		/**
 		 * A valid name is required
@@ -1902,27 +1889,33 @@ class Compiler implements InjectionAwareInterface
 		 */
 		let this->_macros[name] = name;
 
-		let code = "<?php function vmacro_";
+		let macroName = "$vmacro_" . name;
+
+		let code = "<?php ";
 
 		if !fetch parameters, statement["parameters"] {
-			let code .=  name . "() { ?>";
+			let code .= macroName . " = function() { ?>";
 		} else {
 
 			/**
 			 * Parameters are always received as an array
 			 */
-			let code .=  name . "($__p) { ";
+			let code .= macroName . " = function($__p = null) { ";
 			for position, parameter in parameters {
 
 				let variableName = parameter["variable"];
 
 				let code .= "if (isset($__p[" . position . "])) { ";
-				let code .= "$" . variableName . " = $__p[" . position."];";
+				let code .= "$" . variableName . " = $__p[" . position ."];";
 				let code .= " } else { ";
 				let code .= "if (isset($__p[\"" . variableName."\"])) { ";
-				let code .= "$" . variableName . " = $__p[\"" . variableName."\"];";
+				let code .= "$" . variableName . " = $__p[\"" . variableName ."\"];";
 				let code .= " } else { ";
-				let code .= " throw new \\Phalcon\\Mvc\\View\\Exception(\"Macro " . name . " was called without parameter: " . variableName . "\"); ";
+				if fetch defaultValue, parameter["default"] {
+					let code .= "$" . variableName . " = " . this->expression(defaultValue) . ";";
+				} else {
+					let code .= " throw new \\Phalcon\\Mvc\\View\\Exception(\"Macro " . name . " was called without parameter: " . variableName . "\"); ";
+				}
 				let code .= " } } ";
 			}
 
@@ -1937,10 +1930,15 @@ class Compiler implements InjectionAwareInterface
 			/**
 			 * Process statements block
 			 */
-			let code .= this->_statementList(blockStatements, extendsMode) . "<?php } ?>";
+			let code .= this->_statementList(blockStatements, extendsMode) . "<?php }; ";
 		}  else {
-			let code .= "<?php } ?>";
+			let code .= "<?php }; ";
 		}
+
+		/**
+		 * Bind the closure to the $this object allowing to call services
+		 */
+		let code .= macroName . " = \\Closure::bind(" . macroName . ", $this); ?>";
 
 		return code;
 	}
@@ -2095,11 +2093,12 @@ class Compiler implements InjectionAwareInterface
 					 * Extends statement
 					 */
 					let path = statement["path"];
+
 					let view = this->_view;
 					if typeof view == "object" {
-						let finalPath = view->getViewsDir() . path;
+						let finalPath = view->getViewsDir() . path["value"];
 					} else {
-						let finalPath = path;
+						let finalPath = path["value"];
 					}
 
 					let extended = true;
@@ -2214,9 +2213,26 @@ class Compiler implements InjectionAwareInterface
 	{
 		var currentPath, intermediate, extended,
 			finalCompilation, blocks, extendedBlocks, name, block,
-			blockCompilation, localBlock, compilation;
+			blockCompilation, localBlock, compilation, options, autoescape;
 
 		let currentPath = this->_currentPath;
+
+		/**
+		 * Check for compilation options
+		 */
+		let options = this->_options;
+		if typeof options == "array" {
+
+			/**
+			 * Enable autoescape globally
+			 */
+			if fetch autoescape, options["autoescape"] {
+				if typeof autoescape != "bool" {
+					throw new Exception("'autoescape' must be boolean");
+				}
+				let this->_autoescape = autoescape;
+			}
+		}
 
 		let intermediate = phvolt_parse_view(viewCode, currentPath);
 
@@ -2380,10 +2396,6 @@ class Compiler implements InjectionAwareInterface
 	 *	$compiler->compile('views/layouts/main.volt');
 	 *	require $compiler->getCompiledTemplatePath();
 	 *</code>
-	 *
-	 * @param string templatePath
-	 * @param boolean extendsMode
-	 * @return string|array
 	 */
 	public function compile(string! templatePath, boolean extendsMode = false)
 	{
@@ -2419,7 +2431,7 @@ class Compiler implements InjectionAwareInterface
 			if isset options["compileAlways"] {
 				let compileAlways = options["compileAlways"];
 				if typeof compileAlways != "boolean" {
-					throw new Exception("compileAlways must be a bool value");
+					throw new Exception("'compileAlways' must be a bool value");
 				}
 			}
 
@@ -2429,7 +2441,7 @@ class Compiler implements InjectionAwareInterface
 			if isset options["prefix"] {
 				let prefix = options["prefix"];
 				if typeof prefix != "string" {
-					throw new Exception("prefix must be a string");
+					throw new Exception("'prefix' must be a string");
 				}
 			}
 
@@ -2440,7 +2452,7 @@ class Compiler implements InjectionAwareInterface
 				let compiledPath = options["compiledPath"];
 				if typeof compiledPath != "string" {
 					if typeof compiledPath != "object" {
-						throw new Exception("compiledPath must be a string or a closure");
+						throw new Exception("'compiledPath' must be a string or a closure");
 					}
 				}
 			}
@@ -2451,7 +2463,7 @@ class Compiler implements InjectionAwareInterface
 			if isset options["compiledSeparator"] {
 				let compiledSeparator = options["compiledSeparator"];
 				if typeof compiledSeparator != "string" {
-					throw new Exception("compiledSeparator must be a string");
+					throw new Exception("'compiledSeparator' must be a string");
 				}
 			}
 
@@ -2461,7 +2473,7 @@ class Compiler implements InjectionAwareInterface
 			if isset options["compiledExtension"] {
 				let compiledExtension = options["compiledExtension"];
 				if typeof compiledExtension != "string" {
-					throw new Exception("compiledExtension must be a string");
+					throw new Exception("'compiledExtension' must be a string");
 				}
 			}
 

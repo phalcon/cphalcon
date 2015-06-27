@@ -38,8 +38,7 @@
  *      'messageMaximum' => 'We don\'t like really long names',
  *      'messageMinimum' => 'We want more than just their initials'
  *)));
- *</code>
- *
+ *</code> 
  */
 ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_StringLength) {
 
@@ -91,7 +90,7 @@ PHP_METHOD(Phalcon_Validation_Validator_StringLength, validate) {
 		_1 = !zephir_is_true(isSetMax);
 	}
 	if (_1) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_validation_exception_ce, "A minimum or maximum must be set", "phalcon/validation/validator/stringlength.zep", 60);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_validation_exception_ce, "A minimum or maximum must be set", "phalcon/validation/validator/stringlength.zep", 62);
 		return;
 	}
 	ZEPHIR_CALL_METHOD(&value, validation, "getvalue", NULL, 0, field);
@@ -118,7 +117,7 @@ PHP_METHOD(Phalcon_Validation_Validator_StringLength, validate) {
 		zephir_check_call_status();
 	}
 	if ((zephir_function_exists_ex(SS("mb_strlen") TSRMLS_CC) == SUCCESS)) {
-		ZEPHIR_CALL_FUNCTION(&length, "mb_strlen", NULL, 353, value);
+		ZEPHIR_CALL_FUNCTION(&length, "mb_strlen", NULL, 360, value);
 		zephir_check_call_status();
 	} else {
 		ZEPHIR_INIT_NVAR(length);
@@ -149,11 +148,11 @@ PHP_METHOD(Phalcon_Validation_Validator_StringLength, validate) {
 			}
 			ZEPHIR_INIT_NVAR(_0);
 			object_init_ex(_0, phalcon_validation_message_ce);
-			ZEPHIR_CALL_FUNCTION(&_4, "strtr", &_5, 73, message, replacePairs);
+			ZEPHIR_CALL_FUNCTION(&_4, "strtr", &_5, 53, message, replacePairs);
 			zephir_check_call_status();
 			ZEPHIR_INIT_VAR(_6);
 			ZVAL_STRING(_6, "TooLong", ZEPHIR_TEMP_PARAM_COPY);
-			ZEPHIR_CALL_METHOD(NULL, _0, "__construct", &_7, 425, _4, field, _6);
+			ZEPHIR_CALL_METHOD(NULL, _0, "__construct", &_7, 426, _4, field, _6);
 			zephir_check_temp_parameter(_6);
 			zephir_check_call_status();
 			ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, 0, _0);
@@ -186,11 +185,11 @@ PHP_METHOD(Phalcon_Validation_Validator_StringLength, validate) {
 			}
 			ZEPHIR_INIT_NVAR(_6);
 			object_init_ex(_6, phalcon_validation_message_ce);
-			ZEPHIR_CALL_FUNCTION(&_4, "strtr", &_5, 73, message, replacePairs);
+			ZEPHIR_CALL_FUNCTION(&_4, "strtr", &_5, 53, message, replacePairs);
 			zephir_check_call_status();
 			ZEPHIR_INIT_VAR(_8);
 			ZVAL_STRING(_8, "TooShort", ZEPHIR_TEMP_PARAM_COPY);
-			ZEPHIR_CALL_METHOD(NULL, _6, "__construct", &_7, 425, _4, field, _8);
+			ZEPHIR_CALL_METHOD(NULL, _6, "__construct", &_7, 426, _4, field, _8);
 			zephir_check_temp_parameter(_8);
 			zephir_check_call_status();
 			ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, 0, _6);

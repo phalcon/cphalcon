@@ -19,12 +19,14 @@
 
 namespace Phalcon\Assets\Inline;
 
+use Phalcon\Assets\Inline as InlineBase;
+
 /**
  * Phalcon\Assets\Inline\Css
  *
- * Represents inline CSS
+ * Represents an inlined CSS
  */
-class Css extends \Phalcon\Assets\Inline
+class Css extends InlineBase
 {
 
 	/**
