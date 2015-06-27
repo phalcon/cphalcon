@@ -124,6 +124,16 @@ class Column implements ColumnInterface
 	const TYPE_BIGINTEGER = 14;
 
 	/**
+	 * JSON abstract data type
+	 */
+	const TYPE_JSON = 15;
+
+	/**
+	 * JSONB abstract data type
+	 */
+	const TYPE_JSONB = 16;
+
+	/**
 	 * Bind Type Null
 	 */
 	const BIND_PARAM_NULL = 0;
