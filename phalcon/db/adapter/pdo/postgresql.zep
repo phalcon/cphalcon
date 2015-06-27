@@ -219,6 +219,22 @@ class Postgresql extends PdoAdapter implements AdapterInterface
 				}
 
 				/**
+				 * Json
+				 */
+				if memstr(columnType, "json") {
+					let definition["type"] = Column::TYPE_JSON;
+					break;
+				}
+
+				/**
+				 * Jsonb
+				 */
+				if memstr(columnType, "jsonb") {
+					let definition["type"] = Column::TYPE_JSONB;
+					break;
+				}
+
+				/**
 				 * UUID
 				 */
 				if memstr(columnType, "uuid") {

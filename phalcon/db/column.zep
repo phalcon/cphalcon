@@ -98,8 +98,19 @@ class Column implements ColumnInterface
 	 *
 	 */
 	const TYPE_DOUBLE = 9;
-	
-	
+
+	/**
+	 * JSON abstract data type
+	 */
+	const TYPE_JSON = 10;
+
+
+	/**
+	 * JSONB abstract data type
+	 */
+	const TYPE_JSONB = 11;
+
+
 	/**
 	 * Bind Type Null
 	 */

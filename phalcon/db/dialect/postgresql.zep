@@ -116,6 +116,18 @@ class Postgresql extends Dialect
 				}
 				break;
 
+			case Column::TYPE_JSON:
+				if empty columnSql {
+					let columnSql .= "JSON";
+				}
+				break;
+
+			case Column::TYPE_JSONB:
+				if empty columnSql {
+					let columnSql .= "JSONB";
+				}
+				break;
+
 			default:
 				if empty columnSql {
 					throw new Exception("Unrecognized PostgreSQL data type");
