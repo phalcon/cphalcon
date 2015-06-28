@@ -37,11 +37,27 @@ int phql_get_token(phql_scanner_state *s, phql_scanner_token *token) {
 		re2c:indent:top = 2;
 		re2c:yyfill:enable = 0;
 
-		HINTEGER = [0][x]([0-9A-Za-z]+);
+		HINTEGER = [x0-9A-Fa-f]+;
 		HINTEGER {
-			token->opcode = PHQL_T_HINTEGER;
 			token->value = estrndup(q, YYCURSOR - q);
 			token->len = YYCURSOR - q;
+			if (token->len > 2 && !memcmp(token->value, "0x", 2)) {
+				token->opcode = PHQL_T_HINTEGER;
+			} else {
+				int i, alpha = 0;
+				for (i = 0; i < token->len; i++) {
+					unsigned char ch = token->value[i];
+					if (!((ch >= '0') && (ch <= '9'))) {
+						alpha = 1;
+						break;
+		 			}
+				}
+				if (alpha) {
+					token->opcode = PHQL_T_IDENTIFIER;
+				} else {
+					token->opcode = PHQL_T_INTEGER;
+				}
+			}
 			q = YYCURSOR;
 			return 0;
 		}
