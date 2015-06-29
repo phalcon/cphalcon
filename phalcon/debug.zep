@@ -705,7 +705,7 @@ class Debug
 			let html .= "<div id=\"error-tabs-3\"><table cellspacing=\"0\" align=\"center\" class=\"superglobal-detail\">";
 			let html .= "<tr><th>Key</th><th>Value</th></tr>";
 			for keyServer, value in _SERVER {
-				let html .= "<tr><td class=\"key\">" . keyServer . "</td><td>" . this->_getVarDump(value) . "</td></tr>";
+				let html .= "<tr><td class=\"key\">" . keyServer . "</td><td>" . value . "</td></tr>";
 			}
 			let html .= "</table></div>";
 
