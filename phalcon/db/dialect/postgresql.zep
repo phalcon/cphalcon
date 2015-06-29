@@ -117,10 +117,10 @@ class Postgresql extends Dialect
 				break;
 
 			case Column::TYPE_JSONB:
-                if empty columnSql {
-                    let columnSql .= "JSONB";
-                }
-                break;
+			    if empty columnSql {
+			        let columnSql .= "JSONB";
+			    }
+			    break;
 
 			case Column::TYPE_BOOLEAN:
 				if empty columnSql {
