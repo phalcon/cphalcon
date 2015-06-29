@@ -3881,7 +3881,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * @param	array arguments
 	 * @return	mixed
 	 */
-	public function __call(string method, arguments = null)
+	public function __call(string method, arguments)
 	{
 		var modelName, status, records;
 
