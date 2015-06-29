@@ -251,7 +251,7 @@ class DbTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($connection->affectedRows(), 54);
 
 		$row = $connection->fetchOne("SELECT * FROM personas");
-		$this->assertEquals(count($row), 22);
+		$this->assertEquals(count($row), 11);
 
 		$row = $connection->fetchOne("SELECT * FROM personas", Phalcon\Db::FETCH_NUM);
 		$this->assertEquals(count($row), 11);
@@ -295,7 +295,7 @@ class DbTest extends PHPUnit_Framework_TestCase
 
 		//Execute created view
 		$row = $connection->fetchOne("SELECT * FROM phalcon_test_view");
-		$this->assertEquals(count($row), 6);
+		$this->assertEquals(count($row), 3);
 		$this->assertTrue(array_key_exists('one', $row));
 		$this->assertEquals($row['two'], 2);
 

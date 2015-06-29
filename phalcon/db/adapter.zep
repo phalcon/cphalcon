@@ -190,6 +190,9 @@ abstract class Adapter implements EventsAwareInterface
 	public function fetchOne(string! sqlQuery, var fetchMode = Db::FETCH_ASSOC, var bindParams = null, var bindTypes = null)
 	{
 		var result;
+
+		var_dump(fetchMode);
+
 		let result = this->{"query"}(sqlQuery, bindParams, bindTypes);
 		if typeof result == "object" {
 			if typeof fetchMode !== "null" {

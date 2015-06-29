@@ -2451,7 +2451,6 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 				} else {
 					let uniqueParams[] = null;
 				}
-
 			}
 		}
 
@@ -2650,7 +2649,6 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 						 * Assign the value to the
 						 */
 						recordAfter->writeAttribute(referencedFields, value);
-
 					}
 
 					/**
@@ -2817,6 +2815,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		 * We need to check if the record exists
 		 */
 		let exists = this->_exists(metaData, readConnection, table);
+		
 		if exists {
 			let this->_operationMade = self::OP_UPDATE;
 		} else {
