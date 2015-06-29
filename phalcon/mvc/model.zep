@@ -2357,7 +2357,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 								if snapshotValue === null {
 									let changed = true;
 								} else {
-									switch (bindType) {
+									switch bindType {
 
 										case Column::TYPE_BOOLEAN:
 											let changed = (boolean) snapshotValue !== (boolean) value;
@@ -2378,6 +2378,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 										case Column::TYPE_CHAR:
 										case Column::TYPE_TEXT:
 										case Column::TYPE_VARCHAR:
+										case Column::TYPE_BIGINTEGER:
 											let changed = (string) snapshotValue !== (string) value;
 											break;
 
