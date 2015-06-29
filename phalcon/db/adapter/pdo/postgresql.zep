@@ -240,8 +240,8 @@ class Postgresql extends PdoAdapter implements AdapterInterface
 				 * Jsonb
 				 */
 				if memstr(columnType, "jsonb") {
-				    let definition["type"] = Column::TYPE_JSONB;
-				    break;
+					let definition["type"] = Column::TYPE_JSONB;
+					break;
 				}
 
 				/**
