@@ -29,7 +29,7 @@
 - Added support for afterFetch in `Mvc\Collection`
 - Added 'beforeMatch' parameter in @Route annotation of `Mvc\Router\Annotations`
 - Added groupBy/getGroupBy/having/getHaving to `Mvc\Model\Criteria`
-- `Phalcon\Mvc\Model::count()` now return values as an integer
+- `Phalcon\Mvc\Model::count()` now return values as integer
 - Removed `__construct` from `Phalcon\Mvc\View\EngineInterface`
 - Added `Phalcon\Debug\Dump::toJson()` to return an JSON string of information about a single variable
 - Now instances in Phalcon\Di are built using internal optimizers instead of ReflectionClass (PHP 5.6)
