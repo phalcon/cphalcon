@@ -20,6 +20,8 @@
 namespace Phalcon\Mvc;
 
 use Phalcon\Di\Injectable;
+use Phalcon\DispatcherInterface;
+use Phalcon\Http\Response\ResponseInterface;
 
 /**
  * Phalcon\Mvc\Controller
@@ -57,7 +59,7 @@ use Phalcon\Di\Injectable;
  *
  *</code>
  */
-abstract class Controller extends Injectable
+abstract class Controller extends Injectable implements ControllerInterface
 {
 
 	/**
@@ -68,5 +70,40 @@ abstract class Controller extends Injectable
 		if method_exists(this, "onConstruct") {
 			this->{"onConstruct"}();
 		}
+	}
+
+	/**
+	 * Redirect by HTTP to another action or URL
+
+	 * This method is alias for Phalcon\Http\Response::redirect()
+	 */
+	public function redirect(var location, boolean externalRedirect = false, int statusCode = 302) -> <ResponseInterface>
+	{
+		var response;
+		let response = this->getDI()->get("response");
+
+		if !(response instanceof ResponseInterface) {
+			throw new Exception("Service \"response\" must implement the interface \"Phalcon\Http\Response\ResponseInterface\"");
+		}
+
+		return response->redirect(location, externalRedirect, statusCode);
+	}
+
+	/**
+	 * Forwards the execution flow to another controller/action
+	 * Dispatchers are unique per module. Forwarding between modules is not allowed
+	 *
+	 * This method is alias for Phalcon\Dispatcher::forward()
+	 */
+	public function forward(array options) -> void
+	{
+		var dispatcher;
+		let dispatcher = this->getDI()->get("dispatcher");
+
+		if !(dispatcher instanceof DispatcherInterface) {
+			throw new Exception("Service \"dispatcher\" must implement the interface \"Phalcon\DispatcherInterface\"");
+		}
+
+		dispatcher->forward(options);
 	}
 }

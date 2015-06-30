@@ -1,4 +1,3 @@
-
 /*
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
@@ -16,31 +15,13 @@
  |          Eduar Carvajal <eduar@phalconphp.com>                         |
  +------------------------------------------------------------------------+
  */
-
 namespace Phalcon\Mvc;
 
-
-use Phalcon\Http\ResponseInterface;
-
 /**
- * Phalcon\Mvc\ControllerInterface
- *
- * Interface for controller handlers
+ * Phalcon\Mvc\Exception
+ * Exceptions thrown in Phalcon\Mvc class will use this class
  */
-interface ControllerInterface
+class Exception extends \Phalcon\Exception
 {
 
-	/**
-	 * Redirect by HTTP to another action or URL
-	 * This method is alias for Phalcon\Http\Response::redirect()
-	 */
-	public function redirect(var location, boolean externalRedirect = false, int statusCode = 302) -> <ResponseInterface>;
-
-	/**
-	 * Forwards the execution flow to another controller/action
-	 * Dispatchers are unique per module. Forwarding between modules is not allowed
-	 *
-	 * This method is alias for Phalcon\Dispatcher::forward()
-	 */
-	public function forward(array options) -> void;
 }

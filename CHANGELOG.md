@@ -33,6 +33,7 @@
 - Removed `__construct` from `Phalcon\Mvc\View\EngineInterface`
 - Added `Phalcon\Debug\Dump::toJson()` to return an JSON string of information about a single variable
 - Now instances in Phalcon\Di are built using internal optimizers instead of ReflectionClass (PHP 5.6)
+- Added fastest alias in `Phalcon\Mvc\Controller` for `Response::redirect()` and `Dispatcher::forward()`
 
 # [2.0.3](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.0.3) (2015-06-10)
 - Added support for Behaviors in `Phalcon\Mvc\Collection`
