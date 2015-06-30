@@ -456,7 +456,11 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 			// Check if we need to rename the field
 			if typeof columnMap == "array" {
 				if !fetch attributeField, columnMap[attribute] {
-					throw new Exception("Column '" . attribute. "' doesn\'t make part of the column map");
+					if !globals_get("orm.ignore_unknown_columns") {
+						throw new Exception("Column '" . attribute. "' doesn\'t make part of the column map");
+					} else {
+						continue;
+					}
 				}
 			} else {
 				let attributeField = attribute;
@@ -619,7 +623,11 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 					 * Every field must be part of the column map
 					 */
 					if !fetch attribute, columnMap[key] {
-						throw new Exception("Column '" . key . "' doesn't make part of the column map");
+						if !globals_get("orm.ignore_unknown_columns") {
+							throw new Exception("Column '" . key . "' doesn't make part of the column map");
+						} else {
+							continue;
+						}
 					}
 
 					if hydrationMode == Resultset::HYDRATE_ARRAYS {
@@ -2815,7 +2823,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		 * We need to check if the record exists
 		 */
 		let exists = this->_exists(metaData, readConnection, table);
-		
+
 		if exists {
 			let this->_operationMade = self::OP_UPDATE;
 		} else {
@@ -3559,14 +3567,25 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 				 * Every field must be part of the column map
 				 */
 				if !fetch attribute, columnMap[key] {
-					throw new Exception("Column '" . key . "' doesn't make part of the column map");
-				}
-				if typeof attribute == "array" {
-					if !fetch attribute, attribute[0] {
+					if !globals_get("orm.ignore_unknown_columns") {
 						throw new Exception("Column '" . key . "' doesn't make part of the column map");
+					} else {
+						continue;
 					}
 				}
-				let snapshot[attribute] = value;
+
+				if typeof attribute == "array" {
+					if !fetch attribute, attribute[0] {
+						if !globals_get("orm.ignore_unknown_columns") {
+							throw new Exception("Column '" . key . "' doesn't make part of the column map");
+						} else {
+							continue;
+						}
+					}
+					let snapshot[attribute[0]] = value;
+				} else {
+					let snapshot[attribute] = value;
+				}
 			}
 
 			let this->_snapshot = snapshot;
@@ -4252,6 +4271,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		let data = [],
 			metaData = this->getModelsMetaData(),
 			columnMap = metaData->getColumnMap(this);
+
 		for attribute in metaData->getAttributes(this) {
 
 			/**
@@ -4259,7 +4279,11 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 			 */
 			if typeof columnMap == "array" {
 				if !fetch attributeField, columnMap[attribute] {
-					throw new Exception("Column '" . attribute . "' doesn't make part of the column map");
+					if !globals_get("orm.ignore_unknown_columns") {
+						throw new Exception("Column '" . attribute . "' doesn't make part of the column map");
+					} else {
+						continue;
+					}
 				}
 			} else {
 				let attributeField = attribute;

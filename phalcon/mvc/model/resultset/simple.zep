@@ -199,16 +199,17 @@ class Simple extends Resultset
 						if !fetch renamedKey, columnMap[key] {
 							throw new Exception("Column '" . key . "' is not part of the column map");
 						}
-                                		if typeof renamedKey == "array" {
-		                                        if !fetch renamedKey, renamedKey[0] {
-                	                        	        throw new Exception("Column '" . key . "' is not part of the column map");
-                        	                	}
-		                                }
 
-						/**
-						 * Add the value renamed
-						 */
-						let renamed[renamedKey] = value;
+                        if typeof renamedKey == "array" {
+
+		                    if !fetch renamedKey, renamedKey[0] {
+                	            throw new Exception("Column '" . key . "' is not part of the column map");
+                        	}
+
+							let renamed[renamedKey[0]] = value;
+		                } else {
+							let renamed[renamedKey] = value;
+						}
 					}
 
 					/**
