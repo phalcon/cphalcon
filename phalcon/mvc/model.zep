@@ -538,25 +538,42 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 						continue;
 					}
 
-					switch attribute[1] {
+					if value != "" {
+						switch attribute[1] {
 
-						case Column::TYPE_INTEGER:
-							let castValue = intval(value, 10);
-							break;
+							case Column::TYPE_INTEGER:
+								let castValue = intval(value, 10);
+									break;
 
-						case Column::TYPE_DOUBLE:
-						case Column::TYPE_DECIMAL:
-						case Column::TYPE_FLOAT:
-							let castValue = doubleval(value);
-							break;
+							case Column::TYPE_DOUBLE:
+							case Column::TYPE_DECIMAL:
+							case Column::TYPE_FLOAT:
+								let castValue = doubleval(value);
+								break;
 
-						case Column::TYPE_BOOLEAN:
-							let castValue = (boolean) value;
-							break;
+							case Column::TYPE_BOOLEAN:
+								let castValue = (boolean) value;
+								break;
 
-						default:
-							let castValue = value;
-							break;
+							default:
+								let castValue = value;
+								break;
+						}
+					} else {
+						switch attribute[1] {
+
+                                                        case Column::TYPE_INTEGER:
+                                                        case Column::TYPE_DOUBLE:
+                                                        case Column::TYPE_DECIMAL:
+                                                        case Column::TYPE_FLOAT:
+                                                        case Column::TYPE_BOOLEAN:
+                                                                let castValue = NULL;
+                                                                break;
+
+                                                        default:
+                                                                let castValue = value;
+                                                                break;
+                                                }
 					}
 
 					let attributeName = attribute[0],
