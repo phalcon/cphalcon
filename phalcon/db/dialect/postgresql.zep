@@ -110,6 +110,18 @@ class Postgresql extends Dialect
 				}
 				break;
 
+			case Column::TYPE_JSON:
+				if empty columnSql {
+					let columnSql .= "JSON";
+				}
+				break;
+
+			case Column::TYPE_JSONB:
+				if empty columnSql {
+					let columnSql .= "JSONB";
+				}
+				break;
+
 			case Column::TYPE_BOOLEAN:
 				if empty columnSql {
 					let columnSql .= "SMALLINT(1)";
