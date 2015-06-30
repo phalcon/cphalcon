@@ -3561,7 +3561,11 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 				if !fetch attribute, columnMap[key] {
 					throw new Exception("Column '" . key . "' doesn't make part of the column map");
 				}
-
+				if typeof attribute == "array" {
+					if !fetch attribute, attribute[0] {
+						throw new Exception("Column '" . key . "' doesn't make part of the column map");
+					}
+				}
 				let snapshot[attribute] = value;
 			}
 
