@@ -26,7 +26,7 @@ namespace Phalcon;
  */
 class Debug
 {
-	public _uri = "//static.phalconphp.com/debug/2.0.0/";
+	public _uri = "//static.phalconphp.com/www/debug/2.0.0/";
 
 	public _theme = "default";
 
