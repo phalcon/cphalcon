@@ -191,8 +191,6 @@ abstract class Adapter implements EventsAwareInterface
 	{
 		var result;
 
-		var_dump(fetchMode);
-
 		let result = this->{"query"}(sqlQuery, bindParams, bindTypes);
 		if typeof result == "object" {
 			if typeof fetchMode !== "null" {
