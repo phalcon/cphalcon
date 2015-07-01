@@ -198,7 +198,10 @@ class Gettext extends Adapter implements AdapterInterface, \ArrayAccess
 		let this->_locale   = call_user_func_array("setlocale", func_get_args());
 		let this->_category = category;
 
+		//Windowns
 		putenv("LC_ALL=" . this->_locale);
+		//Linux
+		setlocale(LC_ALL, this->_locale);
 		return this->_locale;
 	}
 
