@@ -75,4 +75,10 @@ class Text extends PhText
 	{
 		return call_user_func_array('parent::concat', func_get_args());
 	}
+
+	public static function dynamic($text, $leftDelimiter = '{', $rightDelimiter = '}', $separator = '|')
+	{
+		return parent::dynamic($text, $leftDelimiter, $rightDelimiter, $separator);
+	}
+
 }
