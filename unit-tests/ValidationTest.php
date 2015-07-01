@@ -182,7 +182,7 @@ class ValidationTest extends PHPUnit_Framework_TestCase
 		$validation = new Phalcon\Validation();
 
 		$validation->add('name', new Identical(array(
-			'value' => 'Peter'
+			'accepted' => 'Peter'
 		)));
 
 		$messages = $validation->validate($_POST);
@@ -214,7 +214,7 @@ class ValidationTest extends PHPUnit_Framework_TestCase
 		$validation = new Phalcon\Validation();
 
 		$validation->add('name', new Identical(array(
-			'value' => 'Peter',
+			'accepted' => 'Peter',
 			'message' => 'The name must be peter'
 		)));
 
