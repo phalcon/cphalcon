@@ -478,7 +478,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 				}
 
 				// Try to find a possible getter
-				let possibleSetter = "set" . attributeField;
+				let possibleSetter = "set" . camelize(attributeField);
 				if method_exists(this, possibleSetter) {
 					this->{possibleSetter}(value);
 				} else {
@@ -580,7 +580,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 				}
 
 				let attributeName = attribute[0],
-					instance->{attributeName} = castValue;				
+					instance->{attributeName} = castValue;
 			}
 		}
 
@@ -4166,7 +4166,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		/**
 		 * Check if the property has getters
 		 */
-		let method = "get" . Text::camelize(property);
+		let method = "get" . camelize(property);
 
 		if method_exists(this, method) {
 			return this->{method}();
