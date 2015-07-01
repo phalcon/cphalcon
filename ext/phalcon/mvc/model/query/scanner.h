@@ -143,6 +143,7 @@
 #define PHQL_T_ELSE 411
 #define PHQL_T_END 412
 #define PHQL_T_THEN 413
+#define PHQL_T_WITH 415
 
 /* list of tokens and their names */
 typedef struct _phql_token_names {

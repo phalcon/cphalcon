@@ -287,6 +287,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/mvc/model/validator/email.zep.c
 	phalcon/mvc/model/validator/exclusionin.zep.c
 	phalcon/mvc/model/validator/inclusionin.zep.c
+	phalcon/mvc/model/validator/ip.zep.c
 	phalcon/mvc/model/validator/numericality.zep.c
 	phalcon/mvc/model/validator/presenceof.zep.c
 	phalcon/mvc/model/validator/regex.zep.c

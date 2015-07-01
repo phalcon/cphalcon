@@ -306,6 +306,7 @@ zend_class_entry *phalcon_mvc_model_validationfailed_ce;
 zend_class_entry *phalcon_mvc_model_validator_email_ce;
 zend_class_entry *phalcon_mvc_model_validator_exclusionin_ce;
 zend_class_entry *phalcon_mvc_model_validator_inclusionin_ce;
+zend_class_entry *phalcon_mvc_model_validator_ip_ce;
 zend_class_entry *phalcon_mvc_model_validator_numericality_ce;
 zend_class_entry *phalcon_mvc_model_validator_presenceof_ce;
 zend_class_entry *phalcon_mvc_model_validator_regex_ce;
@@ -690,6 +691,7 @@ static PHP_MINIT_FUNCTION(phalcon)
 	ZEPHIR_INIT(Phalcon_Mvc_Model_Validator_Email);
 	ZEPHIR_INIT(Phalcon_Mvc_Model_Validator_Exclusionin);
 	ZEPHIR_INIT(Phalcon_Mvc_Model_Validator_Inclusionin);
+	ZEPHIR_INIT(Phalcon_Mvc_Model_Validator_Ip);
 	ZEPHIR_INIT(Phalcon_Mvc_Model_Validator_Numericality);
 	ZEPHIR_INIT(Phalcon_Mvc_Model_Validator_PresenceOf);
 	ZEPHIR_INIT(Phalcon_Mvc_Model_Validator_Regex);

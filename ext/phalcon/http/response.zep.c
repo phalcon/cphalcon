@@ -780,14 +780,18 @@ PHP_METHOD(Phalcon_Http_Response, setContent) {
  */
 PHP_METHOD(Phalcon_Http_Response, setJsonContent) {
 
-	zval *content, *jsonOptions = NULL, *_0;
+	zval *content, *jsonOptions = NULL, *depth = NULL, *_0;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 1, &content, &jsonOptions);
+	zephir_fetch_params(1, 1, 2, &content, &jsonOptions, &depth);
 
 	if (!jsonOptions) {
 		ZEPHIR_INIT_VAR(jsonOptions);
 		ZVAL_LONG(jsonOptions, 0);
+	}
+	if (!depth) {
+		ZEPHIR_INIT_VAR(depth);
+		ZVAL_LONG(depth, 512);
 	}
 
 

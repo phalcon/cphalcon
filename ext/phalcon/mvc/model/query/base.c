@@ -94,6 +94,7 @@ const phql_token_names phql_tokens[] =
   { SL("ELSE"),		           PHQL_T_ELSE },
   { SL("END"),		           PHQL_T_END },
   { SL("FOR"),		           PHQL_T_FOR },
+  { SL("WITH"),		           PHQL_T_WITH },
   { NULL, 0, 0 }
 };
 
@@ -338,6 +339,9 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 			case PHQL_T_FOR:
 				phql_(phql_parser, PHQL_FOR, NULL, parser_status);
 				break;
+            case PHQL_T_WITH:
+    			phql_(phql_parser, PHQL_WITH, NULL, parser_status);
+    			break;
 
 			case PHQL_T_INTEGER:
 				if (parser_status->enable_literals) {

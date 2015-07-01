@@ -282,6 +282,7 @@
 #include "phalcon/mvc/model/validator/email.zep.h"
 #include "phalcon/mvc/model/validator/exclusionin.zep.h"
 #include "phalcon/mvc/model/validator/inclusionin.zep.h"
+#include "phalcon/mvc/model/validator/ip.zep.h"
 #include "phalcon/mvc/model/validator/numericality.zep.h"
 #include "phalcon/mvc/model/validator/presenceof.zep.h"
 #include "phalcon/mvc/model/validator/regex.zep.h"

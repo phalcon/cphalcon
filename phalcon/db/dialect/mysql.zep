@@ -148,7 +148,20 @@ class MySQL extends Dialect
 				if column->isUnsigned() {
 					let columnSql .= " UNSIGNED";
 				}
-				break;			
+				break;
+
+			case Column::TYPE_BIGINTEGER:
+				if empty columnSql {
+					let columnSql .= "BIGINT";
+				}
+				let scale = column->getSize();
+				if scale {
+					let columnSql .= "(" . column->getSize() . ")";
+				}
+				if column->isUnsigned() {
+					let columnSql .= " UNSIGNED";
+				}
+				break;
 
 			case Column::TYPE_TINYBLOB:
 				if empty columnSql {

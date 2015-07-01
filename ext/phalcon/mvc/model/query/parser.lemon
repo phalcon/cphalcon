@@ -160,7 +160,7 @@ static zval *phql_ret_select_statement(zval *S, zval *W, zval *O, zval *G, zval 
 	return ret;
 }
 
-static zval *phql_ret_select_clause(zval *distinct, zval *columns, zval *tables, zval *join_list)
+static zval *phql_ret_select_clause(zval *distinct, zval *columns, zval *tables, zval *with_list, zval *join_list)
 {
 	zval *ret;
 
@@ -173,6 +173,11 @@ static zval *phql_ret_select_clause(zval *distinct, zval *columns, zval *tables,
 
 	add_assoc_zval(ret, "columns", columns);
 	add_assoc_zval(ret, "tables", tables);
+
+	if (with_list) {
+		add_assoc_zval(ret, "with", with_list);
+	}
+
 	if (join_list) {
 		add_assoc_zval(ret, "joins", join_list);
 	}
@@ -588,8 +593,8 @@ select_statement(R) ::= select_clause(S) where_clause(W) group_clause(G) having_
 
 %destructor select_clause { zval_ptr_dtor(&$$); }
 
-select_clause(R) ::= SELECT distinct_all(D) column_list(C) FROM associated_name_list(A) join_list_or_null(J) . {
-	R = phql_ret_select_clause(D, C, A, J);
+select_clause(R) ::= SELECT distinct_all(D) column_list(C) FROM associated_name_list(A) with_list_or_null(W) join_list_or_null(J) . {
+	R = phql_ret_select_clause(D, C, A, W, J);
 }
 
 %destructor distinct_all { zephir_safe_zval_ptr_dtor($$); }
@@ -656,6 +661,14 @@ join_list_or_null(R) ::= . {
 	R = NULL;
 }
 
+with_list_or_null(R) ::= WITH with_list(L) . {
+	R = L;
+}
+
+with_list_or_null(R) ::= . {
+	R = NULL;
+}
+
 %destructor join_list { zval_ptr_dtor(&$$); }
 
 join_list(R) ::= join_list(L) join_item(I) . {
@@ -670,6 +683,22 @@ join_list(R) ::= join_item(I) . {
 
 join_item(R) ::= join_clause(C) . {
 	R = C;
+}
+
+%destructor with_list { zval_ptr_dtor(&$$); }
+
+with_list(R) ::= with_list(L) with_item(I) . {
+	R = phql_ret_zval_list(L, I);
+}
+
+with_list(R) ::= with_item(I) . {
+	R = I;
+}
+
+%destructor with_item { zval_ptr_dtor(&$$); }
+
+with_item(R) ::= IDENTIFIER(I) . {
+	R = phql_ret_qualified_name(NULL, NULL, I);
 }
 
 %destructor join_clause { zval_ptr_dtor(&$$); }

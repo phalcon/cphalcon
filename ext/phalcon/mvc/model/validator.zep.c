@@ -132,17 +132,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator, getOptions) {
 
 /**
  * Returns an option
- *
- * @param	string option
- * @return	mixed
  */
 PHP_METHOD(Phalcon_Mvc_Model_Validator, getOption) {
 
-	zval *option_param = NULL, *options, *value;
+	zval *option_param = NULL, *defaultValue = NULL, *options, *value;
 	zval *option = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &option_param);
+	zephir_fetch_params(1, 1, 1, &option_param, &defaultValue);
 
 	if (unlikely(Z_TYPE_P(option_param) != IS_STRING && Z_TYPE_P(option_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'option' must be a string") TSRMLS_CC);
@@ -155,13 +152,18 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator, getOption) {
 		ZEPHIR_INIT_VAR(option);
 		ZVAL_EMPTY_STRING(option);
 	}
+	if (!defaultValue) {
+		ZEPHIR_INIT_VAR(defaultValue);
+		ZVAL_STRING(defaultValue, "", 1);
+	}
 
 
 	options = zephir_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY_CC);
 	if (zephir_array_isset_fetch(&value, options, option, 1 TSRMLS_CC)) {
 		RETURN_CTOR(value);
 	}
-	RETURN_MM_STRING("", 1);
+	RETVAL_ZVAL(defaultValue, 1, 0);
+	RETURN_MM();
 
 }
 
