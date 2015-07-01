@@ -76,18 +76,15 @@ abstract class Validator
 
 	/**
 	 * Returns an option
-	 *
-	 * @param	string option
-	 * @return	mixed
 	 */
-	public function getOption(string! option)
+	public function getOption(string! option, var defaultValue = "") -> var
 	{
 		var options, value;
 		let options = this->_options;
 		if fetch value, options[option] {
 			return value;
 		}
-		return "";
+		return defaultValue;
 	}
 
 	/**
