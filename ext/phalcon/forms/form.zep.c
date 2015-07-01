@@ -22,6 +22,7 @@
 #include "kernel/hash.h"
 #include "kernel/operators.h"
 #include "kernel/concat.h"
+#include "kernel/string.h"
 
 
 /**
@@ -334,8 +335,10 @@ PHP_METHOD(Phalcon_Forms_Form, bind) {
 		} else {
 			ZEPHIR_CPY_WRT(filteredValue, value);
 		}
+		ZEPHIR_INIT_NVAR(_5);
+		zephir_camelize(_5, key);
 		ZEPHIR_INIT_NVAR(method);
-		ZEPHIR_CONCAT_SV(method, "set", key);
+		ZEPHIR_CONCAT_SV(method, "set", _5);
 		if ((zephir_method_exists(entity, method TSRMLS_CC)  == SUCCESS)) {
 			ZEPHIR_CALL_METHOD_ZVAL(NULL, entity, method, NULL, 0, filteredValue);
 			zephir_check_call_status();
@@ -850,8 +853,8 @@ PHP_METHOD(Phalcon_Forms_Form, getLabel) {
 PHP_METHOD(Phalcon_Forms_Form, getValue) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *name_param = NULL, *entity, *method = NULL, *value = NULL, *data;
-	zval *name = NULL, *_0 = NULL;
+	zval *name_param = NULL, *entity, *method = NULL, *value = NULL, *data, *_0 = NULL;
+	zval *name = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &name_param);
@@ -880,8 +883,9 @@ PHP_METHOD(Phalcon_Forms_Form, getValue) {
 	}
 	if (Z_TYPE_P(entity) == IS_OBJECT) {
 		ZEPHIR_INIT_VAR(_0);
-		ZEPHIR_CONCAT_SV(_0, "get", name);
-		ZEPHIR_CPY_WRT(method, _0);
+		zephir_camelize(_0, name);
+		ZEPHIR_INIT_VAR(method);
+		ZEPHIR_CONCAT_SV(method, "get", _0);
 		if ((zephir_method_exists(entity, method TSRMLS_CC)  == SUCCESS)) {
 			ZEPHIR_RETURN_CALL_METHOD_ZVAL(entity, method, NULL, 0);
 			zephir_check_call_status();
@@ -898,9 +902,10 @@ PHP_METHOD(Phalcon_Forms_Form, getValue) {
 			RETURN_CCTOR(value);
 		}
 	}
-	ZEPHIR_INIT_LNVAR(_0);
-	ZEPHIR_CONCAT_SV(_0, "get", name);
-	ZEPHIR_CPY_WRT(method, _0);
+	ZEPHIR_INIT_NVAR(_0);
+	zephir_camelize(_0, name);
+	ZEPHIR_INIT_NVAR(method);
+	ZEPHIR_CONCAT_SV(method, "get", _0);
 	if ((zephir_method_exists(this_ptr, method TSRMLS_CC)  == SUCCESS)) {
 		ZEPHIR_RETURN_CALL_METHOD_ZVAL(this_ptr, method, NULL, 0);
 		zephir_check_call_status();

@@ -240,7 +240,7 @@ class Form extends Injectable implements \Countable, \Iterator
 			/**
 			 * Use the setter if any available
 			 */
-			let method = "set" . key;
+			let method = "set" . camelize(key);
 			if method_exists(entity, method) {
 				entity->{method}(filteredValue);
 				continue;
@@ -592,7 +592,7 @@ class Form extends Injectable implements \Countable, \Iterator
 			/**
 			 * Check if the entity has a getter
 			 */
-			let method = "get" . name;
+			let method = "get" . camelize(name);
 			if method_exists(entity, method) {
 				return entity->{method}();
 			}
@@ -618,7 +618,7 @@ class Form extends Injectable implements \Countable, \Iterator
 		/**
 		 * Check if form has a getter
 		 */
-		let method = "get" . name;
+		let method = "get" . camelize(name);
 		if method_exists(this, method) {
 			return this->{method}();
 		}
