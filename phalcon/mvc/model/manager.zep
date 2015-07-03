@@ -1110,12 +1110,12 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	/**
 	 * Merge two arrays of find parameters
 	 */
-	protected final function mergeFindParameters(var findParamsOne, var findParamsTwo) -> array
+	protected final function _mergeFindParameters(var findParamsOne, var findParamsTwo) -> array
 	{
 		var key, value, findParams;
 
-		var_dump(findParamsOne);
-		var_dump(findParamsTwo);
+		//var_dump(findParamsOne);
+		//var_dump(findParamsTwo);
 
 		if typeof findParamsOne == "string" && typeof findParamsTwo == "string" {
 			return ["(" . findParamsOne . ") AND " . findParamsTwo];
@@ -1125,21 +1125,17 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 		if typeof findParamsOne == "array"  {
 
 			for key, value in findParamsOne {
-				switch key {
 
-					case 0:
-					case "conditions":
-						if !isset findParams[0] {
-							let findParams[0] = value;
-						} else {
-							let findParams[0] = "(" . findParams[0] . ") AND " . value;
-						}
-						break;
-
-					default:
-						let findParams[key] = value;
-						break;
+				if key === 0 || key === "conditions" {
+					if !isset findParams[0] {
+						let findParams[0] = value;
+					} else {						
+						let findParams[0] = "(" . findParams[0] . ") AND " . value;
+					}
+					continue;
 				}
+
+				let findParams[key] = value;
 			}
 		} else {
 			if typeof findParamsOne == "string" {
@@ -1151,34 +1147,29 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 
 			for key, value in findParamsTwo {
 
-				switch key {
-
-					case 0:
-					case "conditions":
-						if !isset findParams[0] {
-							let findParams[0] = value;
-						} else {
-							let findParams[0] = "(" . findParams[0] . ") AND " . value;
-						}
-						break;
-
-					case "bind":
-					case "bindTypes":
-						if !isset findParams[key] {
-							if typeof value == "array" {
-								let findParams[key] = value;
-							}
-						} else {
-							if typeof value == "array" {
-								let findParams[key] = array_merge(findParams[key], value);
-							}
-						}
-						break;
-
-					default:
-						let findParams[key] = value;
-						break;
+				if key === 0 || key === "conditions" {
+					if !isset findParams[0] {
+						let findParams[0] = value;
+					} else {
+						let findParams[0] = "(" . findParams[0] . ") AND " . value;
+					}
+					continue;
 				}
+
+				if key === "bind" || key === "bindTypes" {
+					if !isset findParams[key] {
+						if typeof value == "array" {
+							let findParams[key] = value;
+						}
+					} else {
+						if typeof value == "array" {
+							let findParams[key] = array_merge(findParams[key], value);
+						}
+					}
+					continue;
+				}
+
+				let findParams[key] = value;
 			}
 		} else {
 			if typeof findParamsTwo == "string" {
@@ -1302,10 +1293,10 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 			"di"        : record->{"getDi"}()
 		];
 
-		let findArguments = this->mergeFindParameters(findParams, parameters);
+		let findArguments = this->_mergeFindParameters(findParams, parameters);
 
 		if typeof extraParameters == "array" {
-			let findParams = this->mergeFindParameters(findArguments, extraParameters);
+			let findParams = this->_mergeFindParameters(findArguments, extraParameters);
 		} else {
 			let findParams = findArguments;
 		}

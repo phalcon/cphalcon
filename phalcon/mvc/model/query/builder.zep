@@ -1078,17 +1078,6 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 			}
 		}
 
-		let withModels = this->_with;
-		if typeof withModels == "array" {
-
-			let selectedColumns = [];
-			for model in withModels {
-				let selectedColumns[] = "[" . model . "].*";
-			}
-
-			let phql .= ", " . join(", ", selectedColumns);
-		}
-
 		/**
 		 * Join multiple models or use a single one if it is a string
 		 */
@@ -1123,6 +1112,20 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 			} else {
 				let phql .= " FROM [" . models . "]";
 			}
+		}
+
+		/**
+		 * Check if there are eager loaded models
+		 */
+		let withModels = this->_with;
+		if typeof withModels == "array" {
+
+			let selectedColumns = [];
+			for model in withModels {
+				let selectedColumns[] = "[" . model . "]";
+			}
+
+			let phql .= " WITH " . join(", ", selectedColumns);
 		}
 
 		/**
