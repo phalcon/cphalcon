@@ -100,7 +100,8 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 			forUpdate, sharedLock, orderClause, offsetClause, joinsClause,
 			singleConditionArray, limit, offset, fromClause,
 			mergedConditions, mergedParams, mergedTypes,
-			singleCondition, singleParams, singleTypes, with, distinct;
+			singleCondition, singleParams, singleTypes,
+			with, distinct, bind, bindTypes;
 
 		if typeof params == "array" {
 
@@ -111,40 +112,57 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 				let this->_conditions = conditions;
 			} else {
 				if fetch conditions, params["conditions"] {
-					if typeof conditions == "array" {
+					let this->_conditions = conditions;
+				}
+			}
 
-						let mergedConditions = [];
-						let mergedParams     = [];
-						let mergedTypes      = [];
-						for singleConditionArray in conditions {
+			if typeof conditions == "array" {
 
-							if typeof singleConditionArray == "array" {
+				let mergedConditions = [];
+				let mergedParams     = [];
+				let mergedTypes      = [];
+				for singleConditionArray in conditions {
 
-								fetch singleCondition, singleConditionArray[0];
-								fetch singleParams, singleConditionArray[1];
-								fetch singleTypes, singleConditionArray[2];
+					if typeof singleConditionArray == "array" {
 
-								if typeof singleCondition == "string" {
-									let mergedConditions[] = singleCondition;
-								}
+						fetch singleCondition, singleConditionArray[0];
+						fetch singleParams, singleConditionArray[1];
+						fetch singleTypes, singleConditionArray[2];
 
-								if typeof singleParams == "array" {
-									let mergedParams = mergedParams + singleParams;
-								}
-
-								if typeof singleTypes == "array" {
-									let mergedTypes = mergedTypes + singleTypes;
-								}
-							}
+						if typeof singleCondition == "string" {
+							let mergedConditions[] = singleCondition;
 						}
 
-						let this->_conditions = implode(" AND ", mergedConditions);
-						let this->_bindParams = mergedParams;
-						let this->_bindTypes  = mergedTypes;
-					} else {
-						let this->_conditions = conditions;
+						if typeof singleParams == "array" {
+							let mergedParams = mergedParams + singleParams;
+						}
+
+						if typeof singleTypes == "array" {
+							let mergedTypes = mergedTypes + singleTypes;
+						}
 					}
 				}
+
+				let this->_conditions = implode(" AND ", mergedConditions);
+
+				if typeof mergedParams == "array" {
+					let this->_bindParams = mergedParams;
+				}
+
+				if typeof mergedTypes == "array" {
+					let this->_bindTypes  = mergedTypes;
+				}
+			}
+
+			/**
+			 * Assign bind types
+			 */
+			if fetch bind, params["bind"] {
+				let this->_bindParams = bind;
+			}
+
+			if fetch bindTypes, params["bindTypes"] {
+				let this->_bindTypes = bindTypes;
 			}
 
 			/**

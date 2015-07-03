@@ -354,7 +354,8 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/validation/validator/stringlength.zep.c
 	phalcon/validation/validator/uniqueness.zep.c
 	phalcon/validation/validator/url.zep.c
-	phalcon/version.zep.c phalcon/annotations/scanner.c
+	phalcon/version.zep.c
+	phalcon/0__closure.zep.c phalcon/annotations/scanner.c
 	phalcon/annotations/parser.c
 	phalcon/mvc/model/orm.c
 	phalcon/mvc/model/query/scanner.c

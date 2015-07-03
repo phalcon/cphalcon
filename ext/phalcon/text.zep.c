@@ -555,3 +555,122 @@ PHP_METHOD(Phalcon_Text, concat) {
 
 }
 
+/**
+ * Generates random text in accordance with the template
+ *
+ * <code>
+ *    echo Phalcon\Text::dynamic("{Hi|Hello}, my name is a {Bob|Mark|Jon}!"); // Hi my name is a Bob
+ *    echo Phalcon\Text::dynamic("{Hi|Hello}, my name is a {Bob|Mark|Jon}!"); // Hi my name is a Jon
+ *    echo Phalcon\Text::dynamic("{Hi|Hello}, my name is a {Bob|Mark|Jon}!"); // Hello my name is a Bob
+ * </code>
+ */
+PHP_METHOD(Phalcon_Text, dynamic) {
+
+	int ZEPHIR_LAST_CALL_STATUS;
+	zephir_fcall_cache_entry *_1 = NULL, *_5 = NULL, *_8 = NULL;
+	zval *text_param = NULL, *leftDelimiter_param = NULL, *rightDelimiter_param = NULL, *separator_param = NULL, *_0 = NULL, *_2 = NULL, *_3 = NULL, *ld_s = NULL, *rd_s = NULL, *result = NULL, *pattern, *_6 = NULL, *_7 = NULL;
+	zval *text = NULL, *leftDelimiter = NULL, *rightDelimiter = NULL, *separator = NULL, *_4;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 3, &text_param, &leftDelimiter_param, &rightDelimiter_param, &separator_param);
+
+	if (unlikely(Z_TYPE_P(text_param) != IS_STRING && Z_TYPE_P(text_param) != IS_NULL)) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'text' must be a string") TSRMLS_CC);
+		RETURN_MM_NULL();
+	}
+
+	if (likely(Z_TYPE_P(text_param) == IS_STRING)) {
+		zephir_get_strval(text, text_param);
+	} else {
+		ZEPHIR_INIT_VAR(text);
+		ZVAL_EMPTY_STRING(text);
+	}
+	if (!leftDelimiter_param) {
+		ZEPHIR_INIT_VAR(leftDelimiter);
+		ZVAL_STRING(leftDelimiter, "{", 1);
+	} else {
+	if (unlikely(Z_TYPE_P(leftDelimiter_param) != IS_STRING && Z_TYPE_P(leftDelimiter_param) != IS_NULL)) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'leftDelimiter' must be a string") TSRMLS_CC);
+		RETURN_MM_NULL();
+	}
+
+	if (likely(Z_TYPE_P(leftDelimiter_param) == IS_STRING)) {
+		zephir_get_strval(leftDelimiter, leftDelimiter_param);
+	} else {
+		ZEPHIR_INIT_VAR(leftDelimiter);
+		ZVAL_EMPTY_STRING(leftDelimiter);
+	}
+	}
+	if (!rightDelimiter_param) {
+		ZEPHIR_INIT_VAR(rightDelimiter);
+		ZVAL_STRING(rightDelimiter, "}", 1);
+	} else {
+	if (unlikely(Z_TYPE_P(rightDelimiter_param) != IS_STRING && Z_TYPE_P(rightDelimiter_param) != IS_NULL)) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'rightDelimiter' must be a string") TSRMLS_CC);
+		RETURN_MM_NULL();
+	}
+
+	if (likely(Z_TYPE_P(rightDelimiter_param) == IS_STRING)) {
+		zephir_get_strval(rightDelimiter, rightDelimiter_param);
+	} else {
+		ZEPHIR_INIT_VAR(rightDelimiter);
+		ZVAL_EMPTY_STRING(rightDelimiter);
+	}
+	}
+	if (!separator_param) {
+		ZEPHIR_INIT_VAR(separator);
+		ZVAL_STRING(separator, "|", 1);
+	} else {
+	if (unlikely(Z_TYPE_P(separator_param) != IS_STRING && Z_TYPE_P(separator_param) != IS_NULL)) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'separator' must be a string") TSRMLS_CC);
+		RETURN_MM_NULL();
+	}
+
+	if (likely(Z_TYPE_P(separator_param) == IS_STRING)) {
+		zephir_get_strval(separator, separator_param);
+	} else {
+		ZEPHIR_INIT_VAR(separator);
+		ZVAL_EMPTY_STRING(separator);
+	}
+	}
+
+
+	ZEPHIR_CALL_FUNCTION(&_0, "substr_count", &_1, 418, text, leftDelimiter);
+	zephir_check_call_status();
+	ZEPHIR_CALL_FUNCTION(&_2, "substr_count", &_1, 418, text, rightDelimiter);
+	zephir_check_call_status();
+	if (!ZEPHIR_IS_IDENTICAL(_0, _2)) {
+		ZEPHIR_INIT_VAR(_3);
+		object_init_ex(_3, spl_ce_RuntimeException);
+		ZEPHIR_INIT_VAR(_4);
+		ZEPHIR_CONCAT_SVS(_4, "Syntax error in string \"", text, "\"");
+		ZEPHIR_CALL_METHOD(NULL, _3, "__construct", NULL, 419, _4);
+		zephir_check_call_status();
+		zephir_throw_exception_debug(_3, "phalcon/text.zep", 263 TSRMLS_CC);
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	ZEPHIR_CALL_FUNCTION(&ld_s, "preg_quote", &_5, 420, leftDelimiter);
+	zephir_check_call_status();
+	ZEPHIR_CALL_FUNCTION(&rd_s, "preg_quote", &_5, 420, rightDelimiter);
+	zephir_check_call_status();
+	ZEPHIR_INIT_VAR(pattern);
+	ZEPHIR_CONCAT_SVSVVSVS(pattern, "/", ld_s, "([^", ld_s, rd_s, "]+)", rd_s, "/");
+	ZEPHIR_CPY_WRT(result, text);
+	while (1) {
+		ZEPHIR_INIT_NVAR(_3);
+		zephir_fast_strpos(_3, result, leftDelimiter, 0 );
+		if (!(!ZEPHIR_IS_FALSE_IDENTICAL(_3))) {
+			break;
+		}
+		ZEPHIR_INIT_NVAR(_6);
+		ZEPHIR_INIT_NVAR(_6);
+		zephir_create_closure_ex(_6, NULL, phalcon_0__closure_ce, SS("__invoke") TSRMLS_CC);
+		ZEPHIR_CALL_FUNCTION(&_7, "preg_replace_callback", &_8, 421, pattern, _6, result);
+		zephir_check_call_status();
+		ZEPHIR_CPY_WRT(result, _7);
+	}
+	RETURN_CCTOR(result);
+
+}
+

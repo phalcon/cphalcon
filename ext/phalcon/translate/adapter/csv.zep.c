@@ -88,7 +88,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_Csv, __construct) {
 		zephir_array_fetch_string(&_5, options, SL("length"), PH_NOISY | PH_READONLY, "phalcon/translate/adapter/csv.zep", 60 TSRMLS_CC);
 		zephir_array_fetch_string(&_7, options, SL("delimiter"), PH_NOISY | PH_READONLY, "phalcon/translate/adapter/csv.zep", 60 TSRMLS_CC);
 		zephir_array_fetch_string(&_8, options, SL("enclosure"), PH_NOISY | PH_READONLY, "phalcon/translate/adapter/csv.zep", 60 TSRMLS_CC);
-		ZEPHIR_CALL_FUNCTION(&data, "fgetcsv", &_9, 418, file, _5, _7, _8);
+		ZEPHIR_CALL_FUNCTION(&data, "fgetcsv", &_9, 422, file, _5, _7, _8);
 		zephir_check_call_status();
 		if (ZEPHIR_IS_FALSE_IDENTICAL(data)) {
 			break;

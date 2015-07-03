@@ -259,18 +259,18 @@ abstract class Text
 	 */
 	public static function dynamic(string! text, string! leftDelimiter = "{", string! rightDelimiter = "}", string! separator = "|") -> string
 	{
+		var ld_s, rd_s, result, pattern;
+
 		if substr_count(text, leftDelimiter) !== substr_count(text, rightDelimiter) {
 			throw new \RuntimeException("Syntax error in string \"" . text . "\"");
 		}
-
-		var ld_s, rd_s, result, pattern;
 
 		let ld_s 	= preg_quote(leftDelimiter);
 		let rd_s 	= preg_quote(rightDelimiter);
 		let pattern = "/" . ld_s . "([^" . ld_s . rd_s . "]+)" . rd_s . "/";
 		let result 	= text;
 
-		while strpos(result, leftDelimiter) !== false {
+		while memstr(result, leftDelimiter) {
 			let result = preg_replace_callback(pattern, function (matches) {
 				var words;
 				let words = explode("|", matches[1]);

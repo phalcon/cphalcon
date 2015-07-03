@@ -115,11 +115,11 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
 			// Two routes are added by default to match /:controller/:action and
 			// /:controller/:action/:params
 
-			let routes[] = new Route("#^/([a-zA-Z0-9\\_\\-]+)[/]{0,1}$#", [
+			let routes[] = new Route("#^/([\\w0-9\\_\\-]+)[/]{0,1}$#u", [
 				"controller": 1
 			]);
 
-			let routes[] = new Route("#^/([a-zA-Z0-9\\_\\-]+)/([a-zA-Z0-9\\.\\_]+)(/.*)*$#", [
+			let routes[] = new Route("#^/([\\w0-9\\_\\-]+)/([\\w0-9\\.\\_]+)(/.*)*$#u", [
 				"controller": 1,
 				"action": 2,
 				"params": 3

@@ -350,5 +350,6 @@
 #include "phalcon/validation/validator/uniqueness.zep.h"
 #include "phalcon/validation/validator/url.zep.h"
 #include "phalcon/version.zep.h"
+#include "phalcon/0__closure.zep.h"
 
 #endif
