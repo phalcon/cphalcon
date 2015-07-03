@@ -88,6 +88,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/http/response/headersinterface.zep.c
 	phalcon/http/responseinterface.zep.c
 	phalcon/mvc/collectioninterface.zep.c
+	phalcon/mvc/controllerinterface.zep.c
 	phalcon/mvc/dispatcherinterface.zep.c
 	phalcon/mvc/micro/collectioninterface.zep.c
 	phalcon/mvc/model/criteriainterface.zep.c
@@ -251,7 +252,6 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/mvc/collection/manager.zep.c
 	phalcon/mvc/collection/managerinterface.zep.c
 	phalcon/mvc/controller.zep.c
-	phalcon/mvc/controllerinterface.zep.c
 	phalcon/mvc/dispatcher.zep.c
 	phalcon/mvc/dispatcher/exception.zep.c
 	phalcon/mvc/micro.zep.c

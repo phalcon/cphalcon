@@ -43,10 +43,13 @@ use Phalcon\Events\ManagerInterface as EventsManagerInterface;
  * A ModelsManager is injected to a model via a Dependency Injector/Services Container such as Phalcon\DI.
  *
  * <code>
- * $di = new \Phalcon\DI();
+ * use Phalcon\DI;
+ * use Phalcon\Mvc\Model\Manager as ModelsManager;
+ *
+ * $di = new DI();
  *
  * $di->set('modelsManager', function() {
- *      return new \Phalcon\Mvc\Model\Manager();
+ *      return new ModelsManager();
  * });
  *
  * $robot = new Robots($di);
@@ -1105,61 +1108,113 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	}
 
 	/**
+	 * Merge two arrays of find parameters
+	 */
+	protected final function mergeFindParameters(var findParamsOne, var findParamsTwo) -> array
+	{
+		var key, value, findParams;
+
+		var_dump(findParamsOne);
+		var_dump(findParamsTwo);
+
+		if typeof findParamsOne == "string" && typeof findParamsTwo == "string" {
+			return ["(" . findParamsOne . ") AND " . findParamsTwo];
+		}
+
+		let findParams = [];
+		if typeof findParamsOne == "array"  {
+
+			for key, value in findParamsOne {
+				switch key {
+
+					case 0:
+					case "conditions":
+						if !isset findParams[0] {
+							let findParams[0] = value;
+						} else {
+							let findParams[0] = "(" . findParams[0] . ") AND " . value;
+						}
+						break;
+
+					default:
+						let findParams[key] = value;
+						break;
+				}
+			}
+		} else {
+			if typeof findParamsOne == "string" {
+				let findParams = ["conditions": findParamsOne];
+			}
+		}
+
+		if typeof findParamsTwo == "array"  {
+
+			for key, value in findParamsTwo {
+
+				switch key {
+
+					case 0:
+					case "conditions":
+						if !isset findParams[0] {
+							let findParams[0] = value;
+						} else {
+							let findParams[0] = "(" . findParams[0] . ") AND " . value;
+						}
+						break;
+
+					case "bind":
+					case "bindTypes":
+						if !isset findParams[key] {
+							if typeof value == "array" {
+								let findParams[key] = value;
+							}
+						} else {
+							if typeof value == "array" {
+								let findParams[key] = array_merge(findParams[key], value);
+							}
+						}
+						break;
+
+					default:
+						let findParams[key] = value;
+						break;
+				}
+			}
+		} else {
+			if typeof findParamsTwo == "string" {
+				if !isset findParams[0] {
+					let findParams[0] = findParamsTwo;
+				} else {
+					let findParams[0] = "(" . findParams[0] . ") AND " . findParamsTwo;
+				}
+			}
+		}
+
+		return findParams;
+	}
+
+	/**
 	 * Helper method to query records based on a relation definition
 	 *
 	 * @return Phalcon\Mvc\Model\Resultset\Simple|Phalcon\Mvc\Model\Resultset\Simple|false
 	 */
 	public function getRelationRecords(<RelationInterface> relation, string! method, <ModelInterface> record, var parameters = null)
 	{
-		var preConditions, placeholders, referencedModel, intermediateModel,
+		var placeholders, referencedModel, intermediateModel,
 			intermediateFields, joinConditions, fields, builder, extraParameters,
 			conditions, refPosition, field, referencedFields, findParams,
 			findArguments, retrieveMethod, uniqueKey, records, arguments;
 		boolean reusable;
 
 		/**
-		 * Re-use conditions
-		 */
-		let preConditions = null;
-
-		if typeof parameters == "array" {
-			if fetch preConditions, parameters[0] {
-				unset parameters[0];
-			} else {
-				if fetch preConditions, parameters["conditions"] {
-					unset parameters["conditions"];
-				}
-			}
-		} else {
-			if typeof parameters == "string" {
-				let preConditions = parameters;
-			}
-		}
-
-		/**
 		 * Re-use bound parameters
 		 */
-		if typeof parameters == "array" {
-			if fetch placeholders, parameters["bind"] {
-				unset parameters["bind"];
-			} else {
-				let placeholders = [];
-			}
-		} else {
-			let placeholders = [];
-		}
+		let placeholders = [];
 
 		/**
 		 * Returns parameters that must be always used when the related records are obtained
 		 */
 		let extraParameters = relation->getParams();
-		if typeof extraParameters == "array" {
-			if typeof parameters == "array" {
-				let parameters = array_merge(parameters, extraParameters);
-			} else {
-				let parameters = extraParameters;
-			}
-		}
 
 		/**
 		 * Perform the query on the referenced model
@@ -1181,8 +1236,8 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 			 */
 			let fields = relation->getFields();
 			if typeof fields != "array" {
-				let conditions[] = "[" . intermediateModel . "].[" . intermediateFields . "] = ?0",
-					placeholders[] = record->readAttribute(fields);
+				let conditions[] = "[" . intermediateModel . "].[" . intermediateFields . "] = :APR0:",
+					placeholders["APR0"] = record->readAttribute(fields);
 			} else {
 				throw new Exception("Not supported");
 			}
@@ -1197,13 +1252,6 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 				let joinConditions[] = "[" . intermediateModel . "].[" . intermediateFields . "] = [" . referencedModel . "].[" . relation->getReferencedFields() . "]";
 			} else {
 				throw new Exception("Not supported");
-			}
-
-			/**
-			 * Add extra conditions passed by the programmer
-			 */
-			if !empty preConditions {
-				let conditions[] = preConditions;
 			}
 
 			/**
@@ -1223,11 +1271,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 			return builder->getQuery()->execute();
 		}
 
-		if preConditions !== null {
-			let conditions = [preConditions];
-		} else {
-			let conditions = [];
-		}
+		let conditions = [];
 
 		/**
 		 * Appends conditions created from the fields defined in the relation
@@ -1258,18 +1302,12 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 			"di"        : record->{"getDi"}()
 		];
 
-		if typeof parameters == "array" {
-			let findArguments = array_merge(findParams, parameters);
-		} else {
-			let findArguments = findParams;
-		}
+		let findArguments = this->mergeFindParameters(findParams, parameters);
 
-		/**
-		 * Join conditions in '0' and 'conditions'
-		 */
-		if isset findArguments[0] && isset findArguments["conditions"] {
-			let findArguments[0] = "(" . findArguments[0] . ") AND (" . findArguments["conditions"] . ")";
-			unset findArguments["conditions"];
+		if typeof extraParameters == "array" {
+			let findParams = this->mergeFindParameters(findArguments, extraParameters);
+		} else {
+			let findParams = findArguments;
 		}
 
 		/**
@@ -1294,7 +1332,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 			let retrieveMethod = method;
 		}
 
-		let arguments = [findArguments];
+		let arguments = [findParams];
 
 		/**
 		 * Find first results could be reusable

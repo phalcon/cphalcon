@@ -71,7 +71,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Identical, validate) {
 	ZEPHIR_CALL_METHOD(&_0, validation, "getvalue", NULL, 0, field);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(_2);
-	ZVAL_STRING(_2, "value", ZEPHIR_TEMP_PARAM_COPY);
+	ZVAL_STRING(_2, "accepted", ZEPHIR_TEMP_PARAM_COPY);
 	ZEPHIR_CALL_METHOD(&_1, this_ptr, "getoption", NULL, 0, _2);
 	zephir_check_temp_parameter(_2);
 	zephir_check_call_status();
