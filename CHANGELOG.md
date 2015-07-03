@@ -36,6 +36,7 @@
 - Added `Phalcon\Mvc\Model\Validator\Ip` from incubator
 - Added parameter return `defaultValue` in `Phalcon\Mvc\Model\Validator::getOption()`
 - Fixed in `Phalcon\Validation\Validator\Identical` the name of parameter `value` to `accepted` according docs
+- Added method `Text:dynamic()` generate random text in accordance with the template see [#10571](https://github.com/phalcon/cphalcon/pull/10571)
 
 # [2.0.3](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.0.3) (2015-06-10)
 - Added support for Behaviors in `Phalcon\Mvc\Collection`
