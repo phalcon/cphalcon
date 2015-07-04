@@ -50,8 +50,6 @@ use Phalcon\Mvc\Model\Exception;
 class Libmemcached extends MetaData implements MetaDataInterface
 {
 
-	protected _prefix = "";
-
 	protected _ttl = 172800;
 
 	protected _memcache = null;
@@ -63,7 +61,7 @@ class Libmemcached extends MetaData implements MetaDataInterface
 	 */
 	public function __construct(options = null)
 	{
-		var ttl, prefix;
+		var ttl;
 
 		if typeof options != "array" {
 			let options = [];
@@ -75,11 +73,6 @@ class Libmemcached extends MetaData implements MetaDataInterface
 
 		if fetch ttl, options["lifetime"] {
 			let this->_ttl = ttl;
-		}
-
-		if fetch prefix, options["prefix"] {
-			let this->_prefix = prefix;
-			unset options["prefix"];
 		}
 
 		if !isset options["statsKey"] {
@@ -101,7 +94,7 @@ class Libmemcached extends MetaData implements MetaDataInterface
 	{
 		var data;
 		
-		let data = this->_memcache->get(this->_prefix . key);
+		let data = this->_memcache->get(key);
 		if typeof data == "array" {
 			return data;
 		}
@@ -113,7 +106,7 @@ class Libmemcached extends MetaData implements MetaDataInterface
 	 */
 	public function write(string! key, var data) -> void
 	{
-		this->_memcache->save(this->_prefix . key, data, this->_ttl);
+		this->_memcache->save(key, data);
 	}
 
 	/**
@@ -121,15 +114,14 @@ class Libmemcached extends MetaData implements MetaDataInterface
 	 */
 	public function reset() -> void
 	{
-		var meta, key, prefix, realKey;
+		var meta, key, realKey;
 
 		let meta = this->_metaData;
 
 		if typeof meta == "array" {
-			let prefix = this->_prefix;
 
 			for key, _ in meta {
-				let realKey = prefix . "meta-" . key;
+				let realKey = "meta-" . key;
 				
 				this->_memcache->delete(realKey);
 			}
