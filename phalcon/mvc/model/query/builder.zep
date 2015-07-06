@@ -20,6 +20,7 @@
 namespace Phalcon\Mvc\Model\Query;
 
 use Phalcon\Di;
+use Phalcon\Db\Column;
 use Phalcon\DiInterface;
 use Phalcon\Mvc\Model\Query;
 use Phalcon\Mvc\Model\Exception;
@@ -99,7 +100,8 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 			forUpdate, sharedLock, orderClause, offsetClause, joinsClause,
 			singleConditionArray, limit, offset, fromClause,
 			mergedConditions, mergedParams, mergedTypes,
-			singleCondition, singleParams, singleTypes, with;
+			singleCondition, singleParams, singleTypes,
+			with, distinct, bind, bindTypes;
 
 		if typeof params == "array" {
 
@@ -110,40 +112,64 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 				let this->_conditions = conditions;
 			} else {
 				if fetch conditions, params["conditions"] {
-					if typeof conditions == "array" {
+					let this->_conditions = conditions;
+				}
+			}
 
-						let mergedConditions = [];
-						let mergedParams     = [];
-						let mergedTypes      = [];
-						for singleConditionArray in conditions {
+			if typeof conditions == "array" {
 
-							if typeof singleConditionArray == "array" {
+				let mergedConditions = [];
+				let mergedParams     = [];
+				let mergedTypes      = [];
+				for singleConditionArray in conditions {
 
-								fetch singleCondition, singleConditionArray[0];
-								fetch singleParams, singleConditionArray[1];
-								fetch singleTypes, singleConditionArray[2];
+					if typeof singleConditionArray == "array" {
 
-								if typeof singleCondition == "string" {
-									let mergedConditions[] = singleCondition;
-								}
+						fetch singleCondition, singleConditionArray[0];
+						fetch singleParams, singleConditionArray[1];
+						fetch singleTypes, singleConditionArray[2];
 
-								if typeof singleParams == "array" {
-									let mergedParams = mergedParams + singleParams;
-								}
-
-								if typeof singleTypes == "array" {
-									let mergedTypes = mergedTypes + singleTypes;
-								}
-							}
+						if typeof singleCondition == "string" {
+							let mergedConditions[] = singleCondition;
 						}
 
-						let this->_conditions = implode(" AND ", mergedConditions);
-						let this->_bindParams = mergedParams;
-						let this->_bindTypes  = mergedTypes;
-					} else {
-						let this->_conditions = conditions;
+						if typeof singleParams == "array" {
+							let mergedParams = mergedParams + singleParams;
+						}
+
+						if typeof singleTypes == "array" {
+							let mergedTypes = mergedTypes + singleTypes;
+						}
 					}
 				}
+
+				let this->_conditions = implode(" AND ", mergedConditions);
+
+				if typeof mergedParams == "array" {
+					let this->_bindParams = mergedParams;
+				}
+
+				if typeof mergedTypes == "array" {
+					let this->_bindTypes  = mergedTypes;
+				}
+			}
+
+			/**
+			 * Assign bind types
+			 */
+			if fetch bind, params["bind"] {
+				let this->_bindParams = bind;
+			}
+
+			if fetch bindTypes, params["bindTypes"] {
+				let this->_bindTypes = bindTypes;
+			}
+
+			/**
+			 * Assign SELECT DISTINCT / SELECT ALL clause
+			 */
+			if fetch distinct, params["distinct"] {
+				let this->_distinct = distinct;
 			}
 
 			/**
@@ -236,6 +262,10 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 			 */
 			if fetch sharedLock, params["shared_lock"] {
 				let this->_sharedLock = sharedLock;
+			}
+		} else {
+			if typeof params == "string" && params !== "" {
+				let this->_conditions = params;
 			}
 		}
 
@@ -622,11 +652,6 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 *<code>
 	 *	$builder->betweenWhere('price', 100.25, 200.50);
 	 *</code>
-	 *
-	 * @param string expr
-	 * @param mixed minimum
-	 * @param mixed maximum
-	 * @return Phalcon\Mvc\Model\Query\Builder
 	 */
 	public function betweenWhere(string! expr, var minimum, var maximum) -> <Builder>
 	{
@@ -639,8 +664,8 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 		 * Minimum key with auto bind-params and
 		 * Maximum key with auto bind-params
 		 */
-		let minimumKey = "phb" . hiddenParam,
-			maximumKey = "phb" . nextHiddenParam;
+		let minimumKey = "AP" . hiddenParam,
+			maximumKey = "AP" . nextHiddenParam;
 
 		/**
 		 * Create a standard BETWEEN condition with bind params
@@ -663,11 +688,6 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 *<code>
 	 *	$builder->notBetweenWhere('price', 100.25, 200.50);
 	 *</code>
-	 *
-	 * @param string expr
-	 * @param mixed minimum
-	 * @param mixed maximum
-	 * @return Phalcon\Mvc\Model\Query\Builder
 	 */
 	public function notBetweenWhere(string! expr, var minimum, var maximum) -> <Builder>
 	{
@@ -680,8 +700,8 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 		 * Minimum key with auto bind-params and
 		 * Maximum key with auto bind-params
 		 */
-		let minimumKey = "phb" . hiddenParam,
-			maximumKey = "phb" . nextHiddenParam;
+		let minimumKey = "AP" . hiddenParam,
+			maximumKey = "AP" . nextHiddenParam;
 
 		/**
 		 * Create a standard BETWEEN condition with bind params
@@ -710,6 +730,11 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 		var key, queryKey, value, bindKeys, bindParams;
 		int hiddenParam;
 
+		if !count(values) {
+			this->andWhere(expr . " != " . expr);
+			return this;
+		}
+
 		let hiddenParam = (int) this->_hiddenParamNumber;
 
 		let bindParams = [], bindKeys = [];
@@ -718,7 +743,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 			/**
 			 * Key with auto bind-params
 			 */
-			let key = "phi" . hiddenParam,
+			let key = "AP" . hiddenParam,
 				queryKey = ":" . key . ":",
 				bindKeys[] = queryKey,
 				bindParams[key] = value,
@@ -748,6 +773,11 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 		var key, queryKey, value, bindKeys, bindParams;
 		int hiddenParam;
 
+		if !count(values) {
+			this->andWhere(expr . " != " . expr);
+			return this;
+		}
+
 		let hiddenParam = (int) this->_hiddenParamNumber;
 
 		let bindParams = [], bindKeys = [];
@@ -756,7 +786,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 			/**
 			 * Key with auto bind-params
 			 */
-			let key = "phi" . hiddenParam,
+			let key = "AP" . hiddenParam,
 				queryKey = ":" . key . ":",
 				bindKeys[] = queryKey,
 				bindParams[key] = value,
@@ -821,6 +851,19 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	public function having(string! having) -> <Builder>
 	{
 		let this->_having = having;
+		return this;
+	}
+
+	/**
+	 * Sets a FOR UPDATE clause
+	 *
+	 *<code>
+	 *	$builder->forUpdate(true);
+	 *</code>
+	 */
+	public function forUpdate(boolean forUpdate) -> <Builder>
+	{
+		let this->_forUpdate = forUpdate;
 		return this;
 	}
 
@@ -923,7 +966,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 			selectedModel, selectedModels, columnAlias, modelColumnAlias,
 			joins, join, joinModel, joinConditions, joinAlias, joinType, group,
 			groupItems, groupItem, having, order, orderItems, orderItem,
-			limit, number, offset, distinct, withModels;
+			limit, number, offset, forUpdate, distinct, withModels, hiddenParam;
 		boolean noPrimary;
 
 		let dependencyInjector = this->_dependencyInjector;
@@ -1057,17 +1100,6 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 			}
 		}
 
-		let withModels = this->_with;
-		if typeof withModels == "array" {
-
-			let selectedColumns = [];
-			for model in withModels {
-				let selectedColumns[] = "[" . model . "].*";
-			}
-
-			let phql .= ", " . join(", ", selectedColumns);
-		}
-
 		/**
 		 * Join multiple models or use a single one if it is a string
 		 */
@@ -1102,6 +1134,20 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 			} else {
 				let phql .= " FROM [" . models . "]";
 			}
+		}
+
+		/**
+		 * Check if there are eager loaded models
+		 */
+		let withModels = this->_with;
+		if typeof withModels == "array" {
+
+			let selectedColumns = [];
+			for model in withModels {
+				let selectedColumns[] = "[" . model . "]";
+			}
+
+			let phql .= " WITH " . join(", ", selectedColumns);
 		}
 
 		/**
@@ -1165,9 +1211,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 			}
 		}
 
-		/**
-		 * Only append conditions if it"s string
-		 */
+		// Only append conditions if it's string
 		if typeof conditions == "string" {
 			if !empty conditions {
 				let phql .= " WHERE " . conditions;
@@ -1215,7 +1259,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 		let having = this->_having;
 		if having !== null {
 			if !empty having {
-				let phql .= " HAVING ".having;
+				let phql .= " HAVING " . having;
 			}
 		}
 
@@ -1248,29 +1292,51 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 		 */
 		let limit = this->_limit;
 		if limit !== null {
+
+			let number = null;
 			if typeof limit == "array" {
+
 				let number = limit["number"];
 				if fetch offset, limit["offset"] {
-					if is_numeric(offset) {
-						let phql .= " LIMIT " . number . " OFFSET " . offset;
-					} else {
-						let phql .= " LIMIT " . number . " OFFSET 0";
+					if !is_numeric(offset) {
+						let offset = 0;
 					}
-				} else {
-					let phql .= " LIMIT " . number;
 				}
+
 			} else {
 				if is_numeric(limit) {
-					let phql .= " LIMIT " . limit,
+					let number = limit,
 						offset = this->_offset;
 					if offset !== null {
-						if is_numeric(offset) {
-							let phql .= " OFFSET " . offset;
-						} else {
-							let phql .= " OFFSET 0";
+						if !is_numeric(offset) {
+							let offset = 0;
 						}
 					}
 				}
+			}
+
+			if is_numeric(limit) {
+
+				let hiddenParam = this->_hiddenParamNumber,
+					phql .= " LIMIT :AP" . hiddenParam . ":",
+					this->_bindParams["AP" . hiddenParam] = intval(number, 10),
+					this->_bindTypes["AP" . hiddenParam] = Column::BIND_PARAM_INT;
+
+				if is_numeric(offset) {
+					let hiddenParam++,
+						phql .= " OFFSET :AP" . hiddenParam . ":",
+						this->_bindParams["AP" . hiddenParam] = intval(offset, 10),
+						this->_bindTypes["AP" . hiddenParam] = Column::BIND_PARAM_INT;
+				}
+
+				let this->_hiddenParamNumber = hiddenParam + 1;
+			}
+		}
+
+		let forUpdate = this->_forUpdate;
+		if typeof forUpdate === "boolean" {
+			if forUpdate {
+				let phql .= " FOR UPDATE";
 			}
 		}
 
@@ -1286,17 +1352,13 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 
 		let query = new Query(this->getPhql(), this->_dependencyInjector);
 
-		/**
-		 * Set default bind params
-		 */
+		// Set default bind params
 		let bindParams = this->_bindParams;
 		if typeof bindParams == "array" {
 			query->setBindParams(bindParams);
 		}
 
-		/**
-		 * Set default bind params
-		 */
+		// Set default bind params
 		let bindTypes = this->_bindTypes;
 		if typeof bindTypes == "array" {
 			query->setBindTypes(bindTypes);

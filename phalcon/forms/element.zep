@@ -122,7 +122,7 @@ abstract class Element implements ElementInterface
 	{
 		var filters;
 		let filters = this->_filters;
-		if typeof filters == "array" {
+		if typeof filters == "array" {			
 			let this->_filters[] = filter;
 		} else {
 			if typeof filters == "string" {

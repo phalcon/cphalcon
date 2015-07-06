@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -163,6 +163,9 @@
 #define PHVOLT_T_NOT_ISSCALAR 396
 #define PHVOLT_T_NOT_ISITERABLE 397
 
+#define PHVOLT_T_RAW 400
+#define PHVOLT_T_ENDRAW 401
+
 /* List of tokens and their names */
 typedef struct _phvolt_token_names {
 	char *name;
@@ -190,6 +193,7 @@ typedef struct _phvolt_scanner_state {
 	unsigned int if_level;
 	unsigned int for_level;
 	int whitespace_control;
+	int forced_raw_state;
 } phvolt_scanner_state;
 
 /* Extra information tokens */
@@ -204,4 +208,3 @@ int phvolt_get_token(phvolt_scanner_state *s, phvolt_scanner_token *token);
 extern const phvolt_token_names phvolt_tokens[];
 
 #endif  /* PHALCON_MVC_VIEW_ENGINE_VOLT_SCANNER_H */
-

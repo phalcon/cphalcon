@@ -1,97 +1,100 @@
 
 /*
   +------------------------------------------------------------------------+
-  | Phalcon Framework                                                      |
+  | Phalcon Framework													  |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)	   |
   +------------------------------------------------------------------------+
-  | This source file is subject to the New BSD License that is bundled     |
-  | with this package in the file docs/LICENSE.txt.                        |
-  |                                                                        |
-  | If you did not receive a copy of the license and are unable to         |
-  | obtain it through the world-wide-web, please send an email             |
-  | to license@phalconphp.com so we can send you a copy immediately.       |
+  | This source file is subject to the New BSD License that is bundled	 |
+  | with this package in the file docs/LICENSE.txt.						|
+  |																		|
+  | If you did not receive a copy of the license and are unable to		 |
+  | obtain it through the world-wide-web, please send an email			 |
+  | to license@phalconphp.com so we can send you a copy immediately.	   |
   +------------------------------------------------------------------------+
-  | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
-  |          Eduar Carvajal <eduar@phalconphp.com>                         |
+  | Authors: Andres Gutierrez <andres@phalconphp.com>					  |
+  |		  Eduar Carvajal <eduar@phalconphp.com>						 |
   +------------------------------------------------------------------------+
 */
 
 const phql_token_names phql_tokens[] =
 {
-  { SL("INTEGER"),       PHQL_T_INTEGER },
-  { SL("DOUBLE"),        PHQL_T_DOUBLE },
-  { SL("STRING"),        PHQL_T_STRING },
-  { SL("IDENTIFIER"),    PHQL_T_IDENTIFIER },
-  { SL("MINUS"),         PHQL_T_MINUS },
-  { SL("+"),             PHQL_T_ADD },
-  { SL("-"),             PHQL_T_SUB },
-  { SL("*"),             PHQL_T_MUL },
-  { SL("/"),             PHQL_T_DIV },
-  { SL("&"),             PHQL_T_BITWISE_AND },
-  { SL("|"),             PHQL_T_BITWISE_OR },
-  { SL("%%"),            PHQL_T_MOD },
-  { SL("AND"),           PHQL_T_AND },
-  { SL("OR"),            PHQL_T_OR },
-  { SL("LIKE"),          PHQL_T_LIKE },
-  { SL("ILIKE"),         PHQL_T_ILIKE },
-  { SL("DOT"),           PHQL_T_DOT },
-  { SL("COLON"),         PHQL_T_COLON },
-  { SL("COMMA"),         PHQL_T_COMMA },
-  { SL("EQUALS"),        PHQL_T_EQUALS },
-  { SL("NOT EQUALS"),    PHQL_T_NOTEQUALS },
-  { SL("NOT"),           PHQL_T_NOT },
-  { SL("<"),             PHQL_T_LESS },
-  { SL("<="),            PHQL_T_LESSEQUAL },
-  { SL(">"),             PHQL_T_GREATER },
-  { SL(">="),            PHQL_T_GREATEREQUAL },
-  { SL("("),             PHQL_T_PARENTHESES_OPEN },
-  { SL(")"),             PHQL_T_PARENTHESES_CLOSE },
+  { SL("INTEGER"),			   PHQL_T_INTEGER },
+  { SL("DOUBLE"),			   PHQL_T_DOUBLE },
+  { SL("STRING"),			   PHQL_T_STRING },
+  { SL("IDENTIFIER"),		   PHQL_T_IDENTIFIER },
+  { SL("HEXAINTEGER"),		   PHQL_T_HINTEGER },
+  { SL("MINUS"),			   PHQL_T_MINUS },
+  { SL("+"),				   PHQL_T_ADD },
+  { SL("-"),				   PHQL_T_SUB },
+  { SL("*"),				   PHQL_T_MUL },
+  { SL("/"),				   PHQL_T_DIV },
+  { SL("&"),				   PHQL_T_BITWISE_AND },
+  { SL("|"),				   PHQL_T_BITWISE_OR },
+  { SL("%%"),				   PHQL_T_MOD },
+  { SL("AND"),				   PHQL_T_AND },
+  { SL("OR"),				   PHQL_T_OR },
+  { SL("LIKE"),				   PHQL_T_LIKE },
+  { SL("ILIKE"),			   PHQL_T_ILIKE },
+  { SL("DOT"),				   PHQL_T_DOT },
+  { SL("COLON"),			   PHQL_T_COLON },
+  { SL("COMMA"),			   PHQL_T_COMMA },
+  { SL("EQUALS"),			   PHQL_T_EQUALS },
+  { SL("NOT EQUALS"),		   PHQL_T_NOTEQUALS },
+  { SL("NOT"),				   PHQL_T_NOT },
+  { SL("<"),				   PHQL_T_LESS },
+  { SL("<="),				   PHQL_T_LESSEQUAL },
+  { SL(">"),				   PHQL_T_GREATER },
+  { SL(">="),				   PHQL_T_GREATEREQUAL },
+  { SL("("),				   PHQL_T_PARENTHESES_OPEN },
+  { SL(")"),				   PHQL_T_PARENTHESES_CLOSE },
   { SL("NUMERIC PLACEHOLDER"), PHQL_T_NPLACEHOLDER },
   { SL("STRING PLACEHOLDER"),  PHQL_T_SPLACEHOLDER },
-  { SL("UPDATE"),        PHQL_T_UPDATE },
-  { SL("SET"),           PHQL_T_SET },
-  { SL("WHERE"),         PHQL_T_WHERE },
-  { SL("DELETE"),        PHQL_T_DELETE },
-  { SL("FROM"),          PHQL_T_FROM },
-  { SL("AS"),            PHQL_T_AS },
-  { SL("INSERT"),        PHQL_T_INSERT },
-  { SL("INTO"),          PHQL_T_INTO },
-  { SL("VALUES"),        PHQL_T_VALUES },
-  { SL("SELECT"),        PHQL_T_SELECT },
-  { SL("ORDER"),         PHQL_T_ORDER },
-  { SL("BY"),            PHQL_T_BY },
-  { SL("LIMIT"),         PHQL_T_LIMIT },
-  { SL("OFFSET"),        PHQL_T_OFFSET },
-  { SL("GROUP"),         PHQL_T_GROUP },
-  { SL("HAVING"),        PHQL_T_HAVING },
-  { SL("IN"),            PHQL_T_IN },
-  { SL("ON"),            PHQL_T_ON },
-  { SL("INNER"),         PHQL_T_INNER },
-  { SL("JOIN"),          PHQL_T_JOIN },
-  { SL("LEFT"),          PHQL_T_LEFT },
-  { SL("RIGHT"),         PHQL_T_RIGHT },
-  { SL("IS"),            PHQL_T_IS },
-  { SL("NULL"),          PHQL_T_NULL },
-  { SL("NOT IN"),        PHQL_T_NOTIN },
-  { SL("CROSS"),         PHQL_T_CROSS },
-  { SL("OUTER"),         PHQL_T_OUTER },
-  { SL("FULL"),          PHQL_T_FULL },
-  { SL("ASC"),           PHQL_T_ASC },
-  { SL("DESC"),          PHQL_T_DESC },
-  { SL("BETWEEN"),       PHQL_T_BETWEEN },
-  { SL("DISTINCT"),      PHQL_T_DISTINCT },
-  { SL("AGAINST"),       PHQL_T_AGAINST },
-  { SL("CAST"),          PHQL_T_CAST },
-  { SL("CONVERT"),       PHQL_T_CONVERT },
-  { SL("USING"),         PHQL_T_USING },
-  { SL("ALL"),           PHQL_T_ALL },
-  { SL("EXISTS"),        PHQL_T_EXISTS },
-  { SL("CASE"),          PHQL_T_CASE },
-  { SL("WHEN"),          PHQL_T_WHEN },
-  { SL("THEN"),          PHQL_T_THEN },
-  { SL("ELSE"),          PHQL_T_ELSE },
-  { SL("END"),           PHQL_T_END },
+  { SL("UPDATE"),			   PHQL_T_UPDATE },
+  { SL("SET"),				   PHQL_T_SET },
+  { SL("WHERE"),			   PHQL_T_WHERE },
+  { SL("DELETE"),			   PHQL_T_DELETE },
+  { SL("FROM"),				   PHQL_T_FROM },
+  { SL("AS"),				   PHQL_T_AS },
+  { SL("INSERT"),			   PHQL_T_INSERT },
+  { SL("INTO"),				   PHQL_T_INTO },
+  { SL("VALUES"),			   PHQL_T_VALUES },
+  { SL("SELECT"),			   PHQL_T_SELECT },
+  { SL("ORDER"),			   PHQL_T_ORDER },
+  { SL("BY"),			       PHQL_T_BY },
+  { SL("LIMIT"),		       PHQL_T_LIMIT },
+  { SL("OFFSET"),		       PHQL_T_OFFSET },
+  { SL("GROUP"),		       PHQL_T_GROUP },
+  { SL("HAVING"),		       PHQL_T_HAVING },
+  { SL("IN"),			       PHQL_T_IN },
+  { SL("ON"),			       PHQL_T_ON },
+  { SL("INNER"),		       PHQL_T_INNER },
+  { SL("JOIN"),		           PHQL_T_JOIN },
+  { SL("LEFT"),		           PHQL_T_LEFT },
+  { SL("RIGHT"),		       PHQL_T_RIGHT },
+  { SL("IS"),			       PHQL_T_IS },
+  { SL("NULL"),		           PHQL_T_NULL },
+  { SL("NOT IN"),		       PHQL_T_NOTIN },
+  { SL("CROSS"),		       PHQL_T_CROSS },
+  { SL("OUTER"),		       PHQL_T_OUTER },
+  { SL("FULL"),		           PHQL_T_FULL },
+  { SL("ASC"),		           PHQL_T_ASC },
+  { SL("DESC"),		           PHQL_T_DESC },
+  { SL("BETWEEN"),	           PHQL_T_BETWEEN },
+  { SL("DISTINCT"),	           PHQL_T_DISTINCT },
+  { SL("AGAINST"),	           PHQL_T_AGAINST },
+  { SL("CAST"),		           PHQL_T_CAST },
+  { SL("CONVERT"),	           PHQL_T_CONVERT },
+  { SL("USING"),		       PHQL_T_USING },
+  { SL("ALL"),		           PHQL_T_ALL },
+  { SL("EXISTS"),		       PHQL_T_EXISTS },
+  { SL("CASE"),		           PHQL_T_CASE },
+  { SL("WHEN"),		           PHQL_T_WHEN },
+  { SL("THEN"),		           PHQL_T_THEN },
+  { SL("ELSE"),		           PHQL_T_ELSE },
+  { SL("END"),		           PHQL_T_END },
+  { SL("FOR"),		           PHQL_T_FOR },
+  { SL("WITH"),		           PHQL_T_WITH },
   { NULL, 0, 0 }
 };
 
@@ -276,23 +279,23 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 				phql_(phql_parser, PHQL_LESSEQUAL, NULL, parser_status);
 				break;
 
-            case PHQL_T_IDENTIFIER:
-    			phql_parse_with_token(phql_parser, PHQL_T_IDENTIFIER, PHQL_IDENTIFIER, &token, parser_status);
-    			break;
+			case PHQL_T_IDENTIFIER:
+				phql_parse_with_token(phql_parser, PHQL_T_IDENTIFIER, PHQL_IDENTIFIER, &token, parser_status);
+				break;
 
-            case PHQL_T_DOT:
-    			phql_(phql_parser, PHQL_DOT, NULL, parser_status);
-    			break;
-    		case PHQL_T_COMMA:
-    			phql_(phql_parser, PHQL_COMMA, NULL, parser_status);
-    			break;
+			case PHQL_T_DOT:
+				phql_(phql_parser, PHQL_DOT, NULL, parser_status);
+				break;
+			case PHQL_T_COMMA:
+				phql_(phql_parser, PHQL_COMMA, NULL, parser_status);
+				break;
 
-    		case PHQL_T_PARENTHESES_OPEN:
-    			phql_(phql_parser, PHQL_PARENTHESES_OPEN, NULL, parser_status);
-    			break;
-    		case PHQL_T_PARENTHESES_CLOSE:
-    			phql_(phql_parser, PHQL_PARENTHESES_CLOSE, NULL, parser_status);
-    			break;
+			case PHQL_T_PARENTHESES_OPEN:
+				phql_(phql_parser, PHQL_PARENTHESES_OPEN, NULL, parser_status);
+				break;
+			case PHQL_T_PARENTHESES_CLOSE:
+				phql_(phql_parser, PHQL_PARENTHESES_CLOSE, NULL, parser_status);
+				break;
 
 			case PHQL_T_LIKE:
 				phql_(phql_parser, PHQL_LIKE, NULL, parser_status);
@@ -318,21 +321,27 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 			case PHQL_T_AGAINST:
 				phql_(phql_parser, PHQL_AGAINST, NULL, parser_status);
 				break;
-            case PHQL_T_CASE:
-    			phql_(phql_parser, PHQL_CASE, NULL, parser_status);
+			case PHQL_T_CASE:
+				phql_(phql_parser, PHQL_CASE, NULL, parser_status);
+				break;
+			case PHQL_T_WHEN:
+				phql_(phql_parser, PHQL_WHEN, NULL, parser_status);
+				break;
+			case PHQL_T_THEN:
+				phql_(phql_parser, PHQL_THEN, NULL, parser_status);
+				break;
+			case PHQL_T_END:
+				phql_(phql_parser, PHQL_END, NULL, parser_status);
+				break;
+			case PHQL_T_ELSE:
+				phql_(phql_parser, PHQL_ELSE, NULL, parser_status);
+				break;
+			case PHQL_T_FOR:
+				phql_(phql_parser, PHQL_FOR, NULL, parser_status);
+				break;
+            case PHQL_T_WITH:
+    			phql_(phql_parser, PHQL_WITH, NULL, parser_status);
     			break;
-            case PHQL_T_WHEN:
-        		phql_(phql_parser, PHQL_WHEN, NULL, parser_status);
-        		break;
-            case PHQL_T_THEN:
-            	phql_(phql_parser, PHQL_THEN, NULL, parser_status);
-            	break;
-            case PHQL_T_END:
-            	phql_(phql_parser, PHQL_END, NULL, parser_status);
-            	break;
-            case PHQL_T_ELSE:
-                phql_(phql_parser, PHQL_ELSE, NULL, parser_status);
-                break;
 
 			case PHQL_T_INTEGER:
 				if (parser_status->enable_literals) {
@@ -379,6 +388,15 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 					parser_status->status = PHQL_PARSING_FAILED;
 				}
 				break;
+			case PHQL_T_HINTEGER:
+				if (parser_status->enable_literals) {
+					phql_parse_with_token(phql_parser, PHQL_T_HINTEGER, PHQL_HINTEGER, &token, parser_status);
+				} else {
+					MAKE_STD_ZVAL(*error_msg);
+					ZVAL_STRING(*error_msg, "Literals are disabled in PHQL statements", 1);
+					parser_status->status = PHQL_PARSING_FAILED;
+				}
+				break;
 
 			case PHQL_T_NPLACEHOLDER:
 				phql_parse_with_token(phql_parser, PHQL_T_NPLACEHOLDER, PHQL_NPLACEHOLDER, &token, parser_status);
@@ -386,12 +404,9 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 			case PHQL_T_SPLACEHOLDER:
 				phql_parse_with_token(phql_parser, PHQL_T_SPLACEHOLDER, PHQL_SPLACEHOLDER, &token, parser_status);
 				break;
-            case PHQL_T_NTPLACEHOLDER:
-    			phql_parse_with_token(phql_parser, PHQL_T_NTPLACEHOLDER, PHQL_NTPLACEHOLDER, &token, parser_status);
-    			break;
-    		case PHQL_T_STPLACEHOLDER:
-    			phql_parse_with_token(phql_parser, PHQL_T_STPLACEHOLDER, PHQL_STPLACEHOLDER, &token, parser_status);
-    			break;
+			case PHQL_T_BPLACEHOLDER:
+				phql_parse_with_token(phql_parser, PHQL_T_BPLACEHOLDER, PHQL_BPLACEHOLDER, &token, parser_status);
+				break;
 
 			case PHQL_T_FROM:
 				phql_(phql_parser, PHQL_FROM, NULL, parser_status);
@@ -498,9 +513,9 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 			case PHQL_T_USING:
 				phql_(phql_parser, PHQL_USING, NULL, parser_status);
 				break;
-            case PHQL_T_EXISTS:
-    			phql_(phql_parser, PHQL_EXISTS, NULL, parser_status);
-    			break;
+			case PHQL_T_EXISTS:
+				phql_(phql_parser, PHQL_EXISTS, NULL, parser_status);
+				break;
 
 			default:
 				parser_status->status = PHQL_PARSING_FAILED;

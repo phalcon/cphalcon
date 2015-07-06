@@ -80,7 +80,7 @@ class Version
 	 */
 	protected static function _getVersion() -> array
 	{
-		return [2, 0, 3, 4, 0];
+		return [2, 0, 4, 4, 0];
 	}
 
 	/**
@@ -119,7 +119,7 @@ class Version
 		var version, major, medium, minor,
 			special, specialNumber, result, suffix;
 
-		let version       = self::_getVersion();
+		let version       = static::_getVersion();
 
 		let major         = version[self::VERSION_MAJOR],
 			medium        = version[self::VERSION_MEDIUM],
@@ -128,7 +128,7 @@ class Version
 			specialNumber = version[self::VERSION_SPECIAL_NUMBER];
 
 		let result  = major . "." . medium . "." . minor . " ";
-		let suffix  = self::_getSpecial(special);
+		let suffix  = static::_getSpecial(special);
 
 		if suffix != "" {
 			let result .= suffix . " " . specialNumber;
@@ -149,7 +149,7 @@ class Version
 		var version, major, medium, minor,
 			special, specialNumber;
 
-		let version       = self::_getVersion();
+		let version       = static::_getVersion();
 
 		let major         = version[self::VERSION_MAJOR],
 			medium        = version[self::VERSION_MEDIUM],
@@ -172,7 +172,7 @@ class Version
 	{
 		var version, result;
 
-		let version = self::_getVersion();
+		let version = static::_getVersion();
 
 		switch part {
 
@@ -184,11 +184,11 @@ class Version
 				break;
 
 			case self::VERSION_SPECIAL:
-				let result = self::_getSpecial(version[self::VERSION_SPECIAL]);
+				let result = static::_getSpecial(version[self::VERSION_SPECIAL]);
 				break;
 
 			default:
-				let result = self::get();
+				let result = static::get();
 				break;
 		}
 

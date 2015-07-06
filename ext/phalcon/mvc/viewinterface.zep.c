@@ -140,11 +140,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_ViewInterface, render);
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ViewInterface, pick);
 
 /**
- * Renders a partial view
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_ViewInterface, partial);
-
-/**
  * Finishes the render process by stopping the output buffering
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ViewInterface, finish);

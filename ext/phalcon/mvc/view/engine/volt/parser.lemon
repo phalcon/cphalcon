@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -185,6 +185,23 @@ static zval *phvolt_ret_cache_statement(zval *expr, zval *lifetime, zval *block_
 	return ret;
 }
 
+static zval *phvolt_ret_raw_statement(zval *statement, phvolt_scanner_state *state)
+{
+	zval *ret;
+
+	MAKE_STD_ZVAL(ret);
+	array_init(ret);
+
+	add_assoc_long(ret, "type", PHVOLT_T_RAW);
+	add_assoc_zval(ret, "content", statement);
+
+	Z_ADDREF_P(state->active_file);
+	add_assoc_zval(ret, "file", state->active_file);
+	add_assoc_long(ret, "line", state->active_line);
+
+	return ret;
+}
+
 static zval *phvolt_ret_set_statement(zval *assignments)
 {
 	zval *ret;
@@ -198,7 +215,7 @@ static zval *phvolt_ret_set_statement(zval *assignments)
 	return ret;
 }
 
-static zval *phvolt_ret_set_assignment(phvolt_parser_token *variable, int operator, zval *expr, phvolt_scanner_state *state)
+static zval *phvolt_ret_set_assignment(zval *assignable_expr, int operator, zval *expr, phvolt_scanner_state *state)
 {
 
 	zval *ret;
@@ -206,8 +223,7 @@ static zval *phvolt_ret_set_assignment(phvolt_parser_token *variable, int operat
 	MAKE_STD_ZVAL(ret);
 	array_init_size(ret, 5);
 
-	add_assoc_stringl(ret, "variable", variable->token, variable->token_len, 0);
-	efree(variable);
+	add_assoc_zval(ret, "variable", assignable_expr);
 
 	add_assoc_long(ret, "op", operator);
 
@@ -306,7 +322,7 @@ static zval *phvolt_ret_macro_parameter(phvolt_parser_token *variable, zval *def
 	return ret;
 }
 
-static zval *phvolt_ret_extends_statement(phvolt_parser_token *P, phvolt_scanner_state *state)
+static zval *phvolt_ret_extends_statement(zval *path, phvolt_scanner_state *state)
 {
 	zval *ret;
 
@@ -314,8 +330,7 @@ static zval *phvolt_ret_extends_statement(phvolt_parser_token *P, phvolt_scanner
 	array_init_size(ret, 4);
 
 	add_assoc_long(ret, "type", PHVOLT_T_EXTENDS);
-	add_assoc_stringl(ret, "path", P->token, P->token_len, 0);
-	efree(P);
+	add_assoc_zval(ret, "path", path);	
 
 	Z_ADDREF_P(state->active_file);
 	add_assoc_zval(ret, "file", state->active_file);
@@ -783,6 +798,10 @@ statement(R) ::= autoescape_statement(E) . {
 	R = E;
 }
 
+statement(R) ::= raw_statement(E) . {
+	R = E;
+}
+
 statement(R) ::= break_statement(E) . {
 	R = E;
 }
@@ -873,24 +892,36 @@ set_assignments(R) ::= set_assignment(S) . {
 
 %destructor set_assignment { zval_ptr_dtor(&$$); }
 
-set_assignment(R) ::= IDENTIFIER(I) ASSIGN expr(E) . {
+set_assignment(R) ::= assignable_expr(I) ASSIGN expr(E) . {
 	R = phvolt_ret_set_assignment(I, PHVOLT_T_ASSIGN, E, status->scanner_state);
 }
 
-set_assignment(R) ::= IDENTIFIER(I) ADD_ASSIGN expr(E) . {
+set_assignment(R) ::= assignable_expr(I) ADD_ASSIGN expr(E) . {
 	R = phvolt_ret_set_assignment(I, PHVOLT_T_ADD_ASSIGN, E, status->scanner_state);
 }
 
-set_assignment(R) ::= IDENTIFIER(I) SUB_ASSIGN expr(E) . {
+set_assignment(R) ::= assignable_expr(I) SUB_ASSIGN expr(E) . {
 	R = phvolt_ret_set_assignment(I, PHVOLT_T_SUB_ASSIGN, E, status->scanner_state);
 }
 
-set_assignment(R) ::= IDENTIFIER(I) MUL_ASSIGN expr(E) . {
+set_assignment(R) ::= assignable_expr(I) MUL_ASSIGN expr(E) . {
 	R = phvolt_ret_set_assignment(I, PHVOLT_T_MUL_ASSIGN, E, status->scanner_state);
 }
 
-set_assignment(R) ::= IDENTIFIER(I) DIV_ASSIGN expr(E) . {
+set_assignment(R) ::= assignable_expr(I) DIV_ASSIGN expr(E) . {
 	R = phvolt_ret_set_assignment(I, PHVOLT_T_DIV_ASSIGN, E, status->scanner_state);
+}
+
+assignable_expr(R) ::= IDENTIFIER(I) . {
+	R = phvolt_ret_literal_zval(PHVOLT_T_IDENTIFIER, I, status->scanner_state);
+}
+
+assignable_expr(R) ::= assignable_expr(E) SBRACKET_OPEN expr(D) SBRACKET_CLOSE . {
+	R = phvolt_ret_expr(PHVOLT_T_ARRAYACCESS, E, D, NULL, status->scanner_state);
+}
+
+assignable_expr(R) ::= assignable_expr(E) DOT assignable_expr(D)  . {
+	R = phvolt_ret_expr(PHVOLT_T_DOT, E, D, NULL, status->scanner_state);
 }
 
 %destructor macro_statement { zval_ptr_dtor(&$$); }
@@ -999,9 +1030,15 @@ cache_lifetime(R) ::= IDENTIFIER(I) . {
 	R = phvolt_ret_literal_zval(PHVOLT_T_IDENTIFIER, I, status->scanner_state);
 }
 
+%destructor raw_statement { zval_ptr_dtor(&$$); }
+
+raw_statement(R) ::= OPEN_DELIMITER RAW CLOSE_DELIMITER statement(T) OPEN_DELIMITER ENDRAW CLOSE_DELIMITER . {
+	R = phvolt_ret_raw_statement(T, status->scanner_state);
+}
+
 %destructor extends_statement { zval_ptr_dtor(&$$); }
 
-extends_statement(R) ::= OPEN_DELIMITER EXTENDS STRING(S) CLOSE_DELIMITER . {
+extends_statement(R) ::= OPEN_DELIMITER EXTENDS expr(S) CLOSE_DELIMITER . {
 	R = phvolt_ret_extends_statement(S, status->scanner_state);
 }
 

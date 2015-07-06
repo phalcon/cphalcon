@@ -69,33 +69,29 @@ abstract class Validator
 	 *
 	 * @return array
 	 */
-	protected function getOptions()
+	public function getOptions()
 	{
 		return this->_options;
 	}
 
 	/**
 	 * Returns an option
-	 *
-	 * @param	string option
-	 * @return	mixed
 	 */
-	protected function getOption(string! option)
+	public function getOption(string! option, var defaultValue = "") -> var
 	{
 		var options, value;
 		let options = this->_options;
 		if fetch value, options[option] {
 			return value;
 		}
-		return "";
+		return defaultValue;
 	}
 
 	/**
 	 * Check whether a option has been defined in the validator options
 	 */
-	protected function isSetOption(string! option) -> boolean
+	public function isSetOption(string! option) -> boolean
 	{
 		return isset this->_options[option];
 	}
-
 }

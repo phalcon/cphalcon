@@ -35,7 +35,7 @@
  *    'message' => ':field must be unique'
  *)));
  *</code>
- * 
+ *
  * Different attribute from the field
  *<code>
  *$validator->add('username', new UniquenessValidator(array(
@@ -97,7 +97,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Uniqueness, validate) {
 	zephir_check_temp_parameter(_0);
 	zephir_check_call_status();
 	if (ZEPHIR_IS_EMPTY(model)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_validation_exception_ce, "Model must be set", "phalcon/validation/validator/uniqueness.zep", 62);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_validation_exception_ce, "Model must be set", "phalcon/validation/validator/uniqueness.zep", 65);
 		return;
 	}
 	if (ZEPHIR_IS_EMPTY(attribute)) {
@@ -158,11 +158,11 @@ PHP_METHOD(Phalcon_Validation_Validator_Uniqueness, validate) {
 		}
 		ZEPHIR_INIT_NVAR(_0);
 		object_init_ex(_0, phalcon_validation_message_ce);
-		ZEPHIR_CALL_FUNCTION(&_6, "strtr", NULL, 73, message, replacePairs);
+		ZEPHIR_CALL_FUNCTION(&_6, "strtr", NULL, 53, message, replacePairs);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(_7);
 		ZVAL_STRING(_7, "Uniqueness", ZEPHIR_TEMP_PARAM_COPY);
-		ZEPHIR_CALL_METHOD(NULL, _0, "__construct", NULL, 425, _6, field, _7);
+		ZEPHIR_CALL_METHOD(NULL, _0, "__construct", NULL, 430, _6, field, _7);
 		zephir_check_temp_parameter(_7);
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, 0, _0);

@@ -92,46 +92,30 @@ class Manager
 	*	$assets->addCss('css/bootstrap.css');
 	*	$assets->addCss('http://bootstrap.my-cdn.com/style.css', false);
 	*</code>
-	*
-	* @param string path
-	* @param boolean local
-	* @param boolean filter
-	* @param array attributes
-	* @return Phalcon\Assets\Manager
 	*/
-	public function addCss(string! path, local = true, filter = true, attributes = null) -> <Manager>
+	public function addCss(string! path, local = true, filter = true, var attributes = null) -> <Manager>
 	{
 		this->addResourceByType("css", new ResourceCss(path, local, filter, attributes));
 		return this;
 	}
 
 	/**
-	* Adds a inline Css to the 'css' collection
-	*
-	* @param string content
-	* @param boolean filter
-	* @param array attributes
-	* @return Phalcon\Assets\Manager
-	*/
-	public function addInlineCss(string content, filter = true, attributes = null)
+	 * Adds a inline Css to the 'css' collection
+	 */
+	public function addInlineCss(string content, filter = true, var attributes = null) -> <Manager>
 	{
 		this->addInlineCodeByType("css", new InlineCss(content, filter, attributes));
+		return this;
 	}
 
 	/**
-	* Adds a javascript resource to the 'js' collection
-	*
-	*<code>
-	*	$assets->addJs('scripts/jquery.js');
-	*	$assets->addJs('http://jquery.my-cdn.com/jquery.js', false);
-	*</code>
-	*
-	* @param string path
-	* @param boolean local
-	* @param boolean filter
-	* @param array attributes
-	* @return Phalcon\Assets\Manager
-	*/
+	 * Adds a javascript resource to the 'js' collection
+	 *
+	 *<code>
+	 *	$assets->addJs('scripts/jquery.js');
+	 *	$assets->addJs('http://jquery.my-cdn.com/jquery.js', false);
+	 *</code>
+	 */
 	public function addJs(string! path, local = true, filter = true, attributes = null) -> <Manager>
 	{
 		this->addResourceByType("js", new ResourceJs(path, local, filter, attributes));
@@ -139,16 +123,12 @@ class Manager
 	}
 
 	/**
-	* Adds a inline javascript to the 'js' collection
-	*
-	* @param string content
-	* @param boolean filter
-	* @param array attributes
-	* @return Phalcon\Assets\Manager
-	*/
-	public function addInlineJs(string content, filter = true, attributes = null)
+	 * Adds a inline javascript to the 'js' collection
+	 */
+	public function addInlineJs(string content, filter = true, attributes = null) -> <Manager>
 	{
 		this->addInlineCodeByType("js", new InlineJs(content, filter, attributes));
+		return this;
 	}
 
 	/**
@@ -267,6 +247,7 @@ class Manager
 		if !fetch collection, this->_collections["css"] {
 			return new Collection();
 		}
+
 		return collection;
 	}
 
@@ -475,6 +456,7 @@ class Manager
 				}
 
 				if local {
+
 					/**
 					 * Make sure the target path is not the same source path
 					 */
@@ -845,5 +827,13 @@ class Manager
 		}
 
 		return this->outputInline(collection, "script");
+	}
+
+	/**
+	 * Returns existing collections in the manager
+	 */
+	public function getCollections() -> <Collection[]>
+	{
+		return this->_collections;
 	}
 }

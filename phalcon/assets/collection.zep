@@ -162,11 +162,6 @@ class Collection implements \Countable, \Iterator
 
 	/**
 	 * Adds a inline javascript to the collection
-	 *
-	 * @param string content
-	 * @param boolean filter
-	 * @param array attributes
-	 * @return Phalcon\Assets\Collection
 	 */
 	public function addInlineJs(string content, boolean filter = false, attributes = null) -> <Collection>
 	{
@@ -175,7 +170,6 @@ class Collection implements \Countable, \Iterator
 		if !filter {
 			let filter = true;
 		}
-
 
 		if typeof attributes == "array" {
 			let collectionAttributes = attributes;

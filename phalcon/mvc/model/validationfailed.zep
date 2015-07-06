@@ -45,12 +45,12 @@ class ValidationFailed extends \Phalcon\Mvc\Model\Exception
 		var messageStr, message;
 
 		if count(validationMessages) > 0 {
-			/** 
+			/**
 			 * Get the first message in the array
 			 */
 			let message = validationMessages[0];
 
-			/** 
+			/**
 			 * Get the message to use it in the exception
 			 */
 			let messageStr = message->getMessage();
@@ -79,5 +79,4 @@ class ValidationFailed extends \Phalcon\Mvc\Model\Exception
 	{
 		return this->_messages;
 	}
-
 }

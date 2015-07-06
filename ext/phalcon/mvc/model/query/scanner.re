@@ -42,6 +42,31 @@ int phql_get_token(phql_scanner_state *s, phql_scanner_token *token) {
 		re2c:indent:top = 2;
 		re2c:yyfill:enable = 0;
 
+		HINTEGER = [x0-9A-Fa-f]+;
+		HINTEGER {
+            token->value = estrndup(q, YYCURSOR - q);
+            token->len = YYCURSOR - q;
+            if (token->len > 2 && !memcmp(token->value, "0x", 2)) {
+			    token->opcode = PHQL_T_HINTEGER;
+            } else {
+                int i, alpha = 0;
+                for (i = 0; i < token->len; i++) {
+                    unsigned char ch = token->value[i];
+                    if (!((ch >= '0') && (ch <= '9'))) {
+                        alpha = 1;
+                        break;
+                    }
+                }
+                if (alpha) {
+                    token->opcode = PHQL_T_IDENTIFIER;
+                } else {
+                    token->opcode = PHQL_T_INTEGER;
+                }
+            }
+			q = YYCURSOR;
+			return 0;
+		}
+
 		INTEGER = [0-9]+;
 		INTEGER {
 			token->opcode = PHQL_T_INTEGER;
@@ -76,7 +101,16 @@ int phql_get_token(phql_scanner_state *s, phql_scanner_token *token) {
 			token->len = YYCURSOR - q - 1;
 			q = YYCURSOR;
 			return 0;
-		}		
+		}
+
+		BPLACEHOLDER = "{"[a-zA-Z0-9\_\-\:]+"}";
+		BPLACEHOLDER {
+			token->opcode = PHQL_T_BPLACEHOLDER;
+			token->value = estrndup(q, YYCURSOR - q - 1);
+			token->len = YYCURSOR - q - 1;
+			q = YYCURSOR;
+			return 0;
+		}
 
 		'UPDATE' {
 			token->opcode = PHQL_T_UPDATE;
@@ -320,6 +354,16 @@ int phql_get_token(phql_scanner_state *s, phql_scanner_token *token) {
 
         'END' {
 			token->opcode = PHQL_T_END;
+			return 0;
+		}
+
+		'FOR' {
+			token->opcode = PHQL_T_FOR;
+			return 0;
+		}
+
+        'WITH' {
+			token->opcode = PHQL_T_WITH;
 			return 0;
 		}
 

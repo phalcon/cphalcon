@@ -129,7 +129,7 @@ PHP_METHOD(Phalcon_Http_Response, getDI) {
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	ZEPHIR_CPY_WRT(dependencyInjector, _0);
 	if (Z_TYPE_P(dependencyInjector) != IS_OBJECT) {
-		ZEPHIR_CALL_CE_STATIC(&dependencyInjector, phalcon_di_ce, "getdefault", &_1, 147);
+		ZEPHIR_CALL_CE_STATIC(&dependencyInjector, phalcon_di_ce, "getdefault", &_1, 1);
 		zephir_check_call_status();
 		if (Z_TYPE_P(dependencyInjector) != IS_OBJECT) {
 			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_http_response_exception_ce, "A dependency injection object is required to access the 'url' service", "phalcon/http/response.zep", 98);
@@ -188,7 +188,7 @@ PHP_METHOD(Phalcon_Http_Response, setStatusCode) {
 			if (_4) {
 				ZEPHIR_SINIT_NVAR(_5);
 				ZVAL_STRING(&_5, "HTTP/", 0);
-				ZEPHIR_CALL_FUNCTION(&_6, "strstr", &_7, 213, key, &_5);
+				ZEPHIR_CALL_FUNCTION(&_6, "strstr", &_7, 233, key, &_5);
 				zephir_check_call_status();
 				_4 = zephir_is_true(_6);
 			}
@@ -668,7 +668,7 @@ PHP_METHOD(Phalcon_Http_Response, redirect) {
 		if (_0) {
 			ZEPHIR_SINIT_VAR(_1);
 			ZVAL_STRING(&_1, "://", 0);
-			ZEPHIR_CALL_FUNCTION(&_2, "strstr", NULL, 213, location, &_1);
+			ZEPHIR_CALL_FUNCTION(&_2, "strstr", NULL, 233, location, &_1);
 			zephir_check_call_status();
 			_0 = zephir_is_true(_2);
 		}
@@ -780,14 +780,18 @@ PHP_METHOD(Phalcon_Http_Response, setContent) {
  */
 PHP_METHOD(Phalcon_Http_Response, setJsonContent) {
 
-	zval *content, *jsonOptions = NULL, *_0;
+	zval *content, *jsonOptions = NULL, *depth = NULL, *_0;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 1, &content, &jsonOptions);
+	zephir_fetch_params(1, 1, 2, &content, &jsonOptions, &depth);
 
 	if (!jsonOptions) {
 		ZEPHIR_INIT_VAR(jsonOptions);
 		ZVAL_LONG(jsonOptions, 0);
+	}
+	if (!depth) {
+		ZEPHIR_INIT_VAR(depth);
+		ZVAL_LONG(depth, 512);
 	}
 
 
@@ -923,7 +927,7 @@ PHP_METHOD(Phalcon_Http_Response, send) {
 			_1 = (zephir_fast_strlen_ev(file)) ? 1 : 0;
 		}
 		if (_1) {
-			ZEPHIR_CALL_FUNCTION(NULL, "readfile", NULL, 214, file);
+			ZEPHIR_CALL_FUNCTION(NULL, "readfile", NULL, 234, file);
 			zephir_check_call_status();
 		}
 	}

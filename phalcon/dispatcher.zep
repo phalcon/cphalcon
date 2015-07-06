@@ -23,9 +23,9 @@ namespace Phalcon;
 use Phalcon\DiInterface;
 use Phalcon\FilterInterface;
 use Phalcon\DispatcherInterface;
+use Phalcon\Events\ManagerInterface;
 use Phalcon\Di\InjectionAwareInterface;
 use Phalcon\Events\EventsAwareInterface;
-use Phalcon\Events\ManagerInterface;
 
 /**
  * Phalcon\Dispatcher
@@ -315,7 +315,7 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 		int numberDispatches;
 		var value, handler, dependencyInjector, namespaceName, handlerName,
 			actionName, params, eventsManager,
-			handlerSuffix, actionSuffix, handlerClass, status, actionMethod,
+			actionSuffix, handlerClass, status, actionMethod,
 			wasFresh = false, e;
 
 		let dependencyInjector = <DiInterface> this->_dependencyInjector;
@@ -335,8 +335,6 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 		let value = null,
 			handler = null,
 			numberDispatches = 0,
-
-			handlerSuffix = this->_handlerSuffix,
 			actionSuffix = this->_actionSuffix,
 
 			this->_finished = false;
@@ -429,6 +427,7 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 
 			// Check if the method exists in the handler
 			let actionMethod = actionName . actionSuffix;
+
 			if !method_exists(handler, actionMethod) {
 
 				// Call beforeNotFoundAction
@@ -546,7 +545,6 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 					continue;
 				}
 			}
-
 		}
 
 		// Call afterDispatchLoop

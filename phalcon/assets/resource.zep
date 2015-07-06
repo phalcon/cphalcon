@@ -168,7 +168,6 @@ class $Resource
 			if !file_exists(completePath) {
 				throw new Exception("Resource's content for '" . completePath . "' cannot be read");
 			}
-
 		}
 
 		/**
@@ -249,5 +248,4 @@ class $Resource
 
 		return targetPath;
 	}
-
 }

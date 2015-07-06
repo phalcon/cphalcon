@@ -197,7 +197,6 @@ class Group implements \Countable, \ArrayAccess, \Iterator
 					}
 				}
 			}
-
 		}
 
 		return filtered;
@@ -267,5 +266,4 @@ class Group implements \Countable, \ArrayAccess, \Iterator
 	{
 		return new self(group["_messages"]);
 	}
-
 }

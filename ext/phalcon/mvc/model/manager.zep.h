@@ -42,6 +42,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, existsHasMany);
 PHP_METHOD(Phalcon_Mvc_Model_Manager, existsHasOne);
 PHP_METHOD(Phalcon_Mvc_Model_Manager, existsHasManyToMany);
 PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationByAlias);
+PHP_METHOD(Phalcon_Mvc_Model_Manager, _mergeFindParameters);
 PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords);
 PHP_METHOD(Phalcon_Mvc_Model_Manager, getReusableRecords);
 PHP_METHOD(Phalcon_Mvc_Model_Manager, setReusableRecords);
@@ -247,6 +248,11 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_manager_getrelationbyalias, 0, 
 	ZEND_ARG_INFO(0, alias)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_manager__mergefindparameters, 0, 0, 2)
+	ZEND_ARG_INFO(0, findParamsOne)
+	ZEND_ARG_INFO(0, findParamsTwo)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_manager_getrelationrecords, 0, 0, 3)
 	ZEND_ARG_OBJ_INFO(0, relation, Phalcon\\Mvc\\Model\\RelationInterface, 0)
 	ZEND_ARG_INFO(0, method)
@@ -381,6 +387,7 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_model_manager_method_entry) {
 	PHP_ME(Phalcon_Mvc_Model_Manager, existsHasOne, arginfo_phalcon_mvc_model_manager_existshasone, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Manager, existsHasManyToMany, arginfo_phalcon_mvc_model_manager_existshasmanytomany, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Manager, getRelationByAlias, arginfo_phalcon_mvc_model_manager_getrelationbyalias, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Manager, _mergeFindParameters, arginfo_phalcon_mvc_model_manager__mergefindparameters, ZEND_ACC_PROTECTED|ZEND_ACC_FINAL)
 	PHP_ME(Phalcon_Mvc_Model_Manager, getRelationRecords, arginfo_phalcon_mvc_model_manager_getrelationrecords, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Manager, getReusableRecords, arginfo_phalcon_mvc_model_manager_getreusablerecords, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Manager, setReusableRecords, arginfo_phalcon_mvc_model_manager_setreusablerecords, ZEND_ACC_PUBLIC)

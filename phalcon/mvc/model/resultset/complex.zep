@@ -1,19 +1,19 @@
 
 /*
  +------------------------------------------------------------------------+
- | Phalcon Framework													  |
+ | Phalcon Framework							  |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)	   |
+ | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)	  |
  +------------------------------------------------------------------------+
- | This source file is subject to the New BSD License that is bundled	 |
- | with this package in the file docs/LICENSE.txt.						|
- |																		|
- | If you did not receive a copy of the license and are unable to		 |
- | obtain it through the world-wide-web, please send an email			 |
- | to license@phalconphp.com so we can send you a copy immediately.	   |
+ | This source file is subject to the New BSD License that is bundled	  |
+ | with this package in the file docs/LICENSE.txt.			  |
+ |									  |								  |
+ | If you did not receive a copy of the license and are unable to	  |
+ | obtain it through the world-wide-web, please send an email		  |
+ | to license@phalconphp.com so we can send you a copy immediately.	  |
  +------------------------------------------------------------------------+
- | Authors: Andres Gutierrez <andres@phalconphp.com>					  |
- |		  Eduar Carvajal <eduar@phalconphp.com>						 |
+ | Authors: Andres Gutierrez <andres@phalconphp.com>			  |
+ |		  Eduar Carvajal <eduar@phalconphp.com>			  |
  +------------------------------------------------------------------------+
  */
 
@@ -49,7 +49,7 @@ class Complex extends Resultset implements ResultsetInterface
 	 * @param Phalcon\Db\ResultInterface result
 	 * @param Phalcon\Cache\BackendInterface cache
 	 */
-	public function __construct(var columnTypes, <\Phalcon\Db\ResultInterface> result = null, <BackendInterface> cache = null)
+	public function __construct(var columnTypes, <ResultInterface> result = null, <BackendInterface> cache = null)
 	{
 		/**
 		 * Column types, tell the resultset how to build the result
@@ -67,8 +67,7 @@ class Complex extends Resultset implements ResultsetInterface
 		var row, hydrateMode,
 			dirtyState, alias, activeRow, type, columnTypes,
 			column, columnValue, value, attribute, source, attributes,
-			columnMap, rowModel, keepSnapshots, sqlAlias;
-
+			columnMap, rowModel, keepSnapshots, sqlAlias, modelName;
 
 		let activeRow = this->_activeRow;
 		if activeRow !== null {
@@ -166,24 +165,35 @@ class Complex extends Resultset implements ResultsetInterface
 
 					case Resultset::HYDRATE_RECORDS:
 
-						/**
-						 * Check if the resultset must keep snapshots
-						 */
+						// Check if the resultset must keep snapshots
 						if !fetch keepSnapshots, column["keepSnapshots"] {
 							let keepSnapshots = false;
 						}
 
-						/**
-						 * Get the base instance
-						 * Assign the values to the attributes using a column map
-						 */
-						let value = Model::cloneResultMap(column["instance"], rowModel, columnMap, dirtyState, keepSnapshots);
+						if globals_get("orm.late_state_binding") {
+
+							if column["instance"] instanceof Model {
+								let modelName = get_class(column["instance"]);
+							} else {
+								let modelName = "Phalcon\\Mvc\\Model";
+							}
+
+							let value = {modelName}::cloneResultMap(
+								column["instance"], rowModel, columnMap, dirtyState, keepSnapshots
+							);
+
+						} else {
+
+							// Get the base instance
+						 	// Assign the values to the attributes using a column map
+							let value = Model::cloneResultMap(
+								column["instance"], rowModel, columnMap, dirtyState, keepSnapshots
+							);
+						}
 						break;
 
 					default:
-						/**
-		 				 * Other kinds of hydrations
-		 				 */
+						// Other kinds of hydrations
 						let value = Model::cloneResultMapHydrate(rowModel, columnMap, hydrateMode);
 						break;
 				}
@@ -299,5 +309,4 @@ class Complex extends Resultset implements ResultsetInterface
 			this->_columnTypes = resultset["columnTypes"],
 			this->_hydrateMode = resultset["hydrateMode"];
 	}
-
 }

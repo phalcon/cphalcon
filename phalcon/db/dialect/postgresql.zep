@@ -48,6 +48,7 @@ class Postgresql extends Dialect
 		let size = column->getSize();
 		let columnType = column->getType();
 		let columnSql = "";
+
 		if typeof columnType == "string" {
 			let columnSql .= columnType;
 			let columnType = column->getTypeReference();
@@ -107,6 +108,27 @@ class Postgresql extends Dialect
 			case Column::TYPE_FLOAT:
 				if empty columnSql {
 					let columnSql .= "FLOAT";
+				}
+				break;
+
+			case Column::TYPE_BIGINTEGER:
+				if empty columnSql {
+					let columnSql .= "BIGINT";
+				}				
+				if size {
+					let columnSql .= "(" . column->getSize() . ")";
+				}
+				break;
+
+			case Column::TYPE_JSON:
+				if empty columnSql {
+					let columnSql .= "JSON";
+				}
+				break;
+
+			case Column::TYPE_JSONB:
+				if empty columnSql {
+					let columnSql .= "JSONB";
 				}
 				break;
 
@@ -183,10 +205,12 @@ class Postgresql extends Dialect
 		if column->getName() != currentColumn->getName() {
 			let sql .= sqlAlterTable . " RENAME COLUMN \"" . currentColumn->getName() . "\" TO \"" . column->getName() . "\";";
 		}
+
 		//Change type
 		if column->getType() != currentColumn->getType() {
 			let sql .= sqlAlterTable . " ALTER COLUMN \"" . column->getName() . "\" TYPE " . this->getColumnDefinition(column) . ";";
 		}
+
 		//NULL
 		if column->isNotNull() != currentColumn->isNotNull() {
 			if column->isNotNull() {
@@ -195,6 +219,7 @@ class Postgresql extends Dialect
 				let sql .= sqlAlterTable . " ALTER COLUMN \"" . column->getName() . "\" DROP NOT NULL;";
 			}
 		}
+
 		//DEFAULT
 		if column->getDefault() != currentColumn->getDefault() {
 			if empty column->getDefault() && !empty currentColumn->getDefault() {

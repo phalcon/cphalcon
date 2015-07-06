@@ -19,6 +19,8 @@
 
 namespace Phalcon\Validation\Validator;
 
+use Phalcon\Validation;
+use Phalcon\Validation\Message;
 use Phalcon\Validation\Validator;
 
 /**
@@ -43,7 +45,7 @@ class Between extends Validator
 	/**
 	 * Executes the validation
 	 */
-	public function validate(<\Phalcon\Validation> validation, string! field) -> boolean
+	public function validate(<Validation> validation, string! field) -> boolean
 	{
 		var value, minimum, maximum, message, label, replacePairs;
 
@@ -68,12 +70,10 @@ class Between extends Validator
 				let message = validation->getDefaultMessage("Between");
 			}
 
-			validation->appendMessage(new \Phalcon\Validation\Message(strtr(message, replacePairs), field, "Between"));
+			validation->appendMessage(new Message(strtr(message, replacePairs), field, "Between"));
 			return false;
 		}
 
 		return true;
 	}
-
 }
-

@@ -387,7 +387,7 @@ class Simple extends Injectable implements ViewBaseInterface
 	 * @param string partialPath
 	 * @param array  params
 	 */
-	public function partial(string! partialPath, params = null)
+	public function partial(string! partialPath, var params = null)
 	{
 		var viewParams, mergedParams;
 

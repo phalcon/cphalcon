@@ -17,6 +17,7 @@
 #include "kernel/exception.h"
 #include "kernel/operators.h"
 #include "kernel/array.h"
+#include "kernel/object.h"
 
 
 /**
@@ -39,13 +40,14 @@
  *				return false;
  *      	}
  *  	}
- *
  *	}
  *</code>
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Validator_Email) {
 
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Mvc\\Model\\Validator, Email, phalcon, mvc_model_validator_email, phalcon_mvc_model_validator_ce, phalcon_mvc_model_validator_email_method_entry, 0);
+
+	phalcon_mvc_model_validator_email_ce->create_object = zephir_init_properties;
 
 	zend_class_implements(phalcon_mvc_model_validator_email_ce TSRMLS_CC, 1, phalcon_mvc_model_validatorinterface_ce);
 	return SUCCESS;
@@ -73,7 +75,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Email, validate) {
 	zephir_check_temp_parameter(_0);
 	zephir_check_call_status();
 	if (Z_TYPE_P(field) != IS_STRING) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "Field name must be a string", "phalcon/mvc/model/validator/email.zep", 63);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "Field name must be a string", "phalcon/mvc/model/validator/email.zep", 62);
 		return;
 	}
 	ZEPHIR_CALL_METHOD(&value, record, "readattribute", NULL, 0, field);
@@ -92,7 +94,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Email, validate) {
 	}
 	ZEPHIR_SINIT_VAR(_3);
 	ZVAL_LONG(&_3, 274);
-	ZEPHIR_CALL_FUNCTION(&_4, "filter_var", NULL, 165, value, &_3);
+	ZEPHIR_CALL_FUNCTION(&_4, "filter_var", NULL, 190, value, &_3);
 	zephir_check_call_status();
 	if (!(zephir_is_true(_4))) {
 		ZEPHIR_INIT_NVAR(_0);
@@ -107,7 +109,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Email, validate) {
 		ZEPHIR_INIT_VAR(_5);
 		zephir_create_array(_5, 1, 0 TSRMLS_CC);
 		zephir_array_update_string(&_5, SL(":field"), &field, PH_COPY | PH_SEPARATE);
-		ZEPHIR_CALL_FUNCTION(&_6, "strtr", NULL, 73, message, _5);
+		ZEPHIR_CALL_FUNCTION(&_6, "strtr", NULL, 53, message, _5);
 		zephir_check_call_status();
 		ZEPHIR_INIT_NVAR(_0);
 		ZVAL_STRING(_0, "Email", ZEPHIR_TEMP_PARAM_COPY);
@@ -117,6 +119,27 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Email, validate) {
 		RETURN_MM_BOOL(0);
 	}
 	RETURN_MM_BOOL(1);
+
+}
+
+static zend_object_value zephir_init_properties(zend_class_entry *class_type TSRMLS_DC) {
+
+		zval *_0, *_1;
+
+		ZEPHIR_MM_GROW();
+	
+	{
+		zval *this_ptr = NULL;
+		ZEPHIR_CREATE_OBJECT(this_ptr, class_type);
+		_0 = zephir_fetch_nproperty_this(this_ptr, SL("_messages"), PH_NOISY_CC);
+		if (Z_TYPE_P(_0) == IS_NULL) {
+			ZEPHIR_INIT_VAR(_1);
+			array_init(_1);
+			zephir_update_property_this(this_ptr, SL("_messages"), _1 TSRMLS_CC);
+		}
+		ZEPHIR_MM_RESTORE();
+		return Z_OBJVAL_P(this_ptr);
+	}
 
 }
 

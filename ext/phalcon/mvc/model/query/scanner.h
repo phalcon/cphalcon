@@ -28,6 +28,7 @@
 #define PHQL_T_DOUBLE 259
 #define PHQL_T_STRING 260
 #define PHQL_T_IDENTIFIER 265
+#define PHQL_T_HINTEGER 414
 
 /* Operators */
 #define PHQL_T_ADD '+'
@@ -63,8 +64,7 @@
 /** Placeholders */
 #define PHQL_T_NPLACEHOLDER 273
 #define PHQL_T_SPLACEHOLDER 274
-#define PHQL_T_NTPLACEHOLDER 277
-#define PHQL_T_STPLACEHOLDER 278
+#define PHQL_T_BPLACEHOLDER 277
 
 /** Reserved words */
 #define PHQL_T_UPDATE 300
@@ -105,6 +105,7 @@
 #define PHQL_T_CONVERT 335
 #define PHQL_T_USING 336
 #define PHQL_T_ALL 337
+#define PHQL_T_FOR 338
 
 /** Special Tokens */
 #define PHQL_T_FCALL 350
@@ -142,6 +143,7 @@
 #define PHQL_T_ELSE 411
 #define PHQL_T_END 412
 #define PHQL_T_THEN 413
+#define PHQL_T_WITH 415
 
 /* list of tokens and their names */
 typedef struct _phql_token_names {

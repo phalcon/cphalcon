@@ -8,6 +8,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeColumns);
 PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeIndexes);
 PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeReferences);
 PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, useExplicitIdValue);
+PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, getDefaultValue);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_pdo_sqlite_connect, 0, 0, 0)
 	ZEND_ARG_INFO(0, descriptor)
@@ -34,5 +35,6 @@ ZEPHIR_INIT_FUNCS(phalcon_db_adapter_pdo_sqlite_method_entry) {
 	PHP_ME(Phalcon_Db_Adapter_Pdo_Sqlite, describeIndexes, arginfo_phalcon_db_adapter_pdo_sqlite_describeindexes, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Adapter_Pdo_Sqlite, describeReferences, arginfo_phalcon_db_adapter_pdo_sqlite_describereferences, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Adapter_Pdo_Sqlite, useExplicitIdValue, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Adapter_Pdo_Sqlite, getDefaultValue, NULL, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };

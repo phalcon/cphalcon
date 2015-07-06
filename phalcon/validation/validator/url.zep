@@ -19,6 +19,8 @@
 
 namespace Phalcon\Validation\Validator;
 
+use Phalcon\Validation;
+use Phalcon\Validation\Message;
 use Phalcon\Validation\Validator;
 
 /**
@@ -40,7 +42,7 @@ class Url extends Validator
 	/**
 	 * Executes the validation
 	 */
-	public function validate(<\Phalcon\Validation> validation, string! field) -> boolean
+	public function validate(<Validation> validation, string! field) -> boolean
 	{
 		var value, message, label, replacePairs;
 
@@ -63,7 +65,7 @@ class Url extends Validator
 				let message = validation->getDefaultMessage("Url");
 			}
 
-			validation->appendMessage(new \Phalcon\Validation\Message(strtr(message, replacePairs), field, "Url"));
+			validation->appendMessage(new Message(strtr(message, replacePairs), field, "Url"));
 			return false;
 		}
 

@@ -234,7 +234,8 @@ abstract class Dialect implements DialectInterface
 	 */
 	public function getSqlExpression(array! expression, string escapeChar = null) -> string
 	{
-		var type;
+		var type, times, placeholders, value;
+		int i;
 
 		if !fetch type, expression["type"] {
 			throw new Exception("Invalid SQL expression");
@@ -264,8 +265,18 @@ abstract class Dialect implements DialectInterface
 			 * Resolve literal OR placeholder expressions
 			 */
 			case "literal":
-			case "placeholder":
 				return expression["value"];
+
+			case "placeholder":
+				if fetch times, expression["times"] {
+					let placeholders = [], value = expression["value"];
+					for i in range(1, times) {
+						let placeholders[] = value . (i - 1);
+					}
+					return join(", ", placeholders);
+				} else {
+					return expression["value"];
+				}
 
 			/**
 			 * Resolve binary operations expressions
@@ -366,8 +377,8 @@ abstract class Dialect implements DialectInterface
 	 */
 	public function select(array! definition) -> string
 	{
-		var tables, columns, sql;
-		var distinct, joins, where, groupBy, having, orderBy, limit;
+		var tables, columns, sql, distinct, joins, where,
+			groupBy, having, orderBy, limit, forUpdate;
 
 		if !fetch tables, definition["tables"] {
 			throw new Exception("The index 'tables' is required in the definition array");
@@ -439,6 +450,13 @@ abstract class Dialect implements DialectInterface
 		 */
 		if fetch limit, definition["limit"] && limit {
 			let sql = this->getSqlExpressionLimit(["sql": sql, "value": limit]);
+		}
+
+		/**
+		 * Resolve FOR UPDATE
+		 */
+		if fetch forUpdate, definition["forUpdate"] && forUpdate {
+			let sql .= "FOR UPDATE";
 		}
 
 		return sql;
@@ -730,20 +748,19 @@ abstract class Dialect implements DialectInterface
 	 */
 	protected final function getSqlExpressionJoins(var expression, string escapeChar = null) -> string
 	{
-		var join, sql = "", joinCondition, joinTable, joinType = "", joinConditionsArray;
+		var condition, join, sql = "", joinCondition, joinTable, joinType = "", joinConditionsArray;
 
 		for join in expression {
 
 			/**
 			 * Check if the join has conditions
 			 */
-			if fetch joinConditionsArray, join["conditions"] && !empty joinConditionsArray {
+			if fetch joinConditionsArray, join["conditions"] && !empty joinConditionsArray {				
 
 				if !isset joinConditionsArray[0] {
 					let joinCondition = this->getSqlExpression(joinConditionsArray, escapeChar);
 				} else {
 
-					var condition;
 					let joinCondition = [];
 
 					for condition in joinConditionsArray {

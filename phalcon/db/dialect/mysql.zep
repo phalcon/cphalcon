@@ -106,6 +106,12 @@ class MySQL extends Dialect
 				}
 				break;
 
+			case Column::TYPE_BOOLEAN:
+				if empty columnSql {
+					let columnSql .= "BIT";
+				}
+				break;
+
 			case Column::TYPE_FLOAT:
 				if empty columnSql {
 					let columnSql .= "FLOAT";
@@ -125,9 +131,59 @@ class MySQL extends Dialect
 				}
 				break;
 
-			case Column::TYPE_BOOLEAN:
+			case Column::TYPE_DOUBLE:
 				if empty columnSql {
-					let columnSql .= "TINYINT(1)";
+					let columnSql .= "DOUBLE";
+				}
+				let size = column->getSize();
+				if size {
+					let scale = column->getScale(),
+						columnSql .= "(" . size;
+					if scale {
+						let columnSql .= "," . scale . ")";
+					} else {
+						let columnSql .= ")";
+					}
+				}
+				if column->isUnsigned() {
+					let columnSql .= " UNSIGNED";
+				}
+				break;
+
+			case Column::TYPE_BIGINTEGER:
+				if empty columnSql {
+					let columnSql .= "BIGINT";
+				}
+				let scale = column->getSize();
+				if scale {
+					let columnSql .= "(" . column->getSize() . ")";
+				}
+				if column->isUnsigned() {
+					let columnSql .= " UNSIGNED";
+				}
+				break;
+
+			case Column::TYPE_TINYBLOB:
+				if empty columnSql {
+					let columnSql .= "TINYBLOB";
+				}
+				break;
+
+			case Column::TYPE_BLOB:
+				if empty columnSql {
+					let columnSql .= "BLOB";
+				}
+				break;
+
+			case Column::TYPE_MEDIUMBLOB:
+				if empty columnSql {
+					let columnSql .= "MEDIUMBLOB";
+				}
+				break;
+
+			case Column::TYPE_LONGBLOB:
+				if empty columnSql {
+					let columnSql .= "LONGBLOB";
 				}
 				break;
 

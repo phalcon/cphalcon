@@ -130,6 +130,16 @@ class Postgresql extends PdoAdapter implements AdapterInterface
 				}
 
 				/**
+				 * Bigint
+				 */
+				if memstr(columnType, "bigint") {
+					let definition["type"] = Column::TYPE_BIGINTEGER,
+						definition["isNumeric"] = true,
+						definition["bindType"] = Column::BIND_PARAM_INT;
+					break;
+				}
+
+				/**
 				 * Int
 				 */
 				if memstr(columnType, "int") {
@@ -219,6 +229,22 @@ class Postgresql extends PdoAdapter implements AdapterInterface
 				}
 
 				/**
+				 * Jsonb
+				 */
+				if memstr(columnType, "jsonb") {
+					let definition["type"] = Column::TYPE_JSONB;
+					break;
+				}
+
+				/**
+				 * Json
+				 */
+				if memstr(columnType, "json") {
+					let definition["type"] = Column::TYPE_JSON;
+					break;
+				}
+
+				/**
 				 * UUID
 				 */
 				if memstr(columnType, "uuid") {
@@ -272,7 +298,7 @@ class Postgresql extends PdoAdapter implements AdapterInterface
 			}
 
 			/**
-			 * Check if the column is default values
+			 * Check if the column has default values
 			 */
 			if typeof field[9] != "null" {
 				let definition["default"] = preg_replace("/^'|'?::[[:alnum:][:space:]]+$/", "", field[9]);
@@ -291,26 +317,26 @@ class Postgresql extends PdoAdapter implements AdapterInterface
 
 		return columns;
 	}
-	
+
 	/**
 	 * Creates a table
 	 */
 	public function createTable(string! tableName, string! schemaName, array! definition) -> boolean
 	{
 		var sql,queries,query,exception,columns;
-		
+
 		if !fetch columns, definition["columns"] {
 			throw new Exception("The table must contain at least one column");
 		}
-		
+
 		if !count(columns) {
 			throw new Exception("The table must contain at least one column");
 		}
-		
+
 		let sql = this->_dialect->createTable(tableName, schemaName, definition);
-		
+
 		let queries = explode(";",sql);
-		
+
 		if count(queries) > 1 {
 			try {
 				this->{"begin"}();
@@ -322,29 +348,29 @@ class Postgresql extends PdoAdapter implements AdapterInterface
 				}
 				return this->{"commit"}();
 			} catch \Exception, exception {
-			 
+
 				this->{"rollback"}();
 				 throw exception;
 			 }
-			
 		} else {
 			return this->{"execute"}(queries[0] . ";");
 		}
 		return true;
 	}
-	
+
 	/**
 	 * Modifies a table column based on a definition
 	 */
 	public function modifyColumn(string! tableName, string! schemaName, <\Phalcon\Db\ColumnInterface> column, <\Phalcon\Db\ColumnInterface> currentColumn = null) -> boolean
 	{
 		var sql,queries,query,exception;
-		
+
 		let sql = this->_dialect->modifyColumn(tableName, schemaName, column, currentColumn);
 		let queries = explode(";",sql);
-		
+
 		if count(queries) > 1 {
 			try {
+
 				this->{"begin"}();
 				for query in queries {
 					if empty query {
@@ -353,12 +379,13 @@ class Postgresql extends PdoAdapter implements AdapterInterface
 					this->{"query"}(query . ";");
 				}
 				return this->{"commit"}();
+
 			} catch \Exception, exception {
-			 
+
 				this->{"rollback"}();
 				 throw exception;
 			 }
-			
+
 		} else {
 			return !empty sql ? this->{"execute"}(queries[0] . ";") : true;
 		}
@@ -387,7 +414,7 @@ class Postgresql extends PdoAdapter implements AdapterInterface
 	 */
 	public function getDefaultIdValue() -> <RawValue>
 	{
-		return new RawValue("default");
+		return new RawValue("DEFAULT");
 	}
 
 	/**

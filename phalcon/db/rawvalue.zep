@@ -46,9 +46,18 @@ class RawValue
 	/**
 	 * Phalcon\Db\RawValue constructor
 	 */
-	public function __construct(string! value)
+	public function __construct(var value)
 	{
-		let this->_value = value;
-	}
+		if typeof value == "string" && value == "" {
+			let this->_value = "''";
+			return;
+		}
 
+		if value === null {
+			let this->_value = "NULL";
+			return;
+		}
+
+		let this->_value = (string) value;
+	}
 }

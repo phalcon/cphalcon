@@ -275,18 +275,26 @@ class Group implements GroupInterface
 	 */
 	protected function _addRoute(string! pattern, var paths = null, var httpMethods = null) -> <RouteInterface>
 	{
-		var mergedPaths, route, defaultPaths;
+		var mergedPaths, route, defaultPaths, processedPaths;
 
 		/**
 		 * Check if the paths need to be merged with current paths
 		 */
 		let defaultPaths = this->_paths;
+
 		if typeof defaultPaths == "array" {
-			if typeof paths == "array" {
+
+			if typeof paths == "string" {
+				let processedPaths = Route::getRoutePaths(paths);
+			} else {
+				let processedPaths = paths;
+			}
+
+			if typeof processedPaths == "array" {
 				/**
 				 * Merge the paths with the default paths
 				 */
-				let mergedPaths = array_merge(defaultPaths, paths);
+				let mergedPaths = array_merge(defaultPaths, processedPaths);
 			} else {
 				let mergedPaths = defaultPaths;
 			}
@@ -299,6 +307,7 @@ class Group implements GroupInterface
 		 */
 		let route = new Route(this->_prefix . pattern, mergedPaths, httpMethods),
 			this->_routes[] = route;
+
 		route->setGroup(this);
 		return route;
 	}

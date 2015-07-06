@@ -247,4 +247,37 @@ abstract class Text
 
 		return rtrim(a, separator) . separator . ltrim(b, separator);
 	}
+
+	/**
+	 * Generates random text in accordance with the template
+	 *
+	 * <code>
+	 *    echo Phalcon\Text::dynamic("{Hi|Hello}, my name is a {Bob|Mark|Jon}!"); // Hi my name is a Bob
+	 *    echo Phalcon\Text::dynamic("{Hi|Hello}, my name is a {Bob|Mark|Jon}!"); // Hi my name is a Jon
+	 *    echo Phalcon\Text::dynamic("{Hi|Hello}, my name is a {Bob|Mark|Jon}!"); // Hello my name is a Bob
+	 * </code>
+	 */
+	public static function dynamic(string! text, string! leftDelimiter = "{", string! rightDelimiter = "}", string! separator = "|") -> string
+	{
+		var ld_s, rd_s, result, pattern;
+
+		if substr_count(text, leftDelimiter) !== substr_count(text, rightDelimiter) {
+			throw new \RuntimeException("Syntax error in string \"" . text . "\"");
+		}
+
+		let ld_s 	= preg_quote(leftDelimiter);
+		let rd_s 	= preg_quote(rightDelimiter);
+		let pattern = "/" . ld_s . "([^" . ld_s . rd_s . "]+)" . rd_s . "/";
+		let result 	= text;
+
+		while memstr(result, leftDelimiter) {
+			let result = preg_replace_callback(pattern, function (matches) {
+				var words;
+				let words = explode("|", matches[1]);
+				return words[array_rand(words)];
+			}, result);
+		}
+
+		return result;
+	}
 }

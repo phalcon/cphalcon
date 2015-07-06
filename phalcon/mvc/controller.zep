@@ -57,7 +57,7 @@ use Phalcon\Di\Injectable;
  *
  *</code>
  */
-abstract class Controller extends Injectable
+abstract class Controller extends Injectable implements ControllerInterface
 {
 
 	/**

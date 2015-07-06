@@ -21,13 +21,13 @@
 
 namespace Phalcon\Db\Dialect;
 
+use Phalcon\Text;
 use Phalcon\Db\Dialect;
 use Phalcon\Db\Column;
 use Phalcon\Db\Exception;
 use Phalcon\Db\IndexInterface;
 use Phalcon\Db\ColumnInterface;
 use Phalcon\Db\ReferenceInterface;
-use Phalcon\Text;
 
 /**
  * Phalcon\Db\Dialect\Oracle
@@ -56,10 +56,9 @@ class Oracle extends Dialect
 			let limit = (int)trim(number, "'");
 		}
 
-
 		let sqlQuery = "SELECT * FROM (SELECT Z1.*, ROWNUM PHALCON_RN FROM (" . sqlQuery . ") Z1 WHERE ROWNUM <= " . limit . ")";
 
-		if (offset != 0) {
+		if offset != 0 {
 			let sqlQuery .= " WHERE PHALCON_RN >= " . offset;
 		}
 
@@ -80,41 +79,41 @@ class Oracle extends Dialect
 
 			case Column::TYPE_INTEGER:
 				let columnSql = "INTEGER";
-			break;
+				break;
 
 			case Column::TYPE_DATE:
 				let columnSql = "DATE";
-			break;
+				break;
 
 			case Column::TYPE_VARCHAR:
 				let columnSql = "VARCHAR2(" . size . ")";
-			break;
+				break;
 
 			case Column::TYPE_DECIMAL:
 				let scale = column->getScale();
 				let columnSql = "NUMBER(" . size . "," . scale . ")";
-			break;
+				break;
 
 			case Column::TYPE_DATETIME:
 				let columnSql = "TIMESTAMP";
-			break;
+				break;
 
 			case Column::TYPE_CHAR:
 				let columnSql = "CHAR(" . size . ")";
-			break;
+				break;
 
 			case Column::TYPE_TEXT:
 				let columnSql = "TEXT";
-			break;
+				break;
 
 			case Column::TYPE_FLOAT:
 				let scale = column->getScale();
 				let columnSql = "FLOAT(" . size . "," . scale .")";
-			break;
+				break;
 
 			case Column::TYPE_BOOLEAN:
 				let columnSql = "TINYINT(1)";
-			break;
+				break;
 
 			default:
 				throw new Exception("Unrecognized Oracle data type");
@@ -219,9 +218,9 @@ class Oracle extends Dialect
 
 		if ifExists {
 			return "DROP TABLE IF EXISTS " . table;
-		} else {
-			return "DROP TABLE " . table;
 		}
+
+		return "DROP TABLE " . table;
 	}
 
 	/**
@@ -259,9 +258,9 @@ class Oracle extends Dialect
 
 		if ifExists {
 			return "DROP VIEW IF EXISTS " . view;
-		} else {
-			return "DROP VIEW " . view;
 		}
+
+		return "DROP VIEW " . view;
 	}
 
 	/**
@@ -271,9 +270,9 @@ class Oracle extends Dialect
 	{
 		if schemaName != "" {
 			return "SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END RET FROM ALL_VIEWS WHERE VIEW_NAME='" . Text::upper(viewName) . "' AND OWNER='" . Text::upper(schemaName) . "'";
-		} else {
-			return "SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END RET FROM ALL_VIEWS WHERE VIEW_NAME='" . Text::upper(viewName) . "'";
 		}
+
+		return "SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END RET FROM ALL_VIEWS WHERE VIEW_NAME='" . Text::upper(viewName) . "'";
 	}
 
 	/**
@@ -283,9 +282,9 @@ class Oracle extends Dialect
 	{
 		if schemaName != "" {
 			return "SELECT VIEW_NAME FROM ALL_VIEWS WHERE OWNER='" . Text::upper(schemaName) . "' ORDER BY VIEW_NAME";
-		} else {
-			return "SELECT VIEW_NAME FROM ALL_VIEWS VIEW_NAME";
 		}
+
+		return "SELECT VIEW_NAME FROM ALL_VIEWS VIEW_NAME";
 	}
 
 	/**
@@ -300,9 +299,9 @@ class Oracle extends Dialect
 	{
 		if schemaName != "" {
 			return "SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END RET FROM ALL_TABLES WHERE TABLE_NAME='" . Text::upper(tableName) . "' AND OWNER = '" . Text::upper(schemaName) . "'";
-		} else {
-			return "SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END RET FROM ALL_TABLES WHERE TABLE_NAME='" . Text::upper(tableName) .  "'";
 		}
+
+		return "SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END RET FROM ALL_TABLES WHERE TABLE_NAME='" . Text::upper(tableName) .  "'";
 	}
 
 	/**
@@ -316,9 +315,9 @@ class Oracle extends Dialect
 	{
 		if schema != "" {
 			return "SELECT TC.COLUMN_NAME, TC.DATA_TYPE, TC.DATA_LENGTH, TC.DATA_PRECISION, TC.DATA_SCALE, TC.NULLABLE, C.CONSTRAINT_TYPE, TC.DATA_DEFAULT, CC.POSITION FROM ALL_TAB_COLUMNS TC LEFT JOIN (ALL_CONS_COLUMNS CC JOIN ALL_CONSTRAINTS C ON (CC.CONSTRAINT_NAME = C.CONSTRAINT_NAME AND CC.TABLE_NAME = C.TABLE_NAME AND CC.OWNER = C.OWNER AND C.CONSTRAINT_TYPE = 'P')) ON TC.TABLE_NAME = CC.TABLE_NAME AND TC.COLUMN_NAME = CC.COLUMN_NAME WHERE TC.TABLE_NAME = '" . Text::upper(table) . "' AND TC.OWNER = '" . Text::upper(schema) . "' ORDER BY TC.COLUMN_ID";
-		} else {
-			return "SELECT TC.COLUMN_NAME, TC.DATA_TYPE, TC.DATA_LENGTH, TC.DATA_PRECISION, TC.DATA_SCALE, TC.NULLABLE, C.CONSTRAINT_TYPE, TC.DATA_DEFAULT, CC.POSITION FROM ALL_TAB_COLUMNS TC LEFT JOIN (ALL_CONS_COLUMNS CC JOIN ALL_CONSTRAINTS C ON (CC.CONSTRAINT_NAME = C.CONSTRAINT_NAME AND CC.TABLE_NAME = C.TABLE_NAME AND CC.OWNER = C.OWNER AND C.CONSTRAINT_TYPE = 'P')) ON TC.TABLE_NAME = CC.TABLE_NAME AND TC.COLUMN_NAME = CC.COLUMN_NAME WHERE TC.TABLE_NAME = '" . Text::upper(table) . "' ORDER BY TC.COLUMN_ID";
 		}
+
+		return "SELECT TC.COLUMN_NAME, TC.DATA_TYPE, TC.DATA_LENGTH, TC.DATA_PRECISION, TC.DATA_SCALE, TC.NULLABLE, C.CONSTRAINT_TYPE, TC.DATA_DEFAULT, CC.POSITION FROM ALL_TAB_COLUMNS TC LEFT JOIN (ALL_CONS_COLUMNS CC JOIN ALL_CONSTRAINTS C ON (CC.CONSTRAINT_NAME = C.CONSTRAINT_NAME AND CC.TABLE_NAME = C.TABLE_NAME AND CC.OWNER = C.OWNER AND C.CONSTRAINT_TYPE = 'P')) ON TC.TABLE_NAME = CC.TABLE_NAME AND TC.COLUMN_NAME = CC.COLUMN_NAME WHERE TC.TABLE_NAME = '" . Text::upper(table) . "' ORDER BY TC.COLUMN_ID";
 	}
 
 	/**
@@ -332,9 +331,9 @@ class Oracle extends Dialect
 	{
 		if schemaName != "" {
 			return "SELECT TABLE_NAME, OWNER FROM ALL_TABLES WHERE OWNER='" . Text::upper(schemaName) . "' ORDER BY OWNER, TABLE_NAME";
-		} else {
-			return "SELECT TABLE_NAME, OWNER FROM ALL_TABLES ORDER BY OWNER, TABLE_NAME";
 		}
+
+		return "SELECT TABLE_NAME, OWNER FROM ALL_TABLES ORDER BY OWNER, TABLE_NAME";
 	}
 
 	/**
@@ -344,9 +343,9 @@ class Oracle extends Dialect
 	{
 		if schema != "" {
 			return "SELECT I.TABLE_NAME, 0 AS C0, I.INDEX_NAME, IC.COLUMN_POSITION, IC.COLUMN_NAME FROM ALL_INDEXES I JOIN ALL_IND_COLUMNS IC ON I.INDEX_NAME = IC.INDEX_NAME WHERE  I.TABLE_NAME = '" . Text::upper(table) . "' AND IC.INDEX_OWNER = '" . Text::upper(schema) . "'";
-		} else {
-			return "SELECT I.TABLE_NAME, 0 AS C0, I.INDEX_NAME, IC.COLUMN_POSITION, IC.COLUMN_NAME FROM ALL_INDEXES I JOIN ALL_IND_COLUMNS IC ON I.INDEX_NAME = IC.INDEX_NAME WHERE  I.TABLE_NAME = '" . Text::upper(table) ."'";
 		}
+
+		return "SELECT I.TABLE_NAME, 0 AS C0, I.INDEX_NAME, IC.COLUMN_POSITION, IC.COLUMN_NAME FROM ALL_INDEXES I JOIN ALL_IND_COLUMNS IC ON I.INDEX_NAME = IC.INDEX_NAME WHERE  I.TABLE_NAME = '" . Text::upper(table) ."'";
 	}
 
 	/**

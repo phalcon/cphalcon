@@ -20,8 +20,7 @@
 namespace Phalcon\Mvc\Model\Validator;
 
 use Phalcon\Mvc\Model;
-
-use Phalcon\Mvc\ModelInterface;
+use Phalcon\Mvc\EntityInterface;
 use Phalcon\Mvc\Model\Exception;
 use Phalcon\Mvc\Model\Validator;
 use Phalcon\Mvc\Model\ValidatorInterface;
@@ -33,9 +32,10 @@ use Phalcon\Mvc\Model\ValidatorInterface;
  * present more than once in the existing records of the related table
  *
  *<code>
- *use Phalcon\Mvc\Model\Validator\Uniqueness as Uniqueness;
+ *use Phalcon\Mvc\Model;
+ *use Phalcon\Mvc\Model\Validator\Uniqueness;
  *
- *class Subscriptors extends \Phalcon\Mvc\Model
+ *class Subscriptors extends Model
  *{
  *
  *  public function validation()
@@ -47,7 +47,6 @@ use Phalcon\Mvc\Model\ValidatorInterface;
  *          return false;
  *      }
  *  }
- *
  *}
  *</code>
  */
@@ -56,7 +55,7 @@ class Uniqueness extends Validator implements ValidatorInterface
 	/**
 	 * Executes the validator
 	 */
-	public function validate(<ModelInterface> record) -> boolean
+	public function validate(<EntityInterface> record) -> boolean
 	{
 		var field, dependencyInjector, metaData, message, bindTypes, bindDataTypes,
 			columnMap, conditions, bindParams, number, composeField, columnField,
@@ -209,7 +208,7 @@ class Uniqueness extends Validator implements ValidatorInterface
 			 * Check if the developer has defined a custom message
 			 */
 			let message = this->getOption("message");
-			
+
 			if typeof field == "array" {
 				let replacePairs = [":fields": join(", ", field)];
 				if empty message {

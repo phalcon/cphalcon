@@ -1,19 +1,19 @@
 
 /*
   +------------------------------------------------------------------------+
-  | Phalcon Framework                                                      |
+  | Phalcon Framework													   |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)	   |
   +------------------------------------------------------------------------+
-  | This source file is subject to the New BSD License that is bundled     |
-  | with this package in the file docs/LICENSE.txt.                        |
-  |                                                                        |
-  | If you did not receive a copy of the license and are unable to         |
-  | obtain it through the world-wide-web, please send an email             |
-  | to license@phalconphp.com so we can send you a copy immediately.       |
+  | This source file is subject to the New BSD License that is bundled	   |
+  | with this package in the file docs/LICENSE.txt.					       |
+  |																		   |
+  | If you did not receive a copy of the license and are unable to		   |
+  | obtain it through the world-wide-web, please send an email			   |
+  | to license@phalconphp.com so we can send you a copy immediately.	   |
   +------------------------------------------------------------------------+
-  | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
-  |          Eduar Carvajal <eduar@phalconphp.com>                         |
+  | Authors: Andres Gutierrez <andres@phalconphp.com>					   |
+  |		  Eduar Carvajal <eduar@phalconphp.com>						       |
   +------------------------------------------------------------------------+
 */
 
@@ -44,15 +44,15 @@ void phvolt_rtrim(phvolt_scanner_token *token) {
 			break;
 		}
 
-        if (i >= 0) {
-    		removed_str = emalloc(i + 1);
-    		memcpy(removed_str, token->value, i);
-    		removed_str[i] = '\0';
+		if (i >= 0) {
+			removed_str = emalloc(i + 1);
+			memcpy(removed_str, token->value, i);
+			removed_str[i] = '\0';
 
-    		efree(token->value);
-    		token->value = removed_str;
-    		token->len = i;
-        }
+			efree(token->value);
+			token->value = removed_str;
+			token->len = i;
+		}
 	}
 
 }
@@ -74,15 +74,15 @@ void phvolt_ltrim(phvolt_scanner_token *token) {
 			break;
 		}
 
-        if (i >= 0) {
-    		removed_str = emalloc(token->len - i + 1);
-    		memcpy(removed_str, token->value + i, token->len - i);
-    		removed_str[token->len - i] = '\0';
+		if (i >= 0) {
+			removed_str = emalloc(token->len - i + 1);
+			memcpy(removed_str, token->value + i, token->len - i);
+			removed_str[token->len - i] = '\0';
 
-    		efree(token->value);
-    		token->value = removed_str;
-    		token->len = token->len - i;
-        }
+			efree(token->value);
+			token->value = removed_str;
+			token->len = token->len - i;
+		}
 	}
 
 }
@@ -144,7 +144,7 @@ int phvolt_get_token(phvolt_scanner_state *s, phvolt_scanner_token *token) {
 
 					while ((next = *(++YYCURSOR))) {
 						if (next == '#' && *(YYCURSOR + 1) == '}') {
-							YYCURSOR+=2;
+							YYCURSOR += 2;
 							token->opcode = PHVOLT_T_IGNORE;
 							return 0;
 						} else {
@@ -427,6 +427,18 @@ int phvolt_get_token(phvolt_scanner_state *s, phvolt_scanner_token *token) {
 		'break' {
 			s->statement_position++;
 			token->opcode = PHVOLT_T_BREAK;
+			return 0;
+		}
+
+		'raw' {
+			s->statement_position++;
+			token->opcode = PHVOLT_T_RAW;
+			return 0;
+		}
+
+		'endraw' {
+			s->statement_position++;
+			token->opcode = PHVOLT_T_ENDRAW;
 			return 0;
 		}
 

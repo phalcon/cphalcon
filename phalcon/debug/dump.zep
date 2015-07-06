@@ -170,11 +170,13 @@ class Dump
 				}
 			} else {
 				do {
+
 					let attr = each(variable);
 
 					if !attr {
 						continue;
 					}
+
 					let key = attr["key"],
 						value = attr["value"];
 
@@ -185,21 +187,24 @@ class Dump
 						type = "public";
 
 					if isset key[1] {
+
 						let type = "private";
 
 						if key[1] == "*" {
 							let type = "protected";
 						}
 					}
+
 					let output .= str_repeat(space, tab) . strtr("-><span style=':style'>:key</span> (<span style=':style'>:type</span>) = ", [":style": this->getStyle("obj"), ":key": end(key), ":type": type]);
 					let output .= this->output(value, "", tab + 1) . "\n";
+
 				} while attr;
 			}
 
 			let attr = get_class_methods(variable);
 			let output .= str_repeat(space, tab) . strtr(":class <b style=':style'>methods</b>: (<span style=':style'>:count</span>) (\n", [":style": this->getStyle("obj"), ":class": get_class(variable), ":count": count(attr)]);
 
-			if (in_array(get_class(variable), this->_methods)) {
+			if in_array(get_class(variable), this->_methods) {
 				let output .= str_repeat(space, tab) . "[already listed]\n";
 			} else {
 				for value in attr {
@@ -213,6 +218,7 @@ class Dump
 				}
 				let output .= str_repeat(space, tab) . ")\n";
 			}
+
 			return output . str_repeat(space, tab - 1) . ")";
 		}
 
@@ -239,6 +245,7 @@ class Dump
 		if is_null(variable) {
 			return strtr("<b style=':style'>NULL</b>", [":style": this->getStyle("null")]);
 		}
+
 		return strtr("(<span style=':style'>:var</span>)", [":style": this->getStyle("other"), ":var": variable]);
 	}
 
@@ -281,5 +288,23 @@ class Dump
 		}
 
 		return output;
+	}
+
+	/**
+	 * Returns an JSON string of information about a single variable.
+	 *
+	 * <code>
+	 *    $foo = ["key" => "value"];
+	 *    echo (new \Phalcon\Debug\Dump())->toJson($foo);
+	 *    $foo = new stdClass();
+	 *    $foo->bar = 'buz';
+	 *    echo (new \Phalcon\Debug\Dump())->toJson($foo);
+	 * </code>
+	 *
+	 * @param mixed variable
+	 */
+	public function toJson(var variable) -> string
+	{
+		return json_encode(variable, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
 	}
 }

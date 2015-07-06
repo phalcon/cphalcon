@@ -28,6 +28,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getWhere);
 PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, orderBy);
 PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getOrderBy);
 PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, having);
+PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, forUpdate);
 PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getHaving);
 PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, limit);
 PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getLimit);
@@ -137,6 +138,10 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_query_builder_having, 0, 0, 1)
 	ZEND_ARG_INFO(0, having)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_query_builder_forupdate, 0, 0, 1)
+	ZEND_ARG_INFO(0, forUpdate)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_query_builder_limit, 0, 0, 0)
 	ZEND_ARG_INFO(0, limit)
 	ZEND_ARG_INFO(0, offset)
@@ -176,6 +181,7 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_model_query_builder_method_entry) {
 	PHP_ME(Phalcon_Mvc_Model_Query_Builder, orderBy, arginfo_phalcon_mvc_model_query_builder_orderby, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Query_Builder, getOrderBy, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Query_Builder, having, arginfo_phalcon_mvc_model_query_builder_having, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Query_Builder, forUpdate, arginfo_phalcon_mvc_model_query_builder_forupdate, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Query_Builder, getHaving, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Query_Builder, limit, arginfo_phalcon_mvc_model_query_builder_limit, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Query_Builder, getLimit, NULL, ZEND_ACC_PUBLIC)

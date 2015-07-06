@@ -43,10 +43,13 @@ use Phalcon\Events\ManagerInterface as EventsManagerInterface;
  * A ModelsManager is injected to a model via a Dependency Injector/Services Container such as Phalcon\DI.
  *
  * <code>
- * $di = new \Phalcon\DI();
+ * use Phalcon\DI;
+ * use Phalcon\Mvc\Model\Manager as ModelsManager;
+ *
+ * $di = new DI();
  *
  * $di->set('modelsManager', function() {
- *      return new \Phalcon\Mvc\Model\Manager();
+ *      return new ModelsManager();
  * });
  *
  * $robot = new Robots($di);
@@ -676,6 +679,9 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 		 * Check an alias for the relation
 		 */
 		if fetch alias, options["alias"] {
+			if typeof alias != "string" {
+				throw new Exception("Relation alias must be a string");
+			}
 			let lowerAlias = strtolower(alias);
 		} else {
 			let lowerAlias = referencedEntity;
@@ -758,6 +764,9 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 		 * Check an alias for the relation
 		 */
 		if fetch alias, options["alias"] {
+			if typeof alias != "string" {
+				throw new Exception("Relation alias must be a string");
+			}
 			let lowerAlias = strtolower(alias);
 		} else {
 			let lowerAlias = referencedEntity;
@@ -840,6 +849,9 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 		 * Check an alias for the relation
 		 */
 		if fetch alias, options["alias"] {
+			if typeof alias != "string" {
+				throw new Exception("Relation alias must be a string");
+			}
 			let lowerAlias = strtolower(alias);
 		} else {
 			let lowerAlias = referencedEntity;
@@ -941,6 +953,9 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 		 * Check an alias for the relation
 		 */
 		if fetch alias, options["alias"] {
+			if typeof alias != "string" {
+				throw new Exception("Relation alias must be a string");
+			}
 			let lowerAlias = strtolower(alias);
 		} else {
 			let lowerAlias = referencedEntity;
@@ -1093,61 +1108,104 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	}
 
 	/**
+	 * Merge two arrays of find parameters
+	 */
+	protected final function _mergeFindParameters(var findParamsOne, var findParamsTwo) -> array
+	{
+		var key, value, findParams;
+
+		//var_dump(findParamsOne);
+		//var_dump(findParamsTwo);
+
+		if typeof findParamsOne == "string" && typeof findParamsTwo == "string" {
+			return ["(" . findParamsOne . ") AND " . findParamsTwo];
+		}
+
+		let findParams = [];
+		if typeof findParamsOne == "array"  {
+
+			for key, value in findParamsOne {
+
+				if key === 0 || key === "conditions" {
+					if !isset findParams[0] {
+						let findParams[0] = value;
+					} else {						
+						let findParams[0] = "(" . findParams[0] . ") AND " . value;
+					}
+					continue;
+				}
+
+				let findParams[key] = value;
+			}
+		} else {
+			if typeof findParamsOne == "string" {
+				let findParams = ["conditions": findParamsOne];
+			}
+		}
+
+		if typeof findParamsTwo == "array"  {
+
+			for key, value in findParamsTwo {
+
+				if key === 0 || key === "conditions" {
+					if !isset findParams[0] {
+						let findParams[0] = value;
+					} else {
+						let findParams[0] = "(" . findParams[0] . ") AND " . value;
+					}
+					continue;
+				}
+
+				if key === "bind" || key === "bindTypes" {
+					if !isset findParams[key] {
+						if typeof value == "array" {
+							let findParams[key] = value;
+						}
+					} else {
+						if typeof value == "array" {
+							let findParams[key] = array_merge(findParams[key], value);
+						}
+					}
+					continue;
+				}
+
+				let findParams[key] = value;
+			}
+		} else {
+			if typeof findParamsTwo == "string" {
+				if !isset findParams[0] {
+					let findParams[0] = findParamsTwo;
+				} else {
+					let findParams[0] = "(" . findParams[0] . ") AND " . findParamsTwo;
+				}
+			}
+		}
+
+		return findParams;
+	}
+
+	/**
 	 * Helper method to query records based on a relation definition
 	 *
 	 * @return Phalcon\Mvc\Model\Resultset\Simple|Phalcon\Mvc\Model\Resultset\Simple|false
 	 */
 	public function getRelationRecords(<RelationInterface> relation, string! method, <ModelInterface> record, var parameters = null)
 	{
-		var preConditions, placeholders, referencedModel, intermediateModel,
+		var placeholders, referencedModel, intermediateModel,
 			intermediateFields, joinConditions, fields, builder, extraParameters,
 			conditions, refPosition, field, referencedFields, findParams,
 			findArguments, retrieveMethod, uniqueKey, records, arguments;
 		boolean reusable;
 
 		/**
-		 * Re-use conditions
-		 */
-		let preConditions = null;
-
-		if typeof parameters == "array" {
-			if fetch preConditions, parameters[0] {
-				unset parameters[0];
-			} else {
-				if fetch preConditions, parameters["conditions"] {
-					unset parameters["conditions"];
-				}
-			}
-		} else {
-			if typeof parameters == "string" {
-				let preConditions = parameters;
-			}
-		}
-
-		/**
 		 * Re-use bound parameters
 		 */
-		if typeof parameters == "array" {
-			if fetch placeholders, parameters["bind"] {
-				unset parameters["bind"];
-			} else {
-				let placeholders = [];
-			}
-		} else {
-			let placeholders = [];
-		}
+		let placeholders = [];
 
 		/**
 		 * Returns parameters that must be always used when the related records are obtained
 		 */
 		let extraParameters = relation->getParams();
-		if typeof extraParameters == "array" {
-			if typeof parameters == "array" {
-				let parameters = array_merge(parameters, extraParameters);
-			} else {
-				let parameters = extraParameters;
-			}
-		}
 
 		/**
 		 * Perform the query on the referenced model
@@ -1169,8 +1227,8 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 			 */
 			let fields = relation->getFields();
 			if typeof fields != "array" {
-				let conditions[] = "[" . intermediateModel . "].[" . intermediateFields . "] = ?0",
-					placeholders[] = record->readAttribute(fields);
+				let conditions[] = "[" . intermediateModel . "].[" . intermediateFields . "] = :APR0:",
+					placeholders["APR0"] = record->readAttribute(fields);
 			} else {
 				throw new Exception("Not supported");
 			}
@@ -1185,13 +1243,6 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 				let joinConditions[] = "[" . intermediateModel . "].[" . intermediateFields . "] = [" . referencedModel . "].[" . relation->getReferencedFields() . "]";
 			} else {
 				throw new Exception("Not supported");
-			}
-
-			/**
-			 * Add extra conditions passed by the programmer
-			 */
-			if !empty preConditions {
-				let conditions[] = preConditions;
 			}
 
 			/**
@@ -1211,19 +1262,15 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 			return builder->getQuery()->execute();
 		}
 
-		if preConditions !== null {
-			let conditions = [preConditions];
-		} else {
-			let conditions = [];
-		}
+		let conditions = [];
 
 		/**
 		 * Appends conditions created from the fields defined in the relation
 		 */
 		let fields = relation->getFields();
 		if typeof fields != "array" {
-			let conditions[] = "[". relation->getReferencedFields() . "] = ?0",
-				placeholders[] = record->readAttribute(fields);
+			let conditions[] = "[". relation->getReferencedFields() . "] = :APR0:",
+				placeholders["APR0"] = record->readAttribute(fields);
 		} else {
 
 			/**
@@ -1231,8 +1278,8 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 			 */
 			let referencedFields = relation->getReferencedFields();
 			for refPosition, field in relation->getReferencedFields() {
-				let conditions[] = "[". referencedFields[refPosition] . "] = ?" . refPosition,
-					placeholders[] = record->readAttribute(field);
+				let conditions[] = "[". referencedFields[refPosition] . "] = :APR" . refPosition . ":",
+					placeholders["APR" . refPosition] = record->readAttribute(field);
 			}
 		}
 
@@ -1246,18 +1293,12 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 			"di"        : record->{"getDi"}()
 		];
 
-		if typeof parameters == "array" {
-			let findArguments = array_merge(findParams, parameters);
-		} else {
-			let findArguments = findParams;
-		}
+		let findArguments = this->_mergeFindParameters(findParams, parameters);
 
-		/**
-		 * Join conditions in '0' and 'conditions'
-		 */
-		if isset findArguments[0] && isset findArguments["conditions"] {
-			let findArguments[0] = "(" . findArguments[0] . ") AND (" . findArguments["conditions"] . ")";
-			unset findArguments["conditions"];
+		if typeof extraParameters == "array" {
+			let findParams = this->_mergeFindParameters(findArguments, extraParameters);
+		} else {
+			let findParams = findArguments;
 		}
 
 		/**
@@ -1282,7 +1323,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 			let retrieveMethod = method;
 		}
 
-		let arguments = [findArguments];
+		let arguments = [findParams];
 
 		/**
 		 * Find first results could be reusable
@@ -1633,10 +1674,18 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 		let query = <QueryInterface> dependencyInjector->get("Phalcon\\Mvc\\Model\\Query", [phql, dependencyInjector]);
 		let this->_lastQuery = query;
 
+		if typeof placeholders == "array" {
+			query->setBindParams(placeholders);
+		}
+
+		if typeof types == "array" {
+			query->setBindTypes(types);
+		}
+
 		/**
 		 * Execute the query
 		 */
-		return query->execute(placeholders, types);
+		return query->execute();
 	}
 
 	/**

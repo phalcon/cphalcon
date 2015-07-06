@@ -13,11 +13,12 @@
 
 #include "kernel/main.h"
 #include "kernel/object.h"
+#include "ext/spl/spl_exceptions.h"
+#include "kernel/exception.h"
 #include "kernel/operators.h"
 #include "kernel/memory.h"
 #include "kernel/array.h"
-#include "kernel/exception.h"
-#include "ext/spl/spl_exceptions.h"
+#include "kernel/fcall.h"
 
 
 /**
@@ -30,6 +31,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Collection_Document) {
 
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Mvc\\Collection, Document, phalcon, mvc_collection_document, phalcon_mvc_collection_document_method_entry, 0);
 
+	zend_class_implements(phalcon_mvc_collection_document_ce TSRMLS_CC, 1, phalcon_mvc_entityinterface_ce);
 	zend_class_implements(phalcon_mvc_collection_document_ce TSRMLS_CC, 1, zend_ce_arrayaccess);
 	return SUCCESS;
 
@@ -49,7 +51,17 @@ PHP_METHOD(Phalcon_Mvc_Collection_Document, offsetExists) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &index_param);
 
-	zephir_get_strval(index, index_param);
+	if (unlikely(Z_TYPE_P(index_param) != IS_STRING && Z_TYPE_P(index_param) != IS_NULL)) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'index' must be a string") TSRMLS_CC);
+		RETURN_MM_NULL();
+	}
+
+	if (likely(Z_TYPE_P(index_param) == IS_STRING)) {
+		zephir_get_strval(index, index_param);
+	} else {
+		ZEPHIR_INIT_VAR(index);
+		ZVAL_EMPTY_STRING(index);
+	}
 
 
 	RETURN_MM_BOOL(zephir_isset_property_zval(this_ptr, index TSRMLS_CC));
@@ -58,44 +70,63 @@ PHP_METHOD(Phalcon_Mvc_Collection_Document, offsetExists) {
 
 /**
  * Returns the value of a field using the ArrayAccess interfase
- *
- * @param string index
- * @return mixed
  */
 PHP_METHOD(Phalcon_Mvc_Collection_Document, offsetGet) {
 
-	zval *index, *value;
+	zval *index_param = NULL, *value;
+	zval *index = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &index);
+	zephir_fetch_params(1, 1, 0, &index_param);
 
+	if (unlikely(Z_TYPE_P(index_param) != IS_STRING && Z_TYPE_P(index_param) != IS_NULL)) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'index' must be a string") TSRMLS_CC);
+		RETURN_MM_NULL();
+	}
+
+	if (likely(Z_TYPE_P(index_param) == IS_STRING)) {
+		zephir_get_strval(index, index_param);
+	} else {
+		ZEPHIR_INIT_VAR(index);
+		ZVAL_EMPTY_STRING(index);
+	}
 
 
 	ZEPHIR_OBS_VAR(value);
 	if (zephir_fetch_property_zval(&value, this_ptr, index, PH_SILENT_CC)) {
 		RETURN_CCTOR(value);
 	}
-	ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_collection_exception_ce, "The index does not exist in the row", "phalcon/mvc/collection/document.zep", 55);
+	ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_collection_exception_ce, "The index does not exist in the row", "phalcon/mvc/collection/document.zep", 53);
 	return;
 
 }
 
 /**
  * Change a value using the ArrayAccess interface
- *
- * @param string index
- * @param mixed value
- * @param Phalcon\Mvc\ModelInterface value
  */
 PHP_METHOD(Phalcon_Mvc_Collection_Document, offsetSet) {
 
-	zval *index, *value;
+	zval *index_param = NULL, *value;
+	zval *index = NULL;
 
-	zephir_fetch_params(0, 2, 0, &index, &value);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 2, 0, &index_param, &value);
 
+	if (unlikely(Z_TYPE_P(index_param) != IS_STRING && Z_TYPE_P(index_param) != IS_NULL)) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'index' must be a string") TSRMLS_CC);
+		RETURN_MM_NULL();
+	}
+
+	if (likely(Z_TYPE_P(index_param) == IS_STRING)) {
+		zephir_get_strval(index, index_param);
+	} else {
+		ZEPHIR_INIT_VAR(index);
+		ZVAL_EMPTY_STRING(index);
+	}
 
 
 	zephir_update_property_zval_zval(this_ptr, index, value TSRMLS_CC);
+	ZEPHIR_MM_RESTORE();
 
 }
 
@@ -112,7 +143,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Document, offsetUnset) {
 
 
 
-	ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_mvc_collection_exception_ce, "The index does not exist in the row", "phalcon/mvc/collection/document.zep", 77);
+	ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_mvc_collection_exception_ce, "The index does not exist in the row", "phalcon/mvc/collection/document.zep", 71);
 	return;
 
 }
@@ -121,7 +152,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Document, offsetUnset) {
  * Reads an attribute value by its name
  *
  *<code>
- *        echo robot->readAttribute('name');
+ *  echo $robot->readAttribute('name');
  *</code>
  *
  * @param string attribute
@@ -148,7 +179,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Document, readAttribute) {
  * Writes an attribute value by its name
  *
  *<code>
- *        robot->writeAttribute('name', 'Rosey');
+ *  $robot->writeAttribute('name', 'Rosey');
  *</code>
  *
  * @param string attribute
@@ -177,6 +208,23 @@ PHP_METHOD(Phalcon_Mvc_Collection_Document, writeAttribute) {
 
 	zephir_update_property_zval_zval(this_ptr, attribute, value TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
+
+}
+
+/**
+ * Returns the instance as an array representation
+ *
+ * @return array
+ */
+PHP_METHOD(Phalcon_Mvc_Collection_Document, toArray) {
+
+	int ZEPHIR_LAST_CALL_STATUS;
+
+	ZEPHIR_MM_GROW();
+
+	ZEPHIR_RETURN_CALL_FUNCTION("get_object_vars", NULL, 23, this_ptr);
+	zephir_check_call_status();
+	RETURN_MM();
 
 }
 

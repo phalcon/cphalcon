@@ -183,7 +183,8 @@ abstract class Pdo extends Adapter
 	 */
 	public function executePrepared(<\PDOStatement> statement, array! placeholders, dataTypes) -> <\PDOStatement>
 	{
-		var wildcard, value, type, castValue, parameter;
+		var wildcard, value, type, castValue,
+			parameter, position, itemValue;
 
 		for wildcard, value in placeholders {
 
@@ -198,25 +199,72 @@ abstract class Pdo extends Adapter
 			}
 
 			if typeof dataTypes == "array" && fetch type, dataTypes[wildcard] {
+
 				/**
 				 * The bind type is double so we try to get the double value
 				 */
 				if type == Column::BIND_PARAM_DECIMAL {
-					let castValue = doubleval(value), type = Column::BIND_SKIP;
+					let castValue = doubleval(value),
+						type = Column::BIND_SKIP;
 				} else {
-					let castValue = value;
+					if globals_get("db.force_casting") {
+						if typeof value != "array" {
+							switch type {
+
+								case Column::BIND_PARAM_INT:
+									let castValue = intval(value, 10);
+									break;
+
+								case Column::BIND_PARAM_STR:
+									let castValue = (string) value;
+									break;
+
+								case Column::BIND_PARAM_NULL:
+									let castValue = null;
+									break;
+
+								case Column::BIND_PARAM_BOOL:
+									let castValue = (boolean) value;
+									break;
+
+								default:
+									let castValue = value;
+									break;
+							}
+						} else {
+							let castValue = value;
+						}
+					} else {
+						let castValue = value;
+					}
 				}
 
 				/**
 				 * 1024 is ignore the bind type
 				 */
-				if type == Column::BIND_SKIP {
-					statement->bindValue(parameter, castValue);
+				if typeof castValue != "array" {					
+					if type == Column::BIND_SKIP {
+						statement->bindValue(parameter, castValue);
+					} else {
+						statement->bindValue(parameter, castValue, type);
+					}
 				} else {
-					statement->bindValue(parameter, castValue, type);
+					for position, itemValue in castValue {
+						if type == Column::BIND_SKIP {
+							statement->bindValue(parameter . position, itemValue);
+						} else {
+							statement->bindValue(parameter . position, itemValue, type);
+						}
+					}
 				}
 			} else {
-				statement->bindValue(parameter, value);
+				if typeof value != "array" {
+					statement->bindValue(parameter, value);
+				} else {
+					for position, itemValue in value {
+						statement->bindValue(parameter . position, itemValue);
+					}
+				}
 			}
 		}
 

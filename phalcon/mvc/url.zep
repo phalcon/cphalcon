@@ -29,7 +29,7 @@ use Phalcon\Mvc\UrlInterface;
 /**
  * Phalcon\Mvc\Url
  *
- * This components aids in the generation of: URIs, URLs and Paths
+ * This components helps in the generation of: URIs, URLs and Paths
  *
  *<code>
  *
@@ -163,28 +163,20 @@ class Url implements UrlInterface, InjectionAwareInterface
 	 * Generates a URL
 	 *
 	 *<code>
-	 *
 	 * //Generate a URL appending the URI to the base URI
 	 * echo $url->get('products/edit/1');
 	 *
 	 * //Generate a URL for a predefined route
-	 * echo $url->get(array('for' => 'blog-post', 'title' => 'some-cool-stuff', 'year' => '2012'));
-	 *
+	 * echo $url->get(array('for' => 'blog-post', 'title' => 'some-cool-stuff', 'year' => '2015'));
 	 *</code>
-	 *
-	 * @param string|array uri
-	 * @param array|object args Optional arguments to be appended to the query string
-	 * @param bool $local
-	 * @return string
 	 */
-	public function get(var uri = null, args = null, boolean local = null) -> string
+	public function get(var uri = null, var args = null, var local = null, var baseUri = null) -> string
 	{
-		var baseUri, router, dependencyInjector, routeName, route, matched, queryString;
+		var router, dependencyInjector, routeName, route, queryString;
 
 		if local == null {
-			if typeof uri == "string" && strstr(uri, ":") {
-				let matched = preg_match("/^[^:\\/?#]++:/", uri);
-				if matched {
+			if typeof uri == "string" && (memstr(uri, "//") || memstr(uri, ":")) {
+				if preg_match("#^(//)|([a-z0-9]+://)|([a-z0-9]+:)#i", uri) {
 					let local = false;
 				} else {
 					let local = true;
@@ -194,7 +186,9 @@ class Url implements UrlInterface, InjectionAwareInterface
 			}
 		}
 
-		let baseUri = this->getBaseUri();
+		if typeof baseUri != "string" {
+			let baseUri = this->getBaseUri();
+		}
 
 		if typeof uri == "array" {
 
@@ -233,11 +227,7 @@ class Url implements UrlInterface, InjectionAwareInterface
 		}
 
 		if local {
-			if ((substr(baseUri, -1) == "/") && (substr(uri, 0, 1) == "/")) {
-				let uri = baseUri . substr(uri, 1);
-			} else {
-				let uri = baseUri . uri;
-			}
+			let uri = baseUri . uri;			
 		}
 
 		if args {
@@ -257,21 +247,23 @@ class Url implements UrlInterface, InjectionAwareInterface
 	/**
 	 * Generates a URL for a static resource
 	 *
-	 * @param string|array uri
-	 * @return string
+	 *<code>
+	 * // Generate a URL for a static resource
+	 * echo $url->getStatic("img/logo.png");
+	 *
+	 * // Generate a URL for a static predefined route
+	 * echo $url->getStatic(array('for' => 'logo-cdn'));
+	 *</code>
 	 */
-	public function getStatic(uri = null) -> string
+	public function getStatic(var uri = null) -> string
 	{
-		return this->getStaticBaseUri() . uri;
+		return this->get(uri, null, null, this->getStaticBaseUri());
 	}
 
 	/**
 	 * Generates a local path
-	 *
-	 * @param string path
-	 * @return string
 	 */
-	public function path(path = null) -> string
+	public function path(string path = null) -> string
 	{
 		return this->_basePath . path;
 	}

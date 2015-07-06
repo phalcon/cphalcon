@@ -46,7 +46,7 @@ class Identical extends Validator
 	{
 		var message, label, replacePairs;
 
-		if validation->getValue(field) != this->getOption("value") {
+		if validation->getValue(field) != this->getOption("accepted") {
 
 			let label = this->getOption("label");
 			if empty label {

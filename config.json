@@ -10,7 +10,7 @@
     "name": "phalcon",
     "description": "Web framework delivered as a C-extension for PHP",
     "author": "Phalcon Team and contributors",
-    "version": "2.0.3",
+    "version": "2.0.4",
     "verbose": false,
     "optimizer-dirs": [
         "optimizers"
@@ -36,6 +36,10 @@
         "db.escape_identifiers": {
             "type": "bool",
             "default": true
+        },
+        "db.force_casting": {
+            "type": "bool",
+            "default": false
         },
         "orm.parser_cache": {
             "type": "hash",
@@ -78,6 +82,14 @@
             "default": true
         },
         "orm.late_state_binding": {
+            "type": "bool",
+            "default": false
+        },
+        "orm.cast_on_hydrate": {
+            "type": "bool",
+            "default": false
+        },
+        "orm.ignore_unknown_columns": {
             "type": "bool",
             "default": false
         }

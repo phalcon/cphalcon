@@ -582,7 +582,8 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, clear) {
 PHP_METHOD(Phalcon_Mvc_Router_Group, _addRoute) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *pattern_param = NULL, *paths = NULL, *httpMethods = NULL, *mergedPaths = NULL, *route, *defaultPaths, *_0, *_1;
+	zephir_fcall_cache_entry *_0 = NULL;
+	zval *pattern_param = NULL, *paths = NULL, *httpMethods = NULL, *mergedPaths = NULL, *route, *defaultPaths, *processedPaths = NULL, *_1, *_2;
 	zval *pattern = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -610,9 +611,15 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, _addRoute) {
 	ZEPHIR_OBS_VAR(defaultPaths);
 	zephir_read_property_this(&defaultPaths, this_ptr, SL("_paths"), PH_NOISY_CC);
 	if (Z_TYPE_P(defaultPaths) == IS_ARRAY) {
-		if (Z_TYPE_P(paths) == IS_ARRAY) {
+		if (Z_TYPE_P(paths) == IS_STRING) {
+			ZEPHIR_CALL_CE_STATIC(&processedPaths, phalcon_mvc_router_route_ce, "getroutepaths", &_0, 75, paths);
+			zephir_check_call_status();
+		} else {
+			ZEPHIR_CPY_WRT(processedPaths, paths);
+		}
+		if (Z_TYPE_P(processedPaths) == IS_ARRAY) {
 			ZEPHIR_INIT_VAR(mergedPaths);
-			zephir_fast_array_merge(mergedPaths, &(defaultPaths), &(paths) TSRMLS_CC);
+			zephir_fast_array_merge(mergedPaths, &(defaultPaths), &(processedPaths) TSRMLS_CC);
 		} else {
 			ZEPHIR_CPY_WRT(mergedPaths, defaultPaths);
 		}
@@ -621,13 +628,13 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, _addRoute) {
 	}
 	ZEPHIR_INIT_VAR(route);
 	object_init_ex(route, phalcon_mvc_router_route_ce);
-	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_prefix"), PH_NOISY_CC);
-	ZEPHIR_INIT_VAR(_1);
-	ZEPHIR_CONCAT_VV(_1, _0, pattern);
-	ZEPHIR_CALL_METHOD(NULL, route, "__construct", NULL, 354, _1, mergedPaths, httpMethods);
+	_1 = zephir_fetch_nproperty_this(this_ptr, SL("_prefix"), PH_NOISY_CC);
+	ZEPHIR_INIT_VAR(_2);
+	ZEPHIR_CONCAT_VV(_2, _1, pattern);
+	ZEPHIR_CALL_METHOD(NULL, route, "__construct", NULL, 74, _2, mergedPaths, httpMethods);
 	zephir_check_call_status();
 	zephir_update_property_array_append(this_ptr, SL("_routes"), route TSRMLS_CC);
-	ZEPHIR_CALL_METHOD(NULL, route, "setgroup", NULL, 357, this_ptr);
+	ZEPHIR_CALL_METHOD(NULL, route, "setgroup", NULL, 362, this_ptr);
 	zephir_check_call_status();
 	RETURN_CCTOR(route);
 
