@@ -1013,6 +1013,10 @@ integer_or_placeholder(R) ::= SPLACEHOLDER(P) . {
 	R = phql_ret_placeholder_zval(PHQL_T_SPLACEHOLDER, P);
 }
 
+integer_or_placeholder(R) ::= BPLACEHOLDER(P) . {
+	R = phql_ret_placeholder_zval(PHQL_T_BPLACEHOLDER, P);
+}
+
 %destructor expr { zval_ptr_dtor(&$$); }
 
 expr(R) ::= MINUS expr(E) . {

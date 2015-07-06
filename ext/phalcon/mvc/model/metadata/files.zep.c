@@ -128,7 +128,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Files, read) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Files, write) {
 
-	zval *key_param = NULL, *data, *path, *_0, *_1, _2, *_3, *_4, *_5;
+	zval *key_param = NULL, *data, *path, *_0, *_1, _2, *_3, *_4 = NULL, *_5;
 	zval *key = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -156,6 +156,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Files, write) {
 	ZEPHIR_CONCAT_VVS(path, _0, _1, ".php");
 	ZEPHIR_INIT_VAR(_3);
 	ZEPHIR_INIT_VAR(_4);
+	ZEPHIR_INIT_NVAR(_4);
 	zephir_var_export_ex(_4, &(data) TSRMLS_CC);
 	ZEPHIR_INIT_VAR(_5);
 	ZEPHIR_CONCAT_SVS(_5, "<?php return ", _4, "; ");

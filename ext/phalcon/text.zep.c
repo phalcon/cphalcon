@@ -567,8 +567,8 @@ PHP_METHOD(Phalcon_Text, concat) {
 PHP_METHOD(Phalcon_Text, dynamic) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zephir_fcall_cache_entry *_1 = NULL, *_5 = NULL, *_8 = NULL;
-	zval *text_param = NULL, *leftDelimiter_param = NULL, *rightDelimiter_param = NULL, *separator_param = NULL, *_0 = NULL, *_2 = NULL, *_3 = NULL, *ld_s = NULL, *rd_s = NULL, *result = NULL, *pattern, *_6 = NULL, *_7 = NULL;
+	zephir_fcall_cache_entry *_1 = NULL, *_5 = NULL, *_7 = NULL;
+	zval *text_param = NULL, *leftDelimiter_param = NULL, *rightDelimiter_param = NULL, *separator_param = NULL, *ld_s = NULL, *rd_s = NULL, *result = NULL, *pattern, *_0 = NULL, *_2 = NULL, *_3 = NULL, *_6 = NULL;
 	zval *text = NULL, *leftDelimiter = NULL, *rightDelimiter = NULL, *separator = NULL, *_4;
 
 	ZEPHIR_MM_GROW();
@@ -646,7 +646,7 @@ PHP_METHOD(Phalcon_Text, dynamic) {
 		ZEPHIR_CONCAT_SVS(_4, "Syntax error in string \"", text, "\"");
 		ZEPHIR_CALL_METHOD(NULL, _3, "__construct", NULL, 419, _4);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(_3, "phalcon/text.zep", 263 TSRMLS_CC);
+		zephir_throw_exception_debug(_3, "phalcon/text.zep", 265 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -658,17 +658,15 @@ PHP_METHOD(Phalcon_Text, dynamic) {
 	ZEPHIR_CONCAT_SVSVVSVS(pattern, "/", ld_s, "([^", ld_s, rd_s, "]+)", rd_s, "/");
 	ZEPHIR_CPY_WRT(result, text);
 	while (1) {
-		ZEPHIR_INIT_NVAR(_3);
-		zephir_fast_strpos(_3, result, leftDelimiter, 0 );
-		if (!(!ZEPHIR_IS_FALSE_IDENTICAL(_3))) {
+		if (!(zephir_memnstr(result, leftDelimiter, "phalcon/text.zep", 273))) {
 			break;
 		}
-		ZEPHIR_INIT_NVAR(_6);
-		ZEPHIR_INIT_NVAR(_6);
-		zephir_create_closure_ex(_6, NULL, phalcon_0__closure_ce, SS("__invoke") TSRMLS_CC);
-		ZEPHIR_CALL_FUNCTION(&_7, "preg_replace_callback", &_8, 421, pattern, _6, result);
+		ZEPHIR_INIT_NVAR(_3);
+		ZEPHIR_INIT_NVAR(_3);
+		zephir_create_closure_ex(_3, NULL, phalcon_0__closure_ce, SS("__invoke") TSRMLS_CC);
+		ZEPHIR_CALL_FUNCTION(&_6, "preg_replace_callback", &_7, 421, pattern, _3, result);
 		zephir_check_call_status();
-		ZEPHIR_CPY_WRT(result, _7);
+		ZEPHIR_CPY_WRT(result, _6);
 	}
 	RETURN_CCTOR(result);
 
