@@ -248,7 +248,7 @@ abstract class Adapter
 		/**
 		 * Checks if the log is valid respecting the current log level
 		 */
-		if this->_logLevel >= type {
+		if this->_logLevel >= toggledType {
 			let timestamp = time();
 			if this->_transaction {
 				let this->_queue[] = new Item(toggledMessage, toggledType, timestamp, context);
