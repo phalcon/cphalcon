@@ -1,4 +1,4 @@
-# 2.0.4 (2015-??-??)
+# 2.0.4 (2015-07-07)
 - Fixed bug in `Phalcon\Mvc\Model::update()` that throws an exception when the record does exist
 - Now links in `Phalcon\Debug` point to https://api.phalconphp.com instead of http://docs.phalconphp.com
 - Implemented a more versatile way to assign variables in Volt allowing to assign properties and array indexes
