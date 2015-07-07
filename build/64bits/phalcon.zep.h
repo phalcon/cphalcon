@@ -430,7 +430,7 @@ static PHP_METHOD(Phalcon_Mvc_Model_Validator, getMessages);
 static PHP_METHOD(Phalcon_Mvc_Model_Validator, getOptions);
 static PHP_METHOD(Phalcon_Mvc_Model_Validator, getOption);
 static PHP_METHOD(Phalcon_Mvc_Model_Validator, isSetOption);
-static zend_object_value zephir_init_properties(zend_class_entry *class_type TSRMLS_DC);
+static zend_object_value zephir_init_properties_Phalcon_Mvc_Model_Validator(zend_class_entry *class_type TSRMLS_DC);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_validator___construct, 0, 0, 1)
 	ZEND_ARG_ARRAY_INFO(0, options, 0)
@@ -6947,7 +6947,7 @@ static PHP_METHOD(Phalcon_Assets_Collection, setTargetLocal);
 static PHP_METHOD(Phalcon_Assets_Collection, join);
 static PHP_METHOD(Phalcon_Assets_Collection, getRealTargetPath);
 static PHP_METHOD(Phalcon_Assets_Collection, addFilter);
-static zend_object_value zephir_init_properties(zend_class_entry *class_type TSRMLS_DC);
+static zend_object_value zephir_init_properties_Phalcon_Assets_Collection(zend_class_entry *class_type TSRMLS_DC);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_assets_collection_add, 0, 0, 1)
 	ZEND_ARG_OBJ_INFO(0, resource, Phalcon\\Assets\\Resource, 0)
@@ -11401,7 +11401,7 @@ static PHP_METHOD(Phalcon_Http_Response_Headers, send);
 static PHP_METHOD(Phalcon_Http_Response_Headers, reset);
 static PHP_METHOD(Phalcon_Http_Response_Headers, toArray);
 static PHP_METHOD(Phalcon_Http_Response_Headers, __set_state);
-static zend_object_value zephir_init_properties(zend_class_entry *class_type TSRMLS_DC);
+static zend_object_value zephir_init_properties_Phalcon_Http_Response_Headers(zend_class_entry *class_type TSRMLS_DC);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_response_headers_set, 0, 0, 2)
 	ZEND_ARG_INFO(0, name)
@@ -15360,7 +15360,7 @@ zend_class_entry *phalcon_mvc_model_validator_email_ce;
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Validator_Email);
 
 static PHP_METHOD(Phalcon_Mvc_Model_Validator_Email, validate);
-static zend_object_value zephir_init_properties(zend_class_entry *class_type TSRMLS_DC);
+static zend_object_value zephir_init_properties_Phalcon_Mvc_Model_Validator_Email(zend_class_entry *class_type TSRMLS_DC);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_validator_email_validate, 0, 0, 1)
 	ZEND_ARG_OBJ_INFO(0, record, Phalcon\\Mvc\\EntityInterface, 0)
@@ -15376,7 +15376,7 @@ zend_class_entry *phalcon_mvc_model_validator_exclusionin_ce;
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Validator_Exclusionin);
 
 static PHP_METHOD(Phalcon_Mvc_Model_Validator_Exclusionin, validate);
-static zend_object_value zephir_init_properties(zend_class_entry *class_type TSRMLS_DC);
+static zend_object_value zephir_init_properties_Phalcon_Mvc_Model_Validator_Exclusionin(zend_class_entry *class_type TSRMLS_DC);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_validator_exclusionin_validate, 0, 0, 1)
 	ZEND_ARG_OBJ_INFO(0, record, Phalcon\\Mvc\\EntityInterface, 0)
@@ -15392,7 +15392,7 @@ zend_class_entry *phalcon_mvc_model_validator_inclusionin_ce;
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Validator_Inclusionin);
 
 static PHP_METHOD(Phalcon_Mvc_Model_Validator_Inclusionin, validate);
-static zend_object_value zephir_init_properties(zend_class_entry *class_type TSRMLS_DC);
+static zend_object_value zephir_init_properties_Phalcon_Mvc_Model_Validator_Inclusionin(zend_class_entry *class_type TSRMLS_DC);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_validator_inclusionin_validate, 0, 0, 1)
 	ZEND_ARG_OBJ_INFO(0, record, Phalcon\\Mvc\\EntityInterface, 0)
@@ -15408,7 +15408,7 @@ zend_class_entry *phalcon_mvc_model_validator_ip_ce;
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Validator_Ip);
 
 static PHP_METHOD(Phalcon_Mvc_Model_Validator_Ip, validate);
-static zend_object_value zephir_init_properties(zend_class_entry *class_type TSRMLS_DC);
+static zend_object_value zephir_init_properties_Phalcon_Mvc_Model_Validator_Ip(zend_class_entry *class_type TSRMLS_DC);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_validator_ip_validate, 0, 0, 1)
 	ZEND_ARG_OBJ_INFO(0, record, Phalcon\\Mvc\\EntityInterface, 0)
@@ -15424,7 +15424,7 @@ zend_class_entry *phalcon_mvc_model_validator_numericality_ce;
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Validator_Numericality);
 
 static PHP_METHOD(Phalcon_Mvc_Model_Validator_Numericality, validate);
-static zend_object_value zephir_init_properties(zend_class_entry *class_type TSRMLS_DC);
+static zend_object_value zephir_init_properties_Phalcon_Mvc_Model_Validator_Numericality(zend_class_entry *class_type TSRMLS_DC);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_validator_numericality_validate, 0, 0, 1)
 	ZEND_ARG_OBJ_INFO(0, record, Phalcon\\Mvc\\EntityInterface, 0)
@@ -15440,7 +15440,7 @@ zend_class_entry *phalcon_mvc_model_validator_presenceof_ce;
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Validator_PresenceOf);
 
 static PHP_METHOD(Phalcon_Mvc_Model_Validator_PresenceOf, validate);
-static zend_object_value zephir_init_properties(zend_class_entry *class_type TSRMLS_DC);
+static zend_object_value zephir_init_properties_Phalcon_Mvc_Model_Validator_PresenceOf(zend_class_entry *class_type TSRMLS_DC);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_validator_presenceof_validate, 0, 0, 1)
 	ZEND_ARG_OBJ_INFO(0, record, Phalcon\\Mvc\\EntityInterface, 0)
@@ -15456,7 +15456,7 @@ zend_class_entry *phalcon_mvc_model_validator_regex_ce;
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Validator_Regex);
 
 static PHP_METHOD(Phalcon_Mvc_Model_Validator_Regex, validate);
-static zend_object_value zephir_init_properties(zend_class_entry *class_type TSRMLS_DC);
+static zend_object_value zephir_init_properties_Phalcon_Mvc_Model_Validator_Regex(zend_class_entry *class_type TSRMLS_DC);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_validator_regex_validate, 0, 0, 1)
 	ZEND_ARG_OBJ_INFO(0, record, Phalcon\\Mvc\\EntityInterface, 0)
@@ -15472,7 +15472,7 @@ zend_class_entry *phalcon_mvc_model_validator_stringlength_ce;
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Validator_StringLength);
 
 static PHP_METHOD(Phalcon_Mvc_Model_Validator_StringLength, validate);
-static zend_object_value zephir_init_properties(zend_class_entry *class_type TSRMLS_DC);
+static zend_object_value zephir_init_properties_Phalcon_Mvc_Model_Validator_StringLength(zend_class_entry *class_type TSRMLS_DC);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_validator_stringlength_validate, 0, 0, 1)
 	ZEND_ARG_OBJ_INFO(0, record, Phalcon\\Mvc\\EntityInterface, 0)
@@ -15488,7 +15488,7 @@ zend_class_entry *phalcon_mvc_model_validator_uniqueness_ce;
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Validator_Uniqueness);
 
 static PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate);
-static zend_object_value zephir_init_properties(zend_class_entry *class_type TSRMLS_DC);
+static zend_object_value zephir_init_properties_Phalcon_Mvc_Model_Validator_Uniqueness(zend_class_entry *class_type TSRMLS_DC);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_validator_uniqueness_validate, 0, 0, 1)
 	ZEND_ARG_OBJ_INFO(0, record, Phalcon\\Mvc\\EntityInterface, 0)
@@ -15504,7 +15504,7 @@ zend_class_entry *phalcon_mvc_model_validator_url_ce;
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Validator_Url);
 
 static PHP_METHOD(Phalcon_Mvc_Model_Validator_Url, validate);
-static zend_object_value zephir_init_properties(zend_class_entry *class_type TSRMLS_DC);
+static zend_object_value zephir_init_properties_Phalcon_Mvc_Model_Validator_Url(zend_class_entry *class_type TSRMLS_DC);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_validator_url_validate, 0, 0, 1)
 	ZEND_ARG_OBJ_INFO(0, record, Phalcon\\Mvc\\EntityInterface, 0)
@@ -17650,7 +17650,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Translate_Adapter_Csv);
 static PHP_METHOD(Phalcon_Translate_Adapter_Csv, __construct);
 static PHP_METHOD(Phalcon_Translate_Adapter_Csv, query);
 static PHP_METHOD(Phalcon_Translate_Adapter_Csv, exists);
-static zend_object_value zephir_init_properties(zend_class_entry *class_type TSRMLS_DC);
+static zend_object_value zephir_init_properties_Phalcon_Translate_Adapter_Csv(zend_class_entry *class_type TSRMLS_DC);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_translate_adapter_csv___construct, 0, 0, 1)
 	ZEND_ARG_ARRAY_INFO(0, options, 0)

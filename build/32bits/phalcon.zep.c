@@ -32534,6 +32534,7 @@ static PHP_METHOD(Phalcon_Annotations_Adapter_Xcache, write) {
 #include <Zend/zend_interfaces.h>
 
 
+
 ZEPHIR_INIT_CLASS(Phalcon_Assets_Collection) {
 
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Assets, Collection, phalcon, assets_collection, phalcon_assets_collection_method_entry, 0);
@@ -32562,7 +32563,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Assets_Collection) {
 
 	zend_declare_property_null(phalcon_assets_collection_ce, SL("_sourcePath"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
-	phalcon_assets_collection_ce->create_object = zephir_init_properties;
+	phalcon_assets_collection_ce->create_object = zephir_init_properties_Phalcon_Assets_Collection;
 
 	zend_class_implements(phalcon_assets_collection_ce TSRMLS_CC, 1, spl_ce_Countable);
 	zend_class_implements(phalcon_assets_collection_ce TSRMLS_CC, 1, zend_ce_iterator);
@@ -33171,7 +33172,7 @@ static PHP_METHOD(Phalcon_Assets_Collection, addFilter) {
 
 }
 
-static zend_object_value zephir_init_properties(zend_class_entry *class_type TSRMLS_DC) {
+static zend_object_value zephir_init_properties_Phalcon_Assets_Collection(zend_class_entry *class_type TSRMLS_DC) {
 
 		zval *_0, *_1 = NULL, *_2, *_3, *_4;
 
@@ -38843,8 +38844,10 @@ static PHP_METHOD(Phalcon_Cache_Backend_Redis, _connect) {
 	zephir_read_property_this(&options, this_ptr, SL("_options"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(redis);
 	object_init_ex(redis, zephir_get_internal_ce(SS("redis") TSRMLS_CC));
-	ZEPHIR_CALL_METHOD(NULL, redis, "__construct", NULL, 0);
-	zephir_check_call_status();
+	if (zephir_has_constructor(redis TSRMLS_CC)) {
+		ZEPHIR_CALL_METHOD(NULL, redis, "__construct", NULL, 0);
+		zephir_check_call_status();
+	}
 	ZEPHIR_OBS_VAR(host);
 	_0 = !(zephir_array_isset_string_fetch(&host, options, SS("host"), 0 TSRMLS_CC));
 	if (!(_0)) {
@@ -66234,13 +66237,14 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Response_Exception) {
 #include <Zend/zend_interfaces.h>
 
 
+
 ZEPHIR_INIT_CLASS(Phalcon_Http_Response_Headers) {
 
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Http\\Response, Headers, phalcon, http_response_headers, phalcon_http_response_headers_method_entry, 0);
 
 	zend_declare_property_null(phalcon_http_response_headers_ce, SL("_headers"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
-	phalcon_http_response_headers_ce->create_object = zephir_init_properties;
+	phalcon_http_response_headers_ce->create_object = zephir_init_properties_Phalcon_Http_Response_Headers;
 
 	zend_class_implements(phalcon_http_response_headers_ce TSRMLS_CC, 1, phalcon_http_response_headersinterface_ce);
 	return SUCCESS;
@@ -66402,7 +66406,7 @@ static PHP_METHOD(Phalcon_Http_Response_Headers, __set_state) {
 
 }
 
-static zend_object_value zephir_init_properties(zend_class_entry *class_type TSRMLS_DC) {
+static zend_object_value zephir_init_properties_Phalcon_Http_Response_Headers(zend_class_entry *class_type TSRMLS_DC) {
 
 		zval *_0, *_1;
 
@@ -97119,6 +97123,7 @@ static PHP_METHOD(Phalcon_Mvc_Model_ValidationFailed, getMessages) {
 #include <Zend/zend_interfaces.h>
 
 
+
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Validator) {
 
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Mvc\\Model, Validator, phalcon, mvc_model_validator, phalcon_mvc_model_validator_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
@@ -97127,7 +97132,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Validator) {
 
 	zend_declare_property_null(phalcon_mvc_model_validator_ce, SL("_messages"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
-	phalcon_mvc_model_validator_ce->create_object = zephir_init_properties;
+	phalcon_mvc_model_validator_ce->create_object = zephir_init_properties_Phalcon_Mvc_Model_Validator;
 	return SUCCESS;
 
 }
@@ -97270,7 +97275,7 @@ static PHP_METHOD(Phalcon_Mvc_Model_Validator, isSetOption) {
 
 }
 
-static zend_object_value zephir_init_properties(zend_class_entry *class_type TSRMLS_DC) {
+static zend_object_value zephir_init_properties_Phalcon_Mvc_Model_Validator(zend_class_entry *class_type TSRMLS_DC) {
 
 		zval *_0, *_1;
 
@@ -111264,7 +111269,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Validator_Email) {
 
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Mvc\\Model\\Validator, Email, phalcon, mvc_model_validator_email, phalcon_mvc_model_validator_ce, phalcon_mvc_model_validator_email_method_entry, 0);
 
-	phalcon_mvc_model_validator_email_ce->create_object = zephir_init_properties;
+	phalcon_mvc_model_validator_email_ce->create_object = zephir_init_properties_Phalcon_Mvc_Model_Validator_Email;
 
 	zend_class_implements(phalcon_mvc_model_validator_email_ce TSRMLS_CC, 1, phalcon_mvc_model_validatorinterface_ce);
 	return SUCCESS;
@@ -111336,7 +111341,7 @@ static PHP_METHOD(Phalcon_Mvc_Model_Validator_Email, validate) {
 
 }
 
-static zend_object_value zephir_init_properties(zend_class_entry *class_type TSRMLS_DC) {
+static zend_object_value zephir_init_properties_Phalcon_Mvc_Model_Validator_Email(zend_class_entry *class_type TSRMLS_DC) {
 
 		zval *_0, *_1;
 
@@ -111375,7 +111380,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Validator_Exclusionin) {
 
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Mvc\\Model\\Validator, Exclusionin, phalcon, mvc_model_validator_exclusionin, phalcon_mvc_model_validator_ce, phalcon_mvc_model_validator_exclusionin_method_entry, 0);
 
-	phalcon_mvc_model_validator_exclusionin_ce->create_object = zephir_init_properties;
+	phalcon_mvc_model_validator_exclusionin_ce->create_object = zephir_init_properties_Phalcon_Mvc_Model_Validator_Exclusionin;
 
 	zend_class_implements(phalcon_mvc_model_validator_exclusionin_ce TSRMLS_CC, 1, phalcon_mvc_model_validatorinterface_ce);
 	return SUCCESS;
@@ -111464,7 +111469,7 @@ static PHP_METHOD(Phalcon_Mvc_Model_Validator_Exclusionin, validate) {
 
 }
 
-static zend_object_value zephir_init_properties(zend_class_entry *class_type TSRMLS_DC) {
+static zend_object_value zephir_init_properties_Phalcon_Mvc_Model_Validator_Exclusionin(zend_class_entry *class_type TSRMLS_DC) {
 
 		zval *_0, *_1;
 
@@ -111503,7 +111508,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Validator_Inclusionin) {
 
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Mvc\\Model\\Validator, Inclusionin, phalcon, mvc_model_validator_inclusionin, phalcon_mvc_model_validator_ce, phalcon_mvc_model_validator_inclusionin_method_entry, 0);
 
-	phalcon_mvc_model_validator_inclusionin_ce->create_object = zephir_init_properties;
+	phalcon_mvc_model_validator_inclusionin_ce->create_object = zephir_init_properties_Phalcon_Mvc_Model_Validator_Inclusionin;
 
 	zend_class_implements(phalcon_mvc_model_validator_inclusionin_ce TSRMLS_CC, 1, phalcon_mvc_model_validatorinterface_ce);
 	return SUCCESS;
@@ -111612,7 +111617,7 @@ static PHP_METHOD(Phalcon_Mvc_Model_Validator_Inclusionin, validate) {
 
 }
 
-static zend_object_value zephir_init_properties(zend_class_entry *class_type TSRMLS_DC) {
+static zend_object_value zephir_init_properties_Phalcon_Mvc_Model_Validator_Inclusionin(zend_class_entry *class_type TSRMLS_DC) {
 
 		zval *_0, *_1;
 
@@ -111651,7 +111656,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Validator_Ip) {
 
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Mvc\\Model\\Validator, Ip, phalcon, mvc_model_validator_ip, phalcon_mvc_model_validator_ce, phalcon_mvc_model_validator_ip_method_entry, 0);
 
-	phalcon_mvc_model_validator_ip_ce->create_object = zephir_init_properties;
+	phalcon_mvc_model_validator_ip_ce->create_object = zephir_init_properties_Phalcon_Mvc_Model_Validator_Ip;
 	zend_declare_class_constant_long(phalcon_mvc_model_validator_ip_ce, SL("VERSION_4"), 1048576 TSRMLS_CC);
 
 	zend_declare_class_constant_long(phalcon_mvc_model_validator_ip_ce, SL("VERSION_6"), 2097152 TSRMLS_CC);
@@ -111754,7 +111759,7 @@ static PHP_METHOD(Phalcon_Mvc_Model_Validator_Ip, validate) {
 
 }
 
-static zend_object_value zephir_init_properties(zend_class_entry *class_type TSRMLS_DC) {
+static zend_object_value zephir_init_properties_Phalcon_Mvc_Model_Validator_Ip(zend_class_entry *class_type TSRMLS_DC) {
 
 		zval *_0, *_1;
 
@@ -111793,7 +111798,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Validator_Numericality) {
 
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Mvc\\Model\\Validator, Numericality, phalcon, mvc_model_validator_numericality, phalcon_mvc_model_validator_ce, phalcon_mvc_model_validator_numericality_method_entry, 0);
 
-	phalcon_mvc_model_validator_numericality_ce->create_object = zephir_init_properties;
+	phalcon_mvc_model_validator_numericality_ce->create_object = zephir_init_properties_Phalcon_Mvc_Model_Validator_Numericality;
 
 	zend_class_implements(phalcon_mvc_model_validator_numericality_ce TSRMLS_CC, 1, phalcon_mvc_model_validatorinterface_ce);
 	return SUCCESS;
@@ -111861,7 +111866,7 @@ static PHP_METHOD(Phalcon_Mvc_Model_Validator_Numericality, validate) {
 
 }
 
-static zend_object_value zephir_init_properties(zend_class_entry *class_type TSRMLS_DC) {
+static zend_object_value zephir_init_properties_Phalcon_Mvc_Model_Validator_Numericality(zend_class_entry *class_type TSRMLS_DC) {
 
 		zval *_0, *_1;
 
@@ -111900,7 +111905,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Validator_PresenceOf) {
 
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Mvc\\Model\\Validator, PresenceOf, phalcon, mvc_model_validator_presenceof, phalcon_mvc_model_validator_ce, phalcon_mvc_model_validator_presenceof_method_entry, 0);
 
-	phalcon_mvc_model_validator_presenceof_ce->create_object = zephir_init_properties;
+	phalcon_mvc_model_validator_presenceof_ce->create_object = zephir_init_properties_Phalcon_Mvc_Model_Validator_PresenceOf;
 
 	zend_class_implements(phalcon_mvc_model_validator_presenceof_ce TSRMLS_CC, 1, phalcon_mvc_model_validatorinterface_ce);
 	return SUCCESS;
@@ -111964,7 +111969,7 @@ static PHP_METHOD(Phalcon_Mvc_Model_Validator_PresenceOf, validate) {
 
 }
 
-static zend_object_value zephir_init_properties(zend_class_entry *class_type TSRMLS_DC) {
+static zend_object_value zephir_init_properties_Phalcon_Mvc_Model_Validator_PresenceOf(zend_class_entry *class_type TSRMLS_DC) {
 
 		zval *_0, *_1;
 
@@ -112003,7 +112008,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Validator_Regex) {
 
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Mvc\\Model\\Validator, Regex, phalcon, mvc_model_validator_regex, phalcon_mvc_model_validator_ce, phalcon_mvc_model_validator_regex_method_entry, 0);
 
-	phalcon_mvc_model_validator_regex_ce->create_object = zephir_init_properties;
+	phalcon_mvc_model_validator_regex_ce->create_object = zephir_init_properties_Phalcon_Mvc_Model_Validator_Regex;
 
 	zend_class_implements(phalcon_mvc_model_validator_regex_ce TSRMLS_CC, 1, phalcon_mvc_model_validatorinterface_ce);
 	return SUCCESS;
@@ -112096,7 +112101,7 @@ static PHP_METHOD(Phalcon_Mvc_Model_Validator_Regex, validate) {
 
 }
 
-static zend_object_value zephir_init_properties(zend_class_entry *class_type TSRMLS_DC) {
+static zend_object_value zephir_init_properties_Phalcon_Mvc_Model_Validator_Regex(zend_class_entry *class_type TSRMLS_DC) {
 
 		zval *_0, *_1;
 
@@ -112135,7 +112140,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Validator_StringLength) {
 
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Mvc\\Model\\Validator, StringLength, phalcon, mvc_model_validator_stringlength, phalcon_mvc_model_validator_ce, phalcon_mvc_model_validator_stringlength_method_entry, 0);
 
-	phalcon_mvc_model_validator_stringlength_ce->create_object = zephir_init_properties;
+	phalcon_mvc_model_validator_stringlength_ce->create_object = zephir_init_properties_Phalcon_Mvc_Model_Validator_StringLength;
 
 	zend_class_implements(phalcon_mvc_model_validator_stringlength_ce TSRMLS_CC, 1, phalcon_mvc_model_validatorinterface_ce);
 	return SUCCESS;
@@ -112267,7 +112272,7 @@ static PHP_METHOD(Phalcon_Mvc_Model_Validator_StringLength, validate) {
 
 }
 
-static zend_object_value zephir_init_properties(zend_class_entry *class_type TSRMLS_DC) {
+static zend_object_value zephir_init_properties_Phalcon_Mvc_Model_Validator_StringLength(zend_class_entry *class_type TSRMLS_DC) {
 
 		zval *_0, *_1;
 
@@ -112306,7 +112311,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Validator_Uniqueness) {
 
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Mvc\\Model\\Validator, Uniqueness, phalcon, mvc_model_validator_uniqueness, phalcon_mvc_model_validator_ce, phalcon_mvc_model_validator_uniqueness_method_entry, 0);
 
-	phalcon_mvc_model_validator_uniqueness_ce->create_object = zephir_init_properties;
+	phalcon_mvc_model_validator_uniqueness_ce->create_object = zephir_init_properties_Phalcon_Mvc_Model_Validator_Uniqueness;
 
 	zend_class_implements(phalcon_mvc_model_validator_uniqueness_ce TSRMLS_CC, 1, phalcon_mvc_model_validatorinterface_ce);
 	return SUCCESS;
@@ -112547,7 +112552,7 @@ static PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate) {
 
 }
 
-static zend_object_value zephir_init_properties(zend_class_entry *class_type TSRMLS_DC) {
+static zend_object_value zephir_init_properties_Phalcon_Mvc_Model_Validator_Uniqueness(zend_class_entry *class_type TSRMLS_DC) {
 
 		zval *_0, *_1;
 
@@ -112586,7 +112591,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Validator_Url) {
 
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Mvc\\Model\\Validator, Url, phalcon, mvc_model_validator_url, phalcon_mvc_model_validator_ce, phalcon_mvc_model_validator_url_method_entry, 0);
 
-	phalcon_mvc_model_validator_url_ce->create_object = zephir_init_properties;
+	phalcon_mvc_model_validator_url_ce->create_object = zephir_init_properties_Phalcon_Mvc_Model_Validator_Url;
 
 	zend_class_implements(phalcon_mvc_model_validator_url_ce TSRMLS_CC, 1, phalcon_mvc_model_validatorinterface_ce);
 	return SUCCESS;
@@ -112658,7 +112663,7 @@ static PHP_METHOD(Phalcon_Mvc_Model_Validator_Url, validate) {
 
 }
 
-static zend_object_value zephir_init_properties(zend_class_entry *class_type TSRMLS_DC) {
+static zend_object_value zephir_init_properties_Phalcon_Mvc_Model_Validator_Url(zend_class_entry *class_type TSRMLS_DC) {
 
 		zval *_0, *_1;
 
@@ -132405,13 +132410,14 @@ ZEPHIR_INIT_CLASS(Phalcon_Translate_Exception) {
 #include <Zend/zend_interfaces.h>
 
 
+
 ZEPHIR_INIT_CLASS(Phalcon_Translate_Adapter_Csv) {
 
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Translate\\Adapter, Csv, phalcon, translate_adapter_csv, phalcon_translate_adapter_ce, phalcon_translate_adapter_csv_method_entry, 0);
 
 	zend_declare_property_null(phalcon_translate_adapter_csv_ce, SL("_translate"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
-	phalcon_translate_adapter_csv_ce->create_object = zephir_init_properties;
+	phalcon_translate_adapter_csv_ce->create_object = zephir_init_properties_Phalcon_Translate_Adapter_Csv;
 
 	zend_class_implements(phalcon_translate_adapter_csv_ce TSRMLS_CC, 1, phalcon_translate_adapterinterface_ce);
 	zend_class_implements(phalcon_translate_adapter_csv_ce TSRMLS_CC, 1, zend_ce_arrayaccess);
@@ -132558,7 +132564,7 @@ static PHP_METHOD(Phalcon_Translate_Adapter_Csv, exists) {
 
 }
 
-static zend_object_value zephir_init_properties(zend_class_entry *class_type TSRMLS_DC) {
+static zend_object_value zephir_init_properties_Phalcon_Translate_Adapter_Csv(zend_class_entry *class_type TSRMLS_DC) {
 
 		zval *_0, *_1;
 

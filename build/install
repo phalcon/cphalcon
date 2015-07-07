@@ -52,8 +52,7 @@ else
 fi
 
 #Move to specified architecture
-#cd $DIR
-cd "../ext"
+cd $DIR
 
 #Clean current compilation
 if [ -f Makefile ]; then
