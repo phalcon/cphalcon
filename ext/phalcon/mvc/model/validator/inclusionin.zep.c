@@ -50,7 +50,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Validator_Inclusionin) {
 
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Mvc\\Model\\Validator, Inclusionin, phalcon, mvc_model_validator_inclusionin, phalcon_mvc_model_validator_ce, phalcon_mvc_model_validator_inclusionin_method_entry, 0);
 
-	phalcon_mvc_model_validator_inclusionin_ce->create_object = zephir_init_properties;
+	phalcon_mvc_model_validator_inclusionin_ce->create_object = zephir_init_properties_Phalcon_Mvc_Model_Validator_Inclusionin;
 
 	zend_class_implements(phalcon_mvc_model_validator_inclusionin_ce TSRMLS_CC, 1, phalcon_mvc_model_validatorinterface_ce);
 	return SUCCESS;
@@ -162,7 +162,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Inclusionin, validate) {
 
 }
 
-static zend_object_value zephir_init_properties(zend_class_entry *class_type TSRMLS_DC) {
+static zend_object_value zephir_init_properties_Phalcon_Mvc_Model_Validator_Inclusionin(zend_class_entry *class_type TSRMLS_DC) {
 
 		zval *_0, *_1;
 

@@ -22,13 +22,19 @@
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/exception.h"
 
+
+/**
+ * Phalcon\Http\Response\Headers
+ *
+ * This class is a bag to manage the response headers
+ */
 ZEPHIR_INIT_CLASS(Phalcon_Http_Response_Headers) {
 
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Http\\Response, Headers, phalcon, http_response_headers, phalcon_http_response_headers_method_entry, 0);
 
 	zend_declare_property_null(phalcon_http_response_headers_ce, SL("_headers"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
-	phalcon_http_response_headers_ce->create_object = zephir_init_properties;
+	phalcon_http_response_headers_ce->create_object = zephir_init_properties_Phalcon_Http_Response_Headers;
 
 	zend_class_implements(phalcon_http_response_headers_ce TSRMLS_CC, 1, phalcon_http_response_headersinterface_ce);
 	return SUCCESS;
@@ -224,7 +230,7 @@ PHP_METHOD(Phalcon_Http_Response_Headers, __set_state) {
 
 }
 
-static zend_object_value zephir_init_properties(zend_class_entry *class_type TSRMLS_DC) {
+static zend_object_value zephir_init_properties_Phalcon_Http_Response_Headers(zend_class_entry *class_type TSRMLS_DC) {
 
 		zval *_0, *_1;
 

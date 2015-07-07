@@ -69,7 +69,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Validator_Ip) {
 
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Mvc\\Model\\Validator, Ip, phalcon, mvc_model_validator_ip, phalcon_mvc_model_validator_ce, phalcon_mvc_model_validator_ip_method_entry, 0);
 
-	phalcon_mvc_model_validator_ip_ce->create_object = zephir_init_properties;
+	phalcon_mvc_model_validator_ip_ce->create_object = zephir_init_properties_Phalcon_Mvc_Model_Validator_Ip;
 	zend_declare_class_constant_long(phalcon_mvc_model_validator_ip_ce, SL("VERSION_4"), 1048576 TSRMLS_CC);
 
 	zend_declare_class_constant_long(phalcon_mvc_model_validator_ip_ce, SL("VERSION_6"), 2097152 TSRMLS_CC);
@@ -175,7 +175,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Ip, validate) {
 
 }
 
-static zend_object_value zephir_init_properties(zend_class_entry *class_type TSRMLS_DC) {
+static zend_object_value zephir_init_properties_Phalcon_Mvc_Model_Validator_Ip(zend_class_entry *class_type TSRMLS_DC) {
 
 		zval *_0, *_1;
 
