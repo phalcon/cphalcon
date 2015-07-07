@@ -23,6 +23,12 @@
 #include "kernel/concat.h"
 #include "kernel/file.h"
 
+
+/**
+ * Phalcon\Assets\Collection
+ *
+ * Represents a collection of resources
+ */
 ZEPHIR_INIT_CLASS(Phalcon_Assets_Collection) {
 
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Assets, Collection, phalcon, assets_collection, phalcon_assets_collection_method_entry, 0);
@@ -51,7 +57,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Assets_Collection) {
 
 	zend_declare_property_null(phalcon_assets_collection_ce, SL("_sourcePath"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
-	phalcon_assets_collection_ce->create_object = zephir_init_properties;
+	phalcon_assets_collection_ce->create_object = zephir_init_properties_Phalcon_Assets_Collection;
 
 	zend_class_implements(phalcon_assets_collection_ce TSRMLS_CC, 1, spl_ce_Countable);
 	zend_class_implements(phalcon_assets_collection_ce TSRMLS_CC, 1, zend_ce_iterator);
@@ -737,7 +743,7 @@ PHP_METHOD(Phalcon_Assets_Collection, addFilter) {
 
 }
 
-static zend_object_value zephir_init_properties(zend_class_entry *class_type TSRMLS_DC) {
+static zend_object_value zephir_init_properties_Phalcon_Assets_Collection(zend_class_entry *class_type TSRMLS_DC) {
 
 		zval *_0, *_1 = NULL, *_2, *_3, *_4;
 

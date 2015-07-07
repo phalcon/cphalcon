@@ -21,6 +21,12 @@
 #include "kernel/fcall.h"
 #include "kernel/array.h"
 
+
+/**
+ * Phalcon\Mvc\Model\Validator
+ *
+ * This is a base class for Phalcon\Mvc\Model validators
+ */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Validator) {
 
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Mvc\\Model, Validator, phalcon, mvc_model_validator, phalcon_mvc_model_validator_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
@@ -29,7 +35,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Validator) {
 
 	zend_declare_property_null(phalcon_mvc_model_validator_ce, SL("_messages"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
-	phalcon_mvc_model_validator_ce->create_object = zephir_init_properties;
+	phalcon_mvc_model_validator_ce->create_object = zephir_init_properties_Phalcon_Mvc_Model_Validator;
 	return SUCCESS;
 
 }
@@ -196,7 +202,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator, isSetOption) {
 
 }
 
-static zend_object_value zephir_init_properties(zend_class_entry *class_type TSRMLS_DC) {
+static zend_object_value zephir_init_properties_Phalcon_Mvc_Model_Validator(zend_class_entry *class_type TSRMLS_DC) {
 
 		zval *_0, *_1;
 

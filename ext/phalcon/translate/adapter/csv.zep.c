@@ -23,13 +23,19 @@
 #include "kernel/file.h"
 #include "ext/spl/spl_exceptions.h"
 
+
+/**
+ * Phalcon\Translate\Adapter\Csv
+ *
+ * Allows to define translation lists using CSV file
+ */
 ZEPHIR_INIT_CLASS(Phalcon_Translate_Adapter_Csv) {
 
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Translate\\Adapter, Csv, phalcon, translate_adapter_csv, phalcon_translate_adapter_ce, phalcon_translate_adapter_csv_method_entry, 0);
 
 	zend_declare_property_null(phalcon_translate_adapter_csv_ce, SL("_translate"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
-	phalcon_translate_adapter_csv_ce->create_object = zephir_init_properties;
+	phalcon_translate_adapter_csv_ce->create_object = zephir_init_properties_Phalcon_Translate_Adapter_Csv;
 
 	zend_class_implements(phalcon_translate_adapter_csv_ce TSRMLS_CC, 1, phalcon_translate_adapterinterface_ce);
 	zend_class_implements(phalcon_translate_adapter_csv_ce TSRMLS_CC, 1, zend_ce_arrayaccess);
@@ -185,7 +191,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_Csv, exists) {
 
 }
 
-static zend_object_value zephir_init_properties(zend_class_entry *class_type TSRMLS_DC) {
+static zend_object_value zephir_init_properties_Phalcon_Translate_Adapter_Csv(zend_class_entry *class_type TSRMLS_DC) {
 
 		zval *_0, *_1;
 
