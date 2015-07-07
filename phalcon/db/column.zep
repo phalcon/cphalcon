@@ -97,7 +97,6 @@ class Column implements ColumnInterface
 	 *
 	 */
 	const TYPE_DOUBLE = 9;
-<<<<<<< HEAD
 
 	/**
 	 * Tinyblob abstract data type
@@ -134,10 +133,6 @@ class Column implements ColumnInterface
 	 */
 	const TYPE_JSONB = 16;
 
-=======
-	
-	
->>>>>>> master
 	/**
 	 * Bind Type Null
 	 */
@@ -329,7 +324,6 @@ class Column implements ColumnInterface
 		 * Check if the column has a decimal scale
 		 */
 		if fetch scale, definition["scale"] {
-<<<<<<< HEAD
 			switch type {
 
 				case self::TYPE_INTEGER:
@@ -342,12 +336,6 @@ class Column implements ColumnInterface
 
 				default:
 					throw new Exception("Column type does not support scale parameter");
-=======
-			if type == self::TYPE_INTEGER || type == self::TYPE_FLOAT || type == self::TYPE_DECIMAL || type == self::TYPE_DOUBLE {
-				let this->_scale = scale;
-			} else {
-				throw new Exception("Column type does not support scale parameter");
->>>>>>> master
 			}
 		}
 
