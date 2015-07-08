@@ -718,7 +718,7 @@ PHP_METHOD(Phalcon_Db_Dialect, select) {
 		_14 = zephir_is_true(forUpdate);
 	}
 	if (_14) {
-		zephir_concat_self_str(&sql, SL("FOR UPDATE") TSRMLS_CC);
+		zephir_concat_self_str(&sql, SL(" FOR UPDATE") TSRMLS_CC);
 	}
 	RETURN_CCTOR(sql);
 

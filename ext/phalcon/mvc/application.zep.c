@@ -277,8 +277,8 @@ PHP_METHOD(Phalcon_Mvc_Application, handle) {
 
 	zval *_6;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zend_bool returnedResponse, renderStatus, _3;
-	zval *uri = NULL, *dependencyInjector, *eventsManager = NULL, *router = NULL, *dispatcher = NULL, *response = NULL, *view = NULL, *module = NULL, *moduleObject = NULL, *moduleName = NULL, *className = NULL, *path, *implicitView, *controller = NULL, *possibleResponse = NULL, *_0, *_1 = NULL, *_2 = NULL, *_4, *_5 = NULL, *_7 = NULL, *_8 = NULL, *_9 = NULL, *_10 = NULL;
+	zend_bool returnedResponse, _3;
+	zval *uri = NULL, *dependencyInjector, *eventsManager = NULL, *router = NULL, *dispatcher = NULL, *response = NULL, *view = NULL, *module = NULL, *moduleObject = NULL, *moduleName = NULL, *className = NULL, *path, *implicitView, *controller = NULL, *possibleResponse = NULL, *renderStatus = NULL, *_0, *_1 = NULL, *_2 = NULL, *_4, *_5 = NULL, *_7 = NULL, *_8 = NULL, *_9 = NULL, *_10 = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &uri);
@@ -291,7 +291,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle) {
 	ZEPHIR_OBS_VAR(dependencyInjector);
 	zephir_read_property_this(&dependencyInjector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	if (Z_TYPE_P(dependencyInjector) != IS_OBJECT) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_application_exception_ce, "A dependency injection object is required to access internal services", "phalcon/mvc/application.zep", 197);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_application_exception_ce, "A dependency injection object is required to access internal services", "phalcon/mvc/application.zep", 196);
 		return;
 	}
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_eventsManager"), PH_NOISY_CC);
@@ -340,7 +340,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle) {
 			_3 = Z_TYPE_P(module) != IS_OBJECT;
 		}
 		if (_3) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_application_exception_ce, "Invalid module definition", "phalcon/mvc/application.zep", 248);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_application_exception_ce, "Invalid module definition", "phalcon/mvc/application.zep", 247);
 			return;
 		}
 		if (Z_TYPE_P(module) == IS_ARRAY) {
@@ -363,7 +363,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle) {
 						ZEPHIR_CONCAT_SVS(_4, "Module definition path '", path, "' doesn't exist");
 						ZEPHIR_CALL_METHOD(NULL, _2, "__construct", NULL, 9, _4);
 						zephir_check_call_status();
-						zephir_throw_exception_debug(_2, "phalcon/mvc/application.zep", 271 TSRMLS_CC);
+						zephir_throw_exception_debug(_2, "phalcon/mvc/application.zep", 270 TSRMLS_CC);
 						ZEPHIR_MM_RESTORE();
 						return;
 					}
@@ -385,7 +385,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle) {
 				ZEPHIR_CALL_USER_FUNC_ARRAY(moduleObject, module, _6);
 				zephir_check_call_status();
 			} else {
-				ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_application_exception_ce, "Invalid module definition", "phalcon/mvc/application.zep", 292);
+				ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_application_exception_ce, "Invalid module definition", "phalcon/mvc/application.zep", 291);
 				return;
 			}
 		}
@@ -478,16 +478,16 @@ PHP_METHOD(Phalcon_Mvc_Application, handle) {
 		if (returnedResponse == 0) {
 			if (ZEPHIR_IS_TRUE_IDENTICAL(implicitView)) {
 				if (Z_TYPE_P(controller) == IS_OBJECT) {
-					renderStatus = 1;
+					ZEPHIR_INIT_VAR(renderStatus);
+					ZVAL_BOOL(renderStatus, 1);
 					if (Z_TYPE_P(eventsManager) == IS_OBJECT) {
 						ZEPHIR_INIT_NVAR(_2);
 						ZVAL_STRING(_2, "application:viewRender", ZEPHIR_TEMP_PARAM_COPY);
-						ZEPHIR_CALL_METHOD(&_1, eventsManager, "fire", NULL, 0, _2, this_ptr, view);
+						ZEPHIR_CALL_METHOD(&renderStatus, eventsManager, "fire", NULL, 0, _2, this_ptr, view);
 						zephir_check_temp_parameter(_2);
 						zephir_check_call_status();
-						renderStatus = zephir_get_boolval(_1);
 					}
-					if (renderStatus != 0) {
+					if (!ZEPHIR_IS_FALSE_IDENTICAL(renderStatus)) {
 						ZEPHIR_CALL_METHOD(&_1, dispatcher, "getcontrollername", NULL, 0);
 						zephir_check_call_status();
 						ZEPHIR_CALL_METHOD(&_5, dispatcher, "getactionname", NULL, 0);
