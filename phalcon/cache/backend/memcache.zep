@@ -455,7 +455,7 @@ class Memcache extends Backend implements BackendInterface
 		 */
 		let keys = memcache->get(specialKey);
 		if typeof keys == "array" {
-			for key in keys {
+			for key, _ in keys {
 				memcache->delete(key);
 			}
 			memcache->set(specialKey, keys);
