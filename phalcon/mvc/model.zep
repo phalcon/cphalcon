@@ -56,7 +56,7 @@ use Phalcon\Events\ManagerInterface as EventsManagerInterface;
  * In most cases, each table in your database will correspond to one model in your application.
  * The bulk of your application's business logic will be concentrated in the models.
  *
- * Phalcon\Mvc\Model is the first ORM written in C-language for PHP, giving to developers high performance
+ * Phalcon\Mvc\Model is the first ORM written in Zephir/C languages for PHP, giving to developers high performance
  * when interacting with databases while is also easy to use.
  *
  * <code>

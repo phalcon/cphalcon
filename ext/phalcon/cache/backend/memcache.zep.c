@@ -607,11 +607,11 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, decrement) {
  */
 PHP_METHOD(Phalcon_Cache_Backend_Memcache, flush) {
 
-	zephir_fcall_cache_entry *_3 = NULL;
-	HashTable *_1;
-	HashPosition _0;
+	zephir_fcall_cache_entry *_4 = NULL;
+	HashTable *_2;
+	HashPosition _1;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *memcache = NULL, *options, *keys = NULL, *specialKey, *key = NULL, **_2;
+	zval *memcache = NULL, *options, *keys = NULL, *specialKey, *key = NULL, *_0 = NULL, **_3;
 
 	ZEPHIR_MM_GROW();
 
@@ -633,13 +633,15 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, flush) {
 	ZEPHIR_CALL_METHOD(&keys, memcache, "get", NULL, 0, specialKey);
 	zephir_check_call_status();
 	if (Z_TYPE_P(keys) == IS_ARRAY) {
-		zephir_is_iterable(keys, &_1, &_0, 0, 0, "phalcon/cache/backend/memcache.zep", 461);
+		ZEPHIR_INIT_VAR(_0);
+		zephir_is_iterable(keys, &_2, &_1, 0, 0, "phalcon/cache/backend/memcache.zep", 461);
 		for (
-		  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
-		  ; zephir_hash_move_forward_ex(_1, &_0)
+		  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
+		  ; zephir_hash_move_forward_ex(_2, &_1)
 		) {
-			ZEPHIR_GET_HVALUE(key, _2);
-			ZEPHIR_CALL_METHOD(NULL, memcache, "delete", &_3, 0, key);
+			ZEPHIR_GET_HMKEY(key, _2, _1);
+			ZEPHIR_GET_HVALUE(_0, _3);
+			ZEPHIR_CALL_METHOD(NULL, memcache, "delete", &_4, 0, key);
 			zephir_check_call_status();
 		}
 		ZEPHIR_CALL_METHOD(NULL, memcache, "set", NULL, 0, specialKey, keys);

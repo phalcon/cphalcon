@@ -32,9 +32,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Annotations_ReaderInterface, parse);
 
 /**
  * Parses a raw doc block returning the annotations found
- *
- * @param string docBlock
- * @return array
  */
 ZEPHIR_DOC_METHOD(Phalcon_Annotations_ReaderInterface, parseDocBlock);
 

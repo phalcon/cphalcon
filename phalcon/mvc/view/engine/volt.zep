@@ -28,7 +28,7 @@ use Phalcon\Mvc\View\Exception;
 /**
  * Phalcon\Mvc\View\Engine\Volt
  *
- * Designer friendly and fast template engine for PHP written in C
+ * Designer friendly and fast template engine for PHP written in Zephir/C
  */
 class Volt extends Engine implements EngineInterface
 {
@@ -36,6 +36,8 @@ class Volt extends Engine implements EngineInterface
 	protected _options;
 
 	protected _compiler;
+
+	protected _macros;
 
 	/**
 	 * Set Volt's options
@@ -46,7 +48,7 @@ class Volt extends Engine implements EngineInterface
 	}
 
 	/**
-	 * Return Volt's options	 
+	 * Return Volt's options
 	 */
 	public function getOptions() -> array
 	{
@@ -282,5 +284,19 @@ class Volt extends Engine implements EngineInterface
 	{
 		asort(value);
 		return value;
+	}
+
+	/**
+	 * Checks if a macro is defined and calls it
+	 */
+	public function callMacro(string! name, array arguments)
+	{
+		var macro;
+
+		if !fetch macro, this->_macros[name] {
+			throw new Exception("Macro '" . name . "' does not exist");
+		}
+
+		return call_user_func(macro, arguments);
 	}
 }

@@ -1355,9 +1355,9 @@ PHP_METHOD(Phalcon_Image_Adapter_Gd, _pixelate) {
 			y2 = (y + amount);
 			_6 = zephir_fetch_nproperty_this(this_ptr, SL("_image"), PH_NOISY_CC);
 			ZEPHIR_SINIT_NVAR(_3);
-			ZVAL_LONG(&_3, x1);
+			ZVAL_LONG(&_3, x);
 			ZEPHIR_SINIT_NVAR(_4);
-			ZVAL_LONG(&_4, y1);
+			ZVAL_LONG(&_4, y);
 			ZEPHIR_SINIT_NVAR(_7);
 			ZVAL_LONG(&_7, x2);
 			ZEPHIR_SINIT_NVAR(_8);
