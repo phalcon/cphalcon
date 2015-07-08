@@ -101,7 +101,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 			singleConditionArray, limit, offset, fromClause,
 			mergedConditions, mergedParams, mergedTypes,
 			singleCondition, singleParams, singleTypes,
-			with, distinct, bind, bindTypes;
+			with, distinct, bind, bindTypes;		
 
 		if typeof params == "array" {
 
