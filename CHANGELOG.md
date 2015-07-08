@@ -1,4 +1,8 @@
-# 2.0.4 (2015-07-07)
+# 2.0.5 (2015-??-??)
+- Fixed a bug that makes that attaching an events manager to an Mvc\Application causes view->render() not being called
+- Fixed bug that makes generated SQL statements not being parsed correctly
+
+# [2.0.4](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.0.4) (2015-07-07)
 - Fixed bug in `Phalcon\Mvc\Model::update()` that throws an exception when the record does exist
 - Now links in `Phalcon\Debug` point to https://api.phalconphp.com instead of http://docs.phalconphp.com
 - Implemented a more versatile way to assign variables in Volt allowing to assign properties and array indexes

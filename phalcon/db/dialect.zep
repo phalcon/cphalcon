@@ -456,7 +456,7 @@ abstract class Dialect implements DialectInterface
 		 * Resolve FOR UPDATE
 		 */
 		if fetch forUpdate, definition["forUpdate"] && forUpdate {
-			let sql .= "FOR UPDATE";
+			let sql .= " FOR UPDATE";
 		}
 
 		return sql;
@@ -755,7 +755,7 @@ abstract class Dialect implements DialectInterface
 			/**
 			 * Check if the join has conditions
 			 */
-			if fetch joinConditionsArray, join["conditions"] && !empty joinConditionsArray {				
+			if fetch joinConditionsArray, join["conditions"] && !empty joinConditionsArray {
 
 				if !isset joinConditionsArray[0] {
 					let joinCondition = this->getSqlExpression(joinConditionsArray, escapeChar);
