@@ -147,7 +147,7 @@ class Filter implements FilterInterface
 				/**
 				 * The 'email' filter uses the filter extension
 				 */
-				return filter_var(str_replace("'", "", value), constant("FILTER_SANITIZE_EMAIL"));
+				return filter_var(value, constant("FILTER_SANITIZE_EMAIL"));
 
 			case Filter::FILTER_INT:
 				/**
