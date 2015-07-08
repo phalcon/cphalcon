@@ -489,7 +489,7 @@ class Gd extends Adapter implements AdapterInterface
 
 				let x2 = x + amount;
 				let y2 = y + amount;
-				imagefilledrectangle(this->_image, x1, y1, x2, y2, color);
+				imagefilledrectangle(this->_image, x, y, x2, y2, color);
 
 				let y += amount;
 			}
