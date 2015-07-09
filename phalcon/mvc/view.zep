@@ -229,6 +229,14 @@ class View extends Injectable implements ViewInterface
 	}
 
 	/**
+	 * Gets base path
+	 */
+	public function getBasePath() -> string
+	{
+		return this->_basePath;
+	}
+
+	/**
 	 * Sets the render level for the view
 	 *
 	 * <code>
