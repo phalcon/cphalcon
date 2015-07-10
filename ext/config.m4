@@ -22,11 +22,11 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/cache/backend.zep.c
 	phalcon/cache/backendinterface.zep.c
 	phalcon/cache/frontendinterface.zep.c
+	phalcon/mvc/model/metadata.zep.c
+	phalcon/mvc/model/metadatainterface.zep.c
 	phalcon/db/adapter.zep.c
 	phalcon/db/dialectinterface.zep.c
 	phalcon/dispatcherinterface.zep.c
-	phalcon/mvc/model/metadata.zep.c
-	phalcon/mvc/model/metadatainterface.zep.c
 	phalcon/annotations/adapter.zep.c
 	phalcon/annotations/adapterinterface.zep.c
 	phalcon/config.zep.c
@@ -267,6 +267,8 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/mvc/model/message.zep.c
 	phalcon/mvc/model/metadata/apc.zep.c
 	phalcon/mvc/model/metadata/files.zep.c
+	phalcon/mvc/model/metadata/libmemcached.zep.c
+	phalcon/mvc/model/metadata/memcache.zep.c
 	phalcon/mvc/model/metadata/memory.zep.c
 	phalcon/mvc/model/metadata/session.zep.c
 	phalcon/mvc/model/metadata/strategy/annotations.zep.c
