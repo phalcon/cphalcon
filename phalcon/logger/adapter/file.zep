@@ -117,7 +117,7 @@ class File extends Adapter implements AdapterInterface
 			throw new Exception("Cannot send message to the log because it is invalid");
 		}
 
-		fwrite(fileHandler, this->getFormatter()->format(message, type, time, context) . PHP_EOL);
+		fwrite(fileHandler, this->getFormatter()->format(message, type, time, context));
 	}
 
 	/**
