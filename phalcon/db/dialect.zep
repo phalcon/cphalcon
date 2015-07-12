@@ -320,7 +320,7 @@ abstract class Dialect implements DialectInterface
 			 * Resolve *
 			 */
 			case "all":
-				return this->getSqlExpressionAll(expression, escapeChar, bindCounts);
+				return this->getSqlExpressionAll(expression, escapeChar);
 
 			/**
 			 * Resolve SELECT
