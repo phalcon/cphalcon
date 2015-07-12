@@ -836,8 +836,8 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 	 */
 	public function save() -> boolean
 	{
-		var dependencyInjector, connection, exists, source, data, properties, reserved,
-			success, status, id, ok, collection, disableEvents, key, value;
+		var dependencyInjector, connection, exists, source, data,
+			success, status, id, ok, collection, disableEvents;
 
 		let dependencyInjector = this->_dependencyInjector;
 		if typeof dependencyInjector != "object" {
@@ -881,25 +881,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 			return false;
 		}
 
-		let data = [];
-
-		let reserved = this->getReservedAttributes();
-		let properties = get_object_vars(this);
-
-		/**
-		 * We only assign values to the public properties
-		 */
-		for key, value in properties {
-			if key == "_id" {
-				if value {
-					let data[key] = value;
-				}
-			} else {
-				if !isset reserved[key] {
-					let data[key] = value;
-				}
-			}
-		}
+		let data = this->toArray();
 
 		let success = false;
 
