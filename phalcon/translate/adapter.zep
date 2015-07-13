@@ -20,6 +20,8 @@
 namespace Phalcon\Translate;
 
 use Phalcon\Translate\Exception;
+use Phalcon\Translate\InterpolatorInterface;
+use Phalcon\Translate\Interpolator\AssociativeArray;
 
 /**
  * Phalcon\Translate\Adapter
@@ -28,6 +30,26 @@ use Phalcon\Translate\Exception;
  */
 abstract class Adapter
 {
+	/**
+	* @var Phalcon\Translate\InterpolatorInterface
+	*/
+	protected _interpolator;
+
+	public function __construct(array! options)
+	{
+		var interpolator;
+
+		if !fetch interpolator, options["interpolator"] {
+			let interpolator = new AssociativeArray();
+		}
+		this->setInterpolator(interpolator);
+	}
+
+	public function setInterpolator(<InterpolatorInterface> interpolator) -> <Adapter>
+	{
+		let this->_interpolator = interpolator;
+		return this;
+	}
 
 	/**
 	 * Returns the translation string of the given key
@@ -94,20 +116,10 @@ abstract class Adapter
 	}
 
 	/**
-	 * Replaces placeholders by the values passed	
+	 * Replaces placeholders by the values passed
 	 */
 	protected function replacePlaceholders(string! translation, placeholders = null) -> string
 	{
-		var key, value;
-
-		if typeof placeholders === "array" {
-			if count(placeholders) {
-				for key, value in placeholders {
-					let translation = str_replace("%" . key . "%", value, translation);
-				}
-			}
-		}
-
-		return translation;
+		return this->_interpolator->{"replacePlaceholders"}(translation, placeholders);
 	}
 }
