@@ -329,10 +329,9 @@ class Response implements ResponseInterface, InjectionAwareInterface
 	 */
 	public function setExpires(<\DateTime> datetime) -> <Response>
 	{
-		var headers, date;
+		var date;
 
-		let headers = this->getHeaders(),
-			date = clone datetime;
+		let date = clone datetime;
 
 		/**
 		 * All the expiration times are sent in UTC

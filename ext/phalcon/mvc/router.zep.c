@@ -918,7 +918,8 @@ PHP_METHOD(Phalcon_Mvc_Router, addGet) {
 		paths = ZEPHIR_GLOBAL(global_null);
 	}
 	if (!position) {
-		position = ZEPHIR_GLOBAL(global_null);
+		ZEPHIR_INIT_VAR(position);
+		ZVAL_LONG(position, 1);
 	}
 
 
@@ -958,7 +959,8 @@ PHP_METHOD(Phalcon_Mvc_Router, addPost) {
 		paths = ZEPHIR_GLOBAL(global_null);
 	}
 	if (!position) {
-		position = ZEPHIR_GLOBAL(global_null);
+		ZEPHIR_INIT_VAR(position);
+		ZVAL_LONG(position, 1);
 	}
 
 
@@ -998,7 +1000,8 @@ PHP_METHOD(Phalcon_Mvc_Router, addPut) {
 		paths = ZEPHIR_GLOBAL(global_null);
 	}
 	if (!position) {
-		position = ZEPHIR_GLOBAL(global_null);
+		ZEPHIR_INIT_VAR(position);
+		ZVAL_LONG(position, 1);
 	}
 
 
@@ -1038,7 +1041,8 @@ PHP_METHOD(Phalcon_Mvc_Router, addPatch) {
 		paths = ZEPHIR_GLOBAL(global_null);
 	}
 	if (!position) {
-		position = ZEPHIR_GLOBAL(global_null);
+		ZEPHIR_INIT_VAR(position);
+		ZVAL_LONG(position, 1);
 	}
 
 
@@ -1078,7 +1082,8 @@ PHP_METHOD(Phalcon_Mvc_Router, addDelete) {
 		paths = ZEPHIR_GLOBAL(global_null);
 	}
 	if (!position) {
-		position = ZEPHIR_GLOBAL(global_null);
+		ZEPHIR_INIT_VAR(position);
+		ZVAL_LONG(position, 1);
 	}
 
 
@@ -1118,7 +1123,8 @@ PHP_METHOD(Phalcon_Mvc_Router, addOptions) {
 		paths = ZEPHIR_GLOBAL(global_null);
 	}
 	if (!position) {
-		position = ZEPHIR_GLOBAL(global_null);
+		ZEPHIR_INIT_VAR(position);
+		ZVAL_LONG(position, 1);
 	}
 
 
@@ -1158,7 +1164,8 @@ PHP_METHOD(Phalcon_Mvc_Router, addHead) {
 		paths = ZEPHIR_GLOBAL(global_null);
 	}
 	if (!position) {
-		position = ZEPHIR_GLOBAL(global_null);
+		ZEPHIR_INIT_VAR(position);
+		ZVAL_LONG(position, 1);
 	}
 
 
