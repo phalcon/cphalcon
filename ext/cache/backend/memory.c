@@ -241,7 +241,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Memory, queryKeys){
 
 	if (likely(Z_TYPE_P(data) == IS_ARRAY)) {
 		if (!prefix) {
-			phalcon_array_keys(return_value, data);
+			phalcon_array_keys(return_value, data TSRMLS_CC);
 		}
 		else {
 			HashPosition pos;

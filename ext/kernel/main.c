@@ -16,13 +16,13 @@
   |          Eduar Carvajal <eduar@phalconphp.com>                         |
   +------------------------------------------------------------------------+
 */
-
-#include "kernel/main.h"
+#include "php_phalcon.h"
 
 #include <ext/spl/spl_exceptions.h>
 #include <Zend/zend_exceptions.h>
 #include <Zend/zend_interfaces.h>
 
+#include "kernel/main.h"
 #include "kernel/fcall.h"
 #include "kernel/exception.h"
 
@@ -151,7 +151,7 @@ long int phalcon_fast_count_int(zval *value TSRMLS_DC) {
 			if (retval) {
 				convert_to_long_ex(&retval);
 				result = Z_LVAL_P(retval);
-				zval_ptr_dtor(&retval);
+				phalcon_ptr_dtor(&retval);
 			}
 
 			return result;
@@ -196,7 +196,7 @@ void phalcon_fast_count(zval *result, zval *value TSRMLS_DC) {
 			if (retval) {
 				convert_to_long_ex(&retval);
 				ZVAL_LONG(result, Z_LVAL_P(retval));
-				zval_ptr_dtor(&retval);
+				phalcon_ptr_dtor(&retval);
 			}
 			return;
 		}
@@ -242,7 +242,7 @@ int phalcon_fast_count_ev(zval *value TSRMLS_DC) {
 			if (retval) {
 				convert_to_long_ex(&retval);
 				count = Z_LVAL_P(retval);
-				zval_ptr_dtor(&retval);
+				phalcon_ptr_dtor(&retval);
 				return (int) count > 0;
 			}
 			return 0;

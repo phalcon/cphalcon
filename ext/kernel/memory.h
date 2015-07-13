@@ -87,12 +87,41 @@ int phalcon_set_symbol_str(char *key_name, unsigned int key_length, zval *value 
 
 void ZEND_FASTCALL phalcon_copy_ctor(zval *destiny, zval *origin) PHALCON_ATTR_NONNULL;
 
+void ZEND_FASTCALL phalcon_ptr_dtor(zval **var);
+void ZEND_FASTCALL phalcon_dtor(zval *var);
+void phalcon_value_dtor(zval *zvalue ZEND_FILE_LINE_DC);
+
+/**
+ * @brief destroys @c pzval if it is not @c NULL
+ * @param pzval
+ */
+static inline void phalcon_safe_zval_ptr_dtor(zval *pzval)
+{
+	if (pzval) {
+		zval_ptr_dtor(&pzval);
+	}
+}
+
 /* Memory macros */
 #define PHALCON_ALLOC_GHOST_ZVAL(z)                   \
 	do {                                              \
 		MAKE_STD_ZVAL(z);                             \
 		Z_SET_REFCOUNT_P(z, 0);                       \
 	} while (0)
+		
+#define PHALCON_ALLOC_ZVAL(z) \
+	ALLOC_INIT_ZVAL(z)
+
+#define PHALCON_SINIT_VAR(z) \
+	INIT_PZVAL(&z); \
+	ZVAL_NULL(&z);
+
+#define PHALCON_SINIT_NVAR(z) Z_SET_REFCOUNT_P(&z, 1)
+
+#define PHALCON_INIT_ZVAL_NREF(z) \
+	ALLOC_ZVAL(z); \
+	Z_SET_REFCOUNT_P(z, 0); \
+	Z_UNSET_ISREF_P(z);
 
 #define PHALCON_INIT_VAR(z) \
 	PHALCON_MEMORY_ALLOC(&z)
@@ -100,21 +129,38 @@ void ZEND_FASTCALL phalcon_copy_ctor(zval *destiny, zval *origin) PHALCON_ATTR_N
 #define PHALCON_INIT_NVAR(z)                          \
 	do {                                              \
 		if (z) {                                      \
-			if (Z_REFCOUNT_P(z) > 1) {                \
-				Z_DELREF_P(z);                        \
-				ALLOC_ZVAL(z);                        \
-				Z_SET_REFCOUNT_P(z, 1);               \
-				Z_UNSET_ISREF_P(z);                   \
+			if (!Z_ISREF_P(z)) {                      \
+				if (Z_REFCOUNT_P(z) > 1) {            \
+					Z_DELREF_P(z);                    \
+					ALLOC_ZVAL(z);                    \
+					Z_SET_REFCOUNT_P(z, 1);           \
+					Z_UNSET_ISREF_P(z);               \
+				} else {                              \
+					phalcon_dtor(z);                   \
+					Z_SET_REFCOUNT_P(z, 1);           \
+					Z_UNSET_ISREF_P(z);               \
+				}                                     \
+				ZVAL_NULL(z);                         \
 			}                                         \
-			else {                                    \
-				zval_dtor(z)   ;                      \
-			}                                         \
-			ZVAL_NULL(z);                             \
-		}                                             \
-		else {                                        \
+		} else {                                      \
 			PHALCON_MEMORY_ALLOC(&z);                 \
 		}                                             \
 	} while (0)
+
+/**
+ * Second allocation, assumes the variable was allocated for the first time in the branch zero
+ */
+#define PHALCON_INIT_BNVAR(z) \
+	if (Z_REFCOUNT_P(z) > 1) { \
+		phalcon_ptr_dtor(&z); \
+		ALLOC_ZVAL(z); \
+		Z_SET_REFCOUNT_P(z, 1); \
+		Z_UNSET_ISREF_P(z); \
+		ZVAL_NULL(z); \
+	} else {\
+		phalcon_ptr_dtor(&z); \
+		PHALCON_ALLOC_ZVAL(z); \
+	}
 
 #define PHALCON_INIT_NVAR_PNULL(z)\
 	do {                                              \
@@ -129,17 +175,36 @@ void ZEND_FASTCALL phalcon_copy_ctor(zval *destiny, zval *origin) PHALCON_ATTR_N
 				Z_UNSET_ISREF_P(z);                   \
 			}                                         \
 			ZVAL_NULL(z);                             \
-		}                                             \
-		else {                                        \
+		} else {                                      \
 			PHALCON_MEMORY_ALLOC_PNULL(&z);           \
 		}                                             \
 	} while (0)
+
+/* only removes the value body of the zval */
+#define PHALCON_INIT_LNVAR(z)\
+	if (z) { \
+		if (Z_REFCOUNT_P(z) > 1) { \
+			Z_DELREF_P(z); \
+			ALLOC_ZVAL(z); \
+			Z_SET_REFCOUNT_P(z, 1); \
+			Z_UNSET_ISREF_P(z); \
+		} else { \
+			if (!Z_ISREF_P(z)) { \
+				phalcon_value_dtor(z ZEND_FILE_LINE_CC); \
+			} \
+			Z_SET_REFCOUNT_P(z, 1); \
+			Z_UNSET_ISREF_P(z); \
+		} \
+		ZVAL_NULL(z); \
+	} else { \
+		PHALCON_MEMORY_ALLOC(&z); \
+	}
 
 #define PHALCON_CPY_WRT(d, v)                         \
 	do {                                              \
 		if (d) {                                      \
 			if (Z_REFCOUNT_P(d) > 0) {                \
-				zval_ptr_dtor(&d);                    \
+				phalcon_ptr_dtor(&d);                 \
 			}                                         \
 		}                                             \
 		else {                                        \
@@ -153,10 +218,9 @@ void ZEND_FASTCALL phalcon_copy_ctor(zval *destiny, zval *origin) PHALCON_ATTR_N
 	do {                                              \
 		if (d) {                                      \
 			if (Z_REFCOUNT_P(d) > 0) {                \
-				zval_ptr_dtor(&d);                    \
+				phalcon_ptr_dtor(&d);                 \
 			}                                         \
-		}                                             \
-		else {                                        \
+		} else {                                      \
 			PHALCON_MEMORY_OBSERVE(&d);               \
 		}                                             \
 		ALLOC_ZVAL(d);                                \
@@ -165,6 +229,20 @@ void ZEND_FASTCALL phalcon_copy_ctor(zval *destiny, zval *origin) PHALCON_ATTR_N
 		Z_SET_REFCOUNT_P(d, 1);                       \
 		Z_UNSET_ISREF_P(d);                           \
 	} while (0)
+
+#define PHALCON_MAKE_REFERENCE(d, v)	\
+	if (d) { \
+		if (Z_REFCOUNT_P(d) > 0) { \
+			phalcon_ptr_dtor(&d); \
+		} \
+	} else { \
+			phalcon_memory_observe(&d TSRMLS_CC); \
+	} \
+	ALLOC_ZVAL(d); \
+	Z_TYPE_P(d) = Z_TYPE_P(v); \
+	d->value = v->value; \
+	Z_SET_REFCOUNT_P(d, 1); \
+	Z_SET_ISREF_P(d);
 
 /* */
 #define PHALCON_OBS_VAR(z) \
@@ -177,11 +255,10 @@ void ZEND_FASTCALL phalcon_copy_ctor(zval *destiny, zval *origin) PHALCON_ATTR_N
 				Z_DELREF_P(z);                        \
 			}                                         \
 			else {                                    \
-				zval_ptr_dtor(&z);                    \
+				phalcon_ptr_dtor(&z);                    \
 				z = NULL;                             \
 			}                                         \
-		}                                             \
-		else {                                        \
+		} else {                                      \
 			PHALCON_MEMORY_OBSERVE(&z);               \
 		}                                             \
 	} while (0)
@@ -191,10 +268,9 @@ void ZEND_FASTCALL phalcon_copy_ctor(zval *destiny, zval *origin) PHALCON_ATTR_N
 		zval **tmp_ = (ppzv);                              \
 		if (tmp_ != NULL) {                                \
 			if (*tmp_) {                                   \
-				zval_ptr_dtor(tmp_);                       \
+				phalcon_ptr_dtor(tmp_);                    \
 				*tmp_ = NULL;                              \
-			}                                              \
-			else {                                         \
+			} else {                                       \
 				PHALCON_MEMORY_OBSERVE((ppzv));            \
 			}                                              \
 		}                                                  \
@@ -203,10 +279,9 @@ void ZEND_FASTCALL phalcon_copy_ctor(zval *destiny, zval *origin) PHALCON_ATTR_N
 #define PHALCON_OBSERVE_OR_NULLIFY_VAR(z)             \
 	do {                                              \
 		if (z) {                                      \
-			zval_ptr_dtor(&z);                        \
+			phalcon_ptr_dtor(&z);                     \
 			z = NULL;                                 \
-		}                                             \
-		else {                                        \
+		} else {                                      \
 			PHALCON_MEMORY_OBSERVE(&z);               \
 		}                                             \
 	} while (0)
@@ -235,6 +310,17 @@ void ZEND_FASTCALL phalcon_copy_ctor(zval *destiny, zval *origin) PHALCON_ATTR_N
 		Z_SET_REFCOUNT_P(z, 1);                       \
 		Z_UNSET_ISREF_P(z);                           \
 	} while (0)
+
+#define PHALCON_SEPARATE_PARAM_NMO(z) { \
+		zval *orig_ptr = z; \
+		if (Z_REFCOUNT_P(orig_ptr) > 1) { \
+			ALLOC_ZVAL(z); \
+			*z = *orig_ptr; \
+			zval_copy_ctor(z); \
+			Z_SET_REFCOUNT_P(z, 1); \
+			Z_UNSET_ISREF_P(z); \
+		} \
+	}
 
 static inline int phalcon_maybe_separate_zval(zval** z)
 {

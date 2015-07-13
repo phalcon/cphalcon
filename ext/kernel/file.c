@@ -116,13 +116,13 @@ void phalcon_fix_path(zval **return_value, zval *path, zval *directory_separator
 	}
 
 	if (Z_STRLEN_P(path) > 0 && Z_STRLEN_P(directory_separator) > 0) {
-		if (Z_STRVAL_P(path)[Z_STRLEN_P(path) - 1] != '\\' && Z_STRVAL_P(path)[Z_STRLEN_P(path) - 1] != '/') {
+		if (Z_STRVAL_P(path)[Z_STRLEN_P(path) - 1] != Z_STRVAL_P(directory_separator)[0]) {
 			PHALCON_CONCAT_VV(*return_value, path, directory_separator);
 			return;
 		}
 	}
 
-	zval_ptr_dtor(return_value);
+	phalcon_ptr_dtor(return_value);
 	*return_value = path;
 	Z_ADDREF_P(path);
 }
@@ -413,7 +413,7 @@ void phalcon_file_put_contents(zval *return_value, zval *filename, zval *data TS
 	php_stream_close(stream);
 
 	if (use_copy) {
-		zval_dtor(data);
+		phalcon_dtor(data);
 	}
 
 	if (numbytes < 0) {

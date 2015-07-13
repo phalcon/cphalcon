@@ -131,13 +131,13 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, __construct){
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 1, 1, &frontend, &options);
-	
+
 	if (!options) {
 		PHALCON_INIT_VAR(options);
 	} else {
 		PHALCON_SEPARATE_PARAM(options);
 	}
-	
+
 	if (Z_TYPE_P(options) != IS_ARRAY) { 
 		PHALCON_INIT_NVAR(options);
 		array_init_size(options, 4);
@@ -146,21 +146,21 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, __construct){
 	if (!phalcon_array_isset_string(options, SS("host"))) {
 		phalcon_array_update_string_string(&options, SL("host"), SL("127.0.0.1"), 0);
 	}
-	
+
 	if (!phalcon_array_isset_string(options, SS("port"))) {
 		phalcon_array_update_string_long(&options, SL("port"), 11211, 0);
 	}
-	
+
 	if (!phalcon_array_isset_string(options, SS("persistent"))) {
 		phalcon_array_update_string_bool(&options, SL("persistent"), 0, 0);
 	}
-	
+
 	if (!phalcon_array_isset_string(options, SS("statsKey"))) {
 		phalcon_array_update_string_string(&options, SL("statsKey"), SL("_PHCM"), 0);
 	}
-	
+
 	PHALCON_CALL_PARENT(NULL, phalcon_cache_backend_memcache_ce, this_ptr, "__construct", frontend, options);
-	
+
 	PHALCON_MM_RESTORE();
 }
 

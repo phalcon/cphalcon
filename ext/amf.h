@@ -23,7 +23,7 @@
 
 #include "php_phalcon.h"
 
-#include "ext/standard/php_smart_str.h"
+#include <ext/standard/php_smart_str.h>
 
 #define PHALCON_AMF3_CLIENT_SUCCESS_METHOD			"/onResult"
 #define PHALCON_AMF3_CLIENT_FAILURE_METHOD			"/onStatus"
@@ -66,7 +66,7 @@
 	if (!(A)) { \
 		ALLOC_INIT_ZVAL((A)); \
 	} else { \
-		zval_dtor((A)); \
+		phalcon_dtor((A)); \
 		ZVAL_NULL((A)); \
 	}
 

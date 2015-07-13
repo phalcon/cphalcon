@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -15,17 +15,44 @@
   | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
   |          Eduar Carvajal <eduar@phalconphp.com>                         |
   |          ZhuZongXin <dreamsxin@qq.com>                                 |
-  |          Vladimir Kolesnikov <vladimir@free-sevastopol.com>            |
   +------------------------------------------------------------------------+
 */
 
-#ifndef PHALCON_CHART_EXCEPTION_H
-#define PHALCON_CHART_EXCEPTION_H
 
-#include "php_phalcon.h"
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
 
-extern zend_class_entry *phalcon_chart_exception_ce;
+#include <php.h>
 
-PHALCON_INIT_CLASS(Phalcon_Chart_Exception);
+#include "kernel/main.h"
+#include "kernel/memory.h"
 
-#endif /* PHALCON_CHART_EXCEPTION_H */
+/**
+ * Returns an iterator from the object
+ */
+zend_object_iterator *phalcon_get_iterator(zval *iterator TSRMLS_DC) {
+
+	zend_class_entry *ce;
+	zend_object_iterator *it;
+
+	if (Z_TYPE_P(iterator) != IS_OBJECT) {
+		return NULL;
+	}
+
+	ce = Z_OBJCE_P(iterator);
+	it = ce->get_iterator(ce, iterator, 0 TSRMLS_CC);
+	if (!it || EG(exception)) {
+		return NULL;
+	}
+
+	if (it->funcs->get_current_key == NULL) {
+		return NULL;
+	}
+
+	if (it->funcs->rewind == NULL) {
+		return NULL;
+	}
+
+	return it;
+}

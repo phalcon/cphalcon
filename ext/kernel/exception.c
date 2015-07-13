@@ -41,9 +41,16 @@ void phalcon_throw_exception(zval *object TSRMLS_DC){
 void phalcon_throw_exception_debug(zval *object, const char *file, zend_uint line TSRMLS_DC){
 
 	zend_class_entry *default_exception_ce;
-	zval *curline = NULL;
+	zval *curline = NULL, *object_copy = NULL;
 
 	PHALCON_MM_GROW();
+
+	if (Z_TYPE_P(object) != IS_OBJECT) {
+		object_copy = object;
+		ALLOC_INIT_ZVAL(object);
+		object_init_ex(object, zend_exception_get_default(TSRMLS_C));
+		PHALCON_CALL_METHOD(NULL, object, "__construct", NULL, 0, object_copy);
+	}
 
 	Z_ADDREF_P(object);
 
@@ -93,7 +100,7 @@ void phalcon_throw_exception_string_debug(zend_class_entry *ce, const char *mess
 
 	zend_throw_exception_object(object TSRMLS_CC);
 
-	zval_ptr_dtor(&msg);
+	phalcon_ptr_dtor(&msg);
 }
 
 /**
@@ -156,5 +163,5 @@ void phalcon_throw_exception_format(zend_class_entry *ce TSRMLS_DC, const char *
 
 	zend_throw_exception_object(object TSRMLS_CC);
 
-	zval_ptr_dtor(&msg);
+	phalcon_ptr_dtor(&msg);
 }

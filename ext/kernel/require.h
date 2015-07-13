@@ -29,12 +29,12 @@ PHALCON_ATTR_NONNULL static inline int phalcon_require(const char *require_path 
 	return phalcon_require_ret(NULL, require_path TSRMLS_CC);
 }
 
-PHALCON_ATTR_NONNULL static inline int zephir_require_zval(const zval *require_path TSRMLS_DC)
+PHALCON_ATTR_NONNULL static inline int phalcon_require_zval(const zval *require_path TSRMLS_DC)
 {
     return phalcon_require_ret(NULL, Z_TYPE_P(require_path) == IS_STRING ? Z_STRVAL_P(require_path) : "" TSRMLS_CC);
 }
 
-PHALCON_ATTR_NONNULL static inline int zephir_require_zval_ret(zval **return_value_ptr, const zval *require_path TSRMLS_DC)
+PHALCON_ATTR_NONNULL static inline int phalcon_require_zval_ret(zval **return_value_ptr, const zval *require_path TSRMLS_DC)
 {
     return phalcon_require_ret(return_value_ptr, Z_TYPE_P(require_path) == IS_STRING ? Z_STRVAL_P(require_path) : "" TSRMLS_CC);
 }

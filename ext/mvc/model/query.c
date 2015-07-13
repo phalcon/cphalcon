@@ -1045,6 +1045,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getExpression){
 				phalcon_array_update_string(&return_value, ISL(right), right, PH_COPY);
 				break;
 
+			case PHQL_T_HINTEGER:
 			case PHQL_T_INTEGER:
 			case PHQL_T_DOUBLE:
 				PHALCON_OBS_VAR(value);

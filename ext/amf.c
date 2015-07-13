@@ -19,7 +19,7 @@
 
 #include "amf.h"
 
-#include "ext/standard/php_smart_str.h"
+#include <ext/standard/php_smart_str.h>
 
 #include "kernel/main.h"
 #include "kernel/operators.h"
@@ -868,7 +868,7 @@ PHP_METHOD(Phalcon_Amf, decode){
 	zend_hash_destroy(&tht);
 
 	if (ofs < 0) {
-		zval_dtor(return_value);
+		phalcon_dtor(return_value);
 		ZVAL_NULL(return_value);
 	}
 }

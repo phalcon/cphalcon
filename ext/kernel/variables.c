@@ -18,11 +18,10 @@
 */
 
 #include "kernel/variables.h"
+#include "kernel/memory.h"
 
-
-
-#include "ext/standard/php_smart_str.h"
-#include "ext/standard/php_var.h"
+#include <ext/standard/php_smart_str.h>
+#include <ext/standard/php_var.h>
 
 /**
  * Serializes php variables without using the PHP userland
@@ -68,7 +67,7 @@ void phalcon_unserialize(zval *return_value, zval *var TSRMLS_DC) {
 	PHP_VAR_UNSERIALIZE_INIT(var_hash);
 	if (!php_var_unserialize(&return_value, &p, p + Z_STRLEN_P(var), &var_hash TSRMLS_CC)) {
 		PHP_VAR_UNSERIALIZE_DESTROY(var_hash);
-		zval_dtor(return_value);
+		phalcon_dtor(return_value);
 		ZVAL_NULL(return_value);
 		if (!EG(exception)) {
 			php_error_docref(NULL TSRMLS_CC, E_NOTICE, "Error at offset %ld of %d bytes", (long)((char*)p - Z_STRVAL_P(var)), Z_STRLEN_P(var));

@@ -153,7 +153,7 @@ PHP_METHOD(Phalcon_DI_Injectable, getEventsManager){
 PHP_METHOD(Phalcon_DI_Injectable, fireEvent){
 
 	zval *event_name, *data = NULL, *cancelable = NULL, *events_manager;
-	zval *lower, *event_parts, *name = NULL;
+	zval *lower, *event_parts, *name = NULL, *status = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -197,7 +197,10 @@ PHP_METHOD(Phalcon_DI_Injectable, fireEvent){
 		/**
 		 * Send a notification to the events manager
 		 */
-		PHALCON_CALL_METHOD(NULL, events_manager, "fire", event_name, this_ptr, data, cancelable);
+		PHALCON_CALL_METHOD(&status, events_manager, "fire", event_name, this_ptr, data, cancelable);
+		if (PHALCON_IS_FALSE(status)) {
+			RETURN_MM_FALSE;
+		}
 	}
 
 	RETURN_MM_TRUE;

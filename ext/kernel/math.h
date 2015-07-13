@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -15,17 +15,26 @@
   | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
   |          Eduar Carvajal <eduar@phalconphp.com>                         |
   |          ZhuZongXin <dreamsxin@qq.com>                                 |
-  |          Vladimir Kolesnikov <vladimir@free-sevastopol.com>            |
   +------------------------------------------------------------------------+
 */
 
-#ifndef PHALCON_CHART_EXCEPTION_H
-#define PHALCON_CHART_EXCEPTION_H
+
+#ifndef PHALCON_KERNEL_MATH_H
+#define PHALCON_KERNEL_MATH_H
 
 #include "php_phalcon.h"
 
-extern zend_class_entry *phalcon_chart_exception_ce;
+double phalcon_floor(zval *op1 TSRMLS_DC);
+double phalcon_ceil(zval *op1 TSRMLS_DC);
+void phalcon_round(zval *return_value, zval *op1, zval *op2, zval *op3 TSRMLS_DC);
+void phalcon_pow(zval *return_value, zval *op1, zval *op2 TSRMLS_DC);
+long phalcon_mt_rand(long min, long max TSRMLS_DC);
 
-PHALCON_INIT_CLASS(Phalcon_Chart_Exception);
+#if PHP_VERSION_ID < 50600
+void phalcon_pow_function_ex(zval *return_value, zval *zbase, zval *zexp TSRMLS_DC);
+#define phalcon_pow_function(result, op1, op2) phalcon_pow_function_ex(result, op1, op2 TSRMLS_CC)
+#else
+#define phalcon_pow_function(result, op1, op2) pow_function(result, op1, op2 TSRMLS_CC)
+#endif
 
-#endif /* PHALCON_CHART_EXCEPTION_H */
+#endif

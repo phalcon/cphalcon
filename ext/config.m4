@@ -34,6 +34,11 @@ kernel/variables.c \
 kernel/framework/orm.c \
 kernel/framework/router.c \
 kernel/framework/url.c \
+kernel/assert.c \
+kernel/exit.c \
+kernel/iterator.c \
+kernel/math.c \
+kernel/time.c \
 interned-strings.c \
 logger.c \
 flash.c \
@@ -512,7 +517,7 @@ registry.c"
 
 	CPPFLAGS=$old_CPPFLAGS
 
-	for i in /usr /usr/local; do
+	for i in /usr/local /usr; do
 		if test -r $i/include/png.h; then
 			PNG_CFLAGS=`pkg-config --cflags libpng`
 			PNG_LDFLAGS=`pkg-config --libs libpng`
@@ -530,7 +535,7 @@ registry.c"
 	done
 
 	if test -n "$PNG_CFLAGS"; then
-		for i in /usr /usr/local; do
+		for i in /usr/local /usr; do
 			if test -r $i/include/qrencode.h; then
 				QR_CFLAGS=`pkg-config --cflags libqrencode`
 				QR_LDFLAGS=`pkg-config --libs libqrencode`
@@ -550,7 +555,7 @@ registry.c"
 		AC_MSG_RESULT([libpng not found])
 	fi
 
-	for i in /usr /usr/local; do
+	for i in /usr/local /usr; do
 		if test -r $i/bin/MagickWand-config; then
 			WAND_BINARY=$i/bin/MagickWand-config
 
@@ -568,7 +573,7 @@ registry.c"
 	done
 
 	if test -r "$WAND_BINARY"; then
-		for i in /usr /usr/local; do
+		for i in /usr/local /usr; do
 			if test -r $i/include/zbar.h; then
 				ZBAR_CFLAGS=`pkg-config --cflags zbar`
 				ZBAR_LDFLAGS=`pkg-config --libs zbar`
@@ -587,7 +592,7 @@ registry.c"
 	fi
 
 	AC_MSG_CHECKING([for scws.h])
-	for i in /usr/local /usr /usr/local/include/scws; do
+	for i in /usr/local /usr/local/include/scws /usr; do
 		if test -r $i/include/scws/scws.h; then
 			AC_MSG_RESULT([yes, found in $i])
 

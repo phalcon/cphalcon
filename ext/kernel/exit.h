@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -15,17 +15,16 @@
   | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
   |          Eduar Carvajal <eduar@phalconphp.com>                         |
   |          ZhuZongXin <dreamsxin@qq.com>                                 |
-  |          Vladimir Kolesnikov <vladimir@free-sevastopol.com>            |
   +------------------------------------------------------------------------+
 */
 
-#ifndef PHALCON_CHART_EXCEPTION_H
-#define PHALCON_CHART_EXCEPTION_H
+
+#ifndef PHALCON_KERNEL_EXIT_H
+#define PHALCON_KERNEL_EXIT_H
 
 #include "php_phalcon.h"
 
-extern zend_class_entry *phalcon_chart_exception_ce;
+void phalcon_exit_empty();
+void phalcon_exit(zval *ptr);
 
-PHALCON_INIT_CLASS(Phalcon_Chart_Exception);
-
-#endif /* PHALCON_CHART_EXCEPTION_H */
+#endif

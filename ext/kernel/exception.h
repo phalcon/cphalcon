@@ -32,7 +32,7 @@
 #define PHALCON_THROW_EXCEPTION_DEBUG_STR(class_entry, message, file, line) \
   do { \
     phalcon_throw_exception_string_debug(class_entry, message, strlen(message), file, line TSRMLS_CC); \
-    ZEPHIR_MM_RESTORE(); \
+    PHALCON_MM_RESTORE(); \
   } while (0)
 #define PHALCON_THROW_EXCEPTION_ZVAL(class_entry, message) \
 	do { \
@@ -43,10 +43,16 @@
 #define PHALCON_THROW_EXCEPTION_DEBUG_ZVAL(class_entry, message, file, line) \
   do { \
     phalcon_throw_exception_zval(class_entry, message, file, line TSRMLS_CC); \
-    ZEPHIR_MM_RESTORE(); \
+    PHALCON_MM_RESTORE(); \
   } while (0)
 #define PHALCON_THROW_EXCEPTION_STRW(class_entry, message)  phalcon_throw_exception_string(class_entry, message TSRMLS_CC)
 #define PHALCON_THROW_EXCEPTION_ZVALW(class_entry, message) phalcon_throw_exception_zval(class_entry, message TSRMLS_CC)
+
+#define PHALCON_THROW_EXCEPTION_FORMAT(class_entry, format, ...) \
+	do { \
+		phalcon_throw_exception_format(class_entry TSRMLS_CC, format, __VA_ARGS__); \
+		PHALCON_MM_RESTORE(); \
+	} while (0)
 
 /** Throw Exceptions */
 void phalcon_throw_exception(zval *object TSRMLS_DC) PHALCON_ATTR_NONNULL;

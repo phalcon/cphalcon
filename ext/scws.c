@@ -19,19 +19,15 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
+#include "scws.h"
+#include "exception.h"
 
-#include "php.h"
-#include "php_phalcon.h"
-#include "ext/standard/php_array.h"
-#include "ext/pcre/php_pcre.h"
-#include "phalcon.h"
+#include <ext/standard/php_array.h>
+#include <ext/pcre/php_pcre.h>
 
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
+#include <Zend/zend_operators.h>
+#include <Zend/zend_exceptions.h>
+#include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
@@ -45,8 +41,6 @@
 #include "kernel/operators.h"
 #include "kernel/string.h"
 #include "kernel/file.h"
-
-#include "scws.h"
 
 #ifdef PHALCON_USE_SCWS
 #include <scws/scws.h>
@@ -95,7 +89,7 @@ static ZEND_RSRC_DTOR_FUNC(php_scws_dtor)
 		scws_free(ps->s);
 
 		if (ps->zt) {
-			zval_ptr_dtor(&ps->zt);
+			phalcon_ptr_dtor(&ps->zt);
 			ps->zt = NULL;
 		}
 		efree(ps);
@@ -535,7 +529,7 @@ PHP_METHOD(Phalcon_Scws, sendText){
 	ZEND_FETCH_RESOURCE(ps, struct php_scws *, &scws, -1, PHALCON_SCWS_OBJECT_TAG, phalcon_list_scws);
 
 	if (ps->zt) {
-		zval_ptr_dtor(&ps->zt);
+		phalcon_ptr_dtor(&ps->zt);
 	}
 
 	ALLOC_INIT_ZVAL(ps->zt);

@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -15,17 +15,21 @@
   | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
   |          Eduar Carvajal <eduar@phalconphp.com>                         |
   |          ZhuZongXin <dreamsxin@qq.com>                                 |
-  |          Vladimir Kolesnikov <vladimir@free-sevastopol.com>            |
   +------------------------------------------------------------------------+
 */
 
-#ifndef PHALCON_CHART_EXCEPTION_H
-#define PHALCON_CHART_EXCEPTION_H
 
-#include "php_phalcon.h"
+#ifndef PHALCON_KERNEL_TIME_H
+#define PHALCON_KERNEL_TIME_H
 
-extern zend_class_entry *phalcon_chart_exception_ce;
+#include <php.h>
+#include <Zend/zend.h>
 
-PHALCON_INIT_CLASS(Phalcon_Chart_Exception);
+#define MICRO_IN_SEC 1000000.00
 
-#endif /* PHALCON_CHART_EXCEPTION_H */
+void phalcon_time(zval *return_value);
+#ifdef HAVE_GETTIMEOFDAY
+void phalcon_microtime(zval *return_value, zval *get_as_float TSRMLS_DC);
+#endif
+
+#endif /* PHALCON_KERNEL_TIME_H */

@@ -63,7 +63,7 @@ void phalcon_filter_alphanum(zval *return_value, zval *param){
 	}
 
 	if (use_copy) {
-		zval_dtor(param);
+		phalcon_dtor(param);
 	}
 
 	smart_str_0(&filtered_str);
@@ -104,7 +104,7 @@ void phalcon_filter_identifier(zval *return_value, zval *param){
 	}
 
 	if (use_copy) {
-		zval_dtor(param);
+		phalcon_dtor(param);
 	}
 
 	smart_str_0(&filtered_str);
@@ -313,7 +313,7 @@ void phalcon_escape_multi(zval *return_value, zval *param, const char *escape_ch
 	}
 
 	if (use_copy) {
-		zval_dtor(param);
+		phalcon_dtor(param);
 	}
 
 	smart_str_0(&escaped_str);

@@ -107,7 +107,7 @@ static void phalcon_registry_dtor(void *v TSRMLS_DC)
 {
 	phalcon_registry_object *obj = v;
 
-	zval_ptr_dtor(&obj->properties);
+	phalcon_ptr_dtor(&obj->properties);
 	zend_object_std_dtor(&obj->obj TSRMLS_CC);
 	efree(obj);
 }
@@ -215,7 +215,7 @@ static int phalcon_registry_call_method(const char *method, INTERNAL_FUNCTION_PA
 	}
 
 	if (params) {
-		zval_ptr_dtor(&params);
+		phalcon_ptr_dtor(&params);
 		efree(args);
 	}
 
@@ -513,7 +513,7 @@ static int phalcon_registry_unserialize(zval **object, zend_class_entry *ce, con
 		zend_throw_exception_ex(spl_ce_BadMethodCallException, 0 TSRMLS_CC, "Bad parameters passed to Phalcon\\Registry::unserialize()");
 	}
 
-	zval_dtor(pzv);
+	phalcon_dtor(pzv);
 	PHP_VAR_UNSERIALIZE_DESTROY(var_hash);
 
 	return retval;
@@ -524,7 +524,7 @@ static int phalcon_registry_unserialize(zval **object, zend_class_entry *ce, con
  */
 static void phalcon_registry_iterator_dtor(zend_object_iterator *it TSRMLS_DC)
 {
-	zval_ptr_dtor((zval**)&it->data);
+	phalcon_ptr_dtor((zval**)&it->data);
 	efree(it);
 }
 
@@ -628,7 +628,7 @@ static PHP_METHOD(Phalcon_Registry, __get)
 	obj    = phalcon_registry_get_object(getThis() TSRMLS_CC);
 	result = phalcon_hash_get(Z_ARRVAL_P(obj->properties), *property, BP_VAR_W);
 
-	zval_ptr_dtor(return_value_ptr);
+	phalcon_ptr_dtor(return_value_ptr);
 	*return_value_ptr = *result;
 	Z_ADDREF_PP(return_value_ptr);
 	Z_SET_ISREF_PP(return_value_ptr);
@@ -763,7 +763,7 @@ static PHP_METHOD(Phalcon_Registry, current)
 
 	if (SUCCESS == zend_hash_get_current_data_ex(Z_ARRVAL_P(obj->properties), (void**)&data, &obj->pos)) {
 		if (return_value_ptr) {
-			zval_ptr_dtor(return_value_ptr);
+			phalcon_ptr_dtor(return_value_ptr);
 			*return_value_ptr = *data;
 			Z_ADDREF_PP(data);
 			Z_SET_ISREF_PP(data);
@@ -873,7 +873,7 @@ static PHP_METHOD(Phalcon_Registry, unserialize)
 		zend_throw_exception_ex(spl_ce_BadMethodCallException, 0 TSRMLS_CC, "Bad parameters passed to Phalcon\\Registry::unserialize()");
 	}
 
-	zval_dtor(pzv);
+	phalcon_dtor(pzv);
 	PHP_VAR_UNSERIALIZE_DESTROY(var_hash);
 }
 
