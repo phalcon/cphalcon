@@ -88,7 +88,6 @@ class View extends Injectable implements ViewInterface
 
 	/**
 	 * Cache Mode
-	 *
 	 */
 	const CACHE_MODE_NONE = 0;
 	const CACHE_MODE_INVERSE = 1;
@@ -121,6 +120,9 @@ class View extends Injectable implements ViewInterface
 
 	protected _engines = false;
 
+	/**
+	 * @var array
+	 */
 	protected _registeredEngines { get };
 
 	protected _mainView = "index";
