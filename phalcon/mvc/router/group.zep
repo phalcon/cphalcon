@@ -75,12 +75,8 @@ class Group implements GroupInterface
 	 */
 	public function __construct(var paths = null)
 	{
-		if typeof paths == "array" {
+		if typeof paths == "array" || typeof paths == "string" {
 			let this->_paths = paths;
-		} else {
-			if typeof paths == "string" {
-				let this->_paths = paths;
-			}
 		}
 
 		if method_exists(this, "initialize") {

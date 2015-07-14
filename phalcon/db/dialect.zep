@@ -827,9 +827,9 @@ abstract class Dialect implements DialectInterface
 			for filed in expression {
 				if unlikely typeof filed != "array" {
 					throw new Exception("Invalid SQL-GROUP-BY expression");
-				} else {
-					let fields[] = this->getSqlExpression(filed, escapeChar, bindCounts);
 				}
+
+				let fields[] = this->getSqlExpression(filed, escapeChar, bindCounts);
 			}
 
 			let fields = join(", ", fields);
@@ -868,9 +868,9 @@ abstract class Dialect implements DialectInterface
 
 				if unlikely typeof filed != "array" {
 					throw new Exception("Invalid SQL-ORDER-BY expression");
-				} else {
-					let fieldSql = this->getSqlExpression(filed[0], escapeChar, bindCounts);
 				}
+
+				let fieldSql = this->getSqlExpression(filed[0], escapeChar, bindCounts);
 
 				/**
 				 * In the numeric 1 position could be a ASC/DESC clause
