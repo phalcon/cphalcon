@@ -36,7 +36,7 @@ class Text extends PhText
 		return parent::uncamelize($str);
 	}
 
-	public static function increment($str, $separator = null)
+	public static function increment($str, $separator = "_")
 	{
 		return parent::increment($str, $separator);
 	}
