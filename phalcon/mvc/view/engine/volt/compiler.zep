@@ -513,6 +513,7 @@ class Compiler implements InjectionAwareInterface
 						"text_field": true,
 						"email_field": true,
 						"date_field": true,
+						"tel_field": true,
 						"numeric_field": true,
 						"image_input": true
 					];
