@@ -652,6 +652,12 @@ class DbDialectTest extends PHPUnit_Framework_TestCase
     $this->assertEquals($dialect->dropColumn('table', null, 'column1'), 'ALTER TABLE "table"  DROP COLUMN "column1"');
     $this->assertEquals($dialect->dropColumn('table', 'schema', 'column1'), 'ALTER TABLE "schema"."table"  DROP COLUMN "column1"');
 
+    //Drop Tables
+    $this->assertEquals($dialect->dropTable('table', null, true), 'DROP TABLE IF EXISTS "table"');
+    $this->assertEquals($dialect->dropTable('table', 'schema', true), 'DROP TABLE IF EXISTS "schema"."table"');
+    $this->assertEquals($dialect->dropTable('table', null, false), 'DROP TABLE "table"');
+    $this->assertEquals($dialect->dropTable('table', 'schema', false), 'DROP TABLE "schema"."table"');
+
     $indexes = $this->getIndexes();
 
     //Add Index
