@@ -53,7 +53,7 @@ use Phalcon\Cache\Frontend\Data as FrontendData;
 class Libmemcached extends Adapter implements AdapterInterface
 {
 
-	protected _libmemcached = NULL { get };
+	protected _libmemcached = null { get };
 
 	protected _lifetime = 8600 { get };
 

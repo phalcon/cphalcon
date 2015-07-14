@@ -120,7 +120,7 @@ class Route implements RouteInterface
 			}
 		}
 
-		// Check if the pattern has parantheses in order to add the regex delimiters
+		// Check if the pattern has parentheses in order to add the regex delimiters
 		if memstr(pattern, "(") {
 			return "#^" . pattern . "$#";
 		}

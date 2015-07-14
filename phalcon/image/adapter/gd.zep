@@ -540,7 +540,7 @@ class Gd extends Adapter implements AdapterInterface
 	protected function _render(string ext, int quality)
 	{
 		let ext = strtolower(ext);
-                ob_start();
+		ob_start();
 		if strcmp(ext, "gif") == 0 {
 			imagegif(this->_image);
 			return ob_get_clean();

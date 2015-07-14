@@ -157,9 +157,9 @@ class Simple extends Resultset
 			key, value, renamedRecords, columnMap;
 
 		/**
-		* If _rows is not present, fetchAll from database
-		* and keep them in memory for further operations
-		*/
+		 * If _rows is not present, fetchAll from database
+		 * and keep them in memory for further operations
+		 */
 		let records = this->_rows;
 		if typeof records != "array" {
 			let result = this->_result;

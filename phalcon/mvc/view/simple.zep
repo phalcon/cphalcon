@@ -50,7 +50,7 @@ class Simple extends Injectable implements ViewBaseInterface
 
 	protected _engines = false;
 
-	protected _registeredEngines  { get };
+	protected _registeredEngines { get };
 
 	protected _activeRenderPath;
 
