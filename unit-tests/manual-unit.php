@@ -4,7 +4,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -30,16 +30,16 @@ class PHPUnit_Framework_TestCase
 	public function assertInstanceOf($className, $object)
 	{
 		if (get_class($object) != $className) {
-			throw new Exception('Not instance of '.$className.', actually: '.get_class($object));
+			throw new Exception('Not instance of ' . $className . ', actually: ' . get_class($object));
 		}
 	}
 
 	public function assertEquals($a, $b)
 	{
 		if ($a != $b) {
-			if(is_array($a) && is_array($b)){
-				foreach($a as $k => $v){
-					if(isset($b[$k])){
+			if (is_array($a) && is_array($b)) {
+				foreach ($a as $k => $v){
+					if (isset($b[$k])) {
 						if ($v != $b[$k]) {
 							print_r($v);
 							echo PHP_EOL;
@@ -100,6 +100,23 @@ class PHPUnit_Framework_TestCase
 		}
 	}
 
+	public function assertInternalType($type, $value)
+	{
+		switch (gettype($value)) {
+
+			case 'integer':
+				if ($type != 'int' && $type != 'integer') {
+					throw new Exception('Not expected type: ' . gettype($value));
+				}
+				return;
+
+			default:
+				if ($type != gettype($value)) {
+					throw new Exception('Not expected type: ' . gettype($value));
+				}
+		}
+	}
+
 	public function markTestSkipped($message)
 	{
 		echo 'Skipped: ' . $message . PHP_EOL;
@@ -137,13 +154,11 @@ class PHPUnit_Framework_TestCase
 		} else {
 			echo '[FAILED]', PHP_EOL;
 		}
-
 	}
-
 }
 
 if (PHP_OS == 'Linux') {
-	if(isset($_SERVER['LOGNAME']) && $_SERVER['LOGNAME']=='gutierrezandresfelipe'){
+	if (isset($_SERVER['LOGNAME']) && $_SERVER['LOGNAME'] == 'gutierrezandresfelipe') {
 		chdir('/home/gutierrezandresfelipe/cphalcon');
 	}
 }
@@ -180,8 +195,8 @@ try {
 			}
 		}
 	}
-}
-catch(Exception $e){
+
+} catch (Exception $e) {
 	echo $e->getMessage(), PHP_EOL;
 	echo $e->getFile(), ' ', $e->getLine(), PHP_EOL;
 	echo $e->getTraceAsString(), PHP_EOL;
@@ -200,5 +215,4 @@ if (function_exists('xhprof_enable')) {
 	$run_id = $xhprof_runs->save_run($xhprof_data, "xhprof_testing");
 
 	echo "http://192.168.0.27/xhprof/xhprof_html/index.php?run={$run_id}&source=xhprof_testing\n";
-
 }

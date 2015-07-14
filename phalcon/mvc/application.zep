@@ -189,8 +189,7 @@ class Application extends Injectable
 	{
 		var dependencyInjector, eventsManager, router, dispatcher, response, view,
 			module, moduleObject, moduleName, className, path,
-			implicitView, returnedResponse, controller, possibleResponse;
-		boolean renderStatus;
+			implicitView, returnedResponse, controller, possibleResponse, renderStatus;
 
 		let dependencyInjector = this->_dependencyInjector;
 		if typeof dependencyInjector != "object" {
@@ -381,7 +380,7 @@ class Application extends Injectable
 						 * This allows to make a custom view render
 						 */
 						if typeof eventsManager == "object" {
-							let renderStatus = (boolean) eventsManager->fire("application:viewRender", this, view);
+							let renderStatus = eventsManager->fire("application:viewRender", this, view);
 						}
 
 						/**

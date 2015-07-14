@@ -108,7 +108,7 @@ class MySQL extends Dialect
 
 			case Column::TYPE_BOOLEAN:
 				if empty columnSql {
-					let columnSql .= "BIT";
+					let columnSql .= "TINYINT(1)";
 				}
 				break;
 

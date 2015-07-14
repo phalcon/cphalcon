@@ -52,6 +52,11 @@ interface ViewInterface extends ViewBaseInterface
 	public function setBasePath(string! basePath);
 
 	/**
+	 * Gets base path
+	 */
+	public function getBasePath() -> string;
+
+	/**
 	 * Sets the render level for the view
 	 */
 	public function setRenderLevel(string! level);

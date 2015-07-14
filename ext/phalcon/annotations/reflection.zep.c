@@ -25,14 +25,17 @@
  * Allows to manipulate the annotations reflection in an OO manner
  *
  *<code>
- * //Parse the annotations in a class
- * $reader = new \Phalcon\Annotations\Reader();
+ * use Phalcon\Annotations\Reader;
+ * use Phalcon\Annotations\Reflection;
+ *
+ * // Parse the annotations in a class
+ * $reader = new Reader();
  * $parsing = reader->parse('MyComponent');
  *
- * //Create the reflection
- * $reflection = new \Phalcon\Annotations\Reflection($parsing);
+ * // Create the reflection
+ * $reflection = new Reflection($parsing);
  *
- * //Get the annotations in the class docblock
+ * // Get the annotations in the class docblock
  * $classAnnotations = reflection->getClassAnnotations();
  *</code>
  */
@@ -104,8 +107,6 @@ PHP_METHOD(Phalcon_Annotations_Reflection, getClassAnnotations) {
 
 /**
  * Returns the annotations found in the methods' docblocks
- *
- * @return Phalcon\Annotations\Collection[]
  */
 PHP_METHOD(Phalcon_Annotations_Reflection, getMethodsAnnotations) {
 
@@ -126,7 +127,7 @@ PHP_METHOD(Phalcon_Annotations_Reflection, getMethodsAnnotations) {
 			if (zephir_fast_count_int(reflectionMethods TSRMLS_CC)) {
 				ZEPHIR_INIT_VAR(collections);
 				array_init(collections);
-				zephir_is_iterable(reflectionMethods, &_2, &_1, 0, 0, "phalcon/annotations/reflection.zep", 103);
+				zephir_is_iterable(reflectionMethods, &_2, &_1, 0, 0, "phalcon/annotations/reflection.zep", 104);
 				for (
 				  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
 				  ; zephir_hash_move_forward_ex(_2, &_1)
@@ -151,9 +152,7 @@ PHP_METHOD(Phalcon_Annotations_Reflection, getMethodsAnnotations) {
 }
 
 /**
- * Returns the annotations found in the properties' docblocks
- *
- * @return Phalcon\Annotations\Collection[]
+ * Returns the annotations found in the properties' docblocks	 
  */
 PHP_METHOD(Phalcon_Annotations_Reflection, getPropertiesAnnotations) {
 
@@ -174,7 +173,7 @@ PHP_METHOD(Phalcon_Annotations_Reflection, getPropertiesAnnotations) {
 			if (zephir_fast_count_int(reflectionProperties TSRMLS_CC)) {
 				ZEPHIR_INIT_VAR(collections);
 				array_init(collections);
-				zephir_is_iterable(reflectionProperties, &_2, &_1, 0, 0, "phalcon/annotations/reflection.zep", 132);
+				zephir_is_iterable(reflectionProperties, &_2, &_1, 0, 0, "phalcon/annotations/reflection.zep", 131);
 				for (
 				  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
 				  ; zephir_hash_move_forward_ex(_2, &_1)

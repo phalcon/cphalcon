@@ -19,10 +19,11 @@
 
 namespace Phalcon\Annotations;
 
-use Phalcon\Annotations\ReaderInterface;
+use Phalcon\Annotations\Reader;
 use Phalcon\Annotations\Exception;
 use Phalcon\Annotations\Collection;
 use Phalcon\Annotations\Reflection;
+use Phalcon\Annotations\ReaderInterface;
 
 /**
  * Phalcon\Annotations\Adapter
@@ -50,7 +51,7 @@ abstract class Adapter
 	public function getReader() -> <ReaderInterface>
 	{
 		if typeof this->_reader != "object" {
-			let this->_reader = new \Phalcon\Annotations\Reader();
+			let this->_reader = new Reader();
 		}
 		return this->_reader;
 	}

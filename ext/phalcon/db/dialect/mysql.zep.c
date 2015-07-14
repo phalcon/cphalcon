@@ -140,7 +140,7 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, getColumnDefinition) {
 		}
 		if (ZEPHIR_IS_LONG(type, 8)) {
 			if (ZEPHIR_IS_EMPTY(columnSql)) {
-				zephir_concat_self_str(&columnSql, SL("BIT") TSRMLS_CC);
+				zephir_concat_self_str(&columnSql, SL("TINYINT(1)") TSRMLS_CC);
 			}
 			break;
 		}

@@ -523,7 +523,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 				case PHQL_T_DOUBLE:
 				case PHQL_T_HINTEGER:
 					let exprReturn = ["type": "literal", "value": expr["value"]];
-					break;				
+					break;
 
 				case PHQL_T_TRUE:
 					let exprReturn = ["type": "literal", "value": "TRUE"];
@@ -615,7 +615,12 @@ class Query implements QueryInterface, InjectionAwareInterface
 									throw new Exception("At least one value must be bound in placeholder: " . name);
 								}
 
-								let exprReturn = ["type": "placeholder", "value": ":" . name, "times": count(bind)];
+								let exprReturn = [
+									"type": "placeholder",
+									"value": ":" . name,
+									"rawValue": name, 
+									"times": count(bind)
+								];
 								break;
 
 							default:
@@ -2339,9 +2344,9 @@ class Query implements QueryInterface, InjectionAwareInterface
 		var manager, modelName, models, model, connection, connectionTypes,
 			columns, column, selectColumns, simpleColumnMap, metaData, aliasCopy,
 			sqlColumn, attributes, instance, columnMap, attribute,
-			columnAlias, sqlAlias, dialect, sqlSelect,
+			columnAlias, sqlAlias, dialect, sqlSelect, bindCounts,
 			processed, wildcard, value, processedTypes, typeWildcard, result,
-			resultData, cache, resultObject, columns1, typesColumnMap;
+			resultData, cache, resultObject, columns1, typesColumnMap, wildcardValue;
 		boolean haveObjects, haveScalars, isComplex, isSimpleStd, isKeepingSnapshots;
 		int numberObjects;
 
@@ -2505,13 +2510,8 @@ class Query implements QueryInterface, InjectionAwareInterface
 			}
 		}
 
-		let intermediate["columns"] = selectColumns;
-
-		/**
-		 * The corresponding SQL dialect generates the SQL statement based accordingly with the database system
-		 */
-		let dialect = connection->getDialect(),
-			sqlSelect = dialect->select(intermediate);
+		let bindCounts = [],
+			intermediate["columns"] = selectColumns;
 
 		/**
 		 * Replace the placeholders
@@ -2519,10 +2519,16 @@ class Query implements QueryInterface, InjectionAwareInterface
 		if typeof bindParams == "array" {
 			let processed = [];
 			for wildcard, value in bindParams {
+
 				if typeof wildcard == "integer" {
-					let processed[":" . wildcard] = value;
+					let wildcardValue = ":" . wildcard;
 				} else {
-					let processed[wildcard] = value;
+					let wildcardValue = wildcard;
+				}
+
+				let processed[wildcardValue] = value;
+				if typeof value == "array" {
+					let bindCounts[wildcardValue] = count(value);
 				}
 			}
 		} else {
@@ -2544,6 +2550,16 @@ class Query implements QueryInterface, InjectionAwareInterface
 		} else {
 			let processedTypes = bindTypes;
 		}
+
+		if count(bindCounts) {
+			let intermediate["bindCounts"] = bindCounts;
+		}
+
+		/**
+		 * The corresponding SQL dialect generates the SQL statement based accordingly with the database system
+		 */
+		let dialect = connection->getDialect(),
+			sqlSelect = dialect->select(intermediate);
 
 		/**
 		 * Return the SQL to be executed instead of execute it

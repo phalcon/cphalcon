@@ -186,5 +186,4 @@ class Collection implements \Iterator, \Countable
 		}
 		return false;
 	}
-
 }

@@ -688,7 +688,7 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
 	/**
 	 * Adds a route to the router that only match if the HTTP method is GET
 	 */
-	public function addGet(string! pattern, var paths = null, var position = null) -> <RouteInterface>
+	public function addGet(string! pattern, var paths = null, var position = Router::POSITION_LAST) -> <RouteInterface>
 	{
 		return this->add(pattern, paths, "GET", position);
 	}
@@ -696,7 +696,7 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
 	/**
 	 * Adds a route to the router that only match if the HTTP method is POST
 	 */
-	public function addPost(string! pattern, var paths = null, var position = null) -> <RouteInterface>
+	public function addPost(string! pattern, var paths = null, var position = Router::POSITION_LAST) -> <RouteInterface>
 	{
 		return this->add(pattern, paths, "POST", position);
 	}
@@ -704,7 +704,7 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
 	/**
 	 * Adds a route to the router that only match if the HTTP method is PUT
 	 */
-	public function addPut(string! pattern, var paths = null, var position = null) -> <RouteInterface>
+	public function addPut(string! pattern, var paths = null, var position = Router::POSITION_LAST) -> <RouteInterface>
 	{
 		return this->add(pattern, paths, "PUT", position);
 	}
@@ -712,7 +712,7 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
 	/**
 	 * Adds a route to the router that only match if the HTTP method is PATCH
 	 */
-	public function addPatch(string! pattern, var paths = null, var position = null) -> <RouteInterface>
+	public function addPatch(string! pattern, var paths = null, var position = Router::POSITION_LAST) -> <RouteInterface>
 	{
 		return this->add(pattern, paths, "PATCH", position);
 	}
@@ -720,7 +720,7 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
 	/**
 	 * Adds a route to the router that only match if the HTTP method is DELETE
 	 */
-	public function addDelete(string! pattern, var paths = null, var position = null) -> <RouteInterface>
+	public function addDelete(string! pattern, var paths = null, var position = Router::POSITION_LAST) -> <RouteInterface>
 	{
 		return this->add(pattern, paths, "DELETE", position);
 	}
@@ -728,7 +728,7 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
 	/**
 	 * Add a route to the router that only match if the HTTP method is OPTIONS
 	 */
-	public function addOptions(string! pattern, var paths = null, var position = null) -> <RouteInterface>
+	public function addOptions(string! pattern, var paths = null, var position = Router::POSITION_LAST) -> <RouteInterface>
 	{
 		return this->add(pattern, paths, "OPTIONS", position);
 	}
@@ -736,7 +736,7 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
 	/**
 	 * Adds a route to the router that only match if the HTTP method is HEAD
 	 */
-	public function addHead(string! pattern, var paths = null, var position = null) -> <RouteInterface>
+	public function addHead(string! pattern, var paths = null, var position = Router::POSITION_LAST) -> <RouteInterface>
 	{
 		return this->add(pattern, paths, "HEAD", position);
 	}

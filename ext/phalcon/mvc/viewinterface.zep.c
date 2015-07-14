@@ -52,6 +52,11 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_ViewInterface, getPartialsDir);
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ViewInterface, setBasePath);
 
 /**
+ * Gets base path
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_ViewInterface, getBasePath);
+
+/**
  * Sets the render level for the view
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ViewInterface, setRenderLevel);

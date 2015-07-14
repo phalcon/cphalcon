@@ -139,7 +139,7 @@ class ModelsHydrationTest extends PHPUnit_Framework_TestCase
 		$robots->setHydrateMode(Phalcon\Mvc\Model\Resultset::HYDRATE_ARRAYS);
 		foreach ($robots as $robot) {
 			$this->assertTrue(is_array($robot));
-			$this->assertEquals(count($robot), 6);
+			$this->assertEquals(6, count($robot));
 			$number++;
 		}
 
