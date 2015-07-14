@@ -436,4 +436,38 @@ class HttpResponseTest extends Helper\HttpBase
             }
         );
     }
+
+    /**
+     * Tests setCache
+     *
+     * @author Sid Roberts <sid@sidroberts.co.uk>
+     * @since  2015-07-14
+     */
+    public function testHttpResponseSetCache()
+    {
+        $this->specify(
+            "setCache is not producing the correct results",
+            function () {
+
+                $response = $this->getResponseObject();
+
+                $expiry = new \DateTime();
+                $expiry->setTimezone(new \DateTimeZone("UTC"));
+                $expiry->modify("+60 minutes");
+
+                $response->setCache(60);
+
+                $actual   = $response->getHeaders();
+                $expected = PhResponseHeaders::__set_state(
+                    [
+                        '_headers' => [
+                            "Expires"       => $expiry->format("D, d M Y H:i:s") . " GMT",
+                            "Cache-Control" => "max-age=3600"
+                        ]
+                    ]
+                );
+                expect($actual)->equals($expected);
+            }
+        );
+    }
 }
