@@ -4,6 +4,7 @@
 - The email filter now no longer removes the ' character [#10603](https://github.com/phalcon/cphalcon/pull/10603)
 - When an array is bound the cached representation in PHQL makes the SQL being incorrectly
   generated the second time.
+- Added `\Phalcon\Mvc\Model\MetaData\Memcache` and `\Phalcon\Mvc\Model\MetaData\Libmemcached` adapters
 
 # [2.0.4](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.0.4) (2015-07-07)
 - Fixed bug in `Phalcon\Mvc\Model::update()` that throws an exception when the record does exist
