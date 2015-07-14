@@ -57,10 +57,19 @@ class File implements FileInterface
 
 	protected _realType;
 
+	/**
+	 * @var string|null
+	 */
 	protected _error { get };
 
+	/**
+	 * @var string|null
+	 */
 	protected _key { get };
 
+	/**
+	 * @var string
+	 */
 	protected _extension { get };
 
 	/**
