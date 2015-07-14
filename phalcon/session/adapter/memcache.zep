@@ -31,10 +31,10 @@ use Phalcon\Cache\Frontend\Data as FrontendData;
  *
  *<code>
  * $session = new \Phalcon\Session\Adapter\Memcache(array(
- *    'uniqueId' => 'my-private-app'
+ *    'uniqueId' => 'my-private-app',
  *    'host' => '127.0.0.1',
  *    'port' => 11211,
- *    'persistent' => TRUE,
+ *    'persistent' => true,
  *    'lifetime' => 3600,
  *    'prefix' => 'my_'
  * ));

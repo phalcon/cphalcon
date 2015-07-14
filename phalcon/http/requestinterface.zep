@@ -66,7 +66,7 @@ interface RequestInterface
 	public function getServer(string! name);
 
 	/**
-	 * Checks whether $_SERVER superglobal has certain index
+	 * Checks whether $_REQUEST superglobal has certain index
 	 */
 	public function has(string! name) -> boolean;
 

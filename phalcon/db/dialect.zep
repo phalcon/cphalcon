@@ -838,7 +838,7 @@ abstract class Dialect implements DialectInterface
 			let fields = expression;
 		}
 
-		return  "GROUP BY " . fields;
+		return "GROUP BY " . fields;
 	}
 
 	/**
@@ -888,7 +888,7 @@ abstract class Dialect implements DialectInterface
 			let fields = expression;
 		}
 
-		return  "ORDER BY " . fields;
+		return "ORDER BY " . fields;
 	}
 
 	/**

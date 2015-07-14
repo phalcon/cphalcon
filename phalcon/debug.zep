@@ -729,7 +729,7 @@ class Debug
 			/**
 			 * Print extra variables passed to the component
 			 */
-			if typeof  dataVars == "array" {
+			if typeof dataVars == "array" {
 				let html .= "<div id=\"error-tabs-6\"><table cellspacing=\"0\" align=\"center\" class=\"superglobal-detail\">";
 				let html .= "<tr><th>Key</th><th>Value</th></tr>";
 				for keyVar, dataVar in dataVars {
@@ -744,7 +744,7 @@ class Debug
 		/**
 		 * Get Javascript sources
 		 */
-		let html .=  this->getJsSources() . "</div></body></html>";
+		let html .= this->getJsSources() . "</div></body></html>";
 
 		/**
 		 * Print the HTML, @TODO, add an option to store the html

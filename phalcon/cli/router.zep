@@ -22,7 +22,7 @@ namespace Phalcon\Cli;
 
 use Phalcon\DiInterface;
 use Phalcon\Cli\Router\Route;
-use Phalcon\CLi\Router\Exception;
+use Phalcon\Cli\Router\Exception;
 
 /**
  * Phalcon\Cli\Router
