@@ -430,9 +430,8 @@ class Debug
 		/**
 		 * Check for arguments in the function
 		 */
-		if isset trace["args"] {
+		if fetch traceArgs, trace["args"] {
 
-			let traceArgs = trace["args"];
 			if count(traceArgs) {
 				let arguments = [];
 				for argument in traceArgs {
@@ -562,14 +561,10 @@ class Debug
 					/**
 					 * Print a non break space if the current line is a line break, this allows to show the html zebra properly
 					 */
-					if currentLine == "\n" {
+					if currentLine == "\n" || currentLine == "\r\n" {
 						let html .= "&nbsp;\n";
 					} else {
-						if currentLine == "\r\n" {
-							let html .= "&nbsp;\n";
-						} else {
-							let html .= htmlentities(str_replace(tab, twoSpaces, currentLine), entCompat, utf8);
-						}
+						let html .= htmlentities(str_replace(tab, twoSpaces, currentLine), entCompat, utf8);
 					}
 
 					let i++;
