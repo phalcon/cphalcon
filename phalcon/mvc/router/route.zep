@@ -235,9 +235,7 @@ class Route implements RouteInterface
 										}
 
 										if foundPattern != 2 {
-											let route .= '(',
-												route .= regexp,
-												route .= ')';
+											let route .= "(" . regexp . ")";
 										} else {
 											let route .= regexp;
 										}
@@ -247,9 +245,7 @@ class Route implements RouteInterface
 											matches[item] = tmp;
 									}
 								} else {
-									let route .= '{',
-										route .= item,
-										route .= '}';
+									let route .= "{" . item . "}";
 								}
 								continue;
 							}

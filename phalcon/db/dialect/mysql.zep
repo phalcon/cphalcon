@@ -118,12 +118,11 @@ class MySQL extends Dialect
 				}
 				let size = column->getSize();
 				if size {
-					let scale = column->getScale(),
-						columnSql .= "(" . size;
+					let scale = column->getScale();
 					if scale {
-						let columnSql .= "," . scale . ")";
+						let columnSql .= "(" . size . "," . scale . ")";
 					} else {
-						let columnSql .= ")";
+						let columnSql .= "(" . size . ")";
 					}
 				}
 				if column->isUnsigned() {
