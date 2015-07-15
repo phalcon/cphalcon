@@ -1,5 +1,6 @@
 #!/bin/bash
 
+cd vendor/phalcon/zephir
 cd parser
 rm -f *.o *.lo
 
@@ -23,17 +24,17 @@ fi
 sed s/"\#line"/"\/\/"/g scanner.c > xx && mv -f xx scanner.c
 sed s/"#line"/"\/\/"/g parser.c > xx && mv -f xx parser.c
 gcc -Wl,-rpath /usr/local/lib -I/usr/local/include -L/usr/local/lib -L/opt/local/lib \
-	-I/home/travis/build/phalcon/cphalcon/build/include \
-	-L/home/travis/build/phalcon/cphalcon/build/lib \
+	-I$TRAVIS_BUILD_DIR/build/include \
+	-L$TRAVIS_BUILD_DIR/build/lib \
 	-g3 -O0 -w parser.c scanner.c -ljson-c -o ../bin/zephir-parser
 
 cd ..
 
-ZEPHIRDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+ZEPHIRDIR="$( cd "$( dirname . )" && pwd )"
 sed "s#%ZEPHIRDIR%#$ZEPHIRDIR#g" bin/zephir > bin/zephir-cmd
 chmod 755 bin/zephir-cmd
 
-if [ ! -d "~/bin" ]; then
+if [ ! -d ~/bin ]; then
 	mkdir ~/bin
 fi
 
