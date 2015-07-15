@@ -300,7 +300,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, notifyEvent);
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, missingMethod);
 
 /**
- * Returns the last query created or executed in the
+ * Returns the last query created or executed in the models manager
  *
  * @return Phalcon\Mvc\Model\QueryInterface
  */

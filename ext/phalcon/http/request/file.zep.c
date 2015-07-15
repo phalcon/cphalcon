@@ -58,10 +58,19 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Request_File) {
 
 	zend_declare_property_null(phalcon_http_request_file_ce, SL("_realType"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
+	/**
+	 * @var string|null
+	 */
 	zend_declare_property_null(phalcon_http_request_file_ce, SL("_error"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
+	/**
+	 * @var string|null
+	 */
 	zend_declare_property_null(phalcon_http_request_file_ce, SL("_key"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
+	/**
+	 * @var string
+	 */
 	zend_declare_property_null(phalcon_http_request_file_ce, SL("_extension"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	zend_class_implements(phalcon_http_request_file_ce TSRMLS_CC, 1, phalcon_http_request_fileinterface_ce);
@@ -69,6 +78,9 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Request_File) {
 
 }
 
+/**
+ * @var string|null
+ */
 PHP_METHOD(Phalcon_Http_Request_File, getError) {
 
 
@@ -76,6 +88,9 @@ PHP_METHOD(Phalcon_Http_Request_File, getError) {
 
 }
 
+/**
+ * @var string|null
+ */
 PHP_METHOD(Phalcon_Http_Request_File, getKey) {
 
 
@@ -83,6 +98,9 @@ PHP_METHOD(Phalcon_Http_Request_File, getKey) {
 
 }
 
+/**
+ * @var string
+ */
 PHP_METHOD(Phalcon_Http_Request_File, getExtension) {
 
 

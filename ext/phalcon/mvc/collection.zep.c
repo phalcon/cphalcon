@@ -1168,7 +1168,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, appendMessage) {
 }
 
 /**
- * Creates/Updates a collection based on the values in the atributes
+ * Creates/Updates a collection based on the values in the attributes
  */
 PHP_METHOD(Phalcon_Mvc_Collection, save) {
 

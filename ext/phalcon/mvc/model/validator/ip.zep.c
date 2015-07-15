@@ -26,7 +26,7 @@
  * Validates that a value is ipv4 address in valid range
  *
  *<code>
- *use Phalcon\Mvc\Model\Validator\CardNumber;
+ *use Phalcon\Mvc\Model\Validator\Ip;
  *
  *class Data extends Phalcon\Mvc\Model
  *{
@@ -34,7 +34,7 @@
  *  public function validation()
  *  {
  *      // Any pubic IP
- *      $this->validate(new IPv4(array(
+ *      $this->validate(new IP(array(
  *          'field'             => 'server_ip',
  *          'version'           => IP::VERSION_4 | IP::VERSION_6, // v6 and v4. The same if not specified
  *          'allowReserved'     => false,   // False if not specified. Ignored for v6

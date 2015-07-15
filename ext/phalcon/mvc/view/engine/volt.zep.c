@@ -186,6 +186,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, render) {
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, length) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
+	zend_bool _0;
 	zval *item, *length = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -195,21 +196,20 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, length) {
 
 	ZEPHIR_INIT_VAR(length);
 	ZVAL_LONG(length, 0);
-	if (Z_TYPE_P(item) == IS_OBJECT) {
+	_0 = Z_TYPE_P(item) == IS_OBJECT;
+	if (!(_0)) {
+		_0 = Z_TYPE_P(item) == IS_ARRAY;
+	}
+	if (_0) {
 		ZEPHIR_INIT_NVAR(length);
 		ZVAL_LONG(length, zephir_fast_count_int(item TSRMLS_CC));
 	} else {
-		if (Z_TYPE_P(item) == IS_ARRAY) {
-			ZEPHIR_INIT_NVAR(length);
-			ZVAL_LONG(length, zephir_fast_count_int(item TSRMLS_CC));
+		if ((zephir_function_exists_ex(SS("mb_strlen") TSRMLS_CC) == SUCCESS)) {
+			ZEPHIR_CALL_FUNCTION(&length, "mb_strlen", NULL, 364, item);
+			zephir_check_call_status();
 		} else {
-			if ((zephir_function_exists_ex(SS("mb_strlen") TSRMLS_CC) == SUCCESS)) {
-				ZEPHIR_CALL_FUNCTION(&length, "mb_strlen", NULL, 364, item);
-				zephir_check_call_status();
-			} else {
-				ZEPHIR_INIT_NVAR(length);
-				ZVAL_LONG(length, zephir_fast_strlen_ev(item));
-			}
+			ZEPHIR_INIT_NVAR(length);
+			ZVAL_LONG(length, zephir_fast_strlen_ev(item));
 		}
 	}
 	RETURN_CCTOR(length);
@@ -242,7 +242,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, isIncluded) {
 		zephir_fast_strpos(_1, haystack, needle, 0 );
 		RETURN_MM_BOOL(!ZEPHIR_IS_FALSE_IDENTICAL(_1));
 	}
-	ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_view_exception_ce, "Invalid haystack", "phalcon/mvc/view/engine/volt.zep", 170);
+	ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_view_exception_ce, "Invalid haystack", "phalcon/mvc/view/engine/volt.zep", 166);
 	return;
 
 }
@@ -313,7 +313,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, convertEncoding) {
 		zephir_check_call_status();
 		RETURN_MM();
 	}
-	ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_view_exception_ce, "Any of 'mbstring' or 'iconv' is required to perform the charset conversion", "phalcon/mvc/view/engine/volt.zep", 209);
+	ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_view_exception_ce, "Any of 'mbstring' or 'iconv' is required to perform the charset conversion", "phalcon/mvc/view/engine/volt.zep", 205);
 	return;
 
 }
@@ -366,7 +366,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, slice) {
 			if (_1) {
 				ZEPHIR_CALL_METHOD(&_2, value, "current", &_3, 0);
 				zephir_check_call_status();
-				zephir_array_append(&slice, _2, PH_SEPARATE, "phalcon/mvc/view/engine/volt.zep", 235);
+				zephir_array_append(&slice, _2, PH_SEPARATE, "phalcon/mvc/view/engine/volt.zep", 231);
 			}
 			ZEPHIR_CALL_METHOD(NULL, value, "next", &_4, 0);
 			zephir_check_call_status();
@@ -473,7 +473,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, callMacro) {
 		ZEPHIR_CONCAT_SVS(_2, "Macro '", name, "' does not exist");
 		ZEPHIR_CALL_METHOD(NULL, _1, "__construct", NULL, 9, _2);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(_1, "phalcon/mvc/view/engine/volt.zep", 297 TSRMLS_CC);
+		zephir_throw_exception_debug(_1, "phalcon/mvc/view/engine/volt.zep", 293 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}

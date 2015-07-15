@@ -126,24 +126,21 @@ PHP_METHOD(Phalcon_Text, uncamelize) {
  */
 PHP_METHOD(Phalcon_Text, increment) {
 
-	zval *str_param = NULL, *separator = NULL, *parts, *number = NULL, *_0;
-	zval *str = NULL;
+	zval *str_param = NULL, *separator_param = NULL, *parts, *number = NULL, *_0;
+	zval *str = NULL, *separator = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 1, &str_param, &separator);
+	zephir_fetch_params(1, 1, 1, &str_param, &separator_param);
 
 	zephir_get_strval(str, str_param);
-	if (!separator) {
-		ZEPHIR_CPY_WRT(separator, ZEPHIR_GLOBAL(global_null));
-	} else {
-		ZEPHIR_SEPARATE_PARAM(separator);
-	}
-
-
-	if (Z_TYPE_P(separator) == IS_NULL) {
-		ZEPHIR_INIT_NVAR(separator);
+	if (!separator_param) {
+		ZEPHIR_INIT_VAR(separator);
 		ZVAL_STRING(separator, "_", 1);
+	} else {
+		zephir_get_strval(separator, separator_param);
 	}
+
+
 	ZEPHIR_INIT_VAR(parts);
 	zephir_fast_explode(parts, separator, str, LONG_MAX TSRMLS_CC);
 	ZEPHIR_OBS_VAR(number);
@@ -154,7 +151,7 @@ PHP_METHOD(Phalcon_Text, increment) {
 		ZEPHIR_INIT_NVAR(number);
 		ZVAL_LONG(number, 1);
 	}
-	zephir_array_fetch_long(&_0, parts, 0, PH_NOISY | PH_READONLY, "phalcon/text.zep", 88 TSRMLS_CC);
+	zephir_array_fetch_long(&_0, parts, 0, PH_NOISY | PH_READONLY, "phalcon/text.zep", 84 TSRMLS_CC);
 	ZEPHIR_CONCAT_VVV(return_value, _0, separator, number);
 	RETURN_MM();
 
@@ -276,7 +273,7 @@ PHP_METHOD(Phalcon_Text, random) {
 		ZVAL_LONG(&_0, 0);
 		ZEPHIR_SINIT_NVAR(_1);
 		ZVAL_LONG(&_1, end);
-		zephir_array_fetch_long(&_7, pool, zephir_mt_rand(zephir_get_intval(&_0), zephir_get_intval(&_1) TSRMLS_CC), PH_NOISY | PH_READONLY, "phalcon/text.zep", 130 TSRMLS_CC);
+		zephir_array_fetch_long(&_7, pool, zephir_mt_rand(zephir_get_intval(&_0), zephir_get_intval(&_1) TSRMLS_CC), PH_NOISY | PH_READONLY, "phalcon/text.zep", 126 TSRMLS_CC);
 		zephir_concat_self(&str, _7 TSRMLS_CC);
 	}
 	RETURN_CCTOR(str);
@@ -531,7 +528,7 @@ PHP_METHOD(Phalcon_Text, concat) {
 		ZVAL_LONG(&_0, 3);
 		ZEPHIR_CALL_FUNCTION(&_4, "array_slice", NULL, 377, _3, &_0);
 		zephir_check_call_status();
-		zephir_is_iterable(_4, &_6, &_5, 0, 0, "phalcon/text.zep", 246);
+		zephir_is_iterable(_4, &_6, &_5, 0, 0, "phalcon/text.zep", 242);
 		for (
 		  ; zephir_hash_get_current_data_ex(_6, (void**) &_7, &_5) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_6, &_5)
@@ -646,7 +643,7 @@ PHP_METHOD(Phalcon_Text, dynamic) {
 		ZEPHIR_CONCAT_SVS(_4, "Syntax error in string \"", text, "\"");
 		ZEPHIR_CALL_METHOD(NULL, _3, "__construct", NULL, 421, _4);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(_3, "phalcon/text.zep", 265 TSRMLS_CC);
+		zephir_throw_exception_debug(_3, "phalcon/text.zep", 261 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -658,7 +655,7 @@ PHP_METHOD(Phalcon_Text, dynamic) {
 	ZEPHIR_CONCAT_SVSVVSVS(pattern, "/", ld_s, "([^", ld_s, rd_s, "]+)", rd_s, "/");
 	ZEPHIR_CPY_WRT(result, text);
 	while (1) {
-		if (!(zephir_memnstr(result, leftDelimiter, "phalcon/text.zep", 273))) {
+		if (!(zephir_memnstr(result, leftDelimiter, "phalcon/text.zep", 269))) {
 			break;
 		}
 		ZEPHIR_INIT_NVAR(_3);

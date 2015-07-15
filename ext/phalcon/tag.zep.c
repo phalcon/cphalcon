@@ -2139,7 +2139,7 @@ PHP_METHOD(Phalcon_Tag, image) {
  * @param string separator
  * @param boolean lowercase
  * @param mixed replace
- * @return text
+ * @return string
  */
 PHP_METHOD(Phalcon_Tag, friendlyTitle) {
 

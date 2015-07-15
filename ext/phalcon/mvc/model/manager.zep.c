@@ -2675,7 +2675,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, createBuilder) {
 }
 
 /**
- * Returns the lastest query created or executed in the models manager
+ * Returns the last query created or executed in the models manager
  */
 PHP_METHOD(Phalcon_Mvc_Model_Manager, getLastQuery) {
 

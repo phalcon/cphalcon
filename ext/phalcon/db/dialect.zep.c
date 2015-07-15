@@ -1614,11 +1614,10 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionGroupBy) {
 			if (unlikely(Z_TYPE_P(filed) != IS_ARRAY)) {
 				ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Invalid SQL-GROUP-BY expression", "phalcon/db/dialect.zep", 829);
 				return;
-			} else {
-				ZEPHIR_CALL_METHOD(&_3, this_ptr, "getsqlexpression", &_4, 0, filed, escapeChar, bindCounts);
-				zephir_check_call_status();
-				zephir_array_append(&fields, _3, PH_SEPARATE, "phalcon/db/dialect.zep", 831);
 			}
+			ZEPHIR_CALL_METHOD(&_3, this_ptr, "getsqlexpression", &_4, 0, filed, escapeChar, bindCounts);
+			zephir_check_call_status();
+			zephir_array_append(&fields, _3, PH_SEPARATE, "phalcon/db/dialect.zep", 832);
 		}
 		ZEPHIR_INIT_VAR(_5);
 		zephir_fast_join_str(_5, SL(", "), fields TSRMLS_CC);
@@ -1706,11 +1705,10 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionOrderBy) {
 			if (unlikely(Z_TYPE_P(filed) != IS_ARRAY)) {
 				ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Invalid SQL-ORDER-BY expression", "phalcon/db/dialect.zep", 870);
 				return;
-			} else {
-				zephir_array_fetch_long(&_3, filed, 0, PH_NOISY | PH_READONLY, "phalcon/db/dialect.zep", 872 TSRMLS_CC);
-				ZEPHIR_CALL_METHOD(&fieldSql, this_ptr, "getsqlexpression", &_4, 0, _3, escapeChar, bindCounts);
-				zephir_check_call_status();
 			}
+			zephir_array_fetch_long(&_3, filed, 0, PH_NOISY | PH_READONLY, "phalcon/db/dialect.zep", 873 TSRMLS_CC);
+			ZEPHIR_CALL_METHOD(&fieldSql, this_ptr, "getsqlexpression", &_4, 0, _3, escapeChar, bindCounts);
+			zephir_check_call_status();
 			ZEPHIR_OBS_NVAR(type);
 			_5 = zephir_array_isset_long_fetch(&type, filed, 1, 0 TSRMLS_CC);
 			if (_5) {
