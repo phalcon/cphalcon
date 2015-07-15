@@ -49,6 +49,6 @@ class Json extends Formatter implements FormatterInterface
 			"type": this->getTypeString(type),
 			"message": message,
 			"timestamp": timestamp
-		]);
+		]).PHP_EOL;
 	}
 }
