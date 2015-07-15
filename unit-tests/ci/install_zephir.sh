@@ -11,19 +11,22 @@ fi
 
 TEST=`re2c -v`
 if [ $? != 2 ]; then
-  echo "error: re2c is not installed"
-  exit 2
+	echo "error: re2c is not installed"
+	exit 2
 fi
 
 re2c -o scanner.c scanner.re && ./lemon -s parser.lemon && cat base.c >> parser.c
 if [ ! -f parser.c ]; then
-  echo "error: re2c is not installed"
-  exit 2
+	echo "error: re2c is not installed"
+	exit 2
 fi
 
 sed s/"\#line"/"\/\/"/g scanner.c > xx && mv -f xx scanner.c
 sed s/"#line"/"\/\/"/g parser.c > xx && mv -f xx parser.c
-gcc -Wl,-rpath /usr/local/lib -I/usr/local/include -L/usr/local/lib -L/opt/local/lib \
+gcc -Wl,-rpath $TRAVIS_BUILD_DIR/build/lib \
+	-I/usr/local/include \
+	-L/usr/local/lib \
+	-L/opt/local/lib \
 	-I$TRAVIS_BUILD_DIR/build/include \
 	-L$TRAVIS_BUILD_DIR/build/lib \
 	-g3 -O0 -w parser.c scanner.c -ljson-c -o ../bin/zephir-parser
