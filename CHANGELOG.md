@@ -1,3 +1,6 @@
+# 2.0.6 (????-??-??)
+- Added `Http\Response::setCache()` to easily set cache headers.
+
 # [2.0.5](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.0.5) (2015-07-14)
 - Fixed a bug that makes that attaching an events manager to an Mvc\Application causes view->render() not being called
 - Fixed bug that makes generated SQL statements using FOR UPDATE not being parsed correctly 

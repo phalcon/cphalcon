@@ -82,6 +82,11 @@ class Response extends PhResponse
         return parent::setExpires($datetime);
     }
 
+    public function setCache($minutes)
+    {
+        return parent::setCache($minutes);
+    }
+
     public function setNotModified()
     {
         return parent::setNotModified();
