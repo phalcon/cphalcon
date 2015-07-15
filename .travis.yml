@@ -26,7 +26,8 @@ before_script:
  - git submodule --quiet update --init --recursive
  - (cd php-tests/library/Mustache; git checkout master)
  - (cd php-tests/library/Twig; git checkout master)
- - (cd vendor/phalcon/zephir; ./unit-tests/ci/before_install.sh; ./install)
+ - (cd vendor/phalcon/zephir; ./unit-tests/ci/before_install.sh; ./install-nosudo)
+ - export PATH=$PATH:~/bin
  - ./vendor/bin/zephir generate
  - (cd ext; export CFLAGS="-g3 -O1 -std=gnu90 -Wall -DZEPHIR_RELEASE=1"; phpize && ./configure --enable-phalcon && make --silent -j4 && make --silent install && phpenv config-add ../unit-tests/ci/phalcon.ini)
  - ulimit -c unlimited || true
