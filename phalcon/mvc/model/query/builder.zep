@@ -1293,44 +1293,31 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 		let limit = this->_limit;
 		if limit !== null {
 
-			let number = null;
 			if typeof limit == "array" {
 
-				let number = limit["number"];
-				if fetch offset, limit["offset"] {
-					if !is_numeric(offset) {
-						let offset = 0;
-					}
-				}
-
-			} else {
-				if is_numeric(limit) {
-					let number = limit,
-						offset = this->_offset;
-					if offset !== null {
-						if !is_numeric(offset) {
-							let offset = 0;
-						}
-					}
-				}
-			}
-
-			if is_numeric(limit) {
-
-				let hiddenParam = this->_hiddenParamNumber,
-					phql .= " LIMIT :AP" . hiddenParam . ":",
-					this->_bindParams["AP" . hiddenParam] = intval(number, 10),
-					this->_bindTypes["AP" . hiddenParam] = Column::BIND_PARAM_INT;
-
-				if is_numeric(offset) {
-					let hiddenParam++,
-						phql .= " OFFSET :AP" . hiddenParam . ":",
-						this->_bindParams["AP" . hiddenParam] = intval(offset, 10),
-						this->_bindTypes["AP" . hiddenParam] = Column::BIND_PARAM_INT;
-				}
-
-				let this->_hiddenParamNumber = hiddenParam + 1;
-			}
+                let number = limit["number"];
+                if fetch offset, limit["offset"] {
+                       if is_numeric(offset) {
+                               let phql .= " LIMIT " . number . " OFFSET " . offset;
+                       } else {
+                              let phql .= " LIMIT " . number . " OFFSET 0";
+                        }
+                   } else {
+                           let phql .= " LIMIT " . number;
+                    }
+            } else {
+                    if is_numeric(limit) {
+                           let phql .= " LIMIT " . limit,
+                                    offset = this->_offset;
+                            if offset !== null {
+                                   if is_numeric(offset) {
+                                           let phql .= " OFFSET " . offset;
+                                   } else {
+                                           let phql .= " OFFSET 0";
+                                    }
+                            }
+                    }
+            }
 		}
 
 		let forUpdate = this->_forUpdate;
