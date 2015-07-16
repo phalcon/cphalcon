@@ -220,7 +220,7 @@ class Libmemcached extends Backend implements BackendInterface
 		}
 
 		if !success {
-			throw new Exception("Failed storing data in memcached");
+			throw new Exception("Failed storing data in memcached, error code: " . memcache->getResultCode());
 		}
 
 		let options = this->_options;
