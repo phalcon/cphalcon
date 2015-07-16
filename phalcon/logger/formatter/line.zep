@@ -89,7 +89,7 @@ class Line extends Formatter implements FormatterInterface
 			let format = str_replace("%type%", this->getTypeString(type), format);
 		}
 
-		let format = str_replace("%message%", message, format);
+		let format = str_replace("%message%", message, format) . PHP_EOL;
 
 		if typeof context === "array" {
 			return this->interpolate(format, context);

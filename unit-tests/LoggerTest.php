@@ -56,7 +56,7 @@ class LoggerTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * @runInSeparateProcess
-     * @preserveGlobalState disabled
+	 * @preserveGlobalState disabled
 	 */
 	public function testFirephp()
 	{
@@ -108,5 +108,12 @@ class LoggerTest extends PHPUnit_Framework_TestCase
 			$this->assertEquals($line['type'], $loggerType[$key]);
 			$this->assertEquals($line['message'], $loggerMessage[$key]);
 		}
+	}
+
+	public function testIssues10631()
+	{
+			$logger = new \Phalcon\Logger\Formatter\Line();
+			$result = $logger->format("msg", \Phalcon\Logger::INFO, 0);
+			$this->assertEquals($result, '[Thu, 01 Jan 70 00:00:00 +0000][INFO] msg'.PHP_EOL);
 	}
 }
