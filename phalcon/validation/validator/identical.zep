@@ -46,11 +46,19 @@ class Identical extends Validator
 	 */
 	public function validate(<Validation> validation, string! field) -> boolean
 	{
-		var message, label, replacePairs, value;
+		var message, label, replacePairs, value, valid;
 
 		let value = validation->getValue(field);
 
-		if !(value == this->getOption("accepted") || value == this->getOption("value")) {
+		if this->hasOption("accepted") {
+			let valid = value == this->getOption("accepted");
+		} else {
+			if this->hasOption("value") {
+				let valid = value == this->getOption("value");
+			}
+		}
+
+		if !valid {
 
 			let label = this->getOption("label");
 			if empty label {

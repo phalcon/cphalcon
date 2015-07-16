@@ -107,7 +107,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Uniqueness, validate) {
 		ZEPHIR_INIT_VAR(_1);
 		zephir_create_array(_1, 2, 0 TSRMLS_CC);
 		ZEPHIR_INIT_VAR(_2);
-		ZEPHIR_CONCAT_VSVS(_2, attribute, "=:value: AND ", attribute, "!= :except:");
+		ZEPHIR_CONCAT_VSVS(_2, attribute, " = :value: AND ", attribute, " != :except:");
 		zephir_array_fast_append(_1, _2);
 		ZEPHIR_INIT_VAR(_3);
 		zephir_create_array(_3, 2, 0 TSRMLS_CC);
@@ -121,7 +121,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Uniqueness, validate) {
 		ZEPHIR_INIT_NVAR(_1);
 		zephir_create_array(_1, 2, 0 TSRMLS_CC);
 		ZEPHIR_INIT_LNVAR(_2);
-		ZEPHIR_CONCAT_VS(_2, attribute, "=:value:");
+		ZEPHIR_CONCAT_VS(_2, attribute, " = :value:");
 		zephir_array_fast_append(_1, _2);
 		ZEPHIR_INIT_NVAR(_3);
 		zephir_create_array(_3, 1, 0 TSRMLS_CC);

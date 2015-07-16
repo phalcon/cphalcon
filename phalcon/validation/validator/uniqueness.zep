@@ -70,9 +70,9 @@ class Uniqueness extends Validator
 		}
 
 		if except  {
-			let number = {model}::count([attribute . "=:value: AND " . attribute . "!= :except:", "bind": ["value": value, "except": except]]);
+			let number = {model}::count([attribute . " = :value: AND " . attribute . " != :except:", "bind": ["value": value, "except": except]]);
 		} else {
-			let number = {model}::count([attribute . "=:value:", "bind": ["value": value]]);
+			let number = {model}::count([attribute . " = :value:", "bind": ["value": value]]);
 		}
 
 		if number {

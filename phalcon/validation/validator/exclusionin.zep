@@ -22,6 +22,7 @@ namespace Phalcon\Validation\Validator;
 use Phalcon\Validation;
 use Phalcon\Validation\Message;
 use Phalcon\Validation\Validator;
+use Phalcon\Validation\Exception;
 
 /**
  * Phalcon\Validation\Validator\ExclusionIn
@@ -58,7 +59,7 @@ class ExclusionIn extends Validator
 		 */
 		let domain = this->getOption("domain");
 		if typeof domain != "array" {
-			throw new \Phalcon\Validation\Exception("Option 'domain' must be an array");
+			throw new Exception("Option 'domain' must be an array");
 		}
 
 		/**
