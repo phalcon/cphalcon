@@ -180,14 +180,8 @@ abstract class Adapter implements EventsAwareInterface
 	 *	$robot = $connection->fecthOne("SELECT * FROM robots", Phalcon\Db::FETCH_ASSOC);
 	 *	print_r($robot);
 	 *</code>
-	 *
-	 * @param string sqlQuery
-	 * @param int fetchMode
-	 * @param array bindParams
-	 * @param array bindTypes
-	 * @return array
 	 */
-	public function fetchOne(string! sqlQuery, var fetchMode = Db::FETCH_ASSOC, var bindParams = null, var bindTypes = null)
+	public function fetchOne(string! sqlQuery, var fetchMode = Db::FETCH_ASSOC, var bindParams = null, var bindTypes = null) -> array
 	{
 		var result;
 
@@ -280,6 +274,7 @@ abstract class Adapter implements EventsAwareInterface
 		if !empty row && fetch columnValue, row[column] {
 			return columnValue;
 		}
+
 		return false;
 	}
 
@@ -458,7 +453,7 @@ abstract class Adapter implements EventsAwareInterface
 	 * @param 	array dataTypes
 	 * @return 	boolean
 	 */
-	public function update(var table, fields, values, whereCondition = null, dataTypes = null) -> boolean
+	public function update(var table, var fields, var values, var whereCondition = null, var dataTypes = null) -> boolean
 	{
 		var placeholders, updateValues, position, value,
 			field, bindDataTypes, escapedField, bindType, escapedTable,
@@ -587,7 +582,7 @@ abstract class Adapter implements EventsAwareInterface
 	 * @param 	array dataTypes
 	 * @return 	boolean
 	 */
-	public function updateAsDict(var table, data, whereCondition = null, dataTypes = null) -> boolean
+	public function updateAsDict(var table, var data, var whereCondition = null, var dataTypes = null) -> boolean
 	{
 		var values = [], fields = [];
 		var field, value;
@@ -624,7 +619,7 @@ abstract class Adapter implements EventsAwareInterface
 	 * @param  array dataTypes
 	 * @return boolean
 	 */
-	public function delete(var table, whereCondition = null, placeholders = null, dataTypes = null) -> boolean
+	public function delete(var table, var whereCondition = null, var placeholders = null, var dataTypes = null) -> boolean
 	{
 		var sql, escapedTable;
 
@@ -672,9 +667,9 @@ abstract class Adapter implements EventsAwareInterface
 	/**
 	 * Generates SQL checking for the existence of a schema.table
 	 *
-	 * <code>
+	 *<code>
 	 * 	var_dump($connection->tableExists("blog", "posts"));
-	 * </code>
+	 *</code>
 	 */
 	public function tableExists(string! tableName, string! schemaName = null) -> boolean
 	{
@@ -736,14 +731,9 @@ abstract class Adapter implements EventsAwareInterface
 	}
 
 	/**
-	 * Creates a view
-	 *
-	 * @param	string tableName
-	 * @param	array definition
-	 * @param	string schemaName
-	 * @return	boolean
+	 * Creates a view	 
 	 */
-	public function createView(string! viewName, array! definition, schemaName = null) -> boolean
+	public function createView(string! viewName, array! definition, var schemaName = null) -> boolean
 	{
 		if !isset definition["sql"] {
 			throw new Exception("The table must contain at least one column");

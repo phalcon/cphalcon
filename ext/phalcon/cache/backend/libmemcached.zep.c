@@ -223,7 +223,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Libmemcached, save) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
 	zend_bool stopBuffer;
-	zval *keyName = NULL, *content = NULL, *lifetime = NULL, *stopBuffer_param = NULL, *lastKey = NULL, *frontend, *memcache = NULL, *cachedContent = NULL, *preparedContent = NULL, *tmp, *tt1 = NULL, *success = NULL, *options, *specialKey, *keys = NULL, *isBuffering = NULL, *_0;
+	zval *keyName = NULL, *content = NULL, *lifetime = NULL, *stopBuffer_param = NULL, *lastKey = NULL, *frontend, *memcache = NULL, *cachedContent = NULL, *preparedContent = NULL, *tmp, *tt1 = NULL, *success = NULL, *options, *specialKey, *keys = NULL, *isBuffering = NULL, *_0, *_1, *_2 = NULL, *_3;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 4, &keyName, &content, &lifetime, &stopBuffer_param);
@@ -296,7 +296,16 @@ PHP_METHOD(Phalcon_Cache_Backend_Libmemcached, save) {
 		zephir_check_call_status();
 	}
 	if (!(zephir_is_true(success))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_cache_exception_ce, "Failed storing data in memcached", "phalcon/cache/backend/libmemcached.zep", 223);
+		ZEPHIR_INIT_VAR(_1);
+		object_init_ex(_1, phalcon_cache_exception_ce);
+		ZEPHIR_CALL_METHOD(&_2, memcache, "getresultcode", NULL, 0);
+		zephir_check_call_status();
+		ZEPHIR_INIT_VAR(_3);
+		ZEPHIR_CONCAT_SV(_3, "Failed storing data in memcached, error code: ", _2);
+		ZEPHIR_CALL_METHOD(NULL, _1, "__construct", NULL, 9, _3);
+		zephir_check_call_status();
+		zephir_throw_exception_debug(_1, "phalcon/cache/backend/libmemcached.zep", 223 TSRMLS_CC);
+		ZEPHIR_MM_RESTORE();
 		return;
 	}
 	ZEPHIR_OBS_VAR(options);

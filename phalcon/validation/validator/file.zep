@@ -19,6 +19,7 @@
 
 namespace Phalcon\Validation\Validator;
 
+use Phalcon\Validation;
 use Phalcon\Validation\Message;
 use Phalcon\Validation\Validator;
 
@@ -46,7 +47,7 @@ class File extends Validator
 	/**
 	 * Executes the validation
 	 */
-	public function validate(<\Phalcon\Validation> validation, string! field) -> boolean
+	public function validate(<Validation> validation, string! field) -> boolean
 	{
 		var value, message, label, replacePairs, types, byteUnits, unit, maxSize, matches, bytes, mime, tmp, width, height, minResolution, maxResolution, minWidth, maxWidth, minHeight, maxHeight;
 
@@ -59,6 +60,7 @@ class File extends Validator
 
 		// Upload is larger than PHP allowed size (post_max_size or upload_max_filesize)
 		if _SERVER["REQUEST_METHOD"] == "POST" && empty _POST && empty _FILES && _SERVER["CONTENT_LENGTH"] > 0 || isset value["error"] && value["error"] === UPLOAD_ERR_INI_SIZE {
+
 			let message = this->getOption("messageIniSize"),
 				replacePairs = [":field": label];
 
@@ -74,7 +76,8 @@ class File extends Validator
 			return true;
 		}
 
-		if !isset value["error"] || ! isset value["tmp_name"] || value["error"] !== UPLOAD_ERR_OK || !is_uploaded_file(value["tmp_name"]) {
+		if !isset value["error"] || !isset value["tmp_name"] || value["error"] !== UPLOAD_ERR_OK || !is_uploaded_file(value["tmp_name"]) {
+
 			let message = this->getOption("messageEmpty"),
 				replacePairs = [":field": label];
 
@@ -87,6 +90,7 @@ class File extends Validator
 		}
 
 		if !isset value["name"] || !isset value["type"] || !isset value["size"] {
+
 			let message = this->getOption("messageValid"),
 				replacePairs = [":field": label];
 
@@ -99,6 +103,7 @@ class File extends Validator
 		}
 
 		if this->isSetOption("maxSize") {
+
 			let byteUnits = ["B": 0, "K": 10, "M": 20, "G": 30, "T": 40, "KB": 10, "MB": 20, "GB": 30, "TB": 40],
 				maxSize = this->getOption("maxSize"),
 				matches = NULL,
@@ -126,6 +131,7 @@ class File extends Validator
 		}
 
 		if this->isSetOption("allowedTypes") {
+
 			let types = this->getOption("allowedTypes");
 
 			if typeof types != "array" {

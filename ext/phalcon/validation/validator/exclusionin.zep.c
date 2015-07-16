@@ -89,7 +89,7 @@ PHP_METHOD(Phalcon_Validation_Validator_ExclusionIn, validate) {
 	zephir_check_temp_parameter(_1);
 	zephir_check_call_status();
 	if (Z_TYPE_P(domain) != IS_ARRAY) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_validation_exception_ce, "Option 'domain' must be an array", "phalcon/validation/validator/exclusionin.zep", 59);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_validation_exception_ce, "Option 'domain' must be an array", "phalcon/validation/validator/exclusionin.zep", 61);
 		return;
 	}
 	if (zephir_fast_in_array(value, domain TSRMLS_CC)) {

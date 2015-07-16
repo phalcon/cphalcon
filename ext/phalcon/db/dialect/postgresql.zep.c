@@ -1168,9 +1168,9 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, dropTable) {
 	}
 	ZEPHIR_INIT_VAR(sql);
 	if (ifExists) {
-		ZEPHIR_CONCAT_SVS(sql, "DROP TABLE IF EXISTS \"", table, "\"");
+		ZEPHIR_CONCAT_SV(sql, "DROP TABLE IF EXISTS ", table);
 	} else {
-		ZEPHIR_CONCAT_SVS(sql, "DROP TABLE \"", table, "\"");
+		ZEPHIR_CONCAT_SV(sql, "DROP TABLE ", table);
 	}
 	RETURN_CCTOR(sql);
 
@@ -1282,9 +1282,9 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, dropView) {
 	}
 	ZEPHIR_INIT_VAR(sql);
 	if (ifExists) {
-		ZEPHIR_CONCAT_SVS(sql, "DROP VIEW IF EXISTS ", view, "");
+		ZEPHIR_CONCAT_SV(sql, "DROP VIEW IF EXISTS ", view);
 	} else {
-		ZEPHIR_CONCAT_SVS(sql, "DROP VIEW ", view, "");
+		ZEPHIR_CONCAT_SV(sql, "DROP VIEW ", view);
 	}
 	RETURN_CCTOR(sql);
 

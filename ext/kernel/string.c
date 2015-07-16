@@ -268,35 +268,34 @@ void zephir_camelize(zval *return_value, const zval *str) {
 	marker = Z_STRVAL_P(str);
 	len    = Z_STRLEN_P(str);
 
-	for (i = 0; i < len - 1; i++) {
-		ch = *marker;
-		if (i == 0 || ch == '-' || ch == '_') {
-			if (ch == '-' || ch == '_') {
+	for (i = 0; i < len; i++) {
+
+		ch = marker[i];
+
+		if (i == 0) {
+			smart_str_appendc(&camelize_str, toupper(ch));
+			continue;
+		}
+
+		if (ch == '-' || ch == '_') {
+			if (i != (len - 1)) {
 				i++;
-				marker++;
+				ch = marker[i];
+				smart_str_appendc(&camelize_str, toupper(ch));
 			}
-
-			smart_str_appendc(&camelize_str, toupper(*marker));
-		}
-		else {
-			smart_str_appendc(&camelize_str, tolower(*marker));
+			continue;
 		}
 
-		marker++;
-	}
-
-	if (likely(i == len - 1)) {
-		smart_str_appendc(&camelize_str, *marker);
+		smart_str_appendc(&camelize_str, tolower(ch));
 	}
 
 	smart_str_0(&camelize_str);
 
 	if (camelize_str.c) {
 		RETURN_STRINGL(camelize_str.c, camelize_str.len, 0);
-	} else {
-		RETURN_EMPTY_STRING();
 	}
 
+	RETURN_EMPTY_STRING();
 }
 
 /**
@@ -521,7 +520,7 @@ void zephir_fast_str_replace(zval **return_value_ptr, zval *search, zval *replac
 	 */
 	if (Z_TYPE_P(search) == IS_ARRAY) {
 		do {
-			zval *params[] = { search, replace, subject };			
+			zval *params[] = { search, replace, subject };
 			zval_ptr_dtor(return_value_ptr);
 			return_value_ptr = NULL;
 			zephir_call_func_aparams(return_value_ptr, "str_replace", sizeof("str_replace")-1, NULL, 0, 3, params TSRMLS_CC);

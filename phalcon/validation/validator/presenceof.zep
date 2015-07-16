@@ -66,5 +66,4 @@ class PresenceOf extends Validator
 
 		return true;
 	}
-
 }

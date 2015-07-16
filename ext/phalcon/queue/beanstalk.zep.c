@@ -447,13 +447,17 @@ PHP_METHOD(Phalcon_Queue_Beanstalk, peekBuried) {
 PHP_METHOD(Phalcon_Queue_Beanstalk, readStatus) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *_0 = NULL;
+	zval *status = NULL;
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "read", NULL, 0);
+	ZEPHIR_CALL_METHOD(&status, this_ptr, "read", NULL, 0);
 	zephir_check_call_status();
-	zephir_fast_explode_str(return_value, SL(" "), _0, LONG_MAX TSRMLS_CC);
+	if (ZEPHIR_IS_FALSE_IDENTICAL(status)) {
+		array_init(return_value);
+		RETURN_MM();
+	}
+	zephir_fast_explode_str(return_value, SL(" "), status, LONG_MAX TSRMLS_CC);
 	RETURN_MM();
 
 }
@@ -471,10 +475,10 @@ PHP_METHOD(Phalcon_Queue_Beanstalk, readYaml) {
 	ZEPHIR_CALL_METHOD(&response, this_ptr, "readstatus", NULL, 390);
 	zephir_check_call_status();
 	ZEPHIR_OBS_VAR(status);
-	zephir_array_fetch_long(&status, response, 0, PH_NOISY, "phalcon/queue/beanstalk.zep", 285 TSRMLS_CC);
+	zephir_array_fetch_long(&status, response, 0, PH_NOISY, "phalcon/queue/beanstalk.zep", 290 TSRMLS_CC);
 	if (zephir_fast_count_int(response TSRMLS_CC) > 1) {
 		ZEPHIR_OBS_VAR(numberOfBytes);
-		zephir_array_fetch_long(&numberOfBytes, response, 1, PH_NOISY, "phalcon/queue/beanstalk.zep", 288 TSRMLS_CC);
+		zephir_array_fetch_long(&numberOfBytes, response, 1, PH_NOISY, "phalcon/queue/beanstalk.zep", 293 TSRMLS_CC);
 		ZEPHIR_CALL_METHOD(&response, this_ptr, "read", NULL, 0);
 		zephir_check_call_status();
 		ZEPHIR_CALL_FUNCTION(&data, "yaml_parse", NULL, 0, response);
@@ -534,9 +538,9 @@ PHP_METHOD(Phalcon_Queue_Beanstalk, read) {
 		zephir_check_call_status();
 		ZEPHIR_CALL_FUNCTION(&_1, "stream_get_meta_data", NULL, 394, connection);
 		zephir_check_call_status();
-		zephir_array_fetch_string(&_2, _1, SL("timed_out"), PH_NOISY | PH_READONLY, "phalcon/queue/beanstalk.zep", 332 TSRMLS_CC);
+		zephir_array_fetch_string(&_2, _1, SL("timed_out"), PH_NOISY | PH_READONLY, "phalcon/queue/beanstalk.zep", 337 TSRMLS_CC);
 		if (zephir_is_true(_2)) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_exception_ce, "Connection timed out", "phalcon/queue/beanstalk.zep", 333);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_exception_ce, "Connection timed out", "phalcon/queue/beanstalk.zep", 338);
 			return;
 		}
 		ZEPHIR_SINIT_NVAR(_0);

@@ -19,6 +19,7 @@
 
 namespace Phalcon\Validation\Validator;
 
+use Phalcon\Validation;
 use Phalcon\Validation\Validator;
 use Phalcon\Validation\Exception;
 use Phalcon\Validation\Message;
@@ -43,7 +44,7 @@ class InclusionIn extends Validator
 	/**
 	 * Executes the validation
 	 */
-	public function validate(<\Phalcon\Validation> validation, string! field) -> boolean
+	public function validate(<Validation> validation, string! field) -> boolean
 	{
 		var value, domain, message, label, replacePairs, strict;
 
@@ -60,13 +61,13 @@ class InclusionIn extends Validator
 		if typeof domain != "array" {
 			throw new Exception("Option 'domain' must be an array");
 		}
-		
+
 		let strict = false;
 		if this->isSetOption("strict") {
 			if typeof strict != "boolean" {
 			    throw new Exception("Option 'strict' must be a boolean");
 			}
-			
+
 			let strict = this->getOption("strict");
 		}
 

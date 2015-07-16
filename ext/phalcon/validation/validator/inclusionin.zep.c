@@ -89,7 +89,7 @@ PHP_METHOD(Phalcon_Validation_Validator_InclusionIn, validate) {
 	zephir_check_temp_parameter(_1);
 	zephir_check_call_status();
 	if (Z_TYPE_P(domain) != IS_ARRAY) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_validation_exception_ce, "Option 'domain' must be an array", "phalcon/validation/validator/inclusionin.zep", 61);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_validation_exception_ce, "Option 'domain' must be an array", "phalcon/validation/validator/inclusionin.zep", 62);
 		return;
 	}
 	ZEPHIR_INIT_VAR(strict);
@@ -101,7 +101,7 @@ PHP_METHOD(Phalcon_Validation_Validator_InclusionIn, validate) {
 	zephir_check_call_status();
 	if (zephir_is_true(_3)) {
 		if (Z_TYPE_P(strict) != IS_BOOL) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_validation_exception_ce, "Option 'strict' must be a boolean", "phalcon/validation/validator/inclusionin.zep", 67);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_validation_exception_ce, "Option 'strict' must be a boolean", "phalcon/validation/validator/inclusionin.zep", 68);
 			return;
 		}
 		ZEPHIR_INIT_NVAR(_1);
