@@ -535,9 +535,9 @@ class Postgresql extends Dialect
 		}
 
 		if ifExists {
-			let sql = "DROP TABLE IF EXISTS \"" . table . "\"";
+			let sql = "DROP TABLE IF EXISTS " . table;
 		} else {
-			let sql = "DROP TABLE \"" . table . "\"";
+			let sql = "DROP TABLE " . table;
 		}
 
 		return sql;
@@ -577,9 +577,9 @@ class Postgresql extends Dialect
 		}
 
 		if ifExists {
-			let sql = "DROP VIEW IF EXISTS " . view . "";
+			let sql = "DROP VIEW IF EXISTS " . view;
 		} else {
-			let sql = "DROP VIEW " . view . "";
+			let sql = "DROP VIEW " . view;
 		}
 
 		return sql;
