@@ -210,11 +210,7 @@ class Oracle extends Dialect
 	{
 		var table;
 
-		if schemaName {
-			let table = this->escape(Text::upper(schemaName)) . "." . this->escape(Text::upper(tableName));
-		} else {
-			let table = this->escape(Text::upper(tableName));
-		}
+		let table = this->prepareTable(tableName, schemaName);
 
 		if ifExists {
 			return "DROP TABLE IF EXISTS " . table;
@@ -228,19 +224,13 @@ class Oracle extends Dialect
 	 */
 	public function createView(string! viewName, array! definition, string schemaName = null) -> string
 	{
-		var view, viewSql;
+		var viewSql;
 
 		if !fetch viewSql, definition["sql"] {
 			throw new Exception("The index 'sql' is required in the definition array");
 		}
 
-		if schemaName {
-			let view = this->escape(Text::upper(schemaName) . "." . Text::upper(viewName));
-		} else {
-			let view = this->escape(Text::upper(viewName));
-		}
-
-		return "CREATE VIEW " . view . " AS " . viewSql;
+		return "CREATE VIEW " . this->prepareTable(viewName, schemaName) . " AS " . viewSql;
 	}
 
 	/**
@@ -250,11 +240,7 @@ class Oracle extends Dialect
 	{
 		var view;
 
-		if schemaName {
-			let view = this->escape(Text::upper(schemaName) . "." . Text::upper(viewName));
-		} else {
-			let view = this->escape(Text::upper(viewName));
-		}
+		let view = this->prepareTable(viewName, schemaName);
 
 		if ifExists {
 			return "DROP VIEW IF EXISTS " . view;
@@ -387,5 +373,18 @@ class Oracle extends Dialect
 	public function supportsReleaseSavepoints() -> boolean
 	{
 		return false;
+	}
+
+	/**
+	 * Prepares table for this RDBMS
+	 */
+	protected function prepareTable(string! table, string schema = null, string alias = null, string escapeChar = null) -> string
+	{
+		return parent::prepareTable(
+			Text::upper(table),
+			Text::upper(schema),
+			alias,
+			escapeChar
+		);
 	}
 }
