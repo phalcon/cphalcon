@@ -12,7 +12,7 @@
  | obtain it through the world-wide-web, please send an email             |
  | to license@phalconphp.com so we can send you a copy immediately.       |
  +------------------------------------------------------------------------+
- | Author: Ivan Zubok <chi_no@ukr.net>                             |
+ | Author: Ivan Zubok <chi_no@ukr.net>                                    |
  +------------------------------------------------------------------------+
  */
 
@@ -37,27 +37,36 @@ class Csv extends Adapter implements AdapterInterface, \ArrayAccess
 	 */
 	public function __construct(array! options)
 	{
-		var data, file;
+		parent::__construct(options);
 
 		if !isset options["content"] {
 			throw new Exception("Parameter 'content' is required");
 		}
 
-		let options = array_merge([
-			"delimiter": ";",
-			"length": 0,
-			"enclosure": "\""
-		], options);
+		this->_load(options["content"], 0, ";", "\"");
+	}
 
-		let file = fopen(options["content"], "rb");
+	/**
+	* Load translates from file
+	*
+	* @param string file
+	* @param int length
+	* @param string delimiter
+	* @param string enclosure
+	*/
+	private function _load(file, length, delimiter, enclosure) -> void
+	{
+		var data, fileHandler;
 
-		if typeof file !== "resource" {
-			throw new Exception("Error opening translation file '" . options["content"] . "'");
+		let fileHandler = fopen(file, "rb");
+
+		if typeof fileHandler !== "resource" {
+			throw new Exception("Error opening translation file '" . file . "'");
 		}
 
 		loop {
 
-			let data = fgetcsv(file, options["length"], options["delimiter"], options["enclosure"]);
+			let data = fgetcsv(fileHandler, length, delimiter, enclosure);
 			if data === false {
 				break;
 			}
@@ -69,7 +78,7 @@ class Csv extends Adapter implements AdapterInterface, \ArrayAccess
 			let this->_translate[data[0]] = data[1];
 		}
 
-		fclose(file);
+		fclose(fileHandler);
 	}
 
 	/**
