@@ -520,7 +520,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, writeMetaDataIndex){
 		}
 	}
 	
-	phalcon_array_update_multi_2(&meta_data, key, index, data, 0);
+	phalcon_array_update_multi_2(&meta_data, key, index, data, PH_COPY);
 	phalcon_update_property_this(this_ptr, SL("_metaData"), meta_data TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();

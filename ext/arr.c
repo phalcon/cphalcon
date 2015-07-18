@@ -506,7 +506,7 @@ PHP_METHOD(Phalcon_Arr, range){
 
 	array_init(return_value);
 	for (i = s; i <= m; i += s) {
-		phalcon_array_update_long_long(&return_value, i, i, 0);
+		phalcon_array_update_long_long(&return_value, i, i, PH_COPY);
 	}
 
 	PHALCON_MM_RESTORE();
@@ -746,7 +746,7 @@ PHP_METHOD(Phalcon_Arr, map){
 			PHALCON_INIT_NVAR(value);
 			PHALCON_CALL_SELF(&value, "map", callbacks, val);
 
-			phalcon_array_update_zval(&array, key, value, 0);
+			phalcon_array_update_zval(&array, key, value, PH_COPY);
 		} else if (!keys || Z_TYPE_P(keys) != IS_ARRAY || phalcon_fast_in_array(key, keys TSRMLS_CC)) {
 			if (Z_TYPE_P(callbacks) == IS_ARRAY) {
 				phalcon_is_iterable(callbacks, &ah1, &hp1, 0, 0);
@@ -1034,12 +1034,12 @@ PHP_METHOD(Phalcon_Arr, callback){
 		PHALCON_INIT_VAR(command_parts);
 		phalcon_fast_explode_str(command_parts, SL("::"), command);
 
-		phalcon_array_append(&return_value, command_parts, 0);
+		phalcon_array_append(&return_value, command_parts, PH_COPY);
 	} else {
-		phalcon_array_append(&return_value, command, 0);
+		phalcon_array_append(&return_value, command, PH_COPY);
 	}
 
-	phalcon_array_append(&return_value, params, 0);
+	phalcon_array_append(&return_value, params, PH_COPY);
 
 	PHALCON_MM_RESTORE();
 }

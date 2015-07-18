@@ -234,14 +234,14 @@ PHALCON_ATTR_NONNULL static inline int phalcon_array_append_long(zval **arr, lon
  *
  * Equivalent to <tt>$arr[] = $value</tt> in PHP, where @c $value is a string.
  */
-PHALCON_ATTR_NONNULL static inline int phalcon_array_append_string(zval **arr, const char *value, uint value_length, int separate)
+PHALCON_ATTR_NONNULL static inline int phalcon_array_append_string(zval **arr, const char *value, uint value_length, int flags)
 {
 	zval *zvalue;
 
 	PHALCON_ALLOC_GHOST_ZVAL(zvalue);
 	ZVAL_STRINGL(zvalue, value, value_length, 1);
 
-	return phalcon_array_append(arr, zvalue, separate);
+	return phalcon_array_append(arr, zvalue, flags);
 }
 
 /**

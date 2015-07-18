@@ -257,10 +257,10 @@ PHP_METHOD(Phalcon_Forms_Element, addFilter){
 		PHALCON_INIT_VAR(new_filters);
 		array_init_size(new_filters, 2);
 		if (Z_TYPE_P(filters) == IS_STRING) {
-			phalcon_array_append(&new_filters, filters, 0);
+			phalcon_array_append(&new_filters, filters, PH_COPY);
 		}
 
-		phalcon_array_append(&new_filters, filter, 0);
+		phalcon_array_append(&new_filters, filter, PH_COPY);
 		phalcon_update_property_this(this_ptr, SL("_filters"), new_filters TSRMLS_CC);
 	}
 	

@@ -449,9 +449,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, toArray){
 		PHALCON_CALL_METHOD(&current, this_ptr, "current");
 		if (Z_TYPE_P(current) == IS_OBJECT && phalcon_method_exists_ex(current, SS("toarray") TSRMLS_CC) == SUCCESS) {
 			PHALCON_CALL_METHOD(&arr, current, "toarray");
-			phalcon_array_append(&return_value, arr, 0);
+			phalcon_array_append(&return_value, arr, PH_COPY);
 		} else {
-			phalcon_array_append(&return_value, current, 0);
+			phalcon_array_append(&return_value, current, PH_COPY);
 		}
 		PHALCON_CALL_METHOD(NULL, this_ptr, "next");
 	}

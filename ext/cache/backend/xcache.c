@@ -363,7 +363,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Xcache, queryKeys){
 			if (Z_TYPE(key) == IS_STRING && phalcon_memnstr(&key, prefixed)) {
 				PHALCON_INIT_NVAR(real_key);
 				phalcon_substr(real_key, &key, 5, 0);
-				phalcon_array_append(&return_value, real_key, 0);
+				phalcon_array_append(&return_value, real_key, PH_COPY);
 			}
 		}
 	}

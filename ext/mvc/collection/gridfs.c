@@ -179,7 +179,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_GridFS, store){
 	PHALCON_INIT_VAR(value);
 	ZVAL_LONG(value, 1)
 
-	phalcon_array_update_multi_2(&criteria, field, operation, value, 0);
+	phalcon_array_update_multi_2(&criteria, field, operation, value, PH_COPY);
 
 	PHALCON_INIT_NVAR(operation);
 	ZVAL_STRING(operation, "$inc", 1);
@@ -187,7 +187,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_GridFS, store){
 	PHALCON_INIT_VAR(new_object);
 	array_init_size(new_object, 1);
 
-	phalcon_array_update_multi_2(&new_object, operation, field, value, 0);
+	phalcon_array_update_multi_2(&new_object, operation, field, value, PH_COPY);
 	
 	PHALCON_CALL_METHOD(&status, mongo_collection, "update", criteria, new_object);
 
@@ -275,7 +275,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_GridFS, remove){
 	PHALCON_INIT_VAR(new_object);
 	array_init_size(new_object, 1);
 
-	phalcon_array_update_multi_2(&new_object, operation, field, value, 0);
+	phalcon_array_update_multi_2(&new_object, operation, field, value, PH_COPY);
 	
 	PHALCON_CALL_METHOD(&status, mongo_collection, "update", criteria, new_object);
 
@@ -309,7 +309,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_GridFS, remove){
 	PHALCON_INIT_NVAR(value);
 	ZVAL_LONG(value, 0)
 
-	phalcon_array_update_multi_2(&criteria, field, operation, value, 0);
+	phalcon_array_update_multi_2(&criteria, field, operation, value, PH_COPY);
 
 	PHALCON_INIT_VAR(options);
 	array_init_size(options, 1);

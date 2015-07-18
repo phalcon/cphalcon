@@ -299,7 +299,7 @@ PHP_METHOD(Phalcon_Filter, _sanitize){
 			(Z_TYPE_P(filter_object) == IS_OBJECT && instanceof_function(Z_OBJCE_P(filter_object), zend_ce_closure TSRMLS_CC))) {
 			PHALCON_INIT_VAR(arguments);
 			array_init_size(arguments, 1);
-			phalcon_array_append(&arguments, value, 0);
+			phalcon_array_append(&arguments, value, PH_COPY);
 			PHALCON_CALL_USER_FUNC_ARRAY(return_value, filter_object, arguments);
 			RETURN_MM();
 		}

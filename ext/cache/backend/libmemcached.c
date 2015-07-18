@@ -160,7 +160,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Libmemcached, __construct){
 		phalcon_array_update_string_long(&server, SL("port"), 11211, 0);
 		phalcon_array_update_string_long(&server, SL("weight"), 1, 0);
 
-		phalcon_array_append(&servers, server, 0);
+		phalcon_array_append(&servers, server, PH_COPY);
 
 		phalcon_array_update_string(&options, SL("servers"), servers, PH_COPY);
 	}
@@ -577,7 +577,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Libmemcached, queryKeys){
 			if (!prefix || !zend_is_true(prefix) || phalcon_start_with(&key, prefix, NULL)) {
 				PHALCON_INIT_NVAR(real_key);
 				ZVAL_STRINGL(real_key, Z_STRVAL(key), Z_STRLEN(key), 1);
-				phalcon_array_append(&return_value, real_key, 0);
+				phalcon_array_append(&return_value, real_key, PH_COPY);
 			}
 		}
 	}

@@ -314,7 +314,7 @@ PHP_METHOD(Phalcon_Date, seconds){
 
 	for (i = s; i < e; i += p) {
 		sprintf(buf, "%02d", i);
-		phalcon_array_update_long_string(&return_value, i, buf, 2, 0);
+		phalcon_array_update_long_string(&return_value, i, buf, 2, PH_COPY);
 	}
 
 	PHALCON_MM_RESTORE();
@@ -406,7 +406,7 @@ PHP_METHOD(Phalcon_Date, hours){
 
 	for (i = s; i <= e; i += p) {
 		sprintf(buf, "%02d", i);
-		phalcon_array_update_long_string(&return_value, i, buf, 2, 0);
+		phalcon_array_update_long_string(&return_value, i, buf, 2, PH_COPY);
 	}
 
 	PHALCON_MM_RESTORE();
@@ -545,14 +545,14 @@ PHP_METHOD(Phalcon_Date, days){
 	PHALCON_INIT_NVAR(months);
 	array_init(months);
 
-	phalcon_array_update_long(&months, y, tmp, PH_COPY | PH_SEPARATE);
+	phalcon_array_update_long(&months, y, tmp, PH_COPY);
 
 	for (i = 1; i < t; i++) {
 		sprintf(buf, "%02d", i);
-		phalcon_array_update_long_string(&tmp, i, buf, 2, 0);
+		phalcon_array_update_long_string(&tmp, i, buf, 2, PH_COPY);
 	}
 
-	phalcon_array_update_long_long_multi_2(&months, y, m, tmp, PH_COPY | PH_SEPARATE);
+	phalcon_array_update_long_long_multi_2(&months, y, m, tmp, PH_COPY);
 
 	phalcon_update_static_property_ce(phalcon_date_ce, SL("_months"), months TSRMLS_CC);
 
@@ -669,7 +669,7 @@ PHP_METHOD(Phalcon_Date, years){
 	array_init(return_value);
 
 	for (i = s; i <= e; i++) {
-		phalcon_array_update_long_long(&return_value, i, i, 0);
+		phalcon_array_update_long_long(&return_value, i, i, PH_COPY);
 	}
 
 	PHALCON_MM_RESTORE();

@@ -1215,7 +1215,7 @@ PHP_METHOD(Phalcon_Db_Dialect, insert){
 
 				PHALCON_INIT_NVAR(escaped_field);
 				PHALCON_CONCAT_VVV(escaped_field, escape_char, field, escape_char);
-				phalcon_array_append(&escaped_fields, escaped_field, 0);
+				phalcon_array_append(&escaped_fields, escaped_field, PH_COPY);
 
 				zend_hash_move_forward_ex(ah0, &hp0);
 			}

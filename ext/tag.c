@@ -775,9 +775,9 @@ PHP_METHOD(Phalcon_Tag, linkTo){
 	if (Z_TYPE_P(parameters) != IS_ARRAY) { 
 		PHALCON_INIT_VAR(params);
 		array_init_size(params, 3);
-		phalcon_array_append(&params, parameters, 0);
-		phalcon_array_append(&params, text, 0);
-		phalcon_array_append(&params, local, 0);
+		phalcon_array_append(&params, parameters, PH_COPY);
+		phalcon_array_append(&params, text, PH_COPY);
+		phalcon_array_append(&params, local, PH_COPY);
 	} else {
 		PHALCON_CPY_WRT_CTOR(params, parameters);
 	}
@@ -862,7 +862,7 @@ PHP_METHOD(Phalcon_Tag, _inputField){
 	if (Z_TYPE_P(parameters) != IS_ARRAY) { 
 		PHALCON_INIT_VAR(params);
 		array_init_size(params, 1);
-		phalcon_array_append(&params, parameters, 0);
+		phalcon_array_append(&params, parameters, PH_COPY);
 	} else {
 		PHALCON_CPY_WRT_CTOR(params, parameters);
 	}
@@ -962,7 +962,7 @@ PHP_METHOD(Phalcon_Tag, _inputFieldChecked){
 	if (Z_TYPE_P(parameters) != IS_ARRAY) { 
 		PHALCON_INIT_VAR(params);
 		array_init_size(params, 1);
-		phalcon_array_append(&params, parameters, 0);
+		phalcon_array_append(&params, parameters, PH_COPY);
 	} else {
 		PHALCON_CPY_WRT_CTOR(params, parameters);
 	}
@@ -1454,7 +1454,7 @@ PHP_METHOD(Phalcon_Tag, textArea){
 	if (Z_TYPE_P(parameters) != IS_ARRAY) { 
 		PHALCON_INIT_VAR(params);
 		array_init_size(params, 1);
-		phalcon_array_append(&params, parameters, 0);
+		phalcon_array_append(&params, parameters, PH_COPY);
 	} else {
 		PHALCON_CPY_WRT(params, parameters);
 	}
@@ -1784,9 +1784,9 @@ PHP_METHOD(Phalcon_Tag, stylesheetLink){
 	if (Z_TYPE_P(parameters) != IS_ARRAY) {
 		PHALCON_INIT_VAR(params);
 		array_init_size(params, 3);
-		phalcon_array_append(&params, parameters, 0);
-		phalcon_array_append(&params, local, 0);
-		phalcon_array_append(&params, args, 0);
+		phalcon_array_append(&params, parameters, PH_COPY);
+		phalcon_array_append(&params, local, PH_COPY);
+		phalcon_array_append(&params, args, PH_COPY);
 	} else {
 		PHALCON_CPY_WRT(params, parameters);
 	}
@@ -1911,9 +1911,9 @@ PHP_METHOD(Phalcon_Tag, javascriptInclude){
 	if (Z_TYPE_P(parameters) != IS_ARRAY) {
 		PHALCON_INIT_VAR(params);
 		array_init_size(params, 3);
-		phalcon_array_append(&params, parameters, 0);
-		phalcon_array_append(&params, local, 0);
-		phalcon_array_append(&params, args, 0);
+		phalcon_array_append(&params, parameters, PH_COPY);
+		phalcon_array_append(&params, local, PH_COPY);
+		phalcon_array_append(&params, args, PH_COPY);
 	} else {
 		PHALCON_CPY_WRT(params, parameters);
 	}
@@ -2021,7 +2021,7 @@ PHP_METHOD(Phalcon_Tag, image){
 	if (Z_TYPE_P(parameters) != IS_ARRAY) { 
 		PHALCON_INIT_VAR(params);
 		array_init_size(params, 1);
-		phalcon_array_append(&params, parameters, 0);
+		phalcon_array_append(&params, parameters, PH_COPY);
 	} else {
 		PHALCON_CPY_WRT(params, parameters);
 	}
@@ -2212,7 +2212,7 @@ PHP_METHOD(Phalcon_Tag, tagHtml){
 	if (Z_TYPE_P(parameters) != IS_ARRAY) {
 		PHALCON_INIT_VAR(params);
 		array_init_size(params, 1);
-		phalcon_array_append(&params, parameters, 0);
+		phalcon_array_append(&params, parameters, PH_COPY);
 	} else {
 		PHALCON_CPY_WRT(params, parameters);
 	}

@@ -1975,7 +1975,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, findById){
 
 	PHALCON_INIT_VAR(parameters);
 	array_init_size(parameters, 1);
-	phalcon_array_append(&parameters, conditions, 0);
+	phalcon_array_append(&parameters, conditions, PH_COPY);
 	PHALCON_RETURN_CALL_SELF("findfirst", parameters);
 	RETURN_MM();
 }
@@ -2060,7 +2060,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, findFirst){
 
 		PHALCON_INIT_VAR(params);
 		array_init_size(params, 1);
-		phalcon_array_append(&params, conditions, 0);
+		phalcon_array_append(&params, conditions, PH_COPY);
 	} else {
 		PHALCON_CPY_WRT(params, parameters);
 	}
@@ -2783,7 +2783,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, incr){
 		PHALCON_INIT_VAR(new_object);
 		array_init_size(new_object, 1);
 
-		phalcon_array_update_multi_2(&new_object, key, field, value, 0);
+		phalcon_array_update_multi_2(&new_object, key, field, value, PH_COPY);
 
 		PHALCON_INIT_VAR(options);
 		array_init_size(options, 1);
@@ -3164,7 +3164,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, __callStatic){
 
 	PHALCON_INIT_VAR(params);
 	array_init_size(params, 1);
-	phalcon_array_append(&params, conditions, 0);
+	phalcon_array_append(&params, conditions, PH_COPY);
 
 	/** 
 	 * Execute the query

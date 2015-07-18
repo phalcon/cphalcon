@@ -200,7 +200,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, read){
 					phalcon_fast_explode_str(directive_parts, SL("."), key);
 					phalcon_config_adapter_ini_update_zval_directive(&config, section, directive_parts, value TSRMLS_CC);
 				} else {
-					phalcon_array_update_multi_2(&config, section, key, value, 0);
+					phalcon_array_update_multi_2(&config, section, key, value, PH_COPY);
 				}
 
 				zend_hash_move_forward_ex(ah1, &hp1);

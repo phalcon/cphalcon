@@ -2109,7 +2109,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords){
 
 			PHALCON_INIT_VAR(condition);
 			PHALCON_CONCAT_SVSVS(condition, "[", intermediate_model, "].[", intermediate_fields, "] = ?0");
-			phalcon_array_append(&conditions, condition, 0);
+			phalcon_array_append(&conditions, condition, PH_COPY);
 			phalcon_array_append(&placeholders, value, PH_SEPARATE);
 		} else {
 			PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Not supported");
@@ -2237,7 +2237,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords){
 	 */
 	PHALCON_INIT_VAR(find_params);
 	array_init_size(find_params, 3);
-	phalcon_array_append(&find_params, joined_conditions, 0);
+	phalcon_array_append(&find_params, joined_conditions, PH_COPY);
 	phalcon_array_update_string(&find_params, SL("bind"), placeholders, PH_COPY);
 	phalcon_array_update_string(&find_params, SL("di"), dependency_injector, PH_COPY);
 	if (Z_TYPE_P(parameters) == IS_ARRAY) { 
@@ -2307,8 +2307,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords){
 	 */
 	PHALCON_INIT_VAR(call_object);
 	array_init_size(call_object, 2);
-	phalcon_array_append(&call_object, referenced_entity, 0);
-	phalcon_array_append(&call_object, retrieve_method, 0);
+	phalcon_array_append(&call_object, referenced_entity, PH_COPY);
+	phalcon_array_append(&call_object, retrieve_method, PH_COPY);
 
 	PHALCON_INIT_NVAR(records);/**/
 	PHALCON_CALL_USER_FUNC_ARRAY(records, call_object, arguments);
@@ -2920,8 +2920,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, createQuery){
 		PHALCON_INIT_VAR(parameters);
 		array_init(parameters);
 
-		phalcon_array_append(&parameters, phql, 0);
-		phalcon_array_append(&parameters, dependency_injector, 0);
+		phalcon_array_append(&parameters, phql, PH_COPY);
+		phalcon_array_append(&parameters, dependency_injector, PH_COPY);
 
 		PHALCON_CALL_METHOD(&query, dependency_injector, "get", service_name, parameters);
 	} else {
@@ -2977,8 +2977,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, executeQuery){
 		PHALCON_INIT_VAR(parameters);
 		array_init(parameters);
 
-		phalcon_array_append(&parameters, phql, 0);
-		phalcon_array_append(&parameters, dependency_injector, 0);
+		phalcon_array_append(&parameters, phql, PH_COPY);
+		phalcon_array_append(&parameters, dependency_injector, PH_COPY);
 
 		PHALCON_CALL_METHOD(&query, dependency_injector, "get", service_name, parameters);
 	} else {
@@ -3030,8 +3030,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, createBuilder){
 	PHALCON_INIT_VAR(service_params);
 	array_init(service_params);
 
-	phalcon_array_append(&service_params, params, 0);
-	phalcon_array_append(&service_params, dependency_injector, 0);
+	phalcon_array_append(&service_params, params, PH_COPY);
+	phalcon_array_append(&service_params, dependency_injector, PH_COPY);
 
 	PHALCON_CALL_METHOD(&builder, dependency_injector, "get", service, service_params);
 

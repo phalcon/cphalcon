@@ -967,7 +967,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, inWhere) {
 
 		PHALCON_INIT_NVAR(query_key);
 		PHALCON_CONCAT_SVS(query_key, ":", key, ":");
-		phalcon_array_append(&bind_keys, query_key, 0);
+		phalcon_array_append(&bind_keys, query_key, PH_COPY);
 		phalcon_array_update_zval(&bind_params, key, value, PH_COPY);
 		phalcon_increment(hidden_param);
 
@@ -1054,7 +1054,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, notInWhere) {
 
 		PHALCON_INIT_NVAR(query_key);
 		PHALCON_CONCAT_SVS(query_key, ":", key, ":");
-		phalcon_array_append(&bind_keys, query_key, 0);
+		phalcon_array_append(&bind_keys, query_key, PH_COPY);
 		phalcon_array_update_zval(&bind_params, key, value, PH_COPY);
 		phalcon_increment(hidden_param);
 
@@ -1444,7 +1444,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, fromInput) {
 						phalcon_array_update_zval(&bind, field, value, PH_COPY);
 					}
 
-					phalcon_array_append(&conditions, condition, 0);
+					phalcon_array_append(&conditions, condition, PH_COPY);
 				}
 			}
 

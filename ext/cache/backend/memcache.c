@@ -465,7 +465,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, queryKeys){
 			if (!prefix || !zend_is_true(prefix) || phalcon_start_with(&key, prefix, NULL)) {
 				PHALCON_INIT_NVAR(real_key);
 				ZVAL_STRINGL(real_key, Z_STRVAL(key), Z_STRLEN(key), 1);
-				phalcon_array_append(&return_value, real_key, 0);
+				phalcon_array_append(&return_value, real_key, PH_COPY);
 			}
 		}
 	}

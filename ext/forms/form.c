@@ -779,8 +779,8 @@ PHP_METHOD(Phalcon_Forms_Form, isValid){
 
 					PHALCON_INIT_NVAR(scope);
 					array_init_size(scope, 2);
-					phalcon_array_append(&scope, name, 0);
-					phalcon_array_append(&scope, validator, 0);
+					phalcon_array_append(&scope, name, PH_COPY);
+					phalcon_array_append(&scope, validator, PH_COPY);
 					phalcon_array_append(&prepared_validators, scope, PH_SEPARATE);
 
 					zend_hash_move_forward_ex(ah1, &hp1);

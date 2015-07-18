@@ -89,8 +89,8 @@ PHP_METHOD(Phalcon_Tag_Select, selectField){
 	if (Z_TYPE_P(parameters) != IS_ARRAY) { 
 		PHALCON_INIT_VAR(params);
 		array_init_size(params, 2);
-		phalcon_array_append(&params, parameters, 0);
-		phalcon_array_append(&params, data, 0);
+		phalcon_array_append(&params, parameters, PH_COPY);
+		phalcon_array_append(&params, data, PH_COPY);
 	} else {
 		PHALCON_CPY_WRT(params, parameters);
 	}
