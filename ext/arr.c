@@ -334,7 +334,7 @@ PHP_METHOD(Phalcon_Arr, path){
 				PHALCON_CALL_SELF(&value, "path", arr, keys);
 				
 				if (Z_TYPE_P(value) != IS_NULL) {
-					phalcon_array_append(&values, value, PH_SEPARATE);
+					phalcon_array_append(&values, value, PH_COPY);
 				}
 
 				zend_hash_move_forward_ex(ah0, &hp0);
@@ -666,7 +666,7 @@ PHP_METHOD(Phalcon_Arr, pluck){
 		if (phalcon_array_isset(row, key)) {
 			PHALCON_OBS_NVAR(value);
 			phalcon_array_fetch(&value, row, key, PH_NOISY);
-			phalcon_array_append(&return_value, value, PH_COPY | PH_SEPARATE);
+			phalcon_array_append(&return_value, value, PH_COPY);
 		}
 
 		zend_hash_move_forward_ex(ah0, &hp0);
@@ -700,7 +700,7 @@ PHP_METHOD(Phalcon_Arr, unshift){
 	PHALCON_INIT_VAR(tmp1);
 	PHALCON_CALL_FUNCTION(&tmp1, "array_reverse", array, tmp);
 
-	phalcon_array_update_zval(&tmp1, key, val, PH_COPY | PH_SEPARATE);
+	phalcon_array_update_zval(&tmp1, key, val, PH_COPY);
 
 	PHALCON_CALL_FUNCTION(return_value_ptr, "array_reverse", tmp1, tmp);
 
@@ -760,7 +760,7 @@ PHP_METHOD(Phalcon_Arr, map){
 					PHALCON_INIT_NVAR(params);
 					array_init(params);
 
-					phalcon_array_update_long(&params, 0, val, PH_COPY | PH_SEPARATE);
+					phalcon_array_update_long(&params, 0, val, PH_COPY);
 
 					PHALCON_INIT_NVAR(value);
 					PHALCON_CALL_USER_FUNC_ARRAY(value, *callback, params);
@@ -775,7 +775,7 @@ PHP_METHOD(Phalcon_Arr, map){
 				PHALCON_INIT_NVAR(params);
 				array_init(params);
 
-				phalcon_array_update_long(&params, 0, val, PH_COPY | PH_SEPARATE);
+				phalcon_array_update_long(&params, 0, val, PH_COPY);
 
 				PHALCON_INIT_NVAR(value);
 				PHALCON_CALL_USER_FUNC_ARRAY(value, callbacks, params);

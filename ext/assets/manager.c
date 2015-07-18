@@ -778,7 +778,7 @@ PHP_METHOD(Phalcon_Assets_Manager, output){
 			PHALCON_INIT_NVAR(parameters);
 			array_init_size(parameters, 3);
 			if (Z_TYPE_P(attributes) == IS_ARRAY) { 
-				phalcon_array_update_long(&attributes, 0, prefixed_path, PH_COPY | PH_SEPARATE);
+				phalcon_array_update_long(&attributes, 0, prefixed_path, PH_COPY);
 
 				phalcon_array_append(&parameters, attributes, PH_COPY);
 			} else {
@@ -922,7 +922,7 @@ PHP_METHOD(Phalcon_Assets_Manager, output){
 			PHALCON_INIT_NVAR(parameters);
 			array_init_size(parameters, 3);
 			if (Z_TYPE_P(attributes) == IS_ARRAY) { 
-				phalcon_array_update_long(&attributes, 0, prefixed_path, PH_COPY | PH_SEPARATE);
+				phalcon_array_update_long(&attributes, 0, prefixed_path, PH_COPY);
 
 				phalcon_array_append(&parameters, attributes, PH_COPY);
 			} else {
@@ -983,7 +983,7 @@ PHP_METHOD(Phalcon_Assets_Manager, output){
 			PHALCON_INIT_NVAR(parameters);
 			array_init_size(parameters, 3);
 			if (Z_TYPE_P(attributes) == IS_ARRAY) { 
-				phalcon_array_update_long(&attributes, 0, prefixed_path, PH_COPY | PH_SEPARATE);
+				phalcon_array_update_long(&attributes, 0, prefixed_path, PH_COPY);
 
 				phalcon_array_append(&parameters, attributes, PH_COPY);
 			} else {

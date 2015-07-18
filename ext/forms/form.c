@@ -781,7 +781,7 @@ PHP_METHOD(Phalcon_Forms_Form, isValid){
 					array_init_size(scope, 2);
 					phalcon_array_append(&scope, name, PH_COPY);
 					phalcon_array_append(&scope, validator, PH_COPY);
-					phalcon_array_append(&prepared_validators, scope, PH_SEPARATE);
+					phalcon_array_append(&prepared_validators, scope, PH_COPY);
 
 					zend_hash_move_forward_ex(ah1, &hp1);
 				}
@@ -812,7 +812,7 @@ PHP_METHOD(Phalcon_Forms_Form, isValid){
 				PHALCON_CALL_METHOD(&element_messages, validation, "validate", data, entity);
 				if (phalcon_fast_count_ev(element_messages TSRMLS_CC)) {
 					PHALCON_CALL_METHOD(&name, element, "getname");
-					phalcon_array_update_zval(&messages, name, element_messages, PH_COPY | PH_SEPARATE);
+					phalcon_array_update_zval(&messages, name, element_messages, PH_COPY);
 
 					not_failed = PHALCON_GLOBAL(z_false);
 				}
@@ -1483,7 +1483,7 @@ PHP_METHOD(Phalcon_Forms_Form, appendMessages){
 
 	PHALCON_CALL_METHOD(NULL, element_messages, "appendmessages", messages);
 
-	phalcon_array_update_zval(&current_messages, filed, element_messages, PH_COPY | PH_SEPARATE);
+	phalcon_array_update_zval(&current_messages, filed, element_messages, PH_COPY);
 	phalcon_update_property_this(this_ptr, SL("_messages"), current_messages TSRMLS_CC);
 
 	RETURN_THIS();

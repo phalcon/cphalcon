@@ -1042,7 +1042,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle){
 			if (Z_TYPE_P(params) == IS_NULL) {
 				PHALCON_INIT_NVAR(params);
 				array_init_size(params, 1);
-				phalcon_array_append(&params, this_ptr, PH_SEPARATE);
+				phalcon_array_append(&params, this_ptr, PH_COPY);
 			}
 
 			/** 

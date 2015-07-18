@@ -176,7 +176,7 @@ PHP_METHOD(Phalcon_Flash_Session, message){
 		array_init(messages);
 	}
 	
-	phalcon_array_append_multi_2(&messages, type, message, 0);
+	phalcon_array_append_multi_2(&messages, type, message, PH_COPY);
 	PHALCON_CALL_METHOD(NULL, this_ptr, "_setsessionmessages", messages);
 	
 	PHALCON_MM_RESTORE();

@@ -607,7 +607,7 @@ PHP_METHOD(Phalcon_Date, months){
 			PHALCON_CALL_FUNCTION(&tmp, "mktime", tmp1, tmp1, tmp1, tmp3, tmp2);
 			PHALCON_CALL_FUNCTION(&value, "strftime", format, tmp);
 
-			phalcon_array_update_long(&return_value, i, value, PH_COPY | PH_SEPARATE);
+			phalcon_array_update_long(&return_value, i, value, PH_COPY);
 		}
 	} else {
 		PHALCON_RETURN_CALL_SELF("hours");

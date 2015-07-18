@@ -1645,9 +1645,9 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, expression){
 				if (phalcon_array_isset_string_fetch(&name, single_expr, SS("name"))) {
 					PHALCON_INIT_NVAR(parameter);
 					PHALCON_CONCAT_SVSV(parameter, "'", name, "' => ", single_expr_code);
-					phalcon_array_append(&items, parameter, PH_SEPARATE);
+					phalcon_array_append(&items, parameter, PH_COPY);
 				} else {
-					phalcon_array_append(&items, single_expr_code, PH_SEPARATE);
+					phalcon_array_append(&items, single_expr_code, PH_COPY);
 				}
 
 				zend_hash_move_forward_ex(ah0, &hp0);
@@ -3066,7 +3066,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _statementList){
 
 			PHALCON_INIT_NVAR(fire_arguments);
 			array_init_size(fire_arguments, 1);
-			phalcon_array_append(&fire_arguments, statement, PH_SEPARATE);
+			phalcon_array_append(&fire_arguments, statement, PH_COPY);
 
 			PHALCON_CALL_METHOD(&temp_compilation, this_ptr, "fireextensionevent", event, fire_arguments);
 			if (Z_TYPE_P(temp_compilation) == IS_STRING) {
@@ -3147,7 +3147,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _statementList){
 					 * Create a unamed block
 					 */
 					if (Z_TYPE_P(compilation) != IS_NULL) {
-						phalcon_array_append(&blocks, compilation, PH_SEPARATE);
+						phalcon_array_append(&blocks, compilation, PH_COPY);
 
 						PHALCON_INIT_NVAR(compilation);
 					}
@@ -3155,7 +3155,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _statementList){
 					/** 
 					 * In extends mode we add the block statements to the blocks variable
 					 */
-					phalcon_array_update_zval(&blocks, block_name, block_statements, PH_COPY | PH_SEPARATE);
+					phalcon_array_update_zval(&blocks, block_name, block_statements, PH_COPY);
 					phalcon_update_property_this(this_ptr, SL("_blocks"), blocks TSRMLS_CC);
 				} else {
 					if (Z_TYPE_P(block_statements) == IS_ARRAY) { 
@@ -3424,7 +3424,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _compileSource){
 						}
 					}
 					if (PHALCON_IS_TRUE(extends_mode)) {
-						phalcon_array_update_zval(&final_compilation, name, block_compilation, PH_COPY | PH_SEPARATE);
+						phalcon_array_update_zval(&final_compilation, name, block_compilation, PH_COPY);
 					} else {
 						phalcon_concat_self(&final_compilation, block_compilation TSRMLS_CC);
 					}
@@ -3433,7 +3433,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _compileSource){
 					 * Here the block is an already compiled text
 					 */
 					if (PHALCON_IS_TRUE(extends_mode)) {
-						phalcon_array_append(&final_compilation, block, PH_SEPARATE);
+						phalcon_array_append(&final_compilation, block, PH_COPY);
 					} else {
 						phalcon_concat_self(&final_compilation, block TSRMLS_CC);
 					}

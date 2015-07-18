@@ -592,7 +592,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, _getTableOptions){
 			if (zend_is_true(engine)) {
 				PHALCON_INIT_VAR(sql_engine);
 				PHALCON_CONCAT_SV(sql_engine, "ENGINE=", engine);
-				phalcon_array_append(&table_options, sql_engine, PH_SEPARATE);
+				phalcon_array_append(&table_options, sql_engine, PH_COPY);
 			}
 		}
 	
@@ -606,7 +606,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, _getTableOptions){
 			if (zend_is_true(auto_increment)) {
 				PHALCON_INIT_VAR(sql_autoincrement);
 				PHALCON_CONCAT_SV(sql_autoincrement, "AUTO_INCREMENT=", auto_increment);
-				phalcon_array_append(&table_options, sql_autoincrement, PH_SEPARATE);
+				phalcon_array_append(&table_options, sql_autoincrement, PH_COPY);
 			}
 		}
 	
@@ -626,11 +626,11 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, _getTableOptions){
 	
 				PHALCON_INIT_VAR(sql_charset);
 				PHALCON_CONCAT_SV(sql_charset, "DEFAULT CHARSET=", first_part);
-				phalcon_array_append(&table_options, sql_charset, PH_SEPARATE);
+				phalcon_array_append(&table_options, sql_charset, PH_COPY);
 	
 				PHALCON_INIT_VAR(sql_collate);
 				PHALCON_CONCAT_SV(sql_collate, "COLLATE=", table_collation);
-				phalcon_array_append(&table_options, sql_collate, PH_SEPARATE);
+				phalcon_array_append(&table_options, sql_collate, PH_COPY);
 			}
 		}
 	
@@ -743,7 +743,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, createTable){
 			phalcon_concat_self_str(&column_line, SL(" PRIMARY KEY") TSRMLS_CC);
 		}
 	
-		phalcon_array_append(&create_lines, column_line, PH_SEPARATE);
+		phalcon_array_append(&create_lines, column_line, PH_COPY);
 	
 		zend_hash_move_forward_ex(ah0, &hp0);
 	}
@@ -779,7 +779,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, createTable){
 				PHALCON_CONCAT_SVSVS(index_sql, "KEY `", index_name, "` (", column_list, ")");
 			}
 	
-			phalcon_array_append(&create_lines, index_sql, PH_SEPARATE);
+			phalcon_array_append(&create_lines, index_sql, PH_COPY);
 	
 			zend_hash_move_forward_ex(ah1, &hp1);
 		}
@@ -812,7 +812,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, createTable){
 	
 			PHALCON_INIT_NVAR(reference_sql);
 			PHALCON_CONCAT_VSVSVS(reference_sql, constaint_sql, " REFERENCES `", referenced_table, "`(", referenced_column_list, ")");
-			phalcon_array_append(&create_lines, reference_sql, PH_SEPARATE);
+			phalcon_array_append(&create_lines, reference_sql, PH_COPY);
 	
 			zend_hash_move_forward_ex(ah2, &hp2);
 		}

@@ -117,7 +117,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, connect){
 	if (phalcon_array_isset_string(descriptor, SS("schema"))) {
 		PHALCON_OBS_VAR(schema);
 		phalcon_array_fetch_string(&schema, descriptor, SL("schema"), PH_NOISY);
-		phalcon_array_unset_string(&descriptor, SS("schema"), PH_SEPARATE);
+		phalcon_array_unset_string(&descriptor, SS("schema"), PH_COPY);
 
 		phalcon_update_property_this(this_ptr, SL("_schema"), schema TSRMLS_CC);
 	}
@@ -134,7 +134,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, connect){
 		 * To avoid this we set the password to null
 		 */
 		if (Z_TYPE_P(password) == IS_STRING && Z_STRLEN_P(password) == 0) {
-			phalcon_array_update_string(&descriptor, SL("password"), PHALCON_GLOBAL(z_null), PH_SEPARATE | PH_COPY);
+			phalcon_array_update_string(&descriptor, SL("password"), PHALCON_GLOBAL(z_null), PH_COPY | PH_COPY);
 		}
 	}
 
@@ -427,7 +427,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, describeColumns){
 		object_init_ex(column, phalcon_db_column_ce);
 		PHALCON_CALL_METHOD(NULL, column, "__construct", column_name, definition);
 	
-		phalcon_array_append(&columns, column, PH_SEPARATE);
+		phalcon_array_append(&columns, column, PH_COPY);
 		PHALCON_CPY_WRT(old_column, column_name);
 	
 		zend_hash_move_forward_ex(ah0, &hp0);

@@ -558,7 +558,7 @@ PHP_METHOD(Phalcon_Db_Adapter, insert){
 
 					PHALCON_OBS_NVAR(bind_type);
 					phalcon_array_fetch(&bind_type, data_types, position, PH_NOISY);
-					phalcon_array_append(&bind_data_types, bind_type, PH_SEPARATE);
+					phalcon_array_append(&bind_data_types, bind_type, PH_COPY);
 				}
 			}
 		}
@@ -775,7 +775,7 @@ PHP_METHOD(Phalcon_Db_Adapter, update){
 			} else {
 				PHALCON_INIT_NVAR(set_clause_part);
 				PHALCON_CONCAT_VS(set_clause_part, escaped_field, " = ?");
-				phalcon_array_append(&update_values, value, PH_SEPARATE);
+				phalcon_array_append(&update_values, value, PH_COPY);
 				if (Z_TYPE_P(data_types) == IS_ARRAY) { 
 					if (!phalcon_array_isset(data_types, position)) {
 						PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Incomplete number of bind types");
@@ -784,10 +784,10 @@ PHP_METHOD(Phalcon_Db_Adapter, update){
 
 					PHALCON_OBS_NVAR(bind_type);
 					phalcon_array_fetch(&bind_type, data_types, position, PH_NOISY);
-					phalcon_array_append(&bind_data_types, bind_type, PH_SEPARATE);
+					phalcon_array_append(&bind_data_types, bind_type, PH_COPY);
 				}
 			}
-			phalcon_array_append(&placeholders, set_clause_part, PH_SEPARATE);
+			phalcon_array_append(&placeholders, set_clause_part, PH_COPY);
 		}
 
 		zend_hash_move_forward_ex(ah0, &hp0);
@@ -1636,7 +1636,7 @@ PHP_METHOD(Phalcon_Db_Adapter, describeIndexes){
 
 		PHALCON_OBS_NVAR(column_name);
 		phalcon_array_fetch_long(&column_name, index, 4, PH_NOISY);
-		phalcon_array_append_multi_2(&indexes, key_name, column_name, 0);
+		phalcon_array_append_multi_2(&indexes, key_name, column_name, PH_COPY);
 
 		zend_hash_move_forward_ex(ah0, &hp0);
 	}

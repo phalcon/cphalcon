@@ -116,7 +116,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, connect){
 	} else {
 		PHALCON_OBS_VAR(dbname);
 		phalcon_array_fetch_string(&dbname, descriptor, SL("dbname"), PH_NOISY);
-		phalcon_array_update_string(&descriptor, SL("dsn"), dbname, PH_COPY | PH_SEPARATE);
+		phalcon_array_update_string(&descriptor, SL("dsn"), dbname, PH_COPY);
 	}
 	
 	PHALCON_CALL_PARENT(NULL, phalcon_db_adapter_pdo_sqlite_ce, this_ptr, "connect", descriptor);
@@ -470,7 +470,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeColumns){
 		object_init_ex(column, phalcon_db_column_ce);
 		PHALCON_CALL_METHOD(NULL, column, "__construct", column_name, definition);
 
-		phalcon_array_append(&columns, column, PH_SEPARATE);
+		phalcon_array_append(&columns, column, PH_COPY);
 		PHALCON_CPY_WRT(old_column, column_name);
 
 		zend_hash_move_forward_ex(ah0, &hp0);
@@ -542,7 +542,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeIndexes){
 	
 			PHALCON_OBS_NVAR(column_name);
 			phalcon_array_fetch_long(&column_name, index_column, 2, PH_NOISY);
-			phalcon_array_append_multi_2(&indexes, key_name, column_name, 0);
+			phalcon_array_append_multi_2(&indexes, key_name, column_name, PH_COPY);
 	
 			zend_hash_move_forward_ex(ah1, &hp1);
 		}
@@ -564,7 +564,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeIndexes){
 		object_init_ex(index, phalcon_db_index_ce);
 		PHALCON_CALL_METHOD(NULL, index, "__construct", name, index_columns);
 	
-		phalcon_array_update_zval(&index_objects, name, index, PH_COPY | PH_SEPARATE);
+		phalcon_array_update_zval(&index_objects, name, index, PH_COPY);
 	
 		zend_hash_move_forward_ex(ah2, &hp2);
 	}
@@ -644,18 +644,18 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeReferences){
 	
 		PHALCON_INIT_NVAR(columns);
 		array_init_size(columns, 1);
-		phalcon_array_append(&columns, from, PH_SEPARATE);
+		phalcon_array_append(&columns, from, PH_COPY);
 	
 		PHALCON_INIT_NVAR(referenced_columns);
 		array_init_size(referenced_columns, 1);
-		phalcon_array_append(&referenced_columns, to, PH_SEPARATE);
+		phalcon_array_append(&referenced_columns, to, PH_COPY);
 	
 		PHALCON_INIT_NVAR(reference_array);
 		array_init_size(reference_array, 4);
 		add_assoc_null_ex(reference_array, SS("referencedSchema"));
-		phalcon_array_update_string(&reference_array, SL("referencedTable"), referenced_table, PH_COPY | PH_SEPARATE);
-		phalcon_array_update_string(&reference_array, SL("columns"), columns, PH_COPY | PH_SEPARATE);
-		phalcon_array_update_string(&reference_array, SL("referencedColumns"), referenced_columns, PH_COPY | PH_SEPARATE);
+		phalcon_array_update_string(&reference_array, SL("referencedTable"), referenced_table, PH_COPY);
+		phalcon_array_update_string(&reference_array, SL("columns"), columns, PH_COPY);
+		phalcon_array_update_string(&reference_array, SL("referencedColumns"), referenced_columns, PH_COPY);
 	
 		/** 
 		 * Every route is abstracted as a Phalcon\Db\Reference instance
@@ -664,7 +664,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeReferences){
 		object_init_ex(reference, phalcon_db_reference_ce);
 		PHALCON_CALL_METHOD(NULL, reference, "__construct", constraint_name, reference_array);
 	
-		phalcon_array_update_zval(&reference_objects, constraint_name, reference, PH_COPY | PH_SEPARATE);
+		phalcon_array_update_zval(&reference_objects, constraint_name, reference, PH_COPY);
 	
 		zend_hash_move_forward_ex(ah0, &hp0);
 	}

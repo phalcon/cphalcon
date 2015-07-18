@@ -306,7 +306,7 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, _loadTemplateEngines){
 			/** 
 			 * Use .phtml as extension for the PHP engine
 			 */
-			phalcon_array_update_string(&engines, SL(".phtml"), php_engine, PH_COPY | PH_SEPARATE);
+			phalcon_array_update_string(&engines, SL(".phtml"), php_engine, PH_COPY);
 		} else {
 			if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
 				PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "A dependency injector container is required to obtain the application services");
@@ -318,8 +318,8 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, _loadTemplateEngines){
 			 */
 			PHALCON_INIT_VAR(arguments);
 			array_init_size(arguments, 2);
-			phalcon_array_append(&arguments, this_ptr, PH_SEPARATE);
-			phalcon_array_append(&arguments, dependency_injector, PH_SEPARATE);
+			phalcon_array_append(&arguments, this_ptr, PH_COPY);
+			phalcon_array_append(&arguments, dependency_injector, PH_COPY);
 
 			phalcon_is_iterable(registered_engines, &ah0, &hp0, 0, 0);
 
@@ -353,7 +353,7 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, _loadTemplateEngines){
 						return;
 					}
 				}
-				phalcon_array_update_zval(&engines, extension, engine_object, PH_COPY | PH_SEPARATE);
+				phalcon_array_update_zval(&engines, extension, engine_object, PH_COPY);
 
 				zend_hash_move_forward_ex(ah0, &hp0);
 			}

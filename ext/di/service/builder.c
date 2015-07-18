@@ -219,7 +219,7 @@ PHP_METHOD(Phalcon_DI_Service_Builder, _buildParameters){
 		PHALCON_GET_HVALUE(argument);
 	
 		PHALCON_CALL_METHOD(&value, this_ptr, "_buildparameter", dependency_injector, position, argument);
-		phalcon_array_append(&build_arguments, value, PH_SEPARATE);
+		phalcon_array_append(&build_arguments, value, PH_COPY);
 	
 		zend_hash_move_forward_ex(ah0, &hp0);
 	}
@@ -361,8 +361,8 @@ PHP_METHOD(Phalcon_DI_Service_Builder, build){
 			 */
 			PHALCON_INIT_NVAR(method_call);
 			array_init_size(method_call, 2);
-			phalcon_array_append(&method_call, instance, PH_SEPARATE);
-			phalcon_array_append(&method_call, method_name, PH_SEPARATE);
+			phalcon_array_append(&method_call, instance, PH_COPY);
+			phalcon_array_append(&method_call, method_name, PH_COPY);
 			if (phalcon_array_isset_string(method, SS("arguments"))) {
 	
 				PHALCON_OBS_NVAR(arguments);

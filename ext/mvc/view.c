@@ -2179,7 +2179,7 @@ PHP_METHOD(Phalcon_Mvc_View, cache){
 			PHALCON_GET_HKEY(key, ah0, hp0);
 			PHALCON_GET_HVALUE(value);
 
-			phalcon_array_update_zval(&cache_options, key, value, PH_COPY | PH_SEPARATE);
+			phalcon_array_update_zval(&cache_options, key, value, PH_COPY);
 
 			zend_hash_move_forward_ex(ah0, &hp0);
 		}
@@ -2203,7 +2203,7 @@ PHP_METHOD(Phalcon_Mvc_View, cache){
 			phalcon_update_property_bool(this_ptr, SL("_cacheMode"), 0 TSRMLS_CC);
 		}
 
-		phalcon_array_update_string(&view_options, SL("cache"), cache_options, PH_COPY | PH_SEPARATE);
+		phalcon_array_update_string(&view_options, SL("cache"), cache_options, PH_COPY);
 		phalcon_update_property_this(this_ptr, SL("_options"), view_options TSRMLS_CC);
 	} else {
 		/** 
