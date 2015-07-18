@@ -1,3 +1,6 @@
+# [2.0.8](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.0.8) (2015-XX-XX)
+- Added events `response:beforeSendHeaders` and `response:afterSendHeaders` ([#10689](https://github.com/phalcon/cphalcon/issues/10689)
+
 # [2.0.7](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.0.7) (2015-08-17)
 - `Image\Adapter\Gd::save()` no longer fails if the method or the instance is created with a filename without an extension
 - Fixed segfault in `Image\Adapter\Imagick::text()`
