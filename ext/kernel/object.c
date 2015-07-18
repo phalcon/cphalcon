@@ -1057,6 +1057,7 @@ int phalcon_update_property_zval(zval *object, const char *property_name, zend_u
 	MAKE_STD_ZVAL(property);
 	ZVAL_STRINGL(property, property_name, property_length, 0);
 
+	Z_ADDREF_P(value);
 #if PHP_VERSION_ID < 50400
 	Z_OBJ_HT_P(object)->write_property(object, property, value TSRMLS_CC);
 #else
