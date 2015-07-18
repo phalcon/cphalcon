@@ -125,7 +125,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Xcache, __construct){
 	}
 
 	if (!phalcon_array_isset_string(options, SS("statsKey"))) {
-		phalcon_array_update_string_string(&options, SL("statsKey"), SL("_PHCX"), 0);
+		phalcon_array_update_string_string(&options, SL("statsKey"), SL("_PHCX"), PH_COPY);
 	}
 	
 	PHALCON_CALL_PARENT(NULL, phalcon_cache_backend_xcache_ce, this_ptr, "__construct", frontend, options);

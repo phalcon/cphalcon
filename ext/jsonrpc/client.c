@@ -120,7 +120,7 @@ PHP_METHOD(Phalcon_JsonRpc_Client, call){
 	PHALCON_INIT_VAR(jsonrpc_message);
 	array_init(jsonrpc_message);
 
-	phalcon_array_update_string_string(&jsonrpc_message, SL("jsonrpc"), SL("2.0"), 0);
+	phalcon_array_update_string_string(&jsonrpc_message, SL("jsonrpc"), SL("2.0"), PH_COPY);
 	phalcon_array_update_string(&jsonrpc_message, SL("method"), method, PH_COPY);
 	
 	if (data) {

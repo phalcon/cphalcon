@@ -146,19 +146,19 @@ PHP_METHOD(Phalcon_Cache_Backend_Redis, __construct){
 	}
 
 	if (!phalcon_array_isset_string(options, SS("host"))) {
-		phalcon_array_update_string_string(&options, SL("host"), SL("127.0.0.1"), 0);
+		phalcon_array_update_string_string(&options, SL("host"), SL("127.0.0.1"), PH_COPY);
 	}
 
 	if (!phalcon_array_isset_string(options, SS("port"))) {
-		phalcon_array_update_string_long(&options, SL("port"), 6379, 0);
+		phalcon_array_update_string_long(&options, SL("port"), 6379, PH_COPY);
 	}
 
 	if (!phalcon_array_isset_string(options, SS("persistent"))) {
-		phalcon_array_update_string_bool(&options, SL("persistent"), 0, 0);
+		phalcon_array_update_string_bool(&options, SL("persistent"), 0, PH_COPY);
 	}
 
 	if (!phalcon_array_isset_string(options, SS("statsKey"))) {
-		phalcon_array_update_string_string(&options, SL("statsKey"), SL("_PHCR"), 0);
+		phalcon_array_update_string_string(&options, SL("statsKey"), SL("_PHCR"), PH_COPY);
 	}
 
 	PHALCON_CALL_PARENT(NULL, phalcon_cache_backend_redis_ce, this_ptr, "__construct", frontend, options);

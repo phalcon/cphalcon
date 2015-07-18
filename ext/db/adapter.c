@@ -1746,11 +1746,11 @@ PHP_METHOD(Phalcon_Db_Adapter, describeReferences){
 
 		PHALCON_OBS_NVAR(column_name);
 		phalcon_array_fetch_long(&column_name, reference, 1, PH_NOISY);
-		phalcon_array_update_zval_string_append_multi_3(&references, constraint_name, SL("columns"), column_name, 0);
+		phalcon_array_update_zval_string_append_multi_3(&references, constraint_name, SL("columns"), column_name, PH_COPY);
 
 		PHALCON_OBS_NVAR(referenced_columns);
 		phalcon_array_fetch_long(&referenced_columns, reference, 5, PH_NOISY);
-		phalcon_array_update_zval_string_append_multi_3(&references, constraint_name, SL("referencedColumns"), referenced_columns, 0);
+		phalcon_array_update_zval_string_append_multi_3(&references, constraint_name, SL("referencedColumns"), referenced_columns, PH_COPY);
 
 		zend_hash_move_forward_ex(ah0, &hp0);
 	}

@@ -140,7 +140,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_GridFS, store){
 		isBytes = PHALCON_GLOBAL(z_false);
 	}
 
-	phalcon_array_update_string_long(&options, SL("w"), 0, 0);
+	phalcon_array_update_string_long(&options, SL("w"), 0, PH_COPY);
 
 	PHALCON_CALL_SELF(&mongo_id, "getid");
 
@@ -314,7 +314,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_GridFS, remove){
 	PHALCON_INIT_VAR(options);
 	array_init_size(options, 1);
 
-	phalcon_array_update_string_long(&options, SL("w"), 0, 0);
+	phalcon_array_update_string_long(&options, SL("w"), 0, PH_COPY);
 
 	PHALCON_RETURN_CALL_METHOD(grid_fs, "remove", criteria, options);
 	RETURN_MM();

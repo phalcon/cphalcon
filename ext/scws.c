@@ -570,9 +570,9 @@ PHP_METHOD(Phalcon_Scws, getResult){
 		array_init(row);
 
 		phalcon_array_update_string_string(&row, SL("word"), (char*)(ps->s->txt + cur->off), cur->len, PH_COPY);
-		phalcon_array_update_string_long(&row, SL("off"), cur->off, 0);
-		phalcon_array_update_string_long(&row, SL("len"), cur->len, 0);
-		phalcon_array_update_string_double(&row, SL("idf"), (double) cur->idf, 0);
+		phalcon_array_update_string_long(&row, SL("off"), cur->off, PH_COPY);
+		phalcon_array_update_string_long(&row, SL("len"), cur->len, PH_COPY);
+		phalcon_array_update_string_double(&row, SL("idf"), (double) cur->idf, PH_COPY);
 		phalcon_array_update_string_string(&row, SL("attr"), SL(cur->attr), PH_COPY);
 
 		phalcon_array_append(&return_value, row, PH_COPY);
@@ -631,10 +631,10 @@ PHP_METHOD(Phalcon_Scws, getTops){
 		PHALCON_INIT_NVAR(row);
 		array_init(row);
 
-		phalcon_array_update_string_string(&row, SL("word"), cur->word, strlen(cur->word), 0);
-		phalcon_array_update_string_long(&row, SL("times"), cur->times, 0);
-		phalcon_array_update_string_double(&row, SL("weight"), (double) cur->weight, 0);
-		phalcon_array_update_string_string(&row, SL("attr"), SL(cur->attr), 0);
+		phalcon_array_update_string_string(&row, SL("word"), cur->word, strlen(cur->word), PH_COPY);
+		phalcon_array_update_string_long(&row, SL("times"), cur->times, PH_COPY);
+		phalcon_array_update_string_double(&row, SL("weight"), (double) cur->weight, PH_COPY);
+		phalcon_array_update_string_string(&row, SL("attr"), SL(cur->attr), PH_COPY);
 
 		phalcon_array_append(&return_value, row, PH_COPY);
 		
@@ -719,10 +719,10 @@ PHP_METHOD(Phalcon_Scws, getWords){
 		PHALCON_INIT_NVAR(row);
 		array_init(row);
 
-		phalcon_array_update_string_string(&row, SL("word"), cur->word, strlen(cur->word), 0);
-		phalcon_array_update_string_long(&row, SL("times"), cur->times, 0);
-		phalcon_array_update_string_double(&row, SL("weight"), (double) cur->weight, 0);
-		phalcon_array_update_string_string(&row, SL("attr"), SL(cur->attr), 0);
+		phalcon_array_update_string_string(&row, SL("word"), cur->word, strlen(cur->word), PH_COPY);
+		phalcon_array_update_string_long(&row, SL("times"), cur->times, PH_COPY);
+		phalcon_array_update_string_double(&row, SL("weight"), (double) cur->weight, PH_COPY);
+		phalcon_array_update_string_string(&row, SL("attr"), SL(cur->attr), PH_COPY);
 
 		phalcon_array_append(&return_value, row, PH_COPY);
 

@@ -4146,16 +4146,16 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect){
 				/** 
 				 * We cache required meta-data to make its future access faster
 				 */
-				phalcon_array_update_string_multi_2(&columns, alias_copy, SL("instance"),   instance, 0);
-				phalcon_array_update_string_multi_2(&columns, alias_copy, SL("attributes"), attributes, 0);
-				phalcon_array_update_string_multi_2(&columns, alias_copy, SL("columnMap"),  column_map, 0);
+				phalcon_array_update_string_multi_2(&columns, alias_copy, SL("instance"),   instance, PH_COPY);
+				phalcon_array_update_string_multi_2(&columns, alias_copy, SL("attributes"), attributes, PH_COPY);
+				phalcon_array_update_string_multi_2(&columns, alias_copy, SL("columnMap"),  column_map, PH_COPY);
 
 				/** 
 				 * Check if the model keeps snapshots
 				 */
 				PHALCON_CALL_METHOD(&is_keeping_snapshots, manager, "iskeepingsnapshots", instance);
 				if (zend_is_true(is_keeping_snapshots)) {
-					phalcon_array_update_string_multi_2(&columns, alias_copy, SL("keepSnapshots"), is_keeping_snapshots, 0);
+					phalcon_array_update_string_multi_2(&columns, alias_copy, SL("keepSnapshots"), is_keeping_snapshots, PH_COPY);
 				}
 			} else {
 				/** 
@@ -5970,9 +5970,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getSqlSelect){
 				/** 
 				 * We cache required meta-data to make its future access faster
 				 */
-				phalcon_array_update_string_multi_2(&columns, alias_copy, SL("instance"),   instance, 0);
-				phalcon_array_update_string_multi_2(&columns, alias_copy, SL("attributes"), attributes, 0);
-				phalcon_array_update_string_multi_2(&columns, alias_copy, SL("columnMap"),  column_map, 0);
+				phalcon_array_update_string_multi_2(&columns, alias_copy, SL("instance"),   instance, PH_COPY);
+				phalcon_array_update_string_multi_2(&columns, alias_copy, SL("attributes"), attributes, PH_COPY);
+				phalcon_array_update_string_multi_2(&columns, alias_copy, SL("columnMap"),  column_map, PH_COPY);
 			} else {
 				/** 
 				 * Query only the columns that are registered as attributes in the metaData

@@ -235,7 +235,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns){
 			 * Point are varchars
 			 */
 			if (phalcon_memnstr_str(column_type, SL("point"))) {
-				phalcon_array_update_string_long(&definition, SL("type"), PHALCON_DB_COLUMN_TYPE_VARCHAR, 0);
+				phalcon_array_update_string_long(&definition, SL("type"), PHALCON_DB_COLUMN_TYPE_VARCHAR, PH_COPY);
 				break;
 			}
 
@@ -243,7 +243,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns){
 			 * Enum are treated as char
 			 */
 			if (phalcon_memnstr_str(column_type, SL("enum"))) {
-				phalcon_array_update_string_long(&definition, SL("type"), PHALCON_DB_COLUMN_TYPE_CHAR, 0);
+				phalcon_array_update_string_long(&definition, SL("type"), PHALCON_DB_COLUMN_TYPE_CHAR, PH_COPY);
 				break;
 			}
 
@@ -251,10 +251,10 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns){
 			 * Smallint
 			 */
 			if (phalcon_memnstr_str(column_type, SL("smallint"))) {
-				phalcon_array_update_string_long(&definition, SL("type"), PHALCON_DB_COLUMN_TYPE_INTEGER, 0);
+				phalcon_array_update_string_long(&definition, SL("type"), PHALCON_DB_COLUMN_TYPE_INTEGER, PH_COPY);
 				phalcon_array_update_string(&definition, SL("isNumeric"), PHALCON_GLOBAL(z_true), PH_COPY);
-				phalcon_array_update_string_long(&definition, SL("bindType"), 1, 0);
-				phalcon_array_update_string_long(&definition, SL("bytes"), 16, 0);
+				phalcon_array_update_string_long(&definition, SL("bindType"), 1, PH_COPY);
+				phalcon_array_update_string_long(&definition, SL("bytes"), 16, PH_COPY);
 				break;
 			}
 
@@ -262,10 +262,10 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns){
 			 * Mediumint
 			 */
 			if (phalcon_memnstr_str(column_type, SL("smallint"))) {
-				phalcon_array_update_string_long(&definition, SL("type"), PHALCON_DB_COLUMN_TYPE_INTEGER, 0);
+				phalcon_array_update_string_long(&definition, SL("type"), PHALCON_DB_COLUMN_TYPE_INTEGER, PH_COPY);
 				phalcon_array_update_string(&definition, SL("isNumeric"), PHALCON_GLOBAL(z_true), PH_COPY);
-				phalcon_array_update_string_long(&definition, SL("bindType"), 1, 0);
-				phalcon_array_update_string_long(&definition, SL("bytes"), 24, 0);
+				phalcon_array_update_string_long(&definition, SL("bindType"), 1, PH_COPY);
+				phalcon_array_update_string_long(&definition, SL("bytes"), 24, PH_COPY);
 				break;
 			}
 
@@ -273,10 +273,10 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns){
 			 * BIGINT
 			 */
 			if (phalcon_memnstr_str(column_type, SL("bigint"))) {
-				phalcon_array_update_string_long(&definition, SL("type"), PHALCON_DB_COLUMN_TYPE_INTEGER, 0);
+				phalcon_array_update_string_long(&definition, SL("type"), PHALCON_DB_COLUMN_TYPE_INTEGER, PH_COPY);
 				phalcon_array_update_string(&definition, SL("isNumeric"), PHALCON_GLOBAL(z_true), PH_COPY);
-				phalcon_array_update_string_long(&definition, SL("bindType"), 1, 0);
-				phalcon_array_update_string_long(&definition, SL("bytes"), 64, 0);
+				phalcon_array_update_string_long(&definition, SL("bindType"), 1, PH_COPY);
+				phalcon_array_update_string_long(&definition, SL("bytes"), 64, PH_COPY);
 				break;
 			}
 
@@ -284,10 +284,10 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns){
 			 * Integers/Int are int
 			 */
 			if (phalcon_memnstr_str(column_type, SL("int"))) {
-				phalcon_array_update_string_long(&definition, SL("type"), PHALCON_DB_COLUMN_TYPE_INTEGER, 0);
+				phalcon_array_update_string_long(&definition, SL("type"), PHALCON_DB_COLUMN_TYPE_INTEGER, PH_COPY);
 				phalcon_array_update_string(&definition, SL("isNumeric"), PHALCON_GLOBAL(z_true), PH_COPY);
-				phalcon_array_update_string_long(&definition, SL("bindType"), 1, 0);
-				phalcon_array_update_string_long(&definition, SL("bytes"), 32, 0);
+				phalcon_array_update_string_long(&definition, SL("bindType"), 1, PH_COPY);
+				phalcon_array_update_string_long(&definition, SL("bytes"), 32, PH_COPY);
 				break;
 			}
 
@@ -295,7 +295,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns){
 			 * Varchar are varchars
 			 */
 			if (phalcon_memnstr_str(column_type, SL("varchar"))) {
-				phalcon_array_update_string_long(&definition, SL("type"), PHALCON_DB_COLUMN_TYPE_VARCHAR, 0);
+				phalcon_array_update_string_long(&definition, SL("type"), PHALCON_DB_COLUMN_TYPE_VARCHAR, PH_COPY);
 				break;
 			}
 
@@ -303,7 +303,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns){
 			 * Special type for datetime
 			 */
 			if (phalcon_memnstr_str(column_type, SL("datetime"))) {
-				phalcon_array_update_string_long(&definition, SL("type"), PHALCON_DB_COLUMN_TYPE_DATETIME, 0);
+				phalcon_array_update_string_long(&definition, SL("type"), PHALCON_DB_COLUMN_TYPE_DATETIME, PH_COPY);
 				break;
 			}
 
@@ -311,23 +311,23 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns){
 			 * Decimals are floats
 			 */
 			if (phalcon_memnstr_str(column_type, SL("decimal"))) {
-				phalcon_array_update_string_long(&definition, SL("type"), PHALCON_DB_COLUMN_TYPE_DECIMAL, 0);
+				phalcon_array_update_string_long(&definition, SL("type"), PHALCON_DB_COLUMN_TYPE_DECIMAL, PH_COPY);
 				phalcon_array_update_string(&definition, SL("isNumeric"), PHALCON_GLOBAL(z_true), PH_COPY);
-				phalcon_array_update_string_long(&definition, SL("bindType"), 32, 0);
+				phalcon_array_update_string_long(&definition, SL("bindType"), 32, PH_COPY);
 				if (phalcon_is_numeric(match_one)) {
 					if (phalcon_is_numeric(match_two) && PHALCON_GT(match_two, match_one)) {
-						phalcon_array_update_string_long(&definition, SL("bytes"), (Z_LVAL_P(match_two) + 2) * 8, 0);
+						phalcon_array_update_string_long(&definition, SL("bytes"), (Z_LVAL_P(match_two) + 2) * 8, PH_COPY);
 					} else {
-						phalcon_array_update_string_long(&definition, SL("bytes"), Z_LVAL_P(match_one) * 8, 0);
+						phalcon_array_update_string_long(&definition, SL("bytes"), Z_LVAL_P(match_one) * 8, PH_COPY);
 					}
 				} else {
-					phalcon_array_update_string_long(&definition, SL("size"), 30, 0);
-					phalcon_array_update_string_long(&definition, SL("bytes"), 80, 0);
+					phalcon_array_update_string_long(&definition, SL("size"), 30, PH_COPY);
+					phalcon_array_update_string_long(&definition, SL("bytes"), 80, PH_COPY);
 				}
 				if (phalcon_is_numeric(match_two)) {
 					phalcon_array_update_string(&definition, SL("scale"), match_two, PH_COPY);
 				} else {
-					phalcon_array_update_string_long(&definition, SL("scale"), 6, 0);
+					phalcon_array_update_string_long(&definition, SL("scale"), 6, PH_COPY);
 				}
 				break;
 			}
@@ -336,7 +336,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns){
 			 * Chars are chars
 			 */
 			if (phalcon_memnstr_str(column_type, SL("char"))) {
-				phalcon_array_update_string_long(&definition, SL("type"), PHALCON_DB_COLUMN_TYPE_CHAR, 0);
+				phalcon_array_update_string_long(&definition, SL("type"), PHALCON_DB_COLUMN_TYPE_CHAR, PH_COPY);
 				break;
 			}
 
@@ -344,7 +344,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns){
 			 * Date/Datetime are varchars
 			 */
 			if (phalcon_memnstr_str(column_type, SL("date"))) {
-				phalcon_array_update_string_long(&definition, SL("type"), PHALCON_DB_COLUMN_TYPE_DATE, 0);
+				phalcon_array_update_string_long(&definition, SL("type"), PHALCON_DB_COLUMN_TYPE_DATE, PH_COPY);
 				break;
 			}
 
@@ -352,7 +352,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns){
 			 * Timestamp as date
 			 */
 			if (phalcon_memnstr_str(column_type, SL("timestamp"))) {
-				phalcon_array_update_string_long(&definition, SL("type"), PHALCON_DB_COLUMN_TYPE_DATE, 0);
+				phalcon_array_update_string_long(&definition, SL("type"), PHALCON_DB_COLUMN_TYPE_DATE, PH_COPY);
 				break;
 			}
 
@@ -360,7 +360,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns){
 			 * Text are varchars
 			 */
 			if (phalcon_memnstr_str(column_type, SL("text"))) {
-				phalcon_array_update_string_long(&definition, SL("type"), PHALCON_DB_COLUMN_TYPE_TEXT, 0);
+				phalcon_array_update_string_long(&definition, SL("type"), PHALCON_DB_COLUMN_TYPE_TEXT, PH_COPY);
 				break;
 			}
 
@@ -368,13 +368,13 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns){
 			 * Float/Smallfloats/Decimals are float
 			 */
 			if (phalcon_memnstr_str(column_type, SL("float"))) {
-				phalcon_array_update_string_long(&definition, SL("type"), PHALCON_DB_COLUMN_TYPE_FLOAT, 0);
+				phalcon_array_update_string_long(&definition, SL("type"), PHALCON_DB_COLUMN_TYPE_FLOAT, PH_COPY);
 				phalcon_array_update_string(&definition, SL("isNumeric"), PHALCON_GLOBAL(z_true), PH_COPY);
-				phalcon_array_update_string_long(&definition, SL("bindType"), 32, 0);
+				phalcon_array_update_string_long(&definition, SL("bindType"), 32, PH_COPY);
 				if (phalcon_is_numeric(match_one) && PHALCON_GE_LONG(match_one, 25)) {
-					phalcon_array_update_string_long(&definition, SL("bytes"), 64, 0);
+					phalcon_array_update_string_long(&definition, SL("bytes"), 64, PH_COPY);
 				} else {
-					phalcon_array_update_string_long(&definition, SL("bytes"), 32, 0);
+					phalcon_array_update_string_long(&definition, SL("bytes"), 32, PH_COPY);
 				}
 				break;
 			}
@@ -383,17 +383,17 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns){
 			 * Double are floats
 			 */
 			if (phalcon_memnstr_str(column_type, SL("double"))) {
-				phalcon_array_update_string_long(&definition, SL("type"), PHALCON_DB_COLUMN_TYPE_DOUBLE, 0);
+				phalcon_array_update_string_long(&definition, SL("type"), PHALCON_DB_COLUMN_TYPE_DOUBLE, PH_COPY);
 				phalcon_array_update_string(&definition, SL("isNumeric"), PHALCON_GLOBAL(z_true), PH_COPY);
-				phalcon_array_update_string_long(&definition, SL("bindType"), 32, 0);
-				phalcon_array_update_string_long(&definition, SL("bytes"), 64, 0);
+				phalcon_array_update_string_long(&definition, SL("bindType"), 32, PH_COPY);
+				phalcon_array_update_string_long(&definition, SL("bytes"), 64, PH_COPY);
 				break;
 			}
 
 			/**
 			 * By default is string
 			 */
-			phalcon_array_update_string_long(&definition, SL("type"), PHALCON_DB_COLUMN_TYPE_VARCHAR, 0);
+			phalcon_array_update_string_long(&definition, SL("type"), PHALCON_DB_COLUMN_TYPE_VARCHAR, PH_COPY);
 			break;
 		}
 	

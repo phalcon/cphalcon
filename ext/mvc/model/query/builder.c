@@ -530,7 +530,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, addFrom){
 	}
 
 	if (Z_TYPE_P(alias) == IS_STRING) {
-		phalcon_array_update_zval(&models, alias, model, PH_COPY | 0);
+		phalcon_array_update_zval(&models, alias, model, PH_COPY);
 	} else {
 		phalcon_array_append(&models, model, PH_COPY);
 	}

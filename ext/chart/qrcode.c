@@ -813,8 +813,8 @@ static void _php_zbarcode_scan_page(zbar_image_scanner_t *scanner, zbar_image_t 
 			for (i = 0; i < loc_size; i++) {	
 				PHALCON_INIT_NVAR(coords);
 				array_init(coords);
-				phalcon_array_update_string_long(&coords, SL("x"), zbar_symbol_get_loc_x(symbol, i), 0);
-				phalcon_array_update_string_long(&coords, SL("y"), zbar_symbol_get_loc_y(symbol, i), 0);
+				phalcon_array_update_string_long(&coords, SL("x"), zbar_symbol_get_loc_x(symbol, i), PH_COPY);
+				phalcon_array_update_string_long(&coords, SL("y"), zbar_symbol_get_loc_y(symbol, i), PH_COPY);
 
 				phalcon_array_append(&loc_array, coords, PH_COPY);	
 			}

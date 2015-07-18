@@ -989,7 +989,7 @@ PHP_METHOD(Phalcon_Mvc_View, _loadTemplateEngines){
 						return;
 					}
 				}
-				phalcon_array_update_zval(&engines, extension, engine_object, PH_COPY | 0);
+				phalcon_array_update_zval(&engines, extension, engine_object, PH_COPY);
 
 				zend_hash_move_forward_ex(ah0, &hp0);
 			}

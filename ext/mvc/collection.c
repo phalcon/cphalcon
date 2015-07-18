@@ -1877,7 +1877,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, save){
 	PHALCON_INIT_VAR(options);
 	array_init_size(options, 1);
 
-	phalcon_array_update_string_long(&options, SL("w"), 1, 0);
+	phalcon_array_update_string_long(&options, SL("w"), 1, PH_COPY);
 
 	params[0] = data;
 	params[1] = options;
@@ -2457,7 +2457,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, delete){
 
 	PHALCON_INIT_VAR(options);
 	array_init_size(options, 1);
-	phalcon_array_update_string_long(&options, SL("w"), 1, 0);
+	phalcon_array_update_string_long(&options, SL("w"), 1, PH_COPY);
 
 	/**
 	 * Remove the instance
@@ -2788,7 +2788,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, incr){
 		PHALCON_INIT_VAR(options);
 		array_init_size(options, 1);
 
-		phalcon_array_update_string_long(&options, SL("w"), 0, 0);
+		phalcon_array_update_string_long(&options, SL("w"), 0, PH_COPY);
 		PHALCON_CALL_METHOD(&status, mongo_collection, "update", criteria, new_object, options);
 
 		if (zend_is_true(status)) {

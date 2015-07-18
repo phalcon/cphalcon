@@ -1004,7 +1004,7 @@ PHP_METHOD(Phalcon_Tag, _inputFieldChecked){
 		PHALCON_CALL_SELF(&value, "getvalue", id, params);
 
 		if (Z_TYPE_P(value) != IS_NULL && PHALCON_IS_EQUAL(current_value, value)) {
-			phalcon_array_update_string_string(&params, SL("checked"), SL("checked"), 0);
+			phalcon_array_update_string_string(&params, SL("checked"), SL("checked"), PH_COPY);
 		}
 
 		phalcon_array_update_string(&params, ISL(value), current_value, PH_COPY);
@@ -1015,7 +1015,7 @@ PHP_METHOD(Phalcon_Tag, _inputFieldChecked){
 		 * Evaluate the value in POST
 		 */
 		if (zend_is_true(value)) {
-			phalcon_array_update_string_string(&params, SL("checked"), SL("checked"), 0);
+			phalcon_array_update_string_string(&params, SL("checked"), SL("checked"), PH_COPY);
 		}
 
 		phalcon_array_update_string(&params, ISL(value), value, PH_COPY);
