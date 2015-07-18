@@ -574,25 +574,24 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
 	/**
 	 * Sends headers to the client
 	 */
-	public function sendHeaders() -> <Response>
+	public function sendHeaders() -> <Response> | boolean
 	{
 		var headers, eventsManager;
 
-		let headers = this->_headers;
+		let headers = <HeadersInterface> this->getHeaders();
 		let eventsManager = <ManagerInterface> this->getEventsManager();
 
 		if typeof eventsManager == "object" {
 			if eventsManager->fire("response:beforeSendHeaders", this) === false {
-				return this;
+				return false;
 			}
 		}
 
-		if typeof headers == "object" {
-			headers->send();
-
-			if eventsManager instanceof ManagerInterface {
-				eventsManager->fire("response:afterSendHeaders", this);
-			}
+		/**
+		 * Send headers
+		 */
+		if headers->send() && typeof eventsManager == "object" {
+			eventsManager->fire("response:afterSendHeaders", this);
 		}
 
 		return this;
@@ -625,18 +624,12 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
 		/**
 		 * Send headers
 		 */
-		let headers = this->_headers;
-		if typeof headers == "object" {
-			headers->send();
-		}
+		this->sendHeaders();
 
 		/**
 		 * Send Cookies/comment>
 		 */
-		let cookies = this->_cookies;
-		if typeof cookies == "object" {
-			cookies->send();
-		}
+		this->sendCookies();
 
 		/**
 		 * Output the response body
