@@ -216,13 +216,7 @@ class MySQL extends Dialect
 	{
 		var afterPosition, sql, defaultValue;
 
-		if schemaName {
-			let sql = "ALTER TABLE `" . schemaName . "`.`" . tableName . "` ADD ";
-		} else {
-			let sql = "ALTER TABLE `" . tableName . "` ADD ";
-		}
-
-		let sql .= "`" . column->getName() . "` " . this->getColumnDefinition(column);
+		let sql = "ALTER TABLE " . this->prepareTable(tableName, schemaName) . " ADD `" . column->getName() . "` " . this->getColumnDefinition(column);
 
 		let defaultValue = column->getDefault();
 		if ! empty defaultValue {
@@ -251,13 +245,7 @@ class MySQL extends Dialect
 	{
 		var sql, defaultValue;
 
-		if schemaName {
-			let sql = "ALTER TABLE `" . schemaName . "`.`" . tableName . "` MODIFY ";
-		} else {
-			let sql = "ALTER TABLE `" . tableName . "` MODIFY ";
-		}
-
-		let sql .= "`" . column->getName() . "` " . this->getColumnDefinition(column);
+		let sql = "ALTER TABLE " . this->prepareTable(tableName, schemaName) . " MODIFY `" . column->getName() . "` " . this->getColumnDefinition(column);
 
 		let defaultValue = column->getDefault();
 		if ! empty defaultValue {
@@ -275,16 +263,7 @@ class MySQL extends Dialect
 	 */
 	public function dropColumn(string! tableName, string! schemaName, string! columnName) -> string
 	{
-		var sql;
-
-		if schemaName {
-			let sql = "ALTER TABLE `" . schemaName . "`.`" . tableName . "` DROP COLUMN ";
-		} else {
-			let sql = "ALTER TABLE `" . tableName . "` DROP COLUMN ";
-		}
-
-		let sql .= "`".columnName."`";
-		return sql;
+		return "ALTER TABLE " . this->prepareTable(tableName, schemaName) . " DROP COLUMN `" . columnName . "`";
 	}
 
 	/**
@@ -294,17 +273,13 @@ class MySQL extends Dialect
 	{
 		var sql, indexType;
 
-		if schemaName {
-			let sql = "ALTER TABLE `" . schemaName . "`.`" . tableName;
-		} else {
-			let sql = "ALTER TABLE `" . tableName;
-		}
+		let sql = "ALTER TABLE " . this->prepareTable(tableName, schemaName);
 
 		let indexType = index->getType();
 		if !empty indexType {
-			let sql .= "` ADD " . indexType . " INDEX ";
+			let sql .= " ADD " . indexType . " INDEX ";
 		} else {
-			let sql .= "` ADD INDEX ";
+			let sql .= " ADD INDEX ";
 		}
 
 		let sql .= "`" . index->getName() . "` (" . this->getColumnList(index->getColumns()) . ")";
@@ -316,14 +291,7 @@ class MySQL extends Dialect
 	 */
 	public function dropIndex(string! tableName, string! schemaName, string! indexName) -> string
 	{
-		var sql;
-		if schemaName {
-			let sql = "ALTER TABLE `" . schemaName . "`.`" . tableName . "` DROP INDEX ";
-		} else {
-			let sql = "ALTER TABLE `" . tableName . "` DROP INDEX ";
-		}
-		let sql .= "`" . indexName . "`";
-		return sql;
+		return "ALTER TABLE " . this->prepareTable(tableName, schemaName) . " DROP INDEX `" . indexName . "`";
 	}
 
 	/**
@@ -331,15 +299,7 @@ class MySQL extends Dialect
 	 */
 	public function addPrimaryKey(string! tableName, string! schemaName, <IndexInterface> index) -> string
 	{
-		var sql;
-
-		if schemaName {
-			let sql = "ALTER TABLE `" . schemaName . "`.`" . tableName . "` ADD PRIMARY KEY ";
-		} else {
-			let sql = "ALTER TABLE `" . tableName . "` ADD PRIMARY KEY ";
-		}
-		let sql .= "(" . this->getColumnList(index->getColumns()) . ")";
-		return sql;
+		return "ALTER TABLE " . this->prepareTable(tableName, schemaName) . " ADD PRIMARY KEY (" . this->getColumnList(index->getColumns()) . ")";
 	}
 
 	/**
@@ -347,14 +307,7 @@ class MySQL extends Dialect
 	 */
 	public function dropPrimaryKey(string! tableName, string! schemaName) -> string
 	{
-		var sql;
-
-		if schemaName {
-			let sql = "ALTER TABLE `" . schemaName . "`.`" . tableName . "` DROP PRIMARY KEY";
-		} else {
-			let sql = "ALTER TABLE `" . tableName . "` DROP PRIMARY KEY";
-		}
-		return sql;
+		return "ALTER TABLE " . this->prepareTable(tableName, schemaName) . " DROP PRIMARY KEY";
 	}
 
 	/**
@@ -362,25 +315,9 @@ class MySQL extends Dialect
 	 */
 	public function addForeignKey(string! tableName, string! schemaName, <ReferenceInterface> reference) -> string
 	{
-		var sql, referencedSchema, onDelete, onUpdate;
+		var sql, onDelete, onUpdate;
 
-		if schemaName {
-			let sql = "ALTER TABLE `" . schemaName . "`.`" . tableName . "` ADD FOREIGN KEY ";
-		} else {
-			let sql = "ALTER TABLE `" . tableName . "` ADD FOREIGN KEY ";
-		}
-
-		let sql .= "`" . reference->getName() . "`(" . this->getColumnList(reference->getColumns()) . ") REFERENCES ";
-
-		/**
-		 * Add the schema
-		 */
-		let referencedSchema = reference->getReferencedSchema();
-		if referencedSchema {
-			let sql .= "`" . referencedSchema . "`.";
-		}
-
-		let sql .= "`" . reference->getReferencedTable() . "`(" . this->getColumnList(reference->getReferencedColumns()) . ")";
+		let sql = "ALTER TABLE " . this->prepareTable(tableName, schemaName) . " ADD FOREIGN KEY `" . reference->getName() . "`(" . this->getColumnList(reference->getColumns()) . ") REFERENCES " . this->prepareTable(reference->getReferencedTable(), reference->getReferencedSchema()) . "(" . this->getColumnList(reference->getReferencedColumns()) . ")";
 
 		let onDelete = reference->getOnDelete();
 		if !empty onDelete {
@@ -400,13 +337,7 @@ class MySQL extends Dialect
 	 */
 	public function dropForeignKey(string! tableName, string! schemaName, string! referenceName) -> string
 	{
-		var sql;
-		if schemaName {
-			let sql = "ALTER TABLE `" . schemaName . "`.`" . tableName . "` DROP FOREIGN KEY ";
-		} else {
-			let sql = "ALTER TABLE `" . tableName . "` DROP FOREIGN KEY ";
-		}
-		return sql . "`" . referenceName . "`";
+		return "ALTER TABLE " . this->prepareTable(tableName, schemaName) . " DROP FOREIGN KEY `" . referenceName . "`";
 	}
 
 	/**
@@ -423,11 +354,7 @@ class MySQL extends Dialect
 			throw new Exception("The index 'columns' is required in the definition array");
 		}
 
-		if schemaName {
-			let table = "`" . schemaName . "`.`" . tableName . "`";
-		} else {
-			let table = "`" . tableName . "`";
-		}
+		let table = this->prepareTable(tableName, schemaName);
 
 		let temporary = false;
 		if fetch options, definition["options"] {
@@ -544,11 +471,7 @@ class MySQL extends Dialect
 	{
 		var sql, table;
 
-		if schemaName {
-			let table = "`" . schemaName . "`.`" . tableName . "`";
-		} else {
-			let table = "`" . tableName . "`";
-		}
+		let table = this->prepareTable(tableName, schemaName);
 
 		if ifExists {
 			let sql = "DROP TABLE IF EXISTS " . table;
@@ -564,19 +487,13 @@ class MySQL extends Dialect
 	 */
 	public function createView(string! viewName, array! definition, string schemaName = null) -> string
 	{
-		var view, viewSql;
+		var viewSql;
 
 		if !fetch viewSql, definition["sql"] {
 			throw new Exception("The index 'sql' is required in the definition array");
 		}
 
-		if schemaName {
-			let view = "`". schemaName . "`.`" . viewName . "`";
-		} else {
-			let view = "`". viewName . "`";
-		}
-
-		return "CREATE VIEW " . view . " AS " . viewSql;
+		return "CREATE VIEW " . this->prepareTable(viewName, schemaName) . " AS " . viewSql;
 	}
 
 	/**
@@ -586,11 +503,7 @@ class MySQL extends Dialect
 	{
 		var sql, view;
 
-		if schemaName {
-			let view = schemaName . "." . viewName;
-		} else {
-			let view = viewName;
-		}
+		let view = this->prepareTable(viewName, schemaName);
 
 		if ifExists {
 			let sql = "DROP VIEW IF EXISTS " . view;
@@ -637,10 +550,7 @@ class MySQL extends Dialect
 	 */
 	public function describeColumns(string! table, string schema = null) -> string
 	{
-		if schema {
-			return "DESCRIBE `" . schema . "`.`" . table . "`";
-		}
-		return "DESCRIBE `" . table . "`";
+		return "DESCRIBE " . this->prepareTable(table, schema);
 	}
 
 	/**
@@ -674,10 +584,7 @@ class MySQL extends Dialect
 	 */
 	public function describeIndexes(string! table, string schema = null) -> string
 	{
-		if schema {
-			return "SHOW INDEXES FROM `" . schema . "`.`" . table . "`";
-		}
-		return "SHOW INDEXES FROM `" . table . "`";
+		return "SHOW INDEXES FROM " . this->prepareTable(table, schema);
 	}
 
 	/**
