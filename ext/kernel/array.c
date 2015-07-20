@@ -468,8 +468,8 @@ void phalcon_array_append_multi_2(zval **arr, const zval *index, zval *value, in
 			convert_to_array(temp);
 		}
 
-		phalcon_array_update_zval(arr, index, temp, PH_COPY);
 		phalcon_array_append(&temp, value, flags);
+		phalcon_array_update_zval(arr, index, temp, PH_COPY);
 	}
 }
 
@@ -485,8 +485,8 @@ void phalcon_array_update_multi_2(zval **arr, const zval *index1, const zval *in
 			convert_to_array(temp);
 		}
 
-		phalcon_array_update_zval(arr, index1, temp, PH_COPY);
 		phalcon_array_update_zval(&temp, index2, value, flags);
+		phalcon_array_update_zval(arr, index1, temp, PH_COPY);
 	}
 
 }

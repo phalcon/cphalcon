@@ -379,7 +379,7 @@ end:
 PHP_METHOD(Phalcon_Arr, set_path){
 
 	zval *array, *path, *value, *delimiter = NULL;
-	zval *keys = NULL, *key = NULL, *is_digit = NULL, *cpy_array = NULL, *arr = NULL, *tmp, *is_array = NULL, *joined_keys = NULL;
+	zval *keys = NULL, *key = NULL, *is_digit = NULL, *cpy_array = NULL, *arr = NULL, *tmp, *joined_keys = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -416,10 +416,7 @@ PHP_METHOD(Phalcon_Arr, set_path){
 			while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 				PHALCON_GET_HVALUE(arr);
 
-				PHALCON_INIT_NVAR(is_array);
-				PHALCON_CALL_SELF(&is_array, "is_array", arr);
-
-				if (zend_is_true(is_array)) {
+				if (Z_TYPE_P(arr) == IS_ARRAY) {
 					PHALCON_INIT_NVAR(joined_keys);
 					phalcon_fast_join_str(joined_keys, SL("."), keys TSRMLS_CC);
 

@@ -88,7 +88,7 @@ static void phalcon_config_adapter_ini_update_zval_directive(zval **arr, zval *s
 	if (!phalcon_array_isset_fetch(temp1, *arr, section)) {
 		PHALCON_ALLOC_GHOST_ZVAL(t1);
 		array_init_size(t1, 1);
-		phalcon_array_update_zval(arr, section, t1, PH_COPY);
+		phalcon_array_update_zval(arr, section, t1, 0);
 	}
 
 	if (Z_TYPE_PP(temp1) != IS_ARRAY) {
@@ -101,7 +101,7 @@ static void phalcon_config_adapter_ini_update_zval_directive(zval **arr, zval *s
 		if (!phalcon_array_isset_fetch(temp2, *temp1, index)) {
 			PHALCON_ALLOC_GHOST_ZVAL(t2);
 			array_init_size(t2, 1);
-			phalcon_array_update_zval(temp1, index, t2, PH_COPY);
+			phalcon_array_update_zval(temp1, index, t2, 0);
 		}
 		else if (Z_TYPE_PP(temp2) != IS_ARRAY) {
 			convert_to_array_ex(temp2);
@@ -113,6 +113,7 @@ static void phalcon_config_adapter_ini_update_zval_directive(zval **arr, zval *s
 
 	phalcon_array_fetch_long(&index, directive, n - 1, PH_NOISY);
 	phalcon_array_update_zval(temp1, index, value, PH_COPY);
+
 	phalcon_ptr_dtor(&index);
 }
 
@@ -186,8 +187,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, read){
 
 		if (unlikely(Z_TYPE_P(directives) != IS_ARRAY) || zend_hash_num_elements(Z_ARRVAL_P(directives)) == 0) {
 			phalcon_array_update_zval(&config, section, directives, PH_COPY);
-		}
-		else {
+		} else {
 			phalcon_is_iterable(directives, &ah1, &hp1, 0, 0);
 
 			while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
