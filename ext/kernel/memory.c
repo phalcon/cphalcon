@@ -832,10 +832,12 @@ void ZEND_FASTCALL phalcon_ptr_dtor(zval **var)
 	} else {
 		if (Z_REFCOUNT_PP(var) == 0) {
 			efree(*var);
+			*var = NULL;
 		} else {
 			Z_DELREF_PP(var);
 			if (Z_REFCOUNT_PP(var) == 0) {
 				efree(*var);
+				*var = NULL;
 			}
 		}
 	}

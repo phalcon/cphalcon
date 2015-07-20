@@ -46,6 +46,10 @@
 #define PHALCON_IS_SCALAR(var)      (!(Z_TYPE_P(var) == IS_NULL || Z_TYPE_P(var) == IS_ARRAY || Z_TYPE_P(var) == IS_OBJECT || Z_TYPE_P(var) == IS_RESOURCE))
 #define PHALCON_IS_NOT_SCALAR(var)  (Z_TYPE_P(var) == IS_NULL || Z_TYPE_P(var) == IS_ARRAY || Z_TYPE_P(var) == IS_OBJECT || Z_TYPE_P(var) == IS_RESOURCE)
 
+/** Is scalar */
+#define PHALCON_IS_ARRAY(var)       (Z_TYPE_P(var) == IS_ARRAY || (Z_TYPE_P(var) == IS_OBJECT && instanceof_function_ex(Z_OBJCE_P(var), zend_ce_traversable, 1 TSRMLS_CC)))
+#define PHALCON_IS_NOT_ARRAY(var)   (Z_TYPE_P(var) != IS_ARRAY && (Z_TYPE_P(var) != IS_OBJECT || !instanceof_function_ex(Z_OBJCE_P(var), zend_ce_traversable, 1 TSRMLS_CC)))
+
 /** Equals/Identical */
 #define PHALCON_IS_EQUAL(op1, op2)      phalcon_is_equal(op1, op2 TSRMLS_CC)
 #define PHALCON_IS_IDENTICAL(op1, op2)  phalcon_is_identical(op1, op2 TSRMLS_CC)
