@@ -12,6 +12,7 @@
 - Added name before int/float/numeric/string/bool/null/other variables in Debug\Dump::output
 - Now `Validation\Validator\Identical` allows both 'accepted' and 'value' as value to keep backwards compatibility
 - Added `\Phalcon\Mvc\Model\MetaData\Redis` adapter.
+- Added Redis Session class.
 
 # [2.0.5](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.0.5) (2015-07-14)
 - Fixed a bug that makes that attaching an events manager to an Mvc\Application causes view->render() not being called
