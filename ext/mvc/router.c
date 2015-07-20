@@ -247,7 +247,7 @@ PHP_METHOD(Phalcon_Mvc_Router, __construct){
 		object_init_ex(route, phalcon_mvc_router_route_ce);
 		PHALCON_CALL_METHOD(NULL, route, "__construct", action_pattern, paths);
 
-		phalcon_array_append(&routes, route, 0);
+		phalcon_array_append(&routes, route, PH_COPY);
 
 		PHALCON_INIT_NVAR(paths);
 		array_init_size(paths, 3);
@@ -262,7 +262,7 @@ PHP_METHOD(Phalcon_Mvc_Router, __construct){
 		object_init_ex(route, phalcon_mvc_router_route_ce);
 		PHALCON_CALL_METHOD(NULL, route, "__construct", params_pattern, paths);
 
-		phalcon_array_append(&routes, route, 0);
+		phalcon_array_append(&routes, route, PH_COPY);
 	}
 
 	phalcon_update_property_empty_array(this_ptr, SL("_params") TSRMLS_CC);
@@ -803,9 +803,9 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 				 */
 				PHALCON_INIT_NVAR(before_match_params);
 				array_init_size(before_match_params, 3);
-				phalcon_array_append(&before_match_params, handled_uri, 0);
-				phalcon_array_append(&before_match_params, route, 0);
-				phalcon_array_append(&before_match_params, this_ptr, 0);
+				phalcon_array_append(&before_match_params, handled_uri, PH_COPY);
+				phalcon_array_append(&before_match_params, route, PH_COPY);
+				phalcon_array_append(&before_match_params, this_ptr, PH_COPY);
 
 				/**
 				 * Call the function in the PHP userland
@@ -851,7 +851,7 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 								if (phalcon_array_isset_fetch(&converter, converters, part)) {
 									PHALCON_INIT_NVAR(parameters);
 									array_init_size(parameters, 1);
-									phalcon_array_append(&parameters, match_position, 0);
+									phalcon_array_append(&parameters, match_position, PH_COPY);
 
 									PHALCON_INIT_NVAR(converted_part);/**/
 									PHALCON_CALL_USER_FUNC_ARRAY(converted_part, converter, parameters);
@@ -867,7 +867,7 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 								if (phalcon_array_isset_fetch(&converter, converters, part)) {
 									PHALCON_INIT_NVAR(parameters);
 									array_init_size(parameters, 1);
-									phalcon_array_append(&parameters, position, 0);
+									phalcon_array_append(&parameters, position, PH_COPY);
 
 									PHALCON_INIT_NVAR(converted_part);/**/
 									PHALCON_CALL_USER_FUNC_ARRAY(converted_part, converter, parameters);
@@ -930,7 +930,7 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 		 */
 		if (phalcon_array_isset_string_fetch(&namespace, parts, SS("namespace"))) {
 			phalcon_update_property_this(this_ptr, SL("_namespace"), namespace TSRMLS_CC);
-			phalcon_array_unset_string(&parts, SS("namespace"), PH_SEPARATE);
+			phalcon_array_unset_string(&parts, SS("namespace"), PH_COPY);
 		} else {
 			PHALCON_CALL_METHOD(&default_namespace, route, "getdefaultnamespace");
 			
@@ -947,7 +947,7 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 		 */
 		if (phalcon_array_isset_string_fetch(&module, parts, SS("module"))) {
 			phalcon_update_property_this(this_ptr, SL("_module"), module TSRMLS_CC);
-			phalcon_array_unset_string(&parts, SS("module"), PH_SEPARATE);
+			phalcon_array_unset_string(&parts, SS("module"), PH_COPY);
 		} else {
 			PHALCON_CALL_METHOD(&default_module, route, "getdefaultmodule");
 			
@@ -961,7 +961,7 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 
 		if (phalcon_array_isset_string_fetch(&exact, parts, SS("\0exact"))) {
 			phalcon_update_property_this(this_ptr, SL("_isExactControllerName"), exact TSRMLS_CC);
-			phalcon_array_unset_string(&parts, SS("\0exact"), PH_SEPARATE);
+			phalcon_array_unset_string(&parts, SS("\0exact"), PH_COPY);
 		}
 		else {
 			PHALCON_INIT_VAR(exact);
@@ -974,7 +974,7 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 		 */
 		if (phalcon_array_isset_string_fetch(&controller, parts, SS("controller"))) {
 			phalcon_update_property_this(this_ptr, SL("_controller"), controller TSRMLS_CC);
-			phalcon_array_unset_string(&parts, SS("controller"), PH_SEPARATE);
+			phalcon_array_unset_string(&parts, SS("controller"), PH_COPY);
 		} else {
 			PHALCON_CALL_METHOD(&default_controller, route, "getdefaultcontroller");
 			
@@ -991,7 +991,7 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 		 */
 		if (phalcon_array_isset_string_fetch(&action, parts, SS("action"))) {
 			phalcon_update_property_this(this_ptr, SL("_action"), action TSRMLS_CC);
-			phalcon_array_unset_string(&parts, SS("action"), PH_SEPARATE);
+			phalcon_array_unset_string(&parts, SS("action"), PH_COPY);
 		} else {
 			PHALCON_CALL_METHOD(&default_action, route, "getdefaultaction");
 			
@@ -1025,7 +1025,7 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 				phalcon_array_append(&params, str_params, PH_COPY);
 			}
 
-			phalcon_array_unset_string(&parts, SS("params"), PH_SEPARATE);
+			phalcon_array_unset_string(&parts, SS("params"), PH_COPY);
 		}
 
 		if (zend_hash_num_elements(Z_ARRVAL_P(params))) {

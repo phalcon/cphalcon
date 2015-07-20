@@ -362,9 +362,9 @@ PHP_METHOD(Phalcon_Mvc_Url, get){
 			(Z_TYPE_P(generator) == IS_OBJECT && instanceof_function(Z_OBJCE_P(generator), zend_ce_closure TSRMLS_CC))) {
 			PHALCON_INIT_VAR(arguments);
 			array_init_size(arguments, 3);
-			phalcon_array_append(&arguments, base_uri, 0);
-			phalcon_array_append(&arguments, paths, 0);
-			phalcon_array_append(&arguments, uri, 0);
+			phalcon_array_append(&arguments, base_uri, PH_COPY);
+			phalcon_array_append(&arguments, paths, PH_COPY);
+			phalcon_array_append(&arguments, uri, PH_COPY);
 			PHALCON_CALL_USER_FUNC_ARRAY(return_value, generator, arguments);
 		} else {
 			/**

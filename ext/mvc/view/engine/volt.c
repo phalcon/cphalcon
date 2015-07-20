@@ -428,7 +428,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, slice){
 			if (PHALCON_GE(position, start)) {
 				if (PHALCON_LE(position, length)) {
 					PHALCON_CALL_METHOD(&current, value, "current");
-					phalcon_array_append(&slice, current, PH_SEPARATE);
+					phalcon_array_append(&slice, current, PH_COPY);
 				}
 			}
 			PHALCON_CALL_METHOD(NULL, value, "next");

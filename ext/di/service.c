@@ -492,7 +492,7 @@ PHP_METHOD(Phalcon_DI_Service, setParameter){
 		MAKE_STD_ZVAL(arguments);
 		array_init_size(arguments, 1);
 		phalcon_array_update_zval(&arguments, *position, *parameter, PH_COPY);
-		phalcon_array_update_string(&definition, SL("arguments"), arguments, 0);
+		phalcon_array_update_string(&definition, SL("arguments"), arguments, PH_COPY);
 	}
 
 	RETURN_THISW();

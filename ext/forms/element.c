@@ -257,10 +257,10 @@ PHP_METHOD(Phalcon_Forms_Element, addFilter){
 		PHALCON_INIT_VAR(new_filters);
 		array_init_size(new_filters, 2);
 		if (Z_TYPE_P(filters) == IS_STRING) {
-			phalcon_array_append(&new_filters, filters, 0);
+			phalcon_array_append(&new_filters, filters, PH_COPY);
 		}
 
-		phalcon_array_append(&new_filters, filter, 0);
+		phalcon_array_append(&new_filters, filter, PH_COPY);
 		phalcon_update_property_this(this_ptr, SL("_filters"), new_filters TSRMLS_CC);
 	}
 	
@@ -387,7 +387,7 @@ PHP_METHOD(Phalcon_Forms_Element, prepareAttributes){
 		PHALCON_CPY_WRT(widget_attributes, attributes);
 	}
 	
-	phalcon_array_update_long(&widget_attributes, 0, name, PH_COPY | PH_SEPARATE);
+	phalcon_array_update_long(&widget_attributes, 0, name, PH_COPY);
 	
 	/** 
 	 * Merge passed parameters with default ones
@@ -417,19 +417,19 @@ PHP_METHOD(Phalcon_Forms_Element, prepareAttributes){
 			 */
 			if (phalcon_array_isset_string_fetch(&current_value, merged_attributes, SS("value"))) {
 				if (PHALCON_IS_EQUAL(current_value, value)) {
-					phalcon_array_update_string_string(&merged_attributes, SL("checked"), SL("checked"), PH_SEPARATE);
+					phalcon_array_update_string_string(&merged_attributes, SL("checked"), SL("checked"), PH_COPY);
 				}
 			} else {
 				/** 
 				 * Evaluate the current value and mark the check as checked
 				 */
 				if (zend_is_true(value)) {
-					phalcon_array_update_string_string(&merged_attributes, SL("checked"), SL("checked"), PH_SEPARATE);
+					phalcon_array_update_string_string(&merged_attributes, SL("checked"), SL("checked"), PH_COPY);
 				}
-				phalcon_array_update_string(&merged_attributes, SL("value"), value, PH_COPY | PH_SEPARATE);
+				phalcon_array_update_string(&merged_attributes, SL("value"), value, PH_COPY);
 			}
 		} else {
-			phalcon_array_update_string(&merged_attributes, SL("value"), value, PH_COPY | PH_SEPARATE);
+			phalcon_array_update_string(&merged_attributes, SL("value"), value, PH_COPY);
 		}
 	}
 	

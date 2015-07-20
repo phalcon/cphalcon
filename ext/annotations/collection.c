@@ -144,7 +144,7 @@ PHP_METHOD(Phalcon_Annotations_Collection, __construct){
 		PHALCON_INIT_NVAR(annotation);
 		object_init_ex(annotation, phalcon_annotations_annotation_ce);
 		PHALCON_CALL_METHOD(NULL, annotation, "__construct", *annotation_data);
-		phalcon_array_append(&annotations, annotation, 0);
+		phalcon_array_append(&annotations, annotation, PH_COPY);
 	}
 
 	phalcon_update_property_this(this_ptr, SL("_annotations"), annotations TSRMLS_CC);
@@ -328,7 +328,7 @@ PHP_METHOD(Phalcon_Annotations_Collection, getAll){
 	
 			PHALCON_CALL_METHOD(&annotation_name, annotation, "getname");
 			if (PHALCON_IS_EQUAL(name, annotation_name)) {
-				phalcon_array_append(&found, annotation, 0);
+				phalcon_array_append(&found, annotation, PH_COPY);
 			}
 	
 			zend_hash_move_forward_ex(ah0, &hp0);

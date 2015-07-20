@@ -156,17 +156,17 @@ PHP_METHOD(Phalcon_Cache_Backend_Libmemcached, __construct){
 		PHALCON_INIT_VAR(server);
 		array_init_size(server, 3);
 
-		phalcon_array_update_string_string(&server, SL("host"), SL("127.0.0.1"), 0);
-		phalcon_array_update_string_long(&server, SL("port"), 11211, 0);
-		phalcon_array_update_string_long(&server, SL("weight"), 1, 0);
+		phalcon_array_update_string_string(&server, SL("host"), SL("127.0.0.1"), PH_COPY);
+		phalcon_array_update_string_long(&server, SL("port"), 11211, PH_COPY);
+		phalcon_array_update_string_long(&server, SL("weight"), 1, PH_COPY);
 
-		phalcon_array_append(&servers, server, 0);
+		phalcon_array_append(&servers, server, PH_COPY);
 
 		phalcon_array_update_string(&options, SL("servers"), servers, PH_COPY);
 	}
 
 	if (!phalcon_array_isset_string(options, SS("statsKey"))) {
-		phalcon_array_update_string_string(&options, SL("statsKey"), SL("_PHCM"), 0);
+		phalcon_array_update_string_string(&options, SL("statsKey"), SL("_PHCM"), PH_COPY);
 	}
 
 	PHALCON_CALL_PARENT(NULL, phalcon_cache_backend_libmemcached_ce, this_ptr, "__construct", frontend, options);
@@ -577,7 +577,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Libmemcached, queryKeys){
 			if (!prefix || !zend_is_true(prefix) || phalcon_start_with(&key, prefix, NULL)) {
 				PHALCON_INIT_NVAR(real_key);
 				ZVAL_STRINGL(real_key, Z_STRVAL(key), Z_STRLEN(key), 1);
-				phalcon_array_append(&return_value, real_key, 0);
+				phalcon_array_append(&return_value, real_key, PH_COPY);
 			}
 		}
 	}

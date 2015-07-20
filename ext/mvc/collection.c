@@ -1782,7 +1782,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, save){
 
 				PHALCON_INIT_VAR(messages);
 				array_init_size(messages, 1);
-				phalcon_array_append(&messages, collection_message, PH_SEPARATE);
+				phalcon_array_append(&messages, collection_message, PH_COPY);
 				phalcon_update_property_this(this_ptr, SL("_errorMessages"), messages TSRMLS_CC);
 				RETURN_MM_FALSE;
 			}
@@ -1800,7 +1800,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, save){
 
 				PHALCON_INIT_VAR(messages);
 				array_init_size(messages, 1);
-				phalcon_array_append(&messages, collection_message, PH_SEPARATE);
+				phalcon_array_append(&messages, collection_message, PH_COPY);
 				phalcon_update_property_this(this_ptr, SL("_errorMessages"), messages TSRMLS_CC);
 				RETURN_MM_FALSE;
 			}
@@ -1877,7 +1877,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, save){
 	PHALCON_INIT_VAR(options);
 	array_init_size(options, 1);
 
-	phalcon_array_update_string_long(&options, SL("w"), 1, 0);
+	phalcon_array_update_string_long(&options, SL("w"), 1, PH_COPY);
 
 	params[0] = data;
 	params[1] = options;
@@ -1975,7 +1975,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, findById){
 
 	PHALCON_INIT_VAR(parameters);
 	array_init_size(parameters, 1);
-	phalcon_array_append(&parameters, conditions, 0);
+	phalcon_array_append(&parameters, conditions, PH_COPY);
 	PHALCON_RETURN_CALL_SELF("findfirst", parameters);
 	RETURN_MM();
 }
@@ -2060,7 +2060,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, findFirst){
 
 		PHALCON_INIT_VAR(params);
 		array_init_size(params, 1);
-		phalcon_array_append(&params, conditions, 0);
+		phalcon_array_append(&params, conditions, PH_COPY);
 	} else {
 		PHALCON_CPY_WRT(params, parameters);
 	}
@@ -2457,7 +2457,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, delete){
 
 	PHALCON_INIT_VAR(options);
 	array_init_size(options, 1);
-	phalcon_array_update_string_long(&options, SL("w"), 1, 0);
+	phalcon_array_update_string_long(&options, SL("w"), 1, PH_COPY);
 
 	/**
 	 * Remove the instance
@@ -2783,12 +2783,12 @@ PHP_METHOD(Phalcon_Mvc_Collection, incr){
 		PHALCON_INIT_VAR(new_object);
 		array_init_size(new_object, 1);
 
-		phalcon_array_update_multi_2(&new_object, key, field, value, 0);
+		phalcon_array_update_multi_2(&new_object, key, field, value, PH_COPY);
 
 		PHALCON_INIT_VAR(options);
 		array_init_size(options, 1);
 
-		phalcon_array_update_string_long(&options, SL("w"), 0, 0);
+		phalcon_array_update_string_long(&options, SL("w"), 0, PH_COPY);
 		PHALCON_CALL_METHOD(&status, mongo_collection, "update", criteria, new_object, options);
 
 		if (zend_is_true(status)) {
@@ -3164,7 +3164,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, __callStatic){
 
 	PHALCON_INIT_VAR(params);
 	array_init_size(params, 1);
-	phalcon_array_append(&params, conditions, 0);
+	phalcon_array_append(&params, conditions, PH_COPY);
 
 	/** 
 	 * Execute the query

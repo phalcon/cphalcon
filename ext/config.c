@@ -745,7 +745,7 @@ PHP_METHOD(Phalcon_Config, toArray){
 					break;
 				}
 
-				phalcon_array_update_zval(&return_value, &key, array_value, 0);
+				phalcon_array_update_zval(&return_value, &key, array_value, PH_COPY);
 			}
 		}
 	}

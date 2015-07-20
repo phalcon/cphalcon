@@ -231,7 +231,7 @@ PHP_METHOD(Phalcon_CLI_Router, handle){
 	if (phalcon_array_isset_string(arguments, SS("module"))) {
 		PHALCON_OBS_NVAR(module_name);
 		phalcon_array_fetch_string(&module_name, arguments, SL("module"), PH_NOISY);
-		phalcon_array_unset_string(&arguments, SS("module"), PH_SEPARATE);
+		phalcon_array_unset_string(&arguments, SS("module"), PH_COPY);
 	}
 
 	/**
@@ -240,7 +240,7 @@ PHP_METHOD(Phalcon_CLI_Router, handle){
 	if (phalcon_array_isset_string(arguments, SS("namespace"))) {
 		PHALCON_OBS_NVAR(namespace_name);
 		phalcon_array_fetch_string(&namespace_name, arguments, SL("namespace"), PH_NOISY);
-		phalcon_array_unset_string(&arguments, SS("namespace"), PH_SEPARATE);
+		phalcon_array_unset_string(&arguments, SS("namespace"), PH_COPY);
 	}
 
 	/** 
@@ -249,7 +249,7 @@ PHP_METHOD(Phalcon_CLI_Router, handle){
 	if (phalcon_array_isset_string(arguments, SS("task"))) {
 		PHALCON_OBS_NVAR(task_name);
 		phalcon_array_fetch_string(&task_name, arguments, SL("task"), PH_NOISY);
-		phalcon_array_unset_string(&arguments, SS("task"), PH_SEPARATE);
+		phalcon_array_unset_string(&arguments, SS("task"), PH_COPY);
 	}
 
 	/** 
@@ -258,7 +258,7 @@ PHP_METHOD(Phalcon_CLI_Router, handle){
 	if (phalcon_array_isset_string(arguments, SS("action"))) {
 		PHALCON_OBS_NVAR(action_name);
 		phalcon_array_fetch_string(&action_name, arguments, SL("action"), PH_NOISY);
-		phalcon_array_unset_string(&arguments, SS("action"), PH_SEPARATE);
+		phalcon_array_unset_string(&arguments, SS("action"), PH_COPY);
 	}
 
 	phalcon_update_property_this(this_ptr, SL("_module"), module_name TSRMLS_CC);

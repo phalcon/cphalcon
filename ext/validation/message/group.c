@@ -585,7 +585,7 @@ PHP_METHOD(Phalcon_Validation_Message_Group, filter){
 			if (phalcon_method_exists_ex(message, SS("getfield") TSRMLS_CC) == SUCCESS) {
 				PHALCON_CALL_METHOD(&field, message, "getfield");
 				if (PHALCON_IS_EQUAL(field_name, field)) {
-					phalcon_array_append(&filtered, message, PH_SEPARATE);
+					phalcon_array_append(&filtered, message, PH_COPY);
 				}
 			}
 	

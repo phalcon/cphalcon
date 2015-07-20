@@ -213,7 +213,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, connect){
 	if (phalcon_array_isset_string(descriptor, SS("username"))) {
 		PHALCON_OBS_VAR(username);
 		phalcon_array_fetch_string(&username, descriptor, SL("username"), PH_NOISY);
-		phalcon_array_unset_string(&descriptor, SS("username"), PH_SEPARATE);
+		phalcon_array_unset_string(&descriptor, SS("username"), PH_COPY);
 	} else {
 		PHALCON_INIT_NVAR(username);
 	}
@@ -224,7 +224,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, connect){
 	if (phalcon_array_isset_string(descriptor, SS("password"))) {
 		PHALCON_OBS_VAR(password);
 		phalcon_array_fetch_string(&password, descriptor, SL("password"), PH_NOISY);
-		phalcon_array_unset_string(&descriptor, SS("password"), PH_SEPARATE);
+		phalcon_array_unset_string(&descriptor, SS("password"), PH_COPY);
 	} else {
 		PHALCON_INIT_NVAR(password);
 	}
@@ -235,7 +235,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, connect){
 	if (phalcon_array_isset_string(descriptor, SS("options"))) {
 		PHALCON_OBS_VAR(options);
 		phalcon_array_fetch_string(&options, descriptor, SL("options"), PH_NOISY);
-		phalcon_array_unset_string(&descriptor, SS("options"), PH_SEPARATE);
+		phalcon_array_unset_string(&descriptor, SS("options"), PH_COPY);
 	} else {
 		PHALCON_INIT_NVAR(options);
 		array_init(options);
@@ -245,7 +245,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, connect){
 	 * Remove the dialectClass from the descriptor if any
 	 */
 	if (phalcon_array_isset_string(descriptor, SS("dialectClass"))) {
-		phalcon_array_unset_string(&descriptor, SS("dialectClass"), PH_SEPARATE);
+		phalcon_array_unset_string(&descriptor, SS("dialectClass"), PH_COPY);
 	}
 
 	/**
@@ -265,7 +265,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, connect){
 
 			PHALCON_INIT_NVAR(dsn_attribute);
 			PHALCON_CONCAT_VSV(dsn_attribute, key, "=", value);
-			phalcon_array_append(&dsn_parts, dsn_attribute, PH_SEPARATE);
+			phalcon_array_append(&dsn_parts, dsn_attribute, PH_COPY);
 
 			zend_hash_move_forward_ex(ah0, &hp0);
 		}
@@ -286,10 +286,10 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, connect){
 	/**
 	 * Default options
 	 */
-	phalcon_array_update_long_long(&options, PDO_ATTR_ERRMODE, PDO_ERRMODE_EXCEPTION, PH_SEPARATE);
+	phalcon_array_update_long_long(&options, PDO_ATTR_ERRMODE, PDO_ERRMODE_EXCEPTION, PH_COPY);
 /*
-	phalcon_array_update_long_long(&options, PDO_ATTR_CASE, PDO_CASE_LOWER, PH_SEPARATE);
-	phalcon_array_update_long_long(&options, PDO_ATTR_CURSOR, PDO_CURSOR_SCROLL, PH_SEPARATE);
+	phalcon_array_update_long_long(&options, PDO_ATTR_CASE, PDO_CASE_LOWER, PH_COPY);
+	phalcon_array_update_long_long(&options, PDO_ATTR_CURSOR, PDO_CURSOR_SCROLL, PH_COPY);
 */
 	/**
 	 * Check if the connection must be persistent
@@ -299,7 +299,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, connect){
 		PHALCON_OBS_VAR(persistent);
 		phalcon_array_fetch_string(&persistent, descriptor, SL("persistent"), PH_NOISY);
 		if (zend_is_true(persistent)) {
-			phalcon_array_update_long_bool(&options, PDO_ATTR_PERSISTENT, 1, PH_SEPARATE);
+			phalcon_array_update_long_bool(&options, PDO_ATTR_PERSISTENT, 1, PH_COPY);
 		}
 	}
 
@@ -586,6 +586,10 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, execute){
 		bind_types = PHALCON_GLOBAL(z_null);
 	}
 
+	phalcon_update_property_this(this_ptr, SL("_sqlStatement"), sql_statement TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_sqlVariables"), bind_params TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_sqlBindTypes"), bind_types TSRMLS_CC);
+
 	/** 
 	 * Execute the beforeQuery event if a EventsManager is available
 	 */
@@ -594,9 +598,6 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, execute){
 
 		PHALCON_INIT_VAR(event_name);
 		ZVAL_STRING(event_name, "db:beforeQuery", 1);
-		phalcon_update_property_this(this_ptr, SL("_sqlStatement"), sql_statement TSRMLS_CC);
-		phalcon_update_property_this(this_ptr, SL("_sqlVariables"), bind_params TSRMLS_CC);
-		phalcon_update_property_this(this_ptr, SL("_sqlBindTypes"), bind_types TSRMLS_CC);
 
 		PHALCON_CALL_METHOD(&status, events_manager, "fire", event_name, this_ptr, bind_params);
 		if (PHALCON_IS_FALSE(status)) {
@@ -631,11 +632,12 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, execute){
 	 */
 	if (Z_TYPE_P(affected_rows) == IS_LONG) {
 		phalcon_update_property_this(this_ptr, SL("_affectedRows"), affected_rows TSRMLS_CC);
-		if (Z_TYPE_P(events_manager) == IS_OBJECT) {
-			PHALCON_INIT_NVAR(event_name);
-			ZVAL_STRING(event_name, "db:afterQuery", 1);
-			PHALCON_CALL_METHOD(NULL, events_manager, "fire", event_name, this_ptr, bind_params);
-		}
+	}
+
+	if (Z_TYPE_P(events_manager) == IS_OBJECT) {
+		PHALCON_INIT_NVAR(event_name);
+		ZVAL_STRING(event_name, "db:afterQuery", 1);
+		PHALCON_CALL_METHOD(NULL, events_manager, "fire", event_name, this_ptr, bind_params);
 	}
 
 	RETURN_MM_TRUE;
@@ -805,7 +807,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, convertBoundParams){
 				}
 			}
 
-			phalcon_array_append(&placeholders, value, PH_SEPARATE);
+			phalcon_array_append(&placeholders, value, PH_COPY);
 
 			zend_hash_move_forward_ex(ah0, &hp0);
 		}

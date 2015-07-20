@@ -896,8 +896,8 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 		 */
 		PHALCON_INIT_NVAR(call_object);
 		array_init_size(call_object, 2);
-		phalcon_array_append(&call_object, handler, 0);
-		phalcon_array_append(&call_object, action_method, 0);
+		phalcon_array_append(&call_object, handler, PH_COPY);
+		phalcon_array_append(&call_object, action_method, PH_COPY);
 
 		PHALCON_INIT_NVAR(value);
 		/* Call the method allowing exceptions */

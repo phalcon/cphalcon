@@ -205,7 +205,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, _initialize){
 					PHALCON_INIT_NVAR(meta_data);
 					array_init(meta_data);
 				}
-				phalcon_array_update_zval(&meta_data, key, data, PH_COPY | PH_SEPARATE);
+				phalcon_array_update_zval(&meta_data, key, data, PH_COPY);
 				phalcon_update_property_this(this_ptr, SL("_metaData"), meta_data TSRMLS_CC);
 			} else {
 				/** 
@@ -277,7 +277,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, _initialize){
 	 */
 	PHALCON_CALL_METHOD(&data, this_ptr, "read", prefix_key);
 	if (Z_TYPE_P(data) != IS_NULL) {
-		phalcon_array_update_zval(&column_map, key_name, data, PH_COPY | PH_SEPARATE);
+		phalcon_array_update_zval(&column_map, key_name, data, PH_COPY);
 		phalcon_update_property_this(this_ptr, SL("_columnMap"), column_map TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
@@ -513,14 +513,14 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, writeMetaDataIndex){
 			zval key2 = phalcon_get_current_key_w(ah2, &hp2);
 
 			if (!phalcon_array_isset(data, &key2)) {
-				phalcon_array_update_zval(&data, &key2, *hd, PH_COPY | PH_SEPARATE);
+				phalcon_array_update_zval(&data, &key2, *hd, PH_COPY);
 			}
 
 			zend_hash_move_forward_ex(ah2, &hp2);
 		}
 	}
 	
-	phalcon_array_update_multi_2(&meta_data, key, index, data, 0);
+	phalcon_array_update_multi_2(&meta_data, key, index, data, PH_COPY);
 	phalcon_update_property_this(this_ptr, SL("_metaData"), meta_data TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();

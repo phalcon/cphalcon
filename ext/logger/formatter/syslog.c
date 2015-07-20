@@ -75,7 +75,7 @@ PHP_METHOD(Phalcon_Logger_Formatter_Syslog, format){
 	}
 
 	array_init_size(return_value, 2);
-	phalcon_array_append(&return_value, type, 0);
+	phalcon_array_append(&return_value, type, PH_COPY);
 	add_next_index_zval(return_value, interpolated);
 	return;
 }

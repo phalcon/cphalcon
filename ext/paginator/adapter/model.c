@@ -189,7 +189,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, getPaginate){
 			}
 	
 			PHALCON_CALL_METHOD(&current, items, "current");
-			phalcon_array_append(&page_items, current, 0);
+			phalcon_array_append(&page_items, current, PH_COPY);
 
 			if (i >= i_show) {
 				break;

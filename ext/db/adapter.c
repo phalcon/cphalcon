@@ -543,13 +543,13 @@ PHP_METHOD(Phalcon_Db_Adapter, insert){
 		if (Z_TYPE_P(value) == IS_OBJECT) {
 			PHALCON_INIT_NVAR(str_value);
 			phalcon_strval(str_value, value);
-			phalcon_array_append(&placeholders, str_value, 0);
+			phalcon_array_append(&placeholders, str_value, PH_COPY);
 		} else {
 			if (Z_TYPE_P(value) == IS_NULL) {
 				phalcon_array_append_string(&placeholders, SL("null"), 0);
 			} else {
 				phalcon_array_append_string(&placeholders, SL("?"), 0);
-				phalcon_array_append(&insert_values, value, 0);
+				phalcon_array_append(&insert_values, value, PH_COPY);
 				if (Z_TYPE_P(data_types) == IS_ARRAY) { 
 					if (!phalcon_array_isset(data_types, position)) {
 						PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Incomplete number of bind types");
@@ -558,7 +558,7 @@ PHP_METHOD(Phalcon_Db_Adapter, insert){
 
 					PHALCON_OBS_NVAR(bind_type);
 					phalcon_array_fetch(&bind_type, data_types, position, PH_NOISY);
-					phalcon_array_append(&bind_data_types, bind_type, PH_SEPARATE);
+					phalcon_array_append(&bind_data_types, bind_type, PH_COPY);
 				}
 			}
 		}
@@ -590,7 +590,7 @@ PHP_METHOD(Phalcon_Db_Adapter, insert){
 				PHALCON_GET_HVALUE(field);
 
 				PHALCON_CALL_METHOD(&escaped_field, this_ptr, "escapeidentifier", field);
-				phalcon_array_append(&escaped_fields, escaped_field, 0);
+				phalcon_array_append(&escaped_fields, escaped_field, PH_COPY);
 
 				zend_hash_move_forward_ex(ah1, &hp1);
 			}
@@ -671,8 +671,8 @@ PHP_METHOD(Phalcon_Db_Adapter, insertAsDict){
 		PHALCON_GET_HKEY(field, ah0, hp0);
 		PHALCON_GET_HVALUE(value);
 
-		phalcon_array_append(&fields, field, 0);
-		phalcon_array_append(&values, values, 0);
+		phalcon_array_append(&fields, field, PH_COPY);
+		phalcon_array_append(&values, values, PH_COPY);
 
 		zend_hash_move_forward_ex(ah0, &hp0);
 	}
@@ -767,7 +767,7 @@ PHP_METHOD(Phalcon_Db_Adapter, update){
 		if (Z_TYPE_P(value) == IS_OBJECT) {
 			PHALCON_INIT_NVAR(set_clause_part);
 			PHALCON_CONCAT_VSV(set_clause_part, escaped_field, " = ", value);
-			phalcon_array_append(&placeholders, set_clause_part, 0);
+			phalcon_array_append(&placeholders, set_clause_part, PH_COPY);
 		} else {
 			if (Z_TYPE_P(value) == IS_NULL) {
 				PHALCON_INIT_NVAR(set_clause_part);
@@ -775,7 +775,7 @@ PHP_METHOD(Phalcon_Db_Adapter, update){
 			} else {
 				PHALCON_INIT_NVAR(set_clause_part);
 				PHALCON_CONCAT_VS(set_clause_part, escaped_field, " = ?");
-				phalcon_array_append(&update_values, value, PH_SEPARATE);
+				phalcon_array_append(&update_values, value, PH_COPY);
 				if (Z_TYPE_P(data_types) == IS_ARRAY) { 
 					if (!phalcon_array_isset(data_types, position)) {
 						PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Incomplete number of bind types");
@@ -784,10 +784,10 @@ PHP_METHOD(Phalcon_Db_Adapter, update){
 
 					PHALCON_OBS_NVAR(bind_type);
 					phalcon_array_fetch(&bind_type, data_types, position, PH_NOISY);
-					phalcon_array_append(&bind_data_types, bind_type, PH_SEPARATE);
+					phalcon_array_append(&bind_data_types, bind_type, PH_COPY);
 				}
 			}
-			phalcon_array_append(&placeholders, set_clause_part, PH_SEPARATE);
+			phalcon_array_append(&placeholders, set_clause_part, PH_COPY);
 		}
 
 		zend_hash_move_forward_ex(ah0, &hp0);
@@ -1509,7 +1509,7 @@ PHP_METHOD(Phalcon_Db_Adapter, listTables){
 			zend_hash_move_forward_ex(Z_ARRVAL_P(tables), &hp0)
 		) {
 			if (phalcon_array_isset_long_fetch(&table_name, *table, 0)) {
-				phalcon_array_append(&return_value, table_name, 0);
+				phalcon_array_append(&return_value, table_name, PH_COPY);
 			}
 		}
 	}
@@ -1568,7 +1568,7 @@ PHP_METHOD(Phalcon_Db_Adapter, listViews){
 			zend_hash_move_forward_ex(Z_ARRVAL_P(tables), &hp0)
 		) {
 			if (phalcon_array_isset_long_fetch(&table_name, *table, 0)) {
-				phalcon_array_append(&return_value, table_name, 0);
+				phalcon_array_append(&return_value, table_name, PH_COPY);
 			}
 		}
 	}
@@ -1636,7 +1636,7 @@ PHP_METHOD(Phalcon_Db_Adapter, describeIndexes){
 
 		PHALCON_OBS_NVAR(column_name);
 		phalcon_array_fetch_long(&column_name, index, 4, PH_NOISY);
-		phalcon_array_append_multi_2(&indexes, key_name, column_name, 0);
+		phalcon_array_append_multi_2(&indexes, key_name, column_name, PH_COPY);
 
 		zend_hash_move_forward_ex(ah0, &hp0);
 	}
@@ -1746,11 +1746,11 @@ PHP_METHOD(Phalcon_Db_Adapter, describeReferences){
 
 		PHALCON_OBS_NVAR(column_name);
 		phalcon_array_fetch_long(&column_name, reference, 1, PH_NOISY);
-		phalcon_array_update_zval_string_append_multi_3(&references, constraint_name, SL("columns"), column_name, 0);
+		phalcon_array_update_zval_string_append_multi_3(&references, constraint_name, SL("columns"), column_name, PH_COPY);
 
 		PHALCON_OBS_NVAR(referenced_columns);
 		phalcon_array_fetch_long(&referenced_columns, reference, 5, PH_NOISY);
-		phalcon_array_update_zval_string_append_multi_3(&references, constraint_name, SL("referencedColumns"), referenced_columns, 0);
+		phalcon_array_update_zval_string_append_multi_3(&references, constraint_name, SL("referencedColumns"), referenced_columns, PH_COPY);
 
 		zend_hash_move_forward_ex(ah0, &hp0);
 	}

@@ -195,7 +195,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getMetaData){
 		PHALCON_GET_HVALUE(column);
 
 		PHALCON_CALL_METHOD(&field_name, column, "getname");
-		phalcon_array_append(&attributes, field_name, PH_SEPARATE);
+		phalcon_array_append(&attributes, field_name, PH_COPY);
 
 		/** 
 		 * To mark fields as primary keys
