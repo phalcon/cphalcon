@@ -1,0 +1,16 @@
+
+extern zend_class_entry *phalcon_translate_interpolator_associativearray_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Translate_Interpolator_AssociativeArray);
+
+PHP_METHOD(Phalcon_Translate_Interpolator_AssociativeArray, replacePlaceholders);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_translate_interpolator_associativearray_replaceplaceholders, 0, 0, 1)
+	ZEND_ARG_INFO(0, translation)
+	ZEND_ARG_INFO(0, placeholders)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_translate_interpolator_associativearray_method_entry) {
+	PHP_ME(Phalcon_Translate_Interpolator_AssociativeArray, replacePlaceholders, arginfo_phalcon_translate_interpolator_associativearray_replaceplaceholders, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};

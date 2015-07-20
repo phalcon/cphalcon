@@ -266,7 +266,7 @@ void zephir_camelize(zval *return_value, const zval *str) {
 	}
 
 	marker = Z_STRVAL_P(str);
-	len    = Z_STRLEN_P(str);	
+	len    = Z_STRLEN_P(str);
 
 	for (i = 0; i < len; i++) {
 
@@ -320,10 +320,13 @@ void zephir_uncamelize(zval *return_value, const zval *str) {
 
 	marker = Z_STRVAL_P(str);
 	for (i = 0; i < Z_STRLEN_P(str); i++) {
+
 		ch = *marker;
+
 		if (ch == '\0') {
 			break;
 		}
+
 		if (ch >= 'A' && ch <= 'Z') {
 			if (i > 0) {
 				smart_str_appendc(&uncamelize_str, '_');
@@ -332,6 +335,7 @@ void zephir_uncamelize(zval *return_value, const zval *str) {
 		} else {
 			smart_str_appendc(&uncamelize_str, (*marker));
 		}
+
 		marker++;
 	}
 	smart_str_0(&uncamelize_str);

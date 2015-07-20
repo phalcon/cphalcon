@@ -115,7 +115,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_View) {
 	zend_declare_class_constant_long(phalcon_mvc_view_ce, SL("LEVEL_AFTER_TEMPLATE"), 4 TSRMLS_CC);
 
 	/**
-	 * Render Level: Hasta el layout del controlador
+	 * Render Level: To the controller layout
 	 *
 	 */
 	zend_declare_class_constant_long(phalcon_mvc_view_ce, SL("LEVEL_LAYOUT"), 3 TSRMLS_CC);
@@ -337,7 +337,7 @@ PHP_METHOD(Phalcon_Mvc_View, getBasePath) {
  *
  * <code>
  * 	//Render the view related to the controller only
- * 	$this->view->setRenderLevel(View::LEVEL_VIEW);
+ * 	$this->view->setRenderLevel(View::LEVEL_LAYOUT);
  * </code>
  */
 PHP_METHOD(Phalcon_Mvc_View, setRenderLevel) {
@@ -774,7 +774,7 @@ PHP_METHOD(Phalcon_Mvc_View, _loadTemplateEngines) {
 		if (Z_TYPE_P(registeredEngines) != IS_ARRAY) {
 			ZEPHIR_INIT_VAR(_1);
 			object_init_ex(_1, phalcon_mvc_view_engine_php_ce);
-			ZEPHIR_CALL_METHOD(NULL, _1, "__construct", NULL, 368, this_ptr, dependencyInjector);
+			ZEPHIR_CALL_METHOD(NULL, _1, "__construct", NULL, 370, this_ptr, dependencyInjector);
 			zephir_check_call_status();
 			zephir_array_update_string(&engines, SL(".phtml"), &_1, PH_COPY | PH_SEPARATE);
 		} else {
@@ -1398,7 +1398,7 @@ PHP_METHOD(Phalcon_Mvc_View, getPartial) {
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "partial", NULL, 0, partialPath, params);
 	zephir_check_call_status();
-	ZEPHIR_RETURN_CALL_FUNCTION("ob_get_clean", NULL, 290);
+	ZEPHIR_RETURN_CALL_FUNCTION("ob_get_clean", NULL, 291);
 	zephir_check_call_status();
 	RETURN_MM();
 

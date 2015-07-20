@@ -3,6 +3,8 @@ extern zend_class_entry *phalcon_translate_adapter_ce;
 
 ZEPHIR_INIT_CLASS(Phalcon_Translate_Adapter);
 
+PHP_METHOD(Phalcon_Translate_Adapter, __construct);
+PHP_METHOD(Phalcon_Translate_Adapter, setInterpolator);
 PHP_METHOD(Phalcon_Translate_Adapter, t);
 PHP_METHOD(Phalcon_Translate_Adapter, _);
 PHP_METHOD(Phalcon_Translate_Adapter, offsetSet);
@@ -10,6 +12,14 @@ PHP_METHOD(Phalcon_Translate_Adapter, offsetExists);
 PHP_METHOD(Phalcon_Translate_Adapter, offsetUnset);
 PHP_METHOD(Phalcon_Translate_Adapter, offsetGet);
 PHP_METHOD(Phalcon_Translate_Adapter, replacePlaceholders);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_translate_adapter___construct, 0, 0, 1)
+	ZEND_ARG_ARRAY_INFO(0, options, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_translate_adapter_setinterpolator, 0, 0, 1)
+	ZEND_ARG_OBJ_INFO(0, interpolator, Phalcon\\Translate\\InterpolatorInterface, 0)
+ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_translate_adapter_t, 0, 0, 1)
 	ZEND_ARG_INFO(0, translateKey)
@@ -44,6 +54,8 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_translate_adapter_replaceplaceholders, 0,
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_translate_adapter_method_entry) {
+	PHP_ME(Phalcon_Translate_Adapter, __construct, arginfo_phalcon_translate_adapter___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_ME(Phalcon_Translate_Adapter, setInterpolator, arginfo_phalcon_translate_adapter_setinterpolator, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Translate_Adapter, t, arginfo_phalcon_translate_adapter_t, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Translate_Adapter, _, arginfo_phalcon_translate_adapter__, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Translate_Adapter, offsetSet, arginfo_phalcon_translate_adapter_offsetset, ZEND_ACC_PUBLIC)

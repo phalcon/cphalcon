@@ -591,9 +591,8 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, createTable) {
 PHP_METHOD(Phalcon_Db_Dialect_Oracle, dropTable) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zephir_fcall_cache_entry *_2 = NULL;
 	zend_bool ifExists;
-	zval *tableName_param = NULL, *schemaName_param = NULL, *ifExists_param = NULL, *table = NULL, *_0 = NULL, *_1 = NULL, *_3 = NULL, *_4 = NULL;
+	zval *tableName_param = NULL, *schemaName_param = NULL, *ifExists_param = NULL, *table = NULL;
 	zval *tableName = NULL, *schemaName = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -633,23 +632,8 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, dropTable) {
 	}
 
 
-	if (schemaName && Z_STRLEN_P(schemaName)) {
-		ZEPHIR_CALL_CE_STATIC(&_1, phalcon_text_ce, "upper", &_2, 142, schemaName);
-		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(&_0, this_ptr, "escape", NULL, 42, _1);
-		zephir_check_call_status();
-		ZEPHIR_CALL_CE_STATIC(&_4, phalcon_text_ce, "upper", &_2, 142, tableName);
-		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(&_3, this_ptr, "escape", NULL, 42, _4);
-		zephir_check_call_status();
-		ZEPHIR_INIT_VAR(table);
-		ZEPHIR_CONCAT_VSV(table, _0, ".", _3);
-	} else {
-		ZEPHIR_CALL_CE_STATIC(&_0, phalcon_text_ce, "upper", &_2, 142, tableName);
-		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(&table, this_ptr, "escape", NULL, 42, _0);
-		zephir_check_call_status();
-	}
+	ZEPHIR_CALL_METHOD(&table, this_ptr, "preparetable", NULL, 0, tableName, schemaName);
+	zephir_check_call_status();
 	if (ifExists) {
 		ZEPHIR_CONCAT_SV(return_value, "DROP TABLE IF EXISTS ", table);
 		RETURN_MM();
@@ -665,9 +649,8 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, dropTable) {
 PHP_METHOD(Phalcon_Db_Dialect_Oracle, createView) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zephir_fcall_cache_entry *_1 = NULL;
 	zval *definition = NULL;
-	zval *viewName_param = NULL, *definition_param = NULL, *schemaName_param = NULL, *view = NULL, *viewSql, *_0 = NULL, *_2 = NULL, *_3;
+	zval *viewName_param = NULL, *definition_param = NULL, *schemaName_param = NULL, *viewSql, *_0 = NULL;
 	zval *viewName = NULL, *schemaName = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -696,25 +679,12 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, createView) {
 
 	ZEPHIR_OBS_VAR(viewSql);
 	if (!(zephir_array_isset_string_fetch(&viewSql, definition, SS("sql"), 0 TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "The index 'sql' is required in the definition array", "phalcon/db/dialect/oracle.zep", 234);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "The index 'sql' is required in the definition array", "phalcon/db/dialect/oracle.zep", 230);
 		return;
 	}
-	if (schemaName && Z_STRLEN_P(schemaName)) {
-		ZEPHIR_CALL_CE_STATIC(&_0, phalcon_text_ce, "upper", &_1, 142, schemaName);
-		zephir_check_call_status();
-		ZEPHIR_CALL_CE_STATIC(&_2, phalcon_text_ce, "upper", &_1, 142, viewName);
-		zephir_check_call_status();
-		ZEPHIR_INIT_VAR(_3);
-		ZEPHIR_CONCAT_VSV(_3, _0, ".", _2);
-		ZEPHIR_CALL_METHOD(&view, this_ptr, "escape", NULL, 42, _3);
-		zephir_check_call_status();
-	} else {
-		ZEPHIR_CALL_CE_STATIC(&_0, phalcon_text_ce, "upper", &_1, 142, viewName);
-		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(&view, this_ptr, "escape", NULL, 42, _0);
-		zephir_check_call_status();
-	}
-	ZEPHIR_CONCAT_SVSV(return_value, "CREATE VIEW ", view, " AS ", viewSql);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "preparetable", NULL, 0, viewName, schemaName);
+	zephir_check_call_status();
+	ZEPHIR_CONCAT_SVSV(return_value, "CREATE VIEW ", _0, " AS ", viewSql);
 	RETURN_MM();
 
 }
@@ -725,9 +695,8 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, createView) {
 PHP_METHOD(Phalcon_Db_Dialect_Oracle, dropView) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zephir_fcall_cache_entry *_1 = NULL;
 	zend_bool ifExists;
-	zval *viewName_param = NULL, *schemaName_param = NULL, *ifExists_param = NULL, *view = NULL, *_0 = NULL, *_2 = NULL, *_3;
+	zval *viewName_param = NULL, *schemaName_param = NULL, *ifExists_param = NULL, *view = NULL;
 	zval *viewName = NULL, *schemaName = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -762,21 +731,8 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, dropView) {
 	}
 
 
-	if (schemaName && Z_STRLEN_P(schemaName)) {
-		ZEPHIR_CALL_CE_STATIC(&_0, phalcon_text_ce, "upper", &_1, 142, schemaName);
-		zephir_check_call_status();
-		ZEPHIR_CALL_CE_STATIC(&_2, phalcon_text_ce, "upper", &_1, 142, viewName);
-		zephir_check_call_status();
-		ZEPHIR_INIT_VAR(_3);
-		ZEPHIR_CONCAT_VSV(_3, _0, ".", _2);
-		ZEPHIR_CALL_METHOD(&view, this_ptr, "escape", NULL, 42, _3);
-		zephir_check_call_status();
-	} else {
-		ZEPHIR_CALL_CE_STATIC(&_0, phalcon_text_ce, "upper", &_1, 142, viewName);
-		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(&view, this_ptr, "escape", NULL, 42, _0);
-		zephir_check_call_status();
-	}
+	ZEPHIR_CALL_METHOD(&view, this_ptr, "preparetable", NULL, 0, viewName, schemaName);
+	zephir_check_call_status();
 	if (ifExists) {
 		ZEPHIR_CONCAT_SV(return_value, "DROP VIEW IF EXISTS ", view);
 		RETURN_MM();
@@ -1153,6 +1109,60 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, supportsReleaseSavepoints) {
 
 
 	RETURN_BOOL(0);
+
+}
+
+/**
+ * Prepares table for this RDBMS
+ */
+PHP_METHOD(Phalcon_Db_Dialect_Oracle, prepareTable) {
+
+	int ZEPHIR_LAST_CALL_STATUS;
+	zephir_fcall_cache_entry *_0 = NULL, *_2 = NULL;
+	zval *table_param = NULL, *schema_param = NULL, *alias_param = NULL, *escapeChar_param = NULL, *_1 = NULL, *_3 = NULL;
+	zval *table = NULL, *schema = NULL, *alias = NULL, *escapeChar = NULL;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 3, &table_param, &schema_param, &alias_param, &escapeChar_param);
+
+	if (unlikely(Z_TYPE_P(table_param) != IS_STRING && Z_TYPE_P(table_param) != IS_NULL)) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'table' must be a string") TSRMLS_CC);
+		RETURN_MM_NULL();
+	}
+
+	if (likely(Z_TYPE_P(table_param) == IS_STRING)) {
+		zephir_get_strval(table, table_param);
+	} else {
+		ZEPHIR_INIT_VAR(table);
+		ZVAL_EMPTY_STRING(table);
+	}
+	if (!schema_param) {
+		ZEPHIR_INIT_VAR(schema);
+		ZVAL_EMPTY_STRING(schema);
+	} else {
+		zephir_get_strval(schema, schema_param);
+	}
+	if (!alias_param) {
+		ZEPHIR_INIT_VAR(alias);
+		ZVAL_EMPTY_STRING(alias);
+	} else {
+		zephir_get_strval(alias, alias_param);
+	}
+	if (!escapeChar_param) {
+		ZEPHIR_INIT_VAR(escapeChar);
+		ZVAL_EMPTY_STRING(escapeChar);
+	} else {
+		zephir_get_strval(escapeChar, escapeChar_param);
+	}
+
+
+	ZEPHIR_CALL_CE_STATIC(&_1, phalcon_text_ce, "upper", &_2, 142, table);
+	zephir_check_call_status();
+	ZEPHIR_CALL_CE_STATIC(&_3, phalcon_text_ce, "upper", &_2, 142, schema);
+	zephir_check_call_status();
+	ZEPHIR_RETURN_CALL_PARENT(phalcon_db_dialect_oracle_ce, this_ptr, "preparetable", &_0, 143, _1, _3, alias, escapeChar);
+	zephir_check_call_status();
+	RETURN_MM();
 
 }
 

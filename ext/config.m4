@@ -21,9 +21,9 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/mvc/model/validatorinterface.zep.c
 	phalcon/cache/backend.zep.c
 	phalcon/cache/backendinterface.zep.c
-	phalcon/cache/frontendinterface.zep.c
 	phalcon/mvc/model/metadata.zep.c
 	phalcon/mvc/model/metadatainterface.zep.c
+	phalcon/cache/frontendinterface.zep.c
 	phalcon/db/adapter.zep.c
 	phalcon/db/dialectinterface.zep.c
 	phalcon/dispatcherinterface.zep.c
@@ -39,14 +39,14 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/logger/formatterinterface.zep.c
 	phalcon/mvc/entityinterface.zep.c
 	phalcon/mvc/model/resultsetinterface.zep.c
+	phalcon/session/adapter.zep.c
+	phalcon/session/adapterinterface.zep.c
 	phalcon/assets/filterinterface.zep.c
 	phalcon/diinterface.zep.c
 	phalcon/mvc/model/exception.zep.c
 	phalcon/mvc/viewbaseinterface.zep.c
 	phalcon/paginator/adapter.zep.c
 	phalcon/paginator/adapterinterface.zep.c
-	phalcon/session/adapter.zep.c
-	phalcon/session/adapterinterface.zep.c
 	phalcon/translate/adapter.zep.c
 	phalcon/translate/adapterinterface.zep.c
 	phalcon/acl/adapterinterface.zep.c
@@ -68,6 +68,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/mvc/routerinterface.zep.c
 	phalcon/mvc/view/engine.zep.c
 	phalcon/mvc/view/engineinterface.zep.c
+	phalcon/translate/interpolatorinterface.zep.c
 	phalcon/acl/adapter.zep.c
 	phalcon/acl/roleinterface.zep.c
 	phalcon/annotations/readerinterface.zep.c
@@ -270,6 +271,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/mvc/model/metadata/libmemcached.zep.c
 	phalcon/mvc/model/metadata/memcache.zep.c
 	phalcon/mvc/model/metadata/memory.zep.c
+	phalcon/mvc/model/metadata/redis.zep.c
 	phalcon/mvc/model/metadata/session.zep.c
 	phalcon/mvc/model/metadata/strategy/annotations.zep.c
 	phalcon/mvc/model/metadata/strategy/introspection.zep.c
@@ -325,6 +327,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/session/adapter/files.zep.c
 	phalcon/session/adapter/libmemcached.zep.c
 	phalcon/session/adapter/memcache.zep.c
+	phalcon/session/adapter/redis.zep.c
 	phalcon/session/bag.zep.c
 	phalcon/session/exception.zep.c
 	phalcon/tag.zep.c
@@ -336,6 +339,8 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/translate/adapter/gettext.zep.c
 	phalcon/translate/adapter/nativearray.zep.c
 	phalcon/translate/exception.zep.c
+	phalcon/translate/interpolator/associativearray.zep.c
+	phalcon/translate/interpolator/indexedarray.zep.c
 	phalcon/validation.zep.c
 	phalcon/validation/exception.zep.c
 	phalcon/validation/message.zep.c

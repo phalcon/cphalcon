@@ -188,15 +188,15 @@ PHP_METHOD(Phalcon_Logger_Formatter_Firephp, format) {
 		ZVAL_STRING(&_3, "5.3.6", 0);
 		ZEPHIR_SINIT_VAR(_4);
 		ZVAL_STRING(&_4, "<", 0);
-		ZEPHIR_CALL_FUNCTION(&_0, "version_compare", NULL, 247, _1, &_3, &_4);
+		ZEPHIR_CALL_FUNCTION(&_0, "version_compare", NULL, 248, _1, &_3, &_4);
 		zephir_check_call_status();
 		if (!(zephir_is_true(_0))) {
 			param = (2) ? 1 : 0;
 		}
-		ZEPHIR_CALL_FUNCTION(&backtrace, "debug_backtrace", NULL, 149, (param ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)));
+		ZEPHIR_CALL_FUNCTION(&backtrace, "debug_backtrace", NULL, 150, (param ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)));
 		zephir_check_call_status();
 		Z_SET_ISREF_P(backtrace);
-		ZEPHIR_CALL_FUNCTION(&lastTrace, "end", NULL, 169, backtrace);
+		ZEPHIR_CALL_FUNCTION(&lastTrace, "end", NULL, 170, backtrace);
 		Z_UNSET_ISREF_P(backtrace);
 		zephir_check_call_status();
 		if (zephir_array_isset_string(lastTrace, SS("file"))) {
