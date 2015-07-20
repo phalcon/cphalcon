@@ -1,11 +1,13 @@
 <?php
 
+use Phalcon\Mvc\Model;
+
 /**
  * Robotters
  *
  * "robotters" is robots in danish
  */
-class Robotters extends Phalcon\Mvc\Model
+class Robotters extends Model
 {
 
 	public function getSource()
@@ -29,5 +31,4 @@ class Robotters extends Phalcon\Mvc\Model
 			'foreignKey' => true
 		));
 	}
-
 }

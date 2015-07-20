@@ -272,7 +272,7 @@ class Sqlite extends Dialect
 	 */
 	public function createView(string! viewName, array! definition, string schemaName = null) -> string
 	{
-		var view, viewSql;
+		var viewSql;
 
 		if !fetch viewSql, definition["sql"] {
 			throw new Exception("The index 'sql' is required in the definition array");
