@@ -20,11 +20,11 @@
 namespace Phalcon\Mvc;
 
 use Phalcon\DiInterface;
+use Phalcon\Mvc\UrlInterface;
+use Phalcon\Mvc\Url\Exception;
 use Phalcon\Mvc\RouterInterface;
 use Phalcon\Mvc\Router\RouteInterface;
-use Phalcon\Mvc\Url\Exception;
 use Phalcon\Di\InjectionAwareInterface;
-use Phalcon\Mvc\UrlInterface;
 
 /**
  * Phalcon\Mvc\Url
@@ -231,7 +231,7 @@ class Url implements UrlInterface, InjectionAwareInterface
 
 		if local {
 			let strUri = (string) uri;
-			if strlen(strUri) > 2 && strUri[0] == '/' && strUri[1] != '/' {
+			if baseUri == "/" && strlen(strUri) > 2 && strUri[0] == '/' && strUri[1] != '/' {
 				let uri = baseUri . substr(strUri, 1);
 			} else {
 				let uri = baseUri . strUri;
