@@ -280,6 +280,7 @@ static void phalcon_memory_restore_stack_common(zend_phalcon_globals *g TSRMLS_D
 						zval_ptr_dtor(ptr);
 					} else {
 						efree(*ptr);
+						*ptr = NULL;
 					}
 				} else {
 					Z_DELREF_PP(ptr);
