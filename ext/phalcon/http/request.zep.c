@@ -18,10 +18,10 @@
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/exception.h"
 #include "kernel/operators.h"
-#include "kernel/file.h"
 #include "kernel/array.h"
 #include "kernel/string.h"
 #include "kernel/concat.h"
+#include "kernel/file.h"
 #include "kernel/hash.h"
 
 
@@ -227,7 +227,7 @@ PHP_METHOD(Phalcon_Http_Request, getPut) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
 	zend_bool notAllowEmpty, noRecursive;
-	zval *name_param = NULL, *filters = NULL, *defaultValue = NULL, *notAllowEmpty_param = NULL, *noRecursive_param = NULL, *put = NULL, *_0, _1;
+	zval *name_param = NULL, *filters = NULL, *defaultValue = NULL, *notAllowEmpty_param = NULL, *noRecursive_param = NULL, *put = NULL, *_0 = NULL;
 	zval *name = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -272,10 +272,8 @@ PHP_METHOD(Phalcon_Http_Request, getPut) {
 	if (Z_TYPE_P(put) != IS_ARRAY) {
 		ZEPHIR_INIT_NVAR(put);
 		array_init(put);
-		ZEPHIR_INIT_VAR(_0);
-		ZEPHIR_SINIT_VAR(_1);
-		ZVAL_STRING(&_1, "php://input", 0);
-		zephir_file_get_contents(_0, &_1 TSRMLS_CC);
+		ZEPHIR_CALL_METHOD(&_0, this_ptr, "getrawbody", NULL, 0);
+		zephir_check_call_status();
 		Z_SET_ISREF_P(put);
 		ZEPHIR_CALL_FUNCTION(NULL, "parse_str", NULL, 218, _0, put);
 		Z_UNSET_ISREF_P(put);
