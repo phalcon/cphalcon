@@ -123,7 +123,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 
 		if typeof put != "array" {
 			let put = [];
-			parse_str(file_get_contents("php://input"), put);
+			parse_str(this->getRawBody(), put);
 
 			let this->_putCache = put;
 		}
