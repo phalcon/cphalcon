@@ -277,7 +277,7 @@ interface AdapterInterface
 
 	/**
 	 * Sends SQL statements to the database server returning the success state.
-	 * Use this method only when the SQL statement sent to the server doesn't return any rows	 
+	 * Use this method only when the SQL statement sent to the server doesn't return any rows
 	 */
 	public function execute(string! sqlStatement, var placeholders = null, var dataTypes = null) -> boolean;
 

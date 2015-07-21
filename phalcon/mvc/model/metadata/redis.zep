@@ -96,7 +96,7 @@ class Redis extends MetaData implements MetaDataInterface
 	public function read(string! key) -> array | null
 	{
 		var data;
-		
+
 		let data = this->_redis->get(key);
 		if typeof data == "array" {
 			return data;
@@ -125,7 +125,7 @@ class Redis extends MetaData implements MetaDataInterface
 
 			for key, _ in meta {
 				let realKey = "meta-" . key;
-				
+
 				this->_redis->delete(realKey);
 			}
 		}

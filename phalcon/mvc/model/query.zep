@@ -252,7 +252,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 			for model in this->_modelsInstances {
 
 				/**
-				 * Check if the atribute belongs to the current model
+				 * Check if the attribute belongs to the current model
 				 */
 				if metaData->hasAttribute(model, columnName) {
 					let number++;
@@ -618,7 +618,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 								let exprReturn = [
 									"type": "placeholder",
 									"value": ":" . name,
-									"rawValue": name, 
+									"rawValue": name,
 									"times": count(bind)
 								];
 								break;
@@ -2488,7 +2488,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 			} else {
 
 				/**
-				 * Create an alias if the column doesn"t have one
+				 * Create an alias if the column doesn't have one
 				 */
 				if typeof aliasCopy == "int" {
 					let columnAlias = [sqlColumn, null];
@@ -2603,7 +2603,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 				let resultObject = new Row();
 
 				/**
-				 * Standard objects can"t keep snapshots
+				 * Standard objects can't keep snapshots
 				 */
 				let isKeepingSnapshots = false;
 

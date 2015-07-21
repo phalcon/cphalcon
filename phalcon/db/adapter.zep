@@ -731,7 +731,7 @@ abstract class Adapter implements EventsAwareInterface
 	}
 
 	/**
-	 * Creates a view	 
+	 * Creates a view
 	 */
 	public function createView(string! viewName, array! definition, var schemaName = null) -> boolean
 	{

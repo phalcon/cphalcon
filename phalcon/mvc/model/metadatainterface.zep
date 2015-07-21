@@ -175,7 +175,7 @@ interface MetaDataInterface
 	public function setAutomaticUpdateAttributes(<ModelInterface> model, array attributes);
 
 	/**
-	 * Set the attributes that allow empty string values	 
+	 * Set the attributes that allow empty string values
 	 */
 	public function setEmptyStringAttributes(<ModelInterface> model, array attributes) -> void;
 

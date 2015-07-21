@@ -242,7 +242,7 @@ abstract class Pdo extends Adapter
 				/**
 				 * 1024 is ignore the bind type
 				 */
-				if typeof castValue != "array" {					
+				if typeof castValue != "array" {
 					if type == Column::BIND_SKIP {
 						statement->bindValue(parameter, castValue);
 					} else {
