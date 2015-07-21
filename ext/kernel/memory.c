@@ -177,15 +177,6 @@ static phalcon_memory_entry* phalcon_memory_grow_stack_common(zend_phalcon_globa
 		assert(g->active_memory >= g->end_memory - 1 || g->active_memory < g->start_memory);
 #endif
 		entry = (phalcon_memory_entry *) ecalloc(1, sizeof(phalcon_memory_entry));
-	/* ecalloc() will take care of these members
-		entry->pointer   = 0;
-		entry->capacity  = 0;
-		entry->addresses = NULL;
-		entry->hash_pointer   = 0;
-		entry->hash_capacity  = 0;
-		entry->hash_addresses = NULL;
-		entry->next = NULL;
-	*/
 #ifndef PHALCON_RELEASE
 		entry->permanent  = 0;
 		entry->func       = NULL;
