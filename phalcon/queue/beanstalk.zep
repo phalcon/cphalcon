@@ -232,6 +232,23 @@ class Beanstalk
 	}
 
 	/**
+	 * Get list of a tubes.
+	 */
+	public function listTubes() -> boolean|array
+	{
+		var response;
+
+		this->write("list-tubes");
+
+		let response = this->readYaml();
+		if response[0] != "OK" {
+			return false;
+		}
+
+		return response[2];
+	}
+
+	/**
 	 * Inspect the next ready job.
 	 */
 	public function peekReady() -> boolean|<Job>
