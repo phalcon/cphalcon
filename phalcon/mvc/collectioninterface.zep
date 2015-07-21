@@ -97,7 +97,7 @@ interface CollectionInterface
 	public function appendMessage(<MessageInterface> message);
 
 	/**
-	 * Creates/Updates a collection based on the values in the atributes
+	 * Creates/Updates a collection based on the values in the attributes
 	 */
 	public function save() -> boolean;
 
