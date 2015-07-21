@@ -114,7 +114,7 @@ class Postgresql extends Dialect
 			case Column::TYPE_BIGINTEGER:
 				if empty columnSql {
 					let columnSql .= "BIGINT";
-				}				
+				}
 				if size {
 					let columnSql .= "(" . column->getSize() . ")";
 				}

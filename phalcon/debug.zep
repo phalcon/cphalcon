@@ -364,7 +364,7 @@ class Debug
 				let classReflection = new \ReflectionClass(className);
 
 				/**
-				 * Check if classes are PHP"s classes
+				 * Check if classes are PHP's classes
 				 */
 				if classReflection->isInternal() {
 
@@ -606,7 +606,7 @@ class Debug
 
 		/**
 		 * CSS static sources to style the error presentation
-		 * Use the exception info as document"s title
+		 * Use the exception info as document's title
 		 */
 		let html = "<html><head><title>" . className . ": " . escapedMessage . "</title>";
 		let html .= this->getCssSources() . "</head><body>";

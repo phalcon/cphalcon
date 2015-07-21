@@ -201,7 +201,7 @@ class Security implements InjectionAwareInterface
 				let saltBytes = this->getSaltBytes(8);
 				if typeof saltBytes != "string" {
 					throw new Exception("Unable to get random bytes for the salt");
-				}   
+				}
 				return crypt(password, "$" . variant . "$"  . saltBytes);
 
 			case self::CRYPT_DEFAULT:

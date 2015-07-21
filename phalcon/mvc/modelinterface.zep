@@ -291,7 +291,7 @@ interface ModelInterface
 	/**
 	 * Skips the current operation forcing a success state
 	 */
-	public function skipOperation(boolean skip);	
+	public function skipOperation(boolean skip);
 
 	/**
 	 * Returns related records based on defined relations

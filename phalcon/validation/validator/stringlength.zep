@@ -40,7 +40,7 @@ use Phalcon\Validation\Message;
  *      'messageMaximum' => 'We don\'t like really long names',
  *      'messageMinimum' => 'We want more than just their initials'
  *)));
- *</code> 
+ *</code>
  */
 class StringLength extends Validator
 {

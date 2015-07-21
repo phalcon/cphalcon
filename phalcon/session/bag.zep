@@ -310,7 +310,7 @@ class Bag implements InjectionAwareInterface, BagInterface, \IteratorAggregate, 
 	}
 
 	/**
-	 * @param string property	 
+	 * @param string property
 	 */
 	public final function offsetGet(string! property)
 	{

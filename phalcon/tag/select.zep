@@ -189,7 +189,7 @@ abstract class Select
 				}
 
 				/**
-				 * If the value is equal to the option"s value we mark it as selected
+				 * If the value is equal to the option's value we mark it as selected
 				 */
 				if typeof value == "array" {
 					if in_array(optionValue, value) {

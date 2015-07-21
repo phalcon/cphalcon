@@ -514,7 +514,7 @@ class Column implements ColumnInterface
 		}
 
 		if fetch scale, data["_scale"] {
-			
+
 			switch definition["type"] {
 
 				case self::TYPE_INTEGER:

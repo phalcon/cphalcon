@@ -218,7 +218,7 @@ abstract class Adapter
 	}
 
 	/**
-	 * Logs messages to the internal logger. Appends logs to the logger	 
+	 * Logs messages to the internal logger. Appends logs to the logger
 	 */
 	public function log(var type, var message = null, array! context = null) -> <AdapterInterface>
 	{
